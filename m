@@ -1,50 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 56C2E611CC
+Return-Path: <wallinux@gmail.com>
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+	[209.85.166.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BC896073A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 12:24:11 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id q9so1773702wmj.5
+	Thu, 20 Feb 2020 12:39:00 +0000 (UTC)
+Received: by mail-il1-f173.google.com with SMTP id i7so23580750ilr.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 04:24:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=9YbBeSg9BnXVmMpX8iavvX9PPzlO4gMoNdEn6Hjcyrc=;
-	b=E9eCNjdMArjM33NBgoknwfX7tc4nTKdLy3W2vUm3OHXdQ0sflp5ojk2IQbhTL3N2BZ
-	qouNW6JnxhfxQDjCG6EqfYxN2nhfOW6FZ3owDBlTRGBIcS2j4FTvFPJzN+TTzmd08qoR
-	VLDpQeEPmfauyBQYlgbtuDwgnMETEgaxEgf00=
+	Thu, 20 Feb 2020 04:39:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ut2rxG0Fxz81UjVRIeNU9kmGBnHawPdcCyHXoRd1410=;
+	b=m+rXIhgMTlCkLfK1LG4RK9wtwvhWsQgpDXNGlAUD8tJE5eDAD6hF1G0sctSlzVwyok
+	dxI4ZcYcv/8zPhVLQZ1oltow/t+4zcNwMZxMaqmT1Y1oNBZkBOWqZnNTinOSSW2iEAPx
+	0+AG6UmEpeH3gukzLmtzc7j8vGUwxEFqMPnUBJhAJpyhtjmbiOhpIVLVvtWbGMOyXXv0
+	cSCOVNG0kUFX2uxUotivyvMapLaR6Oju+rjtq7RLpZ7z1Bau9RN7TGACe3aJwrzj6xTx
+	nYrU5lJA4hbYYXXwhTY7tKoHYtb1fc36lWNzukFLQEqUjdL+U7TbjgEPJAA9RE6mxmu9
+	4gCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=9YbBeSg9BnXVmMpX8iavvX9PPzlO4gMoNdEn6Hjcyrc=;
-	b=ECykzu37d5A7dQK+JuRNkhAXUX8Az9/NDPAzyHTS5IptqG4/glhmUcltCnG2HdaIiA
-	ivpx4s3ATXXuJMRqm6P718932rlGTwtin7DhXUwhRJOpZVbLMQMimA0ilvXYaIDCsmvL
-	UuQ4d2AeR5GjrIDmB5Npe/cZsMqQYqY3r0lJ9NCsh5tf3aHMH2RhzoTGytr86rJWh5IO
-	raUZFFiKL0VfKRJTk740UiF7Z/wmK6WwGtSx6C29lC76T6t0R+uogW6jnT7Zfs3rC7sV
-	mtBmWupaQATkBODbVOAjOQlNgi87k3QX+RMiA/j+NpcF3d4I/1A0EUh1jc+Evnbcjm6e
-	W+AA==
-X-Gm-Message-State: APjAAAVuWrFWD6j5HPDCh3ZnJZeQaZy607Kajq/KQRFU5FWpwzsFHFbv
-	EguIK668p+lmuUrGqMhg1h+kvA==
-X-Google-Smtp-Source: APXvYqzLp7oN0TsEgCNDoCabl4QAHcZ4sjV07sOHEaBd/kSag13dBdqXdMx7hHyex43gQiovS1lJDA==
-X-Received: by 2002:a1c:c5:: with SMTP id 188mr4171278wma.187.1582201451719;
-	Thu, 20 Feb 2020 04:24:11 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id z6sm4231384wrw.36.2020.02.20.04.24.10
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 20 Feb 2020 04:24:10 -0800 (PST)
-Message-ID: <b16480e4847735d28dcea553d6f8e14d24c0e2d0.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 20 Feb 2020 12:24:09 +0000
-In-Reply-To: <1582191660-130760-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1582191660-130760-1-git-send-email-wangmy@cn.fujitsu.com>
-User-Agent: Evolution 3.34.1-4 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ut2rxG0Fxz81UjVRIeNU9kmGBnHawPdcCyHXoRd1410=;
+	b=Dw1Du2CjI7Ki2abQNlQz9COqeIgIyUBhdzat6IV3mEFstUVB+JF1PaZN5BnfEQi3zh
+	9kPA5XB1P2e/jQ7uJM0w2gTz+vAKpabTXtnfZQAkZ8a02A4q2luTNSTN+Ygf0dtyPGGW
+	Q74+ylXuBDpmVBYPIcuphnko/IDhCNh9cT/cGKrpl6UOtHcHqU/alekCwhmOmuQc2tm4
+	tJ+/LppfBYxJbdx5Pdl+LkWo4ux0E8tEsUBJddgEtm+Ork9RqfTRSDb2sf9pNh4qVlwi
+	ecPID43sgRxJd6g6ifTF/yfcwdTHD3hqeFbQ3xOYuQBRVhW+oqvnkJRA2u539JqvjjeS
+	GKfw==
+X-Gm-Message-State: APjAAAXkk0Q0DRQsYSgDF9S/3fRKXiNYfPKesNOwXnnsNkDmpT+2NOdV
+	Su9IU3iTeYUHcQ3kNMBTzMlth8Qk5C5JzqajDnU=
+X-Google-Smtp-Source: APXvYqwCLfc96djh2NXHYrkVsqR7J0sBeycnsAlEWP6EboZxWZlS2lBZ0gWJT0HjW6Nvsliu6NhfjrOxX85GL5Rt40w=
+X-Received: by 2002:a92:5a86:: with SMTP id b6mr30461293ilg.108.1582202341211; 
+	Thu, 20 Feb 2020 04:39:01 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH] libsolv: upgrade 0.7.10 -> 0.7.11
+References: <20200218132054.20341-1-wallinux@gmail.com>
+	<CANNYZj9nm0eqo0NtHhEJiw7nLbnYQ8r1aazXk6mGn83VXc9VNA@mail.gmail.com>
+	<CAF2baFdCF-NVmUa=meNhAN5BDBqLcS4k7F+EBWtUA1ekY6OVBg@mail.gmail.com>
+	<20200219152720.GM17818@joraj-alpa>
+	<143f590b688ed8166a702873275c16f3c7217d52.camel@linuxfoundation.org>
+	<20200219155626.GN17818@joraj-alpa>
+	<CANNYZj9t2+ugT15XbYrqkgA23MHEQxy_9t=PnutoCQr2f0AA-A@mail.gmail.com>
+In-Reply-To: <CANNYZj9t2+ugT15XbYrqkgA23MHEQxy_9t=PnutoCQr2f0AA-A@mail.gmail.com>
+From: Anders Wallin <wallinux@gmail.com>
+Date: Thu, 20 Feb 2020 13:38:50 +0100
+Message-ID: <CAF2baFcN_2du6k_p2s_5RsExmkAuVvvJQOaak9GehMBQ=y4m6g@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] babeltrace2: added 2.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,190 +59,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 12:24:11 -0000
+X-List-Received-Date: Thu, 20 Feb 2020 12:39:00 -0000
+Content-Type: multipart/alternative; boundary="00000000000082c1eb059f013061"
+
+--00000000000082c1eb059f013061
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2020-02-20 at 01:40 -0800, Wang Mingyu wrote:
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
->  .../libsolv/{libsolv_0.7.10.bb => libsolv_0.7.11.bb}            | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-extended/libsolv/{libsolv_0.7.10.bb => libsolv_0.7.11.bb} (93%)
-> 
-> diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.10.bb b/meta/recipes-extended/libsolv/libsolv_0.7.11.bb
-> similarity index 93%
-> rename from meta/recipes-extended/libsolv/libsolv_0.7.10.bb
-> rename to meta/recipes-extended/libsolv/libsolv_0.7.11.bb
-> index 502f4e0e85..84349606f1 100644
-> --- a/meta/recipes-extended/libsolv/libsolv_0.7.10.bb
-> +++ b/meta/recipes-extended/libsolv/libsolv_0.7.11.bb
-> @@ -10,7 +10,7 @@ DEPENDS = "expat zlib"
->  SRC_URI = "git://github.com/openSUSE/libsolv.git \
->  "
->  
-> -SRCREV = "605dd2645ef899e2b7c95709476fb51e28d7e378"
-> +SRCREV = "102ac552669181d3e43731aa275bdbbc7ddcb94c"
->  
->  UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
->  
-I think this causes:
+Hi Alex,
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/1591
+should I update the patch to include changes to maintainer file,
+packagegroup etc in the same way as for babeltrace or
+is it something you will do?
 
-ERROR: core-image-sato-1.0-r0 do_testimage: core-image-sato - FAILED - check the task log and the ssh log
-ERROR: Logfile of failure stored in: /home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/build/tmp/work/qemux86-poky-linux/core-image-sato/1.0-r0/temp/log.do_testimage.5108
-NOTE: recipe core-image-sato-1.0-r0: task do_testimage: Failed
-ERROR: Task (/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/recipes-sato/images/core-image-sato.bb:do_testimage) failed with exit code '1'
-Test requires gtk+3 to be installed
-Started HTTPService on 0.0.0.0:35043
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/core/decorator/__init__.py", line 36, in wrapped_f
-    return func(*args, **kwargs)
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/runtime/cases/dnf.py", line 181, in test_dnf_exclude
-    self.dnf_with_repo('install -y curl*')
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/runtime/cases/dnf.py", line 69, in dnf_with_repo
-    output = self.dnf(" ".join(cmdlinerepoopts) + " --nogpgcheck " + command)
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/runtime/cases/dnf.py", line 21, in dnf
-    self.assertEqual(status, expected, message)
-AssertionError: 1 != 0 : dnf --repofrompath=oe-testimage-repo-qemux86,http://192.168.7.3:35043/qemux86 --repofrompath=oe-testimage-repo-noarch,http://192.168.7.3:35043/noarch --repofrompath=oe-testimage-repo-core2_32,http://192.168.7.3:35043/core2_32 --nogpgcheck install -y curl*
-Added oe-testimage-repo-qemux86 repo from http://192.168.7.3:35043/qemux86
-Added oe-testimage-repo-noarch repo from http://192.168.7.3:35043/noarch
-Added oe-testimage-repo-core2_32 repo from http://192.168.7.3:35043/core2_32
-Last metadata expiration check: 0:00:01 ago on Thu Feb 20 12:13:09 2020.
-Package curl-7.68.0-r0.core2_32 is already installed.
-Package curl-dev-7.68.0-r0.core2_32 is already installed.
-Dependencies resolved.
-================================================================================
- Package      Architecture Version         Repository                      Size
-================================================================================
-Installing:
- curl-dbg     core2_32     7.68.0-r0       oe-testimage-repo-core2_32      36 k
- curl-doc     core2_32     7.68.0-r0       oe-testimage-repo-core2_32     269 k
-Transaction Summary
-================================================================================
-Install  2 Packages
-/usr/lib/python3.8/site-packages/dnf/package.py:57: DeprecationWarning: PY_SSIZE_T_CLEAN will be required for '#' formats
-  return super(Package, self).chksum
-Total download size: 305 k
-Installed size: 1.6 M
-Downloading Packages:
-(1/2): curl-dbg-7.68.0-r0.core2_32.rpm          2.6 MB/s |  36 kB     00:00    
-(2/2): curl-doc-7.68.0-r0.core2_32.rpm           16 MB/s | 269 kB     00:00    
---------------------------------------------------------------------------------
-Total                                            14 MB/s | 305 kB     00:00     
-Running transaction check
-Transaction check succeeded.
-Running transaction test
-Transaction test succeeded.
-Running transaction
-Failed to obtain the transaction lock (logged in as: root).
-The downloaded packages were saved in cache until the next successful transaction.
-You can remove cached packages by executing 'dnf clean packages'.
-Error: Could not run transaction.
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/core/decorator/__init__.py", line 36, in wrapped_f
-    return func(*args, **kwargs)
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/runtime/cases/dnf.py", line 90, in test_dnf_install
-    self.dnf_with_repo('remove -y run-postinsts-dev')
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/runtime/cases/dnf.py", line 69, in dnf_with_repo
-    output = self.dnf(" ".join(cmdlinerepoopts) + " --nogpgcheck " + command)
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/runtime/cases/dnf.py", line 21, in dnf
-    self.assertEqual(status, expected, message)
-AssertionError: 1 != 0 : dnf --repofrompath=oe-testimage-repo-qemux86,http://192.168.7.3:35043/qemux86 --repofrompath=oe-testimage-repo-noarch,http://192.168.7.3:35043/noarch --repofrompath=oe-testimage-repo-core2_32,http://192.168.7.3:35043/core2_32 --nogpgcheck remove -y run-postinsts-dev
-Added oe-testimage-repo-qemux86 repo from http://192.168.7.3:35043/qemux86
-Added oe-testimage-repo-noarch repo from http://192.168.7.3:35043/noarch
-Added oe-testimage-repo-core2_32 repo from http://192.168.7.3:35043/core2_32
-Dependencies resolved.
-================================================================================
- Package                  Architecture  Version           Repository       Size
-================================================================================
-Removing:
- run-postinsts-dev        noarch        1.0-r10           @oe-repo          0  
-Transaction Summary
-================================================================================
-Remove  1 Package
-Freed space: 0  
-Running transaction check
-Transaction check succeeded.
-Running transaction test
-Transaction test succeeded.
-Running transaction
-Failed to obtain the transaction lock (logged in as: root).
-Error: Could not run transaction.
-Test case dnf.DnfRepoTest.test_dnf_install_dependency depends on dnf.DnfRepoTest.test_dnf_install but it didn't pass/run.
-Test case dnf.DnfRepoTest.test_dnf_install_from_disk depends on dnf.DnfRepoTest.test_dnf_install_dependency but it didn't pass/run.
-Test case dnf.DnfRepoTest.test_dnf_install_from_http depends on dnf.DnfRepoTest.test_dnf_install_from_disk but it didn't pass/run.
-Test run when enable usrmege
-Test case dnf.DnfRepoTest.test_dnf_reinstall depends on dnf.DnfRepoTest.test_dnf_install but it didn't pass/run.
-Stopped HTTPService on 0.0.0.0:35043
-Test requires opkg to be installed
-Test requires pam to be in DISTRO_FEATURES
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/core/decorator/__init__.py", line 36, in wrapped_f
-    return func(*args, **kwargs)
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/runtime/cases/parselogs.py", line 370, in test_parselogs
-    self.assertEqual(errcount, 0, msg=self.msg)
-AssertionError: 6 != 0 : Log: /home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/build/tmp/work/qemux86-poky-linux/core-image-sato-sdk/1.0-r0/target_logs/dnf.log
------------------------
-Central error: 2020-02-20T12:13:10Z CRITICAL Failed to obtain the transaction lock (logged in as: root).
-***********************
-2020-02-20T12:13:10Z INFO Total                                            14 MB/s | 305 kB     00:00     
-2020-02-20T12:13:10Z INFO Running transaction check
-2020-02-20T12:13:10Z INFO Transaction check succeeded.
-2020-02-20T12:13:10Z INFO Running transaction test
-2020-02-20T12:13:10Z INFO Transaction test succeeded.
-2020-02-20T12:13:10Z DDEBUG timer: transaction test: 145 ms
-2020-02-20T12:13:10Z INFO Running transaction
-2020-02-20T12:13:10Z DEBUG RPMDB altered outside of DNF.
-2020-02-20T12:13:10Z DDEBUG RPM transaction start.
-2020-02-20T12:13:10Z DDEBUG RPM transaction over.
-2020-02-20T12:13:10Z CRITICAL Failed to obtain the transaction lock (logged in as: root).
-2020-02-20T12:13:10Z DDEBUG Cleaning up.
-2020-02-20T12:13:10Z INFO The downloaded packages were saved in cache until the next successful transaction.
-2020-02-20T12:13:10Z INFO You can remove cached packages by executing 'dnf clean packages'.
-2020-02-20T12:13:10Z SUBDEBUG 
-Traceback (most recent call last):
-  File "/usr/lib/python3.8/site-packages/dnf/cli/main.py", line 64, in main
-    return _main(base, args, cli_class, option_parser_class)
-  File "/usr/lib/python3.8/site-packages/dnf/cli/main.py", line 99, in _main
-    return cli_run(cli, base)
-  File "/usr/lib/python3.8/site-packages/dnf/cli/main.py", line 123, in cli_run
-***********************
-Central error:     raise dnf.exceptions.Error(msg)
-***********************
-    return cli_run(cli, base)
-  File "/usr/lib/python3.8/site-packages/dnf/cli/main.py", line 123, in cli_run
-    ret = resolving(cli, base)
-  File "/usr/lib/python3.8/site-packages/dnf/cli/main.py", line 167, in resolving
-    base.do_transaction(display=displays)
-  File "/usr/lib/python3.8/site-packages/dnf/cli/cli.py", line 225, in do_transaction
-    tid = super(BaseCli, self).do_transaction(display)
-  File "/usr/lib/python3.8/site-packages/dnf/base.py", line 882, in do_transaction
-    tid = self._run_transaction(cb=cb)
-  File "/usr/lib/python3.8/site-packages/dnf/base.py", line 1005, in _run_transaction
-    raise dnf.exceptions.Error(msg)
-dnf.exceptions.Error: Could not run transaction.
-2020-02-20T12:13:10Z CRITICAL Error: Could not run transaction.
-2020-02-20T12:13:10Z INFO --- logging initialized ---
-2020-02-20T12:13:10Z DDEBUG timer: config: 3 msa
-2020-02-20T12:13:10Z DEBUG DNF version: 4.2.2
-2020-02-20T12:13:10Z DDEBUG Command: dnf --repofrompath=oe-testimage-repo-qemux86,http://192.168.7.3:35043/qemux86 --repofrompath=oe-testimage-repo-noarch,http://192.168.7.3:35043/noarch --repofrompath=oe-testimage-repo-core2_32,http://192.168.7.3:35043/core2_32 --nogpgcheck list run-postinsts-dev 
-2020-02-20T12:13:10Z DDEBUG Installroot: /
-2020-02-20T12:13:10Z DDEBUG Releasever: master
-2020-02-20T12:13:10Z DEBUG cachedir: /var/cache/dnf
-2020-02-20T12:13:10Z DDEBUG Base command: list
-
-est requires ptest-runner to be installed
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/core/decorator/__init__.py", line 36, in wrapped_f
-    return func(*args, **kwargs)
-  File "/home/pokybuild/yocto-worker/pkgman-rpm-non-rpm/build/meta/lib/oeqa/runtime/cases/rpm.py", line 100, in test_rpm_install
-    self.assertEqual(status, 0, msg=msg)
-AssertionError: 1 != 0 : Failed to install base-passwd-doc package: error: db5 error(-30969) from dbenv->open: BDB0091 DB_VERSION_MISMATCH: Database environment version mismatch
-error: cannot open Packages index using db5 -  (-30969)
-error: cannot open Packages database in /var/lib/rpm
+Anders Wallin
 
 
+On Wed, Feb 19, 2020 at 5:02 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
+> On Wed, 19 Feb 2020 at 16:56, Jonathan Rajotte-Julien <
+> jonathan.rajotte-julien@efficios.com> wrote:
+>
+>> > There are some things where the namespaces are quite specific (python
+>> > vs python3, gtk(+) 2/3/4, qt) but they're fairly few and far between.
+>> >
+>> > If babeltrace2 will replace babeltrace and become babeltrace, we
+>> > probably want to keep PN as babeltrace. If it will be known as
+>> > babeltrace2 always, we probably change PN.
+>>
+>> Babeltrace 2 executable will be forever named babeltrace2.
+>>
+>> Hope this clear up this part a bit.
+>>
+>
+> Right, then I'm fine with naming the recipe babeltrace2.
+>
+> Alex
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--00000000000082c1eb059f013061
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi Alex,<div><br></div><div>should I update the patch to i=
+nclude changes to maintainer file, packagegroup etc in the same way as for =
+babeltrace or=C2=A0</div><div>is it something you will do?=C2=A0</div><div>=
+<br></div><div><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartma=
+il=3D"gmail_signature">Anders Wallin</div></div><br></div></div><br><div cl=
+ass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 19, 2=
+020 at 5:02 PM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.c=
+om">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Wed, 19 Feb =
+2020 at 16:56, Jonathan Rajotte-Julien &lt;<a href=3D"mailto:jonathan.rajot=
+te-julien@efficios.com" target=3D"_blank">jonathan.rajotte-julien@efficios.=
+com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">&gt; There are some things where the namespac=
+es are quite specific (python<br>
+&gt; vs python3, gtk(+) 2/3/4, qt) but they&#39;re fairly few and far betwe=
+en.<br>
+&gt; <br>
+&gt; If babeltrace2 will replace babeltrace and become babeltrace, we<br>
+&gt; probably want to keep PN as babeltrace. If it will be known as<br>
+&gt; babeltrace2 always, we probably change PN.<br>
+<br>
+Babeltrace 2 executable will be forever named babeltrace2.<br>
+<br>
+Hope this clear up this part a bit.<br></blockquote><div><br></div><div>Rig=
+ht, then I&#39;m fine with naming the recipe babeltrace2.</div><div><br></d=
+iv><div>Alex=C2=A0</div></div></div>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--00000000000082c1eb059f013061--
