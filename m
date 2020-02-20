@@ -1,51 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EC39260B1A
+Return-Path: <timothy.t.orling@linux.intel.com>
+X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 20 Feb 2020 21:30:32 UTC
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 5570760B1A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 21:24:22 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t3so6225351wru.7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 13:24:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=2eirIZ+8VeUK3porz1MypeLpwy5T+5NxgbKHUUKfxuI=;
-	b=Uh2Lox15iEF8bjIKlcqtciDAZz7U1xgQ75z7iu1sxwm2wwakIhpHphGQ4l7lMOb3gz
-	16zjl6+1k3838Q16aAc5+fyfngVVaVcHUSM5aeVz6WDqSmH14qA/X1FF0vBNuTvSXeah
-	xWxbMfaO0Xzjw99hWrjgwV7KPdTr5uohrmfrg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=2eirIZ+8VeUK3porz1MypeLpwy5T+5NxgbKHUUKfxuI=;
-	b=CBuZ1009ixbsLfAaYX1Db9s6U1JV3LcJEV9734Zgsuv2YWnbdd6AAYmNc5XskNclFe
-	1tXRK2AkoaC8qKIk88TlUJKrsuG7wOUmmu716OAVWpVL0lqBls87S7jt9/LjBA5HMg+X
-	Lhqi2iTj0wY9wJ8/eYeUt84cZjFaYnrUe+Zjxh/ulA9C/KuQct2LYk39jOo6/s/gIn6U
-	0Q2oiXC7LKstBguvbS0w7s7sdPNNNvt0O/9qoW95WimJIc7Iorng299BicSFH/oDDF+C
-	XxyHXE5PzCKNpT6m9lpFdngZ2TozYkWcfvWHeyQr2F9t+yFAUJ9Rgxl9CZWHYuVlsz1n
-	P8+A==
-X-Gm-Message-State: APjAAAWHwNMOzdi52DPmQTqfQsFtm79QhCAkUWr5okNSX38/E5ZpBGuq
-	FdG/SNcQMg9kIM92iQTI7WRe7A==
-X-Google-Smtp-Source: APXvYqxgNv99ZPPeps60ia2ZaMspPMCbp7u3Ha1dbWmTXnTxEhOEfTw0Izii4dlA5nXTFNANE6Fj/Q==
-X-Received: by 2002:a5d:484f:: with SMTP id n15mr44107617wrs.365.1582233863626;
-	Thu, 20 Feb 2020 13:24:23 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	t187sm828825wmt.25.2020.02.20.13.24.22
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 20 Feb 2020 13:24:22 -0800 (PST)
-Message-ID: <a818227bae18888bd8483eea95c5f1373a5c400b.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 20 Feb 2020 21:24:16 +0000
-In-Reply-To: <1582201146-2668-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1582201146-2668-1-git-send-email-wangmy@cn.fujitsu.com>
-User-Agent: Evolution 3.34.1-4 
+	Thu, 20 Feb 2020 21:30:32 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Feb 2020 13:23:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,465,1574150400"; d="scan'208";a="224997063"
+Received: from wrath.jf.intel.com ([10.54.31.24])
+	by orsmga007.jf.intel.com with ESMTP; 20 Feb 2020 13:23:27 -0800
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Feb 2020 13:23:15 -0800
+Message-Id: <20200220212315.23951-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] mc: upgrade 4.8.23 -> 4.8.24
+Subject: [PATCH] liberror-perl: upgrade 0.17028 -> 0.17029
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +33,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 21:24:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Feb 2020 21:30:32 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-02-20 at 04:19 -0800, Wang Mingyu wrote:
-> 0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
-> 0001-Add-option-to-control-configure-args.patch
-> Removed since they are included in 4.8.24.
-> 
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
->  ...Add-option-to-control-configure-args.patch |  99 ----------------
->  ...29-configure.ac-drop-bundled-gettext.patch | 110 ----------------
-> --
->  .../mc/{mc_4.8.23.bb => mc_4.8.24.bb}         |   6 +-
->  3 files changed, 2 insertions(+), 213 deletions(-)
->  delete mode 100644 meta/recipes-extended/mc/files/0001-Add-option-
-> to-control-configure-args.patch
->  delete mode 100644 meta/recipes-extended/mc/files/0001-Ticket-3629-
-> configure.ac-drop-bundled-gettext.patch
->  rename meta/recipes-extended/mc/{mc_4.8.23.bb => mc_4.8.24.bb} (88%)
+Upstream release notes:
+"
+0.17029         2020-01-28
+    - Rebuild for order of 'NAME' and 'VERSION' sections in the generated
+    POD documentation (see 0.001004 in
+    https://metacpan.org/changes/distribution/Pod-Weaver-PluginBundle-SHLOMIF
+    ).
+        - VERSION used to appear before NAME.
+"
 
-It looks like there is some kind of race in mc do_install:
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+---
+ .../{liberror-perl_0.17028.bb => liberror-perl_0.17029.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/perl/{liberror-perl_0.17028.bb => liberror-perl_0.17029.bb} (89%)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/703
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/perl/liberror-perl_0.17028.bb b/meta/recipes-devtools/perl/liberror-perl_0.17029.bb
+similarity index 89%
+rename from meta/recipes-devtools/perl/liberror-perl_0.17028.bb
+rename to meta/recipes-devtools/perl/liberror-perl_0.17029.bb
+index 8c6bbcba94..038808f0cd 100644
+--- a/meta/recipes-devtools/perl/liberror-perl_0.17028.bb
++++ b/meta/recipes-devtools/perl/liberror-perl_0.17029.bb
+@@ -32,8 +32,8 @@ RDEPENDS_${PN}-ptest += " \
+ 
+ SRC_URI = "http://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Error-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "ec3522c60a43a368f19c0f89e2205cb1"
+-SRC_URI[sha256sum] = "3ad85c5e58b31c8903006298424a51bba39f1840e324f5ae612eabc8b935e960"
++SRC_URI[md5sum] = "6732b1c6207e4a9a3e2987c88368039a"
++SRC_URI[sha256sum] = "1a23f7913032aed6d4b68321373a3899ca66590f4727391a091ec19c95bf7adc"
+ 
+ S = "${WORKDIR}/Error-${PV}"
+ 
+-- 
+2.24.0
 
 
