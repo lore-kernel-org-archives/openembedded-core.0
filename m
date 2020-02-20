@@ -1,71 +1,50 @@
-Return-Path: <praveen@linumiz.com>
-X-Greylist: delayed 1354 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 20 Feb 2020 15:24:55 UTC
-Received: from gproxy2-pub.mail.unifiedlayer.com (outbound-ss-879.bluehost.com
-	[69.89.30.202])
-	by mail.openembedded.org (Postfix) with ESMTP id C8E91615FB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C438661600
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 15:24:55 +0000 (UTC)
-Received: from cmgw12.unifiedlayer.com (unknown [10.9.0.12])
-	by gproxy2.mail.unifiedlayer.com (Postfix) with ESMTP id 751131E12D1
+	Thu, 20 Feb 2020 15:27:57 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id m10so3063059wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 08:02:22 -0700 (MST)
-Received: from md-in-79.webhostbox.net ([43.225.55.182]) by cmsmtp with ESMTP
-	id 4nLIjmacnDbTf4nLJjGi3n; Thu, 20 Feb 2020 08:02:22 -0700
-X-Authority-Reason: nr=8
-X-Authority-Analysis: v=2.3 cv=IPIs9DnG c=1 sm=1 tr=0
-	a=LfuyaZh/8e9VOkaVZk0aRw==:117 a=LfuyaZh/8e9VOkaVZk0aRw==:17
-	a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19 a=kj9zAlcOel0A:10:nop_charset_1
-	a=l697ptgUJYAA:10:nop_rcvd_month_year
-	a=oz0wMknONp8A:10:endurance_base64_authed_username_1 a=vU9dKmh3AAAA:8
-	a=foHCeV_ZAAAA:8 a=5Dyf8FiOe_nCk8WE_CMA:9
-	a=CjuIK1q_8ugA:10:nop_charset_2
-	a=rsP06fVo5MYu2ilr0aT5:22 a=h8a9FgHX5U4dIE3jaWyr:22
-	a=pHzHmUro8NiASowvMSCR:22 a=nt3jZW36AmriUCFCBwmW:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linumiz.com
-	; s=default;
-	h=Message-ID:Subject:Cc:To:From:Date:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=p7CTqSFs97zaOcyO9A4NuwDIisSQ0VLhqtyBQ/3sIV4=;
-	b=N3YWfjZJm15R6KTlkVKrZDGGdk
-	zDdXQlXUMy4sdQmQt0pLd9MHzWJcnHFY4GqrsphDjh5IRjwXDVMbW76QaWEE3ruXuUz+7SXJtXzGq
-	+jH87Zp5wnshu5F/CgsclPqnoEg22n+gsycpNuccwlTrwAdZTbGo4FvM8GMF3/M+KsmROp3KwRwWp
-	SE0ZfjbIq91Nz/RkWwASRxp0gXrBJeki1BhcYM7HbO8YTU3FIPf+S5jgMWQivkISEyIKmdO/llpOu
-	DUkAMcd1FDAtksZeiR2YAm+I9AmRFylfGS3BXiSvxX4Z3Ky2vb/Eca48PephxZXQSUd3/FfWBdSyV
-	t7Ew6UTA==;
-Received: from [127.0.0.1] (port=57527 helo=md-in-79.webhostbox.net)
-	by md-in-79.webhostbox.net with esmtpa (Exim 4.92)
-	(envelope-from <praveen@linumiz.com>)
-	id 1j4nLH-002S31-Hu; Thu, 20 Feb 2020 15:02:19 +0000
+	Thu, 20 Feb 2020 07:27:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=15EgxfkN0o/A4u40Xqj0kz4r/kEL5uctj4h033DsluQ=;
+	b=Yq/IHwK4hOiuU2kcCnheXr/x7H/ea1NyZkw+Wpz0OQ7oLBMePE+nDjMt4KvS+HkX0h
+	ow3XuiYV3Og8ANbBQ6IQhE65GIERsGunoobs65ojr/GGXRsTP9dcwA0QagVhJo5HLwV+
+	r9jktB2lOxawf4AvIVMwASayoXon0zGuQc3CI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=15EgxfkN0o/A4u40Xqj0kz4r/kEL5uctj4h033DsluQ=;
+	b=tXA9nUL/KCAexSzCnfdTKxLLKdGIbnkZYtiys5U8RsvgmqEy/CsE9WSXn1VJyJZbwh
+	zDnf4bUT+F3XynN01MFrA3d9fddHF82ytH99wJ86int+OqqMAB85Hs3bI46WwHE8LAS7
+	ClPhIF8E4xRdnWHV2Kjs8Lj8qKpermNQNTH+DyJQJ7eh9jC40TToT7N/KLgo1Q0ULhZo
+	Rk85NEzK9CnuWOhlfFoBOrnxeQeB+J9h8XXc957X5naariw19vwbUljuRlAS/LS0W2Mq
+	dmCncg0Ze6FuqXW99IMF6VJ6AX3m3gq6YW9GYCYwzreogkSJaesP08ck3W+rYX6StGXs
+	HLmg==
+X-Gm-Message-State: APjAAAUFkY89ofquhep0YnguObe88m1zO9oMVxy0rWDF6WqS63dgo2wf
+	9Ceond+J5+2LTrCycfqEKjcYBw==
+X-Google-Smtp-Source: APXvYqxCKZzd8hnlO7/IJv29CrLDuVP/OWUeD0J/6zrP5vvZVwL8esylA2fbo+iBX6w9pV3bgl2CpA==
+X-Received: by 2002:a1c:4c10:: with SMTP id z16mr5054007wmf.136.1582212478393; 
+	Thu, 20 Feb 2020 07:27:58 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id t81sm4865047wmg.6.2020.02.20.07.27.57
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 20 Feb 2020 07:27:57 -0800 (PST)
+Message-ID: <18c55700df9ee84ea44fbffc93ba4e9f3c0e1663.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Nataliya Korovkina <malus.brandywine@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 20 Feb 2020 15:27:56 +0000
+In-Reply-To: <20200220150318.20003-1-malus.brandywine@gmail.com>
+References: <20200220150318.20003-1-malus.brandywine@gmail.com>
+User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-Date: Thu, 20 Feb 2020 16:02:19 +0100
-From: praveen@linumiz.com
-To: openembedded-core@lists.openembedded.org
-Message-ID: <dcd4c2c866d3c5bf5d5c8c76ae6fd455@linumiz.com>
-X-Sender: praveen@linumiz.com
-User-Agent: Roundcube Webmail/1.3.7
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - md-in-79.webhostbox.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - linumiz.com
-X-BWhitelist: no
-X-Source-IP: 127.0.0.1
-X-Source-L: Yes
-X-Exim-ID: 1j4nLH-002S31-Hu
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (md-in-79.webhostbox.net) [127.0.0.1]:57527
-X-Source-Auth: praveen@linumiz.com
-X-Email-Count: 2
-X-Source-Cap: bGludW1jbWM7aG9zdGdhdG9yO21kLWluLTc5LndlYmhvc3Rib3gubmV0
-X-Local-Domain: yes
-Subject: [PATCH] alsa-utils: upgrade 1.2.1 -> 1.2.2
+Subject: Re: [PATCH] Set default CONNECTIVITY_CHECK_URIS to https://www.yoctoproject.org/
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -78,50 +57,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 15:24:56 -0000
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+X-List-Received-Date: Thu, 20 Feb 2020 15:27:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Praveen Muthusamy <praveen@linumiz.com>
----
-  ...lsa-utils-scripts_1.2.1.bb => alsa-utils-scripts_1.2.2.bb} | 0
-  .../alsa/{alsa-utils_1.2.1.bb => alsa-utils_1.2.2.bb}         | 4 ++--
-  2 files changed, 2 insertions(+), 2 deletions(-)
-  rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.2.1.bb => 
-alsa-utils-scripts_1.2.2.bb} (100%)
-  rename meta/recipes-multimedia/alsa/{alsa-utils_1.2.1.bb => 
-alsa-utils_1.2.2.bb} (97%)
+On Thu, 2020-02-20 at 10:03 -0500, Nataliya Korovkina wrote:
+> Signed-off-by: Nataliya Korovkina <malus.brandywine@gmail.com>
+> ---
+>  meta/conf/distro/include/default-distrovars.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/conf/distro/include/default-distrovars.inc
+> b/meta/conf/distro/include/default-distrovars.inc
+> index 433d4b6651..6c9155b2ae 100644
+> --- a/meta/conf/distro/include/default-distrovars.inc
+> +++ b/meta/conf/distro/include/default-distrovars.inc
+> @@ -48,4 +48,4 @@ KERNEL_IMAGETYPES ??= "${KERNEL_IMAGETYPE}"
+>  # fetch from the network (and warn you if not). To disable the test
+> set
+>  # the variable to be empty.
+>  # Git example url: git://git.yoctoproject.org/yocto-firewall-
+> test;protocol=git;rev=master
+> -CONNECTIVITY_CHECK_URIS ?= "https://www.example.com/"
+> +CONNECTIVITY_CHECK_URIS ?= "https://www.yoctoproject.org/"
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.1.bb 
-b/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.2.bb
-similarity index 100%
-rename from meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.1.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.2.bb
-diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.2.1.bb 
-b/meta/recipes-multimedia/alsa/alsa-utils_1.2.2.bb
-similarity index 97%
-rename from meta/recipes-multimedia/alsa/alsa-utils_1.2.1.bb
-rename to meta/recipes-multimedia/alsa/alsa-utils_1.2.2.bb
-index 9144af628a..8bbc5d3ef3 100644
---- a/meta/recipes-multimedia/alsa/alsa-utils_1.2.1.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.2.bb
-@@ -21,8 +21,8 @@ PACKAGECONFIG[manpages] = "--enable-xmlto, 
---disable-xmlto, xmlto-native docbook
+Why would that be better?
 
-  # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
-  SRC_URI = 
-"https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2"
--SRC_URI[md5sum] = "c4628bae7632937eac2de4cf2a3de82e"
--SRC_URI[sha256sum] = 
-"0b110ba71ef41d3009db1bc4dcae0cf79efb99cb5426fa19d0312470560a2c0d"
-+SRC_URI[md5sum] = "00612234ff4722c8f7f8f7a83ff9bc63"
-+SRC_URI[sha256sum] = 
-"44807bd578c5f6df6e91a11b8d37e546424a5a1ea8d8e659ee359fe01730e4f3"
+There have been several requests to change this however I'm not sure we
+can find one perfect url we can use :(
 
-  # On build machines with python-docutils (not python3-docutils !!) 
-installed
-  # rst2man (not rst2man.py) is detected and compile fails with
--- 
-2.17.1
+Cheers,
+
+Richard
+
 
