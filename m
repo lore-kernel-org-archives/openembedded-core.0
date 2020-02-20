@@ -1,24 +1,33 @@
-Return-Path: <Liwei.Song@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E8846104C
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B2CB061219
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 03:51:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01K3owLm026453
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Thu, 20 Feb 2020 05:07:32 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,462,1574092800"; d="scan'208";a="83603235"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 20 Feb 2020 13:07:31 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id F1A2350A9975
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 19:51:08 -0800
-Received: from pek-lpggp3.wrs.com (128.224.153.76) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 19 Feb 2020 19:50:47 -0800
-From: Liwei Song <liwei.song@windriver.com>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Feb 2020 11:50:45 +0800
-Message-ID: <20200220035045.5027-1-liwei.song@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Thu, 20 Feb 2020 12:57:52 +0800 (CST)
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Thu, 20 Feb 2020 13:07:32 +0800
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 20 Feb 2020 13:07:40 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Feb 2020 04:19:06 -0800
+Message-ID: <1582201146-2668-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] util-linux: fix hwclock settimeofday error
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: F1A2350A9975.A4A5C
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] mc: upgrade 4.8.23 -> 4.8.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,152 +40,269 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 03:51:18 -0000
+X-List-Received-Date: Thu, 20 Feb 2020 05:07:33 -0000
 Content-Type: text/plain
 
-The change of settimeofday() systemcall since Glibc 2.31
-will cause "hwclock -s" doesn't work with error:
-"hwclock: settimeofday() failed: Invalid argument"
-Backport a upstream patch to fix this issue.
+0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
+0001-Add-option-to-control-configure-args.patch
+Removed since they are included in 4.8.24.
 
-Signed-off-by: Liwei Song <liwei.song@windriver.com>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- ...lock-fix-for-glibc-2.31-settimeofday.patch | 112 ++++++++++++++++++
- .../util-linux/util-linux_2.34.bb             |   1 +
- 2 files changed, 113 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/0001-hwclock-fix-for-glibc-2.31-settimeofday.patch
+ ...Add-option-to-control-configure-args.patch |  99 ----------------
+ ...29-configure.ac-drop-bundled-gettext.patch | 110 ------------------
+ .../mc/{mc_4.8.23.bb => mc_4.8.24.bb}         |   6 +-
+ 3 files changed, 2 insertions(+), 213 deletions(-)
+ delete mode 100644 meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
+ delete mode 100644 meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
+ rename meta/recipes-extended/mc/{mc_4.8.23.bb => mc_4.8.24.bb} (88%)
 
-diff --git a/meta/recipes-core/util-linux/util-linux/0001-hwclock-fix-for-glibc-2.31-settimeofday.patch b/meta/recipes-core/util-linux/util-linux/0001-hwclock-fix-for-glibc-2.31-settimeofday.patch
-new file mode 100644
-index 000000000000..0672c3546ae6
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/0001-hwclock-fix-for-glibc-2.31-settimeofday.patch
-@@ -0,0 +1,112 @@
-+From ee85d3967ea09b215fcea5efdd90bbbf5e74a681 Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Wed, 19 Feb 2020 15:50:47 +0100
-+Subject: [PATCH] hwclock: fix for glibc 2.31 settimeofday()
-+
-+glibc announce:
-+  ... settimeofday can no longer be used to set the time and the offset
-+  simultaneously. If both of its two arguments are non-null, the call
-+  will fail (setting errno to EINVAL).
-+
-+It means we need to call settimeofday(NULL, tz) and settimeofday(tv, NULL).
-+
-+Unfortunately, settimeofday(NULL, tz) has very special warp-clock
-+semantic if used as the very first settimeofday() call. It means we
-+have to be sure that we do not touch warp-clock if we need only need
-+to modify system TZ. So, let's always call settimeofday(NULL, 0)
-+before settimeofday(NULL, tz) for UTC rtc mode when modify system TZ.
-+
-+Upstream-Status: Backport [https://github.com/karelzak/util-linux/commit/ee85d3967ea09b215fcea5efdd90bbbf5e74a681]
-+
-+CC: J William Piggott <elseifthen@gmx.com>
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+Addresses: https://github.com/karelzak/util-linux/issues/957
-+Signed-off-by: Liwei Song <liwei.song@windriver.com>
-+---
-+ sys-utils/hwclock.c | 49 ++++++++++++++++++++++++++-------------------
-+ 1 file changed, 28 insertions(+), 21 deletions(-)
-+
-+diff --git a/sys-utils/hwclock.c b/sys-utils/hwclock.c
-+index e736da7179f8..16576bc186ff 100644
-+--- a/sys-utils/hwclock.c
-++++ b/sys-utils/hwclock.c
-+@@ -658,6 +658,9 @@ display_time(struct timeval hwctime)
-+  * PCIL: persistent_clock_is_local, sets the "11 minute mode" timescale.
-+  * firsttime: locks the warp_clock function (initialized to 1 at boot).
-+  *
-++ * Note that very first settimeofday(NULL, tz) modifies warp-clock as well as
-++ * system TZ.
-++ *
-+  * +---------------------------------------------------------------------------+
-+  * |  op     | RTC scale | settimeofday calls                                  |
-+  * |---------|-----------|-----------------------------------------------------|
-+@@ -675,41 +678,45 @@ set_system_clock(const struct hwclock_control *ctl,
-+ 	struct tm broken;
-+ 	int minuteswest;
-+ 	int rc = 0;
-+-	const struct timezone tz_utc = { 0 };
-+ 
-+ 	localtime_r(&newtime.tv_sec, &broken);
-+ 	minuteswest = -get_gmtoff(&broken) / 60;
-+ 
-+ 	if (ctl->verbose) {
-+-		if (ctl->hctosys && !ctl->universal)
-+-			printf(_("Calling settimeofday(NULL, %d) to set "
-+-				 "persistent_clock_is_local.\n"), minuteswest);
-+-		if (ctl->systz && ctl->universal)
-++		if (ctl->universal)
-+ 			puts(_("Calling settimeofday(NULL, 0) "
-+-				"to lock the warp function."));
-++			       "to lock the warp function."));
-++		else
-++			printf(_("Calling settimeofday(NULL, %d) to set "
-++				 "persistent_clock_is_local and "
-++				 "the kernel timezone.\n"), minuteswest);
-++
-++		if (ctl->universal && minuteswest)
-++			printf(_("Calling settimeofday(NULL, %d) to set "
-++				 "the kernel timezone.\n"), minuteswest);
-++
-+ 		if (ctl->hctosys)
-+-			printf(_("Calling settimeofday(%ld.%06ld, %d)\n"),
-+-			       newtime.tv_sec, newtime.tv_usec, minuteswest);
-+-		else {
-+-			printf(_("Calling settimeofday(NULL, %d) "), minuteswest);
-+-			if (ctl->universal)
-+-				 puts(_("to set the kernel timezone."));
-+-			else
-+-				 puts(_("to warp System time."));
-+-		}
-++			printf(_("Calling settimeofday(%ld.%06ld, 0) to set "
-++			         "the kernel time.\n"), newtime.tv_sec, newtime.tv_usec);
-+ 	}
-+ 
-+ 	if (!ctl->testing) {
-++		const struct timezone tz_utc = { 0 };
-+ 		const struct timezone tz = { minuteswest };
-+ 
-+-		if (ctl->hctosys && !ctl->universal)	/* set PCIL */
-++		/* warp-clock */
-++		if (ctl->universal)
-++			rc = settimeofday(NULL, &tz_utc); /* lock to UTC */
-++		else
-++			rc = settimeofday(NULL, &tz);     /* set PCIL and TZ */
-++
-++		/* set timezone */
-++		if (!rc && ctl->universal && minuteswest)
-+ 			rc = settimeofday(NULL, &tz);
-+-		if (ctl->systz && ctl->universal)	/* lock warp_clock */
-+-			rc = settimeofday(NULL, &tz_utc);
-++
-++		/* set time */
-+ 		if (!rc && ctl->hctosys)
-+-			rc = settimeofday(&newtime, &tz);
-+-		else if (!rc)
-+-			rc = settimeofday(NULL, &tz);
-++			rc = settimeofday(&newtime, NULL);
-+ 
-+ 		if (rc) {
-+ 			warn(_("settimeofday() failed"));
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/util-linux/util-linux_2.34.bb b/meta/recipes-core/util-linux/util-linux_2.34.bb
-index e9c2d80e902b..557449d140da 100644
---- a/meta/recipes-core/util-linux/util-linux_2.34.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.34.bb
-@@ -8,6 +8,7 @@ SRC_URI += "file://configure-sbindir.patch \
-             file://display_testname_for_subtest.patch \
-             file://avoid_parallel_tests.patch \
-             file://0001-lsblk-force-to-print-PKNAME-for-partition.patch \
-+            file://0001-hwclock-fix-for-glibc-2.31-settimeofday.patch \
- "
- SRC_URI[md5sum] = "a78cbeaed9c39094b96a48ba8f891d50"
- SRC_URI[sha256sum] = "743f9d0c7252b6db246b659c1e1ce0bd45d8d4508b4dfa427bbb4a3e9b9f62b5"
+diff --git a/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch b/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
+deleted file mode 100644
+index e76aac8161..0000000000
+--- a/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
++++ /dev/null
+@@ -1,99 +0,0 @@
+-From a54501d3c9541bc8600225aa2d42531f93c6def7 Mon Sep 17 00:00:00 2001
+-From: Joshua Watt <JPEWhacker@gmail.com>
+-Date: Sat, 9 Nov 2019 20:01:48 -0600
+-Subject: [PATCH] Add option to control configure args
+-
+-Embedding the configure time options into the executable can lead to
+-non-reproducible builds, since configure options often have embedded
+-paths. Add a configure time option to control if the configure args are
+-embedded so this can be disabled.
+-
+-Upstream-Status: Submitted [https://midnight-commander.org/ticket/4031]
+-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+----
+- configure.ac   | 6 ++++++
+- src/args.c     | 6 ++++++
+- src/textconf.c | 2 ++
+- 3 files changed, 14 insertions(+)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 19d1a76be..a1948f6b9 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -544,6 +544,12 @@ dnl Clarify do we really need GModule
+- AM_CONDITIONAL([HAVE_GMODULE], [test -n "$g_module_supported" && \
+-                                 test x"$textmode_x11_support" = x"yes" -o x"$enable_aspell" = x"yes"])
+- 
+-+AC_ARG_ENABLE([configure-args],
+-+    AS_HELP_STRING([--enable-configure-args], [Handle all compiler warnings as errors]))
+-+if test "x$enable_configure_args" != xno; then
+-+    AC_DEFINE([ENABLE_CONFIGURE_ARGS], 1, [Define to enable showing configure arguments in help])
+-+fi
+-+
+- AC_DEFINE_UNQUOTED([MC_CONFIGURE_ARGS], ["$ac_configure_args"], [MC configure arguments])
+- 
+- AC_CONFIG_FILES(
+-diff --git a/src/args.c b/src/args.c
+-index baef1a1c8..f8dc24020 100644
+---- a/src/args.c
+-+++ b/src/args.c
+-@@ -95,7 +95,9 @@ static gboolean mc_args__nouse_subshell = FALSE;
+- #endif /* ENABLE_SUBSHELL */
+- static gboolean mc_args__show_datadirs = FALSE;
+- static gboolean mc_args__show_datadirs_extended = FALSE;
+-+#ifdef ENABLE_CONFIGURE_ARGS
+- static gboolean mc_args__show_configure_opts = FALSE;
+-+#endif
+- 
+- static GOptionGroup *main_group;
+- 
+-@@ -125,6 +127,7 @@ static const GOptionEntry argument_main_table[] = {
+-      NULL
+-     },
+- 
+-+#ifdef ENABLE_CONFIGURE_ARGS
+-     /* show configure options */
+-     {
+-      "configure-options", '\0', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE,
+-@@ -132,6 +135,7 @@ static const GOptionEntry argument_main_table[] = {
+-      N_("Print configure options"),
+-      NULL
+-     },
+-+#endif
+- 
+-     {
+-      "printwd", 'P', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_STRING,
+-@@ -758,11 +762,13 @@ mc_args_show_info (void)
+-         return FALSE;
+-     }
+- 
+-+#ifdef ENABLE_CONFIGURE_ARGS
+-     if (mc_args__show_configure_opts)
+-     {
+-         show_configure_options ();
+-         return FALSE;
+-     }
+-+#endif
+- 
+-     return TRUE;
+- }
+-diff --git a/src/textconf.c b/src/textconf.c
+-index 1e0613e58..f39b9e028 100644
+---- a/src/textconf.c
+-+++ b/src/textconf.c
+-@@ -232,10 +232,12 @@ show_datadirs_extended (void)
+- 
+- /* --------------------------------------------------------------------------------------------- */
+- 
+-+#ifdef ENABLE_CONFIGURE_ARGS
+- void
+- show_configure_options (void)
+- {
+-     (void) printf ("%s\n", MC_CONFIGURE_ARGS);
+- }
+-+#endif
+- 
+- /* --------------------------------------------------------------------------------------------- */
+--- 
+-2.23.0
+-
+diff --git a/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch b/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
+deleted file mode 100644
+index 8f357378d0..0000000000
+--- a/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
++++ /dev/null
+@@ -1,110 +0,0 @@
+-From 0d677a014a87b968d79eea2353ac4e342b0fd4ca Mon Sep 17 00:00:00 2001
+-From: Sergei Trofimovich <slyfox@gentoo.org>
+-Date: Wed, 11 Sep 2019 22:58:18 +0100
+-Subject: [PATCH] Ticket #3629: configure.ac: drop bundled gettext
+-
+-Bundled libintl did not support linking to internal static
+-libraries (libmc in our case): directly specified static
+-libraries are not pulled by libtool and are not usable for
+-dynamic libraries as PIC-related flags are not passed for
+-compilation.
+-
+-This renders bundled libintl library unusable.
+-
+-The change drops libintl bundling support and always relies
+-on external libintl (or falls back to disabled NLS).
+-
+-On a related note gettext-0.20 drops support for bundling
+-or libintl and this change will ease migration to newer version.
+-
+-The change is tested on x86_64-gentoo-linux-musl: mc builds
+-and links all tests successfully. A few tests fail for lack
+-of NLS support.
+-
+-Upstream-Status: Backport [https://github.com/MidnightCommander/mc/commit/f30e6ff283f4bc86177e4360de94dad794678395]
+-Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
+-Signed-off-by: Andrew Borodin <aborodin@vmail.ru>
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- Makefile.am           | 2 +-
+- configure.ac          | 5 +++--
+- doc/doxygen.cfg       | 2 +-
+- lib/Makefile.am       | 2 +-
+- m4.include/mc-i18n.m4 | 5 -----
+- 5 files changed, 6 insertions(+), 10 deletions(-)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index ac05a83..f86f6ed 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -1,7 +1,7 @@
+- ## Process this file with automake to create Makefile.in.
+- AUTOMAKE_OPTIONS = 1.5
+- 
+--SUBDIRS = intl po lib src doc contrib misc
+-+SUBDIRS = po lib src doc contrib misc
+- 
+- if HAVE_TESTS
+-     SUBDIRS += tests
+-diff --git a/configure.ac b/configure.ac
+-index a1948f6..bbc9e71 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -272,7 +272,9 @@ dnl ############################################################################
+- dnl Internationalization
+- dnl ############################################################################
+- 
+--AM_GNU_GETTEXT([no-libtool], [need-ngettext])
+-+AC_CHECK_FUNCS([setlocale])
+-+
+-+AM_GNU_GETTEXT([external], [need-ngettext])
+- AM_GNU_GETTEXT_VERSION([0.18.1])
+- 
+- mc_I18N
+-@@ -680,7 +682,6 @@ doc/hlp/pl/Makefile
+- doc/hlp/ru/Makefile
+- doc/hlp/sr/Makefile
+- 
+--intl/Makefile
+- po/Makefile.in
+- ])
+- 
+-diff --git a/doc/doxygen.cfg b/doc/doxygen.cfg
+-index 07bc973..1118062 100644
+---- a/doc/doxygen.cfg
+-+++ b/doc/doxygen.cfg
+-@@ -91,7 +91,7 @@ FILE_PATTERNS          = *.c \
+- RECURSIVE              = YES
+- EXCLUDE                =
+- EXCLUDE_SYMLINKS       = NO
+--EXCLUDE_PATTERNS       = */intl/* */tests/* */.git/*
+-+EXCLUDE_PATTERNS       = */tests/* */.git/*
+- EXCLUDE_SYMBOLS        =
+- EXAMPLE_PATH           = $(SRCDIR)
+- EXAMPLE_PATTERNS       =
+-diff --git a/lib/Makefile.am b/lib/Makefile.am
+-index c448e2d..455f9dd 100644
+---- a/lib/Makefile.am
+-+++ b/lib/Makefile.am
+-@@ -74,4 +74,4 @@ else
+-     libmc_la_LIBADD += $(GLIB_LIBS)
+- endif
+- 
+--libmc_la_LIBADD += $(PCRE_LIBS) $(LIBICONV) $(LIBINTL)
+-+libmc_la_LIBADD += $(PCRE_LIBS)
+-diff --git a/m4.include/mc-i18n.m4 b/m4.include/mc-i18n.m4
+-index dd10d00..ec08324 100644
+---- a/m4.include/mc-i18n.m4
+-+++ b/m4.include/mc-i18n.m4
+-@@ -8,11 +8,6 @@ dnl @license GPL
+- dnl @copyright Free Software Foundation, Inc.
+- 
+- AC_DEFUN([mc_I18N],[
+--
+--    if test "x$USE_INCLUDED_LIBINTL" = xyes; then
+--        CPPFLAGS="$CPPFLAGS -I\$(top_builddir)/intl -I\$(top_srcdir)/intl"
+--    fi
+--
+-     dnl User visible support for charset conversion.
+-     AC_ARG_ENABLE([charset],
+-         AS_HELP_STRING([--enable-charset], [Support for charset selection and conversion @<:@yes@:>@]))
+diff --git a/meta/recipes-extended/mc/mc_4.8.23.bb b/meta/recipes-extended/mc/mc_4.8.24.bb
+similarity index 88%
+rename from meta/recipes-extended/mc/mc_4.8.23.bb
+rename to meta/recipes-extended/mc/mc_4.8.24.bb
+index ead348b92e..7a68270dd2 100644
+--- a/meta/recipes-extended/mc/mc_4.8.23.bb
++++ b/meta/recipes-extended/mc/mc_4.8.24.bb
+@@ -9,12 +9,10 @@ RRECOMMENDS_${PN} = "ncurses-terminfo"
+ 
+ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
+            file://0001-mc-replace-perl-w-with-use-warnings.patch \
+-           file://0001-Add-option-to-control-configure-args.patch \
+-           file://0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch \
+            file://nomandate.patch \
+            "
+-SRC_URI[md5sum] = "152927ac29cf0e61d7d019f261bb7d89"
+-SRC_URI[sha256sum] = "238c4552545dcf3065359bd50753abbb150c1b22ec5a36eaa02c82808293267d"
++SRC_URI[md5sum] = "2621de1fa9058a9c41a4248becc969f9"
++SRC_URI[sha256sum] = "cfcc4d0546d0c3a88645a8bf71612ed36647ea3264d973b1f28183a0c84bae34"
+ 
+ inherit autotools gettext pkgconfig
+ 
 -- 
 2.17.1
+
+
 
 
