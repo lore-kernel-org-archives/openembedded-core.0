@@ -1,48 +1,52 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
-	[209.85.221.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C129615D2
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id A25F760FCA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 00:10:19 +0000 (UTC)
-Received: by mail-vk1-f196.google.com with SMTP id i78so699728vke.0
+	Thu, 20 Feb 2020 00:29:05 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id g3so2611508wrs.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 16:10:20 -0800 (PST)
+	Wed, 19 Feb 2020 16:29:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YsCzAbRlsJhS2v7wXSZcqoqEj991Lph4vHz6nCM5+VU=;
-	b=LHHUFz/j2cRdpJe3L8gay/n3hKUlvp5Qwt/bw9+eq5D8KQW7pYGEK5qvQIvtJC4pSH
-	J8JY5tBgDJJhzIem7pg2zm9dphO75dxMsIlDxedm5XiLe79fWyaB+iqeQOLvi9IruM94
-	X/EPgRSc5D+zK7snOsyWpvCUq26XAnxOYZSvA6CKUBgAXeOYVRUrpZ09kXk0Gh2NKyTG
-	3UUIekLahc8E91iWcbSuUJZ5rr6GOf53Bral/U8W3n9T02nFzsSM+niSNU81GEfTucqQ
-	2GsUVySzwPkkWJ5SW+NhlUXpuZ6mm5u3uh2/BxaSTogtPfWdFxCSZwzU/M5RbcoNUSmZ
-	6CgQ==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=PIsexjUYM6pe+MErKjVbpGZdP1g39y69gWn4pdgrUXY=;
+	b=U9IPrMVveQmszhY6XOZ+jgAjjxqI8FH6izCy5hnxqWaeVkNuc92Nce+Lc5Z+bC1U9b
+	VcVb+UPLPqbM77M9sb1AkrpDP3Ad2S4+DD8U2Y8FqyW6d86E5zYQwO7DYGPQuiEaMaYu
+	mdVavFFiiDaIKEwBTCqF4Z0MrmuPJi76l9MCctHUQyhXZMnhA8VbTGKcvdfeOd4ebM2R
+	Cp5HX6cSzwq2vrIyn82YV7n4MOClFOKumoiNShRHlRmcH7mUucwGtpTkdF0aS00XCt0C
+	ycGBZEJb+rg75/plEmmmIrlQ2zejO3RmZF6xN2d0+9QM6exJeofmhUB54xFWa9tlOGiY
+	O5Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=YsCzAbRlsJhS2v7wXSZcqoqEj991Lph4vHz6nCM5+VU=;
-	b=ZTK9zC8/wFFDClcoalR0dRYeaaqHX2ZNaH++CvtFVyYgjEx38CvNAmHGJDBvxI2kTV
-	wdgh4g4yVVFMPfXzSUjtbbDzKBQpfW34fYDOUuYiyBnTKS2+zJWEdtcPSOAOPjyKzmpH
-	+dcg/s7kA1REx9Djh0msLJgFMhOtYWvizk03bJegYaI3naNc+z94FKCQdr/2WBVwVnTE
-	AqkVDqJDjHVA0giR6ArOVEeFIEzw7jpsZctKBOXiQtWOzudzKd33BoK+H6HNoXrkXwHs
-	YpQEKgogDu5X3Oj4EQ5rgHcDgd04SrUdvJ6IgnX3EHZMJ+gQz1DlV119ivV7PRmN6uIk
-	KlMA==
-X-Gm-Message-State: APjAAAUM6rXomFU7YMgF/s4Ewxdzv0qOWWGuepFBfI7BbrOak9pFBmoB
-	7T3zyunyv4Bo0z6FJlJ/VBg8Fk1Je4PYAlETy1EWiMAq
-X-Google-Smtp-Source: APXvYqyLivBOJNpawaXotNLl1N/KRrzSdi7cHIhY+XHzbhH+6u7R5Keum2xHl61fxpJqLOjKbnd9HlxAGBQRCe4ayFw=
-X-Received: by 2002:a1f:ee45:: with SMTP id m66mr12804944vkh.75.1582157419889; 
-	Wed, 19 Feb 2020 16:10:19 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=PIsexjUYM6pe+MErKjVbpGZdP1g39y69gWn4pdgrUXY=;
+	b=Ivx1mVX23z5o93PMJ3QSSfYvvRn3ncZSvzbTX0q5C1d4i+2uCg+L68n7kSiCVhE8pk
+	60B2RLyis39reAQYjGkBK3ZkAUGEG4uS1aNgGkcssksAJMkiQvczVGPudvMdT1D0PPgF
+	RLSo+a/aX0pCagMa9rxvkPPWU/VUEB4ykz21lFLQp2dhHaFeRmookNWiZBNU7zR3nAfo
+	7MCKwfubvH8JHFnlrnCeq9GA9mOlYFfbA58iaiaIW35Djpiz9us5g5pTd5CnRy6gJjW3
+	nMmPKMrxX3j19XitRRwWmeaFVApFhEYwLdRn6YEJ5xF7TMqIKmRauxjl4IsJajWeXRVS
+	EA2g==
+X-Gm-Message-State: APjAAAU4OrooKUFfj32/YkGk2NL7kQcmFnVvhyfoodErXetm1ozLKl1K
+	/LNBHoYGkugsHcNa2T3mnEg+j2qf
+X-Google-Smtp-Source: APXvYqwQ300AHmVkG81tl8ADYO+5lAk2Du10IUbPzEkCascmR7OUyOUYn7GWTX6+M8VguJNlvhJkCg==
+X-Received: by 2002:a5d:5273:: with SMTP id l19mr40686149wrc.175.1582158545977;
+	Wed, 19 Feb 2020 16:29:05 -0800 (PST)
+Received: from superandy.speedport.ip
+	(p200300F07F063D826F0F6E2A39C68FB4.dip0.t-ipconnect.de.
+	[2003:f0:7f06:3d82:6f0f:6e2a:39c6:8fb4])
+	by smtp.gmail.com with ESMTPSA id r6sm2014910wrq.92.2020.02.19.16.29.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 19 Feb 2020 16:29:05 -0800 (PST)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Feb 2020 01:28:49 +0100
+Message-Id: <20200220002849.9126-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20200219214303.138067-1-richard.purdie@linuxfoundation.org>
-	<CAJ86T=VsVpM+KLzXdQ569T4LALG4fDT2sS4v+4YCp_6LTZvfsw@mail.gmail.com>
-	<9ef969cbe41ad90330b52b045eecaf8688fa18e4.camel@linuxfoundation.org>
-In-Reply-To: <9ef969cbe41ad90330b52b045eecaf8688fa18e4.camel@linuxfoundation.org>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 19 Feb 2020 16:10:08 -0800
-Message-ID: <CAJ86T=XEUHdOQ+rvxd-FpzsYB1qQiwCc2iWf04KZzqRuBMZViQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] local.conf.sample.extended: Document how to limit parallel fetch tasks
+Subject: [PATCH][master-next] webkitgtk: add PACKAGECONFIG gobject-introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,75 +59,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 00:10:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 20 Feb 2020 00:29:06 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Feb 19, 2020 at 3:16 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2020-02-19 at 14:05 -0800, Andre McCurdy wrote:
-> > On Wed, Feb 19, 2020 at 1:43 PM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > [YOCTO #13235]
-> > >
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > ---
-> > >  meta/conf/local.conf.sample.extended | 8 ++++++++
-> > >  1 file changed, 8 insertions(+)
-> > >
-> > > diff --git a/meta/conf/local.conf.sample.extended
-> > > b/meta/conf/local.conf.sample.extended
-> > > index fcf4a9b7c1a..443b4e83f9a 100644
-> > > --- a/meta/conf/local.conf.sample.extended
-> > > +++ b/meta/conf/local.conf.sample.extended
-> > > @@ -23,6 +23,14 @@
-> > >  #
-> > >  # For a quad-core machine, BB_NUMBER_THREADS = "4", PARALLEL_MAKE
-> > > = "-j 4" would
-> > >  # be appropriate for example.
-> > > +#
-> > > +# Some users are behind firewalls or use servers where the number
-> > > of parallel connections
-> > > +# is limited. In such cases you can limit the number of fetch
-> > > tasks which run in parallel by
-> > > +# setting the option below, in this case limiting to a maximum of
-> > > 4 fetch tasks in parallel:
-> > > +#
-> > > +#do_fetch[number_threads] = "4"
-> >
-> > How does this interact with BB_NUMBER_THREADS? If, for example, both
-> > are set to 4 does it mean there could be 4 fetch threads and 4
-> > compile threads running in parallel?
->
-> BB_NUMBER_THREADS is an upper limit which includes fetch tasks.
->
-> > A related issue when the number of parallel connections is limited is
-> > parsing a large number of AUTOREV recipes. From what I remember the
-> > workaround for that was to set BB_NUMBER_PARSE_THREADS. Maybe that
-> > should be documented in local.conf.sample.extended too? Perhaps even
-> > better would be to define a single new variable which limits the
-> > number of parallel connections in both cases?
->
-> I don't know how you'd implement a total number of connections limit
-> from a code perspective :/.
+Enable if 'gobject-introspection-data' is in DISTRO_FEATURES. This is what
+gobject-introspection.bbclass does automatically for projects build with
+autotools and meson.
 
-A single variable such as BB_MAX_CONNECTION_THREADS which, if defined,
-would set the limit for both do_fetch[number_threads] and
-BB_NUMBER_PARSE_THREADS ?
+It was checked: there are webkitgtk and libdnf inheriting gobject-introspection
+and cmake. Since libdnf cannot configure gir, webkitgtk seems the only project
+requiring gir-auto-enabling. So handle at recipe / no common magic at
+gobject-introspection.bbclass required.
 
-> You'd probably need something like a make job server where you obtained
-> tokens before making connections and I can see this becoming "fun"
-> since you'd have to markup every code section where a network
-> connection was made.
->
-> We have a conflict between code complexity, maintainability,
-> performance and functionality and I'm not sure the use case here
-> warrants the complexity...
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
 
-Of course. I just wanted to share it since it is a real world problem
-(I've seen a development team stumped for a few days before finding
-BB_NUMBER_PARSE_THREADS, which isn't nearly as well documented as
-BB_NUMBER_THREADS and PARALLEL_MAKE). A comment for
-BB_NUMBER_PARSE_THREADS in local.conf.sample.extended might have sped
-up that debugging process.
+This patch applies on top of master-next/Alex's patches sent
+
+ meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+index 585723772e..d5085620d2 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+@@ -39,6 +39,7 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
+           "
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'gobject-introspection-data', 'gobject-introspection', '' ,d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', '' ,d)} \
+                    enchant \
+                    libsecret \
+@@ -46,6 +47,7 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
+ 
+ PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland libwpe wpebackend-fdo wayland-native"
+ PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11"
++PACKAGECONFIG[gobject-introspection] = "-DENABLE_INTROSPECTION=ON,-DENABLE_INTROSPECTION=OFF"
+ PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
+ PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
+ PACKAGECONFIG[gtk2] = "-DENABLE_PLUGIN_PROCESS_GTK2=ON,-DENABLE_PLUGIN_PROCESS_GTK2=OFF,gtk+"
+-- 
+2.21.0
+
 
