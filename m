@@ -1,49 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
-	[209.85.160.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F73A611E5
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D68C9611E1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 20:33:13 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id p34so2066208qtb.6
+	Thu, 20 Feb 2020 20:35:25 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id a2so3574952vso.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 12:33:14 -0800 (PST)
+	Thu, 20 Feb 2020 12:35:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rZRvDqVCR1bsE6o+qvrhBGTDNfnf/YWfzCVvWZdY0GI=;
-	b=pS+FhNbeGIq/rd2zGBx/o17h9Ht3JzORSnx6Aa9fF/BT3fNfWYyUc1dQ558gzwUixP
-	jLqwPde35fBz2p2PRgO7SYlRSO+YNQVd2Zn6aOcEEAsx3LW3ZMnGtTU3jNF4p54ByRCG
-	HSodeWJy+zGNWabe67EOZigbZt4rN5XOAh2G1E9tailCdMzcJGnQGPvuzHMmbvdMgcE/
-	r3UDoRXU7u8li87gt6mbJUY8oQ0MDRINc52Xln8w2l5QBprTZp9PFLt7Dr8F+jeMZC75
-	ZGJMUI6q7kgyEYusL1l/JZfEt1mJw9DJbSLkuNPk4+/rzymPTFJTH2pGeinzJXWvci+H
-	UF0g==
+	:cc; bh=g8PfvvZKSOZeCKmAGr7XGWuQcxUz0tH3TC0709d3twg=;
+	b=pLXYkTzV7x9VhtcslNx/OUMYdiKlcnU3cWwsnEzO3mJlKhtK2O2juFMRU/J2pWPMYi
+	UKGlXymtsXwR43XpmrkCMPRY/TcGV9tkwxybdM5dQdCcvM+O3FZuDOJ3Jqmct/4Q6azb
+	hZ7H9oeMrweVowfSpzPXcOQQ/HYOm4ihhWL914BhSWdx4u+UBHMttARH3Fczef1glGkJ
+	R10T/K5AEP5BIx0F4pcyqM91fN20FxVKkymHidYi/ED6zCxW9cLe9sEDAjFGYj8ySh/r
+	zq89Yw+Be6I2ejgsfXPjD1kb3KvNd5Qn2RDPmaLp0h4umyyVTZL4aFyQJKWzO3Kd6QQs
+	BMkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=rZRvDqVCR1bsE6o+qvrhBGTDNfnf/YWfzCVvWZdY0GI=;
-	b=XfMyheIfYaf8EwGEPXPchfpQe5nthFMzanMOujUWLCe2eeizfvbLDslEXlmw2FKiBO
-	fSy4G+cHqa/ryZMj41zVzWDSsvsBT7OHbGHgFxcfBrtqb7XMRTI+agc+/5kNye+O6eYv
-	8HdUVkTOcjqY+gZKqLs48d1ZlgnC3r1oB+pOhfrekyLP7XN7aoLe0PKP8qBYlAzK1U2Z
-	z4xUUGFqG2lUZ5n9+O3WDOs35nd8TEG4gVJveoBg2SCX3yT0g2WC9krmpEODokkaxi4U
-	84qIXtUOzXSnG7H3gSF5tpQlc3g4UPA1cw628l9DOrCBev9+sPYAIcEaQZECH51lnvYU
-	712g==
-X-Gm-Message-State: APjAAAWe9PtWyZPYUjnsYIcTH+K9LGFtqZcpXzb6MPI7E9ftyXyl041t
-	5P637BCI0+/uICuluNyzdgiEYKWsXITHtAENUsejThas
-X-Google-Smtp-Source: APXvYqxaEzmZ1JUgrCUJUzd3I7kdxds57QFsk3bB5oZS8XOr4WJDBAX1lNFXvKRw3ZfowzTfwCvH1Lcc7yKWjqLBe2A=
-X-Received: by 2002:ac8:4e3c:: with SMTP id d28mr28373699qtw.190.1582230793631;
-	Thu, 20 Feb 2020 12:33:13 -0800 (PST)
+	bh=g8PfvvZKSOZeCKmAGr7XGWuQcxUz0tH3TC0709d3twg=;
+	b=GhnAmXhUzzmpOyh/Tp+QCRw9TL3pWi9Nmf6YPMlM/j5WJ8spoLfPpYReo7YhbbnycO
+	qTj/6SAfPE0PRqLIjGS/JpRXfijtxEegy/NU7K2egAHMrzgSoZG0T4G2gpIzGEelu00f
+	mONiH9XIfvyiHUGTVOoBIq8FlTItI7eypP3dz0uz7hzhC/M6r4dnIg4NJjbtrxcsw04v
+	bIJEtMe1pF2lUsOUvI1HUQZmJ5uoRoENFqnus5W8zht417sSGeFEoav7SY/avujTa4mg
+	2fYaD+LMhwrOIfa7SkQDOLy7N+j5e8ZLB4xQTlXvdoRp/Oq1XXaQ+l1Sa/ADFAmSDM7N
+	JqOg==
+X-Gm-Message-State: APjAAAWJHu0Kr4idPJJ6q5Rnc+4YQo6MfdkThQB1C+F+PR0imh0aHRoe
+	iwGJNun6r7mhbXIa1hfgc8xjPcCU8J1O+EtZQD0=
+X-Google-Smtp-Source: APXvYqzdNOWci5ahEFEcrYG30onXrTqzXKxvBToIGYrQZCIE2RG+Qt2KU6FeB77axF/uWrxizB6XGysyS/tEK9J2wGY=
+X-Received: by 2002:a05:6102:52e:: with SMTP id
+	m14mr18452709vsa.25.1582230926581; 
+	Thu, 20 Feb 2020 12:35:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20200220002849.9126-1-schnitzeltony@gmail.com>
-	<CANNYZj9pFMxP7nYkUOyQ4wcejkr4j+EBqa3OdJZXgEKB7ZtX=Q@mail.gmail.com>
-	<CALbNGRTruaPGSJTNd816++UuYJTyL1=r2KHeKquENLTa=08UWA@mail.gmail.com>
-	<CALbNGRSFZcsh0ZKBgyRX+eg3ThZbRf1ryiVbHU5Y0vZgd0BkTg@mail.gmail.com>
-In-Reply-To: <CALbNGRSFZcsh0ZKBgyRX+eg3ThZbRf1ryiVbHU5Y0vZgd0BkTg@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Feb 2020 12:33:01 -0800
-Message-ID: <CAMKF1srmsrx8Nq4gSj5ZDK0o1d4t8AtDWnjtDgzT1Py8i=Njtg@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+References: <20200220172518.315182-1-raj.khem@gmail.com>
+In-Reply-To: <20200220172518.315182-1-raj.khem@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 20 Feb 2020 21:35:15 +0100
+Message-ID: <CANNYZj_or0Y1M9iE8peDbHe_-whbqAy2zvmoOTVF2aUi2ha=nQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][master-next] webkitgtk: add PACKAGECONFIG gobject-introspection
+Subject: Re: [PATCH V2] dnf, libdnf: Ignore if PACKAGE_CLASSES does not have rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,125 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 20:33:13 -0000
-Content-Type: multipart/alternative; boundary="000000000000683fd6059f07d037"
+X-List-Received-Date: Thu, 20 Feb 2020 20:35:26 -0000
+Content-Type: multipart/alternative; boundary="00000000000054e4d4059f07d817"
 
---000000000000683fd6059f07d037
+--00000000000054e4d4059f07d817
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 20, 2020 at 12:24 PM Andreas M=C3=BCller <schnitzeltony@gmail.c=
-om>
-wrote:
+On Thu, 20 Feb 2020 at 18:25, Khem Raj <raj.khem@gmail.com> wrote:
 
-> On Thu, Feb 20, 2020 at 1:45 PM Andreas M=C3=BCller <schnitzeltony@gmail.=
-com>
-> wrote:
-> >
-> > On Thu, Feb 20, 2020 at 11:07 AM Alexander Kanavin
-> > <alex.kanavin@gmail.com> wrote:
-> > >
-> > > You need to at the same time drop the introspection enablement logic
-> from EXTRA_OECMAKE I think?
-> > > This line:
-> > >
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-sato/web=
-kit/webkitgtk_2.26.4.bb?h=3Dmaster-next#n70
-> > >
-> > > And for consistency, it would be good to do the same for gtk-doc.
-> >
-> > This is odd: I fell over this because there was no gir created. Did
-> > not notice it was few lines below. Need to check that - maybe I am a
-> > bit off-sync to master or something is wrong elsewhere.
-> >
-> > Will sync to master and send V2 then.
-> >
-> Finally had time to look into again. In the recipe there is
->
-> GI_DATA_ENABLED_armv7a =3D "False"
-> GI_DATA_ENABLED_armv7ve =3D "False"
->
-> =3D> My patch is wrong it overrides above accidentally - thanks Alex!
->
-> Since webkit builds gir fine (my machine is armv7ve) that does not
-> seem necessary any more. I would like to send out a patch removing at
-> least armv7ve - shall I take the risk to remove armv7a - maybe as two
-> patches?
-
-
-Perhaps just the part you are
-Confident about
-
->
->
-> Andreas
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> +PNBLACKLIST[dnf] ?= "${@bb.utils.contains('PACKAGE_CLASSES',
+> 'package_rpm', '', 'does not build correctly without package_rpm in
+> PACKAGE_CLASSES', d)}"
 >
 
---000000000000683fd6059f07d037
+I meant that this string is extended:
+"does not build correctly without package_rpm in PACKAGE_CLASSES due to
+disabled rpm support in libsolv"
+
+Otherwise it's vague and doesn't provide the real reason.
+
+Alex
+
+--00000000000054e4d4059f07d817
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Feb 20, 2020 at 12:24 PM Andreas M=C3=BCller &lt;<a=
- href=3D"mailto:schnitzeltony@gmail.com">schnitzeltony@gmail.com</a>&gt; wr=
-ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">On Thu, Feb 20, 2020 at 1:45 P=
-M Andreas M=C3=BCller &lt;<a href=3D"mailto:schnitzeltony@gmail.com" target=
-=3D"_blank">schnitzeltony@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Thu, Feb 20, 2020 at 11:07 AM Alexander Kanavin<br>
-&gt; &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.k=
-anavin@gmail.com</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; You need to at the same time drop the introspection enablement lo=
-gic from EXTRA_OECMAKE I think?<br>
-&gt; &gt; This line:<br>
-&gt; &gt; <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/me=
-ta/recipes-sato/webkit/webkitgtk_2.26.4.bb?h=3Dmaster-next#n70" rel=3D"nore=
-ferrer" target=3D"_blank">http://git.yoctoproject.org/cgit/cgit.cgi/poky/tr=
-ee/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb?h=3Dmaster-next#n70</a><br>
-&gt; &gt;<br>
-&gt; &gt; And for consistency, it would be good to do the same for gtk-doc.=
-<br>
-&gt;<br>
-&gt; This is odd: I fell over this because there was no gir created. Did<br=
->
-&gt; not notice it was few lines below. Need to check that - maybe I am a<b=
-r>
-&gt; bit off-sync to master or something is wrong elsewhere.<br>
-&gt;<br>
-&gt; Will sync to master and send V2 then.<br>
-&gt;<br>
-Finally had time to look into again. In the recipe there is<br>
-<br>
-GI_DATA_ENABLED_armv7a =3D &quot;False&quot;<br>
-GI_DATA_ENABLED_armv7ve =3D &quot;False&quot;<br>
-<br>
-=3D&gt; My patch is wrong it overrides above accidentally - thanks Alex!<br=
->
-<br>
-Since webkit builds gir fine (my machine is armv7ve) that does not<br>
-seem necessary any more. I would like to send out a patch removing at<br>
-least armv7ve - shall I take the risk to remove armv7a - maybe as two<br>
-patches?</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Perhaps =
-just the part you are</div><div dir=3D"auto">Confident about=C2=A0</div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex"><br>
-<br>
-Andreas<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, 20 Feb 2020 at 18:25, Khem Raj &lt;<a href=3D"mailto:raj.khe=
+m@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">+PNBLACKLIST[dnf] ?=3D &quot;${@bb.utils.c=
+ontains(&#39;PACKAGE_CLASSES&#39;, &#39;package_rpm&#39;, &#39;&#39;, &#39;=
+does not build correctly without package_rpm in PACKAGE_CLASSES&#39;, d)}&q=
+uot;<br></blockquote><div><br></div><div>I meant that this string is extend=
+ed:</div><div> &quot;does not build correctly without package_rpm in PACKAG=
+E_CLASSES due to disabled rpm support in libsolv&quot;</div><div><br></div>=
+<div>Otherwise it&#39;s vague and doesn&#39;t provide the real reason.</div=
+><div><br></div><div>Alex<br></div></div></div>
 
---000000000000683fd6059f07d037--
+--00000000000054e4d4059f07d817--
