@@ -1,33 +1,51 @@
-Return-Path: <wangmy@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id B2CB061219
+Return-Path: <wallinux@gmail.com>
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+	[209.85.167.49])
+	by mail.openembedded.org (Postfix) with ESMTP id A3D0060BB8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 05:07:32 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,462,1574092800"; d="scan'208";a="83603235"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 20 Feb 2020 13:07:31 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id F1A2350A9975
+	Thu, 20 Feb 2020 05:24:07 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id 83so621845lfh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 12:57:52 +0800 (CST)
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Thu, 20 Feb 2020 13:07:32 +0800
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Thu, 20 Feb 2020 13:07:40 +0800
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Feb 2020 04:19:06 -0800
-Message-ID: <1582201146-2668-1-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Wed, 19 Feb 2020 21:24:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7Qa8txFJt+7wxMStOvDy4rr4giajutAstFQUErNhV4k=;
+	b=RKX3z78sAL27YtV5C+hfBTF88lxBr37jqxJVOAqzgwBTTDPWRaulXoamzlsMJ0bgjz
+	TcsEzeltwWY6Hx1kqDhPJ94n6Ls70KIaa+SP2jpB2Jjo1LKLd2xRZj8TYwiqQ3wWgutL
+	uOWLKqh/OFgHpa6TQFmhON32EoCd3M5JZZaa45TvW2ttuyBq3c6pcj03xjfQzmaqY3fB
+	yJQOzChlgjm70iSgAcwMObl05wqmjY5VwGilK/RoDOLCy/jsXa/I9xjFilKzfLm/8nOK
+	EVxpiJ51ujJKWGw++Y2SZsIRkxTkVuIVJCXSiqcmk25/7UiJ+rYNbOw9JRSa0i4Hco72
+	s7jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7Qa8txFJt+7wxMStOvDy4rr4giajutAstFQUErNhV4k=;
+	b=h939V7ZREL8mRWut7OD1pYQA6FlgxgY8A4aoA92NAP6MIl4wLIqiReQW521x6zVaZ9
+	nR1swicC2pXL5QhhZZnSV6f1luA/7kGrPdsWczirvxfVewwgeIZ7Z2qe+g5QbTmA7Jhe
+	tYCOO3neY9Jj/wsAMrNBV03Ai0nvt+roOPHjJVa/4VYjBtFLo+5G7bjzQ8tVAxfWjD3s
+	psiRYRlhjWrtncXFyUaaXjjXXzU9bNJVJCfvJfBI0Ik9v9xlVjtncYl07B9bcpXnC+NW
+	tUjDFYsMZA4lqQJz9BkcdMidPepB9kngDSTtgpKQ24HibOYtB2eY00zETT3iM0lzsMzd
+	CNYg==
+X-Gm-Message-State: APjAAAVCKUzM4spWHYg1iRcIGJBPSIkWbh0nJ076NTAaFIFNox2OXPx4
+	j62L4J1dlDoXsd/3cN/+hl7BYBjVvgg=
+X-Google-Smtp-Source: APXvYqxzKYZe0I/4u/Z8aUZyJyz/UYfMxGg8J8AXtqKEoq8PqVZXwSDC599sUSaLdoQ3dPTXdrQ1Xw==
+X-Received: by 2002:ac2:5609:: with SMTP id v9mr3389274lfd.17.1582176247434;
+	Wed, 19 Feb 2020 21:24:07 -0800 (PST)
+Received: from arn-awallin-linux-l5.corp.ad.wrs.com
+	(h-155-4-243-131.NA.cust.bahnhof.se. [155.4.243.131])
+	by smtp.gmail.com with ESMTPSA id
+	d22sm1020590lfi.49.2020.02.19.21.24.06
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 19 Feb 2020 21:24:06 -0800 (PST)
+From: Anders Wallin <wallinux@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Feb 2020 06:23:44 +0100
+Message-Id: <20200220052344.8294-1-wallinux@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: F1A2350A9975.A4A5C
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] mc: upgrade 4.8.23 -> 4.8.24
+Subject: [PATCH v2] babeltrace: added ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,269 +58,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 05:07:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Feb 2020 05:24:08 -0000
+Content-Transfer-Encoding: 8bit
 
-0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
-0001-Add-option-to-control-configure-args.patch
-Removed since they are included in 4.8.24.
-
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Signed-off-by: Anders Wallin <wallinux@gmail.com>
 ---
- ...Add-option-to-control-configure-args.patch |  99 ----------------
- ...29-configure.ac-drop-bundled-gettext.patch | 110 ------------------
- .../mc/{mc_4.8.23.bb => mc_4.8.24.bb}         |   6 +-
- 3 files changed, 2 insertions(+), 213 deletions(-)
- delete mode 100644 meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
- delete mode 100644 meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
- rename meta/recipes-extended/mc/{mc_4.8.23.bb => mc_4.8.24.bb} (88%)
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../recipes-kernel/lttng/babeltrace/run-ptest |  9 ++
+ meta/recipes-kernel/lttng/babeltrace_1.5.8.bb | 82 ++++++++++++++++++-
+ 3 files changed, 90 insertions(+), 2 deletions(-)
+ create mode 100755 meta/recipes-kernel/lttng/babeltrace/run-ptest
 
-diff --git a/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch b/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
-deleted file mode 100644
-index e76aac8161..0000000000
---- a/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
-+++ /dev/null
-@@ -1,99 +0,0 @@
--From a54501d3c9541bc8600225aa2d42531f93c6def7 Mon Sep 17 00:00:00 2001
--From: Joshua Watt <JPEWhacker@gmail.com>
--Date: Sat, 9 Nov 2019 20:01:48 -0600
--Subject: [PATCH] Add option to control configure args
--
--Embedding the configure time options into the executable can lead to
--non-reproducible builds, since configure options often have embedded
--paths. Add a configure time option to control if the configure args are
--embedded so this can be disabled.
--
--Upstream-Status: Submitted [https://midnight-commander.org/ticket/4031]
--Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-----
-- configure.ac   | 6 ++++++
-- src/args.c     | 6 ++++++
-- src/textconf.c | 2 ++
-- 3 files changed, 14 insertions(+)
--
--diff --git a/configure.ac b/configure.ac
--index 19d1a76be..a1948f6b9 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -544,6 +544,12 @@ dnl Clarify do we really need GModule
-- AM_CONDITIONAL([HAVE_GMODULE], [test -n "$g_module_supported" && \
--                                 test x"$textmode_x11_support" = x"yes" -o x"$enable_aspell" = x"yes"])
-- 
--+AC_ARG_ENABLE([configure-args],
--+    AS_HELP_STRING([--enable-configure-args], [Handle all compiler warnings as errors]))
--+if test "x$enable_configure_args" != xno; then
--+    AC_DEFINE([ENABLE_CONFIGURE_ARGS], 1, [Define to enable showing configure arguments in help])
--+fi
--+
-- AC_DEFINE_UNQUOTED([MC_CONFIGURE_ARGS], ["$ac_configure_args"], [MC configure arguments])
-- 
-- AC_CONFIG_FILES(
--diff --git a/src/args.c b/src/args.c
--index baef1a1c8..f8dc24020 100644
----- a/src/args.c
--+++ b/src/args.c
--@@ -95,7 +95,9 @@ static gboolean mc_args__nouse_subshell = FALSE;
-- #endif /* ENABLE_SUBSHELL */
-- static gboolean mc_args__show_datadirs = FALSE;
-- static gboolean mc_args__show_datadirs_extended = FALSE;
--+#ifdef ENABLE_CONFIGURE_ARGS
-- static gboolean mc_args__show_configure_opts = FALSE;
--+#endif
-- 
-- static GOptionGroup *main_group;
-- 
--@@ -125,6 +127,7 @@ static const GOptionEntry argument_main_table[] = {
--      NULL
--     },
-- 
--+#ifdef ENABLE_CONFIGURE_ARGS
--     /* show configure options */
--     {
--      "configure-options", '\0', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE,
--@@ -132,6 +135,7 @@ static const GOptionEntry argument_main_table[] = {
--      N_("Print configure options"),
--      NULL
--     },
--+#endif
-- 
--     {
--      "printwd", 'P', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_STRING,
--@@ -758,11 +762,13 @@ mc_args_show_info (void)
--         return FALSE;
--     }
-- 
--+#ifdef ENABLE_CONFIGURE_ARGS
--     if (mc_args__show_configure_opts)
--     {
--         show_configure_options ();
--         return FALSE;
--     }
--+#endif
-- 
--     return TRUE;
-- }
--diff --git a/src/textconf.c b/src/textconf.c
--index 1e0613e58..f39b9e028 100644
----- a/src/textconf.c
--+++ b/src/textconf.c
--@@ -232,10 +232,12 @@ show_datadirs_extended (void)
-- 
-- /* --------------------------------------------------------------------------------------------- */
-- 
--+#ifdef ENABLE_CONFIGURE_ARGS
-- void
-- show_configure_options (void)
-- {
--     (void) printf ("%s\n", MC_CONFIGURE_ARGS);
-- }
--+#endif
-- 
-- /* --------------------------------------------------------------------------------------------- */
---- 
--2.23.0
--
-diff --git a/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch b/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
-deleted file mode 100644
-index 8f357378d0..0000000000
---- a/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
-+++ /dev/null
-@@ -1,110 +0,0 @@
--From 0d677a014a87b968d79eea2353ac4e342b0fd4ca Mon Sep 17 00:00:00 2001
--From: Sergei Trofimovich <slyfox@gentoo.org>
--Date: Wed, 11 Sep 2019 22:58:18 +0100
--Subject: [PATCH] Ticket #3629: configure.ac: drop bundled gettext
--
--Bundled libintl did not support linking to internal static
--libraries (libmc in our case): directly specified static
--libraries are not pulled by libtool and are not usable for
--dynamic libraries as PIC-related flags are not passed for
--compilation.
--
--This renders bundled libintl library unusable.
--
--The change drops libintl bundling support and always relies
--on external libintl (or falls back to disabled NLS).
--
--On a related note gettext-0.20 drops support for bundling
--or libintl and this change will ease migration to newer version.
--
--The change is tested on x86_64-gentoo-linux-musl: mc builds
--and links all tests successfully. A few tests fail for lack
--of NLS support.
--
--Upstream-Status: Backport [https://github.com/MidnightCommander/mc/commit/f30e6ff283f4bc86177e4360de94dad794678395]
--Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
--Signed-off-by: Andrew Borodin <aborodin@vmail.ru>
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- Makefile.am           | 2 +-
-- configure.ac          | 5 +++--
-- doc/doxygen.cfg       | 2 +-
-- lib/Makefile.am       | 2 +-
-- m4.include/mc-i18n.m4 | 5 -----
-- 5 files changed, 6 insertions(+), 10 deletions(-)
--
--diff --git a/Makefile.am b/Makefile.am
--index ac05a83..f86f6ed 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -1,7 +1,7 @@
-- ## Process this file with automake to create Makefile.in.
-- AUTOMAKE_OPTIONS = 1.5
-- 
---SUBDIRS = intl po lib src doc contrib misc
--+SUBDIRS = po lib src doc contrib misc
-- 
-- if HAVE_TESTS
--     SUBDIRS += tests
--diff --git a/configure.ac b/configure.ac
--index a1948f6..bbc9e71 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -272,7 +272,9 @@ dnl ############################################################################
-- dnl Internationalization
-- dnl ############################################################################
-- 
---AM_GNU_GETTEXT([no-libtool], [need-ngettext])
--+AC_CHECK_FUNCS([setlocale])
--+
--+AM_GNU_GETTEXT([external], [need-ngettext])
-- AM_GNU_GETTEXT_VERSION([0.18.1])
-- 
-- mc_I18N
--@@ -680,7 +682,6 @@ doc/hlp/pl/Makefile
-- doc/hlp/ru/Makefile
-- doc/hlp/sr/Makefile
-- 
---intl/Makefile
-- po/Makefile.in
-- ])
-- 
--diff --git a/doc/doxygen.cfg b/doc/doxygen.cfg
--index 07bc973..1118062 100644
----- a/doc/doxygen.cfg
--+++ b/doc/doxygen.cfg
--@@ -91,7 +91,7 @@ FILE_PATTERNS          = *.c \
-- RECURSIVE              = YES
-- EXCLUDE                =
-- EXCLUDE_SYMLINKS       = NO
---EXCLUDE_PATTERNS       = */intl/* */tests/* */.git/*
--+EXCLUDE_PATTERNS       = */tests/* */.git/*
-- EXCLUDE_SYMBOLS        =
-- EXAMPLE_PATH           = $(SRCDIR)
-- EXAMPLE_PATTERNS       =
--diff --git a/lib/Makefile.am b/lib/Makefile.am
--index c448e2d..455f9dd 100644
----- a/lib/Makefile.am
--+++ b/lib/Makefile.am
--@@ -74,4 +74,4 @@ else
--     libmc_la_LIBADD += $(GLIB_LIBS)
-- endif
-- 
---libmc_la_LIBADD += $(PCRE_LIBS) $(LIBICONV) $(LIBINTL)
--+libmc_la_LIBADD += $(PCRE_LIBS)
--diff --git a/m4.include/mc-i18n.m4 b/m4.include/mc-i18n.m4
--index dd10d00..ec08324 100644
----- a/m4.include/mc-i18n.m4
--+++ b/m4.include/mc-i18n.m4
--@@ -8,11 +8,6 @@ dnl @license GPL
-- dnl @copyright Free Software Foundation, Inc.
-- 
-- AC_DEFUN([mc_I18N],[
---
---    if test "x$USE_INCLUDED_LIBINTL" = xyes; then
---        CPPFLAGS="$CPPFLAGS -I\$(top_builddir)/intl -I\$(top_srcdir)/intl"
---    fi
---
--     dnl User visible support for charset conversion.
--     AC_ARG_ENABLE([charset],
--         AS_HELP_STRING([--enable-charset], [Support for charset selection and conversion @<:@yes@:>@]))
-diff --git a/meta/recipes-extended/mc/mc_4.8.23.bb b/meta/recipes-extended/mc/mc_4.8.24.bb
-similarity index 88%
-rename from meta/recipes-extended/mc/mc_4.8.23.bb
-rename to meta/recipes-extended/mc/mc_4.8.24.bb
-index ead348b92e..7a68270dd2 100644
---- a/meta/recipes-extended/mc/mc_4.8.23.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.24.bb
-@@ -9,12 +9,10 @@ RRECOMMENDS_${PN} = "ncurses-terminfo"
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 23865ac3e1..752a0882dc 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -61,6 +61,7 @@ PTESTS_FAST = "\
+ #"
  
- SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
-            file://0001-mc-replace-perl-w-with-use-warnings.patch \
--           file://0001-Add-option-to-control-configure-args.patch \
--           file://0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch \
-            file://nomandate.patch \
-            "
--SRC_URI[md5sum] = "152927ac29cf0e61d7d019f261bb7d89"
--SRC_URI[sha256sum] = "238c4552545dcf3065359bd50753abbb150c1b22ec5a36eaa02c82808293267d"
-+SRC_URI[md5sum] = "2621de1fa9058a9c41a4248becc969f9"
-+SRC_URI[sha256sum] = "cfcc4d0546d0c3a88645a8bf71612ed36647ea3264d973b1f28183a0c84bae34"
+ PTESTS_SLOW = "\
++    babeltrace-ptest \
+     busybox-ptest \
+     dbus-test-ptest \
+     e2fsprogs-ptest \
+diff --git a/meta/recipes-kernel/lttng/babeltrace/run-ptest b/meta/recipes-kernel/lttng/babeltrace/run-ptest
+new file mode 100755
+index 0000000000..f4b7ce11e2
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/babeltrace/run-ptest
+@@ -0,0 +1,9 @@
++#!/bin/sh
++# use target=recheck if you want to recheck failing tests
++[ "$target" = "" ] && target=check
++
++# Without --ignore-exit, the tap harness causes any FAILs within a
++# test plan to raise ERRORs; this is just noise.
++makeargs="LOG_DRIVER_FLAGS=--ignore-exit top_srcdir=$PWD top_builddir=$PWD"
++
++exec make -C tests -k -s $makeargs $target 2>/dev/null
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
+index b6b7653037..c050dc674d 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
+@@ -7,14 +7,92 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=76ba15dd76a248e1dd526bca0e2125fa"
  
- inherit autotools gettext pkgconfig
+ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
  
+-SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-1.5"
++SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-1.5 \
++	   file://run-ptest \
++	  "
+ SRCREV = "054a54ae10b01a271afc4f19496c041b10fb414c"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)$"
+ 
+ S = "${WORKDIR}/git"
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig ptest
+ 
+ EXTRA_OECONF = "--disable-debug-info"
+ 
+ ASNEEDED = ""
++
++RDEPENDS_${PN}-ptest += "bash gawk"
++
++addtask do_patch_ptest_path after do_patch before do_configure
++do_patch_ptest_path () {
++    for f in $(grep -l -r abs_top_srcdir ${S}/tests); do
++	sed -i 's:\@abs_top_srcdir\@:${PTEST_PATH}:' ${f}
++    done
++
++    for f in $(grep -l -r abs_top_builddir ${S}/tests); do
++	sed -i 's:\@abs_top_builddir\@:${PTEST_PATH}:' ${f}
++    done
++    for f in $(grep -l -r GREP ${S}/tests); do
++	sed -i 's:\@GREP\@:grep:' ${f}
++    done
++
++    for f in $(grep -l -r SED ${S}/tests); do
++	sed -i 's:\@SED\@:sed:' ${f}
++    done
++}
++
++do_compile_ptest () {
++    make -C tests all
++}
++
++do_install_ptest () {
++    # Copy required files from source directory
++    for f in config/tap-driver.sh config/test-driver; do
++	install -D "${S}/$f" "${D}${PTEST_PATH}/$f"
++    done
++    install -d "$f" "${D}${PTEST_PATH}/tests/ctf-traces/"
++    cp -a ${S}/tests/ctf-traces/* ${D}${PTEST_PATH}/tests/ctf-traces/
++
++    # Copy the tests directory tree and the executables and
++    # Makefiles found within.
++    install -D "${B}/tests/Makefile" "${D}${PTEST_PATH}/tests/"
++    for d in $(find "${B}/tests" -type d -not -name .libs -printf '%P ') ; do
++	install -d "${D}${PTEST_PATH}/tests/$d"
++	find "${B}/tests/$d" -maxdepth 1 -executable -type f \
++	     -exec install -t "${D}${PTEST_PATH}/tests/$d" {} +
++	test -r "${B}/tests/$d/Makefile" && \
++	    install -t "${D}${PTEST_PATH}/tests/$d" "${B}/tests/$d/Makefile"
++	find "${B}/tests/$d" -maxdepth 1 -name *.sh \
++	     -exec install -t "${D}${PTEST_PATH}/tests/$d" {} \;
++    done
++
++    for d in $(find "${B}/tests" -type d -name .libs -printf '%P ') ; do
++	for f in $(find "${B}/tests/$d" -maxdepth 1 -executable -type f -printf '%P ') ; do
++	    cp ${B}/tests/$d/$f ${D}${PTEST_PATH}/tests/`dirname $d`/$f
++	done
++    done
++
++    install -D ${B}/formats/ctf/metadata/.libs/ctf-parser-test \
++	    ${D}${PTEST_PATH}/formats/ctf/metadata/ctf-parser-test
++
++    # Prevent attempts to update Makefiles during test runs, and
++    # silence "Making check in $SUBDIR" messages.
++    find "${D}${PTEST_PATH}" -name Makefile -type f -exec \
++	 sed -i \
++	 -e '/Makefile:/,/^$/d' \
++	 -e '/$(check_SCRIPTS)/s/^/#/' \
++	 -e '/%: %.in/,/^$/d' \
++	 -e '/echo "Making $$target in $$subdir"; \\/d' \
++	 -e 's/^srcdir = \(.*\)/srcdir = ./' \
++	 -e 's/^builddir = \(.*\)/builddir = ./' \
++	 -e 's/^all-am:.*/all-am:/' \
++	 {} +
++
++    # Remove path to babeltrace.
++    for f in $(grep -l -r "^BABELTRACE_BIN" ${D}${PTEST_PATH}); do
++	sed -i 's:^BABELTRACE_BIN.*:BABELTRACE_BIN=/usr/bin/babeltrace:' ${f}
++    done
++    for f in $(grep -l -r "^BTBIN" ${D}${PTEST_PATH}); do
++	sed -i 's:^BTBIN.*:BTBIN=/usr/bin/babeltrace:' ${f}
++    done
++}
 -- 
-2.17.1
-
-
+2.25.0
 
 
