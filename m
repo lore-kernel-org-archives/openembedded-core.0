@@ -1,44 +1,49 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CCB2611E5
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
+	[209.85.166.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D90D6132B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 20:20:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=axis.com; l=2705; q=dns/txt; s=axis-central1;
-	t=1582230005; x=1613766005;
-	h=from:to:subject:date:message-id:references:in-reply-to:
-	content-transfer-encoding:mime-version;
-	bh=4AYJPE5K3hqAhw45fpI12uLieF+0Sqof6y5hxhRZerY=;
-	b=eIzmA6R85fnZmsGEE/60o7BFkt3itSJ/M2pphA/MUjtvkjHEuxW3Ba40
-	kBYf9QTylTSTm8KzIKV4uSwrfP+Covc77n0zm/i7tHdhIpMu/EZWed0vS
-	1uiPa3kENyLfuw4vSUkG+KwpCxIO4aIDTw3S8kwNrR9pIxgvly8bVLAYE
-	Tnr5awKtpG0d9WVPf7evaoeX62En4czIeqqZlle/IQ8OGvMy7z6x9KeHp
-	Tgnmph99dTtfPsLlZsiHjbF0vF+2VHQj5IRbK5i6i7SpJvTLacmKSTop9
-	GcC99QTA/NCFcBF/kMKCfy+zeEydL0bVTxae4ikFjLJF4FmI4Su56Tt07 w==;
-IronPort-SDR: fj8oajYK7i0NADYm0StvDN8b9vUNI3+5KeNuB3oAJuj90Mp7/MByFVwUYc6Z1RCCi+iiPKJ0Wj
-	A7pylQUP2T3WY9lNDIamqSWoBC+NENFkwGq8Fj+6BolHKO5RgXhh4tDtySuaKJ2IV1CwG1WVgN
-	kj+Q0IK6HaBlO1EjdvzlvtCZcajPT6oooTdOffm5r1w2J+V+dwczMmfeoa0VmB34rOfhQciYmC
-	PrbLt+xUDgIvDaLByGeV6NZKTWxSEUTc5mu34KM3Gv4ocicPi4rjOWygUyYhlgVAravxlIAkQr
-	2eg=
-X-IronPort-AV: E=Sophos;i="5.70,465,1574118000"; 
-   d="scan'208";a="5500861"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] Revert "rootfs: Make BUILDNAME a weak default
-	in	reproducible_build_simple"
-Thread-Index: AQHV3w8rwJJZVSur60iAVi4Du6zOXKgkl/LQ
-Date: Thu, 20 Feb 2020 20:19:58 +0000
-Message-ID: <484d72b91f934887b89efbc1d087024d@XBOX03.axis.com>
-References: <20200209060658.800-1-pkj@axis.com>
-In-Reply-To: <20200209060658.800-1-pkj@axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Thu, 20 Feb 2020 20:24:40 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id z8so6205195ioh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Feb 2020 12:24:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=yf1KOO4TOV5LDLPpEkeQiBkuzha39CKpEpHUjYOpcY0=;
+	b=FT9nl8Ycz0vP+Olk5uTXBXrFErArSB54Ba9OWY35D4e8+yGGCPDVXdvH/ChlKc6Xi2
+	26hlIhAmSGlFV6HIKBtRCjTk6YxXqMzQPY+DsivFOAMSj4rRKRVZ+aXFtHsIE4wRLeom
+	RVs+0HAjZiQSTbd40ObH7SE6x3fXAu3Jptsl9NtjcWnCCZ83fPzMUoMivJXH+6Ncl8+e
+	QmaVpw65anL6zA1WB+Xx/VnZ+PlH3NP0/ShWw2ZDfSM4wZe/5AciOt41VAtPgBRjHpDl
+	r99hhKPpMgEaOaisLJvNcGzQmQRj1fBm3kORlKPxuk6XP60RIAM+iQM8SmwodsKvYujt
+	Cyuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=yf1KOO4TOV5LDLPpEkeQiBkuzha39CKpEpHUjYOpcY0=;
+	b=A1vdP9XhOBsmYHIItheneRLAjFspWKUMWtgLdeq1VZkd31ImJhwvDenHakt5TEHolr
+	xRUw0v1xE+cZ0G3SuQLnCNYsr7+zqL6h6mIIlGi7Lr6IzByxnRBCmOp79IrIFgixZWXD
+	iw4Y2IXe6c0U8UXXqk0j7s5xjGD9DSf0UjX0C9Isp+NT5dVxpMrIt7lsUZOPlwMkXSRl
+	AKCLJkdkshNRsUijwmhYVe+GShHHnDp+TNFejnhb+BI2gSjiZsiG4U8HR0RtTylggasE
+	fh1VJLv62ngF05Uhguzsl+JzwtRoMDIt+ZN8v/IZWz+MXzEmv3vqiAbVLP5bmnd9rG9Q
+	D/QQ==
+X-Gm-Message-State: APjAAAUJ3LBqXH0+NmWipVgJ2QAVuOTQaG6pPScpodwm58+iza8udoZW
+	7GZpbjVrNLUYo3KUxttle98WsVC1H3obzgSydxE=
+X-Google-Smtp-Source: APXvYqyBZyqIQcgHYaFqW3YrY7ykv08c7QRxvNaSl+G1QK3TnHlC/aFHd4rRcscEDQIxOmoGqA+N3x4hSB87ASgEYWs=
+X-Received: by 2002:a6b:7846:: with SMTP id h6mr27659375iop.224.1582230281224; 
+	Thu, 20 Feb 2020 12:24:41 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH] Revert "rootfs: Make BUILDNAME a weak default in	reproducible_build_simple"
+References: <20200220002849.9126-1-schnitzeltony@gmail.com>
+	<CANNYZj9pFMxP7nYkUOyQ4wcejkr4j+EBqa3OdJZXgEKB7ZtX=Q@mail.gmail.com>
+	<CALbNGRTruaPGSJTNd816++UuYJTyL1=r2KHeKquENLTa=08UWA@mail.gmail.com>
+In-Reply-To: <CALbNGRTruaPGSJTNd816++UuYJTyL1=r2KHeKquENLTa=08UWA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 20 Feb 2020 21:24:29 +0100
+Message-ID: <CALbNGRSFZcsh0ZKBgyRX+eg3ThZbRf1ryiVbHU5Y0vZgd0BkTg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][master-next] webkitgtk: add PACKAGECONFIG gobject-introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,76 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 20:20:04 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Thu, 20 Feb 2020 20:24:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-*ping*
+On Thu, Feb 20, 2020 at 1:45 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
+m> wrote:
+>
+> On Thu, Feb 20, 2020 at 11:07 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> >
+> > You need to at the same time drop the introspection enablement logic fr=
+om EXTRA_OECMAKE I think?
+> > This line:
+> > http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-sato/w=
+ebkit/webkitgtk_2.26.4.bb?h=3Dmaster-next#n70
+> >
+> > And for consistency, it would be good to do the same for gtk-doc.
+>
+> This is odd: I fell over this because there was no gir created. Did
+> not notice it was few lines below. Need to check that - maybe I am a
+> bit off-sync to master or something is wrong elsewhere.
+>
+> Will sync to master and send V2 then.
+>
+Finally had time to look into again. In the recipe there is
 
-//Peter
+GI_DATA_ENABLED_armv7a =3D "False"
+GI_DATA_ENABLED_armv7ve =3D "False"
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 9 februari 2020 07:07
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH] Revert "rootfs: Make BUILDNAME a weak default
-> in reproducible_build_simple"
->=20
-> This reverts commit 8380df6566db49ef184b837432558750f77f592f.
->=20
-> Giving BUILDNAME a static default in reproducible_build_simple.bbclass
-> to have /etc/version be generated with that name lead to other users
-> of BUILDNAME no longer working as expected. E.g., buildstats.bcclass
-> would now write its information in a single directory, overwriting the
-> statistics for each build.
->=20
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/classes/reproducible_build_simple.bbclass | 1 -
->  meta/classes/rootfs-postcommands.bbclass       | 5 +++++
->  2 files changed, 5 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/reproducible_build_simple.bbclass
-> b/meta/classes/reproducible_build_simple.bbclass
-> index 3e5fd82432..393372993d 100644
-> --- a/meta/classes/reproducible_build_simple.bbclass
-> +++ b/meta/classes/reproducible_build_simple.bbclass
-> @@ -7,4 +7,3 @@ export PERL_HASH_SEED =3D "0"
->  export SOURCE_DATE_EPOCH ??=3D "1520598896"
->=20
->  REPRODUCIBLE_TIMESTAMP_ROOTFS ??=3D "1520598896"
-> -BUILDNAME ??=3D "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"
-> diff --git a/meta/classes/rootfs-postcommands.bbclass
-> b/meta/classes/rootfs-postcommands.bbclass
-> index e40097444d..2f171836fa 100644
-> --- a/meta/classes/rootfs-postcommands.bbclass
-> +++ b/meta/classes/rootfs-postcommands.bbclass
-> @@ -356,6 +356,11 @@ python rootfs_log_check_recommends() {
->  # Perform any additional adjustments needed to make rootf binary
-> reproducible
->  rootfs_reproducible () {
->  	if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" !=3D "" ]; then
-> +		# Convert UTC into %4Y%2m%2d%2H%2M%2S
-> +		sformatted=3D`date -u -d
-> @${REPRODUCIBLE_TIMESTAMP_ROOTFS} +%4Y%2m%2d%2H%2M%2S`
-> +		echo $sformatted > ${IMAGE_ROOTFS}/etc/version
-> +		bbnote "rootfs_reproducible: set /etc/version to
-> $sformatted"
-> +
->  		if [ -d ${IMAGE_ROOTFS}${sysconfdir}/gconf ]; then
->  			find ${IMAGE_ROOTFS}${sysconfdir}/gconf -
-> name '%gconf.xml' -print0 | xargs -0r \
->  			sed -i -e 's@\bmtime=3D"[0-9][0-
-> 9]*"@mtime=3D"'${REPRODUCIBLE_TIMESTAMP_ROOTFS}'"@g'
-> --
-> 2.21.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+=3D> My patch is wrong it overrides above accidentally - thanks Alex!
+
+Since webkit builds gir fine (my machine is armv7ve) that does not
+seem necessary any more. I would like to send out a patch removing at
+least armv7ve - shall I take the risk to remove armv7a - maybe as two
+patches?
+
+Andreas
 
