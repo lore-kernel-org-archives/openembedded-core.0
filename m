@@ -1,50 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 91D3160B1F
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
+	[209.85.222.41])
+	by mail.openembedded.org (Postfix) with ESMTP id EBA3E60203
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 10:02:05 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id a9so1326975wmj.3
+	Thu, 20 Feb 2020 10:07:48 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id k24so1185465uaq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 02:02:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=6GMBVv3nax+xKA9uc3CZN/myXFq5d2dCD7qL41dvmTE=;
-	b=APmYL3hQWd4u4H2H1jjYkCMOKVCdAgk2HjRiktjQeAOejf3glPsmeT1+58VuthQ4Ow
-	Zn9fB8pr+wFi+vb5NO1uF0P2bnuJgHcGFjRWWW2PtoMf3OBHmqna21XyAUt6ITt3MTBd
-	UsKe6cn1p+hGClJLIPkw+I5YNMwRx8pmajFs0=
+	Thu, 20 Feb 2020 02:07:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=DX2M58H3A5lKWmgwJT0+wUFljkr5viavW6W/mOQTIYI=;
+	b=ZVHZhzKLPBI3jkZ6UFnApxvnBlFcrFT/+jFJbDK/dh0SH3OPfU0DWE15j9EfkcmDnf
+	KwVQREcJh2WLfBgsL2zl3KGf0ghEScKu5TrLjTW6M6m7v7oISCfsll0+Nzkxse5lZNly
+	3KV/hbKiRy923Qq+fXuhKxAgTzBoLi1X4uqaB10nNiN/ISo0LlK/K1J4nQQQIMN6Uaux
+	6RhE9K9vOBPEVW6bUlMMN0AJ0yNYxuxTYddP51U5eYArPWikHAm3JBGYmlS2x1UsaGXh
+	hXhTbgYqGNNdHSWa/WTxvZ4FMzVx2KEkno35l5rRp7VTHtkg+4YjRMN8LXuExzgHLr9d
+	k6Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=6GMBVv3nax+xKA9uc3CZN/myXFq5d2dCD7qL41dvmTE=;
-	b=s8CIHtYgKUVB19RdYmN9oEqTqvNhuZS1Yqy9ClQXPiboF1XL5a8cHJE5GcKz8Mn0wE
-	JPsr4/o926FL9UOIzx8qAQJs5N6r4mbRZEGjBSrJTD2G8T6C3MQiwLPsBJ8EMiR7JeEv
-	+c09jSlkF5aupkIsYIRF3jrORly0uoJu01Jt34KXMV650vSNjrBFfZOcKVk5wFsZZvMR
-	QQEPuXAQur6kr5Pd9x14kkHSVQWJi5e470yP2xrdFy/vmI0E3ave6KLHK/TZ46r/tpFg
-	ZIll5eaIYRQEIj81IqHLBS3TFKiLOsJUccx/GfVo3ZYNmCqCehxk25iQ/utVavyyaOyg
-	zNpw==
-X-Gm-Message-State: APjAAAWSK7wzeZeYHWLMzhwZfJhqWxFFRz31jYlJUUaSBE6Vczri2YE3
-	pfklp2gnvSQIrsMTiLbsevdhBw==
-X-Google-Smtp-Source: APXvYqymc3zSIXEpFCH41//oCwvEhJ4w5ZoF0NVkptPkd86Xt6/HVwLinag1cdiVmmW0oodZNuAimA==
-X-Received: by 2002:a1c:7419:: with SMTP id p25mr3629761wmc.159.1582192926179; 
-	Thu, 20 Feb 2020 02:02:06 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	a26sm3916715wmm.18.2020.02.20.02.02.03
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 20 Feb 2020 02:02:04 -0800 (PST)
-Message-ID: <4688fc5ac550088b553d602ef1ecb110447a9100.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Li Zhou <li.zhou@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 20 Feb 2020 10:02:02 +0000
-In-Reply-To: <1582165584-187223-1-git-send-email-li.zhou@windriver.com>
-References: <1582165584-187223-1-git-send-email-li.zhou@windriver.com>
-User-Agent: Evolution 3.34.1-4 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=DX2M58H3A5lKWmgwJT0+wUFljkr5viavW6W/mOQTIYI=;
+	b=LLLSeKFIZPNqg/Cec9quaAP6+jzKZsl0gn1LSln9GfULXawqhe/GCahDF2216K2gMC
+	Vosk3gnPV7n1vfGRCT198WxhlJEG6MMmMkX9lNwsg/yyilV3lB4XXoT2w8ldup5v44Hn
+	NwScLcViMOlsHlC+SR1URBoVbeVE9scPfFKbg7gFYqZ6k3Zh2h6qu8I2Yy6+05iQFx2R
+	ZceB9d11mNJ8k4n5JUVdbECG6OJl3sSOazTHjhl1eh6WPw64XgHEETs1ML5WFMa1UuS5
+	0+zRsQFz0ddgiBeu8UIWGcYdoDvuZzbra7pdah+dJDeuBJ+uMg07sHvi2yh8fH6ajGNK
+	5vDQ==
+X-Gm-Message-State: APjAAAW66TBd0cwmH5c02mn3IptlpT63pzHQ865LrmGAqNnIsaQaYGLC
+	p/+dN8atVki3ueB6W9JNdr3kY+zsB+qMpS5TsV4=
+X-Google-Smtp-Source: APXvYqzZlmYpryMC9gi7hEb+zuo224bZ9RTJgpbdaarCcZJV7wx//wFOYQ0ZFLQiXy9lx7WPiflUQ0sTgjFu8NsQW6A=
+X-Received: by 2002:ab0:4aca:: with SMTP id t10mr16477433uae.89.1582193269516; 
+	Thu, 20 Feb 2020 02:07:49 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH] lttng-modules: Check the pid_ns before using it because it may be NULL
+References: <20200220002849.9126-1-schnitzeltony@gmail.com>
+In-Reply-To: <20200220002849.9126-1-schnitzeltony@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 20 Feb 2020 11:08:12 +0100
+Message-ID: <CANNYZj9pFMxP7nYkUOyQ4wcejkr4j+EBqa3OdJZXgEKB7ZtX=Q@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][master-next] webkitgtk: add PACKAGECONFIG gobject-introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,79 +53,201 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 10:02:05 -0000
+X-List-Received-Date: Thu, 20 Feb 2020 10:07:49 -0000
+Content-Type: multipart/alternative; boundary="000000000000cbabac059eff137a"
+
+--000000000000cbabac059eff137a
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2020-02-20 at 10:26 +0800, Li Zhou wrote:
-> Check the pid_ns before using it because it may be NULL to fix below
-> issue:
-> <1>[ 22.637196] Unable to handle kernel NULL pointer dereference at
-> virtual address 0000000000000080
-> <1>[ 22.645982] Mem abort info:
-> <1>[ 22.648769] ESR = 0x96000007
-> <1>[ 22.651817] Exception class = DABT (current EL), IL = 32 bits
-> <1>[ 22.657730] SET = 0, FnV = 0
-> <1>[ 22.660777] EA = 0, S1PTW = 0
-> <1>[ 22.663910] Data abort info:
-> <1>[ 22.666784] ISV = 0, ISS = 0x00000007
-> <1>[ 22.670611] CM = 0, WnR = 0
-> <1>[ 22.673574] user pgtable: 4k pages, 39-bit VAs, pgdp =
-> 0000000012378f78
-> <1>[ 22.680180] [0000000000000080] pgd=000000007f023003,
-> pud=000000007f023003, pmd=000000007f01f003, pte=0000000000000000
-> <0>[ 22.690794] Internal error: Oops: 96000007 [#1] PREEMPT SMP
-> <4>[ 22.690797] Modules linked in: adkNetD ncp
-> lttng_ring_buffer_client_overwrite(C)
-> lttng_ring_buffer_metadata_client(C)
-> lttng_ring_buffer_client_discard(C)
-> lttng_ring_buffer_client_mmap_overwrite(C)
-> lttng_ring_buffer_client_mmap_discard(C)
-> lttng_ring_buffer_metadata_mmap_client(C) lttng_probe_signal(C)
-> lttng_probe_printk(C) lttng_probe_sched(C) lttng_probe_irq(C)
-> lttng_tracer(C) lttng_statedump(C) lttng_ftrace(C)
-> lttng_lib_ring_buffer(C) lttng_clock_plugin_arm_cntpct(C)
-> lttng_clock(C)
-> <0>[ 22.690823] Process lttng-sessiond (pid: 3093, stack limit =
-> 0x000000005d27910f)
-> <4>[ 22.690828] CPU: 1 PID: 3093 Comm: lttng-sessiond Tainted: G C
-> 4.18.37-rt820-custom #1
-> <4>[ 22.690830] Hardware name: DUS33 (CPM2-20) (DT)
-> <4>[ 22.690833] pstate: 60000005 (nZCv daif -PAN -UAO)
-> <4>[ 22.690845] pc : do_lttng_statedump+0xcc/0x8a8 [lttng_statedump]
-> <4>[ 22.690849] lr : do_lttng_statedump+0xc4/0x8a8 [lttng_statedump]
-> <4>[ 22.690851] sp : ffffffc07fe57ad0
-> <4>[ 22.690852] x29: ffffffc07fe57ad0 x28: ffffffc008ae2700
-> <4>[ 22.690856] x27: ffffff8000724000 x26: 0000000000000001
-> <4>[ 22.690859] x25: ffffff80089c9620 x24: 0000000000000000
-> <4>[ 22.690862] x23: ffffffc008ae2e10 x22: ffffff80089d3380
-> <4>[ 22.690865] x21: ffffffc07f450000 x20: ffffffc008ae2700
-> <4>[ 22.690869] x19: 0000000000000007 x18: 00000000fffffffe
-> <4>[ 22.690871] x17: 0000000000000000 x16: ffffff800824b980
-> <4>[ 22.690874] x15: 0000000000000000 x14: 736162203b656e6f
-> <4>[ 22.690877] x13: 6e203d20676e6964 x12: 0000000000000000
-> <4>[ 22.690880] x11: 0101010101010101 x10: 7f7f7f7f7f7f7f7f
-> <4>[ 22.690882] x9 : 3c1f647968721eff x8 : ffffffc0877504c8
-> <4>[ 22.690886] x7 : 09093a7c093a7c08 x6 : ffffff8010c4b317
-> <4>[ 22.690888] x5 : 0000000000000000 x4 : 00000040a7575000
-> <4>[ 22.690891] x3 : ffffffc008ae2e28 x2 : 0000000000000000
-> <4>[ 22.690894] x1 : 0000000000000000 x0 : 0000000000000000
-> <4>[ 22.690896] Call trace:
-> <4>[ 22.690902] do_lttng_statedump+0xcc/0x8a8 [lttng_statedump]
-> <4>[ 22.690905] lttng_statedump_start+0x20/0x30 [lttng_statedump]
-> <4>[ 22.690981] lttng_session_enable+0xf0/0x120 [lttng_tracer]
-> <4>[ 22.691018] lttng_session_ioctl+0x22c/0x328 [lttng_tracer]
-> <4>[ 22.691026] compat_sys_ioctl+0x110/0x778
-> 
-> Signed-off-by: Li Zhou <li.zhou@windriver.com>
+You need to at the same time drop the introspection enablement logic from
+EXTRA_OECMAKE I think?
+This line:
+http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-sato/webki=
+t/webkitgtk_2.26.4.bb?h=3Dmaster-next#n70
 
-Are upstream aware of this issue? I'd really like their opinion on this
-before we merge anything.
+And for consistency, it would be good to do the same for gtk-doc.
 
-Cheers,
+Alex
 
-Richard
+${@bb.utils.contains('GI_DATA_ENABLED', 'True',
+'-DENABLE_INTROSPECTION=3DON', '-DENABLE_INTROSPECTION=3DOFF', d)} \
+
+${@bb.utils.contains('GI_DATA_ENABLED', 'True',
+'-DENABLE_INTROSPECTION=3DON', '-DENABLE_INTROSPECTION=3DOFF', d)} \
 
 
+On Thu, 20 Feb 2020 at 01:29, Andreas M=C3=BCller <schnitzeltony@gmail.com>
+wrote:
 
+> Enable if 'gobject-introspection-data' is in DISTRO_FEATURES. This is wha=
+t
+> gobject-introspection.bbclass does automatically for projects build with
+> autotools and meson.
+>
+> It was checked: there are webkitgtk and libdnf inheriting
+> gobject-introspection
+> and cmake. Since libdnf cannot configure gir, webkitgtk seems the only
+> project
+> requiring gir-auto-enabling. So handle at recipe / no common magic at
+> gobject-introspection.bbclass required.
+>
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> ---
+>
+> This patch applies on top of master-next/Alex's patches sent
+>
+>  meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+> b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+> index 585723772e..d5085620d2 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+> +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+> @@ -39,6 +39,7 @@ DEPENDS =3D "zlib libsoup-2.4 curl libxml2 cairo libxsl=
+t
+> libxt libidn libgcrypt \
+>            "
+>
+>  PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11'=
+,
+> d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES',
+> 'gobject-introspection-data', 'gobject-introspection', '' ,d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
+> 'webgl opengl', '' ,d)} \
+>                     enchant \
+>                     libsecret \
+> @@ -46,6 +47,7 @@ PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURE=
+S',
+> 'wayland x11', d)} \
+>
+>  PACKAGECONFIG[wayland] =3D
+> "-DENABLE_WAYLAND_TARGET=3DON,-DENABLE_WAYLAND_TARGET=3DOFF,wayland libwp=
+e
+> wpebackend-fdo wayland-native"
+>  PACKAGECONFIG[x11] =3D
+> "-DENABLE_X11_TARGET=3DON,-DENABLE_X11_TARGET=3DOFF,virtual/libx11"
+> +PACKAGECONFIG[gobject-introspection] =3D
+> "-DENABLE_INTROSPECTION=3DON,-DENABLE_INTROSPECTION=3DOFF"
+>  PACKAGECONFIG[geoclue] =3D
+> "-DENABLE_GEOLOCATION=3DON,-DENABLE_GEOLOCATION=3DOFF,geoclue"
+>  PACKAGECONFIG[enchant] =3D
+> "-DENABLE_SPELLCHECK=3DON,-DENABLE_SPELLCHECK=3DOFF,enchant2"
+>  PACKAGECONFIG[gtk2] =3D
+> "-DENABLE_PLUGIN_PROCESS_GTK2=3DON,-DENABLE_PLUGIN_PROCESS_GTK2=3DOFF,gtk=
++"
+> --
+> 2.21.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--000000000000cbabac059eff137a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">You nee=
+d to at the same time drop the introspection enablement logic from EXTRA_OE=
+CMAKE I think?</div><div>This line:</div><div><a href=3D"http://git.yoctopr=
+oject.org/cgit/cgit.cgi/poky/tree/meta/recipes-sato/webkit/webkitgtk_2.26.4=
+.bb?h=3Dmaster-next#n70">http://git.yoctoproject.org/cgit/cgit.cgi/poky/tre=
+e/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb?h=3Dmaster-next#n70</a><br><=
+/div><div dir=3D"ltr"><br></div><div>And for consistency, it would be good =
+to do the same for gtk-doc.</div><div dir=3D"ltr"><br></div><div>Alex</div>=
+<div dir=3D"ltr"><br></div><div dir=3D"ltr"><span style=3D"color:rgb(255,25=
+5,255);font-size:13.333333015441895px">${@bb.utils.contains(&#39;GI_DATA_EN=
+ABLED&#39;, &#39;True&#39;, &#39;-DENABLE_INTROSPECTION=3DON&#39;, &#39;-DE=
+NABLE_INTROSPECTION=3DOFF&#39;, d)} \</span>=C2=A0<div><pre style=3D"paddin=
+g:0px;margin-top:0px;margin-bottom:0px;color:rgb(255,255,255);font-size:13.=
+333333015441895px"><code>${@bb.utils.contains(&#39;GI_DATA_ENABLED&#39;, &#=
+39;True&#39;, &#39;-DENABLE_INTROSPECTION=3DON&#39;, &#39;-DENABLE_INTROSPE=
+CTION=3DOFF&#39;, d)} \</code></pre></div></div></div></div></div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 20 Feb =
+2020 at 01:29, Andreas M=C3=BCller &lt;<a href=3D"mailto:schnitzeltony@gmai=
+l.com">schnitzeltony@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;borde=
+r-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">Ena=
+ble if &#39;gobject-introspection-data&#39; is in DISTRO_FEATURES. This is =
+what<br>
+gobject-introspection.bbclass does automatically for projects build with<br=
+>
+autotools and meson.<br>
+<br>
+It was checked: there are webkitgtk and libdnf inheriting gobject-introspec=
+tion<br>
+and cmake. Since libdnf cannot configure gir, webkitgtk seems the only proj=
+ect<br>
+requiring gir-auto-enabling. So handle at recipe / no common magic at<br>
+gobject-introspection.bbclass required.<br>
+<br>
+Signed-off-by: Andreas M=C3=BCller &lt;<a href=3D"mailto:schnitzeltony@gmai=
+l.com" target=3D"_blank">schnitzeltony@gmail.com</a>&gt;<br>
+---<br>
+<br>
+This patch applies on top of master-next/Alex&#39;s patches sent<br>
+<br>
+=C2=A0meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.26.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">webkitgtk_2.26.4.bb</a> | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.26.4.bb=
+" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.26.4.bb</a> b/meta/recip=
+es-sato/webkit/<a href=3D"http://webkitgtk_2.26.4.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">webkitgtk_2.26.4.bb</a><br>
+index 585723772e..d5085620d2 100644<br>
+--- a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.26.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">webkitgtk_2.26.4.bb</a><br>
++++ b/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.26.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">webkitgtk_2.26.4.bb</a><br>
+@@ -39,6 +39,7 @@ DEPENDS =3D &quot;zlib libsoup-2.4 curl libxml2 cairo lib=
+xslt libxt libidn libgcrypt \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+=C2=A0PACKAGECONFIG ??=3D &quot;${@bb.utils.filter(&#39;DISTRO_FEATURES&#39=
+;, &#39;wayland x11&#39;, d)} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb=
+.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;gobject-introspection-data&=
+#39;, &#39;gobject-introspection&#39;, &#39;&#39; ,d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb=
+.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;opengl&#39;, &#39;webgl ope=
+ngl&#39;, &#39;&#39; ,d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 encha=
+nt \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libse=
+cret \<br>
+@@ -46,6 +47,7 @@ PACKAGECONFIG ??=3D &quot;${@bb.utils.filter(&#39;DISTRO_=
+FEATURES&#39;, &#39;wayland x11&#39;, d)} \<br>
+<br>
+=C2=A0PACKAGECONFIG[wayland] =3D &quot;-DENABLE_WAYLAND_TARGET=3DON,-DENABL=
+E_WAYLAND_TARGET=3DOFF,wayland libwpe wpebackend-fdo wayland-native&quot;<b=
+r>
+=C2=A0PACKAGECONFIG[x11] =3D &quot;-DENABLE_X11_TARGET=3DON,-DENABLE_X11_TA=
+RGET=3DOFF,virtual/libx11&quot;<br>
++PACKAGECONFIG[gobject-introspection] =3D &quot;-DENABLE_INTROSPECTION=3DON=
+,-DENABLE_INTROSPECTION=3DOFF&quot;<br>
+=C2=A0PACKAGECONFIG[geoclue] =3D &quot;-DENABLE_GEOLOCATION=3DON,-DENABLE_G=
+EOLOCATION=3DOFF,geoclue&quot;<br>
+=C2=A0PACKAGECONFIG[enchant] =3D &quot;-DENABLE_SPELLCHECK=3DON,-DENABLE_SP=
+ELLCHECK=3DOFF,enchant2&quot;<br>
+=C2=A0PACKAGECONFIG[gtk2] =3D &quot;-DENABLE_PLUGIN_PROCESS_GTK2=3DON,-DENA=
+BLE_PLUGIN_PROCESS_GTK2=3DOFF,gtk+&quot;<br>
+-- <br>
+2.21.0<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--000000000000cbabac059eff137a--
