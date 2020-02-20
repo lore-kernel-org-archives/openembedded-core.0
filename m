@@ -1,35 +1,33 @@
 Return-Path: <wangmy@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 33CE5615D3
+	by mail.openembedded.org (Postfix) with ESMTP id 38986615E6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 02:29:07 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,462,1574092800"; d="scan'208";a="83594363"
+	Thu, 20 Feb 2020 02:29:19 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,462,1574092800"; d="scan'208";a="83594377"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 20 Feb 2020 10:29:08 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8A37750A996A
+	by heian.cn.fujitsu.com with ESMTP; 20 Feb 2020 10:29:19 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 0E3DA50A9976
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 10:19:25 +0800 (CST)
+	Thu, 20 Feb 2020 10:19:39 +0800 (CST)
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Thu, 20 Feb 2020 10:29:04 +0800
+	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Thu, 20 Feb 2020 10:29:17 +0800
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Thu, 20 Feb 2020 10:29:11 +0800
+	Server (TLS) id 14.3.439.0; Thu, 20 Feb 2020 10:29:24 +0800
 From: Wang Mingyu <wangmy@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Feb 2020 01:41:00 -0800
-Message-ID: <1582191660-130760-2-git-send-email-wangmy@cn.fujitsu.com>
+Date: Thu, 20 Feb 2020 01:41:16 -0800
+Message-ID: <1582191676-130817-1-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1582191660-130760-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1582191660-130760-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 8A37750A996A.A115D
+X-yoursite-MailScanner-ID: 0E3DA50A9976.A6608
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] libxkbcommon: upgrade 0.9.1 -> 0.10.0
+Subject: [PATCH] man-pages: upgrade 5.04 -> 5.05
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +40,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 02:29:07 -0000
+X-List-Received-Date: Thu, 20 Feb 2020 02:29:19 -0000
 Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../{libxkbcommon_0.9.1.bb => libxkbcommon_0.10.0.bb}         | 4 ++--
+ .../man-pages/{man-pages_5.04.bb => man-pages_5.05.bb}        | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxkbcommon_0.9.1.bb => libxkbcommon_0.10.0.bb} (88%)
+ rename meta/recipes-extended/man-pages/{man-pages_5.04.bb => man-pages_5.05.bb} (87%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.9.1.bb b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.10.0.bb
-similarity index 88%
-rename from meta/recipes-graphics/xorg-lib/libxkbcommon_0.9.1.bb
-rename to meta/recipes-graphics/xorg-lib/libxkbcommon_0.10.0.bb
-index c147428a14..16d9c36eae 100644
---- a/meta/recipes-graphics/xorg-lib/libxkbcommon_0.9.1.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxkbcommon_0.10.0.bb
-@@ -9,8 +9,8 @@ DEPENDS = "util-macros flex-native bison-native"
+diff --git a/meta/recipes-extended/man-pages/man-pages_5.04.bb b/meta/recipes-extended/man-pages/man-pages_5.05.bb
+similarity index 87%
+rename from meta/recipes-extended/man-pages/man-pages_5.04.bb
+rename to meta/recipes-extended/man-pages/man-pages_5.05.bb
+index be456759fc..b95872eb4d 100644
+--- a/meta/recipes-extended/man-pages/man-pages_5.04.bb
++++ b/meta/recipes-extended/man-pages/man-pages_5.05.bb
+@@ -7,8 +7,8 @@ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://README;md5=794f701617cc03fe50c53257660d8ec4"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz"
  
- SRC_URI = "http://xkbcommon.org/download/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "14d33d3fe02577a33aab26eb75df39cb"
+-SRC_URI[sha256sum] = "8c6ab56b654a6dd00e3759279954a25fc68b258b8f493a75af55ea7b6401fdb2"
++SRC_URI[md5sum] = "cdad5deb15117e60a6d9e3a6bdc035b5"
++SRC_URI[sha256sum] = "43c33d2eea9ba989c18eef90298cf6d5521ff038deb51cda0ecd0fdc3cec2b7d"
  
--SRC_URI[md5sum] = "4662756fd73ab0ac9e32efdad8f807f6"
--SRC_URI[sha256sum] = "d4c6aabf0a5c1fc616f8a6a65c8a818c03773b9a87da9fbc434da5acd1199be0"
-+SRC_URI[md5sum] = "2d9ad3a46b317138b5e72a91cf105451"
-+SRC_URI[sha256sum] = "57c3630cdc38fb4734cd57fa349e92244f5ae3862813e533cedbd86721a0b6f2"
- 
- UPSTREAM_CHECK_URI = "http://xkbcommon.org/"
+ inherit manpages
  
 -- 
 2.17.1
