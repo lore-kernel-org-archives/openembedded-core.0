@@ -1,47 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
-	[209.85.217.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D68C9611E1
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CAA161326
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 20:35:25 +0000 (UTC)
-Received: by mail-vs1-f65.google.com with SMTP id a2so3574952vso.3
+	Thu, 20 Feb 2020 20:44:21 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id y11so6129395wrt.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 12:35:27 -0800 (PST)
+	Thu, 20 Feb 2020 12:44:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=g8PfvvZKSOZeCKmAGr7XGWuQcxUz0tH3TC0709d3twg=;
-	b=pLXYkTzV7x9VhtcslNx/OUMYdiKlcnU3cWwsnEzO3mJlKhtK2O2juFMRU/J2pWPMYi
-	UKGlXymtsXwR43XpmrkCMPRY/TcGV9tkwxybdM5dQdCcvM+O3FZuDOJ3Jqmct/4Q6azb
-	hZ7H9oeMrweVowfSpzPXcOQQ/HYOm4ihhWL914BhSWdx4u+UBHMttARH3Fczef1glGkJ
-	R10T/K5AEP5BIx0F4pcyqM91fN20FxVKkymHidYi/ED6zCxW9cLe9sEDAjFGYj8ySh/r
-	zq89Yw+Be6I2ejgsfXPjD1kb3KvNd5Qn2RDPmaLp0h4umyyVTZL4aFyQJKWzO3Kd6QQs
-	BMkg==
+	:cc; bh=KLKVv9sn1J2H0b0Bar75VKXk/DD0pLH57QQhCLFnIsA=;
+	b=JKipdBDTGFQJjCS3fSUYBRk9dj7DWIte0Psn13DoULyIG8TbWI5QeA5WAvYy1/wWX7
+	L3Px0UrMHirC6hvJML1KZRIGI2TGpymKBcVSZrjL3GmQn03d+KpNPZqHplKGaXy5wrtG
+	JuZuyhtCyxEbzHMLMpa4yVRve9h6CUgVNh72/BHQx3qegH9LUS7c2nepwbSA80WGhLkO
+	Q0FmeHfBwDJfgDZfJcd/3ACeZSkMtFhrlQ3pt8/LAn4T+qCu10a/nreFr1Ilf85ZJmXn
+	qkbgY+3N5thwCoRyFhyY1kkgcy/+RDA/UD5H/FILYR5oCmfWFqeDBnpZR537p9wJk+8k
+	2icw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=g8PfvvZKSOZeCKmAGr7XGWuQcxUz0tH3TC0709d3twg=;
-	b=GhnAmXhUzzmpOyh/Tp+QCRw9TL3pWi9Nmf6YPMlM/j5WJ8spoLfPpYReo7YhbbnycO
-	qTj/6SAfPE0PRqLIjGS/JpRXfijtxEegy/NU7K2egAHMrzgSoZG0T4G2gpIzGEelu00f
-	mONiH9XIfvyiHUGTVOoBIq8FlTItI7eypP3dz0uz7hzhC/M6r4dnIg4NJjbtrxcsw04v
-	bIJEtMe1pF2lUsOUvI1HUQZmJ5uoRoENFqnus5W8zht417sSGeFEoav7SY/avujTa4mg
-	2fYaD+LMhwrOIfa7SkQDOLy7N+j5e8ZLB4xQTlXvdoRp/Oq1XXaQ+l1Sa/ADFAmSDM7N
-	JqOg==
-X-Gm-Message-State: APjAAAWJHu0Kr4idPJJ6q5Rnc+4YQo6MfdkThQB1C+F+PR0imh0aHRoe
-	iwGJNun6r7mhbXIa1hfgc8xjPcCU8J1O+EtZQD0=
-X-Google-Smtp-Source: APXvYqzdNOWci5ahEFEcrYG30onXrTqzXKxvBToIGYrQZCIE2RG+Qt2KU6FeB77axF/uWrxizB6XGysyS/tEK9J2wGY=
-X-Received: by 2002:a05:6102:52e:: with SMTP id
-	m14mr18452709vsa.25.1582230926581; 
-	Thu, 20 Feb 2020 12:35:26 -0800 (PST)
+	bh=KLKVv9sn1J2H0b0Bar75VKXk/DD0pLH57QQhCLFnIsA=;
+	b=fCI+RNpefsZbZvMaaIN2ozigA9AJkp8VW63e6q0Fy5IoF8sNS1egyI02pOdPKGw3qv
+	R3/IrRtPgaOFA+i7OeWyLSG97jxEPCmnqxBQ6nF97jNUvioiicpTPgCGoSCgklT+egPu
+	vepYGHUStMfRYuIt9VWFlv8EUishg5uLRrm0h6IjFm+XN5LgJwvYCKojEbipRknor6Q6
+	GufU20EIDv4CkpXzb8zs+8ZmpCvMsK8j0MXDSxoYLdQVZpzf1Vq+iJ7cyD86RbcrxxgX
+	NOvCAKEj1Vl18awktLE/PDtV811wBDFb+RFvvT4RbUi+VWq3KyvJBbb5kNChEI+XQlac
+	7Amg==
+X-Gm-Message-State: APjAAAW2jt0g+MqaHo3DwtXwfCXSMXl6MnB3YeSyuDIt/MhLuOhHncIF
+	XohVCLoB3bVcV3q/Vy/4Zf0nNavxewtbBCHhiaA=
+X-Google-Smtp-Source: APXvYqzk84pcawCEossJjxCVGWvKgq0XE1saYAnlMOHK05Up4T/FjlJADlGQjfvRRu0TAZyfPWcNZABswHB6D4RPnc4=
+X-Received: by 2002:a5d:4d06:: with SMTP id z6mr44545051wrt.241.1582231461890; 
+	Thu, 20 Feb 2020 12:44:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20200220172518.315182-1-raj.khem@gmail.com>
-In-Reply-To: <20200220172518.315182-1-raj.khem@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 20 Feb 2020 21:35:15 +0100
-Message-ID: <CANNYZj_or0Y1M9iE8peDbHe_-whbqAy2zvmoOTVF2aUi2ha=nQ@mail.gmail.com>
+References: <20200220185150.23422-1-JPEWhacker@gmail.com>
+	<e81900d2-4692-ca05-841d-d2fbceac70c2@gmail.com>
+In-Reply-To: <e81900d2-4692-ca05-841d-d2fbceac70c2@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 20 Feb 2020 14:44:08 -0600
+Message-ID: <CAJdd5GYXyaT+YnRTs4nvRucini2QEYMbBNRoBcrVu9SSpTr9Eg@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] dnf, libdnf: Ignore if PACKAGE_CLASSES does not have rpm
+Subject: Re: [PATCH] classes/meson.bbclass: Explicitly mark functions as missing in MinGW
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,42 +54,187 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 20:35:26 -0000
-Content-Type: multipart/alternative; boundary="00000000000054e4d4059f07d817"
+X-List-Received-Date: Thu, 20 Feb 2020 20:44:21 -0000
+Content-Type: multipart/alternative; boundary="0000000000003d0eca059f07f84c"
 
---00000000000054e4d4059f07d817
+--0000000000003d0eca059f07f84c
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 20 Feb 2020 at 18:25, Khem Raj <raj.khem@gmail.com> wrote:
+On Thu, Feb 20, 2020, 1:30 PM Khem Raj <raj.khem@gmail.com> wrote:
 
-> +PNBLACKLIST[dnf] ?= "${@bb.utils.contains('PACKAGE_CLASSES',
-> 'package_rpm', '', 'does not build correctly without package_rpm in
-> PACKAGE_CLASSES', d)}"
+>
+>
+> On 2/20/20 10:51 AM, Joshua Watt wrote:
+> > meson (with some help from GCC) misdetects certain builtin functions as
+> > being present on MinGW, when in fact they are not. Fix it by explicitly
+> > marking the functions as missing. This requires rearranging the
+> > meson.cross file to put the [properties] section at the end so the
+> > append works properly (meson can't handle duplicate sections).
+> >
+>
+> patch is fine workaround, but I think meson should look for strndup in
+> string.h
 >
 
-I meant that this string is extended:
-"does not build correctly without package_rpm in PACKAGE_CLASSES due to
-disabled rpm support in libsolv"
+Agreed. I think the upstream fix would be better, and I will look at that
+also.
 
-Otherwise it's vague and doesn't provide the real reason.
 
-Alex
+> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > ---
+> >   meta/classes/meson.bbclass | 25 +++++++++++++++++--------
+> >   1 file changed, 17 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> > index 06034e8b47..5c74658d01 100644
+> > --- a/meta/classes/meson.bbclass
+> > +++ b/meta/classes/meson.bbclass
+> > @@ -96,14 +96,6 @@ readelf = ${@meson_array('READELF', d)}
+> >   pkgconfig = 'pkg-config'
+> >   llvm-config = 'llvm-config${LLVMVERSION}'
+> >
+> > -[properties]
+> > -needs_exe_wrapper = true
+> > -c_args = ${@meson_array('CFLAGS', d)}
+> > -c_link_args = ${@meson_array('LDFLAGS', d)}
+> > -cpp_args = ${@meson_array('CXXFLAGS', d)}
+> > -cpp_link_args = ${@meson_array('LDFLAGS', d)}
+> > -gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
+> > -
+> >   [host_machine]
+> >   system = '${@meson_operating_system('HOST_OS', d)}'
+> >   cpu_family = '${@meson_cpu_family('HOST_ARCH', d)}'
+> > @@ -115,6 +107,23 @@ system = '${@meson_operating_system('TARGET_OS',
+> d)}'
+> >   cpu_family = '${@meson_cpu_family('TARGET_ARCH', d)}'
+> >   cpu = '${TARGET_ARCH}'
+> >   endian = '${@meson_endian('TARGET', d)}'
+> > +
+> > +[properties]
+> > +needs_exe_wrapper = true
+> > +c_args = ${@meson_array('CFLAGS', d)}
+> > +c_link_args = ${@meson_array('LDFLAGS', d)}
+> > +cpp_args = ${@meson_array('CXXFLAGS', d)}
+> > +cpp_link_args = ${@meson_array('LDFLAGS', d)}
+> > +gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
+> > +EOF
+> > +}
+> > +
+> > +do_write_config_append_mingw32() {
+> > +    # meson mis-detects the presence of several builtin functions in
+> MinGW
+> > +    # (see https://github.com/mesonbuild/meson/issues/3672).
+> > +    # Explicitly mark these functions as missing in the cross file
+> > +    cat >>${WORKDIR}/meson.cross <<EOF
+> > +has_function_strndup = false
+> >   EOF
+> >   }
+> >
+> >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
---00000000000054e4d4059f07d817
+--0000000000003d0eca059f07f84c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, 20 Feb 2020 at 18:25, Khem Raj &lt;<a href=3D"mailto:raj.khe=
-m@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">+PNBLACKLIST[dnf] ?=3D &quot;${@bb.utils.c=
-ontains(&#39;PACKAGE_CLASSES&#39;, &#39;package_rpm&#39;, &#39;&#39;, &#39;=
-does not build correctly without package_rpm in PACKAGE_CLASSES&#39;, d)}&q=
-uot;<br></blockquote><div><br></div><div>I meant that this string is extend=
-ed:</div><div> &quot;does not build correctly without package_rpm in PACKAG=
-E_CLASSES due to disabled rpm support in libsolv&quot;</div><div><br></div>=
-<div>Otherwise it&#39;s vague and doesn&#39;t provide the real reason.</div=
-><div><br></div><div>Alex<br></div></div></div>
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, Feb 20, 2020, 1:30 PM Khem Raj &lt;<a href=3D"=
+mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex"><br>
+<br>
+On 2/20/20 10:51 AM, Joshua Watt wrote:<br>
+&gt; meson (with some help from GCC) misdetects certain builtin functions a=
+s<br>
+&gt; being present on MinGW, when in fact they are not. Fix it by explicitl=
+y<br>
+&gt; marking the functions as missing. This requires rearranging the<br>
+&gt; meson.cross file to put the [properties] section at the end so the<br>
+&gt; append works properly (meson can&#39;t handle duplicate sections).<br>
+&gt; <br>
+<br>
+patch is fine workaround, but I think meson should look for strndup in <br>
+string.h<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">Agreed. I think the upstream fix would be better, and I will look=
+ at that also.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div clas=
+s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+&gt; Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com"=
+ target=3D"_blank" rel=3D"noreferrer">JPEWhacker@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0meta/classes/meson.bbclass | 25 +++++++++++++++++--------<=
+br>
+&gt;=C2=A0 =C2=A01 file changed, 17 insertions(+), 8 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass<b=
+r>
+&gt; index 06034e8b47..5c74658d01 100644<br>
+&gt; --- a/meta/classes/meson.bbclass<br>
+&gt; +++ b/meta/classes/meson.bbclass<br>
+&gt; @@ -96,14 +96,6 @@ readelf =3D ${@meson_array(&#39;READELF&#39;, d)}<b=
+r>
+&gt;=C2=A0 =C2=A0pkgconfig =3D &#39;pkg-config&#39;<br>
+&gt;=C2=A0 =C2=A0llvm-config =3D &#39;llvm-config${LLVMVERSION}&#39;<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -[properties]<br>
+&gt; -needs_exe_wrapper =3D true<br>
+&gt; -c_args =3D ${@meson_array(&#39;CFLAGS&#39;, d)}<br>
+&gt; -c_link_args =3D ${@meson_array(&#39;LDFLAGS&#39;, d)}<br>
+&gt; -cpp_args =3D ${@meson_array(&#39;CXXFLAGS&#39;, d)}<br>
+&gt; -cpp_link_args =3D ${@meson_array(&#39;LDFLAGS&#39;, d)}<br>
+&gt; -gtkdoc_exe_wrapper =3D &#39;${B}/gtkdoc-qemuwrapper&#39;<br>
+&gt; -<br>
+&gt;=C2=A0 =C2=A0[host_machine]<br>
+&gt;=C2=A0 =C2=A0system =3D &#39;${@meson_operating_system(&#39;HOST_OS&#39=
+;, d)}&#39;<br>
+&gt;=C2=A0 =C2=A0cpu_family =3D &#39;${@meson_cpu_family(&#39;HOST_ARCH&#39=
+;, d)}&#39;<br>
+&gt; @@ -115,6 +107,23 @@ system =3D &#39;${@meson_operating_system(&#39;TA=
+RGET_OS&#39;, d)}&#39;<br>
+&gt;=C2=A0 =C2=A0cpu_family =3D &#39;${@meson_cpu_family(&#39;TARGET_ARCH&#=
+39;, d)}&#39;<br>
+&gt;=C2=A0 =C2=A0cpu =3D &#39;${TARGET_ARCH}&#39;<br>
+&gt;=C2=A0 =C2=A0endian =3D &#39;${@meson_endian(&#39;TARGET&#39;, d)}&#39;=
+<br>
+&gt; +<br>
+&gt; +[properties]<br>
+&gt; +needs_exe_wrapper =3D true<br>
+&gt; +c_args =3D ${@meson_array(&#39;CFLAGS&#39;, d)}<br>
+&gt; +c_link_args =3D ${@meson_array(&#39;LDFLAGS&#39;, d)}<br>
+&gt; +cpp_args =3D ${@meson_array(&#39;CXXFLAGS&#39;, d)}<br>
+&gt; +cpp_link_args =3D ${@meson_array(&#39;LDFLAGS&#39;, d)}<br>
+&gt; +gtkdoc_exe_wrapper =3D &#39;${B}/gtkdoc-qemuwrapper&#39;<br>
+&gt; +EOF<br>
+&gt; +}<br>
+&gt; +<br>
+&gt; +do_write_config_append_mingw32() {<br>
+&gt; +=C2=A0 =C2=A0 # meson mis-detects the presence of several builtin fun=
+ctions in MinGW<br>
+&gt; +=C2=A0 =C2=A0 # (see <a href=3D"https://github.com/mesonbuild/meson/i=
+ssues/3672" rel=3D"noreferrer noreferrer" target=3D"_blank">https://github.=
+com/mesonbuild/meson/issues/3672</a>).<br>
+&gt; +=C2=A0 =C2=A0 # Explicitly mark these functions as missing in the cro=
+ss file<br>
+&gt; +=C2=A0 =C2=A0 cat &gt;&gt;${WORKDIR}/meson.cross &lt;&lt;EOF<br>
+&gt; +has_function_strndup =3D false<br>
+&gt;=C2=A0 =C2=A0EOF<br>
+&gt;=C2=A0 =C2=A0}<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; <br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openembedded=
+.org/mailman/listinfo/openembedded-core</a><br>
+</blockquote></div></div></div>
 
---00000000000054e4d4059f07d817--
+--0000000000003d0eca059f07f84c--
