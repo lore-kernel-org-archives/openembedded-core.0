@@ -1,54 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
-	[209.85.217.46])
-	by mail.openembedded.org (Postfix) with ESMTP id EB3546073A
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
+	[209.85.166.53])
+	by mail.openembedded.org (Postfix) with ESMTP id B0C0B6073A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 12:42:03 +0000 (UTC)
-Received: by mail-vs1-f46.google.com with SMTP id a2so2553773vso.3
+	Thu, 20 Feb 2020 12:45:21 +0000 (UTC)
+Received: by mail-io1-f53.google.com with SMTP id s24so4500495iog.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 04:42:04 -0800 (PST)
+	Thu, 20 Feb 2020 04:45:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=i0Gxx3sZiR9w6GtcID7iWGY0JGDpAsMFwdrv4uhS3E0=;
-	b=rXcpP1dZN5PZsV+lNM1invHCQ/A27CTDAry9WFAo6muPBkvSzs3pbNKUl0FQE+htZZ
-	b/IM0E167F5ONgfZY/Y33Gp6aXdNWCnXUFqIGO1yz+ZvJt7Llsaik6vD8x9oVP2Vp0cs
-	MUdFe4YFqZAIrZ3BJPcgY6ANUwv6PVx3ga837ck0U3a7Temb2nbqvjTgwwO/MjMJdAn8
-	3ol3RFpgnevqO7BZbaXkNN5SpjiqTR5TK0gFz++h1/gsPhUB31wS/8K60MCubOmf/6YN
-	talOvAsCxcrBiGz4N9S7Z9v1luqm8YwxY1pljPtmPpa/eiZgMCauu8S2UVYDa9NjPqpN
-	A1bw==
+	:cc:content-transfer-encoding;
+	bh=6VjpQ/2bvjLWAnFZhI7XTUDv18vDNPrxX78hNx3drhU=;
+	b=pP45zAIBLad3RfAqr47Ugcm7y8+iaEC0TCKqFrdKWP6Gwjp4KL/tUWT1aap+g7wSeZ
+	k2OQlPQwjSXN4fLvdxZ+2Yjkef+GJof5qGB9/R+Kj1GBuL0EP43tr/Kf/Kl9VU5JpzZQ
+	ERmg+TEUxfSVhIHwqPGfAXLoXaoulx8UjYAFtNTbKWOx4vjRExqpm7uR5HPBA/AXiXlG
+	ufuq+ZetYvfYlwXqt2ULoZdziF7Ig596OlchOffFIZ49zK1SxbTay0WrRGxuIWgsT2Ea
+	2GTG5rn+80iMe3CwZ6lOYEfTs4u1s8ubeSt3Q2A6CFFZbBzCtida//RfQhYfGQdivtQH
+	9KGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=i0Gxx3sZiR9w6GtcID7iWGY0JGDpAsMFwdrv4uhS3E0=;
-	b=PvYvADdVUBh/B3FyTFDX6wm08JQzH5NleNJsL43Be+M6j352QFWrS8xsHE9LK8FCQv
-	R/AnGqKyE+/6rYlOnfG9rRQ9Fy551WBNzIRMQCcd4Qe7PrzjbFPuyYIC8Z8o6bzOMqEO
-	JrpxtFGGjeszMCTXvrN5EV3jqS6zvyC06cZbY7LVHFoltZLTXPoO9cAgT7aeKu7i24uC
-	fL9rbJjv85khEoFpmlScHFsCUqkNws6Hq9pw0KPs9pXR2eOTkJPw3+cAC0zZnTVHoqr3
-	ZYCbEmFyUcFyJV+aheb65VYHUhuLfXJerRgr/y+FR0mFl7OkbbDfSIGA0Udf01QVnBoO
-	wGPw==
-X-Gm-Message-State: APjAAAUHDCWZcZzjhSXV6nh4T7yCfpKV03mNnLOEznxw+c7g46cR7aa8
-	kRsybKjVR4XuEJ4r0zNKEufmNKhAFM0opWoFvug=
-X-Google-Smtp-Source: APXvYqwMVeMPvhODEBhbGmsgg9gya310gciofC8r9xzsgchZakO/ijyI95ueLLMCZ9Sc9Ma0tiNYoPJmveQ0HuNx3fw=
-X-Received: by 2002:a05:6102:405:: with SMTP id
-	d5mr16875756vsq.94.1582202524001; 
-	Thu, 20 Feb 2020 04:42:04 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=6VjpQ/2bvjLWAnFZhI7XTUDv18vDNPrxX78hNx3drhU=;
+	b=OXjt69o7sf6POdomjFqkcN0T1ent8L21EgFKHjY/rbaACZZgZU5A0pst6mWNOVnuP5
+	zgJ8jXLqou+G68aJ9QyDjOdH3ykKsfCVPOtvZVeJDdWjgz0V/umLTXC+fYS+bpsJ4W6T
+	cv5VsfBTvDA0cJ5PRyNADmHLSfhZaphcgb6S5JBe+PNlFeSCHr23gWino6nJJtKVBsGX
+	2NI2HhtMRJN6i29ABV1CAh/NCXtog2RXf/5AL/JONAgh2QmnpA5x4rq8W1GkCQ3Naiod
+	+cT/4oIhLmc1cjZD6yDykE1YWnQlG5kkDzVMbIUfqSYU8aqn4Aq4hEvkgZogvR1bsnXm
+	HF2A==
+X-Gm-Message-State: APjAAAX3MxmAcbZWFrMK21uyIVeRjXW1EVempKpzg4Oi32XxQhC7yyKQ
+	nr/NIwKxBBiBmXVlWCd95oNccERZ/kxTk1q+PtM=
+X-Google-Smtp-Source: APXvYqwi1Ffa4dE8PHv/BtLi/t14Hkozo0IX3Q0GGMsBGUCKqf+qoQ9V9aGrGCjpapt0Ws4BNjbcfP9gq3HhR5SSRvo=
+X-Received: by 2002:a05:6602:2299:: with SMTP id
+	d25mr24547969iod.267.1582202722617; 
+	Thu, 20 Feb 2020 04:45:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20200218132054.20341-1-wallinux@gmail.com>
-	<CANNYZj9nm0eqo0NtHhEJiw7nLbnYQ8r1aazXk6mGn83VXc9VNA@mail.gmail.com>
-	<CAF2baFdCF-NVmUa=meNhAN5BDBqLcS4k7F+EBWtUA1ekY6OVBg@mail.gmail.com>
-	<20200219152720.GM17818@joraj-alpa>
-	<143f590b688ed8166a702873275c16f3c7217d52.camel@linuxfoundation.org>
-	<20200219155626.GN17818@joraj-alpa>
-	<CANNYZj9t2+ugT15XbYrqkgA23MHEQxy_9t=PnutoCQr2f0AA-A@mail.gmail.com>
-	<CAF2baFcN_2du6k_p2s_5RsExmkAuVvvJQOaak9GehMBQ=y4m6g@mail.gmail.com>
-In-Reply-To: <CAF2baFcN_2du6k_p2s_5RsExmkAuVvvJQOaak9GehMBQ=y4m6g@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 20 Feb 2020 13:42:26 +0100
-Message-ID: <CANNYZj_=evUsWUH51ZgUhr2vZO5Ybv9izRuidvTKe1NqEKsB=A@mail.gmail.com>
-To: Anders Wallin <wallinux@gmail.com>
+References: <20200220002849.9126-1-schnitzeltony@gmail.com>
+	<CANNYZj9pFMxP7nYkUOyQ4wcejkr4j+EBqa3OdJZXgEKB7ZtX=Q@mail.gmail.com>
+In-Reply-To: <CANNYZj9pFMxP7nYkUOyQ4wcejkr4j+EBqa3OdJZXgEKB7ZtX=Q@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 20 Feb 2020 13:45:11 +0100
+Message-ID: <CALbNGRTruaPGSJTNd816++UuYJTyL1=r2KHeKquENLTa=08UWA@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] babeltrace2: added 2.0.1
+Subject: Re: [PATCH][master-next] webkitgtk: add PACKAGECONFIG gobject-introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,112 +56,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 12:42:04 -0000
-Content-Type: multipart/alternative; boundary="00000000000067ec29059f013bd8"
-
---00000000000067ec29059f013bd8
+X-List-Received-Date: Thu, 20 Feb 2020 12:45:21 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Generally this should be done by the person introducing the new recipe.
+On Thu, Feb 20, 2020 at 11:07 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> You need to at the same time drop the introspection enablement logic from=
+ EXTRA_OECMAKE I think?
+> This line:
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-sato/web=
+kit/webkitgtk_2.26.4.bb?h=3Dmaster-next#n70
+>
+> And for consistency, it would be good to do the same for gtk-doc.
 
-Also check that upstream version check works correctly for both:
-devtool latest-version babeltrace (this should be probably limited to 1.x
-versions)
-devtool latest-version babeltrace2
+This is odd: I fell over this because there was no gir created. Did
+not notice it was few lines below. Need to check that - maybe I am a
+bit off-sync to master or something is wrong elsewhere.
 
-Alex
+Will sync to master and send V2 then.
 
-On Thu, 20 Feb 2020 at 13:39, Anders Wallin <wallinux@gmail.com> wrote:
-
-> Hi Alex,
+Andreas
 >
-> should I update the patch to include changes to maintainer file,
-> packagegroup etc in the same way as for babeltrace or
-> is it something you will do?
+> Alex
 >
-> Anders Wallin
+> ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-DENABLE_INTROSPECTION=
+=3DON', '-DENABLE_INTROSPECTION=3DOFF', d)} \
+>
+> ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '-DENABLE_INTROSPECTION=
+=3DON', '-DENABLE_INTROSPECTION=3DOFF', d)} \
 >
 >
-> On Wed, Feb 19, 2020 at 5:02 PM Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
->
->> On Wed, 19 Feb 2020 at 16:56, Jonathan Rajotte-Julien <
->> jonathan.rajotte-julien@efficios.com> wrote:
+> On Thu, 20 Feb 2020 at 01:29, Andreas M=C3=BCller <schnitzeltony@gmail.co=
+m> wrote:
 >>
->>> > There are some things where the namespaces are quite specific (python
->>> > vs python3, gtk(+) 2/3/4, qt) but they're fairly few and far between.
->>> >
->>> > If babeltrace2 will replace babeltrace and become babeltrace, we
->>> > probably want to keep PN as babeltrace. If it will be known as
->>> > babeltrace2 always, we probably change PN.
->>>
->>> Babeltrace 2 executable will be forever named babeltrace2.
->>>
->>> Hope this clear up this part a bit.
->>>
+>> Enable if 'gobject-introspection-data' is in DISTRO_FEATURES. This is wh=
+at
+>> gobject-introspection.bbclass does automatically for projects build with
+>> autotools and meson.
 >>
->> Right, then I'm fine with naming the recipe babeltrace2.
+>> It was checked: there are webkitgtk and libdnf inheriting gobject-intros=
+pection
+>> and cmake. Since libdnf cannot configure gir, webkitgtk seems the only p=
+roject
+>> requiring gir-auto-enabling. So handle at recipe / no common magic at
+>> gobject-introspection.bbclass required.
 >>
->> Alex
+>> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+>> ---
+>>
+>> This patch applies on top of master-next/Alex's patches sent
+>>
+>>  meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes=
+-sato/webkit/webkitgtk_2.26.4.bb
+>> index 585723772e..d5085620d2 100644
+>> --- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+>> +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+>> @@ -39,6 +39,7 @@ DEPENDS =3D "zlib libsoup-2.4 curl libxml2 cairo libxs=
+lt libxt libidn libgcrypt \
+>>            "
+>>
+>>  PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11=
+', d)} \
+>> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'gobject-int=
+rospection-data', 'gobject-introspection', '' ,d)} \
+>>                     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'w=
+ebgl opengl', '' ,d)} \
+>>                     enchant \
+>>                     libsecret \
+>> @@ -46,6 +47,7 @@ PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATUR=
+ES', 'wayland x11', d)} \
+>>
+>>  PACKAGECONFIG[wayland] =3D "-DENABLE_WAYLAND_TARGET=3DON,-DENABLE_WAYLA=
+ND_TARGET=3DOFF,wayland libwpe wpebackend-fdo wayland-native"
+>>  PACKAGECONFIG[x11] =3D "-DENABLE_X11_TARGET=3DON,-DENABLE_X11_TARGET=3D=
+OFF,virtual/libx11"
+>> +PACKAGECONFIG[gobject-introspection] =3D "-DENABLE_INTROSPECTION=3DON,-=
+DENABLE_INTROSPECTION=3DOFF"
+>>  PACKAGECONFIG[geoclue] =3D "-DENABLE_GEOLOCATION=3DON,-DENABLE_GEOLOCAT=
+ION=3DOFF,geoclue"
+>>  PACKAGECONFIG[enchant] =3D "-DENABLE_SPELLCHECK=3DON,-DENABLE_SPELLCHEC=
+K=3DOFF,enchant2"
+>>  PACKAGECONFIG[gtk2] =3D "-DENABLE_PLUGIN_PROCESS_GTK2=3DON,-DENABLE_PLU=
+GIN_PROCESS_GTK2=3DOFF,gtk+"
+>> --
+>> 2.21.0
+>>
 >> --
 >> _______________________________________________
 >> Openembedded-core mailing list
 >> Openembedded-core@lists.openembedded.org
 >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
 
---00000000000067ec29059f013bd8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Generally this should be done by the person introducing th=
-e new recipe.<div><br></div><div>Also check that upstream version check wor=
-ks correctly for both:</div><div>devtool latest-version babeltrace (this sh=
-ould be probably limited to 1.x versions)</div><div>devtool latest-version =
-babeltrace2</div><div><br></div><div>Alex</div></div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 20 Feb 2020 at 13:39=
-, Anders Wallin &lt;<a href=3D"mailto:wallinux@gmail.com">wallinux@gmail.co=
-m</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-lef=
-t-color:rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Hi Alex,<div><b=
-r></div><div>should I update the patch to include changes to maintainer fil=
-e, packagegroup etc in the same way as for babeltrace or=C2=A0</div><div>is=
- it something you will do?=C2=A0</div><div><br></div><div><div><div dir=3D"=
-ltr">Anders Wallin</div></div><br></div></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 19, 2020 at 5:02 PM Ale=
-xander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_bla=
-nk">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-le=
-ft-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex"><div di=
-r=3D"ltr"><div dir=3D"ltr">On Wed, 19 Feb 2020 at 16:56, Jonathan Rajotte-J=
-ulien &lt;<a href=3D"mailto:jonathan.rajotte-julien@efficios.com" target=3D=
-"_blank">jonathan.rajotte-julien@efficios.com</a>&gt; wrote:<br></div><div =
-class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-co=
-lor:rgb(204,204,204);padding-left:1ex">&gt; There are some things where the=
- namespaces are quite specific (python<br>
-&gt; vs python3, gtk(+) 2/3/4, qt) but they&#39;re fairly few and far betwe=
-en.<br>
-&gt; <br>
-&gt; If babeltrace2 will replace babeltrace and become babeltrace, we<br>
-&gt; probably want to keep PN as babeltrace. If it will be known as<br>
-&gt; babeltrace2 always, we probably change PN.<br>
-<br>
-Babeltrace 2 executable will be forever named babeltrace2.<br>
-<br>
-Hope this clear up this part a bit.<br></blockquote><div><br></div><div>Rig=
-ht, then I&#39;m fine with naming the recipe babeltrace2.</div><div><br></d=
-iv><div>Alex=C2=A0</div></div></div>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-</blockquote></div>
-
---00000000000067ec29059f013bd8--
