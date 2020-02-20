@@ -1,44 +1,50 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id A82946063B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 91D3160B1F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 08:07:34 +0000 (UTC)
+	Thu, 20 Feb 2020 10:02:05 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id a9so1326975wmj.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Feb 2020 02:02:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=axis.com; l=6597; q=dns/txt; s=axis-central1;
-	t=1582186056; x=1613722056;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-transfer-encoding:mime-version;
-	bh=cxynRBMz5RKv8hSIrasIlA1+LZ/+AkwJkL38Z4Llj5k=;
-	b=C6y5AzbqjBSBa7FfvtausUpzGqdnxvfSaVnvRg8i3NiQ8BfQp21fkFKL
-	7zuMRPaszlOIU+mHJFWeAWm/QFBI+aXQip8ttqVHG+ZUmM7iYSDMFZapQ
-	zx5ZePm2O6HJclJTSHyHfA3VoxjlKIGqYDhCH82MB81GWQzHXhoOBPG3+
-	0CjyWfKfQQk6avW5tlwWk3L1lSkkB/Ql6kpzzq9fuD/ljaVRagQx4L02h
-	UgsfDBuiUpPuHYpFDoamov9vObD9jzmLrjca473X82xXKHjA3yf2RjjE9
-	JbwEMKkOLo7Mazhqg/mqmkeDBKWRHPUvpFESYrZ07K8YxQ9VEqQegqSaw A==;
-IronPort-SDR: 7xuQw1Psfbs1q85+DIqaTjK53XTemBCOAgxfHjb5V9NOPiRib2YM0GMKIgCxDmDUbDg6+pVhQb
-	uE30sXtBhQnGmCakuHKyCmfkM8aC02wWh7MU/CkVN7fPGiFW06ELsFnn1LUzW/1mxJ1KGgDjnA
-	esP+/NUY0bM6/tqgOgELcIaAiaJNlvk8xLGnL6JkKusuGhWuROa/ZecYqCeczEc6tS0MX6sxkE
-	GmU7uiZciS0MSJN2Nj5axPBKWgdddHy5UUW2+3uv49j+ShgQxllXDA6bsXg9o8incLLiZsa9PA
-	4Ek=
-X-IronPort-AV: E=Sophos;i="5.70,463,1574118000"; 
-   d="scan'208";a="5627177"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3] binutils: Upgrade to 2.34 release
-Thread-Index: AQHV53X1e9kZKW3x5EyrDaUUz/yKSqgjpRpA
-Date: Thu, 20 Feb 2020 08:07:34 +0000
-Message-ID: <ef62cf8da954430991546afa3e3b3840@XBOX03.axis.com>
-References: <20200219224239.3662791-1-raj.khem@gmail.com>
-In-Reply-To: <20200219224239.3662791-1-raj.khem@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=6GMBVv3nax+xKA9uc3CZN/myXFq5d2dCD7qL41dvmTE=;
+	b=APmYL3hQWd4u4H2H1jjYkCMOKVCdAgk2HjRiktjQeAOejf3glPsmeT1+58VuthQ4Ow
+	Zn9fB8pr+wFi+vb5NO1uF0P2bnuJgHcGFjRWWW2PtoMf3OBHmqna21XyAUt6ITt3MTBd
+	UsKe6cn1p+hGClJLIPkw+I5YNMwRx8pmajFs0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=6GMBVv3nax+xKA9uc3CZN/myXFq5d2dCD7qL41dvmTE=;
+	b=s8CIHtYgKUVB19RdYmN9oEqTqvNhuZS1Yqy9ClQXPiboF1XL5a8cHJE5GcKz8Mn0wE
+	JPsr4/o926FL9UOIzx8qAQJs5N6r4mbRZEGjBSrJTD2G8T6C3MQiwLPsBJ8EMiR7JeEv
+	+c09jSlkF5aupkIsYIRF3jrORly0uoJu01Jt34KXMV650vSNjrBFfZOcKVk5wFsZZvMR
+	QQEPuXAQur6kr5Pd9x14kkHSVQWJi5e470yP2xrdFy/vmI0E3ave6KLHK/TZ46r/tpFg
+	ZIll5eaIYRQEIj81IqHLBS3TFKiLOsJUccx/GfVo3ZYNmCqCehxk25iQ/utVavyyaOyg
+	zNpw==
+X-Gm-Message-State: APjAAAWSK7wzeZeYHWLMzhwZfJhqWxFFRz31jYlJUUaSBE6Vczri2YE3
+	pfklp2gnvSQIrsMTiLbsevdhBw==
+X-Google-Smtp-Source: APXvYqymc3zSIXEpFCH41//oCwvEhJ4w5ZoF0NVkptPkd86Xt6/HVwLinag1cdiVmmW0oodZNuAimA==
+X-Received: by 2002:a1c:7419:: with SMTP id p25mr3629761wmc.159.1582192926179; 
+	Thu, 20 Feb 2020 02:02:06 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	a26sm3916715wmm.18.2020.02.20.02.02.03
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 20 Feb 2020 02:02:04 -0800 (PST)
+Message-ID: <4688fc5ac550088b553d602ef1ecb110447a9100.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Li Zhou <li.zhou@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 20 Feb 2020 10:02:02 +0000
+In-Reply-To: <1582165584-187223-1-git-send-email-li.zhou@windriver.com>
+References: <1582165584-187223-1-git-send-email-li.zhou@windriver.com>
+User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-Cc: Christopher Clark <christopher.clark6@baesystems.com>
-Subject: Re: [PATCH v3] binutils: Upgrade to 2.34 release
+Subject: Re: [PATCH] lttng-modules: Check the pid_ns before using it because it may be NULL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,205 +57,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 08:07:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 20 Feb 2020 10:02:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of Khem Raj
-> Sent: den 19 februari 2020 23:43
-> To: openembedded-core@lists.openembedded.org
-> Cc: Christopher Clark <christopher.clark6@baesystems.com>
-> Subject: [OE-core] [PATCH v3] binutils: Upgrade to 2.34 release
->=20
-> Details of changelog [1]
->=20
-> Removing bfd/ld patch to ebale pe targets instead use
+On Thu, 2020-02-20 at 10:26 +0800, Li Zhou wrote:
+> Check the pid_ns before using it because it may be NULL to fix below
+> issue:
+> <1>[ 22.637196] Unable to handle kernel NULL pointer dereference at
+> virtual address 0000000000000080
+> <1>[ 22.645982] Mem abort info:
+> <1>[ 22.648769] ESR = 0x96000007
+> <1>[ 22.651817] Exception class = DABT (current EL), IL = 32 bits
+> <1>[ 22.657730] SET = 0, FnV = 0
+> <1>[ 22.660777] EA = 0, S1PTW = 0
+> <1>[ 22.663910] Data abort info:
+> <1>[ 22.666784] ISV = 0, ISS = 0x00000007
+> <1>[ 22.670611] CM = 0, WnR = 0
+> <1>[ 22.673574] user pgtable: 4k pages, 39-bit VAs, pgdp =
+> 0000000012378f78
+> <1>[ 22.680180] [0000000000000080] pgd=000000007f023003,
+> pud=000000007f023003, pmd=000000007f01f003, pte=0000000000000000
+> <0>[ 22.690794] Internal error: Oops: 96000007 [#1] PREEMPT SMP
+> <4>[ 22.690797] Modules linked in: adkNetD ncp
+> lttng_ring_buffer_client_overwrite(C)
+> lttng_ring_buffer_metadata_client(C)
+> lttng_ring_buffer_client_discard(C)
+> lttng_ring_buffer_client_mmap_overwrite(C)
+> lttng_ring_buffer_client_mmap_discard(C)
+> lttng_ring_buffer_metadata_mmap_client(C) lttng_probe_signal(C)
+> lttng_probe_printk(C) lttng_probe_sched(C) lttng_probe_irq(C)
+> lttng_tracer(C) lttng_statedump(C) lttng_ftrace(C)
+> lttng_lib_ring_buffer(C) lttng_clock_plugin_arm_cntpct(C)
+> lttng_clock(C)
+> <0>[ 22.690823] Process lttng-sessiond (pid: 3093, stack limit =
+> 0x000000005d27910f)
+> <4>[ 22.690828] CPU: 1 PID: 3093 Comm: lttng-sessiond Tainted: G C
+> 4.18.37-rt820-custom #1
+> <4>[ 22.690830] Hardware name: DUS33 (CPM2-20) (DT)
+> <4>[ 22.690833] pstate: 60000005 (nZCv daif -PAN -UAO)
+> <4>[ 22.690845] pc : do_lttng_statedump+0xcc/0x8a8 [lttng_statedump]
+> <4>[ 22.690849] lr : do_lttng_statedump+0xc4/0x8a8 [lttng_statedump]
+> <4>[ 22.690851] sp : ffffffc07fe57ad0
+> <4>[ 22.690852] x29: ffffffc07fe57ad0 x28: ffffffc008ae2700
+> <4>[ 22.690856] x27: ffffff8000724000 x26: 0000000000000001
+> <4>[ 22.690859] x25: ffffff80089c9620 x24: 0000000000000000
+> <4>[ 22.690862] x23: ffffffc008ae2e10 x22: ffffff80089d3380
+> <4>[ 22.690865] x21: ffffffc07f450000 x20: ffffffc008ae2700
+> <4>[ 22.690869] x19: 0000000000000007 x18: 00000000fffffffe
+> <4>[ 22.690871] x17: 0000000000000000 x16: ffffff800824b980
+> <4>[ 22.690874] x15: 0000000000000000 x14: 736162203b656e6f
+> <4>[ 22.690877] x13: 6e203d20676e6964 x12: 0000000000000000
+> <4>[ 22.690880] x11: 0101010101010101 x10: 7f7f7f7f7f7f7f7f
+> <4>[ 22.690882] x9 : 3c1f647968721eff x8 : ffffffc0877504c8
+> <4>[ 22.690886] x7 : 09093a7c093a7c08 x6 : ffffff8010c4b317
+> <4>[ 22.690888] x5 : 0000000000000000 x4 : 00000040a7575000
+> <4>[ 22.690891] x3 : ffffffc008ae2e28 x2 : 0000000000000000
+> <4>[ 22.690894] x1 : 0000000000000000 x0 : 0000000000000000
+> <4>[ 22.690896] Call trace:
+> <4>[ 22.690902] do_lttng_statedump+0xcc/0x8a8 [lttng_statedump]
+> <4>[ 22.690905] lttng_statedump_start+0x20/0x30 [lttng_statedump]
+> <4>[ 22.690981] lttng_session_enable+0xf0/0x120 [lttng_tracer]
+> <4>[ 22.691018] lttng_session_ioctl+0x22c/0x328 [lttng_tracer]
+> <4>[ 22.691026] compat_sys_ioctl+0x110/0x778
+> 
+> Signed-off-by: Li Zhou <li.zhou@windriver.com>
 
-Change "ebale" to "enable".
+Are upstream aware of this issue? I'd really like their opinion on this
+before we merge anything.
 
-> specific emulations via --enable-targets for x86_64
->=20
-> Re-arrange/forward-port patches and upgrade libctf configure to libtool
-> 2.4 patch
->=20
-> rpaths are no longer emitted into elfedit/readelf therefore no need of
-> chrpath anymore
->=20
-> Instead of pre-generating configure scripts and house them in libtool
-> patch, generate them during configure. This also ensures that we do not
-> patch configure directly but rather the sources which generate it
->=20
-> Package newly added libctf library
->=20
-> [1] https://lists.gnu.org/archive/html/info-gnu/2020-02/msg00000.html
->=20
-> Signed-off-by: Khem Raj <mailto:raj.khem@gmail.com>
-> Cc: Christopher Clark <mailto:christopher.clark6@baesystems.com>
-> ---
-> v2: Fix libtool patch and drop EFI patch for configure option
-> v3: Make libtool patch not generate configure, fix packaging
+Cheers,
 
-[cut]
+Richard
 
-> diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-d=
-evtools/binutils/binutils.inc
-> index a4b9aa586d..b070d85e15 100644
-> --- a/meta/recipes-devtools/binutils/binutils.inc
-> +++ b/meta/recipes-devtools/binutils/binutils.inc
-> @@ -13,17 +13,12 @@ LICENSE =3D "GPLv3"
->=20
->  DEPENDS =3D "flex-native bison-native zlib-native gnu-config-native auto=
-conf-native"
->=20
-> -#
-> -# we need chrpath > 0.14 and some distros like centos 7 still have older=
- chrpath
-> -#
-> -DEPENDS_append_class-target =3D " chrpath-replacement-native"
-> -EXTRANATIVEPATH_append_class-target =3D " chrpath-native"
-> -
->  inherit autotools gettext multilib_header texinfo
->=20
->  FILES_${PN} =3D " \
->  	${bindir}/${TARGET_PREFIX}* \
-> -	${libdir}/lib*-*.so \
-> +	${libdir}/lib*.so.* \
-> +	${libdir}/lib*-${PV}*.so \
->  	${prefix}/${TARGET_SYS}/bin/* \
->          ${bindir}/embedspu"
->=20
-> @@ -33,6 +28,8 @@ FILES_${PN}-dev =3D " \
->  	${includedir} \
->  	${libdir}/*.la \
->  	${libdir}/libbfd.so \
-> +	${libdir}/libctf.so \
-> +	${libdir}/libctf-nobfd.so \
->  	${libdir}/libopcodes.so"
->=20
->  # Rather than duplicating multiple entries for these, make one
-> @@ -80,6 +77,8 @@ EXTRA_OECONF =3D "--program-prefix=3D${TARGET_PREFIX} \
->                  ${LDGOLD} \
->                  mailto:${@bb.utils.contains('DISTRO_FEATURES', 'multiarc=
-h', '--enable-64-bit-bfd', '', d)}"
->=20
-> +EXTRA_OECONF_append_x86-64 =3D " --enable-targets=3Dx86_64-pe,x86_64-pep=
- "
-> +
->  LDGOLD_class-native =3D ""
->  LDGOLD_class-crosssdk =3D ""
->  LDGOLD ?=3D "mailto:${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold'=
-, '--enable-gold=3Ddefault --enable-threads', '--enable-gold --enable-ld=3D=
-default --enable-threads', d)}"
-> @@ -112,7 +111,14 @@ export CC_FOR_BUILD =3D "LD_LIBRARY_PATH=3D ${BUILD_=
-CC}"
->  MULTIARCH :=3D "mailto:${@bb.utils.contains("DISTRO_FEATURES", "multiarc=
-h", "yes", "no", d)}"
->  do_configure[vardeps] +=3D "MULTIARCH"
->  do_configure () {
-> -	(cd ${S}; gnu-configize) || die "Failed to run gnu-configize"
-> +	(for d in . bfd binutils gas gold gprof ld libctf opcodes; do
-> +            cd ${S}/$d
-> +            autoconf
-> +            rm -rf autom4te.cache
-> +        done
-> +        cd ${S}
-> +        gnu-configize)
-> +
 
-Correct the indentation to use tabs.
-
-There are also some patches below that still modify configure, which=20
-shouldn't be needed with the introduction of autoconf above.
-
->  	oe_runconf
->  #
->  # must prime config.cache to ensure the build of libiberty
-> @@ -123,10 +129,6 @@ do_configure () {
->  	done
->  }
->=20
-> -do_compile_append_class-target() {
-> -	chrpath -d ${B}/binutils/elfedit
-> -	chrpath -d ${B}/binutils/readelf
-> -}
->  do_install () {
->  	autotools_do_install
->=20
-> diff --git a/meta/recipes-devtools/binutils/binutils/0001-binutils-crosss=
-dk-Generate-relocatable-SDKs.patch b/meta/recipes-devtools/binutils/binutil=
-s/0001-binutils-crosssdk-Generate-relocatable-SDKs.patch
-> index 3a9461bf4a..a36c259711 100644
-> --- a/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Gene=
-rate-relocatable-SDKs.patch
-> +++ b/meta/recipes-devtools/binutils/binutils/0001-binutils-crosssdk-Gene=
-rate-relocatable-SDKs.patch
-> @@ -1,7 +1,7 @@
-> -From c9aed4cb3c02715b2ba1fc70949043849f202f46 Mon Sep 17 00:00:00 2001
-> +From 9caa0964b6f50411d1b4520a31461cd0a87810fd Mon Sep 17 00:00:00 2001
->  From: Khem Raj <mailto:raj.khem@gmail.com>
-> -Date: Sun, 8 Dec 2019 00:31:35 -0800
-> -Subject: [PATCH] binutils-crosssdk: Generate relocatable SDKs
-> +Date: Mon, 2 Mar 2015 01:58:54 +0000
-> +Subject: [PATCH 01/15] binutils-crosssdk: Generate relocatable SDKs
->=20
->  This patch will modify the ELF linker scripts so that the crosssdk
->  linker will generate binaries with a 4096 bytes PT_INTERP section. When =
-the binaries
-
-[cut]
-
-> @@ -57,3 +57,6 @@ index f9f0f7d402..9e469dca86 100644
->   fi
->   if test -z "$PLT"; then
->     IPLT=3D".iplt         ${RELOCATING-0} : { *(.iplt) }"
-> +--
-> +2.25.1
-> +
-
-May I suggest that you continue to use --no-signature and --no-numbered as=
-=20
-options to git format-patch to avoid unnecessary changes to the patches?
-
- [cut]
-
-> diff --git a/meta/recipes-devtools/binutils/binutils/0007-Use-libtool-2.4=
-.patch b/meta/recipes-devtools/binutils/binutils/0007-Use-libtool-2.4.patch
-> new file mode 100644
-> index 0000000000..82906026a9
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/0007-Use-libtool-2.4.patch
-> @@ -0,0 +1,7118 @@
-> +From c0ec70962bffb56b563475f539e8175ea97d7eb1 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Sun, 14 Feb 2016 17:04:07 +0000
-> +Subject: [PATCH 07/15] Use libtool 2.4
-> +
-> +get libtool sysroot support
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + bfd/configure.ac |    2 +-
-> + libtool.m4       | 1080 +++++++++++------
-> + ltmain.sh        | 2925 +++++++++++++++++++++++++++++++---------------
-> + ltoptions.m4     |    2 +-
-> + ltversion.m4     |   12 +-
-> + lt~obsolete.m4   |    2 +-
-
-Wouldn't it be better to run automake --add-missing --copy instead=20
-(or autoreconf)? That way you would get rid of all the patches to=20
-Makefile.in as well.
-
-> + 6 files changed, 2717 insertions(+), 1306 deletions(-)
-> +
-
-[cut]
-
-//Peter
 
 
