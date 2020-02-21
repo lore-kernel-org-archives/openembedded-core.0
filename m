@@ -1,33 +1,57 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 84FD161750
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id EA7DF61756
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 21:58:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48PQMQ1YSbz4c
+	Fri, 21 Feb 2020 22:15:45 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id g6so1455751plt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 22:58:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582322322;
-	bh=2y0rAkOt9+XGbETlwr36fT28U3giH/RJVRyDtqDQNLs=;
-	h=From:To:Subject:Date:From;
-	b=uIgx6nI9PBepE1N2+s+AWQcPUnmV3W3kNNdZawJfy8lVKHeOlXk2Y0s813em1MH0N
-	JhgVPnWuLak7y60/4+apgWPj4VRIxwBZ5mGG97iCzeoqAVDDs27UqBg2DAqlpsGbMf
-	b7mofKv5p477y4+naXemkrD31YzPbPOXe+lyC8k1/pKf3vPtgu8jSBs59CcsZy8Hza
-	A9XNkbrvQ53h+pHQv0QbN5o027MWn4ACmTvMg53qSkhTHB44Khdez4FNCSpLXUpTtH
-	cCNtAkTQzQt2t84RAkM53a0Ksa7ze7/j8R9MUNG+hOTq0eS+l365BMpJpzXEaIz5Yf
-	XhYY0720pUJKgeJWgGLYPT0s/yoZwcvZPwWy/HEXpGGvym/Ud3nZ6I2P1EtRcxUAF8
-	qUCu6ebaygLUIq3En+fgDqGeNfVNX3OSo7Pfb0hZienWTIYTL90eBctWR1/LA1aHK+
-	jEx4HNDekIEnQtg+E9wVqta89QT1kbFYNv+yMTCbivY8M3cqNYWKiGdEfatFWEYwx1
-	9xK81Ul4Ozh2PviJ6M8nJF+uV7GB5NMTtS/SxQoNbyQ6vXBSPY5LGxUlZH3E3b/Wzr
-	hVtMJFZZPPHA/eW/LGFjdaF2ng0GLw404iBums/EvF1oZdyyrFWl9KUYrOPtJijN9k
-	vQgy9KaG0rfYvXmGzFnG5nK0=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Feb 2020 23:58:40 +0200
-Message-Id: <20200221215840.4363-2-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] ppp: Security fix CVE-2020-8597
+	Fri, 21 Feb 2020 14:15:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=lBJwimLUTXhuDiNagPKYIs/xp0zHFgXruA2Waabjj80=;
+	b=AxnFbmc9ygvkQ4RaU/zzHaF6XNA0X6Zr3dvHflVk7CGEF+akalOmXDGPLJcuNAq1oN
+	RNHQnhlsjdSvJbfL+mYV2lEqMtNuvzu/zruKKNYXHdyrlO4IZiYVN3uOqdPuaqhJjjnS
+	TyQn6EBQgThrP6WGkwD5zmIZDn3QD9WBk9NfQCcSdcFZPu3r1fToJKCYuXqmOMtCCcaJ
+	IpZai2zDLCDWIbF6HeKMDxt8J/ApiHXtLAibXEsYWoq07l3kje96zlFpzCyq9AvXljN8
+	flvSUFw60kMQWICcxIKCRXVrvgZ1asxYBnBBAO7BBS0dnuOMJaLhnc7PdXSX/WnyKyEO
+	ImuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=lBJwimLUTXhuDiNagPKYIs/xp0zHFgXruA2Waabjj80=;
+	b=ABZqsnqWgVrxAcY5/WJtCmdqgWopiayQeKRe4awba/8TxCcf0gDc2FWzXkCaT/yALz
+	fzM0TNikQWsmvDY3Fuk13SHxRNZTnIXan/ZUgt/eksks+Sj7L+pg2DBLfA2M2a+lX1N6
+	zsK8GT/wyOM5vjM6H0aNRjgvRIkb6eJKUJlAce6WKBy4qCPMfCqVpvBGNi3OOxUdzWyu
+	0IeFK0pVA4HURvF6q9FSOJHPNWZqaexm04GOZYNu5LpS/LrZ9mDXa2dzcSJFtuA3aTrn
+	f8o2eZHQA4oJwgYcd5++kU+fW6oO5df91CG5cnohMNlA2AmckFkpJYUet4zSnxLD7yI8
+	IJWg==
+X-Gm-Message-State: APjAAAXM/mIqqfHpi1Qp5vaJ5E5M4G0H8kmToflSVaaWU5Gmh02uuidq
+	H0pvHlJ+xNdrLTJEo8yxN0BTKW00RsY=
+X-Google-Smtp-Source: APXvYqxVifwSuP0jeMWad0dcfhUL4MfcU14SUhvAonVLsP7tlSKBTDVeSc5oQF1Md3btuWvF8QOi6Q==
+X-Received: by 2002:a17:90a:fb4f:: with SMTP id
+	iq15mr5615352pjb.86.1582323346173; 
+	Fri, 21 Feb 2020 14:15:46 -0800 (PST)
+Received: from ?IPv6:2601:646:9200:4e0:949d:f94a:fa18:f7b4?
+	([2601:646:9200:4e0:949d:f94a:fa18:f7b4])
+	by smtp.gmail.com with ESMTPSA id x7sm3907167pfp.93.2020.02.21.14.15.45
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Fri, 21 Feb 2020 14:15:45 -0800 (PST)
+To: Joshua Watt <jpewhacker@gmail.com>, zhe.he@windriver.com
+References: <20200214035737.9975-1-zhe.he@windriver.com>
+	<CAJdd5GZPffGwjXH+RWxBtLwDcgR2p+4KbsNLqc7WUBWKo1fGQQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <74a29374-e918-807e-c01d-ff29132f0c82@gmail.com>
+Date: Fri, 21 Feb 2020 14:15:44 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <CAJdd5GZPffGwjXH+RWxBtLwDcgR2p+4KbsNLqc7WUBWKo1fGQQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] perf: Correct the substitution of python shebangs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,94 +64,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 21:58:41 -0000
+X-List-Received-Date: Fri, 21 Feb 2020 22:15:46 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-From: Yi Zhao <yi.zhao@windriver.com>
 
-CVE-2020-8597: eap.c in pppd in ppp 2.4.2 through 2.4.8 has an rhostname
-buffer overflow in the eap_request and eap_response functions.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2020-8597
+On 2/21/20 1:43 PM, Joshua Watt wrote:
+> On Thu, Feb 13, 2020 at 9:58 PM <zhe.he@windriver.com> wrote:
+>>
+>> From: He Zhe <zhe.he@windriver.com>
+>>
+>> To make the native python3 is always used,
+>>
+>> - Use sed one-liner instead
+>> - Add substitution for ${S}/scripts/bpf_helpers_doc.py to fix the
+>>    following warning.
+>>
+>> File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
+>> _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
+>> ModuleNotFoundError: No module named '_sysconfigdata'
+>>
+>> This issue is first reported by Joel Stanley <joel@jms.id.au>
+>> The sed one-liner is credited to Anuj Mittal <anuj.mittal@intel.com>
+>>
+>> Signed-off-by: He Zhe <zhe.he@windriver.com>
+>> ---
+>>   meta/recipes-kernel/perf/perf.bb | 7 ++-----
+>>   1 file changed, 2 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+>> index 6d1b06693d..a6fb51d3db 100644
+>> --- a/meta/recipes-kernel/perf/perf.bb
+>> +++ b/meta/recipes-kernel/perf/perf.bb
+>> @@ -239,11 +239,8 @@ do_configure_prepend () {
+>>       fi
+>>
+>>       # use /usr/bin/env instead of version specific python
+>> -    for s in `find ${S}/tools/perf/ -name '*.py'`; do
+>> -        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
+>> -        sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
+>> -        sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
+>> -        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
+>> +    for s in `find ${S}/tools/perf/ -name '*.py'` ${S}/scripts/bpf_helpers_doc.py; do
+> 
+> Do we have to hard code bpf_helpers_doc.py? It doesn't exist in older
+> versions (e.g. 4.14) and causes do_configure to fail.
 
-Patch from:
-https://github.com/paulusmack/ppp/commit/8d7970b8f3db727fe798b65f3377fe6787575426
+Probably not, I also stumbled into this problem.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- ...01-pppd-Fix-bounds-check-in-EAP-code.patch | 47 +++++++++++++++++++
- meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppd-Fix-bounds-check-in-EAP-code.patch
-
-diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppd-Fix-bounds-check-in-EAP-code.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppd-Fix-bounds-check-in-EAP-code.patch
-new file mode 100644
-index 0000000000..b7ba7ba643
---- /dev/null
-+++ b/meta/recipes-connectivity/ppp/ppp/0001-pppd-Fix-bounds-check-in-EAP-code.patch
-@@ -0,0 +1,47 @@
-+From 8d7970b8f3db727fe798b65f3377fe6787575426 Mon Sep 17 00:00:00 2001
-+From: Paul Mackerras <paulus@ozlabs.org>
-+Date: Mon, 3 Feb 2020 15:53:28 +1100
-+Subject: [PATCH] pppd: Fix bounds check in EAP code
-+
-+Given that we have just checked vallen < len, it can never be the case
-+that vallen >= len + sizeof(rhostname).  This fixes the check so we
-+actually avoid overflowing the rhostname array.
-+
-+Reported-by: Ilja Van Sprundel <ivansprundel@ioactive.com>
-+Signed-off-by: Paul Mackerras <paulus@ozlabs.org>
-+
-+Upstream-Status: Backport
-+[https://github.com/paulusmack/ppp/commit/8d7970b8f3db727fe798b65f3377fe6787575426]
-+
-+CVE: CVE-2020-8597
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ pppd/eap.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/pppd/eap.c b/pppd/eap.c
-+index 94407f5..1b93db0 100644
-+--- a/pppd/eap.c
-++++ b/pppd/eap.c
-+@@ -1420,7 +1420,7 @@ int len;
-+ 		}
-+ 
-+ 		/* Not so likely to happen. */
-+-		if (vallen >= len + sizeof (rhostname)) {
-++		if (len - vallen >= sizeof (rhostname)) {
-+ 			dbglog("EAP: trimming really long peer name down");
-+ 			BCOPY(inp + vallen, rhostname, sizeof (rhostname) - 1);
-+ 			rhostname[sizeof (rhostname) - 1] = '\0';
-+@@ -1846,7 +1846,7 @@ int len;
-+ 		}
-+ 
-+ 		/* Not so likely to happen. */
-+-		if (vallen >= len + sizeof (rhostname)) {
-++		if (len - vallen >= sizeof (rhostname)) {
-+ 			dbglog("EAP: trimming really long peer name down");
-+ 			BCOPY(inp + vallen, rhostname, sizeof (rhostname) - 1);
-+ 			rhostname[sizeof (rhostname) - 1] = '\0';
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-index 644cde4562..60c56dd0bd 100644
---- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-+++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
-@@ -33,6 +33,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
-            file://0001-pppoe-include-netinet-in.h-before-linux-in.h.patch \
-            file://0001-ppp-Remove-unneeded-include.patch \
-            file://ppp-2.4.7-DES-openssl.patch \
-+           file://0001-pppd-Fix-bounds-check-in-EAP-code.patch \
- "
- 
- SRC_URI_append_libc-musl = "\
--- 
-2.17.1
-
+> 
+>> +        sed -i -e "s,#!.*python.*,#!${USRBINPATH}/env python3," ${s}
+>>       done
+>>
+>>       # unistd.h can be out of sync between libc-headers and the captured version in the perf source
+>> --
+>> 2.24.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
