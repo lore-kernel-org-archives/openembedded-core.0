@@ -1,46 +1,33 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 988DD61741
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EB6C6173C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 21:43:10 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id y11so3617117wrt.6
+	Fri, 21 Feb 2020 21:56:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48PQJn5Pjxz40
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 13:43:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9ArLyfwGPAdKjscY7zrTS7qlWLZASWqNYntQhr7uh1A=;
-	b=KeCbBjnf97nXBlV3x6ftL620jGPd5EIDK5XRqPG6fuble3N1W3A7hnYCVMbEA5qxI9
-	vs14dQHmkbH39eLACfhkThcsGyQo0fkBCo9qFyzOaD8KoXGh2fLLUgyHpls775Ek008L
-	cAUJlJ66iustRayLpa8BnTZQmO32lkG+Eh4TmCEtF0GTsL3cUVRGrS5s3CVqJFpbQ7GA
-	EWdgTCVRJiFbFyYVKBijT8dFz+57HeXFFZDJseIix4iaklcAPbh+q8WFztWknjXhV1MN
-	Apc3/RVOGiUNPiHtcdhCGoQIN9ZfwQkc80NyYebt3WS5KW8AAYkY9JgHb8tTKsCOIFYb
-	tEDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9ArLyfwGPAdKjscY7zrTS7qlWLZASWqNYntQhr7uh1A=;
-	b=Zr1ggW68jgb8V1zXWoS1fgb5zxvr47gtm+atwUUySQsE+v17MxcBuW88nVVrAgdS8Q
-	qU/c4IGRMP/m4PY+wE+2J/CFrrBQ6K+xQlDnGeFR0jK2zq39RSxH74ONMgdEOFSYV0HE
-	wf+iJJ8W2pXHPuafS5MhCwOkmTeaeocfD4D3D4pON7jhKPyVysITAMBXiAYnwzE8pCfC
-	VIzgF/7SESPLZaOOSkSFAHAOOtk/dMHu7Pp/rTWDndUc/sXTt9sbPLVLCjt8WcJ0aGPj
-	gbFxjhKf6XfKOB7KdfgYBOy0cejlI9/g0wqI/gXIoMMKcHqyrAWEdAzPcYa/PJ6HMFAy
-	9jrQ==
-X-Gm-Message-State: APjAAAVt5P2rKA/EkkYdkGFb8VTLVve8mrwBPEQvk5MJPXz6xrGm5PeM
-	v+w+zcdQBBsf/Cr510QatMnpmEea/0qLxuCiafM=
-X-Google-Smtp-Source: APXvYqy7G7iTWDgNx1p/2soltYnxch2ljCg/HHhYG03+t3Kc3i6oRmpPeqSMc4YDN3mCI7nkM56/sXpGTKMFbRTGN/s=
-X-Received: by 2002:adf:f7c4:: with SMTP id a4mr50812087wrq.361.1582321390983; 
-	Fri, 21 Feb 2020 13:43:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20200214035737.9975-1-zhe.he@windriver.com>
-In-Reply-To: <20200214035737.9975-1-zhe.he@windriver.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 21 Feb 2020 15:43:00 -0600
-Message-ID: <CAJdd5GZPffGwjXH+RWxBtLwDcgR2p+4KbsNLqc7WUBWKo1fGQQ@mail.gmail.com>
-To: zhe.he@windriver.com
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] perf: Correct the substitution of python shebangs
+	Fri, 21 Feb 2020 22:56:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1582322185;
+	bh=Lbv3FZujnZd861df5BzafEj/g57g7jwMlRohfguF6WE=;
+	h=From:To:Subject:Date:From;
+	b=W4DQOZdANRuQL+nZWvDATcwL1jb8m+IsyMSmvrANpQFW+7JuCC2HUNGCkjw/L3wR6
+	ANxWMwYiATeE6lre2k2AHrb1p3+kM555s10EVd+UFya4DOMNLJJCILHC5NOzvaROWb
+	cf1b4iqo6Zjvp3W6LXLE1+PwzbJQXpheLuBgh4b61OxdXwrQjsVBGiOUizuW9NLMpt
+	ZMjTeNwMGhIGT8dwJL2z4q8UGcE6xKoSJUumDPIwpjvDCCPT4bsW2OHWqgC+AAWQRQ
+	XbDbwddu1zR4Bh7L5/a3ui+/FSmRNjIjavuu965B14YOFIQRwnMcM5jZywQymDSFk0
+	+GSZlrtO0JeEvXCMHTtRXpj/qyhaZNNzbp3IoR2XnyFYJLb+BIsFl2T0vA+1C8ksBA
+	psCA75VV8+uV+B3pb8t66/BWK+5d8o+FEywBjYUf9gSKzdU4F/wSVr8fVXMB/5VzsK
+	w0mIn1HDIsjpDuTEnccAJcg0CZcoQUflu1u0OyIhCYMDyFT11lN47Arynp+3E3PJt2
+	QRDOxvlcMEI5R4tdPptIDihqZp+231U28vSvqs97L4dN9DvwygTa+gxtakKbv95A88
+	2hKsUaIRXY6Cwf3MuzH2FHGXj8vxMLubL2K4g1wBcHfJWu0iN34X0cgKCKqsQHZpnQ
+	v0UtA2dYC8zbRFG/Z07YsdOQ=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Feb 2020 23:56:23 +0200
+Message-Id: <20200221215624.4102-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [warrior][PATCH 1/2] sqlite3: fix CVE-2019-16168
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,59 +40,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 21:43:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 21 Feb 2020 21:56:28 -0000
 
-On Thu, Feb 13, 2020 at 9:58 PM <zhe.he@windriver.com> wrote:
->
-> From: He Zhe <zhe.he@windriver.com>
->
-> To make the native python3 is always used,
->
-> - Use sed one-liner instead
-> - Add substitution for ${S}/scripts/bpf_helpers_doc.py to fix the
->   following warning.
->
-> File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
-> _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
-> ModuleNotFoundError: No module named '_sysconfigdata'
->
-> This issue is first reported by Joel Stanley <joel@jms.id.au>
-> The sed one-liner is credited to Anuj Mittal <anuj.mittal@intel.com>
->
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> ---
->  meta/recipes-kernel/perf/perf.bb | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index 6d1b06693d..a6fb51d3db 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -239,11 +239,8 @@ do_configure_prepend () {
->      fi
->
->      # use /usr/bin/env instead of version specific python
-> -    for s in `find ${S}/tools/perf/ -name '*.py'`; do
-> -        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
-> -        sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
-> -        sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
-> -        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
-> +    for s in `find ${S}/tools/perf/ -name '*.py'` ${S}/scripts/bpf_helpers_doc.py; do
+From: "Qi.Chen@windriver.com" <Qi.Chen@windriver.com>
 
-Do we have to hard code bpf_helpers_doc.py? It doesn't exist in older
-versions (e.g. 4.14) and causes do_configure to fail.
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ .../files/0001-Fix-CVE-2019-16168.patch       | 40 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.27.2.bb |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
 
-> +        sed -i -e "s,#!.*python.*,#!${USRBINPATH}/env python3," ${s}
->      done
->
->      # unistd.h can be out of sync between libc-headers and the captured version in the perf source
-> --
-> 2.24.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch b/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
+new file mode 100644
+index 0000000000..7c4a65b3cd
+--- /dev/null
++++ b/meta/recipes-support/sqlite/files/0001-Fix-CVE-2019-16168.patch
+@@ -0,0 +1,40 @@
++From fcf06b0b426e6c243d6ca2d6c6a02830717ab6a3 Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Tue, 15 Oct 2019 13:22:52 +0800
++Subject: [PATCH] Fix CVE-2019-16168
++
++CVE: CVE-2019-16168
++
++Upstream-Status: Backport [https://www.sqlite.org/src/vpatch?from=4f5b2d938194fab7&to=98357d8c1263920b]
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ sqlite3.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index 61bfdeb..b3e6ae2 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -105933,7 +105933,9 @@ static void decodeIntArray(
++       if( sqlite3_strglob("unordered*", z)==0 ){
++         pIndex->bUnordered = 1;
++       }else if( sqlite3_strglob("sz=[0-9]*", z)==0 ){
++-        pIndex->szIdxRow = sqlite3LogEst(sqlite3Atoi(z+3));
+++        int sz = sqlite3Atoi(z+3);
+++        if( sz<2 ) sz = 2;
+++        pIndex->szIdxRow = sqlite3LogEst(sz);
++       }else if( sqlite3_strglob("noskipscan*", z)==0 ){
++         pIndex->noSkipScan = 1;
++       }
++@@ -143260,6 +143262,7 @@ static int whereLoopAddBtreeIndex(
++     ** it to pNew->rRun, which is currently set to the cost of the index
++     ** seek only. Then, if this is a non-covering index, add the cost of
++     ** visiting the rows in the main table.  */
+++    assert( pSrc->pTab->szTabRow>0 );
++     rCostIdx = pNew->nOut + 1 + (15*pProbe->szIdxRow)/pSrc->pTab->szTabRow;
++     pNew->rRun = sqlite3LogEstAdd(rLogSize, rCostIdx);
++     if( (pNew->wsFlags & (WHERE_IDX_ONLY|WHERE_IPK))==0 ){
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.27.2.bb b/meta/recipes-support/sqlite/sqlite3_3.27.2.bb
+index 4bdb04f4d1..2888a56ee9 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.27.2.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.27.2.bb
+@@ -7,6 +7,7 @@ SRC_URI = "\
+   http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+   file://CVE-2019-9936.patch \
+   file://CVE-2019-9937.patch \
++  file://0001-Fix-CVE-2019-16168.patch \
+   "
+ 
+ SRC_URI[md5sum] = "1f72631ce6e8efa5b4a6e55a43b3bdc0"
+-- 
+2.17.1
+
 
