@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id DB1C06161C
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 042086161F
 	for <openembedded-core@openembedded.org>;
-	Fri, 21 Feb 2020 02:54:05 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id q39so94926pjc.0
+	Fri, 21 Feb 2020 02:54:06 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id j7so248467plt.1
 	for <openembedded-core@openembedded.org>;
-	Thu, 20 Feb 2020 18:54:07 -0800 (PST)
+	Thu, 20 Feb 2020 18:54:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=mX2zETm5OlrRRKNoddYNBqWs35AIXwo8ztjalubyfAM=;
-	b=Z+p8vjV3M1bIqrUMPCwAUudWO93kdQG98siSdXqLTaxEojJIiga+YFUEoCNfFMKZyY
-	KZ7kPbG43rWN8Cyi8DWGjpoH00A9QnAztyIno4/ZazOI8N0brTnc6FWEqTXASh60r1EF
-	VbwUWLxedwojZfsglw+mbD7j1UWdRIWrfQGDwH/FjNc0hdm+e0UbTcRX7MblqZ1BW0kT
-	DOQtpNNXsLpK3rCDFMbeKueNCwNYQ3NyQJ2JTcYTcNsMVB4O+lrHq80xsWxk626JTWwo
-	KyIhYoslQfQtWxXe9nrEn2efX1dt2ioWdR7KT8TDXf9mbOenMTUXFL7YHCooyptLNjm5
-	jWug==
+	bh=hb1YP4Ww4aYxh6cH36O/5k70Y0P7rH0U6X71ZUmfpa4=;
+	b=W4KsyRx32cixR473yLdAM5m6nUAS5v4XL0y1GsHB8GjU+AwTmIWtXiUjfl27/UDp6x
+	dyuEjw8zq2ZDs5g1sf785zErrTVrM/dBa1BTm0PUS2yIRFChUanGXfbf6hhwOKiKGlYe
+	GvboWUuEcuJpbThZz3BmCYCpuelO1BFnZLCPjB3rxvMv4cZmu51bLSmx9XSj5TnLyAcL
+	PZh8etzaFlqP/nevOVLzfF36xg2aePWKdjOhChRseHsAMlKOTgnSRWpiHnBGInnpX6am
+	5+nwB/fJTwoZs8/2qbqH43+77JLLDeWEIhCPbMGhPrz9CO7HcbFn7MKyIWyz9zLGbNcr
+	9tfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=mX2zETm5OlrRRKNoddYNBqWs35AIXwo8ztjalubyfAM=;
-	b=H1zz8y+puKV1KF+jLcnPryAh2Vh5x1Mz/Rq0m2nJZFFk+07fSnqySsaWHH4xbTu6fN
-	e8LS0hQHOer7aaofMK7OL/UuNCv3dYrskx7PNUobsxJ4Q2jEciK7f2ZZqEnNKJa2RyRs
-	XhLIpf7xQh+ZxCtybkiSmB+fOEReDy7jBI1oDjEagIMiE70LTEusVeE1NvyBS1qr1EsW
-	25UIz5sOP5wDdN/RZHvgFGun8U6Y/Qq8a41R5oAZNBtXCcPAo+G8Q67DZeYNgKH1+Ds9
-	pHicAFRjm+KfDdBjVtaCeRZRlZaGkfjYFhiCSO+DLX6iYOdMX/PMy6LUZetPDe5SxGq1
-	61IA==
-X-Gm-Message-State: APjAAAV+SRbEo+UFZHi69AACDBNU0z8iMcbvSf46E0ATZ6ZnJW9sch84
-	fkvI7XEmgpElbQ8l189nGRQBzkqG
-X-Google-Smtp-Source: APXvYqzFMdbh49zxlVF6UgbMhGijLtFGS8TNFEBwn2o3ti4W5a3RbiP58tOQ0us+/hyho8T+4VtIvQ==
-X-Received: by 2002:a17:902:82c3:: with SMTP id
-	u3mr32351630plz.73.1582253646904; 
-	Thu, 20 Feb 2020 18:54:06 -0800 (PST)
+	bh=hb1YP4Ww4aYxh6cH36O/5k70Y0P7rH0U6X71ZUmfpa4=;
+	b=P5z3W3iS2a6SlYGaQCWPMTEwc7lQikAp4mIMa4rBxynBU3A+NKgcdfpoDjc64X9AuA
+	40u1GBJ0c0UL+JL90BO12gLy8kp7hm5HuNlwGYrpGcqu7RPBSObN2mtTuKbjDr0UQxGS
+	7N2R7En1F+VninqeEXWmlYk97ULrtKUUIcPbG83ubIeoxEfSpGXCyqFcBJPkjckWcXhX
+	R6Dh/6eO2gNzPNS1xxYtorCW5H8oGKnGSp3vkh7z4xpqZ7FTav5DZTgVSx/i5rGC1X2v
+	zOaoQx3xkW+5GYFvc9ISNjF8kZVurqKL+fr5HDRQbMj6kVQ2gJunQH/qo//4kJQoVRLj
+	I4fA==
+X-Gm-Message-State: APjAAAXR5VLC3LRMsDcL8iAPMs6/HkWhz6D/7+7YkQg+4l9SVafvDRnO
+	nXE7KhwQN7TruPSxz7PVHTSdwTJM
+X-Google-Smtp-Source: APXvYqwcLNjiT1wncgKuLf1d6amoqQ8JS36uzdkdgvw/ZYD25zoQiX+qDrwy+0Mv8Mfmls6KIKWN8w==
+X-Received: by 2002:a17:902:aa49:: with SMTP id
+	c9mr35216691plr.145.1582253647842; 
+	Thu, 20 Feb 2020 18:54:07 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:88be:17f0:935c:9e35])
 	by smtp.gmail.com with ESMTPSA id
-	y10sm925320pfq.110.2020.02.20.18.54.05
+	y10sm925320pfq.110.2020.02.20.18.54.07
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 20 Feb 2020 18:54:06 -0800 (PST)
+	Thu, 20 Feb 2020 18:54:07 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Thu, 20 Feb 2020 18:53:29 -0800
-Message-Id: <0d58f5a01c7d49765d66a7e2d73eef0adb868eac.1582253544.git.akuster808@gmail.com>
+Date: Thu, 20 Feb 2020 18:53:30 -0800
+Message-Id: <1c16c37e907f4712f40aa70d62c6a526e5228195.1582253544.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1582253544.git.akuster808@gmail.com>
 References: <cover.1582253544.git.akuster808@gmail.com>
-Subject: [warrior 10/14] timezone:upgrade 2019b -> 2019c
+Subject: [warrior 11/14] linux-firmware: bump to 20190618
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,49 +60,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 02:54:06 -0000
+X-List-Received-Date: Fri, 21 Feb 2020 02:54:07 -0000
 
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 
--tzdata : upgrade from 2019b to 2019c.
-
--tzcode-native : upgrade from 2019b to 2019c.
-
--tzdata.bb and tzcode-native.bb require timezone.inc.
-
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit c5a382429d18642d35d40a4df6a58b971c724603)
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 4cbb7392c729a2436c26308c2320fdae5c450d7a)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/timezone/timezone.inc | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../{linux-firmware_git.bb => linux-firmware_20190618.bb} | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_git.bb => linux-firmware_20190618.bb} (99%)
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index ce16524ebb..f6bab1acb4 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -4,7 +4,7 @@ SECTION = "base"
- LICENSE = "PD & BSD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20190618.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20190618.bb
+index 8b6ad96dba..acaca955be 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_git.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20190618.bb
+@@ -92,7 +92,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8 \
+                     file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88 \
+                     file://LICENCE.kaweth;md5=b1d876e562f4b3b8d391ad8395dfe03f \
+-                    file://LICENCE.Marvell;md5=9ddea1734a4baf3c78d845151f42a37a \
++                    file://LICENCE.Marvell;md5=28b6ed8bd04ba105af6e4dcd6e997772 \
+                     file://LICENCE.mediatek;md5=7c1976b63217d76ce47d0a11d8a79cf2 \
+                     file://LICENCE.moxa;md5=1086614767d8ccf744a923289d3d4261 \
+                     file://LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed \
+@@ -123,7 +123,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=b6e44adf71bc37e5f26ebfe5a08b5490 \
++                    file://WHENCE;md5=55814698bbae7c7dd40c9fbde91af0a8 \
+                     "
  
--PV = "2019b"
-+PV = "2019c"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -190,9 +190,7 @@ NO_GENERIC_LICENSE[Firmware-xc5000] = "LICENCE.xc5000"
+ NO_GENERIC_LICENSE[Firmware-xc5000c] = "LICENCE.xc5000c"
+ NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
  
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata \
-@@ -12,7 +12,7 @@ SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
+-SRCREV = "711d3297bac870af42088a467459a0634c1970ca"
+-PE = "1"
+-PV = "0.0+git${SRCPV}"
++SRCREV = "0731d06eadc7d9c52e58f354727101813b8da6ea"
  
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
  
--SRC_URI[tzcode.md5sum] = "91e0978d947496fd6aaf46d351f9c41d"
--SRC_URI[tzcode.sha256sum] = "2e479d409337da41408629ce6c3b4d8410b10ba6d4431d862e22d2b137d7756d"
--SRC_URI[tzdata.md5sum] = "b26b5d7d844cb96c73ed2fb6d588daaf"
--SRC_URI[tzdata.sha256sum] = "05d9092c90dcf9ec4f3ccfdea80c7dcea5e882b3b105c3422da172aaa9a50c64"
-+SRC_URI[tzcode.md5sum] = "195a17454c5db05cab96595380650391"
-+SRC_URI[tzcode.sha256sum] = "f6ebd3668e02d5ed223d3b7b1947561bf2d2da2f4bd1db61efefd9e06c167ed4"
-+SRC_URI[tzdata.md5sum] = "f6987e6dfdb2eb83a1b5076a50b80894"
-+SRC_URI[tzdata.sha256sum] = "79c7806dab09072308da0e3d22c37d3b245015a591891ea147d3b133b60ffc7c"
 -- 
 2.17.1
 
