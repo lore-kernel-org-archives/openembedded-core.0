@@ -1,55 +1,23 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 7967B613AA
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 92F3C606AC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 23:48:50 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id s144so3911168wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 15:48:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=19MYFCeVH+MlK8hgWPNwnP2dYml6Yx/AvKXSWzYQhlM=;
-	b=ELXIxjKlai6nSjdgiGr84HLcA0fnKrEVMylY4KfJu6adkNxi+j/L8ZacpiZQs2LOPh
-	Qi6CT5nrEnTFb2eLpvxKOE+9s7GPSRgLjn5ADSWUz1vvAU9tS1I3l4UagvpQUv44zOwq
-	pJnaueczRKDIgCVPyAkDOD9aDKZvPmS/ALd79agCZubVRIdi1IV8D2J6h1IRbedap+qi
-	bXyrjopGLUgVsMyo46CSb9PUr5YQ3IvpteJe1IKAXVyyv2fo9K8XNqCEbvFc/x1NACEA
-	FUQYvIoDXY6EM+K9sME6F22zdDiIeT+XJUH/4c9+40A/8fTcQBUgAyhIR6Q3QAkUG2Zh
-	yW+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=19MYFCeVH+MlK8hgWPNwnP2dYml6Yx/AvKXSWzYQhlM=;
-	b=uj0LBNSGpSSXjEimtIFqwdXlNFW5fALK+mFrwp6OSrxi/+pYQdYKkwF6hIBG/sbQWW
-	vGSRQItVaBJoiR/AT/6G4tiqMFLMZRdSQilBzs3WWtD0tB//Ih6m5kO6Ils/sxWQpL6l
-	pzOOj2Pp6Jj3gC6NJDxXyMIhaWUUYjzbjWEnaFSzbdVj1YE3hhfaynvxHxcUpZgSzTMX
-	buegbM/4SzUjtVsWx1dGmWkHgc2uIw6ccjPXbRI6QoRGIlcCuNKz3ZAwLPTR7dG8NqAI
-	BeeoEU0QaRT49qHyOY0fUOP3v2l/iAxUuq/zpcLlnWpPFv1QjLaGjKmCZXiS4blrwgdO
-	RZ6Q==
-X-Gm-Message-State: APjAAAU3cdnxSK6UbOHP88HaQlS81KdtqwUl0AFSIZk/spWDjw2XEvDg
-	BzjQi5OQ0j30BhlUV+Ap+XekBhgu
-X-Google-Smtp-Source: APXvYqwKc8NktTuMo3S+AZMbK39ocFe1QBxdBAm5zy5D9TgdYQBG55ASwU/WK3vojvgWPdPJVq+OBQ==
-X-Received: by 2002:a1c:610a:: with SMTP id v10mr6750793wmb.44.1582242531019; 
-	Thu, 20 Feb 2020 15:48:51 -0800 (PST)
-Received: from superandy.speedport.ip
-	(p200300F07F063D08DABBBE70F130126B.dip0.t-ipconnect.de.
-	[2003:f0:7f06:3d08:dabb:be70:f130:126b])
-	by smtp.gmail.com with ESMTPSA id
-	a198sm1185361wme.12.2020.02.20.15.48.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 20 Feb 2020 15:48:50 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+	Fri, 21 Feb 2020 02:01:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Feb 2020 18:01:51 -0800
+X-IronPort-AV: E=Sophos;i="5.70,466,1574150400"; d="scan'208";a="225067235"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga007-auth.jf.intel.com with ESMTP/TLS/AES256-SHA256;
+	20 Feb 2020 18:01:51 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Feb 2020 00:48:29 +0100
-Message-Id: <20200220234829.12306-2-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200220234829.12306-1-schnitzeltony@gmail.com>
-References: <20200220234829.12306-1-schnitzeltony@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2][master-next] webkitgtk: enable gobject-introspection for armv7ve - it builds without issues
+Date: Fri, 21 Feb 2020 10:01:16 +0800
+Message-Id: <1582250488-79398-1-git-send-email-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 01/13] bluez5: upgrade 5.52 -> 5.53
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,31 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 23:48:51 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 21 Feb 2020 02:01:51 -0000
 
-Maybe armv7a can be re-enabled either but due to limited resources there is no
-chance for me to test.
-
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-connectivity/bluez5/{bluez5_5.52.bb => bluez5_5.53.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.52.bb => bluez5_5.53.bb} (91%)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-index fa109446d1..a1dba73c51 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-@@ -127,7 +127,6 @@ ARM_INSTRUCTION_SET_armv7ve = "thumb"
- # qemu: uncaught target signal 11 (Segmentation fault) - core dumped
- # Segmentation fault
- GI_DATA_ENABLED_armv7a = "False"
--GI_DATA_ENABLED_armv7ve = "False"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.52.bb b/meta/recipes-connectivity/bluez5/bluez5_5.53.bb
+similarity index 91%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.52.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.53.bb
+index b861030..055e76b 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.52.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.53.bb
+@@ -1,7 +1,7 @@
+ require bluez5.inc
  
- # Can't be built with ccache
- CCACHE_DISABLE = "1"
+-SRC_URI[md5sum] = "a33eb9aadf1dd4153420958709d3ce60"
+-SRC_URI[sha256sum] = "f7144ce2039202cfac18ccb52426efea11c98e4f6e1bb8041bcb994b8378560a"
++SRC_URI[md5sum] = "85b14abb138948f50b1650aa866cb019"
++SRC_URI[sha256sum] = "38aa2da8302fefad53116bb281a11968732a42eeb19c5fb3668342f39b7938bc"
+ 
+ # noinst programs in Makefile.tools that are conditional on READLINE
+ # support
 -- 
-2.21.0
+2.7.4
 
 
