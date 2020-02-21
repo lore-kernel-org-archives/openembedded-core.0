@@ -1,25 +1,49 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id F1E2A615FA
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 02:42:28 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Feb 2020 18:42:30 -0800
-X-IronPort-AV: E=Sophos;i="5.70,466,1574150400"; d="scan'208";a="229697807"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga008-auth.jf.intel.com with ESMTP/TLS/AES256-SHA256;
-	20 Feb 2020 18:42:29 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Feb 2020 10:41:58 +0800
-Message-Id: <1582252918-89191-2-git-send-email-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1582252918-89191-1-git-send-email-anuj.mittal@intel.com>
-References: <1582252918-89191-1-git-send-email-anuj.mittal@intel.com>
-Subject: [PATCH 2/2] gstreamer1.0-plugins-good: add qt5 PACKAGECONFIG
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A70C615FA
+	for <openembedded-core@openembedded.org>;
+	Fri, 21 Feb 2020 02:53:54 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id ay11so250237plb.0
+	for <openembedded-core@openembedded.org>;
+	Thu, 20 Feb 2020 18:53:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=rr1LmQbqg5RfSX7YXIGnpUnmMgRxkZCjtsp4TO2hTE0=;
+	b=S7u6VK/5BTq+YE3wVNE0hTklg6ZN/fJtvnpnT1LLkh7VtRwjb6qnHAxS/WBVZ+tm11
+	SKefOQWQ/rmcm9HtDd8FwerZMsol7c6O/BBbLQC656IhCjVU92nzPrVOxDx+oH9uPjaz
+	oC0f5fso1D6KEio6661vXOqhNF5sInG8caJ/RqkF5AKPYLezQgbCw89yEcEF4y+dqgu3
+	wNym4wpXzl1uVyv0CdTw/IqPRds+8pxaw15rgYpAAiCUDFL0isrWm+PJu1LNpQ8EX40q
+	aKYRyHBQE8LZZz5nKD92aDOf8fH9hYUTv094Pz+OX+ZHeNaABzcbQEExENF4icaJYPsO
+	5Snw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=rr1LmQbqg5RfSX7YXIGnpUnmMgRxkZCjtsp4TO2hTE0=;
+	b=C+oT9SeaJX7ccLxfq/VMSQm7bI9DyU7+7OgQdn8DNuV1b2PsvE9J5/ShbNTCT/NWFX
+	RcoIiffxFvJ2ecA1EJRv0kQNxWHW1ftDKuYm/Ya19IclR7K8CxPUB+COVu7SCDd0bmT8
+	6Q0KTIqQ4O1K56EBKbR9LYAkSrSqAlqGzrQ7kiLpC/ATXuXmsG0/p43ImmGAWjMx+lJi
+	4cAqt6V6rIie6bA4XpWtnfdwSe8L+svx8W6kznkuPgoIOmoxpQ9zt2DJN0R+AfYJQr+i
+	JpdiO21GsMpSdZr1aZHFC+ffLjQRWljeiiUV2UL+njOf54WtM4ZtOnjSc8fQ2HfMcJ8r
+	EYsg==
+X-Gm-Message-State: APjAAAVGWrK9drVfDsUlEW/Za7/wZodc9dPr68uXJf+i3UJLwpIqNZPR
+	8HWCff6uP6gdhe6QsM9VnEPNWX52
+X-Google-Smtp-Source: APXvYqwtMWSUElQHY8faqQikRJ78M4ZVSAuaDbkw3sa650EE5b6gk9d/aqqj1H5tyWvtlHXgMd2F8w==
+X-Received: by 2002:a17:90a:9b88:: with SMTP id g8mr363961pjp.72.1582253635784;
+	Thu, 20 Feb 2020 18:53:55 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:a5c0:88be:17f0:935c:9e35])
+	by smtp.gmail.com with ESMTPSA id
+	y10sm925320pfq.110.2020.02.20.18.53.54
+	for <openembedded-core@openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 20 Feb 2020 18:53:55 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@openembedded.org
+Date: Thu, 20 Feb 2020 18:53:19 -0800
+Message-Id: <cover.1582253544.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [warrior 00/14] Merge request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +56,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 02:42:29 -0000
+X-List-Received-Date: Fri, 21 Feb 2020 02:53:55 -0000
 
-Instead of disabling unconditionally, add PACKAGECONFIG for
-qt5. Imported from meta-qt5 layer.
+Please merge these into warrior.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../gstreamer/gstreamer1.0-plugins-good_1.16.2.bb                  | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
-index f3e0cee..8b34111 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
-@@ -42,6 +42,7 @@ PACKAGECONFIG[libpng]     = "-Dpng=enabled,-Dpng=disabled,libpng"
- PACKAGECONFIG[libv4l2]    = "-Dv4l2-libv4l2=enabled,-Dv4l2-libv4l2=disabled,v4l-utils"
- PACKAGECONFIG[mpg123]     = "-Dmpg123=enabled,-Dmpg123=disabled,mpg123"
- PACKAGECONFIG[pulseaudio] = "-Dpulse=enabled,-Dpulse=disabled,pulseaudio"
-+PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-Dqt5=disabled,qtbase qtdeclarative qtbase-native"
- PACKAGECONFIG[soup]       = "-Dsoup=enabled,-Dsoup=disabled,libsoup-2.4"
- PACKAGECONFIG[speex]      = "-Dspeex=enabled,-Dspeex=disabled,speex"
- PACKAGECONFIG[taglib]     = "-Dtaglib=enabled,-Dtaglib=disabled,taglib"
-@@ -50,11 +51,6 @@ PACKAGECONFIG[vpx]        = "-Dvpx=enabled,-Dvpx=disabled,libvpx"
- PACKAGECONFIG[wavpack]    = "-Dwavpack=enabled,-Dwavpack=disabled,wavpack"
- PACKAGECONFIG[x11]        = "${X11ENABLEOPTS},${X11DISABLEOPTS},${X11DEPENDS}"
- 
--# qt5 support is disabled, because it is not present in OE core, and requires more work than
--# just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
--# This is better done in a separate qt5 layer (which then should add a "qt5" packageconfig
--# in a gstreamer1.0-plugins-good bbappend).
--
- EXTRA_OEMESON += " \
-     -Daalib=disabled \
-     -Ddirectsound=disabled \
-@@ -64,7 +60,6 @@ EXTRA_OEMESON += " \
-     -Doss4=disabled \
-     -Dosxaudio=disabled \
-     -Dosxvideo=disabled \
--    -Dqt5=disabled \
-     -Dshout2=disabled \
-     -Dtwolame=disabled \
-     -Dwaveform=disabled \
+The following changes since commit a63d59f64a2d1f450a7639426cae8e0373a2d764:
+
+  sanity.bbclass: Move sanity_info from conf to cache (2020-01-25 08:37:48 -0800)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/warrior-next
+  http://cgit.openembedded.org//log/?h=stable/warrior-next
+
+Anuj Mittal (1):
+  cpio: fix CVE-2019-14866
+
+Armin Kuster (2):
+  python2: add ntpath
+  timezone: update to 2019b
+
+Bruce Ashfield (4):
+  linux-yocto/4.19: update to v4.19.72
+  linux-yocto/4.19: update to v4.19.78
+  linux-yocto/4.19: update to v4.19.84
+  linux-yocto/4.19: update to v4.19.87
+
+Lee Chee Yang (1):
+  rsync: whitelist CVE-2017-16548
+
+Oleksandr Kravchuk (2):
+  linux-firmware: bump to 20190618
+  linux-firmware: add PE back
+
+Otavio Salvador (1):
+  linux-firmware: Upgrade 20190618 -> 20190815
+
+Rahul Chauhan (1):
+  libxml2: Fix CVE-2019-19956
+
+Samuli Piippo (1):
+  linux-firmware: update packaging for brcm files
+
+Zang Ruochen (1):
+  timezone:upgrade 2019b -> 2019c
+
+ .../libxml/libxml2/fix-CVE-2019-19956.patch   |  38 +++
+ meta/recipes-core/libxml/libxml2_2.9.8.bb     |   1 +
+ .../python/python/python2-manifest.json       |   1 +
+ meta/recipes-devtools/rsync/rsync_3.1.3.bb    |   3 +
+ .../cpio/cpio-2.12/CVE-2019-14866.patch       | 316 ++++++++++++++++++
+ meta/recipes-extended/cpio/cpio_2.12.bb       |   1 +
+ meta/recipes-extended/timezone/timezone.inc   |  10 +-
+ ...ware_git.bb => linux-firmware_20190815.bb} |  26 +-
+ .../linux/linux-yocto-rt_4.19.bb              |   6 +-
+ .../linux/linux-yocto-tiny_4.19.bb            |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb |  20 +-
+ 11 files changed, 397 insertions(+), 33 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
+ create mode 100644 meta/recipes-extended/cpio/cpio-2.12/CVE-2019-14866.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_git.bb => linux-firmware_20190815.bb} (98%)
+
 -- 
-2.7.4
+2.17.1
 
 
