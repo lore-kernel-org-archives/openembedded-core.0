@@ -1,52 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 0612161773
+Return-Path: <jpuhlman@gmail.com>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C3BD6176F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 20:16:30 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id t14so3200953wmi.5
+	Fri, 21 Feb 2020 20:20:20 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id i6so1836174pfc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 12:16:32 -0800 (PST)
+	Fri, 21 Feb 2020 12:20:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=RP2pd3gamMebfWwgHAWUOTis5uFzOGKjA/DXgWrfhQ0=;
-	b=BbTZo9UN7/Fp1ebWqjbRDSqV/DZeWCl9OGW9JYxx5pBpqILE8YbYxJhDn9rrrjmFOE
-	iStNnJLhTIx0n9ES8Z8fIcndNv6217YYdY1dg/IPmEma33Aeo3V9dce0Hs0y3BbKPYPH
-	1an6kWNnz7z6bl0m8u/nIzMZeih0a48Gg9p6p6j+xMXYCMfK+0VPgwRDjyEp0m5NMAXJ
-	hWQeXkwd1jmFFu18z0MGmQC+Xvf9ZIQP9rIamQc7wb/Lyd54F8KO97WJI+4AbonsUhN8
-	AwSSK437Wpx+Z0aHXOptNQyXpUpLCZNz87auC4yMOOB4vz6azjIoXG97geJAa5zFt4Zf
-	4TTQ==
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=UU0g/1rgxJzrfo+/U/o4HWgdlokh/6EzcajWcvUDszc=;
+	b=JhvJtAVT5aH+fZNO211amgpMrbk5KnmYXnd7zt8mzNuMi7Bnqydd8qTbpMuaURfPZt
+	Pv/o2hmwdJVHth+5/mLLU0LlO1vH9pvVPfIMi3zrYUELyBJuTByNq7DnYmthxTbZ/4m2
+	5tXLPAkqnSEgLM2vxBYHl52PRlTYX/ttVtmyUFRvO/XuAcTc1znk2b80s8T0S2BIzp+a
+	gE74YO86g5126dC6mlGP/ufuhnL698kYegAr+LIWirCyH1y6UP5WT1P8wmJeV/qt6V3R
+	YnogSCniLaCmbobcrhnBkeOrwxuNDFdPQwHja2othbxjFIFClM8mJvB6esHYnZjAX86G
+	6ZHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=RP2pd3gamMebfWwgHAWUOTis5uFzOGKjA/DXgWrfhQ0=;
-	b=MEv52CsQ8yneU63GA94D+b94DiVNjHcDxCIiXzrjaeksZJtDH3YU4A36jrwIIH1qlM
-	aCWR56Mvw73MFNhn7CdWgalS9uhdeioRduk922teX5peiOd/+zKzMiDCVM+SsD/9u2SA
-	rRyM2AHi7kLHCTBQy4h3evBxr/aaAKCEOiVI27zUofp5kv6MEYuC9BAzc3oaWS84K+n4
-	DpFkUn+ATuM2+GPCMvK9JCchO8z1fCHVr7fS+4BMYa2YL/4jfbq8Yg/MMhX8C4lSFytr
-	5cXtv4w/jFHHDuUBTu4YbR7Ftc0TiSeIVb4f1IAnUphJ9ZC7Wla9sjO8DQvGBhmQSwS0
-	cGBw==
-X-Gm-Message-State: APjAAAXnft505rrHZJHT5M7yM7epSefO1Kep63L0C2JrChymV/1u3J+3
-	QMuG1bmA3XhwURPDc1Amu/KZ8r54
-X-Google-Smtp-Source: APXvYqyHJRS2MmZ7/tSPUAxQHvWFI0yAeVVV9eHUoZyv9JjDIad3AvrBZZ3UqkAyBT3nW+1UElS9kw==
-X-Received: by 2002:a1c:dc08:: with SMTP id t8mr5465906wmg.139.1582316191187; 
-	Fri, 21 Feb 2020 12:16:31 -0800 (PST)
-Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=UU0g/1rgxJzrfo+/U/o4HWgdlokh/6EzcajWcvUDszc=;
+	b=XuUGwxGfExdeSW0VGmWMZzCqBeKcGJSECoUx9FXyPOdEBPwp6q5uGNUk4JIlEXAI5J
+	AIHU7pXbi+1GHxl7Sy3vEajA+gyV1lWyguGdmgaLlB2+ox1T2ddNhibtCOhc6ZHbdiuR
+	Jlh/MVBzDvG7nDfoqYLULyni4wiUG6oCGga1LA6MHpzi+cWpZAVzRfnveup15Xf3gyBf
+	rT1WkQ70xScEuPhFVkH+aaWcLnIu5PUP3eu0qFHPJ6/KSfvOYfIe0NXKJykOblGL9WU0
+	MWdxXT5ywn/8V7ZYjlcmPTaQi2erVDXtpQy1ifAYycehU8S4JurJceM1Qv6zozgLpYu/
+	sHdw==
+X-Gm-Message-State: APjAAAVvfPI8LrtpgEDNxt7YxKqGn9e4vyBDl9obSBYu3VXCShXyURzc
+	Xv4061KYOtHwbdFV79p6JREiu3EgJwQ=
+X-Google-Smtp-Source: APXvYqzXq6F/SDgdO3TJE9LsuA30ouYELSv4HKTduc5hypA/D78mdljAEgmBK/m8SdtOPrxbZpstng==
+X-Received: by 2002:aa7:8193:: with SMTP id g19mr39528913pfi.172.1582316420043;
+	Fri, 21 Feb 2020 12:20:20 -0800 (PST)
+Received: from workhorse.localdomain
+	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
 	by smtp.gmail.com with ESMTPSA id
-	o77sm5531431wme.34.2020.02.21.12.16.30
+	c15sm3545834pja.30.2020.02.21.12.20.18
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 21 Feb 2020 12:16:30 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Fri, 21 Feb 2020 12:20:19 -0800 (PST)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id AEFF12A04DC; Fri, 21 Feb 2020 12:20:17 -0800 (PST)
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Feb 2020 21:15:43 +0100
-Message-Id: <20200221201543.4364-2-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200221201543.4364-1-alex.kanavin@gmail.com>
-References: <20200221201543.4364-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] oeqa/logparser: correctly set test result markers
+Date: Fri, 21 Feb 2020 12:20:15 -0800
+Message-Id: <20200221202015.32647-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.13.3
+Subject: [PATCH] toolchain-shar-extract: ignore timestamp on decompress
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 20:16:31 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 21 Feb 2020 20:20:20 -0000
 
-I spotted this by noticing ptests started to unexpectedly pass,
-which shouldn't happen yet.
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Installing on centos7, which the extended version of the
+buildtools tarball is supposed to fix and with reproducable
+builds turned on, all the time stamps are for epoch. This
+results in the following output for every file:
+
+tar: ./sysroots/x86_64-pokysdk-linux/usr/include/c++/9.2.0/cstdalign: implausibly old time stamp 1969-12-31 16:00:00
+tar: ./sysroots/x86_64-pokysdk-linux/usr/lib/libstdc++.so.6: implausibly old time stamp 1969-12-31 16:00:00
+
+Ignore the timestamps during the uncompession step.
+
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 ---
- meta/lib/oeqa/utils/logparser.py | 2 +-
+ meta/files/toolchain-shar-extract.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/utils/logparser.py b/meta/lib/oeqa/utils/logparser.py
-index 5403721073..60e16d500e 100644
---- a/meta/lib/oeqa/utils/logparser.py
-+++ b/meta/lib/oeqa/utils/logparser.py
-@@ -26,7 +26,7 @@ class PtestParser(object):
-         section_regex['timeout'] = re.compile(r"^TIMEOUT: .*/(.+)/ptest")
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index ccc4f4e1ac..4c4b4deb4c 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -249,7 +249,7 @@ if [ @SDK_ARCHIVE_TYPE@ = "zip" ]; then
+         rm sdk.zip && exit 1
+     fi
+ else
+-    tail -n +$payload_offset $0| $SUDO_EXEC tar xJ -C $target_sdk_dir --checkpoint=.2500 $EXTRA_TAR_OPTIONS || exit 1
++    tail -n +$payload_offset $0| $SUDO_EXEC tar mxJ -C $target_sdk_dir --checkpoint=.2500 $EXTRA_TAR_OPTIONS || exit 1
+ fi
+ echo "done"
  
-         # Cache markers so we don't take the re.search() hit all the time.
--        markers = ("PASSED", "FAILED", "SKIPPED", "BEGIN:", "END:", "DURATION:", "ERROR: Exit", "TIMEOUT:")
-+        markers = ("PASS:", "FAIL:", "SKIP:", "BEGIN:", "END:", "DURATION:", "ERROR: Exit", "TIMEOUT:")
- 
-         def newsection():
-             return { 'name': "No-section", 'log': [] }
 -- 
-2.25.0
+2.13.3
 
 
