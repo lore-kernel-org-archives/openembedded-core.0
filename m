@@ -1,54 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 85B3C616D8
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B68260C61
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 17:46:09 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id d5so1872556qto.0
+	Fri, 21 Feb 2020 17:46:10 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id p7so2555221qkh.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 09:46:10 -0800 (PST)
+	Fri, 21 Feb 2020 09:46:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=q3h276msiLpnnUxFNjH4yCD7pXo6f5bP7bw7XRMkUQM=;
-	b=H7cC9bcmU96N9JLD1PYujKpenJxU8GYSh0Hrb5052YBuivcNdg90EhsYIV722cFwoC
-	sUFgc4+XNYFnlU86KXfTpfp/7UMtqh0SfG2/WlVRf14VzTdb8Alk4R/79SNcg/AjsGGS
-	zJ+ZqaZdWsWk21tuLlUbrf4sQjfEJo7+DMOv+emLV/BsnmDjk+LFSll9nk4SDkwoyxwd
-	khzLHac1N75dlzM6EOXyoLw59iinOu3uVQxaH6dgmR/hYpqaEdFCKfz7YqQZsJ6gvZSg
-	azSWdGb1+gLCYXs+IpO0d5b4h4OxZo6dZAANKoeXyRjmRqEoNRk08mKLbCtSiX+V3Suj
-	BXmg==
+	bh=ZmD4JmAkVqXLO7FvbDVLz2f2/QwbvksAn3p9BB/IMUw=;
+	b=QzAnL/SI6cAv4Ps4CZJq+J51YdLknOknbjPg6f776FbE3CWOUGwqUMy+fC/t5JCT+C
+	FwjO2FIZIud0bn1gXZ7OJEkg6/J0gRbBRl1vqj8aVNoJOKqT6p3YxV0F0RjTEJfCaZub
+	qNZEKzMyuU2CsqeLSpHaYZRW9oTGhUPXVDgB9j13WJIK5Owcp9EydidVOkzaKuF9ULCJ
+	GzK0dWDF1lO0wX9js4oC4Eq/u5SjRewjsw3/wmvlc5bHU75073/a5VvCj5jp+hCPP9Te
+	k7tFthvqhbQ8AgZ1k9t3UOUWOU12dF4Mcqth7+HdHqpZ4nI7PlDzX8p1OmcK0rFQ4KXk
+	bZ6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=q3h276msiLpnnUxFNjH4yCD7pXo6f5bP7bw7XRMkUQM=;
-	b=m8KMhPWXeA30H+0LiV6bUe1lpsJgjalzD2Hofkn42dhUf4AdBcTSKYGASPhGRDFWRk
-	DlldwRd64fvthy2qdjWW6ffmL2H5b9iFX70JuLxSXWVoYgqbM6+oEscnmSCjAM+uUQ0M
-	x5f3nvwe0FWRgJV+sZFTyS+NFKbjz6AV2Z4PnxOa4Q725MQNq76ZNDevTdUjTUxNb2N5
-	wHvu2Z7r4r6Ak32LTodfKNHTClBFNd0RX4y7jMqtwxp0rF+UhkphNtRsJc6iYHZU7xe+
-	0vCajwETw+BkvV3MpidYoiEFATqsaJtzrRDgb+XwKw1AX3/E5RpDivh6TYybMoHSX03a
-	s/DA==
-X-Gm-Message-State: APjAAAWyyIr4Ke4e/7bV4CubrlFLVhl5x+HLxVykdZFPdDsF1TMg3wKr
-	4CPkzZAahp2Hb+e5otwtFp97MRmVKLn7zg==
-X-Google-Smtp-Source: APXvYqwsUfxj2FNbfAYV1cWAMOeZOATjx1IGQtVro44XfwgOuQlrN6J6LABJwE/rSu4O4eox3kbI5A==
-X-Received: by 2002:ac8:1937:: with SMTP id t52mr31991309qtj.215.1582307170392;
-	Fri, 21 Feb 2020 09:46:10 -0800 (PST)
+	bh=ZmD4JmAkVqXLO7FvbDVLz2f2/QwbvksAn3p9BB/IMUw=;
+	b=SIEUPaz3KtlP8d/VnpSQuGFsIxpxyiDIIClzDG6x+68vHpCaKMyYCfXjXIXsKOPgtI
+	uUrW2oKAXvFnTJHNJr1BhmcSQ4c2eE3QkJSGXhUCaieNPFKZmJLBtZWhrlcfmnMwfmYn
+	AP/HVOrCpBYwBo132kJLqBRJo+qyK1Y1B58QcdeSNQ9x2NO7GT+sBimFHYFsnb0OB4nT
+	1WaT6YbMUxBB5PTjQozdEqBZ1ruuF4/xLXDxejTgIxpPVG+Ff0jIhhv5ZjP65FS96/Ye
+	a9Q9rqMWMAN0qcR0cVxDLlWPeAvPMAHt/zlCKZd2C3b5tObkqfk2z3kcr7PKV1iZkNj1
+	wOoQ==
+X-Gm-Message-State: APjAAAXoZLX445h0vvuwqFSL52hmnIWPKu7A3ig6VuA2EAmIhp/0PeKx
+	1SoirxhAQzV3HHqWEpYZcuM=
+X-Google-Smtp-Source: APXvYqz4fmtnWFBtHTNEFed6WCpHmbn9BKuqZiPzYVFshToeDVoNlGy4o2B6CvaklCyCN2EqMjmpiQ==
+X-Received: by 2002:ae9:e8d2:: with SMTP id a201mr34419669qkg.47.1582307171392;
+	Fri, 21 Feb 2020 09:46:11 -0800 (PST)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.113.11.95]) by smtp.gmail.com with ESMTPSA id
-	g17sm1855153qtq.29.2020.02.21.09.46.09
+	g17sm1855153qtq.29.2020.02.21.09.46.10
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 21 Feb 2020 09:46:09 -0800 (PST)
+	Fri, 21 Feb 2020 09:46:10 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
-Date: Fri, 21 Feb 2020 12:45:58 -0500
-Message-Id: <e984603239546930c52298491a4f0a3cd0a4f73f.1582306887.git.bruce.ashfield@gmail.com>
+Date: Fri, 21 Feb 2020 12:45:59 -0500
+Message-Id: <5528a17947c2b33032d6d051b99c53927c64f3b9.1582306887.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1582306887.git.bruce.ashfield@gmail.com>
 References: <cover.1582306887.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 06/10] linux-yocto/5.4: integrate mips64 multlib/32bit VDSO fix
+Subject: [PATCH 07/10] linux-yocto: perf: Make perf able to build with latest libbfd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,15 +61,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 17:46:09 -0000
+X-List-Received-Date: Fri, 21 Feb 2020 17:46:11 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Bumping the SRCREVs to pickup the VDSO fix by Victor Kamensky. We
-need it to avoid segfaults in SDK testing as well as the standard
-mips image test cases.
+Khem pointed out that we need to backport the following change to get
+perf building with the latest binutils:
 
+commit 0ada120c883d4f1f6 upstream:
+
+[
+    Subject: perf: Make perf able to build with latest libbfd
+
+    libbfd has changed the bfd_section_* macros to inline functions
+    bfd_section_<field> since 2019-09-18. See below two commits:
+      o http://www.sourceware.org/ml/gdb-cvs/2019-09/msg00064.html
+      o https://www.sourceware.org/ml/gdb-cvs/2019-09/msg00072.html
+
+    This fix make perf able to build with both old and new libbfd.
+
+    Signed-off-by: Changbin Du <changbin.du@gmail.com>
+    Acked-by: Jiri Olsa <jolsa@redhat.com>
+    Cc: Peter Zijlstra <peterz@infradead.org>
+    Link: http://lore.kernel.org/lkml/20200128152938.31413-1-changbin.du@gmail.com
+    Signed-off-by: Arnaldo Carvalho de Melo <acme@redhat.com>
+]
+
+Reported-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
  .../recipes-kernel/linux/linux-yocto-rt_5.4.bb |  2 +-
@@ -78,59 +97,59 @@ Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
  3 files changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index ab93f1bf55..94a8e052e7 100644
+index 94a8e052e7..2a35e33830 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
 @@ -11,7 +11,7 @@ python () {
          raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
  }
  
--SRCREV_machine ?= "a9334277f632a96eca9d037e9bc077a855d0908d"
-+SRCREV_machine ?= "2f533134cfb54b0f77e39a9a9108836aafc3eea1"
+-SRCREV_machine ?= "2f533134cfb54b0f77e39a9a9108836aafc3eea1"
++SRCREV_machine ?= "97cb5fe4e4fa529a5b8165c4f84182d2d4751b39"
  SRCREV_meta ?= "c11911d4d1cf0d0b069dfd1922b41256f61442de"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
 diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-index 097357d9c0..622f5e60c0 100644
+index 622f5e60c0..463451fa35 100644
 --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
 @@ -15,8 +15,8 @@ DEPENDS += "openssl-native util-linux-native"
  KMETA = "kernel-meta"
  KCONF_BSP_AUDIT_LEVEL = "2"
  
--SRCREV_machine_qemuarm ?= "3805e4f98313c4a4c64ffdb06b6401de8746fe45"
--SRCREV_machine ?= "2358d789229f8d80ebe4b3e35d3819c4f0e00926"
-+SRCREV_machine_qemuarm ?= "b73dad53d5bfa6b53f56a9022dd9f965d47c93e2"
-+SRCREV_machine ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
+-SRCREV_machine_qemuarm ?= "b73dad53d5bfa6b53f56a9022dd9f965d47c93e2"
+-SRCREV_machine ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
++SRCREV_machine_qemuarm ?= "f0aeaeffb8ba6d0c24f9f0212fd7a11866c918b8"
++SRCREV_machine ?= "f4d7dbafb103e4f782323017c239c548871c1567"
  SRCREV_meta ?= "c11911d4d1cf0d0b069dfd1922b41256f61442de"
  
  PV = "${LINUX_VERSION}+git${SRCPV}"
 diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-index 0b2a2305f1..feb89780ea 100644
+index feb89780ea..5dd7b68063 100644
 --- a/meta/recipes-kernel/linux/linux-yocto_5.4.bb
 +++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
 @@ -12,15 +12,15 @@ KBRANCH_qemux86  ?= "v5.4/standard/base"
  KBRANCH_qemux86-64 ?= "v5.4/standard/base"
  KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
  
--SRCREV_machine_qemuarm ?= "0eb0f3620fc93699d1d8adafa2b07174733c7c98"
--SRCREV_machine_qemuarm64 ?= "2358d789229f8d80ebe4b3e35d3819c4f0e00926"
--SRCREV_machine_qemumips ?= "933d80248406c58efdfe32d130479f59d56727be"
--SRCREV_machine_qemuppc ?= "2358d789229f8d80ebe4b3e35d3819c4f0e00926"
--SRCREV_machine_qemuriscv64 ?= "2358d789229f8d80ebe4b3e35d3819c4f0e00926"
--SRCREV_machine_qemux86 ?= "2358d789229f8d80ebe4b3e35d3819c4f0e00926"
--SRCREV_machine_qemux86-64 ?= "2358d789229f8d80ebe4b3e35d3819c4f0e00926"
--SRCREV_machine_qemumips64 ?= "db201874e886742eb7a5adf450f5be1293fb83c2"
--SRCREV_machine ?= "2358d789229f8d80ebe4b3e35d3819c4f0e00926"
-+SRCREV_machine_qemuarm ?= "65ea2729e3e6a8db8512a80a9838a975ca38f1b3"
-+SRCREV_machine_qemuarm64 ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
-+SRCREV_machine_qemumips ?= "75b3ff96ee76cdfbf5320ddf97b1c929bb8400c8"
-+SRCREV_machine_qemuppc ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
-+SRCREV_machine_qemuriscv64 ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
-+SRCREV_machine_qemux86 ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
-+SRCREV_machine_qemux86-64 ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
-+SRCREV_machine_qemumips64 ?= "419af24bb95f01a2106b7cf25b0adc965368d486"
-+SRCREV_machine ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
+-SRCREV_machine_qemuarm ?= "65ea2729e3e6a8db8512a80a9838a975ca38f1b3"
+-SRCREV_machine_qemuarm64 ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
+-SRCREV_machine_qemumips ?= "75b3ff96ee76cdfbf5320ddf97b1c929bb8400c8"
+-SRCREV_machine_qemuppc ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
+-SRCREV_machine_qemuriscv64 ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
+-SRCREV_machine_qemux86 ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
+-SRCREV_machine_qemux86-64 ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
+-SRCREV_machine_qemumips64 ?= "419af24bb95f01a2106b7cf25b0adc965368d486"
+-SRCREV_machine ?= "239eea7ef5dd5ec7ce6712ea6fc8e9ba9bd49ece"
++SRCREV_machine_qemuarm ?= "aa91aac123d12d9d4f420862238a437781fe3825"
++SRCREV_machine_qemuarm64 ?= "f4d7dbafb103e4f782323017c239c548871c1567"
++SRCREV_machine_qemumips ?= "6cb162ab5262318fc52a7cbef86afcf48c6b2449"
++SRCREV_machine_qemuppc ?= "f4d7dbafb103e4f782323017c239c548871c1567"
++SRCREV_machine_qemuriscv64 ?= "f4d7dbafb103e4f782323017c239c548871c1567"
++SRCREV_machine_qemux86 ?= "f4d7dbafb103e4f782323017c239c548871c1567"
++SRCREV_machine_qemux86-64 ?= "f4d7dbafb103e4f782323017c239c548871c1567"
++SRCREV_machine_qemumips64 ?= "fcbec8b4f0f2f24a31ce5c6e6439c69f7512fb31"
++SRCREV_machine ?= "f4d7dbafb103e4f782323017c239c548871c1567"
  SRCREV_meta ?= "c11911d4d1cf0d0b069dfd1922b41256f61442de"
  
  # remap qemuarm to qemuarma15 for the 5.4 kernel
