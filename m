@@ -1,51 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E3466176A
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+	[209.85.210.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 4ADA96176A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 22:45:35 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id w21so1707829pgl.9
+	Fri, 21 Feb 2020 22:45:36 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id 185so2036301pfv.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 14:45:36 -0800 (PST)
+	Fri, 21 Feb 2020 14:45:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=SZyH0XNq6AtUb3T5uQmjTzmvhs7X1IVEnESgkvBrLfo=;
-	b=K0Bz9qx6TUH+BMEFIImU74fkq5j777iPtswkGEaYrhB0sBk7U3z3X+J9k3MFvzoucj
-	1/sQHDGy0gAWvzU9R0peLF1K7VMJi7sRii1YAU5DI5jN/W72ZG7seTV/kaywc9uFzFB6
-	dEW0hPMDauVX4on8EDGjsZaj6gZbwG2aAgjLOXaj5likvrvIZa3S/TrzNGsKwQ81LmJY
-	gPIDIkIgDHRz2VQ/SGzja0mT9RRW5/oOrxQ+4U7RBvskZExieCWZPkzSSEVBGgXr7rq4
-	3oauN2hC6nAEE60Xetp2CipLEh8H0B9nc4DivV97rZ0z4iO5jxelDq0ZrkElGC+m6GH+
-	vrIg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=olFqAq60OmtrSWK75TWIzYFoSV9fx/xensXtqVSwGUc=;
+	b=sYFNjNsxZvSlXkCkMtB47jL7y8F+gzCrqu1fr54hk5ZHYbRyTHvvpABnLIGn9MN/6i
+	NqIlO8m/MvojU+DpTQAkoBNcee+5oxRPlZTapjs+jRlPuLWmGjj8ROKWiE0+z4CIMxGJ
+	bC+/kFHwhU8vsqqgqmCDZDkfqN1nDUdqGUwdjgpHL1i0BAcwHDGYBLzNlBJrfaMRrQ2G
+	PcwH0kusxFCoihtql+bJfKVCwc5ILvA2qUkykCgeYynA0Ez7cIcSa8N91Y6F29mVsyBy
+	Es4G6EXwwhJWQ+oRvPo4cDQLHPXQ/NcTTZF0SbeXOsuoR61OTNaLzmrxPJn15WwEssWV
+	w4cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=SZyH0XNq6AtUb3T5uQmjTzmvhs7X1IVEnESgkvBrLfo=;
-	b=ndl4MPamJj5lyx8QMc7ntCaLBdoIiYTBYiH2YR385BPrALripkX6+qlH4PgsqE7Xxg
-	KmvtunqxpfQdbwJsrakdnM7mjgGrX74DYqwuSdgnvFnJXfjZjIIwNP31XbsMmCKYDvUf
-	43qsnpEqjYHAtA0USUbUUWSW8YfPd2nS3XIJDD0L1Qs/iXexH2YUXsg1IJ4ihBabggF6
-	XiKzxwjnVfV7fDvljferpqBDbUo56i0whwqB20mo9LKZOdYTdkSdCE1B9OwxKx7Z8FBc
-	qcZlKr9hkZFwc+LP1SuCy3KeYFn0GVfQ3XLcxOmX8uBvAjKNiA7+xrzgv/jNFZqHALR4
-	ji1g==
-X-Gm-Message-State: APjAAAXPCK4bDNUMPRvmVJsteKwjGnV4NWSqJ+ZniDJsXNhW+AUl2QxV
-	6dso3CtRvQWuD5F61z7NZc+tySIsUY0=
-X-Google-Smtp-Source: APXvYqzhi5tlxfb1RxOigWUanJ5xCBz8cYghbmtbzd30eCyKcfjN9NXvYfM7piFWa0EtGU94jnkvmQ==
-X-Received: by 2002:a62:1dca:: with SMTP id
-	d193mr40604373pfd.140.1582325135949; 
-	Fri, 21 Feb 2020 14:45:35 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=olFqAq60OmtrSWK75TWIzYFoSV9fx/xensXtqVSwGUc=;
+	b=slt1FfPOXRycAHvYF6vzFM5YLcSM1jTqFVzdTrhkqG7+iFMD+LlFCH9147+5E20XSI
+	ixgQqD1uULiKB8FhvG96yJO5xOJSwG2QcIOaETTzF4ix6xaW0/VQQ7mGRkc+SGgsN1Gv
+	+sqZ09nD1+dx5LP6jI9ZZb00QjpUU2kUZephEnFD3Kzmv6AD575ejXR7urWu0uZ1IwFS
+	R82wKEIlads+Dov+wzzuKy+hbP6Qgsss/Dihj+7658W2XvOXsBMBrk9QeJ5RGuW4toy7
+	WFaouq2DnanS/wRwcWVp7sI+laJyFGD18GwXfkc29kE2ZXAjWcqbL9cRCJrACC0WmY81
+	RFzQ==
+X-Gm-Message-State: APjAAAUnEH+MZK0gTf5Rq+TLEWEs1NQXq+o6+DhBbbEGiZkLxFlLF/ty
+	/z3lD65Maq1LAgbZUBS/VCSc60vsRBM=
+X-Google-Smtp-Source: APXvYqxDPP6szAtjU8DRVnix/PwZ6EyAK4zYl4Ecv+hqtmcuJgUfVAou0A+Y4chQohgWxW9eeZQpRQ==
+X-Received: by 2002:aa7:934a:: with SMTP id 10mr41450534pfn.233.1582325136739; 
+	Fri, 21 Feb 2020 14:45:36 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::396c])
 	by smtp.gmail.com with ESMTPSA id
-	m12sm3830284pfh.37.2020.02.21.14.45.35
+	m12sm3830284pfh.37.2020.02.21.14.45.36
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 21 Feb 2020 14:45:35 -0800 (PST)
+	Fri, 21 Feb 2020 14:45:36 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Feb 2020 14:45:33 -0800
-Message-Id: <20200221224537.4052134-1-raj.khem@gmail.com>
+Date: Fri, 21 Feb 2020 14:45:34 -0800
+Message-Id: <20200221224537.4052134-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200221224537.4052134-1-raj.khem@gmail.com>
+References: <20200221224537.4052134-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] Misc AUH suggested package upgrades
+Subject: [PATCH 1/4] libxcrypt: Upgrade to 4.4.14 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,41 +59,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 22:45:35 -0000
+X-List-Received-Date: Fri, 21 Feb 2020 22:45:36 -0000
 Content-Transfer-Encoding: 8bit
 
-My share of pending updates
-
-Khem Raj (3):
-  libxcrypt: Upgrade to 4.4.14 release
-  go: Upgrade to 1.13.8 minor release
-  gmp: Upgrade to 6.2.0
-
-Upgrade Helper (1):
-  ninja: upgrade 1.9.0 -> 1.10.0
-
- ...t_4.4.12.bb => libxcrypt-compat_4.4.14.bb} |  0
- meta/recipes-core/libxcrypt/libxcrypt.inc     |  2 +-
- ...ibxcrypt_4.4.12.bb => libxcrypt_4.4.14.bb} |  0
- meta/recipes-devtools/go/go-1.13.inc          |  7 ++-
- .../ninja/ninja/fix-musl.patch                | 46 -------------------
- .../ninja/{ninja_1.9.0.bb => ninja_1.10.0.bb} |  6 +--
- .../recipes-support/gmp/gmp-6.1.2/amd64.patch | 18 --------
- ...provided-flags-to-the-auto-detected-.patch |  0
- ...-Believe-the-cflags-from-environment.patch | 16 +++----
- .../{gmp-6.1.2 => gmp}/use-includedir.patch   |  3 ++
- .../gmp/{gmp_6.1.2.bb => gmp_6.2.0.bb}        |  5 +-
- 11 files changed, 19 insertions(+), 84 deletions(-)
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../{libxcrypt-compat_4.4.12.bb => libxcrypt-compat_4.4.14.bb}  | 0
+ meta/recipes-core/libxcrypt/libxcrypt.inc                       | 2 +-
+ .../libxcrypt/{libxcrypt_4.4.12.bb => libxcrypt_4.4.14.bb}      | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
  rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.12.bb => libxcrypt-compat_4.4.14.bb} (100%)
  rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.12.bb => libxcrypt_4.4.14.bb} (100%)
- delete mode 100644 meta/recipes-devtools/ninja/ninja/fix-musl.patch
- rename meta/recipes-devtools/ninja/{ninja_1.9.0.bb => ninja_1.10.0.bb} (87%)
- delete mode 100644 meta/recipes-support/gmp/gmp-6.1.2/amd64.patch
- rename meta/recipes-support/gmp/{gmp-6.1.2 => gmp}/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch (100%)
- rename meta/recipes-support/gmp/{gmp-6.1.2 => gmp}/0001-confiure.ac-Believe-the-cflags-from-environment.patch (80%)
- rename meta/recipes-support/gmp/{gmp-6.1.2 => gmp}/use-includedir.patch (83%)
- rename meta/recipes-support/gmp/{gmp_6.1.2.bb => gmp_6.2.0.bb} (86%)
 
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.12.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.14.bb
+similarity index 100%
+rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.12.bb
+rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.14.bb
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
+index 59744c0cf8..416205cd5c 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt.inc
++++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM ?= "file://LICENSING;md5=3bb6614cf5880cbf1b9dbd9e3d145e2c \
+ inherit autotools pkgconfig
+ 
+ SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
+-SRCREV = "21f93470aad8634fcf39f72db0b62642c7073a0c"
++SRCREV = "5c43f7d56a31667bcdaa334bbb4edafb75672872"
+ SRCBRANCH ?= "develop"
+ 
+ PROVIDES = "virtual/crypt"
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.12.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.14.bb
+similarity index 100%
+rename from meta/recipes-core/libxcrypt/libxcrypt_4.4.12.bb
+rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.14.bb
 -- 
 2.25.1
 
