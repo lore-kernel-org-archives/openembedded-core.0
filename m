@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id CCF2C61632
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id AF9BB6163D
 	for <openembedded-core@openembedded.org>;
-	Fri, 21 Feb 2020 02:54:08 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id d6so243422pgn.5
+	Fri, 21 Feb 2020 02:54:09 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id j7so248514plt.1
 	for <openembedded-core@openembedded.org>;
-	Thu, 20 Feb 2020 18:54:10 -0800 (PST)
+	Thu, 20 Feb 2020 18:54:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=CSOBNwxEFe5KT6EBRaL/DtkmfVC2kawVkQyKV7Ceu2Q=;
-	b=iFJK4SeGXmTbtN8w+NCR4PI+zi9UtfPvTaurHYPx+1XPVDYugwQPpcVBRqeyoIE8Q9
-	OgQPUVqJ8C18boKoUFCRoZKJREt95HFEjPKhQt1+QzAXEizcwTOx023yG7KbFvggUArw
-	o7EdhNRj8gDgn+bBO8nRrNVDIFXHUWqnI/WEpw1Cc2J4AwGv0tRTPz64Xbq2UQcsiqox
-	/w1X2DkwffTK2Zl5KukNldsWeBHCrgglIXQ66xglQ6tkT1VPvH176MYsouHC808X3rbw
-	e7tptkxXEpMR79i6s4mh83kppbOc2kWyvorwxYWh+mLMxJO18T1UU6vZH8/yPWGihHcn
-	55JQ==
+	bh=XMZBjD0DLjtCAuHf+LqOvIZUmibB73dsHa2uUXI9OTw=;
+	b=t8s/g3+NJSoYuB9TMzT4zHbibEt+0JR7Vgntnbt/OVrlGvtcsVTS+H+V97Pn+lcvFo
+	C2VLbiRq5mcGjSiGZLllAGxIxQEVujA5XCOJV95A2AURoVs4CGT40BGlbAeKMWRM6HcN
+	MDMaa9fjlpwRQoo5NPE6f/heI9tdUnKynqpAsgmMDHj5jJs1mR++KbTWFLBspUoJknX9
+	aDcmA2NQu0r9rdffPRCpoN7pZ6h+KqCmI2psbvwTTM/p8NV96mm6qyFg1nB2qlau6/Hl
+	5G0rNCriLVqL2sH7Pz1AGKkO5yicyCBI4EFxEN4krSUx6Wo1cLntJS6ySMG69o/S0iG7
+	ufsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=CSOBNwxEFe5KT6EBRaL/DtkmfVC2kawVkQyKV7Ceu2Q=;
-	b=skVZL3c7nDMFBWKIEjeYuqyHli/mGorZG59Fn5tdtNebLFDt9iPUXcW1D1DV/gY7Su
-	YNU/XDKAfHN0oOPun7Y9YXaipDZe9f+fiIowb6f5xvdJaRUSP5eFNxvAZ1cpCL5BjCMc
-	oZhHduA00IyowVm0dmGosY+WSeD4zVlKd7rKJvvd4rO6TQAO3tHZxgeaaWZo9M5AuOik
-	jY4YhHc1YIQuM9dxl2v4LkmCScsXkGvcBOkkhcSxVeNJ4KmibBUsZtcAz4SYTzTzdEwP
-	fna4LnL/VsAG35OWWxRDWV9NJARSmjFHnRTmro4K+X3pQyRUnehhin/+qKM1+rgvVtYi
-	OnKg==
-X-Gm-Message-State: APjAAAV2efRsI7SSNPADvqYAjHU1+24HveIGXNXIMXjl7nG4c0AB6l8Z
-	s1Yv8VzF6xZI2Ev/wg7bP/QwP5aU
-X-Google-Smtp-Source: APXvYqy6ASujXa+wfsFXKdMWPvMB8AdQmqnex8DDxpr4zJT1xxBaP714zpQO3GYhOwlSQRdy0WQWHA==
-X-Received: by 2002:aa7:934a:: with SMTP id 10mr36702554pfn.233.1582253649765; 
-	Thu, 20 Feb 2020 18:54:09 -0800 (PST)
+	bh=XMZBjD0DLjtCAuHf+LqOvIZUmibB73dsHa2uUXI9OTw=;
+	b=oqAd3fFJUXZFbMK4oFR3BYsUju6pidqt7HwRFI90K6Lq+wxnLGfUH6Gasjnwv769qR
+	ImvAw9+A/ouoPpoaGBOdsdRzlnl2MlPLd18UJXkBKcO+oaUNcDFV4JGcvLGseKlsRV0A
+	eEfat3VCL62EphTRB6UBnV33bLagmpBI2gNqSZYFa6HgqCGZf8Ue4DM5mwZGIlETOcHu
+	/xEUf5JiHEdi+mbkL6bK+syXup5NP0xgr2i9kp0QSzwfH7CeVEzEe/YmgwgQFn9qzg/P
+	SXNVkf1pSRS8AAAZPhK7pRM6sjyaV0nvhrtg92ehr9rub3tBm5l3vvrDwwxO3/HJDcM1
+	qheQ==
+X-Gm-Message-State: APjAAAV2lIMgBId8Vuf9Pp0Fqr7EBTL91RwA3N1VtFqPp0mjLhhm99x3
+	aPPywf3gE4YfvEYo30nlr8/5u1Ep
+X-Google-Smtp-Source: APXvYqzRYt7/yxS4xbC/ZAjDO5hF2wlwBTFekWsml/bLItFx/u/KtdmJL6f4YVimm8bbMbpQoRb6fQ==
+X-Received: by 2002:a17:902:8609:: with SMTP id
+	f9mr32567696plo.203.1582253650694; 
+	Thu, 20 Feb 2020 18:54:10 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:88be:17f0:935c:9e35])
 	by smtp.gmail.com with ESMTPSA id
-	y10sm925320pfq.110.2020.02.20.18.54.08
+	y10sm925320pfq.110.2020.02.20.18.54.09
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 20 Feb 2020 18:54:09 -0800 (PST)
+	Thu, 20 Feb 2020 18:54:10 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Thu, 20 Feb 2020 18:53:32 -0800
-Message-Id: <34428eca5f845293b648801bf61957afd249b315.1582253544.git.akuster808@gmail.com>
+Date: Thu, 20 Feb 2020 18:53:33 -0800
+Message-Id: <8063a1277433c58a9df43f0185bb89c79f865aa9.1582253544.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1582253544.git.akuster808@gmail.com>
 References: <cover.1582253544.git.akuster808@gmail.com>
-Subject: [warrior 13/14] linux-firmware: Upgrade 20190618 -> 20190815
+Subject: [warrior 14/14] linux-firmware: update packaging for brcm files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,47 +60,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 02:54:09 -0000
+X-List-Received-Date: Fri, 21 Feb 2020 02:54:10 -0000
 
-From: Otavio Salvador <otavio@ossystems.com.br>
+From: Samuli Piippo <samuli.piippo@qt.io>
 
-License-Update:
-- WHENCE: New firmware files additions and version updates
+Add new package for bcm4366c and include available NVRAM config files
+into the corrent bcm* packages.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-(cherry picked from commit b4c8f2f139d0eeb2ebef3dc5f8309486afdea3d4)
+Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+(cherry picked from commit 957c3d39b63f57d896ee89d727007ac2ce6672e3)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...{linux-firmware_20190618.bb => linux-firmware_20190815.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20190618.bb => linux-firmware_20190815.bb} (99%)
+ .../linux-firmware/linux-firmware_20190815.bb  | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20190618.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20190815.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20190618.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20190815.bb
-index 9afaad73f3..518638806f 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20190618.bb
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20190815.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20190815.bb
+index 518638806f..d83000b64f 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20190815.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20190815.bb
-@@ -123,7 +123,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=55814698bbae7c7dd40c9fbde91af0a8 \
-+                    file://WHENCE;md5=37a01e379219d1e06dbccfa90a8fc0ad \
-                     "
+@@ -273,6 +273,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-bcm4358 \
+              ${PN}-bcm43602 \
+              ${PN}-bcm4366b \
++             ${PN}-bcm4366c \
+              ${PN}-bcm4371 \
+              ${PN}-bcm4373 \
+              ${PN}-bcm43xx \
+@@ -571,7 +572,7 @@ FILES_${PN}-bcm43xx-hdr = "${nonarch_base_libdir}/firmware/brcm/bcm43xx_hdr-0.fw
+ FILES_${PN}-bcm4329-fullmac = "${nonarch_base_libdir}/firmware/brcm/bcm4329-fullmac-4.bin"
+ FILES_${PN}-bcm43236b = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43236b.bin"
+ FILES_${PN}-bcm4329 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4329-sdio.bin"
+-FILES_${PN}-bcm4330 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4330-sdio.bin"
++FILES_${PN}-bcm4330 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4330-sdio.*"
+ FILES_${PN}-bcm4334 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4334-sdio.bin"
+ FILES_${PN}-bcm4335 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4335-sdio.bin"
+ FILES_${PN}-bcm4339 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4339-sdio.bin"
+@@ -582,8 +583,8 @@ FILES_${PN}-bcm43242a = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43242a.bin
+ FILES_${PN}-bcm43143 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43143.bin \
+   ${nonarch_base_libdir}/firmware/brcm/brcmfmac43143-sdio.bin \
+ "
+-FILES_${PN}-bcm43430a0 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43430a0-sdio.bin"
+-FILES_${PN}-bcm43455 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43455-sdio.bin"
++FILES_${PN}-bcm43430a0 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43430a0-sdio.*"
++FILES_${PN}-bcm43455 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43455-sdio.*"
+ FILES_${PN}-bcm4350c2 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4350c2-pcie.bin"
+ FILES_${PN}-bcm4350 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4350-pcie.bin"
+ FILES_${PN}-bcm4356 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4356-sdio.bin"
+@@ -594,6 +595,7 @@ FILES_${PN}-bcm43602 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43602-pcie.
+   ${nonarch_base_libdir}/firmware/brcm/brcmfmac43602-pcie.ap.bin \
+ "
+ FILES_${PN}-bcm4366b = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4366b-pcie.bin"
++FILES_${PN}-bcm4366c = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4366c-pcie.bin"
+ FILES_${PN}-bcm4371 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4371-pcie.bin"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -192,7 +192,7 @@ NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
+ # for i in `grep brcm WHENCE  | grep ^File | sed 's/File: brcm.//g'`; do pkg=`echo $i | sed 's/-[sp40].*//g; s/\.bin//g; s/brcmfmac/bcm/g; s/_hdr/-hdr/g; s/BCM/bcm-0bb4-0306/g'`; echo -e "LICENSE_\${PN}-$pkg = \"Firmware-broadcom_bcm43xx\"\nRDEPENDS_\${PN}-$pkg += \"\${PN}-broadcom-license\""; done
+@@ -647,6 +649,8 @@ LICENSE_${PN}-bcm43602 = "Firmware-broadcom_bcm43xx"
+ RDEPENDS_${PN}-bcm43602 += "${PN}-broadcom-license"
+ LICENSE_${PN}-bcm4366b = "Firmware-broadcom_bcm43xx"
+ RDEPENDS_${PN}-bcm4366b += "${PN}-broadcom-license"
++LICENSE_${PN}-bcm4366c = "Firmware-broadcom_bcm43xx"
++RDEPENDS_${PN}-bcm4366c += "${PN}-broadcom-license"
+ LICENSE_${PN}-bcm4371 = "Firmware-broadcom_bcm43xx"
+ RDEPENDS_${PN}-bcm4371 += "${PN}-broadcom-license"
  
- PE = "1"
+@@ -656,11 +660,11 @@ LICENSE_${PN}-cypress-license = "Firmware-cypress"
+ FILES_${PN}-cypress-license = "${nonarch_base_libdir}/firmware/LICENCE.cypress"
  
--SRCREV = "0731d06eadc7d9c52e58f354727101813b8da6ea"
-+SRCREV = "07b925b450bfb4cf3e141c612ec5b104658cd020"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
- 
+ FILES_${PN}-bcm-0bb4-0306 = "${nonarch_base_libdir}/firmware/brcm/BCM-0bb4-0306.hcd"
+-FILES_${PN}-bcm43340 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43340-sdio.bin"
+-FILES_${PN}-bcm43362 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43362-sdio.bin"
+-FILES_${PN}-bcm43430 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.bin"
++FILES_${PN}-bcm43340 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43340-sdio.*"
++FILES_${PN}-bcm43362 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43362-sdio.*"
++FILES_${PN}-bcm43430 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.*"
+ FILES_${PN}-bcm4354 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4354-sdio.bin"
+-FILES_${PN}-bcm4356-pcie = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4356-pcie.bin"
++FILES_${PN}-bcm4356-pcie = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4356-pcie.*"
+ FILES_${PN}-bcm4373 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4373-sdio.bin \
+   ${nonarch_base_libdir}/firmware/brcm/brcmfmac4373.bin \
+ "
 -- 
 2.17.1
 
