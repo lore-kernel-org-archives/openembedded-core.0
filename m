@@ -1,50 +1,28 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-il1-f196.google.com (mail-il1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 7505B616CB
+Return-Path: <Matthew.Zeng@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B9F4C6164E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 16:35:31 +0000 (UTC)
-Received: by mail-il1-f196.google.com with SMTP id p8so2095302iln.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 08:35:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pZnzksxwuWZ9Qc2sJrIt+oNwmXEYTrxBm3W0y/4mn94=;
-	b=jwU8k/SudElbvQGAYO9KeFZxIOPm2z0C+Y6w7hqpLhVED2fc9gA8vXXKQeY0Q+9NFS
-	Zk0gDbFInvJkDash7yRQNKYfg5kVhFBk12lnjxy6vD26U39ubaZQ6Hguu3CUgbofnCcH
-	Ligl6kIDvvxzFaNNu8s2BkcCUzQqgQufHstHKDxxSB85seFkBxGv1J0tBZP4loaKVitz
-	ZOrJs+rl6ITgFpzHE32PM/z9Ljzb6ItSatN8PvX8TWzOo/+SCCLX0Q1o2MvakIMoHNHv
-	xXT4ORGeYR8Ylw/uD2MUORk1dRa8qq/Qg0xEuWaQwRH6Qs34/bhndr5Jw1GoS6MTp0Ua
-	+hvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pZnzksxwuWZ9Qc2sJrIt+oNwmXEYTrxBm3W0y/4mn94=;
-	b=H1SBX+r1V/yZTUO5Vag83yVVi/pHZVKeUooAjymbzpGjVamkCwtza/izetZbsHZq5s
-	1QHv9+4rEbnuR1L3P4u69JwhwrakUXZqsTalWqlSMgVdZqF5rpVimu2Y4e20csA3Equk
-	7aWANrqanoWZ8G+r7ptd5pM1kbqxIG1XEYftgKBFB7siTdlU54SDV2HFooUF+oMsxC4P
-	b55qcZibCc/soFC1lUaqLdntFxElG5pXnNdwB6zfcgaSYtDOo/L1gydRMvIqgyL7yZIS
-	byY0VWq8F1Xkntb9ejK3gKvptXo/AWkK37rmTHyLqbVvk/Dw1XdXL0FO8fkiF6jq4kHs
-	eLYA==
-X-Gm-Message-State: APjAAAUkH+jCK+BBS6KpOOstq/bUNN53vTjciiVxxhVR1Wqbn14nMQkV
-	yER6F+7+tcqeGAYzI77xb4L5wkWPs6EzIt4b10I=
-X-Google-Smtp-Source: APXvYqxRhS+8ZLD5dLVFgsL9nKByKKjyA9NIAUhbISLn6efqiOiO58x0S+nF7wJ6GO4GRSH+DQuQvSGfWeNk9qFcoWE=
-X-Received: by 2002:a92:af08:: with SMTP id n8mr36906162ili.217.1582302932435; 
-	Fri, 21 Feb 2020 08:35:32 -0800 (PST)
+	Fri, 21 Feb 2020 16:55:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01LGsgEl017556
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Fri, 21 Feb 2020 08:54:52 -0800
+Received: from mzeng (128.224.141.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Fri, 21 Feb 2020 08:54:31 -0800
+References: <1582255767-74523-1-git-send-email-anuj.mittal@intel.com>
+	<e82c8986-8872-1705-faa4-f48791b69977@gmail.com>
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: "Mingde (Matthew) Zeng" <matthew.zeng@windriver.com>
+To: Anuj Mittal <anuj.mittal@intel.com>, akuster808 <akuster808@gmail.com>
+In-Reply-To: <e82c8986-8872-1705-faa4-f48791b69977@gmail.com>
+Date: Fri, 21 Feb 2020 11:54:42 -0500
+Message-ID: <878skvev8t.fsf@windriver.com>
 MIME-Version: 1.0
-References: <20200122071934.60789-1-alex.kiernan@gmail.com>
-	<15178a56a7fff6877d13b52312ffc8b898a60f3f.camel@linuxfoundation.org>
-	<CAO5Uq5RVPgtaxUzny-iPCA5L5mBPUW6dmxb0xWRA_c0HSqZF9w@mail.gmail.com>
-	<CAJ86T=U8DeE1FeOu5X5y--GEGOANVrs7feHGha_kf_TaUdSKnw@mail.gmail.com>
-In-Reply-To: <CAJ86T=U8DeE1FeOu5X5y--GEGOANVrs7feHGha_kf_TaUdSKnw@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Fri, 21 Feb 2020 16:35:21 +0000
-Message-ID: <CAO5Uq5SkNGJxnk7L5_dg2OwHh8HC9jcJ+fC34mdaTfgp82cbAA@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxcrypt: Enable static builds
+X-Originating-IP: [128.224.141.67]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [zeus][PATCH] openssh: backport patch to fix "cert not yet valid" test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,63 +35,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 16:35:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 21 Feb 2020 16:55:37 -0000
+Content-Type: text/plain
 
-On Tue, Jan 28, 2020 at 8:07 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+
+>> Fixes [YOCTO #13796]
+> Could you please take ownership of the bug. Its weird we both worked on
+> the same issue and had a fix done about the same time.
+
+What's weirder is that we three worked on this same issue, and it was merged to master last month.
+
+https://git.openembedded.org/openembedded-core/commit/meta/recipes-connectivity/openssh?id=f0a949fe33da47fd0a587abb942ff60f0a56ed0d
+
 >
-> On Tue, Jan 28, 2020 at 4:48 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> >
-> > Let me have a look at that - what got me here was trying to get a
-> > static busybox so I could OSTree's tests to pass, which all turned out
-> > to be way harder than I expected; this was just one of the things I
-> > tripped over.
+> Ill replace my version in stable/zeus-nut with this patch.
 >
-> Busybox shouldn't need to link with libxcrypt if USE_BB_CRYPT is
-> enabled (which it is in OE's default Busybox defconfig).
->
-> There's a long standing bug in Busybox whereby crypt.h gets included
-> unconditionally (instead of being guarded by #if ENABLE_USE_BB_CRYPT
-> etc) so the Busybox recipe still needs to depend on virtual/crypt but
-> it's only a compile time dependency.
+> - Armin
 
-It looks like that might've been fixed:
+I think it's reasonable to simply port this commit from master into zeus.
 
-4767a5375e66 libbb: include <crypt.h> only if necessary
+Regards,
+Matthew
 
-If I drop virtual/crypt, I still get the same link time failure to
-find crypt, which I think we're getting because this test
-https://git.busybox.net/busybox/tree/Makefile.flags#n149 passes:
+>>
+>> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+>> ---
+>>  ...at-bozo-decided-to-use-2020-as-a-future-d.patch | 46 ++++++++++++++++++++++
+>>  meta/recipes-connectivity/openssh/openssh_8.0p1.bb |  1 +
+>>  2 files changed, 47 insertions(+)
+>>  create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-upstream-what-bozo-decided-to-use-2020-as-a-future-d.patch
+>>
+>> diff --git a/meta/recipes-connectivity/openssh/openssh/0001-upstream-what-bozo-decided-to-use-2020-as-a-future-d.patch b/meta/recipes-connectivity/openssh/openssh/0001-upstream-what-bozo-decided-to-use-2020-as-a-future-d.patch
+>> new file mode 100644
+>> index 0000000..e2930c3
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/openssh/openssh/0001-upstream-what-bozo-decided-to-use-2020-as-a-future-d.patch
+>> @@ -0,0 +1,46 @@
+>> +From 3cccc0a2ab597b8273bddf08e9a3cc5551d7e530 Mon Sep 17 00:00:00 2001
+>> +From: "djm@openbsd.org" <djm@openbsd.org>
+>> +Date: Fri, 3 Jan 2020 03:02:26 +0000
+>> +Subject: [PATCH] upstream: what bozo decided to use 2020 as a future date in a
+>> + regress
+>> +
+>> +test?
+>> +
+>> +OpenBSD-Regress-ID: 3b953df5a7e14081ff6cf495d4e8d40e153cbc3a
+>> +
+>> +Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/ff31f15773ee173502eec4d7861ec56f26bba381]
+>> +
+>> +[Dropped the script version and copyright year change at the top]
+>> +
+>> +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+>> +---
+>> + regress/cert-hostkey.sh | 2 +-
+>> + regress/cert-userkey.sh | 2 +-
+>> + 2 files changed, 2 insertions(+), 2 deletions(-)
+>> +
+>> +diff --git a/regress/cert-hostkey.sh b/regress/cert-hostkey.sh
+>> +index 3ce7779..74d5a53 100644
+>> +--- a/regress/cert-hostkey.sh
+>> ++++ b/regress/cert-hostkey.sh
+>> +@@ -248,7 +248,7 @@ test_one() {
+>> + test_one "user-certificate"	failure "-n $HOSTS"
+>> + test_one "empty principals"	success "-h"
+>> + test_one "wrong principals"	failure "-h -n foo"
+>> +-test_one "cert not yet valid"	failure "-h -V20200101:20300101"
+>> ++test_one "cert not yet valid"	failure "-h -V20300101:20320101"
+>> + test_one "cert expired"		failure "-h -V19800101:19900101"
+>> + test_one "cert valid interval"	success "-h -V-1w:+2w"
+>> + test_one "cert has constraints"	failure "-h -Oforce-command=false"
+>> +diff --git a/regress/cert-userkey.sh b/regress/cert-userkey.sh
+>> +index 6849e99..de455b8 100644
+>> +--- a/regress/cert-userkey.sh
+>> ++++ b/regress/cert-userkey.sh
+>> +@@ -327,7 +327,7 @@ test_one() {
+>> + test_one "correct principal"	success "-n ${USER}"
+>> + test_one "host-certificate"	failure "-n ${USER} -h"
+>> + test_one "wrong principals"	failure "-n foo"
+>> +-test_one "cert not yet valid"	failure "-n ${USER} -V20200101:20300101"
+>> ++test_one "cert not yet valid"	failure "-n ${USER} -V20300101:20320101"
+>> + test_one "cert expired"		failure "-n ${USER} -V19800101:19900101"
+>> + test_one "cert valid interval"	success "-n ${USER} -V-1w:+2w"
+>> + test_one "wrong source-address"	failure "-n ${USER} -Osource-address=10.0.0.0/8"
+>> diff --git a/meta/recipes-connectivity/openssh/openssh_8.0p1.bb b/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+>> index 2ffbc9a..3d16f9d 100644
+>> --- a/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+>> +++ b/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+>> @@ -25,6 +25,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+>>             file://sshd_check_keys \
+>>             file://add-test-support-for-busybox.patch \
+>>             file://0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch \
+>> +           file://0001-upstream-what-bozo-decided-to-use-2020-as-a-future-d.patch \
+>>             "
+>>  SRC_URI[md5sum] = "bf050f002fe510e1daecd39044e1122d"
+>>  SRC_URI[sha256sum] = "bd943879e69498e8031eb6b7f44d08cdc37d59a7ab689aa0b437320c3481fd68"
 
-CRYPT_AVAILABLE := $(shell echo 'int main(void){return 0;}'
->crypttest.c; $(CC) $(CFLAGS) -lcrypt -o /dev/null crypttest.c
->/dev/null 2>&1 && echo "y"; rm crypttest.c)
 
-Not quite sure how that can pass tbh...
-
-This ugly hack avoids needing a static crypt:
-
-diff --git a/meta/recipes-core/busybox/busybox.inc
-b/meta/recipes-core/busybox/busybox.inc
-index 1a82f23b0f3a..7335a846038f 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -18,7 +18,7 @@ BUSYBOX_SPLIT_SUID ?= "1"
- export EXTRA_CFLAGS = "${CFLAGS}"
- export EXTRA_LDFLAGS = "${LDFLAGS}"
-
--EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH}
-CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}'
-HOSTCPP='${BUILD_CPP}'"
-+EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH}
-CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}'
-HOSTCPP='${BUILD_CPP}' CRYPT_AVAILABLE=n"
-
- PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog
-${PN}-mdev ${PN}-hwclock"
-
-Not sure how to get that integrated nicely...
-
--- 
-Alex Kiernan
+--
+Mingde (Matthew) Zeng
 
