@@ -1,46 +1,56 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BA4C61773
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C0B66023E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 22:23:19 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id e10so4209565edv.9
+	Fri, 21 Feb 2020 22:30:01 +0000 (UTC)
+Received: by mail-il1-f193.google.com with SMTP id l4so2953505ilj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 14:23:20 -0800 (PST)
+	Fri, 21 Feb 2020 14:30:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OAvbSsj0RuwHTG5Bx73vdzSA3r6oqlUBg1KvcLk441s=;
-	b=tk3BljOtei2TbqnhsKqGGzfvUTW2TTh18wB7eEQCD3YOf86YwkCmo0sICBVqWJ9Il7
-	hstkkwPPWw6zMiV7qDHjfrQbAFhVG6eTxF0az/Z2UmeM4F4sAMDj5KKx+4hF396uaKid
-	6ZkUQ08z/BUqjk5W3eyiCuPE/k7N8DjnxihVK8ON0aW03vgGb+7cpMa9wAA49IhHV+iy
-	qdCzLbJB2BE7771r+h2ZclMxIzzh/ddBAzoCXBz+wsanFsTnTL2Wj5YIUAQi6dpR50hx
-	czKl9A9ss19yIgIQcaDUUqAcrUa3RTfr72LftUZGTZBdDP+FvHpfvy3ianlkIU0b3ynU
-	Nf1Q==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=9A3T7zYrR0uFw6Glhbd7PoP3OI3wYYyndP7IIGii9W0=;
+	b=NQpyt3xHsT5hVGkDIy8SguTNH4B5Odh9LEwh/agi6etTeJD2So7y8XDn4FwYhj7iY5
+	66nJyHhQige3MdNnVhVizNoA8qFzFGYTNfAxQ79KaRMSNOOQWlEqKtFynAb8xmvQlBTj
+	WeM+DSTCDiVhEG3TTbB+cnEcKcNtRIr0rRzISlRwccSSpxqXmRRmpchhQzWxktDHG0vP
+	bKeqIXW7vDCzL1nsNwoOTHNGbVxlfDATMoX6l8PW6QjvvdNRKwQHABSsTpivchYpAM4X
+	GzF1HfwCiabKlXNY0fhr9leXeKpl/eWcuvov6kL8eyYPqHC/AubgjhXwdStRUy7PUgNO
+	uTaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=OAvbSsj0RuwHTG5Bx73vdzSA3r6oqlUBg1KvcLk441s=;
-	b=UvbTZFvQ4S9TmTsxWEKX1AfLiY3KUlmFmXr7wb96ZKfZupBGaUJZ/WOuOtoKP4GASr
-	cYzUuQzmh62i0H7SWenBss18xm7l/Yf80UzTZnhQBXzphsilz8ukkjl838BF/qWPi4rj
-	qO08CJMpGpbe1CHyY6gCEAZZs0xpPOkA4S5aj35Xc8CHXZAxsZ18n7ac4Ps5ctyM+0aS
-	5tvEFU+/5Oo0wYDwjKQ7izFl+3Xz/MsAcmcK7vb3RWTchoKiq1KPYZz0Rd9tJHI8wL0w
-	7LwgMlpDW1pqY6eCXxiwvOcpkgntH8LNZAuk5OHYyTA55pb0eOD48KsoSVl0XPAI/YiA
-	AO/A==
-X-Gm-Message-State: APjAAAWCMo0Fg2+g5zDxcb4EZg7deyTUkM259Ic9940/be1L881Kpp+T
-	FKxLJeuu3iwMcC6Pwd6hDvRFVlDtqEBcbAhnpDfY61VNrOGC+A==
-X-Google-Smtp-Source: APXvYqytsObC1TnLUp6oB1qcrVj3Z64QYmajqmiGdfJ+mW8dp7G99kMml3HR8Q27OFIC3rXP4281kDFih7uicUUh3FE=
-X-Received: by 2002:a50:aacd:: with SMTP id r13mr34664580edc.129.1582323799884;
-	Fri, 21 Feb 2020 14:23:19 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=9A3T7zYrR0uFw6Glhbd7PoP3OI3wYYyndP7IIGii9W0=;
+	b=N7dUQpNDS5CxlfNgc0w+dsSkKlv+gH0Y0OAZFaU9TCUEnN6FE8zBlhziyRPoyA/zlO
+	yXijDs2jlS1trcPu1o1hUwfw4RtHqX4969mQGt6ompqvCDZXOHcHbz3+Qi78f6zBs6UT
+	C/jFEavY3nG8uCc7urDd9Yij398B4xzXnmQOMUZdOvr+uLJCB1osI/x646U/ADANs8is
+	whU1HJO6VjpIGJKm5JQ63jE0p48mR0qdZSkdUbjEywUSjfFJAHXP7LkIHY0jynoUwR61
+	0CVo66iu/JAjBXE7x4bqv95Z2yimy0cqcAOoix2lAxVt8yuzrRcVm2fyV8m/r+73grH9
+	Hr5w==
+X-Gm-Message-State: APjAAAXUSboa+aYflA1TVILNm6T06mja/hkQcqQhDMYPLqkpphHa1b5K
+	n0yUuoMPsrXfBeAcNENwD4jHLjKjdo0=
+X-Google-Smtp-Source: APXvYqxeUwQrawsXB6skBIBKQSjdXVA0FaTdtDMzw+pSq+Ex8bhzazieptoDdnG8gqOrFVhCczOvDg==
+X-Received: by 2002:a92:8dda:: with SMTP id w87mr39451769ill.55.1582324202183; 
+	Fri, 21 Feb 2020 14:30:02 -0800 (PST)
+Received: from ?IPv6:2601:646:9200:4e0:949d:f94a:fa18:f7b4?
+	([2601:646:9200:4e0:949d:f94a:fa18:f7b4])
+	by smtp.gmail.com with ESMTPSA id w5sm1334405ila.41.2020.02.21.14.30.01
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Fri, 21 Feb 2020 14:30:01 -0800 (PST)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 References: <20200214035737.9975-1-zhe.he@windriver.com>
 	<CAJdd5GZPffGwjXH+RWxBtLwDcgR2p+4KbsNLqc7WUBWKo1fGQQ@mail.gmail.com>
 	<74a29374-e918-807e-c01d-ff29132f0c82@gmail.com>
-In-Reply-To: <74a29374-e918-807e-c01d-ff29132f0c82@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 21 Feb 2020 17:23:08 -0500
-Message-ID: <CADkTA4PRZsy2yvQ8rG8V=vXYhwFrBPTi63XsN+t=HPesAv9Wzg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+	<CADkTA4PRZsy2yvQ8rG8V=vXYhwFrBPTi63XsN+t=HPesAv9Wzg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <9c19e3eb-d6de-a3eb-05ae-9c33f2a51000@gmail.com>
+Date: Fri, 21 Feb 2020 14:30:00 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4PRZsy2yvQ8rG8V=vXYhwFrBPTi63XsN+t=HPesAv9Wzg@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v3] perf: Correct the substitution of python shebangs
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,93 +65,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 22:23:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, Feb 21, 2020 at 5:16 PM Khem Raj <raj.khem@gmail.com> wrote:
->
->
->
-> On 2/21/20 1:43 PM, Joshua Watt wrote:
-> > On Thu, Feb 13, 2020 at 9:58 PM <zhe.he@windriver.com> wrote:
-> >>
-> >> From: He Zhe <zhe.he@windriver.com>
-> >>
-> >> To make the native python3 is always used,
-> >>
-> >> - Use sed one-liner instead
-> >> - Add substitution for ${S}/scripts/bpf_helpers_doc.py to fix the
-> >>    following warning.
-> >>
-> >> File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
-> >> _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
-> >> ModuleNotFoundError: No module named '_sysconfigdata'
-> >>
-> >> This issue is first reported by Joel Stanley <joel@jms.id.au>
-> >> The sed one-liner is credited to Anuj Mittal <anuj.mittal@intel.com>
-> >>
-> >> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> >> ---
-> >>   meta/recipes-kernel/perf/perf.bb | 7 ++-----
-> >>   1 file changed, 2 insertions(+), 5 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> >> index 6d1b06693d..a6fb51d3db 100644
-> >> --- a/meta/recipes-kernel/perf/perf.bb
-> >> +++ b/meta/recipes-kernel/perf/perf.bb
-> >> @@ -239,11 +239,8 @@ do_configure_prepend () {
-> >>       fi
-> >>
-> >>       # use /usr/bin/env instead of version specific python
-> >> -    for s in `find ${S}/tools/perf/ -name '*.py'`; do
-> >> -        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
-> >> -        sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
-> >> -        sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
-> >> -        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
-> >> +    for s in `find ${S}/tools/perf/ -name '*.py'` ${S}/scripts/bpf_helpers_doc.py; do
-> >
-> > Do we have to hard code bpf_helpers_doc.py? It doesn't exist in older
-> > versions (e.g. 4.14) and causes do_configure to fail.
->
-> Probably not, I also stumbled into this problem.
-
-Yah,
-
-We can either just do the entire directory (but during the review, we
-were talking about the fact that since we aren't using them, we don't
-actually know if they are py3 safe, so blindly converting the shebang
-isnt' a great idea either).
-
-But the solution we use in the devsrc recipe would work easily enough
-here, just do $(find . -name ${S}/scripts/bpf_helpers_doc.py) and let
-it return nothing for those older kernels.
-
-Bruce
-
->
-> >
-> >> +        sed -i -e "s,#!.*python.*,#!${USRBINPATH}/env python3," ${s}
-> >>       done
-> >>
-> >>       # unistd.h can be out of sync between libc-headers and the captured version in the perf source
-> >> --
-> >> 2.24.1
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+X-List-Received-Date: Fri, 21 Feb 2020 22:30:02 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+On 2/21/20 2:23 PM, Bruce Ashfield wrote:
+> On Fri, Feb 21, 2020 at 5:16 PM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>
+>>
+>> On 2/21/20 1:43 PM, Joshua Watt wrote:
+>>> On Thu, Feb 13, 2020 at 9:58 PM <zhe.he@windriver.com> wrote:
+>>>>
+>>>> From: He Zhe <zhe.he@windriver.com>
+>>>>
+>>>> To make the native python3 is always used,
+>>>>
+>>>> - Use sed one-liner instead
+>>>> - Add substitution for ${S}/scripts/bpf_helpers_doc.py to fix the
+>>>>     following warning.
+>>>>
+>>>> File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
+>>>> _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
+>>>> ModuleNotFoundError: No module named '_sysconfigdata'
+>>>>
+>>>> This issue is first reported by Joel Stanley <joel@jms.id.au>
+>>>> The sed one-liner is credited to Anuj Mittal <anuj.mittal@intel.com>
+>>>>
+>>>> Signed-off-by: He Zhe <zhe.he@windriver.com>
+>>>> ---
+>>>>    meta/recipes-kernel/perf/perf.bb | 7 ++-----
+>>>>    1 file changed, 2 insertions(+), 5 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+>>>> index 6d1b06693d..a6fb51d3db 100644
+>>>> --- a/meta/recipes-kernel/perf/perf.bb
+>>>> +++ b/meta/recipes-kernel/perf/perf.bb
+>>>> @@ -239,11 +239,8 @@ do_configure_prepend () {
+>>>>        fi
+>>>>
+>>>>        # use /usr/bin/env instead of version specific python
+>>>> -    for s in `find ${S}/tools/perf/ -name '*.py'`; do
+>>>> -        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
+>>>> -        sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
+>>>> -        sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
+>>>> -        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
+>>>> +    for s in `find ${S}/tools/perf/ -name '*.py'` ${S}/scripts/bpf_helpers_doc.py; do
+>>>
+>>> Do we have to hard code bpf_helpers_doc.py? It doesn't exist in older
+>>> versions (e.g. 4.14) and causes do_configure to fail.
+>>
+>> Probably not, I also stumbled into this problem.
+> 
+> Yah,
+> 
+> We can either just do the entire directory (but during the review, we
+> were talking about the fact that since we aren't using them, we don't
+> actually know if they are py3 safe, so blindly converting the shebang
+> isnt' a great idea either).
+> 
+> But the solution we use in the devsrc recipe would work easily enough
+> here, just do $(find . -name ${S}/scripts/bpf_helpers_doc.py) and let
+> it return nothing for those older kernels.
+
+then perhaps its better to callout each script by name and check if that 
+file exists, so older kernels can ignore that
+
+> 
+> Bruce
+> 
+>>
+>>>
+>>>> +        sed -i -e "s,#!.*python.*,#!${USRBINPATH}/env python3," ${s}
+>>>>        done
+>>>>
+>>>>        # unistd.h can be out of sync between libc-headers and the captured version in the perf source
+>>>> --
+>>>> 2.24.1
+>>>>
+>>>> --
+>>>> _______________________________________________
+>>>> Openembedded-core mailing list
+>>>> Openembedded-core@lists.openembedded.org
+>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
+> 
 
