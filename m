@@ -1,58 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C0B66023E
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+	[209.85.215.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E3466176A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 22:30:01 +0000 (UTC)
-Received: by mail-il1-f193.google.com with SMTP id l4so2953505ilj.1
+	Fri, 21 Feb 2020 22:45:35 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id w21so1707829pgl.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Feb 2020 14:30:03 -0800 (PST)
+	Fri, 21 Feb 2020 14:45:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=9A3T7zYrR0uFw6Glhbd7PoP3OI3wYYyndP7IIGii9W0=;
-	b=NQpyt3xHsT5hVGkDIy8SguTNH4B5Odh9LEwh/agi6etTeJD2So7y8XDn4FwYhj7iY5
-	66nJyHhQige3MdNnVhVizNoA8qFzFGYTNfAxQ79KaRMSNOOQWlEqKtFynAb8xmvQlBTj
-	WeM+DSTCDiVhEG3TTbB+cnEcKcNtRIr0rRzISlRwccSSpxqXmRRmpchhQzWxktDHG0vP
-	bKeqIXW7vDCzL1nsNwoOTHNGbVxlfDATMoX6l8PW6QjvvdNRKwQHABSsTpivchYpAM4X
-	GzF1HfwCiabKlXNY0fhr9leXeKpl/eWcuvov6kL8eyYPqHC/AubgjhXwdStRUy7PUgNO
-	uTaw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SZyH0XNq6AtUb3T5uQmjTzmvhs7X1IVEnESgkvBrLfo=;
+	b=K0Bz9qx6TUH+BMEFIImU74fkq5j777iPtswkGEaYrhB0sBk7U3z3X+J9k3MFvzoucj
+	1/sQHDGy0gAWvzU9R0peLF1K7VMJi7sRii1YAU5DI5jN/W72ZG7seTV/kaywc9uFzFB6
+	dEW0hPMDauVX4on8EDGjsZaj6gZbwG2aAgjLOXaj5likvrvIZa3S/TrzNGsKwQ81LmJY
+	gPIDIkIgDHRz2VQ/SGzja0mT9RRW5/oOrxQ+4U7RBvskZExieCWZPkzSSEVBGgXr7rq4
+	3oauN2hC6nAEE60Xetp2CipLEh8H0B9nc4DivV97rZ0z4iO5jxelDq0ZrkElGC+m6GH+
+	vrIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=9A3T7zYrR0uFw6Glhbd7PoP3OI3wYYyndP7IIGii9W0=;
-	b=N7dUQpNDS5CxlfNgc0w+dsSkKlv+gH0Y0OAZFaU9TCUEnN6FE8zBlhziyRPoyA/zlO
-	yXijDs2jlS1trcPu1o1hUwfw4RtHqX4969mQGt6ompqvCDZXOHcHbz3+Qi78f6zBs6UT
-	C/jFEavY3nG8uCc7urDd9Yij398B4xzXnmQOMUZdOvr+uLJCB1osI/x646U/ADANs8is
-	whU1HJO6VjpIGJKm5JQ63jE0p48mR0qdZSkdUbjEywUSjfFJAHXP7LkIHY0jynoUwR61
-	0CVo66iu/JAjBXE7x4bqv95Z2yimy0cqcAOoix2lAxVt8yuzrRcVm2fyV8m/r+73grH9
-	Hr5w==
-X-Gm-Message-State: APjAAAXUSboa+aYflA1TVILNm6T06mja/hkQcqQhDMYPLqkpphHa1b5K
-	n0yUuoMPsrXfBeAcNENwD4jHLjKjdo0=
-X-Google-Smtp-Source: APXvYqxeUwQrawsXB6skBIBKQSjdXVA0FaTdtDMzw+pSq+Ex8bhzazieptoDdnG8gqOrFVhCczOvDg==
-X-Received: by 2002:a92:8dda:: with SMTP id w87mr39451769ill.55.1582324202183; 
-	Fri, 21 Feb 2020 14:30:02 -0800 (PST)
-Received: from ?IPv6:2601:646:9200:4e0:949d:f94a:fa18:f7b4?
-	([2601:646:9200:4e0:949d:f94a:fa18:f7b4])
-	by smtp.gmail.com with ESMTPSA id w5sm1334405ila.41.2020.02.21.14.30.01
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 21 Feb 2020 14:30:01 -0800 (PST)
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <20200214035737.9975-1-zhe.he@windriver.com>
-	<CAJdd5GZPffGwjXH+RWxBtLwDcgR2p+4KbsNLqc7WUBWKo1fGQQ@mail.gmail.com>
-	<74a29374-e918-807e-c01d-ff29132f0c82@gmail.com>
-	<CADkTA4PRZsy2yvQ8rG8V=vXYhwFrBPTi63XsN+t=HPesAv9Wzg@mail.gmail.com>
+	bh=SZyH0XNq6AtUb3T5uQmjTzmvhs7X1IVEnESgkvBrLfo=;
+	b=ndl4MPamJj5lyx8QMc7ntCaLBdoIiYTBYiH2YR385BPrALripkX6+qlH4PgsqE7Xxg
+	KmvtunqxpfQdbwJsrakdnM7mjgGrX74DYqwuSdgnvFnJXfjZjIIwNP31XbsMmCKYDvUf
+	43qsnpEqjYHAtA0USUbUUWSW8YfPd2nS3XIJDD0L1Qs/iXexH2YUXsg1IJ4ihBabggF6
+	XiKzxwjnVfV7fDvljferpqBDbUo56i0whwqB20mo9LKZOdYTdkSdCE1B9OwxKx7Z8FBc
+	qcZlKr9hkZFwc+LP1SuCy3KeYFn0GVfQ3XLcxOmX8uBvAjKNiA7+xrzgv/jNFZqHALR4
+	ji1g==
+X-Gm-Message-State: APjAAAXPCK4bDNUMPRvmVJsteKwjGnV4NWSqJ+ZniDJsXNhW+AUl2QxV
+	6dso3CtRvQWuD5F61z7NZc+tySIsUY0=
+X-Google-Smtp-Source: APXvYqzhi5tlxfb1RxOigWUanJ5xCBz8cYghbmtbzd30eCyKcfjN9NXvYfM7piFWa0EtGU94jnkvmQ==
+X-Received: by 2002:a62:1dca:: with SMTP id
+	d193mr40604373pfd.140.1582325135949; 
+	Fri, 21 Feb 2020 14:45:35 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::396c])
+	by smtp.gmail.com with ESMTPSA id
+	m12sm3830284pfh.37.2020.02.21.14.45.35
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 21 Feb 2020 14:45:35 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <9c19e3eb-d6de-a3eb-05ae-9c33f2a51000@gmail.com>
-Date: Fri, 21 Feb 2020 14:30:00 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.5.0
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Feb 2020 14:45:33 -0800
+Message-Id: <20200221224537.4052134-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4PRZsy2yvQ8rG8V=vXYhwFrBPTi63XsN+t=HPesAv9Wzg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] perf: Correct the substitution of python shebangs
+Subject: [PATCH 0/4] Misc AUH suggested package upgrades
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,98 +58,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 22:30:02 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 21 Feb 2020 22:45:35 -0000
+Content-Transfer-Encoding: 8bit
 
+My share of pending updates
 
+Khem Raj (3):
+  libxcrypt: Upgrade to 4.4.14 release
+  go: Upgrade to 1.13.8 minor release
+  gmp: Upgrade to 6.2.0
 
-On 2/21/20 2:23 PM, Bruce Ashfield wrote:
-> On Fri, Feb 21, 2020 at 5:16 PM Khem Raj <raj.khem@gmail.com> wrote:
->>
->>
->>
->> On 2/21/20 1:43 PM, Joshua Watt wrote:
->>> On Thu, Feb 13, 2020 at 9:58 PM <zhe.he@windriver.com> wrote:
->>>>
->>>> From: He Zhe <zhe.he@windriver.com>
->>>>
->>>> To make the native python3 is always used,
->>>>
->>>> - Use sed one-liner instead
->>>> - Add substitution for ${S}/scripts/bpf_helpers_doc.py to fix the
->>>>     following warning.
->>>>
->>>> File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
->>>> _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
->>>> ModuleNotFoundError: No module named '_sysconfigdata'
->>>>
->>>> This issue is first reported by Joel Stanley <joel@jms.id.au>
->>>> The sed one-liner is credited to Anuj Mittal <anuj.mittal@intel.com>
->>>>
->>>> Signed-off-by: He Zhe <zhe.he@windriver.com>
->>>> ---
->>>>    meta/recipes-kernel/perf/perf.bb | 7 ++-----
->>>>    1 file changed, 2 insertions(+), 5 deletions(-)
->>>>
->>>> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
->>>> index 6d1b06693d..a6fb51d3db 100644
->>>> --- a/meta/recipes-kernel/perf/perf.bb
->>>> +++ b/meta/recipes-kernel/perf/perf.bb
->>>> @@ -239,11 +239,8 @@ do_configure_prepend () {
->>>>        fi
->>>>
->>>>        # use /usr/bin/env instead of version specific python
->>>> -    for s in `find ${S}/tools/perf/ -name '*.py'`; do
->>>> -        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
->>>> -        sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
->>>> -        sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
->>>> -        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
->>>> +    for s in `find ${S}/tools/perf/ -name '*.py'` ${S}/scripts/bpf_helpers_doc.py; do
->>>
->>> Do we have to hard code bpf_helpers_doc.py? It doesn't exist in older
->>> versions (e.g. 4.14) and causes do_configure to fail.
->>
->> Probably not, I also stumbled into this problem.
-> 
-> Yah,
-> 
-> We can either just do the entire directory (but during the review, we
-> were talking about the fact that since we aren't using them, we don't
-> actually know if they are py3 safe, so blindly converting the shebang
-> isnt' a great idea either).
-> 
-> But the solution we use in the devsrc recipe would work easily enough
-> here, just do $(find . -name ${S}/scripts/bpf_helpers_doc.py) and let
-> it return nothing for those older kernels.
+Upgrade Helper (1):
+  ninja: upgrade 1.9.0 -> 1.10.0
 
-then perhaps its better to callout each script by name and check if that 
-file exists, so older kernels can ignore that
+ ...t_4.4.12.bb => libxcrypt-compat_4.4.14.bb} |  0
+ meta/recipes-core/libxcrypt/libxcrypt.inc     |  2 +-
+ ...ibxcrypt_4.4.12.bb => libxcrypt_4.4.14.bb} |  0
+ meta/recipes-devtools/go/go-1.13.inc          |  7 ++-
+ .../ninja/ninja/fix-musl.patch                | 46 -------------------
+ .../ninja/{ninja_1.9.0.bb => ninja_1.10.0.bb} |  6 +--
+ .../recipes-support/gmp/gmp-6.1.2/amd64.patch | 18 --------
+ ...provided-flags-to-the-auto-detected-.patch |  0
+ ...-Believe-the-cflags-from-environment.patch | 16 +++----
+ .../{gmp-6.1.2 => gmp}/use-includedir.patch   |  3 ++
+ .../gmp/{gmp_6.1.2.bb => gmp_6.2.0.bb}        |  5 +-
+ 11 files changed, 19 insertions(+), 84 deletions(-)
+ rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.12.bb => libxcrypt-compat_4.4.14.bb} (100%)
+ rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.12.bb => libxcrypt_4.4.14.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/ninja/ninja/fix-musl.patch
+ rename meta/recipes-devtools/ninja/{ninja_1.9.0.bb => ninja_1.10.0.bb} (87%)
+ delete mode 100644 meta/recipes-support/gmp/gmp-6.1.2/amd64.patch
+ rename meta/recipes-support/gmp/{gmp-6.1.2 => gmp}/0001-Append-the-user-provided-flags-to-the-auto-detected-.patch (100%)
+ rename meta/recipes-support/gmp/{gmp-6.1.2 => gmp}/0001-confiure.ac-Believe-the-cflags-from-environment.patch (80%)
+ rename meta/recipes-support/gmp/{gmp-6.1.2 => gmp}/use-includedir.patch (83%)
+ rename meta/recipes-support/gmp/{gmp_6.1.2.bb => gmp_6.2.0.bb} (86%)
 
-> 
-> Bruce
-> 
->>
->>>
->>>> +        sed -i -e "s,#!.*python.*,#!${USRBINPATH}/env python3," ${s}
->>>>        done
->>>>
->>>>        # unistd.h can be out of sync between libc-headers and the captured version in the perf source
->>>> --
->>>> 2.24.1
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
-> 
+-- 
+2.25.1
+
 
