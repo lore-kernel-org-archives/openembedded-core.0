@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FC5E6174A
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 61E146174E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2020 22:09:32 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id z3so5999691wru.3
+	Sat, 22 Feb 2020 22:09:33 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id a6so5551954wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2020 14:09:33 -0800 (PST)
+	Sat, 22 Feb 2020 14:09:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=S9uY6FqjN9iD7jOt9X4Q1gi6dYgm9LYO9c3Il7OaDdQ=;
-	b=evtpgC68+sH+jjgQY8tfk++Kdu5N1i5bE/bfT2Sq9N6aBn5mr+b62zEAW/hO1TChi8
-	J7bPfc9JeBOsAtScBtGNKJxh32c+qPl4wetr+4AJBHfss6ZbdDxMmNWeAOc1khsYm12v
-	BsgUcJZWOdHowxuputHifByt3PeZtcS1FcNSiemWmavnDKl4xvcD58/8jVGrLp0zAZup
-	pHjUZIAishEarmBECW5ds5uLYtXp2e+/Tq1z1gkL/GT4zE8+kebZlT2mJmnjw/mBsPwp
-	CW7hSt+Yp3/VLjKLWCFSRbdVZD21xiUEE+XvadfnUTrIaHGBMK4tLqNZqN+5gU3h3WvU
-	EJcQ==
+	bh=kmhpQsmTWZw/bXO0Z1ZZTiEsxltDYZmNvXUc/IZjUak=;
+	b=OsvlL6jP+74thbWn/hzoiRkHYzcrNqjyIeDqGhX/SMIBl+0u9s66ujBoRmL5KAjjLa
+	q+79SSquZLuio4fVlaFj7nOCG1YdqP91llnrWCJNSQ+uc6eiJloibHJFfjiDOC6p587U
+	qNRFAZCDqrU5N1TtlK27fYxfMsk9EuzFzI87wJzb+1xCcmLyV3BZEionYiieCa+SfaU/
+	yjKHDn3qvQ6+GVpUfPAMxy8T1ITBaH4dt7OAFoDURi/dE/OqJ0tOD5MTqIrZ4McLRFQV
+	REwpRIuYuRzOi7wf+2d/mduJ/To0re6qv0N/VzMKY6a5MZtlTPqFCF7POup2jXx3k9K4
+	Wbzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=S9uY6FqjN9iD7jOt9X4Q1gi6dYgm9LYO9c3Il7OaDdQ=;
-	b=DxEzTkPpHzzF+Wjvn/HGgFGdTlALbXsmJgRF91zwYdtxzrMJUJQmNAOltruwbm1VMB
-	5tlxpLEwuOojUtBKCRHKRE/QKTSJID7Q+o0h1HNKhe+BR/gl8MAt1qS8cVnO9bEIPagu
-	KO9d/nB3HVzFSnU0QzQcbOYR0yy0Mdride6KNsN9vJvtQ55nrZqL8dpcvUF61bvgIcxw
-	A8mgYj2CbQvDaPcQeqF9b+c/fV7tAJMDe0BTV+rEdkIkjpJCuHD0m/HW2lFa+HkSFnfQ
-	UnxbId2gqqhVbkQSS6aqkHUlDAI/wb8LuuuRIamnmA64qoW+34DJA+7vxNt49VTJZm28
-	/ENA==
-X-Gm-Message-State: APjAAAUqZCcoub7jKB+5dv/lkmdkZO4eTPovKYXrxGvKORqsgaosjF40
-	mqIFDkRlKsg9eu48d2prnhY5saeu
-X-Google-Smtp-Source: APXvYqylloFDcSLxxSch6UauozWLm1BOQRZ7UHcfi7FIKLUUYiFIpkPoGTLsaRrkVfSb8FWcLtCLKw==
-X-Received: by 2002:adf:fecf:: with SMTP id q15mr5971603wrs.360.1582409372957; 
-	Sat, 22 Feb 2020 14:09:32 -0800 (PST)
+	bh=kmhpQsmTWZw/bXO0Z1ZZTiEsxltDYZmNvXUc/IZjUak=;
+	b=asmXfKZWlkb0YmQWZH2XJw6JOm7pp1CYVF2z/8jiUhv8zktmIwIlo4zh6Y+RUJHjM6
+	lY8HTRCSMxVB8PqIlV/vLNb40EQH2yj2hvyKhwZaUJo+7meZSzZjiVKji9hcE/tJTjIy
+	Kr12cDhjibsmDT47RgGKrvmh1GRX6cFRBd17Rht3Tzwmx9X+hdnreL9DtYNrD+LSCxiu
+	meZ00Y6t7V+JwEtWkgvjL4FtO+KhBDs+PAAd+xaO4OsbxodTrRVJb59Duc2zAxhbje4a
+	cFYugZh7pXahfYk9024W76aQ3JjwLk8KZUGYNU86FdWkAyOJQMukXR8siaeK3TKv9wjN
+	8/7Q==
+X-Gm-Message-State: APjAAAWY8Bmx67Chufm8SJHXQuLgS2+dbDZISVpymlurUl8qiBiuBa55
+	F0UK2md2TAmkTNEeLtKm9sAUiUwL
+X-Google-Smtp-Source: APXvYqxC69aERngpL4jXdgkisiW52Nqgs3/6mi45mqgTiDv9a1LtR5Sm2UfO/lwhb58/5mP5NgxRUQ==
+X-Received: by 2002:a1c:720a:: with SMTP id n10mr11932632wmc.103.1582409373760;
+	Sat, 22 Feb 2020 14:09:33 -0800 (PST)
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-	by smtp.gmail.com with ESMTPSA id e8sm3729734wrr.69.2020.02.22.14.09.32
+	by smtp.gmail.com with ESMTPSA id e8sm3729734wrr.69.2020.02.22.14.09.33
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 22 Feb 2020 14:09:32 -0800 (PST)
+	Sat, 22 Feb 2020 14:09:33 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Feb 2020 23:09:07 +0100
-Message-Id: <20200222220909.12019-2-alex.kanavin@gmail.com>
+Date: Sat, 22 Feb 2020 23:09:08 +0100
+Message-Id: <20200222220909.12019-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200222220909.12019-1-alex.kanavin@gmail.com>
 References: <20200222220909.12019-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] valgrind: exclude one more failing test for arm64
+Subject: [PATCH 3/4] mdadm: fix more ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,27 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Feb 2020 22:09:32 -0000
+X-List-Received-Date: Sat, 22 Feb 2020 22:09:33 -0000
 Content-Transfer-Encoding: 8bit
 
-valgrind's test suite isn't generally run by upstream on arm64,
-so let's simply disable the failing test and establish a set
-that works.
+Particularly:
+1. set $dir, so supplementary utilities can be found
+2. disable integrity checks as they take more time than any other test
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64 | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-extended/mdadm/files/run-ptest | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64 b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
-index acf4fd1bc1..a3a0c6e50f 100644
---- a/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
-+++ b/meta/recipes-devtools/valgrind/valgrind/remove-for-aarch64
-@@ -1,3 +1,4 @@
-+gdbserver_tests/hgtls
- cachegrind/tests/ann1
- callgrind/tests/simwork1
- callgrind/tests/simwork2
+diff --git a/meta/recipes-extended/mdadm/files/run-ptest b/meta/recipes-extended/mdadm/files/run-ptest
+index 7959c055ad..fae8071d43 100644
+--- a/meta/recipes-extended/mdadm/files/run-ptest
++++ b/meta/recipes-extended/mdadm/files/run-ptest
+@@ -2,6 +2,6 @@
+ 
+ mkdir -p /mdadm-testing-dir
+ # make the test continue to execute even one fail
+-./test --keep-going
++dir=. ./test --keep-going --disable-integrity
+ 
+ rm -rf /mdadm-testing-dir/*
 -- 
 2.25.0
 
