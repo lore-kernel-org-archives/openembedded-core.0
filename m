@@ -1,37 +1,36 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7547760AFA
+Return-Path: <rpjday@crashcourse.ca>
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+	by mail.openembedded.org (Postfix) with ESMTP id 19D8060AFA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2020 20:58:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48Q0zL6DBDz3l;
-	Sat, 22 Feb 2020 21:58:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582405103;
-	bh=m1+ZiQfVd7AoRLKp0CUG8BYzoM1XnsOfn8QBRA25jgM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A9j1J1iW7Uub9GdUYB0LbHprWc1Qpm6te4dAYLHIjM+bvmfg/PXesD+e38fKNeMPY
-	n7G9apABTfdwcCYqUAbSIFPv54LQ1ZyZbUbKp9auvp3Z9XT9UAquD9zEP5mctqDwSn
-	dNzgTr+/V2+VcMS12UBQ7uMhR6jzM/KukB/bjUpsIqMoD0oErZBKTJdIlS/6l8dWDR
-	Umi9YM/g/v1Z13g0Z16vgiaAtCRGN0hWGkm1bUf62B/1tXDcA2n2Rks38yXtcvvj/v
-	Ls/ad6s02tWE+yxd5XLCecWhJlAu6DJ24acKk9nbs4SNMo1BGtuqC07XQS1+5B2AKj
-	UGMOeqNkngLt+6ZVwtFUDlaUKl6UmBfdjB9glWQl8lNT9y7xWD0UKnMk4J9Ui7RM7Z
-	ufra5e6bw8B5eGP/di7Rx1ZqRkLjEhESkbidiQnDJX1unZSrGV5wPtTpZCiGKrWTyY
-	szEMxUGrQp4V4B8wHKZ5e8xAVUahIrRfgCOjMh5eT4faYV20bgi9xsh2kOZhKoixxI
-	8XG+hWmjJAk8ex4tSOl41SReyzWCRkj6LhzZLATDMjWGSF7FmW+hGcI/+Q50NZKxKR
-	pjYtLY/0XusPN/t76xn8psNeK5F616vgchYMtfNVX1MRQaoHWr5tMzsGJ/r4JRbKhN
-	qSiseLB5l1IAfZzP/c/fu4tc=
-Date: Sat, 22 Feb 2020 22:58:20 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20200222205820.GA9628@localhost>
-References: <20200221205942.27168-1-bunk@stusta.de>
-	<b0916411-11d3-d4f2-3d37-7a020a26375d@gmail.com>
+	Sat, 22 Feb 2020 20:59:10 +0000 (UTC)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com
+	([174.114.57.56]:50518 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.92)
+	(envelope-from <rpjday@crashcourse.ca>) id 1j5bri-0016W0-I2
+	for openembedded-core@lists.openembedded.org;
+	Sat, 22 Feb 2020 15:59:11 -0500
+Date: Sat, 22 Feb 2020 15:59:07 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.21.2002221554210.9952@localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <b0916411-11d3-d4f2-3d37-7a020a26375d@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [zeus][PATCH] sqlite: fix numerous CVEs
+X-OutGoing-Spam-Status: No, score=-0.2
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
+	rpjday+crashcourse.ca/only user confirmed/virtual account not
+	confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: can i totally ignore recipes not related to the current build?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,52 +43,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Feb 2020 20:58:25 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sat, 22 Feb 2020 20:59:10 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-On Sat, Feb 22, 2020 at 10:34:42AM -0800, akuster808 wrote:
-> Adrian,
-> 
-> On 2/21/20 12:59 PM, Adrian Bunk wrote:
-> > From: Ross Burton <ross.burton@intel.com>
-> >
-> > Fix the following CVEs:
-> >
-> > - CVE-2019-19244
-> > - CVE-2019-19880
-> > - CVE-2019-19923
-> > - CVE-2019-19924
-> > - CVE-2019-19925
-> > - CVE-2019-19926
-> > - CVE-2019-19959
-> > - CVE-2019-20218
-> >
-> > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> 
-> Thanks for backporting these changes. One question. The master commit
-> f3ebf3f8dd0b4d144db451a8fcb352762f7fbd75
-> <https://git.openembedded.org/openembedded-core/commit/meta/recipes-support/sqlite?id=f3ebf3f8dd0b4d144db451a8fcb352762f7fbd75>
-> has merge conflicts
 
-The patches are new files, so merge conflicts are impossbile on them
-(they might not apply, but git does not even know that they are patches).
+  i have a layer (from elsewhere) that needs massive migration, and
+generates numerous parse errors, almost all related to a specialized
+image. my normal workflow is to try to build for an absolutely stock
+core-image-minimal, so i don't care about any recipes or .bbappends
+that don't contribute to that.
 
-> and there is no mention in the commit message that
-> you made any changes to get them to apply.
-> 
-> Did you have to fixup any of the patches?
+  regardless (AIUI), all recipes in all included layers will at least
+be *parsed* for syntactic correctness, even if they don't contribute
+to the final image, so i'd like a way to somehow totally ignore all
+processing of recipes that don't do that.
 
-No.
+  i'm aware of PNBLACKLIST, but i'm sure i verified that that simply
+won't *build* that recipe, but it will still be parsed. is there a way
+to utterly ignore recipes that don't contribute to a given target? i'm
+sure there must be, i've just never had need for that until now.
 
-> Master and Zeus have different versions of sqlite.
+rday
 
-Yes, changing SRC_URI in the correct file was the trivial change needed.
+-- 
 
-> - armin
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                         http://crashcourse.ca
 
-cu
-Adrian
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
 
