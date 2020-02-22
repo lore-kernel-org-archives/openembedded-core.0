@@ -1,51 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D28560AE2
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F66161773
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2020 14:02:00 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id a6so4860260wme.2
+	Sat, 22 Feb 2020 14:11:23 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id a6so4875448wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2020 06:02:01 -0800 (PST)
+	Sat, 22 Feb 2020 06:11:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=xSgLGRbmMEBk77RXgHJBHOu4yWa6CWF66/aC/sRYuy0=;
-	b=FFL1EW2r43CjMN5FP9CLPACxYeWETbG87ejKO0MTnbKJ2L1Qnpyfx4G96cZgA6RCaG
-	IT3O7nLYoZcEVDTnB+d9rcTsMx5nkz5srK4rTmZnU9dfeLiaSfD2Vb3Yq0L8NmYTtSyo
-	5ltKzyUfXHVlk8oZuX+iMdkhdY4W5QQGk4Okw=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=BRnHINMns5NtZx46vBAcfUqiidCnELhm8R5Mr66tmIc=;
+	b=To8LrHN/3yXVBUqag6vpW1zv6MG8MMMxXZdTWowIxl0FM7Jg7V1vYwGxbrDSWrDdjW
+	OTLphW+70ON8SkIVLXDzW6k8hn3jH7m4ZxJRvwqJJ7F7K82YdOQyH4yeOKWGvfYbQ3k3
+	1Kn+CUAEKcu2yxLfp58wlL5vxd6HCDLmt0KcU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=xSgLGRbmMEBk77RXgHJBHOu4yWa6CWF66/aC/sRYuy0=;
-	b=pcEOiGhR6Ze4ZOlmvgwy0P0z5bLOIU/RSILLzh3ksXS72x6vl9sKBb6QbSlXOsfevb
-	rmGXzGF0Idh7pGMZbJkNuo6kZdX/Q4qWqEf6wCdSLmPDh7QUDg0HOsmQ1rSOvhgbcsx5
-	ca58XpPF4QUFJ9pDATMrzFQriNovuYUeGwUATymT7n8GWdkOQb+Y7yvPim0NZg7/O6K3
-	vQfBlcBDKgu4Ttf+ACdv4Mt1WeIKU2a9Pe6jUi8getkmf9L9tTkQvsG/hgSErl8U2Ude
-	fUp5yp0HSOzZZlYfAWy1mbHomWv0hZ7K78Pca7rXYZKGBxFpm/d+X2mqzUu1KjFBVPyD
-	bscA==
-X-Gm-Message-State: APjAAAVfhFWoQQ458OV8Wbex+faIWsbh3DT0gfmg8ofWnfu9NoExVuRE
-	9jSkmysfh7HoSWTwVPt7cmR6W4DUAfQ=
-X-Google-Smtp-Source: APXvYqzgFFEeWF7DYf3dsuzoqCYpP6uO7ru6Q0dN2FpqIwWAXXzEuNtEeaXh4VayeQIcfXETyICh6Q==
-X-Received: by 2002:a1c:8095:: with SMTP id b143mr10277100wmd.7.1582380120616; 
-	Sat, 22 Feb 2020 06:02:00 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	m68sm8554036wme.48.2020.02.22.06.01.59
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=BRnHINMns5NtZx46vBAcfUqiidCnELhm8R5Mr66tmIc=;
+	b=Nojpt8HvFVSmgoDT2M3ZJvcllqlKeFCpdU5B7lPRDTtiiOFNDmZYYv5KhNbcg9ASsX
+	yKcpMNb9EClBvzHi+3LFY0edI9KrPzCVmmaEPsU1sKslcIEYnfE6Vpr6kyxa6DusDvci
+	hcWurppeNs8STrC+bpYBnrcdm9jgnHjJxiIAqQufE90C0c3OQMmkUT+ZnlB8htRKCQ1t
+	mFog5H3OrrAik9jun172Rfbw7j7smeumGIe9eSHAbtLtYH5rYzyivGuFOxEvm+TMfrLo
+	f2ych2S3oXHiKkSMtoyUVBxfSL1tsRFlVMrOHj7rUqA0u+xOpVwp3dE59nsolJq9gcao
+	Jk+A==
+X-Gm-Message-State: APjAAAWzCdAl3DewrAcmJRkS3cufY5HRnQyun+mkHfltMpQlC6PvzecJ
+	vC9PRMqez33MtnwQYp0gzzpWcw==
+X-Google-Smtp-Source: APXvYqwEjUUjPWe6fg81ZxmCeTBhNrsW+68V2QsHVp6Ak9mlUnw1FDiL93tSJchYqi4Pso2iBsy9Bg==
+X-Received: by 2002:a7b:cd8e:: with SMTP id y14mr10678138wmj.150.1582380683771;
+	Sat, 22 Feb 2020 06:11:23 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id k7sm8607077wmi.19.2020.02.22.06.11.22
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 22 Feb 2020 06:02:00 -0800 (PST)
+	Sat, 22 Feb 2020 06:11:22 -0800 (PST)
+Message-ID: <054a99af2dfbeed2fcf000423304959f17f0be96.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Feb 2020 14:01:57 +0000
-Message-Id: <20200222140157.253097-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200222140157.253097-1-richard.purdie@linuxfoundation.org>
-References: <20200222140157.253097-1-richard.purdie@linuxfoundation.org>
+To: Praveen Muthusamy <praveen.lisieux2011@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 22 Feb 2020 14:11:21 +0000
+In-Reply-To: <20200220182537.4423-1-praveen@linumiz.com>
+References: <20200220182537.4423-1-praveen@linumiz.com>
+User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-Subject: [PATCH 2/2] psplash: Add missing dependency to systemd service
+Subject: Re: [PATCH V2] alsa-utils: upgrade 1.2.1 -> 1.2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,32 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Feb 2020 14:02:00 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 22 Feb 2020 14:11:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Avoid:
-qemux86-64 psplash-systemd[135]: Error unable to open fifo
+On Thu, 2020-02-20 at 23:55 +0530, Praveen Muthusamy wrote:
+> Signed-off-by: Praveen Muthusamy <praveen@linumiz.com>
+> ---
+>  ...lsa-utils-scripts_1.2.1.bb => alsa-utils-scripts_1.2.2.bb} | 0
+>  .../alsa/{alsa-utils_1.2.1.bb => alsa-utils_1.2.2.bb}         | 4
+> ++--
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.2.1.bb =>
+> alsa-utils-scripts_1.2.2.bb} (100%)
+>  rename meta/recipes-multimedia/alsa/{alsa-utils_1.2.1.bb => alsa-
+> utils_1.2.2.bb} (97%)
 
-by adding the missing dependency on /run/ where the fifo resides.
+Thanks for the patch. Unfortunately there is something wrong somewhere
+as this seemed to cause this failure:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/psplash/files/psplash-systemd.service | 1 +
- 1 file changed, 1 insertion(+)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1600
 
-diff --git a/meta/recipes-core/psplash/files/psplash-systemd.service b/meta/recipes-core/psplash/files/psplash-systemd.service
-index e14f42032d8..e6de450882f 100644
---- a/meta/recipes-core/psplash/files/psplash-systemd.service
-+++ b/meta/recipes-core/psplash/files/psplash-systemd.service
-@@ -2,6 +2,7 @@
- Description=Start psplash-systemd progress communication helper
- DefaultDependencies=no
- After=systemd-start.service
-+RequiresMountsFor=/run
- 
- [Service]
- ExecStart=/usr/bin/psplash-systemd
--- 
-2.25.0
+Cheers,
+
+Richard
 
 
