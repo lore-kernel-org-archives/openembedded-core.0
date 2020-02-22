@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C3BE461773;
-	Fri, 21 Feb 2020 23:02:25 +0000 (UTC)
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B70860FC5
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 22 Feb 2020 03:37:27 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01M3bQ3n004823
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Fri, 21 Feb 2020 19:37:26 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Fri, 21 Feb 2020 19:37:26 -0800
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 22 Feb 2020 11:37:24 +0800
+Message-ID: <1582342644-105534-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 21 Feb 2020 23:02:27 -0000
-Message-ID: <20200221230227.2274.27731@do>
-References: <20200221224537.4052134-1-raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200221224537.4052134-1-raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgTWlzYyBBVUggc3VnZ2VzdGVkIHBhY2thZ2UgdXBncmFkZXM=?=
+Subject: [PATCH v4] perf: Correct the substitution of python shebangs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +30,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Feb 2020 23:02:25 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 22 Feb 2020 03:37:27 -0000
+Content-Type: text/plain
 
-== Series Details ==
+From: He Zhe <zhe.he@windriver.com>
 
-Series: Misc AUH suggested package upgrades
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/22856/
-State : failure
+To make the native python3 always used,
 
-== Summary ==
+- Use sed one-liner instead
+- Add substitution for ${S}/scripts/bpf_helpers_doc.py to fix the
+  following warning.
 
+File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
+_temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
+ModuleNotFoundError: No module named '_sysconfigdata'
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+This issue is first reported by Joel Stanley <joel@jms.id.au>
+The sed one-liner is credited to Anuj Mittal <anuj.mittal@intel.com>
 
-
-
-* Patch            [2/4] ninja: upgrade 1.9.0 -> 1.10.0
- Issue             Invalid author <auh@auh.yoctoproject.org> in commit message [test_non_auh_upgrade] 
-  Suggested fix    Resend the series with a valid patch's author
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+v4: Use find to make it also work with older kernels that does not have bpf_helpers_doc.py
+
+ meta/recipes-kernel/perf/perf.bb | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
+
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 6d1b06693d..10a5b88260 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -239,11 +239,8 @@ do_configure_prepend () {
+     fi
+ 
+     # use /usr/bin/env instead of version specific python
+-    for s in `find ${S}/tools/perf/ -name '*.py'`; do
+-        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
+-        sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
+-        sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
+-        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
++    for s in `find ${S}/tools/perf/ -name '*.py'` `find ${S}/scripts/ -name 'bpf_helpers_doc.py'`; do
++        sed -i -e "s,#!.*python.*,#!${USRBINPATH}/env python3," ${s}
+     done
+ 
+     # unistd.h can be out of sync between libc-headers and the captured version in the perf source
+-- 
+2.24.1
 
 
