@@ -1,58 +1,50 @@
-Return-Path: <alistair@alistair23.me>
-X-Greylist: delayed 356 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 23 Feb 2020 20:30:58 UTC
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
-	[64.147.123.25])
-	by mail.openembedded.org (Postfix) with ESMTP id EF96D60225
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BD59608DF
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Feb 2020 20:30:58 +0000 (UTC)
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-	by mailout.west.internal (Postfix) with ESMTP id 8A54E5BE;
-	Sun, 23 Feb 2020 15:25:01 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-	by compute7.internal (MEProxy); Sun, 23 Feb 2020 15:25:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+	Sun, 23 Feb 2020 22:12:03 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id w12so8150472wrt.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 23 Feb 2020 14:12:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm3; bh=jn+891Ng70fhpADueZRFpmt0Nd
-	tX0mmtkf5XcLtDEGM=; b=D70DRm3cs9CoZ9OM9K40egRuAZfgSGqCb6O9Rh1lli
-	K44FxoJaa0Lb2BajR/N4iBupXyeMv+nYClXd+uiL7m4B9raN28hQ5hSpx6GQBXkE
-	fNDL/eOF3I+lTefSvHIEjSjZUris1AqltEgJnBE6yF3QAvTPD8apBCSXSYsztUS+
-	pmMMSA6evOYG6VWpIF0VgZZ2neg/o9axC2E814jBYk/loELXLz7JSu5iZQdMgIIW
-	9m3oE5cfe5gj3S000kA4nsYjGJTUWL72powoq4II6fNg8YZggdFCzuQhiKPHEFOh
-	lsrV99G/q4XSMgF4kq8651M2zYokF456FRs4Cp2BM3Qg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=jn+891Ng70fhpADue
-	ZRFpmt0NdtX0mmtkf5XcLtDEGM=; b=Y5DxnheSN8Zg0IYm61pl1VFDEXb8kzsyE
-	DlKQtomvMTcOXaxre1qISoM9mRBTxJPqEm7IM9L2Aaf6gLHMGZIAL/xnbCBmXy+P
-	udFTJTeK6l46ONo2lODtCFCRwHBUbhTHMZTKUQpq7YYbQrIb8uFBq//CfL94cSM9
-	t+eccuVX3E1TtfyV4cWu817zhZKJHYPmXvS5LbRidWj510HbXSRxIVwBePxwmT55
-	d36gaDnVQomERg/6eQsh1WmRYDJQwQaoyudxOJl1eAV/aCYZvMdlBbANrrdiifpr
-	Ez51TLLoD6kQRJzSAsjkBdi5iujDnbvnoosqZceXWCKaaSmsLhIgQ==
-X-ME-Sender: <xms:nN9SXmCvC-YXrYjPYDnmdEQGS1aSIAy8JeLQARfspV0cEI658C1Aug>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrkeekgddufeeiucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
-	dttdenucfhrhhomheptehlihhsthgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhr
-	segrlhhishhtrghirhdvfedrmhgvqeenucfkphepjeefrdelfedrkeegrddvtdeknecuve
-	hluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgr
-	ihhrsegrlhhishhtrghirhdvfedrmhgv
-X-ME-Proxy: <xmx:nN9SXtbAJ-bNzNahwP4e5ZVotsgy2oWrkwcXi2_BLO6z-T7A1VuiDQ>
-	<xmx:nN9SXpUUAh1V7MAXPZNboOoTU60vUh8RCpeHyivUXS5U2H55_i6PQA>
-	<xmx:nN9SXkPRPOnoMVAWp-IYtLV-eZFJoNN6Taru6J60EB4BHB2peKP2bw>
-	<xmx:nd9SXuQTRpEOz_CrQx-o2HDmdolBRKclX6WkpOGgdmARYP0vtp_-QA>
-Received: from alistair-xps-14z.alistair23.me
-	(c-73-93-84-208.hsd1.ca.comcast.net [73.93.84.208])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 579C8328005E;
-	Sun, 23 Feb 2020 15:25:00 -0500 (EST)
-From: Alistair Francis <alistair@alistair23.me>
+	:content-transfer-encoding;
+	bh=XMNoP52rOAOolFeDHdLMxS5lPQIqC04DYFMhimHLgSs=;
+	b=hgewWPH65zQElmcs8JBLTx9LRStUGOrgeyYVxQzAk35vsKZM1Y3rbSymj+Ktb9VSU1
+	Kp8EcD4LQ2majMcWlxyLNuKc6XalMUTgdXTVtirDDKhNKXLi30pkqdFV+bfiMvx2adVx
+	R8PZUmnokuF52QpVP0hNXdkSxglEs3av/kw8x26JKmTM8sEbvnaImojGZx5X+89ykolJ
+	/Y97kwL83T5q0DSuwLM8YX0vfWQpvgA/xFuAJ6FwRW1L0eVlDsZQA8u8A37WGhrikBCb
+	QAUYgNEgT1kd7AqSC3o66XgflE0DOE65CUPjVHCnd6JOoKg1osajlTZwogXI88EGzTic
+	unZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=XMNoP52rOAOolFeDHdLMxS5lPQIqC04DYFMhimHLgSs=;
+	b=HQFwRQ08tZsXzRs8gOERA47sXOLkV6wtXSkTEU9x7g/zTRNA2xzIbOZoPkkxDrtqI0
+	TF4ZAzIvcZDW27n6k2Hro7HLT7LveBnZK3SSw2cm5Yt/z7TKAh9nZl5Rnz2UpLHbp2Ua
+	eaT3pHKEWIGs2Rd3vxvPpb9HHm8UOXwnkFOj51c2+6Rt+Ut1rIko+WYAh1fkgXlPJKjP
+	3Nvlo1rh3+8Hoytw1CTHm0xaaIc0B8lRZCCvFSX6iI5hyqXJX/pTLnp4EVhPZrKcPV0d
+	7wk3nmlWjpV/2B13zykx6wlWdHeFUAgGCseHNewXETx2NzokAck5tR40p+B3BlDjf5qJ
+	sMiw==
+X-Gm-Message-State: APjAAAUXBqiDsyPcHMaoC/VDT4JULcpnqlz2BVOjQ1+jq3bUDpGmL6hA
+	hnYNxsm1j/eC/opxmF9aG5mzTL6A
+X-Google-Smtp-Source: APXvYqzSXqbLt1EweySNc8DU+N1i0XQwPvIXfbtUL2ksbBJkRt8+pR5Jg02RqJAJNBDbCuz6NaZ6uA==
+X-Received: by 2002:adf:e543:: with SMTP id z3mr60800365wrm.369.1582495924054; 
+	Sun, 23 Feb 2020 14:12:04 -0800 (PST)
+Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
+	by smtp.gmail.com with ESMTPSA id
+	n3sm15939630wmc.27.2020.02.23.14.12.03
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 23 Feb 2020 14:12:03 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Feb 2020 12:24:53 -0800
-Message-Id: <20200223202453.22249-1-alistair@alistair23.me>
+Date: Sun, 23 Feb 2020 23:11:11 +0100
+Message-Id: <20200223221111.12560-1-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Subject: [PATCH] clutter: Build cluter with the GDK backend
+Subject: [PATCH] wayland: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,44 +57,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Feb 2020 20:30:59 -0000
+X-List-Received-Date: Sun, 23 Feb 2020 22:12:04 -0000
 Content-Transfer-Encoding: 8bit
 
-ClutterActors can crash with strange segfaults when built without the GDK
-backend but run ontop of GDK. To fix this let's add a PACKAGECONFIG to
-enable/disable GDK backend support and enable it by default.
+Sadly, meson makes it very difficult to install tests: the test
+configuration is written into host-specific binary files, which
+can't be transferred to the target. (unlike autotools where
+at least everything happens via Makefiles which can be patched
+and tweaked via sed and env vars)
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
+So the configuration has to be entirely recreated in shell.
+I managed this for wayland, but weston proved too difficult.
+
+I had filed bugs asking upstream to make the tests installable:
+https://gitlab.freedesktop.org/wayland/wayland/issues/146
+https://gitlab.freedesktop.org/wayland/weston/issues/368
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-graphics/clutter/clutter-1.0.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/ptest-packagelists.inc |  1 +
+ meta/recipes-graphics/wayland/wayland/run-ptest | 17 +++++++++++++++++
+ meta/recipes-graphics/wayland/wayland_1.18.0.bb | 14 +++++++++++++-
+ 3 files changed, 31 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/wayland/wayland/run-ptest
 
-diff --git a/meta/recipes-graphics/clutter/clutter-1.0.inc b/meta/recipes-graphics/clutter/clutter-1.0.inc
-index 5dc45ebf21..e0ac819e4c 100644
---- a/meta/recipes-graphics/clutter/clutter-1.0.inc
-+++ b/meta/recipes-graphics/clutter/clutter-1.0.inc
-@@ -24,11 +24,11 @@ ERDEPENDS_EVDEV = "xkeyboard-config"
- # Disable pretty much everything, override in platform specific set up
- EXTRA_OECONF += "--disable-quartz-backend	\
- 	     	 --disable-win32-backend	\
--	     	 --disable-gdk-backend		\
- 	     	 --disable-cex100-backend	\
- 	     	 --disable-tslib-input		\
- 	    	"
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 6e770853b8..4afac58e3a 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -47,6 +47,7 @@ PTESTS_FAST = "\
+     quilt-ptest \
+     sed-ptest \
+     slang-ptest \
++    wayland-ptest \
+     zlib-ptest \
+ "
  
-+PACKAGECONFIG[gdk] = "--enable-gdk-backend,--disable-gdk-backend,gtk+3"
- PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,${EDEPENDS_X11}"
- PACKAGECONFIG[glx] = ",,${EDEPENDS_X11} ${EDEPENDS_GLX}"
- PACKAGECONFIG[egl] = "--enable-egl-backend,--disable-egl-backend,${EDEPENDS_EGL}"
-@@ -37,7 +37,7 @@ PACKAGECONFIG[wayland] = "--enable-wayland-backend,--disable-wayland-backend,${E
- PACKAGECONFIG[wayland-compositor] = "--enable-wayland-compositor,--disable-wayland-compositor,wayland"
+diff --git a/meta/recipes-graphics/wayland/wayland/run-ptest b/meta/recipes-graphics/wayland/wayland/run-ptest
+new file mode 100644
+index 0000000000..7e8d9de046
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/wayland/run-ptest
+@@ -0,0 +1,17 @@
++#!/bin/sh
++
++export WAYLAND_SCANNER=wayland-scanner
++export TEST_DATA_DIR=tests/data
++export TEST_OUTPUT_DIR=tests/output
++export SED=sed
++export WAYLAND_EGL_LIB=/usr/lib/libwayland-egl.so.1
++export NM=nm
++
++for i in `ls tests/*-test tests/wayland-egl-symbols-check tests/scanner-test.sh`; do
++    $i
++    if [ $? -eq 0 ]; then
++        echo "PASS: $i"
++    else
++        echo "FAIL: $i"
++    fi
++done
+diff --git a/meta/recipes-graphics/wayland/wayland_1.18.0.bb b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
+index 5dc31163da..00be3aac27 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.18.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b31d8f53b6aaf2b4985d7dd7810a70d1 \
+ DEPENDS = "expat libffi wayland-native"
  
- # Default configuration, distros might want to override
--PACKAGECONFIG ??= "egl \
-+PACKAGECONFIG ??= "egl gdk \
-                    ${@bb.utils.filter('DISTRO_FEATURES', 'wayland', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'glx x11', '', d)}"
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
++           file://run-ptest \
+            file://0002-meson.build-find-the-native-wayland-scanner-directly.patch \
+            file://0002-Do-not-hardcode-the-path-to-wayland-scanner.patch \
+            file://0001-build-Fix-strndup-detection-on-MinGW.patch \
+@@ -23,7 +24,7 @@ SRC_URI[sha256sum] = "4675a79f091020817a98fd0484e7208c8762242266967f55a67776936c
  
+ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ 
+-inherit meson pkgconfig
++inherit meson pkgconfig ptest
+ 
+ PACKAGECONFIG ??= "dtd-validation"
+ PACKAGECONFIG[dtd-validation] = "-Ddtd_validation=true,-Ddtd_validation=false,libxml2,,"
+@@ -39,6 +40,15 @@ do_install_append_class-native() {
+       -i ${D}/${datadir}/aclocal/wayland-scanner.m4
+ }
+ 
++do_install_ptest() {
++    mkdir -p ${D}${PTEST_PATH}/tests/data
++    cp -rf ${B}/tests/*-test ${B}/tests/*-checker ${D}${PTEST_PATH}/tests
++    cp -rf ${B}/tests/*-checker ${D}${PTEST_PATH}
++    cp -rf ${S}/tests/scanner-test.sh ${D}${PTEST_PATH}/tests
++    cp -rf ${S}/tests/data/* ${D}${PTEST_PATH}/tests/data/
++    cp -rf ${S}/egl/wayland-egl-symbols-check ${D}${PTEST_PATH}/tests/
++}
++
+ sysroot_stage_all_append_class-target () {
+ 	rm ${SYSROOT_DESTDIR}/${datadir}/aclocal/wayland-scanner.m4
+ 	cp ${STAGING_DATADIR_NATIVE}/aclocal/wayland-scanner.m4 ${SYSROOT_DESTDIR}/${datadir}/aclocal/
+@@ -48,3 +58,5 @@ FILES_${PN} = "${libdir}/*${SOLIBS}"
+ FILES_${PN}-dev += "${bindir} ${datadir}/wayland"
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++RDEPENDS_${PN}-ptest += "binutils sed"
 -- 
 2.25.0
 
