@@ -1,51 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4354E60AD8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail.openembedded.org (Postfix) with ESMTP id E805361731
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2020 22:09:34 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id m16so5965547wrx.11
+	Sun, 23 Feb 2020 10:55:14 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id r11so6969334wrq.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Feb 2020 14:09:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=Gq6Z4NBBlya22LnHPzYYs0Qsw8w2HlITnWFO1slkeA4=;
-	b=QhgERKrUV2S4YmFhDlbnGqJtCe8nPNazLBEGkjOE65YTOuLreaBWRNiog9FPZwQOGa
-	Pooa0BP4eVc/lBRfrz1tna/sEYx+JNcXX5lN99PLxNW+UxMQ67jfPr+O8lGi4q3EtHLV
-	t0+mePYVO00sRMk9n8jjMVbW7bfBN2mgyraLNdER7NyjlLXEB3u+aMOoU8YoOmuBB+XB
-	1mRjQxNkbogxd3tJ/koDwLo9Ai+6D1vVPhLvDzbhFLtTXYWqFQaeJrKB49syMEedRp7c
-	IsvSOV5ETJToGINxPTQzdFJQWx2yg37dqjOqnYbI/VMJcb9VDhneBVJzHFz964rsmP+r
-	mL/Q==
+	Sun, 23 Feb 2020 02:55:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=X/GENvoszb6GJGT3cy0kZMOsfW4GagSEeWndUfbfc6Y=;
+	b=AOIjTZmAGY1y5+oDYm2BXqdkUaRQgF0WbzyYvtgRXmcMM1NQeXBGk1uWPEdAkRFflq
+	QKH/o8iw/l/QB1SdAJS4SX3T3bdFQWxQEmNEKDtmme9VWgtCz3XknyQmQdUx0v0Ubjbx
+	6nj9R4esqNIA0YSxv4ZlTMyqWS5vMMvq7sum0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Gq6Z4NBBlya22LnHPzYYs0Qsw8w2HlITnWFO1slkeA4=;
-	b=jehACqlt3LBN91PysG4+IE3nZIUQ7P2c765hUQWCQ+wyL9Cym9CTHzOlKP/bmVFkyt
-	/JFLX++n7IRPkj+1cVbRlgU6y4zB0ZOzvdfEI9s6kcDNGjZKpzxYK192iNoi0HAUaYDw
-	85AnQ3tgZmfObkdfOz244jUxFkgbEMAfmAacxc7wqMMg1QMTBXE/Esuiv539ZSPQikZA
-	XWO+hEwmPZ2HTZRn12kIdcA2lwxD8eHjQSoUqJJ3xKZj0q91FGWnnpUvT1GZrQXfImfh
-	VG2iSbzxdmqJHRgtFyQJz3ddoms+51ES3jsOPc3HDHRz2GH0uYLcWvF4Ne9r6aEUfdZt
-	rz8w==
-X-Gm-Message-State: APjAAAU9qSYFSWpXHiRJO14Sc7Q/IdXCIhn8NpOzzPvfxC8g1WJ6L+FY
-	HU6pPl9hk1Qxr4BX8UEg55GBsAV/
-X-Google-Smtp-Source: APXvYqwAmaUb2pSckedmgWar3XZNJ5kIg365lV3uMBv03tKeYCJJ+x+I8Lvk3enn1vzOFJSlrxDAHA==
-X-Received: by 2002:adf:ee01:: with SMTP id y1mr59767008wrn.152.1582409374615; 
-	Sat, 22 Feb 2020 14:09:34 -0800 (PST)
-Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-	by smtp.gmail.com with ESMTPSA id e8sm3729734wrr.69.2020.02.22.14.09.33
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=X/GENvoszb6GJGT3cy0kZMOsfW4GagSEeWndUfbfc6Y=;
+	b=V87C/7nVZkGax3txsxN7BgdV7d6JS7U9ePi2iu37NZO7R7wz2tlT2LQR7nj3uP/g5g
+	e/I1gH047xbhXLIBWaO0Vc/rCQkg//TfZvWUikSfrpCZOBI84YupnM8qmBRuN3GgR6xf
+	yltv1weMIVH5P1gmaL4i2M2sKPlI5+V/XAATlN7LFyTr3rhi4xyjxrdvCG+sAA6H8maX
+	ZqS9uVhBHkySeVN52097QwWVbQ0OB9JBF/5h4QgmPqf98MoCdtHBqaPv9jn+IGkZyhyv
+	+0898an+O2b2H9y2VdUI4lv2fv4MLzzyfJm8fjTUlKPieWUY6MLGxZOr4CpDxIFQdahn
+	HqaA==
+X-Gm-Message-State: APjAAAVrmjXo+HyRyD7uh90MACtszYw+Ps+oHGgn4uqXATVH+586EJ0l
+	OGQf1Y/HQvODTjEEKQN2++ZuCzVME5E=
+X-Google-Smtp-Source: APXvYqwXDm3V7h4fvGYjonJbrbgBQaPQ4is310k2eXtVZ915q198XOvDtOSwDD2qtfvNhz92l7rGjA==
+X-Received: by 2002:a5d:6a8d:: with SMTP id s13mr8505413wru.55.1582455315098; 
+	Sun, 23 Feb 2020 02:55:15 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v1sm6286810wrp.16.2020.02.23.02.55.13
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 22 Feb 2020 14:09:34 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Sun, 23 Feb 2020 02:55:14 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 22 Feb 2020 23:09:09 +0100
-Message-Id: <20200222220909.12019-4-alex.kanavin@gmail.com>
+Date: Sun, 23 Feb 2020 10:55:12 +0000
+Message-Id: <20200223105513.285315-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200222220909.12019-1-alex.kanavin@gmail.com>
-References: <20200222220909.12019-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/4] mdadm: drop from PTESTS_SLOW
+Subject: [PATCH 1/2] package: Correct variable dependecies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,50 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Feb 2020 22:09:34 -0000
+X-List-Received-Date: Sun, 23 Feb 2020 10:55:15 -0000
 Content-Transfer-Encoding: 8bit
 
-There are two primary reasons for this:
+Ensure that the plain variable X is also added to the dependencies
+as well as X_<pkg>.
 
-1. mdadm test suite tends to work like this
+Allow the funciton to be called with a different variable list too.
 
-do_action
-sleep arbitrary_amount
-check_result
-
-This is unreliable, and arbitrary_amount may or may not be enough.
-I have confirmed this by increasing the amount, and seeing more tests
-pass than before.
-
-2. The test suite aborts half way through because one of the mdadm binaries
-segfaults. This indicates that upstream isn't actually running the suite
-anymore, and in this situation we shouldn't be relying on it either.
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/distro/include/ptest-packagelists.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/package.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 752a0882dc..6e770853b8 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -58,6 +58,7 @@ PTESTS_FAST = "\
- #    rt-tests-ptest \ # Needs to be checked whether it runs at all
- #    bash-ptest \ # Test outcomes are non-deterministic by design
- #    ifupdown-ptest \ # Tested separately in lib/oeqa/selftest/cases/imagefeatures.py
-+#    mdadm-ptest \ # Tests rely on non-deterministic sleep() amounts
- #"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 1efc396ac64..d4c6a90e846 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -2171,10 +2171,12 @@ python package_depchains() {
+ # iteration, we need to list them here:
+ PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm pkg_postinst_ontarget INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES SYSTEMD_SERVICE LICENSE SECTION pkg_preinst pkg_prerm RREPLACES GROUPMEMS_PARAM SYSTEMD_AUTO_ENABLE SKIP_FILEDEPS PRIVATE_LIBS"
  
- PTESTS_SLOW = "\
-@@ -69,7 +70,6 @@ PTESTS_SLOW = "\
-     gstreamer1.0-ptest \
-     libevent-ptest \
-     lttng-tools-ptest \
--    mdadm-ptest \
-     openssh-ptest \
-     openssl-ptest \
-     perl-ptest \
+-def gen_packagevar(d):
++def gen_packagevar(d, pkgvars="PACKAGEVARS"):
+     ret = []
+     pkgs = (d.getVar("PACKAGES") or "").split()
+-    vars = (d.getVar("PACKAGEVARS") or "").split()
++    vars = (d.getVar(pkgvars) or "").split()
++    for v in vars:
++        ret.append(v)
+     for p in pkgs:
+         for v in vars:
+             ret.append(v + "_" + p)
 -- 
 2.25.0
 
