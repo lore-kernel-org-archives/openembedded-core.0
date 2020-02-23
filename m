@@ -1,35 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id F320B61749
+	by mail.openembedded.org (Postfix) with ESMTP id 00D6D6177E
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 23 Feb 2020 18:29:35 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48QYdD0c7zz5k
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48QYdB45zPz3K
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Feb 2020 19:29:35 +0100 (CET)
+	Sun, 23 Feb 2020 19:29:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582482576;
-	bh=a0YcOzDkeo8rpRfcGTojTHUJ6cEzNDnWDRj8Uwthjns=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=QnfHFz1/wcZplfZ6DKRvxM2mWIuthzCNWJ9zrOahUwCo72udYiOoAncmcHJrqyoxR
-	2GkbGNdzneifArhMt7ufTzhI9JJxp60x3ZksqhwlVOu9DGhhrQAvQVkPWHuJBHqyl5
-	P1mRdpLI6FMCt9wQoen7CB3FgTijLnR7Ub7PncyBUkLwJMijUemrMYgqU+Kese8kSI
-	nc9KSh+IaOQpp6yYc9GS4kn0qXmVOTpZfeM9/n3oxKrdrEAS+vC+urP/Vgyjp1fSWC
-	kEubllmKckfkvhz+OccGtsDcrs8jpNpj4glGWcloLYMDqZgRBzK/YgGBwlN0dMmfqo
-	3kOQwPupuCDq+BSuB5en0N1cXMQaU2omsQOZVRsJu1JDbkc8Ty24nEeoR2jlUqBPV7
-	qyaEwkNc+YyMvRYaybNJCiRbZAYJLkPHx1kuYLaFp0PNfVf42W5rkC/uaS80c0tx5P
-	u5H62QETktF19CCFbeB6jqZjwyN8/8SaxZ5RoyrU0yMOFkjwCqshN6GKeY5TY2kFpz
-	GvDV7ZL6OhVTROJpnC5MwF1bevXB+WstKp7YzGUCF46wlgjq/wZtzUSM7fEdiu6WbA
-	YMBNwkNmIKhRRCP27oj6q7C6CzTI5d1PXnduJa0lWXIlRK2Xw4RsT76x867WHFSDJ0
-	33yE95QavbrvjDh1n6DiOCZg=
+	s=default; t=1582482574;
+	bh=aceWBoQYTQWKftZuIqTA/yzuqpXF1yio/EaY4rR/jS8=;
+	h=From:To:Subject:Date:From;
+	b=XHWtYyyYyrPRnhVB1yQDnGako6ieumrM8Df+8P8pBft0xdb298Y3Qk7APcIDI0P7a
+	dWva0rzJ1pErNuQvRd6spD8Lsy/oaI5esWToznwZQO2Hpe2t/VHJq5R+M+lJg9q2O4
+	Sr2PezNHtdo6bS8VtW9ei1Cta2dY3QnxKTy8vxiSzJ0vPCIwqrthKoRg/hRSQd0xjq
+	RnOFFN/1Il0DCEJC0D5HJdAjSyNR3WddcVh5UT/o8aOAkK0Uqwra4PtV1/0TnrcdUd
+	WYmBKwisoNZ+j0mSDOUY1e/pWKZXTnWfMYNEkoQ49DuSAgRe7vzoj0YW3fXOH9SB9d
+	YTFwCEa7YNBpcIX7rT5TuCNlABoemYKb5Wq94wc10zhbJTuyaULcLEVHjR+q8p0HMe
+	lndLdwv5FIpLN6D1RruYMDUGmEIalXLNeL1i0A+ukdQW5s6hkDHxAa7sNUkzmKFrTE
+	i68ZUoRTDpjlmBDo5zjvwmdzxtHbfNo8tkn93xHSzGPDlpJUKB4CAn54UiIAELZr0N
+	/fIc3kF1pTihJ3U9c6eyDdD13Oe28nRFLxVfCw4cHwbVc6+sF0mEsO6NSnTNOrJqgK
+	pb41QA0Y6LSrWn0SRCBfP23G0Kusn5jRixZrKWgEzrq2eTNk1Gl5plXzQ164syze/O
+	O40fpQQC4AWyaHxH5tnS1ONo=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Feb 2020 20:29:31 +0200
-Message-Id: <20200223182933.6168-4-bunk@stusta.de>
+Date: Sun, 23 Feb 2020 20:29:28 +0200
+Message-Id: <20200223182933.6168-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200223182933.6168-1-bunk@stusta.de>
-References: <20200223182933.6168-1-bunk@stusta.de>
-Subject: [PATCH v2 4/6] webkitgtk: Remove the unused DEPENDS on libidn
+Subject: [PATCH v2 1/6] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,24 +42,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 23 Feb 2020 18:29:37 -0000
 
+opengl is optional.
+x11 can be replaced with wayland.
+
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
  meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-index a9c00862c3..7b3d16d8cb 100644
+index a48a976f94..51fba94964 100644
 --- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
 +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-@@ -30,7 +30,7 @@ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+@@ -26,7 +26,7 @@ SRC_URI[sha256sum] = "4386900713dfadf9741177210b32623cab22562a79ffd0d446b6656993
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ 
+-REQUIRED_DISTRO_FEATURES = "x11 opengl"
++ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
  
  CVE_PRODUCT = "webkitgtk webkitgtk\+"
  
--DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
-+DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libgcrypt \
-            gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
- 	   pango icu bison-native gawk intltool-native libwebp \
- 	   atk udev harfbuzz jpeg libpng librsvg libtheora libvorbis libxcomposite libxtst \
 -- 
 2.17.1
 
