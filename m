@@ -1,18 +1,35 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id CDFD6616EE;
-	Sun, 23 Feb 2020 18:02:21 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Adrian Bunk <bunk@stusta.de>
-Date: Sun, 23 Feb 2020 18:02:22 -0000
-Message-ID: <20200223180222.2276.77082@do>
-References: <20200223173214.9487-1-bunk@stusta.de>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200223173214.9487-1-bunk@stusta.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIndlYmtpdGd0azogQ29ycmVjdCBmcm9tIFJFUVVJUi4uLiIgYW5kIDUgbW9yZQ==?=
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id F40E56176F
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 23 Feb 2020 18:29:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48QYdC2sYtz5h
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 23 Feb 2020 19:29:35 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1582482575;
+	bh=5mc+DFTR+6OI1zp7aENGm4T9DI5D8+AE3BSTNuZTjhI=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=srK2u3BDd7sOPNU0RI6CGzhvMk6PlwgPLIICJk/PPfaldBxr8bYzNwceiZjlKxK1R
+	kSBOz4EweR8+a7ZDowrdq0X9WlExbMKiM0cH/5kIdx90doRQr2l6YGdjPabgOWWS+Z
+	buuRXvmuDI/I2OXRW4164ql12SuwRV9eQIn4HytXe14jEFWa5SWWI/PHa7w1rX5Own
+	eOiR3Mq5+80N6bCkpWcAME9Vlx5PJ7lnhwyCPU5fU+bUHg3Xk8f9GDFwsMLXYZlCPI
+	2GDurMqLhWSprsu1zHyo3DL351Mo+80/DQKrbec3iEK5PAMZk/MAbmfT0D5warZ7d1
+	BJ5tvl7ucyoHkDu9oO7q/nx9s92yMo6LBu3xcKPLVB5eLcG6yKPdH7QWL01eP18KT7
+	bhvLW8iG/Yb+cGrCR6CbuH1fcjuATUenezyoUTmNqF4sC8ySCSlCKSiPOurVkO3+Wf
+	Z7PQtwzVx0hGQC6djc48xsgL6EkzWwrAz289y4VNux4WQPI9LyPE8YkcrRzbmzDR4+
+	U2ZZFBRGtHKPQ3D0NbVKOcZIc8boHgYD+gYx0CZ/7qLHJwdbYLFCecorhTuORWajUN
+	9kWDC626lDHv6IySUtqTCRH+Xdsxxl6DmW3h9jaLQO7EVNSzBfjHlWW4R6wwJpD9nA
+	y6wAcE8II8gm07wKz8t521Is=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 23 Feb 2020 20:29:30 +0200
+Message-Id: <20200223182933.6168-3-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200223182933.6168-1-bunk@stusta.de>
+References: <20200223182933.6168-1-bunk@stusta.de>
+Subject: [PATCH v2 3/6] webkitgtk: Remove obsolete gtk2 packageconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +42,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Feb 2020 18:02:21 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 23 Feb 2020 18:29:37 -0000
 
-== Series Details ==
+Upstream no longer supports GTK2 plugins.
 
-Series: "webkitgtk: Correct from REQUIR..." and 5 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/22885/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [1/6] webkitgtk: Correct from REQUIRED_DISTRO_FEATURES to ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- Issue             Commit shortlog is too long [test_shortlog_length] 
-  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 100 characters)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+index 80ed427352..a9c00862c3 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+@@ -48,7 +48,6 @@ PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF
+ PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11"
+ PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
+ PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
+-PACKAGECONFIG[gtk2] = "-DENABLE_PLUGIN_PROCESS_GTK2=ON,-DENABLE_PLUGIN_PROCESS_GTK2=OFF,gtk+"
+ PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
+ PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/libgl"
+ PACKAGECONFIG[opengl] = "-DENABLE_OPENGL=ON,-DENABLE_OPENGL=OFF,virtual/libgl"
+-- 
+2.17.1
 
 
