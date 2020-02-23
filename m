@@ -1,34 +1,34 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id EEFFF60984
+	by mail.openembedded.org (Postfix) with ESMTP id F0F256176F
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 23 Feb 2020 17:32:17 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48QXM40n6tz4J;
-	Sun, 23 Feb 2020 18:32:16 +0100 (CET)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48QXM535hBz6L;
+	Sun, 23 Feb 2020 18:32:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582479136;
-	bh=Y2MAuohw7e2zoRi8Mu/6pNsxf8JbfH6F9oMCixlsLPA=;
+	s=default; t=1582479137;
+	bh=G7FSxnVETuRbf1eztSrxzuL6oIuN40mXECnXag+FsTE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=mbIFpJuUUpXFPLBX2TwsKzop9Mxy53bjnHLGVeRru9U8/mEU4n+cjQNZVSNDcx3hH
-	na710Iphn7rkxlGh07h9TtfU5fOqqq9qBEF1M9dPe6usjgZwnBZuTJ9Yehqfj4+myL
-	Lv5a7uUYMfDF6YrL4TR9nCak/+H6JE5f+79pf54BSfjfvT089OvGXBmBjlqkkydki0
-	dZ++yIkTjgCwJoS0KNypOTp8CWtxaVWPaxHSCv3DbMoLMAOB19o9SkfDdb8BrWrkNJ
-	ckxPDrziRasf3WDVOx41AmtrFumQyU/nFxHVooRNbMhcZW3g6sawRkkQynLKpMz2yS
-	16HAkfhr3ksIfCdIgRxR3Qhvuz+m46vCD2iw1Ld5adL2WdymR4HEouEgZ1rpJyPyGz
-	w0rV4zgG6ULpjblCubT/6WN1FmhuxTsZyMFDOPetpoVNl7Bqcm58U97IqiCSl34M8k
-	+uKG0gTW8O2Xdls122O/Q2BLRtuPQXOz0ecJBOz4fSlqtCd4hP33N5uC/e0wjT3vZz
-	V4Ri95BaWbIZ4JVXAsibuhxEtjEW9t5Q90WSsr+kI2UEorEfp6LcfOyBYfxi1tT6fO
-	+MHYvA0QTw0UkPJfHJ7mE8QLUbf4QVDtfkJOkDHHAa96HfbIjtg9ePXXhll2Iea4fV
-	P/oVdScJdICSkN/2xcIgnavg=
+	b=orjWbAKJ/riz/27+s098Y0ZnQZHELQCfePCOLCRNFGngLcl/2ER6J0hU96nC9UIVG
+	Y7nZZs/B2toccP8bpvHngI+ID/WAr1j3G6RkAzBk+qHqolh5fPcbpxjNnLP5CRWrgP
+	JARf81CSxYVzw6HF0zXOFWIbODTA0Ha42q2RGpdYKRLMDm6RA5nsvwlTtCPQLh1y3d
+	hpJyNHHJADH1S0j+5tIbbqDsmN/uoKf5vJNkQonlrIHOWBnbXwyCrNJz0f3qBhS11t
+	PbWevmt8Yyf5b/z0uslmqj9k6H3Fl+mEqpbKIlMzB9mHUmCcQIyXbD9BFfULMYntNf
+	xwgcyjeg+zf57hk9mqRxkN+ZqLYnAJ0PJAi7Oqya+3GwUWGkqP/024Ps/Y02zIRMGo
+	zNztuEElAIVt1qka0ZGcFd7fmt+El3qXtI0sA9u512qqo7uEnOCshUXVKjPaHUncJP
+	jYjxZ7uZd/oxHhitXogFVfzG/0s5PSRGfljk/ygkgh+jl8GrqBVuSmJttbWNuaQBGd
+	9c1pVn8lXE+QD2CaRsbXXs6a2hH09j1BiqJHbd7eskUnuEJNChGW+E3NIV4BMd/dRk
+	+fyPR7VrXf4VVz+Kb5w6cBfLqgwb0A+gF89KbajpQhckLrLI9PhFT/+H8lmY5E09Ew
+	qIqq1/uJfDRAWjy07IWPf67s=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Feb 2020 19:32:10 +0200
-Message-Id: <20200223173214.9487-2-bunk@stusta.de>
+Date: Sun, 23 Feb 2020 19:32:13 +0200
+Message-Id: <20200223173214.9487-5-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200223173214.9487-1-bunk@stusta.de>
 References: <20200223173214.9487-1-bunk@stusta.de>
-Subject: [PATCH 2/6] webkitgtk: Remove unused DEPENDS on pulseaudio
+Subject: [PATCH 5/6] systemd: Add a PACKAGECONFIG for libidn2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,22 +45,21 @@ X-List-Received-Date: Sun, 23 Feb 2020 17:32:18 -0000
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd_244.3.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-index 51fba94964..80ed427352 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-@@ -33,7 +33,7 @@ CVE_PRODUCT = "webkitgtk webkitgtk\+"
- DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
-            gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
- 	   pango icu bison-native gawk intltool-native libwebp \
--	   atk udev harfbuzz jpeg libpng pulseaudio librsvg libtheora libvorbis libxcomposite libxtst \
-+	   atk udev harfbuzz jpeg libpng librsvg libtheora libvorbis libxcomposite libxtst \
- 	   ruby-native libnotify gstreamer1.0-plugins-bad \
- 	   gettext-native glib-2.0 glib-2.0-native libtasn1 \
-           "
+diff --git a/meta/recipes-core/systemd/systemd_244.3.bb b/meta/recipes-core/systemd/systemd_244.3.bb
+index b686519482..5d863410b8 100644
+--- a/meta/recipes-core/systemd/systemd_244.3.bb
++++ b/meta/recipes-core/systemd/systemd_244.3.bb
+@@ -138,6 +138,7 @@ PACKAGECONFIG[journal-upload] = "-Dlibcurl=true,-Dlibcurl=false,curl"
+ PACKAGECONFIG[kmod] = "-Dkmod=true,-Dkmod=false,kmod"
+ PACKAGECONFIG[ldconfig] = "-Dldconfig=true,-Dldconfig=false,,ldconfig"
+ PACKAGECONFIG[libidn] = "-Dlibidn=true,-Dlibidn=false,libidn"
++PACKAGECONFIG[libidn2] = "-Dlibidn2=true,-Dlibidn2=false,libidn2"
+ PACKAGECONFIG[localed] = "-Dlocaled=true,-Dlocaled=false"
+ PACKAGECONFIG[logind] = "-Dlogind=true,-Dlogind=false"
+ PACKAGECONFIG[lz4] = "-Dlz4=true,-Dlz4=false,lz4"
 -- 
 2.17.1
 
