@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C9C66172D
+	by mail.openembedded.org (Postfix) with ESMTP id 5EBEB61738
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 23 Feb 2020 14:36:03 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48QSRl0Cfjz5h
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48QSRk4m39z4J
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 23 Feb 2020 15:36:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582468563;
-	bh=1aM1aCRi23gYQvwdjfUnzp6yKewfYA1WA17pY0zi9IM=;
+	s=default; t=1582468562;
+	bh=dh154RGxTtkImMaWdWVWlSirp/E1nyst8noSGgca/74=;
 	h=From:To:Subject:Date:From;
-	b=o/xNJItzwsc6oLn6n1odEFEmLTgjofVPjNDViEXIwiOKl+bSEH8e4wzFgO85RYBfL
-	m6h+J5VhpsUUZDUbW9D0mMdxoLoPM+qJbyz7lNRlQmm5prTYWfpugxAR44cFDTLNOf
-	nW04LpzgcIEhX0U4XRnha50nsn8zwvtGAIw7VkZHgAZSHVIJPR4Au8LxboOodj8EqJ
-	wymayS9YVwcemPwwSla7RU2Qe67PkB80k70u3TwKqCXTt0FqYv2cnpWhIVkHYF7PWf
-	Quh1t9gRL/qNxoJ55RULno9g+PbVgE60oBey8fWiKxjJLEDNzUL/jvS2um+LiU/Ia7
-	2YXAi83quAg9KailcNXmc1QTsC0483yWqXytzXojxBSov4UlkBmc0X0BxMAVSQUAyb
-	jtbEPXUjtI6ESjpCKyLasGICHUJLxdb4LPEt+Wn4IvLJGDl4nEZXKxytA4fABtJ3A9
-	qkhqOsMuxdWnZjscsCwHoovQCrwM02BdxZBHshSQHDS3NlRxyJQ7F2JCi4bUF4VcDn
-	9nzNYWy0EpaiFHDeEJQCcT31oOkAeKtVRQfmXdfOPu3JNaRx8gR5XOzlmXWcQFLMsB
-	ByUE19SyA7XVtiEUjEAy7Zf3FpqHcQoPtq1I/8XJzGo+2QjqCiJaGsZcnK5xCm2Un6
-	+JDWHLNi8aFwnSSwTjgv333Q=
+	b=iEXeB7rvCSBSOl5f2Hd/TL/v5zdjuQDW4z8UGl2CBpz4EfuJeUavwOYsl35FAZ4St
+	qCFQyOAw9uuuwyy2DOVFzn9R2KMtTl5Bqrxe14UzSH31QgO9ugHHwBI/KKYFS7OIkj
+	B443i6H9NZD0Tbp+hEqW2vr4nfEKGmC7drKzGdJ9OhRs6hgezLsuOurW/QOMMJOI++
+	76Db6u8w82P63PjevFEN7KvBf3Ptf7R92eyh6S6lcH1DGnCbjip0TdbvUe1UVHEw1Y
+	CfrgeZtwRMyhbJhRkIXQXG0j/1KgGsZeasSfoosQ9GjKqgeKNf8mh4LKGytWDgRIiX
+	k+8nEW/OvpZoAYVnHNixW/Z1JlM9UVjxBsCZhQwcUcv430tqt1Ouksr9GUui77cYwO
+	Jvp6IuHMU2nUNr3LIjAHkD11XHHfDzEdDlvXXnbO9iG2JaAD2aYGvE87DkAih73ZVo
+	OFh7o1woX19oJ9/RkWHg7MxfTx8B2jYTuhD/Z5bar46EvMLL0YG4XER0zazV6X1Izz
+	05PpXSZGmeQ0n2UvDv2kOdcW5R3niNt2RyH6GmTXNhZa2uQ5MJZzmBazztdtFHknQd
+	mBW8Kd+bTZDRu+sDflXQkmYbBMeMWZE459GxVB7t02rBrFF2cC6qZ4lPpXTJIgAoRg
+	E6m76ugkauiuk9g8tN+rWLi0=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Feb 2020 16:36:00 +0200
-Message-Id: <20200223143600.2282-3-bunk@stusta.de>
+Date: Sun, 23 Feb 2020 16:35:59 +0200
+Message-Id: <20200223143600.2282-2-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] linux-firmware: Upgrade 20200117 -> 20200122
+Subject: [PATCH] bison: Upgrade 3.5.1 -> 3.5.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,48 +42,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 23 Feb 2020 14:36:03 -0000
 
-Switch to using the tarballs of tagged releases.
-
-WHENCE changed due to firmware filename changes.
-
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- ...irmware_20200117.bb => linux-firmware_20200122.bb} | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200117.bb => linux-firmware_20200122.bb} (99%)
+ .../recipes-devtools/bison/{bison_3.5.1.bb => bison_3.5.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/bison/{bison_3.5.1.bb => bison_3.5.2.bb} (90%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200117.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20200117.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-index 8111c41016..0d1422cfca 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200117.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-@@ -125,7 +125,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=cdcd9f664a404c681bb745bcac6253a3 \
-+                    file://WHENCE;md5=c27d0c06cd5d376d8ab55860e65ba4e4 \
-                     "
+diff --git a/meta/recipes-devtools/bison/bison_3.5.1.bb b/meta/recipes-devtools/bison/bison_3.5.2.bb
+similarity index 90%
+rename from meta/recipes-devtools/bison/bison_3.5.1.bb
+rename to meta/recipes-devtools/bison/bison_3.5.2.bb
+index e70252d974..b5b4a8ef76 100644
+--- a/meta/recipes-devtools/bison/bison_3.5.1.bb
++++ b/meta/recipes-devtools/bison/bison_3.5.2.bb
+@@ -17,8 +17,8 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+ # No point in hardcoding path to m4, just use PATH
+ EXTRA_OECONF += "M4=m4"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -194,13 +194,10 @@ NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
+-SRC_URI[md5sum] = "6fc5fa4488832a65db934b9e93bd5d4c"
+-SRC_URI[sha256sum] = "3e7e097bd9709a2d5e40e69446b74b149733b3de864fadb7a9b54eca7b2a4dd0"
++SRC_URI[md5sum] = "49fc2cf23e31e697d5072835e1662a97"
++SRC_URI[sha256sum] = "24e273db9eb6da8bbb6f0648284d0724a5cbd6268a163db402f961350a4e50dd"
  
- PE = "1"
- 
--SRCREV = "9c340bd1bdabf53808a9178a7be98c5f2ad599a7"
-+SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
- 
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
--
--UPSTREAM_CHECK_COMMITS = "1"
--
--S = "${WORKDIR}/git"
-+SRC_URI[md5sum] = "ac291b21f366ae2a37193ec8f14c39d2"
-+SRC_URI[sha256sum] = "a30e811b3736a72b874ac27e10662f5e5409b1cadf8aab7ba88e8f8bc8083986"
- 
- inherit allarch
+ inherit autotools gettext texinfo
  
 -- 
 2.17.1
