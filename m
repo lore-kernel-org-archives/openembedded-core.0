@@ -1,35 +1,35 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id F224E61185
+	by mail.openembedded.org (Postfix) with ESMTP id F320B61749
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 23 Feb 2020 18:29:35 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48QYdC03FXz4J
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48QYdD0c7zz5k
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Feb 2020 19:29:34 +0100 (CET)
+	Sun, 23 Feb 2020 19:29:35 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582482575;
-	bh=Y2MAuohw7e2zoRi8Mu/6pNsxf8JbfH6F9oMCixlsLPA=;
+	s=default; t=1582482576;
+	bh=a0YcOzDkeo8rpRfcGTojTHUJ6cEzNDnWDRj8Uwthjns=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=qnG1B/swJ6qh+DFV6t7Fhv+T2c5bRfLaKbeXExlpJ4fihFPtor315ZzizR9xHX6xK
-	BLyww8m30H1foKGPS8fs/CRjJ9k/lSJNCb+8YHPorj1VTJQafHSvtBCdjlEo2TCWhP
-	QFICcnh3spLO3fPPOSQcw9p9z+/pH9+PM+eP4uY4n1c+nME1RQzxVabvIZB0C41lvC
-	U8fh0cqLeG6K5FaTqw0S3gBFq1YeNrRtaBHKDjU094H34tQvvvaOsFZdzVAz/IcU8n
-	MgetQ7o4wHYhKBx5iXh9d+JmVBaWm4b5BnttewsKcBpPIdFaQn2p3iCUEXk/li5i/A
-	waEUnYd3YvLXCfjk+qRJo66PuCbLxG8Wyz8bylC4DygvM9+HLLTpQ7kCnUCras6FBI
-	va/TAEIh2p8qnD9tIbtZqFFuYwLkbUA+Z6xv/p8RVx42QiiYuP6l+Z74r6c9QUOqy/
-	gvMtaBHwU6fOnTQwBUpaoGmRPkTq5Ga+E4XzjhiZOA8/vhZwAMiXjIX1qe1S8+mHLQ
-	p+kJZgxXmj9I+WBZ8IE8W3P8+p2q3G5rmdQCr2/EKWqbQBw3hoZamSVQ6JbG8cRpHY
-	NlfX+oFi2bL+kXkGVuyNjScv3+o1kkknN1S5bBNnqUNMuWav4LdLtMPc4dGAw9L/Yn
-	GPAVYTLQTqLIJNoHyKCB5KRs=
+	b=QnfHFz1/wcZplfZ6DKRvxM2mWIuthzCNWJ9zrOahUwCo72udYiOoAncmcHJrqyoxR
+	2GkbGNdzneifArhMt7ufTzhI9JJxp60x3ZksqhwlVOu9DGhhrQAvQVkPWHuJBHqyl5
+	P1mRdpLI6FMCt9wQoen7CB3FgTijLnR7Ub7PncyBUkLwJMijUemrMYgqU+Kese8kSI
+	nc9KSh+IaOQpp6yYc9GS4kn0qXmVOTpZfeM9/n3oxKrdrEAS+vC+urP/Vgyjp1fSWC
+	kEubllmKckfkvhz+OccGtsDcrs8jpNpj4glGWcloLYMDqZgRBzK/YgGBwlN0dMmfqo
+	3kOQwPupuCDq+BSuB5en0N1cXMQaU2omsQOZVRsJu1JDbkc8Ty24nEeoR2jlUqBPV7
+	qyaEwkNc+YyMvRYaybNJCiRbZAYJLkPHx1kuYLaFp0PNfVf42W5rkC/uaS80c0tx5P
+	u5H62QETktF19CCFbeB6jqZjwyN8/8SaxZ5RoyrU0yMOFkjwCqshN6GKeY5TY2kFpz
+	GvDV7ZL6OhVTROJpnC5MwF1bevXB+WstKp7YzGUCF46wlgjq/wZtzUSM7fEdiu6WbA
+	YMBNwkNmIKhRRCP27oj6q7C6CzTI5d1PXnduJa0lWXIlRK2Xw4RsT76x867WHFSDJ0
+	33yE95QavbrvjDh1n6DiOCZg=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Feb 2020 20:29:29 +0200
-Message-Id: <20200223182933.6168-2-bunk@stusta.de>
+Date: Sun, 23 Feb 2020 20:29:31 +0200
+Message-Id: <20200223182933.6168-4-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200223182933.6168-1-bunk@stusta.de>
 References: <20200223182933.6168-1-bunk@stusta.de>
-Subject: [PATCH v2 2/6] webkitgtk: Remove unused DEPENDS on pulseaudio
+Subject: [PATCH v2 4/6] webkitgtk: Remove the unused DEPENDS on libidn
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,18 +50,18 @@ Signed-off-by: Adrian Bunk <bunk@stusta.de>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-index 51fba94964..80ed427352 100644
+index a9c00862c3..7b3d16d8cb 100644
 --- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
 +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-@@ -33,7 +33,7 @@ CVE_PRODUCT = "webkitgtk webkitgtk\+"
- DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
+@@ -30,7 +30,7 @@ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
+ CVE_PRODUCT = "webkitgtk webkitgtk\+"
+ 
+-DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
++DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libgcrypt \
             gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
  	   pango icu bison-native gawk intltool-native libwebp \
--	   atk udev harfbuzz jpeg libpng pulseaudio librsvg libtheora libvorbis libxcomposite libxtst \
-+	   atk udev harfbuzz jpeg libpng librsvg libtheora libvorbis libxcomposite libxtst \
- 	   ruby-native libnotify gstreamer1.0-plugins-bad \
- 	   gettext-native glib-2.0 glib-2.0-native libtasn1 \
-           "
+ 	   atk udev harfbuzz jpeg libpng librsvg libtheora libvorbis libxcomposite libxtst \
 -- 
 2.17.1
 
