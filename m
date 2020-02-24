@@ -1,51 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
-	[209.85.217.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4390660859
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
+	[209.85.217.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 25B86615E4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 21:40:56 +0000 (UTC)
-Received: by mail-vs1-f66.google.com with SMTP id m4so6658707vsa.12
+	Mon, 24 Feb 2020 21:45:44 +0000 (UTC)
+Received: by mail-vs1-f68.google.com with SMTP id p14so6677701vsq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 13:40:57 -0800 (PST)
+	Mon, 24 Feb 2020 13:45:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=VkMjEFVP5BDOQ1iGszzBPqsXpvlJj8srva6qHQ/uL6c=;
-	b=hcYqlIEjqpigCvcMbZOtSsC7zrusVv20SK6+l6hbCCsKDdBJ4iFyLR/nUznWf9Xnq8
-	6mW3MZf9TM3S9EDbPmKsxo/A4qAdSD/HM6zpzFVHfkKhSG5P/LNBrS0GE60SWqEIOWNS
-	dVL2Yxbd7wK1xWKQz9NZ4zBKJiFYO2ywKokd/Rm4oVIH6aMbcU9F1E7iFD8VmkzXPZ61
-	TFgsRsl2Q2H5DhZDSDeL5ThvTIo/tOV6oZMlA8layMJpUlsW7tcNC5HHvaObLQ2aW+Bj
-	WVLbjVoQxS9We7FLtCEQoPmyclNl9Ux/e9Ss9pPvEvZG2Sr569yNhmpsam+LsiJ8/+fo
-	U5qA==
+	:cc; bh=lBbNGDSi61GMU+tF6AurzNEbG+UvugSUNoz0dqs+cQg=;
+	b=OTGEMRcz7r2a5AxMYjZ5qlw84SPbimO7PFeBZ8rnnlf3neNmzPdA1T/Gu05ncLNJ/p
+	wU5I1w1phsOefo446HX9yHNt2I5YeHgSCY+w8tpF01EG0ihx/KjjffkOi0pLB0acomsO
+	PDYHW8obNgVBJ/ugpu0yildQwJkM7TGIxJFOS4+xo488qh54wM2wGpSfGPDXza96VqUC
+	zCOOeg8Q8niRKx9qdYhB+GCJhfbmISYO7fPExzbcdogAE4HCAVgFmichkHbO0YmoNEui
+	zHNHxIGd8RfsugS2+KtIMLr0afKygUWaML13ZH9AmPt+efuZXp7wK4hwI2Tm+KQn8yWL
+	pS8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=VkMjEFVP5BDOQ1iGszzBPqsXpvlJj8srva6qHQ/uL6c=;
-	b=l6PcpiNxbwANlOfVVlQkKEOQAdi9voAHKzswspmk92mitRUaAMXHJ6dY7MZPF9ZC2V
-	BPOfVAosGKtoz1dzDk6IK02vFmSw4tt5bYtSmU21c7eOcElquAKhIe+4sp1i3ru73nqE
-	E3ug18Cbf9wm1LLUkWLBMuScyYncPakdXCXMylmFanx+G3odUWecwjKKgQGNrtzevbYT
-	rZ2MvQZc8Ub1th5tLpOOzgFVRuYitn+w5LUhLl/oD6+1L2UV2NVDS7KD0P7pl3vzWYSe
-	wVidatgCi4L4b9+cKUFdQCnWaPkq9DG2IaAv4+xuykMp6ko+IpMQRBQDW2G40VWfnBll
-	NIQw==
-X-Gm-Message-State: APjAAAWAtw8gkr5WuZY2FHXU1GCEOYaBHGpe38FAK6AR7JqmJTbc3XQ5
-	LvnkVQCTT7GOuDGBN0ABIK+xLWLJqsI6kHv00N4=
-X-Google-Smtp-Source: APXvYqxtzum1hNHYAPXPH3QB1DO8FIOYsRDUia1GM4fOJky66VFcThRLJ72IpOf7MUXB5yRhUdsroNhTW33uKymbNNs=
-X-Received: by 2002:a67:f51a:: with SMTP id u26mr27109538vsn.11.1582580456926; 
-	Mon, 24 Feb 2020 13:40:56 -0800 (PST)
+	bh=lBbNGDSi61GMU+tF6AurzNEbG+UvugSUNoz0dqs+cQg=;
+	b=c9elysvWL303cXzWeTwieWPyL7e5boTCwViOafSQckksaCaIMbO2iLbvGXjnvb5Ihl
+	ciJRp/eRoauNoKm+hsq+oz4VV7/lg7cf4nucbs2EO6mL0qbTAEJNIf47xE74oOvOdosU
+	19XjGrlEG21gIErVmCXebgAwyEsYw2tK2x6K8FpCuZ6Bua5oddsgnuY4QybRasQFxUaD
+	EoSKSywwzTfR7shVWbfcAWUcleJMQ00iXT03I/JZfXlBGVO8tBp1wtQL2rpQ1EW6wZmX
+	J9/Edg9ysvQUlrAWvyeI4nU4HptLEZalUV/rC0+DsYF3jfDiiOQcRfubsA1XCzSIbxhy
+	nLfA==
+X-Gm-Message-State: APjAAAWC2yPpCydTQ0gycKOrw9jiSMU5Gv16CGPGA2BLQBbFS0obZI/K
+	9cH7SYpnxG8WP/3fQP9aHR0tupjq2xzAWHQpoDTSPd1n
+X-Google-Smtp-Source: APXvYqwSukVekYxdkqqGcX+W+kSnxAYr0J0c/tDb0raGDtXE154IV5bNfuzYAvgd4O4Xg+9vT6k3ZnDbGXfRVI+Lhsk=
+X-Received: by 2002:a05:6102:52e:: with SMTP id
+	m14mr27924867vsa.25.1582580745127; 
+	Mon, 24 Feb 2020 13:45:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20200122071934.60789-1-alex.kiernan@gmail.com>
-	<15178a56a7fff6877d13b52312ffc8b898a60f3f.camel@linuxfoundation.org>
-	<CAO5Uq5RVPgtaxUzny-iPCA5L5mBPUW6dmxb0xWRA_c0HSqZF9w@mail.gmail.com>
-	<CAJ86T=U8DeE1FeOu5X5y--GEGOANVrs7feHGha_kf_TaUdSKnw@mail.gmail.com>
-	<CAO5Uq5SkNGJxnk7L5_dg2OwHh8HC9jcJ+fC34mdaTfgp82cbAA@mail.gmail.com>
-In-Reply-To: <CAO5Uq5SkNGJxnk7L5_dg2OwHh8HC9jcJ+fC34mdaTfgp82cbAA@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 24 Feb 2020 13:40:45 -0800
-Message-ID: <CAJ86T=WrZupO_F0AMcDNayKBMDVzsOSoDGTV6A8-pNhq=GeBAw@mail.gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libxcrypt: Enable static builds
+References: <20200223182933.6168-1-bunk@stusta.de>
+	<fd59ef897ef077f4f0160e1e2d7c95466c75a3f7.camel@linuxfoundation.org>
+	<20200224104635.GA27036@localhost> <20200224140801.GC27036@localhost>
+In-Reply-To: <20200224140801.GC27036@localhost>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 24 Feb 2020 22:45:33 +0100
+Message-ID: <CANNYZj91N68ocXm=UKzcH6U7nEnVLuQzDStR3O0_cO3GsY9uag@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/6] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,74 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 21:40:56 -0000
+X-List-Received-Date: Mon, 24 Feb 2020 21:45:45 -0000
+Content-Type: multipart/alternative; boundary="000000000000245093059f594b61"
+
+--000000000000245093059f594b61
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Feb 21, 2020 at 8:35 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
->
-> On Tue, Jan 28, 2020 at 8:07 PM Andre McCurdy <armccurdy@gmail.com> wrote:
-> >
-> > On Tue, Jan 28, 2020 at 4:48 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> > >
-> > > Let me have a look at that - what got me here was trying to get a
-> > > static busybox so I could OSTree's tests to pass, which all turned out
-> > > to be way harder than I expected; this was just one of the things I
-> > > tripped over.
-> >
-> > Busybox shouldn't need to link with libxcrypt if USE_BB_CRYPT is
-> > enabled (which it is in OE's default Busybox defconfig).
-> >
-> > There's a long standing bug in Busybox whereby crypt.h gets included
-> > unconditionally (instead of being guarded by #if ENABLE_USE_BB_CRYPT
-> > etc) so the Busybox recipe still needs to depend on virtual/crypt but
-> > it's only a compile time dependency.
->
-> It looks like that might've been fixed:
->
-> 4767a5375e66 libbb: include <crypt.h> only if necessary
+On Mon, 24 Feb 2020 at 15:08, Adrian Bunk <bunk@stusta.de> wrote:
 
-Yes, looks like a fix in the Busybox master branch (not in any release
-yet though).
-
-> If I drop virtual/crypt, I still get the same link time failure to
-> find crypt, which I think we're getting because this test
-> https://git.busybox.net/busybox/tree/Makefile.flags#n149 passes:
 >
-> CRYPT_AVAILABLE := $(shell echo 'int main(void){return 0;}'
-> >crypttest.c; $(CC) $(CFLAGS) -lcrypt -o /dev/null crypttest.c
-> >/dev/null 2>&1 && echo "y"; rm crypttest.c)
+> Alexander, wayland support in webkitgtk requires mesa built with x11
+> support (otherwise gl.pc is not available).
 >
-> Not quite sure how that can pass tbh...
 
-It looks like that test should just be skipped completely if Busybox
-is configured to use its own internal libcrypt? Probably something to
-raise on the Busybox mailing list rather than here.
+I had a look; I'm not sure I understood the options correctly, but the
+issue is due to this:
 
-> This ugly hack avoids needing a static crypt:>
-> diff --git a/meta/recipes-core/busybox/busybox.inc
-> b/meta/recipes-core/busybox/busybox.inc
-> index 1a82f23b0f3a..7335a846038f 100644
-> --- a/meta/recipes-core/busybox/busybox.inc
-> +++ b/meta/recipes-core/busybox/busybox.inc
-> @@ -18,7 +18,7 @@ BUSYBOX_SPLIT_SUID ?= "1"
->  export EXTRA_CFLAGS = "${CFLAGS}"
->  export EXTRA_LDFLAGS = "${LDFLAGS}"
->
-> -EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH}
-> CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}'
-> HOSTCPP='${BUILD_CPP}'"
-> +EXTRA_OEMAKE = "CC='${CC}' LD='${CCLD}' V=1 ARCH=${TARGET_ARCH}
-> CROSS_COMPILE=${TARGET_PREFIX} SKIP_STRIP=y HOSTCC='${BUILD_CC}'
-> HOSTCPP='${BUILD_CPP}' CRYPT_AVAILABLE=n"
+                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl
+opengl', '' ,d)} \
 
-That's going to break for anyone who has their own busybox config with
-CONFIG_USE_BB_CRYPT disabled.
+The above works if both opengl and x11 are enabled as DISTRO_FEATURES, but
+if x11 is not enabled, then it should be "webgl gles2". Can you try that?
 
->  PACKAGES =+ "${PN}-httpd ${PN}-udhcpd ${PN}-udhcpc ${PN}-syslog
-> ${PN}-mdev ${PN}-hwclock"
->
-> Not sure how to get that integrated nicely...
->
-> --
-> Alex Kiernan
+Alex
 
+--000000000000245093059f594b61
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 24 Feb 2020 at 15:08, Adrian Bunk=
+ &lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></d=
+iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex"><br>
+Alexander, wayland support in webkitgtk requires mesa built with x11 <br>
+support (otherwise gl.pc is not available).<br></blockquote><div><br></div>=
+<div>I had a look; I&#39;m not sure I understood the options correctly, but=
+ the issue is due to this:</div><div><br></div><div>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;D=
+ISTRO_FEATURES&#39;, &#39;opengl&#39;, &#39;webgl opengl&#39;, &#39;&#39; ,=
+d)} \</div><div><br></div><div>The above works if both opengl and x11 are e=
+nabled as DISTRO_FEATURES, but if x11 is not enabled, then it should be &qu=
+ot;webgl gles2&quot;. Can you try that?<br></div><div><br></div><div>Alex<b=
+r> </div></div></div>
+
+--000000000000245093059f594b61--
