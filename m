@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 95035607C7
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 74366607C7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 08:55:06 +0000 (UTC)
+	Mon, 24 Feb 2020 08:55:07 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01O8t7Ce014223
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 01O8t8l1006450
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 00:55:07 -0800 (PST)
+	Mon, 24 Feb 2020 00:55:08 -0800 (PST)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 24 Feb 2020 00:55:06 -0800
+	14.3.468.0; Mon, 24 Feb 2020 00:55:08 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Feb 2020 16:57:05 +0800
-Message-ID: <cover.1582534330.git.liezhi.yang@windriver.com>
+Date: Mon, 24 Feb 2020 16:57:06 +0800
+Message-ID: <f0266e13c3e83d4747c63e767bf8f31500dc7c8e.1582534330.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1582534330.git.liezhi.yang@windriver.com>
+References: <cover.1582534330.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] weston: PACKAGECONFIG clients requires wayland
+Subject: [PATCH 1/1] weston: PACKAGECONFIG clients requires wayland
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,24 +33,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 08:55:06 -0000
+X-List-Received-Date: Mon, 24 Feb 2020 08:55:07 -0000
 Content-Type: text/plain
 
-The following changes since commit 0bfb2e984062e2a00f8989d26aebb89b112d81d2:
+Fixed:
+DISTRO_FEATURES_remove = "wayland"
+$ bitbake weston
 
-  package_ipk: Add missing variables to the task hash (2020-02-23 23:33:43 +0000)
+clients/meson.build:141:4: ERROR: Problem encountered: weston-simple-dmabuf-egl
+requires option renderer-gl which is not enabled. If you rather not build this,
+drop "dmabuf-egl" from simple-clients option.
 
-are available in the git repository at:
+WARNING: exit code 1 from a shell command.
 
-  git://git.openembedded.org/openembedded-core-contrib rbt/weston
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/weston
-
-Robert Yang (1):
-  weston: PACKAGECONFIG clients requires wayland
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-graphics/wayland/weston_8.0.0.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-graphics/wayland/weston_8.0.0.bb b/meta/recipes-graphics/wayland/weston_8.0.0.bb
+index 83aee87..f8e9e15 100644
+--- a/meta/recipes-graphics/wayland/weston_8.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_8.0.0.bb
+@@ -27,11 +27,11 @@ WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
+ 
+ EXTRA_OEMESON += "-Dbackend-default=auto -Dbackend-rdp=false -Dpipewire=false"
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl clients', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd x11', d)} \
+                    ${@bb.utils.contains_any('DISTRO_FEATURES', 'wayland x11', '', 'headless', d)} \
+-                   clients launch"
++                   launch"
+ #
+ # Compositor choices
+ #
 -- 
 2.7.4
 
