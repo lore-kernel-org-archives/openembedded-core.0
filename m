@@ -1,48 +1,40 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A30460859
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 96BD860AF3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 21:55:34 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id p34so7649348qtb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 13:55:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xuPsw4oI3ucl3Q92HhqJYDB/Pgv2VAcgvX3VpFO9gR4=;
-	b=DioP4oOjZifG+Vo26VyUBX6on/tml9LEjzEJnxTEBz8awl8duV/p2hEs1wl2shjOqc
-	/XOQkWL6TJOQhN0eBYhh20grBdNG6uJ25g0es4iFJxv75QVDyGmNrozU38t36KW1HrJT
-	KYJ8C+AlVEiVi5zCLlre3M13p2Brqf50RCENboEgd6ZHnOb6L08l2B40VA+G2iBRQ78v
-	V6EwYyoj5hXYM+dTUvASY3hed3ajTnGflgFOd6fjaQFTt7l242E1goeriTLSB5c5KR59
-	o5OKlOgkmiQcwRA6bDqeGFNQp5wWAhLnjHEvoDOpih1M6jtPrIdX/yfyfctlpyUNsuNw
-	dBPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xuPsw4oI3ucl3Q92HhqJYDB/Pgv2VAcgvX3VpFO9gR4=;
-	b=BVJDRtGHyQIe/xLMd7CiyqnbxWWP64EZYRJfx1v4p9V/NC4Rs1cpb6CUPjuWKYhl4E
-	ymQjDFG4mNwrrOhAYOjMnRCyi8Lq08o14r5HG7zJHN8OtL+qOKioUpp7vEkqUmL/bGfi
-	cLCtQqKep/kKvVU2xbxFZuZnmrqgyxAQUYFBp7fnGkQQKdI+Xns9IDKfEXVqws79wIkh
-	uBzrOZpfzBcMi9mQoeAQwWt+qq/Y08nOoIh8YRFOwXX/19MFv4Zt5Ib45obDF3PXzFoQ
-	vXYMuKtb8lxXSSgHsX2xn7YVAmoYXlUREeVjpIqqYpt+buMhqENK3T3c9DhswYvZqHit
-	21jw==
-X-Gm-Message-State: APjAAAX4qtdRPZQzNNMALHHVH0UWNpvYmAi1WYozPEKted7RERSmJIY1
-	gV7i0bwSHhPq8aWSLGb3FjgBiCzgRtVkDCImUqI=
-X-Google-Smtp-Source: APXvYqx3InpSvFZyhQjjcZYxyfWJMnCawyiuIo6dn+1YHMOgX2x0EvdGkIuMMfIoyTjpm3kgT7qFdtJ5kgPDwOMrY5w=
-X-Received: by 2002:ac8:4e3c:: with SMTP id d28mr50004712qtw.190.1582581334988;
-	Mon, 24 Feb 2020 13:55:34 -0800 (PST)
+	Mon, 24 Feb 2020 22:00:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48RGFr2Blzz4c;
+	Mon, 24 Feb 2020 23:00:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1582581616;
+	bh=yBdCOmU4XicGiJEQ8emkJhEatm2EIY4yyvLfsAbEfoU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IXwgLT/Hcxwris8xhC8+jUMdDbhdUKtKI4eE2NfJ6mX/a+ftMawhAtmiq0+r1svJ9
+	1pIT8LJkPxkn1+G8nuQhpjWWhQy3fdj8BrAH24wYIuRpD+uGZyDYKW4MFchdciyiZT
+	dmPurt3Umgw163VJhXqxtLFIXcrjTqP1oqMpS+XSf2L83Foh5hMfqzkNLxeEIEFV1k
+	4ibCiwzS9NoiHr49BV2g4biW8M3bzr45ERfQEvivtYfZiJq8Q2TTxy5pB/m//Hh85l
+	Ie20nu1RGGPCi+V4z6HT4cCFNGy7QxpaYDteZAYQpkS8eeNbAUdQ96iAFTcsfuZGaN
+	fysQLc/s68laMHMmcTGzFKPzfKOn56B3I5cxwVDdIZ+7c6f/jYRlWBnzm52gk68VM1
+	09j15Ic0AFPnrUTdzhCGPYTWumfKGqx6gC0wzmigGN8zIhOnynNMNf218ZwRmepNzS
+	pSBMGspgykVkLqWGe/eM4vpcBKvQoTzS+4hy+T4kpurvbwOrVY4XKuZkD65ieI4OLu
+	z8neNTPD8i0CHuqUMF9xp2ww8dUa/uLqKCvA9cRGCz1YU5Yn4rgW42HxDdki1LbnCk
+	jsytNCR1+4q63ZrD5IzkGxEz0Z5o5YypkUThLptZXQ7/G9tmZ+tDG6t7Tza0xsgdEy
+	6+9JJhuVRafZPDiUoFb+JWJc=
+Date: Tue, 25 Feb 2020 00:00:13 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20200224220013.GA11259@localhost>
+References: <20200224125955.26771-1-git@andred.net>
+	<20200224134022.GB27036@localhost>
+	<669ba509f1df86a8f2c7ea172aa8ff23d7449744.camel@linuxfoundation.org>
+	<23c396de32bb98414dcb2aaec178e73079e000d3.camel@andred.net>
+	<b14a0847fffc79809e5fcef86d82b5a8abf3f9a2.camel@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20200224141457.10825-1-brgl@bgdev.pl>
-	<CAMKF1spm80Q00dYO8QAyqV+bAmgoqk94uYNjtkdCKZnbpr8XnA@mail.gmail.com>
-	<CAMpxmJUQusczgCZro7YXFYB3NCmR_K7Zgk6sp7TDqcRfy=ZRMA@mail.gmail.com>
-In-Reply-To: <CAMpxmJUQusczgCZro7YXFYB3NCmR_K7Zgk6sp7TDqcRfy=ZRMA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 24 Feb 2020 13:55:24 -0800
-Message-ID: <CAMKF1soeRhL_Zi4t3qnJC-ifQrjDWg_dVaxDjdrWQuWk1Ger3A@mail.gmail.com>
-To: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+In-Reply-To: <b14a0847fffc79809e5fcef86d82b5a8abf3f9a2.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] image_types: fix checksum conversion dependencies
+Subject: Re: [PATCH v2] bitbake.conf: omit XZ threads and RAM from sstate signatures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,125 +47,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 21:55:34 -0000
-Content-Type: multipart/alternative; boundary="0000000000004cdca3059f596ecb"
+X-List-Received-Date: Mon, 24 Feb 2020 22:00:17 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---0000000000004cdca3059f596ecb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Mon, Feb 24, 2020 at 05:32:29PM +0000, Richard Purdie wrote:
+> On Mon, 2020-02-24 at 17:14 +0000, André Draszik wrote:
+>...
+> > I don't want to penalise myself or anybody else by generally forcing
+> > a low number of threads either.
+> 
+> We didn't have resource issues on the autobuilder with xz but others
+> did report it and its why the memlimit was set. It would be better to
+> remove the memlimit for determinism really as far as I can tell and if
+> necessary throttle the threads count.
+> 
+> Maybe setting an upper limit of say 10 threads and a minimum of 2 might
+> given us what we need.
 
-On Mon, Feb 24, 2020 at 10:39 AM Bartosz Golaszewski <
-bgolaszewski@baylibre.com> wrote:
+On a Threadripper with 128 cores and 256 GB RAM it would not be a
+problem to use all cores.
 
-> pon., 24 lut 2020 o 17:07 Khem Raj <raj.khem@gmail.com> napisa=C5=82(a):
-> >
-> >
-> >
-> > On Mon, Feb 24, 2020 at 6:15 AM Bartosz Golaszewski <brgl@bgdev.pl>
-> wrote:
-> >>
-> >> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >>
-> >> Only md5sum and sha256sum tools are provided by HOSTTOOLS. For other
-> >> checksum utils, the conversions need to depend on coreutils-native.
-> >>
-> >> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >> ---
-> >>  meta/classes/image_types.bbclass | 4 ++++
-> >>  1 file changed, 4 insertions(+)
-> >>
-> >> diff --git a/meta/classes/image_types.bbclass
-> b/meta/classes/image_types.bbclass
-> >> index f82f1d8862..63ffbac7e6 100644
-> >> --- a/meta/classes/image_types.bbclass
-> >> +++ b/meta/classes/image_types.bbclass
-> >> @@ -315,6 +315,10 @@ CONVERSION_DEPENDS_lzo =3D "lzop-native"
-> >>  CONVERSION_DEPENDS_zip =3D "zip-native"
-> >>  CONVERSION_DEPENDS_zst =3D "zstd-native"
-> >>  CONVERSION_DEPENDS_sum =3D "mtd-utils-native"
-> >> +CONVERSION_DEPENDS_sha1sum =3D "coreutils-native"
-> >> +CONVERSION_DEPENDS_sha224sum =3D "coreutils-native"
-> >> +CONVERSION_DEPENDS_sha384sum =3D "coreutils-native"
-> >> +CONVERSION_DEPENDS_sha512sum =3D "coreutils-native"
-> >
-> >
-> > If they are common enough on host distros then perhaps add them to
-> HOSTTOOLS might be better
-> >
->
-> They are part of coreutils although I'm not sure how common they are
-> in distros. They're not commonly used in poky recipes so I'd say it's
-> fine for them to use coreutils-native.
->
+A laptop with 8 cores and 8 GB RAM is problematic.
 
-If they are in centos7 baseinstall then we should be fine to add it to
-hosttools
+> Perhaps we just allow the number of xz threads
+> to be set independently?
 
->
-> Bart
->
+dpkg manually reduces the number of threads until less than half
+of the RAM is used:
+https://sources.debian.org/src/dpkg/1.19.7/lib/dpkg/compress.c/#L566-L574
 
---0000000000004cdca3059f596ecb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In a script it would be possible to use --no-adjust to achieve the same:
+$ xz -9 --memlimit=50% --no-adjust -T32 /dev/null 
+xz: Memory usage limit is too low for the given filter setup.
+xz: 39,972 MiB of memory is required. The limit is 32,051 MiB.
+$
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, Feb 24, 2020 at 10:39 AM Bartosz Golaszewski &lt;<a=
- href=3D"mailto:bgolaszewski@baylibre.com">bgolaszewski@baylibre.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex">pon., 24 lut 2020 o 17:07 =
-Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.kh=
-em@gmail.com</a>&gt; napisa=C5=82(a):<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; On Mon, Feb 24, 2020 at 6:15 AM Bartosz Golaszewski &lt;<a href=3D"mai=
-lto:brgl@bgdev.pl" target=3D"_blank">brgl@bgdev.pl</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; From: Bartosz Golaszewski &lt;<a href=3D"mailto:bgolaszewski@bayli=
-bre.com" target=3D"_blank">bgolaszewski@baylibre.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Only md5sum and sha256sum tools are provided by HOSTTOOLS. For oth=
-er<br>
-&gt;&gt; checksum utils, the conversions need to depend on coreutils-native=
-.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Bartosz Golaszewski &lt;<a href=3D"mailto:bgolaszew=
-ski@baylibre.com" target=3D"_blank">bgolaszewski@baylibre.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 meta/classes/image_types.bbclass | 4 ++++<br>
-&gt;&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/classes/image_types.bbclass b/meta/classes/image=
-_types.bbclass<br>
-&gt;&gt; index f82f1d8862..63ffbac7e6 100644<br>
-&gt;&gt; --- a/meta/classes/image_types.bbclass<br>
-&gt;&gt; +++ b/meta/classes/image_types.bbclass<br>
-&gt;&gt; @@ -315,6 +315,10 @@ CONVERSION_DEPENDS_lzo =3D &quot;lzop-native&=
-quot;<br>
-&gt;&gt;=C2=A0 CONVERSION_DEPENDS_zip =3D &quot;zip-native&quot;<br>
-&gt;&gt;=C2=A0 CONVERSION_DEPENDS_zst =3D &quot;zstd-native&quot;<br>
-&gt;&gt;=C2=A0 CONVERSION_DEPENDS_sum =3D &quot;mtd-utils-native&quot;<br>
-&gt;&gt; +CONVERSION_DEPENDS_sha1sum =3D &quot;coreutils-native&quot;<br>
-&gt;&gt; +CONVERSION_DEPENDS_sha224sum =3D &quot;coreutils-native&quot;<br>
-&gt;&gt; +CONVERSION_DEPENDS_sha384sum =3D &quot;coreutils-native&quot;<br>
-&gt;&gt; +CONVERSION_DEPENDS_sha512sum =3D &quot;coreutils-native&quot;<br>
-&gt;<br>
-&gt;<br>
-&gt; If they are common enough on host distros then perhaps add them to HOS=
-TTOOLS might be better<br>
-&gt;<br>
-<br>
-They are part of coreutils although I&#39;m not sure how common they are<br=
->
-in distros. They&#39;re not commonly used in poky recipes so I&#39;d say it=
-&#39;s<br>
-fine for them to use coreutils-native.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">If they are in c=
-entos7 baseinstall then we should be fine to add it to hosttools=C2=A0</div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex"><br>
-Bart<br>
-</blockquote></div></div>
+> > > FWIW we haven't seen variation on the autobuilder due to this as
+> > > far as
+> > > I know.
+> > 
+> > BTW, pigz and pbzip should have a similar thread related problem,
+> > according to the man pages, if you read between the lines.
+> 
+> Agreed. We have less of an issue with these as their use is much less
+> frequent. xz is used by deb and ipk for packaging.
 
---0000000000004cdca3059f596ecb--
+Good point, dpkg does parallel xz compression and I am not aware of any
+reproducibility problems this causes.
+
+> Cheers,
+> 
+> Richard
+
+cu
+Adrian
+
