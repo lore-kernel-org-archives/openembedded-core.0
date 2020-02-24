@@ -1,49 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 25B86615E4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A30460859
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 21:45:44 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id p14so6677701vsq.6
+	Mon, 24 Feb 2020 21:55:34 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id p34so7649348qtb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 13:45:45 -0800 (PST)
+	Mon, 24 Feb 2020 13:55:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=lBbNGDSi61GMU+tF6AurzNEbG+UvugSUNoz0dqs+cQg=;
-	b=OTGEMRcz7r2a5AxMYjZ5qlw84SPbimO7PFeBZ8rnnlf3neNmzPdA1T/Gu05ncLNJ/p
-	wU5I1w1phsOefo446HX9yHNt2I5YeHgSCY+w8tpF01EG0ihx/KjjffkOi0pLB0acomsO
-	PDYHW8obNgVBJ/ugpu0yildQwJkM7TGIxJFOS4+xo488qh54wM2wGpSfGPDXza96VqUC
-	zCOOeg8Q8niRKx9qdYhB+GCJhfbmISYO7fPExzbcdogAE4HCAVgFmichkHbO0YmoNEui
-	zHNHxIGd8RfsugS2+KtIMLr0afKygUWaML13ZH9AmPt+efuZXp7wK4hwI2Tm+KQn8yWL
-	pS8w==
+	:cc; bh=xuPsw4oI3ucl3Q92HhqJYDB/Pgv2VAcgvX3VpFO9gR4=;
+	b=DioP4oOjZifG+Vo26VyUBX6on/tml9LEjzEJnxTEBz8awl8duV/p2hEs1wl2shjOqc
+	/XOQkWL6TJOQhN0eBYhh20grBdNG6uJ25g0es4iFJxv75QVDyGmNrozU38t36KW1HrJT
+	KYJ8C+AlVEiVi5zCLlre3M13p2Brqf50RCENboEgd6ZHnOb6L08l2B40VA+G2iBRQ78v
+	V6EwYyoj5hXYM+dTUvASY3hed3ajTnGflgFOd6fjaQFTt7l242E1goeriTLSB5c5KR59
+	o5OKlOgkmiQcwRA6bDqeGFNQp5wWAhLnjHEvoDOpih1M6jtPrIdX/yfyfctlpyUNsuNw
+	dBPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=lBbNGDSi61GMU+tF6AurzNEbG+UvugSUNoz0dqs+cQg=;
-	b=c9elysvWL303cXzWeTwieWPyL7e5boTCwViOafSQckksaCaIMbO2iLbvGXjnvb5Ihl
-	ciJRp/eRoauNoKm+hsq+oz4VV7/lg7cf4nucbs2EO6mL0qbTAEJNIf47xE74oOvOdosU
-	19XjGrlEG21gIErVmCXebgAwyEsYw2tK2x6K8FpCuZ6Bua5oddsgnuY4QybRasQFxUaD
-	EoSKSywwzTfR7shVWbfcAWUcleJMQ00iXT03I/JZfXlBGVO8tBp1wtQL2rpQ1EW6wZmX
-	J9/Edg9ysvQUlrAWvyeI4nU4HptLEZalUV/rC0+DsYF3jfDiiOQcRfubsA1XCzSIbxhy
-	nLfA==
-X-Gm-Message-State: APjAAAWC2yPpCydTQ0gycKOrw9jiSMU5Gv16CGPGA2BLQBbFS0obZI/K
-	9cH7SYpnxG8WP/3fQP9aHR0tupjq2xzAWHQpoDTSPd1n
-X-Google-Smtp-Source: APXvYqwSukVekYxdkqqGcX+W+kSnxAYr0J0c/tDb0raGDtXE154IV5bNfuzYAvgd4O4Xg+9vT6k3ZnDbGXfRVI+Lhsk=
-X-Received: by 2002:a05:6102:52e:: with SMTP id
-	m14mr27924867vsa.25.1582580745127; 
-	Mon, 24 Feb 2020 13:45:45 -0800 (PST)
+	bh=xuPsw4oI3ucl3Q92HhqJYDB/Pgv2VAcgvX3VpFO9gR4=;
+	b=BVJDRtGHyQIe/xLMd7CiyqnbxWWP64EZYRJfx1v4p9V/NC4Rs1cpb6CUPjuWKYhl4E
+	ymQjDFG4mNwrrOhAYOjMnRCyi8Lq08o14r5HG7zJHN8OtL+qOKioUpp7vEkqUmL/bGfi
+	cLCtQqKep/kKvVU2xbxFZuZnmrqgyxAQUYFBp7fnGkQQKdI+Xns9IDKfEXVqws79wIkh
+	uBzrOZpfzBcMi9mQoeAQwWt+qq/Y08nOoIh8YRFOwXX/19MFv4Zt5Ib45obDF3PXzFoQ
+	vXYMuKtb8lxXSSgHsX2xn7YVAmoYXlUREeVjpIqqYpt+buMhqENK3T3c9DhswYvZqHit
+	21jw==
+X-Gm-Message-State: APjAAAX4qtdRPZQzNNMALHHVH0UWNpvYmAi1WYozPEKted7RERSmJIY1
+	gV7i0bwSHhPq8aWSLGb3FjgBiCzgRtVkDCImUqI=
+X-Google-Smtp-Source: APXvYqx3InpSvFZyhQjjcZYxyfWJMnCawyiuIo6dn+1YHMOgX2x0EvdGkIuMMfIoyTjpm3kgT7qFdtJ5kgPDwOMrY5w=
+X-Received: by 2002:ac8:4e3c:: with SMTP id d28mr50004712qtw.190.1582581334988;
+	Mon, 24 Feb 2020 13:55:34 -0800 (PST)
 MIME-Version: 1.0
-References: <20200223182933.6168-1-bunk@stusta.de>
-	<fd59ef897ef077f4f0160e1e2d7c95466c75a3f7.camel@linuxfoundation.org>
-	<20200224104635.GA27036@localhost> <20200224140801.GC27036@localhost>
-In-Reply-To: <20200224140801.GC27036@localhost>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 24 Feb 2020 22:45:33 +0100
-Message-ID: <CANNYZj91N68ocXm=UKzcH6U7nEnVLuQzDStR3O0_cO3GsY9uag@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/6] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
+References: <20200224141457.10825-1-brgl@bgdev.pl>
+	<CAMKF1spm80Q00dYO8QAyqV+bAmgoqk94uYNjtkdCKZnbpr8XnA@mail.gmail.com>
+	<CAMpxmJUQusczgCZro7YXFYB3NCmR_K7Zgk6sp7TDqcRfy=ZRMA@mail.gmail.com>
+In-Reply-To: <CAMpxmJUQusczgCZro7YXFYB3NCmR_K7Zgk6sp7TDqcRfy=ZRMA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 24 Feb 2020 13:55:24 -0800
+Message-ID: <CAMKF1soeRhL_Zi4t3qnJC-ifQrjDWg_dVaxDjdrWQuWk1Ger3A@mail.gmail.com>
+To: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] image_types: fix checksum conversion dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,48 +55,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 21:45:45 -0000
-Content-Type: multipart/alternative; boundary="000000000000245093059f594b61"
+X-List-Received-Date: Mon, 24 Feb 2020 21:55:34 -0000
+Content-Type: multipart/alternative; boundary="0000000000004cdca3059f596ecb"
 
---000000000000245093059f594b61
+--0000000000004cdca3059f596ecb
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 24 Feb 2020 at 15:08, Adrian Bunk <bunk@stusta.de> wrote:
+On Mon, Feb 24, 2020 at 10:39 AM Bartosz Golaszewski <
+bgolaszewski@baylibre.com> wrote:
+
+> pon., 24 lut 2020 o 17:07 Khem Raj <raj.khem@gmail.com> napisa=C5=82(a):
+> >
+> >
+> >
+> > On Mon, Feb 24, 2020 at 6:15 AM Bartosz Golaszewski <brgl@bgdev.pl>
+> wrote:
+> >>
+> >> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >>
+> >> Only md5sum and sha256sum tools are provided by HOSTTOOLS. For other
+> >> checksum utils, the conversions need to depend on coreutils-native.
+> >>
+> >> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >> ---
+> >>  meta/classes/image_types.bbclass | 4 ++++
+> >>  1 file changed, 4 insertions(+)
+> >>
+> >> diff --git a/meta/classes/image_types.bbclass
+> b/meta/classes/image_types.bbclass
+> >> index f82f1d8862..63ffbac7e6 100644
+> >> --- a/meta/classes/image_types.bbclass
+> >> +++ b/meta/classes/image_types.bbclass
+> >> @@ -315,6 +315,10 @@ CONVERSION_DEPENDS_lzo =3D "lzop-native"
+> >>  CONVERSION_DEPENDS_zip =3D "zip-native"
+> >>  CONVERSION_DEPENDS_zst =3D "zstd-native"
+> >>  CONVERSION_DEPENDS_sum =3D "mtd-utils-native"
+> >> +CONVERSION_DEPENDS_sha1sum =3D "coreutils-native"
+> >> +CONVERSION_DEPENDS_sha224sum =3D "coreutils-native"
+> >> +CONVERSION_DEPENDS_sha384sum =3D "coreutils-native"
+> >> +CONVERSION_DEPENDS_sha512sum =3D "coreutils-native"
+> >
+> >
+> > If they are common enough on host distros then perhaps add them to
+> HOSTTOOLS might be better
+> >
+>
+> They are part of coreutils although I'm not sure how common they are
+> in distros. They're not commonly used in poky recipes so I'd say it's
+> fine for them to use coreutils-native.
+>
+
+If they are in centos7 baseinstall then we should be fine to add it to
+hosttools
 
 >
-> Alexander, wayland support in webkitgtk requires mesa built with x11
-> support (otherwise gl.pc is not available).
+> Bart
 >
 
-I had a look; I'm not sure I understood the options correctly, but the
-issue is due to this:
-
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl
-opengl', '' ,d)} \
-
-The above works if both opengl and x11 are enabled as DISTRO_FEATURES, but
-if x11 is not enabled, then it should be "webgl gles2". Can you try that?
-
-Alex
-
---000000000000245093059f594b61
+--0000000000004cdca3059f596ecb
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 24 Feb 2020 at 15:08, Adrian Bunk=
- &lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></d=
-iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex"><br>
-Alexander, wayland support in webkitgtk requires mesa built with x11 <br>
-support (otherwise gl.pc is not available).<br></blockquote><div><br></div>=
-<div>I had a look; I&#39;m not sure I understood the options correctly, but=
- the issue is due to this:</div><div><br></div><div>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;D=
-ISTRO_FEATURES&#39;, &#39;opengl&#39;, &#39;webgl opengl&#39;, &#39;&#39; ,=
-d)} \</div><div><br></div><div>The above works if both opengl and x11 are e=
-nabled as DISTRO_FEATURES, but if x11 is not enabled, then it should be &qu=
-ot;webgl gles2&quot;. Can you try that?<br></div><div><br></div><div>Alex<b=
-r> </div></div></div>
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Feb 24, 2020 at 10:39 AM Bartosz Golaszewski &lt;<a=
+ href=3D"mailto:bgolaszewski@baylibre.com">bgolaszewski@baylibre.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">pon., 24 lut 2020 o 17:07 =
+Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.kh=
+em@gmail.com</a>&gt; napisa=C5=82(a):<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; On Mon, Feb 24, 2020 at 6:15 AM Bartosz Golaszewski &lt;<a href=3D"mai=
+lto:brgl@bgdev.pl" target=3D"_blank">brgl@bgdev.pl</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; From: Bartosz Golaszewski &lt;<a href=3D"mailto:bgolaszewski@bayli=
+bre.com" target=3D"_blank">bgolaszewski@baylibre.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Only md5sum and sha256sum tools are provided by HOSTTOOLS. For oth=
+er<br>
+&gt;&gt; checksum utils, the conversions need to depend on coreutils-native=
+.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Bartosz Golaszewski &lt;<a href=3D"mailto:bgolaszew=
+ski@baylibre.com" target=3D"_blank">bgolaszewski@baylibre.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 meta/classes/image_types.bbclass | 4 ++++<br>
+&gt;&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/meta/classes/image_types.bbclass b/meta/classes/image=
+_types.bbclass<br>
+&gt;&gt; index f82f1d8862..63ffbac7e6 100644<br>
+&gt;&gt; --- a/meta/classes/image_types.bbclass<br>
+&gt;&gt; +++ b/meta/classes/image_types.bbclass<br>
+&gt;&gt; @@ -315,6 +315,10 @@ CONVERSION_DEPENDS_lzo =3D &quot;lzop-native&=
+quot;<br>
+&gt;&gt;=C2=A0 CONVERSION_DEPENDS_zip =3D &quot;zip-native&quot;<br>
+&gt;&gt;=C2=A0 CONVERSION_DEPENDS_zst =3D &quot;zstd-native&quot;<br>
+&gt;&gt;=C2=A0 CONVERSION_DEPENDS_sum =3D &quot;mtd-utils-native&quot;<br>
+&gt;&gt; +CONVERSION_DEPENDS_sha1sum =3D &quot;coreutils-native&quot;<br>
+&gt;&gt; +CONVERSION_DEPENDS_sha224sum =3D &quot;coreutils-native&quot;<br>
+&gt;&gt; +CONVERSION_DEPENDS_sha384sum =3D &quot;coreutils-native&quot;<br>
+&gt;&gt; +CONVERSION_DEPENDS_sha512sum =3D &quot;coreutils-native&quot;<br>
+&gt;<br>
+&gt;<br>
+&gt; If they are common enough on host distros then perhaps add them to HOS=
+TTOOLS might be better<br>
+&gt;<br>
+<br>
+They are part of coreutils although I&#39;m not sure how common they are<br=
+>
+in distros. They&#39;re not commonly used in poky recipes so I&#39;d say it=
+&#39;s<br>
+fine for them to use coreutils-native.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">If they are in c=
+entos7 baseinstall then we should be fine to add it to hosttools=C2=A0</div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex"><br>
+Bart<br>
+</blockquote></div></div>
 
---000000000000245093059f594b61--
+--0000000000004cdca3059f596ecb--
