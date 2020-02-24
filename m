@@ -1,47 +1,18 @@
-Return-Path: <pbarker@konsulko.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A59E61132
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 20:32:18 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id g4so5652114wro.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 12:32:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=OnFADKLuRJkPY00njV5W6lsWycED1a+c+NBKxqwAi+M=;
-	b=PUG7Q86wWZjy+EbxIXUTbsUc7cCQKZrOXCIIMsakZxdIoncZT061GbYLRP0NDK1Rcm
-	a7cFrynJ3DnSFyYMG8frYWQ16KlFF/cSp7+vFMDMPyOfCtLxLSx5PAN0hGh0D60/lhKB
-	PfD5fLO0F4z2a6vOaySxqKG6ndYQHaJYiKld8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=OnFADKLuRJkPY00njV5W6lsWycED1a+c+NBKxqwAi+M=;
-	b=DQnChcEqaehMDlTKRCo9yoE1eKdR9xw0s7zz762G5dPNm6t5vWoUGzBG1bkyX+nWJO
-	9kSalfy5Tdar1DHUOSDJKkqra1nuQpUXTjIZ39hA57Bplfdi54N3gfaAqGeDN+8vZ5tb
-	ky+3pixbQSyFopkjCUKle7YhRK+1MtEShhTkFl1ssEp+M8exq7KLhQd3lcAD0dbTehop
-	/Z8cokgjYWfkbiE8Iel+lJMWrc/EPd5C00nKCmMDY+OvYhUJldsg8Ww+IpyC241nkcZq
-	LXnOmP9bFfjGCV7B4ih/xWZud7NkZTCJbUBfquzQYSnO1i6sysN5AzXoQh2S8Kgz3fBM
-	ww3g==
-X-Gm-Message-State: APjAAAVh5iKRMBpFXdo39YgK2DSULa6YMie66fmHfopGzYWXfrBu4Pci
-	Duo/1qgmeHkPCTKKb+V8KUd+CFI5f2KDlw==
-X-Google-Smtp-Source: APXvYqzPIP1I+jHZ8lE8Sus4py+hbZfPogPWK0evw7BoNZju/vj+9TL+tYyY3Lp2GTpia1EkESCc0g==
-X-Received: by 2002:a5d:4651:: with SMTP id j17mr69551530wrs.237.1582576338680;
-	Mon, 24 Feb 2020 12:32:18 -0800 (PST)
-Received: from ub1910.Hitronhub.home ([213.48.11.149])
-	by smtp.gmail.com with ESMTPSA id
-	r3sm20743762wrn.34.2020.02.24.12.32.17
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 24 Feb 2020 12:32:18 -0800 (PST)
-From: Paul Barker <pbarker@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Feb 2020 20:32:10 +0000
-Message-Id: <20200224203210.14297-1-pbarker@konsulko.com>
-X-Mailer: git-send-email 2.20.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id CAB9561678;
+	Mon, 24 Feb 2020 20:32:26 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] archiver.bbclass: Handle gitsm URLs in the mirror archiver
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Paul Barker <pbarker@konsulko.com>
+Date: Mon, 24 Feb 2020 20:32:28 -0000
+Message-ID: <20200224203228.2276.31555@do>
+References: <20200224201401.13720-1-pbarker@konsulko.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200224201401.13720-1-pbarker@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZmV0Y2gyL2dpdHNtOiBVbnBhY2sgc2hhbGxvdyBtaXJyb3IgdGFyYmFsbHM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,59 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 20:32:18 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 24 Feb 2020 20:32:26 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-To fully archive a `gitsm://` entry in SRC_URI we need to also capture
-the submodules recursively.
+== Series Details ==
 
-Signed-off-by: Paul Barker <pbarker@konsulko.com>
+Series: fetch2/gitsm: Unpack shallow mirror tarballs
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22916/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 0bfb2e9840)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/archiver.bbclass | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 013195df7d..a823708771 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -337,12 +337,10 @@ python do_ar_mirror() {
- 
-     bb.utils.mkdirhier(destdir)
- 
--    fetcher = bb.fetch2.Fetch(src_uri, d)
--
--    for url in fetcher.urls:
-+    def archive_url(fetcher, url):
-         if is_excluded(url):
-             bb.note('Skipping excluded url: %s' % (url))
--            continue
-+            return
- 
-         bb.note('Archiving url: %s' % (url))
-         ud = fetcher.ud[url]
-@@ -376,6 +374,21 @@ python do_ar_mirror() {
-         bb.note('Copying source mirror')
-         cmd = 'cp -fpPRH %s %s' % (localpath, destdir)
-         subprocess.check_call(cmd, shell=True)
-+
-+        if url.startswith('gitsm://'):
-+            def archive_submodule(ud, url, module, modpath, d):
-+                url += ";bareclone=1;nobranch=1"
-+                newfetch = bb.fetch2.Fetch([url], d, cache=False)
-+
-+                for url in newfetch.urls:
-+                    archive_url(newfetch, url)
-+
-+            ud.method.process_submodules(ud, ud.clonedir, archive_submodule, d)
-+
-+    fetcher = bb.fetch2.Fetch(src_uri, d, cache=False)
-+
-+    for url in fetcher.urls:
-+        archive_url(fetcher, url)
- }
- 
- def exclude_useless_paths(tarinfo):
--- 
-2.20.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
