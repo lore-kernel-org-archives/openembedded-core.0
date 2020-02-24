@@ -1,47 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E488361606
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id F258460626
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 16:16:56 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id j4so5405278pgi.1
+	Mon, 24 Feb 2020 16:32:25 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id b185so5618148pfb.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 08:16:58 -0800 (PST)
+	Mon, 24 Feb 2020 08:32:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
 	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=ebjxGIzlSvzUqmnWobylKIWqVNW3ZiTazjPf64Vz0hw=;
-	b=n44INpiLcktHOWYD+nb5FHSsDx8TjorSPHk327Lsjqalydd4H6EtfUN32LMozBX+L2
-	/bIC97DNUpoNwy84apbdgMU2HfuimcsfYgvxh5WDbV6wbKPsaMkl2BqE8niMk41z0MEV
-	CakJPyPOQeoPmZ2WKC8lff2ZOR4ijqiNQvcioUC/F8TZaAwe8hvw9CYdwRKsZldjONr4
-	sdHz/BEsCB98qGqCPkB3Kdfs5OP7Vbo9C0Wd/EnIah3Lz9RemiufxDaxkt0JlS3n7aag
-	LdbogPdCGaWoDSsI2uI09oephrYDAOIaJDaapXuxMwC+Kre5U2S83sawX0fmze86LzZI
-	uzCQ==
+	bh=vfpP0Sp6npT/7zSlIOA2L3gvvrqr9QgzA3B4C4O2rjA=;
+	b=EjrVq0SC+HCSlo6/qsIZ18gOTmdUwa2k2BGzO8u04B0+UnTzlequK8GWJGD8wx8jGj
+	WYcCwKCVPEP2nonodagwjbQGl/UEC9pqUN4JZFPX/I6mUx1HpHKRx8S5liNjcYq3Tkt8
+	WUrnXZ69JQh0Up/ryvEYU4XaixuTa5L9ETXH7ttdRgBnxZL9jvMl4XZTGHfs1ibNJ6FD
+	L0jLakhsXlg8pbRxH723mHsAwbXTmVGw/lyCZjI6bfH92zmrKtsf6Hy2xr4ypBvCObss
+	mPN3IF6UbELfBIYZqfFnV4p7Up2ap+ECKvEeGBwwh9WXRRXrJjmrXljuLmFLewdVj08X
+	rqAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=ebjxGIzlSvzUqmnWobylKIWqVNW3ZiTazjPf64Vz0hw=;
-	b=pTQPveeis/aQwYy+SnaoM2nlHuY9CqWOl96SdNGEL7MVs79rMbp+JSmNSpN29ZJUdT
-	w6kuJejxTuNNbiZfRP+ossz/SuLx43+Xddnpf8a/zjDD9DlxEQoAAw9GdwN0zzIlt1Ur
-	jogT+9Pzs+a8WM6IB7qMkj7DgrnYRzRDPoQX7qCIM0tMSo8TYNZk9nsZrOiLsCFf9Xnc
-	KCD/xd0+V95AcORAnrZtvMbDxHmJaBWCg9RkFLAkUF59QX7GF43i8EAnVYFhwWQ1hhAN
-	6f3YuIz7CbzFobWlrXg9B6igIugIHRVAUC3ZBcFLmc1Z87dzW4Pmr6DlDLlzTnnQfES1
-	56ZQ==
-X-Gm-Message-State: APjAAAVAz63LIULFJAnRfnZsBkflt/BFPZOiVnLI3gCL5kBrtslrqQ0V
-	1dbv26jdclyxaTs43eSiuPg=
-X-Google-Smtp-Source: APXvYqxp7eMuhiRfZRN2GyjZQ9f6itKumuvxjtwagwquhfBuufW42bESLBZBwy5/SuSWsqsVtEaWIw==
-X-Received: by 2002:a63:a411:: with SMTP id c17mr54294813pgf.450.1582561017903;
-	Mon, 24 Feb 2020 08:16:57 -0800 (PST)
+	bh=vfpP0Sp6npT/7zSlIOA2L3gvvrqr9QgzA3B4C4O2rjA=;
+	b=DhzDDXywSSMyz/7ZZ2eDM+DScvdOYVHkc++rel0nCraqPNE9tkF2uR7YViRHragHpa
+	xeDGsLmmrA2BaX45oAnjfeStmay3sK+8pHPAlXaB+VRrAbh0xcl5PM0HARu0iPRqzAe8
+	upaAajCffHrOie5ojf9jIRbOcZWpPjFMi8A/L+QeuBAMPs6T2UV08uzdyEVUvIrZM4jA
+	WkYo5L88zf8EZpwvG3DfvHo0IYhZnNDoXfu0cz7t7E8KrmzZ1ATy05JsnqTKTbXCp6FC
+	xGENBUIibQGDgMeyWNdzvdq8NBAvE8cpg0uTny0buAR590PhfywlzzYw648pA2PiLKgK
+	FRwg==
+X-Gm-Message-State: APjAAAVpkncMqp3jXTlRi6PZiwxYAAJAP7/FfcDsbXtsb0wdFjaCa0VQ
+	epcCY+uwV1xZHuQf3zmwWBBDlGVo
+X-Google-Smtp-Source: APXvYqyxtqT1JKwKR5Xo5s3F4Yp98u7c6fRR/yYUVUMyrM0L5VYdai+qpFh2isbDshSfqwABlSLq1Q==
+X-Received: by 2002:aa7:8805:: with SMTP id c5mr30340507pfo.142.1582561946700; 
+	Mon, 24 Feb 2020 08:32:26 -0800 (PST)
 Received: from ?IPv6:2601:202:4180:a5c0:7dff:acc3:c23d:7c90?
 	([2601:202:4180:a5c0:7dff:acc3:c23d:7c90])
 	by smtp.gmail.com with ESMTPSA id
-	r3sm13769836pfg.145.2020.02.24.08.16.56
+	r62sm13750670pfc.89.2020.02.24.08.32.25
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 24 Feb 2020 08:16:57 -0800 (PST)
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-References: <20200224154549.17866-1-brgl@bgdev.pl>
+	Mon, 24 Feb 2020 08:32:25 -0800 (PST)
+To: Adrian Bunk <bunk@stusta.de>, Khem Raj <raj.khem@gmail.com>
+References: <20200223193408.5602-1-bunk@stusta.de>
+	<CAMKF1sqOPEw+uDZO81+j5MWxZBVjjgag6eT+jXYL958ic1Ysmg@mail.gmail.com>
+	<20200224051745.GA6683@localhost>
 From: akuster808 <akuster808@gmail.com>
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
@@ -86,15 +88,15 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <8bf10a8d-3ea2-8f97-9d47-a3d37176c888@gmail.com>
-Date: Mon, 24 Feb 2020 08:16:56 -0800
+Message-ID: <e43b3057-37d5-7a35-b988-7307cc7fd67f@gmail.com>
+Date: Mon, 24 Feb 2020 08:32:24 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200224154549.17866-1-brgl@bgdev.pl>
-Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [meta-security][PATCH] linux: drop the bbappend for linux v4.x series
+In-Reply-To: <20200224051745.GA6683@localhost>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 1/2] nss: Move to meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -107,39 +109,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 16:16:57 -0000
+X-List-Received-Date: Mon, 24 Feb 2020 16:32:26 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-wrong ml.
+Adrian,
 
-should be yocto@list.yoctoproject.org
-
-On 2/24/20 7:45 AM, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On 2/23/20 9:17 PM, Adrian Bunk wrote:
+> On Sun, Feb 23, 2020 at 04:25:18PM -0800, Khem Raj wrote:
+>> On Sun, Feb 23, 2020 at 11:34 AM Adrian Bunk <bunk@stusta.de> wrote:
+>>> rpm was the last user in OE-core.
+>> we should also assess external dependencies especially on libraries,
+>> there might be layers which do not depend on meta-oe but use nss
+>> or enable nss packageconfigs in core components like curl.
+>> ...
+> Is providing a crypto library in OE-core without providing security 
+> support better than not shipping it?
 >
-> v4.19 LTS has been dropped in poky in favor of v5.4. Drop the bbappend
-> from meta-security as right now the build fails.
+> nss in warrior seems to lack fixes for at least 5 CVEs.
 
-Thanks for the patch.  I saw this issue yesterday and you beat me to
-fixing it.
+I don't see how that is relevant to the RFC?
+
+nss package is not moving out for warrior nor zeus.
+
 
 - armin
 >
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  recipes-kernel/linux/linux-yocto_4.%.bbappend | 2 --
->  1 file changed, 2 deletions(-)
->  delete mode 100644 recipes-kernel/linux/linux-yocto_4.%.bbappend
->
-> diff --git a/recipes-kernel/linux/linux-yocto_4.%.bbappend b/recipes-kernel/linux/linux-yocto_4.%.bbappend
-> deleted file mode 100644
-> index 39d4e6f..0000000
-> --- a/recipes-kernel/linux/linux-yocto_4.%.bbappend
-> +++ /dev/null
-> @@ -1,2 +0,0 @@
-> -KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "apparmor", " features/apparmor/apparmor.scc", "" ,d)}"
-> -KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "smack", " features/smack/smack.scc", "" ,d)}"
+> cu
+> Adrian
 
 
