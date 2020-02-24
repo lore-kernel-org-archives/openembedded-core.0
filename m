@@ -1,22 +1,22 @@
 Return-Path: <Matthew.Zeng@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 62E7B60626
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 61EDC60626
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 16:34:42 +0000 (UTC)
+	Mon, 24 Feb 2020 16:34:45 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01OGYhkJ014639
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01OGYF5Y026893
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 08:34:43 -0800 (PST)
+	Mon, 24 Feb 2020 08:34:36 -0800
 Received: from mzeng (128.224.141.67) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Mon, 24 Feb 2020 08:34:42 -0800
+	Mon, 24 Feb 2020 08:34:06 -0800
 User-agent: mu4e 1.3.6; emacs 28.0.50
 From: "Mingde (Matthew) Zeng" <matthew.zeng@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Message-ID: <87zhd8x7sb.fsf@windriver.com>
-Date: Mon, 24 Feb 2020 11:35:32 -0500
+Date: Mon, 24 Feb 2020 11:34:55 -0500
+Message-ID: <8736b0ymds.fsf@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.141.67]
 Subject: [PATCH] perl: fix lib/warnings test on core-image-sato
@@ -32,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 16:34:42 -0000
+X-List-Received-Date: Mon, 24 Feb 2020 16:34:45 -0000
 Content-Type: text/plain
 
     Fixes [YOCTO #13296]
