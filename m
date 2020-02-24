@@ -1,40 +1,41 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E07976027C
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BAD8600A8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 12:35:20 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id s10so8830530wmh.3
+	Mon, 24 Feb 2020 12:59:56 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id m10so10645452wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 04:35:22 -0800 (PST)
+	Mon, 24 Feb 2020 04:59:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=RGME0C7TA4r0afU/1Z5KlKqNPJQZMBK1m0c+Qlh5cJU=;
-	b=K1GLMdn6vkmcQkfuybTJf72afiwhAFLuZcCxZK85JGiiGxvucLHza5LCpEFJ5a0shE
-	Hsc9oqnBekTePpsd2yHQj3EOZhQM+ikjcS64qkIwlcrPihkqhDPy1hKTsWPDYSasNuXq
-	8+a2Ecb0NGpOZLZDrEg2cm+w5APAm62YiOALzMgs8W1xb+EB71+o259vGswqU39W394T
-	nIrXLjMjj8hzxgQt/vgNAdiFmkLj0XhtuuIdni43aSDPNIs+eQBY0rwzcXwJvSp7SS3O
-	oIpYwkKB3ahHES6I+xBfIucQvcC9tdf015xJ4XVOG4nSdDvtCBTjmVuW1mwnvoleLjkI
-	0HQQ==
-X-Gm-Message-State: APjAAAVF7H9bTxT2n+ti9S+UT7TCFw4xCsMYeSP3QumaQWI2qsQ9DNgF
-	gHfO6pFlTqRMDBGZ9CYXjRM7ua+Z
-X-Google-Smtp-Source: APXvYqzzVZhQFtNdGV5+6O4oTMf0fPsJhyTefLric6pxS+SjPdWRO4KW9yT5Z6rhAmdQzm+5SY2Ucw==
-X-Received: by 2002:a7b:c416:: with SMTP id k22mr23088374wmi.10.1582547721258; 
-	Mon, 24 Feb 2020 04:35:21 -0800 (PST)
+	bh=XPyAMPPJUMEWEy7Q8Ra7jR/RhSAZYd4/N07QocLKjHw=;
+	b=AvLe3+fdkhJNYYZzT6FcBFTbaLX42jJV+lW4eZFzTGZPhMul6NN/F5945ndWqfL0AQ
+	0r/gkRge7X3h44LL/OJMHSpQV9rKyONj3UErYR//zp9SH2hK1Mkp3ne7kv59kZayDR5r
+	hhuMeFYhqrSXBj5BTK6Hb7Qn3RAjcah8uY3j2dYYUBh1eeE21nXGgdZ8TuAzd5UZfXUP
+	7rqc4qkrputcF7jJAKJ6eMBtX8UHLs6wzmDrSfO/4tydd/pm8/joZ5AxPtubRQX8kvAH
+	B1/TPO9Nv1rR7lSrn+ZdfdH0IBWyy1iGV+d98a5xbXg9Bx9OozY6JKRWVh0l9yvNQ5fW
+	WEiA==
+X-Gm-Message-State: APjAAAUWJNoJhNunKraIFzIDdGdgzJ19q/uYBQQgQBdHl1tEoZQY//RU
+	/pjwbSNvKwQUjK9msmOyXhpWuDKx
+X-Google-Smtp-Source: APXvYqwzOWZqcXxtHeb/QufVdsRSiJ/JBZ3d9b14aIoO33WcJyGQajKC458Cf1vJIbjnnkAPgLPgWQ==
+X-Received: by 2002:a1c:9e13:: with SMTP id h19mr22666739wme.21.1582549196684; 
+	Mon, 24 Feb 2020 04:59:56 -0800 (PST)
 Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id v8sm18167242wrw.2.2020.02.24.04.35.20
+	by smtp.gmail.com with ESMTPSA id
+	b13sm19993147wrq.48.2020.02.24.04.59.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 24 Feb 2020 04:35:20 -0800 (PST)
+	Mon, 24 Feb 2020 04:59:55 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Feb 2020 12:35:19 +0000
-Message-Id: <20200224123519.26348-1-git@andred.net>
+Date: Mon, 24 Feb 2020 12:59:55 +0000
+Message-Id: <20200224125955.26771-1-git@andred.net>
 X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-Subject: [PATCH] bitbake.conf: omit XZ threads and RAM from sstate signatures
+Subject: [PATCH v2] bitbake.conf: omit XZ threads and RAM from sstate signatures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,7 +48,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 12:35:21 -0000
+X-List-Received-Date: Mon, 24 Feb 2020 12:59:56 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -70,8 +71,10 @@ such here is that some arguments can affect the outcome of
 the xz operation, so the approach taken is to only
 whitelist the safe flags memlimit and # of threads.
 
-Change-Id: I20d6ee5485d59a6a0d45fb679c503b035cbe1c40
 Signed-off-by: André Draszik <git@andred.net>
+
+---
+v2: remove Gerrit Change-Id line
 ---
  meta/conf/bitbake.conf | 5 ++++-
  1 file changed, 4 insertions(+), 1 deletion(-)
