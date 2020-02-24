@@ -1,37 +1,28 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 241A26023E
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 96644601CF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 10:46:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48QzJZ0xhNzv;
-	Mon, 24 Feb 2020 11:46:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582541198;
-	bh=SkUW7WBOM8ujEVh4MXdsRgqhGE3tdgVO6udU07AgqLY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lpvQPjV7WSXJB5Ot7fOGhiXjgK/+5Jmls1Cy1qTmbW7x2vB2Nbglab1mR0nXjWdZh
-	f07sOw/w29eUyB7gLiT6aP7W8l6dKgJwqGbt6h3LhAGINkj/pDfL7olNm4eUwb4tKH
-	TBkXGFcYuO5ty4F4P36mZxXBGFOYBq2mtY2i4oa3gw4j0noXiuNI67agT0CV86JGvs
-	9IPimPvvD7u8GNKl4jcRsvQX3Jkhj8yvh5/KmNf/UdGta39eHJgT2oCqGAknCgJ3g0
-	H+DwHlgi1ToX+VH4RE7x23d7iFfdml7hqOqsDoiTAhhWxPUr510Qum1N/f+/pIjdlS
-	bK3UKg3X8APOOHfBdElVxOysCk48ZLzsS2Idccn064dfoJ8pAPnDT6daWUNLT8ZVOk
-	V2RekKREaapGWhgEcBCqPQhouffoflSS3YvLlFH3yz59yq88Be6Ouwwj/k6yQzr+3u
-	iSH9bWgDE/QmvIiqG0qYbyxRwmAOamt3Ll9zyb70w2Fs+iGkrrO3FPXSr0lXsqhxrz
-	HxnNfm1W8HQUO33Wuc88Iu60+vk7JObMKVvjWPSLCkU44S3STqLlaQmOxb1aMg1EFi
-	LWyy13FUd1k3lop3g7s5DWjetMrKi4HCJhJtF3egeh9AD1cGIYdAvBM6Vo/jlRlMCl
-	/uyte0386g1zDO9e4zrZCPrg=
-Date: Mon, 24 Feb 2020 12:46:35 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20200224104635.GA27036@localhost>
-References: <20200223182933.6168-1-bunk@stusta.de>
-	<fd59ef897ef077f4f0160e1e2d7c95466c75a3f7.camel@linuxfoundation.org>
+	Mon, 24 Feb 2020 11:13:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01OBDb09011246
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 24 Feb 2020 03:13:38 -0800 (PST)
+Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Mon, 24 Feb 2020 03:13:37 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Armin Kuster
+	<akuster808@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <20200224031226.6965-1-akuster808@gmail.com>
+	<1f5759550013cdb49ebfb34194863af3d9dbcf6c.camel@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <89e6bbf2-51ca-4dcf-46b3-e484d228f579@windriver.com>
+Date: Mon, 24 Feb 2020 19:13:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <fd59ef897ef077f4f0160e1e2d7c95466c75a3f7.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/6] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
+In-Reply-To: <1f5759550013cdb49ebfb34194863af3d9dbcf6c.camel@linuxfoundation.org>
+Subject: Re: [PATCH] e2fsprogs: update to 1.45.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,47 +35,199 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 10:46:40 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 24 Feb 2020 11:13:40 -0000
+X-Groupsio-MsgNum: 135513
+Content-Type: multipart/mixed; boundary="------------596BD23410D4EF5A78DDB00E"
+Content-Language: en-US
 
-On Mon, Feb 24, 2020 at 09:17:56AM +0000, Richard Purdie wrote:
-> On Sun, 2020-02-23 at 20:29 +0200, Adrian Bunk wrote:
-> > opengl is optional.
-> > x11 can be replaced with wayland.
-> > 
-> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> > ---
-> >  meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-> > index a48a976f94..51fba94964 100644
-> > --- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-> > +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-> > @@ -26,7 +26,7 @@ SRC_URI[sha256sum] = "4386900713dfadf9741177210b32623cab22562a79ffd0d446b6656993
-> >  
-> >  inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
-> >  
-> > -REQUIRED_DISTRO_FEATURES = "x11 opengl"
-> > +ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> >  
-> >  CVE_PRODUCT = "webkitgtk webkitgtk\+"
+--------------596BD23410D4EF5A78DDB00E
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+
+
+On 2/24/20 6:23 PM, Richard Purdie wrote:
+> On Sun, 2020-02-23 at 19:12 -0800, Armin Kuster wrote:
+>> Dropping patch 0001-misc-create_inode.c-set-dir-s-mode-
+>> correctly.patch as upstream has not been accepted for over 2 years
+>> and we should not carry it if upstream has not taking it after all
+>> that time.
 > 
-> The autobuilder no-x11 build seems unhappy with this patch series
-> unfortunately :(
+> Looking at the patch, this worries me a lot. Why have upstream not
+> taken it? Did they say it was incorrect?
+
+I can't find any records about it, maybe I didn't send it because of
+some reason.
+
+We still need it. I refreshed the patch and sent to upstream.
+
+@Armin, The refreshed patch is in the attachment.
+
+// Robert
+
 > 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/1616
+> We wrote the original code to handle offline root here so its entirely
+> possible this is a value issue and we'll break filesystems if we don't
+> have that patch :(
+> 
+> I can't take a change like this without more info, CVE or not.
 
-Sorry for that, I did not test a wayland-only build of webkitgtk.
-
-I'll take care of that this evening, until then please drop either this 
-first patch or the whole series.
-
+> 
 > Cheers,
 > 
 > Richard
+> 
+> 
+>> Includes: CVE-2019-5188
+>>
+>> see http://e2fsprogs.sourceforge.net/e2fsprogs-release.html#1.45.5
+>> for more information.
+>>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>> ---
+>>   ...ate_inode.c-set-dir-s-mode-correctly.patch | 41 ---------------
+>> ----
+>>   ...2fsprogs_1.45.4.bb => e2fsprogs_1.45.5.bb} |  3 +-
+>>   2 files changed, 1 insertion(+), 43 deletions(-)
+>>   delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-
+>> misc-create_inode.c-set-dir-s-mode-correctly.patch
+>>   rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.45.4.bb =>
+>> e2fsprogs_1.45.5.bb} (97%)
+>>
+>> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-
+>> create_inode.c-set-dir-s-mode-correctly.patch b/meta/recipes-
+>> devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-set-dir-s-mode-
+>> correctly.patch
+>> deleted file mode 100644
+>> index fc4a5409860..00000000000
+>> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-
+>> create_inode.c-set-dir-s-mode-correctly.patch
+>> +++ /dev/null
+>> @@ -1,41 +0,0 @@
+>> -From f6d188580c2c9599319076fee22f2424652c711c Mon Sep 17 00:00:00
+>> 2001
+>> -From: Robert Yang <liezhi.yang@windriver.com>
+>> -Date: Wed, 13 Sep 2017 19:55:35 -0700
+>> -Subject: [PATCH] misc/create_inode.c: set dir's mode correctly
+>> -
+>> -The dir's mode has been set by ext2fs_mkdir() with umask, so
+>> -reset it to the source's mode in set_inode_extra().
+>> -
+>> -Fixed when source dir's mode is 521, but tarball would be 721, this
+>> was
+>> -incorrect.
+>> -
+>> -Upstream-Status: Submitted
+>> -
+>> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ----
+>> - misc/create_inode.c | 9 ++++++++-
+>> - 1 file changed, 8 insertions(+), 1 deletion(-)
+>> -
+>> -diff --git a/misc/create_inode.c b/misc/create_inode.c
+>> -index 8ce3faf..50fbaa8 100644
+>> ---- a/misc/create_inode.c
+>> -+++ b/misc/create_inode.c
+>> -@@ -116,7 +116,14 @@ static errcode_t set_inode_extra(ext2_filsys
+>> fs, ext2_ino_t ino,
+>> -
+>> - 	inode.i_uid = st->st_uid;
+>> - 	inode.i_gid = st->st_gid;
+>> --	inode.i_mode |= st->st_mode;
+>> -+	/*
+>> -+	 * The dir's mode has been set by ext2fs_mkdir() with umask, so
+>> -+	 * reset it to the source's mode
+>> -+	 */
+>> -+	if S_ISDIR(st->st_mode)
+>> -+		inode.i_mode = LINUX_S_IFDIR | st->st_mode;
+>> -+	else
+>> -+		inode.i_mode |= st->st_mode;
+>> - 	inode.i_atime = st->st_atime;
+>> - 	inode.i_mtime = st->st_mtime;
+>> - 	inode.i_ctime = st->st_ctime;
+>> ---
+>> -2.10.2
+>> -
+>> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
+>> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.5.bb
+>> similarity index 97%
+>> rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
+>> rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.5.bb
+>> index 6e69eea21c3..7cd42b8137a 100644
+>> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
+>> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.5.bb
+>> @@ -4,7 +4,6 @@ SRC_URI += "file://remove.ldconfig.call.patch \
+>>              file://run-ptest \
+>>              file://ptest.patch \
+>>              file://mkdir_p.patch \
+>> -           file://0001-misc-create_inode.c-set-dir-s-mode-
+>> correctly.patch \
+>>              file://0001-configure.ac-correct-AM_GNU_GETTEXT.patch \
+>>              file://0001-intl-do-not-try-to-use-gettext-defines-that-
+>> no-longe.patch \
+>>              "
+>> @@ -13,7 +12,7 @@ SRC_URI_append_class-native = "
+>> file://e2fsprogs-fix-missing-check-for-permissio
+>>                                   file://quiet-debugfs.patch \
+>>   "
+>>   
+>> -SRCREV = "984ff8d6a0a1d5dc300505f67b38ed5047d51dac"
+>> +SRCREV = "c2b1ec5fbc99ab8a2b71dae45d486b3ea004f618"
+>>   UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
+>>   
+>>   EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
+>> -- 
+>> 2.17.1
+>>
+> 
+> 
 
-cu
-Adrian
+--------------596BD23410D4EF5A78DDB00E
+Content-Type: text/x-patch;
+	name="0001-misc-create_inode.c-set-dir-s-mode-correctly.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename="0001-misc-create_inode.c-set-dir-s-mode-correctly.patch"
 
+From f6d188580c2c9599319076fee22f2424652c711c Mon Sep 17 00:00:00 2001
+From: Robert Yang <liezhi.yang@windriver.com>
+Date: Mon, 24 Feb 2020 18:46:55 +0800
+Subject: [PATCH][e2fsprogs] misc/create_inode.c: set dir's mode correctly
+
+The dir's mode has been set by ext2fs_mkdir() with umask, so
+reset it to the source's mode in set_inode_extra().
+
+Fixed when source dir's mode is 521, but dst dir's mode is 721 which was
+incorrect.
+
+Upstream-Status: Submitted [linux-ext4@vger.kernel.org]
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ misc/create_inode.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/misc/create_inode.c b/misc/create_inode.c
+index 5161d5e..f82f74e 100644
+--- a/misc/create_inode.c
++++ b/misc/create_inode.c
+@@ -124,7 +124,14 @@ static errcode_t set_inode_extra(ext2_filsys fs, ext2_ino_t ino,
+ 	ext2fs_set_i_uid_high(inode, st->st_uid >> 16);
+ 	inode.i_gid = st->st_gid;
+ 	ext2fs_set_i_gid_high(inode, st->st_gid >> 16);
+-	inode.i_mode |= st->st_mode;
++	/*
++	 * The dir's mode has been set by ext2fs_mkdir() with umask, so
++	 * reset it to the source's mode
++	 */
++	if S_ISDIR(st->st_mode)
++		inode.i_mode = LINUX_S_IFDIR | st->st_mode;
++	else
++		inode.i_mode |= st->st_mode;
+ 	inode.i_atime = st->st_atime;
+ 	inode.i_mtime = st->st_mtime;
+ 	inode.i_ctime = st->st_ctime;
+-- 
+2.7.4
+
+
+--------------596BD23410D4EF5A78DDB00E--
