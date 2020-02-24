@@ -1,23 +1,52 @@
-Return-Path: <chee.yang.lee@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 76A916160D
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+	[209.85.208.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 99D8160111
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 06:14:16 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Feb 2020 22:14:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,479,1574150400"; d="scan'208";a="435803380"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga005.fm.intel.com with ESMTP; 23 Feb 2020 22:14:16 -0800
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Feb 2020 14:14:15 +0800
-Message-Id: <1582524855-32996-1-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH][zeus] qemu: Fix CVE-2020-1711
+	Mon, 24 Feb 2020 07:25:03 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id x14so8829592ljd.13
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 23 Feb 2020 23:25:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:subject:to:cc:message-id:date:user-agent:mime-version
+	:content-language:content-transfer-encoding;
+	bh=Kz82AGeJ7H/46K/fGcppK+p5ScJSDEEE82NCTjrfDEI=;
+	b=NczkkFUMOGjMxX0RDWQ9pcpoJL9xmD7kfCFm9cazYQmY6Pr6vE6yvTQMzOo0smiteX
+	Jmvs6/lmec0kPjWE1keiz5nQiJH+5p6ebr8KiMylel+Mf/aF5IQ7rM1ahFr1V+xxnsba
+	mUS03q6ea+30Mdz27ewsNQck1yn57dez8w06gAtzhPmLCNEfZyj8Mh7BsmzQGNKXUMxa
+	lJ5Rumpbfht68kjH8M8fXlfwVpb8QCw3puW6NC8hQxXUnz9EAOOLgAcPyq58RunGxniw
+	qt2Q8XMklbTlQ5KfzNDfDPyaWuHLYGxWEAuEbwyhCK8seZvmZD4k2fZLUl/WMiLG8p01
+	Buqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:subject:to:cc:message-id:date:user-agent
+	:mime-version:content-language:content-transfer-encoding;
+	bh=Kz82AGeJ7H/46K/fGcppK+p5ScJSDEEE82NCTjrfDEI=;
+	b=s57F12h/cJjpNoNZQ/Eb7TOuJhjmpm6AyagPX9AfwOEdughIEx6VyY3ZI281mJcjB5
+	THCll+kQF4Y4+yhmM6CInLNImpuywndRiw45csbiQ0sDvxqRabQyf+f2sL+TaPPcwJkb
+	vo0w+6/iBh6QN5zcxj2SU0QuoVTPB661UOGaUWC95PEX1zjrHlvNWo8LN4cRdwpFCW2l
+	BOZjUeVFOgd4onjyzTKFNTEUi8GbrXXN6+M251mo8kdGSWAm/SenHFunoN42iJl7qlU6
+	sGVmaV4t5oPalCkJNTj9R3A0dqAIq7sme+ewefqWEmn/qKEr9d4fjiyxKfXhsaXi0Li8
+	URGQ==
+X-Gm-Message-State: APjAAAWh8jV6I1kzgfHFPtsm3OPZuxcVAoVITdorw79M2M7A4kk92PEh
+	77zXx5RoDYzOPa8PIQOo7frMZCRo
+X-Google-Smtp-Source: APXvYqyaZ7CUfP0ZCH1KBRrE0mwofezMl4gbT7c3EBmpkoAyhPoOgC7sSyCTjds5H8GhW1546FxMyA==
+X-Received: by 2002:a2e:910b:: with SMTP id m11mr7962764ljg.213.1582529103736; 
+	Sun, 23 Feb 2020 23:25:03 -0800 (PST)
+Received: from localhost.localdomain ([213.185.29.22])
+	by smtp.gmail.com with ESMTPSA id
+	a25sm2956397lfi.53.2020.02.23.23.25.01
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Sun, 23 Feb 2020 23:25:02 -0800 (PST)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: douglas.royds@taitradio.com
+Message-ID: <8b666dc3-e5a6-0417-82bd-2b15190d223f@gmail.com>
+Date: Mon, 24 Feb 2020 08:25:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Overriding SDE_FILE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,104 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 06:14:16 -0000
+X-List-Received-Date: Mon, 24 Feb 2020 07:25:04 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+Hi Douglas,
 
-see https://git.qemu.org/?p=qemu.git;a=commit;h=693fd2acdf14dd86c0bf852610f1c2cca80a74dc
+You updated a comment in reproducible_build.bbclass, commit 
+e7b891b76954c784f5a93bd0a1c91315673ce40d:
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc                |  3 +-
- .../recipes-devtools/qemu/qemu/CVE-2020-1711.patch | 64 ++++++++++++++++++++++
- 2 files changed, 66 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-1711.patch
+> -# Once the value of SOURCE_DATE_EPOCH is determined, it is stored in the recipe's ${SDE_FILE}.
+> +# Once the value of SOURCE_DATE_EPOCH is determined, it is stored in the recipe's SDE_FILE.
+> +# If none of these mechanisms are suitable, replace the do_deploy_source_date_epoch task
+> +# with recipe-specific functionality to write the appropriate SOURCE_DATE_EPOCH into the SDE_FILE.
+> +#
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index bb444b6..d394db8 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -29,7 +29,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
-            file://CVE-2019-15890.patch \
-            file://CVE-2019-12068.patch \
--           "
-+           file://CVE-2020-1711.patch \
-+	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
- SRC_URI[md5sum] = "cdf2b5ca52b9abac9bacb5842fa420f8"
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-1711.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-1711.patch
-new file mode 100644
-index 0000000..aa7bc82
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-1711.patch
-@@ -0,0 +1,64 @@
-+From 693fd2acdf14dd86c0bf852610f1c2cca80a74dc Mon Sep 17 00:00:00 2001
-+From: Felipe Franciosi <felipe@nutanix.com>
-+Date: Thu, 23 Jan 2020 12:44:59 +0000
-+Subject: [PATCH] iscsi: Cap block count from GET LBA STATUS (CVE-2020-1711)
-+
-+When querying an iSCSI server for the provisioning status of blocks (via
-+GET LBA STATUS), Qemu only validates that the response descriptor zero's
-+LBA matches the one requested. Given the SCSI spec allows servers to
-+respond with the status of blocks beyond the end of the LUN, Qemu may
-+have its heap corrupted by clearing/setting too many bits at the end of
-+its allocmap for the LUN.
-+
-+A malicious guest in control of the iSCSI server could carefully program
-+Qemu's heap (by selectively setting the bitmap) and then smash it.
-+
-+This limits the number of bits that iscsi_co_block_status() will try to
-+update in the allocmap so it can't overflow the bitmap.
-+
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=patch;h=693fd2acdf14dd86c0bf852610f1c2cca80a74dc]
-+CVE: CVE-2020-1711
-+
-+Fixes: CVE-2020-1711
-+Cc: qemu-stable@nongnu.org
-+Signed-off-by: Felipe Franciosi <felipe@nutanix.com>
-+Signed-off-by: Peter Turschmid <peter.turschm@nutanix.com>
-+Signed-off-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
-+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ block/iscsi.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/block/iscsi.c b/block/iscsi.c
-+index 2aea7e3..cbd5729 100644
-+--- a/block/iscsi.c
-++++ b/block/iscsi.c
-+@@ -701,7 +701,7 @@ static int coroutine_fn iscsi_co_block_status(BlockDriverState *bs,
-+     struct scsi_get_lba_status *lbas = NULL;
-+     struct scsi_lba_status_descriptor *lbasd = NULL;
-+     struct IscsiTask iTask;
-+-    uint64_t lba;
-++    uint64_t lba, max_bytes;
-+     int ret;
-+ 
-+     iscsi_co_init_iscsitask(iscsilun, &iTask);
-+@@ -721,6 +721,7 @@ static int coroutine_fn iscsi_co_block_status(BlockDriverState *bs,
-+     }
-+ 
-+     lba = offset / iscsilun->block_size;
-++    max_bytes = (iscsilun->num_blocks - lba) * iscsilun->block_size;
-+ 
-+     qemu_mutex_lock(&iscsilun->mutex);
-+ retry:
-+@@ -764,7 +765,7 @@ retry:
-+         goto out_unlock;
-+     }
-+ 
-+-    *pnum = (int64_t) lbasd->num_blocks * iscsilun->block_size;
-++    *pnum = MIN((int64_t) lbasd->num_blocks * iscsilun->block_size, max_bytes);
-+ 
-+     if (lbasd->provisioning == SCSI_PROVISIONING_TYPE_DEALLOCATED ||
-+         lbasd->provisioning == SCSI_PROVISIONING_TYPE_ANCHORED) {
-+-- 
-+1.8.3.1
--- 
-2.7.4
+But I can't really get this to work. What did work for me was to replace 
+"do_create_source_date_epoch_stamp()" in my recipe:
 
+do_create_source_date_epoch_stamp() {
+     mkdir -p ${SDE_DIR}
+     date -d "1981-03-03" "+%s" > ${SDE_FILE}
+}
+
+What is the intended way to achieve the thing I'm trying to do here ?
+
+Cheers,
+Jacob
 
