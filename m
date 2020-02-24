@@ -1,40 +1,52 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 96BD860AF3
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B13FE60AF3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 22:00:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48RGFr2Blzz4c;
-	Mon, 24 Feb 2020 23:00:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582581616;
-	bh=yBdCOmU4XicGiJEQ8emkJhEatm2EIY4yyvLfsAbEfoU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IXwgLT/Hcxwris8xhC8+jUMdDbhdUKtKI4eE2NfJ6mX/a+ftMawhAtmiq0+r1svJ9
-	1pIT8LJkPxkn1+G8nuQhpjWWhQy3fdj8BrAH24wYIuRpD+uGZyDYKW4MFchdciyiZT
-	dmPurt3Umgw163VJhXqxtLFIXcrjTqP1oqMpS+XSf2L83Foh5hMfqzkNLxeEIEFV1k
-	4ibCiwzS9NoiHr49BV2g4biW8M3bzr45ERfQEvivtYfZiJq8Q2TTxy5pB/m//Hh85l
-	Ie20nu1RGGPCi+V4z6HT4cCFNGy7QxpaYDteZAYQpkS8eeNbAUdQ96iAFTcsfuZGaN
-	fysQLc/s68laMHMmcTGzFKPzfKOn56B3I5cxwVDdIZ+7c6f/jYRlWBnzm52gk68VM1
-	09j15Ic0AFPnrUTdzhCGPYTWumfKGqx6gC0wzmigGN8zIhOnynNMNf218ZwRmepNzS
-	pSBMGspgykVkLqWGe/eM4vpcBKvQoTzS+4hy+T4kpurvbwOrVY4XKuZkD65ieI4OLu
-	z8neNTPD8i0CHuqUMF9xp2ww8dUa/uLqKCvA9cRGCz1YU5Yn4rgW42HxDdki1LbnCk
-	jsytNCR1+4q63ZrD5IzkGxEz0Z5o5YypkUThLptZXQ7/G9tmZ+tDG6t7Tza0xsgdEy
-	6+9JJhuVRafZPDiUoFb+JWJc=
-Date: Tue, 25 Feb 2020 00:00:13 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20200224220013.GA11259@localhost>
-References: <20200224125955.26771-1-git@andred.net>
-	<20200224134022.GB27036@localhost>
-	<669ba509f1df86a8f2c7ea172aa8ff23d7449744.camel@linuxfoundation.org>
-	<23c396de32bb98414dcb2aaec178e73079e000d3.camel@andred.net>
-	<b14a0847fffc79809e5fcef86d82b5a8abf3f9a2.camel@linuxfoundation.org>
+	Mon, 24 Feb 2020 22:06:02 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id j17so351290pjz.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Feb 2020 14:06:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version:content-language
+	:thread-index; bh=AOIZAU5Mebtf91iCgIkSvWdCEIhn6fAYidf40/ZdKYg=;
+	b=B46dawXpceeqMrvdR7EOc4lMCNmgynfcZ5U7iMNFg0qo1butchfsdYX/fCwt4lnPuL
+	pVmpu9poZU8CaB8IqsqEJHTiDiWXS0iRgG4lIo+bX51U1yUdTfmPLp7daZdEyy7FoGQc
+	I0FlAsVQ2oWveZW+/Mk/rJcWZCJC4LFf5dZkN3aoKy5e1J/ue58T78wnk1m5fodelYRk
+	FNQRZVoeyV6qnI/2ixfagbFW04jrouKbwkeEdhfIC2BLkv7OjK8KriosKPqc3toRQSAT
+	ocMtOkw3csY1j5cBpFpa10tb/J5zvkhBIOoFxbIYDAKwtmp4evz/neQLqXYHPxw92RcL
+	rmKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-language:thread-index;
+	bh=AOIZAU5Mebtf91iCgIkSvWdCEIhn6fAYidf40/ZdKYg=;
+	b=rcPn+VCRVVQM6jxmQ264aGN6qHwU8LliljnWm17GthWbS22C1Kh9ODIU9hFJkTW5nD
+	iDy9T2/av6arkmTeOhHGQ3GMyVpvR/kxgIelwVwKEXWjrSunC0vl5wJHPzvx0qqX8tTf
+	30z41E9Llf1p2VgnDjN0jqlVokiF3KlEtIQ1Y/y4n0uGSfTURIfE3hfjdi/rzFw/08as
+	sBnV6ubasQ6CqMI+UUOz1OlSaMh4RVReqBywhQvxXtViGqHNHCzIFtrIHVwtRLhle6jc
+	fbnTLcIq5z4KwUTPQqdjnjVdkz5WVSyHaXslgG2f/C376VtOgBHV+jsPMr6OeQitpkuA
+	gnyw==
+X-Gm-Message-State: APjAAAVtSdXpPLixeJ2Ho3MjNj1YuJFNbqKwYbm63iNGKiG6VmvzLqGJ
+	7I9vbQJsFR0tUaaY6UlZFmdvbyOo
+X-Google-Smtp-Source: APXvYqxSIV78VA5om7LdCQMge2215kYLVQNzJq18dop9XmCfxLPJTlEmlC+c2ee+HVclC2ve45Fxzw==
+X-Received: by 2002:a17:90a:9b88:: with SMTP id
+	g8mr1378868pjp.72.1582581963281; 
+	Mon, 24 Feb 2020 14:06:03 -0800 (PST)
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+	by smtp.gmail.com with ESMTPSA id
+	t63sm13916906pfb.70.2020.02.24.14.06.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Feb 2020 14:06:02 -0800 (PST)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Feb 2020 14:06:03 -0800
+Message-ID: <026101d5eb5e$9b1140b0$d133c210$@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <b14a0847fffc79809e5fcef86d82b5a8abf3f9a2.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] bitbake.conf: omit XZ threads and RAM from sstate signatures
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQFUWoRtGCn324BXAnSxI1Oiiuholw==
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,60 +59,224 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 22:00:17 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 24 Feb 2020 22:06:02 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0262_01D5EB1B.8CF098C0"
+Content-Language: en-us
 
-On Mon, Feb 24, 2020 at 05:32:29PM +0000, Richard Purdie wrote:
-> On Mon, 2020-02-24 at 17:14 +0000, André Draszik wrote:
->...
-> > I don't want to penalise myself or anybody else by generally forcing
-> > a low number of threads either.
-> 
-> We didn't have resource issues on the autobuilder with xz but others
-> did report it and its why the memlimit was set. It would be better to
-> remove the memlimit for determinism really as far as I can tell and if
-> necessary throttle the threads count.
-> 
-> Maybe setting an upper limit of say 10 threads and a minimum of 2 might
-> given us what we need.
+------=_NextPart_000_0262_01D5EB1B.8CF098C0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-On a Threadripper with 128 cores and 256 GB RAM it would not be a
-problem to use all cores.
+All,
 
-A laptop with 8 cores and 8 GB RAM is problematic.
+ 
 
-> Perhaps we just allow the number of xz threads
-> to be set independently?
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
 
-dpkg manually reduces the number of threads until less than half
-of the RAM is used:
-https://sources.debian.org/src/dpkg/1.19.7/lib/dpkg/compress.c/#L566-L574
+ 
 
-In a script it would be possible to use --no-adjust to achieve the same:
-$ xz -9 --memlimit=50% --no-adjust -T32 /dev/null 
-xz: Memory usage limit is too low for the given filter setup.
-xz: 39,972 MiB of memory is required. The limit is 32,051 MiB.
-$
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
 
-> > > FWIW we haven't seen variation on the autobuilder due to this as
-> > > far as
-> > > I know.
-> > 
-> > BTW, pigz and pbzip should have a similar thread related problem,
-> > according to the man pages, if you read between the lines.
-> 
-> Agreed. We have less of an issue with these as their use is much less
-> frequent. xz is used by deb and ipk for packaging.
+ 
 
-Good point, dpkg does parallel xz compression and I am not aware of any
-reproducibility problems this causes.
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
 
-> Cheers,
-> 
-> Richard
+ 
 
-cu
-Adrian
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 292
+unassigned or newcomer bugs.
 
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
+being in "3.1" and then "3.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_0262_01D5EB1B.8CF098C0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_059F_01D5DFF1.D0F50A90";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
+starting to try and collect up and classify bugs which a newcomer to the =
+project would be able to work on in a way which means people can find =
+them. They're being listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
+><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 292 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_0262_01D5EB1B.8CF098C0--
