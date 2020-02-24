@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id DDDDA60626;
-	Mon, 24 Feb 2020 17:03:09 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id EDFE961687;
+	Mon, 24 Feb 2020 17:03:10 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Mingde (Matthew) Zeng <matthew.zeng@windriver.com>
-Date: Mon, 24 Feb 2020 17:03:11 -0000
-Message-ID: <20200224170311.2276.58282@do>
-References: <87zhd8x7sb.fsf@windriver.com>
+Date: Mon, 24 Feb 2020 17:03:12 -0000
+Message-ID: <20200224170312.2276.11468@do>
+References: <8736b0ymds.fsf@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <87zhd8x7sb.fsf@windriver.com>
+In-Reply-To: <8736b0ymds.fsf@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGVybDogZml4IGxpYi93YXJuaW5ncyB0ZXN0IG9uIGNvcmUtaW1hZ2Utc2F0bw==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGVybDogZml4IGxpYi93YXJuaW5ncyB0ZXN0IG9uIGNvcmUtaW1hZ2Utc2F0byAocmV2Mik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 17:03:10 -0000
+X-List-Received-Date: Mon, 24 Feb 2020 17:03:11 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: perl: fix lib/warnings test on core-image-sato
-Revision: 1
+Series: perl: fix lib/warnings test on core-image-sato (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/22910/
 State : failure
 
