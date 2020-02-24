@@ -1,38 +1,47 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id B7AD96150B
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com
+	[209.85.217.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 64E1B6150B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 14:08:03 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48R3my6Wpvz1v;
-	Mon, 24 Feb 2020 15:08:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582553283;
-	bh=guD33X+Tj7c4zuGTCow+FufNwAejmFnkjhur9cIA3Xg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dux1xzYRC7N7p/TzZSIxBqOnKStTwLrtvwbbnyiMQaSFx5EBSfiX4j0dZRv97na1l
-	as1Nebg7BKwotcQqX0nwcsDsyKirlh4kMqCVOAKj1+c9LPwDHeqn84MobqWy4Yoi20
-	d2NqTO9MA6jlkmIGKbrveJJTLNN9Ht+boh3Z3D18pirgiwcKg6/IE9WHyrz4tbvyzi
-	rFC0caLTwkAiEguAwd706rjhSiervaWJG9qkNjpYpjpWTSIOglSDOUhMwhLHbTCSkr
-	YrbTvz1X+KjWX/E8LZ7rawYEpd06oNtgR76KyRAofQc4ufD76p7CsNqmjNP1fKJFcS
-	jW7c/jYyyREd94bCcy88sEFtoimg+MkXpWsSliMgydziBpbexVuGf8QToPTZVk5p65
-	3/0pvTdTpoHDYd6JcDxZ8NFSddYOrIvwNCJZDSV334kEI3hWE2DY+H0Eo7h15kX6/T
-	JB/JEFF7Czjnjjtl08bK3zk5ldbFSrDEBz4lvydRLBMBxOOAkTfPu29HeO0qslz+J/
-	Ohi8egaPd1sjjrpZqgGrQHOA2y2kaFzHcgsSU9BQtX3ExSaLWYnauB8e2YNAo2cTBu
-	/RYRT0vR13Bwvr34+CihCDVUAN5DXoFGA+Fkd00xbBxYFb8XUtfJyniVrOcLNXXBpm
-	mRL00lAS8rx336fe+89xCeFc=
-Date: Mon, 24 Feb 2020 16:08:01 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20200224140801.GC27036@localhost>
+	Mon, 24 Feb 2020 14:12:06 +0000 (UTC)
+Received: by mail-vs1-f41.google.com with SMTP id a2so5738164vso.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Feb 2020 06:12:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=rw3ixdDPiGRaAE7HlMqE70rIRhL/yzJTT5faro5ufHY=;
+	b=gM+6+3F5Gvc7CvvIIFoGeQSaRXZQrOcJKbhuoZKCRc3us84mY0jh1OiwVs9qi8xDAD
+	yAPJrDlH1/zcnb+myqI1cbu9R9hmuLSiH9qisk2VKEvPtPY6RQUVm1AT36+kuntRV30Y
+	w+DAKB3TvM26GDAcPCuR2Mt+7lIBkPnD+pRtVYGDPZwNNrDJZ4Wqhr7TptgnuWA6QScG
+	lj7g4r3Ll/KiHzimltZjl8cd4CVLJupUY9ynsFJ2C90m2EH53p7SeaHYp97+kzJrMAoS
+	GWN8jbR2JdmndLG3eU4Y4fZa6WvLhhwoYDscxmYv/OqXnnfVYm184UhF+tl6Pt/NrWqW
+	4tLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=rw3ixdDPiGRaAE7HlMqE70rIRhL/yzJTT5faro5ufHY=;
+	b=eEYZpSDzUZ1GP6YSxY0Y327E4kKLQO6S1QX6PK3s+7lGMtPst7ThCC1bDY7i/POLe+
+	RE1nll9UgZvuFNMwCLmjnArz8t4M2zmLe13j1PczIIA7BqKz4cfL//CD4tZD2G1JArSk
+	jkx9IeubJ1qUYcRFSD7KC+Ie8x7DzeeLQIo0MY9ogKO0dMPKS2o8ZCPon34MLY5HZYM8
+	smB/STN7tsIBGbhs2+rUe6GcTNwpjfEbvc8k3f0LtxcN5UPtw+E9df24E9Z0FS9RDYM4
+	McRunjjT9czhfxtKlFfxLQcB8OV87yZczVH193UNHdvsaSWwsqA8vgzINVWch4mO0HkS
+	3B2A==
+X-Gm-Message-State: APjAAAUoggX7QCr+mJx1K82D5sJ3d7L7pwGjRCdW8EkYEh3LoOqDSQ7S
+	xHaCruqcNMiAn89Hzis6aSnZaA1a2eUEkg1IdLRfWQ==
+X-Google-Smtp-Source: APXvYqwOX93u3YNsrLm7VrAKB1hQPBdnhWihOb3ZDw/+r3xodgipQK0sTtlPZAnTz7Q/T+pNcc6rxla4Gcze9S9ZCBc=
+X-Received: by 2002:a67:7987:: with SMTP id u129mr27371247vsc.83.1582553527133;
+	Mon, 24 Feb 2020 06:12:07 -0800 (PST)
+MIME-Version: 1.0
 References: <20200223182933.6168-1-bunk@stusta.de>
 	<fd59ef897ef077f4f0160e1e2d7c95466c75a3f7.camel@linuxfoundation.org>
-	<20200224104635.GA27036@localhost>
-MIME-Version: 1.0
-In-Reply-To: <20200224104635.GA27036@localhost>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
+	<20200224104635.GA27036@localhost> <20200224140801.GC27036@localhost>
+In-Reply-To: <20200224140801.GC27036@localhost>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 24 Feb 2020 15:12:26 +0100
+Message-ID: <CANNYZj9SzHQ6gA9W=0vs=VYtVq8uRq=4S0F9zLyEDSq2Nt-beQ@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2 1/6] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -46,52 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 14:08:04 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 24 Feb 2020 14:12:06 -0000
+Content-Type: multipart/alternative; boundary="000000000000d2aa59059f52f45d"
 
-On Mon, Feb 24, 2020 at 12:46:35PM +0200, Adrian Bunk wrote:
-> On Mon, Feb 24, 2020 at 09:17:56AM +0000, Richard Purdie wrote:
-> > On Sun, 2020-02-23 at 20:29 +0200, Adrian Bunk wrote:
-> > > opengl is optional.
-> > > x11 can be replaced with wayland.
-> > > 
-> > > Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> > > ---
-> > >  meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-> > > index a48a976f94..51fba94964 100644
-> > > --- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-> > > +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-> > > @@ -26,7 +26,7 @@ SRC_URI[sha256sum] = "4386900713dfadf9741177210b32623cab22562a79ffd0d446b6656993
-> > >  
-> > >  inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
-> > >  
-> > > -REQUIRED_DISTRO_FEATURES = "x11 opengl"
-> > > +ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> > >  
-> > >  CVE_PRODUCT = "webkitgtk webkitgtk\+"
-> > 
-> > The autobuilder no-x11 build seems unhappy with this patch series
-> > unfortunately :(
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/1616
-> 
-> Sorry for that, I did not test a wayland-only build of webkitgtk.
-> 
-> I'll take care of that this evening, until then please drop either this 
-> first patch or the whole series.
+--000000000000d2aa59059f52f45d
+Content-Type: text/plain; charset="UTF-8"
 
-OK, the short-term solution is to drop the first patch.
+On Mon, 24 Feb 2020 at 15:08, Adrian Bunk <bunk@stusta.de> wrote:
 
-The original failure is easy to fix (I'll send a patch that moves the 
-X libraries from DEPENDS to the x11 config), but the next one is not:
+> Alexander, wayland support in webkitgtk requires mesa built with x11
+> support (otherwise gl.pc is not available).
 
-Alexander, wayland support in webkitgtk requires mesa built with x11 
-support (otherwise gl.pc is not available).
 
-cu
-Adrian
+Can you provide links where this happens please? Specifically, where mesa
+makes that decision, and where webkit asks for that file?
+So it's easier for me to look into it.
 
+Alex
+
+--000000000000d2aa59059f52f45d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 24 Feb 2020 at 15:08, Adrian Bunk=
+ &lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></d=
+iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border=
+-left-color:rgb(204,204,204);padding-left:1ex">Alexander, wayland support i=
+n webkitgtk requires mesa built with x11 <br>
+support (otherwise gl.pc is not available).</blockquote><div><br></div><div=
+>Can you provide links where this happens please? Specifically, where mesa =
+makes that decision, and where webkit asks for that file?</div><div>So it&#=
+39;s easier for me to look into it.</div><div><br></div><div>Alex=C2=A0</di=
+v></div></div>
+
+--000000000000d2aa59059f52f45d--
