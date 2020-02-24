@@ -1,51 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B6E0060F43
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 241A26023E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 10:23:50 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id z15so1369143wrl.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 02:23:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=IbbVJCkkAp+hCMyDB5kXYa6B/Ijjn2PCVZKfwSZQImM=;
-	b=hkNRwkl9SRFZMppJsGxl0D+LUbwXr2J8X9R7z8taa1m0fxB96Mt2WHfn1KIgchd2+J
-	+BxumOOkq+ghq6B3ryqDmBlnk3TfsU50P798lMcmb6ktJYeAdajsv98B6n+qwNsyoaPw
-	bDUdeSQ1rXzgYij1R/pESG/GN6dn2KSHqY2bY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=IbbVJCkkAp+hCMyDB5kXYa6B/Ijjn2PCVZKfwSZQImM=;
-	b=udETWOsMUYHDwH0rmN0uEufEh2cNfVsZA5ThMT+1les5+gAIt4D2aSvAilo6o7Zesp
-	C1WsyFdhbTST7+HU9+g9QCKSjrMx0LYopUYQDvFrd7mQgap0MYiW4y/ESIkctwySxHPx
-	ORvw2juVjOBegRzZhtKNr6qWgFDQFB8xu3KBQmIvot1sDE+oOuZikK179AL1fnpKs9QZ
-	HZTq+Sn8vSMi0y7tqagd+Jpdi2vzI8vp9Pm5rnveIHSNXqaPmjlFKkEUf4tWkmj7dOl4
-	pMNr89iLiPmCqkOafPSyIT0fDdGiIodkmTwf64jNdm9aJSPCt36Aj0YtdH1h23m7HF7w
-	5xlQ==
-X-Gm-Message-State: APjAAAUNL8iDdR+/dHrUgo/UotTDplKlkUmf5vdnLaS06rOKdGlDBhBI
-	zSk0FA8Is0uX53OHvFZOBpKAsA==
-X-Google-Smtp-Source: APXvYqybYRLRiUYQzeALNaOUP4bzhTs3k5TZXWlyK54aRzOFqVSxgt28csTQQJKNnzHIieHNuUA6DA==
-X-Received: by 2002:a5d:63c9:: with SMTP id c9mr62766264wrw.281.1582539831213; 
-	Mon, 24 Feb 2020 02:23:51 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	s1sm17794038wro.66.2020.02.24.02.23.49
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 24 Feb 2020 02:23:50 -0800 (PST)
-Message-ID: <1f5759550013cdb49ebfb34194863af3d9dbcf6c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Armin Kuster <akuster808@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 24 Feb 2020 10:23:49 +0000
-In-Reply-To: <20200224031226.6965-1-akuster808@gmail.com>
-References: <20200224031226.6965-1-akuster808@gmail.com>
-User-Agent: Evolution 3.34.1-4 
+	Mon, 24 Feb 2020 10:46:39 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48QzJZ0xhNzv;
+	Mon, 24 Feb 2020 11:46:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1582541198;
+	bh=SkUW7WBOM8ujEVh4MXdsRgqhGE3tdgVO6udU07AgqLY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lpvQPjV7WSXJB5Ot7fOGhiXjgK/+5Jmls1Cy1qTmbW7x2vB2Nbglab1mR0nXjWdZh
+	f07sOw/w29eUyB7gLiT6aP7W8l6dKgJwqGbt6h3LhAGINkj/pDfL7olNm4eUwb4tKH
+	TBkXGFcYuO5ty4F4P36mZxXBGFOYBq2mtY2i4oa3gw4j0noXiuNI67agT0CV86JGvs
+	9IPimPvvD7u8GNKl4jcRsvQX3Jkhj8yvh5/KmNf/UdGta39eHJgT2oCqGAknCgJ3g0
+	H+DwHlgi1ToX+VH4RE7x23d7iFfdml7hqOqsDoiTAhhWxPUr510Qum1N/f+/pIjdlS
+	bK3UKg3X8APOOHfBdElVxOysCk48ZLzsS2Idccn064dfoJ8pAPnDT6daWUNLT8ZVOk
+	V2RekKREaapGWhgEcBCqPQhouffoflSS3YvLlFH3yz59yq88Be6Ouwwj/k6yQzr+3u
+	iSH9bWgDE/QmvIiqG0qYbyxRwmAOamt3Ll9zyb70w2Fs+iGkrrO3FPXSr0lXsqhxrz
+	HxnNfm1W8HQUO33Wuc88Iu60+vk7JObMKVvjWPSLCkU44S3STqLlaQmOxb1aMg1EFi
+	LWyy13FUd1k3lop3g7s5DWjetMrKi4HCJhJtF3egeh9AD1cGIYdAvBM6Vo/jlRlMCl
+	/uyte0386g1zDO9e4zrZCPrg=
+Date: Mon, 24 Feb 2020 12:46:35 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20200224104635.GA27036@localhost>
+References: <20200223182933.6168-1-bunk@stusta.de>
+	<fd59ef897ef077f4f0160e1e2d7c95466c75a3f7.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] e2fsprogs: update to 1.45.5
+In-Reply-To: <fd59ef897ef077f4f0160e1e2d7c95466c75a3f7.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/6] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,130 +44,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 10:23:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Feb 2020 10:46:40 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Sun, 2020-02-23 at 19:12 -0800, Armin Kuster wrote:
-> Dropping patch 0001-misc-create_inode.c-set-dir-s-mode-
-> correctly.patch as upstream has not been accepted for over 2 years
-> and we should not carry it if upstream has not taking it after all
-> that time.
-
-Looking at the patch, this worries me a lot. Why have upstream not
-taken it? Did they say it was incorrect?
-
-We wrote the original code to handle offline root here so its entirely
-possible this is a value issue and we'll break filesystems if we don't
-have that patch :(
-
-I can't take a change like this without more info, CVE or not.
-
-Cheers,
-
-Richard
-
-
-> Includes: CVE-2019-5188
+On Mon, Feb 24, 2020 at 09:17:56AM +0000, Richard Purdie wrote:
+> On Sun, 2020-02-23 at 20:29 +0200, Adrian Bunk wrote:
+> > opengl is optional.
+> > x11 can be replaced with wayland.
+> > 
+> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> > ---
+> >  meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+> > index a48a976f94..51fba94964 100644
+> > --- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+> > +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+> > @@ -26,7 +26,7 @@ SRC_URI[sha256sum] = "4386900713dfadf9741177210b32623cab22562a79ffd0d446b6656993
+> >  
+> >  inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+> >  
+> > -REQUIRED_DISTRO_FEATURES = "x11 opengl"
+> > +ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+> >  
+> >  CVE_PRODUCT = "webkitgtk webkitgtk\+"
 > 
-> see http://e2fsprogs.sourceforge.net/e2fsprogs-release.html#1.45.5
-> for more information.
+> The autobuilder no-x11 build seems unhappy with this patch series
+> unfortunately :(
 > 
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->  ...ate_inode.c-set-dir-s-mode-correctly.patch | 41 ---------------
-> ----
->  ...2fsprogs_1.45.4.bb => e2fsprogs_1.45.5.bb} |  3 +-
->  2 files changed, 1 insertion(+), 43 deletions(-)
->  delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-
-> misc-create_inode.c-set-dir-s-mode-correctly.patch
->  rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.45.4.bb =>
-> e2fsprogs_1.45.5.bb} (97%)
-> 
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-
-> create_inode.c-set-dir-s-mode-correctly.patch b/meta/recipes-
-> devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-set-dir-s-mode-
-> correctly.patch
-> deleted file mode 100644
-> index fc4a5409860..00000000000
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-
-> create_inode.c-set-dir-s-mode-correctly.patch
-> +++ /dev/null
-> @@ -1,41 +0,0 @@
-> -From f6d188580c2c9599319076fee22f2424652c711c Mon Sep 17 00:00:00
-> 2001
-> -From: Robert Yang <liezhi.yang@windriver.com>
-> -Date: Wed, 13 Sep 2017 19:55:35 -0700
-> -Subject: [PATCH] misc/create_inode.c: set dir's mode correctly
-> -
-> -The dir's mode has been set by ext2fs_mkdir() with umask, so
-> -reset it to the source's mode in set_inode_extra().
-> -
-> -Fixed when source dir's mode is 521, but tarball would be 721, this
-> was
-> -incorrect.
-> -
-> -Upstream-Status: Submitted
-> -
-> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ----
-> - misc/create_inode.c | 9 ++++++++-
-> - 1 file changed, 8 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/misc/create_inode.c b/misc/create_inode.c
-> -index 8ce3faf..50fbaa8 100644
-> ---- a/misc/create_inode.c
-> -+++ b/misc/create_inode.c
-> -@@ -116,7 +116,14 @@ static errcode_t set_inode_extra(ext2_filsys
-> fs, ext2_ino_t ino,
-> - 
-> - 	inode.i_uid = st->st_uid;
-> - 	inode.i_gid = st->st_gid;
-> --	inode.i_mode |= st->st_mode;
-> -+	/*
-> -+	 * The dir's mode has been set by ext2fs_mkdir() with umask, so
-> -+	 * reset it to the source's mode
-> -+	 */
-> -+	if S_ISDIR(st->st_mode)
-> -+		inode.i_mode = LINUX_S_IFDIR | st->st_mode;
-> -+	else
-> -+		inode.i_mode |= st->st_mode;
-> - 	inode.i_atime = st->st_atime;
-> - 	inode.i_mtime = st->st_mtime;
-> - 	inode.i_ctime = st->st_ctime;
-> --- 
-> -2.10.2
-> -
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
-> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.5.bb
-> similarity index 97%
-> rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
-> rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.5.bb
-> index 6e69eea21c3..7cd42b8137a 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.5.bb
-> @@ -4,7 +4,6 @@ SRC_URI += "file://remove.ldconfig.call.patch \
->             file://run-ptest \
->             file://ptest.patch \
->             file://mkdir_p.patch \
-> -           file://0001-misc-create_inode.c-set-dir-s-mode-
-> correctly.patch \
->             file://0001-configure.ac-correct-AM_GNU_GETTEXT.patch \
->             file://0001-intl-do-not-try-to-use-gettext-defines-that-
-> no-longe.patch \
->             "
-> @@ -13,7 +12,7 @@ SRC_URI_append_class-native = " 
-> file://e2fsprogs-fix-missing-check-for-permissio
->                                  file://quiet-debugfs.patch \
->  "
->  
-> -SRCREV = "984ff8d6a0a1d5dc300505f67b38ed5047d51dac"
-> +SRCREV = "c2b1ec5fbc99ab8a2b71dae45d486b3ea004f618"
->  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
->  
->  EXTRA_OECONF += "--libdir=${base_libdir} --sbindir=${base_sbindir} \
-> -- 
-> 2.17.1
-> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/1616
 
+Sorry for that, I did not test a wayland-only build of webkitgtk.
+
+I'll take care of that this evening, until then please drop either this 
+first patch or the whole series.
+
+> Cheers,
+> 
+> Richard
+
+cu
+Adrian
 
