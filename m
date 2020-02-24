@@ -1,23 +1,23 @@
 Return-Path: <chee.yang.lee@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 819D760849
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 76A916160D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 05:46:54 +0000 (UTC)
+	Mon, 24 Feb 2020 06:14:16 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	23 Feb 2020 21:46:55 -0800
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	23 Feb 2020 22:14:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,479,1574150400"; d="scan'208";a="255474965"
+X-IronPort-AV: E=Sophos;i="5.70,479,1574150400"; d="scan'208";a="435803380"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga002.jf.intel.com with ESMTP; 23 Feb 2020 21:46:54 -0800
+	by fmsmga005.fm.intel.com with ESMTP; 23 Feb 2020 22:14:16 -0800
 From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Feb 2020 13:46:53 +0800
-Message-Id: <1582523213-65026-1-git-send-email-chee.yang.lee@intel.com>
+Date: Mon, 24 Feb 2020 14:14:15 +0800
+Message-Id: <1582524855-32996-1-git-send-email-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] qemu: Fix CVE-2020-1711
+Subject: [PATCH][zeus] qemu: Fix CVE-2020-1711
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Feb 2020 05:46:54 -0000
+X-List-Received-Date: Mon, 24 Feb 2020 06:14:16 -0000
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
@@ -44,19 +44,19 @@ Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
  create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-1711.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index a557e74..f26e722 100644
+index bb444b6..d394db8 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
 @@ -29,7 +29,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
             file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
-            file://0011-hw-i386-pc-fix-regression-in-parsing-vga-cmdline-par.patch \
             file://CVE-2019-15890.patch \
+            file://CVE-2019-12068.patch \
 -           "
 +           file://CVE-2020-1711.patch \
 +	   "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI[md5sum] = "278eeb294e4b497e79af7a57e660cb9a"
+ SRC_URI[md5sum] = "cdf2b5ca52b9abac9bacb5842fa420f8"
 diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-1711.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-1711.patch
 new file mode 100644
 index 0000000..aa7bc82
