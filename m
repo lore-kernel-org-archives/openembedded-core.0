@@ -1,52 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E9F86168E
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 698C56168F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 18:54:07 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id g3so16011109wrs.12
+	Tue, 25 Feb 2020 18:54:08 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id t79so285322wmt.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 10:54:08 -0800 (PST)
+	Tue, 25 Feb 2020 10:54:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=rhveylFJnPYogR2BctG6DHkUqs7yhcsN1cX3fyhwfRQ=;
-	b=DzV2bcwGLEKglgVXM3c29gDv//YJ9T9H+HPTcxX0y4TSP1zQgUCnkP24wWjcozlPVe
-	sZWUnlvwzn9XzJ7yl9uVd2X5M6Anrpcut2zzQKrSNuJASEl9z2U4KN3WeBPP+r8TRU+K
-	oxmTnYgJyKRnH4tBBWbfuKFU9cLm9ZdutnWVGMj7RRDwrcF6ulPdcoYDNtOujlVXK339
-	XACGDdThg0zfnETRU2E139civJ8CfCz+vb0KCa6Kplc0rGxJX/35M+IjlrIFldDcK0Yu
-	zxRcFN05vQhgUNxUxuIU2WGA0kxClsaB+B3vyO0K02LYzhue3hsTeTAnA25CPcDbNx7o
-	v3vw==
+	bh=3OajSvlXgWB5nCE79XLnst3S061jsq7J8j86A+v//2I=;
+	b=MBfxUoOpl886C6ixUWP+X+c7aA5XGr8jIlhd8CKthQEm1s6cRHOEdQyrsaayzMtUqm
+	lEAxxK7APgBRG2TpJYKjDL0moyMvhFAJGqRt9QwjfLU/Anc3l2c97VmEaepTSsWF0fja
+	N0HnvR440cSDeg1uWhZrHVfc7bANgRzA8GTyhIZRRp4UbpLGWrTS74wSmoVqVSguepK5
+	RyB0APOh48UDAan6i1k9dW4bm284CAe5BYN0n61Mh6EjMKNUenoGp9iZ0tGALPwoNQvA
+	06Ds1zIDOUaaecRM89vhTqJGx38NHD/XbQuUCMv6O5T/xFmTHEhw0full3REdxnG6HQH
+	OAkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=rhveylFJnPYogR2BctG6DHkUqs7yhcsN1cX3fyhwfRQ=;
-	b=q1Y6bFh8TWhQDbNnsgEq+Ogz9m59VHSO03tNrTDk56mgfyXOpr2SFKfXZrbDQhB2ZV
-	SrLchrmdmYNkx/wvUzMIPEbahs6ns5YcpcZq/uCLtYGd8QIXs6kCoRVHAh23NsityGA2
-	97Xnu5gKdl33iYCniXCai7ZXjUq10W1WJe7UrtwREt8o87dklJeusEzid38Z0ftF83eG
-	vppXDLTDDDOcvH6EDX+YRxVh8zowML+kcMC648MHRErjmUL4XRxfHqUiMKkR+Cs7TmnM
-	HASYhBPmo4pHEHNTpBgF9x7HTxw3aJ1a+orT4DYD9XLyqljHUIZNp9FivzfiF5ovFqr7
-	Th7w==
-X-Gm-Message-State: APjAAAXnLy6fYNI9nXsgdY2xQ4zbOASwaKlUghzPX9xNN2Bzly9/Mhcf
-	BdlL7pNOIi4+/LrOt3YuHqKe+pY1
-X-Google-Smtp-Source: APXvYqzKgscgk/myRF0VgI0SlNovMrB2elVyX9qKY26g+PdIlPD25eV5f21DSLds/apKGqDTkwUDJA==
-X-Received: by 2002:adf:fe0a:: with SMTP id n10mr547181wrr.229.1582656847978; 
-	Tue, 25 Feb 2020 10:54:07 -0800 (PST)
+	bh=3OajSvlXgWB5nCE79XLnst3S061jsq7J8j86A+v//2I=;
+	b=qx8kFl8imKRwCj0zlHQbGV/lm9rGbY3QSEx1H3AP8Z7j2gAWfnySnF5lkBP/dkUikk
+	ZsWqKmndfSc/DezdtZGvAgoFqxCj/+SwfhLrw5X480qmXlDZw5CqZs9R9skuuqACJBwi
+	R543neP7XK9VJjggYncs6aX0rS7g0kIw4EYqvE6uMhDMQ6sCeW46bT6v7WEQ1/5nJasF
+	xgElwiKRr1qrM7l0K9Cc6Rw9pLFFuu6GhUX9m1CT2qd20Og2sGLzBFpJuF1nU1U/FHLa
+	VNjinxAt3rL6NYkx4lb+ZOBxjeiTTC7LvzZGDC8ygB7DE7KJSNvtH7TFY2A3GHWqmldT
+	j0ow==
+X-Gm-Message-State: APjAAAXk5tJvz3QzX3+pUFPsfSrbmmtUJcey3Zvlg9zMIyomMGo8VYe+
+	nLlTy4YuJJ9CfMde5mMyLW7rH5Dd
+X-Google-Smtp-Source: APXvYqze4Df5ELx3y66DqIAh3FhJ5+3mIOr38vjebHYvlL2r+c7x8ai8L6yaFeybB8dgvXKWPgrK8Q==
+X-Received: by 2002:a1c:4857:: with SMTP id v84mr629085wma.8.1582656848767;
+	Tue, 25 Feb 2020 10:54:08 -0800 (PST)
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
 	by smtp.gmail.com with ESMTPSA id
-	g7sm25730756wrq.21.2020.02.25.10.54.07
+	g7sm25730756wrq.21.2020.02.25.10.54.08
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 10:54:07 -0800 (PST)
+	Tue, 25 Feb 2020 10:54:08 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2020 19:53:26 +0100
-Message-Id: <20200225185335.19326-3-alex.kanavin@gmail.com>
+Date: Tue, 25 Feb 2020 19:53:27 +0100
+Message-Id: <20200225185335.19326-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200225185335.19326-1-alex.kanavin@gmail.com>
 References: <20200225185335.19326-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 03/12] libpcre: upgrade 8.43 -> 8.44
+Subject: [PATCH 04/12] ncurses: upgrade 6.1+20191019 -> 6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,78 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 18:54:07 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 18:54:08 -0000
 Content-Transfer-Encoding: 8bit
 
-License-Update: copyright years
+License-Update: copyright years and holders
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libpcre/libpcre/out-of-tree.patch         | 26 -------------------
- .../{libpcre_8.43.bb => libpcre_8.44.bb}      |  9 +++----
- 2 files changed, 4 insertions(+), 31 deletions(-)
- delete mode 100644 meta/recipes-support/libpcre/libpcre/out-of-tree.patch
- rename meta/recipes-support/libpcre/{libpcre_8.43.bb => libpcre_8.44.bb} (91%)
+ meta/recipes-core/ncurses/ncurses.inc                           | 2 +-
+ .../ncurses/{ncurses_6.1+20191019.bb => ncurses_6.2.bb}         | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/ncurses/{ncurses_6.1+20191019.bb => ncurses_6.2.bb} (89%)
 
-diff --git a/meta/recipes-support/libpcre/libpcre/out-of-tree.patch b/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
-deleted file mode 100644
-index d56789615f..0000000000
---- a/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--In out-of-tree builds the #include fails because $srcdir isn't in the include path.  Set CPPFLAGS so that it is.
--
--Upstream-Status: Backport [r1750]
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--Index: configure.ac
--===================================================================
----- a/configure.ac	(revision 1749)
--+++ b/configure.ac	(working copy)
--@@ -159,6 +159,8 @@
-- 
-- if test "$enable_jit" = "auto"; then
--   AC_LANG(C)
--+  SAVE_CPPFLAGS=$CPPFLAGS
--+  CPPFLAGS=-I$srcdir
--   AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
--   #define SLJIT_CONFIG_AUTO 1
--   #include "sljit/sljitConfigInternal.h"
--@@ -165,6 +167,7 @@
--   #if (defined SLJIT_CONFIG_UNSUPPORTED && SLJIT_CONFIG_UNSUPPORTED)
--   #error unsupported
--   #endif]])], enable_jit=yes, enable_jit=no)
--+  CPPFLAGS=$SAVE_CPPFLAGS
-- fi
-- 
-- # Handle --disable-pcregrep-jit (enabled by default)
-diff --git a/meta/recipes-support/libpcre/libpcre_8.43.bb b/meta/recipes-support/libpcre/libpcre_8.44.bb
-similarity index 91%
-rename from meta/recipes-support/libpcre/libpcre_8.43.bb
-rename to meta/recipes-support/libpcre/libpcre_8.44.bb
-index f9a22fee9d..e5471e81da 100644
---- a/meta/recipes-support/libpcre/libpcre_8.43.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.44.bb
-@@ -6,16 +6,15 @@ SUMMARY = "Perl Compatible Regular Expressions"
- HOMEPAGE = "http://www.pcre.org"
- SECTION = "devel"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://LICENCE;md5=91bee59d1b327eb1599b4c673e2fb3d1"
-+LIC_FILES_CHKSUM = "file://LICENCE;md5=3bb381a66a5385b246d4877922e7511e"
- SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre-${PV}.tar.bz2 \
-            file://fix-pcre-name-collision.patch \
--           file://out-of-tree.patch \
-            file://run-ptest \
-            file://Makefile \
--"
-+           "
- 
--SRC_URI[md5sum] = "636222e79e392c3d95dcc545f24f98c4"
--SRC_URI[sha256sum] = "91e762520003013834ac1adb4a938d53b22a216341c061b0cf05603b290faf6b"
-+SRC_URI[md5sum] = "cf7326204cc46c755b5b2608033d9d24"
-+SRC_URI[sha256sum] = "19108658b23b3ec5058edc9f66ac545ea19f9537234be1ec62b714c84399366d"
- 
- CVE_PRODUCT = "pcre"
- 
+diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+index b7bf4c0d81..4156bf4f7d 100644
+--- a/meta/recipes-core/ncurses/ncurses.inc
++++ b/meta/recipes-core/ncurses/ncurses.inc
+@@ -2,7 +2,7 @@ SUMMARY = "The New Curses library"
+ DESCRIPTION = "SVr4 and XSI-Curses compatible curses library and terminfo tools including tic, infocmp, captoinfo. Supports color, multiple highlights, forms-drawing characters, and automatic recognition of keypad and function-key sequences. Extensions include resizable windows and mouse support on both xterm and Linux console using the gpm library."
+ HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc180a8c44ca642e97c35452fab5f66"
++LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=5526f2f3a29edc95538b368a4771edda"
+ SECTION = "libs"
+ DEPENDS = "ncurses-native"
+ DEPENDS_class-native = ""
+diff --git a/meta/recipes-core/ncurses/ncurses_6.1+20191019.bb b/meta/recipes-core/ncurses/ncurses_6.2.bb
+similarity index 89%
+rename from meta/recipes-core/ncurses/ncurses_6.1+20191019.bb
+rename to meta/recipes-core/ncurses/ncurses_6.2.bb
+index 187777f6ef..b6d899c878 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.1+20191019.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.2.bb
+@@ -5,7 +5,7 @@ SRC_URI += "file://0001-tic-hang.patch \
+            file://config.cache \
+            "
+ # commit id corresponds to the revision in package version
+-SRCREV = "ea70ec815b362f5bbad7a827a2edf50fd2b459cc"
++SRCREV = "a669013cd5e9d6434e5301348ea51baf306c93c4"
+ S = "${WORKDIR}/git"
+ EXTRA_OECONF += "--with-abi-version=5 --cache-file=${B}/config.cache"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
 -- 
 2.25.0
 
