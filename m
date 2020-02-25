@@ -1,53 +1,53 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F4696168E
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+	[209.85.128.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E4EE616B9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 18:54:09 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id p17so305742wma.1
+	Tue, 25 Feb 2020 18:54:10 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id t79so285429wmt.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 10:54:10 -0800 (PST)
+	Tue, 25 Feb 2020 10:54:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=hgQ4vHqChVGcHDgVUZvOQn39oqMayn8tv2rpnJ7D+tU=;
-	b=Zb8cFZ0ayOHuxvKp8dBeytUZxkEbSM9nDKM2uqAdCCkpEsTBSwcGUxxq4JXfedZ+mo
-	4eUNt/Rhnq0XDkTQJFx2QfpDWPcDwUCFGHssJIucd0CPBFtsMMuVZaEOR4ooKSw26tTI
-	xvfrUGNGAFaCocCkar1sD5khJxiTPlLH9qX9Q0upz39z6MPKGX3iCZHeikGCijBLuECG
-	4la6dByz74xRXIcmbL6QmGzK7sjx+JDTjyGgrm6LDv5pRpO80D8aeOhsNP5PTI9ciIm1
-	Q1sMaUj7fguyLnQ4r0HaBrihOZaFvt9g9vrY/XIYKTSID0usDw6RS8fTAp3CTOU4dmyN
-	MoyQ==
+	bh=OFrtkvrpG2EHt8o9P7RZJAewKS073NApzlI7uL2WKws=;
+	b=D+VMouvZQIX7+19KNH/71d4dbvWW3SKoiZvOP3vjdbc9GHcQp0kMNW/HaN8+5RL0ou
+	aWtGI70Eh1iG5l33rl2Pp8Vyw4x2SfS+qyYR/lx40z8Scuq8RCpQZ2VEBOlQkRLCjB8H
+	mamDIDCzlMkz9eodfMzSapKyo97JG5NNNFObl148l2pHYDlrsAx/bt8r4ap6JOxNVmR1
+	ggPOfZpb4IFu6qIC0GnEKA4IlViokumiRl2qXGVEXLVKOeCNjD8fws4f2kd4jJqZ1yXG
+	tsJ4f5o2SOSLFFH6gbhJBBC5RBh7UBRIUoE0TQVGIxTyzUQ8A32tDAeeHRN5A0/OTmZJ
+	ejrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=hgQ4vHqChVGcHDgVUZvOQn39oqMayn8tv2rpnJ7D+tU=;
-	b=nIo6DcVTolx+NL2xuOpcMVeoNGzvxVvT+tpoLdDmQlvljJ7c/5QTYqzitOlJjU96sf
-	OlZbNI/FeVXb/bgS66wIHmMVaai6qIK0J+6LndkbTwjJoyh6+vmVowJWqX7qsqiTEMUv
-	JX0rRHDmMvYjd6ToggSzXFV6mtLjOoxRBJAKalFyQj0qTgZuxzmcww4+I5EbFCO5T7PS
-	29uCH05o0ux1452y7JNJpoMp/URERVhuZ6/yQPSakkkEWB1/1Emjzkjwar35aevaygHj
-	BH7b03WrSb8vXzKhz71nAEw4v/F1X5SuCkMMC853VoyJNtGqbIxZaLuHl3taQ839fwWm
-	z66w==
-X-Gm-Message-State: APjAAAXd12Nqus3xleKaiVuGCmCt2Vnp09gqW6GO7tYAOxw1AA9ngMjz
-	AgZwYtONAJLTh0zOauB0/v552uLS
-X-Google-Smtp-Source: APXvYqxlreir307fPLvaA+gOVWK9wxVaymXkYMEpQym618o6DoTg7Yv9UxGLlSJA7BkYMdoiaLhJ4A==
-X-Received: by 2002:a05:600c:2255:: with SMTP id
-	a21mr587078wmm.79.1582656849680; 
-	Tue, 25 Feb 2020 10:54:09 -0800 (PST)
+	bh=OFrtkvrpG2EHt8o9P7RZJAewKS073NApzlI7uL2WKws=;
+	b=HDmtiDCfPlrmA7uBFHBbQ2Lym7A+BBcW5Bu17JCkEfWNbnF6hhBhXKqWo704z/m2Lk
+	qq4A1sk9OEfM0YTxRGmwKwrNhv8IT6JgScLiv9uyhwh64t1GO3YmJmCqxZ7rwjDxiI44
+	xu29xVcZZNbSkiZ/TgQ9e8QYbUznhYRXh+W9XtFkOZyi3QOeEbjcXWxkC73aYMoiAiBi
+	O9SzjNfvfObihh944h+aGk9TEzpJRFfLgCB9Xp70Q8BRPc9shWi42/UZwbhSTdEW2Ef5
+	4Ht+fBFbKUef+o/DE8xiHFj22wRJsUSk+ElheWnGhuUiWAMd0mRPwZEpQ6Qm3KqyeGxV
+	S7kg==
+X-Gm-Message-State: APjAAAXFKfpwJd+d/9k3rjwh3a9mdNV/4TzuLzpLQnm0j3PuXH9FiAbC
+	WtRvxt8Al0IAhzZyZnJF/iY3XiI6
+X-Google-Smtp-Source: APXvYqxpDImu+MH6pn8M1G1F7uABkfglwZBMsfiktHkhgu2A+n8SvCeVI+/vZ0b6/OY+mB75ZC8vAg==
+X-Received: by 2002:a05:600c:2107:: with SMTP id
+	u7mr630376wml.54.1582656850617; 
+	Tue, 25 Feb 2020 10:54:10 -0800 (PST)
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
 	by smtp.gmail.com with ESMTPSA id
-	g7sm25730756wrq.21.2020.02.25.10.54.08
+	g7sm25730756wrq.21.2020.02.25.10.54.09
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 10:54:09 -0800 (PST)
+	Tue, 25 Feb 2020 10:54:10 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2020 19:53:28 +0100
-Message-Id: <20200225185335.19326-5-alex.kanavin@gmail.com>
+Date: Tue, 25 Feb 2020 19:53:29 +0100
+Message-Id: <20200225185335.19326-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200225185335.19326-1-alex.kanavin@gmail.com>
 References: <20200225185335.19326-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/12] python3-docutils: upgrade 0.15 -> 0.16
+Subject: [PATCH 06/12] python3-mako: upgrade 1.1.0 -> 1.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,40 +60,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 18:54:09 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 18:54:10 -0000
 Content-Transfer-Encoding: 8bit
 
-License-Update: formatting
+License-Update: copyright years
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{python3-docutils_0.15.bb => python3-docutils_0.16.bb}  | 6 +++---
+ .../python/{python3-mako_1.1.0.bb => python3-mako_1.1.1.bb} | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-docutils_0.15.bb => python3-docutils_0.16.bb} (60%)
+ rename meta/recipes-devtools/python/{python3-mako_1.1.0.bb => python3-mako_1.1.1.bb} (63%)
 
-diff --git a/meta/recipes-devtools/python/python3-docutils_0.15.bb b/meta/recipes-devtools/python/python3-docutils_0.16.bb
-similarity index 60%
-rename from meta/recipes-devtools/python/python3-docutils_0.15.bb
-rename to meta/recipes-devtools/python/python3-docutils_0.16.bb
-index f5c3f5d707..50547a1b0c 100644
---- a/meta/recipes-devtools/python/python3-docutils_0.15.bb
-+++ b/meta/recipes-devtools/python/python3-docutils_0.16.bb
-@@ -2,13 +2,13 @@ SUMMARY = "Text processing system for documentation"
- HOMEPAGE = "http://docutils.sourceforge.net"
+diff --git a/meta/recipes-devtools/python/python3-mako_1.1.0.bb b/meta/recipes-devtools/python/python3-mako_1.1.1.bb
+similarity index 63%
+rename from meta/recipes-devtools/python/python3-mako_1.1.0.bb
+rename to meta/recipes-devtools/python/python3-mako_1.1.1.bb
+index b139e5ab00..bc38009de4 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.1.0.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.1.1.bb
+@@ -2,14 +2,14 @@ SUMMARY = "Templating library for Python"
+ HOMEPAGE = "http://www.makotemplates.org/"
  SECTION = "devel/python"
- LICENSE = "PSF & BSD-2-Clause & GPLv3"
--LIC_FILES_CHKSUM = "file://COPYING.txt;md5=35a23d42b615470583563132872c97d6"
-+LIC_FILES_CHKSUM = "file://COPYING.txt;md5=7a4646907ab9083c826280b19e103106"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=df7e6c7c82990acf0228a55e00d29bc9"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=943eb67718222db21d44a4ef1836675f"
  
- DEPENDS = "python3"
+ PYPI_PACKAGE = "Mako"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/docutils/docutils-${PV}.tar.gz"
--SRC_URI[md5sum] = "f51729f19e70a9dc4837433193a5e798"
--SRC_URI[sha256sum] = "c35e87e985f70106f6f97e050f3bed990641e0e104566134b9cd23849a460e96"
-+SRC_URI[md5sum] = "9ccb6f332e23360f964de72c8ea5f0ed"
-+SRC_URI[sha256sum] = "7d4e999cca74a52611773a42912088078363a30912e8822f7a3d38043b767573"
+ inherit pypi setuptools3
  
- S = "${WORKDIR}/docutils-${PV}"
+-SRC_URI[md5sum] = "6c3f2da0b74af529a4c4a537d0848bf2"
+-SRC_URI[sha256sum] = "a36919599a9b7dc5d86a7a8988f23a9a3a3d083070023bab23d64f7f1d1e0a4b"
++SRC_URI[md5sum] = "2660a4916f2f63456e6885c727b7cd2f"
++SRC_URI[sha256sum] = "2984a6733e1d472796ceef37ad48c26f4a984bb18119bb2dbc37a44d8f6e75a4"
  
+ RDEPENDS_${PN} = "${PYTHON_PN}-html \
+                   ${PYTHON_PN}-netclient \
 -- 
 2.25.0
 
