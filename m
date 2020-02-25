@@ -1,57 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D08CE6132D
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com
+	[209.85.221.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0358660B85
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 11:23:57 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id r11so14265282wrq.10
+	Tue, 25 Feb 2020 11:32:35 +0000 (UTC)
+Received: by mail-vk1-f172.google.com with SMTP id b2so3394340vkk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 03:23:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=hnYpPdczx680Ri6D8RW9kaTT71R+E4M4U/cknufFOsg=;
-	b=dNuX/vRCWARGVVacPdSfC9LKGpL3l/+oy/Hx5649Vwxawsc8kKr0/fouanR7T959zW
-	bAis6usqR9kqaYnlz8ySHeQuOnw5nTzOHHbF4NBD+XjXhiYLBJ8XfAG2mASdYL0dTej2
-	bVSzoXWKSnI/hHTwA/hVvXNC/ftkW0YsB64hE=
+	Tue, 25 Feb 2020 03:32:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=DR4lzSqBTR3EnEGf3Fl6R9QpOcRE/LS6Q08FDsNQIgo=;
+	b=jWZZPVX8UdFOOGtdx7xx5bceFvlYHrSyNa2w7fZxUh9FGZVlHHkcAAvXK9dIxbo+h6
+	6hAHBmR74MdWqiaKXWNP9SUa6UCDzU8DJErNKto4vLH5YSoLr3bl1J7mXBccl3hpsMVH
+	bR6kMdfldYKavxfsjck3RLalO6Gz3XF96vzpH9y2v26RgDjKycP5TVvW/AxATyBPFq27
+	9sjMCIoAAeNNNmyvjZcnPUspo/X37lQbqxyHMtQO2CuibLxqDBRVrIwTg9Kow4t4PeCq
+	22dIwfdV5vG0LxqhwciBRDp3xotlAem9z0S/FHtmgiUoY3VvXjGIqoFln2G9mdb34vg1
+	R4Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=hnYpPdczx680Ri6D8RW9kaTT71R+E4M4U/cknufFOsg=;
-	b=D0eIocIkBFYT38unBLNmJ86sq4yq/rBiZTjHFGyz2qeSB6GqtL8jynYp4kIwWw2weL
-	7gi+hkWpF/MMG3vxPqB6L1aAvDBAZn1GHUQVYfORdACM+Xl0ILG8kvL19QrwUil9YZVj
-	vlVE2G86tYXvydwo5b6nI3b4ZvT+131M6SqS2ZMtlq7CSCvmJMs3Fb6t3rHhpY0Jt0uV
-	rx1mrirY/K+NdbubmvYst1andi/a5diM4GTowLcYGDw30lVQeYtNhDfZCKQNWRCo9tz2
-	R/60u3b9lw0M15RZCJP7CArb6RbrbX4wFA2mZlZU8cihCSVcKvs2mEnoG5GueT+PuVHZ
-	KhVQ==
-X-Gm-Message-State: APjAAAWa1/THh7/CD87KnK+iVC4QhCdUN+UyfWYxfmZPbevyQ+Sd2bD0
-	gZ/cB2FJGb0c3jDmyo+6nX9UBg==
-X-Google-Smtp-Source: APXvYqwrUPwX7N8QNKtgBBpOAm6tGrr15i3daFu+45u5EhqyeY0AlzHrZcdpQIsobJ7NzYC+9ZtBXQ==
-X-Received: by 2002:adf:82ef:: with SMTP id 102mr21179030wrc.23.1582629838432; 
-	Tue, 25 Feb 2020 03:23:58 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id n3sm23452340wrs.8.2020.02.25.03.23.57
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 03:23:57 -0800 (PST)
-Message-ID: <f6decca694d108f6d764e6423bbb2ba7282d858f.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>, Adrian Bunk
-	<bunk@stusta.de>
-Date: Tue, 25 Feb 2020 11:23:56 +0000
-In-Reply-To: <0018e8670b37836cfae92fd7332e927ec49f19ca.camel@andred.net>
-References: <20200224125955.26771-1-git@andred.net>
-	<20200224134022.GB27036@localhost>
-	<6c0d874e887dc5a2355d236d77e8ec771ea729f9.camel@andred.net>
-	<20200224143155.GD27036@localhost>
-	<5639b75022c28419467aefb8de62c6ab24f9eae6.camel@andred.net>
-	<20200224151041.GE27036@localhost>
-	<0018e8670b37836cfae92fd7332e927ec49f19ca.camel@andred.net>
-User-Agent: Evolution 3.34.1-4 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=DR4lzSqBTR3EnEGf3Fl6R9QpOcRE/LS6Q08FDsNQIgo=;
+	b=oD/OKxCrjdKEmsUUgdBsZCTJP+d/m+Gqsc2eOiAhF2HgJTuysg3n0PxxCsh+JycDx9
+	hWFGbEpV2y2K1i8mcDnL9BcIFDm/7G9geYaJx2P+bLoyVb7zFrUEmBk0h1L0zKqL2RmJ
+	pLWEt5hEkqCvv9QnQXllOsFzBbUg00QyqAas2ELKhuW3SAujTVoracNYRwMxeItFf3bz
+	BeYp7XqE30phBUR2PhtwXA8EV+jC6o2ABnzd9FfnvsQsUYjDQA5j9ubBLavYZmLVlriy
+	vOlu2trENbRy0e4bppLrKh6h6mmdHAuh85ypI4/CbWl/HIoyGe4odW42w3POgVeu4Rd6
+	b9Vw==
+X-Gm-Message-State: APjAAAXGOEEnZ3ol80QsnmxxvLDzpaPuQp1iI4u+oeTOFZT6/Qmi/P2j
+	tu7OB5pTWN2cfKYuyjCEsH+kllrKQPodiO4Uf6E=
+X-Google-Smtp-Source: APXvYqxPC6XMv1LP4tFpOoS79hiVK4OlmFW5V1wHTK62VZFaBr4EPHMqN5GOaF7jkxrdXt6Pwfvo+dqe3QKpVt9z1R4=
+X-Received: by 2002:a1f:9a90:: with SMTP id c138mr8490431vke.9.1582630356607; 
+	Tue, 25 Feb 2020 03:32:36 -0800 (PST)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: reproducible builds involving xz (was: Re: [PATCH v2] bitbake.conf: omit XZ threads and RAM from sstate signatures)
+References: <20200223182933.6168-1-bunk@stusta.de>
+	<fd59ef897ef077f4f0160e1e2d7c95466c75a3f7.camel@linuxfoundation.org>
+	<20200224104635.GA27036@localhost> <20200224140801.GC27036@localhost>
+	<CANNYZj91N68ocXm=UKzcH6U7nEnVLuQzDStR3O0_cO3GsY9uag@mail.gmail.com>
+	<20200225111955.GA13902@localhost>
+In-Reply-To: <20200225111955.GA13902@localhost>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 25 Feb 2020 12:32:55 +0100
+Message-ID: <CANNYZj-VbMxS52x78goiAA3jvKnyRQiyxd8G5TfEKZ8hBSXdDA@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/6] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,76 +57,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 11:23:58 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 11:32:36 -0000
+Content-Type: multipart/alternative; boundary="0000000000003766d1059f64d815"
+
+--0000000000003766d1059f64d815
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Tue, 2020-02-25 at 11:16 +0000, André Draszik wrote:
-> On Mon, 2020-02-24 at 17:10 +0200, Adrian Bunk wrote:
-> > On Mon, Feb 24, 2020 at 02:58:21PM +0000, André Draszik wrote:
-> > > On Mon, 2020-02-24 at 16:31 +0200, Adrian Bunk wrote:
-> > > > On Mon, Feb 24, 2020 at 02:21:57PM +0000, André Draszik wrote:
-> > > > > ...
-> > > > > Once the artefact has been created, it doesn't matter anymore
-> > > > > how it
-> > > > > was created, as long as the high-level options aren't being
-> > > > > changed (like
-> > > > > an explicit compression level, checksum method, etc.)
-> > > > > ...
-> > > > 
-> > > > meta-poky/conf/distro/poky.conf:INHERIT += "reproducible_build"
-> > > 
-> > > I still maintain these are two different problems. I am not
-> > > trying to fix
-> > > reproducible builds.
-> > 
-> > But won't fixing reproducible builds require reverting the patch
-> > you 
-> > suggest for fixing your problem?
-> 
-> No, I don't think so.
-> 
-> To fix reproducible, you need to either patch xz to always behave
-> like in
-> multi-threaded mode, even when --threads=1 was given in the
-> arguments.
-> Additionally, a patch to xz to allow it to scale down the number of
-> threads, but not the compression level (--no-adjust prevents both),
-> could be useful.
-> 
-> Alternatively, you need to decide if you want to support it with
-> --threads=1 or --threads >= 2, and issue at least a warning in
-> reproducible_build.bbclass if somebody deviates.
-> 
-> 
-> You should also calculate the memory requirements, reduce the number
-> of threads to fit, and again give at least a warning if the
-> compression
-> can not be done without changing compression level after that.
-> 
-> I still maintain that none of that is related to my original patch.
+I would probably look into how
+REQUIRED_DISTRO_FEATURE/ANY_OF_DISTRO_FEATURS is actually implemented, and
+see if you can convince it to do the right thing, or maybe write a custom
+re-implementation.
 
-If I merge your patch, what will happen is that builds on the
-autobuilder can potentially start failing as it will potentially detect
-reproduciblity issues which it wouldn't previously see.
+Alex
 
-To address this, I'd ike to see a new parameter added to
-oe.utils.cpu_count() which allows us to have a minimum of 2. I'd also
-like to reparametise the memlimit so we can drop it entirely by
-default.
+On Tue, 25 Feb 2020 at 12:19, Adrian Bunk <bunk@stusta.de> wrote:
 
-This should get us some defaults which won't break things and give
-reproducibile builds. They may not work for everyone but its then
-something which we can build upon.
+> On Mon, Feb 24, 2020 at 10:45:33PM +0100, Alexander Kanavin wrote:
+> > On Mon, 24 Feb 2020 at 15:08, Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > > Alexander, wayland support in webkitgtk requires mesa built with x11
+> > > support (otherwise gl.pc is not available).
+> >
+> > I had a look; I'm not sure I understood the options correctly, but the
+> > issue is due to this:
+> >
+> >                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
+> 'webgl
+> > opengl', '' ,d)} \
+> >
+> > The above works if both opengl and x11 are enabled as DISTRO_FEATURES,
+> but
+> > if x11 is not enabled, then it should be "webgl gles2". Can you try that?
+>
+> Thanks, that did the trick.
+>
+> Expressing everything might still be problematic, is there a way to set
+> REQUIRED_DISTRO_FEATURES to
+>   x11 || (wayland && opengl)
+> ?
+>
+> Using webkitgtk with x11 without opengl might not be common,
+> but it is explicitly supported upstream.
+>
+> > Alex
+>
+> cu
+> Adrian
+>
 
-I do want to take a patch as I agree there is a serious issue here but
-I'd prefer we get it right and try and stop it causing me headaches on
-the testing infrastructure.
+--0000000000003766d1059f64d815
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr">I would probably look into how REQUIRED_DISTRO_FEATURE/ANY=
+_OF_DISTRO_FEATURS is actually implemented, and see if you can convince it =
+to do the right thing, or maybe write a custom re-implementation.<div><br><=
+/div><div>Alex</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
+lass=3D"gmail_attr">On Tue, 25 Feb 2020 at 12:19, Adrian Bunk &lt;<a href=
+=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-widt=
+h:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-le=
+ft:1ex">On Mon, Feb 24, 2020 at 10:45:33PM +0100, Alexander Kanavin wrote:<=
+br>
+&gt; On Mon, 24 Feb 2020 at 15:08, Adrian Bunk &lt;<a href=3D"mailto:bunk@s=
+tusta.de" target=3D"_blank">bunk@stusta.de</a>&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; Alexander, wayland support in webkitgtk requires mesa built with =
+x11<br>
+&gt; &gt; support (otherwise gl.pc is not available).<br>
+&gt; <br>
+&gt; I had a look; I&#39;m not sure I understood the options correctly, but=
+ the<br>
+&gt; issue is due to this:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 $=
+{@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;opengl&#39;, &#39;webgl=
+<br>
+&gt; opengl&#39;, &#39;&#39; ,d)} \<br>
+&gt; <br>
+&gt; The above works if both opengl and x11 are enabled as DISTRO_FEATURES,=
+ but<br>
+&gt; if x11 is not enabled, then it should be &quot;webgl gles2&quot;. Can =
+you try that?<br>
+<br>
+Thanks, that did the trick.<br>
+<br>
+Expressing everything might still be problematic, is there a way to set<br>
+REQUIRED_DISTRO_FEATURES to<br>
+=C2=A0 x11 || (wayland &amp;&amp; opengl)<br>
+?<br>
+<br>
+Using webkitgtk with x11 without opengl might not be common,<br>
+but it is explicitly supported upstream.<br>
+<br>
+&gt; Alex<br>
+<br>
+cu<br>
+Adrian<br>
+</blockquote></div>
 
-Richard
-
-
-
-
+--0000000000003766d1059f64d815--
