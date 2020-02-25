@@ -1,51 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AC7E60FFF
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+	[209.85.128.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 08E636089C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 17:51:14 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id p11so80122plq.10
+	Tue, 25 Feb 2020 18:54:05 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id a5so305594wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 09:51:15 -0800 (PST)
+	Tue, 25 Feb 2020 10:54:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=/e0apBKB/3hN/V41MLcLlxFA0V3GIsKv/+LjNr+eFPs=;
-	b=hqlCI/KRkQetU4UjUGQuC4Bbc94JGXfXhEHZ141YmMvxKbPeO3wkU6fn4O31PW0+gd
-	jaoBjZJmEuWmH232KiAh0Rh02jZSAneA/lph1O/itFZutjh9LzKHvRwEUq9MlIJyefyC
-	1i9mHH1tvu5eR5gurkjp63SsZngtpY8Dxb0mjdFfhp1uKuQWcby/6DKaYdf+8PxgZaP+
-	lCQfqLP4UXjeNVRTzFGcMmgYmmeiMe1UOvTVVdAsvf60K4H8PhZhztv/j8lTdPZsUnWW
-	VZvcQpyNxnYzB0hShaTB5vPmO6L/BvbN5LCHAAEkPhyVhqYbLPh+/AFSjZKJ0hVUjqf4
-	ExVg==
+	bh=2NcmojncucyQyZp0eLqIu7Os1aADE7Ev4cnfhmteMS8=;
+	b=llDyWjcX00aUFT7aYWG0QWhoSwl8Yma8Fc7uMVjqOZ6sT3fU2e2139ImDdYiIO7vEv
+	bdFWT/j2x6lZelalGdIE7L8RNQ97ByD+v/Lv5Ntgva2Are70/1u2NiuFSAgHkti+e3ct
+	6RRIUxcpYCc4a0BVBMT9jCRXgKSuhcxvDO3pjE4pQwYGHcCK/3NiVO9jrqt0XU/Jr7LQ
+	qZ/67LmvCSRz16PBfXFPH0bSEMcy9oKaBCyc96Yc6EUx86lK4hybiRuA2WsV07Viw2+o
+	woiiMus5yrIrSVpoG+608wr3nYM2qfWuxSmlyABN//ahkzTQQPAeRDMhMIu/7wxlP/Bg
+	hBFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=/e0apBKB/3hN/V41MLcLlxFA0V3GIsKv/+LjNr+eFPs=;
-	b=rD6lzhMfk5+pwQv3nBMAbvVGUboFAUbIemVslO4hNTOZ9lIPH45tMBjORKXRD3M9P9
-	M75qDdbr8mtk9dzc3BkJ4MpcIbyeI+OWci9HfLydDGTgXDcqj7RpJCwJJphkwrM7c5TA
-	NGVUMAbKQGp2c5jvYTSQ1HtFciv8U0YTtLC0w3v5Lg+iZdqjGfy6DqfDv7bVP9Oc2Tjb
-	6LKxernV9AVEvCBEtSWiKf3KRBq7hx4B9DTsfObZD/ymkYD0KCtjkLEqoPQxEcm7ImMD
-	KURIcm46258xu9NBDes8neHHUDazeU3YVVrXZLwOapgPds5SKpB7Kh7fT13lEVAhk0yh
-	gYwg==
-X-Gm-Message-State: APjAAAWglTByTzi3XzANhr51DRU+kKGb/AF/8CJAuJW7OYF5eeF30SFg
-	3t/yEMlm7XCj4HfoLRAh4UxRvL136EM=
-X-Google-Smtp-Source: APXvYqy8I2ybQteI46jnLF5lca2Q1R/UdqDnF0hdXwFfLrZ1rzTEmLdiV5OwAztuGNRu2tMLk7434w==
-X-Received: by 2002:a17:90a:c214:: with SMTP id
-	e20mr151056pjt.98.1582653074722; 
-	Tue, 25 Feb 2020 09:51:14 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::396c])
+	bh=2NcmojncucyQyZp0eLqIu7Os1aADE7Ev4cnfhmteMS8=;
+	b=MGm1tE4+7EIAKNNsXD8X0/V7e3kg4f5/cP4TGfmSJXHVZ1aoRcMjfR0tNq4ExpuauE
+	s9Gj7BGhLj6NOOFanJzInjwH9+wdl5Z4z7VbeqKf1oyI1g4eu0PvJk8vugppYK57fdIR
+	irDWrLQNIuGT3dTzjmVGkZWJPZYTDn/KaOXV6pCAFLLTUi9gxt7UG92Bk2RkYcqUlbQB
+	xjWXW4WozC4AVVjIV/VouQdOiEfgDi5kwG0xry0ZSqtKgjFqcV45Y4Yjp8vNb5bgFuyF
+	fuLDCTuGkGiofigTfbftImrCwc8+II6L2vK57NfNYU54Vh+QDR5erp4p48Wy+21kRovc
+	E+mg==
+X-Gm-Message-State: APjAAAU+FxfXFSueYbCgpE/N0thHsPSRHTDTJi2XnWHZaK/+kIZmjRDz
+	84Dym9ysl3qEjLKt55zEt4lZxMuI
+X-Google-Smtp-Source: APXvYqz6kOZFQS2wu0BeqAds2/1lmY1UDNmmlMG7TFH1wTyQYa+OwoQ0Mco3JuzRZ+qV/UGVHtPMZA==
+X-Received: by 2002:a1c:1d90:: with SMTP id d138mr540161wmd.163.1582656846320; 
+	Tue, 25 Feb 2020 10:54:06 -0800 (PST)
+Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
 	by smtp.gmail.com with ESMTPSA id
-	t11sm4044581pjo.21.2020.02.25.09.51.13
+	g7sm25730756wrq.21.2020.02.25.10.54.05
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 09:51:14 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Tue, 25 Feb 2020 10:54:05 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2020 09:51:26 -0800
-Message-Id: <20200225175126.3764629-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.1
+Date: Tue, 25 Feb 2020 19:53:24 +0100
+Message-Id: <20200225185335.19326-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Subject: [PATCH V2] layer.conf: Consider shared-mime-info and desktop-file-utils siggen safe
+Subject: [PATCH 01/12] libmodule-build-perl: upgrade 0.4229 -> 0.4231
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 17:51:14 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 18:54:06 -0000
 Content-Transfer-Encoding: 8bit
 
-These are added as dependencies by mime class, which could be inherited
-along with allarch and dependencies silently go into target specific
-recipes and which then can result in sstate hash signature mismatches
-when the allarch recipes are reused for another arch
-
-[YOCTO #13805]
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/conf/layer.conf | 2 ++
- 1 file changed, 2 insertions(+)
+ ...-build-perl_0.4229.bb => libmodule-build-perl_0.4231.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/perl/{libmodule-build-perl_0.4229.bb => libmodule-build-perl_0.4231.bb} (95%)
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 07d9a9e32d..1d159c5fd0 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -44,6 +44,8 @@ SIGGEN_EXCLUDERECIPES_ABISAFE += " \
-   opkg-utils \
-   gstreamer1.0-meta-base \
-   ca-certificates \
-+  shared-mime-info \
-+  desktop-file-utils \
- "
+diff --git a/meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb b/meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
+similarity index 95%
+rename from meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb
+rename to meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
+index e3ba40d96c..b3bc314ee7 100644
+--- a/meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb
++++ b/meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
+@@ -15,9 +15,9 @@ LIC_FILES_CHKSUM = "file://README;beginline=949;endline=954;md5=624c06db56a2af4d
  
- SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+ SRC_URI = "${CPAN_MIRROR}/authors/id/L/LE/LEONT/Module-Build-${PV}.tar.gz \
+            file://run-ptest \
+-          "
+-SRC_URI[md5sum] = "1447d9e02e63f7a1643986789a8f1ba9"
+-SRC_URI[sha256sum] = "1fe491a6cda914b01bc8e592faa2b5404e9f35915ca15322f8f2a8d8f9008c18"
++           "
++SRC_URI[md5sum] = "066b193e461d7dfe1eca17a139353001"
++SRC_URI[sha256sum] = "7e0f4c692c1740c1ac84ea14d7ea3d8bc798b2fb26c09877229e04f430b2b717"
+ 
+ S = "${WORKDIR}/Module-Build-${PV}"
+ 
 -- 
-2.25.1
+2.25.0
 
 
