@@ -1,49 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
-	[209.85.219.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CB1F0616F4
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 90395616E1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 14:55:04 +0000 (UTC)
-Received: by mail-qv1-f66.google.com with SMTP id y2so5776148qvu.13
+	Tue, 25 Feb 2020 15:11:36 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id x1so1632447iop.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 06:55:06 -0800 (PST)
+	Tue, 25 Feb 2020 07:11:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=zp8zd2qlv+GBsj2HTB6sdVUEWDwsmk4Fj2OJEE73Ads=;
-	b=UptQYA3xHj6oFxMnmdoF2U37b/LUez/AvoDRgwpZm1DRzAq9cz/Qeu6hiKjaDvlPiP
-	BbDWkCMFz1j1/l1Yy7WkaH1lteG8p1LK4f+SCf2ZcdwbWOI+4duu4jQQQ4O3lpoNO9Ql
-	bS71eQFJjUrMVKTgeIqauZ/MeGLCFkZ0QIocG8tVtNv3d6M6gBHnpJaP9WJvuoC88soW
-	iFl1+K+iR/Oa4WGS9jh1jwhCVlrExNsSmarcN8HxrkPt2SKLvjeToZ+ZBVtgCpEgxm4N
-	GDITI1pa7sQhTJHmHxV1Gruw++kPzmUW90hMJg+6iq0Y110btGesyms9ENq72Q2pfKix
-	CCEw==
+	bh=wjqpKPG8rxK6Vm0MhqJDYjuMnxPZ6XVAhPNIjM2qLVE=;
+	b=QWr1QdFkXGb2Q+1Lo5huN5ZxXN2cwtFjgACgTJd6IghQA2txPCGjLq1faxrAYUKv6o
+	25OskzkNxtEPhC9LhYQutqTAie38U/J8C4YdIqAOIup3eqOtkKB6SHrCuZz+YIB3HG2Q
+	Y9/JY8Xz5GQeIq8GEOFEs+rIHK28O7gmVPfpw7qdFHZm7uDkeUh3ekRONxhil+Y7TVs3
+	0KceBVZPw+ThFnTdvpoNYhq12hVijYSTlcQQKIyL65clG15nM3bhHHuOnf1A7Na66SO2
+	4REsdChGhj8YQIG9y2StDxXzazxsYeLI9LbRVD7Kn64uTiZtOHVP283uDf1XSCiyVpR+
+	IvBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=zp8zd2qlv+GBsj2HTB6sdVUEWDwsmk4Fj2OJEE73Ads=;
-	b=sNCUPp1rwZ46NezjiNiI4tKW7+QJEKujuNvFdgmaq3SIrtWpU2VSzn4CwI8XjYKPai
-	sa7XZKhoVmO8vE8rCwffgvNrR1jClWJJwzdfp9boBuGAqOaGrTJ/xca39rc8Ptw9HuI7
-	PYAaQaqolbXNPRSrvlv/9PUk4Do39PfoEzeeiUhc9X0GNPhtDKR5Ojullkg15b25KEY0
-	mWv+brwmoFXrFtnFHlhK6lrSzy59Esx6ITbv7/YlDd3zCY3m+uKUYVI2jGJ6Eoh4iobN
-	/MnAZ/nO8eYMlhDdJaeuvoEbNnhtA/ATyK1aS2Pf29GfdOG6HqBvW1+fYK9E64n4yMAY
-	15SQ==
-X-Gm-Message-State: APjAAAX5sVVl3EjQPRX6pMXMyibkUiRxbpsCkBJMjREyFXLbrQ+P8iMU
-	IU70hjWOQ5BZxXVLxS2TMJBJWrFlV2mSps/HUXI=
-X-Google-Smtp-Source: APXvYqy9wg2XFQySe5eqakH/3KuLwNnquQGFiF46mRlkEFnqXltMPZ94F4rwFxVnHiuHQhYjRlDcwXgiDBp52kJzln8=
-X-Received: by 2002:ad4:55e8:: with SMTP id bu8mr51574289qvb.61.1582642505420; 
-	Tue, 25 Feb 2020 06:55:05 -0800 (PST)
+	bh=wjqpKPG8rxK6Vm0MhqJDYjuMnxPZ6XVAhPNIjM2qLVE=;
+	b=erZTgjjVpwwErcqdYdvqvFqFGhhufMVDZph1xkgard33FzbQAlBBB5kncmQTejO0LG
+	cK/5w8PuN/5OKosP8YveUNgJj8rQstGrLNu2hvzmWO+TMGtUIadiAOdFB5TIgcWHhb4g
+	VChN++u9+gLA8lZIfaWR2DANQ7Cg298bapZjLXXGjlqCJ2zGVWgYVUUheLzVeEiN0OYy
+	eqQbTShQADuVVftTc+Gp1SHmy39Ev4WnH31DYoPTNIF9u8nUXse3RBAqMhupJENUlWxa
+	IQQmDl7jS9jOoyp0/KhLAj0EWizM+nZgtUrXqGeS2ZALYfQXffOom7ShVpSp4kW9M4Xq
+	VvgQ==
+X-Gm-Message-State: APjAAAWvXY/3Vb0GZEkhsrpWK+Gzo7x+bdDB8giapOx2B83dyGTDcxPu
+	wdPAKWQjVAf3NqhTOwSpxNPw4XetkWte+7nf7aE=
+X-Google-Smtp-Source: APXvYqycK5CtJGXI1lY0+FoxsmPdo1GOlUHss5DjDdbp8SqPB1zkpJs3Ju4Lr1gpdZFk7S7GSYy3b9Dvbh8hQaSECGk=
+X-Received: by 2002:a6b:740c:: with SMTP id s12mr62890543iog.108.1582643497339;
+	Tue, 25 Feb 2020 07:11:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20200220234829.12306-1-schnitzeltony@gmail.com>
-	<20200220234829.12306-2-schnitzeltony@gmail.com>
-In-Reply-To: <20200220234829.12306-2-schnitzeltony@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 25 Feb 2020 06:54:39 -0800
-Message-ID: <CAMKF1soeWNE-VZ6rtO=5fdHG2bopaVTQH9mj4hAQ0aJH_bnhGg@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+References: <20200225054406.867243-1-raj.khem@gmail.com>
+	<29622e48fc7ebf80aa002b2d1903f6d970af9d86.camel@linuxfoundation.org>
+	<CALbNGRRvG9BT3noMne1c4Xc7ALJjT5KT+3eZtaMun=bT5g772A@mail.gmail.com>
+	<0a3ecc0796a2737d8396d39c38bb08b2331ef08b.camel@linuxfoundation.org>
+In-Reply-To: <0a3ecc0796a2737d8396d39c38bb08b2331ef08b.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Tue, 25 Feb 2020 16:11:26 +0100
+Message-ID: <CALbNGRS6dy2_3pbDoziJR+_AR_FnTpR75b9C8M9z4FtumeFAtQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2][master-next] webkitgtk: enable gobject-introspection for armv7ve - it builds without issues
+Subject: Re: [PATCH] mime,mime-xdg: Conflict with allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,47 +58,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 14:55:06 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 15:11:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 20, 2020 at 3:49 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
-m> wrote:
+On Tue, Feb 25, 2020 at 3:07 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> Maybe armv7a can be re-enabled either but due to limited resources there =
-is no
-> chance for me to test.
+> On Tue, 2020-02-25 at 13:24 +0100, Andreas M=C3=BCller wrote:
+> > On Tue, Feb 25, 2020 at 11:21 AM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > On Mon, 2020-02-24 at 21:44 -0800, Khem Raj wrote:
+> > > > mime and mime-xdb classes add dependencies ( both runtime and
+> > > > buildtime
+> > > > ) on target packages, therefore recipes using allarch should not
+> > > > inherit
+> > > > mime/mime-xdg or vice-versa, this fixes subtle sstate mismatches
+> > > >
+> > > > [YOCTO #13805]
+> > > >
+> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > Cc: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> > > > ---
+> > > >  meta/classes/mime-xdg.bbclass | 5 +++++
+> > > >  meta/classes/mime.bbclass     | 5 +++++
+> > > >  2 files changed, 10 insertions(+)
+> > >
+> > > Is this the right way to fix this? mime info probably is arch
+> > > independent, so should we be whitelisting some of the dependencies?
+> > >
+> > > Cheers,
+> > >
+> > > Richard
+> > >
+> > Khem and I had a short discussion about this [1]. His first approach
+> > was to remove DEPENDS. As far as I remember the deps were added to
+> > avoid QA warning.
+> >
+> > Honestly I never understood why these are spawned. If there is a fix /
+> > workaround this could be reduced to rdeps which an be handled for
+> > allarch.
+> >
+> > [1] https://github.com/YoeDistro/openembedded-core/commit/5605a9cf78c37=
+31e2cc055cd4f8cc88a0b3d7e26
 >
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> ---
->  meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 1 -
->  1 file changed, 1 deletion(-)
+> I'd guess something like:
 >
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-=
-sato/webkit/webkitgtk_2.26.4.bb
-> index fa109446d1..a1dba73c51 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-> @@ -127,7 +127,6 @@ ARM_INSTRUCTION_SET_armv7ve =3D "thumb"
->  # qemu: uncaught target signal 11 (Segmentation fault) - core dumped
->  # Segmentation fault
->  GI_DATA_ENABLED_armv7a =3D "False"
-> -GI_DATA_ENABLED_armv7ve =3D "False"
+> SIGGEN_EXCLUDERECIPES_ABISAFE +=3D "\
+>   shared-mime-info \
+>   desktop-file-utils \
+> "
+>
+> in layer.conf might be the correct fix. The other approach is just a
+> workaround.
 
-Introspection is now hanging forever in qemu-arm when building with musl.
-Perhaps just turn them into
+That would fix rdeps allarch -> cross only - right?. How to get rid of
+the deps warning? @Khem: Do you have some logs showing what warning it
+was exactly?
 
-GI_DATA_ENABLED_armv7a_libc-musl =3D "False"  please
-
+Andreas
 >
->  # Can't be built with ccache
->  CCACHE_DISABLE =3D "1"
-> --
-> 2.21.0
+> Cheers,
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Richard
+>
+>
+>
 
