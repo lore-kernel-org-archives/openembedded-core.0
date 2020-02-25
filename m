@@ -1,36 +1,50 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CFD2616C8
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com
+	[209.85.221.170])
+	by mail.openembedded.org (Postfix) with ESMTP id D40E261813
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 20:07:53 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48Rqjh1b6mz3Q;
-	Tue, 25 Feb 2020 21:07:51 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582661272;
-	bh=wIjyMxq4lYYZKYvF3Lw+JSztZcjKl6T1ce5wVcWkU7w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U/2BVsM9QubMpppgyPwMuCvCWvfX8PCONhdW7DoQXvDXf0XJRvfnJ3N4eiqGFgkQ+
-	3Q3DprLERYRatvcjh/CaiiIffUWjIttu4iqW5rof7OJyjbG1scp8i2cQ/h/zHhhhBT
-	d+h3p0qfm4+LCN/f162iQw1/Xgxt0cHQ4EkncNR05iaScWTfGJ11Kl+1laYAOnaU4M
-	uLqmLj7ACEdzUXw9uyD+1hVW38MvhbEL++8NghG8IWL/xbAiKLdu1AZfxW0OqMEqBt
-	lfiK+m+X85jOzEzUGQE+nY86HqkqaZN28Hr/AEMUXwTZeLEQslK4e7+Yt3iMsziXNe
-	f1RMOOUD80PYgYUWmJtVjUB97B+qYEhGj9nec6/QsWOJXPTUJZx/A9jH/EminW+Ucp
-	KY/q4WMidJtL+09DlVfsH2hfV8/U6b4KANOTEIu2F1INyYXuTNkVeiB6m1LDdbl6PT
-	0S5mR4uURuxGdFTW14jFx2g3LGH1VKb6nwA55Jtr5ATTR8zJo77wr85i25LSWtFROD
-	VZXudaH1uDcFGd7+JRr2VzAOQ4dVuc2c70NnxS6LExDfpM2Zh84B6vUXgiPheU79p4
-	0O2wCgvucGptdOB9SrZc39D00eU7c0IY0bZ8TlvAV8jiQtakuNx9DzTgZxdo7vENKl
-	O4WrwCjoUEJm9HhC4ZqVDy1M=
-Date: Tue, 25 Feb 2020 22:07:49 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Jens Rehsack <sno@netbsd.org>
-Message-ID: <20200225200749.GA16017@localhost>
-References: <20200224143920.19383-1-sno@netbsd.org>
+	Tue, 25 Feb 2020 20:25:15 +0000 (UTC)
+Received: by mail-vk1-f170.google.com with SMTP id b2so131721vkk.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Feb 2020 12:25:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=5abkP/uDZUuZwcTyumVGlCVkuTa3Kg9S8GKAActtbZ8=;
+	b=NODtFTND0adGfHdB1kC9RMhy+bg7N2U/K5sP8w9jwN4N4og1nHIS7LIeA9HwbTyKL9
+	Xrof5NzCTHLZF+uj1B2Q/IuM/P2MtpxvEXr3D3s7FmYE9TTpEyu+s7tASgJIk0epCdEy
+	AwncqM2FsTUxos3FqsQmQqaNU8HdtuJBgcoBSxn9e5o59YuUgtPlp/2flpQQ1QIOgpYp
+	Q8+5iS6nNP9BiwpIS/bDeQR9MO/4ZBtBmIOGMnK1XFnceHwyU1pnlW/FbVztSAwZf+ao
+	raK2UAPYalQrWEIyig3yTlKrQLyRxMSDXOhE6Lk1yX6SCIvkaES4iaCbgbbgl9siWRzh
+	X1nw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=5abkP/uDZUuZwcTyumVGlCVkuTa3Kg9S8GKAActtbZ8=;
+	b=koKuz3Ogkbw0UrOldN2Voy1c3KHcSna05oMIx0yc3lOteDMygtl7ZyLWw06yg0rEPH
+	RnQ54SRkaAnSvCg+N3IFQ+yT+4XM7s7xQttti1ZNj4yVs55q5FXLbUvgsWalA9tg3Ghf
+	6VQvNyD4fa18kpaIWp9LJSstQFaqtObu5f2ervk1sgc3jayTs7e6sZDuL7Vb7YCkfwhg
+	J99AAb5oCVjQg/7y5VjDWe1YaD9R+6vKyTBL9dLqYjxa9W8E/p8FC1B+sW4wDqvyfTDl
+	eNoRSvW19ZIkj/gHjzK91NF0yq7+7uiKfFeKyIYXIVcyu7Aglxg9eIsjuQ2F9FHfiP2l
+	KI/Q==
+X-Gm-Message-State: APjAAAWad7ceH6kf+T/0fiNsgfqaXEAYgnhtuvAtfODPDT14C2oWnesK
+	mm7napIYM4QWtam2c7dmDVmQHq+ionN5UD2Ph0Y=
+X-Google-Smtp-Source: APXvYqzevTE0yXhJ0+Tck6U8wuNRnZeJdEbVZ2JuFSaL9irWNf21u2bzDhO1opTMj5e2uHiEvtdSBQk6/7SBvtdbDOs=
+X-Received: by 2002:a1f:7cc2:: with SMTP id x185mr663461vkc.1.1582662316711;
+	Tue, 25 Feb 2020 12:25:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20200224143920.19383-1-sno@netbsd.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] make: 4.2.1 -> 4.3
+References: <20200221224537.4052134-1-raj.khem@gmail.com>
+	<20200221224537.4052134-3-raj.khem@gmail.com>
+	<CAJ86T=WpKBfD119m1G5jgW4Y1UA---WWSc0UkMfRzi8oEiwPTA@mail.gmail.com>
+	<CANNYZj9XLm-OyAzMHCDauggbpUVBfnCLq1VXFZjw1eaWM0YyQg@mail.gmail.com>
+	<CAJ86T=W1n2GoOa7wSdKzZ1rPOr1RkMgAH7b+CKZypXBi66HQag@mail.gmail.com>
+In-Reply-To: <CAJ86T=W1n2GoOa7wSdKzZ1rPOr1RkMgAH7b+CKZypXBi66HQag@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 25 Feb 2020 21:25:05 +0100
+Message-ID: <CANNYZj94dRzpG+VcHEOwtgsYjm-wKj67eVmEvDNEUDL+j8gxAw@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] ninja: upgrade 1.9.0 -> 1.10.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,23 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 20:07:54 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 25 Feb 2020 20:25:16 -0000
+Content-Type: multipart/alternative; boundary="0000000000002fe531059f6c49cc"
 
-On Mon, Feb 24, 2020 at 03:39:20PM +0100, Jens Rehsack wrote:
->...
-> -SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.bz2 \
->...
-> +SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.lz \
->...
+--0000000000002fe531059f6c49cc
+Content-Type: text/plain; charset="UTF-8"
 
-Please use the .tar.gz instead.
+On Tue, 25 Feb 2020 at 20:57, Andre McCurdy <armccurdy@gmail.com> wrote:
 
-Building lzip-native just for being able to build make is not worth the 
-small space savings, especially since this creates a bottleneck that
-can slow down the whole build.
+> Thanks. The maintainers sometimes forgetting to reset the author was
+> the part I was missing. Maybe the patch checker could be updated to
+> check for that?
+>
 
-cu
-Adrian
+The patch checker already does this too :)
 
+Alex
+
+--0000000000002fe531059f6c49cc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 25 Feb 2020 at 20:57, Andre McCur=
+dy &lt;<a href=3D"mailto:armccurdy@gmail.com">armccurdy@gmail.com</a>&gt; w=
+rote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">Thanks. The maintainers sometimes forgetting to reset the =
+author was<br>
+the part I was missing. Maybe the patch checker could be updated to<br>
+check for that?<br></blockquote><div><br></div><div>The patch checker alrea=
+dy does this too :)</div><div><br></div><div>Alex<br></div></div></div>
+
+--0000000000002fe531059f6c49cc--
