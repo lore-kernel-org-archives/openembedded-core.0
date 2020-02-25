@@ -1,49 +1,40 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 45D6060154
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 49EAF61809
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 11:16:22 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t3so14222011wru.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 03:16:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=E6VyDMcHUZrKvuTC8qzLjEMXtBy9pzhR2McnU46zW1M=;
-	b=ZtPFFq+bxBOYZcf9mPxLD3yRKCGh72xZgCAztB3s99pyQcIOWZQtRSoMTjb6mOXt5x
-	WuzKo6PCP8vvGltvIv51ydy22qZyvqhCLvx9DaghYQWwwOE1vW+VZMPZG5oj1nC/sKEe
-	LnYKWCx7GF5IAeg/c523rR9eRLK3i2WIQFuTUtp9KoGb30Rk9YuYad9ay9W8LMQ4xau4
-	DmCFdnVEhVKoAFOA8k+iPJUHoqb41C/p7ZTksb/LW96ZjrVxL7yV1+aIt8IM2ia0QU5p
-	K+sC9VyxNBVEPmJT6llKLO+1XN9t09rbm8fWAW5a/LyEVRJGi5mrcysjoAETcLQ9BIfu
-	6/bw==
-X-Gm-Message-State: APjAAAUkOeR5x6QF1znbN3CTg2NUzJn6uGmCLWUgdP1phiq4eJF0vC29
-	RVq+4h/HIQZM209MyCfIR7k=
-X-Google-Smtp-Source: APXvYqyZozJl1RfA1VmX4W2eoZOAItfz75XqKQZFSVMNJ9NnRaVX+aq83etThSvTCtYzqZuOUD2qIQ==
-X-Received: by 2002:a5d:5044:: with SMTP id h4mr68948322wrt.4.1582629382765;
-	Tue, 25 Feb 2020 03:16:22 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	f1sm23677833wro.85.2020.02.25.03.16.22
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 03:16:22 -0800 (PST)
-Message-ID: <0018e8670b37836cfae92fd7332e927ec49f19ca.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Adrian Bunk <bunk@stusta.de>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Date: Tue, 25 Feb 2020 11:16:21 +0000
-In-Reply-To: <20200224151041.GE27036@localhost>
-References: <20200224125955.26771-1-git@andred.net>
-	<20200224134022.GB27036@localhost>
-	<6c0d874e887dc5a2355d236d77e8ec771ea729f9.camel@andred.net>
-	<20200224143155.GD27036@localhost>
-	<5639b75022c28419467aefb8de62c6ab24f9eae6.camel@andred.net>
-	<20200224151041.GE27036@localhost>
-User-Agent: Evolution 3.30.5-1.1 
+	Tue, 25 Feb 2020 11:19:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48Rc0Y25cMz4M;
+	Tue, 25 Feb 2020 12:19:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1582629597;
+	bh=ttd5f8FIO6kHwjUtEQet94gGmFA0VXHgnxDosr2o+00=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kuapmNFrSP3Mu3FiaQatldpUA21qZlOQNZkrYrNSPto1KlII0VTY0EQOGCO4Oygo+
+	myasbC+S9udMyQQy23f27X+w//W4GZHR2yxQW7BWcXMRADlr6kbEQuFw8b+bRFCDzB
+	YFJdCq16glyEviJSBs1mwGF6d6lqLMCseOdopn/nob+0d2Bu8P1eLuWpa8HssPY6UI
+	Yx23yiJdlIHXZHSXcmFH0T7cE6HrRsrDo8lzPZqRUnwdMl8MZR/zBx85vw2jOz83HW
+	GWHfqB1saLCh7VvWFl99IPuatK13i84sCEUQOQoTXLuzeYLfLaog8/ayWpKK7WLGoF
+	GcWdWexeLyLPZ0XTcEdJia3ri3DyHuvBSKdj3cFiOxqyAeRzox5TpeZMCEFv8YCWIh
+	J0Bq59LWcoT+eS17oGMKstp4YC1O0hRr8cmVzqXA5kAqzBGdqjkA3/jZMww+Xak9qz
+	tpSfX0a6RnJV5rfg0x/PkNzdV/grO/y0JynJq1dx0CACzJbbK18dk9E6SLqhbPmgS8
+	I0NLcyz7DWPCsoKaguP+kGWUgZk25c0P/GndxXZ1alH8VamBxYzfVn3sdpm9tfforV
+	LmIO+MA0C7Ztu+sGib3xU5I8g6gBdASk5RxmA0Og6MTGYtJULCU3Vshcbs39YNfiR8
+	i5j2M7gxGiIyiAGq/Cw9XaO4=
+Date: Tue, 25 Feb 2020 13:19:55 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20200225111955.GA13902@localhost>
+References: <20200223182933.6168-1-bunk@stusta.de>
+	<fd59ef897ef077f4f0160e1e2d7c95466c75a3f7.camel@linuxfoundation.org>
+	<20200224104635.GA27036@localhost>
+	<20200224140801.GC27036@localhost>
+	<CANNYZj91N68ocXm=UKzcH6U7nEnVLuQzDStR3O0_cO3GsY9uag@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: reproducible builds involving xz (was: Re: [PATCH v2] bitbake.conf: omit XZ threads and RAM from sstate signatures)
+In-Reply-To: <CANNYZj91N68ocXm=UKzcH6U7nEnVLuQzDStR3O0_cO3GsY9uag@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/6] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,51 +47,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 11:16:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 25 Feb 2020 11:20:00 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Mon, 2020-02-24 at 17:10 +0200, Adrian Bunk wrote:
-> On Mon, Feb 24, 2020 at 02:58:21PM +0000, André Draszik wrote:
-> > On Mon, 2020-02-24 at 16:31 +0200, Adrian Bunk wrote:
-> > > On Mon, Feb 24, 2020 at 02:21:57PM +0000, André Draszik wrote:
-> > > > ...
-> > > > Once the artefact has been created, it doesn't matter anymore how it
-> > > > was created, as long as the high-level options aren't being changed (like
-> > > > an explicit compression level, checksum method, etc.)
-> > > > ...
-> > > 
-> > > meta-poky/conf/distro/poky.conf:INHERIT += "reproducible_build"
-> > 
-> > I still maintain these are two different problems. I am not trying to fix
-> > reproducible builds.
+On Mon, Feb 24, 2020 at 10:45:33PM +0100, Alexander Kanavin wrote:
+> On Mon, 24 Feb 2020 at 15:08, Adrian Bunk <bunk@stusta.de> wrote:
 > 
-> But won't fixing reproducible builds require reverting the patch you 
-> suggest for fixing your problem?
+> > Alexander, wayland support in webkitgtk requires mesa built with x11
+> > support (otherwise gl.pc is not available).
+> 
+> I had a look; I'm not sure I understood the options correctly, but the
+> issue is due to this:
+> 
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl
+> opengl', '' ,d)} \
+> 
+> The above works if both opengl and x11 are enabled as DISTRO_FEATURES, but
+> if x11 is not enabled, then it should be "webgl gles2". Can you try that?
 
-No, I don't think so.
+Thanks, that did the trick.
 
-To fix reproducible, you need to either patch xz to always behave like in
-multi-threaded mode, even when --threads=1 was given in the arguments.
-Additionally, a patch to xz to allow it to scale down the number of
-threads, but not the compression level (--no-adjust prevents both),
-could be useful.
+Expressing everything might still be problematic, is there a way to set
+REQUIRED_DISTRO_FEATURES to
+  x11 || (wayland && opengl)
+?
 
-Alternatively, you need to decide if you want to support it with
---threads=1 or --threads >= 2, and issue at least a warning in
-reproducible_build.bbclass if somebody deviates.
+Using webkitgtk with x11 without opengl might not be common,
+but it is explicitly supported upstream.
 
+> Alex
 
-You should also calculate the memory requirements, reduce the number
-of threads to fit, and again give at least a warning if the compression
-can not be done without changing compression level after that.
-
-I still maintain that none of that is related to my original patch.
-
-
-
-Cheers,
-Andre'
-
-
+cu
+Adrian
 
