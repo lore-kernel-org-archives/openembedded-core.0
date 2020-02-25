@@ -1,57 +1,49 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C5F46168A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
+	[209.85.219.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CB1F0616F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 14:34:13 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id x14so14241955ljd.13
+	Tue, 25 Feb 2020 14:55:04 +0000 (UTC)
+Received: by mail-qv1-f66.google.com with SMTP id y2so5776148qvu.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 06:34:14 -0800 (PST)
+	Tue, 25 Feb 2020 06:55:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=MgzepiGod7YAinBmN3MoHsah6Sa2dpjToUvUjkuZM8o=;
-	b=oDoQQa8SJo6JWJU6x0tRhRt8CGwzHu8+UXoHoojineEfo+ReyVOEvuRwP+HwrlgewQ
-	0ngh1WtmOjxu8R4hIGeCWcGkLZQPZHE9jeLkEgkxahAnzmvYZJ+Je9V5uWDU854yU/QE
-	8pGw/W9/bbxaoo3a5pJM3U3E4gzYakZKrVQ2b5dOjhELqiFABPXXYVzZkxuBs8qyFnPS
-	HZ/LuJaIxg3FnAfW9Fv7ODszfSbb1nwqj86n4/pEybwM5F7yNw10ADLiqA82pzPU3guD
-	YjRBC2roO8M3611QIuWfegQx52/qge5zRcjG8lbszDzUY5wJatoH6Wdi1PE1WAWe7Ovh
-	zpRg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=zp8zd2qlv+GBsj2HTB6sdVUEWDwsmk4Fj2OJEE73Ads=;
+	b=UptQYA3xHj6oFxMnmdoF2U37b/LUez/AvoDRgwpZm1DRzAq9cz/Qeu6hiKjaDvlPiP
+	BbDWkCMFz1j1/l1Yy7WkaH1lteG8p1LK4f+SCf2ZcdwbWOI+4duu4jQQQ4O3lpoNO9Ql
+	bS71eQFJjUrMVKTgeIqauZ/MeGLCFkZ0QIocG8tVtNv3d6M6gBHnpJaP9WJvuoC88soW
+	iFl1+K+iR/Oa4WGS9jh1jwhCVlrExNsSmarcN8HxrkPt2SKLvjeToZ+ZBVtgCpEgxm4N
+	GDITI1pa7sQhTJHmHxV1Gruw++kPzmUW90hMJg+6iq0Y110btGesyms9ENq72Q2pfKix
+	CCEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=MgzepiGod7YAinBmN3MoHsah6Sa2dpjToUvUjkuZM8o=;
-	b=F7MIz7HPUYh0D2uKHkVoC+5KIf6nGV27NG9wCygljfxVFd8E5ANbQCKqzJT0MVpGnI
-	m37m/RVWCOdoTym3eD2uk/+Lo/5kPK5eiB5PLYnW0H9simDechv+FGHL0QbEx17BNLTr
-	mM5eqnCHwb1DIKGBQrTipCBpPzhHexCjd8M0k2UTwjl4VNVHmx0eKoIbY2czNoB49KaM
-	lU1xoC0cLu1Lk1/ugunhmmH9EpmjG4NyTkh/Ybsw7jwee6sQxXEjG9V9tDhuLgEauN7x
-	i+tBFlQ46uW7pZWpZ+blXW/OrwatEkcFk9Ea8kLJakvoVjMimhGdJ1lmIiIIJt9KIPtF
-	jK5w==
-X-Gm-Message-State: APjAAAW6AG1QoLpoX4fOUBwcuVra/wsL45Y9cjKf301lmQ/zfeeKl1lt
-	T0vrtpz4675PF7lOUsg7pAN2xuoZ
-X-Google-Smtp-Source: APXvYqzeLrq5jytKt59f0dgiOYyAmrhvyw8fMjn9nBW11qA/YjXdrOpVJKpfECZsqWmnh2cgWMk1mQ==
-X-Received: by 2002:a2e:9052:: with SMTP id n18mr33586503ljg.251.1582641253388;
-	Tue, 25 Feb 2020 06:34:13 -0800 (PST)
-Received: from localhost.localdomain ([213.185.29.22])
-	by smtp.gmail.com with ESMTPSA id
-	e25sm7822298ljp.97.2020.02.25.06.34.12
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 25 Feb 2020 06:34:12 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20200222185400.32136-1-jpuhlman@mvista.com>
-	<a133657b-8b8f-a4e9-5999-41781f74db6d@gmail.com>
-	<42d690f3ae40a420179cb85453d2722c153c2d8c.camel@linuxfoundation.org>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-Message-ID: <bf82e526-a78b-14b7-42cc-b5fbb467e35b@gmail.com>
-Date: Tue, 25 Feb 2020 15:34:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=zp8zd2qlv+GBsj2HTB6sdVUEWDwsmk4Fj2OJEE73Ads=;
+	b=sNCUPp1rwZ46NezjiNiI4tKW7+QJEKujuNvFdgmaq3SIrtWpU2VSzn4CwI8XjYKPai
+	sa7XZKhoVmO8vE8rCwffgvNrR1jClWJJwzdfp9boBuGAqOaGrTJ/xca39rc8Ptw9HuI7
+	PYAaQaqolbXNPRSrvlv/9PUk4Do39PfoEzeeiUhc9X0GNPhtDKR5Ojullkg15b25KEY0
+	mWv+brwmoFXrFtnFHlhK6lrSzy59Esx6ITbv7/YlDd3zCY3m+uKUYVI2jGJ6Eoh4iobN
+	/MnAZ/nO8eYMlhDdJaeuvoEbNnhtA/ATyK1aS2Pf29GfdOG6HqBvW1+fYK9E64n4yMAY
+	15SQ==
+X-Gm-Message-State: APjAAAX5sVVl3EjQPRX6pMXMyibkUiRxbpsCkBJMjREyFXLbrQ+P8iMU
+	IU70hjWOQ5BZxXVLxS2TMJBJWrFlV2mSps/HUXI=
+X-Google-Smtp-Source: APXvYqy9wg2XFQySe5eqakH/3KuLwNnquQGFiF46mRlkEFnqXltMPZ94F4rwFxVnHiuHQhYjRlDcwXgiDBp52kJzln8=
+X-Received: by 2002:ad4:55e8:: with SMTP id bu8mr51574289qvb.61.1582642505420; 
+	Tue, 25 Feb 2020 06:55:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <42d690f3ae40a420179cb85453d2722c153c2d8c.camel@linuxfoundation.org>
-Subject: Re: [PATCH] readline/ediline: Fix conflicting manpages.
+References: <20200220234829.12306-1-schnitzeltony@gmail.com>
+	<20200220234829.12306-2-schnitzeltony@gmail.com>
+In-Reply-To: <20200220234829.12306-2-schnitzeltony@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 25 Feb 2020 06:54:39 -0800
+Message-ID: <CAMKF1soeWNE-VZ6rtO=5fdHG2bopaVTQH9mj4hAQ0aJH_bnhGg@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2][master-next] webkitgtk: enable gobject-introspection for armv7ve - it builds without issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,38 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 14:34:13 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Feb 2020 14:55:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2/25/20 2:33 PM, Richard Purdie wrote:
-> On Tue, 2020-02-25 at 14:08 +0100, Jacob Kroon wrote:
->> On 2/22/20 7:54 PM, Jeremy A. Puhlman wrote:
->>>    BBCLASSEXTEND = "native nativesdk"
->>> +
->>> +inherit update-alternatives
->>> +
->>> +ALTERNATIVE_PRIORITY = "90"
->>> +ALTERNATIVE_${PN} = "history.3"
->>> +ALTERNATIVE_LINK_NAME[history.3] = "${mandir}/man3/history.3"
->>>
->>
->> With this change (I think), I now get a file
->>
->>> +lrwxrwxrwx root       root               38
->>> ./usr/share/man/man3/history.3 ->
->>> /usr/share/man/man3/history.3.readline
->>
->> in my rootfs, which is wierd since I don't have any other man pages
->> in my image..
-> 
-> At a guess, ALTERNATIVE_${PN} should be ALTERNATIVE_${PN}-doc ?
-> 
+On Thu, Feb 20, 2020 at 3:49 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
+m> wrote:
+>
+> Maybe armv7a can be re-enabled either but due to limited resources there =
+is no
+> chance for me to test.
+>
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> ---
+>  meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-=
+sato/webkit/webkitgtk_2.26.4.bb
+> index fa109446d1..a1dba73c51 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+> +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+> @@ -127,7 +127,6 @@ ARM_INSTRUCTION_SET_armv7ve =3D "thumb"
+>  # qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+>  # Segmentation fault
+>  GI_DATA_ENABLED_armv7a =3D "False"
+> -GI_DATA_ENABLED_armv7ve =3D "False"
 
-I can confirm that changing the recipe according to RP's suggestion gets 
-rid of that file in my image.
+Introspection is now hanging forever in qemu-arm when building with musl.
+Perhaps just turn them into
 
-Thanks,
-Jacob
+GI_DATA_ENABLED_armv7a_libc-musl =3D "False"  please
+
+>
+>  # Can't be built with ccache
+>  CCACHE_DISABLE =3D "1"
+> --
+> 2.21.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
