@@ -1,51 +1,54 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9BF8561824
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 40F6E6182B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 13:51:21 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id j17so16321679edp.3
+	Tue, 25 Feb 2020 14:07:43 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id g3so14840186wrs.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 05:51:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=iTnxX5T+RUWhlnOpcbgNVM8DaLg5pzjK6ZnLyIHlE1Q=;
-	b=bcxLFqncDIQpagQcMR5w5OxN1phvfs1EOtwgIh2uvQ2znKdWu4k7q2i6NaAjxWe7na
-	V/jusolMhDDw3D9/l+G+327Ft9+g0StCiP5akJE51h6gJRJ9ZqMT5ZFy7YYoaF8CRtek
-	DWWP4FlmxPy2Td1gklQAbbl7BVCxSUau7gOVZ3XzmUnetm4z3t/FWxWKMiIL3uHMkbFW
-	ypRuELBMNiGhc6uGRHyKjP21dxmRBRz6RKu2Z4iGI3XZx+rOLhWMBCGa5QNn45T/R8Yl
-	+B02tKnXTqs9sGiv/rQAaaYHqjm8vZDRVwwgs/TTKjvj3LTt6q5cIRvYvmtro7Wpw01B
-	NHKg==
+	Tue, 25 Feb 2020 06:07:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=ILW72e89NhLhezidEzbHAaHdGbYOyBHRFKQHihBNSLw=;
+	b=abOqnZahxAl7fGDmhd6K2bMnAZdRNmvNUDnDyeEIZMzWBjaJxukk4P/uwKpOShL8TL
+	59RbrsqcfWI0bJq0C9d4cOMnGe233Q74pyJhwKxgsLoHxNAgIfrvtx+my0Ea8vEt8nH7
+	CL23841HToCE9pF3j6OVo2koehsVyHCco7B1U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=iTnxX5T+RUWhlnOpcbgNVM8DaLg5pzjK6ZnLyIHlE1Q=;
-	b=GEHYbLufmkxg2iZ1MaZ5k3AjhaiBnVUIG/4oiHc4Iofu9Y/jolrl4+AcTYBYrkGkgt
-	e0TpnonKgck/eM/TuELzUTCkwo/R9Gjcc4dX6sNDu/wUPPHtIf67TWBknJ0DrbdKXlR+
-	642/PXkZSukw2xanwpeLM/I97GhVDGVdYgoEK/p3BNeEqxV3dRRLMKqNctbIXl30vuty
-	25OyoBJCo/qjPDIpIcA3/yUHw1tawqeAY6i8bgc76rWrj8+Msl496YhQbtzLMR2l1jZj
-	6Wx7IkgKTJZ11cW1xFeer9LuVcsMdU7//5XB5/fPMLVgu2V4iPY8GpqNAM2LZSBUDHxb
-	R8dw==
-X-Gm-Message-State: APjAAAVTRRlt00io/Oh31bu62tB+fq6oRWm+KmQModDire3wTtYmZ8FR
-	me5leWwQVwjA8wKuR/T2LVkD1W2sJAg/clQiBCaP64c/
-X-Google-Smtp-Source: APXvYqw9a9E8V6m8sfsaV5qbINmL/4/cPhz2z6RPPQD2z650CnONBZiFpFFKm9cquiN/eJ9rLqAZQbs8OT56zoLALqE=
-X-Received: by 2002:aa7:c616:: with SMTP id h22mr48743946edq.352.1582638681852;
-	Tue, 25 Feb 2020 05:51:21 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=ILW72e89NhLhezidEzbHAaHdGbYOyBHRFKQHihBNSLw=;
+	b=X6hiIJYMTWurZ2eTLFUdeRzRetEtFKkpXzKYG9w+bSjp4pVIo2Go9Sbtx2PD5Yli9i
+	wBTnmuMhbNv0RY+PmZisvQGLjcIf/Hh04I+ueUV3/xt/1UO16I5e6Nnh6Nh/8JTWpiJ4
+	+HuBezkPEGtR/McAfv2ZtTcXdf3xOVpDanqhoPgVPPT6OMfbYgQbltqknPDKLkf6i+Od
+	lXU+DUHFtL3E44dntrq68tQQNuzunC3mWWOyjipz7YWuq3UKh06JCVZXIMpXqDXstV4i
+	KQsw34SIwT6V90Xag9/AeYnueRyCElFZzolDdnC+h7sjr0hiEEOkooFEqOjWPTdesEQm
+	tkzw==
+X-Gm-Message-State: APjAAAWopAnussnltTrdfEalCOblGdjBCHlNNgP2iGB5FukK2NNSYYPe
+	mX1BVxkcXelRr5y3ceUT4oTZvQ==
+X-Google-Smtp-Source: APXvYqw4xxv24EFR+b7JEfJIhD5SWC5HX+sjt9upN8u5LvDV8Mx35W1qKTLf4oEsFkZ+I+0UIhfqDw==
+X-Received: by 2002:a5d:6690:: with SMTP id l16mr9282046wru.251.1582639663872; 
+	Tue, 25 Feb 2020 06:07:43 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	q12sm8810431wrg.71.2020.02.25.06.07.42
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 25 Feb 2020 06:07:43 -0800 (PST)
+Message-ID: <0a3ecc0796a2737d8396d39c38bb08b2331ef08b.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>
+Date: Tue, 25 Feb 2020 14:07:41 +0000
+In-Reply-To: <CALbNGRRvG9BT3noMne1c4Xc7ALJjT5KT+3eZtaMun=bT5g772A@mail.gmail.com>
+References: <20200225054406.867243-1-raj.khem@gmail.com>
+	<29622e48fc7ebf80aa002b2d1903f6d970af9d86.camel@linuxfoundation.org>
+	<CALbNGRRvG9BT3noMne1c4Xc7ALJjT5KT+3eZtaMun=bT5g772A@mail.gmail.com>
+User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-References: <1581991613-30949-1-git-send-email-li.zhou@windriver.com>
-	<CADkTA4Oo=uvRps0UUcbrk+eZDhaN3Fi8M-RDcdKuLz-zAOGM3A@mail.gmail.com>
-	<342f0a1b-aec2-932a-2a49-cd2b896d8822@windriver.com>
-	<CADkTA4Mp8rTZf2z3cCehWipMT66BXhyhkzfZQaB1LGqS88OEXw@mail.gmail.com>
-	<e817eb26-13ce-efb3-288f-09c654628971@windriver.com>
-In-Reply-To: <e817eb26-13ce-efb3-288f-09c654628971@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 25 Feb 2020 08:51:10 -0500
-Message-ID: <CADkTA4PXijN_vkuWGd6bSxyrUGRi227xZYe+v8HGiLUMRMzv4Q@mail.gmail.com>
-To: zhou li <li.zhou@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devsrc: fix missing generated files from the packet
+Subject: Re: [PATCH] mime,mime-xdg: Conflict with allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,130 +61,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 13:51:22 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 14:07:43 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 25, 2020 at 3:18 AM zhou li <li.zhou@windriver.com> wrote:
->
->
-> On 2/18/20 9:36 PM, Bruce Ashfield wrote:
-> > On Mon, Feb 17, 2020 at 10:58 PM zhou li <li.zhou@windriver.com> wrote:
-> >>
-> >> On 2/18/20 10:12 AM, Bruce Ashfield wrote:
-> >>> On Mon, Feb 17, 2020 at 9:07 PM Li Zhou <li.zhou@windriver.com> wrote:
-> >>>> The file arch/arm/include/generated/asm/unistd-nr.h is needed by some
-> >>>> external kernel module. Error occurs when building the module with
-> >>>> the SDK.
-> >>>>
-> >>>> Add arch/${ARCH}/include/generated dir and files under it to
-> >>>> kernel-devsrc package to solve this issue.
-> >>>>
-> >>>> Signed-off-by: Li Zhou <li.zhou@windriver.com>
-> >>>> ---
-> >>>>    meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++++
-> >>>>    1 file changed, 6 insertions(+)
-> >>>>
-> >>>> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> >>>> index b6f2dbc..8621fe1 100644
-> >>>> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> >>>> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> >>>> @@ -108,6 +108,12 @@ do_install() {
-> >>>>           fi
-> >>>>
-> >>>>           cp -a include $kerneldir/build/include
-> >>>> +
-> >>>> +       if [ -d arch/${ARCH}/include/generated ]; then
-> >>>> +           mkdir -p $kerneldir/build/arch/${ARCH}/include
-> >>>> +           cp -r arch/${ARCH}/include/generated $kerneldir/build/arch/${ARCH}/include
-> >>>> +       fi
-> >>> This is just papering over the real problem.
-> >>>
-> >>> Anything that is generated, should be regenerated when the headers are
-> >>> used/prepared.
-> >>>
-> >>> What is missing and/or why isn't that happening with this ?
-> >>>
-> >>> Bruce
-> >>
-> >> In some old version yocto, the file
-> >> arch/arm/include/generated/asm/unistd-nr.h can be directly used from our
-> >> sdk. So now it isn't permitted any more? And we should figure out how to
-> > Anything in the generated subdirectories of the kernel build should be
-> > regenerated when we do the make prepare/scripts/modules_prepare steps.
-> > If it isn't being regenerated, then we are missing something in devsrc
-> > that can regenerate them (either a step in the preparation, a
-> > Makefile, a script ..).
-> >
-> > If we start pulling bits and pieces out of generated, we'll end up
-> > constantly having to take more and more, when the right thing (by the
-> > way our minimal devsrc is designed) is to have it regenerated.
-> >
-> > It's valid to use it, but we shouldn't need to copy it if it can be
-> > generated. If it can't be generated, we should document why with a
-> > comment in the code and in the commit message of the change.
->
->
-> Hi, Bruce:
->
->         Thank you for your reply. I try and find that <make archprepare>
-> can generate the header file mentioned.
->
-> Then do you mean that the user should run <make archprepare> to generate
-> the header files needed first, and then make their own code using those
-> header files?
+On Tue, 2020-02-25 at 13:24 +0100, Andreas Müller wrote:
+> On Tue, Feb 25, 2020 at 11:21 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Mon, 2020-02-24 at 21:44 -0800, Khem Raj wrote:
+> > > mime and mime-xdb classes add dependencies ( both runtime and
+> > > buildtime
+> > > ) on target packages, therefore recipes using allarch should not
+> > > inherit
+> > > mime/mime-xdg or vice-versa, this fixes subtle sstate mismatches
+> > > 
+> > > [YOCTO #13805]
+> > > 
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > Cc: Andreas Müller <schnitzeltony@gmail.com>
+> > > ---
+> > >  meta/classes/mime-xdg.bbclass | 5 +++++
+> > >  meta/classes/mime.bbclass     | 5 +++++
+> > >  2 files changed, 10 insertions(+)
+> > 
+> > Is this the right way to fix this? mime info probably is arch
+> > independent, so should we be whitelisting some of the dependencies?
+> > 
+> > Cheers,
+> > 
+> > Richard
+> > 
+> Khem and I had a short discussion about this [1]. His first approach
+> was to remove DEPENDS. As far as I remember the deps were added to
+> avoid QA warning.
+> 
+> Honestly I never understood why these are spawned. If there is a fix /
+> workaround this could be reduced to rdeps which an be handled for
+> allarch.
+> 
+> [1] https://github.com/YoeDistro/openembedded-core/commit/5605a9cf78c3731e2cc055cd4f8cc88a0b3d7e26
 
-Yes. That's the model that we follow with devsrc, if it can be
-generated, it should be. It keeps the source as small as possible,
-prevents people from patching transient files and guarantees we'll
-never get the packaged and development environment files out of sync.
+I'd guess something like:
 
-If "make modules_prepare" or "make scripts prepare" isn't
-automatically triggering archprepare, then we should make sure it is
-documented.
+SIGGEN_EXCLUDERECIPES_ABISAFE += "\
+  shared-mime-info \
+  desktop-file-utils \
+"
+
+in layer.conf might be the correct fix. The other approach is just a
+workaround.
 
 Cheers,
 
-Bruce
-
->
-> Thanks a lot.
->
->
-> >
-> > Bruce
-> >
-> >
-> >> generate it again when developing the external kernel modules? Thank you.
-> >>
-> >>
-> >>>> +
-> >>>>        )
-> >>>>
-> >>>>        # now grab the chunks from the source tree that we need
-> >>>> --
-> >>>> 1.9.1
-> >>>>
-> >>>> --
-> >>>> _______________________________________________
-> >>>> Openembedded-core mailing list
-> >>>> Openembedded-core@lists.openembedded.org
-> >>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >>>
-> >> --
-> >> Best Regards!
-> >> Zhou Li
-> >> Phone number: 86-10-84778511
-> >>
-> >
-> --
-> Best Regards!
-> Zhou Li
-> Phone number: 86-10-84778511
->
+Richard
 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+
 
