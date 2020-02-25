@@ -1,60 +1,54 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AF9A617EA
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id AB9B661115
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 12:46:28 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id v4so1714398wrs.8
+	Tue, 25 Feb 2020 13:08:54 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id n18so13955998ljo.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 04:46:29 -0800 (PST)
+	Tue, 25 Feb 2020 05:08:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=p+yGFYH9vCfGcV4oOpKgIpdTHbC6ZbCTSF6PLm1TeC0=;
-	b=RIsr0z+ObyJI4s7lzPydDlG+gYjIlUDDUSoAMLDbhuMonnTxKkunXgs5KN1Ol88Pr2
-	VlII278ueNExtLqmXkc68pqseguGoPUQLeM2kaDpohLbtmSIRR9eSoJRHxhJ0h+Ww+UA
-	lK/Z736oVO9fq6Tp0n4AwxtkQf3yj/9YxKU5FTCJHm1lPhK4pgeMS+pDbcX8k2OTBaOc
-	uFgOOZkZoWqCRqa7//yA9lH5NDRMjM9UIQBhOk0nC7CcIWBPF8Ny/YrCgFCEZ8gxqXMq
-	QrouuTK3CvquV4AKqoJqMiD3NsS/3YWWIupZT8UmuSeaZt1LL4cioB/c4lFPMkUXaEhQ
-	BQVQ==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=O5B4xe9pNdCMD/0UO98847yCzhyYIn7iBhC6P3Hcd40=;
+	b=bUDSd/8LZEjvtDKk29E4Mx5QG5dDdSl8+9spteEPtrwYYzWAZQ9aujsLO8wOcKvbSs
+	aWtTkU4kX/GN4go/QSlDpiJ0wdx8xAODukbFkAlbnggRmyH8+rJCXbSnk160g484TjH4
+	KbdIw2ieAeHl1VZhISZ7j10hakaUIEcvY9Pq/T1+/AyNN9hVNwHnINn5T+sZPkayxP8t
+	4WUUJOECtLgbkGmLoLh3Sf1tRfquGfzK4EzhcABuEjImcT2Q7pfklKIC7DtC8kVE9nQ/
+	7mN+JUi0V6o//5CU1z+kKXXdOKWy0BftRUcwZZE6LaElUox2ScgwQJWuoCEpMJkPMyn2
+	3Mbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=p+yGFYH9vCfGcV4oOpKgIpdTHbC6ZbCTSF6PLm1TeC0=;
-	b=OaWCUXsCg8Er2rSbELbHfGo1jkGLeYkclU7fu21THxL9as0glIx/i4DorK5hsoI2KW
-	j/3gv5Khj2gbX+L6mscROZPiQ9uwEI8dAPWO/4hARtxqvtFBgmSZFPgrdKMg5f6637dY
-	RBA95QTbujRdd/lHLbggXpKwhdFxaMzFq3JYO79uM7eQu+C0I8CbzeqVYAAyv0unYXSN
-	ejZ7v0QD2moPqXulhLNZJHA1R1+tasOCCFdeTrPf8BUgCZqtzCGHsmaZ+BAVDDm1uQcE
-	3R8lZNDcc0rZcxceyPXq5QsGzH11Su841VDUEH7TlTp6m8M2MZKojzi7CPL57aftQnKh
-	xqHA==
-X-Gm-Message-State: APjAAAUnl8Dj/nzKUMPAgH0zJYsM8qRRsK5dTRE7uSdopTJHx6oJkcCK
-	EmiTxQZLsEMVLy8EYEPteco=
-X-Google-Smtp-Source: APXvYqzCqRJ5DHj9v9eBvXFfpIutgJamOp0Ugo4hiyld7DokjNPYr6tfVSQjHOWMLZJjGLGqRngKJg==
-X-Received: by 2002:a5d:6191:: with SMTP id j17mr69772762wru.427.1582634788914;
-	Tue, 25 Feb 2020 04:46:28 -0800 (PST)
-Received: from localhost ([109.238.218.228]) by smtp.gmail.com with ESMTPSA id
-	q125sm3500794wme.19.2020.02.25.04.46.27
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 04:46:28 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 25 Feb 2020 13:46:27 +0100
-To: Adrian Bunk <bunk@stusta.de>
-Message-ID: <20200225124627.23tpu5eknidqxrg3@jama>
-References: <20200223182933.6168-1-bunk@stusta.de>
-	<fd59ef897ef077f4f0160e1e2d7c95466c75a3f7.camel@linuxfoundation.org>
-	<20200224104635.GA27036@localhost>
-	<20200224140801.GC27036@localhost>
-	<CANNYZj91N68ocXm=UKzcH6U7nEnVLuQzDStR3O0_cO3GsY9uag@mail.gmail.com>
-	<20200225111955.GA13902@localhost>
-	<CANNYZj-VbMxS52x78goiAA3jvKnyRQiyxd8G5TfEKZ8hBSXdDA@mail.gmail.com>
-	<20200225123807.GB13902@localhost>
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=O5B4xe9pNdCMD/0UO98847yCzhyYIn7iBhC6P3Hcd40=;
+	b=Vs1s8aL8oO8q3k3QIjchAJSSfGAu613dtZQ0RtJb8ERFCZrZJ/ZxCaZcXIJFzmMuqJ
+	fXacg/RhJ+EIB7ygIW8EWsNkYeMB+NAGQEKzFPxaL6oNKJ5tEnrx25VZO1+AaO2kC1AF
+	WXS4vWeMPm7c26xGgWPLJZl9qNZJEjQrCU1m38k8DoauK2iRg0vylZz7O3AAbt5AkS1O
+	8DM71TPvKxM107ffrQhb8VoG/7k5Tx7E+/eDlseNVJA7Vk3cyF48wO62FXeBffBiDWAr
+	13dm2ROKs65zkv7y6XSlqDvEWDN1vfgQ48+ZHZF22fmBk1cVicixD7ljgr65Mz63mAVo
+	CP3Q==
+X-Gm-Message-State: APjAAAWBsUrwQrSNwVLfsd01gRgpB22BDPZrL+f46uSE5VrLVmtgtnWw
+	nUxbUhVUHZ8ZtsqtermJz/Wo909H
+X-Google-Smtp-Source: APXvYqyjsIEYArMYeS5fCIVoPGPMGsEi0lMe+RTnl0Eaj+HP/WVGq+Hmjsl46/lMU76PLhNt+5T0fA==
+X-Received: by 2002:a2e:b007:: with SMTP id y7mr32039542ljk.215.1582636134753; 
+	Tue, 25 Feb 2020 05:08:54 -0800 (PST)
+Received: from localhost.localdomain ([213.185.29.22])
+	by smtp.gmail.com with ESMTPSA id w6sm7346500lfq.95.2020.02.25.05.08.53
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 25 Feb 2020 05:08:53 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+References: <20200222185400.32136-1-jpuhlman@mvista.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Message-ID: <a133657b-8b8f-a4e9-5999-41781f74db6d@gmail.com>
+Date: Tue, 25 Feb 2020 14:08:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200225123807.GB13902@localhost>
-User-Agent: NeoMutt/20180716
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/6] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
+In-Reply-To: <20200222185400.32136-1-jpuhlman@mvista.com>
+Subject: Re: [PATCH] readline/ediline: Fix conflicting manpages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,56 +61,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 12:46:28 -0000
-X-Groupsio-MsgNum: 135574
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="zhgs3zpbufdi2j4p"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 25 Feb 2020 13:08:55 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---zhgs3zpbufdi2j4p
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2/22/20 7:54 PM, Jeremy A. Puhlman wrote:
+> From: Jeremy Puhlman <jpuhlman@mvista.com>
+> 
+>    file /usr/share/man/man3/history.3 conflicts between attempted installs of libedit-doc-20191231+3.1-r0.corei7_64 and readline-doc-8.0-r0.corei7_64
+> 
+> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+> ---
+>   meta/recipes-core/readline/readline.inc               | 8 +++++++-
+>   meta/recipes-devtools/libedit/libedit_20191231-3.1.bb | 6 ++++++
+>   2 files changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-core/readline/readline.inc b/meta/recipes-core/readline/readline.inc
+> index 07f54a76f1..4babcbd69a 100644
+> --- a/meta/recipes-core/readline/readline.inc
+> +++ b/meta/recipes-core/readline/readline.inc
+> @@ -44,7 +44,13 @@ BBCLASSEXTEND = "native nativesdk"
+>   
+>   CONFFILES_${PN} += "${sysconfdir}/inputrc"
+>   
+> +inherit update-alternatives
+> +
+> +ALTERNATIVE_PRIORITY = "100"
+> +ALTERNATIVE_${PN} = "history.3"
+> +ALTERNATIVE_LINK_NAME[history.3] = "${mandir}/man3/history.3"
+> +
+>   # OpenSuse injects versions into libreadline leading to conficits between our native one and theirs
+>   # see their spec file for where this is injected. Extra versioning is harmless so we just do the same.
+>   SRC_URI_append_class-native = " file://rl-native.map"
+> -LDFLAGS_append_class-native = " -Wl,--version-script=${WORKDIR}/rl-native.map"
+> \ No newline at end of file
+> +LDFLAGS_append_class-native = " -Wl,--version-script=${WORKDIR}/rl-native.map"
+> diff --git a/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb b/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
+> index 7116c9ddbc..267fdcc54a 100644
+> --- a/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
+> +++ b/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
+> @@ -17,3 +17,9 @@ SRC_URI[md5sum] = "2e22a51131de94ff2df24901f7cfe416"
+>   SRC_URI[sha256sum] = "dbb82cb7e116a5f8025d35ef5b4f7d4a3cdd0a3909a146a39112095a2d229071"
+>   
+>   BBCLASSEXTEND = "native nativesdk"
+> +
+> +inherit update-alternatives
+> +
+> +ALTERNATIVE_PRIORITY = "90"
+> +ALTERNATIVE_${PN} = "history.3"
+> +ALTERNATIVE_LINK_NAME[history.3] = "${mandir}/man3/history.3"
+> 
 
-On Tue, Feb 25, 2020 at 02:38:07PM +0200, Adrian Bunk wrote:
-> On Tue, Feb 25, 2020 at 12:32:55PM +0100, Alexander Kanavin wrote:
-> > I would probably look into how
-> > REQUIRED_DISTRO_FEATURE/ANY_OF_DISTRO_FEATURS is actually implemented, =
-and
-> > see if you can convince it to do the right thing, or maybe write a cust=
-om
-> > re-implementation.
->=20
-> I did already check meta/classes/features_check.bbclass, there is no=20
-> obvious simple way for expressing more complicated dependencies.
+With this change (I think), I now get a file
 
-Doesn't this do what you wanted?
+> +lrwxrwxrwx root       root               38 ./usr/share/man/man3/history.3 -> /usr/share/man/man3/history.3.readline
 
-REQUIRED_DISTRO_FEATURES =3D "${@bb.utils.contains('DISTRO_FEATURES', 'wayl=
-and', 'wayland opengl', 'x11', d)}"
+in my rootfs, which is wierd since I don't have any other man pages in 
+my image..
 
->=20
-> The low-effort way forward will be to keep opengl required even for x11,
-> with a comment why.
->=20
-> > Alex
->=20
-> cu
-> Adrian
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+/Jacob
 
---zhgs3zpbufdi2j4p
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXlUXIgAKCRA3VSO3ZXaA
-HOznAJ4oy/fvjuS3JY6dBqbUs0McsXNStwCfThet+cNxytlnKzAViW2hhnRSsP8=
-=twDE
------END PGP SIGNATURE-----
-
---zhgs3zpbufdi2j4p--
