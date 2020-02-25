@@ -1,50 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 897C1617A2
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CB37616C9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 15:28:48 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id s1so7341339pfh.10
+	Tue, 25 Feb 2020 15:53:18 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id q8so14592152ljb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 07:28:49 -0800 (PST)
+	Tue, 25 Feb 2020 07:53:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=vcEcry9qkxlo0r4j+V2Ve3DBV05uJnHhhXH4GCFhsdg=;
-	b=OIGa3qyh0V6RYxFwhyylYHkBARmRilOivtTzPFKar5TqRi5n6ZWIdUUWfEZ+w9NZXX
-	asKVoWBXWr7iy6QAYdQaKpvYrli5NWR5LgmrT89dV3JDVXKyMPk4yW+kWE+Q1+OzTdGU
-	Y7oN8klCH1LOwuq2nmVBpsM7f5y+TEM63qK2NrFAo1Pjg0cwbVE7GpouPNrE4+54Z3CY
-	tJViiW0FC5YDHmg3Z0TvIdIg77K7P1ofoNWT7rgmbOaSeKdtLTtzEJ5nSqI2EVp6VmPm
-	TXJlexnRuerwpEAVLBA861EpOTdZCc2M7yUsX5b6pRN8S2qEpazbuBez6oGXMZXhrbRN
-	ZJUg==
+	h=subject:from:to:cc:references:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=9XzmAt30ZOySTFdYqm/4gWokkAPYB2STwWVGjPoR9cA=;
+	b=Mcu0I3Kf8drolq9Rx2UjWFPXiEYHE39NIVnflVwbwSdV8WpXzhzFIaTh12kKIrS3ng
+	x5SnxwzJFfMXtrU6dNb2nQFL2VFc7wfQVSiMHO7oywxPGyyQdOzcjJGZG/QLA8iHlMEB
+	v8JOs0kMX6xAzsPXGebU7euG08YOtAdaZr+uiYsqK0VnKx0pm0ZGZDdHwy71J7qcLJI5
+	RO/jvXpLia2+gl8GfG0NOl9fdXJxDGrTcx+fe+JqfJWwmhNQxH4nnk3MjTCrwxjvrKtR
+	lULKaI0c/wiHFCUkpdcJvo+Uaq712jCpF1SlzQ8MSil8jylHq6xYYoGYfqm0BwwJPEzr
+	DlLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=vcEcry9qkxlo0r4j+V2Ve3DBV05uJnHhhXH4GCFhsdg=;
-	b=me8MlRzrGc6tXWfLSgJisaqN1ItVJmM2fpXBgF/MFmSjLS3jOl8HDbEPvk3RwCqcv2
-	+9t4hh8MhcERO+BPeFCHs9wEP3VR4VSAX277qq+B3NUtY6VHAZhrphgZii1Hp2Kkyc0U
-	weYhfnc6sctwok0GBTpRyVfwgwl3exLRP5k0v+iXajL/RXX4LJjLgyxRcGstra70k8X9
-	9hVKcqeGo7xN2I897UY3nvqCXPV0uyTt5xOpQ5rVQD1VF2ZoYrFhqJHbypg9ET/uiUNU
-	DvR6Ys9PjK8YFdESJtuoGa722lQtAxC9GQjyRlq2S166JNNDEHP8ehTEXxixHb9FXCeu
-	pLdg==
-X-Gm-Message-State: APjAAAX+SqPVYdSXQ7Snihkrrie96RFzdo3fMZhlHzoSRweBSw33taTd
-	wtOiI/QOuqEk10Vf6nuO5Xl+A2CVZ48=
-X-Google-Smtp-Source: APXvYqxzBC4hS4agANSeeMYa2Ma8sQkUKbBImEFmuTOLRkXgzbb2bhkMkFHI3vKogMyX9vUiKvZOog==
-X-Received: by 2002:a63:f311:: with SMTP id l17mr868586pgh.142.1582644528993; 
-	Tue, 25 Feb 2020 07:28:48 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::396c])
+	bh=9XzmAt30ZOySTFdYqm/4gWokkAPYB2STwWVGjPoR9cA=;
+	b=etTY4TUyTI+i4aVwI/s3eecxXuLq7k/AzevDpLLn1kNBgTp/wxWo4W3MXTvncykj35
+	ZxmuyHkhyChuiGKmB4ma8NDa4gP0/9M0b3SGwBv8eSKZaMHIAADc8cW+vkAl3NsFCeRD
+	QupovJvl9iocqY/3w8R9a2Ql17AKJ6Sbaa6wZOJkijsxD5tu44zpEHAutlVosNnmusMb
+	d9q4tzEApirHjuQ4yucm+us+mRznwyHQoMX/Vivm53Vj8jsy/OAqcFbt9POWN+dlqC70
+	tGkU1+478nh24oZ4ZQM2eofCTTcjqMcP+6dffDeOFAzRneJb+8kdoMf6zXOjHjjCMqnb
+	3KhQ==
+X-Gm-Message-State: APjAAAXM0GsLeLoVQeGBGzZK0KYwCuGRrFiY93bCqsftdHEsQE+fs02A
+	AAK0DKE/qnRzRyWy0j4F54k=
+X-Google-Smtp-Source: APXvYqwURKOUO9+efh3r8qRFHgkLy8q8//rcpfb8vQoRrFm1Z+ev54CIM/PKIHopbzEdVyflHo0rNQ==
+X-Received: by 2002:a05:651c:299:: with SMTP id
+	b25mr26115168ljo.1.1582645999484; 
+	Tue, 25 Feb 2020 07:53:19 -0800 (PST)
+Received: from localhost.localdomain ([213.185.29.22])
 	by smtp.gmail.com with ESMTPSA id
-	o36sm3395219pgl.24.2020.02.25.07.28.48
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 07:28:48 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2020 07:28:57 -0800
-Message-Id: <20200225152857.3546150-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	r21sm8075870ljn.64.2020.02.25.07.53.18
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 25 Feb 2020 07:53:18 -0800 (PST)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: douglas.royds@taitradio.com
+References: <8b666dc3-e5a6-0417-82bd-2b15190d223f@gmail.com>
+Message-ID: <ef5aea58-ef88-61c1-b614-88476f5e747c@gmail.com>
+Date: Tue, 25 Feb 2020 16:53:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-Subject: [PATCH] webkitgtk: Disable GI data for musl/arm
+In-Reply-To: <8b666dc3-e5a6-0417-82bd-2b15190d223f@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Overriding SDE_FILE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +63,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 15:28:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 25 Feb 2020 15:53:19 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-qemu-arm hangs forever when running gobject introspection
+On 2/24/20 8:25 AM, Jacob Kroon wrote:
+> Hi Douglas,
+> 
+> You updated a comment in reproducible_build.bbclass, commit 
+> e7b891b76954c784f5a93bd0a1c91315673ce40d:
+> 
+>> -# Once the value of SOURCE_DATE_EPOCH is determined, it is stored in 
+>> the recipe's ${SDE_FILE}.
+>> +# Once the value of SOURCE_DATE_EPOCH is determined, it is stored in 
+>> the recipe's SDE_FILE.
+>> +# If none of these mechanisms are suitable, replace the 
+>> do_deploy_source_date_epoch task
+>> +# with recipe-specific functionality to write the appropriate 
+>> SOURCE_DATE_EPOCH into the SDE_FILE.
+>> +#
+> 
+> But I can't really get this to work. What did work for me was to replace 
+> "do_create_source_date_epoch_stamp()" in my recipe:
+> 
+> do_create_source_date_epoch_stamp() {
+>      mkdir -p ${SDE_DIR}
+>      date -d "1981-03-03" "+%s" > ${SDE_FILE}
+> }
+> 
+> What is the intended way to achieve the thing I'm trying to do here ?
+> 
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Andreas Müller <schnitzeltony@gmail.com>
----
- meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+FYI, JPEW has a proposed patch here
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-index 7b3d16d8cb..e8fb8b1c64 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-@@ -123,5 +123,10 @@ ARM_INSTRUCTION_SET_armv7a = "thumb"
- ARM_INSTRUCTION_SET_armv7r = "thumb"
- ARM_INSTRUCTION_SET_armv7ve = "thumb"
- 
-+# introspection inside qemu-arm hangs forever on musl/arm builds
-+# therefore disable GI_DATA
-+GI_DATA_ENABLED_libc-musl_armv7a = "False"
-+GI_DATA_ENABLED_libc-musl_armv7ve = "False"
-+
- # Can't be built with ccache
- CCACHE_DISABLE = "1"
--- 
-2.25.1
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=jpew/reproducible&id=d091d2aa53ea417f70c10f5ce89151820c3db9ce
 
+for allowing a recipe to just set SOURCE_DATE_EPOCH directly.
+
+But maybe that currently is at odds with SOURCE_DATE_EPOCH being in 
+BB_HASHBASE_WHITELIST ?
+
+/Jacob
 
