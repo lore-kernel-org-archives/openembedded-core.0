@@ -1,49 +1,24 @@
-Return-Path: <scott.branden@broadcom.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 34E506062A
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B6CA60FF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 00:11:22 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id x185so6217322pfc.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Feb 2020 16:11:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=0eE1bsYe4QgDRcy+oiH8ZMEy256amZjI07kcXy3+NCI=;
-	b=MyvSEne/PFy/afk33cfZAhzqnBtrn2UmrSYTo46MypEv89nG4abq2HApONfjcZQdLy
-	kmDDHEbVg6bwCfPajnNk6mF28Kp3s6/FVYR4CZqsUgAU2tayDlj8pFSci14XH7FTkjlQ
-	0cxPFbAcJH0mz7gkqM3JKw4/y0CwTRv4meT1A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=0eE1bsYe4QgDRcy+oiH8ZMEy256amZjI07kcXy3+NCI=;
-	b=CmKEryajztGhR5d17urYR57zAmP/J0dt+gyIeaxSjjVkpArZJvKtmv2QKiyvFbPAvA
-	UGz6rMbYcAmJEVok9DXZxTGpKg362+wuWeJtDg89LBJPfQhY0TkyrzHNiP2hA2Xfwh7q
-	RWts7/1ar1uVGLWolgrS7i3WItZenSKWN5jtJkxG/J7gDgED/4s+05FbxTk5dz1GeNz8
-	ubQxMJ40Ycd4JSAKUis9jz+VRbgKusQdtzavrYXrH8pC66L/229uWNzUI954NUQnB7Aw
-	QxBdAugbcE/XuI0DXPqa/Rg86JHIo0T4GFkqIsYP0IxLuZbcK12ZZdizepEH+v8VzFLT
-	V/HA==
-X-Gm-Message-State: APjAAAVoGFAHT/a/HcQElgZakXFeP8+twtK/XdhMDxcbIY4+60l5cMQE
-	F8TWr6i7faslxgRsLys0LjTfsRFQZpbu4j+JrNZycDKOjO/qNbBYEPAuObjcRN9MiwpKBbN8W8j
-	n1B5JcSNXoshE54t1PDfMweYVTSCizq610rECFRvW0ys/B7afnj5/sb6NSFJPYYnXGYRwpL4rN3
-	o0+KSagI4UgGhRI0hIz492yTThIgs=
-X-Google-Smtp-Source: APXvYqxvEAGDPdUFGYiyM283Ozyjh+qfVnBk4Cjnxk35ZigL30mnz996IzK9kb1EiOR3qYHrE1RChw==
-X-Received: by 2002:aa7:9a42:: with SMTP id x2mr54252707pfj.71.1582589482979; 
-	Mon, 24 Feb 2020 16:11:22 -0800 (PST)
-Received: from lbrmn-lnxub113.broadcom.net ([192.19.228.250])
-	by smtp.gmail.com with ESMTPSA id
-	t65sm14016432pfd.178.2020.02.24.16.11.21
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 24 Feb 2020 16:11:22 -0800 (PST)
-From: Scott Branden <scott.branden@broadcom.com>
+	Tue, 25 Feb 2020 04:21:44 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Feb 2020 20:21:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,482,1574150400"; d="scan'208";a="226217589"
+Received: from wrath.jf.intel.com ([10.54.31.24])
+	by orsmga007.jf.intel.com with ESMTP; 24 Feb 2020 20:21:45 -0800
+From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Feb 2020 16:11:15 -0800
-Message-Id: <20200225001115.18188-2-scott.branden@broadcom.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200225001115.18188-1-scott.branden@broadcom.com>
-References: <20200225001115.18188-1-scott.branden@broadcom.com>
-Subject: [PATCH 2/2] ffmpeg: add PACKAGECONFIG support for fdk-aac
+Date: Mon, 24 Feb 2020 20:21:42 -0800
+Message-Id: <20200225042142.39745-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.24.0
+MIME-Version: 1.0
+Subject: [PATCH] python3-scons{-native}: upgrade 3.1.1 -> 3.1.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,28 +31,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 00:11:22 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 04:21:45 -0000
+Content-Transfer-Encoding: 8bit
 
-Add PACKAGECONFIG support for fdk-aac in ffmpeg.
+THis release is a mix of improvements and fixes:
+https://github.com/SCons/scons/blob/3.1.2/src/RELEASE.txt
 
-Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+* Changed to inherit pypi rather than relying on SOURCEFORGE_MIRROR.
+* Add SRC_URI for LICENSE file (not included in pypi tarball).
+* Make it more obvious that RDEPENDS are for class-target and
+  drop empty RDEPENDS from -native
+* python3-scons-native now DEPENDS on python3-setuptools-native
+
+* Tested with core-image-base + packagegroup-core-buildessential
+  with "scons" oe-selftest via testimage.
+* Tested build of "serf" (which uses python3-scons-native via the
+  scons.bbclass).
+
+License-Update: Added "MIT License" text, updated copyright years
+
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb | 1 +
- 1 file changed, 1 insertion(+)
+ ...3.1.1.bb => python3-scons-native_3.1.2.bb} |  3 +-
+ .../python/python3-scons_3.1.1.bb             | 29 ----------------
+ .../python/python3-scons_3.1.2.bb             | 33 +++++++++++++++++++
+ 3 files changed, 34 insertions(+), 31 deletions(-)
+ rename meta/recipes-devtools/python/{python3-scons-native_3.1.1.bb => python3-scons-native_3.1.2.bb} (79%)
+ delete mode 100644 meta/recipes-devtools/python/python3-scons_3.1.1.bb
+ create mode 100644 meta/recipes-devtools/python/python3-scons_3.1.2.bb
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-index 20a8249b02..d7b0641054 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-@@ -59,6 +59,7 @@ PACKAGECONFIG[avresample] = "--enable-avresample,--disable-avresample"
- # features to support
- PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
- PACKAGECONFIG[bzlib] = "--enable-bzlib,--disable-bzlib,bzip2"
-+PACKAGECONFIG[fdk-aac] = "--enable-libfdk-aac --enable-nonfree,--disable-libfdk-aac,fdk-aac"
- PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl"
- PACKAGECONFIG[gsm] = "--enable-libgsm,--disable-libgsm,libgsm"
- PACKAGECONFIG[jack] = "--enable-indev=jack,--disable-indev=jack,jack"
+diff --git a/meta/recipes-devtools/python/python3-scons-native_3.1.1.bb b/meta/recipes-devtools/python/python3-scons-native_3.1.2.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-scons-native_3.1.1.bb
+rename to meta/recipes-devtools/python/python3-scons-native_3.1.2.bb
+index 5cd5956625..9e127304d6 100644
+--- a/meta/recipes-devtools/python/python3-scons-native_3.1.1.bb
++++ b/meta/recipes-devtools/python/python3-scons-native_3.1.2.bb
+@@ -1,7 +1,6 @@
+ require python3-scons_${PV}.bb
+ inherit native python3native
+-DEPENDS = "python3-native"
+-RDEPENDS_${PN} = ""
++DEPENDS = "python3-native python3-setuptools-native"
+ 
+ do_install_append() {
+     create_wrapper ${D}${bindir}/scons SCONS_LIB_DIR='${STAGING_DIR_HOST}/${PYTHON_SITEPACKAGES_DIR}' PYTHONNOUSERSITE='1'
+diff --git a/meta/recipes-devtools/python/python3-scons_3.1.1.bb b/meta/recipes-devtools/python/python3-scons_3.1.1.bb
+deleted file mode 100644
+index 0c7aaeaeee..0000000000
+--- a/meta/recipes-devtools/python/python3-scons_3.1.1.bb
++++ /dev/null
+@@ -1,29 +0,0 @@
+-SUMMARY = "Software Construction tool (make/autotools replacement)"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=37bb53a08e6beaea0c90e7821d731284"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz"
+-SRC_URI[md5sum] = "35b2a3993313bbedd221d4d5758fd2fd"
+-SRC_URI[sha256sum] = "4cea417fdd7499a36f407923d03b4b7000b0f9e8fd7b31b316b9ce7eba9143a5"
+-
+-S = "${WORKDIR}/scons-${PV}"
+-
+-UPSTREAM_CHECK_URI = "http://scons.org/pages/download.html"
+-UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+-
+-inherit setuptools3
+-
+-do_install_prepend() {
+-    sed -i -e "1s,#!.*python.*,#!${USRBINPATH}/env python3," ${S}/script/*
+-}
+-
+-RDEPENDS_${PN} = "\
+-  python3-core \
+-  python3-fcntl \
+-  python3-io \
+-  python3-json \
+-  python3-shell \
+-  python3-pickle \
+-  python3-pprint \
+-  "
+diff --git a/meta/recipes-devtools/python/python3-scons_3.1.2.bb b/meta/recipes-devtools/python/python3-scons_3.1.2.bb
+new file mode 100644
+index 0000000000..aa7a2a8300
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-scons_3.1.2.bb
+@@ -0,0 +1,33 @@
++SUMMARY = "Software Construction tool (make/autotools replacement)"
++SECTION = "devel/python"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE;md5=e14e1b33428df24a40a782ae142785d0"
++
++# pypi package does not have a valid license file
++SRC_URI += "https://raw.githubusercontent.com/SCons/scons/${PV}/LICENSE;name=license"
++
++SRC_URI[md5sum] = "f9c4ad06dcf1427be95472eaf380c81a"
++SRC_URI[sha256sum] = "8aaa483c303efeb678e6f7c776c8444a482f8ddc3ad891f8b6cdd35264da9a1f"
++SRC_URI[license.md5sum] = "e14e1b33428df24a40a782ae142785d0"
++SRC_URI[license.sha256sum] = "72ed889165fb28378cadac14552be4a959f1ebab6b148abb5dd2b49712c3c6f6"
++
++S = "${WORKDIR}/scons-${PV}"
++
++UPSTREAM_CHECK_URI = "http://scons.org/pages/download.html"
++UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
++
++inherit pypi setuptools3
++
++do_install_prepend() {
++    sed -i -e "1s,#!.*python.*,#!${USRBINPATH}/env python3," ${S}/script/*
++}
++
++RDEPENDS_${PN}_class-target = "\
++  python3-core \
++  python3-fcntl \
++  python3-io \
++  python3-json \
++  python3-shell \
++  python3-pickle \
++  python3-pprint \
++  "
 -- 
-2.17.1
+2.24.0
 
 
