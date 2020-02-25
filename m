@@ -1,42 +1,50 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 6220C60B98
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B3F56061E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 09:54:17 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48RZ5g3kD8z4M;
-	Tue, 25 Feb 2020 10:54:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582624456;
-	bh=D5Hs/20UeohT9qNkcpvL/5lYS/b6XHp2k4KCHZO0IMo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cfBNeEO/rP+PsA6FkuaGo11KuWzPfThchKdK4EQaLJvR9oKu43DJn5XiEUtAjXsdE
-	ko46lWK1ekOet7IbiGRmw6PjiXv728O2FUzaFrP/2Sjl7JSMfUpUGYa4F0Gv1WAkUL
-	iJGiDhii6Dz0QWgeAyprFov4oyQ/Nuz4GK5IJ2FMMfebjYpEd9ud7JOu8Q9fm5zR/v
-	qMZuVlfKEanyFY2IJb4C/O5RQFW7Tu8A0ylzuCREvqYdSE7ezmefg96qSIfKJjkomt
-	yHZhmKgcmj/Z1ecIWaWFzZh/R0mcnwQAHb8LBSKM6WZmBmYCEYwedvwhL+g5/kMquq
-	Rf1AkTgXhDQVISXAH0e05xN4pnVIWEMcapgt3N/mcQiDahnSOd8macggh2IDBUvY9F
-	AXzmWdlS1U+c/+G3U66tXAFJ/fZNY+1sGC3z9tyomxA894uBbGauzCTDrImfC3oh0G
-	G719UoEkPFOxvVDpH4fMUPBz89gkicuienfTnhinLGwhTvhjk55jMfx4EeWEo9DF0J
-	6Cf3ubHeliNe5hTITC8yEkmVv5i6UrnvsQpacuOwuukRl7oOrDLOqG7FDTJEPjs+yp
-	S/uW2SyQKvy0nWUWykjaOTrTAsziDMaqnCw1lQkveW5Q/5Wjl0IPj6H40w0tapiUid
-	eGmG/f9sepfI8eAGM75Ua150=
-Date: Tue, 25 Feb 2020 11:54:12 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: =?utf-8?B?QW5kcsOp?= Draszik <git@andred.net>
-Message-ID: <20200225095412.GA7740@localhost>
-References: <20200224125955.26771-1-git@andred.net>
-	<20200224134022.GB27036@localhost>
-	<669ba509f1df86a8f2c7ea172aa8ff23d7449744.camel@linuxfoundation.org>
-	<23c396de32bb98414dcb2aaec178e73079e000d3.camel@andred.net>
-	<b14a0847fffc79809e5fcef86d82b5a8abf3f9a2.camel@linuxfoundation.org>
-	<20200224220013.GA11259@localhost>
-	<861ecc2be15dcbfcb8cb5a6dac481561d235ddd9.camel@andred.net>
+	Tue, 25 Feb 2020 10:21:21 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id w12so14041952wrt.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Feb 2020 02:21:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=/5CP+WLoK2VwzZ+X6S939U2IlPiygDWKzr0hVCY5NRY=;
+	b=hLlL/YnkWidqpCipbHeqHtnyd0bE3f1pC42q+JjTNHYi2xYb8seujFKrwMF1ifmBcA
+	RJcisk+fWRISCfwNqxVmUAo6XCKUsghS3P/CUjVfRw9X/uT3XEvhBgmQG7bbDXUj2YcY
+	wbO4fz/oC2TVBzjomImSub1wDr14+CdM4RJTQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=/5CP+WLoK2VwzZ+X6S939U2IlPiygDWKzr0hVCY5NRY=;
+	b=aLqmFLDXioNbu3EdnjQ5n8kHkumIXr0RiWwsrlMerbi4F53KZmrBLwAdJg/L6MSeOJ
+	ytxTUk6Fk8fBWyG0HuuKXFwpm8ueNZnnfYH9zyTvOjAESvw44VwXP+vLOQp6y9l6TJ98
+	2c8n6F3QHO8dLMlhCD/Q4PCDTdCKL7UI33OlYQysJd9UZzHvVDKp5O9bVxfFFcWeNejk
+	12wGW3vb9pc3cemF/yR7EoO2KuJNURkWBJ8Cpl0qzjfe97cU/QUhjDS/bU7KtCyYa2BJ
+	97CKwpYHiWr9VkllRU1Jzwtc0t0rPfCFHMx3NH1/V0j0Jq0+2aXFjtqflW1hwoAiSOp9
+	/HSQ==
+X-Gm-Message-State: APjAAAUxLaTIhA0vjWbc+zFebtCZM5TJWBTeYOf+TvqS2AaRnENjbwuq
+	ckqiF91P1wx4d9VB81HjQbnnbg==
+X-Google-Smtp-Source: APXvYqxrozNREuuINEBogNiAAs7dVisX/6IZMk84iNKfl5OJRait4Tbf2R8lnLdeupsGXsgjwrbvIg==
+X-Received: by 2002:adf:f6c1:: with SMTP id y1mr70568808wrp.17.1582626081818; 
+	Tue, 25 Feb 2020 02:21:21 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	z25sm3566801wmf.14.2020.02.25.02.21.20
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 25 Feb 2020 02:21:21 -0800 (PST)
+Message-ID: <29622e48fc7ebf80aa002b2d1903f6d970af9d86.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 25 Feb 2020 10:21:19 +0000
+In-Reply-To: <20200225054406.867243-1-raj.khem@gmail.com>
+References: <20200225054406.867243-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-In-Reply-To: <861ecc2be15dcbfcb8cb5a6dac481561d235ddd9.camel@andred.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] bitbake.conf: omit XZ threads and RAM from sstate signatures
+Subject: Re: [PATCH] mime,mime-xdg: Conflict with allarch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,49 +57,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 09:54:18 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 25 Feb 2020 10:21:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 25, 2020 at 09:16:20AM +0000, André Draszik wrote:
-> On Tue, 2020-02-25 at 00:00 +0200, Adrian Bunk wrote:
->...
-> > > Perhaps we just allow the number of xz threads
-> > > to be set independently?
-> > 
-> > dpkg manually reduces the number of threads until less than half
-> > of the RAM is used:
-> > https://sources.debian.org/src/dpkg/1.19.7/lib/dpkg/compress.c/#L566-L574
-> > 
-> > In a script it would be possible to use --no-adjust to achieve the same:
-> > $ xz -9 --memlimit=50% --no-adjust -T32 /dev/null 
-> > xz: Memory usage limit is too low for the given filter setup.
-> > xz: 39,972 MiB of memory is required. The limit is 32,051 MiB.
-> > $
+On Mon, 2020-02-24 at 21:44 -0800, Khem Raj wrote:
+> mime and mime-xdb classes add dependencies ( both runtime and
+> buildtime
+> ) on target packages, therefore recipes using allarch should not
+> inherit
+> mime/mime-xdg or vice-versa, this fixes subtle sstate mismatches
 > 
-> The problem with --no-adjust is that it also prevents xz from reducing the
-> number of threads. It will do that in preference to changing compression
-> parameters, so as long as you have more than 2499MiB of memory to support at
-> least 2 threads (with default block size), compression will be identical.
->...
+> [YOCTO #13805]
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Andreas Müller <schnitzeltony@gmail.com>
+> ---
+>  meta/classes/mime-xdg.bbclass | 5 +++++
+>  meta/classes/mime.bbclass     | 5 +++++
+>  2 files changed, 10 insertions(+)
 
-5 GB due to the 50%.
+Is this the right way to fix this? mime info probably is arch
+independent, so should we be whitelisting some of the dependencies?
 
-But I had something different in mind:
+Cheers,
 
-Similar to what dpkg is doing, you could once loop from 
-@oe.utils.cpu_count() down to 2 until "--memlimit=50% --no-adjust -T$(i)"
-succeeds.
+Richard
 
-Then run the actual compression without --memlimit.
-
-I would not consider anything with less than 4 GB RAM reasonable for 
-building Yocto (g++ also likes to use more than 2 GB).
-
-> Cheers,
-> Andre'
-
-cu
-Adrian
 
