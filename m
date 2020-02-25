@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 7832B6183B;
-	Tue, 25 Feb 2020 22:02:15 +0000 (UTC)
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id 901F86183B
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Feb 2020 22:39:28 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Feb 2020 14:39:29 -0800
+X-IronPort-AV: E=Sophos;i="5.70,485,1574150400"; d="scan'208";a="231180104"
+Received: from anmitta2-mobl.gar.corp.intel.com (HELO [10.255.173.208])
+	([10.255.173.208])
+	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
+	25 Feb 2020 14:39:28 -0800
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20200225185335.19326-1-alex.kanavin@gmail.com>
+	<20200225185335.19326-4-alex.kanavin@gmail.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <5a077658-77ab-c3db-1845-469eaf7bfa5a@intel.com>
+Date: Wed, 26 Feb 2020 06:39:26 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Tim Orling <timothy.t.orling@linux.intel.com>
-Date: Tue, 25 Feb 2020 22:02:17 -0000
-Message-ID: <20200225220217.2274.10801@do>
-References: <20200225212233.30114-1-timothy.t.orling@linux.intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200225212233.30114-1-timothy.t.orling@linux.intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGlibW9kdWxlLWJ1aWxkLXBlcmw6IHVwZ3JhZGUgMC40MjI5IC0+IDAuNDIzMQ==?=
+In-Reply-To: <20200225185335.19326-4-alex.kanavin@gmail.com>
+Subject: Re: [PATCH 04/12] ncurses: upgrade 6.1+20191019 -> 6.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,50 +37,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 22:02:15 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 25 Feb 2020 22:39:28 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 26-Feb-20 02:53 AM, Alexander Kanavin wrote:
+> License-Update: copyright years and holders
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>   meta/recipes-core/ncurses/ncurses.inc                           | 2 +-
+>   .../ncurses/{ncurses_6.1+20191019.bb => ncurses_6.2.bb}         | 2 +-
+>   2 files changed, 2 insertions(+), 2 deletions(-)
+>   rename meta/recipes-core/ncurses/{ncurses_6.1+20191019.bb => ncurses_6.2.bb} (89%)
+> 
+> diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
+> index b7bf4c0d81..4156bf4f7d 100644
+> --- a/meta/recipes-core/ncurses/ncurses.inc
+> +++ b/meta/recipes-core/ncurses/ncurses.inc
+> @@ -2,7 +2,7 @@ SUMMARY = "The New Curses library"
+>   DESCRIPTION = "SVr4 and XSI-Curses compatible curses library and terminfo tools including tic, infocmp, captoinfo. Supports color, multiple highlights, forms-drawing characters, and automatic recognition of keypad and function-key sequences. Extensions include resizable windows and mouse support on both xterm and Linux console using the gpm library."
+>   HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
+>   LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc180a8c44ca642e97c35452fab5f66"
+> +LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=5526f2f3a29edc95538b368a4771edda"
+>   SECTION = "libs"
+>   DEPENDS = "ncurses-native"
+>   DEPENDS_class-native = ""
+> diff --git a/meta/recipes-core/ncurses/ncurses_6.1+20191019.bb b/meta/recipes-core/ncurses/ncurses_6.2.bb
+> similarity index 89%
+> rename from meta/recipes-core/ncurses/ncurses_6.1+20191019.bb
+> rename to meta/recipes-core/ncurses/ncurses_6.2.bb
+> index 187777f6ef..b6d899c878 100644
+> --- a/meta/recipes-core/ncurses/ncurses_6.1+20191019.bb
+> +++ b/meta/recipes-core/ncurses/ncurses_6.2.bb
+> @@ -5,7 +5,7 @@ SRC_URI += "file://0001-tic-hang.patch \
+>              file://config.cache \
+>              "
+>   # commit id corresponds to the revision in package version
+> -SRCREV = "ea70ec815b362f5bbad7a827a2edf50fd2b459cc"
+> +SRCREV = "a669013cd5e9d6434e5301348ea51baf306c93c4"
+>   S = "${WORKDIR}/git"
+>   EXTRA_OECONF += "--with-abi-version=5 --cache-file=${B}/config.cache"
+>   UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
+> 
 
-Series: libmodule-build-perl: upgrade 0.4229 -> 0.4231
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/22948/
-State : failure
+I think the CVE_VERSION added earlier should no longer be necessary and 
+can be removed too.
 
-== Summary ==
+Thanks,
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            libmodule-build-perl: upgrade 0.4229 -> 0.4231
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-devtools/perl/libmodule-build-perl/0001-Committing-changes-from-do_patch.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/perl/libmodule-build-perl/0001-Committing-changes-from-do_patch.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Anuj
 
