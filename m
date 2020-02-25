@@ -1,26 +1,47 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 25 Feb 2020 21:29:58 UTC
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D4E166150B
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C6E056183F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 21:29:58 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Feb 2020 13:22:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,485,1574150400"; d="scan'208";a="271467670"
-Received: from wrath.jf.intel.com ([10.54.31.24])
-	by fmsmga002.fm.intel.com with ESMTP; 25 Feb 2020 13:22:52 -0800
-From: Tim Orling <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2020 13:22:33 -0800
-Message-Id: <20200225212233.30114-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.24.0
+	Tue, 25 Feb 2020 21:58:59 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id t12so460872vso.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Feb 2020 13:59:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=8mPiBCKUQev5AJA+2rUd68QMXRmBrOVOEyBaerywZ/M=;
+	b=IueQVjN2TAyVijCIMta2HSuSkhGZOXBANHEbBLnH0DLiewjG8MTFimxAT9inVxYX6g
+	TXLuzOpnUUdOMwmIoBN65k+MH1Idh5efbNZcUx4KwMgERWYbOeeNjkOXXZ6GTLg8T0Ub
+	QrmaI6jIsMkU6xWqDEHndEiQpu+ImRovqrNZTMPZzR7TczljPNT0H/sb4tQzJWRglIrZ
+	BVUbl1ErkYnRABBXH+HsdC3HxW8A+MuMefkt4ovR1B0slnOtkJtahLWS6sfaOedZIbnO
+	Vt0JngGzEwLi8lmsH3W6yizHxMD+mAeymgNfYhhBu/WreWJ1UTfU1S6WgYvFZ5sul/Y6
+	8EDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=8mPiBCKUQev5AJA+2rUd68QMXRmBrOVOEyBaerywZ/M=;
+	b=D7wLTrdXaHqQnHt0kRC0NNfuBTAp6KZ9JwxC6+Vm+rcFOS7M0QKyRpi5quhioL52zQ
+	X20TpITg4A9fRx+k2u3NYt2fvzBVHNRzEhVz4/5SNZCAQkUYQxqEvMeA7o7u00r896YF
+	FbAbeclhC5dRraKvmaWjYFe0WYCcIwey100kysA4coqiV8Nyc08+m3a6wBbwwDhVh0X1
+	tCUBf6UXgoTCPrMN/pZweoHlGFFK+gjSK0+pmcFJeQ1/hzCLvaYjtm9cD5Zyr9J99+mO
+	U7VNMR1CESnYLhzy1U/XfEiKSOIdoHZtwbuwWJb5/WhFImii57pjqEWmUHdpSJ2RNfMq
+	9SOw==
+X-Gm-Message-State: APjAAAWLcvefy0NAHZRLGSXSyE2JlNg9BA7NA3GwxFGm536xmJM0XUOW
+	u8AEisacEmWNlU5S4pBH7NUKNoAYIH2y6Os+IgyjLw==
+X-Google-Smtp-Source: APXvYqyCPGIRYTcz/tu7Hb+bRCLMA45eACEvzeeCF6zFcFN6mr0iJbxFEB/YB6qot+ZZbQoyzumJZ9YkvbhoLjMhEyY=
+X-Received: by 2002:a05:6102:405:: with SMTP id
+	d5mr1288793vsq.94.1582667940581; 
+	Tue, 25 Feb 2020 13:59:00 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] libmodule-build-perl: upgrade 0.4229 -> 0.4231
+References: <20200225212233.30114-1-timothy.t.orling@linux.intel.com>
+In-Reply-To: <20200225212233.30114-1-timothy.t.orling@linux.intel.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 25 Feb 2020 22:58:49 +0100
+Message-ID: <CANNYZj8AP-OdK9-gNTgYbcO4LwshN5ox1iHBnQKGfFc0kuKwsQ@mail.gmail.com>
+To: Tim Orling <timothy.t.orling@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libmodule-build-perl: upgrade 0.4229 -> 0.4231
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,114 +54,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 21:29:59 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 25 Feb 2020 21:59:00 -0000
+Content-Type: multipart/alternative; boundary="000000000000655520059f6d9812"
 
-Upstream release notes:
-"
-0.4231 - Wed Jan 29 08:47:56 CET 2020
+--000000000000655520059f6d9812
+Content-Type: text/plain; charset="UTF-8"
 
-  - Released 0.42_30 without code changes
+On Tue, 25 Feb 2020 at 22:30, Tim Orling <timothy.t.orling@linux.intel.com>
+wrote:
 
-0.42_30 - Wed Jul 31 13:15:39 CEST 2019
-
-  - Add dependency on ExtUtils::PL2Bat
-"
-
-Add ptest RDEPENDS:
-  - ExtUtils::Command::MM for t/compat.t
-  - gcc, make didn't seem like enough for ptest, replace with
-    packagegroup-core-buildessential which definitely works
-  - perl-dev for EXTERN.h in t/xs.t
-
-Add INSANE_SKIP dev-deps for the -ptest package because of perl-dev
-
-Five tests from t/help.t are skipped because they are TODO
-
-t/par.t is skipped because PAR::Dist (0.17+) is not present
-
-t/ppm.t is skipped because "HTML support not installed"
-
-All other tests pass.
----
- ...001-Committing-changes-from-do_patch.patch | 22 +++++++++++++++++++
- ...4229.bb => libmodule-build-perl_0.4231.bb} | 16 +++++++++-----
- 2 files changed, 33 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-devtools/perl/libmodule-build-perl/0001-Committing-changes-from-do_patch.patch
- rename meta/recipes-devtools/perl/{libmodule-build-perl_0.4229.bb => libmodule-build-perl_0.4231.bb} (87%)
-
-diff --git a/meta/recipes-devtools/perl/libmodule-build-perl/0001-Committing-changes-from-do_patch.patch b/meta/recipes-devtools/perl/libmodule-build-perl/0001-Committing-changes-from-do_patch.patch
-new file mode 100644
-index 0000000000..398f94ec5f
---- /dev/null
-+++ b/meta/recipes-devtools/perl/libmodule-build-perl/0001-Committing-changes-from-do_patch.patch
-@@ -0,0 +1,22 @@
-+From e1d8264d1d88456ce608a51b9a8f4addb0da6e3b Mon Sep 17 00:00:00 2001
-+From: OpenEmbedded <oe.patch@oe>
-+Date: Thu, 20 Feb 2020 19:55:31 +0000
-+Subject: [PATCH] Committing changes from do_patch
-+
-+---
-+ lib/Module/Build/Base.pm | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/Module/Build/Base.pm b/lib/Module/Build/Base.pm
-+index b900b17..a97a722 100644
-+--- a/lib/Module/Build/Base.pm
-++++ b/lib/Module/Build/Base.pm
-+@@ -3089,7 +3089,7 @@ sub fix_shebang_line { # Adapted from fixin() in ExtUtils::MM_Unix 1.35
-+ 
-+     my ($cmd, $arg) = (split(' ', $line, 2), '');
-+     next unless $cmd =~ /perl/i;
-+-    my $interpreter = $self->{properties}{perl};
-++    my $interpreter = "/usr/bin/perl";
-+ 
-+     $self->log_verbose("Changing sharpbang in $file to $interpreter\n");
-+     my $shb = '';
-diff --git a/meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb b/meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
-similarity index 87%
-rename from meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb
-rename to meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
-index e3ba40d96c..91dbfb8606 100644
---- a/meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb
-+++ b/meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
-@@ -15,9 +15,11 @@ LIC_FILES_CHKSUM = "file://README;beginline=949;endline=954;md5=624c06db56a2af4d
- 
- SRC_URI = "${CPAN_MIRROR}/authors/id/L/LE/LEONT/Module-Build-${PV}.tar.gz \
-            file://run-ptest \
--          "
--SRC_URI[md5sum] = "1447d9e02e63f7a1643986789a8f1ba9"
--SRC_URI[sha256sum] = "1fe491a6cda914b01bc8e592faa2b5404e9f35915ca15322f8f2a8d8f9008c18"
-+           file://ptest-perl/run-ptest \
-+           file://0001-Committing-changes-from-do_patch.patch \
-+           "
-+SRC_URI[md5sum] = "066b193e461d7dfe1eca17a139353001"
-+SRC_URI[sha256sum] = "7e0f4c692c1740c1ac84ea14d7ea3d8bc798b2fb26c09877229e04f430b2b717"
- 
- S = "${WORKDIR}/Module-Build-${PV}"
- 
-@@ -75,9 +77,10 @@ RDEPENDS_${PN} += " \
- "
- 
- RDEPENDS_${PN}-ptest += " \
--    gcc \
--    make \
-+    packagegroup-core-buildessential \
-+    perl-dev \
-     perl-module-blib \
-+    perl-module-extutils-command-mm \
-     perl-module-file-temp \
-     perl-module-lib \
-     perl-module-perlio \
-@@ -103,4 +106,7 @@ RPROVIDES_${PN} += "\
-     libmodule-build-podparser-perl \
- "
- 
-+# t/xs.t RDEPENDS on "EXTERN.h" provided by perl-dev
-+INSANE_SKIP_${PN}-ptest = "dev-deps"
-+
- BBCLASSEXTEND = "native"
--- 
-2.24.0
+> +           file://ptest-perl/run-ptest \
+> +           file://0001-Committing-changes-from-do_patch.patch \
 
 
+These two are 'devtool upgrade' noise, and should be removed. The recipe
+does weird things which triggers devtool to add items unnecessarily.
+
+Alex
+
+--000000000000655520059f6d9812
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Tue, 25 Feb 2020 at 22:30, Tim Orling &lt;<a href=3D"mailto:timot=
+hy.t.orling@linux.intel.com">timothy.t.orling@linux.intel.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">+=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0file://ptest-perl/run-ptest \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Committing-changes-fr=
+om-do_patch.patch \</blockquote><div><br></div><div>These two are &#39;devt=
+ool upgrade&#39; noise, and should be removed. The recipe does weird things=
+ which triggers devtool to add items unnecessarily.<br></div><div><br></div=
+><div>Alex<br></div></div></div>
+
+--000000000000655520059f6d9812--
