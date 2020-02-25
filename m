@@ -1,51 +1,56 @@
-Return-Path: <jpuhlman@gmail.com>
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
-	[209.85.210.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EB4E616C2
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 083D3616F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 19:25:50 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id n7so74313pfn.0
+	Tue, 25 Feb 2020 19:29:00 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p17so419624wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 11:25:52 -0800 (PST)
+	Tue, 25 Feb 2020 11:29:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=id8SU2ctGuZbxGeTwCF9Vwi9nnN4ATAi0JybadyEzwc=;
-	b=moxX9VBwxjk90Ak5+/n5vryN9o23yguXjO+BdWDq2WTxODnsFe8sfGIZLWs7Ioens+
-	n/zQEeVKgOv5Ayngimf354M5+Mdxik8a0eH917eyjaD8rPTQ8FsEYq03wSU3r+FVpCYr
-	MXoxQ57JKRJNk1FMELKppvYDTHE1NXKvhp7Wl4aStI9O4OVDFrbOPEtMBypkQEnTVYKf
-	exW1c35Y6fziH7yGTS3kJOcQ23QQfx5xuZ96YFafupBihXNaNpaydYNPc6hodgveOqR0
-	Ej1r245n5S+m2sDnUwGFl94u20zjnWHHLFsN+Z2+WGZb/9qxYJ/wOVNP2VqxeIec5Ihr
-	mHYQ==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=nn0QSFlBBTc/C+4v5Rx636BixcCNggFEB+gdRpLhlSE=;
+	b=RksI4/l9q5XTD1KlotsapiYb9NN5DWYT3pfmzYWGrMGMv4EWaB+yWImGGCym9xq+4v
+	S0cSg99LTfGi4Oxe9AatvZvnPalYTLrjj8DB2fMrCuIfvM+IMd3hE+IAQvNoth9KPZB+
+	cuHJ3ycWP7+Jr5PlxmahwOp3s3I/4ceTyQ3COSY3yPiBK1jhPgh9sJE3FIbz5UEfzN4o
+	XkaoLz2vnosxZgopW8nyrv4z01jL/iFSmmnYTUEfcBhN3TqTX5VSlOrL5x3q7Sp0Bm3P
+	3oJck75MYxDHEjFeRd0uF66ZnfB1YujRhNTSWBMZKXPfLKSbuQL6zMKIyEl28sudfNF7
+	21+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=id8SU2ctGuZbxGeTwCF9Vwi9nnN4ATAi0JybadyEzwc=;
-	b=C2Ck9sTadMEe7gCxaqJR08tFDGUsYwN+N67qJMnGy0Ygp6CKHdIy7FNmlFffEDgJi8
-	1NhgyzdexSq9RmDGpRWho2X6ux4lVNrEuvfUIdk7+MxnCdv7Ra4OJIIUS8hgsVcDCQmO
-	9Am06WF2Rdq6S2UBrxiVRfDqpRie1LyXKDgKbSpFP/cBFAo5gxdLjss5ROaEt/r0yUXH
-	FNHKGDPTXI5kcSDdEdXXRGvEPDUfsEOX4gBwYAjPG36nwSupOQciVXkSKOibUh0+bpz4
-	iv4ecUL3to3QXFYYFyBej35VB8hNbfVU+I8XjEpoEDWE1PU/xrSN1cd6m17+iaM75H8y
-	IUNw==
-X-Gm-Message-State: APjAAAWdXrkxq4wNLV4Al4jvlUtSr0d1LPy78+t8CP/dDYxTc9//P4/1
-	lXKy4pxpsdiTT2yMFIPdtZIYUJ+HvfI=
-X-Google-Smtp-Source: APXvYqxpHiwK/yGj9TQZ5SRG20eM97qioIhEaTurdHDomGEkCQh2JIsRljiuSJnbrlsRE2eFDvgWgw==
-X-Received: by 2002:aa7:8815:: with SMTP id c21mr228241pfo.81.1582658751599;
-	Tue, 25 Feb 2020 11:25:51 -0800 (PST)
-Received: from workhorse.localdomain
-	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
-	by smtp.gmail.com with ESMTPSA id
-	q4sm18658603pfl.175.2020.02.25.11.25.50
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=nn0QSFlBBTc/C+4v5Rx636BixcCNggFEB+gdRpLhlSE=;
+	b=buvXlYX7xSq+a++CB7xO+0TQdttbu1XQETugZesftiswlkvS+qD45Uw2KDT/BvCm02
+	bet0wdC0hNA9Y3UBgG6UdFXObSviUlwsmFQUhyQRTAkvg7zpZGJI1RjdTS3h70oYL7px
+	WCv/kFwCDO3g/wh+FkRwXxhgPGG8Wrth5VDbTg3NwagUtWk1Rla1szvHf+E1rnsTrMEm
+	LHenJmTAQNnLW7zU8TrU7agF5yeDTSi4ulRzQ1VByEat4uAJlg5UYuJWL25IXGN6A/0a
+	+k74ul9NQWfgAq4Xj/ayGMs4Dj72Tygy71tH++T2xQEwPeM8ax8JOem1nzB7DQYK+Wkf
+	E+CA==
+X-Gm-Message-State: APjAAAUvBl+sg63EzBseckwYHSv4+zv9EgKOJm4KPtx7FO2UWbuA2ZF2
+	I3wscxyxJ+FdWocQjFTZwVo=
+X-Google-Smtp-Source: APXvYqw5t5a6nNmCpqUa/UY0YXixwlY0t9U7mYA1fTxMoOgnBacbQcmnL7gRNyMyxTIozAlrIWXXsg==
+X-Received: by 2002:a1c:a594:: with SMTP id o142mr684769wme.146.1582658941066; 
+	Tue, 25 Feb 2020 11:29:01 -0800 (PST)
+Received: from localhost ([109.238.218.228])
+	by smtp.gmail.com with ESMTPSA id e8sm19471803wru.7.2020.02.25.11.29.00
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 11:25:51 -0800 (PST)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 999B32A05A0; Tue, 25 Feb 2020 11:25:49 -0800 (PST)
-From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2020 11:25:44 -0800
-Message-Id: <20200225192544.7521-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.13.3
-Subject: [PATCH] libedit/readline: Correct package alternatives link for manpage
+	Tue, 25 Feb 2020 11:29:00 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 25 Feb 2020 20:28:59 +0100
+To: Scott Branden <scott.branden@broadcom.com>
+Message-ID: <20200225192859.j5j4shf72wxdvqgv@jama>
+References: <20200225001115.18188-1-scott.branden@broadcom.com>
+	<628af1221089667f1377f419dd9375637ac1d028.camel@linuxfoundation.org>
+	<f67bc5ca-b6c3-ef92-538c-f2b61c1a761a@broadcom.com>
+MIME-Version: 1.0
+In-Reply-To: <f67bc5ca-b6c3-ef92-538c-f2b61c1a761a@broadcom.com>
+User-Agent: NeoMutt/20180716
+Cc: Mircea Carausu <mircea.carausu@broadcom.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] common-license: add fdk-aac license file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +63,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 19:25:51 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 19:29:02 -0000
+X-Groupsio-MsgNum: 135604
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="k24e7swngavm2c52"
+Content-Disposition: inline
 
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
----
- meta/recipes-core/readline/readline.inc               | 2 +-
- meta/recipes-devtools/libedit/libedit_20191231-3.1.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+--k24e7swngavm2c52
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-core/readline/readline.inc b/meta/recipes-core/readline/readline.inc
-index 4babcbd69a..052e2d5f3d 100644
---- a/meta/recipes-core/readline/readline.inc
-+++ b/meta/recipes-core/readline/readline.inc
-@@ -47,7 +47,7 @@ CONFFILES_${PN} += "${sysconfdir}/inputrc"
- inherit update-alternatives
- 
- ALTERNATIVE_PRIORITY = "100"
--ALTERNATIVE_${PN} = "history.3"
-+ALTERNATIVE_${PN}-doc = "history.3"
- ALTERNATIVE_LINK_NAME[history.3] = "${mandir}/man3/history.3"
- 
- # OpenSuse injects versions into libreadline leading to conficits between our native one and theirs
-diff --git a/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb b/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
-index 267fdcc54a..8d2d57a930 100644
---- a/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
-+++ b/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
-@@ -21,5 +21,5 @@ BBCLASSEXTEND = "native nativesdk"
- inherit update-alternatives
- 
- ALTERNATIVE_PRIORITY = "90"
--ALTERNATIVE_${PN} = "history.3"
-+ALTERNATIVE_${PN}-doc = "history.3"
- ALTERNATIVE_LINK_NAME[history.3] = "${mandir}/man3/history.3"
--- 
-2.13.3
+On Tue, Feb 25, 2020 at 11:13:46AM -0800, Scott Branden via Openembedded-co=
+re wrote:
+> Hi Richard,
+>=20
+> On 2020-02-25 2:46 a.m., Richard Purdie wrote:
+> > On Mon, 2020-02-24 at 16:11 -0800, Scott Branden via Openembedded-core
+> > wrote:
+> > > From: Mircea Carausu <mircea.carausu@broadcom.com>
+> > >=20
+> > > Add Fraunhofer FDK AAC Codec Library license.
+> > >=20
+> > > Signed-offby: Mircea Carausu <mircea.carausu@broadcom.com>
+> > > Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+> > I'm not sure this belongs in Core? Is it a commonly used license? This
+> > recipe isn't in OE-Core? Does the license have an SPDX identifier (I
+> > couldn't see it on https://spdx.org/licenses/)?
+> If we do not add this license the following WARNING is emitted:
+>=20
+> WARNING: fdk-aac-2.0.1-r0 do_populate_lic: fdk-aac: No generic license fi=
+le
+> exists for: Fraunhofer_FDK_AAC_Codec_Library_for_Android in any provider
+>=20
+> We have submitted the fdk-aac recipe to meta-openembedded/meta-multimedia
+> here:
+> https://patchwork.openembedded.org/patch/170495/
+>=20
+> Please suggest the appropriate place to submit this license.
 
+licenses directory in meta-multimedia
 
+> It is an open source license but does not have and SPDX indentifier and is
+> only used for fdk-aac at this time.
+>=20
+> > Cheers,
+> >=20
+> > Richard
+> >=20
+> Thanks,
+> =A0Scott
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+--k24e7swngavm2c52
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXlV1egAKCRA3VSO3ZXaA
+HOwKAJ4iM4ahelkNeMm293V473lMma+AeACgl31BiS/U0IL9UQHAAQNsyQGlgFE=
+=LkzD
+-----END PGP SIGNATURE-----
+
+--k24e7swngavm2c52--
