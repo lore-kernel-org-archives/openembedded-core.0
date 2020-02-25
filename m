@@ -1,23 +1,49 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F2B216182F
+Return-Path: <eugenyshcheglov@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9816061808
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 14:12:02 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01PEBQJj027795
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 25 Feb 2020 06:11:37 -0800
-Received: from yow-tgamblin-fedora2.wrs.com (128.224.56.206) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 25 Feb 2020 06:11:15 -0800
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Feb 2020 09:11:15 -0500
-Message-ID: <20200225141115.876047-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.24.1
+	Tue, 25 Feb 2020 14:17:38 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id r11so14924227wrq.10
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Feb 2020 06:17:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9N/8USCGLfzymCW9w6CrBWro9usoJqNAvuKGk7v3XMk=;
+	b=CD3Rr5OW69VBG5MZX/y9813N2h7qjUP0RvYPTH4ZxFRw1y15TpKwEqrFMrDG0VSvnv
+	iZuHt4dbMzslHwNJ0NAU5UFRwHhJbHSn/QSaX79LiVVDMLBPYAsdOA1hPXuEf/3LT+yj
+	/KHImPTPjKMu7kajlj+rhwg3yKXs66dZva3XBVFFghod3ZQ9LzynIx19YX2M3guwJ6wL
+	q65eR2zwazapenHoczdMFdhLy27fysgm5hSWAJoY0TIUEanyLTNCsIPUqvyXHLFsQt8E
+	vWtHD88HCd79d4ptheLKFrbRVTcA5wtoSXzls6ypTsmGs61A0HHxip9+fZ60FhNFdDWb
+	2L5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9N/8USCGLfzymCW9w6CrBWro9usoJqNAvuKGk7v3XMk=;
+	b=YPhVqVHbv6vi0pU7L8nxCy+U1iqsSPSPiinJHgvqFXFGfM2oYH29Nj0/8g1xNUwY6t
+	0tSqAWtXjrXfT/QQvIlNMdy9TurIzI0n2OUHBL/kqOnfYhkA0nFDrafaM3pMz2umBSlU
+	8b9M+f1BB0pr9PqfWMFLSA/TFRGM9JIGNRC358IaI0+mos1D3RQnXp8vNuuUkH3Iyg2Y
+	6iJan8K6fuzssaKkYnWmnSwldcWfsZLIkClFIFnvJRQXflIguw8n2pSS0mkTpmOwPVWX
+	eTu4nkPGI2qwnxx00MvJaujm+f5S0JAlmNjLbiMvALBYxJw5EeC2yV48ddRwsRxE1d+0
+	rLWA==
+X-Gm-Message-State: APjAAAUgS1B0Axp6xagf1nlNeUBKppYSC+LgS63elKW6vlha/YL5K5wl
+	irEjZHlMmibzBnZ+K0SqrMDy1029oxk=
+X-Google-Smtp-Source: APXvYqzzw+Wdei5C4imVhn68K2AHvbIoITwGPTAgGs9Ap7ixGAk+5C3RkcVBYlXsovt6hXcD/U7cMg==
+X-Received: by 2002:a5d:494a:: with SMTP id r10mr15589573wrs.21.1582640259000; 
+	Tue, 25 Feb 2020 06:17:39 -0800 (PST)
+Received: from holy.kyiv.star.global ([195.20.130.1])
+	by smtp.gmail.com with ESMTPSA id x6sm24328188wrr.6.2020.02.25.06.17.37
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 25 Feb 2020 06:17:38 -0800 (PST)
+From: Yevhenii Shchehlov <eugenyshcheglov@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Feb 2020 16:17:33 +0200
+Message-Id: <20200225141733.54584-1-eugenyshcheglov@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Subject: [PATCH v2] buildall-qemu: automate build testing for qemu MACHINEs
+Subject: [PATCH] utils.bbclass: Avoid recursive symlink in oe_soinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,198 +56,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 14:12:03 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 14:17:38 -0000
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-buildall-qemu simplifies the process of build testing an upgraded or
-patched recipe by cycling through the build steps for each available qemu
-target, with desired LIBC specified by the user as an option (defaulting
-to both glibc and musl if no option is provided). While building, a log
-file with the name "<recipe>-buildall.log" is written, containing a PASS
-or FAIL line upon completion of the build for each architecture. For now,
-qemu targets are not selectable (i.e. the recipe is built for all qemu
-targets found in meta/conf/machine), but this functionality can be added
-in the future along with other useful options.
+This patch fixes an issue when oe_soinstall function creates
+non-functional recursive symlinks in case library soname is equal
+to library real (file) name.
 
-The log file created by buildall-qemu also includes some basic system
-info (e.g. build start time, hostname, host OS, host kernel). Since it is
-not guaranteed that tools such as lsb_release will be available on the
-host (it isn't by default on my Fedora machine), this information is
-collected manually. Additionally, the previous run's log is retained for
-comparison by renaming it in the format <recipe>-buildall.log.old once a
-new set of builds is triggered for the same recipe.
-
-We've seen multiple variations of this concept in use as one-liners and
-as bash functions in dotfiles, so it seemed appropriate to submit it in
-script form to oe-core for everyone to use.
-
-Sample log output:
-
-BUILDALL-QEMU LOG FOR aspell
-START TIME: 2020-02-11_19:50:02
-HOSTNAME: yow-tgamblin-fedora2
-HOST OS: Fedora 31 (Server Edition)
-HOST KERNEL: 5.4.10-200.fc31.x86_64
-===============
-BUILD RESULTS:
-[glibc]
-PASS: qemuarmv5
-PASS: qemux86
-PASS: qemuppc
-PASS: qemumips64
-PASS: qemux86-64
-PASS: qemumips
-PASS: qemuarm
-PASS: qemuarm64
-PASS: qemuriscv64
-[musl]
-PASS: qemuarmv5
-PASS: qemux86
-PASS: qemuppc
-PASS: qemumips64
-PASS: qemux86-64
-FAIL: qemumips
-FAIL: qemuarm
-FAIL: qemuarm64
-FAIL: qemuriscv64
-===============
-PASSED: 14
-FAILED: 4
-
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Signed-off-by: Yevhenii Shchehlov <eugenyshcheglov@gmail.com>
 ---
- scripts/buildall-qemu | 120 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 120 insertions(+)
- create mode 100755 scripts/buildall-qemu
+ meta/classes/utils.bbclass | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/buildall-qemu b/scripts/buildall-qemu
-new file mode 100755
-index 0000000000..ca9aafadf7
---- /dev/null
-+++ b/scripts/buildall-qemu
-@@ -0,0 +1,120 @@
-+#!/bin/sh
-+#  Copyright (c) 2020 Wind River Systems, Inc.
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# buildall-qemu: a tool for automating build testing of recipes
-+# TODO: Add support for selecting which qemu architectures to build
-+# TODO: Add support for queueing up multiple recipe builds
-+# TODO: Add more logging options (e.g. local.conf info, bitbake env info)
-+
-+usage ()
-+{
-+    base=$(basename "$0")
-+    echo "Usage: $base [options] [recipename/target]"
-+    echo "Executes a build of a given target for selected LIBCs. With no options, default to both libc and musl."
-+    echo "Options:"
-+    echo "-l, --libc            Specify one of \"glibc\" or \"musl\""
-+}
-+
-+
-+buildall ()
-+{
-+    # Get path to oe-core directory. Since oe-init-build-env prepends $PATH with
-+    # the path to the scripts directory, get it from there
-+    SCRIPTS_PATH="$(echo "$PATH" | cut -d ":" -f 1)"
-+    OE_CORE_PATH=$(echo "$SCRIPTS_PATH" | sed 's|\(.*\)/.*|\1|') 
-+
-+    # Get target list and host machine information
-+    TARGET_LIST=$(find "$OE_CORE_PATH"/meta/conf/machine -maxdepth 1 -type f | grep qemu | sed 's|.*/||' | sed -e 's/\.conf//')
-+
-+    # Set LIBC value to use for the builds based on options provided by the user
-+    if [ -n "$2" ]
-+    then
-+	LIBC_LIST="$2"
-+	echo "$LIBC_LIST"
-+    else
-+	LIBC_LIST="glibc musl"
-+	echo "$LIBC_LIST"
-+    fi
-+
-+    START_TIME=$(date "+%Y-%m-%d_%H:%M:%S")
-+    LOG_FILE="$1-buildall.log"
-+    OS_INFO=$(grep "PRETTY_NAME=" /etc/os-release | awk -F "=" '{print $2}' | sed -e 's/^"//' -e 's/"$//')
-+
-+    # Append an existing log file for this build with .old if one exists
-+    if [ -f "${LOG_FILE}" ] 
-+    then
-+       mv "${LOG_FILE}" "${LOG_FILE}.old"
-+    else
-+	   touch "${LOG_FILE}"
-+    fi
-+
-+    # Fill the log file with build and host info
-+    echo "BUILDALL-QEMU LOG FOR $1" >> "${LOG_FILE}"
-+    echo "START TIME: ${START_TIME}" >> "${LOG_FILE}"
-+    echo "HOSTNAME: $(uname -n)" >> "${LOG_FILE}"
-+    echo "HOST OS: ${OS_INFO}" >> "${LOG_FILE}"
-+    echo "HOST KERNEL: $(uname -r)" >> "${LOG_FILE}"
-+    echo "===============" >> "${LOG_FILE}"
-+    echo "BUILD RESULTS:" >> "${LOG_FILE}"
-+
-+    # start the builds for each MACHINE and TCLIBC
-+    for j in ${LIBC_LIST} 
-+    do
-+	echo "[$j]" >> "${LOG_FILE}"
-+	for i in ${TARGET_LIST} 
-+	do
-+	    echo "$i" "$j"; \
-+	    TCLIBC=$j MACHINE=$i bitbake "$1" && echo "PASS: $i" >> "${LOG_FILE}" || echo "FAIL: $i" >> "${LOG_FILE}"
-+	done
-+    done
-+
-+    # Get pass/fail totals and add them to the end of the log
-+    PASSED=$(grep "PASS:" "${LOG_FILE}" | wc -l)
-+    FAILED=$(grep "FAIL:" "${LOG_FILE}" | wc -l)
-+
-+    echo "===============" >> "${LOG_FILE}"
-+    echo "PASSED: ${PASSED}" >> "${LOG_FILE}"
-+    echo "FAILED: ${FAILED}" >> "${LOG_FILE}"
-+}
-+
-+
-+# fail entire script if any command fails
-+set -e
-+
-+# print usage and exit if not enough args given
-+[ $# -eq 0 ] && usage && exit 1
-+
-+# handle arguments
-+RECIPE=
-+while [ $# -gt 0 ]
-+do
-+    arg=$1
-+    case $arg in
-+	-l|--libc)
-+	if [ "$2" = "glibc" ] || [ "$2" = "musl" ]
-+	then
-+	    LIBC_LIST="$2"
+diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+index cd3d05709e..dea824f54f 100644
+--- a/meta/classes/utils.bbclass
++++ b/meta/classes/utils.bbclass
+@@ -25,7 +25,7 @@ oe_soinstall() {
+ 	libname=`basename $1`
+ 	case "$libname" in
+ 	    *.so)
+-	        bbfatal "oe_soinstall: Shared library must haved versioned filename (e.g. libfoo.so.1.2.3)"
++	        bbfatal "oe_soinstall: Shared library must haved versioned filename (e.g. libfoo.so.1.2.3 instead of libfoo.so)"
+ 	        ;;
+ 	esac
+ 	install -m 755 $1 $2/$libname
+@@ -33,8 +33,12 @@ oe_soinstall() {
+ 	if [ -z $sonamelink ]; then
+ 		bbfatal "oe_soinstall: $libname is missing ELF tag 'SONAME'."
+ 	fi
++	if [ "$sonamelink" == "$libname" ]; then
++		bbwarn "oe_soinstall: $libname soname is equal to real (file) name. Minor version should be added to a real name (e.g. libfoo.so.1.2 instead of libfoo.so.1)"
 +	else
-+	    echo "Unrecognized libc option."
-+	    usage && exit 1
++		ln -sf $libname $2/$sonamelink
 +	fi
-+	shift
-+	shift
-+	;;
-+	*)
-+        RECIPE="$1"
-+	shift
-+	;;
-+    esac
-+done
-+
-+set -- "$RECIPE"
-+
-+# run buildall for the given recipe and LIBC
-+if [ -n "$1" ]
-+then
-+	buildall "$1" "$LIBC_LIST"
-+fi
-+
+ 	solink=`echo $libname | sed -e 's/\.so\..*/.so/'`
+-	ln -sf $libname $2/$sonamelink
+ 	ln -sf $libname $2/$solink
+ }
+ 
 -- 
-2.24.1
+2.25.1
 
 
