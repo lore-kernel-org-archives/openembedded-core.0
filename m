@@ -1,52 +1,53 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 698C56168F
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+	[209.85.128.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F4696168E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 18:54:08 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id t79so285322wmt.3
+	Tue, 25 Feb 2020 18:54:09 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id p17so305742wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 10:54:09 -0800 (PST)
+	Tue, 25 Feb 2020 10:54:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=3OajSvlXgWB5nCE79XLnst3S061jsq7J8j86A+v//2I=;
-	b=MBfxUoOpl886C6ixUWP+X+c7aA5XGr8jIlhd8CKthQEm1s6cRHOEdQyrsaayzMtUqm
-	lEAxxK7APgBRG2TpJYKjDL0moyMvhFAJGqRt9QwjfLU/Anc3l2c97VmEaepTSsWF0fja
-	N0HnvR440cSDeg1uWhZrHVfc7bANgRzA8GTyhIZRRp4UbpLGWrTS74wSmoVqVSguepK5
-	RyB0APOh48UDAan6i1k9dW4bm284CAe5BYN0n61Mh6EjMKNUenoGp9iZ0tGALPwoNQvA
-	06Ds1zIDOUaaecRM89vhTqJGx38NHD/XbQuUCMv6O5T/xFmTHEhw0full3REdxnG6HQH
-	OAkA==
+	bh=hgQ4vHqChVGcHDgVUZvOQn39oqMayn8tv2rpnJ7D+tU=;
+	b=Zb8cFZ0ayOHuxvKp8dBeytUZxkEbSM9nDKM2uqAdCCkpEsTBSwcGUxxq4JXfedZ+mo
+	4eUNt/Rhnq0XDkTQJFx2QfpDWPcDwUCFGHssJIucd0CPBFtsMMuVZaEOR4ooKSw26tTI
+	xvfrUGNGAFaCocCkar1sD5khJxiTPlLH9qX9Q0upz39z6MPKGX3iCZHeikGCijBLuECG
+	4la6dByz74xRXIcmbL6QmGzK7sjx+JDTjyGgrm6LDv5pRpO80D8aeOhsNP5PTI9ciIm1
+	Q1sMaUj7fguyLnQ4r0HaBrihOZaFvt9g9vrY/XIYKTSID0usDw6RS8fTAp3CTOU4dmyN
+	MoyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=3OajSvlXgWB5nCE79XLnst3S061jsq7J8j86A+v//2I=;
-	b=qx8kFl8imKRwCj0zlHQbGV/lm9rGbY3QSEx1H3AP8Z7j2gAWfnySnF5lkBP/dkUikk
-	ZsWqKmndfSc/DezdtZGvAgoFqxCj/+SwfhLrw5X480qmXlDZw5CqZs9R9skuuqACJBwi
-	R543neP7XK9VJjggYncs6aX0rS7g0kIw4EYqvE6uMhDMQ6sCeW46bT6v7WEQ1/5nJasF
-	xgElwiKRr1qrM7l0K9Cc6Rw9pLFFuu6GhUX9m1CT2qd20Og2sGLzBFpJuF1nU1U/FHLa
-	VNjinxAt3rL6NYkx4lb+ZOBxjeiTTC7LvzZGDC8ygB7DE7KJSNvtH7TFY2A3GHWqmldT
-	j0ow==
-X-Gm-Message-State: APjAAAXk5tJvz3QzX3+pUFPsfSrbmmtUJcey3Zvlg9zMIyomMGo8VYe+
-	nLlTy4YuJJ9CfMde5mMyLW7rH5Dd
-X-Google-Smtp-Source: APXvYqze4Df5ELx3y66DqIAh3FhJ5+3mIOr38vjebHYvlL2r+c7x8ai8L6yaFeybB8dgvXKWPgrK8Q==
-X-Received: by 2002:a1c:4857:: with SMTP id v84mr629085wma.8.1582656848767;
-	Tue, 25 Feb 2020 10:54:08 -0800 (PST)
+	bh=hgQ4vHqChVGcHDgVUZvOQn39oqMayn8tv2rpnJ7D+tU=;
+	b=nIo6DcVTolx+NL2xuOpcMVeoNGzvxVvT+tpoLdDmQlvljJ7c/5QTYqzitOlJjU96sf
+	OlZbNI/FeVXb/bgS66wIHmMVaai6qIK0J+6LndkbTwjJoyh6+vmVowJWqX7qsqiTEMUv
+	JX0rRHDmMvYjd6ToggSzXFV6mtLjOoxRBJAKalFyQj0qTgZuxzmcww4+I5EbFCO5T7PS
+	29uCH05o0ux1452y7JNJpoMp/URERVhuZ6/yQPSakkkEWB1/1Emjzkjwar35aevaygHj
+	BH7b03WrSb8vXzKhz71nAEw4v/F1X5SuCkMMC853VoyJNtGqbIxZaLuHl3taQ839fwWm
+	z66w==
+X-Gm-Message-State: APjAAAXd12Nqus3xleKaiVuGCmCt2Vnp09gqW6GO7tYAOxw1AA9ngMjz
+	AgZwYtONAJLTh0zOauB0/v552uLS
+X-Google-Smtp-Source: APXvYqxlreir307fPLvaA+gOVWK9wxVaymXkYMEpQym618o6DoTg7Yv9UxGLlSJA7BkYMdoiaLhJ4A==
+X-Received: by 2002:a05:600c:2255:: with SMTP id
+	a21mr587078wmm.79.1582656849680; 
+	Tue, 25 Feb 2020 10:54:09 -0800 (PST)
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
 	by smtp.gmail.com with ESMTPSA id
 	g7sm25730756wrq.21.2020.02.25.10.54.08
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 10:54:08 -0800 (PST)
+	Tue, 25 Feb 2020 10:54:09 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2020 19:53:27 +0100
-Message-Id: <20200225185335.19326-4-alex.kanavin@gmail.com>
+Date: Tue, 25 Feb 2020 19:53:28 +0100
+Message-Id: <20200225185335.19326-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200225185335.19326-1-alex.kanavin@gmail.com>
 References: <20200225185335.19326-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 04/12] ncurses: upgrade 6.1+20191019 -> 6.2
+Subject: [PATCH 05/12] python3-docutils: upgrade 0.15 -> 0.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,46 +60,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 18:54:08 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 18:54:09 -0000
 Content-Transfer-Encoding: 8bit
 
-License-Update: copyright years and holders
+License-Update: formatting
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-core/ncurses/ncurses.inc                           | 2 +-
- .../ncurses/{ncurses_6.1+20191019.bb => ncurses_6.2.bb}         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/ncurses/{ncurses_6.1+20191019.bb => ncurses_6.2.bb} (89%)
+ .../{python3-docutils_0.15.bb => python3-docutils_0.16.bb}  | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-docutils_0.15.bb => python3-docutils_0.16.bb} (60%)
 
-diff --git a/meta/recipes-core/ncurses/ncurses.inc b/meta/recipes-core/ncurses/ncurses.inc
-index b7bf4c0d81..4156bf4f7d 100644
---- a/meta/recipes-core/ncurses/ncurses.inc
-+++ b/meta/recipes-core/ncurses/ncurses.inc
-@@ -2,7 +2,7 @@ SUMMARY = "The New Curses library"
- DESCRIPTION = "SVr4 and XSI-Curses compatible curses library and terminfo tools including tic, infocmp, captoinfo. Supports color, multiple highlights, forms-drawing characters, and automatic recognition of keypad and function-key sequences. Extensions include resizable windows and mouse support on both xterm and Linux console using the gpm library."
- HOMEPAGE = "http://www.gnu.org/software/ncurses/ncurses.html"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=cbc180a8c44ca642e97c35452fab5f66"
-+LIC_FILES_CHKSUM = "file://ncurses/base/version.c;beginline=1;endline=27;md5=5526f2f3a29edc95538b368a4771edda"
- SECTION = "libs"
- DEPENDS = "ncurses-native"
- DEPENDS_class-native = ""
-diff --git a/meta/recipes-core/ncurses/ncurses_6.1+20191019.bb b/meta/recipes-core/ncurses/ncurses_6.2.bb
-similarity index 89%
-rename from meta/recipes-core/ncurses/ncurses_6.1+20191019.bb
-rename to meta/recipes-core/ncurses/ncurses_6.2.bb
-index 187777f6ef..b6d899c878 100644
---- a/meta/recipes-core/ncurses/ncurses_6.1+20191019.bb
-+++ b/meta/recipes-core/ncurses/ncurses_6.2.bb
-@@ -5,7 +5,7 @@ SRC_URI += "file://0001-tic-hang.patch \
-            file://config.cache \
-            "
- # commit id corresponds to the revision in package version
--SRCREV = "ea70ec815b362f5bbad7a827a2edf50fd2b459cc"
-+SRCREV = "a669013cd5e9d6434e5301348ea51baf306c93c4"
- S = "${WORKDIR}/git"
- EXTRA_OECONF += "--with-abi-version=5 --cache-file=${B}/config.cache"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
+diff --git a/meta/recipes-devtools/python/python3-docutils_0.15.bb b/meta/recipes-devtools/python/python3-docutils_0.16.bb
+similarity index 60%
+rename from meta/recipes-devtools/python/python3-docutils_0.15.bb
+rename to meta/recipes-devtools/python/python3-docutils_0.16.bb
+index f5c3f5d707..50547a1b0c 100644
+--- a/meta/recipes-devtools/python/python3-docutils_0.15.bb
++++ b/meta/recipes-devtools/python/python3-docutils_0.16.bb
+@@ -2,13 +2,13 @@ SUMMARY = "Text processing system for documentation"
+ HOMEPAGE = "http://docutils.sourceforge.net"
+ SECTION = "devel/python"
+ LICENSE = "PSF & BSD-2-Clause & GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING.txt;md5=35a23d42b615470583563132872c97d6"
++LIC_FILES_CHKSUM = "file://COPYING.txt;md5=7a4646907ab9083c826280b19e103106"
+ 
+ DEPENDS = "python3"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/docutils/docutils-${PV}.tar.gz"
+-SRC_URI[md5sum] = "f51729f19e70a9dc4837433193a5e798"
+-SRC_URI[sha256sum] = "c35e87e985f70106f6f97e050f3bed990641e0e104566134b9cd23849a460e96"
++SRC_URI[md5sum] = "9ccb6f332e23360f964de72c8ea5f0ed"
++SRC_URI[sha256sum] = "7d4e999cca74a52611773a42912088078363a30912e8822f7a3d38043b767573"
+ 
+ S = "${WORKDIR}/docutils-${PV}"
+ 
 -- 
 2.25.0
 
