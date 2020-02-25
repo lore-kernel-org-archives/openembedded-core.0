@@ -1,49 +1,57 @@
-Return-Path: <eugenyshcheglov@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9816061808
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C5F46168A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 14:17:38 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id r11so14924227wrq.10
+	Tue, 25 Feb 2020 14:34:13 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id x14so14241955ljd.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 06:17:40 -0800 (PST)
+	Tue, 25 Feb 2020 06:34:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9N/8USCGLfzymCW9w6CrBWro9usoJqNAvuKGk7v3XMk=;
-	b=CD3Rr5OW69VBG5MZX/y9813N2h7qjUP0RvYPTH4ZxFRw1y15TpKwEqrFMrDG0VSvnv
-	iZuHt4dbMzslHwNJ0NAU5UFRwHhJbHSn/QSaX79LiVVDMLBPYAsdOA1hPXuEf/3LT+yj
-	/KHImPTPjKMu7kajlj+rhwg3yKXs66dZva3XBVFFghod3ZQ9LzynIx19YX2M3guwJ6wL
-	q65eR2zwazapenHoczdMFdhLy27fysgm5hSWAJoY0TIUEanyLTNCsIPUqvyXHLFsQt8E
-	vWtHD88HCd79d4ptheLKFrbRVTcA5wtoSXzls6ypTsmGs61A0HHxip9+fZ60FhNFdDWb
-	2L5g==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=MgzepiGod7YAinBmN3MoHsah6Sa2dpjToUvUjkuZM8o=;
+	b=oDoQQa8SJo6JWJU6x0tRhRt8CGwzHu8+UXoHoojineEfo+ReyVOEvuRwP+HwrlgewQ
+	0ngh1WtmOjxu8R4hIGeCWcGkLZQPZHE9jeLkEgkxahAnzmvYZJ+Je9V5uWDU854yU/QE
+	8pGw/W9/bbxaoo3a5pJM3U3E4gzYakZKrVQ2b5dOjhELqiFABPXXYVzZkxuBs8qyFnPS
+	HZ/LuJaIxg3FnAfW9Fv7ODszfSbb1nwqj86n4/pEybwM5F7yNw10ADLiqA82pzPU3guD
+	YjRBC2roO8M3611QIuWfegQx52/qge5zRcjG8lbszDzUY5wJatoH6Wdi1PE1WAWe7Ovh
+	zpRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=9N/8USCGLfzymCW9w6CrBWro9usoJqNAvuKGk7v3XMk=;
-	b=YPhVqVHbv6vi0pU7L8nxCy+U1iqsSPSPiinJHgvqFXFGfM2oYH29Nj0/8g1xNUwY6t
-	0tSqAWtXjrXfT/QQvIlNMdy9TurIzI0n2OUHBL/kqOnfYhkA0nFDrafaM3pMz2umBSlU
-	8b9M+f1BB0pr9PqfWMFLSA/TFRGM9JIGNRC358IaI0+mos1D3RQnXp8vNuuUkH3Iyg2Y
-	6iJan8K6fuzssaKkYnWmnSwldcWfsZLIkClFIFnvJRQXflIguw8n2pSS0mkTpmOwPVWX
-	eTu4nkPGI2qwnxx00MvJaujm+f5S0JAlmNjLbiMvALBYxJw5EeC2yV48ddRwsRxE1d+0
-	rLWA==
-X-Gm-Message-State: APjAAAUgS1B0Axp6xagf1nlNeUBKppYSC+LgS63elKW6vlha/YL5K5wl
-	irEjZHlMmibzBnZ+K0SqrMDy1029oxk=
-X-Google-Smtp-Source: APXvYqzzw+Wdei5C4imVhn68K2AHvbIoITwGPTAgGs9Ap7ixGAk+5C3RkcVBYlXsovt6hXcD/U7cMg==
-X-Received: by 2002:a5d:494a:: with SMTP id r10mr15589573wrs.21.1582640259000; 
-	Tue, 25 Feb 2020 06:17:39 -0800 (PST)
-Received: from holy.kyiv.star.global ([195.20.130.1])
-	by smtp.gmail.com with ESMTPSA id x6sm24328188wrr.6.2020.02.25.06.17.37
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 06:17:38 -0800 (PST)
-From: Yevhenii Shchehlov <eugenyshcheglov@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2020 16:17:33 +0200
-Message-Id: <20200225141733.54584-1-eugenyshcheglov@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	bh=MgzepiGod7YAinBmN3MoHsah6Sa2dpjToUvUjkuZM8o=;
+	b=F7MIz7HPUYh0D2uKHkVoC+5KIf6nGV27NG9wCygljfxVFd8E5ANbQCKqzJT0MVpGnI
+	m37m/RVWCOdoTym3eD2uk/+Lo/5kPK5eiB5PLYnW0H9simDechv+FGHL0QbEx17BNLTr
+	mM5eqnCHwb1DIKGBQrTipCBpPzhHexCjd8M0k2UTwjl4VNVHmx0eKoIbY2czNoB49KaM
+	lU1xoC0cLu1Lk1/ugunhmmH9EpmjG4NyTkh/Ybsw7jwee6sQxXEjG9V9tDhuLgEauN7x
+	i+tBFlQ46uW7pZWpZ+blXW/OrwatEkcFk9Ea8kLJakvoVjMimhGdJ1lmIiIIJt9KIPtF
+	jK5w==
+X-Gm-Message-State: APjAAAW6AG1QoLpoX4fOUBwcuVra/wsL45Y9cjKf301lmQ/zfeeKl1lt
+	T0vrtpz4675PF7lOUsg7pAN2xuoZ
+X-Google-Smtp-Source: APXvYqzeLrq5jytKt59f0dgiOYyAmrhvyw8fMjn9nBW11qA/YjXdrOpVJKpfECZsqWmnh2cgWMk1mQ==
+X-Received: by 2002:a2e:9052:: with SMTP id n18mr33586503ljg.251.1582641253388;
+	Tue, 25 Feb 2020 06:34:13 -0800 (PST)
+Received: from localhost.localdomain ([213.185.29.22])
+	by smtp.gmail.com with ESMTPSA id
+	e25sm7822298ljp.97.2020.02.25.06.34.12
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 25 Feb 2020 06:34:12 -0800 (PST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20200222185400.32136-1-jpuhlman@mvista.com>
+	<a133657b-8b8f-a4e9-5999-41781f74db6d@gmail.com>
+	<42d690f3ae40a420179cb85453d2722c153c2d8c.camel@linuxfoundation.org>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Message-ID: <bf82e526-a78b-14b7-42cc-b5fbb467e35b@gmail.com>
+Date: Tue, 25 Feb 2020 15:34:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-Subject: [PATCH] utils.bbclass: Avoid recursive symlink in oe_soinstall
+In-Reply-To: <42d690f3ae40a420179cb85453d2722c153c2d8c.camel@linuxfoundation.org>
+Subject: Re: [PATCH] readline/ediline: Fix conflicting manpages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,46 +64,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 14:17:38 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 25 Feb 2020 14:34:13 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-This patch fixes an issue when oe_soinstall function creates
-non-functional recursive symlinks in case library soname is equal
-to library real (file) name.
+On 2/25/20 2:33 PM, Richard Purdie wrote:
+> On Tue, 2020-02-25 at 14:08 +0100, Jacob Kroon wrote:
+>> On 2/22/20 7:54 PM, Jeremy A. Puhlman wrote:
+>>>    BBCLASSEXTEND = "native nativesdk"
+>>> +
+>>> +inherit update-alternatives
+>>> +
+>>> +ALTERNATIVE_PRIORITY = "90"
+>>> +ALTERNATIVE_${PN} = "history.3"
+>>> +ALTERNATIVE_LINK_NAME[history.3] = "${mandir}/man3/history.3"
+>>>
+>>
+>> With this change (I think), I now get a file
+>>
+>>> +lrwxrwxrwx root       root               38
+>>> ./usr/share/man/man3/history.3 ->
+>>> /usr/share/man/man3/history.3.readline
+>>
+>> in my rootfs, which is wierd since I don't have any other man pages
+>> in my image..
+> 
+> At a guess, ALTERNATIVE_${PN} should be ALTERNATIVE_${PN}-doc ?
+> 
 
-Signed-off-by: Yevhenii Shchehlov <eugenyshcheglov@gmail.com>
----
- meta/classes/utils.bbclass | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+I can confirm that changing the recipe according to RP's suggestion gets 
+rid of that file in my image.
 
-diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-index cd3d05709e..dea824f54f 100644
---- a/meta/classes/utils.bbclass
-+++ b/meta/classes/utils.bbclass
-@@ -25,7 +25,7 @@ oe_soinstall() {
- 	libname=`basename $1`
- 	case "$libname" in
- 	    *.so)
--	        bbfatal "oe_soinstall: Shared library must haved versioned filename (e.g. libfoo.so.1.2.3)"
-+	        bbfatal "oe_soinstall: Shared library must haved versioned filename (e.g. libfoo.so.1.2.3 instead of libfoo.so)"
- 	        ;;
- 	esac
- 	install -m 755 $1 $2/$libname
-@@ -33,8 +33,12 @@ oe_soinstall() {
- 	if [ -z $sonamelink ]; then
- 		bbfatal "oe_soinstall: $libname is missing ELF tag 'SONAME'."
- 	fi
-+	if [ "$sonamelink" == "$libname" ]; then
-+		bbwarn "oe_soinstall: $libname soname is equal to real (file) name. Minor version should be added to a real name (e.g. libfoo.so.1.2 instead of libfoo.so.1)"
-+	else
-+		ln -sf $libname $2/$sonamelink
-+	fi
- 	solink=`echo $libname | sed -e 's/\.so\..*/.so/'`
--	ln -sf $libname $2/$sonamelink
- 	ln -sf $libname $2/$solink
- }
- 
--- 
-2.25.1
-
+Thanks,
+Jacob
 
