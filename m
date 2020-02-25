@@ -1,53 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D6A5C616B9
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FAFE6168E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 18:54:11 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id i10so1719538wmd.1
+	Tue, 25 Feb 2020 18:54:12 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id a6so298603wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 10:54:13 -0800 (PST)
+	Tue, 25 Feb 2020 10:54:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=WHEL5vhARJmrcEgHa3CRGUct2CRZmBvpDB4+bXmmJJI=;
-	b=kPTRxw3K9iAzfw+NA6q6menasbYy8DITDckBSk7c65ZjSukxi0NkzyXmXohJVxG0uZ
-	q0NJP57OQR4sYRLf6Rt+jAr16yrtbnSnpGys8Em+fVMJRLYFkiLXnR1Yoo52ZZwmF/kP
-	9aeyfHBIAqz/6zandxbS1UksR5vg65fpdpwvkYXeqe+tcK4R7t2sQvVPQd20Ye+6vQuk
-	3E0O1T6oLFq/P02mB6JD2S8ykN0sm/TEiQW0VoXqNaPc4w1ovWuPXQ0cv48Gzt8V8mlS
-	i9zXDZhZr4FVF+egqGquWti2muCQPX2HFm1Qi99JvpuAKjxuImAVTqAJoZUib5nDjddP
-	ZKFg==
+	bh=cfHg+Vw653LA6zl/7A6vptIutFA/TgPMrqjPTWyogMk=;
+	b=pMdtglRrvq0vpAYEXMx1XFZCgU8wNRBBaKVwjdNG/CXM7S6GFPusLM+A6oXL7aci3m
+	TD2ZBHr//Ku7IbJ4rsw0cBqFjO3bg1n7iCCWYjg+Z0Ruo4NxDRxq7Etzu3a5ochjcnwz
+	+pnLux6jcxEny7JtsvxA8A/EJhI6zjv+aYX5hOHBbKpRr0EABep5wHkO9m5bvp+RWxWf
+	h8Ml0nUSoRwJKX+525OeTHF2nBV0IA8+7nC/VMO3FslHn83hW/WYDLX1mUMQNL8h4ZWz
+	8NpwGQbst/qcc0SglC6T/TlPPy4cEVvPU4fk+GtFSEFYnRNwB4meHT8OsKejvVhUf8OL
+	ZO/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=WHEL5vhARJmrcEgHa3CRGUct2CRZmBvpDB4+bXmmJJI=;
-	b=HLguwvrUFNR9PcMYOmzeXBAoLXHrh9e2ZvS4Job8d6i0mju0cBRyNHxdGftkjM0Bah
-	+dlvJN3Mzlwctxpctb4IgJ+ImEd/ycywk9FlGh3s1zI9ptbbnjeV5pfpw+Jx++G/Ga4+
-	eESv3L9fhwtn+S3KeBfd4S/Gw5bqaHIo7zEYUaanNMF1fUo97BNSekVt3A0v+1uYtNbg
-	KENUS29azrrPNGn0qer/tm6sGik4aErEVwWTZwo4IlHiYiRwVM57DxSq897ruLL2YJle
-	Dpi+8GabG0vfx15WwKPY1Cu9CYNK5EyQgDfI4P+AvRohylXbZdl078IH1t/v1De0tUBe
-	q0Jg==
-X-Gm-Message-State: APjAAAXzbBw4J/o3UMNbJxvofC4nYM1Gboz4aWkV5qpOJW/Dqv5tBAIF
-	fq13oWJOe4AMD/hwk9bUy7SryKdQ
-X-Google-Smtp-Source: APXvYqwjwVkrvVbjo9vamnH8Xa+ZLzdwGkDZJNFrBB9l4FmFjKnLx2BgYz3oLzGS55ioPWXaoe3XKw==
-X-Received: by 2002:a05:600c:23cd:: with SMTP id
-	p13mr608647wmb.28.1582656852259; 
-	Tue, 25 Feb 2020 10:54:12 -0800 (PST)
+	bh=cfHg+Vw653LA6zl/7A6vptIutFA/TgPMrqjPTWyogMk=;
+	b=T5phRsV1WiHKDLg8ljasdjYATz41FYXra7MGkSQqn0A+OGaSHwMBSW6IGVjSRqUGDw
+	jkSFjYC7WIXshxteFXmy+FzD+6NZWL1dnf32DK1gOh68mlypDhO/DA9P0W9W4S2TK9g7
+	pUVlN/NxsqJtoznplQqM/qYZ7OUbBhsjE/bcSUWw0WyZc1QaIYAoYbSh/bJx2A/HYV3Z
+	13Fe3zc6cbgfEWlQofcMX6XDPOg5xJnGeI5m718Ho6PWbDwGr7X+tmjk2JgS8JG5i42/
+	YhwPO59Q0/xCSrjy5zO4L/C2fytX5PFkrazVg+zhsRfHgQyfwkLZ7zyzbbp91g++qDfS
+	9rTQ==
+X-Gm-Message-State: APjAAAW6SXVI25wv4YZllS4eCM1hajq5i5YYnFcpHXzwJ2CTGwOM7kOP
+	UB7OtLQn8l12nMB13nECLW0NgcBm
+X-Google-Smtp-Source: APXvYqwThpilioedXqNnkOosDImqoszg11zgxBdPa3YD0bniGt8GMzDMgu3kV6uhGLUhQRaSiIDX+w==
+X-Received: by 2002:a1c:b457:: with SMTP id d84mr607695wmf.172.1582656853476; 
+	Tue, 25 Feb 2020 10:54:13 -0800 (PST)
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
 	by smtp.gmail.com with ESMTPSA id
-	g7sm25730756wrq.21.2020.02.25.10.54.11
+	g7sm25730756wrq.21.2020.02.25.10.54.12
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 10:54:11 -0800 (PST)
+	Tue, 25 Feb 2020 10:54:12 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2020 19:53:31 +0100
-Message-Id: <20200225185335.19326-8-alex.kanavin@gmail.com>
+Date: Tue, 25 Feb 2020 19:53:32 +0100
+Message-Id: <20200225185335.19326-9-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200225185335.19326-1-alex.kanavin@gmail.com>
 References: <20200225185335.19326-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 08/12] gnutls: upgrade 3.6.11.1 -> 3.6.12
+Subject: [PATCH 09/12] python3-setuptools: upgrade 45.0.0 -> 45.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,33 +59,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 18:54:12 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 18:54:13 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../gnutls/{gnutls_3.6.11.1.bb => gnutls_3.6.12.bb}           | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.6.11.1.bb => gnutls_3.6.12.bb} (93%)
+ ...0001-conditionally-do-not-fetch-code-by-easy_install.patch | 4 ++--
+ meta/recipes-devtools/python/python-setuptools.inc            | 4 ++--
+ ...hon3-setuptools_45.0.0.bb => python3-setuptools_45.2.0.bb} | 0
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_45.0.0.bb => python3-setuptools_45.2.0.bb} (100%)
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.11.1.bb b/meta/recipes-support/gnutls/gnutls_3.6.12.bb
-similarity index 93%
-rename from meta/recipes-support/gnutls/gnutls_3.6.11.1.bb
-rename to meta/recipes-support/gnutls/gnutls_3.6.12.bb
-index 5b05364c25..f1eeebc807 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.11.1.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.12.bb
-@@ -21,8 +21,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://arm_eabi.patch \
- "
+diff --git a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index b1a6813b2e..5f99cd2512 100644
+--- a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From 50e4ebce9f711391e2fa9f43906259e19ac00e63 Mon Sep 17 00:00:00 2001
++From a8f871c9ebc4fcb99d4163b226aabeef26567099 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+@@ -15,7 +15,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 5 insertions(+)
  
--SRC_URI[md5sum] = "3670ee0b0d95b3dee185eff2dc910ee7"
--SRC_URI[sha256sum] = "fbba12f3db9a55dbf027e14111755817ec44b57eabec3e8089aac8ac6f533cf8"
-+SRC_URI[md5sum] = "a23900f14980a467bdce3a0fd31dfa18"
-+SRC_URI[sha256sum] = "bfacf16e342949ffd977a9232556092c47164bd26e166736cf3459a870506c4b"
+ diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
+-index 09066f8..d3039a5 100644
++index 426301d..55c8062 100644
+ --- a/setuptools/command/easy_install.py
+ +++ b/setuptools/command/easy_install.py
+ @@ -649,6 +649,11 @@ class easy_install(Command):
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index c697937887..f7c3202fde 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -10,8 +10,8 @@ inherit pypi
  
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
+ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
  
+-SRC_URI[md5sum] = "14898abd6f436eee58a5a2ba291fcbeb"
+-SRC_URI[sha256sum] = "c46d9c8f2289535457d36c676b541ca78f7dcb736b97d02f50d17f7f15b583cc"
++SRC_URI[md5sum] = "0c956eea142af9c2b02d72e3c042af30"
++SRC_URI[sha256sum] = "89c6e6011ec2f6d57d43a3f9296c4ef022c2cbf49bab26b407fe67992ae3397f"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
+diff --git a/meta/recipes-devtools/python/python3-setuptools_45.0.0.bb b/meta/recipes-devtools/python/python3-setuptools_45.2.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-setuptools_45.0.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_45.2.0.bb
 -- 
 2.25.0
 
