@@ -1,49 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 182426168E
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F66F615E4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 23:33:15 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id h4so973961qkm.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 15:33:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=p7iZPnFMk+1zObqQ2iMQGKPniKbdQw6lEHj0Tbuy86E=;
-	b=Hbd3WwEuXFI/5F7XXd8BNqBja3yA49onScUnY/mc8vTukg+3CCiQjLTbQHXYzuc+Vl
-	WusbjOZzUTHeU28bggjcqI2mDxYqTuj3js79w7jdEt7VSN8GAZCMOIB2I/8st0x6ecSz
-	Z+jsqCIUmCKnLuz5jT2BsSd1FpsFPkW7paR7qixcK6ocJRQ00gXdnYmH+uFXqF9lsaM7
-	KU0DJVeLhhCNEFFAUyvE5/IuurjhtxyxZwfkW7AM4Dy/dc1DSo9oLWM+gcItTEp1hG7/
-	St9ik3gfNXI3JcGT8/K1WhXwaNzEBYRphMxxnuSSI3juWqppxERBIE0OfOI47t8nRtMe
-	t/UA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=p7iZPnFMk+1zObqQ2iMQGKPniKbdQw6lEHj0Tbuy86E=;
-	b=naUSFExz9Fs+klY6tQK9OTSbtfBQcUTsNrDA9wkAze6ksF0smk+jvtSns6zL0hKWMw
-	jKxhbbxaJFqLtKiHM9anpQCJboU1SE3o2n/Dq0nRRww3S/UP7Yufq1IfQ6wYVwTRcreP
-	CcQjxwySGvrE9Huo79SjJpEPsRqRyIfZL7BaCaEoOhpjNAlztpYMw5iox6vT0RwFtyw0
-	ta2pCUsL+fHcibQWs9eu2nC2XiOAQb12OK0hKlwv3rRWWd1VZZzqX5WnCGCApNU21ddU
-	k1r7RIf4LKbTzw2o1ZJNU4ySerDqjHEY9JiWVuZLT0lrzMW4/32jxlGiwkBs36aztdWz
-	pdTg==
-X-Gm-Message-State: APjAAAW9hJtni9kIOlGiOGzMael0GW8SlbL40Cu6pumxYhS0B59O/VPL
-	N35Xpeawdq2fYfCdlm+b63wCCCggI88o1KYw09s=
-X-Google-Smtp-Source: APXvYqyIA7qkZorFmuBHvdnpAyE2KAoDinBqSPtm+umrdBRONvat8PCKwzL4Y6BDIP5+mLRVSkMPQeF+Kjp06lRtnhc=
-X-Received: by 2002:a37:6307:: with SMTP id x7mr1757823qkb.225.1582673596534; 
-	Tue, 25 Feb 2020 15:33:16 -0800 (PST)
+	Tue, 25 Feb 2020 23:46:08 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Feb 2020 15:46:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,485,1574150400"; d="scan'208";a="226521914"
+Received: from wrath.jf.intel.com ([10.54.31.24])
+	by orsmga007.jf.intel.com with ESMTP; 25 Feb 2020 15:46:08 -0800
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Feb 2020 15:46:03 -0800
+Message-Id: <20200225234603.36012-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-References: <20200221224537.4052134-1-raj.khem@gmail.com>
-	<20200221224537.4052134-3-raj.khem@gmail.com>
-	<CAJ86T=WpKBfD119m1G5jgW4Y1UA---WWSc0UkMfRzi8oEiwPTA@mail.gmail.com>
-In-Reply-To: <CAJ86T=WpKBfD119m1G5jgW4Y1UA---WWSc0UkMfRzi8oEiwPTA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 25 Feb 2020 15:32:49 -0800
-Message-ID: <CAMKF1sqDU3O4MOpmeL110pB651M-Zed+Ja6u3JtFhJgDGOmr2g@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Upgrade Helper <auh@auh.yoctoproject.org>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] ninja: upgrade 1.9.0 -> 1.10.0
+Subject: [PATCH v2] libmodule-build-perl: upgrade 0.4229 -> 0.4231
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,120 +31,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 23:33:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 25 Feb 2020 23:46:08 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Feb 25, 2020 at 11:43 AM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Fri, Feb 21, 2020 at 2:46 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > From: Upgrade Helper <auh@auh.yoctoproject.org>
->
-> Why does the author sometimes get set to "Upgrade Helper"? It doesn't
-> seem to happen very often (4 times in the past 6 years in oe-core).
-> What's special about those 4 cases?
+Upstream release notes:
+"
+0.4231 - Wed Jan 29 08:47:56 CET 2020
 
-well this was an oversight on my part, since the next steps in the
-email did suggest
+  - Released 0.42_30 without code changes
 
-    - amend the patch and sign it off: git commit -s --reset-author --amend
+0.42_30 - Wed Jul 31 13:15:39 CEST 2019
 
-I only did git am -s and then testing
+  - Add dependency on ExtUtils::PL2Bat
+"
 
-but on a lighter note, it might be worth giving credit to Upgrade
-Helper since it did
-author the patch, perhaps will keep the AI in these machines happy.
+Add ptest RDEPENDS:
+  - ExtUtils::Command::MM for t/compat.t
+  - gcc, make didn't seem like enough for ptest, replace with
+    packagegroup-core-buildessential which definitely works
+  - perl-dev for EXTERN.h in t/xs.t
 
->
-> I think it would be clearer if the author was set to whoever ran the tool.
->
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  .../ninja/ninja/fix-musl.patch                | 46 -------------------
-> >  .../ninja/{ninja_1.9.0.bb => ninja_1.10.0.bb} |  6 +--
-> >  2 files changed, 2 insertions(+), 50 deletions(-)
-> >  delete mode 100644 meta/recipes-devtools/ninja/ninja/fix-musl.patch
-> >  rename meta/recipes-devtools/ninja/{ninja_1.9.0.bb => ninja_1.10.0.bb} (87%)
-> >
-> > diff --git a/meta/recipes-devtools/ninja/ninja/fix-musl.patch b/meta/recipes-devtools/ninja/ninja/fix-musl.patch
-> > deleted file mode 100644
-> > index 7fd779110d..0000000000
-> > --- a/meta/recipes-devtools/ninja/ninja/fix-musl.patch
-> > +++ /dev/null
-> > @@ -1,46 +0,0 @@
-> > -From e92a915183f8bff268f74c8cd00d986301a2bbf8 Mon Sep 17 00:00:00 2001
-> > -From: makepost <makepost@firemail.cc>
-> > -Date: Mon, 24 Dec 2018 03:13:16 +0200
-> > -Subject: [PATCH] Use st_mtim if st_mtime is macro, fix #1510
-> > -
-> > -In POSIX.1-2008, sys_stat has a st_mtim member and a st_mtime backward
-> > -compatibility macro. Should help avoid hardcoding platform detection.
-> > -
-> > -Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> > -
-> > -Upstream-Status: Pending
-> > ----
-> > - src/disk_interface.cc | 14 ++++----------
-> > - 1 file changed, 4 insertions(+), 10 deletions(-)
-> > -
-> > -diff --git a/src/disk_interface.cc b/src/disk_interface.cc
-> > -index d4c2fb0..dc297c4 100644
-> > ---- a/src/disk_interface.cc
-> > -+++ b/src/disk_interface.cc
-> > -@@ -202,19 +202,13 @@ TimeStamp RealDiskInterface::Stat(const string& path, string* err) const {
-> > -   // that it doesn't exist.
-> > -   if (st.st_mtime == 0)
-> > -     return 1;
-> > --#if defined(__APPLE__) && !defined(_POSIX_C_SOURCE)
-> > -+#if defined(_AIX)
-> > -+  return (int64_t)st.st_mtime * 1000000000LL + st.st_mtime_n;
-> > -+#elif defined(__APPLE__)
-> > -   return ((int64_t)st.st_mtimespec.tv_sec * 1000000000LL +
-> > -           st.st_mtimespec.tv_nsec);
-> > --#elif (_POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700 || defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || \
-> > --       defined(__BIONIC__) || (defined (__SVR4) && defined (__sun)) || defined(__FreeBSD__))
-> > --  // For glibc, see "Timestamp files" in the Notes of http://www.kernel.org/doc/man-pages/online/pages/man2/stat.2.html
-> > --  // newlib, uClibc and musl follow the kernel (or Cygwin) headers and define the right macro values above.
-> > --  // For bsd, see https://github.com/freebsd/freebsd/blob/master/sys/sys/stat.h and similar
-> > --  // For bionic, C and POSIX API is always enabled.
-> > --  // For solaris, see https://docs.oracle.com/cd/E88353_01/html/E37841/stat-2.html.
-> > -+#elif defined(st_mtime) // A macro, so we're likely on modern POSIX.
-> > -   return (int64_t)st.st_mtim.tv_sec * 1000000000LL + st.st_mtim.tv_nsec;
-> > --#elif defined(_AIX)
-> > --  return (int64_t)st.st_mtime * 1000000000LL + st.st_mtime_n;
-> > - #else
-> > -   return (int64_t)st.st_mtime * 1000000000LL + st.st_mtimensec;
-> > - #endif
-> > ---
-> > -2.17.1
-> > -
-> > diff --git a/meta/recipes-devtools/ninja/ninja_1.9.0.bb b/meta/recipes-devtools/ninja/ninja_1.10.0.bb
-> > similarity index 87%
-> > rename from meta/recipes-devtools/ninja/ninja_1.9.0.bb
-> > rename to meta/recipes-devtools/ninja/ninja_1.10.0.bb
-> > index f1236e8ac8..bdc6365052 100644
-> > --- a/meta/recipes-devtools/ninja/ninja_1.9.0.bb
-> > +++ b/meta/recipes-devtools/ninja/ninja_1.10.0.bb
-> > @@ -5,11 +5,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a81586a64ad4e476c791cda7e2f2c52e"
-> >
-> >  DEPENDS = "re2c-native ninja-native"
-> >
-> > -SRCREV = "b25c08bda4949192c69cea4cee057887341a2ffc"
-> > +SRCREV = "ed7f67040b370189d989adbd60ff8ea29957231f"
-> >
-> > -SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release \
-> > -           file://fix-musl.patch \
-> > -"
-> > +SRC_URI = "git://github.com/ninja-build/ninja.git;branch=release"
-> >  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
-> >
-> >  S = "${WORKDIR}/git"
-> > --
-> > 2.25.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Add INSANE_SKIP dev-deps for the -ptest package because of perl-dev
+
+Five tests from t/help.t are skipped because they are TODO
+
+t/par.t is skipped because PAR::Dist (0.17+) is not present
+
+t/ppm.t is skipped because "HTML support not installed"
+
+All other tests pass.
+
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+---
+ ...rl_0.4229.bb => libmodule-build-perl_0.4231.bb} | 14 +++++++++-----
+ 1 file changed, 9 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/perl/{libmodule-build-perl_0.4229.bb => libmodule-build-perl_0.4231.bb} (90%)
+
+diff --git a/meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb b/meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
+similarity index 90%
+rename from meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb
+rename to meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
+index e3ba40d96c..b1967c7b03 100644
+--- a/meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb
++++ b/meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
+@@ -15,9 +15,9 @@ LIC_FILES_CHKSUM = "file://README;beginline=949;endline=954;md5=624c06db56a2af4d
+ 
+ SRC_URI = "${CPAN_MIRROR}/authors/id/L/LE/LEONT/Module-Build-${PV}.tar.gz \
+            file://run-ptest \
+-          "
+-SRC_URI[md5sum] = "1447d9e02e63f7a1643986789a8f1ba9"
+-SRC_URI[sha256sum] = "1fe491a6cda914b01bc8e592faa2b5404e9f35915ca15322f8f2a8d8f9008c18"
++           "
++SRC_URI[md5sum] = "066b193e461d7dfe1eca17a139353001"
++SRC_URI[sha256sum] = "7e0f4c692c1740c1ac84ea14d7ea3d8bc798b2fb26c09877229e04f430b2b717"
+ 
+ S = "${WORKDIR}/Module-Build-${PV}"
+ 
+@@ -75,9 +75,10 @@ RDEPENDS_${PN} += " \
+ "
+ 
+ RDEPENDS_${PN}-ptest += " \
+-    gcc \
+-    make \
++    packagegroup-core-buildessential \
++    perl-dev \
+     perl-module-blib \
++    perl-module-extutils-command-mm \
+     perl-module-file-temp \
+     perl-module-lib \
+     perl-module-perlio \
+@@ -103,4 +104,7 @@ RPROVIDES_${PN} += "\
+     libmodule-build-podparser-perl \
+ "
+ 
++# t/xs.t RDEPENDS on "EXTERN.h" provided by perl-dev
++INSANE_SKIP_${PN}-ptest = "dev-deps"
++
+ BBCLASSEXTEND = "native"
+-- 
+2.24.0
+
 
