@@ -1,31 +1,55 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3936F60646
+Return-Path: <brgl@bgdev.pl>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CCDC60646
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 08:18:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01P8Hugm017452
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 25 Feb 2020 00:18:06 -0800
-Received: from [0.0.0.0] (147.11.103.217) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Tue, 25 Feb 2020 00:17:45 -0800
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <1581991613-30949-1-git-send-email-li.zhou@windriver.com>
-	<CADkTA4Oo=uvRps0UUcbrk+eZDhaN3Fi8M-RDcdKuLz-zAOGM3A@mail.gmail.com>
-	<342f0a1b-aec2-932a-2a49-cd2b896d8822@windriver.com>
-	<CADkTA4Mp8rTZf2z3cCehWipMT66BXhyhkzfZQaB1LGqS88OEXw@mail.gmail.com>
-From: zhou li <li.zhou@windriver.com>
-Message-ID: <e817eb26-13ce-efb3-288f-09c654628971@windriver.com>
-Date: Tue, 25 Feb 2020 16:17:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.1
+	Tue, 25 Feb 2020 08:18:53 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id p18so9900574wre.9
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 25 Feb 2020 00:18:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=xc7aMuoSFNOaIt4E80y4wha7/sKcazZLOLJdRFj5Pk8=;
+	b=YMrw2GFwOAQySwwbpIJPHBCvbj1eznnBwQ2HGtyejVoXCTvHkMHMP61zbz/IUuoAwj
+	03Os4lQz2cckh0CMy+mN+5eaNEnmBze3CfewhvBnX/KxQTtrthSRjR/pR8APDZMQX/7o
+	otmSMU1gR8Ev+XqTgR9IIY8sUFKXQecFV1p1w+fW4P6Wp85QitI+mH8FGfrhxhnH5huT
+	wRwgB9UjohjB6OeGB247gvrmOMavBPanazW0qWSU6stQlsxy2IVyadoBe4a58Z4oIJWd
+	TV0awzgBf3GH5/mtivJ+t7HfgHNWo2nDlqQxTQ3DFkKKBJqGRcYcaAX+/HPR8ld7NUHV
+	DNxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=xc7aMuoSFNOaIt4E80y4wha7/sKcazZLOLJdRFj5Pk8=;
+	b=pqaqKEaoHY4R1qA6y3IzGO7xWQJbemDY2bGW1LijKVHh/Zb9XlXlN4eSZuGplqF2NU
+	6Xvme9OpidEHAL1NWOs/GMJVIGMk0kMcYkXzkGGvlYXnP9NSzAobJ9LlR0bHyrHJ/VsS
+	bN6JmrpCptlxyNTQIQ0Hi+ZQhvgf4zYPJiLSdGuwxJGdjW5i5ig3m0dse7Rh/7SMExjZ
+	pez91rB8SGk5RxhBfVWICzLAYo5Pd6iB9G6DhfcGG3yxilOKxmi+5b4Mb/xYo8uaPC/m
+	aTUb7MOvpihpekT1td6N4U9FyJnan41RhwQLTpkZJX/R75QTJpvJY8b/C2KXuvlgu7mS
+	jdSw==
+X-Gm-Message-State: APjAAAVZaHfSzWzicrhEqm8uNJiK5SCpCExMr+TlfbaT3oCkeKZXn1wD
+	FQKJg/A5G8jl2bLiEz2m2D81Sw==
+X-Google-Smtp-Source: APXvYqz72H+JGwG1HUdG3mQ2k/saCbD/FFALmRrIZ3vGIinqHIRTvH4GaGyK0898X2tnmKqfUfhLjA==
+X-Received: by 2002:adf:e742:: with SMTP id c2mr7328322wrn.262.1582618734790; 
+	Tue, 25 Feb 2020 00:18:54 -0800 (PST)
+Received: from localhost.localdomain (lfbn-nic-1-65-232.w2-15.abo.wanadoo.fr.
+	[2.15.156.232]) by smtp.gmail.com with ESMTPSA id
+	m3sm23112862wrs.53.2020.02.25.00.18.53
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 25 Feb 2020 00:18:54 -0800 (PST)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Armin Kuster <akuster808@gmail.com>
+Date: Tue, 25 Feb 2020 09:18:52 +0100
+Message-Id: <20200225081852.14328-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4Mp8rTZf2z3cCehWipMT66BXhyhkzfZQaB1LGqS88OEXw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devsrc: fix missing generated files from the packet
+Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+	openembedded-core@lists.openembedded.org
+Subject: [PATCH] hosttools: add utilities for all supported checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,110 +62,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 08:18:32 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 25 Feb 2020 08:18:54 -0000
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-On 2/18/20 9:36 PM, Bruce Ashfield wrote:
-> On Mon, Feb 17, 2020 at 10:58 PM zhou li <li.zhou@windriver.com> wrote:
->>
->> On 2/18/20 10:12 AM, Bruce Ashfield wrote:
->>> On Mon, Feb 17, 2020 at 9:07 PM Li Zhou <li.zhou@windriver.com> wrote:
->>>> The file arch/arm/include/generated/asm/unistd-nr.h is needed by some
->>>> external kernel module. Error occurs when building the module with
->>>> the SDK.
->>>>
->>>> Add arch/${ARCH}/include/generated dir and files under it to
->>>> kernel-devsrc package to solve this issue.
->>>>
->>>> Signed-off-by: Li Zhou <li.zhou@windriver.com>
->>>> ---
->>>>    meta/recipes-kernel/linux/kernel-devsrc.bb | 6 ++++++
->>>>    1 file changed, 6 insertions(+)
->>>>
->>>> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
->>>> index b6f2dbc..8621fe1 100644
->>>> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
->>>> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
->>>> @@ -108,6 +108,12 @@ do_install() {
->>>>           fi
->>>>
->>>>           cp -a include $kerneldir/build/include
->>>> +
->>>> +       if [ -d arch/${ARCH}/include/generated ]; then
->>>> +           mkdir -p $kerneldir/build/arch/${ARCH}/include
->>>> +           cp -r arch/${ARCH}/include/generated $kerneldir/build/arch/${ARCH}/include
->>>> +       fi
->>> This is just papering over the real problem.
->>>
->>> Anything that is generated, should be regenerated when the headers are
->>> used/prepared.
->>>
->>> What is missing and/or why isn't that happening with this ?
->>>
->>> Bruce
->>
->> In some old version yocto, the file
->> arch/arm/include/generated/asm/unistd-nr.h can be directly used from our
->> sdk. So now it isn't permitted any more? And we should figure out how to
-> Anything in the generated subdirectories of the kernel build should be
-> regenerated when we do the make prepare/scripts/modules_prepare steps.
-> If it isn't being regenerated, then we are missing something in devsrc
-> that can regenerate them (either a step in the preparation, a
-> Makefile, a script ..).
->
-> If we start pulling bits and pieces out of generated, we'll end up
-> constantly having to take more and more, when the right thing (by the
-> way our minimal devsrc is designed) is to have it regenerated.
->
-> It's valid to use it, but we shouldn't need to copy it if it can be
-> generated. If it can't be generated, we should document why with a
-> comment in the code and in the commit message of the change.
+Only md5sum and sha256sum are currently provided by HOSTTOOLS. Trying
+to use any other checksum conversion will result in a build failure.
+Fix it by adding other supported checksum utilities to HOSTTOOLS.
 
+Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+---
+ meta/conf/bitbake.conf | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Hi, Bruce:
-
-        Thank you for your reply. I try and find that <make archprepare> 
-can generate the header file mentioned.
-
-Then do you mean that the user should run <make archprepare> to generate 
-the header files needed first, and then make their own code using those 
-header files?
-
-Thanks a lot.
-
-
->
-> Bruce
->
->
->> generate it again when developing the external kernel modules? Thank you.
->>
->>
->>>> +
->>>>        )
->>>>
->>>>        # now grab the chunks from the source tree that we need
->>>> --
->>>> 1.9.1
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>>
->> --
->> Best Regards!
->> Zhou Li
->> Phone number: 86-10-84778511
->>
->
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 954c06b313..e201b671bb 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -489,7 +489,8 @@ HOSTTOOLS += " \
+     fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
+     head hostname iconv id install ld ldd ln ls make md5sum mkdir mknod \
+     mktemp mv nm objcopy objdump od patch perl pr printf pwd \
+-    python3 ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh sha256sum \
++    python3 ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh \
++    sha1sum sha224sum sha256sum sha384sum sha512sum \
+     sleep sort split stat strings strip tail tar tee test touch tr true uname \
+     uniq wc wget which xargs \
+ "
 -- 
-Best Regards!
-Zhou Li
-Phone number: 86-10-84778511
+2.25.0
 
 
