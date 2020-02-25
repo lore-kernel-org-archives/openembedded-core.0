@@ -1,50 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B3F56061E
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C9A3608BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 10:21:21 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id w12so14041952wrt.2
+	Tue, 25 Feb 2020 10:46:29 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p9so2478140wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 02:21:22 -0800 (PST)
+	Tue, 25 Feb 2020 02:46:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=/5CP+WLoK2VwzZ+X6S939U2IlPiygDWKzr0hVCY5NRY=;
-	b=hLlL/YnkWidqpCipbHeqHtnyd0bE3f1pC42q+JjTNHYi2xYb8seujFKrwMF1ifmBcA
-	RJcisk+fWRISCfwNqxVmUAo6XCKUsghS3P/CUjVfRw9X/uT3XEvhBgmQG7bbDXUj2YcY
-	wbO4fz/oC2TVBzjomImSub1wDr14+CdM4RJTQ=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=+9z8mozUDsbQ98eUtpo7Vhv8+Aplrh3mBHUXB3dMaiw=;
+	b=XzxzWPHvPKnjXVtugO3dg9D04CixRcu3FiRbk0AIoA6glE/1KHu4VxTSUI8shvMSTD
+	GEQ55rlL8EYuTCAL9vwUC76euVjAj0MUIpOLwIib7zVdxfWNXSn3WAyaRpVt3NRP6/DP
+	OtgPh2lVm+Xn5oRjMZfurfmp80LnFiVAimm6M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=/5CP+WLoK2VwzZ+X6S939U2IlPiygDWKzr0hVCY5NRY=;
-	b=aLqmFLDXioNbu3EdnjQ5n8kHkumIXr0RiWwsrlMerbi4F53KZmrBLwAdJg/L6MSeOJ
-	ytxTUk6Fk8fBWyG0HuuKXFwpm8ueNZnnfYH9zyTvOjAESvw44VwXP+vLOQp6y9l6TJ98
-	2c8n6F3QHO8dLMlhCD/Q4PCDTdCKL7UI33OlYQysJd9UZzHvVDKp5O9bVxfFFcWeNejk
-	12wGW3vb9pc3cemF/yR7EoO2KuJNURkWBJ8Cpl0qzjfe97cU/QUhjDS/bU7KtCyYa2BJ
-	97CKwpYHiWr9VkllRU1Jzwtc0t0rPfCFHMx3NH1/V0j0Jq0+2aXFjtqflW1hwoAiSOp9
-	/HSQ==
-X-Gm-Message-State: APjAAAUxLaTIhA0vjWbc+zFebtCZM5TJWBTeYOf+TvqS2AaRnENjbwuq
-	ckqiF91P1wx4d9VB81HjQbnnbg==
-X-Google-Smtp-Source: APXvYqxrozNREuuINEBogNiAAs7dVisX/6IZMk84iNKfl5OJRait4Tbf2R8lnLdeupsGXsgjwrbvIg==
-X-Received: by 2002:adf:f6c1:: with SMTP id y1mr70568808wrp.17.1582626081818; 
-	Tue, 25 Feb 2020 02:21:21 -0800 (PST)
+	bh=+9z8mozUDsbQ98eUtpo7Vhv8+Aplrh3mBHUXB3dMaiw=;
+	b=g74b/V4+mNSrPNIc8B315i1LILGYrLfuQFkxokH1UAzzrU/ZEVeeDYHsi76DTkucv4
+	CTtLnYtM8DyqykKiPnZQabZHzdu9cKTt8Grlbbq2hlUD27MLccnbG9ipLYI2kWtA/kjY
+	ac1IxOPpg/3rgSsk0f04vooRS04w69u6AG1jXEwoxzmwwhTGShdjsIN4wY+VoeXD0EI3
+	OVAHo1eFzLFFRIm2Ql6HRhoaVdpsfJO4U6uFNwFVLA8ceBUNyIRkqyTHdNSBaBTDdOIX
+	tu23kazbhapLxWoWW+PMt0mo9/acm9pbk1U13mPHOqqmmcfDBdV+CUR/rwUNER9G4/2D
+	+FdQ==
+X-Gm-Message-State: APjAAAVMOmBQoY4xZ5IX0Y9M+HRfTViPzyTtRpbramdLzrX5OpcxEgGc
+	D67BkDo2F9aGR8CFKHKGEhdfng==
+X-Google-Smtp-Source: APXvYqyMqNoZ+TTB6y7HV07MS1Vf5HXm2CpY5URpc2H67820ojZirvFuVGc2y5W518P8ypQLFYA6eg==
+X-Received: by 2002:a1c:3b09:: with SMTP id i9mr4542142wma.31.1582627590101;
+	Tue, 25 Feb 2020 02:46:30 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	z25sm3566801wmf.14.2020.02.25.02.21.20
+	z133sm3645593wmb.7.2020.02.25.02.46.29
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 02:21:21 -0800 (PST)
-Message-ID: <29622e48fc7ebf80aa002b2d1903f6d970af9d86.camel@linuxfoundation.org>
+	Tue, 25 Feb 2020 02:46:29 -0800 (PST)
+Message-ID: <628af1221089667f1377f419dd9375637ac1d028.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 25 Feb 2020 10:21:19 +0000
-In-Reply-To: <20200225054406.867243-1-raj.khem@gmail.com>
-References: <20200225054406.867243-1-raj.khem@gmail.com>
+To: Scott Branden <scott.branden@broadcom.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 25 Feb 2020 10:46:28 +0000
+In-Reply-To: <20200225001115.18188-1-scott.branden@broadcom.com>
+References: <20200225001115.18188-1-scott.branden@broadcom.com>
 User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-Subject: Re: [PATCH] mime,mime-xdg: Conflict with allarch
+Cc: Mircea Carausu <mircea.carausu@broadcom.com>
+Subject: Re: [PATCH 1/2] common-license: add fdk-aac license file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +59,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Feb 2020 10:21:21 -0000
+X-List-Received-Date: Tue, 25 Feb 2020 10:46:30 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-02-24 at 21:44 -0800, Khem Raj wrote:
-> mime and mime-xdb classes add dependencies ( both runtime and
-> buildtime
-> ) on target packages, therefore recipes using allarch should not
-> inherit
-> mime/mime-xdg or vice-versa, this fixes subtle sstate mismatches
+On Mon, 2020-02-24 at 16:11 -0800, Scott Branden via Openembedded-core
+wrote:
+> From: Mircea Carausu <mircea.carausu@broadcom.com>
 > 
-> [YOCTO #13805]
+> Add Fraunhofer FDK AAC Codec Library license.
 > 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Andreas Müller <schnitzeltony@gmail.com>
-> ---
->  meta/classes/mime-xdg.bbclass | 5 +++++
->  meta/classes/mime.bbclass     | 5 +++++
->  2 files changed, 10 insertions(+)
+> Signed-offby: Mircea Carausu <mircea.carausu@broadcom.com>
+> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
 
-Is this the right way to fix this? mime info probably is arch
-independent, so should we be whitelisting some of the dependencies?
+I'm not sure this belongs in Core? Is it a commonly used license? This
+recipe isn't in OE-Core? Does the license have an SPDX identifier (I
+couldn't see it on https://spdx.org/licenses/)?
 
 Cheers,
 
