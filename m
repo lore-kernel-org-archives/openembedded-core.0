@@ -1,33 +1,35 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 0016561144
+	by mail.openembedded.org (Postfix) with ESMTP id 020CF61311
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 26 Feb 2020 11:51:38 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48SDff5WcRz4M
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48SDfg2Fjbz4c
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 12:51:38 +0100 (CET)
+	Wed, 26 Feb 2020 12:51:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582717898;
-	bh=5MU0uZriFnqogYJOQdwIvvhoWuGDlJ9Tuzx/NzvkYMM=;
-	h=From:To:Subject:Date:From;
-	b=pDTxalKooGnfRxkzwvNc3domvrYaKIKk9JRqJux5CK13nQwiIAKlERKKP9hIuV0I+
-	rWVINKBfWsFH9IwIwZonIbNzd4BBYL94NtW64Y8TFJjE+ux33/7XGjvf1szZKc1mSU
-	FEv7A08qujpc2UqdZfs3SSzt/A+fzSbYFlW86wlCZF/i0P4nPgA9Vt2faSmF4A+C/t
-	5+2gYD1SEEwlADaLazW1mnyJvAAxPLCx04hwP0cd7EBEy55VaMeJJLIeBaoo0uUerq
-	o9ihZ8Soga8wlg7GHXqWS8yD8DfAPLDwTkOJ+xS+pypMg+NiBoUu+8Zn7KhkwDL2aI
-	ljBab6usFHH0ISrVUQaGqcjhf2A1BugpMAef5GXDnN7srN57bQ33azs9iEplXPxyfV
-	heuGeKq+1zvHd6l8iONURMsNPpufu+gOX59meX7IXVVF8xGKHUqPBjG47u4J7YCyoe
-	SYq0u4Tw3R0LLCSH1KCQJDlQrBoby0FJOT80tqDPySd0ooaoOVUI9/bB7CTjWqXjzY
-	4nsL96x3xEElx1VgnBJNDCI2CCzVhQdymQAi6RMY0D6BXt8wAU9uHUka4qeYcqcnJj
-	eqz1N9okcu2permIyJIJzR6uSCppFqmAY03yEvZT6Z6dfyd4qgnVUqercS2fU6H3hC
-	8AFzN7ODbmS0mVKYTmg7VGz8=
+	s=default; t=1582717899;
+	bh=sWDavsJxHoten7XPJkGsrTIajOSYqcDuskxS2/BN9bU=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=CgA8/j3S/DmsXELxDBm4Ryw0EVGWImJIsxQsV0rNbmTMIfaodjYIygYkENsLvlBMi
+	m2+ydQXhZkrrD+CDpzwmLJUc4/aurCFSvBXhKdTzUO/bVGkIFYhoRfI53sj9QWA41i
+	V1+PTKVlL7rlVLrwn4nwmGXADH+6ob+H10j1GeiiLV46F7rAKYlCrzJHmPyzo8BZBL
+	2Av8PpjU6wQ8q8vt/sZNwoQAOumWLvuckkL7ctoXrk78Qt7UB+iIRHcJjCgz2TVhRn
+	IlCl5Q/xiSG0K1nw8DKDelPKB2Y+xPiHjuD6I3C8rgcjwGF/DbY5KHvwAjn60q+8kT
+	JfY2PLmF7N/f2NDFeBdI12UXdkPIVhktuTtBpetpXeaVsQTnZOgLBAewfdc51Gnbgb
+	DXwmcbFNQTREhmVvB6/Jrkl2x/psem/msXN3X/Z+0EaK0AJ7GtcYc6yotDhgAgPcbL
+	ZPY+ZvEvPOZ7S+agmcCRZT3FGYD9WKgPCVyIOU3f6M2oy6u/KQVKKPUCPjn+NuXvmv
+	6Qx+G7bopz5S9EMVFakAkb86MiJE3ESNAn7KjCsPqhpoX0QcRuDpVqGXIVJ8mfzpKV
+	FURCUykZHS27mbjKIlHAroDzrSfe+1E24RHffor+y8drXX9vFqrvOSLj+tBpbWsoyA
+	igrJu2U5wXr3OMZ8UjaG2xMs=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Feb 2020 13:51:36 +0200
-Message-Id: <20200226115137.23733-1-bunk@stusta.de>
+Date: Wed, 26 Feb 2020 13:51:37 +0200
+Message-Id: <20200226115137.23733-2-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v3 1/2] webkitgtk: Move X library DEPENDS to the x11 PACKAGECONFIG
+In-Reply-To: <20200226115137.23733-1-bunk@stusta.de>
+References: <20200226115137.23733-1-bunk@stusta.de>
+Subject: [PATCH v3 2/2] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,39 +44,39 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 26 Feb 2020 11:51:39 -0000
 
-Also adjust them to what OptionsGTK currently checks.
+x11 can be replaced with wayland.
+opengl is mandatory only with wayland.
+Without x11, use gles2 for opengl.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-index 2e923991e9..1a0b504a51 100644
+index 1a0b504a51..0a5ecace02 100644
 --- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
 +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-@@ -30,10 +30,10 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+@@ -26,7 +26,8 @@ SRC_URI[sha256sum] = "4386900713dfadf9741177210b32623cab22562a79ffd0d446b6656993
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ 
+-REQUIRED_DISTRO_FEATURES = "x11 opengl"
++ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
++REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'opengl', '', d)}"
  
  CVE_PRODUCT = "webkitgtk webkitgtk\+"
  
--DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libgcrypt \
-+DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libgcrypt \
-            gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
- 	   pango icu bison-native gawk intltool-native libwebp \
--	   atk udev harfbuzz jpeg libpng librsvg libtheora libvorbis libxcomposite libxtst \
-+	   atk udev harfbuzz jpeg libpng librsvg libtheora libvorbis \
- 	   ruby-native libnotify gstreamer1.0-plugins-bad \
- 	   gettext-native glib-2.0 glib-2.0-native libtasn1 \
+@@ -39,7 +40,8 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libgcrypt \
            "
-@@ -45,7 +45,7 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
-                   "
  
- PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland libwpe wpebackend-fdo wayland-native"
--PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11"
-+PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11 libxcomposite libxdamage libxrender libxt"
- PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
- PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
- PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', '' ,d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl opengl', '' ,d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2' ,d)} \
+                    enchant \
+                    libsecret \
+                   "
 -- 
 2.17.1
 
