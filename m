@@ -1,49 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
-	[209.85.219.67])
-	by mail.openembedded.org (Postfix) with ESMTP id BEEA86154A
+Return-Path: <Wenlin.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D9308615FA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 15:01:12 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id by15so1318221qvb.11
+	Wed, 26 Feb 2020 15:11:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01QFB1ud013061
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 07:01:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=ppN5tPM0uYRYNG7MsTPMO2zIPKi3TiLJbmH2bwIj5uw=;
-	b=uGyN9sT/D5U5u6ZR/ZT/CCk2Vkj+e0N7IEZyZx6PnS39/0ON+I3/yXBHf7Auv0FqlR
-	KyIR8t9KG/nCmHwV4bApofcFWPTYrK9qp51kH3XHX346OOCsbUIuZf/3zkyg4DrfYUML
-	YtDJVqj0K/FqS355/+A/yfuhVuZxTJGN07OcY4svE1Ijw9RDVq3Ua3RGm42UjhMCY6Ai
-	pEkWXB74+9OvlCgQoeMQXbseaE7gle5ImZxLt7kKu0/FJc55Kit4Qr+2GFgYz/kuxhE8
-	u+yP7BT7vssVOAb7ozvgi0DWtnVko197MSq7CefVYd/0Jk00eg02YHGp9FI8GnQdrS7j
-	AQdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=ppN5tPM0uYRYNG7MsTPMO2zIPKi3TiLJbmH2bwIj5uw=;
-	b=sjkEt+Tqtydgpdca77OUzLL/N1DMaMVwQd2g/6csUjhg28pK51IESPW6R+sjv44wEs
-	JqsboCMgosG0kyirD/3azQwoI99JEME9D5ILD5rLW9Ju1psASfR168evXtl3NpanxllJ
-	S8I7yvgwHheZd3eIDRitxeXpSuPakV3NqKZaeM/AmzM0Kd5fSIBZFCrZc4W3fbSpFPwR
-	66TNIoiR6JQrwGJoI0C8mugXccPanY28GdbfvZVmUAG9TCXZOE/lV5slBY8ETLPEVxyx
-	7tunjpq0YInJLfZktd1bHUbuAL2LKHaKj7QKpCa/hLB4iTklO4SAj1oPW2aw8S4kCP8X
-	CHQA==
-X-Gm-Message-State: APjAAAWpt+vBzc+9ZXYrIiPQI7B1qeTcG/NX4D/eoS3b7ZsvJtDiQYtP
-	mEYmoxwkgfCm4dM5qir8TNnl/Cj8vS6bDiqoXXEIQhBl
-X-Google-Smtp-Source: APXvYqwqT4rinF9eBNiS+jVfJQTsIA/N7IibQNBJOgZSkWvug0f4bKEVn9VscAZcdSlm3WJtiYd4g5ZQXRwaIGsmMO4=
-X-Received: by 2002:a05:6214:524:: with SMTP id x4mr5693815qvw.4.1582729273388;
-	Wed, 26 Feb 2020 07:01:13 -0800 (PST)
+	Wed, 26 Feb 2020 07:11:01 -0800 (PST)
+Received: from pek-wkang-d1.wrs.com (128.224.162.172) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Wed, 26 Feb 2020 07:11:01 -0800
+From: Wenlin Kang <wenlin.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 26 Feb 2020 23:11:00 +0800
+Message-ID: <20200226151100.4723-1-wenlin.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200226135716.49255-1-zboszor@pr.hu>
-	<20200226135716.49255-5-zboszor@pr.hu>
-In-Reply-To: <20200226135716.49255-5-zboszor@pr.hu>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 26 Feb 2020 07:00:47 -0800
-Message-ID: <CAMKF1soh5mSvuVC8zhven1QwAPPU7DqiOr2Gw8TB4wmW8K3cYw@mail.gmail.com>
-To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 5/5] mesa: Enforce TOOLCHAIN="gcc"
+Subject: [PATCH] libarchive: Fix CVE-2020-9308
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,46 +31,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2020 15:01:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 26 Feb 2020 15:11:01 -0000
+Content-Type: text/plain
 
-On Wed, Feb 26, 2020 at 6:08 AM B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n via
-Openembedded-core <openembedded-core@lists.openembedded.org> wrote:
->
-> When meta-clang is used, for example to build chromium-x11 from
-> meta-browser, a linker error occurs in Zeus.
->
-> See: https://gitlab.freedesktop.org/mesa/mesa/issues/2533
->
-> Signed-off-by: B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=A1n <zboszor@pr.hu>
-> ---
->  meta/recipes-graphics/mesa/mesa.inc | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/=
-mesa/mesa.inc
-> index 800e8813c7..b8f09a2ed3 100644
-> --- a/meta/recipes-graphics/mesa/mesa.inc
-> +++ b/meta/recipes-graphics/mesa/mesa.inc
-> @@ -24,6 +24,8 @@ PROVIDES =3D " \
->      virtual/mesa \
->      "
->
-> +TOOLCHAIN =3D "gcc"
+Fix CVE-2020-9308
 
-lets fix the linker error instead.
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+---
+ ...ct-files-that-declare-invalid-header.patch | 124 ++++++++++++++++++
+ .../libarchive/libarchive_3.4.1.bb            |   4 +-
+ 2 files changed, 127 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
 
-> +
->  inherit meson pkgconfig python3native gettext features_check
->
->  # Unset these to stop python trying to report the target Python setup
-> --
-> 2.24.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch b/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
+new file mode 100644
+index 0000000000..c3e0af571e
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
+@@ -0,0 +1,124 @@
++From 94821008d6eea81e315c5881cdf739202961040a Mon Sep 17 00:00:00 2001
++From: Grzegorz Antoniak <ga@anadoxin.org>
++Date: Sun, 2 Feb 2020 08:04:41 +0100
++Subject: [PATCH] RAR5 reader: reject files that declare invalid header flags
++
++One of the fields in RAR5's base block structure is the size of the
++header. Some invalid files declare a 0 header size setting, which can
++confuse the unpacker. Minimum header size for RAR5 base blocks is 7
++bytes (4 bytes for CRC, and 3 bytes for the rest), so block size of 0
++bytes should be rejected at header parsing stage.
++
++The fix adds an error condition if header size of 0 bytes is detected.
++In this case, the unpacker will not attempt to unpack the file, as the
++header is corrupted.
++
++The commit also adds OSSFuzz #20459 sample to test further regressions
++in this area.
++
++Upstream-Status: Backport[https://github.com/libarchive/libarchive/commit/94821008d6eea81e315c5881cdf739202961040a]
++CVE-2020-9308
++
++Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
++---
++ Makefile.am                                             |  1 +
++ libarchive/archive_read_support_format_rar5.c           | 17 +++++++++++++++--
++ libarchive/test/test_read_format_rar5.c                 | 15 +++++++++++++++
++ ...test_read_format_rar5_block_size_is_too_small.rar.uu |  8 ++++++++
++ 4 files changed, 39 insertions(+), 2 deletions(-)
++ create mode 100644 libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
++
++diff --git a/Makefile.am b/Makefile.am
++index 06c2644..c65e243 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -877,6 +877,7 @@ libarchive_test_EXTRA_DIST=\
++ 	libarchive/test/test_read_format_rar5_win32.rar.uu \
++ 	libarchive/test/test_read_format_rar5_arm_filter_on_window_boundary.rar.uu \
++ 	libarchive/test/test_read_format_rar5_different_winsize_on_merge.rar.uu \
+++	libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu \
++ 	libarchive/test/test_read_format_raw.bufr.uu \
++ 	libarchive/test/test_read_format_raw.data.gz.uu \
++ 	libarchive/test/test_read_format_raw.data.Z.uu \
++diff --git a/libarchive/archive_read_support_format_rar5.c b/libarchive/archive_read_support_format_rar5.c
++index ff1d6f8..f7c163e 100644
++--- a/libarchive/archive_read_support_format_rar5.c
+++++ b/libarchive/archive_read_support_format_rar5.c
++@@ -2085,6 +2085,8 @@ static int scan_for_signature(struct archive_read* a);
++ static int process_base_block(struct archive_read* a,
++     struct archive_entry* entry)
++ {
+++	const size_t SMALLEST_RAR5_BLOCK_SIZE = 3;
+++
++ 	struct rar5* rar = get_context(a);
++ 	uint32_t hdr_crc, computed_crc;
++ 	size_t raw_hdr_size = 0, hdr_size_len, hdr_size;
++@@ -2114,15 +2116,26 @@ static int process_base_block(struct archive_read* a,
++ 		return ARCHIVE_EOF;
++ 	}
++ 
+++	hdr_size = raw_hdr_size + hdr_size_len;
+++
++ 	/* Sanity check, maximum header size for RAR5 is 2MB. */
++-	if(raw_hdr_size > (2 * 1024 * 1024)) {
+++	if(hdr_size > (2 * 1024 * 1024)) {
++ 		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
++ 		    "Base block header is too large");
++ 
++ 		return ARCHIVE_FATAL;
++ 	}
++ 
++-	hdr_size = raw_hdr_size + hdr_size_len;
+++	/* Additional sanity checks to weed out invalid files. */
+++	if(raw_hdr_size == 0 || hdr_size_len == 0 ||
+++		hdr_size < SMALLEST_RAR5_BLOCK_SIZE)
+++	{
+++		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
+++		    "Too small block encountered (%ld bytes)",
+++		    raw_hdr_size);
+++
+++		return ARCHIVE_FATAL;
+++	}
++ 
++ 	/* Read the whole header data into memory, maximum memory use here is
++ 	 * 2MB. */
++diff --git a/libarchive/test/test_read_format_rar5.c b/libarchive/test/test_read_format_rar5.c
++index bb94d4e..f91521e 100644
++--- a/libarchive/test/test_read_format_rar5.c
+++++ b/libarchive/test/test_read_format_rar5.c
++@@ -1256,3 +1256,18 @@ DEFINE_TEST(test_read_format_rar5_different_winsize_on_merge)
++ 
++ 	EPILOGUE();
++ }
+++
+++DEFINE_TEST(test_read_format_rar5_block_size_is_too_small)
+++{
+++	char buf[4096];
+++	PROLOGUE("test_read_format_rar5_block_size_is_too_small.rar");
+++
+++	/* This file is damaged, so those functions should return failure.
+++	 * Additionally, SIGSEGV shouldn't be raised during execution
+++	 * of those functions. */
+++
+++	assertA(archive_read_next_header(a, &ae) != ARCHIVE_OK);
+++	assertA(archive_read_data(a, buf, sizeof(buf)) <= 0);
+++
+++	EPILOGUE();
+++}
++diff --git a/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu b/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
++new file mode 100644
++index 0000000..5cad219
++--- /dev/null
+++++ b/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
++@@ -0,0 +1,8 @@
+++begin 644 test_read_format_rar5_block_size_is_too_small.rar
+++M4F%R(1H'`0"-[P+2``+'(!P,("`@N`,!`B`@("`@("`@("`@("`@("#_("`@
+++M("`@("`@("`@((:Q;2!4-'-^4B`!((WO`M(``O\@$/\@-R`@("`@("`@("`@
+++M``X@("`@("`@____("`@("`@(/\@("`@("`@("`@("#_(+6U,2"UM;6UM[CU
+++M)B`@*(0G(`!.`#D\3R``(/__(,+_````-0#_($&%*/HE=C+N`"```"```"`D
+++J`)$#("#_("#__P`@__\@_R#_("`@("`@("#_("#__R`@(/__("#__R`"
+++`
+++end
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.1.bb b/meta/recipes-extended/libarchive/libarchive_3.4.1.bb
+index 2d33dd80ab..91b0f58e8f 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.4.1.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.4.1.bb
+@@ -31,7 +31,9 @@ PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
+ 
+ EXTRA_OECONF += "--enable-largefile"
+ 
+-SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
++SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
++           file://0001-RAR5-reader-reject-files-that-declare-invalid-header.patch \
++          "
+ 
+ SRC_URI[md5sum] = "59bff5ee6216cbb76c8354f6dd6f5a5a"
+ SRC_URI[sha256sum] = "fcf87f3ad8db2e4f74f32526dee62dd1fb9894782b0a503a89c9d7a70a235191"
+-- 
+2.17.1
+
 
