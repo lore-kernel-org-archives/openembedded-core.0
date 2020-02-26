@@ -1,24 +1,51 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E4A85611CD
+Return-Path: <joraj@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C69B611CA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 18:39:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01QIdDwI005503
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 10:39:24 -0800
-Received: from yow-tgamblin-fedora2.wrs.com (128.224.56.206) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 26 Feb 2020 10:39:03 -0800
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Feb 2020 13:39:02 -0500
-Message-ID: <20200226183902.3616626-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.24.1
+	Wed, 26 Feb 2020 19:01:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id AA19826E6E4;
+	Wed, 26 Feb 2020 14:01:03 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id EKnoLuMi7y_3; Wed, 26 Feb 2020 14:01:03 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id 25CB926E923;
+	Wed, 26 Feb 2020 14:01:03 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 25CB926E923
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1582743663;
+	bh=apQfIyd4pBwVfzY+xnKums15h4SW/c3Tos1kXIhNfdw=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=LWwQHk2zwn1iHBMwkIab30BG0S5TRrYFhpxsxwMW/xNv+7H0YxEZE9xVZb8WeQr38
+	/X7+pIGYb4TSX6AAkqtImmxZQqr3fr3HgO+vAYqfzEmCwq545Mq9horWOi3bGVOS7O
+	K/3/xdco73iyJUFBBGqRgSJFg0NK8UOn/lqBU3seT+bxc1yy2aReU2qUSFlJOo1P1J
+	vmqut3oFXFBSspQzS5yge9984IQrFhoHg1Tc9PosxtqeTUCjInX717vH9ToT01Nu8X
+	Ta1EAT7U0tUYSzZMa+Y7Sk3gnRAMg1WI+ULNzysj5PVLWd05i3aDLCIe7MuXKiICu5
+	okrd+/F32cvyw==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id HRfyemIUzy1U; Wed, 26 Feb 2020 14:01:03 -0500 (EST)
+Received: from mail03.efficios.com (mail03.efficios.com [167.114.26.124])
+	by mail.efficios.com (Postfix) with ESMTP id 1C0D926EA92;
+	Wed, 26 Feb 2020 14:01:03 -0500 (EST)
+Date: Wed, 26 Feb 2020 14:01:03 -0500 (EST)
+From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+To: Li Zhou <li.zhou@windriver.com>
+Message-ID: <1647779561.8797.1582743663059.JavaMail.zimbra@efficios.com>
+In-Reply-To: <91eec671-f8e8-96ed-1520-d91860644d85@windriver.com>
+References: <1582165584-187223-1-git-send-email-li.zhou@windriver.com>
+	<1196510898.2098.1582210055795.JavaMail.zimbra@efficios.com>
+	<91eec671-f8e8-96ed-1520-d91860644d85@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] libgpg-error: upgrade 1.36 -> 1.37
+X-Originating-IP: [167.114.26.124]
+X-Mailer: Zimbra 8.8.15_GA_3901 (ZimbraWebClient - GC80 (Linux)/8.8.15_GA_3895)
+Thread-Topic: lttng-modules: Check the pid_ns before using it because it may
+	be NULL
+Thread-Index: LUt9W5dtcSMYB2Soq+phUBma1jESbw==
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lttng-modules: Check the pid_ns before using it because it may be NULL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,193 +58,269 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2020 18:39:33 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 26 Feb 2020 19:01:03 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-https://dev.gnupg.org/T4459 was fixed in 1.37, so the backported
-patch is removed.
+Hi,
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- .../libgpg-error-1.36-gawk5-support.patch     | 144 ------------------
- ...gpg-error_1.36.bb => libgpg-error_1.37.bb} |   5 +-
- 2 files changed, 2 insertions(+), 147 deletions(-)
- delete mode 100644 meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.36.bb => libgpg-error_1.37.bb} (92%)
+We released patch level release for our stable branch [1].
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch
-deleted file mode 100644
-index b936d1143b..0000000000
---- a/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch
-+++ /dev/null
-@@ -1,144 +0,0 @@
--Upstream-Status: Backport [https://dev.gnupg.org/T4459]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--From 7865041c77f4f7005282f10f9b6666b19072fbdf Mon Sep 17 00:00:00 2001
--From: NIIBE Yutaka <gniibe@fsij.org>
--Date: Mon, 15 Apr 2019 15:10:44 +0900
--Subject: [PATCH] awk: Prepare for Gawk 5.0.
--
--* src/Makefile.am: Use pkg_namespace (instead of namespace).
--* src/mkerrnos.awk: Likewise.
--* lang/cl/mkerrcodes.awk: Don't escape # in regexp.
--* src/mkerrcodes.awk, src/mkerrcodes1.awk, src/mkerrcodes2.awk: Ditto.
--
----
--
--In Gawk 5.0, regexp routines are replaced by Gnulib implementation,
--which only allows escaping specific characters.
--
--GnuPG-bug-id: 4459
--Reported-by: Marius Schamschula
--Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-----
-- lang/cl/mkerrcodes.awk |  2 +-
-- src/Makefile.am        |  2 +-
-- src/mkerrcodes.awk     |  2 +-
-- src/mkerrcodes1.awk    |  2 +-
-- src/mkerrcodes2.awk    |  2 +-
-- src/mkerrnos.awk       |  2 +-
-- src/mkstrtable.awk     | 10 +++++-----
-- 7 files changed, 11 insertions(+), 11 deletions(-)
--
----- a/lang/cl/mkerrcodes.awk
--+++ b/lang/cl/mkerrcodes.awk
--@@ -122,7 +122,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
----- a/src/Makefile.am
--+++ b/src/Makefile.am
--@@ -293,7 +293,7 @@ code-from-errno.h: mkerrcodes$(EXEEXT_FO
-- 
-- errnos-sym.h: Makefile mkstrtable.awk errnos.in
-- 	$(AWK) -f $(srcdir)/mkstrtable.awk -v textidx=2 -v nogettext=1 \
---		-v prefix=GPG_ERR_ -v namespace=errnos_ \
--+		-v prefix=GPG_ERR_ -v pkg_namespace=errnos_ \
-- 		$(srcdir)/errnos.in >$@
-- 
-- 
----- a/src/mkerrcodes.awk
--+++ b/src/mkerrcodes.awk
--@@ -85,7 +85,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
----- a/src/mkerrcodes1.awk
--+++ b/src/mkerrcodes1.awk
--@@ -81,7 +81,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
----- a/src/mkerrcodes2.awk
--+++ b/src/mkerrcodes2.awk
--@@ -91,7 +91,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
----- a/src/mkerrnos.awk
--+++ b/src/mkerrnos.awk
--@@ -83,7 +83,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
----- a/src/mkstrtable.awk
--+++ b/src/mkstrtable.awk
--@@ -77,7 +77,7 @@
-- #
-- # The variable prefix can be used to prepend a string to each message.
-- #
---# The variable namespace can be used to prepend a string to each
--+# The variable pkg_namespace can be used to prepend a string to each
-- # variable and macro name.
-- 
-- BEGIN {
--@@ -102,7 +102,7 @@ header {
--       print "/* The purpose of this complex string table is to produce";
--       print "   optimal code with a minimum of relocations.  */";
--       print "";
---      print "static const char " namespace "msgstr[] = ";
--+      print "static const char " pkg_namespace "msgstr[] = ";
--       header = 0;
--     }
--   else
--@@ -110,7 +110,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
--@@ -150,7 +150,7 @@ END {
--   else
--     print "  gettext_noop (\"" last_msgstr "\");";
--   print "";
---  print "static const int " namespace "msgidx[] =";
--+  print "static const int " pkg_namespace "msgidx[] =";
--   print "  {";
--   for (i = 0; i < coded_msgs; i++)
--     print "    " pos[i] ",";
--@@ -158,7 +158,7 @@ END {
--   print "  };";
--   print "";
--   print "static GPG_ERR_INLINE int";
---  print namespace "msgidxof (int code)";
--+  print pkg_namespace "msgidxof (int code)";
--   print "{";
--   print "  return (0 ? 0";
-- 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.36.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.37.bb
-similarity index 92%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.36.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.37.bb
-index b11ab0548d..bf1da84eb9 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.36.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.37.bb
-@@ -14,11 +14,10 @@ SECTION = "libs"
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
--           file://libgpg-error-1.36-gawk5-support.patch \
- 	  "
- 
--SRC_URI[md5sum] = "eff437f397e858a9127b76c0d87fa5ed"
--SRC_URI[sha256sum] = "babd98437208c163175c29453f8681094bcaf92968a15cafb1a276076b33c97c"
-+SRC_URI[md5sum] = "729f22d917494fdc4b54fce5aa6547c7"
-+SRC_URI[sha256sum] = "b32d6ff72a73cf79797f7f2d039e95e9c6f92f0c1450215410840ab62aea9763"
- 
- BINCONFIG = "${bindir}/gpg-error-config"
- 
--- 
-2.24.1
+These release includes the fix proposed here.
 
+Please validate that it fixes your issues.
+
+[1] https://lists.linuxfoundation.org/pipermail/diamon-discuss/2020-Februar=
+y/000196.html
+
+Cheers
+
+----- Original Message -----
+> From: "Li Zhou" <li.zhou@windriver.com>
+> To: "Jonathan Rajotte-Julien" <jonathan.rajotte-julien@efficios.com>
+> Cc: "openembedded-core" <openembedded-core@lists.openembedded.org>
+> Sent: Tuesday, February 25, 2020 3:41:58 AM
+> Subject: Re: [OE-core] [PATCH] lttng-modules: Check the pid_ns before usi=
+ng it because it may be NULL
+
+> On 2/20/20 10:47 PM, Jonathan Rajotte-Julien wrote:
+>> Hi,
+>>
+>> Can we get more info on the kernel version and config?
+>>
+>> Did you submit this on our mailing list?(lttng-dev). If not I would high=
+ly
+>> recommend that you do so in the future so we can eliminate *custom* patc=
+hes and
+>> get to the bottom of the issue at hand so that the whole community benef=
+it from
+>> it.
+>=20
+>=20
+> Hi, Jonathan:
+>=20
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Thank you for you help and sug=
+gestion on this. This issue is
+> seen on linux 4.18 + lttng-modules 2.10.
+>=20
+>=20
+>>
+>> Cheers
+>>
+>> ----- Li Zhou <li.zhou@windriver.com> wrote:
+>>> Check the pid_ns before using it because it may be NULL to fix below
+>>> issue:
+>>> <1>[ 22.637196] Unable to handle kernel NULL pointer dereference at
+>>> virtual address 0000000000000080
+>>> <1>[ 22.645982] Mem abort info:
+>>> <1>[ 22.648769] ESR =3D 0x96000007
+>>> <1>[ 22.651817] Exception class =3D DABT (current EL), IL =3D 32 bits
+>>> <1>[ 22.657730] SET =3D 0, FnV =3D 0
+>>> <1>[ 22.660777] EA =3D 0, S1PTW =3D 0
+>>> <1>[ 22.663910] Data abort info:
+>>> <1>[ 22.666784] ISV =3D 0, ISS =3D 0x00000007
+>>> <1>[ 22.670611] CM =3D 0, WnR =3D 0
+>>> <1>[ 22.673574] user pgtable: 4k pages, 39-bit VAs, pgdp =3D
+>>> 0000000012378f78
+>>> <1>[ 22.680180] [0000000000000080] pgd=3D000000007f023003,
+>>> pud=3D000000007f023003, pmd=3D000000007f01f003, pte=3D0000000000000000
+>>> <0>[ 22.690794] Internal error: Oops: 96000007 [#1] PREEMPT SMP
+>>> <4>[ 22.690797] Modules linked in: adkNetD ncp
+>>> lttng_ring_buffer_client_overwrite(C)
+>>> lttng_ring_buffer_metadata_client(C) lttng_ring_buffer_client_discard(C=
+)
+>>> lttng_ring_buffer_client_mmap_overwrite(C)
+>>> lttng_ring_buffer_client_mmap_discard(C)
+>>> lttng_ring_buffer_metadata_mmap_client(C) lttng_probe_signal(C)
+>>> lttng_probe_printk(C) lttng_probe_sched(C) lttng_probe_irq(C)
+>>> lttng_tracer(C) lttng_statedump(C) lttng_ftrace(C)
+>>> lttng_lib_ring_buffer(C) lttng_clock_plugin_arm_cntpct(C) lttng_clock(C=
+)
+>>> <0>[ 22.690823] Process lttng-sessiond (pid: 3093, stack limit =3D
+>>> 0x000000005d27910f)
+>>> <4>[ 22.690828] CPU: 1 PID: 3093 Comm: lttng-sessiond Tainted: G C
+>>> 4.18.37-rt820-custom #1
+>>> <4>[ 22.690830] Hardware name: DUS33 (CPM2-20) (DT)
+>>> <4>[ 22.690833] pstate: 60000005 (nZCv daif -PAN -UAO)
+>>> <4>[ 22.690845] pc : do_lttng_statedump+0xcc/0x8a8 [lttng_statedump]
+>>> <4>[ 22.690849] lr : do_lttng_statedump+0xc4/0x8a8 [lttng_statedump]
+>>> <4>[ 22.690851] sp : ffffffc07fe57ad0
+>>> <4>[ 22.690852] x29: ffffffc07fe57ad0 x28: ffffffc008ae2700
+>>> <4>[ 22.690856] x27: ffffff8000724000 x26: 0000000000000001
+>>> <4>[ 22.690859] x25: ffffff80089c9620 x24: 0000000000000000
+>>> <4>[ 22.690862] x23: ffffffc008ae2e10 x22: ffffff80089d3380
+>>> <4>[ 22.690865] x21: ffffffc07f450000 x20: ffffffc008ae2700
+>>> <4>[ 22.690869] x19: 0000000000000007 x18: 00000000fffffffe
+>>> <4>[ 22.690871] x17: 0000000000000000 x16: ffffff800824b980
+>>> <4>[ 22.690874] x15: 0000000000000000 x14: 736162203b656e6f
+>>> <4>[ 22.690877] x13: 6e203d20676e6964 x12: 0000000000000000
+>>> <4>[ 22.690880] x11: 0101010101010101 x10: 7f7f7f7f7f7f7f7f
+>>> <4>[ 22.690882] x9 : 3c1f647968721eff x8 : ffffffc0877504c8
+>>> <4>[ 22.690886] x7 : 09093a7c093a7c08 x6 : ffffff8010c4b317
+>>> <4>[ 22.690888] x5 : 0000000000000000 x4 : 00000040a7575000
+>>> <4>[ 22.690891] x3 : ffffffc008ae2e28 x2 : 0000000000000000
+>>> <4>[ 22.690894] x1 : 0000000000000000 x0 : 0000000000000000
+>>> <4>[ 22.690896] Call trace:
+>>> <4>[ 22.690902] do_lttng_statedump+0xcc/0x8a8 [lttng_statedump]
+>>> <4>[ 22.690905] lttng_statedump_start+0x20/0x30 [lttng_statedump]
+>>> <4>[ 22.690981] lttng_session_enable+0xf0/0x120 [lttng_tracer]
+>>> <4>[ 22.691018] lttng_session_ioctl+0x22c/0x328 [lttng_tracer]
+>>> <4>[ 22.691026] compat_sys_ioctl+0x110/0x778
+>>>
+>>> Signed-off-by: Li Zhou <li.zhou@windriver.com>
+>>> ---
+>>>   ...es-Check-the-pid_ns-before-using-it-becau.patch | 86 +++++++++++++=
++++++++++
+>>>   meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb  |  2 +
+>>>   2 files changed, 88 insertions(+)
+>>>   create mode 100644
+>>>   meta/recipes-kernel/lttng/lttng-modules/0001-lttng-modules-Check-the-=
+pid_ns-before-using-it-becau.patch
+>>>
+>>> diff --git
+>>> a/meta/recipes-kernel/lttng/lttng-modules/0001-lttng-modules-Check-the-=
+pid_ns-before-using-it-becau.patch
+>>> b/meta/recipes-kernel/lttng/lttng-modules/0001-lttng-modules-Check-the-=
+pid_ns-before-using-it-becau.patch
+>>> new file mode 100644
+>>> index 0000000..5306c79
+>>> --- /dev/null
+>>> +++
+>>> b/meta/recipes-kernel/lttng/lttng-modules/0001-lttng-modules-Check-the-=
+pid_ns-before-using-it-becau.patch
+>>> @@ -0,0 +1,86 @@
+>>> +From 0c0072e005ce9d591518d1819a39264859132561 Mon Sep 17 00:00:00 2001
+>>> +From: Li Zhou <li.zhou@windriver.com>
+>>> +Date: Wed, 19 Feb 2020 11:14:38 +0800
+>>> +Subject: [PATCH] lttng-modules: Check the pid_ns before using it becau=
+se it
+>>> + may be NULL
+>>> +
+>>> +<1>[ 22.637196] Unable to handle kernel NULL pointer dereference at
+>>> +virtual address 0000000000000080
+>>> +<1>[ 22.645982] Mem abort info:
+>>> +<1>[ 22.648769] ESR =3D 0x96000007
+>>> +<1>[ 22.651817] Exception class =3D DABT (current EL), IL =3D 32 bits
+>>> +<1>[ 22.657730] SET =3D 0, FnV =3D 0
+>>> +<1>[ 22.660777] EA =3D 0, S1PTW =3D 0
+>>> +<1>[ 22.663910] Data abort info:
+>>> +<1>[ 22.666784] ISV =3D 0, ISS =3D 0x00000007
+>>> +<1>[ 22.670611] CM =3D 0, WnR =3D 0
+>>> +<1>[ 22.673574] user pgtable: 4k pages, 39-bit VAs, pgdp =3D
+>>> +0000000012378f78
+>>> +<1>[ 22.680180] [0000000000000080] pgd=3D000000007f023003,
+>>> +pud=3D000000007f023003, pmd=3D000000007f01f003, pte=3D0000000000000000
+>>> +<0>[ 22.690794] Internal error: Oops: 96000007 [#1] PREEMPT SMP
+>>> +<4>[ 22.690797] Modules linked in: adkNetD ncp
+>>> +lttng_ring_buffer_client_overwrite(C)
+>>> +lttng_ring_buffer_metadata_client(C) lttng_ring_buffer_client_discard(=
+C)
+>>> +lttng_ring_buffer_client_mmap_overwrite(C)
+>>> +lttng_ring_buffer_client_mmap_discard(C)
+>>> +lttng_ring_buffer_metadata_mmap_client(C) lttng_probe_signal(C)
+>>> +lttng_probe_printk(C) lttng_probe_sched(C) lttng_probe_irq(C)
+>>> +lttng_tracer(C) lttng_statedump(C) lttng_ftrace(C)
+>>> +lttng_lib_ring_buffer(C) lttng_clock_plugin_arm_cntpct(C) lttng_clock(=
+C)
+>>> +<0>[ 22.690823] Process lttng-sessiond (pid: 3093, stack limit =3D
+>>> +0x000000005d27910f)
+>>> +<4>[ 22.690828] CPU: 1 PID: 3093 Comm: lttng-sessiond Tainted: G C
+>>> +4.18.37-rt820-custom #1
+>>> +<4>[ 22.690830] Hardware name: DUS33 (CPM2-20) (DT)
+>>> +<4>[ 22.690833] pstate: 60000005 (nZCv daif -PAN -UAO)
+>>> +<4>[ 22.690845] pc : do_lttng_statedump+0xcc/0x8a8 [lttng_statedump]
+>>> +<4>[ 22.690849] lr : do_lttng_statedump+0xc4/0x8a8 [lttng_statedump]
+>>> +<4>[ 22.690851] sp : ffffffc07fe57ad0
+>>> +<4>[ 22.690852] x29: ffffffc07fe57ad0 x28: ffffffc008ae2700
+>>> +<4>[ 22.690856] x27: ffffff8000724000 x26: 0000000000000001
+>>> +<4>[ 22.690859] x25: ffffff80089c9620 x24: 0000000000000000
+>>> +<4>[ 22.690862] x23: ffffffc008ae2e10 x22: ffffff80089d3380
+>>> +<4>[ 22.690865] x21: ffffffc07f450000 x20: ffffffc008ae2700
+>>> +<4>[ 22.690869] x19: 0000000000000007 x18: 00000000fffffffe
+>>> +<4>[ 22.690871] x17: 0000000000000000 x16: ffffff800824b980
+>>> +<4>[ 22.690874] x15: 0000000000000000 x14: 736162203b656e6f
+>>> +<4>[ 22.690877] x13: 6e203d20676e6964 x12: 0000000000000000
+>>> +<4>[ 22.690880] x11: 0101010101010101 x10: 7f7f7f7f7f7f7f7f
+>>> +<4>[ 22.690882] x9 : 3c1f647968721eff x8 : ffffffc0877504c8
+>>> +<4>[ 22.690886] x7 : 09093a7c093a7c08 x6 : ffffff8010c4b317
+>>> +<4>[ 22.690888] x5 : 0000000000000000 x4 : 00000040a7575000
+>>> +<4>[ 22.690891] x3 : ffffffc008ae2e28 x2 : 0000000000000000
+>>> +<4>[ 22.690894] x1 : 0000000000000000 x0 : 0000000000000000
+>>> +<4>[ 22.690896] Call trace:
+>>> +<4>[ 22.690902] do_lttng_statedump+0xcc/0x8a8 [lttng_statedump]
+>>> +<4>[ 22.690905] lttng_statedump_start+0x20/0x30 [lttng_statedump]
+>>> +<4>[ 22.690981] lttng_session_enable+0xf0/0x120 [lttng_tracer]
+>>> +<4>[ 22.691018] lttng_session_ioctl+0x22c/0x328 [lttng_tracer]
+>>> +<4>[ 22.691026] compat_sys_ioctl+0x110/0x778
+>>> +
+>>> +Signed-off-by: Liguang Li <liguang.li@windriver.com>
+>>> +
+>>> +Upstream-Status: Pending
+>>> +
+>>> +Signed-off-by: Li Zhou <li.zhou@windriver.com>
+>>> +---
+>>> + lttng-statedump-impl.c | 2 +-
+>>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>>> +
+>>> +diff --git a/lttng-statedump-impl.c b/lttng-statedump-impl.c
+>>> +index 1c09e51..fb609e3 100644
+>>> +--- a/lttng-statedump-impl.c
+>>> ++++ b/lttng-statedump-impl.c
+>>> +@@ -397,7 +397,7 @@ void lttng_statedump_process_ns(struct lttng_sessi=
+on
+>>> *session,
+>>> + =09do {
+>>> + =09=09trace_lttng_statedump_process_state(session,
+>>> + =09=09=09p, type, mode, submode, status, pid_ns);
+>>> +-=09=09pid_ns =3D pid_ns->parent;
+>>> ++=09=09pid_ns =3D pid_ns ? pid_ns->parent : NULL;
+>>> + =09} while (pid_ns);
+>>> + }
+>>> +
+>>> +--
+>>> +1.9.1
+>>> +
+>>> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+>>> b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+>>> index c833ff7..cbd43e3 100644
+>>> --- a/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+>>> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+>>> @@ -11,6 +11,7 @@ COMPATIBLE_HOST =3D
+>>> '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
+>>>   SRC_URI =3D "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+>>>              file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-e=
+n.patch \
+>>>              file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
+>>> +
+>>> file://0001-lttng-modules-Check-the-pid_ns-before-using-it-becau.patch
+>>> \
+>>>              "
+>>>  =20
+>>>   SRC_URI[md5sum] =3D "0d964723c8765b39835e5e6efc60a604"
+>>> @@ -36,6 +37,7 @@ DEFAULT_PREFERENCE_class-devupstream =3D "-1"
+>>>   SRC_URI_class-devupstream =3D
+>>>   "git://git.lttng.org/lttng-modules;branch=3Dstable-2.11 \
+>>>              file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-e=
+n.patch \
+>>>              file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
+>>> +
+>>> file://0001-lttng-modules-Check-the-pid_ns-before-using-it-becau.patch
+>>> \
+>>>              "
+>>>   SRCREV_class-devupstream =3D "6ad0e68b43c3e52fcb3d47c4d823a7b84aeb443=
+a"
+>>>   PV_class-devupstream =3D "2.11.1+git${SRCPV}"
+>>> --
+>>> 1.9.1
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+> --
+> Best Regards!
+> Zhou Li
+> Phone number: 86-10-84778511
 
