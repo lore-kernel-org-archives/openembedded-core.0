@@ -1,44 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BCB861303
+	by mail.openembedded.org (Postfix) with ESMTP id 0016561144
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 11:50:10 +0000 (UTC)
+	Wed, 26 Feb 2020 11:51:38 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48SDcy6zX1z4M;
-	Wed, 26 Feb 2020 12:50:10 +0100 (CET)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48SDff5WcRz4M
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Feb 2020 12:51:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582717811;
-	bh=OcLVoCfWnxxI/OtW5zjjm8q3mimniAd17zQlr4YHiiQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=X/QTBAoVglJZrmgPEGG0sypI6Ml1vzPkq5CZVn2Yv2oaixIb9tYPUWVSL/w9POlM7
-	jMMaKuzhO1cu33y50yxi7aGt0rEd7hC6LY5QtNKIAdEdzAZIiZAU2tRo5fBmRLwjSH
-	pD0ud1P4eLaP8CqOzWUm47SznOYwEccULQCMfUudxsgv30+JvIXIzejmKyPywldl7L
-	m9RUSUN9Oo2qQNi8YsQrfD2Ww5mVjNzQqHl5/FXjjn5hTCpB0hsoTD5bW7kaMIX1vL
-	lGCv82nYEJpIL7PGi9yeSmaBV9MFYOayd8BBdTt3OzMIviBXCk071cqilM2Zj1H8Sm
-	Z2HY7oqYE3rJaujBZF/6/s2eZ7P/WN4sFDqsM7opdFQxKHv7pY6MSJJl4bxjdZQGDx
-	PqNMzZMrENxwgqGGb18jRRn15lBnnlpLCskNvlVnswcoCsUQRtgHBphGukiy9IZCiy
-	2DI94NlcIV/yyHtfos4sGJchFap1iXCno27KyLPadzXvz4nVshWeGo9yA7PSDA3I9r
-	mv24+nNoaHa14zfdfRA8QkaLqbikKq54Vlc+NNNRPDOuhTjrxvlEGbc0rzADF30YXj
-	fwE6Di4Zv5s4LNpgYgI+b499wzp6Jis4kmdpV/tnlBlQZDGEiBk6yGrefuYnCT5rjR
-	Nnh9Zwaq5dymUT/Gihqf5xP4=
-Date: Wed, 26 Feb 2020 13:50:09 +0200
+	s=default; t=1582717898;
+	bh=5MU0uZriFnqogYJOQdwIvvhoWuGDlJ9Tuzx/NzvkYMM=;
+	h=From:To:Subject:Date:From;
+	b=pDTxalKooGnfRxkzwvNc3domvrYaKIKk9JRqJux5CK13nQwiIAKlERKKP9hIuV0I+
+	rWVINKBfWsFH9IwIwZonIbNzd4BBYL94NtW64Y8TFJjE+ux33/7XGjvf1szZKc1mSU
+	FEv7A08qujpc2UqdZfs3SSzt/A+fzSbYFlW86wlCZF/i0P4nPgA9Vt2faSmF4A+C/t
+	5+2gYD1SEEwlADaLazW1mnyJvAAxPLCx04hwP0cd7EBEy55VaMeJJLIeBaoo0uUerq
+	o9ihZ8Soga8wlg7GHXqWS8yD8DfAPLDwTkOJ+xS+pypMg+NiBoUu+8Zn7KhkwDL2aI
+	ljBab6usFHH0ISrVUQaGqcjhf2A1BugpMAef5GXDnN7srN57bQ33azs9iEplXPxyfV
+	heuGeKq+1zvHd6l8iONURMsNPpufu+gOX59meX7IXVVF8xGKHUqPBjG47u4J7YCyoe
+	SYq0u4Tw3R0LLCSH1KCQJDlQrBoby0FJOT80tqDPySd0ooaoOVUI9/bB7CTjWqXjzY
+	4nsL96x3xEElx1VgnBJNDCI2CCzVhQdymQAi6RMY0D6BXt8wAU9uHUka4qeYcqcnJj
+	eqz1N9okcu2permIyJIJzR6uSCppFqmAY03yEvZT6Z6dfyd4qgnVUqercS2fU6H3hC
+	8AFzN7ODbmS0mVKYTmg7VGz8=
 From: Adrian Bunk <bunk@stusta.de>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20200226115009.GA26350@localhost>
-References: <20200223182933.6168-1-bunk@stusta.de>
-	<fd59ef897ef077f4f0160e1e2d7c95466c75a3f7.camel@linuxfoundation.org>
-	<20200224104635.GA27036@localhost>
-	<20200224140801.GC27036@localhost>
-	<CANNYZj91N68ocXm=UKzcH6U7nEnVLuQzDStR3O0_cO3GsY9uag@mail.gmail.com>
-	<20200225111955.GA13902@localhost>
-	<CANNYZj-VbMxS52x78goiAA3jvKnyRQiyxd8G5TfEKZ8hBSXdDA@mail.gmail.com>
-	<20200225123807.GB13902@localhost>
-	<20200225124627.23tpu5eknidqxrg3@jama>
-MIME-Version: 1.0
-In-Reply-To: <20200225124627.23tpu5eknidqxrg3@jama>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/6] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Feb 2020 13:51:36 +0200
+Message-Id: <20200226115137.23733-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v3 1/2] webkitgtk: Move X library DEPENDS to the x11 PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,27 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2020 11:50:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 26 Feb 2020 11:51:39 -0000
 
-On Tue, Feb 25, 2020 at 01:46:27PM +0100, Martin Jansa wrote:
-> On Tue, Feb 25, 2020 at 02:38:07PM +0200, Adrian Bunk wrote:
-> > On Tue, Feb 25, 2020 at 12:32:55PM +0100, Alexander Kanavin wrote:
-> > > I would probably look into how
-> > > REQUIRED_DISTRO_FEATURE/ANY_OF_DISTRO_FEATURS is actually implemented, and
-> > > see if you can convince it to do the right thing, or maybe write a custom
-> > > re-implementation.
-> > 
-> > I did already check meta/classes/features_check.bbclass, there is no 
-> > obvious simple way for expressing more complicated dependencies.
-> 
-> Doesn't this do what you wanted?
-> 
-> REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland opengl', 'x11', d)}"
+Also adjust them to what OptionsGTK currently checks.
 
-Thanks, I now have a v3.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-cu
-Adrian
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+index 2e923991e9..1a0b504a51 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+@@ -30,10 +30,10 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ 
+ CVE_PRODUCT = "webkitgtk webkitgtk\+"
+ 
+-DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libgcrypt \
++DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libgcrypt \
+            gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
+ 	   pango icu bison-native gawk intltool-native libwebp \
+-	   atk udev harfbuzz jpeg libpng librsvg libtheora libvorbis libxcomposite libxtst \
++	   atk udev harfbuzz jpeg libpng librsvg libtheora libvorbis \
+ 	   ruby-native libnotify gstreamer1.0-plugins-bad \
+ 	   gettext-native glib-2.0 glib-2.0-native libtasn1 \
+           "
+@@ -45,7 +45,7 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
+                   "
+ 
+ PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland libwpe wpebackend-fdo wayland-native"
+-PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11"
++PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11 libxcomposite libxdamage libxrender libxt"
+ PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
+ PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
+ PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
+-- 
+2.17.1
+
 
