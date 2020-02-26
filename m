@@ -1,50 +1,49 @@
-Return-Path: <zboszor@pr.hu>
-Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 94D6A6167B
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C404761221
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 17:38:08 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1j70dN-0003O4-Eb; Wed, 26 Feb 2020 18:38:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Hq2X9NfOOGZoStk9UJYduEbXMS9JjUnpfdDRJ/6lUk4=;
-	b=U+j3XR32hqPnxsKDehQoNHiXhZ
-	sNHj0hZSFco4RW5D4MoOEy3tV0idHa3naDDL4bWmAWZ+u8rfBiFJfPP2Ckjo4poPHzmtioQxEkvLP
-	znJZ2uVDO2s3hzyZ9xr5E6wz0nqfcMZ15m+9gi3lst6EeRUd0s3x/8semzF0WcyVRIDE6Na6asMlq
-	BcmqbvUk3RlwaqWq7aJZohijNsHiWHGvoDW7REpl3GvynouuKmHdtDJMSoMSc5j5DNWOH4xPIS0ft
-	/8IO2vm1nUN49lUw7q0R2SCTngceFnybeTeZcaYnhPTyMMt+zgnTqwF1huX2pcnd0wztIEvg2n8yB
-	BycbY5KQ==;
-Received: from host-87-242-33-197.prtelecom.hu ([87.242.33.197]
-	helo=[192.168.1.2])
-	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
-	id 1j70dI-000369-Sd; Wed, 26 Feb 2020 18:38:07 +0100
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20200226135716.49255-1-zboszor@pr.hu>
-	<20200226135716.49255-2-zboszor@pr.hu>
-	<CANNYZj8MzPaJM7DMuufL_QShHtK5v5e=VjK7xmS2zz1ovf7J6g@mail.gmail.com>
-	<a9d54420-9427-c153-aa2c-1586363de362@pr.hu>
-	<dd5abcfe-a403-5184-4dd1-e19a050a85fa@pr.hu>
-	<CANNYZj9XagmKuTr4QTRzcO0RafOx7PJGBtm+pZHFMNTM1nVhuQ@mail.gmail.com>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Message-ID: <4cd13868-f411-e6a4-a2b8-d18be9c7a3a2@pr.hu>
-Date: Wed, 26 Feb 2020 18:38:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	Wed, 26 Feb 2020 17:54:30 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id p14so4806986edy.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Feb 2020 09:54:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=fiovcG4E987DH/4G7Vijl0fez35LGnidU/TFF+wlPKo=;
+	b=sdTaIVI/67N55QaezmjnzRxvlwvdddkPKq7RRER6ebBA9e2Wpc6nuOY74xPZuYjMYn
+	1xr25YqZ8XLljCxjrlV2xX0qyrYy2Do88KQpwjAVbsXTYXI/3Kp9S9LJStPNunD4xwOe
+	sAKsMtdkVKu7qEgn8IEsJtobAU8cIOkZZMKteSfOTABaNxtoyqU4ArtOMgfbDZ3L/LDB
+	hDaO1Ou0O9ugcazBZOFfKyX9ipXXopm/howfTqAGQqJG1SCc/8nzgM4rEF22ydnsAcBo
+	c+1zyO9rNVQ+qG5YaNX14ksYFcczP3mAm1vnwum3nXriDFaqSrHihezh67kEfCFm+0UG
+	OGmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=fiovcG4E987DH/4G7Vijl0fez35LGnidU/TFF+wlPKo=;
+	b=U26EiOJVTOG+J+xmbfeKjgMh0faUczijBJbpRfzb40F5r8hRgESgmdmPgNEjn9Zq6o
+	UrnVqbjbx5MN/xKROcMKWKuNis9MV41qPu3+jb4ijH+5y77y8UPEKRm4JY/c0itH90ME
+	YhDnVPoQB0/AQ3ly3NwkkI4eFYJKgSyRqYkhLyghoZn6ec1gSZ1swuoOD5NRcZuxUKXe
+	Jq1nhSXp2o1oEPFRXoxG92rJMGb4wpKt9w23GBQcvVaQwkPn95Cd1NRLWWH20peD1DXC
+	+wsG9g76YZKDHYcGlj/No5IXSRYZaQe3+zyGu2uLTX3XbkLABBSgx4pHyUTelwKjXz7Y
+	ex3Q==
+X-Gm-Message-State: APjAAAVdMYB3koFeG3BUc4WGw7Mx80EzpjkCUyLOzEtzEh08pS90r2oR
+	o+4SQGTSYpemFnnCQFIbSY+wpxLvu4xS305WLHg=
+X-Google-Smtp-Source: APXvYqwHDLy8cp0SiOoHohSJKDmpjjJZbq++1r5vpt7zrnmJsZlPfgqJVXB1RIc/t9OVUTllZ2HqTh2Afw75CCJr8fQ=
+X-Received: by 2002:a50:ee8d:: with SMTP id f13mr440591edr.347.1582739671410; 
+	Wed, 26 Feb 2020 09:54:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj9XagmKuTr4QTRzcO0RafOx7PJGBtm+pZHFMNTM1nVhuQ@mail.gmail.com>
-X-Spam-Score: -1.9 (-)
-X-Scan-Signature: fc814016fbf334f6643f2a7843ee50ce
-X-Spam-Tracer: backend.mail.pr.hu -1.9 20200226173807Z
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] libva-initial: New recipe to carry only pkgconfig files and headers
+References: <20200224200202.61426-1-bruce.ashfield@gmail.com>
+	<beec08fcb1f0b492dced91217f2fdd598228f87a.camel@linuxfoundation.org>
+	<CADkTA4NCvFGgq=dDBPs=Mi5qUbFqZ6C7Xy=KJp71+EVw-CsvWQ@mail.gmail.com>
+In-Reply-To: <CADkTA4NCvFGgq=dDBPs=Mi5qUbFqZ6C7Xy=KJp71+EVw-CsvWQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 26 Feb 2020 12:54:20 -0500
+Message-ID: <CADkTA4PNSPdxqFUc7FwiwtUiRcGz4f0+idRb-n4rmyKQx46ZLw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-yocto/5.2: update to v5.2.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,117 +56,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2020 17:38:09 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Feb 2020 17:54:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-2020. 02. 26. 18:16 keltezéssel, Alexander Kanavin írta:
-> Right, then I am okay with this, as long as there are proper commit messages, and no 
-> version in .inc filename.
-> 
-> Alex
+On Wed, Feb 26, 2020 at 8:26 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> On Tue, Feb 25, 2020 at 11:47 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Mon, 2020-02-24 at 15:02 -0500, bruce.ashfield@gmail.com wrote:
+> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > >
+> > > Updating linux-yocto/5.2 to the latest korg -stable release that
+> > > comprises
+> > > the following commits:
+> >
+> > This was included in testing on the autobuilder and we saw:
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1612
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/315
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/1616
+> >
+> > and I'm not sure if they're from this?
+>
+> Me either.
+>
+> Hopefully one of the Wind River guys can have a look, otherwise, I'll
+> poke at it next week.
 
-Thank you, I'll send a v2 patchset with proper commit messages and a cover mail tomorrow.
+I did spin up a patch of master + my version bump patch, and I am able
+to complete the test locally (core-image-sato-sdk).
 
-> 
-> On Wed, 26 Feb 2020 at 17:37, Böszörményi Zoltán <zboszor@pr.hu <mailto:zboszor@pr.hu>> wrote:
-> 
->     2020. 02. 26. 17:35 keltezéssel, Böszörményi Zoltán via Openembedded-core írta:
->      > 2020. 02. 26. 17:12 keltezéssel, Alexander Kanavin írta:
->      >> The 'circular dependency' thing must be explained in the commits, and not in a
->      >> discussion link to some email elsewhere.
->      >>
->      >> I still don't get why this is needed. The -initial recipe is identical to the
->     eventual
->      >> 'real' recipe, so where is the circularity coming from?
->      >
->      > libva -> mesa -> libva
-> 
->     And the -initial recipe is NOT identical to the real one.
->     The real one always had DEPENDS = "virtual/mesa"
-> 
->      >
->      >>
->      >> Alex
->      >>
->      >> On Wed, 26 Feb 2020 at 15:05, Böszörményi Zoltán via Openembedded-core
->      >> <openembedded-core@lists.openembedded.org
->     <mailto:openembedded-core@lists.openembedded.org>
->      >> <mailto:openembedded-core@lists.openembedded.org
->     <mailto:openembedded-core@lists.openembedded.org>>> wrote:
->      >>
->      >>     The package name exploits sstate.bbclass so it's not added as
->      >>     implicit dependency to packages.
->      >>
->      >>     Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu <mailto:zboszor@pr.hu>
->     <mailto:zboszor@pr.hu <mailto:zboszor@pr.hu>>>
->      >>     ---
->      >>       meta/recipes-graphics/libva/libva-2.6.1.inc        | 4 +++-
->      >>       meta/recipes-graphics/libva/libva-initial_2.6.1.bb
->     <http://libva-initial_2.6.1.bb> <http://libva-initial_2.6.1.bb> |
->      >>     5 +++++
->      >>       2 files changed, 8 insertions(+), 1 deletion(-)
->      >>       create mode 100644 meta/recipes-graphics/libva/libva-initial_2.6.1.bb
->     <http://libva-initial_2.6.1.bb>
->      >>     <http://libva-initial_2.6.1.bb>
->      >>
->      >>     diff --git a/meta/recipes-graphics/libva/libva-2.6.1.inc
->      >>     b/meta/recipes-graphics/libva/libva-2.6.1.inc
->      >>     index ca1386d80b..5b1cdee7e3 100644
->      >>     --- a/meta/recipes-graphics/libva/libva-2.6.1.inc
->      >>     +++ b/meta/recipes-graphics/libva/libva-2.6.1.inc
->      >>     @@ -17,10 +17,12 @@ SECTION = "x11"
->      >>       LICENSE = "MIT"
->      >>       LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
->      >>
->      >>     -SRC_URI =
->     "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2
->     <https://github.com/intel/$%7BBPN%7D/releases/download/$%7BPV%7D/$%7BBP%7D.tar.bz2>
->      >>    
->     <https://github.com/intel/$%7BBPN%7D/releases/download/$%7BPV%7D/$%7BBP%7D.tar.bz2>"
->      >>     +SRC_URI =
->     "https://github.com/intel/libva/releases/download/${PV}/libva-${PV}.tar.bz2
->     <https://github.com/intel/libva/releases/download/$%7BPV%7D/libva-$%7BPV%7D.tar.bz2>
->      >>    
->     <https://github.com/intel/libva/releases/download/$%7BPV%7D/libva-$%7BPV%7D.tar.bz2>"
->      >>       SRC_URI[md5sum] = "aef13eb48e01a47d1416d97462a22a11"
->      >>       SRC_URI[sha256sum] =
->      >> "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e48629401eaea5"
->      >>
->      >>     +S = "${WORKDIR}/libva-${PV}"
->      >>     +
->      >>       UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
->      >>
->      >>       DEPENDS = "libdrm"
->      >>     diff --git a/meta/recipes-graphics/libva/libva-initial_2.6.1.bb
->     <http://libva-initial_2.6.1.bb>
->      >>     <http://libva-initial_2.6.1.bb>
->     b/meta/recipes-graphics/libva/libva-initial_2.6.1.bb <http://libva-initial_2.6.1.bb>
->      >>     <http://libva-initial_2.6.1.bb>
->      >>     new file mode 100644
->      >>     index 0000000000..828ef6fbca
->      >>     --- /dev/null
->      >>     +++ b/meta/recipes-graphics/libva/libva-initial_2.6.1.bb
->     <http://libva-initial_2.6.1.bb>
->      >> <http://libva-initial_2.6.1.bb>
->      >>     @@ -0,0 +1,5 @@
->      >>     +require libva-${PV}.inc
->      >>     +
->      >>     +do_install_append () {
->      >>     +       rm -f ${D}${libdir}/*.so*
->      >>     +}
->      >>     --     2.24.1
->      >>
->      >>     --     _______________________________________________
->      >>     Openembedded-core mailing list
->      >> Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->      >> <mailto:Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>>
->      >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->      >>
->      >
-> 
+That permission denied error is very strange. I'll check the commits
+to see if any of the scripts/Make* changed in that stable version, but
+otherwise, I'm not seeing it and only have guesses as to how the
+version bump could trigger that.
 
+Cheers,
+
+Bruce
+
+>
+> Cheers,
+>
+> Bruce
+>
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
