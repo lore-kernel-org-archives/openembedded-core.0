@@ -1,35 +1,48 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 020CF61311
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2896060636
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 11:51:38 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48SDfg2Fjbz4c
+	Wed, 26 Feb 2020 13:27:02 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id dc19so3705133edb.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 12:51:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582717899;
-	bh=sWDavsJxHoten7XPJkGsrTIajOSYqcDuskxS2/BN9bU=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=CgA8/j3S/DmsXELxDBm4Ryw0EVGWImJIsxQsV0rNbmTMIfaodjYIygYkENsLvlBMi
-	m2+ydQXhZkrrD+CDpzwmLJUc4/aurCFSvBXhKdTzUO/bVGkIFYhoRfI53sj9QWA41i
-	V1+PTKVlL7rlVLrwn4nwmGXADH+6ob+H10j1GeiiLV46F7rAKYlCrzJHmPyzo8BZBL
-	2Av8PpjU6wQ8q8vt/sZNwoQAOumWLvuckkL7ctoXrk78Qt7UB+iIRHcJjCgz2TVhRn
-	IlCl5Q/xiSG0K1nw8DKDelPKB2Y+xPiHjuD6I3C8rgcjwGF/DbY5KHvwAjn60q+8kT
-	JfY2PLmF7N/f2NDFeBdI12UXdkPIVhktuTtBpetpXeaVsQTnZOgLBAewfdc51Gnbgb
-	DXwmcbFNQTREhmVvB6/Jrkl2x/psem/msXN3X/Z+0EaK0AJ7GtcYc6yotDhgAgPcbL
-	ZPY+ZvEvPOZ7S+agmcCRZT3FGYD9WKgPCVyIOU3f6M2oy6u/KQVKKPUCPjn+NuXvmv
-	6Qx+G7bopz5S9EMVFakAkb86MiJE3ESNAn7KjCsPqhpoX0QcRuDpVqGXIVJ8mfzpKV
-	FURCUykZHS27mbjKIlHAroDzrSfe+1E24RHffor+y8drXX9vFqrvOSLj+tBpbWsoyA
-	igrJu2U5wXr3OMZ8UjaG2xMs=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Feb 2020 13:51:37 +0200
-Message-Id: <20200226115137.23733-2-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200226115137.23733-1-bunk@stusta.de>
-References: <20200226115137.23733-1-bunk@stusta.de>
-Subject: [PATCH v3 2/2] webkitgtk: Remove unnecessary REQUIRED_DISTRO_FEATURES requirements
+	Wed, 26 Feb 2020 05:27:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=kGgrYMmWGGoQq5F/5aqzXNTnZr2Yrsxp9rhTsWdaou4=;
+	b=ubqPCvvfLcxeG2FCwATBu71CA0us+EDftkngvy9mSs2EwWBysWYD1g8yuo5UU3yGD0
+	7zJcOBJ31iNkWQBPmjxgwoqi0uOtZ64MQJAAuCftDG/UF+8/gTxkqy1AM7DlfT30GpGM
+	V0fC0m3YHpGqUsHM7vzMgmd8JwCkGe9pzYTsjMvGDU9JSkmKjfZgIOyclDe/s+WlNn/g
+	1gnboLWfQHodv5QCdnIQICdfM51HBlI0zggmaxuDnS6eaLQYPTP7sDIh3rElMVF80Mta
+	8VpEJJ6yJDyU3Fa7A53p5VJJS4tKXSncvIvVy/xWtG89Q7v/Ir/c/bY76TAQgHt5Hfdb
+	KmwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=kGgrYMmWGGoQq5F/5aqzXNTnZr2Yrsxp9rhTsWdaou4=;
+	b=gGs4GBFiV17T/dNoVSmgDYcXymJtD6IsHlVy0NgaXCgMu7r3B8rHwlpwuT3a1EqOSm
+	WYGdjTux1O32QxCZ/m72Ol6WY86dgy7XRnn37C5PGwyxRKs3LmrksRO25F2+JzlIBxzE
+	mHLoe2Fn3zOOM5G+HyU8ugYSNSmzN/axo1K7sSx9/KGAs/NtsyDMOmgL8kvgjQ3UaK2n
+	VTMMKeRyM4EKEUbwP0rXrxA7MVjCIizdPw/eEQuBHli3pf1S658vhNFoYPqjIUm4U3JV
+	9sSEaNQgm+9iPWTgftiHz+BL+H7yNx98UJkkn5Szs+UiLOYptytvulr+OzGdwSRfd2DP
+	O5VQ==
+X-Gm-Message-State: APjAAAUVRP4BfYSE+bJ7xRB7RDckgcpOJKVZh9+HbEDuTfUnn1K6rlX0
+	ZVSd3olZTuiI0ToS10Hb58Y/iTXfN6+z55YMS/8=
+X-Google-Smtp-Source: APXvYqyyQdZi3L7+FF/StuvypYzC8WvVOty2xc6sQ5ueTO7S6yGiTrPkU8VKPxA2CMeejEROQ8haw8ohwweqFEKp8H8=
+X-Received: by 2002:a50:ee8d:: with SMTP id f13mr4667269edr.347.1582723622670; 
+	Wed, 26 Feb 2020 05:27:02 -0800 (PST)
+MIME-Version: 1.0
+References: <20200224200202.61426-1-bruce.ashfield@gmail.com>
+	<beec08fcb1f0b492dced91217f2fdd598228f87a.camel@linuxfoundation.org>
+In-Reply-To: <beec08fcb1f0b492dced91217f2fdd598228f87a.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 26 Feb 2020 08:26:51 -0500
+Message-ID: <CADkTA4NCvFGgq=dDBPs=Mi5qUbFqZ6C7Xy=KJp71+EVw-CsvWQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] linux-yocto/5.2: update to v5.2.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,42 +55,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2020 11:51:39 -0000
+X-List-Received-Date: Wed, 26 Feb 2020 13:27:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-x11 can be replaced with wayland.
-opengl is mandatory only with wayland.
-Without x11, use gles2 for opengl.
+On Tue, Feb 25, 2020 at 11:47 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2020-02-24 at 15:02 -0500, bruce.ashfield@gmail.com wrote:
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >
+> > Updating linux-yocto/5.2 to the latest korg -stable release that
+> > comprises
+> > the following commits:
+>
+> This was included in testing on the autobuilder and we saw:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1612
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/315
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/1616
+>
+> and I'm not sure if they're from this?
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Me either.
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-index 1a0b504a51..0a5ecace02 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-@@ -26,7 +26,8 @@ SRC_URI[sha256sum] = "4386900713dfadf9741177210b32623cab22562a79ffd0d446b6656993
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
- 
--REQUIRED_DISTRO_FEATURES = "x11 opengl"
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-+REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'opengl', '', d)}"
- 
- CVE_PRODUCT = "webkitgtk webkitgtk\+"
- 
-@@ -39,7 +40,8 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libgcrypt \
-           "
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', '' ,d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl opengl', '' ,d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2' ,d)} \
-                    enchant \
-                    libsecret \
-                   "
+Hopefully one of the Wind River guys can have a look, otherwise, I'll
+poke at it next week.
+
+Cheers,
+
+Bruce
+
+>
+> Cheers,
+>
+> Richard
+>
+
+
 -- 
-2.17.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
