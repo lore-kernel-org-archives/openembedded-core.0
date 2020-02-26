@@ -1,32 +1,46 @@
-Return-Path: <zboszor@pr.hu>
-Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 8636C61033
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D210611A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 20:21:17 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1j73BG-00035y-2U; Wed, 26 Feb 2020 21:21:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=h4yC3ZJ7cWzg2xkf+XrBhDXldOxdjmYIjUZP9ZT+nkA=;
-	b=gcU77VtJqBKuN2Zx2x2OeysUjc
-	GW4pH0+6skbF85+Bh7YRd0c6gFfTBy6Fvdg/AIjcTZWvXXC8yNHQB5B0PbYbl/U0APn2+Ayv/LmXw
-	y3Hws2i+yNQMW/VOsss2egxICQ29LftuDuXtLo1ndQcZX+/FJAN34bSAgayfgIFZ6pOdfYW32E++U
-	xZP3ngUYQ9mVw/0qZfB6oHsbP0WsNWRyKodsMtYE8nBrbrCmuT/T9tTFKBb9nO+ef6qm/NgloAKzM
-	wxmKt1/mpqMJDxdeaZlx8eHVohVUiEYcgUltpjUy/qiDuO+ZYUZjFzL2pmKAbCNIyh3XSBwjbYXUn
-	K6EGH/7g==;
-Received: from host-87-242-33-197.prtelecom.hu ([87.242.33.197]
-	helo=[192.168.1.2])
-	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
-	id 1j73BB-0007c1-NK; Wed, 26 Feb 2020 21:21:16 +0100
-To: Khem Raj <raj.khem@gmail.com>
+	Wed, 26 Feb 2020 20:31:15 +0000 (UTC)
+Received: by mail-il1-f194.google.com with SMTP id l4so346345ilj.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Feb 2020 12:31:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=HM9NCbw8cswlzd8XRBfuTG9MlLrrEX3ge+D7Zu+WFJE=;
+	b=DZIGLu2nz7mxnSBgFRxeg8MNQLq3VgY1xHVsFjSQZ/1j4k8jRlulO7KaUNi6wMe3ia
+	U3Ey5J+CWJdboFz+T7wQfXSKdvqhknqdlxAOC+a96+sgrFBUCA9vYkwYpYWyQNjVyoWr
+	882VoPVvVgmCnSdHhqoxN3hfinjr3LQak+CJ5ojMM9r5t7DjahSQliE7gl7ab1kzt1YQ
+	TxkccKNNGM0ll5wAEiDJJnLeL+XG6C+bM5OFUHrowlSqyNMtI23aTEGvHs+/ijfJ7TME
+	zTpsyp1lRewOpPfZzjdWipsXKYt91JvW81+ETwlHaiNEUxHoL+/EgBiIzTGAaETqFcjA
+	/Sbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=HM9NCbw8cswlzd8XRBfuTG9MlLrrEX3ge+D7Zu+WFJE=;
+	b=m1ryH6oC8dhfn+pspzdkQXUvlxVJZxq0HDHLIN1d7IMqirL2pYefdSJ5QIuZdE+PGt
+	GjdaSrO/EU+1YsrEL4q/KafFCqzWoc8floEFUCiZIpNgI2bLImZ330c+tyYV3723yXv/
+	OTTJcH+sAZCKS+BUIJ195xg+G+UpS+TpLIU2+IOTR1OwVu2SU9hdNN611vKUNDRxNGzi
+	ysIVh6FuzEnQ8asTJk5V5xyNPZMzMm74gtNMJk4HsDfRffp97cL4r9+ISo+OC8fd8bpk
+	CZ/GjryE0JZIoqSVJLhocwzjdqVI2Ln9AGoFj1pqk2a2ms2qPOZyivVUrZwTAUw8mWZa
+	q0OQ==
+X-Gm-Message-State: APjAAAX9v7S6amglIASRMi23/BUjs0GlM0sApAp/BIEZxj15SQspDLNz
+	vNjOhBZv2sV6y2hTe++v212UKbwh7Lo=
+X-Google-Smtp-Source: APXvYqwWBCSaYVjF0P/k70YyJdmDIqPUVPGH0CHLCQZyfiiiOOL/Yw63zZD62ixIhjUn5tt4h6t82g==
+X-Received: by 2002:a92:de05:: with SMTP id x5mr524677ilm.74.1582749075676;
+	Wed, 26 Feb 2020 12:31:15 -0800 (PST)
+Received: from ?IPv6:2601:646:9200:4e0:19c7:2796:79bc:80ea?
+	([2601:646:9200:4e0:19c7:2796:79bc:80ea])
+	by smtp.gmail.com with ESMTPSA id
+	a82sm1045342ill.38.2020.02.26.12.31.14
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 26 Feb 2020 12:31:15 -0800 (PST)
+To: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
 References: <20200226135716.49255-1-zboszor@pr.hu>
 	<20200226135716.49255-2-zboszor@pr.hu>
 	<CAMKF1sqrFju=q26M-wSuTDR7xjK9tycivhDGvR0eGqAa5g2Zog@mail.gmail.com>
@@ -39,16 +53,14 @@ References: <20200226135716.49255-1-zboszor@pr.hu>
 	<e1137d64-5be8-9667-fb3f-3ea264a1a5ad@pr.hu>
 	<dca27a23-5bb1-bfae-8736-d29a0faded96@pr.hu>
 	<cf075d34-c566-8284-8e16-3eb3b030e12c@gmail.com>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Message-ID: <a2e69e18-a8e9-0965-9d6e-341107937868@pr.hu>
-Date: Wed, 26 Feb 2020 21:21:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	<a2e69e18-a8e9-0965-9d6e-341107937868@pr.hu>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <07623f86-1952-8cd1-c651-8e35a69b6db8@gmail.com>
+Date: Wed, 26 Feb 2020 12:31:14 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <cf075d34-c566-8284-8e16-3eb3b030e12c@gmail.com>
-X-Spam-Score: -1.9 (-)
-X-Scan-Signature: 8bcceada9082d4496415c523679013ef
-X-Spam-Tracer: backend.mail.pr.hu -1.9 20200226202116Z
+In-Reply-To: <a2e69e18-a8e9-0965-9d6e-341107937868@pr.hu>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/5] libva-initial: New recipe to carry only pkgconfig files and headers
@@ -64,121 +76,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2020 20:21:17 -0000
+X-List-Received-Date: Wed, 26 Feb 2020 20:31:15 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 
-2020. 02. 26. 20:44 keltezéssel, Khem Raj írta:
-> 
-> 
-> On 2/26/20 9:14 AM, Böszörményi Zoltán wrote:
->> 2020. 02. 26. 18:08 keltezéssel, Böszörményi Zoltán írta:
->>> 2020. 02. 26. 17:51 keltezéssel, Khem Raj írta:
->>>>
->>>>
->>>> On 2/26/20 7:58 AM, Böszörményi Zoltán wrote:
->>>>> 2020. 02. 26. 16:30 keltezéssel, Khem Raj írta:
->>>>>> On Wed, Feb 26, 2020 at 7:20 AM Böszörményi Zoltán <zboszor@pr.hu> wrote:
->>>>>>>
->>>>>>> 2020. 02. 26. 16:13 keltezéssel, Khem Raj írta:
->>>>>>>> On Wed, Feb 26, 2020 at 7:12 AM Böszörményi Zoltán <zboszor@pr.hu>
->>>>>>>> wrote:
->>>>>>>>>
->>>>>>>>> 2020. 02. 26. 15:58 keltezéssel, Khem Raj írta:
->>>>>>>>>> On Wed, Feb 26, 2020 at 6:05 AM Böszörményi Zoltán via
->>>>>>>>>> Openembedded-core <openembedded-core@lists.openembedded.org> wrote:
->>>>>>>>>>>
->>>>>>>>>>> The package name exploits sstate.bbclass so it's not added as
->>>>>>>>>>> implicit dependency to packages.
->>>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> what is the use of this recipe and why should it be added to core ?
->>>>>>>>>
->>>>>>>>> I should have added a cover letter, shouldn't I?
->>>>>>>>> See patch 3/5 in the series for enabling gallium-va in Mesa.
->>>>>>>>>
+
+
+On 2/26/20 12:21 PM, Böszörményi Zoltán wrote:
+> 2020. 02. 26. 20:44 keltezéssel, Khem Raj írta:
+>>
+>>
+>> On 2/26/20 9:14 AM, Böszörményi Zoltán wrote:
+>>> 2020. 02. 26. 18:08 keltezéssel, Böszörményi Zoltán írta:
+>>>> 2020. 02. 26. 17:51 keltezéssel, Khem Raj írta:
+>>>>>
+>>>>>
+>>>>> On 2/26/20 7:58 AM, Böszörményi Zoltán wrote:
+>>>>>> 2020. 02. 26. 16:30 keltezéssel, Khem Raj írta:
+>>>>>>> On Wed, Feb 26, 2020 at 7:20 AM Böszörményi Zoltán 
+>>>>>>> <zboszor@pr.hu> wrote:
 >>>>>>>>
->>>>>>>> recipe seems to build full libva, so why not just use that instead.
+>>>>>>>> 2020. 02. 26. 16:13 keltezéssel, Khem Raj írta:
+>>>>>>>>> On Wed, Feb 26, 2020 at 7:12 AM Böszörményi Zoltán <zboszor@pr.hu>
+>>>>>>>>> wrote:
+>>>>>>>>>>
+>>>>>>>>>> 2020. 02. 26. 15:58 keltezéssel, Khem Raj írta:
+>>>>>>>>>>> On Wed, Feb 26, 2020 at 6:05 AM Böszörményi Zoltán via
+>>>>>>>>>>> Openembedded-core <openembedded-core@lists.openembedded.org> 
+>>>>>>>>>>> wrote:
+>>>>>>>>>>>>
+>>>>>>>>>>>> The package name exploits sstate.bbclass so it's not added as
+>>>>>>>>>>>> implicit dependency to packages.
+>>>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>> what is the use of this recipe and why should it be added to 
+>>>>>>>>>>> core ?
+>>>>>>>>>>
+>>>>>>>>>> I should have added a cover letter, shouldn't I?
+>>>>>>>>>> See patch 3/5 in the series for enabling gallium-va in Mesa.
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> recipe seems to build full libva, so why not just use that 
+>>>>>>>>> instead.
+>>>>>>>>
+>>>>>>>> You don't seem to be reading mails from openembedded-devel that
+>>>>>>>> you were cc-ed on.
 >>>>>>>
->>>>>>> You don't seem to be reading mails from openembedded-devel that
->>>>>>> you were cc-ed on.
+>>>>>>> don't assume things
 >>>>>>
->>>>>> don't assume things
->>>>>
->>>>> Understood.
->>>>>
->>>>>>> http://lists.openembedded.org/pipermail/openembedded-devel/2020-February/205142.html
->>>>>>>
->>>>>>>
+>>>>>> Understood.
 >>>>>>
->>>>>> I am trying to make us thing if -dev package can be used somehow to
->>>>>> avoid this
->>>>>> or have we exhausted all possibilities.
+>>>>>>>> http://lists.openembedded.org/pipermail/openembedded-devel/2020-February/205142.html 
+>>>>>>>>
+>>>>>>>>
+>>>>>>>>
+>>>>>>>
+>>>>>>> I am trying to make us thing if -dev package can be used somehow to
+>>>>>>> avoid this
+>>>>>>> or have we exhausted all possibilities.
+>>>>>>
+>>>>>> Why is it a problem to exploit sstate.bbclass internals implicitly
+>>>>>> by using a *-initial package name for an arbitrary package?
 >>>>>
->>>>> Why is it a problem to exploit sstate.bbclass internals implicitly
->>>>> by using a *-initial package name for an arbitrary package?
->>>>
->>>> it is not a problem, however, it is a work to keep such setup going and
->>>> also it has to be considered always in dependencies etc.
->>>>
->>>>> Surely it's not reserved for libgcc-initial and friends.
+>>>>> it is not a problem, however, it is a work to keep such setup going 
+>>>>> and
+>>>>> also it has to be considered always in dependencies etc.
 >>>>>
+>>>>>> Surely it's not reserved for libgcc-initial and friends.
+>>>>>>
+>>>>>
+>>>>> they are different usecases, libgcc-initial is a veneer/trampoline 
+>>>>> used
+>>>>> to bootstrap toolchain, and that too we want to remove at every
+>>>>> opportunity we get, we use to have lot of initial recipes and they are
+>>>>> very few left, so we have to be mindful of adding another one.
+>>>>>
+>>>>>> It solves two problems nicely in one go:
+>>>>>> 1. by using a different package than libva, the libva-vs-mesa
+>>>>>>     circular dependency is avoided. mesa needs a crippled libva
+>>>>>> (pkgconfig + headers)
+>>>>>>     to build its VAAPI state tracker and the VAAPI drivers
+>>>>>
+>>>>> I see archlinux using full libva for this. how are other distros doing
+>>>>> it? is this problem unique to OE
 >>>>
->>>> they are different usecases, libgcc-initial is a veneer/trampoline used
->>>> to bootstrap toolchain, and that too we want to remove at every
->>>> opportunity we get, we use to have lot of initial recipes and they are
->>>> very few left, so we have to be mindful of adding another one.
+>>>> Fedora also uses the full libva.
 >>>>
->>>>> It solves two problems nicely in one go:
->>>>> 1. by using a different package than libva, the libva-vs-mesa
->>>>>     circular dependency is avoided. mesa needs a crippled libva
->>>>> (pkgconfig + headers)
->>>>>     to build its VAAPI state tracker and the VAAPI drivers
+>>>> However, the chicken-and-egg circular dependency is broken by history
+>>>> for these distros.
 >>>>
->>>> I see archlinux using full libva for this. how are other distros doing
->>>> it? is this problem unique to OE
+>>>> Koji and Mock build one package at a time with all their dependencies
+>>>> already available from the staging package repository and the results
+>>>> will be eventually uploaded to the same repository.
+>>>>
+>>>> Bitbake doesn't have have this loophole to download pre-built 
+>>>> dependencies.
 >>>
->>> Fedora also uses the full libva.
+>>> Also, somewhere on 01.org or in the libva sources the same solution
+>>> I presented in this patchset is suggested:
 >>>
->>> However, the chicken-and-egg circular dependency is broken by history
->>> for these distros.
->>>
->>> Koji and Mock build one package at a time with all their dependencies
->>> already available from the staging package repository and the results
->>> will be eventually uploaded to the same repository.
->>>
->>> Bitbake doesn't have have this loophole to download pre-built dependencies.
+>>> 1. build libva with --disable-glx (it is needed when Mesa SDK is 
+>>> present)
+>>>     but it's not needed by not depending on mesa in libva-initial
+>>> 2. build mesa with libva build in (1) as it only needs the pkgconfig 
+>>> files
+>>>     and the headers
+>>> 3. build libva with --enable-glx. It's autodetected, set to on with
+>>>     depending on mesa in the full libva recipe.
 >>
->> Also, somewhere on 01.org or in the libva sources the same solution
->> I presented in this patchset is suggested:
->>
->> 1. build libva with --disable-glx (it is needed when Mesa SDK is present)
->>     but it's not needed by not depending on mesa in libva-initial
->> 2. build mesa with libva build in (1) as it only needs the pkgconfig files
->>     and the headers
->> 3. build libva with --enable-glx. It's autodetected, set to on with
->>     depending on mesa in the full libva recipe.
+>> looking at the nature of the problem, it might be the way to unbreak 
+>> the catch-22, does anything else needs this bootstrap header package ?
 > 
-> looking at the nature of the problem, it might be the way to unbreak the catch-22, does 
-> anything else needs this bootstrap header package ?
+> Besides DEPENDS="libdrm", no.
+> 
+>> do we need to ensure that content of libva-dev and the bootstrap 
+>> packages do not overlap.
+> 
+> I don't think so.
+> Apparently, the mesa-dev package built from this patchset
+> doesn't depend on libva-initial-dev and this latter package
+> doesn't get included into an image either. I guess the
+> sstate.bbclass internals deal with this properly.
+> 
 
-Besides DEPENDS="libdrm", no.
-
-> do we need to ensure that content of libva-dev and the bootstrap packages do not overlap.
-
-I don't think so.
-Apparently, the mesa-dev package built from this patchset
-doesn't depend on libva-initial-dev and this latter package
-doesn't get included into an image either. I guess the
-sstate.bbclass internals deal with this properly.
-
+OK, I guess, we should give it a test.
 
 > 
 >>
->> Obviusly the same libva recipe can't be used to build mesa that depends on mesa.
+>>>
+>>> Obviusly the same libva recipe can't be used to build mesa that 
+>>> depends on mesa.
+>>>
+>>
 >>
 > 
-> 
-
 
