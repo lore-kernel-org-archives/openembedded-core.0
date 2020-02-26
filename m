@@ -1,30 +1,43 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B02306131F
+Return-Path: <zboszor@pr.hu>
+Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id DC6396131F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 14:10:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 01QEASf5012716
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 26 Feb 2020 06:10:29 -0800 (PST)
-Received: from [128.224.56.226] (128.224.56.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Wed, 26 Feb 2020 06:10:27 -0800
-To: Pierre-Jean Texier <pjtexier@koncepto.io>, <Mikko.Rapeli@bmw.de>
-References: <1579631324-16775-1-git-send-email-pjtexier@koncepto.io>
-	<20200122092837.GH34396@korppu>
-	<a68132ef-a36b-b517-bde0-ca2419ae15fb@koncepto.io>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <3166a29d-cff4-93c4-760a-0795f19af04f@windriver.com>
-Date: Wed, 26 Feb 2020 09:10:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
+	Wed, 26 Feb 2020 14:12:24 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>) id 1j6xC7-0006qw-Lp
+	for openembedded-core@lists.openembedded.org;
+	Wed, 26 Feb 2020 14:57:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Ry7pll3qarcvMuM7+jGiDZ8vyjCInAAUxaDs/d90i84=;
+	b=UsU5Lx1hk5XEzW9EMT7ftfPM/5
+	HNPqPnkcr038heMliUgM0uKG82uaqbEh2EF2jRLnYp5VKGPCtHyIBxKEb0Ahihlqx0IrSTf4snybL
+	9QwgaNHdeBESwvpT31tl6widW6i+UYCSuGcSTSRXmrQnmG4Or7W3RyVoySwi0WfBcGjnl8TT9xZfg
+	6w+QL0w8UfeB3TWRAmV22LcMDukXY5ERG64Vd+CAErkb3GNGXeHaKxsB1LvAXi9EZgxUxs+/NFDpi
+	OMy1cIHKrZe9ZpNvIGFtE0acdQ8Kham00tTT0SW8CEaXNUl6ctJJMiSOtMpKMz8dwFwhpe1f9jHG0
+	T+E9M/Zg==;
+Received: from host-87-242-33-197.prtelecom.hu ([87.242.33.197]
+	helo=zolilaptop.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1j6xC3-0007hR-PA; Wed, 26 Feb 2020 14:57:45 +0100
+From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Feb 2020 14:57:14 +0100
+Message-Id: <20200226135716.49255-3-zboszor@pr.hu>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200226135716.49255-1-zboszor@pr.hu>
+References: <20200226135716.49255-1-zboszor@pr.hu>
 MIME-Version: 1.0
-In-Reply-To: <a68132ef-a36b-b517-bde0-ca2419ae15fb@koncepto.io>
-X-Originating-IP: [128.224.56.226]
-Cc: peter.kjellerstedt@axis.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: upgrade 2.34 -> 2.35
+X-Spam-Score: -1.9 (-)
+X-Scan-Signature: 35da33d425e5fc86b4edf4ddc57b6065
+X-Spam-Tracer: backend.mail.pr.hu -1.9 20200226135745Z
+Subject: [PATCH 3/5] mesa: Add PACKAGECONFIG knob to enable VAAPI state tracker and drivers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,31 +50,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2020 14:10:52 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-CA
+X-List-Received-Date: Wed, 26 Feb 2020 14:12:25 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 1/22/20 1:06 PM, Pierre-Jean Texier via Openembedded-core wrote:
-> Hi Mikko,
-> 
-> Le 22/01/2020 à 10:28, Mikko.Rapeli@bmw.de a écrit :
->> Which parts of util-linux are now licensed with GPLv3?
-> 
-> As said by Peter previously, it's only for hwclock. In fact
-> since commit 7a3000f7ba548cf7d74ac77cc63fe8de228a669e ("hwclock: use 
-> parse_date function ") so the version 2.30,
-> hwclock is linked with parse_date.y from gnullib.
-> And gnulib code is distributed with GPLv3
-> 
-> Regards
+Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-It would be nice to get util-linux updated for 3.1.
-
-Pierre-Jean do you have time to address the GPLv3/hwclock licensing
-and re-submit (2.35.1?) this week?
-
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 87f167c507..479d3223fa 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -142,6 +142,7 @@ PACKAGECONFIG[gallium] = "-Dgallium-drivers=${GALLIUMDRIVERS}, -Dgallium-drivers
+ PACKAGECONFIG[gallium-llvm] = "-Dllvm=true -Dshared-llvm=true, -Dllvm=false, llvm${MESA_LLVM_RELEASE} llvm-native \
+                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+ PACKAGECONFIG[xa]  = "-Dgallium-xa=true, -Dgallium-xa=false"
++PACKAGECONFIG[va] = "-Dgallium-va=true,-Dgallium-va=false,libva-initial"
+ 
+ PACKAGECONFIG[lima] = ""
+ GALLIUMDRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG', 'lima', ',lima', '', d)}"
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.24.1
+
 
