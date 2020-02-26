@@ -1,50 +1,45 @@
-Return-Path: <zboszor@pr.hu>
-Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id A239361219
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5859861608
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 15:20:40 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1j6yUL-0004dO-8N; Wed, 26 Feb 2020 16:20:41 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=e7ux/iN6ajlhEwTa2WQWFvegZlO7Ll2VOQNRDskzNi0=;
-	b=cBBAW6tiKlZDzArJdPAmAJGHGs
-	xlt2541Z4/nsPdzXbwE5Z3u6OIAyath1nUbeIR25rGe/RE6AaYlTdVj3Wn4w9OfX0dMBE0dFbPHOl
-	Gyq0PfwriOXbB99S16Wa0+sXV9yJB1mp32GIELnh1TisWED4i1/feh+0dzumjkgF2dM7F+bFd+hjX
-	jIHhIIbJRQP+cENk8F8IZdd0E2ZTRqOUag+5YBo4riA7SYm4A8xptqUgVcJb+z/eTsveNVElwnUYa
-	ozfUHJktef/t3O7J6KAMtbF4PsPdn5gWE5bBrNDVoDkdpAg9+iPxztFYOll1GCRY0UNJx1+UBxS7K
-	Ge5sbFGg==;
-Received: from host-87-242-33-197.prtelecom.hu ([87.242.33.197]
-	helo=[192.168.1.2])
-	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
-	id 1j6yUG-0002ZI-Vu; Wed, 26 Feb 2020 16:20:39 +0100
-To: Khem Raj <raj.khem@gmail.com>
-References: <20200226135716.49255-1-zboszor@pr.hu>
-	<20200226135716.49255-2-zboszor@pr.hu>
-	<CAMKF1sqrFju=q26M-wSuTDR7xjK9tycivhDGvR0eGqAa5g2Zog@mail.gmail.com>
-	<3b6928cc-d872-a9c9-942a-67f58d152790@pr.hu>
-	<CAMKF1sq+8VCveK48+FqpnPRU_MH6_g9+bVfzo4f2Bbto_d6MJQ@mail.gmail.com>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Message-ID: <1753b549-7a12-ec88-a1e5-f23ff05b060e@pr.hu>
-Date: Wed, 26 Feb 2020 16:20:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	Wed, 26 Feb 2020 15:26:07 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id f15so2738068wml.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Feb 2020 07:26:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=WOA4r7O05+eylaOnsUl7UrND0u5lLYnfQzeUSJltEfo=;
+	b=LolsnUXJRG9yIRdVOu9UaKLeNTdKFeuloIXgpBtN7Nzh70WeXD3nTCn62jH+5skgQV
+	tnuii24Q5Zj48KdAiggGBtofPG+k/AIEI1pS0cW4ehnfSuiLUFLTqpoVOHABbfDk/cHi
+	qGKOzACj/Yzg+0Zmf3+X52aWrVfF1ED24CwpmEpbJw/uoeMIlrr84HB88BVRkGgzk9lA
+	zwFw5U0Pxd0cwXxC2w8BgEsmby0le8jwdBpwNMp61YAaNpGEIkvwuMndZfWgHPTLgKH7
+	vIBbYbWHt/3/XcxTl9U5DCStbUA/SdRnYC+vYArmGNrH7k5+AJreZ9USu+9tTp6t9Row
+	mQUQ==
+X-Gm-Message-State: APjAAAVoSPj5XT9EL/IM67bIddAwtwWFX9dCkywTzjknglZX7Apbm4y5
+	ZRA40ILhpoKO4EXEx/CYPfk=
+X-Google-Smtp-Source: APXvYqzrjjh7ltq8ywdBMpiyF8kgTZDbeNr96LRpIguxmZG/L5snk9sPozrG3wXuD+wNXgCnqw7vEg==
+X-Received: by 2002:a7b:c05a:: with SMTP id u26mr5997664wmc.74.1582730767960; 
+	Wed, 26 Feb 2020 07:26:07 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id l6sm3761280wrn.26.2020.02.26.07.26.07
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 26 Feb 2020 07:26:07 -0800 (PST)
+Message-ID: <0d393be75384a6d858d2a23f73ee5b3535d3868c.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Adrian Bunk
+	<bunk@stusta.de>
+Date: Wed, 26 Feb 2020 15:26:06 +0000
+In-Reply-To: <669ba509f1df86a8f2c7ea172aa8ff23d7449744.camel@linuxfoundation.org>
+References: <20200224125955.26771-1-git@andred.net>
+	<20200224134022.GB27036@localhost>
+	<669ba509f1df86a8f2c7ea172aa8ff23d7449744.camel@linuxfoundation.org>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sq+8VCveK48+FqpnPRU_MH6_g9+bVfzo4f2Bbto_d6MJQ@mail.gmail.com>
-X-Spam-Score: -1.9 (-)
-X-Scan-Signature: 379ecbcb7d1e2dff7c512375274bbca6
-X-Spam-Tracer: backend.mail.pr.hu -1.9 20200226152039Z
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] libva-initial: New recipe to carry only pkgconfig files and headers
+Cc: openembedded-core@lists.openembedded.org
+Subject: xz threads / memlimit behaviour (was: Re: [PATCH v2] bitbake.conf: omit XZ threads and RAM from sstate signatures)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,80 +52,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2020 15:20:40 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Wed, 26 Feb 2020 15:26:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-2020. 02. 26. 16:13 keltezéssel, Khem Raj írta:
-> On Wed, Feb 26, 2020 at 7:12 AM Böszörményi Zoltán <zboszor@pr.hu> wrote:
->>
->> 2020. 02. 26. 15:58 keltezéssel, Khem Raj írta:
->>> On Wed, Feb 26, 2020 at 6:05 AM Böszörményi Zoltán via
->>> Openembedded-core <openembedded-core@lists.openembedded.org> wrote:
->>>>
->>>> The package name exploits sstate.bbclass so it's not added as
->>>> implicit dependency to packages.
->>>>
->>>
->>> what is the use of this recipe and why should it be added to core ?
->>
->> I should have added a cover letter, shouldn't I?
->> See patch 3/5 in the series for enabling gallium-va in Mesa.
->>
+On Mon, 2020-02-24 at 16:44 +0000, Richard Purdie wrote:
+> On Mon, 2020-02-24 at 15:40 +0200, Adrian Bunk wrote:
+> > On Mon, Feb 24, 2020 at 12:59:55PM +0000, André Draszik wrote:
+> > > The number of threads used, and the amount of memory allowed
+> > > to be used, should not affect sstate signatures, as they
+> > > don't affect the result.
+> > 
+> > Unfortunately they can affect the result.
 > 
-> recipe seems to build full libva, so why not just use that instead.
-
-You don't seem to be reading mails from openembedded-devel that
-you were cc-ed on.
-http://lists.openembedded.org/pipermail/openembedded-devel/2020-February/205142.html
-
+> I looked into this a bit and its complicated. The threads are used to
+> compress chunks and their compression should be deterministic whether
+> done serially or in parallel.
 > 
->>>
->>>> Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
->>>> ---
->>>>    meta/recipes-graphics/libva/libva-2.6.1.inc        | 4 +++-
->>>>    meta/recipes-graphics/libva/libva-initial_2.6.1.bb | 5 +++++
->>>>    2 files changed, 8 insertions(+), 1 deletion(-)
->>>>    create mode 100644 meta/recipes-graphics/libva/libva-initial_2.6.1.bb
->>>>
->>>> diff --git a/meta/recipes-graphics/libva/libva-2.6.1.inc b/meta/recipes-graphics/libva/libva-2.6.1.inc
->>>> index ca1386d80b..5b1cdee7e3 100644
->>>> --- a/meta/recipes-graphics/libva/libva-2.6.1.inc
->>>> +++ b/meta/recipes-graphics/libva/libva-2.6.1.inc
->>>> @@ -17,10 +17,12 @@ SECTION = "x11"
->>>>    LICENSE = "MIT"
->>>>    LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
->>>>
->>>> -SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2"
->>>> +SRC_URI = "https://github.com/intel/libva/releases/download/${PV}/libva-${PV}.tar.bz2"
->>>>    SRC_URI[md5sum] = "aef13eb48e01a47d1416d97462a22a11"
->>>>    SRC_URI[sha256sum] = "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e48629401eaea5"
->>>>
->>>> +S = "${WORKDIR}/libva-${PV}"
->>>> +
->>>>    UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
->>>>
->>>>    DEPENDS = "libdrm"
->>>> diff --git a/meta/recipes-graphics/libva/libva-initial_2.6.1.bb b/meta/recipes-graphics/libva/libva-initial_2.6.1.bb
->>>> new file mode 100644
->>>> index 0000000000..828ef6fbca
->>>> --- /dev/null
->>>> +++ b/meta/recipes-graphics/libva/libva-initial_2.6.1.bb
->>>> @@ -0,0 +1,5 @@
->>>> +require libva-${PV}.inc
->>>> +
->>>> +do_install_append () {
->>>> +       rm -f ${D}${libdir}/*.so*
->>>> +}
->>>> --
->>>> 2.24.1
->>>>
->>>> --
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+> I did some tests and:
+> 
+> xz <file>
+> gave equivalent output to:
+> xz <file> --threads=1
+> 
+> and
+> 
+> xz <file> --threads=2
+> xz <file> --threads=5
+> xz <file> --threads=50
+> 
+> all give different identical output.
+> 
+> So if we force --threads >=2 we should have determinism?
+
+I did another test...
+
+Even single threaded compression gives the same result as multi-threaded,
+if single threaded is a result of xz scaling down the memory usage due
+to --memlimit, ie:
+
+xz -f -c -9 --threads=2 --memlimit=2000M --keep --verbose --verbose xztest > xztest2_down_to_1.xz
+  xz: Filter chain: --lzma2=dict=64MiB,lc=3,lp=0,pb=2,mode=normal,nice=64,mf=bt4,depth=0
+  xz: Using up to 2 threads.
+  xz: 2499 MiB of memory is required. The limit is 2000 MiB.
+  xz: Decompression will need 65 MiB of memory.
+  xz: Adjusted the number of threads from 2 to 1 to not exceed the memory usage limit of 2000 MiB
+
+is different from
+
+xz -f -c -9 --threads=1 --memlimit=2000M --verbose --verbose xztest > xztest1.xz
+  xz: Filter chain: --lzma2=dict=64MiB,lc=3,lp=0,pb=2,mode=normal,nice=64,mf=bt4,depth=0
+  xz: 674 MiB of memory is required. The limit is 2000 MiB.
+  xz: Decompression will need 65 MiB of memory.
+
+
+There even is a comment in the xz sources about this. This simplifies things a bit...
+
+
+> > > Otherwise, it becomes impossible to re-use sstate from
+> > > automated builders on developer's machines (as the former
+> > > might execute bitbake with certain constraints different
+> > > compared to developer's machines).
+> > > ...
+> > > -XZ_DEFAULTS ?= "--memlimit=50% --threads=${@oe.utils.cpu_count()}"
+> > > ...
+> > 
+> > Threaded compression can result in slightly worse compression
+> > than single-threaded compression.
+> > 
+> > With memlimit the problem is actually the opposite way,
+> > and worse than what you were trying to fix:
+> > 
+> > When a developer hits memlimit during compression, the documented
+> > behavour of xz is to scale down the compression level.
+
+This is not what is actually happening - it appears the documentation only
+talks about single-threaded mode.
+If you look at the code and look at command output, xz only ever
+tries to reduce the number of threads if multi-threading was enabled. In
+that case, it will *never* even attempt to change the compression level.
+
+If it can't satisfy the memory limit by reducing the number of threads,
+it just errors out.
+
+So as long as all builders have at least 2 cores, i.e. --threads >= 2, memlimit
+doesn't ever affect the outcome (except that it can make the operation fail as
+a whole).
+
+
+Cheers,
+Andre'
+
 
 
