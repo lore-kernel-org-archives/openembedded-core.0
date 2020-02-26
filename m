@@ -1,49 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id BC777610DE
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
+	[209.85.166.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EA7361879
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 04:57:11 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id v4so1290444wrs.8
+	Wed, 26 Feb 2020 05:35:18 +0000 (UTC)
+Received: by mail-io1-f45.google.com with SMTP id s24so1996109iog.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 20:57:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=+iWQiYHnA72+NJPfJK/RfK2ryBOD5UzIZPdlgl/Cnnc=;
-	b=QEeHVRxk+PIF/AKDYom48nfOSdV7DS1xOgxQnKY/zPGi5wWU0DGzaT+KHYEAsNRyP1
-	oWJADtpYFsBHjkWLtBzChWQBWWS/jw0LR/E7CWS7Z5hRILApAGGyTtdk0bZyQFoU7oiy
-	WMceMQlNZ+SNhfXzMDDbYPVe+Y3MaxeRe26Qc=
+	Tue, 25 Feb 2020 21:35:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=LU1ho9M7adOVF6kBh8kPqNvQ89Fe4TPJwXgVf3kxj5M=;
+	b=EHhX3W9dJ35Lt5jyySrwCq7Et6xCSX3dKuHhfEWWayqIMp3SKzbqdqNYhlIiWrdNMl
+	tno+dfW8o58+yfpbrJL6sopQl5u2TzYX+Dj2U2QfJfAo/IWOp7r7PDoaVu/69t2UloLB
+	OiZah1jmBRbztVxaC1t8GQpE4c8RJbdG9knW764lMELQUOXl+wBOwIp6qfCfc0i9oE/U
+	fcMZAC7Yoxrm1L/aDlvO3mG7GYLmmYlnz1L6TrH6mifEni8Oms4Xd6rH/QYTK+7vByby
+	fto2TdHSlGok3XqAiqSZu0Oi0ORxmQ4FLPZbhkS8YQ4M9EbsHW0WpgF/b5epMjftYdLM
+	1YUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=+iWQiYHnA72+NJPfJK/RfK2ryBOD5UzIZPdlgl/Cnnc=;
-	b=ISgKXhNYfqNKXrNLKsfk6oF5luBC7H5aFrTThWTkGt1IL0djJam0vTMPGfXbKOnnW1
-	BVAUsydMiH5xxiNWazqY9ZHXDPqPzM1isJQf6N9NAE0Zf7H3ysWm3uz/yLu6purW0zho
-	uf/JMhz8Gawm5G7qvG6q8/cPa66xOvcdgR57wKhAggDGiafcLtXaxqzh1fYRSg7gb+Dw
-	ZOMkJ94jwHI8jA7CR1r7yJ8HsYihDJZkVCX/p7xsH15IqfFKyehpZvtEtWOOImThCWa5
-	j5Bs7AQhDWIXi5xHsYuO1ElPtPD4q920bqiLBufFvkQYIbbxFMqrgbmUoGRs3Ns5cRwS
-	NhnQ==
-X-Gm-Message-State: APjAAAUoYktcAvFcNfdzk7dSgCKW83Wigt2w2N5ZpUDWJM98/a2nWLwp
-	AUGRnjSJpCXhmjRjzyc5gSdQMcopJBU=
-X-Google-Smtp-Source: APXvYqxhZdCW4yFPpZMVX054amEQVehcnd3Iw1BCCNsZNLxVEI0y3y88qgGOlqS7Fweu0vGQF6eSng==
-X-Received: by 2002:adf:f80c:: with SMTP id s12mr3019876wrp.1.1582693032152;
-	Tue, 25 Feb 2020 20:57:12 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	q125sm1301365wme.19.2020.02.25.20.57.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 25 Feb 2020 20:57:11 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Feb 2020 04:57:10 +0000
-Message-Id: <20200226045710.393167-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.0
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=LU1ho9M7adOVF6kBh8kPqNvQ89Fe4TPJwXgVf3kxj5M=;
+	b=MltZV+xXf8jRhvG9R56yjKiHF/YadtXK3rEaWMOB2Dke7zxWaOwXT8tjkpHw4ZPd5C
+	1dKM2/jubyjTxOA4oYDwfx3ze2jGLV28P0niLo4kMoUFXAwx6RWHU2HNj4k4GqD9EQgb
+	VCE2M8KJD5Isl3CmTtA7L3/EujY2SbNvCYd4twxETPOgLoINCqoEjffpynUN4C2N35Le
+	yOzbQ4m8V6uHkmsINR7eyNEbV/FegT3bUE1ObRvJ/k9pUA+1h2e+npipu5fAnPnaub9W
+	okfvYMMN4l5NEAPRGisVJcyXMBIhtE5jwwT6MFAo5Z25vEYrSuE6AqC8UX2MvPyDMh1V
+	RmKA==
+X-Gm-Message-State: APjAAAX7qMHLwjXaenUe3m5s3qF2GLStfz5n6/egdakSZs0JlEWVvQoY
+	bZCUS+vwug+i1/C9WJcRLV9lDa7bAJJ55T+SXQQ=
+X-Google-Smtp-Source: APXvYqyhFucUirW7/0azr+2qAaUFHhYT4F1phniumKnQpe11I8+Q76DF2JJBm5vCsj3fawwWg2IUV3ZciJPXcKshV9A=
+X-Received: by 2002:a6b:b594:: with SMTP id e142mr2503823iof.198.1582695319877;
+	Tue, 25 Feb 2020 21:35:19 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] abi_version/sstatesig: Introduce HASHEQUIV_HASH_VERSION
+From: Tim Orling <ticotimo@gmail.com>
+Date: Tue, 25 Feb 2020 21:35:09 -0800
+Message-ID: <CANx9H-DMHqy=c+UOa4HDzPrtCvhJavrZfD=42CMG8+L48HthOQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Atk, at-spi2-core, at-spi2-atk updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,55 +50,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2020 04:57:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Feb 2020 05:35:19 -0000
+Content-Type: multipart/alternative; boundary="000000000000543dce059f73f85d"
 
-We've found we need a way to cause a change in signatures and move
-to a new hash 'namespace' with hashequiv. This introduces a variable
-which allows us to do this.
+--000000000000543dce059f73f85d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/abi_version.conf | 8 ++++++++
- meta/lib/oe/sstatesig.py   | 3 +++
- 2 files changed, 11 insertions(+)
+I have the above recipes upgraded and build tested on qemux86-64. Runtime
+testing is less obvious, although I have done some minor testing with
+python3-dogtail [WIP] and python3-pyatspi [WIP] on core-image-sato-sdk.
 
-diff --git a/meta/conf/abi_version.conf b/meta/conf/abi_version.conf
-index 49648801089..2bdc55695bd 100644
---- a/meta/conf/abi_version.conf
-+++ b/meta/conf/abi_version.conf
-@@ -5,3 +5,11 @@
- # with general agreement from the core team.
- #
- OELAYOUT_ABI = "12"
-+
-+#
-+# HASHEQUIV_HASH_VERSION is injected into the output hash calculation used by
-+# hashequiv. Changing this means previous hashes will no longer match, allowing
-+# a reset of the equivalence, for example when reproducibility issues break the
-+# existing match data. Distros can also append to this value for the same effect.
-+#
-+HASHEQUIV_HASH_VERSION  = "1"
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index 4325b66a9ee..d24e3738aeb 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -477,11 +477,14 @@ def OEOuthashBasic(path, sigfile, task, d):
-     h = hashlib.sha256()
-     prev_dir = os.getcwd()
-     include_owners = os.environ.get('PSEUDO_DISABLED') == '0'
-+    extra_content = d.getVar('HASHEQUIV_HASH_VERSION')
- 
-     try:
-         os.chdir(path)
- 
-         update_hash("OEOuthashBasic\n")
-+        if extra_content:
-+            update_hash(extra_content + "\n")
- 
-         # It is only currently useful to get equivalent hashes for things that
-         # can be restored from sstate. Since the sstate object is named using
--- 
-2.25.0
+Anuj mentioned he had seen issues with musl, so I=E2=80=99m waiting for cle=
+an
+build. Since they are all available on Alpine Linux, I=E2=80=99m not expect=
+ing
+issues.
 
+I=E2=80=99ll send patches in the morning.
 
+I have a strong desire to get these into 3.1.
+
+Cheers
+
+--000000000000543dce059f73f85d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><div><div dir=3D"auto">I have the above recipes upgraded and build tes=
+ted on qemux86-64. Runtime testing is less obvious, although I have done so=
+me minor testing with python3-dogtail [WIP] and python3-pyatspi [WIP] on co=
+re-image-sato-sdk.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Anuj =
+mentioned he had seen issues with musl, so I=E2=80=99m waiting for clean bu=
+ild. Since they are all available on Alpine Linux, I=E2=80=99m not expectin=
+g issues.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I=E2=80=99ll s=
+end patches in the morning.</div><div dir=3D"auto"><br></div><div dir=3D"au=
+to">I have a strong desire to get these into 3.1.</div><div dir=3D"auto"><b=
+r></div><div dir=3D"auto">Cheers</div>
+</div>
+</div>
+
+--000000000000543dce059f73f85d--
