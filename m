@@ -1,43 +1,33 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
-	[209.85.166.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EA7361879
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CD6761303
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 05:35:18 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id s24so1996109iog.5
+	Wed, 26 Feb 2020 11:49:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48SDc42Z4fz4M
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Feb 2020 21:35:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=LU1ho9M7adOVF6kBh8kPqNvQ89Fe4TPJwXgVf3kxj5M=;
-	b=EHhX3W9dJ35Lt5jyySrwCq7Et6xCSX3dKuHhfEWWayqIMp3SKzbqdqNYhlIiWrdNMl
-	tno+dfW8o58+yfpbrJL6sopQl5u2TzYX+Dj2U2QfJfAo/IWOp7r7PDoaVu/69t2UloLB
-	OiZah1jmBRbztVxaC1t8GQpE4c8RJbdG9knW764lMELQUOXl+wBOwIp6qfCfc0i9oE/U
-	fcMZAC7Yoxrm1L/aDlvO3mG7GYLmmYlnz1L6TrH6mifEni8Oms4Xd6rH/QYTK+7vByby
-	fto2TdHSlGok3XqAiqSZu0Oi0ORxmQ4FLPZbhkS8YQ4M9EbsHW0WpgF/b5epMjftYdLM
-	1YUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=LU1ho9M7adOVF6kBh8kPqNvQ89Fe4TPJwXgVf3kxj5M=;
-	b=MltZV+xXf8jRhvG9R56yjKiHF/YadtXK3rEaWMOB2Dke7zxWaOwXT8tjkpHw4ZPd5C
-	1dKM2/jubyjTxOA4oYDwfx3ze2jGLV28P0niLo4kMoUFXAwx6RWHU2HNj4k4GqD9EQgb
-	VCE2M8KJD5Isl3CmTtA7L3/EujY2SbNvCYd4twxETPOgLoINCqoEjffpynUN4C2N35Le
-	yOzbQ4m8V6uHkmsINR7eyNEbV/FegT3bUE1ObRvJ/k9pUA+1h2e+npipu5fAnPnaub9W
-	okfvYMMN4l5NEAPRGisVJcyXMBIhtE5jwwT6MFAo5Z25vEYrSuE6AqC8UX2MvPyDMh1V
-	RmKA==
-X-Gm-Message-State: APjAAAX7qMHLwjXaenUe3m5s3qF2GLStfz5n6/egdakSZs0JlEWVvQoY
-	bZCUS+vwug+i1/C9WJcRLV9lDa7bAJJ55T+SXQQ=
-X-Google-Smtp-Source: APXvYqyhFucUirW7/0azr+2qAaUFHhYT4F1phniumKnQpe11I8+Q76DF2JJBm5vCsj3fawwWg2IUV3ZciJPXcKshV9A=
-X-Received: by 2002:a6b:b594:: with SMTP id e142mr2503823iof.198.1582695319877;
-	Tue, 25 Feb 2020 21:35:19 -0800 (PST)
-MIME-Version: 1.0
-From: Tim Orling <ticotimo@gmail.com>
-Date: Tue, 25 Feb 2020 21:35:09 -0800
-Message-ID: <CANx9H-DMHqy=c+UOa4HDzPrtCvhJavrZfD=42CMG8+L48HthOQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Atk, at-spi2-core, at-spi2-atk updates
+	Wed, 26 Feb 2020 12:49:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1582717764;
+	bh=BjsPuO1RY0b+LQERFOD7Zz1kV7FLJekxKkJ0isnuirw=;
+	h=From:To:Subject:Date:From;
+	b=Svn/UKCTMJYLx+6s1HHczXSNz65LRhJpMSqECrklJm+zv60HpV+uwqbVEeC+cEKNg
+	JjVj6GZ+nXu2U2AGB50j5Tgy0h3NnIBCBKpE1vPzm76r0UNDNPaAAYDu3eEOPxCahV
+	elKSVwrZ9Fu181H2L+xU1temVBjtq/SjXrctuF/DOitIogM67Kmo3DWgH1MZbpVm/h
+	YpdyBZI702D7eWnoGZ9E45S5DDapAr7RiT49JTjvYACy+2TOA1hsLnaRAQ1KC298mB
+	t2DObAVNaNW8jrlQPUKiySs5MDGsmKBH7TS1IfOux5lJh2l39ezDwDsiGjYPdDgmq8
+	1bMrVtTpkwhoNtxA5yaZoBpRfYzeAHAIjAtJP0nl3+iNomVJflyLY+ocytkpSJqbna
+	HhNUb3/doQVmjSo9DjwLbzcfGJ4q9T29+tPUX+nNPHn3V5dev4RroiXFBNk1SNqkSi
+	oTVwzHE3lUZrdsrjS3IZaANP4ImVGrjKlKAZCAYrtVnuAetfriXiNuxBhzMb76oGLa
+	SJZJa1SXNRw502IAFxrd0LfDw366vPvCu+BPBmo6TKXm9WHlE14udWCQEiXtjFVR3p
+	XJAHLTRM0m1zDkWAp12khxuMF9pRY4ZcSiPq0SbfKn+OyR6TwOoMGICE3IN0eSWgOW
+	/89BHXysHBztXNfzk8MxttaM=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 26 Feb 2020 13:49:23 +0200
+Message-Id: <20200226114923.23580-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] webkitgtk: Remove obsolete woff2 comment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,44 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2020 05:35:19 -0000
-Content-Type: multipart/alternative; boundary="000000000000543dce059f73f85d"
+X-List-Received-Date: Wed, 26 Feb 2020 11:49:25 -0000
 
---000000000000543dce059f73f85d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+woff2 is now available in meta-webkit.
 
-I have the above recipes upgraded and build tested on qemux86-64. Runtime
-testing is less obvious, although I have done some minor testing with
-python3-dogtail [WIP] and python3-pyatspi [WIP] on core-image-sato-sdk.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-Anuj mentioned he had seen issues with musl, so I=E2=80=99m waiting for cle=
-an
-build. Since they are all available on Alpine Linux, I=E2=80=99m not expect=
-ing
-issues.
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+index b40699f4d1..2e923991e9 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+@@ -53,7 +53,6 @@ PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/libgl"
+ PACKAGECONFIG[opengl] = "-DENABLE_OPENGL=ON,-DENABLE_OPENGL=OFF,virtual/libgl"
+ PACKAGECONFIG[libsecret] = "-DUSE_LIBSECRET=ON,-DUSE_LIBSECRET=OFF,libsecret"
+ PACKAGECONFIG[libhyphen] = "-DUSE_LIBHYPHEN=ON,-DUSE_LIBHYPHEN=OFF,libhyphen"
+-# Source is at https://github.com/google/woff2
+ PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
+ PACKAGECONFIG[openjpeg] = "-DUSE_OPENJPEG=ON,-DUSE_OPENJPEG=OFF,openjpeg"
+ 
+-- 
+2.17.1
 
-I=E2=80=99ll send patches in the morning.
 
-I have a strong desire to get these into 3.1.
-
-Cheers
-
---000000000000543dce059f73f85d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><div><div dir=3D"auto">I have the above recipes upgraded and build tes=
-ted on qemux86-64. Runtime testing is less obvious, although I have done so=
-me minor testing with python3-dogtail [WIP] and python3-pyatspi [WIP] on co=
-re-image-sato-sdk.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Anuj =
-mentioned he had seen issues with musl, so I=E2=80=99m waiting for clean bu=
-ild. Since they are all available on Alpine Linux, I=E2=80=99m not expectin=
-g issues.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I=E2=80=99ll s=
-end patches in the morning.</div><div dir=3D"auto"><br></div><div dir=3D"au=
-to">I have a strong desire to get these into 3.1.</div><div dir=3D"auto"><b=
-r></div><div dir=3D"auto">Cheers</div>
-</div>
-</div>
-
---000000000000543dce059f73f85d--
