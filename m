@@ -1,53 +1,26 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AE0F6189A
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp1.taitradio.net (unknown [202.37.96.23])
+	by mail.openembedded.org (Postfix) with SMTP id E25D66188B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 20:56:11 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id j7so300167plt.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 12:56:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=AnEDj4nIHYTIQMrclYt91iOjQAVk0ZO8xcJY5rtqb6k=;
-	b=kCr4qJ0ToqZJ6jerSyxQ/AcgBSMYorvhqHHWXPLG3wYK5H0smrQpSzOy6Zf2EOnSo6
-	Ma9d90Q8wpkJOtqkEKIXqS4BCvJCThVBBYNo7ZHwBHf5F9ipX8uefuTD8tuO4nQSYcN9
-	r3+ZTjWo1d8FOP+3zHEDRT5sMyfZTVCVDKVAdHbKfuohcFYNJ9GJH+36ERFVuHvhTqIe
-	HF5pWsjrL0DsBOrr5jWMql6WUq1Eu7CFC48koYFlzh9wYxx+c1NnofbqvWxNFqiP2wB9
-	6if0a+0/W4ODCv2tBC6meUYxfWqXfqSA+OxwAP91gB+NY3aU9tnAHecamTzqlfimzRUH
-	gisg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=AnEDj4nIHYTIQMrclYt91iOjQAVk0ZO8xcJY5rtqb6k=;
-	b=fEzYWf+Hr8hYbQDtYIidT4UGSP2l/+4A9TkZKyqeSHqB8tyaO4nRksD0np6OTH6ZfC
-	Mh1KUit3fUNc/y8S9Zy53CIzBKopB9txhKCw96pG/BgHsCwdP1O5myKO6pN6DSmARH09
-	pcQ/MGj7rFD31NI64S4qwjeh/8kFNrPhEl7nmmB1HwEoiAgtpw6HiKgYvWv2NeGqyeEG
-	VqpBDorZr1RjlnQy9KnWz/D7mDu2SB+mTcgxDHeEPks97lMXXQZELG8Esco3Us+f38kP
-	VYo9Bf3CgSRj9j630CXe+Cb5sRndLJi5Xk5D81Jr01a35mC21SbqXr0f6GaWEPoiOF0c
-	S8Gg==
-X-Gm-Message-State: APjAAAX//Fu7Z6Q86EJdVqJ6i54Hnfcmfhdw3Zw3b/C03+siBq5R0Zq2
-	C1hheKTm/XXwa6zBXNMQrpSOiciK
-X-Google-Smtp-Source: APXvYqyurkDUFpvDJauTM4PZz0K37L1XHZVADT2PH/GQS/9G4hiUYX+lF4KfSnWL+HBcO08dkykBjw==
-X-Received: by 2002:a17:90a:f492:: with SMTP id
-	bx18mr898062pjb.118.1582836971986; 
-	Thu, 27 Feb 2020 12:56:11 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:a5c0:3d0b:bd00:40e0:2589])
-	by smtp.gmail.com with ESMTPSA id
-	f43sm7150784pje.23.2020.02.27.12.56.11
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 27 Feb 2020 12:56:11 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2020 12:56:08 -0800
-Message-Id: <20200227205608.26788-3-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200227205608.26788-1-akuster808@gmail.com>
-References: <20200227205608.26788-1-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [PATCH 2/2] bind: Update to latest ESV version 9.16
+	Thu, 27 Feb 2020 21:22:51 +0000 (UTC)
+Received: from [172.16.169.141] (unknown [172.16.169.141])
+	by smtp1.taitradio.net (Postfix) with ESMTP id 2E62E1C003E;
+	Fri, 28 Feb 2020 10:22:51 +1300 (NZDT)
+To: Joshua Watt <jpewhacker@gmail.com>
+References: <8b666dc3-e5a6-0417-82bd-2b15190d223f@gmail.com>
+	<ef5aea58-ef88-61c1-b614-88476f5e747c@gmail.com>
+	<0319e121-7546-e456-50d6-4b224e87363f@taitradio.com>
+	<cce62b8e-b135-6daa-0c47-3e91955d248c@gmail.com>
+	<e2a17625-3a90-6482-5af3-61a82ac04dcc@gmail.com>
+From: Douglas Royds <douglas.royds@taitradio.com>
+Message-ID: <baae3c8f-219f-03eb-6f6c-a488ae22230b@taitradio.com>
+Date: Fri, 28 Feb 2020 10:22:51 +1300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <e2a17625-3a90-6482-5af3-61a82ac04dcc@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Overriding SDE_FILE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,238 +33,253 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 20:56:11 -0000
+X-List-Received-Date: Thu, 27 Feb 2020 21:22:52 -0000
+Content-Type: multipart/alternative;
+	boundary="------------05FADAB56DE356746F2C781A"
+Content-Language: en-GB
 
-From: Armin Kuster <akuster@mvista.com>
+--------------05FADAB56DE356746F2C781A
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Removed obsolete packageconfig options
+On 28/02/20 5:45 am, Joshua Watt wrote:
 
-License change to MPL-2.0
-https://gitlab.isc.org/isc-projects/bind9/blob/master/LICENSE
+> On 2/27/20 9:01 AM, Joshua Watt wrote:
+>> On 2/26/20 11:46 PM, Douglas Royds wrote:
+>>>
+>>> On 26/02/20 4:53 am, Jacob Kroon wrote:
+>>>
+>>>> On 2/24/20 8:25 AM, Jacob Kroon wrote:
+>>>>> Hi Douglas,
+>>>>>
+>>>>> You updated a comment in reproducible_build.bbclass, commit=20
+>>>>> e7b891b76954c784f5a93bd0a1c91315673ce40d:
+>>>>>
+>>>>>> -# Once the value of SOURCE_DATE_EPOCH is determined, it is=20
+>>>>>> stored in the recipe's ${SDE_FILE}.
+>>>>>> +# Once the value of SOURCE_DATE_EPOCH is determined, it is=20
+>>>>>> stored in the recipe's SDE_FILE.
+>>>>>> +# If none of these mechanisms are suitable, replace the=20
+>>>>>> do_deploy_source_date_epoch task
+>>>>>> +# with recipe-specific functionality to write the appropriate=20
+>>>>>> SOURCE_DATE_EPOCH into the SDE_FILE.
+>>>>>> +#
+>>>>>
+>>>>> But I can't really get this to work. What did work for me was to=20
+>>>>> replace "do_create_source_date_epoch_stamp()" in my recipe:
+>>>>>
+>>>>> do_create_source_date_epoch_stamp() {
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 mkdir -p ${SDE_DIR}
+>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 date -d "1981-03-03" "+%s" > ${SDE_FILE}
+>>>>> }
+>>>>>
+>>>>> What is the intended way to achieve the thing I'm trying to do here=
+ ?
+>>>>>
+>>>>
+>>>> FYI, JPEW has a proposed patch here
+>>>>
+>>>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Djpew/r=
+eproducible&id=3Dd091d2aa53ea417f70c10f5ce89151820c3db9ce=20
+>>>>
+>>>>
+>>>> for allowing a recipe to just set SOURCE_DATE_EPOCH directly.
+>>>>
+>>>> But maybe that currently is at odds with SOURCE_DATE_EPOCH being in=20
+>>>> BB_HASHBASE_WHITELIST ?
+>>>>
+>>>> /Jacob
+>>>
+>>>
+>>> On the surface of it, my comment appears to be just wrong: It does=20
+>>> make sense to replace do_create_source_date_epoch_stamp() as you=20
+>>> suggest.
+>>>
+>>> Joshua's proposed patch looks promising:
+>>>
+>>>   * Should the new function not be called first, so that it takes
+>>>     priority over the git, known files, and youngest file functions?
+>>>     If someone has explicitly set SOURCE_DATE_EPOCH, then they want
+>>>     it to take priority.
+>>>
+>> Having that be the first option makes sense. The only case in which=20
+>> that might not work, is if a recipe does something like:
+>>
+>> =C2=A0SOURCE_DATE_EPOCH =3D "${@my_awesome_sde_calculation(d)}"
+>>
+>> e.g. uses a function to get the SDE instead of setting to a fixed=20
+>> value, but that's probably going to be extremely rare.
+>>
+>>
+>>>  *
+>>>
+>>>
+>>>
+>>>   * As you observe, SOURCE_DATE_EPOCH would need to be removed from
+>>>     BB_HASHBASE_WHITELIST. I'm not sure why it was in the whitelist
+>>>     in the first place.
+>>>
+>> I'm not sure why exactly it is whitelisted; I didn't write the=20
+>> original code that whitelisted it, but I've CC'd Juro in case he=20
+>> happens to remember.
+>>
+> After a discussion with Richard, we figured out why SOURCE_DATE_EPOCH=20
+> has to be whitelisted. The value of the variable *must* be calculable=20
+> at parse time before any task is ran, but in practice it's value is=20
+> only available once the __source_date_epoch.txt file is present, which=20
+> is after parsing. This causes the taskhash to be calculated=20
+> differently during parsing and task execution which causes taskhash=20
+> mismatch errors.
+>
 
-Refreshed:
-bind-ensure-searching-for-json-headers-searches-sysr.patch
-0001-named-lwresd-V-and-start-log-hide-build-options.patch
+True.
 
-Drop obsolete patch: 0001-configure.in-remove-useless-L-use_openssl-lib.patch
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- ....in-remove-useless-L-use_openssl-lib.patch | 30 --------------
- ...d-V-and-start-log-hide-build-options.patch | 33 +++++++--------
- ...ching-for-json-headers-searches-sysr.patch | 14 +++----
- .../bind/{bind_9.11.13.bb => bind_9.16.0.bb}  | 40 +++++++------------
- 4 files changed, 38 insertions(+), 79 deletions(-)
- delete mode 100644 meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch
- rename meta/recipes-connectivity/bind/{bind_9.11.13.bb => bind_9.16.0.bb} (77%)
-
-diff --git a/meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch b/meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch
-deleted file mode 100644
-index 9d31b98080..0000000000
---- a/meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 2325a92f1896a2a7f586611686801b41fbc91b50 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Mon, 27 Aug 2018 15:00:51 +0800
--Subject: [PATCH] configure.in: remove useless `-L$use_openssl/lib'
--
--Since `--with-openssl=${STAGING_DIR_HOST}${prefix}' is used in bind recipe,
--the `-L$use_openssl/lib' has a hardcoded suffix, removing it is harmless
--and helpful for clean up host build path in isc-config.sh
--
--Upstream-Status: Inappropriate [oe-core specific]
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index e85a5c6..2bbfc58 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1631,7 +1631,7 @@ If you don't want OpenSSL, use --without-openssl])
-- 				fi
-- 				;;
-- 			*)
---				DST_OPENSSL_LIBS="-L$use_openssl/lib -lcrypto"
--+				DST_OPENSSL_LIBS="-lcrypto"
-- 				;;
-- 			esac
-- 		fi
-diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-index 75908aa638..5bcc16c9b2 100644
---- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-@@ -12,23 +12,24 @@ $ named -V
- Upstream-Status: Inappropriate [oe-core specific]
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+
-+Refreshed for 9.16.0
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
- ---
-  bin/named/include/named/globals.h | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/bin/named/include/named/globals.h b/bin/named/include/named/globals.h
--index ba3457e..7741da7 100644
----- a/bin/named/include/named/globals.h
--+++ b/bin/named/include/named/globals.h
--@@ -68,7 +68,7 @@ EXTERN const char *		ns_g_version		INIT(VERSION);
-- EXTERN const char *		ns_g_product		INIT(PRODUCT);
-- EXTERN const char *		ns_g_description	INIT(DESCRIPTION);
-- EXTERN const char *		ns_g_srcid		INIT(SRCID);
---EXTERN const char *		ns_g_configargs		INIT(CONFIGARGS);
--+EXTERN const char *		ns_g_configargs		INIT("*** (options are hidden)");
-- EXTERN const char *		ns_g_builder		INIT(BUILDER);
-- EXTERN in_port_t		ns_g_port		INIT(0);
-- EXTERN isc_dscp_t		ns_g_dscp		INIT(-1);
---- 
--2.7.4
--
-+Index: bind-9.16.0/bin/named/include/named/globals.h
-+===================================================================
-+--- bind-9.16.0.orig/bin/named/include/named/globals.h
-++++ bind-9.16.0/bin/named/include/named/globals.h
-+@@ -69,7 +69,7 @@ EXTERN const char *named_g_version     I
-+ EXTERN const char *named_g_product     INIT(PRODUCT);
-+ EXTERN const char *named_g_description INIT(DESCRIPTION);
-+ EXTERN const char *named_g_srcid       INIT(SRCID);
-+-EXTERN const char *named_g_configargs  INIT(CONFIGARGS);
-++EXTERN const char *named_g_configargs  INIT("*** (options are hidden)");
-+ EXTERN const char *named_g_builder     INIT(BUILDER);
-+ EXTERN in_port_t named_g_port	       INIT(0);
-+ EXTERN isc_dscp_t named_g_dscp	       INIT(-1);
-diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-index 84559e5f37..19f1a25ad7 100644
---- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-+++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-@@ -32,16 +32,16 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-  configure.ac | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/configure.ac b/configure.ac
--index 17392fd..e85a5c6 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -2449,7 +2449,7 @@ case "$use_libjson" in
-- 		libjson_libs=""
-+Index: bind-9.16.0/configure.ac
-+===================================================================
-+--- bind-9.16.0.orig/configure.ac
-++++ bind-9.16.0/configure.ac
-+@@ -1214,7 +1214,7 @@ case "$use_lmdb" in
-+ 		lmdb_libs=""
-  		;;
-  	auto|yes)
- -		for d in /usr /usr/local /opt/local
- +		for d in "${STAGING_INCDIR}"
-  		do
-- 			if test -f "${d}/include/json/json.h"
-+ 			if test -f "${d}/include/lmdb.h"
-  			then
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.13.bb b/meta/recipes-connectivity/bind/bind_9.16.0.bb
-similarity index 77%
-rename from meta/recipes-connectivity/bind/bind_9.11.13.bb
-rename to meta/recipes-connectivity/bind/bind_9.16.0.bb
-index 4e64171cc1..62e9be4c87 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.13.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.16.0.bb
-@@ -2,12 +2,12 @@ SUMMARY = "ISC Internet Domain Name Server"
- HOMEPAGE = "http://www.isc.org/sw/bind/"
- SECTION = "console/network"
- 
--LICENSE = "ISC & BSD"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=8f17f64e47e83b60cd920a1e4b54419e"
-+LICENSE = "MPL-2.0"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=188b8d0644bd6835df43b84e3f180be1"
- 
--DEPENDS = "openssl libcap zlib"
-+DEPENDS = "openssl libcap zlib libuv"
- 
--SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-+SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://conf.patch \
-            file://named.service \
-            file://bind9 \
-@@ -15,22 +15,20 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://make-etc-initd-bind-stop-work.patch \
-            file://init.d-add-support-for-read-only-rootfs.patch \
-            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
--           file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
-            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-            "
- 
--SRC_URI[md5sum] = "17de0d024ab1eac377f1c2854dc25057"
--SRC_URI[sha256sum] = "fd3f3cc9fcfcdaa752db35eb24598afa1fdcc2509d3227fc90a8631b7b400f7d"
-+SRC_URI[md5sum] = "f973848bf32797c5f546de7d92a6fd07"
-+SRC_URI[sha256sum] = "af4bd9bdaeb1aa7399429972f3a8aa01dd6886b7ae046d703ab8da45330f2e28"
-+SRC_URI[sha1sum] = "01678973598db55dfb03cd12a004d3d75a8ab2bf"
-+SRC_URI[sha384sum] = "29df1a4a9d2a460ff970ea3d9abb47ff1204c762fa5c23da0627b0eeb847560f706d333796f61c5aeba09b8333532359"
-+SRC_URI[sha512sum] = "6f836fe4cb12d3e2e3a871f69e5b249b2bae6ae1dc542395c79cc974ca95aa595e963b6716a38f6c9d5cb3c54ec606fcd932412a6fbe596651123ac1379dd010"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
--# stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
-+# stay at 9.16 follow the ESV versions divisible by 4
- UPSTREAM_CHECK_REGEX = "(?P<pver>9.(11|16|20|24|28)(\.\d+)+(-P\d+)*)/"
- 
--# BIND >= 9.11.2 need dhcpd >= 4.4.0,
--# don't report it here since dhcpd is already recent enough.
--CVE_CHECK_WHITELIST += "CVE-2019-6470"
--
- inherit autotools update-rc.d systemd useradd pkgconfig multilib_script multilib_header
- 
- MULTILIB_SCRIPTS = "${PN}:${bindir}/bind9-config ${PN}:${bindir}/isc-config.sh"
-@@ -40,17 +38,14 @@ PACKAGECONFIG ?= "readline"
- PACKAGECONFIG[httpstats] = "--with-libxml2=${STAGING_DIR_HOST}${prefix},--without-libxml2,libxml2"
- PACKAGECONFIG[readline] = "--with-readline=-lreadline,,readline"
- PACKAGECONFIG[libedit] = "--with-readline=-ledit,,libedit"
--PACKAGECONFIG[urandom] = "--with-randomdev=/dev/urandom,--with-randomdev=/dev/random,,"
- PACKAGECONFIG[python3] = "--with-python=yes --with-python-install-dir=${PYTHON_SITEPACKAGES_DIR} , --without-python, python3-ply-native,"
- 
--ENABLE_IPV6 = "--enable-ipv6=${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'yes', 'no', d)}"
--EXTRA_OECONF = " ${ENABLE_IPV6} --with-libtool --enable-threads \
--                 --disable-devpoll --enable-epoll --with-gost=no \
--                 --with-gssapi=no --with-ecdsa=yes --with-eddsa=no \
--                 --with-lmdb=no \
-+EXTRA_OECONF = " --with-libtool --disable-devpoll --enable-epoll \
-+                 --with-gssapi=no --with-lmdb=no --with-zlib \
-                  --sysconfdir=${sysconfdir}/bind \
-                  --with-openssl=${STAGING_DIR_HOST}${prefix} \
-                "
-+LDFLAGS_append = " -lz"
- 
- inherit ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3native distutils3-base', '', d)}
- 
-@@ -66,13 +61,6 @@ INITSCRIPT_PARAMS = "defaults"
- 
- SYSTEMD_SERVICE_${PN} = "named.service"
- 
--do_install_prepend() {
--	# clean host path in isc-config.sh before the hardlink created
--	# by "make install":
--	#   bind9-config -> isc-config.sh
--	sed -i -e "s,${STAGING_LIBDIR},${libdir}," ${B}/isc-config.sh
--}
--
- do_install_append() {
- 
- 	rmdir "${D}${localstatedir}/run"
-@@ -130,7 +118,7 @@ FILES_${PN}-dev += "${bindir}/isc-config.h"
- FILES_${PN} += "${sbindir}/generate-rndc-key.sh"
- 
- PACKAGE_BEFORE_PN += "${PN}-libs"
--FILES_${PN}-libs = "${libdir}/*.so*"
-+FILES_${PN}-libs = "${libdir}/*.so* ${libdir}/named/*.so*"
- FILES_${PN}-staticdev += "${libdir}/*.la"
- 
- PACKAGE_BEFORE_PN += "${@bb.utils.contains('PACKAGECONFIG', 'python3', 'python3-bind', '', d)}"
--- 
-2.17.1
+What to do? Would it work to use a different non-whitelisted variable in=20
+the recipe, eg. SOURCE_DATE_EPOCH_FIXED?
 
 
+--------------05FADAB56DE356746F2C781A
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
+-8">
+  </head>
+  <body>
+    <p>On 28/02/20 5:45 am, Joshua Watt wrote:
+      <blockquote type=3D"cite">
+        <meta http-equiv=3D"Content-Type" content=3D"text/html;
+          charset=3DUTF-8">
+        <div class=3D"moz-cite-prefix">On 2/27/20 9:01 AM, Joshua Watt
+          wrote:<br>
+        </div>
+        <blockquote type=3D"cite"
+          cite=3D"mid:cce62b8e-b135-6daa-0c47-3e91955d248c@gmail.com">
+          <meta http-equiv=3D"Content-Type" content=3D"text/html;
+            charset=3DUTF-8">
+          <div class=3D"moz-cite-prefix">On 2/26/20 11:46 PM, Douglas
+            Royds wrote:<br>
+          </div>
+          <blockquote type=3D"cite"
+            cite=3D"mid:0319e121-7546-e456-50d6-4b224e87363f@taitradio.co=
+m">
+            <meta http-equiv=3D"Content-Type" content=3D"text/html;
+              charset=3DUTF-8">
+            <p>On 26/02/20 4:53 am, Jacob Kroon wrote: </p>
+            <blockquote type=3D"cite">On 2/24/20 8:25 AM, Jacob Kroon
+              wrote: <br>
+              <blockquote type=3D"cite">Hi Douglas, <br>
+                <br>
+                You updated a comment in reproducible_build.bbclass,
+                commit e7b891b76954c784f5a93bd0a1c91315673ce40d: <br>
+                <br>
+                <blockquote type=3D"cite">-# Once the value of
+                  SOURCE_DATE_EPOCH is determined, it is stored in the
+                  recipe's ${SDE_FILE}. <br>
+                  +# Once the value of SOURCE_DATE_EPOCH is determined,
+                  it is stored in the recipe's SDE_FILE. <br>
+                  +# If none of these mechanisms are suitable, replace
+                  the do_deploy_source_date_epoch task <br>
+                  +# with recipe-specific functionality to write the
+                  appropriate SOURCE_DATE_EPOCH into the SDE_FILE. <br>
+                  +# <br>
+                </blockquote>
+                <br>
+                But I can't really get this to work. What did work for
+                me was to replace "do_create_source_date_epoch_stamp()"
+                in my recipe: <br>
+                <br>
+                do_create_source_date_epoch_stamp() { <br>
+                =C2=A0=C2=A0=C2=A0=C2=A0 mkdir -p ${SDE_DIR} <br>
+                =C2=A0=C2=A0=C2=A0=C2=A0 date -d "1981-03-03" "+%s" &gt; =
+${SDE_FILE} <br>
+                } <br>
+                <br>
+                What is the intended way to achieve the thing I'm trying
+                to do here ? <br>
+                <br>
+              </blockquote>
+              <br>
+              FYI, JPEW has a proposed patch here <br>
+              <br>
+              <a class=3D"moz-txt-link-freetext"
+href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Djpe=
+w/reproducible&amp;id=3Dd091d2aa53ea417f70c10f5ce89151820c3db9ce"
+                moz-do-not-send=3D"true">http://git.yoctoproject.org/cgit=
+.cgi/poky-contrib/commit/?h=3Djpew/reproducible&amp;id=3Dd091d2aa53ea417f=
+70c10f5ce89151820c3db9ce</a>
+              <br>
+              <br>
+              for allowing a recipe to just set SOURCE_DATE_EPOCH
+              directly. <br>
+              <br>
+              But maybe that currently is at odds with SOURCE_DATE_EPOCH
+              being in BB_HASHBASE_WHITELIST ? <br>
+              <br>
+              /Jacob <br>
+            </blockquote>
+            <p><br>
+            </p>
+            <p>On the surface of it, my comment appears to be just
+              wrong: It does make sense to replace
+              do_create_source_date_epoch_stamp() as you suggest.</p>
+            <p>Joshua's proposed patch looks promising:</p>
+            <ul>
+              <li>Should the new function not be called first, so that
+                it takes priority over the git, known files, and
+                youngest file functions? If someone has explicitly set
+                SOURCE_DATE_EPOCH, then they want it to take priority.<br=
+>
+              </li>
+            </ul>
+          </blockquote>
+          <p>Having that be the first option makes sense. The only case
+            in which that might not work, is if a recipe does something
+            like:</p>
+          <p>=C2=A0SOURCE_DATE_EPOCH =3D "${@my_awesome_sde_calculation(d=
+)}"</p>
+          <p>e.g. uses a function to get the SDE instead of setting to a
+            fixed value, but that's probably going to be extremely rare.<=
+br>
+          </p>
+          <p><br>
+          </p>
+          <blockquote type=3D"cite"
+            cite=3D"mid:0319e121-7546-e456-50d6-4b224e87363f@taitradio.co=
+m">
+            <ul>
+              <li> <br>
+              </li>
+              <li>As you observe, SOURCE_DATE_EPOCH would need to be
+                removed from BB_HASHBASE_WHITELIST. I'm not sure why it
+                was in the whitelist in the first place.<br>
+              </li>
+            </ul>
+          </blockquote>
+          <p>I'm not sure why exactly it is whitelisted; I didn't write
+            the original code that whitelisted it, but I've CC'd Juro in
+            case he happens to remember.<br>
+          </p>
+        </blockquote>
+        <p>After a discussion with Richard, we figured out why
+          SOURCE_DATE_EPOCH has to be whitelisted. The value of the
+          variable *must* be calculable at parse time before any task is
+          ran, but in practice it's value is only available once the
+          __source_date_epoch.txt file is present, which is after
+          parsing. This causes the taskhash to be calculated differently
+          during parsing and task execution which causes taskhash
+          mismatch errors.</p>
+      </blockquote>
+    </p>
+    <p><br>
+    </p>
+    <p>True.</p>
+    <p>What to do? Would it work to use a different non-whitelisted
+      variable in the recipe, eg. SOURCE_DATE_EPOCH_FIXED?<br>
+    </p>
+  </body>
+</html>
+
+--------------05FADAB56DE356746F2C781A--
