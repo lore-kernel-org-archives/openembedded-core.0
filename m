@@ -1,54 +1,28 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2807761682
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 15D1961687
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 16:04:11 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id m16so4009744wrx.11
+	Thu, 27 Feb 2020 16:24:53 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01RGOT24005538
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 08:04:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=+POxstDwr7Ig1SA2UrIe2UFPTMsrKPuNEcGWeYJ1eRc=;
-	b=FuVwUtsB15/S6MAx00MCq64gVNewIDSP/nl/0DNkU6fzMEVZiYQHvI1uh1ZypKeEdh
-	7oNAWkQQ8XR/doR4rQUee8Lcf6JcGNgw10pTqd5V1THj6L18Q+8uxkchP3/EeVpZpdbm
-	JX+WTm3IYH5o0ZhzmMelutdqq/WJT1DOZYnzAE3Xc0f9GKOu4bOzWnYs6jKyxwX1YfZS
-	8QL0H7pcoCGu1fX7Evyom/79KXJEvXeUkjUAcC2dQymD958Q11bFR6ZH7Dcj10Oj4qCv
-	KgwGpNHf5jEcWA7sQI063fqdPAjQxTMpxifSii3YlZQeG3LY/mTqHGLoUVJLpF+4+16b
-	475g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=+POxstDwr7Ig1SA2UrIe2UFPTMsrKPuNEcGWeYJ1eRc=;
-	b=WhFEIYoEt+naTGWw/p1z3/u3jVyHKQ/kX8E/PKKYTMlpBOqApHn6ZY7JKIutdOpFVE
-	qscGpSAaGO6z4NVsqFMqmm4nZBELBOTBbhXuiwiIzVeWZ//3UHxD71f0LeSdbl+QTKZs
-	6TuBbv2Bzclb9TiBEM7Wv7QyxPD8/wevDDxtTSB8dZmKrv9jjOXXg6clUt1e7UVX5SZe
-	rKHElBb8XZ2H0GQ/kmbYlMtD4w5tjlqese3CDBm9KUMvLpTdpp3HttoTgTttBEqL5SSz
-	XMMFpyCZtjr36SVhO13Pv/orZaurel0O/YpWpqwYGT5synF0GNIM45QnrkVfQLF6UUBg
-	a5Kg==
-X-Gm-Message-State: APjAAAXVQhJJ11vkJoepoM+qn7HSrp09hyDRhLRAqYjS1u4M3SLFBNvG
-	6cBxRjOlkkLpWRXxGsQjVWy2Dl7zNv1eVALx8lw=
-X-Google-Smtp-Source: APXvYqzddwSAsO6DLRz4M5fNa7mARhf0wYJjKWBLRKxJU9BU6caC5d3FasmVPN2NqHhSu2MvWQtw9H6leFWO9VpWLcw=
-X-Received: by 2002:a5d:6503:: with SMTP id x3mr4900776wru.241.1582819452515; 
-	Thu, 27 Feb 2020 08:04:12 -0800 (PST)
+	Thu, 27 Feb 2020 08:24:44 -0800
+Received: from [128.224.56.227] (128.224.56.227) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Thu, 27 Feb 2020 08:24:19 -0800
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+References: <20200226183902.3616626-1-trevor.gamblin@windriver.com>
+Message-ID: <d3d3f4a4-e792-397c-4444-c39630afaf74@windriver.com>
+Date: Thu, 27 Feb 2020 11:24:18 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200216155015.21738-1-alex.kanavin@gmail.com>
-	<20200216155015.21738-8-alex.kanavin@gmail.com>
-	<CAMKF1sq9i1=fzsAFiCm+kWPudORLp7gXxpWKZHYF7rRYMN2i0A@mail.gmail.com>
-	<CANNYZj_7fu6SHkginQ38BC8QXnP=9MPu3f8NQBTwBgeaAbHvWQ@mail.gmail.com>
-	<CAJdd5GafHh1WZsqZ9tGsVNoHw=k9Dxv-taym++3NtVNmnrMqwA@mail.gmail.com>
-	<29f3b8e1-6989-c84e-5d50-4012389f0bab@igalia.com>
-In-Reply-To: <29f3b8e1-6989-c84e-5d50-4012389f0bab@igalia.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 27 Feb 2020 10:04:01 -0600
-Message-ID: <CAJdd5GYJkpTPZdKY9dBSfRbcBRzcoHDJ0UFO+XKN1cbPMkX_xQ@mail.gmail.com>
-To: Joshua Watt <JPEWhacker@gmail.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Khem Raj <raj.khem@gmail.com>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, webkit-wpe@lists.webkit.org
-Subject: Re: [wpe-webkit] [PATCH 08/10] webkitgtk: unbreak wayland build
+In-Reply-To: <20200226183902.3616626-1-trevor.gamblin@windriver.com>
+X-Originating-IP: [128.224.56.227]
+Subject: Re: [PATCH] libgpg-error: upgrade 1.36 -> 1.37
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,159 +35,194 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 16:04:12 -0000
-Content-Type: multipart/alternative; boundary="00000000000035f8e4059f90df49"
+X-List-Received-Date: Thu, 27 Feb 2020 16:24:54 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---00000000000035f8e4059f90df49
-Content-Type: text/plain; charset="UTF-8"
+Looks like I got beat by a day!
 
-On Thu, Feb 27, 2020, 9:49 AM Carlos Alberto Lopez Perez <clopez@igalia.com>
-wrote:
+On 2/26/20 1:39 PM, Trevor Gamblin wrote:
+> https://dev.gnupg.org/T4459 was fixed in 1.37, so the backported
+> patch is removed.
+>
+> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+> ---
+>   .../libgpg-error-1.36-gawk5-support.patch     | 144 ------------------
+>   ...gpg-error_1.36.bb => libgpg-error_1.37.bb} |   5 +-
+>   2 files changed, 2 insertions(+), 147 deletions(-)
+>   delete mode 100644 meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch
+>   rename meta/recipes-support/libgpg-error/{libgpg-error_1.36.bb => libgpg-error_1.37.bb} (92%)
+>
+> diff --git a/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch
+> deleted file mode 100644
+> index b936d1143b..0000000000
+> --- a/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch
+> +++ /dev/null
+> @@ -1,144 +0,0 @@
+> -Upstream-Status: Backport [https://dev.gnupg.org/T4459]
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> -From 7865041c77f4f7005282f10f9b6666b19072fbdf Mon Sep 17 00:00:00 2001
+> -From: NIIBE Yutaka <gniibe@fsij.org>
+> -Date: Mon, 15 Apr 2019 15:10:44 +0900
+> -Subject: [PATCH] awk: Prepare for Gawk 5.0.
+> -
+> -* src/Makefile.am: Use pkg_namespace (instead of namespace).
+> -* src/mkerrnos.awk: Likewise.
+> -* lang/cl/mkerrcodes.awk: Don't escape # in regexp.
+> -* src/mkerrcodes.awk, src/mkerrcodes1.awk, src/mkerrcodes2.awk: Ditto.
+> -
+> ---
+> -
+> -In Gawk 5.0, regexp routines are replaced by Gnulib implementation,
+> -which only allows escaping specific characters.
+> -
+> -GnuPG-bug-id: 4459
+> -Reported-by: Marius Schamschula
+> -Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
+> ----
+> - lang/cl/mkerrcodes.awk |  2 +-
+> - src/Makefile.am        |  2 +-
+> - src/mkerrcodes.awk     |  2 +-
+> - src/mkerrcodes1.awk    |  2 +-
+> - src/mkerrcodes2.awk    |  2 +-
+> - src/mkerrnos.awk       |  2 +-
+> - src/mkstrtable.awk     | 10 +++++-----
+> - 7 files changed, 11 insertions(+), 11 deletions(-)
+> -
+> ---- a/lang/cl/mkerrcodes.awk
+> -+++ b/lang/cl/mkerrcodes.awk
+> -@@ -122,7 +122,7 @@ header {
+> - }
+> -
+> - !header {
+> --  sub (/\#.+/, "");
+> -+  sub (/#.+/, "");
+> -   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+> -
+> -   if (/^$/)
+> ---- a/src/Makefile.am
+> -+++ b/src/Makefile.am
+> -@@ -293,7 +293,7 @@ code-from-errno.h: mkerrcodes$(EXEEXT_FO
+> -
+> - errnos-sym.h: Makefile mkstrtable.awk errnos.in
+> - 	$(AWK) -f $(srcdir)/mkstrtable.awk -v textidx=2 -v nogettext=1 \
+> --		-v prefix=GPG_ERR_ -v namespace=errnos_ \
+> -+		-v prefix=GPG_ERR_ -v pkg_namespace=errnos_ \
+> - 		$(srcdir)/errnos.in >$@
+> -
+> -
+> ---- a/src/mkerrcodes.awk
+> -+++ b/src/mkerrcodes.awk
+> -@@ -85,7 +85,7 @@ header {
+> - }
+> -
+> - !header {
+> --  sub (/\#.+/, "");
+> -+  sub (/#.+/, "");
+> -   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+> -
+> -   if (/^$/)
+> ---- a/src/mkerrcodes1.awk
+> -+++ b/src/mkerrcodes1.awk
+> -@@ -81,7 +81,7 @@ header {
+> - }
+> -
+> - !header {
+> --  sub (/\#.+/, "");
+> -+  sub (/#.+/, "");
+> -   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+> -
+> -   if (/^$/)
+> ---- a/src/mkerrcodes2.awk
+> -+++ b/src/mkerrcodes2.awk
+> -@@ -91,7 +91,7 @@ header {
+> - }
+> -
+> - !header {
+> --  sub (/\#.+/, "");
+> -+  sub (/#.+/, "");
+> -   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+> -
+> -   if (/^$/)
+> ---- a/src/mkerrnos.awk
+> -+++ b/src/mkerrnos.awk
+> -@@ -83,7 +83,7 @@ header {
+> - }
+> -
+> - !header {
+> --  sub (/\#.+/, "");
+> -+  sub (/#.+/, "");
+> -   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+> -
+> -   if (/^$/)
+> ---- a/src/mkstrtable.awk
+> -+++ b/src/mkstrtable.awk
+> -@@ -77,7 +77,7 @@
+> - #
+> - # The variable prefix can be used to prepend a string to each message.
+> - #
+> --# The variable namespace can be used to prepend a string to each
+> -+# The variable pkg_namespace can be used to prepend a string to each
+> - # variable and macro name.
+> -
+> - BEGIN {
+> -@@ -102,7 +102,7 @@ header {
+> -       print "/* The purpose of this complex string table is to produce";
+> -       print "   optimal code with a minimum of relocations.  */";
+> -       print "";
+> --      print "static const char " namespace "msgstr[] = ";
+> -+      print "static const char " pkg_namespace "msgstr[] = ";
+> -       header = 0;
+> -     }
+> -   else
+> -@@ -110,7 +110,7 @@ header {
+> - }
+> -
+> - !header {
+> --  sub (/\#.+/, "");
+> -+  sub (/#.+/, "");
+> -   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
+> -
+> -   if (/^$/)
+> -@@ -150,7 +150,7 @@ END {
+> -   else
+> -     print "  gettext_noop (\"" last_msgstr "\");";
+> -   print "";
+> --  print "static const int " namespace "msgidx[] =";
+> -+  print "static const int " pkg_namespace "msgidx[] =";
+> -   print "  {";
+> -   for (i = 0; i < coded_msgs; i++)
+> -     print "    " pos[i] ",";
+> -@@ -158,7 +158,7 @@ END {
+> -   print "  };";
+> -   print "";
+> -   print "static GPG_ERR_INLINE int";
+> --  print namespace "msgidxof (int code)";
+> -+  print pkg_namespace "msgidxof (int code)";
+> -   print "{";
+> -   print "  return (0 ? 0";
+> -
+> diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.36.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.37.bb
+> similarity index 92%
+> rename from meta/recipes-support/libgpg-error/libgpg-error_1.36.bb
+> rename to meta/recipes-support/libgpg-error/libgpg-error_1.37.bb
+> index b11ab0548d..bf1da84eb9 100644
+> --- a/meta/recipes-support/libgpg-error/libgpg-error_1.36.bb
+> +++ b/meta/recipes-support/libgpg-error/libgpg-error_1.37.bb
+> @@ -14,11 +14,10 @@ SECTION = "libs"
+>   UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+>   SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
+>              file://pkgconfig.patch \
+> -           file://libgpg-error-1.36-gawk5-support.patch \
+>   	  "
+>   
+> -SRC_URI[md5sum] = "eff437f397e858a9127b76c0d87fa5ed"
+> -SRC_URI[sha256sum] = "babd98437208c163175c29453f8681094bcaf92968a15cafb1a276076b33c97c"
+> +SRC_URI[md5sum] = "729f22d917494fdc4b54fce5aa6547c7"
+> +SRC_URI[sha256sum] = "b32d6ff72a73cf79797f7f2d039e95e9c6f92f0c1450215410840ab62aea9763"
+>   
+>   BINCONFIG = "${bindir}/gpg-error-config"
+>   
 
-> On 23/02/2020 15:33, Joshua Watt wrote:
-> > On Sun, Feb 16, 2020 at 2:52 PM Alexander Kanavin
-> > <alex.kanavin@gmail.com> wrote:
-> >>
-> >> On Sun, 16 Feb 2020 at 21:15, Khem Raj <raj.khem@gmail.com> wrote:
-> >>>
-> >>> On Sun, Feb 16, 2020 at 7:52 AM Alexander Kanavin
-> >>> <alex.kanavin@gmail.com> wrote:
-> >>>>
-> >>>> webkit nowadays requires a couple of supplementary libraries for this,
-> >>>> so bring them in (courtesy of meta-browser, which will hopefully
-> >>>> adjust without a lot of trouble).
-> >>>
-> >>> its not meta-browser, I guess you should credit meta-wpe here [1]
-> >>> and perhaps Cc the meta-wpe maintainer as a courtesy.
-> >>
-> >>
-> >> Actually, it's copied from meta-webkit
-> >> https://github.com/Igalia/meta-webkit/
-> >> which does not say in the readme who the maintainer is, so I am not
-> sure whom to CC.
-> >> I can adjust the commit msg though.
-> >
-> > I've CC'd the WPE mailing list.
-> >
-> > OE-core now has libwpe and wpebackend-fdo recipes. They should
-> > possibly be removed from meta-webkit to prevent duplication.
-> >
->
->
-> Thanks for the notification. Its great that those recipes are shipped
-> now on the oe-core layer.
->
-> But I don't want to remove those recipes from meta-webkit, even if they
-> are shipped now there.
->
-> That recipes are an essential part of meta-webkit, so I want to be able
-> to raise the version or change them without depending on oe-core.
-> For example: sometimes we need to use older versions of yocto, but we
-> still want to use the last stable version of wpe/libwpe/wpebackend-fdo.
-> So I find pretty useful to have all the core WPE related recipes on the
-> meta-webkit layer and not depend on whatever oe-core ships.
->
-> There should be no conflict between the recipes as long as the name used
-> for them its the same, bitbake should simply pick the last version by
-> default.
->
-
-The version compare actually only matters for recipes in the same layer; if
-multiple layers provide the same recipe, the priority of the layers is what
-determines which one gets chosen (even if that means an older version in a
-higher priority layer would be chosen over a newer version in a lower
-priority layer).
-
-Anyway, you should be fine because meta-webkit has a priority of 7 and
-oe-core is priority 5, so it will always choose the meta-webkit version, if
-that layer is present.
-
-
->
-> Regards.
->
->
-
---00000000000035f8e4059f90df49
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div dir=3D"auto"><br><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Feb 27,=
- 2020, 9:49 AM Carlos Alberto Lopez Perez &lt;<a href=3D"mailto:clopez@igal=
-ia.com" target=3D"_blank">clopez@igalia.com</a>&gt; wrote:<br></div><blockq=
-uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
-x solid rgb(204,204,204);padding-left:1ex">On 23/02/2020 15:33, Joshua Watt=
- wrote:<br>
-&gt; On Sun, Feb 16, 2020 at 2:52 PM Alexander Kanavin<br>
-&gt; &lt;<a href=3D"mailto:alex.kanavin@gmail.com" rel=3D"noreferrer" targe=
-t=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Sun, 16 Feb 2020 at 21:15, Khem Raj &lt;<a href=3D"mailto:raj.k=
-hem@gmail.com" rel=3D"noreferrer" target=3D"_blank">raj.khem@gmail.com</a>&=
-gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; On Sun, Feb 16, 2020 at 7:52 AM Alexander Kanavin<br>
-&gt;&gt;&gt; &lt;<a href=3D"mailto:alex.kanavin@gmail.com" rel=3D"noreferre=
-r" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;&gt;&gt;<br>
-&gt;&gt;&gt;&gt; webkit nowadays requires a couple of supplementary librari=
-es for this,<br>
-&gt;&gt;&gt;&gt; so bring them in (courtesy of meta-browser, which will hop=
-efully<br>
-&gt;&gt;&gt;&gt; adjust without a lot of trouble).<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; its not meta-browser, I guess you should credit meta-wpe here =
-[1]<br>
-&gt;&gt;&gt; and perhaps Cc the meta-wpe maintainer as a courtesy.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Actually, it&#39;s copied from meta-webkit<br>
-&gt;&gt; <a href=3D"https://github.com/Igalia/meta-webkit/" rel=3D"noreferr=
-er noreferrer" target=3D"_blank">https://github.com/Igalia/meta-webkit/</a>=
-<br>
-&gt;&gt; which does not say in the readme who the maintainer is, so I am no=
-t sure whom to CC.<br>
-&gt;&gt; I can adjust the commit msg though.<br>
-&gt; <br>
-&gt; I&#39;ve CC&#39;d the WPE mailing list.<br>
-&gt; <br>
-&gt; OE-core now has libwpe and wpebackend-fdo recipes. They should<br>
-&gt; possibly be removed from meta-webkit to prevent duplication.<br>
-&gt; <br>
-<br>
-<br>
-Thanks for the notification. Its great that those recipes are shipped<br>
-now on the oe-core layer.<br>
-<br>
-But I don&#39;t want to remove those recipes from meta-webkit, even if they=
-<br>
-are shipped now there.<br>
-<br>
-That recipes are an essential part of meta-webkit, so I want to be able<br>
-to raise the version or change them without depending on oe-core.<br>
-For example: sometimes we need to use older versions of yocto, but we<br>
-still want to use the last stable version of wpe/libwpe/wpebackend-fdo.<br>
-So I find pretty useful to have all the core WPE related recipes on the<br>
-meta-webkit layer and not depend on whatever oe-core ships.<br>
-<br>
-There should be no conflict between the recipes as long as the name used<br=
->
-for them its the same, bitbake should simply pick the last version by<br>
-default.<br></blockquote><div><br></div><div>The version compare actually o=
-nly matters for recipes in the same layer; if multiple layers provide the s=
-ame recipe, the priority of the layers is what determines which one gets ch=
-osen (even if that means an older version in a higher priority layer would =
-be chosen over a newer version in a lower priority layer).</div><div><br></=
-div><div>Anyway, you should be fine because meta-webkit has a priority of 7=
- and oe-core is priority 5, so it will always choose the meta-webkit versio=
-n, if that layer is present.</div><div>=C2=A0</div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">
-<br>
-Regards.<br>
-<br>
-</blockquote></div></div>
-</div>
-
---00000000000035f8e4059f90df49--
