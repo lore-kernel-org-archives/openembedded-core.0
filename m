@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C74E618A0
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8893661894
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 23:06:36 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id e8so859016wrm.5
+	Thu, 27 Feb 2020 23:14:24 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id i10so6942840wmd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 15:06:38 -0800 (PST)
+	Thu, 27 Feb 2020 15:14:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=nOFD3EMKNfc7Yh6/NaY6qvD2XgSdepM1TiMJNZm/zQA=;
-	b=bXe3tbtS4qosXFrT19cvUN2OTWRJSqoV0+SJVf0jn4p3CyDR5AAEpfYkhsReRaa7Tj
-	H+eJ/MTrkTVZTLdyUYqjdV31mW6me2Qh4+Ukk+XNMTrnzHGtLtCi6rpb/ja5b6FuUz9x
-	ONcqnlcHF0PIIABBIVKn5Pw9kku0mO521mPmI=
+	bh=jT7i+i8HrALZFaaIGxS8O0KidsfU98eRQ5NIzDhOyXg=;
+	b=Mb+LWib1CpCWG++sKvzlcCk3Yet5Kl8a/PK7rCqhbAVrgfRo3Y/luNilNqyvLxrjD3
+	qawLShfyLGEk4KGYqo6iTphDMkbLxBVRhVqx6mXhjls/hxmmoE5JSGU2gsJ1P/ltGFWj
+	Vw2Rw8Ns1OYv20he3hVuILU/1HTZkqAD4uqjo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=nOFD3EMKNfc7Yh6/NaY6qvD2XgSdepM1TiMJNZm/zQA=;
-	b=IW6TEETHdVjqx86uVbCJm9jGRjyBymN81ja4vvrdKP8SGFHXFrrQtr9G8a4aGCReai
-	j+O2xF4fqQL25H/b5MGHoYM6fd/W2BnmR0CXBjvFvz18LdbEj0ThK9TDHkVCuv6yL3Wu
-	b1W4DbWTs8Ch5RbI1B9Rz5py7jBcz6CdtqRvftpCXPDRPSj54mm5O6S8wngiCrgueost
-	0zn6dhOIBTxNNJfl8a1qGS1XBGDlZI5cH3ode/rlfA3DzCu9TwDYUsM7p7jxFaf/OJ+q
-	4M1bakpC1f6LnsjlqwF8Njv6deOnaa6XLIxOjyzTKbW+37n4tq/UbM5T3dTKRVJKoNtf
-	Y13g==
-X-Gm-Message-State: APjAAAVnskZ+08oJAaMgRo4W304AkMHzKrIVrGizisKl9QG+sa2F8wJD
-	WctAHE1yxkipFlUvgdP9XD3mFA==
-X-Google-Smtp-Source: APXvYqw8KygXaS9FwgCnoojHgtlfZuMlggBTu3vTrRIGpHpXOiIL4WvkMjeiWckhUz+fokOG0x0Aeg==
-X-Received: by 2002:adf:e542:: with SMTP id z2mr1236387wrm.150.1582844797710; 
-	Thu, 27 Feb 2020 15:06:37 -0800 (PST)
+	bh=jT7i+i8HrALZFaaIGxS8O0KidsfU98eRQ5NIzDhOyXg=;
+	b=P6nDa1KSICOmi7c/hD5Xx5EzJR5uqlSax1UNzXlje7dxq+hTHKsmlKw9ilD+Ol2DGl
+	PRG3/2zQeXC39QbHdBDtnJtbTRNlQqfiVj8K0LQRotPj5KG1fIYIBUHnI0mMsRRfOJtX
+	LEpCQIknDpG15gfUrVzvis/uiSU0b/3X5293+FfB9kz8CmEG9mqS7PTN3Qrb0jW/Li41
+	A7WWEzYdrFAzv7yUtE+7PL4Em2XFBWmZOLNy1xItDXPKJeE6kNIPga+IZdSUTgQNQRk7
+	AQeHaDPx19dh5TOREjVilkmvVFr8V09OJ7pstrIHhayttnwLhIxCk2cU/TSLbai7RdgK
+	MLsw==
+X-Gm-Message-State: APjAAAVjETrPZ48TZA2WKRo/gmcSK7euDCA/qDHEII3lUDw9/6qlDgiQ
+	ADHMprhCnrZOAipmBbltJGgLhQ==
+X-Google-Smtp-Source: APXvYqwf/02gVvB1cm7xTlnqlwGvSPzg1i4IoNiJ/68t/hN9gTz+fb1F/eQGard5x4U6nDj3Hzb5/A==
+X-Received: by 2002:a1c:7919:: with SMTP id l25mr1031194wme.135.1582845265094; 
+	Thu, 27 Feb 2020 15:14:25 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 4sm9172871wmg.22.2020.02.27.15.06.36
+	by smtp.gmail.com with ESMTPSA id
+	o27sm10088220wro.27.2020.02.27.15.14.24
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 27 Feb 2020 15:06:37 -0800 (PST)
-Message-ID: <5eb7414b5329974a4e52c39256c65835a1115ac4.camel@linuxfoundation.org>
+	Thu, 27 Feb 2020 15:14:24 -0800 (PST)
+Message-ID: <2fd5b0c062bfee215cd7a4d15789a20293cee8aa.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+To: Trevor Gamblin <trevor.gamblin@windriver.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2020 23:06:36 +0000
-In-Reply-To: <20200225185335.19326-10-alex.kanavin@gmail.com>
-References: <20200225185335.19326-1-alex.kanavin@gmail.com>
-	<20200225185335.19326-10-alex.kanavin@gmail.com>
+Date: Thu, 27 Feb 2020 23:14:23 +0000
+In-Reply-To: <d3d3f4a4-e792-397c-4444-c39630afaf74@windriver.com>
+References: <20200226183902.3616626-1-trevor.gamblin@windriver.com>
+	<d3d3f4a4-e792-397c-4444-c39630afaf74@windriver.com>
 User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-Subject: Re: [PATCH 10/12] libgpg-error: upgrade 1.36 -> 1.37
+Subject: Re: [PATCH] libgpg-error: upgrade 1.36 -> 1.37
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,25 +59,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 23:06:37 -0000
+X-List-Received-Date: Thu, 27 Feb 2020 23:14:24 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-02-25 at 19:53 +0100, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  .../libgpg-error-1.36-gawk5-support.patch     | 144 ----------------
-> --
->  ...gpg-error_1.36.bb => libgpg-error_1.37.bb} |   7 +-
->  2 files changed, 3 insertions(+), 148 deletions(-)
->  delete mode 100644 meta/recipes-support/libgpg-error/libgpg-
-> error/libgpg-error-1.36-gawk5-support.patch
->  rename meta/recipes-support/libgpg-error/{libgpg-error_1.36.bb =>
-> libgpg-error_1.37.bb} (92%)
+On Thu, 2020-02-27 at 11:24 -0500, Trevor Gamblin wrote:
+> Looks like I got beat by a day!
 
-Fails on x32. It did this when proposed last time :/
+Does your version work on x32 though? :)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/1605
+We need one that does...
 
 Cheers,
 
