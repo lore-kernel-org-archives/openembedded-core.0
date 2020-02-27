@@ -1,52 +1,60 @@
-Return-Path: <petr.vorel@gmail.com>
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
-	[209.85.167.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B87136188E
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+	[209.85.166.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8083061882
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 21:29:56 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id 2so753915oiz.5
+	Thu, 27 Feb 2020 21:49:32 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id x1so1165585iop.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 13:29:58 -0800 (PST)
+	Thu, 27 Feb 2020 13:49:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=UogBglAXMT/V9OWnlSWKqIK7iryyV0BJh3kT7kUzEBs=;
-	b=ZQjmRkUwTVvrnfwnUmnGojwZsLaNA2siqP+p0j7d6dVMAWeOBWaVZKOMvz+I+6AjVN
-	zAFj8g4RNXnJYjkZkKJhHK3Tay36k01ExeILhG5fY8CmsdCzlkAt798/kIwaItaxgTHW
-	tx7/3LMN+0dALPoycpyE8JNSh5826wJ2tHBDBX5QlgVYiYbZRU3v80sP2rW3N34ZYHWk
-	JKPUCK9L8RHrDFfNSD6dElqxMleU8FgWnOG+3aKzR7XLcWvXnWraiHp2O7rp2afME6N2
-	y+yI0s4gyevW46SjOEr9d2YfaEjuY5F8UsB8otdH73RWD01Wljm6f3aup9cCaiWlJTOK
-	uhMg==
+	h=from:subject:to:cc:references:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language;
+	bh=IwCAzKyM72KCYTORewaSWsmJ5YwOKPCvaqcCgk1Frq8=;
+	b=vZB6C9gFUITnPJSabBYQ9pZsx9wmlUgPOoZH6e8GgQ8ggV5zctCIyw+PosyyFvf2rD
+	X0Ww5uLarRKm6RYugx+kdr5VjnAakYAt+r8zT14E6lq2KTeoqioMmCL+PXxtsPcI+KuF
+	I2WtvLg2uvCjlYAbpsCgnxuc4kx1RJete5lMhhhHCpEvvY/ypMee2bKefYyAOfj/GMIA
+	qoad5z+/GUCch1Im7ton2ICmDe/DHN0+dJSlIikOiGABIg4rTNj4ZPo2brO5j3RD6fKc
+	7ZGFtXsAQwdWld92gbOB6nFaSXuOhabB5bFkmQ1TS6LXWd8ZS8exScbjW7GIREVy5Q+c
+	So3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=UogBglAXMT/V9OWnlSWKqIK7iryyV0BJh3kT7kUzEBs=;
-	b=C/aHzHBRRVmChx2pwUGKiWMFOeSJ4bFOk4AbduzAZ9/QVTZKV6VE9mQAtZ3Z86FERz
-	kzu7crxEEyd2OUoLUwl3qam7ms/P64O9RZ+5foolOoQvxOZH/YlxQrj2ViZ71D7xeSgG
-	7NnRSGTd6ReyCh7pDSw0Emg7S4uTCvdZQ6JE4aHFi8TMlmlCdiBLq2KkzTcxavrxuIeX
-	k0qq6F7i/RMpNlpS+J2hkWZQ5FNQYcROhaIko2lOh5O8d2G9Z7xKWMg8UemwqwcuChqO
-	SZZGxG/zwCqnpl2AMQqjKo5UXhmna9EStJwOq4bVE7vNZEALn5NnDkHDmxo7KMQeur3U
-	0Chg==
-X-Gm-Message-State: APjAAAU/+rWPCJXtUBneUPF5/M/wRdhDT49CVQBjnZf46bMXWZMdV1Mj
-	HqWS2gnaAOsR7ExJOI5+U90QV58OPxQ=
-X-Google-Smtp-Source: APXvYqwP9Z7VTIFQKpCXpCCsbHnsnxcYTGq2mbnEyEXmiq82zingwj1IUQpqOFi8G39vDx9mXBTxKg==
-X-Received: by 2002:aca:5303:: with SMTP id h3mr759910oib.109.1582838997303;
-	Thu, 27 Feb 2020 13:29:57 -0800 (PST)
-Received: from dell5510.arch.suse.de ([62.201.25.198])
+	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language;
+	bh=IwCAzKyM72KCYTORewaSWsmJ5YwOKPCvaqcCgk1Frq8=;
+	b=JuFyNO+0YWygmOmKuwyp3sXb5Yq3bQXQmUnEGHfBdDvsbBNaod2eFI6syyEtx6NqRU
+	ULutzRgvDeaqFf12TZoeyZXUqc22qaFMkewhV8T/xNB4i/vDbju7thzZew6J69vASKAC
+	eooPm6FIeXpZ5NTHLd2fI4zFbyqKYg/WXc3RLOG8VjTw56+oTEsT6jJG4YsMP7ZE++QL
+	KMpajsbootfrXkAozBsU1VttvXIiq7HZJ8FlmaqZDVOtIGuA8UotrwPFDd27jf4+LxLe
+	6SywcJtgo0Q+1EpH16sPYzJ5Dzr8UlXvcEIvbVocj2Dah+aAB+SNZzP5xAr0stY48eeF
+	Ljxw==
+X-Gm-Message-State: APjAAAUqiP6jB36wlHM7ntfPySKY85anH5Bhx6gWlJaFEj7skm5UDBd0
+	Ms20YL4zzylCF4/RiaypOvA3yv1DirU=
+X-Google-Smtp-Source: APXvYqwaPg98VxraBI5PGlMeosoGlqUccd6VAd4ZA7Dtjhc9pBPASxuDU70atHqoaLove/CZt/SRcQ==
+X-Received: by 2002:a5d:840a:: with SMTP id i10mr1125632ion.225.1582840172799; 
+	Thu, 27 Feb 2020 13:49:32 -0800 (PST)
+Received: from [10.30.196.58] ([204.77.163.55])
 	by smtp.gmail.com with ESMTPSA id
-	c21sm2358656oiy.11.2020.02.27.13.29.54
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 27 Feb 2020 13:29:56 -0800 (PST)
-From: Petr Vorel <petr.vorel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2020 22:29:40 +0100
-Message-Id: <20200227212940.12327-2-petr.vorel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200227212940.12327-1-petr.vorel@gmail.com>
-References: <20200227212940.12327-1-petr.vorel@gmail.com>
+	b12sm2331912iln.62.2020.02.27.13.49.31
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Thu, 27 Feb 2020 13:49:32 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: Douglas Royds <douglas.royds@taitradio.com>
+References: <8b666dc3-e5a6-0417-82bd-2b15190d223f@gmail.com>
+	<ef5aea58-ef88-61c1-b614-88476f5e747c@gmail.com>
+	<0319e121-7546-e456-50d6-4b224e87363f@taitradio.com>
+	<cce62b8e-b135-6daa-0c47-3e91955d248c@gmail.com>
+	<e2a17625-3a90-6482-5af3-61a82ac04dcc@gmail.com>
+	<baae3c8f-219f-03eb-6f6c-a488ae22230b@taitradio.com>
+Message-ID: <79e170f8-e6ae-f87b-70ea-f67fb870a28b@gmail.com>
+Date: Thu, 27 Feb 2020 15:49:31 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-Subject: [PATCH v3 2/2] ltp: Remove mips related open_posix_testsuite patch
+In-Reply-To: <baae3c8f-219f-03eb-6f6c-a488ae22230b@taitradio.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Overriding SDE_FILE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,108 +67,283 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 21:29:56 -0000
+X-List-Received-Date: Thu, 27 Feb 2020 21:49:32 -0000
+Content-Type: multipart/alternative;
+	boundary="------------B6FE93FF09BB8C9127DB8072"
+Content-Language: en-US
+
+--------------B6FE93FF09BB8C9127DB8072
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Upstream just disagree on this patch
-https://patchwork.ozlabs.org/comment/2012045/
 
-Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
----
-Changes v2->v3: NONE
+On 2/27/20 3:22 PM, Douglas Royds wrote:
+>
+> On 28/02/20 5:45 am, Joshua Watt wrote:
+>
+>> On 2/27/20 9:01 AM, Joshua Watt wrote:
+>>> On 2/26/20 11:46 PM, Douglas Royds wrote:
+>>>>
+>>>> On 26/02/20 4:53 am, Jacob Kroon wrote:
+>>>>
+>>>>> On 2/24/20 8:25 AM, Jacob Kroon wrote:
+>>>>>> Hi Douglas,
+>>>>>>
+>>>>>> You updated a comment in reproducible_build.bbclass, commit 
+>>>>>> e7b891b76954c784f5a93bd0a1c91315673ce40d:
+>>>>>>
+>>>>>>> -# Once the value of SOURCE_DATE_EPOCH is determined, it is 
+>>>>>>> stored in the recipe's ${SDE_FILE}.
+>>>>>>> +# Once the value of SOURCE_DATE_EPOCH is determined, it is 
+>>>>>>> stored in the recipe's SDE_FILE.
+>>>>>>> +# If none of these mechanisms are suitable, replace the 
+>>>>>>> do_deploy_source_date_epoch task
+>>>>>>> +# with recipe-specific functionality to write the appropriate 
+>>>>>>> SOURCE_DATE_EPOCH into the SDE_FILE.
+>>>>>>> +#
+>>>>>>
+>>>>>> But I can't really get this to work. What did work for me was to 
+>>>>>> replace "do_create_source_date_epoch_stamp()" in my recipe:
+>>>>>>
+>>>>>> do_create_source_date_epoch_stamp() {
+>>>>>>      mkdir -p ${SDE_DIR}
+>>>>>>      date -d "1981-03-03" "+%s" > ${SDE_FILE}
+>>>>>> }
+>>>>>>
+>>>>>> What is the intended way to achieve the thing I'm trying to do 
+>>>>>> here ?
+>>>>>>
+>>>>>
+>>>>> FYI, JPEW has a proposed patch here
+>>>>>
+>>>>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=jpew/reproducible&id=d091d2aa53ea417f70c10f5ce89151820c3db9ce 
+>>>>>
+>>>>>
+>>>>> for allowing a recipe to just set SOURCE_DATE_EPOCH directly.
+>>>>>
+>>>>> But maybe that currently is at odds with SOURCE_DATE_EPOCH being 
+>>>>> in BB_HASHBASE_WHITELIST ?
+>>>>>
+>>>>> /Jacob
+>>>>
+>>>>
+>>>> On the surface of it, my comment appears to be just wrong: It does 
+>>>> make sense to replace do_create_source_date_epoch_stamp() as you 
+>>>> suggest.
+>>>>
+>>>> Joshua's proposed patch looks promising:
+>>>>
+>>>>   * Should the new function not be called first, so that it takes
+>>>>     priority over the git, known files, and youngest file
+>>>>     functions? If someone has explicitly set SOURCE_DATE_EPOCH,
+>>>>     then they want it to take priority.
+>>>>
+>>> Having that be the first option makes sense. The only case in which 
+>>> that might not work, is if a recipe does something like:
+>>>
+>>>  SOURCE_DATE_EPOCH = "${@my_awesome_sde_calculation(d)}"
+>>>
+>>> e.g. uses a function to get the SDE instead of setting to a fixed 
+>>> value, but that's probably going to be extremely rare.
+>>>
+>>>
+>>>>  *
+>>>>
+>>>>
+>>>>
+>>>>   * As you observe, SOURCE_DATE_EPOCH would need to be removed from
+>>>>     BB_HASHBASE_WHITELIST. I'm not sure why it was in the whitelist
+>>>>     in the first place.
+>>>>
+>>> I'm not sure why exactly it is whitelisted; I didn't write the 
+>>> original code that whitelisted it, but I've CC'd Juro in case he 
+>>> happens to remember.
+>>>
+>> After a discussion with Richard, we figured out why SOURCE_DATE_EPOCH 
+>> has to be whitelisted. The value of the variable *must* be calculable 
+>> at parse time before any task is ran, but in practice it's value is 
+>> only available once the __source_date_epoch.txt file is present, 
+>> which is after parsing. This causes the taskhash to be calculated 
+>> differently during parsing and task execution which causes taskhash 
+>> mismatch errors.
+>>
+>
+> True.
+>
+> What to do? Would it work to use a different non-whitelisted variable 
+> in the recipe, eg. SOURCE_DATE_EPOCH_FIXED?
+>
 
- ...suite-mmap24-2-Relax-condition-a-bit.patch | 68 -------------------
- meta/recipes-extended/ltp/ltp_20200120.bb     |  1 -
- 2 files changed, 69 deletions(-)
- delete mode 100644 meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-
-diff --git a/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch b/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-deleted file mode 100644
-index d32ac1dd7c..0000000000
---- a/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From a8715a1446305ffd76406f63c7f160c13a5b2e72 Mon Sep 17 00:00:00 2001
--From: "Hongzhi.Song" <hongzhi.song@windriver.com>
--Date: Wed, 10 Oct 2018 22:07:05 -0400
--Subject: [PATCH] open_posix_testsuite/mmap24-2: Relax condition a bit
--
--Mips will return EINVAL instead of ENOMEM as expected
--if the range [addr + len) exceeds TASK_SIZE.
--
--Linux kernel code: arch/mips/mm/mmap.c
--if (flags & MAP_FIXED) {
--    /* Even MAP_FIXED mappings must reside within TASK_SIZE */
--    if (TASK_SIZE - len < addr)
--        return -EINVAL;
--
--Relax the condition and accept both ENOMEM and EINVAL
--as expected outcome.
--
--Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2018-October/009624.html]
--
--Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-----
-- .../open_posix_testsuite/conformance/interfaces/mmap/24-2.c    | 10 +++++-----
-- 1 file changed, 5 insertions(+), 5 deletions(-)
--
--diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--index 9cf83d9..55090a6 100644
----- a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--+++ b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--@@ -7,7 +7,7 @@
--  * source tree.
--  *
--  * The mmap() function shall fail if:
--- * [ENOMEM] MAP_FIXED was specified,
--+ * [ENOMEM or EINVAL] MAP_FIXED was specified,
--  * and the range [addr,addr+len) exceeds that allowed
--  * for the address space of a process; or, if MAP_FIXED was not specified and
--  * there is insufficient room in the address space to effect the mapping.
--@@ -15,7 +15,7 @@
--  * Test Step:
--  * 1. Map a shared memory object, with size exceeding the value get from
--  *    rlim_cur of resource RLIMIT_AS, setting MAP_FIXED;
--- * 3. Should get ENOMEM.
--+ * 3. Should get ENOMEM or EINVAL.
--  */
-- 
-- #include <stdio.h>
--@@ -92,8 +92,8 @@ int main(void)
-- 	       (unsigned long)len);
-- 	pa = mmap(addr, len, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED, fd,
-- 		  0);
---	if (pa == MAP_FAILED && errno == ENOMEM) {
---		printf("Got ENOMEM: %s\nTest PASSED\n", strerror(errno));
--+	if (pa == MAP_FAILED && (errno == ENOMEM || errno == EINVAL)) {
--+		printf("Got ENOMEM or EINVAL: %s\nTest PASSED\n", strerror(errno));
-- 		exit(PTS_PASS);
-- 	}
-- 
--@@ -102,6 +102,6 @@ int main(void)
-- 	else
-- 		munmap(pa, len);
-- 	close(fd);
---	printf("Test Fail: Did not get ENOMEM as expected\n");
--+	printf("Test Failed: Did not get ENOMEM or EINVAL as expected\n");
-- 	return PTS_FAIL;
-- }
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp_20200120.bb b/meta/recipes-extended/ltp/ltp_20200120.bb
-index 579a763431..537cc72644 100644
---- a/meta/recipes-extended/ltp/ltp_20200120.bb
-+++ b/meta/recipes-extended/ltp/ltp_20200120.bb
-@@ -34,7 +34,6 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0004-guard-mallocopt-with-__GLIBC__.patch \
-            file://0007-Fix-test_proc_kill-hanging.patch \
-            file://0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
--           file://0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
-            file://0001-Add-more-musl-exclusions.patch \
-            file://0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch \
-            "
--- 
-2.25.1
+Ya, that would work. You'd have to figure out how to get the variable to 
+be included in each taskhash even though it's not directly referenced, 
+but I'm sure that's possible.
 
 
+Another option that's at lot more "magic" would be something like this: 
+http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=jpew/reproducible&id=2b524916cf35238ff3deea34017e8a4cd73926cd 
+
+
+That's really weird, and I'm not sure I like it, but worth a thought.
+
+
+
+--------------B6FE93FF09BB8C9127DB8072
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2/27/20 3:22 PM, Douglas Royds
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:baae3c8f-219f-03eb-6f6c-a488ae22230b@taitradio.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p>On 28/02/20 5:45 am, Joshua Watt wrote: </p>
+      <blockquote type="cite">
+        <meta http-equiv="Content-Type" content="text/html;
+          charset=UTF-8">
+        <div class="moz-cite-prefix">On 2/27/20 9:01 AM, Joshua Watt
+          wrote:<br>
+        </div>
+        <blockquote type="cite"
+          cite="mid:cce62b8e-b135-6daa-0c47-3e91955d248c@gmail.com">
+          <meta http-equiv="Content-Type" content="text/html;
+            charset=UTF-8">
+          <div class="moz-cite-prefix">On 2/26/20 11:46 PM, Douglas
+            Royds wrote:<br>
+          </div>
+          <blockquote type="cite"
+            cite="mid:0319e121-7546-e456-50d6-4b224e87363f@taitradio.com">
+            <meta http-equiv="Content-Type" content="text/html;
+              charset=UTF-8">
+            <p>On 26/02/20 4:53 am, Jacob Kroon wrote: </p>
+            <blockquote type="cite">On 2/24/20 8:25 AM, Jacob Kroon
+              wrote: <br>
+              <blockquote type="cite">Hi Douglas, <br>
+                <br>
+                You updated a comment in reproducible_build.bbclass,
+                commit e7b891b76954c784f5a93bd0a1c91315673ce40d: <br>
+                <br>
+                <blockquote type="cite">-# Once the value of
+                  SOURCE_DATE_EPOCH is determined, it is stored in the
+                  recipe's ${SDE_FILE}. <br>
+                  +# Once the value of SOURCE_DATE_EPOCH is determined,
+                  it is stored in the recipe's SDE_FILE. <br>
+                  +# If none of these mechanisms are suitable, replace
+                  the do_deploy_source_date_epoch task <br>
+                  +# with recipe-specific functionality to write the
+                  appropriate SOURCE_DATE_EPOCH into the SDE_FILE. <br>
+                  +# <br>
+                </blockquote>
+                <br>
+                But I can't really get this to work. What did work for
+                me was to replace "do_create_source_date_epoch_stamp()"
+                in my recipe: <br>
+                <br>
+                do_create_source_date_epoch_stamp() { <br>
+                     mkdir -p ${SDE_DIR} <br>
+                     date -d "1981-03-03" "+%s" &gt; ${SDE_FILE} <br>
+                } <br>
+                <br>
+                What is the intended way to achieve the thing I'm trying
+                to do here ? <br>
+                <br>
+              </blockquote>
+              <br>
+              FYI, JPEW has a proposed patch here <br>
+              <br>
+              <a class="moz-txt-link-freetext"
+href="http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=jpew/reproducible&amp;id=d091d2aa53ea417f70c10f5ce89151820c3db9ce"
+                moz-do-not-send="true">http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=jpew/reproducible&amp;id=d091d2aa53ea417f70c10f5ce89151820c3db9ce</a>
+              <br>
+              <br>
+              for allowing a recipe to just set SOURCE_DATE_EPOCH
+              directly. <br>
+              <br>
+              But maybe that currently is at odds with SOURCE_DATE_EPOCH
+              being in BB_HASHBASE_WHITELIST ? <br>
+              <br>
+              /Jacob <br>
+            </blockquote>
+            <p><br>
+            </p>
+            <p>On the surface of it, my comment appears to be just
+              wrong: It does make sense to replace
+              do_create_source_date_epoch_stamp() as you suggest.</p>
+            <p>Joshua's proposed patch looks promising:</p>
+            <ul>
+              <li>Should the new function not be called first, so that
+                it takes priority over the git, known files, and
+                youngest file functions? If someone has explicitly set
+                SOURCE_DATE_EPOCH, then they want it to take priority.<br>
+              </li>
+            </ul>
+          </blockquote>
+          <p>Having that be the first option makes sense. The only case
+            in which that might not work, is if a recipe does something
+            like:</p>
+          <p> SOURCE_DATE_EPOCH = "${@my_awesome_sde_calculation(d)}"</p>
+          <p>e.g. uses a function to get the SDE instead of setting to a
+            fixed value, but that's probably going to be extremely rare.<br>
+          </p>
+          <p><br>
+          </p>
+          <blockquote type="cite"
+            cite="mid:0319e121-7546-e456-50d6-4b224e87363f@taitradio.com">
+            <ul>
+              <li> <br>
+              </li>
+              <li>As you observe, SOURCE_DATE_EPOCH would need to be
+                removed from BB_HASHBASE_WHITELIST. I'm not sure why it
+                was in the whitelist in the first place.<br>
+              </li>
+            </ul>
+          </blockquote>
+          <p>I'm not sure why exactly it is whitelisted; I didn't write
+            the original code that whitelisted it, but I've CC'd Juro in
+            case he happens to remember.<br>
+          </p>
+        </blockquote>
+        <p>After a discussion with Richard, we figured out why
+          SOURCE_DATE_EPOCH has to be whitelisted. The value of the
+          variable *must* be calculable at parse time before any task is
+          ran, but in practice it's value is only available once the
+          __source_date_epoch.txt file is present, which is after
+          parsing. This causes the taskhash to be calculated differently
+          during parsing and task execution which causes taskhash
+          mismatch errors.</p>
+      </blockquote>
+      <p><br>
+      </p>
+      <p>True.</p>
+      <p>What to do? Would it work to use a different non-whitelisted
+        variable in the recipe, eg. SOURCE_DATE_EPOCH_FIXED?<br>
+      </p>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Ya, that would work. You'd have to figure out how to get the
+      variable to be included in each taskhash even though it's not
+      directly referenced, but I'm sure that's possible.</p>
+    <p><br>
+    </p>
+    <p>Another option that's at lot more "magic" would be something like
+      this:
+<a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=jpew/reproducible&amp;id=2b524916cf35238ff3deea34017e8a4cd73926cd">http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=jpew/reproducible&amp;id=2b524916cf35238ff3deea34017e8a4cd73926cd</a>
+      <br>
+    </p>
+    <p>That's really weird, and I'm not sure I like it, but worth a
+      thought.<br>
+    </p>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------B6FE93FF09BB8C9127DB8072--
