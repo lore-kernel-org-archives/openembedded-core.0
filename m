@@ -1,46 +1,19 @@
-Return-Path: <zboszor@pr.hu>
-Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 49D07611B5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 06:21:13 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>) id 1j7CXq-0001yP-69
-	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Feb 2020 07:21:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=uzSvQZs27poos+SyizEC25rm0cDKAzLGJV9UgDKH2XU=;
-	b=LX17EBU6G+qQE55GCvqFMoEq9l
-	iG9i49Z4udjVj5TINYPrsFq8jOMBK18bswcBQTokRjkxplvXIy4HpupyMvdrVs1BIYXKjHoDwgL0J
-	yoEZ1dwgWZ7Z5vuaOhZlSHySWfaexBkLpOdmXhKwGFDLfrdGEyo7FvBvdIZEYgRyQk5fYitp9QlmF
-	SWwaqG4uHy6/MceFak6nmJxo6FKWDuU+IT+4zk99NDqkVWSFJauhMUkTksMYqQIsXB3URf7p0qEVx
-	LBPcRTEGLJSQwJOtUTKwr8OxIq+8PFpLbXbCpyTA38c2knbFTcYk2HfSa8+RaAQTxLLrHnuD020jc
-	I9z5/byQ==;
-Received: from host-87-242-33-197.prtelecom.hu ([87.242.33.197]
-	helo=[192.168.1.2])
-	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <zboszor@pr.hu>) id 1j7CXl-00018r-Uq
-	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Feb 2020 07:21:12 +0100
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-References: <20200227061657.66871-1-zboszor@pr.hu>
-From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
-Message-ID: <f35582c7-c1e7-a2ac-29b8-75bb33305d36@pr.hu>
-Date: Thu, 27 Feb 2020 07:21:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id A53D960FEC;
+	Thu, 27 Feb 2020 06:32:21 +0000 (UTC)
 MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Andrii Bordunov via Openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Feb 2020 06:32:23 -0000
+Message-ID: <20200227063223.2275.20528@do>
+References: <20200227061657.66871-1-zboszor@pr.hu>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
 In-Reply-To: <20200227061657.66871-1-zboszor@pr.hu>
-X-Spam-Score: -2.0 (--)
-X-Scan-Signature: fbcd1a6926db1c1d448730ed27ac6ca3
-X-Spam-Tracer: backend.mail.pr.hu -2.0 20200227062112Z
-Subject: Re: [meta-clang][PATCH] conf/nonclangable.conf: Always build mesa with gcc
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY29uZi9ub25jbGFuZ2FibGUuY29uZjogQWx3YXlzIGJ1aWxkIG1lc2Egd2l0aCBnY2M=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,57 +26,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 06:21:13 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Feb 2020 06:32:21 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Ignore this, the patch is against the zeus branch.
-Re-sent with the proper subject.
+== Series Details ==
 
-2020. 02. 27. 7:16 keltezéssel, Böszörményi Zoltán írta:
-> Building mesa (at least version 19.3.4) with clang 9.0.1 leads
-> to linker errors on x86/x86-64:
-> 
-> "undefined reference to `typeinfo for llvm::raw_pwrite_stream'"
-> in libvulkan_radeon.so
-> 
-> and
-> 
-> "undefined reference to `typeinfo for llvm::RTDyldMemoryManager'"
-> in libgallium.a.
-> 
-> It was reported at https://gitlab.freedesktop.org/mesa/mesa/issues/2533
-> 
-> It seems it is related to rtti not being enabled, at least reports
-> from a few years ago on forums lead to that conclusion.
-> But enabling rtti for clang in PACKAGECONFIG doesn't help.
-> 
-> Just build mesa with gcc, it fixes the linker errors.
-> 
-> Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
-> ---
->   conf/nonclangable.conf | 7 +++----
->   1 file changed, 3 insertions(+), 4 deletions(-)
-> 
-> diff --git a/conf/nonclangable.conf b/conf/nonclangable.conf
-> index 70336bb..91b9965 100644
-> --- a/conf/nonclangable.conf
-> +++ b/conf/nonclangable.conf
-> @@ -45,10 +45,9 @@ TOOLCHAIN_pn-libssp-nonshared = "gcc"
->   TOOLCHAIN_pn-libstd-rs = "gcc"
->   TOOLCHAIN_pn-m4_powerpc = "gcc"
->   # clang does not have 64bit atomics on mips32
-> -TOOLCHAIN_pn-mesa_mips = "gcc"
-> -TOOLCHAIN_pn-mesa_mipsel = "gcc"
-> -TOOLCHAIN_pn-mesa_riscv64 = "gcc"
-> -TOOLCHAIN_pn-mesa_powerpc = "gcc"
-> +# building Mesa 19.3.x with clang causes linker errors on x86/x86-64
-> +# See https://gitlab.freedesktop.org/mesa/mesa/issues/2533
-> +TOOLCHAIN_pn-mesa = "gcc"
->   # multiple definition of 'mongo::error_details::isNamedCode<0>'
->   TOOLCHAIN_pn-mongodb = "gcc"
->   # variant-impl.hpp:309:36: error: 'is_variant' does not name a template but is followed by template arguments
-> 
+Series: conf/nonclangable.conf: Always build mesa with gcc
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22979/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [meta-clang] conf/nonclangable.conf: Always build mesa with gcc
+ Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
+  Suggested fix    Check the project's README (meta-clang) and send the patch to the indicated list
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 23ad05b98a)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
