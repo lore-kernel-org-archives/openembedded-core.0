@@ -1,52 +1,56 @@
 Return-Path: <petr.vorel@gmail.com>
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
-	[209.85.167.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AD7A6188F
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 374B7611CF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 20:47:12 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id q81so663367oig.0
+	Thu, 27 Feb 2020 20:51:28 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id a9so909633wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 12:47:13 -0800 (PST)
+	Thu, 27 Feb 2020 12:51:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=foEERgZk725rWiBV5s0V4xnR/8ewAx36Ip2n0/inydo=;
-	b=htlLF+YqDcosrvR8d4IrWJBtlHmSLc1wLNg1HEvNl7OcX+UmhpV0UfLs3xeH5BZNXv
-	Ba5fkVlZ4yScasoeLzgXShWPsjQENPstXqpj25pHDT8gPJLk40z0UKiRjkViE1NkS0yN
-	6JeXf6Hf7qyOklrt4Ea/1H53kbkdqSmzw2jv/Wqx9oPvUBaorKW5bdv2f8uGVqt0rwE8
-	bheuyPJhuXmBOLQGglR6ESugkVBk6wxFeifyEpmY+W522+BZtVC98WWcGJ+/R7/7gzEr
-	iDwAvx74J4o+j21LLRJ1BzfvakX7wynO7gdqqwoctvs2hnPxKlc0uTujPo5D1VRAqlI1
-	JtcQ==
+	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+	:content-disposition:in-reply-to;
+	bh=6wVdul0QPn3h5J2OlAXzl9f5MVLXq8fs2axrxRzmYjM=;
+	b=Snu9q5NgeK2KK/aCd5KVhKX3taOcasM9XktRbfCPWvQC+lgeGmfaE+fIRrMrd0ZdM5
+	xrurqxT+FacO/F7D5ggYSyCQh6z1hi2uxblEuUwcFw4RHlLUC7iR2Nnzn7byFw59PpTL
+	L2hCYGiM3BRI1P9EbidPw6FNx5Xp5md+9sI41j0DiSd/GMC9qbOAb4+vZfUzXYFpy3pX
+	j2dglwfl77ehwJubf+DOosdxOiAaYiue4hKKnWD3kDOWBkbLY/EeZZL4lVo9lMnUohL0
+	bC0kfIZt4Yl+A7MgSK4oWy1BfuLnEL3J3370SVIaG30R95bpBs/gAy5N3vENlW4jWE8b
+	hR7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=foEERgZk725rWiBV5s0V4xnR/8ewAx36Ip2n0/inydo=;
-	b=BhGTCptWBpvHZix6zHtXsYhnX5NqQTGQU7W7abu44Cp0ziCb0M319o4/Aeyg/t934q
-	zsq7W/UOqTfXn9p50mnFHm/SMOxcgAgffX7o5NLX2aOJIig6vPiMvCpPrK9u+ZxwB9+1
-	+c7CctRktu4iLRzyB30JGhg+oEZhfOXVzdBvQfIXOLqy+sONEnVcDjJysxte7vO291O3
-	nHQhzFu1EgCHfFUS6pBCTEipPgnXr427LKuNaL6sskyDtxF4V4IU8vIw7kRrcOrnb7DG
-	KBoLo/qCwl+pDkLOZyLKmbbLXdMKWDfqGKs3UGN0QwXXnSX1R/b0O1ycvKIf0pFdMnhf
-	jkLw==
-X-Gm-Message-State: APjAAAX2DqxuHoVCUme4lHvyXIRL38+UREIsimQfkKwh0zBMZwbMrHgE
-	esIicl1yRuPjRMGCPOWZfSyElFOOd2A=
-X-Google-Smtp-Source: APXvYqzRr3/gzACqN9DWNljgc7c/V2iEmR8nmE7RiGMQ4CdE2CjXuzkoI6xqrkfTaqKMFy/yFstebA==
-X-Received: by 2002:aca:815:: with SMTP id 21mr743260oii.52.1582836433040;
-	Thu, 27 Feb 2020 12:47:13 -0800 (PST)
-Received: from dell5510.arch.suse.de ([62.201.25.198])
-	by smtp.gmail.com with ESMTPSA id
-	k18sm2305365oiw.44.2020.02.27.12.47.10
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+	:references:mime-version:content-disposition:in-reply-to;
+	bh=6wVdul0QPn3h5J2OlAXzl9f5MVLXq8fs2axrxRzmYjM=;
+	b=aWU02g2OhMkP9TVbvROzSsNa99sBLMTnPQXj96vjVcqTrMPNo3meYYVUf2fSc72T2g
+	Ifz98vKFiY3O34THwvutN8WAWq5yFqjvxH2IvJCxJBqdeJdOBoJ3rJDbmcqgWAv6PpH5
+	fqGOvpA7EdFy2hMdSUSljSk43+h87SD2EA4UqKG+1eBHz4OUU+z0OL6EhYWHq4HXIxpy
+	uK/WlqccPzfLfycdABJ+s8oQtl4F35d78m0ncXDh0KcYfFhRROQXy7kOA3TJjObAcMDY
+	LlP0twZot1wGZ7MlJB6GmDBLUEG+mP5AVDGJKvcxxdXEBb9LGL4Nm8w28Z2rgMWfCtyJ
+	AD3g==
+X-Gm-Message-State: APjAAAXoP1m/PnbFlqeaE0z5Swef13GdqR6AT3vrKqTpinaxaUd8lSQf
+	0xR3CozMYG6oQHgjE5v7Aes=
+X-Google-Smtp-Source: APXvYqyrTjtIQJs5QCmiamsv4tnoUq3rRm17qnQhQ1jTb56lrEaS9acoHortJaMNspOO16BIiOsDpA==
+X-Received: by 2002:a1c:f71a:: with SMTP id v26mr601924wmh.85.1582836688891;
+	Thu, 27 Feb 2020 12:51:28 -0800 (PST)
+Received: from dell5510 ([62.201.25.198]) by smtp.gmail.com with ESMTPSA id
+	d15sm4891815wrp.37.2020.02.27.12.51.27
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 27 Feb 2020 12:47:12 -0800 (PST)
+	Thu, 27 Feb 2020 12:51:28 -0800 (PST)
+Date: Thu, 27 Feb 2020 21:51:26 +0100
 From: Petr Vorel <petr.vorel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2020 21:47:01 +0100
-Message-Id: <20200227204701.3830-2-petr.vorel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200227204701.3830-1-petr.vorel@gmail.com>
-References: <20200227204701.3830-1-petr.vorel@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20200227205126.GB3446@dell5510>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
+References: <20200227203456.7395-1-petr.vorel@gmail.com>
+	<20200227203456.7395-2-petr.vorel@gmail.com>
+	<CAMKF1spWKKiWwD76QXA=gOj1nJFc7cMm2=oifR8S-wEDh_CLXw@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 2/2] ltp: Remove mips related open_posix_testsuite patch
+In-Reply-To: <CAMKF1spWKKiWwD76QXA=gOj1nJFc7cMm2=oifR8S-wEDh_CLXw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	"Hongzhi . Song" <hongzhi.song@windriver.com>
+Subject: Re: [PATCH 2/2] ltp: Remove mips related open_posix_testsuite patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,108 +63,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 20:47:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Feb 2020 20:51:28 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Upstream just disagree on this patch
-https://patchwork.ozlabs.org/comment/2012045/
+Hi Khem,
 
-Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
----
-Changes v1->v2: NONE
+> > please don't deliver this patch to users, it's wrong.
 
- ...suite-mmap24-2-Relax-condition-a-bit.patch | 68 -------------------
- meta/recipes-extended/ltp/ltp_20200120.bb     |  1 -
- 2 files changed, 69 deletions(-)
- delete mode 100644 meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
+> Thanks Petr, is there an alternative approach we can take ?
 
-diff --git a/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch b/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-deleted file mode 100644
-index d32ac1dd7c..0000000000
---- a/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From a8715a1446305ffd76406f63c7f160c13a5b2e72 Mon Sep 17 00:00:00 2001
--From: "Hongzhi.Song" <hongzhi.song@windriver.com>
--Date: Wed, 10 Oct 2018 22:07:05 -0400
--Subject: [PATCH] open_posix_testsuite/mmap24-2: Relax condition a bit
--
--Mips will return EINVAL instead of ENOMEM as expected
--if the range [addr + len) exceeds TASK_SIZE.
--
--Linux kernel code: arch/mips/mm/mmap.c
--if (flags & MAP_FIXED) {
--    /* Even MAP_FIXED mappings must reside within TASK_SIZE */
--    if (TASK_SIZE - len < addr)
--        return -EINVAL;
--
--Relax the condition and accept both ENOMEM and EINVAL
--as expected outcome.
--
--Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2018-October/009624.html]
--
--Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-----
-- .../open_posix_testsuite/conformance/interfaces/mmap/24-2.c    | 10 +++++-----
-- 1 file changed, 5 insertions(+), 5 deletions(-)
--
--diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--index 9cf83d9..55090a6 100644
----- a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--+++ b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--@@ -7,7 +7,7 @@
--  * source tree.
--  *
--  * The mmap() function shall fail if:
--- * [ENOMEM] MAP_FIXED was specified,
--+ * [ENOMEM or EINVAL] MAP_FIXED was specified,
--  * and the range [addr,addr+len) exceeds that allowed
--  * for the address space of a process; or, if MAP_FIXED was not specified and
--  * there is insufficient room in the address space to effect the mapping.
--@@ -15,7 +15,7 @@
--  * Test Step:
--  * 1. Map a shared memory object, with size exceeding the value get from
--  *    rlim_cur of resource RLIMIT_AS, setting MAP_FIXED;
--- * 3. Should get ENOMEM.
--+ * 3. Should get ENOMEM or EINVAL.
--  */
-- 
-- #include <stdio.h>
--@@ -92,8 +92,8 @@ int main(void)
-- 	       (unsigned long)len);
-- 	pa = mmap(addr, len, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED, fd,
-- 		  0);
---	if (pa == MAP_FAILED && errno == ENOMEM) {
---		printf("Got ENOMEM: %s\nTest PASSED\n", strerror(errno));
--+	if (pa == MAP_FAILED && (errno == ENOMEM || errno == EINVAL)) {
--+		printf("Got ENOMEM or EINVAL: %s\nTest PASSED\n", strerror(errno));
-- 		exit(PTS_PASS);
-- 	}
-- 
--@@ -102,6 +102,6 @@ int main(void)
-- 	else
-- 		munmap(pa, len);
-- 	close(fd);
---	printf("Test Fail: Did not get ENOMEM as expected\n");
--+	printf("Test Failed: Did not get ENOMEM or EINVAL as expected\n");
-- 	return PTS_FAIL;
-- }
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp_20200120.bb b/meta/recipes-extended/ltp/ltp_20200120.bb
-index 38fd0f6f87..069d9c2e0b 100644
---- a/meta/recipes-extended/ltp/ltp_20200120.bb
-+++ b/meta/recipes-extended/ltp/ltp_20200120.bb
-@@ -35,7 +35,6 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0004-guard-mallocopt-with-__GLIBC__.patch \
-            file://0007-Fix-test_proc_kill-hanging.patch \
-            file://0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
--           file://0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
-            file://0001-Add-more-musl-exclusions.patch \
-            file://0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch \
-            "
--- 
-2.25.1
+Cyril suggested at the time to skipping the test in
+the testrunner. Is that feasible? He also asked how do you run the test.
+i.e. not changing the code of the test, just don't run it.
+https://patchwork.ozlabs.org/comment/2012168/
 
+Kind regards,
+Petr
+
+PS: better to ask on LTP ML, Cc Cyril and me.
 
