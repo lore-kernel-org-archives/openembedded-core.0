@@ -1,43 +1,24 @@
-Return-Path: <zboszor@pr.hu>
-Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CDDA605DE
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B6F1E611CA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 05:25:05 +0000 (UTC)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>) id 1j7BfW-0007BA-DF
-	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Feb 2020 06:25:06 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=8Z7p9I4og7mjxVgu6AWVxSZ5pj3WPzZ/vZfKcJt3udI=;
-	b=Ps0r8mungLZ/BFcI/y4rChawfK
-	eHmcLh1BZjyC/AVHHHnId8m0XfFQVF4acQK+igZKFsoY71FngxWQog8cZV5SvL03+JoDuM0wZE50A
-	0lCbAWy06w8D89dhxEyqJyNhzQjFz2K/1C5dUXM5NWHL2XvKDQPFzyk2s9+gJysnaMROn+t9dzpT6
-	YgSR4GxscxynBBV2/4ZqWQMa8vEr0I6CkvuW7HXqE30Wbs6L91CrFRId0hk5s+MiSUEZEuZ/Qjsud
-	yGrbmm3iNjYcx1qPdTNSFYjvKJtN77wk8XLiS4KcoKeL64XjXUbKH9cQmgd2JIlK5NOHr2PSEwppv
-	WTaX2JsQ==;
-Received: from host-87-242-33-197.prtelecom.hu ([87.242.33.197]
-	helo=zolilaptop.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1j7BfS-00020C-FQ; Thu, 27 Feb 2020 06:25:04 +0100
-From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2020 06:24:48 +0100
-Message-Id: <20200227052448.65435-5-zboszor@pr.hu>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200227052448.65435-1-zboszor@pr.hu>
-References: <20200227052448.65435-1-zboszor@pr.hu>
+	Thu, 27 Feb 2020 05:25:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 01R5Pmh9023653
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 26 Feb 2020 21:25:48 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Wed, 26 Feb 2020 21:25:48 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Feb 2020 13:25:46 +0800
+Message-ID: <1582781146-253903-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Spam-Score: -2.0 (--)
-X-Scan-Signature: b6eb8dd8d4e483f7ae84ef827401bc57
-X-Spam-Tracer: backend.mail.pr.hu -2.0 20200227052504Z
-Subject: [PATCH v2 4/4] mesa: Add PACKAGECONFIG knob to enable VDPAU state tracker and drivers
+Subject: [PATCH] qemu: fix CVE-2020-7039
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,57 +31,222 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 05:25:05 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Feb 2020 05:25:50 -0000
+Content-Type: text/plain
 
-Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
+From: Changqing Li <changqing.li@windriver.com>
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
-v2: Replaced FILES_${PN}-vdpau-drivers with FILES_mesa-vdpau-drivers
-    to match the name in PACKAGES.
+ meta/recipes-devtools/qemu/qemu.inc                |  3 +
+ .../qemu/qemu/CVE-2020-7039-1.patch                | 44 +++++++++++++++
+ .../qemu/qemu/CVE-2020-7039-2.patch                | 59 ++++++++++++++++++++
+ .../qemu/qemu/CVE-2020-7039-3.patch                | 64 ++++++++++++++++++++++
+ 4 files changed, 170 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-3.patch
 
- meta/recipes-graphics/mesa/mesa.inc | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 479d3223fa..800e8813c7 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -144,6 +144,8 @@ PACKAGECONFIG[gallium-llvm] = "-Dllvm=true -Dshared-llvm=true, -Dllvm=false, llv
- PACKAGECONFIG[xa]  = "-Dgallium-xa=true, -Dgallium-xa=false"
- PACKAGECONFIG[va] = "-Dgallium-va=true,-Dgallium-va=false,libva-initial"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index a557e74..a9d5278 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -29,6 +29,9 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0010-configure-Add-pkg-config-handling-for-libgcrypt.patch \
+            file://0011-hw-i386-pc-fix-regression-in-parsing-vga-cmdline-par.patch \
+            file://CVE-2019-15890.patch \
++           file://CVE-2020-7039-1.patch \
++           file://CVE-2020-7039-2.patch \
++           file://CVE-2020-7039-3.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-+PACKAGECONFIG[vdpau] = "-Dgallium-vdpau=true,-Dgallium-vdpau=false,libvdpau"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-7039-1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-7039-1.patch
+new file mode 100644
+index 0000000..df6bca6
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-7039-1.patch
+@@ -0,0 +1,44 @@
++From b2663d527a1992ba98c0266458b21ada3b9d0d2e Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 27 Feb 2020 12:07:35 +0800
++Subject: [PATCH] tcp_emu: Fix oob access
 +
- PACKAGECONFIG[lima] = ""
- GALLIUMDRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG', 'lima', ',lima', '', d)}"
- 
-@@ -179,6 +181,7 @@ PACKAGES =+ "libegl-mesa libegl-mesa-dev \
-              libgles3-mesa libgles3-mesa-dev \
-              libxatracker libxatracker-dev \
-              mesa-megadriver mesa-vulkan-drivers \
-+             mesa-vdpau-drivers \
-             "
- 
- do_install_append () {
-@@ -256,6 +259,7 @@ PACKAGES_DYNAMIC += "^mesa-driver-.*"
- 
- FILES_mesa-megadriver = "${libdir}/dri/* ${datadir}/drirc.d/00-mesa-defaults.conf"
- FILES_mesa-vulkan-drivers = "${libdir}/libvulkan_*.so ${datadir}/vulkan"
-+FILES_mesa-vdpau-drivers = "${libdir}/vdpau/*.so.*"
- FILES_libegl-mesa = "${libdir}/libEGL.so.*"
- FILES_libgbm = "${libdir}/libgbm.so.*"
- FILES_libgles1-mesa = "${libdir}/libGLESv1*.so.*"
-@@ -265,7 +269,7 @@ FILES_libglapi = "${libdir}/libglapi.so.*"
- FILES_libosmesa = "${libdir}/libOSMesa.so.*"
- FILES_libxatracker = "${libdir}/libxatracker.so.*"
- 
--FILES_${PN}-dev = "${libdir}/pkgconfig/dri.pc ${includedir}/vulkan"
-+FILES_${PN}-dev = "${libdir}/pkgconfig/dri.pc ${includedir}/vulkan ${libdir}/vdpau/*.so"
- FILES_libegl-mesa-dev = "${libdir}/libEGL.* ${includedir}/EGL ${includedir}/KHR ${libdir}/pkgconfig/egl.pc"
- FILES_libgbm-dev = "${libdir}/libgbm.* ${libdir}/pkgconfig/gbm.pc ${includedir}/gbm.h"
- FILES_libgl-mesa-dev = "${libdir}/libGL.* ${includedir}/GL ${libdir}/pkgconfig/gl.pc"
++The main loop only checks for one available byte, while we sometimes
++need two bytes.
++
++CVE: CVE-2020-7039
++Upstream-Status: Backport
++[https://gitlab.freedesktop.org/slirp/libslirp/commit/2655fffed7a9e765bcb4701dd876e9dab975f289]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ slirp/src/tcp_subr.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/slirp/src/tcp_subr.c b/slirp/src/tcp_subr.c
++index d6dd133..4bea2d4 100644
++--- a/slirp/src/tcp_subr.c
+++++ b/slirp/src/tcp_subr.c
++@@ -886,6 +886,8 @@ int tcp_emu(struct socket *so, struct mbuf *m)
++                 break;
++ 
++             case 5:
+++                if (bptr == m->m_data + m->m_len - 1)
+++                        return 1; /* We need two bytes */
++                 /*
++                  * The difference between versions 1.0 and
++                  * 2.0 is here. For future versions of
++@@ -901,6 +903,10 @@ int tcp_emu(struct socket *so, struct mbuf *m)
++                 /* This is the field containing the port
++                  * number that RA-player is listening to.
++                  */
+++
+++                if (bptr == m->m_data + m->m_len - 1)
+++                        return 1; /* We need two bytes */
+++
++                 lport = (((uint8_t *)bptr)[0] << 8) + ((uint8_t *)bptr)[1];
++                 if (lport < 6970)
++                     lport += 256; /* don't know why */
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-7039-2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-7039-2.patch
+new file mode 100644
+index 0000000..4a00fa2
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-7039-2.patch
+@@ -0,0 +1,59 @@
++From 8f67e76e4148e37f3d8d2bcbdee7417fdedb7669 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 27 Feb 2020 12:10:34 +0800
++Subject: [PATCH] slirp: use correct size while emulating commands
++
++While emulating services in tcp_emu(), it uses 'mbuf' size
++'m->m_size' to write commands via snprintf(3). Use M_FREEROOM(m)
++size to avoid possible OOB access.
++Signed-off-by: default avatarPrasad J Pandit <pjp@fedoraproject.org>
++Signed-off-by: Samuel Thibault's avatarSamuel Thibault
++<samuel.thibault@ens-lyon.org>
++Message-Id: <20200109094228.79764-3-ppandit@redhat.com>
++
++CVE: CVE-2020-7039
++Upstream-Status: Backport
++[https://gitlab.freedesktop.org/slirp/libslirp/commit/82ebe9c370a0e2970fb5695aa19aa5214a6a1c80]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ slirp/src/tcp_subr.c | 9 ++++-----
++ 1 file changed, 4 insertions(+), 5 deletions(-)
++
++diff --git a/slirp/src/tcp_subr.c b/slirp/src/tcp_subr.c
++index 4bea2d4..e8ed4ef 100644
++--- a/slirp/src/tcp_subr.c
+++++ b/slirp/src/tcp_subr.c
++@@ -696,7 +696,7 @@ int tcp_emu(struct socket *so, struct mbuf *m)
++             n4 = (laddr & 0xff);
++ 
++             m->m_len = bptr - m->m_data; /* Adjust length */
++-            m->m_len += snprintf(bptr, m->m_size - m->m_len,
+++            m->m_len += snprintf(bptr, M_FREEROOM(m),
++                                  "ORT %d,%d,%d,%d,%d,%d\r\n%s", n1, n2, n3, n4,
++                                  n5, n6, x == 7 ? buff : "");
++             return 1;
++@@ -731,8 +731,7 @@ int tcp_emu(struct socket *so, struct mbuf *m)
++             n4 = (laddr & 0xff);
++ 
++             m->m_len = bptr - m->m_data; /* Adjust length */
++-            m->m_len +=
++-                snprintf(bptr, m->m_size - m->m_len,
+++            m->m_len += snprintf(bptr, M_FREEROOM(m),
++                          "27 Entering Passive Mode (%d,%d,%d,%d,%d,%d)\r\n%s",
++                          n1, n2, n3, n4, n5, n6, x == 7 ? buff : "");
++ 
++@@ -758,8 +757,8 @@ int tcp_emu(struct socket *so, struct mbuf *m)
++         if (m->m_data[m->m_len - 1] == '\0' && lport != 0 &&
++             (so = tcp_listen(slirp, INADDR_ANY, 0, so->so_laddr.s_addr,
++                              htons(lport), SS_FACCEPTONCE)) != NULL)
++-            m->m_len =
++-                snprintf(m->m_data, m->m_size, "%d", ntohs(so->so_fport)) + 1;
+++            m->m_len = snprintf(m->m_data, M_ROOM(m),
+++                                "%d", ntohs(so->so_fport)) + 1;
++         return 1;
++ 
++     case EMU_IRC:
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-7039-3.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-7039-3.patch
+new file mode 100644
+index 0000000..70ce480
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-7039-3.patch
+@@ -0,0 +1,64 @@
++From 0b03959b72036afce151783720d9e54988cf76ef Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Thu, 27 Feb 2020 12:15:04 +0800
++Subject: [PATCH] slirp: use correct size while emulating IRC commands
++
++While emulating IRC DCC commands, tcp_emu() uses 'mbuf' size
++'m->m_size' to write DCC commands via snprintf(3). This may
++lead to OOB write access, because 'bptr' points somewhere in
++the middle of 'mbuf' buffer, not at the start. Use M_FREEROOM(m)
++size to avoid OOB access.
++Reported-by: default avatarVishnu Dev TJ <vishnudevtj@gmail.com>
++Signed-off-by: default avatarPrasad J Pandit <pjp@fedoraproject.org>
++Reviewed-by: Samuel Thibault's avatarSamuel Thibault
++<samuel.thibault@ens-lyon.org>
++Message-Id: <20200109094228.79764-2-ppandit@redhat.com>
++
++CVE: CVE-2020-7039
++Upstream-Status: Backport
++[https://gitlab.freedesktop.org/slirp/libslirp/commit/ce131029d6d4a405cb7d3ac6716d03e58fb4a5d9]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ slirp/src/tcp_subr.c | 11 ++++++-----
++ 1 file changed, 6 insertions(+), 5 deletions(-)
++
++diff --git a/slirp/src/tcp_subr.c b/slirp/src/tcp_subr.c
++index e8ed4ef..3a4a8ee 100644
++--- a/slirp/src/tcp_subr.c
+++++ b/slirp/src/tcp_subr.c
++@@ -777,7 +777,8 @@ int tcp_emu(struct socket *so, struct mbuf *m)
++                 return 1;
++             }
++             m->m_len = bptr - m->m_data; /* Adjust length */
++-            m->m_len += snprintf(bptr, m->m_size, "DCC CHAT chat %lu %u%c\n",
+++            m->m_len += snprintf(bptr, M_FREEROOM(m),
+++                                 "DCC CHAT chat %lu %u%c\n",
++                                  (unsigned long)ntohl(so->so_faddr.s_addr),
++                                  ntohs(so->so_fport), 1);
++         } else if (sscanf(bptr, "DCC SEND %256s %u %u %u", buff, &laddr, &lport,
++@@ -787,8 +788,8 @@ int tcp_emu(struct socket *so, struct mbuf *m)
++                 return 1;
++             }
++             m->m_len = bptr - m->m_data; /* Adjust length */
++-            m->m_len +=
++-                snprintf(bptr, m->m_size, "DCC SEND %s %lu %u %u%c\n", buff,
+++            m->m_len += snprintf(bptr, M_FREEROOM(m),
+++                         "DCC SEND %s %lu %u %u%c\n", buff,
++                          (unsigned long)ntohl(so->so_faddr.s_addr),
++                          ntohs(so->so_fport), n1, 1);
++         } else if (sscanf(bptr, "DCC MOVE %256s %u %u %u", buff, &laddr, &lport,
++@@ -798,8 +799,8 @@ int tcp_emu(struct socket *so, struct mbuf *m)
++                 return 1;
++             }
++             m->m_len = bptr - m->m_data; /* Adjust length */
++-            m->m_len +=
++-                snprintf(bptr, m->m_size, "DCC MOVE %s %lu %u %u%c\n", buff,
+++            m->m_len += snprintf(bptr, M_FREEROOM(m),
+++                         "DCC MOVE %s %lu %u %u%c\n", buff,
++                          (unsigned long)ntohl(so->so_faddr.s_addr),
++                          ntohs(so->so_fport), n1, 1);
++         }
++-- 
++2.7.4
++
 -- 
-2.24.1
+2.7.4
 
 
