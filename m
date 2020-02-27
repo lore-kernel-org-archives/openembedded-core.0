@@ -1,56 +1,49 @@
-Return-Path: <petr.vorel@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 374B7611CF
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+	[209.85.210.179])
+	by mail.openembedded.org (Postfix) with ESMTP id A622C61893
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 20:51:28 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id a9so909633wmj.3
+	Thu, 27 Feb 2020 20:56:09 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id 15so449382pfo.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 12:51:29 -0800 (PST)
+	Thu, 27 Feb 2020 12:56:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-	:content-disposition:in-reply-to;
-	bh=6wVdul0QPn3h5J2OlAXzl9f5MVLXq8fs2axrxRzmYjM=;
-	b=Snu9q5NgeK2KK/aCd5KVhKX3taOcasM9XktRbfCPWvQC+lgeGmfaE+fIRrMrd0ZdM5
-	xrurqxT+FacO/F7D5ggYSyCQh6z1hi2uxblEuUwcFw4RHlLUC7iR2Nnzn7byFw59PpTL
-	L2hCYGiM3BRI1P9EbidPw6FNx5Xp5md+9sI41j0DiSd/GMC9qbOAb4+vZfUzXYFpy3pX
-	j2dglwfl77ehwJubf+DOosdxOiAaYiue4hKKnWD3kDOWBkbLY/EeZZL4lVo9lMnUohL0
-	bC0kfIZt4Yl+A7MgSK4oWy1BfuLnEL3J3370SVIaG30R95bpBs/gAy5N3vENlW4jWE8b
-	hR7w==
+	h=from:to:subject:date:message-id;
+	bh=ZQwd+lTe+jZL3KXmVebz4MH4puh2q4WvheQ2BZlW99g=;
+	b=koc3Zr2iL1eUqTglc8CnWkASr6yHzvlw85ydEGpTxAVrGb9uJ0ozFsEcvcn7o2gMXe
+	JXe58mHT1SSs826Azt+WWnut4m9TPHfQcJ4gOemwW4lbMAHZQ2NL0vkJjXYaqyEsHBbF
+	18NBY1JBwe4JTAngad7iQiQz9RGyuErmuFslWltwBIhFjbSqKju3c14T3YVJZ0HSlfXc
+	gDvaHmylAmonJzf3T0K20Pv58rCsedglPev7CoOy6AowY6+arZv3qPyxiHmJUMVBwnrR
+	7SYsYExV2g6jSLqzQIKP7W9YfkR2FvQp4QzIp2Khf1qQfqSedv5wjoi5mRMYYQCPxZQx
+	oKaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-	:references:mime-version:content-disposition:in-reply-to;
-	bh=6wVdul0QPn3h5J2OlAXzl9f5MVLXq8fs2axrxRzmYjM=;
-	b=aWU02g2OhMkP9TVbvROzSsNa99sBLMTnPQXj96vjVcqTrMPNo3meYYVUf2fSc72T2g
-	Ifz98vKFiY3O34THwvutN8WAWq5yFqjvxH2IvJCxJBqdeJdOBoJ3rJDbmcqgWAv6PpH5
-	fqGOvpA7EdFy2hMdSUSljSk43+h87SD2EA4UqKG+1eBHz4OUU+z0OL6EhYWHq4HXIxpy
-	uK/WlqccPzfLfycdABJ+s8oQtl4F35d78m0ncXDh0KcYfFhRROQXy7kOA3TJjObAcMDY
-	LlP0twZot1wGZ7MlJB6GmDBLUEG+mP5AVDGJKvcxxdXEBb9LGL4Nm8w28Z2rgMWfCtyJ
-	AD3g==
-X-Gm-Message-State: APjAAAXoP1m/PnbFlqeaE0z5Swef13GdqR6AT3vrKqTpinaxaUd8lSQf
-	0xR3CozMYG6oQHgjE5v7Aes=
-X-Google-Smtp-Source: APXvYqyrTjtIQJs5QCmiamsv4tnoUq3rRm17qnQhQ1jTb56lrEaS9acoHortJaMNspOO16BIiOsDpA==
-X-Received: by 2002:a1c:f71a:: with SMTP id v26mr601924wmh.85.1582836688891;
-	Thu, 27 Feb 2020 12:51:28 -0800 (PST)
-Received: from dell5510 ([62.201.25.198]) by smtp.gmail.com with ESMTPSA id
-	d15sm4891815wrp.37.2020.02.27.12.51.27
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ZQwd+lTe+jZL3KXmVebz4MH4puh2q4WvheQ2BZlW99g=;
+	b=uRwy1XLYLP3GAekih+za6Gvx1zd7ZUIabgXeYyBC6zWZscCwoWmYR4/4d2podF8ljH
+	MPmYhs4v8mMWu7jXWx89l3KPzqgXKFg50iDMecfXZt9Sabk7sL8yRpvdGvuIc/VlxlW3
+	Qw2O9wwMTv36hUb1XSRHYMOF+mXBmPq7WTmoRUy/t3mdLEf49uIIuH6vpRV2lMT4+D+/
+	vBQw2jYyjT8K69QJCTVKUnC9y3RwIJ0BZleJEJeB7R1wdRTERGQuP3MMz/d+d4FIOIy4
+	xMCq5XlbGmY7nbA09IfOsgDXgGw6OIG0b/XsHYJ/mePs3v39hP/zdSvaMu+9UK3nICQC
+	xdcw==
+X-Gm-Message-State: APjAAAURvrclZybvfsQR7ZzoK2xN9Fl2DPNF6QtK6ITVZpg2s2JZBS4n
+	VFUf7yJVp2TBrpXWt3+FGnXCwOQV
+X-Google-Smtp-Source: APXvYqzFNEIOuY5jZtFwEFmOscaoRsivTCQ3x3l/FYpIOtdS7Kzsvh49WBdjGrUzc9/fbBGTWbJkYg==
+X-Received: by 2002:a63:d20d:: with SMTP id a13mr1161965pgg.257.1582836970290; 
+	Thu, 27 Feb 2020 12:56:10 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:a5c0:3d0b:bd00:40e0:2589])
+	by smtp.gmail.com with ESMTPSA id
+	f43sm7150784pje.23.2020.02.27.12.56.09
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 27 Feb 2020 12:51:28 -0800 (PST)
-Date: Thu, 27 Feb 2020 21:51:26 +0100
-From: Petr Vorel <petr.vorel@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20200227205126.GB3446@dell5510>
-Reply-To: Petr Vorel <petr.vorel@gmail.com>
-References: <20200227203456.7395-1-petr.vorel@gmail.com>
-	<20200227203456.7395-2-petr.vorel@gmail.com>
-	<CAMKF1spWKKiWwD76QXA=gOj1nJFc7cMm2=oifR8S-wEDh_CLXw@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1spWKKiWwD76QXA=gOj1nJFc7cMm2=oifR8S-wEDh_CLXw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	"Hongzhi . Song" <hongzhi.song@windriver.com>
-Subject: Re: [PATCH 2/2] ltp: Remove mips related open_posix_testsuite patch
+	Thu, 27 Feb 2020 12:56:09 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Feb 2020 12:56:06 -0800
+Message-Id: <20200227205608.26788-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 0/2] Update bind to lates ESV version 9.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,23 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 20:51:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 27 Feb 2020 20:56:09 -0000
 
-Hi Khem,
+Please consider this last minute addition to 3.1.
 
-> > please don't deliver this patch to users, it's wrong.
+Bind 9.16.0 just dropped and is the latest ESV. It requires libuv from meta-oe so 
+please it should be added to core too.
 
-> Thanks Petr, is there an alternative approach we can take ?
+The current 9.11 ESV is planned to be EOL'd in the middle 3.1 LTS release.
 
-Cyril suggested at the time to skipping the test in
-the testrunner. Is that feasible? He also asked how do you run the test.
-i.e. not changing the code of the test, just don't run it.
-https://patchwork.ozlabs.org/comment/2012168/
+Armin Kuster (2):
+  libuv: needed by bind 9.16
+  bind: Update to latest ESV version 9.16
 
-Kind regards,
-Petr
+ ....in-remove-useless-L-use_openssl-lib.patch | 30 --------------
+ ...d-V-and-start-log-hide-build-options.patch | 33 +++++++--------
+ ...ching-for-json-headers-searches-sysr.patch | 14 +++----
+ .../bind/{bind_9.11.13.bb => bind_9.16.0.bb}  | 40 +++++++------------
+ .../libuv/libuv_1.34.0.bb                     | 19 +++++++++
+ 5 files changed, 57 insertions(+), 79 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bind/bind/0001-configure.in-remove-useless-L-use_openssl-lib.patch
+ rename meta/recipes-connectivity/bind/{bind_9.11.13.bb => bind_9.16.0.bb} (77%)
+ create mode 100644 meta/recipes-connectivity/libuv/libuv_1.34.0.bb
 
-PS: better to ask on LTP ML, Cc Cyril and me.
+-- 
+2.17.1
+
 
