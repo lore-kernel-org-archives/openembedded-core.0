@@ -1,49 +1,43 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
-	[209.85.214.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E7266114E
+Return-Path: <zboszor@pr.hu>
+Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 25AD16116B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 04:26:59 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id u3so592861plr.9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 20:27:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=tTRkdWok7lLZ+UCyZPISqQqLQG9tkbT169CC4aHywp4=;
-	b=dHujN0mbIXOKDymCFA9FvQ+i/GmbE1Tf0J+VKSUuUqhPS9yMDtpSgzsmjF640mLb36
-	sajVCo9w3t+FW5gDWP3WG3al4uTX7rainVPGEf8BiMA31rd9DbgMFk/HMNNjza4f9eBH
-	o+IzDclkwaoCByCaA+fB0W7Eana6UvbQzYLrupZHWd//MfDpdtVwngyUDXnRdoMsql4o
-	0pcHZVGi0sh4NZmTXDTOYJP37QPeGZtQkNvVcrhFxq/mfmmQpvt0F2dGmi8wTLKooz9a
-	7s4flLyUNsfej9XrSHRiF/lFD/xO5WZBk2m2HDc1PgGITpp9grUKQZ6Dp1OxMtFZN0fo
-	9oDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=tTRkdWok7lLZ+UCyZPISqQqLQG9tkbT169CC4aHywp4=;
-	b=h6qnbhrvaN4srwDLaA8UMsNNsEt6CPqcSY2Ia0F2x2nsYXqfnnnDvXAxMHCRdgXhuw
-	atKgNEwS6hG7TZxQM/jVDMEbyL5SjZ+ND6Dn5yWZE3gUXtY7QK12m6xzQGPo9Tic9O16
-	5YGgWogAxwFekxtzKfqC6nLAh/oxt6EerFs+P9fO/neUHQfUZGXpCT+vSbV6L9XfDD6f
-	Y61RxsDZA2Hb+x0HchgwdPdbywQRVBggFurDKcNcwLGkPWQYKqhO9/KkGqFahHZh8DfT
-	mp8hhD1BPp3ZIx22AI0WgIAnGKNrRioGGBZjimsqp6dcr1FhAOude/+ddHF2uV4EAFhl
-	4OlA==
-X-Gm-Message-State: APjAAAVjhCYsqf4heL4ebwkpRiJN8r2PxEYo0RnI9O5D07G3eOdWEpGQ
-	evj9+dsHOoX8JmkHuXOYNPNPCp7W
-X-Google-Smtp-Source: APXvYqweiMfsNUynSvO98Fh3N0NiwusOajVhWA4xn06x2JwSqDG1plf6y+UB1/suMC6D7s4GD9IGMA==
-X-Received: by 2002:a17:90a:f88:: with SMTP id 8mr2892900pjz.72.1582777620730; 
-	Wed, 26 Feb 2020 20:27:00 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:a5c0:d4d7:dcae:4398:bb3c])
-	by smtp.gmail.com with ESMTPSA id
-	z27sm4985754pfj.107.2020.02.26.20.26.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 26 Feb 2020 20:27:00 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
+	Thu, 27 Feb 2020 05:25:01 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>) id 1j7BfS-00077F-Jp
+	for openembedded-core@lists.openembedded.org;
+	Thu, 27 Feb 2020 06:25:02 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=9JSZxq9gnx7cZeC95R3jAz9qnNgbRZpvhRYSsBdhiaM=;
+	b=ACPfVj0g72I1R58kVOij5WJIuN
+	YQWH1YTsmCHApzUq5lucvuvClokPgXuoo4QeuOa3oJqaOl5VF2ZJbRpd1ru8mez6WekcFfR/hXoGd
+	iOwMVYdCofT34+tWrtUmCnje9uQ0BysiQKzsjRJc+eSaR1icBbACTVXLGitdHbrXkkshuq4eXDJD4
+	S5tIvf2U34nP4IDX9M346i1eOyeVx8M0NLGfJmiIyt9KE6uZMJZkRQy0rwpCvUgbR0XKKubpbDVxC
+	/SDfxykMbA1jRowwmNINkW3sI5M/AMWCEVb7CuHhW+0O6CDrijpl8oHkHvq1rAmo0K6TMEAArmEp8
+	Af65sdHA==;
+Received: from host-87-242-33-197.prtelecom.hu ([87.242.33.197]
+	helo=zolilaptop.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1j7BfO-00020C-BN; Thu, 27 Feb 2020 06:25:00 +0100
+From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Feb 2020 20:26:58 -0800
-Message-Id: <20200227042658.19619-1-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] wic: Add include-dir option
+Date: Thu, 27 Feb 2020 06:24:46 +0100
+Message-Id: <20200227052448.65435-3-zboszor@pr.hu>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200227052448.65435-1-zboszor@pr.hu>
+References: <20200227052448.65435-1-zboszor@pr.hu>
+MIME-Version: 1.0
+X-Spam-Score: -1.9 (-)
+X-Scan-Signature: c6025692b75800ad60ff0631e8044444
+X-Spam-Tracer: backend.mail.pr.hu -1.9 20200227052500Z
+Subject: [PATCH v2 2/4] libva-initial: New bootstrap recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,86 +50,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 04:27:00 -0000
+X-List-Received-Date: Thu, 27 Feb 2020 05:25:04 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This option allows for the inclusion of a single directory
-for a partition.
+Mesa needs libva.pc and libva headers to enable the VAAPI
+state tracker and drivers.
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+This recipe is a variant of the full libva package build as in:
+* it only depends on libdrm to build so it doesn't introduce
+  the circular dependency between mesa and libva, and
+* it doesn't include the libraries in the final package.
+
+However, there is another issue with build dependency handling
+in Yocto. libva depends on mesa and mesa depends on this package.
+Any package that depends on libva therefore would pull in libva
+and this package resulting in an error in the prepare-sysroot
+phase because they would install identical files into the
+per-recipe sysroot.
+
+Using the package name "*-initial" avoids this because of the
+interaction between sstate.bbclass and staging.bbclass: any
+package with the pattern "*-initial" in the name is excluded
+from the dependency list unless explicitly added to DEPENDS.
+
+Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
 ---
- scripts/lib/wic/help.py                  |  3 +++
- scripts/lib/wic/ksparser.py              |  1 +
- scripts/lib/wic/partition.py             |  1 +
- scripts/lib/wic/plugins/source/rootfs.py | 10 ++++++++--
- 4 files changed, 13 insertions(+), 2 deletions(-)
+v2: The include file is not versioned, more verbose commit message
 
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 4d342fcf05..517f68e11e 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -979,6 +979,9 @@ DESCRIPTION
-                          copies. This option only has an effect with the rootfs
-                          source plugin.
- 
-+         --include-dir: This option is specific to wic. It adds the contents
-+                        of the given directory to the resulting partition. 
+ meta/recipes-graphics/libva/libva-initial_2.6.1.bb | 9 +++++++++
+ meta/recipes-graphics/libva/libva.inc              | 4 +++-
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/libva/libva-initial_2.6.1.bb
+
+diff --git a/meta/recipes-graphics/libva/libva-initial_2.6.1.bb b/meta/recipes-graphics/libva/libva-initial_2.6.1.bb
+new file mode 100644
+index 0000000000..a3b04eb02a
+--- /dev/null
++++ b/meta/recipes-graphics/libva/libva-initial_2.6.1.bb
+@@ -0,0 +1,9 @@
++require libva.inc
 +
-          --extra-space: This option is specific to wic. It adds extra
-                         space after the space filled by the content
-                         of the partition. The final size can go
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 650b976223..b8abc33c87 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -138,6 +138,7 @@ class KickStart():
-         part.add_argument('--align', type=int)
-         part.add_argument('--exclude-path', nargs='+')
-         part.add_argument('--include-path', nargs='+')
-+        part.add_argument('--include-dir')
-         part.add_argument("--extra-space", type=sizetype)
-         part.add_argument('--fsoptions', dest='fsopts')
-         part.add_argument('--fstype', default='vfat',
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 2d95f78439..0b735fffd9 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -31,6 +31,7 @@ class Partition():
-         self.extra_space = args.extra_space
-         self.exclude_path = args.exclude_path
-         self.include_path = args.include_path
-+        self.include_dir = args.include_dir
-         self.fsopts = args.fsopts
-         self.fstype = args.fstype
-         self.label = args.label
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index 705aeb5563..d1c59cab8a 100644
---- a/scripts/lib/wic/plugins/source/rootfs.py
-+++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -71,7 +71,7 @@ class RootfsPlugin(SourcePlugin):
- 
-         new_rootfs = None
-         # Handle excluded paths.
--        if part.exclude_path or part.include_path:
-+        if part.exclude_path or part.include_path or part.include_dir:
-             # We need a new rootfs directory we can delete files from. Copy to
-             # workdir.
-             new_rootfs = os.path.realpath(os.path.join(cr_workdir, "rootfs%d" % part.lineno))
-@@ -79,7 +79,13 @@ class RootfsPlugin(SourcePlugin):
-             if os.path.lexists(new_rootfs):
-                 shutil.rmtree(os.path.join(new_rootfs))
- 
--            copyhardlinktree(part.rootfs_dir, new_rootfs)
-+            if part.include_dir:
-+                src = os.path.realpath(os.path.join(part.rootfs_dir, part.include_dir))
-+                dst = os.path.realpath(os.path.join(new_rootfs, part.include_dir))
-+                copyhardlinktree(src, dst)
++LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
++SRC_URI[md5sum] = "aef13eb48e01a47d1416d97462a22a11"
++SRC_URI[sha256sum] = "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e48629401eaea5"
 +
-+            else:
-+                copyhardlinktree(part.rootfs_dir, new_rootfs)
++do_install_append () {
++	rm -f ${D}${libdir}/*.so*
++}
+diff --git a/meta/recipes-graphics/libva/libva.inc b/meta/recipes-graphics/libva/libva.inc
+index 058581f7d1..6a3427b5b1 100644
+--- a/meta/recipes-graphics/libva/libva.inc
++++ b/meta/recipes-graphics/libva/libva.inc
+@@ -16,7 +16,9 @@ BUGTRACKER = "https://github.com/intel/libva/issues"
+ SECTION = "x11"
+ LICENSE = "MIT"
  
-             for path in part.include_path or []:
-                 copyhardlinktree(path, new_rootfs)
+-SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2"
++SRC_URI = "https://github.com/intel/libva/releases/download/${PV}/libva-${PV}.tar.bz2"
++
++S = "${WORKDIR}/libva-${PV}"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
+ 
 -- 
-2.17.1
+2.24.1
 
 
