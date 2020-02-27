@@ -1,30 +1,47 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BAD31618E0
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E73E8618A1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 23:43:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01RNfuQq017517
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 27 Feb 2020 15:42:26 -0800
-Received: from [128.224.23.162] (128.224.23.162) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Thu, 27 Feb 2020 15:41:57 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <20200226183902.3616626-1-trevor.gamblin@windriver.com>
-	<d3d3f4a4-e792-397c-4444-c39630afaf74@windriver.com>
-	<2fd5b0c062bfee215cd7a4d15789a20293cee8aa.camel@linuxfoundation.org>
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-Message-ID: <6ac82a00-615a-4cc5-c4b9-46f37e12bbac@windriver.com>
-Date: Thu, 27 Feb 2020 18:41:49 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	Thu, 27 Feb 2020 23:46:50 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id x18so861550vsq.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Feb 2020 15:46:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=pcKiDrJrrloCWvVZuk+YWCUxqTX5F0SJA9Yx5dH6k78=;
+	b=qesHcEZQ6/JibKKVqPqY6oFtJsUso3Y/0FU5fO5pP4/0ohhNpYjbgpArlSxGn/mtFs
+	ZMjhgqSe7ISjAMpxS+2pxucoDhFB45nUiqEDEl81ejCo0tkZbFyHoAQbONl3pk8VIeCV
+	CvOi7OdWgvmao6RplAYdZrNKR0BjhJkYjtLThLK+zTzI3XldFW++QU65S8TlYIKnfn5l
+	L+5Z1BhXOzWbGcOSTVcq1R5TfzVZiyTfI+zUpK45uANnjdIUBxQIFw+/SJfI/8WjzeoC
+	bDpnxsZuoQCVskINa5QPiuksMhYurTjXvFV9/KhLYtPHwcV9xnsxP74GdBz3N0OpV51W
+	Jotg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=pcKiDrJrrloCWvVZuk+YWCUxqTX5F0SJA9Yx5dH6k78=;
+	b=BxbuHLbIGnMQQWZDdNdjVmEwComvnZw9WfKKDnw78+mIDT8IEYg2gVGDnQmeZS2oVw
+	+p+c7y4ZNgyIwGC5ujHw8+hlmjjMN24dEarDMfe7bcDSUaIg6YeVhjPbom+KuPi24mc0
+	jR6dUgOWxYuurJtON25wFdT6dyA+pj3H0fIEUQmdU19rwzXeu0Rn+DzW4DA1L16Osv2u
+	9bhTCkRgHd8DOkAUabd9VXupr2A8QCvqTiqJWmucEf7UilOU7m7NjCk6DuiBHMDzLD1H
+	2pQydzCqJ2866NGnLryrJPfoPq7DxP4n4PBt+ExdbuEmt9eNxGdew5mAkh4FBsK0a7HJ
+	Zbgg==
+X-Gm-Message-State: ANhLgQ20+NJr04Tnf9i/Icnx97rCC3t9P0JilAuGHmhqP0UGH3t+003m
+	okXL/QQ545dPEV+bGoJ8mCID0L8Xlo+0mG+zEnk=
+X-Google-Smtp-Source: ADFU+vvUqFqRYJ0jNiYYcWLb/NF9nXJBNtCnMRCAogufam0A2WEeQ1P5FcTGv8EHpu14w43aSKbRMo0hTdIMPDyf20A=
+X-Received: by 2002:a67:e3c3:: with SMTP id k3mr1089929vsm.137.1582847211697; 
+	Thu, 27 Feb 2020 15:46:51 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <2fd5b0c062bfee215cd7a4d15789a20293cee8aa.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.23.162]
-Subject: Re: [PATCH] libgpg-error: upgrade 1.36 -> 1.37
+References: <20200227080558.3819138-1-raj.khem@gmail.com>
+	<20200227080558.3819138-3-raj.khem@gmail.com>
+In-Reply-To: <20200227080558.3819138-3-raj.khem@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 27 Feb 2020 15:46:38 -0800
+Message-ID: <CAJ86T=Ubo7SCy7an3X_edpHrYLaMaJZJ4qEGgb-27YNRb2vPsQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] systemd: Do not force removing resolved from PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,27 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 23:43:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 27 Feb 2020 23:46:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-
-On 2/27/20 6:14 PM, Richard Purdie wrote:
-> On Thu, 2020-02-27 at 11:24 -0500, Trevor Gamblin wrote:
->> Looks like I got beat by a day!
-> Does your version work on x32 though? :)
+On Thu, Feb 27, 2020 at 12:06 AM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> We need one that does...
-
-They look the same, unfortunately.
-
-Will take a look in between some other tasks, unless Alex gets to it 
-first (he usually does, that guy's a machine).
-
+> This needs __UAPI_DEF_ETHHDR to be set to 0 which now
+> taken care by CFLAGS
 >
-> Cheers,
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/systemd/systemd_244.3.bb | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> Richard
+> diff --git a/meta/recipes-core/systemd/systemd_244.3.bb b/meta/recipes-core/systemd/systemd_244.3.bb
+> index 5d863410b8..e7d2997963 100644
+> --- a/meta/recipes-core/systemd/systemd_244.3.bb
+> +++ b/meta/recipes-core/systemd/systemd_244.3.bb
+> @@ -98,12 +98,13 @@ PACKAGECONFIG_remove_libc-musl = " \
+>      nss \
+>      nss-mymachines \
+>      nss-resolve \
+> -    resolved \
+>      smack \
+>      sysusers \
+>      utmp \
+>  "
 >
+> +CFLAGS_append_libc-musl = "-D__UAPI_DEF_ETHHDR=0 "
+
+Should have a leading space (and no trailing space).
+
+>  # Use the upstream systemd serial-getty@.service and rely on
+>  # systemd-getty-generator instead of using the OE-core specific
+>  # systemd-serialgetty.bb - not enabled by default.
+> --
+> 2.25.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
