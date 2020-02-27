@@ -1,55 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D69D61892
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id F1EC8618B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 23:26:57 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id i10so6959768wmd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 15:26:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=v+yNW84pzuNt87WEt/21VGTumAqcz8NImmTXtIm/ktw=;
-	b=I36Zsd1VCCLrxh+YL1HuVXLR4a5Mm50uyXBRpFrGTu5uvZNox2Hr4tysLxInjddS6z
-	qQNwRY1wbI0iSbyUEbrjWGllMBikoslVFERoJGnNbZ00k1rSebeDf352012YFv5j3rD0
-	DnQ37VoHJ3jEXPsoJFOwPUkr7PGsa92aX1rfo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=v+yNW84pzuNt87WEt/21VGTumAqcz8NImmTXtIm/ktw=;
-	b=ulGdgyl5S3GKABh2TZ7Ctm//Tu9Iaf/NSySZNZ8EroL6inrWaGLGDVvfPQls5KZyu+
-	lIst7mnJMtR1QXo/zxig7fSv+SLv40vB3nuYo3Dq+ElwPuou7fLdkIQrGaaTj4i3Yw6l
-	rnD7VzyaMrpA9GcqI0eKcS+SlN8u7N7P7s8A332QSog/Hpc51C2CYXkmuWQAovhctykm
-	x5omsYJe+la6kT64zB8NCAa2MDTboZRxFDF9jtcdHNpT/IWxis+P8Ei/RnKFtEM/cwdo
-	E6fVl8qTLn55h9RZE/8iYHDGKVeUyKucE7tI8MlMSlIImPQmbtFkfJk11RAqbrnSsRs7
-	qrRA==
-X-Gm-Message-State: APjAAAXQ90KPACFbYd+CsKRolxx7Dv6Rng8cK5qkfAP5V9bZKX7PQQXR
-	AbNxgXzi/NbpzOyo+iC7R0y2pA==
-X-Google-Smtp-Source: APXvYqyQOx1Mh8BN8quXiDhAed/aYAWulKEKhVa3Mb/ZyWuR7rr+nf/aqyk54sCOnNEkg3jdwK61ag==
-X-Received: by 2002:a05:600c:414e:: with SMTP id
-	h14mr1072184wmm.179.1582846018703; 
-	Thu, 27 Feb 2020 15:26:58 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	h13sm10619688wrw.54.2020.02.27.15.26.54
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 27 Feb 2020 15:26:58 -0800 (PST)
-Message-ID: <a0aceaefac62b9b582f8dba155f5d6118d096bea.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Trevor Gamblin
-	<trevor.gamblin@windriver.com>
-Date: Thu, 27 Feb 2020 23:26:49 +0000
-In-Reply-To: <CANNYZj-EJ8kzbvRd5fnb2HKGUHFVnmnZfMfta99cFxO+q8Abpw@mail.gmail.com>
-References: <20200226180746.121476-1-trevor.gamblin@windriver.com>
-	<20200226180746.121476-2-trevor.gamblin@windriver.com>
-	<CANNYZj-EJ8kzbvRd5fnb2HKGUHFVnmnZfMfta99cFxO+q8Abpw@mail.gmail.com>
-User-Agent: Evolution 3.34.1-4 
+	Thu, 27 Feb 2020 23:42:51 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2020 15:42:52 -0800
+X-IronPort-AV: E=Sophos;i="5.70,493,1574150400"; d="scan'208";a="232045458"
+Received: from anmitta2-mobl.gar.corp.intel.com (HELO [10.255.173.208])
+	([10.255.173.208])
+	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
+	27 Feb 2020 15:42:50 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	bruce.ashfield@gmail.com
+References: <20200224200202.61426-1-bruce.ashfield@gmail.com>
+	<beec08fcb1f0b492dced91217f2fdd598228f87a.camel@linuxfoundation.org>
+From: Anuj Mittal <anuj.mittal@intel.com>
+Message-ID: <1a0c08fc-2643-2d32-86f2-77ed17ea05e9@intel.com>
+Date: Fri, 28 Feb 2020 07:42:48 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2 v3] coreutils: add ptest
+In-Reply-To: <beec08fcb1f0b492dced91217f2fdd598228f87a.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] linux-yocto/5.2: update to v5.2.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,26 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 23:26:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 27 Feb 2020 23:42:53 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-02-26 at 19:13 +0100, Alexander Kanavin wrote:
-> valgrind, gdb and strace are already pulled into core-image-sato-sdk-
-> ptest (the one that runs the slow ptests on the AB), so there is no
-> harm in adding them here as well.
-
-Actually, there is.
-
-Adding valgrind to the RDEPENDS of coreutils means all builds end up
-needing to include valgrind. We really don't want that.
-
-I know this is bad but it is the way dependencies work today :(
-
-Cheers,
-
-Richard
 
 
+On 26-Feb-20 12:47 PM, Richard Purdie wrote:
+> On Mon, 2020-02-24 at 15:02 -0500, bruce.ashfield@gmail.com wrote:
+>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>>
+>> Updating linux-yocto/5.2 to the latest korg -stable release that
+>> comprises
+>> the following commits:
+> 
+> This was included in testing on the autobuilder and we saw:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1612
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/315
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/1616
+> 
+> and I'm not sure if they're from this?
+> 
 
+I had picked this for zeus as well and didn't get this error on 
+autobuilder. The builds failing above are building v5.4 by default. So 
+it doesn't look like it's related.
+
+I am not sure what could be causing this problem though ...
+
+Thanks,
+
+Anuj
 
