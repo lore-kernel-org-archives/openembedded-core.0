@@ -1,31 +1,30 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id F1EC8618B8
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id BAD31618E0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 23:42:51 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2020 15:42:52 -0800
-X-IronPort-AV: E=Sophos;i="5.70,493,1574150400"; d="scan'208";a="232045458"
-Received: from anmitta2-mobl.gar.corp.intel.com (HELO [10.255.173.208])
-	([10.255.173.208])
-	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
-	27 Feb 2020 15:42:50 -0800
+	Thu, 27 Feb 2020 23:43:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01RNfuQq017517
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 27 Feb 2020 15:42:26 -0800
+Received: from [128.224.23.162] (128.224.23.162) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Thu, 27 Feb 2020 15:41:57 -0800
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	bruce.ashfield@gmail.com
-References: <20200224200202.61426-1-bruce.ashfield@gmail.com>
-	<beec08fcb1f0b492dced91217f2fdd598228f87a.camel@linuxfoundation.org>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <1a0c08fc-2643-2d32-86f2-77ed17ea05e9@intel.com>
-Date: Fri, 28 Feb 2020 07:42:48 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	<openembedded-core@lists.openembedded.org>
+References: <20200226183902.3616626-1-trevor.gamblin@windriver.com>
+	<d3d3f4a4-e792-397c-4444-c39630afaf74@windriver.com>
+	<2fd5b0c062bfee215cd7a4d15789a20293cee8aa.camel@linuxfoundation.org>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+Message-ID: <6ac82a00-615a-4cc5-c4b9-46f37e12bbac@windriver.com>
+Date: Thu, 27 Feb 2020 18:41:49 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <beec08fcb1f0b492dced91217f2fdd598228f87a.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-yocto/5.2: update to v5.2.32
+In-Reply-To: <2fd5b0c062bfee215cd7a4d15789a20293cee8aa.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.23.162]
+Subject: Re: [PATCH] libgpg-error: upgrade 1.36 -> 1.37
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,37 +37,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 23:42:53 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Thu, 27 Feb 2020 23:43:09 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
 
+On 2/27/20 6:14 PM, Richard Purdie wrote:
+> On Thu, 2020-02-27 at 11:24 -0500, Trevor Gamblin wrote:
+>> Looks like I got beat by a day!
+> Does your version work on x32 though? :)
+>
+> We need one that does...
 
-On 26-Feb-20 12:47 PM, Richard Purdie wrote:
-> On Mon, 2020-02-24 at 15:02 -0500, bruce.ashfield@gmail.com wrote:
->> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->>
->> Updating linux-yocto/5.2 to the latest korg -stable release that
->> comprises
->> the following commits:
-> 
-> This was included in testing on the autobuilder and we saw:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1612
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/315
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/1616
-> 
-> and I'm not sure if they're from this?
-> 
+They look the same, unfortunately.
 
-I had picked this for zeus as well and didn't get this error on 
-autobuilder. The builds failing above are building v5.4 by default. So 
-it doesn't look like it's related.
+Will take a look in between some other tasks, unless Alex gets to it 
+first (he usually does, that guy's a machine).
 
-I am not sure what could be causing this problem though ...
-
-Thanks,
-
-Anuj
+>
+> Cheers,
+>
+> Richard
+>
 
