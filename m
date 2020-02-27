@@ -1,99 +1,45 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B27AE61135
+Return-Path: <paul.barker@konsulko.com>
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 69A2A61135
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 19:43:20 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id y1so210027plp.7
+	Thu, 27 Feb 2020 19:51:11 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id w6so383579otk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 11:43:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:autocrypt:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=itr6DJPI3XcKWh3fohwQO0dBXU3VlpnyeND+vYv2aTc=;
-	b=F9aL+wVQp+zQ9rCRuewBdoJY1JEnld5uC4UKy5ouoiSxg3ofAfuPq3bztztkE0YqEj
-	ofBztbc8QqEth3hz6bxCwbqINJwIF6T/PZxt7IqjeTK2Tko+uAN3uvhnmGlvTUYPxOjg
-	wyzMq8Gg5mtvUQthOVO+C1UrQdEOwrv47V95aqBaid8UVWIu6DSWf0tER7aJ5IvEhYEo
-	2mokAiSZr8DhLdGjXigNiqIGb4+RtOViWb63DajIzEMniGb91BO4QZWJRzHR22i/Dmxg
-	fP9ia4bBN3jxnmlmosPa8EyisTOrjHLzgy4csMJTBioZshir2SnVnlDUitHKg3jG2peY
-	HUrg==
+	Thu, 27 Feb 2020 11:51:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=8XKWKpnKPWJ9WZfoCcIfSjSd2m/vgCpeU6d95cMq6zM=;
+	b=pmB/lxfhYfx87vqTT57dMgGEewTy76VEmnt8sVvMlntpfGePlNXb1i+GCUOemIiYAf
+	taaJ/tpsAeB+8ts0cjeeCMqAvGygSctSd+iOmO5POs8O0pwC97tjMeR/fB6c0WqO3Cby
+	HmWVnwUS87UQkZ/oZN5697jlL/y58AOqXN6uc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-	:date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=itr6DJPI3XcKWh3fohwQO0dBXU3VlpnyeND+vYv2aTc=;
-	b=EYMDfQndHu+kNKQO8ecKLSXBulH/W8+laxnbRcIlvF24ofu4vkYO/zILAEq20VjjA6
-	eJIswLX/ek8P7ExoO1gx9L8K19XMdTEnsv/EXIVsa81SHz73J/I6zWEeU8/VHsUFvltL
-	htdQJoeTJoNgxGmMtSst0hAxwLwBdrb3qAJD7n6jbbza0dhQigfT6h8ZOMbwCm6eJbri
-	UJ9NGT4MQqxLw+5YFXGPUTSzHcqVZgyZ52iev5eDyVpdQDU2WXasosYLo3qhEh/p9c1V
-	M4InE4fOAzSMD0Ti26y88fhWA1540UlN0haCCbDb7+Se4jLvuUkh0/1lSU9y3GXQCBvW
-	5gag==
-X-Gm-Message-State: APjAAAUcCwH2/lZr1Or6WBO3b8/Zj7Dn9To3B5hT0QkXD0weQy3IPh7p
-	pMjaFPL8sWzTZ61jQvjgA+ad66SW
-X-Google-Smtp-Source: APXvYqzyflMYG0+z9chSpF/oFOhuvFKbVS0V+5Y5Ehpm2eE3TfIVkLvoiUDrn9VKbYIyWxwdiIY4rg==
-X-Received: by 2002:a17:902:9a06:: with SMTP id
-	v6mr376364plp.304.1582832601448; 
-	Thu, 27 Feb 2020 11:43:21 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:3d0b:bd00:40e0:2589?
-	([2601:202:4180:a5c0:3d0b:bd00:40e0:2589])
-	by smtp.gmail.com with ESMTPSA id y3sm8285655pff.52.2020.02.27.11.43.20
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 27 Feb 2020 11:43:20 -0800 (PST)
-To: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>,
-	openembedded-core@lists.openembedded.org
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=8XKWKpnKPWJ9WZfoCcIfSjSd2m/vgCpeU6d95cMq6zM=;
+	b=BDWHQw1b/LCy8fYI7sKzX75pyhbW3zkmbkkTwvRoYXpyRgbnWaqFxeSDsiybBDt+Dd
+	qsc+a35IQOD/PtUoEXiXWCzbOa5g8p/pAEQhvKTl6c+UwQUxaM81GtB0rfYhLqWpvZiK
+	0to/D8QDQ5PKIMe5SuiEPL+zZ7IGjGl9mHro+fYpUP5YscXX936a66slqaAgiR4Aeero
+	Jb3d+SRqQaYL6rZq5s/QybvUDS5ZnsNysFNtr34YUgytfEN6FaVEZr41BZnmqE+EEy3K
+	E9EQehOvwhDYDK/+C6u0+8F/atRV9fdUiHsCD1aHPlE9yspZ0CgmY6tOEbI04AFSNjyD
+	0IZw==
+X-Gm-Message-State: APjAAAXFmjuOvRiu4JsNeNIx9WH8kiGiU8hqXVkywi9GrPIaXl5n4e7p
+	zhwgWuDMMV9oXQAhaDBV+lJUmWI/xLphA5P46T2rsg==
+X-Google-Smtp-Source: APXvYqwN7tZX2qfe/GNSuCVIFgKy4E1R1cdgsirduUpLia7f06G5Y5hZf4SBT3Dhj4PSyCGnwsYKUkHMQcPT8XelvFQ=
+X-Received: by 2002:a9d:6a06:: with SMTP id g6mr381135otn.305.1582833072224;
+	Thu, 27 Feb 2020 11:51:12 -0800 (PST)
+MIME-Version: 1.0
 References: <20200227042658.19619-1-akuster808@gmail.com>
 	<312d477b-f5f5-16df-7867-c5c9f5619abb@geanix.com>
-From: akuster808 <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <4e4b134c-3ac1-814b-5055-3a539904f52e@gmail.com>
-Date: Thu, 27 Feb 2020 11:43:19 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <312d477b-f5f5-16df-7867-c5c9f5619abb@geanix.com>
+	<4e4b134c-3ac1-814b-5055-3a539904f52e@gmail.com>
+In-Reply-To: <4e4b134c-3ac1-814b-5055-3a539904f52e@gmail.com>
+From: Paul Barker <pbarker@konsulko.com>
+Date: Thu, 27 Feb 2020 19:50:59 +0000
+Message-ID: <CAM9ZRVtM2Yy3KEKtNue+8PV9bp1q+JmXinFDb1LoBp4a13_6qA@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] wic: Add include-dir option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -107,110 +53,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 19:43:20 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: base64
-Content-Language: en-US
+X-List-Received-Date: Thu, 27 Feb 2020 19:51:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-CgpPbiAyLzI3LzIwIDEyOjEyIEFNLCBNYXJ0aW4gSHVuZGViw7hsbCB3cm90ZToKPiBIaSBB
-cm1pbiwKPgo+IE9uIDI3LzAyLzIwMjAgMDUuMjYsIEFybWluIEt1c3RlciB3cm90ZToKPj4g
-VGhpcyBvcHRpb24gYWxsb3dzIGZvciB0aGUgaW5jbHVzaW9uIG9mIGEgc2luZ2xlIGRpcmVj
-dG9yeQo+PiBmb3IgYSBwYXJ0aXRpb24uCj4KPiBJIGFtIHVuc3VyZSBob3cgdGhpcyBpcyB1
-c2VkIGluIGEgLndrcyBmaWxlLgpZZWFoLCB0aGUgZG9jdW1lbnRhdGlvbiBkb2VzIG5vdCBj
-b3ZlciB0aGlzLgoKVGhpcyBpcyB3aGF0IEkgdXNlZCB0byB2ZXJpZmllZCBpdCB3b3JrcwoK
-cGFydMKgIC8gLS1zb3VyY2Ugcm9vdGZzIC0tb25kaXNrIG1tY2JsazEgLS1mc3R5cGU9ZXh0
-NCAtLWxhYmVsIHJvb3RmcwotLWFsaWduIDQwOTYgLS1leGNsdWRlLXBhdGg9dmFyCnBhcnTC
-oCAvdmFyIC0tc291cmNlIHJvb3RmcyAtLW9uZGlzayBtbWNibGsxIC0tZnN0eXBlPWV4dDQg
-LS1sYWJlbCB2YXIKLS1hbGlnbiA0MDk2IC0taW5jbHVkZS1kaXI9dmFyCgoKPgo+IEZyb20g
-dGhlIGNvZGUgaXQgbG9va3Mgc2ltaWxhciB0byB0aGUgaW5jbHVkZS1wYXRoIG9wdGlvbiwg
-YnV0Cj4gcmVsYXRpdmUgdG8gdGhlIHJvb3RmcyBzb3VyY2UgZGlyIGluc3RlYWQgb2YgdGhl
-IHdpYyB3b3JraW5nIGRpcj8KCnRoZSAtLWluY2x1ZGUtcGF0aCBhZGRzIGFuIGVudGlyZSBy
-b290ZnPCoCB0byB0aGUgcGFydGl0aW9uLiBJIGRvbid0IHdhbnQKdGhlIGFub3RoZXIgcm9v
-dGZzLiBUaGUgaGVscCBmaWxlIGV2ZW4gc2F5cyB0aGF0LsKgIEkgd2FudCBvbiBkaXJlY3Rv
-cnkuCi0tZXhjbHVkZS1kaXIgYWxsb3dzIG1lIHRvICJleGNsdWRlIiBhIGRpciAuCgoKSSB1
-c2VkIHdpYyBscyB7cGF0aCB0byBwYXJ0aXRpb259OntwYXJ0aXRpb24gbnVtYmVyfcKgIHRv
-IHZpZXcgdGhlCmNvbnRlbnRzwqAgb2YgdGhlIHBhcnRpdGlvbi4KCj4KPiBCdXQgdGhlIGlu
-Y2x1ZGUtZGlyIHZhbHVlIGlzIGFsc28gdXNlZCBpbiB0aGUgZGVzdGluYXRpb24gcGF0aD8K
-VGhlbiBwbGVhc2UgZG9jdW1lbnQgaXQgYW5kIEkgZG9uJ3QgbWVhbiB0aGUgImhlbHAiIGZp
-bGUgd2hpY2ggaXMgdW5jbGVhci4KClNvIGhvdyB3b3VsZCB5b3UgaGF2ZSAiaG9tZSIgb3Ig
-InZhciIgYmUgaW4gdGhlaXIgb3duIHBhcnRpdGlvbnM/IFBsZWFzZQpzaG93IGFuIGV4YW1w
-bGUuCgoKLSBhcm1pbgoKPgo+IFRoYW5rcywKPiBNYXJ0aW4KPgo+PiBTaWduZWQtb2ZmLWJ5
-OiBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgo+PiAtLS0KPj4gwqAgc2Ny
-aXB0cy9saWIvd2ljL2hlbHAucHnCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IHzCoCAzICsrKwo+PiDCoCBzY3JpcHRzL2xpYi93aWMva3NwYXJzZXIucHnCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCB8wqAgMSArCj4+IMKgIHNjcmlwdHMvbGliL3dpYy9wYXJ0aXRp
-b24ucHnCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDEgKwo+PiDCoCBzY3JpcHRzL2xp
-Yi93aWMvcGx1Z2lucy9zb3VyY2Uvcm9vdGZzLnB5IHwgMTAgKysrKysrKystLQo+PiDCoCA0
-IGZpbGVzIGNoYW5nZWQsIDEzIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCj4+Cj4+
-IGRpZmYgLS1naXQgYS9zY3JpcHRzL2xpYi93aWMvaGVscC5weSBiL3NjcmlwdHMvbGliL3dp
-Yy9oZWxwLnB5Cj4+IGluZGV4IDRkMzQyZmNmMDUuLjUxN2Y2OGUxMWUgMTAwNjQ0Cj4+IC0t
-LSBhL3NjcmlwdHMvbGliL3dpYy9oZWxwLnB5Cj4+ICsrKyBiL3NjcmlwdHMvbGliL3dpYy9o
-ZWxwLnB5Cj4+IEBAIC05NzksNiArOTc5LDkgQEAgREVTQ1JJUFRJT04KPj4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb3BpZXMuIFRo
-aXMgb3B0aW9uIG9ubHkgaGFzIGFuIGVmZmVjdAo+PiB3aXRoIHRoZSByb290ZnMKPj4gwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzb3Vy
-Y2UgcGx1Z2luLgo+PiDCoCArwqDCoMKgwqDCoMKgwqDCoCAtLWluY2x1ZGUtZGlyOiBUaGlz
-IG9wdGlvbiBpcyBzcGVjaWZpYyB0byB3aWMuIEl0IGFkZHMKPj4gdGhlIGNvbnRlbnRzCj4+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG9mIHRo
-ZSBnaXZlbiBkaXJlY3RvcnkgdG8gdGhlIHJlc3VsdGluZwo+PiBwYXJ0aXRpb24uCj4+ICsK
-Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqAgLS1leHRyYS1zcGFjZTogVGhpcyBvcHRpb24gaXMg
-c3BlY2lmaWMgdG8gd2ljLiBJdCBhZGRzIGV4dHJhCj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNwYWNlIGFmdGVyIHRoZSBzcGFjZSBm
-aWxsZWQgYnkgdGhlIGNvbnRlbnQKPj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgb2YgdGhlIHBhcnRpdGlvbi4gVGhlIGZpbmFsIHNpemUg
-Y2FuIGdvCj4+IGRpZmYgLS1naXQgYS9zY3JpcHRzL2xpYi93aWMva3NwYXJzZXIucHkgYi9z
-Y3JpcHRzL2xpYi93aWMva3NwYXJzZXIucHkKPj4gaW5kZXggNjUwYjk3NjIyMy4uYjhhYmMz
-M2M4NyAxMDA2NDQKPj4gLS0tIGEvc2NyaXB0cy9saWIvd2ljL2tzcGFyc2VyLnB5Cj4+ICsr
-KyBiL3NjcmlwdHMvbGliL3dpYy9rc3BhcnNlci5weQo+PiBAQCAtMTM4LDYgKzEzOCw3IEBA
-IGNsYXNzIEtpY2tTdGFydCgpOgo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcGFydC5hZGRfYXJn
-dW1lbnQoJy0tYWxpZ24nLCB0eXBlPWludCkKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHBhcnQu
-YWRkX2FyZ3VtZW50KCctLWV4Y2x1ZGUtcGF0aCcsIG5hcmdzPScrJykKPj4gwqDCoMKgwqDC
-oMKgwqDCoMKgIHBhcnQuYWRkX2FyZ3VtZW50KCctLWluY2x1ZGUtcGF0aCcsIG5hcmdzPScr
-JykKPj4gK8KgwqDCoMKgwqDCoMKgIHBhcnQuYWRkX2FyZ3VtZW50KCctLWluY2x1ZGUtZGly
-JykKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHBhcnQuYWRkX2FyZ3VtZW50KCItLWV4dHJhLXNw
-YWNlIiwgdHlwZT1zaXpldHlwZSkKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHBhcnQuYWRkX2Fy
-Z3VtZW50KCctLWZzb3B0aW9ucycsIGRlc3Q9J2Zzb3B0cycpCj4+IMKgwqDCoMKgwqDCoMKg
-wqDCoCBwYXJ0LmFkZF9hcmd1bWVudCgnLS1mc3R5cGUnLCBkZWZhdWx0PSd2ZmF0JywKPj4g
-ZGlmZiAtLWdpdCBhL3NjcmlwdHMvbGliL3dpYy9wYXJ0aXRpb24ucHkgYi9zY3JpcHRzL2xp
-Yi93aWMvcGFydGl0aW9uLnB5Cj4+IGluZGV4IDJkOTVmNzg0MzkuLjBiNzM1ZmZmZDkgMTAw
-NjQ0Cj4+IC0tLSBhL3NjcmlwdHMvbGliL3dpYy9wYXJ0aXRpb24ucHkKPj4gKysrIGIvc2Ny
-aXB0cy9saWIvd2ljL3BhcnRpdGlvbi5weQo+PiBAQCAtMzEsNiArMzEsNyBAQCBjbGFzcyBQ
-YXJ0aXRpb24oKToKPj4gwqDCoMKgwqDCoMKgwqDCoMKgIHNlbGYuZXh0cmFfc3BhY2UgPSBh
-cmdzLmV4dHJhX3NwYWNlCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBzZWxmLmV4Y2x1ZGVfcGF0
-aCA9IGFyZ3MuZXhjbHVkZV9wYXRoCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCBzZWxmLmluY2x1
-ZGVfcGF0aCA9IGFyZ3MuaW5jbHVkZV9wYXRoCj4+ICvCoMKgwqDCoMKgwqDCoCBzZWxmLmlu
-Y2x1ZGVfZGlyID0gYXJncy5pbmNsdWRlX2Rpcgo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgc2Vs
-Zi5mc29wdHMgPSBhcmdzLmZzb3B0cwo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5mc3R5
-cGUgPSBhcmdzLmZzdHlwZQo+PiDCoMKgwqDCoMKgwqDCoMKgwqAgc2VsZi5sYWJlbCA9IGFy
-Z3MubGFiZWwKPj4gZGlmZiAtLWdpdCBhL3NjcmlwdHMvbGliL3dpYy9wbHVnaW5zL3NvdXJj
-ZS9yb290ZnMucHkKPj4gYi9zY3JpcHRzL2xpYi93aWMvcGx1Z2lucy9zb3VyY2Uvcm9vdGZz
-LnB5Cj4+IGluZGV4IDcwNWFlYjU1NjMuLmQxYzU5Y2FiOGEgMTAwNjQ0Cj4+IC0tLSBhL3Nj
-cmlwdHMvbGliL3dpYy9wbHVnaW5zL3NvdXJjZS9yb290ZnMucHkKPj4gKysrIGIvc2NyaXB0
-cy9saWIvd2ljL3BsdWdpbnMvc291cmNlL3Jvb3Rmcy5weQo+PiBAQCAtNzEsNyArNzEsNyBA
-QCBjbGFzcyBSb290ZnNQbHVnaW4oU291cmNlUGx1Z2luKToKPj4gwqAgwqDCoMKgwqDCoMKg
-wqDCoMKgIG5ld19yb290ZnMgPSBOb25lCj4+IMKgwqDCoMKgwqDCoMKgwqDCoCAjIEhhbmRs
-ZSBleGNsdWRlZCBwYXRocy4KPj4gLcKgwqDCoMKgwqDCoMKgIGlmIHBhcnQuZXhjbHVkZV9w
-YXRoIG9yIHBhcnQuaW5jbHVkZV9wYXRoOgo+PiArwqDCoMKgwqDCoMKgwqAgaWYgcGFydC5l
-eGNsdWRlX3BhdGggb3IgcGFydC5pbmNsdWRlX3BhdGggb3IgcGFydC5pbmNsdWRlX2RpcjoK
-Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBXZSBuZWVkIGEgbmV3IHJvb3RmcyBk
-aXJlY3Rvcnkgd2UgY2FuIGRlbGV0ZSBmaWxlcwo+PiBmcm9tLiBDb3B5IHRvCj4+IMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgICMgd29ya2Rpci4KPj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgbmV3X3Jvb3RmcyA9IG9zLnBhdGgucmVhbHBhdGgob3MucGF0aC5qb2luKGNy
-X3dvcmtkaXIsCj4+ICJyb290ZnMlZCIgJSBwYXJ0LmxpbmVubykpCj4+IEBAIC03OSw3ICs3
-OSwxMyBAQCBjbGFzcyBSb290ZnNQbHVnaW4oU291cmNlUGx1Z2luKToKPj4gwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgaWYgb3MucGF0aC5sZXhpc3RzKG5ld19yb290ZnMpOgo+PiDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNodXRpbC5ybXRyZWUob3MucGF0
-aC5qb2luKG5ld19yb290ZnMpKQo+PiDCoCAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBjb3B5
-aGFyZGxpbmt0cmVlKHBhcnQucm9vdGZzX2RpciwgbmV3X3Jvb3RmcykKPj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgaWYgcGFydC5pbmNsdWRlX2RpcjoKPj4gK8KgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBzcmMgPSBvcy5wYXRoLnJlYWxwYXRoKG9zLnBhdGguam9pbihw
-YXJ0LnJvb3Rmc19kaXIsCj4+IHBhcnQuaW5jbHVkZV9kaXIpKQo+PiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIGRzdCA9IG9zLnBhdGgucmVhbHBhdGgob3MucGF0aC5qb2lu
-KG5ld19yb290ZnMsCj4+IHBhcnQuaW5jbHVkZV9kaXIpKQo+PiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgIGNvcHloYXJkbGlua3RyZWUoc3JjLCBkc3QpCj4+ICsKPj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgZWxzZToKPj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBjb3B5aGFyZGxpbmt0cmVlKHBhcnQucm9vdGZzX2RpciwgbmV3X3Jvb3RmcykK
-Pj4gwqAgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZm9yIHBhdGggaW4gcGFydC5pbmNs
-dWRlX3BhdGggb3IgW106Cj4+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-Y29weWhhcmRsaW5rdHJlZShwYXRoLCBuZXdfcm9vdGZzKQo+PgoK
+On Thu, 27 Feb 2020 at 19:43, akuster808 <akuster808@gmail.com> wrote:
+>
+>
+>
+> On 2/27/20 12:12 AM, Martin Hundeb=C3=B8ll wrote:
+> > Hi Armin,
+> >
+> > On 27/02/2020 05.26, Armin Kuster wrote:
+> >> This option allows for the inclusion of a single directory
+> >> for a partition.
+> >
+> > I am unsure how this is used in a .wks file.
+> Yeah, the documentation does not cover this.
+>
+> This is what I used to verified it works
+>
+> part  / --source rootfs --ondisk mmcblk1 --fstype=3Dext4 --label rootfs
+> --align 4096 --exclude-path=3Dvar
+> part  /var --source rootfs --ondisk mmcblk1 --fstype=3Dext4 --label var
+> --align 4096 --include-dir=3Dvar
+>
+>
+> >
+> > From the code it looks similar to the include-path option, but
+> > relative to the rootfs source dir instead of the wic working dir?
+>
+> the --include-path adds an entire rootfs  to the partition. I don't want
+> the another rootfs. The help file even says that.  I want on directory.
+> --exclude-dir allows me to "exclude" a dir .
+>
+>
+> I used wic ls {path to partition}:{partition number}  to view the
+> contents  of the partition.
+>
+> >
+> > But the include-dir value is also used in the destination path?
+> Then please document it and I don't mean the "help" file which is unclear=
+.
+>
+> So how would you have "home" or "var" be in their own partitions? Please
+> show an example.
+
+IIRC,
+
+part  / --source rootfs --ondisk mmcblk1 --fstype=3Dext4 --label rootfs
+--align 4096 --exclude-path=3Dvar
+part  /var --source rootfs --ondisk mmcblk1 --fstype=3Dext4 --label var
+--align 4096 --rootfs-dir=3D${IMAGE_ROOTFS}/var
+
+For an example see scripts/lib/wic/canned-wks/efi-bootdisk.wks.in
+
+Thanks,
+Paul
 
