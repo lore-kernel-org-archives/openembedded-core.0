@@ -1,25 +1,41 @@
-Return-Path: <douglas.royds@taitradio.com>
-X-Greylist: delayed 525 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 27 Feb 2020 05:54:52 UTC
-Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id B1C0561178
+Return-Path: <zboszor@pr.hu>
+Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id EFFE3611C2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 05:54:52 +0000 (UTC)
-Received: from [172.16.169.141] (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id D050A22027A;
-	Thu, 27 Feb 2020 18:46:05 +1300 (NZDT)
-To: Jacob Kroon <jacob.kroon@gmail.com>
-References: <8b666dc3-e5a6-0417-82bd-2b15190d223f@gmail.com>
-	<ef5aea58-ef88-61c1-b614-88476f5e747c@gmail.com>
-From: Douglas Royds <douglas.royds@taitradio.com>
-Message-ID: <0319e121-7546-e456-50d6-4b224e87363f@taitradio.com>
-Date: Thu, 27 Feb 2020 18:46:05 +1300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
+	Thu, 27 Feb 2020 06:17:08 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>) id 1j7CTt-0007dj-9O
+	for openembedded-core@lists.openembedded.org;
+	Thu, 27 Feb 2020 07:17:09 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=gOX3oNqegCaXclTQpkmOOYcW4JqKClsoGajucsgc6tg=;
+	b=f4ma2KNqc37p0WY3ulpjEqC0Fz
+	KwfipLNTtCZ3J/G/3QRZ5qdkMtMyF+zM+8m93LOLGdysc+wDAYON6V8Y59EQlqqOO9VvydrWrB2k1
+	dHsHwz5lCvvA4UP5gkyt1olpOgnL17nivDhvEGJGZgZImH8nLRvQIiAdolJeCfkWmeiAEy2kNjxzU
+	z80ScmK6sVD6jzMNPI5gFyIQCbgqWCaMrra1aev1V/jS5q9UO8qAid8EMcZo8r9raf0iwf0mEnqpm
+	C5NNmL+C3Ah1V+tkATcWyeYcS4Cakz7IOBOri5SCpubYQxEp2mePJXdfK2ASHBZncukiz2F1sDXXU
+	PNIA0BZg==;
+Received: from host-87-242-33-197.prtelecom.hu ([87.242.33.197]
+	helo=zolilaptop.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1j7CTp-0007Yk-4v; Thu, 27 Feb 2020 07:17:07 +0100
+From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Feb 2020 07:16:57 +0100
+Message-Id: <20200227061657.66871-1-zboszor@pr.hu>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <ef5aea58-ef88-61c1-b614-88476f5e747c@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Overriding SDE_FILE
+X-Spam-Score: -2.0 (--)
+X-Scan-Signature: e60d8c77b9093fb5a9e5e1cf29f3793d
+X-Spam-Tracer: backend.mail.pr.hu -2.0 20200227061707Z
+Subject: [meta-clang][PATCH] conf/nonclangable.conf: Always build mesa with gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,168 +48,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 05:55:03 -0000
-Content-Type: multipart/alternative;
-	boundary="------------94825962FE03A8A47D243EAD"
-Content-Language: en-GB
+X-List-Received-Date: Thu, 27 Feb 2020 06:17:09 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---------------94825962FE03A8A47D243EAD
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Building mesa (at least version 19.3.4) with clang 9.0.1 leads
+to linker errors on x86/x86-64:
 
-On 26/02/20 4:53 am, Jacob Kroon wrote:
+"undefined reference to `typeinfo for llvm::raw_pwrite_stream'"
+in libvulkan_radeon.so
 
-> On 2/24/20 8:25 AM, Jacob Kroon wrote:
->> Hi Douglas,
->>
->> You updated a comment in reproducible_build.bbclass, commit=20
->> e7b891b76954c784f5a93bd0a1c91315673ce40d:
->>
->>> -# Once the value of SOURCE_DATE_EPOCH is determined, it is stored=20
->>> in the recipe's ${SDE_FILE}.
->>> +# Once the value of SOURCE_DATE_EPOCH is determined, it is stored=20
->>> in the recipe's SDE_FILE.
->>> +# If none of these mechanisms are suitable, replace the=20
->>> do_deploy_source_date_epoch task
->>> +# with recipe-specific functionality to write the appropriate=20
->>> SOURCE_DATE_EPOCH into the SDE_FILE.
->>> +#
->>
->> But I can't really get this to work. What did work for me was to=20
->> replace "do_create_source_date_epoch_stamp()" in my recipe:
->>
->> do_create_source_date_epoch_stamp() {
->> =C2=A0=C2=A0=C2=A0=C2=A0 mkdir -p ${SDE_DIR}
->> =C2=A0=C2=A0=C2=A0=C2=A0 date -d "1981-03-03" "+%s" > ${SDE_FILE}
->> }
->>
->> What is the intended way to achieve the thing I'm trying to do here ?
->>
->
-> FYI, JPEW has a proposed patch here
->
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Djpew/repr=
-oducible&id=3Dd091d2aa53ea417f70c10f5ce89151820c3db9ce=20
->
->
-> for allowing a recipe to just set SOURCE_DATE_EPOCH directly.
->
-> But maybe that currently is at odds with SOURCE_DATE_EPOCH being in=20
-> BB_HASHBASE_WHITELIST ?
->
-> /Jacob
+and
+
+"undefined reference to `typeinfo for llvm::RTDyldMemoryManager'"
+in libgallium.a.
+
+It was reported at https://gitlab.freedesktop.org/mesa/mesa/issues/2533
+
+It seems it is related to rtti not being enabled, at least reports
+from a few years ago on forums lead to that conclusion.
+But enabling rtti for clang in PACKAGECONFIG doesn't help.
+
+Just build mesa with gcc, it fixes the linker errors.
+
+Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
+---
+ conf/nonclangable.conf | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/conf/nonclangable.conf b/conf/nonclangable.conf
+index 70336bb..91b9965 100644
+--- a/conf/nonclangable.conf
++++ b/conf/nonclangable.conf
+@@ -45,10 +45,9 @@ TOOLCHAIN_pn-libssp-nonshared = "gcc"
+ TOOLCHAIN_pn-libstd-rs = "gcc"
+ TOOLCHAIN_pn-m4_powerpc = "gcc"
+ # clang does not have 64bit atomics on mips32
+-TOOLCHAIN_pn-mesa_mips = "gcc"
+-TOOLCHAIN_pn-mesa_mipsel = "gcc"
+-TOOLCHAIN_pn-mesa_riscv64 = "gcc"
+-TOOLCHAIN_pn-mesa_powerpc = "gcc"
++# building Mesa 19.3.x with clang causes linker errors on x86/x86-64
++# See https://gitlab.freedesktop.org/mesa/mesa/issues/2533
++TOOLCHAIN_pn-mesa = "gcc"
+ # multiple definition of 'mongo::error_details::isNamedCode<0>'
+ TOOLCHAIN_pn-mongodb = "gcc"
+ # variant-impl.hpp:309:36: error: 'is_variant' does not name a template but is followed by template arguments
+-- 
+2.24.1
 
 
-On the surface of it, my comment appears to be just wrong: It does make=20
-sense to replace do_create_source_date_epoch_stamp() as you suggest.
-
-Joshua's proposed patch looks promising:
-
-  * Should the new function not be called first, so that it takes
-    priority over the git, known files, and youngest file functions? If
-    someone has explicitly set SOURCE_DATE_EPOCH, then they want it to
-    take priority.
-  * As you observe, SOURCE_DATE_EPOCH would need to be removed from
-    BB_HASHBASE_WHITELIST. I'm not sure why it was in the whitelist in
-    the first place.
-
-
---------------94825962FE03A8A47D243EAD
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p>On 26/02/20 4:53 am, Jacob Kroon wrote:
-      <blockquote type=3D"cite">On 2/24/20 8:25 AM, Jacob Kroon wrote:
-        <br>
-        <blockquote type=3D"cite">Hi Douglas,
-          <br>
-          <br>
-          You updated a comment in reproducible_build.bbclass, commit
-          e7b891b76954c784f5a93bd0a1c91315673ce40d:
-          <br>
-          <br>
-          <blockquote type=3D"cite">-# Once the value of SOURCE_DATE_EPOC=
-H
-            is determined, it is stored in the recipe's ${SDE_FILE}.
-            <br>
-            +# Once the value of SOURCE_DATE_EPOCH is determined, it is
-            stored in the recipe's SDE_FILE.
-            <br>
-            +# If none of these mechanisms are suitable, replace the
-            do_deploy_source_date_epoch task
-            <br>
-            +# with recipe-specific functionality to write the
-            appropriate SOURCE_DATE_EPOCH into the SDE_FILE.
-            <br>
-            +#
-            <br>
-          </blockquote>
-          <br>
-          But I can't really get this to work. What did work for me was
-          to replace "do_create_source_date_epoch_stamp()" in my recipe:
-          <br>
-          <br>
-          do_create_source_date_epoch_stamp() {
-          <br>
-          =C2=A0=C2=A0=C2=A0=C2=A0 mkdir -p ${SDE_DIR}
-          <br>
-          =C2=A0=C2=A0=C2=A0=C2=A0 date -d "1981-03-03" "+%s" &gt; ${SDE_=
-FILE}
-          <br>
-          }
-          <br>
-          <br>
-          What is the intended way to achieve the thing I'm trying to do
-          here ?
-          <br>
-          <br>
-        </blockquote>
-        <br>
-        FYI, JPEW has a proposed patch here
-        <br>
-        <br>
-<a class=3D"moz-txt-link-freetext" href=3D"http://git.yoctoproject.org/cg=
-it.cgi/poky-contrib/commit/?h=3Djpew/reproducible&amp;id=3Dd091d2aa53ea41=
-7f70c10f5ce89151820c3db9ce">http://git.yoctoproject.org/cgit.cgi/poky-con=
-trib/commit/?h=3Djpew/reproducible&amp;id=3Dd091d2aa53ea417f70c10f5ce8915=
-1820c3db9ce</a>
-        <br>
-        <br>
-        for allowing a recipe to just set SOURCE_DATE_EPOCH directly.
-        <br>
-        <br>
-        But maybe that currently is at odds with SOURCE_DATE_EPOCH being
-        in BB_HASHBASE_WHITELIST ?
-        <br>
-        <br>
-        /Jacob
-        <br>
-      </blockquote>
-    </p>
-    <p><br>
-    </p>
-    <p>On the surface of it, my comment appears to be just wrong: It
-      does make sense to replace do_create_source_date_epoch_stamp() as
-      you suggest.</p>
-    <p>Joshua's proposed patch looks promising:</p>
-    <ul>
-      <li>Should the new function not be called first, so that it takes
-        priority over the git, known files, and youngest file functions?
-        If someone has explicitly set SOURCE_DATE_EPOCH, then they want
-        it to take priority.<br>
-      </li>
-      <li>As you observe, SOURCE_DATE_EPOCH would need to be removed
-        from BB_HASHBASE_WHITELIST. I'm not sure why it was in the
-        whitelist in the first place.<br>
-      </li>
-    </ul>
-  </body>
-</html>
-
---------------94825962FE03A8A47D243EAD--
