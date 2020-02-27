@@ -1,41 +1,43 @@
 Return-Path: <zboszor@pr.hu>
 Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 269E661172
+	by mail.openembedded.org (Postfix) with ESMTP id 2787061177
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 05:24:58 +0000 (UTC)
+	Thu, 27 Feb 2020 05:25:03 +0000 (UTC)
 Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
 	by frontdoor.pr.hu with esmtps
 	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <zboszor@pr.hu>) id 1j7BfO-00074W-2Z
+	(envelope-from <zboszor@pr.hu>) id 1j7BfU-00078c-GZ
 	for openembedded-core@lists.openembedded.org;
-	Thu, 27 Feb 2020 06:24:58 +0100
+	Thu, 27 Feb 2020 06:25:04 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
 	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5EXGjHvLFhT+uor0k5nEBBGAGT8Wmp49CfI+6zf9sjc=;
-	b=fskK9304r28E7vGWXA/acgXk51
-	5srC/qxSYrETvwG8IyK+J7JgdBIHhT1sdCZNNPX5AqR2HNE5fO8W4FJ4ScqUh8A/KWIoZR4UxW6Ys
-	1ctgjwwe7JFI00dYRrmpDwdo3J+8ivFNc1VT7RWoeg+V1tbPfxSDns2O3hKdM6rVVaTWEorVH61WY
-	zk/xs3gJ9EbMNepY/wyjLuhVOFLJLk6ww9mlUdtgRgh+9/J2AScoUIydx3tWsWXbA7mDZxF6Oyp1p
-	unLMKgkE1Ru1aY/SwGZ0HwP3+BEQP3THPNTGhN6ia0+9smthuWnpnwBSu3qIkWXBtWDJ6fAgakNay
-	zZpvKWBg==;
+	bh=ABLmarVXEZ45TMzwLCNth0gHSkcbc4ozACsYKk32Urw=;
+	b=gSZG4GZo810LLPpfytjChmSwud
+	Jef5vVXpegfz36mPHwLhVKWuYc16/yY3Z0k7hUQE4V7e2lx/Yaje/EFkhxIM4+M9clOB+sGXcefLr
+	QtORowRAaoHMLxSxWOlyoPahDr98GvTp5gfuDqOKVLXn+E0AHfRPd+W2fA+8+1j71lOo+rtNOubA9
+	5ckz5NINcqTccXdRmN0/jE+1Emdyq85F2tr/Y22inTTvgPmf0LSdMZop2Tu75hn5tIYA6S752dvOW
+	MRcTwcY6nbAnWDMGaOovqYPjW8jCtL8yce7N707dAiNBq/fsZxmc6QHBtXIKWQRlHF05LauyDgzTp
+	xkXUHTfQ==;
 Received: from host-87-242-33-197.prtelecom.hu ([87.242.33.197]
 	helo=zolilaptop.sicom.com) by mail.pr.hu with esmtpa (Exim 4.89)
 	(envelope-from <zboszor@pr.hu>)
-	id 1j7BfK-00020C-4A; Thu, 27 Feb 2020 06:24:56 +0100
+	id 1j7BfQ-00020C-Iq; Thu, 27 Feb 2020 06:25:02 +0100
 From: =?UTF-8?q?B=C3=B6sz=C3=B6rm=C3=A9nyi=20Zolt=C3=A1n?= <zboszor@pr.hu>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Feb 2020 06:24:44 +0100
-Message-Id: <20200227052448.65435-1-zboszor@pr.hu>
+Date: Thu, 27 Feb 2020 06:24:47 +0100
+Message-Id: <20200227052448.65435-4-zboszor@pr.hu>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200227052448.65435-1-zboszor@pr.hu>
+References: <20200227052448.65435-1-zboszor@pr.hu>
 MIME-Version: 1.0
-X-Spam-Score: -1.9 (-)
-X-Scan-Signature: a1aedbebb1ad86a93e9d56217add5c67
-X-Spam-Tracer: backend.mail.pr.hu -1.9 20200227052456Z
-Subject: [PATCH v2 0/4] Enable VAAPI and VDPAU video drivers in Mesa
+X-Spam-Score: -2.0 (--)
+X-Scan-Signature: 48655851012a525c67c379fb6cc9c196
+X-Spam-Tracer: backend.mail.pr.hu -2.0 20200227052502Z
+Subject: [PATCH v2 3/4] mesa: Add PACKAGECONFIG knob to enable VAAPI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,35 +54,29 @@ X-List-Received-Date: Thu, 27 Feb 2020 05:25:04 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Mesa needs libva to enable VAAPI state tracker and drivers.
-libva needs Mesa to enable its GLX part.
-
-This is a circular dependency that can be solved by introducing
-a new libva recipe variant that doesn't enable GLX.
-
-Actually, the presence of Mesa/OpenGL headers is autodetected
-in libva so it's enough to leave out Mesa from DEPENDS in the
-new libva recipe variant.
-
-With magic already existing in sstate.bbclass and staging.bbclass,
-naming the new libva recipe variant "libva-initial" avoids an
-error for every other recipe that pulls in libva as dependency,
-including libva-utils and intel-vaapi-driver.
-
-The error (if not naming the recipe as "*-initial") is that
-the prepare-sysroot phase of a package would pull in the files 
-rom both libva build variants that would obviously install identical
-files.
-
-Enabling the VDPAU state tracker and libraries is trivial,
-it was just missing from the recipe.
-
-[PATCH v2 1/4] libva: Factor out base parts into an include file
-[PATCH v2 2/4] libva-initial: New bootstrap recipe
-[PATCH v2 3/4] mesa: Add PACKAGECONFIG knob to enable VAAPI
-[PATCH v2 4/4] mesa: Add PACKAGECONFIG knob to enable VDPAU state
+The previously added libva-initial recipe makes it possible and
+trivial.
 
 Signed-off-by: Böszörményi Zoltán <zboszor@pr.hu>
+---
+v2: Small explanation in the commit message
 
+ meta/recipes-graphics/mesa/mesa.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 87f167c507..479d3223fa 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -142,6 +142,7 @@ PACKAGECONFIG[gallium] = "-Dgallium-drivers=${GALLIUMDRIVERS}, -Dgallium-drivers
+ PACKAGECONFIG[gallium-llvm] = "-Dllvm=true -Dshared-llvm=true, -Dllvm=false, llvm${MESA_LLVM_RELEASE} llvm-native \
+                                ${@'elfutils' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+ PACKAGECONFIG[xa]  = "-Dgallium-xa=true, -Dgallium-xa=false"
++PACKAGECONFIG[va] = "-Dgallium-va=true,-Dgallium-va=false,libva-initial"
+ 
+ PACKAGECONFIG[lima] = ""
+ GALLIUMDRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG', 'lima', ',lima', '', d)}"
+-- 
+2.24.1
 
 
