@@ -1,30 +1,99 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id 0158061879
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id C0B466189C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 22:35:50 +0000 (UTC)
-Received: from [172.16.169.141] (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id 685D61C0028;
-	Fri, 28 Feb 2020 11:35:51 +1300 (NZDT)
-To: Joshua Watt <jpewhacker@gmail.com>
-References: <8b666dc3-e5a6-0417-82bd-2b15190d223f@gmail.com>
-	<ef5aea58-ef88-61c1-b614-88476f5e747c@gmail.com>
-	<0319e121-7546-e456-50d6-4b224e87363f@taitradio.com>
-	<cce62b8e-b135-6daa-0c47-3e91955d248c@gmail.com>
-	<e2a17625-3a90-6482-5af3-61a82ac04dcc@gmail.com>
-	<baae3c8f-219f-03eb-6f6c-a488ae22230b@taitradio.com>
-	<79e170f8-e6ae-f87b-70ea-f67fb870a28b@gmail.com>
-	<47d8bb87-b3be-1789-c1cb-124b446462d8@taitradio.com>
-	<91a70cd8-3e44-1381-e2df-15b1fbe3c7f5@gmail.com>
-From: Douglas Royds <douglas.royds@taitradio.com>
-Message-ID: <e84b37c8-d697-8227-ab1b-859f650b6844@taitradio.com>
-Date: Fri, 28 Feb 2020 11:35:51 +1300
+	Thu, 27 Feb 2020 22:35:55 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id d9so427728pgu.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 27 Feb 2020 14:35:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:autocrypt:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=mPd6ZivXPg86Le6HvU0O3FaqeC0sX7d8Kpe/DG9zPrA=;
+	b=N4OW8bDYX0TdVgE63BeFmiV34TARs2rhiCPtGI3wHIfEUWrQLkSciaSF9+E4RMZmPb
+	KSJfS4YlBhapmYnBr7RsBOXJjWDNcNs/7Ib00k1xpjietOq0z1ThK4hzNDD8CiL2cHMK
+	NKSYr6+bwKXdXoU1QN2M87EmXkdEPVgGpMOBjA3fLySGV7bO7mvE1ZWVH8giQFCiOy1c
+	COZzmGafMEYTi1W94tRqygu3UHk/QIT5Q/vg8MN7yI+1aM21fmUJOjC+kwL5LTi1Sgfm
+	4m3JP5T++Kk1CTN0eGtz5f4+QWs4ri/+elxwdGMvLkCnvwnr+hoA3M2FvjCje7B64gPX
+	EFUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+	:date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=mPd6ZivXPg86Le6HvU0O3FaqeC0sX7d8Kpe/DG9zPrA=;
+	b=omQAmh69e5Uy30d57tzH/GtLTaaU8A9qTRvZFMgMTtTvcWYjgkCEn9UH7SFm3a4fCc
+	qqQLIew/LtuvTjnbT7MMPdGzCQf89kwxaOZMpZH7BMLBW1ryIDJD/IJX3pza3I9lxqYz
+	cg3YaImM3IoupZZUwhTN+qXRRUfbeWxeTmgScteBepyTLYGb4kl+8ENxMNh4c5a4js6+
+	+W1bhHgMGA5Nu5fVwJy/vgsPEMub+XSr4hG8NjPFS4QWrH4uSuBgBIfEtyXj2UDCfFjU
+	+1Jt0zxkHenNg7cH4FZRcnpvmKEHQdbEG48ytsubsfHy4Bz1uScBPHMp4oQ00x90Wjz8
+	r6Lw==
+X-Gm-Message-State: APjAAAUwvcYMlJnuDeF/897K82+ps6c8yECIWXVvzUqU6wd203QEVuQp
+	ec+R/Iua7KjT2UUYQdKpp37OFkiv
+X-Google-Smtp-Source: APXvYqxXTtSkae4qGTm8TdS39pU6OQcShaHgGoakIWKHj/4wufzf52UgUqDe3ANsjm3ha/Q/lOM4IA==
+X-Received: by 2002:aa7:8587:: with SMTP id w7mr1258487pfn.39.1582842956647;
+	Thu, 27 Feb 2020 14:35:56 -0800 (PST)
+Received: from ?IPv6:2601:202:4180:a5c0:3d0b:bd00:40e0:2589?
+	([2601:202:4180:a5c0:3d0b:bd00:40e0:2589])
+	by smtp.gmail.com with ESMTPSA id a5sm7214535pjh.7.2020.02.27.14.35.55
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Thu, 27 Feb 2020 14:35:56 -0800 (PST)
+To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>,
+	openembedded-core@lists.openembedded.org
+References: <20200227221535.8622-1-jpuhlman@mvista.com>
+	<20200227221535.8622-3-jpuhlman@mvista.com>
+From: akuster808 <akuster808@gmail.com>
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <38925dad-bc5b-adda-281f-aefcc5f06934@gmail.com>
+Date: Thu, 27 Feb 2020 14:35:55 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <91a70cd8-3e44-1381-e2df-15b1fbe3c7f5@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Overriding SDE_FILE
+In-Reply-To: <20200227221535.8622-3-jpuhlman@mvista.com>
+Subject: Re: [PATCH 3/3] lsb-release: fix likely reproducabilty timestamp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,373 +106,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 22:35:51 -0000
-Content-Type: multipart/alternative;
-	boundary="------------5898598FBD35EFB8056220CD"
-Content-Language: en-GB
+X-List-Received-Date: Thu, 27 Feb 2020 22:35:55 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---------------5898598FBD35EFB8056220CD
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
 
-On 28/02/20 11:34 am, Joshua Watt wrote:
 
+On 2/27/20 2:15 PM, Jeremy A. Puhlman wrote:
+> From: Jeremy Puhlman <jpuhlman@mvista.com>
 >
-> On 2/27/20 4:29 PM, Douglas Royds wrote:
->>
->> On 28/02/20 10:49 am, Joshua Watt wrote:
->>
->>>
->>> On 2/27/20 3:22 PM, Douglas Royds wrote:
->>>>
->>>> On 28/02/20 5:45 am, Joshua Watt wrote:
->>>>
->>>>> On 2/27/20 9:01 AM, Joshua Watt wrote:
->>>>>> On 2/26/20 11:46 PM, Douglas Royds wrote:
->>>>>>>
->>>>>>> On 26/02/20 4:53 am, Jacob Kroon wrote:
->>>>>>>
->>>>>>>> On 2/24/20 8:25 AM, Jacob Kroon wrote:
->>>>>>>>> Hi Douglas,
->>>>>>>>>
->>>>>>>>> You updated a comment in reproducible_build.bbclass, commit=20
->>>>>>>>> e7b891b76954c784f5a93bd0a1c91315673ce40d:
->>>>>>>>>
->>>>>>>>>> -# Once the value of SOURCE_DATE_EPOCH is determined, it is=20
->>>>>>>>>> stored in the recipe's ${SDE_FILE}.
->>>>>>>>>> +# Once the value of SOURCE_DATE_EPOCH is determined, it is=20
->>>>>>>>>> stored in the recipe's SDE_FILE.
->>>>>>>>>> +# If none of these mechanisms are suitable, replace the=20
->>>>>>>>>> do_deploy_source_date_epoch task
->>>>>>>>>> +# with recipe-specific functionality to write the=20
->>>>>>>>>> appropriate SOURCE_DATE_EPOCH into the SDE_FILE.
->>>>>>>>>> +#
->>>>>>>>>
->>>>>>>>> But I can't really get this to work. What did work for me was=20
->>>>>>>>> to replace "do_create_source_date_epoch_stamp()" in my recipe:
->>>>>>>>>
->>>>>>>>> do_create_source_date_epoch_stamp() {
->>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 mkdir -p ${SDE_DIR}
->>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 date -d "1981-03-03" "+%s" > ${SDE_FIL=
-E}
->>>>>>>>> }
->>>>>>>>>
->>>>>>>>> What is the intended way to achieve the thing I'm trying to do=20
->>>>>>>>> here ?
->>>>>>>>>
->>>>>>>>
->>>>>>>> FYI, JPEW has a proposed patch here
->>>>>>>>
->>>>>>>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Djp=
-ew/reproducible&id=3Dd091d2aa53ea417f70c10f5ce89151820c3db9ce=20
->>>>>>>>
->>>>>>>>
->>>>>>>> for allowing a recipe to just set SOURCE_DATE_EPOCH directly.
->>>>>>>>
->>>>>>>> But maybe that currently is at odds with SOURCE_DATE_EPOCH=20
->>>>>>>> being in BB_HASHBASE_WHITELIST ?
->>>>>>>>
->>>>>>>> /Jacob
->>>>>>>
->>>>>>>
->>>>>>> On the surface of it, my comment appears to be just wrong: It=20
->>>>>>> does make sense to replace do_create_source_date_epoch_stamp()=20
->>>>>>> as you suggest.
->>>>>>>
->>>>>>> Joshua's proposed patch looks promising:
->>>>>>>
->>>>>>>   * Should the new function not be called first, so that it
->>>>>>>     takes priority over the git, known files, and youngest file
->>>>>>>     functions? If someone has explicitly set SOURCE_DATE_EPOCH,
->>>>>>>     then they want it to take priority.
->>>>>>>
->>>>>> Having that be the first option makes sense. The only case in=20
->>>>>> which that might not work, is if a recipe does something like:
->>>>>>
->>>>>> =C2=A0SOURCE_DATE_EPOCH =3D "${@my_awesome_sde_calculation(d)}"
->>>>>>
->>>>>> e.g. uses a function to get the SDE instead of setting to a fixed=20
->>>>>> value, but that's probably going to be extremely rare.
->>>>>>
->>>>>>
->>>>>>>  *
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>>   * As you observe, SOURCE_DATE_EPOCH would need to be removed
->>>>>>>     from BB_HASHBASE_WHITELIST. I'm not sure why it was in the
->>>>>>>     whitelist in the first place.
->>>>>>>
->>>>>> I'm not sure why exactly it is whitelisted; I didn't write the=20
->>>>>> original code that whitelisted it, but I've CC'd Juro in case he=20
->>>>>> happens to remember.
->>>>>>
->>>>> After a discussion with Richard, we figured out why=20
->>>>> SOURCE_DATE_EPOCH has to be whitelisted. The value of the variable=20
->>>>> *must* be calculable at parse time before any task is ran, but in=20
->>>>> practice it's value is only available once the=20
->>>>> __source_date_epoch.txt file is present, which is after parsing.=20
->>>>> This causes the taskhash to be calculated differently during=20
->>>>> parsing and task execution which causes taskhash mismatch errors.
->>>>>
->>>>
->>>> True.
->>>>
->>>> What to do? Would it work to use a different non-whitelisted=20
->>>> variable in the recipe, eg. SOURCE_DATE_EPOCH_FIXED?
->>>>
->>>
->>> Ya, that would work. You'd have to figure out how to get the=20
->>> variable to be included in each taskhash even though it's not=20
->>> directly referenced, but I'm sure that's possible.
->>>
->>>
->>> Another option that's at lot more "magic" would be something like=20
->>> this:=20
->>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Djpew/re=
-producible&id=3D2b524916cf35238ff3deea34017e8a4cd73926cd=20
->>>
->>>
->>> That's really weird, and I'm not sure I like it, but worth a thought.
->>>
->> If it works, it's good. I like the fact that the user can just set=20
->> SOURCE_DATE_EPOCH directly in their recipe.
->>
->> How about ...
->>
->>     BB_HASHBASE_WHITELIST +=3D "${@'SOURCE_DATE_EPOCH' if not
->>     source_date_epoch_var(d) else ''}"
->>
-> Ya, that works. The only reason I chose "is None" was in case a user=20
-> really wanted to do
+> Remove timestamp from gzipped manpage.
 >
-> =C2=A0 SOURCE_DATE_EPOCH =3D "0"
+> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+> ---
+>  .../0001-Remove-timestamp-from-manpage.patch  | 25 +++++++++++++++++++
+>  meta/recipes-extended/lsb/lsb-release_1.4.bb  |  1 +
+>  2 files changed, 26 insertions(+)
+>  create mode 100644 meta/recipes-extended/lsb/lsb-release/0001-Remove-timestamp-from-manpage.patch
 >
-True, best to allow for that.
+> diff --git a/meta/recipes-extended/lsb/lsb-release/0001-Remove-timestamp-from-manpage.patch b/meta/recipes-extended/lsb/lsb-release/0001-Remove-timestamp-from-manpage.patch
+> new file mode 100644
+> index 0000000000..e7ff00d132
+> --- /dev/null
+> +++ b/meta/recipes-extended/lsb/lsb-release/0001-Remove-timestamp-from-manpage.patch
+> @@ -0,0 +1,25 @@
+> +From fb0b58be938bab5571ac0bdec3725f6d88b07e9f Mon Sep 17 00:00:00 2001
+> +From: Jeremy Puhlman <jpuhlman@mvista.com>
+> +Date: Sat, 22 Feb 2020 19:01:28 +0000
+> +Subject: [PATCH] Remove timestamp from manpage
+
+Missing "Upstream-Status:" and "signed-off-by" in patch
+
+- armin
+> +
+> +---
+> + Makefile | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/Makefile b/Makefile
+> +index 04fdecd..5be8081 100644
+> +--- a/Makefile
+> ++++ b/Makefile
+> +@@ -17,7 +17,7 @@ man: lsb_release.1.gz
+> + 
+> + lsb_release.1.gz: lsb_release
+> + 	@./help2man -N --include ./lsb_release.examples --alt_version_key=program_version ./lsb_release >lsb_release.1
+> +-	@gzip -9f lsb_release.1
+> ++	@gzip -9fn lsb_release.1
+> + 
+> + install: all
+> + 	install -D -m 644 lsb_release.1.gz ${mandir}/man1/lsb_release.1.gz
+> +-- 
+> +2.13.3
+> +
+> diff --git a/meta/recipes-extended/lsb/lsb-release_1.4.bb b/meta/recipes-extended/lsb/lsb-release_1.4.bb
+> index 52e30267f5..a06cbcf845 100644
+> --- a/meta/recipes-extended/lsb/lsb-release_1.4.bb
+> +++ b/meta/recipes-extended/lsb/lsb-release_1.4.bb
+> @@ -10,6 +10,7 @@ LIC_FILES_CHKSUM = "file://README;md5=12da544b1a3a5a1795a21160b49471cf"
+>  
+>  SRC_URI = "${SOURCEFORGE_MIRROR}/project/lsb/lsb_release/1.4/lsb-release-1.4.tar.gz \
+>             file://0001-fix-lsb_release-to-work-with-busybox-head-and-find.patch \
+> +           file://0001-Remove-timestamp-from-manpage.patch \
+>             "
+>  
+>  SRC_URI[md5sum] = "30537ef5a01e0ca94b7b8eb6a36bb1e4"
 
 
---------------5898598FBD35EFB8056220CD
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p>On 28/02/20 11:34 am, Joshua Watt wrote:
-      <blockquote type=3D"cite">
-        <meta http-equiv=3D"Content-Type" content=3D"text/html;
-          charset=3DUTF-8">
-        <p><br>
-        </p>
-        <div class=3D"moz-cite-prefix">On 2/27/20 4:29 PM, Douglas Royds
-          wrote:<br>
-        </div>
-        <blockquote type=3D"cite"
-          cite=3D"mid:47d8bb87-b3be-1789-c1cb-124b446462d8@taitradio.com"=
->
-          <meta http-equiv=3D"Content-Type" content=3D"text/html;
-            charset=3DUTF-8">
-          <p>On 28/02/20 10:49 am, Joshua Watt wrote: </p>
-          <blockquote type=3D"cite">
-            <meta http-equiv=3D"Content-Type" content=3D"text/html;
-              charset=3DUTF-8">
-            <p><br>
-            </p>
-            <div class=3D"moz-cite-prefix">On 2/27/20 3:22 PM, Douglas
-              Royds wrote:<br>
-            </div>
-            <blockquote type=3D"cite"
-              cite=3D"mid:baae3c8f-219f-03eb-6f6c-a488ae22230b@taitradio.=
-com">
-              <meta http-equiv=3D"Content-Type" content=3D"text/html;
-                charset=3DUTF-8">
-              <p>On 28/02/20 5:45 am, Joshua Watt wrote: </p>
-              <blockquote type=3D"cite">
-                <meta http-equiv=3D"Content-Type" content=3D"text/html;
-                  charset=3DUTF-8">
-                <div class=3D"moz-cite-prefix">On 2/27/20 9:01 AM, Joshua
-                  Watt wrote:<br>
-                </div>
-                <blockquote type=3D"cite"
-                  cite=3D"mid:cce62b8e-b135-6daa-0c47-3e91955d248c@gmail.=
-com">
-                  <meta http-equiv=3D"Content-Type" content=3D"text/html;
-                    charset=3DUTF-8">
-                  <div class=3D"moz-cite-prefix">On 2/26/20 11:46 PM,
-                    Douglas Royds wrote:<br>
-                  </div>
-                  <blockquote type=3D"cite"
-                    cite=3D"mid:0319e121-7546-e456-50d6-4b224e87363f@tait=
-radio.com">
-                    <meta http-equiv=3D"Content-Type" content=3D"text/htm=
-l;
-                      charset=3DUTF-8">
-                    <p>On 26/02/20 4:53 am, Jacob Kroon wrote: </p>
-                    <blockquote type=3D"cite">On 2/24/20 8:25 AM, Jacob
-                      Kroon wrote: <br>
-                      <blockquote type=3D"cite">Hi Douglas, <br>
-                        <br>
-                        You updated a comment in
-                        reproducible_build.bbclass, commit
-                        e7b891b76954c784f5a93bd0a1c91315673ce40d: <br>
-                        <br>
-                        <blockquote type=3D"cite">-# Once the value of
-                          SOURCE_DATE_EPOCH is determined, it is stored
-                          in the recipe's ${SDE_FILE}. <br>
-                          +# Once the value of SOURCE_DATE_EPOCH is
-                          determined, it is stored in the recipe's
-                          SDE_FILE. <br>
-                          +# If none of these mechanisms are suitable,
-                          replace the do_deploy_source_date_epoch task <b=
-r>
-                          +# with recipe-specific functionality to write
-                          the appropriate SOURCE_DATE_EPOCH into the
-                          SDE_FILE. <br>
-                          +# <br>
-                        </blockquote>
-                        <br>
-                        But I can't really get this to work. What did
-                        work for me was to replace
-                        "do_create_source_date_epoch_stamp()" in my
-                        recipe: <br>
-                        <br>
-                        do_create_source_date_epoch_stamp() { <br>
-                        =C2=A0=C2=A0=C2=A0=C2=A0 mkdir -p ${SDE_DIR} <br>
-                        =C2=A0=C2=A0=C2=A0=C2=A0 date -d "1981-03-03" "+%=
-s" &gt; ${SDE_FILE}
-                        <br>
-                        } <br>
-                        <br>
-                        What is the intended way to achieve the thing
-                        I'm trying to do here ? <br>
-                        <br>
-                      </blockquote>
-                      <br>
-                      FYI, JPEW has a proposed patch here <br>
-                      <br>
-                      <a class=3D"moz-txt-link-freetext"
-href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Djpe=
-w/reproducible&amp;id=3Dd091d2aa53ea417f70c10f5ce89151820c3db9ce"
-                        moz-do-not-send=3D"true">http://git.yoctoproject.=
-org/cgit.cgi/poky-contrib/commit/?h=3Djpew/reproducible&amp;id=3Dd091d2aa=
-53ea417f70c10f5ce89151820c3db9ce</a>
-                      <br>
-                      <br>
-                      for allowing a recipe to just set
-                      SOURCE_DATE_EPOCH directly. <br>
-                      <br>
-                      But maybe that currently is at odds with
-                      SOURCE_DATE_EPOCH being in BB_HASHBASE_WHITELIST ?
-                      <br>
-                      <br>
-                      /Jacob <br>
-                    </blockquote>
-                    <p><br>
-                    </p>
-                    <p>On the surface of it, my comment appears to be
-                      just wrong: It does make sense to replace
-                      do_create_source_date_epoch_stamp() as you
-                      suggest.</p>
-                    <p>Joshua's proposed patch looks promising:</p>
-                    <ul>
-                      <li>Should the new function not be called first,
-                        so that it takes priority over the git, known
-                        files, and youngest file functions? If someone
-                        has explicitly set SOURCE_DATE_EPOCH, then they
-                        want it to take priority.<br>
-                      </li>
-                    </ul>
-                  </blockquote>
-                  <p>Having that be the first option makes sense. The
-                    only case in which that might not work, is if a
-                    recipe does something like:</p>
-                  <p>=C2=A0SOURCE_DATE_EPOCH =3D
-                    "${@my_awesome_sde_calculation(d)}"</p>
-                  <p>e.g. uses a function to get the SDE instead of
-                    setting to a fixed value, but that's probably going
-                    to be extremely rare.<br>
-                  </p>
-                  <p><br>
-                  </p>
-                  <blockquote type=3D"cite"
-                    cite=3D"mid:0319e121-7546-e456-50d6-4b224e87363f@tait=
-radio.com">
-                    <ul>
-                      <li> <br>
-                      </li>
-                      <li>As you observe, SOURCE_DATE_EPOCH would need
-                        to be removed from BB_HASHBASE_WHITELIST. I'm
-                        not sure why it was in the whitelist in the
-                        first place.<br>
-                      </li>
-                    </ul>
-                  </blockquote>
-                  <p>I'm not sure why exactly it is whitelisted; I
-                    didn't write the original code that whitelisted it,
-                    but I've CC'd Juro in case he happens to remember.<br=
->
-                  </p>
-                </blockquote>
-                <p>After a discussion with Richard, we figured out why
-                  SOURCE_DATE_EPOCH has to be whitelisted. The value of
-                  the variable *must* be calculable at parse time before
-                  any task is ran, but in practice it's value is only
-                  available once the __source_date_epoch.txt file is
-                  present, which is after parsing. This causes the
-                  taskhash to be calculated differently during parsing
-                  and task execution which causes taskhash mismatch
-                  errors.</p>
-              </blockquote>
-              <p><br>
-              </p>
-              <p>True.</p>
-              <p>What to do? Would it work to use a different
-                non-whitelisted variable in the recipe, eg.
-                SOURCE_DATE_EPOCH_FIXED?<br>
-              </p>
-            </blockquote>
-            <p><br>
-            </p>
-            <p>Ya, that would work. You'd have to figure out how to get
-              the variable to be included in each taskhash even though
-              it's not directly referenced, but I'm sure that's
-              possible.</p>
-            <p><br>
-            </p>
-            <p>Another option that's at lot more "magic" would be
-              something like this: <a class=3D"moz-txt-link-freetext"
-href=3D"http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Djpe=
-w/reproducible&amp;id=3D2b524916cf35238ff3deea34017e8a4cd73926cd"
-                moz-do-not-send=3D"true">http://git.yoctoproject.org/cgit=
-.cgi/poky-contrib/commit/?h=3Djpew/reproducible&amp;id=3D2b524916cf35238f=
-f3deea34017e8a4cd73926cd</a>
-              <br>
-            </p>
-            <p>That's really weird, and I'm not sure I like it, but
-              worth a thought.<br>
-            </p>
-          </blockquote>
-          <p>If it works, it's good. I like the fact that the user can
-            just set SOURCE_DATE_EPOCH directly in their recipe.<br>
-          </p>
-          <p>How about ...</p>
-          <blockquote>
-            <p>BB_HASHBASE_WHITELIST +=3D "${@'SOURCE_DATE_EPOCH' if not
-              source_date_epoch_var(d) else ''}"</p>
-          </blockquote>
-        </blockquote>
-        <p>Ya, that works. The only reason I chose "is None" was in case
-          a user really wanted to do <br>
-        </p>
-        <p>=C2=A0 SOURCE_DATE_EPOCH =3D "0"<br>
-        </p>
-      </blockquote>
-      True, best to allow for that.<br>
-    </p>
-  </body>
-</html>
-
---------------5898598FBD35EFB8056220CD--
