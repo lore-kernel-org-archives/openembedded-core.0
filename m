@@ -1,47 +1,24 @@
-Return-Path: <eugenyshcheglov@gmail.com>
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
-	[209.85.210.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 30F0E610EB
+Return-Path: <Ovidiu.Panait@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3280F61305
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 11:42:36 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id h9so2566348otj.11
+	Thu, 27 Feb 2020 11:47:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01RBlAje031428
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 03:42:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3Anff93Nsg+KaXO9Uyn2R0mfXpf1dT7w0isUWLB7cJo=;
-	b=dmczDXdLh50ZPCEhCsPXG6JVjCgyFZtClKNrR9NspllZag3LYRF/emky9JKVBpMpLx
-	CZ8kxeooPdLu2hyEM57M4XEdD4ccLwfh4caLf0PZ795mY23BSDJzBqjT1sQRmvDxKuK7
-	KvnTHeNMSXcjCUf/Eb6UCYumFBSf9YN2gPvB4wAdSigCMJ0d9+05RUHqcM1uzORGU6+h
-	XK2eiVy1NQnVeC29rY7oGSZJPtnLWkM6Ut2cu1SuJXd+aoTrz/C4z7V4SGi7Y8VCqGKo
-	C6YyUR05sVYENTfIIW/+FDLP+YjWDlMYvWlmpp9Q3eA1ePdiT/c6lzLR3wlGWxC/U+8l
-	UEpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3Anff93Nsg+KaXO9Uyn2R0mfXpf1dT7w0isUWLB7cJo=;
-	b=dLXMnYu7qS/TCUB19faTiDwCDwfWU5j5OrX37OAYtXnialFrslohx2ZEabyTTadvGC
-	ObQ1GT2lbj8N22B9+lR31M6x7f+kTD+VLADPkpiq3bYfEk4CodEVZnoWqfnNH1fQ3Xkw
-	hf4AMYEInYG2JdIr9tO95aFG1Vj+rsqrn3SuvuF0zi5pA6Lvd/uujM1yhFNki5EBsBEu
-	7cKMh2y+dR1bcS7986A0DwnaZ0UI2Tj9R6lFBFIGLRuz90wJbzh5NCDUHMNEdn08VY9h
-	GS0UFPakn98Ynux5yIEkBKdeN2gdbhb85QTO23wDhaIk6RWuuzj0SvMBssz0JfDHUcyl
-	Vgxg==
-X-Gm-Message-State: APjAAAXR/Uyc0mwAa/iEP/YUUU8+sisZM1FpCLJDZ8bSiSyZppAuryFu
-	4y2Yl1xpRRdCNDT1GV+ONBMWXsUTdV6wEoEnDYQ=
-X-Google-Smtp-Source: APXvYqw2T9B+zKPGiNB8uAGrsVuJ0MS+QuzLVsLdHl8MOaigtpoePcWcbTDD331LhVSyoG1QRoZi6tRqghGbHkV+xCM=
-X-Received: by 2002:a9d:7548:: with SMTP id b8mr3082203otl.74.1582803757718;
-	Thu, 27 Feb 2020 03:42:37 -0800 (PST)
+	Thu, 27 Feb 2020 03:47:20 -0800
+Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 27 Feb 2020 03:46:53 -0800
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Feb 2020 13:45:49 +0200
+Message-ID: <20200227114549.16867-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200225141733.54584-1-eugenyshcheglov@gmail.com>
-	<CAJ86T=VH+nVRgdWr4hyX0WZVnGwu=4MOsSs7a_8QcqAYHt1nfA@mail.gmail.com>
-In-Reply-To: <CAJ86T=VH+nVRgdWr4hyX0WZVnGwu=4MOsSs7a_8QcqAYHt1nfA@mail.gmail.com>
-From: Eugeny Shcheglov <eugenyshcheglov@gmail.com>
-Date: Thu, 27 Feb 2020 13:42:25 +0200
-Message-ID: <CALepYk+MjGAN_XO9abU9pd6Zq+7FYezboCTSEqBUneGphjTu8g@mail.gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] utils.bbclass: Avoid recursive symlink in oe_soinstall
+Subject: [zeus][PATCH 1/1] dhcp: Fix REQUIRE(ctx->running) assertion triggered on SIGTERM/SIGINT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,235 +31,292 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 11:42:37 -0000
-Content-Type: multipart/alternative; boundary="000000000000ba62a9059f8d375e"
+X-List-Received-Date: Thu, 27 Feb 2020 11:47:30 -0000
+Content-Type: text/plain
 
---000000000000ba62a9059f8d375e
-Content-Type: text/plain; charset="UTF-8"
+Closed a small window of time between the installation of graceful
+shutdown signal handlers and application context startup, during which
+the receipt of shutdown signal would cause a REQUIRE() assertion to
+occur.  Note this issue is only visible when compiling with
+ENABLE_GENTLE_SHUTDOWN defined.
 
->This patch look OK but it might be nice to also clean up this error
-message (and the Example comment a few lines above it) to drop the 3
-levels of version number. There should only be 2, ie the fully
-versioned filename would be libfoo.so.1.2 instead of libfoo.so.1.2.3
+Reference:
+https://gitlab.isc.org/isc-projects/dhcp/issues/53
 
-Yeah, sound reasonable. According to the tLDP (
-http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html)
-there can be be 3 levels, but last one is optional. Quote from tLDP:
-*"The real name adds to the soname a period, a minor *
+Upstream patches:
+https://gitlab.isc.org/isc-projects/dhcp/commit/ce117de7a1ed3c4911b4009c1cc23fba85370a26
+https://gitlab.isc.org/isc-projects/dhcp/commit/dbd36dfa82956b53683462afadfabb1b33fa3dd1
+https://gitlab.isc.org/isc-projects/dhcp/commit/95944cab6035d20be270eec01254c7bb867ec705
 
-*number, another period, and the release number. The last period and
-release number are optional". *
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+---
+ ...s-running-prior-to-calling-isc_app_c.patch | 165 ++++++++++++++++++
+ ...ed-shutdown-log-statment-to-dhcrelay.patch |  29 +++
+ .../dhcp/0003-Addressed-review-comment.patch  |  31 ++++
+ meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb  |   3 +
+ 4 files changed, 228 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch
 
-So yes, correct fully versioned name should contain at least two numbers
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch b/meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch
+new file mode 100644
+index 0000000000..34b2ae1e5c
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch
+@@ -0,0 +1,165 @@
++From f369dbb9e67eb5ef336944af63039b6d8f838384 Mon Sep 17 00:00:00 2001
++From: Thomas Markwalder <tmark@isc.org>
++Date: Thu, 12 Sep 2019 10:35:46 -0400
++Subject: [PATCH 1/3] Ensure context is running prior to calling
++ isc_app_ctxsuspend
++
++Add a release note.
++
++includes/omapip/isclib.h
++    Added actx_running flag to global context, dhcp_gbl_ctx
++
++omapip/isclib.c
++    set_ctx_running() - new function used as the ctxonrun callback
++
++    dhcp_context_create() - installs set_ctx_running callback
++
++    dhcp_signal_handler() - modified to use act_running flag to
++    determine is context is running and should be suspended
++
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/dhcp.git]
++
++Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++---
++ RELNOTES                 |  7 +++++
++ includes/omapip/isclib.h |  3 ++-
++ omapip/isclib.c          | 57 +++++++++++++++++++++++++++++++++-------
++ 3 files changed, 57 insertions(+), 10 deletions(-)
++
++diff --git a/RELNOTES b/RELNOTES
++index f10305d..1730473 100644
++--- a/RELNOTES
+++++ b/RELNOTES
++@@ -6,6 +6,13 @@
++ 
++                               NEW FEATURES
++ 
+++- Closed a small window of time between the installation of graceful
+++  shutdown signal handlers and application context startup, during which
+++  the receipt of shutdown signal would cause a REQUIRE() assertion to
+++  occur.  Note this issue is only visible when compiling with
+++  ENABLE_GENTLE_SHUTDOWN defined.
+++  [Gitlab #53,!18   git TBD]
+++
++ Please note that that ISC DHCP is now licensed under the Mozilla Public License,
++ MPL 2.0. Please see https://www.mozilla.org/en-US/MPL/2.0/ to read the MPL 2.0
++ license terms.
++diff --git a/includes/omapip/isclib.h b/includes/omapip/isclib.h
++index 6c20584..af6a6fc 100644
++--- a/includes/omapip/isclib.h
+++++ b/includes/omapip/isclib.h
++@@ -94,7 +94,8 @@
++ typedef struct dhcp_context {
++ 	isc_mem_t	*mctx;
++ 	isc_appctx_t	*actx;
++-	int              actx_started;
+++	int              actx_started; // ISC_TRUE if ctxstart has been called
+++	int              actx_running; // ISC_TRUE if ctxrun has been called
++ 	isc_taskmgr_t	*taskmgr;
++ 	isc_task_t	*task;
++ 	isc_socketmgr_t *socketmgr;
++diff --git a/omapip/isclib.c b/omapip/isclib.c
++index ce4b4a1..73e017c 100644
++--- a/omapip/isclib.c
+++++ b/omapip/isclib.c
++@@ -134,6 +134,35 @@ handle_signal(int sig, void (*handler)(int)) {
++ 	}
++ }
++ 
+++/* Callback passed to isc_app_ctxonrun
+++ *
+++ * BIND9 context code will invoke this handler once the context has
+++ * entered the running state.  We use it to set a global marker so that
+++ * we can tell if the context is running.  Several of the isc_app_
+++ * calls REQUIRE that the context is running and we need a way to
+++ * know that.
+++ *
+++ * We also check to see if we received a shutdown signal prior to
+++ * the context entering the run state.  If we did, then we can just
+++ * simply shut the context down now.  This closes the relatively
+++ * small window between start up and entering run via the call
+++ * to dispatch().
+++ *
+++ */
+++static void
+++set_ctx_running(isc_task_t *task, isc_event_t *event) {
+++        task = task; // unused;
+++	dhcp_gbl_ctx.actx_running = ISC_TRUE;
+++
+++	if (shutdown_signal) {
+++		// We got signaled shutdown before we entered running state.
+++		// Now that we've reached running state, shut'er down.
+++		isc_app_ctxsuspend(dhcp_gbl_ctx.actx);
+++	}
+++
+++        isc_event_free(&event);
+++}
+++
++ isc_result_t
++ dhcp_context_create(int flags,
++ 		    struct in_addr  *local4,
++@@ -141,6 +170,9 @@ dhcp_context_create(int flags,
++ 	isc_result_t result;
++ 
++ 	if ((flags & DHCP_CONTEXT_PRE_DB) != 0) {
+++		dhcp_gbl_ctx.actx_started = ISC_FALSE;
+++		dhcp_gbl_ctx.actx_running = ISC_FALSE;
+++
++ 		/*
++ 		 * Set up the error messages, this isn't the right place
++ 		 * for this call but it is convienent for now.
++@@ -204,15 +236,24 @@ dhcp_context_create(int flags,
++ 		if (result != ISC_R_SUCCESS)
++ 			goto cleanup;
++ 
++-		result = isc_task_create(dhcp_gbl_ctx.taskmgr, 0, &dhcp_gbl_ctx.task);
+++		result = isc_task_create(dhcp_gbl_ctx.taskmgr, 0,
+++					 &dhcp_gbl_ctx.task);
++ 		if (result != ISC_R_SUCCESS)
++ 			goto cleanup;
++ 
++ 		result = isc_app_ctxstart(dhcp_gbl_ctx.actx);
++ 		if (result != ISC_R_SUCCESS)
++-			return (result);
+++			goto cleanup;
+++
++ 		dhcp_gbl_ctx.actx_started = ISC_TRUE;
++ 
+++		// Install the onrun callback.
+++		result = isc_app_ctxonrun(dhcp_gbl_ctx.actx, dhcp_gbl_ctx.mctx,
+++					  dhcp_gbl_ctx.task, set_ctx_running,
+++					  dhcp_gbl_ctx.actx);
+++		if (result != ISC_R_SUCCESS)
+++			goto cleanup;
+++
++ 		/* Not all OSs support suppressing SIGPIPE through socket
++ 		 * options, so set the sigal action to be ignore.  This allows
++ 		 * broken connections to fail gracefully with EPIPE on writes */
++@@ -335,19 +376,17 @@ isclib_make_dst_key(char          *inname,
++  * @param signal signal code that we received
++  */
++ void dhcp_signal_handler(int signal) {
++-	isc_appctx_t *ctx = dhcp_gbl_ctx.actx;
++-	int prev = shutdown_signal;
++-
++-	if (prev != 0) {
+++	if (shutdown_signal != 0) {
++ 		/* Already in shutdown. */
++ 		return;
++ 	}
+++
++ 	/* Possible race but does it matter? */
++ 	shutdown_signal = signal;
++ 
++-	/* Use reload (aka suspend) for easier dispatch() reenter. */
++-	if (ctx && ctx->methods && ctx->methods->ctxsuspend) {
++-		(void) isc_app_ctxsuspend(ctx);
+++	/* If the application context is running tell it to shut down */
+++	if (dhcp_gbl_ctx.actx_running == ISC_TRUE) {
+++		(void) isc_app_ctxsuspend(dhcp_gbl_ctx.actx);
++ 	}
++ }
++ 
++-- 
++2.23.0
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch b/meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch
+new file mode 100644
+index 0000000000..78b2b74f45
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch
+@@ -0,0 +1,29 @@
++From adcd34ae1f56b16d7e9696d980332b4cf6c7ce91 Mon Sep 17 00:00:00 2001
++From: Thomas Markwalder <tmark@isc.org>
++Date: Fri, 13 Sep 2019 15:03:31 -0400
++Subject: [PATCH 2/3] Added shutdown log statment to dhcrelay
++
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/dhcp.git]
++
++Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++---
++ relay/dhcrelay.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/relay/dhcrelay.c b/relay/dhcrelay.c
++index d8caaaf..4bd1d47 100644
++--- a/relay/dhcrelay.c
+++++ b/relay/dhcrelay.c
++@@ -2076,6 +2076,9 @@ dhcp_set_control_state(control_object_state_t oldstate,
++ 	if (newstate != server_shutdown)
++ 		return ISC_R_SUCCESS;
++ 
+++	/* Log shutdown on signal. */
+++	log_info("Received signal %d, initiating shutdown.", shutdown_signal);
+++
++ 	if (no_pid_file == ISC_FALSE)
++ 		(void) unlink(path_dhcrelay_pid);
++ 
++-- 
++2.23.0
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch b/meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch
+new file mode 100644
+index 0000000000..a51b6cf526
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch
+@@ -0,0 +1,31 @@
++From e4b54b4d676783152d487103714cba2913661ef8 Mon Sep 17 00:00:00 2001
++From: Thomas Markwalder <tmark@isc.org>
++Date: Wed, 6 Nov 2019 15:53:50 -0500
++Subject: [PATCH 3/3] Addressed review comment.
++
++omapip/isclib.c
++    Added use of IGNORE_UNUSED()
++
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/dhcp.git]
++
++Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++---
++ omapip/isclib.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/omapip/isclib.c b/omapip/isclib.c
++index 73e017c..1d52463 100644
++--- a/omapip/isclib.c
+++++ b/omapip/isclib.c
++@@ -151,7 +151,7 @@ handle_signal(int sig, void (*handler)(int)) {
++  */
++ static void
++ set_ctx_running(isc_task_t *task, isc_event_t *event) {
++-        task = task; // unused;
+++    IGNORE_UNUSED(task);
++ 	dhcp_gbl_ctx.actx_running = ISC_TRUE;
++ 
++ 	if (shutdown_signal) {
++-- 
++2.23.0
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+index 275961a603..ddc8b60254 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+@@ -11,6 +11,9 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
+             file://0013-fixup_use_libbind.patch \
+             file://0001-master-Added-includes-of-new-BIND9-compatibility-hea.patch \
+             file://0001-Fix-a-NSUPDATE-compiling-issue.patch \
++            file://0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch \
++            file://0002-Added-shutdown-log-statment-to-dhcrelay.patch \
++            file://0003-Addressed-review-comment.patch \
+ "
+ 
+ SRC_URI[md5sum] = "18c7f4dcbb0a63df25098216d47b1ede"
+-- 
+2.17.1
 
->"oe_soinstall: $libname soname is equal to fully versioned real (file)
-name. The soname should include the major version only (e.g.libfoo.so.1
-instead of libfoo.so.1.2)"
 
-Good point. But what if library real name is libfoo.so.1 and soname is
-libfoo.so.1 too? In my opinion there is two ways:
-
-1) Add one more check: parse $sonamelink and throw bbwarn if soname is
-incorrect. "Incorrect" in this case means that
-soname contain more than one version (libfoo.so.1.2)
-
-2) Mention both possible problems in bbwarn. Like: " $libname soname is
-equal to fully versioned real (file)
-name. The soname should include the major version only (e.g. libfoo.so.1
-instead of libfoo.so.1.2) or minor version
-should be added to library real name (e.g. libfoo.so.1.2 instead of
-libfoo.so.1) ; "
-
-First one is definitely clearer. So I'm going to implement it and send
-version 2 of patch
-
-On Wed, Feb 26, 2020 at 10:08 PM Andre McCurdy <armccurdy@gmail.com> wrote:
-
-> On Tue, Feb 25, 2020 at 6:17 AM Yevhenii Shchehlov
-> <eugenyshcheglov@gmail.com> wrote:
-> >
-> > This patch fixes an issue when oe_soinstall function creates
-> > non-functional recursive symlinks in case library soname is equal
-> > to library real (file) name.
-> >
-> > Signed-off-by: Yevhenii Shchehlov <eugenyshcheglov@gmail.com>
-> > ---
-> >  meta/classes/utils.bbclass | 8 ++++++--
-> >  1 file changed, 6 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
-> > index cd3d05709e..dea824f54f 100644
-> > --- a/meta/classes/utils.bbclass
-> > +++ b/meta/classes/utils.bbclass
-> > @@ -25,7 +25,7 @@ oe_soinstall() {
-> >         libname=`basename $1`
-> >         case "$libname" in
-> >             *.so)
-> > -               bbfatal "oe_soinstall: Shared library must haved
-> versioned filename (e.g. libfoo.so.1.2.3)"
-> > +               bbfatal "oe_soinstall: Shared library must haved
-> versioned filename (e.g. libfoo.so.1.2.3 instead of libfoo.so)"
->
-> This patch look OK but it might be nice to also clean up this error
-> message (and the Example comment a few lines above it) to drop the 3
-> levels of version number. There should only be 2, ie the fully
-> versioned filename would be libfoo.so.1.2 instead of libfoo.so.1.2.3
->
-> >                 ;;
-> >         esac
-> >         install -m 755 $1 $2/$libname
-> > @@ -33,8 +33,12 @@ oe_soinstall() {
-> >         if [ -z $sonamelink ]; then
-> >                 bbfatal "oe_soinstall: $libname is missing ELF tag
-> 'SONAME'."
-> >         fi
-> > +       if [ "$sonamelink" == "$libname" ]; then
-> > +               bbwarn "oe_soinstall: $libname soname is equal to real
-> (file) name. Minor version should be added to a real name (e.g.
-> libfoo.so.1.2 instead of libfoo.so.1)"
->
-> It might be clearer to say:
->
-> "oe_soinstall: $libname soname is equal to fully versioned real (file)
-> name. The soname should include the major version only (e.g.
-> libfoo.so.1 instead of libfoo.so.1.2)"
->
-> > +       else
-> > +               ln -sf $libname $2/$sonamelink
-> > +       fi
-> >         solink=`echo $libname | sed -e 's/\.so\..*/.so/'`
-> > -       ln -sf $libname $2/$sonamelink
-> >         ln -sf $libname $2/$solink
-> >  }
-> >
-> > --
-> > 2.25.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000ba62a9059f8d375e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><span class=3D"gmail-im">&gt;</span>This patch look OK but=
- it might be nice to also clean up this error<br>
-message (and the Example comment a few lines above it) to drop the 3<br>
-levels of version number. There should only be 2, ie the fully<br><div>
-versioned filename would be libfoo.so.1.2 instead of libfoo.so.1.2.3<span c=
-lass=3D"gmail-im"><br></span></div><div><br></div><div>Yeah, sound reasonab=
-le. According to the tLDP (<a href=3D"http://tldp.org/HOWTO/Program-Library=
--HOWTO/shared-libraries.html">http://tldp.org/HOWTO/Program-Library-HOWTO/s=
-hared-libraries.html</a>) <br></div><div>there can be be 3 levels, but last=
- one is optional. Quote from tLDP: <i>&quot;The real name adds to the sonam=
-e a period, a
-minor <br></i></div><div><i>number, another period, and the release number.
-The last period and release number <b>are</b> <b>optional</b>&quot;. <br></=
-i></div><div><i><br></i></div><div>So yes, correct fully versioned name sho=
-uld contain at least two numbers</div><div><br></div><div>&gt;&quot;oe_soin=
-stall: $libname soname is equal to fully versioned real (file) name. The so=
-name should include the major version only (e.g.libfoo.so.1 instead of libf=
-oo.so.1.2)&quot;</div><div><br></div><div>Good point. But what if library r=
-eal name is libfoo.so.1 and soname is libfoo.so.1 too? In my opinion there =
-is two ways: <br></div><div><br></div><div>1) Add one more check: parse $so=
-namelink and throw bbwarn if soname is incorrect. &quot;Incorrect&quot; in =
-this case means that <br></div><div>soname contain more than one version (l=
-ibfoo.so.1.2)<br></div><div><br></div><div>2) Mention both possible problem=
-s in bbwarn. Like: &quot; $libname soname is equal to fully versioned real =
-(file)<br>
-name. The soname should include the major version only (e.g. libfoo.so.1 in=
-stead of libfoo.so.1.2) or minor version <br></div><div>should be added to =
-library real name (e.g. libfoo.so.1.2 instead of libfoo.so.1) ; &quot;</div=
-><div><br></div><div>First one is definitely clearer. So I&#39;m going to i=
-mplement it and send version 2 of patch<br></div><div><i></i></div><div><sp=
-an class=3D"gmail-im"></span></div><div><span class=3D"gmail-im"></span></d=
-iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Wed, Feb 26, 2020 at 10:08 PM Andre McCurdy &lt;<a href=3D"mailto:arm=
-ccurdy@gmail.com">armccurdy@gmail.com</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">On Tue, Feb 25, 2020 at 6:17 AM Yevhen=
-ii Shchehlov<br>
-&lt;<a href=3D"mailto:eugenyshcheglov@gmail.com" target=3D"_blank">eugenysh=
-cheglov@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; This patch fixes an issue when oe_soinstall function creates<br>
-&gt; non-functional recursive symlinks in case library soname is equal<br>
-&gt; to library real (file) name.<br>
-&gt;<br>
-&gt; Signed-off-by: Yevhenii Shchehlov &lt;<a href=3D"mailto:eugenyshcheglo=
-v@gmail.com" target=3D"_blank">eugenyshcheglov@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/utils.bbclass | 8 ++++++--<br>
-&gt;=C2=A0 1 file changed, 6 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass<b=
-r>
-&gt; index cd3d05709e..dea824f54f 100644<br>
-&gt; --- a/meta/classes/utils.bbclass<br>
-&gt; +++ b/meta/classes/utils.bbclass<br>
-&gt; @@ -25,7 +25,7 @@ oe_soinstall() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libname=3D`basename $1`<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case &quot;$libname&quot; in<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*.so)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbfatal &quot;=
-oe_soinstall: Shared library must haved versioned filename (e.g. libfoo.so.=
-1.2.3)&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbfatal &quot;=
-oe_soinstall: Shared library must haved versioned filename (e.g. libfoo.so.=
-1.2.3 instead of libfoo.so)&quot;<br>
-<br>
-This patch look OK but it might be nice to also clean up this error<br>
-message (and the Example comment a few lines above it) to drop the 3<br>
-levels of version number. There should only be 2, ie the fully<br>
-versioned filename would be libfoo.so.1.2 instead of libfoo.so.1.2.3<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0esac<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 755 $1 $2/$libname<br>
-&gt; @@ -33,8 +33,12 @@ oe_soinstall() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -z $sonamelink ]; then<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbfatal &=
-quot;oe_soinstall: $libname is missing ELF tag &#39;SONAME&#39;.&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$sonamelink&quot; =3D=3D &quot;=
-$libname&quot; ]; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bbwarn &quot;o=
-e_soinstall: $libname soname is equal to real (file) name. Minor version sh=
-ould be added to a real name (e.g. libfoo.so.1.2 instead of libfoo.so.1)&qu=
-ot;<br>
-<br>
-It might be clearer to say:<br>
-<br>
-&quot;oe_soinstall: $libname soname is equal to fully versioned real (file)=
-<br>
-name. The soname should include the major version only (e.g.<br>
-libfoo.so.1 instead of libfoo.so.1.2)&quot;<br>
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf $libnam=
-e $2/$sonamelink<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0solink=3D`echo $libname | sed -e &#39=
-;s/\.so\..*/.so/&#39;`<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf $libname $2/$sonamelink<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf $libname $2/$solink<br>
-&gt;=C2=A0 }<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.25.1<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---000000000000ba62a9059f8d375e--
