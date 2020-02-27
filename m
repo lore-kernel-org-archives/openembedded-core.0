@@ -1,24 +1,59 @@
-Return-Path: <Wenlin.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C84A610A6
+Return-Path: <zboszor@pr.hu>
+Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 3994560696
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 02:23:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01R2Nc5S016354
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Feb 2020 18:23:48 -0800
-Received: from pek-wkang-d1.wrs.com (128.224.162.172) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 26 Feb 2020 18:23:27 -0800
-From: Wenlin Kang <wenlin.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 27 Feb 2020 10:23:26 +0800
-Message-ID: <20200227022326.16307-1-wenlin.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Thu, 27 Feb 2020 04:05:49 +0000 (UTC)
+Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
+	by frontdoor.pr.hu with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <zboszor@pr.hu>)
+	id 1j7AQo-0007iw-NS; Thu, 27 Feb 2020 05:05:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
+	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
+	MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=6LrQXrxca5PAmoV3LO1bd14YIvzDJUvxlUPTBPdau8s=;
+	b=hyt+iUoQ+lggHvD4aIFxzZ7q17
+	n4S6rfbsfblTfVSpJWrTW0txzNu8d+EiiP+YQBiXe/GUhUfP3eJekRlIt7CliC2D9XiqXSYCb5Z+t
+	yq5o3zFGU/cIYEBvq0QP97CeZJEhYpcPNltWkR0uvbsM9Jt+Zwtx4BgIMLxjOr1rqV/bONu8uDcGn
+	uKajAlMytNu9pob+N06TIDSAQO2F5ZNFHuTdo3od3Kow7MQD3h8Osxa6coN7F0WXTD7PeppcZNkHI
+	QVk/1slYYilHdBWDg1AExH/i0/709gizwyaASfBR5P7zmUtxRYza24cqg0laQ5XjMe7hWD81Uqo1g
+	obqZDQRA==;
+Received: from host-87-242-33-197.prtelecom.hu ([87.242.33.197]
+	helo=[192.168.1.2])
+	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <zboszor@pr.hu>)
+	id 1j7AQk-0005LN-7n; Thu, 27 Feb 2020 05:05:48 +0100
+To: Khem Raj <raj.khem@gmail.com>
+References: <20200226135716.49255-1-zboszor@pr.hu>
+	<20200226135716.49255-2-zboszor@pr.hu>
+	<CAMKF1sqrFju=q26M-wSuTDR7xjK9tycivhDGvR0eGqAa5g2Zog@mail.gmail.com>
+	<3b6928cc-d872-a9c9-942a-67f58d152790@pr.hu>
+	<CAMKF1sq+8VCveK48+FqpnPRU_MH6_g9+bVfzo4f2Bbto_d6MJQ@mail.gmail.com>
+	<1753b549-7a12-ec88-a1e5-f23ff05b060e@pr.hu>
+	<CAMKF1srD6BcwvQQ7cs3fdw1oQUxO+8K6dRWVn4DozbrkUgy+Cw@mail.gmail.com>
+	<8a163a56-9558-222a-b24b-03001d7e3b1c@pr.hu>
+	<3a2f7872-9f55-f27a-3db9-66aa2fc786f5@gmail.com>
+	<e1137d64-5be8-9667-fb3f-3ea264a1a5ad@pr.hu>
+	<dca27a23-5bb1-bfae-8736-d29a0faded96@pr.hu>
+	<cf075d34-c566-8284-8e16-3eb3b030e12c@gmail.com>
+	<a2e69e18-a8e9-0965-9d6e-341107937868@pr.hu>
+	<07623f86-1952-8cd1-c651-8e35a69b6db8@gmail.com>
+From: =?UTF-8?B?QsO2c3rDtnJtw6lueWkgWm9sdMOhbg==?= <zboszor@pr.hu>
+Message-ID: <87be1a14-bb0f-934e-b697-0c4b5375c92e@pr.hu>
+Date: Thu, 27 Feb 2020 05:05:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-Subject: [PATCH v2] libarchive: Fix CVE-2020-9308
+In-Reply-To: <07623f86-1952-8cd1-c651-8e35a69b6db8@gmail.com>
+X-Spam-Score: -1.9 (-)
+X-Scan-Signature: 631c646d8c1ca3165e089419b2fc5af1
+X-Spam-Tracer: backend.mail.pr.hu -1.9 20200227040548Z
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/5] libva-initial: New recipe to carry only pkgconfig files and headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,164 +66,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 02:23:57 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 27 Feb 2020 04:05:50 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Fix CVE-2020-9308
+2020. 02. 26. 21:31 keltezéssel, Khem Raj írta:
+> 
+> 
+> On 2/26/20 12:21 PM, Böszörményi Zoltán wrote:
+>> 2020. 02. 26. 20:44 keltezéssel, Khem Raj írta:
+>>>
+>>>
+>>> On 2/26/20 9:14 AM, Böszörményi Zoltán wrote:
+>>>> 2020. 02. 26. 18:08 keltezéssel, Böszörményi Zoltán írta:
+>>>>> 2020. 02. 26. 17:51 keltezéssel, Khem Raj írta:
+>>>>>>
+>>>>>>
+>>>>>> On 2/26/20 7:58 AM, Böszörményi Zoltán wrote:
+>>>>>>> 2020. 02. 26. 16:30 keltezéssel, Khem Raj írta:
+>>>>>>>> On Wed, Feb 26, 2020 at 7:20 AM Böszörményi Zoltán <zboszor@pr.hu> wrote:
+>>>>>>>>>
+>>>>>>>>> 2020. 02. 26. 16:13 keltezéssel, Khem Raj írta:
+>>>>>>>>>> On Wed, Feb 26, 2020 at 7:12 AM Böszörményi Zoltán <zboszor@pr.hu>
+>>>>>>>>>> wrote:
+>>>>>>>>>>>
+>>>>>>>>>>> 2020. 02. 26. 15:58 keltezéssel, Khem Raj írta:
+>>>>>>>>>>>> On Wed, Feb 26, 2020 at 6:05 AM Böszörményi Zoltán via
+>>>>>>>>>>>> Openembedded-core <openembedded-core@lists.openembedded.org> wrote:
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> The package name exploits sstate.bbclass so it's not added as
+>>>>>>>>>>>>> implicit dependency to packages.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>
+>>>>>>>>>>>> what is the use of this recipe and why should it be added to core ?
+>>>>>>>>>>>
+>>>>>>>>>>> I should have added a cover letter, shouldn't I?
+>>>>>>>>>>> See patch 3/5 in the series for enabling gallium-va in Mesa.
+>>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> recipe seems to build full libva, so why not just use that instead.
+>>>>>>>>>
+>>>>>>>>> You don't seem to be reading mails from openembedded-devel that
+>>>>>>>>> you were cc-ed on.
+>>>>>>>>
+>>>>>>>> don't assume things
+>>>>>>>
+>>>>>>> Understood.
+>>>>>>>
+>>>>>>>>> http://lists.openembedded.org/pipermail/openembedded-devel/2020-February/205142.html
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> I am trying to make us thing if -dev package can be used somehow to
+>>>>>>>> avoid this
+>>>>>>>> or have we exhausted all possibilities.
+>>>>>>>
+>>>>>>> Why is it a problem to exploit sstate.bbclass internals implicitly
+>>>>>>> by using a *-initial package name for an arbitrary package?
+>>>>>>
+>>>>>> it is not a problem, however, it is a work to keep such setup going and
+>>>>>> also it has to be considered always in dependencies etc.
+>>>>>>
+>>>>>>> Surely it's not reserved for libgcc-initial and friends.
+>>>>>>>
+>>>>>>
+>>>>>> they are different usecases, libgcc-initial is a veneer/trampoline used
+>>>>>> to bootstrap toolchain, and that too we want to remove at every
+>>>>>> opportunity we get, we use to have lot of initial recipes and they are
+>>>>>> very few left, so we have to be mindful of adding another one.
+>>>>>>
+>>>>>>> It solves two problems nicely in one go:
+>>>>>>> 1. by using a different package than libva, the libva-vs-mesa
+>>>>>>>     circular dependency is avoided. mesa needs a crippled libva
+>>>>>>> (pkgconfig + headers)
+>>>>>>>     to build its VAAPI state tracker and the VAAPI drivers
+>>>>>>
+>>>>>> I see archlinux using full libva for this. how are other distros doing
+>>>>>> it? is this problem unique to OE
+>>>>>
+>>>>> Fedora also uses the full libva.
+>>>>>
+>>>>> However, the chicken-and-egg circular dependency is broken by history
+>>>>> for these distros.
+>>>>>
+>>>>> Koji and Mock build one package at a time with all their dependencies
+>>>>> already available from the staging package repository and the results
+>>>>> will be eventually uploaded to the same repository.
+>>>>>
+>>>>> Bitbake doesn't have have this loophole to download pre-built dependencies.
+>>>>
+>>>> Also, somewhere on 01.org or in the libva sources the same solution
+>>>> I presented in this patchset is suggested:
+>>>>
+>>>> 1. build libva with --disable-glx (it is needed when Mesa SDK is present)
+>>>>     but it's not needed by not depending on mesa in libva-initial
+>>>> 2. build mesa with libva build in (1) as it only needs the pkgconfig files
+>>>>     and the headers
+>>>> 3. build libva with --enable-glx. It's autodetected, set to on with
+>>>>     depending on mesa in the full libva recipe.
+>>>
+>>> looking at the nature of the problem, it might be the way to unbreak the catch-22, does 
+>>> anything else needs this bootstrap header package ?
+>>
+>> Besides DEPENDS="libdrm", no.
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
----
- ...ct-files-that-declare-invalid-header.patch | 124 ++++++++++++++++++
- .../libarchive/libarchive_3.4.1.bb            |   4 +-
- 2 files changed, 127 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
+Sorry, I misread the question, it was too late after a workday.
+Nothing else uses this bootstrap package just Mesa.
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch b/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
-new file mode 100644
-index 0000000000..2b37d68d82
---- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
-@@ -0,0 +1,124 @@
-+From 94821008d6eea81e315c5881cdf739202961040a Mon Sep 17 00:00:00 2001
-+From: Grzegorz Antoniak <ga@anadoxin.org>
-+Date: Sun, 2 Feb 2020 08:04:41 +0100
-+Subject: [PATCH] RAR5 reader: reject files that declare invalid header flags
-+
-+One of the fields in RAR5's base block structure is the size of the
-+header. Some invalid files declare a 0 header size setting, which can
-+confuse the unpacker. Minimum header size for RAR5 base blocks is 7
-+bytes (4 bytes for CRC, and 3 bytes for the rest), so block size of 0
-+bytes should be rejected at header parsing stage.
-+
-+The fix adds an error condition if header size of 0 bytes is detected.
-+In this case, the unpacker will not attempt to unpack the file, as the
-+header is corrupted.
-+
-+The commit also adds OSSFuzz #20459 sample to test further regressions
-+in this area.
-+
-+Upstream-Status: Backport[https://github.com/libarchive/libarchive/commit/94821008d6eea81e315c5881cdf739202961040a]
-+CVE: CVE-2020-9308
-+
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-+---
-+ Makefile.am                                             |  1 +
-+ libarchive/archive_read_support_format_rar5.c           | 17 +++++++++++++++--
-+ libarchive/test/test_read_format_rar5.c                 | 15 +++++++++++++++
-+ ...test_read_format_rar5_block_size_is_too_small.rar.uu |  8 ++++++++
-+ 4 files changed, 39 insertions(+), 2 deletions(-)
-+ create mode 100644 libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 06c2644..c65e243 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -877,6 +877,7 @@ libarchive_test_EXTRA_DIST=\
-+ 	libarchive/test/test_read_format_rar5_win32.rar.uu \
-+ 	libarchive/test/test_read_format_rar5_arm_filter_on_window_boundary.rar.uu \
-+ 	libarchive/test/test_read_format_rar5_different_winsize_on_merge.rar.uu \
-++	libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu \
-+ 	libarchive/test/test_read_format_raw.bufr.uu \
-+ 	libarchive/test/test_read_format_raw.data.gz.uu \
-+ 	libarchive/test/test_read_format_raw.data.Z.uu \
-+diff --git a/libarchive/archive_read_support_format_rar5.c b/libarchive/archive_read_support_format_rar5.c
-+index ff1d6f8..f7c163e 100644
-+--- a/libarchive/archive_read_support_format_rar5.c
-++++ b/libarchive/archive_read_support_format_rar5.c
-+@@ -2085,6 +2085,8 @@ static int scan_for_signature(struct archive_read* a);
-+ static int process_base_block(struct archive_read* a,
-+     struct archive_entry* entry)
-+ {
-++	const size_t SMALLEST_RAR5_BLOCK_SIZE = 3;
-++
-+ 	struct rar5* rar = get_context(a);
-+ 	uint32_t hdr_crc, computed_crc;
-+ 	size_t raw_hdr_size = 0, hdr_size_len, hdr_size;
-+@@ -2114,15 +2116,26 @@ static int process_base_block(struct archive_read* a,
-+ 		return ARCHIVE_EOF;
-+ 	}
-+ 
-++	hdr_size = raw_hdr_size + hdr_size_len;
-++
-+ 	/* Sanity check, maximum header size for RAR5 is 2MB. */
-+-	if(raw_hdr_size > (2 * 1024 * 1024)) {
-++	if(hdr_size > (2 * 1024 * 1024)) {
-+ 		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
-+ 		    "Base block header is too large");
-+ 
-+ 		return ARCHIVE_FATAL;
-+ 	}
-+ 
-+-	hdr_size = raw_hdr_size + hdr_size_len;
-++	/* Additional sanity checks to weed out invalid files. */
-++	if(raw_hdr_size == 0 || hdr_size_len == 0 ||
-++		hdr_size < SMALLEST_RAR5_BLOCK_SIZE)
-++	{
-++		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
-++		    "Too small block encountered (%ld bytes)",
-++		    raw_hdr_size);
-++
-++		return ARCHIVE_FATAL;
-++	}
-+ 
-+ 	/* Read the whole header data into memory, maximum memory use here is
-+ 	 * 2MB. */
-+diff --git a/libarchive/test/test_read_format_rar5.c b/libarchive/test/test_read_format_rar5.c
-+index bb94d4e..f91521e 100644
-+--- a/libarchive/test/test_read_format_rar5.c
-++++ b/libarchive/test/test_read_format_rar5.c
-+@@ -1256,3 +1256,18 @@ DEFINE_TEST(test_read_format_rar5_different_winsize_on_merge)
-+ 
-+ 	EPILOGUE();
-+ }
-++
-++DEFINE_TEST(test_read_format_rar5_block_size_is_too_small)
-++{
-++	char buf[4096];
-++	PROLOGUE("test_read_format_rar5_block_size_is_too_small.rar");
-++
-++	/* This file is damaged, so those functions should return failure.
-++	 * Additionally, SIGSEGV shouldn't be raised during execution
-++	 * of those functions. */
-++
-++	assertA(archive_read_next_header(a, &ae) != ARCHIVE_OK);
-++	assertA(archive_read_data(a, buf, sizeof(buf)) <= 0);
-++
-++	EPILOGUE();
-++}
-+diff --git a/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu b/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
-+new file mode 100644
-+index 0000000..5cad219
-+--- /dev/null
-++++ b/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
-+@@ -0,0 +1,8 @@
-++begin 644 test_read_format_rar5_block_size_is_too_small.rar
-++M4F%R(1H'`0"-[P+2``+'(!P,("`@N`,!`B`@("`@("`@("`@("`@("#_("`@
-++M("`@("`@("`@((:Q;2!4-'-^4B`!((WO`M(``O\@$/\@-R`@("`@("`@("`@
-++M``X@("`@("`@____("`@("`@(/\@("`@("`@("`@("#_(+6U,2"UM;6UM[CU
-++M)B`@*(0G(`!.`#D\3R``(/__(,+_````-0#_($&%*/HE=C+N`"```"```"`D
-++J`)$#("#_("#__P`@__\@_R#_("`@("`@("#_("#__R`@(/__("#__R`"
-++`
-++end
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.1.bb b/meta/recipes-extended/libarchive/libarchive_3.4.1.bb
-index 2d33dd80ab..91b0f58e8f 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.4.1.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.4.1.bb
-@@ -31,7 +31,9 @@ PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
- 
- EXTRA_OECONF += "--enable-largefile"
- 
--SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
-+SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-+           file://0001-RAR5-reader-reject-files-that-declare-invalid-header.patch \
-+          "
- 
- SRC_URI[md5sum] = "59bff5ee6216cbb76c8354f6dd6f5a5a"
- SRC_URI[sha256sum] = "fcf87f3ad8db2e4f74f32526dee62dd1fb9894782b0a503a89c9d7a70a235191"
--- 
-2.17.1
+>>
+>>> do we need to ensure that content of libva-dev and the bootstrap packages do not overlap.
+>>
+>> I don't think so.
+>> Apparently, the mesa-dev package built from this patchset
+>> doesn't depend on libva-initial-dev and this latter package
+>> doesn't get included into an image either. I guess the
+>> sstate.bbclass internals deal with this properly.
+>>
+> 
+> OK, I guess, we should give it a test.
+> 
+>>
+>>>
+>>>>
+>>>> Obviusly the same libva recipe can't be used to build mesa that depends on mesa.
+>>>>
+>>>
+>>>
+>>
 
 
