@@ -1,52 +1,48 @@
-Return-Path: <offougajoris@gmail.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EF5B61873
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F66961855
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 17:39:43 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id r17so4482272wrj.7
+	Thu, 27 Feb 2020 18:39:17 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id a2so311019vso.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 09:39:45 -0800 (PST)
+	Thu, 27 Feb 2020 10:39:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-transfer-encoding:content-language;
-	bh=Vbpd6wzmD99kSiZuEVvJp89ES2txZp30afQ7bqEGBhA=;
-	b=ZY7BoWXKPmiXvd4RoQmswOR+EAV9lyQahQ36sp6ry8fe75id+drN1WwgxKlVs13rxR
-	vKAciiMAe4k7j7BJAFv7Zgvjts96+N9UKyJLfUUrSfM5KzqAQGjv33WOcth6GS0X65mq
-	hmkgoZ+zJiF0M4sO2rzN8e3PHsbhpvQ4gMpsgRsZoF1tStDwZq51iOS+0ljSJKLaSOCj
-	z/lIiwCDI7Qe9hG0JjjtCjLQxp9aMONL3uB7Yr0C9hn/jSNJTcD4oTxH0bfu6Tew7N1S
-	apYq6EnEoHZFGDKh3IAg2H5YrObCzwD/wa0lcovU3YXjzEskpBuSGiHt1vCTAQBW5X4V
-	3rtA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=LTQKgyRVc+EQU8vq4Eg+tOZjQzHSc0IKGvw5YJBIiH8=;
+	b=IBugSnMtrDzMpL1G8T9eI19tj8lWXdEHZiRu8r0pZl9bLmbYwiMXHqW72vZ9OsLule
+	p+GE68soG4MMdbvejfHoLCZBGKvprql+fv41D2AmHf8wppzpYBfkteeYJluROzNslZ84
+	AOtakJaAq38wH1CgG3mQmkWQ0iDe0jZZVHNjIUT/MimwLOEJ0tAAyZ4nDKs78Z/HPMGQ
+	A5ERDwdE1udsCEXZSANh5V18msczXctkwUKToZAL4dtcBgjHv3Vo35MP+0RdEmzGZLoZ
+	4Afe56QrTxQ60hFwLca6PI1n0/7OjLSp+Qu/t+5VCrXikH2dEF+U+5yD86nvezFDIDFp
+	svig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=Vbpd6wzmD99kSiZuEVvJp89ES2txZp30afQ7bqEGBhA=;
-	b=N7AQrhUF8k1bqAj044kGmyazKEhnHOsjhaU7jmwfLDOh36NjKcKwViJ7/tQpvvNe7U
-	yb2jiodJQAP8c6UngdSJLihkEpFH/nT5flzvbAM7zghKCPo28ttusbDT6D1HBRephbQf
-	ksILx5qpN/VuZiTbRv0Oj4lTUCdyz+DskeRs9J34UckUlfS75ojN1ITTe2wMZTmbnAg+
-	RdEqINplFinYSp5+CJG1OwT6bl3jG8q8jcLpn2gWMoxlDFoUk8PtJTQ1eW9T1J570mWk
-	1TWvTiG18M7qa2irdcffs+oK1XSU+el5PMo9v2lIXB3Cg3lFKA2BC2xalGGvTzTvWq6l
-	jJHw==
-X-Gm-Message-State: APjAAAXypvMjdAqQuCS1OTdhCBYLwNkddAd5i+uHUbYaRx1zDKJe+Rma
-	YWIkv62nQf02j7OKTgb39kDuN5SlMf0=
-X-Google-Smtp-Source: APXvYqyh20lBhCNtrip9/Jlih8+Gct8yteWLGjDPqu25qpoo/kSqHV3V66l6flKfMIzFm3967trXAA==
-X-Received: by 2002:adf:eac1:: with SMTP id o1mr9713wrn.234.1582825184073;
-	Thu, 27 Feb 2020 09:39:44 -0800 (PST)
-Received: from ?IPv6:2a01:cb19:16b:9900:99d0:6d32:6d6c:e020?
-	([2a01:cb19:16b:9900:99d0:6d32:6d6c:e020])
-	by smtp.gmail.com with ESMTPSA id c26sm8359904wmb.8.2020.02.27.09.39.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 27 Feb 2020 09:39:42 -0800 (PST)
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-From: Joris Offouga <offougajoris@gmail.com>
-Message-ID: <f701421c-98bc-cf4b-edd4-56298b6796f2@gmail.com>
-Date: Thu, 27 Feb 2020 18:41:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=LTQKgyRVc+EQU8vq4Eg+tOZjQzHSc0IKGvw5YJBIiH8=;
+	b=BXYFucy35AoB5WJGASwossTCkPXkxp3G2i3DHlWN5gefjqAZLzLRTDaR9v+BzTL6PB
+	iy0XCSAIc4ph5COEl1H2unMVd6WsPPGiknD+QLlh5zIbn7B9g6g3r2vQ9+pk1rHRzhk9
+	DiV6w2/3gKUIXcunT5q9CBHNVXy17UcAsP6TVBHtnoiM8dv00y9Om6qjv+LIDO5UursM
+	JfBLWn/UPi0HDUY/R3IYDSLUys9u5S+sgmmOuPmCqann4jFQ/eiqiej1DcMvKz5QZcer
+	fW+6rChsr44YdrT4aHt7GD9FhVE9ISMzAK0FYbng+ELh5Ad05SFpTB0sPrPedSoYtkMK
+	QCdw==
+X-Gm-Message-State: ANhLgQ0H0a0b8py1WCquT7rLE+iBN4O23PtH2+JD2BXBpprCP7wpxXMw
+	CbGB0qz8U9cqoH/w/bRmDmA5e/pjw3AEjZw3uTc=
+X-Google-Smtp-Source: ADFU+vsuPjm1GeVzDqV4cpjM2n5QKRCc9m8qxH720+LXB4GqSzP3EO2f3wy8rOw9mvC07ydoCG01a1x2TSMahse8xss=
+X-Received: by 2002:a67:f41a:: with SMTP id p26mr413730vsn.222.1582828758086; 
+	Thu, 27 Feb 2020 10:39:18 -0800 (PST)
 MIME-Version: 1.0
-Subject: Bug with extensible sdk
+References: <20200225141733.54584-1-eugenyshcheglov@gmail.com>
+	<CAJ86T=VH+nVRgdWr4hyX0WZVnGwu=4MOsSs7a_8QcqAYHt1nfA@mail.gmail.com>
+	<CALepYk+MjGAN_XO9abU9pd6Zq+7FYezboCTSEqBUneGphjTu8g@mail.gmail.com>
+In-Reply-To: <CALepYk+MjGAN_XO9abU9pd6Zq+7FYezboCTSEqBUneGphjTu8g@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 27 Feb 2020 10:39:04 -0800
+Message-ID: <CAJ86T=UTQBtCi=rM0YPLqCVi9bgD+pt9FZr4rXWXxUNPJWTyAA@mail.gmail.com>
+To: Eugeny Shcheglov <eugenyshcheglov@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] utils.bbclass: Avoid recursive symlink in oe_soinstall
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,39 +55,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Feb 2020 17:39:44 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 27 Feb 2020 18:39:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi all,
+On Thu, Feb 27, 2020 at 3:42 AM Eugeny Shcheglov
+<eugenyshcheglov@gmail.com> wrote:
+>
+> >This patch look OK but it might be nice to also clean up this error
+> message (and the Example comment a few lines above it) to drop the 3
+> levels of version number. There should only be 2, ie the fully
+> versioned filename would be libfoo.so.1.2 instead of libfoo.so.1.2.3
+>
+> Yeah, sound reasonable. According to the tLDP (http://tldp.org/HOWTO/Program-Library-HOWTO/shared-libraries.html)
+> there can be be 3 levels, but last one is optional. Quote from tLDP: "The real name adds to the soname a period, a minor
+> number, another period, and the release number. The last period and release number are optional".
 
-I am developing a custom distribution based on poky and I am creating an 
-extensible sdk from my image, but when I install this extensible sdk, I 
-find an error in python3 and an error in relocate.py. For my extensible 
-sdk to work I have to install the sdk generated by populate_sdk in its 
-default location. Do you have an idea to solve my problem?
+In terms of creating symlinks there are only two levels to the version
+number: .so is a symlink to .so.<major> and .so.<major> is a symlink
+to a file called .so.<major>.<everythingelse> (and soname matches
+.so.<major>). You can define the structure of <everythingelse> to be
+just a minor number, a minor number and a release number, or something
+else it still works fine from the point of view of this function. The
+common case is for <everythingelse> to just be the minor release
+number and I think it's clearer if the the comments and error messages
+for this function reflect that.
 
-You can see raw log :
+> So yes, correct fully versioned name should contain at least two numbers
+>
+> >"oe_soinstall: $libname soname is equal to fully versioned real (file) name. The soname should include the major version only (e.g.libfoo.so.1 instead of libfoo.so.1.2)"
+>
+> Good point. But what if library real name is libfoo.so.1 and soname is libfoo.so.1 too? In my opinion there is two ways:
 
-SDK environment now set up; additionally you may now run devtool to 
-perform development tasks.
-Run devtool --help for further details.
-/home/jun/poky-evbb_sdk/sysroots/x86_64-pokysdk-linux/usr/bin/python3: 
-line 5: 
-/home/jun/poky-evbb_sdk/sysroots/x86_64-pokysdk-linux/usr/bin/python3.7.real: 
-No such file or directory
-post-relocate command 
-"/home/jun/poky-evbb_sdk/sysroots/x86_64-pokysdk-linux/post-relocate-setup.d/meson-setup.py 
-/home/jun/poky-evbb_sdk" failed with status 127
-SDK has been successfully set up and is ready to be used.
-Each time you wish to use the SDK in a new shell session, you need to 
-source the environment setup script e.g.
-  $ . 
-/home/jun/poky-evbb_sdk/environment-setup-armv7vet2hf-neon-evbox-linux-gnueabi
+That's a case where you only need one symlink (ie .so is a symlink to
+a file called .so.<major> and soname matches .so.<major>) and it
+doesn't seem to have been considered when this function was originally
+written. I agree it's a valid use case though (and I guess trying to
+fix that is the original motivation behind sending this patch?).
 
-Best regards,
+Ideally the function should be able to distinguish between needing to
+create a single symlink and needing to create two symlinks but the
+soname is incorrect... and give a meaningful error in the second case.
 
-Joris Offouga
-
+> 1) Add one more check: parse $sonamelink and throw bbwarn if soname is incorrect. "Incorrect" in this case means that
+> soname contain more than one version (libfoo.so.1.2)
+>
+> 2) Mention both possible problems in bbwarn. Like: " $libname soname is equal to fully versioned real (file)
+> name. The soname should include the major version only (e.g. libfoo.so.1 instead of libfoo.so.1.2) or minor version
+> should be added to library real name (e.g. libfoo.so.1.2 instead of libfoo.so.1) ; "
+>
+> First one is definitely clearer. So I'm going to implement it and send version 2 of patch
+>
+> On Wed, Feb 26, 2020 at 10:08 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> On Tue, Feb 25, 2020 at 6:17 AM Yevhenii Shchehlov
+>> <eugenyshcheglov@gmail.com> wrote:
+>> >
+>> > This patch fixes an issue when oe_soinstall function creates
+>> > non-functional recursive symlinks in case library soname is equal
+>> > to library real (file) name.
+>> >
+>> > Signed-off-by: Yevhenii Shchehlov <eugenyshcheglov@gmail.com>
+>> > ---
+>> >  meta/classes/utils.bbclass | 8 ++++++--
+>> >  1 file changed, 6 insertions(+), 2 deletions(-)
+>> >
+>> > diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+>> > index cd3d05709e..dea824f54f 100644
+>> > --- a/meta/classes/utils.bbclass
+>> > +++ b/meta/classes/utils.bbclass
+>> > @@ -25,7 +25,7 @@ oe_soinstall() {
+>> >         libname=`basename $1`
+>> >         case "$libname" in
+>> >             *.so)
+>> > -               bbfatal "oe_soinstall: Shared library must haved versioned filename (e.g. libfoo.so.1.2.3)"
+>> > +               bbfatal "oe_soinstall: Shared library must haved versioned filename (e.g. libfoo.so.1.2.3 instead of libfoo.so)"
+>>
+>> This patch look OK but it might be nice to also clean up this error
+>> message (and the Example comment a few lines above it) to drop the 3
+>> levels of version number. There should only be 2, ie the fully
+>> versioned filename would be libfoo.so.1.2 instead of libfoo.so.1.2.3
+>>
+>> >                 ;;
+>> >         esac
+>> >         install -m 755 $1 $2/$libname
+>> > @@ -33,8 +33,12 @@ oe_soinstall() {
+>> >         if [ -z $sonamelink ]; then
+>> >                 bbfatal "oe_soinstall: $libname is missing ELF tag 'SONAME'."
+>> >         fi
+>> > +       if [ "$sonamelink" == "$libname" ]; then
+>> > +               bbwarn "oe_soinstall: $libname soname is equal to real (file) name. Minor version should be added to a real name (e.g. libfoo.so.1.2 instead of libfoo.so.1)"
+>>
+>> It might be clearer to say:
+>>
+>> "oe_soinstall: $libname soname is equal to fully versioned real (file)
+>> name. The soname should include the major version only (e.g.
+>> libfoo.so.1 instead of libfoo.so.1.2)"
+>>
+>> > +       else
+>> > +               ln -sf $libname $2/$sonamelink
+>> > +       fi
+>> >         solink=`echo $libname | sed -e 's/\.so\..*/.so/'`
+>> > -       ln -sf $libname $2/$sonamelink
+>> >         ln -sf $libname $2/$solink
+>> >  }
+>> >
+>> > --
+>> > 2.25.1
+>> >
+>> > --
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
