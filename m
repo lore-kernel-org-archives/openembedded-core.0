@@ -1,51 +1,54 @@
 Return-Path: <petr.vorel@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D7D161687
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+	[209.85.128.44])
+	by mail.openembedded.org (Postfix) with ESMTP id EB695618EA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 06:12:34 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id q9so1912990wmj.5
+	Fri, 28 Feb 2020 06:18:35 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id m10so8576045wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 22:12:36 -0800 (PST)
+	Thu, 27 Feb 2020 22:18:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=E+y4aD6hlwvqAhs9aIpOBF7ttQVX/t2b7yzO6+mKrX8=;
-	b=TN6ot0VtNoP/V716SBUP+DfYCG7fHd8fDwWsUxcYja3cJ46ajCthTeLQRS9RhJRkbp
-	cxYAuouJhzNjLj2v+DWdb9DsQ3SMwaTW50EImso2pCeL4X9U8xBh7FcC5mTjm9HUfyZD
-	s5Wr5YDeOzHkfygKeDM+OsjKQ5Vr1Jo6sXHyU6SzlWSOmpvBcs13AFAkeWprJuaT3uUN
-	Cr6ytCGxUCE+QZZr1NfiP6ENkKhdQBynm5fRtzvwBFPwipXLeNOPM/BVQWsPwrY2XJ0Q
-	4DBJNqycS3q0jw+LIIaIiaV9+i8IhJP/rzqNw9Gry7z9JxiTdUJ+xX9Du1husb/CyJiR
-	x6Wg==
+	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+	:content-disposition:in-reply-to;
+	bh=owP/ABZ4HUqwgBKCUmdLlA27wGej7lNQTEVVW+y6vR8=;
+	b=foLme40p6GCHI9gbB1mOPvoowCsUUWJYQxkLq3146Y34xkBkhte/+TAjYU/JPiqahe
+	X3Q3sTMCxHPvwct8ZhVo9pPFSf3xkIJRIbYUFZIlxmz6rZZhxZttPpglBw25hmxbvdXF
+	eNMMDxdqRiKcdlS4uTeBt3vVmOfOUJYexZEnx3sJzxakyE6cU3I24UkSfP+7zAylNpqB
+	bmwX1awgIgwJQogBd0Gj6/+D1kUyEuZskHxFpYuB/Xe0xha5jDbBfvzYWNSaBrpPenZB
+	njIkvHlzeIldYn8XBdmOvKOW9YfMxF/Aw2D3OewbYc42ud7mYmgoP7x1/Pe/cp0+kUIv
+	nSBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=E+y4aD6hlwvqAhs9aIpOBF7ttQVX/t2b7yzO6+mKrX8=;
-	b=ZSJqAPR5w9D1jBQyDo2Ykda9/WwCEJh6aknVlVJMuKK7C49KpAfEodrwsJsHDKHxOU
-	x+xU5LMLysKANu+Bcay3Q8xDmJxN261kjuhKftEfhMCDYPOrtbz4yV6fJQTx8ztG/YI1
-	cILXFTcKkF7RSRy/pLxm5gRPkjJv3cIypx17JkZdosLMIjmybNF5BS8QbSFRNDvFOrrc
-	kclfW0u9Zc2GW+IudHkCpf3RZPQSO9tZlGqOHxXQOz1TIeaGhdw+wMGAvRdeSRGa9fAT
-	0MVXjm/oHCEBile0OFsaNmvrVCLR81o9Bk2RyExdF2Irf/zCeVvbe6iPCyitCSFLXHZe
-	JNrg==
-X-Gm-Message-State: APjAAAV7dLEbF555k2W8dJliRiPmXOiNbXXkfVum+X0G43h/vLjVtkzg
-	IdHt8pgVXqBsnEQnFmbV3p6wFGLbCvA=
-X-Google-Smtp-Source: APXvYqywL4G5kBhWKOZz0SQB3D2Q3MtaYJsI5ewkCDBdiY4fr9/TSxYv+5VT+JaPF+9MkCVD5eWctw==
-X-Received: by 2002:a1c:3b09:: with SMTP id i9mr2937235wma.31.1582870354961;
-	Thu, 27 Feb 2020 22:12:34 -0800 (PST)
-Received: from dell5510.arch.suse.de ([62.201.25.198])
-	by smtp.gmail.com with ESMTPSA id b67sm694562wmc.38.2020.02.27.22.12.33
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+	:references:mime-version:content-disposition:in-reply-to;
+	bh=owP/ABZ4HUqwgBKCUmdLlA27wGej7lNQTEVVW+y6vR8=;
+	b=Vkwg9xIaTxu10sRTnkrxL5lMvlH23D8UCiml4Hbj/19aJb/pjrS8uKySgQlPVqoi/N
+	CvcdZeOyjYDg2XKLht1beCZif7bud6WCtO8e6dL3D9k91WxBRd1aRNQryrbQ2xkB/O9a
+	ETWexkHPtOoPrhMg/2sweXv3IsfdXBIivg3JZVqAjl5EFEnwT7mLIDVpOwKRj3OuZOj2
+	71DvFEhErTs+QYtkIJIboMCD5FAmW2sktdsFJtfqgzJD4VWIu6HpuOdlbu/urd/UQ/ec
+	0VHmw5Jgp4Dw54h9Tg2L7MbHGIitUlzJwmhN/zPKXsK1AWHfIug32XRCUHoLlT+9tANY
+	4j2g==
+X-Gm-Message-State: APjAAAX8yp4U1q2R/KWnLxxq0XDY9sHqNCiQNJI4a8A1YieV8jwoTZ2q
+	YVxOpOntzsGR96IbyQ2AuV4=
+X-Google-Smtp-Source: APXvYqw2ohLDIH3C6Og0eQvs9qnl/qKQeo6YA4xIoY/ZL/6LXnZDzOFGFE8gBuLYxcu8imK02tMKwg==
+X-Received: by 2002:a1c:488a:: with SMTP id v132mr3043258wma.153.1582870716599;
+	Thu, 27 Feb 2020 22:18:36 -0800 (PST)
+Received: from dell5510 ([62.201.25.198])
+	by smtp.gmail.com with ESMTPSA id f127sm748597wma.4.2020.02.27.22.18.35
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 27 Feb 2020 22:12:34 -0800 (PST)
+	Thu, 27 Feb 2020 22:18:35 -0800 (PST)
+Date: Fri, 28 Feb 2020 07:18:34 +0100
 From: Petr Vorel <petr.vorel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Feb 2020 07:12:25 +0100
-Message-Id: <20200228061225.32003-2-petr.vorel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200228061225.32003-1-petr.vorel@gmail.com>
-References: <20200228061225.32003-1-petr.vorel@gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20200228061834.GA30343@dell5510>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
+References: <20200227212940.12327-1-petr.vorel@gmail.com>
+	<3db4501b-68e6-7a41-2ac5-268675583bec@intel.com>
+	<e25440e3-f3c4-ea7f-c473-7fee90e89079@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH v4 2/2] ltp: Remove mips related open_posix_testsuite patch
+In-Reply-To: <e25440e3-f3c4-ea7f-c473-7fee90e89079@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v3 1/2] ltp: Update to 20200120
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,108 +61,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2020 06:12:36 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 28 Feb 2020 06:18:36 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Upstream just disagree on this patch
-https://patchwork.ozlabs.org/comment/2012045/
+Hi Khem,
 
-Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
----
-Changes v3->v4: NONE
+> > It looks like this is failing with musl:
 
- ...suite-mmap24-2-Relax-condition-a-bit.patch | 68 -------------------
- meta/recipes-extended/ltp/ltp_20200120.bb     |  1 -
- 2 files changed, 69 deletions(-)
- delete mode 100644 meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
+> > /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/i686-poky-linux-musl/../../libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/9.2.0/ld: /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_memory_test/../cpuset_lib/libcpu_set.a(libcpuset.o):
+> > in function `cpuset_fts_open':
+> > /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3214:
+> > undefined reference to `fts_open'
+> > /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/i686-poky-linux-musl/../../libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/9.2.0/ld: /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3224:
+> > undefined reference to `fts_read'
+> > /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/i686-poky-linux-musl/../../libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/9.2.0/ld: /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3269:
+> > undefined reference to `fts_close'
+> > /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/i686-poky-linux-musl/../../libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/9.2.0/ld: /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3277:
+> > undefined reference to `fts_close'
 
-diff --git a/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch b/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-deleted file mode 100644
-index d32ac1dd7c..0000000000
---- a/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From a8715a1446305ffd76406f63c7f160c13a5b2e72 Mon Sep 17 00:00:00 2001
--From: "Hongzhi.Song" <hongzhi.song@windriver.com>
--Date: Wed, 10 Oct 2018 22:07:05 -0400
--Subject: [PATCH] open_posix_testsuite/mmap24-2: Relax condition a bit
--
--Mips will return EINVAL instead of ENOMEM as expected
--if the range [addr + len) exceeds TASK_SIZE.
--
--Linux kernel code: arch/mips/mm/mmap.c
--if (flags & MAP_FIXED) {
--    /* Even MAP_FIXED mappings must reside within TASK_SIZE */
--    if (TASK_SIZE - len < addr)
--        return -EINVAL;
--
--Relax the condition and accept both ENOMEM and EINVAL
--as expected outcome.
--
--Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2018-October/009624.html]
--
--Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-----
-- .../open_posix_testsuite/conformance/interfaces/mmap/24-2.c    | 10 +++++-----
-- 1 file changed, 5 insertions(+), 5 deletions(-)
--
--diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--index 9cf83d9..55090a6 100644
----- a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--+++ b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--@@ -7,7 +7,7 @@
--  * source tree.
--  *
--  * The mmap() function shall fail if:
--- * [ENOMEM] MAP_FIXED was specified,
--+ * [ENOMEM or EINVAL] MAP_FIXED was specified,
--  * and the range [addr,addr+len) exceeds that allowed
--  * for the address space of a process; or, if MAP_FIXED was not specified and
--  * there is insufficient room in the address space to effect the mapping.
--@@ -15,7 +15,7 @@
--  * Test Step:
--  * 1. Map a shared memory object, with size exceeding the value get from
--  *    rlim_cur of resource RLIMIT_AS, setting MAP_FIXED;
--- * 3. Should get ENOMEM.
--+ * 3. Should get ENOMEM or EINVAL.
--  */
-- 
-- #include <stdio.h>
--@@ -92,8 +92,8 @@ int main(void)
-- 	       (unsigned long)len);
-- 	pa = mmap(addr, len, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED, fd,
-- 		  0);
---	if (pa == MAP_FAILED && errno == ENOMEM) {
---		printf("Got ENOMEM: %s\nTest PASSED\n", strerror(errno));
--+	if (pa == MAP_FAILED && (errno == ENOMEM || errno == EINVAL)) {
--+		printf("Got ENOMEM or EINVAL: %s\nTest PASSED\n", strerror(errno));
-- 		exit(PTS_PASS);
-- 	}
-- 
--@@ -102,6 +102,6 @@ int main(void)
-- 	else
-- 		munmap(pa, len);
-- 	close(fd);
---	printf("Test Fail: Did not get ENOMEM as expected\n");
--+	printf("Test Failed: Did not get ENOMEM or EINVAL as expected\n");
-- 	return PTS_FAIL;
-- }
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp_20200120.bb b/meta/recipes-extended/ltp/ltp_20200120.bb
-index 312eeca114..847f267b0b 100644
---- a/meta/recipes-extended/ltp/ltp_20200120.bb
-+++ b/meta/recipes-extended/ltp/ltp_20200120.bb
-@@ -34,7 +34,6 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0004-guard-mallocopt-with-__GLIBC__.patch \
-            file://0007-Fix-test_proc_kill-hanging.patch \
-            file://0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
--           file://0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
-            file://0001-Add-more-musl-exclusions.patch \
-            file://0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch \
-            "
--- 
-2.25.1
+> I think we need to add
 
+> DEPENDS_append_libc-musl = " fts "
+> EXTRA_OEMAKE_append_libc-musl = " LIBS=-lfts"
+
+Thanks! LIBS=-lfts should fix missing fts. I've sent it as v4.
+
+I'm trying to test it on TARGET_SYS = "x86_64-oe-linux-musl"
+(run via TCLIBC=musl bitbake ltp, I should probably test it also on other arch:
+MACHINE=qemuarm TCLIBC=musl bitbake ltp).
+
+Anuj, can you test it as well?
+
+Kind regards,
+Petr
 
