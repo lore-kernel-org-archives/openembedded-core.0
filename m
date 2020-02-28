@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6178B60289
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
+	[209.85.217.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A982961938
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 09:26:20 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id v4so2106012wrs.8
+	Fri, 28 Feb 2020 09:28:13 +0000 (UTC)
+Received: by mail-vs1-f68.google.com with SMTP id 7so1507019vsr.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 01:26:22 -0800 (PST)
+	Fri, 28 Feb 2020 01:28:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ZdZ5+6fj/HnAOuSCDMxzSJA2bqToFRirUyXi36CqKok=;
-	b=RSPV3XKsNke20D1/rqd1/kBgM2NQN2I5V1d1TCW58clBVnpziGtTyfnibOh9aGwesG
-	x4V/ABBi+rzMpGhLENEjOTVcUeSRNi8cyLAFUApfCZ13N+p0Zr8DHO2v/I6oQUIZJ92p
-	7ulc+XwbxBOldux3FFnsq2JkLtjALZs0Umx1WU4cQt+KWFX38sGUA00DDGeDJcfChIMX
-	J0fP4XYvkRsTrBbc1/tY0Oj90eM4E1qRx26aY/6ohR8LEqmxUdAdxv2SHo6Zjb3veygA
-	VZnGcso753ibclNUpSJpRs3xErdk+iBIE/ssxpm4FIaQAorxgpYZueZIeQqSxgQo4ss7
-	+0Ew==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ntVvrCdyxXnqea0RDD0Ll7xxKwX2lfy5f6Bh8pbtTp8=;
+	b=qeaIfiH9bD/QjR4+FJs1HU4fOaRpQxJpkIp3Ee3GWCQl3mVy7AAA089YWZJNqQg3Rx
+	AGKT1QGfFKt15Y1j2OgdArsXAtp9zqru5KlNtbfQC73C7MkW6b0AlS5yTj/OUafkhMB1
+	+efkodHrsBAj8A88SWxOa/mJH7ZtAdBR3shF0ZCa0fKL8fx6Zx5hh94mvalrLlWsA32Z
+	+N4lok6NqGGAFudjRhLeJzmGAsF1TegJjOTb4GbWUfnzXKHdYhV/NBag0WgqHSR59ulZ
+	xtWP1uemlvIkvjs8Q43PR97M4n49PmMep4DSKYlECrY8PF2hRCxZxGh0RWHQ0GJ9hAES
+	p+SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ZdZ5+6fj/HnAOuSCDMxzSJA2bqToFRirUyXi36CqKok=;
-	b=Puz0u04ziBwRP1KBgqpCA+DTNyt/gmFcO50fnbpyVii7q7WBc7KgQ3kGKFZmipDbnU
-	nhENLQUuKz3UJ8kq3qul4cuGiihSeUOTF054iXbEVVNqkUDQOVtGdG58wRI4nA6+PQtJ
-	rn38E1d1UY9D1bsFwu0tJ370qJQM8XfZFnFnYOjy1czXQbqw9sqhZtRTrWdXOHs/QewL
-	JGO/AidM0P7biujt3OGRV1BQ2shpZfwqsccViLcyVEG5dVPnkVgdHUTMUXAjCfKEd1d4
-	7mRb3kWOoB5B9C63Fhan96bthDHF92D5jJup+ze8tHtA4OEcThckvSSkonZXi9xrmivt
-	PQrA==
-X-Gm-Message-State: APjAAAW3B30xbg4tXePqobt1yIex7fRLdBUDrVVmwf3u/lbfvnWxTe/P
-	AA6d0iASlT81ZKA82B1Oq+YJPiGs
-X-Google-Smtp-Source: APXvYqyAJAt4qQwwrxCSesT3HlOuNM3yWu/5PMOWOAQn8QdIihU6GOQTq1tPoM+Miknw1MlhpwCo0A==
-X-Received: by 2002:adf:eb46:: with SMTP id u6mr3964464wrn.239.1582881981163; 
-	Fri, 28 Feb 2020 01:26:21 -0800 (PST)
-Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-	by smtp.gmail.com with ESMTPSA id
-	o26sm1101906wmc.33.2020.02.28.01.26.19
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 28 Feb 2020 01:26:20 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Feb 2020 10:25:54 +0100
-Message-Id: <20200228092554.15950-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ntVvrCdyxXnqea0RDD0Ll7xxKwX2lfy5f6Bh8pbtTp8=;
+	b=ISNHODoIN+1pwRrMXnc0n1qJkcJPHboWjYc2qJBWEnVmEMWlRa/5rQtweCn4L661or
+	0b1MmsG5spd0un+iI+x4pO46m+Qiidzq3j6BrUKa2/eCdKk++WryQYsyQ3su7wVQKJp+
+	lvqINyXQFGnuqNs9R2YOvWvTIYC2+EvF5pk2zgtYZ/25s2KhCuq8jvQawdJ1IuaG+oWy
+	NCy5SCwytJzIzqYTg5SA/7wj3bC9U7dCrToLZ2T9vWCWOL2S1oJCH9ukuvbU0j2b/TTg
+	ZtJBQwPM+4AOIZPeK1hR4dddGF+XM1N7wyqXPt8ZczkCWhyWZveDrmCEdEY+IZC/7fqp
+	P+eQ==
+X-Gm-Message-State: ANhLgQ0ygjYt1xwANsmPYwYO9KxhQnaDZNc96i6wGpvgqUJYgUi949YF
+	pYcXRFoSUjds1QmbgZ9u5Y0E1hRXwRyKdVCjFdVDLw==
+X-Google-Smtp-Source: ADFU+vsP5pr0qkQ5ngMbZLb1PrJf3vuAxBgiswQr9obJyvubrppklgvRUTyLbPPypwADfoDqWWsOUCOUzXFTQXLujBs=
+X-Received: by 2002:a05:6102:405:: with SMTP id
+	d5mr2039761vsq.94.1582882094482; 
+	Fri, 28 Feb 2020 01:28:14 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] libgpg-error: upgrade 1.36 -> 1.37
+References: <20200226183902.3616626-1-trevor.gamblin@windriver.com>
+	<d3d3f4a4-e792-397c-4444-c39630afaf74@windriver.com>
+	<2fd5b0c062bfee215cd7a4d15789a20293cee8aa.camel@linuxfoundation.org>
+	<6ac82a00-615a-4cc5-c4b9-46f37e12bbac@windriver.com>
+In-Reply-To: <6ac82a00-615a-4cc5-c4b9-46f37e12bbac@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 28 Feb 2020 10:28:02 +0100
+Message-ID: <CANNYZj8bHKVgo=gUzYsATzZgSa0KC01851seBkg8yDcjKdDqzw@mail.gmail.com>
+To: Trevor Gamblin <trevor.gamblin@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libgpg-error: upgrade 1.36 -> 1.37
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,226 +57,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2020 09:26:21 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 28 Feb 2020 09:28:13 -0000
+Content-Type: multipart/alternative; boundary="000000000000f6888a059f9f7497"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...not-fail-when-testing-config-scripts.patch |  27 ++++
- .../libgpg-error-1.36-gawk5-support.patch     | 144 ------------------
- ...gpg-error_1.36.bb => libgpg-error_1.37.bb} |   8 +-
- 3 files changed, 31 insertions(+), 148 deletions(-)
- create mode 100644 meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
- delete mode 100644 meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch
- rename meta/recipes-support/libgpg-error/{libgpg-error_1.36.bb => libgpg-error_1.37.bb} (91%)
+--000000000000f6888a059f9f7497
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch b/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
-new file mode 100644
-index 0000000000..a0ab4f23ff
---- /dev/null
-+++ b/meta/recipes-support/libgpg-error/libgpg-error/0001-Do-not-fail-when-testing-config-scripts.patch
-@@ -0,0 +1,27 @@
-+From 137805890951b6b585c1d23097e0a51e8c7a8a50 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 28 Feb 2020 09:19:56 +0000
-+Subject: [PATCH] Do not fail when testing config scripts
-+
-+In previous versions this was not a hard a failure, and so went
-+unnoticed. The test is unsuitable for building with sysroots anyway as the
-+failure is due to that.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ src/Makefile.am | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 9303954..7630540 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -344,7 +344,6 @@ gpg-error-config: gpgrt-config gpg-error-config-old
-+ 	else                                                   \
-+ 	  echo "no";                                           \
-+ 	  echo "***  Please report to <https://bugs.gnupg.org> with gpg-error-config-test.log"; \
-+-	  exit 1; \
-+ 	fi
-+ 	cp gpg-error-config-old $@
-+ 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch b/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch
-deleted file mode 100644
-index b936d1143b..0000000000
---- a/meta/recipes-support/libgpg-error/libgpg-error/libgpg-error-1.36-gawk5-support.patch
-+++ /dev/null
-@@ -1,144 +0,0 @@
--Upstream-Status: Backport [https://dev.gnupg.org/T4459]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--From 7865041c77f4f7005282f10f9b6666b19072fbdf Mon Sep 17 00:00:00 2001
--From: NIIBE Yutaka <gniibe@fsij.org>
--Date: Mon, 15 Apr 2019 15:10:44 +0900
--Subject: [PATCH] awk: Prepare for Gawk 5.0.
--
--* src/Makefile.am: Use pkg_namespace (instead of namespace).
--* src/mkerrnos.awk: Likewise.
--* lang/cl/mkerrcodes.awk: Don't escape # in regexp.
--* src/mkerrcodes.awk, src/mkerrcodes1.awk, src/mkerrcodes2.awk: Ditto.
--
----
--
--In Gawk 5.0, regexp routines are replaced by Gnulib implementation,
--which only allows escaping specific characters.
--
--GnuPG-bug-id: 4459
--Reported-by: Marius Schamschula
--Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-----
-- lang/cl/mkerrcodes.awk |  2 +-
-- src/Makefile.am        |  2 +-
-- src/mkerrcodes.awk     |  2 +-
-- src/mkerrcodes1.awk    |  2 +-
-- src/mkerrcodes2.awk    |  2 +-
-- src/mkerrnos.awk       |  2 +-
-- src/mkstrtable.awk     | 10 +++++-----
-- 7 files changed, 11 insertions(+), 11 deletions(-)
--
----- a/lang/cl/mkerrcodes.awk
--+++ b/lang/cl/mkerrcodes.awk
--@@ -122,7 +122,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
----- a/src/Makefile.am
--+++ b/src/Makefile.am
--@@ -293,7 +293,7 @@ code-from-errno.h: mkerrcodes$(EXEEXT_FO
-- 
-- errnos-sym.h: Makefile mkstrtable.awk errnos.in
-- 	$(AWK) -f $(srcdir)/mkstrtable.awk -v textidx=2 -v nogettext=1 \
---		-v prefix=GPG_ERR_ -v namespace=errnos_ \
--+		-v prefix=GPG_ERR_ -v pkg_namespace=errnos_ \
-- 		$(srcdir)/errnos.in >$@
-- 
-- 
----- a/src/mkerrcodes.awk
--+++ b/src/mkerrcodes.awk
--@@ -85,7 +85,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
----- a/src/mkerrcodes1.awk
--+++ b/src/mkerrcodes1.awk
--@@ -81,7 +81,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
----- a/src/mkerrcodes2.awk
--+++ b/src/mkerrcodes2.awk
--@@ -91,7 +91,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
----- a/src/mkerrnos.awk
--+++ b/src/mkerrnos.awk
--@@ -83,7 +83,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
----- a/src/mkstrtable.awk
--+++ b/src/mkstrtable.awk
--@@ -77,7 +77,7 @@
-- #
-- # The variable prefix can be used to prepend a string to each message.
-- #
---# The variable namespace can be used to prepend a string to each
--+# The variable pkg_namespace can be used to prepend a string to each
-- # variable and macro name.
-- 
-- BEGIN {
--@@ -102,7 +102,7 @@ header {
--       print "/* The purpose of this complex string table is to produce";
--       print "   optimal code with a minimum of relocations.  */";
--       print "";
---      print "static const char " namespace "msgstr[] = ";
--+      print "static const char " pkg_namespace "msgstr[] = ";
--       header = 0;
--     }
--   else
--@@ -110,7 +110,7 @@ header {
-- }
-- 
-- !header {
---  sub (/\#.+/, "");
--+  sub (/#.+/, "");
--   sub (/[ 	]+$/, ""); # Strip trailing space and tab characters.
-- 
--   if (/^$/)
--@@ -150,7 +150,7 @@ END {
--   else
--     print "  gettext_noop (\"" last_msgstr "\");";
--   print "";
---  print "static const int " namespace "msgidx[] =";
--+  print "static const int " pkg_namespace "msgidx[] =";
--   print "  {";
--   for (i = 0; i < coded_msgs; i++)
--     print "    " pos[i] ",";
--@@ -158,7 +158,7 @@ END {
--   print "  };";
--   print "";
--   print "static GPG_ERR_INLINE int";
---  print namespace "msgidxof (int code)";
--+  print pkg_namespace "msgidxof (int code)";
--   print "{";
--   print "  return (0 ? 0";
-- 
-diff --git a/meta/recipes-support/libgpg-error/libgpg-error_1.36.bb b/meta/recipes-support/libgpg-error/libgpg-error_1.37.bb
-similarity index 91%
-rename from meta/recipes-support/libgpg-error/libgpg-error_1.36.bb
-rename to meta/recipes-support/libgpg-error/libgpg-error_1.37.bb
-index b11ab0548d..b9a2b01c20 100644
---- a/meta/recipes-support/libgpg-error/libgpg-error_1.36.bb
-+++ b/meta/recipes-support/libgpg-error/libgpg-error_1.37.bb
-@@ -14,11 +14,11 @@ SECTION = "libs"
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
- SRC_URI = "${GNUPG_MIRROR}/libgpg-error/libgpg-error-${PV}.tar.bz2 \
-            file://pkgconfig.patch \
--           file://libgpg-error-1.36-gawk5-support.patch \
--	  "
-+           file://0001-Do-not-fail-when-testing-config-scripts.patch \
-+           "
- 
--SRC_URI[md5sum] = "eff437f397e858a9127b76c0d87fa5ed"
--SRC_URI[sha256sum] = "babd98437208c163175c29453f8681094bcaf92968a15cafb1a276076b33c97c"
-+SRC_URI[md5sum] = "729f22d917494fdc4b54fce5aa6547c7"
-+SRC_URI[sha256sum] = "b32d6ff72a73cf79797f7f2d039e95e9c6f92f0c1450215410840ab62aea9763"
- 
- BINCONFIG = "${bindir}/gpg-error-config"
- 
--- 
-2.25.1
+Patch sent. :)
 
+Alex
 
+On Fri, 28 Feb 2020 at 00:42, Trevor Gamblin <trevor.gamblin@windriver.com>
+wrote:
+
+>
+> On 2/27/20 6:14 PM, Richard Purdie wrote:
+> > On Thu, 2020-02-27 at 11:24 -0500, Trevor Gamblin wrote:
+> >> Looks like I got beat by a day!
+> > Does your version work on x32 though? :)
+> >
+> > We need one that does...
+>
+> They look the same, unfortunately.
+>
+> Will take a look in between some other tasks, unless Alex gets to it
+> first (he usually does, that guy's a machine).
+>
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+>
+
+--000000000000f6888a059f9f7497
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Patch sent. :)</div><div><br></div><div>Alex<br></div=
+></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>On Fri, 28 Feb 2020 at 00:42, Trevor Gamblin &lt;<a href=3D"mailto:trevor.=
+gamblin@windriver.com">trevor.gamblin@windriver.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+On 2/27/20 6:14 PM, Richard Purdie wrote:<br>
+&gt; On Thu, 2020-02-27 at 11:24 -0500, Trevor Gamblin wrote:<br>
+&gt;&gt; Looks like I got beat by a day!<br>
+&gt; Does your version work on x32 though? :)<br>
+&gt;<br>
+&gt; We need one that does...<br>
+<br>
+They look the same, unfortunately.<br>
+<br>
+Will take a look in between some other tasks, unless Alex gets to it <br>
+first (he usually does, that guy&#39;s a machine).<br>
+<br>
+&gt;<br>
+&gt; Cheers,<br>
+&gt;<br>
+&gt; Richard<br>
+&gt;<br>
+</blockquote></div>
+
+--000000000000f6888a059f9f7497--
