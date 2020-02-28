@@ -1,60 +1,57 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CB2D9618E6
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 09998618EA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 04:28:36 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id g6so728479plt.2
+	Fri, 28 Feb 2020 04:29:48 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id i19so1044756pfa.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Feb 2020 20:28:38 -0800 (PST)
+	Thu, 27 Feb 2020 20:29:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
 	:in-reply-to:content-language:content-transfer-encoding;
-	bh=31lxQtagH1S9Hk+hIqcYyGesRYpXJgzADIZ8LkemCgA=;
-	b=c2LjH/WgPyYtua5b1pRjycDcAShfiyuxPYVRR82ibSPe4D/wgnGU7nF1odOMHJFxCl
-	bpaIdusmfva4/pFRu2/68ZIglmQ+7W/2GUHlJwo62pG6A7a7fTb3hB5G8zv8myGdVjdA
-	IqNEuFMbyizmCTPUYAw0KcjRFfoAPUJyaeMisTrZW0El+R+Cx4aEp2kzH88Nh8OD2q1h
-	Fc2aBOodl3LQ4G/dlMByZoEJRDVetKceBkxEf1GnhIO+jov4NqgRTEPTkB6Sko0O4fgs
-	eN3/IPwvhcHfOZVO5BzBWgUgyxSEiShl3FYsojm0RxSXUWCifFUSb5WOsLGNf91JNwgZ
-	SoIQ==
+	bh=d7Af5fHC/z2wTsuIUEUGofM8DL9TxDMpkkoGj/C4rO8=;
+	b=JCNtLEoe/Gbj/0Gu5zEp9yYHi2Mky/Rt2PP9k6LZxUNUMy8oVO9ck8n8poiQwqoQnq
+	gU2T921u9epOcPvoKsZy1JVVW10QNynUSEjMw9vhJdP4G1jckZf8wt94FL1Ew3kcxT3n
+	JyyEHxSyzd0eFZGZCu8bS6pTpn0cmcSbRhxx14xmJMlhmc7lqgLEE34wkjx3w0N6y4G8
+	eJJYRN8DqZxeeWsADXH4rtE0GmYiKE0apI3h8KsOU/r61GzEFZ2FmKgM2tdrDcntgn/I
+	zPSxoJVjedv4iAopgypDiMWroV1+z5Va4TIrpq1AmWlKvNlC1DtKvmJZNIAS/OO3rydA
+	lQsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=31lxQtagH1S9Hk+hIqcYyGesRYpXJgzADIZ8LkemCgA=;
-	b=ppB2iVWqSY+YCpbBigQj8pNgxqFo7aRiB5aTBZvz0tL+Tj85MWgmNVOkHZIXqm4D83
-	gj6Wfe7Y7za5FOiZcqugg8mUoib9QzS/3u8aNmGchZS2K9LoDTZnoqt9hFteobClfmrr
-	4e5aLA1JiBGd6rwN3w/aSgMQWUgwiebqTXgUwfadsPaibbmBRWhga9ibzspAHuzclkJp
-	gecR4M/ysAlFlm1bVKFSmsHhMfdi51k9PeehCViwRS/V53JeQ+m5xGbM32HDOgTTcks3
-	SACYZXAJrGb4wF2d7Q3ehz1fT8320dbvVqqDf0mPFTdbXIuOi5UXQB6Xm1MBN1nyW2VB
-	Wm7A==
-X-Gm-Message-State: APjAAAXn8HvvsDS50zFZZrV/NZoxA6KTIit63VcV6wrWIiHxMDfn361A
-	Bp7Alam9sf1NTG40L5bsWS8A/OdT9BU=
-X-Google-Smtp-Source: APXvYqx4GQgD/jI52UlHjk4jXmxfUVmCoo4UIq1QRE4W2GNZOb7eEjpIU/OKFPC/6hcmx68l0BShsw==
-X-Received: by 2002:a17:90a:fb41:: with SMTP id
-	iq1mr2606852pjb.89.1582864117109; 
-	Thu, 27 Feb 2020 20:28:37 -0800 (PST)
+	bh=d7Af5fHC/z2wTsuIUEUGofM8DL9TxDMpkkoGj/C4rO8=;
+	b=can2Jj07Rii2oeqM0WLzN7U8OJ34vWsaYh6CcwpcEgKElEWwv9IPoINWLJ6WE2TRsY
+	60BZB8QFf8ExPAKrXnGb+1E6FhCj8P9tBkYJTr1VczBdNf95qOGKSHf9RYeNmNkz8peb
+	NZhYfFhaLgYdww2EY3C+YvPeiRrAiDUloUDyFnbp2eCSGf0vDYk0uDeONfMBKh32tSYE
+	31R3yF1hdiQTLATOq9slL4QWDt2ozty3Qmca6JTwHTZPmSElzmBE2p1aUOMYSBu/YJKN
+	Oe3aRKoyplxIcz66XRfS5rY8dyzciP+0/pHpGXXtqqgU+39dJB2r31qTRySh1+BHh4mT
+	ma+Q==
+X-Gm-Message-State: APjAAAW9Zh4T/0ygMFNLL/BkDIsmoyvflZec9AuYk3B74SSFxNWA8UMb
+	K2eWppPuaVmNzUrqdOqkB7At1NESXR8=
+X-Google-Smtp-Source: APXvYqy3wwg8ioxrvVzvO5DFEjaB3j5HDH+O3YAzWm1ihktNSrxUWvyFDehgLG4aeKh71rqaxhPn8g==
+X-Received: by 2002:a63:354d:: with SMTP id c74mr2660980pga.234.1582864189347; 
+	Thu, 27 Feb 2020 20:29:49 -0800 (PST)
 Received: from ?IPv6:2601:646:9200:4e0:98ae:deb2:aaad:7898?
 	([2601:646:9200:4e0:98ae:deb2:aaad:7898])
 	by smtp.gmail.com with ESMTPSA id
-	f13sm9468956pfk.64.2020.02.27.20.28.36
+	v4sm8492181pff.174.2020.02.27.20.29.48
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 27 Feb 2020 20:28:36 -0800 (PST)
-To: Anuj Mittal <anuj.mittal@intel.com>,
-	Tim Orling <timothy.t.orling@linux.intel.com>,
+	Thu, 27 Feb 2020 20:29:48 -0800 (PST)
+To: Anuj Mittal <anuj.mittal@intel.com>, Petr Vorel <petr.vorel@gmail.com>,
 	openembedded-core@lists.openembedded.org
-References: <20200227000603.14252-1-timothy.t.orling@linux.intel.com>
-	<20200227000603.14252-4-timothy.t.orling@linux.intel.com>
-	<2c3ea5cc-29e6-0ce6-f9b3-c720e835e363@intel.com>
+References: <20200227212940.12327-1-petr.vorel@gmail.com>
+	<3db4501b-68e6-7a41-2ac5-268675583bec@intel.com>
 From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <7956231e-1523-6213-b757-633b75eb2eb2@gmail.com>
-Date: Thu, 27 Feb 2020 20:28:35 -0800
+Message-ID: <e25440e3-f3c4-ea7f-c473-7fee90e89079@gmail.com>
+Date: Thu, 27 Feb 2020 20:29:48 -0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
 	Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <2c3ea5cc-29e6-0ce6-f9b3-c720e835e363@intel.com>
-Subject: Re: [PATCH 3/4] at-spi2-atk: upgrade 2.32.0 -> 2.34.1
+In-Reply-To: <3db4501b-68e6-7a41-2ac5-268675583bec@intel.com>
+Subject: Re: [PATCH v3 1/2] ltp: Update to 20200120
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,78 +64,774 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2020 04:28:36 -0000
+X-List-Received-Date: Fri, 28 Feb 2020 04:29:49 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 
 
 
-On 2/27/20 7:54 PM, Anuj Mittal wrote:
-> Hi Tim,
+On 2/27/20 8:06 PM, Anuj Mittal wrote:
 > 
-> On 27-Feb-20 08:06 AM, Tim Orling wrote:
->> Release notes:
->> https://gitlab.gnome.org/GNOME/at-spi2-atk/-/raw/043b793de2161a0548835424f4d087ac90d1172d/NEWS 
+> On 28-Feb-20 05:29 AM, Petr Vorel wrote:
+>> Removed ffsb copying file (tool removed from upstream)
 >>
+>> Removed patches (accepted upstream)
+>> * 0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch
+>> * 0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch
+>> * 0001-testcases-fix-an-absent-format-string-issue.patch
+>> * 0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch
 >>
->> License-Update: Changed to LGPL-2.1+
+>> Merged patches
+>> * 0006-rt_tgsigqueueinfo-disable-test-on-musl.patch
+>> (into 0001-build-Add-option-to-select-libc-implementation.patch as they
+>> touch the same files)
 >>
->> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+>> Refreshed patches (some tests have been fixed for musl)
+>> * 0001-Add-more-musl-exclusions.patch
+>> * 0001-build-Add-option-to-select-libc-implementation.patch
+>>
+>> Updated status
+>> * 0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
+>> * 0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch
+>>
+>> Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+> 
+> It looks like this is failing with musl:
+> 
+> /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/i686-poky-linux-musl/../../libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/9.2.0/ld: 
+> /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_memory_test/../cpuset_lib/libcpu_set.a(libcpuset.o): 
+> in function `cpuset_fts_open':
+> /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3214: 
+> undefined reference to `fts_open'
+> /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/i686-poky-linux-musl/../../libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/9.2.0/ld: 
+> /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3224: 
+> undefined reference to `fts_read'
+> /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/i686-poky-linux-musl/../../libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/9.2.0/ld: 
+> /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3269: 
+> undefined reference to `fts_close'
+> /home/pokybuild/yocto-worker/musl-qemux86/build/build/tmp/work/core2-32-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/i686-poky-linux-musl/../../libexec/i686-poky-linux-musl/gcc/i686-poky-linux-musl/9.2.0/ld: 
+> /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3277: 
+> undefined reference to `fts_close'
+> 
+
+
+I think we need to add
+
+DEPENDS_append_libc-musl = " fts "
+EXTRA_OEMAKE_append_libc-musl = " LIBS=-lfts"
+
+here.
+
+> Complete logs here:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1623/steps/8/logs/step1b 
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1627/steps/8/logs/step1b 
+> 
+> 
+> Thanks,
+> 
+> Anuj
+> 
 >> ---
->>   .../atk/{at-spi2-atk_2.32.0.bb => at-spi2-atk_2.34.1.bb}  | 8 ++++----
->>   1 file changed, 4 insertions(+), 4 deletions(-)
->>   rename meta/recipes-support/atk/{at-spi2-atk_2.32.0.bb => 
->> at-spi2-atk_2.34.1.bb} (66%)
-> 
-> This is failing on musl-qemu86:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1623
-> 
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: error: unknown field 
-> ‘tv_sec’ specified in initializer
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: excess 
-> elements in struct initializer [enabled by default]
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: (near 
-> initialization for ‘timeout’) [enabled by default]
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: error: unknown field 
-> ‘tv_nsec’ specified in initializer
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: excess 
-> elements in struct initializer [enabled by default]
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: (near 
-> initialization for ‘timeout’) [enabled by default]
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:19: error: storage size 
-> of ‘timeout’ isn’t known
->     struct timespec timeout = { .tv_sec = 0, .tv_nsec = 10 * 1000000 };
->                     ^
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:90:5: warning: implicit 
-> declaration of function ‘nanosleep’ [-Wimplicit-function-declaration]
->       nanosleep(&timeout, NULL);
->       ^
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c: In function ‘terminate_app’:
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: variable 
-> ‘timeout’ has initializer but incomplete type
->     struct timespec timeout = { .tv_sec = 0, .tv_nsec = 10 * 1000000 };
->            ^
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: unknown field 
-> ‘tv_sec’ specified in initializer
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: excess 
-> elements in struct initializer [enabled by default]
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: (near 
-> initialization for ‘timeout’) [enabled by default]
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: unknown field 
-> ‘tv_nsec’ specified in initializer
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: excess 
-> elements in struct initializer [enabled by default]
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: (near 
-> initialization for ‘timeout’) [enabled by default]
-> ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:19: error: storage size 
-> of ‘timeout’ isn’t known
->     struct timespec timeout = { .tv_sec = 0, .tv_nsec = 10 * 1000000 };
-> 
-
-yeah this is exposing a bug in use if time_t struct in this component. 
-there are several patches done to address that, we will perhaps need one 
-of these patches here.
-
+>> Changes v2->v3:
+>> ffsb-6.0-rc2 has been removed => remove it from upstream.
+>>
+>> Kind regards,
+>> Petr
+>>
+>>   .../ltp/0001-Add-more-musl-exclusions.patch   |  37 +------
+>>   ...option-to-select-libc-implementation.patch | 103 +++++-------------
+>>   ...udevadm-trigger-before-swap-verifica.patch |  35 ------
+>>   ...ix-zeros-of-the-addresses-output-by-.patch |  43 --------
+>>   ...or-time64-unsafe-syscalls-before-usi.patch |  41 +++++--
+>>   ...es-fix-an-absent-format-string-issue.patch |  24 ----
+>>   ...rs-Link-with-libfts-explicitly-on-mu.patch |  47 --------
+>>   ..._tgsigqueueinfo-disable-test-on-musl.patch |  35 ------
+>>   ...k-nfsv4-acl-acl1.c-Security-fix-on-s.patch |  27 ++---
+>>   .../ltp/{ltp_20190930.bb => ltp_20200120.bb}  |   8 +-
+>>   10 files changed, 80 insertions(+), 320 deletions(-)
+>>   delete mode 100644 
+>> meta/recipes-extended/ltp/ltp/0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch 
+>>
+>>   delete mode 100644 
+>> meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch 
+>>
+>>   delete mode 100644 
+>> meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch 
+>>
+>>   delete mode 100644 
+>> meta/recipes-extended/ltp/ltp/0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch 
+>>
+>>   delete mode 100644 
+>> meta/recipes-extended/ltp/ltp/0006-rt_tgsigqueueinfo-disable-test-on-musl.patch 
+>>
+>>   rename meta/recipes-extended/ltp/{ltp_20190930.bb => 
+>> ltp_20200120.bb} (90%)
+>>
+>> diff --git 
+>> a/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch 
+>> b/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
+>> index d3af31f34a..773844d442 100644
+>> --- a/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
+>> +++ b/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
+>> @@ -5,12 +5,12 @@ Subject: [PATCH] Add more musl exclusions
+>>   Upstream-Status: Pending
+>>   Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>> +[ pvorel: rebase for 20200120: enable fanotify13, fanotify15, 
+>> setxattr03 ]
+>> +Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+>>   ---
+>>    testcases/kernel/syscalls/accept4/Makefile      | 4 ++++
+>> - testcases/kernel/syscalls/fanotify/Makefile     | 6 ++++++
+>> - testcases/kernel/syscalls/setxattr/Makefile     | 4 ++++
+>>    testcases/kernel/syscalls/timer_create/Makefile | 4 ++++
+>> - 4 files changed, 18 insertions(+)
+>> + 2 files changed, 8 insertions(+)
+>>   diff --git a/testcases/kernel/syscalls/accept4/Makefile 
+>> b/testcases/kernel/syscalls/accept4/Makefile
+>>   index 504042e11..94db06266 100644
+>> @@ -23,34 +23,6 @@ index 504042e11..94db06266 100644
+>>   +ifeq ($(LIBC),musl)
+>>   +FILTER_OUT_MAKE_TARGETS        := accept4_01
+>>   +endif
+>> -+
+>> - include $(top_srcdir)/include/mk/generic_leaf_target.mk
+>> -diff --git a/testcases/kernel/syscalls/fanotify/Makefile 
+>> b/testcases/kernel/syscalls/fanotify/Makefile
+>> -index 5d01b4825..0263a6e20 100644
+>> ---- a/testcases/kernel/syscalls/fanotify/Makefile
+>> -+++ b/testcases/kernel/syscalls/fanotify/Makefile
+>> -@@ -20,4 +20,10 @@ top_srcdir        ?= ../../../..
+>> - fanotify11: CFLAGS+=-pthread
+>> - include $(top_srcdir)/include/mk/testcases.mk
+>> -
+>> -+ifeq ($(LIBC),musl)
+>> -+FILTER_OUT_MAKE_TARGETS        := fanotify13 fanotify15
+>> -+endif
+>> -+
+>> - include $(top_srcdir)/include/mk/generic_leaf_target.mk
+>> -+
+>> -+
+>> -diff --git a/testcases/kernel/syscalls/setxattr/Makefile 
+>> b/testcases/kernel/syscalls/setxattr/Makefile
+>> -index 72544c13e..7f20b2780 100644
+>> ---- a/testcases/kernel/syscalls/setxattr/Makefile
+>> -+++ b/testcases/kernel/syscalls/setxattr/Makefile
+>> -@@ -20,4 +20,8 @@ top_srcdir        ?= ../../../..
+>> -
+>> - include $(top_srcdir)/include/mk/testcases.mk
+>> -
+>> -+ifeq ($(LIBC),musl)
+>> -+FILTER_OUT_MAKE_TARGETS        := setxattr03
+>> -+endif
+>>   +
+>>    include $(top_srcdir)/include/mk/generic_leaf_target.mk
+>>   diff --git a/testcases/kernel/syscalls/timer_create/Makefile 
+>> b/testcases/kernel/syscalls/timer_create/Makefile
+>> @@ -68,3 +40,6 @@ index 8de247075..eb240f432 100644
+>>    CPPFLAGS        += -D_GNU_SOURCE -I$(abs_srcdir)/../include
+>>    LDLIBS            += -lpthread -lrt
+>> +--
+>> +2.25.1
+>> +
+>> diff --git 
+>> a/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch 
+>> b/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch 
+>>
+>> index 1705abcf19..0598046b28 100644
+>> --- 
+>> a/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch 
+>>
+>> +++ 
+>> b/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch 
+>>
+>> @@ -1,7 +1,7 @@
+>> -From 62c3481c73a2414d7a5f0a70808bfc9a06195bd9 Mon Sep 17 00:00:00 2001
+>> +From be453d1be826b862d47e08663fd69eea9dd62730 Mon Sep 17 00:00:00 2001
+>>   From: Khem Raj <raj.khem@gmail.com>
+>>   Date: Thu, 7 Jan 2016 18:19:03 +0000
+>> -Subject: [PATCH] build: Add option to select libc implementation
+>> +Subject: [PATCH 1/6] build: Add option to select libc implementation
+>>   There are more than glibc for C library implementation available on
+>>   linux now a days, uclibc cloaked like glibc but musl e.g. is very
+>> @@ -11,18 +11,26 @@ Disable tests specifically not building _yet_ on 
+>> musl based systems
+>>   Upstream-Status: Pending
+>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> +rt_tgsigqueueinfo fails with:
+>> +rt_tgsigqueueinfo01.c: In function 'sigusr1_handler':
+>> +rt_tgsigqueueinfo01.c:42:22: error: 'siginfo_t' {aka 'struct 
+>> <anonymous>'} has no member named '_sifields'; did you mean 
+>> '__si_fields'?
+>> +   42 |  sigval_rcv = uinfo->_sifields._rt.SI_SIGVAL.sival_ptr;
+>> +      |                      ^~~~~~~~~
+>> +      |                      __si_fields
+>> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> +[ pvorel: rebase for 20200120: enable mallopt, profil, rpc016,
+>> +rt_sigsuspend, sbrk_mutex, setdomainname, sethostname, sigsuspend,
+>> +testpi-3, testpi-5, testpi-6, ustat; move rt_tgsigqueueinfo
+>> +from 0006-rt_tgsigqueueinfo-disable-test-on-musl.patch ]
+>> +Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+>> +Signed-off-by: Petr Vorel <pvorel@suse.cz>
+>>   ---
+>> - Makefile                                    | 5 +++++
+>> - testcases/kernel/Makefile                   | 5 ++++-
+>> - testcases/kernel/sched/Makefile             | 4 +++-
+>> - testcases/kernel/syscalls/Makefile          | 5 +++++
+>> - testcases/network/nfsv4/acl/Makefile        | 4 ++++
+>> - testcases/network/rpc/basic_tests/Makefile  | 5 +++++
+>> - testcases/realtime/func/pi-tests/Makefile   | 4 ++++
+>> - testcases/realtime/stress/pi-tests/Makefile | 5 +++++
+>> - 8 files changed, 35 insertions(+), 2 deletions(-)
+>> + Makefile                           | 5 +++++
+>> + testcases/kernel/Makefile          | 5 ++++-
+>> + testcases/kernel/sched/Makefile    | 4 +++-
+>> + testcases/kernel/syscalls/Makefile | 4 ++++
+>> + 4 files changed, 16 insertions(+), 2 deletions(-)
+>>   diff --git a/Makefile b/Makefile
+>>   index 768ca4606..e9d679a71 100644
+>> @@ -76,73 +84,20 @@ index 6a57d79ee..74bb93370 100644
+>>   +endif
+>>    include $(top_srcdir)/include/mk/generic_trunk_target.mk
+>>   diff --git a/testcases/kernel/syscalls/Makefile 
+>> b/testcases/kernel/syscalls/Makefile
+>> -index 45a00cf7d..d1becd054 100644
+>> +index 45a00cf7d..af5a591a0 100644
+>>   --- a/testcases/kernel/syscalls/Makefile
+>>   +++ b/testcases/kernel/syscalls/Makefile
+>> -@@ -28,6 +28,11 @@ ifeq ($(UCLINUX),1)
+>> - FILTER_OUT_DIRS    += capget capset chmod chown clone fork 
+>> getcontext llseek \
+>> +@@ -29,6 +29,10 @@ FILTER_OUT_DIRS    += capget capset chmod chown 
+>> clone fork getcontext llseek \
+>>               mincore mprotect nftw profil remap_file_pages sbrk
+>>    endif
+>> -+ifeq ($(LIBC),musl)
+>> -+FILTER_OUT_DIRS    += confstr fmtmsg getcontext ioctl mallopt profil \
+>> -+           rt_sigsuspend setdomainname sethostname sigsuspend \
+>> -+           ustat
+>> -+endif
+>> -
+>> - ifeq ($(UCLIBC),1)
+>> - FILTER_OUT_DIRS    += profil
+>> -diff --git a/testcases/network/nfsv4/acl/Makefile 
+>> b/testcases/network/nfsv4/acl/Makefile
+>> -index 8c55a6bbd..f7cda621d 100644
+>> ---- a/testcases/network/nfsv4/acl/Makefile
+>> -+++ b/testcases/network/nfsv4/acl/Makefile
+>> -@@ -26,4 +26,8 @@ include $(top_srcdir)/include/mk/env_pre.mk
+>> -
+>> - LDLIBS            += $(ACL_LIBS)
+>> -
+>> -+ifeq ($(LIBC),musl)
+>> -+FILTER_OUT_MAKE_TARGETS    := acl1
+>> -+endif
+>> -+
+>> - include $(top_srcdir)/include/mk/generic_leaf_target.mk
+>> -diff --git a/testcases/network/rpc/basic_tests/Makefile 
+>> b/testcases/network/rpc/basic_tests/Makefile
+>> -index 66e9d5675..ea8eb8a98 100644
+>> ---- a/testcases/network/rpc/basic_tests/Makefile
+>> -+++ b/testcases/network/rpc/basic_tests/Makefile
+>> -@@ -23,4 +23,9 @@
+>> - top_srcdir        ?= ../../../..
+>> -
+>> - include $(top_srcdir)/include/mk/env_pre.mk
+>> -+
+>> -+ifeq ($(LIBC),musl)
+>> -+FILTER_OUT_DIRS += rpc01
+>> -+endif
+>> -+
+>> - include $(top_srcdir)/include/mk/generic_trunk_target.mk
+>> -diff --git a/testcases/realtime/func/pi-tests/Makefile 
+>> b/testcases/realtime/func/pi-tests/Makefile
+>> -index 68616a711..748754bb4 100644
+>> ---- a/testcases/realtime/func/pi-tests/Makefile
+>> -+++ b/testcases/realtime/func/pi-tests/Makefile
+>> -@@ -27,5 +27,9 @@ include $(top_srcdir)/include/mk/env_pre.mk
+>> - include $(abs_srcdir)/../../config.mk
+>> - MAKE_TARGETS        := testpi-0 testpi-1 testpi-2 testpi-4 testpi-5 
+>> testpi-6 testpi-7 sbrk_mutex
+>>   +ifeq ($(LIBC),musl)
+>> -+FILTER_OUT_MAKE_TARGETS    := testpi-5 testpi-6 sbrk_mutex
+>> ++FILTER_OUT_DIRS    += confstr fmtmsg getcontext ioctl rt_tgsigqueueinfo
+>>   +endif
+>>   +
+>> -
+>> - include $(top_srcdir)/include/mk/generic_leaf_target.mk
+>> -diff --git a/testcases/realtime/stress/pi-tests/Makefile 
+>> b/testcases/realtime/stress/pi-tests/Makefile
+>> -index 1881f7565..266e0b815 100644
+>> ---- a/testcases/realtime/stress/pi-tests/Makefile
+>> -+++ b/testcases/realtime/stress/pi-tests/Makefile
+>> -@@ -24,4 +24,9 @@ top_srcdir        ?= ../../../..
+>> -
+>> - include $(top_srcdir)/include/mk/env_pre.mk
+>> - include $(abs_srcdir)/../../config.mk
+>> -+
+>> -+ifeq ($(LIBC),musl)
+>> -+FILTER_OUT_MAKE_TARGETS    := testpi-3
+>> -+endif
+>> -+
+>> - include $(top_srcdir)/include/mk/generic_leaf_target.mk
+>> + ifeq ($(UCLIBC),1)
+>> + FILTER_OUT_DIRS    += profil
+>> + endif
+>> +--
+>> +2.25.1
+>> +
+>> diff --git 
+>> a/meta/recipes-extended/ltp/ltp/0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch 
+>> b/meta/recipes-extended/ltp/ltp/0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch 
+>>
+>> deleted file mode 100644
+>> index 1b433d3ad3..0000000000
+>> --- 
+>> a/meta/recipes-extended/ltp/ltp/0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch 
+>>
+>> +++ /dev/null
+>> @@ -1,35 +0,0 @@
+>> -From fae8852a63d9fa6e56fb8b24eaf10560bd13757f Mon Sep 17 00:00:00 2001
+>> -From: Yongxin Liu <yongxin.liu@windriver.com>
+>> -Date: Tue, 12 Nov 2019 11:33:50 +0800
+>> -Subject: [PATCH] mkswap01.sh: Add "udevadm trigger" before swap 
+>> verification
+>> -
+>> -Fix: https://github.com/linux-test-project/ltp/issues/458
+>> -
+>> -Sometimes the swap device cannot show up in /dev/disk/by-uuid/
+>> -or /dev/disk/by-lable/ due to the issue #458. When this issue
+>> -happens, "blkid -c /dev/null" and "ls /dev/disk/by-uuid/" show
+>> -different UUID of the device.
+>> -
+>> -Upstream-Status: Submitted [https://patchwork.ozlabs.org/patch/1193414]
+>> -
+>> -Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+>> ----
+>> - testcases/commands/mkswap/mkswap01.sh | 2 ++
+>> - 1 file changed, 2 insertions(+)
+>> -
+>> -diff --git a/testcases/commands/mkswap/mkswap01.sh 
+>> b/testcases/commands/mkswap/mkswap01.sh
+>> -index 3a348c6e6..9437c4a4e 100755
+>> ---- a/testcases/commands/mkswap/mkswap01.sh
+>> -+++ b/testcases/commands/mkswap/mkswap01.sh
+>> -@@ -129,6 +129,8 @@ mkswap_test()
+>> -         return
+>> -     fi
+>> -
+>> -+    udevadm trigger --name-match=$TST_DEVICE
+>> -+
+>> -     if [ -n "$device" ]; then
+>> -         mkswap_verify "$mkswap_op" "$op_arg" "$device" "$size" 
+>> "$dev_file"
+>> -         if [ $? -ne 0 ]; then
+>> ---
+>> -2.14.4
+>> -
+>> diff --git 
+>> a/meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch 
+>> b/meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch 
+>>
+>> deleted file mode 100644
+>> index fe5e7314e0..0000000000
+>> --- 
+>> a/meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch 
+>>
+>> +++ /dev/null
+>> @@ -1,43 +0,0 @@
+>> -From 59cb0dd9f8e65b2d398fcaf4d163cbc8e1d0ae45 Mon Sep 17 00:00:00 2001
+>> -From: He Zhe <zhe.he@windriver.com>
+>> -Date: Tue, 31 Dec 2019 15:02:48 +0800
+>> -Subject: [PATCH] nm01: Remove prefix zeros of the addresses output by nm
+>> - before comparing
+>> -
+>> -The latest nm v2.33.1 outputs symbols addresses without prefix zeros
+>> -for "nm -f posix", which causes the following error.
+>> -nm01 5 TFAIL: Got wrong format with -f bsd
+>> -
+>> -Let's remove the prefix zeros before comparing.
+>> -
+>> -Upstream-Status: Backport [59cb0dd9f8e65b2d398fcaf4d163cbc8e1d0ae45]
+>> -
+>> -Signed-off-by: He Zhe <zhe.he@windriver.com>
+>> -Reviewed-by: Li Wang <liwang@redhat.com>
+>> -Reviewed-by: Petr Vorel <pvorel@suse.cz>
+>> -Tested-by: Petr Vorel <pvorel@suse.cz>
+>> ----
+>> - testcases/commands/nm/nm01.sh | 7 +++++--
+>> - 1 file changed, 5 insertions(+), 2 deletions(-)
+>> -
+>> -diff --git a/testcases/commands/nm/nm01.sh 
+>> b/testcases/commands/nm/nm01.sh
+>> -index 30c41bd..fd9d3d9 100755
+>> ---- a/testcases/commands/nm/nm01.sh
+>> -+++ b/testcases/commands/nm/nm01.sh
+>> -@@ -84,8 +84,11 @@ test5()
+>> -     EXPECT_PASS $NM -f bsd $TST_DATAROOT/f1 \> nm_bsd.out
+>> -     EXPECT_PASS $NM -f posix $TST_DATAROOT/f1 \> nm_posix.out
+>> -
+>> --    ROD awk '{print $3 $2 $1}' nm_bsd.out \> nm1.out
+>> --    ROD awk '{print $1 $2 $3}' nm_posix.out \> nm2.out
+>> -+    ROD awk '{print gensub(/\y(0+)([0-9a-fA-F]+)\y/, "\\2", "g")}' 
+>> nm_bsd.out \> trimmed_nm_bsd.out
+>> -+    ROD awk '{print gensub(/\y(0+)([0-9a-fA-F]+)\y/, "\\2", "g")}' 
+>> nm_posix.out \> trimmed_nm_posix.out
+>> -+
+>> -+    ROD awk '{print $3 $2 $1}' trimmed_nm_bsd.out \> nm1.out
+>> -+    ROD awk '{print $1 $2 $3}' trimmed_nm_posix.out \> nm2.out
+>> -
+>> -     if diff nm1.out nm2.out > /dev/null; then
+>> -         tst_res TPASS "Got BSD format with -f bsd"
+>> ---
+>> -2.7.4
+>> -
+>> diff --git 
+>> a/meta/recipes-extended/ltp/ltp/0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch 
+>> b/meta/recipes-extended/ltp/ltp/0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch 
+>>
+>> index c431669716..ecc6660f93 100644
+>> --- 
+>> a/meta/recipes-extended/ltp/ltp/0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch 
+>>
+>> +++ 
+>> b/meta/recipes-extended/ltp/ltp/0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch 
+>>
+>> @@ -1,28 +1,40 @@
+>> -From b66905b094e08a84c30bc135003c3611f65d53ec Mon Sep 17 00:00:00 2001
+>> +From 89c5841bd148a7ae70c65f4a1ca5996b7f0cddfa Mon Sep 17 00:00:00 2001
+>>   From: Khem Raj <raj.khem@gmail.com>
+>> -Date: Wed, 12 Feb 2020 22:22:17 -0800
+>> +Date: Wed, 19 Feb 2020 22:52:04 -0800
+>>   Subject: [PATCH] syscalls: Check for time64 unsafe syscalls before 
+>> using them
+>>   musl is using 64bit time_t now on 32bit architectures and these 
+>> syscalls
+>>   no longer exist, therefore its better to check for them being available
+>>   before using them
+>> -Upstream-Status: Submitted [https://patchwork.ozlabs.org/patch/1241258/]
+>>   Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> +Reviewed-by: Yang Xu <xuyang2018.jy@cn.fujitsu.com>
+>> +Reviewed-by: Petr Vorel <pvorel@suse.cz>
+>> +Signed-off-by: Petr Vorel <pvorel@suse.cz>
+>> +Upstream-Status: accepted as 5b57ae2913e2d2d167cbd3822784b4c4ba336812
+>>   ---
+>> - lib/tst_clocks.c                                        | 9 +++++----
+>> - testcases/kernel/syscalls/gettimeofday/gettimeofday01.c | 6 ++----
+>> - testcases/kernel/syscalls/gettimeofday/gettimeofday02.c | 8 +++-----
+>> - 3 files changed, 10 insertions(+), 13 deletions(-)
+>> + lib/tst_clocks.c                                 | 16 ++++++----------
+>> + .../syscalls/gettimeofday/gettimeofday01.c       |  6 ++----
+>> + .../syscalls/gettimeofday/gettimeofday02.c       |  8 +++-----
+>> + 3 files changed, 11 insertions(+), 19 deletions(-)
+>> +diff --git a/lib/tst_clocks.c b/lib/tst_clocks.c
+>> +index 5195da38f..fa2f1cb84 100644
+>>   --- a/lib/tst_clocks.c
+>>   +++ b/lib/tst_clocks.c
+>> -@@ -22,21 +22,22 @@
+>> - #define _GNU_SOURCE
+>> - #include <unistd.h>
+>> +@@ -3,28 +3,24 @@
+>> +  * Copyright (c) 2017 Cyril Hrubis <chrubis@suse.cz>
+>> +  */
+>> +
+>> +-/*
+>> +- * clock_gettime() and clock_getres() functions
+>> +- */
+>> +-
+>> +-#define _GNU_SOURCE
+>> +-#include <unistd.h>
+>>    #include <time.h>
+>>   -#include <sys/syscall.h>
+>> -- 
+>> +
+>>   +#define TST_NO_DEFAULT_MAIN
+>>   +#include "tst_test.h"
+>>    #include "tst_clocks.h"
+>> @@ -45,6 +57,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>   -    return syscall(SYS_clock_settime, clk_id, ts);
+>>   +    return tst_syscall(__NR_clock_settime, clk_id, ts);
+>>    }
+>> +diff --git a/testcases/kernel/syscalls/gettimeofday/gettimeofday01.c 
+>> b/testcases/kernel/syscalls/gettimeofday/gettimeofday01.c
+>> +index 583d8f7b9..08ea1673a 100644
+>>   --- a/testcases/kernel/syscalls/gettimeofday/gettimeofday01.c
+>>   +++ b/testcases/kernel/syscalls/gettimeofday/gettimeofday01.c
+>>   @@ -38,10 +38,8 @@
+>> @@ -68,6 +82,8 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>            /* gettimeofday returns an int, so we need to turn the long
+>>             * TEST_RETURN into an int to test with */
+>> +diff --git a/testcases/kernel/syscalls/gettimeofday/gettimeofday02.c 
+>> b/testcases/kernel/syscalls/gettimeofday/gettimeofday02.c
+>> +index 1d60f448e..5170ad2f7 100644
+>>   --- a/testcases/kernel/syscalls/gettimeofday/gettimeofday02.c
+>>   +++ b/testcases/kernel/syscalls/gettimeofday/gettimeofday02.c
+>>   @@ -16,14 +16,12 @@
+>> @@ -102,3 +118,6 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>                tst_res(TBROK | TERRNO, "gettimeofday() failed");
+>>                return;
+>>            }
+>> +--
+>> +2.25.1
+>> +
+>> diff --git 
+>> a/meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch 
+>> b/meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch 
+>>
+>> deleted file mode 100644
+>> index 9330844509..0000000000
+>> --- 
+>> a/meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch 
+>>
+>> +++ /dev/null
+>> @@ -1,24 +0,0 @@
+>> -From 476ce907fa18042cdde0a244ba9a46cd895ce76c Mon Sep 17 00:00:00 2001
+>> -From: Alexander Kanavin <alex.kanavin@gmail.com>
+>> -Date: Thu, 12 Dec 2019 17:56:02 +0100
+>> -Subject: [PATCH] testcases: fix an absent format string issue
+>> -
+>> -Upstream-Status: Pending
+>> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>> ----
+>> - .../kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c     | 2 +-
+>> - 1 file changed, 1 insertion(+), 1 deletion(-)
+>> -
+>> -diff --git 
+>> a/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c 
+>> b/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c
+>> -index 27dbc6626..19d943d06 100644
+>> ---- a/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c
+>> -+++ b/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c
+>> -@@ -59,7 +59,7 @@ static void verify_pidfd_send_signal(void)
+>> -
+>> -         /* Manipulate PID for next process */
+>> -         sprintf(pid_str, "%d", pid - 1);
+>> --        SAFE_FILE_PRINTF(last_pid_file, pid_str);
+>> -+        SAFE_FILE_PRINTF(last_pid_file, "%s", pid_str);
+>> -
+>> -         new_pid = SAFE_FORK();
+>> -         if (new_pid == 0) {
+>> diff --git 
+>> a/meta/recipes-extended/ltp/ltp/0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch 
+>> b/meta/recipes-extended/ltp/ltp/0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch 
+>>
+>> deleted file mode 100644
+>> index eff9ed0741..0000000000
+>> --- 
+>> a/meta/recipes-extended/ltp/ltp/0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch 
+>>
+>> +++ /dev/null
+>> @@ -1,47 +0,0 @@
+>> -From 81e5bd5442337a4a648a0dbbff47eaac0d351287 Mon Sep 17 00:00:00 2001
+>> -From: Khem Raj <raj.khem@gmail.com>
+>> -Date: Thu, 7 Jan 2016 18:22:38 +0000
+>> -Subject: [PATCH] kernel/controllers: Link with libfts explicitly on musl
+>> -
+>> -musl does not implement fts like glibc and therefore it depends on
+>> -external implementation for all fts APIs
+>> -
+>> -Upstream-Status: Pending
+>> -
+>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ----
+>> - testcases/kernel/controllers/Makefile.inc        | 3 +++
+>> - testcases/kernel/controllers/cpuset/Makefile.inc | 3 +++
+>> - 2 files changed, 6 insertions(+)
+>> -
+>> -diff --git a/testcases/kernel/controllers/Makefile.inc 
+>> b/testcases/kernel/controllers/Makefile.inc
+>> -index 4ca0b5a..1d85e4d 100644
+>> ---- a/testcases/kernel/controllers/Makefile.inc
+>> -+++ b/testcases/kernel/controllers/Makefile.inc
+>> -@@ -36,6 +36,9 @@ MAKE_DEPS        := $(LIB)
+>> - CPPFLAGS        += -I$(abs_srcdir)/../$(LIBDIR)
+>> -
+>> - LDFLAGS            += -L$(abs_builddir)/../$(LIBDIR)
+>> -+ifeq ($(LIBC),musl)
+>> -+LDLIBS            += -lfts
+>> -+endif
+>> -
+>> - INSTALL_TARGETS        ?= *.sh
+>> -
+>> -diff --git a/testcases/kernel/controllers/cpuset/Makefile.inc 
+>> b/testcases/kernel/controllers/cpuset/Makefile.inc
+>> -index db6a843..86dd2a8 100644
+>> ---- a/testcases/kernel/controllers/cpuset/Makefile.inc
+>> -+++ b/testcases/kernel/controllers/cpuset/Makefile.inc
+>> -@@ -42,6 +42,9 @@ MAKE_DEPS        := $(LIBCONTROLLERS) $(LIBCPUSET)
+>> - LDFLAGS            += -L$(abs_builddir)/$(LIBCPUSET_DIR) 
+>> -L$(abs_builddir)/$(LIBCONTROLLERS_DIR)
+>> -
+>> - LDLIBS            += -lcpu_set -lcontrollers -lltp
+>> -+ifeq ($(LIBC),musl)
+>> -+LDLIBS            += -lfts
+>> -+endif
+>> -
+>> - INSTALL_TARGETS        ?= *.sh
+>> -
+>> ---
+>> -2.7.4
+>> -
+>> diff --git 
+>> a/meta/recipes-extended/ltp/ltp/0006-rt_tgsigqueueinfo-disable-test-on-musl.patch 
+>> b/meta/recipes-extended/ltp/ltp/0006-rt_tgsigqueueinfo-disable-test-on-musl.patch 
+>>
+>> deleted file mode 100644
+>> index 804edfa1b4..0000000000
+>> --- 
+>> a/meta/recipes-extended/ltp/ltp/0006-rt_tgsigqueueinfo-disable-test-on-musl.patch 
+>>
+>> +++ /dev/null
+>> @@ -1,35 +0,0 @@
+>> -From 60054686e2c1a4bedf1d507af97ebbb7ff491e77 Mon Sep 17 00:00:00 2001
+>> -From: Yi Zhao <yi.zhao@windriver.com>
+>> -Date: Thu, 18 Jul 2019 15:23:15 +0800
+>> -Subject: [PATCH] rt_tgsigqueueinfo: disable test on musl
+>> -
+>> -Fix build error with musl:
+>> -rt_tgsigqueueinfo01.c: In function 'sigusr1_handler':
+>> -rt_tgsigqueueinfo01.c:42:22: error: 'siginfo_t' {aka 'struct 
+>> <anonymous>'} has no member named '_sifields'; did you mean 
+>> '__si_fields'?
+>> -   42 |  sigval_rcv = uinfo->_sifields._rt.SI_SIGVAL.sival_ptr;
+>> -      |                      ^~~~~~~~~
+>> -      |                      __si_fields
+>> -
+>> -Upstream-Status: Pending
+>> -
+>> -Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+>> ----
+>> - testcases/kernel/syscalls/Makefile | 2 +-
+>> - 1 file changed, 1 insertion(+), 1 deletion(-)
+>> -
+>> -diff --git a/testcases/kernel/syscalls/Makefile 
+>> b/testcases/kernel/syscalls/Makefile
+>> -index d1becd0..1f3ff34 100644
+>> ---- a/testcases/kernel/syscalls/Makefile
+>> -+++ b/testcases/kernel/syscalls/Makefile
+>> -@@ -31,7 +31,7 @@ endif
+>> - ifeq ($(LIBC),musl)
+>> - FILTER_OUT_DIRS    += confstr fmtmsg getcontext ioctl mallopt profil \
+>> -            rt_sigsuspend setdomainname sethostname sigsuspend \
+>> --           ustat
+>> -+           ustat rt_tgsigqueueinfo
+>> - endif
+>> -
+>> - ifeq ($(UCLIBC),1)
+>> ---
+>> -2.7.4
+>> -
+>> diff --git 
+>> a/meta/recipes-extended/ltp/ltp/0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch 
+>> b/meta/recipes-extended/ltp/ltp/0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch 
+>>
+>> index b46325eaf3..350091a70c 100644
+>> --- 
+>> a/meta/recipes-extended/ltp/ltp/0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch 
+>>
+>> +++ 
+>> b/meta/recipes-extended/ltp/ltp/0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch 
+>>
+>> @@ -1,33 +1,34 @@
+>> -From aa7a9185a037ad59012bd46713ac340458e95209 Mon Sep 17 00:00:00 2001
+>> +From 4b7db094d6fc5659001ae8dc17078bb65d46b9c9 Mon Sep 17 00:00:00 2001
+>>   From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= 
+>> <anibal.limon@linux.intel.com>
+>>   Date: Fri, 13 May 2016 11:11:28 -0500
+>> -Subject: [PATCH] testcases/network/nfsv4/acl/acl1.c: Security fix on
+>> - string printf
+>> +Subject: [PATCH] acl: Security fix on string printf
+>>   MIME-Version: 1.0
+>>   Content-Type: text/plain; charset=UTF-8
+>>   Content-Transfer-Encoding: 8bit
+>> -Fixes:
+>> +Fixes build error when compiled with -Werror=format-security:
+>> -acl1.c: In function 'test_acl_default':
+>> -acl1.c:317:2: error: format not a string literal and no format arguments
+>> -[-Werror=format-security]
+>> -  printf(cmd);
+>> +acl1.c: In function ‘test_acl_default’:
+>> +acl1.c:305:2: error: format not a string literal and no format 
+>> arguments [-Werror=format-security]
+>> +  305 |  printf(cmd);
+>> -[YOCTO #9548]
+>> +Patch taken from openembedded-core,
+>> +original bug report: https://bugzilla.yoctoproject.org/9548
+>> -Upstream-Status: Pending
+>> +[YOCTO #9548]
+>>   Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+>> +Signed-off-by: Petr Vorel <pvorel@suse.cz>
+>> +Upstream-Status: accepted in 4b7db094d6fc5659001ae8dc17078bb65d46b9c9
+>>   ---
+>>    testcases/network/nfsv4/acl/acl1.c | 2 +-
+>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>   diff --git a/testcases/network/nfsv4/acl/acl1.c 
+>> b/testcases/network/nfsv4/acl/acl1.c
+>> -index bdf0180..898b7ca 100644
+>> +index aae9484e5..ad778cd33 100644
+>>   --- a/testcases/network/nfsv4/acl/acl1.c
+>>   +++ b/testcases/network/nfsv4/acl/acl1.c
+>> -@@ -303,7 +303,7 @@ void test_acl_default(char *dir, acl_t acl)
+>> +@@ -302,7 +302,7 @@ void test_acl_default(char *dir, acl_t acl)
+>>        char *cmd = malloc(256);
+>>        strcpy(cmd, "chmod 7777 ");
+>> @@ -37,5 +38,5 @@ index bdf0180..898b7ca 100644
+>>        system(cmd);
+>>        acl2 = acl_get_file(path, ACL_TYPE_ACCESS);
+>>   --
+>> -2.7.4
+>> +2.25.1
+>> diff --git a/meta/recipes-extended/ltp/ltp_20190930.bb 
+>> b/meta/recipes-extended/ltp/ltp_20200120.bb
+>> similarity index 90%
+>> rename from meta/recipes-extended/ltp/ltp_20190930.bb
+>> rename to meta/recipes-extended/ltp/ltp_20200120.bb
+>> index 19bd7bc9c6..579a763431 100644
+>> --- a/meta/recipes-extended/ltp/ltp_20190930.bb
+>> +++ b/meta/recipes-extended/ltp/ltp_20200120.bb
+>> @@ -12,7 +12,6 @@ LIC_FILES_CHKSUM = "\
+>>       
+>> file://testcases/open_posix_testsuite/COPYING;md5=48b1c5ec633e3e30ec2cf884ae699947 
+>> \
+>>       
+>> file://testcases/realtime/COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+>>       
+>> file://utils/benchmark/kernbench-0.42/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f 
+>> \
+>> -    
+>> file://utils/ffsb-6.0-rc2/COPYING;md5=c46082167a314d785d012a244748d803 \
+>>   "
+>>   DEPENDS = "attr libaio libcap acl openssl zip-native"
+>> @@ -27,21 +26,16 @@ CFLAGS_append_x86-64 = " -fomit-frame-pointer"
+>>   CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+>>   CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
+>> -SRCREV = "c9707b465a08397569920b676345474f44327200"
+>> +SRCREV = "4079aaf264d0e9ead042b59d1c5f4e643620d0d5"
+>>   SRC_URI = "git://github.com/linux-test-project/ltp.git \
+>>              
+>> file://0001-build-Add-option-to-select-libc-implementation.patch \
+>> -           
+>> file://0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch \
+>>              
+>> file://0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch \
+>>              file://0004-guard-mallocopt-with-__GLIBC__.patch \
+>> -           file://0006-rt_tgsigqueueinfo-disable-test-on-musl.patch \
+>>              file://0007-Fix-test_proc_kill-hanging.patch \
+>>              
+>> file://0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+>>              
+>> file://0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
+>> -           
+>> file://0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch \
+>> -           
+>> file://0001-testcases-fix-an-absent-format-string-issue.patch \
+>>              file://0001-Add-more-musl-exclusions.patch \
+>> -           
+>> file://0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch \
+>>              
+>> file://0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch \
+>>              "
+>>
 
