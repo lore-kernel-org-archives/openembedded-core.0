@@ -1,57 +1,54 @@
 Return-Path: <jpuhlman@gmail.com>
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
-	[209.85.216.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BE7E561996
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 25C4A61949
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 22:53:40 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id f2so4682952pjq.1
+	Fri, 28 Feb 2020 22:54:11 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id l7so2445708pff.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 14:53:42 -0800 (PST)
+	Fri, 28 Feb 2020 14:54:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=BRia6wy+5D7G89r6HcIQi0HLKjorUwUVRDkfgg0N/RU=;
-	b=t5NoIlsimuy/h56IBQ8vngN9c35Bf+111e2UfWxsZGZHSLa7CvmvwFSYDZAF1ZfIxG
-	WqnrKBufAf+U28+fh9j2qLTjXC6650VhhztQ3bRY232pzzOLiFQBlv1zBt1IP3cKv0hD
-	sDWI/e/DqZeZaDXzVSSv2WXFXEwJ3bo5rag7wotImlpDmj+gAgAgvIHwdFO5MU0qqawm
-	x0RdJVlXQ1l6PCr90x4W5hmJ1G1G+Xp1f6mpPNIp5lLh6SCYpsTX9K/gAmnnot6vPr1I
-	rJTLzg+O0pvyU74DN+zyTtHxh1tecLc/8f7V2BcR2W7sz2aiEV2gelrjS0EX5tz0IbiP
-	AD9Q==
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=x7O5+gnEjlgVswTvN/N7bW/0oVdUIQuAeZAZwvF05oU=;
+	b=aZi5AQbjB0FZFkNlX28YJFFQ2UJlbpfEoQDEwciNUYxmqII8+phU8vTlTr68WC53BA
+	xLB07HA0BUbHZX/wo8N7GAABhqLhX5d2gdqaQ5XU2KtXzKakxxt04y6He/fEGseHdjpk
+	gagNQqQim6uKHtBrPgyQ12c0BdOFuSViUDEeRZI8VjNblcRYVS+MpL1wp9QWXZJ6HNak
+	iz0YivRLaQ+PnidYfZLFEtpXSm6frVaTJ50svUzda4imZ20oWAwMDF0qFy9ezprlkGg2
+	iVMqTqbj3cnnE2ubyioe5yAV+dysCCWrrBYPDJ+lMbKbI8W0H1tbQef1NG0czzV39yWf
+	4N7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=BRia6wy+5D7G89r6HcIQi0HLKjorUwUVRDkfgg0N/RU=;
-	b=DrLr+MEddBzSM7ZPxZiX4WC6jex6om8j0f9FToAicJzuYOLbD48oa/+cFqNxSNtwor
-	SdSGpRxwBXWHb0cIl44xSBIDT2eIKIiHjtmqTnj4xhzp/jJgcpSzctnbIJOWNjtytOqH
-	blGjEO0FefgxOP3D3iMxvZC0xWvECnQWwEGKB+e98lc5QfoF9WPZILC1TB7f7BHX/WNi
-	1eTmmUX2r1UVkzLMwVSknGkeTJZO8kbcP3/yw0EvDOmjrbfsB7z5by/UVJC4d6+tfeTd
-	mIa5epWDIVHaGKSf19TUIG+bzKnig+FGVqW2R7Ni3RWObm0TGd+1QBMbjV3TMr37ZxNQ
-	nXuA==
-X-Gm-Message-State: APjAAAVl9JqAw6AbusEfC4IxBu7Xgs1Vc4tFD6aMtWLJR9boGvLdP5bL
-	lSjkj7frv1lYKsqh0ETlojH/QGiQ
-X-Google-Smtp-Source: APXvYqzQobcXj35Gyi8C7kcFfCC3fSAOMyXFO/5SSAR67AetiY8UUY8CSjMNeEkBcVtFdk8g9Fj51Q==
-X-Received: by 2002:a17:90a:cb96:: with SMTP id
-	a22mr7017139pju.96.1582930421607; 
-	Fri, 28 Feb 2020 14:53:41 -0800 (PST)
+	:mime-version:content-transfer-encoding;
+	bh=x7O5+gnEjlgVswTvN/N7bW/0oVdUIQuAeZAZwvF05oU=;
+	b=klWpyMZlooMpx9nUYMltBLKyq/56ztdidcfYJNFzm5Uv7KuXKzheuF2a437w4FmvlR
+	+TbWxBPxGwrpKMR/yzOi6rOFG1vFl2ECGI9KvwusgQ+9SLu2iVBDFTbkMpW4zhEDVng5
+	I+80IIty2Oes3Gd4++9yf/SDh/OMSfZEvn3R9HuP8Fc07fNaajTTAm0xkGi5eE9JoA6M
+	DelUXLOiPciZoyh5nJZcRNLq10MdS0pi48/yPLGluQXe++cB19D8hLtsogmRNYk3js1m
+	9niod41sBC2phdecRXBrFJABogFKv2SIHlQY1/lJqXjvHupKf07LqyYlA2q5UCbehsxR
+	c+QA==
+X-Gm-Message-State: APjAAAVlEotb6gHrnMU72awFIfcrdnJKE/1Yr9+XjUnYX70AaoBeJ+Ek
+	edR6SgBpZ/EdhVN7eldAyQLFnPTK
+X-Google-Smtp-Source: APXvYqxRUymd6eclLcLw2y9VHmrzGlSBctR0SYv77Jhwo7rBINw/6vrQBQc74IANq1yqMgDGK678+w==
+X-Received: by 2002:aa7:8ec1:: with SMTP id b1mr6599024pfr.95.1582930452054;
+	Fri, 28 Feb 2020 14:54:12 -0800 (PST)
 Received: from workhorse.localdomain
-	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+	([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
 	by smtp.gmail.com with ESMTPSA id
-	136sm11578610pgh.26.2020.02.28.14.53.40
+	e189sm7111321pfa.139.2020.02.28.14.54.11
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 28 Feb 2020 14:53:40 -0800 (PST)
+	Fri, 28 Feb 2020 14:54:11 -0800 (PST)
 Sender: Jeremy Puhlman <jpuhlman@gmail.com>
 Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 117792A053D; Fri, 28 Feb 2020 14:53:40 -0800 (PST)
+	id D29E72A053D; Fri, 28 Feb 2020 14:54:10 -0800 (PST)
 From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Feb 2020 14:53:35 -0800
-Message-Id: <20200228225335.28139-3-jpuhlman@mvista.com>
+Date: Fri, 28 Feb 2020 14:54:09 -0800
+Message-Id: <20200228225409.28256-1-jpuhlman@mvista.com>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200228225335.28139-1-jpuhlman@mvista.com>
-References: <20200228225335.28139-1-jpuhlman@mvista.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] cups: make cups-config a multilib script
+Subject: [PATCH] binutils: fix multilib header difference
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,40 +61,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2020 22:53:40 -0000
+X-List-Received-Date: Fri, 28 Feb 2020 22:54:11 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-cups-config encodes the library dir in the script.
+bfd_stdint.h encodes the name of the compiler in the header
+which is different between mutlilibs. Remvoe target prefix to
+make the headers match.
 
 Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
 ---
- meta/recipes-extended/cups/cups.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/binutils/binutils.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 34982819b9..c5a60bde12 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -22,7 +22,7 @@ LEAD_SONAME = "libcupsdriver.so"
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index 6ed40a1486..b0937e62fc 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -163,6 +163,8 @@ do_install () {
+ 	done
  
- CLEANBROKEN = "1"
+ 	oe_multilib_header bfd.h
++        # bfd_stdint.h encodes the compiler name in the header
++        sed -i ${D}${includedir}/bfd_stdint.h -e "s,${TARGET_PREFIX},,"
+ }
  
--inherit autotools-brokensep binconfig useradd systemd pkgconfig
-+inherit autotools-brokensep binconfig useradd systemd pkgconfig multilib_script
- 
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM_${PN} = "--system lpadmin"
-@@ -100,6 +100,8 @@ FILES_${PN} += "${datadir}/doc/cups/images \
-                "
- CONFFILES_${PN} += "${sysconfdir}/cups/cupsd.conf"
- 
-+MULTILIB_SCRIPTS = "${PN}-dev:${bindir}/cups-config"
-+
- SYSROOT_PREPROCESS_FUNCS += "cups_sysroot_preprocess"
- cups_sysroot_preprocess () {
- 	sed -i ${SYSROOT_DESTDIR}${bindir_crossscripts}/cups-config -e 's:cups_datadir=.*:cups_datadir=${datadir}/cups:' -e 's:cups_serverbin=.*:cups_serverbin=${libexecdir}/cups:'
+ inherit update-alternatives
 -- 
 2.20.1
 
