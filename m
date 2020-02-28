@@ -1,54 +1,53 @@
-Return-Path: <jpuhlman@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 25C4A61949
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E1FEC619A2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 22:54:11 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id l7so2445708pff.6
+	Fri, 28 Feb 2020 22:58:54 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id a141so5082396wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 14:54:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=x7O5+gnEjlgVswTvN/N7bW/0oVdUIQuAeZAZwvF05oU=;
-	b=aZi5AQbjB0FZFkNlX28YJFFQ2UJlbpfEoQDEwciNUYxmqII8+phU8vTlTr68WC53BA
-	xLB07HA0BUbHZX/wo8N7GAABhqLhX5d2gdqaQ5XU2KtXzKakxxt04y6He/fEGseHdjpk
-	gagNQqQim6uKHtBrPgyQ12c0BdOFuSViUDEeRZI8VjNblcRYVS+MpL1wp9QWXZJ6HNak
-	iz0YivRLaQ+PnidYfZLFEtpXSm6frVaTJ50svUzda4imZ20oWAwMDF0qFy9ezprlkGg2
-	iVMqTqbj3cnnE2ubyioe5yAV+dysCCWrrBYPDJ+lMbKbI8W0H1tbQef1NG0czzV39yWf
-	4N7g==
+	Fri, 28 Feb 2020 14:58:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=YP/vhOOSWYfcggEu0m1leeYY7Vri58t7bGHUVaA/vPQ=;
+	b=Tf90oqL6vlG8eBVN+xOc5cSMe8Z/YJMW1QAJ1U7gLT6G7/nynpYGGoYghjTl0I4rmq
+	zApTigIa0r/HskuCDs2H0/xejPzhFrtZx0GT8LuUYT+6CO4oHPVvw9qabn7edsab9y5w
+	UtDTGbVw7+bXhVe6ZY2HEoJSDKqEyLqeEgC3Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=x7O5+gnEjlgVswTvN/N7bW/0oVdUIQuAeZAZwvF05oU=;
-	b=klWpyMZlooMpx9nUYMltBLKyq/56ztdidcfYJNFzm5Uv7KuXKzheuF2a437w4FmvlR
-	+TbWxBPxGwrpKMR/yzOi6rOFG1vFl2ECGI9KvwusgQ+9SLu2iVBDFTbkMpW4zhEDVng5
-	I+80IIty2Oes3Gd4++9yf/SDh/OMSfZEvn3R9HuP8Fc07fNaajTTAm0xkGi5eE9JoA6M
-	DelUXLOiPciZoyh5nJZcRNLq10MdS0pi48/yPLGluQXe++cB19D8hLtsogmRNYk3js1m
-	9niod41sBC2phdecRXBrFJABogFKv2SIHlQY1/lJqXjvHupKf07LqyYlA2q5UCbehsxR
-	c+QA==
-X-Gm-Message-State: APjAAAVlEotb6gHrnMU72awFIfcrdnJKE/1Yr9+XjUnYX70AaoBeJ+Ek
-	edR6SgBpZ/EdhVN7eldAyQLFnPTK
-X-Google-Smtp-Source: APXvYqxRUymd6eclLcLw2y9VHmrzGlSBctR0SYv77Jhwo7rBINw/6vrQBQc74IANq1yqMgDGK678+w==
-X-Received: by 2002:aa7:8ec1:: with SMTP id b1mr6599024pfr.95.1582930452054;
-	Fri, 28 Feb 2020 14:54:12 -0800 (PST)
-Received: from workhorse.localdomain
-	([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=YP/vhOOSWYfcggEu0m1leeYY7Vri58t7bGHUVaA/vPQ=;
+	b=NkMku+/EW1GGjJJtEiRA+GRJMS3xdqeoqRGrroJiuGtmcyOPbbjT9P5TS5kb5Irhon
+	ltNoW7nkOp9wUtyUaSbu1MLwTlOYszz9hpJu5jS87uk06HAjgxPkYImsJfrh2MHXIyIB
+	lV32AKesZHofaEXFNOi4F23cyMSh8cv4yd1Gov+0wh1aGso06BVOJvpnxxzquHnkmQeT
+	FvmXudwZl9MuDuLeM2Rd+pwZ9BU3aGQMKPbkTx2QponjTyfuAN1AscFJmP9i6OjoBMwB
+	Tv8k8jUdIeJ7riQ/Q8Y4OgwO0OmVAJ16hfanXxN4bGsH0izx04MmFLjSG+xDc+W7Qt5g
+	Wa3A==
+X-Gm-Message-State: APjAAAUPw0TKO68dsaLYVHLRC0hjL/fRyWAykaIv6ZtOnCx5r0WeiROv
+	V+FBkfrww/g1FrVp7hbAzbJFRg==
+X-Google-Smtp-Source: APXvYqxDJdymuYqsRpY5h1DotD8D/ijAgdXGFkVBGXTyVYswwT1voQPsFOhEib5HxcE30dpnuQzD7Q==
+X-Received: by 2002:a05:600c:2257:: with SMTP id
+	a23mr6657269wmm.15.1582930735136; 
+	Fri, 28 Feb 2020 14:58:55 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	e189sm7111321pfa.139.2020.02.28.14.54.11
+	z8sm13707418wrv.74.2020.02.28.14.58.54
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 28 Feb 2020 14:54:11 -0800 (PST)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id D29E72A053D; Fri, 28 Feb 2020 14:54:10 -0800 (PST)
-From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Feb 2020 14:54:09 -0800
-Message-Id: <20200228225409.28256-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.20.1
+	Fri, 28 Feb 2020 14:58:54 -0800 (PST)
+Message-ID: <6c66a236197cfa2b432646cfff2a22e3e181a579.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Trevor Gamblin <trevor.gamblin@windriver.com>, 
+	openembedded-core@lists.openembedded.org, Tim Orling
+	<timothy.t.orling@linux.intel.com>
+Date: Fri, 28 Feb 2020 22:58:53 +0000
+In-Reply-To: <20200228144929.164927-1-trevor.gamblin@windriver.com>
+References: <20200228144929.164927-1-trevor.gamblin@windriver.com>
+User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-Subject: [PATCH] binutils: fix multilib header difference
+Subject: Re: [PATCH 0/2 v4] Add ptest support for coreutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,34 +60,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2020 22:54:11 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 28 Feb 2020 22:58:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+On Fri, 2020-02-28 at 06:49 -0800, Trevor Gamblin wrote:
+> v4 fixes a multilib issue - do_install_ptest was previously
+> using sed to make the d_type-check test point at python3 
+> instead of python, but hard-coded the path for the test file.
+> 
+> Sample test results:
+> 
+> core-image-minimal:
+> MACHINE    | PASS | FAIL | SKIP | TOTAL | TIME (m) |
+> qemux86-64 |  472 |    0 |  143 |   615 |      2.5 |
+> qemuarm64  |  472 |    0 |  143 |   615 |       51 |
+> 
+> core-image-sato:
+> MACHINE    | PASS | FAIL | SKIP | TOTAL | Time (m) |
+> qemux86-64 |  472 |    0 |  143 |   615 |      2.4 |
+> qemuarm64  |  472 |    0 |  143 |   615 |       52 |
 
-bfd_stdint.h encodes the name of the compiler in the header
-which is different between mutlilibs. Remvoe target prefix to
-make the headers match.
+Sorry Trevor but I think there is an issue here:
 
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
----
- meta/recipes-devtools/binutils/binutils.inc | 2 ++
- 1 file changed, 2 insertions(+)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/735/steps/8/logs/step2d
+(and on all the other builders)
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 6ed40a1486..b0937e62fc 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -163,6 +163,8 @@ do_install () {
- 	done
- 
- 	oe_multilib_header bfd.h
-+        # bfd_stdint.h encodes the compiler name in the header
-+        sed -i ${D}${includedir}/bfd_stdint.h -e "s,${TARGET_PREFIX},,"
- }
- 
- inherit update-alternatives
--- 
-2.20.1
+Its still causing the reproducible build failures for libmodule-build.
+
+The reason it triggers on this patch is without this it isn't included
+in the reproducible builds test. I was blaming Tim's upgrade patch!
+
+Cheers,
+
+Richard
 
 
