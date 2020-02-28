@@ -1,53 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BA8B6107E
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F6806107E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 12:17:06 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id m10so9229584wmc.0
+	Fri, 28 Feb 2020 12:25:45 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id t23so3012685wmi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 04:17:07 -0800 (PST)
+	Fri, 28 Feb 2020 04:25:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=tQGL435kupF1mwGb0N7lH7LkPa85IjA++GCMAlOFAUA=;
-	b=a5xLhJjVUqUDGm7eOSi8ko9cxxilZKUlo1bP/WTqTt+DTSYt/bQIcbHjPAZWOGQ4x5
-	e6LVWvbHS7Yi9TqntWsTpT3SpyiPvVPQoEu4uRFYynPHKXPXNF6QCer/m3cD+4+nlv4V
-	9YRaMyJmnCRVY9u0ihPMAGEHK9KkpCdc0bB20=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=PpyEkoyi49zDw3V25jn0AEHWUfBLZsp/frEybTbkb5Q=;
+	b=XWuqGoCr/qLP67nOgVhMBwGhUy+nynlQoewwo9PVy9dHsCQyWyfbfla4EifZa0cshx
+	5/KbR2eGCsKnmqIQOeGqpmjF6YgUeZ5IpoV1ryLXebinyOv1b99N7cOmYIUzuKCbBXYQ
+	qgapLQrTDoblUD6RY4G/nSjABTX2ANvB0U1uA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=tQGL435kupF1mwGb0N7lH7LkPa85IjA++GCMAlOFAUA=;
-	b=t1sm0wicP3BOI/N6/4+1n28/cfHwZ4/A5UIN0fB/9xFcMw70tDPs5t036/DmLHTe1w
-	F0Y/vuwuRHtU4CqFMaY5r4TRa926A+4+92ePnp+FCtLad4Aw2yA2KagKH+8iTM5OBxpi
-	KCSVhXbg/TQvYRR8JfKDQ7v/mP74sUOqBmy9+eglVb1FRyV0IAVlJizsID1WpvFrYO2d
-	m6AnThrJiMamSBGndFZSpUfO0m9u5ssBEyUYB+Ekwxkd6WmCbASXHRiC522CqQv0Neg/
-	wV8es5mCrgZ7oqbtxSxJA7cl2iWd8DkPLJI2PaBXPMTFQiSZm+H9BOLC6cXCSbTJMaOf
-	rLVA==
-X-Gm-Message-State: APjAAAUPzjCv4azr1kjAfHinvHJyWecu3HJM6pf+JxMH+LtOR1uctWan
-	SJgp5brxpAjCafoshDmfDNLbLQ==
-X-Google-Smtp-Source: APXvYqzNhX1XuAJv5DAjSynmQ/zHWOiKs0nC3d0/tl7iaJuPY3rTokBSNyT8nzFu56YLis0AHL20hQ==
-X-Received: by 2002:a1c:994b:: with SMTP id b72mr4844917wme.83.1582892227202; 
-	Fri, 28 Feb 2020 04:17:07 -0800 (PST)
+	bh=PpyEkoyi49zDw3V25jn0AEHWUfBLZsp/frEybTbkb5Q=;
+	b=k5yUfmifiXsRUpELTrB4d+Zw1M5HOA4Q3JkQ30YKDUykx8+oqSkx3x+Xnk2oOJr8uY
+	QAkN3UVC4S90/wmXGWH160X5qf1NIr/zpZesZYZyRkuwVjuykPumu5sXUDHqbI4YKhzB
+	Z3HLkf+WWj54WBIh6p2PGo7MpJX09kispwY/A9lKE3I8daFKI4S6cYlKE0cQ8OC7k6bD
+	4qc2t5yUx4oqCy3AYY14FM10IDHUzwtjomgG5ugJrZ5UQ4bMviwcMVgCqvRjgUmTCy6p
+	mltTvhdXVuLpM/XEwoySnQMeFfIh6rLvTeYZrZjuVwUrm8m90Wtkj/pCRVzw73NqZwBw
+	n/GA==
+X-Gm-Message-State: APjAAAWn0Hi5UZBevj8iDljivWqDZFpJVAbkoFlIXSVNIm8kXCU1o0Ne
+	jQM42SDA6V6dS2irL5rl2tBwYw==
+X-Google-Smtp-Source: APXvYqysuZvBh0vgGjL+plJVuejrnkjXxhP9jkOgM2o3i6K1ax9Og4/I9wz11Lwog/qfGD2ygdX2/Q==
+X-Received: by 2002:a1c:e206:: with SMTP id z6mr4357108wmg.141.1582892746062; 
+	Fri, 28 Feb 2020 04:25:46 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	g25sm17654686wmh.3.2020.02.28.04.17.06
+	by smtp.gmail.com with ESMTPSA id i7sm2231315wma.32.2020.02.28.04.25.45
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 28 Feb 2020 04:17:06 -0800 (PST)
-Message-ID: <e23ac45d87d91062ca03be8b255999effab6b972.camel@linuxfoundation.org>
+	Fri, 28 Feb 2020 04:25:45 -0800 (PST)
+Message-ID: <d9217f0a0dbeb949494675e766ea95412363211c.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Petr Vorel <petr.vorel@gmail.com>
-Date: Fri, 28 Feb 2020 12:17:05 +0000
-In-Reply-To: <20200228120849.GA31133@dell5510>
-References: <20200228061225.32003-1-petr.vorel@gmail.com>
-	<6558d8c05b858a831ecd4dd79df70f4764b10c6c.camel@linuxfoundation.org>
-	<20200228120849.GA31133@dell5510>
+To: Pierre-Jean Texier <pjtexier@koncepto.io>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 28 Feb 2020 12:25:44 +0000
+In-Reply-To: <1582738506-3389-1-git-send-email-pjtexier@koncepto.io>
+References: <1582738506-3389-1-git-send-email-pjtexier@koncepto.io>
 User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v4 1/2] ltp: Update to 20200120
+Subject: Re: [PATCH v2] util-linux: upgrade 2.34 -> 2.35.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,44 +57,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2020 12:17:06 -0000
+X-List-Received-Date: Fri, 28 Feb 2020 12:25:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-02-28 at 13:08 +0100, Petr Vorel wrote:
-> Hi Richard,
+On Wed, 2020-02-26 at 18:35 +0100, Pierre-Jean Texier via Openembedded-core wrote:
+> License-Update: add GPLv3 text in README.licensing
 > 
-> > > Changes v3->v4:
-> > > * Fix musl build with LIBS=-lfts
-> > Unfortunately the musl build is still failing with this version:
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1627
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1631
-> Any idea, how to fix it? libcgroup uses the same flag LIBS=-lfts.
-> Maybe the variable isn't propagated.
-> Or is the dependency expressed enough?
+> Also:
+>  - Drop upstreamed patch
+>  - Use 'disable-hwclock-gplv3' explicitly.
 > 
-> DEPENDS_append_libc-musl = " fts "
-> EXTRA_OEMAKE_append_libc-musl = " LIBC=musl LIBS=-lfts "
+> Since commit 7a3000f7ba548cf7d74ac77cc63fe8de228a669e ("hwclock: use parse_date function") hwclock is linked
+> with parse_date.y from gnullib. This gnulib code is distributed with GPLv3.
+> So, we have to use '--disable-hwclock-gplv3' to exclude this code.
 > 
-> I'll have to put back patch
-> 0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch, but
-> that's bad, buildroot works without it.
+> See full changelog https://lore.kernel.org/util-linux/20200131095846.ogjtqrs7ai774tka@ws.net.home/T/#u
+> 
+> Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+> ---
+> Changes v1 -> v2
+>  - bump to 2.35.1 instead of 2.35
+>  - use disable-hwclock-gplv3 option to not use datetime parsing GPLv3 code
+>  
+> FYI, hwclock will be made GPLv2-only again in v2.36, see:
+> 
+>  - https://lore.kernel.org/util-linux/20200127202152.4jh2w4chch37wgee@ws.net.home/T/#e0c176440ca3f7b10693ff8f0afaf114b4b94405d
+> 
+>  meta/recipes-core/util-linux/util-linux.inc        |  3 +-
+>  ...lsblk-force-to-print-PKNAME-for-partition.patch | 36 ----------------------
+>  meta/recipes-core/util-linux/util-linux_2.34.bb    | 14 ---------
+>  meta/recipes-core/util-linux/util-linux_2.35.1.bb  | 13 ++++++++
+>  4 files changed, 15 insertions(+), 51 deletions(-)
+>  delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch
+>  delete mode 100644 meta/recipes-core/util-linux/util-linux_2.34.bb
+>  create mode 100644 meta/recipes-core/util-linux/util-linux_2.35.1.bb
 
-I have to admit I haven't looked in detail at the issue. These builds
-are proving a bit tricky to sort out as there are so many issues with
-different patches. It will be later today before I could think about
-that. I'm hoping Khem may have more ideas.
+Unfortately this does seem to expose a problem with wic, e.g.:
 
-Unfortunately there is a second ltp issue (non-musl):
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/732
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/574
+which can be reproduced with:
 
-It would be nice to move to the new version and drop some of the
-patches for 3.1...
+oe-selftest -r wic.Wic2.test_expand_mbr_image
 
 Cheers,
 
 Richard
-
 
 
