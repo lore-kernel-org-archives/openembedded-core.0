@@ -1,28 +1,26 @@
 Return-Path: <tgamblin@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 783C261955
+	by mail.openembedded.org (Postfix) with ESMTP id 792F861962
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 28 Feb 2020 14:49:29 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 01SEnT0R019599
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 01SEnT0P019599
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 28 Feb 2020 06:49:30 -0800 (PST)
 Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
 	Fri, 28 Feb 2020 06:49:29 -0800
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 20958)	id 66FDB900884;
+Received: by ala-lpggp3.wrs.com (Postfix, from userid 20958)	id 635A39007B4;
 	Fri, 28 Feb 2020 06:49:29 -0800 (PST)
 From: Trevor Gamblin <trevor.gamblin@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Feb 2020 06:49:28 -0800
-Message-ID: <20200228144929.164927-2-trevor.gamblin@windriver.com>
+Date: Fri, 28 Feb 2020 06:49:27 -0800
+Message-ID: <20200228144929.164927-1-trevor.gamblin@windriver.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200228144929.164927-1-trevor.gamblin@windriver.com>
-References: <20200228144929.164927-1-trevor.gamblin@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v4] coreutils: add ptest
+Subject: [PATCH 0/2 v4] Add ptest support for coreutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,113 +36,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 28 Feb 2020 14:49:29 -0000
 Content-Type: text/plain
 
-coreutils has a large number of tests, including some added by the
-Makefile flags RUN_EXPENSIVE_TESTS and RUN_VERY_EXPENSIVE_TESTS that
-significantly increase runtime (and that have been disabled). Note
-that the coreutils ptest directory is given blanket permissions at
-runtime with chmod -R 777 to ensure that the user created for the
-tests will be able to run the test scripts and create the necessary
-files in the process.
+v4 fixes a multilib issue - do_install_ptest was previously
+using sed to make the d_type-check test point at python3 
+instead of python, but hard-coded the path for the test file.
 
-There is still room to improve the results of this ptest without
-the aforementioned additions. Of the tests marked SKIP, there are
-30 tests that are currently counted as SKIP because they require
-sudo permissions, and another 21 that require membership in
-multiple user groups. It is important to know that coreutils has
-tests for both root and non-root users. Testing showed that 42
-tests are skipped when running as root versus 30 when running as a
-non-root user, so the decision was made to run the suite as the
-latter. Additionally, gdb, valgrind, and strace could be included
-in the RDEPENDS list to increase pass rate, but their total
-contribution is 13 tests, so they were omitted to reduce image size.
+Sample test results:
 
-Finally, note that at least one ptest (misc/head-write-error.sh) is
-prone to ERROR on builds of core-image-minimal if extra space is
-not provided with IMAGE_ROOTFS_EXTRA_SPACE.
+core-image-minimal:
+MACHINE    | PASS | FAIL | SKIP | TOTAL | TIME (m) |
+qemux86-64 |  472 |    0 |  143 |   615 |      2.5 |
+qemuarm64  |  472 |    0 |  143 |   615 |       51 |
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
+core-image-sato:
+MACHINE    | PASS | FAIL | SKIP | TOTAL | Time (m) |
+qemux86-64 |  472 |    0 |  143 |   615 |      2.4 |
+qemuarm64  |  472 |    0 |  143 |   615 |       52 |
+
+
+Trevor Gamblin (2):
+  coreutils: add ptest
+  ptest-packagelists.inc: add coreutils to SLOW list
+
+ .../distro/include/ptest-packagelists.inc     |  1 +
  .../coreutils/coreutils/run-ptest             | 17 +++++++++
  meta/recipes-core/coreutils/coreutils_8.31.bb | 37 +++++++++++++++++++
- 2 files changed, 54 insertions(+)
+ 3 files changed, 55 insertions(+)
  create mode 100755 meta/recipes-core/coreutils/coreutils/run-ptest
 
-diff --git a/meta/recipes-core/coreutils/coreutils/run-ptest b/meta/recipes-core/coreutils/coreutils/run-ptest
-new file mode 100755
-index 0000000000..6d4a7b365d
---- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils/run-ptest
-@@ -0,0 +1,17 @@
-+#!/bin/sh
-+
-+# remove any stale lock files so that the calls to groupadd/useradd don't stop
-+# the ptest if re-using the same image
-+rm -rf /etc/passwd.lock /etc/group.lock /etc/gshadow.lock
-+
-+COREUTILSLIB=@libdir@/coreutils
-+LOG="${COREUTILSLIB}/ptest/coreutils_ptest_$(date +%Y%m%d-%H%M%S).log"
-+USERNAME="tester"
-+groupadd ugroup1
-+groupadd ugroup2
-+useradd -G ugroup1,ugroup2 $USERNAME || echo "user $USERNAME already exists"
-+
-+su tester -c "cd ${COREUTILSLIB}/ptest && make check-TESTS top_srcdir=. srcdir=." 2>&1 | tee -a ${LOG}
-+userdel $USERNAME 
-+groupdel ugroup1
-+groupdel ugroup2
-diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
-index 57b2c1bdba..04a0522713 100644
---- a/meta/recipes-core/coreutils/coreutils_8.31.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://0001-uname-report-processor-and-hardware-correctly.patch \
-            file://disable-ls-output-quoting.patch \
-            file://0001-local.mk-fix-cross-compiling-problem.patch \
-+           file://run-ptest \
-           "
- 
- SRC_URI_append_libc-musl = "file://strtod_fix_clash_with_strtold.patch"
-@@ -143,3 +144,39 @@ python __anonymous() {
- }
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+inherit ptest
-+
-+RDEPENDS_${PN}-ptest += "bash findutils gawk liberror-perl libmodule-build-perl make perl perl-module-file-stat python3-core sed shadow"
-+
-+do_install_ptest () {
-+    install -d ${D}${PTEST_PATH}/tests
-+    cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests
-+    sed -i 's/ginstall/install/g'  `grep -R ginstall ${D}${PTEST_PATH}/tests | awk -F: '{print $1}' | uniq`
-+    install -d ${D}${PTEST_PATH}/build-aux
-+    install ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
-+    cp ${B}/Makefile ${D}${PTEST_PATH}/
-+    cp ${S}/init.cfg ${D}${PTEST_PATH}/
-+    cp -r ${B}/src ${D}${PTEST_PATH}/
-+    cp -r ${S}/src/*.c ${D}${PTEST_PATH}/src
-+    sed -i '/^VPATH/s/= .*$/= ./g' ${D}${PTEST_PATH}/Makefile
-+    sed -i '/^PROGRAMS/s/^/#/g' ${D}${PTEST_PATH}/Makefile
-+    sed -i '/^Makefile: /s/^.*$/Makefile:/g' ${D}${PTEST_PATH}/Makefile
-+    sed -i '/^abs_srcdir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
-+    sed -i '/^abs_top_builddir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
-+    sed -i '/^abs_top_srcdir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
-+    sed -i '/^built_programs/s/ginstall/install/g' ${D}${PTEST_PATH}/Makefile
-+    chmod -R 777 ${D}${PTEST_PATH}
-+
-+    # Disable subcase stty-pairs.sh, it will cause test framework hang
-+    sed -i '/stty-pairs.sh/d' ${D}${PTEST_PATH}/Makefile
-+
-+    # Tweak test d_type-check to use python3 instead of python
-+    sed -i "1s@.*@#!/usr/bin/python3@" ${D}${PTEST_PATH}/tests/d_type-check
-+    install ${B}/src/getlimits ${D}/${bindir}
-+    
-+    # handle multilib
-+    sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
-+}
-+
-+FILES_${PN}-ptest += "${bindir}/getlimits"
 -- 
-2.17.1
+2.24.1
 
 
