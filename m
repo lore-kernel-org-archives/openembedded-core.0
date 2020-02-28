@@ -1,53 +1,62 @@
-Return-Path: <petr.vorel@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A4F761954
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C9436198A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 17:57:39 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id m3so4218713wmi.0
+	Fri, 28 Feb 2020 18:00:02 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id i19so2098032pfa.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 09:57:40 -0800 (PST)
+	Fri, 28 Feb 2020 10:00:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=FFgOipWcocJfymtUlJrcgyUXyGmlfzpxuL/9exK+mcA=;
-	b=oCRcp/tTgedHB91FyjFKy1nb8nMUv1IJksC5cKfVifPFQyVH7CEfirTOkhiYmzlSKS
-	3NEVfPyyvEEOaWpFfB2UeOae29o88Qmqi6LqAZpn+olxKADPuQWk45Y/15zeJbzmcmy6
-	GTONFJ8utbB+Ag76VfHkhQiM6eoODOEDC/AHwXsraR4B7+AA7pjg1zAnnA5zxaxGWztc
-	sPKlOWJk1cllK44cJMyg4YkXsQI2MxNm+2BzceKy6Pv85b+lKS+bJ1eIm0Hjxj+ufOCK
-	bPivkUYuIwFGpzRvotyKr2GUGfM4KgcXIYhNZeL8uYzabc5f5enP6+fRoRe0qlurDowi
-	+O2w==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=j2AlWBQ5nBBurto0uVF4Fh/+oSHDOCdGQdeyrd4f3w8=;
+	b=BoBFaeLIaTHFihjqpy5IcPDgTXjcKuDwHICI73LZoRsNVDQWzBzcOWll0pKmV0fS6k
+	op0OivfZXqaIEDneoW7EkovCLRHLijmj1cH2I0fSODw/cIvn412gkOQKgVYRhCPdkNZI
+	Mr8q8wrJU/VqQNTOAzXbfjVwLpnTwbKwBsGyPvUJRmg7URB2cXwMaaBiI9z+EYOKtptj
+	HAURf7D0I7KMTA4RbmJHfebFPwe1l8dZcw1E2yLbrEVPyd7FCiiCgx3yItutBp06gTh1
+	BLUU/YdQoPYPBMSzM/5gEU5UF5uloyy8g4wNKNIdlY/k4nR38e+RR8QJJ9tkH/yuU4cp
+	Z2VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=FFgOipWcocJfymtUlJrcgyUXyGmlfzpxuL/9exK+mcA=;
-	b=PD9Qc4cIZfmI4pQTy14ZWjDlz/aVcv1AwAjFDXsz/UHTOzo7LfS8DKWewY2UgZ4dIJ
-	dmON1JbVJ0C+jdqiBfa6B2SV+w8XUEiSjToY2J3ntAveGRjBz9IZ9oHtdznV2B2uVnsd
-	P17rzAMyCNd504P4INvBwbXA+jy+D1hCzmC5ApPOJLfeKYD77baQga36C03RyxMQwsVu
-	xjdB6bQujjT8FfyYTFG33HOorZ8nHXeJVnDTtDnUlamwQAIemspnBqR9Rm48vP0wC3qT
-	6LYZ4DS+o/kMHlT+2tDig8X3XR38WHv0kZEeUtPWICpPMBq3EXfjiBbU2srua6ZQuTY0
-	VtSg==
-X-Gm-Message-State: APjAAAUU4S5bl2t+PiUeTTLxwwqPK8cOVPa0NMBKRt0Vh8ExrH9sObOg
-	DYpFaJfFtdnmrKkQLJeINAOxjcUiRcE=
-X-Google-Smtp-Source: APXvYqwsYiQxajo/C7hcUbSxGHilM0yO9MbXUY4OfhboYZHuU1rouxLc8tQoG5VJbU2A9R4fQhH7Dw==
-X-Received: by 2002:a05:600c:294a:: with SMTP id
-	n10mr6017280wmd.11.1582912659572; 
-	Fri, 28 Feb 2020 09:57:39 -0800 (PST)
-Received: from dell5510.arch.suse.de ([62.201.25.198])
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=j2AlWBQ5nBBurto0uVF4Fh/+oSHDOCdGQdeyrd4f3w8=;
+	b=awfW7u3G4wUp3HC0RSy1BAuT3Vw4q8w+cAVdItMWZTGWWKAR7BSXbdvDGl2nBVtWyt
+	A2EIqLsoyf1iPaFoVeGMZyZYo24XsT2AUeDE/KjoBqWnRMrSweYUU3Z0NOCZl5Ptfjdo
+	RV+fU0SfYZCe/t+SLlDr8Nx5o5Dm+GpBkzmq8lJvyVsxdcO9uD742yGjFncFTVZuPlHu
+	Z6h8nxtBKreTUfBlWaEP2ZAkSIHBGnO9hpJNp/v+HXHcQScc+Io1j+GDVARwjXdfNlZI
+	Y6Ou3U+QvyzsSnhrtXMtQDoKn8BlzJKIhJzw5EhQGw6Tfbv0+yEtU2cR+VjLoMpRn4k3
+	HTog==
+X-Gm-Message-State: APjAAAVGfsD/qVGOyYoAtJK35IFRZVayLrJ/ke3+OsDaWr8OjWiB1mKM
+	JZbYtSPF/fWh9P3BXtbwaVQ=
+X-Google-Smtp-Source: APXvYqyurSBQ36lCjbLPS//puEtUThbzYpXR9xcHgfQFpHws+UO5EmvCdV3ubQ7zna2Em91VLIkrqg==
+X-Received: by 2002:a63:82c6:: with SMTP id w189mr5575781pgd.357.1582912803470;
+	Fri, 28 Feb 2020 10:00:03 -0800 (PST)
+Received: from ?IPv6:2601:646:9200:4e0:98ae:deb2:aaad:7898?
+	([2601:646:9200:4e0:98ae:deb2:aaad:7898])
 	by smtp.gmail.com with ESMTPSA id
-	y139sm3403274wmd.24.2020.02.28.09.57.38
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 28 Feb 2020 09:57:39 -0800 (PST)
-From: Petr Vorel <petr.vorel@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Feb 2020 18:57:31 +0100
-Message-Id: <20200228175731.10604-2-petr.vorel@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200228175731.10604-1-petr.vorel@gmail.com>
-References: <20200228175731.10604-1-petr.vorel@gmail.com>
+	x197sm7916293pfc.47.2020.02.28.10.00.02
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Fri, 28 Feb 2020 10:00:02 -0800 (PST)
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Tim Orling <ticotimo@gmail.com>
+References: <20200227000603.14252-1-timothy.t.orling@linux.intel.com>
+	<20200227000603.14252-4-timothy.t.orling@linux.intel.com>
+	<2c3ea5cc-29e6-0ce6-f9b3-c720e835e363@intel.com>
+	<7956231e-1523-6213-b757-633b75eb2eb2@gmail.com>
+	<CANx9H-CiC8xMqVKDYXzAupOrShPvGvpeu0j8r0CFjZ0OTSdsJA@mail.gmail.com>
+	<CANx9H-BuKY5DONf26jnVJLseUmv9C6FqRZU_Aw2aGpBr5nswZw@mail.gmail.com>
+	<CANNYZj-LiYrmK6-ihTxgtMBSCqb2Yg_HmooG7QJOQ=_MtdP9+Q@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <a9437810-c735-8a89-44b0-6b7837e88818@gmail.com>
+Date: Fri, 28 Feb 2020 10:00:01 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
-Subject: [PATCH v5 2/2] ltp: Remove mips related open_posix_testsuite patch
+In-Reply-To: <CANNYZj-LiYrmK6-ihTxgtMBSCqb2Yg_HmooG7QJOQ=_MtdP9+Q@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] at-spi2-atk: upgrade 2.32.0 -> 2.34.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,108 +69,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2020 17:57:39 -0000
+X-List-Received-Date: Fri, 28 Feb 2020 18:00:03 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 
-Upstream just disagree on this patch
-https://patchwork.ozlabs.org/comment/2012045/
 
-Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
----
-Changes v4->v5: NONE
 
- ...suite-mmap24-2-Relax-condition-a-bit.patch | 68 -------------------
- meta/recipes-extended/ltp/ltp_20200120.bb     |  1 -
- 2 files changed, 69 deletions(-)
- delete mode 100644 meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
+On 2/28/20 1:30 AM, Alexander Kanavin wrote:
+> I actually have a number of patches I have to hold because they don't 
+> build or don't work on centos 7.
+> Latest atk and friends included:
+> http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates-later
+> 
+> Something ought to be done about centos 7, I'm all for dropping it asap, 
+> if the newer compiler installation turns out unfeasible.
+> 
 
-diff --git a/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch b/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-deleted file mode 100644
-index d32ac1dd7c..0000000000
---- a/meta/recipes-extended/ltp/ltp/0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From a8715a1446305ffd76406f63c7f160c13a5b2e72 Mon Sep 17 00:00:00 2001
--From: "Hongzhi.Song" <hongzhi.song@windriver.com>
--Date: Wed, 10 Oct 2018 22:07:05 -0400
--Subject: [PATCH] open_posix_testsuite/mmap24-2: Relax condition a bit
--
--Mips will return EINVAL instead of ENOMEM as expected
--if the range [addr + len) exceeds TASK_SIZE.
--
--Linux kernel code: arch/mips/mm/mmap.c
--if (flags & MAP_FIXED) {
--    /* Even MAP_FIXED mappings must reside within TASK_SIZE */
--    if (TASK_SIZE - len < addr)
--        return -EINVAL;
--
--Relax the condition and accept both ENOMEM and EINVAL
--as expected outcome.
--
--Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2018-October/009624.html]
--
--Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-----
-- .../open_posix_testsuite/conformance/interfaces/mmap/24-2.c    | 10 +++++-----
-- 1 file changed, 5 insertions(+), 5 deletions(-)
--
--diff --git a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--index 9cf83d9..55090a6 100644
----- a/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--+++ b/testcases/open_posix_testsuite/conformance/interfaces/mmap/24-2.c
--@@ -7,7 +7,7 @@
--  * source tree.
--  *
--  * The mmap() function shall fail if:
--- * [ENOMEM] MAP_FIXED was specified,
--+ * [ENOMEM or EINVAL] MAP_FIXED was specified,
--  * and the range [addr,addr+len) exceeds that allowed
--  * for the address space of a process; or, if MAP_FIXED was not specified and
--  * there is insufficient room in the address space to effect the mapping.
--@@ -15,7 +15,7 @@
--  * Test Step:
--  * 1. Map a shared memory object, with size exceeding the value get from
--  *    rlim_cur of resource RLIMIT_AS, setting MAP_FIXED;
--- * 3. Should get ENOMEM.
--+ * 3. Should get ENOMEM or EINVAL.
--  */
-- 
-- #include <stdio.h>
--@@ -92,8 +92,8 @@ int main(void)
-- 	       (unsigned long)len);
-- 	pa = mmap(addr, len, PROT_READ | PROT_WRITE, MAP_FIXED | MAP_SHARED, fd,
-- 		  0);
---	if (pa == MAP_FAILED && errno == ENOMEM) {
---		printf("Got ENOMEM: %s\nTest PASSED\n", strerror(errno));
--+	if (pa == MAP_FAILED && (errno == ENOMEM || errno == EINVAL)) {
--+		printf("Got ENOMEM or EINVAL: %s\nTest PASSED\n", strerror(errno));
-- 		exit(PTS_PASS);
-- 	}
-- 
--@@ -102,6 +102,6 @@ int main(void)
-- 	else
-- 		munmap(pa, len);
-- 	close(fd);
---	printf("Test Fail: Did not get ENOMEM as expected\n");
--+	printf("Test Failed: Did not get ENOMEM or EINVAL as expected\n");
-- 	return PTS_FAIL;
-- }
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp_20200120.bb b/meta/recipes-extended/ltp/ltp_20200120.bb
-index 312eeca114..847f267b0b 100644
---- a/meta/recipes-extended/ltp/ltp_20200120.bb
-+++ b/meta/recipes-extended/ltp/ltp_20200120.bb
-@@ -34,7 +34,6 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0004-guard-mallocopt-with-__GLIBC__.patch \
-            file://0007-Fix-test_proc_kill-hanging.patch \
-            file://0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
--           file://0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
-            file://0001-Add-more-musl-exclusions.patch \
-            file://0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch \
-            "
--- 
-2.25.1
+centos7 is just showing the problem that other distros are not.
+This problem seems to be due to missing header includes
+Can we try to add
 
+#include <time.h>
+
+in tests/atk_test_util.h and perhaps this should fix it.
+
+
+> Alex
+> 
+> On Fri, 28 Feb 2020 at 05:35, Tim Orling <ticotimo@gmail.com 
+> <mailto:ticotimo@gmail.com>> wrote:
+> 
+>     All those build failures are on CentOS-7.
+>     Grumble grumble.
+> 
+>     On Thu, Feb 27, 2020 at 8:32 PM Tim Orling <ticotimo@gmail.com
+>     <mailto:ticotimo@gmail.com>> wrote:
+> 
+>         Strange. I built it in new environment, tip of master, on
+>         Debian-10 and no problems. I’ll look into it tomorrow.
+> 
+>         Thank you for the information.
+> 
+>         On Thu, Feb 27, 2020 at 8:28 PM Khem Raj <raj.khem@gmail.com
+>         <mailto:raj.khem@gmail.com>> wrote:
+> 
+> 
+> 
+>             On 2/27/20 7:54 PM, Anuj Mittal wrote:
+>              > Hi Tim,
+>              >
+>              > On 27-Feb-20 08:06 AM, Tim Orling wrote:
+>              >> Release notes:
+>              >>
+>             https://gitlab.gnome.org/GNOME/at-spi2-atk/-/raw/043b793de2161a0548835424f4d087ac90d1172d/NEWS
+> 
+>              >>
+>              >>
+>              >> License-Update: Changed to LGPL-2.1+
+>              >>
+>              >> Signed-off-by: Tim Orling
+>             <timothy.t.orling@linux.intel.com
+>             <mailto:timothy.t.orling@linux.intel.com>>
+>              >> ---
+>              >>   .../atk/{at-spi2-atk_2.32.0.bb
+>             <http://at-spi2-atk_2.32.0.bb> => at-spi2-atk_2.34.1.bb
+>             <http://at-spi2-atk_2.34.1.bb>}  | 8 ++++----
+>              >>   1 file changed, 4 insertions(+), 4 deletions(-)
+>              >>   rename meta/recipes-support/atk/{at-spi2-atk_2.32.0.bb
+>             <http://at-spi2-atk_2.32.0.bb> =>
+>              >> at-spi2-atk_2.34.1.bb <http://at-spi2-atk_2.34.1.bb>} (66%)
+>              >
+>              > This is failing on musl-qemu86:
+>              >
+>              >
+>             https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1623
+>              >
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: error:
+>             unknown field
+>              > ‘tv_sec’ specified in initializer
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10:
+>             warning: excess
+>              > elements in struct initializer [enabled by default]
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10:
+>             warning: (near
+>              > initialization for ‘timeout’) [enabled by default]
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: error:
+>             unknown field
+>              > ‘tv_nsec’ specified in initializer
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10:
+>             warning: excess
+>              > elements in struct initializer [enabled by default]
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10:
+>             warning: (near
+>              > initialization for ‘timeout’) [enabled by default]
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:19: error:
+>             storage size
+>              > of ‘timeout’ isn’t known
+>              >     struct timespec timeout = { .tv_sec = 0, .tv_nsec =
+>             10 * 1000000 };
+>              >                     ^
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:90:5:
+>             warning: implicit
+>              > declaration of function ‘nanosleep’
+>             [-Wimplicit-function-declaration]
+>              >       nanosleep(&timeout, NULL);
+>              >       ^
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c: In function
+>             ‘terminate_app’:
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10:
+>             error: variable
+>              > ‘timeout’ has initializer but incomplete type
+>              >     struct timespec timeout = { .tv_sec = 0, .tv_nsec =
+>             10 * 1000000 };
+>              >            ^
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10:
+>             error: unknown field
+>              > ‘tv_sec’ specified in initializer
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10:
+>             warning: excess
+>              > elements in struct initializer [enabled by default]
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10:
+>             warning: (near
+>              > initialization for ‘timeout’) [enabled by default]
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10:
+>             error: unknown field
+>              > ‘tv_nsec’ specified in initializer
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10:
+>             warning: excess
+>              > elements in struct initializer [enabled by default]
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10:
+>             warning: (near
+>              > initialization for ‘timeout’) [enabled by default]
+>              > ../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:19:
+>             error: storage size
+>              > of ‘timeout’ isn’t known
+>              >     struct timespec timeout = { .tv_sec = 0, .tv_nsec =
+>             10 * 1000000 };
+>              >
+> 
+>             yeah this is exposing a bug in use if time_t struct in this
+>             component.
+>             there are several patches done to address that, we will
+>             perhaps need one
+>             of these patches here.
+> 
+>             -- 
+>             _______________________________________________
+>             Openembedded-core mailing list
+>             Openembedded-core@lists.openembedded.org
+>             <mailto:Openembedded-core@lists.openembedded.org>
+>             http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
