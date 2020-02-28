@@ -1,50 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B73F6107E
+Return-Path: <petr.vorel@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 11FAA61920
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 11:59:24 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id r17so2639918wrj.7
+	Fri, 28 Feb 2020 12:08:51 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id x7so2727976wrr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 03:59:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=7JQTtuPe7H40DqOhz80O3ubEeL4a43CQp610AFYquWw=;
-	b=UfoRDczRL/xxlg2YD0gKrF530EZOX+PEzUW1c/eab2lwISrKvHSS+VeIKYMMJhaHtH
-	hUb01mEnqjcg86JRnXByIITeKh+oCjWjrvPbehls1ZNNcUhChXcYJEierxw0o7TD72E2
-	zUqN71JO24A1T1x2WIdTB0A31EyBsSPTrfhWk=
+	Fri, 28 Feb 2020 04:08:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+	:content-disposition:in-reply-to;
+	bh=d83ucFNgIxAQgl5bPyBizlglNV+4cg944fFJ12rq63Q=;
+	b=glHt1fqYouU8p+OREtqhX5HSK1THfaTP7TnJI5hBNVjBCbefXwMvxslEjn/9X7k+ly
+	vNRljG1POGgKhAsxNz4ixKXfYguS0yDvrqPMw73ZbVNMElxy7HOdmq7tVfW/jmgDgHBT
+	HEBWU+25qDXp/TBWdmg/JSjLGjkHh4yRPpvbyB45ut9EOgpLaGiPqv/o3v6tushRRG/V
+	ZNmxVlm75I9yZIQXmEH6PNU9Apf6F/pEpnDjzURb+l9GbyJP93ZE38vJiMamkfLfrw4p
+	7yYVWQwHtFOLHp7PbzQY82NJ2Tkj3/4reAlD6vbKEPqNqB3A8m1gD/a+xZR4JYlStPpJ
+	6MZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=7JQTtuPe7H40DqOhz80O3ubEeL4a43CQp610AFYquWw=;
-	b=n0jQjtgbtYkYBpLpKAfnh8nGxoAsJKlenoR++hF9tDNF+rIre/8P+XjZinHikHei3y
-	Mz6LBKMjUv6p9w5Wh0Zs/M1hVXI6JkQQ5tmuFzO5THh6Nvb2EjB4mQwO+19UN/wMR4bB
-	elIvhbZ08qn2MKdlBwEGLSlQ87uqOODR3gZIYyL/8y75ApkxUJWmZKyW5tKfeNsDKIvt
-	y2agd4OkEXXl0RPHWTk8p9NL4TArnsweJXH8OX0U19UdncR6gHLivEMCCLobA0mIvFdA
-	9fpbyxvT067Er0piRuIJ7HhGs4q3t5nMVlMEetIR905MniMBcqgiC6yTZKIZmUupgdrQ
-	ApNw==
-X-Gm-Message-State: APjAAAXCrKxMxDYD3RDsveARgDGli1YP17Yh1KK7ZZqm/5AnhwyNRHVa
-	lvOjeTWdAspDzsE6w8mR1LOaTg==
-X-Google-Smtp-Source: APXvYqw+NQ955QeJ+GsRWg62cXT4z0aCRuTovWtXCXhqnGX8tieYXXGsN9evDV9NuFr8CKoSeyjDmA==
-X-Received: by 2002:adf:e809:: with SMTP id o9mr4494329wrm.405.1582891164945; 
-	Fri, 28 Feb 2020 03:59:24 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	d9sm12209328wrx.94.2020.02.28.03.59.23
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+	:references:mime-version:content-disposition:in-reply-to;
+	bh=d83ucFNgIxAQgl5bPyBizlglNV+4cg944fFJ12rq63Q=;
+	b=rMqNKJf/dXCUfxshe+3XglYCFcA6a7Au7sGL6ZpDgFhs2cmgg+rD+UGWDbCNyGkw+5
+	aRZrdJMZ89keXoMsFmNSeqd4piJv7IPDzF/+J8/+k080b/rCjIfk3Z/3Xngo4AjRB+m0
+	qbFDG0mg00K9wCLO/D5RFhOCm4pHjtlR878HNR/f0M8PG/7QtmC8JED2i2BViH+tR8jr
+	Uxh2FvK2R6lSHr8CF5BuWlg5a43qOX32mavrBiGmkiEVxduxyL6gjhah6So3BVz3LK0o
+	zaAnkv3LHfclPmONIe8XQHgnaCQy7olSKwyTLToUNM42s7FIGpAXwAORDpdFt1++jRtA
+	I8kA==
+X-Gm-Message-State: APjAAAUNroAIK+T01PiOYXUz9/ruv7MrpXdxBpvLL3dyzk4H/n/dzhgs
+	iBmC3HXqRFEGlK89QgjJpdc=
+X-Google-Smtp-Source: APXvYqzAFrbL8gnwRpt+qZSVqp7CqHa2IUZZYDd4y28pSpwryO2amRjghrY6aDSX1y61RwruAhlHNA==
+X-Received: by 2002:a5d:4088:: with SMTP id o8mr4710482wrp.144.1582891732636; 
+	Fri, 28 Feb 2020 04:08:52 -0800 (PST)
+Received: from dell5510 ([62.201.25.198]) by smtp.gmail.com with ESMTPSA id
+	g25sm17629091wmh.3.2020.02.28.04.08.51
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 28 Feb 2020 03:59:24 -0800 (PST)
-Message-ID: <6558d8c05b858a831ecd4dd79df70f4764b10c6c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Petr Vorel <petr.vorel@gmail.com>, 
-	openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
-Date: Fri, 28 Feb 2020 11:59:22 +0000
-In-Reply-To: <20200228061225.32003-1-petr.vorel@gmail.com>
+	Fri, 28 Feb 2020 04:08:51 -0800 (PST)
+Date: Fri, 28 Feb 2020 13:08:49 +0100
+From: Petr Vorel <petr.vorel@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20200228120849.GA31133@dell5510>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
 References: <20200228061225.32003-1-petr.vorel@gmail.com>
-User-Agent: Evolution 3.34.1-4 
+	<6558d8c05b858a831ecd4dd79df70f4764b10c6c.camel@linuxfoundation.org>
 MIME-Version: 1.0
+In-Reply-To: <6558d8c05b858a831ecd4dd79df70f4764b10c6c.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v4 1/2] ltp: Update to 20200120
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,47 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2020 11:59:24 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Feb 2020 12:08:52 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 2020-02-28 at 07:12 +0100, Petr Vorel wrote:
-> Removed ffsb copying file (tool removed from upstream)
-> 
-> Added LIBS=-lfts for MUSL.
-> 
-> Removed patches (accepted upstream)
-> * 0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch
-> * 0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch
-> * 0001-testcases-fix-an-absent-format-string-issue.patch
-> * 0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch
-> 
-> Merged patches
-> * 0006-rt_tgsigqueueinfo-disable-test-on-musl.patch
-> (into 0001-build-Add-option-to-select-libc-implementation.patch as
-> they
-> touch the same files)
-> 
-> Refreshed patches (some tests have been fixed for musl)
-> * 0001-Add-more-musl-exclusions.patch
-> * 0001-build-Add-option-to-select-libc-implementation.patch
-> 
-> Updated status
-> * 0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
-> * 0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch
-> 
-> Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
-> ---
-> Changes v3->v4:
-> * Fix musl build with LIBS=-lfts
+Hi Richard,
 
-Unfortunately the musl build is still failing with this version:
+> > Changes v3->v4:
+> > * Fix musl build with LIBS=-lfts
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1627
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1631
+> Unfortunately the musl build is still failing with this version:
 
-Cheers,
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1627
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1631
+Any idea, how to fix it? libcgroup uses the same flag LIBS=-lfts.
+Maybe the variable isn't propagated.
+Or is the dependency expressed enough?
 
-Richard
+DEPENDS_append_libc-musl = " fts "
+EXTRA_OEMAKE_append_libc-musl = " LIBC=musl LIBS=-lfts "
 
+I'll have to put back patch
+0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch, but that's bad,
+buildroot works without it.
+
+Kind regards,
+Petr
 
