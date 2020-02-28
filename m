@@ -1,29 +1,29 @@
 Return-Path: <anuj.mittal@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id D196A6186A
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F4CF61855
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Feb 2020 03:54:54 +0000 (UTC)
+	Fri, 28 Feb 2020 04:00:01 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 Feb 2020 19:54:55 -0800
-X-IronPort-AV: E=Sophos;i="5.70,493,1574150400"; d="scan'208";a="238640958"
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	27 Feb 2020 20:00:02 -0800
+X-IronPort-AV: E=Sophos;i="5.70,493,1574150400"; d="scan'208";a="238641742"
 Received: from unknown (HELO [10.221.217.105]) ([10.221.217.105])
 	by orsmga003-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
-	27 Feb 2020 19:54:54 -0800
-To: Tim Orling <timothy.t.orling@linux.intel.com>,
+	27 Feb 2020 20:00:01 -0800
+To: Trevor Gamblin <trevor.gamblin@windriver.com>,
 	openembedded-core@lists.openembedded.org
-References: <20200227000603.14252-1-timothy.t.orling@linux.intel.com>
-	<20200227000603.14252-4-timothy.t.orling@linux.intel.com>
+References: <20200226180746.121476-1-trevor.gamblin@windriver.com>
+	<20200226180746.121476-2-trevor.gamblin@windriver.com>
 From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <2c3ea5cc-29e6-0ce6-f9b3-c720e835e363@intel.com>
-Date: Fri, 28 Feb 2020 11:54:51 +0800
+Message-ID: <9c7ef360-2a30-2783-5c35-3caa7987954c@intel.com>
+Date: Fri, 28 Feb 2020 11:59:58 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
 	Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200227000603.14252-4-timothy.t.orling@linux.intel.com>
-Subject: Re: [PATCH 3/4] at-spi2-atk: upgrade 2.32.0 -> 2.34.1
+In-Reply-To: <20200226180746.121476-2-trevor.gamblin@windriver.com>
+Subject: Re: [PATCH 1/2 v3] coreutils: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,68 +36,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2020 03:54:55 -0000
+X-List-Received-Date: Fri, 28 Feb 2020 04:00:01 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Tim,
 
-On 27-Feb-20 08:06 AM, Tim Orling wrote:
-> Release notes:
-> https://gitlab.gnome.org/GNOME/at-spi2-atk/-/raw/043b793de2161a0548835424f4d087ac90d1172d/NEWS
+
+On 27-Feb-20 02:07 AM, Trevor Gamblin wrote:
+> coreutils has a large number of tests, including some added by the
+> Makefile flags RUN_EXPENSIVE_TESTS and RUN_VERY_EXPENSIVE_TESTS that
+> significantly increase runtime (and which have been disabled). Note
+> that the coreutils ptest directory is given blanket permissions at
+> runtime with chmod -R 777, to ensure that the user created for the
+> tests will be able to run the test scripts and create the necessary
+> files in the process without being impeded by permissions issues.
 > 
-> License-Update: Changed to LGPL-2.1+
+> There is still room to improve the results of this ptest without
+> the aforementioned additions. Of the tests marked SKIP, there are
+> 30 tests that are currently counted as SKIP because they require
+> sudo permissions, and another 21 that require membership in
+> multiple user groups. It is important to know that coreutils has
+> tests for both root and non-root users. Testing showed that 42
+> tests are skipped when running as root versus 30 when running as a
+> non-root user, so the decision was made to run the suite as the
+> latter. Additionally, gdb, valgrind, and strace could be included
+> in the RDEPENDS list to increase pass rate, but their total
+> contribution is 13 tests, so they were omitted to reduce image size.
 > 
-> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+> Finally, note that at least one ptest (misc/head-write-error.sh) is
+> prone to ERROR on builds of core-image-minimal if extra space is
+> not provided with IMAGE_ROOTFS_EXTRA_SPACE.
+> 
+> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 > ---
->   .../atk/{at-spi2-atk_2.32.0.bb => at-spi2-atk_2.34.1.bb}  | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
->   rename meta/recipes-support/atk/{at-spi2-atk_2.32.0.bb => at-spi2-atk_2.34.1.bb} (66%)
+>   .../coreutils/coreutils/run-ptest             | 17 +++++++++
+>   meta/recipes-core/coreutils/coreutils_8.31.bb | 37 +++++++++++++++++++
+>   2 files changed, 54 insertions(+)
+>   create mode 100755 meta/recipes-core/coreutils/coreutils/run-ptest
+> 
+> diff --git a/meta/recipes-core/coreutils/coreutils/run-ptest b/meta/recipes-core/coreutils/coreutils/run-ptest
+> new file mode 100755
+> index 0000000000..6d4a7b365d
+> --- /dev/null
+> +++ b/meta/recipes-core/coreutils/coreutils/run-ptest
+> @@ -0,0 +1,17 @@
+> +#!/bin/sh
+> +
+> +# remove any stale lock files so that the calls to groupadd/useradd don't stop
+> +# the ptest if re-using the same image
+> +rm -rf /etc/passwd.lock /etc/group.lock /etc/gshadow.lock
+> +
+> +COREUTILSLIB=@libdir@/coreutils
+> +LOG="${COREUTILSLIB}/ptest/coreutils_ptest_$(date +%Y%m%d-%H%M%S).log"
+> +USERNAME="tester"
+> +groupadd ugroup1
+> +groupadd ugroup2
+> +useradd -G ugroup1,ugroup2 $USERNAME || echo "user $USERNAME already exists"
+> +
+> +su tester -c "cd ${COREUTILSLIB}/ptest && make check-TESTS top_srcdir=. srcdir=." 2>&1 | tee -a ${LOG}
+> +userdel $USERNAME
+> +groupdel ugroup1
+> +groupdel ugroup2
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> index 57b2c1bdba..8bec4e0f3c 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.31.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> @@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+>              file://0001-uname-report-processor-and-hardware-correctly.patch \
+>              file://disable-ls-output-quoting.patch \
+>              file://0001-local.mk-fix-cross-compiling-problem.patch \
+> +           file://run-ptest \
+>             "
+>   
+>   SRC_URI_append_libc-musl = "file://strtod_fix_clash_with_strtold.patch"
+> @@ -143,3 +144,39 @@ python __anonymous() {
+>   }
+>   
+>   BBCLASSEXTEND = "native nativesdk"
+> +
+> +inherit ptest
+> +
+> +RDEPENDS_${PN}-ptest += "bash findutils gawk liberror-perl libmodule-build-perl make perl perl-module-file-stat python3-core sed shadow"
+> +
+> +do_install_ptest () {
+> +    install -d ${D}${PTEST_PATH}/tests
+> +    cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests
+> +    sed -i 's/ginstall/install/g'  `grep -R ginstall ${D}${PTEST_PATH}/tests | awk -F: '{print $1}' | uniq`
+> +    install -d ${D}${PTEST_PATH}/build-aux
+> +    install ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
+> +    cp ${B}/Makefile ${D}${PTEST_PATH}/
+> +    cp ${S}/init.cfg ${D}${PTEST_PATH}/
+> +    cp -r ${B}/src ${D}${PTEST_PATH}/
+> +    cp -r ${S}/src/*.c ${D}${PTEST_PATH}/src
+> +    sed -i '/^VPATH/s/= .*$/= ./g' ${D}${PTEST_PATH}/Makefile
+> +    sed -i '/^PROGRAMS/s/^/#/g' ${D}${PTEST_PATH}/Makefile
+> +    sed -i '/^Makefile: /s/^.*$/Makefile:/g' ${D}${PTEST_PATH}/Makefile
+> +    sed -i '/^abs_srcdir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
+> +    sed -i '/^abs_top_builddir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
+> +    sed -i '/^abs_top_srcdir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
+> +    sed -i '/^built_programs/s/ginstall/install/g' ${D}${PTEST_PATH}/Makefile
+> +    chmod -R 777 ${D}${PTEST_PATH}
+> +
+> +    # Disable subcase stty-pairs.sh, it will cause test framework hang
+> +    sed -i '/stty-pairs.sh/d' ${D}${PTEST_PATH}/Makefile
+> +
+> +    # Tweak test d_type-check to use python3 instead of python
+> +    sed -i "1s@.*@#!/usr/bin/python3@" ${WORKDIR}/image/usr/lib/coreutils/ptest/tests/d_type-check
 
-This is failing on musl-qemu86:
+This is assuming /usr/lib and failing with multilib:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1623
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/1642/steps/8/logs/step3b
 
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: error: unknown field 
-‘tv_sec’ specified in initializer
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: excess 
-elements in struct initializer [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: (near 
-initialization for ‘timeout’) [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: error: unknown field 
-‘tv_nsec’ specified in initializer
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: excess 
-elements in struct initializer [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: (near 
-initialization for ‘timeout’) [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:19: error: storage size 
-of ‘timeout’ isn’t known
-    struct timespec timeout = { .tv_sec = 0, .tv_nsec = 10 * 1000000 };
-                    ^
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:90:5: warning: implicit 
-declaration of function ‘nanosleep’ [-Wimplicit-function-declaration]
-      nanosleep(&timeout, NULL);
-      ^
-../at-spi2-atk-2.34.1/tests/atk_test_util.c: In function ‘terminate_app’:
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: variable 
-‘timeout’ has initializer but incomplete type
-    struct timespec timeout = { .tv_sec = 0, .tv_nsec = 10 * 1000000 };
-           ^
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: unknown field 
-‘tv_sec’ specified in initializer
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: excess 
-elements in struct initializer [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: (near 
-initialization for ‘timeout’) [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: unknown field 
-‘tv_nsec’ specified in initializer
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: excess 
-elements in struct initializer [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: (near 
-initialization for ‘timeout’) [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:19: error: storage size 
-of ‘timeout’ isn’t known
-    struct timespec timeout = { .tv_sec = 0, .tv_nsec = 10 * 1000000 };
+ERROR: Logfile of failure stored in: 
+/home/pokybuild/yocto-worker/multilib/build/build/tmp/work/core2-64-poky-linux/coreutils/8.31-r0/temp/log.do_install_ptest_base.4366
+Log data follows:
+| DEBUG: Executing shell function do_install_ptest_base
+| sed: can't read 
+/home/pokybuild/yocto-worker/multilib/build/build/tmp/work/core2-64-poky-linux/coreutils/8.31-r0/image/usr/lib/coreutils/ptest/tests/d_type-check: 
+No such file or directory
+| WARNING: 
+/home/pokybuild/yocto-worker/multilib/build/build/tmp/work/core2-64-poky-linux/coreutils/8.31-r0/temp/run.do_install_ptest_base.4366:1 
+exit 2 from 'sed -i "1s@.*@#!/usr/bin/python3@" 
+/home/pokybuild/yocto-worker/multilib/build/build/tmp/work/core2-64-poky-linux/coreutils/8.31-r0/image/usr/lib/coreutils/ptest/tests/d_type-check'
+| ERROR: Execution of 
+'/home/pokybuild/yocto-worker/multilib/build/build/tmp/work/core2-64-poky-linux/coreutils/8.31-r0/temp/run.do_install_ptest_base.4366' 
+failed with exit code 2:
+| sed: can't read 
+/home/pokybuild/yocto-worker/multilib/build/build/tmp/work/core2-64-poky-linux/coreutils/8.31-r0/image/usr/lib/coreutils/ptest/tests/d_type-check: 
+No such file or directory
+| WARNING: 
+/home/pokybuild/yocto-worker/multilib/build/build/tmp/work/core2-64-poky-linux/coreutils/8.31-r0/temp/run.do_install_ptest_base.4366:1 
+exit 2 from 'sed -i "1s@.*@#!/usr/bin/python3@" 
+/home/pokybuild/yocto-worker/multilib/build/build/tmp/work/core2-64-poky-linux/coreutils/8.31-r0/image/usr/lib/coreutils/ptest/tests/d_type-check'
+|
 
+Thanks,
+
+Anuj
 
