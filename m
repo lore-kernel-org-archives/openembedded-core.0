@@ -1,27 +1,57 @@
-Return-Path: <pjtexier@koncepto.io>
-Received: from koncepto.io (koncepto.io [195.154.119.111])
-	by mail.openembedded.org (Postfix) with ESMTP id 74F0861A71
+Return-Path: <jpuhlman@mvista.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C53561A3D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 17:10:17 +0000 (UTC)
-Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr
-	[193.250.66.88]) by koncepto.io (Postfix) with ESMTPSA id 4922A600A9;
-	Sat, 29 Feb 2020 18:10:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
-	s=default; t=1582996213;
-	bh=LM2kn6zRR1NAlFwcMXvq67++8sVeN39ySLNsnwCZdVo=;
-	h=From:To:Cc:Subject:Date:From;
-	b=F+njfGUpbDIFdPCg38nG5Io+QK66pg2RDlNURF3qwulIkIrosiUaO/JJWFN9ALrM5
-	6AbGLx1NL46GvDluSOWsishte+yeYh4vA+m4qNDjqs6D2zAIVIhjjhNT6bz7iFp+gM
-	yPiMOppyHLrg1TJ7xmh6Oy48kLOp55/QcW8tpoC8IyFj3eiVTQI0+LxVl7Dgwx6fq1
-	dNb7SdCC8iQ54JDz1JhNLqq+A6rM+uxxM8S683Br+xyViVaMhvGUzb3m4R3/j6UFFY
-	6lpaq3tUI4LA3SFgD/HPC09xRU36klxnSHFsfVP21OOXx/5zBQnZBmN26/tBxUMxta
-	6VRvtBIAKNRKw==
-From: Pierre-Jean Texier <pjtexier@koncepto.io>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Feb 2020 18:10:06 +0100
-Message-Id: <1582996206-4795-1-git-send-email-pjtexier@koncepto.io>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] libarchive: support mbedtls in PACKAGECONFIG
+	Sat, 29 Feb 2020 18:11:02 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id j14so1478418otq.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 29 Feb 2020 10:11:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=SwRaKpy58rToNrmGituA/Pmkk4fWlkCRZSCbn6IMv6o=;
+	b=WmhibYaGoxTaipJiL6TmJHquNpb1sQGRo+niv2vVXKpw5/DWPb/lTZsmyNbOYbQDGn
+	dK+FvuTAuWTdfxYKkS/oxp2I3P5yGk85AsC8j7LhXQOD1AvDoDXzP/8vWhZCU65F1Ayn
+	RXQy0lY4+HNgtR75oTAyq1WHQtEBnRUOEMny+ptApNqWllHSefe7aSKsfMfXnivCKQ6g
+	K0NL8ozYh+uQ5RKkxMqgjz1BWCHoxAZt2cGujotqGD4Rjz0C1kYawHwcXq95jMAdzoDd
+	dkGRftIbRoKf2tOPvHO1Fml9TvOJiCzQFyt+bKGSTiaGk19DnbAtRFo8fSuFSjzDhB98
+	pdyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=SwRaKpy58rToNrmGituA/Pmkk4fWlkCRZSCbn6IMv6o=;
+	b=Rb1I06gV0tR9AgHHRtuoTmlWL9cg0GR5LhR0TaR2lja25v4/2t7gmtT/n1znE+pzXB
+	AkZfWuyN42NpcKv5cVz0QDhk2AxgJslp+eDzvcJm3/fL/KESbx1piotzRGLP3OoxSJkd
+	RCG/Dqh82rE/yDX6RAbSzyqb20G3Q9Zy8ZiZZGoKcIOA2fLCWUO+/fD/WStI2IQDb/c1
+	2NqVugyzqi/2aSKbIKediTskB6bTM+zOlG2GYr6TsKSjsxemHku7Cj8n8YN1u4SS/uHB
+	FM0MsOZYCiMbt4nYeykHiIJteKVVd7vzu25Qx22J3+fZebfXLIAao8LCC7oLY1fSg9bL
+	zxqA==
+X-Gm-Message-State: APjAAAXsuvfwyGdfCDWqdZKlw6DF6xhphkQwxJtm9jYV3bjYBjHHAFf0
+	cfsBfSV7WXt1hk8npEZC/1tRr1jHrIs=
+X-Google-Smtp-Source: APXvYqyVk26U9h61aiiAnw8BgW2XVRpPHK2YxTQORgceD7wAZT7XJfpcLmjk1T0/ScIoK5NU+Vjk9A==
+X-Received: by 2002:a9d:6a85:: with SMTP id l5mr7933947otq.231.1582999863134; 
+	Sat, 29 Feb 2020 10:11:03 -0800 (PST)
+Received: from ?IPv6:2600:1700:4c90:60a0:7d93:a1ab:da87:363b?
+	([2600:1700:4c90:60a0:7d93:a1ab:da87:363b])
+	by smtp.gmail.com with ESMTPSA id j8sm197775otq.42.2020.02.29.10.11.01
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Sat, 29 Feb 2020 10:11:02 -0800 (PST)
+To: Adrian Bunk <bunk@stusta.de>
+References: <20200228225151.28015-1-jpuhlman@mvista.com>
+	<20200229153705.GB25145@localhost>
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Message-ID: <05af0b1f-08c2-ee55-dd96-0261a1234d4a@mvista.com>
+Date: Sat, 29 Feb 2020 10:10:40 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <20200229153705.GB25145@localhost>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mesa: add fix for arm6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +64,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 17:10:17 -0000
+X-List-Received-Date: Sat, 29 Feb 2020 18:11:02 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-The version 3.4.2 of libarchive add support for mbed TLS [1].
+This was in my queue from a previous yotco version. I haven't gotten my arm
+bsp up and running yet. I will double check.
 
-So, add PACKAGECONFIG for mbedtls.
+On 2/29/2020 7:37 AM, Adrian Bunk wrote:
+> On Fri, Feb 28, 2020 at 02:51:51PM -0800, Jeremy A. Puhlman wrote:
+>> From: Jeremy Puhlman <jpuhlman@mvista.com>
+>>
+>> We have had similar problems with missing atomics on arm6 that arm5
+>> has.
+> How are you able to reproduce this problem?
+>
+> I was wondering why the upstream fixes that happened in the meantime
+> didn't fix it for armv5, but a qemuarmv5 build of mesa on master worked
+> even after commenting out this line.
+>
+>> ...
+>> --- a/meta/recipes-graphics/mesa/mesa.inc
+>> +++ b/meta/recipes-graphics/mesa/mesa.inc
+>> @@ -161,6 +161,7 @@ EXTRA_OEMESON_append = " -Dasm=false"
+>>   FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
+>>   
+>>   CFLAGS_append_armv5 = " -DMISSING_64BIT_ATOMICS"
+>> +CFLAGS_append_armv6 = " -DMISSING_64BIT_ATOMICS"
+>> ...
+> cu
+> Adrian
+>
+> BTW: armv6, not arm6 - arm6 is armv3
+>
 
-[1] - https://github.com/libarchive/libarchive/releases/tag/v3.4.2
-
-Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
----
- meta/recipes-extended/libarchive/libarchive_3.4.2.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb b/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
-index c3edb57..0ab40fc 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
-@@ -28,6 +28,7 @@ PACKAGECONFIG[expat] = "--with-expat,--without-expat,expat,"
- PACKAGECONFIG[lzo] = "--with-lzo2,--without-lzo2,lzo,"
- PACKAGECONFIG[nettle] = "--with-nettle,--without-nettle,nettle,"
- PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
-+PACKAGECONFIG[mbedtls] = "--with-mbedtls,--without-mbedtls,mbedtls,"
- 
- EXTRA_OECONF += "--enable-largefile"
- 
 -- 
-2.7.4
+Jeremy A. Puhlman
+jpuhlman@mvista.com
 
 
