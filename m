@@ -1,49 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AE2760B52
-	for <openembedded-core@openembedded.org>;
-	Sat, 29 Feb 2020 13:13:02 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id z15so6688520wrl.1
-	for <openembedded-core@openembedded.org>;
-	Sat, 29 Feb 2020 05:13:03 -0800 (PST)
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B0FD860B52
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 29 Feb 2020 13:14:37 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id m3so6325415wmi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 29 Feb 2020 05:14:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=dQ87B0w47ljQmwnp/l4dI2BjePmBRj+oEj7RPZkqZas=;
-	b=WbgAkjKJtqK0k7OBBSyCrBo8+eYTbCJGppxjKO0RlBam2HIN8+2K9Ov7VdI+1KLoDH
-	JbfYHRthLMvgbq9uiQb3aOljIvLfVCfFMJQM4Thm/nbq5+bUY7Uak+OLUO6oqjxjkVfW
-	7+6IBJQeNA9tNbh6VWdQypyWZV6Sv2B2Gd84I=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=TYDlgJ0kCJZroY1l8zkCY6U8Q9fm+aoEEPKIX4JWou4=;
+	b=Fwt2094FjIcfoxbsT6V/0dRswsUoDw4kT1VkSHc45w6jKDMNUFp5tJZZDEGgscwbIf
+	hjXFJHxrqWnvmOSPwP1J22zKxDrI/OOBmyfxiEI5Blkpo4jfISfKa95cDUaIDr3GV/WI
+	ReG3283xHG+pmNj3GDZOQCI97Poig1fZ2oIo0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=dQ87B0w47ljQmwnp/l4dI2BjePmBRj+oEj7RPZkqZas=;
-	b=hrcPjI9oi1KfQkWeUTqBXVNdulJ5uK/fpU/PDKIl6CQ2Th4xn80ecg5T2EMlnpS6qy
-	5tVtuO8rVeyo3NY04RtJevKcll3rTiDoVRXswknF/oCEYFYfbLJ9qF22kuTg7W07MwKx
-	q4CV5LdHWpWWkb68XqoeT6DEs4TcDIolkdSp6XJyiDOI2kADcnASHb3u8eozTppm/TVL
-	rnsi6rgqIxJ+Ig3fyIKXHpwb5Q2WfHKfRQ8hk+DzppizNC56g/vPBQdCYrGUZZWSj0Lh
-	lYRDV/wM/mazh1Dfdc0ZLzIXuiJElNF+nJQSocym3osGK9aQS2RBtKceg6LV2GZh2obg
-	Cjjg==
-X-Gm-Message-State: APjAAAUJ4rasj8Rt3+NKdYU5jJ5kkO3lmfT6btTg9sWZK/DSyqWHYR7E
-	XPSVztuyb6gjURfh52lzIStTmmEevTQ=
-X-Google-Smtp-Source: APXvYqyV/JWdlK4p1Eroi+gUSpzEOpn8zPJe0Jo1YrXI9fAWvcpkXeH1vvB/9dwMAM8GTNUbzotvfw==
-X-Received: by 2002:adf:ffd0:: with SMTP id x16mr4676406wrs.346.1582981982605; 
-	Sat, 29 Feb 2020 05:13:02 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=TYDlgJ0kCJZroY1l8zkCY6U8Q9fm+aoEEPKIX4JWou4=;
+	b=d+mdoBYTpVAN1B3QLJvplEmyoLUx6pyIaT+wLmsdMFsqc8PIakNWlv4i4Rp1uuRfOL
+	P7CaHQmkooBNocsdWQCml2mN489QRt/keqtqdj+Swri57FZ3cszRzEK890kXUJUBE6eY
+	htp5YC+TEaRM8XhZF2/L6KeRSxO/5EX/lEZvyjSuJmX8wye1C93Lmn3VIzAOta3BfDkC
+	XnblDqBLR9cCkTXvz5QhMYhe0gmp6ueOfSP3ibgv9Os7122xqgE8OqWlpEeM4KZcZQjc
+	Zs6MRZ9e3R5P/fvGfzX2LdhEuf+DFXcID74nT41aizgHLhMJNtbcdVsgMOZ5OcEp018F
+	x0pw==
+X-Gm-Message-State: APjAAAV1Mqrv74mZ2VOZCtmEdK74xMRPsNR2XCR8/hENZ4xfCcE8c2f6
+	z9B3bzJ8lUMPaAmSFeaKXzoWeQ==
+X-Google-Smtp-Source: APXvYqxb6tO9Ih+3xQ6r/feWDupUMRCrqY/sN7oJMaMKe2HL7dxoG6dPRICPv64RusopcsArHAsUVw==
+X-Received: by 2002:a1c:5441:: with SMTP id p1mr10433503wmi.161.1582982078288; 
+	Sat, 29 Feb 2020 05:14:38 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	s14sm4251047wrv.44.2020.02.29.05.13.01
-	for <openembedded-core@openembedded.org>
+	by smtp.gmail.com with ESMTPSA id j4sm5287113wrr.0.2020.02.29.05.14.37
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 29 Feb 2020 05:13:02 -0800 (PST)
-Message-ID: <e7b54a7b237a70346379df8483837a6b97ccc73f.camel@linuxfoundation.org>
+	Sat, 29 Feb 2020 05:14:37 -0800 (PST)
+Message-ID: <d415671888365ca180bcfb72000bcd394f0e7b24.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@openembedded.org>
-Date: Sat, 29 Feb 2020 13:13:01 +0000
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 29 Feb 2020 13:14:36 +0000
+In-Reply-To: <CANNYZj_orEnKxs6AvyYTauDVexY+Eby2DeRYeh=9=-9i8TzTwg@mail.gmail.com>
+References: <20200229101433.30787-1-alex.kanavin@gmail.com>
+	<23132fd4872488b259751cdf8bcd8335d703b205.camel@linuxfoundation.org>
+	<CANNYZj_orEnKxs6AvyYTauDVexY+Eby2DeRYeh=9=-9i8TzTwg@mail.gmail.com>
 User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-Subject: M3 build status
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] piglit: move to meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +59,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 13:13:02 -0000
+X-List-Received-Date: Sat, 29 Feb 2020 13:14:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Just to quickly update everyone, a number of patches we probably wanted
-in 3.1 have had issues but have had the issues resolved and the patches
-have now merged. Thanks to all who dived in and helped with those!
+On Sat, 2020-02-29 at 14:11 +0100, Alexander Kanavin wrote:
+> On Sat 29. Feb 2020 at 11.40, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > On Sat, 2020-02-29 at 11:14 +0100, Alexander Kanavin wrote:
+> > > This recipe is build-heavy, yet is not part of any images and
+> > isn't
+> > > runtime tesed as
+> > > part of oe-core. There's no evidence of anyone using it, as all
+> > > commits are revision updates. It also pulls in NumPy, which is
+> > also
+> > > a significant support item, and wouldn't otherwise be part of
+> > core.
+> > 
+> > I'm not sure about this. The intent was to use piglit as a way of
+> > improving our graphics testing, particularly allowing it to be
+> > automated.
+> > 
+> > Whilst we've had to focus on getting the basics right, I'm not sure
+> > that objective isn't still a worthy goal over time?
+> 
+> Piglit is meant for testing and validating OpenGL drivers for real
+> hardware. While we can put it on top of software Mesa driver or
+> virgl, I am not sure there is much value in that? Software rendering
+> might even be too slow to run in practice.
 
-The patches/issues I'm aware of that are left:
-
-* ltp upgrade (musl issue)
-* util-linux upgrade (breaks wic test, probably simple fix)
-* coreutils ptest addition (blocked on libmodule-build-per 
-  reproducibility issue)
-* psplash systemd race (smurray may have a fix)
-* autobuilder new branch handling for initial run test comparisons
-  (open high bug with RP)
-* tinfoil race (open high bug, struggling for owner)
-* LockedSigs intermittent test failure (RP has open high bug, no clue 
-  how to reproduce or why, total mystery)
-* Intermittent selftest failure with SystemExit (High open bug, Kai 
-  owns)
-
-As ever, help with any of these welcome. We'll build M3 when a majority
-of the above are ready.
+OE-Core is meant to be usable for validating BSPs amongst other things
+though. Testing virgl does prove the graphics stack is working too from
+a software perspective so does have some value.
 
 Cheers,
 
 Richard
-
-
-
-
 
 
