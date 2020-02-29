@@ -1,51 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8629F61A0E
+Return-Path: <ross@burtonini.com>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F701619FF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 10:40:35 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id z12so6099041wmi.4
+	Sat, 29 Feb 2020 11:33:37 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id d27so938962lfq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 02:40:36 -0800 (PST)
+	Sat, 29 Feb 2020 03:33:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=CBMO5ApRYp+RG4xwzI/YVgIBklXtpBjRA1ggMiJiq+g=;
-	b=ByDYBG+3o+O6vtqoG2ANwIoLUQTioIHeqE1ksmlmRTgzzq/De9vMShe9H5ccXSjLcq
-	PI3QjptoUEHVG6NBMIKvgaLP1r2jyafMmQqXxwunVAIujDCXkgc3gYQQPa6GruLIEB+q
-	49wx3T0KIRBkpNuGpVzHFe8/af8pdpP7A8l4w=
+	d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=SthM3bxQavDRoMyfNewri1dwRCn4f03+imu7/fIfoSw=;
+	b=fZ96Rj8RHNevn3qQ/hj1aw7yur8eMlvyNJyCywdL1cnoATUqBLO0HA360XGmZ93+RB
+	+MPvRnTZcriEmwx9YRF/dTq9yNpd41HnbEhFM8rJoCRZ6Jriu6o+kM7mOBlaLF12MGaQ
+	J4Nt1TOp04Elz32gb/DQhU5t9Oc78/w3/CuV7zLNtm7Zsn2eL1DxjrAX1WqmiOSD51J2
+	N3Lm/Ew8l0CFyIuTMK3e4tmFkYV/T5RUZKiNSMlNV/BsPh3Ug/ZGjTvtbJtfPeMoF2LU
+	/U/W3wYrn9IOJ9JDQ5u0L+c93C2JsNdk6bDnDlchdx+IckUBclP0aVl8eMSxuwBzf6C/
+	115w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=CBMO5ApRYp+RG4xwzI/YVgIBklXtpBjRA1ggMiJiq+g=;
-	b=Dys+c1O59dykLsU7NexMYzpQXhn8yTv0XjCy8RNViOkc1CsbCtVwjfPte2wzRXTgmV
-	i/wtbYrwhtip7hPyJa4gon1rmMSJGVpb7W8Uas6diKqWY/XEJkQSxSwBon9NhDKruIzY
-	2WFApRrSM/shizXgJyM3shFfUOoTt/9WvRWcnCYdi/1IJj/VSxqKKQz+X9yIBthWOwNf
-	ttWApTFOyMkQ1UVMBw0TtmZtJ0uX+JWVj1avGoZb5DFaRN1d9QoL+j4z74q1khydOVCr
-	MGlVdbtLgDCg8esu7laK6A6rTnmXjpCYgIE2TuM1nlQIHEoYB/Tm0bw0bLdP6iZWu+C5
-	B3sA==
-X-Gm-Message-State: APjAAAVYzqYcU530Ku+Y+Ngt6Sxc4myClICpDMawB2SBwHszJjHTlnww
-	/vpFz2p1xXLpfsLdousoJw7L7g==
-X-Google-Smtp-Source: APXvYqwUoAK2jtUgB/beXWiNVujrEIReJeat4lePYteqAZa0qCVFzpby5X/AkwCVau6uWn1Qrcb8aw==
-X-Received: by 2002:a1c:4c10:: with SMTP id z16mr9509877wmf.136.1582972836095; 
-	Sat, 29 Feb 2020 02:40:36 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	g129sm750631wmg.12.2020.02.29.02.40.35
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 29 Feb 2020 02:40:35 -0800 (PST)
-Message-ID: <23132fd4872488b259751cdf8bcd8335d703b205.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 29 Feb 2020 10:40:34 +0000
-In-Reply-To: <20200229101433.30787-1-alex.kanavin@gmail.com>
-References: <20200229101433.30787-1-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.34.1-4 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=SthM3bxQavDRoMyfNewri1dwRCn4f03+imu7/fIfoSw=;
+	b=I9L1AWzSCXcuxs5IhSyuKBfFcBslLwK24Efo3V8rIWLn73r1hVppk53gtgiIMjBERi
+	oyLwSjfgr5nsogLae00/jWA8BIKnhAW5kPYmkHlD5otoycrvHlvzd/4TCr9KlYQ6nP9o
+	RtDSabB1t2FtPagaPIMp6yNbV1F9Dx9/GrnmedFb13N3BEpO29+cyh1KqAVOYzDkXfxS
+	TBCxf+rsfhpTVzx05/3/5T8Yvf/jv/1fr2mZmcC5RHxvmGhlK+0IHJtj9nVomHcnIwUF
+	lbtkmmNIZSQ/Mg7hmxqEPl+pkjCrIIrFHynjz79lcKDPkishaGyYAFEe9RIZwzO81Avz
+	9kdQ==
+X-Gm-Message-State: ANhLgQ14uTRJ0ag8ePH/7ZdFKWasYPjsfQtstEBDzJVIk2tdZ0oV79et
+	aMVzpOwws4Ge+SSbPImdyE/VH9UdoBqpd5Hr7hJnB09bCnDU/A==
+X-Google-Smtp-Source: ADFU+vviCes05zroZaxPJJ91NSzTpdUWj4Xg0ZGRGkJDUW7de5qMevQI0cZoLKAXSV6RKTumqPCgZWHSj1JX2KBqefE=
+X-Received: by 2002:a05:6512:1041:: with SMTP id
+	c1mr5243704lfb.211.1582976017856; 
+	Sat, 29 Feb 2020 03:33:37 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] piglit: move to meta-oe
+References: <20200228230006.28594-1-jpuhlman@mvista.com>
+In-Reply-To: <20200228230006.28594-1-jpuhlman@mvista.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Sat, 29 Feb 2020 11:33:30 +0000
+Message-ID: <CAAnfSTuSNgYK=SZvBjsXoqb=eTqNc9h924bodMUwCrgqDLLmGQ@mail.gmail.com>
+To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] xorgproto: move pc files to libdir
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,28 +55,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 10:40:35 -0000
+X-List-Received-Date: Sat, 29 Feb 2020 11:33:38 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sat, 2020-02-29 at 11:14 +0100, Alexander Kanavin wrote:
-> This recipe is build-heavy, yet is not part of any images and isn't
-> runtime tesed as
-> part of oe-core. There's no evidence of anyone using it, as all
-> commits are revision updates. It also pulls in NumPy, which is also
-> a significant support item, and wouldn't otherwise be part of core.
+Can you file a bug upstream so they can fix this?
 
-I'm not sure about this. The intent was to use piglit as a way of
-improving our graphics testing, particularly allowing it to be
-automated.
+Ross
 
-Whilst we've had to focus on getting the basics right, I'm not sure
-that objective isn't still a worthy goal over time?
-
-Cheers,
-
-Richard
-
-
-
+On Fri, 28 Feb 2020 at 23:00, Jeremy A. Puhlman <jpuhlman@mvista.com> wrote:
+>
+> From: Jeremy Puhlman <jpuhlman@mvista.com>
+>
+> We fixed this two years go:
+> http://lists.openembedded.org/pipermail/openembedded-core/2018-June/151922.html
+>
+> However xorgproto moved to meson and uses pkgconfig module to generate the .pc
+> which does not provide a method of omitting the libdir, which now means any
+> pc generated from meson using the module will always be mulitlib incompatible.
+>
+> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+> ---
+>  meta/recipes-graphics/xorg-proto/xorgproto_2019.2.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-graphics/xorg-proto/xorgproto_2019.2.bb b/meta/recipes-graphics/xorg-proto/xorgproto_2019.2.bb
+> index fb3f3aed3d..c0785ccd64 100644
+> --- a/meta/recipes-graphics/xorg-proto/xorgproto_2019.2.bb
+> +++ b/meta/recipes-graphics/xorg-proto/xorgproto_2019.2.bb
+> @@ -19,6 +19,8 @@ inherit meson
+>  PACKAGECONFIG ??= ""
+>  PACKAGECONFIG[legacy] = "-Dlegacy=true,-Dlegacy=false"
+>
+> +# Datadir only used to install pc files, $datadir/pkgconfig
+> +datadir="${libdir}"
+>  # ${PN} is empty so we need to tweak -dev and -dbg package dependencies
+>  RDEPENDS_${PN}-dev = ""
+>  RRECOMMENDS_${PN}-dbg = "${PN}-dev (= ${EXTENDPKGV})"
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
