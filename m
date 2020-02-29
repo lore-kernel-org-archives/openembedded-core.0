@@ -1,36 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C752D608AF
+	by mail.openembedded.org (Postfix) with ESMTP id C1BCF619E6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 09:21:08 +0000 (UTC)
+	Sat, 29 Feb 2020 09:51:05 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48V19Z2sdwz4S;
-	Sat, 29 Feb 2020 10:21:05 +0100 (CET)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48V1rB3kvyz4S
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 29 Feb 2020 10:51:05 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582968066;
-	bh=5fazZK6VDx9Vd9PYvTZi/C4ogj2qSVYmd1Vrrv48vio=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d4uisrzq/nXEvchAwIGudlVWlvuP6qHXFloMtSs+0FSrAQrgM9I7fVZVm2nzOYaYM
-	jjicHxOD1wdwfvJLxoViHyoDx/YbYfNE9r1CuUBWJwO1/dSO40A0LwOj48g140/Hbm
-	IAPKeaaY1sPAADarmTydP5dsmUNMBjyCTVUynPXqef/68YS7AtD/oxflI/sBk762xt
-	uFdl+qygnPcEWeKEPsqZHf/CEJdduZFgYn/0/zU5bcfk1fUrnKnBGkLKHkPe9x+992
-	A6Ol5woGDfUh4ovrt1eZcjEsn6RR20Fa5duz5lf1+ED6sJC9hAmKSktCaylrIedHZF
-	E1LpWooHsKQYMP8OCZgHlyQq1CzCXBoj03xMlqWn0Xpu+eGNImXHAhqkEHnBgKNu6k
-	CVXN+zwxsVmveSDeYmOnAKnsy2s+5RVIv1RL8vSNydmndTZ/m448API5wcO/W3i852
-	gOfpmpn6RAEkQwIdQqrm7OSCK1XQy2Kg+85aTemFNncTnVhbujsH9kA5+5JBVKb52P
-	daagaCwm+UuE5qSnwOR9cfV2FqV9e0mqpQXLOHWf4W6e30FQIkdEi97kq1/HzPt2Wg
-	WGu7j9bUEcVAyeMVXkiinnwCTnqrLAqLsPwYsqG1FZUo1xnPxaKP4teIMkrUL8y2Yw
-	NQg+glSO7Gy1u2S/5g9du65k=
-Date: Sat, 29 Feb 2020 11:21:03 +0200
+	s=default; t=1582969866;
+	bh=W/dB3MTWfjEm5Pg2/OdWeccpKh0Z68/ug1/GY8Bp240=;
+	h=From:To:Subject:Date:From;
+	b=oxmKKT0z/rVSZWcIWEO+HNKYyTUUBqggydWYsJHh3gQwWptslI01lbwMccYDEaKN6
+	CypaNWglkWDQf0hAVKbirwAF8Y8UhAXa+SPAo0uWvvmBShPWDU9YixSXmJAknnf40d
+	TLDX098Qi+16vlP6mf2A8PgcA8fIlbaurDCtwFGTTgYoyEyyRR79O47oJILeccz10g
+	SVE50NS6lNFxgfLi/TWutmv5fQoZ1ewjoaU19PvZhRL7Ph/Uhx23XQgS7+5+vY67im
+	lgwntONIAZo/gIBou80rVkLeDuyGDNOHuES+HVh2IeNbx3frgONa5pE0Q6BVpENPV1
+	fzlcqfoD8o1x5Rvu/bGp+hAwAHso7+izfoMKwRlOuWjGPflIoOTYcD91rUCEo86xcb
+	6pwZU+Ai100Ci/RDlFo5/AZXk/nkQDQAcJm9yZnp03+H/mBfRbShTsVb9wX4kjepTO
+	L5Dd/w9e7/4Boxz6+JeEKgx5F080PGbAFnfkm3yIN1XEIY7ltdaNMmtpinWGBYs3zz
+	owHjwYehCuCqVmM+xrYvfm6dHfLtfxeEEME1vVBkxdaEP0kUIgpIXZ0VAx7yuXjQ2Q
+	R15mlgYWWvfSqdRPqb6bKyiLAD5h8IHI1bjJii2hQXnHHwvx0fOhrltOf7HXrZ8wjP
+	f4jua3dXMc/jenBlLQKLHUHw=
 From: Adrian Bunk <bunk@stusta.de>
-To: Victor Kamensky <kamensky@cisco.com>
-Message-ID: <20200229092103.GA27521@localhost>
-References: <20200229075546.12713-1-kamensky@cisco.com>
-MIME-Version: 1.0
-In-Reply-To: <20200229075546.12713-1-kamensky@cisco.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Jens Rehsack <sno@netbsd.org>, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] make: disable use of posix_spawn on mips
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 29 Feb 2020 11:51:04 +0200
+Message-Id: <20200229095104.31724-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] ncurses: Comment out version parsing that broke CVE checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,32 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 09:21:09 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sat, 29 Feb 2020 09:51:07 -0000
 
-On Fri, Feb 28, 2020 at 11:55:46PM -0800, Victor Kamensky via Openembedded-core wrote:
-> After make-4.3 migration child_execute_job function started
-> using posix_spawn function, which happens to be broken on mips.
-> 
-> It manifests itself as when make executed by root, it switches
-> real user id to wrong value because of some issues with direct
-> setresuid system call done in glibc __spawni_child function
-> through inline assemble and/or gcc compiling it produces wrong
-> code. I.e instead of passing -1 posix_spawn function incorrectly
-> passes 127 as ruid. Subsequently job started by make can fail
-> with permission issue because they run under wrong user.
+This will be needed again when using patchlevel versions again.
+Also make it more generic.
 
-Thanks for looking into this.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-core/ncurses/ncurses_6.2.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> For now workaround is used by explicitly disabling posix_spawn
-> call use by make on mips through configure variable.
+diff --git a/meta/recipes-core/ncurses/ncurses_6.2.bb b/meta/recipes-core/ncurses/ncurses_6.2.bb
+index b6d899c878..723e685a9b 100644
+--- a/meta/recipes-core/ncurses/ncurses_6.2.bb
++++ b/meta/recipes-core/ncurses/ncurses_6.2.bb
+@@ -10,4 +10,5 @@ S = "${WORKDIR}/git"
+ EXTRA_OECONF += "--with-abi-version=5 --cache-file=${B}/config.cache"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+(\+\d+)*)"
+ 
+-CVE_VERSION = "6.1.${@d.getVar("PV").split('+')[1]}"
++# This is needed when using patchlevel versions like 6.1+20181013
++#CVE_VERSION = "${@d.getVar("PV").split('+')[0]}.${@d.getVar("PV").split('+')[1]}"
+-- 
+2.17.1
 
-The proper fix would be to upgrade to the latest glibc 2.31 branch,
-which has backported the fixes for the bug [1] on mips/risc-v/microblaze.
-
-cu
-Adrian
-
-[1] https://sourceware.org/bugzilla/show_bug.cgi?id=25523
 
