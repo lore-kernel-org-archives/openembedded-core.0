@@ -1,57 +1,61 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 8137C61A4E
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C7F861A51
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 15:12:06 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id l7so3298409pff.6
+	Sat, 29 Feb 2020 15:13:24 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id t14so2426278plr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 07:12:07 -0800 (PST)
+	Sat, 29 Feb 2020 07:13:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:cc:references:from:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=fqK6e5oqNwVoBfUfpIRg0YnIIt/fohF/DjVuETqNz5s=;
-	b=Q8+sYhO95vusU/Q1h/HokVQV65loaIgOlyQk4RSOmWYxRq2LL2H7nXW7iZGitu/orr
-	u5XICxVxsnnkNmPnf3j/kw53fcqrjM9zt/vlWnKFTNbHz8cJrK9HgodZXDGFEombJPnS
-	pxOwcFJrawwV10q776s8D4VVH/AqOJ9VHtUaVOI9893lVf70yQh+cndTG3Kv2y9ExXpf
-	uBwesNxKgBCc6qU9c74fi9F7hTic0yNWBLDLheBeyuhTh9rRfP0vQYTf4Vuz84dlD97b
-	+g4dXhWK5RL87Rbdhn/TV0O2ZBEpXHWcJFjVY23X+7b0lUx/EJwN0eyV4aIrR9ZIvLJD
-	HC7g==
+	bh=q8DQ+QcinRi2u6lpFoqwFyGvyMLcMKJ9WLtTqjrxfZU=;
+	b=WezfAu/deHvbprxeQERpJs5uUKEwNqPN+nydTrGBiHrACerSuOYQFINZRXcZDe0hkG
+	Zn2SJXbRrx3e8IpjcadpGDQHy35IjYeHBN5booECLRbzn8OfXWWhWvusJ1SxWdKk/qat
+	nQcQ7mE+G4PR66q3dlFUXoc8Zrq1k2eu49pGRtly5G6FGTCTD+vEMv3qKKcomUpLIGEy
+	52XzYl9o2RlEmhVQb34dB4UEJ9aKvIdFzBmfgWSkgjBVnz/6djLpC5tzGmggQdPdeIV3
+	FmyEOy+7yKF7LyqVr2STcAXjj1SQ/V/Qa18TQL2oduUkDVeioNu5HxmAWGuysR8ax5NH
+	+Jbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=fqK6e5oqNwVoBfUfpIRg0YnIIt/fohF/DjVuETqNz5s=;
-	b=KVFIW5TQvUf6PCtf4M1Ew3Q3OqI0mlnT53bJEXtZM9RTsF0rteT9kbO/awQirSi5RB
-	O91OIIG9Yl0a5GOmsFafInje7bVMW1g5Ik0OHioB9nO7G34nb189gedtVcQU3yUl1wXR
-	aErYxd/tu+kniZFEduDda9D3Xb9yUAcBZNoG4I6VOowTYNi3pV8i/CsDycpTFi4RKFyr
-	8XPcO+niPv05GyjFEpQ4d03MbiJT92Z4XHk7sKjdUbddoIe9i9nnzzoeujHixecfzJzj
-	hlV8NU6Pr8OUJPKGiivSJxVxeIIqwFpaF8NM6cp9f8Nj1FK9r5W9qZFeUFZV7Vu7ePQZ
-	7dzA==
-X-Gm-Message-State: APjAAAVsxK19kNJEcTDp8sFGjb1VCWsR7cM0y1Xqx0CJ0eupxDd0o4Zd
-	u/cs20sAEfxUA47WjpZWVZHdydsi9ks=
-X-Google-Smtp-Source: APXvYqzgAnzwQYyrVh/ntCy6IQgpGbgItlcSyaQf3TaLawd6Ux88Wn8702avueO6AUZjOj7PvL7kOg==
-X-Received: by 2002:aa7:991d:: with SMTP id z29mr9668344pff.35.1582989127062; 
-	Sat, 29 Feb 2020 07:12:07 -0800 (PST)
+	bh=q8DQ+QcinRi2u6lpFoqwFyGvyMLcMKJ9WLtTqjrxfZU=;
+	b=a34cO4jrTURvkUeFcfdwzUGc2qa0gF0a5z9UuLKXxhtyfTM7NPIqgi+Y3rwcD1fYgL
+	kZhgHmttmb2Cf+18HUwv+Ca6p2L/e7ESSkAVH7wbD9blRrlrFo8IT6ay7ppAIWGi3UZ9
+	Ef8t76J7/HLlAZP5rt041WYgwU8IO/mujuOk433AO+Ojd7ifuoHE5Pm2kwhpC5So7mwI
+	wWj4tJU0pTKT2mh8nYoHshuiq4QwJwJFiEOI+p1wvb2VbkESeV/VbUKI/i1mpe4T/L39
+	BIXi/jF5EoR+4gyFXJdA864tJcfJuW0qL0uaP7nMi8wBnwgXyjscTPBVfeHjuCGFCYOu
+	SP3w==
+X-Gm-Message-State: APjAAAXFTozfJPcmMdQNX6bikbDGKNHcVQ93TmAI24mjxHEV7mJdqOpp
+	q4HdwE8GnquKc2kgpZm+jd26YbL+HLI=
+X-Google-Smtp-Source: APXvYqwtLkOxWi+3VHGlUTQ5egWAgjXNeV532mYMO4TDbWzX9DDHseI1bj/ydD7iOZfW6f6pYfGLgw==
+X-Received: by 2002:a17:902:a588:: with SMTP id
+	az8mr9574570plb.123.1582989205698; 
+	Sat, 29 Feb 2020 07:13:25 -0800 (PST)
 Received: from ?IPv6:2601:646:9200:4e0:8446:2edf:6d4c:9a00?
 	([2601:646:9200:4e0:8446:2edf:6d4c:9a00])
 	by smtp.gmail.com with ESMTPSA id
-	c26sm15660207pfj.8.2020.02.29.07.12.06
+	u12sm14716600pfm.165.2020.02.29.07.13.24
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Sat, 29 Feb 2020 07:12:06 -0800 (PST)
-To: Petr Vorel <petr.vorel@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+	Sat, 29 Feb 2020 07:13:25 -0800 (PST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Petr Vorel <petr.vorel@gmail.com>
 References: <20200228175731.10604-1-petr.vorel@gmail.com>
 	<e64730b1908726a7e8ca4dd5e27b0f7567dd0a57.camel@linuxfoundation.org>
 	<20200229064656.GA4045619@x230>
+	<4db943be8cba440551847721156d22f9664cca0a.camel@linuxfoundation.org>
+	<da2bffd2ba22435a66a17044f922ab555d7a3ede.camel@linuxfoundation.org>
+	<c70d9ceacc5b7a557179ff9fc1b05100b7aa4065.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <0147f807-be3c-27e0-e05c-73ac0311045e@gmail.com>
-Date: Sat, 29 Feb 2020 07:12:05 -0800
+Message-ID: <7719eee9-9635-c7dc-2f48-56d574c539ed@gmail.com>
+Date: Sat, 29 Feb 2020 07:13:24 -0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
 	Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200229064656.GA4045619@x230>
+In-Reply-To: <c70d9ceacc5b7a557179ff9fc1b05100b7aa4065.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH v5 1/2] ltp: Update to 20200120
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -66,57 +70,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 15:12:06 -0000
+X-List-Received-Date: Sat, 29 Feb 2020 15:13:25 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
 
 
-On 2/28/20 10:46 PM, Petr Vorel wrote:
-> Hi Richard, Khem,
+On 2/29/20 5:53 AM, Richard Purdie wrote:
+> On Sat, 2020-02-29 at 13:42 +0000, Richard Purdie wrote:
+>> On Sat, 2020-02-29 at 13:22 +0000, Richard Purdie wrote:
+>>> On Sat, 2020-02-29 at 07:46 +0100, Petr Vorel wrote:
+>>>> At least we know, that once we solve this problem, we can remove
+>>>> 0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch
+>>>>
+>>>> Please, how to reproduce this build locally? Is it:
+>>>> . oe-init-build-env
+>>>> TCLIBC=musl bitbake ltp
+>>>
+>>> Yes, that should be enough.
+>>>
+>>>> Or do I need to put something into config files conf/local.conf
+>>>> or conf/bblayers.conf ?
+>>>>
+>>>> I need to double check if musl-fts is really built and whether
+>>>> the
+>>>> order of
+>>>> -lfts is correct. But all this has been solved even for static
+>>>> build
+>>>> for Buildroot,
+>>>> so I guess it's some issue related to openembedded.
+>>>> Unfortunately,
+>>>> I'm not much
+>>>> experienced in openembedded (stepped in, because nobody else has
+>>>> updated LTP
+>>>> package yet).
+>>>>
+>>>> Khem, any idea, what can be wrong?
+>>>
+>>> FWIW I'll run a build here and see if I can spot anything but I'm
+>>> trying to do other things today!
+>>
+>> I was able to confirm that fts is in the recipe sysroot and that the
+>> compile step is running "make -j 88 LIBC=musl LIBS=-lfts", i.e. its
+>> being passed in to ltp. Beyond that I'm a little out my depth to know
+>> how/why its not ending up where it should unfortunately. At least the
+>> issue does appear to reproduce though...
 > 
->>> Changes v4->v5:
->>> * Put back 0002-kernel-controllers-Link-with-libfts-explicitly-on-
->>> mu.patch
->>> as it still needed on MUSL (although it should not be needed,
->>> strange).
->>> Reported by Anuj Mittal
+> Grep suggests LIBS is a configure option, not a makefile one. I tried:
 > 
->> I'm sorry to say that this still isn't quite right for musl:
+> diff --git a/meta/recipes-extended/ltp/ltp_20200120.bb b/meta/recipes-extended/ltp/ltp_20200120.bb
+> index 847f267b0b7..5be9489a756 100644
+> --- a/meta/recipes-extended/ltp/ltp_20200120.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20200120.bb
+> @@ -16,7 +16,8 @@ LIC_FILES_CHKSUM = "\
+>   
+>   DEPENDS = "attr libaio libcap acl openssl zip-native"
+>   DEPENDS_append_libc-musl = " fts "
+> -EXTRA_OEMAKE_append_libc-musl = " LIBC=musl LIBS=-lfts "
+> +EXTRA_OEMAKE_append_libc-musl = " LIBC=musl "
+> +EXTRA_OECONF_append_libc-musl = " LIBS=-lfts "
+>   
+>   # since ltp contains x86-64 assembler which uses the frame-pointer register,
+>   # set -fomit-frame-pointer x86-64 to handle cases where optimisation
 > 
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1634
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1630
-> 
->> Still having the fts issue :(
-> OK, step1b is still problematic:
-> /home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux-musl/../../libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/9.2.0/ld: /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3224: undefined reference to `fts_read'
-> /home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux-musl/../../libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/9.2.0/ld: /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3224: undefined reference to `fts_read'
-> /home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux-musl/../../libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/9.2.0/ld: /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3269: undefined reference to `fts_close'
-> /home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/ltp/20200120-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux-musl/../../libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/9.2.0/ld: /usr/src/debug/ltp/20200120-r0/git/testcases/kernel/controllers/cpuset/cpuset_lib/libcpuset.c:3277: undefined reference to `fts_close'
-> 
-> At least we know, that once we solve this problem, we can remove
-> 0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch
-> 
-> Please, how to reproduce this build locally? Is it:
-> . oe-init-build-env
-> TCLIBC=musl bitbake ltp
-> 
-> Or do I need to put something into config files conf/local.conf
-> or conf/bblayers.conf ?
-> 
-> I need to double check if musl-fts is really built and whether the order of
-> -lfts is correct. But all this has been solved even for static build for Buildroot,
-> so I guess it's some issue related to openembedded. Unfortunately, I'm not much
-> experienced in openembedded (stepped in, because nobody else has updated LTP
-> package yet).
-> 
-> Khem, any idea, what can be wrong?
+> and this does seem to build for musl. Might be worth runtime testing
+> that on the autobuilder?
 
-I have added -lfts to LIBS and sent v6 of this patch
+yes thats right fix, I have sent v6 of original patch including above 
+fix, please give it a try
 
 > 
-> Kind regards,
-> Petr
+> Cheers,
+> 
+> Richard
 > 
 
