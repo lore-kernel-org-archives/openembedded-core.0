@@ -1,52 +1,51 @@
-Return-Path: <petr.vorel@gmail.com>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 84B6461A56
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+	[209.85.216.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6792B60609
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 18:41:25 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id a141so6871552wme.2
+	Sat, 29 Feb 2020 18:53:24 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id dw13so2663638pjb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 10:41:26 -0800 (PST)
+	Sat, 29 Feb 2020 10:53:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-	:content-disposition:in-reply-to;
-	bh=VY+m3llMpu+YUIoxKITMGoeIs8AJXUuKAr30FBSpSJs=;
-	b=ApzSCihtzf4V9zpBnm8N3wvc7MD/rLjAAgtYmkHzH4hdIm62DNFxHK7DC14WRUHCY+
-	aTm8f3122Ef/DJZXRfqTU6dzuyJQvAp8xZyuD189AAKjRkQpcO8D8GmczsrKnkWtK4HY
-	TyIap2+iWuPKFXUaA0YLyZzj8p+908M99f3WPBhKp/yCTtMPO1BI1vVp/9K2z4nxcLoE
-	4VDH6RJ9DoSaVXbrYiafJbyTea3nEfVYRoofuGBVJBqeqKKnexGr10C5Zoa3N0Af1Ql8
-	pb5uGpQP7d/Slm9Lc6C0/1nV71k4Zl51itu3yWGEATgRVE/8f6u8Zo/QvqGCW4ONmUO4
-	WCFg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=paRQhs/+vjB/HNVJV+iDyzeQADBvXyVtmPR1jQ2pjrI=;
+	b=RqoWnSiZZj1lcyPTJdOBMiEUuEtCUDLfdsPAro20U4RxC3Bo+2CS/TYiyWG7Uz7Luc
+	ws/nTHN4xhU77nkqkqv+CRUT+RTyc+xT0qYaHqfIP5fVusXlt0OV1ReDd+wWOMbYMdiE
+	n7C0fqjvbM5yt3PMH92yaFYl8CG81tHE8X1FiaMSncK9+B/ZpShdAA4jLjBunzsM7RRY
+	RPFKLjmbhF1RSCqLLuY7RC8EMlHDGQCsclj9GnE3kptSLoOvNz/9hqjch75P32OsQO1o
+	qSIR8hiuQREhJid7LD2NTL2U1XIixjbahdmZOe15UkLvdL3oNmdWzx1EbsPccPdPsYWy
+	BYng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-	:references:mime-version:content-disposition:in-reply-to;
-	bh=VY+m3llMpu+YUIoxKITMGoeIs8AJXUuKAr30FBSpSJs=;
-	b=ki+YNhmnPr4ouZEXo+yEq2W/i1J3s3DRqoXXASSxaqYFXMicYUYc2ZUoTDBBTuhq/X
-	72HV3RLJGEhU00l3cPNhtL1FCYLWAcMUzfiw58u+9GlLgzjbIafjuVv07w6cehdbYAd+
-	UGfQewOpI/XGEwmuKv6camp/4RXiw+9Dh5bi4EIa4IQEn5Sr5jBAFEhSxHcgzJtZUgTV
-	zQSA/N/igDrU2h+hFDEhbqNL2m9DSI/zrHrQ36FfYOzHfpAAwt70O07epKk182XZpJyx
-	q1QX4qTtUMYGEV4EUb9RNl8tv525OIfTy1wFEOMpSs1yeYwNh3o1i+Bu5QJKM/ruOpFC
-	viLg==
-X-Gm-Message-State: APjAAAUX3LmW/fKpdpCR5cWIPea7TcQ9Z0urb7/Bm0BDowL/+DY2oiCA
-	ns0pL47fbImJdV5kUVM0v0zt3lDfJWk=
-X-Google-Smtp-Source: APXvYqyNk5DMpohI/OrctOI8QOMEpxc7fpQ4aHBCfxsGHNOJKbu1T2OEwur3MQVo5wceHKxr73+wVg==
-X-Received: by 2002:a05:600c:21c6:: with SMTP id
-	x6mr10742060wmj.177.1583001685789; 
-	Sat, 29 Feb 2020 10:41:25 -0800 (PST)
-Received: from dell5510 ([62.201.25.198]) by smtp.gmail.com with ESMTPSA id
-	x15sm6098899wmc.20.2020.02.29.10.41.24
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=paRQhs/+vjB/HNVJV+iDyzeQADBvXyVtmPR1jQ2pjrI=;
+	b=JgWhYP/MCvFNdXKBlidWPlazqYd5iB/uUiDR1z5iqAA2VcxL9Q3jd00+98CBzIddsl
+	I3CIwh/ZQc2R+V/rRFHVMWzoHmvpcxgWAZYYIkgbmEGmLz5zY0k5q4vkKqOhnN4nIMuq
+	7MdUmjZzhpvbe3s7mEmoIueQJUz6XCjl+BbJNQkBcxa2v/kqn8bIY9z8R2cpJpFZej6c
+	zjSBAUlKCQoPZj83geiMlmVc9MFR44xb1TNsSrMHgKgivTYlZPDvwh0wM0kg1j3UmDj3
+	3WBGilNXJSfiK1TFr2OfTXvR+N6GtcEEhIaSk4QvL3IXIHeD7Ea9SWBJHsZvQI3b+dHa
+	HyqA==
+X-Gm-Message-State: APjAAAVt23JTMZRzAjvB1aA0OTMdQq4jz6/DZtEA+00hwnRlyKlnVNY8
+	0RrQM9qfpWzQB4esbbnI4+hAjoE6Rps=
+X-Google-Smtp-Source: APXvYqyG1+WXto8lhmqOXr6BQwEnzCY2WiHHfTlQ6c/NFFRnzYRSrbOcIovZh0YuWsJRofGlDDq8zg==
+X-Received: by 2002:a17:902:8a8e:: with SMTP id
+	p14mr10049000plo.28.1583002405062; 
+	Sat, 29 Feb 2020 10:53:25 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1634])
+	by smtp.gmail.com with ESMTPSA id
+	k24sm11974564pgm.61.2020.02.29.10.53.24
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 29 Feb 2020 10:41:25 -0800 (PST)
-Date: Sat, 29 Feb 2020 19:41:23 +0100
-From: Petr Vorel <petr.vorel@gmail.com>
+	Sat, 29 Feb 2020 10:53:24 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20200229184123.GC13422@dell5510>
-Reply-To: Petr Vorel <petr.vorel@gmail.com>
-References: <20200229165146.1446912-1-petr.vorel@gmail.com>
+Date: Sat, 29 Feb 2020 10:53:36 -0800
+Message-Id: <20200229185336.3904938-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200229165146.1446912-1-petr.vorel@gmail.com>
-Subject: Re: [PATCH v7 1/2] ltp: Update to 20200120
+Subject: [PATCH] tcmode-default: Add wildcard to GLIBCVERSION
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 18:41:25 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Sat, 29 Feb 2020 18:53:26 -0000
+Content-Transfer-Encoding: 8bit
 
-Hi,
+glibc version has moved on to 2.31.x
 
-> Removed ffsb copying file and associated runtest file fs_ext4
-> (both removed in this release).
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/distro/include/tcmode-default.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-It compiles OK on my workstation.
-$ MACHINE=qemuarm TCLIBC=musl bitbake ltp
-...
-Loaded 1305 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index fce2662c1f..ab4333144b 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -20,7 +20,7 @@ GCCVERSION ?= "10.%"
+ SDKGCCVERSION ?= "${GCCVERSION}"
+ BINUVERSION ?= "2.34%"
+ GDBVERSION ?= "9.%"
+-GLIBCVERSION ?= "2.31"
++GLIBCVERSION ?= "2.31%"
+ LINUXLIBCVERSION ?= "5.4%"
+ QEMUVERSION ?= "4.2%"
+ GOVERSION ?= "1.14%"
+-- 
+2.25.1
 
-Build Configuration:
-BB_VERSION           = "1.44.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "opensusetumbleweed-20200226"
-TARGET_SYS           = "arm-oe-linux-musleabi"
-MACHINE              = "qemuarm"
-DISTRO               = "nodistro"
-DISTRO_VERSION       = "nodistro.0"
-TUNE_FEATURES        = "arm armv7ve vfp thumb neon callconvention-hard"
-TARGET_FPU           = "hard"
-meta                 = "ltp/20200120.v7:adbe622d75374a2dcba803c509ad6d43515c40d8"
-
-Initialising tasks: 100% |########################################################################################################################################################################################################################################| Time: 0:00:00
-Sstate summary: Wanted 299 Found 1 Missed 298 Current 99 (0% match, 25% complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Tasks Summary: Attempted 1512 tasks of which 878 didn't need to be rerun and all succeeded.
-
-
-Kind regards,
-Petr
 
