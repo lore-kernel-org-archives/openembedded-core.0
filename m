@@ -1,19 +1,36 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 62C8D619E4;
-	Sat, 29 Feb 2020 08:32:12 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Andrii Bordunov via Openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Feb 2020 08:32:13 -0000
-Message-ID: <20200229083213.2276.4409@do>
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id C752D608AF
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 29 Feb 2020 09:21:08 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48V19Z2sdwz4S;
+	Sat, 29 Feb 2020 10:21:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1582968066;
+	bh=5fazZK6VDx9Vd9PYvTZi/C4ogj2qSVYmd1Vrrv48vio=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=d4uisrzq/nXEvchAwIGudlVWlvuP6qHXFloMtSs+0FSrAQrgM9I7fVZVm2nzOYaYM
+	jjicHxOD1wdwfvJLxoViHyoDx/YbYfNE9r1CuUBWJwO1/dSO40A0LwOj48g140/Hbm
+	IAPKeaaY1sPAADarmTydP5dsmUNMBjyCTVUynPXqef/68YS7AtD/oxflI/sBk762xt
+	uFdl+qygnPcEWeKEPsqZHf/CEJdduZFgYn/0/zU5bcfk1fUrnKnBGkLKHkPe9x+992
+	A6Ol5woGDfUh4ovrt1eZcjEsn6RR20Fa5duz5lf1+ED6sJC9hAmKSktCaylrIedHZF
+	E1LpWooHsKQYMP8OCZgHlyQq1CzCXBoj03xMlqWn0Xpu+eGNImXHAhqkEHnBgKNu6k
+	CVXN+zwxsVmveSDeYmOnAKnsy2s+5RVIv1RL8vSNydmndTZ/m448API5wcO/W3i852
+	gOfpmpn6RAEkQwIdQqrm7OSCK1XQy2Kg+85aTemFNncTnVhbujsH9kA5+5JBVKb52P
+	daagaCwm+UuE5qSnwOR9cfV2FqV9e0mqpQXLOHWf4W6e30FQIkdEi97kq1/HzPt2Wg
+	WGu7j9bUEcVAyeMVXkiinnwCTnqrLAqLsPwYsqG1FZUo1xnPxaKP4teIMkrUL8y2Yw
+	NQg+glSO7Gy1u2S/5g9du65k=
+Date: Sat, 29 Feb 2020 11:21:03 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Victor Kamensky <kamensky@cisco.com>
+Message-ID: <20200229092103.GA27521@localhost>
 References: <20200229075546.12713-1-kamensky@cisco.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
+MIME-Version: 1.0
 In-Reply-To: <20200229075546.12713-1-kamensky@cisco.com>
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWFrZTogZGlzYWJsZSB1c2Ugb2YgcG9zaXhfc3Bhd24gb24gbWlwcw==?=
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Jens Rehsack <sno@netbsd.org>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] make: disable use of posix_spawn on mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,42 +43,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 08:32:12 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 29 Feb 2020 09:21:09 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-== Series Details ==
+On Fri, Feb 28, 2020 at 11:55:46PM -0800, Victor Kamensky via Openembedded-core wrote:
+> After make-4.3 migration child_execute_job function started
+> using posix_spawn function, which happens to be broken on mips.
+> 
+> It manifests itself as when make executed by root, it switches
+> real user id to wrong value because of some issues with direct
+> setresuid system call done in glibc __spawni_child function
+> through inline assemble and/or gcc compiling it produces wrong
+> code. I.e instead of passing -1 posix_spawn function incorrectly
+> passes 127 as ruid. Subsequently job started by make can fail
+> with permission issue because they run under wrong user.
 
-Series: make: disable use of posix_spawn on mips
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/23022/
-State : failure
+Thanks for looking into this.
 
-== Summary ==
+> For now workaround is used by explicitly disabling posix_spawn
+> call use by make on mips through configure variable.
 
+The proper fix would be to upgrade to the latest glibc 2.31 branch,
+which has backported the fixes for the bug [1] on mips/risc-v/microblaze.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+cu
+Adrian
 
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at a5beb977a5)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+[1] https://sourceware.org/bugzilla/show_bug.cgi?id=25523
 
