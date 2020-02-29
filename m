@@ -1,36 +1,36 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id B508161138
+	by mail.openembedded.org (Postfix) with ESMTP id 21C6561138
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 15:32:22 +0000 (UTC)
+	Sat, 29 Feb 2020 15:37:06 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48V9Px23Thz4S;
-	Sat, 29 Feb 2020 16:32:21 +0100 (CET)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48V9WR0H8Cz4S;
+	Sat, 29 Feb 2020 16:37:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1582990341;
-	bh=q2jlrUiB6WqNbHMziFIyeX8q6Fmmwy5YB2XYRaV7M6Q=;
+	s=default; t=1582990627;
+	bh=TB6u02LYUsrDWovyQ0wER+wilM6NBnj3CzAIGM7JnA0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dwNPcLCSEWMLnbT8AEGPcLPZ+0pxixZWxANLi2Qs5IAajOIxNFECHXxSN/njVnRK8
-	SR1ZuLLGPmQO5Fh3bMW0KZN1KIwtWEYeeQ5Z+Yyz6w2zKgNI8nGhgyw234Sh4Ob+JL
-	MT/MPxyHZ6HmLyhomLIgGFTWdGPZk1Jb/f9HL3Nq3gQX4dSTbQkhPMIRzxvUvINEbY
-	pn0eIzM77f/2t7RovfA+otYnKVRGU84E9Co8SfJKkWm0D/v4Uav9LNMAk2TZMlFdAA
-	N+gYTC11EN0G2Nm4CDwUis8oogSzpPen3+zWSglLjOA3/J+bZ3PVokDqQyJlVDluoM
-	uN/q9z9hbrKAQo1jd5LZM+2dkQBKs2azA86iOWUV49YWGiMkXQx7XN8h1yLN2TJRED
-	nRpI1rififM25HpQvboP+VCwtrv6dnfznxW/bwRZ3KDTzdPg9lTcyozEMhITm8fxtq
-	b3JIDhyETRvsNyw4hB5kNLOpdDNv66D5vKXG9snEN0922bLPm9/3jQ85/fk9IoBe/U
-	nqBcUl35nIM82Crz1huJ5AL3QfhFjP8PCslkWXVl7NkWm2AclxbuN7+3PV6bg2wBn3
-	wIAIN9CozWIxt4otX977bUax2W6Xit5BEELOUDfg8brCPhqcMDFE3hXcDoTbQTPz5B
-	g+y6TfaVc6wChTWr0+2akFHs=
-Date: Sat, 29 Feb 2020 17:32:19 +0200
+	b=d6jXH8sgpty9Sgk/Z1dt3/zrIQdpru7DjGCnHnVHV+qTPTQCZPPxnQ20nFgvLZ0KI
+	KkGgmHIkCwDgKk57WWUYyKHCUclvl6M3e5fetR9UMBHY/Zk0eiR+7DxFyK4y+xv+pm
+	gbIfEirPUshq+YkTch6HzH4DfazWW8fue9SM9dIx2E06iiPquOMXCpYZ+1/tehRhTF
+	xCuNVI+jnor4J2F9XuoRq+2bwtaCvq4L69n0Vaz7fGZJOy0H1G31IlPU38UmVUkt5/
+	4G8YhM6/vqZ20cQeXeJ3WFO1sUGlSx0ieFApx76x/isTJeUpU2UH6XAm8frNU/C0eN
+	gUKqHYA1+CXJv+K6isyq6OV05DYNa+3R0oR+jblhEZrcjA6uy9Si+u0usPtm3yx1BL
+	uXYGHcEfUic0w/q7tKKwGhFCsWayVvABliYMkoFASimAgiUxlnXvLH0ERNRTbftivT
+	0NBBHD5BiR5xMSixkV1twGnnv4Jdc33gAEsv4eGk08zaRv5cVEniz1FNQHNlQQhYuW
+	0Vo1Xd83oV5cNVhpkKvhSqXJvHTBfctIDWnYHskTuEsw1vrdwQUnXFfqipbw+vUosA
+	VwI1xaYdBerNcZztkDSXitOa+AiL+IzO3Nj3ic8fJJmPvJfglodquqg9ItbCCmuVro
+	DJyBr7LQk15w63j1KwURdDmc=
+Date: Sat, 29 Feb 2020 17:37:05 +0200
 From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20200229153219.GA25145@localhost>
-References: <20200229152352.1993520-1-raj.khem@gmail.com>
+To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Message-ID: <20200229153705.GB25145@localhost>
+References: <20200228225151.28015-1-jpuhlman@mvista.com>
 MIME-Version: 1.0
-In-Reply-To: <20200229152352.1993520-1-raj.khem@gmail.com>
+In-Reply-To: <20200228225151.28015-1-jpuhlman@mvista.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] glibc: Syscall fixes for mips/risc-v/mucroblaze
+Subject: Re: [PATCH] mesa: add fix for arm6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,40 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 15:32:22 -0000
+X-List-Received-Date: Sat, 29 Feb 2020 15:37:07 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-On Sat, Feb 29, 2020 at 07:23:52AM -0800, Khem Raj wrote:
-> Should fix the mips make 4.3 issue on target
+On Fri, Feb 28, 2020 at 02:51:51PM -0800, Jeremy A. Puhlman wrote:
+> From: Jeremy Puhlman <jpuhlman@mvista.com>
 > 
-> Changes in this delta
-> 
-> * 71f2b249a2 malloc/tst-mallocfork2: Kill lingering process for unexpected failures
-> * 5d31b083e4 riscv: Avoid clobbering register parameters in syscall
-> * f4f8843515 microblaze: Avoid clobbering register parameters in syscall
-> * aa638b86b2 mips: Fix argument passing for inlined syscalls on Linux [BZ #25523]
-> * ae1b6b13d4 mips: Use 'long int' and 'long long int' in linux syscall code
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-core/glibc/glibc-version.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-> index f489650f70..f7acf99752 100644
-> --- a/meta/recipes-core/glibc/glibc-version.inc
-> +++ b/meta/recipes-core/glibc/glibc-version.inc
-> @@ -1,6 +1,6 @@
->  SRCBRANCH ?= "release/2.31/master"
->  PV = "2.31"
-> -SRCREV_glibc ?= "9ea3686266dca3f004ba874745a4087a89682617"
-> +SRCREV_glibc ?= "71f2b249a28e17eac0e47c53af44d5c5b65101aa"
->...
+> We have had similar problems with missing atomics on arm6 that arm5
+> has.
 
-I have the same locally, but then PV should be "2.31+git${SRCPV}"
-and I haven't yet sorted out everything afterwards.
+How are you able to reproduce this problem?
+
+I was wondering why the upstream fixes that happened in the meantime 
+didn't fix it for armv5, but a qemuarmv5 build of mesa on master worked 
+even after commenting out this line.
+
+>...
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -161,6 +161,7 @@ EXTRA_OEMESON_append = " -Dasm=false"
+>  FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
+>  
+>  CFLAGS_append_armv5 = " -DMISSING_64BIT_ATOMICS"
+> +CFLAGS_append_armv6 = " -DMISSING_64BIT_ATOMICS"
+>...
 
 cu
 Adrian
+
+BTW: armv6, not arm6 - arm6 is armv3
 
