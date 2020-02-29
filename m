@@ -1,49 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 859E560984
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
+	[209.85.222.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0352561A8B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 21:39:30 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id r7so7744897wro.2
+	Sat, 29 Feb 2020 21:48:11 +0000 (UTC)
+Received: by mail-ua1-f68.google.com with SMTP id c7so2289869uaf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 13:39:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=mL9LcGy5MuQAd+hFsV4o3aN9N+RIJ/g7iX5fITX3om4=;
-	b=CXf7Dru38VDi7NWB4853tuzv/I55cowMsFsJ2R4wrXVnMEwJ48EzH5szfN6lDli5cu
-	Wyv+/dL5QAcEt44rKhp3Zk1eBy0evk3FMz9M4pQopG7AV+VCJbhp3JmUL4kOsgmecKPR
-	91Aip3gqmeRXatarlumUjZO4MEAwWCu7K19GM=
+	Sat, 29 Feb 2020 13:48:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=HZqYtSzl7jrw3scoBt41k/2aBKLr33q3v4KcHO+5PMo=;
+	b=sh+rGag9/zTzv5r+M/GNs7Ng2ak3hlFBYT34e/GItrnf6FTjvMEX3FQGUBexerRWwB
+	Cym2UxUylHh50K2zROikc1QSBMNg87jhD7n98EXVRlyU3wQLykQOL/yi4P2rEhRvav89
+	IXYCoJwppieNcoI19csXSRnpo2R+Kf6pJCtJMEWc3qy79J3SeiTxNr1+xi3zkxdmxSEy
+	sMCwX6LJOOpx3b+L0rEyJI0mhNxU7O/7zOLLjADJZvKKYdnQ4Fz0hOKZwPsUge6DJlBx
+	qvQrO7LzLJehFMu9ThLcKwuE7+BbOu/aZ406fYSMxmJKYcwnmRGiX3EuRjQxu6ivhM03
+	1Z7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=mL9LcGy5MuQAd+hFsV4o3aN9N+RIJ/g7iX5fITX3om4=;
-	b=UIgf8ncz/ee117WxUtODKiqdg64H14oq7YX7cb6UySqhSSYDqK1bU5xR/VdUVVMUQt
-	SJ3Crag68ao00OIV6fCbtmiCtHh/c+ne12DBfTBClBaLB6SaJPuNc7z8nHkCmCp+zRHr
-	6bFM6naN0X6CzYKLMFrcR81wqlBZZfKphvoJm5flNu0PhEghx/J/rIsstgXU2ZXdrlyq
-	dtq6l/hXLpbe65VuhLjoQV3W4xXM7N3YcuGBFVPlcjhDbcW5AVEV+PI6yGrPErimnP4q
-	lvJwRPy2YEfIsml3ZXwubs+Bu6gkifhbaeSBHREsqtGTJhAsa/QnZKsqy99r/LGtxXET
-	TsMA==
-X-Gm-Message-State: APjAAAVwSS5ep1WZoAD7lDaHgjy1t/pvhWBEhOKcOk+917AMaYTBTicj
-	F81PJtY0iNg3UqEMv1zj6qJZdg==
-X-Google-Smtp-Source: APXvYqxf6ZqBMzN9DiUBNqNv4nORvxnhqVubzm+8THnMxjhZIj8BWqKqyvZWiHFDxbhFKzDHSMFI8g==
-X-Received: by 2002:a5d:6891:: with SMTP id h17mr11949599wru.259.1583012370987;
-	Sat, 29 Feb 2020 13:39:30 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id u20sm30701wmj.14.2020.02.29.13.39.30
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 29 Feb 2020 13:39:30 -0800 (PST)
-Message-ID: <e4f0cc01dd0ed40905d8b8e2ed4b972215f94b67.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 29 Feb 2020 21:39:29 +0000
-In-Reply-To: <20200229194707.14400-1-alex.kanavin@gmail.com>
-References: <20200229194707.14400-1-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.34.1-4 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=HZqYtSzl7jrw3scoBt41k/2aBKLr33q3v4KcHO+5PMo=;
+	b=kHYqV1NlzBSuCyi7gKZkYxT5YTWC6UbeaAXi7jQVeoA2M6Hs0reOiAzYnh+yjuFIPB
+	U9t+hy/P8QQpXs8bMzO+TThu254MARm/ktyNUGa0Wcu0X0oYf2nvBCvQ6nXGqbPWcS8w
+	/bME/IgKDG0do/1cc9hYOBUMkqamLk8xof1vRyshVcJH7xSbKSfMZT0UV2TypTFL9rPQ
+	cVyjT4Ncy2/1VHSIQ2E93PNtmI/qA3RR2i9yHWDLdHkVuYk69DNuv+J6+H2t/dd3PDqv
+	6iFWO4VVdmLcpSfu/TN5IQZ9GLTDwBrvTLeXiAHbpojaPrYQjYA7mtbF/hxtYT5zGjkV
+	X0yQ==
+X-Gm-Message-State: ANhLgQ0TCHEk7XZPxVEOomxaMVRLYKmqYT+32MYayT5SdkCEI4XOppin
+	5leJ1rG1Rc+WsRBd4xb3B5BP6WB4Yz07+4okqibmhQ==
+X-Google-Smtp-Source: ADFU+vu7vcpSMLTKOvFdup6Hi4G0WC+bErBLhvgBoTZGpA25OhBQxsqsf1XyU2oT7c+OfLs8ATlK64BuELDQXqI1VGc=
+X-Received: by 2002:ab0:2006:: with SMTP id v6mr4779300uak.22.1583012892859;
+	Sat, 29 Feb 2020 13:48:12 -0800 (PST)
 MIME-Version: 1.0
+References: <20200229194707.14400-1-alex.kanavin@gmail.com>
+	<e4f0cc01dd0ed40905d8b8e2ed4b972215f94b67.camel@linuxfoundation.org>
+In-Reply-To: <e4f0cc01dd0ed40905d8b8e2ed4b972215f94b67.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 29 Feb 2020 22:48:00 +0100
+Message-ID: <CANNYZj9o0NBfBjpPSZoSz5rrzi0qiaFX3Kj70zJEbEeqKQQaXA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] selftest/tinfoil: fix a race condition
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,59 +54,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 21:39:30 -0000
+X-List-Received-Date: Sat, 29 Feb 2020 21:48:12 -0000
+Content-Type: multipart/alternative; boundary="000000000000275f54059fbde946"
+
+--000000000000275f54059fbde946
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sat, 2020-02-29 at 20:47 +0100, Alexander Kanavin wrote:
-> Both test_parse_recipe_initial_datastore and the preceding test
-> operate on the same recipe, and both change recipe metadata and re-
-> parse
-> it. In some situations bitbake backend from the first test is
-> catching the change done by the second test and interprets it as
-> non-deterministic metadata (not sure if this sentence is entirely
-> technically correct though :).
-> 
-> The easiest way to avoid is to make the tests operate on two
-> different recipes.
-> 
-> [YOCTO #13812]
+On Sat, 29 Feb 2020 at 22:39, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-I'm not sure its this simple unfortunately.
+> I'm not sure its this simple unfortunately.
+>
+> The big question is whether injected changes from the first "session"
+> should persist into the second "session" or whether things should be
+> reset to a consistent state between them.
+>
+> Yes, this will fix the test but I'm not sure its fixing the underlying
+> problem :(
+>
 
-The big question is whether injected changes from the first "session"
-should persist into the second "session" or whether things should be
-reset to a consistent state between them.
+There's nothing else that can be done on the test side, and what goes on in
+the backend is way over my head, I'm afraid :-(
 
-Yes, this will fix the test but I'm not sure its fixing the underlying
-problem :(
+Alex
 
-Cheers,
+--000000000000275f54059fbde946
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, 29 Feb 2020 at 22:39, Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">
+I&#39;m not sure its this simple unfortunately.<br>
+<br>
+The big question is whether injected changes from the first &quot;session&q=
+uot;<br>
+should persist into the second &quot;session&quot; or whether things should=
+ be<br>
+reset to a consistent state between them.<br>
+<br>
+Yes, this will fix the test but I&#39;m not sure its fixing the underlying<=
+br>
+problem :(<br></blockquote><div><br></div><div>There&#39;s nothing else tha=
+t can be done on the test side, and what goes on in the backend is way over=
+ my head, I&#39;m afraid :-(</div><div><br></div><div>Alex<br></div></div><=
+/div>
 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/lib/oeqa/selftest/cases/tinfoil.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py
-> b/meta/lib/oeqa/selftest/cases/tinfoil.py
-> index 42a1b6b4f4..1bbb7eeec7 100644
-> --- a/meta/lib/oeqa/selftest/cases/tinfoil.py
-> +++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
-> @@ -68,7 +68,7 @@ class TinfoilTests(OESelftestTestCase):
->      def test_parse_recipe_initial_datastore(self):
->          with bb.tinfoil.Tinfoil() as tinfoil:
->              tinfoil.prepare(config_only=False, quiet=2)
-> -            testrecipe = 'mdadm'
-> +            testrecipe = 'psplash'
->              best = tinfoil.find_best_provider(testrecipe)
->              if not best:
->                  self.fail('Unable to find recipe providing %s' %
-> testrecipe)
-> -- 
-> 2.25.1
-> 
-
-
+--000000000000275f54059fbde946--
