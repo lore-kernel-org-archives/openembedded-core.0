@@ -1,47 +1,46 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 73F2D60BB5
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D034B61A0C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 12:54:57 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id e10so5162517wrr.10
+	Sat, 29 Feb 2020 12:56:55 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id v2so6536624wrp.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 04:54:58 -0800 (PST)
+	Sat, 29 Feb 2020 04:56:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=QEuMF6/X7pMYAPROnHDFxf3XiLPsSXOeww30ctndwEs=;
-	b=OGHUvqP36pgKioVdOVhCsFHQYa3nLMkxt7c2YtGY2aJqet9Rb+Fx7z6zLJt4ZrxdbK
-	l00ON9fjnJqcmISFfogQVEdCTADIu9BJcsV3iDKtWYziItoccoUkGoIOy1IhxiwogOP+
-	pNtGHEZF3H7gMBOxSOUTx8ZpnYfvNZnIYFhdU=
+	bh=ZZMrVc0TseupwS+Djz/RhB/gPnuYhuqa/8uCLDQ2tBM=;
+	b=EwKpLR9NK2v6y/TH6qnhxIPEKKWqJWHpHN7R/0sEtpDiyN7qTFZaXlgkc5Z1QFhJ59
+	L19bw+pO21L+2uCIqP3t7VErTRVbuALSiu4i6MvW/sYR1qJvHBMmNNchccCKYsNCBZmu
+	Kd2XJolN95ubIrmFGP05xLg4437WSdj0yg+Kc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=QEuMF6/X7pMYAPROnHDFxf3XiLPsSXOeww30ctndwEs=;
-	b=pkJTBWQ8YSQwQxxwycyPSJ70cIw7fVynfzV8+fYTBrP/aEoH52EARKQccn2zMi/MkJ
-	ZCNN4BsCL3qu1nSEX6BOttnbJWg+5x4PTbJ7tPPUo0b/1tuPPK6pX5G1RCYWUWGafd1Q
-	v1pWvsS6lTEFgGGKqtAfXCUF5KSMO9B6LSqSplIkGdE7dSyNj4Mfi8MvcGiGWrEexQFQ
-	PRWoBkjWS3f2WvEH7WYHZPnBPZqHBtjs+0yZRy1jwHKbtsyUP3p5T5n5fFseDJhe7Pf+
-	ABizDb0QxAlQIEQ4NMv1wsvwYXgKJKI5yANh8+4SLNZ0bxjq+z+kmAevphuuP2bfP2i0
-	L8Aw==
-X-Gm-Message-State: APjAAAXBTi1ZVOCFm/nhc74Hj551IzfxW9hrxM5ZBhr3Hr0au2Vm2VLA
-	eUI4UYH2P5+l47NzmIhewCUxJsdlkOg=
-X-Google-Smtp-Source: APXvYqzhrZEVenZYeRkEXs3LCl/CefJDFhK9NCiPQ3vOLbwAqpWJHUx82p6m1Y2ARUZFxhjI8OIVEA==
-X-Received: by 2002:a05:6000:10c5:: with SMTP id
-	b5mr5853010wrx.203.1582980897580; 
-	Sat, 29 Feb 2020 04:54:57 -0800 (PST)
+	bh=ZZMrVc0TseupwS+Djz/RhB/gPnuYhuqa/8uCLDQ2tBM=;
+	b=nORRyOGNHXYU4N5sY+QY8KE/cLxZDxAw2BCd5EP/abzOnba4yvO5ZAz7oO2CFfqegL
+	fJU+ItPIdsitBEMWm6U3xIMtPue8HD0wJZizKtoSNY1j0asqvhAnmOkCj6hHDUygkLT8
+	yCK32cXO6lRAAgyMi0AV6WqoxPyus9ImNhXtHSA80j501fqCsX3/hmqYDsstBQAp3HBB
+	SucRUd73aHyheHUqo2J+S85h0Cgl+HZK6r+KYIGAb0cLMKoCh8L/ack7oxqi+dl6LPKp
+	LKYrgjNRjwVmimEYGksqAC07rMIfinYAIXmwlWgtk0yGVKsaVo4Ujub8OZ1bGrfwX6Sc
+	b9zw==
+X-Gm-Message-State: APjAAAXVRKCwQdk3QMOCFbKQb0lq9FdHjZwpvjnbczDTCBGT2wREapJz
+	0tAAEUCIeX9bK/1Rv8spg30KhEbi+9o=
+X-Google-Smtp-Source: APXvYqwBTvSOxek2W4/LZmxAsfMiZLlw/xMVOCqoH4fnot+RkLSL3tZJuoghWmVlScpBroXYtXE1vw==
+X-Received: by 2002:adf:ee03:: with SMTP id y3mr10979689wrn.5.1582981016146;
+	Sat, 29 Feb 2020 04:56:56 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	e1sm2057998wrx.90.2020.02.29.04.54.56
+	b18sm17124121wru.50.2020.02.29.04.56.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 29 Feb 2020 04:54:56 -0800 (PST)
+	Sat, 29 Feb 2020 04:56:55 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Feb 2020 12:54:55 +0000
-Message-Id: <20200229125455.487874-1-richard.purdie@linuxfoundation.org>
+Date: Sat, 29 Feb 2020 12:56:54 +0000
+Message-Id: <20200229125654.488036-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
 Subject: [PATCH] psplash: Update to latest git revision
@@ -57,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 12:54:57 -0000
+X-List-Received-Date: Sat, 29 Feb 2020 12:56:56 -0000
 Content-Transfer-Encoding: 8bit
 
 Image files are always generated now so make the gdk-pixbuf dependency
@@ -65,11 +64,11 @@ required.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/psplash/psplash_git.bb | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/recipes-core/psplash/psplash_git.bb | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 6ff0393194a..779f0f6da83 100644
+index 6ff0393194a..875adb13fc2 100644
 --- a/meta/recipes-core/psplash/psplash_git.bb
 +++ b/meta/recipes-core/psplash/psplash_git.bb
 @@ -4,8 +4,9 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/psplash"
@@ -83,15 +82,7 @@ index 6ff0393194a..779f0f6da83 100644
  PV = "0.1+git${SRCPV}"
  PR = "r15"
  
-@@ -13,6 +14,7 @@ SRC_URI = "git://git.yoctoproject.org/${BPN} \
-            file://psplash-init \
-            file://psplash-start.service \
-            file://psplash-systemd.service \
-+           file://fix.patch \
-            ${SPLASH_IMAGES}"
- UPSTREAM_CHECK_COMMITS = "1"
- 
-@@ -49,9 +51,6 @@ python __anonymous() {
+@@ -49,9 +50,6 @@ python __anonymous() {
      d.setVar("SPLASH_INSTALL", " ".join(pkgs))
      d.setVar("SPLASH_LOCALPATHS", " ".join(localpaths))
  
