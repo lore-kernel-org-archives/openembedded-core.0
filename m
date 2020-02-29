@@ -1,55 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CF2161A35
+Return-Path: <pjtexier@koncepto.io>
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 959AB605AE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 13:53:02 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id v2so6663594wrp.12
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 05:53:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=s3xHQzuNs818c2zSSV81bgbvttJqXFg4uNYJsuEqpV0=;
-	b=SHh5kFxUOlEcAPbimLZRRCF3rgJFUvFYgbdTncefqDEzy3gDZQpPUf5OeoaQ6dumtj
-	9UXPJ3g6gcd6KAxYlw4cf3ikyVJz2lWvhdYByF5DbDpAztUQW+tIwl4Y4TBg52beLLsW
-	kWuqi62wMXYfXYJFWR5U+Ra9KmoeVhFwpUlFc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=s3xHQzuNs818c2zSSV81bgbvttJqXFg4uNYJsuEqpV0=;
-	b=lzQdiG9qs5BtZ687V7kb+6a0qiNQ71e3pk634THN/6m09THiSvhzXIKukf3dD885+k
-	S9pTqTkjvahv1LgqYH8+QdtKtfKvBvaZHcEyKsRCF4mOvjNZ60K6A1T/lMiYgNQzS53I
-	0O5XTbiEZke51NsnTrP8O1DDhq8JMNwNc1XY9DY9AhLMFLfyhyuYfu0jkjlNg0w2U/iw
-	IaQb53Bl3XUwV/GMd0obAZPPeJ2KthMXNX91zaBQHV0rfAQTkHC82E5YWfTHKqV5E1XT
-	xWce1qv2MLI6yAaTu6JxnuD/W/QoI1kue5XsOcsYZwS3vqXA96j3b14E4T3BdeaHM627
-	QWJA==
-X-Gm-Message-State: ANhLgQ0C/VQcL3G97m9W9iKLNTroDvvI2WtZAKBhhRbJ0CN9XgCU6uT7
-	ycoz6WCGLku7lcOoLwRv6ctMZQ==
-X-Google-Smtp-Source: ADFU+vt9/Iddov7/pQUGcZmxdSB2c/xT+Vkz61FP/acSsZwZFE0egsd+hVvJNvYiLTHjmLJRqQtpwA==
-X-Received: by 2002:a5d:538e:: with SMTP id d14mr23264wrv.62.1582984383149;
-	Sat, 29 Feb 2020 05:53:03 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	n8sm16260737wrx.42.2020.02.29.05.53.01
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 29 Feb 2020 05:53:02 -0800 (PST)
-Message-ID: <c70d9ceacc5b7a557179ff9fc1b05100b7aa4065.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Petr Vorel <petr.vorel@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Date: Sat, 29 Feb 2020 13:53:00 +0000
-In-Reply-To: <da2bffd2ba22435a66a17044f922ab555d7a3ede.camel@linuxfoundation.org>
-References: <20200228175731.10604-1-petr.vorel@gmail.com>
-	<e64730b1908726a7e8ca4dd5e27b0f7567dd0a57.camel@linuxfoundation.org>
-	<20200229064656.GA4045619@x230>
-	<4db943be8cba440551847721156d22f9664cca0a.camel@linuxfoundation.org>
-	<da2bffd2ba22435a66a17044f922ab555d7a3ede.camel@linuxfoundation.org>
-User-Agent: Evolution 3.34.1-4 
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v5 1/2] ltp: Update to 20200120
+	Sat, 29 Feb 2020 14:17:13 +0000 (UTC)
+Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr
+	[193.250.66.88]) by koncepto.io (Postfix) with ESMTPSA id E4C8A60321;
+	Sat, 29 Feb 2020 15:17:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1582985834;
+	bh=sag9tH+qX8o7KxRM6ZF6z1m13SDIh0o16VdScS3YNs4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pgFWzhgbTWCnY9n7P3CPNjBLGcCgbqciy3F6sDdm4JE15yFPm6ZiSmKgf/DT77Cxb
+	WoMsAPvi0eUFrlUDDcQUGR0ngcV0wZyorwlqcRTdsKcojvGChcpEDrOhMz6ZcvK9RB
+	VBXtU2+27TW9kcItpN0Q9WNFCnNymcuFoxMPEs0sqoDjIuOqPA+DANIVsarRxWelp3
+	/4Us1dtlhnzjl4GNhkEjOxqxrz4JMTrrd5dLEPI5Mfy1img8AiTKBoQk9QFGR1Mtfc
+	QTfPn4s4fmXiwN6qcsODQZ7D4TECB4b8sT4HJhIAAq/4x/W5jLsp/Zq+Rg3oYNXV9i
+	8RuBGttyvd0BA==
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 29 Feb 2020 15:16:42 +0100
+Message-Id: <1582985803-21068-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v3 1/2] util-linux: upgrade 2.34 -> 2.35.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,71 +34,144 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 13:53:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 29 Feb 2020 14:17:14 -0000
 
-On Sat, 2020-02-29 at 13:42 +0000, Richard Purdie wrote:
-> On Sat, 2020-02-29 at 13:22 +0000, Richard Purdie wrote:
-> > On Sat, 2020-02-29 at 07:46 +0100, Petr Vorel wrote:
-> > > At least we know, that once we solve this problem, we can remove
-> > > 0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch
-> > > 
-> > > Please, how to reproduce this build locally? Is it:
-> > > . oe-init-build-env
-> > > TCLIBC=musl bitbake ltp
-> > 
-> > Yes, that should be enough.
-> > 
-> > > Or do I need to put something into config files conf/local.conf
-> > > or conf/bblayers.conf ?
-> > > 
-> > > I need to double check if musl-fts is really built and whether
-> > > the
-> > > order of
-> > > -lfts is correct. But all this has been solved even for static
-> > > build
-> > > for Buildroot,
-> > > so I guess it's some issue related to openembedded.
-> > > Unfortunately,
-> > > I'm not much
-> > > experienced in openembedded (stepped in, because nobody else has
-> > > updated LTP
-> > > package yet).
-> > > 
-> > > Khem, any idea, what can be wrong?
-> > 
-> > FWIW I'll run a build here and see if I can spot anything but I'm
-> > trying to do other things today!
-> 
-> I was able to confirm that fts is in the recipe sysroot and that the
-> compile step is running "make -j 88 LIBC=musl LIBS=-lfts", i.e. its
-> being passed in to ltp. Beyond that I'm a little out my depth to know
-> how/why its not ending up where it should unfortunately. At least the
-> issue does appear to reproduce though...
+License-Update: add GPLv3 text in README.licensing
 
-Grep suggests LIBS is a configure option, not a makefile one. I tried:
+Also:
+ - Drop upstreamed patch
+ - Use 'disable-hwclock-gplv3' explicitly.
 
-diff --git a/meta/recipes-extended/ltp/ltp_20200120.bb b/meta/recipes-extended/ltp/ltp_20200120.bb
-index 847f267b0b7..5be9489a756 100644
---- a/meta/recipes-extended/ltp/ltp_20200120.bb
-+++ b/meta/recipes-extended/ltp/ltp_20200120.bb
-@@ -16,7 +16,8 @@ LIC_FILES_CHKSUM = "\
+Since commit 7a3000f7ba548cf7d74ac77cc63fe8de228a669e ("hwclock: use parse_date function") hwclock is linked
+with parse_date.y from gnullib. This gnulib code is distributed with GPLv3.
+So, we have to use '--disable-hwclock-gplv3' to exclude this code.
+
+See full changelog https://lore.kernel.org/util-linux/20200131095846.ogjtqrs7ai774tka@ws.net.home/T/#u
+
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+---
+Changes v2 -> v3
+ - NONE
  
- DEPENDS = "attr libaio libcap acl openssl zip-native"
- DEPENDS_append_libc-musl = " fts "
--EXTRA_OEMAKE_append_libc-musl = " LIBC=musl LIBS=-lfts "
-+EXTRA_OEMAKE_append_libc-musl = " LIBC=musl "
-+EXTRA_OECONF_append_libc-musl = " LIBS=-lfts "
+Changes v1 -> v2
+ - bump to 2.35.1 instead of 2.35
+ - use disable-hwclock-gplv3 option to not use datetime parsing GPLv3 code
  
- # since ltp contains x86-64 assembler which uses the frame-pointer register,
- # set -fomit-frame-pointer x86-64 to handle cases where optimisation
+FYI, hwclock will be made GPLv2-only again in v2.36, see:
+ - https://lore.kernel.org/util-linux/20200127202152.4jh2w4chch37wgee@ws.net.home/T/#e0c176440ca3f7b10693ff8f0afaf114b4b94405d
 
-and this does seem to build for musl. Might be worth runtime testing
-that on the autobuilder?
+ meta/recipes-core/util-linux/util-linux.inc        |  3 +-
+ ...lsblk-force-to-print-PKNAME-for-partition.patch | 36 ----------------------
+ meta/recipes-core/util-linux/util-linux_2.34.bb    | 14 ---------
+ meta/recipes-core/util-linux/util-linux_2.35.1.bb  | 13 ++++++++
+ 4 files changed, 15 insertions(+), 51 deletions(-)
+ delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch
+ delete mode 100644 meta/recipes-core/util-linux/util-linux_2.34.bb
+ create mode 100644 meta/recipes-core/util-linux/util-linux_2.35.1.bb
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 179cb3d..0566569 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -8,7 +8,7 @@ SECTION = "base"
+ 
+ LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+ 
+-LIC_FILES_CHKSUM = "file://README.licensing;md5=972a134f1e14b2b060e365df2fab0099 \
++LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
+                     file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
+@@ -105,6 +105,7 @@ EXTRA_OECONF = "\
+ EXTRA_OECONF_append_class-target = " --enable-setpriv"
+ EXTRA_OECONF_append_class-native = " --without-cap-ng --disable-setpriv"
+ EXTRA_OECONF_append_class-nativesdk = " --without-cap-ng --disable-setpriv"
++EXTRA_OECONF_append = " --disable-hwclock-gplv3"
+ 
+ # enable pcre2 for native/nativesdk to match host distros
+ # this helps to keep same expectations when using the SDK or
+diff --git a/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch b/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch
+deleted file mode 100644
+index 5d4c148..0000000
+--- a/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From e3bb9bfb76c17b1d05814436ced62c05c4011f48 Mon Sep 17 00:00:00 2001
+-From: Karel Zak <kzak@redhat.com>
+-Date: Thu, 27 Jun 2019 09:22:18 +0200
+-Subject: [PATCH] lsblk: force to print PKNAME for partition
+-
+-PKNAME (parent kernel device name) is based on printed tree according
+-to parent -> child relationship. The tree is optional and not printed
+-if partition specified (.e.g "lsblk -o+PKNAME /dev/sda1"), but old
+-versions print the PKNAME also in this case.
+-
+-Upstream-Status: Backport [https://github.com/karelzak/util-linux/commit/e3bb9bfb76c17b1d05814436ced62c05c4011f48]
+-
+-Addresses: https://github.com/karelzak/util-linux/issues/813
+-Signed-off-by: Karel Zak <kzak@redhat.com>
+-Signed-off-by: Liwei Song <liwei.song@windriver.com>
+----
+- misc-utils/lsblk.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/misc-utils/lsblk.c b/misc-utils/lsblk.c
+-index e95af7af0256..3ce6da730264 100644
+---- a/misc-utils/lsblk.c
+-+++ b/misc-utils/lsblk.c
+-@@ -1019,6 +1019,9 @@ static void device_to_scols(
+- 	DBG(DEV, ul_debugobj(dev, "add '%s' to scols", dev->name));
+- 	ON_DBG(DEV, if (ul_path_isopen_dirfd(dev->sysfs)) ul_debugobj(dev, " %s ---> is open!", dev->name));
+- 
+-+	if (!parent && dev->wholedisk)
+-+		parent = dev->wholedisk;
+-+
+- 	/* Do not print device more than one in --list mode */
+- 	if (!(lsblk->flags & LSBLK_TREE) && dev->is_printed)
+- 		return;
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-core/util-linux/util-linux_2.34.bb b/meta/recipes-core/util-linux/util-linux_2.34.bb
+deleted file mode 100644
+index 557449d..0000000
+--- a/meta/recipes-core/util-linux/util-linux_2.34.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-require util-linux.inc
+-
+-SRC_URI += "file://configure-sbindir.patch \
+-            file://runuser.pamd \
+-            file://runuser-l.pamd \
+-            file://ptest.patch \
+-            file://run-ptest \
+-            file://display_testname_for_subtest.patch \
+-            file://avoid_parallel_tests.patch \
+-            file://0001-lsblk-force-to-print-PKNAME-for-partition.patch \
+-            file://0001-hwclock-fix-for-glibc-2.31-settimeofday.patch \
+-"
+-SRC_URI[md5sum] = "a78cbeaed9c39094b96a48ba8f891d50"
+-SRC_URI[sha256sum] = "743f9d0c7252b6db246b659c1e1ce0bd45d8d4508b4dfa427bbb4a3e9b9f62b5"
+diff --git a/meta/recipes-core/util-linux/util-linux_2.35.1.bb b/meta/recipes-core/util-linux/util-linux_2.35.1.bb
+new file mode 100644
+index 0000000..03afd2a
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux_2.35.1.bb
+@@ -0,0 +1,13 @@
++require util-linux.inc
++
++SRC_URI += "file://configure-sbindir.patch \
++            file://runuser.pamd \
++            file://runuser-l.pamd \
++            file://ptest.patch \
++            file://run-ptest \
++            file://display_testname_for_subtest.patch \
++            file://avoid_parallel_tests.patch \
++            file://0001-hwclock-fix-for-glibc-2.31-settimeofday.patch \
++"
++SRC_URI[md5sum] = "7f64882f631225f0295ca05080cee1bf"
++SRC_URI[sha256sum] = "d9de3edd287366cd908e77677514b9387b22bc7b88f45b83e1922c3597f1d7f9"
+-- 
+2.7.4
 
 
