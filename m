@@ -1,57 +1,57 @@
-Return-Path: <jpuhlman@mvista.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C53561A3D
+Return-Path: <petr.vorel@gmail.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CF7C61A34
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 18:11:02 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id j14so1478418otq.3
+	Sat, 29 Feb 2020 18:40:09 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id c84so6836555wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 10:11:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=SwRaKpy58rToNrmGituA/Pmkk4fWlkCRZSCbn6IMv6o=;
-	b=WmhibYaGoxTaipJiL6TmJHquNpb1sQGRo+niv2vVXKpw5/DWPb/lTZsmyNbOYbQDGn
-	dK+FvuTAuWTdfxYKkS/oxp2I3P5yGk85AsC8j7LhXQOD1AvDoDXzP/8vWhZCU65F1Ayn
-	RXQy0lY4+HNgtR75oTAyq1WHQtEBnRUOEMny+ptApNqWllHSefe7aSKsfMfXnivCKQ6g
-	K0NL8ozYh+uQ5RKkxMqgjz1BWCHoxAZt2cGujotqGD4Rjz0C1kYawHwcXq95jMAdzoDd
-	dkGRftIbRoKf2tOPvHO1Fml9TvOJiCzQFyt+bKGSTiaGk19DnbAtRFo8fSuFSjzDhB98
-	pdyA==
+	Sat, 29 Feb 2020 10:40:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+	:content-disposition:in-reply-to;
+	bh=Wkrc1gLPQ4Z96S5EHSvmIwKqqiBwQpFVFmvRGpTLaqk=;
+	b=fRVns3Z85+SXTPH58xJMNdzaGUzqab0z8ZnuQWr4+1+3neTB9/Bqxw11alCeG9C4uy
+	oCg1ak2YYeoXxCjAm07Yubnt1PHywWJ+klwLMdd7yDHb0gZRpF13TSrW3RzD+F91myhM
+	KQaygNCI0v3Y59wGTOC2iBBtS/3GmJ9+Jw07mAmLmw7PE75AGHFTnQolLQb3zAA51oRJ
+	Q32aYMvdaKd9h6Z2GW/Vtt85zgyzgKiK5tVQEXVifppNd9aChe5+9f+J/Q3B7yaxJy6y
+	KdvBiBRC0Eh2+jbkBVdhd8ZtOAY++Ny6u9vYBhSVWV4mB1du80SRxg/FdHmYyBTg2x7u
+	6ceg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=SwRaKpy58rToNrmGituA/Pmkk4fWlkCRZSCbn6IMv6o=;
-	b=Rb1I06gV0tR9AgHHRtuoTmlWL9cg0GR5LhR0TaR2lja25v4/2t7gmtT/n1znE+pzXB
-	AkZfWuyN42NpcKv5cVz0QDhk2AxgJslp+eDzvcJm3/fL/KESbx1piotzRGLP3OoxSJkd
-	RCG/Dqh82rE/yDX6RAbSzyqb20G3Q9Zy8ZiZZGoKcIOA2fLCWUO+/fD/WStI2IQDb/c1
-	2NqVugyzqi/2aSKbIKediTskB6bTM+zOlG2GYr6TsKSjsxemHku7Cj8n8YN1u4SS/uHB
-	FM0MsOZYCiMbt4nYeykHiIJteKVVd7vzu25Qx22J3+fZebfXLIAao8LCC7oLY1fSg9bL
-	zxqA==
-X-Gm-Message-State: APjAAAXsuvfwyGdfCDWqdZKlw6DF6xhphkQwxJtm9jYV3bjYBjHHAFf0
-	cfsBfSV7WXt1hk8npEZC/1tRr1jHrIs=
-X-Google-Smtp-Source: APXvYqyVk26U9h61aiiAnw8BgW2XVRpPHK2YxTQORgceD7wAZT7XJfpcLmjk1T0/ScIoK5NU+Vjk9A==
-X-Received: by 2002:a9d:6a85:: with SMTP id l5mr7933947otq.231.1582999863134; 
-	Sat, 29 Feb 2020 10:11:03 -0800 (PST)
-Received: from ?IPv6:2600:1700:4c90:60a0:7d93:a1ab:da87:363b?
-	([2600:1700:4c90:60a0:7d93:a1ab:da87:363b])
-	by smtp.gmail.com with ESMTPSA id j8sm197775otq.42.2020.02.29.10.11.01
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Sat, 29 Feb 2020 10:11:02 -0800 (PST)
-To: Adrian Bunk <bunk@stusta.de>
-References: <20200228225151.28015-1-jpuhlman@mvista.com>
-	<20200229153705.GB25145@localhost>
-From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-Message-ID: <05af0b1f-08c2-ee55-dd96-0261a1234d4a@mvista.com>
-Date: Sat, 29 Feb 2020 10:10:40 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+	:references:mime-version:content-disposition:in-reply-to;
+	bh=Wkrc1gLPQ4Z96S5EHSvmIwKqqiBwQpFVFmvRGpTLaqk=;
+	b=HxxlMjF3ImMpBl/LBdT091MofntRCX/cMMn1CrleOaXuH7TYwx3Kwn9J0PxGCSb26N
+	GY6u8HSQbMC/GF3JjljpU8VktQeAQ0VGZvNJeK3QJXsU+MVQaJ7VtgYFbV8dHLRVdsGx
+	N4dH8/a1yEJDvalLFy76AbQ5B+V6ca086UoDx/KtCdgAcQHQ9S1NKZoerx8aI8AhSI5f
+	2/1ngOCiNUXX+NNKTVPSSk2ctzSDP3r/hs3Ym9IW/pmfMTfrDnt3WgZ4UEhVJfcHXprs
+	bw3PfKMaO4Ki6jpGAQ3xUiqPht+HnkAZCGI6QkKEjmVRbumndkAlXPul19l5IFSq/rV1
+	E36Q==
+X-Gm-Message-State: APjAAAWFa9v064FlX7ASRiEkgI8SVndYFSTXe2+r8jgLCo3Qp+Vpnx61
+	2k0v0m0/ekg1lcmi3esYSt0=
+X-Google-Smtp-Source: APXvYqx3ExVkqzecnS4bFeCP0yNKu4ThDTtLm6QtfZ8gekqBNm6zimmClthWPMMe2ygyw6oGLsWlug==
+X-Received: by 2002:a05:600c:214b:: with SMTP id
+	v11mr11199494wml.13.1583001609992; 
+	Sat, 29 Feb 2020 10:40:09 -0800 (PST)
+Received: from dell5510 ([62.201.25.198]) by smtp.gmail.com with ESMTPSA id
+	c64sm3387665wmf.33.2020.02.29.10.40.08
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 29 Feb 2020 10:40:09 -0800 (PST)
+Date: Sat, 29 Feb 2020 19:40:06 +0100
+From: Petr Vorel <petr.vorel@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20200229184006.GB13422@dell5510>
+Reply-To: Petr Vorel <petr.vorel@gmail.com>
+References: <20200228175731.10604-1-petr.vorel@gmail.com>
+	<e64730b1908726a7e8ca4dd5e27b0f7567dd0a57.camel@linuxfoundation.org>
+	<20200229064656.GA4045619@x230>
+	<4db943be8cba440551847721156d22f9664cca0a.camel@linuxfoundation.org>
+	<da2bffd2ba22435a66a17044f922ab555d7a3ede.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <20200229153705.GB25145@localhost>
+In-Reply-To: <da2bffd2ba22435a66a17044f922ab555d7a3ede.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mesa: add fix for arm6
+Subject: Re: [PATCH v5 1/2] ltp: Update to 20200120
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,43 +64,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 18:11:02 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sat, 29 Feb 2020 18:40:09 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This was in my queue from a previous yotco version. I haven't gotten my arm
-bsp up and running yet. I will double check.
+Hi Richard, Khem,
 
-On 2/29/2020 7:37 AM, Adrian Bunk wrote:
-> On Fri, Feb 28, 2020 at 02:51:51PM -0800, Jeremy A. Puhlman wrote:
->> From: Jeremy Puhlman <jpuhlman@mvista.com>
->>
->> We have had similar problems with missing atomics on arm6 that arm5
->> has.
-> How are you able to reproduce this problem?
->
-> I was wondering why the upstream fixes that happened in the meantime
-> didn't fix it for armv5, but a qemuarmv5 build of mesa on master worked
-> even after commenting out this line.
->
->> ...
->> --- a/meta/recipes-graphics/mesa/mesa.inc
->> +++ b/meta/recipes-graphics/mesa/mesa.inc
->> @@ -161,6 +161,7 @@ EXTRA_OEMESON_append = " -Dasm=false"
->>   FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
->>   
->>   CFLAGS_append_armv5 = " -DMISSING_64BIT_ATOMICS"
->> +CFLAGS_append_armv6 = " -DMISSING_64BIT_ATOMICS"
->> ...
-> cu
-> Adrian
->
-> BTW: armv6, not arm6 - arm6 is armv3
->
+> I was able to confirm that fts is in the recipe sysroot and that the
+> compile step is running "make -j 88 LIBC=musl LIBS=-lfts", i.e. its
+> being passed in to ltp. Beyond that I'm a little out my depth to know
+> how/why its not ending up where it should unfortunately. At least the
+> issue does appear to reproduce though...
+Is there a way to compile only LTP and the necessary build dependencies?
 
--- 
-Jeremy A. Puhlman
-jpuhlman@mvista.com
+if I run this:
+. oe-init-build-env
+MACHINE=qemuarm TCLIBC=musl bitbake ltp
 
+It takes ages and compiles many things (gnutls, iptables, expat, procps, tar, ...).
+
+Kind regards,
+Petr
 
