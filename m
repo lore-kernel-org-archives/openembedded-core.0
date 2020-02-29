@@ -1,50 +1,29 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
-	[209.85.221.44])
-	by mail.openembedded.org (Postfix) with ESMTP id D9DEB61A56
+Return-Path: <pjtexier@koncepto.io>
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+	by mail.openembedded.org (Postfix) with ESMTP id A786A61A52
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 19:47:35 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id v4so7504185wrs.8
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 11:47:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=D9gROWHUHpm6f5Wg8hEQDajW6A/0R+hviiqO/wuql4o=;
-	b=fSx0tuFq+xaYBw57m6fPOsspIY9XFIhbO+4yrty7lzTja6DH5eI+BNrD1V7/tqsll7
-	d77mNbg01RkNJw/lUmtp/E/GLEszhvMbX/jt7+RHaFkGOS2Q3E7zY+mdUTm543Gf84sx
-	ct2BNLH6xASw0CQWHNwB/bAPNKDJzWkRznkXZzBILCQ8VMkau05BUnuqYb1rjKbdGOvb
-	RopxgbMRi4BnMnkABYF7ByNGNeoADVVKHsplvLiq58Av2VRpTL8vhjzBi9Z8R7VWUqg2
-	L6XeBF7Lj1drWpmEbaoN5bHEG79kYri7RJ/Te0906XuK+dwgbOAuAHTZldxcgQ5l+nl7
-	cH8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=D9gROWHUHpm6f5Wg8hEQDajW6A/0R+hviiqO/wuql4o=;
-	b=onbAkLmmcDTjgvv2fuF+n68u/NLlWzGrr4WFCXA9lj5MK8x7YlH4U47i+WY8iUFJfn
-	jPBkLMQ8s1wtOnTzPtHzxA6nTtduNcoRQSdWlTjigSNpK4Zn/jljOKS9IPnhu8LvUesX
-	sqHVcrYavfyMF5J2T50++5qhwiRgB5bbPrvR/WKpoa5s7G80F+Byali49TSoMxDpkgAo
-	a/k7gjvWKY4WSYcwFEYcKQTL0kG4tzMQPA7FjMJxcRgaCAlQ1Z0pYK0uftLqxXwJZMk4
-	FSBxjy+cZuGLeM1L2xA2tBakA0D4HZGKEIt+oKbqEv+bThYzQBUpJr492dTZjniR8zjM
-	06mA==
-X-Gm-Message-State: APjAAAWeLuMwjwykXywdTOugUl/dhiHPy1eqH9kt0KGOl0he84j5nOKe
-	UzJ3Qywr8FXO0oLF+CLjqyVRuh8x
-X-Google-Smtp-Source: APXvYqxF9MjMHVLRt/5e63k4DZQK9mFBaqa7+JQwT3A0GwvEFlyn6+waUZQiZOn3b3dORNWRh3h6oA==
-X-Received: by 2002:adf:ee4c:: with SMTP id w12mr11570051wro.310.1583005656013;
-	Sat, 29 Feb 2020 11:47:36 -0800 (PST)
-Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-	by smtp.gmail.com with ESMTPSA id
-	g10sm19324467wrr.13.2020.02.29.11.47.34
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 29 Feb 2020 11:47:34 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Sat, 29 Feb 2020 20:38:06 +0000 (UTC)
+Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr
+	[193.250.66.88]) by koncepto.io (Postfix) with ESMTPSA id BEEBF6032E;
+	Sat, 29 Feb 2020 21:38:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1583008685;
+	bh=VS1VJo7bTGbXqxwZ2Lw9cb8AYwver82Isuu/7q83zw0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=dugmTlC0tPQ7w+mnmkbyq/i7admia/TlcjsiBNLsVDFGjDdX8ZxkMDDftEvSA0br8
+	X0Rkwe14p61D999A49FuAi5cJ+pf0UJ2W2SjBgghKL/5kDFgdnllGM9isAOhlme+vE
+	nR1WjuJlLAdiXIJZq0pRVJkdifTrsVU0MHTrYGopKkdOFlcYmHgKeQE4RE6Ltyay9H
+	ia1VUfJHes7OTWwW+54M5HMd4PyW/6ZH5OVH8oWbhb2OyTBQmPUmFVbHoc4ZZL6AFy
+	4D+ahntG7iiDksiLg1BVILegdqshCnxMnnDJdr94oj6BW1U4WlJXjDaFzVabUsDd0v
+	ngj2JcW4eY8pQ==
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Feb 2020 20:47:07 +0100
-Message-Id: <20200229194707.14400-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Subject: [PATCH] selftest/tinfoil: fix a race condition
+Date: Sat, 29 Feb 2020 21:38:02 +0100
+Message-Id: <1583008682-4650-2-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1583008682-4650-1-git-send-email-pjtexier@koncepto.io>
+References: <1583008682-4650-1-git-send-email-pjtexier@koncepto.io>
+Subject: [PATCH v4 2/2] wic/engine: dump the partition table in JSON format only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +36,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 19:47:36 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 29 Feb 2020 20:38:07 -0000
 
-Both test_parse_recipe_initial_datastore and the preceding test
-operate on the same recipe, and both change recipe metadata and re-parse
-it. In some situations bitbake backend from the first test is
-catching the change done by the second test and interprets it as
-non-deterministic metadata (not sure if this sentence is entirely
-technically correct though :).
+since commit 03154d2cf25c1d5ce908da9e72d324004b8d5722 ("sfdisk: add -J between mutually exclusive options")
+in util-linux [1], the '-J' can't be used with the '-d' option anymore.
 
-The easiest way to avoid is to make the tests operate on two
-different recipes.
+So, since we're using json format output, drop the '-d' option.
 
-[YOCTO #13812]
+Fixes:
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ERROR: _exec_cmd: <snip>/usr/sbin/sfdisk -dJ <snip>/core-image-minimal-qemux86-64.wic returned '1' instead of 0
+output: sfdisk: mutually exclusive arguments: --list-free --json --dump
+
+[1] - https://github.com/karelzak/util-linux/commit/03154d2cf25c1d5ce908da9e72d324004b8d5722#diff-31d5cc325380dbdafe64d0e019846f12
+
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
- meta/lib/oeqa/selftest/cases/tinfoil.py | 2 +-
+Changes v3 -> v4
+ - NONE
+
+Changes v2 -> v3
+ - New
+
+ scripts/lib/wic/engine.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
-index 42a1b6b4f4..1bbb7eeec7 100644
---- a/meta/lib/oeqa/selftest/cases/tinfoil.py
-+++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
-@@ -68,7 +68,7 @@ class TinfoilTests(OESelftestTestCase):
-     def test_parse_recipe_initial_datastore(self):
-         with bb.tinfoil.Tinfoil() as tinfoil:
-             tinfoil.prepare(config_only=False, quiet=2)
--            testrecipe = 'mdadm'
-+            testrecipe = 'psplash'
-             best = tinfoil.find_best_provider(testrecipe)
-             if not best:
-                 self.fail('Unable to find recipe providing %s' % testrecipe)
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 2479751..83c42c9 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -439,7 +439,7 @@ class Disk:
+             outf.flush()
+ 
+         def read_ptable(path):
+-            out = exec_cmd("{} -dJ {}".format(self.sfdisk, path))
++            out = exec_cmd("{} -J {}".format(self.sfdisk, path))
+             return json.loads(out)
+ 
+         def write_ptable(parts, target):
 -- 
-2.25.1
+2.7.4
 
 
