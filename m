@@ -1,52 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EAB060B52
+Return-Path: <pjtexier@koncepto.io>
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AA0261A35
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 13:22:04 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id u9so441695wml.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 05:22:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=2fH0OlE+pR4wSWar/+rRg3w2eoa2oTq+9QC2Gcy+7uY=;
-	b=Mk3fBOrILqT+v3n2sa1G/fth9cwnWIUsB8EP88ABBLGapaARKhBp5eLtvh6mbcVXXV
-	phrYKyxlUwz7xyA9Ys1vx1f9VxxzR/gnlOIsM9y8pEdUeiPJnYkfXCHV+2aTrDYjirCB
-	ZKHSjRnF9dKyOByoyhze7QQ3u7cGL8NQyQa44=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=2fH0OlE+pR4wSWar/+rRg3w2eoa2oTq+9QC2Gcy+7uY=;
-	b=CMUJzG4mB78YDgesCWJFaRrw81uBvCgjlKA/uBFhPky3LlHlh+qIm8JeR74f2d3y7M
-	u87OX7wEUel19h7uLvC7AYxBPmRORzjpzVwGS3OX9UU8ESb+uBtEovZ19MCnjnkvdPnf
-	Z1nlTbLEVziQLTVFGWTty6oz0joWWh0k5ixTnueH7HTfPHBOiPOssql/La73qjc30e1o
-	JUGlpY4lGWP9dqtM3XQ1BpMk9mPCLdg0mRzDB84OQtbzVsFyQXGJYbc+hoNp6BJ2r/8a
-	6POvRaVoxdndl6zMpWYBnhevVhvHICricUys6JQ/GNTk9LRkIbnI34w9cqmSAgMKzCR1
-	bJrw==
-X-Gm-Message-State: APjAAAXHKVKeFtkIaRQKzKRqpiIFYWBmWdb/ei3tHIi8sysBh08m7B4d
-	lwIDvhWJ5WWBQNUwugjMisPbbg==
-X-Google-Smtp-Source: APXvYqxG+70BESItx33FtPL2Kf2EQZr3++gaMoyFL05krLAI+BK4cdwAZH/nWqG3faFJyfVToAKYUQ==
-X-Received: by 2002:a1c:e28a:: with SMTP id z132mr9687542wmg.157.1582982524926;
-	Sat, 29 Feb 2020 05:22:04 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id e1sm2154335wrx.90.2020.02.29.05.22.03
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 29 Feb 2020 05:22:04 -0800 (PST)
-Message-ID: <4db943be8cba440551847721156d22f9664cca0a.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Petr Vorel <petr.vorel@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Date: Sat, 29 Feb 2020 13:22:02 +0000
-In-Reply-To: <20200229064656.GA4045619@x230>
-References: <20200228175731.10604-1-petr.vorel@gmail.com>
-	<e64730b1908726a7e8ca4dd5e27b0f7567dd0a57.camel@linuxfoundation.org>
-	<20200229064656.GA4045619@x230>
-User-Agent: Evolution 3.34.1-4 
+	Sat, 29 Feb 2020 13:35:09 +0000 (UTC)
+Received: from [192.168.1.17] (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr
+	[193.250.66.88]) by koncepto.io (Postfix) with ESMTPSA id C259C60311;
+	Sat, 29 Feb 2020 14:35:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1582983308;
+	bh=N9MIlzsO7/KUqjo4ceVkYOQBxs0tXS1N6XKJClcF668=;
+	h=Subject:To:References:From:Cc:Date:In-Reply-To:From;
+	b=LI45+luNWcXC6RLRTMdLdj9c8lUb3D3B30IkkeSau7ceIgC5Mjy6PR4f00VvMOUD2
+	/F7YNrn6luFUKD9Q0shxV3AGPEsI4yACW8vOndVelWJ1lTIKDRr/RUNNydbSiRjRtO
+	2iK34iDDdskPVJDI8cGHgDJko/TPX20f5Zfc8eI71k7vhx+qS8axjJ9aAJUmZhsrnB
+	ZKYru27fLkW7n+PoeJHXXd6+v58+sW7Kmj48vkKfmJZ4XeURaOI1FdSqFmSLHaDhl1
+	dqE2dRY4pE9R4CKJVSkLKdhMoc0kMsQrA977toOP+dU6kh7/JqJPMZVRxC9bDC009G
+	ajBWvN/+IyMkg==
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1582738506-3389-1-git-send-email-pjtexier@koncepto.io>
+	<d9217f0a0dbeb949494675e766ea95412363211c.camel@linuxfoundation.org>
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
+Message-ID: <cc0ce587-06dc-0786-4c97-19c83b460ccb@koncepto.io>
+Date: Sat, 29 Feb 2020 14:35:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
+In-Reply-To: <d9217f0a0dbeb949494675e766ea95412363211c.camel@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v5 1/2] ltp: Update to 20200120
+Subject: Re: [PATCH v2] util-linux: upgrade 2.34 -> 2.35.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +40,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 13:22:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 29 Feb 2020 13:35:09 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2020-02-29 at 07:46 +0100, Petr Vorel wrote:
-> At least we know, that once we solve this problem, we can remove
-> 0002-kernel-controllers-Link-with-libfts-explicitly-on-mu.patch
+Hello Richard,
+
+Le 28/02/2020 à 13:25, Richard Purdie a écrit :
+> Unfortately this does seem to expose a problem with wic, e.g.:
 > 
-> Please, how to reproduce this build locally? Is it:
-> . oe-init-build-env
-> TCLIBC=musl bitbake ltp
-
-Yes, that should be enough.
-
-> Or do I need to put something into config files conf/local.conf
-> or conf/bblayers.conf ?
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/732
 > 
-> I need to double check if musl-fts is really built and whether the
-> order of
-> -lfts is correct. But all this has been solved even for static build
-> for Buildroot,
-> so I guess it's some issue related to openembedded. Unfortunately,
-> I'm not much
-> experienced in openembedded (stepped in, because nobody else has
-> updated LTP
-> package yet).
+> which can be reproduced with:
 > 
-> Khem, any idea, what can be wrong?
+> oe-selftest -r wic.Wic2.test_expand_mbr_image
 
-FWIW I'll run a build here and see if I can spot anything but I'm
-trying to do other things today!
+Afer a quick check, it seems the failure is related to
+the commit 03154d2cf25c1d5ce908da9e72d324004b8d5722 ("sfdisk: add -J 
+between mutually exclusive options") [1] in the version 2.35.1.
 
-Cheers,
+ERROR: _exec_cmd: 
+/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-4047/tmp/work/core2-64-poky-linux/wic-tools/1.0-r0/recipe-sysroot-native/usr/sbin/sfdisk 
+-dJ 
+/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-4047/tmp/deploy/images/qemux86-64/core-image-minimal-qemux86-64.wic 
+returned '1' instead of 0
+output: sfdisk: mutually exclusive arguments: --list-free --json --dump
 
-Richard
+So, I think we have to update this command [2] in order to drop the '-J'
+option.
 
+I will investigate, and I will send a v3 to fix this issue.
+
+Thanks !
+
+[1] - 
+https://github.com/karelzak/util-linux/commit/03154d2cf25c1d5ce908da9e72d324004b8d5722#diff-31d5cc325380dbdafe64d0e019846f12
+[2] - 
+https://git.openembedded.org/openembedded-core/tree/scripts/lib/wic/engine.py#n442
+-- 
+Pierre-Jean Texier
+Embedded Linux Engineer
+https://koncepto.io
 
