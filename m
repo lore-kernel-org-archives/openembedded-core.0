@@ -1,24 +1,47 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 50FDC619ED
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com
+	[209.85.219.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 35FEE608AB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 05:04:30 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	28 Feb 2020 21:04:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,498,1574150400"; d="scan'208";a="437640513"
-Received: from wrath.jf.intel.com ([10.54.31.24])
-	by fmsmga005.fm.intel.com with ESMTP; 28 Feb 2020 21:04:31 -0800
-From: Tim Orling <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Feb 2020 21:03:59 -0800
-Message-Id: <20200229050359.12933-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.24.0
+	Sat, 29 Feb 2020 06:35:04 +0000 (UTC)
+Received: by mail-qv1-f65.google.com with SMTP id ea1so2459395qvb.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Feb 2020 22:35:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=6x4/ABioXYcHg54ZIwyTloDiLloMF4U0JGkc+Z9HX40=;
+	b=Djq+pFm3RWID54xpz6Dpx/X4ablZyGNF31cI6wu9KbGmZMaoFv0if88gTOLag7VNFI
+	woZoXAT6+scUOHisVRvCcggWBoEWRvbkBzs/VYhXXKpuvoYiuHDQ54rTk7E2yN5ZEoMm
+	8+cT8f3AukNa1D4CbwPQml8w1EohSiHpd6/GvToO1f3Ngtn6cfVVUec97G98p1U1q9g8
+	UMkfzf+f1tfzKqyOWeSqdUjSYDXf3ItIMnxnY+vJhIokZ8SDQodG6P0yg/WVQof7n28Z
+	6KOZyG8ek0WTzHCpUUzL7PXO9IX77QMQgqtKMSBTKHE7ri5Aox7uFxrzLElEBWAp54MW
+	byVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=6x4/ABioXYcHg54ZIwyTloDiLloMF4U0JGkc+Z9HX40=;
+	b=A60PiX3/lgGCgv45jC0CkNFwmrBiuQ66+ixM0d1Mu3nUa68U3KXKjfiP8Ym0PQfsme
+	M56mx80dKDqgxgxZU1M7hJ4lvXfCPdoTCb7lHOxZ+Rbta21T8ihRvZ3fkiLD4LkqeeXX
+	udUqoLW5NipM+okt6DiRbTokAV9ORWz/XqgqyGPVokiMdmG0WJrHw1TD9lBiOxaGBd40
+	2iOZhQckGYN2DngSuFzOIynxqBq14rlZavLPXdR6lO+S3XXHMuUCcpSPq/s/NBRTBYmm
+	yIEu5vOu8Kz7uGGRsMKwIKydA5WQgjSfjAFNithoYROuvx5N1DFinBcZqWAUgWiLgcrq
+	tYBA==
+X-Gm-Message-State: ANhLgQ0zcOWyX1gylKn+on7bIHjFC3uKet2xGuf0bnnfm73kywNy4TaB
+	MiuYhKtm58SCmLTMo0nKc7Fh/l5cb53/XWwwD14=
+X-Google-Smtp-Source: ADFU+vvNT69hH5CL1LoIqZG0ChfyMWBlzu+UQZtG8vweFphtNA7gEykmloc63oh+NHCM9eC66a4nhbK1RYIf0w3tz+k=
+X-Received: by 2002:a0c:f647:: with SMTP id s7mr309488qvm.4.1582958104657;
+	Fri, 28 Feb 2020 22:35:04 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH v2] at-spi2-atk: upgrade 2.32.0 -> 2.34.1
+References: <20200228000437.1848815-1-raj.khem@gmail.com>
+	<CAJ86T=Xp=_b=VajoJpaWkyRZ5KJOrhUnWWFzF3Oq92-ASzt25A@mail.gmail.com>
+In-Reply-To: <CAJ86T=Xp=_b=VajoJpaWkyRZ5KJOrhUnWWFzF3Oq92-ASzt25A@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 28 Feb 2020 22:34:53 -0800
+Message-ID: <CAMKF1sqrAMsLqVMKHezrfLdZCqUNVP7Ok-B1NFd5K-gD3TKsnw@mail.gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 2/4] systemd: Do not force removing resolved from PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,124 +54,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Feb 2020 05:04:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 29 Feb 2020 06:35:04 -0000
+Content-Type: multipart/alternative; boundary="00000000000085c489059fb12730"
 
-Add patch to fix missing sys/time.h include in tests/atk_test_util.h
+--00000000000085c489059fb12730
+Content-Type: text/plain; charset="UTF-8"
 
-Release notes:
-https://gitlab.gnome.org/GNOME/at-spi2-atk/-/raw/043b793de2161a0548835424f4d087ac90d1172d/NEWS
+On Fri, Feb 28, 2020 at 9:02 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 
-License-Update: Changed to LGPL-2.1+
+> On Thu, Feb 27, 2020 at 4:04 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > This needs __UAPI_DEF_ETHHDR to be set to 0 which now
+> > taken care by CFLAGS
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> > v2: Fix typo in append
+>
+> Looks like this arrived too late. The v1 patch is already in master.
+>
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
----
- ...til.h-add-missing-sys-time.h-include.patch | 61 +++++++++++++++++++
- ...i2-atk_2.32.0.bb => at-spi2-atk_2.34.1.bb} | 11 ++--
- 2 files changed, 68 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-support/atk/at-spi2-atk/0001-atk_test_util.h-add-missing-sys-time.h-include.patch
- rename meta/recipes-support/atk/{at-spi2-atk_2.32.0.bb => at-spi2-atk_2.34.1.bb} (53%)
-
-diff --git a/meta/recipes-support/atk/at-spi2-atk/0001-atk_test_util.h-add-missing-sys-time.h-include.patch b/meta/recipes-support/atk/at-spi2-atk/0001-atk_test_util.h-add-missing-sys-time.h-include.patch
-new file mode 100644
-index 0000000000..f64e46eccd
---- /dev/null
-+++ b/meta/recipes-support/atk/at-spi2-atk/0001-atk_test_util.h-add-missing-sys-time.h-include.patch
-@@ -0,0 +1,61 @@
-+From a8f9b2d36dc887216e8923047dc309435dd8b254 Mon Sep 17 00:00:00 2001
-+From: Tim Orling <timothy.t.orling@linux.intel.com>
-+Date: Fri, 28 Feb 2020 10:49:41 -0800
-+Subject: [PATCH] atk_test_util.h: add missing sys/time.h include
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+On centos-7, we see errors likei [1]:
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: error: unknown field ‘tv_sec’ specified in initializer
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: excess elements in struct initializer [enabled by default]
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: (near initialization for ‘timeout’) [enabled by default]
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: error: unknown field ‘tv_nsec’ specified in initializer
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: excess elements in struct initializer [enabled by default]
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: (near initialization for ‘timeout’) [enabled by default]
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:19: error: storage size of ‘timeout’ isn’t known
-+  struct timespec timeout = { .tv_sec = 0, .tv_nsec = 10 * 1000000 };
-+                  ^
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:90:5: warning: implicit declaration of function ‘nanosleep’ [-Wimplicit-function-declaration]
-+    nanosleep(&timeout, NULL);
-+    ^
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c: In function ‘terminate_app’:
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: variable ‘timeout’ has initializer but incomplete type
-+  struct timespec timeout = { .tv_sec = 0, .tv_nsec = 10 * 1000000 };
-+         ^
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: unknown field ‘tv_sec’ specified in initializer
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: excess elements in struct initializer [enabled by default]
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: (near initialization for ‘timeout’) [enabled by default]
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: unknown field ‘tv_nsec’ specified in initializer
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: excess elements in struct initializer [enabled by default]
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: (near initialization for ‘timeout’) [enabled by default]
-+../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:19: error: storage size of ‘timeout’ isn’t known
-+  struct timespec timeout = { .tv_sec = 0, .tv_nsec = 10 * 1000000 };
-+
-+This is because of missing sys/time.h in tests/atk_test_util.h [2]
-+
-+Thanks go to Khem Raj for pointing this out [3]
-+
-+[1] http://errors.yoctoproject.org/Errors/Details/392974/
-+[2] https://gitlab.gnome.org/GNOME/at-spi2-atk/issues/14
-+[3] http://lists.openembedded.org/pipermail/openembedded-core/2020-February/293707.html
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
-+---
-+ tests/atk_test_util.h | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/tests/atk_test_util.h b/tests/atk_test_util.h
-+index d69e650..98a2c01 100644
-+--- a/tests/atk_test_util.h
-++++ b/tests/atk_test_util.h
-+@@ -26,6 +26,7 @@
-+ 
-+ #include <stdio.h>
-+ #include <unistd.h>
-++#include <sys/time.h>
-+ #include <glib.h>
-+ #include <stdio.h>
-+ #include <stdlib.h>
-diff --git a/meta/recipes-support/atk/at-spi2-atk_2.32.0.bb b/meta/recipes-support/atk/at-spi2-atk_2.34.1.bb
-similarity index 53%
-rename from meta/recipes-support/atk/at-spi2-atk_2.32.0.bb
-rename to meta/recipes-support/atk/at-spi2-atk_2.34.1.bb
-index b717a9c7f7..6947559200 100644
---- a/meta/recipes-support/atk/at-spi2-atk_2.32.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-atk_2.34.1.bb
-@@ -1,16 +1,19 @@
- SUMMARY = "AT-SPI 2 Toolkit Bridge"
- HOMEPAGE = "https://wiki.linuxfoundation.org/accessibility/d-bus"
--LICENSE = "LGPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
-+LICENSE = "LGPL-2.1+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- 
--SRC_URI[archive.md5sum] = "6a4b27bace3b9352721ed462b95f6291"
--SRC_URI[archive.sha256sum] = "0b51e6d339fa2bcca3a3e3159ccea574c67b107f1ac8b00047fa60e34ce7a45c"
-+SRC_URI[archive.md5sum] = "e0f99641c5a403041c4214be04722e15"
-+SRC_URI[archive.sha256sum] = "776df930748fde71c128be6c366a987b98b6ee66d508ed9c8db2355bf4b9cc16"
- 
- DEPENDS = "dbus glib-2.0 glib-2.0-native atk at-spi2-core libxml2"
- 
- GNOMEBASEBUILDCLASS = "meson"
- inherit gnomebase features_check upstream-version-is-even
- 
-+# gnomebase.bbclass sets SRC_URI = , so we need to append after, at least for -native
-+SRC_URI += " file://0001-atk_test_util.h-add-missing-sys-time.h-include.patch"
-+
- PACKAGES =+ "${PN}-gnome ${PN}-gtk2"
- 
- FILES_${PN}-gnome = "${libdir}/gnome-settings-daemon-3.0/gtk-modules"
--- 
-2.24.0
+No worries will rebase and resend
 
 
+> >  meta/recipes-core/systemd/systemd_244.3.bb | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-core/systemd/systemd_244.3.bb
+> b/meta/recipes-core/systemd/systemd_244.3.bb
+> > index 5d863410b8..a56a28a189 100644
+> > --- a/meta/recipes-core/systemd/systemd_244.3.bb
+> > +++ b/meta/recipes-core/systemd/systemd_244.3.bb
+> > @@ -98,12 +98,13 @@ PACKAGECONFIG_remove_libc-musl = " \
+> >      nss \
+> >      nss-mymachines \
+> >      nss-resolve \
+> > -    resolved \
+> >      smack \
+> >      sysusers \
+> >      utmp \
+> >  "
+> >
+> > +CFLAGS_append_libc-musl = " -D__UAPI_DEF_ETHHDR=0"
+> > +
+> >  # Use the upstream systemd serial-getty@.service and rely on
+> >  # systemd-getty-generator instead of using the OE-core specific
+> >  # systemd-serialgetty.bb - not enabled by default.
+> > --
+> > 2.25.1
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--00000000000085c489059fb12730
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Feb 28, 2020 at 9:02 PM Andre McCurdy &lt;<a href=
+=3D"mailto:armccurdy@gmail.com">armccurdy@gmail.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
+px #ccc solid;padding-left:1ex">On Thu, Feb 27, 2020 at 4:04 PM Khem Raj &l=
+t;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.co=
+m</a>&gt; wrote:<br>
+&gt;<br>
+&gt; This needs __UAPI_DEF_ETHHDR to be set to 0 which now<br>
+&gt; taken care by CFLAGS<br>
+&gt;<br>
+&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
+et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; v2: Fix typo in append<br>
+<br>
+Looks like this arrived too late. The v1 patch is already in master.<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">No worries will =
+rebase and resend=C2=A0</div><div dir=3D"auto"><br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><br>
+&gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd_244.3.bb" re=
+l=3D"noreferrer" target=3D"_blank">systemd_244.3.bb</a> | 3 ++-<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_244.3=
+.bb" rel=3D"noreferrer" target=3D"_blank">systemd_244.3.bb</a> b/meta/recip=
+es-core/systemd/<a href=3D"http://systemd_244.3.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">systemd_244.3.bb</a><br>
+&gt; index 5d863410b8..a56a28a189 100644<br>
+&gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd_244.3.bb" re=
+l=3D"noreferrer" target=3D"_blank">systemd_244.3.bb</a><br>
+&gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_244.3.bb" re=
+l=3D"noreferrer" target=3D"_blank">systemd_244.3.bb</a><br>
+&gt; @@ -98,12 +98,13 @@ PACKAGECONFIG_remove_libc-musl =3D &quot; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 nss \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 nss-mymachines \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 nss-resolve \<br>
+&gt; -=C2=A0 =C2=A0 resolved \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 smack \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 sysusers \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 utmp \<br>
+&gt;=C2=A0 &quot;<br>
+&gt;<br>
+&gt; +CFLAGS_append_libc-musl =3D &quot; -D__UAPI_DEF_ETHHDR=3D0&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 # Use the upstream systemd serial-getty@.service and rely on<br>
+&gt;=C2=A0 # systemd-getty-generator instead of using the OE-core specific<=
+br>
+&gt;=C2=A0 # <a href=3D"http://systemd-serialgetty.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">systemd-serialgetty.bb</a> - not enabled by default.<br>
+&gt; --<br>
+&gt; 2.25.1<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
+
+--00000000000085c489059fb12730--
