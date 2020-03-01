@@ -1,33 +1,36 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B0C46026D
+Return-Path: <rpjday@crashcourse.ca>
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B62860FFB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Mar 2020 20:26:09 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48VvtS33znz4x
-	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Mar 2020 21:26:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1583094368;
-	bh=PEu6KMwu2WJT0i0BazTZKE7vAtiE2fTGfgpPXH/fNAQ=;
-	h=From:To:Subject:Date:From;
-	b=sxHjVhS+55bNR3cc9pE7PEjuDtXrrx/5afkkD3E6Dngb9kRKYQJo+hTO+IwwBdeVS
-	1XrVbPsQC/ti6xZvno6oqaHPS09sL6CA+pLqhQXKIOUmdf42THViE15FHnqWMSxmMc
-	ufPJ/QSSOeruTz/TkDPiFmzceVPOAjac26xhgK+u/AzWSSu6TnyBPq+m8myIAmBmcJ
-	yTqrj4oC+AakQDdttM3ECq8Tm/aJEUyMzbhIHHcd+B6dWpljzZB5eQ/3hABHkgKvum
-	GJ8MAvGHJ7PQIWFy+OzRwH1nPjIXrtumINBoPhXlXEubti0QOsQvvoj1yPTfcIU3xI
-	vRRJIp4GQGfF8f0OO0jXFa6zMq8pWVDGiT8S2Vps2IVZL3L0LbRVdC6WeRShBCsQoS
-	LQDCZaDdy4GvnWAuA0Nt1R2N8Z8ju4pOGcoVhqqgthS5iNka2eZlxdI4WwUAHqb+KW
-	X/xtlyCx+RhKi3rHX//T3IACb3Mio3IC8jsP5i9iKsdVkpvrMOAAwST9Y3Wjm2X4fT
-	qs3l+XRsbOdALphOfBV5yadM5hwIcrS03KGUUfA0qAaUpuBza7gvNR/Spd11lB/+h4
-	TV2q1aj8/uOseXk76gxDnEgbmvxje9JnE/mB984+XOKTV+ZabmBhLxCxVrTBQUfcGV
-	hcQcw99dlcPqrwRJVZGwLki0=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Mar 2020 22:26:06 +0200
-Message-Id: <20200301202606.27648-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] make: Use gziped sources
+	Sun,  1 Mar 2020 20:29:38 +0000 (UTC)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com
+	([174.114.57.56]:35786 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa (TLS1.2) tls
+	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>) id 1j8VDW-00684e-DW
+	for openembedded-core@lists.openembedded.org;
+	Sun, 01 Mar 2020 15:29:39 -0500
+Date: Sun, 1 Mar 2020 15:29:35 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.21.2003011506510.93328@localhost.localdomain>
+MIME-Version: 1.0
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
+	rpjday+crashcourse.ca/only user confirmed/virtual account not
+	confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: best practises: how to properly "steal" recipes from a newer layer?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,45 +43,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Mar 2020 20:26:11 -0000
+X-List-Received-Date: Sun, 01 Mar 2020 20:29:38 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-Building lzip-native just for being able to build make is not
-worth saving 1 MB download, especially since this creates a
-bottleneck for the whole build.
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-devtools/make/make.inc    | 2 +-
- meta/recipes-devtools/make/make_4.3.bb | 3 +--
- 2 files changed, 2 insertions(+), 3 deletions(-)
+  looking for a "best practises" suggestion ... currently working with
+a layer based on morty (2.2), migrating it to thud (2.6) and i notice
+that there are a *lot* of .bb recipe files in the morty layer that
+did not exist in any of the official OE/YP layers in morty, so they
+were added by either:
 
-diff --git a/meta/recipes-devtools/make/make.inc b/meta/recipes-devtools/make/make.inc
-index 4142cf23d3..a0a72b6295 100644
---- a/meta/recipes-devtools/make/make.inc
-+++ b/meta/recipes-devtools/make/make.inc
-@@ -5,7 +5,7 @@ called the makefile, which lists each of the non-source files and how to compute
- HOMEPAGE = "http://www.gnu.org/software/make/"
- SECTION = "devel"
- 
--SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.lz \
-+SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.gz \
-            "
- 
- inherit autotools gettext pkgconfig texinfo
-diff --git a/meta/recipes-devtools/make/make_4.3.bb b/meta/recipes-devtools/make/make_4.3.bb
-index 70caf0ae16..cd0ecd4df2 100644
---- a/meta/recipes-devtools/make/make_4.3.bb
-+++ b/meta/recipes-devtools/make/make_4.3.bb
-@@ -12,7 +12,6 @@ SRC_URI += "\
- 
- EXTRA_OECONF += "--without-guile"
- 
--SRC_URI[md5sum] = "d5c40e7bd1e97a7404f5d3be982f479a"
--SRC_URI[sha256sum] = "de1a441c4edf952521db30bfca80baae86a0ff1acd0a00402999344f04c45e82"
-+SRC_URI[sha256sum] = "e05fdde47c5f7ca45cb697e973894ff4f5d79e13b750ed57d7b66d8defc78e19"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.17.1
+  1) writing the recipe from scratch, compatible with morty, or
+  2) flat-out stealing that recipe from a *newer* layer, as long as
+     it was compatible (this was done frequently)
+
+all of this introduces a bit of complexity.
+
+  when i peruse the recipe (.bb) files in the vendor's morty-based
+layer, it's not at all obvious whether a given recipe file was written
+from scratch because it did not exist, or whether it was "stolen" from
+a newer layer (thud, warrior, etc...) as long as it was compatible.
+there is nothing in the log to identify how that recipe file came into
+existence, and that makes it messy since it requires examining each
+recipe file individually and checking whether there is *now* (or at
+least in a newer layer) such a recipe that can be appropriated (and
+possibly customized by a simple .bbappend file).
+
+  actual example -- in the vendor's morty-based layer, there is a full
+recipe file for "cloc", for counting lines of code. such a recipe did
+not exist in any OE/YP layer back in morty ... or thud ... or warrior
+... or zeus ... but it was introduced in jan of 2020 in master, ikn
+meta-oe/recipes-devtools.
+
+  so, apparently, the vendor wrote a cloc recipe file from scratch as
+it simply did not exist anywhere in the OE/YP universe *at that time*.
+and something that simple (perl-based program to count lines of code)
+is probably going to work fine with any layer.
+
+  so in the midst of migration from morty to thud, that cloc recipe is
+*still* not going to exist in thud but, based on my diligent research,
+i now know it *will* exist in a newer layer/branch. so what is the
+best way to use recipes in that circumstance?
+
+  if i just blindly copy the recipe file forward, i'm going to have to
+go through this all again at the next migration. is there a reasonable
+way to add recipes to my (thud-based) layer that clearly shows those
+recipes are being scarfed from a newer layer? and i don't mean
+mentioning that in the commit msg as that will still require perusing
+all those commit messages.
+
+  is there a clean way to do this? it may sound trivial, but in this
+case, i'm looking at a couple hundred recipes that eventually show up
+in newer layers that i could steal, and i really want to hang onto
+that information for the next migration.
+
+  thoughts?
+
+rday
 
 
