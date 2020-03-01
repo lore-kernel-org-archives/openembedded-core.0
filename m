@@ -1,36 +1,47 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B62860FFB
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+	[209.85.217.67])
+	by mail.openembedded.org (Postfix) with ESMTP id DA7C26026D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Mar 2020 20:29:38 +0000 (UTC)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com
-	([174.114.57.56]:35786 helo=localhost.localdomain)
-	by cpanel7.indieserve.net with esmtpsa (TLS1.2) tls
-	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
-	(envelope-from <rpjday@crashcourse.ca>) id 1j8VDW-00684e-DW
-	for openembedded-core@lists.openembedded.org;
-	Sun, 01 Mar 2020 15:29:39 -0500
-Date: Sun, 1 Mar 2020 15:29:35 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.21.2003011506510.93328@localhost.localdomain>
+	Sun,  1 Mar 2020 20:40:07 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id t12so5226988vso.13
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 01 Mar 2020 12:40:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=dF/MTSzsAypYFE022aAoH4ShKluioEkEn3FSXtqWq+E=;
+	b=T8j9gIaaqPiu6LVCJZVPhHqhDH4t4kjvUK27FNPy9P4Vfh3e0/3xvKnd0Ew+FiUQms
+	fz67OoaVD1MDIDH6c7Y1T/fupxiUTVCLWFvR0e7y7itHMceqtIkYxfqJYSay2ewRqJ8P
+	aH5jZxUqgaXsMwAd7KpulBlaU1FYLQKfSQgnmTjhUG4/fiheRRHdohgxEfygOEkwHmnS
+	e70bUsnLNuaSWC72X80ndhHjKRc6IFa0KdnImyI1X5ZraYxdkro9NjCBXokRMcuvJ1AB
+	l/O9AruazhpWMuaKs6PyAEsMJSo91Ustd3BR/svoDCppfozMPna/rRd5f89lkedc/Fix
+	5Peg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=dF/MTSzsAypYFE022aAoH4ShKluioEkEn3FSXtqWq+E=;
+	b=JfjkI2+L+RXtosxUIqTp9pRdHoTRYaOGn7dA+0C0BOKtmxUPdJBgr+nis9ZB2R5x9p
+	AnsB+1THzhwbXZRrtayW/BlHuTBwQK8fpZrxQs35vDBZZhe0/aU+kdOTQklU0qPvJkPJ
+	BXbETQkdUOKTy1tG7M2Rt6IVMMFELFsejGX/yEMhjtsSOD1+jsN2lYel4qdTgciRp7ly
+	XIuUbIY67aQQ6mbX/eaulx60pmnCcvoF8EgNes61zF3+3546fYnnsy98ZC2AmNS5cDSf
+	GqAtPDcw4ijt9vYtokFaroJnVB6Pc9Lu/6fM/7K0Sfv6aSPMdxlZ4lyKQJzPwUJUEtMr
+	ta0w==
+X-Gm-Message-State: ANhLgQ16K1yyS+UV2tbxWUmnX6l9oJ5jzboDuI8ZTjAHcN6KVJhFyTxh
+	+AUc3GDcbNtJKqfWhQQKUTzNJFj4jV2NEy7t69M=
+X-Google-Smtp-Source: ADFU+vtHM9ruo7LvUguxAlMDSsxPXRgtWlOvMfqxDdUYNCjoqn4WqazRicii0jLT8VcH4Ee1I9njqJcS39yq8xZXSn8=
+X-Received: by 2002:a05:6102:103:: with SMTP id
+	z3mr7827567vsq.23.1583095208478; 
+	Sun, 01 Mar 2020 12:40:08 -0800 (PST)
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
-	rpjday+crashcourse.ca/only user confirmed/virtual account not
-	confirmed
-X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: best practises: how to properly "steal" recipes from a newer layer?
+References: <20200301131353.3470253-1-otavio@ossystems.com.br>
+In-Reply-To: <20200301131353.3470253-1-otavio@ossystems.com.br>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 1 Mar 2020 21:39:57 +0100
+Message-ID: <CANNYZj_MpJZKA5Nch_QVa64y7Oe_Q+BQgR37dn8n7bmwvbh8Pg@mail.gmail.com>
+To: Otavio Salvador <otavio@ossystems.com.br>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH] easysplash: Add recipes for 1.0.0 release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,62 +54,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Mar 2020 20:29:38 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Sun, 01 Mar 2020 20:40:08 -0000
+Content-Type: multipart/alternative; boundary="0000000000008c0cb4059fd113f1"
+
+--0000000000008c0cb4059fd113f1
+Content-Type: text/plain; charset="UTF-8"
+
+On Sun, 1 Mar 2020 at 14:14, Otavio Salvador <otavio@ossystems.com.br>
+wrote:
+
+> +++ b/meta/recipes-core/easysplash/easysplash-bootanimation-default_1.0.bb
+> @@ -0,0 +1,12 @@
+> +SUMMARY = "O.S. Systems default boot animation for easysplash"
+> +LICENSE = "CLOSED"
+>
+
+CLOSED?
 
 
-  looking for a "best practises" suggestion ... currently working with
-a layer based on morty (2.2), migrating it to thud (2.6) and i notice
-that there are a *lot* of .bb recipe files in the morty layer that
-did not exist in any of the official OE/YP layers in morty, so they
-were added by either:
+> +PACKAGECONFIG[mesa-gbm] = "-DDISPLAY_TYPE_GLES=TRUE
+> -DEGL_PLATFORM_GBM=TRUE,,virtual/libgles2 mesa libdrm udev"
+>
 
-  1) writing the recipe from scratch, compatible with morty, or
-  2) flat-out stealing that recipe from a *newer* layer, as long as
-     it was compatible (this was done frequently)
+This I think should also be enabled by default subject to opengl in
+DISTRO_FEATURES.
 
-all of this introduces a bit of complexity.
+Alex
 
-  when i peruse the recipe (.bb) files in the vendor's morty-based
-layer, it's not at all obvious whether a given recipe file was written
-from scratch because it did not exist, or whether it was "stolen" from
-a newer layer (thud, warrior, etc...) as long as it was compatible.
-there is nothing in the log to identify how that recipe file came into
-existence, and that makes it messy since it requires examining each
-recipe file individually and checking whether there is *now* (or at
-least in a newer layer) such a recipe that can be appropriated (and
-possibly customized by a simple .bbappend file).
+--0000000000008c0cb4059fd113f1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-  actual example -- in the vendor's morty-based layer, there is a full
-recipe file for "cloc", for counting lines of code. such a recipe did
-not exist in any OE/YP layer back in morty ... or thud ... or warrior
-... or zeus ... but it was introduced in jan of 2020 in master, ikn
-meta-oe/recipes-devtools.
+<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 1 Mar 2020 at 14:14, Otavio Salva=
+dor &lt;<a href=3D"mailto:otavio@ossystems.com.br">otavio@ossystems.com.br<=
+/a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">+++ b/meta/recipes-core/easysplash/<a href=3D"htt=
+p://easysplash-bootanimation-default_1.0.bb" rel=3D"noreferrer" target=3D"_=
+blank">easysplash-bootanimation-default_1.0.bb</a><br>
+@@ -0,0 +1,12 @@<br>
++SUMMARY =3D &quot;O.S. Systems default boot animation for easysplash&quot;=
+<br>
++LICENSE =3D &quot;CLOSED&quot;<br></blockquote><div><br></div><div>CLOSED?=
+<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">+PACKAGECONFIG[mesa-gbm] =3D &quot;-DDISPLAY_TYPE_GLES=3DTRUE -DEGL_PLATF=
+ORM_GBM=3DTRUE,,virtual/libgles2 mesa libdrm udev&quot;<br></blockquote><di=
+v><br></div><div>This I think should also be enabled by default subject to =
+opengl in DISTRO_FEATURES.</div><div><br></div><div>Alex<br></div></div></d=
+iv>
 
-  so, apparently, the vendor wrote a cloc recipe file from scratch as
-it simply did not exist anywhere in the OE/YP universe *at that time*.
-and something that simple (perl-based program to count lines of code)
-is probably going to work fine with any layer.
-
-  so in the midst of migration from morty to thud, that cloc recipe is
-*still* not going to exist in thud but, based on my diligent research,
-i now know it *will* exist in a newer layer/branch. so what is the
-best way to use recipes in that circumstance?
-
-  if i just blindly copy the recipe file forward, i'm going to have to
-go through this all again at the next migration. is there a reasonable
-way to add recipes to my (thud-based) layer that clearly shows those
-recipes are being scarfed from a newer layer? and i don't mean
-mentioning that in the commit msg as that will still require perusing
-all those commit messages.
-
-  is there a clean way to do this? it may sound trivial, but in this
-case, i'm looking at a couple hundred recipes that eventually show up
-in newer layers that i could steal, and i really want to hang onto
-that information for the next migration.
-
-  thoughts?
-
-rday
-
-
+--0000000000008c0cb4059fd113f1--
