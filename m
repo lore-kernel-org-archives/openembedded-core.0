@@ -1,53 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
-	[209.85.216.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9549261A8D
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 33EF461A7A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Mar 2020 01:42:50 +0000 (UTC)
-Received: by mail-pj1-f67.google.com with SMTP id dw13so2879307pjb.4
+	Sun,  1 Mar 2020 01:42:51 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id q9so812459pfs.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 17:42:51 -0800 (PST)
+	Sat, 29 Feb 2020 17:42:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=BWFsd4YX2XFbopinKqZmV6lJI3qQTyuAiUn/bl46tDE=;
-	b=l3zHUqenc8EJp/KmKL1uhLMzHDzOWwzUHYps03AhapmEM3D9kiNAO4MZ9jWnh8eHzA
-	jY9bjg3OjJUlQtPHzTnNieTkovRpKTsrbQ/mt7L+AhwkJk2XLu0q2glfuU2dTXIsFDds
-	wso6jO6gkVVhE0SfYixvGAB2nFbR6QcNU/yFyOU8NczWSWhAtSo3s9clqZiFZpseYxzn
-	IbZafJ0QJ5mpkybwy63j8XQbEZfSaOrtIokwpuQMsxUI2spQQvvtafncFSX2oaHLzYXt
-	R8iaL9hqcQRDjg8Cd6wPAoD3GLhlaLLkEj82Ck1NMAhco/r2wd7zV2uVknZGFuE7jzG8
-	yYxg==
+	bh=dY4TQdfKbsCMlOsVPT40IJMt9UDXLUF3PdQiiveBGwc=;
+	b=bXucV7ewo3/g9AqWGNHSvcHyX1DOoF99xhzy31VS5Q+E4KI7n5FU0hpKoiHbwKK9/6
+	wmPe8wlRPT1Dqh+2Z/Wd4XAACDG8rjwzR1+hGzxAAswh8jkYVywU6BYo+6apNdBYnVxP
+	2YWdSKc0rvtV1oWK3FWe9TDx21gngqjaFzk3OQoL4Y1Ayd8AC7iLf3OEpV+HJgoSVbpj
+	GqsEex1EPuHvI3mEFlUy4sL0FVEFsDWcXeYnyf5lZQCcW8F/pEhR6gHNTFubu9BBn81V
+	WRDv3Zql9HTE2R36eDD7s7sU1WgfrF5v5myeHNhpcSIQlcr3TjHzUfnBSSzpQRc1vwIU
+	N+Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=BWFsd4YX2XFbopinKqZmV6lJI3qQTyuAiUn/bl46tDE=;
-	b=UOy/WKoNz42NpxreSejp4XVr/WG9yn2s6feaOQZtTyaI/RkZgSMHj3d8gX36pJs/bu
-	oZRawjQjLBC/RlJzuvK5m4XWVjMNG+fOOxajhSKQtsbnkE0PTn/GVkmkzugwNrgtxvCw
-	mgRokY+8Zkud8NCq20YyNV3tzQLNS9GPTq/J2sE99C3rVPmay8dpZXAZ/IO9DV0QCEgW
-	5y3jHr/v9SFV2XHmdCOt1l1fW0JNhJ8LQd50WB2fe8hNUz3Iu8qs1QSYDcvQgbydA/x8
-	jFVvEf1bxmI631XAe9bRiGtHMMFkzSeoB4CVl5Z0Ij4E/g+JmpnDJf0q4Ebxk4QRlvoq
-	374Q==
-X-Gm-Message-State: APjAAAVpHRnbo3ahxKv1VM2AOtkOu3D26ORr8uvxzYN4eJjjz63AR/Hf
-	hW2UZIEeVd/1OHF5Y70NXrvH328578U=
-X-Google-Smtp-Source: APXvYqwF4/AUmk0l/nXvAOQSgw1jOGCUML8EY68RlU0KV7TB/+sBVlU+EMdvDSwZzchO4xp4ppEIjg==
-X-Received: by 2002:a17:902:5a42:: with SMTP id
-	f2mr11242615plm.19.1583026971083; 
+	bh=dY4TQdfKbsCMlOsVPT40IJMt9UDXLUF3PdQiiveBGwc=;
+	b=qFH3xBZYXNTr4TAlWg2ERcgrteEOL9lxWlUx+L31mLVozMaJzmuv3RXJZsW1Ge5LAp
+	Ffty9mvGmnHSDx8oSiW8VcuVG5orICHD2F0Qv8LDyDinTy3pnKa8BI7gNM3PWqQTfAtg
+	J337dwe0S+nhMogXAZSH5Q5TAa89qW2B/Nl4OAnBAALHLKO6G809DQm0X+/jv7fmol7Z
+	450ISqxh3ntK4mkq9IMLLshsU/IAnPFkJFgIe2nqSghlxNvc825MH5F/ffPTnFJ4wYzo
+	HD+2Ve/8YwhFNYsjSES65aQ+Laf+RGkvqPnNwEU47wK5jTmcQSX5brvNNBC4qoY7rSic
+	bfTQ==
+X-Gm-Message-State: APjAAAUqr0T2wZH9cFfqC1XRVCiXVPgkBgNs9vfgld2OIEnn94S9xV67
+	mSdupLePEf9Dw9SqdAdck4bmtxzl/Wc=
+X-Google-Smtp-Source: APXvYqzX76RV8WTVDLw4XMiPJXhCXK1JV4GxntCIEOKjhcG14Tno5cjwMklBAnlfKa7kArWBxXUJFw==
+X-Received: by 2002:aa7:824a:: with SMTP id e10mr11683581pfn.54.1583026971814; 
 	Sat, 29 Feb 2020 17:42:51 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1634])
 	by smtp.gmail.com with ESMTPSA id
-	hg11sm6753702pjb.14.2020.02.29.17.42.50
+	hg11sm6753702pjb.14.2020.02.29.17.42.51
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 29 Feb 2020 17:42:50 -0800 (PST)
+	Sat, 29 Feb 2020 17:42:51 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Feb 2020 17:42:59 -0800
-Message-Id: <20200301014301.805156-2-raj.khem@gmail.com>
+Date: Sat, 29 Feb 2020 17:43:00 -0800
+Message-Id: <20200301014301.805156-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200301014301.805156-1-raj.khem@gmail.com>
 References: <20200301014301.805156-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] dbus-test: Fix QA host-contamination errors
+Subject: [PATCH 2/3] strace: Fix host contamination QA errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,37 +59,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Mar 2020 01:42:50 -0000
+X-List-Received-Date: Sun, 01 Mar 2020 01:42:51 -0000
 Content-Transfer-Encoding: 8bit
-
-Errors like below are fixed
-
-bus/connection.h is owned by uid 1000, which is the same as t
-he user running bitbake. This may be due to host contamination
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-core/dbus/dbus-test_1.12.16.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../strace/0001-Evaluate-AC_PROG_LN_S.patch   | 29 +++++++++++++++++++
+ meta/recipes-devtools/strace/strace_5.5.bb    |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-devtools/strace/strace/0001-Evaluate-AC_PROG_LN_S.patch
 
-diff --git a/meta/recipes-core/dbus/dbus-test_1.12.16.bb b/meta/recipes-core/dbus/dbus-test_1.12.16.bb
-index bea0e74ed0..91e2ba69d2 100644
---- a/meta/recipes-core/dbus/dbus-test_1.12.16.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.12.16.bb
-@@ -70,11 +70,11 @@ do_install_ptest() {
- 
- 	install ${B}/test/test-segfault ${D}${PTEST_PATH}/test
- 
--	cp -r ${B}/test/data ${D}${PTEST_PATH}/test
-+	cp -R --no-dereference --preserve=mode,links ${B}/test/data ${D}${PTEST_PATH}/test
- 	install ${B}/dbus/.libs/test-dbus ${D}${PTEST_PATH}/test
- 
- 	install -d ${D}${PTEST_PATH}/test/.libs
--	cp -a ${B}/dbus/.libs/*.so* ${D}${PTEST_PATH}/test/.libs
-+	cp -R --no-dereference --preserve=mode,links ${B}/dbus/.libs/*.so* ${D}${PTEST_PATH}/test/.libs
- 
- 	# Remove build host references...
- 	find "${D}${PTEST_PATH}/test/data" \( -name *.service -o -name *.conf -o -name "*.aaprofile" \) -type f -exec \
+diff --git a/meta/recipes-devtools/strace/strace/0001-Evaluate-AC_PROG_LN_S.patch b/meta/recipes-devtools/strace/strace/0001-Evaluate-AC_PROG_LN_S.patch
+new file mode 100644
+index 0000000000..c956256bed
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace/0001-Evaluate-AC_PROG_LN_S.patch
+@@ -0,0 +1,29 @@
++From 49e58e2d8ada869ebc75ab6e17c80e20e00ee625 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 29 Feb 2020 13:21:08 -0800
++Subject: [PATCH] Evaluate AC_PROG_LN_S
++
++Fixes
++strace: /usr/lib/strace/ptest/tests/ioctl_evdev-success-Xverbose.gen.test is owned by uid 1000, which is the same as the user running bitbake. This may be due to host contamination
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ configure.ac | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/configure.ac b/configure.ac
++index 65f000b..c4cbf55 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -25,6 +25,7 @@ AC_CONFIG_HEADERS([config.h])
++ AM_INIT_AUTOMAKE([foreign nostdinc dist-xz silent-rules parallel-tests subdir-objects 1.13])
++ AM_MAINTAINER_MODE
++ AC_CANONICAL_HOST
+++AC_PROG_LN_S
++ 
++ RPM_CHANGELOGTIME="$(LC_TIME=C date -u '+%a %b %d %Y')"
++ AC_SUBST(RPM_CHANGELOGTIME)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/strace/strace_5.5.bb b/meta/recipes-devtools/strace/strace_5.5.bb
+index 6e7d63949d..f3b7c4462e 100644
+--- a/meta/recipes-devtools/strace/strace_5.5.bb
++++ b/meta/recipes-devtools/strace/strace_5.5.bb
+@@ -13,6 +13,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
+            file://ptest-spacesave.patch \
+            file://uintptr_t.patch \
++           file://0001-Evaluate-AC_PROG_LN_S.patch \
+            "
+ SRC_URI[md5sum] = "dbce2e84632b39a4ed86b9fc60447af9"
+ SRC_URI[sha256sum] = "9f58958c8e59ea62293d907d10572e352b582bd7948ed21aa28ebb47e5bf30ff"
 -- 
 2.25.1
 
