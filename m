@@ -1,53 +1,33 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 57ED460849
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B0C46026D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Mar 2020 17:23:29 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id z15so9580358wrl.1
+	Sun,  1 Mar 2020 20:26:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48VvtS33znz4x
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Mar 2020 09:23:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=uli3Y3gPFY9HbgBRy76nPH4X4IrPCIYn0p5a8ocnWtU=;
-	b=b7PhOP1ydq2y6nUPs0FcZ8bsN1EuG8tkhwqS6I4JMmc9hluMbxev8vbW6/Yevh63yv
-	A+f/1S8ymfA+x5pOmiPwV4a6Ykea4vLAu1C7fZnjEMCVpJKTUuPbalF2t+FUYpSN4Yy2
-	NvUDNz4dkPj9kd0jmftXEU6LFINivuHa9d1f1OsmG2wuwRgC5UPKeYVnRKkqs5E6nzbg
-	krjWaEfSm/yVJlzpJh36sxJh+xFCEnPK2QlVD56V5LSu/3gwHJkPkO52ekIS8ZXDgKF3
-	2eqFggxDikwDiOiAdkvV21DfYhmcxHcWNmJsUZmePMCxcWtSJhSqRM+DMtxPpFNcvUfR
-	8dgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=uli3Y3gPFY9HbgBRy76nPH4X4IrPCIYn0p5a8ocnWtU=;
-	b=lLN9xognUpDI0ake/oYXmVDnIoMldwWvP9PQekzbSdGJVhSd9Jkb675/PcgJ4h4j/r
-	3WkLGgW8jf8uTzsakGMeKhaWugVzhPrSar11Uv4axmSGJaZyqTkkZjLv4Z++FGTXR+jC
-	xIMgse25ioBvfmgLBSokYGEg2QkosdPmvOP9iOK33U1lylGa7U9UMfBGqUpD2uN16ysG
-	JXqnIIWKgtwT2o1el6PJ15D3HBIFJ1DcAVQfaaRKi4byYdAp6hPJnIB/3OVwM70WHaeG
-	JAy+mQIkMmOM2VxpXEsJtIQusbx5XfxsSiyoQ59BUK+JOPiGhIzyVFSs9x1iEfjwa+ns
-	lOpA==
-X-Gm-Message-State: APjAAAUAWP2iyAm0qNiWBYxgRauHrnNgn964XLm2n5+2yHx+r/9qMaYx
-	x2/eAmBUHMNp3rMorUq5Qety43kG
-X-Google-Smtp-Source: APXvYqwJC4Qu3EQVWiPU6wvDlKsDr5I6CtPFqhX+b89PuuHxpB9faideu0ag+lxUsBGPV4EvfYkGLA==
-X-Received: by 2002:adf:ed91:: with SMTP id c17mr15680358wro.388.1583083409578;
-	Sun, 01 Mar 2020 09:23:29 -0800 (PST)
-Received: from superandy.speedport.ip
-	(p200300F07F305233FDCC906A41691B74.dip0.t-ipconnect.de.
-	[2003:f0:7f30:5233:fdcc:906a:4169:1b74])
-	by smtp.gmail.com with ESMTPSA id
-	q6sm22937991wrf.67.2020.03.01.09.23.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 01 Mar 2020 09:23:28 -0800 (PST)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+	Sun,  1 Mar 2020 21:26:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1583094368;
+	bh=PEu6KMwu2WJT0i0BazTZKE7vAtiE2fTGfgpPXH/fNAQ=;
+	h=From:To:Subject:Date:From;
+	b=sxHjVhS+55bNR3cc9pE7PEjuDtXrrx/5afkkD3E6Dngb9kRKYQJo+hTO+IwwBdeVS
+	1XrVbPsQC/ti6xZvno6oqaHPS09sL6CA+pLqhQXKIOUmdf42THViE15FHnqWMSxmMc
+	ufPJ/QSSOeruTz/TkDPiFmzceVPOAjac26xhgK+u/AzWSSu6TnyBPq+m8myIAmBmcJ
+	yTqrj4oC+AakQDdttM3ECq8Tm/aJEUyMzbhIHHcd+B6dWpljzZB5eQ/3hABHkgKvum
+	GJ8MAvGHJ7PQIWFy+OzRwH1nPjIXrtumINBoPhXlXEubti0QOsQvvoj1yPTfcIU3xI
+	vRRJIp4GQGfF8f0OO0jXFa6zMq8pWVDGiT8S2Vps2IVZL3L0LbRVdC6WeRShBCsQoS
+	LQDCZaDdy4GvnWAuA0Nt1R2N8Z8ju4pOGcoVhqqgthS5iNka2eZlxdI4WwUAHqb+KW
+	X/xtlyCx+RhKi3rHX//T3IACb3Mio3IC8jsP5i9iKsdVkpvrMOAAwST9Y3Wjm2X4fT
+	qs3l+XRsbOdALphOfBV5yadM5hwIcrS03KGUUfA0qAaUpuBza7gvNR/Spd11lB/+h4
+	TV2q1aj8/uOseXk76gxDnEgbmvxje9JnE/mB984+XOKTV+ZabmBhLxCxVrTBQUfcGV
+	hcQcw99dlcPqrwRJVZGwLki0=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Mar 2020 18:23:19 +0100
-Message-Id: <20200301172319.2758-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Subject: [PATCH] mime-xdg.bbclass: Fix typo in comment
+Date: Sun,  1 Mar 2020 22:26:06 +0200
+Message-Id: <20200301202606.27648-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] make: Use gziped sources
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,29 +40,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Mar 2020 17:23:29 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 01 Mar 2020 20:26:11 -0000
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+Building lzip-native just for being able to build make is not
+worth saving 1 MB download, especially since this creates a
+bottleneck for the whole build.
+
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/classes/mime-xdg.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/make/make.inc    | 2 +-
+ meta/recipes-devtools/make/make_4.3.bb | 3 +--
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/mime-xdg.bbclass b/meta/classes/mime-xdg.bbclass
-index 63169e990d..642a5b7595 100644
---- a/meta/classes/mime-xdg.bbclass
-+++ b/meta/classes/mime-xdg.bbclass
-@@ -8,7 +8,7 @@ PACKAGE_WRITE_DEPS += "desktop-file-utils-native"
- DESKTOPDIR = "${datadir}/applications"
+diff --git a/meta/recipes-devtools/make/make.inc b/meta/recipes-devtools/make/make.inc
+index 4142cf23d3..a0a72b6295 100644
+--- a/meta/recipes-devtools/make/make.inc
++++ b/meta/recipes-devtools/make/make.inc
+@@ -5,7 +5,7 @@ called the makefile, which lists each of the non-source files and how to compute
+ HOMEPAGE = "http://www.gnu.org/software/make/"
+ SECTION = "devel"
  
- # There are recipes out there installing their .desktop files as absolute
--# symlinks. For us these are dangling and cannot be introspected for "MymeType"
-+# symlinks. For us these are dangling and cannot be introspected for "MimeType"
- # easily. By addding package-names to MIME_XDG_PACKAGES, packager can force
- # proper update-desktop-database handling. Note that all introspection is
- # skipped for MIME_XDG_PACKAGES not empty
+-SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.lz \
++SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.gz \
+            "
+ 
+ inherit autotools gettext pkgconfig texinfo
+diff --git a/meta/recipes-devtools/make/make_4.3.bb b/meta/recipes-devtools/make/make_4.3.bb
+index 70caf0ae16..cd0ecd4df2 100644
+--- a/meta/recipes-devtools/make/make_4.3.bb
++++ b/meta/recipes-devtools/make/make_4.3.bb
+@@ -12,7 +12,6 @@ SRC_URI += "\
+ 
+ EXTRA_OECONF += "--without-guile"
+ 
+-SRC_URI[md5sum] = "d5c40e7bd1e97a7404f5d3be982f479a"
+-SRC_URI[sha256sum] = "de1a441c4edf952521db30bfca80baae86a0ff1acd0a00402999344f04c45e82"
++SRC_URI[sha256sum] = "e05fdde47c5f7ca45cb697e973894ff4f5d79e13b750ed57d7b66d8defc78e19"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-2.21.0
+2.17.1
 
 
