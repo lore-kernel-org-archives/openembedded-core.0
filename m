@@ -1,52 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 33EF461A7A
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+	[209.85.216.47])
+	by mail.openembedded.org (Postfix) with ESMTP id ABAD261A92
 	for <openembedded-core@lists.openembedded.org>;
 	Sun,  1 Mar 2020 01:42:51 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id q9so812459pfs.5
+Received: by mail-pj1-f47.google.com with SMTP id 12so2887198pjb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Feb 2020 17:42:52 -0800 (PST)
+	Sat, 29 Feb 2020 17:42:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=dY4TQdfKbsCMlOsVPT40IJMt9UDXLUF3PdQiiveBGwc=;
-	b=bXucV7ewo3/g9AqWGNHSvcHyX1DOoF99xhzy31VS5Q+E4KI7n5FU0hpKoiHbwKK9/6
-	wmPe8wlRPT1Dqh+2Z/Wd4XAACDG8rjwzR1+hGzxAAswh8jkYVywU6BYo+6apNdBYnVxP
-	2YWdSKc0rvtV1oWK3FWe9TDx21gngqjaFzk3OQoL4Y1Ayd8AC7iLf3OEpV+HJgoSVbpj
-	GqsEex1EPuHvI3mEFlUy4sL0FVEFsDWcXeYnyf5lZQCcW8F/pEhR6gHNTFubu9BBn81V
-	WRDv3Zql9HTE2R36eDD7s7sU1WgfrF5v5myeHNhpcSIQlcr3TjHzUfnBSSzpQRc1vwIU
-	N+Ow==
+	bh=SurICGrLduOuKpwIdcetNRcUyogdSZd2ZHKJrgRjxYE=;
+	b=u/9YLTZLtFm6VLpbeRURcB52HWZqwEUYoVRdhpULYELe1JEZnwwjrC+9f0v3b1qQbC
+	6GIX2i/tmmjhsQKBKBjmhBUvP4XdR1gGi8ISJVArq+23EGrEv+bpcKQ5TW0M/fyHA1el
+	8Xk5h5819XqujBGM0XmafOAyPM+8biJD/zZ4Afr95xYcYKBM6ee+3EksSLY41WervSCt
+	B8MMNM1+El5bgf1EUZ68JumKCMPKFwYMKymv85j6HOZTPkSIHlpJxsl3COBTUdUcvVRz
+	zRYgkSULM0xNtStq8HOj7Ao4rxWBrNaB010Y3/1ZooEwlNplEywCi5kmOxb0ngadcRjW
+	FKiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=dY4TQdfKbsCMlOsVPT40IJMt9UDXLUF3PdQiiveBGwc=;
-	b=qFH3xBZYXNTr4TAlWg2ERcgrteEOL9lxWlUx+L31mLVozMaJzmuv3RXJZsW1Ge5LAp
-	Ffty9mvGmnHSDx8oSiW8VcuVG5orICHD2F0Qv8LDyDinTy3pnKa8BI7gNM3PWqQTfAtg
-	J337dwe0S+nhMogXAZSH5Q5TAa89qW2B/Nl4OAnBAALHLKO6G809DQm0X+/jv7fmol7Z
-	450ISqxh3ntK4mkq9IMLLshsU/IAnPFkJFgIe2nqSghlxNvc825MH5F/ffPTnFJ4wYzo
-	HD+2Ve/8YwhFNYsjSES65aQ+Laf+RGkvqPnNwEU47wK5jTmcQSX5brvNNBC4qoY7rSic
-	bfTQ==
-X-Gm-Message-State: APjAAAUqr0T2wZH9cFfqC1XRVCiXVPgkBgNs9vfgld2OIEnn94S9xV67
-	mSdupLePEf9Dw9SqdAdck4bmtxzl/Wc=
-X-Google-Smtp-Source: APXvYqzX76RV8WTVDLw4XMiPJXhCXK1JV4GxntCIEOKjhcG14Tno5cjwMklBAnlfKa7kArWBxXUJFw==
-X-Received: by 2002:aa7:824a:: with SMTP id e10mr11683581pfn.54.1583026971814; 
-	Sat, 29 Feb 2020 17:42:51 -0800 (PST)
+	bh=SurICGrLduOuKpwIdcetNRcUyogdSZd2ZHKJrgRjxYE=;
+	b=EhKQXT0doNsdDfRw937HMSoA1iwOFkPBshsWVXOWITr1q/KeDcP56VxEjwWYgnhb1O
+	M5FiRQCpU/G79QZh0lkf/XwvdCNeM+Q54JtpiN1vqCxHlhF0og6iFd8HE1ey08QlrP4W
+	hYfgn03QVvKFyFvGBz96I/xVGyHhLOAdzhrG1lU1TlnHCo5NPvI/JXUVE8tsColA8pVj
+	hEeB9rD8Y0YoTfqAG2WaY+1a/gFzPtByjc7PJRTkRhvNCeRTN/yWRH3UppN2gpI4MqwW
+	6XyQSXKq/mz0Kdsmm+g2g3zyWeEHa5CwzbdfqBHbF9w33uV9/rDjQEkhfHxtgnTGy4Zd
+	0Gng==
+X-Gm-Message-State: APjAAAXKPOcP25z/PX0yiRpZILwMH3orlF0Xckjtj1ZdQN03l9jQwXM3
+	cQZBdKEPGKQi2/MQsTTo3+G7FbS9zVw=
+X-Google-Smtp-Source: APXvYqygK2OH2xtuhmc2gJP3YgWZn2tSqEwepncJ15FW+F7kzZGziVx3Ce53+roc9o4nSDSGKC3Okg==
+X-Received: by 2002:a17:902:9b8a:: with SMTP id
+	y10mr10685403plp.114.1583026972479; 
+	Sat, 29 Feb 2020 17:42:52 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1634])
 	by smtp.gmail.com with ESMTPSA id
 	hg11sm6753702pjb.14.2020.02.29.17.42.51
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 29 Feb 2020 17:42:51 -0800 (PST)
+	Sat, 29 Feb 2020 17:42:52 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Feb 2020 17:43:00 -0800
-Message-Id: <20200301014301.805156-3-raj.khem@gmail.com>
+Date: Sat, 29 Feb 2020 17:43:01 -0800
+Message-Id: <20200301014301.805156-4-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200301014301.805156-1-raj.khem@gmail.com>
 References: <20200301014301.805156-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] strace: Fix host contamination QA errors
+Subject: [PATCH 3/3] boost: Fix host-user-contaminated QA errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,60 +63,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sun, 01 Mar 2020 01:42:51 -0000
 Content-Transfer-Encoding: 8bit
 
+bjam calls cp directly, which can install with same user name as bitbake
+in staging, which is caught by packager and reported, therefore override
+cp command to use right options to make cp behave like install utility
+
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../strace/0001-Evaluate-AC_PROG_LN_S.patch   | 29 +++++++++++++++++++
- meta/recipes-devtools/strace/strace_5.5.bb    |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/strace/strace/0001-Evaluate-AC_PROG_LN_S.patch
+ meta/recipes-support/boost/boost.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-Evaluate-AC_PROG_LN_S.patch b/meta/recipes-devtools/strace/strace/0001-Evaluate-AC_PROG_LN_S.patch
-new file mode 100644
-index 0000000000..c956256bed
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0001-Evaluate-AC_PROG_LN_S.patch
-@@ -0,0 +1,29 @@
-+From 49e58e2d8ada869ebc75ab6e17c80e20e00ee625 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 29 Feb 2020 13:21:08 -0800
-+Subject: [PATCH] Evaluate AC_PROG_LN_S
-+
-+Fixes
-+strace: /usr/lib/strace/ptest/tests/ioctl_evdev-success-Xverbose.gen.test is owned by uid 1000, which is the same as the user running bitbake. This may be due to host contamination
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ configure.ac | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 65f000b..c4cbf55 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -25,6 +25,7 @@ AC_CONFIG_HEADERS([config.h])
-+ AM_INIT_AUTOMAKE([foreign nostdinc dist-xz silent-rules parallel-tests subdir-objects 1.13])
-+ AM_MAINTAINER_MODE
-+ AC_CANONICAL_HOST
-++AC_PROG_LN_S
-+ 
-+ RPM_CHANGELOGTIME="$(LC_TIME=C date -u '+%a %b %d %Y')"
-+ AC_SUBST(RPM_CHANGELOGTIME)
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/strace/strace_5.5.bb b/meta/recipes-devtools/strace/strace_5.5.bb
-index 6e7d63949d..f3b7c4462e 100644
---- a/meta/recipes-devtools/strace/strace_5.5.bb
-+++ b/meta/recipes-devtools/strace/strace_5.5.bb
-@@ -13,6 +13,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
-            file://ptest-spacesave.patch \
-            file://uintptr_t.patch \
-+           file://0001-Evaluate-AC_PROG_LN_S.patch \
-            "
- SRC_URI[md5sum] = "dbce2e84632b39a4ed86b9fc60447af9"
- SRC_URI[sha256sum] = "9f58958c8e59ea62293d907d10572e352b582bd7948ed21aa28ebb47e5bf30ff"
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index e15dce4e1d..7f44638135 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -189,6 +189,7 @@ do_compile() {
+ }
+ 
+ do_install() {
++        export CP="cp -R --no-dereference --preserve=mode,links"
+ 	bjam ${BJAM_OPTS} \
+ 		--libdir=${D}${libdir} \
+ 		--includedir=${D}${includedir} \
 -- 
 2.25.1
 
