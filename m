@@ -1,47 +1,36 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
-	[209.85.222.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E806461961
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 971816055F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  1 Mar 2020 20:41:09 +0000 (UTC)
-Received: by mail-ua1-f65.google.com with SMTP id o42so2884807uad.10
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 01 Mar 2020 12:41:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wfKEcR2mPpo8MCjeIyNPGoGcvN1PPQTxINk4eFcAsp4=;
-	b=chIO8X/Pbh2IaZ0DVROqQaHQEmJ9xaCoVy5QpU4qggw2uvsFMXO8gc6tDKYxo4klxm
-	Dl3SlgINhkdt+Nx/DxuvEyItZ4tLoAvi0W0cHeePILkfjBWLUCM1yjs2eg31xed28AvC
-	onl3n7ZHY+N8cNhywStP+dMFfoBls+lS26BYVr15/NpV5LSZ3lrHGMl8QJ+9Mx2fRlfN
-	wgLGjYFqECVH0K22tSRoF4shWqDO7T5bcfoOZgZ3KLRrEQID8+d5YqgBB+qoyXx5Db+I
-	t3TdbQZcNzufsE4DuZ6nPsbFVjCpiO7hHftAei8VUCU7Xc+zcx0ZDWw5rx/ajroCeBc7
-	kLqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=wfKEcR2mPpo8MCjeIyNPGoGcvN1PPQTxINk4eFcAsp4=;
-	b=I2sH0yqDbfBglE0jC4GKl77GiGUR8DdjOKlZKvLMP0o/3iYVDdweVHBJq/GJceCdlM
-	T3yIcn6IEdPARvOZN6oF+i7aJG0/awlqj2Bn/OygDq2L1ZNH1fw8Zryk+jfFSUVrXnmI
-	yQndbrjIto3k6+kRcY7YJFoArJfmxIMFh18aizIV2jIT0epkoi0kkrSCou232tCc9oWR
-	loKNgWleZipMy3GSWm6PrwYEgVhil/ZRCAItG3Uy106Q54LwTEqLCSYveU/shalTxBXz
-	zCAxRBRX84NXyYXzWaYLwT4N0GQaWgsoeN13iW1cf/2fvoxdp8NA8xFFKXlPOHXB805/
-	xgBw==
-X-Gm-Message-State: ANhLgQ1th9jH55bm/WzYfTq5Cb3KC9sZvsRPCyL3bapfaUzENgq4iMRy
-	BmvitLjRMPqWmhxCHSKvva7N4QSHfD1/elJtgXs=
-X-Google-Smtp-Source: ADFU+vu8wwUX1XsNouImNngXl97nF6HZrOdL3CiFB9aYti+tCV0R+Q+jL9Ne7lJINMs+JHAycP2w1GtV7AZuqs338sY=
-X-Received: by 2002:ab0:4aca:: with SMTP id t10mr7072687uae.89.1583095270063; 
-	Sun, 01 Mar 2020 12:41:10 -0800 (PST)
+	Sun,  1 Mar 2020 21:58:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48VxxT38jlz4Y;
+	Sun,  1 Mar 2020 22:58:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1583099933;
+	bh=/QCM5TqfZuBiBm66F86XsRNjMtWp/SESAV6GO/D57SI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pQO6Th4iIqGo3SuGQfSGHAvqsLRk5Y2hdxfRic2qTM+FDvj831waQJ02Mc8F1O5AP
+	4ELW1vhDR6VYfvauPGXM1c5cyWRFwt5AP/nxVd3bTI+OBXoOPR87OHqB+DOc5cRDje
+	jMXyYe8UQ0jOaXr+CJoEZB+/vyVusVWji0LM7xuTUelQxGrDA9RuHrrtgUh2ztG9Uf
+	iGRs4YFDKBsMgowaMbwZLFzfBHFjh7bZGXebU9eDJIq5893kzmpjdvCjV4KVdv5800
+	Qzier8d5EGX8So6+ApZh2spc5nxmUF3Jgg8c2uf+e4AruE1WK7C0sVLlqUyx8Zf7xb
+	1hLJtESxRQyYPpyyOGzPTxR+5rBRGV1KGhMhTdO6aUDO5UXTm26LCm///nj+EGvHB2
+	Ghksmvl4JNw7zmoXS2k0J/UBDCWNx2Cc82sZmqKc6P69l62KFHSfWgcb1WlLCnSvAd
+	V+vXtwTtQLnaE5J7g7zL3ZKtXM5+OHpiVblRetgGN/R2yKpHdPFsIsf/adona8QRjt
+	wKPoNvcC5n++5p4pc93OjdRLwvdoaq22kGL/27qxIm1uy57UxOIFjSzvBbW+SlvhJB
+	tG9wZ7D1supbCc6F0d7hhsddB2WDKEQaighUGH4EfqPv7b6z57HeYIi6UWi/zTR/Sc
+	6+PTH3KkV/3fhTU3eyP7sww8=
+Date: Sun, 1 Mar 2020 23:58:51 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>
+Message-ID: <20200301215851.GA15475@localhost>
+References: <alpine.LFD.2.21.2003011506510.93328@localhost.localdomain>
 MIME-Version: 1.0
-References: <20200301131353.3470253-1-otavio@ossystems.com.br>
-	<CANNYZj_MpJZKA5Nch_QVa64y7Oe_Q+BQgR37dn8n7bmwvbh8Pg@mail.gmail.com>
-In-Reply-To: <CANNYZj_MpJZKA5Nch_QVa64y7Oe_Q+BQgR37dn8n7bmwvbh8Pg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 1 Mar 2020 21:40:58 +0100
-Message-ID: <CANNYZj_sFrRzxgy5JYHfs4DhF1nJtKLKjx1TWwZb-W179_f5-A@mail.gmail.com>
-To: Otavio Salvador <otavio@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH] easysplash: Add recipes for 1.0.0 release
+In-Reply-To: <alpine.LFD.2.21.2003011506510.93328@localhost.localdomain>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: best practises: how to properly "steal" recipes from a newer layer?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,72 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Mar 2020 20:41:10 -0000
-Content-Type: multipart/alternative; boundary="00000000000037c104059fd1173a"
+X-List-Received-Date: Sun, 01 Mar 2020 21:58:55 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
---00000000000037c104059fd1173a
-Content-Type: text/plain; charset="UTF-8"
+On Sun, Mar 01, 2020 at 03:29:35PM -0500, Robert P. J. Day wrote:
+>...
+>   1) writing the recipe from scratch, compatible with morty, or
+>   2) flat-out stealing that recipe from a *newer* layer, as long as
+>      it was compatible (this was done frequently)
+>...
+>   if i just blindly copy the recipe file forward, i'm going to have to
+> go through this all again at the next migration. is there a reasonable
+> way to add recipes to my (thud-based) layer that clearly shows those
+> recipes are being scarfed from a newer layer? and i don't mean
+> mentioning that in the commit msg as that will still require perusing
+> all those commit messages.
+> 
+>   is there a clean way to do this? it may sound trivial, but in this
+> case, i'm looking at a couple hundred recipes that eventually show up
+> in newer layers that i could steal, and i really want to hang onto
+> that information for the next migration.
+> 
+>   thoughts?
 
-Oh, and: testing this somehow would be nice. Can you add it to the virgl
-selftest?
+My usual approach for 2) is to have a recipes-backport/ in the layer 
+that contains all recipes taken from more recent layers - completely
+new recipes, new versions of recipes, and sometimes just one specific
+change backported into a .bbappend.
 
-Alex
+Example in a layer for warrior (dropping an unwanted patch):
+$ cat recipes-backport/e2fsprogs/e2fsprogs_1.44.5.bbappend 
+SRC_URI_remove = "file://Revert-mke2fs-enable-the-metadata_csum-and-64bit-fea.patch"
+$
 
-On Sun, 1 Mar 2020 at 21:39, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+If you have many backported changes and migrations are often not to the
+latest Yocto release, you could further split this into 
+recipes-backport-from-warrior/ etc.
 
-> On Sun, 1 Mar 2020 at 14:14, Otavio Salvador <otavio@ossystems.com.br>
-> wrote:
->
->> +++ b/meta/recipes-core/easysplash/
->> easysplash-bootanimation-default_1.0.bb
->> @@ -0,0 +1,12 @@
->> +SUMMARY = "O.S. Systems default boot animation for easysplash"
->> +LICENSE = "CLOSED"
->>
->
-> CLOSED?
->
->
->> +PACKAGECONFIG[mesa-gbm] = "-DDISPLAY_TYPE_GLES=TRUE
->> -DEGL_PLATFORM_GBM=TRUE,,virtual/libgles2 mesa libdrm udev"
->>
->
-> This I think should also be enabled by default subject to opengl in
-> DISTRO_FEATURES.
->
-> Alex
->
+With an "upstream first" policy all upstreamable cases of 1) become
+cases of 2). For the example above see [1].
 
---00000000000037c104059fd1173a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> rday
 
-<div dir=3D"ltr"><div>Oh, and: testing this somehow would be nice. Can you =
-add it to the virgl selftest?</div><div><br></div><div>Alex<br></div></div>=
-<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun=
-, 1 Mar 2020 at 21:39, Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin=
-@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
-gb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Sun,=
- 1 Mar 2020 at 14:14, Otavio Salvador &lt;<a href=3D"mailto:otavio@ossystem=
-s.com.br" target=3D"_blank">otavio@ossystems.com.br</a>&gt; wrote:<br></div=
-><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">+++ b/meta/recipes-core/easysplash/<a href=3D"http://easysplash-bootanim=
-ation-default_1.0.bb" rel=3D"noreferrer" target=3D"_blank">easysplash-boota=
-nimation-default_1.0.bb</a><br>
-@@ -0,0 +1,12 @@<br>
-+SUMMARY =3D &quot;O.S. Systems default boot animation for easysplash&quot;=
-<br>
-+LICENSE =3D &quot;CLOSED&quot;<br></blockquote><div><br></div><div>CLOSED?=
-<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">+PACKAGECONFIG[mesa-gbm] =3D &quot;-DDISPLAY_TYPE_GLES=3DTRUE -DEGL_PLATF=
-ORM_GBM=3DTRUE,,virtual/libgles2 mesa libdrm udev&quot;<br></blockquote><di=
-v><br></div><div>This I think should also be enabled by default subject to =
-opengl in DISTRO_FEATURES.</div><div><br></div><div>Alex<br></div></div></d=
-iv>
-</blockquote></div>
+cu
+Adrian
 
---00000000000037c104059fd1173a--
+[1] https://github.com/openembedded/openembedded-core/commit/f5edce401cfb31ebd0200adaba9a201caf7ea705
+
