@@ -1,27 +1,25 @@
 Return-Path: <zhengjunling@huawei.com>
 Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
-	by mail.openembedded.org (Postfix) with ESMTP id 71C146192E
+	by mail.openembedded.org (Postfix) with ESMTP id 3C35D618E8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2020 17:18:19 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id 7650BA0766D780EB2B23
+	Mon,  2 Mar 2020 17:27:56 +0000 (UTC)
+Received: from DGGEMS409-HUB.china.huawei.com (unknown [172.30.72.59])
+	by Forcepoint Email with ESMTP id 41A20E23C4EB79491476
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 01:18:04 +0800 (CST)
+	Tue,  3 Mar 2020 01:12:04 +0800 (CST)
 Received: from HULK-Android.huawei.com (10.113.189.218) by
-	DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server
-	id 14.3.439.0; Tue, 3 Mar 2020 01:17:46 +0800
+	DGGEMS409-HUB.china.huawei.com (10.3.19.209) with Microsoft SMTP Server
+	id 14.3.439.0; Tue, 3 Mar 2020 01:11:55 +0800
 From: Junling Zheng <zhengjunling@huawei.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Mar 2020 01:17:44 +0800
-Message-ID: <20200302171744.30713-2-zhengjunling@huawei.com>
+Date: Tue, 3 Mar 2020 01:11:53 +0800
+Message-ID: <20200302171153.28030-1-zhengjunling@huawei.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200302171744.30713-1-zhengjunling@huawei.com>
-References: <20200302171744.30713-1-zhengjunling@huawei.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.113.189.218]
 X-CFilter-Loop: Reflected
 Cc: wangnan0@huawei.com
-Subject: [RESEND PATCH 2/2] arch-arm64.inc: Do not append aarch64 in MACHINEOVERRIDES
+Subject: [PATCH] arch-arm64.inc: Do not append aarch64 in MACHINEOVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2020 17:18:22 -0000
+X-List-Received-Date: Mon, 02 Mar 2020 17:27:57 -0000
 Content-Type: text/plain
 
 Currently, for arch-arm64, poky will append the MACHINEOVERRIDES with
