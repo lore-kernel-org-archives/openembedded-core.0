@@ -1,29 +1,36 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DC2A61099
+Return-Path: <rpjday@crashcourse.ca>
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+	by mail.openembedded.org (Postfix) with ESMTP id 5280F60F06
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2020 08:43:27 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	02 Mar 2020 00:43:28 -0800
-X-IronPort-AV: E=Sophos;i="5.70,506,1574150400"; d="scan'208";a="233089120"
-Received: from anmitta2-mobl.gar.corp.intel.com (HELO [10.255.172.79])
-	([10.255.172.79])
-	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-SHA;
-	02 Mar 2020 00:43:26 -0800
-To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
-References: <cover.1582902875.git.anuj.mittal@intel.com>
-	<ae5430e9-9894-6ea1-307e-f606b44a72f2@gmail.com>
-From: Anuj Mittal <anuj.mittal@intel.com>
-Message-ID: <1992cd09-6147-5366-9704-e45185d7cc7c@intel.com>
-Date: Mon, 2 Mar 2020 16:43:23 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	Mon,  2 Mar 2020 12:40:35 +0000 (UTC)
+Received: from [127.0.0.1] (port=58982 helo=cpanel7.indieserve.net)
+	by cpanel7.indieserve.net with esmtpsa (TLS1.2) tls
+	TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>) id 1j8kN9-007u3C-Vb
+	for openembedded-core@lists.openembedded.org;
+	Mon, 02 Mar 2020 07:40:36 -0500
+Received: from [66.129.241.14] ([66.129.241.14]) by crashcourse.ca (Horde
+	Framework) with HTTPS; Mon, 02 Mar 2020 07:40:35 -0500
+Date: Mon, 02 Mar 2020 07:40:35 -0500
+Message-ID: <20200302074035.Horde.5xguZSt_-_Yd241eE1Zo8Pb@crashcourse.ca>
+From: rpjday@crashcourse.ca
+To: openembedded-core@lists.openembedded.org
+User-Agent: Horde Application Framework 5
 MIME-Version: 1.0
-In-Reply-To: <ae5430e9-9894-6ea1-307e-f606b44a72f2@gmail.com>
-Subject: Re: [zeus][PATCH 00/22] zeus review request
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
+	rpjday@crashcourse.ca
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: how to cleanly centralize a zillion BBCLASSEXTEND += "nativesdk" settings?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,29 +43,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2020 08:43:28 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Mar 2020 12:40:35 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
+Content-Disposition: inline
+
+layer i'm currently perusing has many, many bbappend files, of which
+quite a number are nothing more than the single line:
+
+   BBCLASSEXTEND += "nativesdk"
+
+literally, at least a hundred append files are like that. so rather
+than clutter up the layer with all those trivial .bbappend files,
+can one cram all that into a single .conf file? as i read it, can i
+do something like:
+
+   BBCLASSEXTEND_append_pn-pkg1 = " nativesdk"
+   BBCLASSEXTEND_append_pn-pkg2 = " nativesdk"
+   ... and on and on ...
+
+and toss all that into a distro.conf file or something?
+
+   and even if that works, is it considered good coding style?
+
+rday
 
 
 
-On 28-Feb-20 11:37 PM, akuster808 wrote:
-> 
-> 
-> On 2/28/20 7:23 AM, Anuj Mittal wrote:
->> Next set of changes for zeus. Please review.
->>
->> Clean a-full on autobuilder except a single unrelated fetch failure for esdk test.
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/751
-> 
-> Great. When do you want responses back by ?
-> 
-
-I will send the merge request if I don't get any feedback by tomorrow.
-
-Thanks,
-
-Anuj
 
