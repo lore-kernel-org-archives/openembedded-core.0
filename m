@@ -1,65 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E59C61921
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id C26AD61921
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2020 21:33:44 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id j7so328016plt.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Mar 2020 13:33:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=tmQ4mZRqeYSWX97CzcHvoU3RXw1sWu1UrnsggtVinf0=;
-	b=YsqyiHzftcBZ4PuyDWzcfD4/b42a7ODEsBe80DC03EjdbuiGmkAtVVjJoiz/uVl9Tz
-	f0zyR8A0JV14QzPhclMasWbtNVoO/o8oNlzkr6UWvFm0MALaa3zDFTF7jGFfAIxGB9C6
-	5+Y+Bs2rcIL3MQHpBTaasQdCzrBAVhtG+CcAOFmedPw8xfm60wz+SBQ38m1kzpUJH9Fp
-	pXbG/KWbT8W1OnI6qd7OrCCh4fHSlFKzRb5pKGVvPAhHhXqVvyJ6zY8b7vR75Xe5YF/n
-	YyfYd0bhAKjpHuK2W7PnF4vvwCbJoBv478GObnK/W0jhlpmAfoRcR3cxJqA94yPb8sJt
-	KKvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=tmQ4mZRqeYSWX97CzcHvoU3RXw1sWu1UrnsggtVinf0=;
-	b=rhYTKCTxGCpfLOS1ZqkYnRAzAsdrODGF83jr94fHx937jJnH1lDbjMDG/4RloHcU6A
-	EmgZb3OEBGKQAHhwmg39J8uQxV8d4vBXIn5YrXg7L7crgid1ML5iWQeWkQJFlplTf/JR
-	lmv/kOAgTf/HUHvfMsYciQ3z6+T4uLnaYQ3gVq0kim+OUPSHuH8kr53BBNilpQyqRLmU
-	qvFytk/qXR26c1gR3VZGeoLYW2VWvjYYY4D4nN12A8VHImVxC9m77EFFd02rfslE1/1I
-	lo4ZPk10unnrmgEyC6ZDvjiGuztakSPJ9D0u6Y+ndtI0V4z+6AQT07LzYOwWRj3JCGv8
-	4Ftg==
-X-Gm-Message-State: ANhLgQ2G2F9gbHJWIrw3KWXkXFLNlo8DmBh6taacHqMRHK4AFyH2Rviq
-	3/yUKyKdEs+p2U59hQNTHEI1qWPxxJ4=
-X-Google-Smtp-Source: ADFU+vuMOsZ8vcVAqncFnIfWXcwCjJh/eNejBpl0JsOfLxjZ9pltQrQsO/LFXMQWK+MXeYAdXdbQjw==
-X-Received: by 2002:a17:902:8ec9:: with SMTP id
-	x9mr1062979plo.182.1583184824795; 
-	Mon, 02 Mar 2020 13:33:44 -0800 (PST)
-Received: from ?IPv6:2601:646:9200:4e0:8446:2edf:6d4c:9a00?
-	([2601:646:9200:4e0:8446:2edf:6d4c:9a00])
-	by smtp.gmail.com with ESMTPSA id 22sm5703746pfc.14.2020.03.02.13.33.43
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 02 Mar 2020 13:33:43 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20200301014301.805156-1-raj.khem@gmail.com>
-	<20200301014301.805156-2-raj.khem@gmail.com>
-	<6ebd8c098cac7dab116f9043e7b64fe9b3376601.camel@linuxfoundation.org>
-	<CAMKF1spJ_aBK=JdZvr0yFLEHBgYeQcZhUFHBaHDcHt=J05O8=g@mail.gmail.com>
-	<7737c4f098af15087a434de3b1a09d8d651ebaa8.camel@linuxfoundation.org>
-	<CAMKF1sqVqVDgUac2+G6VX4GmvD7+ecF9HzO731s=OsrWESk+dg@mail.gmail.com>
-	<6ac648b5b9d02cb857e9d784d7bf95e071567ca1.camel@linuxfoundation.org>
-	<b98ca563ed2c5dd64b276ed6a283de33c8434e35.camel@linuxfoundation.org>
-	<c1e072be-0b1b-a2c0-1801-0f1464f028c6@gmail.com>
-	<62e5739220e0f491acd489c2abcc35213d91d138.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <7ad45b7f-cb58-a584-fdfb-aa9dca2862dd@gmail.com>
-Date: Mon, 2 Mar 2020 13:33:42 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.5.0
+	Mon,  2 Mar 2020 21:34:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48WYM80qLhz4Q;
+	Mon,  2 Mar 2020 22:34:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1583184884;
+	bh=N0itO8jtec5K6Eqty6otpt+HCTpsSgrQM3otlIKgBUo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hsFNpw7SGylgdEwyFEef3S3vUmmqGgVyRzpvJ4BPQlcoU284qoz7j8H7Z7WN4KVtj
+	zUv3AsbY7wObVG3kGNYiT0CaepGvXpqQyXzh0rEvXlkQP2zE/I62nx7TyjojI5Rjj/
+	5x5Xt7rKeqet0W+Qg+vd7Ji+kyt4B3I1g4xlTpktdNuRzA+6WX/XnK1Pd4xhFoURrp
+	fDI60C1/a99lTMVTiipDCqBC3giFkm2xnr6EHNauWSOzSvb5qEqdf9fcBBMhGX3h17
+	jraoK3bWyc73awJJgGaz1pdL/KtmoJ4hk6/4z7sQoVvIyQpTylDds7a4dRGkhB7UVV
+	j/HSP6MMprIua7gTHE2AxfZ+P1MZyQCr5Q1FsRC65Ss4aUAaszEojaahLO9M2P6EEG
+	LscX1/i0OhZqrPxUEgm7OxNkYiiqetImrrx53pWerP0oox6t6KzKnfHOarGajB+UMK
+	y842dbOhTkssHCzaQqYMTpn3H0c9bCMbkYqUs6pUA2Y+OZUDNEwxcM0W1bbfueb2hj
+	Wn0HJ3UxZt/bG1TCMN2p7gV20jvJCqJHNeXTm0BmPJ+D/sBbX4fa6OTtqKwj8Tfu3t
+	qEnCbAIZO4s9l2USO4igtAob4tUdCP9MAp5w2Sq3o0Rn3JSW3L5x7unsPV+/jKTZq8
+	PsDTukRqzfKvxYKrFqygU4Lc=
+Date: Mon, 2 Mar 2020 23:34:41 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20200302213441.GA13148@localhost>
+References: <20200302171153.28030-1-zhengjunling@huawei.com>
+	<666b3145-0e57-cf3c-f1f4-22d6fd0521e5@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <62e5739220e0f491acd489c2abcc35213d91d138.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] dbus-test: Fix QA host-contamination errors
+In-Reply-To: <666b3145-0e57-cf3c-f1f4-22d6fd0521e5@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: wangnan0@huawei.com, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] arch-arm64.inc: Do not append aarch64 in MACHINEOVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,101 +44,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2020 21:33:44 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Mar 2020 21:34:46 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-
-
-On 3/2/20 1:08 PM, Richard Purdie wrote:
-> On Mon, 2020-03-02 at 10:49 -0800, Khem Raj wrote:
->> On 3/1/20 9:05 AM, Richard Purdie wrote:
->>> On Sun, 2020-03-01 at 08:20 +0000, Richard Purdie wrote:
->>>> On Sun, 2020-03-01 at 00:17 -0800, Khem Raj wrote:
->>>> I understand the need for the fixes, I'm just very concerned we
->>>> have
->>>> what amounts to undetected non-determinism in the build :(
->>>>
->>>> I'm more concerned about fixing that (and ensuring we can
->>>> detect/fix
->>>> all cases) than I am about the individual errors.
->>>
->>> I did a bit more thinking/checking on this.
->>>
->>> An interesting command to experiment with is:
->>>
->>> $ touch /tmp/test; ls -la /tmp/test; ./tmp/sysroots-
->>> components/x86_64/pseudo-native/usr/bin/pseudo sh -c "ls -la
->>> /tmp/test*; cp /tmp/test /tmp/test2; ls -la /tmp/test*; rm
->>> /tmp/test*"
->>>
->>> which for me shows:
->>>
->>> -rw-rw-r-- 1 richard richard 0 Mar  1 17:03 /tmp/test
->>> Warning: PSEUDO_PREFIX unset, defaulting to XXX./tmp/sysroots-
->>> components/x86_64/pseudo-native/usr.
->>> -rw-rw-r-- 1 1000 1000 0 Mar  1 17:03 /tmp/test
->>> -rw-rw-r-- 1 1000 1000 0 Mar  1 17:03 /tmp/test
->>> -rw-rw-r-- 1    0    0 0 Mar  1 17:03 /tmp/test2
->>>
->>> Can you see if that is different on your two machines?
->>
->> above cmd output is exactly same as yours.
->>
->> -rw-r--r-- 1 build build 0 Mar  2 18:49 /tmp/test
->> Warning: PSEUDO_PREFIX unset, defaulting to
->> /mnt/b/yoe/build/./tmp/sysroots-components/x86_64/pseudo-native/usr.
->> -rw-r--r-- 1 1000 1000 0 Mar  2 18:49 /tmp/test
->> -rw-r--r-- 1 1000 1000 0 Mar  2 18:49 /tmp/test
->> -rw-r--r-- 1    0    0 0 Mar  2 18:49 /tmp/test2
-> 
-> Hmm, this means the test is flawed as we need to find out how
-> /tmp/test2 becomes owned by 1000.1000.
-> 
-> Any ideas how we can simplify this down to reproduce that?
-> 
-
-
-Even on baremetal ubuntu 18.04 I am seeing
-
-dlm-4.0.9: dlm: /usr/lib/libdlmcontrol.so is owned by uid 3004, which is 
-the same as the user running bitbake. This may be due to host contamination
-dlm: /usr/lib/libdlm_lt.so is owned by uid 3004, which is the same as 
-the user running bitbake. This may be due to host contamination
-dlm: /usr/lib/libdlm.so is owned by uid 3004, which is the same as the 
-user running bitbake. This may be due to host contamination 
-[host-user-contaminated]
-dlm-4.0.9: dlm: /usr/lib/libdlmcontrol.so.3 is owned by uid 3004, which 
-is the same as the user running bitbake. This may be due to host 
-contamination
-dlm: /usr/lib/libdlm_lt.so.3 is owned by uid 3004, which is the same as 
-the user running bitbake. This may be due to host contamination
-dlm: /usr/lib/libdlm.so.3 is owned by uid 3004, which is the same as the 
-user running bitbake. This may be due to host contamination 
-[host-user-contaminated]
-
-
-this might be again a dlm issue to fix.  but perhaps a good one to try 
-if AB system can build it without these QA diagnostics.
-
-dlm is in meta-networking.
-
-> I did wonder if its coreutils-native was somehow creeping into DEPENDS
-> and had a different config between your two hosts which was causing
-> different behaviour but I'd need to check into whether that happens.
-> 
-> Any other ideas why the behaviour difference or how to reproduce it?
-> 
-
-can you promote host-user-contaminated form QA warning to QA error in 
-poky and see if builds fail ?
-
-> Cheers,
-> 
-> Richard
+On Mon, Mar 02, 2020 at 10:29:37AM -0800, Khem Raj wrote:
 > 
 > 
+> On 3/2/20 9:11 AM, Junling Zheng wrote:
+> > Currently, for arch-arm64, poky will append the MACHINEOVERRIDES with
+> > "aarch64:", which has the higher priority than TRANSLATED_TARGET_ARCH.
+> > So, for aarch64 big endian, the variable '<foo>_aarch64' will override
+> > not only '<foo>', but also '<foo>_aarch64-be', thus we will get an
+> > incorrect variable.
+> > 
+> > Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
+> > ---
+> >   meta/conf/machine/include/arm/arch-arm64.inc | 2 --
+> >   1 file changed, 2 deletions(-)
+> > 
+> > diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
+> > index 53f4566815..32294bd218 100644
+> > --- a/meta/conf/machine/include/arm/arch-arm64.inc
+> > +++ b/meta/conf/machine/include/arm/arch-arm64.inc
+> > @@ -4,8 +4,6 @@ require conf/machine/include/arm/arch-armv7ve.inc
+> >   TUNEVALID[aarch64] = "Enable instructions for aarch64"
+> > -MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'aarch64:', '' ,d)}"
+> > -
 > 
-> 
+> if its removed here, where is it being added for other machines, question
+> is, should we treat aarch64 as LE equivalent of aarch64_be
+> or should be treated as common aarch64 and a new define like aarch64_le
+> defined.
+>...
+
+As far as I am aware all other distributions and config.guess are 
+treating aarch64/arm64 as little endian and 64bit, unless suffixed.
+
+cu
+Adrian
 
