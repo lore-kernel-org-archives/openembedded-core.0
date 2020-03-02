@@ -1,47 +1,51 @@
-Return-Path: <scott.murray@konsulko.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CB289618F7
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 94F7E618D5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2020 18:58:32 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id i14so759082qtv.13
+	Mon,  2 Mar 2020 19:45:52 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id d9so330628pgu.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Mar 2020 10:58:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=O0h9fi4txY3NIEHU6gu2VlUgyeL8xLPfRqi4UtB7GLA=;
-	b=B87uo+jEaHoU77LiKicELhVW1QUu8KR5VUI9Z1wi5KgByqLG6dgETF+DgXHtoZmYCu
-	q4xRyAUTY/yGPK2B2mJE4IzoRPfKA6zVu0Lp1OhjNfpfMmi7Di/nTeawyjWBQKlik7vm
-	1LZAlNcdJ6/Yi6odVaf/iaM28ndLUotmXVKDU=
+	Mon, 02 Mar 2020 11:45:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version:content-language
+	:thread-index; bh=AKTva3Ol5SWL0c7Y0Ghukk0SFsyAgQLHrYTZwIgXDlY=;
+	b=h7d/vIlSxSeG0E3TJ+uA29X0p+Fr0qt05gJowqCvodP0CLDXWChje8bw6sX0EsIS3/
+	FOFXIgwhZ/f4aDR1BWG0ElCI/T0IIvVDzEAtlwJRoXactS2g4cF5mqzWkaOypE0rb76c
+	NPcjtXs/QwxNGlflHVq9cmLfn0yC6hfCS5GsZfNlLrd5CbDiPzpVJoYeALX0/b1jlAqo
+	UOqgsn3tAaWqDkO2VS8clD0XYuTQJd001lQj1caCrqN9QTQCdVjTqDxPuHWWuNkGFqr9
+	bS8ba1onw+SNolSAr8z0nmmgPm6FDMLDet54l77tSQFMc2toy1d03QjspV4yhArGebXT
+	CPFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=O0h9fi4txY3NIEHU6gu2VlUgyeL8xLPfRqi4UtB7GLA=;
-	b=oZ0a3lRLhetPuGzVw5CfluLZmRMzEIc3oatK22kREUDKcYZipyZ4I0Wams6h5r1LEu
-	uOOB3+vz6Fxx49qXRLmICKbjymhfRNZbL7kV3CCky2dNbcVwoVDpLemTz0guECS3jgyN
-	bIRDJ1cTDOEsfG2N4Vq3pAbzCFgAYF0m8gvlJM/9f58GfRVVJhe2wjoobwz/8S7jGqn3
-	98tVw+4t54LruHQ9V+75rKsvic6XVt9D30cw2O5kSHb2Ng8sOqTnd9HE9lg1xiQL5h2n
-	/5NC4UTqVzkzDWg8RCUiVKYuCAo/X4ZvPiZl+1q9aDVk2zKFzmDsokJslX+e6aQ6p+se
-	OFdg==
-X-Gm-Message-State: ANhLgQ1cci0Idr0ntQsSCbi6tydMHHyImp8+5YYwNf6+AYMtleZ0ecb/
-	8gOynNbPGGrAidvzoCKBRLDnUY93j3o=
-X-Google-Smtp-Source: ADFU+vthLWH0Y7WzZzrnGwxfUc3slHsLK4qAmbtTQh9oHvPOjYt/6i9+9HdytdBeH+hg3fTEJ+TdEA==
-X-Received: by 2002:ac8:4792:: with SMTP id k18mr1105122qtq.192.1583175513226; 
-	Mon, 02 Mar 2020 10:58:33 -0800 (PST)
-Received: from ghidorah.spiteful.org (198-84-179-103.cpe.teksavvy.com.
-	[198.84.179.103]) by smtp.gmail.com with ESMTPSA id
-	w83sm9905614qkb.83.2020.03.02.10.58.32
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 02 Mar 2020 10:58:32 -0800 (PST)
-From: Scott Murray <scott.murray@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Mar 2020 14:14:26 -0500
-Message-Id: <20200302191426.4167152-1-scott.murray@konsulko.com>
-X-Mailer: git-send-email 2.24.1
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-language:thread-index;
+	bh=AKTva3Ol5SWL0c7Y0Ghukk0SFsyAgQLHrYTZwIgXDlY=;
+	b=p4qTqUlt0PlGOKV5lMTBRRHgwFIFgJj7cB8huN/7tDg2lRisDh6CXXqvn6PeJsPRay
+	rObjjjQn6KXgGmPuP3E9Lof7f79VGPCLUip7jOdu6U8VSJ/IqCAMg8nJLbm/XRLqLjRG
+	apFlflFbkQH0GvrYQxiBWvTHwu7FjXxayjfPrwnWCM50eDijecRUvIi9YASwggdSauAe
+	+3nlu/8wv+mAtqx8MCKIgj+Ssk3V0c0GX+bYRCk8GpxJdV47uy4p5WBugRJIsDXmeoLW
+	G8cMwAIkNwzn/k4Nqv2fD/mhopUuHl8KfFhGFFmVPTUnZ3taPSoGoC1qP9OQqJNvliL5
+	lqNg==
+X-Gm-Message-State: ANhLgQ2i9N79mCxquv7yG4C10Ylnr0PGJVG0L2Grnp3Z+GDAFAeNgP2f
+	rokm+v+CgDp/XCgz0niEOIqRixfy
+X-Google-Smtp-Source: ADFU+vsZUD7976EHyuWon6DWeXADWzuTMV4f8Xh4bo8pLcibhxjaE1NkLLxqehiPz4Tfx7nzNr1FNw==
+X-Received: by 2002:a63:8dc7:: with SMTP id z190mr479852pgd.39.1583178353027; 
+	Mon, 02 Mar 2020 11:45:53 -0800 (PST)
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+	by smtp.gmail.com with ESMTPSA id
+	186sm7853132pfz.145.2020.03.02.11.45.51
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 02 Mar 2020 11:45:52 -0800 (PST)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 2 Mar 2020 11:45:51 -0800
+Message-ID: <0e9a01d5f0cb$2e828270$8b878750$@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] psplash: update to latest git revision and clean up
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQHNb3xgS9dXny9u33HST8qWgaVcCw==
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,80 +58,224 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2020 18:58:33 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 02 Mar 2020 19:45:52 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0E9B_01D5F088.2061B370"
+Content-Language: en-us
 
-Update SRCREV to pick up:
+------=_NextPart_000_0E9B_01D5F088.2061B370
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-c359546 Fix psplash-systemd failures
-3c0a4f3 Remove generated psplash-poky-img.h
+All,
 
-Also:
-* set the unit type in psplash-start.service to "notify" to
-  complete the psplash-systemd race fix
-* remove the rest of the now unnecessary has_png logic bits
-* change the generated image header destination to B instead of S
-  since that now works after the recent makefile changes, and will
-  avoid unnecessarily polluting the source tree
-
-Signed-off-by: Scott Murray <scott.murray@konsulko.com>
----
- meta/recipes-core/psplash/files/psplash-start.service | 1 +
- meta/recipes-core/psplash/psplash_git.bb              | 7 ++-----
- 2 files changed, 3 insertions(+), 5 deletions(-)
-
-diff --git a/meta/recipes-core/psplash/files/psplash-start.service b/meta/recipes-core/psplash/files/psplash-start.service
-index af9d5d6c20..a8c97c7a75 100644
---- a/meta/recipes-core/psplash/files/psplash-start.service
-+++ b/meta/recipes-core/psplash/files/psplash-start.service
-@@ -4,6 +4,7 @@ DefaultDependencies=no
- RequiresMountsFor=/run
  
- [Service]
-+Type=notify
- ExecStart=/usr/bin/psplash
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
  
- [Install]
-diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
-index 875adb13fc..22c71f099b 100644
---- a/meta/recipes-core/psplash/psplash_git.bb
-+++ b/meta/recipes-core/psplash/psplash_git.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://psplash.h;beginline=1;endline=8;md5=8f232c1e95929eacab37f00900580224"
- DEPENDS = "gdk-pixbuf-native"
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
+
  
--SRCREV = "aea172a24c5b0bdc0f4efa780c0faa00c9238362"
-+SRCREV = "0a902f7cd875ccf018456451be369f05fa55f962"
- PV = "0.1+git${SRCPV}"
- PR = "r15"
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
  
-@@ -24,7 +24,6 @@ python __anonymous() {
-     splashfiles = d.getVar('SPLASH_IMAGES').split()
-     pkgs = []
-     localpaths = []
--    haspng = False
-     for uri in splashfiles:
-         fetcher = bb.fetch2.Fetch([uri], d)
-         flocal = os.path.basename(fetcher.localpath(uri))
-@@ -42,8 +41,6 @@ python __anonymous() {
-             bb.fatal("The output name '%s' derived from the URI %s is not valid, please specify the outsuffix parameter" % (outname, uri))
-         else:
-             pkgs.append(outname)
--        if flocal.endswith(".png"):
--            haspng = True
-         localpaths.append(flocal)
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 291
+unassigned or newcomer bugs.
+
  
-     # Set these so that we have less work to do in do_compile and do_install_append
-@@ -82,7 +79,7 @@ python do_compile () {
-     # Build a separate executable for each splash image
-     workdir = d.getVar('WORKDIR')
-     convertscript = "%s/make-image-header.sh" % d.getVar('S')
--    destfile = "%s/psplash-poky-img.h" % d.getVar('S')
-+    destfile = "%s/psplash-poky-img.h" % d.getVar('B')
-     localfiles = d.getVar('SPLASH_LOCALPATHS').split()
-     outputfiles = d.getVar('SPLASH_INSTALL').split()
-     for localfile, outputfile in zip(localfiles, outputfiles):
--- 
-2.24.1
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
+being in "3.1" and then "3.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
 
 
+------=_NextPart_000_0E9B_01D5F088.2061B370
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0262_01D5EB1B.8CF098C0";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
+starting to try and collect up and classify bugs which a newcomer to the =
+project would be able to work on in a way which means people can find =
+them. They're being listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
+><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 291 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_0E9B_01D5F088.2061B370--
