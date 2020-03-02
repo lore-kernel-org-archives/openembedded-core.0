@@ -1,24 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FF50605A3
+	by mail.openembedded.org (Postfix) with ESMTP id E4245605A3
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  2 Mar 2020 04:45:59 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Mar 2020 20:45:59 -0800
-X-IronPort-AV: E=Sophos;i="5.70,506,1574150400"; d="scan'208";a="233035455"
+	01 Mar 2020 20:46:01 -0800
+X-IronPort-AV: E=Sophos;i="5.70,506,1574150400"; d="scan'208";a="233035466"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.22.68])
 	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	01 Mar 2020 20:45:58 -0800
+	01 Mar 2020 20:46:00 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Mar 2020 12:45:52 +0800
-Message-Id: <20200302044554.1265618-1-anuj.mittal@intel.com>
+Date: Mon,  2 Mar 2020 12:45:53 +0800
+Message-Id: <20200302044554.1265618-2-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200302044554.1265618-1-anuj.mittal@intel.com>
+References: <20200302044554.1265618-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] enchant2: upgrade 2.2.7 -> 2.2.8
+Subject: [PATCH 2/3] libsoup-2.4: upgrade 2.68.3 -> 2.68.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,32 +33,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2020 04:45:59 -0000
+X-List-Received-Date: Mon, 02 Mar 2020 04:46:00 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../enchant/{enchant2_2.2.7.bb => enchant2_2.2.8.bb}          | 4 ++--
+ .../libsoup/{libsoup-2.4_2.68.3.bb => libsoup-2.4_2.68.4.bb}  | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/enchant/{enchant2_2.2.7.bb => enchant2_2.2.8.bb} (85%)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.68.3.bb => libsoup-2.4_2.68.4.bb} (91%)
 
-diff --git a/meta/recipes-support/enchant/enchant2_2.2.7.bb b/meta/recipes-support/enchant/enchant2_2.2.8.bb
-similarity index 85%
-rename from meta/recipes-support/enchant/enchant2_2.2.7.bb
-rename to meta/recipes-support/enchant/enchant2_2.2.8.bb
-index 03db5c7fae..4ddbe55da5 100644
---- a/meta/recipes-support/enchant/enchant2_2.2.7.bb
-+++ b/meta/recipes-support/enchant/enchant2_2.2.8.bb
-@@ -9,8 +9,8 @@ DEPENDS = "glib-2.0"
- inherit autotools pkgconfig
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.68.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.68.4.bb
+similarity index 91%
+rename from meta/recipes-support/libsoup/libsoup-2.4_2.68.3.bb
+rename to meta/recipes-support/libsoup/libsoup-2.4_2.68.4.bb
+index e8bc7d6470..6731b3373e 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.68.3.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.68.4.bb
+@@ -10,8 +10,8 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 intltool-native libpsl"
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
- SRC_URI = "https://github.com/AbiWord/enchant/releases/download/v${PV}/enchant-${PV}.tar.gz"
--SRC_URI[md5sum] = "8a6ea1bb143c64e0edf5e49c7e7cb984"
--SRC_URI[sha256sum] = "1b22976135812b35cb5b8d21a53ad11d5e7c1426c93f51e7a314a2a42cab3a09"
-+SRC_URI[md5sum] = "c7b9d6a392ecb8758e499f783e8dc883"
-+SRC_URI[sha256sum] = "c7b5e2853f0dd0b1aafea2f9e071941affeec3a76df8e3f6d67a718c89293555"
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
+-SRC_URI[md5sum] = "29ee2ee7017945b64ede063b1396011c"
+-SRC_URI[sha256sum] = "534bb08e35b0ff3702f3adfde87d3441e27c12f9f5ec351f056fe04cba02bafb"
++SRC_URI[md5sum] = "603f3a945cd6ecc1fda644d7853b3b81"
++SRC_URI[sha256sum] = "2d50b12922cc516ab6a7c35844d42f9c8a331668bbdf139232743d82582b3294"
  
- UPSTREAM_CHECK_URI = "https://github.com/AbiWord/enchant/releases"
+ CVE_PRODUCT = "libsoup"
  
 -- 
 2.24.1
