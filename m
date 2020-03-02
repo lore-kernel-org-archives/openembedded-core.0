@@ -1,12 +1,10 @@
 Return-Path: <zhengjunling@huawei.com>
-X-Greylist: delayed 358 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 02 Mar 2020 17:18:03 UTC
 Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FD006191D
+	by mail.openembedded.org (Postfix) with ESMTP id 71C146192E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2020 17:18:03 +0000 (UTC)
+	Mon,  2 Mar 2020 17:18:19 +0000 (UTC)
 Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id 7982C2E65CFCC88F6E4E
+	by Forcepoint Email with ESMTP id 7650BA0766D780EB2B23
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  3 Mar 2020 01:18:04 +0800 (CST)
 Received: from HULK-Android.huawei.com (10.113.189.218) by
@@ -14,14 +12,16 @@ Received: from HULK-Android.huawei.com (10.113.189.218) by
 	id 14.3.439.0; Tue, 3 Mar 2020 01:17:46 +0800
 From: Junling Zheng <zhengjunling@huawei.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Mar 2020 01:17:43 +0800
-Message-ID: <20200302171744.30713-1-zhengjunling@huawei.com>
+Date: Tue, 3 Mar 2020 01:17:44 +0800
+Message-ID: <20200302171744.30713-2-zhengjunling@huawei.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200302171744.30713-1-zhengjunling@huawei.com>
+References: <20200302171744.30713-1-zhengjunling@huawei.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.113.189.218]
 X-CFilter-Loop: Reflected
 Cc: wangnan0@huawei.com
-Subject: [RESEND PATCH 1/2] security_flags: Remove stack protector flags from LDFLAGS
+Subject: [RESEND PATCH 2/2] arch-arm64.inc: Do not append aarch64 in MACHINEOVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,32 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2020 17:18:04 -0000
+X-List-Received-Date: Mon, 02 Mar 2020 17:18:22 -0000
 Content-Type: text/plain
 
-The stack protector flag is a compile option, not a link option, so
-remove it from LDFLAGS.
+Currently, for arch-arm64, poky will append the MACHINEOVERRIDES with
+"aarch64:", which has the higher priority than TRANSLATED_TARGET_ARCH.
+So, for aarch64 big endian, the variable '<foo>_aarch64' will override
+not only '<foo>', but also '<foo>_aarch64-be', thus we will get an
+incorrect variable.
 
 Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
 ---
- meta/conf/distro/include/security_flags.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/machine/include/arm/arch-arm64.inc | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-index aaf04e9e59..5b79340be9 100644
---- a/meta/conf/distro/include/security_flags.inc
-+++ b/meta/conf/distro/include/security_flags.inc
-@@ -26,8 +26,8 @@ SECURITY_STACK_PROTECTOR ?= "-fstack-protector-strong"
- SECURITY_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
- SECURITY_NO_PIE_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
+index 53f4566815..32294bd218 100644
+--- a/meta/conf/machine/include/arm/arch-arm64.inc
++++ b/meta/conf/machine/include/arm/arch-arm64.inc
+@@ -4,8 +4,6 @@ require conf/machine/include/arm/arch-armv7ve.inc
  
--SECURITY_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro,-z,now"
--SECURITY_X_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro"
-+SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
-+SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
+ TUNEVALID[aarch64] = "Enable instructions for aarch64"
  
- # powerpc does not get on with pie for reasons not looked into as yet
- GCCPIE_powerpc = ""
+-MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'aarch64:', '' ,d)}"
+-
+ # Little Endian base configs
+ AVAILTUNES += "aarch64 aarch64_be"
+ ARMPKGARCH_tune-aarch64 ?= "aarch64"
 -- 
 2.17.1
 
