@@ -1,52 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DEDB561924
-	for <openembedded-core@openembedded.org>;
-	Mon,  2 Mar 2020 16:47:58 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id r17so565782wrj.7
-	for <openembedded-core@openembedded.org>;
-	Mon, 02 Mar 2020 08:48:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=MSwYD8y9nH9u0TUrQVXAcr4eDj67EsnhWU2KNs/gAk4=;
-	b=M2V6zFJMCYNwaYg8qCDXB7wA0/FYxoe7DU/tSmt1gYATjMhWSxegxmfHYqHGT3ZfxB
-	vIOn/DN/KIp7zTV02m45fkiPGyE+0og2DE6Emv3Ma/ORkILlLJ1GuQkscZRDNYXfLbHQ
-	LAhVZBXjynus/119KH2jmFHTzTw+zfD3mRess=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=MSwYD8y9nH9u0TUrQVXAcr4eDj67EsnhWU2KNs/gAk4=;
-	b=PpC/RRYCtjGlOcxL9I7kEHucoovDGMhbkgUd2CA99XrWDtmIsB0F9UdEvXR8GPXKrx
-	KVLnjUX9MAXQme6w9UMDDzCX98DwxQWt7pgBnhmpIOAG0EjZQlFNkpPDQL4sG3y2m5NX
-	4lAAFFgi0sN5WUM6yhQ9rsMxLk8jESzAvBKrs7EdMg+29sD9kISD3P0eIFQxxSf/BiU4
-	vUavxVKJxRw7+k2fk2JUFVdBgOMXjbU/DafX84Rv/0qBS9myskGnC/bsoXgzjqTZVzEM
-	KLz48QGzrTz0bY4mWDYG9UcVCouRFlvEFiabKkva/g/ZTJdWg3UH+G2BANohooVNiLXq
-	EvqA==
-X-Gm-Message-State: ANhLgQ1pM3CLg5RW3i1IIRj5mgBsg5hYYRGFopAyQnS4VWW0vkVOOAVW
-	C6iqBZ5Yk2oYnlPTurabPePnmA==
-X-Google-Smtp-Source: ADFU+vss1cyf7Guvl56Qyi7l7coV+coXbwN4bYYQ6W7wsoOP5R5LilOQHfIeuEpAeAoOp8a60EFsvw==
-X-Received: by 2002:adf:f747:: with SMTP id z7mr523263wrp.2.1583167679353;
-	Mon, 02 Mar 2020 08:47:59 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	i7sm13618342wro.87.2020.03.02.08.47.58
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 02 Mar 2020 08:47:58 -0800 (PST)
-Message-ID: <df13465da1047d41fb47b19c7479a836b8b71245.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, openembedded-core
-	<openembedded-core@openembedded.org>
-Date: Mon, 02 Mar 2020 16:47:57 +0000
-In-Reply-To: <c88b00fa-a513-c0a0-eb30-62cef90f66bb@gmail.com>
-References: <e7b54a7b237a70346379df8483837a6b97ccc73f.camel@linuxfoundation.org>
-	<c88b00fa-a513-c0a0-eb30-62cef90f66bb@gmail.com>
-User-Agent: Evolution 3.34.1-4 
+Return-Path: <zhengjunling@huawei.com>
+X-Greylist: delayed 358 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 02 Mar 2020 17:18:03 UTC
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FD006191D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  2 Mar 2020 17:18:03 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
+	by Forcepoint Email with ESMTP id 7982C2E65CFCC88F6E4E
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Mar 2020 01:18:04 +0800 (CST)
+Received: from HULK-Android.huawei.com (10.113.189.218) by
+	DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server
+	id 14.3.439.0; Tue, 3 Mar 2020 01:17:46 +0800
+From: Junling Zheng <zhengjunling@huawei.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 3 Mar 2020 01:17:43 +0800
+Message-ID: <20200302171744.30713-1-zhengjunling@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: Re: M3 build status
+X-Originating-IP: [10.113.189.218]
+X-CFilter-Loop: Reflected
+Cc: wangnan0@huawei.com
+Subject: [RESEND PATCH 1/2] security_flags: Remove stack protector flags from LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,81 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2020 16:47:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 02 Mar 2020 17:18:04 -0000
+Content-Type: text/plain
 
-On Sat, 2020-02-29 at 07:38 -0800, akuster808 wrote:
-> 
-> On 2/29/20 5:13 AM, Richard Purdie wrote:
-> > Just to quickly update everyone, a number of patches we probably
-> > wanted
-> > in 3.1 have had issues but have had the issues resolved and the
-> > patches
-> > have now merged. Thanks to all who dived in and helped with those!
-> So no Bind update?
+The stack protector flag is a compile option, not a link option, so
+remove it from LDFLAGS.
 
-There is still time, please send an updated patch!
+Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
+---
+ meta/conf/distro/include/security_flags.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> > The patches/issues I'm aware of that are left:
-> > 
-> > * ltp upgrade (musl issue)
-> > * util-linux upgrade (breaks wic test, probably simple fix)
-> I can look at the two above but can't start until Sunday so if
-> someone else grabs them today, have at it.
-
-These are now done thankfully.
-
-> > * coreutils ptest addition (blocked on libmodule-build-per 
-> >   reproducibility issue)
-
-Still not done.
-
-> > * psplash systemd race (smurray may have a fix)
-
-Still not done.
-
-> > * autobuilder new branch handling for initial run test comparisons
-> >   (open high bug with RP)
-> > * tinfoil race (open high bug, struggling for owner)
-
-Both done.
-
-> > * LockedSigs intermittent test failure (RP has open high bug, no
-> > clue 
-> >   how to reproduce or why, total mystery)
-
-Spent hours on this, limited success :(
-
-> > * Intermittent selftest failure with SystemExit (High open bug,
-> > Kai owns)
-
-Still pending.
-
-> > As ever, help with any of these welcome. We'll build M3 when a
-> > majority of the above are ready.
-
-Also, I've realised:
-* there is a high priority pseudo issue assigned to me
-* gcc buildtools tarball issue
-
-+ the bind issue you mention
-
-> So where are patches going doing this time that will be in after the
-> release?
-
-I try not to encourage people to send upgrade patches during
-stabilisation as its a distraction for everyone and means fewer people
-caring about the release. I have had to queue them in the past since
-people ignore this and I may have to again depending on what people do
-:(.
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index aaf04e9e59..5b79340be9 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -26,8 +26,8 @@ SECURITY_STACK_PROTECTOR ?= "-fstack-protector-strong"
+ SECURITY_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+ SECURITY_NO_PIE_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+ 
+-SECURITY_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro,-z,now"
+-SECURITY_X_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro"
++SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
++SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
+ 
+ # powerpc does not get on with pie for reasons not looked into as yet
+ GCCPIE_powerpc = ""
+-- 
+2.17.1
 
 
