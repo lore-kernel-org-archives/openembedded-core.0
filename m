@@ -1,31 +1,24 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id 74E2861308
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FF50605A3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Mar 2020 00:05:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 28F2C40C13;
-	Mon,  2 Mar 2020 00:05:13 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id G6_3thbLApuB; Mon,  2 Mar 2020 00:05:13 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
-	[100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 1353C40A13;
-	Mon,  2 Mar 2020 00:05:11 +0000 (UTC)
-Received: from gimli.denix (unknown [192.168.30.6])
-	by mail.denix.org (Postfix) with ESMTP id 3C28616C449;
-	Sun,  1 Mar 2020 19:05:11 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
+	Mon,  2 Mar 2020 04:45:59 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Mar 2020 20:45:59 -0800
+X-IronPort-AV: E=Sophos;i="5.70,506,1574150400"; d="scan'208";a="233035455"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.22.68])
+	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Mar 2020 20:45:58 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  1 Mar 2020 19:05:10 -0500
-Message-Id: <1583107510-32807-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] wayland-protocols: upgrade 1.18 -> 1.20
+Date: Mon,  2 Mar 2020 12:45:52 +0800
+Message-Id: <20200302044554.1265618-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Subject: [PATCH 1/3] enchant2: upgrade 2.2.7 -> 2.2.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,43 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Mar 2020 00:05:12 -0000
+X-List-Received-Date: Mon, 02 Mar 2020 04:45:59 -0000
+Content-Transfer-Encoding: 8bit
 
-From: Denys Dmytriyenko <denys@ti.com>
-
-wayland-protocols 1.20 is now available.
-
-This release is a brown paper bag release adding the missing README.md,
-GOVERNANCE.md and MEMBERS.md files to the tarball. Distributions that
-distribute one or more of these files should ignore the 1.19 release and
-move directly to 1.20.
-https://lists.freedesktop.org/archives/wayland-devel/2020-February/041269.html
-
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../wayland/{wayland-protocols_1.18.bb => wayland-protocols_1.20.bb}  | 4 ++--
+ .../enchant/{enchant2_2.2.7.bb => enchant2_2.2.8.bb}          | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{wayland-protocols_1.18.bb => wayland-protocols_1.20.bb} (86%)
+ rename meta/recipes-support/enchant/{enchant2_2.2.7.bb => enchant2_2.2.8.bb} (85%)
 
-diff --git a/meta/recipes-graphics/wayland/wayland-protocols_1.18.bb b/meta/recipes-graphics/wayland/wayland-protocols_1.20.bb
-similarity index 86%
-rename from meta/recipes-graphics/wayland/wayland-protocols_1.18.bb
-rename to meta/recipes-graphics/wayland/wayland-protocols_1.20.bb
-index c8bec66..3fb78f6 100644
---- a/meta/recipes-graphics/wayland/wayland-protocols_1.18.bb
-+++ b/meta/recipes-graphics/wayland/wayland-protocols_1.20.bb
-@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=c7b12b6702da38ca028ace54aae3d484 \
+diff --git a/meta/recipes-support/enchant/enchant2_2.2.7.bb b/meta/recipes-support/enchant/enchant2_2.2.8.bb
+similarity index 85%
+rename from meta/recipes-support/enchant/enchant2_2.2.7.bb
+rename to meta/recipes-support/enchant/enchant2_2.2.8.bb
+index 03db5c7fae..4ddbe55da5 100644
+--- a/meta/recipes-support/enchant/enchant2_2.2.7.bb
++++ b/meta/recipes-support/enchant/enchant2_2.2.8.bb
+@@ -9,8 +9,8 @@ DEPENDS = "glib-2.0"
+ inherit autotools pkgconfig
  
- SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-            "
--SRC_URI[md5sum] = "af38f22d8e233c2f2e00ddc8dcc94694"
--SRC_URI[sha256sum] = "3d73b7e7661763dc09d7d9107678400101ecff2b5b1e531674abfa81e04874b3"
-+SRC_URI[md5sum] = "b0836533a3f2dc6585b1dae00341157f"
-+SRC_URI[sha256sum] = "9782b7a1a863d82d7c92478497d13c758f52e7da4f197aa16443f73de77e4de7"
+ SRC_URI = "https://github.com/AbiWord/enchant/releases/download/v${PV}/enchant-${PV}.tar.gz"
+-SRC_URI[md5sum] = "8a6ea1bb143c64e0edf5e49c7e7cb984"
+-SRC_URI[sha256sum] = "1b22976135812b35cb5b8d21a53ad11d5e7c1426c93f51e7a314a2a42cab3a09"
++SRC_URI[md5sum] = "c7b9d6a392ecb8758e499f783e8dc883"
++SRC_URI[sha256sum] = "c7b5e2853f0dd0b1aafea2f9e071941affeec3a76df8e3f6d67a718c89293555"
  
- UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ UPSTREAM_CHECK_URI = "https://github.com/AbiWord/enchant/releases"
  
 -- 
-2.7.4
+2.24.1
 
 
