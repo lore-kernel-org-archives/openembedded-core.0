@@ -1,60 +1,24 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CB4B61A6F
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 21CC961896
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 22:14:10 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id i10so3342593wmd.1
+	Tue,  3 Mar 2020 22:56:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 023Mughk013027
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2020 14:14:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=Gr+dpJQT054UN3Hpifu7CDIvvKb7cvoAtr4+ULNxTXY=;
-	b=dbYRjto3tugtqsc8YH46265qJVwVjNkA4kboeTjzmgXuaWEo+stNj6bOwYBR0Q/i9H
-	+brlbmrvGH4ZpLEQU1ExY65V/SwrKSWLc/TEpWG40Pf9RTH2I+vOfQOaO3AheOiITSGM
-	bxfBrq3vZXaMqDlHtQPWv/xufb5UH0Hm2FA8lZ32fS1RZiUQDLXEU/JywzAfbjSH32Dm
-	ExNPJ3kWnuD5ZGF/duSg8rELrA6i1DcOnzaXGcF33dISPEU0C/bdpjMv8cqPkKGYWuWq
-	q+4I8UA3D/Ie39VUqjwtUIz+xPjGONlZbxHu08UX28YvqcA8XRELpOY+61i+O7aOtiMT
-	m3nA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=Gr+dpJQT054UN3Hpifu7CDIvvKb7cvoAtr4+ULNxTXY=;
-	b=JeylEqJMLHwkphkycremd0L+QbYj5beAGNrkbc3R928nQSp4QtPMQjcZHVvZT0dsvB
-	dE59ObjEv5+X1uyykAqVd0Q/DUk4/F+tEdneBfHcpqRd8urDylGNCF49oBj8HH6R47i+
-	8t6wdouL2gLa+Qxs9ELARMgpfeZF9VPD3c7lbdIUXcMc0M9qxXs7yr38EMf103LnU8FQ
-	Ke2K8tkCeQQLfxSTHBh62UjCmcHwY0R0GjSPrZ97UdYPHMWhX+bsWFpG/VLxczoZEcCu
-	Hth/yZYZ/FJQeyQnV8Ufgh+NoadR/A9mXOWX8I0luRKGzcSflv7ElhPjDWaSW0SXTnnn
-	Flrw==
-X-Gm-Message-State: ANhLgQ1dAWLFcpYXzTVi8Hkditqx7+LLw2xEMsAFnqNH9ctMYO1Q+xGi
-	gmpsxUs7gOk/hkmCxx63HX9JC4Hiv+s=
-X-Google-Smtp-Source: ADFU+vsVfDSfNPOQ9YQI2igKbuutUPvIXX58/A9AP9SYBlc8d/ukMjn+GPos/cYJEXfMDg20oClbaA==
-X-Received: by 2002:a1c:2045:: with SMTP id g66mr583287wmg.15.1583273650961;
-	Tue, 03 Mar 2020 14:14:10 -0800 (PST)
-Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
-	[37.247.29.68]) by smtp.gmail.com with ESMTPSA id
-	i1sm14489862wrs.18.2020.03.03.14.14.09
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 03 Mar 2020 14:14:10 -0800 (PST)
-To: Martin Jansa <martin.jansa@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20200229234742.3780-1-matt.ranostay@konsulko.com>
-	<6353532b-aa0e-a005-2589-2e8281863fd5@gmail.com>
-	<CAMjhiJjY-9N=J03XNV=TuAUW+RAxWKfzrmM64rqPv0z_tx70yg@mail.gmail.com>
-	<5251314825f750f21564e99b8e20b0de2625fd50.camel@linuxfoundation.org>
-	<20200303221050.ldjizftg4vnq4m6r@jama>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-Message-ID: <dbf4a3d1-1170-d485-96e0-55fd0066df33@gmail.com>
-Date: Tue, 3 Mar 2020 23:14:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	Tue, 3 Mar 2020 14:56:42 -0800 (PST)
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.487.0;
+	Tue, 3 Mar 2020 14:56:41 -0800
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 3 Mar 2020 14:56:41 -0800
+Message-ID: <20200303225641.55243-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20200303221050.ldjizftg4vnq4m6r@jama>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: freetype: add pixmap to PACKAGECONFIG
+Subject: [PATCH 1/1] blktrace: modify two scripts for python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,71 +31,234 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 22:14:10 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Mar 2020 22:56:41 -0000
+Content-Type: text/plain
 
-On 3/3/20 11:10 PM, Martin Jansa wrote:
-> On Tue, Mar 03, 2020 at 09:45:25PM +0000, Richard Purdie wrote:
->> On Tue, 2020-03-03 at 22:23 +0100, Leon Woestenberg wrote:
->>> Hello all,
->>>
->>> On Tue, Mar 3, 2020 at 6:42 PM Jacob Kroon <jacob.kroon@gmail.com>
->>> wrote:
->>>> On 3/1/20 12:47 AM, Matt Ranostay wrote:
->>>>> Add pixmap to PACKAGECONFIG defaults to allow consumers to
->>>>> render color emojis without distro changes.
->>>>>
->>>>> Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
->>>>> ---
->>>>> -PACKAGECONFIG ??= "zlib"
->>>>> +PACKAGECONFIG ??= "zlib pixmap"
->>>>>
->>>> Wouldn't it make sense to keep it off by default and let whoever
->>>> needs it enable it ?
->>>> /Jacob
->>>>
->>> I would agree, and would also vote for opt-in rather than opt-out for
->>> this use-case.
->>>
->>> Do we have a more generic stance on how we select the PACKAGECONFIG
->>> defaults?
->>
->> It feels like I've seen this come in a few times, I've said no, it
->> keeps coming back, I gave in.
->>
->> Basically the policy is trying to keep things as sensible defaults for
->> the majority of users. Many of our users are concerned about build
->> time, space usage and minimisation of dependencies.
->>
->> These things do change over time as our userbase changes and as the
->> demands and expectations from software changes.
->>
->> In this case its fairly hard to figure out that tweaking this option
->> breaks emojis and libpng isn't such an uncommon or problematic library.
->>
->> Its hard for me as the maintainer of all this to get a decent feeling
->> for how people feel about some changes so its also based a lot on feel,
->> there is only limited patch review a lot of the time.
->>
->> If there is strong demand not to have this, we can revert it. I'd like
->> to see how many people do/don't want it and see a few more opinions on
->> that though.
-> 
-> We (as LGE) have pixmap enabled at least since 2015, because people
-> really want their color emojis on TVs, so having this enabled by default
-> will allow me to eventually drop 1 bbappend from our layers eventually
-> when we upgrade to 3.1.
-> 
-> So I would vote to keep this change.
-> 
-> But on the other hand it will still leave 828 other bbappends, so it
-> doesn't make much difference to me :).
-> 
+Backport from git.kernel.dk.  Changed shebangs to use python3.
 
-Fair enough, sounds like there are good reasons to have it enabled by 
-default.
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ .../blktrace/make-btt-scripts-python3-ready.patch  | 197 +++++++++++++++++++++
+ meta/recipes-kernel/blktrace/blktrace_git.bb       |   1 +
+ 2 files changed, 198 insertions(+)
+ create mode 100644 meta/recipes-kernel/blktrace/blktrace/make-btt-scripts-python3-ready.patch
 
-/Jacob
+diff --git a/meta/recipes-kernel/blktrace/blktrace/make-btt-scripts-python3-ready.patch b/meta/recipes-kernel/blktrace/blktrace/make-btt-scripts-python3-ready.patch
+new file mode 100644
+index 0000000..3b0c1c6
+--- /dev/null
++++ b/meta/recipes-kernel/blktrace/blktrace/make-btt-scripts-python3-ready.patch
+@@ -0,0 +1,197 @@
++From 70d5ca2d5f3d6b97c11c641b7e0c5836983219a0 Mon Sep 17 00:00:00 2001
++From: Eric Sandeen <sandeen@redhat.com>
++Date: Wed, 28 Mar 2018 15:26:36 -0500
++Subject: [oe-core][PATCH 1/1] make btt scripts python3-ready
++
++Many distributions are moving to python3 by default.  Here's
++an attempt to make the python scripts in blktrace python3-ready.
++
++Most of this was done with automated tools.  I hand fixed some
++space-vs tab issues, and cast an array index to integer.  It
++passes rudimentary testing when run under python2.7 as well
++as python3.
++
++This doesn't do anything with the shebangs, it leaves them both
++invoking whatever "env python" coughs up on the system.
++
++Signed-off-by: Eric Sandeen <sandeen@redhat.com>
++Signed-off-by: Jens Axboe <axboe@kernel.dk>
++
++Unchanged except to modify shebangs to use python3 since
++oe-core does not support python2 anymore.
++
++Upstream-Status: Backport [git://git.kernel.dk/blktrace.git commit 70d5ca2d5...]
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++---
++ btt/bno_plot.py | 28 +++++++++++++++-------------
++ btt/btt_plot.py | 22 +++++++++++++---------
++ 2 files changed, 28 insertions(+), 22 deletions(-)
++
++--- git.orig/btt/bno_plot.py
+++++ git/btt/bno_plot.py
++@@ -1,4 +1,4 @@
++-#! /usr/bin/env python
+++#! /usr/bin/env python3
++ #
++ # btt blkno plotting interface
++ #
++@@ -38,6 +38,8 @@ automatically push the keys under the gr
++ To exit the plotter, enter 'quit' or ^D at the 'gnuplot> ' prompt.
++ """
++ 
+++from __future__ import absolute_import
+++from __future__ import print_function
++ import getopt, glob, os, sys, tempfile
++ 
++ verbose	= 0
++@@ -60,14 +62,14 @@ def parse_args(in_args):
++ 
++ 	try:
++ 		(opts, args) = getopt.getopt(in_args, s_opts, l_opts)
++-	except getopt.error, msg:
++-		print >>sys.stderr, msg
++-		print >>sys.stderr, __doc__
+++	except getopt.error as msg:
+++		print(msg, file=sys.stderr)
+++		print(__doc__, file=sys.stderr)
++ 		sys.exit(1)
++ 
++ 	for (o, a) in opts:
++ 		if o in ('-h', '--help'):
++-			print __doc__
+++			print(__doc__)
++ 			sys.exit(0)
++ 		elif o in ('-v', '--verbose'):
++ 			verbose += 1
++@@ -84,10 +86,10 @@ if __name__ == '__main__':
++ 	(bnos, keys_below) = parse_args(sys.argv[1:])
++ 
++ 	if verbose:
++-		print 'Using files:',
++-		for bno in bnos: print bno,
++-		if keys_below:	print '\nKeys are to be placed below graph'
++-		else:		print ''
+++		print('Using files:', end=' ')
+++		for bno in bnos: print(bno, end=' ')
+++		if keys_below:	print('\nKeys are to be placed below graph')
+++		else:		print('')
++ 
++ 	tmpdir = tempfile.mktemp()
++ 	os.mkdir(tmpdir)
++@@ -99,7 +101,7 @@ if __name__ == '__main__':
++ 		fo = open(t, 'w')
++ 		for line in open(f, 'r'):
++ 			fld = line.split(None)
++-			print >>fo, fld[0], fld[1], int(fld[2])-int(fld[1])
+++			print(fld[0], fld[1], int(fld[2])-int(fld[1]), file=fo)
++ 		fo.close()
++ 
++ 		t = t[t.rfind('/')+1:]
++@@ -107,16 +109,16 @@ if __name__ == '__main__':
++ 		else:                plot_cmd = "%s,'%s'" % (plot_cmd, t)
++ 
++ 	fo = open('%s/plot.cmds' % tmpdir, 'w')
++-	print >>fo, cmds
++-	if len(bnos) > 10 or keys_below: print >>fo, 'set key below'
++-	print >>fo, plot_cmd
+++	print(cmds, file=fo)
+++	if len(bnos) > 10 or keys_below: print('set key below', file=fo)
+++	print(plot_cmd, file=fo)
++ 	fo.close()
++ 
++ 	pid = os.fork()
++ 	if pid == 0:
++ 		cmd = 'gnuplot %s/plot.cmds -' % tmpdir
++ 
++-		if verbose: print 'Executing %s' % cmd
+++		if verbose: print('Executing %s' % cmd)
++ 
++ 		os.chdir(tmpdir)
++ 		os.system(cmd)
++--- git.orig/btt/btt_plot.py
+++++ git/btt/btt_plot.py
++@@ -1,4 +1,4 @@
++-#! /usr/bin/env python
+++#! /usr/bin/env python3
++ #
++ # btt_plot.py: Generate matplotlib plots for BTT generate data files
++ #
++@@ -55,6 +55,10 @@ Arguments:
++   but the -o (--output) and -T (--title) options will be ignored.
++ """
++ 
+++from __future__ import absolute_import
+++from __future__ import print_function
+++import six
+++from six.moves import range
++ __author__ = 'Alan D. Brunelle <alan.brunelle@hp.com>'
++ 
++ #------------------------------------------------------------------------------
++@@ -82,7 +86,7 @@ get_base 	= lambda file: file[file.find(
++ def fatal(msg):
++ 	"""Generate fatal error message and exit"""
++ 
++-	print >>sys.stderr, 'FATAL: %s' % msg
+++	print('FATAL: %s' % msg, file=sys.stderr)
++ 	sys.exit(1)
++ 
++ #------------------------------------------------------------------------------
++@@ -163,7 +167,7 @@ def get_data(files):
++ 		if not os.path.exists(file):
++ 			fatal('%s not found' % file)
++ 		elif verbose:
++-			print 'Processing %s' % file
+++			print('Processing %s' % file)
++ 
++ 		xs = []
++ 		ys = []
++@@ -214,8 +218,8 @@ def parse_args(args):
++ 
++ 	try:
++ 		(opts, args) = getopt.getopt(args[1:], s_opts, l_opts)
++-	except getopt.error, msg:
++-		print >>sys.stderr, msg
+++	except getopt.error as msg:
+++		print(msg, file=sys.stderr)
++ 		fatal(__doc__)
++ 
++ 	for (o, a) in opts:
++@@ -293,15 +297,15 @@ def generate_output(type, db):
++ 	def color(idx, style):
++ 		"""Returns a color/symbol type based upon the index passed."""
++ 
++-                colors = [ 'b', 'g', 'r', 'c', 'm', 'y', 'k' ]
+++		colors = [ 'b', 'g', 'r', 'c', 'm', 'y', 'k' ]
++ 		l_styles = [ '-', ':', '--', '-.' ]
++ 		m_styles = [ 'o', '+', '.', ',', 's', 'v', 'x', '<', '>' ]
++ 
++ 		color = colors[idx % len(colors)]
++ 		if style == 'line':
++-			style = l_styles[(idx / len(l_styles)) % len(l_styles)]
+++			style = l_styles[int((idx / len(l_styles)) % len(l_styles))]
++ 		elif style == 'marker':
++-			style = m_styles[(idx / len(m_styles)) % len(m_styles)]
+++			style = m_styles[int((idx / len(m_styles)) % len(m_styles))]
++ 
++ 		return '%s%s' % (color, style)
++ 
++@@ -314,7 +318,7 @@ def generate_output(type, db):
++ 		ofile = '%s.png' % type
++ 
++ 	if verbose:
++-		print 'Generating plot into %s' % ofile
+++		print('Generating plot into %s' % ofile)
++ 
++ 	fig = plt.figure(figsize=plot_size)
++ 	ax = fig.add_subplot(111)
++@@ -329,7 +333,7 @@ def generate_output(type, db):
++ 		legends = None
++ 
++ 	keys = []
++-	for file in db.iterkeys():
+++	for file in six.iterkeys(db):
++ 		if not file in ['min_x', 'max_x', 'min_y', 'max_y']:
++ 			keys.append(file)
++ 
+diff --git a/meta/recipes-kernel/blktrace/blktrace_git.bb b/meta/recipes-kernel/blktrace/blktrace_git.bb
+index 2605ff9..6903053 100644
+--- a/meta/recipes-kernel/blktrace/blktrace_git.bb
++++ b/meta/recipes-kernel/blktrace/blktrace_git.bb
+@@ -12,6 +12,7 @@ PV = "1.2.0+git${SRCPV}"
+ SRC_URI = "git://git.kernel.dk/blktrace.git \
+            file://ldflags.patch \
+            file://CVE-2018-10689.patch \
++           file://make-btt-scripts-python3-ready.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.7.4
+
 
