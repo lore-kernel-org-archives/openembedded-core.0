@@ -1,54 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 38B2561927
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 13:28:30 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t11so4334065wrw.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2020 05:28:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=7ymQJXCzJDEZLmWWxegxQPCiugvPU4bkj0llHD+iZyo=;
-	b=H+Tlu+7vK0xlWtED03+wCY0/oGS6XwOOgDAJiImXUU7p+tsKF9fgavAvdOAGMPuD4b
-	vF/4XHXLVZzCN9nD5D1/lekI1xMTZvKrsFmfkxdj/UgHO0xssXBh1QttHMV2qBnb2WZR
-	fVh+sUkC5xbHW44dOCJR2xgmfTeo3e+t0nSCE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=7ymQJXCzJDEZLmWWxegxQPCiugvPU4bkj0llHD+iZyo=;
-	b=LY9dWqalpWKFUjF6MAjCay6cmQtijUfWkyX+iJ8YbzFQy5YP62lZoaDNDVI1L3qW/r
-	rH2YZFCYSH82ir41IYxjZrmMPPWCbSlQZ1hDbQ+x8a95mboFrpgrX+92QyfFMav1osBG
-	6MLwJDogQghv6y3Hg7lubkwK38XyNiB5YcU9+r+FoFsWcDJdvHIA6fYI6k4BX7FO4tAL
-	m2kqzCl0erLD1CKYe6u3Y5gvapaYOBmwYD3exFbLwjYg/OZ87I4S61Co6OtWSHL30vz5
-	B3Xo/n1mUYhCexsattMRZRZS6t3tGmd3Ti9rri2+n0BJtPaF3+1GSaqVKbBS393KNQsm
-	z4FQ==
-X-Gm-Message-State: ANhLgQ16GrrORTLAt6dbq5+HM4Ii2mBMWlrs1ysIFz7hwilpyHgHbGWP
-	Eqgdj/B+u+ECRqoo9FXzOodw3g==
-X-Google-Smtp-Source: ADFU+vv5VU6mW0TaEnquE0aX205zoH/OCK3pzft7F7w49CQf4XR0AIrlaFnmuHiCyx4bdbTT8gHkAg==
-X-Received: by 2002:a05:6000:149:: with SMTP id
-	r9mr5180679wrx.147.1583242110845; 
-	Tue, 03 Mar 2020 05:28:30 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j5sm33850216wrx.56.2020.03.03.05.28.29
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Mar 2020 05:28:30 -0800 (PST)
-Message-ID: <7bc3721593abda11b0fbc0802969b387f47a20aa.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 03 Mar 2020 13:28:28 +0000
-In-Reply-To: <390fd7bab651456084420a36a41478a4@XBOX03.axis.com>
-References: <20200229161603.495994-1-richard.purdie@linuxfoundation.org>
-	<390fd7bab651456084420a36a41478a4@XBOX03.axis.com>
-User-Agent: Evolution 3.35.91-1 
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 59E3360F93;
+	Tue,  3 Mar 2020 13:32:38 +0000 (UTC)
 MIME-Version: 1.0
-Subject: Re: [PATCH] python3-scons: Fix license file collision
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 03 Mar 2020 13:32:39 -0000
+Message-ID: <20200303133239.2274.21282@do>
+References: <20200303130504.714554-1-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200303130504.714554-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogRml4IHNlcnZpY2UgZmlsZSBmb3IgcmFjZSBpc3N1ZXM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,29 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 13:28:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 03 Mar 2020 13:32:38 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-03-03 at 11:21 +0000, Peter Kjellerstedt wrote:
-> >  SUMMARY = "Software Construction tool (make/autotools replacement)"
-> >  SECTION = "devel/python"
-> >  LICENSE = "MIT"
-> > -LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE;md5=e14e1b33428df24a40a782ae142785d0"
-> > +LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE-python3-scons-${PV};md5=e14e1b33428df24a40a782ae142785d0"
-> > 
-> >  # pypi package does not have a valid license file
-> > -SRC_URI += "https://raw.githubusercontent.com/SCons/scons/${PV}/LICENSE;name=license"
-> > +SRC_URI += "https://raw.githubusercontent.com/SCons/scons/${PV}/LICENSE;downloadfilename=LICENSE-python3-scons-${PV};name=license"
-> 
-> Any reason to not use "${BP}" instead of "python3-scons-${PV}" above?
-> Or should I send a cleanup patch?
+== Series Details ==
 
-No reason. I tend to find BP a little harder to read I guess but its
-just a personal preference.
+Series: systemd: Fix service file for race issues
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/23063/
+State : failure
 
-Cheers,
+== Summary ==
 
-Richard
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at d6b1809e8c)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
