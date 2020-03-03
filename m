@@ -1,45 +1,49 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F3346191C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 18B2560F93
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 12:32:51 +0000 (UTC)
+	Tue,  3 Mar 2020 13:05:05 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id a132so3096279wme.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Mar 2020 05:05:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=axis.com; l=1206; q=dns/txt; s=axis-central1;
-	t=1583238774; x=1614774774;
-	h=from:to:subject:date:message-id:references:in-reply-to:
-	content-transfer-encoding:mime-version;
-	bh=vo8M/QCsQLAbUbrTm97xcnDkIJGHQLtAnrqupqlrPNA=;
-	b=dfkRS5r9xwX8MpS7yJwrEB+Js1nJzKAO3PMcJYy3JKwr3Kc6S2t6CtUg
-	X2Ink5VHWMB+DuR3Q60J+LUq2HnA0qYKwbHsOWOfoqr55Fl1KtzqXLTk5
-	+hT8nNThjqAB4seNFEPOujPURULR/HWKyqmxMGpXOFPu1eybzkYrexVH4
-	5bbqFBZmz6rD5cE9bwrxX/Kt02FW8CCYtMI/+68Vc6JgxdpXqZ2WplPVz
-	aGOvFB8UN+ji9ZGbEkuLB/9vfgWotmrnABXGt8Y4B45CTjdKv2mWA7BRC
-	qr7RiHSochAnViqtUchay6qDZBZbIYV8oT151D74kpZhWa7j1v5ebzJEe Q==;
-IronPort-SDR: rcBTf4kGsb6RRe7vVcl1ooXC4biA9kc8p2+Be4/zJt4KbY3F1DQfq5LquoMOJSzVKOcM6asEXf
-	RWlXj642Cx+caSgZAngkj3AK2t4LgWRux7UdJHf1FTZGQacnxJz2B8zn+3rqR5o1lAMkxs2rJ0
-	6w2gWGwI4K3JhjGTHtipcG0V4thxOBFLiughjV2k/cJA11cItOueiOnSIwNxFZ047jIKI6VxKM
-	Ifk9pDPEMo8fZRVIRH6NDa4rdUI1+p7oZq3prr9+hrlvACXnm4Pe7SkyQuLFuHf4JE5uvkTs0a
-	hO0=
-X-IronPort-AV: E=Sophos;i="5.70,511,1574118000"; 
-   d="scan'208";a="6040590"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] how to cleanly centralize a zillion BBCLASSEXTEND +=
-	"nativesdk" settings?
-Thread-Index: AQHV8I/SiosnJCtFNkaTaleURDlGTag2zaDw
-Date: Tue, 3 Mar 2020 12:32:52 +0000
-Message-ID: <52350a7bd080413c9dbc6e1783f14e2c@XBOX03.axis.com>
-References: <20200302074035.Horde.5xguZSt_-_Yd241eE1Zo8Pb@crashcourse.ca>
-In-Reply-To: <20200302074035.Horde.5xguZSt_-_Yd241eE1Zo8Pb@crashcourse.ca>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MXIvfTCJ41Mqkfiy6VHhZM/2H6af4eXOJwUrs2LBB7Y=;
+	b=atHt7PAQ90eQiRg2qZzUccPDorGlMAqh3mp5ZWBfG9jDaHOFH7ARskPypNUE99BT6e
+	EfUr8LzDf133TjnkGPdd+wwfougC4WKf6LrLi7xgM9yxlgpY+uyLP5G1yFZbv6ipa0/j
+	vntlR2aDdWk2AdhxQjI01iXLL1TgydU/xbN/Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MXIvfTCJ41Mqkfiy6VHhZM/2H6af4eXOJwUrs2LBB7Y=;
+	b=G6rofcHKnnGzjj3+kuLOd78UHf/cCyeHl/IqSjxcS+KVD1kbWk4XSx218x4sl7OGi4
+	tL2eT7u78VRciyHYFlF1zXpYXLiApdq48LlsQgNCstistrL/BNH7w0IYpKxYE080GWUl
+	eoMBCLCq6taeY4IC38xORB/YajfCooAR98MW+nVvnYRXy7H/oNN7EmbMLqFlsg8UuAyX
+	D4CblDxQ2QKUgyL5PAoTNFEJjoARED7/BBWgWUaAdnNKvFd6fAQs8EopC0zRMsYwNgnm
+	XNXVtZNPjKe6V4JJtMRYcLZB5z6YtH3fbUSaPB1tJxAT0U5+/3XhCW37cK09Pt6863WN
+	2ywg==
+X-Gm-Message-State: ANhLgQ1JVeMLvbNa+sVaI8RaQdLf/zGfUQ1ib1o+/2f6cnVc97rv5mv0
+	oDglLmbbx4xeRrb5GT5cec4cusOPfgA=
+X-Google-Smtp-Source: ADFU+vvvzbtYD1dtedcqsC9yy2nug3soBXrlS/7XbppA3XCVk4NXXik9bJD/i/abhiy3JytAR4VgQw==
+X-Received: by 2002:a7b:ce16:: with SMTP id m22mr4236536wmc.139.1583240706376; 
+	Tue, 03 Mar 2020 05:05:06 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	f127sm3825800wma.4.2020.03.03.05.05.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 03 Mar 2020 05:05:05 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Mar 2020 13:05:04 +0000
+Message-Id: <20200303130504.714554-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Subject: Re: how to cleanly centralize a zillion BBCLASSEXTEND += "nativesdk" settings?
+Subject: [PATCH] systemd: Fix service file for race issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,43 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 12:32:52 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 03 Mar 2020 13:05:06 -0000
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of rpjday@crashcourse.ca
-> Sent: den 2 mars 2020 13:41
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] how to cleanly centralize a zillion BBCLASSEXTEND +=3D
-> "nativesdk" settings?
->=20
-> layer i'm currently perusing has many, many bbappend files, of which
-> quite a number are nothing more than the single line:
->=20
->    BBCLASSEXTEND +=3D "nativesdk"
->=20
-> literally, at least a hundred append files are like that. so rather
-> than clutter up the layer with all those trivial .bbappend files,
-> can one cram all that into a single .conf file? as i read it, can i
-> do something like:
->=20
->    BBCLASSEXTEND_append_pn-pkg1 =3D " nativesdk"
->    BBCLASSEXTEND_append_pn-pkg2 =3D " nativesdk"
->    ... and on and on ...
->=20
-> and toss all that into a distro.conf file or something?
->=20
->    and even if that works, is it considered good coding style?
->=20
-> rday
+It seems this service needs both Requires: and After: according to the definitions
+in the systemd docs, else we see boot race failures.
 
-Sounds perfectly fine. We do something similar, but in our case we need=20
-to add "native" to BBCLASSEXTEND for a whole bunch of recipes.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/psplash/files/psplash-systemd.service | 1 +
+ 1 file changed, 1 insertion(+)
 
-//Peter
+diff --git a/meta/recipes-core/psplash/files/psplash-systemd.service b/meta/recipes-core/psplash/files/psplash-systemd.service
+index 249aa540394..4e18980bb27 100644
+--- a/meta/recipes-core/psplash/files/psplash-systemd.service
++++ b/meta/recipes-core/psplash/files/psplash-systemd.service
+@@ -2,6 +2,7 @@
+ Description=Start psplash-systemd progress communication helper
+ DefaultDependencies=no
+ After=systemd-start.service
++After=psplash-start.service
+ Requires=psplash-start.service
+ RequiresMountsFor=/run
+ 
+-- 
+2.25.0
 
 
