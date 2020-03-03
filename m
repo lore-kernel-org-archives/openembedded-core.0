@@ -1,56 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D9F05611E1
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id EBC79618A5
 	for <openembedded-core@openembedded.org>;
-	Tue,  3 Mar 2020 21:17:35 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id h3so5297565ioj.6
+	Tue,  3 Mar 2020 21:22:44 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id e26so4404265wme.5
 	for <openembedded-core@openembedded.org>;
-	Tue, 03 Mar 2020 13:17:36 -0800 (PST)
+	Tue, 03 Mar 2020 13:22:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=XYOPJwo8PzaHuWVnlbtzGXTzxzR1dm6m58+MfpWm5To=;
-	b=JrfRsX0Ha3G7BcE96B2GX8dMmEjU2KpwAClTnkMOiBVSzFck+AkVoVKyTvqgx6RbVO
-	HdlHUVE//FLluJHQnWnYcIdQY+G5fLBYd1q7N9uJvbqnbZFJq2vUK4oOthzIScqhxl3m
-	Xl73JuVJulf6PUMUfdIiVlcc7SsdqbDeQlQ0rszQThOscrS/sGKVf0jQ6w8LQh16kNiQ
-	9KVIM7DZ7n+Mo+/L7eO/Uyxt3cpDnYDpguVjcHFkcgn7pKrDAmSXWrCAaKUaIlo9IEzn
-	CQAxWyDhi7P9wcXOILfQmo75mi37ZlPpFbEw7cp5A3dVD1QiS9TInkoNzS+sT6aTzTKJ
-	krag==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=EZKVe0nYHa/j7soy9bDd0U+Ri2UyRvM8VQaM6h0kpPQ=;
+	b=pe+0NtDFHF4WQRRW5VV34NA4RhUNduV8rUsUScWaIxzmwgL8CUhlu7dh7rfA5bH/pF
+	7OaZ1EJAm8AH9RMKv7749TahCINg9JT19VJV7gPhqX8KEVVNPNgi4GQtlpnsqcDJAvy0
+	TBxWNnguZwPT4auHVdbomcduiElvJkJacjMF2Ja93k//KxqhqPcNqNm/SyIZeqPGhG4P
+	Jq3WzWUvG0dZtfNU/tHhxNB11HD0XpQtUfEQx5X/U4xQmjPmoq/ZcY7HpyBP7NEbAuE1
+	V2XJg+AuYTMBvSwYxrYqzDrMSK0GvgLFGXFCN/D/yXVzTwcUHiHtu3IKL6oMAg5BaDpU
+	zBWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=XYOPJwo8PzaHuWVnlbtzGXTzxzR1dm6m58+MfpWm5To=;
-	b=C6XkQ5AXWczicqe5W1psIdiKRGJj68NQ5xzWfMUDqGtJe2KKp+E7gwIdKMM6KlxRMV
-	EMnEjJAA8Y5g43Z6ZsLB+7dKWgiK0I3qljBHO28DGSuLvnhHepYW70PU3QlnPwJ53/Xz
-	pR3ANKlsV1Sid/MxA82Sn+B4qJSMtq9zuh8r4rMiF1tICVeq6QWUDRP4I2hKWh12Ru4K
-	eXEHjbgA0C5bj7Hm0SqxYcn109wo0TljiKRHpGF0Vu48LhZS29zTVyAKsapT8h1kls5u
-	WirEJTqnv/3ieZTswooojFBaUkxd3hBz9ztdOGm9PVRFC0d2cQWBllu9EjMZ3Vr5jO7i
-	LdzQ==
-X-Gm-Message-State: ANhLgQ0lRPE9DQ012apofRNnaX7W2jCaiZa8b02O9HyFfplISWz8SY1E
-	EIysw/VpDxb3Kw0cIHPzrZ4=
-X-Google-Smtp-Source: ADFU+vuYZSu3VlFh8sks4aTWo+W118lFUv3SX+mlM+1vQvL1bUkN2B9I+qpT1O5dTaC5od8HvzThDQ==
-X-Received: by 2002:a05:6638:1b4:: with SMTP id
-	b20mr5483213jaq.119.1583270256020; 
-	Tue, 03 Mar 2020 13:17:36 -0800 (PST)
-Received: from ?IPv6:2601:646:9200:4e0:31ff:997f:e0c7:a3a0?
-	([2601:646:9200:4e0:31ff:997f:e0c7:a3a0])
-	by smtp.gmail.com with ESMTPSA id
-	x87sm8261839ilk.39.2020.03.03.13.17.35
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 03 Mar 2020 13:17:35 -0800 (PST)
-To: Armin Kuster <akuster808@gmail.com>, openembedded-core@openembedded.org
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=EZKVe0nYHa/j7soy9bDd0U+Ri2UyRvM8VQaM6h0kpPQ=;
+	b=qDVQVQ+JaV/GSEQ8GB6Ql48J27VU/UjhndUihGn2fw+7fYi/wHq/D/M+oSwhzthPQN
+	J/QvGluaHIDwIXYYK5K4l9kNTwxuHLGdq8FC0kzOvlZRRwsacntVOw2OGy420fyajmTh
+	g1cze+EMUY3LUxKAUwRukJ/d4COjqIdsAyc66cMaTNRoxWREPuViYTIj5PcvdLOdNM9i
+	ielvbdpDMUe54tqksTIcFcvKGRtZCl7qo9NVMYUTLxn+K778NkSJzbpNRikTvzaYBhc4
+	4O8r6Wi8trAtX8zlhhsgndOQe1c5rZv0PAgLM5C5hNKKRBGOnZnMUWyzU0GKorqMrrLQ
+	44fQ==
+X-Gm-Message-State: ANhLgQ3C/AePBd94whEJ9m+eHNN109/Ny/lfX5DFDuBE2kZh6E+IXZOR
+	r9IMocFKGVuJbOmISxfXx3Y=
+X-Google-Smtp-Source: ADFU+vskrXbAZI2rxtxQBTx33GP1SC3jy/Cal6xVcVxasgSoboi6bqz9GnGXvI81Qv+/X7ksQIAHhw==
+X-Received: by 2002:a1c:49d5:: with SMTP id w204mr468511wma.55.1583270565435; 
+	Tue, 03 Mar 2020 13:22:45 -0800 (PST)
+Received: from localhost ([109.238.218.228])
+	by smtp.gmail.com with ESMTPSA id w8sm653844wmm.0.2020.03.03.13.22.44
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 03 Mar 2020 13:22:44 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 3 Mar 2020 22:22:43 +0100
+To: Armin Kuster <akuster808@gmail.com>
+Message-ID: <20200303212243.vm7nwzuf4viwwaat@jama>
 References: <20200303210903.29570-1-akuster808@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <8f852a36-aa41-7f75-0f57-7d82fd19377e@gmail.com>
-Date: Tue, 3 Mar 2020 13:17:34 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
 In-Reply-To: <20200303210903.29570-1-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
+User-Agent: NeoMutt/20180716
+Cc: openembedded-core@openembedded.org, Armin Kuster <akuster@mvista.com>
 Subject: Re: [v2][PATCH] libuv: move from meta-oe to core for bind update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -64,56 +60,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 21:17:36 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Mar 2020 21:22:45 -0000
+X-Groupsio-MsgNum: 135971
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="rb43rjc7qkcecck3"
+Content-Disposition: inline
 
-Please send removal for meta-oe as well, once its merged in core, 
-otherwise meta-oe will override it.
+--rb43rjc7qkcecck3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 3/3/20 1:09 PM, Armin Kuster wrote:
+On Tue, Mar 03, 2020 at 01:09:03PM -0800, Armin Kuster wrote:
 > From: Armin Kuster <akuster@mvista.com>
-> 
+>=20
 > Signed-off-by: Armin Kuster <akuster@mvista.com>
-> 
+>=20
 > [v2]
 > Add maintainer
 > Update to newer version in meta-oe
+
+This belongs either under --- or in this case normal commit message before
+Signed-off-by (without '[v2]').
+
 > ---
->   meta/conf/distro/include/maintainers.inc      |  1 +
->   .../libuv/libuv_1.34.2.bb                     | 19 +++++++++++++++++++
->   2 files changed, 20 insertions(+)
->   create mode 100644 meta/recipes-connectivity/libuv/libuv_1.34.2.bb
-> 
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+>  meta/conf/distro/include/maintainers.inc      |  1 +
+>  .../libuv/libuv_1.34.2.bb                     | 19 +++++++++++++++++++
+>  2 files changed, 20 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/libuv/libuv_1.34.2.bb
+>=20
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
 > index 10095ffe76..d724148014 100644
 > --- a/meta/conf/distro/include/maintainers.inc
 > +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -392,6 +392,7 @@ RECIPE_MAINTAINER_pn-liburcu = "Alexander Kanavin <alex.kanavin@gmail.com>"
->   RECIPE_MAINTAINER_pn-liburi-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
->   RECIPE_MAINTAINER_pn-libusb1 = "Anuj Mittal <anuj.mittal@intel.com>"
->   RECIPE_MAINTAINER_pn-libubootenv = "Stefano Babic <sbabic@denx.de>"
-> +RECIPE_MAINTAINER_pn-libuv = "Armin Kuster <akuster@mvista.com>"
->   RECIPE_MAINTAINER_pn-libva = "Anuj Mittal <anuj.mittal@intel.com>"
->   RECIPE_MAINTAINER_pn-libva-utils = "Anuj Mittal <anuj.mittal@intel.com>"
->   RECIPE_MAINTAINER_pn-libvorbis = "Tanu Kaskinen <tanuk@iki.fi>"
-> diff --git a/meta/recipes-connectivity/libuv/libuv_1.34.2.bb b/meta/recipes-connectivity/libuv/libuv_1.34.2.bb
+> @@ -392,6 +392,7 @@ RECIPE_MAINTAINER_pn-liburcu =3D "Alexander Kanavin <=
+alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER_pn-liburi-perl =3D "Tim Orling <timothy.t.orling@linux=
+=2Eintel.com>"
+>  RECIPE_MAINTAINER_pn-libusb1 =3D "Anuj Mittal <anuj.mittal@intel.com>"
+>  RECIPE_MAINTAINER_pn-libubootenv =3D "Stefano Babic <sbabic@denx.de>"
+> +RECIPE_MAINTAINER_pn-libuv =3D "Armin Kuster <akuster@mvista.com>"
+>  RECIPE_MAINTAINER_pn-libva =3D "Anuj Mittal <anuj.mittal@intel.com>"
+>  RECIPE_MAINTAINER_pn-libva-utils =3D "Anuj Mittal <anuj.mittal@intel.com=
+>"
+>  RECIPE_MAINTAINER_pn-libvorbis =3D "Tanu Kaskinen <tanuk@iki.fi>"
+> diff --git a/meta/recipes-connectivity/libuv/libuv_1.34.2.bb b/meta/recip=
+es-connectivity/libuv/libuv_1.34.2.bb
 > new file mode 100644
 > index 0000000000..234cec37bb
 > --- /dev/null
 > +++ b/meta/recipes-connectivity/libuv/libuv_1.34.2.bb
 > @@ -0,0 +1,19 @@
-> +SUMMARY = "A multi-platform support library with a focus on asynchronous I/O"
-> +HOMEPAGE = "https://github.com/libuv/libuv"
-> +BUGTRACKER = "https://github.com/libuv/libuv/issues"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
+> +SUMMARY =3D "A multi-platform support library with a focus on asynchrono=
+us I/O"
+> +HOMEPAGE =3D "https://github.com/libuv/libuv"
+> +BUGTRACKER =3D "https://github.com/libuv/libuv/issues"
+> +LICENSE =3D "MIT"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Da68902a430e32200263d182d44924=
+d47"
 > +
-> +SRCREV = "f868c9ab0c307525a16fff99fd21e32a6ebc3837"
-> +SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
+> +SRCREV =3D "f868c9ab0c307525a16fff99fd21e32a6ebc3837"
+> +SRC_URI =3D "git://github.com/libuv/libuv;branch=3Dv1.x"
 > +
-> +S = "${WORKDIR}/git"
+> +S =3D "${WORKDIR}/git"
 > +
 > +inherit autotools
 > +
@@ -122,6 +132,24 @@ On 3/3/20 1:09 PM, Armin Kuster wrote:
 > +    oe_runconf
 > +}
 > +
-> +BBCLASSEXTEND = "native"
-> 
+> +BBCLASSEXTEND =3D "native"
+> --=20
+> 2.17.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--rb43rjc7qkcecck3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXl7KowAKCRA3VSO3ZXaA
+HB20AJwLPYX3ukza9u79bscBoRh7ucx9PQCcC7UG4uMkoWcmZY7XMoDFpWbKhqQ=
+=Ndil
+-----END PGP SIGNATURE-----
+
+--rb43rjc7qkcecck3--
