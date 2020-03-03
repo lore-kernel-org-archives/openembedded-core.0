@@ -1,29 +1,42 @@
-Return-Path: <zhengjunling@huawei.com>
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	by mail.openembedded.org (Postfix) with ESMTP id 7553A618E6
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5953B60637
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 03:10:56 +0000 (UTC)
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
-	by Forcepoint Email with ESMTP id 3600E7EAB79A3031FAA4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 11:10:55 +0800 (CST)
-Received: from [127.0.0.1] (10.111.155.88) by DGGEMS412-HUB.china.huawei.com
-	(10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Tue, 3 Mar 2020
-	11:10:45 +0800
-To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20200302171153.28030-1-zhengjunling@huawei.com>
-	<666b3145-0e57-cf3c-f1f4-22d6fd0521e5@gmail.com>
-From: Junling Zheng <zhengjunling@huawei.com>
-Message-ID: <9d41cd5d-7355-175d-391c-35231c9a7e92@huawei.com>
-Date: Tue, 3 Mar 2020 11:10:45 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Tue,  3 Mar 2020 03:13:09 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0233BBqj006245
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 2 Mar 2020 19:11:21 -0800
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.75]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0487.000;
+	Mon, 2 Mar 2020 19:11:01 -0800
+From: "Yu, Mingli" <Mingli.Yu@windriver.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>, "chet.ramey@case.edu"
+	<chet.ramey@case.edu>, "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"Huo, De" <De.Huo@windriver.com>,
+	"preid@electromag.com.au" <preid@electromag.com.au>, "akuster808@gmail.com"
+	<akuster808@gmail.com>
+Thread-Topic: [OE-core] bash: Fix CVE-2019-18276
+Thread-Index: AQHV5nEF1mNPtkf9pEeXfnWEUuCQSaghnagAgBSmwkU=
+Date: Tue, 3 Mar 2020 03:11:00 +0000
+Message-ID: <E6F6D39CB834524199A3A6D928AB1465539F327D@ALA-MBD.corp.ad.wrs.com>
+References: <aa0bf5f6-aaf2-bfbf-6488-8d65cbe849f7@electromag.com.au>
+	<4f09ab13-9571-3464-2fc3-334bc91b9c09@case.edu>
+	<444185BB2F013F4E92378F99BCF8A58BC9AF9CBD@ALA-MBD.corp.ad.wrs.com>
+	<99d34efd-3a68-0b05-0e15-fbfd360a2f2a@case.edu>
+	<9b99752af2094590137fdaacf6668f170b34158c.camel@linuxfoundation.org>,
+	<41e8a2902bc8594a17f0afa1744f04a6facd5316.camel@intel.com>
+In-Reply-To: <41e8a2902bc8594a17f0afa1744f04a6facd5316.camel@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.26.223]
 MIME-Version: 1.0
-In-Reply-To: <666b3145-0e57-cf3c-f1f4-22d6fd0521e5@gmail.com>
-X-Originating-IP: [10.111.155.88]
-X-CFilter-Loop: Reflected
-Cc: wangnan0@huawei.com
-Subject: Re: [PATCH] arch-arm64.inc: Do not append aarch64 in MACHINEOVERRIDES
+Subject: Re: bash: Fix CVE-2019-18276
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,48 +49,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 03:10:56 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Mar 2020 03:13:09 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 2020/3/3 2:29, Khem Raj wrote:
-> 
-> 
-> On 3/2/20 9:11 AM, Junling Zheng wrote:
->> Currently, for arch-arm64, poky will append the MACHINEOVERRIDES with
->> "aarch64:", which has the higher priority than TRANSLATED_TARGET_ARCH.
->> So, for aarch64 big endian, the variable '<foo>_aarch64' will override
->> not only '<foo>', but also '<foo>_aarch64-be', thus we will get an
->> incorrect variable.
->>
->> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
->> ---
->>   meta/conf/machine/include/arm/arch-arm64.inc | 2 --
->>   1 file changed, 2 deletions(-)
->>
->> diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
->> index 53f4566815..32294bd218 100644
->> --- a/meta/conf/machine/include/arm/arch-arm64.inc
->> +++ b/meta/conf/machine/include/arm/arch-arm64.inc
->> @@ -4,8 +4,6 @@ require conf/machine/include/arm/arch-armv7ve.inc
->>     TUNEVALID[aarch64] = "Enable instructions for aarch64"
->>   -MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'aarch64:', '' ,d)}"
->> -
-> 
-> if its removed here, where is it being added for other machines, question is, should we treat aarch64 as LE equivalent of aarch64_be
-> or should be treated as common aarch64 and a new define like aarch64_le defined.
-> 
+Hi Anuj,
 
-Currently, for arm64, we have aarch64_be to represent big endian, but no overrides to represent little endian only.
+I agree the Backport status is not accurate as the patch doesn't go to mast=
+er branch, but why do you say the patch is irrelevant to the CVE-2019-18276=
+, could you help to provide more info?
 
-So, IMO, we should treat aarch64 as little enaian only, like arm and armeb.
+Hi Chet,
+Does https://git.savannah.gnu.org/cgit/bash.git/commit/?h=3Ddevel&id=3D951b=
+daad7a18cc0dc1036bba86b18b90874d39ff fix the issue reported in CVE-2019-182=
+76? Could you help to provide some info here?
 
->>   # Little Endian base configs
->>   AVAILTUNES += "aarch64 aarch64_be"
->>   ARMPKGARCH_tune-aarch64 ?= "aarch64"
->>
-> 
-> 
+Thanks,
+Mingli
+________________________________________
+From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
+ounces@lists.openembedded.org] on behalf of Mittal, Anuj [anuj.mittal@intel=
+.com]
+Sent: Tuesday, February 18, 2020 11:43 PM
+To: chet.ramey@case.edu; richard.purdie@linuxfoundation.org; openembedded-c=
+ore@lists.openembedded.org; Huo, De; preid@electromag.com.au; akuster808@gm=
+ail.com
+Subject: Re: [OE-core] bash: Fix CVE-2019-18276
+
+On Tue, 2020-02-18 at 15:35 +0000, Richard Purdie wrote:
+> On Tue, 2020-02-18 at 10:28 -0500, Chet Ramey wrote:
+> > On 2/17/20 9:46 PM, Huo, De wrote:
+> > >  I applied the patch to fix CVE defect CVE-2019-18276.
+> >
+> > That's not exactly an answer to the question of who produced the
+> > patch.
+> > If that patch is the one causing failures when it's applied,
+> > doesn't it
+> > make sense to go back to the person who produced it and ask them to
+> > update it if necessary?
+>
+> Its likely a general CVE patch where both configure and configure.ac
+> are patched. For OE, we can drop the configure part since we
+> reautoconf
+> the code. Its therefore the OE port of the patch which is likely at
+> fault.
+>
+> Someone just needs to remove that section of the patch.
+
+There are other issues with this patch which should also be fixed I
+think. It has been marked as a Backport while it is not one. The patch
+includes changes that are irrelevant to the CVE. And, it should have
+gone to master first.
 
 
+Thanks,
+
+Anuj
+--
+_______________________________________________
+Openembedded-core mailing list
+Openembedded-core@lists.openembedded.org
+http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 
