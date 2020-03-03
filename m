@@ -1,44 +1,48 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id A845C61608
+	by mail.openembedded.org (Postfix) with ESMTP id 6D97960691
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 11:21:41 +0000 (UTC)
+	Tue,  3 Mar 2020 11:59:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=axis.com; l=1995; q=dns/txt; s=axis-central1;
-	t=1583234504; x=1614770504;
-	h=from:to:subject:date:message-id:references:in-reply-to:
-	content-transfer-encoding:mime-version;
-	bh=RwFt82uABJpPl3yeW20fzAWYt7vI76fMh8k3mAjDxsI=;
-	b=L69z390PjKxn9ztwkH9mspi53/etul7oQAMRPhARiQbvWcZZAXvHlVXv
-	6/iA2P6dE/LViK6AbZ5Lmr15w8sayzplkfBn3Y4UsvCyHX8F2mhsBC4uY
-	gG0sM9YxFvU7jIKqyD8CrFcbrqK6+2NuCkK/n1DHfyy2wD37HKXgxEA3H
-	UoqlNanbmwSIxz8dpypIrdDZw9Eo3fB9F4N4e6vsbHOQt9Yc0BBmv72Uw
-	g5kkR/F0F2zHVA+1V3vQO5OINVux85Mm9tfsKSSXzxZ4kxiHh7x2zk8Fw
-	xG65SioZDVQXgKAOc49TBQgGERLyRbdJknkPWc4ATCtWsirTAlV1ZeA90 w==;
-IronPort-SDR: LUUCazJi2fy8HTJFUHCfOkdCIEMLkLv6sy+kPGEdiCaaQYRqJ2/StnhqIpLTE0f9aGIyOrV/gA
-	QrXcKia2YG9tzFBQSXMBgAmboXdPAiTxAarDNe3PwY5EY/oZORFbCSPtohfWoLRHcqC6dKzaf1
-	CYh1jABTu/q0BZuikMGJUR7eTsdQfv5bdJcwm4xQI64BuJtHXyitxn5OHXokgENxHYEdRrMpPr
-	FR5T7s/3E/aBHt+nNpPRr02/FOyj5qDGKQYe/7VimUw5nAnBv/GQjCIFTrT96qjBu8oNFSIZ/c
-	2OY=
+	d=axis.com; l=2671; q=dns/txt; s=axis-central1;
+	t=1583236800; x=1614772800;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-transfer-encoding:mime-version;
+	bh=DqqzjzTy2LVc1p1kppWVcbKxRFlzndVjpEpcX6lSmVc=;
+	b=XGsX134Sp7XJ87VMbfSbkV19NemF30h9UxnVSyfBRhjmR60y6qTuhnzb
+	GNPS6A/pV3Jp12m+HcYdFc2zCVi/7xrYYNtQ4POaqPZn6kd1tq8+79YPi
+	P6iwCILstojFfsAWF0bGCQ71ZiWywZUpPwdBOZ3nYvnX69RYv2DWAHsto
+	FeFy1jJDWpfEtdpLlFKvGPoxzQPm7zzfl+n1I12HmRJg8CTE3B5TJuvxE
+	BY0I71SRA7JWWuhF2m7Mh7hzfjnknovkAdJK32gdZLvM2fklbtzme/Zem
+	mGFyVpUoFj1T9B2lnPO5TT01uxWtpFtvkGq9g1E07ftMtKCINPtEl8M/u Q==;
+IronPort-SDR: h3T/pus626RIvlV+sysqfE9hXXAwaJxfrdtdfj+PZvGGV42S2idZQDTafz27ztksChDkFIYqM6
+	ewBymJMzlMXSU/xVvoGkHUrNeAgR2Zymi4lkKf0IVmwXWN2FE9iVWyjFquIVePzCALUtgcZmI5
+	JcZrVK3UWzbGA/ZJOgTY6pkM2nCQPZ6ERIRAn3IdFntOFnd/nmmeORt0/KrpOLsfqL1xG2viiu
+	0H5yI/RhD0l8PPjZEk3EVKENWFjiQ45E9eDf/IKIrtL4L+8bQvCqXmdmUOQW8OyPVLKbvHxefx
+	ISU=
 X-IronPort-AV: E=Sophos;i="5.70,511,1574118000"; 
-   d="scan'208";a="6037701"
+   d="scan'208";a="6039082"
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+To: Junling Zheng <zhengjunling@huawei.com>, Khem Raj <raj.khem@gmail.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] python3-scons: Fix license file collision
-Thread-Index: AQHV7xuWQ6yTXbga4EaH73rDwWSGzKg2vOKg
-Date: Tue, 3 Mar 2020 11:21:42 +0000
-Message-ID: <390fd7bab651456084420a36a41478a4@XBOX03.axis.com>
-References: <20200229161603.495994-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20200229161603.495994-1-richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] arch-arm64.inc: Do not append aarch64 in
+	MACHINEOVERRIDES
+Thread-Index: AQHV8MCOVPC5pfvw0keD/66VlGkIvKg2IGSAgACi7cA=
+Date: Tue, 3 Mar 2020 11:59:58 +0000
+Message-ID: <41b7391039564f10a0c8b4f63eeb4274@XBOX03.axis.com>
+References: <20200302171153.28030-1-zhengjunling@huawei.com>
+	<666b3145-0e57-cf3c-f1f4-22d6fd0521e5@gmail.com>
+	<9d41cd5d-7355-175d-391c-35231c9a7e92@huawei.com>
+In-Reply-To: <9d41cd5d-7355-175d-391c-35231c9a7e92@huawei.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: Re: [PATCH] python3-scons: Fix license file collision
+Cc: "wangnan0@huawei.com" <wangnan0@huawei.com>
+Subject: Re: [PATCH] arch-arm64.inc: Do not append aarch64 in MACHINEOVERRIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,58 +55,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 11:21:43 -0000
+X-List-Received-Date: Tue, 03 Mar 2020 11:59:58 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 > -----Original Message-----
 > From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--bounces@lists.openembedded.org> On Behalf Of Richard Purdie
-> Sent: den 29 februari 2020 17:16
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH] python3-scons: Fix license file collision
+-
+> bounces@lists.openembedded.org> On Behalf Of Junling Zheng
+> Sent: den 3 mars 2020 04:11
+> To: Khem Raj <raj.khem@gmail.com>; openembedded-
+> core@lists.openembedded.org
+> Cc: wangnan0@huawei.com
+> Subject: Re: [OE-core] [PATCH] arch-arm64.inc: Do not append aarch64 in
+> MACHINEOVERRIDES
 >=20
-> Downloading a file called "LICENSE" into DL_DIR is 'problematic' and coll=
-ides with the
-> file from other versions of the recipe at best.
+> On 2020/3/3 2:29, Khem Raj wrote:
+> >
+> >
+> > On 3/2/20 9:11 AM, Junling Zheng wrote:
+> >> Currently, for arch-arm64, poky will append the MACHINEOVERRIDES with
+> >> "aarch64:", which has the higher priority than TRANSLATED_TARGET_ARCH.
+> >> So, for aarch64 big endian, the variable '<foo>_aarch64' will override
+> >> not only '<foo>', but also '<foo>_aarch64-be', thus we will get an
+> >> incorrect variable.
+> >>
+> >> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
+> >> ---
+> >>   meta/conf/machine/include/arm/arch-arm64.inc | 2 --
+> >>   1 file changed, 2 deletions(-)
+> >>
+> >> diff --git a/meta/conf/machine/include/arm/arch-arm64.inc
+> b/meta/conf/machine/include/arm/arch-arm64.inc
+> >> index 53f4566815..32294bd218 100644
+> >> --- a/meta/conf/machine/include/arm/arch-arm64.inc
+> >> +++ b/meta/conf/machine/include/arm/arch-arm64.inc
+> >> @@ -4,8 +4,6 @@ require conf/machine/include/arm/arch-armv7ve.inc
+> >>     TUNEVALID[aarch64] =3D "Enable instructions for aarch64"
+> >>   -MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'aarch=
+64', 'aarch64:', '' ,d)}"
+> >> -
+> >
+> > if its removed here, where is it being added for other machines,
+> question is, should we treat aarch64 as LE equivalent of aarch64_be
+> > or should be treated as common aarch64 and a new define like aarch64_le
+> defined.
+> >
 >=20
-> Rename it to something more specific to avoid collision problems.
+> Currently, for arm64, we have aarch64_be to represent big endian, but no
+> overrides to represent little endian only.
 >=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-devtools/python/python3-scons_3.1.2.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> So, IMO, we should treat aarch64 as little enaian only, like arm and
+> armeb.
 >=20
-> diff --git a/meta/recipes-devtools/python/python3-scons_3.1.2.bb b/meta/r=
-ecipes-devtools/python/python3-scons_3.1.2.bb
-> index aa7a2a8300d..ce117a92d4f 100644
-> --- a/meta/recipes-devtools/python/python3-scons_3.1.2.bb
-> +++ b/meta/recipes-devtools/python/python3-scons_3.1.2.bb
-> @@ -1,10 +1,10 @@
->  SUMMARY =3D "Software Construction tool (make/autotools replacement)"
->  SECTION =3D "devel/python"
->  LICENSE =3D "MIT"
-> -LIC_FILES_CHKSUM =3D "file://${WORKDIR}/LICENSE;md5=3De14e1b33428df24a40=
-a782ae142785d0"
-> +LIC_FILES_CHKSUM =3D "file://${WORKDIR}/LICENSE-python3-scons-${PV};md5=
-=3De14e1b33428df24a40a782ae142785d0"
->=20
->  # pypi package does not have a valid license file
-> -SRC_URI +=3D "https://raw.githubusercontent.com/SCons/scons/${PV}/LICENS=
-E;name=3Dlicense"
-> +SRC_URI +=3D "https://raw.githubusercontent.com/SCons/scons/${PV}/LICENS=
-E;downloadfilename=3DLICENSE-python3-scons-${PV};name=3Dlicense"
+> >>   # Little Endian base configs
+> >>   AVAILTUNES +=3D "aarch64 aarch64_be"
+> >>   ARMPKGARCH_tune-aarch64 ?=3D "aarch64"
 
-Any reason to not use "${BP}" instead of "python3-scons-${PV}" above?
-Or should I send a cleanup patch?
+Please, before removing "aarch64" from MACHINEOVERRIDES, add "armv8a" or=20
+similar. This is how it is done for the armv7* based chips. E.g., I would=20
+expect to see tune-cortexa53.inc have:
 
->=20
->  SRC_URI[md5sum] =3D "f9c4ad06dcf1427be95472eaf380c81a"
->  SRC_URI[sha256sum] =3D "8aaa483c303efeb678e6f7c776c8444a482f8ddc3ad891f8=
-b6cdd35264da9a1f"
-> --
-> 2.25.0
+MACHINEOVERRIDES =3D. "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', '=
+armv8a:', '' ,d)}"
+
+Which corresponds to how it is done for armv7*.
+
+At least we currently rely on being able to do, e.g.:
+
+COMPATIBLE_MACHINE =3D "aarch64|armv7a|armv7ve"
+
+and if you remove "aarch64" from MACHINEOVERRIDES, we need a suitable=20
+substitute.
 
 //Peter
 
