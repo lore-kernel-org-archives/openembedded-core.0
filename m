@@ -1,45 +1,54 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 18CE2619B9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 38B2561927
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 13:15:44 +0000 (UTC)
+	Tue,  3 Mar 2020 13:28:30 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id t11so4334065wrw.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Mar 2020 05:28:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=axis.com; l=2664; q=dns/txt; s=axis-central1;
-	t=1583241346; x=1614777346;
-	h=from:to:subject:date:message-id:references:in-reply-to:
-	content-transfer-encoding:mime-version;
-	bh=fPs8blzKeeeNEArAxq4rdelHSIAxakOfN+CZ+NY8gzI=;
-	b=bWdpxAu4rA/aM+HknxTK45pTS8ZOIKScqH+x3ujsjDXx1dJrqvnZ7/VQ
-	x8VIloIGp6OxIHLadktOy07e2BGGIBBBXeB0QR21DWsGII8nusq7cXZbA
-	ixsqSsmnWnkycyJVvHct1n7PABl0Di4wT2Xc57fOOnEz66Rb6dgQ3nh+X
-	RRyyIp/07ug5fqJs18SY7OP/5exFfmthkLCfHgmxr1LscdWVsVk5bN7l1
-	4HPrOxjCD76BQ86IROD2VXJ1KrbdzrrZnpYNoMB/bZVZPk3us4fZ/wBgU
-	NzwXfCNlh+kW5luToJudgQBj5wDIzDwIZ8ptaF+fn30xgzUxHc+1xqSwK w==;
-IronPort-SDR: bwUkQ4+pjZ8iO9eEh2s6njdARcHKfNJKJiVG9qNXwoZ8xI3ll3Vukojm7GxrEu3Ugf2fGrK9lm
-	jp8KBNkBhmVu7+KBoPiFLQ218gPPNuUs+FeXX3JnU19t3qWKmuzB4+7IS25es34VDBIbwhXfYa
-	SpJePqvftx8uYEdKsah5mfkJ5oZ5y5ipJVFqfEl5AECMVlXg0p0OXhCJNnmw/jEE4MmxiudJUR
-	cd+QwO9VhMwmuhdifNwB2/oW+9RXXdguV/38mu69uM3k9Kl0I3LpIBWgprc86PJSYaJQn9mpVX
-	SsE=
-X-IronPort-AV: E=Sophos;i="5.70,511,1574118000"; 
-   d="scan'208";a="6042478"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=7ymQJXCzJDEZLmWWxegxQPCiugvPU4bkj0llHD+iZyo=;
+	b=H+Tlu+7vK0xlWtED03+wCY0/oGS6XwOOgDAJiImXUU7p+tsKF9fgavAvdOAGMPuD4b
+	vF/4XHXLVZzCN9nD5D1/lekI1xMTZvKrsFmfkxdj/UgHO0xssXBh1QttHMV2qBnb2WZR
+	fVh+sUkC5xbHW44dOCJR2xgmfTeo3e+t0nSCE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=7ymQJXCzJDEZLmWWxegxQPCiugvPU4bkj0llHD+iZyo=;
+	b=LY9dWqalpWKFUjF6MAjCay6cmQtijUfWkyX+iJ8YbzFQy5YP62lZoaDNDVI1L3qW/r
+	rH2YZFCYSH82ir41IYxjZrmMPPWCbSlQZ1hDbQ+x8a95mboFrpgrX+92QyfFMav1osBG
+	6MLwJDogQghv6y3Hg7lubkwK38XyNiB5YcU9+r+FoFsWcDJdvHIA6fYI6k4BX7FO4tAL
+	m2kqzCl0erLD1CKYe6u3Y5gvapaYOBmwYD3exFbLwjYg/OZ87I4S61Co6OtWSHL30vz5
+	B3Xo/n1mUYhCexsattMRZRZS6t3tGmd3Ti9rri2+n0BJtPaF3+1GSaqVKbBS393KNQsm
+	z4FQ==
+X-Gm-Message-State: ANhLgQ16GrrORTLAt6dbq5+HM4Ii2mBMWlrs1ysIFz7hwilpyHgHbGWP
+	Eqgdj/B+u+ECRqoo9FXzOodw3g==
+X-Google-Smtp-Source: ADFU+vv5VU6mW0TaEnquE0aX205zoH/OCK3pzft7F7w49CQf4XR0AIrlaFnmuHiCyx4bdbTT8gHkAg==
+X-Received: by 2002:a05:6000:149:: with SMTP id
+	r9mr5180679wrx.147.1583242110845; 
+	Tue, 03 Mar 2020 05:28:30 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	j5sm33850216wrx.56.2020.03.03.05.28.29
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 03 Mar 2020 05:28:30 -0800 (PST)
+Message-ID: <7bc3721593abda11b0fbc0802969b387f47a20aa.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] is there ever a compelling reason for
-	"FILESEXTRAPATHS_append := ..."?
-Thread-Index: AQHV774hmsJz5zIW+0uS6YrxyoT826gzjxKAgANI5DA=
-Date: Tue, 3 Mar 2020 13:15:45 +0000
-Message-ID: <673fe5c88b2842ea8a023562a2043be3@XBOX03.axis.com>
-References: <alpine.LFD.2.21.2003010633290.73263@localhost.localdomain>
-	<alpine.LFD.2.21.2003010645240.73653@localhost.localdomain>
-In-Reply-To: <alpine.LFD.2.21.2003010645240.73653@localhost.localdomain>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+Date: Tue, 03 Mar 2020 13:28:28 +0000
+In-Reply-To: <390fd7bab651456084420a36a41478a4@XBOX03.axis.com>
+References: <20200229161603.495994-1-richard.purdie@linuxfoundation.org>
+	<390fd7bab651456084420a36a41478a4@XBOX03.axis.com>
+User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-Subject: Re: is there ever a compelling reason for "FILESEXTRAPATHS_append := ..."?
+Subject: Re: [PATCH] python3-scons: Fix license file collision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,76 +61,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 13:15:45 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 03 Mar 2020 13:28:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of Robert P. J. Day
-> Sent: den 1 mars 2020 12:51
-> To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-> Subject: Re: [OE-core] is there ever a compelling reason for
-> "FILESEXTRAPATHS_append :=3D ..."?
->=20
-> On Sun, 1 Mar 2020, Robert P. J. Day wrote:
->=20
-> >
-> >   occasionally, i run across an existing bbappend file which contains
-> >
-> >   FILESEXTRAPATHS_append :=3D ...
-> >
-> > and that makes me nervous as i don't see the rationale in *appending*
-> > to that variable in a bbappend file -- seems to defeat the purpose of
-> > potentially overriding what's in the original .bb recipe.
-> >
-> >   now, sometimes it's obvious that it's broken as i'm currently
-> > looking at an example:
-> >
-> >   FILESEXTRAPATHS_append :=3D "${THISDIR}/${PN}:"
-> >
-> > which makes no sense at all with the colon at the end. but other than
-> > something so clearly broken, are there situations to append to
-> > FILESEXTRAPATHS? that just seems counter-productive, but maybe i'm
-> > missing something.
->=20
->   figured i'd scan for examples of that in some of the many layers i
-> have checked out and found the following:
->=20
-> meta-boundary/recipes-qt/qt4/qt4-embedded_%.bbappend:FILESEXTRAPATHS_appe=
-nd :=3D "${THISDIR}/files:"
->=20
-> meta-intel/recipes-core/zlib/zlib-intel_1.2.11.1.jtkv6.3.bb:FILESEXTRAPAT=
-HS_append =3D ":${COREBASE}/meta/recipes-core/zlib/zlib"
->=20
-> meta-qt5/recipes-qt/qt5/qt5-ptest.inc:FILESEXTRAPATHS_append :=3D ":${THI=
-SDIR}/ptest"
->=20
-> meta-virtualization/recipes-networking/openvswitch/openvswitch_git.bb:FIL=
-ESEXTRAPATHS_append :=3D "${THISDIR}/${PN}-git:"
->=20
->   note that a couple seem clearly(?) wrong (like that last one), but
+On Tue, 2020-03-03 at 11:21 +0000, Peter Kjellerstedt wrote:
+> >  SUMMARY = "Software Construction tool (make/autotools replacement)"
+> >  SECTION = "devel/python"
+> >  LICENSE = "MIT"
+> > -LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE;md5=e14e1b33428df24a40a782ae142785d0"
+> > +LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE-python3-scons-${PV};md5=e14e1b33428df24a40a782ae142785d0"
+> > 
+> >  # pypi package does not have a valid license file
+> > -SRC_URI += "https://raw.githubusercontent.com/SCons/scons/${PV}/LICENSE;name=license"
+> > +SRC_URI += "https://raw.githubusercontent.com/SCons/scons/${PV}/LICENSE;downloadfilename=LICENSE-python3-scons-${PV};name=license"
+> 
+> Any reason to not use "${BP}" instead of "python3-scons-${PV}" above?
+> Or should I send a cleanup patch?
 
-Although contradictory to logic, it is apparently correct to use=20
-"<path>:" both with _prepend and _append when adding to=20
-FILESEXTRAPATHS (see the default value set by bitbake.conf, which is=20
-"__default:"). However, problems _will_ arise if different bbappend=20
-files for the same recipe do it differently... It can also be noted=20
-that the QA test in insane.bbclass suggests to use ":<path>" with=20
-_append, further adding to the confusion.
+No reason. I tend to find BP a little harder to read I guess but its
+just a personal preference.
 
-> i'm open to clarification as to when this is useful. (i think i see
-> the application in that meta-intel layer example, although should that
-> use "OEROOT" rather than "COREBASE"?)
+Cheers,
 
-No, ${COREBASE} is correct. (OEROOT is not a bitbake variable, it is=20
-only available in the oe-init-build-env script.)
-
->=20
-> rday
-
-//Peter
+Richard
 
 
