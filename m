@@ -1,62 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AFC6261975
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 19:31:45 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id u17so4897010iog.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2020 11:31:47 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
+	[209.85.216.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A7FC1618F7
+	for <openembedded-core@openembedded.org>;
+	Tue,  3 Mar 2020 21:09:04 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id lt1so1911855pjb.2
+	for <openembedded-core@openembedded.org>;
+	Tue, 03 Mar 2020 13:09:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=DNYxM73VdlKYlvR++H7yJLnBK+oAMkJw60SvcogAcLQ=;
-	b=r6KJyFWWRY0k79oBXCwP4RfFbSFi0ls1S6mI1E+Tgvha/iKtdUTS52XCR9/TsNMdWP
-	NjTlx2bug265QoZbzr8+oM/TsQJt4OWqndQ2AYJgSv9SmWSEqoSsUOxNOh9wEz1jMvWn
-	hVnwdNUG9LlmYxIxnji1pNw4mVqy0ZrvlWi//1EwOWAN1/92Ts5RFZeT15EsjiEr2fj5
-	AiZJPtuV3aGFiO9JGk7ITx9NruanpGtgoAHme2G07McBiSRtOs9p3HM1uejPVMfhd2DU
-	eh/nejYCCVNto4rcaK5pGA9HXXKROubMBvyN6dBOCJdxgA34NxNGEztxekp4YbEmoZvO
-	fdhw==
+	h=from:to:cc:subject:date:message-id;
+	bh=FEYr0g6OWfXkwT6dyysYez6GrIj+EsRLqqp/ZdQ7NYE=;
+	b=CZjZiQ5kS+E8Ub6PtTCU+wIwfKSCuVeFkzXnVKCL80pEOSzPv/EZ4PJ0nU4WriRLnh
+	FJMcLZpyCMBpku8h7eThEY0ZHN8buto6pF6kMCp2CJ+4LGcA56S3CngaND1yzuqVL0kD
+	mL3rRuyfS1XzIw50/AJYchB6c4qAUl4HRKV6vs4Q8ZtqfFJDCDLCqqr0XcSm0dB9CrS0
+	iDYZPXN1LGwsAdIcD+VcleOe2QJkymq7cHP/PTxuK3hhwmLEJkOg4Roa2qoE0kWOzdne
+	NoT+v2OxWzHmEcjZFzvzAU+hvUuS3rDJszs5wEv5GKQTvs3PE1J3jlC2Y4pK65o9ktbO
+	YMxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=DNYxM73VdlKYlvR++H7yJLnBK+oAMkJw60SvcogAcLQ=;
-	b=eg3wGCkVOlCe/9yZKsnwFX4260sQ/DdQltCAzVUhhFjRNDogsz6xrBEBG/vqwfXDsh
-	hVAXdGSVaE7ND85D2vO+Ea/J0YURQnPjjSz8PR7Aaqe3emraYsygyo14T7ZJk3giMJt7
-	Uh8AwYnavq3oj+LZIpdOrELjCYGYBYkP0fny1V451pFqFe8PVFRkMGhHDHFCXeI5uKYA
-	RVsaQyeRpBbfjkiu+WvaQdyc4vvajpFFBse0hHz0Ax0i+O0D17NogHbkyZHcKY3YOnWF
-	q9ZI14gTbEDm99p3BQQuscpheKrRjkGVInAx+AROvJFzu5/06+XGKiigM2dXlC4uz0Rv
-	xnrg==
-X-Gm-Message-State: ANhLgQ3DNIXEglzjWAwxpQK+cwkkzZknskcBhPtcheHytVskV8givq/Y
-	1ZurAkLKbizKZ/miEk/7Jx0=
-X-Google-Smtp-Source: ADFU+vtOfmk0YE2A1/wwFstXBbtq+0kgLyRoT7eEknFov7/TUX9zaiSH3smVI7IQoM4MiO0kHdA9jA==
-X-Received: by 2002:a02:3301:: with SMTP id c1mr5230946jae.136.1583263906472; 
-	Tue, 03 Mar 2020 11:31:46 -0800 (PST)
-Received: from ?IPv6:2601:646:9200:4e0:31ff:997f:e0c7:a3a0?
-	([2601:646:9200:4e0:31ff:997f:e0c7:a3a0])
-	by smtp.gmail.com with ESMTPSA id
-	r13sm4341191ioj.79.2020.03.03.11.31.45
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 03 Mar 2020 11:31:45 -0800 (PST)
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Junling Zheng <zhengjunling@huawei.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20200302171153.28030-1-zhengjunling@huawei.com>
-	<666b3145-0e57-cf3c-f1f4-22d6fd0521e5@gmail.com>
-	<9d41cd5d-7355-175d-391c-35231c9a7e92@huawei.com>
-	<41b7391039564f10a0c8b4f63eeb4274@XBOX03.axis.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <395e6f3d-7223-4322-9f65-3117a68c17af@gmail.com>
-Date: Tue, 3 Mar 2020 11:31:44 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <41b7391039564f10a0c8b4f63eeb4274@XBOX03.axis.com>
-Cc: "wangnan0@huawei.com" <wangnan0@huawei.com>
-Subject: Re: [PATCH] arch-arm64.inc: Do not append aarch64 in MACHINEOVERRIDES
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=FEYr0g6OWfXkwT6dyysYez6GrIj+EsRLqqp/ZdQ7NYE=;
+	b=QTSMzomW1WrgXaT6wYUktCsGS2aVDfM/h6kZr48sw4jaXNjWuAC3dnmlRJx2o6cnVD
+	xIe0ePYycMaePvMyaNvMRMkiMCI/8wJeBnP1DPWR8tRT0TImPElxwqb7VXWGhkKq6mOg
+	DP8edcQEho6i55h1dnOc9dI6DbC28qzTwGvsw6oxjGSnSqWJgmNSxP5MCWym7rvfQ7tI
+	nSe1bdMqcCHe/Me8P0owDM3Bs0xyxb/qhCxlcVjb4sEItkIicLHMwXdsCVaQgihoqN2L
+	N9uTeUVZRIQIqM+QhTRqBx/AaLWTZ8RV0sQ2rYAEta35OZNPvNLl/+Z9Lacrgagio+3C
+	/DFw==
+X-Gm-Message-State: ANhLgQ0amx691sHpAbuqsgS3b4BDlsFThFMIbpSpTmVvTqppCDUnibnq
+	vwX0poO+BHOQ2nB3DbU3nkJliWkh
+X-Google-Smtp-Source: ADFU+vvcqbpF/C1KGUtlg3oxkMOAfUpvRZA8ab3aZJ+tLqqDNukDIWJpIZanEZTI92vscalMbjZv8w==
+X-Received: by 2002:a17:90b:34f:: with SMTP id
+	fh15mr474335pjb.49.1583269745303; 
+	Tue, 03 Mar 2020 13:09:05 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com ([45.19.219.178])
+	by smtp.gmail.com with ESMTPSA id s23sm124742pjp.28.2020.03.03.13.09.03
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 03 Mar 2020 13:09:04 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@openembedded.org
+Date: Tue,  3 Mar 2020 13:09:03 -0800
+Message-Id: <20200303210903.29570-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [v2][PATCH] libuv: move from meta-oe to core for bind update
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,85 +55,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 19:31:45 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Mar 2020 21:09:04 -0000
 
+From: Armin Kuster <akuster@mvista.com>
 
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 
-On 3/3/20 3:59 AM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-
->> bounces@lists.openembedded.org> On Behalf Of Junling Zheng
->> Sent: den 3 mars 2020 04:11
->> To: Khem Raj <raj.khem@gmail.com>; openembedded-
->> core@lists.openembedded.org
->> Cc: wangnan0@huawei.com
->> Subject: Re: [OE-core] [PATCH] arch-arm64.inc: Do not append aarch64 in
->> MACHINEOVERRIDES
->>
->> On 2020/3/3 2:29, Khem Raj wrote:
->>>
->>>
->>> On 3/2/20 9:11 AM, Junling Zheng wrote:
->>>> Currently, for arch-arm64, poky will append the MACHINEOVERRIDES with
->>>> "aarch64:", which has the higher priority than TRANSLATED_TARGET_ARCH.
->>>> So, for aarch64 big endian, the variable '<foo>_aarch64' will override
->>>> not only '<foo>', but also '<foo>_aarch64-be', thus we will get an
->>>> incorrect variable.
->>>>
->>>> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
->>>> ---
->>>>    meta/conf/machine/include/arm/arch-arm64.inc | 2 --
->>>>    1 file changed, 2 deletions(-)
->>>>
->>>> diff --git a/meta/conf/machine/include/arm/arch-arm64.inc
->> b/meta/conf/machine/include/arm/arch-arm64.inc
->>>> index 53f4566815..32294bd218 100644
->>>> --- a/meta/conf/machine/include/arm/arch-arm64.inc
->>>> +++ b/meta/conf/machine/include/arm/arch-arm64.inc
->>>> @@ -4,8 +4,6 @@ require conf/machine/include/arm/arch-armv7ve.inc
->>>>      TUNEVALID[aarch64] = "Enable instructions for aarch64"
->>>>    -MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', 'aarch64:', '' ,d)}"
->>>> -
->>>
->>> if its removed here, where is it being added for other machines,
->> question is, should we treat aarch64 as LE equivalent of aarch64_be
->>> or should be treated as common aarch64 and a new define like aarch64_le
->> defined.
->>>
->>
->> Currently, for arm64, we have aarch64_be to represent big endian, but no
->> overrides to represent little endian only.
->>
->> So, IMO, we should treat aarch64 as little enaian only, like arm and
->> armeb.
->>
->>>>    # Little Endian base configs
->>>>    AVAILTUNES += "aarch64 aarch64_be"
->>>>    ARMPKGARCH_tune-aarch64 ?= "aarch64"
-> 
-> Please, before removing "aarch64" from MACHINEOVERRIDES, add "armv8a" or
-> similar. This is how it is done for the armv7* based chips. E.g., I would
-> expect to see tune-cortexa53.inc have:
-> 
-> MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', 'armv8a:', '' ,d)}"
-> 
-> Which corresponds to how it is done for armv7*.
-> 
-> At least we currently rely on being able to do, e.g.:
-> 
-> COMPATIBLE_MACHINE = "aarch64|armv7a|armv7ve"
-> 
-> and if you remove "aarch64" from MACHINEOVERRIDES, we need a suitable
-> substitute.
+[v2]
+Add maintainer
+Update to newer version in meta-oe
+---
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../libuv/libuv_1.34.2.bb                     | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-connectivity/libuv/libuv_1.34.2.bb
 
-I think armv8a or somesuch might be better in the above usecase, but so 
-far I think we have treated aarch64 as common arm64 notation, so 
-removing this might have more changes needed in rest of metadata, which 
-would be not good.
-> 
-> //Peter
-> 
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 10095ffe76..d724148014 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -392,6 +392,7 @@ RECIPE_MAINTAINER_pn-liburcu = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-liburi-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-libusb1 = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libubootenv = "Stefano Babic <sbabic@denx.de>"
++RECIPE_MAINTAINER_pn-libuv = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-libva = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libva-utils = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-libvorbis = "Tanu Kaskinen <tanuk@iki.fi>"
+diff --git a/meta/recipes-connectivity/libuv/libuv_1.34.2.bb b/meta/recipes-connectivity/libuv/libuv_1.34.2.bb
+new file mode 100644
+index 0000000000..234cec37bb
+--- /dev/null
++++ b/meta/recipes-connectivity/libuv/libuv_1.34.2.bb
+@@ -0,0 +1,19 @@
++SUMMARY = "A multi-platform support library with a focus on asynchronous I/O"
++HOMEPAGE = "https://github.com/libuv/libuv"
++BUGTRACKER = "https://github.com/libuv/libuv/issues"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=a68902a430e32200263d182d44924d47"
++
++SRCREV = "f868c9ab0c307525a16fff99fd21e32a6ebc3837"
++SRC_URI = "git://github.com/libuv/libuv;branch=v1.x"
++
++S = "${WORKDIR}/git"
++
++inherit autotools
++
++do_configure() {
++    ${S}/autogen.sh || bbnote "${PN} failed to autogen.sh"
++    oe_runconf
++}
++
++BBCLASSEXTEND = "native"
+-- 
+2.17.1
+
 
