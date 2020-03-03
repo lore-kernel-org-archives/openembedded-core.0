@@ -1,34 +1,51 @@
-Return-Path: <zhengjunling@huawei.com>
-Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E6E8619E6
+Return-Path: <wallinux@gmail.com>
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+	[209.85.167.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EDD961890
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 14:39:44 +0000 (UTC)
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.60])
-	by Forcepoint Email with ESMTP id BDCB67830CDA1EE2445A;
-	Tue,  3 Mar 2020 22:39:43 +0800 (CST)
-Received: from [127.0.0.1] (10.111.155.88) by DGGEMS406-HUB.china.huawei.com
-	(10.3.19.206) with Microsoft SMTP Server id 14.3.439.0; Tue, 3 Mar 2020
-	22:39:34 +0800
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Khem Raj
-	<raj.khem@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20200302171153.28030-1-zhengjunling@huawei.com>
-	<666b3145-0e57-cf3c-f1f4-22d6fd0521e5@gmail.com>
-	<9d41cd5d-7355-175d-391c-35231c9a7e92@huawei.com>
-	<41b7391039564f10a0c8b4f63eeb4274@XBOX03.axis.com>
-	<dec3b3e2-e293-8107-bf97-34a0804ff4b0@huawei.com>
-	<241102f474044a96bb3d6fdaa96199b4@XBOX03.axis.com>
-From: Junling Zheng <zhengjunling@huawei.com>
-Message-ID: <4cf21ebb-cfb2-f020-2dfb-55fb57b315c5@huawei.com>
-Date: Tue, 3 Mar 2020 22:39:33 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Tue,  3 Mar 2020 15:54:27 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id s1so3207235lfd.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Mar 2020 07:54:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ZHEnHOSsck0+I7tUovZPilxsC5xWYeBbFlmQbLjJ7lE=;
+	b=MU5NMg1MMjDPkh+Es84EP+mKhaj0vKvGXoYAydk/yVoz6fCSuoKpJ4CbQYvUzmz/8R
+	mSMFdogWmCXRBPREGxoJUwTP1b8iQKSmMd3Uuk3OgDodNY0s3sllYc4+DZo4qgzep4S5
+	Rs44ZOr20JVhtBGT0+lfLXaY+DDbTeq1F1sQs2YUmENuRsVq2/xTMaMFhzfJZK0K+l54
+	p7hnS6GR09yZEX6g+CDTBx/iIgKwP7IVp+HjCQXOpqP6AzEpz+GHb9yAHbGWFcpiCZHy
+	k2zBjqqjHf2wctGAdXS3Y1wPMzQbAub7SPA8fLZxkj8reR7EKXjWxQuN0rVvWTYu+PZ+
+	dSCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ZHEnHOSsck0+I7tUovZPilxsC5xWYeBbFlmQbLjJ7lE=;
+	b=ZdHFMtbTdLmT7ByC2yGCRkUkXPdP+CkEWHQ4UGX5KgDIk3vgi/3NDoqDDhcq4B6J4j
+	1aAFSDExr/EoG2qG5yMFxvua8+mvQtu1cDUxXlMjxTjauwpwvvDLelj9bHbhfaSitrUB
+	2BYlWKKi42gDT06RtkO6JIAw7ELOS8tnDmWp3onkeIQ18PVZ0BNS/fgiL0X5nzXwiYJd
+	lU6ajuYvNp/4MD2p3xHv/zfGA3G2Wg1J/ECaDppksfs0VRrWTOwsHhqokN8RJxNUd0a1
+	Kjdf8NkhQ+mvg/Z/A5s64oezNGK8Wxa2ShuENewrU29JqDblaPF29M3vNxA9XL80kRea
+	upmw==
+X-Gm-Message-State: ANhLgQ1GEMxQzhU6oMVi2YuLxbmSUsREf3Jpr1ADna+a/UnaLOjBY5EO
+	zLShd1sl8vXk110LyBBYEDcyznY8eqI=
+X-Google-Smtp-Source: ADFU+vs/Vuh/e32SOFJ0mPddeiqs6Nd4hK6msAFfL1UB8MlIhau09kx1I7RXTz+mhVlgsmnS4SSWoA==
+X-Received: by 2002:ac2:4c39:: with SMTP id u25mr3080297lfq.195.1583250867545; 
+	Tue, 03 Mar 2020 07:54:27 -0800 (PST)
+Received: from arn-awallin-linux-l5.corp.ad.wrs.com
+	(h-155-4-243-131.NA.cust.bahnhof.se. [155.4.243.131])
+	by smtp.gmail.com with ESMTPSA id
+	n26sm11017642lfi.5.2020.03.03.07.54.26
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 03 Mar 2020 07:54:26 -0800 (PST)
+From: Anders Wallin <wallinux@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Mar 2020 16:54:20 +0100
+Message-Id: <20200303155420.24684-1-wallinux@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <241102f474044a96bb3d6fdaa96199b4@XBOX03.axis.com>
-X-Originating-IP: [10.111.155.88]
-X-CFilter-Loop: Reflected
-Cc: "wangnan0@huawei.com" <wangnan0@huawei.com>
-Subject: Re: [PATCH] arch-arm64.inc: Do not append aarch64 in MACHINEOVERRIDES
+Subject: [PATCH v2] babeltrace: only check latest git tag version for 1.x.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,112 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 14:39:44 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Mar 2020 15:54:27 -0000
+Content-Transfer-Encoding: 8bit
 
-On 2020/3/3 22:20, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: Junling Zheng <zhengjunling@huawei.com>
->> Sent: den 3 mars 2020 15:14
->> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; Khem Raj
->> <raj.khem@gmail.com>; openembedded-core@lists.openembedded.org
->> Cc: wangnan0@huawei.com
->> Subject: Re: [OE-core] [PATCH] arch-arm64.inc: Do not append aarch64 in
->> MACHINEOVERRIDES
->>
->> On 2020/3/3 19:59, Peter Kjellerstedt wrote:
->>>> -----Original Message-----
->>>> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
->> core-
->>>> bounces@lists.openembedded.org> On Behalf Of Junling Zheng
->>>> Sent: den 3 mars 2020 04:11
->>>> To: Khem Raj <raj.khem@gmail.com>; openembedded-
->>>> core@lists.openembedded.org
->>>> Cc: wangnan0@huawei.com
->>>> Subject: Re: [OE-core] [PATCH] arch-arm64.inc: Do not append aarch64 in
->>>> MACHINEOVERRIDES
->>>>
->>>> On 2020/3/3 2:29, Khem Raj wrote:
->>>>>
->>>>>
->>>>> On 3/2/20 9:11 AM, Junling Zheng wrote:
->>>>>> Currently, for arch-arm64, poky will append the MACHINEOVERRIDES with
->>>>>> "aarch64:", which has the higher priority than
->> TRANSLATED_TARGET_ARCH.
->>>>>> So, for aarch64 big endian, the variable '<foo>_aarch64' will
->> override
->>>>>> not only '<foo>', but also '<foo>_aarch64-be', thus we will get an
->>>>>> incorrect variable.
->>>>>>
->>>>>> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
->>>>>> ---
->>>>>>   meta/conf/machine/include/arm/arch-arm64.inc | 2 --
->>>>>>   1 file changed, 2 deletions(-)
->>>>>>
->>>>>> diff --git a/meta/conf/machine/include/arm/arch-arm64.inc
->>>> b/meta/conf/machine/include/arm/arch-arm64.inc
->>>>>> index 53f4566815..32294bd218 100644
->>>>>> --- a/meta/conf/machine/include/arm/arch-arm64.inc
->>>>>> +++ b/meta/conf/machine/include/arm/arch-arm64.inc
->>>>>> @@ -4,8 +4,6 @@ require conf/machine/include/arm/arch-armv7ve.inc
->>>>>>     TUNEVALID[aarch64] = "Enable instructions for aarch64"
->>>>>>   -MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES',
->> 'aarch64', 'aarch64:', '' ,d)}"
->>>>>> -
->>>>>
->>>>> if its removed here, where is it being added for other machines,
->>>> question is, should we treat aarch64 as LE equivalent of aarch64_be
->>>>> or should be treated as common aarch64 and a new define like
->> aarch64_le
->>>> defined.
->>>>>
->>>>
->>>> Currently, for arm64, we have aarch64_be to represent big endian, but
->> no
->>>> overrides to represent little endian only.
->>>>
->>>> So, IMO, we should treat aarch64 as little enaian only, like arm and
->>>> armeb.
->>>>
->>>>>>   # Little Endian base configs
->>>>>>   AVAILTUNES += "aarch64 aarch64_be"
->>>>>>   ARMPKGARCH_tune-aarch64 ?= "aarch64"
->>>
->>> Please, before removing "aarch64" from MACHINEOVERRIDES, add "armv8a" or
->>> similar. This is how it is done for the armv7* based chips. E.g., I
->> would
->>> expect to see tune-cortexa53.inc have:
->>>
->>> MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', 'armv8a:', '' ,d)}"
->>>
->>
->> arch-armv8a.inc has set "armv8a:" as overrides, and tune-cortexa53.inc
->> requires arch-armv8a.inc.
-> 
-> But it never adds "armv8a" (or ${TUNE_FEATURES_tune-armv8a}) to 
-> TUNE_FEATURES, it adds "aarch64", so the above is never triggered...
-> 
+version 2.x.x will be added with a new babeltrace2 recipe
 
-I guess the logic is: if you set DEFAULTTUNE as armv8a, then it will add "armv8a"
-to TUNE_FEATURES, and then "armv8a:" will be added into MACHINEOVERRIDES. Am I right?
+Signed-off-by: Anders Wallin <wallinux@gmail.com>
+---
+ meta/recipes-kernel/lttng/babeltrace_1.5.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->>> Which corresponds to how it is done for armv7*.
->>>
->>> At least we currently rely on being able to do, e.g.:
->>>
->>> COMPATIBLE_MACHINE = "aarch64|armv7a|armv7ve"
->>>
->>> and if you remove "aarch64" from MACHINEOVERRIDES, we need a suitable
->>> substitute.
->>>
->>> //Peter
-> 
-> //Peter
-> 
-> 
-> .
-> 
-
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
+index c050dc674d..4d2492a170 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
+@@ -11,7 +11,7 @@ SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-1.5
+ 	   file://run-ptest \
+ 	  "
+ SRCREV = "054a54ae10b01a271afc4f19496c041b10fb414c"
+-UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)$"
++UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>1(\.\d+)+)$"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.25.1
 
 
