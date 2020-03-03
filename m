@@ -1,53 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id A698C61966
-	for <openembedded-core@openembedded.org>;
-	Tue,  3 Mar 2020 07:01:19 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id z15so2946931wrl.1
-	for <openembedded-core@openembedded.org>;
-	Mon, 02 Mar 2020 23:01:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=6Z4uW86yCgLJbKYSkXBKSmYuPb58U0HiKwaGxgPm4yI=;
-	b=GOheiqJOeYv6n4qqLPLZqGiTvSnq1/bI8QlcNOxW1kQtp/5S6YXiBgkennCsOoduJY
-	lrKFXICTqnvxtM3Um05D7FxIrAfOjVVLchqtmSglxrpdLRRE3mxHw8pUYG2PDraiY0G0
-	HdNdbrGeLotf2g1ZWlP0X9RsbXwCGztMlGcOk=
+Return-Path: <wallinux@gmail.com>
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+	[209.85.167.44])
+	by mail.openembedded.org (Postfix) with ESMTP id EC92661901
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  3 Mar 2020 07:52:02 +0000 (UTC)
+Received: by mail-lf1-f44.google.com with SMTP id c20so1897573lfb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 02 Mar 2020 23:52:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5GSAMfRM1db/GhAMmaiCu1zd1aX0G/+pDobf/wUgbBI=;
+	b=nAN+eSf9/Th/BAf7Sdf1IcGxGvs912j7wkHaFGE/296bnQTRXcK1jQPZOgTLWJhjbU
+	tcQ8N0a2wOK6eVXhJyuyzf5HRY8YRbu1j/MsI27K8qsMW4QDdorvr+7U8SKC5fN00GuX
+	7HKSigan2yIDL00F5gkdH1N07l+68wZCVPG2SGInj0C5TAdnE1U/Zt+tpHX2sswsMpvR
+	JPmSaRzTyR1lpRbP+csV0+fUJHmFv2LCBo2DvJVjAro7g8rCrkmq7RC3zjK9LouhGnXH
+	kdXVziDkIvzSNLnCSdv6XR3ksEPxB4Li2kvTyi54ESDID9Go8UnEcGuO7FUAymD8HOqU
+	lfag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=6Z4uW86yCgLJbKYSkXBKSmYuPb58U0HiKwaGxgPm4yI=;
-	b=U6fwKk4Q1NDxR56oQgepdruIlZR2zRM1uG07fRR4dXN4+ROviJ0yrQn8kCp0avXkWs
-	iWX5gBTpqHb8SqKEJmV0e9akqiJGaM6rLcFapE9In/clyhMd93o3JW/RBiZ3hCn6zBND
-	jUF/VOoAhEPGo7lwDn34qv5dPBvL4x/AJyRlZb7kQqfvygR8LbPz/iTpdmbyJjaqHgv1
-	JrXswq55nNNx1EADOVupxkbBlOM754aHrYvw38/kRDNiCsm0y6aJtSOMmRHfSsViJ6jy
-	/jYrlIZEMx0HUfNIf2uRR46SN8IZXMjjyDy2BXU4UZcUg9OfO04384aEqUMbRCvF8KIR
-	QUBA==
-X-Gm-Message-State: ANhLgQ1+sjXeq0jpUKgXMPuopnPxzZ/f0NzIicPVpoBuo8i4p+e6FkJr
-	jGf7Mxo7/3mb6AelgkxHIsijkg==
-X-Google-Smtp-Source: ADFU+vtF9pFHwvDjmwXtGZd8152b1pfCSACQYX33jskXFG2FE9YFtOAdJZpahPjzkvgffi6Z5AebXg==
-X-Received: by 2002:adf:f181:: with SMTP id h1mr3818962wro.361.1583218880025; 
-	Mon, 02 Mar 2020 23:01:20 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id i4sm2412528wmd.23.2020.03.02.23.01.18
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5GSAMfRM1db/GhAMmaiCu1zd1aX0G/+pDobf/wUgbBI=;
+	b=qUaIacahI0C9/kmJzHj0omqEzpSG8FJCWPz65Z5GmnazCkDEKZFHotZR9EgfXN/v3R
+	QNr0P1Vxo9idqs0Uty1CWUDPPXuUmrOJB6MjZo3l82ziWc8c4rhAnB3p3dUmMmM7A0pz
+	raJmdbxQLsdzs+AxHbzZJGx5HbIFnK2st3J2MBAuqLMVPPt9B2sDWKCw4yoQxcS3v7qT
+	bVfbuHxvHOxg2Ry1raVexCuC8iJK0cq6gn1OgdspZ1AcqHbnUEty4V9igp3h5blOzAJn
+	2z/AUbxqLWCZHheZc9amn9SdwYQaqNyHUr9HwqzrKAjM18wnaMBPWiiZpno8SUIgnS7w
+	0lQw==
+X-Gm-Message-State: ANhLgQ1+Kpybk2gX/eQARaNkvF65kLVFWpSkwV9YkvWFFIiPzjWFYTIr
+	dhofsuBTZRhv5wfLM89KYOvjXIOjCag=
+X-Google-Smtp-Source: ADFU+vs27XDs3zUEw7tgtIB9TA2BID+vjmKFSJXbPKYWSs8Ybn+HtqPy+Ak0Ntbptk5tQ1yc10tEOg==
+X-Received: by 2002:ac2:58ee:: with SMTP id v14mr84283lfo.62.1583221923140;
+	Mon, 02 Mar 2020 23:52:03 -0800 (PST)
+Received: from arn-awallin-linux-l5.corp.ad.wrs.com
+	(h-155-4-243-131.NA.cust.bahnhof.se. [155.4.243.131])
+	by smtp.gmail.com with ESMTPSA id n21sm5275089lfh.2.2020.03.02.23.52.02
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 02 Mar 2020 23:01:19 -0800 (PST)
-Message-ID: <1c358709eca41c0607ba0301bdaa45b01da2e454.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, openembedded-core
-	<openembedded-core@openembedded.org>
-Date: Tue, 03 Mar 2020 07:01:17 +0000
-In-Reply-To: <47102fa1-dd23-b5ce-1fcb-d05d97d74794@gmail.com>
-References: <e7b54a7b237a70346379df8483837a6b97ccc73f.camel@linuxfoundation.org>
-	<c88b00fa-a513-c0a0-eb30-62cef90f66bb@gmail.com>
-	<df13465da1047d41fb47b19c7479a836b8b71245.camel@linuxfoundation.org>
-	<47102fa1-dd23-b5ce-1fcb-d05d97d74794@gmail.com>
-User-Agent: Evolution 3.34.1-4 
+	Mon, 02 Mar 2020 23:52:02 -0800 (PST)
+From: Anders Wallin <wallinux@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  3 Mar 2020 08:51:32 +0100
+Message-Id: <20200303075132.25849-1-wallinux@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Subject: Re: M3 build status
+Subject: [PATCH] babeltrace: only check latest git tag version for 1.x.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,32 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 07:01:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 03 Mar 2020 07:52:03 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2020-03-02 at 20:17 -0800, akuster808 wrote:
-> 
-> On 3/2/20 8:47 AM, Richard Purdie wrote:
-> > On Sat, 2020-02-29 at 07:38 -0800, akuster808 wrote:
-> > > On 2/29/20 5:13 AM, Richard Purdie wrote:
-> > > > Just to quickly update everyone, a number of patches we
-> > > > probably
-> > > > wanted
-> > > > in 3.1 have had issues but have had the issues resolved and the
-> > > > patches
-> > > > have now merged. Thanks to all who dived in and helped with
-> > > > those!
-> > > So no Bind update?
-> > There is still time, please send an updated patch!
-> Its unclear to me what change is outstanding.
+version 2.x.x will be added with a new babeltrace2 recipe
 
-libuv maintainer entry?
+Signed-off-by: Anders Wallin <wallinux@gmail.com>
+---
+ meta/recipes-kernel/lttng/babeltrace_1.5.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If I merge what is there if will break builds :(
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
+index c050dc674d..3268c5de9c 100644
+--- a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
++++ b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
+@@ -11,7 +11,7 @@ SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-1.5
+ 	   file://run-ptest \
+ 	  "
+ SRCREV = "054a54ae10b01a271afc4f19496c041b10fb414c"
+-UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)$"
++UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>1+(\.\d+)+)$"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.25.1
 
 
