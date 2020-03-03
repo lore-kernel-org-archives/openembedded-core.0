@@ -1,43 +1,55 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B9D67619B3
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+	[209.85.221.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 621EC61927
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 16:08:03 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id j1so1981788wmi.4
+	Tue,  3 Mar 2020 17:41:59 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id v2so5405954wrp.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2020 08:08:05 -0800 (PST)
+	Tue, 03 Mar 2020 09:42:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=0ei+HhqgqmaYcY8kdr3p517eLP05yAsIbI4eaYyOvJ4=;
+	b=gtMa0lHVurxPLTdY/F4/3peK7EVjo92ECUN+NfJxjt7UH48IdleJjjvSqXSY9gEuLK
+	q4EhetUXBlqL5vVRaG/h4juAV3UWWBGuxIDOIv1gzmNgThH2p02vFChkDXpUW3HPBnwU
+	Rvqj/PQ/cGdloHZg13mTu3SQh35CbL5iYfYQvyfSbZvEcyaOnKTyDHZt8GuBgYoEPrkx
+	ldAW/t1xTEuR+9iZT+piZLWp7p8Nd4+Ex8R48gM8624KDDcWxthEilq9gus4NP9w4d06
+	5vKJrHElB/Ij9vCakJJ7k+YZayxD4bEBVGgEIDT3ldUASbB+QBAA1gVJ9tttpBw7Qrzh
+	l7sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=hclBgPOXUg1rr1ONFFxUnbPe7wtooZr6xKyMS8Mk+6Q=;
-	b=URWZAaeTIKT5RpUPog6elGga8wvJ1H9jeBOBv/zuVB2UcAgVyWfXgBCBHrS1Mbx3LJ
-	4kjC11b8+Y9+E/4Zd7ppHSPRymOsgo+bykR/ysZnvVjRVPXcNRdxSm8lgSwxndAofjhg
-	oYmQ8HSrM9V7cywCvTt1UtDB1RmbxBDP5UTeWPXvu0nfBm2Gcs/GrIORd9awuGlGR6zS
-	M5sgMW+l18MKC3+G9bivQbomGRf3Nm9+QFF9xw1Stb+2GGMcoSIFi85MvI0xzxb9iJC6
-	jn72sLgDBj47pAUEkZDIrZnKVXVcTMUyoukkZFPdJLZ7MpYx8DUnJ2jLsK6GsWIlXWzo
-	MKSg==
-X-Gm-Message-State: ANhLgQ3DK9IxfhY+13VO5tKef9IsytyM3kVsVA3AA5QMcfnJxTsYswSO
-	fDwYId6oABiT4+KGWVVJHejwXUpk
-X-Google-Smtp-Source: ADFU+vvMCWwLJySPvkcrseu8ARJqhZW6x+CRyXN8x1fVlq3eMzVaaVNwQjri5j7SQBookMP9+ugOTg==
-X-Received: by 2002:a1c:7f8e:: with SMTP id a136mr4980222wmd.143.1583251684271;
-	Tue, 03 Mar 2020 08:08:04 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id l4sm5056620wmf.38.2020.03.03.08.08.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Mar 2020 08:08:03 -0800 (PST)
-Message-ID: <aec561f0ad71112c5a86a826653123369a0ef647.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 03 Mar 2020 16:08:03 +0000
-In-Reply-To: <20200303160513.17645-4-git@andred.net>
-References: <20200303160513.17645-1-git@andred.net>
-	<20200303160513.17645-4-git@andred.net>
-User-Agent: Evolution 3.30.5-1.1 
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=0ei+HhqgqmaYcY8kdr3p517eLP05yAsIbI4eaYyOvJ4=;
+	b=MxHApElLar9ntZjMq6d1XrzZuXTq0SAV5XFeyA26uTYihWFWXOUeRNZrVpww+RPtre
+	aZzYywlkNoFNO9Gd6VEpdM8xNza9rrvMO23wqNZK4v3YA9Z/6uqHO1hXaJzj8//3snlR
+	OwyI4jjC3fP7a6t3lF+uqPjSkiWiNytVrEvsOnYRvOoUF4+MHXqsvfotR/HG+WHfTcQ5
+	czQETiDrMdXZ1pYHBJeW97Ud5G0zV3bDCk46Wu6KQBEef3anyQyf0Dwvn34ZA7Umd5/8
+	T36ZD374grbN5kNYoXqNHMbWgfdQ3+xAeHPqgh6oET+VkgidtoJFnfggyA1oC1J9OuXM
+	zWhg==
+X-Gm-Message-State: ANhLgQ2EmnFRAI8NUS77YrEpFj+24zwZNCe7NpKSH8Lz7Jtc6CYjZ+RQ
+	QD+sRy6FiNpMBUp0A8ygGbWqWLlA
+X-Google-Smtp-Source: ADFU+vu4YXSMTAi6/3YJhw/Zs/kymHqjb6kNDIUDBjbyDHeXeYEFlEvSsKfyK+YAsheZpZtB/u6gSw==
+X-Received: by 2002:a5d:534f:: with SMTP id t15mr6184612wrv.190.1583257319361; 
+	Tue, 03 Mar 2020 09:41:59 -0800 (PST)
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
+	[37.247.29.68]) by smtp.gmail.com with ESMTPSA id
+	g129sm5623963wmg.12.2020.03.03.09.41.58
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 03 Mar 2020 09:41:58 -0800 (PST)
+To: Matt Ranostay <matt.ranostay@konsulko.com>,
+	openembedded-core@lists.openembedded.org
+References: <20200229234742.3780-1-matt.ranostay@konsulko.com>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Message-ID: <6353532b-aa0e-a005-2589-2e8281863fd5@gmail.com>
+Date: Tue, 3 Mar 2020 18:41:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 4/4] reproducible: try to ensure reproducible xz archives
+In-Reply-To: <20200229234742.3780-1-matt.ranostay@konsulko.com>
+Subject: Re: freetype: add pixmap to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,72 +62,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 16:08:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Mar 2020 17:41:59 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-03-03 at 16:05 +0000, André Draszik wrote:
-> xz suffers from a reproducibility problem when not using multi-
-> threaded mode:
-> a) archives are created differently in single- vs multi-threaded
->    modes
-> b) xz will scale down the compression level so as to be able to
->    work within any memory limit given to it when being launched
->   in single-threaded mode.
+On 3/1/20 12:47 AM, Matt Ranostay wrote:
+> Add pixmap to PACKAGECONFIG defaults to allow consumers to
+> render color emojis without distro changes.
 > 
-> Thus, for reproducible xz archives we need to launch xz with
-> at least two threads.
-> 
-> Add a little sanity test, and error out otherwise, so as to
-> guarantee no difference due this fact.
-> 
-> Assumptions:
-> * The thread limit should be set via XZ_THREADS, not via
->   modifying XZ_DEFAULTS or XZ_OPTS, or any other way
-> * The thread limit should not be set to xz's magic value
->   zero (0), as that will lead to single-threaded mode on
->   single-core systems
-> 
-> This patch here doesn't prevent people from shooting themselves
-> into the foot by changing XZ_DEFAULTS to change the number
-> of threads directly, but it's can serve as a hint at least.
-
-I don't know if this patch is useful, feel free to drop it.
-
-In an ideal world, it'd parse the output of xz --verbose --verbose, to catch
-all possible ways people might be adjusting the thread limit, but that's
-non-trivial.
-
-
-Cheers,
-Andre'
-
-> 
-> Signed-off-by: André Draszik <git@andred.net>
+> Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
 > ---
->  meta/classes/reproducible_build.bbclass | 5 +++++
->  1 file changed, 5 insertions(+)
+>   meta/recipes-graphics/freetype/freetype_2.10.1.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
-> index 750eb950f2..e07bef87d8 100644
-> --- a/meta/classes/reproducible_build.bbclass
-> +++ b/meta/classes/reproducible_build.bbclass
-> @@ -35,6 +35,7 @@
->  # SOURCE_DATE_EPOCH is set for all tasks that might use it (do_configure, do_compile, do_package, ...)
->  
->  BUILD_REPRODUCIBLE_BINARIES ??= '1'
-> +BUILD_REPRODUCIBLE_XZ_ARCHIVES ??= '1'
->  inherit ${@oe.utils.ifelse(d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1', 'reproducible_build_simple', '')}
->  
->  SDE_DIR ="${WORKDIR}/source-date-epoch"
-> @@ -198,4 +199,8 @@ BB_HASHBASE_WHITELIST += "SOURCE_DATE_EPOCH"
->  python () {
->      if d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1':
->          d.appendVarFlag("do_unpack", "postfuncs", " do_create_source_date_epoch_stamp")
-> +
-> +        if d.getVar('BUILD_REPRODUCIBLE_XZ_ARCHIVES') == '1':
-> +            if int(d.getVar('XZ_THREADS')) < 2:
-> +                bb.fatal("Can not build reproducible XZ archives without threading")
->  }
+> diff --git a/meta/recipes-graphics/freetype/freetype_2.10.1.bb b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
+> index b179a0ed47..d1c093054b 100644
+> --- a/meta/recipes-graphics/freetype/freetype_2.10.1.bb
+> +++ b/meta/recipes-graphics/freetype/freetype_2.10.1.bb
+> @@ -27,7 +27,7 @@ AUTOTOOLS_SCRIPT_PATH = "${S}/builds/unix"
+>   CONFIGURE_SCRIPT = "${S}/configure"
+>   EXTRA_AUTORECONF += "--exclude=autoheader --exclude=automake"
+>   
+> -PACKAGECONFIG ??= "zlib"
+> +PACKAGECONFIG ??= "zlib pixmap"
+>   
+>   PACKAGECONFIG[bzip2] = "--with-bzip2,--without-bzip2,bzip2"
+>   # harfbuzz results in a circular dependency so enabling is non-trivial
+> 
 
+My distro does not care about rendering color emojis. Building my image 
+now pulls in libpng unless I remove the packageconfig in a distro conf.
+
+The pixmap packageconfig has defaulted to being off since it was added 
+in 2013 in commmit 7cbf6060ac14b0f4d2f038f821ca980be0d46cb0. Wouldn't it 
+make sense to keep it off by default and let whoever needs it enable it ?
+
+/Jacob
 
