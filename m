@@ -1,50 +1,44 @@
-Return-Path: <wallinux@gmail.com>
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
-	[209.85.167.44])
-	by mail.openembedded.org (Postfix) with ESMTP id EC92661901
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id A845C61608
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 07:52:02 +0000 (UTC)
-Received: by mail-lf1-f44.google.com with SMTP id c20so1897573lfb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Mar 2020 23:52:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5GSAMfRM1db/GhAMmaiCu1zd1aX0G/+pDobf/wUgbBI=;
-	b=nAN+eSf9/Th/BAf7Sdf1IcGxGvs912j7wkHaFGE/296bnQTRXcK1jQPZOgTLWJhjbU
-	tcQ8N0a2wOK6eVXhJyuyzf5HRY8YRbu1j/MsI27K8qsMW4QDdorvr+7U8SKC5fN00GuX
-	7HKSigan2yIDL00F5gkdH1N07l+68wZCVPG2SGInj0C5TAdnE1U/Zt+tpHX2sswsMpvR
-	JPmSaRzTyR1lpRbP+csV0+fUJHmFv2LCBo2DvJVjAro7g8rCrkmq7RC3zjK9LouhGnXH
-	kdXVziDkIvzSNLnCSdv6XR3ksEPxB4Li2kvTyi54ESDID9Go8UnEcGuO7FUAymD8HOqU
-	lfag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5GSAMfRM1db/GhAMmaiCu1zd1aX0G/+pDobf/wUgbBI=;
-	b=qUaIacahI0C9/kmJzHj0omqEzpSG8FJCWPz65Z5GmnazCkDEKZFHotZR9EgfXN/v3R
-	QNr0P1Vxo9idqs0Uty1CWUDPPXuUmrOJB6MjZo3l82ziWc8c4rhAnB3p3dUmMmM7A0pz
-	raJmdbxQLsdzs+AxHbzZJGx5HbIFnK2st3J2MBAuqLMVPPt9B2sDWKCw4yoQxcS3v7qT
-	bVfbuHxvHOxg2Ry1raVexCuC8iJK0cq6gn1OgdspZ1AcqHbnUEty4V9igp3h5blOzAJn
-	2z/AUbxqLWCZHheZc9amn9SdwYQaqNyHUr9HwqzrKAjM18wnaMBPWiiZpno8SUIgnS7w
-	0lQw==
-X-Gm-Message-State: ANhLgQ1+Kpybk2gX/eQARaNkvF65kLVFWpSkwV9YkvWFFIiPzjWFYTIr
-	dhofsuBTZRhv5wfLM89KYOvjXIOjCag=
-X-Google-Smtp-Source: ADFU+vs27XDs3zUEw7tgtIB9TA2BID+vjmKFSJXbPKYWSs8Ybn+HtqPy+Ak0Ntbptk5tQ1yc10tEOg==
-X-Received: by 2002:ac2:58ee:: with SMTP id v14mr84283lfo.62.1583221923140;
-	Mon, 02 Mar 2020 23:52:03 -0800 (PST)
-Received: from arn-awallin-linux-l5.corp.ad.wrs.com
-	(h-155-4-243-131.NA.cust.bahnhof.se. [155.4.243.131])
-	by smtp.gmail.com with ESMTPSA id n21sm5275089lfh.2.2020.03.02.23.52.02
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 02 Mar 2020 23:52:02 -0800 (PST)
-From: Anders Wallin <wallinux@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Mar 2020 08:51:32 +0100
-Message-Id: <20200303075132.25849-1-wallinux@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	Tue,  3 Mar 2020 11:21:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=axis.com; l=1995; q=dns/txt; s=axis-central1;
+	t=1583234504; x=1614770504;
+	h=from:to:subject:date:message-id:references:in-reply-to:
+	content-transfer-encoding:mime-version;
+	bh=RwFt82uABJpPl3yeW20fzAWYt7vI76fMh8k3mAjDxsI=;
+	b=L69z390PjKxn9ztwkH9mspi53/etul7oQAMRPhARiQbvWcZZAXvHlVXv
+	6/iA2P6dE/LViK6AbZ5Lmr15w8sayzplkfBn3Y4UsvCyHX8F2mhsBC4uY
+	gG0sM9YxFvU7jIKqyD8CrFcbrqK6+2NuCkK/n1DHfyy2wD37HKXgxEA3H
+	UoqlNanbmwSIxz8dpypIrdDZw9Eo3fB9F4N4e6vsbHOQt9Yc0BBmv72Uw
+	g5kkR/F0F2zHVA+1V3vQO5OINVux85Mm9tfsKSSXzxZ4kxiHh7x2zk8Fw
+	xG65SioZDVQXgKAOc49TBQgGERLyRbdJknkPWc4ATCtWsirTAlV1ZeA90 w==;
+IronPort-SDR: LUUCazJi2fy8HTJFUHCfOkdCIEMLkLv6sy+kPGEdiCaaQYRqJ2/StnhqIpLTE0f9aGIyOrV/gA
+	QrXcKia2YG9tzFBQSXMBgAmboXdPAiTxAarDNe3PwY5EY/oZORFbCSPtohfWoLRHcqC6dKzaf1
+	CYh1jABTu/q0BZuikMGJUR7eTsdQfv5bdJcwm4xQI64BuJtHXyitxn5OHXokgENxHYEdRrMpPr
+	FR5T7s/3E/aBHt+nNpPRr02/FOyj5qDGKQYe/7VimUw5nAnBv/GQjCIFTrT96qjBu8oNFSIZ/c
+	2OY=
+X-IronPort-AV: E=Sophos;i="5.70,511,1574118000"; 
+   d="scan'208";a="6037701"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] python3-scons: Fix license file collision
+Thread-Index: AQHV7xuWQ6yTXbga4EaH73rDwWSGzKg2vOKg
+Date: Tue, 3 Mar 2020 11:21:42 +0000
+Message-ID: <390fd7bab651456084420a36a41478a4@XBOX03.axis.com>
+References: <20200229161603.495994-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20200229161603.495994-1-richard.purdie@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [PATCH] babeltrace: only check latest git tag version for 1.x.x
+Subject: Re: [PATCH] python3-scons: Fix license file collision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +51,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 07:52:03 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Mar 2020 11:21:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-version 2.x.x will be added with a new babeltrace2 recipe
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-bounces@lists.openembedded.org> On Behalf Of Richard Purdie
+> Sent: den 29 februari 2020 17:16
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] python3-scons: Fix license file collision
+>=20
+> Downloading a file called "LICENSE" into DL_DIR is 'problematic' and coll=
+ides with the
+> file from other versions of the recipe at best.
+>=20
+> Rename it to something more specific to avoid collision problems.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/recipes-devtools/python/python3-scons_3.1.2.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-devtools/python/python3-scons_3.1.2.bb b/meta/r=
+ecipes-devtools/python/python3-scons_3.1.2.bb
+> index aa7a2a8300d..ce117a92d4f 100644
+> --- a/meta/recipes-devtools/python/python3-scons_3.1.2.bb
+> +++ b/meta/recipes-devtools/python/python3-scons_3.1.2.bb
+> @@ -1,10 +1,10 @@
+>  SUMMARY =3D "Software Construction tool (make/autotools replacement)"
+>  SECTION =3D "devel/python"
+>  LICENSE =3D "MIT"
+> -LIC_FILES_CHKSUM =3D "file://${WORKDIR}/LICENSE;md5=3De14e1b33428df24a40=
+a782ae142785d0"
+> +LIC_FILES_CHKSUM =3D "file://${WORKDIR}/LICENSE-python3-scons-${PV};md5=
+=3De14e1b33428df24a40a782ae142785d0"
+>=20
+>  # pypi package does not have a valid license file
+> -SRC_URI +=3D "https://raw.githubusercontent.com/SCons/scons/${PV}/LICENS=
+E;name=3Dlicense"
+> +SRC_URI +=3D "https://raw.githubusercontent.com/SCons/scons/${PV}/LICENS=
+E;downloadfilename=3DLICENSE-python3-scons-${PV};name=3Dlicense"
 
-Signed-off-by: Anders Wallin <wallinux@gmail.com>
----
- meta/recipes-kernel/lttng/babeltrace_1.5.8.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Any reason to not use "${BP}" instead of "python3-scons-${PV}" above?
+Or should I send a cleanup patch?
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
-index c050dc674d..3268c5de9c 100644
---- a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
-@@ -11,7 +11,7 @@ SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-1.5
- 	   file://run-ptest \
- 	  "
- SRCREV = "054a54ae10b01a271afc4f19496c041b10fb414c"
--UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)$"
-+UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>1+(\.\d+)+)$"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.25.1
+>=20
+>  SRC_URI[md5sum] =3D "f9c4ad06dcf1427be95472eaf380c81a"
+>  SRC_URI[sha256sum] =3D "8aaa483c303efeb678e6f7c776c8444a482f8ddc3ad891f8=
+b6cdd35264da9a1f"
+> --
+> 2.25.0
+
+//Peter
 
 
