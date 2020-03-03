@@ -1,54 +1,58 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C1D326194C
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CB4B61A6F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 22:10:51 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id a25so3344977wmm.0
+	Tue,  3 Mar 2020 22:14:10 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id i10so3342593wmd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2020 14:10:53 -0800 (PST)
+	Tue, 03 Mar 2020 14:14:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=UiKzYlC3HPQageEDQ6U2sR2wkr1ArX9X4oTOZ+FKzGM=;
-	b=Gvc1wFuvdO9lOUcX8/bfZpLnW55GThEphy9YOroOTkv2cGfsqOUGfTzzEWGFRqfAxE
-	hys8+cfJzUeZhJjjvDk1XwjBu5EaJ9aM/jtN/Ixybi9wJKyjaFdF/JBzdxyjxTNf6no3
-	hQ8jvsMvvXFUXUfxhioN3pSHc3vrcRJf9pr38Souc/k7mYAmLVNQrI2GlTgOz1vk6cQu
-	LV7s0tVNqb4YUTAoeVkm3qfGqXqyoLgjZWXk1x/zkB+d16kGMNO9yrJIXRp7TfKnuf9x
-	St8OWuAipU+cD1EY9Xf3w71324XiVuWbhi7f5jVnNxNslDWJOs4yHW1068MnCMShHZYR
-	w2mA==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=Gr+dpJQT054UN3Hpifu7CDIvvKb7cvoAtr4+ULNxTXY=;
+	b=dbYRjto3tugtqsc8YH46265qJVwVjNkA4kboeTjzmgXuaWEo+stNj6bOwYBR0Q/i9H
+	+brlbmrvGH4ZpLEQU1ExY65V/SwrKSWLc/TEpWG40Pf9RTH2I+vOfQOaO3AheOiITSGM
+	bxfBrq3vZXaMqDlHtQPWv/xufb5UH0Hm2FA8lZ32fS1RZiUQDLXEU/JywzAfbjSH32Dm
+	ExNPJ3kWnuD5ZGF/duSg8rELrA6i1DcOnzaXGcF33dISPEU0C/bdpjMv8cqPkKGYWuWq
+	q+4I8UA3D/Ie39VUqjwtUIz+xPjGONlZbxHu08UX28YvqcA8XRELpOY+61i+O7aOtiMT
+	m3nA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=UiKzYlC3HPQageEDQ6U2sR2wkr1ArX9X4oTOZ+FKzGM=;
-	b=Lcfdo3Nn5zM5kbBDXduwB3qendG6Y0sfkL0KMaSoL7QVqaCNC4xilEN4S3RXfd5GtL
-	5zDq7tX1mqUfyFgoxwsLsb7ZF8ToEOvLdkKxPt7PvAg9CWtKToLVK+qkcCcxJPve886w
-	7iGFoa8qBCuEVPh5jE1dv2SOTJjaoOc5P5dhs0TxXYx5F29y+95uBdFDhIsHQN7ffqZs
-	bYIYcfx1E7b38ZHify+A15y7GFh6FoyzX8IF+KyfZmhGmEXH+0VvoUOg24vWhgAWUtoC
-	llyyIsDQ2z7qzcjd40Uw6pOjcA5AMByqzzziN6bvuMbJPbVToostSTlDb+gEYo4Q9p4+
-	FilQ==
-X-Gm-Message-State: ANhLgQ1hXh5uepzUEsYRU8u9/bOLyzDcxr4J0TsfHK/J2v2IuR4rYphD
-	/H0vNBu0xpdg+GrYFGfdN3Y=
-X-Google-Smtp-Source: ADFU+vvx5NNb7LDzzIbB/Sp5lln5ab24L10t9DDp7xdwQdBb4ZigYOw1lBNFY0yasbisHbhwzmGbqg==
-X-Received: by 2002:a7b:cb42:: with SMTP id v2mr607783wmj.170.1583273452329;
-	Tue, 03 Mar 2020 14:10:52 -0800 (PST)
-Received: from localhost ([109.238.218.228]) by smtp.gmail.com with ESMTPSA id
-	o9sm37316424wrw.20.2020.03.03.14.10.51
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Mar 2020 14:10:51 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 3 Mar 2020 23:10:50 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20200303221050.ldjizftg4vnq4m6r@jama>
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=Gr+dpJQT054UN3Hpifu7CDIvvKb7cvoAtr4+ULNxTXY=;
+	b=JeylEqJMLHwkphkycremd0L+QbYj5beAGNrkbc3R928nQSp4QtPMQjcZHVvZT0dsvB
+	dE59ObjEv5+X1uyykAqVd0Q/DUk4/F+tEdneBfHcpqRd8urDylGNCF49oBj8HH6R47i+
+	8t6wdouL2gLa+Qxs9ELARMgpfeZF9VPD3c7lbdIUXcMc0M9qxXs7yr38EMf103LnU8FQ
+	Ke2K8tkCeQQLfxSTHBh62UjCmcHwY0R0GjSPrZ97UdYPHMWhX+bsWFpG/VLxczoZEcCu
+	Hth/yZYZ/FJQeyQnV8Ufgh+NoadR/A9mXOWX8I0luRKGzcSflv7ElhPjDWaSW0SXTnnn
+	Flrw==
+X-Gm-Message-State: ANhLgQ1dAWLFcpYXzTVi8Hkditqx7+LLw2xEMsAFnqNH9ctMYO1Q+xGi
+	gmpsxUs7gOk/hkmCxx63HX9JC4Hiv+s=
+X-Google-Smtp-Source: ADFU+vsVfDSfNPOQ9YQI2igKbuutUPvIXX58/A9AP9SYBlc8d/ukMjn+GPos/cYJEXfMDg20oClbaA==
+X-Received: by 2002:a1c:2045:: with SMTP id g66mr583287wmg.15.1583273650961;
+	Tue, 03 Mar 2020 14:14:10 -0800 (PST)
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
+	[37.247.29.68]) by smtp.gmail.com with ESMTPSA id
+	i1sm14489862wrs.18.2020.03.03.14.14.09
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 03 Mar 2020 14:14:10 -0800 (PST)
+To: Martin Jansa <martin.jansa@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 References: <20200229234742.3780-1-matt.ranostay@konsulko.com>
 	<6353532b-aa0e-a005-2589-2e8281863fd5@gmail.com>
 	<CAMjhiJjY-9N=J03XNV=TuAUW+RAxWKfzrmM64rqPv0z_tx70yg@mail.gmail.com>
 	<5251314825f750f21564e99b8e20b0de2625fd50.camel@linuxfoundation.org>
+	<20200303221050.ldjizftg4vnq4m6r@jama>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Message-ID: <dbf4a3d1-1170-d485-96e0-55fd0066df33@gmail.com>
+Date: Tue, 3 Mar 2020 23:14:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <5251314825f750f21564e99b8e20b0de2625fd50.camel@linuxfoundation.org>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <20200303221050.ldjizftg4vnq4m6r@jama>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: freetype: add pixmap to PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -63,81 +67,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 22:10:53 -0000
-X-Groupsio-MsgNum: 135974
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="mv3oik6tsr56sqmz"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 03 Mar 2020 22:14:10 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---mv3oik6tsr56sqmz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 3/3/20 11:10 PM, Martin Jansa wrote:
+> On Tue, Mar 03, 2020 at 09:45:25PM +0000, Richard Purdie wrote:
+>> On Tue, 2020-03-03 at 22:23 +0100, Leon Woestenberg wrote:
+>>> Hello all,
+>>>
+>>> On Tue, Mar 3, 2020 at 6:42 PM Jacob Kroon <jacob.kroon@gmail.com>
+>>> wrote:
+>>>> On 3/1/20 12:47 AM, Matt Ranostay wrote:
+>>>>> Add pixmap to PACKAGECONFIG defaults to allow consumers to
+>>>>> render color emojis without distro changes.
+>>>>>
+>>>>> Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
+>>>>> ---
+>>>>> -PACKAGECONFIG ??= "zlib"
+>>>>> +PACKAGECONFIG ??= "zlib pixmap"
+>>>>>
+>>>> Wouldn't it make sense to keep it off by default and let whoever
+>>>> needs it enable it ?
+>>>> /Jacob
+>>>>
+>>> I would agree, and would also vote for opt-in rather than opt-out for
+>>> this use-case.
+>>>
+>>> Do we have a more generic stance on how we select the PACKAGECONFIG
+>>> defaults?
+>>
+>> It feels like I've seen this come in a few times, I've said no, it
+>> keeps coming back, I gave in.
+>>
+>> Basically the policy is trying to keep things as sensible defaults for
+>> the majority of users. Many of our users are concerned about build
+>> time, space usage and minimisation of dependencies.
+>>
+>> These things do change over time as our userbase changes and as the
+>> demands and expectations from software changes.
+>>
+>> In this case its fairly hard to figure out that tweaking this option
+>> breaks emojis and libpng isn't such an uncommon or problematic library.
+>>
+>> Its hard for me as the maintainer of all this to get a decent feeling
+>> for how people feel about some changes so its also based a lot on feel,
+>> there is only limited patch review a lot of the time.
+>>
+>> If there is strong demand not to have this, we can revert it. I'd like
+>> to see how many people do/don't want it and see a few more opinions on
+>> that though.
+> 
+> We (as LGE) have pixmap enabled at least since 2015, because people
+> really want their color emojis on TVs, so having this enabled by default
+> will allow me to eventually drop 1 bbappend from our layers eventually
+> when we upgrade to 3.1.
+> 
+> So I would vote to keep this change.
+> 
+> But on the other hand it will still leave 828 other bbappends, so it
+> doesn't make much difference to me :).
+> 
 
-On Tue, Mar 03, 2020 at 09:45:25PM +0000, Richard Purdie wrote:
-> On Tue, 2020-03-03 at 22:23 +0100, Leon Woestenberg wrote:
-> > Hello all,
-> >=20
-> > On Tue, Mar 3, 2020 at 6:42 PM Jacob Kroon <jacob.kroon@gmail.com>
-> > wrote:
-> > > On 3/1/20 12:47 AM, Matt Ranostay wrote:
-> > > > Add pixmap to PACKAGECONFIG defaults to allow consumers to
-> > > > render color emojis without distro changes.
-> > > >=20
-> > > > Signed-off-by: Matt Ranostay <matt.ranostay@konsulko.com>
-> > > > ---
-> > > > -PACKAGECONFIG ??=3D "zlib"
-> > > > +PACKAGECONFIG ??=3D "zlib pixmap"
-> > > >=20
-> > > Wouldn't it make sense to keep it off by default and let whoever
-> > > needs it enable it ?
-> > > /Jacob
-> > >=20
-> > I would agree, and would also vote for opt-in rather than opt-out for
-> > this use-case.
-> >=20
-> > Do we have a more generic stance on how we select the PACKAGECONFIG
-> > defaults?
->=20
-> It feels like I've seen this come in a few times, I've said no, it
-> keeps coming back, I gave in.
->=20
-> Basically the policy is trying to keep things as sensible defaults for
-> the majority of users. Many of our users are concerned about build
-> time, space usage and minimisation of dependencies.
->=20
-> These things do change over time as our userbase changes and as the
-> demands and expectations from software changes.
->=20
-> In this case its fairly hard to figure out that tweaking this option
-> breaks emojis and libpng isn't such an uncommon or problematic library.
->=20
-> Its hard for me as the maintainer of all this to get a decent feeling
-> for how people feel about some changes so its also based a lot on feel,
-> there is only limited patch review a lot of the time.
->=20
-> If there is strong demand not to have this, we can revert it. I'd like
-> to see how many people do/don't want it and see a few more opinions on
-> that though.
+Fair enough, sounds like there are good reasons to have it enabled by 
+default.
 
-We (as LGE) have pixmap enabled at least since 2015, because people
-really want their color emojis on TVs, so having this enabled by default
-will allow me to eventually drop 1 bbappend from our layers eventually
-when we upgrade to 3.1.
+/Jacob
 
-So I would vote to keep this change.
-
-But on the other hand it will still leave 828 other bbappends, so it
-doesn't make much difference to me :).
-
---mv3oik6tsr56sqmz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXl7V6AAKCRA3VSO3ZXaA
-HCHEAJsEzH4EACaBnu3ncV4DkRgL/ycsTwCcDugs6/uD2VUITTLJ+a5pWPqDHlI=
-=IS/2
------END PGP SIGNATURE-----
-
---mv3oik6tsr56sqmz--
