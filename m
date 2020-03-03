@@ -1,50 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 60D1D618EE
+Return-Path: <jpuhlman@mvista.com>
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
+	[209.85.214.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D3E0616EC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Mar 2020 22:57:35 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id x7so57600wrr.0
+	Tue,  3 Mar 2020 23:21:21 +0000 (UTC)
+Received: by mail-pl1-f173.google.com with SMTP id y1so112658plp.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2020 14:57:36 -0800 (PST)
+	Tue, 03 Mar 2020 15:21:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=sKkLa1b7fha1Nxkm0cz4tILlfW4g0Z882KZHNmMtO0A=;
-	b=Ul5KRTlXr3gFbs6tuzV+p/UbFGSfWaH3J5Z73wz9zvzIm4IMBrfF6m3I8aVNvDWUgf
-	TbaiKUIPKr9K1ZgFHQTGN2iN3bpvC5LMVJDwJTZxwTEwUyP6+nNR4+dwjsnaWcIbD/90
-	u/h/6G4GxOCZxQCZPTGRAIaAlSbIl2AKZd3ww=
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-transfer-encoding:content-language;
+	bh=dXEzRI667u4bWwPH2tdCxBka/7XXjDw0tymROHtcs2A=;
+	b=lIt92O9SWHdz2gZenrD4DTnJWN3E0gRF9V++dBGRtZsEDPlFO02Np77U+CRs21ZRgL
+	zWk+G2lT0qYidpvhZgJ/R3TYu/IUIIE7TyS1wtvx+b/APTOsmMnTYwRirw0ZF4SIKBEM
+	6/lgag4y0KHzfguaZ+e+MwaZ5P44gPZIpBr6datCrhO8UQXW34orYKpuofmi0hggOlCW
+	z3hlDF1Yn6rRQduuD7r7tI8jCH0eAwssTkYfFmEqvOXTO95VFE5joRsRGVnTnerDLlo7
+	B88SrnUbSFnGTp1OOQSUYbEJFXKj28cEJN5EKRp000yG2h+yO8FsVaQQuxr0vTV8+Gn5
+	M+OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=sKkLa1b7fha1Nxkm0cz4tILlfW4g0Z882KZHNmMtO0A=;
-	b=b0lG6oLq8U2zQgvZgRaxHh0lDNv0ova8KGD3uAxHEUYS3sVgifdHS/qT7S+BnJLc0b
-	3n/MQJ+ZpCrigMRap74RFzPwtPgfNJWI8J56tN9XUhwr7KLGnzaRF6zQ+L31ESCq1O2g
-	jjQFc+e9WFOgmIyEs96TfFloA0cZrOAOvBRXehXs9i5bCtEO7/KQg1cqVF6CnfpbuWVm
-	tXZ7S2/+ZyHAcVr/GkDE7VV/kp84Tjq1VHGDovRf6YsZNez/HF/91KrWdwNOONR+xQHD
-	YNb78rrr8PNV2fh1WCAGO+JvcHKjTpOhiwydGOzircHMWdG604Ws4tP2pglhV49XJq8O
-	4NVw==
-X-Gm-Message-State: ANhLgQ1MrPtJCodTI8YmX9ihT+KA+uu9/jifXTnRWtJPc6wTT89mCSOa
-	HFi1mg9AnhcesjhxTtqpPzZPZg==
-X-Google-Smtp-Source: ADFU+vuGZuihiwetPkhjWJ/wBD+PPY4Frht0O42ceRaHWQlW8fJsUOfVx/7QKXXJgnT4ULh/qMHjOg==
-X-Received: by 2002:adf:f343:: with SMTP id e3mr271192wrp.402.1583276255803;
-	Tue, 03 Mar 2020 14:57:35 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id e22sm909300wme.45.2020.03.03.14.57.34
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Mar 2020 14:57:35 -0800 (PST)
-Message-ID: <0587ded5e0871e7b92052cbe6e5d72fc31968669.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, 
-	openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>, Patches and discussions
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Tue, 03 Mar 2020 22:57:34 +0000
-User-Agent: Evolution 3.35.91-1 
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-transfer-encoding:content-language;
+	bh=dXEzRI667u4bWwPH2tdCxBka/7XXjDw0tymROHtcs2A=;
+	b=V8MthPC5g7sVfemiILTLD647d5VU9FL9Kvu44UJePE9QHpR8ZNILElPRsTD4LohrpQ
+	HA00xZk08IlB4RQKmmV9ijSVxHuul7ubkYeKq0EskYdkcUzRRaYB2OyIjnxaeMwZOLmh
+	OZrTNZFDXKgbCZzhRG7QHPof0cbbys4Rx3CUFqe5nQNVuYYF5LApt8EZxli+8BA67dHg
+	CbG2ibSigsI9RgWI9bMSTU+qKg+RQK3uCKnUldr8t13zDC7pYRExmIrmBXoiDDmBLcIS
+	zy1FdormJ8cLrnQsSuexZ+ypzx9Au/LUJ0EahftsfK1LvVJfOokfFWpqkEMpvP7Tubip
+	UMyg==
+X-Gm-Message-State: ANhLgQ2iW8F01osW0QRmi8xvmesrskgPQ332TaWM21q89Olr4OWlgb0R
+	Q7F8KUdfxGFi3iBqV/5J5jBMOvN5n1M=
+X-Google-Smtp-Source: ADFU+vsyKE4CpWhIdfE0RQz6JmcwNKs0Nwc7Y5YyiwHuDX0mbJPpAHm73EZujCJm1YRcAbjQNFMPiQ==
+X-Received: by 2002:a17:902:b7c2:: with SMTP id v2mr283579plz.54.1583277682067;
+	Tue, 03 Mar 2020 15:21:22 -0800 (PST)
+Received: from [10.20.245.7] ([45.19.219.178])
+	by smtp.googlemail.com with ESMTPSA id
+	mr7sm255880pjb.12.2020.03.03.15.21.20
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 03 Mar 2020 15:21:20 -0800 (PST)
+To: openembedded-core@lists.openembedded.org
+From: Jeremy Puhlman <jpuhlman@mvista.com>
+Message-ID: <62ba6d2a-098e-acbd-db0e-b2283a3b476a@mvista.com>
+Date: Tue, 3 Mar 2020 15:22:02 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-Subject: Yocto Project Long Term Support (LTS) Announced
+Subject: Multilib conflicts in man pages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,78 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2020 22:57:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 03 Mar 2020 23:21:21 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Its posted at:
-https://www.yoctoproject.org/yocto-project-long-term-support-announced/
-but I'll copy it below since this is an important announcement
+Is there a preferred method in oe-core for dealing with man pages that 
+conflict due to differences
+in multilib pathing.
 
-"""
-To fulfill the evolving requirements of its members and users, the
-Yocto Project announced a new plan to extend support for selected
-releases. The new support plan covers an initial two-year period and
-the first candidate to benefit from this change will be the Yocto
-Project 3.1 release.
+For example an application lives in /usr/lib/foo/bar for one abi but 
+/usr/lib64/foo/bar in another, and
+that kind of information is encoded in to the man pages.
 
-A very important criterion for evaluating and adopting a software
-platform is support. This holds true when it comes to development tools
-as well. Yocto Project releases are usually maintained for one year.
-Beyond this period, releases move to community support, which means
-they only receive occasional patches for critical defects and updates,
-and no regular defect fixes and security updates. Although this follows
-the open source culture, where development is particularly known for
-speed and bleeding-edge innovation, there has been a rising interest
-among project members and end users for extending this period. As a
-result, the Yocto Project technical leadership put together a proposal
-to address this need as well as arranging the tools and processes to
-allow it to best benefit the project and its users.
+Some things i have seen done in the past, is move the man pages under 
+/user/share/man/${PN} or
+use something like mutlilib script to deal with it.
 
-The project aims to choose an LTS release every two years. The project
-components covered under the new plan will match the core subset of
-those included in the standard release process: Bitbake, OE-Core, meta-
-yocto, and yocto-docs. These components will now receive the usual
-defect fixes and updates for the extended period of two years.
-Additional layers, such as meta-mingw, meta-gplv2 or general OSV vendor
-layers will not be covered and will follow their usual standard support
-models.
+I am just curious if there is a canned, preferred way the project 
+handles those or wants to handle them?
 
-The LTS release will support the original kernel it has been shipped
-with. Yocto Project technical leadership will continuously evaluate
-other similar older LTS kernels on a case by case basis depending on
-the status of upstream support. The version of linux-libc-headers would
-not change to avoid user-space problems.
+xinit, xserver-org, and groff each exhibit  these issues.
 
-This change will also benefit other downstream projects relying on
-Yocto Project releases that have longer life cycles such as AGL, RDK
-etc. The decisions that the technical leadership makes will take into
-account the community feedback, people committing resources and input
-from the member organizations.
-
-The LTS maintainer will be responsible for queuing and reviewing
-suitable changes and starting and monitoring builds. The maintainer may
-have assistance from the community in resolving new issues identified
-during build or the QA run. Reviews will use the usual community review
-mailing list processes. For example, where applicable, a merge request
-will be sent to the appropriate repo owner once all issues found during
-the review have been addressed.
-
-The Yocto Project LTS maintainer role hasn’t been appointed yet. At the
-moment, the project technical leadership is focused on finding the
-dedicated resources. For more information, and to discuss the LTS
-maintainer role, contact lts-maintainer@yoctoproject.org.
-"""
-
-I think there will be some questions and the TSC has been working on
-documenting the processes around this which are on the wiki. I believe
-Armin will follow up with some details about what this means for the
-existing stable series.
-
-Cheers,
-
-Richard
-
-
+-- 
+Jeremy A. Puhlman
+jpuhlman@mvista.com
 
 
