@@ -1,55 +1,18 @@
-Return-Path: <jpuhlman@gmail.com>
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
-	[209.85.216.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FB74619AF
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2020 22:24:50 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id nm6so1550212pjb.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Mar 2020 14:24:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=7+5m7h4iMSVVMcIh9OhzH5RZnFD6DctznfDrFCRS5v0=;
-	b=DloHSIKdvMSzMxKjvEeoNRQs7FpJ6DidiZ7in515hKenXVq9b5VKGopsIWtU6ynPZt
-	V+F3fI2sYHnijHLfNYoXsF/ToqYjp49GXQiMdhK1d1NmNifh/IhUq7psfrUV+CiWcbrI
-	XOdvKnFfHWPS2CO1ofVckxdZeVJ8G32LXOWMe4yQ8VXq//9fR1RIHjzBKRTFSmMIH0Sz
-	/ojxSZRDE7J5wdhRrexIBfd3jHVfctaOYP/6EXDfpHkv7IfL8EOBX3wZkUg4rfirW7Yu
-	iQ0f12BosCC3W8YP0oVOtHmV6D5mTEPc+6UtybuP9ni279GT499eYrSPh9JNeyy9pi0G
-	jHog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=7+5m7h4iMSVVMcIh9OhzH5RZnFD6DctznfDrFCRS5v0=;
-	b=OGlbaL7skI79wjOoKu3RQN3gD35H/pHdM4ogWkYh8uq+mUFEcH3XICr0h0lhjyZ169
-	Rjk/xQcnOiPl9oXg6PCM+8Oha9rdo8wFRXsh2B9i7JMduidNXBuR4YDR3+HBXGXqAKDE
-	n/6pcbr2r19jvSb9Z2P6LDZc25kf4luqgvToGp2rRRdEs6uGWqwz+dV6hIWrG6a+P4gx
-	MXOKcWljUz8+/FjH778q8FE9DIPq5el2aEZnZgrXdEdZ3p5weSJ/YVTyYuQp+PrO/rEp
-	U3M+2/SQFmQwikkQwPXdlS/6Jghs+3SiTirgthaI2feMCaaQ5Uszpf2CwlKBkpKxtXdR
-	cR1A==
-X-Gm-Message-State: ANhLgQ2P9UHSRMH9QOspbNNHifwRjQsTIluSVQTGkOE/7AKgnce/mPFQ
-	3Q88SDiNUfxRz8G3WQ//FI1c84o7rFc=
-X-Google-Smtp-Source: ADFU+vvz1k9aA8vhrwKtnBQZOhBXHrNSoRmWBjzGXbbaiXrXnBKLMwcgUzJfjtNaCwRD6SR4V3oLYg==
-X-Received: by 2002:a17:90a:d205:: with SMTP id
-	o5mr5076901pju.46.1583360690873; 
-	Wed, 04 Mar 2020 14:24:50 -0800 (PST)
-Received: from workhorse.localdomain
-	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
-	by smtp.gmail.com with ESMTPSA id
-	i72sm2362760pgd.88.2020.03.04.14.24.49
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Mar 2020 14:24:50 -0800 (PST)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id DC1972A07BB; Wed,  4 Mar 2020 14:24:48 -0800 (PST)
-From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Mar 2020 14:24:47 -0800
-Message-Id: <20200304222447.1787-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.20.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id BAEA86021B;
+	Wed,  4 Mar 2020 22:32:25 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] gdbm: add depend on readline for consistent builds
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Nathan Hartman <hnathan918@gmail.com>
+Date: Wed, 04 Mar 2020 22:32:27 -0000
+Message-ID: <20200304223227.2277.39635@do>
+References: <20200304220555.30563-1-hnathan918@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200304220555.30563-1-hnathan918@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWVzYTogdXBkYXRlZCB0byAyMC4wIHJlbGVhc2U=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,37 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2020 22:24:50 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Mar 2020 22:32:25 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+== Series Details ==
 
-Whether readline is installed on the build host or not
-influences the way gdbm builds. Depend on readline for
-a consistent build.
+Series: mesa: updated to 20.0 release
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/23100/
+State : failure
 
-This fails to build on a system with readline, and using
-the buildtools-extended installer.
+== Summary ==
 
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at d6b1809e8c)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-support/gdbm/gdbm_1.18.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-support/gdbm/gdbm_1.18.1.bb b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
-index 7e2efe3c9b..5326184181 100644
---- a/meta/recipes-support/gdbm/gdbm_1.18.1.bb
-+++ b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
-@@ -15,6 +15,8 @@ SRC_URI[sha256sum] = "86e613527e5dba544e73208f42b78b7c022d4fa5a6d5498bf18c8d6f74
- 
- inherit autotools gettext texinfo lib_package ptest
- 
-+DEPENDS_class-native += "readline"
-+
- # Needed for dbm python module
- EXTRA_OECONF = "-enable-libgdbm-compat"
- 
--- 
-2.20.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
