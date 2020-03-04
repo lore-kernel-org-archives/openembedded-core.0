@@ -1,39 +1,51 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F26B60226
+Return-Path: <pbarker@konsulko.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 17A3A61625
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2020 09:56:37 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id t21so969245lfe.9
+	Wed,  4 Mar 2020 09:59:50 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id n7so1560103wrt.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Mar 2020 01:56:39 -0800 (PST)
+	Wed, 04 Mar 2020 01:59:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:in-reply-to:references
+	:organization:mime-version:content-transfer-encoding;
+	bh=K9H+UrzZ1ZPBP6omyeMRLKCY8jhzsgXJ+IHbUQXDcL4=;
+	b=oZ4LzB3e88gV31BnsSExG0T3GyrH3O2Kh+7Mh9g7hPmSJVM+7InQ4i+ItJ2YokDM6b
+	6VeUh9yQWDKDyWnx2ofxzDlZCuMNURb0J5sSkCIJvIlBP9s5vSXFQ42t9JN8Lyh544Ku
+	uNjUBvk7mKz8TNmP2v4Uwtm+Rld5CNwIJaH+0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=sdJ9ziupAlBuLoqY812AkbTMM1SLkGCgelMPadqz8oo=;
-	b=IldCCpKbsfdJBmBZ0HhesnGukM4vb5c0kO8jI/IHJOzD+YAuFQwpbBMlKQ708T6ssp
-	ESOZAsPnUI5ymprIgmV8hla6sy6hS2w9lxabHbOovbOTSjdInTFqCdibPedyvg876DOj
-	FgxCUyollCIY491Xgzr0rNOPKRmHwS0VkTbRS/nM3zpjXV8MnV/fONyLXxc9gpPcu2Dn
-	6qgJ5Dk6roqqnAdhpglElxZ2ZeRHHn0RGsc3LM1EFzqgbrU3l0MKCTdOajQ3QXmS+fZE
-	x6KQHDqLTJlUsD7VGcmGpMafg+716D3Ym3Pye1yog8QiITcngX0f5yON4NfQZyznUVLR
-	GkzA==
-X-Gm-Message-State: ANhLgQ2+pC4nJXvCeLkWL6JDg8heb53LXBswLq1fq5A4UZfG78AtZgvr
-	G+3Ndih6UBBJuy/HWAZozBJwLQluvFXoln59V54=
-X-Google-Smtp-Source: ADFU+vuEPs/0mPLzsrMz/TZtADRJQO5WZKtrzyoXZJE/dx14BdCc6YLuhiPPHRE3VfdD/JctL6+UFsL/eNUKOAoCdTA=
-X-Received: by 2002:a19:6445:: with SMTP id b5mr1493422lfj.187.1583315797976; 
-	Wed, 04 Mar 2020 01:56:37 -0800 (PST)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+	:references:organization:mime-version:content-transfer-encoding;
+	bh=K9H+UrzZ1ZPBP6omyeMRLKCY8jhzsgXJ+IHbUQXDcL4=;
+	b=tHPZqcgfEtqACFRS8vo7Wxv7ffTlTV59aPTXEU9khrjSl4v9HQDu2Ug9HdsTi6DoLl
+	X5ceMxQPWJrFaV6bOltvt5/CjrX6E3PCt8PaK09pderb0T1EzSXYLFkax5eBb/Vkbac4
+	5U8uYwoFJnfQ7nv4kVkx+PpVX63c3yZqiQcyAtV4DtIqrcu1ySQ52Jh627ln0TQKsrXB
+	lh9ksNB9SSJp5MIkLZiggyG3IWB1HHDNgeuMk/xur30UqL5z2VH/eiwrq+KNgZdZwCOC
+	jWQxfOlPG6+djIqE7MOWpeSH5InFCmSvhS6B6bI+XSlOgPPI+B6EZMfeY3hfBea9bIHg
+	eEXA==
+X-Gm-Message-State: ANhLgQ0uBNImv/2Vt8ILEKf8NKLY1gLtxgnCEe9HpAIQQXtalBGmmT21
+	6LiJeMjCKBpQtmQUlF53UQXVNw==
+X-Google-Smtp-Source: ADFU+vu0oNLYuMeGoEOojx5vJTTaotCRCV8NyxOd36UrGfSiPkNTSIqwKiCet8wVmFhllzImUGj/Cw==
+X-Received: by 2002:adf:eece:: with SMTP id a14mr3236169wrp.311.1583315990694; 
+	Wed, 04 Mar 2020 01:59:50 -0800 (PST)
+Received: from ub1910 ([213.48.11.149]) by smtp.gmail.com with ESMTPSA id
+	w206sm3514443wmg.11.2020.03.04.01.59.50
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 04 Mar 2020 01:59:50 -0800 (PST)
+Date: Wed, 4 Mar 2020 09:59:44 +0000
+From: Paul Barker <pbarker@konsulko.com>
+To: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
+Message-ID: <20200304095944.792423a0@ub1910>
+In-Reply-To: <84e64ccddc46261a59bb1e281ef3294e08119abc.camel@siemens.com>
+References: <84e64ccddc46261a59bb1e281ef3294e08119abc.camel@siemens.com>
+Organization: Konsulko Group
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20200304083438.1022216-1-ricardo@ribalda.com>
-	<20200304083438.1022216-2-ricardo@ribalda.com>
-	<20200304094250.3eda52e1@ub1910>
-In-Reply-To: <20200304094250.3eda52e1@ub1910>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date: Wed, 4 Mar 2020 10:56:20 +0100
-Message-ID: <CAPybu_3Gno9FkfvKywooGQHh+5gQZL9iMq_MxnU93TX7Svh3aQ@mail.gmail.com>
-To: Paul Barker <pbarker@konsulko.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] wic: Add --embed-rootfs argument
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bitbake: gitsm: download submodules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,164 +58,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2020 09:56:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 04 Mar 2020 09:59:50 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Paul
+On Wed, 4 Mar 2020 08:12:27 +0000
+"Freihofer, Adrian" <adrian.freihofer@siemens.com> wrote:
 
-Thanks for your reply
+> The unpack function failed because the submodules were not downloaded.
+> Calling download before unpack for each submodule solves this issue.
+> 
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> ---
+>  bitbake/lib/bb/fetch2/gitsm.py | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/bitbake/lib/bb/fetch2/gitsm.py
+> b/bitbake/lib/bb/fetch2/gitsm.py
+> index c622771d21..3715e9824f 100644
+> --- a/bitbake/lib/bb/fetch2/gitsm.py
+> +++ b/bitbake/lib/bb/fetch2/gitsm.py
+> @@ -184,6 +184,7 @@ class GitSM(Git):
+>  
+>              try:
+>                  newfetch = Fetch([url], d, cache=False)
+> +                newfetch.download()
+>                  newfetch.unpack(root=os.path.dirname(os.path.join(repo
+> _conf, 'modules', module)))
+>              except Exception as e:
+>                  logger.error('gitsm: submodule unpack failed: %s %s' %
+> (type(e).__name__, str(e)))
 
-On Wed, Mar 4, 2020 at 10:43 AM Paul Barker <pbarker@konsulko.com> wrote:
->
-> On Wed,  4 Mar 2020 09:34:38 +0100
-> Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
->
-> > This option adds the content of a rootfs on a specific location on the
-> > rootfs.
-> >
-> > It is very useful for making a partition that contains the rootfs for a
-> > host and a target Eg:
-> >
-> > / -> Roofs for the host
-> > /export/ -> Rootfs for the target (which will netboot)
-> >
-> > Although today we support making a partition for "/export" this might
-> > not be compatible with some upgrade systems, or we might be limited by
-> > the number of partitions.
-> >
-> > With this patch we can use something like:
-> >
-> > part / --source rootfs --embed-rootfs=target-image:/export
->
-> I considered using a syntax like this for --include-path but I chose not to
-> as it's not easy to choose a separator. ':' is a valid character in a
-> directory name.
+You shouldn't be trying to download submodules in the do_unpack step. If
+they're missing at this stage it probably indicates a fetch issue.
 
-I think we have to live with not being able to copy files to a
-directory with a colon :(
+What's the exact error that you're seeing?
 
->
-> My approach is to handle this in two steps:
->
-> 1) Add a new task before do_image_wic which creates an 'embedded-rootfs'
->   directory and copies 'target-image' to 'embedded-rootfs/export'.
->
-> 2) Use '--include-path=embedded-rootfs' in the wks file.
->
+This could be related to the issue I saw when the fetcher uses git shallow
+tarballs from a mirror - if that's the case I'm planning to get that fixed
+this weekend.
 
-The biggest problem with that approach is permissions. We need files
-with UID 0, siticky bits, etc. We lose the pseudo database if we
-simply copy to a folder.
-
-Also, if we have a complex system with multiple partitions I prefer to
-handle all in a single .wks file instead of a script + wks file
-
-> >
-> > on the .wks file.
-> >
-> > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > ---
-> >  scripts/lib/wic/help.py                  |  7 +++++++
-> >  scripts/lib/wic/ksparser.py              |  1 +
-> >  scripts/lib/wic/partition.py             |  1 +
-> >  scripts/lib/wic/plugins/source/rootfs.py | 20 +++++++++++++++++++-
-> >  4 files changed, 28 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-> > index 4d342fcf05..67a33e6a65 100644
-> > --- a/scripts/lib/wic/help.py
-> > +++ b/scripts/lib/wic/help.py
-> > @@ -979,6 +979,13 @@ DESCRIPTION
-> >                           copies. This option only has an effect with the rootfs
-> >                           source plugin.
-> >
-> > +         --embed-rootfs: This option is specific to wic. It embeds a rootfs into
-> > +                         the given path to the resulting image. The option
-> > +                         contains two fields, the roofs and the path, separated
-> > +                         by a colon. The rootfs follows the same logic as the
-> > +                         rootfs-dir argument. This option only has an effect
-> > +                         with the rootfs source plugin.
-> > +
-> >           --extra-space: This option is specific to wic. It adds extra
-> >                          space after the space filled by the content
-> >                          of the partition. The final size can go
-> > diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-> > index 650b976223..d422e2a6bb 100644
-> > --- a/scripts/lib/wic/ksparser.py
-> > +++ b/scripts/lib/wic/ksparser.py
-> > @@ -138,6 +138,7 @@ class KickStart():
-> >          part.add_argument('--align', type=int)
-> >          part.add_argument('--exclude-path', nargs='+')
-> >          part.add_argument('--include-path', nargs='+')
-> > +        part.add_argument('--embed-rootfs', nargs='+')
-> >          part.add_argument("--extra-space", type=sizetype)
-> >          part.add_argument('--fsoptions', dest='fsopts')
-> >          part.add_argument('--fstype', default='vfat',
-> > diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-> > index 2d95f78439..13857df82f 100644
-> > --- a/scripts/lib/wic/partition.py
-> > +++ b/scripts/lib/wic/partition.py
-> > @@ -31,6 +31,7 @@ class Partition():
-> >          self.extra_space = args.extra_space
-> >          self.exclude_path = args.exclude_path
-> >          self.include_path = args.include_path
-> > +        self.embed_rootfs = args.embed_rootfs
-> >          self.fsopts = args.fsopts
-> >          self.fstype = args.fstype
-> >          self.label = args.label
-> > diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-> > index 40419a64b3..16359601dc 100644
-> > --- a/scripts/lib/wic/plugins/source/rootfs.py
-> > +++ b/scripts/lib/wic/plugins/source/rootfs.py
-> > @@ -80,7 +80,7 @@ class RootfsPlugin(SourcePlugin):
-> >
-> >          new_rootfs = None
-> >          # Handle excluded paths.
-> > -        if part.exclude_path or part.include_path:
-> > +        if part.exclude_path or part.include_path or part.embed_rootfs:
-> >              # We need a new rootfs directory we can delete files from. Copy to
-> >              # workdir.
-> >              new_rootfs = os.path.realpath(os.path.join(cr_workdir, "rootfs%d" % part.lineno))
-> > @@ -100,6 +100,24 @@ class RootfsPlugin(SourcePlugin):
-> >              for path in part.include_path or []:
-> >                  copyhardlinktree(path, new_rootfs)
-> >
-> > +            for embed in part.embed_rootfs or []:
-> > +                [embed_rootfs, path] = embed.split(":")
-> > +                #we need to remove the initial / for os.path.join to work
-> > +                if os.path.isabs(path):
-> > +                    path = path[1:]
-> > +                if embed_rootfs in krootfs_dir:
-> > +                    embed_rootfs = krootfs_dir[embed_rootfs]
-> > +                embed_rootfs = cls.__get_rootfs_dir(embed_rootfs)
-> > +                tar_file = os.path.realpath(os.path.join(cr_workdir, "aux.tar"))
-> > +                tar_cmd = "%s tar cpf %s -C %s ." % (cls.__get_pseudo(native_sysroot,
-> > +                                                     embed_rootfs), tar_file, embed_rootfs)
-> > +                exec_native_cmd(tar_cmd, native_sysroot)
-> > +                untar_cmd = "%s tar xf %s -C %s ." % (cls.__get_pseudo(native_sysroot, new_rootfs),
-> > +                                                      tar_file, os.path.join(new_rootfs, path))
-> > +                exec_native_cmd(untar_cmd, native_sysroot,
-> > +                                cls.__get_pseudo(native_sysroot, new_rootfs))
-> > +                os.remove(tar_file)
-> > +
->
-> Why are you using an intermediate tar file here?
-
-For the permissions :(
-
->
-> >              for orig_path in part.exclude_path or []:
-> >                  path = orig_path
-> >                  if os.path.isabs(path):
->
->
->
-> --
-> Paul Barker
-> Konsulko Group
-
-
+Also, your email client seems to have chewed the patch up. It's best to send
+patches using `git send-email` only.
 
 -- 
-Ricardo Ribalda
+Paul Barker
+Konsulko Group
 
