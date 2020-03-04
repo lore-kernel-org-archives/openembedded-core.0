@@ -1,51 +1,65 @@
-Return-Path: <jpuhlman@gmail.com>
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
-	[209.85.167.169])
-	by mail.openembedded.org (Postfix) with ESMTP id D8AC26188E
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com
+	[209.85.219.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A7026188F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2020 00:24:12 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id p125so272169oif.10
+	Wed,  4 Mar 2020 00:31:42 +0000 (UTC)
+Received: by mail-qv1-f68.google.com with SMTP id c19so45460qvv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2020 16:24:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=WjBWeFvAFfQJzJVq4wGjllcik5wzuol6a3SIgMOmdGc=;
-	b=jpbtD2JWJoWQre1XPDyd6P/NeMdbNdqmzJzQ/Oeeaq7vqz4BL+/kviVHyDuU3ULHRT
-	B9VkA12ljSIObEp7YBYoGzXIjPgKB450Y5bMc6GT5lisa+OwGURdM+Me8NrlVh8iaG0r
-	z/qasBll48Suj63pkRWgeaUl7IauF1JFC0mgGvMGmbvcIlCCH58sR42s6GVDLu+crDPJ
-	BNA2hM7ncqYoAE+l/YWlxXd3rqLPSy6p8yGHVyrrAdmMJycMqtz6WsgMggx9rBCdLRp7
-	bMI7uaFpUQjPJ+OmqkwuOoZU03dJZDOeFWAvaJsBf4K9ZK54K0sI2y/vLAmDzFO9RvA/
-	1fIQ==
+	Tue, 03 Mar 2020 16:31:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=svVvUTg2zPPNUJpy4cA/mHFfpAk+CwbJhQ7g5hbSbXc=;
+	b=LXVxGnjNNY0lB5v6qucsgawxJ2nUKFySl72RWRo+d1tlgUE2UJbtlDXSTsKwuLKJYb
+	wM654/XbYdTFxxUpBm+SRzwwVVj5KJvZkp5uJRHXBfv6PfnphZEAYPRTfJyoincVtcgT
+	oU1S2d93YV23vdLfwXmQXP9DkEfo9ExfdaYuxPMvgVFENE8BC1LgofIpFymJDTi4HmGO
+	CxW/Wrh2Zb/MD6MhjpSEB+WFvIPizsmJBlFv4vHsqaG6AUdqJhoqtTphJCUMDs18KIMU
+	OVC9DFxmSrOMNatdkpcxGb5GRUBnkOkbKt7NPWYwK+vnNn3/9+EhtCrgq7YG1aiLooq/
+	rrQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=WjBWeFvAFfQJzJVq4wGjllcik5wzuol6a3SIgMOmdGc=;
-	b=PgJTZIEMIfaPmzi+eWPgV76hgITlLoWVGJCw09ZzljZ8Ho4OjI9jw11N8OMlUTLrp/
-	PFgK92J3KO12TF59lSyZNXnLgsiheQ/hlK86zhM/S7u8EIlh0Amsnp8kRfWixUTw6acY
-	y8WvLP3z4/amNiHZeP2TxtKTnLsHIUeGMOXnjzOExGk13a5sZ4lI3xBT1BLUkwAhJuO+
-	OyTRJeEs8l/r83r8kzdCquJWi6RsShFDAOht1ve+592I5AcRsDMW+sxYOPRPnJqJESlt
-	gFdWnmkGYnprslXQc4zEds5Iy3wKLPg8P1cN2fV6/OW1fSENzRKgXRkeyg3BH8sJQcu3
-	tk3g==
-X-Gm-Message-State: ANhLgQ2Ce3Ei1eKyWxkjnlPVNvJ7i7pjanwRWWQ7fEQYXw50M/PnolsQ
-	oEqxN+/uS12dbGfIkvRy8/Ci4m2OaIM=
-X-Google-Smtp-Source: ADFU+vsKv/Eg3RbTOwahkdp8r3Ar2NGEcAr82/fMfQp3yXrU5Q2MemuJ9vCBHfmDpETl+bypQeFdaw==
-X-Received: by 2002:aca:d954:: with SMTP id q81mr48972oig.157.1583281453323;
-	Tue, 03 Mar 2020 16:24:13 -0800 (PST)
-Received: from workhorse.localdomain
-	([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
-	by smtp.gmail.com with ESMTPSA id
-	q21sm1939355otf.18.2020.03.03.16.24.12
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Mar 2020 16:24:12 -0800 (PST)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 42F202A0681; Tue,  3 Mar 2020 16:24:11 -0800 (PST)
-From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Mar 2020 16:24:09 -0800
-Message-Id: <20200304002409.10056-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.13.3
-Subject: [PATCH] python3-native: Should not search the system for headers/libraries.
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=svVvUTg2zPPNUJpy4cA/mHFfpAk+CwbJhQ7g5hbSbXc=;
+	b=nTJ7OTtGBLzRGNodhlxSfooywDj2wpPJibZAe1pGXsfVz+9Kqoxfuns2nCchqoHxc5
+	JbuUVW5sr7fpZ1yGTRIhAt/h7K9YA2y7BDfDXA036ArIu7/6c8KksNZRCWIFLH85ufsB
+	bCEp8Fq5Bf8By0ixYGIw/zLZHKQyq3RTp6Vdo8VG/eWG2Tbe+7DjsFW2ap7jP2YyVjhU
+	mVrbvQcGZ9+OdcayfGnDbp6YtzxvY3s2x5V7oc1m3zdUVO7dSp4M4rinNQFILF9+JeFl
+	2/1SC9WbPfYosb5AySr05ui0S0z0w/eOChgFmqg/qMqWi1YpXAmmVhpG99/lELnG4cOn
+	H6VA==
+X-Gm-Message-State: ANhLgQ0S4YeRVgfrJaswWUxCi45FHZbByb1df/KhbQjx4nQGp5tj7z1z
+	rcNA9THW5XIRMLhkymTV7Hdvch2oXQpVcw==
+X-Google-Smtp-Source: ADFU+vt3Dd85V7u6qvjcISH1kGsD4u0fVRFHRTsL5MimUhsWXObkMcAcMaPMSNTamecORzn5m8BnTw==
+X-Received: by 2002:a05:6214:16c3:: with SMTP id
+	d3mr128256qvz.244.1583281902983; 
+	Tue, 03 Mar 2020 16:31:42 -0800 (PST)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com.
+	[209.85.222.172]) by smtp.gmail.com with ESMTPSA id
+	c13sm7329453qtv.37.2020.03.03.16.31.42
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 03 Mar 2020 16:31:42 -0800 (PST)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f172.google.com with SMTP id z12so5371637qkg.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 03 Mar 2020 16:31:42 -0800 (PST)
+X-Received: by 2002:a37:551:: with SMTP id 78mr654819qkf.46.1583281901846;
+	Tue, 03 Mar 2020 16:31:41 -0800 (PST)
+MIME-Version: 1.0
+References: <20200303160513.17645-1-git@andred.net>
+	<20200303160513.17645-4-git@andred.net>
+	<aec561f0ad71112c5a86a826653123369a0ef647.camel@andred.net>
+In-Reply-To: <aec561f0ad71112c5a86a826653123369a0ef647.camel@andred.net>
+Date: Tue, 3 Mar 2020 21:31:30 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrAAyFCwOtAiQ+ziT09gwV3qp4QwmH49inXNE6NS3Hriw@mail.gmail.com>
+Message-ID: <CAP9ODKrAAyFCwOtAiQ+ziT09gwV3qp4QwmH49inXNE6NS3Hriw@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 4/4] reproducible: try to ensure reproducible xz archives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,80 +72,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2020 00:24:13 -0000
+X-List-Received-Date: Wed, 04 Mar 2020 00:31:42 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+On Tue, Mar 3, 2020 at 1:08 PM Andr=C3=A9 Draszik <git@andred.net> wrote:
+> On Tue, 2020-03-03 at 16:05 +0000, Andr=C3=A9 Draszik wrote:
+> In an ideal world, it'd parse the output of xz --verbose --verbose, to ca=
+tch
+> all possible ways people might be adjusting the thread limit, but that's
+> non-trivial.
 
-The specific issue here is rpc/rpc.h, but its likely more general.
-/usr/include is searched for rpc/rpc.h and if it exists on the
-system, it changes behavior. If you are using the extended buildtools
-tarball on a machine that has /usr/include/rpc/rpc.h, it will decide
-that is good enough and not continue to search. nis fails to build
-because /usr/include and /usr/lib are not part of the include/link
-paths for the buildtools tarball compiler(nor should they be).
+Couldn't we just "enforce" at least two threads? It is quite unlikely
+we ever use OE on a single core machine (as it'd take few years to
+finish the build hehe) it seems like a reasonable assumption.
 
-This makes it so python3-native will not build if you are using the
-extended buildtools tarball, but from a larger issue perspective it
-is building in likely different ways depending on what machine it
-is building on.
 
-libtirpc is already a depend so we shouldn't need the hosts rpc/rcp.h.
-
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
----
- ...Don-t-search-system-for-headers-libraries.patch | 29 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.1.bb      |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
-
-diff --git a/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch b/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
-new file mode 100644
-index 0000000000..acf8e1e9b5
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
-@@ -0,0 +1,29 @@
-+From 85e8f86ad2b7dec0848cd55b8e810a5e2722b20a Mon Sep 17 00:00:00 2001
-+From: Jeremy Puhlman <jpuhlman@mvista.com>
-+Date: Wed, 4 Mar 2020 00:06:42 +0000
-+Subject: [PATCH] Don't search system for headers/libraries
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-+---
-+ setup.py | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/setup.py b/setup.py
-+index 9da1b3a..59782c0 100644
-+--- a/setup.py
-++++ b/setup.py
-+@@ -674,8 +674,8 @@ class PyBuildExt(build_ext):
-+             add_dir_to_list(self.compiler.include_dirs,
-+                             sysconfig.get_config_var("INCLUDEDIR"))
-+ 
-+-        system_lib_dirs = ['/lib64', '/usr/lib64', '/lib', '/usr/lib']
-+-        system_include_dirs = ['/usr/include']
-++        system_lib_dirs = []
-++        system_include_dirs = []
-+         # lib_dirs and inc_dirs are used to search for files;
-+         # if a file is found in one of those directories, it can
-+         # be assumed that no additional -I,-L directives are needed.
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-devtools/python/python3_3.8.1.bb b/meta/recipes-devtools/python/python3_3.8.1.bb
-index 77968528c7..5e3c29cb4c 100644
---- a/meta/recipes-devtools/python/python3_3.8.1.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.1.bb
-@@ -37,6 +37,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
- SRC_URI_append_class-native = " \
-            file://0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-+           file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
- 
- SRC_URI[md5sum] = "b3fb85fd479c0bf950c626ef80cacb57"
--- 
-2.13.3
-
+--=20
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
