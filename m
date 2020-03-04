@@ -1,43 +1,54 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8179F6160B
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EFE06106C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2020 09:17:30 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id g134so1092340wme.3
+	Wed,  4 Mar 2020 09:37:02 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id r18so709377vso.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Mar 2020 01:17:31 -0800 (PST)
+	Wed, 04 Mar 2020 01:37:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ByJIr3YgHLjtbvN1UdjBYJbvnqeCmYZU1NlsbcqWSQ8=;
+	b=oYYwpUwOalZaA3N6PVvUg2eMgcq5uPy+6rYPE7RZmBTrEFqhl0QGNXpRrqO0cEytU8
+	cVRR6qBoPytjxiVFDL37Z/eNeT89y1tjQzBtJu+PYiwPrS5ZKuJ9aXYDcT2brp/gDbFO
+	+gZ01VgaN04Y90hCGksG1k/IHru1nly7R2li6MvpvlXEiwQEZaiMGvNzHQzMgPP9C59y
+	rIRiIsTSD8K2zdv88I2DVf2f2deEQ680erksHXrq4GfOAGuw5tibrR8INauoqDlCdzpd
+	zN5Pi33hi5RDyHFaXqxEEJuP1e0aGOkuiqh8DkTK5RwxgTiEpv6VvUd5ERlI2+Gi56jY
+	g6WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=eCnZQUTwDiwxP3dyhkkVicPx5AEv3xYQsPoNj6Vvegw=;
-	b=f1c2b56s2WGqDxq1bkMC9/9lWO447sGQG8+DazcDzhBopJlLfrN5RY5a+QQcp3eDRG
-	iirwsCZaEw7bKhydweYRTxNqTFigS8Y9tOZa0m+BH6IoLusX0p+Sfl1VYymjPMci9+5g
-	Dwt6afUQ4T8nqpFD5zsz6bvLeUT+JFmcpPwOKBRt63vBqCmLWKhE327h6nqYdZA+AoVW
-	63KPUKiMJ05iwiCo1sYFHMIrWucLQ9yAr2U9ysFjNMDI9pJJm6MGamiKD7+TzUz1R/2B
-	ZUipqcgAXeaw4esmeM0kIP2mX3zvtGKPGI62pMaZrv7GqTbH0NDph1JxDEIfHk53orYm
-	BPwg==
-X-Gm-Message-State: ANhLgQ3fMasL5sEZUvsB1eQbGCgYaM7TfcV2vZAdxiHXinBoEOQLcgun
-	W8yFDukmuawXcBvRpOhZPYHgz00x
-X-Google-Smtp-Source: ADFU+vuuJLim1kluaKTZOT/WN5TSP4qbPOhdbV3mj+tNffH41b5XTVop9h0f82J57IvuMNwqB92Kpw==
-X-Received: by 2002:a1c:9c87:: with SMTP id f129mr2769641wme.26.1583313450719; 
-	Wed, 04 Mar 2020 01:17:30 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	s14sm26154893wrv.44.2020.03.04.01.17.29
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Mar 2020 01:17:30 -0800 (PST)
-Message-ID: <2588ab8f2899ec2b139a9ce3619ae6ed06648ba3.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 04 Mar 2020 09:17:29 +0000
-In-Reply-To: <20200129090738.1398-9-alex.kanavin@gmail.com>
-References: <20200129090738.1398-1-alex.kanavin@gmail.com>
-	<20200129090738.1398-9-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.30.5-1.1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ByJIr3YgHLjtbvN1UdjBYJbvnqeCmYZU1NlsbcqWSQ8=;
+	b=CZxjSwJRx2wA/A24Gk4G2s6vZ4u74ih8oquhCA1IWCifrzGxXC4dk6prLIyu2/fhEe
+	ces+948L1CWcRKA+McUdr1/c5l7WeAeI7IujBeqHloV0MhMwthGDLvCA+7gZbzgzoSt1
+	oNx0fuijlbKXodud1Vvtqm1AHVhgv670PbCfazuV6tnG6YN09UWOfJaUjFhxOJIz8hfs
+	CX61j5TTvMAtiYsO9z5h5KezZrAQtlXbLb8J7OUxErCD+mR/dKPKKV28mAYgFc/92Ziw
+	I/ssw2/HdhIGQxPdXqtfmifpIC0ZoR9nlr9E0vq8F42Ja88TQ6jwg/oCUtyubZGjxzz5
+	nOEw==
+X-Gm-Message-State: ANhLgQ1qZUn4yxw7FgHQtbZJxNyXL2GsM2ue8SmVczuJmQy+FTI4N1Gi
+	W8j6WR87Da9NuP8v27/EuK0IQK5IZrY+hA0Wqy49fQ==
+X-Google-Smtp-Source: ADFU+vvpCrCLjyTHIk0dfvwA6UvetBmggxY7/GCeTTr/V1qZAxa8jqTRO/6jNswlJ2f/zfIfis4T29GyXqha1haSrBU=
+X-Received: by 2002:a05:6102:4af:: with SMTP id
+	r15mr1156303vsa.35.1583314623926; 
+	Wed, 04 Mar 2020 01:37:03 -0800 (PST)
 MIME-Version: 1.0
-Subject: linux-firmware broken (was: Re: [PATCH 09/24] linux-firmware: upgrade to latest revision)
+References: <20200223193408.5602-1-bunk@stusta.de>
+	<CAMKF1sqOPEw+uDZO81+j5MWxZBVjjgag6eT+jXYL958ic1Ysmg@mail.gmail.com>
+	<20200224051745.GA6683@localhost>
+	<e43b3057-37d5-7a35-b988-7307cc7fd67f@gmail.com>
+	<20200227132729.GA6240@localhost>
+	<CANNYZj8zWJVwAz+N3ikC+bw7iJba7OVbCs0dTsZgNo_PRkrY3A@mail.gmail.com>
+	<20200304090507.GA7923@localhost>
+In-Reply-To: <20200304090507.GA7923@localhost>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 4 Mar 2020 10:36:52 +0100
+Message-ID: <CANNYZj9FbH=Poibo03-7tU=QhJjO5vu3kKHGpCgMCNd9=xVAVQ@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC][PATCH 1/2] nss: Move to meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,89 +61,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2020 09:17:30 -0000
+X-List-Received-Date: Wed, 04 Mar 2020 09:37:03 -0000
+Content-Type: multipart/alternative; boundary="000000000000ba17f905a00429b5"
+
+--000000000000ba17f905a00429b5
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2020-01-29 at 10:07 +0100, Alexander Kanavin wrote:
-> License-Update: Copyright years, file lists
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+You are misinterpreting the announcement. The security updates are provided
+by users as patches to the mailing list, maintainers merely collect and
+integrate them. There is no promise from the project to do anything else,
+and LTS doesn=E2=80=99t change that, it only extends the maintainer duty fr=
+om one
+year to two. Moving a recipe in or out of core does not fundamentally
+change how much attention it gets w.r.t. security fixes.
 
-This recipe update has broken linux-firmware for various devices I think.
+Alex
 
-It appears that since upstream's 20191022 release, linux-firmware is not
-meant to be installed via simple copying anymore  (as this recipe still
-does in do_install()), but instead you're meant to use their
-copy-firmware.sh script.
+On Wed 4. Mar 2020 at 10.05, Adrian Bunk <bunk@stusta.de> wrote:
 
-In particular, all the symlinks that used to be part of the upstream git
-are missing now, because copy-firmware extracts them on the fly from the
-WHENCE file, they're not part of the git repository anymore. Without those
-various kernel drivers will fail to load their firmware...
+> On Thu, Feb 27, 2020 at 03:03:18PM +0100, Alexander Kanavin wrote:
+> > On Thu, 27 Feb 2020 at 14:28, Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > > >...
+> > >
+> > > It is a crypto library with a history of unfixed CVEs in supported
+> > > stable Yocto releases.
+> > >
+> >
+> > If the issue is unfixed CVEs, then I do not think it's particularly
+> > relevant which layer the recipe is in. Stable release maintainers are n=
+ot
+> > expected to 'track and fix CVEs', that one is on users.
+>
+> Yesterdays LTS announcement makes it clear that the Yocto project does
+> provide regular security updates for supported stable branches:
+>
+> <--  snip  -->
+>
+> Yocto Project releases are usually maintained for one year.
+> Beyond this period, releases move to community support, which means
+> they only receive occasional patches for critical defects and updates,
+> and no regular defect fixes and security updates.
+>
+> <--  snip  -->
+>
+>
+> > Alex
+>
+> cu
+> Adrian
+>
 
+--000000000000ba17f905a00429b5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
-Andre'
+<div><div dir=3D"auto">You are misinterpreting the announcement. The securi=
+ty updates are provided by users as patches to the mailing list, maintainer=
+s merely collect and integrate them. There is no promise from the project t=
+o do anything else, and LTS doesn=E2=80=99t change that, it only extends th=
+e maintainer duty from one year to two. Moving a recipe in or out of core d=
+oes not fundamentally change how much attention it gets w.r.t. security fix=
+es.=C2=A0</div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</di=
+v><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>On Wed 4. Mar 2020 at 10.05, Adrian Bunk &lt;<a href=3D"mailto:bunk@stusta=
+.de">bunk@stusta.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+On Thu, Feb 27, 2020 at 03:03:18PM +0100, Alexander Kanavin wrote:<br>
+&gt; On Thu, 27 Feb 2020 at 14:28, Adrian Bunk &lt;<a href=3D"mailto:bunk@s=
+tusta.de" target=3D"_blank">bunk@stusta.de</a>&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; &gt;...<br>
+&gt; &gt;<br>
+&gt; &gt; It is a crypto library with a history of unfixed CVEs in supporte=
+d<br>
+&gt; &gt; stable Yocto releases.<br>
+&gt; &gt;<br>
+&gt; <br>
+&gt; If the issue is unfixed CVEs, then I do not think it&#39;s particularl=
+y<br>
+&gt; relevant which layer the recipe is in. Stable release maintainers are =
+not<br>
+&gt; expected to &#39;track and fix CVEs&#39;, that one is on users.<br>
+<br>
+Yesterdays LTS announcement makes it clear that the Yocto project does <br>
+provide regular security updates for supported stable branches:<br>
+<br>
+&lt;--=C2=A0 snip=C2=A0 --&gt;<br>
+<br>
+Yocto Project releases are usually maintained for one year.<br>
+Beyond this period, releases move to community support, which means<br>
+they only receive occasional patches for critical defects and updates,<br>
+and no regular defect fixes and security updates.<br>
+<br>
+&lt;--=C2=A0 snip=C2=A0 --&gt;<br>
+<br>
+<br>
+&gt; Alex<br>
+<br>
+cu<br>
+Adrian<br>
+</blockquote></div></div>
 
-
-> ---
->  ...ux-firmware_20190815.bb => linux-firmware_20200117.bb} | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20190815.bb => linux-firmware_20200117.bb} (99%)
-> 
-> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20190815.bb b/meta/recipes-kernel/linux-firmware/linux-
-> firmware_20200117.bb
-> similarity index 99%
-> rename from meta/recipes-kernel/linux-firmware/linux-firmware_20190815.bb
-> rename to meta/recipes-kernel/linux-firmware/linux-firmware_20200117.bb
-> index d83000b64f0..8111c410161 100644
-> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20190815.bb
-> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200117.bb
-> @@ -66,7 +66,7 @@ LICENSE = "\
->  LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
->                      file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
->                      file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
-> -                    file://LICENSE.amdgpu;md5=ab515ef6495ab5c5a3b08ab2db62df11 \
-> +                    file://LICENSE.amdgpu;md5=d357524f5099e2a3db3c1838921c593f \
->                      file://LICENSE.amd-ucode;md5=3c5399dc9148d7f0e1f41e34b69cf14f \
->                      file://LICENSE.amlogic_vdec;md5=dc44f59bf64a81643e500ad3f39a468a \
->                      file://LICENCE.atheros_firmware;md5=30a14c7823beedac9fa39c64fdd01a13 \
-> @@ -88,6 +88,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
->                      file://LICENCE.i2400m;md5=14b901969e23c41881327c0d9e4b7d36 \
->                      file://LICENSE.i915;md5=2b0b2e0d20984affd4490ba2cba02570 \
->                      file://LICENCE.ibt_firmware;md5=fdbee1ddfe0fb7ab0b2fcd6b454a366b \
-> +                    file://LICENSE.ice;md5=742ab4850f2670792940e6d15c974b2f \
->                      file://LICENCE.IntcSST2;md5=9e7d8bea77612d7cc7d9e9b54b623062 \
->                      file://LICENCE.it913x;md5=1fbf727bfb6a949810c4dbfa7e6ce4f8 \
->                      file://LICENCE.iwlwifi_firmware;md5=3fd842911ea93c29cd32679aa23e1c88 \
-> @@ -98,6 +99,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
->                      file://LICENCE.myri10ge_firmware;md5=42e32fb89f6b959ca222e25ac8df8fed \
->                      file://LICENCE.Netronome;md5=4add08f2577086d44447996503cddf5f \
->                      file://LICENCE.nvidia;md5=4428a922ed3ba2ceec95f076a488ce07 \
-> +                    file://LICENCE.NXP;md5=58bb8ba632cd729b9ba6183bc6aed36f \
->                      file://LICENCE.OLPC;md5=5b917f9d8c061991be4f6f5f108719cd \
->                      file://LICENCE.open-ath9k-htc-firmware;md5=1b33c9f4d17bc4d457bdb23727046837 \
->                      file://LICENCE.phanfw;md5=954dcec0e051f9409812b561ea743bfa \
-> @@ -123,7 +125,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
->                      file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
->                      file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
->                      file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
-> -                    file://WHENCE;md5=37a01e379219d1e06dbccfa90a8fc0ad \
-> +                    file://WHENCE;md5=cdcd9f664a404c681bb745bcac6253a3 \
->                      "
->  
->  # These are not common licenses, set NO_GENERIC_LICENSE for them
-> @@ -192,7 +194,7 @@ NO_GENERIC_LICENSE[WHENCE] = "WHENCE"
->  
->  PE = "1"
->  
-> -SRCREV = "07b925b450bfb4cf3e141c612ec5b104658cd020"
-> +SRCREV = "9c340bd1bdabf53808a9178a7be98c5f2ad599a7"
->  
->  SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
->  
-> -- 
-> 2.25.0
-> 
-
-
+--000000000000ba17f905a00429b5--
