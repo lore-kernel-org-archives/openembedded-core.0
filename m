@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 08815610EE;
-	Wed,  4 Mar 2020 08:32:22 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 0B4C7611E1;
+	Wed,  4 Mar 2020 08:32:24 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Adrian Freihofer <adrian.freihofer@siemens.com>
-Date: Wed, 04 Mar 2020 08:32:24 -0000
-Message-ID: <20200304083224.2275.45471@do>
-References: <84e64ccddc46261a59bb1e281ef3294e08119abc.camel@siemens.com>
+Date: Wed, 04 Mar 2020 08:32:25 -0000
+Message-ID: <20200304083225.2276.86888@do>
+References: <2b48cd168e6050723f4c30b059098b319e5b6df5.camel@siemens.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <84e64ccddc46261a59bb1e281ef3294e08119abc.camel@siemens.com>
+In-Reply-To: <2b48cd168e6050723f4c30b059098b319e5b6df5.camel@siemens.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYml0YmFrZTogZ2l0c206IGRvd25sb2FkIHN1Ym1vZHVsZXM=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcnVucWVtdTogc3VwcG9ydCBtdWx0aXBsZSBOSUNz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2020 08:32:23 -0000
+X-List-Received-Date: Wed, 04 Mar 2020 08:32:24 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: bitbake: gitsm: download submodules
+Series: runqemu: support multiple NICs
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/23079/
+URL   : https://patchwork.openembedded.org/series/23080/
 State : failure
 
 == Summary ==
@@ -47,12 +47,16 @@ series by patchtest resulting in the following failures:
 
 * Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
   Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
-  Diff line        _conf, 'modules', module)))
+  Diff line        (client, gateway)
 
 
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
   Targeted branch  master (currently at d6b1809e8c)
+
+* Patch            runqemu: support multiple NICs
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
 
 
 
