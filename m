@@ -1,26 +1,55 @@
-Return-Path: <nhartman@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 60861611E1
+Return-Path: <jpuhlman@gmail.com>
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FB74619AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2020 22:05:58 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 024M5wEv025405
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 4 Mar 2020 14:05:58 -0800 (PST)
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.487.0;
-	Wed, 4 Mar 2020 14:05:57 -0800
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 21149)	id 8B691900983;
-	Wed,  4 Mar 2020 14:05:57 -0800 (PST)
-From: Nathan Hartman <hnathan918@gmail.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Mar 2020 14:05:55 -0800
-Message-ID: <20200304220555.30563-1-hnathan918@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	Wed,  4 Mar 2020 22:24:50 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id nm6so1550212pjb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Mar 2020 14:24:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7+5m7h4iMSVVMcIh9OhzH5RZnFD6DctznfDrFCRS5v0=;
+	b=DloHSIKdvMSzMxKjvEeoNRQs7FpJ6DidiZ7in515hKenXVq9b5VKGopsIWtU6ynPZt
+	V+F3fI2sYHnijHLfNYoXsF/ToqYjp49GXQiMdhK1d1NmNifh/IhUq7psfrUV+CiWcbrI
+	XOdvKnFfHWPS2CO1ofVckxdZeVJ8G32LXOWMe4yQ8VXq//9fR1RIHjzBKRTFSmMIH0Sz
+	/ojxSZRDE7J5wdhRrexIBfd3jHVfctaOYP/6EXDfpHkv7IfL8EOBX3wZkUg4rfirW7Yu
+	iQ0f12BosCC3W8YP0oVOtHmV6D5mTEPc+6UtybuP9ni279GT499eYrSPh9JNeyy9pi0G
+	jHog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=7+5m7h4iMSVVMcIh9OhzH5RZnFD6DctznfDrFCRS5v0=;
+	b=OGlbaL7skI79wjOoKu3RQN3gD35H/pHdM4ogWkYh8uq+mUFEcH3XICr0h0lhjyZ169
+	Rjk/xQcnOiPl9oXg6PCM+8Oha9rdo8wFRXsh2B9i7JMduidNXBuR4YDR3+HBXGXqAKDE
+	n/6pcbr2r19jvSb9Z2P6LDZc25kf4luqgvToGp2rRRdEs6uGWqwz+dV6hIWrG6a+P4gx
+	MXOKcWljUz8+/FjH778q8FE9DIPq5el2aEZnZgrXdEdZ3p5weSJ/YVTyYuQp+PrO/rEp
+	U3M+2/SQFmQwikkQwPXdlS/6Jghs+3SiTirgthaI2feMCaaQ5Uszpf2CwlKBkpKxtXdR
+	cR1A==
+X-Gm-Message-State: ANhLgQ2P9UHSRMH9QOspbNNHifwRjQsTIluSVQTGkOE/7AKgnce/mPFQ
+	3Q88SDiNUfxRz8G3WQ//FI1c84o7rFc=
+X-Google-Smtp-Source: ADFU+vvz1k9aA8vhrwKtnBQZOhBXHrNSoRmWBjzGXbbaiXrXnBKLMwcgUzJfjtNaCwRD6SR4V3oLYg==
+X-Received: by 2002:a17:90a:d205:: with SMTP id
+	o5mr5076901pju.46.1583360690873; 
+	Wed, 04 Mar 2020 14:24:50 -0800 (PST)
+Received: from workhorse.localdomain
+	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+	by smtp.gmail.com with ESMTPSA id
+	i72sm2362760pgd.88.2020.03.04.14.24.49
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 04 Mar 2020 14:24:50 -0800 (PST)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id DC1972A07BB; Wed,  4 Mar 2020 14:24:48 -0800 (PST)
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Mar 2020 14:24:47 -0800
+Message-Id: <20200304222447.1787-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: Nathan Hartman <hnathan918@gmail.com>
-Subject: [PATCH] mesa: updated to 20.0 release
+Subject: [PATCH] gdbm: add depend on readline for consistent builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,97 +62,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2020 22:05:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Mar 2020 22:24:50 -0000
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Nathan Hartman <hnathan918@gmail.com>
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-Uprev'd mesa and mesa-gl recipes to 20.0 release.
+Whether readline is installed on the build host or not
+influences the way gdbm builds. Depend on readline for
+a consistent build.
 
-As glx-tls was updated to elf-tls in the 20.0 release, the mesa.inc file
-was updated to reflect this change.
+This fails to build on a system with readline, and using
+the buildtools-extended installer.
 
-
+Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
 ---
- .../mesa/{mesa-gl_19.1.6.bb => mesa-gl_20.0.0.bb}   |  0
- meta/recipes-graphics/mesa/mesa.inc                 | 12 ++++++------
- .../mesa/{mesa_19.1.6.bb => mesa_20.0.0.bb}         | 13 +++++++------
- 3 files changed, 13 insertions(+), 12 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_19.1.6.bb => mesa-gl_20.0.0.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_19.1.6.bb => mesa_20.0.0.bb} (54%)
+ meta/recipes-support/gdbm/gdbm_1.18.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_20.0.0.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_20.0.0.bb
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 9e5808ee27..a678ceae00 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -10,7 +10,7 @@ HOMEPAGE = "http://mesa3d.org"
- BUGTRACKER = "https://bugs.freedesktop.org"
- SECTION = "x11"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c4"
-+LIC_FILES_CHKSUM = "file://docs/license.html;md5=c1843d93c460bbf778d6037ce324f9f7"
+diff --git a/meta/recipes-support/gdbm/gdbm_1.18.1.bb b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
+index 7e2efe3c9b..5326184181 100644
+--- a/meta/recipes-support/gdbm/gdbm_1.18.1.bb
++++ b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
+@@ -15,6 +15,8 @@ SRC_URI[sha256sum] = "86e613527e5dba544e73208f42b78b7c022d4fa5a6d5498bf18c8d6f74
  
- PE = "2"
+ inherit autotools gettext texinfo lib_package ptest
  
-@@ -57,12 +57,12 @@ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland v
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11 dri3', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
--                   glx-tls \
-+                   elf-tls \
- 		   "
--PACKAGECONFIG_class-native ?= "gbm dri egl opengl glx-tls"
--PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl glx-tls"
-+PACKAGECONFIG_class-native ?= "gbm dri egl opengl elf-tls"
-+PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl elf-tls"
- 
--PACKAGECONFIG_remove_libc-musl = "glx-tls"
-+PACKAGECONFIG_remove_libc-musl = "elf-tls"
- 
- # "gbm" requires "dri", "opengl"
- PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
-@@ -70,7 +70,7 @@ PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
- X11_DEPS = "xorgproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes xrandr"
- # "x11" requires "opengl"
- PACKAGECONFIG[x11] = ",-Dglx=disabled,${X11_DEPS}"
--PACKAGECONFIG[glx-tls] = "-Dglx-tls=true, -Dglx-tls=false"
-+PACKAGECONFIG[elf-tls] = "-Delf-tls=true, -Delf-tls=false"
- PACKAGECONFIG[xvmc] = "-Dgallium-xvmc=true,-Dgallium-xvmc=false,libxvmc"
- PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm wayland-protocols"
- 
-diff --git a/meta/recipes-graphics/mesa/mesa_19.1.6.bb b/meta/recipes-graphics/mesa/mesa_20.0.0.bb
-similarity index 54%
-rename from meta/recipes-graphics/mesa/mesa_19.1.6.bb
-rename to meta/recipes-graphics/mesa/mesa_20.0.0.bb
-index 19221e9e25..d38754e852 100644
---- a/meta/recipes-graphics/mesa/mesa_19.1.6.bb
-+++ b/meta/recipes-graphics/mesa/mesa_20.0.0.bb
-@@ -1,13 +1,14 @@
- require ${BPN}.inc
- 
- SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
--           file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
--           file://0002-meson.build-make-TLS-GLX-optional-again.patch \
--           file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
-+	   file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
-+	   file://0002-meson.build-make-TLS-ELF-optional.patch \
-+	   file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
-+	   file://0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch \
-+	   file://0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch \
-            "
--
--SRC_URI[md5sum] = "7dbb40b8d10e89bee0a5bfc85350647b"
--SRC_URI[sha256sum] = "2a369b7b48545c6486e7e44913ad022daca097c8bd937bf30dcf3f17a94d3496"
-+SRC_URI[md5sum] = "681229d992bbd6250a5be4f308708795"
-+SRC_URI[sha256sum] = "bb6db3e54b608d2536d4000b3de7dd3ae115fc114e8acbb5afff4b3bbed04b34"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
++DEPENDS_class-native += "readline"
++
+ # Needed for dbm python module
+ EXTRA_OECONF = "-enable-libgdbm-compat"
  
 -- 
-2.17.1
+2.20.1
 
 
