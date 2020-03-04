@@ -1,51 +1,39 @@
-Return-Path: <pbarker@konsulko.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 17A3A61625
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 835DA6184F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2020 09:59:50 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id n7so1560103wrt.11
+	Wed,  4 Mar 2020 10:03:04 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id f13so1333940ljp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Mar 2020 01:59:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:in-reply-to:references
-	:organization:mime-version:content-transfer-encoding;
-	bh=K9H+UrzZ1ZPBP6omyeMRLKCY8jhzsgXJ+IHbUQXDcL4=;
-	b=oZ4LzB3e88gV31BnsSExG0T3GyrH3O2Kh+7Mh9g7hPmSJVM+7InQ4i+ItJ2YokDM6b
-	6VeUh9yQWDKDyWnx2ofxzDlZCuMNURb0J5sSkCIJvIlBP9s5vSXFQ42t9JN8Lyh544Ku
-	uNjUBvk7mKz8TNmP2v4Uwtm+Rld5CNwIJaH+0=
+	Wed, 04 Mar 2020 02:03:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-	:references:organization:mime-version:content-transfer-encoding;
-	bh=K9H+UrzZ1ZPBP6omyeMRLKCY8jhzsgXJ+IHbUQXDcL4=;
-	b=tHPZqcgfEtqACFRS8vo7Wxv7ffTlTV59aPTXEU9khrjSl4v9HQDu2Ug9HdsTi6DoLl
-	X5ceMxQPWJrFaV6bOltvt5/CjrX6E3PCt8PaK09pderb0T1EzSXYLFkax5eBb/Vkbac4
-	5U8uYwoFJnfQ7nv4kVkx+PpVX63c3yZqiQcyAtV4DtIqrcu1ySQ52Jh627ln0TQKsrXB
-	lh9ksNB9SSJp5MIkLZiggyG3IWB1HHDNgeuMk/xur30UqL5z2VH/eiwrq+KNgZdZwCOC
-	jWQxfOlPG6+djIqE7MOWpeSH5InFCmSvhS6B6bI+XSlOgPPI+B6EZMfeY3hfBea9bIHg
-	eEXA==
-X-Gm-Message-State: ANhLgQ0uBNImv/2Vt8ILEKf8NKLY1gLtxgnCEe9HpAIQQXtalBGmmT21
-	6LiJeMjCKBpQtmQUlF53UQXVNw==
-X-Google-Smtp-Source: ADFU+vu0oNLYuMeGoEOojx5vJTTaotCRCV8NyxOd36UrGfSiPkNTSIqwKiCet8wVmFhllzImUGj/Cw==
-X-Received: by 2002:adf:eece:: with SMTP id a14mr3236169wrp.311.1583315990694; 
-	Wed, 04 Mar 2020 01:59:50 -0800 (PST)
-Received: from ub1910 ([213.48.11.149]) by smtp.gmail.com with ESMTPSA id
-	w206sm3514443wmg.11.2020.03.04.01.59.50
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Mar 2020 01:59:50 -0800 (PST)
-Date: Wed, 4 Mar 2020 09:59:44 +0000
-From: Paul Barker <pbarker@konsulko.com>
-To: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
-Message-ID: <20200304095944.792423a0@ub1910>
-In-Reply-To: <84e64ccddc46261a59bb1e281ef3294e08119abc.camel@siemens.com>
-References: <84e64ccddc46261a59bb1e281ef3294e08119abc.camel@siemens.com>
-Organization: Konsulko Group
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Wo1ta41+iDNIubUI/DWQjB8Oue/ziVab22fQYpbJQYc=;
+	b=Ji4z71htjyE3/TiA60oJB8mjC8P5FHJY4UjBf//ml7pq/h2GyaWQcSsRIazu1QKYd+
+	fmrclVYEqkCnO2hxk0ospKxwjYXyCsQnqdiOdYabjVP1IL/3AE1oPTwjijf894+KZNr8
+	jWIds4ypjxxXMCv3G8gPPZQVyV+mE2N1HIy1x6KCqkYo3ay2AulpFols4qbZMCqww6xJ
+	aSl7vk6Mu/6zDq0FiXX2G4iyrXn6DriW5IeWOAqNb460eSszNnOCEVzbCUxWYlxgkkNv
+	TaosGoJG17LPhqWfX1uPohcIMsgiqN6zdZaKHIrNIESCMTLwEPnQwjui9sDyGpd25klF
+	zzJw==
+X-Gm-Message-State: ANhLgQ1OlpTWlz8RKbtrwJ68xvwsIiGux+mciYpL/LU9oiIkkEBHk59B
+	eeiE6UhW2/ukrBBWavCPnF7x2N+GL0huE6EFemU=
+X-Google-Smtp-Source: ADFU+vu7NU2FHFm5+Hn+b284KMNMDW5ZqjNKmeZH9g0A8rXUIHyIhTf+kydrrJrTWoUtuVWck45uqTeawjwHiCeet3w=
+X-Received: by 2002:a05:651c:2c1:: with SMTP id
+	f1mr1479767ljo.125.1583316184796; 
+	Wed, 04 Mar 2020 02:03:04 -0800 (PST)
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bitbake: gitsm: download submodules
+References: <20200304083438.1022216-1-ricardo@ribalda.com>
+	<20200304095334.1f20ddd9@ub1910>
+In-Reply-To: <20200304095334.1f20ddd9@ub1910>
+From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Date: Wed, 4 Mar 2020 11:02:47 +0100
+Message-ID: <CAPybu_17EBoQH45Cpb+2UJ-Yoho062_5sGWAT1qmu4MPycOHBQ@mail.gmail.com>
+To: Paul Barker <pbarker@konsulko.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] wic: Fix permissions when using exclude or include path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,50 +46,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2020 09:59:50 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Mar 2020 10:03:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 4 Mar 2020 08:12:27 +0000
-"Freihofer, Adrian" <adrian.freihofer@siemens.com> wrote:
+Hi Paul
 
-> The unpack function failed because the submodules were not downloaded.
-> Calling download before unpack for each submodule solves this issue.
-> 
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
->  bitbake/lib/bb/fetch2/gitsm.py | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/bitbake/lib/bb/fetch2/gitsm.py
-> b/bitbake/lib/bb/fetch2/gitsm.py
-> index c622771d21..3715e9824f 100644
-> --- a/bitbake/lib/bb/fetch2/gitsm.py
-> +++ b/bitbake/lib/bb/fetch2/gitsm.py
-> @@ -184,6 +184,7 @@ class GitSM(Git):
->  
->              try:
->                  newfetch = Fetch([url], d, cache=False)
-> +                newfetch.download()
->                  newfetch.unpack(root=os.path.dirname(os.path.join(repo
-> _conf, 'modules', module)))
->              except Exception as e:
->                  logger.error('gitsm: submodule unpack failed: %s %s' %
-> (type(e).__name__, str(e)))
+On Wed, Mar 4, 2020 at 10:53 AM Paul Barker <pbarker@konsulko.com> wrote:
+>
+> On Wed,  4 Mar 2020 09:34:37 +0100
+> Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
+>
+> > When parameters include_path or exclude_path are passed to the rootfs
+> > plugin, it will copy the partition content into a folder and make all
+> > the modifications there.
+> >
+> > This is done using copyhardlinktree(), which does not take into
+> > consideration the content of the pseudo folder, which contains the
+> > information about the right permissions and ownership of the folders.
+>
+> How are you running wic here? In the do_image_wic task it's executed under
+> pseudo so all this is handled already. Executing wic outside of bitbake may
+> need some more testing here.
 
-You shouldn't be trying to download submodules in the do_unpack step. If
-they're missing at this stage it probably indicates a fetch issue.
+I am running wic outside bitbake. But even if it is run under bitbake,
+it should also fail. The pseudo directory needs to be present on the
+target image
 
-What's the exact error that you're seeing?
+>
+> >
+> > This results in a rootfs owned by the user that is running the wic
+> > command (usually UID 1000), which makes some rootfs unbootable.
+> >
+> > To fix this we copy the content of the pseudo folders to the new folder
+> > and modify the pseudo database using the "pseudo -B" command.
+> >
+> > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+> > ---
+> >  scripts/lib/wic/plugins/source/rootfs.py | 22 +++++++++++++++++++---
+> >  1 file changed, 19 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
+> > index 705aeb5563..40419a64b3 100644
+> > --- a/scripts/lib/wic/plugins/source/rootfs.py
+> > +++ b/scripts/lib/wic/plugins/source/rootfs.py
+> > @@ -16,11 +16,11 @@ import os
+> >  import shutil
+> >  import sys
+> >
+> > -from oe.path import copyhardlinktree
+> > +from oe.path import copyhardlinktree, copytree
+> >
+> >  from wic import WicError
+> >  from wic.pluginbase import SourcePlugin
+> > -from wic.misc import get_bitbake_var
+> > +from wic.misc import get_bitbake_var, exec_native_cmd
+> >
+> >  logger = logging.getLogger('wic')
+> >
+> > @@ -44,6 +44,15 @@ class RootfsPlugin(SourcePlugin):
+> >
+> >          return os.path.realpath(image_rootfs_dir)
+> >
+> > +    @staticmethod
+> > +    def __get_pseudo(native_sysroot, rootfs):
+> > +        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
+> > +        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % os.path.join(rootfs, "../pseudo")
+> > +        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs
+> > +        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
+> > +        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
+> > +        return pseudo
+> > +
+> >      @classmethod
+> >      def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
+> >                               oe_builddir, bootimg_dir, kernel_dir,
+> > @@ -78,9 +87,16 @@ class RootfsPlugin(SourcePlugin):
+> >
+> >              if os.path.lexists(new_rootfs):
+> >                  shutil.rmtree(os.path.join(new_rootfs))
+> > -
+> >              copyhardlinktree(part.rootfs_dir, new_rootfs)
+> >
+> > +            if os.path.lexists(os.path.join(new_rootfs, "../pseudo")):
+> > +                shutil.rmtree(os.path.join(new_rootfs, "../pseudo"))
+> > +            copytree(os.path.join(part.rootfs_dir, "../pseudo"),
+> > +                     os.path.join(new_rootfs, "../pseudo"))
+>
+> I don't like stepping up the directory tree like this. We should be more
+> explicit with the paths.
 
-This could be related to the issue I saw when the fetcher uses git shallow
-tarballs from a mirror - if that's the case I'm planning to get that fixed
-this weekend.
+You are thinking on:
+os.path.dirname(directory)
 
-Also, your email client seems to have chewed the patch up. It's best to send
-patches using `git send-email` only.
+>
+> > +            pseudo_cmd = "%s -B -m %s -M %s" % (cls.__get_pseudo(native_sysroot,new_rootfs),
+> > +                                                part.rootfs_dir, new_rootfs)
+> > +            exec_native_cmd(pseudo_cmd, native_sysroot)
+> > +
+> >              for path in part.include_path or []:
+> >                  copyhardlinktree(path, new_rootfs)
+>
+>                    ^^^^^^^^^^^^^^^^
+>
+> If this is the right approach I imagine you would also need to fix things up
+> with pseudo after the copyhardlinktree call above.
+
+I do not think it is needed. include_path does not contain its own
+pseudo directory
+
+>
+> --
+> Paul Barker
+> Konsulko Group
+
+
 
 -- 
-Paul Barker
-Konsulko Group
+Ricardo Ribalda
 
