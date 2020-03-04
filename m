@@ -1,46 +1,48 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DE45611CC;
-	Wed,  4 Mar 2020 17:24:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48XgjF2qw5z43;
-	Wed,  4 Mar 2020 18:24:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1583342657;
-	bh=5oy8SuWEcVt5jN2j+093Ibx+kadysFs1oMkW8yFWLEU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hZ1bPjoEBqfx03vFtMGsoqpmhU2yHoocpTR2OLnj4auKlQZK4r9F70OGjs8fMw48Z
-	cqdObood8GmKoHc67UXzKM1EZ9/uXPlR2WBcDvKK1/R1bY6fxjQHSnXM97CIv5FJtx
-	/la8QqJD5mrVlo6YZHldhpnZjwy+ek8zuX7EO7H/uW/WiZgJg7NsYEkq6UO9xDWj9a
-	/FsbL+yqgAxZWX6xiVm+y2DRaXYL1FwZbAFTSkHHeqrveJ26HrdelRICyLE0ompaiv
-	AXYr+fXU3/3oqI+pjeYPpeBBk8xcANYYe5xcC7/YHSJYWoFinu+mst2bsN1+guoZYn
-	RFkH3uUPJseVUzkTLYk/mD6yoopKpOXDsoaf1wregPpfy+K1QfCHK21PCdA4QJCEj9
-	9BMpj8gD6aOW9C7LZnDXFjsgC6a81aaGG5HwRA69TOn4+gho+gSmkFr6qyESVJj1cY
-	lYs0FumdJLkgkEo3MlxswGHZ/TlMsb5V5hrlPAvXIUdKC1f7rpzuB8wAmKIXYcGeO6
-	qzNuUNSW/QoozMaZ641L4mv3Y9C33XzIWNk39aXzxCzmB8yd1liAtsX7rMD7ECrZHj
-	dg5T5H9kLd6NukpVCxzDYLMtrsNA2R2uh8GhBIRfnHgFDxxm6y0EapzYIskuf/aamJ
-	hjHSImAxHSUx/pcWquonM+a4=
-Date: Wed, 4 Mar 2020 19:24:15 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20200304172415.GA29456@localhost>
-References: <20200224051745.GA6683@localhost>
-	<e43b3057-37d5-7a35-b988-7307cc7fd67f@gmail.com>
-	<20200227132729.GA6240@localhost>
-	<CANNYZj8zWJVwAz+N3ikC+bw7iJba7OVbCs0dTsZgNo_PRkrY3A@mail.gmail.com>
-	<20200304090507.GA7923@localhost>
-	<CANNYZj9FbH=Poibo03-7tU=QhJjO5vu3kKHGpCgMCNd9=xVAVQ@mail.gmail.com>
-	<20200304113217.GB7923@localhost>
-	<CANNYZj8wnuNLrw6s=y0cgg5uoMTjA+fMEXW_TsmtKWZ4UDzwOA@mail.gmail.com>
-	<20200304140109.GC7923@localhost>
-	<CANNYZj8ciqgR7eed+B+WwfMRHKc3u_XHrT3vo004=TEX9cCmhA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj8ciqgR7eed+B+WwfMRHKc3u_XHrT3vo004=TEX9cCmhA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-architecture@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Does YP provide security support for stable and LTS branches?
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D31D5611C2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Mar 2020 18:31:47 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id w9so3477905iob.12
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 04 Mar 2020 10:31:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=gyXuGVF01DK+7rHpJbZDjcENBWD5gVKt7FaO4JPW1oU=;
+	b=ksOQitRlsGxk/e4TNToR4AxFRDmnB8ZszwodR5feoQyymuDrI02XjrMhk6qJcH3U5y
+	ii5M9lXP3RBaZBDmG7NiR/YiJMdDnqHCevMh+0XH02gaHV4B1QruxQBfFyKfduyGC01w
+	E+46qJYem3hPnR4tBPFbTuLOGFYznTZvJTmom3NJxUEPeP88YCGwcC22HSUH4omBb/Mz
+	x0NhC5ZyTU/ys7/fa8OEjtrU3OgZa5dEho1ppjwDl2mzxQqsPsZ2jU59U2sa4D9nI2m4
+	I6apTlj5IkCP6QMhK2+UL4J4JeurMuyoYB9+OEuFAUtC2uEdR0l80BK3k7hX+q0QB/sZ
+	Iepg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=gyXuGVF01DK+7rHpJbZDjcENBWD5gVKt7FaO4JPW1oU=;
+	b=N4niI8O1fQlIvz2J95YVOinS+zaaJBJYs3PUEaaW6B0UDvur6C/ommazJxowA4wRPk
+	ScqyqTlscMgyqb44yQqh/ht/EcoL6u6ijYpw3fkt+MWq3JaWscelGo1HDzYo0FYUGPYE
+	jWfFC/XpFvQAL98O5ouVGUNMcAn7ALALgxf07nsUyeLo9YA6jAEO0nZF2fkOoj/U3I7Y
+	BJHf9iVQm4OwPaBQPR1jHDEfYLkGUMVp+4lg9cSyAVbGnyWVE0k8rCueStPmJ4bnBwmk
+	sHxy0t/xezGu71vcg2t/yEJEC0sjQKFQg+Kxw2xusOvEBZowyU4vrqg9MWSg2c0GO/Ub
+	ILJw==
+X-Gm-Message-State: ANhLgQ0RE6qNXvSZeMZCpU99+DY6/dhgHrOPoGqoWvCFhmh+AHj6ty/M
+	OWLaycCRnveTeU4rrUDHiF9Ij4tHCX8=
+X-Google-Smtp-Source: ADFU+vvqr3/lYqTsEvLcyu8lmV7JunEnlVHvTFklG4fP3rEQLfMQM5MD+QuXEUfbdFe/VrZWS1t5GA==
+X-Received: by 2002:a5e:9b01:: with SMTP id j1mr3123139iok.27.1583346708301;
+	Wed, 04 Mar 2020 10:31:48 -0800 (PST)
+Received: from OLA-8C37N23.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	e13sm6759451iol.16.2020.03.04.10.31.47
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 04 Mar 2020 10:31:47 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Mar 2020 12:31:39 -0600
+Message-Id: <20200304183139.1512-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] classes/kernel.bbclass: Fix parsing errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,48 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2020 17:24:18 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 04 Mar 2020 18:31:48 -0000
 
-On Wed, Mar 04, 2020 at 05:00:44PM +0100, Alexander Kanavin wrote:
-> Taking offense or getting angry at the yocto project is entirely
-> misdirected.
+legitimize_package_name wants the actual value of KERNEL_REVISION, so
+use d.getVar() to fetch it as is done elsewhere in the file. Failing to
+do so can result it weird errors at parsing time.
 
-I am not angry if YP does not provide security support.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/kernel.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I am angry when YP is telling lies that it would provide security 
-support, but does not actually provide it.
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 15219c596f..0eadd3efb8 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -570,9 +570,9 @@ RDEPENDS_${KERNEL_PACKAGE_NAME} = "${KERNEL_PACKAGE_NAME}-base"
+ # Allow machines to override this dependency if kernel image files are
+ # not wanted in images as standard
+ RDEPENDS_${KERNEL_PACKAGE_NAME}-base ?= "${KERNEL_PACKAGE_NAME}-image"
+-PKG_${KERNEL_PACKAGE_NAME}-image = "${KERNEL_PACKAGE_NAME}-image-${@legitimize_package_name('${KERNEL_VERSION}')}"
++PKG_${KERNEL_PACKAGE_NAME}-image = "${KERNEL_PACKAGE_NAME}-image-${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}"
+ RDEPENDS_${KERNEL_PACKAGE_NAME}-image += "${@oe.utils.conditional('KERNEL_IMAGETYPE', 'vmlinux', '${KERNEL_PACKAGE_NAME}-vmlinux', '', d)}"
+-PKG_${KERNEL_PACKAGE_NAME}-base = "${KERNEL_PACKAGE_NAME}-${@legitimize_package_name('${KERNEL_VERSION}')}"
++PKG_${KERNEL_PACKAGE_NAME}-base = "${KERNEL_PACKAGE_NAME}-${@legitimize_package_name(d.getVar('KERNEL_VERSION'))}"
+ RPROVIDES_${KERNEL_PACKAGE_NAME}-base += "${KERNEL_PACKAGE_NAME}-${KERNEL_VERSION}"
+ ALLOW_EMPTY_${KERNEL_PACKAGE_NAME} = "1"
+ ALLOW_EMPTY_${KERNEL_PACKAGE_NAME}-base = "1"
+-- 
+2.17.1
 
-> The liability for insecure millions of devices does not lie
-> with the yocto project, it lies with the OEMs.
->...
-
-The liability for insecure millions of devices lies 100% with the Yocto 
-Project if it claims to provide security support but does not actually 
-provide it.
-
-If a user has to decide today whether an upcoming product will run
-Ubuntu 20.04 LTS or Yocto 3.1 LTS, then it should be clear to the
-user whether or not choosing Yocto will provide upstream security 
-support the same way as Ubuntu.
-
-A user reading the YP LTS announcement expects security support similar 
-to what Ubuntu is offering, and might only notice that this isn't true 
-after a known vulnerability gets exploited on millions of devices.
-
-If security support for YP stable and LTS releases is only on a
-community support basis and usually incomplete, then it is on YP
-to make that clear to all users instead of claiming the opposite - in 
-other projects LTS does include security support, sometimes only 
-security fixes are permitted.
-
-This could be combined with a call for help for security support,
-an advantage of being honest would be that it becomes visible for
-users that there is a resource shortage.
-
-> Alex
-
-cu
-Adrian
 
