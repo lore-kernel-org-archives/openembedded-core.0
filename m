@@ -1,51 +1,47 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5627361219
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
+	[209.85.222.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 5036E60ADE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2020 12:59:08 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id a141so1775384wme.2
+	Wed,  4 Mar 2020 13:01:05 +0000 (UTC)
+Received: by mail-ua1-f51.google.com with SMTP id 1so629846uao.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Mar 2020 04:59:09 -0800 (PST)
+	Wed, 04 Mar 2020 05:01:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=rpWgyJqMzwiJtV96VnBWMHAw2DFLmaUOKYfgIHWjkVs=;
-	b=DTUMhc2RTZ28+B7NKB18c5zLUCTEAf2sfUJpIL97QKMTB0FbB/2UfA9M1B4DGsO4H+
-	x5fCTx1g1DrSnfXM67fxzMq2WFUOFkYzw6bh3/d8wDjB3sc5J3LzVm9YM9xtSgZgPqEf
-	Nnoj98TXVV3Op/3YyfzxlvmGhcMkE+QckIn9dEkiyZ0bcpTeYPakYoxlmOpXZSwD7pSl
-	7yaL3ESQx+0PVLWycEuEbnlnS3fFpbL+HCT7PQ40wuH+t8LbIIItMq35jsXGe3kQ6bNd
-	I5+cZK7+7ZwhIvcEdzr/Gb794LxrqEMHM3E+p9bxT87QxgdBSsrr32llFu2MV6rTkNf0
-	pPlg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=+pcP+rBKtcuVBpUJLxqXCGskARAMIWV8I9vejmviIqs=;
+	b=KVtftRzdObkUqY0jPmqH/sukrAPm9KIyOXCm1PaJLCysuYVBw/Wrd4t1N38YYF+wPb
+	VsLNaIpLocxmvBq1ano9x/xBm4LSi1sVeNOFYuKm8wEoGCIWRQWpQ8jPR3bNxwL2jMak
+	5J7frZJTPsCzmr9RVAnQKakRgkHkK9fn7s4QYAfzUlZU0rmVRV/VBOTLxno9Zu8EPehS
+	TwEnUTVASBYOXm06e5S/mx7RkwZsVKU6WZBzyWS5xkF+Ftc3wLLtbINe207VEcBGfzxo
+	t7dQCbsaUP7rUERB7XZSrupJqz/EItRrLE3e1PSfhB+Cl6YOL6ZqtI+8PGPdaTrTPChi
+	/f4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=rpWgyJqMzwiJtV96VnBWMHAw2DFLmaUOKYfgIHWjkVs=;
-	b=gmwvbF0s6+iNImEtgwBycA7B94JzkNBhOX29KeXvjHSuW8AqXaHAd5f4v7Cr9Bb/uN
-	jGoMKf3hd2UitGV7+hQIujcotVb4B2L5YaU3RJYTsOSfpv774jl9vER29f/Vys4uU0pX
-	qERK3qHqtLz2Nu+nvsQQehjClMikcYAJZCmYgWbLqiPHSl8QnQYraU9yAi/ahrS7Km4K
-	8Bysy6Eman0lShCASUamGWdfeENHiXaUHeAN3WQUnOhNwxBMYrO7I7Ui91X9fOfaV0Zc
-	+j8VOlOaCvqTfmchJjLwZqATHYaJq7PMVyO8fSSAM2VPiFx9wWJ+Iqb1zPhsUVc4hOT6
-	G38g==
-X-Gm-Message-State: ANhLgQ3y+iBEOXkQYaWHQq5NGZog+XJ3SHs23nwq1ix6VIy/LyPf4Ewl
-	nM/KRhffBJ3kfJoN4r8Iy3RWdZnn
-X-Google-Smtp-Source: ADFU+vv/1ECLxvoMBUh9asMsaLNesBbJeo/oS/Omy//2ywqsuoeJ4NUfRJ4lSn3MIkhLl8F65RrRzA==
-X-Received: by 2002:a05:600c:20e:: with SMTP id
-	14mr3510178wmi.108.1583326748628; 
-	Wed, 04 Mar 2020 04:59:08 -0800 (PST)
-Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-	by smtp.gmail.com with ESMTPSA id
-	e1sm25761506wrx.90.2020.03.04.04.59.07
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Mar 2020 04:59:08 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Mar 2020 13:58:43 +0100
-Message-Id: <20200304125843.917-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=+pcP+rBKtcuVBpUJLxqXCGskARAMIWV8I9vejmviIqs=;
+	b=nGJ7rzUxLpnIL6Dqr6m6XYRAIAl9AMdp2bkgcUPRg7/+eM1kP1xN/cMpgx9teT3tPZ
+	lqIA8w8ABmoI8+d5rEwvV+8ltZb/34CSeLwI6frSX5UXsCeEoiQyA+tvhEleQycg/aVy
+	SAXu8mvQw6RyZkwX7jsvzjSQlR843GLclBRRutUC8749IBNXKnbOVZvgUq3ge5KfqtI7
+	72jtahPR0wSGGmBmxaoLv/kP1NkVXzzh8WcUapG0R10xeMv9JCEgCeXBcAk/0TKk6EHU
+	Ztmjw0h08Qfr35NOy5kN1OTyo3lnxIVlNQzJXjV1I+5nCzj3LJXgy8vUsOfeMrKaJK+K
+	+new==
+X-Gm-Message-State: ANhLgQ2GWFMc8EK2oN2ruWHRAINvtlQ7jeCxbtv4PV8TT2s5S1Iv4Rzr
+	kET8uPmieVfEzOH0EdYivKIZGn86Q7LiMAv5Jgik9A==
+X-Google-Smtp-Source: ADFU+vtmlnl5rbWVfIGMKtwtU6LaNOgK7DEZUGIoIKa7eswFUc/2709lk5zjVPxD9A8JDyxnGaObNO1S/J6zLcDJCiY=
+X-Received: by 2002:ab0:7802:: with SMTP id x2mr1371602uaq.100.1583326866213; 
+	Wed, 04 Mar 2020 05:01:06 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] libmodule-build-perl: make it reproducible
+References: <107c01d5f174$bbf566a0$33e033e0$@gmail.com>
+In-Reply-To: <107c01d5f174$bbf566a0$33e033e0$@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 4 Mar 2020 14:00:54 +0100
+Message-ID: <CANNYZj83rytWFgGPj6BS6R874eqa6_KCoeoMA5afgnx-_YBunw@mail.gmail.com>
+To: Stephen K Jolley <sjolley.yp.pm@gmail.com>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Yocto Project Status WW09'20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,51 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2020 12:59:08 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Mar 2020 13:01:05 -0000
+Content-Type: multipart/alternative; boundary="0000000000006c8d7305a0070368"
 
-Particularly, delete html docs as they have sysroot
-paths in them, and adjust build configuration to not
-refer to host paths either.
+--0000000000006c8d7305a0070368
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- .../perl/libmodule-build-perl_0.4231.bb           | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+On Tue, 3 Mar 2020 at 16:59, <sjolley.yp.pm@gmail.com> wrote:
 
-diff --git a/meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb b/meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
-index b1967c7b03..a6fd7b1c07 100644
---- a/meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
-+++ b/meta/recipes-devtools/perl/libmodule-build-perl_0.4231.bb
-@@ -33,13 +33,26 @@ do_patch_module_build () {
- 
- do_patch[postfuncs] += "do_patch_module_build"
- 
-+EXTRA_CPAN_BUILD_FLAGS = "--create_packlist=0"
-+
-+do_install_append () {
-+        rm -rf ${D}${docdir}/perl/html
-+}
-+
- do_install_ptest() {
- 	cp -r ${B}/inc ${D}${PTEST_PATH}
- 	cp -r ${B}/blib ${D}${PTEST_PATH}
- 	cp -r ${B}/_build ${D}${PTEST_PATH}
- 	cp -r ${B}/lib ${D}${PTEST_PATH}
- 	chown -R root:root ${D}${PTEST_PATH}
--	sed -i -e "s,'perl' => .*,'perl' => '/usr/bin/perl'\,,g" ${D}${PTEST_PATH}/_build/build_params
-+	sed -i -e "s,'perl' => .*,'perl' => '/usr/bin/perl'\,,g" \
-+               -e "s,${STAGING_BINDIR_NATIVE}/perl-native/\.\.,${bindir}/,g" \
-+               -e "s,${S},,g" \
-+               -e "s,${D},,g" \
-+               ${D}${PTEST_PATH}/_build/build_params \
-+               ${D}${PTEST_PATH}/_build/runtime_params
-+        rm -rf ${D}${PTEST_PATH}/blib/libhtml/site/lib/Module/
-+        rm -rf ${D}${PTEST_PATH}/_build/magicnum
- }
- 
- RDEPENDS_${PN} += " \
--- 
-2.25.1
+> coreutils ptest blocked on libmodule-build-perl reproducibility issue
+>
 
+I sent a patch for this.
 
+Alex
+
+--0000000000006c8d7305a0070368
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 3 Mar 2020 at 16:59, &lt;<a href=
+=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>&gt; wrote:<=
+br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><div lang=3D"EN-US"><div><span style=3D"font-family:&quot;Arial&=
+quot;,sans-serif">coreutils ptest blocked on libmodule-build-perl reproduci=
+bility issue</span><br>
+</div></div></blockquote><div><br></div><div>I sent a patch for this.</div>=
+<div><br></div><div>Alex<br></div></div></div>
+
+--0000000000006c8d7305a0070368--
