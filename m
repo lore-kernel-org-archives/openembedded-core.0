@@ -1,54 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AAF166021B
+Return-Path: <christopher.w.clark@gmail.com>
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 74CDE61134
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2020 22:42:05 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id j16so4578266wrt.3
+	Wed,  4 Mar 2020 23:17:38 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id g6so1751550plt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Mar 2020 14:42:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=RSZhiCz5yJ8BfeuIaSE6uiuJfuaXmkeWy8KRHeoGaR8=;
-	b=MQrat6CCBhtHPaX4K6EK/lTc0BW7sMbY7OhyQNQ/8ShWal9KzixwwlJc5feeerbVf8
-	R+sd1tHEpTV89Z4eFyEOzeeGHjA79HpkSrrTh9ZqiWs93FkJmNd2JA+R4s5nHov5rDnw
-	C8NdJeN7cNLRWytAXfo2t6yMpDbXOIr3y2u0Q=
+	Wed, 04 Mar 2020 15:17:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=zTnp40n2cEpAdlRTgGBwMpaKEJlAYGPLOuaCheplxyM=;
+	b=eJSlZ9Ui56ObDK6Dxaa4ZiXVuoynDYIVEeRd6Cnq98O0kZud/p+hWTgtLAQDdsSru5
+	xmA0p7vlqkMPtlGOetsSiF/fEMAVooc4Y3SLM1sO6rvOT1QU4jSNZ34kekblvc6aLSSG
+	AEE3dlPlo2D0W+8ZHRcW1mCbpzEtb+ncgYjvNLNn1+vuasnSKmFnVknWKrP1inhHkjlF
+	M3cszKDrpLx3uhsRbkVj0y0RZY+ZyKlsqV49rT6rcXMJMS+zOyWCC6jTaTZzrdCAhgnM
+	/W/DHVF3sTc/x49PYBWITAfd5r1lhyNCKEYCZtzGnwWqtJHSmtl/T1AQoeKe1lbJ/udb
+	s+Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=RSZhiCz5yJ8BfeuIaSE6uiuJfuaXmkeWy8KRHeoGaR8=;
-	b=mYD6O8xuxSInrm1sEZ4JoDZ/3K5q+Pl+nGHzDchPWPuOi5CR95yfFTqftUtQgF7ITn
-	jdg31UN39cCmyWM0hIDfliXKf85oxK011v3RNn66VJ/9sIuiehB+UxljofHgI4WpFZGA
-	hq8/xy3jtS8b2fl92wdLM9AccawOZ1hr5ABkcXn0PfzlJqQ02Y33ig3WAQSOgcJz5vCn
-	I+Fuc7lnkvd/OtXK8utwwdf3i1pM5tpY7RU5YxhPRyR/YZpf7LTnBE/O4v2fdaQEQcvo
-	5+/R1FpFiz9jYl3Bt9HwWQg21rbDvnmdp6Sx7GeZ1J+r5kkNXuDc77FaXSlJWKaR2uhV
-	UNKg==
-X-Gm-Message-State: ANhLgQ2pjr3Hssrn54rbMI4gIB9tGBdWVAOqWokvXVoGlJ6q1/Drcrno
-	V2lH0JXrSl3i4lC2QBwZ7bv9ng==
-X-Google-Smtp-Source: ADFU+vuf34WNCAMoQOxlSvcFOFJ5IFuRriN7W/byXh7m6Yjlm0lPHqsLOFDvsyCgoludSSHR8mSgOw==
-X-Received: by 2002:adf:9521:: with SMTP id 30mr6048368wrs.349.1583361726321; 
-	Wed, 04 Mar 2020 14:42:06 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=zTnp40n2cEpAdlRTgGBwMpaKEJlAYGPLOuaCheplxyM=;
+	b=quCfgum6q19g2lMfqdKPm4uS/4UWjnjTpWq+FShXg+HgQvIBv4iHjjT+hZYceys2YS
+	YR03E/gqX/JAMA8ItmaKKaHXzSaExSshOYTEo6Anhc+kQxtKS5MBwzn76dPSj7kXmqc1
+	H0GzTUU6bhu6ChCxst//lUHyTLymCIaIn/2oppXE1UkXVMa0kjfqwSFlmAdEXNchfJ5h
+	oKaU2E4CGhD5MFxx+nq5dVYy/AM3RjayyY9ocT1JXIgXUEmrZl0vkytF6QFtUUsf2VYX
+	g2hc4rDNi8qfRIb7EPttwqr7qZgi3iVuhRsHh5qX/PbaJoheKxjaNfeJE6ZabBrh48nX
+	rvGA==
+X-Gm-Message-State: ANhLgQ3E25rgNjNiassy5EG9/J11iSLSVdoPCDutFZZ3BW4Ar4HXoEWt
+	5/cTmiOPSx3y609KS9oZkc/BjNyD
+X-Google-Smtp-Source: ADFU+vsxsBFKoVOUVW3tEZWuDMImThPWgwxJb3AGtZJpKzvd0iOGJO2dN0qUm9p+SxLO1ubBjItugQ==
+X-Received: by 2002:a17:90a:de16:: with SMTP id
+	m22mr5396048pjv.142.1583363858806; 
+	Wed, 04 Mar 2020 15:17:38 -0800 (PST)
+Received: from desktop.ice.pyrology.org
+	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
 	by smtp.gmail.com with ESMTPSA id
-	o27sm43530272wro.27.2020.03.04.14.42.05
+	d22sm3873788pja.14.2020.03.04.15.17.37
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Mar 2020 14:42:05 -0800 (PST)
-Message-ID: <efd0caee261782a0b8d752c728c25be23f69cbae.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Stephen K Jolley
-	<sjolley.yp.pm@gmail.com>
-Date: Wed, 04 Mar 2020 22:42:04 +0000
-In-Reply-To: <CANNYZj83rytWFgGPj6BS6R874eqa6_KCoeoMA5afgnx-_YBunw@mail.gmail.com>
-References: <107c01d5f174$bbf566a0$33e033e0$@gmail.com>
-	<CANNYZj83rytWFgGPj6BS6R874eqa6_KCoeoMA5afgnx-_YBunw@mail.gmail.com>
-User-Agent: Evolution 3.35.91-1 
-MIME-Version: 1.0
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto Project Status WW09'20
+	Wed, 04 Mar 2020 15:17:37 -0800 (PST)
+From: christopher.w.clark@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Mar 2020 15:17:24 -0800
+Message-Id: <20200304231724.6236-1-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: cardoe@gentoo.org
+Subject: [PATCH] qemu: update Xen packages names for the xen-tools recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,26 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2020 22:42:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 04 Mar 2020 23:17:38 -0000
 
-On Wed, 2020-03-04 at 14:00 +0100, Alexander Kanavin wrote:
-> On Tue, 3 Mar 2020 at 16:59, <sjolley.yp.pm@gmail.com> wrote:
-> > coreutils ptest blocked on libmodule-build-perl reproducibility
-> > issue
-> > 
-> 
-> I sent a patch for this.
+From: Christopher Clark <christopher.w.clark@gmail.com>
 
-Thanks!
+The Xen recipe has been divided into separate recipes for the hypervisor
+and tools in meta-virtualization commit 545461ba, so the package name
+references in the qemu recipe need to be updated to the new xen-tools
+packages. This change allows the temporary bbappend applied to qemu in
+meta-virtualization in that change to be retired.
 
-Just FYI I think there may also be a couple of other packages coreutils
-pulls in and they may also have reproducibility issues (gettext-ptest,
-glibc-locale-* and procps*).
+Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index f26e722f43..f3342eaf28 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -136,7 +136,7 @@ PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,libsdl2"
+ PACKAGECONFIG[virtfs] = "--enable-virtfs --enable-attr,--disable-virtfs,libcap attr,"
+ PACKAGECONFIG[aio] = "--enable-linux-aio,--disable-linux-aio,libaio,"
+ PACKAGECONFIG[xfs] = "--enable-xfsctl,--disable-xfsctl,xfsprogs,"
+-PACKAGECONFIG[xen] = "--enable-xen,--disable-xen,xen,xen-libxenstore xen-libxenctrl xen-libxenguest"
++PACKAGECONFIG[xen] = "--enable-xen,--disable-xen,xen-tools,xen-tools-libxenstore xen-tools-libxenctrl xen-tools-libxenguest"
+ PACKAGECONFIG[vnc-sasl] = "--enable-vnc --enable-vnc-sasl,--disable-vnc-sasl,cyrus-sasl,"
+ PACKAGECONFIG[vnc-jpeg] = "--enable-vnc --enable-vnc-jpeg,--disable-vnc-jpeg,jpeg,"
+ PACKAGECONFIG[vnc-png] = "--enable-vnc --enable-vnc-png,--disable-vnc-png,libpng,"
+-- 
+2.17.1
 
 
