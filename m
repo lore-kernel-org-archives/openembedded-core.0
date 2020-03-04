@@ -1,65 +1,44 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com
-	[209.85.219.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A7026188F
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F0AB560926
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Mar 2020 00:31:42 +0000 (UTC)
-Received: by mail-qv1-f68.google.com with SMTP id c19so45460qvv.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2020 16:31:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=svVvUTg2zPPNUJpy4cA/mHFfpAk+CwbJhQ7g5hbSbXc=;
-	b=LXVxGnjNNY0lB5v6qucsgawxJ2nUKFySl72RWRo+d1tlgUE2UJbtlDXSTsKwuLKJYb
-	wM654/XbYdTFxxUpBm+SRzwwVVj5KJvZkp5uJRHXBfv6PfnphZEAYPRTfJyoincVtcgT
-	oU1S2d93YV23vdLfwXmQXP9DkEfo9ExfdaYuxPMvgVFENE8BC1LgofIpFymJDTi4HmGO
-	CxW/Wrh2Zb/MD6MhjpSEB+WFvIPizsmJBlFv4vHsqaG6AUdqJhoqtTphJCUMDs18KIMU
-	OVC9DFxmSrOMNatdkpcxGb5GRUBnkOkbKt7NPWYwK+vnNn3/9+EhtCrgq7YG1aiLooq/
-	rrQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=svVvUTg2zPPNUJpy4cA/mHFfpAk+CwbJhQ7g5hbSbXc=;
-	b=nTJ7OTtGBLzRGNodhlxSfooywDj2wpPJibZAe1pGXsfVz+9Kqoxfuns2nCchqoHxc5
-	JbuUVW5sr7fpZ1yGTRIhAt/h7K9YA2y7BDfDXA036ArIu7/6c8KksNZRCWIFLH85ufsB
-	bCEp8Fq5Bf8By0ixYGIw/zLZHKQyq3RTp6Vdo8VG/eWG2Tbe+7DjsFW2ap7jP2YyVjhU
-	mVrbvQcGZ9+OdcayfGnDbp6YtzxvY3s2x5V7oc1m3zdUVO7dSp4M4rinNQFILF9+JeFl
-	2/1SC9WbPfYosb5AySr05ui0S0z0w/eOChgFmqg/qMqWi1YpXAmmVhpG99/lELnG4cOn
-	H6VA==
-X-Gm-Message-State: ANhLgQ0S4YeRVgfrJaswWUxCi45FHZbByb1df/KhbQjx4nQGp5tj7z1z
-	rcNA9THW5XIRMLhkymTV7Hdvch2oXQpVcw==
-X-Google-Smtp-Source: ADFU+vt3Dd85V7u6qvjcISH1kGsD4u0fVRFHRTsL5MimUhsWXObkMcAcMaPMSNTamecORzn5m8BnTw==
-X-Received: by 2002:a05:6214:16c3:: with SMTP id
-	d3mr128256qvz.244.1583281902983; 
-	Tue, 03 Mar 2020 16:31:42 -0800 (PST)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com.
-	[209.85.222.172]) by smtp.gmail.com with ESMTPSA id
-	c13sm7329453qtv.37.2020.03.03.16.31.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 03 Mar 2020 16:31:42 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f172.google.com with SMTP id z12so5371637qkg.12
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Mar 2020 16:31:42 -0800 (PST)
-X-Received: by 2002:a37:551:: with SMTP id 78mr654819qkf.46.1583281901846;
-	Tue, 03 Mar 2020 16:31:41 -0800 (PST)
+	Wed,  4 Mar 2020 01:15:01 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0241Ef91026939
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Tue, 3 Mar 2020 17:14:41 -0800 (PST)
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.75]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0487.000;
+	Tue, 3 Mar 2020 17:14:28 -0800
+From: "Yu, Mingli" <Mingli.Yu@windriver.com>
+To: "chet.ramey@case.edu" <chet.ramey@case.edu>, "Mittal, Anuj"
+	<anuj.mittal@intel.com>, "richard.purdie@linuxfoundation.org"
+	<richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"Huo, De" <De.Huo@windriver.com>,
+	"preid@electromag.com.au" <preid@electromag.com.au>, "akuster808@gmail.com"
+	<akuster808@gmail.com>
+Thread-Topic: [OE-core] bash: Fix CVE-2019-18276
+Thread-Index: AQHV5nEF1mNPtkf9pEeXfnWEUuCQSaghnagAgBSmwkWAATubgIAANrZQ
+Date: Wed, 4 Mar 2020 01:14:27 +0000
+Message-ID: <E6F6D39CB834524199A3A6D928AB1465539F47F1@ALA-MBD.corp.ad.wrs.com>
+References: <aa0bf5f6-aaf2-bfbf-6488-8d65cbe849f7@electromag.com.au>
+	<4f09ab13-9571-3464-2fc3-334bc91b9c09@case.edu>
+	<444185BB2F013F4E92378F99BCF8A58BC9AF9CBD@ALA-MBD.corp.ad.wrs.com>
+	<99d34efd-3a68-0b05-0e15-fbfd360a2f2a@case.edu>
+	<9b99752af2094590137fdaacf6668f170b34158c.camel@linuxfoundation.org>
+	<41e8a2902bc8594a17f0afa1744f04a6facd5316.camel@intel.com>
+	<E6F6D39CB834524199A3A6D928AB1465539F327D@ALA-MBD.corp.ad.wrs.com>,
+	<ee8f4da6-d917-4dab-d166-62bd7dcf6142@case.edu>
+In-Reply-To: <ee8f4da6-d917-4dab-d166-62bd7dcf6142@case.edu>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.26.212]
 MIME-Version: 1.0
-References: <20200303160513.17645-1-git@andred.net>
-	<20200303160513.17645-4-git@andred.net>
-	<aec561f0ad71112c5a86a826653123369a0ef647.camel@andred.net>
-In-Reply-To: <aec561f0ad71112c5a86a826653123369a0ef647.camel@andred.net>
-Date: Tue, 3 Mar 2020 21:31:30 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKrAAyFCwOtAiQ+ziT09gwV3qp4QwmH49inXNE6NS3Hriw@mail.gmail.com>
-Message-ID: <CAP9ODKrAAyFCwOtAiQ+ziT09gwV3qp4QwmH49inXNE6NS3Hriw@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 4/4] reproducible: try to ensure reproducible xz archives
+Subject: Re: bash: Fix CVE-2019-18276
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -72,24 +51,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Mar 2020 00:31:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 04 Mar 2020 01:15:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 3, 2020 at 1:08 PM Andr=C3=A9 Draszik <git@andred.net> wrote:
-> On Tue, 2020-03-03 at 16:05 +0000, Andr=C3=A9 Draszik wrote:
-> In an ideal world, it'd parse the output of xz --verbose --verbose, to ca=
-tch
-> all possible ways people might be adjusting the thread limit, but that's
-> non-trivial.
+Thanks Chet very much for your confirmation!
 
-Couldn't we just "enforce" at least two threads? It is quite unlikely
-we ever use OE on a single core machine (as it'd take few years to
-finish the build hehe) it seems like a reasonable assumption.
+If the commit fixs the CVE-2019-18276, why is it merged to the master branc=
+h?
+
+Thanks,
+Mingli
+________________________________________
+From: Chet Ramey [chet.ramey@case.edu]
+Sent: Tuesday, March 03, 2020 9:55 PM
+To: Yu, Mingli; Mittal, Anuj; richard.purdie@linuxfoundation.org; openembed=
+ded-core@lists.openembedded.org; Huo, De; preid@electromag.com.au; akuster8=
+08@gmail.com
+Cc: chet.ramey@case.edu
+Subject: Re: [OE-core] bash: Fix CVE-2019-18276
+
+On 3/2/20 10:11 PM, Yu, Mingli wrote:
+
+> Does https://git.savannah.gnu.org/cgit/bash.git/commit/?h=3Ddevel&id=3D95=
+1bdaad7a18cc0dc1036bba86b18b90874d39ff fix the issue reported in CVE-2019-1=
+8276? Could you help to provide some info here?
+
+Yes, the changes from 6/27 fix the issue in the CVE.
 
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+--
+``The lyf so short, the craft so long to lerne.'' - Chaucer
+                 ``Ars longa, vita brevis'' - Hippocrates
+Chet Ramey, UTech, CWRU    chet@case.edu    http://tiswww.cwru.edu/~chet/=
 
