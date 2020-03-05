@@ -1,50 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B83D60644
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 99EB46089C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2020 21:18:42 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id c144so3367294pfb.10
+	Thu,  5 Mar 2020 22:05:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 025M554J008657
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Mar 2020 13:18:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=uUeeEbg6MztGgLdwZu3eFvCe27/n0JS8LevnckoD9nQ=;
-	b=TX59EQHjS44SSBAaf5RWreGD+O3YXgonOJJKqViKFYMW/JsHjX6oFEUenW3PVr0pLZ
-	NSsMj5x+QmlUmIwQhRVseUCe6oSYQeq/VHGNSuoPhWmJ+jQ3Y8639rOPyOCi1HgpeAs6
-	NH/isqdJvenKGYm6gdgYaS8e188PaaMk+rXsDFZStVia/apR/Kg4pOOlVB5QnnoI6Kjs
-	VRQIDtYAZVr4SWB3wimrA1XG4tbmM0IJNe+rtAVk0DhUu+++KSSl3i8e3BAcKi0Cta2C
-	y08OVisb3VxzVudh0r640Dw7enmk11GXCa5r3nmRmnyqrAJgJDAMFJy7UuPJJfr9Wiyx
-	WGxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=uUeeEbg6MztGgLdwZu3eFvCe27/n0JS8LevnckoD9nQ=;
-	b=LArH4Ka8y/wyKt/O0ZucGTIELTXuhpA8gWJbdBxwKGZ330Vod5KDLlMSwDggGklIFu
-	tCrGHJsak/k7Rc1HUFV7BU5axqWcC3SgDHmp7ywAdLhA9cNGfHA13JOpS/9TzOPVxaPH
-	rkwJLgIyvKSkvQaU1KPe+eyduiUZjWJwDSNZC9p3fZbVXjhqLb+ccAOod2qKKwB6lHa8
-	jIm/3aE+yi9ZHWYM/HBbjyqQ8WeBayEgXwwrj1qvCfxTSbxHmxvbs7rthmP8vw6RqSvv
-	oaV9Rr2sgOjPQBjDxE64mFLnUaoUXdPgwxL7MrML72q2IaXrixGQOEMe9mnSFbsGikdY
-	HKlw==
-X-Gm-Message-State: ANhLgQ0KUUQTYKrMOQLCwA1JUSTD/paOCSdBc4+ZfvIGgZekiVt7HK0g
-	Hwg4JNNBORSqzbgavwmMumgX2MCKlJc=
-X-Google-Smtp-Source: ADFU+vunWvZLnxi2dWO9alg7ErBcDBs83FYjKSs1gYjWjBDMcwZ1pmBiw/A3UrbPbX0cf9UAxRVTRg==
-X-Received: by 2002:aa7:9890:: with SMTP id r16mr313232pfl.178.1583443123391; 
-	Thu, 05 Mar 2020 13:18:43 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1c34])
-	by smtp.gmail.com with ESMTPSA id
-	k2sm15047102pfh.16.2020.03.05.13.18.42
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Mar 2020 13:18:42 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Mar 2020 13:18:55 -0800
-Message-Id: <20200305211855.1015522-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	Thu, 5 Mar 2020 14:05:15 -0800
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.487.0;
+	Thu, 5 Mar 2020 14:04:54 -0800
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 5 Mar 2020 14:04:54 -0800
+Message-ID: <20200305220454.108763-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: [PATCH] pulseaudio: Fix inline assembly syntax for arm
+Subject: [PATCH 1/1] libdnf: fix deprecation warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,151 +31,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2020 21:18:43 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 05 Mar 2020 22:05:24 -0000
+Content-Type: text/plain
 
-Ensures that gcc can use right operand constraints
+Backport from libdnf.  Fix is in version 0.35.2.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- ...ap-arm-Adjust-inline-asm-constraints.patch | 114 ++++++++++++++++++
- .../pulseaudio/pulseaudio_13.0.bb             |   1 +
- 2 files changed, 115 insertions(+)
- create mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap-arm-Adjust-inline-asm-constraints.patch
+ .../libdnf/libdnf/fix-deprecation-warning.patch    | 71 ++++++++++++++++++++++
+ meta/recipes-devtools/libdnf/libdnf_0.28.1.bb      |  1 +
+ 2 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-devtools/libdnf/libdnf/fix-deprecation-warning.patch
 
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap-arm-Adjust-inline-asm-constraints.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap-arm-Adjust-inline-asm-constraints.patch
+diff --git a/meta/recipes-devtools/libdnf/libdnf/fix-deprecation-warning.patch b/meta/recipes-devtools/libdnf/libdnf/fix-deprecation-warning.patch
 new file mode 100644
-index 0000000000..95133fd9d4
+index 0000000..3a3e02f
 --- /dev/null
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-remap-arm-Adjust-inline-asm-constraints.patch
-@@ -0,0 +1,114 @@
-+From 3450d1fcfe8a8f84553ab299cd96ae0705ddffbe Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Thu, 5 Mar 2020 11:48:28 -0800
-+Subject: [PATCH] remap/arm: Adjust inline asm constraints
++++ b/meta/recipes-devtools/libdnf/libdnf/fix-deprecation-warning.patch
+@@ -0,0 +1,71 @@
++From 66d9b2ba3fbc7b04f2b5ad9d0e5371340c037b5f Mon Sep 17 00:00:00 2001
++From: Marek Blaha <mblaha@redhat.com>
++Date: Wed, 10 Jul 2019 10:11:01 +0200
++Subject: [oe-core][PATCH 1/1] Fix Python 3.8 deprecation warning
++ (RhBug:1724244)
 +
-+gcc10 can effectively emit single precision registers if right
-+operand modifier constraint is not in use
++This deprecation warning was introduced in Python 3.8 by
++https://bugs.python.org/issue36381:
 +
-+This results in assembler rejecting the code
++/usr/lib/python3.8/site-packages/dnf/package.py:57: DeprecationWarning: PY_SSIZE_T_CLEAN will be required for '#' formats
++  return super(Package, self).chksum
 +
-+/tmp/ccEG4QpI.s:646: Error: VFP/Neon double precision register expected -- `vtbl.8 d3,{d0,d1},s8'
-+/tmp/ccEG4QpI.s:678: Error: invalid instruction shape -- `vmul.f32 d0,d0,s8'
-+
-+Therefore add %P qualifier to request double registers sinece 'w' could
-+mean variable could be stored in s0..s14 and GCC defaults to printing out s0..s14.
-+Note those registers map to d0..d7 also.
-+
-+Output generated is exactly same with gcc9, and it also now compiles
-+with gcc10
-+
-+Its not documented well in gcc docs and there is a ticket for that
-+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=84343
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/merge_requests/261]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++https://bugzilla.redhat.com/show_bug.cgi?id=1724244
 +---
-+ src/pulsecore/remap_neon.c | 22 +++++++++++-----------
-+ 1 file changed, 11 insertions(+), 11 deletions(-)
++ python/hawkey/package-py.cpp      | 3 ++-
++ python/hawkey/packagedelta-py.cpp | 3 ++-
++ 2 files changed, 4 insertions(+), 2 deletions(-)
++---
 +
-+diff --git a/src/pulsecore/remap_neon.c b/src/pulsecore/remap_neon.c
-+index 41208986d..ca3b95b48 100644
-+--- a/src/pulsecore/remap_neon.c
-++++ b/src/pulsecore/remap_neon.c
-+@@ -189,7 +189,7 @@ static void remap_ch4_to_mono_float32ne_neon(pa_remap_t *m, float *dst, const fl
-+             "vadd.f32   d0, d0, d1              \n\t"
-+             "vadd.f32   d2, d2, d3              \n\t"
-+             "vadd.f32   d0, d0, d2              \n\t"
-+-            "vmul.f32   d0, d0, %[quart]        \n\t"
-++            "vmul.f32   d0, d0, %P[quart]       \n\t"
-+             "vst1.32    {d0}, [%[dst]]!         \n\t"
-+             : [dst] "+r" (dst), [src] "+r" (src) /* output operands */
-+             : [quart] "w" (quart) /* input operands */
-+@@ -276,7 +276,7 @@ static void remap_arrange_stereo_s16ne_neon(pa_remap_t *m, int16_t *dst, const i
-+     for (; n >= 2; n -= 2) {
-+         __asm__ __volatile__ (
-+             "vld1.s16   d0, [%[src]]!           \n\t"
-+-            "vtbl.8     d0, {d0}, %[t]          \n\t"
-++            "vtbl.8     d0, {d0}, %P[t]         \n\t"
-+             "vst1.s16   d0, [%[dst]]!           \n\t"
-+             : [dst] "+r" (dst), [src] "+r" (src) /* output operands */
-+             : [t] "w" (t) /* input operands */
-+@@ -287,7 +287,7 @@ static void remap_arrange_stereo_s16ne_neon(pa_remap_t *m, int16_t *dst, const i
-+     if (n > 0) {
-+         __asm__ __volatile__ (
-+             "vld1.32   d0[0], [%[src]]!         \n\t"
-+-            "vtbl.8    d0, {d0}, %[t]           \n\t"
-++            "vtbl.8    d0, {d0}, %P[t]          \n\t"
-+             "vst1.32   d0[0], [%[dst]]!         \n\t"
-+             : [dst] "+r" (dst), [src] "+r" (src) /* output operands */
-+             : [t] "w" (t) /* input operands */
-+@@ -302,8 +302,8 @@ static void remap_arrange_ch2_ch4_s16ne_neon(pa_remap_t *m, int16_t *dst, const
-+     for (; n > 0; n--) {
-+         __asm__ __volatile__ (
-+             "vld1.32    d0[0], [%[src]]!           \n\t"
-+-            "vtbl.8     d0, {d0}, %[t]          \n\t"
-+-            "vst1.s16   d0, [%[dst]]!           \n\t"
-++            "vtbl.8     d0, {d0}, %P[t]            \n\t"
-++            "vst1.s16   d0, [%[dst]]!              \n\t"
-+             : [dst] "+r" (dst), [src] "+r" (src) /* output operands */
-+             : [t] "w" (t) /* input operands */
-+             : "memory", "d0" /* clobber list */
-+@@ -317,7 +317,7 @@ static void remap_arrange_ch4_s16ne_neon(pa_remap_t *m, int16_t *dst, const int1
-+     for (; n > 0; n--) {
-+         __asm__ __volatile__ (
-+             "vld1.s16   d0, [%[src]]!           \n\t"
-+-            "vtbl.8     d0, {d0}, %[t]          \n\t"
-++            "vtbl.8     d0, {d0}, %P[t]         \n\t"
-+             "vst1.s16   d0, [%[dst]]!           \n\t"
-+             : [dst] "+r" (dst), [src] "+r" (src) /* output operands */
-+             : [t] "w" (t) /* input operands */
-+@@ -332,7 +332,7 @@ static void remap_arrange_stereo_float32ne_neon(pa_remap_t *m, float *dst, const
-+     for (; n > 0; n--) {
-+         __asm__ __volatile__ (
-+             "vld1.f32   d0, [%[src]]!           \n\t"
-+-            "vtbl.8     d0, {d0}, %[t]          \n\t"
-++            "vtbl.8     d0, {d0}, %P[t]         \n\t"
-+             "vst1.s16   {d0}, [%[dst]]!         \n\t"
-+             : [dst] "+r" (dst), [src] "+r" (src) /* output operands */
-+             : [t] "w" (t) /* input operands */
-+@@ -349,8 +349,8 @@ static void remap_arrange_ch2_ch4_any32ne_neon(pa_remap_t *m, float *dst, const
-+     for (; n > 0; n--) {
-+         __asm__ __volatile__ (
-+             "vld1.f32   d0, [%[src]]!           \n\t"
-+-            "vtbl.8     d1, {d0}, %[t0]         \n\t"
-+-            "vtbl.8     d2, {d0}, %[t1]         \n\t"
-++            "vtbl.8     d1, {d0}, %P[t0]        \n\t"
-++            "vtbl.8     d2, {d0}, %P[t1]        \n\t"
-+             "vst1.s16   {d1,d2}, [%[dst]]!      \n\t"
-+             : [dst] "+r" (dst), [src] "+r" (src) /* output operands */
-+             : [t0] "w" (t0), [t1] "w" (t1) /* input operands */
-+@@ -366,8 +366,8 @@ static void remap_arrange_ch4_float32ne_neon(pa_remap_t *m, float *dst, const fl
-+     for (; n > 0; n--) {
-+         __asm__ __volatile__ (
-+             "vld1.f32   {d0,d1}, [%[src]]!      \n\t"
-+-            "vtbl.8     d2, {d0,d1}, %[t0]      \n\t"
-+-            "vtbl.8     d3, {d0,d1}, %[t1]      \n\t"
-++            "vtbl.8     d2, {d0,d1}, %P[t0]     \n\t"
-++            "vtbl.8     d3, {d0,d1}, %P[t1]     \n\t"
-+             "vst1.s16   {d2,d3}, [%[dst]]!      \n\t"
-+             : [dst] "+r" (dst), [src] "+r" (src) /* output operands */
-+             : [t0] "w" (t0), [t1] "w" (t1) /* input operands */
++Unchanged.  Appears in version 0.35.2.
++
++Upstream-Status: Backport [git://github.com/rpm-software-management/libdnf.git]
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++
++diff --git a/python/hawkey/package-py.cpp b/python/hawkey/package-py.cpp
++index 5102bba..68e03cb 100644
++--- a/python/hawkey/package-py.cpp
+++++ b/python/hawkey/package-py.cpp
++@@ -18,6 +18,7 @@
++  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++  */
++ 
+++#define PY_SSIZE_T_CLEAN
++ #include <Python.h>
++ #include <stdio.h>
++ 
++@@ -251,7 +252,7 @@ get_chksum(_PackageObject *self, void *closure)
++ #if PY_MAJOR_VERSION < 3
++     res = Py_BuildValue("is#", type, cs, checksum_length);
++ #else
++-    res = Py_BuildValue("iy#", type, cs, checksum_length);
+++    res = Py_BuildValue("iy#", type, cs, (Py_ssize_t)checksum_length);
++ #endif
++ 
++     return res;
++diff --git a/python/hawkey/packagedelta-py.cpp b/python/hawkey/packagedelta-py.cpp
++index ca1cb7d..1a64836 100644
++--- a/python/hawkey/packagedelta-py.cpp
+++++ b/python/hawkey/packagedelta-py.cpp
++@@ -18,6 +18,7 @@
++  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++  */
++ 
+++#define PY_SSIZE_T_CLEAN
++ #include <Python.h>
++ 
++ // hawkey
++@@ -92,7 +93,7 @@ get_chksum(_PackageDeltaObject *self, void *closure)
++ #if PY_MAJOR_VERSION < 3
++     res = Py_BuildValue("is#", type, cs, checksum_length);
++ #else
++-    res = Py_BuildValue("iy#", type, cs, checksum_length);
+++    res = Py_BuildValue("iy#", type, cs, (Py_ssize_t)checksum_length);
++ #endif
++ 
++     return res;
 +-- 
-+2.25.1
++2.7.4
 +
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
-index 7f8ebc2090..601499b6da 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
-@@ -3,6 +3,7 @@ require pulseaudio.inc
- SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
-            file://0001-client-conf-Add-allow-autospawn-for-root.patch \
-            file://0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch \
-+           file://0001-remap-arm-Adjust-inline-asm-constraints.patch \
-            file://volatiles.04_pulse \
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+index d498347..163a2ee 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+@@ -8,6 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf \
+            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
+            file://0001-Add-WITH_TESTS-option.patch \
+            file://0001-include-stdexcept-for-runtime_error.patch \
++           file://fix-deprecation-warning.patch \
             "
- SRC_URI[md5sum] = "e41d606f90254ed45c90520faf83d95c"
+ 
+ SRCREV = "751f89045b80d58c0d05800f74357cf78cdf7e77"
 -- 
-2.25.1
+2.7.4
 
 
