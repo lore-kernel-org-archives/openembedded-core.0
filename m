@@ -1,40 +1,24 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 66DAF6117D
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0605E60FF1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2020 09:46:43 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id f10so5308796ljn.6
+	Thu,  5 Mar 2020 10:02:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 025A2xYM003166
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Mar 2020 01:46:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=uf5Z7JLqzucq29n4CbDEhYtGrGQDc5x8eX1g5qec5O0=;
-	b=Lx5M5I/Yk3sGaiDYZixh40CqLEIh/gJwPFnlUHIyG2L0/XiUhtVT2OXsI6oThD6r5n
-	J4AHPJ2R/PpQJ7ePBshRMqZNAvtXiz5SHK8ci3bhlJvSGDzgB4MJo4MLYtanWuIRgrMU
-	6Qn+HaXMNuFtlQIVnfRuUrz3/kP6BT5/cMToqyUuszjcOEnR/2pfh9nK6OUeLraV1afv
-	Vy3BHzbMSUQiJH88EQrdUUbbQcXrsAdzlj5X1Lj3SGD8fDn3F00SYBbi4Q1nwJJ+0V+y
-	m2RvTLLe6QJPJ+Qn65Fc/2YchNEpIclxPy0gMvWRPkoxExzJmiPCOy/2W6ePJ1b68J1P
-	Op6Q==
-X-Gm-Message-State: ANhLgQ1wwz/+sDs8rqSnr4OpYm72XyQV+A9nJ4uy/FK8p80QeqB47lkG
-	MccI5AYDZqyqQRC9BhJOlhKRo+2U2QsC3NMuXt9/SO26
-X-Google-Smtp-Source: ADFU+vuCqEAiV8Ww0+7RwMu545U+tw+qBLZWKgttpb9vCJlMwG5mrLyS8gw/mAwEUnzrxqWnSnc67lcX4xjveBak/qY=
-X-Received: by 2002:a2e:85d8:: with SMTP id h24mr1799342ljj.230.1583401603569; 
-	Thu, 05 Mar 2020 01:46:43 -0800 (PST)
+	Thu, 5 Mar 2020 02:02:59 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.487.0; Thu, 5 Mar 2020 02:02:59 -0800
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 5 Mar 2020 18:02:57 +0800
+Message-ID: <1583402577-350047-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20200304083438.1022216-1-ricardo@ribalda.com>
-	<20200304095334.1f20ddd9@ub1910>
-	<CAPybu_17EBoQH45Cpb+2UJ-Yoho062_5sGWAT1qmu4MPycOHBQ@mail.gmail.com>
-	<20200305092855.1f9ccae8@ub1910>
-In-Reply-To: <20200305092855.1f9ccae8@ub1910>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date: Thu, 5 Mar 2020 10:46:27 +0100
-Message-ID: <CAPybu_0Avf3ckaFNvkmB6Q1FwLmQB_T886HSwNLrjCnu3tkh_w@mail.gmail.com>
-To: Paul Barker <pbarker@konsulko.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] wic: Fix permissions when using exclude or include path
+Subject: [PATCH] netbase: Upgrade to 6.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,162 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2020 09:46:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 05 Mar 2020 10:02:59 -0000
+Content-Type: text/plain
 
-Hi Paul
+From: Mingli Yu <mingli.yu@windriver.com>
 
-On Thu, Mar 5, 2020 at 10:32 AM Paul Barker <pbarker@konsulko.com> wrote:
->
-> On Wed, 4 Mar 2020 11:02:47 +0100
-> Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
->
-> > Hi Paul
-> >
-> > On Wed, Mar 4, 2020 at 10:53 AM Paul Barker <pbarker@konsulko.com> wrote:
-> > >
-> > > On Wed,  4 Mar 2020 09:34:37 +0100
-> > > Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
-> > >
-> > > > When parameters include_path or exclude_path are passed to the rootfs
-> > > > plugin, it will copy the partition content into a folder and make all
-> > > > the modifications there.
-> > > >
-> > > > This is done using copyhardlinktree(), which does not take into
-> > > > consideration the content of the pseudo folder, which contains the
-> > > > information about the right permissions and ownership of the folders.
-> > >
-> > > How are you running wic here? In the do_image_wic task it's executed under
-> > > pseudo so all this is handled already. Executing wic outside of bitbake may
-> > > need some more testing here.
-> >
-> > I am running wic outside bitbake. But even if it is run under bitbake,
-> > it should also fail. The pseudo directory needs to be present on the
-> > target image
->
-> If you're running wic outside of bitbake, is there any guarantee that pseudo
-> is available?
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-core/netbase/{netbase_6.0.bb => netbase_6.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/netbase/{netbase_6.0.bb => netbase_6.1.bb} (82%)
 
-Yes, the same guarantee that the ext3_tools are available. So I
-believe we are safe here. Actually in my docker pseudo is not
-installed and when I invoke with wic, everything is fine.
-
->
-> >
-> > >
-> > > >
-> > > > This results in a rootfs owned by the user that is running the wic
-> > > > command (usually UID 1000), which makes some rootfs unbootable.
-> > > >
-> > > > To fix this we copy the content of the pseudo folders to the new folder
-> > > > and modify the pseudo database using the "pseudo -B" command.
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > > ---
-> > > >  scripts/lib/wic/plugins/source/rootfs.py | 22 +++++++++++++++++++---
-> > > >  1 file changed, 19 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-> > > > index 705aeb5563..40419a64b3 100644
-> > > > --- a/scripts/lib/wic/plugins/source/rootfs.py
-> > > > +++ b/scripts/lib/wic/plugins/source/rootfs.py
-> > > > @@ -16,11 +16,11 @@ import os
-> > > >  import shutil
-> > > >  import sys
-> > > >
-> > > > -from oe.path import copyhardlinktree
-> > > > +from oe.path import copyhardlinktree, copytree
-> > > >
-> > > >  from wic import WicError
-> > > >  from wic.pluginbase import SourcePlugin
-> > > > -from wic.misc import get_bitbake_var
-> > > > +from wic.misc import get_bitbake_var, exec_native_cmd
-> > > >
-> > > >  logger = logging.getLogger('wic')
-> > > >
-> > > > @@ -44,6 +44,15 @@ class RootfsPlugin(SourcePlugin):
-> > > >
-> > > >          return os.path.realpath(image_rootfs_dir)
-> > > >
-> > > > +    @staticmethod
-> > > > +    def __get_pseudo(native_sysroot, rootfs):
-> > > > +        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
-> > > > +        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % os.path.join(rootfs, "../pseudo")
-> > > > +        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs
-> > > > +        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
-> > > > +        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-> > > > +        return pseudo
-> > > > +
-> > > >      @classmethod
-> > > >      def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-> > > >                               oe_builddir, bootimg_dir, kernel_dir,
-> > > > @@ -78,9 +87,16 @@ class RootfsPlugin(SourcePlugin):
-> > > >
-> > > >              if os.path.lexists(new_rootfs):
-> > > >                  shutil.rmtree(os.path.join(new_rootfs))
-> > > > -
-> > > >              copyhardlinktree(part.rootfs_dir, new_rootfs)
-> > > >
-> > > > +            if os.path.lexists(os.path.join(new_rootfs, "../pseudo")):
-> > > > +                shutil.rmtree(os.path.join(new_rootfs, "../pseudo"))
-> > > > +            copytree(os.path.join(part.rootfs_dir, "../pseudo"),
-> > > > +                     os.path.join(new_rootfs, "../pseudo"))
-> > >
-> > > I don't like stepping up the directory tree like this. We should be more
-> > > explicit with the paths.
-> >
-> > You are thinking on:
-> > os.path.dirname(directory)
->
-> No, I'm wondering why we're taking a step up the directory tree from
-> `part.rootfs_dir`. I can point that at any path using the `--rootfs-dir`
-> argument and there's no guarantee that ../pseudo exists or is relevant to the
-> path I gave to `--rootfs-dir`.
-
-Because we are asuming that the rootfs is being generated with
-OE/yocto, and there is where the pseudo folder lives.
-It is the same asumption part.prepare_rootfs() is taking.
-
->
-> >
-> > >
-> > > > +            pseudo_cmd = "%s -B -m %s -M %s" % (cls.__get_pseudo(native_sysroot,new_rootfs),
-> > > > +                                                part.rootfs_dir, new_rootfs)
-> > > > +            exec_native_cmd(pseudo_cmd, native_sysroot)
-> > > > +
-> > > >              for path in part.include_path or []:
-> > > >                  copyhardlinktree(path, new_rootfs)
-> > >
-> > >                    ^^^^^^^^^^^^^^^^
-> > >
-> > > If this is the right approach I imagine you would also need to fix things up
-> > > with pseudo after the copyhardlinktree call above.
-> >
-> > I do not think it is needed. include_path does not contain its own
-> > pseudo directory
->
-> That's not necessarily true. The include_path could have been built by Yocto
-> using pseudo.
-
-Then you need to provide where the pseudo folder is. Eg
-
---include_path folder/A/B/C/D/file
-
-Where is the pseudo database? in folder/A/B/C/D/pseudo,
-folder/A/B/C/pseudo , folder/A/B/C/pseudo /...
-
-
-
->
-> I can see that there is an issue using these arguments to wic outside of
-> bitbake but I'm not sure this is the correct solution.
->
-> --
-> Paul Barker
-> Konsulko Group
-
-
-
+diff --git a/meta/recipes-core/netbase/netbase_6.0.bb b/meta/recipes-core/netbase/netbase_6.1.bb
+similarity index 82%
+rename from meta/recipes-core/netbase/netbase_6.0.bb
+rename to meta/recipes-core/netbase/netbase_6.1.bb
+index 2fb5762..bc0049c 100644
+--- a/meta/recipes-core/netbase/netbase_6.0.bb
++++ b/meta/recipes-core/netbase/netbase_6.1.bb
+@@ -8,8 +8,8 @@ PE = "1"
+ 
+ SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "3417b0487161f1a2b070a3308cd7f957"
+-SRC_URI[sha256sum] = "692baeb7b76eba5580c7edbc97ce1784a06b5aa4b367c5ed0b39e0ce7a97d594"
++SRC_URI[md5sum] = "e5871a3a5c8390557b8033cf19316a55"
++SRC_URI[sha256sum] = "084d743bd84d4d9380bac4c71c51e57406dce44f5a69289bb823c903e9b035d8"
+ 
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/netbase/"
+ do_install () {
 -- 
-Ricardo Ribalda
+2.7.4
+
 
