@@ -1,24 +1,55 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A2F52611E1
+Return-Path: <jpuhlman@gmail.com>
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id F29C56111A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2020 00:30:20 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0250ULTj014023
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Thu,  5 Mar 2020 00:32:23 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id j20so1422099pll.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 4 Mar 2020 16:30:21 -0800 (PST)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.487.0;
-	Wed, 4 Mar 2020 16:30:20 -0800
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Mar 2020 16:30:20 -0800
-Message-ID: <20200305003020.5164-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.24.1
+	Wed, 04 Mar 2020 16:32:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5yeFIvs6/svmVjzOIqDTSS8qIrAZygYqvsNjDBxmQcQ=;
+	b=VwVuehONwBv/gjOJYVhW/W0YG4Jvmm+iEQJyEo34JIsR7FjYMZNdEmuyC7ncKEteOF
+	SogSuVnK3m0EAPm8gm6X5RB7FfUB296NcihuHeXvhn+GYopHM8cgQfYwwCMXVls1hrRu
+	6asg8DQACqH2zVJb36fPBDq9spQNL3+lf6TQemZTnAQ1JWDGRM3DOEa4w0xMGCORHPWN
+	AJLgFfQ8xkDC7dBmG0Et28KlV9c1lkUitGlg6kk+S3/9giiEFer5EV8pyMnla40NfVwi
+	cDto/QwPej5mKscqNybXZVRtkPpM8pyuCXa0mn7PZykCOGVGSBoepvNnHMiohlTSW9iw
+	KPWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=5yeFIvs6/svmVjzOIqDTSS8qIrAZygYqvsNjDBxmQcQ=;
+	b=PsDn1cqdw+GTt9/fH5DcNUbGhI9/XTBjozqxKA3GckgID7ndKu8xRY702JFdVRmKmV
+	TDZicn75t1F9MeDnyRkNpX8z+lg0hhr/QbavvTCjgBL7Y3rGxgFtwXJnLnZzYqUPhC3X
+	T1j2+pOSQFRBdaRIPC00Iu1jumCPLTU11RTBKxFwNC+Ed2biE9Of6rDdNfcanTGrOpvQ
+	1xdiuLK5nZhoXdkWyNB91Ryqp/ZFoyu8S2p132t/7DZKbGF/B0u9dN96ajzBwCaQ7UMr
+	O5wnBdB4QJUI5b3RcNIFN39Tsn81+5wK8JNQEXKC5SBabD/wezVnjUka92s+glVGJGsZ
+	Vqgw==
+X-Gm-Message-State: ANhLgQ3GElxxT7MR3Ct5CBlGZC+nirMIju65f9MtaExEQJKCmEWsAFrD
+	2Cs3NT/xoCBW01/fXwADlis6W0LJGQw=
+X-Google-Smtp-Source: ADFU+vv9iXD0livdJRH9a9cb5UAOOsLzlqMPGQzEzdvQwfRmKYUZkfK6qCZjuQib/2wuA59DanPe5Q==
+X-Received: by 2002:a17:90a:858c:: with SMTP id
+	m12mr5530461pjn.127.1583368344488; 
+	Wed, 04 Mar 2020 16:32:24 -0800 (PST)
+Received: from workhorse.localdomain
+	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+	by smtp.gmail.com with ESMTPSA id
+	193sm7371495pfu.181.2020.03.04.16.32.23
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 04 Mar 2020 16:32:23 -0800 (PST)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id A42F12A07BB; Wed,  4 Mar 2020 16:32:22 -0800 (PST)
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Mar 2020 16:32:20 -0800
+Message-Id: <20200305003220.7961-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] dnf: fix python3 syntax warning
+Subject: [PATCH v2] gdbm-native: disable readline for the native package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,72 +62,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2020 00:30:20 -0000
+X-List-Received-Date: Thu, 05 Mar 2020 00:32:24 -0000
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Backport from dnf version 4.2.7.
+Turns off readline for both.
+Also corrected a typo with enable-libgdbm-compat
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
 ---
- .../dnf/dnf/Fix-SyntaxWarning.patch                | 34 ++++++++++++++++++++++
- meta/recipes-devtools/dnf/dnf_4.2.2.bb             |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-devtools/dnf/dnf/Fix-SyntaxWarning.patch
+ meta/recipes-support/gdbm/gdbm_1.18.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/dnf/dnf/Fix-SyntaxWarning.patch b/meta/recipes-devtools/dnf/dnf/Fix-SyntaxWarning.patch
-new file mode 100644
-index 0000000..1bd8b09
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/Fix-SyntaxWarning.patch
-@@ -0,0 +1,34 @@
-+From 23c5b15efe42e5e6ee695e54798bac248532d8d6 Mon Sep 17 00:00:00 2001
-+
-+Date: Tue, 28 May 2019 13:14:51 +0200
-+Subject: [oe-core][PATCH 1/1] Fix SyntaxWarning: "is" with a literal. Did you
-+ mean "=="?
-+
-+---
-+ dnf/cli/commands/repoquery.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+---
-+
-+Unchanged.  Appears in version 4.2.7.
-+
-+Upstream-Status: Backport [git://github.com/rpm-software-management/dnf.git]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+
-+diff --git a/dnf/cli/commands/repoquery.py b/dnf/cli/commands/repoquery.py
-+index 941a470..63fc668 100644
-+--- a/dnf/cli/commands/repoquery.py
-++++ b/dnf/cli/commands/repoquery.py
-+@@ -611,7 +611,7 @@ class RepoQueryCommand(commands.Command):
-+ 
-+     def tree_seed(self, query, aquery, opts, level=-1, usedpkgs=None):
-+         for pkg in sorted(set(query.run()), key=lambda p: p.name):
-+-            usedpkgs = set() if usedpkgs is None or level is -1 else usedpkgs
-++            usedpkgs = set() if usedpkgs is None or level == -1 else usedpkgs
-+             if pkg.name.startswith("rpmlib") or pkg.name.startswith("solvable"):
-+                 return
-+             self.grow_tree(level, pkg, opts)
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-index f6e616e..5244e10 100644
---- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-@@ -13,6 +13,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
-            file://0005-Do-not-prepend-installroot-to-logdir.patch \
-            file://0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            file://0030-Run-python-scripts-using-env.patch \
-+           file://Fix-SyntaxWarning.patch \
-            "
+diff --git a/meta/recipes-support/gdbm/gdbm_1.18.1.bb b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
+index 7e2efe3c9b..5cb7c558b8 100644
+--- a/meta/recipes-support/gdbm/gdbm_1.18.1.bb
++++ b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
+@@ -16,7 +16,7 @@ SRC_URI[sha256sum] = "86e613527e5dba544e73208f42b78b7c022d4fa5a6d5498bf18c8d6f74
+ inherit autotools gettext texinfo lib_package ptest
  
- SRCREV = "9947306a55271b8b7c9e2b6e3b7d582885b6045d"
+ # Needed for dbm python module
+-EXTRA_OECONF = "-enable-libgdbm-compat"
++EXTRA_OECONF = "--enable-libgdbm-compat --without-readline"
+ 
+ # Stop presence of dbm/nbdm on the host contaminating builds
+ CACHED_CONFIGUREVARS += "ac_cv_lib_ndbm_main=no ac_cv_lib_dbm_main=no"
 -- 
-2.7.4
+2.20.1
 
 
