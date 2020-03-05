@@ -1,52 +1,52 @@
 Return-Path: <pbarker@konsulko.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C9AE5606BA
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id F3D776002A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2020 09:32:34 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id 6so662363wre.4
+	Thu,  5 Mar 2020 09:37:07 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id 6so5413706wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Mar 2020 01:32:36 -0800 (PST)
+	Thu, 05 Mar 2020 01:37:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
 	h=date:from:to:cc:subject:message-id:in-reply-to:references
 	:organization:mime-version:content-transfer-encoding;
-	bh=MWa1Nr8hKN/DyDdhQWz3cy+Y8ejq30IwJGBVUeLA5TE=;
-	b=GsAjf872uIHTf6F379xvq77ZATKnk7IE9GG8EVeeAWQ1/5HMqhtBM8ZybZk0uoIOBA
-	BzywcM1lbpCzPoCyTTffyuWJUa/xnWq0joL7ARH1EvgLrNm3ybieCPxxhHyp7njE57LB
-	u6eaLSLXl2MbV9lRZE3PUUD7+foksJqz1FO5s=
+	bh=iMcKa2rlHU5urKe8cdM1b9n9Q6kcyfxzKDwArb6oyf8=;
+	b=sPzzLlyRtBJt2RWW93OG3fK4rX+dy8AdsjNIXS+OwisxDFWBdpNgs6agN2t6/q3AIn
+	9xo38MNptH7XLUGgWj+b2BYxcrI9cY6ilNBHZWeEm3mpLNqd4ld5RK0jLt6EnyAKnFb4
+	iFYPKrerQq6niLdEsUfGXq+FeJVPdjqfqvruU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
 	:references:organization:mime-version:content-transfer-encoding;
-	bh=MWa1Nr8hKN/DyDdhQWz3cy+Y8ejq30IwJGBVUeLA5TE=;
-	b=SIrjhy+NGwhbSLuSfPmgBZHxAPysOoa7YIKk5u3ewZGbqNlTx4q0ZSf1J7b1QYP+Mv
-	OCOtpUDCPmjfOFY+VIOX+SccuLApEIXpt4ra/9X7BlBo4fJJtlBe/S92rDADSaEzU+V/
-	w4DpRbwiIaw0n5X5LmlRXwlPra9FkvCl44eXvDZJgXnkq3vLFCpNG1PBe4ieR621qQkb
-	DbVSBFLrj3k8iuCnsgpqIkUbNOmRSQCGOKK6wbR+s1Wq20Y9H4STD2GegEFMwhGHBArA
-	ZonTLIGpuPZ8Z3F1ATafuWWWCV1DqIacH28T2NXl8PPC64TyTtwZ06aThSxeQT9lGAXw
-	I2LA==
-X-Gm-Message-State: ANhLgQ2uSmEP/FkrBUsu9N1uc8eXzs8wKYFTCndbJZT9H83U4JzoUkMT
-	YzOWFkV61xyaHZEymlx2AxjbdA==
-X-Google-Smtp-Source: ADFU+vt37a1CeLQspwd019UbrKuO8s74ArtLwoYKF6VN76FIdL2wTCiBJakYqbYJWYq/EPoXuL9eHQ==
-X-Received: by 2002:adf:df8c:: with SMTP id z12mr8991879wrl.174.1583400755282; 
-	Thu, 05 Mar 2020 01:32:35 -0800 (PST)
+	bh=iMcKa2rlHU5urKe8cdM1b9n9Q6kcyfxzKDwArb6oyf8=;
+	b=QYRewcONhSqo5f5DgxI4EkCGd25rfFHp1AzKbCdaDTV8AJ37CXYDdCcZbEIcNUPtg9
+	vYlj7UK+5JC07CPvn5NZF6PnFhPVPOYGVeSo1Y9of5wTE3pXPnKKY43gcgcRiWn/htVs
+	6QbyQ7iYBE6blwXRcnnSPiAWf5ig7h+sqkKChyk4J/59HS/cQ6RHEhWPyPOtZva9o14x
+	gVWSxUkXaXX29fdqByGGu0ovFy/b/LBBUOBThXK0C2HC9bJulVDsxiDrIDZuu9yjNGHe
+	P1Nd27QLDFdXUpivkG3sK6cV1zbUJHOd89WtfMTj/Ajuu4XB4O+2SOn98zZ3SN1YhcNx
+	Hegw==
+X-Gm-Message-State: ANhLgQ0ckNWLBsOe0u1DdcCyYsGLNqC8DH63pAUt8LQ2BQF7o67D6q2V
+	MCd1VmSH2PKNeX4CGgV4/be5Hg==
+X-Google-Smtp-Source: ADFU+vuFEfZJC3Fw9ZZzUKWonvP4DzXa3RSvZUQanNvuWpz/OZCgKXSpGta70a58Ebbr5WM5QRaVZA==
+X-Received: by 2002:a05:600c:2255:: with SMTP id
+	a21mr4322927wmm.91.1583401028588; 
+	Thu, 05 Mar 2020 01:37:08 -0800 (PST)
 Received: from ub1910 ([213.48.11.149])
-	by smtp.gmail.com with ESMTPSA id 25sm8426072wmg.30.2020.03.05.01.32.34
+	by smtp.gmail.com with ESMTPSA id b13sm8837081wme.2.2020.03.05.01.37.08
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Mar 2020 01:32:35 -0800 (PST)
-Date: Thu, 5 Mar 2020 09:28:55 +0000
+	Thu, 05 Mar 2020 01:37:08 -0800 (PST)
+Date: Thu, 5 Mar 2020 09:33:29 +0000
 From: Paul Barker <pbarker@konsulko.com>
 To: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Message-ID: <20200305092855.1f9ccae8@ub1910>
-In-Reply-To: <CAPybu_17EBoQH45Cpb+2UJ-Yoho062_5sGWAT1qmu4MPycOHBQ@mail.gmail.com>
-References: <20200304083438.1022216-1-ricardo@ribalda.com>
-	<20200304095334.1f20ddd9@ub1910>
-	<CAPybu_17EBoQH45Cpb+2UJ-Yoho062_5sGWAT1qmu4MPycOHBQ@mail.gmail.com>
+Message-ID: <20200305093329.1eed6cdd@ub1910>
+In-Reply-To: <20200304144936.2559106-2-ricardo@ribalda.com>
+References: <20200304144936.2559106-1-ricardo@ribalda.com>
+	<20200304144936.2559106-2-ricardo@ribalda.com>
 Organization: Konsulko Group
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] wic: Fix permissions when using exclude or include path
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 2/2] wic: Add --embed-rootfs argument
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,132 +59,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2020 09:32:35 -0000
+X-List-Received-Date: Thu, 05 Mar 2020 09:37:08 -0000
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 4 Mar 2020 11:02:47 +0100
+On Wed,  4 Mar 2020 15:49:36 +0100
 Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
 
-> Hi Paul
+> This option adds the content of a rootfs on a specific location on the
+> rootfs.
 > 
-> On Wed, Mar 4, 2020 at 10:53 AM Paul Barker <pbarker@konsulko.com> wrote:
-> >
-> > On Wed,  4 Mar 2020 09:34:37 +0100
-> > Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
-> >  
-> > > When parameters include_path or exclude_path are passed to the rootfs
-> > > plugin, it will copy the partition content into a folder and make all
-> > > the modifications there.
-> > >
-> > > This is done using copyhardlinktree(), which does not take into
-> > > consideration the content of the pseudo folder, which contains the
-> > > information about the right permissions and ownership of the folders.  
-> >
-> > How are you running wic here? In the do_image_wic task it's executed under
-> > pseudo so all this is handled already. Executing wic outside of bitbake may
-> > need some more testing here.  
+> It is very useful for making a partition that contains the rootfs for a
+> host and a target Eg:
 > 
-> I am running wic outside bitbake. But even if it is run under bitbake,
-> it should also fail. The pseudo directory needs to be present on the
-> target image
+> / -> Roofs for the host
+> /export/ -> Rootfs for the target (which will netboot)
+> 
+> Although today we support making a partition for "/export" this might
+> not be compatible with some upgrade systems, or we might be limited by
+> the number of partitions.
+> 
+> With this patch we can use something like:
+> 
+> part / --source rootfs --embed-rootfs target-image /export --embed-rootfs target-image2 /export2
 
-If you're running wic outside of bitbake, is there any guarantee that pseudo
-is available?
+I like this but it still leaves confusion between `--include-path` and
+--embed-rootfs` as they're similar but slightly different. Can we just modify
+`--include-path` to have this syntax?
 
 > 
-> >  
-> > >
-> > > This results in a rootfs owned by the user that is running the wic
-> > > command (usually UID 1000), which makes some rootfs unbootable.
-> > >
-> > > To fix this we copy the content of the pseudo folders to the new folder
-> > > and modify the pseudo database using the "pseudo -B" command.
-> > >
-> > > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > ---
-> > >  scripts/lib/wic/plugins/source/rootfs.py | 22 +++++++++++++++++++---
-> > >  1 file changed, 19 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-> > > index 705aeb5563..40419a64b3 100644
-> > > --- a/scripts/lib/wic/plugins/source/rootfs.py
-> > > +++ b/scripts/lib/wic/plugins/source/rootfs.py
-> > > @@ -16,11 +16,11 @@ import os
-> > >  import shutil
-> > >  import sys
-> > >
-> > > -from oe.path import copyhardlinktree
-> > > +from oe.path import copyhardlinktree, copytree
-> > >
-> > >  from wic import WicError
-> > >  from wic.pluginbase import SourcePlugin
-> > > -from wic.misc import get_bitbake_var
-> > > +from wic.misc import get_bitbake_var, exec_native_cmd
-> > >
-> > >  logger = logging.getLogger('wic')
-> > >
-> > > @@ -44,6 +44,15 @@ class RootfsPlugin(SourcePlugin):
-> > >
-> > >          return os.path.realpath(image_rootfs_dir)
-> > >
-> > > +    @staticmethod
-> > > +    def __get_pseudo(native_sysroot, rootfs):
-> > > +        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
-> > > +        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % os.path.join(rootfs, "../pseudo")
-> > > +        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs
-> > > +        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
-> > > +        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-> > > +        return pseudo
-> > > +
-> > >      @classmethod
-> > >      def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-> > >                               oe_builddir, bootimg_dir, kernel_dir,
-> > > @@ -78,9 +87,16 @@ class RootfsPlugin(SourcePlugin):
-> > >
-> > >              if os.path.lexists(new_rootfs):
-> > >                  shutil.rmtree(os.path.join(new_rootfs))
-> > > -
-> > >              copyhardlinktree(part.rootfs_dir, new_rootfs)
-> > >
-> > > +            if os.path.lexists(os.path.join(new_rootfs, "../pseudo")):
-> > > +                shutil.rmtree(os.path.join(new_rootfs, "../pseudo"))
-> > > +            copytree(os.path.join(part.rootfs_dir, "../pseudo"),
-> > > +                     os.path.join(new_rootfs, "../pseudo"))  
-> >
-> > I don't like stepping up the directory tree like this. We should be more
-> > explicit with the paths.  
+> on the .wks file.
 > 
-> You are thinking on:
-> os.path.dirname(directory)
-
-No, I'm wondering why we're taking a step up the directory tree from
-`part.rootfs_dir`. I can point that at any path using the `--rootfs-dir`
-argument and there's no guarantee that ../pseudo exists or is relevant to the
-path I gave to `--rootfs-dir`.
-
+> Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+> ---
+>  scripts/lib/wic/help.py                  |  8 ++++++++
+>  scripts/lib/wic/ksparser.py              |  1 +
+>  scripts/lib/wic/partition.py             |  1 +
+>  scripts/lib/wic/plugins/source/rootfs.py | 22 +++++++++++++++++++++-
+>  4 files changed, 31 insertions(+), 1 deletion(-)
 > 
-> >  
-> > > +            pseudo_cmd = "%s -B -m %s -M %s" % (cls.__get_pseudo(native_sysroot,new_rootfs),
-> > > +                                                part.rootfs_dir, new_rootfs)
-> > > +            exec_native_cmd(pseudo_cmd, native_sysroot)
-> > > +
-> > >              for path in part.include_path or []:
-> > >                  copyhardlinktree(path, new_rootfs)  
-> >
-> >                    ^^^^^^^^^^^^^^^^
-> >
-> > If this is the right approach I imagine you would also need to fix things up
-> > with pseudo after the copyhardlinktree call above.  
-> 
-> I do not think it is needed. include_path does not contain its own
-> pseudo directory
+> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+> index 4d342fcf05..140dc504cd 100644
+> --- a/scripts/lib/wic/help.py
+> +++ b/scripts/lib/wic/help.py
+> @@ -979,6 +979,14 @@ DESCRIPTION
+>                           copies. This option only has an effect with the rootfs
+>                           source plugin.
+>  
+> +         --embed-rootfs: This option is specific to wic. It embeds a rootfs into
+> +                         the given path to the resulting image. The option
+> +                         contains two fields, the roofs and the path, separated
+> +                         by a space. The rootfs follows the same logic as the
+> +                         rootfs-dir argument. Multiple options can be provided
+> +                         in order to embed multiple rootfs. This option only has
+> +                         an effect with the rootfs source plugin.
+> +
+>           --extra-space: This option is specific to wic. It adds extra
+>                          space after the space filled by the content
+>                          of the partition. The final size can go
+> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+> index 650b976223..64c8c1175e 100644
+> --- a/scripts/lib/wic/ksparser.py
+> +++ b/scripts/lib/wic/ksparser.py
+> @@ -138,6 +138,7 @@ class KickStart():
+>          part.add_argument('--align', type=int)
+>          part.add_argument('--exclude-path', nargs='+')
+>          part.add_argument('--include-path', nargs='+')
+> +        part.add_argument('--embed-rootfs', nargs=2, action='append')
+>          part.add_argument("--extra-space", type=sizetype)
+>          part.add_argument('--fsoptions', dest='fsopts')
+>          part.add_argument('--fstype', default='vfat',
+> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> index 2d95f78439..13857df82f 100644
+> --- a/scripts/lib/wic/partition.py
+> +++ b/scripts/lib/wic/partition.py
+> @@ -31,6 +31,7 @@ class Partition():
+>          self.extra_space = args.extra_space
+>          self.exclude_path = args.exclude_path
+>          self.include_path = args.include_path
+> +        self.embed_rootfs = args.embed_rootfs
+>          self.fsopts = args.fsopts
+>          self.fstype = args.fstype
+>          self.label = args.label
+> diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
+> index 40419a64b3..089aaea477 100644
+> --- a/scripts/lib/wic/plugins/source/rootfs.py
+> +++ b/scripts/lib/wic/plugins/source/rootfs.py
+> @@ -17,6 +17,7 @@ import shutil
+>  import sys
+>  
+>  from oe.path import copyhardlinktree, copytree
+> +from pathlib import Path
+>  
+>  from wic import WicError
+>  from wic.pluginbase import SourcePlugin
+> @@ -80,7 +81,7 @@ class RootfsPlugin(SourcePlugin):
+>  
+>          new_rootfs = None
+>          # Handle excluded paths.
+> -        if part.exclude_path or part.include_path:
+> +        if part.exclude_path or part.include_path or part.embed_rootfs:
+>              # We need a new rootfs directory we can delete files from. Copy to
+>              # workdir.
+>              new_rootfs = os.path.realpath(os.path.join(cr_workdir, "rootfs%d" % part.lineno))
+> @@ -100,6 +101,25 @@ class RootfsPlugin(SourcePlugin):
+>              for path in part.include_path or []:
+>                  copyhardlinktree(path, new_rootfs)
+>  
+> +            for embed in part.embed_rootfs or []:
+> +                [embed_rootfs, path] = embed
+> +                #we need to remove the initial / for os.path.join to work
+> +                if os.path.isabs(path):
+> +                    path = path[1:]
+> +                if embed_rootfs in krootfs_dir:
+> +                    embed_rootfs = krootfs_dir[embed_rootfs]
+> +                embed_rootfs = cls.__get_rootfs_dir(embed_rootfs)
+> +                tar_file = os.path.realpath(os.path.join(cr_workdir, "aux.tar"))
+> +                tar_cmd = "%s tar cpf %s -C %s ." % (cls.__get_pseudo(native_sysroot,
+> +                                                     embed_rootfs), tar_file, embed_rootfs)
+> +                exec_native_cmd(tar_cmd, native_sysroot)
+> +                untar_cmd = "%s tar xf %s -C %s ." % (cls.__get_pseudo(native_sysroot, new_rootfs),
+> +                                                      tar_file, os.path.join(new_rootfs, path))
+> +                Path(os.path.join(new_rootfs, path)).mkdir(parents=True, exist_ok=True)
+> +                exec_native_cmd(untar_cmd, native_sysroot,
+> +                                cls.__get_pseudo(native_sysroot, new_rootfs))
+> +                os.remove(tar_file)
+> +
+>              for orig_path in part.exclude_path or []:
+>                  path = orig_path
+>                  if os.path.isabs(path):
 
-That's not necessarily true. The include_path could have been built by Yocto
-using pseudo.
-
-I can see that there is an issue using these arguments to wic outside of
-bitbake but I'm not sure this is the correct solution.
+As said in my other email, if you're running wic outside bitbake I'm not sure
+you can guarantee pseudo is available. And now I think about it, if you're
+running wic inside bitbake (as part of do_image_wic), you'd be running pseudo
+under pseudo and I have no idea how that would work out.
 
 -- 
 Paul Barker
