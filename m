@@ -1,54 +1,54 @@
 Return-Path: <jpuhlman@gmail.com>
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
-	[209.85.167.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 0322561170
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com
+	[209.85.210.51])
+	by mail.openembedded.org (Postfix) with ESMTP id D9E0D61170
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Mar 2020 00:04:53 +0000 (UTC)
-Received: by mail-oi1-f179.google.com with SMTP id q65so4085760oif.4
+	Thu,  5 Mar 2020 00:05:50 +0000 (UTC)
+Received: by mail-ot1-f51.google.com with SMTP id j14so3940982otq.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Mar 2020 16:04:55 -0800 (PST)
+	Wed, 04 Mar 2020 16:05:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=7+5m7h4iMSVVMcIh9OhzH5RZnFD6DctznfDrFCRS5v0=;
-	b=XLXztLdZGHKTphLgUvenjRfWwxBPKc8aa8Z2QEnNTwnYm3Tm1MJqQoMKy4TEY4rFqM
-	dDcG4DaPXZNrEloebNN8NOEza2S2rPwxf7w7jUzb23Jsn3NbeGdFnlNlCqxf5/djALIZ
-	d7dyGPEkvJNwd34+EVjTd+3T74hg5giFdZrAttuH6eHyCv7KcUtdm98P7lM7zh9f9HzC
-	GID0HlEDCleZrVYmm/60DrVyJYVj31/RRvh4NteqW5qSR7SepGuGvlSQJOFvZPF5BRsn
-	2hhAPlP6av40bibqpvoTD2PPC/uDTcevydILayPiBLXpSR/zLDb54UTbaVs7muwSlsIR
-	PAnQ==
+	bh=/Tck01bZje/BhRIMgDRBW8jg+iXadsB1yaMkvyZ79zA=;
+	b=hHTAqgyB6san3FvpaWkt65xTT2m95btMtHIotVxooImYklx7rXIEHBuhR9/DZupAZo
+	pPwzgFlJEH+t9TJmWJsGChGB3jYZyyRyV6QOPzxrYPc7xAElK3huVI4GZpOf47pLmmq0
+	8lavBx90PxSJ8/sS3SyOhNZTBlPjak0SD3I6X0CkX6ws86Lm3oA0qX3voLHo6H3H1l/t
+	nTREO2CNyvXdK8GuJI+plZI8rcC0O2Gf/thrHB5+tnUJm834x5b69rs9aY5Hxa77pfJQ
+	Burk+55VcemDezDbHZ5qcUbs6SrePoJbbOCpbhZHk0Xafmv35FE48OtnPrHomTSxIce9
+	Aljw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
 	:mime-version:content-transfer-encoding;
-	bh=7+5m7h4iMSVVMcIh9OhzH5RZnFD6DctznfDrFCRS5v0=;
-	b=Ttl0Zhkfl9w0QDwYKWChZ96ve9FLBE5oKMH7e1R6vLCW/pEZZ9sOHho5b7Y0qHxlk9
-	URwUirnrSeX4IQLFMzR9uxCj+3oNJaeGzioCW+63pc/nn1Krr85V7bNzAAnIlagQqOmw
-	3DmbisXke+A7D6AX696/86Sg5k3ekwV11A7m7RjrlsHZdb8ePOhiD8tZcWHhXxu9HVXs
-	2UK8bwbV5pwbu2qjrQmcV9wlrvikthsGAJlriWlkybeXa5MaZUY2o7wYcswZtiPDN1p/
-	CURVxDx9bUI2P9XzzANZpIaESBS85zwBSE6KEaE95IGBAYmxtBBcNdRGKOlCQSy8YJcd
-	JNsg==
-X-Gm-Message-State: ANhLgQ2PamB+3E0XuI1I09xA49C0RW43p7H3Sv3N2QR4ah04cVqoT+Dz
-	JVSj35elTdSZZhDbiBCxQSrLtv+d9F0=
-X-Google-Smtp-Source: ADFU+vs79+3xZ6acdIiD497RyjEe4vkriL2omy2xiN2uhUsOP6RrZxjkZqvO6E7jpFkPls8TI6/IVg==
-X-Received: by 2002:aca:4cd8:: with SMTP id z207mr3417187oia.155.1583366694425;
-	Wed, 04 Mar 2020 16:04:54 -0800 (PST)
+	bh=/Tck01bZje/BhRIMgDRBW8jg+iXadsB1yaMkvyZ79zA=;
+	b=XlScSMeTf4WRNy20TF74LryaFpf1LBiMKiRQdhtwP9cynlO0duyxlXH3oyAVhd1zk6
+	NzAvpIjbWeR3HnKAPKLNujEl86gSpan7lZMUKqH/7W/XefOs1cMHE+5KvbOBdugWP67h
+	x7MFXPt31jrhi3DJ82AFCPt+VNa0FO9UqgZlojy+jsimZDS3r55Q01XhZTvQABgwVUKX
+	62kaYituUQrhfgs08uknMs5o1dhYVLU0o/pvQje61HohNsdBH3g8RGAdnnvYu53WyMmJ
+	2kK+2YRjXB3GqIwBWvHZpuqG9y7GRKkLKCUmql6fMZ9m+hjB80m7W/O1/5t7PBi8YXbz
+	kXIg==
+X-Gm-Message-State: ANhLgQ2d7OEbj1NPjMCaKhNq/2/zEEkfJmc2eXqyX1tvT+BDx62OsNsh
+	egxHcQe0MQTn3ox39K7MgLiddETClpQ=
+X-Google-Smtp-Source: ADFU+vuxIcsjo2qsKoYmco2sXY9L0nQq1Q4RTMbd/i0X6OzBOiJZCsrCYWBSbrOUHuYB6WyNVGG21A==
+X-Received: by 2002:a05:6830:110:: with SMTP id
+	i16mr4229898otp.189.1583366751312; 
+	Wed, 04 Mar 2020 16:05:51 -0800 (PST)
 Received: from workhorse.localdomain
 	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
-	by smtp.gmail.com with ESMTPSA id
-	g17sm7497695otg.55.2020.03.04.16.04.52
+	by smtp.gmail.com with ESMTPSA id 67sm9424977oid.30.2020.03.04.16.05.50
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Mar 2020 16:04:52 -0800 (PST)
+	Wed, 04 Mar 2020 16:05:50 -0800 (PST)
 Sender: Jeremy Puhlman <jpuhlman@gmail.com>
 Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 6EC902A07BB; Wed,  4 Mar 2020 16:04:51 -0800 (PST)
+	id DA92F2A07BB; Wed,  4 Mar 2020 16:05:49 -0800 (PST)
 From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Mar 2020 16:04:49 -0800
-Message-Id: <20200305000449.6207-1-jpuhlman@mvista.com>
+Date: Wed,  4 Mar 2020 16:05:48 -0800
+Message-Id: <20200305000548.6357-1-jpuhlman@mvista.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] gdbm: add depend on readline for consistent builds
+Subject: [PATCH] gdbm-native: disable readline for the native package.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,35 +61,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Mar 2020 00:04:54 -0000
+X-List-Received-Date: Thu, 05 Mar 2020 00:05:51 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-Whether readline is installed on the build host or not
-influences the way gdbm builds. Depend on readline for
-a consistent build.
-
-This fails to build on a system with readline, and using
-the buildtools-extended installer.
-
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
 ---
  meta/recipes-support/gdbm/gdbm_1.18.1.bb | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/meta/recipes-support/gdbm/gdbm_1.18.1.bb b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
-index 7e2efe3c9b..5326184181 100644
+index 5326184181..52e35c8c2e 100644
 --- a/meta/recipes-support/gdbm/gdbm_1.18.1.bb
 +++ b/meta/recipes-support/gdbm/gdbm_1.18.1.bb
-@@ -15,6 +15,8 @@ SRC_URI[sha256sum] = "86e613527e5dba544e73208f42b78b7c022d4fa5a6d5498bf18c8d6f74
- 
- inherit autotools gettext texinfo lib_package ptest
- 
-+DEPENDS_class-native += "readline"
-+
+@@ -20,6 +20,8 @@ DEPENDS_class-native += "readline"
  # Needed for dbm python module
  EXTRA_OECONF = "-enable-libgdbm-compat"
+ 
++EXTRA_OECONF_class-native = "--without-readline"
++
+ # Stop presence of dbm/nbdm on the host contaminating builds
+ CACHED_CONFIGUREVARS += "ac_cv_lib_ndbm_main=no ac_cv_lib_dbm_main=no"
  
 -- 
 2.20.1
