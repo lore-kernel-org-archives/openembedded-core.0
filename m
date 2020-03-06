@@ -1,49 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 19CCC61B22
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id ED22561B19
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2020 08:47:31 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id t11so1325050wrw.5
+	Fri,  6 Mar 2020 09:35:16 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id a5so1597658wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Mar 2020 00:47:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9SfALA5kWAw2eVQbS/YXC+LsCpWMPCoFDNcaLhRqurI=;
-	b=YzdLkjiGNJf2la97fNvbG+2ComDVPgqvHYVzNzXh48SxpHpD5UaXOR3ZX603EC8QA1
-	SWeAK/CaIWGqyiB6j+wNXcQXOZFo3cQ6ZzuSnpHo3PUGZVSIKHzFMyXizh9wFUD5ChGb
-	9fT5IAtLqmZfMntcOCL7bOLW8vmADvrBlbV0s=
+	Fri, 06 Mar 2020 01:35:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=9SfALA5kWAw2eVQbS/YXC+LsCpWMPCoFDNcaLhRqurI=;
-	b=PfXMGJwx9EYjxlWvUbKSS2IclK1F2JHWRZLc1/tKZz/Njpegk7nEBUlotYhZ3c5Aqc
-	bFdAJwZFcWyajqBMoQpNknk97YLKjuyO8njSSRixVto+6n3XQkTuc153AyTjmVX7xMLA
-	Ar+AIWtc7JWTRms6hOXhBc8ybb4eiWdd+/1MFMcKcn7kL/eLO18k/84MjBMBve5smmJE
-	9/9SPPg8ukIJtHeCjisixcEOr74PIRcQRS8QpPVnAMqwxDVMb1YlB1ZOtNYpBn0tME+m
-	a2L6FE+h0gYdNd743q3iuTr7xoYkOllt6uJvoCwJ1cZ7ZFiXBeLiss1CaxGPbr7H7ksj
-	hRAA==
-X-Gm-Message-State: ANhLgQ2NT6M3ZEa8DQnEz40+MJlZ7khLQIpw6UdK6+E+uKuhS8ll2DY0
-	W3TptgYyLyqfFlGBJ9x+97lOPFpBNzs=
-X-Google-Smtp-Source: ADFU+vsvEViS4xkNWBsGqty/mGPKEntdhP/qZpIHjT2Z8raG5BQl8Dg3anh09m+Mtpg+yJ9YjB7aTw==
-X-Received: by 2002:a5d:5148:: with SMTP id u8mr3036895wrt.132.1583484452448; 
-	Fri, 06 Mar 2020 00:47:32 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	bh=9ydeIHkd4pMJPNaqAcRcosv2KgrVDSGfEOp2D5z4jXI=;
+	b=Kkh7SKSZbfCyoftdylRPdQVKVQqwIqBbXxVjHYoKmNPEoodIkHQ/iC1EvW9j/A7PIc
+	docuRXaYFMolMjvM4eMxcAY6af2N8s1q92fp3KvOVtX4M4D60KUgPWop5K6x38YbnKoS
+	aC21x5/kbpNpBEU6FZwH2qrf4+X8AjVlmKNWiIJhHu5Ufu8fvlaiPrytc6gGeD5mRXfp
+	E9W7wu74phiqa7RTmyvSH0C/ydDkJDclxigDT1kIaUqhDXefnETbF+Tdz3kbpl6Y8X7V
+	LNsTnv7ROl9/xe7E92F+o6M9vmIe5FInFBr/CCLbi3q8N751UKedkMQLNh4LhHcTx8x3
+	RdJA==
+X-Gm-Message-State: ANhLgQ28YkO/SF+JcRNqwlFvw1cPSHMBqXR5NSsvgmthBAIFfR3pZ7qk
+	r+naAp0UPko3EBuTiFlk1KN2QGOp
+X-Google-Smtp-Source: ADFU+vti9tZ5trtk593/XX/jTyHmkHWXkK6l6ubBNCNBe9Azx+ghSfodNBWshi7DDwvQ0qCgIZLDtA==
+X-Received: by 2002:a05:600c:24b:: with SMTP id 11mr3037848wmj.1.1583487316703;
+	Fri, 06 Mar 2020 01:35:16 -0800 (PST)
+Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	c9sm14259367wmc.3.2020.03.06.00.47.31
+	12sm12921480wmo.30.2020.03.06.01.35.15
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 06 Mar 2020 00:47:31 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Fri, 06 Mar 2020 01:35:16 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Mar 2020 08:47:30 +0000
-Message-Id: <20200306084730.1009856-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.0
+Date: Fri,  6 Mar 2020 09:35:14 +0000
+Message-Id: <20200306093515.25244-1-git@andred.net>
+X-Mailer: git-send-email 2.23.0.rc1
 MIME-Version: 1.0
-Subject: [PATCH] sstate: Drop obsolete check in hash validation
+Subject: [PATCH 1/2] linux-firmware: drop remnants of pre-2.6.37 support (TI)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +48,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2020 08:47:32 -0000
+X-List-Received-Date: Fri, 06 Mar 2020 09:35:17 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Now this function has a summary parameter we can drop this check.
+Now that this recipe uses make install, we don't manually
+create symlinks for firmware files for older kernel in
+do_install(). As such, the FILES statement can be updated
+as well.
 
-It could well be why the mysterious "locked sigs" selftest fails
-interemittently if this function were called with a single hash
-to check.
-
-[YOCTO #13605] (with luck)
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: André Draszik <git@andred.net>
 ---
- meta/classes/sstate.bbclass | 4 ----
- 1 file changed, 4 deletions(-)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 0beeb33707b..c73c3b42a7f 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -966,10 +966,6 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             if len(tasklist) >= min_tasks:
-                 bb.event.fire(bb.event.ProcessFinished(msg), d)
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
+index 6039dc9d71..798e2b5c7c 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
+@@ -512,15 +512,12 @@ LICENSE_${PN}-ti-connectivity-license = "Firmware-ti-connectivity"
  
--    # Likely checking an individual task hash again for multiconfig sharing of sstate tasks so skip reporting
--    if len(sq_data['hash']) == 1:
--        return found
--
-     inheritlist = d.getVar("INHERIT")
-     if "toaster" in inheritlist:
-         evdata = {'missed': [], 'found': []};
+ FILES_${PN}-ti-connectivity-license = "${nonarch_base_libdir}/firmware/LICENCE.ti-connectivity"
+ FILES_${PN}-wlcommon = " \
+-  ${nonarch_base_libdir}/firmware/TI* \
+   ${nonarch_base_libdir}/firmware/ti-connectivity/TI* \
+ "
+ FILES_${PN}-wl12xx = " \
+-  ${nonarch_base_libdir}/firmware/wl12* \
+   ${nonarch_base_libdir}/firmware/ti-connectivity/wl12* \
+ "
+ FILES_${PN}-wl18xx = " \
+-  ${nonarch_base_libdir}/firmware/wl18* \
+   ${nonarch_base_libdir}/firmware/ti-connectivity/wl18* \
+ "
+ 
 -- 
-2.25.0
+2.23.0.rc1
 
 
