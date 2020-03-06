@@ -1,49 +1,53 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
-	[209.85.208.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E0986168F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 068326101C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2020 22:19:46 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id m9so4292825edl.4
+	Fri,  6 Mar 2020 22:31:12 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id s5so240482wrg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Mar 2020 14:19:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+J1EYBP9bksqldNvfCJPX4hS5+OjqfEN3EtKuEfAS18=;
-	b=DxfCGxgJ80fXFNrz1bJTVSgPyBXZIqG2n0fcpM4x/h5ScskffMtnn5x/nw8d8giUMD
-	cmd7lTkuuKkfUAfpJpBT+nShAFK6A0uPt8hoyVTHAiqBwmxHoeYnfrDroN9W12oX0TQv
-	E5BoFuJgdWIccs1jgiaYLAKPyt3GqIrMFOc9gCptt/lG3xhTvxWJ9W8JHYlpeus9NUj1
-	CV34oo1vDgXM0j6408/dfC0q+jWmnqSg8JRzwYc6aJZnW++B6F9NKRVDzI8Cshmbm8K5
-	w6b03j/p1aoyMeUwrdVfvlSGPjUCMV6FMQMbjOo3kQ5EHZ+/HFvHL/dg/4TXJY71Qmy0
-	F+GA==
+	Fri, 06 Mar 2020 14:31:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=z8+/b9ZmSOF3OVfSQFPYjuszWLGvN7TF2uV2UIZqZL8=;
+	b=eKQE+prBbNWGhaaUaDnqwpFjixJPzL8ymrHMRwvc/A6kQflgMF0nx+2pfwFDowkNE0
+	ZZ369ByhdarIjO9Iz5E9KglAJ4X+cyRfCEI7mliEmAgsgHNu20yDrIRL/fU5ecyOM3B2
+	bxelji/ow1bPaDxJZFvSUhERTwXvQiRcWzonk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=+J1EYBP9bksqldNvfCJPX4hS5+OjqfEN3EtKuEfAS18=;
-	b=udipH9Kh+AgC+rub1vnpOPloFG6c8Y7Vyk6UWDgg3XogtLNHhfJCQ5gYrIorPVWr+L
-	o8VhSI+3GRXQ3mq6+4MJAAu2gqYxXrOlIaTXBWx5PJRA8WKrDRttm8Y48vEXuZdpixpQ
-	RxWJzjUrpswEOWivXx9yUI1zRog12WyCcg4TME3ASj8QW5MaXLIFRsLJg24hJl5ZT2mb
-	upCOWhcqi1BO1yOIdvUq6QAljQmVGEG6YUHjRh75GqRvx3/74xTBXMW1e/WABBMkWhJo
-	F7QStNPH27sqd1lCtKHAkPvl8q8V0esyQR1cyr2mInLxzsTXQVOSpZ/L1h6wyqwxLPS8
-	JYVA==
-X-Gm-Message-State: ANhLgQ1brDFnfjpztSmLzNAylVkCBfNxiIZXoo6AYbi+v9SfD+PQtAEt
-	25Tx3CiHFzSIXsdiIRHzlJWKhQBggxjnDZ/PymE=
-X-Google-Smtp-Source: ADFU+vsMPnSt2lC7JecOzRb6UHOsti306eLTfzxhEuJeYCQbxelTiNRwFESzIVb7AaQblXSpSAZXDnMnj9icx2b3qds=
-X-Received: by 2002:a17:906:3591:: with SMTP id
-	o17mr4961651ejb.320.1583533186945; 
-	Fri, 06 Mar 2020 14:19:46 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=z8+/b9ZmSOF3OVfSQFPYjuszWLGvN7TF2uV2UIZqZL8=;
+	b=DxEsqod7B9PGqU0NQJjNDDlFfW8TSe0jCcZ7GXu7/GoWngfsYsJHD8eSIdn52cy4WE
+	/5+BqosloMn7e35SfJiXn1bGedqNRgZv9CbhUma30kcbfBhebHWvzwmwZb4Eu8K3DZAa
+	lrSt1j/ITbYkbP8FfJld8SBqv+vq9t2d7MYsN3d3YBtgeldqqnXZ8VpwxLM+6X0UbloI
+	6T3rqnQqkgEmKOwFSPaIVUNq+2JVYQUnDMTaxbsFWaFjjIPyD15Y5StBNJNgCspoFQlN
+	aInzro3UtUS9y/6+QKwiUmabEy+dOFepzRG4kxmalfDG/ZbkzuIohdC+HDOKerBFUyr8
+	i57A==
+X-Gm-Message-State: ANhLgQ2teT8eyetuFm9D0DV2RlCoK1lSRZdIc1dQOQ2/zm5YLfKFgVnu
+	Lq8lebCuv1AIoAe6Vkvc+V/cCD5lGvE=
+X-Google-Smtp-Source: ADFU+vvm8dXt5/6R2+R6VdnLkYIIugikWgOfNQ6JN4GoHvR4eF5XpFy49aGJvIVXaRKyZ+j7mHjzTw==
+X-Received: by 2002:a5d:6a04:: with SMTP id m4mr5895205wru.127.1583533873394; 
+	Fri, 06 Mar 2020 14:31:13 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	a5sm15805375wmb.37.2020.03.06.14.31.12
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 06 Mar 2020 14:31:12 -0800 (PST)
+Message-ID: <b0b698793024c38039a2e1b71adad84518077d72.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 06 Mar 2020 22:31:11 +0000
+In-Reply-To: <f7e28eac-848e-1eb7-2ae7-345d737482d2@mvista.com>
+References: <62ba6d2a-098e-acbd-db0e-b2283a3b476a@mvista.com>
+	<446c96a2d520e581eee85d519233fdb961c9d1c2.camel@linuxfoundation.org>
+	<f7e28eac-848e-1eb7-2ae7-345d737482d2@mvista.com>
+User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-References: <20200305115333.31139-1-rbilovol@cisco.com>
-In-Reply-To: <20200305115333.31139-1-rbilovol@cisco.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 6 Mar 2020 23:19:35 +0100
-Message-ID: <CA+chaQc+T+krd8kth22WeJr6xBZCQYRfTZWFkXBY1JGCoRnogA@mail.gmail.com>
-To: Ruslan Bilovol <rbilovol@cisco.com>
-Cc: xe-linux-external@cisco.com,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH RESEND] openssl: pass PERL=perl environment variable to configurator
+Subject: Re: Multilib conflicts in man pages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,156 +60,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2020 22:19:47 -0000
-Content-Type: multipart/alternative; boundary="00000000000019167f05a0370de8"
-
---00000000000019167f05a0370de8
+X-List-Received-Date: Fri, 06 Mar 2020 22:31:13 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This breaks c_rehash calls from dash (works fine with bash)
+On Fri, 2020-03-06 at 14:14 -0800, Jeremy A. Puhlman wrote:
+> 
+> On 3/6/2020 2:00 PM, Richard Purdie wrote:
+> > On Tue, 2020-03-03 at 15:22 -0800, Jeremy Puhlman wrote:
+> > > Is there a preferred method in oe-core for dealing with man pages
+> > > that conflict due to differences in multilib pathing.
+> > > 
+> > > For example an application lives in /usr/lib/foo/bar for one abi
+> > > but
+> > > /usr/lib64/foo/bar in another, and
+> > > that kind of information is encoded in to the man pages.
+> > > 
+> > > Some things i have seen done in the past, is move the man pages
+> > > under
+> > > /user/share/man/${PN} or
+> > > use something like mutlilib script to deal with it.
+> > > 
+> > > I am just curious if there is a canned, preferred way the project
+> > > handles those or wants to handle them?
+> > > 
+> > > xinit, xserver-org, and groff each exhibit  these issues.
+> > Could we just put a placeholder into the man page so they'd be
+> > identical? Multiple copies seems like overkill for something as
+> > trivial...
+> 
+> A placeholder like:
+> /usr/<system libdir>/sys.startxrc
+> from
+> /usr/lib64/sys.startxrc
 
-dash doesn't like
-#!perl
-shebang, would
-PERL="/usr/bin/env perl"
-work for you?
+Yes, not sure about the exact form. You could just do:
 
-But unfortunately just passing PERL like this doesn't pass do_configure:
-Creating Makefile
-sh: 1: /usr/bin/env perl: not found
-WARNING: exit code 1 from a shell command.
+/usr/lib*/sys.startxrc
+or
+/usr/<libdir>/sys.startxrc
 
-But passing it as:
-HASHBANGPERL="/usr/bin/env perl" PERL=perl
-seems to work.
+?
 
-On Thu, Mar 5, 2020 at 12:55 PM Ruslan Bilovol via Openembedded-core <
-openembedded-core@lists.openembedded.org> wrote:
+Cheers,
 
-> In our build environment we use wrapper script
-> for perl in non-standard configuration with
-> extra variables set (provided by custom
-> buildtools-tarball).
->
-> In this case openssl fails to build because
-> by default it's Configure script detects and uses
-> perl executable directly (with absolute path)
-> obviously missing extra settings from wrapper
-> script.
->
-> Pass PERL=perl environment variable to Configure,
-> so it won't try to use perl executable directly
-> but will use what is provided from environment.
->
-> Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
-> ---
->  meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-> b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-> index c2ba005f47..d4871fe973 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-> @@ -123,7 +123,7 @@ do_configure () {
->         fi
->         # WARNING: do not set compiler/linker flags (-I/-D etc.) in
-> EXTRA_OECONF, as they will fully replace the
->         # environment variables set by bitbake. Adjust the environment
-> variables instead.
-> -       PERL5LIB="${S}/external/perl/Text-Template-1.46/lib/" \
-> +       PERL=perl PERL5LIB="${S}/external/perl/Text-Template-1.46/lib/" \
->         perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECONFIG_CONFARGS}
-> --prefix=$useprefix --openssldir=${libdir}/ssl-1.1 --libdir=${libdir}
-> $target
->         perl ${B}/configdata.pm --dump
->  }
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Richard
 
---00000000000019167f05a0370de8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">This breaks c_rehash calls from dash (works fine with bash=
-)<div><br></div><div>dash doesn&#39;t like</div><div>#!perl<br></div><div>s=
-hebang, would</div><div>PERL=3D&quot;/usr/bin/env perl&quot;<br></div><div>=
-work for you?</div><div><br></div><div>But unfortunately=C2=A0just passing =
-PERL like this doesn&#39;t pass do_configure:</div><div>Creating Makefile<b=
-r>sh: 1: /usr/bin/env perl: not found<br>WARNING: exit code 1 from a shell =
-command.<br></div><div><br></div><div>But passing it as:</div><div>HASHBANG=
-PERL=3D&quot;/usr/bin/env perl&quot; PERL=3Dperl<br></div><div>seems to wor=
-k.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
-l_attr">On Thu, Mar 5, 2020 at 12:55 PM Ruslan Bilovol via Openembedded-cor=
-e &lt;<a href=3D"mailto:openembedded-core@lists.openembedded.org">openembed=
-ded-core@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">In our build environment we use wrapper sc=
-ript<br>
-for perl in non-standard configuration with<br>
-extra variables set (provided by custom<br>
-buildtools-tarball).<br>
-<br>
-In this case openssl fails to build because<br>
-by default it&#39;s Configure script detects and uses<br>
-perl executable directly (with absolute path)<br>
-obviously missing extra settings from wrapper<br>
-script.<br>
-<br>
-Pass PERL=3Dperl environment variable to Configure,<br>
-so it won&#39;t try to use perl executable directly<br>
-but will use what is provided from environment.<br>
-<br>
-Signed-off-by: Ruslan Bilovol &lt;<a href=3D"mailto:rbilovol@cisco.com" tar=
-get=3D"_blank">rbilovol@cisco.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.1.1d.bb=
-" rel=3D"noreferrer" target=3D"_blank">openssl_1.1.1d.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.=
-1.1d.bb" rel=3D"noreferrer" target=3D"_blank">openssl_1.1.1d.bb</a> b/meta/=
-recipes-connectivity/openssl/<a href=3D"http://openssl_1.1.1d.bb" rel=3D"no=
-referrer" target=3D"_blank">openssl_1.1.1d.bb</a><br>
-index c2ba005f47..d4871fe973 100644<br>
---- a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.1.1d.bb=
-" rel=3D"noreferrer" target=3D"_blank">openssl_1.1.1d.bb</a><br>
-+++ b/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.1.1d.bb=
-" rel=3D"noreferrer" target=3D"_blank">openssl_1.1.1d.bb</a><br>
-@@ -123,7 +123,7 @@ do_configure () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # WARNING: do not set compiler/linker flags (-I=
-/-D etc.) in EXTRA_OECONF, as they will fully replace the<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # environment variables set by bitbake. Adjust =
-the environment variables instead.<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0PERL5LIB=3D&quot;${S}/external/perl/Text-Templa=
-te-1.46/lib/&quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0PERL=3Dperl PERL5LIB=3D&quot;${S}/external/perl=
-/Text-Template-1.46/lib/&quot; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 perl ${S}/Configure ${EXTRA_OECONF} ${PACKAGECO=
-NFIG_CONFARGS} --prefix=3D$useprefix --openssldir=3D${libdir}/ssl-1.1 --lib=
-dir=3D${libdir} $target<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 perl ${B}/<a href=3D"http://configdata.pm" rel=
-=3D"noreferrer" target=3D"_blank">configdata.pm</a> --dump<br>
-=C2=A0}<br>
--- <br>
-2.17.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
 
---00000000000019167f05a0370de8--
