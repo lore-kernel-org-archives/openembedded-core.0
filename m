@@ -1,50 +1,57 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 83BB9618A5
+Return-Path: <jpuhlman@mvista.com>
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com
+	[209.85.167.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B93C615E9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2020 18:04:13 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id z15so3451088wrl.1
+	Fri,  6 Mar 2020 18:50:29 +0000 (UTC)
+Received: by mail-oi1-f182.google.com with SMTP id d62so3532226oia.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Mar 2020 10:04:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=XTksptV/xdpvJhoPBEhaaYlvAQ2QVQHS0Qr2KyPhjrc=;
-	b=HS54lvW1sSzrGRoSAzKlOrYU9BblsI5wEG/eCTJ8GTgjMbk/Gw620Hgual6npkwsRz
-	9DqYnt9yT3e7farODTIktPGlveh2IWb4lMjIHckaTmN9p6SpmPK3h1GZbZJJQWG4P+KM
-	prWMWRQwxTTUAIsyQ/X08P4hKSChmS55Jp6MOgVlNnlA9+Aixtk2E3Pa7g1iAH9TncmP
-	MUxjKS7a0s3UKYPtQFxS8/lOyMl5ENN31vpNNmEJW0VSd3ha2gNdDoAjmmNZ6zw3+aFE
-	Ad33ug1j+iEO750lcWLctiHd2ktjLFR5cpN8h8SV8y8HcXd7gQ2fcppn7M6RBhzcooIq
-	jFrw==
+	Fri, 06 Mar 2020 10:50:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:from:to:references:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=SLzoYDFDcK49i2KZtg1Qw9Up2hYKt9CLPcz601k/aWM=;
+	b=AErEuB+/08lfYbVTbx6j3IMV007Z1+5igyLFRR+kC+OaKgpkcldoTjkoXo4geQuJv0
+	QxkBzlXwjduRPxnIYR0+AYeOE7y8hCBBMWiW9bF+k5cyjtunFoVYaCsEQY7NbN8an+V2
+	0sDg7E2tFBBK12+cPGlYpUj0VOhnz0H6ipu6GLMYAvWhAXKHdmEbDvwUeopHI9TvMWJY
+	fuOzM8Ajku0uliZezlYJ+JSEJlt7P81xFqO6nhypKTSFrnNjpGktGK/TuSZNcD2rjVRS
+	XNZN28InomXM9uT8u1rq8DH20FoshrNaRIuy21uw/pjl3RjGLycH85gVr4OOQhmwkFzh
+	lB0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
-	:content-disposition:user-agent;
-	bh=XTksptV/xdpvJhoPBEhaaYlvAQ2QVQHS0Qr2KyPhjrc=;
-	b=GrzYrfurygaxqcerOH3Kqv3Ou8oHKJJ7KPZ/9lKgVyHQS5LEqvlr1majc6UukyM7NZ
-	RJ9NaQfGZWeH24HafIDxbZCCUSu3X3t/oV2xE+h+AUMQHfWarGe+xvIg7CE+TQNIX+Mk
-	LQrm+hXIeZ30/5SA5V1KTGcPaSVPwiopsSmwlrCiG0jM37kGbJpKK21OGRUQoZGaD3Yj
-	CLzuHmKrWLlvtbluFzVU5m1tP7XGc6X3i1LLM9E+8zReorwQUsdgBqNuW8i3RrpoqmHE
-	Ar+VxrD9xTVzDmRq+YaaeCJQ+QcSNcmF8futTpKdin1PhxeE3PftrhKhmBFb4RGsLTxY
-	l73Q==
-X-Gm-Message-State: ANhLgQ20rBee2sJ5Sn1DVufhQ4q81oJI/jXjwvYn3spp6tQm5++cMoCh
-	uCzILLVps5xrDVYnbLM0CSyH2kA2
-X-Google-Smtp-Source: ADFU+vsAGIjzxEmgHZZszq+BH7DzQZeJgWoerppX0mZCqRDANlCaFH0IkC4DJJnSgfuAw7jclObYSg==
-X-Received: by 2002:adf:c449:: with SMTP id a9mr5072347wrg.366.1583517854693; 
-	Fri, 06 Mar 2020 10:04:14 -0800 (PST)
-Received: from localhost ([109.238.218.228]) by smtp.gmail.com with ESMTPSA id
-	i6sm16984419wra.42.2020.03.06.10.04.13
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 06 Mar 2020 10:04:13 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Fri, 6 Mar 2020 19:04:13 +0100
-To: Yocto-mailing-list <yocto@lists.yoctoproject.org>,
-	openembedded-core@lists.openembedded.org
-Message-ID: <20200306180413.z4e5km64jcm6azbv@jama>
+	h=x-gm-message-state:subject:from:to:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=SLzoYDFDcK49i2KZtg1Qw9Up2hYKt9CLPcz601k/aWM=;
+	b=aFiwJaPxxLasA7x1ZYM8PUZ2/Yluczcd6ycS6XqK+ma8LEvUTGryzK+GJj9p9eTYWf
+	lzp3ArDIo454lBZgkfqRiTO34YZ1OV0FNPgghWmzZ0d/qd3mc5glPSO2p17P3qikQpZB
+	e6mgu7aK/EjHPg3gVCHyNudcFHR8gGVB4mzpuRn+jeY2x9t8S+4U0FuQ3f3p7PmV/+2c
+	VLYGltpCiWvTttzrEHWGE1EKl6WjSttEkepw9gfBNWSaU2CM+LoyEO71Semq5lP/THtv
+	qvAKp3pKHXgAZSE/x59RfonEmE/eTYy+8iUlxwWJ6BMZN9psdNSS0NpQ+kBKjMlflpe+
+	wRTQ==
+X-Gm-Message-State: ANhLgQ2R29Eg17mtO6y4LsincLZI5JlU+ex0mo3jX8f0ojJSc37z9dzU
+	sctGX0LfMW/nKW9xv1qiSvRXWRIw9LI=
+X-Google-Smtp-Source: ADFU+vtKfS0CZ6xneqW0yBBd16APvuOubVLopUKGBTsMvWeWHF8nSKe0YJS8cT4UwgumWjTAT1oBTw==
+X-Received: by 2002:a05:6808:a08:: with SMTP id
+	n8mr3710046oij.91.1583520629677; 
+	Fri, 06 Mar 2020 10:50:29 -0800 (PST)
+Received: from ?IPv6:2600:1700:4c90:60a0:30e1:1fb2:1aa0:5ad3?
+	([2600:1700:4c90:60a0:30e1:1fb2:1aa0:5ad3])
+	by smtp.gmail.com with ESMTPSA id s128sm106957oia.4.2020.03.06.10.48.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Fri, 06 Mar 2020 10:49:10 -0800 (PST)
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+References: <62ba6d2a-098e-acbd-db0e-b2283a3b476a@mvista.com>
+Message-ID: <30ccd839-f804-881e-cec8-e667961e8c04@mvista.com>
+Date: Fri, 6 Mar 2020 10:48:35 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-User-Agent: NeoMutt/20180716
-Subject: Re: [yocto] [zeus] icu-native-64.2-r0 do_configure: configure failed
+In-Reply-To: <62ba6d2a-098e-acbd-db0e-b2283a3b476a@mvista.com>
+Subject: Re: Multilib conflicts in man pages.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,66 +64,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2020 18:04:14 -0000
-X-Groupsio-MsgNum: 136093
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="toqsx5ubbpgwpyqs"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 06 Mar 2020 18:50:30 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---toqsx5ubbpgwpyqs
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Anyone have a thought?
 
-> On 30/10/2019 06:25, star at gmx.li wrote:
-> > Build of image failed, I got strange and long error messages like:
-> >=20
-> > | from distutils.sysconfig import parse_makefile
-> > | ModuleNotFoundError: No module named 'distutils.sysconfig'
-> > | configure: error: Python failed to run; see above error.
->=20
-> > a) What goes wrong here and how can this be avoid?
->=20
-> distutils.sysconfig is part of the standard Python library.  What=20
-> distribution are you using?  It's possible that you've only got a=20
-> 'minimal' Python installed instead of the full thing.
+On 3/3/2020 3:22 PM, Jeremy Puhlman wrote:
+> Is there a preferred method in oe-core for dealing with man pages that 
+> conflict due to differences
+> in multilib pathing.
+>
+> For example an application lives in /usr/lib/foo/bar for one abi but 
+> /usr/lib64/foo/bar in another, and
+> that kind of information is encoded in to the man pages.
+>
+> Some things i have seen done in the past, is move the man pages under 
+> /user/share/man/${PN} or
+> use something like mutlilib script to deal with it.
+>
+> I am just curious if there is a canned, preferred way the project 
+> handles those or wants to handle them?
+>
+> xinit, xserver-org, and groff each exhibit  these issues.
+>
 
-I came across this old thread when trying "bitbake world" in really
-minimalistic docker container with ubuntu-18.04 where I've installed
-only the dependencies explicitly checked by sanity check and HOSTTOOLS.
+-- 
+Jeremy A. Puhlman
+jpuhlman@mvista.com
 
-And indeed python3 package in ubuntu doesn't depend on
-python3-distutils, I don't know how "standard Python library" is
-defined, but this wasn't explicitly "minimal" python, just the default
-what you get with python3 in ubuntu.
 
-Maybe it would be worth adding python3native in icu to catch issues like
-this?
-
-Luckily it's needed only in zeus, because icu 65.1 currently in
-dunfell/master doesn't depend on python3-distutils anymore since:
-https://github.com/unicode-org/icu/commit/b4d41b0561b6e8de38b99850ce0e4be8e=
-f536bb1
-
-There is only one more recipe with this issue (at least in the layers i
-was testing and that's:
-openembedded-core/meta/recipes-core/ovmf/ovmf_git.bb
-in zeus as well as master which is explicitly using python3 from host:
-export PYTHON_COMMAND =3D "${HOSTTOOLS_DIR}/python3"
-
-and then fails with:
-| Python reported: "No module named 'distutils.util"
-|=20
-| GNUmakefile:11: recipe for target 'test' failed
-
---toqsx5ubbpgwpyqs
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXmKQnAAKCRA3VSO3ZXaA
-HLakAJ4qI18B74Q0bnAnvkBi7CKjYNy2OACbBBbHAvjdhp3Td8IbrqN+BsYxC1M=
-=JK9X
------END PGP SIGNATURE-----
-
---toqsx5ubbpgwpyqs--
