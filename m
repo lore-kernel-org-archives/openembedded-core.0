@@ -1,39 +1,51 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D5756108C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CBFF60FE6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2020 15:47:57 +0000 (UTC)
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 026FWts3004028
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL)
+	Fri,  6 Mar 2020 17:16:49 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id m3so3188727wmi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Mar 2020 16:32:55 +0100
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id 026FWrS1031825
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 6 Mar 2020 16:32:53 +0100
-Received: from dev.vm6.ccp.siemens.com ([163.242.56.79])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id 026FWrIl018633;
-	Fri, 6 Mar 2020 16:32:53 +0100
-Received: from mail2.siemens.de (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 060F6950A88;
-	Fri,  6 Mar 2020 16:32:53 +0100 (CET)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Mar 2020 16:32:34 +0100
-Message-Id: <20200306153234.23875-3-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
+	Fri, 06 Mar 2020 09:16:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=pYIhm4SZ1D8uMSQHpEFPUkh4YaUZ1BCl2dh/WwC72pM=;
+	b=XxuqL/hCBXAL+bILha6OQtB5aTlQ20iVBxcWsnx5LOGUBfX0IE425CKIvvdupUqdUR
+	rJ5Qf68Eq52WrSHxpbOBTBpOUj4Bzr+oOuN4wUp0EihyTxq3/LqKwYDqbkVQZDoeSbYj
+	6l24NzGvwYbFZJM6KmUUK9ZkHxm7bdR9RXCYs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=pYIhm4SZ1D8uMSQHpEFPUkh4YaUZ1BCl2dh/WwC72pM=;
+	b=WbvPmutSRqvKfmLd6CuoCwK75lTNV0QpCBJf2kHTf5044IRqo4sPxmU5BkYKnllF57
+	gfrx1MyMH0zlJbhLYv2lir/ztSXjIsSNrhPqsZNwosKKaonV5uO/eR4kHg8RgkZsXo/5
+	s9as0kEfzM5iwh2yA9ORj7KkPOSoEVypFs6yAXlpHxztK54ixXVnuCbxqedXAxTsmtrk
+	la0YNBSOqKsPWmcowdTa92UG4w8uAYyl+m134i8bU5Ks6cbHwCBft3NpiE+mAkos6nL5
+	ij5CSZJtmrHtsodITRA504oAXtBC0iJzyURE8dQPQ/GqshK2mFClRJroimQ+8G0Y3RaQ
+	cnVQ==
+X-Gm-Message-State: ANhLgQ2exCgDVG8EeVa70CdT4DpX0IR2bs1+XbM3UkE2N5DntF8mHE3g
+	bIi9yi19qEIBbfCK7r2nmOJw8Q==
+X-Google-Smtp-Source: ADFU+vsC4r7Qqvlr2t463bxevNaXyYFWvbKJvQ2IpqYG/fw0OllkKBKxFktp7xbQi0NduWLN+7axLQ==
+X-Received: by 2002:a7b:c081:: with SMTP id r1mr4685649wmh.12.1583515010540;
+	Fri, 06 Mar 2020 09:16:50 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v14sm11146178wrr.34.2020.03.06.09.16.49
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 06 Mar 2020 09:16:49 -0800 (PST)
+Message-ID: <fc1e74eeded8fc881df72be0623b528a7c0e6d5f.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 06 Mar 2020 17:16:48 +0000
 In-Reply-To: <20200306153234.23875-1-andrej.valek@siemens.com>
 References: <20200306153234.23875-1-andrej.valek@siemens.com>
-X-purgate-type: clean
-X-purgate-Ad: Categorized by eleven eXpurgate (R) http://www.eleven.de
-X-purgate: clean
-X-purgate: This mail is considered clean (visit http://www.eleven.de for
-	further information)
-X-purgate-size: 3030
-X-purgate-ID: 149902::1583508775-000010EA-F84FCC7A/0/0
-Subject: [PATCH 2/2] populate_sdk_ext: add option to append lines into local.conf
+User-Agent: Evolution 3.35.91-1 
+MIME-Version: 1.0
+Subject: Re: [PATCH 0/2] Extensible SDK improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,63 +58,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2020 15:47:58 -0000
+X-List-Received-Date: Fri, 06 Mar 2020 17:16:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Add option to add new lines into local.conf content in ext_sdk case
-via SDK_LOCAL_CONF_EXTRALIST variable.
+On Fri, 2020-03-06 at 16:32 +0100, Andrej Valek wrote:
+> "add option to append lines into local.conf":
+>  - What about dropping "sdk_extraconf"?
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
----
- meta/classes/buildhistory.bbclass     |  4 ++--
- meta/classes/populate_sdk_ext.bbclass | 12 +++++++++++-
- 2 files changed, 13 insertions(+), 3 deletions(-)
+I'm curious what you didn't find useful about the other format and why
+this version is better?
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index eb7295570d..a347811edc 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -757,8 +757,8 @@ def buildhistory_get_sdkvars(d):
-     sdkvars = "DISTRO DISTRO_VERSION SDK_NAME SDK_VERSION SDKMACHINE SDKIMAGE_FEATURES BAD_RECOMMENDATIONS NO_RECOMMENDATIONS PACKAGE_EXCLUDE"
-     if d.getVar('BB_CURRENTTASK') == 'populate_sdk_ext':
-         # Extensible SDK uses some additional variables
--        sdkvars += " SDK_LOCAL_CONF_WHITELIST SDK_LOCAL_CONF_BLACKLIST SDK_INHERIT_BLACKLIST SDK_UPDATE_URL SDK_EXT_TYPE SDK_RECRDEP_TASKS SDK_INCLUDE_PKGDATA SDK_INCLUDE_TOOLCHAIN"
--    listvars = "SDKIMAGE_FEATURES BAD_RECOMMENDATIONS PACKAGE_EXCLUDE SDK_LOCAL_CONF_WHITELIST SDK_LOCAL_CONF_BLACKLIST SDK_INHERIT_BLACKLIST"
-+        sdkvars += " SDK_LOCAL_CONF_EXTRALIST SDK_LOCAL_CONF_WHITELIST SDK_LOCAL_CONF_BLACKLIST SDK_INHERIT_BLACKLIST SDK_UPDATE_URL SDK_EXT_TYPE SDK_RECRDEP_TASKS SDK_INCLUDE_PKGDATA SDK_INCLUDE_TOOLCHAIN"
-+    listvars = "SDKIMAGE_FEATURES BAD_RECOMMENDATIONS PACKAGE_EXCLUDE SDK_LOCAL_CONF_EXTRALIST SDK_LOCAL_CONF_WHITELIST SDK_LOCAL_CONF_BLACKLIST SDK_INHERIT_BLACKLIST"
-     return outputvars(sdkvars, listvars, d)
- 
- 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 9f26cfc131..2eccf52df1 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -25,6 +25,7 @@ SDK_INCLUDE_BUILDTOOLS ?= '1'
- 
- SDK_RECRDEP_TASKS ?= ""
- 
-+SDK_LOCAL_CONF_EXTRALIST ?= ""
- SDK_LOCAL_CONF_WHITELIST ?= ""
- SDK_LOCAL_CONF_BLACKLIST ?= "CONF_VERSION \
-                              BB_NUMBER_THREADS \
-@@ -372,7 +373,16 @@ python copy_buildsystem () {
-                     for line in xf:
-                         f.write(line)
- 
--            # If you define a sdk_extraconf() function then it can contain additional config
-+            # Allow additional config through SDK_LOCAL_CONF_EXTRALIST
-+            local_conf_extralist = (d.getVar('SDK_LOCAL_CONF_EXTRALIST') or '').split()
-+            if local_conf_extralist:
-+                for var in local_conf_extralist:
-+                    value = d.getVar(var) or ""
-+                    if value:
-+                        f.write('%s = "%s"\n' % (var, value))
-+                f.write('\n')
-+
-+            # If you define a sdk_extraconf variable then it can contain additional config
-             # (Though this is awkward; sdk-extra.conf should probably be used instead)
-             extraconf = (d.getVar('sdk_extraconf') or '').strip()
-             if extraconf:
--- 
-2.11.0
+Cheers,
+
+Richard
 
 
