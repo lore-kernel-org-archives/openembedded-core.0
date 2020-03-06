@@ -1,46 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com
-	[209.85.222.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4798B61B20
+Return-Path: <oleksandr.s.popovych@globallogic.com>
+Received: from mail-yw1-f67.google.com (mail-yw1-f67.google.com
+	[209.85.161.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 36BDE6028C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2020 11:29:01 +0000 (UTC)
-Received: by mail-ua1-f67.google.com with SMTP id q17so545779uao.12
+	Fri,  6 Mar 2020 13:24:43 +0000 (UTC)
+Received: by mail-yw1-f67.google.com with SMTP id d206so2100050ywa.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Mar 2020 03:29:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Fri, 06 Mar 2020 05:24:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=globallogic.com; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zOP9HiZUDgux4YW89m2rb003wIlixbOii0oAkBcxoQg=;
-	b=bqtfGdnp/6hn9U2tWz0Cnr6ZRPl0QU7aYYzugEMcgtlHbnb2d5V08rVNw1CG++1PSP
-	4OJC2YJOR0CC2m/RkAr3Gb5PNdiBBEpL6YUkOJKeZoa1AeQKgSp+KEPht8d6SHuJH3rF
-	/BsDuLQS4rHi58/F2FZkGCO02adzjKY5YeM3lH+dbZnmI0r5vUGes7+Q6zj13oukIGIy
-	l+2Q9FbfVG91hOsbWuTWSE+lq9PtB3cuLO/W+bVsoh86nxrHVhOuBQ1gbxS8b6ao6/G+
-	U7MG9VOxXhsHFbhF6/9rUGEGy/o2tc5h2Zew49x8zN4APvQX/k7lNjibiot2/uRcnEg3
-	pb7w==
+	:cc; bh=RPiTTq4fY+hYIdCPouEFO45t/lrHCmuJMH00h1RW/JQ=;
+	b=QcVFuyhspPYah1Swyp9J4kjw9xbR+pK40bBbP6uUeUFTzqlpWmC7+W5OmsFGbnnsLk
+	b6GQhXcEN1lepOD2GVCOQ0UGAjjgSU9DdgYKCyA8e92Cux73aN9oQHCuPUMcGMsIvxty
+	YF75J+GJ6Zdx+9uhmRqNBZXz6oNeEwWpy4gF9Nz/a3IULp348hK5+pqrST1qP/G9FrGA
+	ut8EtszTzEgPlgc0ffo0VEZd/033jrFGBF1k79SjNUxIndHGsm/CVF3hH8rfqfSRhVLN
+	P0bHcpBqBE1rYIZA+3U5POHKmMnCcBz5vMKDj26bDlmQRIzwcZ2eqzyFhmY9BoDzalCP
+	5kZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=zOP9HiZUDgux4YW89m2rb003wIlixbOii0oAkBcxoQg=;
-	b=VSkm+hOgZWfSYhaLeWf2DpmPyreY2ELxRsrQaNfoDK2mHOg0rcrOsqoQhRoPKAd5XJ
-	LYe3YfFzaPVmqCuzCfydU0V3niwuaVyyD7IWK2rGIvKg+cLfe68GQ41QSsDd3rVkoEaV
-	3IozEuqK+mh6rzfqbZwAHixFLC6x0ftYNL+uVDaHISeRKrbXA9CXARmc3WT4+q6xorCs
-	3NVyXcF/DiFnunQS+4ypYCTCv2iEs/7h95ESjtbvJcRtwqjeOaUPh2ifykdP+hG2YqMh
-	tvGPIB32MlzF81pWLpNqGsuUYidIdrkfJsjA7kIiZvqJ5j70rldMpx1t2Sxebk2/ugod
-	DYBA==
-X-Gm-Message-State: ANhLgQ1mtRKKv809Yk2AI1jqBefIk2DFxCNHTV47V6yLlezINGTDbc1R
-	nOScDHMvnau2GbGyzA9mS6iLq0qLFfJ80Crgp+KQHQ==
-X-Google-Smtp-Source: ADFU+vtM+QQRTWS0xT8n02EjUqen7EWTqBS7v4AyLeNt+qLYXsvIY2vLAQq4TNyFe822wkgSRZthfzlsGpFadvvoVvg=
-X-Received: by 2002:ab0:4aca:: with SMTP id t10mr1375162uae.89.1583494141999; 
-	Fri, 06 Mar 2020 03:29:01 -0800 (PST)
+	bh=RPiTTq4fY+hYIdCPouEFO45t/lrHCmuJMH00h1RW/JQ=;
+	b=mG2mOkUpYCqUFN3LScWZ1w28obfFrkTYeIuZv3H6NQ9OqWakxCv11FjA6JmMmj95P0
+	c4lkV+fK6gbNNs/BenrOWVzFT3esJmszsjo3KMQJgVRWTMK/XCcLkH0JEYSK5MvXKwXG
+	D7xOTPqVrFC7THXCYc52wQ+gYnf2qOrL6Ow4CPFPG+PThuX2lhI2kvpmrEPClJjBNO+5
+	l/NfBWgNSH7Cgt6lgAx92gwIqC4RRZzuB9efTafxKG/0936ARE4ocUX94b+UNK+coIv8
+	Sm2nuWe2wzX1CYYARBn5XUd5N6TU7MK2DoRdRLMkNw2Nbjk+xkUT+bHPTe8l+Yq3nGNa
+	ZREA==
+X-Gm-Message-State: ANhLgQ1jhaGjBQ8m7JWaEZpKt2qJsuRDixVafgl4arAE+OS1eoU6iSAA
+	tulyeEw1v2kd3n991iaz96ek32BCziHt1GUrn5uQ6g==
+X-Google-Smtp-Source: ADFU+vs+ZxPveIfxc4bF6Rs82Ubex2FZvmge6+mT2I49/9F0xXC0GaZlvNo3LA10eoMvO1OYm+89VsGbr1Y+OpIyZTc=
+X-Received: by 2002:a25:d405:: with SMTP id m5mr3666844ybf.411.1583501084609; 
+	Fri, 06 Mar 2020 05:24:44 -0800 (PST)
 MIME-Version: 1.0
-References: <1583493916-432974-1-git-send-email-mingli.yu@windriver.com>
-In-Reply-To: <1583493916-432974-1-git-send-email-mingli.yu@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 6 Mar 2020 12:28:50 +0100
-Message-ID: <CANNYZj_ntzqYqw=99LwqFY9=ssQPkEHrVCjGs_ZUN-C1Mj-ywA@mail.gmail.com>
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] parselogs.py: ignore rdrand initialization failure
+References: <20200212121911.4752-1-oleksandr.s.popovych@globallogic.com>
+	<c00c721b-67f5-27d0-99eb-b3a116aff1c8@windriver.com>
+In-Reply-To: <c00c721b-67f5-27d0-99eb-b3a116aff1c8@windriver.com>
+From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+Date: Fri, 6 Mar 2020 15:24:33 +0200
+Message-ID: <CAKqUGW_CgikPYmESaJbJJ1PWWmy1NqvOCGJE0ENNPs9UDdvENQ@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v6] expat: Added ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,170 +55,306 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2020 11:29:01 -0000
-Content-Type: multipart/alternative; boundary="000000000000d6810d05a02df50e"
-
---000000000000d6810d05a02df50e
+X-List-Received-Date: Fri, 06 Mar 2020 13:24:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-qemux86_64 is used extensively on the autobuilder, so what are the
-circumstances where this issue arises?
+Hello, Randy
 
-Alex
+On Wed, Feb 12, 2020 at 7:17 PM Randy MacLeod
+<randy.macleod@windriver.com> wrote:
+>
+> On 2/12/20 7:19 AM, Oleksandr Popovych via Openembedded-core wrote:
+> > For ptest support for this package several additional patches and
+> > run-ptest script were added and recipe was changed.
+> >
+> > Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> > ---
+> >   ...d-Makefile-targets-for-ptest-support.patch | 40 ++++++++++++++
+> >   ...ort-for-ptests-in-form-of-new-target.patch | 33 ++++++++++++
+> >   ...ed-suitable-format-of-tests-in-ptest.patch | 52 +++++++++++++++++++
+> >   meta/recipes-core/expat/expat/run-ptest       |  3 ++
+> >   meta/recipes-core/expat/expat_2.2.9.bb        | 12 ++++-
+> >   5 files changed, 139 insertions(+), 1 deletion(-)
+> >   create mode 100644 meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+> >   create mode 100644 meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+> >   create mode 100644 meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+> >   create mode 100644 meta/recipes-core/expat/expat/run-ptest
+> >
+> > diff --git a/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+> > new file mode 100644
+> > index 0000000000..de213b4bc5
+> > --- /dev/null
+> > +++ b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+> > @@ -0,0 +1,40 @@
+> > +From e306bd4849f61f50dad1f5d29fb650c347d78ad6 Mon Sep 17 00:00:00 2001
+> > +From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> > +Date: Thu, 6 Feb 2020 13:41:45 +0200
+> > +Subject: [PATCH 1/3] expat: Added Makefile targets for ptest support
+> > +
+> > +install-ptest, runtests and check tagrets are added.
+> > +
+> > +Upstream-Status: Inappropriate [oe-core specific]
+> > +
+> > +Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> > +---
+> > + Makefile.am | 15 +++++++++++++++
+> > + 1 file changed, 15 insertions(+)
+> > +
+> > +diff --git a/Makefile.am b/Makefile.am
+> > +index 5e1d37d..c63b44a 100644
+> > +--- a/Makefile.am
+> > ++++ b/Makefile.am
+> > +@@ -152,3 +152,18 @@ qa:
+> > +     QA_COMPILER=clang QA_SANITIZER=memory    ./qa.sh
+> > +     QA_COMPILER=clang QA_SANITIZER=undefined ./qa.sh
+> > +     QA_COMPILER=gcc   QA_PROCESSOR=gcov      ./qa.sh
+> > ++
+> > ++.PHONY: install-ptest
+> > ++install-ptest:
+>
+> if you call this, install-test and don't change the behaviour used when
+> testing self-hosted development, then perhaps
+> the upstream will accept the changes.
+>
+> > ++    echo $(S)
+> > ++    (if [ -d tests/.libs ] ; then cd tests/.libs; fi; \
+> > ++            install runtests runtestspp $(DESTDIR))
+> > ++    cp Makefile $(DESTDIR)
+> > ++    sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
+> > ++
+> > ++.PHONY: runtests
+> > ++runtests:
+> > ++    @echo "C variant of tests:"
+> > ++    @$(CHECKER) ./runtests$(EXEEXT) -q
+> > ++    @echo "C++ variant of tests:"
+> > ++    @$(CHECKER) ./runtestspp$(EXEEXT) -q
+> > +--
+> > +2.17.1
+> > +
+> > diff --git a/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+> > new file mode 100644
+> > index 0000000000..26ae144a37
+> > --- /dev/null
+> > +++ b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+> > @@ -0,0 +1,33 @@
+> > +From 9a5085243b632a777f55269f7f6d2e40dd73a7bc Mon Sep 17 00:00:00 2001
+> > +From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> > +Date: Thu, 6 Feb 2020 13:43:57 +0200
+> > +Subject: [PATCH 2/3] expat: Added support for ptests in form of new target
+> > +
+> > +configure.am file changed, according to this advice:
+> > +https://wiki.yoctoproject.org/wiki/Ptest#Building_the_test_suite
+> > +
+> > +Upstream-Status: Inappropriate [oe-core specific]
+> > +
+> > +Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> > +---
+> > + configure.ac | 4 ++--
+> > + 1 file changed, 2 insertions(+), 2 deletions(-)
+> > +
+> > +diff --git a/configure.ac b/configure.ac
+> > +index d58ac03..8e6b41e 100644
+> > +--- a/configure.ac
+> > ++++ b/configure.ac
+> > +@@ -34,8 +34,8 @@ AC_CONFIG_SRCDIR([Makefile.in])
+> > + AC_CONFIG_AUX_DIR([conftools])
+> > + AC_CONFIG_MACRO_DIR([m4])
+> > + AC_CANONICAL_HOST
+> > +-AM_INIT_AUTOMAKE
+> > +-
+> > ++AM_INIT_AUTOMAKE([serial-tests])
+> > ++AM_EXTRA_RECURSIVE_TARGETS([buildtest-TESTS])
+>
+>
+> Cross-compiling is increasingly common.
+> Upstream might accept you changes to split up
+> building, installing and running tests.
+>
 
-On Fri, 6 Mar 2020 at 12:25, <mingli.yu@windriver.com> wrote:
+According to this information:
+https://github.com/libexpat/libexpat/issues/330
+Autotools that are used for building this library are going to become
+deprecated, and library maintainers are planning to switch on CMake
+instead.
+Latest release already has CMake build system support. This system is
+still experimental, but it already has split up building and running
+tests (installation can be implemented in recipe).
+With migration on CMake there will no be reason for upstreaming
+changes for potentially deprecated feature. But...
+cmake-native package has expat-native as RDEPENDS. That creates a
+dependency loop between this packages. I was able to fix it by
+splitting recipes for expat and expat-native, and build expat with
+CMake and expat-native with autotools...
 
-> From: Mingli Yu <mingli.yu@windriver.com>
+So does expat recipe need to be rewritten on cmake-based building? And
+how can such dependency loop be solved propertly, if recipe need to be
+changed?
+
 >
-> On the system whose cpu doesn't support rdrand,
-> there comes below message when start rngd service
->  #systemctl status rngd
->  [snip]
->  Feb 25 05:08:14 qemux86-64 rngd[133]: [rdrand]: Initialization Failed
->  [snip]
+> Same goes for the PASS/ FAIL printfs below.
 >
-> Actually the failed message doesn't matter as it
-> only indicates one entropy source as rdrand fails
-> to initialize and won't affect rngd function.
+
+According to conversation about my changes offer:
+https://github.com/libexpat/libexpat/issues/382
+maintainers would rather be interested in changing testing framework
+on more functional and adapting their tests for it than making changes
+in the current one. So my patches are not suitable for upstreaming.
+And I see several ways for solving this situation:
+ - discard patches and rewrite run-tests script and recipe without
+making any changes in the code (So patches are not required, but tests
+output will be reduced to 2 lines: "PASS/FAIL/SKIP: runtests" and
+"PASS/FAIL/SKIP: runtestspp" because there are 2 testing executables)
+ - leave patches marked as "Inappropriate" (maybe with reason updating)
+ - accept expat maintainers offer and change their current testing
+framework "... to something C-based, existing, capable,
+self-contained, and integrate it into both the CMake and Autotools
+build systems while we have both...". (This requires a lot of time,
+efforts and experience, but will be acceptable for upstreaming)
+
+So should I try to implement and upstream changes of expat testing
+framework, or I can leave this for somebody else?
+
 >
-> So add to ignore the failure message to fix below
-> error during do_testimage:
-> NOTE:
-> ======================================================================
-> NOTE: FAIL: test_parselogs (parselogs.ParseLogsTest)
-> NOTE:
-> ----------------------------------------------------------------------
-> NOTE: Traceback (most recent call last):
->   File
-> "/buildarea/layers/oe-core/meta/lib/oeqa/core/decorator/__init__.py", line
-> 36, in wrapped_f
->     return func(*args, **kwargs)
->   File
-> "/buildarea/layers/oe-core/meta/lib/oeqa/runtime/cases/parselogs.py", line
-> 370, in test_parselogs
->     self.assertEqual(errcount, 0, msg=self.msg)
-> AssertionError: 1 != 0 : Log:
-> /buildarea/tmp/work/qemux86-64-wrs-linux/wrlinux-image-std/1.0-r5/target_logs/daemon.log
-> Central error: 2020-03-06T09:45:12.774286+00:00 qemux86-64 rngd[134]:
-> [rdrand]: Initialization Failed
+> Working with upstream takes a bit more time but if we
+> don't have to carry patches for years, it's worth it.
 >
-> Reference: https://github.com/nhorman/rng-tools/pull/84
+> Finally, how about adding the test results in the long log
+> with info about the image and machine used? The time
+> needed to run the tests will be useful to determine if these
+> ptests can be added to:
 >
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> ---
->  meta/lib/oeqa/runtime/cases/parselogs.py | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>    meta/conf/distro/include/ptest-packagelists.inc
 >
-> diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py
-> b/meta/lib/oeqa/runtime/cases/parselogs.py
-> index 3cad070..6444fe8 100644
-> --- a/meta/lib/oeqa/runtime/cases/parselogs.py
-> +++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-> @@ -56,7 +56,8 @@ common_errors = [
->      "error retry time-out =",
->      "logind: cannot setup systemd-logind helper (-61), using legacy
-> fallback",
->      "Error changing net interface name 'eth0' to ",
-> -    "Cannot find a map file"
-> +    "Cannot find a map file",
-> +    "[rdrand]: Initialization Failed"
->      ]
+> and you could do that if the tests run in < 30 seconds in qemux86-64
+> with kvm support.
 >
->  video_related = [
+
+CMake based building system of this library uses such tool like CTest.
+This tool can run built tests, show their output and write it to log
+file simultaneously with time tracking of tests` execution.
+This can be additional "pros" for migration on CMake-based build
+system, of course with adding one additional RDEPENS-ptest value for
+package.
+
+>
+> Thanks,
+>
+> ../Randy
+>
+> > +
+> > + dnl
+> > + dnl Increment LIBREVISION if source code has changed at all
+> > +--
+> > +2.17.1
+> > +
+> > diff --git a/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+> > new file mode 100644
+> > index 0000000000..9a85a26117
+> > --- /dev/null
+> > +++ b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+> > @@ -0,0 +1,52 @@
+> > +From 825f344543676fc3314f4e074163fd638db8e8f9 Mon Sep 17 00:00:00 2001
+> > +From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> > +Date: Thu, 6 Feb 2020 13:44:56 +0200
+> > +Subject: [PATCH 3/3] expat: Added suitable format of tests in ptest
+> > +
+> > +Some changes in testcases code were applied for testcase engine.
+> > +This was just adding of message outputs in "RESULT: TESTNAME" form...
+> > +
+> > +Upstream-Status: Inappropriate [oe-core specific]
+> > +
+> > +Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> > +---
+> > + tests/minicheck.c | 4 ++++
+> > + 1 file changed, 4 insertions(+)
+> > +
+> > +diff --git a/tests/minicheck.c b/tests/minicheck.c
+> > +index a5a1efb..b39cda9 100644
+> > +--- a/tests/minicheck.c
+> > ++++ b/tests/minicheck.c
+> > +@@ -164,6 +164,7 @@ srunner_run_all(SRunner *runner, int verbosity) {
+> > +       if (tc->setup != NULL) {
+> > +         /* setup */
+> > +         if (setjmp(env)) {
+> > ++          printf("SKIP: %s\n", _check_current_function);
+> > +           add_failure(runner, verbosity);
+> > +           continue;
+> > +         }
+> > +@@ -171,6 +172,7 @@ srunner_run_all(SRunner *runner, int verbosity) {
+> > +       }
+> > +       /* test */
+> > +       if (setjmp(env)) {
+> > ++        printf("FAIL: %s\n", _check_current_function);
+> > +         add_failure(runner, verbosity);
+> > +         continue;
+> > +       }
+> > +@@ -179,11 +181,13 @@ srunner_run_all(SRunner *runner, int verbosity) {
+> > +       /* teardown */
+> > +       if (tc->teardown != NULL) {
+> > +         if (setjmp(env)) {
+> > ++          printf("PASS: %s\n", _check_current_function);
+> > +           add_failure(runner, verbosity);
+> > +           continue;
+> > +         }
+> > +         tc->teardown();
+> > +       }
+> > ++      printf("PASS: %s\n", _check_current_function);
+> > +     }
+> > +     tc = tc->next_tcase;
+> > +   }
+> > +--
+> > +2.17.1
+> > +
+> > diff --git a/meta/recipes-core/expat/expat/run-ptest b/meta/recipes-core/expat/expat/run-ptest
+> > new file mode 100644
+> > index 0000000000..df994c0838
+> > --- /dev/null
+> > +++ b/meta/recipes-core/expat/expat/run-ptest
+> > @@ -0,0 +1,3 @@
+> > +#!/bin/bash
+> > +
+> > +make -k runtests
+> > diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
+> > index 8f3db41352..420ffddc80 100644
+> > --- a/meta/recipes-core/expat/expat_2.2.9.bb
+> > +++ b/meta/recipes-core/expat/expat_2.2.9.bb
+> > @@ -8,15 +8,25 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
+> >
+> >   SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+> >              file://libtool-tag.patch \
+> > +        file://0001-expat-Added-Makefile-targets-for-ptest-support.patch \
+> > +        file://0002-expat-Added-support-for-ptests-in-form-of-new-target.patch \
+> > +        file://0003-expat-Added-suitable-format-of-tests-in-ptest.patch \
+> > +        file://run-ptest \
+> >         "
+> >
+> >   SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
+> >   SRC_URI[sha256sum] = "f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
+> >
+> > -inherit autotools lib_package
+> > +inherit autotools ptest lib_package
+> > +
+> > +RDEPENDS_${PN}-ptest += "make bash"
+> >
+> >   do_configure_prepend () {
+> >       rm -f ${S}/conftools/libtool.m4
+> >   }
+> >
+> > +do_compile_ptest() {
+> > +     oe_runmake buildtest-TESTS
+> > +}
+> > +
+> >   BBCLASSEXTEND = "native nativesdk"
+>
+>
 > --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> # Randy MacLeod
+> # Wind River Linux
 >
 
---000000000000d6810d05a02df50e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thank you for your attention
 
-<div dir=3D"ltr"><div>qemux86_64 is used extensively on the autobuilder, so=
- what are the circumstances where this issue arises?</div><div><br></div><d=
-iv>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">On Fri, 6 Mar 2020 at 12:25, &lt;<a href=3D"mailto:mingli.=
-yu@windriver.com">mingli.yu@windriver.com</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">From: Mingli Yu &lt;<a href=3D"mai=
-lto:mingli.yu@windriver.com" target=3D"_blank">mingli.yu@windriver.com</a>&=
-gt;<br>
-<br>
-On the system whose cpu doesn&#39;t support rdrand,<br>
-there comes below message when start rngd service<br>
-=C2=A0#systemctl status rngd<br>
-=C2=A0[snip]<br>
-=C2=A0Feb 25 05:08:14 qemux86-64 rngd[133]: [rdrand]: Initialization Failed=
-<br>
-=C2=A0[snip]<br>
-<br>
-Actually the failed message doesn&#39;t matter as it<br>
-only indicates one entropy source as rdrand fails<br>
-to initialize and won&#39;t affect rngd function.<br>
-<br>
-So add to ignore the failure message to fix below<br>
-error during do_testimage:<br>
-NOTE: =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-NOTE: FAIL: test_parselogs (parselogs.ParseLogsTest)<br>
-NOTE: ---------------------------------------------------------------------=
--<br>
-NOTE: Traceback (most recent call last):<br>
-=C2=A0 File &quot;/buildarea/layers/oe-core/meta/lib/oeqa/core/decorator/__=
-init__.py&quot;, line 36, in wrapped_f<br>
-=C2=A0 =C2=A0 return func(*args, **kwargs)<br>
-=C2=A0 File &quot;/buildarea/layers/oe-core/meta/lib/oeqa/runtime/cases/par=
-selogs.py&quot;, line 370, in test_parselogs<br>
-=C2=A0 =C2=A0 self.assertEqual(errcount, 0, msg=3Dself.msg)<br>
-AssertionError: 1 !=3D 0 : Log: /buildarea/tmp/work/qemux86-64-wrs-linux/wr=
-linux-image-std/1.0-r5/target_logs/daemon.log<br>
-Central error: 2020-03-06T09:45:12.774286+00:00 qemux86-64 rngd[134]: [rdra=
-nd]: Initialization Failed<br>
-<br>
-Reference: <a href=3D"https://github.com/nhorman/rng-tools/pull/84" rel=3D"=
-noreferrer" target=3D"_blank">https://github.com/nhorman/rng-tools/pull/84<=
-/a><br>
-<br>
-Signed-off-by: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" tar=
-get=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oeqa/runtime/cases/parselogs.py | 3 ++-<br>
-=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runti=
-me/cases/parselogs.py<br>
-index 3cad070..6444fe8 100644<br>
---- a/meta/lib/oeqa/runtime/cases/parselogs.py<br>
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py<br>
-@@ -56,7 +56,8 @@ common_errors =3D [<br>
-=C2=A0 =C2=A0 =C2=A0&quot;error retry time-out =3D&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0&quot;logind: cannot setup systemd-logind helper (-61),=
- using legacy fallback&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0&quot;Error changing net interface name &#39;eth0&#39; =
-to &quot;,<br>
--=C2=A0 =C2=A0 &quot;Cannot find a map file&quot;<br>
-+=C2=A0 =C2=A0 &quot;Cannot find a map file&quot;,<br>
-+=C2=A0 =C2=A0 &quot;[rdrand]: Initialization Failed&quot;<br>
-=C2=A0 =C2=A0 =C2=A0]<br>
-<br>
-=C2=A0video_related =3D [<br>
--- <br>
-2.7.4<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+-- 
+Popovych Oleksandr
+GlobalLogic Inc.
 
---000000000000d6810d05a02df50e--
