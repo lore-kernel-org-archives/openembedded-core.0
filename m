@@ -1,55 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id D214361996
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B10C6610A4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2020 17:02:33 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id p9so5703826wmc.2
+	Sat,  7 Mar 2020 18:09:42 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id f7so1271487wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2020 09:02:35 -0800 (PST)
+	Sat, 07 Mar 2020 10:09:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:user-agent:mime-version:content-transfer-encoding;
-	bh=xMTrnbeIpgYeSM8HuHg938sZg84lc2Htn0bg5Nk80dc=;
-	b=SW0fG8QLUHmTwF5Zh46E9lPO/Dk+o3DmqjDwn/6rO1eofjp1llGl/dL9fbjumUr5SA
-	xHfCmmSKcxPZjjqK9pWzS9wAHkacacYAuNYXAhpcVRzKgrgNFlKXC1xHPMW7tnPQdSnT
-	7ZHYDhJgSggocaSDYpCTx38DTYeL50iwhPeAc=
+	bh=W3j7jS+Ke3F0Dm05uygTFWBA7xwWK/el4IdH97Doiic=;
+	b=C7XsrVI0lE3X890+WEsbH7NLpONOCxTQDZ+igfF8E6IWnXOwy8uNP53eq+5mVuGAJw
+	U71TgW8FDfF7Wb+kL6j9gaSvudJKC1YYPdLFW3VyjG//mzFaq7yu6L9khsDMqB+l2eDh
+	wRVExKr4Z/aZo3Vcc8oq/s4vX3sf9rn57NvgY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=xMTrnbeIpgYeSM8HuHg938sZg84lc2Htn0bg5Nk80dc=;
-	b=E5/XRo677K9q6raFoT6EvoRdiLYdx1bW+I6hf5sccpbPmnSl95NpaSjzIQJUTmu7QG
-	cv90WPKrz+pgbjVmGdvI8lU11MJwtTtbCU3ccBYGeawG8hbB3ba4tlFGhXWuM0LOIwwT
-	dqqMJjZfdXdFAiByE69unLaRYulWc6OYHSPLhs+K9q01WeoRX1JbHnPloo7liug0yOMG
-	W0hf4Wu2nVZMTCJWSmxeZHfaj4Bksc1mw0Tg8SV88vmKn+sePLZpprYHOR1JQiGkLxKN
-	p1nNBA/rApYFDeUquI++oeIuRIRdBpsSpi149H7h2kS2Mv3r2nKSK9CdDbHUMBpMMGz3
-	p9Kg==
-X-Gm-Message-State: ANhLgQ2bhBfnvWMPlqPMD4lFRgsxtNlLrDQjJGxWqI9MDh0eOnsgDf+5
-	1UuhD4zMHw93+376ZB0a70Oxzw==
-X-Google-Smtp-Source: ADFU+vtGnw717iZcoePbjDaIU8Qs+5yuU4ejDzea5UwkuKvPhIw5wVBCtax+ugP2aatZbrF9YiYFcg==
-X-Received: by 2002:a1c:5585:: with SMTP id j127mr10465699wmb.35.1583600554535;
-	Sat, 07 Mar 2020 09:02:34 -0800 (PST)
+	bh=W3j7jS+Ke3F0Dm05uygTFWBA7xwWK/el4IdH97Doiic=;
+	b=H6TeiDj99nIqmTH4UZvKwr7W9lx+u9BdtTFltmFo2+mgoculFooimT6gs6g6H66lCH
+	7wrJdenZ1CA3KSRFZktvi5jbx/TVx1SYVd8IECnyk5GhRqutvAoD1JYCDudiTLiZC0am
+	vLqd4yppT1IY0eHqc/Lz1S4UPUUVZZtxtvWgwnndzFUZ/6o4qszbsTzygbJ2tU2cvtpU
+	T1FqalJsTsMb8wAzfVydC+WgesmF57rs2OwdmS7xIYtszxhRgzRF6JTLJxDWV3EyO1iC
+	/iHeZJ6G6TwIJAXf12SRztkI7/9Z32zh/t9aBZ5qGQKn0APo9vXR6m92I2IKf1a0f0Ad
+	/K6g==
+X-Gm-Message-State: ANhLgQ11+8vstAAcS9xupq43rP7ISGEFdmY38wSiMFwnLlL55MRiG8oJ
+	JSRx+8237srrAsNUqWrgvwy0zg==
+X-Google-Smtp-Source: ADFU+vsawOF+OvsPtSbDFJVlNnUho27XBdcMjqa83KJlGfutiXSL/wHCw0fXpt+VEZTQhx6xYpsz3Q==
+X-Received: by 2002:a7b:c450:: with SMTP id l16mr11102985wmi.31.1583604582969; 
+	Sat, 07 Mar 2020 10:09:42 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id u8sm8421587wrn.69.2020.03.07.09.02.33
+	by smtp.gmail.com with ESMTPSA id
+	j15sm14296866wrp.85.2020.03.07.10.09.41
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Mar 2020 09:02:34 -0800 (PST)
-Message-ID: <a1676c407198a6512d6069ad9a40a9c5a11cb03d.camel@linuxfoundation.org>
+	Sat, 07 Mar 2020 10:09:42 -0800 (PST)
+Message-ID: <9f8bb6a3d6cb168c1ec2ddb5e2ff5e5970f5668d.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 07 Mar 2020 17:02:32 +0000
-In-Reply-To: <c348a21730c09536d06458ac5e5d50377f381f4e.camel@linuxfoundation.org>
-References: <107c01d5f174$bbf566a0$33e033e0$@gmail.com>
-	<CANNYZj83rytWFgGPj6BS6R874eqa6_KCoeoMA5afgnx-_YBunw@mail.gmail.com>
-	<efd0caee261782a0b8d752c728c25be23f69cbae.camel@linuxfoundation.org>
-	<CANNYZj_Q72+SDFEeq68d214wt+Ft4NA0gUYHEYsdCmzkv+b_pw@mail.gmail.com>
-	<c348a21730c09536d06458ac5e5d50377f381f4e.camel@linuxfoundation.org>
+To: Adrian Freihofer <adrian.freihofer@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 07 Mar 2020 18:09:40 +0000
+In-Reply-To: <20200307150145.3100113-1-adrian.freihofer@siemens.com>
+References: <20200307150145.3100113-1-adrian.freihofer@siemens.com>
 User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Yocto Project Status WW09'20
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: Re: [PATCH v3] runqemu: support multiple NICs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,75 +59,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2020 17:02:35 -0000
+X-List-Received-Date: Sat, 07 Mar 2020 18:09:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2020-03-07 at 16:58 +0000, Richard Purdie wrote:
-> On Fri, 2020-03-06 at 22:53 +0100, Alexander Kanavin wrote:
-> > On Wed, 4 Mar 2020 at 23:42, Richard Purdie <
-> > richard.purdie@linuxfoundation.org> wrote:
-> > > Just FYI I think there may also be a couple of other packages
-> > > coreutils
-> > > pulls in and they may also have reproducibility issues (gettext-
-> > > ptest,
-> > > glibc-locale-* and procps*).
-> > 
-> > Patch for gettext also sent :) glibc-locale and procps I could not
-> > reproduce :-/
+On Sat, 2020-03-07 at 16:01 +0100, Adrian Freihofer wrote:
+> Emulating more than one network interface with runqemu is sometimes a
+> bit tricky, but possible. For example, this leads to an emulated device
+> with eth0 and eth1:
 > 
-> Thanks for that fix, it helps!
+> QB_NETWORK_DEVICE_prepend = " \
+>     -device virtio-net-device,mac=52:54:00:12:34:03 \
+> "
 > 
-> FWIW, what I'm seeing with glibc-locale is that these files
-> "disappear"
-> from the packages in one of my builds:
+> Note:
+>  On some emulated NIC types, Qemu and the kernel enumerate the eths in
+>  the guest in reverse order to how the device parameters are passed to
+>  Qemu. So in this case it is important that the additional NICs are
+>  prepended to the -device parameter, which gets automatically added by
+>  Qemu. Otherwise, the interface eth1 will be connected to the host, but
+>  eth0 will be assigned the IP address 192.168.7.x, which obviously does
+>  not work.
 > 
-> ./usr/share/locale/vi/LC_MESSAGES/libc.mo
-> ./usr/share/locale/ko/LC_MESSAGES/libc.mo
-> ./usr/share/locale/en_GB/LC_MESSAGES/libc.mo
-> ./usr/share/locale/ca/LC_MESSAGES/libc.mo
-> ./usr/share/locale/fr/LC_MESSAGES/libc.mo
-> ./usr/share/locale/pl/LC_MESSAGES/libc.mo
-> ./usr/share/locale/id/LC_MESSAGES/libc.mo
-> ./usr/share/locale/hr/LC_MESSAGES/libc.mo
-> ./usr/share/locale/uk/LC_MESSAGES/libc.mo
-> ./usr/share/locale/ja/LC_MESSAGES/libc.mo
-> ./usr/share/locale/gl/LC_MESSAGES/libc.mo
-> ./usr/share/locale/es/LC_MESSAGES/libc.mo
-> ./usr/share/locale/el/LC_MESSAGES/libc.mo
-> ./usr/share/locale/pt_BR/LC_MESSAGES/libc.mo
-> ./usr/share/locale/sl/LC_MESSAGES/libc.mo
-> ./usr/share/locale/lt/LC_MESSAGES/libc.mo
-> ./usr/share/locale/rw/LC_MESSAGES/libc.mo
-> ./usr/share/locale/sv/LC_MESSAGES/libc.mo
-> ./usr/share/locale/cs/LC_MESSAGES/libc.mo
-> ./usr/share/locale/nl/LC_MESSAGES/libc.mo
-> ./usr/share/locale/zh_CN/LC_MESSAGES/libc.mo
-> ./usr/share/locale/ia/LC_MESSAGES/libc.mo
-> ./usr/share/locale/fi/LC_MESSAGES/libc.mo
-> ./usr/share/locale/be/LC_MESSAGES/libc.mo
-> ./usr/share/locale/ru/LC_MESSAGES/libc.mo
-> ./usr/share/locale/nb/LC_MESSAGES/libc.mo
-> ./usr/share/locale/zh_TW/LC_MESSAGES/libc.mo
-> ./usr/share/locale/tr/LC_MESSAGES/libc.mo
-> ./usr/share/locale/de/LC_MESSAGES/libc.mo
-> ./usr/share/locale/da/LC_MESSAGES/libc.mo
-> ./usr/share/locale/pt/LC_MESSAGES/libc.mo
-> ./usr/share/locale/hu/LC_MESSAGES/libc.mo
-> ./usr/share/locale/eo/LC_MESSAGES/libc.mo
-> ./usr/share/locale/it/LC_MESSAGES/libc.mo
-> ./usr/share/locale/bg/LC_MESSAGES/libc.mo
-> ./usr/share/locale/sk/LC_MESSAGES/libc.mo
+> When booting Qemu with two NICs, but only one set of network
+> configuration parameters gets passed to the kernel, the kernel seems to
+> search for a configuration for all NICs. This delays the boot process
+> for a very long time.
 > 
-> I can conform they're not in the glibc stashed-locale sstate object
-> so
-> they disappear somewhere before that in the glibc recipe itself.
-> 
-> Quite where/why I don't know as yet.
+> This change solves the timeout problem. Tested with:
+>  oe-selftest --run-tests runqemu
 
-Just to save anyone digging, the difference is in configure, one has
-msgfmt in the sysroot, one does not. It is there later in the build so
-its probably task dependencies not being right.
+This appears to break our automated testing, e.g.:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/1657
+
+(there is a full list of failures on 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/779
+but the missing xz ones aren't yours!)
 
 Cheers,
 
