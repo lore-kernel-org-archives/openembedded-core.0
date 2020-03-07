@@ -1,50 +1,53 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 5244861A0C
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E0C1161AEF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2020 16:17:31 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id z15so5914613wrl.1
+	Sat,  7 Mar 2020 16:20:56 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id z15so5921363wrl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2020 08:17:32 -0800 (PST)
+	Sat, 07 Mar 2020 08:20:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=ttxUrhJ0aJafsRIit60K09tP5CefQvT09OnTrt+943M=;
-	b=b851scD4Z1u5dKfN/BuBwVlldhk/8KfLtzfDkoGY1eP4PtSP1grRdiQdmzyA877LsF
-	bGUdCbLYlbwIXFWG1v8qyyNv1CdR6Z7ZPGYY8jLilCweOekce6Q+cuOZO89ANBKYE0oc
-	d03bKytSNDKWO3vHtBTyYCOga83cOvR4PDinc=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=bYBfY3p2oeksCX2s+y602yrBLKgMzSgjcqaaN8+wDSo=;
+	b=doLcu7k0WtEWJjJQo2z4nl+2x9nPOBuzPPjU2JaociYbw+F55MeuQf7dattdXaM4IX
+	Lqlhq5OZ1yeNFw5Od6BeiKuJaOkE13vf9RwSaf+AgqmzOewUvNhlfQT5H7c6ybdRj3I8
+	FhDgh3ScxR0VDatmmn+VsoNmcc6/q8pYmurtY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=ttxUrhJ0aJafsRIit60K09tP5CefQvT09OnTrt+943M=;
-	b=XF0RWo3qrHpmOdV9I2XP3UJZWIX4GmpkRimQCjAxQmNVBIHB6qX6XVatc8BTERjZXW
-	GpCzF9pUYW/7p6OZl8IL2uITlr0VohCMzWk+LJ1LReEdlBAget8ZXRSC7n2wwnOweIub
-	fII3+VwKhUpT1+HHaUbeR8d6IgruIZUI/R1dQ+hAixnPgbP3e3mR7EvSxTB/8xlHkf32
-	Cu0kBq3DIfEWaaxXnhpXu5WKqjUiU8y42phtyaYt+ntZ5RbPxetaX6XSB+fxnKEdfzyr
-	tM8qUziB0i59OzdgqBcyeD1daAQ6rCR86BblFiJXnnW0gs+ETOK2H5XRDAKf2xO/9tvR
-	eTrQ==
-X-Gm-Message-State: ANhLgQ038uTTLPFuYUs1fTqxzw37N5pY/h6OLBc0ebY5DOb8J8Sthcae
-	Jna8Shbtqrq4A9awSsEt9dbbow==
-X-Google-Smtp-Source: ADFU+vtdG1OJvVbAMv1+274eG2MJtMP+E1aN6OoA5qZIR45BF+Vom3WlP7FhEnS2ksPhNe3fqGvjYA==
-X-Received: by 2002:adf:f544:: with SMTP id j4mr3839487wrp.183.1583597852166; 
-	Sat, 07 Mar 2020 08:17:32 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=bYBfY3p2oeksCX2s+y602yrBLKgMzSgjcqaaN8+wDSo=;
+	b=VsRBcN8Env2Taec1HiFptW2mq/zYzmR7XaA1oOEjX/+Ggu+fMJMr/oU+z/L7HpveO7
+	AkYwLB2gl8/DuO4NN2dMHmWaYkkUcM0ce2/dj+EaP7KnV5vHwSrzcpDA6fAgkHQcf00G
+	9VTf3CoMvtM9Wsa7JDSyJDNK851WIyl2ym2QAe0TL+S4t+T49mJT/JHzbM7/0l9Z1IBx
+	A9Etx4wWCQT99P8HyGgOeEmdzfHpDtc2arOezhFxYMl06NxM7idD6QiIj6KlMIo2uHvT
+	3VyXF/da02mLCM1xrSunpiVwmEPSTLHB8X2F582awTLxkQHDzkIluXcM07a+33VGpyMK
+	AYKg==
+X-Gm-Message-State: ANhLgQ2HY4MktkQPX2q1dZeQ4fKg0vkiBCUHEYP4e8LZ4caWDhf2CfBs
+	ePfaw/wauW0aydpJiJUo9vSNMw==
+X-Google-Smtp-Source: ADFU+vskdsmmXMTLKV3HOcY60Iwg9RGvxUlpC2SMQvmg8Nu2Q0lL/L8cdBYcHiGChPH5gMrIxwpLWg==
+X-Received: by 2002:adf:df8f:: with SMTP id z15mr10193855wrl.184.1583598057629;
+	Sat, 07 Mar 2020 08:20:57 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	j5sm18220155wmi.33.2020.03.07.08.17.30
+	s22sm17482050wmc.16.2020.03.07.08.20.55
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Mar 2020 08:17:31 -0800 (PST)
-Message-ID: <f4e3d6a5a638b669dc742fddb14d652f06715d04.camel@linuxfoundation.org>
+	Sat, 07 Mar 2020 08:20:56 -0800 (PST)
+Message-ID: <61c89136e75765e8cb188bf16b5fddd7ff28c8b3.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>, Patches and discussions
-	about the oe-core layer <openembedded-core@lists.openembedded.org>
-Date: Sat, 07 Mar 2020 16:17:28 +0000
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+Date: Sat, 07 Mar 2020 16:20:53 +0000
+In-Reply-To: <06f78962af6ad632793a533a22d8f1b91e5a50fc.camel@gmail.com>
+References: <b73e07036162eab111213d9d3bd14c7436733039.camel@gmail.com>
+	<8718ce405436564b3ad55fa52046e5e55ee562dd.camel@linuxfoundation.org>
+	<06f78962af6ad632793a533a22d8f1b91e5a50fc.camel@gmail.com>
 User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-Subject: buildtools-extended-tarball wrapping builds
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Extensible SDK improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +60,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2020 16:17:32 -0000
+X-List-Received-Date: Sat, 07 Mar 2020 16:20:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On Sat, 2020-03-07 at 15:55 +0100, Adrian Freihofer wrote:
+> On Sat, 2020-03-07 at 12:40 +0000, Richard Purdie wrote:
+> > On Sat, 2020-03-07 at 12:54 +0100, Adrian Freihofer wrote:
+> > > Hi Richard,
+> > > 
+> > > We have found two already supported ways to copy variables from
+> > > the
+> > > bitbake environment local.conf to the eSDK local.conf
+> > > 
+> > > If a variable is defined in the local.conf bitbake environment,
+> > > SDK_LOCAL_CONF_WHITELIST and SDK_LOCAL_CONF_BLACKLIST can be used
+> > > to
+> > > add it to the local.conf eSDK file.
+> > > 
+> > > If a variable should be statically defined for the eSDK but not
+> > > for
+> > > the
+> > > bitbake environment, sdk-extra.conf is useful.
+> > > 
+> > > Now we would like to add a third way to add variables which are
+> > > dynamically calculated by bitbake but need to be statically added
+> > > to
+> > > the eSDK local.conf. For example we would like to support
+> > > something
+> > > like that:
+> > > 
+> > > def get_version_from_git(d):
+> > >     version = d.getVar("GIT_VERSION", True)
+> > >     if version:
+> > >         return version                    # runs in eSDK
+> > >     else:
+> > >         return bb.process.run("git...     # runs in bitbake
+> > > 
+> > > GIT_VERSION := "${@get_version_from_git(d)}"
+> > > 
+> > > SDK_LOCAL_CONF_EXTRALIST_append = " GIT_VERSION"
+> > 
+> > This worries me a bit since it means the eSDK and the "real" build
+> > can
+> > behave differently. I appreciate that can happen even with the
+> > other
+> > variables and means of setting them but this takes it to a new
+> > level.
+> > 
+> That I understand. The usage of the SDK_LOCAL_CONF_EXTRALIST would be
+> very specific. Wrong usage would lead to a broken sstate in the eSDK.
+> 
+> > Ultimately I think we're aiming to have normal builds convert into
+> > an
+> > eSDK and vice versa more easily. This seems to pull us further away
+> > from that :/.
+> > 
+> > What is the reasoning for having them behaving differently?
+> 
+> Our goal is to equate the eSDK behavior with the behavior of the real
+> build, also for the example with the GIT_VERSION, which bitbake and
+> git
+> will dynamically evaluate at eSDK build time.
+> 
+> Suppose we want to compile the GIT_VERSION (last tag) from poky
+> without
+> any manual steps into the firmware. bitbake can simply call
+> 
+> $ describe git --tags --dirty
+> uninative-2,8-74-g56446f4570-dirty
+> 
+> With Bitbake the variable can change. But in eSDK the GIT_VERSION
+> must
+> be a constant. The above function behaves like a constant if
+> GIT_VERSION is defined in the local.conf for example. But it has a
+> dynamic behavior if GIT_VERSION is undefined. The only missing part
+> in
+> the current Poky, is a way to automatically write the value to the
+> local.conf of the eSDK. I don't think this would be much different
+> than
+> the already existing sdk-extra.conf file.
 
-I just wanted to mention that we now have the ability to wrap builds on
-specific workers with specific buildtools tarballs.
+I've been thinking about this further. Why is any of this in local.conf
+in the first place?
 
-Currently this functionality is in master, we do have the option of
-porting the helper code to other stable branches.
+I'd suggest the bulk of it should be in your distro or class files?
 
-We have had multiple issues, with the infrastucture internal url/cert
-handling, git/cert environment issues, an issue with eSDK testing (next
-has a fix in testing), the crypt fix already submitted (meaning M2's
-tarball doesn't help)  and so on, I'm hoping we've gotten to the bottom
-of those.
+I understand we do need some simple changes to local.conf in many cases
+but any complex logic really should not be there. The above does look
+like more complex logic to me...
 
-This does mean we could drop gcc 4.8/4.9 support if we wanted to and
-rely on the tarball support for centos7/debian8. I'm torn on that, we
-are still missing:
-
-a) Support for wrapping a build with buildtools more auotmatically
-(like we do with uninative)
-
-b) documentation of buildtools-extended-tarball
-
-and to drop, we'd probably need these pieces.
-
-I'd note the people who vocally said they needed centos7 support are
-not the ones who are doing this work. The only reason I'm pushing it is
-I know it will ultimately help support our LTS efforts.
+I'm therefore leaning towards saying no to this patch, its just going
+to cause us problems in the future.
 
 Cheers,
 
 Richard
+
 
 
 
