@@ -1,55 +1,47 @@
-Return-Path: <adrian.fiergolski@fastree3d.com>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E04760C6D
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8510E61109
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2020 22:07:06 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id v11so6465047wrm.9
+	Sat,  7 Mar 2020 22:34:17 +0000 (UTC)
+Received: by mail-il1-f194.google.com with SMTP id a6so5390354ilc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2020 14:07:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=fastree3d-com.20150623.gappssmtp.com; s=20150623;
-	h=from:subject:to:message-id:date:user-agent:mime-version
-	:content-language;
-	bh=UjK9ZPU3Zy7IDYMI5VJn9QsYSZpMYNozdF5GRf30auU=;
-	b=vpD99kWXQInfSzOrLG07gGfmFdPdcyvfs46nydshhNkNbJouCMms7lbPQhcEV+L45T
-	McZyKpzXjeQ9kDGUyAou01SEemNS3BBEj2/VdK9er5TfLzaOngCdBb3cjsNsEMs3UohD
-	CBhj9TU5jXzdVdBWPthytmJuOHLox5VxVrr013h9baLMo1NPuyioBQeHIASHO20IMNXL
-	84FYrVqA1k7iCDGObz47mcr2mXEX+Nux4636ixDjyEB6jKwfGF+l/ZH1Dek1BfaMK8ZO
-	Tn9Fg85GMSJnjv4M2ipmByka/gFYjjWIA2HDgHcEiYHCH7pVN21JBplwW+2feymKQbo0
-	cWNA==
+	Sat, 07 Mar 2020 14:34:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=GEFXcr+xrNcdhCC2wf51StAWlfJe5XbwEwrAr8ciiBQ=;
+	b=k133hD/40ey6+6IWNE0cVMKydfFyif8V66s/asSuysdtD5J2rjKxdEv4awahKa9flq
+	fOBsJa9J98AtLeP0dn8TV+E9ZcWxTroQ0d/eCPK5MsSKfC8JvSln+boghPQAZr8bNOSD
+	591dnDcUfuOIQapqzaR1FFmBui7PryLLnNi3EEcxRz8VXsOVTdxdcbS83x9ZhDizqniC
+	rl+YHVXE+vl6HNn/zh16uNkl/3jPOCdOl5EFVzeTFvYjm+7ELqnc8WAGkm1sHbpO8uQt
+	MTBR+uru9ni0Y9V2Ui82/sx8dLqw6vogvxRathojVWzSm3V2Onq/Bs7hci8Z40wLJGPR
+	Yx4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:message-id:date:user-agent
-	:mime-version:content-language;
-	bh=UjK9ZPU3Zy7IDYMI5VJn9QsYSZpMYNozdF5GRf30auU=;
-	b=RA2dqpRvb8Xmh4r5P+CpFbDoNShc1eGuOVohNsKTpybdFkzrgd1Q2aujRa4piMLlON
-	rRPpy+9gdum4u7slAtbhXt3evVwq/mRKQnffHY3knOwAJUpe693Q+JWCjtiexE00KtXb
-	xviTKU77ejdf+7noo9vJeMHwKPs4+ewR6SZGeF7Vo3CmASF0HlQrww8XRhVzXlizLaSi
-	vUiT75uwtUVEZTPDaa+qf3lXCwm8YEiyIAihbgdU2Guk9k1S9xBwaqTmDXs7wlwZeQIp
-	tprnGBfki2eyBodL50aw0oa8IVgxUISV6GK6I+pyJoTyX3EZPSZPWFx5JFfTQhFo1fT2
-	ZwuQ==
-X-Gm-Message-State: ANhLgQ03GNgKo//hXenr2cFQeeN3LMlN4Wm7iRBWLH35xBTerD8IxSz1
-	d6FySZNC/q1dZArrrBs9TVsmYMyL1w==
-X-Google-Smtp-Source: ADFU+vvDH4G4E5tiG5cDKuzEn9rmi3YaLodsYfJUTfq9tcNwhwOIUa6H82vVMa2jkzIg84ZtyWBZWg==
-X-Received: by 2002:adf:a2d9:: with SMTP id t25mr11075221wra.84.1583618826812; 
-	Sat, 07 Mar 2020 14:07:06 -0800 (PST)
-Received: from [192.168.2.135]
-	(185.234.197.178.dynamic.wless.lssmb00p-cgnat.res.cust.swisscom.ch.
-	[178.197.234.185]) by smtp.gmail.com with ESMTPSA id
-	n3sm18649333wmc.42.2020.03.07.14.07.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Sat, 07 Mar 2020 14:07:06 -0800 (PST)
-From: Adrian Fiergolski <adrian.fiergolski@fastree3d.com>
-X-Google-Original-From: Adrian Fiergolski <Adrian.Fiergolski@fastree3d.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <79087be9-c34e-8e27-5b0f-e7b21d03f89f@fastree3d.com>
-Date: Sat, 7 Mar 2020 23:07:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=GEFXcr+xrNcdhCC2wf51StAWlfJe5XbwEwrAr8ciiBQ=;
+	b=DdQj1cQM0BNB66u3fVNzEPx7BOuKwxltO7n+/UKa/ovJWM3g/mPhejcZEMFDDANTiM
+	A35t8l1uwl7ERrTyNSeOxTlgp/Nzzot1rBTgGTUVhfyphYLPjkwkWXA8flRtWAppdyQo
+	F0V0E/WxKYW2xDvdcT211KgIfaBVqNAYk3g9sqtrIenjwSCKFBl+icjPswHD0C6aaUs7
+	gDiTjAkzudVGqlii5J6i4p/vvXCsem5wIqhNQ2xSlh6guIHRAY8a2ovOis7oHPgAqFKj
+	jNF176Nx103sruO7EkZ2h9KJuUGGvtsGtpex96b/Cdv9Flc47NaeYc/OnaB58qtptVkc
+	mCzg==
+X-Gm-Message-State: ANhLgQ153qNMXndbTerEEdZz2qb8kAMdqL469Z+fc4bi8i1kdEQGHQEK
+	xTyub6HD4OFqyd8Vuh/nhDo5ZV0lI6a2T4q7WZo=
+X-Google-Smtp-Source: ADFU+vuzrrLXJc0X3ZB6Uip+3SWl5Ab7MANEw0SICKIbTpZUl9BXEmO3jJ652BesOUgMaQ1zY6I2U9kFwa23nKr/4Nw=
+X-Received: by 2002:a92:8f44:: with SMTP id j65mr9262523ild.144.1583620458104; 
+	Sat, 07 Mar 2020 14:34:18 -0800 (PST)
 MIME-Version: 1.0
-Subject: [opencv] debugging
+References: <20200307200330.23915-1-christopher.w.clark@gmail.com>
+In-Reply-To: <20200307200330.23915-1-christopher.w.clark@gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Sat, 7 Mar 2020 22:34:07 +0000
+Message-ID: <CAO5Uq5RJg=Drr1GfjywP_EUY7Z6W_ouwoaRTcUc_EBETWVy-Tw@mail.gmail.com>
+To: christopher.w.clark@gmail.com
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel.bbclass: fix SOURCE_DATE_EPOCH for non-git kernel builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,66 +54,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2020 22:07:06 -0000
-Content-Type: multipart/alternative;
-	boundary="------------90805D8147F43933198C9E15"
-Content-Language: en-GB
+X-List-Received-Date: Sat, 07 Mar 2020 22:34:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---------------90805D8147F43933198C9E15
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+On Sat, Mar 7, 2020 at 8:04 PM <christopher.w.clark@gmail.com> wrote:
+>
+> From: Christopher Clark <christopher.w.clark@gmail.com>
+>
+> Only use git to set SOURCE_DATE_EPOCH if ${S} is the top level of a git
+> repository.
+>
+> Fixes the following errors with the prior logic when building a kernel
+> that is not obtained from a git repository:
+>
+> 1. With TMPDIR set to a directory outside any git repository on a
+> mounted filesystem, reproducible builds fail in do_compile with this git
+> error:
+>
+>   fatal: not a git repository (or any parent up to mount point <abspath>)
+>   Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+>
+> aborting before the error handling logic.
+>
+> 2. With TMPDIR located within a subdirectory of a git repository, the
+> SOURCE_DATE_EPOCH timestamp would be that of said repository rather than
+> that of the kernel.
+>
+> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+> ---
+>  meta/classes/kernel.bbclass | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 0eadd3efb8..2603f24709 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -296,10 +296,14 @@ kernel_do_compile() {
+>                 if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
+>                         olddir=`pwd`
+>                         cd ${S}
+> -                       SOURCE_DATE_EPOCH=`git log  -1 --pretty=%ct`
+> -                       # git repo not guaranteed, so fall back to REPRODUCIBLE_TIMESTAMP_ROOTFS
+> -                       if [ $? -ne 0 ]; then
+> -                               SOURCE_DATE_EPOCH=${REPRODUCIBLE_TIMESTAMP_ROOTFS}
+> +                       # This kernel dir is not necessarily a git repo and we
+> +                       # must ensure that git does not incorrectly query a
+> +                       # repository in a parent directory.
+> +                       GIT_TOP=`git rev-parse --show-toplevel 2>/dev/null || echo ""`
+> +                       if [ "${S}" = "${GIT_TOP}" ]; then
 
-Hi,
+Will that work if ${S} isn't a canonical path?
 
-I would like to build /opencv/ with debug symbols and with possible
-minimum optimization (I need to debug it). In the /opencv/ recipe I
-haven't found any PACKAGECONFIG related to debugging. I have tried to add
+> +                               SOURCE_DATE_EPOCH=`git log  -1 --pretty=%ct`
+> +                       else
+> +                               SOURCE_DATE_EPOCH="${REPRODUCIBLE_TIMESTAMP_ROOTFS}"
+>                         fi
+>                         cd $olddir
+>                 fi
 
-    /EXTRA_OECMAKE_append = " -DCMAKE_BUILD_TYPE=Debug" /
+Would something like this resolve the problem (untested):
 
-in the recipe but it gives the error:
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 0eadd3efb8d9..a17ca7adccca 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -294,14 +294,11 @@ kernel_do_compile() {
+                # kernel sources do not use do_unpack, so
+SOURCE_DATE_EPOCH may not
+                # be set....
+                if [ "${SOURCE_DATE_EPOCH}" = "" -o
+"${SOURCE_DATE_EPOCH}" = "0" ]; then
+-                       olddir=`pwd`
+-                       cd ${S}
+-                       SOURCE_DATE_EPOCH=`git log  -1 --pretty=%ct`
++                       SOURCE_DATE_EPOCH=`git --git-dir="${S}/.git}"
+log  -1 --pretty=%ct`
+                        # git repo not guaranteed, so fall back to
+REPRODUCIBLE_TIMESTAMP_ROOTFS
+                        if [ $? -ne 0 ]; then
 
-    ninja: error: 'TBB_ENV_LIB_DEBUG-NOTFOUND', needed by
-    'lib/libopencv_core.so.4.1.0', missing and no known rule to make it
+SOURCE_DATE_EPOCH=${REPRODUCIBLE_TIMESTAMP_ROOTFS}
+                        fi
+-                       cd $olddir
+                fi
 
-Has anyone tried to build /opencv/ in debug mode and could share how it
-was achieved?
+                ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
 
-Regards,
+--
+Alex Kiernan
 
-Adrian Fiergolski
-
-
---------------90805D8147F43933198C9E15
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p>Hi,</p>
-    <p>I would like to build <i>opencv</i> with debug symbols and with
-      possible minimum optimization (I need to debug it). In the <i>opencv</i>
-      recipe I haven't found any PACKAGECONFIG related to debugging. I
-      have tried to add</p>
-    <blockquote>
-      <p><i>EXTRA_OECMAKE_append = " -DCMAKE_BUILD_TYPE=Debug" </i><br>
-      </p>
-    </blockquote>
-    <p>in the recipe but it gives the error:</p>
-    <blockquote>
-      <p>ninja: error: 'TBB_ENV_LIB_DEBUG-NOTFOUND', needed by
-        'lib/libopencv_core.so.4.1.0', missing and no known rule to make
-        it</p>
-    </blockquote>
-    <p>Has anyone tried to build <i>opencv</i> in debug mode and could
-      share how it was achieved?</p>
-    <p>Regards,</p>
-    <p>Adrian Fiergolski<br>
-    </p>
-  </body>
-</html>
-
---------------90805D8147F43933198C9E15--
