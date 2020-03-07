@@ -1,47 +1,49 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 8510E61109
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D1D496026D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2020 22:34:17 +0000 (UTC)
-Received: by mail-il1-f194.google.com with SMTP id a6so5390354ilc.4
+	Sat,  7 Mar 2020 22:37:49 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id t11so6540274wrw.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2020 14:34:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=GEFXcr+xrNcdhCC2wf51StAWlfJe5XbwEwrAr8ciiBQ=;
-	b=k133hD/40ey6+6IWNE0cVMKydfFyif8V66s/asSuysdtD5J2rjKxdEv4awahKa9flq
-	fOBsJa9J98AtLeP0dn8TV+E9ZcWxTroQ0d/eCPK5MsSKfC8JvSln+boghPQAZr8bNOSD
-	591dnDcUfuOIQapqzaR1FFmBui7PryLLnNi3EEcxRz8VXsOVTdxdcbS83x9ZhDizqniC
-	rl+YHVXE+vl6HNn/zh16uNkl/3jPOCdOl5EFVzeTFvYjm+7ELqnc8WAGkm1sHbpO8uQt
-	MTBR+uru9ni0Y9V2Ui82/sx8dLqw6vogvxRathojVWzSm3V2Onq/Bs7hci8Z40wLJGPR
-	Yx4A==
+	Sat, 07 Mar 2020 14:37:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ad18k8j9yuBpPqub041vDW0r6p4W06wf9p971142HLk=;
+	b=Q9QZqfjS0SMxV1u7YGWZ6KdOLy5/UisTLKysMVeUnnLfMPHm1Ilx54Bee44XTeFcmc
+	h2f8PLf1L1jZLqXw2/q/0TIkfthlNq3w8rw+U0rLIYKwNA4Xw2J/J+T+B2h3HJkLJkOW
+	4QCXYaL7hzcbvEhz7qIBOe743S0yp5/nxdjtY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=GEFXcr+xrNcdhCC2wf51StAWlfJe5XbwEwrAr8ciiBQ=;
-	b=DdQj1cQM0BNB66u3fVNzEPx7BOuKwxltO7n+/UKa/ovJWM3g/mPhejcZEMFDDANTiM
-	A35t8l1uwl7ERrTyNSeOxTlgp/Nzzot1rBTgGTUVhfyphYLPjkwkWXA8flRtWAppdyQo
-	F0V0E/WxKYW2xDvdcT211KgIfaBVqNAYk3g9sqtrIenjwSCKFBl+icjPswHD0C6aaUs7
-	gDiTjAkzudVGqlii5J6i4p/vvXCsem5wIqhNQ2xSlh6guIHRAY8a2ovOis7oHPgAqFKj
-	jNF176Nx103sruO7EkZ2h9KJuUGGvtsGtpex96b/Cdv9Flc47NaeYc/OnaB58qtptVkc
-	mCzg==
-X-Gm-Message-State: ANhLgQ153qNMXndbTerEEdZz2qb8kAMdqL469Z+fc4bi8i1kdEQGHQEK
-	xTyub6HD4OFqyd8Vuh/nhDo5ZV0lI6a2T4q7WZo=
-X-Google-Smtp-Source: ADFU+vuzrrLXJc0X3ZB6Uip+3SWl5Ab7MANEw0SICKIbTpZUl9BXEmO3jJ652BesOUgMaQ1zY6I2U9kFwa23nKr/4Nw=
-X-Received: by 2002:a92:8f44:: with SMTP id j65mr9262523ild.144.1583620458104; 
-	Sat, 07 Mar 2020 14:34:18 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ad18k8j9yuBpPqub041vDW0r6p4W06wf9p971142HLk=;
+	b=WTYR7LdBGQzDh45w1PhayjRuNqksSSzLlp6xm+QOaNmYlGmjhRilQHvtc2Jiezk6nj
+	qDjO25xZ7G30Fv0wOgU1oHOALWOJkkgXAC7D9IRslZQxlxpZ/zY8pzbiKaB0AFRw5vgn
+	R5K5t/vAK6D2fHKf9S0+g4eaURp9jAUXxnxnl1V83peGzYczB98AQzEgqK+Uy5z2N3Fr
+	61KIJoN8Z9oDtfsSVz3DFD7966O0riU4guwlgVAF/siLzl/BGsLp4d7593x6PFMNaWia
+	2AN1dUCJkcG/zLgEhFgI0f7CosGHuKWYS5oREeCAMBWgQw5QF2bYqJEePDYIC1u+t/M3
+	LtUQ==
+X-Gm-Message-State: ANhLgQ1Zt1JSbERbsU5QtGxW5m9Fs+yHgqNRmrykbVeiXDWXk1iHQ+zR
+	afT0+9r9LubVnSP++D4YHn4B1blZhAY=
+X-Google-Smtp-Source: ADFU+vvz3Usc+TJBfmH0O/uwfYndu+z26hv1BSfwpFK0gbVaEUa3k4fbjAM6k1pBK5Ss73fnqJUwCg==
+X-Received: by 2002:adf:aa0e:: with SMTP id p14mr11532279wrd.399.1583620670219;
+	Sat, 07 Mar 2020 14:37:50 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	q3sm18459574wmj.38.2020.03.07.14.37.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 07 Mar 2020 14:37:49 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  7 Mar 2020 22:37:47 +0000
+Message-Id: <20200307223748.1178851-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-References: <20200307200330.23915-1-christopher.w.clark@gmail.com>
-In-Reply-To: <20200307200330.23915-1-christopher.w.clark@gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Sat, 7 Mar 2020 22:34:07 +0000
-Message-ID: <CAO5Uq5RJg=Drr1GfjywP_EUY7Z6W_ouwoaRTcUc_EBETWVy-Tw@mail.gmail.com>
-To: christopher.w.clark@gmail.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel.bbclass: fix SOURCE_DATE_EPOCH for non-git kernel builds
+Subject: [PATCH 1/2] glibc: Explicitly disable msgfmt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,92 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2020 22:34:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 07 Mar 2020 22:37:50 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sat, Mar 7, 2020 at 8:04 PM <christopher.w.clark@gmail.com> wrote:
->
-> From: Christopher Clark <christopher.w.clark@gmail.com>
->
-> Only use git to set SOURCE_DATE_EPOCH if ${S} is the top level of a git
-> repository.
->
-> Fixes the following errors with the prior logic when building a kernel
-> that is not obtained from a git repository:
->
-> 1. With TMPDIR set to a directory outside any git repository on a
-> mounted filesystem, reproducible builds fail in do_compile with this git
-> error:
->
->   fatal: not a git repository (or any parent up to mount point <abspath>)
->   Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
->
-> aborting before the error handling logic.
->
-> 2. With TMPDIR located within a subdirectory of a git repository, the
-> SOURCE_DATE_EPOCH timestamp would be that of said repository rather than
-> that of the kernel.
->
-> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
-> ---
->  meta/classes/kernel.bbclass | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 0eadd3efb8..2603f24709 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -296,10 +296,14 @@ kernel_do_compile() {
->                 if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
->                         olddir=`pwd`
->                         cd ${S}
-> -                       SOURCE_DATE_EPOCH=`git log  -1 --pretty=%ct`
-> -                       # git repo not guaranteed, so fall back to REPRODUCIBLE_TIMESTAMP_ROOTFS
-> -                       if [ $? -ne 0 ]; then
-> -                               SOURCE_DATE_EPOCH=${REPRODUCIBLE_TIMESTAMP_ROOTFS}
-> +                       # This kernel dir is not necessarily a git repo and we
-> +                       # must ensure that git does not incorrectly query a
-> +                       # repository in a parent directory.
-> +                       GIT_TOP=`git rev-parse --show-toplevel 2>/dev/null || echo ""`
-> +                       if [ "${S}" = "${GIT_TOP}" ]; then
+If configure is rerun it finds msgfmt from gettext-native which is installed
+during package_write_ipk|deb and means builds are not determinisic.
 
-Will that work if ${S} isn't a canonical path?
+Whether msgfmt is needed is debatable (libc.mo files arne't generated without
+it) however we should at least be consistent which this patch ensures.
 
-> +                               SOURCE_DATE_EPOCH=`git log  -1 --pretty=%ct`
-> +                       else
-> +                               SOURCE_DATE_EPOCH="${REPRODUCIBLE_TIMESTAMP_ROOTFS}"
->                         fi
->                         cd $olddir
->                 fi
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/glibc/glibc.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Would something like this resolve the problem (untested):
+diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
+index 58d2ba7bc44..23a6ca99ae0 100644
+--- a/meta/recipes-core/glibc/glibc.inc
++++ b/meta/recipes-core/glibc/glibc.inc
+@@ -9,8 +9,11 @@ inherit autotools texinfo features_check systemd
+ 
+ LEAD_SONAME = "libc.so"
+ 
++# msgfmt could come from gettext-native but we don't depend on that and
++# disable for reproducibility
+ CACHED_CONFIGUREVARS += " \
+   ac_cv_path_BASH_SHELL=${base_bindir}/bash \
++  ac_cv_prog_MSGFMT= \
+   libc_cv_slibdir=${base_libdir} \
+   libc_cv_rootsbindir=${base_sbindir} \
+   libc_cv_localedir=${localedir} \
+-- 
+2.25.0
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 0eadd3efb8d9..a17ca7adccca 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -294,14 +294,11 @@ kernel_do_compile() {
-                # kernel sources do not use do_unpack, so
-SOURCE_DATE_EPOCH may not
-                # be set....
-                if [ "${SOURCE_DATE_EPOCH}" = "" -o
-"${SOURCE_DATE_EPOCH}" = "0" ]; then
--                       olddir=`pwd`
--                       cd ${S}
--                       SOURCE_DATE_EPOCH=`git log  -1 --pretty=%ct`
-+                       SOURCE_DATE_EPOCH=`git --git-dir="${S}/.git}"
-log  -1 --pretty=%ct`
-                        # git repo not guaranteed, so fall back to
-REPRODUCIBLE_TIMESTAMP_ROOTFS
-                        if [ $? -ne 0 ]; then
-
-SOURCE_DATE_EPOCH=${REPRODUCIBLE_TIMESTAMP_ROOTFS}
-                        fi
--                       cd $olddir
-                fi
-
-                ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
-
---
-Alex Kiernan
 
