@@ -1,49 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ACE8960706
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 3974E61B0F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2020 15:59:23 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id a25so2063704wrd.0
+	Sat,  7 Mar 2020 15:59:46 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id 6so5869512wre.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2020 07:59:24 -0800 (PST)
+	Sat, 07 Mar 2020 07:59:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=JHmpERdq7nCH9Si6/x616EycWdIQpNqgMnTLCnME4Pc=;
-	b=g5a8E7zWWHcsGWseMrD0D+frNPXmqTW/QZPO1KnXSLdS2z0umQ05t7l/AG8bDNV6WW
-	QHXXj5jUWIjaoSA7hL1bQQR9ZWd9WCubfAvUL/fp3rajPJnBUrDiQPRULuqt2RZPvU+J
-	iwctruvmjfwcv32smJGg4nppPb1GHswSCcfUA=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=fTWlwnmHD3K/QMPTyW46qLPP2mwWHZCWOSa8pT4IsQo=;
+	b=OlOHvvc33G8NDKzuqBQLiRIL+S+b1/W4AAy7EW9NU88dL2lAmql0I1kT2lYPXfbAVf
+	4qUKKqHRpsocuumu6WptMS7fjOaFb/1eGerxptSOvyuy+nb4zm+F0ywBzYr2mqB6wc+d
+	VGZVMHxrYvtyMm8dffmngNO6N8YQEydCCPVWE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=JHmpERdq7nCH9Si6/x616EycWdIQpNqgMnTLCnME4Pc=;
-	b=GcFYBeRlcf2025dGZ8gMkBbpbhB0eOhBkH1SNsk2bkIcfJxf9jc1TmvDJKq9RSI+K9
-	XgPH2VL9vaLzJTP/8RaJ9PNiB9uxahyGm+7qiZkITJ1SMPjA2eSQHvK8/uB/utQ8n0cD
-	Pkpcq99R6wZXgKJ34UC9AyPOLYzTtVoWmtKfPS5LufQfjBtVN+1qdG8j1lpV5qknHBnA
-	rPWXgzpPZygx/EODjiVqaRPaXZhSjnGTH7N875oqSS8/kcVFcgj+y/CSxJ/ltXcZfJgI
-	HjGQB3H6j5Uywq/6lpLDVTu3xD3VTdt7fb4Q6nOEWlUCjIl97BdlWseI986ZlyVLCkNy
-	q4rg==
-X-Gm-Message-State: ANhLgQ3Mm1bRJVczziOU1EC0hxPflRF/pVEy9u8h+XOFh+kj28yLC86y
-	8EzKdZG6i7x5WBiIIo4Kk9okkkpM3Bw=
-X-Google-Smtp-Source: ADFU+vs1q/9QSaBOKlOQAd0lK7g6IyNIYSD8KV2dnSomLash3MbdxxCgR4pKoudNdGBonmYS/hyWVQ==
-X-Received: by 2002:adf:f4c9:: with SMTP id h9mr10368482wrp.168.1583596763858; 
-	Sat, 07 Mar 2020 07:59:23 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=fTWlwnmHD3K/QMPTyW46qLPP2mwWHZCWOSa8pT4IsQo=;
+	b=bxKcMGpTAYp/pYHYRJymiURnLpb3JKK4Bwbq1LizcV4Jz5kS1/0eZIQBhFmJDTjwNz
+	rX+HvKt2mSJoH1d+ltltnmMQZTkP1MiVOSNWExUTTZhP/EOP/jGIVXN7upk2PIIewcCl
+	4Q+62IREJIoHfjzqTsKgLcC2b/U98sju7Y3EQUHkIKn6yZAQk1VjsUEKEbK2nyr20TN9
+	fV6Yzc63/AqCbjv/4U3lTAL5IJBhdVkMNsM+y0J8uUVHIG+/dlkmotct3aEdVW3HndAd
+	GzLhJOMwKtlBmccuA7za+AcLciY7AzyF2ejYlYkS+dPghos1SPBXJY2gPMMsB1O+Dxbf
+	rTVQ==
+X-Gm-Message-State: ANhLgQ1K578I8EWrr2cIwJ3J9hSjTa990V2pH8lzilm2ZYES/iwwrBTS
+	4ofUTEUxp+rJLXiHbxRWLg2XUU2T7PU=
+X-Google-Smtp-Source: ADFU+vtSHJJNutiVaLr06LKCPssnP69iEgI6SXuzxrggxdWLzCIm18bpB2J1skL9f3f6mGSMb9poZw==
+X-Received: by 2002:a5d:440a:: with SMTP id z10mr10383658wrq.142.1583596786719;
+	Sat, 07 Mar 2020 07:59:46 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	i67sm31464673wri.50.2020.03.07.07.59.22
-	for <openembedded-core@lists.openembedded.org>
+	u20sm17442220wmj.14.2020.03.07.07.59.45
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Mar 2020 07:59:23 -0800 (PST)
+	Sat, 07 Mar 2020 07:59:46 -0800 (PST)
+Message-ID: <3d264f5439b9216788b9bdd50996c88dd3cc0b38.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  7 Mar 2020 15:59:18 +0000
-Message-Id: <20200307155918.1157101-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.0
+To: openembedded-core@lists.openembedded.org, Jeremy Puhlman
+	<jpuhlman@mvista.com>
+Date: Sat, 07 Mar 2020 15:59:43 +0000
+In-Reply-To: <20200307143223.2277.46482@do>
+References: <20200307140548.13517-1-jpuhlman@mvista.com>
+	<20200307143223.2277.46482@do>
+User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-Subject: [PATCH] files/toolchain-shar-extract.sh: Rework PATH cleaning
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdyb2ZmOiBNYWtlIG1hbnBhZ2VzIGJpbmFyeSBpZGVudGljYWw=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +59,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2020 15:59:23 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 07 Mar 2020 15:59:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Trying to create a clean PATH breaks cases where we install a buildtools tarball
-on hosts to provide newer versions of gcc. Rework the fix for #8698 to clean up
-directories in PATH which don't exist isntead. Do it with python as the shell
-version was too fraught with corner cases.
+On Sat, 2020-03-07 at 14:32 +0000, Patchwork wrote:
+> == Series Details ==
+> 
+> Series: groff: Make manpages binary identical
+> Revision: 1
+> URL   : https://patchwork.openembedded.org/series/23145/
+> State : failure
+> 
+> == Summary ==
+> 
+> 
+> Thank you for submitting this patch series to OpenEmbedded Core. This
+> is
+> an automated response. Several tests have been executed on the
+> proposed
+> series by patchtest resulting in the following failures:
+> 
+> 
+> 
+> * Issue             Upstream-Status is in incorrect format
+> [test_upstream_status_presence_format] 
+>   Suggested fix    Fix Upstream-Status format in 0001-Make-manpages-
+> mulitlib-identical.patch
+>   Current          Upstream-status: Pending
+>   Standard format  Upstream-Status: <Valid status>
+>   Valid status     Pending, Accepted, Backport, Denied, Inappropriate
+> [reason], Submitted [where]
+> 
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/files/toolchain-shar-extract.sh | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
+I fixed status -> Status and queued in -next.
 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 4c4b4deb4cf..0002c9d7870 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -1,13 +1,7 @@
- #!/bin/sh
- 
--[ -z "$ENVCLEANED" ] && exec /usr/bin/env -i ENVCLEANED=1 HOME="$HOME" \
--	LC_ALL=en_US.UTF-8 \
--	TERM=$TERM \
--	ICECC_PATH="$ICECC_PATH" \
--	http_proxy="$http_proxy" https_proxy="$https_proxy" ftp_proxy="$ftp_proxy" \
--	no_proxy="$no_proxy" all_proxy="$all_proxy" GIT_PROXY_COMMAND="$GIT_PROXY_COMMAND" "$0" "$@"
--[ -f /etc/environment ] && . /etc/environment
--export PATH=`echo "$PATH" | sed -e 's/:\.//' -e 's/::/:/'`
-+# Remove invalid PATH elements first (maybe from a previously setup toolchain now deleted
-+PATH=`python3 -c 'import os; print(":".join(e for e in os.environ["PATH"].split(":") if os.path.exists(e)))'`
- 
- tweakpath () {
-     case ":${PATH}:" in
--- 
-2.25.0
+Cheers,
+
+Richard
 
 
