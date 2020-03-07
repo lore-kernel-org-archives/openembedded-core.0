@@ -1,40 +1,52 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C50FF6010E
+Return-Path: <adrian.freihofer@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 19E4B61AB1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2020 09:10:48 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 Mar 2020 01:10:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,525,1574150400"; d="scan'208";a="388064534"
-Received: from pgsmsx113.gar.corp.intel.com ([10.108.55.202])
-	by orsmga004.jf.intel.com with ESMTP; 07 Mar 2020 01:10:47 -0800
-Received: from pgsmsx109.gar.corp.intel.com (10.221.44.109) by
-	pgsmsx113.gar.corp.intel.com (10.108.55.202) with Microsoft SMTP Server
-	(TLS) id 14.3.439.0; Sat, 7 Mar 2020 17:10:46 +0800
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.189]) by
-	PGSMSX109.gar.corp.intel.com ([169.254.14.132]) with mapi id
-	14.03.0439.000; Sat, 7 Mar 2020 17:10:45 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [zeus][PATCH 00/22] zeus merge request, cover letter
-	only
-Thread-Index: AQHV8beVXBdhnRJBk0mLLq72EVRtbKg8VvsA
-Date: Sat, 7 Mar 2020 09:10:44 +0000
-Message-ID: <746f728ea1ad8878ce0432185acb77837f6d24a3.camel@intel.com>
-References: <cover.1583279757.git.anuj.mittal@intel.com>
-In-Reply-To: <cover.1583279757.git.anuj.mittal@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.230.183]
+	Sat,  7 Mar 2020 11:54:48 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id r7so5410267wro.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 07 Mar 2020 03:54:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=message-id:subject:from:to:cc:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=QL2oozk2/K3dXFl7G77pLtvelxUPuLzAOjw1EJwDjtY=;
+	b=tZHJVmHCOeK8hA3OvjOcdiTsqr2kWsKlgCkgOWktEEv4/W2KGRKTypGUq/3Tn8OG51
+	TYNstE1Uf7lKl6sh1XlWbPymHhPye7OA94ab09mKSxX2yZG3qd94T75RG3wzSlR6SnIn
+	6ZtMJ74cZn9MZBTI5TinzehUkNvezWB5ORLzGSbkIKTEL8g9UPGtNttZfxttojbFpDCa
+	sJag+BXU9bXjoW70FEmbe2GbhLFbKgQmgGcUGTQYaYaEWIPizMipCfWk4cPGGDZUleGl
+	wGPrFXMDOIJMeK5DcNR0ftszJi1FuMm8auntwG02VQbAjW8ySg9EcvdNYH+za8Ntm+q9
+	eUqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=QL2oozk2/K3dXFl7G77pLtvelxUPuLzAOjw1EJwDjtY=;
+	b=sWaVrQojJYH1P4PkvpDyAKXEAwnLcAb1YjrBW8JltP2X8irmtfZzHApeUXhGSORcpi
+	mNCpGQpjbgRkSUfl/tRbWsW/xJgFA1YjsVIsrdqD42OstebTm8lymmaDgZuS5OeBkBXW
+	JKu7nbh1DRYVgH3snmYGjjytZoOh7Qj9gbjP4uGe2gcffSfk8Mz4mm5sSKa0qQu4oWIa
+	u9H8Qlg/hHjtDhtLpJEETpLOyqD8Bg8tk+tted9ceFSQI8vPP4Jn186sJC8bc4+brnA3
+	YHDDb3Qba9t+WLnN1Y1MBEoWgyh5G+hnY0grsyEXoWr3gQ+rWcwtxXDAsEb5qdtjLu0Y
+	V9/Q==
+X-Gm-Message-State: ANhLgQ2+9n8+aaSPmrJbjZ3iY9OSeGuuEYeiis94xmHgGlpHskYjQRo5
+	2x4+9kyhxegfLlUuygdguK0=
+X-Google-Smtp-Source: ADFU+vsCH0+L0/nPaUh1UDD1Us9e7JdvgyPWJfuewM4h2WDhXwDVb6EcJBJEbDZQIBOrZ8BKp18Jfw==
+X-Received: by 2002:a05:6000:1186:: with SMTP id
+	g6mr9364430wrx.331.1583582089397; 
+	Sat, 07 Mar 2020 03:54:49 -0800 (PST)
+Received: from md2pfrec.lan.ffah.ch (c-82-192-240-69.customer.ggaweb.ch.
+	[82.192.240.69])
+	by smtp.gmail.com with ESMTPSA id n1sm6885759wrj.77.2020.03.07.03.54.47
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 07 Mar 2020 03:54:48 -0800 (PST)
+Message-ID: <b73e07036162eab111213d9d3bd14c7436733039.camel@gmail.com>
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Date: Sat, 07 Mar 2020 12:54:46 +0100
+User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
 MIME-Version: 1.0
-Subject: Re: [zeus][PATCH 00/22] zeus merge request, cover letter only
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2] Extensible SDK improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,96 +59,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2020 09:10:49 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1026D644C7006540956277608AA07C90@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sat, 07 Mar 2020 11:54:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-UGluZy4NCg0KT24gV2VkLCAyMDIwLTAzLTA0IGF0IDA3OjU5ICswODAwLCBBbnVqIE1pdHRhbCB3
-cm90ZToNCj4gUGxlYXNlIG1lcmdlIHRoZXNlIGNoYW5nZXMgZnJvbSBzdGFibGUvemV1cy1uZXh0
-Lg0KPiANCj4gQ2xlYW4gYS1mdWxsIG9uIGF1dG9idWlsZGVyIGV4Y2VwdCBhIHNpbmdsZSB1bnJl
-bGF0ZWQgZmV0Y2ggZmFpbHVyZQ0KPiBmb3INCj4gZXNkayB0ZXN0Og0KPiBodHRwczovL2F1dG9i
-dWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzgzL2J1aWxkcy83NTEN
-Cj4gDQo+IFRoYW5rcywNCj4gDQo+IEFudWoNCj4gDQo+IFRoZSBmb2xsb3dpbmcgY2hhbmdlcyBz
-aW5jZSBjb21taXQNCj4gZjM5Mjg1YmI4MmU2ODk0NWE4MTAzNGI4NGRhMDljYTEwNzhkNjcxOToN
-Cj4gDQo+ICAgUmV2ZXJ0ICJiYXNoOiBGaXggQ1ZFLTIwMTktMTgyNzYiICgyMDIwLTAyLTE5IDE4
-OjUzOjEwICswMDAwKQ0KPiANCj4gYXJlIGF2YWlsYWJsZSBpbiB0aGUgR2l0IHJlcG9zaXRvcnkg
-YXQ6DQo+IA0KPiAgIGdpdDovL3B1c2gub3BlbmVtYmVkZGVkLm9yZy9vcGVuZW1iZWRkZWQtY29y
-ZS1jb250cmliIHN0YWJsZS96ZXVzLQ0KPiBuZXh0DQo+IA0KPiBBbGV4YW5kZXIgS2FuYXZpbiAo
-NSk6DQo+ICAgcGVybDogdXBkYXRlIHRvIDUuMzAuMQ0KPiAgIHBlcmw6IHBhY2thZ2UgQ29uZmln
-LnBtIGZyb20gYXJjaCBkaXJlY3RvcnkgaW50byB0aGUgbWFpbiBwZXJsDQo+IHBhY2thZ2UNCj4g
-ICBwZXJsOiBpbnN0YWxsIHR5cGVtYXAgYW5kIG90aGVyIGV4dHV0aWxzIG1ldGFkYXRhIGFzIHBh
-cnQgb2YgcGVybC0NCj4gY29yZQ0KPiAgIGxpYm1vZHVsZS1idWlsZC1wZXJsOiBmaXggcHRlc3Rz
-DQo+ICAgcGVybDogZml4IGZhaWxpbmcgcHRlc3RzDQo+IA0KPiBBbnVqIE1pdHRhbCAoMyk6DQo+
-ICAgb3BlbnNzaDogYmFja3BvcnQgcGF0Y2ggdG8gZml4ICJjZXJ0IG5vdCB5ZXQgdmFsaWQiIHRl
-c3QNCj4gICBuY3Vyc2VzOiBhZGQgQ1ZFX1ZFUlNJT04NCj4gICBsaWJ4bWwyOiBmaXggQ1ZFLTIw
-MjAtNzU5NQ0KPiANCj4gQnJ1Y2UgQXNoZmllbGQgKDIpOg0KPiAgIGxpbnV4LXlvY3RvLzUuMjog
-dXBkYXRlIHRvIHY1LjIuMjkNCj4gICBsaW51eC15b2N0by81LjI6IHVwZGF0ZSB0byB2NS4yLjMy
-DQo+IA0KPiBKZXJlbXkgUHVobG1hbiAoMSk6DQo+ICAgdG9vbGNoYWluLXNoYXItZXh0cmFjdDog
-aWdub3JlIHRpbWVzdGFtcCBvbiBkZWNvbXByZXNzDQo+IA0KPiBLZXZpbiBIYW8gKDEpOg0KPiAg
-IHhzZXJ2ZXItbm9kbS1pbml0OiBGaXggdGhlIHN0YXJ0IGZhaWx1cmUgZm9yIG5vbi1yb290IHVz
-ZXINCj4gDQo+IExlZSBDaGVlIFlhbmcgKDIpOg0KPiAgIHFlbXU6IEZpeCBDVkUtMjAyMC0xNzEx
-DQo+ICAgbGlieG1sMjogRml4IENWRS0yMDE5LTIwMzg4DQo+IA0KPiBOYXRoYW4gUm9zc2kgKDIp
-Og0KPiAgIGdsaWJjLXRlc3RzdWl0ZTogUmVtb3ZlIHRoZSBkb19pbnN0YWxsIHRhc2sNCj4gICBn
-bGliYy10ZXN0c3VpdGU6IEV4Y2x1ZGUgdGhpcyByZWNpcGUgZnJvbSB3b3JsZCBidWlsZHMNCj4g
-DQo+IFJpY2hhcmQgUHVyZGllICgyKToNCj4gICBwZXJsOiBGaXggZW5jb2RlIG1vZHVsZSByZXBy
-b2R1Y2liaWxpdHkgaXNzdWVzDQo+ICAgcGVybDogRml4IG1ha2VmaWxlIHJhY2UgY2F1c2luZyBj
-b25maWd1cmF0aW9uIGRpZmZlcmVuY2VzDQo+IA0KPiBSb3NzIEJ1cnRvbiAoMSk6DQo+ICAgcGVy
-bDogaW1wcm92ZSByZXByb2R1Y2liaWxpdHkNCj4gDQo+IFRpbSBPcmxpbmcgKDEpOg0KPiAgIGxp
-YmVycm9yLXBlcmw6IHVwZ3JhZGUgMC4xNzAyOCAtPiAwLjE3MDI5DQo+IA0KPiBUcmV2b3IgR2Ft
-YmxpbiAoMSk6DQo+ICAgcWVtdXJ1bm5lci5weTogYWRkIHRyeS9leGNlcHQgZm9yIHBpZCBoYW5k
-bGluZyByYWNlDQo+IA0KPiBZaSBaaGFvICgxKToNCj4gICBwcHA6IFNlY3VyaXR5IGZpeCBDVkUt
-MjAyMC04NTk3DQo+IA0KPiAgbWV0YS9maWxlcy90b29sY2hhaW4tc2hhci1leHRyYWN0LnNoICAg
-ICAgICAgIHwgIDIgKy0NCj4gIG1ldGEvbGliL29lcWEvdXRpbHMvcWVtdXJ1bm5lci5weSAgICAg
-ICAgICAgICB8ICA1ICstDQo+ICAuLi56by1kZWNpZGVkLXRvLXVzZS0yMDIwLWFzLWEtZnV0dXJl
-LWQucGF0Y2ggfCA0NiArKysrKysrKysrKysrDQo+ICAuLi4vb3BlbnNzaC9vcGVuc3NoXzguMHAx
-LmJiICAgICAgICAgICAgICAgICAgfCAgMSArDQo+ICAuLi4wMS1wcHBkLUZpeC1ib3VuZHMtY2hl
-Y2staW4tRUFQLWNvZGUucGF0Y2ggfCA0NyArKysrKysrKysrKysrKw0KPiAgbWV0YS9yZWNpcGVz
-LWNvbm5lY3Rpdml0eS9wcHAvcHBwXzIuNC43LmJiICAgIHwgIDEgKw0KPiAgLi4uL2dsaWJjL2ds
-aWJjLXRlc3RzdWl0ZV8yLjMwLmJiICAgICAgICAgICAgIHwgIDMgKw0KPiAgLi4uL2xpYnhtbC9s
-aWJ4bWwyL0NWRS0yMDE5LTIwMzg4LnBhdGNoICAgICAgIHwgMzcgKysrKysrKysrKysNCj4gIC4u
-Li9saWJ4bWwvbGlieG1sMi9DVkUtMjAyMC03NTk1LnBhdGNoICAgICAgICB8IDM2ICsrKysrKysr
-KysrDQo+ICBtZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMl8yLjkuOS5iYiAgICAgfCAg
-MiArDQo+ICAuLi4vbmN1cnNlcy9uY3Vyc2VzXzYuMSsyMDE5MDgwMy5iYiAgICAgICAgICAgfCAg
-MiArDQo+ICAuLi5jb3JyZWN0bHktZXhjbHVkZS11bmJ1aWx0LWV4dGVuc2lvbnMucGF0Y2ggfCAy
-NyArKysrKysrKw0KPiAgLi4uL3BlcmwvZmlsZXMvZW5jb2RlZml4LnBhdGNoICAgICAgICAgICAg
-ICAgIHwgMjAgKysrKysrDQo+ICAuLi4vcGVybC9maWxlcy9maXgtc2V0Z3JvdXAucGF0Y2ggICAg
-ICAgICAgICAgfCA0OSAtLS0tLS0tLS0tLS0tLQ0KPiAgLi4uL3BlcmwvZmlsZXMvcGVybC1jb25m
-aWdwbS1zd2l0Y2gucGF0Y2ggICAgIHwgIDQgKy0NCj4gIC4uLi9yZWNpcGVzLWRldnRvb2xzL3Bl
-cmwvZmlsZXMvcmFjZWZpeC5wYXRjaCB8IDI0ICsrKysrKysNCj4gIC4uLnJsXzAuMTcwMjguYmIg
-PT4gbGliZXJyb3ItcGVybF8wLjE3MDI5LmJifSB8ICA0ICstDQo+ICAuLi4vcGVybC9saWJtb2R1
-bGUtYnVpbGQtcGVybC9ydW4tcHRlc3QgICAgICAgfCAgMiAtDQo+ICAuLi4vcGVybC9saWJtb2R1
-bGUtYnVpbGQtcGVybF8wLjQyMjkuYmIgICAgICAgfCAgMyArDQo+ICAuLi4vcGVybC97cGVybF81
-LjMwLjAuYmIgPT4gcGVybF81LjMwLjEuYmJ9ICAgfCAzMSArKysrKystLS0NCj4gIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9xZW11L3FlbXUuaW5jICAgICAgICAgICB8ICAzICstDQo+ICAuLi4vcWVt
-dS9xZW11L0NWRS0yMDIwLTE3MTEucGF0Y2ggICAgICAgICAgICAgfCA2NA0KPiArKysrKysrKysr
-KysrKysrKysrDQo+ICAuLi4veHNlcnZlci1ub2RtLWluaXQvY2FwYWJpbGl0eS5jb25mICAgICAg
-ICAgfCAgMiArDQo+ICAuLi4veDExLWNvbW1vbi94c2VydmVyLW5vZG0taW5pdC94c2VydmVyLW5v
-ZG0gfCAgOCArKysNCj4gIC4uLi94MTEtY29tbW9uL3hzZXJ2ZXItbm9kbS1pbml0XzMuMC5iYiAg
-ICAgICB8ICA3ICstDQo+ICAuLi4vbGludXgvbGludXgteW9jdG8tcnRfNS4yLmJiICAgICAgICAg
-ICAgICAgfCAgNiArLQ0KPiAgLi4uL2xpbnV4L2xpbnV4LXlvY3RvLXRpbnlfNS4yLmJiICAgICAg
-ICAgICAgIHwgIDggKy0tDQo+ICBtZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3Rv
-XzUuMi5iYiAgfCAyMiArKystLS0tDQo+ICAyOCBmaWxlcyBjaGFuZ2VkLCAzNzkgaW5zZXJ0aW9u
-cygrKSwgODcgZGVsZXRpb25zKC0pDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVz
-LWNvbm5lY3Rpdml0eS9vcGVuc3NoL29wZW5zc2gvMDAwMS0NCj4gdXBzdHJlYW0td2hhdC1ib3pv
-LWRlY2lkZWQtdG8tdXNlLTIwMjAtYXMtYS1mdXR1cmUtZC5wYXRjaA0KPiAgY3JlYXRlIG1vZGUg
-MTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBwL3BwcC8wMDAxLXBwcGQtRml4LQ0K
-PiBib3VuZHMtY2hlY2staW4tRUFQLWNvZGUucGF0Y2gNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBt
-ZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi9DVkUtMjAxOS0NCj4gMjAzODgucGF0Y2gN
-Cj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi9D
-VkUtMjAyMC0NCj4gNzU5NS5wYXRjaA0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9wZXJsL2ZpbGVzLzAwMDEtdGVzdHMtDQo+IGFkanVzdC10by1jb3JyZWN0bHkt
-ZXhjbHVkZS11bmJ1aWx0LWV4dGVuc2lvbnMucGF0Y2gNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGVybC9maWxlcy9lbmNvZGVmaXgucGF0Y2gNCj4gIGRlbGV0
-ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGVybC9maWxlcy9maXgtDQo+IHNl
-dGdyb3VwLnBhdGNoDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3BlcmwvZmlsZXMvcmFjZWZpeC5wYXRjaA0KPiAgcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9wZXJsL3tsaWJlcnJvci1wZXJsXzAuMTcwMjguYmIgPT4NCj4gbGliZXJyb3ItcGVybF8wLjE3
-MDI5LmJifSAoODklKQ0KPiAgcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL3twZXJs
-XzUuMzAuMC5iYiA9PiBwZXJsXzUuMzAuMS5iYn0NCj4gKDkzJSkNCj4gIGNyZWF0ZSBtb2RlIDEw
-MDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11L0NWRS0yMDIwLQ0KPiAxNzExLnBh
-dGNoDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3gxMS1jb21t
-b24veHNlcnZlci1ub2RtLQ0KPiBpbml0L2NhcGFiaWxpdHkuY29uZg0KPiANCj4gLS0gDQo+IDIu
-MjQuMQ0KPiANCg==
+Hi Richard,
+
+We have found two already supported ways to copy variables from the
+bitbake environment local.conf to the eSDK local.conf
+
+If a variable is defined in the local.conf bitbake environment,
+SDK_LOCAL_CONF_WHITELIST and SDK_LOCAL_CONF_BLACKLIST can be used to
+add it to the local.conf eSDK file.
+
+If a variable should be statically defined for the eSDK but not for the
+bitbake environment, sdk-extra.conf is useful.
+
+Now we would like to add a third way to add variables which are
+dynamically calculated by bitbake but need to be statically added to
+the eSDK local.conf. For example we would like to support something
+like that:
+
+def get_version_from_git(d):
+    version = d.getVar("GIT_VERSION", True)
+    if version:
+        return version                    # runs in eSDK
+    else:
+        return bb.process.run("git...     # runs in bitbake
+
+GIT_VERSION := "${@get_version_from_git(d)}"
+
+SDK_LOCAL_CONF_EXTRALIST_append = " GIT_VERSION"
+
+Regards,
+Adrian
+
+
 
