@@ -1,53 +1,56 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E0C1161AEF
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 419CD61996
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2020 16:20:56 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id z15so5921363wrl.1
+	Sat,  7 Mar 2020 16:58:50 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id v11so5944295wrm.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2020 08:20:58 -0800 (PST)
+	Sat, 07 Mar 2020 08:58:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:user-agent:mime-version:content-transfer-encoding;
-	bh=bYBfY3p2oeksCX2s+y602yrBLKgMzSgjcqaaN8+wDSo=;
-	b=doLcu7k0WtEWJjJQo2z4nl+2x9nPOBuzPPjU2JaociYbw+F55MeuQf7dattdXaM4IX
-	Lqlhq5OZ1yeNFw5Od6BeiKuJaOkE13vf9RwSaf+AgqmzOewUvNhlfQT5H7c6ybdRj3I8
-	FhDgh3ScxR0VDatmmn+VsoNmcc6/q8pYmurtY=
+	bh=Iwd1fB306dl1P6BrfwNq2Gh6q7YUpOU28+0trXVtXVA=;
+	b=h4H0mQ43Txe24O8QOtDtRVgzKQ0b1+3WxmkVWKIjRqHIl/zLVvnoEUMd3z9A0AHw/I
+	Js78WkEQp/eqPwABFS6g02Mvw82WnSQZtwukTbiUQTsX1tvBysw3NOpWgdTETGUShRGU
+	88Wiuh4wnIR/k0PqG8e12IqHGED9IGbPGDJaQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=bYBfY3p2oeksCX2s+y602yrBLKgMzSgjcqaaN8+wDSo=;
-	b=VsRBcN8Env2Taec1HiFptW2mq/zYzmR7XaA1oOEjX/+Ggu+fMJMr/oU+z/L7HpveO7
-	AkYwLB2gl8/DuO4NN2dMHmWaYkkUcM0ce2/dj+EaP7KnV5vHwSrzcpDA6fAgkHQcf00G
-	9VTf3CoMvtM9Wsa7JDSyJDNK851WIyl2ym2QAe0TL+S4t+T49mJT/JHzbM7/0l9Z1IBx
-	A9Etx4wWCQT99P8HyGgOeEmdzfHpDtc2arOezhFxYMl06NxM7idD6QiIj6KlMIo2uHvT
-	3VyXF/da02mLCM1xrSunpiVwmEPSTLHB8X2F582awTLxkQHDzkIluXcM07a+33VGpyMK
-	AYKg==
-X-Gm-Message-State: ANhLgQ2HY4MktkQPX2q1dZeQ4fKg0vkiBCUHEYP4e8LZ4caWDhf2CfBs
-	ePfaw/wauW0aydpJiJUo9vSNMw==
-X-Google-Smtp-Source: ADFU+vskdsmmXMTLKV3HOcY60Iwg9RGvxUlpC2SMQvmg8Nu2Q0lL/L8cdBYcHiGChPH5gMrIxwpLWg==
-X-Received: by 2002:adf:df8f:: with SMTP id z15mr10193855wrl.184.1583598057629;
-	Sat, 07 Mar 2020 08:20:57 -0800 (PST)
+	bh=Iwd1fB306dl1P6BrfwNq2Gh6q7YUpOU28+0trXVtXVA=;
+	b=rxFeHVxzWPTdCkNkblrwFUGU0KNrHK95taStgamgVodrn+zIbjC30dcK1STPOE+OXL
+	af/tXKko7cialZd6On4udUp3euf1XNWbh+d8/0hhWRZhnvozndyEBWI+lyrBI8szRZcH
+	HAotcyKGJznitUA4SHRWmtPYKpQz91+2V9EeEXAAAtiEjntDZQHVUUmz88Zs8FKKVI0H
+	FMexAcRGiMJgdkJFuAsDGJs5YLlVoxGpi3bcRPDdT3InbRCPU5mx4B/etoJt5jfRVgAl
+	dhgqovKmMtMcSN0curZs4da9LapU6YOBgrq3SD2WjQR0mI0pw8DdMvt7wiiFpElUcWtG
+	acEw==
+X-Gm-Message-State: ANhLgQ0zsGlqes6poujPJFgiOk6wzRY+8vTgOGdFo6/OJMJaxT81ReWp
+	WnKMbErgsJU/mlWdvRyX7b5xHA==
+X-Google-Smtp-Source: ADFU+vu/q0Aj0vYUUt1K6PQFfZKyJgATr4Umsju2VsNWjlNBakWN5WhFDgGTsqqlo67ndI+jsCwEoQ==
+X-Received: by 2002:a05:6000:1081:: with SMTP id
+	y1mr10329201wrw.52.1583600331778; 
+	Sat, 07 Mar 2020 08:58:51 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	s22sm17482050wmc.16.2020.03.07.08.20.55
+	t18sm4241590wml.17.2020.03.07.08.58.50
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Mar 2020 08:20:56 -0800 (PST)
-Message-ID: <61c89136e75765e8cb188bf16b5fddd7ff28c8b3.camel@linuxfoundation.org>
+	Sat, 07 Mar 2020 08:58:51 -0800 (PST)
+Message-ID: <c348a21730c09536d06458ac5e5d50377f381f4e.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Adrian Freihofer <adrian.freihofer@gmail.com>
-Date: Sat, 07 Mar 2020 16:20:53 +0000
-In-Reply-To: <06f78962af6ad632793a533a22d8f1b91e5a50fc.camel@gmail.com>
-References: <b73e07036162eab111213d9d3bd14c7436733039.camel@gmail.com>
-	<8718ce405436564b3ad55fa52046e5e55ee562dd.camel@linuxfoundation.org>
-	<06f78962af6ad632793a533a22d8f1b91e5a50fc.camel@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 07 Mar 2020 16:58:49 +0000
+In-Reply-To: <CANNYZj_Q72+SDFEeq68d214wt+Ft4NA0gUYHEYsdCmzkv+b_pw@mail.gmail.com>
+References: <107c01d5f174$bbf566a0$33e033e0$@gmail.com>
+	<CANNYZj83rytWFgGPj6BS6R874eqa6_KCoeoMA5afgnx-_YBunw@mail.gmail.com>
+	<efd0caee261782a0b8d752c728c25be23f69cbae.camel@linuxfoundation.org>
+	<CANNYZj_Q72+SDFEeq68d214wt+Ft4NA0gUYHEYsdCmzkv+b_pw@mail.gmail.com>
 User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] Extensible SDK improvements
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Yocto Project Status WW09'20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,103 +63,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2020 16:20:57 -0000
+X-List-Received-Date: Sat, 07 Mar 2020 16:58:51 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2020-03-07 at 15:55 +0100, Adrian Freihofer wrote:
-> On Sat, 2020-03-07 at 12:40 +0000, Richard Purdie wrote:
-> > On Sat, 2020-03-07 at 12:54 +0100, Adrian Freihofer wrote:
-> > > Hi Richard,
-> > > 
-> > > We have found two already supported ways to copy variables from
-> > > the
-> > > bitbake environment local.conf to the eSDK local.conf
-> > > 
-> > > If a variable is defined in the local.conf bitbake environment,
-> > > SDK_LOCAL_CONF_WHITELIST and SDK_LOCAL_CONF_BLACKLIST can be used
-> > > to
-> > > add it to the local.conf eSDK file.
-> > > 
-> > > If a variable should be statically defined for the eSDK but not
-> > > for
-> > > the
-> > > bitbake environment, sdk-extra.conf is useful.
-> > > 
-> > > Now we would like to add a third way to add variables which are
-> > > dynamically calculated by bitbake but need to be statically added
-> > > to
-> > > the eSDK local.conf. For example we would like to support
-> > > something
-> > > like that:
-> > > 
-> > > def get_version_from_git(d):
-> > >     version = d.getVar("GIT_VERSION", True)
-> > >     if version:
-> > >         return version                    # runs in eSDK
-> > >     else:
-> > >         return bb.process.run("git...     # runs in bitbake
-> > > 
-> > > GIT_VERSION := "${@get_version_from_git(d)}"
-> > > 
-> > > SDK_LOCAL_CONF_EXTRALIST_append = " GIT_VERSION"
-> > 
-> > This worries me a bit since it means the eSDK and the "real" build
-> > can
-> > behave differently. I appreciate that can happen even with the
-> > other
-> > variables and means of setting them but this takes it to a new
-> > level.
-> > 
-> That I understand. The usage of the SDK_LOCAL_CONF_EXTRALIST would be
-> very specific. Wrong usage would lead to a broken sstate in the eSDK.
+On Fri, 2020-03-06 at 22:53 +0100, Alexander Kanavin wrote:
+> On Wed, 4 Mar 2020 at 23:42, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > Just FYI I think there may also be a couple of other packages
+> > coreutils
+> > pulls in and they may also have reproducibility issues (gettext-
+> > ptest,
+> > glibc-locale-* and procps*).
 > 
-> > Ultimately I think we're aiming to have normal builds convert into
-> > an
-> > eSDK and vice versa more easily. This seems to pull us further away
-> > from that :/.
-> > 
-> > What is the reasoning for having them behaving differently?
-> 
-> Our goal is to equate the eSDK behavior with the behavior of the real
-> build, also for the example with the GIT_VERSION, which bitbake and
-> git
-> will dynamically evaluate at eSDK build time.
-> 
-> Suppose we want to compile the GIT_VERSION (last tag) from poky
-> without
-> any manual steps into the firmware. bitbake can simply call
-> 
-> $ describe git --tags --dirty
-> uninative-2,8-74-g56446f4570-dirty
-> 
-> With Bitbake the variable can change. But in eSDK the GIT_VERSION
-> must
-> be a constant. The above function behaves like a constant if
-> GIT_VERSION is defined in the local.conf for example. But it has a
-> dynamic behavior if GIT_VERSION is undefined. The only missing part
-> in
-> the current Poky, is a way to automatically write the value to the
-> local.conf of the eSDK. I don't think this would be much different
-> than
-> the already existing sdk-extra.conf file.
+> Patch for gettext also sent :) glibc-locale and procps I could not
+> reproduce :-/
 
-I've been thinking about this further. Why is any of this in local.conf
-in the first place?
+Thanks for that fix, it helps!
 
-I'd suggest the bulk of it should be in your distro or class files?
+FWIW, what I'm seeing with glibc-locale is that these files "disappear"
+from the packages in one of my builds:
 
-I understand we do need some simple changes to local.conf in many cases
-but any complex logic really should not be there. The above does look
-like more complex logic to me...
+./usr/share/locale/vi/LC_MESSAGES/libc.mo
+./usr/share/locale/ko/LC_MESSAGES/libc.mo
+./usr/share/locale/en_GB/LC_MESSAGES/libc.mo
+./usr/share/locale/ca/LC_MESSAGES/libc.mo
+./usr/share/locale/fr/LC_MESSAGES/libc.mo
+./usr/share/locale/pl/LC_MESSAGES/libc.mo
+./usr/share/locale/id/LC_MESSAGES/libc.mo
+./usr/share/locale/hr/LC_MESSAGES/libc.mo
+./usr/share/locale/uk/LC_MESSAGES/libc.mo
+./usr/share/locale/ja/LC_MESSAGES/libc.mo
+./usr/share/locale/gl/LC_MESSAGES/libc.mo
+./usr/share/locale/es/LC_MESSAGES/libc.mo
+./usr/share/locale/el/LC_MESSAGES/libc.mo
+./usr/share/locale/pt_BR/LC_MESSAGES/libc.mo
+./usr/share/locale/sl/LC_MESSAGES/libc.mo
+./usr/share/locale/lt/LC_MESSAGES/libc.mo
+./usr/share/locale/rw/LC_MESSAGES/libc.mo
+./usr/share/locale/sv/LC_MESSAGES/libc.mo
+./usr/share/locale/cs/LC_MESSAGES/libc.mo
+./usr/share/locale/nl/LC_MESSAGES/libc.mo
+./usr/share/locale/zh_CN/LC_MESSAGES/libc.mo
+./usr/share/locale/ia/LC_MESSAGES/libc.mo
+./usr/share/locale/fi/LC_MESSAGES/libc.mo
+./usr/share/locale/be/LC_MESSAGES/libc.mo
+./usr/share/locale/ru/LC_MESSAGES/libc.mo
+./usr/share/locale/nb/LC_MESSAGES/libc.mo
+./usr/share/locale/zh_TW/LC_MESSAGES/libc.mo
+./usr/share/locale/tr/LC_MESSAGES/libc.mo
+./usr/share/locale/de/LC_MESSAGES/libc.mo
+./usr/share/locale/da/LC_MESSAGES/libc.mo
+./usr/share/locale/pt/LC_MESSAGES/libc.mo
+./usr/share/locale/hu/LC_MESSAGES/libc.mo
+./usr/share/locale/eo/LC_MESSAGES/libc.mo
+./usr/share/locale/it/LC_MESSAGES/libc.mo
+./usr/share/locale/bg/LC_MESSAGES/libc.mo
+./usr/share/locale/sk/LC_MESSAGES/libc.mo
 
-I'm therefore leaning towards saying no to this patch, its just going
-to cause us problems in the future.
+I can conform they're not in the glibc stashed-locale sstate object so
+they disappear somewhere before that in the glibc recipe itself.
+
+Quite where/why I don't know as yet.
+
+For procps, the timestamps in the output are different, that is the
+only difference. That means something is indeterminate with the source
+epoch for that recipe. Again, why, I don't know. The two stamps are:
+
+2019-12-08·04:06:03
+2019-12-08·04:05:49
+
+This latter one could potentially be a bug in hashequiv (cc Joshua). It
+may need that stamps patch I have fixed up to resolve it. The fix it
+needs is to make it apply only to certain tasks.
 
 Cheers,
 
 Richard
-
-
 
 
