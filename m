@@ -1,53 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 068326101C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 83920601CF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Mar 2020 22:31:12 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id s5so240482wrg.3
+	Sat,  7 Mar 2020 07:28:54 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id l184so2258216pfl.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Mar 2020 14:31:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=z8+/b9ZmSOF3OVfSQFPYjuszWLGvN7TF2uV2UIZqZL8=;
-	b=eKQE+prBbNWGhaaUaDnqwpFjixJPzL8ymrHMRwvc/A6kQflgMF0nx+2pfwFDowkNE0
-	ZZ369ByhdarIjO9Iz5E9KglAJ4X+cyRfCEI7mliEmAgsgHNu20yDrIRL/fU5ecyOM3B2
-	bxelji/ow1bPaDxJZFvSUhERTwXvQiRcWzonk=
+	Fri, 06 Mar 2020 23:28:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=FP23SxAq+uYEy++HnPqZRNP7LxR98CstkRgd3dYTfOI=;
+	b=Lp3J5uod33BCzx/anUsrOnzZe54vpJ2ANCdDwlDVe5rT/r8mdof8tiMd1LXpnK2cgU
+	QwYILIY8Oq6XB19yXCQiYtixlyihzEZ7OklnEcBWyhkjtpsmGHY/vhIoU4Z7+Fj4ihSq
+	as6NOdaCIZaZTb+EH7ZgCv5C5D2OqvtcMZkrIggH2OEwuQVvrJVrLY18ObGNVt2BetFp
+	piNJlioA0XdK59B70lMFaoxXM9Gt/qkqBFqAAgjNeMZ8gMcqCy6NXBI8qznZSg0FhyCP
+	6nPmBAnj3i4rtF6OEUz+9WD4HOiOVuCUtCPuXHB6hxhwEj0OUN3xdwG0yDEZoWL8ES06
+	kaSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=z8+/b9ZmSOF3OVfSQFPYjuszWLGvN7TF2uV2UIZqZL8=;
-	b=DxEsqod7B9PGqU0NQJjNDDlFfW8TSe0jCcZ7GXu7/GoWngfsYsJHD8eSIdn52cy4WE
-	/5+BqosloMn7e35SfJiXn1bGedqNRgZv9CbhUma30kcbfBhebHWvzwmwZb4Eu8K3DZAa
-	lrSt1j/ITbYkbP8FfJld8SBqv+vq9t2d7MYsN3d3YBtgeldqqnXZ8VpwxLM+6X0UbloI
-	6T3rqnQqkgEmKOwFSPaIVUNq+2JVYQUnDMTaxbsFWaFjjIPyD15Y5StBNJNgCspoFQlN
-	aInzro3UtUS9y/6+QKwiUmabEy+dOFepzRG4kxmalfDG/ZbkzuIohdC+HDOKerBFUyr8
-	i57A==
-X-Gm-Message-State: ANhLgQ2teT8eyetuFm9D0DV2RlCoK1lSRZdIc1dQOQ2/zm5YLfKFgVnu
-	Lq8lebCuv1AIoAe6Vkvc+V/cCD5lGvE=
-X-Google-Smtp-Source: ADFU+vvm8dXt5/6R2+R6VdnLkYIIugikWgOfNQ6JN4GoHvR4eF5XpFy49aGJvIVXaRKyZ+j7mHjzTw==
-X-Received: by 2002:a5d:6a04:: with SMTP id m4mr5895205wru.127.1583533873394; 
-	Fri, 06 Mar 2020 14:31:13 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=FP23SxAq+uYEy++HnPqZRNP7LxR98CstkRgd3dYTfOI=;
+	b=lheEMBNM8x4qXEt+25mHVpUENrQtmkLZD3MxOiGiMa/kW42GYQd/Hnwza1rnyZKgAU
+	F53z9/hMdX9SRqmz4xN7pAIatAjw1S9VmiKM+p8XWDUZEza4VucOiQ89zj2ASn+h85ZC
+	Td5snhX1wYyt1YF/w38/LKvu8t++oQgSImluS9T15gfxqtizZkg846wx959hM+BBc/IR
+	23tSc+zyLbh41vZKoqmlcdriNMHyWxPy/VknRt3HnCF2tIL4OVPIOG2TjemdooVoVZw4
+	d+q75LglEv5NITPtLw6kMRX54ukaOyd4HKKm59eRbLUxtYeLFWkHhQwa3RQPGv3VjgPn
+	8maA==
+X-Gm-Message-State: ANhLgQ3QmEdvJuw/CEZTYYmB+dAQiobyT5MzxYy11CU5rZX7v28uIftP
+	Y+PShjtkuc68+Lz65dqvCxWQKlrhQrQ=
+X-Google-Smtp-Source: ADFU+vva6IvloM6T46JjSpj3oaJra/jpFXyD+SNS6jAaGY2dEUZFC2Bv8i8wqhgCHGaNhDuIGpMOCA==
+X-Received: by 2002:a63:e053:: with SMTP id n19mr7124696pgj.64.1583566134817; 
+	Fri, 06 Mar 2020 23:28:54 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1c34])
 	by smtp.gmail.com with ESMTPSA id
-	a5sm15805375wmb.37.2020.03.06.14.31.12
+	b21sm39680490pfp.0.2020.03.06.23.28.53
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 06 Mar 2020 14:31:12 -0800 (PST)
-Message-ID: <b0b698793024c38039a2e1b71adad84518077d72.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 06 Mar 2020 22:31:11 +0000
-In-Reply-To: <f7e28eac-848e-1eb7-2ae7-345d737482d2@mvista.com>
-References: <62ba6d2a-098e-acbd-db0e-b2283a3b476a@mvista.com>
-	<446c96a2d520e581eee85d519233fdb961c9d1c2.camel@linuxfoundation.org>
-	<f7e28eac-848e-1eb7-2ae7-345d737482d2@mvista.com>
-User-Agent: Evolution 3.35.91-1 
+	Fri, 06 Mar 2020 23:28:54 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Mar 2020 23:29:04 -0800
+Message-Id: <20200307072904.2435002-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Subject: Re: Multilib conflicts in man pages.
+Subject: [PATCH] make: Fix build on arm/clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,51 +57,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Mar 2020 22:31:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 07 Mar 2020 07:28:54 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2020-03-06 at 14:14 -0800, Jeremy A. Puhlman wrote:
-> 
-> On 3/6/2020 2:00 PM, Richard Purdie wrote:
-> > On Tue, 2020-03-03 at 15:22 -0800, Jeremy Puhlman wrote:
-> > > Is there a preferred method in oe-core for dealing with man pages
-> > > that conflict due to differences in multilib pathing.
-> > > 
-> > > For example an application lives in /usr/lib/foo/bar for one abi
-> > > but
-> > > /usr/lib64/foo/bar in another, and
-> > > that kind of information is encoded in to the man pages.
-> > > 
-> > > Some things i have seen done in the past, is move the man pages
-> > > under
-> > > /user/share/man/${PN} or
-> > > use something like mutlilib script to deal with it.
-> > > 
-> > > I am just curious if there is a canned, preferred way the project
-> > > handles those or wants to handle them?
-> > > 
-> > > xinit, xserver-org, and groff each exhibit  these issues.
-> > Could we just put a placeholder into the man page so they'd be
-> > identical? Multiple copies seems like overkill for something as
-> > trivial...
-> 
-> A placeholder like:
-> /usr/<system libdir>/sys.startxrc
-> from
-> /usr/lib64/sys.startxrc
+clang defines __arm which is interpreted as non-posix by make build
+system but thats not correct when using clang so patch addresses that
 
-Yes, not sure about the exact form. You could just do:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...inst-Do-not-undef-POSIX-on-clang-arm.patch | 38 +++++++++++++++++++
+ meta/recipes-devtools/make/make_4.3.bb        |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/make/make/0001-makeinst-Do-not-undef-POSIX-on-clang-arm.patch
 
-/usr/lib*/sys.startxrc
-or
-/usr/<libdir>/sys.startxrc
-
-?
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-devtools/make/make/0001-makeinst-Do-not-undef-POSIX-on-clang-arm.patch b/meta/recipes-devtools/make/make/0001-makeinst-Do-not-undef-POSIX-on-clang-arm.patch
+new file mode 100644
+index 0000000000..2da7c983dc
+--- /dev/null
++++ b/meta/recipes-devtools/make/make/0001-makeinst-Do-not-undef-POSIX-on-clang-arm.patch
+@@ -0,0 +1,38 @@
++From 86b7947156a0c33e768d0a265e38f2881a70a7e2 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 6 Mar 2020 23:19:37 -0800
++Subject: [PATCH] makeinst: Do not undef POSIX on clang/arm
++
++if __arm internal compiler macro is defined then make assumes that the
++system is not posix and goes ahead and undefs POSIX, which results in
++miscompiling make with clang, since clang does define __arm unlike gcc
++which does not, but they both support posix just fine, so here check for
++compiler not being clang when __arm is defined before undefining posix
++
++Fixes error like
++../make-4.3/src/job.c:507:27: error: too many arguments to function call, expected 0, have 1
++  sigsetmask (siggetmask (0) & ~fatal_signal_mask)
++              ~~~~~~~~~~  ^
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/makeint.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/makeint.h b/src/makeint.h
++index c428a36..fadf963 100644
++--- a/src/makeint.h
+++++ b/src/makeint.h
++@@ -115,7 +115,7 @@ extern int errno;
++ #endif
++ 
++ /* Some systems define _POSIX_VERSION but are not really POSIX.1.  */
++-#if (defined (butterfly) || defined (__arm) || (defined (__mips) && defined (_SYSTYPE_SVR3)) || (defined (sequent) && defined (i386)))
+++#if (defined (butterfly) || (defined (__arm) && !defined(__clang__)) || (defined (__mips) && defined (_SYSTYPE_SVR3)) || (defined (sequent) && defined (i386)))
++ # undef POSIX
++ #endif
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/make/make_4.3.bb b/meta/recipes-devtools/make/make_4.3.bb
+index cd0ecd4df2..3e0eb543ba 100644
+--- a/meta/recipes-devtools/make/make_4.3.bb
++++ b/meta/recipes-devtools/make/make_4.3.bb
+@@ -8,6 +8,7 @@ SRC_URI += "\
+ 	file://0001-src-dir.c-fix-buffer-overflow-warning.patch \
+ 	file://0002-w32-compat-dirent.c-follow-header.patch \
+ 	file://0003-posixfcn-fcntl-gnulib-make-emulated.patch \
++	file://0001-makeinst-Do-not-undef-POSIX-on-clang-arm.patch \
+ "
+ 
+ EXTRA_OECONF += "--without-guile"
+-- 
+2.25.1
 
 
