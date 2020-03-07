@@ -1,52 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B10C6610A4
+Return-Path: <christopher.w.clark@gmail.com>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D93456107E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2020 18:09:42 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id f7so1271487wml.4
+	Sat,  7 Mar 2020 20:03:44 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id s2so2770204pgv.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2020 10:09:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=W3j7jS+Ke3F0Dm05uygTFWBA7xwWK/el4IdH97Doiic=;
-	b=C7XsrVI0lE3X890+WEsbH7NLpONOCxTQDZ+igfF8E6IWnXOwy8uNP53eq+5mVuGAJw
-	U71TgW8FDfF7Wb+kL6j9gaSvudJKC1YYPdLFW3VyjG//mzFaq7yu6L9khsDMqB+l2eDh
-	wRVExKr4Z/aZo3Vcc8oq/s4vX3sf9rn57NvgY=
+	Sat, 07 Mar 2020 12:03:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=5xRTSXI84/vnYZGEgQ+2LVMnfFF+9wY833qrIEjcxXc=;
+	b=c+MIkmetPWpRpJ5d1aIK6w9N9CfzHrx9wwOn+kYaUAVNBvUGZe+/9TU6Zi7c8DGONi
+	hOpNXzYgTdQ6Fvrb5ckxJ7P0GRBYSecxqsFnMaAj1/miORjj+a9eUdHOyB4e9EN3jMBM
+	YNJQ/qC8b9oyCv2hYSdtZlk6sgkEeV4PsoD7M38RewTJgT5ZRLOJVXdYiTlAcfqrFLJV
+	RD9grnT+xJQ2CnyIfWyAJNRxCgLwZzmH3di+tIpBcb+E5T8L07dHTpjtSe4E+A562wk+
+	D6PMj5qg3HL0mFm3/++VJzsg8o3u7dO3b+osKoRXTRzEZW7RuJdcWaFBv/yKo811KjQY
+	YVSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=W3j7jS+Ke3F0Dm05uygTFWBA7xwWK/el4IdH97Doiic=;
-	b=H6TeiDj99nIqmTH4UZvKwr7W9lx+u9BdtTFltmFo2+mgoculFooimT6gs6g6H66lCH
-	7wrJdenZ1CA3KSRFZktvi5jbx/TVx1SYVd8IECnyk5GhRqutvAoD1JYCDudiTLiZC0am
-	vLqd4yppT1IY0eHqc/Lz1S4UPUUVZZtxtvWgwnndzFUZ/6o4qszbsTzygbJ2tU2cvtpU
-	T1FqalJsTsMb8wAzfVydC+WgesmF57rs2OwdmS7xIYtszxhRgzRF6JTLJxDWV3EyO1iC
-	/iHeZJ6G6TwIJAXf12SRztkI7/9Z32zh/t9aBZ5qGQKn0APo9vXR6m92I2IKf1a0f0Ad
-	/K6g==
-X-Gm-Message-State: ANhLgQ11+8vstAAcS9xupq43rP7ISGEFdmY38wSiMFwnLlL55MRiG8oJ
-	JSRx+8237srrAsNUqWrgvwy0zg==
-X-Google-Smtp-Source: ADFU+vsawOF+OvsPtSbDFJVlNnUho27XBdcMjqa83KJlGfutiXSL/wHCw0fXpt+VEZTQhx6xYpsz3Q==
-X-Received: by 2002:a7b:c450:: with SMTP id l16mr11102985wmi.31.1583604582969; 
-	Sat, 07 Mar 2020 10:09:42 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=5xRTSXI84/vnYZGEgQ+2LVMnfFF+9wY833qrIEjcxXc=;
+	b=aPkmJ3R7CXh2wIvPq7eynieEVZIaMrk9ff9IAdmflmPiqVfDPzaztSNqXEL7AXVAN9
+	IQ4GlBAGuMJLH+Onqad5uAXJFRBqZmXVeVarCQyJ+aOqkCWJviqHbfm+xFjsF7BAeftY
+	4xe1uy1QygRafFD4e1lO/Go09AyabmIuKw8zmvO4bN8Xk3+2LunQD5JEDR2iUEJMHF2u
+	AaZ3aoDZcWD7Ea2l65uXBv5RjCRWZ+zvMF2EZY1HHtejooL/10b+CABbyJ9vm0kbfEcj
+	nVqrAqcv2YR3rM7dZDAiuAp7E6kbPnkbfxXXIQ75f/ovPaa4g1R0QsE7zP6pNgxi61cf
+	KCVg==
+X-Gm-Message-State: ANhLgQ33CaHBac2JpnO9TaADsTuT3o1VUs+g/fZDi/n9hpgu5mB4+Fzh
+	1ka0Evk55cdgh9R7AUJzw2lP/VH9
+X-Google-Smtp-Source: ADFU+vsx4dxQV/Bl+Cie+ADdcdk9a3lcSOO9j7E44yt+f2HCGOyn4Q4uXm+3FoOLLUBUHj+kF9z6DQ==
+X-Received: by 2002:a63:551a:: with SMTP id j26mr9780469pgb.274.1583611425139; 
+	Sat, 07 Mar 2020 12:03:45 -0800 (PST)
+Received: from desktop.ice.pyrology.org
+	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
 	by smtp.gmail.com with ESMTPSA id
-	j15sm14296866wrp.85.2020.03.07.10.09.41
+	h95sm13539617pjb.48.2020.03.07.12.03.43
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Mar 2020 10:09:42 -0800 (PST)
-Message-ID: <9f8bb6a3d6cb168c1ec2ddb5e2ff5e5970f5668d.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Adrian Freihofer <adrian.freihofer@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 07 Mar 2020 18:09:40 +0000
-In-Reply-To: <20200307150145.3100113-1-adrian.freihofer@siemens.com>
-References: <20200307150145.3100113-1-adrian.freihofer@siemens.com>
-User-Agent: Evolution 3.35.91-1 
-MIME-Version: 1.0
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: Re: [PATCH v3] runqemu: support multiple NICs
+	Sat, 07 Mar 2020 12:03:43 -0800 (PST)
+From: christopher.w.clark@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  7 Mar 2020 12:03:30 -0800
+Message-Id: <20200307200330.23915-1-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] kernel.bbclass: fix SOURCE_DATE_EPOCH for non-git kernel builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,46 +56,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2020 18:09:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 07 Mar 2020 20:03:45 -0000
 
-On Sat, 2020-03-07 at 16:01 +0100, Adrian Freihofer wrote:
-> Emulating more than one network interface with runqemu is sometimes a
-> bit tricky, but possible. For example, this leads to an emulated device
-> with eth0 and eth1:
-> 
-> QB_NETWORK_DEVICE_prepend = " \
->     -device virtio-net-device,mac=52:54:00:12:34:03 \
-> "
-> 
-> Note:
->  On some emulated NIC types, Qemu and the kernel enumerate the eths in
->  the guest in reverse order to how the device parameters are passed to
->  Qemu. So in this case it is important that the additional NICs are
->  prepended to the -device parameter, which gets automatically added by
->  Qemu. Otherwise, the interface eth1 will be connected to the host, but
->  eth0 will be assigned the IP address 192.168.7.x, which obviously does
->  not work.
-> 
-> When booting Qemu with two NICs, but only one set of network
-> configuration parameters gets passed to the kernel, the kernel seems to
-> search for a configuration for all NICs. This delays the boot process
-> for a very long time.
-> 
-> This change solves the timeout problem. Tested with:
->  oe-selftest --run-tests runqemu
+From: Christopher Clark <christopher.w.clark@gmail.com>
 
-This appears to break our automated testing, e.g.:
+Only use git to set SOURCE_DATE_EPOCH if ${S} is the top level of a git
+repository.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/1657
+Fixes the following errors with the prior logic when building a kernel
+that is not obtained from a git repository:
 
-(there is a full list of failures on 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/779
-but the missing xz ones aren't yours!)
+1. With TMPDIR set to a directory outside any git repository on a
+mounted filesystem, reproducible builds fail in do_compile with this git
+error:
 
-Cheers,
+  fatal: not a git repository (or any parent up to mount point <abspath>)
+  Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
 
-Richard
+aborting before the error handling logic.
+
+2. With TMPDIR located within a subdirectory of a git repository, the
+SOURCE_DATE_EPOCH timestamp would be that of said repository rather than
+that of the kernel.
+
+Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+---
+ meta/classes/kernel.bbclass | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 0eadd3efb8..2603f24709 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -296,10 +296,14 @@ kernel_do_compile() {
+ 		if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
+ 			olddir=`pwd`
+ 			cd ${S}
+-			SOURCE_DATE_EPOCH=`git log  -1 --pretty=%ct`
+-			# git repo not guaranteed, so fall back to REPRODUCIBLE_TIMESTAMP_ROOTFS
+-			if [ $? -ne 0 ]; then
+-				SOURCE_DATE_EPOCH=${REPRODUCIBLE_TIMESTAMP_ROOTFS}
++			# This kernel dir is not necessarily a git repo and we
++			# must ensure that git does not incorrectly query a
++			# repository in a parent directory.
++			GIT_TOP=`git rev-parse --show-toplevel 2>/dev/null || echo ""`
++			if [ "${S}" = "${GIT_TOP}" ]; then
++				SOURCE_DATE_EPOCH=`git log  -1 --pretty=%ct`
++			else
++				SOURCE_DATE_EPOCH="${REPRODUCIBLE_TIMESTAMP_ROOTFS}"
+ 			fi
+ 			cd $olddir
+ 		fi
+-- 
+2.17.1
 
 
