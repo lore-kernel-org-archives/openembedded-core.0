@@ -1,52 +1,49 @@
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C46D66021F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id ACE8960706
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2020 15:01:56 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id v11so5721221wrm.9
+	Sat,  7 Mar 2020 15:59:23 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id a25so2063704wrd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2020 07:01:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
+	Sat, 07 Mar 2020 07:59:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=nchtyOXYJ8LBvL8ohWeuGh0h7cHQcLYCRTJFNFXLgA0=;
-	b=g+P7CJpm9QnLB4zl3uRjpLfvaxzYudeE5cW2gv9yl4Z/dhm8/RvyeZ94B8UyVk9jm6
-	AgAK2PZbpAOtqTl3gnpGxmnasbyxEb6OYehOOPCYz9ptp5RjfzYw0Kd3wDpzbiB2Rrog
-	W3FGfZg/GedQ+WJx4evop3MPzrpiRYN6yhXiht27MoYibi2KT0kc2NhiT/P6WpRWt9H+
-	RAGyD+IgIlhAka91zo0/jzLCG314Kc8C352hKQLctOReC8WyTOX/2gkS1h3mT6AdLjV0
-	QMMvTjPFcT5tdBRR6s/1/CeL7EXW1Tu5KoAhK7tMug8T5F0LLPOfi4d1yUOYbO84OZam
-	+7kg==
+	bh=JHmpERdq7nCH9Si6/x616EycWdIQpNqgMnTLCnME4Pc=;
+	b=g5a8E7zWWHcsGWseMrD0D+frNPXmqTW/QZPO1KnXSLdS2z0umQ05t7l/AG8bDNV6WW
+	QHXXj5jUWIjaoSA7hL1bQQR9ZWd9WCubfAvUL/fp3rajPJnBUrDiQPRULuqt2RZPvU+J
+	iwctruvmjfwcv32smJGg4nppPb1GHswSCcfUA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=nchtyOXYJ8LBvL8ohWeuGh0h7cHQcLYCRTJFNFXLgA0=;
-	b=QIVY5wYROX6nO32wT1fuvVITdDXFqBVHxIDyuNXw6hrLtwzckUPOHCiR+ZaGsRmR6+
-	0v/nTqKMZk9KKGV7Uge/Of1igyjkq79ZdVoR5JFpzLGP5ajrj+JVR8LSV+YS3FN3IoM/
-	YnmrHg4Vitr1OYHRyh4k6puACtnV+iiiOx4ZmIEQ1+dw8T2NixBw2+QMUGvVJC146m3t
-	l3ZqYZCS32EIGNEshHpNAvxaGRk1Gyip6LXeVbDUgvVtXTLfj6tDgJagv+rVik7jiCOg
-	ZCtzsqkZZze6v0jUOC/0Rsl1YyuhC+kuKBlAFJAF+RXFEo5MRL06iIFgKjmU8ntcu4yD
-	B2uQ==
-X-Gm-Message-State: ANhLgQ1X5RF/A2ZNtT9QhKz1zrZ15YBWmhfvLBNI3te1lr+tpKmZbdqt
-	Fz8qgu2LL29ftEQMQM03vnwwv30vXfnENQ==
-X-Google-Smtp-Source: ADFU+vuAve018lCPs+4t899RmYbIqZ3oD/HPz+8+7SguU9HshN28ngDMLQAOZZRsBxyANBYwlU/yoA==
-X-Received: by 2002:a5d:5188:: with SMTP id k8mr9971279wrv.265.1583593316831; 
-	Sat, 07 Mar 2020 07:01:56 -0800 (PST)
-Received: from md2pfrec.ad001.siemens.net (c-82-192-240-69.customer.ggaweb.ch.
-	[82.192.240.69]) by smtp.gmail.com with ESMTPSA id
-	f17sm44203596wrj.28.2020.03.07.07.01.55
+	bh=JHmpERdq7nCH9Si6/x616EycWdIQpNqgMnTLCnME4Pc=;
+	b=GcFYBeRlcf2025dGZ8gMkBbpbhB0eOhBkH1SNsk2bkIcfJxf9jc1TmvDJKq9RSI+K9
+	XgPH2VL9vaLzJTP/8RaJ9PNiB9uxahyGm+7qiZkITJ1SMPjA2eSQHvK8/uB/utQ8n0cD
+	Pkpcq99R6wZXgKJ34UC9AyPOLYzTtVoWmtKfPS5LufQfjBtVN+1qdG8j1lpV5qknHBnA
+	rPWXgzpPZygx/EODjiVqaRPaXZhSjnGTH7N875oqSS8/kcVFcgj+y/CSxJ/ltXcZfJgI
+	HjGQB3H6j5Uywq/6lpLDVTu3xD3VTdt7fb4Q6nOEWlUCjIl97BdlWseI986ZlyVLCkNy
+	q4rg==
+X-Gm-Message-State: ANhLgQ3Mm1bRJVczziOU1EC0hxPflRF/pVEy9u8h+XOFh+kj28yLC86y
+	8EzKdZG6i7x5WBiIIo4Kk9okkkpM3Bw=
+X-Google-Smtp-Source: ADFU+vs1q/9QSaBOKlOQAd0lK7g6IyNIYSD8KV2dnSomLash3MbdxxCgR4pKoudNdGBonmYS/hyWVQ==
+X-Received: by 2002:adf:f4c9:: with SMTP id h9mr10368482wrp.168.1583596763858; 
+	Sat, 07 Mar 2020 07:59:23 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	i67sm31464673wri.50.2020.03.07.07.59.22
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Mar 2020 07:01:56 -0800 (PST)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+	Sat, 07 Mar 2020 07:59:23 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  7 Mar 2020 16:01:45 +0100
-Message-Id: <20200307150145.3100113-1-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.24.1
+Date: Sat,  7 Mar 2020 15:59:18 +0000
+Message-Id: <20200307155918.1157101-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v3] runqemu: support multiple NICs
+Subject: [PATCH] files/toolchain-shar-extract.sh: Rework PATH cleaning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,53 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2020 15:01:57 -0000
+X-List-Received-Date: Sat, 07 Mar 2020 15:59:23 -0000
 Content-Transfer-Encoding: 8bit
 
-Emulating more than one network interface with runqemu is sometimes a
-bit tricky, but possible. For example, this leads to an emulated device
-with eth0 and eth1:
+Trying to create a clean PATH breaks cases where we install a buildtools tarball
+on hosts to provide newer versions of gcc. Rework the fix for #8698 to clean up
+directories in PATH which don't exist isntead. Do it with python as the shell
+version was too fraught with corner cases.
 
-QB_NETWORK_DEVICE_prepend = " \
-    -device virtio-net-device,mac=52:54:00:12:34:03 \
-"
-
-Note:
- On some emulated NIC types, Qemu and the kernel enumerate the eths in
- the guest in reverse order to how the device parameters are passed to
- Qemu. So in this case it is important that the additional NICs are
- prepended to the -device parameter, which gets automatically added by
- Qemu. Otherwise, the interface eth1 will be connected to the host, but
- eth0 will be assigned the IP address 192.168.7.x, which obviously does
- not work.
-
-When booting Qemu with two NICs, but only one set of network
-configuration parameters gets passed to the kernel, the kernel seems to
-search for a configuration for all NICs. This delays the boot process
-for a very long time.
-
-This change solves the timeout problem. Tested with:
- oe-selftest --run-tests runqemu
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/runqemu | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/files/toolchain-shar-extract.sh | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index dd0aa4b28f..d34f8eec25 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -1147,7 +1147,7 @@ class BaseConfig(object):
-         client = gateway + 1
-         if self.fstype == 'nfs':
-             self.setup_nfs()
--        netconf = "192.168.7.%s::192.168.7.%s:255.255.255.0" % (client, gateway)
-+        netconf = "192.168.7.%s::192.168.7.%s:255.255.255.0::eth0" % (client, gateway)
-         logger.info("Network configuration: %s", netconf)
-         self.kernel_cmdline_script += " ip=%s" % netconf
-         mac = "%s%02x" % (self.mac_tap, client)
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 4c4b4deb4cf..0002c9d7870 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -1,13 +1,7 @@
+ #!/bin/sh
+ 
+-[ -z "$ENVCLEANED" ] && exec /usr/bin/env -i ENVCLEANED=1 HOME="$HOME" \
+-	LC_ALL=en_US.UTF-8 \
+-	TERM=$TERM \
+-	ICECC_PATH="$ICECC_PATH" \
+-	http_proxy="$http_proxy" https_proxy="$https_proxy" ftp_proxy="$ftp_proxy" \
+-	no_proxy="$no_proxy" all_proxy="$all_proxy" GIT_PROXY_COMMAND="$GIT_PROXY_COMMAND" "$0" "$@"
+-[ -f /etc/environment ] && . /etc/environment
+-export PATH=`echo "$PATH" | sed -e 's/:\.//' -e 's/::/:/'`
++# Remove invalid PATH elements first (maybe from a previously setup toolchain now deleted
++PATH=`python3 -c 'import os; print(":".join(e for e in os.environ["PATH"].split(":") if os.path.exists(e)))'`
+ 
+ tweakpath () {
+     case ":${PATH}:" in
 -- 
-2.24.1
+2.25.0
 
 
