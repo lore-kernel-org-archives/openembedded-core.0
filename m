@@ -1,51 +1,57 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3974E61B0F
+Return-Path: <jpuhlman@mvista.com>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by mail.openembedded.org (Postfix) with ESMTP id DF1F9619CF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2020 15:59:46 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id 6so5869512wre.4
+	Sat,  7 Mar 2020 16:01:06 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id x19so5487881otp.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2020 07:59:47 -0800 (PST)
+	Sat, 07 Mar 2020 08:01:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=fTWlwnmHD3K/QMPTyW46qLPP2mwWHZCWOSa8pT4IsQo=;
-	b=OlOHvvc33G8NDKzuqBQLiRIL+S+b1/W4AAy7EW9NU88dL2lAmql0I1kT2lYPXfbAVf
-	4qUKKqHRpsocuumu6WptMS7fjOaFb/1eGerxptSOvyuy+nb4zm+F0ywBzYr2mqB6wc+d
-	VGZVMHxrYvtyMm8dffmngNO6N8YQEydCCPVWE=
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=RYkYyJHF16ywWcaOjraJukM2nPkWOs/euGPpG8CdCkI=;
+	b=XKgsRW+v9/40hEtgqPonZDBW35GwgSisnw7s1h76Ewgq6sf6QIr2PHnEFffMnfxZwA
+	N4B/jh5sVY0kMN0PM26o++IkyfD8FjJBI100WcGQ5PpejPgboytLilfqI2oyRLa6Jq+m
+	HlPjGPuPcrglXDOUSPw164CFJhgfdTmaU+vlNizoMqNPvUP14yKaruxW/WbFEXgV78Nb
+	o37rr5gHN1ewYnNBtFKnrKvIN7LzOPTMNt+hDlI+Kc+pABnc/UZwTFHBzM4BxAZVrphk
+	Pa2LkCKH+nFFbyQ4PYIvkWBh9MquMuOpmxfKQW0+cZ/u8NZcmxHulLFdtZpOVohkiUAp
+	ssig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=fTWlwnmHD3K/QMPTyW46qLPP2mwWHZCWOSa8pT4IsQo=;
-	b=bxKcMGpTAYp/pYHYRJymiURnLpb3JKK4Bwbq1LizcV4Jz5kS1/0eZIQBhFmJDTjwNz
-	rX+HvKt2mSJoH1d+ltltnmMQZTkP1MiVOSNWExUTTZhP/EOP/jGIVXN7upk2PIIewcCl
-	4Q+62IREJIoHfjzqTsKgLcC2b/U98sju7Y3EQUHkIKn6yZAQk1VjsUEKEbK2nyr20TN9
-	fV6Yzc63/AqCbjv/4U3lTAL5IJBhdVkMNsM+y0J8uUVHIG+/dlkmotct3aEdVW3HndAd
-	GzLhJOMwKtlBmccuA7za+AcLciY7AzyF2ejYlYkS+dPghos1SPBXJY2gPMMsB1O+Dxbf
-	rTVQ==
-X-Gm-Message-State: ANhLgQ1K578I8EWrr2cIwJ3J9hSjTa990V2pH8lzilm2ZYES/iwwrBTS
-	4ofUTEUxp+rJLXiHbxRWLg2XUU2T7PU=
-X-Google-Smtp-Source: ADFU+vtSHJJNutiVaLr06LKCPssnP69iEgI6SXuzxrggxdWLzCIm18bpB2J1skL9f3f6mGSMb9poZw==
-X-Received: by 2002:a5d:440a:: with SMTP id z10mr10383658wrq.142.1583596786719;
-	Sat, 07 Mar 2020 07:59:46 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u20sm17442220wmj.14.2020.03.07.07.59.45
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Mar 2020 07:59:46 -0800 (PST)
-Message-ID: <3d264f5439b9216788b9bdd50996c88dd3cc0b38.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org, Jeremy Puhlman
-	<jpuhlman@mvista.com>
-Date: Sat, 07 Mar 2020 15:59:43 +0000
-In-Reply-To: <20200307143223.2277.46482@do>
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=RYkYyJHF16ywWcaOjraJukM2nPkWOs/euGPpG8CdCkI=;
+	b=JcwgNwpZTAyXEXXxOTeqfBROFSSO49Gale5EPOIj0mi8caJJYMgWbf25pJtEtWdf/q
+	e+dhpv70iNBuu0bsGoyeuOuXWWJdZDHqKE+0ymi2o+oqekWcEqipDdukwF1zRLXMKAjy
+	hMqLSTL/OWhUkjTGpXGUIrGz22xpTYvKQqiOEquRtvqotPJtFU0p3B4+PsTnP9HqaIOs
+	yEyhHOapA/SRSozSojFxBkwf/ndOs5QaKe5rRVMa7f+wyWxkkZnnwnFL/7DDFM+ktmb4
+	tXMrEtcoA18v04k8WOXxJ7/hFAJACimnagznG+xjzo8x2C97uwEgI5mb8rg5kgXclhKz
+	RROw==
+X-Gm-Message-State: ANhLgQ2jkr3CzuI5X/UCMdV2FlJN8GdMJccbYkDO2so9m5e9qj4Hracn
+	01cYCRRcFSZXL8DCG1YtrNj30tDoZ1I=
+X-Google-Smtp-Source: ADFU+vt5QsqFq+520CH435NNFiJGSGDZJIiOHOCOnmcbC9p6sBB8hYSZWoJ+WJ1bcXJygHrevlpDYQ==
+X-Received: by 2002:a9d:3d23:: with SMTP id a32mr6560994otc.13.1583596867595; 
+	Sat, 07 Mar 2020 08:01:07 -0800 (PST)
+Received: from ?IPv6:2600:1700:4c90:60a0:9cc1:d49d:3a28:1e7f?
+	([2600:1700:4c90:60a0:9cc1:d49d:3a28:1e7f])
+	by smtp.gmail.com with ESMTPSA id w5sm3431151otj.39.2020.03.07.08.01.06
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Sat, 07 Mar 2020 08:01:06 -0800 (PST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
 References: <20200307140548.13517-1-jpuhlman@mvista.com>
 	<20200307143223.2277.46482@do>
-User-Agent: Evolution 3.35.91-1 
+	<3d264f5439b9216788b9bdd50996c88dd3cc0b38.camel@linuxfoundation.org>
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Message-ID: <c9b03578-45a8-a626-45b3-faa16e50917f@mvista.com>
+Date: Sat, 7 Mar 2020 08:01:04 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <3d264f5439b9216788b9bdd50996c88dd3cc0b38.camel@linuxfoundation.org>
 Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdyb2ZmOiBNYWtlIG1hbnBhZ2VzIGJpbmFyeSBpZGVudGljYWw=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,43 +65,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2020 15:59:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 07 Mar 2020 16:01:07 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Sat, 2020-03-07 at 14:32 +0000, Patchwork wrote:
-> == Series Details ==
-> 
-> Series: groff: Make manpages binary identical
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/23145/
-> State : failure
-> 
-> == Summary ==
-> 
-> 
-> Thank you for submitting this patch series to OpenEmbedded Core. This
-> is
-> an automated response. Several tests have been executed on the
-> proposed
-> series by patchtest resulting in the following failures:
-> 
-> 
-> 
-> * Issue             Upstream-Status is in incorrect format
-> [test_upstream_status_presence_format] 
->   Suggested fix    Fix Upstream-Status format in 0001-Make-manpages-
-> mulitlib-identical.patch
->   Current          Upstream-status: Pending
->   Standard format  Upstream-Status: <Valid status>
->   Valid status     Pending, Accepted, Backport, Denied, Inappropriate
-> [reason], Submitted [where]
-> 
+On 3/7/2020 7:59 AM, Richard Purdie wrote:
+> On Sat, 2020-03-07 at 14:32 +0000, Patchwork wrote:
+>> == Series Details ==
+>>
+>> Series: groff: Make manpages binary identical
+>> Revision: 1
+>> URL   : https://patchwork.openembedded.org/series/23145/
+>> State : failure
+>>
+>> == Summary ==
+>>
+>>
+>> Thank you for submitting this patch series to OpenEmbedded Core. This
+>> is
+>> an automated response. Several tests have been executed on the
+>> proposed
+>> series by patchtest resulting in the following failures:
+>>
+>>
+>>
+>> * Issue             Upstream-Status is in incorrect format
+>> [test_upstream_status_presence_format]
+>>    Suggested fix    Fix Upstream-Status format in 0001-Make-manpages-
+>> mulitlib-identical.patch
+>>    Current          Upstream-status: Pending
+>>    Standard format  Upstream-Status: <Valid status>
+>>    Valid status     Pending, Accepted, Backport, Denied, Inappropriate
+>> [reason], Submitted [where]
+>>
+> I fixed status -> Status and queued in -next.
+Ah sorry about that. I was blind to the case difference. Thank you.
+>
+> Cheers,
+>
+> Richard
+>
+>
 
-I fixed status -> Status and queued in -next.
-
-Cheers,
-
-Richard
+-- 
+Jeremy A. Puhlman
+jpuhlman@mvista.com
 
 
