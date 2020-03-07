@@ -1,54 +1,52 @@
 Return-Path: <adrian.freihofer@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E84B36021F
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C46D66021F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Mar 2020 14:55:48 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id s5so1833978wrg.3
+	Sat,  7 Mar 2020 15:01:56 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id v11so5721221wrm.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Mar 2020 06:55:50 -0800 (PST)
+	Sat, 07 Mar 2020 07:01:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=lbJ5ndNWWtQTCkBjuJVIl1S/iqyk5c3hbEL6LlpRdIo=;
-	b=YadsMmB2v35lyfGOS9qWOYVTKMNcV1qWKMiXm3zb/fZ+f8CHXeGCOArwYCtWOe7iea
-	9FIoId1ET6HwiX5MRx1m5wMo4yYad8jSnhUVO8Sz78Eqi7HezpBIFAlK0s5WMxUWsStb
-	VNb26WNHWfKaTIvLYwZcmSroIK2Uf+sT47wyN9GCL4tl9AEMcdqWhoL7sSSkqL5DkyJh
-	R3jJtVyuKVcde4BfA2oVGb7MqNl3d8WrQcSiNlWEH32J0a2HY4/4x63nO4+Yvf6UJP81
-	pI0GKuCT04SqdnPjjz6IYKS0lxcjv6AKp7EORs7DYq6MK8D08jzzmWvtr8Eyr9TVZd0g
-	L3Cg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nchtyOXYJ8LBvL8ohWeuGh0h7cHQcLYCRTJFNFXLgA0=;
+	b=g+P7CJpm9QnLB4zl3uRjpLfvaxzYudeE5cW2gv9yl4Z/dhm8/RvyeZ94B8UyVk9jm6
+	AgAK2PZbpAOtqTl3gnpGxmnasbyxEb6OYehOOPCYz9ptp5RjfzYw0Kd3wDpzbiB2Rrog
+	W3FGfZg/GedQ+WJx4evop3MPzrpiRYN6yhXiht27MoYibi2KT0kc2NhiT/P6WpRWt9H+
+	RAGyD+IgIlhAka91zo0/jzLCG314Kc8C352hKQLctOReC8WyTOX/2gkS1h3mT6AdLjV0
+	QMMvTjPFcT5tdBRR6s/1/CeL7EXW1Tu5KoAhK7tMug8T5F0LLPOfi4d1yUOYbO84OZam
+	+7kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=lbJ5ndNWWtQTCkBjuJVIl1S/iqyk5c3hbEL6LlpRdIo=;
-	b=AgEo9dJy6VaDphgyVp5Ug7OsJDp9cdxk21fOgZI+r9G4HSG4bRhjQ8RcRXarwl47fD
-	ig7HSts4qK9UZ1+JORDYsLGXIl/shqkjyKfvirBGpyxDrZb0ewmBV7WbwjW8mRrAzDu0
-	Qm43fjGaz5+zx4nCCoy52R5glkmBGdw93zaEtk6xttg3oaQdtHNclhmSzQidI53ggt5C
-	qBAPhIDnA4HLPwYMZd5b0aAEx041clnF0nU3Hhl0W8A9xOQyZ2sKWcVF8qlBfnvOegSE
-	Jxa7KFezjXSHQoiNYezFrfJBFRUabLMtAv8d2rI2Jyk73o7eIk1EY3B7p9hyd957F5+N
-	VYwA==
-X-Gm-Message-State: ANhLgQ3PvRe3PkQGDcmLImdcsT2Iy8EVrc4HplbswcPRnU3eggIl4DZv
-	a2ebM0226UV4B36Pq8h28GQ=
-X-Google-Smtp-Source: ADFU+vth0BksXIAVlICZhQwcfmn2fxLgH98Ihhe6OE6qyblq2G7JC7In/eEf9Lbqg4FjJifz7gFAKg==
-X-Received: by 2002:adf:f08e:: with SMTP id n14mr9786607wro.367.1583592949366; 
-	Sat, 07 Mar 2020 06:55:49 -0800 (PST)
-Received: from md2pfrec.lan.ffah.ch (c-82-192-240-69.customer.ggaweb.ch.
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nchtyOXYJ8LBvL8ohWeuGh0h7cHQcLYCRTJFNFXLgA0=;
+	b=QIVY5wYROX6nO32wT1fuvVITdDXFqBVHxIDyuNXw6hrLtwzckUPOHCiR+ZaGsRmR6+
+	0v/nTqKMZk9KKGV7Uge/Of1igyjkq79ZdVoR5JFpzLGP5ajrj+JVR8LSV+YS3FN3IoM/
+	YnmrHg4Vitr1OYHRyh4k6puACtnV+iiiOx4ZmIEQ1+dw8T2NixBw2+QMUGvVJC146m3t
+	l3ZqYZCS32EIGNEshHpNAvxaGRk1Gyip6LXeVbDUgvVtXTLfj6tDgJagv+rVik7jiCOg
+	ZCtzsqkZZze6v0jUOC/0Rsl1YyuhC+kuKBlAFJAF+RXFEo5MRL06iIFgKjmU8ntcu4yD
+	B2uQ==
+X-Gm-Message-State: ANhLgQ1X5RF/A2ZNtT9QhKz1zrZ15YBWmhfvLBNI3te1lr+tpKmZbdqt
+	Fz8qgu2LL29ftEQMQM03vnwwv30vXfnENQ==
+X-Google-Smtp-Source: ADFU+vuAve018lCPs+4t899RmYbIqZ3oD/HPz+8+7SguU9HshN28ngDMLQAOZZRsBxyANBYwlU/yoA==
+X-Received: by 2002:a5d:5188:: with SMTP id k8mr9971279wrv.265.1583593316831; 
+	Sat, 07 Mar 2020 07:01:56 -0800 (PST)
+Received: from md2pfrec.ad001.siemens.net (c-82-192-240-69.customer.ggaweb.ch.
 	[82.192.240.69]) by smtp.gmail.com with ESMTPSA id
-	v14sm15135192wrr.34.2020.03.07.06.55.47
+	f17sm44203596wrj.28.2020.03.07.07.01.55
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Mar 2020 06:55:48 -0800 (PST)
-Message-ID: <06f78962af6ad632793a533a22d8f1b91e5a50fc.camel@gmail.com>
+	Sat, 07 Mar 2020 07:01:56 -0800 (PST)
 From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sat, 07 Mar 2020 15:55:46 +0100
-In-Reply-To: <8718ce405436564b3ad55fa52046e5e55ee562dd.camel@linuxfoundation.org>
-References: <b73e07036162eab111213d9d3bd14c7436733039.camel@gmail.com>
-	<8718ce405436564b3ad55fa52046e5e55ee562dd.camel@linuxfoundation.org>
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  7 Mar 2020 16:01:45 +0100
+Message-Id: <20200307150145.3100113-1-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2] Extensible SDK improvements
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v3] runqemu: support multiple NICs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,80 +59,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Mar 2020 14:55:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 07 Mar 2020 15:01:57 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2020-03-07 at 12:40 +0000, Richard Purdie wrote:
-> On Sat, 2020-03-07 at 12:54 +0100, Adrian Freihofer wrote:
-> > Hi Richard,
-> > 
-> > We have found two already supported ways to copy variables from the
-> > bitbake environment local.conf to the eSDK local.conf
-> > 
-> > If a variable is defined in the local.conf bitbake environment,
-> > SDK_LOCAL_CONF_WHITELIST and SDK_LOCAL_CONF_BLACKLIST can be used to
-> > add it to the local.conf eSDK file.
-> > 
-> > If a variable should be statically defined for the eSDK but not for
-> > the
-> > bitbake environment, sdk-extra.conf is useful.
-> > 
-> > Now we would like to add a third way to add variables which are
-> > dynamically calculated by bitbake but need to be statically added to
-> > the eSDK local.conf. For example we would like to support something
-> > like that:
-> > 
-> > def get_version_from_git(d):
-> >     version = d.getVar("GIT_VERSION", True)
-> >     if version:
-> >         return version                    # runs in eSDK
-> >     else:
-> >         return bb.process.run("git...     # runs in bitbake
-> > 
-> > GIT_VERSION := "${@get_version_from_git(d)}"
-> > 
-> > SDK_LOCAL_CONF_EXTRALIST_append = " GIT_VERSION"
-> 
-> This worries me a bit since it means the eSDK and the "real" build can
-> behave differently. I appreciate that can happen even with the other
-> variables and means of setting them but this takes it to a new level.
-> 
-That I understand. The usage of the SDK_LOCAL_CONF_EXTRALIST would be
-very specific. Wrong usage would lead to a broken sstate in the eSDK.
+Emulating more than one network interface with runqemu is sometimes a
+bit tricky, but possible. For example, this leads to an emulated device
+with eth0 and eth1:
 
-> Ultimately I think we're aiming to have normal builds convert into an
-> eSDK and vice versa more easily. This seems to pull us further away
-> from that :/.
-> 
-> What is the reasoning for having them behaving differently?
+QB_NETWORK_DEVICE_prepend = " \
+    -device virtio-net-device,mac=52:54:00:12:34:03 \
+"
 
-Our goal is to equate the eSDK behavior with the behavior of the real
-build, also for the example with the GIT_VERSION, which bitbake and git
-will dynamically evaluate at eSDK build time.
+Note:
+ On some emulated NIC types, Qemu and the kernel enumerate the eths in
+ the guest in reverse order to how the device parameters are passed to
+ Qemu. So in this case it is important that the additional NICs are
+ prepended to the -device parameter, which gets automatically added by
+ Qemu. Otherwise, the interface eth1 will be connected to the host, but
+ eth0 will be assigned the IP address 192.168.7.x, which obviously does
+ not work.
 
-Suppose we want to compile the GIT_VERSION (last tag) from poky without
-any manual steps into the firmware. bitbake can simply call
+When booting Qemu with two NICs, but only one set of network
+configuration parameters gets passed to the kernel, the kernel seems to
+search for a configuration for all NICs. This delays the boot process
+for a very long time.
 
-$ describe git --tags --dirty
-uninative-2,8-74-g56446f4570-dirty
+This change solves the timeout problem. Tested with:
+ oe-selftest --run-tests runqemu
 
-With Bitbake the variable can change. But in eSDK the GIT_VERSION must
-be a constant. The above function behaves like a constant if
-GIT_VERSION is defined in the local.conf for example. But it has a
-dynamic behavior if GIT_VERSION is undefined. The only missing part in
-the current Poky, is a way to automatically write the value to the
-local.conf of the eSDK. I don't think this would be much different than
-the already existing sdk-extra.conf file.
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ scripts/runqemu | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Adrian
-
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
+diff --git a/scripts/runqemu b/scripts/runqemu
+index dd0aa4b28f..d34f8eec25 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1147,7 +1147,7 @@ class BaseConfig(object):
+         client = gateway + 1
+         if self.fstype == 'nfs':
+             self.setup_nfs()
+-        netconf = "192.168.7.%s::192.168.7.%s:255.255.255.0" % (client, gateway)
++        netconf = "192.168.7.%s::192.168.7.%s:255.255.255.0::eth0" % (client, gateway)
+         logger.info("Network configuration: %s", netconf)
+         self.kernel_cmdline_script += " ip=%s" % netconf
+         mac = "%s%02x" % (self.mac_tap, client)
+-- 
+2.24.1
 
 
