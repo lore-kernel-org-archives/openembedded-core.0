@@ -1,53 +1,54 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id D0F3660115
-	for <openembedded-core@openembedded.org>;
-	Sun,  8 Mar 2020 08:14:41 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id p2so6429067wrw.7
-	for <openembedded-core@openembedded.org>;
-	Sun, 08 Mar 2020 00:14:43 -0800 (PST)
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AD8326063F
+	for <openembedded-core@lists.openembedded.org>;
+	Sun,  8 Mar 2020 08:18:21 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n7so7212814wrt.11
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 08 Mar 2020 00:18:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=2psA7ZVAFPWA11Jr6neatBQdDWuSFdFXFi9+9kEjQ5o=;
-	b=bawVbyyhX2A2TmgHFRVMxt7SZAaCs4oo6t62jgHIiWnHwOuEWFxFfatNOlAqVzH1xi
-	X7nRaPJXPXq+qqoumzudYQK1GnG8FxPQx1WhLrySNxcZHfiQfAMmw5OTEkizh98UDQh7
-	VY/+ibBO9AzCyQKw61Jb6LAJJkbAermUUMx7g=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=NtwdoryS4Trw2XetIGgLlELqRCOeOMOuoPecxMeJlX0=;
+	b=atTQZ6VVgQYt/c0o2EdlvtwPCWvCvpL7g0BmGg/pDM6K1dEz3VpkiMU+dT2rwvDSIN
+	LEgew52UMGdhmA9+YGgFw0NlUbTk11sBgvrSRTrOPuSWzc8ZQppXobYWISeMNXc5Y4Jl
+	ON6AwSAz2ttKoI6sFkcAiDASryIKt2xFuHTGs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=2psA7ZVAFPWA11Jr6neatBQdDWuSFdFXFi9+9kEjQ5o=;
-	b=X+QrLv7Ea0n9/o4StA+I21sunIKjO/G3rJesFurtHArCoW9Ufr3oOxKFD3sIw02hqh
-	XUAvv6SK1jKbP8D0xv3mfnrvhwDJqhlPBwL1mqaEZ/t1Ss3/QFKg3u0gKLwAaDSM/LaV
-	FhR4Y+Ix+KPRrF+na2+meE0/iOoo+FH+zqR3134Wc1+54K3kHmXeeYFRdXzIwaYAKODg
-	FJJd5w1pH5HDdaM6xyCahRm4gk4W8pwx1XuIT6WF+boYP87kHk1bDIrnS4tWzJSvQcyj
-	x2q4bpyvNbRHa4yYhHIflIHFIrZGhvo6YJ/ku0sEl70SmoeC6ipX4qkuFVj4BqhI8ALH
-	6vuQ==
-X-Gm-Message-State: ANhLgQ3Ov2/QiWW2e8xV47auBil8XwwuInnGuAsrgLVa3PV/YD1PkXcW
-	ea9PcB683b5oDSkXE/D+m7HLOw==
-X-Google-Smtp-Source: ADFU+vvywmqzMwDeEpeM035mRJ1hMgPAEFNxuCApW7xaUqLwdZAp0ETbA02uuwtZ/TnDIXSX2KvpRQ==
-X-Received: by 2002:a5d:4bc8:: with SMTP id l8mr13552855wrt.89.1583655282488; 
-	Sun, 08 Mar 2020 00:14:42 -0800 (PST)
+	bh=NtwdoryS4Trw2XetIGgLlELqRCOeOMOuoPecxMeJlX0=;
+	b=VoHd1lg0xsM0at8Uf1RY7WFl5GHZfYW/fhAYH5eLa2J9CmeG4spoQX8Epesk2Jxsg8
+	3LBhxZU76gUjJOVEnCokfjrZA1uEuW86UholI9tgc29uBFmSZouzApuxxDMpOj5kZX4g
+	/hWjzdtRWgyiCxfhZqPzvx87dJ6rQLtbiEotUiO5xty89ez304RQTIgTuedx4GZRCR7d
+	bibMlCF97TaeEUgWyV46rsozC0pQ8mP7ZqVr63+nwFVS2Tgz8ogPcXlVcjK2NslokYYv
+	ag9pGfaoIDYhHs7zoCxXzpMnRQYD2tnX00y247367ERJrn52cNNU7xEqDRxpAGiKh84S
+	isow==
+X-Gm-Message-State: ANhLgQ0LdZ1/k6i+u77bYuJfWR8rsTfubB3QQwAxRhlPj0Whem0iloo/
+	MKWvxTaKsx6eSq1nc9i+uRJHNg==
+X-Google-Smtp-Source: ADFU+vv4Z3LwQ/lTyJwrYwiZYucxwg67kd9OuSuO/hJiL+WZz8JlMfs2AzEbr/ihfpCxFklMKJBbSQ==
+X-Received: by 2002:a05:6000:1ca:: with SMTP id
+	t10mr13643643wrx.75.1583655502508; 
+	Sun, 08 Mar 2020 00:18:22 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	o10sm9078906wru.38.2020.03.08.00.14.41
+	i10sm50422177wrn.53.2020.03.08.00.18.21
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 08 Mar 2020 00:14:41 -0800 (PST)
-Message-ID: <babd7ffac5376394f222d6ed21544028ee053369.camel@linuxfoundation.org>
+	Sun, 08 Mar 2020 00:18:21 -0800 (PST)
+Message-ID: <c1b7a7ed56b4a8963fecf1c016b6ebb7d0781c76.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, openembedded-core
-	<openembedded-core@openembedded.org>
-Date: Sun, 08 Mar 2020 08:14:40 +0000
-In-Reply-To: <df13465da1047d41fb47b19c7479a836b8b71245.camel@linuxfoundation.org>
-References: <e7b54a7b237a70346379df8483837a6b97ccc73f.camel@linuxfoundation.org>
-	<c88b00fa-a513-c0a0-eb30-62cef90f66bb@gmail.com>
-	<df13465da1047d41fb47b19c7479a836b8b71245.camel@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 08 Mar 2020 08:18:20 +0000
+In-Reply-To: <CAMKF1spC7POwDTKYGVuAZdZDfYDfeGMz6qRsq4hB3hY-F1aN6Q@mail.gmail.com>
+References: <20200307223748.1178851-1-richard.purdie@linuxfoundation.org>
+	<CAMKF1spC7POwDTKYGVuAZdZDfYDfeGMz6qRsq4hB3hY-F1aN6Q@mail.gmail.com>
 User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-Subject: Re: M3 build status
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] glibc: Explicitly disable msgfmt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,72 +61,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Mar 2020 08:14:42 -0000
+X-List-Received-Date: Sun, 08 Mar 2020 08:18:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-03-02 at 16:47 +0000, Richard Purdie wrote:
-> On Sat, 2020-02-29 at 07:38 -0800, akuster808 wrote:
+On Sat, 2020-03-07 at 20:17 -0800, Khem Raj wrote:
+> On Sat, Mar 7, 2020 at 2:37 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > If configure is rerun it finds msgfmt from gettext-native which is
+> > installed
+> > during package_write_ipk|deb and means builds are not determinisic.
+> > 
+> > Whether msgfmt is needed is debatable (libc.mo files arne't
+> > generated without
+> > it) however we should at least be consistent which this patch
+> > ensures.
+> > 
 > 
-> > > * coreutils ptest addition (blocked on libmodule-build-per 
-> > >   reproducibility issue)
-> 
-> Still not done.
+> I think we could turn it into a packageconfig and add depending on
+> gettext-native in knob,  keep the knob disabled by default. While
+> dont think translation files will be commonly installed on systems OE
+> targets but its seems limiting if we simply disable it.
 
-This is now closer. Alex fixed the libmodule-build-perl and gettext
-reproducibility issues (thanks!), I tracked down a glibc issue and
-procps one I saw locally. On a fresh autobuilder run we saw:
+Keep in mind that currently in any build from scratch it is disabled.
+This patch doesn't regress anything, it just ensures builds are
+reproducible.
 
-https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200307-mk0v6ljq/packages/diff-html/
-and
-https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200307-5pvgdd3a/packages/diff-html/
-
-which I believe is the remaining blocking issue on coreutils-ptest.
-
-> > > * psplash systemd race (smurray may have a fix)
-> 
-> Still not done.
-
-Now done.
-
-> > > * LockedSigs intermittent test failure (RP has open high bug, no
-> > > clue 
-> > >   how to reproduce or why, total mystery)
-> 
-> Spent hours on this, limited success :(
-
-Turned out to be a logging issue, hopefully fixed.
-
-> 
-> > > * Intermittent selftest failure with SystemExit (High open bug,
-> > > Kai owns)
-> 
-> Still pending.
-
-Still pending. There are also other intermittent Medium+ selftest bugs
-we're seeing now the source of major failures has been addressed.
-
-> > > As ever, help with any of these welcome. We'll build M3 when a
-> > > majority of the above are ready.
-> 
-> Also, I've realised:
-> * there is a high priority pseudo issue assigned to me
-
-Not done.
-
-> * gcc buildtools tarball issue
-
-Moved forwards. The tarball breaks eSDK testing and my fix didn't work.
-
-There is an open question of whether we want to automate use of this or
-not and whether we support Centos7 for the LTS with or without the
-tarball.
-
-> + the bind issue you mention
-
-We've established we can't take that.
-
-This puts us closer to the M3 build but probably not quite there yet.
+I agree if anyone wants it, we can add a PACKAGECONFIG.
 
 Cheers,
 
