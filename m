@@ -1,48 +1,55 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f50.google.com (mail-ua1-f50.google.com
-	[209.85.222.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 562F4605A3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 425666188C
 	for <openembedded-core@openembedded.org>;
-	Sun,  8 Mar 2020 13:08:49 +0000 (UTC)
-Received: by mail-ua1-f50.google.com with SMTP id q17so2334914uao.12
+	Sun,  8 Mar 2020 13:18:21 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id g134so7162539wme.3
 	for <openembedded-core@openembedded.org>;
-	Sun, 08 Mar 2020 06:08:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hnsk8Zju3vg9/nzR4jNQPt+bAMKpaTrtpfqF6BxAck8=;
-	b=X5HTc5/+xWXRfbvRyNnPvjU7QBQ1g6R7uOxySFvoP0EAp0JDSPApieunN7+jLC1MBt
-	PkmfIxgFboRVZrDTreqTPUop2vwImJ3Q3otGj8Jbr/HyP2cmXrn+JZht6U8c1kOwhCQh
-	HIVkjYxtujsBKQP4FMmld3EQOV5tY9rqlkRS9Oe7QSvJYHflzO8fzwlzZxQmAX+OMcqy
-	rVpU7ii8qjKizASoElqXEJ6TXxGgc7C4p2X9JclAY8ZTjyS/HaQI1ZHFqba1UI05Is7v
-	Ltpgd7Dh2dMo4OkFoQmQtwNcMjvK7Uf/7WFBCQD2gxeEK6IF/carcIqnWc/jbV8CTqqa
-	/rqQ==
+	Sun, 08 Mar 2020 06:18:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=5s5BNPGcT2rLzesaiJbhlahjBstN4UELB1bmis2x9F4=;
+	b=IZKlb63X/1AlMGjs1UQz7T3uPNTwNBnA3tP0vuIM/WX5GeGKKfg9Xjze7dfFroTbiM
+	HWBCdjYR/s50aAIH34GYgH0tHU2H7OJz9uh0M8A/p7MEzYKCAGQE9wovlMiHkaNPOZdc
+	IK0/Ib10E+L1ZraWAVQSD/wrhbym/QVlxLMEw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=hnsk8Zju3vg9/nzR4jNQPt+bAMKpaTrtpfqF6BxAck8=;
-	b=j+1sWjh0kKJtAbe0H+soMw6gg+6aH2m5yBBKD8rlqmJhoffuB4u8C3Q7PveUCod54M
-	XdsKQ6AeiOq6ea/RVZwpWnpBARRUliNeyFEsWxB3dbo4HVTds2jEZc1dQ5zL8gbfikG2
-	hDVxx3tcCx+ov4tcIDEH4kph/BbaD/tiTtKop+fjHapSDda/Ic5U0DwfeatFBqrsFdPq
-	DYK8IDxImczsgQ9upSMDwwdWlwu0swgzaWUekgcWcOQBLR3Yr3lBHPeMA4bNwiJxHQDv
-	WO4M6+Pe1ubCyaTvRqZTJbGl0T/oxBNFUFbWSDV7ss7/PHM589CrSRDScvDbmO1j/9i+
-	0vGg==
-X-Gm-Message-State: ANhLgQ22Um+lSWUjD/Th/r3VidH6FePB/y6+UAyKvlkBi68Tza9zyABU
-	n0ohITI0sH3IERBZgnivx9EgZOMsMaRnSLxvq7w=
-X-Google-Smtp-Source: ADFU+vseIZGIKR9fCyWC5+0K6odAtq0A7rpose5p66l4SKr0YVR31qP+79O4ckt8vKZI0ljxi2uARbvaNpQmjJQ4S/s=
-X-Received: by 2002:ab0:a90:: with SMTP id d16mr2374650uak.22.1583672930110;
-	Sun, 08 Mar 2020 06:08:50 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=5s5BNPGcT2rLzesaiJbhlahjBstN4UELB1bmis2x9F4=;
+	b=bJyIOqX0igMBTmzTyiVBR021ZDrpWJNGX35n9igPb/k35kIoMI5mPI9T3dguAKDfXB
+	IYipSdPi9SJaPYLkZDZ2KnV7fcAlauJ59OGSZcVWJr3G0d9NWDSAyoeWgiLCQjnX3GO5
+	g8K4Tn/c3xUxq9c2fZCihlZFS7gzvj8B5SPzV5BnFkuuQUx6vwA56GPAep8xsKQfz2Xo
+	F+VXBxMHTqeUCNCOvmS9iYahyzvdTkQzK3okPqG+/5vfalZOmkeeJXjxLqsKNMrpGRyr
+	+Nsf4411S4QehCf19e+3Wi8ciGr2S/w+Y/LEUTxBublxQAhhoFuyNETMoJoqJ2nd7tp8
+	rweA==
+X-Gm-Message-State: ANhLgQ3xiA8aJgaM64Z4pkOuzoIxoeoWqhTm5Vo58unpvGeOUKI5ybz1
+	W6R9BQ/tUzx5qO/KNQ6iYuRg+w==
+X-Google-Smtp-Source: ADFU+vv/pDeozv2T5v2YNPG1d05xwd5eQq/HcGFNRaixlfRM8RJ7NlpsFN/SvFsX01JmDiWIcS9NOQ==
+X-Received: by 2002:a05:600c:24b:: with SMTP id
+	11mr14976721wmj.1.1583673500417; 
+	Sun, 08 Mar 2020 06:18:20 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v16sm40169566wrp.84.2020.03.08.06.18.18
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 08 Mar 2020 06:18:19 -0700 (PDT)
+Message-ID: <07697e4e61eec35dc6ca42fd7c0b6694aca036c4.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Trevor Gamblin
+	<trevor.gamblin@windriver.com>
+Date: Sun, 08 Mar 2020 13:18:18 +0000
+In-Reply-To: <CANNYZj9ryAAC37rCRvxiT10LKpg1uo27H8GPW_o_qrh3X9Qrtw@mail.gmail.com>
 References: <e7b54a7b237a70346379df8483837a6b97ccc73f.camel@linuxfoundation.org>
 	<c88b00fa-a513-c0a0-eb30-62cef90f66bb@gmail.com>
 	<df13465da1047d41fb47b19c7479a836b8b71245.camel@linuxfoundation.org>
 	<babd7ffac5376394f222d6ed21544028ee053369.camel@linuxfoundation.org>
-In-Reply-To: <babd7ffac5376394f222d6ed21544028ee053369.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 8 Mar 2020 14:08:38 +0100
-Message-ID: <CANNYZj9ryAAC37rCRvxiT10LKpg1uo27H8GPW_o_qrh3X9Qrtw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Trevor Gamblin <trevor.gamblin@windriver.com>
+	<CANNYZj9ryAAC37rCRvxiT10LKpg1uo27H8GPW_o_qrh3X9Qrtw@mail.gmail.com>
+User-Agent: Evolution 3.35.91-1 
+MIME-Version: 1.0
 Cc: openembedded-core <openembedded-core@openembedded.org>
 Subject: Re: M3 build status
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -57,69 +64,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Mar 2020 13:08:49 -0000
-Content-Type: multipart/alternative; boundary="00000000000070911605a0579610"
-
---00000000000070911605a0579610
+X-List-Received-Date: Sun, 08 Mar 2020 13:18:21 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, 8 Mar 2020 at 09:15, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Sun, 2020-03-08 at 14:08 +0100, Alexander Kanavin wrote:
+> On Sun, 8 Mar 2020 at 09:15, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > This is now closer. Alex fixed the libmodule-build-perl and gettext
+> > reproducibility issues (thanks!), I tracked down a glibc issue and
+> > procps one I saw locally. On a fresh autobuilder run we saw:
+> > 
+> > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200307-mk0v6ljq/packages/diff-html/
+> > and
+> > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200307-5pvgdd3a/packages/diff-html/
+> > 
+> > which I believe is the remaining blocking issue on coreutils-ptest.
+> 
+> Not quite. The coreutils-ptest itself seems to persistently fail
+> here:
+> 
+> AssertionError: Failed ptests:
+> {'coreutils': ['tests/tail-2/assert.sh']}
+> 
+> so I'd like to have that fixed before it goes in. We have a 100%
+> ptest pass rate now (except for random timing fluctuations), which I
+> don't want to see regressed :)
 
-> This is now closer. Alex fixed the libmodule-build-perl and gettext
-> reproducibility issues (thanks!), I tracked down a glibc issue and
-> procps one I saw locally. On a fresh autobuilder run we saw:
->
->
-> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200307-mk0v6ljq/packages/diff-html/
-> and
->
-> https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200307-5pvgdd3a/packages/diff-html/
->
-> which I believe is the remaining blocking issue on coreutils-ptest.
->
+I agree that would be nice and something we need to do before release,
+I may let us sort that one test in M4 to enable the M3 build, I have to
+take a pragmatic approach to this.
 
-Not quite. The coreutils-ptest itself seems to persistently fail here:
+That said, there is a more pressing issue:
 
-AssertionError: Failed ptests:
-{'coreutils': ['tests/tail-2/assert.sh']}
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/1686
 
-so I'd like to have that fixed before it goes in. We have a 100% ptest pass
-rate now (except for random timing fluctuations), which I don't want to see
-regressed :)
+which is somehow seemingly related to the coreutils change, I just
+can't see how as yet :/
 
-Alex
+(as well as the gcc-plugin reproducibility issues)
 
---00000000000070911605a0579610
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 8 Mar 2020 at 09:15, Richard Purd=
-ie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie=
-@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">This is now closer. Alex fix=
-ed the libmodule-build-perl and gettext<br>
-reproducibility issues (thanks!), I tracked down a glibc issue and<br>
-procps one I saw locally. On a fresh autobuilder run we saw:<br>
-<br>
-<a href=3D"https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-2020=
-0307-mk0v6ljq/packages/diff-html/" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200307-mk0v6ljq/=
-packages/diff-html/</a><br>
-and<br>
-<a href=3D"https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-2020=
-0307-5pvgdd3a/packages/diff-html/" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200307-5pvgdd3a/=
-packages/diff-html/</a><br>
-<br>
-which I believe is the remaining blocking issue on coreutils-ptest.<br></bl=
-ockquote><div><br></div><div>Not quite. The coreutils-ptest itself seems to=
- persistently fail here:</div><div></div><div><br></div><div>AssertionError=
-: Failed ptests:<br>{&#39;coreutils&#39;: [&#39;tests/tail-2/assert.sh&#39;=
-]}</div><div><br></div><div>so I&#39;d like to have that fixed before it go=
-es in. We have a 100% ptest pass rate now (except for random timing fluctua=
-tions), which I don&#39;t want to see regressed :)<br></div><div>=C2=A0</di=
-v><div>Alex<br></div></div></div>
+Richard
 
---00000000000070911605a0579610--
+
