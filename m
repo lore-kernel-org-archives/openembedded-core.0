@@ -1,29 +1,36 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 6EBE860C3C;
-	Sun,  8 Mar 2020 21:46:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48bFKc6TLRz2C;
-	Sun,  8 Mar 2020 22:46:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1583703973;
-	bh=Lr261tVcbYiVq9lzGBQ6rbl+aalW1NIBf4qqKc18g4o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XpT3ikpCHoEzTV08mDuSU0oaOylIOmXNkIy4ohYHWRAVsR8CD9rO9BRMqDLM3qMCL
-	Og9wthlcRd5Dxob46q9SNF+crE52bLASIRm7l3VgfDdTz6xtqUoSUlueIkYNhS/ajc
-	7w1XxpTaHeoOu/fi5f2Ak0A+1TGdaJzmiLBZMQ8nn6+rjO7j63Am3ILKvEp88JDc6G
-	P4+si38BJ28xx7jzEUA0qsOpZim2Zz202w586+lpq9K9U5lH7oeH3EVRtVOF4LS+CD
-	m8xfGYKFNyRYLZPVrOt9HU1LW1Zj5j/6fCwwLbjQCp0uUufDdvn1rIGOWQrnSr59Zc
-	uB8Jp6V3jjUuErZ2dyv5zBmPcrkPLeeR7vP18fqsqWgoRGbPt2fscvJekJSvLKvXdw
-	iLdY6ffylqhSoz34uLA7bkRCkYU1ETELM8NOK6fTHrHsrp4nnGLuRHe5BdbPkkyhYu
-	nqeizlK/jmA7kTp45Nelj9A4vLZmIFeZ302/Z1ohkvOgGLhCq+cSX/eTpBhMbJIteD
-	bgkc9gitSMzNEPdaWM5khayVdADQOWg4aczIiz1ldPnGjDwHwo/wjPEeGYjGzbySAa
-	EQuDp2gti06BB/mJmepWHl/DnEi1mp2sir/N0PpQrtviBYjbsOdAWmBWoXtOoJLZuA
-	NBYAuOGEN6EdLgls5iNx28fE=
-Date: Sun, 8 Mar 2020 23:46:10 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20200308214610.GB1425@localhost>
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com
+	[209.85.221.193])
+	by mail.openembedded.org (Postfix) with ESMTP id BA19D60C3C;
+	Sun,  8 Mar 2020 22:08:18 +0000 (UTC)
+Received: by mail-vk1-f193.google.com with SMTP id t129so2054264vkg.6;
+	Sun, 08 Mar 2020 15:08:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=hBKUB03Fv128kRCbw6KflVIEec7q0VWfY1mkcCm4ec8=;
+	b=gG8lm+WAWhTFgZzd9jUugvZfcob6BECHE6FoglUPoSZIWQRK380mlcvdg57hQyQD2i
+	5s86PBF7O3X89GAc0LxvYCkZkKz0SqlQ8lGy38PLqJkWfgGaU3RIFmTMPmWUCGP2/Fx2
+	5RmoV2o6jK1/dUTxEe0ViDZkshutDsoqajfKX0jK506Oi4SW3R04vRDWUvfAmBNXTxhq
+	ly5HCeKafP/BM9Ffyp9r3HX1j6WHmWIJwzNy+jIqNf2iMCsNyMYFLDLNHhCHc+cacIuL
+	c0hGdme8y99secaZMN3e5y273L0WWwzqOuRESpjRDnfYQoUG3xuW4SsFwG8UcAauSvwk
+	mJdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=hBKUB03Fv128kRCbw6KflVIEec7q0VWfY1mkcCm4ec8=;
+	b=A12cD7UfNQlUtldVjWML/prNeKVBkbbiL2WGRQI6BmydztCNWpHIR6QHzX+CQhL/GC
+	SciiGSI3o2KqNnzJ7yAMqi2LIgvU/1Ci21KMbCZjCDQZvf5UDXe4o108x1Bxp6BGvsi5
+	A5juXMgRjZ7Bm+FJmqbJ47sDvh3RakT+HJHJcqlJv4e/bV/0VsmXCYEFpZBn7+nd9X1R
+	SaDNqvnnwVTlhZAgimoRN8Dij2A51fCJ4DNX1a+4FJIaouFoHxYhqitsDnSKV4tjyuPu
+	b2MiWR+1ph3Ye+7ZWZIm6G+MEu8+1MLuPqFwZnNfpbLAllS/D8mg+vqsITkTL6boiukB
+	AklA==
+X-Gm-Message-State: ANhLgQ0hsRP1jm6oprChv0bHrxDoiQFn7Y0Rej4hHDWyG+aiPKY6c9JP
+	YCpzPN6vlp86EhZxzElp2sPwYxgp/FOFLp5YAhg=
+X-Google-Smtp-Source: ADFU+vt5iloIcwYSsWPcXziLL/hFwBlTjPQtRJvhM2hwDMegi2B58xTig5kbnteXNS3ZjMzVj4bTvShzec8h2ofBs8A=
+X-Received: by 2002:a1f:f2ce:: with SMTP id q197mr3550892vkh.49.1583705299400; 
+	Sun, 08 Mar 2020 15:08:19 -0700 (PDT)
+MIME-Version: 1.0
 References: <20200304090507.GA7923@localhost>
 	<CANNYZj9FbH=Poibo03-7tU=QhJjO5vu3kKHGpCgMCNd9=xVAVQ@mail.gmail.com>
 	<20200304113217.GB7923@localhost>
@@ -34,12 +41,15 @@ References: <20200304090507.GA7923@localhost>
 	<01b3bb37-f65f-8048-1a27-b859b62d7f98@gmail.com>
 	<20200306100422.GA17785@localhost>
 	<877e317932176664bc7b0120439c56d4dda791af.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <877e317932176664bc7b0120439c56d4dda791af.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-architecture@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
+	<20200308214610.GB1425@localhost>
+In-Reply-To: <20200308214610.GB1425@localhost>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 8 Mar 2020 23:08:08 +0100
+Message-ID: <CANNYZj_4sTc9vjhm1+S1GbjN=8SjChWt+gksxxKLXEZXeK9nPQ@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
 Subject: Re: [Openembedded-architecture] Does YP provide security support for stable and LTS branches?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -53,147 +63,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Mar 2020 21:46:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sun, 08 Mar 2020 22:08:19 -0000
+Content-Type: multipart/alternative; boundary="000000000000ccbce605a05f1f10"
 
-On Fri, Mar 06, 2020 at 10:36:59AM +0000, Richard Purdie wrote:
-> On Fri, 2020-03-06 at 12:04 +0200, Adrian Bunk wrote:
-> > For most community companies there is no clear Return on Investment
-> > if they would use the opportunity to invest in upstream involvement.
-> 
-> That isn't true. If you fix something yourself and hold the change you
-> get to maintain it. If you work with upstream you can share the
-> maintenance burden with the community going forward. That is a direct
-> ROI, there are also more indirect benefits.
+--000000000000ccbce605a05f1f10
+Content-Type: text/plain; charset="UTF-8"
 
-I was responding to Armin talking about the build swat team.
-It is hard to see the ROI for a community company when participating
-in something like that.
+On Sun, 8 Mar 2020 at 22:46, Adrian Bunk <bunk@stusta.de> wrote:
 
-Upstreaming of own local changes is a different story.
+> It is on YP to make it clear to users whether or not Yocto comes with
+> the same set of security guarantees as distributions like Ubuntu or
+> Debian.
+> If it is the duty of every user of Yocto to track and fix CVEs,
+> then this has to be stated clearly instead of implying the opposite.
+> This gives users the opportunity to mitigate, instead of unknowingly
+> shipping insecure products.
+>
 
->...
-> Today, our stable branch maintenance is done "ad-hoc" by volunteers.
-> I/we can't ask them to do anything in any given time frame, its a best
-> effort. I *hugely* appreciate what those people do but it has its
-> limitations.
+Do you have any actual evidence for actual users shipping insecure products
+because they mistakenly believe Yocto takes care of security for them? This
+has been the situation from the start of the project, certainly this was
+the case 5 years ago when I joined it, and the only person ever to make an
+issue out of it is you. Everyone else seems to understand the deal they're
+getting by using Yocto without a commercial support contract.
 
-On developer lists the message is always "we are short on resources,
-please help". Which reaches the few people already involved in 
-development.
+Yes, there are millions of insecure yocto-based devices out there, but
+there reasons they are insecure have nothing to do with what you say.
 
-The message to users is that everything is fine and what new things
-Yocto is additionally offering.
+Alex
 
-No regular user of Wikipedia would miss the regular fundraising where 
-the project needs/wants money.
+--000000000000ccbce605a05f1f10
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->...
-> > The wording is "releases move to community support, which means they 
-> > only receive occasional patches for critical defects and updates,
-> > and no regular defect fixes and security updates".
-> > 
-> > When the move to community support means no regular security updates,
-> > this is a clear claim from YP that before the move there are regular
-> > security updates.
-> 
-> I think you're being rather pedantic here and I'd suggest we go back to
-> what the essence of this announcement is.
+<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 8 Mar 2020 at 22:46, Adrian Bunk =
+&lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></di=
+v><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-=
+left-color:rgb(204,204,204);padding-left:1ex">It is on YP to make it clear =
+to users whether or not Yocto comes with<br>
+the same set of security guarantees as distributions like Ubuntu or Debian.=
+ <br>
+If it is the duty of every user of Yocto to track and fix CVEs,<br>
+then this has to be stated clearly instead of implying the opposite.<br>
+This gives users the opportunity to mitigate, instead of unknowingly<br>
+shipping insecure products.<br></blockquote><div><br></div><div>Do you have=
+ any actual evidence for actual users shipping insecure products because th=
+ey mistakenly believe Yocto takes care of security for them? This has been =
+the situation from the start of the project, certainly this was the case 5 =
+years ago when I joined it, and the only person ever to make an issue out o=
+f it is you. Everyone else seems to understand the deal they&#39;re getting=
+ by using Yocto without a commercial support contract.=C2=A0</div><div><br>=
+</div><div>Yes, there are millions of insecure yocto-based devices out ther=
+e, but there reasons they are insecure have nothing to do with what you say=
+.</div><div><br></div><div>Alex</div></div></div>
 
-The essence for me is that a few days after I am told on the developer 
-list that 'track and fix CVEs' for stable releases is on users, YP makes 
-an announcement that is worded to make users believe the opposite.
-
-I am getting attacks like being accused of making "toxic accusations" 
-for stating the fact that millions of devices being put at risk by
-YP misrepresenting the status of security support to users who are
-building products based on Yocto.
-
-It is on YP to make it clear to users whether or not Yocto comes with
-the same set of security guarantees as distributions like Ubuntu or Debian. 
-If it is the duty of every user of Yocto to track and fix CVEs,
-then this has to be stated clearly instead of implying the opposite.
-This gives users the opportunity to mitigate, instead of unknowingly
-shipping insecure products.
-
-E.g. embedded products based on Ubuntu with its security support from 
-Linux Foundation member Canonical are clearly better than embedded 
-products based on any distribution without similar security support.
-
-And while you are downloading an Ubuntu image from their website you are 
-on a "Contribute with PayPal" page.
-
->...
-> > If YP does not want to be responsible for insecure millions of
-> > devices, it is up to YP to not make incorrect claims and make it
-> > clear in announcements and user documentation if security support is
-> > not provided by YP.
-> 
-> I think the definition of "security support" is arguable to be
-> different things but the intent of what we're trying to do here is
-> clear. No, the person will not write the patches, the intent is to
-> coordinate the maintenance of the branch. If there are huge security
-> holes I would at least expect they can highlight the issues and then
-> coordinate any help in fixing them. That in itself is a level of
-> security support btw.
-
-This is a bit of a strawman, the problem is elsewhere.
-
-Vulnerabilities are rarely OE/Yocto-specific, in practice security
-support means applying the same patches that other distributions
-are also applying.
-
-When a security advisory will be published for Ubuntu 20.04 LTS
-there will be a patch available for usually approximately the
-same version of this software as is in Yocto 3.1 LTS.
-
-Going back to where this discussion started:
-
-If YP gives the impression that stable and LTS series are security
-supported by YP, then it is a problem when a crypto library like
-nss is not getting any security fixes in Yocto 2.7.
-
-Debian stable ships the same upstream version and applied fixes for 5 
-CVEs last year. In practice security support means integrating these 
-existing patches. And providing security support means that there is
-a person resposible for integrating such existing patches from elsewhere.
-
->...
-> Its incredibly hard to find funding to try and then organise what we're
-> trying to do, it would be nice if you could try and help us support in
-> doing so.
->...
-
-Do you have constructive suggestions how people can help with funding 
-who do not have access to money sources that could contribute 6 digit 
-amounts to upstream Yocto?
-
-Any support I could provide or might be able to organize would be
-4 digits per year, and I am not aware of any existing way to pool
-such contributions easily for paying people for upstream YP work.
-
-The best I could offer would be that I open a company that sends 
-invoices for small contributions and pays people from that money.
-Which sounds like a clear non-starter for financing YP stable/LTS branch 
-maintainance - this would likely have to be organized through the LF.
-
-I might have use for continued warrior maintainance and might volunteer
-as community maintainer for that after the 12 months, but this doesn't 
-generate funding for YP.
-
-It is really hard to help you find funding when you are offering 
-opportunities to fund YP only for big companies with huge budgets,
-but aren't offering any opportunity to give a 1k contribution to YP.
-
-I fully understand that improving on that would be difficult,
-but this is a reason why most businesses are not able to help
-you even if they want to.
-
-> Cheers,
-> 
-> Richard
-
-cu
-Adrian
-
+--000000000000ccbce605a05f1f10--
