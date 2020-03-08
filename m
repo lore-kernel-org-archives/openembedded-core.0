@@ -1,43 +1,46 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id D031C60234
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B4C7460661
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Mar 2020 02:40:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=axis.com; l=1639; q=dns/txt; s=axis-central1;
-	t=1583635230; x=1615171230;
-	h=from:to:subject:date:message-id:references:in-reply-to:
-	content-transfer-encoding:mime-version;
-	bh=pVS4cW4HnCy8VXaV+fFHFAqLcMKYxZsJGt0YPe1u82A=;
-	b=HemFfsQIL95aWNJrMKGtdvGk0jarDlz3D/Tczab6trWsBjulDkp7xot+
-	MKoC2v5m88CatK2yES61ku5eqccXIqGRa9JkRhDhDEbC8YPRtqr38ej+W
-	+vIzscfh5Hoy+xx+CGyB+BGpCCSC6kuaMSqjEbTkcdXn6lsWrUaLDDoT4
-	/yHSXgs1NcDvsp85vowXHdjc5DT+FMWWLyki1nANWe2ZCNNWpOaxJH4E0
-	Da5+dBKJjcGixjTicHUIAu4bVfxyQ2pNJ++INUhYcsf1u/2pkjnz+vw7O
-	oxERlAubetnGftdd2KadSl7Fr1Nl6VnAD6FVaYtIgnCYCVPCVLy5kzkHO w==;
-IronPort-SDR: v+vhexZwAdCf8CvcJd0W1UUh+SIGA4aqZbk5LXv/njAr09H7zinEgx58fx9pc3KEycBHzF4kCb
-	cE35kbMN7vI2nY+oKcGov62GUT9/1aEaMxAoiGjIPLwlFv1piL01FJ0ohIZHQNrrFlhXHpH7P4
-	AuiDYJE+8Nw4RBkatqUNaQQzMBpv0Gx4uCeu5fQ6hPRqk5sokLngu5mNcwV/9VEVFj0TaY3KD9
-	CpUHVbv+qVSs7AC1CtuvSbPGRabn5ON/Uq0clmAomeP7SisDs/mIvFSLDahPxCd/k3Jf/LqKat
-	uqk=
-X-IronPort-AV: E=Sophos;i="5.70,528,1574118000"; 
-   d="scan'208";a="6036181"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/2] glibc: Explicitly disable msgfmt
-Thread-Index: AQHV9NENjDBBXmhf9USal278ewzB3ag9+nYw
-Date: Sun, 8 Mar 2020 02:40:24 +0000
-Message-ID: <d57e3c452f934d9791fdd43a399fe314@XBOX03.axis.com>
+	Sun,  8 Mar 2020 04:18:11 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id l20so3094482qtp.4
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 07 Mar 2020 20:18:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=H1AT20trm/lGZlYKtvfOp+uM1WGXbZkLwO59YMJUrZA=;
+	b=b/6++QJ9xER2jWbR5EaLdpggMbEkjoLaiR9fs5yYjRf0yJ6C0uGALB+NKIo6tK57Ic
+	uhR36vqERZdKX06pnCdvPU+dVutDvWDrNamssAxu6TwFImBmlByGHWlxkj/k0U0zrQTx
+	2sVBq/9jnaVNg4u81/Es4LPoyxjQXtO+OF9k558Qqlte62ZwpKCOUcNG0GnSmhdKLE+o
+	usCk9t6HJ+WmEDeabmIJFC8i5w+OlwJeE4aRPd9TJ1Nv6agAGPRVyeRI33gpOYi1Iumq
+	eMdmd56AaCE8wD2VH4M9pvS2Tg40rinzLSEe0vofQ7c1TAPlvPpPolclf3fYb9Pxp4zF
+	MwNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=H1AT20trm/lGZlYKtvfOp+uM1WGXbZkLwO59YMJUrZA=;
+	b=WZAWR66uxdqoGhK5HG3rQR03BRxo/z/6X3Bom1qGvDXYCw9K6uBExhxesxqZFM1TAD
+	52vU/Nju2E69g3aG/rpGQY9FaY3u6esBMB4SpQEXq3f5jaMGzOuRQ40am1KAI9aO4X9H
+	p4mrWCwRI/cPlaJmhKKAa0nxUzJt5e38v9+YADyrTipzNytgeRdpJisJJh4KJcYDBx7Q
+	PRQ+Haj0YYYT+YHwljL3Ty0ORigIUWlwUcByWFIOWtUZhC3Y8yT1Iw5Pd7RzjCzClfgY
+	9dFjM2RSuGKl7HwaeTmzRblKMyQbG/lpRDst+fb0gLLwLH8MSh4z+afNe85tmFaRD755
+	85yg==
+X-Gm-Message-State: ANhLgQ2EiFCyRGixtzUnrbU3a8//Nq31fltUgK7zumFiMNezVO09jcDm
+	+9qLRfIvEdQ7vZJAv1wlruhMbOjAUP/FLAwPAmu+tLFt
+X-Google-Smtp-Source: ADFU+vsQ1SW9q82YuTFd1ET6eZWo5GjbNNr/HjiHea3Rn9l3BOROgpT5aGdKKXDQHQKz5J2S8bZzJRzYaTtTJdgP/b0=
+X-Received: by 2002:ac8:3003:: with SMTP id f3mr3510856qte.293.1583641092342; 
+	Sat, 07 Mar 2020 20:18:12 -0800 (PST)
+MIME-Version: 1.0
 References: <20200307223748.1178851-1-richard.purdie@linuxfoundation.org>
 In-Reply-To: <20200307223748.1178851-1-richard.purdie@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 7 Mar 2020 20:17:44 -0800
+Message-ID: <CAMKF1spC7POwDTKYGVuAZdZDfYDfeGMz6qRsq4hB3hY-F1aN6Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] glibc: Explicitly disable msgfmt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -51,60 +54,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Mar 2020 02:40:29 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 08 Mar 2020 04:18:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of Richard Purdie
-> Sent: den 7 mars 2020 23:38
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 1/2] glibc: Explicitly disable msgfmt
->=20
-> If configure is rerun it finds msgfmt from gettext-native which is instal=
-led
+On Sat, Mar 7, 2020 at 2:37 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> If configure is rerun it finds msgfmt from gettext-native which is installed
 > during package_write_ipk|deb and means builds are not determinisic.
->=20
-> Whether msgfmt is needed is debatable (libc.mo files arne't generated wit=
-hout
-
-arne't -> aren't
-
+>
+> Whether msgfmt is needed is debatable (libc.mo files arne't generated without
 > it) however we should at least be consistent which this patch ensures.
+>
 
-Add a period and two commas:
+I think we could turn it into a packageconfig and add depending on
+gettext-native
+in knob,  keep the knob disabled by default. While dont think
+translation files will
+be commonly installed on systems OE targets but its seems limiting if we simply
+disable it.
 
-it). However, we should at least be consistent, which this patch ensures.
-
->=20
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
 >  meta/recipes-core/glibc/glibc.inc | 3 +++
 >  1 file changed, 3 insertions(+)
->=20
-> diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-
-> core/glibc/glibc.inc
+>
+> diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
 > index 58d2ba7bc44..23a6ca99ae0 100644
 > --- a/meta/recipes-core/glibc/glibc.inc
 > +++ b/meta/recipes-core/glibc/glibc.inc
 > @@ -9,8 +9,11 @@ inherit autotools texinfo features_check systemd
->=20
->  LEAD_SONAME =3D "libc.so"
->=20
+>
+>  LEAD_SONAME = "libc.so"
+>
 > +# msgfmt could come from gettext-native but we don't depend on that and
 > +# disable for reproducibility
->  CACHED_CONFIGUREVARS +=3D " \
->    ac_cv_path_BASH_SHELL=3D${base_bindir}/bash \
-> +  ac_cv_prog_MSGFMT=3D \
->    libc_cv_slibdir=3D${base_libdir} \
->    libc_cv_rootsbindir=3D${base_sbindir} \
->    libc_cv_localedir=3D${localedir} \
+>  CACHED_CONFIGUREVARS += " \
+>    ac_cv_path_BASH_SHELL=${base_bindir}/bash \
+> +  ac_cv_prog_MSGFMT= \
+>    libc_cv_slibdir=${base_libdir} \
+>    libc_cv_rootsbindir=${base_sbindir} \
+>    libc_cv_localedir=${localedir} \
 > --
 > 2.25.0
-
-//Peter
-
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
