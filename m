@@ -1,43 +1,49 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A160D61809
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 03EB5619CD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2020 15:18:36 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id t26so1730141ios.11
+	Mon,  9 Mar 2020 15:20:20 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id a4so7214676qto.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Mar 2020 08:18:37 -0700 (PDT)
+	Mon, 09 Mar 2020 08:20:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=E4GVqSI23w3IsCB7XC60NKxzUY0keeF9CqWEP8HRPGY=;
-	b=mt08MMdDuPTu4CSBYzxPjUJVP+Ffj7Y2V311jHiTWkqM8e25nTSLK4bWWTur0Hvfex
-	wqPpNSaganvgKGtTOY/a1d/fgbTINSfFt3F3XMrDIKOps1i00RtRH5F8ZUwDafup12II
-	vrAlEPe7m+vvwlJvrxIs9L7L6/6rTIH/2jdGVk4AcxmTj6ILy7ci5elh+iRQyrODBjDy
-	hjf9Ou3gAXTePDwD8weUYpG2BtoKQOmaRT3Q4h75u2LSXbrg/rNAWlXHsRVTSrW3f8M+
-	2S9R1AByabIssDxgNeKjPqAlOyDY+7jenD7wPmvd4wAqWNncwZOM6CvYhcysD7hTm1r6
-	y5MQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=bN5MkZd4yGUdc84yOWTrNgADd6WVMuq47MOaZcmYP14=;
+	b=M5OYfJ9wt+EOdpyJuyRY1feOVURIeQmbQ8i7++HiF2pHzTwB8WdnB9VImNfbaB/m8F
+	xuKJ7hNl6Sqog9yX7/mX/NCBikeMgvvH66XsGS4N6pv61VhFFGet1oAl79PhakLFogFF
+	mmhGDI6GEpn4wlpAoc550eWZrZ/dycxW542pyJucY1raSdy2Eqxez73N4c/3NYlfwyIt
+	i0qekjFzUyM6Ym8lKAkUoFkC0rfFfNDJ9S/8kwfU6+Wqw8enXnCehQlGMTzJguYirTDN
+	G3XpC1Ftxv8wYpVtHgTDivMadbliDqCKEvxkhJGd09AbXccFhsC5BN9TJhZsAMbFPBmr
+	vJ6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=E4GVqSI23w3IsCB7XC60NKxzUY0keeF9CqWEP8HRPGY=;
-	b=OPg1Ytd4dcXD5HOpPYlRqJpUL5Pb9dYXC1UWdyBaRAFE+KqkQu9jnHFaHrF+p4tYLG
-	SdwOWJ3wuaOxYJWs5O0jbzdbnDqG75FUpq4v8PLYHpM8SD/TERRy+tO+cMotq/xKLhcb
-	/WRO2NcKjxgeH0QtCAIaAJWsi5RW01B0rX5CcPMENmF4XPTQ9bozP9Od9Zx1b+JolUoT
-	6iVkS3Uff2TOfZurcpDkZ1gfD6L3cEsvX6IJSsPwjRdge8hksT/+McqiCwvy9Eo8r3y9
-	YZw+bTOU2x2hnRsGflOI8GOsfY4nAOxHyvK8uP/qubQKrQ2sdpJg1gPDxab9AfaCpR1W
-	vD7Q==
-X-Gm-Message-State: ANhLgQ3Tq+Y+/cWk7OBxROwF6UlCn38Xqo8hoGHWtMvmX9yAHh942kbj
-	W2D8xauQanIPv0Mjrrqj393KBkNKOthQGy80fF1SDq/z
-X-Google-Smtp-Source: ADFU+vtc1EL6jEXsbrozBaQSyM399ieUz+TAmNYFZ9AxNhn93lr8EsIXh7BXVB+EDYzIz9s79GRv1+sdr8OXr93xSwM=
-X-Received: by 2002:a5d:80d6:: with SMTP id h22mr14094006ior.129.1583767117256;
-	Mon, 09 Mar 2020 08:18:37 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=bN5MkZd4yGUdc84yOWTrNgADd6WVMuq47MOaZcmYP14=;
+	b=Jo5TjFp568muOiaJ/n6vEbHf5Jeegp7vZB1ZzHmJxKXwGxnSz0Ama+tUsS9RNlqzSq
+	1Hw7ljTEkebvasl7LfeRdxOmO5gw+aaz0J9cTkEpjjAvPPu03mthZKBeFfUo3MynpIFW
+	6BIkzNI+LhXhwe6OxrYYQZbR1GoVk8CpgRNIGTi4/+u+MBmyvUut/batLYsG76ypmaeb
+	gymSl1erpnqKtvKK1qR9vhF/I0OzchK569CJWY4Uh1KM/924OV7jeFyUxA42FYzmKJKN
+	T3k24H0D+JdtIvLPjUqqoYhpnVLTAukOmolEHrncaFR1DxZ4G/2KwRwPG6AkbYzqhNUy
+	LJyg==
+X-Gm-Message-State: ANhLgQ2kyla1Rn88etsLsW/po1oznIoQpyoOY9NIV4a8tYwBO4t4ab+9
+	k4aJq4Ix4QC5xAEZTSl8Wi1xhwx3UlpfpZc4Ekw=
+X-Google-Smtp-Source: ADFU+vsHEpQGfCf//YVYO2VSzULYE/fnlqkgIrc7Gh2gPOsaKm8H5iqrYMXR/XXrXufWXW7HyzM2o+2PrEAOM5MyPlg=
+X-Received: by 2002:ac8:70d4:: with SMTP id g20mr15087062qtp.146.1583767221563;
+	Mon, 09 Mar 2020 08:20:21 -0700 (PDT)
 MIME-Version: 1.0
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 9 Mar 2020 15:18:26 +0000
-Message-ID: <CAO5Uq5ROxZsnZxJd=a6vUJTmAnMLb82XJmxjJYjiBjt24ToC7w@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+References: <20200307223748.1178851-1-richard.purdie@linuxfoundation.org>
+	<CAMKF1spC7POwDTKYGVuAZdZDfYDfeGMz6qRsq4hB3hY-F1aN6Q@mail.gmail.com>
+	<c1b7a7ed56b4a8963fecf1c016b6ebb7d0781c76.camel@linuxfoundation.org>
+In-Reply-To: <c1b7a7ed56b4a8963fecf1c016b6ebb7d0781c76.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 9 Mar 2020 08:20:09 -0700
+Message-ID: <CAMKF1soBKiCcr0igT_CXv882O9Mq-v8fCK_d6L15xVz4NgJGWQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: psplash activation state w/ systemd
+Subject: Re: [PATCH 1/2] glibc: Explicitly disable msgfmt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,27 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2020 15:18:36 -0000
+X-List-Received-Date: Mon, 09 Mar 2020 15:20:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-I've a branch with systemd 245 on it which fails testing because
-psplash gets restarted all the time.
+On Sun, Mar 8, 2020 at 12:18 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sat, 2020-03-07 at 20:17 -0800, Khem Raj wrote:
+> > On Sat, Mar 7, 2020 at 2:37 PM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > If configure is rerun it finds msgfmt from gettext-native which is
+> > > installed
+> > > during package_write_ipk|deb and means builds are not determinisic.
+> > >
+> > > Whether msgfmt is needed is debatable (libc.mo files arne't
+> > > generated without
+> > > it) however we should at least be consistent which this patch
+> > > ensures.
+> > >
+> >
+> > I think we could turn it into a packageconfig and add depending on
+> > gettext-native in knob,  keep the knob disabled by default. While
+> > dont think translation files will be commonly installed on systems OE
+> > targets but its seems limiting if we simply disable it.
+>
+> Keep in mind that currently in any build from scratch it is disabled.
+> This patch doesn't regress anything, it just ensures builds are
+> reproducible.
 
-But ignoring the systemd 245 piece, it looks to me like psplash could
-be restarted under systemd 244 too as the main process exits and our
-units aren't marked RemainAfterExit. I haven't figured out what's
-triggering it in 245 and not 244, but I suspect it's something similar
-to this:
+Yes I understand that, I was just wondering if its going to cause problems
+for folks who has been relying on this behavior
 
-https://github.com/systemd/systemd/commit/9fd32ff7d363945fbf8fdae0128702b995127558
+>
+> I agree if anyone wants it, we can add a PACKAGECONFIG.
+>
 
-Given where we are in the release cycle and how painful psplash has
-obviously been, I'm inclined to leave it until after dunfell ships and
-then do it as part of the whole 245 upgrade?
+perhaps acceptable for now.
 
-Equally if you see psplash flapping during tests, it's almost
-certainly this problem.
-
--- 
-Alex Kiernan
+> Cheers,
+>
+> Richard
+>
 
