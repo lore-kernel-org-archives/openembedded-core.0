@@ -1,24 +1,47 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C8636188C
+Return-Path: <ayoub.zaki@embexus.com>
+X-Greylist: delayed 963 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 09 Mar 2020 07:45:24 UTC
+Received: from mailrelay3-3.pub.mailoutpod1-cph3.one.com
+	(mailrelay3-3.pub.mailoutpod1-cph3.one.com [46.30.212.12])
+	by mail.openembedded.org (Postfix) with ESMTP id 37E5B60CB6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2020 07:43:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0297hjoA016744
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Mar 2020 00:43:45 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.487.0;
-	Mon, 9 Mar 2020 00:43:44 -0700
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Mar 2020 00:43:44 -0700
-Message-ID: <20200309074344.39208-1-zhixiong.chi@windriver.com>
-X-Mailer: git-send-email 2.23.0
+	Mon,  9 Mar 2020 07:45:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=embexus.com; s=20191106;
+	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
+	message-id:from:references:to:subject:from;
+	bh=LT9Yy+t/9Jf7Ix1Ssbl2MmYmw77NNvYPsUAnLKGPb+E=;
+	b=LQ0ZaU+6U9NKylsYiFUrmkSxjOeddpwO8xQYpxmyfbUp4zjmHBKNXb6SLShv0jCrIQVkpfUiKqvRf
+	lqg27nSxyJcaS0Cy8POYUABl5ihT3py8XBIe5F3quRaLY8GkaPHdO6hIORL1zM8ERIoCdVG2CX3Bbb
+	gwuOxX2dTYNjwt3qwE2G60fMCqJJmT9gFWdXEIMa+Tmf9heNlPjZtpYkY5qDxYIAiWQ6oTuWDxgeKG
+	cwn/amTw8qwMsYJmzsj+bMtAyjOhLVR+fIe31nSgVvRSlPB8iHD1NskWRDPw8SxkY+fgc0b6k76P79
+	LQROuXbxgG18kwjSucMfndKa+M1vD5g==
+X-HalOne-Cookie: 3fb003f15bb33bb750b2d05634fe537ed8d00dff
+X-HalOne-ID: b178e58d-61d7-11ea-9e61-d0431ea8bb03
+Received: from [192.168.178.22] (x4dbe6e2e.dyn.telefonica.de [77.190.110.46])
+	by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id b178e58d-61d7-11ea-9e61-d0431ea8bb03;
+	Mon, 09 Mar 2020 07:29:21 +0000 (UTC)
+To: openembedded-core@lists.openembedded.org
+References: <20200304113217.GB7923@localhost>
+	<CANNYZj8wnuNLrw6s=y0cgg5uoMTjA+fMEXW_TsmtKWZ4UDzwOA@mail.gmail.com>
+	<20200304140109.GC7923@localhost>
+	<CANNYZj8ciqgR7eed+B+WwfMRHKc3u_XHrT3vo004=TEX9cCmhA@mail.gmail.com>
+	<20200304172415.GA29456@localhost>
+	<01b3bb37-f65f-8048-1a27-b859b62d7f98@gmail.com>
+	<20200306100422.GA17785@localhost>
+	<877e317932176664bc7b0120439c56d4dda791af.camel@linuxfoundation.org>
+	<20200308214610.GB1425@localhost>
+	<CANNYZj_4sTc9vjhm1+S1GbjN=8SjChWt+gksxxKLXEZXeK9nPQ@mail.gmail.com>
+	<20200309002308.GD1425@localhost>
+From: Ayoub Zaki <ayoub.zaki@embexus.com>
+Message-ID: <f99fbcc5-bb47-a177-f1e9-815d3cf4e5c0@embexus.com>
+Date: Mon, 9 Mar 2020 08:29:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-Subject: [zeus][PATCH] glibc: CVE-2020-10029
+In-Reply-To: <20200309002308.GD1425@localhost>
+Subject: Re: [Openembedded-architecture] Does YP provide security support for stable and LTS branches?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,168 +54,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2020 07:43:44 -0000
+X-List-Received-Date: Mon, 09 Mar 2020 07:45:24 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Language: en-US
 
-Backport the CVE patch from upstream:
-[https://sourceware.org/git/gitweb.cgi?p=glibc.git;
-a=patch;h=9333498794cde1d5cca518badf79533a24114b6f]
+Hello,
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
----
- .../glibc/glibc/CVE-2020-10029.patch          | 128 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.30.bb         |   1 +
- 2 files changed, 129 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-10029.patch
+On 09.03.20 01:23, Adrian Bunk wrote:
+> On Sun, Mar 08, 2020 at 11:08:08PM +0100, Alexander Kanavin wrote:
+>> On Sun, 8 Mar 2020 at 22:46, Adrian Bunk <bunk@stusta.de> wrote:
+>>
+>>> It is on YP to make it clear to users whether or not Yocto comes with
+>>> the same set of security guarantees as distributions like Ubuntu or
+>>> Debian.
+>>> If it is the duty of every user of Yocto to track and fix CVEs,
+>>> then this has to be stated clearly instead of implying the opposite.
+>>> This gives users the opportunity to mitigate, instead of unknowingly
+>>> shipping insecure products.
+>>>
+>> Do you have any actual evidence for actual users shipping insecure products
+>> because they mistakenly believe Yocto takes care of security for them?
+> Nothing to discuss in public.
+>
+>> This
+>> has been the situation from the start of the project, certainly this was
+>> the case 5 years ago when I joined it, and the only person ever to make an
+>> issue out of it is you. Everyone else seems to understand the deal they're
+>> getting by using Yocto without a commercial support contract.
+>> ...
+> You are saying that 'track and fix CVEs' is on users.
+> Let's check what YP is telling users.
+>
+> Click on the "Is Yocto Project for you?" link on the YP frontpage:
+>
+> https://www.yoctoproject.org/is-yocto-project-for-you/
+> 13. Yocto Project follows a strict release schedule incorporating
+> security patches in all supported releases. This predictability is
+> crucial for projects that are based on Yocto Project and allows the
+> development teams to plan their activities. Developers can choose which
+> Yocto Project branch on which to base their activities as a function of
+> their needs. The development branch will ensure access to the latest
+> features while the stable branches will reduce the pace of changes. CVEs
+> (common vulnerabilities and exposures) issues are supported for the
+> latest 2 releases.
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-10029.patch b/meta/recipes-core/glibc/glibc/CVE-2020-10029.patch
-new file mode 100644
-index 0000000000..606b691bcf
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2020-10029.patch
-@@ -0,0 +1,128 @@
-+From ce265ec5bc25ec35fba53807abac1b0c8469895e Mon Sep 17 00:00:00 2001
-+From: Joseph Myers <joseph@codesourcery.com>
-+Date: Wed, 12 Feb 2020 23:31:56 +0000
-+Subject: [PATCH] Avoid ldbl-96 stack corruption from range reduction of
-+
-+ pseudo-zero (bug 25487).
-+
-+Bug 25487 reports stack corruption in ldbl-96 sinl on a pseudo-zero
-+argument (an representation where all the significand bits, including
-+the explicit high bit, are zero, but the exponent is not zero, which
-+is not a valid representation for the long double type).
-+
-+Although this is not a valid long double representation, existing
-+practice in this area (see bug 4586, originally marked invalid but
-+subsequently fixed) is that we still seek to avoid invalid memory
-+accesses as a result, in case of programs that treat arbitrary binary
-+data as long double representations, although the invalid
-+representations of the ldbl-96 format do not need to be consistently
-+handled the same as any particular valid representation.
-+
-+This patch makes the range reduction detect pseudo-zero and unnormal
-+representations that would otherwise go to __kernel_rem_pio2, and
-+returns a NaN for them instead of continuing with the range reduction
-+process.  (Pseudo-zero and unnormal representations whose unbiased
-+exponent is less than -1 have already been safely returned from the
-+function before this point without going through the rest of range
-+reduction.)  Pseudo-zero representations would previously result in
-+the value passed to __kernel_rem_pio2 being all-zero, which is
-+definitely unsafe; unnormal representations would previously result in
-+a value passed whose high bit is zero, which might well be unsafe
-+since that is not a form of input expected by __kernel_rem_pio2.
-+
-+Tested for x86_64.
-+
-+CVE: CVE-2020-10029
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;
-+a=patch;h=9333498794cde1d5cca518badf79533a24114b6f]
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+
-+---
-+ sysdeps/ieee754/ldbl-96/Makefile           |  3 ++-
-+ sysdeps/ieee754/ldbl-96/e_rem_pio2l.c      | 12 +++++++++
-+ sysdeps/ieee754/ldbl-96/test-sinl-pseudo.c | 41 ++++++++++++++++++++++++++++++
-+ 3 files changed, 55 insertions(+), 1 deletion(-)
-+ create mode 100644 sysdeps/ieee754/ldbl-96/test-sinl-pseudo.c
-+
-+diff --git a/sysdeps/ieee754/ldbl-96/Makefile b/sysdeps/ieee754/ldbl-96/Makefile
-+index b103254..052c1c7 100644
-+--- a/sysdeps/ieee754/ldbl-96/Makefile
-++++ b/sysdeps/ieee754/ldbl-96/Makefile
-+@@ -17,5 +17,6 @@
-+ # <http://www.gnu.org/licenses/>.
-+ 
-+ ifeq ($(subdir),math)
-+-tests += test-canonical-ldbl-96 test-totalorderl-ldbl-96
-++tests += test-canonical-ldbl-96 test-totalorderl-ldbl-96 test-sinl-pseudo
-++CFLAGS-test-sinl-pseudo.c += -fstack-protector-all
-+ endif
-+diff --git a/sysdeps/ieee754/ldbl-96/e_rem_pio2l.c b/sysdeps/ieee754/ldbl-96/e_rem_pio2l.c
-+index 805de22..1aeccb4 100644
-+--- a/sysdeps/ieee754/ldbl-96/e_rem_pio2l.c
-++++ b/sysdeps/ieee754/ldbl-96/e_rem_pio2l.c
-+@@ -210,6 +210,18 @@ __ieee754_rem_pio2l (long double x, long double *y)
-+       return 0;
-+     }
-+ 
-++  if ((i0 & 0x80000000) == 0)
-++    {
-++      /* Pseudo-zero and unnormal representations are not valid
-++	 representations of long double.  We need to avoid stack
-++	 corruption in __kernel_rem_pio2, which expects input in a
-++	 particular normal form, but those representations do not need
-++	 to be consistently handled like any particular floating-point
-++	 value.  */
-++      y[1] = y[0] = __builtin_nanl ("");
-++      return 0;
-++    }
-++
-+   /* Split the 64 bits of the mantissa into three 24-bit integers
-+      stored in a double array.  */
-+   exp = j0 - 23;
-+diff --git a/sysdeps/ieee754/ldbl-96/test-sinl-pseudo.c b/sysdeps/ieee754/ldbl-96/test-sinl-pseudo.c
-+new file mode 100644
-+index 0000000..f59b977
-+--- /dev/null
-++++ b/sysdeps/ieee754/ldbl-96/test-sinl-pseudo.c
-+@@ -0,0 +1,41 @@
-++/* Test sinl for pseudo-zeros and unnormals for ldbl-96 (bug 25487).
-++   Copyright (C) 2020 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <math.h>
-++#include <math_ldbl.h>
-++#include <stdint.h>
-++
-++static int
-++do_test (void)
-++{
-++  for (int i = 0; i < 64; i++)
-++    {
-++      uint64_t sig = i == 63 ? 0 : 1ULL << i;
-++      long double ld;
-++      SET_LDOUBLE_WORDS (ld, 0x4141,
-++			 sig >> 32, sig & 0xffffffffULL);
-++      /* The requirement is that no stack overflow occurs when the
-++	 pseudo-zero or unnormal goes through range reduction.  */
-++      volatile long double ldr;
-++      ldr = sinl (ld);
-++      (void) ldr;
-++    }
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-diff --git a/meta/recipes-core/glibc/glibc_2.30.bb b/meta/recipes-core/glibc/glibc_2.30.bb
-index 7913bc2812..c9e44a396d 100644
---- a/meta/recipes-core/glibc/glibc_2.30.bb
-+++ b/meta/recipes-core/glibc/glibc_2.30.bb
-@@ -42,6 +42,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0027-inject-file-assembly-directives.patch \
-            file://0028-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
-            file://CVE-2019-19126.patch \
-+           file://CVE-2020-10029.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+
+Adrian is making a point here, The Yocto Project by claiming that it 
+supports security patches for Stable releases is misleading the Users!
+
+I work with different customers and some of them think that by using and 
+pulling the latest releases they will get the CVEs automatically fixed!
+
+YP should state that CLEARLY! Of course it will impact the choice of 
+going with Yocto or Not ( probably NOT in this case).
+
+>
+>
+>> Alex
+> cu
+> Adrian
+
+Mit freundlichen Grüßen / Kind regards
+
 -- 
-2.23.0
+Ayoub Zaki
+Embedded Systems Consultant
+
+Vaihinger Straße 2/1
+D-71634 Ludwigsburg
+
+
+Mobile   : +4917662901545
+Email    : ayoub.zaki@embexus.com
+Homepage : https://embexus.com
+VAT No.  : DE313902634
 
 
