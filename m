@@ -1,49 +1,49 @@
 Return-Path: <pbarker@konsulko.com>
 Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
 	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C65461082
+	by mail.openembedded.org (Postfix) with ESMTP id 52FA5610B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2020 14:21:52 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id t11so11419936wrw.5
+	Mon,  9 Mar 2020 14:21:53 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id r15so6362142wrx.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Mar 2020 07:21:53 -0700 (PDT)
+	Mon, 09 Mar 2020 07:21:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=OIXAIXQoW7yKYZiov9G3HLpaiyWnrfTSgQPJahFaK2A=;
-	b=LSUf/qA+fVcUXsYQkrqDnQ0hBKSvCoS49EZIcbzNFMe0QQeAa8P5M6oukcmH+F3KaE
-	88VFdT9CnZHbY4ptFQgpArwXP1okF3jt+icH8AXjqNkFCmqkstEB7DqE1z1+z1ozqb2I
-	tOs38Fqyrxad47THkSQZW0BW52gVFr62cIvaA=
+	bh=4Tb3oRMJrqfGWV85J64bcUA3h+JqRDmMfPWum/t1GuY=;
+	b=AA8wjIMgfioz/pWN16syp4pvN4sJhoCYciRG7tbPV/JhUZmRQ9P/0gG6niXJNaeXu9
+	q8/Vc0aVAXHucRcIEaBlsRBqUX9hKmSgZUqtrQMH1n4tdKwWVXzCu8GRfydYQi3KXNlu
+	z5eSOrzN33XrTUZQAacqQlntpmf9UlF7oRaeg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=OIXAIXQoW7yKYZiov9G3HLpaiyWnrfTSgQPJahFaK2A=;
-	b=IU5if60prmRsAASc+OcAw6XPONJbvevd2GkS5c9T24iAVR+X4NdgLrJ8YiX1vJhTZH
-	0U3uCCh5zHJSUFSpR6edlx/yOhhjFmUNthCoSLVCS4mcr9zTjBNDamjXitZrcFXaCU3A
-	clyJvOcXIhKO2vWBFTgU1YX8TkdrrxpNuXwqrcrlIUh1te6edVB/FSRKfLe69qrtNhbl
-	SaBKLBn083fuoQtpdTmBaaF702M9CVF1b3htOskYWbyMU4yoHB7DZIvygR0zhxkGbCia
-	/NL5ZphSb0UuW/N6KdgOGTmEtnx54VNCgEiGq1RW75PFJtuoamrAuVqZp8S7lCi9D+Lu
-	dJXQ==
-X-Gm-Message-State: ANhLgQ0eLVsNtDC7z1hkb5qzeKvcWR9OR0VVwEYuKQ+AZf5K2IST1bJf
-	e9LYL+v+j8A+mva2xqLlCYtahDPma47I791L
-X-Google-Smtp-Source: ADFU+vvyd7Ibx33vT3I1O8CdYQDAjZEiMEIZlOCA05Q2znvtem25sHE22HMuv/HnibGyuPbc1Nsv4A==
-X-Received: by 2002:adf:ed91:: with SMTP id c17mr19654241wro.388.1583763712332;
-	Mon, 09 Mar 2020 07:21:52 -0700 (PDT)
+	bh=4Tb3oRMJrqfGWV85J64bcUA3h+JqRDmMfPWum/t1GuY=;
+	b=beVYgK5ifU6neuTmiUkKYWxf295F4VOZ9qZrohrxnifAckyyXP3lQXSqU0zmU4mQLB
+	EEbEbYvtzSQAMus1AojsI0oesGgqPGnPG06AfCeb8SIvZEJ213Vnmr9iJswtpuPsaMKP
+	/0+GyPaUWqVHBkWue3mh1Tx0umoeZKF5Q3pWnY7ptAHvoa/OYp+jsFOnEU8Mtg7+9afa
+	IfXN4CKR7imR3gnhOQJ3p+VfzD5dpMZYnIgV5JkAtB3l4aynH/tZ3aHPUP+tkKn2W2DN
+	NYcbYHBLxfbIXJTfC6D81J4B3YQ6uSGCoE9vJ6PNYF1r+j364iH9FZexcvZhUtnz5CUS
+	36Ng==
+X-Gm-Message-State: ANhLgQ1H1y+81l5wd/XdTk5xDIjqVvZBHYXivKEppjxyl0tmO9bkq6tJ
+	4X2vWpy7ie7+zndeSWPHtA4cg/FCOugmC3DQ
+X-Google-Smtp-Source: ADFU+vsZeomJR+ELlhh0eNNBUUx7SnyzrEAep7zK12k/c2PTojljty6ZqVUm5jZFQ7UDF9LNe1IaqA==
+X-Received: by 2002:adf:f2cf:: with SMTP id d15mr21325292wrp.397.1583763713865;
+	Mon, 09 Mar 2020 07:21:53 -0700 (PDT)
 Received: from ub1910.Hitronhub.home ([213.48.11.149])
 	by smtp.gmail.com with ESMTPSA id
-	z10sm25780577wmk.31.2020.03.09.07.21.50
+	z10sm25780577wmk.31.2020.03.09.07.21.52
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 09 Mar 2020 07:21:51 -0700 (PDT)
+	Mon, 09 Mar 2020 07:21:52 -0700 (PDT)
 From: Paul Barker <pbarker@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Mar 2020 14:21:36 +0000
-Message-Id: <20200309142139.15741-3-pbarker@konsulko.com>
+Date: Mon,  9 Mar 2020 14:21:37 +0000
+Message-Id: <20200309142139.15741-4-pbarker@konsulko.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200309142139.15741-1-pbarker@konsulko.com>
 References: <20200309142139.15741-1-pbarker@konsulko.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/5] archiver.bbclass: Make do_deploy_archives a recursive dependency
+Subject: [PATCH 3/5] kernelsrc.bbclass: Fix externalsrc support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,35 +59,32 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 09 Mar 2020 14:21:53 -0000
 Content-Transfer-Encoding: 8bit
 
-To ensure that archives are captured for all dependencies of a typical
-bitbake build we add do_deploy_archives to the list of recursive
-dependencies of do_build. Without this, archives may be missed for
-recipes such as gcc-source which do not create packages or populate a
-sysroot.
+When the externalsrc class is used the tasks listed in
+SRCTREECOVEREDTASKS are deleted to prevent them being executed. If
+externalsrc is used for the kernel then this will include
+virtual/kernel:do_patch.
 
-do_deploy_archives is also added to the recursive dependencies of
-do_populate_sdk so that all sources required for an SDK can be captured.
+We can depend on do_shared_workdir instead as this will survive when
+externalsrc is used.
 
 Signed-off-by: Paul Barker <pbarker@konsulko.com>
 ---
- meta/classes/archiver.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/classes/kernelsrc.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index fef7ad4f62..c11d36d708 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -604,7 +604,9 @@ addtask do_ar_configured after do_unpack_and_patch
- addtask do_ar_mirror after do_fetch
- addtask do_dumpdata
- addtask do_ar_recipe
--addtask do_deploy_archives before do_build
-+addtask do_deploy_archives
-+do_build[recrdeptask] += "do_deploy_archives"
-+do_populate_sdk[recrdeptask] += "do_deploy_archives"
- 
- python () {
-     # Add tasks in the correct order, specifically for linux-yocto to avoid race condition.
+diff --git a/meta/classes/kernelsrc.bbclass b/meta/classes/kernelsrc.bbclass
+index 675d40ec9a..a951ba3325 100644
+--- a/meta/classes/kernelsrc.bbclass
++++ b/meta/classes/kernelsrc.bbclass
+@@ -1,7 +1,7 @@
+ S = "${STAGING_KERNEL_DIR}"
+ deltask do_fetch
+ deltask do_unpack
+-do_patch[depends] += "virtual/kernel:do_patch"
++do_patch[depends] += "virtual/kernel:do_shared_workdir"
+ do_patch[noexec] = "1"
+ do_package[depends] += "virtual/kernel:do_populate_sysroot"
+ KERNEL_VERSION = "${@get_kernelversion_file("${STAGING_KERNEL_BUILDDIR}")}"
 -- 
 2.20.1
 
