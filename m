@@ -1,47 +1,48 @@
-Return-Path: <ayoub.zaki@embexus.com>
-X-Greylist: delayed 963 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 09 Mar 2020 07:45:24 UTC
-Received: from mailrelay3-3.pub.mailoutpod1-cph3.one.com
-	(mailrelay3-3.pub.mailoutpod1-cph3.one.com [46.30.212.12])
-	by mail.openembedded.org (Postfix) with ESMTP id 37E5B60CB6
+Return-Path: <toshikazu-n@nec.com>
+X-Greylist: delayed 428 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 09 Mar 2020 07:47:12 UTC
+Received: from esa15.hc221-79.ap.iphmx.com (esa15.hc221-79.ap.iphmx.com
+	[139.138.31.214])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BEC761077
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2020 07:45:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=embexus.com; s=20191106;
-	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
-	message-id:from:references:to:subject:from;
-	bh=LT9Yy+t/9Jf7Ix1Ssbl2MmYmw77NNvYPsUAnLKGPb+E=;
-	b=LQ0ZaU+6U9NKylsYiFUrmkSxjOeddpwO8xQYpxmyfbUp4zjmHBKNXb6SLShv0jCrIQVkpfUiKqvRf
-	lqg27nSxyJcaS0Cy8POYUABl5ihT3py8XBIe5F3quRaLY8GkaPHdO6hIORL1zM8ERIoCdVG2CX3Bbb
-	gwuOxX2dTYNjwt3qwE2G60fMCqJJmT9gFWdXEIMa+Tmf9heNlPjZtpYkY5qDxYIAiWQ6oTuWDxgeKG
-	cwn/amTw8qwMsYJmzsj+bMtAyjOhLVR+fIe31nSgVvRSlPB8iHD1NskWRDPw8SxkY+fgc0b6k76P79
-	LQROuXbxgG18kwjSucMfndKa+M1vD5g==
-X-HalOne-Cookie: 3fb003f15bb33bb750b2d05634fe537ed8d00dff
-X-HalOne-ID: b178e58d-61d7-11ea-9e61-d0431ea8bb03
-Received: from [192.168.178.22] (x4dbe6e2e.dyn.telefonica.de [77.190.110.46])
-	by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id b178e58d-61d7-11ea-9e61-d0431ea8bb03;
-	Mon, 09 Mar 2020 07:29:21 +0000 (UTC)
+	Mon,  9 Mar 2020 07:47:12 +0000 (UTC)
+IronPort-SDR: Wv/pXGDjIK59/P0YtARzEx0VUdkzlQJqMZKO1EZ1p6PAifHke26BISxvQTi3TwiQuAWGb8wOp7
+	lkVn9FoRM0kz72F10QK2Y/GrPRe3QKb/Y4fkgKCnO+3mlm2o7e8EYrpVSscrcLBi4pj7m5VBYf
+	+VZv+HKyeO6Z77yFmsEjcbSsP3q9iUArwhZn3jTVLPfygMr5MYlSjdh14ap7lIqLhSOhVXpyX1
+	xPC1XjFIDKJC4zD1u+MbEuYG3fQkkPqSAqJHe4keVg1+h6XCVMrmG93ZqMMmcJZk3+nOU3FHBq
+	fH4=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2FOAQAT8mVe/68jj9JkHQEBAQkBEQU?=
+	=?us-ascii?q?FAYFqBQELAYIogUEBATCNQqNOCQEBAQ4vBAEBhEOCESQ3Bg4CAwEBAQMCBQE?=
+	=?us-ascii?q?BBgEBAQEBAQQEAgJpBAEBBwoCAYROIQQBAQUKAUOGOxZbDIFzgwSCe5lSAYE?=
+	=?us-ascii?q?oPgIjAT8BDIEFizKFSoMvgT6BOAGHSYY9P4l7hSIEmCWXf4JGfIVuj34agkm?=
+	=?us-ascii?q?IIYROi32EVgSmFYFoJIFYTSODPU8YDZx0MgEBjxoBAQ?=
+X-IronPort-AV: E=Sophos;i="5.70,532,1574089200"; d="scan'208";a="10086115"
+X-NEC-Delivered: true
+Received: from tyo175.gate.nec.co.jp ([210.143.35.175])
+	by ob1.hc221-79.ap.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+	09 Mar 2020 16:40:03 +0900
+Received: from mailsv38.nec.co.jp (mailsv38.nec.co.jp [210.143.35.197])
+	by tyo175.gate.nec.co.jp (8.15.1/8.15.1) with ESMTP id 0297e1vu012403; 
+	Mon, 9 Mar 2020 16:40:01 +0900
+Received: from gisptrpm001.jp.nec.com ([10.49.113.41])
+	by mailsv38.nec.co.jp (8.15.1/8.15.1) with ESMTP id 0297e1Zs017037;
+	Mon, 9 Mar 2020 16:40:01 +0900
+Received: from GISPTRPM001.localhost.localdomain (localhost [127.0.0.1])
+	by gisptrpm001.jp.nec.com (Postfix) with SMTP id 9F33310002E6E;
+	Mon,  9 Mar 2020 16:40:01 +0900 (JST)
+Received: from gisptrpm001.jp.nec.com (localhost [127.0.0.1])
+	by GISPTRPM001.localhost.localdomain (Open ADVANCED MAIL);
+	Mon, 9 Mar 2020 16:40:01 +0900
+Received: from localhost.localdomain (unknown [10.27.189.215])
+	by gisptrpm001.jp.nec.com (Postfix) with ESMTP id 8E7C42004B05B;
+	Mon,  9 Mar 2020 16:40:01 +0900 (JST)
+From: Toshikazu Nakayama <toshikazu-n@nec.com>
 To: openembedded-core@lists.openembedded.org
-References: <20200304113217.GB7923@localhost>
-	<CANNYZj8wnuNLrw6s=y0cgg5uoMTjA+fMEXW_TsmtKWZ4UDzwOA@mail.gmail.com>
-	<20200304140109.GC7923@localhost>
-	<CANNYZj8ciqgR7eed+B+WwfMRHKc3u_XHrT3vo004=TEX9cCmhA@mail.gmail.com>
-	<20200304172415.GA29456@localhost>
-	<01b3bb37-f65f-8048-1a27-b859b62d7f98@gmail.com>
-	<20200306100422.GA17785@localhost>
-	<877e317932176664bc7b0120439c56d4dda791af.camel@linuxfoundation.org>
-	<20200308214610.GB1425@localhost>
-	<CANNYZj_4sTc9vjhm1+S1GbjN=8SjChWt+gksxxKLXEZXeK9nPQ@mail.gmail.com>
-	<20200309002308.GD1425@localhost>
-From: Ayoub Zaki <ayoub.zaki@embexus.com>
-Message-ID: <f99fbcc5-bb47-a177-f1e9-815d3cf4e5c0@embexus.com>
-Date: Mon, 9 Mar 2020 08:29:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200309002308.GD1425@localhost>
-Subject: Re: [Openembedded-architecture] Does YP provide security support for stable and LTS branches?
+Date: Mon,  9 Mar 2020 16:35:07 +0900
+Message-Id: <1583739309-11200-1-git-send-email-toshikazu-n@nec.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [RFC PATCH 0/2] Proposal vuln-cve.bbclass about plug and call style CVE task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,80 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2020 07:45:24 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 09 Mar 2020 07:47:12 -0000
 
-Hello,
+To give any extensibility about CVE task in OE-Core with introducing plug and
+call style CVE task execution in patch set.
+If pluggable CVE frameworks will provide from OE-Core for embedded people
+include Linux distributors, CVE tool makers, embedded product maintainers or
+developers, they may get chance of implementing plugins which are available
+for their localized schema(secure development or long term maintenance).
 
-On 09.03.20 01:23, Adrian Bunk wrote:
-> On Sun, Mar 08, 2020 at 11:08:08PM +0100, Alexander Kanavin wrote:
->> On Sun, 8 Mar 2020 at 22:46, Adrian Bunk <bunk@stusta.de> wrote:
->>
->>> It is on YP to make it clear to users whether or not Yocto comes with
->>> the same set of security guarantees as distributions like Ubuntu or
->>> Debian.
->>> If it is the duty of every user of Yocto to track and fix CVEs,
->>> then this has to be stated clearly instead of implying the opposite.
->>> This gives users the opportunity to mitigate, instead of unknowingly
->>> shipping insecure products.
->>>
->> Do you have any actual evidence for actual users shipping insecure products
->> because they mistakenly believe Yocto takes care of security for them?
-> Nothing to discuss in public.
->
->> This
->> has been the situation from the start of the project, certainly this was
->> the case 5 years ago when I joined it, and the only person ever to make an
->> issue out of it is you. Everyone else seems to understand the deal they're
->> getting by using Yocto without a commercial support contract.
->> ...
-> You are saying that 'track and fix CVEs' is on users.
-> Let's check what YP is telling users.
->
-> Click on the "Is Yocto Project for you?" link on the YP frontpage:
->
-> https://www.yoctoproject.org/is-yocto-project-for-you/
-> 13. Yocto Project follows a strict release schedule incorporating
-> security patches in all supported releases. This predictability is
-> crucial for projects that are based on Yocto Project and allows the
-> development teams to plan their activities. Developers can choose which
-> Yocto Project branch on which to base their activities as a function of
-> their needs. The development branch will ensure access to the latest
-> features while the stable branches will reduce the pace of changes. CVEs
-> (common vulnerabilities and exposures) issues are supported for the
-> latest 2 releases.
+In preparation for this submission, I implement two bbclasses with learning
+from cve-check.bbclass about CVE tasks or license/license_image.bbclass about
+sstate/manifest tasks. I also read README.OE-Core about how to submit patch.
 
+Tests by decomposing cve-check's functions and mapping to plugin framework
+variables have been succeeded 'bitbake core-image-sato' at 'master' with the
+almost same result as cve-check's.
 
-Adrian is making a point here, The Yocto Project by claiming that it 
-supports security patches for Stable releases is misleading the Users!
+If there is something missing in the way of my contacts, please let me know.
+Or if possible, please review or give comments.
 
-I work with different customers and some of them think that by using and 
-pulling the latest releases they will get the CVEs automatically fixed!
+Regards,
+Toshikazu.
 
-YP should state that CLEARLY! Of course it will impact the choice of 
-going with Yocto or Not ( probably NOT in this case).
+Toshikazu Nakayama (2):
+  vuln-cve: vulnerability task with plug and call style
+  vuln-cve_image: rootfs manifest about vulnerability
 
->
->
->> Alex
-> cu
-> Adrian
-
-Mit freundlichen Grüßen / Kind regards
+ meta/classes/vuln-cve.bbclass       | 299 ++++++++++++++++++++++++++++++++++++
+ meta/classes/vuln-cve_image.bbclass | 111 +++++++++++++
+ 2 files changed, 410 insertions(+)
+ create mode 100644 meta/classes/vuln-cve.bbclass
+ create mode 100644 meta/classes/vuln-cve_image.bbclass
 
 -- 
-Ayoub Zaki
-Embedded Systems Consultant
-
-Vaihinger Straße 2/1
-D-71634 Ludwigsburg
-
-
-Mobile   : +4917662901545
-Email    : ayoub.zaki@embexus.com
-Homepage : https://embexus.com
-VAT No.  : DE313902634
+2.7.4
 
 
