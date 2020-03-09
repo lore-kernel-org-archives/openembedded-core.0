@@ -1,24 +1,24 @@
 Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D063A6061E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C8636188C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2020 07:43:41 +0000 (UTC)
+	Mon,  9 Mar 2020 07:43:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0297hgMJ023259
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0297hjoA016744
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 9 Mar 2020 00:43:42 -0700 (PDT)
+	Mon, 9 Mar 2020 00:43:45 -0700 (PDT)
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.487.0;
-	Mon, 9 Mar 2020 00:43:41 -0700
+	Mon, 9 Mar 2020 00:43:44 -0700
 From: Zhixiong Chi <zhixiong.chi@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 9 Mar 2020 00:43:41 -0700
-Message-ID: <20200309074341.39158-1-zhixiong.chi@windriver.com>
+Date: Mon, 9 Mar 2020 00:43:44 -0700
+Message-ID: <20200309074344.39208-1-zhixiong.chi@windriver.com>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH] glibc: CVE-2020-10029
+Subject: [zeus][PATCH] glibc: CVE-2020-10029
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +31,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2020 07:43:42 -0000
+X-List-Received-Date: Mon, 09 Mar 2020 07:43:44 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
@@ -42,13 +42,13 @@ a=patch;h=9333498794cde1d5cca518badf79533a24114b6f]
 Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 ---
  .../glibc/glibc/CVE-2020-10029.patch          | 128 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.31.bb         |   1 +
+ meta/recipes-core/glibc/glibc_2.30.bb         |   1 +
  2 files changed, 129 insertions(+)
  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-10029.patch
 
 diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-10029.patch b/meta/recipes-core/glibc/glibc/CVE-2020-10029.patch
 new file mode 100644
-index 0000000000..22a15f5fdc
+index 0000000000..606b691bcf
 --- /dev/null
 +++ b/meta/recipes-core/glibc/glibc/CVE-2020-10029.patch
 @@ -0,0 +1,128 @@
@@ -103,7 +103,7 @@ index 0000000000..22a15f5fdc
 +--- a/sysdeps/ieee754/ldbl-96/Makefile
 ++++ b/sysdeps/ieee754/ldbl-96/Makefile
 +@@ -17,5 +17,6 @@
-+ # <https://www.gnu.org/licenses/>.
++ # <http://www.gnu.org/licenses/>.
 + 
 + ifeq ($(subdir),math)
 +-tests += test-canonical-ldbl-96 test-totalorderl-ldbl-96
@@ -180,14 +180,14 @@ index 0000000000..22a15f5fdc
 ++}
 ++
 ++#include <support/test-driver.c>
-diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
-index 2032311b27..6dd9415f6b 100644
---- a/meta/recipes-core/glibc/glibc_2.31.bb
-+++ b/meta/recipes-core/glibc/glibc_2.31.bb
-@@ -40,6 +40,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0027-intl-Emit-no-lines-in-bison-generated-files.patch \
-            file://0028-inject-file-assembly-directives.patch \
-            file://0029-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+diff --git a/meta/recipes-core/glibc/glibc_2.30.bb b/meta/recipes-core/glibc/glibc_2.30.bb
+index 7913bc2812..c9e44a396d 100644
+--- a/meta/recipes-core/glibc/glibc_2.30.bb
++++ b/meta/recipes-core/glibc/glibc_2.30.bb
+@@ -42,6 +42,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0027-inject-file-assembly-directives.patch \
+            file://0028-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+            file://CVE-2019-19126.patch \
 +           file://CVE-2020-10029.patch \
             "
  S = "${WORKDIR}/git"
