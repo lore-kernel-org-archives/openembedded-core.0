@@ -1,39 +1,51 @@
-Return-Path: <admin1@stacktrust.org>
-Received: from mout.perfora.net (mout.perfora.net [74.208.4.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C22C361B5C
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+	[209.85.216.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DE9B961B57
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Mar 2020 23:02:46 +0000 (UTC)
-Received: from autometa.com ([173.245.215.243]) by mrelay.perfora.net
-	(mreueus002 [74.208.5.2]) with ESMTPSA (Nemesis) id
-	0Mb6pp-1ivgek44p1-00KklR; Tue, 10 Mar 2020 00:02:46 +0100
-Received: by autometa.com (Postfix, from userid 1000)
-	id 724854A92A2; Mon,  9 Mar 2020 18:55:19 -0400 (EDT)
-From: Rich Persaud <rp@stacktrust.org>
+	Mon,  9 Mar 2020 23:44:41 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id l41so615370pjb.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Mar 2020 16:44:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=o/sxVzYt4evlATZnz88pR0UHBI8DIfR3gWGMlaKaNpA=;
+	b=WFI6WeAVJGXeG1vQM0Ia4j6L8MBsPiuI5UQr4WzgrAyictCwb7CkJGiMmnGIdtzhO9
+	LOQd6ASFe/iP19qEcVpF9b+Fvdhfcx5T/8xXPBBWjS/9GVc1ZunWVhvME9JlJS7XNvM9
+	Uzni2nWDtP31hk5NE/HooLwpWAMU0Q2y1YZfLdCTrLYJUxd/EPvVFlGFT6CvMgax7OFx
+	k1OL2aHDo0TMj83u1VSrzmgY+HeE2w9Eztf3bO+8pGn5RFN6lW+3XhIiDCHRXhmrWJJv
+	HbyBGL5AvVQSv9fLjaAaaS9Wybezv5ZUKgjPYtF3cTrf3nfkTvcPIBGub1CpDCfDXYZ6
+	fgxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=o/sxVzYt4evlATZnz88pR0UHBI8DIfR3gWGMlaKaNpA=;
+	b=ElYNthAMXcncGzzFP8erXyBnqAWrzx1n7PpeEBX1n5F/zlaKIUC7ZBGJigWTPj7yLG
+	mesQIzTB+E6gxFgKwh/C0VLjbgpFIKc3g7WII9gCJSVSHXOM+HJIxEbAjEVdRLiZtafa
+	UbgIcVq+KhzLm7oMcX2E+yWlNHPvJtEUpa9pNBf6uldHCt9g83s9AfVPnYwDZwsNYwI6
+	B7Z+ZVQ+bX6jfsrscGt3gK5canrU3OBeKk4skm/nMLJ2sK47w9DRVMppcBuhqzxB8jls
+	usUAqq65Zlhb/bJsXr8rPlbuR+DyH9xHFb/vyuiTOEE1cpiAgo+cNrfqhVmjtiOfrxRW
+	Nxug==
+X-Gm-Message-State: ANhLgQ0ZwFZ1abvCg+5z3ED5CPhQXh+hbFV4W0GCT0XDe5rkKU3HTRE0
+	j0VhbN0DBr6zCyq/I/4YqS/b+5VRtKA=
+X-Google-Smtp-Source: ADFU+vt7EFYHO5390zBRQI6HF6/CG5DweY9Z/hJ2v4xU2yqfgpPRKRxVJovlI5RA48NqWrfRJbmL7g==
+X-Received: by 2002:a17:90a:e50d:: with SMTP id
+	t13mr781075pjy.188.1583797482338; 
+	Mon, 09 Mar 2020 16:44:42 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1c34])
+	by smtp.gmail.com with ESMTPSA id
+	s7sm44313584pgp.44.2020.03.09.16.44.41
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 09 Mar 2020 16:44:41 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Mar 2020 18:55:07 -0400
-Message-Id: <20200309225507.29578-1-rp@stacktrust.org>
-X-Mailer: git-send-email 2.20.1
+Date: Mon,  9 Mar 2020 16:44:53 -0700
+Message-Id: <20200309234454.1387958-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:wqNaI/of8cdzQ7KH8NFgJUxHVxLqTBw81YK/W02RU1hUM5zFgnw
-	exSJ9ji3M5z4R3pzG7wZ2/4sV84MIP6z0DQ68q4LLZfxjbXXVCCD1ByZsez2uAaq4nbdcxJ
-	RoMns/XBng4zhNNAPXW9RHInM9Z3uEHE9asBzxPD4EuyprrVe3e4oidEBhCvmNIWhd35lBE
-	kYfB2tZtqiITRPIvYSLDQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:sDbZ+Lxw3yo=:KkjNR7VHhMTvMWwKRDTUS3
-	Tqt9nj3eoQuWyn7jNxqsYkJMCfRFPAfy/J/w0kkS3lXt8dTRN5fq1WFhifi2YG+MQTKDrs5Nr
-	8QwpHR9jBPow+tL2YdsS3mmBUCG3kxPWDsa8MMvLU6vNUG/DGemM9B5m7nHKQVuja3VbD2zx5
-	zlCEMXf6UhkKieJ8YOew5lqbyolfsgYEIkkNA0RuIvZODK1WbCVgUKJsoaBrYW6flR+M/MkY0
-	6+sipXkG25vy9DnIoj1Lz6pbUzgwojZoQl387yBcRbT788InPL0Ssbvjx81y+6M3dtdF/6yDK
-	nrOAV1Xg7r/EPiAIySSY68MppeMAt3Bl9iLge16rCx5oDry6Fcl4QsU3Vv3fUB4xYt6KWmNwp
-	Ko7BoHoHrgYHKiDwrDR7aCmZvpgAD7RKuuya47pe+5O1+q5cr+Gcx8dQ+1M3IPq5xhwz77s+q
-	1Rpe0IMoxjLZbRnKG+MDiV09v1WSmpPCBywM9PLoyM4YsT9oKCkVhCEsv4+Zo6JrFacd6TY/i
-	S7tSiUt85utKiIrORxv5ko7BbTp7B1lyU5C7+dS/t5OeDMTPZak/tLOLVIsRBTSxU2lFcAmQI
-	+M7kSnLUzxh3skcEDdwxBMCZ5hzfjnf5oRQeMNp+Zf2jeU4yXSsOeMexg2Ecw/KqrAWMwVLv2
-	ZelXES/J8ZcAkU8PVcYWehk3qxK7UoJzBdbZWO+TkyDgkW8Swt/jY2CVY74K6fBowKOvM2jz4
-	29fBCM2M8WCtC8fC+GqvFnwvD6TP4tVb14YYnpCHNM9m1LKYtnDDTe0xRUfxISYZuUaDOkPXE
-	7uMcxLo57vC8Sg+OUdSGPiG1IFjxSHjuaLBsS2HtVdtsz/D44WaCmTQfXhV1I9f5P0f6fq5
-Cc: Rich Persaud <rp@stacktrust.org>
-Subject: [PATCH] image-live: multiconfig ISO generation
+Subject: [PATCH 1/2] ruby: Use arm32 for coroutines on 32bit-arm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,47 +58,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2020 23:02:48 -0000
+X-List-Received-Date: Mon, 09 Mar 2020 23:44:42 -0000
 Content-Transfer-Encoding: 8bit
 
-When a target is specified for INITRD_IMAGE_LIVE, a task dependency is
-added for do_image_complete. At present, image-live initrd will not
-accept multiconfig dependency targets.
+in 2.7 [2] ruby enabled ucontext for coroutines on arm32 but it does not
+work for musl since it uses glibc specific functions e.g.
+getcontext/swapcontext/swapcontext also see [1]
 
-If BBMULTICONFIG is non-empty and INITRD_IMAGE_LIVE is a multiconfig
-target, use mcdepends instead of depends. The packaging recipe must
-also override machine-specific path construction of INITRD_LIVE.
+This patch reverts back to using arm32 implementation for coroutines on
+arm
 
-Required to build an ISO with mixed machine types, a primary use case
-for multiconfig. This is a minimal fix to make multiconfig ISOs
-possible.
+[1] https://bugs.ruby-lang.org/issues/16455#change-83442
+[2] https://github.com/ruby/ruby/commit/6c6bf9ffcbfeb8be9d9c342e7604b74ec819e88a#diff-7fccec8474e2184cd2518046bf39d54cL10
 
-Signed-off-by: Rich Persaud <rp@stacktrust.org>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/image-live.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/ruby/ruby_2.7.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-index 54058b350d..1afd48005a 100644
---- a/meta/classes/image-live.bbclass
-+++ b/meta/classes/image-live.bbclass
-@@ -50,11 +50,14 @@ IMAGE_TYPES_MASKED += "live hddimg iso"
- python() {
-     image_b = d.getVar('IMAGE_BASENAME')
-     initrd_i = d.getVar('INITRD_IMAGE_LIVE')
-+    depends_type = ('mcdepends' if (d.getVar('BBMULTICONFIG')
-+                                    and initrd_i.count(':') == 3)
-+                                else 'depends')
-     if image_b == initrd_i:
-         bb.error('INITRD_IMAGE_LIVE %s cannot use image live, hddimg or iso.' % initrd_i)
-         bb.fatal('Check IMAGE_FSTYPES and INITRAMFS_FSTYPES settings.')
-     elif initrd_i:
--        d.appendVarFlag('do_bootimg', 'depends', ' %s:do_image_complete' % initrd_i)
-+        d.appendVarFlag('do_bootimg', depends_type, ' %s:do_image_complete' % initrd_i)
- }
+diff --git a/meta/recipes-devtools/ruby/ruby_2.7.0.bb b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
+index 268b4bebd9..884bb0ef44 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.7.0.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
+@@ -25,6 +25,8 @@ EXTRA_OECONF = "\
+     --with-pkg-config=pkg-config \
+ "
  
- HDDDIR = "${S}/hddimg"
++EXTRA_OECONF_append_arm_libc-musl = " --with-coroutine=arm32"
++
+ do_install() {
+     oe_runmake 'DESTDIR=${D}' install
+ }
 -- 
-2.20.1
+2.25.1
 
 
