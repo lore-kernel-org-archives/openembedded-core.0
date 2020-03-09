@@ -1,18 +1,52 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 7557560AFC;
-	Mon,  9 Mar 2020 16:32:16 +0000 (UTC)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id BA0C661B48
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  9 Mar 2020 17:23:59 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id w3so4258264plz.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 09 Mar 2020 10:24:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version:content-language
+	:thread-index; bh=E9wsWK10s+dpa9mlfPlu5AcmlMHRHYyX2IHgUEakI3g=;
+	b=N8jmHu5vXiH860fyHO6JBMRx46gfhSF2nLXMEGKbOblrUsr2Jatbuwkc6oAyJrfRXt
+	jIU+AiAmg3bgHeX8FlQZZYFHbfx16f8mhy08kEfosM5bNP61Pl7W79uYu/UY0DXC9y9v
+	6K8wXDW6RGvz1jhvBY+wCnEQXYS+8v6n9sHSKn0c0TGd2bY3ei3sAlcFFNIE92Q47BBb
+	LP/JcHJGQ4Om2Wpqe4Rl/WhPSkskFY6ZsaYi/ncEUqVZcpSIQB+wdIFyPlzk7IO8/p0Q
+	3nxVfx60Sp94hiPmIVd8s73O6Dtz/0WNsKsGuZvE5v2JX0TCFlCnjk5oQF3xWUy6k1tE
+	zl2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-language:thread-index;
+	bh=E9wsWK10s+dpa9mlfPlu5AcmlMHRHYyX2IHgUEakI3g=;
+	b=Si5o2zkT+8fSCvHKK8uIdf3l1ucODqxfK4udsHWqCLEi+Ee8oWup/N9RSVkwGFPyeO
+	QzDJDbDVDqpvD6OLXHHVEuwF5G0V/BK2A2kT6Pib95tIuDcZSdhDhnEC6LIbbovIKK5i
+	0+riQQbWVwXmHHKkzOTIq9mQKo7J5oUkkUR9iStoXJ6MdrdUhLCH5nNLSInxsnLAiQzA
+	9mpyc+Vh5wUOCgLmxT1Ve9iHF+8MAApfUW92EHRegdlrMUfHfI+LfM9/NPtF8Gb3kCVp
+	2UWcvOrgs/S9HbP2vLGlLgdrIzpDXVuGmeaUxnF3lIZnXILxqXM+3fHaeXPZyjLvUxEI
+	oZOw==
+X-Gm-Message-State: ANhLgQ3QiytghdQqOqHDWqX3zQKoRsCzBLAEXs3GlknYTNCkD6fLigZi
+	lrzmik9vskQGn2a6r75itZJy2ZBC
+X-Google-Smtp-Source: ADFU+vutX7crJ9zPUvuhNYyiIDung4ZOihREHEN3DmzK6nSWJrV5CUf2JkJnhh30jLKX8OQ5ovlJZw==
+X-Received: by 2002:a17:90a:e013:: with SMTP id
+	u19mr342562pjy.65.1583774640314; 
+	Mon, 09 Mar 2020 10:24:00 -0700 (PDT)
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+	by smtp.gmail.com with ESMTPSA id
+	184sm4991174pgb.52.2020.03.09.10.23.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 09 Mar 2020 10:23:59 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 9 Mar 2020 10:23:59 -0700
+Message-ID: <05e501d5f637$858d6cd0$90a84670$@gmail.com>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Codrin Ciubotariu <codrin.ciubotariu@microchip.com>
-Date: Mon, 09 Mar 2020 16:32:17 -0000
-Message-ID: <20200309163217.2276.8873@do>
-References: <20200309155836.30846-1-codrin.ciubotariu@microchip.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200309155836.30846-1-codrin.ciubotariu@microchip.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcDExLWtpdDogQWRkIG5hdGl2ZXNkayB2YXJpYW50?=
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQEzImgRND8dpPJ3EkIq+Su8zF50MA==
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +59,224 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Mar 2020 16:32:16 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Mon, 09 Mar 2020 17:23:59 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_05E6_01D5F5FC.D92FA640"
+Content-Language: en-us
+
+------=_NextPart_000_05E6_01D5F5FC.D92FA640
+Content-Type: text/plain;
+	charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+All,
 
-Series: p11-kit: Add nativesdk variant
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/23169/
-State : failure
+ 
 
-== Summary ==
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+ 
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
+
+ 
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 292
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
+being in "3.1" and then "3.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
+_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+------=_NextPart_000_05E6_01D5F5FC.D92FA640
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0E9B_01D5F088.2061B370";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
+starting to try and collect up and classify bugs which a newcomer to the =
+project would be able to work on in a way which means people can find =
+them. They're being listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
+><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 292 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
+or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
+nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 5d579fc2fe)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
-
+------=_NextPart_000_05E6_01D5F5FC.D92FA640--
