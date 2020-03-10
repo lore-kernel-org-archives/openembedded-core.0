@@ -1,48 +1,49 @@
-Return-Path: <prvs=3311916b7=Mikko.Rapeli@bmw.de>
-Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
-	[68.232.139.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 21BFE60AF5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id C7F0C601C6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 12:26:53 +0000 (UTC)
+	Tue, 10 Mar 2020 13:03:22 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id m3so1259767wmi.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Mar 2020 06:03:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1583843216; x=1615379216;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=giZI9eyRTM9gFZuF2YYDs8Nn8MHxp+u+gtxJj3elwA4=;
-	b=hVknuG31ud2Lznbx02aKEhhSIeBYJtSv6zoMAA7sjE1EvqnuXE3qOyfS
-	LIU0jnemy1Z3Wv/MPkASnIsqPToWxp3BeAdEWBS8CNjCSttyLDfAboN/E
-	n6beWtjEPyBsRNBoOtwByPIJVPj+z1SRWw5NzTYQ/8FVI5Bf0deOmps/5 o=;
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
-	esa5.bmw.c3s2.iphmx.com with ESMTP/TLS; 10 Mar 2020 13:26:53 +0100
-Received: from esabb3.muc ([160.50.100.30])  by esagw6.muc with ESMTP/TLS;
-	10 Mar 2020 13:26:49 +0100
-Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
-	([160.48.96.48])
-	by esabb3.muc with ESMTP/TLS; 10 Mar 2020 13:26:47 +0100
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10l.europe.bmw.corp
-	(160.48.96.48) with Microsoft SMTP Server (TLS;
-	Tue, 10 Mar 2020 13:26:47 +0100
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Tue, 10 Mar 2020 13:26:47 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <rpjday@crashcourse.ca>
-Thread-Topic: [OE-core] how to cleanly centralize a zillion BBCLASSEXTEND +=
-	"nativesdk" settings?
-Thread-Index: AQHV8I/Z9MPDKw1wfkCizf5lA8GWKahBvHAA
-Date: Tue, 10 Mar 2020 12:26:47 +0000
-Message-ID: <20200310122646.GW104502@korppu>
-References: <20200302074035.Horde.5xguZSt_-_Yd241eE1Zo8Pb@crashcourse.ca>
-In-Reply-To: <20200302074035.Horde.5xguZSt_-_Yd241eE1Zo8Pb@crashcourse.ca>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=veX2j1QsUDpv1lmV+wa5NDOCyfqokc6nzrwcm6EAg0M=;
+	b=eTdcLhL3FODvMeQ91lV8TI8f+59XiVZGi6mepz38+qPo+g2wu0TdL93QFsEWVfIjfy
+	bzcxEO2mCdhdHrkFNqRMu+IAYXQ8k25OOktvR/hOYtAEU1NaTECN1TkV/yqMGgDUUVuk
+	ApuWUdej2hruqUTqyWY0FqYbfT48HWIvo5rO8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=veX2j1QsUDpv1lmV+wa5NDOCyfqokc6nzrwcm6EAg0M=;
+	b=gbPvRXdmLQjHyA1V1cNeP5OwpoSlfa8bFKCL7axxvsgaSdA0Lmmva/8z6uhKtPSzTG
+	tPFKizHizugXrdQaIC7yRR7l39yI0W3em3PP/OXk4+kuxwW6jHT9s+sziyMmImIGefFN
+	7p0gvYEmTWNv5u8pITN8oqC+PBSH1s3XJCFmnayaj4sdz2rF6mF/GY04hZvcyUmPA16A
+	OzKmkuYX0S+zDrWfg5c0KrimIX4LSddfkJjIBpRWpxRSBov3Uswm0UBlmM4YTBariAq3
+	OW+A+mctJUIJZ7g+pac1aNgk2+Fgzvnb+5DiCY0qxDDUk7wO0ZRZ0YWbCpdHohuDc0Qc
+	u0aQ==
+X-Gm-Message-State: ANhLgQ0+Cxmr7rLAHGX3l25lcAINTGMwgqaZdMEve2e9jXn3LO1EzUKR
+	xm+/dNl8pUeUklvnPc3xH+YqKAbBd9w=
+X-Google-Smtp-Source: ADFU+vudqYJtUcvmB+0qSj8ClhCV75EkTVa/xYmU+g+DMKsVrepaM45ccwj1a8vmjWIRhLEBnQhAvQ==
+X-Received: by 2002:a1c:a908:: with SMTP id s8mr2182703wme.133.1583845400693; 
+	Tue, 10 Mar 2020 06:03:20 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	h13sm7997782wrv.39.2020.03.10.06.03.19
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 10 Mar 2020 06:03:20 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Mar 2020 13:03:18 +0000
+Message-Id: <20200310130318.27749-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: how to cleanly centralize a zillion BBCLASSEXTEND += "nativesdk" settings?
+Subject: [PATCH] oeqa/selftest: Ensure buildtools in environment variables isn't replaced
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,33 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2020 12:26:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1D9F1D79FDFEF148ACF2367AA623F738@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Mar 2020 13:03:23 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, Mar 02, 2020 at 07:40:35AM -0500, rpjday@crashcourse.ca wrote:
-> layer i'm currently perusing has many, many bbappend files, of which
-> quite a number are nothing more than the single line:
->=20
->   BBCLASSEXTEND +=3D "nativesdk"
->=20
-> literally, at least a hundred append files are like that. so rather
-> than clutter up the layer with all those trivial .bbappend files,
-> can one cram all that into a single .conf file? as i read it, can i
-> do something like:
->=20
->   BBCLASSEXTEND_append_pn-pkg1 =3D " nativesdk"
->   BBCLASSEXTEND_append_pn-pkg2 =3D " nativesdk"
->   ... and on and on ...
->=20
-> and toss all that into a distro.conf file or something?
->=20
->   and even if that works, is it considered good coding style?
+This avoids the seeing broken replacements like:
+oe-selftest-centos/build/build-st-926tools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt
+which understandably break builds.
 
-FWIW, I have the same problem. Solution until now is large number of
-bbappends for adding native and nativesdk support.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/context.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
--Mikko=
+diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
+index 409698d57ce..48ec5d419c7 100644
+--- a/meta/lib/oeqa/selftest/context.py
++++ b/meta/lib/oeqa/selftest/context.py
+@@ -46,7 +46,7 @@ class OESelftestTestContext(OETestContext):
+         oe.path.copytree(selftestdir, newselftestdir)
+ 
+         for e in os.environ:
+-            if builddir in os.environ[e]:
++            if builddir + "/" in os.environ[e] or os.environ[e].endswith(builddir):
+                 os.environ[e] = os.environ[e].replace(builddir, newbuilddir)
+ 
+         subprocess.check_output("git init; git add *; git commit -a -m 'initial'", cwd=newselftestdir, shell=True)
+-- 
+2.25.0
+
 
