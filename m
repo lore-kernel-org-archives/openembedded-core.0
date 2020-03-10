@@ -1,31 +1,48 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DF09F60247
+Return-Path: <prvs=3311916b7=Mikko.Rapeli@bmw.de>
+Received: from esa5.bmw.c3s2.iphmx.com (esa5.bmw.c3s2.iphmx.com
+	[68.232.139.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 21BFE60AF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 10:33:39 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02AAWjLb006862
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 10 Mar 2020 03:32:55 -0700
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.487.0;
-	Tue, 10 Mar 2020 03:32:34 -0700
-To: akuster808 <akuster808@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <20200224031226.6965-1-akuster808@gmail.com>
-	<1f5759550013cdb49ebfb34194863af3d9dbcf6c.camel@linuxfoundation.org>
-	<89e6bbf2-51ca-4dcf-46b3-e484d228f579@windriver.com>
-	<bebdaf20-d6fe-4816-ab9f-154f32a8183f@gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <258aff3b-11f8-dae7-0b2f-6ac15145dd90@windriver.com>
-Date: Tue, 10 Mar 2020 18:31:56 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	Tue, 10 Mar 2020 12:26:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1583843216; x=1615379216;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=giZI9eyRTM9gFZuF2YYDs8Nn8MHxp+u+gtxJj3elwA4=;
+	b=hVknuG31ud2Lznbx02aKEhhSIeBYJtSv6zoMAA7sjE1EvqnuXE3qOyfS
+	LIU0jnemy1Z3Wv/MPkASnIsqPToWxp3BeAdEWBS8CNjCSttyLDfAboN/E
+	n6beWtjEPyBsRNBoOtwByPIJVPj+z1SRWw5NzTYQ/8FVI5Bf0deOmps/5 o=;
+Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
+	esa5.bmw.c3s2.iphmx.com with ESMTP/TLS; 10 Mar 2020 13:26:53 +0100
+Received: from esabb3.muc ([160.50.100.30])  by esagw6.muc with ESMTP/TLS;
+	10 Mar 2020 13:26:49 +0100
+Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
+	([160.48.96.48])
+	by esabb3.muc with ESMTP/TLS; 10 Mar 2020 13:26:47 +0100
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10l.europe.bmw.corp
+	(160.48.96.48) with Microsoft SMTP Server (TLS;
+	Tue, 10 Mar 2020 13:26:47 +0100
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
+	Tue, 10 Mar 2020 13:26:47 +0100
+From: <Mikko.Rapeli@bmw.de>
+To: <rpjday@crashcourse.ca>
+Thread-Topic: [OE-core] how to cleanly centralize a zillion BBCLASSEXTEND +=
+	"nativesdk" settings?
+Thread-Index: AQHV8I/Z9MPDKw1wfkCizf5lA8GWKahBvHAA
+Date: Tue, 10 Mar 2020 12:26:47 +0000
+Message-ID: <20200310122646.GW104502@korppu>
+References: <20200302074035.Horde.5xguZSt_-_Yd241eE1Zo8Pb@crashcourse.ca>
+In-Reply-To: <20200302074035.Horde.5xguZSt_-_Yd241eE1Zo8Pb@crashcourse.ca>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-In-Reply-To: <bebdaf20-d6fe-4816-ab9f-154f32a8183f@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] e2fsprogs: update to 1.45.5
+Subject: Re: how to cleanly centralize a zillion BBCLASSEXTEND += "nativesdk" settings?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,168 +55,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2020 10:33:40 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 10 Mar 2020 12:26:54 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1D9F1D79FDFEF148ACF2367AA623F738@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-Hi Armin,
+On Mon, Mar 02, 2020 at 07:40:35AM -0500, rpjday@crashcourse.ca wrote:
+> layer i'm currently perusing has many, many bbappend files, of which
+> quite a number are nothing more than the single line:
+>=20
+>   BBCLASSEXTEND +=3D "nativesdk"
+>=20
+> literally, at least a hundred append files are like that. so rather
+> than clutter up the layer with all those trivial .bbappend files,
+> can one cram all that into a single .conf file? as i read it, can i
+> do something like:
+>=20
+>   BBCLASSEXTEND_append_pn-pkg1 =3D " nativesdk"
+>   BBCLASSEXTEND_append_pn-pkg2 =3D " nativesdk"
+>   ... and on and on ...
+>=20
+> and toss all that into a distro.conf file or something?
+>=20
+>   and even if that works, is it considered good coding style?
 
-On 2/24/20 11:19 PM, akuster808 wrote:
-> 
-> 
-> On 2/24/20 3:13 AM, Robert Yang wrote:
->>
->> On 2/24/20 6:23 PM, Richard Purdie wrote:
->>> On Sun, 2020-02-23 at 19:12 -0800, Armin Kuster wrote:
->>>> Dropping patch 0001-misc-create_inode.c-set-dir-s-mode-
->>>> correctly.patch as upstream has not been accepted for over 2 years
->>>> and we should not carry it if upstream has not taking it after all
->>>> that time.
->>>
->>> Looking at the patch, this worries me a lot. Why have upstream not
->>> taken it? Did they say it was incorrect?
->>
->> I can't find any records about it, maybe I didn't send it because of
->> some reason.
->>
->> We still need it. I refreshed the patch and sent to upstream.
->>
->> @Armin, The refreshed patch is in the attachment.
-> 
-> Will do. thanks for the feedback.
+FWIW, I have the same problem. Solution until now is large number of
+bbappends for adding native and nativesdk support.
 
-Seems that e2fsprogs didn't update to 1.45.5. After I sent the patch to
-upstream, they fixed the issue in another way:
-
-https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/commit/?id=f106b01c98d7abc12af39aad4024f17ffa14dc06
-
-If you upgrade it to 1.45.5, you can use the upstream patch
-to replace the current one, but if you don't upgrade it,
-I'm leaning to keep the current patch since some context are different.
-
-// Robert
-
-> 
-> - armin
->>
->> // Robert
->>
->>>
->>> We wrote the original code to handle offline root here so its entirely
->>> possible this is a value issue and we'll break filesystems if we don't
->>> have that patch :(
->>>
->>> I can't take a change like this without more info, CVE or not.
->>
->>>
->>> Cheers,
->>>
->>> Richard
->>>
->>>
->>>> Includes: CVE-2019-5188
->>>>
->>>> see http://e2fsprogs.sourceforge.net/e2fsprogs-release.html#1.45.5
->>>> for more information.
->>>>
->>>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->>>> ---
->>>>    ...ate_inode.c-set-dir-s-mode-correctly.patch | 41 ---------------
->>>> ----
->>>>    ...2fsprogs_1.45.4.bb => e2fsprogs_1.45.5.bb} |  3 +-
->>>>    2 files changed, 1 insertion(+), 43 deletions(-)
->>>>    delete mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-
->>>> misc-create_inode.c-set-dir-s-mode-correctly.patch
->>>>    rename meta/recipes-devtools/e2fsprogs/{e2fsprogs_1.45.4.bb =>
->>>> e2fsprogs_1.45.5.bb} (97%)
->>>>
->>>> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-
->>>> create_inode.c-set-dir-s-mode-correctly.patch b/meta/recipes-
->>>> devtools/e2fsprogs/e2fsprogs/0001-misc-create_inode.c-set-dir-s-mode-
->>>> correctly.patch
->>>> deleted file mode 100644
->>>> index fc4a5409860..00000000000
->>>> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-misc-
->>>> create_inode.c-set-dir-s-mode-correctly.patch
->>>> +++ /dev/null
->>>> @@ -1,41 +0,0 @@
->>>> -From f6d188580c2c9599319076fee22f2424652c711c Mon Sep 17 00:00:00
->>>> 2001
->>>> -From: Robert Yang <liezhi.yang@windriver.com>
->>>> -Date: Wed, 13 Sep 2017 19:55:35 -0700
->>>> -Subject: [PATCH] misc/create_inode.c: set dir's mode correctly
->>>> -
->>>> -The dir's mode has been set by ext2fs_mkdir() with umask, so
->>>> -reset it to the source's mode in set_inode_extra().
->>>> -
->>>> -Fixed when source dir's mode is 521, but tarball would be 721, this
->>>> was
->>>> -incorrect.
->>>> -
->>>> -Upstream-Status: Submitted
->>>> -
->>>> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->>>> ----
->>>> - misc/create_inode.c | 9 ++++++++-
->>>> - 1 file changed, 8 insertions(+), 1 deletion(-)
->>>> -
->>>> -diff --git a/misc/create_inode.c b/misc/create_inode.c
->>>> -index 8ce3faf..50fbaa8 100644
->>>> ---- a/misc/create_inode.c
->>>> -+++ b/misc/create_inode.c
->>>> -@@ -116,7 +116,14 @@ static errcode_t set_inode_extra(ext2_filsys
->>>> fs, ext2_ino_t ino,
->>>> -
->>>> -     inode.i_uid = st->st_uid;
->>>> -     inode.i_gid = st->st_gid;
->>>> --    inode.i_mode |= st->st_mode;
->>>> -+    /*
->>>> -+     * The dir's mode has been set by ext2fs_mkdir() with umask, so
->>>> -+     * reset it to the source's mode
->>>> -+     */
->>>> -+    if S_ISDIR(st->st_mode)
->>>> -+        inode.i_mode = LINUX_S_IFDIR | st->st_mode;
->>>> -+    else
->>>> -+        inode.i_mode |= st->st_mode;
->>>> -     inode.i_atime = st->st_atime;
->>>> -     inode.i_mtime = st->st_mtime;
->>>> -     inode.i_ctime = st->st_ctime;
->>>> ---
->>>> -2.10.2
->>>> -
->>>> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
->>>> b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.5.bb
->>>> similarity index 97%
->>>> rename from meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
->>>> rename to meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.5.bb
->>>> index 6e69eea21c3..7cd42b8137a 100644
->>>> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.4.bb
->>>> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.5.bb
->>>> @@ -4,7 +4,6 @@ SRC_URI += "file://remove.ldconfig.call.patch \
->>>>               file://run-ptest \
->>>>               file://ptest.patch \
->>>>               file://mkdir_p.patch \
->>>> -           file://0001-misc-create_inode.c-set-dir-s-mode-
->>>> correctly.patch \
->>>>               file://0001-configure.ac-correct-AM_GNU_GETTEXT.patch \
->>>>               file://0001-intl-do-not-try-to-use-gettext-defines-that-
->>>> no-longe.patch \
->>>>               "
->>>> @@ -13,7 +12,7 @@ SRC_URI_append_class-native = "
->>>> file://e2fsprogs-fix-missing-check-for-permissio
->>>>                                    file://quiet-debugfs.patch \
->>>>    "
->>>>    -SRCREV = "984ff8d6a0a1d5dc300505f67b38ed5047d51dac"
->>>> +SRCREV = "c2b1ec5fbc99ab8a2b71dae45d486b3ea004f618"
->>>>    UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+\.\d+(\.\d+)*)$"
->>>>      EXTRA_OECONF += "--libdir=${base_libdir}
->>>> --sbindir=${base_sbindir} \
->>>> -- 
->>>> 2.17.1
->>>>
->>>
->>>
-> 
-> 
+-Mikko=
 
