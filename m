@@ -1,47 +1,35 @@
-Return-Path: <brgl@bgdev.pl>
-Received: from mail-il1-f178.google.com (mail-il1-f178.google.com
-	[209.85.166.178])
-	by mail.openembedded.org (Postfix) with ESMTP id CB0FC60B2A
+Return-Path: <ayoub.zaki@embexus.com>
+Received: from mailrelay2-3.pub.mailoutpod1-cph3.one.com
+	(mailrelay2-3.pub.mailoutpod1-cph3.one.com [46.30.212.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 399E86095A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 22:03:01 +0000 (UTC)
-Received: by mail-il1-f178.google.com with SMTP id g126so109218ilh.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 15:03:03 -0700 (PDT)
+	Tue, 10 Mar 2020 22:54:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=G2jJ5rvlpzEMAlLTiSzu8Ou2xTSDWX1eXk3LPCPiUfs=;
-	b=ix9yZyZYj2IVb6rhmv+3kbcueqWXP8UzxAwqamQvMXTDzDmMtWJPLlX7viCXZHOdyI
-	wd0fp7OPef/ME9Ke89JW/Bm0CKsQ4uMggT+8/nBfihDbOlo+oxP+Y+IkDW8XLS/Cy0Dd
-	8SsTrsjiLNK48A8n9I87wd7AIZhfDQ49f/eTnBQ16h86xcHRAPHP+gCH8Y0gau55NeBT
-	FA6PClX0rKO0GBG2b8l//WMSGHaQgmYpqLFauN2tmEf/Plz3byKn57bh1sMrC3vlgYXv
-	qXcP7KSAYiB1PO9IHZqJAdosTuSfLZicuvCSgH8ACtnzrP3hNCiE/MV8ZhSWwlHJZ62s
-	m1IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=G2jJ5rvlpzEMAlLTiSzu8Ou2xTSDWX1eXk3LPCPiUfs=;
-	b=Ie3K11Vg6EM11dKhDjBRljhH1FqBmoHWI/1GtTicozvaQefwnJLKGjCng7iC0WOJWW
-	NNm+rkMJqk3VfhpkWr1J2aC409Wf5FMsekeAy8Jnh8iO1q+LYugRcdt6Z/it8zvnfH/o
-	aA9S/c62x4xG0RB8K22bf7T8lE1wwcFCd7DZMnyVR0I8vsdAVGC8A/3wX7IJ8QH/pLDc
-	BTJstcqi7bcaHr5XRmHAXXg/h/nrkZBz0Kzc/Mh6cVM3Cx489EH+vzMG8L5gh/mzA+d8
-	8YlKi8VAeiwuxSNYg6nivpVE4KfIzUAcGuHfo7GM8VvtjHqhyC04ezAVkwcXu+0wbITW
-	b6vw==
-X-Gm-Message-State: ANhLgQ1DR2JotZsltqG6XTp/XVYwlRFkMRTDb2go+FS/Im/OAIEN21FP
-	F5SBukZsnNCu3iJZy+07rfGDgNl2JDG2J/d7nUj6XZdl
-X-Google-Smtp-Source: ADFU+vvS7s4VYHApPPqvFOz1lmivgaO8XOBf4A35Zkrr/kUW6D/9PHzmX4b79GsBKKKdDqjNW4BAPPKwww/iYxKP6Co=
-X-Received: by 2002:a92:af8c:: with SMTP id v12mr210863ill.6.1583877782819;
-	Tue, 10 Mar 2020 15:03:02 -0700 (PDT)
-MIME-Version: 1.0
+	d=embexus.com; s=20191106;
+	h=content-type:in-reply-to:mime-version:date:message-id:from:references:cc:to:
+	subject:from; bh=i+zSBQktzdeGrVx+Wra0BiqQ45uQ6tif0gQIpgUpfpg=;
+	b=VE7/B4EDBfFjSloQ3nJS/axA8nEW6EHNpAWpZseS5Xedap86sMBgWyDYcMVfcVKFv5nxOoPBbF0x8
+	xe4Beq5x5gS3tL5FGD7u35Hq/DW5jj5L4+V4C2fOX/H2R6glsmB0/w/QLxk15Oi4NK4pxuQVkuHgrm
+	gXMA6nEc+Mqb81V3ZMDYSXmdQgzyF4g0hjQF3ZKYgYlRutSLbc6QkO2/Ou/479GZq4FUqX9+Rrr2yf
+	69AKu6wfsumytMOj+aPtSxNjyRzJBz/MUIAXO7fxPu90THtmGgIcFde+GFBePEZY73ZYo4vQWz+rLv
+	r42TJ6W5O9stLcwdAXtBDuadVX/yJ4w==
+X-HalOne-Cookie: 94e645944c1bd9fea2e1e9212d7e448bbef73e13
+X-HalOne-ID: 279b7456-6322-11ea-9550-d0431ea8a290
+Received: from [192.168.178.22] (x4db4211c.dyn.telefonica.de [77.180.33.28])
+	by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id 279b7456-6322-11ea-9550-d0431ea8a290;
+	Tue, 10 Mar 2020 22:54:53 +0000 (UTC)
+To: Bartosz Golaszewski <brgl@bgdev.pl>
 References: <CAMRc=Mf_Ld80=Egf3jPBGYoGGZScSG3JHKL7cVArLihJSC8P0g@mail.gmail.com>
 	<a571c00e-5c90-462b-2402-d82b5f0b8cf9@embexus.com>
-In-Reply-To: <a571c00e-5c90-462b-2402-d82b5f0b8cf9@embexus.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 10 Mar 2020 23:02:51 +0100
-Message-ID: <CAMRc=MdizEv6uB_Z+zyCYjtZuoYVWK5LP9jBAGBazkWoCXr4EA@mail.gmail.com>
-To: Ayoub Zaki <ayoub.zaki@embexus.com>
+	<CAMRc=MdizEv6uB_Z+zyCYjtZuoYVWK5LP9jBAGBazkWoCXr4EA@mail.gmail.com>
+From: Ayoub Zaki <ayoub.zaki@embexus.com>
+Message-ID: <e17ac6c1-2be8-f383-ee2d-b357322db84d@embexus.com>
+Date: Tue, 10 Mar 2020 23:54:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <CAMRc=MdizEv6uB_Z+zyCYjtZuoYVWK5LP9jBAGBazkWoCXr4EA@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: Solving a circular dependency issue between the main image and initramfs
@@ -57,41 +45,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2020 22:03:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Mar 2020 22:54:54 -0000
+Content-Type: multipart/alternative;
+	boundary="------------CCA3816DDF5C971DF31F4D5F"
+Content-Language: en-US
 
-wt., 10 mar 2020 o 22:33 Ayoub Zaki <ayoub.zaki@embexus.com> napisa=C5=82(a=
-):
->
-> >
-> > Do I implement do_install in image.bbclass so that initramfs can
-> > depend on core-image-full-cmdline:do_populate_sysroot and have the
-> > artifacts installed locally? But this would mean that the initramfs
-> > recipe deploys the main image artifact. Should we deploy the images
-> > earlier (before do_image_complete) for the initramfs recipe to fetch
-> > from DEPLOY_DIR_IMAGE? Any other ideas?
->
->
-> I think that best thing is to implement the dm-verity stuffs as a wic
-> plugin, check this example:
->
->
-> https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/sc=
-ripts/lib/wic/plugins/source/dm-verity.py
->
+--------------CCA3816DDF5C971DF31F4D5F
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+
+On 10.03.20 23:02, Bartosz Golaszewski wrote:
+> wt., 10 mar 2020 o 22:33 Ayoub Zaki <ayoub.zaki@embexus.com> napisał(a):
+>>> Do I implement do_install in image.bbclass so that initramfs can
+>>> depend on core-image-full-cmdline:do_populate_sysroot and have the
+>>> artifacts installed locally? But this would mean that the initramfs
+>>> recipe deploys the main image artifact. Should we deploy the images
+>>> earlier (before do_image_complete) for the initramfs recipe to fetch
+>>> from DEPLOY_DIR_IMAGE? Any other ideas?
+>>
+>> I think that best thing is to implement the dm-verity stuffs as a wic
+>> plugin, check this example:
+>>
+>>
+>> https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/scripts/lib/wic/plugins/source/dm-verity.py
+>>
+> This doesn't look like a correct solution. For starters: not every
+> platform uses wic. The platform I'm aiming this at uses fastboot and
+> requires separate images for each partition.
+
+
+My proposition was refering to your example :
+
+
+https://github.com/brgl/meta-security/commit/83c8e8fba6988249c9d351aa2ad6e02a71b010df#diff-33f7c29b373860ec45379a5f2dc42a75
+
+
+your are trying to include the dm-verity conversion output to your wic 
+wks using the following:
+
+
+part / --source rawcopy --ondisk mmcblk 
+--sourceparams="file=${IMGDEPLOYDIR}/${DM_VERITY_IMAGE}-${MACHINE}.${DM_VERITY_TYPE}"
+
+
+In this case you will definitely stuck in a circular dependency unless 
+using a Wic plugin.
+
+>
+> This plugin also seems to be unnecessarily complicated with additional
+> signature for the verity hash tree. This is not needed as long as the
+> root hash comes from a secure place - which it does in my case: the
+> fitImage containing the initramfs is signed and the key is appended to
+> u-boot's DTB. When do_image_wic starts, u-boot and initramfs assembly
+> are long completed - another reason for not using a wic plugin.
+
+
+I was referring to the plugin not the implementation which does not work 
+anyway...
+
+
+Mit freundlichen Grüßen / Kind regards
+
+-- 
+Ayoub Zaki
+Embedded Systems Consultant
+
+Vaihinger Straße 2/1
+D-71634 Ludwigsburg
+
+
+Mobile   : +4917662901545
+Email    : ayoub.zaki@embexus.com
+Homepage : https://embexus.com
+VAT No.  : DE313902634
+
+
+--------------CCA3816DDF5C971DF31F4D5F
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 10.03.20 23:02, Bartosz Golaszewski
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAMRc=MdizEv6uB_Z+zyCYjtZuoYVWK5LP9jBAGBazkWoCXr4EA@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">wt., 10 mar 2020 o 22:33 Ayoub Zaki <a class="moz-txt-link-rfc2396E" href="mailto:ayoub.zaki@embexus.com">&lt;ayoub.zaki@embexus.com&gt;</a> napisał(a):
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">
+Do I implement do_install in image.bbclass so that initramfs can
+depend on core-image-full-cmdline:do_populate_sysroot and have the
+artifacts installed locally? But this would mean that the initramfs
+recipe deploys the main image artifact. Should we deploy the images
+earlier (before do_image_complete) for the initramfs recipe to fetch
+from DEPLOY_DIR_IMAGE? Any other ideas?
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+
+I think that best thing is to implement the dm-verity stuffs as a wic
+plugin, check this example:
+
+
+<a class="moz-txt-link-freetext" href="https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/scripts/lib/wic/plugins/source/dm-verity.py">https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/scripts/lib/wic/plugins/source/dm-verity.py</a>
+
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
 This doesn't look like a correct solution. For starters: not every
 platform uses wic. The platform I'm aiming this at uses fastboot and
-requires separate images for each partition.
+requires separate images for each partition.</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    My proposition was refering to your example :<br>
+    <br>
+    <br>
+<a class="moz-txt-link-freetext" href="https://github.com/brgl/meta-security/commit/83c8e8fba6988249c9d351aa2ad6e02a71b010df#diff-33f7c29b373860ec45379a5f2dc42a75">https://github.com/brgl/meta-security/commit/83c8e8fba6988249c9d351aa2ad6e02a71b010df#diff-33f7c29b373860ec45379a5f2dc42a75</a><br>
+    <br>
+    <br>
+    your are trying to include the dm-verity conversion output to your
+    wic wks using the following:<br>
+    <br>
+    <br>
+    part / --source rawcopy --ondisk mmcblk
+--sourceparams="file=${IMGDEPLOYDIR}/${DM_VERITY_IMAGE}-${MACHINE}.${DM_VERITY_TYPE}"<br>
+    <br>
+    <br>
+    In this case you will definitely stuck in a circular dependency
+    unless using a Wic plugin.<br>
+    <p><span class="blob-code-inner blob-code-marker" data-code-marker="+" style="box-sizing: border-box; overflow: visible; font-family: SFMono-Regular, Consolas, &quot;Liberation Mono&quot;, Menlo, monospace; font-size: 12px; color: rgb(36, 41, 46); overflow-wrap: normal; white-space: pre;">
+</span></p>
+    <blockquote type="cite"
+cite="mid:CAMRc=MdizEv6uB_Z+zyCYjtZuoYVWK5LP9jBAGBazkWoCXr4EA@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">
 
 This plugin also seems to be unnecessarily complicated with additional
 signature for the verity hash tree. This is not needed as long as the
 root hash comes from a secure place - which it does in my case: the
 fitImage containing the initramfs is signed and the key is appended to
 u-boot's DTB. When do_image_wic starts, u-boot and initramfs assembly
-are long completed - another reason for not using a wic plugin.
+are long completed - another reason for not using a wic plugin.</pre>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>I was referring to the plugin not the implementation which does
+      not work anyway...<br>
+    </p>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">Mit freundlichen Grüßen / Kind regards
 
-Best regards,
-Bartosz Golaszewski
+-- 
+Ayoub Zaki
+Embedded Systems Consultant
 
+Vaihinger Straße 2/1
+D-71634 Ludwigsburg
+
+
+Mobile   : +4917662901545
+Email    : <a class="moz-txt-link-abbreviated" href="mailto:ayoub.zaki@embexus.com">ayoub.zaki@embexus.com</a>
+Homepage : <a class="moz-txt-link-freetext" href="https://embexus.com">https://embexus.com</a>
+VAT No.  : DE313902634</pre>
+  </body>
+</html>
+
+--------------CCA3816DDF5C971DF31F4D5F--
