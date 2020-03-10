@@ -1,58 +1,50 @@
-Return-Path: <ross@burtonini.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E279860C61
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C91D60B1E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 16:11:57 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id 19so11975846ljj.7
+	Tue, 10 Mar 2020 19:43:59 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id v11so17405619wrm.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 09:11:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=o1fsBqabCRVMYCVcC8CZeBofXgF3TfJxE9D1U5nTjRg=;
-	b=g8eLgMW1//H8n1wqiDzW2Ddm8Lj4tCAWcPILQVxi38a13u/LQZftbe8whBcDcAiVku
-	W186QGXrZ5vXoRq+Y/qxgVIJXFPDOqVrSnhSYnpoqP/UdZZk2z0xPJYZjSLB+HtRqhk3
-	XV1a0FrSD6hB4MxptTdGx5O29T6Oka4PO7eQjL4vz7HpLEEGo3Mzl1yoUv2Y+lBDyqap
-	xRuxDk/mJIpDTvGOZy/X36CZSRPP/AXBLX6HQRZnMBUfRutgA7ruEnvWGFE/upUZ20IG
-	QBf1pL0UVQxmk9X5XlJyr/pddf49F+3PAycDKgzsnUt5CAFTgC/RxczLNgO0m7B8E5D5
-	kgFw==
+	Tue, 10 Mar 2020 12:44:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=YOJlened5uVbZ0+HFlR3W5QMUE7wGCVljsLgDhW+gPo=;
+	b=SKOnAYKX9ooSaD+Al+4u5+kyo4UuE86ZfiaQAtkUcb8KzLnhv3/yCWslncaQ/ag1+F
+	Spb5oHJU0LlR9YfE0ZI81bBxFjTxhA6IqSYiYP5RVrPBQhxNwtPJX1bZeOW+cRi5zK7R
+	pEKjXGKutbXmKnf0arHkVAxReoj6s1ucXysf9JgG1dO0Pafe0I5dshd/Sw9NAVhNqotd
+	ctcyLp6I5dfhMz8NUh4VKXTedbzKQBnfTKnCJG3mYTlbewc4gHSVeDuXNu1t+VBe8sbw
+	pXiHQqlWFTCzckwx0fX52TuNy0xGu9VmcIrW5uqG3+7izuUr3q8LyhwmDwxsUdh2kojT
+	42SA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=o1fsBqabCRVMYCVcC8CZeBofXgF3TfJxE9D1U5nTjRg=;
-	b=kVtrx4SObqEtnqJib/vUKxvNYKymv3ZBECfuwxTMwQqHVRgZyVIXEDqQ8a7yCEDX2D
-	W0tMZAG31vyeZP1rK7MvNlwGV8+PEqqdgRFnUDTQF44Cfo1zi4Xh9KloBUIwlyuTcdXN
-	evjQkqr7E5IZy2H+YPk6e4/Qnwc3jSkMjWAe6LrOZH/vdaWpPaiFgN0T3GjuHyl6wxTr
-	VnVxUh/Arwmv6AAJoN3PUUTFVeRI85wuwd2qefCHcLmJCNUF7+/FtvL9ho2SMAb6+wQC
-	upTh241mVzR48oTYj3Plu4yOo64yOLZw2gzFglWvxgoYyvw+SDFE2mdVBomXrF39ehhy
-	t3lQ==
-X-Gm-Message-State: ANhLgQ0GDX2IXlqmT1xvRlLzXuL63Xa5asa/oy4qe8H/Smj1U5uw3ypN
-	isejxi/u4k673pZ9Qutx4uOvWF3P/aBhmauGM0IOeb7oGY8=
-X-Google-Smtp-Source: ADFU+vviSvQc7oLsqofoOIikRFKwpeU2lfnD7/ZiylApKiXCbdsNyia+yhNn7fu76p/XV2sJtXSqohmkWFjaWxao0wc=
-X-Received: by 2002:a2e:9c4:: with SMTP id 187mr9545550ljj.89.1583856718118;
-	Tue, 10 Mar 2020 09:11:58 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=YOJlened5uVbZ0+HFlR3W5QMUE7wGCVljsLgDhW+gPo=;
+	b=h2HL25EGeQ/64zYn6LhtTiym8XY3OOb/EidDrvI4dXFOWITE+Cf0OpTNwksIGvM7e9
+	8Va7CubHC1wbO7zC3d/7ZOF9H/Evotw/ZYqnULfDoqJmibw0BzW+vcxfwwUZTAtsV0wd
+	7ZyF1+nWFLR/2TmzUTAMfuAkD0+mmMLqKyos7U2EPb8x2WvjxdmqxFhefO9s90Y4I58j
+	t9Zozaja+MxDFUCfajpuggPw09xXPlNese+GEUMuBYuKX9FbUdpZgHfZ+aBEfJcOIaEo
+	aCSp+nZYxpQRAOVXuPc+VPWATJ9SxiPSarb/0a2j2bJcd+sjY1n4chak4a+baXnZRBOZ
+	kT8g==
+X-Gm-Message-State: ANhLgQ1S1Q1O0tV6XI+ztrMmrHL/tc74rm4Ou2fX8crnjwGYAj1zu9Bs
+	3/xV0FTE9ntIinn++lNtAXU1Jhr3Vqk=
+X-Google-Smtp-Source: ADFU+vucykKADVeNPloN09T8I8fVMmUDFCkOwjGu61kOtig4yNXLdl4d56+Wfm/2sZPo8GzoIskWNQ==
+X-Received: by 2002:adf:f342:: with SMTP id e2mr28580417wrp.15.1583869440309; 
+	Tue, 10 Mar 2020 12:44:00 -0700 (PDT)
+Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
+	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
+	y3sm30350631wrm.46.2020.03.10.12.43.59
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 10 Mar 2020 12:43:59 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Mar 2020 20:43:28 +0100
+Message-Id: <20200310194328.8131-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200304113217.GB7923@localhost>
-	<CANNYZj8wnuNLrw6s=y0cgg5uoMTjA+fMEXW_TsmtKWZ4UDzwOA@mail.gmail.com>
-	<20200304140109.GC7923@localhost>
-	<CANNYZj8ciqgR7eed+B+WwfMRHKc3u_XHrT3vo004=TEX9cCmhA@mail.gmail.com>
-	<20200304172415.GA29456@localhost>
-	<01b3bb37-f65f-8048-1a27-b859b62d7f98@gmail.com>
-	<20200306100422.GA17785@localhost>
-	<877e317932176664bc7b0120439c56d4dda791af.camel@linuxfoundation.org>
-	<20200308214610.GB1425@localhost>
-	<CANNYZj_4sTc9vjhm1+S1GbjN=8SjChWt+gksxxKLXEZXeK9nPQ@mail.gmail.com>
-	<20200309002308.GD1425@localhost>
-	<f99fbcc5-bb47-a177-f1e9-815d3cf4e5c0@embexus.com>
-In-Reply-To: <f99fbcc5-bb47-a177-f1e9-815d3cf4e5c0@embexus.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Tue, 10 Mar 2020 16:11:48 +0000
-Message-ID: <CAAnfSTt5fwx3a7pPotvqrwgW58+n-UxCQiZqiAFuuJz6K+=aqg@mail.gmail.com>
-To: Ayoub Zaki <ayoub.zaki@embexus.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Does YP provide security support for stable and LTS branches?
+Subject: [PATCH] libdnf: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,22 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2020 16:11:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Mar 2020 19:44:00 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, 9 Mar 2020 at 07:45, Ayoub Zaki <ayoub.zaki@embexus.com> wrote:
-> Adrian is making a point here, The Yocto Project by claiming that it
-> supports security patches for Stable releases is misleading the Users!
->
-> I work with different customers and some of them think that by using and
-> pulling the latest releases they will get the CVEs automatically fixed!
->
-> YP should state that CLEARLY! Of course it will impact the choice of
-> going with Yocto or Not ( probably NOT in this case).
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-devtools/libdnf/libdnf_0.28.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-What would the alternative to Yocto be, and what is their security
-policy?  Does e.g. buildroot commit to fixing every known security
-issue (which is more than just known CVEs) in their releases?
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+index 163a2eec26..cc2ceb8816 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+@@ -12,6 +12,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf \
+            "
+ 
+ SRCREV = "751f89045b80d58c0d05800f74357cf78cdf7e77"
++UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.25.1
 
-Ross
 
