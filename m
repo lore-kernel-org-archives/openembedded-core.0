@@ -1,47 +1,56 @@
-Return-Path: <brgl@bgdev.pl>
-Received: from mail-il1-f196.google.com (mail-il1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 558446095A
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F00A16095A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 21:23:25 +0000 (UTC)
-Received: by mail-il1-f196.google.com with SMTP id p1so9395854ils.12
+	Tue, 10 Mar 2020 21:29:35 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id v3so8299289iom.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 14:23:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=frt+ENgv5FzQjTxp0ABvFVsVw9ze2M4jvI9fCgAUDXM=;
-	b=qaBEF9mXEebVj2rAHNPqrWExarBBCtG/73hjcMA/V4oAkmVZmOqB3MRGfbghUkmLh8
-	yuDyh4AHt3LzjTnGVsTDPbvE8JezDh4rxtBKwl0KaZLNZpQgE5eylz2/fJYYtuuey4vA
-	ENKvYs0atx3+tmwdLRAwFA/IX6yzGzCZpjU3UGaqA8qV7beO2/+0jcV0JsblT47KL9xV
-	Sh2vVFwPqJKjuUYWLUROV/qgZCYrugUY8TkIgUvxRU1k/vL4zuzqgZVkdocQmfSjg90P
-	WiaXipAkn+CQ8x9lFUvuvhl2FFapxZPOyoVvjc0thh6hLh147uABAWCaPUdqlK4PH+eh
-	EqOg==
+	Tue, 10 Mar 2020 14:29:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:subject:to:references:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=F1P6K3a19iMyoTTevsBo6Jfm4adhWvZQHEYWT1F6sMA=;
+	b=sGcjHjocZadPjduzYhIcmkz0WWNo3yWSGE4I9iRLSjgREOjryfrMstThBuBHZxeX11
+	G6BRsdqLPaV6Wn9W30CUdD0syIBQ50W1PjcDRpPlI+PnozAQq8vKr2xd66wty8OyadEE
+	Kv04gQsZbFJSLuHJD0+7zcgAJoilQ2hv703ip6TUmve4dtumcgGb1wFm3VaTYTvdFVpX
+	PUiQGXhep36IcMTs50GTVG0OtETKd20x0XotTol9n328TxU85A0cbgi8mlj4fo7e2HjO
+	ZVhYHGwkJZQlVz8WWtjDNHoFLrFBCZcg+YiOwu20QlB4sQ+a4kbDocCICKQ16+bhmKHV
+	r+vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=frt+ENgv5FzQjTxp0ABvFVsVw9ze2M4jvI9fCgAUDXM=;
-	b=T5U2fsCg6F6q9/36IJnzckRKmkNlrzdVf50LFpHjrXSp080YHcS81LSo8xhFpoYQgv
-	fGhfQvrTWLicfDrHtlN9XdQFrLtA3+o/bSEN+LwyHVEa2vR30/xz0+xP0mlCKxauhkFU
-	ukKuzTEZmPFWunAFUlTwlixLKEZKkp2IItxZgblLoDz6sIMpNxACwgVuIhCQ8DbYnu6v
-	+aj73DzwXGBmDNcZiAq/cYBTktfc57gXo3jEVcwFDdThk7V6LISwGqT8dWIzeDxC5YTo
-	RF1oSywahyDyl3vCP9S508baD/jcQhES7Q6NMDs6FNzK8oJ6ycROLJWSueG4FgJ0My0P
-	wDKA==
-X-Gm-Message-State: ANhLgQ3qgEcd7Tc/BFiCYBANE+q3bDBBV+DbZQuyfbPaTYZVeFcQLgjq
-	xJ30EqVhIJTt2FU21iFzQWEetuoNaQNXzT/2yW+qkLWlLzw=
-X-Google-Smtp-Source: ADFU+vtpZqJMPOTwyBmbAOKyHhafCl3DKNo2Y/HnXBYosUQZCPrda+6Mj75x59NPCk/1DLcilo1O0HpNwLoILP/4xKQ=
-X-Received: by 2002:a92:d4d0:: with SMTP id o16mr74633ilm.40.1583875405838;
-	Tue, 10 Mar 2020 14:23:25 -0700 (PDT)
+	h=x-gm-message-state:from:subject:to:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=F1P6K3a19iMyoTTevsBo6Jfm4adhWvZQHEYWT1F6sMA=;
+	b=DfQZo1cr6n6IVAhRf8c3A+bCOS+QZ5m3M3c90hJAvr2bxmtSwlkOJgylWW326NBeH0
+	00JwjtettoY1DipDoiQGeuH8cAMfNDnh7NvfWXWPmxFP6OykKaho5LwEoHYLHQeXU2sO
+	aZEGaKebzmRldH1pvWoWM56EchkBnUfZ3JD5Q9cDbXG5/9fuGR63hY6H71WxGcw7Bm5V
+	0MNVcpZcOYL2/HC0fEmrT5WKziPXDHo/5qDpNFx4wDdtWwd1zV0ChjPtsXJOPjngWgpk
+	N0+TG39SAD/06KF7+0H9WjcgI17HbTpboiHYCFVwhUEUSwSjchNAucnXkAKWSb/cLpvi
+	w2Mw==
+X-Gm-Message-State: ANhLgQ1vJCfbbmDGl2aH4mlgAaSnq6FMqx5oLP0gk47zv2IIZ/oPNlok
+	CkZoDYkm0f9KWOkvMPE/mIpSuV0bHVA=
+X-Google-Smtp-Source: ADFU+vufgN2krI8EwSY7/oHpJP3A6o+iw1Id4IkRl20K9FRv5sCWflAf36Vataq4rAowvxzm4nKpgg==
+X-Received: by 2002:a05:6602:2190:: with SMTP id
+	b16mr58014iob.98.1583875776363; 
+	Tue, 10 Mar 2020 14:29:36 -0700 (PDT)
+Received: from [10.30.196.58] ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	a9sm11041548ilh.68.2020.03.10.14.29.35
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 10 Mar 2020 14:29:35 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: Rich Persaud <rp@stacktrust.org>, openembedded-core@lists.openembedded.org
+References: <20200309225507.29578-1-rp@stacktrust.org>
+Message-ID: <435df8e7-f4b2-65b7-0a5f-ba8b228a4c7e@gmail.com>
+Date: Tue, 10 Mar 2020 16:29:34 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Tue, 10 Mar 2020 22:23:15 +0100
-Message-ID: <CAMRc=Mf_Ld80=Egf3jPBGYoGGZScSG3JHKL7cVArLihJSC8P0g@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Armin Kuster <akuster808@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Guillaume Pain <gpain@baylibre.com>, Jerome Neanne <jneanne@baylibre.com>
-Subject: Solving a circular dependency issue between the main image and initramfs
+In-Reply-To: <20200309225507.29578-1-rp@stacktrust.org>
+Subject: Re: [PATCH] image-live: multiconfig ISO generation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,67 +63,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2020 21:23:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Mar 2020 21:29:36 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Hi,
 
-I've been struggling for a while now trying to fix a circular
-dependency issue when the initramfs image needs to access an image
-file generated by the main (for lack of a better term) image recipe.
+On 3/9/20 5:55 PM, Rich Persaud wrote:
+> When a target is specified for INITRD_IMAGE_LIVE, a task dependency is
+> added for do_image_complete. At present, image-live initrd will not
+> accept multiconfig dependency targets.
 
-I've tried to fix our downstream layer only to come to the conclusion
-that some things must probably be modified upstream to make sense.
-Unfortunately when trying different solutions I always arrive at some
-kind of circular dependency with the current task order.
+Can you give an example? That might help with understanding what this is 
+supposed to do.
 
-My use-case is the following:
 
-I'd like to use dm-verity to protect the rootfs from tampering as part
-of the verified boot flow. At boot-time the rootfs partition is mapped
-using veritysetup from a trusted initramfs stored in a signed
-fitImage. This initramfs also contains the root verity hash while the
-rest of the hash tree is stored on a different partition.
+>
+> If BBMULTICONFIG is non-empty and INITRD_IMAGE_LIVE is a multiconfig
+> target, use mcdepends instead of depends. The packaging recipe must
+> also override machine-specific path construction of INITRD_LIVE.
+>
+> Required to build an ISO with mixed machine types, a primary use case
+> for multiconfig. This is a minimal fix to make multiconfig ISOs
+> possible.
+>
+> Signed-off-by: Rich Persaud <rp@stacktrust.org>
+> ---
+>   meta/classes/image-live.bbclass | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
+> index 54058b350d..1afd48005a 100644
+> --- a/meta/classes/image-live.bbclass
+> +++ b/meta/classes/image-live.bbclass
+> @@ -50,11 +50,14 @@ IMAGE_TYPES_MASKED += "live hddimg iso"
+>   python() {
+>       image_b = d.getVar('IMAGE_BASENAME')
+>       initrd_i = d.getVar('INITRD_IMAGE_LIVE')
+> +    depends_type = ('mcdepends' if (d.getVar('BBMULTICONFIG')
+> +                                    and initrd_i.count(':') == 3)
+> +                                else 'depends')
 
-The dm-verity meta data is generated from a class[1] I wrote with the
-aim of upstreaming it to meta-security as an image conversion of
-ext[234] and btrfs images.
+Potentially, this could be simplified:
 
-For the sake of clarity of the example let's assume we're generating
-an ext4 image for core-image-full-cmdline and set INITRAMFS_IMAGE to
-"dm-verity-image-initramfs".
+  depends_type = 'mcdepends' if initrd_i.startswith('mc:') else 'depends'
 
-The veritysetup conversion becomes part of the
-core-image-full-cmdline:do_image_ext4 task, while
-dm-verity-image-initramfs:do_rootfs needs to depend on
-core-image-full-cmdline:do_image_ext4 as it needs to compute the
-hashes based on the block device image. It cannot however depend on
-core-image-full-cmdline:do_image_complete as it depends on many tasks
-(e.g. kernel and u-boot tasks) that would inevitably lead to a
-circular dependency.
+?
 
-The output files from recipes inheriting image.bbclass are not
-deployed before do_image_complete nor is anything done in do_install
-or do_populate_sysroot (these tasks are flagged noexec or deleted), so
-I cannot access them from dm-verity-image-initramfs:do_rootfs.
-
-As a workaround in the downstream layer I've been manually putting the
-verity meta data into the DEPLOY_DIR_IMAGE from
-core-image-full-cmdline:do_image_ext4 but this obviously isn't correct
-as far as the deploy class and sstate are concerned.
-
-Now the question is: how do I approach it so that I can eventually
-make it part of upstream meta-security?
-
-Do I implement do_install in image.bbclass so that initramfs can
-depend on core-image-full-cmdline:do_populate_sysroot and have the
-artifacts installed locally? But this would mean that the initramfs
-recipe deploys the main image artifact. Should we deploy the images
-earlier (before do_image_complete) for the initramfs recipe to fetch
-from DEPLOY_DIR_IMAGE? Any other ideas?
-
-Best regards,
-Bartosz Golaszewski
-
-[1] https://github.com/brgl/meta-security/blob/topic/verity-et-al/classes/dm-verity-img.bbclass
+>       if image_b == initrd_i:
+>           bb.error('INITRD_IMAGE_LIVE %s cannot use image live, hddimg or iso.' % initrd_i)
+>           bb.fatal('Check IMAGE_FSTYPES and INITRAMFS_FSTYPES settings.')
+>       elif initrd_i:
+> -        d.appendVarFlag('do_bootimg', 'depends', ' %s:do_image_complete' % initrd_i)
+> +        d.appendVarFlag('do_bootimg', depends_type, ' %s:do_image_complete' % initrd_i)
+>   }
+>   
+>   HDDDIR = "${S}/hddimg"
 
