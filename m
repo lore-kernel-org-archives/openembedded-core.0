@@ -1,38 +1,52 @@
-Return-Path: <ayoub.zaki@embexus.com>
-Received: from mailrelay2-3.pub.mailoutpod1-cph3.one.com
-	(mailrelay2-3.pub.mailoutpod1-cph3.one.com [46.30.212.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 399E86095A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id EA63D60618
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 22:54:53 +0000 (UTC)
+	Tue, 10 Mar 2020 23:16:39 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id a25so219354wrd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Mar 2020 16:16:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=embexus.com; s=20191106;
-	h=content-type:in-reply-to:mime-version:date:message-id:from:references:cc:to:
-	subject:from; bh=i+zSBQktzdeGrVx+Wra0BiqQ45uQ6tif0gQIpgUpfpg=;
-	b=VE7/B4EDBfFjSloQ3nJS/axA8nEW6EHNpAWpZseS5Xedap86sMBgWyDYcMVfcVKFv5nxOoPBbF0x8
-	xe4Beq5x5gS3tL5FGD7u35Hq/DW5jj5L4+V4C2fOX/H2R6glsmB0/w/QLxk15Oi4NK4pxuQVkuHgrm
-	gXMA6nEc+Mqb81V3ZMDYSXmdQgzyF4g0hjQF3ZKYgYlRutSLbc6QkO2/Ou/479GZq4FUqX9+Rrr2yf
-	69AKu6wfsumytMOj+aPtSxNjyRzJBz/MUIAXO7fxPu90THtmGgIcFde+GFBePEZY73ZYo4vQWz+rLv
-	r42TJ6W5O9stLcwdAXtBDuadVX/yJ4w==
-X-HalOne-Cookie: 94e645944c1bd9fea2e1e9212d7e448bbef73e13
-X-HalOne-ID: 279b7456-6322-11ea-9550-d0431ea8a290
-Received: from [192.168.178.22] (x4db4211c.dyn.telefonica.de [77.180.33.28])
-	by mailrelay2.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id 279b7456-6322-11ea-9550-d0431ea8a290;
-	Tue, 10 Mar 2020 22:54:53 +0000 (UTC)
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-References: <CAMRc=Mf_Ld80=Egf3jPBGYoGGZScSG3JHKL7cVArLihJSC8P0g@mail.gmail.com>
-	<a571c00e-5c90-462b-2402-d82b5f0b8cf9@embexus.com>
-	<CAMRc=MdizEv6uB_Z+zyCYjtZuoYVWK5LP9jBAGBazkWoCXr4EA@mail.gmail.com>
-From: Ayoub Zaki <ayoub.zaki@embexus.com>
-Message-ID: <e17ac6c1-2be8-f383-ee2d-b357322db84d@embexus.com>
-Date: Tue, 10 Mar 2020 23:54:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=E/CszZ8rjaD+6ZuEs2/LCGi3LWNZgVQYg+EwyXzqFMs=;
+	b=A72niFT15lq3MS7ua2i4S0ghEWsF3xstHuONgOOkXIfm12F8i69HkgJ9uproWdHa/E
+	+ybOepJu3Ody1IymCx6scVdzuEz1PEtFX2N9DI70aTJKFGQ3hSuwobkS7cm8qkIZKB4z
+	1j+XL6AYhsjcl2wF9K9HNsphE1la7oO5iTCBU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=E/CszZ8rjaD+6ZuEs2/LCGi3LWNZgVQYg+EwyXzqFMs=;
+	b=JHlfY68uU28M4E6N4jVwzCPiTMLuJ8Kq8odefGnrfvAQw60um1dLiLIErDeOLNYU1Y
+	t8f8JgdLsiwkHDUoix9nDrUZ50wUV1ltPqkMIftFRU+RDCPZGplONoY0bNWB3TnWT/1Q
+	SFbzMBDMZ0xz9ZaW5GLyggD3f5ZJj6oPM5l7VixGamqO8apHp1kRBjDXoK7ZPO1lDm+m
+	4TA0Da8fjnOw7T5jIHT40f7N7g8NzRBqLUwgu2fdJkrt9FFFssWbKLiVBpwwyGzydwO+
+	Lq3IUrRoCUQvMZ5im8jl1ymvWquHO+iFKkM9Ek2j55N12CfrDmjmzqeNyfpIgIgm4WeH
+	l3Zw==
+X-Gm-Message-State: ANhLgQ07ytGgZ0pbZspM8hifCQOFtnPlQQi2g05ZYLJsALipo1dHGI7R
+	A0PFe+X09fiKYi0RXS5PLP2DRA==
+X-Google-Smtp-Source: ADFU+vt8zG6iNm6bFeBqvYGHKK1OwJdH7k9QmYGh3CM0VrqoAZA/2Veto/mAiDPi6UP+tJ/dXWo9fw==
+X-Received: by 2002:a5d:5286:: with SMTP id c6mr201034wrv.418.1583882200436;
+	Tue, 10 Mar 2020 16:16:40 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	w4sm16837231wrl.12.2020.03.10.16.16.39
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 10 Mar 2020 16:16:39 -0700 (PDT)
+Message-ID: <e3d926c01221fdbfe47df3d3b05a54015f3564ca.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Barker <pbarker@konsulko.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 10 Mar 2020 23:16:38 +0000
+In-Reply-To: <20200309142139.15741-2-pbarker@konsulko.com>
+References: <20200309142139.15741-1-pbarker@konsulko.com>
+	<20200309142139.15741-2-pbarker@konsulko.com>
+User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-In-Reply-To: <CAMRc=MdizEv6uB_Z+zyCYjtZuoYVWK5LP9jBAGBazkWoCXr4EA@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Solving a circular dependency issue between the main image and initramfs
+Subject: Re: [PATCH 1/5] archiver.bbclass: Handle gitsm URLs in the mirror archiver
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,181 +59,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2020 22:54:54 -0000
-Content-Type: multipart/alternative;
-	boundary="------------CCA3816DDF5C971DF31F4D5F"
-Content-Language: en-US
+X-List-Received-Date: Tue, 10 Mar 2020 23:16:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---------------CCA3816DDF5C971DF31F4D5F
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On Mon, 2020-03-09 at 14:21 +0000, Paul Barker wrote:
+> To fully archive a `gitsm://` entry in SRC_URI we need to also capture
+> the submodules recursively. If shallow mirror tarballs are found, they
+> must be temporarily extracted so that the submodules can be determined.
+> 
+> Signed-off-by: Paul Barker <pbarker@konsulko.com>
+> ---
+>  meta/classes/archiver.bbclass | 31 ++++++++++++++++++++++++++-----
+>  1 file changed, 26 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+> index 013195df7d..fef7ad4f62 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -306,7 +306,7 @@ python do_ar_configured() {
+>  }
+>  
+>  python do_ar_mirror() {
+> -    import subprocess
+> +    import shutil, subprocess, tempfile
+>  
+>      src_uri = (d.getVar('SRC_URI') or '').split()
+>      if len(src_uri) == 0:
+> @@ -337,12 +337,10 @@ python do_ar_mirror() {
+>  
+>      bb.utils.mkdirhier(destdir)
+>  
+> -    fetcher = bb.fetch2.Fetch(src_uri, d)
+> -
+> -    for url in fetcher.urls:
+> +    def archive_url(fetcher, url):
+>          if is_excluded(url):
+>              bb.note('Skipping excluded url: %s' % (url))
+> -            continue
+> +            return
+>  
+>          bb.note('Archiving url: %s' % (url))
+>          ud = fetcher.ud[url]
+> @@ -376,6 +374,29 @@ python do_ar_mirror() {
+>          bb.note('Copying source mirror')
+>          cmd = 'cp -fpPRH %s %s' % (localpath, destdir)
+>          subprocess.check_call(cmd, shell=True)
+> +
+> +        if url.startswith('gitsm://'):
+> +            def archive_submodule(ud, url, module, modpath, workdir, d):
+> +                url += ";bareclone=1;nobranch=1"
+> +                newfetch = bb.fetch2.Fetch([url], d, cache=False)
+> +
+> +                for url in newfetch.urls:
+> +                    archive_url(newfetch, url)
+> +
+> +            # If we're using a shallow mirror tarball it needs to be unpacked
+> +            # temporarily so that we can examine the .gitmodules file
+> +            if ud.shallow and os.path.exists(ud.fullshallow) and ud.method.need_update(ud, d):
+> +                tmpdir = tempfile.mkdtemp(dir=d.getVar("DL_DIR"))
+> +                subprocess.check_call("tar -xzf %s" % ud.fullshallow, cwd=tmpdir, shell=True)
+> +                ud.method.process_submodules(ud, tmpdir, archive_submodule, d)
+> +                shutil.rmtree(tmpdir)
+> +            else:
+> +                ud.method.process_submodules(ud, ud.clonedir, archive_submodule, d)
+> +
+> +    fetcher = bb.fetch2.Fetch(src_uri, d, cache=False)
+> +
+> +    for url in fetcher.urls:
+> +        archive_url(fetcher, url)
+>  }
 
+I can't help feeling that this is basically a sign the fetcher is
+broken.
 
-On 10.03.20 23:02, Bartosz Golaszewski wrote:
-> wt., 10 mar 2020 o 22:33 Ayoub Zaki <ayoub.zaki@embexus.com> napisał(a):
->>> Do I implement do_install in image.bbclass so that initramfs can
->>> depend on core-image-full-cmdline:do_populate_sysroot and have the
->>> artifacts installed locally? But this would mean that the initramfs
->>> recipe deploys the main image artifact. Should we deploy the images
->>> earlier (before do_image_complete) for the initramfs recipe to fetch
->>> from DEPLOY_DIR_IMAGE? Any other ideas?
->>
->> I think that best thing is to implement the dm-verity stuffs as a wic
->> plugin, check this example:
->>
->>
->> https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/scripts/lib/wic/plugins/source/dm-verity.py
->>
-> This doesn't look like a correct solution. For starters: not every
-> platform uses wic. The platform I'm aiming this at uses fastboot and
-> requires separate images for each partition.
+What should really happen here is that there should be a method in the
+fetcher we call into.
 
+Instead we're teaching code how to hack around the fetcher. Would it be
+possible to add some API we could call into here and maintain integrity
+of the fetcher API?
 
-My proposition was refering to your example :
+Cheers,
 
-
-https://github.com/brgl/meta-security/commit/83c8e8fba6988249c9d351aa2ad6e02a71b010df#diff-33f7c29b373860ec45379a5f2dc42a75
-
-
-your are trying to include the dm-verity conversion output to your wic 
-wks using the following:
-
-
-part / --source rawcopy --ondisk mmcblk 
---sourceparams="file=${IMGDEPLOYDIR}/${DM_VERITY_IMAGE}-${MACHINE}.${DM_VERITY_TYPE}"
-
-
-In this case you will definitely stuck in a circular dependency unless 
-using a Wic plugin.
-
->
-> This plugin also seems to be unnecessarily complicated with additional
-> signature for the verity hash tree. This is not needed as long as the
-> root hash comes from a secure place - which it does in my case: the
-> fitImage containing the initramfs is signed and the key is appended to
-> u-boot's DTB. When do_image_wic starts, u-boot and initramfs assembly
-> are long completed - another reason for not using a wic plugin.
-
-
-I was referring to the plugin not the implementation which does not work 
-anyway...
-
-
-Mit freundlichen Grüßen / Kind regards
-
--- 
-Ayoub Zaki
-Embedded Systems Consultant
-
-Vaihinger Straße 2/1
-D-71634 Ludwigsburg
-
-
-Mobile   : +4917662901545
-Email    : ayoub.zaki@embexus.com
-Homepage : https://embexus.com
-VAT No.  : DE313902634
-
-
---------------CCA3816DDF5C971DF31F4D5F
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 10.03.20 23:02, Bartosz Golaszewski
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAMRc=MdizEv6uB_Z+zyCYjtZuoYVWK5LP9jBAGBazkWoCXr4EA@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">wt., 10 mar 2020 o 22:33 Ayoub Zaki <a class="moz-txt-link-rfc2396E" href="mailto:ayoub.zaki@embexus.com">&lt;ayoub.zaki@embexus.com&gt;</a> napisał(a):
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-</pre>
-        <blockquote type="cite">
-          <pre class="moz-quote-pre" wrap="">
-Do I implement do_install in image.bbclass so that initramfs can
-depend on core-image-full-cmdline:do_populate_sysroot and have the
-artifacts installed locally? But this would mean that the initramfs
-recipe deploys the main image artifact. Should we deploy the images
-earlier (before do_image_complete) for the initramfs recipe to fetch
-from DEPLOY_DIR_IMAGE? Any other ideas?
-</pre>
-        </blockquote>
-        <pre class="moz-quote-pre" wrap="">
-
-I think that best thing is to implement the dm-verity stuffs as a wic
-plugin, check this example:
+Richard
 
 
-<a class="moz-txt-link-freetext" href="https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/scripts/lib/wic/plugins/source/dm-verity.py">https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/scripts/lib/wic/plugins/source/dm-verity.py</a>
 
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-This doesn't look like a correct solution. For starters: not every
-platform uses wic. The platform I'm aiming this at uses fastboot and
-requires separate images for each partition.</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    My proposition was refering to your example :<br>
-    <br>
-    <br>
-<a class="moz-txt-link-freetext" href="https://github.com/brgl/meta-security/commit/83c8e8fba6988249c9d351aa2ad6e02a71b010df#diff-33f7c29b373860ec45379a5f2dc42a75">https://github.com/brgl/meta-security/commit/83c8e8fba6988249c9d351aa2ad6e02a71b010df#diff-33f7c29b373860ec45379a5f2dc42a75</a><br>
-    <br>
-    <br>
-    your are trying to include the dm-verity conversion output to your
-    wic wks using the following:<br>
-    <br>
-    <br>
-    part / --source rawcopy --ondisk mmcblk
---sourceparams="file=${IMGDEPLOYDIR}/${DM_VERITY_IMAGE}-${MACHINE}.${DM_VERITY_TYPE}"<br>
-    <br>
-    <br>
-    In this case you will definitely stuck in a circular dependency
-    unless using a Wic plugin.<br>
-    <p><span class="blob-code-inner blob-code-marker" data-code-marker="+" style="box-sizing: border-box; overflow: visible; font-family: SFMono-Regular, Consolas, &quot;Liberation Mono&quot;, Menlo, monospace; font-size: 12px; color: rgb(36, 41, 46); overflow-wrap: normal; white-space: pre;">
-</span></p>
-    <blockquote type="cite"
-cite="mid:CAMRc=MdizEv6uB_Z+zyCYjtZuoYVWK5LP9jBAGBazkWoCXr4EA@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-
-This plugin also seems to be unnecessarily complicated with additional
-signature for the verity hash tree. This is not needed as long as the
-root hash comes from a secure place - which it does in my case: the
-fitImage containing the initramfs is signed and the key is appended to
-u-boot's DTB. When do_image_wic starts, u-boot and initramfs assembly
-are long completed - another reason for not using a wic plugin.</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>I was referring to the plugin not the implementation which does
-      not work anyway...<br>
-    </p>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">Mit freundlichen Grüßen / Kind regards
-
--- 
-Ayoub Zaki
-Embedded Systems Consultant
-
-Vaihinger Straße 2/1
-D-71634 Ludwigsburg
-
-
-Mobile   : +4917662901545
-Email    : <a class="moz-txt-link-abbreviated" href="mailto:ayoub.zaki@embexus.com">ayoub.zaki@embexus.com</a>
-Homepage : <a class="moz-txt-link-freetext" href="https://embexus.com">https://embexus.com</a>
-VAT No.  : DE313902634</pre>
-  </body>
-</html>
-
---------------CCA3816DDF5C971DF31F4D5F--
