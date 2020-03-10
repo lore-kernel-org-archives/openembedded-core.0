@@ -1,52 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 09CD560AFC
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D830060706
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 23:18:33 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id s5so210235wrg.3
+	Tue, 10 Mar 2020 23:28:15 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id v9so192761wrf.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 16:18:35 -0700 (PDT)
+	Tue, 10 Mar 2020 16:28:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=tTBRGdhPTRjkcySL/CtXh7NL2Zjx5O9fhLUWGANc2hg=;
-	b=URcorqAcL4pY4cy026WwiCp9Gllw+zsY2y9Vc3R2TbFxYkcU7uJklPiHiC+LpOM5cH
-	0JqFPPNnoOALzJQJSiwvWNbO/guM/JKY5f7gMptRRTbv9Z9t8t3dsS5c3SO+gpH97UGv
-	mTOep0A7r5EFh+tmsPxzCe9ExktepPM7UjgJc=
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=XNu+Ez4YvChnG6RNor17rhIdFvVYfaSjr2QwZAIHhT4=;
+	b=CaDd6EdV4Js1QIEUVkanhLt7gcTyvqYpRVll/o2mcZgrma3NNY9onvftLRQT+izWmf
+	lGOYjNO63voZryQYoGJ2ahUZbbCllC1nM/nnDYRQLGrRzPeL08y/2venDrnxBBvande/
+	EZvl3V+vS+Iz6p6CRHPuI2T7MeO6SW884aYZY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=tTBRGdhPTRjkcySL/CtXh7NL2Zjx5O9fhLUWGANc2hg=;
-	b=JaYprLIbzB6imvs/LnqfDo4KoqxwHyIMTPPgeZOrlVhKYanMvI9eXLU4FimOFo90Fq
-	Z7hOUA7VXlT+QSdhmV/vUq/R0AE2kRBtP7Sf2C6Z1cbrMm0ZKhPufvoi/C4/gClVGJ9Y
-	x4rR9NxgUc1UL7B7vT/5SknquPhly0BUv/TNWr41QnCKOEsRGe5V/5EXn0bFQ/yZeh6C
-	IRUSY9S8wuyngKtzmenFQzVKaAHOkMMNaGf5W/YE6E2SvuUHdW5lPi7tBX6yaIUvf6DC
-	CHo0LMvBekfMayzctf64ENlEH3kR8w+unx7GvnZsTUppg9Rpq2HzfX19I27Oobh4Mt2p
-	4q1A==
-X-Gm-Message-State: ANhLgQ09zaM+Fm/cSNcOLYOKBEAKtab7rvKfQqA1d7RyE5vPizqErjBb
-	Vi+EcOPcivLQkLbM/POFjArbeglf+y0=
-X-Google-Smtp-Source: ADFU+vtsleqNIvPHm8iSPAeQyil6LYO1/uBYVoH+mus/zqjB8Yu8pnH1w7tPoSEM2in88s3Pys/sBA==
-X-Received: by 2002:a5d:4386:: with SMTP id i6mr215475wrq.412.1583882314763;
-	Tue, 10 Mar 2020 16:18:34 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=XNu+Ez4YvChnG6RNor17rhIdFvVYfaSjr2QwZAIHhT4=;
+	b=LFvJpLY3t8Mu7zh1y6mrTn9UyIkOnUWc+zVWWP+Q5l//QYySxMxVK/qgp+5IuDFsx/
+	euWwAlqfm3Y1xaDQyRKz7nS1WSws3BUzCU1n7+s3bKn4mLtjXiuaL+JwbmGSA87iHAby
+	uPGHVD/C6pgfX1Sreae29LiKoe05I6pCnyeH1/r5CRuinJyTbvYGq2w72KsjHKFIB5yi
+	lT/lG4JHv3RNjDBKwLfY8o7mh0Sle2MvO0sy3rwrHSrR21O/eKlYDARjDPs9TtFVFiP/
+	Z3STPS3ccyX9WvVBS3NAIGL8COc9gzdG5xPuBPRVFhkjlQ3RgcwM+pnG8CoK6C4/VEDf
+	B3YA==
+X-Gm-Message-State: ANhLgQ2xbQJrkFhhAQeJWphCj1F3iMY6thxOJRdH5ztTCPMpJ99hSMJ9
+	ahp6cpv9S/A3N6gfOFvwTnaVuoDQ1K0=
+X-Google-Smtp-Source: ADFU+vvI5BDF+vxkdficQGJOU7N7FPPnvQ0LvubWN8YUWsSYXPGXM9RgIYSQEyYirb/VpSYAX9ilLw==
+X-Received: by 2002:a05:6000:18f:: with SMTP id
+	p15mr257542wrx.149.1583882895769; 
+	Tue, 10 Mar 2020 16:28:15 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	62sm14115619wri.30.2020.03.10.16.18.33
+	c85sm6254460wmd.48.2020.03.10.16.28.14
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 10 Mar 2020 16:18:34 -0700 (PDT)
-Message-ID: <a6f3718866f85a6208023b253bec26bf6b5d4172.camel@linuxfoundation.org>
+	Tue, 10 Mar 2020 16:28:15 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Paul Barker <pbarker@konsulko.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 10 Mar 2020 23:18:33 +0000
-In-Reply-To: <20200309142139.15741-3-pbarker@konsulko.com>
-References: <20200309142139.15741-1-pbarker@konsulko.com>
-	<20200309142139.15741-3-pbarker@konsulko.com>
-User-Agent: Evolution 3.35.91-1 
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 10 Mar 2020 23:28:09 +0000
+Message-Id: <20200310232814.48572-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/5] archiver.bbclass: Make do_deploy_archives a recursive dependency
+Cc: Ross Burton <ross.burton@intel.com>
+Subject: [PATCH 1/6] gcc: don't ship build host information in the target gcc-plugins package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,48 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2020 23:18:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 10 Mar 2020 23:28:16 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2020-03-09 at 14:21 +0000, Paul Barker wrote:
-> To ensure that archives are captured for all dependencies of a typical
-> bitbake build we add do_deploy_archives to the list of recursive
-> dependencies of do_build. Without this, archives may be missed for
-> recipes such as gcc-source which do not create packages or populate a
-> sysroot.
-> 
-> do_deploy_archives is also added to the recursive dependencies of
-> do_populate_sdk so that all sources required for an SDK can be captured.
-> 
-> Signed-off-by: Paul Barker <pbarker@konsulko.com>
-> ---
->  meta/classes/archiver.bbclass | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-> index fef7ad4f62..c11d36d708 100644
-> --- a/meta/classes/archiver.bbclass
-> +++ b/meta/classes/archiver.bbclass
-> @@ -604,7 +604,9 @@ addtask do_ar_configured after do_unpack_and_patch
->  addtask do_ar_mirror after do_fetch
->  addtask do_dumpdata
->  addtask do_ar_recipe
-> -addtask do_deploy_archives before do_build
-> +addtask do_deploy_archives
-> +do_build[recrdeptask] += "do_deploy_archives"
-> +do_populate_sdk[recrdeptask] += "do_deploy_archives"
+From: Ross Burton <ross.burton@intel.com>
 
-We implemented the --runall option to bitbake to try and avoid having
-recrdeptask versions of most tasks. Does that not work here? It should
-also work for the SDK I think?
+The build host configuration isn't reproducible as it varies depending
+on the gcc version of the build host. This information isn't useful on the
+target anyway so remove it.
 
-Cheers,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/gcc/gcc-target.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Richard
-
-
-
-
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index 18d078db0af..204f9475fc5 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -179,6 +179,10 @@ do_install () {
+ 	# Cleanup manpages..
+ 	rm -rf ${D}${mandir}/man7
+ 
++	# Don't package details about the build host
++	rm -f ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/include/auto-build.h
++	rm -f ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/plugin/include/bconfig.h
++
+ 	cd ${D}${bindir}
+ 
+ 	# We care about g++ not c++
+-- 
+2.25.0
 
 
