@@ -1,56 +1,35 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id F00A16095A
+Return-Path: <ayoub.zaki@embexus.com>
+Received: from mailrelay4-3.pub.mailoutpod1-cph3.one.com
+	(mailrelay4-3.pub.mailoutpod1-cph3.one.com [46.30.212.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 566276114E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 21:29:35 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id v3so8299289iom.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Mar 2020 14:29:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:subject:to:references:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=F1P6K3a19iMyoTTevsBo6Jfm4adhWvZQHEYWT1F6sMA=;
-	b=sGcjHjocZadPjduzYhIcmkz0WWNo3yWSGE4I9iRLSjgREOjryfrMstThBuBHZxeX11
-	G6BRsdqLPaV6Wn9W30CUdD0syIBQ50W1PjcDRpPlI+PnozAQq8vKr2xd66wty8OyadEE
-	Kv04gQsZbFJSLuHJD0+7zcgAJoilQ2hv703ip6TUmve4dtumcgGb1wFm3VaTYTvdFVpX
-	PUiQGXhep36IcMTs50GTVG0OtETKd20x0XotTol9n328TxU85A0cbgi8mlj4fo7e2HjO
-	ZVhYHGwkJZQlVz8WWtjDNHoFLrFBCZcg+YiOwu20QlB4sQ+a4kbDocCICKQ16+bhmKHV
-	r+vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=F1P6K3a19iMyoTTevsBo6Jfm4adhWvZQHEYWT1F6sMA=;
-	b=DfQZo1cr6n6IVAhRf8c3A+bCOS+QZ5m3M3c90hJAvr2bxmtSwlkOJgylWW326NBeH0
-	00JwjtettoY1DipDoiQGeuH8cAMfNDnh7NvfWXWPmxFP6OykKaho5LwEoHYLHQeXU2sO
-	aZEGaKebzmRldH1pvWoWM56EchkBnUfZ3JD5Q9cDbXG5/9fuGR63hY6H71WxGcw7Bm5V
-	0MNVcpZcOYL2/HC0fEmrT5WKziPXDHo/5qDpNFx4wDdtWwd1zV0ChjPtsXJOPjngWgpk
-	N0+TG39SAD/06KF7+0H9WjcgI17HbTpboiHYCFVwhUEUSwSjchNAucnXkAKWSb/cLpvi
-	w2Mw==
-X-Gm-Message-State: ANhLgQ1vJCfbbmDGl2aH4mlgAaSnq6FMqx5oLP0gk47zv2IIZ/oPNlok
-	CkZoDYkm0f9KWOkvMPE/mIpSuV0bHVA=
-X-Google-Smtp-Source: ADFU+vufgN2krI8EwSY7/oHpJP3A6o+iw1Id4IkRl20K9FRv5sCWflAf36Vataq4rAowvxzm4nKpgg==
-X-Received: by 2002:a05:6602:2190:: with SMTP id
-	b16mr58014iob.98.1583875776363; 
-	Tue, 10 Mar 2020 14:29:36 -0700 (PDT)
-Received: from [10.30.196.58] ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	a9sm11041548ilh.68.2020.03.10.14.29.35
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 10 Mar 2020 14:29:35 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: Rich Persaud <rp@stacktrust.org>, openembedded-core@lists.openembedded.org
-References: <20200309225507.29578-1-rp@stacktrust.org>
-Message-ID: <435df8e7-f4b2-65b7-0a5f-ba8b228a4c7e@gmail.com>
-Date: Tue, 10 Mar 2020 16:29:34 -0500
+	Tue, 10 Mar 2020 21:33:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=embexus.com; s=20191106;
+	h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
+	message-id:from:references:to:subject:from;
+	bh=dJyy5t8dt0e1zrsab4/JAdpu907pOJKr3Yospdp29aM=;
+	b=KG/OO+7LRRfeo61FCDd8qF22ZuUbDZvTU6sQT+v4ZGxN2+tF9DgHa3s/OumEDtGYOiYyRNl7Vys71
+	1yYFCSpDFqIbxS9Mu0+eLigm62Vl5dDA634RfN5pz4pn0XSoQOlmGs48ZThVoXWVldyD42CtiohM63
+	Crx8pZeRCeuMhqCdlQxKa7mJpqJUyI+xA93rushDNB3N+ASUqHjEO+RDS/j/UArFKO7HTWD+XAvTcx
+	NVECFD7koiDg5DQIQfFHaKfjJlLi7/Met4JVjzP1hl5xB1iiBHOwaYleFU3OnOAyr19hjtp5i99/mQ
+	NiiGPWacBZQAP9hOE2U2Rzf8nqCV7jA==
+X-HalOne-Cookie: e3822699196b181391f4e23dcf0c9c2b8e74e616
+X-HalOne-ID: ba7fdb9c-6316-11ea-8c79-d0431ea8bb10
+Received: from [192.168.178.22] (x4db4211c.dyn.telefonica.de [77.180.33.28])
+	by mailrelay4.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+	id ba7fdb9c-6316-11ea-8c79-d0431ea8bb10;
+	Tue, 10 Mar 2020 21:33:06 +0000 (UTC)
+To: openembedded-core@lists.openembedded.org
+References: <CAMRc=Mf_Ld80=Egf3jPBGYoGGZScSG3JHKL7cVArLihJSC8P0g@mail.gmail.com>
+From: Ayoub Zaki <ayoub.zaki@embexus.com>
+Message-ID: <a571c00e-5c90-462b-2402-d82b5f0b8cf9@embexus.com>
+Date: Tue, 10 Mar 2020 22:33:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200309225507.29578-1-rp@stacktrust.org>
-Subject: Re: [PATCH] image-live: multiconfig ISO generation
+In-Reply-To: <CAMRc=Mf_Ld80=Egf3jPBGYoGGZScSG3JHKL7cVArLihJSC8P0g@mail.gmail.com>
+Subject: Re: Solving a circular dependency issue between the main image and initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,60 +42,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2020 21:29:36 -0000
+X-List-Received-Date: Tue, 10 Mar 2020 21:33:06 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
-
-On 3/9/20 5:55 PM, Rich Persaud wrote:
-> When a target is specified for INITRD_IMAGE_LIVE, a task dependency is
-> added for do_image_complete. At present, image-live initrd will not
-> accept multiconfig dependency targets.
-
-Can you give an example? That might help with understanding what this is 
-supposed to do.
+Hi,
 
 
+On 10.03.20 22:23, Bartosz Golaszewski wrote:
+> Hi,
 >
-> If BBMULTICONFIG is non-empty and INITRD_IMAGE_LIVE is a multiconfig
-> target, use mcdepends instead of depends. The packaging recipe must
-> also override machine-specific path construction of INITRD_LIVE.
+> I've been struggling for a while now trying to fix a circular
+> dependency issue when the initramfs image needs to access an image
+> file generated by the main (for lack of a better term) image recipe.
 >
-> Required to build an ISO with mixed machine types, a primary use case
-> for multiconfig. This is a minimal fix to make multiconfig ISOs
-> possible.
+> I've tried to fix our downstream layer only to come to the conclusion
+> that some things must probably be modified upstream to make sense.
+> Unfortunately when trying different solutions I always arrive at some
+> kind of circular dependency with the current task order.
 >
-> Signed-off-by: Rich Persaud <rp@stacktrust.org>
-> ---
->   meta/classes/image-live.bbclass | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+> My use-case is the following:
 >
-> diff --git a/meta/classes/image-live.bbclass b/meta/classes/image-live.bbclass
-> index 54058b350d..1afd48005a 100644
-> --- a/meta/classes/image-live.bbclass
-> +++ b/meta/classes/image-live.bbclass
-> @@ -50,11 +50,14 @@ IMAGE_TYPES_MASKED += "live hddimg iso"
->   python() {
->       image_b = d.getVar('IMAGE_BASENAME')
->       initrd_i = d.getVar('INITRD_IMAGE_LIVE')
-> +    depends_type = ('mcdepends' if (d.getVar('BBMULTICONFIG')
-> +                                    and initrd_i.count(':') == 3)
-> +                                else 'depends')
+> I'd like to use dm-verity to protect the rootfs from tampering as part
+> of the verified boot flow. At boot-time the rootfs partition is mapped
+> using veritysetup from a trusted initramfs stored in a signed
+> fitImage. This initramfs also contains the root verity hash while the
+> rest of the hash tree is stored on a different partition.
+>
+> The dm-verity meta data is generated from a class[1] I wrote with the
+> aim of upstreaming it to meta-security as an image conversion of
+> ext[234] and btrfs images.
+>
+> For the sake of clarity of the example let's assume we're generating
+> an ext4 image for core-image-full-cmdline and set INITRAMFS_IMAGE to
+> "dm-verity-image-initramfs".
+>
+> The veritysetup conversion becomes part of the
+> core-image-full-cmdline:do_image_ext4 task, while
+> dm-verity-image-initramfs:do_rootfs needs to depend on
+> core-image-full-cmdline:do_image_ext4 as it needs to compute the
+> hashes based on the block device image. It cannot however depend on
+> core-image-full-cmdline:do_image_complete as it depends on many tasks
+> (e.g. kernel and u-boot tasks) that would inevitably lead to a
+> circular dependency.
+>
+> The output files from recipes inheriting image.bbclass are not
+> deployed before do_image_complete nor is anything done in do_install
+> or do_populate_sysroot (these tasks are flagged noexec or deleted), so
+> I cannot access them from dm-verity-image-initramfs:do_rootfs.
+>
+> As a workaround in the downstream layer I've been manually putting the
+> verity meta data into the DEPLOY_DIR_IMAGE from
+> core-image-full-cmdline:do_image_ext4 but this obviously isn't correct
+> as far as the deploy class and sstate are concerned.
+>
+> Now the question is: how do I approach it so that I can eventually
+> make it part of upstream meta-security?
+>
+> Do I implement do_install in image.bbclass so that initramfs can
+> depend on core-image-full-cmdline:do_populate_sysroot and have the
+> artifacts installed locally? But this would mean that the initramfs
+> recipe deploys the main image artifact. Should we deploy the images
+> earlier (before do_image_complete) for the initramfs recipe to fetch
+> from DEPLOY_DIR_IMAGE? Any other ideas?
 
-Potentially, this could be simplified:
 
-  depends_type = 'mcdepends' if initrd_i.startswith('mc:') else 'depends'
+I think that best thing is to implement the dm-verity stuffs as a wic 
+plugin, check this example:
 
-?
 
->       if image_b == initrd_i:
->           bb.error('INITRD_IMAGE_LIVE %s cannot use image live, hddimg or iso.' % initrd_i)
->           bb.fatal('Check IMAGE_FSTYPES and INITRAMFS_FSTYPES settings.')
->       elif initrd_i:
-> -        d.appendVarFlag('do_bootimg', 'depends', ' %s:do_image_complete' % initrd_i)
-> +        d.appendVarFlag('do_bootimg', depends_type, ' %s:do_image_complete' % initrd_i)
->   }
->   
->   HDDDIR = "${S}/hddimg"
+https://github.com/intel/intel-iot-refkit/blob/master/meta-refkit-core/scripts/lib/wic/plugins/source/dm-verity.py
+
+> [1] https://github.com/brgl/meta-security/blob/topic/verity-et-al/classes/dm-verity-img.bbclass
+
+Mit freundlichen Grüßen / Kind regards
+
+-- 
+Ayoub Zaki
+Embedded Systems Consultant
+
+Vaihinger Straße 2/1
+D-71634 Ludwigsburg
+
+
+Mobile   : +4917662901545
+Email    : ayoub.zaki@embexus.com
+Homepage : https://embexus.com
+VAT No.  : DE313902634
+
 
