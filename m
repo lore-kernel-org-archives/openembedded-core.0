@@ -1,27 +1,52 @@
-Return-Path: <sk@typedivision.de>
-Received: from smtp03.udag.de (smtp03.udag.de [62.146.106.29])
-	by mail.openembedded.org (Postfix) with ESMTP id 17F9660FEA
+Return-Path: <jpuhlman@gmail.com>
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+	[209.85.216.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 642B260AFC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 21:27:10 +0000 (UTC)
-Received: from MyMacBook.local (x4e3627bc.dyn.telefonica.de [78.54.39.188])
-	by smtp03.udag.de (Postfix) with ESMTPA id 6E2F920B09;
-	Wed, 11 Mar 2020 22:27:10 +0100 (CET)
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20200311163730.78078-1-sk@typedivision.de>
-	<c487b390822a86c1f5dd9339324e86c973142e0e.camel@linuxfoundation.org>
-	<d950b7b1-b5f1-8395-69d8-dde1d17725a8@typedivision.de>
-	<CANNYZj-BW-y=Ky_WLdGaJR6-5g-Ok00a7dRDTdnxuN3M7Vt5FQ@mail.gmail.com>
-From: Stefan Kral <sk@typedivision.de>
-Message-ID: <3b553c8a-4c08-cb95-923c-7f03cb6d01aa@typedivision.de>
-Date: Wed, 11 Mar 2020 22:27:09 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
-	Gecko/20100101 Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj-BW-y=Ky_WLdGaJR6-5g-Ok00a7dRDTdnxuN3M7Vt5FQ@mail.gmail.com>
-Authentication-Results: smtp03.udag.de;
-	auth=pass smtp.auth=sk@typedivision.de smtp.mailfrom=sk@typedivision.de
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa: enable testresults.json for testexport
+	Wed, 11 Mar 2020 22:22:54 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id mj6so1517668pjb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Mar 2020 15:22:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=C1lFo1QYUsnpjOT2cl2qJvj7zp90cm1noAB9F4zPhwo=;
+	b=qHmO8STkmq+Y6P6d7BxGI9+rCZ6KDDQZc3yYEDZ1ov9yGcReimjQstgek4xOobvmMl
+	XroUdZlCFawseW7Z12PgtiJR4CSBFkQHHnUlpzA83hPJA/XXV+TivjpE9Mu0ESVfwlzn
+	ZkIApJkVuQg4nzHhCjs/49hJqwexeDO2nwx1xKeoubToqoWpOlx0I2NZ4dUoogBbkHtc
+	MQy3+/PDFzvWpFs806I3r0rB3nhgq9fLYTgeK/c5p9iZs1dwndel0VuuCv/Fveekvakx
+	tAjRj2Sa7KiPUNPgbCQTDZYoLIiG6q4pT9j1Crrk8zf69Ijh9uPpLr0ksMvz1e4wLXmt
+	IUnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=C1lFo1QYUsnpjOT2cl2qJvj7zp90cm1noAB9F4zPhwo=;
+	b=QwNgqfEnLrH75tN+oU503IiJAL3hVC+JlRYWRtceN8ObzSU9DJM+WYPOfXUYbGIaFK
+	kK5zNY47VWSxzwwam2vmuDO3UK9KmO+0QyU5G3nnzxrXDFJaB0uNCj9tRk+nChlaCxQP
+	ak/tXTq63KkPO4jwO4jIT7uiPl+/to3083yq7NRTJHcQVSVA6WBgpb72SBqyUw1bNca1
+	5iZQnuX/gAAumfDcDe4Dub3VQZJxxTUrPikRyPS6Ywnk2tas4tIwVz8Hf/sEauKgUTXy
+	y0AWhMo5/wlZlVbRk3pNSmmQ50x6EejjgySO1TRd7niGYmHtaKQxD9Q4m9ksOoIqfdjs
+	+beg==
+X-Gm-Message-State: ANhLgQ28UJxojpFmq62h+LsZ/N42nXP74r5x+riaXkbo7SxZaHIkWZ2d
+	aS8tYI8IgfNjtKTFOy8kwzaH2uBQeAg=
+X-Google-Smtp-Source: ADFU+vtcJBCiWV+2GuRe4o1FMBvkoAtEeM+C44ZAupJYe76Oe6eFHLw8MHsITWrqfcyncMIOR8pAkQ==
+X-Received: by 2002:a17:902:bccb:: with SMTP id
+	o11mr5169409pls.281.1583965375103; 
+	Wed, 11 Mar 2020 15:22:55 -0700 (PDT)
+Received: from workhorse.localdomain
+	([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
+	by smtp.gmail.com with ESMTPSA id
+	k1sm29928526pgg.56.2020.03.11.15.22.54
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 11 Mar 2020 15:22:54 -0700 (PDT)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id E183F2A05B0; Wed, 11 Mar 2020 15:22:52 -0700 (PDT)
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Mar 2020 15:22:48 -0700
+Message-Id: <20200311222249.29880-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.13.3
+Subject: [PATCH 1/2] babletrace2: make manpages multilib identical
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,156 +59,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 21:27:10 -0000
-Content-Type: multipart/alternative;
-	boundary="------------CB4FB8A2D7636390108264CF"
-Content-Language: en-US
+X-List-Received-Date: Wed, 11 Mar 2020 22:22:54 -0000
 
---------------CB4FB8A2D7636390108264CF
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-Am 11.03.20 um 21:46 schrieb Alexander Kanavin:
-> On Wed, 11 Mar 2020 at 21:38, Stefan Kral <sk@typedivision.de 
-> <mailto:sk@typedivision.de>> wrote:
->
->     I just started to evaluate the use of testexport.
->
->     If you think about removing that feature, what is the preferred
->     way to
->     test a deployed target image?
->     The idea here is to have two separate pipelines:
->
->     1. build
->     - a target-image-test (same as target-image but additional test
->     facilities enabled, like ptest)
->     - the testexport output
->
->     2. test
->     - fetch build results and install the target-image-test to the
->     real hardware
->     - run the exported runtime tests (host and target based cases)
->     - check/save the generated testresults.json
->
->
-> You can do all of these in a single pipeline using testimage:
->
-> 1. built target-image-test
-> 2. flash target-image-test to real hardware
-> 3. bitbake -c testimage target-image-test (set TEST_TARGET to 
-> 'simpleremote', and ip/port for ssh access in local.conf)
->
-> Is there a reason you need two pipelines?
->
-> Alex
+Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+---
+ .../0001-Make-manpages-multilib-identical.patch    | 28 ++++++++++++++++++++++
+ meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb     |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
 
-Doing build and test in one pipeline turns out to be more complicated 
-due to:
-
-- build machine may be different from test machine (with access to hardware)
-- build the image is a one time job, tests may have to be repeated 
-reproducibly
-- executing long running tests slows down image creation (for development)
-- tests on dedicated hardware should be runable asynchronously when hw 
-is available
-
-Running tests by bitbake -c testimage could be an option but to provide 
-a full repo/bitbake/cache setup to run test cases sounds not as easy as 
-having just python installed. And for that, testexport does its job 
-quite well.
-
-Btw. have you ever thought about to integrate/support some external test 
-framework (like robot framework)?
-
-Stefan
+diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
+new file mode 100644
+index 0000000000..2401b176e6
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
+@@ -0,0 +1,28 @@
++From 56986190e4b0c10945ce6aaa7ca10d6bd8a26a39 Mon Sep 17 00:00:00 2001
++From: Jeremy Puhlman <jpuhlman@mvista.com>
++Date: Mon, 9 Mar 2020 21:10:35 +0000
++Subject: [PATCH] Make manpages multilib identical
++
++Upstream-Status: Pending
++Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
++---
++ doc/man/asciidoc-attrs.conf.in | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/doc/man/asciidoc-attrs.conf.in b/doc/man/asciidoc-attrs.conf.in
++index ad1183f1..e11c7031 100644
++--- a/doc/man/asciidoc-attrs.conf.in
+++++ b/doc/man/asciidoc-attrs.conf.in
++@@ -1,7 +1,7 @@
++ [attributes]
++ # default values
++-system_plugin_path="@LIBDIR@/babeltrace2/plugins"
++-system_plugin_provider_path="@LIBDIR@/babeltrace2/plugin-providers"
+++system_plugin_path="@prefix@/lib*/babeltrace2/plugins"
+++system_plugin_provider_path="@prefix@/lib*/babeltrace2/plugin-providers"
++ babeltrace_version="@PACKAGE_VERSION@"
++ enable_debug_info="@ENABLE_DEBUG_INFO_VAL@"
++ defrdport=5344
++-- 
++2.24.1
++
+diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
+index 16953d6807..61bc7f5e6b 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
++++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
+@@ -10,6 +10,7 @@ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
+ SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-2.0 \
+ 	   file://run-ptest \
+ 	   file://0001-tests-do-not-run-test-applications-from-.libs.patch \
++           file://0001-Make-manpages-multilib-identical.patch \
+ 	  "
+ SRCREV = "06df58f89ee51b1a2c6a2c187ec3f15691633910"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+-- 
+2.13.3
 
 
---------------CB4FB8A2D7636390108264CF
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">Am 11.03.20 um 21:46 schrieb Alexander
-      Kanavin:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CANNYZj-BW-y=Ky_WLdGaJR6-5g-Ok00a7dRDTdnxuN3M7Vt5FQ@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">
-        <div dir="ltr">On Wed, 11 Mar 2020 at 21:38, Stefan Kral &lt;<a
-            href="mailto:sk@typedivision.de" moz-do-not-send="true">sk@typedivision.de</a>&gt;
-          wrote:<br>
-        </div>
-        <div class="gmail_quote">
-          <blockquote class="gmail_quote" style="margin:0px 0px 0px
-            0.8ex;border-left:1px solid
-            rgb(204,204,204);padding-left:1ex">I just started to
-            evaluate the use of testexport.<br>
-            <br>
-            If you think about removing that feature, what is the
-            preferred way to <br>
-            test a deployed target image?<br>
-            The idea here is to have two separate pipelines:<br>
-            <br>
-            1. build<br>
-            - a target-image-test (same as target-image but additional
-            test <br>
-            facilities enabled, like ptest)<br>
-            - the testexport output<br>
-            <br>
-            2. test<br>
-            - fetch build results and install the target-image-test to
-            the real hardware<br>
-            - run the exported runtime tests (host and target based
-            cases)<br>
-            - check/save the generated testresults.json<br>
-          </blockquote>
-          <div><br>
-          </div>
-          <div>You can do all of these in a single pipeline using
-            testimage:</div>
-          <div><br>
-          </div>
-          <div>1. built target-image-test</div>
-          <div>2. flash target-image-test to real hardware</div>
-          <div>3. bitbake -c testimage target-image-test (set
-            TEST_TARGET to 'simpleremote', and ip/port for ssh access in
-            local.conf)</div>
-          <div><br>
-          </div>
-          <div>Is there a reason you need two pipelines?</div>
-          <div><br>
-          </div>
-          <div>Alex<br>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <p>Doing build and test in one pipeline turns out to be more
-      complicated due to:</p>
-    <p>- build machine may be different from test machine (with access
-      to hardware)<br>
-      - build the image is a one time job, tests may have to be repeated
-      reproducibly<br>
-      - executing long running tests slows down image creation (for
-      development)<br>
-      - tests on dedicated hardware should be runable asynchronously
-      when hw is available</p>
-    <p>Running tests by bitbake -c testimage could be an option but to
-      provide a full repo/bitbake/cache setup to run test cases sounds
-      not as easy as having just python installed. And for that,
-      testexport does its job quite well.<br>
-    </p>
-    <p>Btw. have you ever thought about to integrate/support some
-      external test framework (like robot framework)?<br>
-    </p>
-    <p>Stefan<br>
-    </p>
-  </body>
-</html>
-
---------------CB4FB8A2D7636390108264CF--
