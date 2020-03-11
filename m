@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
-	[209.85.210.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 66A4561BBF
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 4E7CF61BC2
 	for <openembedded-core@openembedded.org>;
-	Wed, 11 Mar 2020 02:26:26 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id z65so404726pfz.8
+	Wed, 11 Mar 2020 02:26:27 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id 7so329179pgr.2
 	for <openembedded-core@openembedded.org>;
-	Tue, 10 Mar 2020 19:26:27 -0700 (PDT)
+	Tue, 10 Mar 2020 19:26:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=itxXS39Y7irtdZ9Yq+wh7vT3nIOsp1vDX37jqweXW6k=;
-	b=LylB1NNy2KAUb/av+aEDMDvc6OWaFERlwkrbrv6X8oFZRqN4pFq4E+Fg02vvqNovoD
-	AaV5qX8cTjDKOQMy7xv6b0H3Bdxeqb1wXu3CD9oRBhXiuLugjRfRocjWVhqqX49EQIZs
-	BEHM/Hwpns0uXyjsRn5kBSLXeqgA2IYjL/CWoC4Nn3uRHWHTXdV9ZDg+q0P9RFWFjQyo
-	4q9kKh3GlTKOMpM79Z1TtozTAuEEsmyeRVUgCN3TeMsJNWPJRrjNCni4R+Vh4y7gxRhj
-	E1TFG7RuRfGqvKtsSt5APbTz+/8KVP4GxKOpUtczx9OicZq8wsPi36DNg2U0sTCOZ6Sf
-	RQxQ==
+	bh=jzYR3q3NnVlQT8bUvCpK0bVKgSZ3WjrG/fX9pqbDDQo=;
+	b=cwV5Rq3oSkBfbYPfM8/rPCqrxs4KSanaf2vDmZ39YPNrrMX0wYT/zm7iogNIRTFn3W
+	ED+3fh6mxGhYBeJZnF8ITjxjfpOOE62JlCZyPFzKDuWKYY0OgijffigD/da6LQptMKrM
+	Ga1cbOpE/P0d0x24ynOJPk01TuD+Zs8UjHdPT8OF1EIJaTWkpJ5iutrMbfgAIyujfOmN
+	V4Y/bwAvLHMjcQBE0itKmqKLxpktad9mAfvBV5TmJ5ALS8TP/QFkKUpAeeza34zLvNTI
+	DuXnFy4vN/q2rJGr9Qcs0p3egQgOn9CE95Z5ufZqaY9gV7odLFetLBi7XWcSr1HP5Uya
+	mq3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=itxXS39Y7irtdZ9Yq+wh7vT3nIOsp1vDX37jqweXW6k=;
-	b=K+NcDMhXhbQ+VfNAJZ9lwLWFgJs/YwaudwztPW+8Rz1v2lybeVwVxwQ5NqSi6e4bbu
-	kN5BKfx9HDTc+HhsPYSPdJSsRiUbIecc8Dv6uKiFWJ5C3KDjVMzVGH2ZzfNjvq+CelnQ
-	D2q8iq17geYh35rkXsrOHHFP9XNJhv/Bnt5juAIgczuAIBAK3FGe3hKdz93iZr/1HCei
-	ldhb4TYwYLjfsBs4DyRiZZj/BKfj1ToRpzysntOQUi29r7s5tJKqq/0HL2jmtcUfTBZy
-	gscoPYApPmOp3XDWEDBLv/JK/iDx9cjdXw8rgzTiAya4vDeJnNJH8bJe8Aw1/ArGYrtT
-	Z3Wg==
-X-Gm-Message-State: ANhLgQ2/rDIzSMzzNNmjLsHqhVorp+4o3/Ou4GPdEMtW0mzlNvgNQl4h
-	56ZXnfgsM1dtxsu/XNM/hAzxGoR4
-X-Google-Smtp-Source: ADFU+vtM4+o90ECTIXcty8zE/I2+I9pQIIBmSIk1TGumDtjiBrnOrwBfWykOJdTjXkx3crw+1pNAfQ==
-X-Received: by 2002:a63:ba59:: with SMTP id l25mr686578pgu.68.1583893587354;
-	Tue, 10 Mar 2020 19:26:27 -0700 (PDT)
+	bh=jzYR3q3NnVlQT8bUvCpK0bVKgSZ3WjrG/fX9pqbDDQo=;
+	b=FXCjgdIATrVDz1VvIj9DcbvlfYOHKYML5oacoDcWhJBlCHjEWRLQeqIusRvCkXHFE/
+	LB6YDYE1zoiyBh2AlUXQVpQ84I6qpMOU0HX2UhIRGrd/BkB8eWA101UV8J2P3VZJDNZx
+	2SNJaWZgtdUqsixdCdECdOEg0iIEIhZGT35AihJFGD8ikYdTm++YqoeNCG60jluwsFhi
+	nK9EeGJAvtzrtZz3XtsFpjpQJYoNoP8pjfUqtNMz1u+Zxc8t1sqHERZ+ronPNsiHHmcH
+	uCN5YQ6Ft6Hby98po/9RiOUc8YmO4GX2003sWo1HAEnF8PzKgRuhg5M2Jkrghng0YqS+
+	OIwQ==
+X-Gm-Message-State: ANhLgQ2mRYHfVmLPymzPLCm3JpnHFvNJ5VxsZkgRy7LmozkEalOhLMDC
+	SQiWhh4Z9WjmuU87qMXOXJghWCzP
+X-Google-Smtp-Source: ADFU+vummlHfJ9Vi3t24LTwJzTxqxJaIFlkQicme0WFiF2LsUJmOsdgMaDhgqBSd/dGdAE2DBUD9Gw==
+X-Received: by 2002:a65:6841:: with SMTP id q1mr621246pgt.261.1583893588203;
+	Tue, 10 Mar 2020 19:26:28 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:a4a4:c739:7769:e9ed])
 	by smtp.gmail.com with ESMTPSA id
-	o11sm1461661pjb.18.2020.03.10.19.26.26
+	o11sm1461661pjb.18.2020.03.10.19.26.27
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 10 Mar 2020 19:26:26 -0700 (PDT)
+	Tue, 10 Mar 2020 19:26:27 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 10 Mar 2020 19:26:08 -0700
-Message-Id: <d6c8fd78942018bf24e093fcec3ba4899359406c.1583893499.git.akuster808@gmail.com>
+Date: Tue, 10 Mar 2020 19:26:09 -0700
+Message-Id: <102fe8f850f97c7a588ee342846b4c10b8603b0d.1583893499.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1583893499.git.akuster808@gmail.com>
 References: <cover.1583893499.git.akuster808@gmail.com>
-Subject: [zeus 07/16] gcc-cross-canadian: A missing space in an append caused an invalid option
+Subject: [zeus 08/16] gcc-cross.inc: Prevent native sysroot from leaking into configargs.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,39 +59,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 02:26:26 -0000
+X-List-Received-Date: Wed, 11 Mar 2020 02:26:27 -0000
 
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
+From: Nathan Rossi <nathan@nathanrossi.com>
 
-When configuring the cross-candian toolchain for a non-linux target system,
-the resulting gcc configuration included:
+Prevent the native(sdk) sysroot path from leaking into configargs.h. The
+configargs.h header is intended to be static and unchanged as the
+content is used as a means of determining that a gcc plugin is built for
+the same gcc. This also effects the output of 'gcc --version'. Due to
+per recipe sysroots and staging, the sysroot path would be replaced with
+the sysroot local to the recipe thus changing the content of
+configargs.h.
 
-  --enable-initfini-array--without-headers
+The sysroot path is replaced with a generic "/host" prefix which
+represents the host sysroot (e.g. native or nativesdk).
 
-these should have been two separate options.
-
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7b52893632dae7bc9ac75dddc7ad625e19f41050)
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+(cherry picked from commit 84a78f46d59447eeec3d69532a7506148f64c979)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/gcc/gcc-cross.inc   | 7 +++++++
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 4 ----
+ 2 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index f14cbf7152..4aac345bec 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -158,7 +158,7 @@ SYSTEMLIBS1 = "${target_libdir}/"
- EXTRA_OECONF += "--enable-poison-system-directories"
- EXTRA_OECONF_remove_elf = "--with-sysroot=/not/exist"
- EXTRA_OECONF_remove_eabi = "--with-sysroot=/not/exist"
--EXTRA_OECONF_append_elf = "--without-headers --with-newlib"
--EXTRA_OECONF_append_eabi = "--without-headers --with-newlib"
-+EXTRA_OECONF_append_elf = " --without-headers --with-newlib"
-+EXTRA_OECONF_append_eabi = " --without-headers --with-newlib"
- # gcc 4.7 needs -isystem
- export ARCH_FLAGS_FOR_TARGET = "--sysroot=${STAGING_DIR_TARGET} -isystem=${target_includedir}"
+diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+index 8855bb1f34..06ba3ccd15 100644
+--- a/meta/recipes-devtools/gcc/gcc-cross.inc
++++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+@@ -61,6 +61,13 @@ do_compile () {
+ 	export CXXFLAGS_FOR_TARGET="${TARGET_CXXFLAGS}"
+ 	export LDFLAGS_FOR_TARGET="${TARGET_LDFLAGS}"
+ 
++	# Prevent native/host sysroot path from being used in configargs.h header,
++	# as it will be rewritten when used by other sysroots preventing support
++	# for gcc plugins
++	oe_runmake configure-gcc
++	sed -i 's@${STAGING_DIR_TARGET}@/host@g' ${B}/gcc/configargs.h
++	sed -i 's@${STAGING_DIR_HOST}@/host@g' ${B}/gcc/configargs.h
++
+ 	oe_runmake all-host configure-target-libgcc
+ 	(cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c unwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
+ 	# now generate script to drive testing
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 2da3c02ef0..536b18d97f 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -302,10 +302,6 @@ do_check() {
+ 
+     # HACK: this works around the configure setting CXX with -nostd* args
+     sed -i 's/-nostdinc++ -nostdlib++//g' $(find ${B} -name testsuite_flags | head -1)
+-    # HACK: this works around the de-stashing changes to configargs.h, as well as recipe-sysroot changing the content
+-    sed -i '/static const char configuration_arguments/d' ${B}/gcc/configargs.h
+-    ${CC} -v 2>&1 | grep "^Configured with:" | \
+-        sed 's/Configured with: \(.*\)/static const char configuration_arguments[] = "\1";/g' >> ${B}/gcc/configargs.h
+ 
+     if [ "${TOOLCHAIN_TEST_TARGET}" = "user" ]; then
+         # qemu user has issues allocating large amounts of memory
 -- 
 2.17.1
 
