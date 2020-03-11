@@ -1,51 +1,55 @@
 Return-Path: <jpuhlman@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id E0FC261BAF
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 15F6061BAF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 22:25:52 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id 7so1979098pgr.2
+	Wed, 11 Mar 2020 22:25:53 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id j20so1775064pll.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 15:25:54 -0700 (PDT)
+	Wed, 11 Mar 2020 15:25:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=/2fNozusfCy9TRwshHCGa4B2sP7kSggjIIKC4IFriQU=;
-	b=as/w6z+FWvqhgyTdt06lM1T4jA29XOwn6g6jXEnmMEMP1qNYLMfOYxaZzcWSxow+P5
-	I+hASM15zWdiRTQu78gmTzzb2cm2YB6cRmivW5Jk4RA+xS3S/FWw27pSFiJ8yCK0uSn8
-	DT1hYCJyZcYcrJUR5JgBRS8RVgRxy/4ix2KtKKUfO5lJVfpQZ4k6YLGD2oTXpIBulWJC
-	afX7gUyrmAlx4dkcgSwMSdS5GgvDbEi4P7+l9FDNKSzuRSfrb97dVBjqWJtjf2IOrq6r
-	lfmzX8Xw0jwinMoBEA4JnAlwuSz8SWsI2/IXdRQBxEckcsMQNO+RT024DM5/VyhRkmF5
-	0V+A==
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=xBaQ3wgge5jmLuYGnqxVRwCwdfeOLbPCBSiQsYv7K8k=;
+	b=gi4cWFUQdLE6pPJX3KqMNSmRgsbTSRkPyy0CUrPPYKnCzTkClh4umEQgWvfCieLovq
+	5BpGqpSvuF0HPSUtHCb+/g6tvx7TWPugNwNgU1IdTmu8DxjxUiEddYJuytxHKe+linKq
+	lKjn1QLvgkGGmI4jYEin9u4xtyi7qgndjHYc5LzSdmWyAsmPNuK1tDSv5jI2dm+ai4DH
+	esuuAiDahbI7lmEqyHKXkb5DIkZ85fgFhDXjSJAIV1nOkmZ4vwCtZNu4suo1SchPg1nt
+	6Ku4a/wMSWQk1Y3sv3IeR5+EKC7QfzHZnSkzpyLTbO8JnZ/mk8sYenyagBILG7BuLaIC
+	DqMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=/2fNozusfCy9TRwshHCGa4B2sP7kSggjIIKC4IFriQU=;
-	b=mgRviDqnz9jvAed7u7tGhEpwFhCuv7+7pxtzT0fc+DNV0izFPBWvul8G0XIMo7uz0p
-	vuomyOYAdZ93hlJCTYNwB5zjCa6mdca18eFcDFL6/jomME7K1FiHzWIpM2u0WIGoLwFW
-	u5Z50ymjZf6yjPYKc0+xONhWrI2VE62FPTQoxmfxILej7G5ZvFo34XwzWiPMdN/h0lfP
-	VNZlD6rX/UTi1noOBJTvRidAioXXYTXEmOY77BJM9nAnHIpdZ/q2RoxGy0C97ZvL8xUw
-	0UhUIYf/NgH++2s4rUiiEFXzcDjZBY+hm/Rm7kJWN2CIup/tY2Nv91Sg2rj03NOZSS78
-	jRYw==
-X-Gm-Message-State: ANhLgQ0E852OXto/wSguMeOO/VC4MmXyGl6PNfun8AwTuoJsPImlm5D3
-	YcZmkC/c0apSce0wiAnckfc1FdIkXBU=
-X-Google-Smtp-Source: ADFU+vv5XKQ+8gi8qwraEEOwf7z09pAcEfJqPft3JpDKWiFUmCJfwLOCgFQH4ecUQ/mC9P4OafXRlw==
-X-Received: by 2002:a62:cdcc:: with SMTP id o195mr2871737pfg.323.1583965553736;
-	Wed, 11 Mar 2020 15:25:53 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:in-reply-to:references;
+	bh=xBaQ3wgge5jmLuYGnqxVRwCwdfeOLbPCBSiQsYv7K8k=;
+	b=JfgvwMO17iNzgmjPoQP5hb2JFH61LbhzkI5EVaBagfEZ320wLmjTgBMOkPwMCN9Zrq
+	Qcry9ZYymdNUzDUbof6gx5hkqXK4L42TrZojYfndyg/dlijRikihPI7BwgtT+57XENRS
+	vmkhuxwXf9eYI7MAIsisVlWmHQyOcJONfmH1BZZgLZhygppZvAFVf4gyrFEUCER85hNW
+	CRhjFSdt2qcQiCJBjI68moriiKdhbVHK5RvZZB9jlyV/5rxRKMPNeuRWuzc+sWqBUDWz
+	n8m3LxDlfLO7i7vqtX0/Wz6FK3Zhs/gviXubvJBLqVY7Gq5bJ6bK22wGWKhA8mavi1rI
+	WHNw==
+X-Gm-Message-State: ANhLgQ0ba0ONN0wm91IbwKc+uKDo42eQZmv83f5hjWp5BFze5+922BQl
+	mHJtsNt1gDs3Oj0RrUoGH8DypICN9tw=
+X-Google-Smtp-Source: ADFU+vvx1wGNdm+NXZ/WrcCPK94Cbn/bTBUGsS1ojyY9OW3Z3cB1w4m6rj1gVsQVlDqBowvzGKyzFQ==
+X-Received: by 2002:a17:90b:3792:: with SMTP id
+	mz18mr878985pjb.43.1583965554810; 
+	Wed, 11 Mar 2020 15:25:54 -0700 (PDT)
 Received: from workhorse.localdomain
 	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
 	by smtp.gmail.com with ESMTPSA id
-	d13sm6294281pjs.44.2020.03.11.15.25.52
+	d13sm6294300pjs.44.2020.03.11.15.25.53
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 11 Mar 2020 15:25:53 -0700 (PDT)
+	Wed, 11 Mar 2020 15:25:54 -0700 (PDT)
 Sender: Jeremy Puhlman <jpuhlman@gmail.com>
 Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 196282A05B0; Wed, 11 Mar 2020 15:25:52 -0700 (PDT)
+	id 424A02A05EB; Wed, 11 Mar 2020 15:25:53 -0700 (PDT)
 From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Mar 2020 15:25:41 -0700
-Message-Id: <20200311222546.30284-1-jpuhlman@mvista.com>
+Date: Wed, 11 Mar 2020 15:25:42 -0700
+Message-Id: <20200311222546.30284-2-jpuhlman@mvista.com>
 X-Mailer: git-send-email 2.13.3
-Subject: [PATCH 1/6] strace: Fix reproducibility issues
+In-Reply-To: <20200311222546.30284-1-jpuhlman@mvista.com>
+References: <20200311222546.30284-1-jpuhlman@mvista.com>
+Subject: [PATCH 2/6] qemu: Fix reproducibilty issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,76 +62,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 22:25:53 -0000
+X-List-Received-Date: Wed, 11 Mar 2020 22:25:54 -0000
 
 From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-gen_tests script encodes its full path to itself in each script
+tests/qemu-iotests/common.env is generated from configure which
+we pass ${HOSTTOOLS_DIR}/python3 as our python to use, which gets
+copied into the ptests. Correct python3 path.
 
 Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
 ---
- .../0001-strace-fix-reproducibilty-issues.patch    | 39 ++++++++++++++++++++++
- meta/recipes-devtools/strace/strace_5.5.bb         |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
+ meta/recipes-devtools/qemu/qemu.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
-new file mode 100644
-index 0000000000..c4c176e6bc
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
-@@ -0,0 +1,39 @@
-+From 6309792c49ca900cec6a7f1dc5b51bf75b629e11 Mon Sep 17 00:00:00 2001
-+From: Jeremy Puhlman <jpuhlman@mvista.com>
-+Date: Wed, 11 Mar 2020 19:56:55 +0000
-+Subject: [PATCH] strace: fix reproducibilty issues
-+
-+The full path to the gen_tests.sh script is encoded in the tests
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-+---
-+ tests/gen_tests.sh | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/tests/gen_tests.sh b/tests/gen_tests.sh
-+index 5e1e7c9..1e65eac 100755
-+--- a/tests/gen_tests.sh
-++++ b/tests/gen_tests.sh
-+@@ -46,7 +46,7 @@ while read -r name arg0 args; do {
-+ 
-+ 	hdr="\
-+ #!/bin/sh -efu
-+-# Generated by $0 from $input ($name $arg0 $args); do not edit."
-++# Generated by $(basename $0) from $input ($name $arg0 $args); do not edit."
-+ 
-+ 	case "$arg0" in
-+ 		+*)
-+@@ -80,7 +80,7 @@ while read -r name arg0 args; do {
-+ 
-+ if [ -n "$names" ]; then
-+ 	{
-+-		printf '# Generated by %s from %s; do not edit.\n' "$0" "$input"
-++		printf '# Generated by %s from %s; do not edit.\n' "$(basename $0)" "$input"
-+ 		printf 'GEN_TESTS ='
-+ 		printf ' %s.gen.test' $names
-+ 		echo
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-devtools/strace/strace_5.5.bb b/meta/recipes-devtools/strace/strace_5.5.bb
-index 6e7d63949d..ae552da028 100644
---- a/meta/recipes-devtools/strace/strace_5.5.bb
-+++ b/meta/recipes-devtools/strace/strace_5.5.bb
-@@ -13,6 +13,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
-            file://ptest-spacesave.patch \
-            file://uintptr_t.patch \
-+           file://0001-strace-fix-reproducibilty-issues.patch \
-            "
- SRC_URI[md5sum] = "dbce2e84632b39a4ed86b9fc60447af9"
- SRC_URI[sha256sum] = "9f58958c8e59ea62293d907d10572e352b582bd7948ed21aa28ebb47e5bf30ff"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index f3342eaf28..e6dbc6d05a 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -56,6 +56,8 @@ do_install_ptest() {
+ 	# Don't check the file genreated by configure
+ 	sed -i -e '/wildcard config-host.mak/d' \
+ 	       -e '$ {/endif/d}' ${D}${PTEST_PATH}/tests/Makefile.include
++        sed -i -e 's,${HOSTTOOLS_DIR}/python3,${bindir}/python3,' \
++            ${D}/${PTEST_PATH}/tests/qemu-iotests/common.env 
+ }
+ 
+ # QEMU_TARGETS is overridable variable
 -- 
 2.13.3
 
