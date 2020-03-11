@@ -1,47 +1,56 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
-	[209.85.222.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E4AF561B99
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 65B2961B99
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 18:40:06 +0000 (UTC)
-Received: by mail-ua1-f65.google.com with SMTP id 9so610018uav.12
+	Wed, 11 Mar 2020 18:41:33 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id t24so1663025pgj.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 11:40:08 -0700 (PDT)
+	Wed, 11 Mar 2020 11:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oTPgUvk+SHJIDGRQtUdeNFYmH1jWrWzFXjj/mo6NJYE=;
-	b=KoN/z5aosFCSIpsEFmONWVfeA6K/ud/prmjzlfE6Lc16PqWYZpZphDWEYio1ugSuaG
-	PwC/TNeeXTCvU9SI9VHhtGbuP6NeTlUJkGYQqW8u08HJJq8CVitfRXqpZIQhgMgkXNz2
-	IvcPA5zvRmtkyCgOWIY/upql2QWH0OOvhsMQHKi4o8yO8iP+iRR1TBcsFzdSnwL7pmWU
-	9zj3ndyVipPArodl9HwiRW0OzWCYDERGjB7fXovxGLEHv7+8qEAgDPDjzaLowy1Qc1a7
-	vx9Hny57R2lTj1ovEgvjTC9qH5b6TTXLMLvKmLRyZ+/Z5ACrIlsQyz2awWKBz194nHMQ
-	Waow==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=ek0s7vVgFGJ70Jp78CN2cRQIx1hVc/Ph8bCwM0HQUCs=;
+	b=iQOGZcyqt4LMIMkfGpQqZ8Ew9/lmneLPIRktAi9wDfuLx0j3VXyVE4L8QEafw/Acik
+	dZdwtSHvWVbGfas7xo0/aM09bTQzQwT1StyE9ULOXkgSj0xHAwm4DPpRnkxAVDCQnSY3
+	QAodtblg5g3BMnXmFhB7SmdiBmzXdNThbIPBed1Z74LhqpXoINe2FY/IQt428wdhE0iM
+	5t6eXT+iDd6vXL9JkY01gYX81exXCNRTDttM7HMAHH/awcyC20Al9CcrV6Wb3Pp220tK
+	2K3xlJo3JEMRl3+u40vnAi/GApa3gLNn5HMqJDHbXFoTZvqkEE65IdEgLvEzm2faZSoR
+	yI8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=oTPgUvk+SHJIDGRQtUdeNFYmH1jWrWzFXjj/mo6NJYE=;
-	b=k9Pt0rUVHR6Sju8CBNi8PcmcL3XrorLcylU5I3t9/CNjmbrw4XYWONwRoC2Vh98x4w
-	yetLh7GFCwETsr8SBN1ZK8a/QN2O9vGSjQCfkmLVoj9cCM9yZUcy803RWPOPPsruKyIC
-	IABHN+6P0ZKdt74P/63t2rthDUkN6E0+BQJULe1IncQMvObDzS9leqtTIkyp5zgGrrIy
-	u536/HVTVctnRf4VbsJROd7Kfun+YbqvRqIEphxzHkG62uKS3M5RolHh5ikXs7lrtxJj
-	scazy7nQF06O9VCzxvdZEGRP/exEAP3k9eIUaehVEgn32WyH/dpfGMSeBmzrkD4i+0Zf
-	Rsxg==
-X-Gm-Message-State: ANhLgQ1GKSlsxS8B/M9nXcvrsGjYVqZvse6Sr98uOw+K9SLWUAlbo0Oj
-	L47aiBom9dhvi0UDGlKaUp86yB1XZQIx2zZW39E=
-X-Google-Smtp-Source: ADFU+vsC+J/lzHqg+gt7aN16gXcAMHj4VHvuQHne/DAAzgyZujWnJ1YiyiNjSGQlO82GYwOD9QidFBXo8S9QeTH+6Sw=
-X-Received: by 2002:ab0:7802:: with SMTP id x2mr2675199uaq.100.1583952007747; 
-	Wed, 11 Mar 2020 11:40:07 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=ek0s7vVgFGJ70Jp78CN2cRQIx1hVc/Ph8bCwM0HQUCs=;
+	b=lYA4nT5+wONRUTCc4zGV1VuOtRvFuDe/DS1Ako7RU/FBvlP6O8KYHUNsaefy+gdYSJ
+	LAVr6tD1ZCgZkdUvRqq2io3kvS3pyuavsXuvl1f2oFmVM323/RutpSs2e66VuZllBO0K
+	PWUB1IAPdfDk2nR97bE7dcYFk9aepoPuX/RfMpHaeTiF98GdgbGC1R1T7f3TYl3A6EI8
+	55X51qNpv3zf0bGwB6yGnLTFxzWhs9ZyunT8pcm1y9OJow3BewPCh4i6oEo4DKNVxvOz
+	UeVn7FEDC1vvmcl4FCIr7oOjYXmEPaZER6rfyhr6YnV6nkTWMuqONf+le2GH3Oj4pZ2t
+	0FNg==
+X-Gm-Message-State: ANhLgQ34S9YKsFCZxs8BOM0RwSPrM9h6FR1FlIvCfY2xKQd6XVtY5go4
+	ZVIGGnox18BDOrg1sQ8FDe7xsrWUFeM=
+X-Google-Smtp-Source: ADFU+vv96c09LAz9ptinSWkTsXzjDT0FVmVfHg9B2iWGGd94PVTFsICYNl2Kvr6gNgOa+7VEMC1xSg==
+X-Received: by 2002:aa7:8548:: with SMTP id y8mr4252065pfn.166.1583952093690; 
+	Wed, 11 Mar 2020 11:41:33 -0700 (PDT)
+Received: from ?IPv6:2601:646:9200:4e0:e8b9:f87c:18f3:1405?
+	([2601:646:9200:4e0:e8b9:f87c:18f3:1405])
+	by smtp.gmail.com with ESMTPSA id
+	o126sm4967392pfb.140.2020.03.11.11.41.33
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 11 Mar 2020 11:41:33 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
 References: <20200311165221.23475-1-domarys.correa@ossystems.com.br>
 	<CANNYZj_wh5Xxx38jyzDc6SaFWV9KfVsh=G-k8ceYim=NTi1iVw@mail.gmail.com>
-	<CAP9ODKqbUzA1+FKH=nS6oKdg8bj-rzDAzv7nhi6C05Ywu+hQMg@mail.gmail.com>
-In-Reply-To: <CAP9ODKqbUzA1+FKH=nS6oKdg8bj-rzDAzv7nhi6C05Ywu+hQMg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 11 Mar 2020 19:39:56 +0100
-Message-ID: <CANNYZj_5-=k=T5yhvb_=6hy9RvTkm_uMiaRMs=CwGKNUtrLQ6Q@mail.gmail.com>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+From: Khem Raj <raj.khem@gmail.com>
+Message-ID: <de49612a-fb8e-044b-accf-c87566c15c2f@gmail.com>
+Date: Wed, 11 Mar 2020 11:41:32 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj_wh5Xxx38jyzDc6SaFWV9KfVsh=G-k8ceYim=NTi1iVw@mail.gmail.com>
 Subject: Re: [PATCH] weston-init: Allow use of weston without input devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -55,95 +64,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 18:40:07 -0000
-Content-Type: multipart/alternative; boundary="000000000000c35f2e05a098904b"
+X-List-Received-Date: Wed, 11 Mar 2020 18:41:33 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
---000000000000c35f2e05a098904b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Alex
 
-But shouldn=E2=80=99t you take it all the way upstream then and change the =
-default
-there? My concern is that we currently ship a blank configuration and rely
-on defaults and auto-discovery; I wouldn=E2=80=99t want to erode that with =
-all
-sorts of customizations.
-
-Alex
-
-On Wed 11. Mar 2020 at 19.19, Otavio Salvador <
-otavio.salvador@ossystems.com.br> wrote:
-
-> Hello Alex,
->
-> On Wed, Mar 11, 2020 at 2:22 PM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> > I do not think we should be overriding upstream defaults like this. If
-> your use case is different, you can always provide a custom weston.ini
+On 3/11/20 10:22 AM, Alexander Kanavin wrote:
+> I do not think we should be overriding upstream defaults like this. If 
+> your use case is different, you can always provide a custom weston.ini 
 > through a bbappend.
->
-> I'd like to argue why, in this case, it makes sense.
->
-> The weston is getting more and more adoption and often we use it on
-> devices that do not have keyboard and mouse connected. The default
-> configuration file, on OE-Core, should be adequate for common use
-> cases as we see on embedded devices and failing to start just because
-> we lack input devices is far from user-friendly.
->
-> We do have a bbappend our multiple customer layers and as it has
-> become common we'd like to upstream it as we used quite some time to
-> understand why it was failing when we first faced it.
->
-> --
-> Otavio Salvador                             O.S. Systems
-> http://www.ossystems.com.br        http://code.ossystems.com.br
-> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
->
+> 
 
---000000000000c35f2e05a098904b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I share your sentiments and we should be vigilant, however in this case 
+I think it makes sense especially when we are doing testing on remote 
+units or emulators on server farms which may have no input devices 
+connected. I filed a bug recently on YP bugzilla [1] which is very 
+related to what this patch it fixing. In embedded case I think its more 
+common to not have attached input devices
 
-<div><div dir=3D"auto">But shouldn=E2=80=99t you take it all the way upstre=
-am then and change the default there? My concern is that we currently ship =
-a blank configuration and rely on defaults and auto-discovery; I wouldn=E2=
-=80=99t want to erode that with all sorts of customizations.</div></div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed 11. Mar 2020 at =
-19.19, Otavio Salvador &lt;<a href=3D"mailto:otavio.salvador@ossystems.com.=
-br">otavio.salvador@ossystems.com.br</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex">Hello Alex,<br>
-<br>
-On Wed, Mar 11, 2020 at 2:22 PM Alexander Kanavin<br>
-&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
-n@gmail.com</a>&gt; wrote:<br>
-&gt; I do not think we should be overriding upstream defaults like this. If=
- your use case is different, you can always provide a custom weston.ini thr=
-ough a bbappend.<br>
-<br>
-I&#39;d like to argue why, in this case, it makes sense.<br>
-<br>
-The weston is getting more and more adoption and often we use it on<br>
-devices that do not have keyboard and mouse connected. The default<br>
-configuration file, on OE-Core, should be adequate for common use<br>
-cases as we see on embedded devices and failing to start just because<br>
-we lack input devices is far from user-friendly.<br>
-<br>
-We do have a bbappend our multiple customer layers and as it has<br>
-become common we&#39;d like to upstream it as we used quite some time to<br=
->
-understand why it was failing when we first faced it.<br>
-<br>
--- <br>
-Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
-<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
-">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
-p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
-.ossystems.com.br</a><br>
-Mobile: +55 (53) 9 9981-7854=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile: +1 (=
-347) 903-9750<br>
-</blockquote></div></div>
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=13828
 
---000000000000c35f2e05a098904b--
