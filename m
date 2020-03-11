@@ -1,53 +1,51 @@
 Return-Path: <jpuhlman@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0530D61BAF
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E0FC261BAF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 22:22:54 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 2so2134584pfg.12
+	Wed, 11 Mar 2020 22:25:52 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id 7so1979098pgr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 15:22:56 -0700 (PDT)
+	Wed, 11 Mar 2020 15:25:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=kBGW3X9DDIDIRx8coeaCLM6g7RLh/ouioy2R1niNLog=;
-	b=Ga3kd7++QTBkT2NBzVzRcO0rffeYp70MX7tYi0yG+9YiUZRDUGMrlqTSbpe43Wwukx
-	Sgi6uTyfvEWIkFVLzEVsNka2O8/cH7ikD3CmZE81QeK91nT1qQ3M5hdH4MjayFfGMLiZ
-	TKN/dt55Cb/2y/vHg8qXNGigGzbvr72LLpJ1PKVYw8h6xxGhdUtb0f5MAncBKhqkS5No
-	Nsiwg5nDz+gWlC6xhbUxngDIHit9uQsNGuzRCTpbRqB6AK2JnwJeJrK6E8ZwwgnCVyvq
-	T7DGe4Mt1jLf6DEhqw0sgB0k67YfXAu7Ad0FnbifkvM1QyrJBNTrOyJdFQmm1+vnNskx
-	P4KA==
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=/2fNozusfCy9TRwshHCGa4B2sP7kSggjIIKC4IFriQU=;
+	b=as/w6z+FWvqhgyTdt06lM1T4jA29XOwn6g6jXEnmMEMP1qNYLMfOYxaZzcWSxow+P5
+	I+hASM15zWdiRTQu78gmTzzb2cm2YB6cRmivW5Jk4RA+xS3S/FWw27pSFiJ8yCK0uSn8
+	DT1hYCJyZcYcrJUR5JgBRS8RVgRxy/4ix2KtKKUfO5lJVfpQZ4k6YLGD2oTXpIBulWJC
+	afX7gUyrmAlx4dkcgSwMSdS5GgvDbEi4P7+l9FDNKSzuRSfrb97dVBjqWJtjf2IOrq6r
+	lfmzX8Xw0jwinMoBEA4JnAlwuSz8SWsI2/IXdRQBxEckcsMQNO+RT024DM5/VyhRkmF5
+	0V+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:in-reply-to:references;
-	bh=kBGW3X9DDIDIRx8coeaCLM6g7RLh/ouioy2R1niNLog=;
-	b=XfkKxqxi6MeWbWdze3GaDu51Pvu8/Lnsblm8Q0h0rx9msjtzZ3ABd/5/YJo2+fkOWL
-	XYUnnjsbmmT1IdhUqJrYro2ZgUxKMO5qXN3JwlE6vhFI+rvyJIitRFuwkV8HYZnW/H0O
-	DWCOf0R8z/INmFr8dOTnhxjAt0uJBgND3IUgjASKKrwx9T6P0nywWULz3MI7PWXWZley
-	wPb/Bos+Lx4TGs9PGJLHqTwLN+bfqQGKyuVme1mvt5X22lT7jU/O3i0VFO1vJowmlFxC
-	ZEiXnmmjI9UikH0vzx+W2hnJ0NOGSsQXnN8EpB2rq/HVPmGra79DTXJp6/9enGxLB2G9
-	OZyg==
-X-Gm-Message-State: ANhLgQ1/Nwrp3tk121F/oP4wsdQSErTtaAYIlypAjrKqwTllJM2CEs6u
-	OT/f2LIca8H3SYsHD+WVUGLBj2VW9vA=
-X-Google-Smtp-Source: ADFU+vuyc8J59aPgTcl+w7WCPRnYM7GqmKDhB0Jd1JgHBL8xp+HPLAaFdqh+6l94h+8THVpwmgPBMw==
-X-Received: by 2002:a63:350:: with SMTP id 77mr4907019pgd.215.1583965375575;
-	Wed, 11 Mar 2020 15:22:55 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=/2fNozusfCy9TRwshHCGa4B2sP7kSggjIIKC4IFriQU=;
+	b=mgRviDqnz9jvAed7u7tGhEpwFhCuv7+7pxtzT0fc+DNV0izFPBWvul8G0XIMo7uz0p
+	vuomyOYAdZ93hlJCTYNwB5zjCa6mdca18eFcDFL6/jomME7K1FiHzWIpM2u0WIGoLwFW
+	u5Z50ymjZf6yjPYKc0+xONhWrI2VE62FPTQoxmfxILej7G5ZvFo34XwzWiPMdN/h0lfP
+	VNZlD6rX/UTi1noOBJTvRidAioXXYTXEmOY77BJM9nAnHIpdZ/q2RoxGy0C97ZvL8xUw
+	0UhUIYf/NgH++2s4rUiiEFXzcDjZBY+hm/Rm7kJWN2CIup/tY2Nv91Sg2rj03NOZSS78
+	jRYw==
+X-Gm-Message-State: ANhLgQ0E852OXto/wSguMeOO/VC4MmXyGl6PNfun8AwTuoJsPImlm5D3
+	YcZmkC/c0apSce0wiAnckfc1FdIkXBU=
+X-Google-Smtp-Source: ADFU+vv5XKQ+8gi8qwraEEOwf7z09pAcEfJqPft3JpDKWiFUmCJfwLOCgFQH4ecUQ/mC9P4OafXRlw==
+X-Received: by 2002:a62:cdcc:: with SMTP id o195mr2871737pfg.323.1583965553736;
+	Wed, 11 Mar 2020 15:25:53 -0700 (PDT)
 Received: from workhorse.localdomain
 	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
-	by smtp.gmail.com with ESMTPSA id i21sm6812202pgn.5.2020.03.11.15.22.54
+	by smtp.gmail.com with ESMTPSA id
+	d13sm6294281pjs.44.2020.03.11.15.25.52
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 11 Mar 2020 15:22:55 -0700 (PDT)
+	Wed, 11 Mar 2020 15:25:53 -0700 (PDT)
 Sender: Jeremy Puhlman <jpuhlman@gmail.com>
 Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 16BE42A05EB; Wed, 11 Mar 2020 15:22:54 -0700 (PDT)
+	id 196282A05B0; Wed, 11 Mar 2020 15:25:52 -0700 (PDT)
 From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Mar 2020 15:22:49 -0700
-Message-Id: <20200311222249.29880-2-jpuhlman@mvista.com>
+Date: Wed, 11 Mar 2020 15:25:41 -0700
+Message-Id: <20200311222546.30284-1-jpuhlman@mvista.com>
 X-Mailer: git-send-email 2.13.3
-In-Reply-To: <20200311222249.29880-1-jpuhlman@mvista.com>
-References: <20200311222249.29880-1-jpuhlman@mvista.com>
-Subject: [PATCH 2/2] glib-2.0: Correct multilib conflict
+Subject: [PATCH 1/6] strace: Fix reproducibility issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,29 +58,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 22:22:55 -0000
+X-List-Received-Date: Wed, 11 Mar 2020 22:25:53 -0000
 
 From: Jeremy Puhlman <jpuhlman@mvista.com>
 
+gen_tests script encodes its full path to itself in each script
+
 Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ .../0001-strace-fix-reproducibilty-issues.patch    | 39 ++++++++++++++++++++++
+ meta/recipes-devtools/strace/strace_5.5.bb         |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 23c347dbf7..edecc51fdb 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -128,6 +128,9 @@ do_install_append_class-target () {
- 			rm ${D}${datadir}/installed-tests/glib/gdbus-serialization.test
- 		fi
- 	fi
-+        if test "x${MLPREFIX}" != "x"; then
-+                mv ${D}${datadir}/installed-tests/glib/static-link.test ${D}${datadir}/installed-tests/glib/${MLPREFIX}static-link.test
-+        fi
- }
- 
- # As we do not build python3 for windows, makes no sense to ship the script that's using it
+diff --git a/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
+new file mode 100644
+index 0000000000..c4c176e6bc
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace/0001-strace-fix-reproducibilty-issues.patch
+@@ -0,0 +1,39 @@
++From 6309792c49ca900cec6a7f1dc5b51bf75b629e11 Mon Sep 17 00:00:00 2001
++From: Jeremy Puhlman <jpuhlman@mvista.com>
++Date: Wed, 11 Mar 2020 19:56:55 +0000
++Subject: [PATCH] strace: fix reproducibilty issues
++
++The full path to the gen_tests.sh script is encoded in the tests
++
++Upstream-Status: Pending
++
++Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
++---
++ tests/gen_tests.sh | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/tests/gen_tests.sh b/tests/gen_tests.sh
++index 5e1e7c9..1e65eac 100755
++--- a/tests/gen_tests.sh
+++++ b/tests/gen_tests.sh
++@@ -46,7 +46,7 @@ while read -r name arg0 args; do {
++ 
++ 	hdr="\
++ #!/bin/sh -efu
++-# Generated by $0 from $input ($name $arg0 $args); do not edit."
+++# Generated by $(basename $0) from $input ($name $arg0 $args); do not edit."
++ 
++ 	case "$arg0" in
++ 		+*)
++@@ -80,7 +80,7 @@ while read -r name arg0 args; do {
++ 
++ if [ -n "$names" ]; then
++ 	{
++-		printf '# Generated by %s from %s; do not edit.\n' "$0" "$input"
+++		printf '# Generated by %s from %s; do not edit.\n' "$(basename $0)" "$input"
++ 		printf 'GEN_TESTS ='
++ 		printf ' %s.gen.test' $names
++ 		echo
++-- 
++2.24.1
++
+diff --git a/meta/recipes-devtools/strace/strace_5.5.bb b/meta/recipes-devtools/strace/strace_5.5.bb
+index 6e7d63949d..ae552da028 100644
+--- a/meta/recipes-devtools/strace/strace_5.5.bb
++++ b/meta/recipes-devtools/strace/strace_5.5.bb
+@@ -13,6 +13,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
+            file://ptest-spacesave.patch \
+            file://uintptr_t.patch \
++           file://0001-strace-fix-reproducibilty-issues.patch \
+            "
+ SRC_URI[md5sum] = "dbce2e84632b39a4ed86b9fc60447af9"
+ SRC_URI[sha256sum] = "9f58958c8e59ea62293d907d10572e352b582bd7948ed21aa28ebb47e5bf30ff"
 -- 
 2.13.3
 
