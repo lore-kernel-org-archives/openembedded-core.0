@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id E3A1F61BCB
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+	[209.85.210.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AD2761BCA
 	for <openembedded-core@openembedded.org>;
-	Wed, 11 Mar 2020 02:26:29 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id u68so418259pfb.2
+	Wed, 11 Mar 2020 02:26:30 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id n7so422378pfn.0
 	for <openembedded-core@openembedded.org>;
-	Tue, 10 Mar 2020 19:26:30 -0700 (PDT)
+	Tue, 10 Mar 2020 19:26:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=zvTguXFct7CvuniAAK3bIu0ooGLQMug5dCJRnXuUSBI=;
-	b=ljjaXrPBwhabbmgWuJzaQP9SciKHAo35Yn1vjPOwdbsHPdyw42oYXUr/anejx4Dxyx
-	u1V3Rze67Q9m5KBGfunmIFqFfC6iWydYLGi7rceuhS6ezOXFjmOK+g1eAhBqx4x7xbH8
-	iBx7YR6pchPdC+q1SHhl+HkQmn3B5XZp/o6LB7XnPEer4hCIiJ2L3CXr47CSS8CrWKFW
-	w9xWVgD6tLvRxVaeDMVBlz+vvvctHrbYrmZYkWXN3dQEAuDBE5GkDzl40sxMolHzsV+0
-	uSyPnk9lcx39WXfQw6nFL3M9QE508V38Qx279x4Z45nRQxDviw0a0biundcN6JRt73z1
-	WuGw==
+	bh=a8lKW2sIwRB22VufI0DHl1Zr6L9KCAF5mpTWiaBEdW0=;
+	b=uXv2v2zDXfxaDFibDZ5WOJcDwHuvsTSJByxQ11bY52E9lORfIQN+G4mNzW0qQDqJjL
+	1NTe2xolxfTt2SdKxPgleakAJpGb4vAQxTtePc+PdvBGhQ9W30h4aE92cuI6egt1YTBf
+	UZvsA3hSrClttsFH5oa7phkPHP0P60ztJBHE3jNENbHQSryN/aoyHgLz4NYtXktGBphE
+	hgnubXev9h+tEYDhZrcADWRp4F/QOMtZ+QXahXnE4WSanHgEBI389suiXsexCT8ggjbe
+	27bBpzqBB5TIP5xjVkWPvdWWnQhzq7khcajyxooJO6crK15fE22YuP4Va4bZCrRQfvvl
+	BZig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=zvTguXFct7CvuniAAK3bIu0ooGLQMug5dCJRnXuUSBI=;
-	b=O7+s+3sWw5mylpNcx564PWNTz4ZtqK/NNuvDAmem2z+5EL47kekHo2gjkusxysW9Wk
-	SgLKGbQjQ+259R0xiuJzbQbD9pLqFUmUV8+N1IP0ENPgQsVp1iy3q2zYbUzoLoL1Vs0J
-	SESn6aeH6rInZ0WC1LOy5zJXo7I7aNRv76IUpmth5B4aCy9JCUHfVXd2tkIbB3SuLu4A
-	5Ks+wh5aRSKUOZZf952kf4uND4q2Mb40SMCu5ezWrZaOEoMrPExhQITbEIkbb507D0Y4
-	64ep5SLDGCFulIIYkPEg7+HsoF/WVZgJC8vsgHyRC35ZBYAr9R+HXrZO4A4el4sWzOpu
-	giDw==
-X-Gm-Message-State: ANhLgQ3cisBTPIC8+eFt3eQJ0oUJVLhQzGCJTsNOPJa2e+buvPj5pmqG
-	TwxbWi0WzH7jeIge9BpTUfMzaUUq
-X-Google-Smtp-Source: ADFU+vtn4L1X9NRWjHUHa/hUF4mwE166C2Mq8Ak/4O7UJ6j0HaYkyj5k4NbyYdcVcskBQCkkXimFNA==
-X-Received: by 2002:a63:e007:: with SMTP id e7mr706372pgh.262.1583893589906;
-	Tue, 10 Mar 2020 19:26:29 -0700 (PDT)
+	bh=a8lKW2sIwRB22VufI0DHl1Zr6L9KCAF5mpTWiaBEdW0=;
+	b=TTtIdP6wrttERhJaUPQn8JMHWyfRN94rKTd64RcO/IOmWlEwTfFt7iCDQeomO6iymf
+	Sm3iaDnjuKXRQw5zHF+Q8cQ1cZv7hMjBOXIUjG5JgBe1+PW9ZtZRgIXNZH6TpXH/AX5X
+	YdzymqulOAHP/Ll53Uj876b5qDspdJB/LPrMp4jimC4LE60IXIA0VbRlout6yXvgrV74
+	MJojovJyUF1xOUQBj8hWvcCayhPtXRs/CCisbpIeBElcq6/NjSIa7ThzcwqfMbC5xPZp
+	JiUZNKIlOl2nmoP4U83Ho7LHbV6qBSzTel4x/JubbEdGMyQPY/CCXhCR8Dy/xFNvIodK
+	q6pQ==
+X-Gm-Message-State: ANhLgQ0PgtJEkSNnLKn7R+oiDrNxQdaJSJRJw1WUc46m4bl4TYpgsr9h
+	ioXKDKFH2J7jlM0wZsNCafaQ15qZ
+X-Google-Smtp-Source: ADFU+vtN+SLzPrC0P+SesgJ8zZMWUMKwyXEMjX5h6hg5WHza0BwouPQGQz/x7oDsAWQcnhnkRPi1eg==
+X-Received: by 2002:a65:6416:: with SMTP id a22mr712556pgv.268.1583893590912; 
+	Tue, 10 Mar 2020 19:26:30 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:a4a4:c739:7769:e9ed])
 	by smtp.gmail.com with ESMTPSA id
-	o11sm1461661pjb.18.2020.03.10.19.26.29
+	o11sm1461661pjb.18.2020.03.10.19.26.30
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 10 Mar 2020 19:26:29 -0700 (PDT)
+	Tue, 10 Mar 2020 19:26:30 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 10 Mar 2020 19:26:11 -0700
-Message-Id: <c5c5b7f4043d05485df135aeceffc1c54d411403.1583893499.git.akuster808@gmail.com>
+Date: Tue, 10 Mar 2020 19:26:12 -0700
+Message-Id: <62fffe05ff3fd69ed7bb4d23748035b74445dcf6.1583893499.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1583893499.git.akuster808@gmail.com>
 References: <cover.1583893499.git.akuster808@gmail.com>
-Subject: [zeus 10/16] ruby: fix CVE-2019-16254
+Subject: [zeus 11/16] dhcp: Fix REQUIRE(ctx->running) assertion triggered on SIGTERM/SIGINT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,140 +61,291 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 11 Mar 2020 02:26:30 -0000
 
-From: Rahul Chauhan <rahulchauhankitps@gmail.com>
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
 
-Signed-off-by: Rahul Chauhan <rahulchauhankitps@gmail.com>
+Closed a small window of time between the installation of graceful
+shutdown signal handlers and application context startup, during which
+the receipt of shutdown signal would cause a REQUIRE() assertion to
+occur.  Note this issue is only visible when compiling with
+ENABLE_GENTLE_SHUTDOWN defined.
+
+Reference:
+https://gitlab.isc.org/isc-projects/dhcp/issues/53
+
+Upstream patches:
+https://gitlab.isc.org/isc-projects/dhcp/commit/ce117de7a1ed3c4911b4009c1cc23fba85370a26
+https://gitlab.isc.org/isc-projects/dhcp/commit/dbd36dfa82956b53683462afadfabb1b33fa3dd1
+https://gitlab.isc.org/isc-projects/dhcp/commit/95944cab6035d20be270eec01254c7bb867ec705
+
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../ruby/ruby/fix-CVE-2019-16254.patch        | 106 ++++++++++++++++++
- meta/recipes-devtools/ruby/ruby_2.5.5.bb      |   1 +
- 2 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
+ ...s-running-prior-to-calling-isc_app_c.patch | 165 ++++++++++++++++++
+ ...ed-shutdown-log-statment-to-dhcrelay.patch |  29 +++
+ .../dhcp/0003-Addressed-review-comment.patch  |  31 ++++
+ meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb  |   3 +
+ 4 files changed, 228 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch
 
-diff --git a/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch b/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch b/meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch
 new file mode 100644
-index 0000000000..704c850c50
+index 0000000000..34b2ae1e5c
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
-@@ -0,0 +1,106 @@
-+From 18d5289b4579822e391b3f5c16541e6552e9f06c Mon Sep 17 00:00:00 2001
-+From: Yusuke Endoh <mame@ruby-lang.org>
-+Date: Tue, 1 Oct 2019 12:29:18 +0900
-+Subject: [PATCH] WEBrick: prevent response splitting and header injection
++++ b/meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch
+@@ -0,0 +1,165 @@
++From f369dbb9e67eb5ef336944af63039b6d8f838384 Mon Sep 17 00:00:00 2001
++From: Thomas Markwalder <tmark@isc.org>
++Date: Thu, 12 Sep 2019 10:35:46 -0400
++Subject: [PATCH 1/3] Ensure context is running prior to calling
++ isc_app_ctxsuspend
 +
-+This is a follow up to d9d4a28f1cdd05a0e8dabb36d747d40bbcc30f16.
-+The commit prevented CRLR, but did not address an isolated CR or an
-+isolated LF.
++Add a release note.
 +
-+Upstream-Status: Backport https://github.com/ruby/ruby/commit/3ce238b5f9795581eb84114dcfbdf4aa086bfecc
-+CVE: CVE-2019-16254
++includes/omapip/isclib.h
++    Added actx_running flag to global context, dhcp_gbl_ctx
 +
-+Co-Authored-By: NARUSE, Yui <naruse@airemix.jp>
-+Signed-off-by: Rahul Chauhan <rahulchauhankitps@gmail.com>
++omapip/isclib.c
++    set_ctx_running() - new function used as the ctxonrun callback
++
++    dhcp_context_create() - installs set_ctx_running callback
++
++    dhcp_signal_handler() - modified to use act_running flag to
++    determine is context is running and should be suspended
++
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/dhcp.git]
++
++Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
 +---
-+ lib/webrick/httpresponse.rb       |  3 ++-
-+ test/webrick/test_httpresponse.rb | 46 +++++++++++++++++++++++++++++++++++++--
-+ 2 files changed, 46 insertions(+), 3 deletions(-)
++ RELNOTES                 |  7 +++++
++ includes/omapip/isclib.h |  3 ++-
++ omapip/isclib.c          | 57 +++++++++++++++++++++++++++++++++-------
++ 3 files changed, 57 insertions(+), 10 deletions(-)
 +
-+diff --git a/lib/webrick/httpresponse.rb b/lib/webrick/httpresponse.rb
-+index 6d77692..d26324c 100644
-+--- a/lib/webrick/httpresponse.rb
-++++ b/lib/webrick/httpresponse.rb
-+@@ -367,7 +367,8 @@ def set_error(ex, backtrace=false)
-+     private
-+
-+     def check_header(header_value)
-+-      if header_value =~ /\r\n/
-++      header_value = header_value.to_s
-++      if /[\r\n]/ =~ header_value
-+         raise InvalidHeader
-+       else
-+         header_value
-+diff --git a/test/webrick/test_httpresponse.rb b/test/webrick/test_httpresponse.rb
-+index 6263e0a..24a6968 100644
-+--- a/test/webrick/test_httpresponse.rb
-++++ b/test/webrick/test_httpresponse.rb
-+@@ -29,7 +29,7 @@ def setup
-+       @res.keep_alive  = true
-+     end
-+
-+-    def test_prevent_response_splitting_headers
-++    def test_prevent_response_splitting_headers_crlf
-+       res['X-header'] = "malicious\r\nCookie: hack"
-+       io = StringIO.new
-+       res.send_response io
-+@@ -39,7 +39,7 @@ def test_prevent_response_splitting_headers
-+       refute_match 'hack', io.string
-+     end
-+
-+-    def test_prevent_response_splitting_cookie_headers
-++    def test_prevent_response_splitting_cookie_headers_crlf
-+       user_input = "malicious\r\nCookie: hack"
-+       res.cookies << WEBrick::Cookie.new('author', user_input)
-+       io = StringIO.new
-+@@ -50,6 +50,48 @@ def test_prevent_response_splitting_cookie_headers
-+       refute_match 'hack', io.string
-+     end
-+
-++    def test_prevent_response_splitting_headers_cr
-++      res['X-header'] = "malicious\rCookie: hack"
-++      io = StringIO.new
-++      res.send_response io
-++      io.rewind
-++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
-++      assert_equal '500', res.code
-++      refute_match 'hack', io.string
-++    end
++diff --git a/RELNOTES b/RELNOTES
++index f10305d..1730473 100644
++--- a/RELNOTES
+++++ b/RELNOTES
++@@ -6,6 +6,13 @@
++ 
++                               NEW FEATURES
++ 
+++- Closed a small window of time between the installation of graceful
+++  shutdown signal handlers and application context startup, during which
+++  the receipt of shutdown signal would cause a REQUIRE() assertion to
+++  occur.  Note this issue is only visible when compiling with
+++  ENABLE_GENTLE_SHUTDOWN defined.
+++  [Gitlab #53,!18   git TBD]
 ++
-++    def test_prevent_response_splitting_cookie_headers_cr
-++      user_input = "malicious\rCookie: hack"
-++      res.cookies << WEBrick::Cookie.new('author', user_input)
-++      io = StringIO.new
-++      res.send_response io
-++      io.rewind
-++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
-++      assert_equal '500', res.code
-++      refute_match 'hack', io.string
-++    end
++ Please note that that ISC DHCP is now licensed under the Mozilla Public License,
++ MPL 2.0. Please see https://www.mozilla.org/en-US/MPL/2.0/ to read the MPL 2.0
++ license terms.
++diff --git a/includes/omapip/isclib.h b/includes/omapip/isclib.h
++index 6c20584..af6a6fc 100644
++--- a/includes/omapip/isclib.h
+++++ b/includes/omapip/isclib.h
++@@ -94,7 +94,8 @@
++ typedef struct dhcp_context {
++ 	isc_mem_t	*mctx;
++ 	isc_appctx_t	*actx;
++-	int              actx_started;
+++	int              actx_started; // ISC_TRUE if ctxstart has been called
+++	int              actx_running; // ISC_TRUE if ctxrun has been called
++ 	isc_taskmgr_t	*taskmgr;
++ 	isc_task_t	*task;
++ 	isc_socketmgr_t *socketmgr;
++diff --git a/omapip/isclib.c b/omapip/isclib.c
++index ce4b4a1..73e017c 100644
++--- a/omapip/isclib.c
+++++ b/omapip/isclib.c
++@@ -134,6 +134,35 @@ handle_signal(int sig, void (*handler)(int)) {
++ 	}
++ }
++ 
+++/* Callback passed to isc_app_ctxonrun
+++ *
+++ * BIND9 context code will invoke this handler once the context has
+++ * entered the running state.  We use it to set a global marker so that
+++ * we can tell if the context is running.  Several of the isc_app_
+++ * calls REQUIRE that the context is running and we need a way to
+++ * know that.
+++ *
+++ * We also check to see if we received a shutdown signal prior to
+++ * the context entering the run state.  If we did, then we can just
+++ * simply shut the context down now.  This closes the relatively
+++ * small window between start up and entering run via the call
+++ * to dispatch().
+++ *
+++ */
+++static void
+++set_ctx_running(isc_task_t *task, isc_event_t *event) {
+++        task = task; // unused;
+++	dhcp_gbl_ctx.actx_running = ISC_TRUE;
 ++
-++    def test_prevent_response_splitting_headers_lf
-++      res['X-header'] = "malicious\nCookie: hack"
-++      io = StringIO.new
-++      res.send_response io
-++      io.rewind
-++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
-++      assert_equal '500', res.code
-++      refute_match 'hack', io.string
-++    end
+++	if (shutdown_signal) {
+++		// We got signaled shutdown before we entered running state.
+++		// Now that we've reached running state, shut'er down.
+++		isc_app_ctxsuspend(dhcp_gbl_ctx.actx);
+++	}
 ++
-++    def test_prevent_response_splitting_cookie_headers_lf
-++      user_input = "malicious\nCookie: hack"
-++      res.cookies << WEBrick::Cookie.new('author', user_input)
-++      io = StringIO.new
-++      res.send_response io
-++      io.rewind
-++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
-++      assert_equal '500', res.code
-++      refute_match 'hack', io.string
-++    end
+++        isc_event_free(&event);
+++}
 ++
-+     def test_304_does_not_log_warning
-+       res.status      = 304
-+       res.setup_header
-+--
-+2.7.4
-diff --git a/meta/recipes-devtools/ruby/ruby_2.5.5.bb b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-index 223b0371eb..58bb97f4bd 100644
---- a/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-@@ -3,6 +3,7 @@ require ruby.inc
- SRC_URI += " \
-            file://0001-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch \
-            file://run-ptest \
-+           file://fix-CVE-2019-16254.patch \
-            "
++ isc_result_t
++ dhcp_context_create(int flags,
++ 		    struct in_addr  *local4,
++@@ -141,6 +170,9 @@ dhcp_context_create(int flags,
++ 	isc_result_t result;
++ 
++ 	if ((flags & DHCP_CONTEXT_PRE_DB) != 0) {
+++		dhcp_gbl_ctx.actx_started = ISC_FALSE;
+++		dhcp_gbl_ctx.actx_running = ISC_FALSE;
+++
++ 		/*
++ 		 * Set up the error messages, this isn't the right place
++ 		 * for this call but it is convienent for now.
++@@ -204,15 +236,24 @@ dhcp_context_create(int flags,
++ 		if (result != ISC_R_SUCCESS)
++ 			goto cleanup;
++ 
++-		result = isc_task_create(dhcp_gbl_ctx.taskmgr, 0, &dhcp_gbl_ctx.task);
+++		result = isc_task_create(dhcp_gbl_ctx.taskmgr, 0,
+++					 &dhcp_gbl_ctx.task);
++ 		if (result != ISC_R_SUCCESS)
++ 			goto cleanup;
++ 
++ 		result = isc_app_ctxstart(dhcp_gbl_ctx.actx);
++ 		if (result != ISC_R_SUCCESS)
++-			return (result);
+++			goto cleanup;
+++
++ 		dhcp_gbl_ctx.actx_started = ISC_TRUE;
++ 
+++		// Install the onrun callback.
+++		result = isc_app_ctxonrun(dhcp_gbl_ctx.actx, dhcp_gbl_ctx.mctx,
+++					  dhcp_gbl_ctx.task, set_ctx_running,
+++					  dhcp_gbl_ctx.actx);
+++		if (result != ISC_R_SUCCESS)
+++			goto cleanup;
+++
++ 		/* Not all OSs support suppressing SIGPIPE through socket
++ 		 * options, so set the sigal action to be ignore.  This allows
++ 		 * broken connections to fail gracefully with EPIPE on writes */
++@@ -335,19 +376,17 @@ isclib_make_dst_key(char          *inname,
++  * @param signal signal code that we received
++  */
++ void dhcp_signal_handler(int signal) {
++-	isc_appctx_t *ctx = dhcp_gbl_ctx.actx;
++-	int prev = shutdown_signal;
++-
++-	if (prev != 0) {
+++	if (shutdown_signal != 0) {
++ 		/* Already in shutdown. */
++ 		return;
++ 	}
+++
++ 	/* Possible race but does it matter? */
++ 	shutdown_signal = signal;
++ 
++-	/* Use reload (aka suspend) for easier dispatch() reenter. */
++-	if (ctx && ctx->methods && ctx->methods->ctxsuspend) {
++-		(void) isc_app_ctxsuspend(ctx);
+++	/* If the application context is running tell it to shut down */
+++	if (dhcp_gbl_ctx.actx_running == ISC_TRUE) {
+++		(void) isc_app_ctxsuspend(dhcp_gbl_ctx.actx);
++ 	}
++ }
++ 
++-- 
++2.23.0
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch b/meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch
+new file mode 100644
+index 0000000000..78b2b74f45
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch
+@@ -0,0 +1,29 @@
++From adcd34ae1f56b16d7e9696d980332b4cf6c7ce91 Mon Sep 17 00:00:00 2001
++From: Thomas Markwalder <tmark@isc.org>
++Date: Fri, 13 Sep 2019 15:03:31 -0400
++Subject: [PATCH 2/3] Added shutdown log statment to dhcrelay
++
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/dhcp.git]
++
++Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++---
++ relay/dhcrelay.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/relay/dhcrelay.c b/relay/dhcrelay.c
++index d8caaaf..4bd1d47 100644
++--- a/relay/dhcrelay.c
+++++ b/relay/dhcrelay.c
++@@ -2076,6 +2076,9 @@ dhcp_set_control_state(control_object_state_t oldstate,
++ 	if (newstate != server_shutdown)
++ 		return ISC_R_SUCCESS;
++ 
+++	/* Log shutdown on signal. */
+++	log_info("Received signal %d, initiating shutdown.", shutdown_signal);
+++
++ 	if (no_pid_file == ISC_FALSE)
++ 		(void) unlink(path_dhcrelay_pid);
++ 
++-- 
++2.23.0
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch b/meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch
+new file mode 100644
+index 0000000000..a51b6cf526
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch
+@@ -0,0 +1,31 @@
++From e4b54b4d676783152d487103714cba2913661ef8 Mon Sep 17 00:00:00 2001
++From: Thomas Markwalder <tmark@isc.org>
++Date: Wed, 6 Nov 2019 15:53:50 -0500
++Subject: [PATCH 3/3] Addressed review comment.
++
++omapip/isclib.c
++    Added use of IGNORE_UNUSED()
++
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/dhcp.git]
++
++Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++---
++ omapip/isclib.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/omapip/isclib.c b/omapip/isclib.c
++index 73e017c..1d52463 100644
++--- a/omapip/isclib.c
+++++ b/omapip/isclib.c
++@@ -151,7 +151,7 @@ handle_signal(int sig, void (*handler)(int)) {
++  */
++ static void
++ set_ctx_running(isc_task_t *task, isc_event_t *event) {
++-        task = task; // unused;
+++    IGNORE_UNUSED(task);
++ 	dhcp_gbl_ctx.actx_running = ISC_TRUE;
++ 
++ 	if (shutdown_signal) {
++-- 
++2.23.0
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+index 275961a603..ddc8b60254 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+@@ -11,6 +11,9 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
+             file://0013-fixup_use_libbind.patch \
+             file://0001-master-Added-includes-of-new-BIND9-compatibility-hea.patch \
+             file://0001-Fix-a-NSUPDATE-compiling-issue.patch \
++            file://0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch \
++            file://0002-Added-shutdown-log-statment-to-dhcrelay.patch \
++            file://0003-Addressed-review-comment.patch \
+ "
  
- SRC_URI[md5sum] = "7e156fb526b8f4bb1b30a3dd8a7ce400"
+ SRC_URI[md5sum] = "18c7f4dcbb0a63df25098216d47b1ede"
 -- 
 2.17.1
 
