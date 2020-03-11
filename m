@@ -1,46 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
-	[209.85.221.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 56BAD61BEB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BF5C361BEF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 17:22:13 +0000 (UTC)
-Received: by mail-vk1-f194.google.com with SMTP id e20so751007vke.9
+	Wed, 11 Mar 2020 17:22:27 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id m3so3045390wmi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 10:22:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rrSqnOlfKb299lKOo1gAGvTl88nQ/1g3igS6oiOmSIw=;
-	b=j/KR8HHqf4UH5nrxYefLhQCqixOyfz2PezVFpaEhNA0u3o5mEiswz9bP2EMMQoiFZO
-	3TZ3HYcPIEj8mGCoySzKptf0RSibdpMM51PUegseJ6S83qkMdPAnI15mj3UB97owl4TR
-	TALnc7YKGvaIYGmLsKMn+TqnZlf9HHjlxjbw7ZmNJ5IWQ9NaSyuFYKosDEovk8v7uFEJ
-	juyWliNl74rRGQtJ4W33ocSLTzN3LNnorSM6EOaVRBnjL9HbWvGZOBG3/zSHScyG1b2j
-	7wSlcAcaKgeU2Hzo3lqw+VNh9hEWhAVhLBDanNnsFAXXKXmUahfvHeu8pdMBNpSTnt2c
-	iJOw==
+	Wed, 11 Mar 2020 10:22:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=bm2unIrz4fZfrkvroKdj19Qr+uPoJ1MhGGSpM1k7l+g=;
+	b=KtaPNwExEg/b8CshGx3cIC5KYGpwAFGwoQEuCMUZdKfWaWBMocVHIe2Npz92JFy9MM
+	TXiqHTPYGMGlMWIEvP/WFQsk47NXTZDNjjihEfJtZBkZhmmavvHVsxYnZczrs3zpWxFi
+	MS8WBW5tbjbg007YIcDtGCekRLkN/ULAuo9DY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rrSqnOlfKb299lKOo1gAGvTl88nQ/1g3igS6oiOmSIw=;
-	b=dBtzG69Ga50HOZKMJ23WGU8lFFr4F3eF1Mpf9fpCwkq+4QMdxBYX9LEE1ELxXTvl0L
-	ArLy3XC3IVhv7lyRfG5ovVfjpckWDP4eGl/8/2j2BEG26EmzWQ0pISZanAJ/BN1c+HHO
-	qqW8/NAhFfr6/XX8pxBSstj8cCzbyZTyfXtbdSQa+Of07i7UK8qyq6q9glYNwhYL30e5
-	VuuROAqtDC8vXqDPLpG2OjRpZAZEbRrsnWlB1JiTlkeqGTvEsBPD/HD6yOtYIdL5AeWP
-	F7CY0K/Q1Iw7NB471ic/Kj1GMT3+kuLYfGwgBVYIiHV6RIHUirnj6XlNsz+84XiZ/7uX
-	h54g==
-X-Gm-Message-State: ANhLgQ1lCJaC4RV8A0EjZJSSLOvEQlqPw6NgBw/18GZqazIYL8zvYCn9
-	BdgSfew6dNPSAmiQF5PU/O2SVJtbd4uIb9oh1Fo=
-X-Google-Smtp-Source: ADFU+vsx/mWC5uW/syCExeeTc6UzuCacb0HDlVD6KtiCbhbQmzlRlJwch5G3FdppM2YUDSaFQh20G9d1uNSsRBctwEs=
-X-Received: by 2002:a1f:ee05:: with SMTP id m5mr2807710vkh.9.1583947334140;
-	Wed, 11 Mar 2020 10:22:14 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=bm2unIrz4fZfrkvroKdj19Qr+uPoJ1MhGGSpM1k7l+g=;
+	b=G6QnN0XSxwCD4v09mUBPBuLng9+3hY8ym3hnSn4j9tlZanJMbRJFTvyKP8ivO6uT5a
+	dmDHQMCzB9Bpl+N1SkB08oALoabzDRDL2GkjAxEZEboUh4YVfvrV3filZGYXUtP0zw4D
+	twFVn0leI9eJN+y9IlPGl80mKwGiHUrV3gBHBUZ21Qj6O4NUKuNoIN5mLlfyVtZ6jpp0
+	0tnUz25v7en4pI0TXmqUqzhjCylEm/dpR4FoO0jG726dSTJnEBchT5gcBJqsnUNQeZJO
+	6N4UqxXKgQOs6eaOhRa2xsSJQZuXhMvg7HEhSgBwKclRN2FdJ5Oyn7r5o6PAPQzjL76c
+	avog==
+X-Gm-Message-State: ANhLgQ13zZ72dlQLWrROmReaYNbHoA4N9Pdb4RLtbs1pWUbHjZM4JeNG
+	B3wOhzrMdLTtVAN7tnaCLGJ1oDMDtC4=
+X-Google-Smtp-Source: ADFU+vsdM/MtKLSxZokgnjsCKWHMykVAm02thrsmau/4IH/RUnGa2ge66m4k7SEqOqOCodVpKEdexg==
+X-Received: by 2002:a7b:cb46:: with SMTP id v6mr4634160wmj.0.1583947348405;
+	Wed, 11 Mar 2020 10:22:28 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id c26sm8924166wmb.8.2020.03.11.10.22.27
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 11 Mar 2020 10:22:27 -0700 (PDT)
+Message-ID: <c487b390822a86c1f5dd9339324e86c973142e0e.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Stefan Kral <sk@typedivision.de>, openembedded-core@lists.openembedded.org
+Date: Wed, 11 Mar 2020 17:22:26 +0000
+In-Reply-To: <20200311163730.78078-1-sk@typedivision.de>
+References: <20200311163730.78078-1-sk@typedivision.de>
+User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-References: <20200311165221.23475-1-domarys.correa@ossystems.com.br>
-In-Reply-To: <20200311165221.23475-1-domarys.correa@ossystems.com.br>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 11 Mar 2020 18:22:02 +0100
-Message-ID: <CANNYZj_wh5Xxx38jyzDc6SaFWV9KfVsh=G-k8ceYim=NTi1iVw@mail.gmail.com>
-To: Domarys Correa <domarys.correa@ossystems.com.br>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] weston-init: Allow use of weston without input devices
+Subject: Re: [PATCH] oeqa: enable testresults.json for testexport
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,111 +56,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 17:22:13 -0000
-Content-Type: multipart/alternative; boundary="00000000000031c91e05a0977ae2"
-
---00000000000031c91e05a0977ae2
+X-List-Received-Date: Wed, 11 Mar 2020 17:22:28 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I do not think we should be overriding upstream defaults like this. If your
-use case is different, you can always provide a custom weston.ini through a
-bbappend.
+On Wed, 2020-03-11 at 17:37 +0100, Stefan Kral wrote:
+> Add the option --json-result-dir to oeqa core context to enable
+> testresults.json creation for test runs via testexport.
+> 
+> Eg. oe-test runtime --json-result-dir .
+> 
+> Signed-off-by: Stefan Kral <sk@typedivision.de>
 
-Alex
+Out of interest are you actively using testexport? I've been wondering
+if we should remove that support as it does complicate the code a lot
+and ironically, isn't well tested.
 
-On Wed, 11 Mar 2020 at 17:52, Domarys Correa <
-domarys.correa@ossystems.com.br> wrote:
+Cheers,
 
-> Don't force users to have input device in your targets. As the default
-> option require-input is set to true, Weston only starts if we have a
-> device in /dev/input/event* and this not a requirement for all
-> applications,
-> e.g. kiosk browser.
->
-> Signed-off-by: Domarys Correa <domarys.correa@ossystems.com.br>
-> ---
->  meta/recipes-graphics/wayland/weston-init/weston.ini | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini
-> b/meta/recipes-graphics/wayland/weston-init/weston.ini
-> index 1eecf48bc1..1e6dff68fd 100644
-> --- a/meta/recipes-graphics/wayland/weston-init/weston.ini
-> +++ b/meta/recipes-graphics/wayland/weston-init/weston.ini
-> @@ -1,9 +1,10 @@
->  # configuration file for Weston
->
-> -#[core]
-> +[core]
->  #modules=xwayland.so,cms-colord.so
->  #shell=desktop-shell.so
->  #gbm-format=xrgb2101010
-> +require-input=false
->
->  #[shell]
->  #background-image=/usr/share/backgrounds/gnome/Aqua.jpg
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+Richard
 
---00000000000031c91e05a0977ae2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I do not think we should be overriding upstream defau=
-lts like this. If your use case is different, you can always provide a cust=
-om weston.ini through a bbappend.</div><div><br></div><div>Alex<br></div></=
-div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
- Wed, 11 Mar 2020 at 17:52, Domarys Correa &lt;<a href=3D"mailto:domarys.co=
-rrea@ossystems.com.br">domarys.correa@ossystems.com.br</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">Don&#39;t force users=
- to have input device in your targets. As the default<br>
-option require-input is set to true, Weston only starts if we have a<br>
-device in /dev/input/event* and this not a requirement for all applications=
-,<br>
-e.g. kiosk browser.<br>
-<br>
-Signed-off-by: Domarys Correa &lt;<a href=3D"mailto:domarys.correa@ossystem=
-s.com.br" target=3D"_blank">domarys.correa@ossystems.com.br</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-graphics/wayland/weston-init/weston.ini | 3 ++-<br>
-=C2=A01 file changed, 2 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston.ini b/meta/re=
-cipes-graphics/wayland/weston-init/weston.ini<br>
-index 1eecf48bc1..1e6dff68fd 100644<br>
---- a/meta/recipes-graphics/wayland/weston-init/weston.ini<br>
-+++ b/meta/recipes-graphics/wayland/weston-init/weston.ini<br>
-@@ -1,9 +1,10 @@<br>
-=C2=A0# configuration file for Weston<br>
-<br>
--#[core]<br>
-+[core]<br>
-=C2=A0#modules=3Dxwayland.so,cms-colord.so<br>
-=C2=A0#shell=3Ddesktop-shell.so<br>
-=C2=A0#gbm-format=3Dxrgb2101010<br>
-+require-input=3Dfalse<br>
-<br>
-=C2=A0#[shell]<br>
-=C2=A0#background-image=3D/usr/share/backgrounds/gnome/Aqua.jpg<br>
--- <br>
-2.17.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---00000000000031c91e05a0977ae2--
