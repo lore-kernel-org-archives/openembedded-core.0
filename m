@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
-	[209.85.210.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AD2761BCA
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+	[209.85.215.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 2403A61BBE
 	for <openembedded-core@openembedded.org>;
 	Wed, 11 Mar 2020 02:26:30 +0000 (UTC)
-Received: by mail-pf1-f180.google.com with SMTP id n7so422378pfn.0
+Received: by mail-pg1-f170.google.com with SMTP id t24so317222pgj.7
 	for <openembedded-core@openembedded.org>;
-	Tue, 10 Mar 2020 19:26:31 -0700 (PDT)
+	Tue, 10 Mar 2020 19:26:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=a8lKW2sIwRB22VufI0DHl1Zr6L9KCAF5mpTWiaBEdW0=;
-	b=uXv2v2zDXfxaDFibDZ5WOJcDwHuvsTSJByxQ11bY52E9lORfIQN+G4mNzW0qQDqJjL
-	1NTe2xolxfTt2SdKxPgleakAJpGb4vAQxTtePc+PdvBGhQ9W30h4aE92cuI6egt1YTBf
-	UZvsA3hSrClttsFH5oa7phkPHP0P60ztJBHE3jNENbHQSryN/aoyHgLz4NYtXktGBphE
-	hgnubXev9h+tEYDhZrcADWRp4F/QOMtZ+QXahXnE4WSanHgEBI389suiXsexCT8ggjbe
-	27bBpzqBB5TIP5xjVkWPvdWWnQhzq7khcajyxooJO6crK15fE22YuP4Va4bZCrRQfvvl
-	BZig==
+	bh=g/auE/YmIGQBmqWF9qosK7l9m5Yphj/2/oKBqUv7HuE=;
+	b=FJwGTXk5CwkzYWRmEe4ikvAojjc1/3w8e6+O2dj9NSASm1v5dw7eL/YioJaDoRRq6Q
+	Y0AMEsJ3DRxfqiHoHp6bi4S3VNk8FwJETmyOoVJLkqkVKCrn+PA2khVsYvITjXz+y14v
+	VtF1Ou46fYC+haX+X5T4LIi05cyWe8dPfxWc6C7I02xp8Lcfi0KMnsxALmz6oNAkA1eW
+	X1Di3jb64k2pFsdzfHwo+g/2WjNXntb97vAHllpNLD3Bxr+dKU6kR5NXG1AQESRfGyKp
+	tKzYe9ehh7reFCSGwap/zWfwtwPTJTK+7RhntHawIVe7w2MINRoWUqljfANJa6H1k0Fx
+	xs2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=a8lKW2sIwRB22VufI0DHl1Zr6L9KCAF5mpTWiaBEdW0=;
-	b=TTtIdP6wrttERhJaUPQn8JMHWyfRN94rKTd64RcO/IOmWlEwTfFt7iCDQeomO6iymf
-	Sm3iaDnjuKXRQw5zHF+Q8cQ1cZv7hMjBOXIUjG5JgBe1+PW9ZtZRgIXNZH6TpXH/AX5X
-	YdzymqulOAHP/Ll53Uj876b5qDspdJB/LPrMp4jimC4LE60IXIA0VbRlout6yXvgrV74
-	MJojovJyUF1xOUQBj8hWvcCayhPtXRs/CCisbpIeBElcq6/NjSIa7ThzcwqfMbC5xPZp
-	JiUZNKIlOl2nmoP4U83Ho7LHbV6qBSzTel4x/JubbEdGMyQPY/CCXhCR8Dy/xFNvIodK
-	q6pQ==
-X-Gm-Message-State: ANhLgQ0PgtJEkSNnLKn7R+oiDrNxQdaJSJRJw1WUc46m4bl4TYpgsr9h
-	ioXKDKFH2J7jlM0wZsNCafaQ15qZ
-X-Google-Smtp-Source: ADFU+vtN+SLzPrC0P+SesgJ8zZMWUMKwyXEMjX5h6hg5WHza0BwouPQGQz/x7oDsAWQcnhnkRPi1eg==
-X-Received: by 2002:a65:6416:: with SMTP id a22mr712556pgv.268.1583893590912; 
-	Tue, 10 Mar 2020 19:26:30 -0700 (PDT)
+	bh=g/auE/YmIGQBmqWF9qosK7l9m5Yphj/2/oKBqUv7HuE=;
+	b=CSX08Tra8wKZ8Ji9Kog5uLJFHLtSiTK6C1F+P/RNoBhU38kFQuwGFZPS0Hhvn0wz8v
+	gplYfi/N6PVrRfFYUKQsTIzAeCRA5BtRj0CclpoD+LA1EL8ylPLzYprzvs1M7TqHWv3/
+	4K9QNqOCoR4NIuQ7+TfQ3AKl90XdN+/lKjzXvMsdH29VmDAjB1/+hUX2lNz2JpHJbsKd
+	JVNx0v629z8fknL6BFnKp9q7/KgYct2bQzasGT6NxHiMR7jmCrVcakpnSpmTs02r7jKL
+	FhdeLgccRlaT7jSY5QXJDPcNjP3BgEcJDSrNOqoyO6lC6Pd6WqHZsAZUhwACkaCwgsSq
+	DF1Q==
+X-Gm-Message-State: ANhLgQ3+XmRCFApwipALff3vmptN0SrKEQrk89rMWDPxQ9j0ON8h7tVB
+	wIIfbfkPKp/rhrwdLL2DEGQJcIDB
+X-Google-Smtp-Source: ADFU+vsoro3OMB/hTC5jkhT9aUn4GQ2AELHnP69VF0wDLbvckHSyiVr0i4+eFe4VxLy/iseSOikIFw==
+X-Received: by 2002:a63:b04f:: with SMTP id z15mr673109pgo.58.1583893591703;
+	Tue, 10 Mar 2020 19:26:31 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:a4a4:c739:7769:e9ed])
 	by smtp.gmail.com with ESMTPSA id
-	o11sm1461661pjb.18.2020.03.10.19.26.30
+	o11sm1461661pjb.18.2020.03.10.19.26.31
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 10 Mar 2020 19:26:30 -0700 (PDT)
+	Tue, 10 Mar 2020 19:26:31 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 10 Mar 2020 19:26:12 -0700
-Message-Id: <62fffe05ff3fd69ed7bb4d23748035b74445dcf6.1583893499.git.akuster808@gmail.com>
+Date: Tue, 10 Mar 2020 19:26:13 -0700
+Message-Id: <27ebe3b9c6954ee3be12f328f9cec58620930d02.1583893499.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1583893499.git.akuster808@gmail.com>
 References: <cover.1583893499.git.akuster808@gmail.com>
-Subject: [zeus 11/16] dhcp: Fix REQUIRE(ctx->running) assertion triggered on SIGTERM/SIGINT
+Subject: [zeus 12/16] virglrenderer: fix multiple CVEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,293 +59,215 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 02:26:30 -0000
+X-List-Received-Date: Wed, 11 Mar 2020 02:26:31 -0000
 
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Closed a small window of time between the installation of graceful
-shutdown signal handlers and application context startup, during which
-the receipt of shutdown signal would cause a REQUIRE() assertion to
-occur.  Note this issue is only visible when compiling with
-ENABLE_GENTLE_SHUTDOWN defined.
+fix these CVE:
+CVE-2019-18390
+CVE-2019-18391
+CVE-2020-8002
 
-Reference:
-https://gitlab.isc.org/isc-projects/dhcp/issues/53
-
-Upstream patches:
-https://gitlab.isc.org/isc-projects/dhcp/commit/ce117de7a1ed3c4911b4009c1cc23fba85370a26
-https://gitlab.isc.org/isc-projects/dhcp/commit/dbd36dfa82956b53683462afadfabb1b33fa3dd1
-https://gitlab.isc.org/isc-projects/dhcp/commit/95944cab6035d20be270eec01254c7bb867ec705
-
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...s-running-prior-to-calling-isc_app_c.patch | 165 ++++++++++++++++++
- ...ed-shutdown-log-statment-to-dhcrelay.patch |  29 +++
- .../dhcp/0003-Addressed-review-comment.patch  |  31 ++++
- meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb  |   3 +
- 4 files changed, 228 insertions(+)
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch
- create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch
+ .../virglrenderer/CVE-2019-18390.patch        | 66 +++++++++++++++++++
+ .../virglrenderer/CVE-2019-18391.patch        | 51 ++++++++++++++
+ .../virglrenderer/CVE-2020-8002.patch         | 39 +++++++++++
+ .../virglrenderer/virglrenderer_0.8.0.bb      |  3 +
+ 4 files changed, 159 insertions(+)
+ create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18390.patch
+ create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18391.patch
+ create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2020-8002.patch
 
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch b/meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18390.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18390.patch
 new file mode 100644
-index 0000000000..34b2ae1e5c
+index 0000000000..ad61c95be3
 --- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch
-@@ -0,0 +1,165 @@
-+From f369dbb9e67eb5ef336944af63039b6d8f838384 Mon Sep 17 00:00:00 2001
-+From: Thomas Markwalder <tmark@isc.org>
-+Date: Thu, 12 Sep 2019 10:35:46 -0400
-+Subject: [PATCH 1/3] Ensure context is running prior to calling
-+ isc_app_ctxsuspend
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18390.patch
+@@ -0,0 +1,66 @@
++From 24f67de7a9088a873844a39be03cee6882260ac9 Mon Sep 17 00:00:00 2001
++From: Gert Wollny <gert.wollny@collabora.com>
++Date: Mon, 7 Oct 2019 10:59:56 +0200
++Subject: [PATCH] vrend: check info formats in blits
 +
-+Add a release note.
++Closes #141
++Closes #142
 +
-+includes/omapip/isclib.h
-+    Added actx_running flag to global context, dhcp_gbl_ctx
++v2 : drop colon in error description (Emil)
 +
-+omapip/isclib.c
-+    set_ctx_running() - new function used as the ctxonrun callback
++Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
++Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
 +
-+    dhcp_context_create() - installs set_ctx_running callback
-+
-+    dhcp_signal_handler() - modified to use act_running flag to
-+    determine is context is running and should be suspended
-+
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/dhcp.git]
-+
-+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++Upstream-Status: Backport 
++[https://gitlab.freedesktop.org/virgl/virglrenderer/commit/24f67de7a9088a873844a39be03cee6882260ac9]
++CVE: CVE-2019-18390
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +---
-+ RELNOTES                 |  7 +++++
-+ includes/omapip/isclib.h |  3 ++-
-+ omapip/isclib.c          | 57 +++++++++++++++++++++++++++++++++-------
-+ 3 files changed, 57 insertions(+), 10 deletions(-)
++ src/virgl_hw.h       |  1 +
++ src/vrend_renderer.c | 11 +++++++++++
++ 2 files changed, 12 insertions(+)
 +
-+diff --git a/RELNOTES b/RELNOTES
-+index f10305d..1730473 100644
-+--- a/RELNOTES
-++++ b/RELNOTES
-+@@ -6,6 +6,13 @@
++diff --git a/src/virgl_hw.h b/src/virgl_hw.h
++index 145780bf..5ccf3073 100644
++--- a/src/virgl_hw.h
+++++ b/src/virgl_hw.h
++@@ -426,6 +426,7 @@ enum virgl_ctx_errors {
++         VIRGL_ERROR_CTX_ILLEGAL_CMD_BUFFER,
++         VIRGL_ERROR_CTX_GLES_HAVE_TES_BUT_MISS_TCS,
++         VIRGL_ERROR_GL_ANY_SAMPLES_PASSED,
+++        VIRGL_ERROR_CTX_ILLEGAL_FORMAT,
++ };
 + 
-+                               NEW FEATURES
++ #define VIRGL_RESOURCE_Y_0_TOP (1 << 0)
++diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
++index 14fefb38..aa6a89c1 100644
++--- a/src/vrend_renderer.c
+++++ b/src/vrend_renderer.c
++@@ -758,6 +758,7 @@ static const char *vrend_ctx_error_strings[] = {
++    [VIRGL_ERROR_CTX_ILLEGAL_CMD_BUFFER]    = "Illegal command buffer",
++    [VIRGL_ERROR_CTX_GLES_HAVE_TES_BUT_MISS_TCS] = "On GLES context and shader program has tesselation evaluation shader but no tesselation control shader",
++    [VIRGL_ERROR_GL_ANY_SAMPLES_PASSED] = "Query for ANY_SAMPLES_PASSED not supported",
+++   [VIRGL_ERROR_CTX_ILLEGAL_FORMAT]        = "Illegal format ID",
++ };
 + 
-++- Closed a small window of time between the installation of graceful
-++  shutdown signal handlers and application context startup, during which
-++  the receipt of shutdown signal would cause a REQUIRE() assertion to
-++  occur.  Note this issue is only visible when compiling with
-++  ENABLE_GENTLE_SHUTDOWN defined.
-++  [Gitlab #53,!18   git TBD]
-++
-+ Please note that that ISC DHCP is now licensed under the Mozilla Public License,
-+ MPL 2.0. Please see https://www.mozilla.org/en-US/MPL/2.0/ to read the MPL 2.0
-+ license terms.
-+diff --git a/includes/omapip/isclib.h b/includes/omapip/isclib.h
-+index 6c20584..af6a6fc 100644
-+--- a/includes/omapip/isclib.h
-++++ b/includes/omapip/isclib.h
-+@@ -94,7 +94,8 @@
-+ typedef struct dhcp_context {
-+ 	isc_mem_t	*mctx;
-+ 	isc_appctx_t	*actx;
-+-	int              actx_started;
-++	int              actx_started; // ISC_TRUE if ctxstart has been called
-++	int              actx_running; // ISC_TRUE if ctxrun has been called
-+ 	isc_taskmgr_t	*taskmgr;
-+ 	isc_task_t	*task;
-+ 	isc_socketmgr_t *socketmgr;
-+diff --git a/omapip/isclib.c b/omapip/isclib.c
-+index ce4b4a1..73e017c 100644
-+--- a/omapip/isclib.c
-++++ b/omapip/isclib.c
-+@@ -134,6 +134,35 @@ handle_signal(int sig, void (*handler)(int)) {
-+ 	}
-+ }
++ static void __report_context_error(const char *fname, struct vrend_context *ctx,
++@@ -8492,6 +8493,16 @@ void vrend_renderer_blit(struct vrend_context *ctx,
++    if (ctx->in_error)
++       return;
 + 
-++/* Callback passed to isc_app_ctxonrun
-++ *
-++ * BIND9 context code will invoke this handler once the context has
-++ * entered the running state.  We use it to set a global marker so that
-++ * we can tell if the context is running.  Several of the isc_app_
-++ * calls REQUIRE that the context is running and we need a way to
-++ * know that.
-++ *
-++ * We also check to see if we received a shutdown signal prior to
-++ * the context entering the run state.  If we did, then we can just
-++ * simply shut the context down now.  This closes the relatively
-++ * small window between start up and entering run via the call
-++ * to dispatch().
-++ *
-++ */
-++static void
-++set_ctx_running(isc_task_t *task, isc_event_t *event) {
-++        task = task; // unused;
-++	dhcp_gbl_ctx.actx_running = ISC_TRUE;
+++   if (!info->src.format || (enum virgl_formats)info->src.format >= VIRGL_FORMAT_MAX) {
+++      report_context_error(ctx, VIRGL_ERROR_CTX_ILLEGAL_FORMAT, info->src.format);
+++      return;
+++   }
 ++
-++	if (shutdown_signal) {
-++		// We got signaled shutdown before we entered running state.
-++		// Now that we've reached running state, shut'er down.
-++		isc_app_ctxsuspend(dhcp_gbl_ctx.actx);
-++	}
+++   if (!info->dst.format || (enum virgl_formats)info->dst.format >= VIRGL_FORMAT_MAX) {
+++      report_context_error(ctx, VIRGL_ERROR_CTX_ILLEGAL_FORMAT, info->dst.format);
+++      return;
+++   }
 ++
-++        isc_event_free(&event);
-++}
-++
-+ isc_result_t
-+ dhcp_context_create(int flags,
-+ 		    struct in_addr  *local4,
-+@@ -141,6 +170,9 @@ dhcp_context_create(int flags,
-+ 	isc_result_t result;
-+ 
-+ 	if ((flags & DHCP_CONTEXT_PRE_DB) != 0) {
-++		dhcp_gbl_ctx.actx_started = ISC_FALSE;
-++		dhcp_gbl_ctx.actx_running = ISC_FALSE;
-++
-+ 		/*
-+ 		 * Set up the error messages, this isn't the right place
-+ 		 * for this call but it is convienent for now.
-+@@ -204,15 +236,24 @@ dhcp_context_create(int flags,
-+ 		if (result != ISC_R_SUCCESS)
-+ 			goto cleanup;
-+ 
-+-		result = isc_task_create(dhcp_gbl_ctx.taskmgr, 0, &dhcp_gbl_ctx.task);
-++		result = isc_task_create(dhcp_gbl_ctx.taskmgr, 0,
-++					 &dhcp_gbl_ctx.task);
-+ 		if (result != ISC_R_SUCCESS)
-+ 			goto cleanup;
-+ 
-+ 		result = isc_app_ctxstart(dhcp_gbl_ctx.actx);
-+ 		if (result != ISC_R_SUCCESS)
-+-			return (result);
-++			goto cleanup;
-++
-+ 		dhcp_gbl_ctx.actx_started = ISC_TRUE;
-+ 
-++		// Install the onrun callback.
-++		result = isc_app_ctxonrun(dhcp_gbl_ctx.actx, dhcp_gbl_ctx.mctx,
-++					  dhcp_gbl_ctx.task, set_ctx_running,
-++					  dhcp_gbl_ctx.actx);
-++		if (result != ISC_R_SUCCESS)
-++			goto cleanup;
-++
-+ 		/* Not all OSs support suppressing SIGPIPE through socket
-+ 		 * options, so set the sigal action to be ignore.  This allows
-+ 		 * broken connections to fail gracefully with EPIPE on writes */
-+@@ -335,19 +376,17 @@ isclib_make_dst_key(char          *inname,
-+  * @param signal signal code that we received
-+  */
-+ void dhcp_signal_handler(int signal) {
-+-	isc_appctx_t *ctx = dhcp_gbl_ctx.actx;
-+-	int prev = shutdown_signal;
-+-
-+-	if (prev != 0) {
-++	if (shutdown_signal != 0) {
-+ 		/* Already in shutdown. */
-+ 		return;
-+ 	}
-++
-+ 	/* Possible race but does it matter? */
-+ 	shutdown_signal = signal;
-+ 
-+-	/* Use reload (aka suspend) for easier dispatch() reenter. */
-+-	if (ctx && ctx->methods && ctx->methods->ctxsuspend) {
-+-		(void) isc_app_ctxsuspend(ctx);
-++	/* If the application context is running tell it to shut down */
-++	if (dhcp_gbl_ctx.actx_running == ISC_TRUE) {
-++		(void) isc_app_ctxsuspend(dhcp_gbl_ctx.actx);
-+ 	}
-+ }
++    if (info->render_condition_enable == false)
++       vrend_pause_render_condition(ctx, true);
 + 
 +-- 
-+2.23.0
++2.24.1
 +
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch b/meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18391.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18391.patch
 new file mode 100644
-index 0000000000..78b2b74f45
+index 0000000000..cc641d8293
 --- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0002-Added-shutdown-log-statment-to-dhcrelay.patch
-@@ -0,0 +1,29 @@
-+From adcd34ae1f56b16d7e9696d980332b4cf6c7ce91 Mon Sep 17 00:00:00 2001
-+From: Thomas Markwalder <tmark@isc.org>
-+Date: Fri, 13 Sep 2019 15:03:31 -0400
-+Subject: [PATCH 2/3] Added shutdown log statment to dhcrelay
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18391.patch
+@@ -0,0 +1,51 @@
++From 2abeb1802e3c005b17a7123e382171b3fb665971 Mon Sep 17 00:00:00 2001
++From: Gert Wollny <gert.wollny@collabora.com>
++Date: Tue, 8 Oct 2019 17:27:01 +0200
++Subject: [PATCH] vrend: check that the transfer iov holds enough data for the
++ data upload
 +
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/dhcp.git]
++Closes #140
 +
-+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
++Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
++
++Upstream-Status: Backport 
++[https://gitlab.freedesktop.org/virgl/virglrenderer/commit/2abeb1802e3c005b17a7123e382171b3fb665971]
++CVE: CVE-2019-18391
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +---
-+ relay/dhcrelay.c | 3 +++
-+ 1 file changed, 3 insertions(+)
++ src/vrend_renderer.c | 11 +++++++++--
++ 1 file changed, 9 insertions(+), 2 deletions(-)
 +
-+diff --git a/relay/dhcrelay.c b/relay/dhcrelay.c
-+index d8caaaf..4bd1d47 100644
-+--- a/relay/dhcrelay.c
-++++ b/relay/dhcrelay.c
-+@@ -2076,6 +2076,9 @@ dhcp_set_control_state(control_object_state_t oldstate,
-+ 	if (newstate != server_shutdown)
-+ 		return ISC_R_SUCCESS;
++diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
++index 694e1d0e..fe23846b 100644
++--- a/src/vrend_renderer.c
+++++ b/src/vrend_renderer.c
++@@ -7005,15 +7005,22 @@ static int vrend_renderer_transfer_write_iov(struct vrend_context *ctx,
++             invert = true;
++       }
 + 
-++	/* Log shutdown on signal. */
-++	log_info("Received signal %d, initiating shutdown.", shutdown_signal);
+++      send_size = util_format_get_nblocks(res->base.format, info->box->width,
+++                                          info->box->height) * elsize;
+++      if (res->target == GL_TEXTURE_3D ||
+++          res->target == GL_TEXTURE_2D_ARRAY ||
+++          res->target == GL_TEXTURE_CUBE_MAP_ARRAY)
+++          send_size *= info->box->depth;
 ++
-+ 	if (no_pid_file == ISC_FALSE)
-+ 		(void) unlink(path_dhcrelay_pid);
++       if (need_temp) {
++-         send_size = util_format_get_nblocks(res->base.format, info->box->width,
++-                                             info->box->height) * elsize * info->box->depth;
++          data = malloc(send_size);
++          if (!data)
++             return ENOMEM;
++          read_transfer_data(iov, num_iovs, data, res->base.format, info->offset,
++                             stride, layer_stride, info->box, invert);
++       } else {
+++         if (send_size > iov[0].iov_len - info->offset)
+++            return EINVAL;
++          data = (char*)iov[0].iov_base + info->offset;
++       }
 + 
 +-- 
-+2.23.0
++2.24.1
 +
-diff --git a/meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch b/meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2020-8002.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2020-8002.patch
 new file mode 100644
-index 0000000000..a51b6cf526
+index 0000000000..925f2c8eb0
 --- /dev/null
-+++ b/meta/recipes-connectivity/dhcp/dhcp/0003-Addressed-review-comment.patch
-@@ -0,0 +1,31 @@
-+From e4b54b4d676783152d487103714cba2913661ef8 Mon Sep 17 00:00:00 2001
-+From: Thomas Markwalder <tmark@isc.org>
-+Date: Wed, 6 Nov 2019 15:53:50 -0500
-+Subject: [PATCH 3/3] Addressed review comment.
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2020-8002.patch
+@@ -0,0 +1,39 @@
++From 63bcca251f093d83da7e290ab4bbd38ae69089b5 Mon Sep 17 00:00:00 2001
++From: Gert Wollny <gert.wollny@collabora.com>
++Date: Wed, 15 Jan 2020 13:43:58 +0100
++Subject: [PATCH] vrend: Don't try launching a grid if no CS is available
 +
-+omapip/isclib.c
-+    Added use of IGNORE_UNUSED()
++Closes #155
 +
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/dhcp.git]
++Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
++Reviewed-by: Gurchetan Singh <gurchetansingh@chromium.org>
 +
-+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++Upstream-Status: Backport 
++[https://gitlab.freedesktop.org/virgl/virglrenderer/-/commit/63bcca251f093d83da7e290ab4bbd38ae69089b5.patch]
++CVE: CVE-2020-8002
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +---
-+ omapip/isclib.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/vrend_renderer.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
 +
-+diff --git a/omapip/isclib.c b/omapip/isclib.c
-+index 73e017c..1d52463 100644
-+--- a/omapip/isclib.c
-++++ b/omapip/isclib.c
-+@@ -151,7 +151,7 @@ handle_signal(int sig, void (*handler)(int)) {
-+  */
-+ static void
-+ set_ctx_running(isc_task_t *task, isc_event_t *event) {
-+-        task = task; // unused;
-++    IGNORE_UNUSED(task);
-+ 	dhcp_gbl_ctx.actx_running = ISC_TRUE;
++diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
++index a054bad8..2280fc43 100644
++--- a/src/vrend_renderer.c
+++++ b/src/vrend_renderer.c
++@@ -4604,6 +4604,13 @@ void vrend_launch_grid(struct vrend_context *ctx,
++       }
++       ctx->sub->shader_dirty = true;
++    }
+++
+++   if (!ctx->sub->prog) {
+++      vrend_printf("%s: Skipping compute shader execution due to missing shaders: %s\n",
+++                   __func__, ctx->debug_name);
+++      return;
+++   }
+++
++    vrend_use_program(ctx, ctx->sub->prog->id);
 + 
-+ 	if (shutdown_signal) {
++    vrend_draw_bind_ubo_shader(ctx, PIPE_SHADER_COMPUTE, 0);
 +-- 
-+2.23.0
++2.24.1
 +
-diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
-index 275961a603..ddc8b60254 100644
---- a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
-+++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
-@@ -11,6 +11,9 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
-             file://0013-fixup_use_libbind.patch \
-             file://0001-master-Added-includes-of-new-BIND9-compatibility-hea.patch \
-             file://0001-Fix-a-NSUPDATE-compiling-issue.patch \
-+            file://0001-Ensure-context-is-running-prior-to-calling-isc_app_c.patch \
-+            file://0002-Added-shutdown-log-statment-to-dhcrelay.patch \
-+            file://0003-Addressed-review-comment.patch \
- "
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
+index d2b11c103a..e91ccc6c57 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
+@@ -8,6 +8,9 @@ DEPENDS = "libdrm mesa libepoxy"
+ SRCREV = "48cc96c9aebb9d0164830a157efc8916f08f00c0"
+ SRC_URI = "git://anongit.freedesktop.org/virglrenderer \
+            file://0001-gallium-Expand-libc-check-to-be-platform-OS-check.patch \
++           file://CVE-2019-18390.patch \
++           file://CVE-2019-18391.patch \
++           file://CVE-2020-8002.patch  \
+            "
  
- SRC_URI[md5sum] = "18c7f4dcbb0a63df25098216d47b1ede"
+ S = "${WORKDIR}/git"
 -- 
 2.17.1
 
