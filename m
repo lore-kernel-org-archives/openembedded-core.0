@@ -1,26 +1,18 @@
-Return-Path: <ssajal@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 790F961134
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 14:58:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 02BEwdhL024484
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 07:58:39 -0700 (PDT)
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.487.0;
-	Wed, 11 Mar 2020 07:58:39 -0700
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 20885)	id 53C399001C9;
-	Wed, 11 Mar 2020 07:58:39 -0700 (PDT)
-From: Sakib Sajal <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Mar 2020 07:58:38 -0700
-Message-ID: <20200311145838.129361-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.17.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 604A16010D;
+	Wed, 11 Mar 2020 15:02:32 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [meta-oe][PATCH] openjpeg: Fix CVE-2020-6851
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Sakib Sajal <sakib.sajal@windriver.com>
+Date: Wed, 11 Mar 2020 15:02:33 -0000
+Message-ID: <20200311150233.2277.74214@do>
+References: <20200311145838.129361-1-sakib.sajal@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200311145838.129361-1-sakib.sajal@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BlbmpwZWc6IEZpeCBDVkUtMjAyMC02ODUx?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,72 +25,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 14:58:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 Mar 2020 15:02:32 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Yue Tao <Yue.Tao@windriver.com>
+== Series Details ==
 
-Backport patch from upstream to fix heap-based buffer overflow
+Series: openjpeg: Fix CVE-2020-6851
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/23201/
+State : failure
 
-Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
-Signed-off-by: Sakib Sajal <Sakib.Sajal@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [meta-oe] openjpeg: Fix CVE-2020-6851
+ Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
+  Suggested fix    Check the project's README (meta-oe) and send the patch to the indicated list
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at baecda5b32)
+
+* Patch            [meta-oe] openjpeg: Fix CVE-2020-6851
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../openjpeg/openjpeg/CVE-2020-6851.patch     | 32 +++++++++++++++++++
- .../openjpeg/openjpeg_2.3.1.bb                |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch
-
-diff --git a/meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch b/meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch
-new file mode 100644
-index 000000000..9f2fc901f
---- /dev/null
-+++ b/meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch
-@@ -0,0 +1,32 @@
-+From 024b8407392cb0b82b04b58ed256094ed5799e04 Mon Sep 17 00:00:00 2001
-+From: Even Rouault <even.rouault@spatialys.com>
-+Date: Sat, 11 Jan 2020 01:51:19 +0100
-+Subject: [PATCH] opj_j2k_update_image_dimensions(): reject images whose
-+ coordinates are beyond INT_MAX (fixes #1228)
-+
-+---
-+ src/lib/openjp2/j2k.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
-+
-+diff --git a/src/lib/openjp2/j2k.c b/src/lib/openjp2/j2k.c
-+index 14f6ff41..922550eb 100644
-+--- a/src/lib/openjp2/j2k.c
-++++ b/src/lib/openjp2/j2k.c
-+@@ -9236,6 +9236,14 @@ static OPJ_BOOL opj_j2k_update_image_dim
-+     l_img_comp = p_image->comps;
-+     for (it_comp = 0; it_comp < p_image->numcomps; ++it_comp) {
-+         OPJ_INT32 l_h, l_w;
-++        if (p_image->x0 > (OPJ_UINT32)INT_MAX ||
-++                p_image->y0 > (OPJ_UINT32)INT_MAX ||
-++                p_image->x1 > (OPJ_UINT32)INT_MAX ||
-++                p_image->y1 > (OPJ_UINT32)INT_MAX) {
-++            opj_event_msg(p_manager, EVT_ERROR,
-++                          "Image coordinates above INT_MAX are not supported\n");
-++            return OPJ_FALSE;
-++        }
-+ 
-+         l_img_comp->x0 = (OPJ_UINT32)opj_int_ceildiv((OPJ_INT32)p_image->x0,
-+                          (OPJ_INT32)l_img_comp->dx);
-+-- 
-+2.17.1
-+
-diff --git a/meta-oe/recipes-graphics/openjpeg/openjpeg_2.3.1.bb b/meta-oe/recipes-graphics/openjpeg/openjpeg_2.3.1.bb
-index ffd4099b4..4045148dd 100644
---- a/meta-oe/recipes-graphics/openjpeg/openjpeg_2.3.1.bb
-+++ b/meta-oe/recipes-graphics/openjpeg/openjpeg_2.3.1.bb
-@@ -8,6 +8,7 @@ DEPENDS = "libpng tiff lcms zlib"
- SRC_URI = " \
-     git://github.com/uclouvain/openjpeg.git \
-     file://0002-Do-not-ask-cmake-to-export-binaries-they-don-t-make-.patch \
-+    file://CVE-2020-6851.patch \
- "
- SRCREV = "57096325457f96d8cd07bd3af04fe81d7a2ba788"
- S = "${WORKDIR}/git"
--- 
-2.24.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
