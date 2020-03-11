@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id CDD1E61BC2
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 739C361BC2
 	for <openembedded-core@openembedded.org>;
-	Wed, 11 Mar 2020 02:26:32 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id u12so309616pgb.10
+	Wed, 11 Mar 2020 02:26:33 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id c7so327634pgw.3
 	for <openembedded-core@openembedded.org>;
 	Tue, 10 Mar 2020 19:26:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=fWTf2c/5X1tKPse55SsW48PF3Fegi6r24c+tUcei6U8=;
-	b=aKLkMSTnpkK+GhWqBvBN7un3v81w10gnEWlf7jvxT7aTBY9O2eDeWQtxu+RXW5XADf
-	usW3cHBdV1UMM8ru+v9Br4DBWdCo9s6ZsW9A/bT3QEJ0gaAalNx04baa28YNmukJRSEj
-	r/54c4HiKlgJj7JZ57RCvScrO3reY5DIVOK61bq0rtOaefMqKZFIbjOSRr9hV03GPYXl
-	uGi3tCBvOJMnDmqLRpWGtP/8AYv06SVwIkmOrPS2oyyQsQfE1mmXM669MM0gkfoROr+T
-	b/tD9Rw2yPsZ+BpUVcTSBDWCgeK/zuEmGAll8fCa2P9QvtF2ECZU4UuZ1iQg2PTrL4m/
-	3IvQ==
+	bh=yiFJHpjKOrJSOYwkdHiVviFMZ2+NtwrwH4+FJx/3A7Q=;
+	b=dwHFT11wbxexDdKDpS2xI6SrGg3IQ0seTaZ0/pI2svO6DLbsFuDU35uEUxsTZbkkFL
+	QS5zzgnU3cckDjvcm6b3tlDLYyo7uH8/FrbFad0co9KHUmAE5iWj+bWPx8uiXBcGb8pv
+	9/wnYGqMjzF1OflIbb7K5Gmc2lrBE+M5y9BPEaj4nNcRjWf2Fcg42oSJUdvzwi3TXjKv
+	sJKajCoYDH0gs8wFOwbB8mbhyRDNnEnk1Z7/qJF2kO257z6Dvmt0YueHRo/UNUAz1Lid
+	9HIuI1Q+QiPztC3Pw2ncsW4wN5XAk50MJFnVGtCjQCzEOdWvIVhUDMCHYPLUGSs6R1sF
+	51Ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=fWTf2c/5X1tKPse55SsW48PF3Fegi6r24c+tUcei6U8=;
-	b=nEjABl1Pk+qFbPxdhfihjT3d8C5sf86vzyCAE6tLNy2Yf5R+ZZOB3H9E2Gzv1tSABc
-	nsYpiwoZPXjw7i1LGc4VuL1J28yQV3s+uFIE+JzPN3Z9X2yyCrP76thlGS8KcqdrYAe4
-	htO2aAl+GxQjHep4fAM5oUEDfBP562IadRHlSAVu++IL9It8lykxCDQM8VaYtAaIeKaX
-	ru5FdFpdKJnHaX2pPxNUxmDgy2q0cQ/Cj31Axu7KmTkv5TqOiyIZZIBYyDrdaWSoz3tD
-	EzX69DhvtPFMRUlYwBCYlbpcaypI7ueF+tLE2xZPpBizSc/Zc7WHsXjG5KcVMJg9pmxk
-	VYZA==
-X-Gm-Message-State: ANhLgQ2suXhHxigwViAsokjQTXscmFRLJEtF/+2Km98ivd+9P5kV4i5J
-	w2oFeHZeFmLupatlm0Y0Cw+8+6H5
-X-Google-Smtp-Source: ADFU+vsVj1MlWHIa3dDlgrNe930dztbWF+zxmP3kvZVt4WnVZIw4hzGBC4UiFohiIrN5mUcQvlIKyg==
-X-Received: by 2002:a63:5561:: with SMTP id f33mr676625pgm.20.1583893593606;
-	Tue, 10 Mar 2020 19:26:33 -0700 (PDT)
+	bh=yiFJHpjKOrJSOYwkdHiVviFMZ2+NtwrwH4+FJx/3A7Q=;
+	b=DVr1rD4F8szbU0ftthiZFxyIHmbvGiLRuw0KtrTvkFoLc9PiyaLSszRcxukyjg4hNY
+	N5ECTJ7H1j9MyGJlTsEaVvb8LHcTpzJ3WkuyJrsJL2dlD7FNX8J2UkeuntB9BwcAYS14
+	y92tovRlXlVVaAYuYWrsTrXMuzcwt7MitglXDc77Hm2KZ3xVALfzj5M+j+kydT5nQkfC
+	F0ZX5TmB91JmeVyCIBN6ZCpbBh53y4slYOMQiQm4PKdFPv4LhrhtmI8ExScgAv+Qije5
+	z+3IkCQkdSqbvYqWVHgsawxzvWLrABFBMj+8sBp5hEZVeVY9nPgN2Xa730qWcLFwlgWQ
+	2L+w==
+X-Gm-Message-State: ANhLgQ279sxou+hByWbpooc4FFW+JdYQcRsCqfr+UwKt68fq6RJp2SVx
+	eo93xhubjMCHK28jKohTtyt/7Tk7
+X-Google-Smtp-Source: ADFU+vu8YlzFAAHZMV5nWBNZnaVeBkWckGbiT3nNkEyM9LxHoSSH93HuaZUifP/Tto8HHrFF+2uHNQ==
+X-Received: by 2002:a63:745c:: with SMTP id e28mr622619pgn.231.1583893594357; 
+	Tue, 10 Mar 2020 19:26:34 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:a4a4:c739:7769:e9ed])
 	by smtp.gmail.com with ESMTPSA id
-	o11sm1461661pjb.18.2020.03.10.19.26.32
+	o11sm1461661pjb.18.2020.03.10.19.26.33
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Tue, 10 Mar 2020 19:26:33 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 10 Mar 2020 19:26:15 -0700
-Message-Id: <c8f5b560bfd67ae3880c380a2700e782e454958e.1583893499.git.akuster808@gmail.com>
+Date: Tue, 10 Mar 2020 19:26:16 -0700
+Message-Id: <b7646fa3646d2a14f657da4056a0fa78334e3182.1583893499.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1583893499.git.akuster808@gmail.com>
 References: <cover.1583893499.git.akuster808@gmail.com>
-Subject: [zeus 14/16] glibc: CVE-2020-10029
+Subject: [zeus 15/16] cve-check: show whitelisted status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,168 +59,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 02:26:32 -0000
+X-List-Received-Date: Wed, 11 Mar 2020 02:26:33 -0000
 
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-Backport the CVE patch from upstream:
-[https://sourceware.org/git/gitweb.cgi?p=glibc.git;
-a=patch;h=9333498794cde1d5cca518badf79533a24114b6f]
+change whitelisted CVE status from "Patched" to "Whitelisted".
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+[Yocto #13687]
+
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 181bdd670492525f9488d52c3ebb9a1b142e35ea)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../glibc/glibc/CVE-2020-10029.patch          | 128 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.30.bb         |   1 +
- 2 files changed, 129 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-10029.patch
+ meta/classes/cve-check.bbclass | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-10029.patch b/meta/recipes-core/glibc/glibc/CVE-2020-10029.patch
-new file mode 100644
-index 0000000000..606b691bcf
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2020-10029.patch
-@@ -0,0 +1,128 @@
-+From ce265ec5bc25ec35fba53807abac1b0c8469895e Mon Sep 17 00:00:00 2001
-+From: Joseph Myers <joseph@codesourcery.com>
-+Date: Wed, 12 Feb 2020 23:31:56 +0000
-+Subject: [PATCH] Avoid ldbl-96 stack corruption from range reduction of
-+
-+ pseudo-zero (bug 25487).
-+
-+Bug 25487 reports stack corruption in ldbl-96 sinl on a pseudo-zero
-+argument (an representation where all the significand bits, including
-+the explicit high bit, are zero, but the exponent is not zero, which
-+is not a valid representation for the long double type).
-+
-+Although this is not a valid long double representation, existing
-+practice in this area (see bug 4586, originally marked invalid but
-+subsequently fixed) is that we still seek to avoid invalid memory
-+accesses as a result, in case of programs that treat arbitrary binary
-+data as long double representations, although the invalid
-+representations of the ldbl-96 format do not need to be consistently
-+handled the same as any particular valid representation.
-+
-+This patch makes the range reduction detect pseudo-zero and unnormal
-+representations that would otherwise go to __kernel_rem_pio2, and
-+returns a NaN for them instead of continuing with the range reduction
-+process.  (Pseudo-zero and unnormal representations whose unbiased
-+exponent is less than -1 have already been safely returned from the
-+function before this point without going through the rest of range
-+reduction.)  Pseudo-zero representations would previously result in
-+the value passed to __kernel_rem_pio2 being all-zero, which is
-+definitely unsafe; unnormal representations would previously result in
-+a value passed whose high bit is zero, which might well be unsafe
-+since that is not a form of input expected by __kernel_rem_pio2.
-+
-+Tested for x86_64.
-+
-+CVE: CVE-2020-10029
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;
-+a=patch;h=9333498794cde1d5cca518badf79533a24114b6f]
-+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-+
-+---
-+ sysdeps/ieee754/ldbl-96/Makefile           |  3 ++-
-+ sysdeps/ieee754/ldbl-96/e_rem_pio2l.c      | 12 +++++++++
-+ sysdeps/ieee754/ldbl-96/test-sinl-pseudo.c | 41 ++++++++++++++++++++++++++++++
-+ 3 files changed, 55 insertions(+), 1 deletion(-)
-+ create mode 100644 sysdeps/ieee754/ldbl-96/test-sinl-pseudo.c
-+
-+diff --git a/sysdeps/ieee754/ldbl-96/Makefile b/sysdeps/ieee754/ldbl-96/Makefile
-+index b103254..052c1c7 100644
-+--- a/sysdeps/ieee754/ldbl-96/Makefile
-++++ b/sysdeps/ieee754/ldbl-96/Makefile
-+@@ -17,5 +17,6 @@
-+ # <http://www.gnu.org/licenses/>.
-+ 
-+ ifeq ($(subdir),math)
-+-tests += test-canonical-ldbl-96 test-totalorderl-ldbl-96
-++tests += test-canonical-ldbl-96 test-totalorderl-ldbl-96 test-sinl-pseudo
-++CFLAGS-test-sinl-pseudo.c += -fstack-protector-all
-+ endif
-+diff --git a/sysdeps/ieee754/ldbl-96/e_rem_pio2l.c b/sysdeps/ieee754/ldbl-96/e_rem_pio2l.c
-+index 805de22..1aeccb4 100644
-+--- a/sysdeps/ieee754/ldbl-96/e_rem_pio2l.c
-++++ b/sysdeps/ieee754/ldbl-96/e_rem_pio2l.c
-+@@ -210,6 +210,18 @@ __ieee754_rem_pio2l (long double x, long double *y)
-+       return 0;
-+     }
-+ 
-++  if ((i0 & 0x80000000) == 0)
-++    {
-++      /* Pseudo-zero and unnormal representations are not valid
-++	 representations of long double.  We need to avoid stack
-++	 corruption in __kernel_rem_pio2, which expects input in a
-++	 particular normal form, but those representations do not need
-++	 to be consistently handled like any particular floating-point
-++	 value.  */
-++      y[1] = y[0] = __builtin_nanl ("");
-++      return 0;
-++    }
-++
-+   /* Split the 64 bits of the mantissa into three 24-bit integers
-+      stored in a double array.  */
-+   exp = j0 - 23;
-+diff --git a/sysdeps/ieee754/ldbl-96/test-sinl-pseudo.c b/sysdeps/ieee754/ldbl-96/test-sinl-pseudo.c
-+new file mode 100644
-+index 0000000..f59b977
-+--- /dev/null
-++++ b/sysdeps/ieee754/ldbl-96/test-sinl-pseudo.c
-+@@ -0,0 +1,41 @@
-++/* Test sinl for pseudo-zeros and unnormals for ldbl-96 (bug 25487).
-++   Copyright (C) 2020 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <https://www.gnu.org/licenses/>.  */
-++
-++#include <math.h>
-++#include <math_ldbl.h>
-++#include <stdint.h>
-++
-++static int
-++do_test (void)
-++{
-++  for (int i = 0; i < 64; i++)
-++    {
-++      uint64_t sig = i == 63 ? 0 : 1ULL << i;
-++      long double ld;
-++      SET_LDOUBLE_WORDS (ld, 0x4141,
-++			 sig >> 32, sig & 0xffffffffULL);
-++      /* The requirement is that no stack overflow occurs when the
-++	 pseudo-zero or unnormal goes through range reduction.  */
-++      volatile long double ldr;
-++      ldr = sinl (ld);
-++      (void) ldr;
-++    }
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-diff --git a/meta/recipes-core/glibc/glibc_2.30.bb b/meta/recipes-core/glibc/glibc_2.30.bb
-index 7913bc2812..c9e44a396d 100644
---- a/meta/recipes-core/glibc/glibc_2.30.bb
-+++ b/meta/recipes-core/glibc/glibc_2.30.bb
-@@ -42,6 +42,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0027-inject-file-assembly-directives.patch \
-            file://0028-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
-            file://CVE-2019-19126.patch \
-+           file://CVE-2020-10029.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 74124364b2..7f98da60f1 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -56,10 +56,10 @@ python do_cve_check () {
+             patched_cves = get_patches_cves(d)
+         except FileNotFoundError:
+             bb.fatal("Failure in searching patches")
+-        patched, unpatched = check_cves(d, patched_cves)
++        whitelisted, patched, unpatched = check_cves(d, patched_cves)
+         if patched or unpatched:
+             cve_data = get_cve_info(d, patched + unpatched)
+-            cve_write_data(d, patched, unpatched, cve_data)
++            cve_write_data(d, patched, unpatched, whitelisted, cve_data)
+     else:
+         bb.note("No CVE database found, skipping CVE check")
+ 
+@@ -263,7 +263,7 @@ def check_cves(d, patched_cves):
+ 
+     conn.close()
+ 
+-    return (list(patched_cves), cves_unpatched)
++    return (list(cve_whitelist), list(patched_cves), cves_unpatched)
+ 
+ def get_cve_info(d, cves):
+     """
+@@ -287,7 +287,7 @@ def get_cve_info(d, cves):
+     conn.close()
+     return cve_data
+ 
+-def cve_write_data(d, patched, unpatched, cve_data):
++def cve_write_data(d, patched, unpatched, whitelisted, cve_data):
+     """
+     Write CVE information in WORKDIR; and to CVE_CHECK_DIR, and
+     CVE manifest if enabled.
+@@ -303,7 +303,9 @@ def cve_write_data(d, patched, unpatched, cve_data):
+         write_string += "PACKAGE NAME: %s\n" % d.getVar("PN")
+         write_string += "PACKAGE VERSION: %s\n" % d.getVar("PV")
+         write_string += "CVE: %s\n" % cve
+-        if cve in patched:
++        if cve in whitelisted:
++            write_string += "CVE STATUS: Whitelisted\n"
++        elif cve in patched:
+             write_string += "CVE STATUS: Patched\n"
+         else:
+             unpatched_cves.append(cve)
 -- 
 2.17.1
 
