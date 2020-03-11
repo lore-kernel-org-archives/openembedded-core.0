@@ -1,24 +1,61 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0067A60707
+Return-Path: <ross@burtonini.com>
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
+	[209.85.167.49])
+	by mail.openembedded.org (Postfix) with ESMTP id ED59161134
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 13:49:34 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 02BDnZuO024044
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Wed, 11 Mar 2020 14:53:49 +0000 (UTC)
+Received: by mail-lf1-f49.google.com with SMTP id j11so1993170lfg.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 06:49:35 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.487.0; Wed, 11 Mar 2020 06:49:35 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 11 Mar 2020 21:49:33 +0800
-Message-ID: <1583934573-94011-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 11 Mar 2020 07:53:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=zOI1AW67S16xi0QW89RBkvquNvxvf6PcvCX/zMTT6IQ=;
+	b=0FtHk6EXZb8oiTZ03w4kKEdRKyRZKgFPvWRzgwwecF7+0QdofvmcYs1SiuN/jD0wwi
+	iJfmd3uILILfLVzU4c81FB5FxFcW54RY2pUtmteqHeHy8sMhtKXDPHJvwlKPCzDnyGVZ
+	ZspZHPFZOjfn/AR0CDiOBYIUU3OM8C30KWQLElBn8gxY6GBzFJFfEuwfBEIzRmQ+rc1F
+	WMAzLjewBGDfzW3aG0Bm/EilvogLwIMHFoOOp6W1OEU5/sY6uUQoVXCKViyCyM7t1vxN
+	hv9jT7SBFI9uOTz0UhwYynsOPlmErk5f9v4sslwI70N8uZS3PUdnRd3+tjYmxAQcVzqI
+	m4lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=zOI1AW67S16xi0QW89RBkvquNvxvf6PcvCX/zMTT6IQ=;
+	b=uZkVjrZjY8v/ie8SJNAO1lFVO98xCi8kyDR3vkmfeksbkJWSM1OdJjdSlOgd5rFwsY
+	bjLI/SFXiL0nWSFieIX1vJUBSBio1mQ7TydALBHbRh16kZ6UeasyxrIb275ab2XWxCPp
+	lhH3VYkw6YERlv1fATZ57OQsu4VM6DzGgF3EvRHC2aL+Dcjd9docCPrD3wYvyldWWsiM
+	wfOxp6/S7vWwGYTmiwuclqPs7OJ6jcCZtPj9jcHZMMXnHTbX7lUUjVcD9WyLowdtNG6i
+	seqeedZwgevntdy0sLshoKBiHvVwMh/YuKZUxixKnvlLosovc6G3VL6tnQ1OCMCjfxa9
+	UzaA==
+X-Gm-Message-State: ANhLgQ321BeZmoNkCwZ91XEXfJJYjnhrHDmZxpz9DPTMkfEN9YAyGXQj
+	bVpjuOe5Yvxd/yiGeOtNuGK2q25RN58o2xDavWMwLA==
+X-Google-Smtp-Source: ADFU+vs23h7wdCAals1VNwJEB5NXiiQ4HGYYFbFempCar+PKmiCf0kEyFdKp8NEzDe8v3Cg7iMRozUHSbUZPvqTzUEc=
+X-Received: by 2002:a05:6512:50f:: with SMTP id
+	o15mr2376669lfb.216.1583938430265; 
+	Wed, 11 Mar 2020 07:53:50 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] babeltrace2: initialize the other_entry pointer
+References: <20200304113217.GB7923@localhost>
+	<CANNYZj8wnuNLrw6s=y0cgg5uoMTjA+fMEXW_TsmtKWZ4UDzwOA@mail.gmail.com>
+	<20200304140109.GC7923@localhost>
+	<CANNYZj8ciqgR7eed+B+WwfMRHKc3u_XHrT3vo004=TEX9cCmhA@mail.gmail.com>
+	<20200304172415.GA29456@localhost>
+	<01b3bb37-f65f-8048-1a27-b859b62d7f98@gmail.com>
+	<20200306100422.GA17785@localhost>
+	<877e317932176664bc7b0120439c56d4dda791af.camel@linuxfoundation.org>
+	<20200308214610.GB1425@localhost>
+	<CANNYZj_4sTc9vjhm1+S1GbjN=8SjChWt+gksxxKLXEZXeK9nPQ@mail.gmail.com>
+	<20200309002308.GD1425@localhost>
+	<f99fbcc5-bb47-a177-f1e9-815d3cf4e5c0@embexus.com>
+	<CAAnfSTt5fwx3a7pPotvqrwgW58+n-UxCQiZqiAFuuJz6K+=aqg@mail.gmail.com>
+	<1c4e1685-7b74-0dea-e08f-4887fca9eb66@embexus.com>
+In-Reply-To: <1c4e1685-7b74-0dea-e08f-4887fca9eb66@embexus.com>
+From: Ross Burton <ross@burtonini.com>
+Date: Wed, 11 Mar 2020 14:53:39 +0000
+Message-ID: <CAAnfSTuvt5E+AEh8rFWqtmJN_R9fxci6+b8de6=ng7DrOUxGrA@mail.gmail.com>
+To: Ayoub Zaki <ayoub.zaki@embexus.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] Does YP provide security support for stable and LTS branches?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,81 +68,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 13:49:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 11 Mar 2020 14:53:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Mingli Yu <mingli.yu@windriver.com>
+On Tue, 10 Mar 2020 at 19:45, Ayoub Zaki <ayoub.zaki@embexus.com> wrote:
+> Security patches support is definitely for many companies a knock-out criterion.
+> Probably in this case Debian or a commercial OSes like Qnx would be a choice for who can afford it.
 
-When add below line to local.conf to enable debug build:
+If someone is using Yocto commercially and willing to pay money, then
+they are entirely welcome to use a OSV such as Mentor/Wind
+River/Montavista/etc who *will* make firm commitments on security
+issues.
 
-DEBUG_BUILD = "1"
-
-There comes below failure when run "bitbake babeltrace2"
-| ../../../../../git/src/plugins/ctf/fs-src/fs.c: In function 'ds_index_insert_ds_index_entry_sorted':
-| ../../../../../git/src/plugins/ctf/fs-src/fs.c:702:5: error: 'other_entry' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-|   702 |    !ds_index_entries_equal(entry, other_entry)) {
-
-So initialize the other_entry pointer to fix the above error.
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- .../0001-fs.c-initialize-other_entry.patch         | 33 ++++++++++++++++++++++
- meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb     |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-fs.c-initialize-other_entry.patch
-
-diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-fs.c-initialize-other_entry.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-fs.c-initialize-other_entry.patch
-new file mode 100644
-index 0000000..b56b3bd
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/babeltrace2/0001-fs.c-initialize-other_entry.patch
-@@ -0,0 +1,33 @@
-+From 42dae692b9057d03ce9a0651f061472e9dd90130 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Wed, 11 Mar 2020 08:44:42 +0000
-+Subject: [PATCH] fs.c: initialize the other_entry variable
-+
-+Initialize the pointer other_entry to fix the below error:
-+| ../../../../../git/src/plugins/ctf/fs-src/fs.c: In function 'ds_index_insert_ds_index_entry_sorted':
-+| ../../../../../git/src/plugins/ctf/fs-src/fs.c:702:5: error: 'other_entry' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+|   702 |    !ds_index_entries_equal(entry, other_entry)) {
-+
-+Upstream-Status: Submitted [https://lists.lttng.org/pipermail/lttng-dev/2020-March/029549.html]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ src/plugins/ctf/fs-src/fs.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/plugins/ctf/fs-src/fs.c b/src/plugins/ctf/fs-src/fs.c
-+index e87523a3..a6b5315f 100644
-+--- a/src/plugins/ctf/fs-src/fs.c
-++++ b/src/plugins/ctf/fs-src/fs.c
-+@@ -680,7 +680,7 @@ void ds_index_insert_ds_index_entry_sorted(
-+ 	struct ctf_fs_ds_index_entry *entry)
-+ {
-+ 	guint i;
-+-	struct ctf_fs_ds_index_entry *other_entry;
-++	struct ctf_fs_ds_index_entry *other_entry = NULL;
-+ 
-+ 	/* Find the spot where to insert this index entry. */
-+ 	for (i = 0; i < index->entries->len; i++) {
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
-index 16953d6..c027d8b 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
-@@ -10,6 +10,7 @@ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
- SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-2.0 \
- 	   file://run-ptest \
- 	   file://0001-tests-do-not-run-test-applications-from-.libs.patch \
-+	   file://0001-fs.c-initialize-other_entry.patch \
- 	  "
- SRCREV = "06df58f89ee51b1a2c6a2c187ec3f15691633910"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
--- 
-2.7.4
-
+Ross
 
