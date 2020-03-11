@@ -1,18 +1,22 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 604A16010D;
-	Wed, 11 Mar 2020 15:02:32 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Sakib Sajal <sakib.sajal@windriver.com>
-Date: Wed, 11 Mar 2020 15:02:33 -0000
-Message-ID: <20200311150233.2277.74214@do>
-References: <20200311145838.129361-1-sakib.sajal@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200311145838.129361-1-sakib.sajal@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BlbmpwZWc6IEZpeCBDVkUtMjAyMC02ODUx?=
+Return-Path: <sk@typedivision.de>
+Received: from smtp02-ext3.udag.de (smtp02-ext3.udag.de [62.146.106.33])
+	by mail.openembedded.org (Postfix) with ESMTP id C017B61BEA
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Mar 2020 16:37:23 +0000 (UTC)
+Received: from localhost.localdomain (x4e3627bc.dyn.telefonica.de
+	[78.54.39.188])
+	by smtp02-ext3.udag.de (Postfix) with ESMTPA id A519F11E91;
+	Wed, 11 Mar 2020 17:37:23 +0100 (CET)
+From: Stefan Kral <sk@typedivision.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Mar 2020 17:36:49 +0100
+Message-Id: <20200311163649.78011-1-sk@typedivision.de>
+X-Mailer: git-send-email 2.17.2 (Apple Git-113)
+Authentication-Results: smtp02-ext3.udag.de;
+	auth=pass smtp.auth=typedivision-de-0001
+	smtp.mailfrom=sk@typedivision.de
+Cc: Stefan Kral <sk@typedivision.de>
+Subject: [PATCH] oeqa/runtime/context.py: fix typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,58 +29,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 15:02:32 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 11 Mar 2020 16:37:26 -0000
 
-== Series Details ==
-
-Series: openjpeg: Fix CVE-2020-6851
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/23201/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [meta-oe] openjpeg: Fix CVE-2020-6851
- Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe) and send the patch to the indicated list
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at baecda5b32)
-
-* Patch            [meta-oe] openjpeg: Fix CVE-2020-6851
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Stefan Kral <sk@typedivision.de>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/lib/oeqa/runtime/context.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
+index 2ecb1a8f01..101434a595 100644
+--- a/meta/lib/oeqa/runtime/context.py
++++ b/meta/lib/oeqa/runtime/context.py
+@@ -77,7 +77,7 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
+ 
+         runtime_group.add_argument('--packages-manifest', action='store',
+                 default=self.default_manifest,
+-                help="Package manifest of the image under testi, default: %s" \
++                help="Package manifest of the image under test, default: %s" \
+                 % self.default_manifest)
+ 
+         runtime_group.add_argument('--extract-dir', action='store',
+@@ -184,7 +184,7 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
+         except:
+             obj = None
+         return obj
+-        
++
+     @staticmethod
+     def readPackagesManifest(manifest):
+         if not manifest or not os.path.exists(manifest):
+-- 
+2.17.2 (Apple Git-113)
 
 
