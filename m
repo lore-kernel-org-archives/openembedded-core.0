@@ -1,50 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id BA75761B89
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
+	[209.85.222.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E4AF561B99
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 18:31:52 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id a141so3254725wme.2
+	Wed, 11 Mar 2020 18:40:06 +0000 (UTC)
+Received: by mail-ua1-f65.google.com with SMTP id 9so610018uav.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 11:31:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=fLTH913eXxWCJN+6sfFDjPy48JKeAJ0tWq7anlLbFhc=;
-	b=CMUBIsxD2rwvzDQeKHc+M6eHzj0XFA5l+p8aEX1jZgh3MyWMh5rOpiJRQdRFrhcVYe
-	ag10NlOseIvUbmbr2pGyFubDJl0d3MpPiW8ir78xF3eTAMV8rs6V6I9IazNrFKvS+HzF
-	rnZ/pSJqRKhLiXv24Y0KyOA0D+CdKb1ErD0I4=
+	Wed, 11 Mar 2020 11:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=oTPgUvk+SHJIDGRQtUdeNFYmH1jWrWzFXjj/mo6NJYE=;
+	b=KoN/z5aosFCSIpsEFmONWVfeA6K/ud/prmjzlfE6Lc16PqWYZpZphDWEYio1ugSuaG
+	PwC/TNeeXTCvU9SI9VHhtGbuP6NeTlUJkGYQqW8u08HJJq8CVitfRXqpZIQhgMgkXNz2
+	IvcPA5zvRmtkyCgOWIY/upql2QWH0OOvhsMQHKi4o8yO8iP+iRR1TBcsFzdSnwL7pmWU
+	9zj3ndyVipPArodl9HwiRW0OzWCYDERGjB7fXovxGLEHv7+8qEAgDPDjzaLowy1Qc1a7
+	vx9Hny57R2lTj1ovEgvjTC9qH5b6TTXLMLvKmLRyZ+/Z5ACrIlsQyz2awWKBz194nHMQ
+	Waow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=fLTH913eXxWCJN+6sfFDjPy48JKeAJ0tWq7anlLbFhc=;
-	b=o8fS8s1qPoRsz9s9sOm2vSatMmFO11KLJmL9F+MHL/P40rR+fq+XNH9dFXSBcFDWRP
-	kLdEaJvIlX9wnS7JLPeoXSPdMvJU2BfltDzbTfCBA93NNGsbtdQWNEDbQ9qNkPnRVMU9
-	l1LVG2aNcGSoa+rsZ2d61XP8Hl2G19pZhUzShGKqpzkaXe8gGXb9V1ju99ijg7HQmAe7
-	30bIdPfVHGwOVhBtq1l6evMWaKMsWKe6lat3d9EMEBNTUtyXAR55BHAJlgF196z++WLI
-	XNV9zHQfjjyERq7tEwttpZoDh8YaKkshMCOe2SAf6JIUKS695Jo41sG0YzUQwai4UkSJ
-	k2zg==
-X-Gm-Message-State: ANhLgQ1DAH1BUv/mtVItdZki02IsYHmF8F5+FqpVakEcAOL9K0somn8g
-	G6pAFF+U2ezG6Cvkf2wiwQUAUzk8wOc=
-X-Google-Smtp-Source: ADFU+vvb0brP6O8cLVkg84xWfQJyl2fv6zcbm6d0nn/KUt89nrkkUg3ad6NV9zN9CoVthKks5mZQcA==
-X-Received: by 2002:a7b:cdfa:: with SMTP id p26mr63898wmj.39.1583951513326;
-	Wed, 11 Mar 2020 11:31:53 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id o3sm9972406wme.36.2020.03.11.11.31.52
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 11 Mar 2020 11:31:52 -0700 (PDT)
-Message-ID: <52dc073deff28f726b7b9f451640a673009df419.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 11 Mar 2020 18:31:51 +0000
-In-Reply-To: <53da03e4-b7e4-8882-3d10-ff27a051f07b@gmail.com>
-References: <20200311114421.65442-1-richard.purdie@linuxfoundation.org>
-	<53da03e4-b7e4-8882-3d10-ff27a051f07b@gmail.com>
-User-Agent: Evolution 3.35.91-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=oTPgUvk+SHJIDGRQtUdeNFYmH1jWrWzFXjj/mo6NJYE=;
+	b=k9Pt0rUVHR6Sju8CBNi8PcmcL3XrorLcylU5I3t9/CNjmbrw4XYWONwRoC2Vh98x4w
+	yetLh7GFCwETsr8SBN1ZK8a/QN2O9vGSjQCfkmLVoj9cCM9yZUcy803RWPOPPsruKyIC
+	IABHN+6P0ZKdt74P/63t2rthDUkN6E0+BQJULe1IncQMvObDzS9leqtTIkyp5zgGrrIy
+	u536/HVTVctnRf4VbsJROd7Kfun+YbqvRqIEphxzHkG62uKS3M5RolHh5ikXs7lrtxJj
+	scazy7nQF06O9VCzxvdZEGRP/exEAP3k9eIUaehVEgn32WyH/dpfGMSeBmzrkD4i+0Zf
+	Rsxg==
+X-Gm-Message-State: ANhLgQ1GKSlsxS8B/M9nXcvrsGjYVqZvse6Sr98uOw+K9SLWUAlbo0Oj
+	L47aiBom9dhvi0UDGlKaUp86yB1XZQIx2zZW39E=
+X-Google-Smtp-Source: ADFU+vsC+J/lzHqg+gt7aN16gXcAMHj4VHvuQHne/DAAzgyZujWnJ1YiyiNjSGQlO82GYwOD9QidFBXo8S9QeTH+6Sw=
+X-Received: by 2002:ab0:7802:: with SMTP id x2mr2675199uaq.100.1583952007747; 
+	Wed, 11 Mar 2020 11:40:07 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH] coreutils: Fix -dev package dependencies
+References: <20200311165221.23475-1-domarys.correa@ossystems.com.br>
+	<CANNYZj_wh5Xxx38jyzDc6SaFWV9KfVsh=G-k8ceYim=NTi1iVw@mail.gmail.com>
+	<CAP9ODKqbUzA1+FKH=nS6oKdg8bj-rzDAzv7nhi6C05Ywu+hQMg@mail.gmail.com>
+In-Reply-To: <CAP9ODKqbUzA1+FKH=nS6oKdg8bj-rzDAzv7nhi6C05Ywu+hQMg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 11 Mar 2020 19:39:56 +0100
+Message-ID: <CANNYZj_5-=k=T5yhvb_=6hy9RvTkm_uMiaRMs=CwGKNUtrLQ6Q@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] weston-init: Allow use of weston without input devices
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,63 +55,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 18:31:53 -0000
+X-List-Received-Date: Wed, 11 Mar 2020 18:40:07 -0000
+Content-Type: multipart/alternative; boundary="000000000000c35f2e05a098904b"
+
+--000000000000c35f2e05a098904b
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2020-03-11 at 11:29 -0700, Khem Raj wrote:
-> 
-> On 3/11/20 4:44 AM, Richard Purdie wrote:
-> > The new ptest dependencies present some challenges, in particular
-> > libmodule-build-perl
-> > which effectively depends on gcc. In multilib images, this results
-> > in both
-> > libXX-gcc-symlinks and libYY-gcc-symlinks being installed which
-> > conflict. This also
-> > makes little sense.
-> > 
-> > The easiest way to fix this is to disable the automatic -dev
-> > package dependencies
-> > and manually specify the correct ones.
-> > 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >   meta/recipes-core/coreutils/coreutils_8.31.bb | 4 ++++
-> >   1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb
-> > b/meta/recipes-core/coreutils/coreutils_8.31.bb
-> > index cba0bfe15cc..eac016319eb 100644
-> > --- a/meta/recipes-core/coreutils/coreutils_8.31.bb
-> > +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
-> > @@ -149,6 +149,10 @@ inherit ptest
-> >   
-> >   RDEPENDS_${PN}-ptest += "bash findutils gawk liberror-perl
-> > libmodule-build-perl make perl perl-module-file-stat python3-core
-> > sed shadow"
-> >   
-> > +# -dev automatic dependencies fails as we don't want libmodule-
-> > build-perl-dev, its too heavy
-> > +RRECOMMENDS_coreutils-dev[nodeprrecs] = "1"
-> > +RRECOMMENDS_coreutils-dev = "acl-dev attr-dev gmp-dev libcap-dev
-> > bash-dev findutils-dev gawk-dev shadow-dev"
-> > +
-> 
-> this also means that any indirect dependency in future has to be
-> added here manually right ? or will that situation never happen, if
-> it will then perhaps a note in comments might be useful about that
+But shouldn=E2=80=99t you take it all the way upstream then and change the =
+default
+there? My concern is that we currently ship a blank configuration and rely
+on defaults and auto-discovery; I wouldn=E2=80=99t want to erode that with =
+all
+sorts of customizations.
 
-If DEPENDS change, we may need to tweak this, yes.
+Alex
 
-The whole -dev thing has a bug open about reworking it and its a mess
-already so this is really a bandaid for now.
+On Wed 11. Mar 2020 at 19.19, Otavio Salvador <
+otavio.salvador@ossystems.com.br> wrote:
 
-I'd rather have this and coreutils-ptest than not have the ptests.
+> Hello Alex,
+>
+> On Wed, Mar 11, 2020 at 2:22 PM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> > I do not think we should be overriding upstream defaults like this. If
+> your use case is different, you can always provide a custom weston.ini
+> through a bbappend.
+>
+> I'd like to argue why, in this case, it makes sense.
+>
+> The weston is getting more and more adoption and often we use it on
+> devices that do not have keyboard and mouse connected. The default
+> configuration file, on OE-Core, should be adequate for common use
+> cases as we see on embedded devices and failing to start just because
+> we lack input devices is far from user-friendly.
+>
+> We do have a bbappend our multiple customer layers and as it has
+> become common we'd like to upstream it as we used quite some time to
+> understand why it was failing when we first faced it.
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+>
 
-I'm trying to be pragmatic about it! :)
+--000000000000c35f2e05a098904b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div><div dir=3D"auto">But shouldn=E2=80=99t you take it all the way upstre=
+am then and change the default there? My concern is that we currently ship =
+a blank configuration and rely on defaults and auto-discovery; I wouldn=E2=
+=80=99t want to erode that with all sorts of customizations.</div></div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed 11. Mar 2020 at =
+19.19, Otavio Salvador &lt;<a href=3D"mailto:otavio.salvador@ossystems.com.=
+br">otavio.salvador@ossystems.com.br</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
+adding-left:1ex">Hello Alex,<br>
+<br>
+On Wed, Mar 11, 2020 at 2:22 PM Alexander Kanavin<br>
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
+n@gmail.com</a>&gt; wrote:<br>
+&gt; I do not think we should be overriding upstream defaults like this. If=
+ your use case is different, you can always provide a custom weston.ini thr=
+ough a bbappend.<br>
+<br>
+I&#39;d like to argue why, in this case, it makes sense.<br>
+<br>
+The weston is getting more and more adoption and often we use it on<br>
+devices that do not have keyboard and mouse connected. The default<br>
+configuration file, on OE-Core, should be adequate for common use<br>
+cases as we see on embedded devices and failing to start just because<br>
+we lack input devices is far from user-friendly.<br>
+<br>
+We do have a bbappend our multiple customer layers and as it has<br>
+become common we&#39;d like to upstream it as we used quite some time to<br=
+>
+understand why it was failing when we first faced it.<br>
+<br>
+-- <br>
+Otavio Salvador=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0O.S. Systems<br>
+<a href=3D"http://www.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank=
+">http://www.ossystems.com.br</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"htt=
+p://code.ossystems.com.br" rel=3D"noreferrer" target=3D"_blank">http://code=
+.ossystems.com.br</a><br>
+Mobile: +55 (53) 9 9981-7854=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Mobile: +1 (=
+347) 903-9750<br>
+</blockquote></div></div>
 
-Richard
-
-
+--000000000000c35f2e05a098904b--
