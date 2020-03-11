@@ -1,57 +1,58 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 65B2961B99
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 099A661B99
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 18:41:33 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id t24so1663025pgj.7
+	Wed, 11 Mar 2020 18:42:52 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id f16so1499474plj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 11:41:34 -0700 (PDT)
+	Wed, 11 Mar 2020 11:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
 	:in-reply-to:content-language:content-transfer-encoding;
-	bh=ek0s7vVgFGJ70Jp78CN2cRQIx1hVc/Ph8bCwM0HQUCs=;
-	b=iQOGZcyqt4LMIMkfGpQqZ8Ew9/lmneLPIRktAi9wDfuLx0j3VXyVE4L8QEafw/Acik
-	dZdwtSHvWVbGfas7xo0/aM09bTQzQwT1StyE9ULOXkgSj0xHAwm4DPpRnkxAVDCQnSY3
-	QAodtblg5g3BMnXmFhB7SmdiBmzXdNThbIPBed1Z74LhqpXoINe2FY/IQt428wdhE0iM
-	5t6eXT+iDd6vXL9JkY01gYX81exXCNRTDttM7HMAHH/awcyC20Al9CcrV6Wb3Pp220tK
-	2K3xlJo3JEMRl3+u40vnAi/GApa3gLNn5HMqJDHbXFoTZvqkEE65IdEgLvEzm2faZSoR
-	yI8A==
+	bh=CBjn59p8Xk2yZSunds5VY93o5DrnxBT4Qx7LePtoIMI=;
+	b=LMdoTBh1SNKw9sWRXwV9g8tsnvZUl+RhopU31CXTkcC46UFVPLaxbd3J0d3+YNxfPo
+	uAvNnUkSYPTLeC9fCLY0hwpiPBRTtDIM2liTMnHLEa8tvFXYwyt9T4xjTTVr5hNsRzCb
+	MOPFpbAp2qsaKV2reiQVgwqizVYAY4K173hA5TmlA6cZSKRAr5uq1UGa8V5fCovVmvyo
+	IMoz+HxXUUzf57RTno60gQa4meqRwzaRU/1/HntaCYfwf4Xi6QtcNRS4VZaBqFCEv/7n
+	YpfuxiwMsCDg39R441LG71AvWTOfsWPVlitzzl30Zqazj9LMMdLvnChZa32AC11NMfmV
+	moYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=ek0s7vVgFGJ70Jp78CN2cRQIx1hVc/Ph8bCwM0HQUCs=;
-	b=lYA4nT5+wONRUTCc4zGV1VuOtRvFuDe/DS1Ako7RU/FBvlP6O8KYHUNsaefy+gdYSJ
-	LAVr6tD1ZCgZkdUvRqq2io3kvS3pyuavsXuvl1f2oFmVM323/RutpSs2e66VuZllBO0K
-	PWUB1IAPdfDk2nR97bE7dcYFk9aepoPuX/RfMpHaeTiF98GdgbGC1R1T7f3TYl3A6EI8
-	55X51qNpv3zf0bGwB6yGnLTFxzWhs9ZyunT8pcm1y9OJow3BewPCh4i6oEo4DKNVxvOz
-	UeVn7FEDC1vvmcl4FCIr7oOjYXmEPaZER6rfyhr6YnV6nkTWMuqONf+le2GH3Oj4pZ2t
-	0FNg==
-X-Gm-Message-State: ANhLgQ34S9YKsFCZxs8BOM0RwSPrM9h6FR1FlIvCfY2xKQd6XVtY5go4
-	ZVIGGnox18BDOrg1sQ8FDe7xsrWUFeM=
-X-Google-Smtp-Source: ADFU+vv96c09LAz9ptinSWkTsXzjDT0FVmVfHg9B2iWGGd94PVTFsICYNl2Kvr6gNgOa+7VEMC1xSg==
-X-Received: by 2002:aa7:8548:: with SMTP id y8mr4252065pfn.166.1583952093690; 
-	Wed, 11 Mar 2020 11:41:33 -0700 (PDT)
+	bh=CBjn59p8Xk2yZSunds5VY93o5DrnxBT4Qx7LePtoIMI=;
+	b=l+6iiDacXJul36Xh38wJ4oFHuPRs6ESTQ7afbg0kE4yWkkK45EwPJZHUuSqFg39aql
+	D/mANCXVHEqWypRThVnS/dF79LPjIMHZhV9wXf2doE7a/UdoKFyVYuwS5suxoeBQwznj
+	eMwLYANyhyOp6T3GaIR2MMovkYKI6jqv15XEoimrjLBjCMs5mzIq+1MrgW9KDSq9VRJ5
+	wq0jRLfO5DwE/Hqm27EjvmHLLdRGwJlDsgybdqJ90+wRs/6fCpePUdp5y3RiFL3tMcHn
+	DUSmZyId0jw5YtrUeRnGO770HyZfqCdo83xcmpu29fonW/LTF3t+1ccrpcpXSDp4D/an
+	fXKw==
+X-Gm-Message-State: ANhLgQ2yb3UWWnO2KxtfHoKvbeacaNSmtM9INhXMYESow5m+7oDEKNVO
+	vzImmz4r6RniHSAogqleMXSOmRcojj0=
+X-Google-Smtp-Source: ADFU+vu4ydmV3vP1hWF+rhtbaPM/ankLzCDbIACkcZKhw0hFNxJVZY3HsrH/DUxofwhl4W7EV7TPGw==
+X-Received: by 2002:a17:902:302:: with SMTP id 2mr4427344pld.58.1583952173581; 
+	Wed, 11 Mar 2020 11:42:53 -0700 (PDT)
 Received: from ?IPv6:2601:646:9200:4e0:e8b9:f87c:18f3:1405?
 	([2601:646:9200:4e0:e8b9:f87c:18f3:1405])
 	by smtp.gmail.com with ESMTPSA id
-	o126sm4967392pfb.140.2020.03.11.11.41.33
-	for <openembedded-core@lists.openembedded.org>
+	h12sm36031026pfk.124.2020.03.11.11.42.52
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Wed, 11 Mar 2020 11:41:33 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-References: <20200311165221.23475-1-domarys.correa@ossystems.com.br>
-	<CANNYZj_wh5Xxx38jyzDc6SaFWV9KfVsh=G-k8ceYim=NTi1iVw@mail.gmail.com>
+	Wed, 11 Mar 2020 11:42:53 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20200311114421.65442-1-richard.purdie@linuxfoundation.org>
+	<53da03e4-b7e4-8882-3d10-ff27a051f07b@gmail.com>
+	<52dc073deff28f726b7b9f451640a673009df419.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <de49612a-fb8e-044b-accf-c87566c15c2f@gmail.com>
-Date: Wed, 11 Mar 2020 11:41:32 -0700
+Message-ID: <b8de6b80-cc43-0fad-1247-8ef5517a3232@gmail.com>
+Date: Wed, 11 Mar 2020 11:42:52 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
 	Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_wh5Xxx38jyzDc6SaFWV9KfVsh=G-k8ceYim=NTi1iVw@mail.gmail.com>
-Subject: Re: [PATCH] weston-init: Allow use of weston without input devices
+In-Reply-To: <52dc073deff28f726b7b9f451640a673009df419.camel@linuxfoundation.org>
+Subject: Re: [PATCH] coreutils: Fix -dev package dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,25 +65,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 18:41:33 -0000
+X-List-Received-Date: Wed, 11 Mar 2020 18:42:53 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-Hi Alex
 
-On 3/11/20 10:22 AM, Alexander Kanavin wrote:
-> I do not think we should be overriding upstream defaults like this. If 
-> your use case is different, you can always provide a custom weston.ini 
-> through a bbappend.
+
+On 3/11/20 11:31 AM, Richard Purdie wrote:
+> On Wed, 2020-03-11 at 11:29 -0700, Khem Raj wrote:
+>>
+>> On 3/11/20 4:44 AM, Richard Purdie wrote:
+>>> The new ptest dependencies present some challenges, in particular
+>>> libmodule-build-perl
+>>> which effectively depends on gcc. In multilib images, this results
+>>> in both
+>>> libXX-gcc-symlinks and libYY-gcc-symlinks being installed which
+>>> conflict. This also
+>>> makes little sense.
+>>>
+>>> The easiest way to fix this is to disable the automatic -dev
+>>> package dependencies
+>>> and manually specify the correct ones.
+>>>
+>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>> ---
+>>>    meta/recipes-core/coreutils/coreutils_8.31.bb | 4 ++++
+>>>    1 file changed, 4 insertions(+)
+>>>
+>>> diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb
+>>> b/meta/recipes-core/coreutils/coreutils_8.31.bb
+>>> index cba0bfe15cc..eac016319eb 100644
+>>> --- a/meta/recipes-core/coreutils/coreutils_8.31.bb
+>>> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+>>> @@ -149,6 +149,10 @@ inherit ptest
+>>>    
+>>>    RDEPENDS_${PN}-ptest += "bash findutils gawk liberror-perl
+>>> libmodule-build-perl make perl perl-module-file-stat python3-core
+>>> sed shadow"
+>>>    
+>>> +# -dev automatic dependencies fails as we don't want libmodule-
+>>> build-perl-dev, its too heavy
+>>> +RRECOMMENDS_coreutils-dev[nodeprrecs] = "1"
+>>> +RRECOMMENDS_coreutils-dev = "acl-dev attr-dev gmp-dev libcap-dev
+>>> bash-dev findutils-dev gawk-dev shadow-dev"
+>>> +
+>>
+>> this also means that any indirect dependency in future has to be
+>> added here manually right ? or will that situation never happen, if
+>> it will then perhaps a note in comments might be useful about that
 > 
+> If DEPENDS change, we may need to tweak this, yes.
+> 
+> The whole -dev thing has a bug open about reworking it and its a mess
+> already so this is really a bandaid for now.
+> 
+> I'd rather have this and coreutils-ptest than not have the ptests.
+> 
+> I'm trying to be pragmatic about it! :)
 
-I share your sentiments and we should be vigilant, however in this case 
-I think it makes sense especially when we are doing testing on remote 
-units or emulators on server farms which may have no input devices 
-connected. I filed a bug recently on YP bugzilla [1] which is very 
-related to what this patch it fixing. In embedded case I think its more 
-common to not have attached input devices
-
-[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=13828
+I think change is fine, I am just thinking if we will assist keeping it 
+sane with a comment, until dev package logic is reworked.
+> 
+> Cheers,
+> 
+> Richard
+> 
 
