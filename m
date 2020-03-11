@@ -1,55 +1,55 @@
 Return-Path: <jpuhlman@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 15F6061BAF
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+	[209.85.216.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 2745961BE7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 22:25:53 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id j20so1775064pll.6
+	Wed, 11 Mar 2020 22:25:54 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id dw20so12020pjb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 15:25:55 -0700 (PDT)
+	Wed, 11 Mar 2020 15:25:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=xBaQ3wgge5jmLuYGnqxVRwCwdfeOLbPCBSiQsYv7K8k=;
-	b=gi4cWFUQdLE6pPJX3KqMNSmRgsbTSRkPyy0CUrPPYKnCzTkClh4umEQgWvfCieLovq
-	5BpGqpSvuF0HPSUtHCb+/g6tvx7TWPugNwNgU1IdTmu8DxjxUiEddYJuytxHKe+linKq
-	lKjn1QLvgkGGmI4jYEin9u4xtyi7qgndjHYc5LzSdmWyAsmPNuK1tDSv5jI2dm+ai4DH
-	esuuAiDahbI7lmEqyHKXkb5DIkZ85fgFhDXjSJAIV1nOkmZ4vwCtZNu4suo1SchPg1nt
-	6Ku4a/wMSWQk1Y3sv3IeR5+EKC7QfzHZnSkzpyLTbO8JnZ/mk8sYenyagBILG7BuLaIC
-	DqMw==
+	bh=cTn/jfd7BAGVe91Xu83FWLY/qaJKDEMwhqYxRpVBJCA=;
+	b=Yt3WguwK0s+gTHAajbvjHhbzxHieEk6NkXhx3K+85p49vR48W7KbpeYW4Yjv+THe2y
+	K0Th/XC773Pb2ftD1JOlUyML248vASbBAShfg9TvK7nte86qT1bgmIRgmKew/gj5NM8m
+	DbopTR553rTY9an2A+wuuuwlc9wXDhfatKajHNqbJ1QLP0zQkescX66CVYimGGZ+fYq8
+	iFsBJiRXo2Sj7yDLcPiT6HXQkPZNdpqYE8w6mBAGOQHap9T87QCk9t0TUckW6JEIeiro
+	+OC3eawcPmYrSyHl9sItai9d8Fe7Uz8sBtA9V4aaLeJSGA+1y88g9nDf1Hdo8r+XbgtU
+	jTJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
 	:in-reply-to:references;
-	bh=xBaQ3wgge5jmLuYGnqxVRwCwdfeOLbPCBSiQsYv7K8k=;
-	b=JfgvwMO17iNzgmjPoQP5hb2JFH61LbhzkI5EVaBagfEZ320wLmjTgBMOkPwMCN9Zrq
-	Qcry9ZYymdNUzDUbof6gx5hkqXK4L42TrZojYfndyg/dlijRikihPI7BwgtT+57XENRS
-	vmkhuxwXf9eYI7MAIsisVlWmHQyOcJONfmH1BZZgLZhygppZvAFVf4gyrFEUCER85hNW
-	CRhjFSdt2qcQiCJBjI68moriiKdhbVHK5RvZZB9jlyV/5rxRKMPNeuRWuzc+sWqBUDWz
-	n8m3LxDlfLO7i7vqtX0/Wz6FK3Zhs/gviXubvJBLqVY7Gq5bJ6bK22wGWKhA8mavi1rI
-	WHNw==
-X-Gm-Message-State: ANhLgQ0ba0ONN0wm91IbwKc+uKDo42eQZmv83f5hjWp5BFze5+922BQl
-	mHJtsNt1gDs3Oj0RrUoGH8DypICN9tw=
-X-Google-Smtp-Source: ADFU+vvx1wGNdm+NXZ/WrcCPK94Cbn/bTBUGsS1ojyY9OW3Z3cB1w4m6rj1gVsQVlDqBowvzGKyzFQ==
-X-Received: by 2002:a17:90b:3792:: with SMTP id
-	mz18mr878985pjb.43.1583965554810; 
-	Wed, 11 Mar 2020 15:25:54 -0700 (PDT)
+	bh=cTn/jfd7BAGVe91Xu83FWLY/qaJKDEMwhqYxRpVBJCA=;
+	b=JHfOOcdeIv62CxENjiqXpJPFeofw8eD00i2wPnDF3bUWMpu9x1Mtjch4JBFzzwXCz1
+	6geL/PMs6ViBsJYIuJP9Jy1JkdiOR7U+nsci4wYj2ST77BrCpqDKFH1POCG2Nsojvsfb
+	mSAVrnQZ9pePQRPzeTWUhfs4dU+PteffRunGMtFadHzW8nWBPngovYcrQoudVgZsJzU8
+	6IkinoSF2DUQGfJm7hx+LsdQanhg50yp2jhXbukx5o/lNKLTH9Rwcy5ESHa61is1tGBo
+	dds4YS96jOAGuMGKgzW72yK+ZTvfcf9JUi3wqbd4pjstj2p52lSqCjvREEjQIctZMCrO
+	oKSQ==
+X-Gm-Message-State: ANhLgQ0Oge0CUmZSQ98YdEjJkja9rnynCXLWV/8eaVVNv6No9HsUpje1
+	LsJB0PlMMs7x+Un2w8/NxOGoovOnciU=
+X-Google-Smtp-Source: ADFU+vubJ80xdzHd+nCJUQhvU9jdRTspC0DA50NvUACGieaxOXGoItERkhNmtN33kKox81lV8g/Mpw==
+X-Received: by 2002:a17:902:ac88:: with SMTP id
+	h8mr5172919plr.256.1583965555878; 
+	Wed, 11 Mar 2020 15:25:55 -0700 (PDT)
 Received: from workhorse.localdomain
 	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
 	by smtp.gmail.com with ESMTPSA id
-	d13sm6294300pjs.44.2020.03.11.15.25.53
+	o128sm19098954pfg.5.2020.03.11.15.25.55
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 11 Mar 2020 15:25:54 -0700 (PDT)
+	Wed, 11 Mar 2020 15:25:55 -0700 (PDT)
 Sender: Jeremy Puhlman <jpuhlman@gmail.com>
 Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 424A02A05EB; Wed, 11 Mar 2020 15:25:53 -0700 (PDT)
+	id 5AE582A05B0; Wed, 11 Mar 2020 15:25:54 -0700 (PDT)
 From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Mar 2020 15:25:42 -0700
-Message-Id: <20200311222546.30284-2-jpuhlman@mvista.com>
+Date: Wed, 11 Mar 2020 15:25:43 -0700
+Message-Id: <20200311222546.30284-3-jpuhlman@mvista.com>
 X-Mailer: git-send-email 2.13.3
 In-Reply-To: <20200311222546.30284-1-jpuhlman@mvista.com>
 References: <20200311222546.30284-1-jpuhlman@mvista.com>
-Subject: [PATCH 2/6] qemu: Fix reproducibilty issues
+Subject: [PATCH 3/6] ltp: fix reproducibilty issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,32 +62,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 22:25:54 -0000
+X-List-Received-Date: Wed, 11 Mar 2020 22:25:55 -0000
 
 From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-tests/qemu-iotests/common.env is generated from configure which
-we pass ${HOSTTOOLS_DIR}/python3 as our python to use, which gets
-copied into the ptests. Correct python3 path.
+Man pages are copied in to the target filesystem from the configured
+build, which leaks paths in to the work directory
 
 Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/ltp/ltp_20200120.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index f3342eaf28..e6dbc6d05a 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -56,6 +56,8 @@ do_install_ptest() {
- 	# Don't check the file genreated by configure
- 	sed -i -e '/wildcard config-host.mak/d' \
- 	       -e '$ {/endif/d}' ${D}${PTEST_PATH}/tests/Makefile.include
-+        sed -i -e 's,${HOSTTOOLS_DIR}/python3,${bindir}/python3,' \
-+            ${D}/${PTEST_PATH}/tests/qemu-iotests/common.env 
+diff --git a/meta/recipes-extended/ltp/ltp_20200120.bb b/meta/recipes-extended/ltp/ltp_20200120.bb
+index 5be9489a75..3e6cbc63f3 100644
+--- a/meta/recipes-extended/ltp/ltp_20200120.bb
++++ b/meta/recipes-extended/ltp/ltp_20200120.bb
+@@ -68,6 +68,12 @@ do_install(){
+ 
+     # Copy POSIX test suite into ${D}/opt/ltp/testcases by manual
+     cp -r testcases/open_posix_testsuite ${D}/opt/ltp/testcases
++
++    # Makefile were configured in the build system
++    find ${D}${prefix} -name Makefile | xargs -n 1 sed -i \
++         -e 's@[^ ]*-fdebug-prefix-map=[^ "]*@@g' \
++         -e 's@[^ ]*-fmacro-prefix-map=[^ "]*@@g' \
++         -e 's@[^ ]*--sysroot=[^ "]*@@g' 
  }
  
- # QEMU_TARGETS is overridable variable
+ RDEPENDS_${PN} = "\
 -- 
 2.13.3
 
