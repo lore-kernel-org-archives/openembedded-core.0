@@ -1,61 +1,26 @@
-Return-Path: <ross@burtonini.com>
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
-	[209.85.167.49])
-	by mail.openembedded.org (Postfix) with ESMTP id ED59161134
+Return-Path: <ssajal@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 790F961134
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 14:53:49 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id j11so1993170lfg.4
+	Wed, 11 Mar 2020 14:58:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 02BEwdhL024484
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 07:53:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=zOI1AW67S16xi0QW89RBkvquNvxvf6PcvCX/zMTT6IQ=;
-	b=0FtHk6EXZb8oiTZ03w4kKEdRKyRZKgFPvWRzgwwecF7+0QdofvmcYs1SiuN/jD0wwi
-	iJfmd3uILILfLVzU4c81FB5FxFcW54RY2pUtmteqHeHy8sMhtKXDPHJvwlKPCzDnyGVZ
-	ZspZHPFZOjfn/AR0CDiOBYIUU3OM8C30KWQLElBn8gxY6GBzFJFfEuwfBEIzRmQ+rc1F
-	WMAzLjewBGDfzW3aG0Bm/EilvogLwIMHFoOOp6W1OEU5/sY6uUQoVXCKViyCyM7t1vxN
-	hv9jT7SBFI9uOTz0UhwYynsOPlmErk5f9v4sslwI70N8uZS3PUdnRd3+tjYmxAQcVzqI
-	m4lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=zOI1AW67S16xi0QW89RBkvquNvxvf6PcvCX/zMTT6IQ=;
-	b=uZkVjrZjY8v/ie8SJNAO1lFVO98xCi8kyDR3vkmfeksbkJWSM1OdJjdSlOgd5rFwsY
-	bjLI/SFXiL0nWSFieIX1vJUBSBio1mQ7TydALBHbRh16kZ6UeasyxrIb275ab2XWxCPp
-	lhH3VYkw6YERlv1fATZ57OQsu4VM6DzGgF3EvRHC2aL+Dcjd9docCPrD3wYvyldWWsiM
-	wfOxp6/S7vWwGYTmiwuclqPs7OJ6jcCZtPj9jcHZMMXnHTbX7lUUjVcD9WyLowdtNG6i
-	seqeedZwgevntdy0sLshoKBiHvVwMh/YuKZUxixKnvlLosovc6G3VL6tnQ1OCMCjfxa9
-	UzaA==
-X-Gm-Message-State: ANhLgQ321BeZmoNkCwZ91XEXfJJYjnhrHDmZxpz9DPTMkfEN9YAyGXQj
-	bVpjuOe5Yvxd/yiGeOtNuGK2q25RN58o2xDavWMwLA==
-X-Google-Smtp-Source: ADFU+vs23h7wdCAals1VNwJEB5NXiiQ4HGYYFbFempCar+PKmiCf0kEyFdKp8NEzDe8v3Cg7iMRozUHSbUZPvqTzUEc=
-X-Received: by 2002:a05:6512:50f:: with SMTP id
-	o15mr2376669lfb.216.1583938430265; 
-	Wed, 11 Mar 2020 07:53:50 -0700 (PDT)
+	Wed, 11 Mar 2020 07:58:39 -0700 (PDT)
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.487.0;
+	Wed, 11 Mar 2020 07:58:39 -0700
+Received: by ala-lpggp3.wrs.com (Postfix, from userid 20885)	id 53C399001C9;
+	Wed, 11 Mar 2020 07:58:39 -0700 (PDT)
+From: Sakib Sajal <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Mar 2020 07:58:38 -0700
+Message-ID: <20200311145838.129361-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200304113217.GB7923@localhost>
-	<CANNYZj8wnuNLrw6s=y0cgg5uoMTjA+fMEXW_TsmtKWZ4UDzwOA@mail.gmail.com>
-	<20200304140109.GC7923@localhost>
-	<CANNYZj8ciqgR7eed+B+WwfMRHKc3u_XHrT3vo004=TEX9cCmhA@mail.gmail.com>
-	<20200304172415.GA29456@localhost>
-	<01b3bb37-f65f-8048-1a27-b859b62d7f98@gmail.com>
-	<20200306100422.GA17785@localhost>
-	<877e317932176664bc7b0120439c56d4dda791af.camel@linuxfoundation.org>
-	<20200308214610.GB1425@localhost>
-	<CANNYZj_4sTc9vjhm1+S1GbjN=8SjChWt+gksxxKLXEZXeK9nPQ@mail.gmail.com>
-	<20200309002308.GD1425@localhost>
-	<f99fbcc5-bb47-a177-f1e9-815d3cf4e5c0@embexus.com>
-	<CAAnfSTt5fwx3a7pPotvqrwgW58+n-UxCQiZqiAFuuJz6K+=aqg@mail.gmail.com>
-	<1c4e1685-7b74-0dea-e08f-4887fca9eb66@embexus.com>
-In-Reply-To: <1c4e1685-7b74-0dea-e08f-4887fca9eb66@embexus.com>
-From: Ross Burton <ross@burtonini.com>
-Date: Wed, 11 Mar 2020 14:53:39 +0000
-Message-ID: <CAAnfSTuvt5E+AEh8rFWqtmJN_R9fxci6+b8de6=ng7DrOUxGrA@mail.gmail.com>
-To: Ayoub Zaki <ayoub.zaki@embexus.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Does YP provide security support for stable and LTS branches?
+Subject: [meta-oe][PATCH] openjpeg: Fix CVE-2020-6851
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,17 +33,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 14:53:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 11 Mar 2020 14:58:38 -0000
+Content-Type: text/plain
 
-On Tue, 10 Mar 2020 at 19:45, Ayoub Zaki <ayoub.zaki@embexus.com> wrote:
-> Security patches support is definitely for many companies a knock-out criterion.
-> Probably in this case Debian or a commercial OSes like Qnx would be a choice for who can afford it.
+From: Yue Tao <Yue.Tao@windriver.com>
 
-If someone is using Yocto commercially and willing to pay money, then
-they are entirely welcome to use a OSV such as Mentor/Wind
-River/Montavista/etc who *will* make firm commitments on security
-issues.
+Backport patch from upstream to fix heap-based buffer overflow
 
-Ross
+Signed-off-by: Yue Tao <Yue.Tao@windriver.com>
+Signed-off-by: Sakib Sajal <Sakib.Sajal@windriver.com>
+---
+ .../openjpeg/openjpeg/CVE-2020-6851.patch     | 32 +++++++++++++++++++
+ .../openjpeg/openjpeg_2.3.1.bb                |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch
+
+diff --git a/meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch b/meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch
+new file mode 100644
+index 000000000..9f2fc901f
+--- /dev/null
++++ b/meta-oe/recipes-graphics/openjpeg/openjpeg/CVE-2020-6851.patch
+@@ -0,0 +1,32 @@
++From 024b8407392cb0b82b04b58ed256094ed5799e04 Mon Sep 17 00:00:00 2001
++From: Even Rouault <even.rouault@spatialys.com>
++Date: Sat, 11 Jan 2020 01:51:19 +0100
++Subject: [PATCH] opj_j2k_update_image_dimensions(): reject images whose
++ coordinates are beyond INT_MAX (fixes #1228)
++
++---
++ src/lib/openjp2/j2k.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/src/lib/openjp2/j2k.c b/src/lib/openjp2/j2k.c
++index 14f6ff41..922550eb 100644
++--- a/src/lib/openjp2/j2k.c
+++++ b/src/lib/openjp2/j2k.c
++@@ -9236,6 +9236,14 @@ static OPJ_BOOL opj_j2k_update_image_dim
++     l_img_comp = p_image->comps;
++     for (it_comp = 0; it_comp < p_image->numcomps; ++it_comp) {
++         OPJ_INT32 l_h, l_w;
+++        if (p_image->x0 > (OPJ_UINT32)INT_MAX ||
+++                p_image->y0 > (OPJ_UINT32)INT_MAX ||
+++                p_image->x1 > (OPJ_UINT32)INT_MAX ||
+++                p_image->y1 > (OPJ_UINT32)INT_MAX) {
+++            opj_event_msg(p_manager, EVT_ERROR,
+++                          "Image coordinates above INT_MAX are not supported\n");
+++            return OPJ_FALSE;
+++        }
++ 
++         l_img_comp->x0 = (OPJ_UINT32)opj_int_ceildiv((OPJ_INT32)p_image->x0,
++                          (OPJ_INT32)l_img_comp->dx);
++-- 
++2.17.1
++
+diff --git a/meta-oe/recipes-graphics/openjpeg/openjpeg_2.3.1.bb b/meta-oe/recipes-graphics/openjpeg/openjpeg_2.3.1.bb
+index ffd4099b4..4045148dd 100644
+--- a/meta-oe/recipes-graphics/openjpeg/openjpeg_2.3.1.bb
++++ b/meta-oe/recipes-graphics/openjpeg/openjpeg_2.3.1.bb
+@@ -8,6 +8,7 @@ DEPENDS = "libpng tiff lcms zlib"
+ SRC_URI = " \
+     git://github.com/uclouvain/openjpeg.git \
+     file://0002-Do-not-ask-cmake-to-export-binaries-they-don-t-make-.patch \
++    file://CVE-2020-6851.patch \
+ "
+ SRCREV = "57096325457f96d8cd07bd3af04fe81d7a2ba788"
+ S = "${WORKDIR}/git"
+-- 
+2.24.1
+
 
