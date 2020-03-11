@@ -1,48 +1,24 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
-	[209.85.208.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 15F3660991
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0067A60707
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 12:36:19 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id ca19so2624657edb.13
+	Wed, 11 Mar 2020 13:49:34 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 02BDnZuO024044
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 05:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=XlfE9LsVVl8NAikANPhSM9RvLzoTiRYi7Zz+v6vd7p4=;
-	b=o+fPZDIM2gkBkAqjMyJtHq680YAs5lK8Mm9QEpaGZmnb3tGQ+JU8dwOEp6KgxByirB
-	BvkmQj7rsVqNVoyEElEIVZVh10Zrdb7Pfo5h2VopSNGCPWSUvibWc8dKvjgpGjt+HAHy
-	EIOKpTw0BgMoP42WiCeQpoo/KoRGNvUO+nFbzCGnT5hlvWFIT3ChV7T1w3qZsUqNGW4P
-	QGDRqP5DELopJeaTrtkAxob6EAhBEfv/dbyLeER6LrSLE1pQPWtBj+lm1CJ4ZgJXlmur
-	75eoLFa9lnxqztBtHcak14Dmk9qNwREatz/63Wo9MiP5aQ7levXVz/2DiQRiwYJwHUcc
-	f3Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=XlfE9LsVVl8NAikANPhSM9RvLzoTiRYi7Zz+v6vd7p4=;
-	b=hVeGBPY41JWusrEtoTvyb7XdbuZGdcmIwSul5feGTANrhUwqe/k0zNHayLswbOlRUW
-	dZKQMEQym7zQFl0EjiJUyhcX0SVyF//XC6nljSjEVjBte9tSoykEU2NBMd/JKg9MaA8N
-	kPpqNWlVb4PElsJw5PncmLhAeHt+D1Kmiajvpge3Bac8hDFCtHwiDoMz3INfS0yfWMVS
-	n7BrOM+KKQma//oQ2+XjKdBcC9R+FFRbtNzoEAS4tWQlrsrNKvI+DRZnBGGtaOpoJA1I
-	7RaqvL40D8+HjzQ6XEfvzAXWrrHiCpaNrFa5ObKIJEgnQBgF4PZ/GAIlDO4sWmA/raoU
-	IRyQ==
-X-Gm-Message-State: ANhLgQ12UgWIh9bJmPzBTMZS9rpAwVuNdOA5PwFOcGkEYJZ+69+v9VbI
-	PI8Vz0BcUwG6/PdC6CRJnIKyeyvjMbUFyLdrJSA=
-X-Google-Smtp-Source: ADFU+vtjYNKdOvgfDslqRO57Bn7U0p83KEst8t1VMhyfEHvbwZB0UTSDIFrJso4MImnoSXJ51Hm4fp/CJzI55Ag9SJ0=
-X-Received: by 2002:a17:906:9456:: with SMTP id
-	z22mr2242102ejx.327.1583930180595; 
-	Wed, 11 Mar 2020 05:36:20 -0700 (PDT)
+	Wed, 11 Mar 2020 06:49:35 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.487.0; Wed, 11 Mar 2020 06:49:35 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 11 Mar 2020 21:49:33 +0800
+Message-ID: <1583934573-94011-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <b1aa0d35-35bb-8043-fdd2-d57261eeb714@cn.fujitsu.com>
-In-Reply-To: <b1aa0d35-35bb-8043-fdd2-d57261eeb714@cn.fujitsu.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 11 Mar 2020 08:36:09 -0400
-Message-ID: <CADkTA4NOf2MXDkdta6o4MbEVTehSF+vY_D8ez53HjBgSzoDG6w@mail.gmail.com>
-To: zangrc <zangrc.fnst@cn.fujitsu.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: CVE related consulting on linux-yocto on zeus branch
+Subject: [PATCH] babeltrace2: initialize the other_entry pointer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,43 +31,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 12:36:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 11 Mar 2020 13:49:35 -0000
+Content-Type: text/plain
 
-On Wed, Mar 11, 2020 at 2:02 AM zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
->
->
-> Hello,
->
->
-> our team is currently working on CVE-related work. I would like to ask
-> if the zeus branch of yocto has an update plan for linux-yocto in the
-> near future. If not, can we submit a CVE-related patch for the
-> linux-yocto of the zeus branch.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-If it is part of -stable, then yes, it will be integrated into any of
-the active upstream kernels. If it is in 5.2, we also have a -stable
-process for those kernels as well.
+When add below line to local.conf to enable debug build:
 
-If it doesn't fall into those categories, then send any patches
-(against the kernel itself) to the linux-yocto mailing list, do not
-send them as patches to the linux-yocto recipe itself.
+DEBUG_BUILD = "1"
 
-Cheers,
+There comes below failure when run "bitbake babeltrace2"
+| ../../../../../git/src/plugins/ctf/fs-src/fs.c: In function 'ds_index_insert_ds_index_entry_sorted':
+| ../../../../../git/src/plugins/ctf/fs-src/fs.c:702:5: error: 'other_entry' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+|   702 |    !ds_index_entries_equal(entry, other_entry)) {
 
-Bruce
+So initialize the other_entry pointer to fix the above error.
 
->
->   --
-> Best Regards!
-> Zang Ruochen
->
->
->
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ .../0001-fs.c-initialize-other_entry.patch         | 33 ++++++++++++++++++++++
+ meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb     |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-fs.c-initialize-other_entry.patch
 
-
+diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-fs.c-initialize-other_entry.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-fs.c-initialize-other_entry.patch
+new file mode 100644
+index 0000000..b56b3bd
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/babeltrace2/0001-fs.c-initialize-other_entry.patch
+@@ -0,0 +1,33 @@
++From 42dae692b9057d03ce9a0651f061472e9dd90130 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Wed, 11 Mar 2020 08:44:42 +0000
++Subject: [PATCH] fs.c: initialize the other_entry variable
++
++Initialize the pointer other_entry to fix the below error:
++| ../../../../../git/src/plugins/ctf/fs-src/fs.c: In function 'ds_index_insert_ds_index_entry_sorted':
++| ../../../../../git/src/plugins/ctf/fs-src/fs.c:702:5: error: 'other_entry' may be used uninitialized in this function [-Werror=maybe-uninitialized]
++|   702 |    !ds_index_entries_equal(entry, other_entry)) {
++
++Upstream-Status: Submitted [https://lists.lttng.org/pipermail/lttng-dev/2020-March/029549.html]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ src/plugins/ctf/fs-src/fs.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/plugins/ctf/fs-src/fs.c b/src/plugins/ctf/fs-src/fs.c
++index e87523a3..a6b5315f 100644
++--- a/src/plugins/ctf/fs-src/fs.c
+++++ b/src/plugins/ctf/fs-src/fs.c
++@@ -680,7 +680,7 @@ void ds_index_insert_ds_index_entry_sorted(
++ 	struct ctf_fs_ds_index_entry *entry)
++ {
++ 	guint i;
++-	struct ctf_fs_ds_index_entry *other_entry;
+++	struct ctf_fs_ds_index_entry *other_entry = NULL;
++ 
++ 	/* Find the spot where to insert this index entry. */
++ 	for (i = 0; i < index->entries->len; i++) {
++-- 
++2.24.1
++
+diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
+index 16953d6..c027d8b 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
++++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
+@@ -10,6 +10,7 @@ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
+ SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-2.0 \
+ 	   file://run-ptest \
+ 	   file://0001-tests-do-not-run-test-applications-from-.libs.patch \
++	   file://0001-fs.c-initialize-other_entry.patch \
+ 	  "
+ SRCREV = "06df58f89ee51b1a2c6a2c187ec3f15691633910"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.7.4
+
 
