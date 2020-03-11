@@ -1,48 +1,53 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A4D761BEB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 319B861C10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 17:27:43 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id d15so2755386iog.3
+	Wed, 11 Mar 2020 17:27:50 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id 6so3712417wre.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 10:27:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OR69CxGzZ6e4MPo6A0UEvfeqDf29yuH8IUqtIjNHFaY=;
-	b=J0TVYN0ka+DqxJvfdw0LOXgxhqbKQU4YJIDUYI6Mrp7ZKfVyT1gW7+lCYLL/e3S45F
-	x4iqZPd0necEZtcZebVI+uqg6w3VFdzooI+NYfc8z9McA8KC5BPs2nUjJW049N7ad4HL
-	/GcdhML7N+Ee3SlGnnupm+B9oiYnpMWSzCE8HSW6UMWiMnbCKVIvkyulcYFKu5OQTxjZ
-	hK268cnYGBtjntHI22Oj3mGghj+A1WwuvQZ8PbUxGbsPVzpIsiSwjU9m2CCccPNmiS0f
-	lFMzI4PxsChQyAMy8+Tz6jM4zK5u1o2kki6EEQCKV3rRXQgX4fOf01dACnKro7Q0PW1p
-	OTng==
+	Wed, 11 Mar 2020 10:27:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=xHw4KEsl0W2fGQKLaNHsPDScNXMi+PBYA2Ikp6oK6hQ=;
+	b=JJbEkf27mREzdXmIjyeBK4ynYD9WYoURIggVmBMrwSYMW3GO4ynw3YiH6ZAvW9u+M/
+	OTYuIlzBSIvUocR2kC5tYNi5ZFyF75Obb6O1a0DUPqksJ6bEy3kBL2hg1uC2zUe8/Rr/
+	c/2SspD/maQ5u7y+s4fpRy0jmKnWqPdXqB4UA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=OR69CxGzZ6e4MPo6A0UEvfeqDf29yuH8IUqtIjNHFaY=;
-	b=ie5CGZRQXmV5ErbHDB1UpnRSPI8iSbhAGBxbUBZhNhqZVoHeeC8xJhLO4l7abeFFo7
-	xeR4C+h6PI/EgU7JvuQ41+NfqrhOkUN7tQ2QR4BldcboE9nhuKdCjTUyCuM1AdGqKutI
-	efhv68vP0MzTV9O7wYqaXq5t4V+Bb60YPsGJoS7Qv26ddCnCi8IjtETa3+JDDg7u+k7b
-	p7nY0nPDboEiNxtg4sWLQhfv1qIAYRtXtEWpRPBrTrDQRjXfQJMzbHYjxFBEhF+YrN7t
-	hTj5xWkOlSTAn1SOOTOm9b29m5d0xrscX413SfbCvQXbV0soJGKDStqhKfrvgYVqZ0fF
-	9wmg==
-X-Gm-Message-State: ANhLgQ1dXyYlPiwXivJ1CAC3tF/ffEwir43Csmb0bHnjNOY7a+2305T+
-	EZJTmvQ+0oSBSlFU/EsnPpBQhJj8odQhDxm5EVE=
-X-Google-Smtp-Source: ADFU+vtW1TENfIAi7+tvuYkoWIIuH8ynJPPGNfxjDVRhi/Q+UfhcKMwXYp3lV7jvgDfJBcXE16FGwwW0UKYjxd92SvM=
-X-Received: by 2002:a5d:9694:: with SMTP id m20mr3868219ion.48.1583947664240; 
-	Wed, 11 Mar 2020 10:27:44 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=xHw4KEsl0W2fGQKLaNHsPDScNXMi+PBYA2Ikp6oK6hQ=;
+	b=CnGVD/t6pmZBNal7tpk5pyXftHen7jShQnZTvddLsUi0OJH80AVu+g7T2UebVaWRGK
+	CnpTExZRXSR6wYIDYS1VHbjGb+0G1TzEIVt70EnoYHaqURr5y/QOqaTPzNozVykd2/Qq
+	IamJvsZ8d6NEy7pAj0fg1XRiOuTTkqO5vwk5kGHpGhQXiRM8apm8eF1E4Y8rL1WmggIm
+	J/tO87kaHAROUC2mYGCVTS3mgTkqTBts39SeFMGCkCyCPyLEkUb0Oiz7XD7H0BBR9xN/
+	YsJr6HDFSt0KBIba6Mm1A3qx5Q+IlwBla4GFKQqK5+Z2h2rok0L8h1WOV/VeIGQKHZzn
+	RsIg==
+X-Gm-Message-State: ANhLgQ2Zq/uveDKIJcsvl7fJC2eSdGXm24Dx/gXw41k9aFExr/Xr8my0
+	2/9VCmkGYE2xzeVBJAUCQx6z3A==
+X-Google-Smtp-Source: ADFU+vv6qIsmykrZwNK8+EL4Sw5JNzXDgYCElIYEvTw0OLMv378zYNeg/nzg6DgptCI8u+arrZ3u4A==
+X-Received: by 2002:adf:94c7:: with SMTP id 65mr5449249wrr.393.1583947671781; 
+	Wed, 11 Mar 2020 10:27:51 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	61sm21995649wrd.58.2020.03.11.10.27.50
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 11 Mar 2020 10:27:51 -0700 (PDT)
+Message-ID: <65455f6a8ad443729e919704ef3a9d425b5cb6ac.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 11 Mar 2020 17:27:49 +0000
+In-Reply-To: <4d7b32fb-2163-92dc-f3e3-219eacbc4782@gmail.com>
+References: <20200310232814.48572-1-richard.purdie@linuxfoundation.org>
+	<20200310232814.48572-2-richard.purdie@linuxfoundation.org>
+	<4d7b32fb-2163-92dc-f3e3-219eacbc4782@gmail.com>
+User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-References: <CAO5Uq5ROxZsnZxJd=a6vUJTmAnMLb82XJmxjJYjiBjt24ToC7w@mail.gmail.com>
-	<5e5adb83812fe98a76b8207588325f7996e33c85.camel@linuxfoundation.org>
-In-Reply-To: <5e5adb83812fe98a76b8207588325f7996e33c85.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 11 Mar 2020 17:27:33 +0000
-Message-ID: <CAO5Uq5RCVcvmqgEr2ypgMwg9LvnBskynMaQjKHzV-_JcgnrdGQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: psplash activation state w/ systemd
+Cc: Ross Burton <ross.burton@intel.com>
+Subject: Re: [PATCH 2/6] gcc: strip line numbers from generated code in gcc-plugins on target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,50 +60,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 17:27:43 -0000
+X-List-Received-Date: Wed, 11 Mar 2020 17:27:51 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 11, 2020 at 5:20 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2020-03-09 at 15:18 +0000, Alex Kiernan wrote:
-> > I've a branch with systemd 245 on it which fails testing because
-> > psplash gets restarted all the time.
-> >
-> > But ignoring the systemd 245 piece, it looks to me like psplash could
-> > be restarted under systemd 244 too as the main process exits and our
-> > units aren't marked RemainAfterExit. I haven't figured out what's
-> > triggering it in 245 and not 244, but I suspect it's something
-> > similar
-> > to this:
-> >
-> > https://github.com/systemd/systemd/commit/9fd32ff7d363945fbf8fdae0128702b995127558
-> >
-> > Given where we are in the release cycle and how painful psplash has
-> > obviously been, I'm inclined to leave it until after dunfell ships
-> > and then do it as part of the whole 245 upgrade?
-> >
-> > Equally if you see psplash flapping during tests, it's almost
-> > certainly this problem.
->
-> Thanks for the report. The weird thing is that master is working with
-> this as far as I can see, certainly no test failures since the last fix
-> I pushed a few days ago.
->
-> Is there some specific change to the unit files we should make? I'm a
-> little reluctant to pull this out now given we feel like we're close to
-> it working.
->
+On Wed, 2020-03-11 at 10:20 -0700, Khem Raj wrote:
+> 
+> On 3/10/20 4:28 PM, Richard Purdie wrote:
+> > From: Ross Burton <ross.burton@intel.com>
+> > 
+> > The line numbers are influenced by the gcc version on the host used
+> > to generate
+> > the code. Remove these to ensure the shipped source code is the
+> > same.
+> > 
+> 
+> Please send this paatch to gcc mailing lists for review, I am not
+> sure if this will cause regressions for plugin writers since it does
+> not seem  simple debug info that it is adding, and external plugins
+> might rely on  this information. While I understand it might solve
+> our usecaase its a kind of patch that I worry about to carry out of
+> tree.
 
-It's basically trivial (add RemainAfterExit=yes to both units), but as
-you say, given where we are and it appears to work, I don't think
-now's the time to do it.
+I very much doubt upstream are going to accept anything like it
+unfortunately. Whilst much of the information is useful to plugins, I'm
+struggling to see how/why they'd use line numbers outside of debug
+information so I've assumed so far they're just that - for debug. DO
+you know of it being used in other ways?
 
-I suspect something's changed in 245 which makes it far more likely
-that you see units retriggered, but I can't for the life of me work
-out which commit it is (I should stop trying to do it by inspection
-and bisect it out...).
+Cheers,
 
--- 
-Alex Kiernan
+Richard
+
 
