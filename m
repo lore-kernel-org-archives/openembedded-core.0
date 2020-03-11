@@ -1,58 +1,59 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 099A661B99
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 18:42:52 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id f16so1499474plj.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 11:42:54 -0700 (PDT)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
+	[209.85.216.47])
+	by mail.openembedded.org (Postfix) with ESMTP id D86A061BD8
+	for <openembedded-core@openembedded.org>;
+	Wed, 11 Mar 2020 19:12:58 +0000 (UTC)
+Received: by mail-pj1-f47.google.com with SMTP id l36so1428316pjb.3
+	for <openembedded-core@openembedded.org>;
+	Wed, 11 Mar 2020 12:13:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=CBjn59p8Xk2yZSunds5VY93o5DrnxBT4Qx7LePtoIMI=;
-	b=LMdoTBh1SNKw9sWRXwV9g8tsnvZUl+RhopU31CXTkcC46UFVPLaxbd3J0d3+YNxfPo
-	uAvNnUkSYPTLeC9fCLY0hwpiPBRTtDIM2liTMnHLEa8tvFXYwyt9T4xjTTVr5hNsRzCb
-	MOPFpbAp2qsaKV2reiQVgwqizVYAY4K173hA5TmlA6cZSKRAr5uq1UGa8V5fCovVmvyo
-	IMoz+HxXUUzf57RTno60gQa4meqRwzaRU/1/HntaCYfwf4Xi6QtcNRS4VZaBqFCEv/7n
-	YpfuxiwMsCDg39R441LG71AvWTOfsWPVlitzzl30Zqazj9LMMdLvnChZa32AC11NMfmV
-	moYw==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=45sdCmcBxTxkKS37bOQGDOA30ysBGOIcKnHNYTl+OzU=;
+	b=EyK6y2iXTSPyZcg31nk04T6YKKLmWFGXiBHfOQUwRdx0vFFbKi7DSTuDgwFhK33LnO
+	SB5G2xc2STeI/7cWADaESM7g6edWgwqkn1QMpv1HZaeycnWcC/Dwae0JuzWQBaGU0A0z
+	01R2KbHg2S+s5c2bqA0FZhnfmuO2ZmE1IZu3Wl6bSjKtsyfyvNjO4eFF05Gtd9u7DCVy
+	IYe82DoYclc/OIwhho60+6B1/evWSoyaYML7aQa/GECoI6aX14XzgSd6RUR61O4YqH4I
+	bhba6AZOjKrA35eQtU5W++tahWHGOzdtQEh1G/F5SE81IpPNYfpQVDnvFCzes0rOpsWX
+	1kyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=CBjn59p8Xk2yZSunds5VY93o5DrnxBT4Qx7LePtoIMI=;
-	b=l+6iiDacXJul36Xh38wJ4oFHuPRs6ESTQ7afbg0kE4yWkkK45EwPJZHUuSqFg39aql
-	D/mANCXVHEqWypRThVnS/dF79LPjIMHZhV9wXf2doE7a/UdoKFyVYuwS5suxoeBQwznj
-	eMwLYANyhyOp6T3GaIR2MMovkYKI6jqv15XEoimrjLBjCMs5mzIq+1MrgW9KDSq9VRJ5
-	wq0jRLfO5DwE/Hqm27EjvmHLLdRGwJlDsgybdqJ90+wRs/6fCpePUdp5y3RiFL3tMcHn
-	DUSmZyId0jw5YtrUeRnGO770HyZfqCdo83xcmpu29fonW/LTF3t+1ccrpcpXSDp4D/an
-	fXKw==
-X-Gm-Message-State: ANhLgQ2yb3UWWnO2KxtfHoKvbeacaNSmtM9INhXMYESow5m+7oDEKNVO
-	vzImmz4r6RniHSAogqleMXSOmRcojj0=
-X-Google-Smtp-Source: ADFU+vu4ydmV3vP1hWF+rhtbaPM/ankLzCDbIACkcZKhw0hFNxJVZY3HsrH/DUxofwhl4W7EV7TPGw==
-X-Received: by 2002:a17:902:302:: with SMTP id 2mr4427344pld.58.1583952173581; 
-	Wed, 11 Mar 2020 11:42:53 -0700 (PDT)
+	bh=45sdCmcBxTxkKS37bOQGDOA30ysBGOIcKnHNYTl+OzU=;
+	b=JwhkpNrR2QZ3NAgMH0342MaMMD/nbcbhrXvvTTnLY6s1vwDi/S53ofQN4FtHkk1hZA
+	9AAociNhM2c0H9q93f+leVwhwPYMHdOGvM6VFSeOSjC874vSm7J/K7tRROTnQD7YBOq6
+	12u3SiHnaJgYRFRhxHvkugLUQYDCTRAdseUuzfAdmfoLPfK9VNQcbKnlIJVkmwhhZxmo
+	MpwBdRoaCddwPHO7vG4WN41yGkkiNp8IRFbSxX6kNmF2Z4jHWE/jOdt/lPlN9T4hZiVy
+	B+KQMWT6EyMczBXthWHdso+qTI4oSfvNauxx3zUKj9RpYPW/gccAT6kWxhRSTIu1HAuP
+	j2VA==
+X-Gm-Message-State: ANhLgQ141L9GXViN7Yo2ITAZYbQL2D6FPv2bkReJMrrJkbYY6HCVwYBW
+	YDcc9L4/flNFcaBOf9BlClgtewCgNRo=
+X-Google-Smtp-Source: ADFU+vsdALrqyQYFsgKV4Ih9HSQ2Um5T16mZQHRutY8CHypSxXEpnQK7+hBaA9zI5vVKoy/WAF2TjA==
+X-Received: by 2002:a17:902:5a44:: with SMTP id
+	f4mr4350606plm.306.1583953979487; 
+	Wed, 11 Mar 2020 12:12:59 -0700 (PDT)
 Received: from ?IPv6:2601:646:9200:4e0:e8b9:f87c:18f3:1405?
 	([2601:646:9200:4e0:e8b9:f87c:18f3:1405])
 	by smtp.gmail.com with ESMTPSA id
-	h12sm36031026pfk.124.2020.03.11.11.42.52
+	c17sm10615554pfn.187.2020.03.11.12.12.58
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Wed, 11 Mar 2020 11:42:53 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20200311114421.65442-1-richard.purdie@linuxfoundation.org>
-	<53da03e4-b7e4-8882-3d10-ff27a051f07b@gmail.com>
-	<52dc073deff28f726b7b9f451640a673009df419.camel@linuxfoundation.org>
+	Wed, 11 Mar 2020 12:12:58 -0700 (PDT)
+To: Adrian Bunk <bunk@stusta.de>, Armin Kuster <akuster808@gmail.com>
+References: <cover.1583893499.git.akuster808@gmail.com>
+	<350496c3c0b80835cb5311aa6dbc91e4ee7b5935.1583893499.git.akuster808@gmail.com>
+	<20200311075133.GA30580@localhost>
 From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <b8de6b80-cc43-0fad-1247-8ef5517a3232@gmail.com>
-Date: Wed, 11 Mar 2020 11:42:52 -0700
+Message-ID: <762da0f1-58a0-ae85-936d-43bf2ceb27c2@gmail.com>
+Date: Wed, 11 Mar 2020 12:12:58 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
 	Gecko/20100101 Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <52dc073deff28f726b7b9f451640a673009df419.camel@linuxfoundation.org>
-Subject: Re: [PATCH] coreutils: Fix -dev package dependencies
+In-Reply-To: <20200311075133.GA30580@localhost>
+Cc: openembedded-core@openembedded.org
+Subject: Re: [zeus 06/16] valgrind: Fix build with -fno-common
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,70 +66,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 18:42:53 -0000
+X-List-Received-Date: Wed, 11 Mar 2020 19:12:58 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
 
 
-On 3/11/20 11:31 AM, Richard Purdie wrote:
-> On Wed, 2020-03-11 at 11:29 -0700, Khem Raj wrote:
->>
->> On 3/11/20 4:44 AM, Richard Purdie wrote:
->>> The new ptest dependencies present some challenges, in particular
->>> libmodule-build-perl
->>> which effectively depends on gcc. In multilib images, this results
->>> in both
->>> libXX-gcc-symlinks and libYY-gcc-symlinks being installed which
->>> conflict. This also
->>> makes little sense.
->>>
->>> The easiest way to fix this is to disable the automatic -dev
->>> package dependencies
->>> and manually specify the correct ones.
->>>
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>> ---
->>>    meta/recipes-core/coreutils/coreutils_8.31.bb | 4 ++++
->>>    1 file changed, 4 insertions(+)
->>>
->>> diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb
->>> b/meta/recipes-core/coreutils/coreutils_8.31.bb
->>> index cba0bfe15cc..eac016319eb 100644
->>> --- a/meta/recipes-core/coreutils/coreutils_8.31.bb
->>> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
->>> @@ -149,6 +149,10 @@ inherit ptest
->>>    
->>>    RDEPENDS_${PN}-ptest += "bash findutils gawk liberror-perl
->>> libmodule-build-perl make perl perl-module-file-stat python3-core
->>> sed shadow"
->>>    
->>> +# -dev automatic dependencies fails as we don't want libmodule-
->>> build-perl-dev, its too heavy
->>> +RRECOMMENDS_coreutils-dev[nodeprrecs] = "1"
->>> +RRECOMMENDS_coreutils-dev = "acl-dev attr-dev gmp-dev libcap-dev
->>> bash-dev findutils-dev gawk-dev shadow-dev"
->>> +
->>
->> this also means that any indirect dependency in future has to be
->> added here manually right ? or will that situation never happen, if
->> it will then perhaps a note in comments might be useful about that
+On 3/11/20 12:51 AM, Adrian Bunk wrote:
+> This patch is required for switching to gcc 10 (which changes the
+> default to -fno-common) in Yocto 3.2.
 > 
-> If DEPENDS change, we may need to tweak this, yes.
+> AFAIK there is no benefit in backporting it to older releases.
 > 
-> The whole -dev thing has a bug open about reworking it and its a mess
-> already so this is really a bandaid for now.
-> 
-> I'd rather have this and coreutils-ptest than not have the ptests.
-> 
-> I'm trying to be pragmatic about it! :)
 
-I think change is fine, I am just thinking if we will assist keeping it 
-sane with a comment, until dev package logic is reworked.
-> 
-> Cheers,
-> 
-> Richard
+I tend to agree.
+
+> cu
+> Adrian
 > 
 
