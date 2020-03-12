@@ -1,24 +1,36 @@
-Return-Path: <Stefan.Ghinea@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 254CA61BC8
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 62ABB60B4C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 09:23:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 02C9NOJX012258
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 02:23:25 -0700 (PDT)
-Received: from otp-sghinea-l1.corp.ad.wrs.com (128.224.124.146) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.487.0; Thu, 12 Mar 2020 02:23:24 -0700
-From: Stefan Ghinea <stefan.ghinea@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Mar 2020 11:23:22 +0200
-Message-ID: <20200312092322.28506-1-stefan.ghinea@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Thu, 12 Mar 2020 12:28:24 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Mar 2020 05:28:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,544,1574150400"; d="scan'208";a="236814542"
+Received: from pgsmsx113.gar.corp.intel.com ([10.108.55.202])
+	by orsmga008.jf.intel.com with ESMTP; 12 Mar 2020 05:28:23 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.189]) by
+	pgsmsx113.gar.corp.intel.com ([169.254.6.140]) with mapi id
+	14.03.0439.000; Thu, 12 Mar 2020 20:25:21 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "stefan.ghinea@windriver.com"
+	<stefan.ghinea@windriver.com>
+Thread-Topic: [OE-core] [PATCH] [zeus] aspell: CVE-2019-20433
+Thread-Index: AQHV+E/1cDunrn+Y10OmnCzlq3irv6hEW9oA
+Date: Thu, 12 Mar 2020 12:25:21 +0000
+Message-ID: <67257554ffe08ac11b8f1cf3da115ba5a7e35fbd.camel@intel.com>
+References: <20200312092322.28506-1-stefan.ghinea@windriver.com>
+In-Reply-To: <20200312092322.28506-1-stefan.ghinea@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.175.123]
 MIME-Version: 1.0
-Subject: [PATCH] [zeus] aspell: CVE-2019-20433
+Subject: Re: [PATCH] [zeus] aspell: CVE-2019-20433
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,1123 +43,821 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 09:23:24 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Mar 2020 12:28:25 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1784B96F8150B94CBF31103492DF6C69@intel.com>
+Content-Transfer-Encoding: base64
 
-libaspell.a in GNU Aspell before 0.60.8 has a buffer over-read for a string
-ending with a single '\0' byte, if the encoding is set to ucs-2 or ucs-4
-outside of the application, as demonstrated by the ASPELL_CONF environment
-variable.
-
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2019-20433
-
-Upstream patches:
-https://github.com/GNUAspell/aspell/commit/de29341638833ba7717bd6b5e6850998454b044b
-https://github.com/GNUAspell/aspell/commit/cefd447e5528b08bb0cd6656bc52b4255692cefc
-
-Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
----
- .../aspell/aspell/CVE-2019-20433-0001.patch   | 999 ++++++++++++++++++
- .../aspell/aspell/CVE-2019-20433-0002.patch   |  68 ++
- meta/recipes-support/aspell/aspell_0.60.7.bb  |   2 +
- 3 files changed, 1069 insertions(+)
- create mode 100644 meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch
- create mode 100644 meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch
-
-diff --git a/meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch
-new file mode 100644
-index 0000000000..fd68461e32
---- /dev/null
-+++ b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch
-@@ -0,0 +1,999 @@
-+From de29341638833ba7717bd6b5e6850998454b044b Mon Sep 17 00:00:00 2001
-+From: Kevin Atkinson <kevina@gnu.org>
-+Date: Sat, 17 Aug 2019 17:06:53 -0400
-+Subject: [PATCH 1/2] Don't allow null-terminated UCS-2/4 strings using the
-+ original API.
-+
-+Detect if the encoding is UCS-2/4 and the length is -1 in affected API
-+functions and refuse to convert the string.  If the string ends up
-+being converted somehow, abort with an error message in DecodeDirect
-+and ConvDirect.  To convert a null terminated string in
-+Decode/ConvDirect, a negative number corresponding to the width of the
-+underlying character type for the encoding is expected; for example,
-+if the encoding is "ucs-2" then a the size is expected to be -2.
-+
-+Also fix a 1-3 byte over-read in DecodeDirect when reading UCS-2/4
-+strings when a size is provided (found by OSS-Fuzz).
-+
-+Also fix a bug in DecodeDirect that caused DocumentChecker to return
-+the wrong offsets when working with UCS-2/4 strings.
-+
-+CVE: CVE-2019-20433
-+Upstream-Status: Backport [https://github.com/GNUAspell/aspell/commit/de29341638833ba7717bd6b5e6850998454b044b]
-+
-+[SG: - adjusted context
-+     - discarded test changes as test framework is not available
-+     - discarded manual entry changes for features that aren't backported]
-+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
-+---
-+ auto/MkSrc/CcHelper.pm      | 99 ++++++++++++++++++++++++++++++++++---
-+ auto/MkSrc/Create.pm        |  5 +-
-+ auto/MkSrc/Info.pm          |  5 +-
-+ auto/MkSrc/ProcCc.pm        | 24 +++++----
-+ auto/MkSrc/ProcImpl.pm      | 57 +++++++++++++++------
-+ auto/MkSrc/Read.pm          |  4 +-
-+ auto/mk-src.in              | 44 +++++++++++++++--
-+ common/convert.cpp          | 39 ++++++++++++---
-+ common/convert.hpp          | 38 +++++++++++++-
-+ common/document_checker.cpp | 17 ++++++-
-+ common/document_checker.hpp |  1 +
-+ common/version.cpp          | 15 ++++--
-+ configure.ac                |  8 +++
-+ manual/aspell.texi          | 58 ++++++++++++++++------
-+ manual/readme.texi          | 70 +++++++++++++++++++++-----
-+ 15 files changed, 409 insertions(+), 75 deletions(-)
-+
-+diff --git a/auto/MkSrc/CcHelper.pm b/auto/MkSrc/CcHelper.pm
-+index f2de991..0044335 100644
-+--- a/auto/MkSrc/CcHelper.pm
-++++ b/auto/MkSrc/CcHelper.pm
-+@@ -10,8 +10,8 @@ BEGIN {
-+   use Exporter;
-+   our @ISA = qw(Exporter);
-+   our @EXPORT = qw(to_c_return_type c_error_cond
-+-		   to_type_name make_desc make_func call_func
-+-		   make_c_method call_c_method form_c_method
-++		   to_type_name make_desc make_func call_func get_c_func_name
-++		   make_c_method make_wide_macro call_c_method form_c_method
-+ 		   make_cxx_method);
-+ }
-+ 
-+@@ -90,6 +90,69 @@ sub make_func ( $ \@ $ ; \% ) {
-+ 	   ')'));
-+ }
-+ 
-++=item make_wide_version NAME @TYPES PARMS ; %ACCUM
-++
-++Creates the wide character version of the function if needed
-++
-++=cut
-++
-++sub make_wide_version ( $ \@ $ ; \% ) {
-++  my ($name, $d, $p, $accum) = @_;
-++  my @d = @$d;
-++  shift @d;
-++  return '' unless grep {$_->{type} eq 'encoded string'} @d;
-++  $accum->{sys_headers}{'stddef.h'} = true;
-++  $accum->{suffix}[5] = <<'---';
-++
-++/******************* private implemantion details *********************/
-++
-++#ifdef __cplusplus
-++#  define aspell_cast_(type, expr) (static_cast<type>(expr))
-++#  define aspell_cast_from_wide_(str) (static_cast<const void *>(str))
-++#else
-++#  define aspell_cast_(type, expr) ((type)(expr))
-++#  define aspell_cast_from_wide_(str) ((const char *)(str))
-++#endif
-++---
-++  my @parms = map {$_->{type} eq 'encoded string'
-++                       ? ($_->{name}, $_->{name}.'_size')
-++                       : $_->{name}} @d;
-++  $name = to_lower $name;
-++  $accum->{suffix}[0] = <<'---';
-++/**********************************************************************/
-++
-++#ifdef ASPELL_ENCODE_SETTING_SECURE
-++---
-++  $accum->{suffix}[2] = "#endif\n";
-++  my @args = map  {$_->{type} eq 'encoded string'
-++                       ? ($_->{name}, "$_->{name}_size", '-1')
-++                       : $_->{name}} @d;
-++  $accum->{suffix}[1] .=
-++      (join '',
-++       "#define $name",
-++       '(', join(', ', @parms), ')',
-++       "\\\n    ",
-++       $name, '_wide',
-++       '(', join(', ', @args), ')',
-++       "\n");
-++  @args = map  {$_->{type} eq 'encoded string'
-++                    ? ("aspell_cast_from_wide_($_->{name})",
-++                       "$_->{name}_size*aspell_cast_(int,sizeof(*($_->{name})))",
-++                       "sizeof(*($_->{name}))")
-++                    : $_->{name}} @d;
-++  return (join '',
-++          "\n",
-++          "/* version of $name that is safe to use with (null terminated) wide characters */\n",
-++          '#define ',
-++          $name, '_w',
-++          '(', join(', ', @parms), ')', 
-++          "\\\n    ",
-++          $name, '_wide',
-++          '(', join(', ', @args), ')',
-++          "\n");
-++}
-++
-++
-+ =item call_func NAME @TYPES PARMS ; %ACCUM
-+ 
-+ Return a string to call a func.  Will prefix the function with return
-+@@ -103,7 +166,6 @@ Parms can be any of:
-+ 
-+ sub call_func ( $ \@ $ ; \% ) {
-+   my ($name, $d, $p, $accum) = @_;
-+-  $accum = {} unless defined $accum;
-+   my @d = @$d;
-+   my $func_ret = to_type_name(shift @d, {%$p,pos=>'return'}, %$accum);
-+   return (join '',
-+@@ -148,8 +210,14 @@ sub to_type_name ( $ $ ; \% ) {
-+   my $name = $t->{name};
-+   my $type = $t->{type};
-+ 
-+-  return ( (to_type_name {%$d, type=>'string'}, $p, %$accum) ,
-+-	   (to_type_name {%$d, type=>'int', name=>"$d->{name}_size"}, $p, %$accum) )
-++  if ($name eq 'encoded string' && $is_cc && $pos eq 'parm') {
-++    my @types = ((to_type_name {%$d, type=>($p->{wide}?'const void pointer':'string')}, $p, %$accum),
-++                 (to_type_name {%$d, type=>'int', name=>"$d->{name}_size"}, $p, %$accum));
-++    push @types, (to_type_name {%$d, type=>'int', name=>"$d->{name}_type_width"}, $p, %$accum) if $p->{wide};
-++    return @types;
-++  }
-++  return ( (to_type_name {%$d, type=>($p->{wide}?'const void pointer':'string')}, $p, %$accum) ,
-++           (to_type_name {%$d, type=>'int', name=>"$d->{name}_size"}, $p, %$accum) )
-+       if $name eq 'encoded string' && $is_cc && $pos eq 'parm';
-+ 
-+   my $str;
-+@@ -174,7 +242,7 @@ sub to_type_name ( $ $ ; \% ) {
-+ 	$str .= "String";
-+       }
-+     } elsif ($name eq 'encoded string') {
-+-      $str .= "const char *";
-++      $str .= $p->{wide} ? "const void *" : "const char *";
-+     } elsif ($name eq '') {
-+       $str .= "void";
-+     } elsif ($name eq 'bool' && $is_cc) {
-+@@ -186,7 +254,7 @@ sub to_type_name ( $ $ ; \% ) {
-+       if ($t->{pointer}) {
-+ 	$accum->{types}->{$name} = $t;
-+       } else {
-+-	$accum->{headers}->{$t->{created_in}} = true;
-++        $accum->{headers}->{$t->{created_in}} = true unless $mode eq 'cc';
-+       }
-+       $str .= "$c_type Aspell" if $mode eq 'cc';
-+       $str .= to_mixed($name);
-+@@ -214,6 +282,7 @@ sub to_type_name ( $ $ ; \% ) {
-+   return $str;
-+ }
-+ 
-++
-+ =item make_desc DESC ; LEVEL
-+ 
-+ Make a C comment out of DESC optionally indenting it LEVEL spaces.
-+@@ -286,6 +355,7 @@ sub form_c_method ($ $ $ ; \% )
-+     } else {
-+       $func = "aspell $class $name";
-+     }
-++    $func .= " wide" if $p->{wide};
-+     if (exists $d->{'const'}) {
-+       splice @data, 1, 0, {type => "const $class", name=> $this_name};
-+     } else {
-+@@ -306,6 +376,21 @@ sub make_c_method ($ $ $ ; \%)
-+   return &make_func(@ret);
-+ }
-+ 
-++sub get_c_func_name ($ $ $)
-++{
-++  my @ret = &form_c_method(@_);
-++  return undef unless @ret > 0;
-++  return to_lower $ret[0];
-++}
-++
-++sub make_wide_macro ($ $ $ ; \%)
-++{
-++  my @ret = &form_c_method(@_);
-++  return undef unless @ret > 0;
-++  my $str = &make_wide_version(@ret);
-++  return $str;
-++}
-++
-+ sub call_c_method ($ $ $ ; \%)
-+ {
-+   my @ret = &form_c_method(@_);
-+diff --git a/auto/MkSrc/Create.pm b/auto/MkSrc/Create.pm
-+index d39b60e..630ede5 100644
-+--- a/auto/MkSrc/Create.pm
-++++ b/auto/MkSrc/Create.pm
-+@@ -77,8 +77,10 @@ sub create_cc_file ( % )  {
-+   $file .= "#include \"aspell.h\"\n" if $p{type} eq 'cxx';
-+   $file .= "#include \"settings.h\"\n" if $p{type} eq 'native_impl' && $p{name} eq 'errors';
-+   $file .= "#include \"gettext.h\"\n" if $p{type} eq 'native_impl' && $p{name} eq 'errors';
-++  $file .= cmap {"#include <$_>\n"} sort keys %{$accum{sys_headers}};
-+   $file .= cmap {"#include \"".to_lower($_).".hpp\"\n"} sort keys %{$accum{headers}};
-+-  $file .= "#ifdef __cplusplus\nextern \"C\" {\n#endif\n" if $p{header} && !$p{cxx};
-++  $file .= "\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n" if $p{header} && !$p{cxx};
-++  $file .= join('', grep {defined $_} @{$accum{prefix}});
-+   $file .= "\nnamespace $p{namespace} {\n\n" if $p{cxx};
-+   if (defined $info{forward}{proc}{$p{type}}) {
-+     my @types = sort {$a->{name} cmp $b->{name}} (values %{$accum{types}});
-+@@ -86,6 +88,7 @@ sub create_cc_file ( % )  {
-+   }
-+   $file .= "\n";
-+   $file .= $body;
-++  $file .= join('', grep {defined $_} @{$accum{suffix}});
-+   $file .= "\n\n}\n\n" if $p{cxx};
-+   $file .= "#ifdef __cplusplus\n}\n#endif\n" if $p{header} && !$p{cxx};
-+   $file .= "#endif /* $hm */\n" if $p{header};
-+diff --git a/auto/MkSrc/Info.pm b/auto/MkSrc/Info.pm
-+index c644028..ace8e21 100644
-+--- a/auto/MkSrc/Info.pm
-++++ b/auto/MkSrc/Info.pm
-+@@ -60,6 +60,7 @@ each proc sub should take the following argv
-+     the object from which it is a member of
-+   no native: do not attempt to create a native implementation
-+   treat as object: treat as a object rather than a pointer
-++  no conv: do not converted an encoded string
-+ 
-+ The %info structure is initialized as follows:
-+ 
-+@@ -104,8 +105,8 @@ The %info structure is initialized as follows:
-+   errors => {}, # possible errors
-+   method => {
-+     # A class method
-+-    options => ['desc', 'posib err', 'c func', 'const',
-+-		'c only', 'c impl', 'cxx impl'],
-++    options => ['desc', 'posib err', 'c func', 'const', 'no conv', 'on conv error',
-++		'c only', 'c impl', 'cxx impl', 'cc extra'],
-+     groups => undef},
-+   constructor => {
-+     # A class constructor
-+diff --git a/auto/MkSrc/ProcCc.pm b/auto/MkSrc/ProcCc.pm
-+index 47c4338..98cc435 100644
-+--- a/auto/MkSrc/ProcCc.pm
-++++ b/auto/MkSrc/ProcCc.pm
-+@@ -23,7 +23,7 @@ use MkSrc::Info;
-+ sub make_c_object ( $ @ );
-+ 
-+ $info{group}{proc}{cc} = sub {
-+-  my ($data) = @_;
-++  my ($data,@rest) = @_;
-+   my $ret;
-+   my $stars = (70 - length $data->{name})/2;
-+   $ret .= "/";
-+@@ -33,14 +33,14 @@ $info{group}{proc}{cc} = sub {
-+   $ret .= "/\n";
-+   foreach my $d (@{$data->{data}}) {
-+     $ret .= "\n\n";
-+-    $ret .= $info{$d->{type}}{proc}{cc}->($d);
-++    $ret .= $info{$d->{type}}{proc}{cc}->($d,@rest);
-+   }
-+   $ret .= "\n\n";
-+   return $ret;
-+ };
-+ 
-+ $info{enum}{proc}{cc} = sub {
-+-  my ($d) = @_;
-++  my ($d,@rest) = @_;
-+   my $n = "Aspell".to_mixed($d->{name});
-+   return ("\n".
-+ 	  make_desc($d->{desc}).
-+@@ -58,21 +58,26 @@ $info{struct}{proc}{cc} = sub {
-+ };
-+ 
-+ $info{union}{proc}{cc} = sub {
-+-  return make_c_object "union", $_[0];
-++  return make_c_object "union", @_;
-+ };
-+ 
-+ $info{class}{proc}{cc} = sub {
-+-  my ($d) = @_;
-++  my ($d,$accum) = @_;
-+   my $class = $d->{name};
-+   my $classname = "Aspell".to_mixed($class);
-+   my $ret = "";
-+   $ret .= "typedef struct $classname $classname;\n\n";
-+   foreach (@{$d->{data}}) {
-+-    my $s = make_c_method($class, $_, {mode=>'cc'});
-++    my $s = make_c_method($class, $_, {mode=>'cc'}, %$accum);
-+     next unless defined $s;
-+     $ret .= "\n";
-+     $ret .= make_desc($_->{desc});
-+-    $ret .= make_c_method($class, $_, {mode=>'cc'}).";\n";
-++    $ret .= make_c_method($class, $_, {mode=>'cc'}, %$accum).";\n";
-++    if (grep {$_->{type} eq 'encoded string'} @{$_->{data}}) {
-++      $ret .= make_c_method($class, $_, {mode=>'cc', wide=>true}, %$accum).";\n";
-++      $ret .= make_wide_macro($class, $_, {mode=>'cc'}, %$accum);
-++    }
-++    $ret .= "\n".$_->{'cc extra'}."\n" if defined $_->{'cc extra'};
-+   }
-+   $ret .= "\n";
-+   return $ret;
-+@@ -105,7 +110,8 @@ $info{errors}{proc}{cc} = sub {
-+ };
-+ 
-+ sub make_c_object ( $ @ ) {
-+-  my ($t, $d) = @_;
-++  my ($t, $d, $accum) = @_;
-++  $accum = {} unless defined $accum;
-+   my $struct;
-+   $struct .= "Aspell";
-+   $struct .= to_mixed($d->{name});
-+@@ -120,7 +126,7 @@ sub make_c_object ( $ @ ) {
-+ 		"\n};\n"),
-+ 	  "typedef $t $struct $struct;",
-+ 	  join ("\n",
-+-		map {make_c_method($d->{name}, $_, {mode=>'cc'}).";"}
-++		map {make_c_method($d->{name}, $_, {mode=>'cc'}, %$accum).";"}
-+ 		grep {$_->{type} eq 'method'}
-+ 		@{$d->{data}})
-+ 	  )."\n";
-+diff --git a/auto/MkSrc/ProcImpl.pm b/auto/MkSrc/ProcImpl.pm
-+index b8628fd..3d0f220 100644
-+--- a/auto/MkSrc/ProcImpl.pm
-++++ b/auto/MkSrc/ProcImpl.pm
-+@@ -45,10 +45,13 @@ $info{class}{proc}{impl} = sub {
-+   foreach (grep {$_ ne ''} split /\s*,\s*/, $data->{'c impl headers'}) {
-+     $accum->{headers}{$_} = true;
-+   }
-+-  foreach my $d (@{$data->{data}}) {
-++  my @d = @{$data->{data}};
-++  while (@d) {
-++    my $d = shift @d;
-++    my $need_wide = false;
-+     next unless one_of $d->{type}, qw(method constructor destructor);
-+     my @parms = @{$d->{data}} if exists $d->{data};
-+-    my $m = make_c_method $data->{name}, $d, {mode=>'cc_cxx', use_name=>true}, %$accum;
-++    my $m = make_c_method $data->{name}, $d, {mode=>'cc_cxx', use_name=>true, wide=>$d->{wide}}, %$accum;
-+     next unless defined $m;
-+     $ret .= "extern \"C\" $m\n";
-+     $ret .= "{\n";
-+@@ -57,24 +60,49 @@ $info{class}{proc}{impl} = sub {
-+     } else {
-+       if ($d->{type} eq 'method') {
-+ 	my $ret_type = shift @parms;
-+-	my $ret_native = to_type_name $ret_type, {mode=>'native_no_err', pos=>'return'}, %$accum;
-++	my $ret_native = to_type_name $ret_type, {mode=>'native_no_err', pos=>'return', wide=>$d->{wide}}, %$accum;
-+ 	my $snum = 0;
-++        my $call_fun = $d->{name};
-++        my @call_parms;
-+ 	foreach (@parms) {
-+ 	  my $n = to_lower($_->{name});
-+-	  if ($_->{type} eq 'encoded string') {
-+-	    $accum->{headers}{'mutable string'} = true;
-+-	    $accum->{headers}{'convert'} = true;
-+-	    $ret .= "  ths->temp_str_$snum.clear();\n";
-+-	    $ret .= "  ths->to_internal_->convert($n, ${n}_size, ths->temp_str_$snum);\n";
-+-	    $ret .= "  unsigned int s$snum = ths->temp_str_$snum.size();\n";
-+-	    $_ = "MutableString(ths->temp_str_$snum.mstr(), s$snum)";
-+-	    $snum++;
-++	  if ($_->{type} eq 'encoded string' && !exists($d->{'no conv'})) {
-++            $need_wide = true unless $d->{wide};
-++            die unless exists $d->{'posib err'};
-++            $accum->{headers}{'mutable string'} = true;
-++            $accum->{headers}{'convert'} = true;
-++            my $name = get_c_func_name $data->{name}, $d, {mode=>'cc_cxx', use_name=>true, wide=>$d->{wide}};
-++            $ret .= "  ths->temp_str_$snum.clear();\n";
-++            if ($d->{wide}) {
-++              $ret .= "  ${n}_size = get_correct_size(\"$name\", ths->to_internal_->in_type_width(), ${n}_size, ${n}_type_width);\n";
-++            } else {
-++              $ret .= "  PosibErr<int> ${n}_fixed_size = get_correct_size(\"$name\", ths->to_internal_->in_type_width(), ${n}_size);\n";
-++              if (exists($d->{'on conv error'})) {
-++                $ret .= "  if (${n}_fixed_size.get_err()) {\n";
-++                $ret .= "    ".$d->{'on conv error'}."\n";
-++                $ret .= "  } else {\n";
-++                $ret .= "    ${n}_size = ${n}_fixed_size;\n";
-++                $ret .= "  }\n";
-++              } else {
-++                $ret .= "  ths->err_.reset(${n}_fixed_size.release_err());\n";
-++                $ret .= "  if (ths->err_ != 0) return ".(c_error_cond $ret_type).";\n";
-++              }
-++            }
-++            $ret .= "  ths->to_internal_->convert($n, ${n}_size, ths->temp_str_$snum);\n";
-++            $ret .= "  unsigned int s$snum = ths->temp_str_$snum.size();\n";
-++            push @call_parms, "MutableString(ths->temp_str_$snum.mstr(), s$snum)";
-++            $snum++;
-++          } elsif ($_->{type} eq 'encoded string') {
-++            $need_wide = true unless $d->{wide};
-++            push @call_parms, $n, "${n}_size";
-++            push @call_parms, "${n}_type_width" if $d->{wide};
-++            $call_fun .= " wide" if $d->{wide};
-+ 	  } else {
-+-	    $_ = $n;
-++	    push @call_parms, $n;
-+ 	  }
-+ 	}
-+-	my $parms = '('.(join ', ', @parms).')';
-+-	my $exp = "ths->".to_lower($d->{name})."$parms";
-++	my $parms = '('.(join ', ', @call_parms).')';
-++	my $exp = "ths->".to_lower($call_fun)."$parms";
-+ 	if (exists $d->{'posib err'}) {
-+ 	  $accum->{headers}{'posib err'} = true;
-+ 	  $ret .= "  PosibErr<$ret_native> ret = $exp;\n";
-+@@ -118,6 +146,7 @@ $info{class}{proc}{impl} = sub {
-+       }
-+     }
-+     $ret .= "}\n\n";
-++    unshift @d,{%$d, wide=>true} if $need_wide;
-+   }
-+   return $ret;
-+ };
-+diff --git a/auto/MkSrc/Read.pm b/auto/MkSrc/Read.pm
-+index 4b3d1d0..4bf640e 100644
-+--- a/auto/MkSrc/Read.pm
-++++ b/auto/MkSrc/Read.pm
-+@@ -88,13 +88,13 @@ sub advance ( ) {
-+     $in_pod = $1 if $line =~ /^\=(\w+)/;
-+     $line = '' if $in_pod;
-+     $in_pod = undef if $in_pod && $in_pod eq 'cut';
-+-    $line =~ s/\#.*$//;
-++    $line =~ s/(?<!\\)\#.*$//;
-+     $line =~ s/^(\t*)//;
-+     $level = $base_level + length($1);
-+       $line =~ s/\s*$//;
-+     ++$base_level if $line =~ s/^\{$//;
-+     --$base_level if $line =~ s/^\}$//;
-+-    $line =~ s/\\([{}])/$1/g;
-++    $line =~ s/\\([{}#\\])/$1/g;
-+   } while ($line eq '');
-+   #print "$level:$line\n";
-+ }
-+diff --git a/auto/mk-src.in b/auto/mk-src.in
-+index 0e7833a..eb3353f 100644
-+--- a/auto/mk-src.in
-++++ b/auto/mk-src.in
-+@@ -608,6 +608,7 @@ errors:
-+ 		invalid expression
-+ 			mesg => "%expression" is not a valid regular expression.
-+ 			parms => expression
-++
-+ }
-+ group: speller
-+ {
-+@@ -650,6 +651,7 @@ class: speller
-+ 		posib err
-+ 		desc => Returns 0 if it is not in the dictionary,
-+ 			1 if it is, or -1 on error.
-++		on conv error => return 0;
-+ 		/
-+ 		bool
-+ 		encoded string: word
-+@@ -715,6 +717,8 @@ class: speller
-+ 		desc => Return NULL on error.
-+ 			The word list returned by suggest is only
-+ 			valid until the next call to suggest.
-++		on conv error =>
-++			word = NULL; word_size = 0;
-+ 		/
-+ 		const word list
-+ 		encoded string: word
-+@@ -840,7 +844,6 @@ class: document checker
-+ 		void
-+ 
-+ 	method: process
-+-
-+ 		desc => Process a string.
-+ 			The string passed in should only be split on
-+ 			white space characters.  Furthermore, between
-+@@ -849,10 +852,10 @@ class: document checker
-+ 			in the document.  Passing in strings out of
-+ 			order, skipping strings or passing them in
-+ 			more than once may lead to undefined results.
-++		no conv
-+ 		/
-+ 		void
-+-		string: str
-+-		int: size
-++		encoded string: str
-+ 
-+ 	method: next misspelling
-+ 
-+@@ -860,9 +863,23 @@ class: document checker
-+ 			processed string.  If there are no more
-+ 			misspelled words, then token.word will be
-+ 			NULL and token.size will be 0
-++		cc extra =>
-++			\#define aspell_document_checker_next_misspelling_w(type, ths) \\
-++			    aspell_document_checker_next_misspelling_adj(ths, sizeof(type))
-+ 		/
-+ 		token object
-+ 
-++	method: next misspelling adj
-++		desc => internal: do not use
-++		c impl =>
-++			Token res = ths->next_misspelling();
-++			res.offset /= type_width;
-++			res.len /= type_width;
-++			return res;
-++		/
-++		token object
-++		int: type_width
-++
-+ 	method: filter
-+ 
-+ 		desc => Returns the underlying filter class.
-+@@ -922,9 +939,30 @@ class: string enumeration
-+ 			  ths->from_internal_->append_null(ths->temp_str);
-+ 			  return ths->temp_str.data();
-+ 			\}
-++		cc extra =>
-++			\#define aspell_string_enumeration_next_w(type, ths) \\
-++			    aspell_cast_(const type *, aspell_string_enumeration_next_wide(ths, sizeof(type)))
-+ 		/
-+ 		const string
-+ 
-++	method: next wide
-++		c impl =>
-++			const char * s = ths->next();
-++			if (s == 0) {
-++			  return s;
-++			} else if (ths->from_internal_ == 0) \{
-++			  assert(type_width == 1);
-++			  return s;
-++			\} else \{
-++			  assert(type_width == ths->from_internal_->out_type_width());
-++			  ths->temp_str.clear();
-++			  ths->from_internal_->convert(s,-1,ths->temp_str);
-++			  ths->from_internal_->append_null(ths->temp_str);
-++			  return ths->temp_str.data();
-++			\}
-++		/
-++		const void pointer
-++		int: type_width
-+ }
-+ group: info
-+ {
-+diff --git a/common/convert.cpp b/common/convert.cpp
-+index 1add95a..7ae0317 100644
-+--- a/common/convert.cpp
-++++ b/common/convert.cpp
-+@@ -541,18 +541,25 @@ namespace acommon {
-+   // Trivial Conversion
-+   //
-+ 
-++  const char * unsupported_null_term_wide_string_msg =
-++    "Null-terminated wide-character strings unsupported when used this way.";
-++
-+   template <typename Chr>
-+   struct DecodeDirect : public Decode 
-+   {
-++    DecodeDirect() {type_width = sizeof(Chr);}
-+     void decode(const char * in0, int size, FilterCharVector & out) const {
-+       const Chr * in = reinterpret_cast<const Chr *>(in0);
-+-      if (size == -1) {
-++      if (size == -sizeof(Chr)) {
-+         for (;*in; ++in)
-+-          out.append(*in);
-++          out.append(*in, sizeof(Chr));
-++      } else if (size <= -1) {
-++        fprintf(stderr, "%s\n", unsupported_null_term_wide_string_msg);
-++        abort();
-+       } else {
-+-        const Chr * stop = reinterpret_cast<const Chr *>(in0 +size);
-++        const Chr * stop = reinterpret_cast<const Chr *>(in0) + size/sizeof(Chr);
-+         for (;in != stop; ++in)
-+-          out.append(*in);
-++          out.append(*in, sizeof(Chr));
-+       }
-+     }
-+     PosibErr<void> decode_ec(const char * in0, int size, 
-+@@ -565,6 +572,7 @@ namespace acommon {
-+   template <typename Chr>
-+   struct EncodeDirect : public Encode
-+   {
-++    EncodeDirect() {type_width = sizeof(Chr);}
-+     void encode(const FilterChar * in, const FilterChar * stop, 
-+                 CharVector & out) const {
-+       for (; in != stop; ++in) {
-+@@ -594,11 +602,15 @@ namespace acommon {
-+   template <typename Chr>
-+   struct ConvDirect : public DirectConv
-+   {
-++    ConvDirect() {type_width = sizeof(Chr);}
-+     void convert(const char * in0, int size, CharVector & out) const {
-+-      if (size == -1) {
-++      if (size == -sizeof(Chr)) {
-+         const Chr * in = reinterpret_cast<const Chr *>(in0);
-+         for (;*in != 0; ++in)
-+           out.append(in, sizeof(Chr));
-++      } else if (size <= -1) {
-++        fprintf(stderr, "%s\n", unsupported_null_term_wide_string_msg);
-++        abort();
-+       } else {
-+         out.append(in0, size);
-+       }
-+@@ -1121,5 +1133,20 @@ namespace acommon {
-+     }
-+     return 0;
-+   }
-+-  
-++
-++  PosibErr<void> unsupported_null_term_wide_string_err_(const char * func) {
-++    static bool reported_to_stderr = false;
-++    PosibErr<void> err = make_err(other_error, unsupported_null_term_wide_string_msg);
-++    if (!reported_to_stderr) {
-++      CERR.printf("ERROR: %s: %s\n", func, unsupported_null_term_wide_string_msg);
-++      reported_to_stderr = true;
-++    }
-++    return err;
-++  }
-++
-++  void unsupported_null_term_wide_string_abort_(const char * func) {
-++    CERR.printf("%s: %s\n", unsupported_null_term_wide_string_msg);
-++    abort();
-++  }
-++ 
-+ }
-+diff --git a/common/convert.hpp b/common/convert.hpp
-+index 76332ee..c948973 100644
-+--- a/common/convert.hpp
-++++ b/common/convert.hpp
-+@@ -7,6 +7,8 @@
-+ #ifndef ASPELL_CONVERT__HPP
-+ #define ASPELL_CONVERT__HPP
-+ 
-++#include "settings.h"
-++
-+ #include "string.hpp"
-+ #include "posib_err.hpp"
-+ #include "char_vector.hpp"
-+@@ -25,8 +27,9 @@ namespace acommon {
-+     typedef const Config CacheConfig;
-+     typedef const char * CacheKey;
-+     String key;
-++    int type_width; // type width in bytes
-+     bool cache_key_eq(const char * l) const  {return key == l;}
-+-    ConvBase() {}
-++    ConvBase() : type_width(1) {}
-+   private:
-+     ConvBase(const ConvBase &);
-+     void operator=(const ConvBase &);
-+@@ -56,6 +59,8 @@ namespace acommon {
-+     virtual ~Encode() {}
-+   };
-+   struct DirectConv { // convert directly from in_code to out_code.
-++    int type_width; // type width in bytes
-++    DirectConv() : type_width(1) {}
-+     // should not take ownership of decode and encode.
-+     // decode and encode guaranteed to stick around for the life
-+     // of the object.
-+@@ -126,6 +131,9 @@ namespace acommon {
-+     const char * in_code() const   {return decode_->key.c_str();}
-+     const char * out_code() const  {return encode_->key.c_str();}
-+ 
-++    int in_type_width() const {return decode_->type_width;}
-++    int out_type_width() const {return encode_->type_width;}
-++
-+     void append_null(CharVector & out) const
-+     {
-+       const char nul[4] = {0,0,0,0}; // 4 should be enough
-+@@ -191,6 +199,10 @@ namespace acommon {
-+       }
-+     }
-+ 
-++    void convert(const void * in, int size, CharVector & out) {
-++      convert(static_cast<const char *>(in), size, out);
-++    }
-++
-+     void generic_convert(const char * in, int size, CharVector & out);
-+     
-+   };
-+@@ -412,6 +424,30 @@ namespace acommon {
-+       return operator()(str, str + byte_size);}
-+   };
-+ 
-++#ifdef SLOPPY_NULL_TERM_STRINGS
-++  static const bool sloppy_null_term_strings = true;
-++#else
-++  static const bool sloppy_null_term_strings = false;
-++#endif
-++  
-++  PosibErr<void> unsupported_null_term_wide_string_err_(const char * func);
-++  void unsupported_null_term_wide_string_abort_(const char * func);
-++    
-++  static inline PosibErr<int> get_correct_size(const char * func, int conv_type_width, int size) {
-++    if (sloppy_null_term_strings && size <= -1)
-++      return -conv_type_width;
-++    if (size <= -1 && -conv_type_width != size)
-++      return unsupported_null_term_wide_string_err_(func);
-++    return size;
-++  }
-++  static inline int get_correct_size(const char * func, int conv_type_width, int size, int type_width) {
-++    if ((sloppy_null_term_strings || type_width <= -1) && size <= -1)
-++      return -conv_type_width;
-++    if (size <= -1 && conv_type_width != type_width)
-++      unsupported_null_term_wide_string_abort_(func);
-++    return size;
-++  }
-++
-+ }
-+ 
-+ #endif
-+diff --git a/common/document_checker.cpp b/common/document_checker.cpp
-+index 5e510c4..0ccf1cd 100644
-+--- a/common/document_checker.cpp
-++++ b/common/document_checker.cpp
-+@@ -44,7 +44,9 @@ namespace acommon {
-+   void DocumentChecker::process(const char * str, int size)
-+   {
-+     proc_str_.clear();
-+-    conv_->decode(str, size, proc_str_);
-++    PosibErr<int> fixed_size = get_correct_size("aspell_document_checker_process", conv_->in_type_width(), size);
-++    if (!fixed_size.has_err())
-++      conv_->decode(str, fixed_size, proc_str_);
-+     proc_str_.append(0);
-+     FilterChar * begin = proc_str_.pbegin();
-+     FilterChar * end   = proc_str_.pend() - 1;
-+@@ -53,6 +55,19 @@ namespace acommon {
-+     tokenizer_->reset(begin, end);
-+   }
-+ 
-++  void DocumentChecker::process_wide(const void * str, int size, int type_width)
-++  {
-++    proc_str_.clear();
-++    int fixed_size = get_correct_size("aspell_document_checker_process", conv_->in_type_width(), size, type_width);
-++    conv_->decode(static_cast<const char *>(str), fixed_size, proc_str_);
-++    proc_str_.append(0);
-++    FilterChar * begin = proc_str_.pbegin();
-++    FilterChar * end   = proc_str_.pend() - 1;
-++    if (filter_)
-++      filter_->process(begin, end);
-++    tokenizer_->reset(begin, end);
-++  }
-++  
-+   Token DocumentChecker::next_misspelling()
-+   {
-+     bool correct;
-+diff --git a/common/document_checker.hpp b/common/document_checker.hpp
-+index d35bb88..11a3c73 100644
-+--- a/common/document_checker.hpp
-++++ b/common/document_checker.hpp
-+@@ -36,6 +36,7 @@ namespace acommon {
-+     PosibErr<void> setup(Tokenizer *, Speller *, Filter *);
-+     void reset();
-+     void process(const char * str, int size);
-++    void process_wide(const void * str, int size, int type_width);
-+     Token next_misspelling();
-+     
-+     Filter * filter() {return filter_;}
-+diff --git a/common/version.cpp b/common/version.cpp
-+index 414d938..9e60b75 100644
-+--- a/common/version.cpp
-++++ b/common/version.cpp
-+@@ -1,8 +1,17 @@
-+ #include "settings.h"
-+ 
-+-extern "C" const char * aspell_version_string() {
-+ #ifdef NDEBUG
-+-  return VERSION " NDEBUG";
-++#  define NDEBUG_STR " NDEBUG"
-++#else
-++#  define NDEBUG_STR
-++#endif
-++
-++#ifdef SLOPPY_NULL_TERM_STRINGS
-++#  define SLOPPY_STR " SLOPPY"
-++#else
-++#  define SLOPPY_STR
-+ #endif
-+-  return VERSION;
-++
-++extern "C" const char * aspell_version_string() {
-++  return VERSION NDEBUG_STR SLOPPY_STR;
-+ }
-+diff --git a/configure.ac b/configure.ac
-+index 60e3b39..a5d51e3 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -73,6 +73,9 @@ AC_ARG_ENABLE(filter-version-control,
-+ AC_ARG_ENABLE(32-bit-hash-fun,
-+   AS_HELP_STRING([--enable-32-bit-hash-fun],[use 32-bit hash function for compiled dictionaries]))
-+ 
-++AC_ARG_ENABLE(sloppy-null-term-strings,
-++  AS_HELP_STRING([--enable-sloppy-null-term-strings],[allows allow null terminated UCS-2 and UCS-4 strings]))
-++
-+ AC_ARG_ENABLE(pspell-compatibility,
-+   AS_HELP_STRING([--disable-pspell-compatibility],[don't install pspell compatibility libraries]))
-+ 
-+@@ -141,6 +144,11 @@ then
-+   AC_DEFINE(USE_32_BIT_HASH_FUN, 1, [Defined if 32-bit hash function should be used for compiled dictionaries.])
-+ fi
-+ 
-++if test "$enable_sloppy_null_term_strings" = "yes"
-++then
-++  AC_DEFINE(SLOPPY_NULL_TERM_STRINGS, 1, [Defined if null-terminated UCS-2 and UCS-4 strings should always be allowed.])
-++fi
-++
-+ AM_CONDITIONAL(PSPELL_COMPATIBILITY,  
-+   [test "$enable_pspell_compatibility" != "no"])
-+ AM_CONDITIONAL(INCREMENTED_SONAME,    
-+diff --git a/manual/aspell.texi b/manual/aspell.texi
-+index 45fa091..f400e06 100644
-+--- a/manual/aspell.texi
-++++ b/manual/aspell.texi
-+@@ -158,7 +158,8 @@ Installing
-+ 
-+ * Generic Install Instructions::  
-+ * HTML Manuals and "make clean"::  
-+-* Curses Notes::                
-++* Curses Notes::
-++* Upgrading from Aspell 0.60.7::
-+ * Loadable Filter Notes::       
-+ * Upgrading from Aspell 0.50::  
-+ * Upgrading from Aspell .33/Pspell .12::  
-+@@ -2206,18 +2207,26 @@ int correct = aspell_speller_check(spell_checker, @var{word}, @var{size});
-+ @end smallexample
-+ 
-+ @noindent
-+-@var{word} is expected to be a @code{const char *} character
-+-string.  If the encoding is set to be @code{ucs-2} or
-+-@code{ucs-4} @var{word} is expected to be a cast
-+-from either @code{const u16int *} or @code{const u32int *}
-+-respectively.  @code{u16int} and @code{u32int} are generally
-+-@code{unsigned short} and @code{unsigned int} respectively.
-+-@var{size} is the length of the string or @code{-1} if the string
-+-is null terminated.  If the string is a cast from @code{const u16int
-+-*} or @code{const u32int *} then @code{@i{size}} is the amount of
-+-space in bytes the string takes up after being cast to @code{const
-+-char *} and not the true size of the string.  @code{sspell_speller_check}
-+-will return @code{0} if it is not found and non-zero otherwise.
-++@var{word} is expected to be a @code{const char *} character string.
-++@var{size} is the length of the string or @code{-1} if the string is
-++null terminated.  @code{aspell_speller_check} will return @code{0} if it is not found
-++and non-zero otherwise.
-++
-++If you are using the @code{ucs-2} or @code{ucs-4} encoding then the
-++string is expected to be either a 2 or 4 byte wide integer
-++(respectively) and the @code{_w} macro vesion should be used:
-++
-++@smallexample
-++int correct = aspell_speller_check_w(spell_checker, @var{word}, @var{size});
-++@end smallexample
-++
-++The macro will cast the string to to the correct type and convert
-++@var{size} into bytes for you and then a call the special wide version of the
-++function that will make sure the encoding is correct for the type
-++passed in.  For compatibility with older versions of Aspell the normal
-++non-wide functions can still be used provided that the size of the
-++string, in bytes, is also passed in.  Null terminated @code{ucs-2} or
-++@code{ucs-4} are no longer supported when using the non-wide functions.
-+ 
-+ If the word is not correct, then the @code{suggest} method can be used
-+ to come up with likely replacements.
-+@@ -2236,7 +2245,28 @@ delete_aspell_string_enumeration(elements);
-+ 
-+ Notice how @code{elements} is deleted but @code{suggestions} is not.
-+ The value returned by @code{suggestions} is only valid to the next
-+-call to @code{suggest}.  Once a replacement is made the
-++call to @code{suggest}.
-++
-++If you are using the @code{ucs-2} or @code{ucs-4} encoding then, in
-++addition to using the @code{_w} macro for the @code{suggest} method, you
-++should also use the @code{_w} macro with the @code{next} method which
-++will cast the string to the correct type for you.  For example, if you
-++are using the @code{ucs-2} encoding and the string is a @code{const
-++uint16_t *} then you should use:
-++
-++@smallexample
-++AspellWordList * suggestions = aspell_speller_suggest_w(spell_checker,
-++                                                        @var{word}, @var{size});
-++AspellStringEnumeration * elements = aspell_word_list_elements(suggestions);
-++const uint16_t * word;
-++while ( (word = aspell_string_enumeration_next_w(uint16_t, aspell_elements)) != NULL )
-++@{
-++  // add to suggestion list
-++@}
-++delete_aspell_string_enumeration(elements);
-++@end smallexample
-++
-++Once a replacement is made the
-+ @code{store_repl} method should be used to communicate the replacement
-+ pair back to the spell checker (for the reason, @pxref{Notes on
-+ Storing Replacement Pairs}).  Its usage is as follows:
-+diff --git a/manual/readme.texi b/manual/readme.texi
-+index 669ab8e..531721f 100644
-+--- a/manual/readme.texi
-++++ b/manual/readme.texi
-+@@ -15,15 +15,16 @@ The latest version can always be found at GNU Aspell's home page at
-+ @uref{http://aspell.net}.
-+ 
-+ @menu
-+-* Generic Install Instructions::  
-+-* HTML Manuals and "make clean"::  
-+-* Curses Notes::                
-+-* Loadable Filter Notes::       
-+-* Using 32-Bit Dictionaries on a 64-Bit System::  
-+-* Upgrading from Aspell 0.50::  
-+-* Upgrading from Aspell .33/Pspell .12::  
-+-* Upgrading from a Pre-0.50 snapshot::  
-+-* WIN32 Notes::                 
-++* Generic Install Instructions::
-++* HTML Manuals and "make clean"::
-++* Curses Notes::
-++* Upgrading from Aspell 0.60.7::
-++* Loadable Filter Notes::
-++* Using 32-Bit Dictionaries on a 64-Bit System::
-++* Upgrading from Aspell 0.50::
-++* Upgrading from Aspell .33/Pspell .12::
-++* Upgrading from a Pre-0.50 snapshot::
-++* WIN32 Notes::
-+ @end menu
-+ 
-+ @node Generic Install Instructions
-+@@ -121,17 +122,62 @@ In addition your system must also support the @code{mblen} function.
-+ Although this function was defined in the ISO C89 standard (ANSI
-+ X3.159-1989), not all systems have it.
-+ 
-++@node Upgrading from Aspell 0.60.7
-++@appendixsec Upgrading from Aspell 0.60.7
-++
-++To prevent a potentially unbounded buffer over-read, Aspell no longer
-++supports null-terminated UCS-2 and UCS-4 encoded strings with the
-++original C API.  Null-termianted 8-bit or UTF-8 encoded strings are
-++still supported, as are UCS-2 and UCS-4 encoded strings when the
-++length is passed in.
-++
-++As of Aspell 0.60.8 a function from the original API that expects an
-++encoded string as a parameter will return meaningless results (or an
-++error code) if string is null terminated and the encoding is set to
-++@code{ucs-2} or @code{ucs-4}.  In addition, a single:
-++@example
-++ERROR: aspell_speller_check: Null-terminated wide-character strings unsupported when used this way.
-++@end example
-++will be printed to standard error the first time one of those
-++functions is called.
-++
-++Application that use null-terminated UCS-2/4 strings should either (1)
-++use the interface intended for working with wide-characters
-++(@xref{Through the C API}); or (2) define
-++@code{ASPELL_ENCODE_SETTING_SECURE} before including @code{aspell.h}.
-++In the latter case is is important that the application explicitly
-++sets the encoding to a known value.  Defining
-++@code{ASPELL_ENCODE_SETTING_SECURE} and not setting the encoding
-++explicitly or allowing user of the application to set the encoding
-++could result in an unbounded buffer over-read.
-++
-++If it is necessary to preserve binary compatibility with older
-++versions of Aspell, the easiest thing would be to determine the length
-++of the UCS-2/4 string---in bytes---and pass that in.  Due to an
-++implemenation detail, existing API functions can be made to work with
-++null-terminated UCS-2/4 strings safely by passing in either @code{-2}
-++or @code{-4} (corresponding to the width of the character type) as the
-++size.  Doing so, however, will cause a buffer over-read for unpatched
-++version of Aspell.  To avoid this it will be necessary to parse the
-++version string to determine the correct value to use.  However, no
-++official support will be provided for the latter method.
-++
-++If the application can not be recompiled, then Aspell can be configured
-++to preserve the old behavior by passing
-++@option{--enable-sloppy-null-term-strings} to @command{configure}.  When Aspell
-++is compiled this way the version string will include the string
-++@samp{ SLOPPY}.
-++
-+ @node Loadable Filter Notes
-+ @appendixsec Loadable Filter Notes
-+-
-++             
-+ Support for being able to load additional filter modules at run-time
-+ has only been verified to work on Linux platforms.  If you get linker
-+ errors when trying to use a filter, then it is likely that loadable
-+ filter support is not working yet on your platform.  Thus, in order to
-+ get Aspell to work correctly you will need to avoid compiling the
-+ filters as individual modules by using the
-+-@option{--enable-compile-in-filters} when configuring Aspell with
-+-@command{./configure}.
-++@option{--enable-compile-in-filters} @command{configure} option.
-+ 
-+ @node Using 32-Bit Dictionaries on a 64-Bit System
-+ @appendixsec Using 32-Bit Dictionaries on a 64-Bit System
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch
-new file mode 100644
-index 0000000000..9569ddeebe
---- /dev/null
-+++ b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch
-@@ -0,0 +1,68 @@
-+From cefd447e5528b08bb0cd6656bc52b4255692cefc Mon Sep 17 00:00:00 2001
-+From: Kevin Atkinson <kevina@gnu.org>
-+Date: Sat, 17 Aug 2019 20:25:21 -0400
-+Subject: [PATCH 2/2] Increment library version to reflect API changes.
-+
-+CVE: CVE-2019-20433
-+Upstream-Status: Backport [https://github.com/GNUAspell/aspell/commit/cefd447e5528b08bb0cd6656bc52b4255692cefc]
-+
-+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
-+---
-+ Makefile.am | 31 +++++++++++++++++--------------
-+ 1 file changed, 17 insertions(+), 14 deletions(-)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index 7e15851..19dc044 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -94,18 +94,25 @@ libaspell_la_SOURCES =\
-+ 
-+ libaspell_la_LIBADD =  $(LTLIBINTL) $(PTHREAD_LIB)
-+ 
-+-## Libtool to so name
-+-## C:R:A => (C-A).(A).(R)
-+-## 16:5:0 => 16.0.5
-+-## 16:5:1 => 15.1.5
-+-## 18:0:2 => 16.2.0 
-+-## 17:0:2 => 15.2.0
-+-
-++## The version string is current[:revision[:age]]
-++##
-++## Before a release that has changed the source code at all
-++## increment revision.
-++##
-++## After merging changes that have changed the API in a backwards
-++## comptable way set revision to 0 and bump both current and age.
-++##
-++## Do not change the API in a backwards incompatible way.
-++##
-++## See "Libtool: Updating version info"
-++## (https://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html)
-++## for more into
-++##
-+ if INCREMENTED_SONAME
-+-libaspell_la_LDFLAGS = -version-info 18:0:2 -no-undefined
-++libaspell_la_LDFLAGS = -version-info 19:0:3 -no-undefined
-+ else
-+ ## Use C-1:R:A 
-+-libaspell_la_LDFLAGS = -version-info 17:0:2 -no-undefined
-++libaspell_la_LDFLAGS = -version-info 18:0:3 -no-undefined
-+ endif
-+ 
-+ if PSPELL_COMPATIBILITY
-+@@ -113,11 +120,7 @@ libpspell_la_SOURCES = lib/dummy.cpp
-+ 
-+ libpspell_la_LIBADD = libaspell.la
-+ 
-+-if INCREMENTED_SONAME
-+-libpspell_la_LDFLAGS = -version-info 18:0:2 -no-undefined
-+-else
-+-libpspell_la_LDFLAGS = -version-info 17:0:2 -no-undefined
-+-endif
-++libpspell_la_LDFLAGS = $(libaspell_la_LDFLAGS)
-+ 
-+ endif
-+ 
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/aspell/aspell_0.60.7.bb b/meta/recipes-support/aspell/aspell_0.60.7.bb
-index b565cb3c6e..1e104c263c 100644
---- a/meta/recipes-support/aspell/aspell_0.60.7.bb
-+++ b/meta/recipes-support/aspell/aspell_0.60.7.bb
-@@ -8,6 +8,8 @@ PR = "r1"
- 
- SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz \
-            file://0001-Fix-various-bugs-found-by-OSS-Fuze.patch \
-+           file://CVE-2019-20433-0001.patch \
-+           file://CVE-2019-20433-0002.patch \
-           "
- SRC_URI[md5sum] = "8ef2252609c511cd2bb26f3a3932ef28"
- SRC_URI[sha256sum] = "5ca8fc8cb0370cc6c9eb5b64c6d1bc5d57b3750dbf17887726c3407d833b70e4"
--- 
-2.17.1
-
+SXQgbG9va3MgbGlrZSB0aGlzIGlzIGNoYW5naW5nIHRoZSBBUEkuIEkgd29uZGVyIGlmIHRoaXMg
+d291bGQgbmVlZCBhbnkNCm90aGVyIGNoYW5nZSBvciBicmVhayBzb21ldGhpbmcgZWxzZXdoZXJl
+IGluIE9FLWNvcmUsIG1ldGEtb2U/DQoNCmh0dHA6Ly9hc3BlbGwubmV0L2J1ZmZlci1vdmVycmVh
+ZC11Y3MudHh0DQoNClRoYW5rcywNCg0KQW51ag0KDQpPbiBUaHUsIDIwMjAtMDMtMTIgYXQgMTE6
+MjMgKzAyMDAsIFN0ZWZhbiBHaGluZWEgd3JvdGU6DQo+IGxpYmFzcGVsbC5hIGluIEdOVSBBc3Bl
+bGwgYmVmb3JlIDAuNjAuOCBoYXMgYSBidWZmZXIgb3Zlci1yZWFkIGZvciBhDQo+IHN0cmluZw0K
+PiBlbmRpbmcgd2l0aCBhIHNpbmdsZSAnXDAnIGJ5dGUsIGlmIHRoZSBlbmNvZGluZyBpcyBzZXQg
+dG8gdWNzLTIgb3INCj4gdWNzLTQNCj4gb3V0c2lkZSBvZiB0aGUgYXBwbGljYXRpb24sIGFzIGRl
+bW9uc3RyYXRlZCBieSB0aGUgQVNQRUxMX0NPTkYNCj4gZW52aXJvbm1lbnQNCj4gdmFyaWFibGUu
+DQo+IA0KPiBSZWZlcmVuY2VzOg0KPiBodHRwczovL252ZC5uaXN0Lmdvdi92dWxuL2RldGFpbC9D
+VkUtMjAxOS0yMDQzMw0KPiANCj4gVXBzdHJlYW0gcGF0Y2hlczoNCj4gaHR0cHM6Ly9naXRodWIu
+Y29tL0dOVUFzcGVsbC9hc3BlbGwvY29tbWl0L2RlMjkzNDE2Mzg4MzNiYTc3MTdiZDZiNWU2ODUw
+OTk4NDU0YjA0NGINCj4gaHR0cHM6Ly9naXRodWIuY29tL0dOVUFzcGVsbC9hc3BlbGwvY29tbWl0
+L2NlZmQ0NDdlNTUyOGIwOGJiMGNkNjY1NmJjNTJiNDI1NTY5MmNlZmMNCj4gDQo+IFNpZ25lZC1v
+ZmYtYnk6IFN0ZWZhbiBHaGluZWEgPHN0ZWZhbi5naGluZWFAd2luZHJpdmVyLmNvbT4NCj4gLS0t
+DQo+ICAuLi4vYXNwZWxsL2FzcGVsbC9DVkUtMjAxOS0yMDQzMy0wMDAxLnBhdGNoICAgfCA5OTkN
+Cj4gKysrKysrKysrKysrKysrKysrDQo+ICAuLi4vYXNwZWxsL2FzcGVsbC9DVkUtMjAxOS0yMDQz
+My0wMDAyLnBhdGNoICAgfCAgNjggKysNCj4gIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2FzcGVsbC9h
+c3BlbGxfMC42MC43LmJiICB8ICAgMiArDQo+ICAzIGZpbGVzIGNoYW5nZWQsIDEwNjkgaW5zZXJ0
+aW9ucygrKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2FzcGVs
+bC9hc3BlbGwvQ1ZFLTIwMTktDQo+IDIwNDMzLTAwMDEucGF0Y2gNCj4gIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9hc3BlbGwvYXNwZWxsL0NWRS0yMDE5LQ0KPiAyMDQz
+My0wMDAyLnBhdGNoDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXNw
+ZWxsL2FzcGVsbC9DVkUtMjAxOS0yMDQzMy0NCj4gMDAwMS5wYXRjaCBiL21ldGEvcmVjaXBlcy1z
+dXBwb3J0L2FzcGVsbC9hc3BlbGwvQ1ZFLTIwMTktMjA0MzMtDQo+IDAwMDEucGF0Y2gNCj4gbmV3
+IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMC4uZmQ2ODQ2MWUzMg0KPiAtLS0g
+L2Rldi9udWxsDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FzcGVsbC9hc3BlbGwvQ1ZF
+LTIwMTktMjA0MzMtMDAwMS5wYXRjaA0KPiBAQCAtMCwwICsxLDk5OSBAQA0KPiArRnJvbSBkZTI5
+MzQxNjM4ODMzYmE3NzE3YmQ2YjVlNjg1MDk5ODQ1NGIwNDRiIE1vbiBTZXAgMTcgMDA6MDA6MDAN
+Cj4gMjAwMQ0KPiArRnJvbTogS2V2aW4gQXRraW5zb24gPGtldmluYUBnbnUub3JnPg0KPiArRGF0
+ZTogU2F0LCAxNyBBdWcgMjAxOSAxNzowNjo1MyAtMDQwMA0KPiArU3ViamVjdDogW1BBVENIIDEv
+Ml0gRG9uJ3QgYWxsb3cgbnVsbC10ZXJtaW5hdGVkIFVDUy0yLzQgc3RyaW5ncw0KPiB1c2luZyB0
+aGUNCj4gKyBvcmlnaW5hbCBBUEkuDQo+ICsNCj4gK0RldGVjdCBpZiB0aGUgZW5jb2RpbmcgaXMg
+VUNTLTIvNCBhbmQgdGhlIGxlbmd0aCBpcyAtMSBpbiBhZmZlY3RlZA0KPiBBUEkNCj4gK2Z1bmN0
+aW9ucyBhbmQgcmVmdXNlIHRvIGNvbnZlcnQgdGhlIHN0cmluZy4gIElmIHRoZSBzdHJpbmcgZW5k
+cyB1cA0KPiArYmVpbmcgY29udmVydGVkIHNvbWVob3csIGFib3J0IHdpdGggYW4gZXJyb3IgbWVz
+c2FnZSBpbiBEZWNvZGVEaXJlY3QNCj4gK2FuZCBDb252RGlyZWN0LiAgVG8gY29udmVydCBhIG51
+bGwgdGVybWluYXRlZCBzdHJpbmcgaW4NCj4gK0RlY29kZS9Db252RGlyZWN0LCBhIG5lZ2F0aXZl
+IG51bWJlciBjb3JyZXNwb25kaW5nIHRvIHRoZSB3aWR0aCBvZg0KPiB0aGUNCj4gK3VuZGVybHlp
+bmcgY2hhcmFjdGVyIHR5cGUgZm9yIHRoZSBlbmNvZGluZyBpcyBleHBlY3RlZDsgZm9yIGV4YW1w
+bGUsDQo+ICtpZiB0aGUgZW5jb2RpbmcgaXMgInVjcy0yIiB0aGVuIGEgdGhlIHNpemUgaXMgZXhw
+ZWN0ZWQgdG8gYmUgLTIuDQo+ICsNCj4gK0Fsc28gZml4IGEgMS0zIGJ5dGUgb3Zlci1yZWFkIGlu
+IERlY29kZURpcmVjdCB3aGVuIHJlYWRpbmcgVUNTLTIvNA0KPiArc3RyaW5ncyB3aGVuIGEgc2l6
+ZSBpcyBwcm92aWRlZCAoZm91bmQgYnkgT1NTLUZ1enopLg0KPiArDQo+ICtBbHNvIGZpeCBhIGJ1
+ZyBpbiBEZWNvZGVEaXJlY3QgdGhhdCBjYXVzZWQgRG9jdW1lbnRDaGVja2VyIHRvIHJldHVybg0K
+PiArdGhlIHdyb25nIG9mZnNldHMgd2hlbiB3b3JraW5nIHdpdGggVUNTLTIvNCBzdHJpbmdzLg0K
+PiArDQo+ICtDVkU6IENWRS0yMDE5LTIwNDMzDQo+ICtVcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0
+IFsNCj4gaHR0cHM6Ly9naXRodWIuY29tL0dOVUFzcGVsbC9hc3BlbGwvY29tbWl0L2RlMjkzNDE2
+Mzg4MzNiYTc3MTdiZDZiNWU2ODUwOTk4NDU0YjA0NGINCj4gXQ0KPiArDQo+ICtbU0c6IC0gYWRq
+dXN0ZWQgY29udGV4dA0KPiArICAgICAtIGRpc2NhcmRlZCB0ZXN0IGNoYW5nZXMgYXMgdGVzdCBm
+cmFtZXdvcmsgaXMgbm90IGF2YWlsYWJsZQ0KPiArICAgICAtIGRpc2NhcmRlZCBtYW51YWwgZW50
+cnkgY2hhbmdlcyBmb3IgZmVhdHVyZXMgdGhhdCBhcmVuJ3QNCj4gYmFja3BvcnRlZF0NCj4gK1Np
+Z25lZC1vZmYtYnk6IFN0ZWZhbiBHaGluZWEgPHN0ZWZhbi5naGluZWFAd2luZHJpdmVyLmNvbT4N
+Cj4gKy0tLQ0KPiArIGF1dG8vTWtTcmMvQ2NIZWxwZXIucG0gICAgICB8IDk5DQo+ICsrKysrKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKystLS0NCj4gKyBhdXRvL01rU3JjL0NyZWF0ZS5wbSAg
+ICAgICAgfCAgNSArLQ0KPiArIGF1dG8vTWtTcmMvSW5mby5wbSAgICAgICAgICB8ICA1ICstDQo+
+ICsgYXV0by9Na1NyYy9Qcm9jQ2MucG0gICAgICAgIHwgMjQgKysrKystLS0tDQo+ICsgYXV0by9N
+a1NyYy9Qcm9jSW1wbC5wbSAgICAgIHwgNTcgKysrKysrKysrKysrKysrLS0tLS0tDQo+ICsgYXV0
+by9Na1NyYy9SZWFkLnBtICAgICAgICAgIHwgIDQgKy0NCj4gKyBhdXRvL21rLXNyYy5pbiAgICAg
+ICAgICAgICAgfCA0NCArKysrKysrKysrKysrKystLQ0KPiArIGNvbW1vbi9jb252ZXJ0LmNwcCAg
+ICAgICAgICB8IDM5ICsrKysrKysrKysrKy0tLQ0KPiArIGNvbW1vbi9jb252ZXJ0LmhwcCAgICAg
+ICAgICB8IDM4ICsrKysrKysrKysrKystDQo+ICsgY29tbW9uL2RvY3VtZW50X2NoZWNrZXIuY3Bw
+IHwgMTcgKysrKysrLQ0KPiArIGNvbW1vbi9kb2N1bWVudF9jaGVja2VyLmhwcCB8ICAxICsNCj4g
+KyBjb21tb24vdmVyc2lvbi5jcHAgICAgICAgICAgfCAxNSArKysrLS0NCj4gKyBjb25maWd1cmUu
+YWMgICAgICAgICAgICAgICAgfCAgOCArKysNCj4gKyBtYW51YWwvYXNwZWxsLnRleGkgICAgICAg
+ICAgfCA1OCArKysrKysrKysrKysrKysrLS0tLS0tDQo+ICsgbWFudWFsL3JlYWRtZS50ZXhpICAg
+ICAgICAgIHwgNzAgKysrKysrKysrKysrKysrKysrKysrLS0tLS0NCj4gKyAxNSBmaWxlcyBjaGFu
+Z2VkLCA0MDkgaW5zZXJ0aW9ucygrKSwgNzUgZGVsZXRpb25zKC0pDQo+ICsNCj4gK2RpZmYgLS1n
+aXQgYS9hdXRvL01rU3JjL0NjSGVscGVyLnBtIGIvYXV0by9Na1NyYy9DY0hlbHBlci5wbQ0KPiAr
+aW5kZXggZjJkZTk5MS4uMDA0NDMzNSAxMDA2NDQNCj4gKy0tLSBhL2F1dG8vTWtTcmMvQ2NIZWxw
+ZXIucG0NCj4gKysrKyBiL2F1dG8vTWtTcmMvQ2NIZWxwZXIucG0NCj4gK0BAIC0xMCw4ICsxMCw4
+IEBAIEJFR0lOIHsNCj4gKyAgIHVzZSBFeHBvcnRlcjsNCj4gKyAgIG91ciBASVNBID0gcXcoRXhw
+b3J0ZXIpOw0KPiArICAgb3VyIEBFWFBPUlQgPSBxdyh0b19jX3JldHVybl90eXBlIGNfZXJyb3Jf
+Y29uZA0KPiArLQkJICAgdG9fdHlwZV9uYW1lIG1ha2VfZGVzYyBtYWtlX2Z1bmMgY2FsbF9mdW5j
+DQo+ICstCQkgICBtYWtlX2NfbWV0aG9kIGNhbGxfY19tZXRob2QgZm9ybV9jX21ldGhvZA0KPiAr
+KwkJICAgdG9fdHlwZV9uYW1lIG1ha2VfZGVzYyBtYWtlX2Z1bmMgY2FsbF9mdW5jDQo+IGdldF9j
+X2Z1bmNfbmFtZQ0KPiArKwkJICAgbWFrZV9jX21ldGhvZCBtYWtlX3dpZGVfbWFjcm8gY2FsbF9j
+X21ldGhvZA0KPiBmb3JtX2NfbWV0aG9kDQo+ICsgCQkgICBtYWtlX2N4eF9tZXRob2QpOw0KPiAr
+IH0NCj4gKyANCj4gK0BAIC05MCw2ICs5MCw2OSBAQCBzdWIgbWFrZV9mdW5jICggJCBcQCAkIDsg
+XCUgKSB7DQo+ICsgCSAgICcpJykpOw0KPiArIH0NCj4gKyANCj4gKys9aXRlbSBtYWtlX3dpZGVf
+dmVyc2lvbiBOQU1FIEBUWVBFUyBQQVJNUyA7ICVBQ0NVTQ0KPiArKw0KPiArK0NyZWF0ZXMgdGhl
+IHdpZGUgY2hhcmFjdGVyIHZlcnNpb24gb2YgdGhlIGZ1bmN0aW9uIGlmIG5lZWRlZA0KPiArKw0K
+PiArKz1jdXQNCj4gKysNCj4gKytzdWIgbWFrZV93aWRlX3ZlcnNpb24gKCAkIFxAICQgOyBcJSAp
+IHsNCj4gKysgIG15ICgkbmFtZSwgJGQsICRwLCAkYWNjdW0pID0gQF87DQo+ICsrICBteSBAZCA9
+IEAkZDsNCj4gKysgIHNoaWZ0IEBkOw0KPiArKyAgcmV0dXJuICcnIHVubGVzcyBncmVwIHskXy0+
+e3R5cGV9IGVxICdlbmNvZGVkIHN0cmluZyd9IEBkOw0KPiArKyAgJGFjY3VtLT57c3lzX2hlYWRl
+cnN9eydzdGRkZWYuaCd9ID0gdHJ1ZTsNCj4gKysgICRhY2N1bS0+e3N1ZmZpeH1bNV0gPSA8PCct
+LS0nOw0KPiArKw0KPiArKy8qKioqKioqKioqKioqKioqKioqIHByaXZhdGUgaW1wbGVtYW50aW9u
+IGRldGFpbHMNCj4gKioqKioqKioqKioqKioqKioqKioqLw0KPiArKw0KPiArKyNpZmRlZiBfX2Nw
+bHVzcGx1cw0KPiArKyMgIGRlZmluZSBhc3BlbGxfY2FzdF8odHlwZSwgZXhwcikgKHN0YXRpY19j
+YXN0PHR5cGU+KGV4cHIpKQ0KPiArKyMgIGRlZmluZSBhc3BlbGxfY2FzdF9mcm9tX3dpZGVfKHN0
+cikgKHN0YXRpY19jYXN0PGNvbnN0IHZvaWQNCj4gKj4oc3RyKSkNCj4gKysjZWxzZQ0KPiArKyMg
+IGRlZmluZSBhc3BlbGxfY2FzdF8odHlwZSwgZXhwcikgKCh0eXBlKShleHByKSkNCj4gKysjICBk
+ZWZpbmUgYXNwZWxsX2Nhc3RfZnJvbV93aWRlXyhzdHIpICgoY29uc3QgY2hhciAqKShzdHIpKQ0K
+PiArKyNlbmRpZg0KPiArKy0tLQ0KPiArKyAgbXkgQHBhcm1zID0gbWFwIHskXy0+e3R5cGV9IGVx
+ICdlbmNvZGVkIHN0cmluZycNCj4gKysgICAgICAgICAgICAgICAgICAgICAgID8gKCRfLT57bmFt
+ZX0sICRfLT57bmFtZX0uJ19zaXplJykNCj4gKysgICAgICAgICAgICAgICAgICAgICAgIDogJF8t
+PntuYW1lfX0gQGQ7DQo+ICsrICAkbmFtZSA9IHRvX2xvd2VyICRuYW1lOw0KPiArKyAgJGFjY3Vt
+LT57c3VmZml4fVswXSA9IDw8Jy0tLSc7DQo+ICsrLyoqKioqKioqKioqKioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKg0KPiAqKioqLw0KPiArKw0K
+PiArKyNpZmRlZiBBU1BFTExfRU5DT0RFX1NFVFRJTkdfU0VDVVJFDQo+ICsrLS0tDQo+ICsrICAk
+YWNjdW0tPntzdWZmaXh9WzJdID0gIiNlbmRpZlxuIjsNCj4gKysgIG15IEBhcmdzID0gbWFwICB7
+JF8tPnt0eXBlfSBlcSAnZW5jb2RlZCBzdHJpbmcnDQo+ICsrICAgICAgICAgICAgICAgICAgICAg
+ICA/ICgkXy0+e25hbWV9LCAiJF8tPntuYW1lfV9zaXplIiwgJy0xJykNCj4gKysgICAgICAgICAg
+ICAgICAgICAgICAgIDogJF8tPntuYW1lfX0gQGQ7DQo+ICsrICAkYWNjdW0tPntzdWZmaXh9WzFd
+IC49DQo+ICsrICAgICAgKGpvaW4gJycsDQo+ICsrICAgICAgICIjZGVmaW5lICRuYW1lIiwNCj4g
+KysgICAgICAgJygnLCBqb2luKCcsICcsIEBwYXJtcyksICcpJywNCj4gKysgICAgICAgIlxcXG4g
+ICAgIiwNCj4gKysgICAgICAgJG5hbWUsICdfd2lkZScsDQo+ICsrICAgICAgICcoJywgam9pbign
+LCAnLCBAYXJncyksICcpJywNCj4gKysgICAgICAgIlxuIik7DQo+ICsrICBAYXJncyA9IG1hcCAg
+eyRfLT57dHlwZX0gZXEgJ2VuY29kZWQgc3RyaW5nJw0KPiArKyAgICAgICAgICAgICAgICAgICAg
+PyAoImFzcGVsbF9jYXN0X2Zyb21fd2lkZV8oJF8tPntuYW1lfSkiLA0KPiArKyAgICAgICAgICAg
+ICAgICAgICAgICAgIiRfLQ0KPiA+e25hbWV9X3NpemUqYXNwZWxsX2Nhc3RfKGludCxzaXplb2Yo
+KigkXy0+e25hbWV9KSkpIiwNCj4gKysgICAgICAgICAgICAgICAgICAgICAgICJzaXplb2YoKigk
+Xy0+e25hbWV9KSkiKQ0KPiArKyAgICAgICAgICAgICAgICAgICAgOiAkXy0+e25hbWV9fSBAZDsN
+Cj4gKysgIHJldHVybiAoam9pbiAnJywNCj4gKysgICAgICAgICAgIlxuIiwNCj4gKysgICAgICAg
+ICAgIi8qIHZlcnNpb24gb2YgJG5hbWUgdGhhdCBpcyBzYWZlIHRvIHVzZSB3aXRoIChudWxsDQo+
+IHRlcm1pbmF0ZWQpIHdpZGUgY2hhcmFjdGVycyAqL1xuIiwNCj4gKysgICAgICAgICAgJyNkZWZp
+bmUgJywNCj4gKysgICAgICAgICAgJG5hbWUsICdfdycsDQo+ICsrICAgICAgICAgICcoJywgam9p
+bignLCAnLCBAcGFybXMpLCAnKScsIA0KPiArKyAgICAgICAgICAiXFxcbiAgICAiLA0KPiArKyAg
+ICAgICAgICAkbmFtZSwgJ193aWRlJywNCj4gKysgICAgICAgICAgJygnLCBqb2luKCcsICcsIEBh
+cmdzKSwgJyknLA0KPiArKyAgICAgICAgICAiXG4iKTsNCj4gKyt9DQo+ICsrDQo+ICsrDQo+ICsg
+PWl0ZW0gY2FsbF9mdW5jIE5BTUUgQFRZUEVTIFBBUk1TIDsgJUFDQ1VNDQo+ICsgDQo+ICsgUmV0
+dXJuIGEgc3RyaW5nIHRvIGNhbGwgYSBmdW5jLiAgV2lsbCBwcmVmaXggdGhlIGZ1bmN0aW9uIHdp
+dGgNCj4gcmV0dXJuDQo+ICtAQCAtMTAzLDcgKzE2Niw2IEBAIFBhcm1zIGNhbiBiZSBhbnkgb2Y6
+DQo+ICsgDQo+ICsgc3ViIGNhbGxfZnVuYyAoICQgXEAgJCA7IFwlICkgew0KPiArICAgbXkgKCRu
+YW1lLCAkZCwgJHAsICRhY2N1bSkgPSBAXzsNCj4gKy0gICRhY2N1bSA9IHt9IHVubGVzcyBkZWZp
+bmVkICRhY2N1bTsNCj4gKyAgIG15IEBkID0gQCRkOw0KPiArICAgbXkgJGZ1bmNfcmV0ID0gdG9f
+dHlwZV9uYW1lKHNoaWZ0IEBkLCB7JSRwLHBvcz0+J3JldHVybid9LA0KPiAlJGFjY3VtKTsNCj4g
+KyAgIHJldHVybiAoam9pbiAnJywNCj4gK0BAIC0xNDgsOCArMjEwLDE0IEBAIHN1YiB0b190eXBl
+X25hbWUgKCAkICQgOyBcJSApIHsNCj4gKyAgIG15ICRuYW1lID0gJHQtPntuYW1lfTsNCj4gKyAg
+IG15ICR0eXBlID0gJHQtPnt0eXBlfTsNCj4gKyANCj4gKy0gIHJldHVybiAoICh0b190eXBlX25h
+bWUgeyUkZCwgdHlwZT0+J3N0cmluZyd9LCAkcCwgJSRhY2N1bSkgLA0KPiArLQkgICAodG9fdHlw
+ZV9uYW1lIHslJGQsIHR5cGU9PidpbnQnLCBuYW1lPT4iJGQtPntuYW1lfV9zaXplIn0sDQo+ICRw
+LCAlJGFjY3VtKSApDQo+ICsrICBpZiAoJG5hbWUgZXEgJ2VuY29kZWQgc3RyaW5nJyAmJiAkaXNf
+Y2MgJiYgJHBvcyBlcSAncGFybScpIHsNCj4gKysgICAgbXkgQHR5cGVzID0gKCh0b190eXBlX25h
+bWUgeyUkZCwgdHlwZT0+KCRwLT57d2lkZX0/J2NvbnN0IHZvaWQNCj4gcG9pbnRlcic6J3N0cmlu
+ZycpfSwgJHAsICUkYWNjdW0pLA0KPiArKyAgICAgICAgICAgICAgICAgKHRvX3R5cGVfbmFtZSB7
+JSRkLCB0eXBlPT4naW50JywgbmFtZT0+IiRkLQ0KPiA+e25hbWV9X3NpemUifSwgJHAsICUkYWNj
+dW0pKTsNCj4gKysgICAgcHVzaCBAdHlwZXMsICh0b190eXBlX25hbWUgeyUkZCwgdHlwZT0+J2lu
+dCcsIG5hbWU9PiIkZC0NCj4gPntuYW1lfV90eXBlX3dpZHRoIn0sICRwLCAlJGFjY3VtKSBpZiAk
+cC0+e3dpZGV9Ow0KPiArKyAgICByZXR1cm4gQHR5cGVzOw0KPiArKyAgfQ0KPiArKyAgcmV0dXJu
+ICggKHRvX3R5cGVfbmFtZSB7JSRkLCB0eXBlPT4oJHAtPnt3aWRlfT8nY29uc3Qgdm9pZA0KPiBw
+b2ludGVyJzonc3RyaW5nJyl9LCAkcCwgJSRhY2N1bSkgLA0KPiArKyAgICAgICAgICAgKHRvX3R5
+cGVfbmFtZSB7JSRkLCB0eXBlPT4naW50JywgbmFtZT0+IiRkLQ0KPiA+e25hbWV9X3NpemUifSwg
+JHAsICUkYWNjdW0pICkNCj4gKyAgICAgICBpZiAkbmFtZSBlcSAnZW5jb2RlZCBzdHJpbmcnICYm
+ICRpc19jYyAmJiAkcG9zIGVxICdwYXJtJzsNCj4gKyANCj4gKyAgIG15ICRzdHI7DQo+ICtAQCAt
+MTc0LDcgKzI0Miw3IEBAIHN1YiB0b190eXBlX25hbWUgKCAkICQgOyBcJSApIHsNCj4gKyAJJHN0
+ciAuPSAiU3RyaW5nIjsNCj4gKyAgICAgICB9DQo+ICsgICAgIH0gZWxzaWYgKCRuYW1lIGVxICdl
+bmNvZGVkIHN0cmluZycpIHsNCj4gKy0gICAgICAkc3RyIC49ICJjb25zdCBjaGFyICoiOw0KPiAr
+KyAgICAgICRzdHIgLj0gJHAtPnt3aWRlfSA/ICJjb25zdCB2b2lkICoiIDogImNvbnN0IGNoYXIg
+KiI7DQo+ICsgICAgIH0gZWxzaWYgKCRuYW1lIGVxICcnKSB7DQo+ICsgICAgICAgJHN0ciAuPSAi
+dm9pZCI7DQo+ICsgICAgIH0gZWxzaWYgKCRuYW1lIGVxICdib29sJyAmJiAkaXNfY2MpIHsNCj4g
+K0BAIC0xODYsNyArMjU0LDcgQEAgc3ViIHRvX3R5cGVfbmFtZSAoICQgJCA7IFwlICkgew0KPiAr
+ICAgICAgIGlmICgkdC0+e3BvaW50ZXJ9KSB7DQo+ICsgCSRhY2N1bS0+e3R5cGVzfS0+eyRuYW1l
+fSA9ICR0Ow0KPiArICAgICAgIH0gZWxzZSB7DQo+ICstCSRhY2N1bS0+e2hlYWRlcnN9LT57JHQt
+PntjcmVhdGVkX2lufX0gPSB0cnVlOw0KPiArKyAgICAgICAgJGFjY3VtLT57aGVhZGVyc30tPnsk
+dC0+e2NyZWF0ZWRfaW59fSA9IHRydWUgdW5sZXNzICRtb2RlDQo+IGVxICdjYyc7DQo+ICsgICAg
+ICAgfQ0KPiArICAgICAgICRzdHIgLj0gIiRjX3R5cGUgQXNwZWxsIiBpZiAkbW9kZSBlcSAnY2Mn
+Ow0KPiArICAgICAgICRzdHIgLj0gdG9fbWl4ZWQoJG5hbWUpOw0KPiArQEAgLTIxNCw2ICsyODIs
+NyBAQCBzdWIgdG9fdHlwZV9uYW1lICggJCAkIDsgXCUgKSB7DQo+ICsgICByZXR1cm4gJHN0cjsN
+Cj4gKyB9DQo+ICsgDQo+ICsrDQo+ICsgPWl0ZW0gbWFrZV9kZXNjIERFU0MgOyBMRVZFTA0KPiAr
+IA0KPiArIE1ha2UgYSBDIGNvbW1lbnQgb3V0IG9mIERFU0Mgb3B0aW9uYWxseSBpbmRlbnRpbmcg
+aXQgTEVWRUwgc3BhY2VzLg0KPiArQEAgLTI4Niw2ICszNTUsNyBAQCBzdWIgZm9ybV9jX21ldGhv
+ZCAoJCAkICQgOyBcJSApDQo+ICsgICAgIH0gZWxzZSB7DQo+ICsgICAgICAgJGZ1bmMgPSAiYXNw
+ZWxsICRjbGFzcyAkbmFtZSI7DQo+ICsgICAgIH0NCj4gKysgICAgJGZ1bmMgLj0gIiB3aWRlIiBp
+ZiAkcC0+e3dpZGV9Ow0KPiArICAgICBpZiAoZXhpc3RzICRkLT57J2NvbnN0J30pIHsNCj4gKyAg
+ICAgICBzcGxpY2UgQGRhdGEsIDEsIDAsIHt0eXBlID0+ICJjb25zdCAkY2xhc3MiLCBuYW1lPT4N
+Cj4gJHRoaXNfbmFtZX07DQo+ICsgICAgIH0gZWxzZSB7DQo+ICtAQCAtMzA2LDYgKzM3NiwyMSBA
+QCBzdWIgbWFrZV9jX21ldGhvZCAoJCAkICQgOyBcJSkNCj4gKyAgIHJldHVybiAmbWFrZV9mdW5j
+KEByZXQpOw0KPiArIH0NCj4gKyANCj4gKytzdWIgZ2V0X2NfZnVuY19uYW1lICgkICQgJCkNCj4g
+Kyt7DQo+ICsrICBteSBAcmV0ID0gJmZvcm1fY19tZXRob2QoQF8pOw0KPiArKyAgcmV0dXJuIHVu
+ZGVmIHVubGVzcyBAcmV0ID4gMDsNCj4gKysgIHJldHVybiB0b19sb3dlciAkcmV0WzBdOw0KPiAr
+K30NCj4gKysNCj4gKytzdWIgbWFrZV93aWRlX21hY3JvICgkICQgJCA7IFwlKQ0KPiArK3sNCj4g
+KysgIG15IEByZXQgPSAmZm9ybV9jX21ldGhvZChAXyk7DQo+ICsrICByZXR1cm4gdW5kZWYgdW5s
+ZXNzIEByZXQgPiAwOw0KPiArKyAgbXkgJHN0ciA9ICZtYWtlX3dpZGVfdmVyc2lvbihAcmV0KTsN
+Cj4gKysgIHJldHVybiAkc3RyOw0KPiArK30NCj4gKysNCj4gKyBzdWIgY2FsbF9jX21ldGhvZCAo
+JCAkICQgOyBcJSkNCj4gKyB7DQo+ICsgICBteSBAcmV0ID0gJmZvcm1fY19tZXRob2QoQF8pOw0K
+PiArZGlmZiAtLWdpdCBhL2F1dG8vTWtTcmMvQ3JlYXRlLnBtIGIvYXV0by9Na1NyYy9DcmVhdGUu
+cG0NCj4gK2luZGV4IGQzOWI2MGUuLjYzMGVkZTUgMTAwNjQ0DQo+ICstLS0gYS9hdXRvL01rU3Jj
+L0NyZWF0ZS5wbQ0KPiArKysrIGIvYXV0by9Na1NyYy9DcmVhdGUucG0NCj4gK0BAIC03Nyw4ICs3
+NywxMCBAQCBzdWIgY3JlYXRlX2NjX2ZpbGUgKCAlICkgIHsNCj4gKyAgICRmaWxlIC49ICIjaW5j
+bHVkZSBcImFzcGVsbC5oXCJcbiIgaWYgJHB7dHlwZX0gZXEgJ2N4eCc7DQo+ICsgICAkZmlsZSAu
+PSAiI2luY2x1ZGUgXCJzZXR0aW5ncy5oXCJcbiIgaWYgJHB7dHlwZX0gZXEgJ25hdGl2ZV9pbXBs
+Jw0KPiAmJiAkcHtuYW1lfSBlcSAnZXJyb3JzJzsNCj4gKyAgICRmaWxlIC49ICIjaW5jbHVkZSBc
+ImdldHRleHQuaFwiXG4iIGlmICRwe3R5cGV9IGVxICduYXRpdmVfaW1wbCcNCj4gJiYgJHB7bmFt
+ZX0gZXEgJ2Vycm9ycyc7DQo+ICsrICAkZmlsZSAuPSBjbWFwIHsiI2luY2x1ZGUgPCRfPlxuIn0g
+c29ydCBrZXlzDQo+ICV7JGFjY3Vte3N5c19oZWFkZXJzfX07DQo+ICsgICAkZmlsZSAuPSBjbWFw
+IHsiI2luY2x1ZGUgXCIiLnRvX2xvd2VyKCRfKS4iLmhwcFwiXG4ifSBzb3J0IGtleXMNCj4gJXsk
+YWNjdW17aGVhZGVyc319Ow0KPiArLSAgJGZpbGUgLj0gIiNpZmRlZiBfX2NwbHVzcGx1c1xuZXh0
+ZXJuIFwiQ1wiIHtcbiNlbmRpZlxuIiBpZg0KPiAkcHtoZWFkZXJ9ICYmICEkcHtjeHh9Ow0KPiAr
+KyAgJGZpbGUgLj0gIlxuI2lmZGVmIF9fY3BsdXNwbHVzXG5leHRlcm4gXCJDXCIge1xuI2VuZGlm
+XG4iIGlmDQo+ICRwe2hlYWRlcn0gJiYgISRwe2N4eH07DQo+ICsrICAkZmlsZSAuPSBqb2luKCcn
+LCBncmVwIHtkZWZpbmVkICRffSBAeyRhY2N1bXtwcmVmaXh9fSk7DQo+ICsgICAkZmlsZSAuPSAi
+XG5uYW1lc3BhY2UgJHB7bmFtZXNwYWNlfSB7XG5cbiIgaWYgJHB7Y3h4fTsNCj4gKyAgIGlmIChk
+ZWZpbmVkICRpbmZve2ZvcndhcmR9e3Byb2N9eyRwe3R5cGV9fSkgew0KPiArICAgICBteSBAdHlw
+ZXMgPSBzb3J0IHskYS0+e25hbWV9IGNtcCAkYi0+e25hbWV9fSAodmFsdWVzDQo+ICV7JGFjY3Vt
+e3R5cGVzfX0pOw0KPiArQEAgLTg2LDYgKzg4LDcgQEAgc3ViIGNyZWF0ZV9jY19maWxlICggJSAp
+ICB7DQo+ICsgICB9DQo+ICsgICAkZmlsZSAuPSAiXG4iOw0KPiArICAgJGZpbGUgLj0gJGJvZHk7
+DQo+ICsrICAkZmlsZSAuPSBqb2luKCcnLCBncmVwIHtkZWZpbmVkICRffSBAeyRhY2N1bXtzdWZm
+aXh9fSk7DQo+ICsgICAkZmlsZSAuPSAiXG5cbn1cblxuIiBpZiAkcHtjeHh9Ow0KPiArICAgJGZp
+bGUgLj0gIiNpZmRlZiBfX2NwbHVzcGx1c1xufVxuI2VuZGlmXG4iIGlmICRwe2hlYWRlcn0gJiYN
+Cj4gISRwe2N4eH07DQo+ICsgICAkZmlsZSAuPSAiI2VuZGlmIC8qICRobSAqL1xuIiBpZiAkcHto
+ZWFkZXJ9Ow0KPiArZGlmZiAtLWdpdCBhL2F1dG8vTWtTcmMvSW5mby5wbSBiL2F1dG8vTWtTcmMv
+SW5mby5wbQ0KPiAraW5kZXggYzY0NDAyOC4uYWNlOGUyMSAxMDA2NDQNCj4gKy0tLSBhL2F1dG8v
+TWtTcmMvSW5mby5wbQ0KPiArKysrIGIvYXV0by9Na1NyYy9JbmZvLnBtDQo+ICtAQCAtNjAsNiAr
+NjAsNyBAQCBlYWNoIHByb2Mgc3ViIHNob3VsZCB0YWtlIHRoZSBmb2xsb3dpbmcgYXJndg0KPiAr
+ICAgICB0aGUgb2JqZWN0IGZyb20gd2hpY2ggaXQgaXMgYSBtZW1iZXIgb2YNCj4gKyAgIG5vIG5h
+dGl2ZTogZG8gbm90IGF0dGVtcHQgdG8gY3JlYXRlIGEgbmF0aXZlIGltcGxlbWVudGF0aW9uDQo+
+ICsgICB0cmVhdCBhcyBvYmplY3Q6IHRyZWF0IGFzIGEgb2JqZWN0IHJhdGhlciB0aGFuIGEgcG9p
+bnRlcg0KPiArKyAgbm8gY29udjogZG8gbm90IGNvbnZlcnRlZCBhbiBlbmNvZGVkIHN0cmluZw0K
+PiArIA0KPiArIFRoZSAlaW5mbyBzdHJ1Y3R1cmUgaXMgaW5pdGlhbGl6ZWQgYXMgZm9sbG93czoN
+Cj4gKyANCj4gK0BAIC0xMDQsOCArMTA1LDggQEAgVGhlICVpbmZvIHN0cnVjdHVyZSBpcyBpbml0
+aWFsaXplZCBhcyBmb2xsb3dzOg0KPiArICAgZXJyb3JzID0+IHt9LCAjIHBvc3NpYmxlIGVycm9y
+cw0KPiArICAgbWV0aG9kID0+IHsNCj4gKyAgICAgIyBBIGNsYXNzIG1ldGhvZA0KPiArLSAgICBv
+cHRpb25zID0+IFsnZGVzYycsICdwb3NpYiBlcnInLCAnYyBmdW5jJywgJ2NvbnN0JywNCj4gKy0J
+CSdjIG9ubHknLCAnYyBpbXBsJywgJ2N4eCBpbXBsJ10sDQo+ICsrICAgIG9wdGlvbnMgPT4gWydk
+ZXNjJywgJ3Bvc2liIGVycicsICdjIGZ1bmMnLCAnY29uc3QnLCAnbm8gY29udicsDQo+ICdvbiBj
+b252IGVycm9yJywNCj4gKysJCSdjIG9ubHknLCAnYyBpbXBsJywgJ2N4eCBpbXBsJywgJ2NjIGV4
+dHJhJ10sDQo+ICsgICAgIGdyb3VwcyA9PiB1bmRlZn0sDQo+ICsgICBjb25zdHJ1Y3RvciA9PiB7
+DQo+ICsgICAgICMgQSBjbGFzcyBjb25zdHJ1Y3Rvcg0KPiArZGlmZiAtLWdpdCBhL2F1dG8vTWtT
+cmMvUHJvY0NjLnBtIGIvYXV0by9Na1NyYy9Qcm9jQ2MucG0NCj4gK2luZGV4IDQ3YzQzMzguLjk4
+Y2M0MzUgMTAwNjQ0DQo+ICstLS0gYS9hdXRvL01rU3JjL1Byb2NDYy5wbQ0KPiArKysrIGIvYXV0
+by9Na1NyYy9Qcm9jQ2MucG0NCj4gK0BAIC0yMyw3ICsyMyw3IEBAIHVzZSBNa1NyYzo6SW5mbzsN
+Cj4gKyBzdWIgbWFrZV9jX29iamVjdCAoICQgQCApOw0KPiArIA0KPiArICRpbmZve2dyb3VwfXtw
+cm9jfXtjY30gPSBzdWIgew0KPiArLSAgbXkgKCRkYXRhKSA9IEBfOw0KPiArKyAgbXkgKCRkYXRh
+LEByZXN0KSA9IEBfOw0KPiArICAgbXkgJHJldDsNCj4gKyAgIG15ICRzdGFycyA9ICg3MCAtIGxl
+bmd0aCAkZGF0YS0+e25hbWV9KS8yOw0KPiArICAgJHJldCAuPSAiLyI7DQo+ICtAQCAtMzMsMTQg
+KzMzLDE0IEBAICRpbmZve2dyb3VwfXtwcm9jfXtjY30gPSBzdWIgew0KPiArICAgJHJldCAuPSAi
+L1xuIjsNCj4gKyAgIGZvcmVhY2ggbXkgJGQgKEB7JGRhdGEtPntkYXRhfX0pIHsNCj4gKyAgICAg
+JHJldCAuPSAiXG5cbiI7DQo+ICstICAgICRyZXQgLj0gJGluZm97JGQtPnt0eXBlfX17cHJvY317
+Y2N9LT4oJGQpOw0KPiArKyAgICAkcmV0IC49ICRpbmZveyRkLT57dHlwZX19e3Byb2N9e2NjfS0+
+KCRkLEByZXN0KTsNCj4gKyAgIH0NCj4gKyAgICRyZXQgLj0gIlxuXG4iOw0KPiArICAgcmV0dXJu
+ICRyZXQ7DQo+ICsgfTsNCj4gKyANCj4gKyAkaW5mb3tlbnVtfXtwcm9jfXtjY30gPSBzdWIgew0K
+PiArLSAgbXkgKCRkKSA9IEBfOw0KPiArKyAgbXkgKCRkLEByZXN0KSA9IEBfOw0KPiArICAgbXkg
+JG4gPSAiQXNwZWxsIi50b19taXhlZCgkZC0+e25hbWV9KTsNCj4gKyAgIHJldHVybiAoIlxuIi4N
+Cj4gKyAJICBtYWtlX2Rlc2MoJGQtPntkZXNjfSkuDQo+ICtAQCAtNTgsMjEgKzU4LDI2IEBAICRp
+bmZve3N0cnVjdH17cHJvY317Y2N9ID0gc3ViIHsNCj4gKyB9Ow0KPiArIA0KPiArICRpbmZve3Vu
+aW9ufXtwcm9jfXtjY30gPSBzdWIgew0KPiArLSAgcmV0dXJuIG1ha2VfY19vYmplY3QgInVuaW9u
+IiwgJF9bMF07DQo+ICsrICByZXR1cm4gbWFrZV9jX29iamVjdCAidW5pb24iLCBAXzsNCj4gKyB9
+Ow0KPiArIA0KPiArICRpbmZve2NsYXNzfXtwcm9jfXtjY30gPSBzdWIgew0KPiArLSAgbXkgKCRk
+KSA9IEBfOw0KPiArKyAgbXkgKCRkLCRhY2N1bSkgPSBAXzsNCj4gKyAgIG15ICRjbGFzcyA9ICRk
+LT57bmFtZX07DQo+ICsgICBteSAkY2xhc3NuYW1lID0gIkFzcGVsbCIudG9fbWl4ZWQoJGNsYXNz
+KTsNCj4gKyAgIG15ICRyZXQgPSAiIjsNCj4gKyAgICRyZXQgLj0gInR5cGVkZWYgc3RydWN0ICRj
+bGFzc25hbWUgJGNsYXNzbmFtZTtcblxuIjsNCj4gKyAgIGZvcmVhY2ggKEB7JGQtPntkYXRhfX0p
+IHsNCj4gKy0gICAgbXkgJHMgPSBtYWtlX2NfbWV0aG9kKCRjbGFzcywgJF8sIHttb2RlPT4nY2Mn
+fSk7DQo+ICsrICAgIG15ICRzID0gbWFrZV9jX21ldGhvZCgkY2xhc3MsICRfLCB7bW9kZT0+J2Nj
+J30sICUkYWNjdW0pOw0KPiArICAgICBuZXh0IHVubGVzcyBkZWZpbmVkICRzOw0KPiArICAgICAk
+cmV0IC49ICJcbiI7DQo+ICsgICAgICRyZXQgLj0gbWFrZV9kZXNjKCRfLT57ZGVzY30pOw0KPiAr
+LSAgICAkcmV0IC49IG1ha2VfY19tZXRob2QoJGNsYXNzLCAkXywge21vZGU9PidjYyd9KS4iO1xu
+IjsNCj4gKysgICAgJHJldCAuPSBtYWtlX2NfbWV0aG9kKCRjbGFzcywgJF8sIHttb2RlPT4nY2Mn
+fSwgJSRhY2N1bSkuIjtcbiI7DQo+ICsrICAgIGlmIChncmVwIHskXy0+e3R5cGV9IGVxICdlbmNv
+ZGVkIHN0cmluZyd9IEB7JF8tPntkYXRhfX0pIHsNCj4gKysgICAgICAkcmV0IC49IG1ha2VfY19t
+ZXRob2QoJGNsYXNzLCAkXywge21vZGU9PidjYycsIHdpZGU9PnRydWV9LA0KPiAlJGFjY3VtKS4i
+O1xuIjsNCj4gKysgICAgICAkcmV0IC49IG1ha2Vfd2lkZV9tYWNybygkY2xhc3MsICRfLCB7bW9k
+ZT0+J2NjJ30sICUkYWNjdW0pOw0KPiArKyAgICB9DQo+ICsrICAgICRyZXQgLj0gIlxuIi4kXy0+
+eydjYyBleHRyYSd9LiJcbiIgaWYgZGVmaW5lZCAkXy0+eydjYyBleHRyYSd9Ow0KPiArICAgfQ0K
+PiArICAgJHJldCAuPSAiXG4iOw0KPiArICAgcmV0dXJuICRyZXQ7DQo+ICtAQCAtMTA1LDcgKzEx
+MCw4IEBAICRpbmZve2Vycm9yc317cHJvY317Y2N9ID0gc3ViIHsNCj4gKyB9Ow0KPiArIA0KPiAr
+IHN1YiBtYWtlX2Nfb2JqZWN0ICggJCBAICkgew0KPiArLSAgbXkgKCR0LCAkZCkgPSBAXzsNCj4g
+KysgIG15ICgkdCwgJGQsICRhY2N1bSkgPSBAXzsNCj4gKysgICRhY2N1bSA9IHt9IHVubGVzcyBk
+ZWZpbmVkICRhY2N1bTsNCj4gKyAgIG15ICRzdHJ1Y3Q7DQo+ICsgICAkc3RydWN0IC49ICJBc3Bl
+bGwiOw0KPiArICAgJHN0cnVjdCAuPSB0b19taXhlZCgkZC0+e25hbWV9KTsNCj4gK0BAIC0xMjAs
+NyArMTI2LDcgQEAgc3ViIG1ha2VfY19vYmplY3QgKCAkIEAgKSB7DQo+ICsgCQkiXG59O1xuIiks
+DQo+ICsgCSAgInR5cGVkZWYgJHQgJHN0cnVjdCAkc3RydWN0OyIsDQo+ICsgCSAgam9pbiAoIlxu
+IiwNCj4gKy0JCW1hcCB7bWFrZV9jX21ldGhvZCgkZC0+e25hbWV9LCAkXywge21vZGU9PidjYyd9
+KS4iOyJ9DQo+ICsrCQltYXAge21ha2VfY19tZXRob2QoJGQtPntuYW1lfSwgJF8sIHttb2RlPT4n
+Y2MnfSwNCj4gJSRhY2N1bSkuIjsifQ0KPiArIAkJZ3JlcCB7JF8tPnt0eXBlfSBlcSAnbWV0aG9k
+J30NCj4gKyAJCUB7JGQtPntkYXRhfX0pDQo+ICsgCSAgKS4iXG4iOw0KPiArZGlmZiAtLWdpdCBh
+L2F1dG8vTWtTcmMvUHJvY0ltcGwucG0gYi9hdXRvL01rU3JjL1Byb2NJbXBsLnBtDQo+ICtpbmRl
+eCBiODYyOGZkLi4zZDBmMjIwIDEwMDY0NA0KPiArLS0tIGEvYXV0by9Na1NyYy9Qcm9jSW1wbC5w
+bQ0KPiArKysrIGIvYXV0by9Na1NyYy9Qcm9jSW1wbC5wbQ0KPiArQEAgLTQ1LDEwICs0NSwxMyBA
+QCAkaW5mb3tjbGFzc317cHJvY317aW1wbH0gPSBzdWIgew0KPiArICAgZm9yZWFjaCAoZ3JlcCB7
+JF8gbmUgJyd9IHNwbGl0IC9ccyosXHMqLywgJGRhdGEtPnsnYyBpbXBsDQo+IGhlYWRlcnMnfSkg
+ew0KPiArICAgICAkYWNjdW0tPntoZWFkZXJzfXskX30gPSB0cnVlOw0KPiArICAgfQ0KPiArLSAg
+Zm9yZWFjaCBteSAkZCAoQHskZGF0YS0+e2RhdGF9fSkgew0KPiArKyAgbXkgQGQgPSBAeyRkYXRh
+LT57ZGF0YX19Ow0KPiArKyAgd2hpbGUgKEBkKSB7DQo+ICsrICAgIG15ICRkID0gc2hpZnQgQGQ7
+DQo+ICsrICAgIG15ICRuZWVkX3dpZGUgPSBmYWxzZTsNCj4gKyAgICAgbmV4dCB1bmxlc3Mgb25l
+X29mICRkLT57dHlwZX0sIHF3KG1ldGhvZCBjb25zdHJ1Y3Rvcg0KPiBkZXN0cnVjdG9yKTsNCj4g
+KyAgICAgbXkgQHBhcm1zID0gQHskZC0+e2RhdGF9fSBpZiBleGlzdHMgJGQtPntkYXRhfTsNCj4g
+Ky0gICAgbXkgJG0gPSBtYWtlX2NfbWV0aG9kICRkYXRhLT57bmFtZX0sICRkLCB7bW9kZT0+J2Nj
+X2N4eCcsDQo+IHVzZV9uYW1lPT50cnVlfSwgJSRhY2N1bTsNCj4gKysgICAgbXkgJG0gPSBtYWtl
+X2NfbWV0aG9kICRkYXRhLT57bmFtZX0sICRkLCB7bW9kZT0+J2NjX2N4eCcsDQo+IHVzZV9uYW1l
+PT50cnVlLCB3aWRlPT4kZC0+e3dpZGV9fSwgJSRhY2N1bTsNCj4gKyAgICAgbmV4dCB1bmxlc3Mg
+ZGVmaW5lZCAkbTsNCj4gKyAgICAgJHJldCAuPSAiZXh0ZXJuIFwiQ1wiICRtXG4iOw0KPiArICAg
+ICAkcmV0IC49ICJ7XG4iOw0KPiArQEAgLTU3LDI0ICs2MCw0OSBAQCAkaW5mb3tjbGFzc317cHJv
+Y317aW1wbH0gPSBzdWIgew0KPiArICAgICB9IGVsc2Ugew0KPiArICAgICAgIGlmICgkZC0+e3R5
+cGV9IGVxICdtZXRob2QnKSB7DQo+ICsgCW15ICRyZXRfdHlwZSA9IHNoaWZ0IEBwYXJtczsNCj4g
+Ky0JbXkgJHJldF9uYXRpdmUgPSB0b190eXBlX25hbWUgJHJldF90eXBlLA0KPiB7bW9kZT0+J25h
+dGl2ZV9ub19lcnInLCBwb3M9PidyZXR1cm4nfSwgJSRhY2N1bTsNCj4gKysJbXkgJHJldF9uYXRp
+dmUgPSB0b190eXBlX25hbWUgJHJldF90eXBlLA0KPiB7bW9kZT0+J25hdGl2ZV9ub19lcnInLCBw
+b3M9PidyZXR1cm4nLCB3aWRlPT4kZC0+e3dpZGV9fSwgJSRhY2N1bTsNCj4gKyAJbXkgJHNudW0g
+PSAwOw0KPiArKyAgICAgICAgbXkgJGNhbGxfZnVuID0gJGQtPntuYW1lfTsNCj4gKysgICAgICAg
+IG15IEBjYWxsX3Bhcm1zOw0KPiArIAlmb3JlYWNoIChAcGFybXMpIHsNCj4gKyAJICBteSAkbiA9
+IHRvX2xvd2VyKCRfLT57bmFtZX0pOw0KPiArLQkgIGlmICgkXy0+e3R5cGV9IGVxICdlbmNvZGVk
+IHN0cmluZycpIHsNCj4gKy0JICAgICRhY2N1bS0+e2hlYWRlcnN9eydtdXRhYmxlIHN0cmluZyd9
+ID0gdHJ1ZTsNCj4gKy0JICAgICRhY2N1bS0+e2hlYWRlcnN9eydjb252ZXJ0J30gPSB0cnVlOw0K
+PiArLQkgICAgJHJldCAuPSAiICB0aHMtPnRlbXBfc3RyXyRzbnVtLmNsZWFyKCk7XG4iOw0KPiAr
+LQkgICAgJHJldCAuPSAiICB0aHMtPnRvX2ludGVybmFsXy0+Y29udmVydCgkbiwgJHtufV9zaXpl
+LCB0aHMtDQo+ID50ZW1wX3N0cl8kc251bSk7XG4iOw0KPiArLQkgICAgJHJldCAuPSAiICB1bnNp
+Z25lZCBpbnQgcyRzbnVtID0gdGhzLQ0KPiA+dGVtcF9zdHJfJHNudW0uc2l6ZSgpO1xuIjsNCj4g
+Ky0JICAgICRfID0gIk11dGFibGVTdHJpbmcodGhzLT50ZW1wX3N0cl8kc251bS5tc3RyKCksIHMk
+c251bSkiOw0KPiArLQkgICAgJHNudW0rKzsNCj4gKysJICBpZiAoJF8tPnt0eXBlfSBlcSAnZW5j
+b2RlZCBzdHJpbmcnICYmICFleGlzdHMoJGQtPnsnbm8NCj4gY29udid9KSkgew0KPiArKyAgICAg
+ICAgICAgICRuZWVkX3dpZGUgPSB0cnVlIHVubGVzcyAkZC0+e3dpZGV9Ow0KPiArKyAgICAgICAg
+ICAgIGRpZSB1bmxlc3MgZXhpc3RzICRkLT57J3Bvc2liIGVycid9Ow0KPiArKyAgICAgICAgICAg
+ICRhY2N1bS0+e2hlYWRlcnN9eydtdXRhYmxlIHN0cmluZyd9ID0gdHJ1ZTsNCj4gKysgICAgICAg
+ICAgICAkYWNjdW0tPntoZWFkZXJzfXsnY29udmVydCd9ID0gdHJ1ZTsNCj4gKysgICAgICAgICAg
+ICBteSAkbmFtZSA9IGdldF9jX2Z1bmNfbmFtZSAkZGF0YS0+e25hbWV9LCAkZCwNCj4ge21vZGU9
+PidjY19jeHgnLCB1c2VfbmFtZT0+dHJ1ZSwgd2lkZT0+JGQtPnt3aWRlfX07DQo+ICsrICAgICAg
+ICAgICAgJHJldCAuPSAiICB0aHMtPnRlbXBfc3RyXyRzbnVtLmNsZWFyKCk7XG4iOw0KPiArKyAg
+ICAgICAgICAgIGlmICgkZC0+e3dpZGV9KSB7DQo+ICsrICAgICAgICAgICAgICAkcmV0IC49ICIg
+ICR7bn1fc2l6ZSA9IGdldF9jb3JyZWN0X3NpemUoXCIkbmFtZVwiLA0KPiB0aHMtPnRvX2ludGVy
+bmFsXy0+aW5fdHlwZV93aWR0aCgpLCAke259X3NpemUsICR7bn1fdHlwZV93aWR0aCk7XG4iOw0K
+PiArKyAgICAgICAgICAgIH0gZWxzZSB7DQo+ICsrICAgICAgICAgICAgICAkcmV0IC49ICIgIFBv
+c2liRXJyPGludD4gJHtufV9maXhlZF9zaXplID0NCj4gZ2V0X2NvcnJlY3Rfc2l6ZShcIiRuYW1l
+XCIsIHRocy0+dG9faW50ZXJuYWxfLT5pbl90eXBlX3dpZHRoKCksDQo+ICR7bn1fc2l6ZSk7XG4i
+Ow0KPiArKyAgICAgICAgICAgICAgaWYgKGV4aXN0cygkZC0+eydvbiBjb252IGVycm9yJ30pKSB7
+DQo+ICsrICAgICAgICAgICAgICAgICRyZXQgLj0gIiAgaWYgKCR7bn1fZml4ZWRfc2l6ZS5nZXRf
+ZXJyKCkpIHtcbiI7DQo+ICsrICAgICAgICAgICAgICAgICRyZXQgLj0gIiAgICAiLiRkLT57J29u
+IGNvbnYgZXJyb3InfS4iXG4iOw0KPiArKyAgICAgICAgICAgICAgICAkcmV0IC49ICIgIH0gZWxz
+ZSB7XG4iOw0KPiArKyAgICAgICAgICAgICAgICAkcmV0IC49ICIgICAgJHtufV9zaXplID0gJHtu
+fV9maXhlZF9zaXplO1xuIjsNCj4gKysgICAgICAgICAgICAgICAgJHJldCAuPSAiICB9XG4iOw0K
+PiArKyAgICAgICAgICAgICAgfSBlbHNlIHsNCj4gKysgICAgICAgICAgICAgICAgJHJldCAuPSAi
+ICB0aHMtDQo+ID5lcnJfLnJlc2V0KCR7bn1fZml4ZWRfc2l6ZS5yZWxlYXNlX2VycigpKTtcbiI7
+DQo+ICsrICAgICAgICAgICAgICAgICRyZXQgLj0gIiAgaWYgKHRocy0+ZXJyXyAhPSAwKSByZXR1
+cm4NCj4gIi4oY19lcnJvcl9jb25kICRyZXRfdHlwZSkuIjtcbiI7DQo+ICsrICAgICAgICAgICAg
+ICB9DQo+ICsrICAgICAgICAgICAgfQ0KPiArKyAgICAgICAgICAgICRyZXQgLj0gIiAgdGhzLT50
+b19pbnRlcm5hbF8tPmNvbnZlcnQoJG4sICR7bn1fc2l6ZSwNCj4gdGhzLT50ZW1wX3N0cl8kc251
+bSk7XG4iOw0KPiArKyAgICAgICAgICAgICRyZXQgLj0gIiAgdW5zaWduZWQgaW50IHMkc251bSA9
+IHRocy0NCj4gPnRlbXBfc3RyXyRzbnVtLnNpemUoKTtcbiI7DQo+ICsrICAgICAgICAgICAgcHVz
+aCBAY2FsbF9wYXJtcywgIk11dGFibGVTdHJpbmcodGhzLQ0KPiA+dGVtcF9zdHJfJHNudW0ubXN0
+cigpLCBzJHNudW0pIjsNCj4gKysgICAgICAgICAgICAkc251bSsrOw0KPiArKyAgICAgICAgICB9
+IGVsc2lmICgkXy0+e3R5cGV9IGVxICdlbmNvZGVkIHN0cmluZycpIHsNCj4gKysgICAgICAgICAg
+ICAkbmVlZF93aWRlID0gdHJ1ZSB1bmxlc3MgJGQtPnt3aWRlfTsNCj4gKysgICAgICAgICAgICBw
+dXNoIEBjYWxsX3Bhcm1zLCAkbiwgIiR7bn1fc2l6ZSI7DQo+ICsrICAgICAgICAgICAgcHVzaCBA
+Y2FsbF9wYXJtcywgIiR7bn1fdHlwZV93aWR0aCIgaWYgJGQtPnt3aWRlfTsNCj4gKysgICAgICAg
+ICAgICAkY2FsbF9mdW4gLj0gIiB3aWRlIiBpZiAkZC0+e3dpZGV9Ow0KPiArIAkgIH0gZWxzZSB7
+DQo+ICstCSAgICAkXyA9ICRuOw0KPiArKwkgICAgcHVzaCBAY2FsbF9wYXJtcywgJG47DQo+ICsg
+CSAgfQ0KPiArIAl9DQo+ICstCW15ICRwYXJtcyA9ICcoJy4oam9pbiAnLCAnLCBAcGFybXMpLicp
+JzsNCj4gKy0JbXkgJGV4cCA9ICJ0aHMtPiIudG9fbG93ZXIoJGQtPntuYW1lfSkuIiRwYXJtcyI7
+DQo+ICsrCW15ICRwYXJtcyA9ICcoJy4oam9pbiAnLCAnLCBAY2FsbF9wYXJtcykuJyknOw0KPiAr
+KwlteSAkZXhwID0gInRocy0+Ii50b19sb3dlcigkY2FsbF9mdW4pLiIkcGFybXMiOw0KPiArIAlp
+ZiAoZXhpc3RzICRkLT57J3Bvc2liIGVycid9KSB7DQo+ICsgCSAgJGFjY3VtLT57aGVhZGVyc317
+J3Bvc2liIGVycid9ID0gdHJ1ZTsNCj4gKyAJICAkcmV0IC49ICIgIFBvc2liRXJyPCRyZXRfbmF0
+aXZlPiByZXQgPSAkZXhwO1xuIjsNCj4gK0BAIC0xMTgsNiArMTQ2LDcgQEAgJGluZm97Y2xhc3N9
+e3Byb2N9e2ltcGx9ID0gc3ViIHsNCj4gKyAgICAgICB9DQo+ICsgICAgIH0NCj4gKyAgICAgJHJl
+dCAuPSAifVxuXG4iOw0KPiArKyAgICB1bnNoaWZ0IEBkLHslJGQsIHdpZGU9PnRydWV9IGlmICRu
+ZWVkX3dpZGU7DQo+ICsgICB9DQo+ICsgICByZXR1cm4gJHJldDsNCj4gKyB9Ow0KPiArZGlmZiAt
+LWdpdCBhL2F1dG8vTWtTcmMvUmVhZC5wbSBiL2F1dG8vTWtTcmMvUmVhZC5wbQ0KPiAraW5kZXgg
+NGIzZDFkMC4uNGJmNjQwZSAxMDA2NDQNCj4gKy0tLSBhL2F1dG8vTWtTcmMvUmVhZC5wbQ0KPiAr
+KysrIGIvYXV0by9Na1NyYy9SZWFkLnBtDQo+ICtAQCAtODgsMTMgKzg4LDEzIEBAIHN1YiBhZHZh
+bmNlICggKSB7DQo+ICsgICAgICRpbl9wb2QgPSAkMSBpZiAkbGluZSA9fiAvXlw9KFx3KykvOw0K
+PiArICAgICAkbGluZSA9ICcnIGlmICRpbl9wb2Q7DQo+ICsgICAgICRpbl9wb2QgPSB1bmRlZiBp
+ZiAkaW5fcG9kICYmICRpbl9wb2QgZXEgJ2N1dCc7DQo+ICstICAgICRsaW5lID1+IHMvXCMuKiQv
+LzsNCj4gKysgICAgJGxpbmUgPX4gcy8oPzwhXFwpXCMuKiQvLzsNCj4gKyAgICAgJGxpbmUgPX4g
+cy9eKFx0KikvLzsNCj4gKyAgICAgJGxldmVsID0gJGJhc2VfbGV2ZWwgKyBsZW5ndGgoJDEpOw0K
+PiArICAgICAgICRsaW5lID1+IHMvXHMqJC8vOw0KPiArICAgICArKyRiYXNlX2xldmVsIGlmICRs
+aW5lID1+IHMvXlx7JC8vOw0KPiArICAgICAtLSRiYXNlX2xldmVsIGlmICRsaW5lID1+IHMvXlx9
+JC8vOw0KPiArLSAgICAkbGluZSA9fiBzL1xcKFt7fV0pLyQxL2c7DQo+ICsrICAgICRsaW5lID1+
+IHMvXFwoW3t9I1xcXSkvJDEvZzsNCj4gKyAgIH0gd2hpbGUgKCRsaW5lIGVxICcnKTsNCj4gKyAg
+ICNwcmludCAiJGxldmVsOiRsaW5lXG4iOw0KPiArIH0NCj4gK2RpZmYgLS1naXQgYS9hdXRvL21r
+LXNyYy5pbiBiL2F1dG8vbWstc3JjLmluDQo+ICtpbmRleCAwZTc4MzNhLi5lYjMzNTNmIDEwMDY0
+NA0KPiArLS0tIGEvYXV0by9tay1zcmMuaW4NCj4gKysrKyBiL2F1dG8vbWstc3JjLmluDQo+ICtA
+QCAtNjA4LDYgKzYwOCw3IEBAIGVycm9yczoNCj4gKyAJCWludmFsaWQgZXhwcmVzc2lvbg0KPiAr
+IAkJCW1lc2cgPT4gIiVleHByZXNzaW9uIiBpcyBub3QgYSB2YWxpZCByZWd1bGFyDQo+IGV4cHJl
+c3Npb24uDQo+ICsgCQkJcGFybXMgPT4gZXhwcmVzc2lvbg0KPiArKw0KPiArIH0NCj4gKyBncm91
+cDogc3BlbGxlcg0KPiArIHsNCj4gK0BAIC02NTAsNiArNjUxLDcgQEAgY2xhc3M6IHNwZWxsZXIN
+Cj4gKyAJCXBvc2liIGVycg0KPiArIAkJZGVzYyA9PiBSZXR1cm5zIDAgaWYgaXQgaXMgbm90IGlu
+IHRoZSBkaWN0aW9uYXJ5LA0KPiArIAkJCTEgaWYgaXQgaXMsIG9yIC0xIG9uIGVycm9yLg0KPiAr
+KwkJb24gY29udiBlcnJvciA9PiByZXR1cm4gMDsNCj4gKyAJCS8NCj4gKyAJCWJvb2wNCj4gKyAJ
+CWVuY29kZWQgc3RyaW5nOiB3b3JkDQo+ICtAQCAtNzE1LDYgKzcxNyw4IEBAIGNsYXNzOiBzcGVs
+bGVyDQo+ICsgCQlkZXNjID0+IFJldHVybiBOVUxMIG9uIGVycm9yLg0KPiArIAkJCVRoZSB3b3Jk
+IGxpc3QgcmV0dXJuZWQgYnkgc3VnZ2VzdCBpcyBvbmx5DQo+ICsgCQkJdmFsaWQgdW50aWwgdGhl
+IG5leHQgY2FsbCB0byBzdWdnZXN0Lg0KPiArKwkJb24gY29udiBlcnJvciA9Pg0KPiArKwkJCXdv
+cmQgPSBOVUxMOyB3b3JkX3NpemUgPSAwOw0KPiArIAkJLw0KPiArIAkJY29uc3Qgd29yZCBsaXN0
+DQo+ICsgCQllbmNvZGVkIHN0cmluZzogd29yZA0KPiArQEAgLTg0MCw3ICs4NDQsNiBAQCBjbGFz
+czogZG9jdW1lbnQgY2hlY2tlcg0KPiArIAkJdm9pZA0KPiArIA0KPiArIAltZXRob2Q6IHByb2Nl
+c3MNCj4gKy0NCj4gKyAJCWRlc2MgPT4gUHJvY2VzcyBhIHN0cmluZy4NCj4gKyAJCQlUaGUgc3Ry
+aW5nIHBhc3NlZCBpbiBzaG91bGQgb25seSBiZSBzcGxpdCBvbg0KPiArIAkJCXdoaXRlIHNwYWNl
+IGNoYXJhY3RlcnMuICBGdXJ0aGVybW9yZSwgYmV0d2Vlbg0KPiArQEAgLTg0OSwxMCArODUyLDEw
+IEBAIGNsYXNzOiBkb2N1bWVudCBjaGVja2VyDQo+ICsgCQkJaW4gdGhlIGRvY3VtZW50LiAgUGFz
+c2luZyBpbiBzdHJpbmdzIG91dCBvZg0KPiArIAkJCW9yZGVyLCBza2lwcGluZyBzdHJpbmdzIG9y
+IHBhc3NpbmcgdGhlbSBpbg0KPiArIAkJCW1vcmUgdGhhbiBvbmNlIG1heSBsZWFkIHRvIHVuZGVm
+aW5lZCByZXN1bHRzLg0KPiArKwkJbm8gY29udg0KPiArIAkJLw0KPiArIAkJdm9pZA0KPiArLQkJ
+c3RyaW5nOiBzdHINCj4gKy0JCWludDogc2l6ZQ0KPiArKwkJZW5jb2RlZCBzdHJpbmc6IHN0cg0K
+PiArIA0KPiArIAltZXRob2Q6IG5leHQgbWlzc3BlbGxpbmcNCj4gKyANCj4gK0BAIC04NjAsOSAr
+ODYzLDIzIEBAIGNsYXNzOiBkb2N1bWVudCBjaGVja2VyDQo+ICsgCQkJcHJvY2Vzc2VkIHN0cmlu
+Zy4gIElmIHRoZXJlIGFyZSBubyBtb3JlDQo+ICsgCQkJbWlzc3BlbGxlZCB3b3JkcywgdGhlbiB0
+b2tlbi53b3JkIHdpbGwgYmUNCj4gKyAJCQlOVUxMIGFuZCB0b2tlbi5zaXplIHdpbGwgYmUgMA0K
+PiArKwkJY2MgZXh0cmEgPT4NCj4gKysJCQlcI2RlZmluZQ0KPiBhc3BlbGxfZG9jdW1lbnRfY2hl
+Y2tlcl9uZXh0X21pc3NwZWxsaW5nX3codHlwZSwgdGhzKSBcXA0KPiArKwkJCSAgICBhc3BlbGxf
+ZG9jdW1lbnRfY2hlY2tlcl9uZXh0X21pc3NwZWxsaW5nX2FkDQo+IGoodGhzLCBzaXplb2YodHlw
+ZSkpDQo+ICsgCQkvDQo+ICsgCQl0b2tlbiBvYmplY3QNCj4gKyANCj4gKysJbWV0aG9kOiBuZXh0
+IG1pc3NwZWxsaW5nIGFkag0KPiArKwkJZGVzYyA9PiBpbnRlcm5hbDogZG8gbm90IHVzZQ0KPiAr
+KwkJYyBpbXBsID0+DQo+ICsrCQkJVG9rZW4gcmVzID0gdGhzLT5uZXh0X21pc3NwZWxsaW5nKCk7
+DQo+ICsrCQkJcmVzLm9mZnNldCAvPSB0eXBlX3dpZHRoOw0KPiArKwkJCXJlcy5sZW4gLz0gdHlw
+ZV93aWR0aDsNCj4gKysJCQlyZXR1cm4gcmVzOw0KPiArKwkJLw0KPiArKwkJdG9rZW4gb2JqZWN0
+DQo+ICsrCQlpbnQ6IHR5cGVfd2lkdGgNCj4gKysNCj4gKyAJbWV0aG9kOiBmaWx0ZXINCj4gKyAN
+Cj4gKyAJCWRlc2MgPT4gUmV0dXJucyB0aGUgdW5kZXJseWluZyBmaWx0ZXIgY2xhc3MuDQo+ICtA
+QCAtOTIyLDkgKzkzOSwzMCBAQCBjbGFzczogc3RyaW5nIGVudW1lcmF0aW9uDQo+ICsgCQkJICB0
+aHMtPmZyb21faW50ZXJuYWxfLT5hcHBlbmRfbnVsbCh0aHMtDQo+ID50ZW1wX3N0cik7DQo+ICsg
+CQkJICByZXR1cm4gdGhzLT50ZW1wX3N0ci5kYXRhKCk7DQo+ICsgCQkJXH0NCj4gKysJCWNjIGV4
+dHJhID0+DQo+ICsrCQkJXCNkZWZpbmUgYXNwZWxsX3N0cmluZ19lbnVtZXJhdGlvbl9uZXh0X3co
+dHlwZSwNCj4gdGhzKSBcXA0KPiArKwkJCSAgICBhc3BlbGxfY2FzdF8oY29uc3QgdHlwZSAqLA0K
+PiBhc3BlbGxfc3RyaW5nX2VudW1lcmF0aW9uX25leHRfd2lkZSh0aHMsIHNpemVvZih0eXBlKSkp
+DQo+ICsgCQkvDQo+ICsgCQljb25zdCBzdHJpbmcNCj4gKyANCj4gKysJbWV0aG9kOiBuZXh0IHdp
+ZGUNCj4gKysJCWMgaW1wbCA9Pg0KPiArKwkJCWNvbnN0IGNoYXIgKiBzID0gdGhzLT5uZXh0KCk7
+DQo+ICsrCQkJaWYgKHMgPT0gMCkgew0KPiArKwkJCSAgcmV0dXJuIHM7DQo+ICsrCQkJfSBlbHNl
+IGlmICh0aHMtPmZyb21faW50ZXJuYWxfID09IDApIFx7DQo+ICsrCQkJICBhc3NlcnQodHlwZV93
+aWR0aCA9PSAxKTsNCj4gKysJCQkgIHJldHVybiBzOw0KPiArKwkJCVx9IGVsc2UgXHsNCj4gKysJ
+CQkgIGFzc2VydCh0eXBlX3dpZHRoID09IHRocy0+ZnJvbV9pbnRlcm5hbF8tDQo+ID5vdXRfdHlw
+ZV93aWR0aCgpKTsNCj4gKysJCQkgIHRocy0+dGVtcF9zdHIuY2xlYXIoKTsNCj4gKysJCQkgIHRo
+cy0+ZnJvbV9pbnRlcm5hbF8tPmNvbnZlcnQocywtMSx0aHMtDQo+ID50ZW1wX3N0cik7DQo+ICsr
+CQkJICB0aHMtPmZyb21faW50ZXJuYWxfLT5hcHBlbmRfbnVsbCh0aHMtDQo+ID50ZW1wX3N0cik7
+DQo+ICsrCQkJICByZXR1cm4gdGhzLT50ZW1wX3N0ci5kYXRhKCk7DQo+ICsrCQkJXH0NCj4gKysJ
+CS8NCj4gKysJCWNvbnN0IHZvaWQgcG9pbnRlcg0KPiArKwkJaW50OiB0eXBlX3dpZHRoDQo+ICsg
+fQ0KPiArIGdyb3VwOiBpbmZvDQo+ICsgew0KPiArZGlmZiAtLWdpdCBhL2NvbW1vbi9jb252ZXJ0
+LmNwcCBiL2NvbW1vbi9jb252ZXJ0LmNwcA0KPiAraW5kZXggMWFkZDk1YS4uN2FlMDMxNyAxMDA2
+NDQNCj4gKy0tLSBhL2NvbW1vbi9jb252ZXJ0LmNwcA0KPiArKysrIGIvY29tbW9uL2NvbnZlcnQu
+Y3BwDQo+ICtAQCAtNTQxLDE4ICs1NDEsMjUgQEAgbmFtZXNwYWNlIGFjb21tb24gew0KPiArICAg
+Ly8gVHJpdmlhbCBDb252ZXJzaW9uDQo+ICsgICAvLw0KPiArIA0KPiArKyAgY29uc3QgY2hhciAq
+IHVuc3VwcG9ydGVkX251bGxfdGVybV93aWRlX3N0cmluZ19tc2cgPQ0KPiArKyAgICAiTnVsbC10
+ZXJtaW5hdGVkIHdpZGUtY2hhcmFjdGVyIHN0cmluZ3MgdW5zdXBwb3J0ZWQgd2hlbiB1c2VkDQo+
+IHRoaXMgd2F5LiI7DQo+ICsrDQo+ICsgICB0ZW1wbGF0ZSA8dHlwZW5hbWUgQ2hyPg0KPiArICAg
+c3RydWN0IERlY29kZURpcmVjdCA6IHB1YmxpYyBEZWNvZGUgDQo+ICsgICB7DQo+ICsrICAgIERl
+Y29kZURpcmVjdCgpIHt0eXBlX3dpZHRoID0gc2l6ZW9mKENocik7fQ0KPiArICAgICB2b2lkIGRl
+Y29kZShjb25zdCBjaGFyICogaW4wLCBpbnQgc2l6ZSwgRmlsdGVyQ2hhclZlY3RvciAmIG91dCkN
+Cj4gY29uc3Qgew0KPiArICAgICAgIGNvbnN0IENociAqIGluID0gcmVpbnRlcnByZXRfY2FzdDxj
+b25zdCBDaHIgKj4oaW4wKTsNCj4gKy0gICAgICBpZiAoc2l6ZSA9PSAtMSkgew0KPiArKyAgICAg
+IGlmIChzaXplID09IC1zaXplb2YoQ2hyKSkgew0KPiArICAgICAgICAgZm9yICg7KmluOyArK2lu
+KQ0KPiArLSAgICAgICAgICBvdXQuYXBwZW5kKCppbik7DQo+ICsrICAgICAgICAgIG91dC5hcHBl
+bmQoKmluLCBzaXplb2YoQ2hyKSk7DQo+ICsrICAgICAgfSBlbHNlIGlmIChzaXplIDw9IC0xKSB7
+DQo+ICsrICAgICAgICBmcHJpbnRmKHN0ZGVyciwgIiVzXG4iLA0KPiB1bnN1cHBvcnRlZF9udWxs
+X3Rlcm1fd2lkZV9zdHJpbmdfbXNnKTsNCj4gKysgICAgICAgIGFib3J0KCk7DQo+ICsgICAgICAg
+fSBlbHNlIHsNCj4gKy0gICAgICAgIGNvbnN0IENociAqIHN0b3AgPSByZWludGVycHJldF9jYXN0
+PGNvbnN0IENociAqPihpbjANCj4gK3NpemUpOw0KPiArKyAgICAgICAgY29uc3QgQ2hyICogc3Rv
+cCA9IHJlaW50ZXJwcmV0X2Nhc3Q8Y29uc3QgQ2hyICo+KGluMCkgKw0KPiBzaXplL3NpemVvZihD
+aHIpOw0KPiArICAgICAgICAgZm9yICg7aW4gIT0gc3RvcDsgKytpbikNCj4gKy0gICAgICAgICAg
+b3V0LmFwcGVuZCgqaW4pOw0KPiArKyAgICAgICAgICBvdXQuYXBwZW5kKCppbiwgc2l6ZW9mKENo
+cikpOw0KPiArICAgICAgIH0NCj4gKyAgICAgfQ0KPiArICAgICBQb3NpYkVycjx2b2lkPiBkZWNv
+ZGVfZWMoY29uc3QgY2hhciAqIGluMCwgaW50IHNpemUsIA0KPiArQEAgLTU2NSw2ICs1NzIsNyBA
+QCBuYW1lc3BhY2UgYWNvbW1vbiB7DQo+ICsgICB0ZW1wbGF0ZSA8dHlwZW5hbWUgQ2hyPg0KPiAr
+ICAgc3RydWN0IEVuY29kZURpcmVjdCA6IHB1YmxpYyBFbmNvZGUNCj4gKyAgIHsNCj4gKysgICAg
+RW5jb2RlRGlyZWN0KCkge3R5cGVfd2lkdGggPSBzaXplb2YoQ2hyKTt9DQo+ICsgICAgIHZvaWQg
+ZW5jb2RlKGNvbnN0IEZpbHRlckNoYXIgKiBpbiwgY29uc3QgRmlsdGVyQ2hhciAqIHN0b3AsIA0K
+PiArICAgICAgICAgICAgICAgICBDaGFyVmVjdG9yICYgb3V0KSBjb25zdCB7DQo+ICsgICAgICAg
+Zm9yICg7IGluICE9IHN0b3A7ICsraW4pIHsNCj4gK0BAIC01OTQsMTEgKzYwMiwxNSBAQCBuYW1l
+c3BhY2UgYWNvbW1vbiB7DQo+ICsgICB0ZW1wbGF0ZSA8dHlwZW5hbWUgQ2hyPg0KPiArICAgc3Ry
+dWN0IENvbnZEaXJlY3QgOiBwdWJsaWMgRGlyZWN0Q29udg0KPiArICAgew0KPiArKyAgICBDb252
+RGlyZWN0KCkge3R5cGVfd2lkdGggPSBzaXplb2YoQ2hyKTt9DQo+ICsgICAgIHZvaWQgY29udmVy
+dChjb25zdCBjaGFyICogaW4wLCBpbnQgc2l6ZSwgQ2hhclZlY3RvciAmIG91dCkNCj4gY29uc3Qg
+ew0KPiArLSAgICAgIGlmIChzaXplID09IC0xKSB7DQo+ICsrICAgICAgaWYgKHNpemUgPT0gLXNp
+emVvZihDaHIpKSB7DQo+ICsgICAgICAgICBjb25zdCBDaHIgKiBpbiA9IHJlaW50ZXJwcmV0X2Nh
+c3Q8Y29uc3QgQ2hyICo+KGluMCk7DQo+ICsgICAgICAgICBmb3IgKDsqaW4gIT0gMDsgKytpbikN
+Cj4gKyAgICAgICAgICAgb3V0LmFwcGVuZChpbiwgc2l6ZW9mKENocikpOw0KPiArKyAgICAgIH0g
+ZWxzZSBpZiAoc2l6ZSA8PSAtMSkgew0KPiArKyAgICAgICAgZnByaW50ZihzdGRlcnIsICIlc1xu
+IiwNCj4gdW5zdXBwb3J0ZWRfbnVsbF90ZXJtX3dpZGVfc3RyaW5nX21zZyk7DQo+ICsrICAgICAg
+ICBhYm9ydCgpOw0KPiArICAgICAgIH0gZWxzZSB7DQo+ICsgICAgICAgICBvdXQuYXBwZW5kKGlu
+MCwgc2l6ZSk7DQo+ICsgICAgICAgfQ0KPiArQEAgLTExMjEsNSArMTEzMywyMCBAQCBuYW1lc3Bh
+Y2UgYWNvbW1vbiB7DQo+ICsgICAgIH0NCj4gKyAgICAgcmV0dXJuIDA7DQo+ICsgICB9DQo+ICst
+ICANCj4gKysNCj4gKysgIFBvc2liRXJyPHZvaWQ+IHVuc3VwcG9ydGVkX251bGxfdGVybV93aWRl
+X3N0cmluZ19lcnJfKGNvbnN0IGNoYXINCj4gKiBmdW5jKSB7DQo+ICsrICAgIHN0YXRpYyBib29s
+IHJlcG9ydGVkX3RvX3N0ZGVyciA9IGZhbHNlOw0KPiArKyAgICBQb3NpYkVycjx2b2lkPiBlcnIg
+PSBtYWtlX2VycihvdGhlcl9lcnJvciwNCj4gdW5zdXBwb3J0ZWRfbnVsbF90ZXJtX3dpZGVfc3Ry
+aW5nX21zZyk7DQo+ICsrICAgIGlmICghcmVwb3J0ZWRfdG9fc3RkZXJyKSB7DQo+ICsrICAgICAg
+Q0VSUi5wcmludGYoIkVSUk9SOiAlczogJXNcbiIsIGZ1bmMsDQo+IHVuc3VwcG9ydGVkX251bGxf
+dGVybV93aWRlX3N0cmluZ19tc2cpOw0KPiArKyAgICAgIHJlcG9ydGVkX3RvX3N0ZGVyciA9IHRy
+dWU7DQo+ICsrICAgIH0NCj4gKysgICAgcmV0dXJuIGVycjsNCj4gKysgIH0NCj4gKysNCj4gKysg
+IHZvaWQgdW5zdXBwb3J0ZWRfbnVsbF90ZXJtX3dpZGVfc3RyaW5nX2Fib3J0Xyhjb25zdCBjaGFy
+ICogZnVuYykNCj4gew0KPiArKyAgICBDRVJSLnByaW50ZigiJXM6ICVzXG4iLCB1bnN1cHBvcnRl
+ZF9udWxsX3Rlcm1fd2lkZV9zdHJpbmdfbXNnKTsNCj4gKysgICAgYWJvcnQoKTsNCj4gKysgIH0N
+Cj4gKysgDQo+ICsgfQ0KPiArZGlmZiAtLWdpdCBhL2NvbW1vbi9jb252ZXJ0LmhwcCBiL2NvbW1v
+bi9jb252ZXJ0LmhwcA0KPiAraW5kZXggNzYzMzJlZS4uYzk0ODk3MyAxMDA2NDQNCj4gKy0tLSBh
+L2NvbW1vbi9jb252ZXJ0LmhwcA0KPiArKysrIGIvY29tbW9uL2NvbnZlcnQuaHBwDQo+ICtAQCAt
+Nyw2ICs3LDggQEANCj4gKyAjaWZuZGVmIEFTUEVMTF9DT05WRVJUX19IUFANCj4gKyAjZGVmaW5l
+IEFTUEVMTF9DT05WRVJUX19IUFANCj4gKyANCj4gKysjaW5jbHVkZSAic2V0dGluZ3MuaCINCj4g
+KysNCj4gKyAjaW5jbHVkZSAic3RyaW5nLmhwcCINCj4gKyAjaW5jbHVkZSAicG9zaWJfZXJyLmhw
+cCINCj4gKyAjaW5jbHVkZSAiY2hhcl92ZWN0b3IuaHBwIg0KPiArQEAgLTI1LDggKzI3LDkgQEAg
+bmFtZXNwYWNlIGFjb21tb24gew0KPiArICAgICB0eXBlZGVmIGNvbnN0IENvbmZpZyBDYWNoZUNv
+bmZpZzsNCj4gKyAgICAgdHlwZWRlZiBjb25zdCBjaGFyICogQ2FjaGVLZXk7DQo+ICsgICAgIFN0
+cmluZyBrZXk7DQo+ICsrICAgIGludCB0eXBlX3dpZHRoOyAvLyB0eXBlIHdpZHRoIGluIGJ5dGVz
+DQo+ICsgICAgIGJvb2wgY2FjaGVfa2V5X2VxKGNvbnN0IGNoYXIgKiBsKSBjb25zdCAge3JldHVy
+biBrZXkgPT0gbDt9DQo+ICstICAgIENvbnZCYXNlKCkge30NCj4gKysgICAgQ29udkJhc2UoKSA6
+IHR5cGVfd2lkdGgoMSkge30NCj4gKyAgIHByaXZhdGU6DQo+ICsgICAgIENvbnZCYXNlKGNvbnN0
+IENvbnZCYXNlICYpOw0KPiArICAgICB2b2lkIG9wZXJhdG9yPShjb25zdCBDb252QmFzZSAmKTsN
+Cj4gK0BAIC01Niw2ICs1OSw4IEBAIG5hbWVzcGFjZSBhY29tbW9uIHsNCj4gKyAgICAgdmlydHVh
+bCB+RW5jb2RlKCkge30NCj4gKyAgIH07DQo+ICsgICBzdHJ1Y3QgRGlyZWN0Q29udiB7IC8vIGNv
+bnZlcnQgZGlyZWN0bHkgZnJvbSBpbl9jb2RlIHRvIG91dF9jb2RlLg0KPiArKyAgICBpbnQgdHlw
+ZV93aWR0aDsgLy8gdHlwZSB3aWR0aCBpbiBieXRlcw0KPiArKyAgICBEaXJlY3RDb252KCkgOiB0
+eXBlX3dpZHRoKDEpIHt9DQo+ICsgICAgIC8vIHNob3VsZCBub3QgdGFrZSBvd25lcnNoaXAgb2Yg
+ZGVjb2RlIGFuZCBlbmNvZGUuDQo+ICsgICAgIC8vIGRlY29kZSBhbmQgZW5jb2RlIGd1YXJhbnRl
+ZWQgdG8gc3RpY2sgYXJvdW5kIGZvciB0aGUgbGlmZQ0KPiArICAgICAvLyBvZiB0aGUgb2JqZWN0
+Lg0KPiArQEAgLTEyNiw2ICsxMzEsOSBAQCBuYW1lc3BhY2UgYWNvbW1vbiB7DQo+ICsgICAgIGNv
+bnN0IGNoYXIgKiBpbl9jb2RlKCkgY29uc3QgICB7cmV0dXJuIGRlY29kZV8tPmtleS5jX3N0cigp
+O30NCj4gKyAgICAgY29uc3QgY2hhciAqIG91dF9jb2RlKCkgY29uc3QgIHtyZXR1cm4gZW5jb2Rl
+Xy0+a2V5LmNfc3RyKCk7fQ0KPiArIA0KPiArKyAgICBpbnQgaW5fdHlwZV93aWR0aCgpIGNvbnN0
+IHtyZXR1cm4gZGVjb2RlXy0+dHlwZV93aWR0aDt9DQo+ICsrICAgIGludCBvdXRfdHlwZV93aWR0
+aCgpIGNvbnN0IHtyZXR1cm4gZW5jb2RlXy0+dHlwZV93aWR0aDt9DQo+ICsrDQo+ICsgICAgIHZv
+aWQgYXBwZW5kX251bGwoQ2hhclZlY3RvciAmIG91dCkgY29uc3QNCj4gKyAgICAgew0KPiArICAg
+ICAgIGNvbnN0IGNoYXIgbnVsWzRdID0gezAsMCwwLDB9OyAvLyA0IHNob3VsZCBiZSBlbm91Z2gN
+Cj4gK0BAIC0xOTEsNiArMTk5LDEwIEBAIG5hbWVzcGFjZSBhY29tbW9uIHsNCj4gKyAgICAgICB9
+DQo+ICsgICAgIH0NCj4gKyANCj4gKysgICAgdm9pZCBjb252ZXJ0KGNvbnN0IHZvaWQgKiBpbiwg
+aW50IHNpemUsIENoYXJWZWN0b3IgJiBvdXQpIHsNCj4gKysgICAgICBjb252ZXJ0KHN0YXRpY19j
+YXN0PGNvbnN0IGNoYXIgKj4oaW4pLCBzaXplLCBvdXQpOw0KPiArKyAgICB9DQo+ICsrDQo+ICsg
+ICAgIHZvaWQgZ2VuZXJpY19jb252ZXJ0KGNvbnN0IGNoYXIgKiBpbiwgaW50IHNpemUsIENoYXJW
+ZWN0b3IgJg0KPiBvdXQpOw0KPiArICAgICANCj4gKyAgIH07DQo+ICtAQCAtNDEyLDYgKzQyNCwz
+MCBAQCBuYW1lc3BhY2UgYWNvbW1vbiB7DQo+ICsgICAgICAgcmV0dXJuIG9wZXJhdG9yKCkoc3Ry
+LCBzdHIgKyBieXRlX3NpemUpO30NCj4gKyAgIH07DQo+ICsgDQo+ICsrI2lmZGVmIFNMT1BQWV9O
+VUxMX1RFUk1fU1RSSU5HUw0KPiArKyAgc3RhdGljIGNvbnN0IGJvb2wgc2xvcHB5X251bGxfdGVy
+bV9zdHJpbmdzID0gdHJ1ZTsNCj4gKysjZWxzZQ0KPiArKyAgc3RhdGljIGNvbnN0IGJvb2wgc2xv
+cHB5X251bGxfdGVybV9zdHJpbmdzID0gZmFsc2U7DQo+ICsrI2VuZGlmDQo+ICsrICANCj4gKysg
+IFBvc2liRXJyPHZvaWQ+IHVuc3VwcG9ydGVkX251bGxfdGVybV93aWRlX3N0cmluZ19lcnJfKGNv
+bnN0IGNoYXINCj4gKiBmdW5jKTsNCj4gKysgIHZvaWQgdW5zdXBwb3J0ZWRfbnVsbF90ZXJtX3dp
+ZGVfc3RyaW5nX2Fib3J0Xyhjb25zdCBjaGFyICogZnVuYyk7DQo+ICsrICAgIA0KPiArKyAgc3Rh
+dGljIGlubGluZSBQb3NpYkVycjxpbnQ+IGdldF9jb3JyZWN0X3NpemUoY29uc3QgY2hhciAqIGZ1
+bmMsDQo+IGludCBjb252X3R5cGVfd2lkdGgsIGludCBzaXplKSB7DQo+ICsrICAgIGlmIChzbG9w
+cHlfbnVsbF90ZXJtX3N0cmluZ3MgJiYgc2l6ZSA8PSAtMSkNCj4gKysgICAgICByZXR1cm4gLWNv
+bnZfdHlwZV93aWR0aDsNCj4gKysgICAgaWYgKHNpemUgPD0gLTEgJiYgLWNvbnZfdHlwZV93aWR0
+aCAhPSBzaXplKQ0KPiArKyAgICAgIHJldHVybiB1bnN1cHBvcnRlZF9udWxsX3Rlcm1fd2lkZV9z
+dHJpbmdfZXJyXyhmdW5jKTsNCj4gKysgICAgcmV0dXJuIHNpemU7DQo+ICsrICB9DQo+ICsrICBz
+dGF0aWMgaW5saW5lIGludCBnZXRfY29ycmVjdF9zaXplKGNvbnN0IGNoYXIgKiBmdW5jLCBpbnQN
+Cj4gY29udl90eXBlX3dpZHRoLCBpbnQgc2l6ZSwgaW50IHR5cGVfd2lkdGgpIHsNCj4gKysgICAg
+aWYgKChzbG9wcHlfbnVsbF90ZXJtX3N0cmluZ3MgfHwgdHlwZV93aWR0aCA8PSAtMSkgJiYgc2l6
+ZSA8PQ0KPiAtMSkNCj4gKysgICAgICByZXR1cm4gLWNvbnZfdHlwZV93aWR0aDsNCj4gKysgICAg
+aWYgKHNpemUgPD0gLTEgJiYgY29udl90eXBlX3dpZHRoICE9IHR5cGVfd2lkdGgpDQo+ICsrICAg
+ICAgdW5zdXBwb3J0ZWRfbnVsbF90ZXJtX3dpZGVfc3RyaW5nX2Fib3J0XyhmdW5jKTsNCj4gKysg
+ICAgcmV0dXJuIHNpemU7DQo+ICsrICB9DQo+ICsrDQo+ICsgfQ0KPiArIA0KPiArICNlbmRpZg0K
+PiArZGlmZiAtLWdpdCBhL2NvbW1vbi9kb2N1bWVudF9jaGVja2VyLmNwcA0KPiBiL2NvbW1vbi9k
+b2N1bWVudF9jaGVja2VyLmNwcA0KPiAraW5kZXggNWU1MTBjNC4uMGNjZjFjZCAxMDA2NDQNCj4g
+Ky0tLSBhL2NvbW1vbi9kb2N1bWVudF9jaGVja2VyLmNwcA0KPiArKysrIGIvY29tbW9uL2RvY3Vt
+ZW50X2NoZWNrZXIuY3BwDQo+ICtAQCAtNDQsNyArNDQsOSBAQCBuYW1lc3BhY2UgYWNvbW1vbiB7
+DQo+ICsgICB2b2lkIERvY3VtZW50Q2hlY2tlcjo6cHJvY2Vzcyhjb25zdCBjaGFyICogc3RyLCBp
+bnQgc2l6ZSkNCj4gKyAgIHsNCj4gKyAgICAgcHJvY19zdHJfLmNsZWFyKCk7DQo+ICstICAgIGNv
+bnZfLT5kZWNvZGUoc3RyLCBzaXplLCBwcm9jX3N0cl8pOw0KPiArKyAgICBQb3NpYkVycjxpbnQ+
+IGZpeGVkX3NpemUgPQ0KPiBnZXRfY29ycmVjdF9zaXplKCJhc3BlbGxfZG9jdW1lbnRfY2hlY2tl
+cl9wcm9jZXNzIiwgY29udl8tDQo+ID5pbl90eXBlX3dpZHRoKCksIHNpemUpOw0KPiArKyAgICBp
+ZiAoIWZpeGVkX3NpemUuaGFzX2VycigpKQ0KPiArKyAgICAgIGNvbnZfLT5kZWNvZGUoc3RyLCBm
+aXhlZF9zaXplLCBwcm9jX3N0cl8pOw0KPiArICAgICBwcm9jX3N0cl8uYXBwZW5kKDApOw0KPiAr
+ICAgICBGaWx0ZXJDaGFyICogYmVnaW4gPSBwcm9jX3N0cl8ucGJlZ2luKCk7DQo+ICsgICAgIEZp
+bHRlckNoYXIgKiBlbmQgICA9IHByb2Nfc3RyXy5wZW5kKCkgLSAxOw0KPiArQEAgLTUzLDYgKzU1
+LDE5IEBAIG5hbWVzcGFjZSBhY29tbW9uIHsNCj4gKyAgICAgdG9rZW5pemVyXy0+cmVzZXQoYmVn
+aW4sIGVuZCk7DQo+ICsgICB9DQo+ICsgDQo+ICsrICB2b2lkIERvY3VtZW50Q2hlY2tlcjo6cHJv
+Y2Vzc193aWRlKGNvbnN0IHZvaWQgKiBzdHIsIGludCBzaXplLA0KPiBpbnQgdHlwZV93aWR0aCkN
+Cj4gKysgIHsNCj4gKysgICAgcHJvY19zdHJfLmNsZWFyKCk7DQo+ICsrICAgIGludCBmaXhlZF9z
+aXplID0NCj4gZ2V0X2NvcnJlY3Rfc2l6ZSgiYXNwZWxsX2RvY3VtZW50X2NoZWNrZXJfcHJvY2Vz
+cyIsIGNvbnZfLQ0KPiA+aW5fdHlwZV93aWR0aCgpLCBzaXplLCB0eXBlX3dpZHRoKTsNCj4gKysg
+ICAgY29udl8tPmRlY29kZShzdGF0aWNfY2FzdDxjb25zdCBjaGFyICo+KHN0ciksIGZpeGVkX3Np
+emUsDQo+IHByb2Nfc3RyXyk7DQo+ICsrICAgIHByb2Nfc3RyXy5hcHBlbmQoMCk7DQo+ICsrICAg
+IEZpbHRlckNoYXIgKiBiZWdpbiA9IHByb2Nfc3RyXy5wYmVnaW4oKTsNCj4gKysgICAgRmlsdGVy
+Q2hhciAqIGVuZCAgID0gcHJvY19zdHJfLnBlbmQoKSAtIDE7DQo+ICsrICAgIGlmIChmaWx0ZXJf
+KQ0KPiArKyAgICAgIGZpbHRlcl8tPnByb2Nlc3MoYmVnaW4sIGVuZCk7DQo+ICsrICAgIHRva2Vu
+aXplcl8tPnJlc2V0KGJlZ2luLCBlbmQpOw0KPiArKyAgfQ0KPiArKyAgDQo+ICsgICBUb2tlbiBE
+b2N1bWVudENoZWNrZXI6Om5leHRfbWlzc3BlbGxpbmcoKQ0KPiArICAgew0KPiArICAgICBib29s
+IGNvcnJlY3Q7DQo+ICtkaWZmIC0tZ2l0IGEvY29tbW9uL2RvY3VtZW50X2NoZWNrZXIuaHBwDQo+
+IGIvY29tbW9uL2RvY3VtZW50X2NoZWNrZXIuaHBwDQo+ICtpbmRleCBkMzViYjg4Li4xMWEzYzcz
+IDEwMDY0NA0KPiArLS0tIGEvY29tbW9uL2RvY3VtZW50X2NoZWNrZXIuaHBwDQo+ICsrKysgYi9j
+b21tb24vZG9jdW1lbnRfY2hlY2tlci5ocHANCj4gK0BAIC0zNiw2ICszNiw3IEBAIG5hbWVzcGFj
+ZSBhY29tbW9uIHsNCj4gKyAgICAgUG9zaWJFcnI8dm9pZD4gc2V0dXAoVG9rZW5pemVyICosIFNw
+ZWxsZXIgKiwgRmlsdGVyICopOw0KPiArICAgICB2b2lkIHJlc2V0KCk7DQo+ICsgICAgIHZvaWQg
+cHJvY2Vzcyhjb25zdCBjaGFyICogc3RyLCBpbnQgc2l6ZSk7DQo+ICsrICAgIHZvaWQgcHJvY2Vz
+c193aWRlKGNvbnN0IHZvaWQgKiBzdHIsIGludCBzaXplLCBpbnQgdHlwZV93aWR0aCk7DQo+ICsg
+ICAgIFRva2VuIG5leHRfbWlzc3BlbGxpbmcoKTsNCj4gKyAgICAgDQo+ICsgICAgIEZpbHRlciAq
+IGZpbHRlcigpIHtyZXR1cm4gZmlsdGVyXzt9DQo+ICtkaWZmIC0tZ2l0IGEvY29tbW9uL3ZlcnNp
+b24uY3BwIGIvY29tbW9uL3ZlcnNpb24uY3BwDQo+ICtpbmRleCA0MTRkOTM4Li45ZTYwYjc1IDEw
+MDY0NA0KPiArLS0tIGEvY29tbW9uL3ZlcnNpb24uY3BwDQo+ICsrKysgYi9jb21tb24vdmVyc2lv
+bi5jcHANCj4gK0BAIC0xLDggKzEsMTcgQEANCj4gKyAjaW5jbHVkZSAic2V0dGluZ3MuaCINCj4g
+KyANCj4gKy1leHRlcm4gIkMiIGNvbnN0IGNoYXIgKiBhc3BlbGxfdmVyc2lvbl9zdHJpbmcoKSB7
+DQo+ICsgI2lmZGVmIE5ERUJVRw0KPiArLSAgcmV0dXJuIFZFUlNJT04gIiBOREVCVUciOw0KPiAr
+KyMgIGRlZmluZSBOREVCVUdfU1RSICIgTkRFQlVHIg0KPiArKyNlbHNlDQo+ICsrIyAgZGVmaW5l
+IE5ERUJVR19TVFINCj4gKysjZW5kaWYNCj4gKysNCj4gKysjaWZkZWYgU0xPUFBZX05VTExfVEVS
+TV9TVFJJTkdTDQo+ICsrIyAgZGVmaW5lIFNMT1BQWV9TVFIgIiBTTE9QUFkiDQo+ICsrI2Vsc2UN
+Cj4gKysjICBkZWZpbmUgU0xPUFBZX1NUUg0KPiArICNlbmRpZg0KPiArLSAgcmV0dXJuIFZFUlNJ
+T047DQo+ICsrDQo+ICsrZXh0ZXJuICJDIiBjb25zdCBjaGFyICogYXNwZWxsX3ZlcnNpb25fc3Ry
+aW5nKCkgew0KPiArKyAgcmV0dXJuIFZFUlNJT04gTkRFQlVHX1NUUiBTTE9QUFlfU1RSOw0KPiAr
+IH0NCj4gK2RpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMNCj4gK2luZGV4
+IDYwZTNiMzkuLmE1ZDUxZTMgMTAwNjQ0DQo+ICstLS0gYS9jb25maWd1cmUuYWMNCj4gKysrKyBi
+L2NvbmZpZ3VyZS5hYw0KPiArQEAgLTczLDYgKzczLDkgQEAgQUNfQVJHX0VOQUJMRShmaWx0ZXIt
+dmVyc2lvbi1jb250cm9sLA0KPiArIEFDX0FSR19FTkFCTEUoMzItYml0LWhhc2gtZnVuLA0KPiAr
+ICAgQVNfSEVMUF9TVFJJTkcoWy0tZW5hYmxlLTMyLWJpdC1oYXNoLWZ1bl0sW3VzZSAzMi1iaXQg
+aGFzaA0KPiBmdW5jdGlvbiBmb3IgY29tcGlsZWQgZGljdGlvbmFyaWVzXSkpDQo+ICsgDQo+ICsr
+QUNfQVJHX0VOQUJMRShzbG9wcHktbnVsbC10ZXJtLXN0cmluZ3MsDQo+ICsrICBBU19IRUxQX1NU
+UklORyhbLS1lbmFibGUtc2xvcHB5LW51bGwtdGVybS1zdHJpbmdzXSxbYWxsb3dzIGFsbG93DQo+
+IG51bGwgdGVybWluYXRlZCBVQ1MtMiBhbmQgVUNTLTQgc3RyaW5nc10pKQ0KPiArKw0KPiArIEFD
+X0FSR19FTkFCTEUocHNwZWxsLWNvbXBhdGliaWxpdHksDQo+ICsgICBBU19IRUxQX1NUUklORyhb
+LS1kaXNhYmxlLXBzcGVsbC1jb21wYXRpYmlsaXR5XSxbZG9uJ3QgaW5zdGFsbA0KPiBwc3BlbGwg
+Y29tcGF0aWJpbGl0eSBsaWJyYXJpZXNdKSkNCj4gKyANCj4gK0BAIC0xNDEsNiArMTQ0LDExIEBA
+IHRoZW4NCj4gKyAgIEFDX0RFRklORShVU0VfMzJfQklUX0hBU0hfRlVOLCAxLCBbRGVmaW5lZCBp
+ZiAzMi1iaXQgaGFzaA0KPiBmdW5jdGlvbiBzaG91bGQgYmUgdXNlZCBmb3IgY29tcGlsZWQgZGlj
+dGlvbmFyaWVzLl0pDQo+ICsgZmkNCj4gKyANCj4gKytpZiB0ZXN0ICIkZW5hYmxlX3Nsb3BweV9u
+dWxsX3Rlcm1fc3RyaW5ncyIgPSAieWVzIg0KPiArK3RoZW4NCj4gKysgIEFDX0RFRklORShTTE9Q
+UFlfTlVMTF9URVJNX1NUUklOR1MsIDEsIFtEZWZpbmVkIGlmIG51bGwtDQo+IHRlcm1pbmF0ZWQg
+VUNTLTIgYW5kIFVDUy00IHN0cmluZ3Mgc2hvdWxkIGFsd2F5cyBiZSBhbGxvd2VkLl0pDQo+ICsr
+ZmkNCj4gKysNCj4gKyBBTV9DT05ESVRJT05BTChQU1BFTExfQ09NUEFUSUJJTElUWSwgIA0KPiAr
+ICAgW3Rlc3QgIiRlbmFibGVfcHNwZWxsX2NvbXBhdGliaWxpdHkiICE9ICJubyJdKQ0KPiArIEFN
+X0NPTkRJVElPTkFMKElOQ1JFTUVOVEVEX1NPTkFNRSwgICAgDQo+ICtkaWZmIC0tZ2l0IGEvbWFu
+dWFsL2FzcGVsbC50ZXhpIGIvbWFudWFsL2FzcGVsbC50ZXhpDQo+ICtpbmRleCA0NWZhMDkxLi5m
+NDAwZTA2IDEwMDY0NA0KPiArLS0tIGEvbWFudWFsL2FzcGVsbC50ZXhpDQo+ICsrKysgYi9tYW51
+YWwvYXNwZWxsLnRleGkNCj4gK0BAIC0xNTgsNyArMTU4LDggQEAgSW5zdGFsbGluZw0KPiArIA0K
+PiArICogR2VuZXJpYyBJbnN0YWxsIEluc3RydWN0aW9uczo6ICANCj4gKyAqIEhUTUwgTWFudWFs
+cyBhbmQgIm1ha2UgY2xlYW4iOjogIA0KPiArLSogQ3Vyc2VzIE5vdGVzOjogICAgICAgICAgICAg
+ICAgDQo+ICsrKiBDdXJzZXMgTm90ZXM6Og0KPiArKyogVXBncmFkaW5nIGZyb20gQXNwZWxsIDAu
+NjAuNzo6DQo+ICsgKiBMb2FkYWJsZSBGaWx0ZXIgTm90ZXM6OiAgICAgICANCj4gKyAqIFVwZ3Jh
+ZGluZyBmcm9tIEFzcGVsbCAwLjUwOjogIA0KPiArICogVXBncmFkaW5nIGZyb20gQXNwZWxsIC4z
+My9Qc3BlbGwgLjEyOjogIA0KPiArQEAgLTIyMDYsMTggKzIyMDcsMjYgQEAgaW50IGNvcnJlY3Qg
+PQ0KPiBhc3BlbGxfc3BlbGxlcl9jaGVjayhzcGVsbF9jaGVja2VyLCBAdmFye3dvcmR9LCBAdmFy
+e3NpemV9KTsNCj4gKyBAZW5kIHNtYWxsZXhhbXBsZQ0KPiArIA0KPiArIEBub2luZGVudA0KPiAr
+LUB2YXJ7d29yZH0gaXMgZXhwZWN0ZWQgdG8gYmUgYSBAY29kZXtjb25zdCBjaGFyICp9IGNoYXJh
+Y3Rlcg0KPiArLXN0cmluZy4gIElmIHRoZSBlbmNvZGluZyBpcyBzZXQgdG8gYmUgQGNvZGV7dWNz
+LTJ9IG9yDQo+ICstQGNvZGV7dWNzLTR9IEB2YXJ7d29yZH0gaXMgZXhwZWN0ZWQgdG8gYmUgYSBj
+YXN0DQo+ICstZnJvbSBlaXRoZXIgQGNvZGV7Y29uc3QgdTE2aW50ICp9IG9yIEBjb2Rle2NvbnN0
+IHUzMmludCAqfQ0KPiArLXJlc3BlY3RpdmVseS4gIEBjb2Rle3UxNmludH0gYW5kIEBjb2Rle3Uz
+MmludH0gYXJlIGdlbmVyYWxseQ0KPiArLUBjb2Rle3Vuc2lnbmVkIHNob3J0fSBhbmQgQGNvZGV7
+dW5zaWduZWQgaW50fSByZXNwZWN0aXZlbHkuDQo+ICstQHZhcntzaXplfSBpcyB0aGUgbGVuZ3Ro
+IG9mIHRoZSBzdHJpbmcgb3IgQGNvZGV7LTF9IGlmIHRoZSBzdHJpbmcNCj4gKy1pcyBudWxsIHRl
+cm1pbmF0ZWQuICBJZiB0aGUgc3RyaW5nIGlzIGEgY2FzdCBmcm9tIEBjb2Rle2NvbnN0DQo+IHUx
+NmludA0KPiArLSp9IG9yIEBjb2Rle2NvbnN0IHUzMmludCAqfSB0aGVuIEBjb2Rle0Bpe3NpemV9
+fSBpcyB0aGUgYW1vdW50IG9mDQo+ICstc3BhY2UgaW4gYnl0ZXMgdGhlIHN0cmluZyB0YWtlcyB1
+cCBhZnRlciBiZWluZyBjYXN0IHRvIEBjb2Rle2NvbnN0DQo+ICstY2hhciAqfSBhbmQgbm90IHRo
+ZSB0cnVlIHNpemUgb2YgdGhlDQo+IHN0cmluZy4gIEBjb2Rle3NzcGVsbF9zcGVsbGVyX2NoZWNr
+fQ0KPiArLXdpbGwgcmV0dXJuIEBjb2RlezB9IGlmIGl0IGlzIG5vdCBmb3VuZCBhbmQgbm9uLXpl
+cm8gb3RoZXJ3aXNlLg0KPiArK0B2YXJ7d29yZH0gaXMgZXhwZWN0ZWQgdG8gYmUgYSBAY29kZXtj
+b25zdCBjaGFyICp9IGNoYXJhY3Rlcg0KPiBzdHJpbmcuDQo+ICsrQHZhcntzaXplfSBpcyB0aGUg
+bGVuZ3RoIG9mIHRoZSBzdHJpbmcgb3IgQGNvZGV7LTF9IGlmIHRoZSBzdHJpbmcNCj4gaXMNCj4g
+KytudWxsIHRlcm1pbmF0ZWQuICBAY29kZXthc3BlbGxfc3BlbGxlcl9jaGVja30gd2lsbCByZXR1
+cm4gQGNvZGV7MH0NCj4gaWYgaXQgaXMgbm90IGZvdW5kDQo+ICsrYW5kIG5vbi16ZXJvIG90aGVy
+d2lzZS4NCj4gKysNCj4gKytJZiB5b3UgYXJlIHVzaW5nIHRoZSBAY29kZXt1Y3MtMn0gb3IgQGNv
+ZGV7dWNzLTR9IGVuY29kaW5nIHRoZW4gdGhlDQo+ICsrc3RyaW5nIGlzIGV4cGVjdGVkIHRvIGJl
+IGVpdGhlciBhIDIgb3IgNCBieXRlIHdpZGUgaW50ZWdlcg0KPiArKyhyZXNwZWN0aXZlbHkpIGFu
+ZCB0aGUgQGNvZGV7X3d9IG1hY3JvIHZlc2lvbiBzaG91bGQgYmUgdXNlZDoNCj4gKysNCj4gKytA
+c21hbGxleGFtcGxlDQo+ICsraW50IGNvcnJlY3QgPSBhc3BlbGxfc3BlbGxlcl9jaGVja193KHNw
+ZWxsX2NoZWNrZXIsIEB2YXJ7d29yZH0sDQo+IEB2YXJ7c2l6ZX0pOw0KPiArK0BlbmQgc21hbGxl
+eGFtcGxlDQo+ICsrDQo+ICsrVGhlIG1hY3JvIHdpbGwgY2FzdCB0aGUgc3RyaW5nIHRvIHRvIHRo
+ZSBjb3JyZWN0IHR5cGUgYW5kIGNvbnZlcnQNCj4gKytAdmFye3NpemV9IGludG8gYnl0ZXMgZm9y
+IHlvdSBhbmQgdGhlbiBhIGNhbGwgdGhlIHNwZWNpYWwgd2lkZQ0KPiB2ZXJzaW9uIG9mIHRoZQ0K
+PiArK2Z1bmN0aW9uIHRoYXQgd2lsbCBtYWtlIHN1cmUgdGhlIGVuY29kaW5nIGlzIGNvcnJlY3Qg
+Zm9yIHRoZSB0eXBlDQo+ICsrcGFzc2VkIGluLiAgRm9yIGNvbXBhdGliaWxpdHkgd2l0aCBvbGRl
+ciB2ZXJzaW9ucyBvZiBBc3BlbGwgdGhlDQo+IG5vcm1hbA0KPiArK25vbi13aWRlIGZ1bmN0aW9u
+cyBjYW4gc3RpbGwgYmUgdXNlZCBwcm92aWRlZCB0aGF0IHRoZSBzaXplIG9mIHRoZQ0KPiArK3N0
+cmluZywgaW4gYnl0ZXMsIGlzIGFsc28gcGFzc2VkIGluLiAgTnVsbCB0ZXJtaW5hdGVkIEBjb2Rl
+e3Vjcy0yfQ0KPiBvcg0KPiArK0Bjb2Rle3Vjcy00fSBhcmUgbm8gbG9uZ2VyIHN1cHBvcnRlZCB3
+aGVuIHVzaW5nIHRoZSBub24td2lkZQ0KPiBmdW5jdGlvbnMuDQo+ICsgDQo+ICsgSWYgdGhlIHdv
+cmQgaXMgbm90IGNvcnJlY3QsIHRoZW4gdGhlIEBjb2Rle3N1Z2dlc3R9IG1ldGhvZCBjYW4gYmUN
+Cj4gdXNlZA0KPiArIHRvIGNvbWUgdXAgd2l0aCBsaWtlbHkgcmVwbGFjZW1lbnRzLg0KPiArQEAg
+LTIyMzYsNyArMjI0NSwyOCBAQCBkZWxldGVfYXNwZWxsX3N0cmluZ19lbnVtZXJhdGlvbihlbGVt
+ZW50cyk7DQo+ICsgDQo+ICsgTm90aWNlIGhvdyBAY29kZXtlbGVtZW50c30gaXMgZGVsZXRlZCBi
+dXQgQGNvZGV7c3VnZ2VzdGlvbnN9IGlzDQo+IG5vdC4NCj4gKyBUaGUgdmFsdWUgcmV0dXJuZWQg
+YnkgQGNvZGV7c3VnZ2VzdGlvbnN9IGlzIG9ubHkgdmFsaWQgdG8gdGhlIG5leHQNCj4gKy1jYWxs
+IHRvIEBjb2Rle3N1Z2dlc3R9LiAgT25jZSBhIHJlcGxhY2VtZW50IGlzIG1hZGUgdGhlDQo+ICsr
+Y2FsbCB0byBAY29kZXtzdWdnZXN0fS4NCj4gKysNCj4gKytJZiB5b3UgYXJlIHVzaW5nIHRoZSBA
+Y29kZXt1Y3MtMn0gb3IgQGNvZGV7dWNzLTR9IGVuY29kaW5nIHRoZW4sIGluDQo+ICsrYWRkaXRp
+b24gdG8gdXNpbmcgdGhlIEBjb2Rle193fSBtYWNybyBmb3IgdGhlIEBjb2Rle3N1Z2dlc3R9DQo+
+IG1ldGhvZCwgeW91DQo+ICsrc2hvdWxkIGFsc28gdXNlIHRoZSBAY29kZXtfd30gbWFjcm8gd2l0
+aCB0aGUgQGNvZGV7bmV4dH0gbWV0aG9kDQo+IHdoaWNoDQo+ICsrd2lsbCBjYXN0IHRoZSBzdHJp
+bmcgdG8gdGhlIGNvcnJlY3QgdHlwZSBmb3IgeW91LiAgRm9yIGV4YW1wbGUsIGlmDQo+IHlvdQ0K
+PiArK2FyZSB1c2luZyB0aGUgQGNvZGV7dWNzLTJ9IGVuY29kaW5nIGFuZCB0aGUgc3RyaW5nIGlz
+IGEgQGNvZGV7Y29uc3QNCj4gKyt1aW50MTZfdCAqfSB0aGVuIHlvdSBzaG91bGQgdXNlOg0KPiAr
+Kw0KPiArK0BzbWFsbGV4YW1wbGUNCj4gKytBc3BlbGxXb3JkTGlzdCAqIHN1Z2dlc3Rpb25zID0N
+Cj4gYXNwZWxsX3NwZWxsZXJfc3VnZ2VzdF93KHNwZWxsX2NoZWNrZXIsDQo+ICsrICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBAdmFye3dvcmR9
+LA0KPiBAdmFye3NpemV9KTsNCj4gKytBc3BlbGxTdHJpbmdFbnVtZXJhdGlvbiAqIGVsZW1lbnRz
+ID0NCj4gYXNwZWxsX3dvcmRfbGlzdF9lbGVtZW50cyhzdWdnZXN0aW9ucyk7DQo+ICsrY29uc3Qg
+dWludDE2X3QgKiB3b3JkOw0KPiArK3doaWxlICggKHdvcmQgPSBhc3BlbGxfc3RyaW5nX2VudW1l
+cmF0aW9uX25leHRfdyh1aW50MTZfdCwNCj4gYXNwZWxsX2VsZW1lbnRzKSkgIT0gTlVMTCApDQo+
+ICsrQHsNCj4gKysgIC8vIGFkZCB0byBzdWdnZXN0aW9uIGxpc3QNCj4gKytAfQ0KPiArK2RlbGV0
+ZV9hc3BlbGxfc3RyaW5nX2VudW1lcmF0aW9uKGVsZW1lbnRzKTsNCj4gKytAZW5kIHNtYWxsZXhh
+bXBsZQ0KPiArKw0KPiArK09uY2UgYSByZXBsYWNlbWVudCBpcyBtYWRlIHRoZQ0KPiArIEBjb2Rl
+e3N0b3JlX3JlcGx9IG1ldGhvZCBzaG91bGQgYmUgdXNlZCB0byBjb21tdW5pY2F0ZSB0aGUNCj4g
+cmVwbGFjZW1lbnQNCj4gKyBwYWlyIGJhY2sgdG8gdGhlIHNwZWxsIGNoZWNrZXIgKGZvciB0aGUg
+cmVhc29uLCBAcHhyZWZ7Tm90ZXMgb24NCj4gKyBTdG9yaW5nIFJlcGxhY2VtZW50IFBhaXJzfSku
+ICBJdHMgdXNhZ2UgaXMgYXMgZm9sbG93czoNCj4gK2RpZmYgLS1naXQgYS9tYW51YWwvcmVhZG1l
+LnRleGkgYi9tYW51YWwvcmVhZG1lLnRleGkNCj4gK2luZGV4IDY2OWFiOGUuLjUzMTcyMWYgMTAw
+NjQ0DQo+ICstLS0gYS9tYW51YWwvcmVhZG1lLnRleGkNCj4gKysrKyBiL21hbnVhbC9yZWFkbWUu
+dGV4aQ0KPiArQEAgLTE1LDE1ICsxNSwxNiBAQCBUaGUgbGF0ZXN0IHZlcnNpb24gY2FuIGFsd2F5
+cyBiZSBmb3VuZCBhdCBHTlUNCj4gQXNwZWxsJ3MgaG9tZSBwYWdlIGF0DQo+ICsgQHVyZWZ7aHR0
+cDovL2FzcGVsbC5uZXR9Lg0KPiArIA0KPiArIEBtZW51DQo+ICstKiBHZW5lcmljIEluc3RhbGwg
+SW5zdHJ1Y3Rpb25zOjogIA0KPiArLSogSFRNTCBNYW51YWxzIGFuZCAibWFrZSBjbGVhbiI6OiAg
+DQo+ICstKiBDdXJzZXMgTm90ZXM6OiAgICAgICAgICAgICAgICANCj4gKy0qIExvYWRhYmxlIEZp
+bHRlciBOb3Rlczo6ICAgICAgIA0KPiArLSogVXNpbmcgMzItQml0IERpY3Rpb25hcmllcyBvbiBh
+IDY0LUJpdCBTeXN0ZW06OiAgDQo+ICstKiBVcGdyYWRpbmcgZnJvbSBBc3BlbGwgMC41MDo6ICAN
+Cj4gKy0qIFVwZ3JhZGluZyBmcm9tIEFzcGVsbCAuMzMvUHNwZWxsIC4xMjo6ICANCj4gKy0qIFVw
+Z3JhZGluZyBmcm9tIGEgUHJlLTAuNTAgc25hcHNob3Q6OiAgDQo+ICstKiBXSU4zMiBOb3Rlczo6
+ICAgICAgICAgICAgICAgICANCj4gKysqIEdlbmVyaWMgSW5zdGFsbCBJbnN0cnVjdGlvbnM6Og0K
+PiArKyogSFRNTCBNYW51YWxzIGFuZCAibWFrZSBjbGVhbiI6Og0KPiArKyogQ3Vyc2VzIE5vdGVz
+OjoNCj4gKysqIFVwZ3JhZGluZyBmcm9tIEFzcGVsbCAwLjYwLjc6Og0KPiArKyogTG9hZGFibGUg
+RmlsdGVyIE5vdGVzOjoNCj4gKysqIFVzaW5nIDMyLUJpdCBEaWN0aW9uYXJpZXMgb24gYSA2NC1C
+aXQgU3lzdGVtOjoNCj4gKysqIFVwZ3JhZGluZyBmcm9tIEFzcGVsbCAwLjUwOjoNCj4gKysqIFVw
+Z3JhZGluZyBmcm9tIEFzcGVsbCAuMzMvUHNwZWxsIC4xMjo6DQo+ICsrKiBVcGdyYWRpbmcgZnJv
+bSBhIFByZS0wLjUwIHNuYXBzaG90OjoNCj4gKysqIFdJTjMyIE5vdGVzOjoNCj4gKyBAZW5kIG1l
+bnUNCj4gKyANCj4gKyBAbm9kZSBHZW5lcmljIEluc3RhbGwgSW5zdHJ1Y3Rpb25zDQo+ICtAQCAt
+MTIxLDE3ICsxMjIsNjIgQEAgSW4gYWRkaXRpb24geW91ciBzeXN0ZW0gbXVzdCBhbHNvIHN1cHBv
+cnQgdGhlDQo+IEBjb2Rle21ibGVufSBmdW5jdGlvbi4NCj4gKyBBbHRob3VnaCB0aGlzIGZ1bmN0
+aW9uIHdhcyBkZWZpbmVkIGluIHRoZSBJU08gQzg5IHN0YW5kYXJkIChBTlNJDQo+ICsgWDMuMTU5
+LTE5ODkpLCBub3QgYWxsIHN5c3RlbXMgaGF2ZSBpdC4NCj4gKyANCj4gKytAbm9kZSBVcGdyYWRp
+bmcgZnJvbSBBc3BlbGwgMC42MC43DQo+ICsrQGFwcGVuZGl4c2VjIFVwZ3JhZGluZyBmcm9tIEFz
+cGVsbCAwLjYwLjcNCj4gKysNCj4gKytUbyBwcmV2ZW50IGEgcG90ZW50aWFsbHkgdW5ib3VuZGVk
+IGJ1ZmZlciBvdmVyLXJlYWQsIEFzcGVsbCBubw0KPiBsb25nZXINCj4gKytzdXBwb3J0cyBudWxs
+LXRlcm1pbmF0ZWQgVUNTLTIgYW5kIFVDUy00IGVuY29kZWQgc3RyaW5ncyB3aXRoIHRoZQ0KPiAr
+K29yaWdpbmFsIEMgQVBJLiAgTnVsbC10ZXJtaWFudGVkIDgtYml0IG9yIFVURi04IGVuY29kZWQg
+c3RyaW5ncyBhcmUNCj4gKytzdGlsbCBzdXBwb3J0ZWQsIGFzIGFyZSBVQ1MtMiBhbmQgVUNTLTQg
+ZW5jb2RlZCBzdHJpbmdzIHdoZW4gdGhlDQo+ICsrbGVuZ3RoIGlzIHBhc3NlZCBpbi4NCj4gKysN
+Cj4gKytBcyBvZiBBc3BlbGwgMC42MC44IGEgZnVuY3Rpb24gZnJvbSB0aGUgb3JpZ2luYWwgQVBJ
+IHRoYXQgZXhwZWN0cw0KPiBhbg0KPiArK2VuY29kZWQgc3RyaW5nIGFzIGEgcGFyYW1ldGVyIHdp
+bGwgcmV0dXJuIG1lYW5pbmdsZXNzIHJlc3VsdHMgKG9yDQo+IGFuDQo+ICsrZXJyb3IgY29kZSkg
+aWYgc3RyaW5nIGlzIG51bGwgdGVybWluYXRlZCBhbmQgdGhlIGVuY29kaW5nIGlzIHNldCB0bw0K
+PiArK0Bjb2Rle3Vjcy0yfSBvciBAY29kZXt1Y3MtNH0uICBJbiBhZGRpdGlvbiwgYSBzaW5nbGU6
+DQo+ICsrQGV4YW1wbGUNCj4gKytFUlJPUjogYXNwZWxsX3NwZWxsZXJfY2hlY2s6IE51bGwtdGVy
+bWluYXRlZCB3aWRlLWNoYXJhY3RlciBzdHJpbmdzDQo+IHVuc3VwcG9ydGVkIHdoZW4gdXNlZCB0
+aGlzIHdheS4NCj4gKytAZW5kIGV4YW1wbGUNCj4gKyt3aWxsIGJlIHByaW50ZWQgdG8gc3RhbmRh
+cmQgZXJyb3IgdGhlIGZpcnN0IHRpbWUgb25lIG9mIHRob3NlDQo+ICsrZnVuY3Rpb25zIGlzIGNh
+bGxlZC4NCj4gKysNCj4gKytBcHBsaWNhdGlvbiB0aGF0IHVzZSBudWxsLXRlcm1pbmF0ZWQgVUNT
+LTIvNCBzdHJpbmdzIHNob3VsZCBlaXRoZXINCj4gKDEpDQo+ICsrdXNlIHRoZSBpbnRlcmZhY2Ug
+aW50ZW5kZWQgZm9yIHdvcmtpbmcgd2l0aCB3aWRlLWNoYXJhY3RlcnMNCj4gKysoQHhyZWZ7VGhy
+b3VnaCB0aGUgQyBBUEl9KTsgb3IgKDIpIGRlZmluZQ0KPiArK0Bjb2Rle0FTUEVMTF9FTkNPREVf
+U0VUVElOR19TRUNVUkV9IGJlZm9yZSBpbmNsdWRpbmcNCj4gQGNvZGV7YXNwZWxsLmh9Lg0KPiAr
+K0luIHRoZSBsYXR0ZXIgY2FzZSBpcyBpcyBpbXBvcnRhbnQgdGhhdCB0aGUgYXBwbGljYXRpb24g
+ZXhwbGljaXRseQ0KPiArK3NldHMgdGhlIGVuY29kaW5nIHRvIGEga25vd24gdmFsdWUuICBEZWZp
+bmluZw0KPiArK0Bjb2Rle0FTUEVMTF9FTkNPREVfU0VUVElOR19TRUNVUkV9IGFuZCBub3Qgc2V0
+dGluZyB0aGUgZW5jb2RpbmcNCj4gKytleHBsaWNpdGx5IG9yIGFsbG93aW5nIHVzZXIgb2YgdGhl
+IGFwcGxpY2F0aW9uIHRvIHNldCB0aGUgZW5jb2RpbmcNCj4gKytjb3VsZCByZXN1bHQgaW4gYW4g
+dW5ib3VuZGVkIGJ1ZmZlciBvdmVyLXJlYWQuDQo+ICsrDQo+ICsrSWYgaXQgaXMgbmVjZXNzYXJ5
+IHRvIHByZXNlcnZlIGJpbmFyeSBjb21wYXRpYmlsaXR5IHdpdGggb2xkZXINCj4gKyt2ZXJzaW9u
+cyBvZiBBc3BlbGwsIHRoZSBlYXNpZXN0IHRoaW5nIHdvdWxkIGJlIHRvIGRldGVybWluZSB0aGUN
+Cj4gbGVuZ3RoDQo+ICsrb2YgdGhlIFVDUy0yLzQgc3RyaW5nLS0taW4gYnl0ZXMtLS1hbmQgcGFz
+cyB0aGF0IGluLiAgRHVlIHRvIGFuDQo+ICsraW1wbGVtZW5hdGlvbiBkZXRhaWwsIGV4aXN0aW5n
+IEFQSSBmdW5jdGlvbnMgY2FuIGJlIG1hZGUgdG8gd29yaw0KPiB3aXRoDQo+ICsrbnVsbC10ZXJt
+aW5hdGVkIFVDUy0yLzQgc3RyaW5ncyBzYWZlbHkgYnkgcGFzc2luZyBpbiBlaXRoZXIgQGNvZGV7
+LQ0KPiAyfQ0KPiArK29yIEBjb2Rley00fSAoY29ycmVzcG9uZGluZyB0byB0aGUgd2lkdGggb2Yg
+dGhlIGNoYXJhY3RlciB0eXBlKSBhcw0KPiB0aGUNCj4gKytzaXplLiAgRG9pbmcgc28sIGhvd2V2
+ZXIsIHdpbGwgY2F1c2UgYSBidWZmZXIgb3Zlci1yZWFkIGZvcg0KPiB1bnBhdGNoZWQNCj4gKyt2
+ZXJzaW9uIG9mIEFzcGVsbC4gIFRvIGF2b2lkIHRoaXMgaXQgd2lsbCBiZSBuZWNlc3NhcnkgdG8g
+cGFyc2UgdGhlDQo+ICsrdmVyc2lvbiBzdHJpbmcgdG8gZGV0ZXJtaW5lIHRoZSBjb3JyZWN0IHZh
+bHVlIHRvIHVzZS4gIEhvd2V2ZXIsIG5vDQo+ICsrb2ZmaWNpYWwgc3VwcG9ydCB3aWxsIGJlIHBy
+b3ZpZGVkIGZvciB0aGUgbGF0dGVyIG1ldGhvZC4NCj4gKysNCj4gKytJZiB0aGUgYXBwbGljYXRp
+b24gY2FuIG5vdCBiZSByZWNvbXBpbGVkLCB0aGVuIEFzcGVsbCBjYW4gYmUNCj4gY29uZmlndXJl
+ZA0KPiArK3RvIHByZXNlcnZlIHRoZSBvbGQgYmVoYXZpb3IgYnkgcGFzc2luZw0KPiArK0BvcHRp
+b257LS1lbmFibGUtc2xvcHB5LW51bGwtdGVybS1zdHJpbmdzfSB0bw0KPiBAY29tbWFuZHtjb25m
+aWd1cmV9LiAgV2hlbiBBc3BlbGwNCj4gKytpcyBjb21waWxlZCB0aGlzIHdheSB0aGUgdmVyc2lv
+biBzdHJpbmcgd2lsbCBpbmNsdWRlIHRoZSBzdHJpbmcNCj4gKytAc2FtcHsgU0xPUFBZfS4NCj4g
+KysNCj4gKyBAbm9kZSBMb2FkYWJsZSBGaWx0ZXIgTm90ZXMNCj4gKyBAYXBwZW5kaXhzZWMgTG9h
+ZGFibGUgRmlsdGVyIE5vdGVzDQo+ICstDQo+ICsrICAgICAgICAgICAgIA0KPiArIFN1cHBvcnQg
+Zm9yIGJlaW5nIGFibGUgdG8gbG9hZCBhZGRpdGlvbmFsIGZpbHRlciBtb2R1bGVzIGF0IHJ1bi0N
+Cj4gdGltZQ0KPiArIGhhcyBvbmx5IGJlZW4gdmVyaWZpZWQgdG8gd29yayBvbiBMaW51eCBwbGF0
+Zm9ybXMuICBJZiB5b3UgZ2V0DQo+IGxpbmtlcg0KPiArIGVycm9ycyB3aGVuIHRyeWluZyB0byB1
+c2UgYSBmaWx0ZXIsIHRoZW4gaXQgaXMgbGlrZWx5IHRoYXQgbG9hZGFibGUNCj4gKyBmaWx0ZXIg
+c3VwcG9ydCBpcyBub3Qgd29ya2luZyB5ZXQgb24geW91ciBwbGF0Zm9ybS4gIFRodXMsIGluIG9y
+ZGVyDQo+IHRvDQo+ICsgZ2V0IEFzcGVsbCB0byB3b3JrIGNvcnJlY3RseSB5b3Ugd2lsbCBuZWVk
+IHRvIGF2b2lkIGNvbXBpbGluZyB0aGUNCj4gKyBmaWx0ZXJzIGFzIGluZGl2aWR1YWwgbW9kdWxl
+cyBieSB1c2luZyB0aGUNCj4gKy1Ab3B0aW9uey0tZW5hYmxlLWNvbXBpbGUtaW4tZmlsdGVyc30g
+d2hlbiBjb25maWd1cmluZyBBc3BlbGwgd2l0aA0KPiArLUBjb21tYW5key4vY29uZmlndXJlfS4N
+Cj4gKytAb3B0aW9uey0tZW5hYmxlLWNvbXBpbGUtaW4tZmlsdGVyc30gQGNvbW1hbmR7Y29uZmln
+dXJlfSBvcHRpb24uDQo+ICsgDQo+ICsgQG5vZGUgVXNpbmcgMzItQml0IERpY3Rpb25hcmllcyBv
+biBhIDY0LUJpdCBTeXN0ZW0NCj4gKyBAYXBwZW5kaXhzZWMgVXNpbmcgMzItQml0IERpY3Rpb25h
+cmllcyBvbiBhIDY0LUJpdCBTeXN0ZW0NCj4gKy0tIA0KPiArMi4xNy4xDQo+ICsNCj4gZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2FzcGVsbC9hc3BlbGwvQ1ZFLTIwMTktMjA0MzMt
+DQo+IDAwMDIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hc3BlbGwvYXNwZWxsL0NWRS0y
+MDE5LTIwNDMzLQ0KPiAwMDAyLnBhdGNoDQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4
+IDAwMDAwMDAwMDAuLjk1NjlkZGVlYmUNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9tZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9hc3BlbGwvYXNwZWxsL0NWRS0yMDE5LTIwNDMzLTAwMDIucGF0Y2gNCj4g
+QEAgLTAsMCArMSw2OCBAQA0KPiArRnJvbSBjZWZkNDQ3ZTU1MjhiMDhiYjBjZDY2NTZiYzUyYjQy
+NTU2OTJjZWZjIE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gMjAwMQ0KPiArRnJvbTogS2V2aW4gQXRr
+aW5zb24gPGtldmluYUBnbnUub3JnPg0KPiArRGF0ZTogU2F0LCAxNyBBdWcgMjAxOSAyMDoyNToy
+MSAtMDQwMA0KPiArU3ViamVjdDogW1BBVENIIDIvMl0gSW5jcmVtZW50IGxpYnJhcnkgdmVyc2lv
+biB0byByZWZsZWN0IEFQSQ0KPiBjaGFuZ2VzLg0KPiArDQo+ICtDVkU6IENWRS0yMDE5LTIwNDMz
+DQo+ICtVcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFsNCj4gaHR0cHM6Ly9naXRodWIuY29tL0dO
+VUFzcGVsbC9hc3BlbGwvY29tbWl0L2NlZmQ0NDdlNTUyOGIwOGJiMGNkNjY1NmJjNTJiNDI1NTY5
+MmNlZmMNCj4gXQ0KPiArDQo+ICtTaWduZWQtb2ZmLWJ5OiBTdGVmYW4gR2hpbmVhIDxzdGVmYW4u
+Z2hpbmVhQHdpbmRyaXZlci5jb20+DQo+ICstLS0NCj4gKyBNYWtlZmlsZS5hbSB8IDMxICsrKysr
+KysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0NCj4gKyAxIGZpbGUgY2hhbmdlZCwgMTcgaW5zZXJ0
+aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pDQo+ICsNCj4gK2RpZmYgLS1naXQgYS9NYWtlZmlsZS5h
+bSBiL01ha2VmaWxlLmFtDQo+ICtpbmRleCA3ZTE1ODUxLi4xOWRjMDQ0IDEwMDY0NA0KPiArLS0t
+IGEvTWFrZWZpbGUuYW0NCj4gKysrKyBiL01ha2VmaWxlLmFtDQo+ICtAQCAtOTQsMTggKzk0LDI1
+IEBAIGxpYmFzcGVsbF9sYV9TT1VSQ0VTID1cDQo+ICsgDQo+ICsgbGliYXNwZWxsX2xhX0xJQkFE
+RCA9ICAkKExUTElCSU5UTCkgJChQVEhSRUFEX0xJQikNCj4gKyANCj4gKy0jIyBMaWJ0b29sIHRv
+IHNvIG5hbWUNCj4gKy0jIyBDOlI6QSA9PiAoQy1BKS4oQSkuKFIpDQo+ICstIyMgMTY6NTowID0+
+IDE2LjAuNQ0KPiArLSMjIDE2OjU6MSA9PiAxNS4xLjUNCj4gKy0jIyAxODowOjIgPT4gMTYuMi4w
+IA0KPiArLSMjIDE3OjA6MiA9PiAxNS4yLjANCj4gKy0NCj4gKysjIyBUaGUgdmVyc2lvbiBzdHJp
+bmcgaXMgY3VycmVudFs6cmV2aXNpb25bOmFnZV1dDQo+ICsrIyMNCj4gKysjIyBCZWZvcmUgYSBy
+ZWxlYXNlIHRoYXQgaGFzIGNoYW5nZWQgdGhlIHNvdXJjZSBjb2RlIGF0IGFsbA0KPiArKyMjIGlu
+Y3JlbWVudCByZXZpc2lvbi4NCj4gKysjIw0KPiArKyMjIEFmdGVyIG1lcmdpbmcgY2hhbmdlcyB0
+aGF0IGhhdmUgY2hhbmdlZCB0aGUgQVBJIGluIGEgYmFja3dhcmRzDQo+ICsrIyMgY29tcHRhYmxl
+IHdheSBzZXQgcmV2aXNpb24gdG8gMCBhbmQgYnVtcCBib3RoIGN1cnJlbnQgYW5kIGFnZS4NCj4g
+KysjIw0KPiArKyMjIERvIG5vdCBjaGFuZ2UgdGhlIEFQSSBpbiBhIGJhY2t3YXJkcyBpbmNvbXBh
+dGlibGUgd2F5Lg0KPiArKyMjDQo+ICsrIyMgU2VlICJMaWJ0b29sOiBVcGRhdGluZyB2ZXJzaW9u
+IGluZm8iDQo+ICsrIyMgKA0KPiBodHRwczovL3d3dy5nbnUub3JnL3NvZnR3YXJlL2xpYnRvb2wv
+bWFudWFsL2h0bWxfbm9kZS9VcGRhdGluZy12ZXJzaW9uLWluZm8uaHRtbA0KPiApDQo+ICsrIyMg
+Zm9yIG1vcmUgaW50bw0KPiArKyMjDQo+ICsgaWYgSU5DUkVNRU5URURfU09OQU1FDQo+ICstbGli
+YXNwZWxsX2xhX0xERkxBR1MgPSAtdmVyc2lvbi1pbmZvIDE4OjA6MiAtbm8tdW5kZWZpbmVkDQo+
+ICsrbGliYXNwZWxsX2xhX0xERkxBR1MgPSAtdmVyc2lvbi1pbmZvIDE5OjA6MyAtbm8tdW5kZWZp
+bmVkDQo+ICsgZWxzZQ0KPiArICMjIFVzZSBDLTE6UjpBIA0KPiArLWxpYmFzcGVsbF9sYV9MREZM
+QUdTID0gLXZlcnNpb24taW5mbyAxNzowOjIgLW5vLXVuZGVmaW5lZA0KPiArK2xpYmFzcGVsbF9s
+YV9MREZMQUdTID0gLXZlcnNpb24taW5mbyAxODowOjMgLW5vLXVuZGVmaW5lZA0KPiArIGVuZGlm
+DQo+ICsgDQo+ICsgaWYgUFNQRUxMX0NPTVBBVElCSUxJVFkNCj4gK0BAIC0xMTMsMTEgKzEyMCw3
+IEBAIGxpYnBzcGVsbF9sYV9TT1VSQ0VTID0gbGliL2R1bW15LmNwcA0KPiArIA0KPiArIGxpYnBz
+cGVsbF9sYV9MSUJBREQgPSBsaWJhc3BlbGwubGENCj4gKyANCj4gKy1pZiBJTkNSRU1FTlRFRF9T
+T05BTUUNCj4gKy1saWJwc3BlbGxfbGFfTERGTEFHUyA9IC12ZXJzaW9uLWluZm8gMTg6MDoyIC1u
+by11bmRlZmluZWQNCj4gKy1lbHNlDQo+ICstbGlicHNwZWxsX2xhX0xERkxBR1MgPSAtdmVyc2lv
+bi1pbmZvIDE3OjA6MiAtbm8tdW5kZWZpbmVkDQo+ICstZW5kaWYNCj4gKytsaWJwc3BlbGxfbGFf
+TERGTEFHUyA9ICQobGliYXNwZWxsX2xhX0xERkxBR1MpDQo+ICsgDQo+ICsgZW5kaWYNCj4gKyAN
+Cj4gKy0tIA0KPiArMi4xNy4xDQo+ICsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBw
+b3J0L2FzcGVsbC9hc3BlbGxfMC42MC43LmJiDQo+IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXNw
+ZWxsL2FzcGVsbF8wLjYwLjcuYmINCj4gaW5kZXggYjU2NWNiM2M2ZS4uMWUxMDRjMjYzYyAxMDA2
+NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXNwZWxsL2FzcGVsbF8wLjYwLjcuYmIN
+Cj4gKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXNwZWxsL2FzcGVsbF8wLjYwLjcuYmINCj4g
+QEAgLTgsNiArOCw4IEBAIFBSID0gInIxIg0KPiAgDQo+ICBTUkNfVVJJID0gIiR7R05VX01JUlJP
+Un0vYXNwZWxsL2FzcGVsbC0ke1BWfS50YXIuZ3ogXA0KPiAgICAgICAgICAgICBmaWxlOi8vMDAw
+MS1GaXgtdmFyaW91cy1idWdzLWZvdW5kLWJ5LU9TUy1GdXplLnBhdGNoIFwNCj4gKyAgICAgICAg
+ICAgZmlsZTovL0NWRS0yMDE5LTIwNDMzLTAwMDEucGF0Y2ggXA0KPiArICAgICAgICAgICBmaWxl
+Oi8vQ1ZFLTIwMTktMjA0MzMtMDAwMi5wYXRjaCBcDQo+ICAgICAgICAgICAgIg0KPiAgU1JDX1VS
+SVttZDVzdW1dID0gIjhlZjIyNTI2MDljNTExY2QyYmIyNmYzYTM5MzJlZjI4Ig0KPiAgU1JDX1VS
+SVtzaGEyNTZzdW1dID0NCj4gIjVjYThmYzhjYjAzNzBjYzZjOWViNWI2NGM2ZDFiYzVkNTdiMzc1
+MGRiZjE3ODg3NzI2YzM0MDdkODMzYjcwZTQiDQo+IC0tIA0KPiAyLjE3LjENCj4gDQo=
 
