@@ -1,47 +1,45 @@
-Return-Path: <prvs=333343292=Mikko.Rapeli@bmw.de>
-Received: from esa1.bmw.c3s2.iphmx.com (esa1.bmw.c3s2.iphmx.com
-	[68.232.133.201])
-	by mail.openembedded.org (Postfix) with ESMTP id 3700F61C32
+Return-Path: <jonathan.rajotte-julien@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+	by mail.openembedded.org (Postfix) with ESMTP id 3084261B10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 13:25:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1584019522; x=1615555522;
-	h=from:to:cc:subject:date:message-id:in-reply-to:
-	content-id:content-transfer-encoding:mime-version;
-	bh=B3SC/03xptabRldwwtI2Hdqd5JmFIW8sooMSSbrrRpM=;
-	b=jbFDYnwOm2IxeJdEHM9leGndRtByOzgqv/ncj6LyBS2HO0eee19P5JZ2
-	IA8QLyNk2xVF1nmPswo71Nh+Fx0o0jwD/v8oUyI8qzffvrsZsXEQ9e/gC
-	xYR3QmLEOMf/f+nXXWX4GDeDk1vsFanab4EccBq3tO1RXbnbuZc8i6lrg c=;
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
-	esa1.bmw.c3s2.iphmx.com with ESMTP/TLS; 12 Mar 2020 14:25:20 +0100
-Received: from esabb5.muc ([160.50.100.47])  by esagw4.muc with ESMTP/TLS;
-	12 Mar 2020 14:25:19 +0100
-Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
-	([160.48.96.48])
-	by esabb5.muc with ESMTP/TLS; 12 Mar 2020 14:25:18 +0100
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10l.europe.bmw.corp
-	(160.48.96.48) with Microsoft SMTP Server (TLS;
-	Thu, 12 Mar 2020 14:25:18 +0100
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Thu, 12 Mar 2020 14:25:18 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <bunk@stusta.de>, <anuj.mittal@intel.com>
-Thread-Topic: [OE-core] [PATCH] [zeus] aspell: CVE-2019-20433
-Thread-Index: AQHV+HGs3kZ9JBBQ50+WAdtzEWjdnA==
-Date: Thu, 12 Mar 2020 13:25:18 +0000
-Message-ID: <20200312132517.GV104502@korppu>
-In-Reply-To: <C0207330DF60C5409302EC78C3FE68F30349D9B0@PGSMSX101.gar.corp.intel.com>
-	<20200312124908.GA21921@localhost>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+	Thu, 12 Mar 2020 14:25:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id B4358280F4A;
+	Thu, 12 Mar 2020 10:25:25 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id XqZcj9ZoKXHW; Thu, 12 Mar 2020 10:25:25 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id 712EB2811C7;
+	Thu, 12 Mar 2020 10:25:25 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 712EB2811C7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1584023125;
+	bh=glsLV3yLwoLPeUeP5570wgQaa7GgoyY9/ZHzNs8I8aw=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=uejZTfOlW09ixp3u/lHTpalccSSZUj9gaUy1lowlpoiQ0ulvORj6uh8hpxlykprrl
+	niXu2Ut+Ikar0Qc6DSX9XIW6bOKaJ1Nkco4ZU2nutmZzoj3CEquyDOxyWWGIwm6xAV
+	2CZ4jh6l7StOHcu2Ji2D8pYbpSm83hFjeiSmNqnJqqXYYmE8hhdjOKF1dvzKP7PDUE
+	PLF1p7eDfQl+Amoquehue8fcEZNWo0UvBJtFmfi4R+rCDhlem+J9OPz1xxdCKsDq99
+	LshPK4Q6Ftwt0GHYe+jRssDLB6yhGsmIIfqA9oIAi+2QlKSgUr2/pE/LlqozGOTfmB
+	2BFW3lDhsBRVw==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id N2c2DtV8YctW; Thu, 12 Mar 2020 10:25:25 -0400 (EDT)
+Received: from joraj-alpa (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
+	by mail.efficios.com (Postfix) with ESMTPSA id 50A3528112B;
+	Thu, 12 Mar 2020 10:25:25 -0400 (EDT)
+Date: Thu, 12 Mar 2020 10:25:24 -0400
+From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Message-ID: <20200312142524.GB30953@joraj-alpa>
+References: <20200311222249.29880-1-jpuhlman@mvista.com>
 MIME-Version: 1.0
+In-Reply-To: <20200311222249.29880-1-jpuhlman@mvista.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] [zeus] aspell: CVE-2019-20433
+Subject: Re: [PATCH 1/2] babletrace2: make manpages multilib identical
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,13 +52,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 13:25:19 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <60B60CD36918ED48968E3934779410AF@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Mar 2020 14:25:25 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Yes, you are correct. White listing isn't right either.
+Hi
 
--Mikko=
+Is this something upstream (lttng-dev mailing list) should be interested in?
+
+Cheers
+
+On Wed, Mar 11, 2020 at 03:22:48PM -0700, Jeremy A. Puhlman wrote:
+> From: Jeremy Puhlman <jpuhlman@mvista.com>
+> 
+> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+> ---
+>  .../0001-Make-manpages-multilib-identical.patch    | 28 ++++++++++++++++++++++
+>  meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb     |  1 +
+>  2 files changed, 29 insertions(+)
+>  create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
+> 
+> diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
+> new file mode 100644
+> index 0000000000..2401b176e6
+> --- /dev/null
+> +++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
+> @@ -0,0 +1,28 @@
+> +From 56986190e4b0c10945ce6aaa7ca10d6bd8a26a39 Mon Sep 17 00:00:00 2001
+> +From: Jeremy Puhlman <jpuhlman@mvista.com>
+> +Date: Mon, 9 Mar 2020 21:10:35 +0000
+> +Subject: [PATCH] Make manpages multilib identical
+> +
+> +Upstream-Status: Pending
+> +Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+> +---
+> + doc/man/asciidoc-attrs.conf.in | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/doc/man/asciidoc-attrs.conf.in b/doc/man/asciidoc-attrs.conf.in
+> +index ad1183f1..e11c7031 100644
+> +--- a/doc/man/asciidoc-attrs.conf.in
+> ++++ b/doc/man/asciidoc-attrs.conf.in
+> +@@ -1,7 +1,7 @@
+> + [attributes]
+> + # default values
+> +-system_plugin_path="@LIBDIR@/babeltrace2/plugins"
+> +-system_plugin_provider_path="@LIBDIR@/babeltrace2/plugin-providers"
+> ++system_plugin_path="@prefix@/lib*/babeltrace2/plugins"
+> ++system_plugin_provider_path="@prefix@/lib*/babeltrace2/plugin-providers"
+> + babeltrace_version="@PACKAGE_VERSION@"
+> + enable_debug_info="@ENABLE_DEBUG_INFO_VAL@"
+> + defrdport=5344
+> +-- 
+> +2.24.1
+> +
+> diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
+> index 16953d6807..61bc7f5e6b 100644
+> --- a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
+> +++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
+> @@ -10,6 +10,7 @@ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
+>  SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-2.0 \
+>  	   file://run-ptest \
+>  	   file://0001-tests-do-not-run-test-applications-from-.libs.patch \
+> +           file://0001-Make-manpages-multilib-identical.patch \
+>  	  "
+>  SRCREV = "06df58f89ee51b1a2c6a2c187ec3f15691633910"
+>  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+> -- 
+> 2.13.3
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+-- 
+Jonathan Rajotte-Julien
+EfficiOS
 
