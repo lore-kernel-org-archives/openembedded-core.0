@@ -1,36 +1,51 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 988B160B48
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 59B0661C31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 06:14:38 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,543,1574092800"; d="scan'208";a="86205824"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Mar 2020 14:14:37 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 67904406AB15;
-	Thu, 12 Mar 2020 14:04:38 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.81) by
-	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Thu, 12 Mar 2020 14:14:37 +0800
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <b1aa0d35-35bb-8043-fdd2-d57261eeb714@cn.fujitsu.com>
-	<CADkTA4NOf2MXDkdta6o4MbEVTehSF+vY_D8ez53HjBgSzoDG6w@mail.gmail.com>
-From: zangrc <zangrc.fnst@cn.fujitsu.com>
-Message-ID: <c82b8e9e-28e7-b703-3ffc-06e0c06e5458@cn.fujitsu.com>
-Date: Thu, 12 Mar 2020 14:16:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.1.1
+	Thu, 12 Mar 2020 07:50:02 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id w3so2335362plz.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Mar 2020 00:50:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=1TQgHyD9ezMsHTWRWBywUKGX4oWuE3kHBWV78tn68Yo=;
+	b=UbAvwzZJj5GodGK+cRxda6SyXzXZGCgx0F1xo3wK54c99aK09+MBnSL/5g5m0urOoC
+	oX5OCrJy18Pr3xhyjhO8mes3GTT8DWonyNdeXoO4UdJD+auEXzDgs8uLHs/tFHdWOIfM
+	MUjw+kZuiNRZO57p9XJVHt3v0MvvjJfvlp14HJdVyz/8K/zPk2lGZK8WXIB3EBq9jswo
+	qgFKkbhvWGZISDTSeN54SCBs0NR2Y1SLp736ITvgLPMPEiwnVASWnqu0SUMZE6eaHqGG
+	DwREZNrkq4y4r/Gu0SYBb18aWDWnwoMdDZQ/8obpwqmVjEfAb0I94HEymODjLGxljd77
+	gdiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=1TQgHyD9ezMsHTWRWBywUKGX4oWuE3kHBWV78tn68Yo=;
+	b=Rh2sytu9NLS50kz+jEux7yNbh+t1rLXc9rvnFD4QDeWjG7RtvOlVwnNaOiboiQLFeX
+	x62iatuaSgG861pqk2Dq7cOmatEeVJ6MrdPuOoM1pxQaTErgv+fyRCkZ7qHHg0lNSQus
+	3Jpjzo1VhHVfCnYiJy3KOF/mOfFoJkvsW8Wk0nrYuHNPTxFnQdCMJRiR2FdEhMhOrBtT
+	axno9JlGiP6vMZibOY5R3fKPfzukbFwWDlVB2zFSHg99AE1+PgnLP7aW0fn0hBXiMZSA
+	IJAcl08GOcLHAIvYnUS6CjXqvXNgQXDQnA6cXzhTRCH3EYBVGxyDs3nNrkIXMxlvqFOh
+	G1UQ==
+X-Gm-Message-State: ANhLgQ2PxdtYhtcXUX2fM5ISZea4mxoTb/odfKHpa2FMuB3IaIoOxNjw
+	BMx+qlMiv+txppmleOpt1VtyPB5Kq3E=
+X-Google-Smtp-Source: ADFU+vtXQgwjc6Os1B3i41PHV/I+IOkXaZteUfpf1sKxCIOP+pg+lRBjShGOVQiIPJsgFXRHLasofw==
+X-Received: by 2002:a17:902:8307:: with SMTP id
+	bd7mr6670409plb.74.1583999402628; 
+	Thu, 12 Mar 2020 00:50:02 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::94a8])
+	by smtp.gmail.com with ESMTPSA id
+	135sm3148832pfu.207.2020.03.12.00.50.01
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 12 Mar 2020 00:50:02 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Mar 2020 00:50:14 -0700
+Message-Id: <20200312075014.3313451-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4NOf2MXDkdta6o4MbEVTehSF+vY_D8ez53HjBgSzoDG6w@mail.gmail.com>
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
-	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: 67904406AB15.A754E
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: CVE related consulting on linux-yocto on zeus branch
+Subject: [PATCH] oeqa/qemuarm64: Ignore logind: failed to get session seat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,45 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 06:14:39 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 12 Mar 2020 07:50:02 -0000
+Content-Transfer-Encoding: 8bit
 
-Our team plans to submit CVE-related patches that are not included in 
--stable, but we found that the current version of the linux-yocto recipe 
-is lower than the linux-yocto git repository. On which version should we 
-make the patch.
+When booting weston images this error is seen commonly, but Qemu boots
+the image fine, session seat error is thrown by libweston perhaps using
+--seat option or setting XDG_SEAT variable in weston.ini could fix it
 
-On 3/11/20 8:36 PM, Bruce Ashfield wrote:
-> On Wed, Mar 11, 2020 at 2:02 AM zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
->>
->> Hello,
->>
->>
->> our team is currently working on CVE-related work. I would like to ask
->> if the zeus branch of yocto has an update plan for linux-yocto in the
->> near future. If not, can we submit a CVE-related patch for the
->> linux-yocto of the zeus branch.
-> If it is part of -stable, then yes, it will be integrated into any of
-> the active upstream kernels. If it is in 5.2, we also have a -stable
-> process for those kernels as well.
->
-> If it doesn't fall into those categories, then send any patches
-> (against the kernel itself) to the linux-yocto mailing list, do not
-> send them as patches to the linux-yocto recipe itself.
->
-> Cheers,
->
-> Bruce
->
->>    --
->> Best Regards!
->> Zang Ruochen
->>
->>
->>
->
+[YOCTO #13828]
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/lib/oeqa/runtime/cases/parselogs.py | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index 6444fe814c..cc4f5f8c78 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -131,6 +131,7 @@ ignore_errors = {
+         '(EE) Server terminated with error (1). Closing log file.',
+         'dmi: Firmware registration failed.',
+         'irq: type mismatch, failed to map hwirq-27 for /intc',
++        'logind: failed to get session seat',
+         ] + common_errors,
+     'intel-core2-32' : [
+         'ACPI: No _BQC method, cannot determine initial brightness',
+-- 
+2.25.1
 
 
