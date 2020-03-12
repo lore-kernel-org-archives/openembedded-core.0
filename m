@@ -1,41 +1,39 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D60F61BD6
+Return-Path: <rpjday@crashcourse.ca>
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BF7861C31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 13:09:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Mar 2020 06:10:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,544,1574150400"; d="scan'208";a="246363115"
-Received: from kmsmsx151.gar.corp.intel.com ([172.21.73.86])
-	by orsmga006.jf.intel.com with ESMTP; 12 Mar 2020 06:09:59 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.189]) by
-	KMSMSX151.gar.corp.intel.com ([169.254.10.150]) with mapi id
-	14.03.0439.000; Thu, 12 Mar 2020 21:04:54 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "Mikko.Rapeli@bmw.de" <Mikko.Rapeli@bmw.de>
-Thread-Topic: [OE-core] [PATCH] [zeus] aspell: CVE-2019-20433
-Thread-Index: AQHV+E/1cDunrn+Y10OmnCzlq3irv6hEW9oAgAACg4CAAI12YA==
-Date: Thu, 12 Mar 2020 13:04:53 +0000
-Message-ID: <C0207330DF60C5409302EC78C3FE68F30349D9B0@PGSMSX101.gar.corp.intel.com>
-References: <20200312092322.28506-1-stefan.ghinea@windriver.com>
-	<67257554ffe08ac11b8f1cf3da115ba5a7e35fbd.camel@intel.com>
-	<20200312123418.GR104502@korppu>
-In-Reply-To: <20200312123418.GR104502@korppu>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.206]
+	Thu, 12 Mar 2020 13:24:06 +0000 (UTC)
+Received: from [127.0.0.1] (port=56018 helo=cpanel7.indieserve.net)
+	by cpanel7.indieserve.net with esmtpsa (TLS1.2) tls
+	TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jCNok-004DR1-Gk; Thu, 12 Mar 2020 09:24:07 -0400
+Received: from [66.129.241.14] ([66.129.241.14]) by crashcourse.ca (Horde
+	Framework) with HTTPS; Thu, 12 Mar 2020 09:24:06 -0400
+Date: Thu, 12 Mar 2020 09:24:06 -0400
+Message-ID: <20200312092406.Horde.dKGE_j40Nb1uLkJiJ77C4ZG@crashcourse.ca>
+From: rpjday@crashcourse.ca
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20200312085608.Horde.kbPh9KWkZJR4Zi-lry-_TrN@crashcourse.ca>
+	<CANNYZj-KNVxXWjTWqc-a6Xe4YqBx4aZkuFAkNjQb3ZhBL-hUcw@mail.gmail.com>
+In-Reply-To: <CANNYZj-KNVxXWjTWqc-a6Xe4YqBx4aZkuFAkNjQb3ZhBL-hUcw@mail.gmail.com>
+User-Agent: Horde Application Framework 5
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] [zeus] aspell: CVE-2019-20433
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
+	rpjday@crashcourse.ca
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: simplest command to display which layers are applying the same patch?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,53 +46,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 13:09:59 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 12 Mar 2020 13:24:06 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
+Content-Disposition: inline
+
+Ah, I was just playing with a build of my own (which works so I can't
+replicate the error), but if I "bitbake -e openssl", then I can obviously
+see all the operations that go into constructing the SRC_URI, along with
+the layers that contribute to that expansion, so I am assuming that,
+even if more than one layer tries to apply the same patch, all those
+SRC_URI values will be properly appended, in the sense of a duplicate
+patch will occur twice in the final value of SRC_URI, yes?
+
+And only when do_patch() kicks in will the duplicate patch generate a
+patch error, correct? That seems pretty straightforward, as long as
+I'm understanding the process here.
+
+Thanks again.
+
+rday
+
+Quoting Alexander Kanavin <alex.kanavin@gmail.com>:
+
+> I think 'bitbake -e recipe', and then searching for SRC_URI in it should
+> show which layer applies which patch.
+>
+> Alex
+>
+> On Thu, 12 Mar 2020 at 13:56, <rpjday@crashcourse.ca> wrote:
+>
+>>    just got from colleague a miniscule snippet of build output:
+>>
+>> ERROR: openssl-1.0.2u-r0 do_patch: Command Error: 'quilt --quiltrc ...
+>> snip ...
+>> Output: Patch Use-SHA256-not-MD5-as-default-digest.patch is already
+>> applied; check your series file
+>>
+>> the problem seems obvious ... more than one layer being pulled
+>> into the build is trying to apply the same patch to that version
+>> of openssl.
+>>
+>> i don't have access to that build system, but i'm not surprised
+>> as it appears that at least three layers (oe-core, vendor, and
+>> wind river linux fixes layer) all supply that very patch.
+>>
+>> what is the simplest command from way back in "morty" that
+>> could display something as clear as, "layer A already applied
+>> this patch, now layer B is trying to apply it as well?"
+>>
+>> if it's in the log file, i can just point the person at that,
+>> short of getting access to the build system and finding it
+>> myself.  thank you kindly.
+>>
+>> rday
+>>
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
 
 
 
-> -----Original Message-----
-> From: Mikko.Rapeli@bmw.de <Mikko.Rapeli@bmw.de>
-> Sent: Thursday, March 12, 2020 08:34 PM
-> To: Mittal, Anuj <anuj.mittal@intel.com>
-> Cc: openembedded-core@lists.openembedded.org; stefan.ghinea@windriver.com
-> Subject: Re: [OE-core] [PATCH] [zeus] aspell: CVE-2019-20433
->=20
-> On Thu, Mar 12, 2020 at 12:25:21PM +0000, Mittal, Anuj wrote:
-> > It looks like this is changing the API. I wonder if this would need
-> > any other change or break something elsewhere in OE-core, meta-oe?
-> >
-> > http://aspell.net/buffer-overread-ucs.txt
->=20
-> Debian classified issues as minor and fixed only by updating to 0.60.8:
-
-They were applied to 0.60.7:
-
-https://salsa.debian.org/debian/aspell/-/commit/ab3214b1e758646c5a995d277ac=
-80f6d04566149
-
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D935128
-
-I think that "minor" categorization is for versions where it wasn't fixed. =
-The NVD severity at the top says medium and it has been assigned a score of=
- 9.1.
-
->=20
-> https://security-tracker.debian.org/tracker/CVE-2019-20433
->=20
-> https://metadata.ftp-master.debian.org/changelogs//main/a/aspell/aspell_0=
-.60.8-
-> 1_changelog
->=20
-> Maybe whitelist for stable branches and update to new version on master?
->=20
-
-Whitelisting doesn't sound the right thing to do here especially since this=
- is a valid problem.
-
-Thanks,
-
-Anuj
 
