@@ -1,48 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
-	[209.85.222.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 1658C61C20
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
+	[209.85.222.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 2307160B44
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 16:25:35 +0000 (UTC)
-Received: by mail-ua1-f52.google.com with SMTP id t20so2336698uao.7
+	Thu, 12 Mar 2020 16:44:57 +0000 (UTC)
+Received: by mail-ua1-f68.google.com with SMTP id o16so2366477uap.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 09:25:36 -0700 (PDT)
+	Thu, 12 Mar 2020 09:44:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ipmJoGItZcGz+wbhf1L8m5LM7oczNGbKp7R6wWLfzcI=;
-	b=bzkxbBcUjI0l92PIri/4WADn/6xPSOAdFy0XZtFLbKFcyYoXXp93hJhvZUwvfqWYeJ
-	a9xwoGp2nfA+geo/VfFMnWyWtU7T4hqQdK8XnfLT9cEpXjHtsL7n59wzrnvMtsXH+UDZ
-	znWghT4nQY8KzbjwkIZPf0YkgzobsSyXdBml3ePZdfDmyA7CbZPgfknuGPLieg1g9R/X
-	Hw432BTFAdQKt0UxyxIc6ZBNAKEKVgc94AktzsR0DDqDH1l1kkRoWRxnTKtv45PKHQ0C
-	tx3uvkMAS1csnmQObN8AUAveeSyZwwHVh7ZpVYy0C1pwZtGhRvQ5oJabyzAq618Pge2G
-	IaMA==
+	:cc; bh=Dq+FErJRbHzLOIbVMvTrLunA4aCKAWc0e35GcoYe+Z0=;
+	b=RM00+6wG71BQK3ejbbNsoDx0wOIdrujoDS1vf8fJBkJUkNzCAYcJS8AC1D4KVTi67L
+	8Cw+sD8Q3F4MSJGcirA2Ux/3Zgt+yL65xwzDHdI3a1yNHT6cW2SpDoW4YI4k5/dTc6TC
+	cuRak24zsi3BVO0E/P+pJZHiwLf+rljKcGogkxBI89g5tboSEZJtdL8AL0oxlse/R8bN
+	ppDbuQYLHfi/OkuJ197BSOwyyiOV+3xYqJBclVdPPAIldtSn/PpyH2RZepAGsEX9HaQ5
+	kLnKy4WdkfKA9CSoM591UTEtwbEuIW8Eh/G5NulLNCbX0FCAUqmgi7K+a6Dn20VoOADG
+	804w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=ipmJoGItZcGz+wbhf1L8m5LM7oczNGbKp7R6wWLfzcI=;
-	b=QH0oCdhO/Bexhp9N0Jo7i7aJA1Q4JwuKYSyQIRqdpCBXbntAHnvD27kddVmIqhQCjh
-	qDPUlvZaxvy5mmektGgyOAusOnEzjruwM98xAqLHQOCnu1ZaSSyZwHl7OrQbjw1FzGHW
-	mBNvQBMZV5eESqeHFlaruylX3FnIVDJZJA+QTV3kDdgojFMBEggg9AEhSI9QXAJybdk0
-	vsWVmnqaERBPBSyt9ndoUjnaqgHkSY8ZpnqH+cXhwleez8im8uAB+uWfSDM7qtPmkFqF
-	zDNFnyFp5yUAx+jsIXjlSTS9ZIrHPwe2689a9E60c/gFvol0nqYevG6jsnAlR964Ofve
-	VmTQ==
-X-Gm-Message-State: ANhLgQ2nDW9XirM1ulInJWzEoNkemUO7CdtJMCwML5CiFRRTPcOt1D9Y
-	gme1RSJu8dmu8nLvDE0dvp7ppv2m+0wIVhqKh58=
-X-Google-Smtp-Source: ADFU+vtUgjXSMb1RxdmwK5eB8Kf/C4qnhKkJzsBwacVMDFo7AACaB7GwPpr6vpF5snvZECw7cu+7k10CA6D9Try45pQ=
-X-Received: by 2002:ab0:1158:: with SMTP id g24mr5301018uac.71.1584030336109; 
-	Thu, 12 Mar 2020 09:25:36 -0700 (PDT)
+	bh=Dq+FErJRbHzLOIbVMvTrLunA4aCKAWc0e35GcoYe+Z0=;
+	b=M7muUgc5JQPiiMNZDbfKMzmti8z2sCOH+5orLr3AJ00r86u465a5kesFHfveMjbJkV
+	ggH/kAmXAt6WzZIm7AkgXnL4LTpzqvIMLqHLAtyBJM8WQdsTgekoaX9n8BbV+Dp6CrHX
+	MsFbtZgqJL5gbLmviQ94xdAyXFa+LeSz5nTgh7qUz2n0mphaElZBXtzHUtkKcPRIAjYk
+	jGyynslqVEbpqcAfjyXqbMyitgm7cYU8tNReJuRvAKFUcX2Qa4/+LwJVYgvbGyqxnu8x
+	9dIcV08a2tDz73Q7LUU4D7SDCD37+BN9TvUote2nUYTFW4OwyJLkMTLlF6x2fFuVU7GG
+	ZDdg==
+X-Gm-Message-State: ANhLgQ3dvX40jNugNUX3H+tJoxklgbylLsFHyH68dAkZ0WFLMUMatptP
+	JsUiihOPvmXFzvhH24tZigzpzbIuVH4a2OsXGtC3FuRi
+X-Google-Smtp-Source: ADFU+vti53zB6CFzjFpKaz72PpvCwKIiwKdsHo6d2Y29DMiTsOt1P7S+1/Y/ZAZpiQbipe+6MgHHOHdz2SatWu/b81Q=
+X-Received: by 2002:ab0:65d3:: with SMTP id n19mr54839uaq.48.1584031497896;
+	Thu, 12 Mar 2020 09:44:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <1583983272-116095-1-git-send-email-mingli.yu@windriver.com>
-	<CANNYZj8uQeTRf4n1rkCkKkGc7n4KWrH5MdT13uAzivrBHDAsZA@mail.gmail.com>
-	<35d02004-68f2-eac7-16e5-8e51d98d7a1d@gmail.com>
-In-Reply-To: <35d02004-68f2-eac7-16e5-8e51d98d7a1d@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 12 Mar 2020 17:25:24 +0100
-Message-ID: <CANNYZj_xSpmzHCsZ=JK9phne5ZC_kzfwaNk4tSDPfaebGZdyOw@mail.gmail.com>
+References: <VI1PR10MB366487DDF67A917978FD21D7FDFD0@VI1PR10MB3664.EURPRD10.PROD.OUTLOOK.COM>
+	<80a2ec8e-cb96-9e2c-77e4-64fc2d5163dc@gmail.com>
+In-Reply-To: <80a2ec8e-cb96-9e2c-77e4-64fc2d5163dc@gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 12 Mar 2020 09:44:46 -0700
+Message-ID: <CAJ86T=X9aqB8StBjtN6hDPbU0HE+MF_WJa5cNxb30D+fTNGODg@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] netbase: use snapshot.debian.org
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: runqemu nographic and hvc0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,41 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 16:25:36 -0000
-Content-Type: multipart/alternative; boundary="0000000000007f514905a0aacdfa"
-
---0000000000007f514905a0aacdfa
+X-List-Received-Date: Thu, 12 Mar 2020 16:44:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 12 Mar 2020 at 17:08, Khem Raj <raj.khem@gmail.com> wrote:
-
-> > This will break version checks and automated upgrades. Is it possible to
-> > build from git instead?
-> > Specifically: https://salsa.debian.org/md/netbase
+On Thu, Mar 12, 2020 at 9:13 AM Khem Raj <raj.khem@gmail.com> wrote:
+> On 3/12/20 8:21 AM, Marko, Peter wrote:
+> > Hi,
+> >
+> > I'm trying to boot my own qemu image on zeus branch with "runqemu nographic /path/to/extracted/rootfs" but I have problem that console is flooded with
+> > process '/sbin/getty 115200 hvc0' (pid 383) exited. Scheduling for restart.
+> > starting pid 385, tty '': '/sbin/getty 115200 hvc0'
+> > I'm using yocto qemuarm kernel and qemuarm machine (but it's the same with qemuarm64).
+> >
+> > Basically qemuarm machine has
+> > SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+> > which is transferred to /etc/inittab, however hvc0 device does not exist after booting in nographic mode.
+> >
+> > What kind of configuration am I missing in my image?
+> > I think that might be the graphic console which does not exist in nographic mode?
 >
-> That repo is debian build metadata sources for netbase.
+> that is correct
 >
+> > Is there a way to get rid of this problem without breaking graphic mode console?
+>
+> I did not find one, it particularly happens with busybox init.
 
-Nope. It is the actual sources too, in etc/.
+I don't know what the proper fix is, but changing SERIAL_CONSOLES to
+"115200;ttyAMA0" avoids the issue.
 
-Alex
+I've changed the machine config directly but you could probably also
+use the _qemuarm over-ride to set SERIAL_CONSOLES from local.conf,
+etc, e.g.:
 
---0000000000007f514905a0aacdfa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+  SERIAL_CONSOLES_qemuarm = "115200;ttyAMA0"
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 12 Mar 2020 at 17:08, Khem Raj &l=
-t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
-r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">&gt; This will break version checks and automated upgrades. Is i=
-t possible to <br>
-&gt; build from git instead?<br>
-&gt; Specifically: <a href=3D"https://salsa.debian.org/md/netbase" rel=3D"n=
-oreferrer" target=3D"_blank">https://salsa.debian.org/md/netbase</a><br>
-<br>
-That repo is debian build metadata sources for netbase.<br></blockquote><di=
-v><br></div><div>Nope. It is the actual sources too, in etc/.</div><div><br=
-></div><div>Alex<br></div></div></div>
-
---0000000000007f514905a0aacdfa--
