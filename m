@@ -1,46 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com
-	[209.85.217.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D8E960AE4
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 713F760CB9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 08:25:56 +0000 (UTC)
-Received: by mail-vs1-f54.google.com with SMTP id n6so3143283vsc.3
+	Thu, 12 Mar 2020 09:07:50 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id v3so4849190iom.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 01:25:57 -0700 (PDT)
+	Thu, 12 Mar 2020 02:07:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=0VTMTSPBMGayVQLqFhQuQ9MWggLuQqh1WAF0Ti3GizE=;
-	b=fk1f1MRnGd1ROYL/izJXTbITXclV14nvWpQwY+j/i2vKhQI3nuZnHX1OfxlUFJ08Lk
-	+jm3UovyXdAJDw2IzHEHzpCd689dodShGPUv6fl9yoUwZf01uGhT9d2dAHpzu864lNQT
-	z7lI3mJYOYEepCrBfKg/w+e0X8Y2+zAdivbJVBInSoYR/yBbo7uqAgwzdDjML1ny6Ay4
-	yN0Q1dhaueijRUqWyn0z8EjFzuVgPEVweTYIF1tkIL3/1cMXEpbOm9NOh1u+1MJ/PXZR
-	BvruiLwn172iB/1KLzqeojGsby/ccQxLu4mSK2RBVnLzDG8BQSTeIGqtcb5U/LbyfcR6
-	aWIw==
+	:cc; bh=viQDC6Doxx6NPAuKrK/HG46toCXSiA0w+WZwFlu1fGQ=;
+	b=csrB6KMP2nLOO/7qABqjypgqSOs5NCSoQ7FSMhiA0o0+WZM67+JAeZIvO/Z8G7uWB5
+	5O5pIejLAMYUa8dMcTWKTWn8jvo/qJODu1OtaoAuT80+fe6aGAHPlAeaRJrzhhED/Xb0
+	Wxy7OUWeRuvN5pHsEvbgeYpPzunx/7PjEsieMsFGyH76HIH0UOWjyc+MdpWylzDkNlHn
+	j8Kn8l1RTRIxH/vMN7AVMu7VqYY99YOJbr2ubhkpRtS8YC+Xs2vBaGF9oGUzNOVNxkwU
+	1AvxU2OwnaLh1bOt2k61jY9uppXmcFypaPYGQKFsz5hYGspSM4Nq3e+q1yhXQyyfEAbK
+	N/xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=0VTMTSPBMGayVQLqFhQuQ9MWggLuQqh1WAF0Ti3GizE=;
-	b=t4YfZ8r/U155SYYg0IcgGRp1CmXq7N7APKEQw1ljbBrT+1HAglMH1yPRidFWUuRFAW
-	Qfj/IMXFEEFewldsGm3fk6NlZkCw8rLpoTRpQxiD+o5Z6rpZoTnvIB1KPwyI9WS1h920
-	+I4xsJ79hwM30wOPUhcx0MJzJrxpOG9bneA4Nuxilqcx5c4Pgd0LPB6vPI7aKz9/l3cw
-	vNyN1IH4b9dmRaq++rY4CDM8a6NCJdzjcSFJxQWH17O8o0W0uYoyo1kOlZUboFDpiSeC
-	ALrYCnLmcWF+2dZmY3qHEXjLN48PFLzlJHcu7PWu+SQuzd9dPWavsZVlPy5YNSqhHl6N
-	kB2A==
-X-Gm-Message-State: ANhLgQ2dxnqrAKc2k6Jj+6udI9VMiPm8urEG2O2tWyo+4HfOEAkvaqvk
-	cVnfgtPr+OeGRfSIbI8h2vvuFjUPnRq+hPD3/4yNfisqX8Y=
-X-Google-Smtp-Source: ADFU+vu2UwvrHEnXclFEG7slqPotc4rujRek7Iz93AD7fMo1+MiioLYmS7AM6RtycfNYqRmhaHb99KLsgjYXe8UFXEM=
-X-Received: by 2002:a67:de97:: with SMTP id r23mr4883770vsk.23.1584001557451; 
-	Thu, 12 Mar 2020 01:25:57 -0700 (PDT)
+	bh=viQDC6Doxx6NPAuKrK/HG46toCXSiA0w+WZwFlu1fGQ=;
+	b=fBSRtNTU0ZrqoNAwS777VfE0YawF2BI+C4GaIk97y2U4VJHzHFpXlIbwxBHqWNG0lr
+	/0D9LQLMSu8KHRsknLtQJh1wZzlPclaanF9ZXStbRp4hsZ7R+gAIjL8b4uoP2JJfo6jz
+	Hpo65fBwjnNM9/1j2QfnTwr3VFj/W/Vg1dVZDiGpFAcPq3z7WtXgV6SHRvP8j8PmkQC/
+	ITDwsafcr3Jlg0fzwdr7oiGN6cvdnjgkP8VB7EZTmjjvsJB1L+J5FJxaYMqzdvsh07v2
+	VjerqYQdqzFLrvq6pZZSzD2y3w7XGDoD3JkTSwMJVrVe98l3026XSYi/vWxb9r60sMKu
+	kanQ==
+X-Gm-Message-State: ANhLgQ0lXQNLwfbkdEvE6E7fN8B4RAL/JzMW1AX3jCigtGHviTSARVnR
+	cb5uk0HVOWr1SjfZ4EBEQGzLp9kbB5lUeQFpa+k=
+X-Google-Smtp-Source: ADFU+vt28L390tBhL9DvtnN8WG1jDTAEkA4pxNfJHFui/6R/JurFZgamovFtq1col/1soU4oyRh4G04Ukvyj4mfhuO8=
+X-Received: by 2002:a02:3b09:: with SMTP id c9mr6668616jaa.122.1584004071159; 
+	Thu, 12 Mar 2020 02:07:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <1583983272-116095-1-git-send-email-mingli.yu@windriver.com>
-In-Reply-To: <1583983272-116095-1-git-send-email-mingli.yu@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 12 Mar 2020 09:25:46 +0100
-Message-ID: <CANNYZj8uQeTRf4n1rkCkKkGc7n4KWrH5MdT13uAzivrBHDAsZA@mail.gmail.com>
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] netbase: use snapshot.debian.org
+References: <CAO5Uq5ROxZsnZxJd=a6vUJTmAnMLb82XJmxjJYjiBjt24ToC7w@mail.gmail.com>
+	<5e5adb83812fe98a76b8207588325f7996e33c85.camel@linuxfoundation.org>
+	<CAO5Uq5RCVcvmqgEr2ypgMwg9LvnBskynMaQjKHzV-_JcgnrdGQ@mail.gmail.com>
+In-Reply-To: <CAO5Uq5RCVcvmqgEr2ypgMwg9LvnBskynMaQjKHzV-_JcgnrdGQ@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Thu, 12 Mar 2020 09:07:40 +0000
+Message-ID: <CAO5Uq5T9VjVgmPBKGvPyBesxsgOnTbijMEZYevZkMieOYakNbQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: psplash activation state w/ systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,43 +56,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 08:25:56 -0000
-Content-Type: multipart/alternative; boundary="00000000000027d51b05a0a41ada"
-
---00000000000027d51b05a0a41ada
+X-List-Received-Date: Thu, 12 Mar 2020 09:07:50 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 12 Mar 2020 at 04:22, <mingli.yu@windriver.com> wrote:
-
-> -SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
-> +SRC_URI = "
-> http://snapshot.debian.org/archive/debian/20200311T090704Z/pool/main/n/${BPN}/${BPN}_${PV}.tar.xz
-> "
+On Wed, Mar 11, 2020 at 5:27 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+>
+> On Wed, Mar 11, 2020 at 5:20 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Mon, 2020-03-09 at 15:18 +0000, Alex Kiernan wrote:
+> > > I've a branch with systemd 245 on it which fails testing because
+> > > psplash gets restarted all the time.
+> > >
+> > > But ignoring the systemd 245 piece, it looks to me like psplash could
+> > > be restarted under systemd 244 too as the main process exits and our
+> > > units aren't marked RemainAfterExit. I haven't figured out what's
+> > > triggering it in 245 and not 244, but I suspect it's something
+> > > similar
+> > > to this:
+> > >
+> > > https://github.com/systemd/systemd/commit/9fd32ff7d363945fbf8fdae0128702b995127558
+> > >
+> > > Given where we are in the release cycle and how painful psplash has
+> > > obviously been, I'm inclined to leave it until after dunfell ships
+> > > and then do it as part of the whole 245 upgrade?
+> > >
+> > > Equally if you see psplash flapping during tests, it's almost
+> > > certainly this problem.
+> >
+> > Thanks for the report. The weird thing is that master is working with
+> > this as far as I can see, certainly no test failures since the last fix
+> > I pushed a few days ago.
+> >
+> > Is there some specific change to the unit files we should make? I'm a
+> > little reluctant to pull this out now given we feel like we're close to
+> > it working.
+> >
+>
+> It's basically trivial (add RemainAfterExit=yes to both units), but as
+> you say, given where we are and it appears to work, I don't think
+> now's the time to do it.
+>
+> I suspect something's changed in 245 which makes it far more likely
+> that you see units retriggered, but I can't for the life of me work
+> out which commit it is (I should stop trying to do it by inspection
+> and bisect it out...).
 >
 
-This will break version checks and automated upgrades. Is it possible to
-build from git instead?
-Specifically: https://salsa.debian.org/md/netbase
+Looks like it's:
 
-Alex
+https://github.com/systemd/systemd/commit/097537f07a2fab3cb73aef7bc59f2a66aa93f533
 
---00000000000027d51b05a0a41ada
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+which I found via:
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 12 Mar 2020 at 04:22, &lt;<a href=
-=3D"mailto:mingli.yu@windriver.com">mingli.yu@windriver.com</a>&gt; wrote:<=
-br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">-SRC_URI =3D &quot;${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.t=
-ar.xz&quot;<br>
-+SRC_URI =3D &quot;<a href=3D"http://snapshot.debian.org/archive/debian/202=
-00311T090704Z/pool/main/n/$%7BBPN%7D/$%7BBPN%7D_$%7BPV%7D.tar.xz" rel=3D"no=
-referrer" target=3D"_blank">http://snapshot.debian.org/archive/debian/20200=
-311T090704Z/pool/main/n/${BPN}/${BPN}_${PV}.tar.xz</a>&quot;<br></blockquot=
-e><div><br></div><div>This will break version checks and automated upgrades=
-. Is it possible to build from git instead?</div><div>Specifically: <a href=
-=3D"https://salsa.debian.org/md/netbase">https://salsa.debian.org/md/netbas=
-e</a></div><div><br></div><div>Alex<br> </div></div></div>
+https://github.com/systemd/systemd/issues/15091
 
---00000000000027d51b05a0a41ada--
+Definitely ignore this issue for now... I suspect we do actually want
+the RemainAfterExit, but for now wait and watch where upstream systemd
+ends up on this seems like the sensible approach.
+
+-- 
+Alex Kiernan
+
