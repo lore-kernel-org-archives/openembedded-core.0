@@ -1,45 +1,39 @@
-Return-Path: <jonathan.rajotte-julien@efficios.com>
-Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
-	by mail.openembedded.org (Postfix) with ESMTP id 3084261B10
+Return-Path: <rpjday@crashcourse.ca>
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F27A61B10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 14:25:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id B4358280F4A;
-	Thu, 12 Mar 2020 10:25:25 -0400 (EDT)
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id XqZcj9ZoKXHW; Thu, 12 Mar 2020 10:25:25 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id 712EB2811C7;
-	Thu, 12 Mar 2020 10:25:25 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 712EB2811C7
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1584023125;
-	bh=glsLV3yLwoLPeUeP5570wgQaa7GgoyY9/ZHzNs8I8aw=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=uejZTfOlW09ixp3u/lHTpalccSSZUj9gaUy1lowlpoiQ0ulvORj6uh8hpxlykprrl
-	niXu2Ut+Ikar0Qc6DSX9XIW6bOKaJ1Nkco4ZU2nutmZzoj3CEquyDOxyWWGIwm6xAV
-	2CZ4jh6l7StOHcu2Ji2D8pYbpSm83hFjeiSmNqnJqqXYYmE8hhdjOKF1dvzKP7PDUE
-	PLF1p7eDfQl+Amoquehue8fcEZNWo0UvBJtFmfi4R+rCDhlem+J9OPz1xxdCKsDq99
-	LshPK4Q6Ftwt0GHYe+jRssDLB6yhGsmIIfqA9oIAi+2QlKSgUr2/pE/LlqozGOTfmB
-	2BFW3lDhsBRVw==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id N2c2DtV8YctW; Thu, 12 Mar 2020 10:25:25 -0400 (EDT)
-Received: from joraj-alpa (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-	by mail.efficios.com (Postfix) with ESMTPSA id 50A3528112B;
-	Thu, 12 Mar 2020 10:25:25 -0400 (EDT)
-Date: Thu, 12 Mar 2020 10:25:24 -0400
-From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-Message-ID: <20200312142524.GB30953@joraj-alpa>
-References: <20200311222249.29880-1-jpuhlman@mvista.com>
+	Thu, 12 Mar 2020 14:30:03 +0000 (UTC)
+Received: from [127.0.0.1] (port=36582 helo=cpanel7.indieserve.net)
+	by cpanel7.indieserve.net with esmtpsa (TLS1.2) tls
+	TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jCOqZ-004ViY-Ny; Thu, 12 Mar 2020 10:30:04 -0400
+Received: from [66.129.241.14] ([66.129.241.14]) by crashcourse.ca (Horde
+	Framework) with HTTPS; Thu, 12 Mar 2020 10:30:03 -0400
+Date: Thu, 12 Mar 2020 10:30:03 -0400
+Message-ID: <20200312103003.Horde.-mn1W9NE8YAc6sk0SRLY8bj@crashcourse.ca>
+From: rpjday@crashcourse.ca
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20200312085608.Horde.kbPh9KWkZJR4Zi-lry-_TrN@crashcourse.ca>
+	<CANNYZj-KNVxXWjTWqc-a6Xe4YqBx4aZkuFAkNjQb3ZhBL-hUcw@mail.gmail.com>
+In-Reply-To: <CANNYZj-KNVxXWjTWqc-a6Xe4YqBx4aZkuFAkNjQb3ZhBL-hUcw@mail.gmail.com>
+User-Agent: Horde Application Framework 5
 MIME-Version: 1.0
-In-Reply-To: <20200311222249.29880-1-jpuhlman@mvista.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] babletrace2: make manpages multilib identical
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
+	rpjday@crashcourse.ca
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: simplest command to display which layers are applying the same patch?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,82 +46,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 14:25:25 -0000
-Content-Type: text/plain; charset=us-ascii
+X-List-Received-Date: Thu, 12 Mar 2020 14:30:03 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
 Content-Disposition: inline
 
-Hi
 
-Is this something upstream (lttng-dev mailing list) should be interested in?
+Quoting Alexander Kanavin <alex.kanavin@gmail.com>:
 
-Cheers
+> I think 'bitbake -e recipe', and then searching for SRC_URI in it should
+> show which layer applies which patch.
 
-On Wed, Mar 11, 2020 at 03:22:48PM -0700, Jeremy A. Puhlman wrote:
-> From: Jeremy Puhlman <jpuhlman@mvista.com>
-> 
-> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
-> ---
->  .../0001-Make-manpages-multilib-identical.patch    | 28 ++++++++++++++++++++++
->  meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb     |  1 +
->  2 files changed, 29 insertions(+)
->  create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
-> 
-> diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
-> new file mode 100644
-> index 0000000000..2401b176e6
-> --- /dev/null
-> +++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-multilib-identical.patch
-> @@ -0,0 +1,28 @@
-> +From 56986190e4b0c10945ce6aaa7ca10d6bd8a26a39 Mon Sep 17 00:00:00 2001
-> +From: Jeremy Puhlman <jpuhlman@mvista.com>
-> +Date: Mon, 9 Mar 2020 21:10:35 +0000
-> +Subject: [PATCH] Make manpages multilib identical
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-> +---
-> + doc/man/asciidoc-attrs.conf.in | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/doc/man/asciidoc-attrs.conf.in b/doc/man/asciidoc-attrs.conf.in
-> +index ad1183f1..e11c7031 100644
-> +--- a/doc/man/asciidoc-attrs.conf.in
-> ++++ b/doc/man/asciidoc-attrs.conf.in
-> +@@ -1,7 +1,7 @@
-> + [attributes]
-> + # default values
-> +-system_plugin_path="@LIBDIR@/babeltrace2/plugins"
-> +-system_plugin_provider_path="@LIBDIR@/babeltrace2/plugin-providers"
-> ++system_plugin_path="@prefix@/lib*/babeltrace2/plugins"
-> ++system_plugin_provider_path="@prefix@/lib*/babeltrace2/plugin-providers"
-> + babeltrace_version="@PACKAGE_VERSION@"
-> + enable_debug_info="@ENABLE_DEBUG_INFO_VAL@"
-> + defrdport=5344
-> +-- 
-> +2.24.1
-> +
-> diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
-> index 16953d6807..61bc7f5e6b 100644
-> --- a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
-> +++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
-> @@ -10,6 +10,7 @@ DEPENDS = "glib-2.0 util-linux popt bison-native flex-native"
->  SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-2.0 \
->  	   file://run-ptest \
->  	   file://0001-tests-do-not-run-test-applications-from-.libs.patch \
-> +           file://0001-Make-manpages-multilib-identical.patch \
->  	  "
->  SRCREV = "06df58f89ee51b1a2c6a2c187ec3f15691633910"
->  UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
-> -- 
-> 2.13.3
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+   ... snip ...
 
--- 
-Jonathan Rajotte-Julien
-EfficiOS
+I *think* I know what might be happening here, and I'd like to verify
+some suspicions about how recipes are selected and patches are applied.
+(Writing this in real time so I hope I don't screw up.)
+
+Imagine I've checked out oe-core, which supplies recipe file fubar_1.0.bb,
+but it becomes obvious that there is a bug, for which there is an obvious
+patch I can apply internally. So I fire up a fubar bbappend file, which
+does nothing but extend SRC_URI to apply the patch, call it fubar.patch.
+(Remember, this patching is all internal, in my vendor layer.)
+
+*However*, being a bit lazy, rather than create fubar_1.0.bbappend, I
+slack off and create simply fubar_1.%.bbappend. (I suspect you see
+where I'm going with this.)
+
+Now the good folks at OE get around to updating oe-core, and part of
+that update is to add that patch to SRC_URI of fubar_1.1.bb (along
+with the patch file fubar.patch, of course). Now, because that is
+a more recent version of fubar, that is the recipe file that should
+be selected.
+
+*However*, if I interpret this correctly, first, I have fubar_1.1.bb
+applying fubar.patch, but because I am also defining a layer which
+contains the append file fubar_1.%.bbappend, that append file will
+also try to apply the same patch, which of course should not work
+properly. (Am I correct in my thinking so far?)
+
+If I'm explaining this correctly, then the fault naturally lies with
+me for being sloppily ambiguous with my append file and not locking
+it to fubar_1.0, but allowing it to be applied against all fubar_1.x
+recipes. In short, when I inevitably get the error of "Patch already
+applied," it is entirely my fault for being sloppy.
+
+I'm trying to verify this as I am now aware that a *lot* of append
+files in the vendor layer in question are similarly ambiguous.
+Does this make sense?
+
+rday
+
 
