@@ -1,28 +1,48 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DA9C60FD8
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B030361C28
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 20:54:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02CKrixq030541
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 12 Mar 2020 13:53:54 -0700
-Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0;
-	Thu, 12 Mar 2020 13:53:33 -0700
-To: <changqing.li@windriver.com>, <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <1582781146-253903-1-git-send-email-changqing.li@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <6830c57f-37de-dc1a-ba80-5a4217644060@windriver.com>
-Date: Thu, 12 Mar 2020 16:53:31 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
+	Thu, 12 Mar 2020 20:54:58 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id h14so8755871qke.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 12 Mar 2020 13:54:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=mwnv+EYkSqZ+GFMzmyi9184S2LTUP/zXUNixDRvfe1E=;
+	b=f5Z5YDuajlOjuhTozZDeg8MxRFAq5bVi4lgFSt1iXSDYjLIkkWoSqK5gc8Ff9PlhxP
+	rs4ulXCWaM+0GF70FURMxJ8caFRcK7l9J/piQxnp4YV5cCbWLczV0Y55TUh17VI2yeAE
+	/WAdf4QbA0A9VtiB5mvYXYz2vxN1yASBB0EVMtUTu1RyZZnZ20WypyEyO5Q1FWhZpBPO
+	15zqH2D5M5xJO44Oarzf4QnTW8aXT7SJOZhpBL8VVqzUdXjebRIpU+5+qVoUbeuI/tQB
+	PmVSA5gR5+WfhvW0all1MEexbZ+Q4SA/gzzrusSuzakGwoLu2yVIJTjdHRShNfSqZtkc
+	5Y3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=mwnv+EYkSqZ+GFMzmyi9184S2LTUP/zXUNixDRvfe1E=;
+	b=TIWJ2GM78gqfAdHCgiyw45LpikDB4RVZfOMav1p3Cryq5Wm++41dtWvzhM29LtOsHK
+	0zS3l0ztmBVHB45Yw/S691fDjwZ043FvVvFyoWAM4s58pBk7bFqU+RpWjqbZGB50hK0S
+	E56xVeqW6ytlMEo35eUWBO1QQPNqEv9P0Q/AUUH45VSS5mIjOd3IKqYonf6FNSJODCSC
+	zfv4IC0X3HFTMGQy4tARqPw2grAZDzKj6iBRuDwuZa/tJKAgtyu7cq14ong0XYWx3V/Q
+	s6HDk0CyDfeXtoTikf3+X9fHHM8tTUwN/D7GCKJoipDF3FYveVadMYdZ5QRkFT/bu5pV
+	P+cQ==
+X-Gm-Message-State: ANhLgQ2IiviNGb3I7vHnUSfW/DrRNFnOPUc8cykNWpgU9+CdRRaYbOYb
+	dDyLWFluxP/Q9C/sGx6G4kU4GvcfqI/QAEnss18=
+X-Google-Smtp-Source: ADFU+vuC7aWXpR9etZXgmfzqeV0hiDMcwiqjkDge6/VulmRv2ZFznOmDLWxjhDfvBt8+DNx22DQrthIdLiEEIh1cErs=
+X-Received: by 2002:a37:e317:: with SMTP id y23mr9627725qki.431.1584046499089; 
+	Thu, 12 Mar 2020 13:54:59 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1582781146-253903-1-git-send-email-changqing.li@windriver.com>
-X-Originating-IP: [172.25.44.3]
-Subject: Re: [PATCH] qemu: fix CVE-2020-7039
+References: <20200219194752.7967-1-alex.kanavin@gmail.com>
+	<20200219194752.7967-5-alex.kanavin@gmail.com>
+In-Reply-To: <20200219194752.7967-5-alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 12 Mar 2020 13:54:32 -0700
+Message-ID: <CAMKF1sovMyoYh1dtCX3mXfaHZ67TLrMuRrYiPwdxmh3aKi2vaA@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/13] weston-init: use the drm/kms backend rather than fbdev one for qemux86 machines
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +55,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 20:54:20 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Mar 2020 20:54:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2020-02-27 12:25 a.m., changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+On Wed, Feb 19, 2020 at 11:49 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> The fbdev backend is not documented, and not the default;
+> as the emulated hardware in qemu now supports DRM/KMS
+> (both std and virtio), we should align with upstream default
+> and vast majority of users. Empty init file will cause
+> weston to default to the KMS backend.
+>
+> Note that 3D acceleration via virgl is not required; the backend
+> renders fine via the software driver in mesa. However, kvm
+> is more or less required to keep the UI responsive.
+>
+> Also, other qemu targets (mips and arm in particular) continue
+> to use the fbdev backend, as in the absence of kvm, the performance
+> of software GL paths falls to unacceptable level.
+>
+
+drm backend change did not work directly with musl, I will send a
+patch to enable WESTON_DISABLE_ATOMIC when launching weston
+
+which should fix the launch errors seen
+
+[18:58:45.628] launching '/usr/libexec/weston-desktop-shell'
+[18:58:45.737] atomic: couldn't commit new state: Invalid argument
+[18:58:45.737] repaint-flush failed: Invalid argument
+
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 > ---
->   meta/recipes-devtools/qemu/qemu.inc                |  3 +
->   .../qemu/qemu/CVE-2020-7039-1.patch                | 44 +++++++++++++++
->   .../qemu/qemu/CVE-2020-7039-2.patch                | 59 ++++++++++++++++++++
->   .../qemu/qemu/CVE-2020-7039-3.patch                | 64 ++++++++++++++++++++++
->   4 files changed, 170 insertions(+)
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-1.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-2.patch
->   create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-3.patch
-> 
-
-LGTM, I don't see it in master or master-next.
-
-NVD gives this defect a 'critical' score so it would be good to get
-it tested and merged.
-https://nvd.nist.gov/vuln/detail/CVE-2020-7039
-
--- 
-# Randy MacLeod
-# Wind River Linux
+>  meta/recipes-graphics/wayland/weston-init/qemux86-64/weston.ini | 0
+>  meta/recipes-graphics/wayland/weston-init/qemux86/weston.ini    | 0
+>  2 files changed, 0 insertions(+), 0 deletions(-)
+>  create mode 100644 meta/recipes-graphics/wayland/weston-init/qemux86-64/weston.ini
+>  create mode 100644 meta/recipes-graphics/wayland/weston-init/qemux86/weston.ini
+>
+> diff --git a/meta/recipes-graphics/wayland/weston-init/qemux86-64/weston.ini b/meta/recipes-graphics/wayland/weston-init/qemux86-64/weston.ini
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> diff --git a/meta/recipes-graphics/wayland/weston-init/qemux86/weston.ini b/meta/recipes-graphics/wayland/weston-init/qemux86/weston.ini
+> new file mode 100644
+> index 0000000000..e69de29bb2
+> --
+> 2.25.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
