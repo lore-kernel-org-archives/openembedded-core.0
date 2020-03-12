@@ -1,38 +1,36 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BF4F61B02
+Return-Path: <rpjday@crashcourse.ca>
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+	by mail.openembedded.org (Postfix) with ESMTP id 0507261B02
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 12:49:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48dTD62nLvz4R;
-	Thu, 12 Mar 2020 13:49:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1584017351;
-	bh=hnr9qjgpVUSQbD9h0ydP+a1+MK3KfjogAkkK6HFCwEs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GrP4OkYldo4b78+epmDDTbFUsAetcAF0f7YB4cf8uD4pSWQvHoe4YWaVywGOjiOiK
-	oy8uokCe+dsSktEGJGTeuyamKi0tPOHtlclQLP8T9Th7pvILVI8ivUol3K6MdLFXrP
-	HPvtmHA/H5FYhiJFQn1FBkIpLCxFM2wiswXzFA3PssNK6DuLZldWKBLiUIS4YQEv09
-	X3lvP2ZzvTxzzkg+VGS2U6OsuA1ojUFJcxW2+VFesvGJingDc2B2LWafr1J8YASvKn
-	TtxYsnKho/408eR1Ipu56TfNtzNz6VA1D4DduBBakF3pEFIBzzclqk9atabUaIwCGE
-	//s3Paqoajv+S1sGP+5Oe1IC8CDl94qKsaEqJzjW5i6umPx0xNWD3qOLNhgLHT3U+/
-	Ojx9ccjkelmzc4aEowaQcJOPK1yJHn+6Hox9wYqdGcVy5P81hGdyZ8gxTKknogT8rw
-	+/NjK+UFMcXAZCN7Z6Lw4MWXkHBxNfoyM3ng95SKpE0qK6UVdpgSgrIQSzpcdgHWxv
-	l/TEu3z3uUF8y7WdGORHZOMC0nmw6+mkIyxW9bkBGuws13JENeScng7uRK4zT9fXWD
-	Lu9BP5xhnbQ+87LyrPpKF4G7d5goHMlnIKk2W6odJNfp8ryGQp256+nwr79Ajm7RL4
-	DYHMlS9ILJ5d8PaipaepqgzY=
-Date: Thu, 12 Mar 2020 14:49:08 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Mikko.Rapeli@bmw.de
-Message-ID: <20200312124908.GA21921@localhost>
-References: <20200312092322.28506-1-stefan.ghinea@windriver.com>
-	<67257554ffe08ac11b8f1cf3da115ba5a7e35fbd.camel@intel.com>
-	<20200312123418.GR104502@korppu>
+	Thu, 12 Mar 2020 12:56:07 +0000 (UTC)
+Received: from [127.0.0.1] (port=35614 helo=cpanel7.indieserve.net)
+	by cpanel7.indieserve.net with esmtpsa (TLS1.2) tls
+	TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>) id 1jCNNg-0045wn-A2
+	for openembedded-core@lists.openembedded.org;
+	Thu, 12 Mar 2020 08:56:08 -0400
+Received: from [66.129.241.14] ([66.129.241.14]) by crashcourse.ca (Horde
+	Framework) with HTTPS; Thu, 12 Mar 2020 08:56:08 -0400
+Date: Thu, 12 Mar 2020 08:56:08 -0400
+Message-ID: <20200312085608.Horde.kbPh9KWkZJR4Zi-lry-_TrN@crashcourse.ca>
+From: rpjday@crashcourse.ca
+To: openembedded-core@lists.openembedded.org
+User-Agent: Horde Application Framework 5
 MIME-Version: 1.0
-In-Reply-To: <20200312123418.GR104502@korppu>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] [zeus] aspell: CVE-2019-20433
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
+	rpjday@crashcourse.ca
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: simplest command to display which layers are applying the same patch?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,40 +43,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 12:49:12 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Thu, 12 Mar 2020 12:56:08 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
 Content-Disposition: inline
 
-On Thu, Mar 12, 2020 at 12:34:19PM +0000, Mikko.Rapeli@bmw.de wrote:
-> On Thu, Mar 12, 2020 at 12:25:21PM +0000, Mittal, Anuj wrote:
-> > It looks like this is changing the API. I wonder if this would need any
-> > other change or break something elsewhere in OE-core, meta-oe?
-> > 
-> > http://aspell.net/buffer-overread-ucs.txt
-> 
-> Debian classified issues as minor and fixed only by updating
-> to 0.60.8:
-> 
-> https://security-tracker.debian.org/tracker/CVE-2019-20433
-> 
-> https://metadata.ftp-master.debian.org/changelogs//main/a/aspell/aspell_0.60.8-1_changelog
-> 
-> Maybe whitelist for stable branches and update to new version on master?
+   just got from colleague a miniscule snippet of build output:
 
-master already has the new version.
+ERROR: openssl-1.0.2u-r0 do_patch: Command Error: 'quilt --quiltrc ...  
+snip ...
+Output: Patch Use-SHA256-not-MD5-as-default-digest.patch is already  
+applied; check your series file
 
-IMHO whitelisting is wrong unless there would be a clear and documented 
-policy what kind of vulnerabilities are getting whitelisted.
+the problem seems obvious ... more than one layer being pulled
+into the build is trying to apply the same patch to that version
+of openssl.
 
-But even then "Base Score: 9.1 CRITICAL"[1] would make whitelisting 
-unlikely in this case.
+i don't have access to that build system, but i'm not surprised
+as it appears that at least three layers (oe-core, vendor, and
+wind river linux fixes layer) all supply that very patch.
 
-> Cheers,
-> 
-> -Mikko
+what is the simplest command from way back in "morty" that
+could display something as clear as, "layer A already applied
+this patch, now layer B is trying to apply it as well?"
 
-cu
-Adrian
+if it's in the log file, i can just point the person at that,
+short of getting access to the build system and finding it
+myself.  thank you kindly.
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2019-20433
+rday
+
+
 
