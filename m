@@ -1,45 +1,45 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EED861C20
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B6B5661BCA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 21:21:42 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id m5so3706223pgg.0
+	Thu, 12 Mar 2020 21:28:59 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id 2so3884434pfg.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 14:21:43 -0700 (PDT)
+	Thu, 12 Mar 2020 14:29:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:autocrypt:message-id:date:user-agent
 	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=VbZXizUxszIca5+3mOCCPQMfmPOSalQtixfKZTuboIw=;
-	b=Rsy37Fb2p4OeRAFuwZKUEWt4x/KOulm5+anNm8YokM71xSuVYAzo5vyNC2xMYA3u9C
-	3ies4zxxCG1KT0fyZ5iRqnx8CHks8DPE0+1EsL/KzgGVLo+k3NqbrT1A86LdM6eOmS92
-	BRCw1Oyxt9w0KzbmykunR8DLika0yGKpGI8Y5ICFSzl2p2GG05FXFLbgkBQN9jv1fPB0
-	XzPp68p1nrC/A/QSEStQBxQ46MOA9amkEsoL49eHFvkfb5Hesx1hq5KDgXJlnpoytEQ2
-	DNyqum+dxd8kPCPmOV7Gy7zoF983cJwmuAlWoC1EkTIqcoRTP3tdBHakfnqoWAfx6luR
-	Y3dg==
+	bh=CjV/LVJ0VidV7oodcpzXCwvpaNJt088pz0vejTSUmow=;
+	b=TkNyQXHZPDOrZbVNOg1in5UslPP5dr30baITk8dbxZX78FR1HWtDvR8acEkaeYqJWe
+	6BI/1vb0QZq+qGmmk3AHYSRSN8MPVqWhF5Vn0EN1YXU57QEUgmyQaj1TMcGM6JDxBwRU
+	jrfEuvS+ZQ/yrH7NHuhsypZRNd3mVlYq+6MiRgZwi7jBsnQBm5tKYW+Et/gMgNbOw5Jt
+	Tjhq0i8v+ReR+AGZ+F5GbybwTTHJQbt1TKi9aRR9cJ5Q4hgbiUld47eoY3WxB5NG9o1w
+	A2zjUpid2KXWpNtxA2SMbxxAm484kkB2DRAbqLVT44Ca16Qz5zDEPJZIofxLeqDA05cL
+	iN/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
 	:date:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=VbZXizUxszIca5+3mOCCPQMfmPOSalQtixfKZTuboIw=;
-	b=KGy0zguGxjSDfcOy2jE0bxYwlhJiDvyvDA932iMjVrYL13zRp941x6NA4wEThOlvJ8
-	z98fryj9KE89ANu5GIGGC8V2b9Kjus6fAwnXPLNDjOhyWtVuD7QZQ6YJjhRVbcea6VyX
-	O/iVGG7m6U33axLB62fY3WNZf2G6dr1q4imlI+Vo5mOtgGgyZgWraxkVWZZRKDBukJm5
-	c5AAlPZ14ft9a0k81LrjiT+tGt1h5XJcSivYhD24+HdbClUSdxuXnDMR0D1aTxrt4w5I
-	WQXC+Ej2+zJ6CPG06nFa7k9jfVRe32nqXZCWaUdM15NnCZJw29TIw9ryMlZqHKttplhB
-	sFpw==
-X-Gm-Message-State: ANhLgQ3ADPaIVmZyj27LaAJVkffuexMkVm2wU9lqbyjeGI9rAd9vq0fL
-	yuaCldeCPTdHnS735N25vAQ=
-X-Google-Smtp-Source: ADFU+vvGAs3fbFee2hfNGy4JLJa39q6EH5jHhgFQDtqlV/yDJXEyKwtOsZIC8fZReDlhKaQWnP1gQg==
-X-Received: by 2002:a65:678f:: with SMTP id e15mr9652487pgr.21.1584048103198; 
-	Thu, 12 Mar 2020 14:21:43 -0700 (PDT)
+	bh=CjV/LVJ0VidV7oodcpzXCwvpaNJt088pz0vejTSUmow=;
+	b=HvUVVg5X+yzoHdG01iUDfIEcAOUflmLPHIocR/1e8jcVv1KY7veZQD+V8Rvy3TJGyv
+	CSZuBl2ubgAY11cW6IlzfRCXwdSDhfoWSOo0d02t9Ly/qm7S+Cswb/6sRIdeGK+2n3Xm
+	8BfhsXe5jrA5S3BrL5Dk0ywCaLL94ArXx8XPV6hW1ezjH6oIzlfL7g8hW77sra/DPZNs
+	5bu8CF9uFvyQd5hZ6i7wrdJiWAvReh7xUlb1LYh+ydK+3QXM7GvgqpJNI07gKmImstHl
+	MaZ11sPzZ4SCNzyMX09YGl/9KFQlVKeksTfs2BZ69Tsm9hU7Ko1clsxMGdM8mkXfeUI9
+	+Z2w==
+X-Gm-Message-State: ANhLgQ252HoJXxrgy0hMjmo6P531QpegegRlUhvh7JZJCEkh6SmoIekc
+	I5Fwxn5J7n8pecjvyWH5B5I=
+X-Google-Smtp-Source: ADFU+vvGz99cQYmujANs4v+hqJ+cGEUkgUw4AJu+Gi2hXmrwe8Fw4k3Tr+NJQ3h8Xa3nGOmbcjcv/g==
+X-Received: by 2002:a63:e803:: with SMTP id s3mr9505202pgh.237.1584048540701; 
+	Thu, 12 Mar 2020 14:29:00 -0700 (PDT)
 Received: from ?IPv6:2601:202:4180:a5c0:b971:4aa1:90b2:e851?
 	([2601:202:4180:a5c0:b971:4aa1:90b2:e851])
 	by smtp.gmail.com with ESMTPSA id
-	v125sm3957222pfv.160.2020.03.12.14.21.42
+	i124sm8967699pfg.14.2020.03.12.14.28.59
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 12 Mar 2020 14:21:42 -0700 (PDT)
+	Thu, 12 Mar 2020 14:29:00 -0700 (PDT)
 To: Randy MacLeod <randy.macleod@windriver.com>, changqing.li@windriver.com,
 	openembedded-core@lists.openembedded.org,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
@@ -89,8 +89,8 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <411a9ec9-9426-4083-e232-48ae750846c2@gmail.com>
-Date: Thu, 12 Mar 2020 14:21:41 -0700
+Message-ID: <1f976d97-3c96-3234-7e4f-79e8fe8f1800@gmail.com>
+Date: Thu, 12 Mar 2020 14:28:58 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.4.1
 MIME-Version: 1.0
@@ -108,23 +108,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 21:21:42 -0000
+X-List-Received-Date: Thu, 12 Mar 2020 21:28:59 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
-Randy,
 
 
 On 3/12/20 1:53 PM, Randy MacLeod wrote:
 > On 2020-02-27 12:25 a.m., changqing.li@windriver.com wrote:
 >> From: Changqing Li <changqing.li@windriver.com>
 
-This does not apply cleanly to current master.  it needs to be rebased (
-suspect qemu: update Xen packages names for the xen-tools recipe). Do
-know if it is in contrib branch some where so I he rebase myself?
+got it fixed up. its sitting @
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akuster/master-next_qemu_fix
 
-- armin
+I will through it at the AB so will let RP decide if he want to take it
+before M3
+
+- Armin
 >>
 >> Signed-off-by: Changqing Li <changqing.li@windriver.com>
 >> ---
