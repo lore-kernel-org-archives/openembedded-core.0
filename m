@@ -1,55 +1,24 @@
-Return-Path: <jpuhlman@gmail.com>
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 24BF861BE5
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A0A361B88
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 22:25:58 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id h11so1771267plk.7
+	Thu, 12 Mar 2020 03:21:44 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02C3LOXC003463
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 15:25:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=CMc6SOmW0Y3dedbDsD/2ZTaHFZJ0n5rduO1klAE01wk=;
-	b=Jm0BcIUrnDHk0qguhhliA3EYUY3t2e6ncBXa32qV19V3W6wCj47kQYtYZNSoDQk8JM
-	koHVDxqtPoHgsEfMSmMKcm0kehceRdFpY7DHVHQCLYnpUkyBpyrDUa6kgP/hcLEqWgFJ
-	7js24sfJSRL6HswI4pV/nyNzbx3x44+14CrL5eJAQgPk3qpX3BUU+5Itx92HroLoKUcB
-	QsiOLJtmW2TnPl/NsG9MhZ+NO682UFWBZhDwDeQF2Tdwjll+ryLrJ6bhFBoKElanGx+p
-	kqCxIxR2PylqN1X8zPmB533GZyT3vZqj8jm+SSxySr4boLtQLOrxIQR3TFEWvT9b9Egx
-	LwMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:in-reply-to:references;
-	bh=CMc6SOmW0Y3dedbDsD/2ZTaHFZJ0n5rduO1klAE01wk=;
-	b=IuLVrkorRgAOfmFOWAlV3DxEagxAVt6wYtimEz6rHbjpnsL+L1n0T24WWiOkn9h+ob
-	3pDhDEftLx9dS6THufHLna7GdfbiAZyFBp6itp4KvUUwumoa5ji+Ix4vCLn2xN0C2P9m
-	ydbpVIFxS9YwwePcHWJcx8r+W8oAH+JZ3IuNT7sr6IAA1TShMPA+ZAilWwGlbQKhTvN4
-	LcULeZDQ/ld2+yDCMH/+OVkOreK7e8iQVGrZGUe48XzsraXLJX3s6smt9XAbJI6nXRFQ
-	eqXfDQhRMexWIINCqc6USyVkDUC/+FK2lUSGvB01/M0CzlVsTjnQVlRXG3PE5DIlURdu
-	BpcA==
-X-Gm-Message-State: ANhLgQ3sCQLLDhhF8U9gLnvstv89qSBuLjh+saBkl2NWgJVjiTx1Bb9F
-	tRPauPpR6NMdNPHpQisgfJPkGnOlZoI=
-X-Google-Smtp-Source: ADFU+vtYZdcmFCJlYMu9CH/UD2+3ffSRVv7c+6YtI1ylX7P5ycaqy6TqoTaI4tyvbv44ktBHHbPkWw==
-X-Received: by 2002:a17:90a:37ea:: with SMTP id
-	v97mr960664pjb.26.1583965558906; 
-	Wed, 11 Mar 2020 15:25:58 -0700 (PDT)
-Received: from workhorse.localdomain
-	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
-	by smtp.gmail.com with ESMTPSA id
-	u5sm31064879pfb.153.2020.03.11.15.25.58
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 11 Mar 2020 15:25:58 -0700 (PDT)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id B10F32A05EB; Wed, 11 Mar 2020 15:25:57 -0700 (PDT)
-From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Mar 2020 15:25:46 -0700
-Message-Id: <20200311222546.30284-6-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.13.3
-In-Reply-To: <20200311222546.30284-1-jpuhlman@mvista.com>
-References: <20200311222546.30284-1-jpuhlman@mvista.com>
-Subject: [PATCH 6/6] boost: fix reproducibilty issues
+	Wed, 11 Mar 2020 20:21:35 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.487.0; Wed, 11 Mar 2020 20:21:14 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Mar 2020 11:21:12 +0800
+Message-ID: <1583983272-116095-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH] netbase: use snapshot.debian.org
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,34 +31,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Mar 2020 22:25:58 -0000
+X-List-Received-Date: Thu, 12 Mar 2020 03:21:44 -0000
+Content-Type: text/plain
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-fix cmake file references of image dir path
+Use snapshot.debian.org as the previous URL only
+stores the latest source file and fails to locate
+the source tar file if we don't upgrade timely.
 
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/recipes-support/boost/boost.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-core/netbase/netbase_6.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
-index e15dce4e1d..8eb9494381 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -202,6 +202,11 @@ do_install() {
- 		fi
- 	done
+diff --git a/meta/recipes-core/netbase/netbase_6.1.bb b/meta/recipes-core/netbase/netbase_6.1.bb
+index bc0049c..57faf3d 100644
+--- a/meta/recipes-core/netbase/netbase_6.1.bb
++++ b/meta/recipes-core/netbase/netbase_6.1.bb
+@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
+ PE = "1"
  
-+        # Cmake files reference full paths to image
-+        find ${D}${libdir}/cmake -type f | \
-+             grep 'cmake$' | \
-+             xargs -n 1 sed -e 's,${D}${libdir}/cmake,${libdir}/cmake,' -i
-+
- }
+-SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
++SRC_URI = "http://snapshot.debian.org/archive/debian/20200311T090704Z/pool/main/n/${BPN}/${BPN}_${PV}.tar.xz"
  
- BBCLASSEXTEND = "native nativesdk"
+ SRC_URI[md5sum] = "e5871a3a5c8390557b8033cf19316a55"
+ SRC_URI[sha256sum] = "084d743bd84d4d9380bac4c71c51e57406dce44f5a69289bb823c903e9b035d8"
 -- 
-2.13.3
+2.7.4
 
 
