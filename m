@@ -1,53 +1,77 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 53C3161C32
+Return-Path: <Peter.Marko@siemens.com>
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+	(mail-eopbgr50086.outbound.protection.outlook.com [40.107.5.86])
+	by mail.openembedded.org (Postfix) with ESMTP id 224E661C42
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 14:43:39 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id m9so7785217wro.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 07:43:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=BqyTGiRNuhChJzhf9NPAfgv+kp+ZzUrGLteQmEdp4Z0=;
-	b=pkh2mcr9Dvg40B3phJHRFU+GpEfhyR8qbCXuUXtSKAr/ZCFarqIuA+WIdALbXAiErO
-	zy1BDdCzffChmSYs6LFNApuBeSHSlWNvb4cGO9VxEE5cRoS2DvJecu8zNiGIJoSpWd9j
-	vccMG9oqmiUX+uMwXTHcM0IqQ3lajVCptbs/4324Y6jGHuUqK+GCz9VS7qP6/J5/xOsq
-	y/Y8+C1/rMsQErbjVvsFILDFl6ACeipa1BH5yJcBxFIyDIXL3tiyBJ27BE2pPWmECd2c
-	5Xx4WWOj/2WPGUfVd5vTFZoubHyCWqBwF3t2EYSj8FY12Yavmycr67ThlH/7ovsST0Ze
-	aNpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=BqyTGiRNuhChJzhf9NPAfgv+kp+ZzUrGLteQmEdp4Z0=;
-	b=f9EpKhuuPxzTA7iNYZatcAfnl1S6f5BXYjvPNsbAYk++wqeJYgkS8fM2L7VKuFQNQz
-	BHJa6rB+CZPzXb8CWPaUJjJ8qgFNvAmyAsH9USa4a8j+jLiAgKjLomKLhJsv1ChLFc12
-	qsIEAyU8mq5r9ZbSYt5jrRbmep/ofSZVSCZL4UyRs7FKuxeEwK9NUscDC0P/cXhedi/K
-	E07XQIKQkEjUQ46948Xql68vmGrdc7z77d1Ae/uMFeqKu45uGY4JKuMvRP7k0M8wzARo
-	9KfR640nk8LerF6McQSB4nxABLIMvFmykXXyQCp2pU/wlG9+PrEAPCCiFpZmO4C9h3hH
-	pkHw==
-X-Gm-Message-State: ANhLgQ00sOQJfAJT3UQQmlBoVLWIz3cn64PDHYfEI+1cgutj4K/hIA46
-	F2joLgV+GmgcNWmC00yFC9p9WHdR
-X-Google-Smtp-Source: ADFU+vvB3lM1IPlCjSbDy+Y2FK0Zh/4ZbIvSwbWotu1i7sPN9Z+btQkJOY60KJo11/6ixXy6CcWYQw==
-X-Received: by 2002:a5d:4141:: with SMTP id c1mr11242929wrq.411.1584024219384; 
-	Thu, 12 Mar 2020 07:43:39 -0700 (PDT)
-Received: from superandy.speedport.ip
-	(p200300F07F067F32CE0B3214CDB29793.dip0.t-ipconnect.de.
-	[2003:f0:7f06:7f32:ce0b:3214:cdb2:9793])
-	by smtp.gmail.com with ESMTPSA id
-	i6sm43742166wra.42.2020.03.12.07.43.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Mar 2020 07:43:38 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Mar 2020 15:43:31 +0100
-Message-Id: <20200312144331.6334-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.21.1
+	Thu, 12 Mar 2020 15:21:54 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=fQTY+HF0TZ6tEZ/RskhNbueRlGDLtFzO6asUZH3G28HZYZKr01Et5AbfXNJ86oiZ0Em/yVConyrq/EpQXnYBvh9Iuvwiab9YlqrR8oOiomU2+82rOMW/BdC4HMXCI6fH62mY9/ZIp4+geac6f4Ry3Jh2GpGmdfQtWERzkw8/4B59VSm2Y5j+NZxgR4eIB5CW9TDunOl4QrhuKhV1w5ddi3he2f3zx1/FwRMRPqpuWAVpUvdKO1QhWdEnJ5zxppW1/jvqY/fUVmuqESqfwf27vovftalAi/lN5iC57qLw3Jy9ieNYAXyjsMNU9rwSoEwddmlqpMEeFDg6AkbfW36zPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=K9kRJrxMkIKKv6idn/oECV+FJsbNZQa0Ny01JVMddcE=;
+	b=Xt7u1kVcyW1bNAXgOTOFviDYpVqsKcPhQXKDnKjmSWjE9KnV5exhO5itrPNIGrgXnZTypnDy/PugpU0vwT1rVXQ8XKKGDnB8zmooCyLEYNbXa3mWJ3ZNsCdsPnml+tg41zprIJLIvZzrkDHpNzm7hwPkWmL0U6JQTIWJ78ashGhxQIsehMEuhV+MnyNH9RNgFU6DBzpTRhFqTuwJFaDw2CzvFQXM3nh7STZtbmq8ZLKTL4Nrt8aTYuGty/MbqujTa8BVIImA0ZKO83pLRV/FFWeyWhDMkcoVTvlb+yAgz5p5QmxjCJp+RK4trRj0Y6nGD0UgG9IMX9ozb+3cipaTQg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=siemens.com;
+	dmarc=pass action=none header.from=siemens.com; 
+	dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=siemens.onmicrosoft.com; s=selector1-siemens-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=K9kRJrxMkIKKv6idn/oECV+FJsbNZQa0Ny01JVMddcE=;
+	b=mqdQvx0uu9f97uKNsv1iP3+ix/xd8IgvyxBxWaxqPPx0KxTQlBtHvhkxj4HX/tojVz7kXWs5OUFWNX6l3JrQFp+qmwcVBeggzYubyAWF8G1gqrTRLYeZ5XQtg1jBX7bAfZEytt450q8hmi3qJFm5C9/PVwbZIJmZ/qdcFQORiV8=
+Received: from VI1PR10MB3664.EURPRD10.PROD.OUTLOOK.COM (10.186.163.142) by
+	VI1PR10MB2861.EURPRD10.PROD.OUTLOOK.COM (20.178.204.143) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2793.17; Thu, 12 Mar 2020 15:21:54 +0000
+Received: from VI1PR10MB3664.EURPRD10.PROD.OUTLOOK.COM
+	([fe80::a97b:42c6:cea5:cfdf]) by
+	VI1PR10MB3664.EURPRD10.PROD.OUTLOOK.COM
+	([fe80::a97b:42c6:cea5:cfdf%6]) with mapi id 15.20.2814.007;
+	Thu, 12 Mar 2020 15:21:54 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] runqemu nographic and hvc0
+Thread-Index: AdX4gaD98QP0OLdhRK++EMpeYWsFQA==
+Date: Thu, 12 Mar 2020 15:21:54 +0000
+Message-ID: <VI1PR10MB366487DDF67A917978FD21D7FDFD0@VI1PR10MB3664.EURPRD10.PROD.OUTLOOK.COM>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=Peter.Marko@siemens.com; 
+x-originating-ip: [165.225.73.45]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 5f0d2f5b-e4a2-4a90-5906-08d7c69918cd
+x-ms-traffictypediagnostic: VI1PR10MB2861:
+x-microsoft-antispam-prvs: <VI1PR10MB28611B51B0DE52639930DC09FDFD0@VI1PR10MB2861.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0340850FCD
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(4636009)(396003)(376002)(39860400002)(366004)(136003)(346002)(199004)(186003)(26005)(4744005)(5660300002)(52536014)(316002)(6916009)(33656002)(8936002)(81166006)(81156014)(7696005)(9686003)(55016002)(64756008)(2906002)(76116006)(66946007)(66556008)(66446008)(66476007)(86362001)(8676002)(71200400001)(55236004)(6506007)(478600001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR10MB2861;
+	H:VI1PR10MB3664.EURPRD10.PROD.OUTLOOK.COM; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; 
+received-spf: None (protection.outlook.com: siemens.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: wKk0Qg9kWHvqP8wZgeyWKEI/1j28SF0nE5FTlDPMzzWdTYIy2RBqrxwh1Y3vnIh68SJ6C1ASGnKQPFIUO9bG6pu5Lc8RxVjcOtoke2sPMfDSyoqaM28+Xbm86XBT5b2m5y8Ay/NvTjR95g8cuFcNicCcnth+Wl4Osq7Ur7golqkip8QMz17tSZ2vUD5ICajhG17Gajr/kApuL+oqQwENV6GHBkqEXfA4zoej6IDtpYMdRqB7V7tPnd7fy+yrUt7yLGNL34zrnkd5g16EZEN5PV6bw3u3e4tO31vytaacess6dRk5vqweSTAY8cdKiYFJwVWMM802wbLiCaIZ75lUaR67c8RRMZZUgCp5+J+OJr/P5k9UeArNafXS6kNZQBbtbW2VosI/aUex+wqsps8fI1oHDfktR6xj11yj0xTNeIdAqHTItNpexEuomrce8885
+x-ms-exchange-antispam-messagedata: zyAHryy/mMe/mfRQLBQpYmXm3FHaKW+pki4Onx0NqUehmcqyy9r34FU5h0YYAM8qe8wtOklDFk6zJkxJpOJ7LScZ0nLlawVyKb0GZJnIRcB7CwBnvrKapoSAJnO7rrT6DOvO/ZMmyRVNJBP2xjA49g==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Subject: [PATCH] libsdl2: upgrade 2.0.10 -> 2.0.12
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5f0d2f5b-e4a2-4a90-5906-08d7c69918cd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Mar 2020 15:21:54.3327 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5qBjlX10Rh+sVT3368ZZM6J6kvhuKnhy/Fnl+cfZKheOo2JCFOZKD/6c8Ix5Y9KpxlrdT4R9ezF1hoXgJEMGIg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB2861
+Subject: runqemu nographic and hvc0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,221 +84,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 14:43:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Mar 2020 15:21:55 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-* checked all hunks: backported patches can go
-* for machines with neon in TUNE_FEATURES enable new configure option
-  --enable-arm-neon. If enabled, license must be extended to MIT
-* license checksum changed by copyright year
+Hi,
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- ...alidate-image-size-when-loading-BMP-.patch | 34 ------------
- ...for-build-dir-when-building-version-.patch | 53 -------------------
- ...DL-fails-to-compile-with-Mesa-Master.patch | 41 --------------
- .../{libsdl2_2.0.10.bb => libsdl2_2.0.12.bb}  | 15 +++---
- 4 files changed, 9 insertions(+), 134 deletions(-)
- delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch
- delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-configure-check-for-build-dir-when-building-version-.patch
- delete mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0002-Fixed-bug-4797-SDL-fails-to-compile-with-Mesa-Master.patch
- rename meta/recipes-graphics/libsdl2/{libsdl2_2.0.10.bb => libsdl2_2.0.12.bb} (81%)
+I'm trying to boot my own qemu image on zeus branch with "runqemu nographic=
+ /path/to/extracted/rootfs" but I have problem that console is flooded with
+process '/sbin/getty 115200 hvc0' (pid 383) exited. Scheduling for restart.
+starting pid 385, tty '': '/sbin/getty 115200 hvc0'
+I'm using yocto qemuarm kernel and qemuarm machine (but it's the same with =
+qemuarm64).
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch
-deleted file mode 100644
-index 674decccbb..0000000000
---- a/meta/recipes-graphics/libsdl2/libsdl2/0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 85138c1ec673e05263ae666baf61f79384daf7e0 Mon Sep 17 00:00:00 2001
--From: Sam Lantinga <slouken@libsdl.org>
--Date: Tue, 30 Jul 2019 11:00:00 -0700
--Subject: [PATCH] Fixed bug 4538 - validate image size when loading BMP files
--
--Upstream-Status: Backport
--[https://hg.libsdl.org/SDL/rev/e7ba650a643a]
--
--CVE: CVE-2019-13616
--
--Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-----
-- src/video/SDL_bmp.c | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/src/video/SDL_bmp.c b/src/video/SDL_bmp.c
--index 0b68918..a06b0c9 100644
----- a/src/video/SDL_bmp.c
--+++ b/src/video/SDL_bmp.c
--@@ -226,6 +226,11 @@ SDL_LoadBMP_RW(SDL_RWops * src, int freesrc)
--             SDL_RWseek(src, (biSize - headerSize), RW_SEEK_CUR);
--         }
--     }
--+    if (biWidth <= 0 || biHeight == 0) {
--+        SDL_SetError("BMP file with bad dimensions (%dx%d)", biWidth, biHeight);
--+        was_error = SDL_TRUE;
--+        goto done;
--+    }
--     if (biHeight < 0) {
--         topDown = SDL_TRUE;
--         biHeight = -biHeight;
---- 
--2.7.4
--
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0001-configure-check-for-build-dir-when-building-version-.patch b/meta/recipes-graphics/libsdl2/libsdl2/0001-configure-check-for-build-dir-when-building-version-.patch
-deleted file mode 100644
-index b383bd6548..0000000000
---- a/meta/recipes-graphics/libsdl2/libsdl2/0001-configure-check-for-build-dir-when-building-version-.patch
-+++ /dev/null
-@@ -1,53 +0,0 @@
--# HG changeset patch
--# User Anuj Mittal <am.devel@gmail.com>
--# Date 1573631462 -10800
--# Node ID 1fb1880d5edfc7c5a370846e13f90b260263627c
--# Parent  007002587d5d34d781c2b628c05e992e0ac5f52d
--configure: check for build dir when building version res (fix bug #4858)
--Fixes a race where we try to build version res file in build directory
--before it has even been created. Prevents errors like:
--
--/bin/bash ../SDL2-2.0.10/build-scripts/updaterev.sh
--/bin/bash ../SDL2-2.0.10/build-scripts/mkinstalldirs build
--mkdir -p -- build
--x86_64-pokysdk-mingw32-windres --include-dir=/home/pokybuild/yocto-worker/meta-mingw/build/build/tmp/work/x86_64-nativesdk-mingw32-pokysdk-mingw32/nativesdk-libsdl2/2.0.10-r0/recipe-sysroot/opt/poky/3.0/sysroots/x86_64-pokysdk-mingw32/usr/include ../SDL2-2.0.10/src/main/windows/version.rc build/version.o
--x86_64-pokysdk-mingw32-windres: build/version.o: No such file or directory
--Makefile:692: recipe for target 'build/version.o' failed
--make: *** [build/version.o] Error 1
--make: *** Waiting for unfinished jobs....
--touch build/.created
--WARNING: exit code 1 from a shell command.
--
--Extension of fix:
--https://hg.libsdl.org/SDL/rev/99d8b18acf8a
--
--Upstream-Status: Backport
--Signed-off-by: Anuj Mittal <am.devel@gmail.com>
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff -r 007002587d5d -r 1fb1880d5edf configure
----- a/configure	Tue Nov 12 17:24:37 2019 -0500
--+++ b/configure	Wed Nov 13 10:51:02 2019 +0300
--@@ -25493,7 +25493,7 @@
-- VERSION_DEPENDS=`echo $VERSION_SOURCES`
-- VERSION_OBJECTS=`echo "$VERSION_OBJECTS" | sed 's,[^ ]*/\([^ ]*\)\.rc,$(objects)/\1.o,g'`
-- VERSION_DEPENDS=`echo "$VERSION_DEPENDS" | sed "s,\\([^ ]*\\)/\\([^ ]*\\)\\.rc,\\\\
---\\$(objects)/\\2.o: \\1/\\2.rc\\\\
--+\\$(objects)/\\2.o: \\1/\\2.rc \\$(objects)/.created\\\\
-- 	\\$(WINDRES) \\$< \\$@,g"`
-- 
-- SDLMAIN_OBJECTS=`echo $SDLMAIN_SOURCES`
--diff -r 007002587d5d -r 1fb1880d5edf configure.ac
----- a/configure.ac	Tue Nov 12 17:24:37 2019 -0500
--+++ b/configure.ac	Wed Nov 13 10:51:02 2019 +0300
--@@ -4177,7 +4177,7 @@
-- VERSION_DEPENDS=`echo $VERSION_SOURCES`
-- VERSION_OBJECTS=`echo "$VERSION_OBJECTS" | sed 's,[[^ ]]*/\([[^ ]]*\)\.rc,$(objects)/\1.o,g'`
-- VERSION_DEPENDS=`echo "$VERSION_DEPENDS" | sed "s,\\([[^ ]]*\\)/\\([[^ ]]*\\)\\.rc,\\\\
---\\$(objects)/\\2.o: \\1/\\2.rc\\\\
--+\\$(objects)/\\2.o: \\1/\\2.rc \\$(objects)/.created\\\\
-- 	\\$(WINDRES) \\$< \\$@,g"`
-- 
-- SDLMAIN_OBJECTS=`echo $SDLMAIN_SOURCES`
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2/0002-Fixed-bug-4797-SDL-fails-to-compile-with-Mesa-Master.patch b/meta/recipes-graphics/libsdl2/libsdl2/0002-Fixed-bug-4797-SDL-fails-to-compile-with-Mesa-Master.patch
-deleted file mode 100644
-index 8f5b6a0cef..0000000000
---- a/meta/recipes-graphics/libsdl2/libsdl2/0002-Fixed-bug-4797-SDL-fails-to-compile-with-Mesa-Master.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--# HG changeset patch
--# User Sylvain Becker <sylvain.becker@gmail.com>
--# Date 1570898876 -7200
--#      Sat Oct 12 18:47:56 2019 +0200
--# Node ID 369b01006eb2f6fd563f7c315d29ae3fe503c432
--# Parent  4cbaffd0083b8cd17070dbd9d4ab1ce0fa9fca2d
--Fixed bug 4797 - SDL fails to compile with Mesa Master (thanks Michael Olbrich!)
--
--fix building with Mesa 19.2
--
--With Mesa 19.2 building fails with:
--
--/include/GLES/gl.h:63:25: error: conflicting types for 'GLsizeiptr'
--
--The same type is defined in include/SDL_opengl.h for OpenGL and the two
--headers should not be included at the same time.
--This was just never noticed because the same header guard '__gl_h_' was
--used. This was changed in Mesa. The result is this error.
--
--Fix this the same way GLES2 already handles this: Don't include the GLES
--header when the OpenGL header was already included.
--(https://hg.libsdl.org/SDL/rev/a60b3c292f0f)
--
--Upstream-Status: Backport [https://hg.libsdl.org/SDL/rev/369b01006eb2]
--Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
--
--diff --git a/src/video/SDL_video.c b/src/video/SDL_video.c
----- a/src/video/SDL_video.c
--+++ b/src/video/SDL_video.c
--@@ -37,9 +37,9 @@
-- #include "SDL_opengl.h"
-- #endif /* SDL_VIDEO_OPENGL */
-- 
---#if SDL_VIDEO_OPENGL_ES
--+#if SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL
-- #include "SDL_opengles.h"
---#endif /* SDL_VIDEO_OPENGL_ES */
--+#endif /* SDL_VIDEO_OPENGL_ES && !SDL_VIDEO_OPENGL */
-- 
-- /* GL and GLES2 headers conflict on Linux 32 bits */
-- #if SDL_VIDEO_OPENGL_ES2 && !SDL_VIDEO_OPENGL
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-similarity index 81%
-rename from meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
-rename to meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-index 413f53476a..c1c941e452 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
-@@ -8,21 +8,22 @@ BUGTRACKER = "http://bugzilla.libsdl.org/"
- SECTION = "libs"
- 
- LICENSE = "Zlib"
--LIC_FILES_CHKSUM = "file://COPYING.txt;md5=504a9454ceb89fd75a2583473b11409e"
-+LIC_FILES_CHKSUM = "file://COPYING.txt;md5=2d4af6adb4d89aad0cdedbcc18c9a32f"
-+
-+# arm-neon adds MIT license
-+LICENSE_append = " ${@bb.utils.contains('PACKAGECONFIG', 'arm-neon', '& MIT', '', d)}"
-+LIC_FILES_CHKSUM_append = " ${@bb.utils.contains('PACKAGECONFIG', 'arm-neon', 'file://src/video/arm/pixman-arm-neon-asm.h;md5=9a9cc1e51abbf1da58f4d9528ec9d49b;beginline=1;endline=24', '', d)}"
- 
- PROVIDES = "virtual/libsdl2"
- 
- SRC_URI = "http://www.libsdl.org/release/SDL2-${PV}.tar.gz \
-            file://more-gen-depends.patch \
--           file://0001-Fixed-bug-4538-validate-image-size-when-loading-BMP-.patch \
--           file://0002-Fixed-bug-4797-SDL-fails-to-compile-with-Mesa-Master.patch \
--           file://0001-configure-check-for-build-dir-when-building-version-.patch \
- "
- 
- S = "${WORKDIR}/SDL2-${PV}"
- 
--SRC_URI[md5sum] = "5a2114f2a6f348bdab5bf52b994811db"
--SRC_URI[sha256sum] = "b4656c13a1f0d0023ae2f4a9cf08ec92fffb464e0f24238337784159b8b91d57"
-+SRC_URI[md5sum] = "783b6f2df8ff02b19bb5ce492b99c8ff"
-+SRC_URI[sha256sum] = "349268f695c02efbc9b9148a70b85e58cefbbf704abd3e91be654db7f1e2c863"
- 
- inherit autotools lib_package binconfig-disabled pkgconfig
- 
-@@ -50,8 +51,10 @@ PACKAGECONFIG ??= " \
-     ${PACKAGECONFIG_GL} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio x11', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland gles2', '', d)} \
-+    ${@bb.utils.contains("TUNE_FEATURES", "neon","arm-neon","",d)} \
- "
- PACKAGECONFIG[alsa]       = "--enable-alsa --disable-alsatest,--disable-alsa,alsa-lib,"
-+PACKAGECONFIG[arm-neon]   = "--enable-arm-neon,--disable-arm-neon"
- PACKAGECONFIG[directfb]   = "--enable-video-directfb,--disable-video-directfb,directfb"
- PACKAGECONFIG[gles2]      = "--enable-video-opengles,--disable-video-opengles,virtual/libgles2"
- PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
--- 
-2.21.1
+Basically qemuarm machine has
+SERIAL_CONSOLES ?=3D "115200;ttyAMA0 115200;hvc0"
+which is transferred to /etc/inittab, however hvc0 device does not exist af=
+ter booting in nographic mode.
 
+What kind of configuration am I missing in my image?
+I think that might be the graphic console which does not exist in nographic=
+ mode?
+Is there a way to get rid of this problem without breaking graphic mode con=
+sole?
+
+Thanks,
+  Peter
 
