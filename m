@@ -1,55 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 51D8C61C2D
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
+	[209.85.222.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 1658C61C20
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 16:13:09 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id z65so3487276pfz.8
+	Thu, 12 Mar 2020 16:25:35 +0000 (UTC)
+Received: by mail-ua1-f52.google.com with SMTP id t20so2336698uao.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 09:13:10 -0700 (PDT)
+	Thu, 12 Mar 2020 09:25:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=+xNY3Tn5/lxVWrwj3+kUW3n6l9Ni1qUEcYWVlwyA9GY=;
-	b=ufQYbT2vP2vFVYTMacNZoof2CRRHG08qk9fE/cZHpBj9cjNqz1pw5KUy3Ffp3LepXg
-	QO+6TEqadunss0yC9Fp8uyd2/qjaqH5PVJppGkc8am+jvNjuUdhRlc3MvUFCzVDkDeNn
-	Vo2HnhKSV0oUcyKOoFGt4aLQ0WcAEI6XgVakgyZVRCJ8C5uM+XFiAC+RMWY6/QK9BXDi
-	JNxC0ThzORZvHGXeoUpYt/uLEAG66MZdFg9kQ3Vp6aNpz6zRVHrnuj8yeQYbmHgNCeKT
-	M6XeKQqXuioa+fDmPAnIUje5jZx90QmK4bzzWTQQVkgT4g/SSrgnUL2E4aoz7szHrgjC
-	Z7rQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ipmJoGItZcGz+wbhf1L8m5LM7oczNGbKp7R6wWLfzcI=;
+	b=bzkxbBcUjI0l92PIri/4WADn/6xPSOAdFy0XZtFLbKFcyYoXXp93hJhvZUwvfqWYeJ
+	a9xwoGp2nfA+geo/VfFMnWyWtU7T4hqQdK8XnfLT9cEpXjHtsL7n59wzrnvMtsXH+UDZ
+	znWghT4nQY8KzbjwkIZPf0YkgzobsSyXdBml3ePZdfDmyA7CbZPgfknuGPLieg1g9R/X
+	Hw432BTFAdQKt0UxyxIc6ZBNAKEKVgc94AktzsR0DDqDH1l1kkRoWRxnTKtv45PKHQ0C
+	tx3uvkMAS1csnmQObN8AUAveeSyZwwHVh7ZpVYy0C1pwZtGhRvQ5oJabyzAq618Pge2G
+	IaMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=+xNY3Tn5/lxVWrwj3+kUW3n6l9Ni1qUEcYWVlwyA9GY=;
-	b=QGdIc/HyZ+6TeAai0OZmZb5P4fsl3o/ot+iJoJmP1KjViGQdNX0QbUxiI+pAhFfCAS
-	+N+xz3q+WUzm33WUfmUwH/CgqJFhM4jvNTmN8nzRaZcnTKMu1AhT+Zh+sT9bMB5gS0CS
-	ONiK7CZFfQvQ8svNHzV/5D5KE8auuAbUr9b7mf+aWChMKQicFtx71LhyQzAS8mKxs48h
-	5q9Mydva+jIhTE3jJea+YeVQue2YW1I0IbfcNYG2p73ICf94K5i+TvUTMXp+dFt2ybYa
-	JmsK8Uhp4cYHIWZnAoGwdIq94///Wiuuy+W5yCdjNaeG+CywO089jJGtE2BfJ1BW4BIU
-	Y2mQ==
-X-Gm-Message-State: ANhLgQ2imxVPSYptAIiB2tal3HpGmlfdhr5BA9wFd1o2ffzt0lmIpjGI
-	Gy1AqhJDp/lYvh8vIKxYvVOtDo44994=
-X-Google-Smtp-Source: ADFU+vv4GqGuteX427vL51WPRkBSaKrPG0PxJ2eqlZWCFIzCOhSpRrX+tA+TClepmOx6e5FxuXUfzA==
-X-Received: by 2002:aa7:958f:: with SMTP id z15mr7316192pfj.130.1584029589996; 
-	Thu, 12 Mar 2020 09:13:09 -0700 (PDT)
-Received: from ?IPv6:2601:646:9200:4e0:d558:25ee:538d:b97a?
-	([2601:646:9200:4e0:d558:25ee:538d:b97a])
-	by smtp.gmail.com with ESMTPSA id u3sm9369911pjv.32.2020.03.12.09.13.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 12 Mar 2020 09:13:09 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-References: <VI1PR10MB366487DDF67A917978FD21D7FDFD0@VI1PR10MB3664.EURPRD10.PROD.OUTLOOK.COM>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <80a2ec8e-cb96-9e2c-77e4-64fc2d5163dc@gmail.com>
-Date: Thu, 12 Mar 2020 09:13:08 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.5.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ipmJoGItZcGz+wbhf1L8m5LM7oczNGbKp7R6wWLfzcI=;
+	b=QH0oCdhO/Bexhp9N0Jo7i7aJA1Q4JwuKYSyQIRqdpCBXbntAHnvD27kddVmIqhQCjh
+	qDPUlvZaxvy5mmektGgyOAusOnEzjruwM98xAqLHQOCnu1ZaSSyZwHl7OrQbjw1FzGHW
+	mBNvQBMZV5eESqeHFlaruylX3FnIVDJZJA+QTV3kDdgojFMBEggg9AEhSI9QXAJybdk0
+	vsWVmnqaERBPBSyt9ndoUjnaqgHkSY8ZpnqH+cXhwleez8im8uAB+uWfSDM7qtPmkFqF
+	zDNFnyFp5yUAx+jsIXjlSTS9ZIrHPwe2689a9E60c/gFvol0nqYevG6jsnAlR964Ofve
+	VmTQ==
+X-Gm-Message-State: ANhLgQ2nDW9XirM1ulInJWzEoNkemUO7CdtJMCwML5CiFRRTPcOt1D9Y
+	gme1RSJu8dmu8nLvDE0dvp7ppv2m+0wIVhqKh58=
+X-Google-Smtp-Source: ADFU+vtUgjXSMb1RxdmwK5eB8Kf/C4qnhKkJzsBwacVMDFo7AACaB7GwPpr6vpF5snvZECw7cu+7k10CA6D9Try45pQ=
+X-Received: by 2002:ab0:1158:: with SMTP id g24mr5301018uac.71.1584030336109; 
+	Thu, 12 Mar 2020 09:25:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <VI1PR10MB366487DDF67A917978FD21D7FDFD0@VI1PR10MB3664.EURPRD10.PROD.OUTLOOK.COM>
-Subject: Re: runqemu nographic and hvc0
+References: <1583983272-116095-1-git-send-email-mingli.yu@windriver.com>
+	<CANNYZj8uQeTRf4n1rkCkKkGc7n4KWrH5MdT13uAzivrBHDAsZA@mail.gmail.com>
+	<35d02004-68f2-eac7-16e5-8e51d98d7a1d@gmail.com>
+In-Reply-To: <35d02004-68f2-eac7-16e5-8e51d98d7a1d@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 12 Mar 2020 17:25:24 +0100
+Message-ID: <CANNYZj_xSpmzHCsZ=JK9phne5ZC_kzfwaNk4tSDPfaebGZdyOw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] netbase: use snapshot.debian.org
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,36 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 16:13:09 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Mar 2020 16:25:36 -0000
+Content-Type: multipart/alternative; boundary="0000000000007f514905a0aacdfa"
 
+--0000000000007f514905a0aacdfa
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, 12 Mar 2020 at 17:08, Khem Raj <raj.khem@gmail.com> wrote:
 
-On 3/12/20 8:21 AM, Marko, Peter wrote:
-> Hi,
-> 
-> I'm trying to boot my own qemu image on zeus branch with "runqemu nographic /path/to/extracted/rootfs" but I have problem that console is flooded with
-> process '/sbin/getty 115200 hvc0' (pid 383) exited. Scheduling for restart.
-> starting pid 385, tty '': '/sbin/getty 115200 hvc0'
-> I'm using yocto qemuarm kernel and qemuarm machine (but it's the same with qemuarm64).
-> 
-> Basically qemuarm machine has
-> SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
-> which is transferred to /etc/inittab, however hvc0 device does not exist after booting in nographic mode.
-> 
-> What kind of configuration am I missing in my image?
-> I think that might be the graphic console which does not exist in nographic mode?
+> > This will break version checks and automated upgrades. Is it possible to
+> > build from git instead?
+> > Specifically: https://salsa.debian.org/md/netbase
+>
+> That repo is debian build metadata sources for netbase.
+>
 
-that is correct
+Nope. It is the actual sources too, in etc/.
 
-> Is there a way to get rid of this problem without breaking graphic mode console?
+Alex
 
-I did not find one, it particularly happens with busybox init.
+--0000000000007f514905a0aacdfa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> Thanks,
->    Peter
-> 
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 12 Mar 2020 at 17:08, Khem Raj &l=
+t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
+r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">&gt; This will break version checks and automated upgrades. Is i=
+t possible to <br>
+&gt; build from git instead?<br>
+&gt; Specifically: <a href=3D"https://salsa.debian.org/md/netbase" rel=3D"n=
+oreferrer" target=3D"_blank">https://salsa.debian.org/md/netbase</a><br>
+<br>
+That repo is debian build metadata sources for netbase.<br></blockquote><di=
+v><br></div><div>Nope. It is the actual sources too, in etc/.</div><div><br=
+></div><div>Alex<br></div></div></div>
 
+--0000000000007f514905a0aacdfa--
