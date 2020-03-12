@@ -1,50 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B6C1761C32
+Return-Path: <Stefan.Ghinea@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 254CA61BC8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 09:12:09 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id 25so5190923wmk.3
+	Thu, 12 Mar 2020 09:23:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 02C9NOJX012258
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 02:12:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=P6Gx+SIHdhf8i9XBRfnFeOZJgkn/jbSYugUPPxs9gaA=;
-	b=b0ZVmqVHmxUuogkES5I7biaN0bpk6WfU2NacmgK3bYJDB9Zmk8REM8EkdJEMDq6J6n
-	No8g1xKOj8jyceVb23VUG/mhk6KZp1sjATxBga9c2XxAv3Pz3ELm0iDdHVBZcCsXgzFG
-	Sf7iKKzELMiSFxqHkWoa0DQQ8axSnWYrR5nn4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=P6Gx+SIHdhf8i9XBRfnFeOZJgkn/jbSYugUPPxs9gaA=;
-	b=CxRdljhsmxKwCPfms7PA5HGeTE2t+Zf5ECy5K9bYLKLJYBypbNMfHITLDCQHy+jSVu
-	B8qYCNDfenWpsQy9jMoy+xftulSyBnsCZEFQbWf8TLKoxm7d96eLF5+g4gG6bXKit9y2
-	ervlnoe+WCmVFU759TN5PNyjmS0vybDYQV5Bze95Ti71yzEoPmmdGg4glnlAixMRWMz3
-	2dsnras334wnz+M9sPecRf84HDRKSTMyYjVj60bm1yXPOdtgNlrpEyP1zCPj0EMFje4n
-	PgbwFrNn1izhBQNEZTgu8NY1cnmaVuMNbT1Fn4/E7pGpJClRtKxroa301BCmCn7QA/KO
-	vA2w==
-X-Gm-Message-State: ANhLgQ02jm/hPt2Az3A9U+cYlRcasdy3V3//O7oIz6ci7zeaFaJx/QSX
-	vP9y9WHIGy7zIWdQG3+2V9oi2/XNGEk=
-X-Google-Smtp-Source: ADFU+vsZVmzqUIuzImAzfHwJCviRn+ScdehU9Jof7+/OLHAfN32znaVU+JxfAmcO4Ny5XoJHRgXbzw==
-X-Received: by 2002:a1c:5443:: with SMTP id p3mr3635072wmi.149.1584004330237; 
-	Thu, 12 Mar 2020 02:12:10 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	x17sm35415988wrt.31.2020.03.12.02.12.09
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Mar 2020 02:12:09 -0700 (PDT)
-Message-ID: <e378ba2ada9b6f5ac5183b947c8dc637548bdebf.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Stefan Kral <sk@typedivision.de>, openembedded-core@lists.openembedded.org
-Date: Thu, 12 Mar 2020 09:12:08 +0000
-In-Reply-To: <20200311163730.78078-1-sk@typedivision.de>
-References: <20200311163730.78078-1-sk@typedivision.de>
-User-Agent: Evolution 3.35.91-1 
+	Thu, 12 Mar 2020 02:23:25 -0700 (PDT)
+Received: from otp-sghinea-l1.corp.ad.wrs.com (128.224.124.146) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.487.0; Thu, 12 Mar 2020 02:23:24 -0700
+From: Stefan Ghinea <stefan.ghinea@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Mar 2020 11:23:22 +0200
+Message-ID: <20200312092322.28506-1-stefan.ghinea@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] oeqa: enable testresults.json for testexport
+Subject: [PATCH] [zeus] aspell: CVE-2019-20433
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,107 +31,1123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 09:12:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Mar 2020 09:23:24 -0000
+Content-Type: text/plain
 
-On Wed, 2020-03-11 at 17:37 +0100, Stefan Kral wrote:
-> Add the option --json-result-dir to oeqa core context to enable
-> testresults.json creation for test runs via testexport.
-> 
-> Eg. oe-test runtime --json-result-dir .
-> 
-> Signed-off-by: Stefan Kral <sk@typedivision.de>
-> ---
->  meta/lib/oeqa/core/context.py | 30 +++++++++++++++++++++++++++++-
->  meta/lib/oeqa/core/runner.py  | 13 ++++++++++---
->  2 files changed, 39 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
-> index 16320af115..b9a28ce319 100644
-> --- a/meta/lib/oeqa/core/context.py
-> +++ b/meta/lib/oeqa/core/context.py
-> @@ -116,6 +116,9 @@ class OETestContextExecutor(object):
->                  default=self.default_output_log,
->                  help="results output log, default: %s" % self.default_output_log)
->  
-> +        self.parser.add_argument('--json-result-dir', action='store',
-> +                help="json result output dir, create testresults.json here if set")
-> +
->          group = self.parser.add_mutually_exclusive_group()
->          group.add_argument('--run-tests', action='store', nargs='+',
->                  default=self.default_tests,
-> @@ -178,6 +181,22 @@ class OETestContextExecutor(object):
->  
->          self.module_paths = args.CASES_PATHS
->  
-> +    def _get_json_result_dir(self, args):
-> +        return args.json_result_dir
-> +
-> +    def _get_configuration(self):
-> +        td = self.tc_kwargs['init']['td']
-> +        configuration = {'TEST_TYPE': self.name,
-> +                        'MACHINE': td.get("MACHINE"),
-> +                        'DISTRO': td.get("DISTRO"),
-> +                        'IMAGE_BASENAME': td.get("IMAGE_BASENAME"),
-> +                        'DATETIME': td.get("DATETIME")}
-> +        return configuration
-> +
-> +    def _get_result_id(self, configuration):
-> +        return '%s_%s_%s_%s' % (configuration['TEST_TYPE'], configuration['IMAGE_BASENAME'],
-> +                                configuration['MACHINE'], configuration['DATETIME'])
-> +
->      def _pre_run(self):
->          pass
->  
-> @@ -196,7 +215,16 @@ class OETestContextExecutor(object):
->          else:
->              self._pre_run()
->              rc = self.tc.runTests(**self.tc_kwargs['run'])
-> -            rc.logDetails()
-> +
-> +            json_result_dir = self._get_json_result_dir(args)
-> +            if json_result_dir:
-> +                configuration = self._get_configuration()
-> +                rc.logDetails(json_result_dir,
-> +                              configuration,
-> +                              self._get_result_id(configuration))
-> +            else:
-> +                rc.logDetails()
-> +
->              rc.logSummary(self.name)
->  
->          output_link = os.path.join(os.path.dirname(args.output_log),
-> diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-> index f656e1a9c5..fc3872aa73 100644
-> --- a/meta/lib/oeqa/core/runner.py
-> +++ b/meta/lib/oeqa/core/runner.py
-> @@ -319,10 +319,17 @@ class OETestResultJSONHelper(object):
->              the_file.write(file_content)
->  
->      def dump_testresult_file(self, write_dir, configuration, result_id, test_result):
-> -        bb.utils.mkdirhier(write_dir)
-> -        lf = bb.utils.lockfile(os.path.join(write_dir, 'jsontestresult.lock'))
-> +        try:
-> +            import bb
-> +            has_bb = True
-> +            lf = bb.utils.lockfile(os.path.join(write_dir, 'jsontestresult.lock'))
-> +            bb.utils.mkdirhier(write_dir, exist_ok=True)
+libaspell.a in GNU Aspell before 0.60.8 has a buffer over-read for a string
+ending with a single '\0' byte, if the encoding is set to ucs-2 or ucs-4
+outside of the application, as demonstrated by the ASPELL_CONF environment
+variable.
 
-This threw errors under testing since mkdirhier doesn't have an
-exist_ok parameter. The ordering is also reversed, we should mkdir,
-then lock.
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2019-20433
 
-> +        except ImportError:
-> +            has_bb = False
-> +            os.makedirs(write_dir)
+Upstream patches:
+https://github.com/GNUAspell/aspell/commit/de29341638833ba7717bd6b5e6850998454b044b
+https://github.com/GNUAspell/aspell/commit/cefd447e5528b08bb0cd6656bc52b4255692cefc
 
-I suspect the parameter was meant to go here. 
+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
+---
+ .../aspell/aspell/CVE-2019-20433-0001.patch   | 999 ++++++++++++++++++
+ .../aspell/aspell/CVE-2019-20433-0002.patch   |  68 ++
+ meta/recipes-support/aspell/aspell_0.60.7.bb  |   2 +
+ 3 files changed, 1069 insertions(+)
+ create mode 100644 meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch
+ create mode 100644 meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch
 
-I've added a fix to -next for this.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch
+new file mode 100644
+index 0000000000..fd68461e32
+--- /dev/null
++++ b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch
+@@ -0,0 +1,999 @@
++From de29341638833ba7717bd6b5e6850998454b044b Mon Sep 17 00:00:00 2001
++From: Kevin Atkinson <kevina@gnu.org>
++Date: Sat, 17 Aug 2019 17:06:53 -0400
++Subject: [PATCH 1/2] Don't allow null-terminated UCS-2/4 strings using the
++ original API.
++
++Detect if the encoding is UCS-2/4 and the length is -1 in affected API
++functions and refuse to convert the string.  If the string ends up
++being converted somehow, abort with an error message in DecodeDirect
++and ConvDirect.  To convert a null terminated string in
++Decode/ConvDirect, a negative number corresponding to the width of the
++underlying character type for the encoding is expected; for example,
++if the encoding is "ucs-2" then a the size is expected to be -2.
++
++Also fix a 1-3 byte over-read in DecodeDirect when reading UCS-2/4
++strings when a size is provided (found by OSS-Fuzz).
++
++Also fix a bug in DecodeDirect that caused DocumentChecker to return
++the wrong offsets when working with UCS-2/4 strings.
++
++CVE: CVE-2019-20433
++Upstream-Status: Backport [https://github.com/GNUAspell/aspell/commit/de29341638833ba7717bd6b5e6850998454b044b]
++
++[SG: - adjusted context
++     - discarded test changes as test framework is not available
++     - discarded manual entry changes for features that aren't backported]
++Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
++---
++ auto/MkSrc/CcHelper.pm      | 99 ++++++++++++++++++++++++++++++++++---
++ auto/MkSrc/Create.pm        |  5 +-
++ auto/MkSrc/Info.pm          |  5 +-
++ auto/MkSrc/ProcCc.pm        | 24 +++++----
++ auto/MkSrc/ProcImpl.pm      | 57 +++++++++++++++------
++ auto/MkSrc/Read.pm          |  4 +-
++ auto/mk-src.in              | 44 +++++++++++++++--
++ common/convert.cpp          | 39 ++++++++++++---
++ common/convert.hpp          | 38 +++++++++++++-
++ common/document_checker.cpp | 17 ++++++-
++ common/document_checker.hpp |  1 +
++ common/version.cpp          | 15 ++++--
++ configure.ac                |  8 +++
++ manual/aspell.texi          | 58 ++++++++++++++++------
++ manual/readme.texi          | 70 +++++++++++++++++++++-----
++ 15 files changed, 409 insertions(+), 75 deletions(-)
++
++diff --git a/auto/MkSrc/CcHelper.pm b/auto/MkSrc/CcHelper.pm
++index f2de991..0044335 100644
++--- a/auto/MkSrc/CcHelper.pm
+++++ b/auto/MkSrc/CcHelper.pm
++@@ -10,8 +10,8 @@ BEGIN {
++   use Exporter;
++   our @ISA = qw(Exporter);
++   our @EXPORT = qw(to_c_return_type c_error_cond
++-		   to_type_name make_desc make_func call_func
++-		   make_c_method call_c_method form_c_method
+++		   to_type_name make_desc make_func call_func get_c_func_name
+++		   make_c_method make_wide_macro call_c_method form_c_method
++ 		   make_cxx_method);
++ }
++ 
++@@ -90,6 +90,69 @@ sub make_func ( $ \@ $ ; \% ) {
++ 	   ')'));
++ }
++ 
+++=item make_wide_version NAME @TYPES PARMS ; %ACCUM
+++
+++Creates the wide character version of the function if needed
+++
+++=cut
+++
+++sub make_wide_version ( $ \@ $ ; \% ) {
+++  my ($name, $d, $p, $accum) = @_;
+++  my @d = @$d;
+++  shift @d;
+++  return '' unless grep {$_->{type} eq 'encoded string'} @d;
+++  $accum->{sys_headers}{'stddef.h'} = true;
+++  $accum->{suffix}[5] = <<'---';
+++
+++/******************* private implemantion details *********************/
+++
+++#ifdef __cplusplus
+++#  define aspell_cast_(type, expr) (static_cast<type>(expr))
+++#  define aspell_cast_from_wide_(str) (static_cast<const void *>(str))
+++#else
+++#  define aspell_cast_(type, expr) ((type)(expr))
+++#  define aspell_cast_from_wide_(str) ((const char *)(str))
+++#endif
+++---
+++  my @parms = map {$_->{type} eq 'encoded string'
+++                       ? ($_->{name}, $_->{name}.'_size')
+++                       : $_->{name}} @d;
+++  $name = to_lower $name;
+++  $accum->{suffix}[0] = <<'---';
+++/**********************************************************************/
+++
+++#ifdef ASPELL_ENCODE_SETTING_SECURE
+++---
+++  $accum->{suffix}[2] = "#endif\n";
+++  my @args = map  {$_->{type} eq 'encoded string'
+++                       ? ($_->{name}, "$_->{name}_size", '-1')
+++                       : $_->{name}} @d;
+++  $accum->{suffix}[1] .=
+++      (join '',
+++       "#define $name",
+++       '(', join(', ', @parms), ')',
+++       "\\\n    ",
+++       $name, '_wide',
+++       '(', join(', ', @args), ')',
+++       "\n");
+++  @args = map  {$_->{type} eq 'encoded string'
+++                    ? ("aspell_cast_from_wide_($_->{name})",
+++                       "$_->{name}_size*aspell_cast_(int,sizeof(*($_->{name})))",
+++                       "sizeof(*($_->{name}))")
+++                    : $_->{name}} @d;
+++  return (join '',
+++          "\n",
+++          "/* version of $name that is safe to use with (null terminated) wide characters */\n",
+++          '#define ',
+++          $name, '_w',
+++          '(', join(', ', @parms), ')', 
+++          "\\\n    ",
+++          $name, '_wide',
+++          '(', join(', ', @args), ')',
+++          "\n");
+++}
+++
+++
++ =item call_func NAME @TYPES PARMS ; %ACCUM
++ 
++ Return a string to call a func.  Will prefix the function with return
++@@ -103,7 +166,6 @@ Parms can be any of:
++ 
++ sub call_func ( $ \@ $ ; \% ) {
++   my ($name, $d, $p, $accum) = @_;
++-  $accum = {} unless defined $accum;
++   my @d = @$d;
++   my $func_ret = to_type_name(shift @d, {%$p,pos=>'return'}, %$accum);
++   return (join '',
++@@ -148,8 +210,14 @@ sub to_type_name ( $ $ ; \% ) {
++   my $name = $t->{name};
++   my $type = $t->{type};
++ 
++-  return ( (to_type_name {%$d, type=>'string'}, $p, %$accum) ,
++-	   (to_type_name {%$d, type=>'int', name=>"$d->{name}_size"}, $p, %$accum) )
+++  if ($name eq 'encoded string' && $is_cc && $pos eq 'parm') {
+++    my @types = ((to_type_name {%$d, type=>($p->{wide}?'const void pointer':'string')}, $p, %$accum),
+++                 (to_type_name {%$d, type=>'int', name=>"$d->{name}_size"}, $p, %$accum));
+++    push @types, (to_type_name {%$d, type=>'int', name=>"$d->{name}_type_width"}, $p, %$accum) if $p->{wide};
+++    return @types;
+++  }
+++  return ( (to_type_name {%$d, type=>($p->{wide}?'const void pointer':'string')}, $p, %$accum) ,
+++           (to_type_name {%$d, type=>'int', name=>"$d->{name}_size"}, $p, %$accum) )
++       if $name eq 'encoded string' && $is_cc && $pos eq 'parm';
++ 
++   my $str;
++@@ -174,7 +242,7 @@ sub to_type_name ( $ $ ; \% ) {
++ 	$str .= "String";
++       }
++     } elsif ($name eq 'encoded string') {
++-      $str .= "const char *";
+++      $str .= $p->{wide} ? "const void *" : "const char *";
++     } elsif ($name eq '') {
++       $str .= "void";
++     } elsif ($name eq 'bool' && $is_cc) {
++@@ -186,7 +254,7 @@ sub to_type_name ( $ $ ; \% ) {
++       if ($t->{pointer}) {
++ 	$accum->{types}->{$name} = $t;
++       } else {
++-	$accum->{headers}->{$t->{created_in}} = true;
+++        $accum->{headers}->{$t->{created_in}} = true unless $mode eq 'cc';
++       }
++       $str .= "$c_type Aspell" if $mode eq 'cc';
++       $str .= to_mixed($name);
++@@ -214,6 +282,7 @@ sub to_type_name ( $ $ ; \% ) {
++   return $str;
++ }
++ 
+++
++ =item make_desc DESC ; LEVEL
++ 
++ Make a C comment out of DESC optionally indenting it LEVEL spaces.
++@@ -286,6 +355,7 @@ sub form_c_method ($ $ $ ; \% )
++     } else {
++       $func = "aspell $class $name";
++     }
+++    $func .= " wide" if $p->{wide};
++     if (exists $d->{'const'}) {
++       splice @data, 1, 0, {type => "const $class", name=> $this_name};
++     } else {
++@@ -306,6 +376,21 @@ sub make_c_method ($ $ $ ; \%)
++   return &make_func(@ret);
++ }
++ 
+++sub get_c_func_name ($ $ $)
+++{
+++  my @ret = &form_c_method(@_);
+++  return undef unless @ret > 0;
+++  return to_lower $ret[0];
+++}
+++
+++sub make_wide_macro ($ $ $ ; \%)
+++{
+++  my @ret = &form_c_method(@_);
+++  return undef unless @ret > 0;
+++  my $str = &make_wide_version(@ret);
+++  return $str;
+++}
+++
++ sub call_c_method ($ $ $ ; \%)
++ {
++   my @ret = &form_c_method(@_);
++diff --git a/auto/MkSrc/Create.pm b/auto/MkSrc/Create.pm
++index d39b60e..630ede5 100644
++--- a/auto/MkSrc/Create.pm
+++++ b/auto/MkSrc/Create.pm
++@@ -77,8 +77,10 @@ sub create_cc_file ( % )  {
++   $file .= "#include \"aspell.h\"\n" if $p{type} eq 'cxx';
++   $file .= "#include \"settings.h\"\n" if $p{type} eq 'native_impl' && $p{name} eq 'errors';
++   $file .= "#include \"gettext.h\"\n" if $p{type} eq 'native_impl' && $p{name} eq 'errors';
+++  $file .= cmap {"#include <$_>\n"} sort keys %{$accum{sys_headers}};
++   $file .= cmap {"#include \"".to_lower($_).".hpp\"\n"} sort keys %{$accum{headers}};
++-  $file .= "#ifdef __cplusplus\nextern \"C\" {\n#endif\n" if $p{header} && !$p{cxx};
+++  $file .= "\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n" if $p{header} && !$p{cxx};
+++  $file .= join('', grep {defined $_} @{$accum{prefix}});
++   $file .= "\nnamespace $p{namespace} {\n\n" if $p{cxx};
++   if (defined $info{forward}{proc}{$p{type}}) {
++     my @types = sort {$a->{name} cmp $b->{name}} (values %{$accum{types}});
++@@ -86,6 +88,7 @@ sub create_cc_file ( % )  {
++   }
++   $file .= "\n";
++   $file .= $body;
+++  $file .= join('', grep {defined $_} @{$accum{suffix}});
++   $file .= "\n\n}\n\n" if $p{cxx};
++   $file .= "#ifdef __cplusplus\n}\n#endif\n" if $p{header} && !$p{cxx};
++   $file .= "#endif /* $hm */\n" if $p{header};
++diff --git a/auto/MkSrc/Info.pm b/auto/MkSrc/Info.pm
++index c644028..ace8e21 100644
++--- a/auto/MkSrc/Info.pm
+++++ b/auto/MkSrc/Info.pm
++@@ -60,6 +60,7 @@ each proc sub should take the following argv
++     the object from which it is a member of
++   no native: do not attempt to create a native implementation
++   treat as object: treat as a object rather than a pointer
+++  no conv: do not converted an encoded string
++ 
++ The %info structure is initialized as follows:
++ 
++@@ -104,8 +105,8 @@ The %info structure is initialized as follows:
++   errors => {}, # possible errors
++   method => {
++     # A class method
++-    options => ['desc', 'posib err', 'c func', 'const',
++-		'c only', 'c impl', 'cxx impl'],
+++    options => ['desc', 'posib err', 'c func', 'const', 'no conv', 'on conv error',
+++		'c only', 'c impl', 'cxx impl', 'cc extra'],
++     groups => undef},
++   constructor => {
++     # A class constructor
++diff --git a/auto/MkSrc/ProcCc.pm b/auto/MkSrc/ProcCc.pm
++index 47c4338..98cc435 100644
++--- a/auto/MkSrc/ProcCc.pm
+++++ b/auto/MkSrc/ProcCc.pm
++@@ -23,7 +23,7 @@ use MkSrc::Info;
++ sub make_c_object ( $ @ );
++ 
++ $info{group}{proc}{cc} = sub {
++-  my ($data) = @_;
+++  my ($data,@rest) = @_;
++   my $ret;
++   my $stars = (70 - length $data->{name})/2;
++   $ret .= "/";
++@@ -33,14 +33,14 @@ $info{group}{proc}{cc} = sub {
++   $ret .= "/\n";
++   foreach my $d (@{$data->{data}}) {
++     $ret .= "\n\n";
++-    $ret .= $info{$d->{type}}{proc}{cc}->($d);
+++    $ret .= $info{$d->{type}}{proc}{cc}->($d,@rest);
++   }
++   $ret .= "\n\n";
++   return $ret;
++ };
++ 
++ $info{enum}{proc}{cc} = sub {
++-  my ($d) = @_;
+++  my ($d,@rest) = @_;
++   my $n = "Aspell".to_mixed($d->{name});
++   return ("\n".
++ 	  make_desc($d->{desc}).
++@@ -58,21 +58,26 @@ $info{struct}{proc}{cc} = sub {
++ };
++ 
++ $info{union}{proc}{cc} = sub {
++-  return make_c_object "union", $_[0];
+++  return make_c_object "union", @_;
++ };
++ 
++ $info{class}{proc}{cc} = sub {
++-  my ($d) = @_;
+++  my ($d,$accum) = @_;
++   my $class = $d->{name};
++   my $classname = "Aspell".to_mixed($class);
++   my $ret = "";
++   $ret .= "typedef struct $classname $classname;\n\n";
++   foreach (@{$d->{data}}) {
++-    my $s = make_c_method($class, $_, {mode=>'cc'});
+++    my $s = make_c_method($class, $_, {mode=>'cc'}, %$accum);
++     next unless defined $s;
++     $ret .= "\n";
++     $ret .= make_desc($_->{desc});
++-    $ret .= make_c_method($class, $_, {mode=>'cc'}).";\n";
+++    $ret .= make_c_method($class, $_, {mode=>'cc'}, %$accum).";\n";
+++    if (grep {$_->{type} eq 'encoded string'} @{$_->{data}}) {
+++      $ret .= make_c_method($class, $_, {mode=>'cc', wide=>true}, %$accum).";\n";
+++      $ret .= make_wide_macro($class, $_, {mode=>'cc'}, %$accum);
+++    }
+++    $ret .= "\n".$_->{'cc extra'}."\n" if defined $_->{'cc extra'};
++   }
++   $ret .= "\n";
++   return $ret;
++@@ -105,7 +110,8 @@ $info{errors}{proc}{cc} = sub {
++ };
++ 
++ sub make_c_object ( $ @ ) {
++-  my ($t, $d) = @_;
+++  my ($t, $d, $accum) = @_;
+++  $accum = {} unless defined $accum;
++   my $struct;
++   $struct .= "Aspell";
++   $struct .= to_mixed($d->{name});
++@@ -120,7 +126,7 @@ sub make_c_object ( $ @ ) {
++ 		"\n};\n"),
++ 	  "typedef $t $struct $struct;",
++ 	  join ("\n",
++-		map {make_c_method($d->{name}, $_, {mode=>'cc'}).";"}
+++		map {make_c_method($d->{name}, $_, {mode=>'cc'}, %$accum).";"}
++ 		grep {$_->{type} eq 'method'}
++ 		@{$d->{data}})
++ 	  )."\n";
++diff --git a/auto/MkSrc/ProcImpl.pm b/auto/MkSrc/ProcImpl.pm
++index b8628fd..3d0f220 100644
++--- a/auto/MkSrc/ProcImpl.pm
+++++ b/auto/MkSrc/ProcImpl.pm
++@@ -45,10 +45,13 @@ $info{class}{proc}{impl} = sub {
++   foreach (grep {$_ ne ''} split /\s*,\s*/, $data->{'c impl headers'}) {
++     $accum->{headers}{$_} = true;
++   }
++-  foreach my $d (@{$data->{data}}) {
+++  my @d = @{$data->{data}};
+++  while (@d) {
+++    my $d = shift @d;
+++    my $need_wide = false;
++     next unless one_of $d->{type}, qw(method constructor destructor);
++     my @parms = @{$d->{data}} if exists $d->{data};
++-    my $m = make_c_method $data->{name}, $d, {mode=>'cc_cxx', use_name=>true}, %$accum;
+++    my $m = make_c_method $data->{name}, $d, {mode=>'cc_cxx', use_name=>true, wide=>$d->{wide}}, %$accum;
++     next unless defined $m;
++     $ret .= "extern \"C\" $m\n";
++     $ret .= "{\n";
++@@ -57,24 +60,49 @@ $info{class}{proc}{impl} = sub {
++     } else {
++       if ($d->{type} eq 'method') {
++ 	my $ret_type = shift @parms;
++-	my $ret_native = to_type_name $ret_type, {mode=>'native_no_err', pos=>'return'}, %$accum;
+++	my $ret_native = to_type_name $ret_type, {mode=>'native_no_err', pos=>'return', wide=>$d->{wide}}, %$accum;
++ 	my $snum = 0;
+++        my $call_fun = $d->{name};
+++        my @call_parms;
++ 	foreach (@parms) {
++ 	  my $n = to_lower($_->{name});
++-	  if ($_->{type} eq 'encoded string') {
++-	    $accum->{headers}{'mutable string'} = true;
++-	    $accum->{headers}{'convert'} = true;
++-	    $ret .= "  ths->temp_str_$snum.clear();\n";
++-	    $ret .= "  ths->to_internal_->convert($n, ${n}_size, ths->temp_str_$snum);\n";
++-	    $ret .= "  unsigned int s$snum = ths->temp_str_$snum.size();\n";
++-	    $_ = "MutableString(ths->temp_str_$snum.mstr(), s$snum)";
++-	    $snum++;
+++	  if ($_->{type} eq 'encoded string' && !exists($d->{'no conv'})) {
+++            $need_wide = true unless $d->{wide};
+++            die unless exists $d->{'posib err'};
+++            $accum->{headers}{'mutable string'} = true;
+++            $accum->{headers}{'convert'} = true;
+++            my $name = get_c_func_name $data->{name}, $d, {mode=>'cc_cxx', use_name=>true, wide=>$d->{wide}};
+++            $ret .= "  ths->temp_str_$snum.clear();\n";
+++            if ($d->{wide}) {
+++              $ret .= "  ${n}_size = get_correct_size(\"$name\", ths->to_internal_->in_type_width(), ${n}_size, ${n}_type_width);\n";
+++            } else {
+++              $ret .= "  PosibErr<int> ${n}_fixed_size = get_correct_size(\"$name\", ths->to_internal_->in_type_width(), ${n}_size);\n";
+++              if (exists($d->{'on conv error'})) {
+++                $ret .= "  if (${n}_fixed_size.get_err()) {\n";
+++                $ret .= "    ".$d->{'on conv error'}."\n";
+++                $ret .= "  } else {\n";
+++                $ret .= "    ${n}_size = ${n}_fixed_size;\n";
+++                $ret .= "  }\n";
+++              } else {
+++                $ret .= "  ths->err_.reset(${n}_fixed_size.release_err());\n";
+++                $ret .= "  if (ths->err_ != 0) return ".(c_error_cond $ret_type).";\n";
+++              }
+++            }
+++            $ret .= "  ths->to_internal_->convert($n, ${n}_size, ths->temp_str_$snum);\n";
+++            $ret .= "  unsigned int s$snum = ths->temp_str_$snum.size();\n";
+++            push @call_parms, "MutableString(ths->temp_str_$snum.mstr(), s$snum)";
+++            $snum++;
+++          } elsif ($_->{type} eq 'encoded string') {
+++            $need_wide = true unless $d->{wide};
+++            push @call_parms, $n, "${n}_size";
+++            push @call_parms, "${n}_type_width" if $d->{wide};
+++            $call_fun .= " wide" if $d->{wide};
++ 	  } else {
++-	    $_ = $n;
+++	    push @call_parms, $n;
++ 	  }
++ 	}
++-	my $parms = '('.(join ', ', @parms).')';
++-	my $exp = "ths->".to_lower($d->{name})."$parms";
+++	my $parms = '('.(join ', ', @call_parms).')';
+++	my $exp = "ths->".to_lower($call_fun)."$parms";
++ 	if (exists $d->{'posib err'}) {
++ 	  $accum->{headers}{'posib err'} = true;
++ 	  $ret .= "  PosibErr<$ret_native> ret = $exp;\n";
++@@ -118,6 +146,7 @@ $info{class}{proc}{impl} = sub {
++       }
++     }
++     $ret .= "}\n\n";
+++    unshift @d,{%$d, wide=>true} if $need_wide;
++   }
++   return $ret;
++ };
++diff --git a/auto/MkSrc/Read.pm b/auto/MkSrc/Read.pm
++index 4b3d1d0..4bf640e 100644
++--- a/auto/MkSrc/Read.pm
+++++ b/auto/MkSrc/Read.pm
++@@ -88,13 +88,13 @@ sub advance ( ) {
++     $in_pod = $1 if $line =~ /^\=(\w+)/;
++     $line = '' if $in_pod;
++     $in_pod = undef if $in_pod && $in_pod eq 'cut';
++-    $line =~ s/\#.*$//;
+++    $line =~ s/(?<!\\)\#.*$//;
++     $line =~ s/^(\t*)//;
++     $level = $base_level + length($1);
++       $line =~ s/\s*$//;
++     ++$base_level if $line =~ s/^\{$//;
++     --$base_level if $line =~ s/^\}$//;
++-    $line =~ s/\\([{}])/$1/g;
+++    $line =~ s/\\([{}#\\])/$1/g;
++   } while ($line eq '');
++   #print "$level:$line\n";
++ }
++diff --git a/auto/mk-src.in b/auto/mk-src.in
++index 0e7833a..eb3353f 100644
++--- a/auto/mk-src.in
+++++ b/auto/mk-src.in
++@@ -608,6 +608,7 @@ errors:
++ 		invalid expression
++ 			mesg => "%expression" is not a valid regular expression.
++ 			parms => expression
+++
++ }
++ group: speller
++ {
++@@ -650,6 +651,7 @@ class: speller
++ 		posib err
++ 		desc => Returns 0 if it is not in the dictionary,
++ 			1 if it is, or -1 on error.
+++		on conv error => return 0;
++ 		/
++ 		bool
++ 		encoded string: word
++@@ -715,6 +717,8 @@ class: speller
++ 		desc => Return NULL on error.
++ 			The word list returned by suggest is only
++ 			valid until the next call to suggest.
+++		on conv error =>
+++			word = NULL; word_size = 0;
++ 		/
++ 		const word list
++ 		encoded string: word
++@@ -840,7 +844,6 @@ class: document checker
++ 		void
++ 
++ 	method: process
++-
++ 		desc => Process a string.
++ 			The string passed in should only be split on
++ 			white space characters.  Furthermore, between
++@@ -849,10 +852,10 @@ class: document checker
++ 			in the document.  Passing in strings out of
++ 			order, skipping strings or passing them in
++ 			more than once may lead to undefined results.
+++		no conv
++ 		/
++ 		void
++-		string: str
++-		int: size
+++		encoded string: str
++ 
++ 	method: next misspelling
++ 
++@@ -860,9 +863,23 @@ class: document checker
++ 			processed string.  If there are no more
++ 			misspelled words, then token.word will be
++ 			NULL and token.size will be 0
+++		cc extra =>
+++			\#define aspell_document_checker_next_misspelling_w(type, ths) \\
+++			    aspell_document_checker_next_misspelling_adj(ths, sizeof(type))
++ 		/
++ 		token object
++ 
+++	method: next misspelling adj
+++		desc => internal: do not use
+++		c impl =>
+++			Token res = ths->next_misspelling();
+++			res.offset /= type_width;
+++			res.len /= type_width;
+++			return res;
+++		/
+++		token object
+++		int: type_width
+++
++ 	method: filter
++ 
++ 		desc => Returns the underlying filter class.
++@@ -922,9 +939,30 @@ class: string enumeration
++ 			  ths->from_internal_->append_null(ths->temp_str);
++ 			  return ths->temp_str.data();
++ 			\}
+++		cc extra =>
+++			\#define aspell_string_enumeration_next_w(type, ths) \\
+++			    aspell_cast_(const type *, aspell_string_enumeration_next_wide(ths, sizeof(type)))
++ 		/
++ 		const string
++ 
+++	method: next wide
+++		c impl =>
+++			const char * s = ths->next();
+++			if (s == 0) {
+++			  return s;
+++			} else if (ths->from_internal_ == 0) \{
+++			  assert(type_width == 1);
+++			  return s;
+++			\} else \{
+++			  assert(type_width == ths->from_internal_->out_type_width());
+++			  ths->temp_str.clear();
+++			  ths->from_internal_->convert(s,-1,ths->temp_str);
+++			  ths->from_internal_->append_null(ths->temp_str);
+++			  return ths->temp_str.data();
+++			\}
+++		/
+++		const void pointer
+++		int: type_width
++ }
++ group: info
++ {
++diff --git a/common/convert.cpp b/common/convert.cpp
++index 1add95a..7ae0317 100644
++--- a/common/convert.cpp
+++++ b/common/convert.cpp
++@@ -541,18 +541,25 @@ namespace acommon {
++   // Trivial Conversion
++   //
++ 
+++  const char * unsupported_null_term_wide_string_msg =
+++    "Null-terminated wide-character strings unsupported when used this way.";
+++
++   template <typename Chr>
++   struct DecodeDirect : public Decode 
++   {
+++    DecodeDirect() {type_width = sizeof(Chr);}
++     void decode(const char * in0, int size, FilterCharVector & out) const {
++       const Chr * in = reinterpret_cast<const Chr *>(in0);
++-      if (size == -1) {
+++      if (size == -sizeof(Chr)) {
++         for (;*in; ++in)
++-          out.append(*in);
+++          out.append(*in, sizeof(Chr));
+++      } else if (size <= -1) {
+++        fprintf(stderr, "%s\n", unsupported_null_term_wide_string_msg);
+++        abort();
++       } else {
++-        const Chr * stop = reinterpret_cast<const Chr *>(in0 +size);
+++        const Chr * stop = reinterpret_cast<const Chr *>(in0) + size/sizeof(Chr);
++         for (;in != stop; ++in)
++-          out.append(*in);
+++          out.append(*in, sizeof(Chr));
++       }
++     }
++     PosibErr<void> decode_ec(const char * in0, int size, 
++@@ -565,6 +572,7 @@ namespace acommon {
++   template <typename Chr>
++   struct EncodeDirect : public Encode
++   {
+++    EncodeDirect() {type_width = sizeof(Chr);}
++     void encode(const FilterChar * in, const FilterChar * stop, 
++                 CharVector & out) const {
++       for (; in != stop; ++in) {
++@@ -594,11 +602,15 @@ namespace acommon {
++   template <typename Chr>
++   struct ConvDirect : public DirectConv
++   {
+++    ConvDirect() {type_width = sizeof(Chr);}
++     void convert(const char * in0, int size, CharVector & out) const {
++-      if (size == -1) {
+++      if (size == -sizeof(Chr)) {
++         const Chr * in = reinterpret_cast<const Chr *>(in0);
++         for (;*in != 0; ++in)
++           out.append(in, sizeof(Chr));
+++      } else if (size <= -1) {
+++        fprintf(stderr, "%s\n", unsupported_null_term_wide_string_msg);
+++        abort();
++       } else {
++         out.append(in0, size);
++       }
++@@ -1121,5 +1133,20 @@ namespace acommon {
++     }
++     return 0;
++   }
++-  
+++
+++  PosibErr<void> unsupported_null_term_wide_string_err_(const char * func) {
+++    static bool reported_to_stderr = false;
+++    PosibErr<void> err = make_err(other_error, unsupported_null_term_wide_string_msg);
+++    if (!reported_to_stderr) {
+++      CERR.printf("ERROR: %s: %s\n", func, unsupported_null_term_wide_string_msg);
+++      reported_to_stderr = true;
+++    }
+++    return err;
+++  }
+++
+++  void unsupported_null_term_wide_string_abort_(const char * func) {
+++    CERR.printf("%s: %s\n", unsupported_null_term_wide_string_msg);
+++    abort();
+++  }
+++ 
++ }
++diff --git a/common/convert.hpp b/common/convert.hpp
++index 76332ee..c948973 100644
++--- a/common/convert.hpp
+++++ b/common/convert.hpp
++@@ -7,6 +7,8 @@
++ #ifndef ASPELL_CONVERT__HPP
++ #define ASPELL_CONVERT__HPP
++ 
+++#include "settings.h"
+++
++ #include "string.hpp"
++ #include "posib_err.hpp"
++ #include "char_vector.hpp"
++@@ -25,8 +27,9 @@ namespace acommon {
++     typedef const Config CacheConfig;
++     typedef const char * CacheKey;
++     String key;
+++    int type_width; // type width in bytes
++     bool cache_key_eq(const char * l) const  {return key == l;}
++-    ConvBase() {}
+++    ConvBase() : type_width(1) {}
++   private:
++     ConvBase(const ConvBase &);
++     void operator=(const ConvBase &);
++@@ -56,6 +59,8 @@ namespace acommon {
++     virtual ~Encode() {}
++   };
++   struct DirectConv { // convert directly from in_code to out_code.
+++    int type_width; // type width in bytes
+++    DirectConv() : type_width(1) {}
++     // should not take ownership of decode and encode.
++     // decode and encode guaranteed to stick around for the life
++     // of the object.
++@@ -126,6 +131,9 @@ namespace acommon {
++     const char * in_code() const   {return decode_->key.c_str();}
++     const char * out_code() const  {return encode_->key.c_str();}
++ 
+++    int in_type_width() const {return decode_->type_width;}
+++    int out_type_width() const {return encode_->type_width;}
+++
++     void append_null(CharVector & out) const
++     {
++       const char nul[4] = {0,0,0,0}; // 4 should be enough
++@@ -191,6 +199,10 @@ namespace acommon {
++       }
++     }
++ 
+++    void convert(const void * in, int size, CharVector & out) {
+++      convert(static_cast<const char *>(in), size, out);
+++    }
+++
++     void generic_convert(const char * in, int size, CharVector & out);
++     
++   };
++@@ -412,6 +424,30 @@ namespace acommon {
++       return operator()(str, str + byte_size);}
++   };
++ 
+++#ifdef SLOPPY_NULL_TERM_STRINGS
+++  static const bool sloppy_null_term_strings = true;
+++#else
+++  static const bool sloppy_null_term_strings = false;
+++#endif
+++  
+++  PosibErr<void> unsupported_null_term_wide_string_err_(const char * func);
+++  void unsupported_null_term_wide_string_abort_(const char * func);
+++    
+++  static inline PosibErr<int> get_correct_size(const char * func, int conv_type_width, int size) {
+++    if (sloppy_null_term_strings && size <= -1)
+++      return -conv_type_width;
+++    if (size <= -1 && -conv_type_width != size)
+++      return unsupported_null_term_wide_string_err_(func);
+++    return size;
+++  }
+++  static inline int get_correct_size(const char * func, int conv_type_width, int size, int type_width) {
+++    if ((sloppy_null_term_strings || type_width <= -1) && size <= -1)
+++      return -conv_type_width;
+++    if (size <= -1 && conv_type_width != type_width)
+++      unsupported_null_term_wide_string_abort_(func);
+++    return size;
+++  }
+++
++ }
++ 
++ #endif
++diff --git a/common/document_checker.cpp b/common/document_checker.cpp
++index 5e510c4..0ccf1cd 100644
++--- a/common/document_checker.cpp
+++++ b/common/document_checker.cpp
++@@ -44,7 +44,9 @@ namespace acommon {
++   void DocumentChecker::process(const char * str, int size)
++   {
++     proc_str_.clear();
++-    conv_->decode(str, size, proc_str_);
+++    PosibErr<int> fixed_size = get_correct_size("aspell_document_checker_process", conv_->in_type_width(), size);
+++    if (!fixed_size.has_err())
+++      conv_->decode(str, fixed_size, proc_str_);
++     proc_str_.append(0);
++     FilterChar * begin = proc_str_.pbegin();
++     FilterChar * end   = proc_str_.pend() - 1;
++@@ -53,6 +55,19 @@ namespace acommon {
++     tokenizer_->reset(begin, end);
++   }
++ 
+++  void DocumentChecker::process_wide(const void * str, int size, int type_width)
+++  {
+++    proc_str_.clear();
+++    int fixed_size = get_correct_size("aspell_document_checker_process", conv_->in_type_width(), size, type_width);
+++    conv_->decode(static_cast<const char *>(str), fixed_size, proc_str_);
+++    proc_str_.append(0);
+++    FilterChar * begin = proc_str_.pbegin();
+++    FilterChar * end   = proc_str_.pend() - 1;
+++    if (filter_)
+++      filter_->process(begin, end);
+++    tokenizer_->reset(begin, end);
+++  }
+++  
++   Token DocumentChecker::next_misspelling()
++   {
++     bool correct;
++diff --git a/common/document_checker.hpp b/common/document_checker.hpp
++index d35bb88..11a3c73 100644
++--- a/common/document_checker.hpp
+++++ b/common/document_checker.hpp
++@@ -36,6 +36,7 @@ namespace acommon {
++     PosibErr<void> setup(Tokenizer *, Speller *, Filter *);
++     void reset();
++     void process(const char * str, int size);
+++    void process_wide(const void * str, int size, int type_width);
++     Token next_misspelling();
++     
++     Filter * filter() {return filter_;}
++diff --git a/common/version.cpp b/common/version.cpp
++index 414d938..9e60b75 100644
++--- a/common/version.cpp
+++++ b/common/version.cpp
++@@ -1,8 +1,17 @@
++ #include "settings.h"
++ 
++-extern "C" const char * aspell_version_string() {
++ #ifdef NDEBUG
++-  return VERSION " NDEBUG";
+++#  define NDEBUG_STR " NDEBUG"
+++#else
+++#  define NDEBUG_STR
+++#endif
+++
+++#ifdef SLOPPY_NULL_TERM_STRINGS
+++#  define SLOPPY_STR " SLOPPY"
+++#else
+++#  define SLOPPY_STR
++ #endif
++-  return VERSION;
+++
+++extern "C" const char * aspell_version_string() {
+++  return VERSION NDEBUG_STR SLOPPY_STR;
++ }
++diff --git a/configure.ac b/configure.ac
++index 60e3b39..a5d51e3 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -73,6 +73,9 @@ AC_ARG_ENABLE(filter-version-control,
++ AC_ARG_ENABLE(32-bit-hash-fun,
++   AS_HELP_STRING([--enable-32-bit-hash-fun],[use 32-bit hash function for compiled dictionaries]))
++ 
+++AC_ARG_ENABLE(sloppy-null-term-strings,
+++  AS_HELP_STRING([--enable-sloppy-null-term-strings],[allows allow null terminated UCS-2 and UCS-4 strings]))
+++
++ AC_ARG_ENABLE(pspell-compatibility,
++   AS_HELP_STRING([--disable-pspell-compatibility],[don't install pspell compatibility libraries]))
++ 
++@@ -141,6 +144,11 @@ then
++   AC_DEFINE(USE_32_BIT_HASH_FUN, 1, [Defined if 32-bit hash function should be used for compiled dictionaries.])
++ fi
++ 
+++if test "$enable_sloppy_null_term_strings" = "yes"
+++then
+++  AC_DEFINE(SLOPPY_NULL_TERM_STRINGS, 1, [Defined if null-terminated UCS-2 and UCS-4 strings should always be allowed.])
+++fi
+++
++ AM_CONDITIONAL(PSPELL_COMPATIBILITY,  
++   [test "$enable_pspell_compatibility" != "no"])
++ AM_CONDITIONAL(INCREMENTED_SONAME,    
++diff --git a/manual/aspell.texi b/manual/aspell.texi
++index 45fa091..f400e06 100644
++--- a/manual/aspell.texi
+++++ b/manual/aspell.texi
++@@ -158,7 +158,8 @@ Installing
++ 
++ * Generic Install Instructions::  
++ * HTML Manuals and "make clean"::  
++-* Curses Notes::                
+++* Curses Notes::
+++* Upgrading from Aspell 0.60.7::
++ * Loadable Filter Notes::       
++ * Upgrading from Aspell 0.50::  
++ * Upgrading from Aspell .33/Pspell .12::  
++@@ -2206,18 +2207,26 @@ int correct = aspell_speller_check(spell_checker, @var{word}, @var{size});
++ @end smallexample
++ 
++ @noindent
++-@var{word} is expected to be a @code{const char *} character
++-string.  If the encoding is set to be @code{ucs-2} or
++-@code{ucs-4} @var{word} is expected to be a cast
++-from either @code{const u16int *} or @code{const u32int *}
++-respectively.  @code{u16int} and @code{u32int} are generally
++-@code{unsigned short} and @code{unsigned int} respectively.
++-@var{size} is the length of the string or @code{-1} if the string
++-is null terminated.  If the string is a cast from @code{const u16int
++-*} or @code{const u32int *} then @code{@i{size}} is the amount of
++-space in bytes the string takes up after being cast to @code{const
++-char *} and not the true size of the string.  @code{sspell_speller_check}
++-will return @code{0} if it is not found and non-zero otherwise.
+++@var{word} is expected to be a @code{const char *} character string.
+++@var{size} is the length of the string or @code{-1} if the string is
+++null terminated.  @code{aspell_speller_check} will return @code{0} if it is not found
+++and non-zero otherwise.
+++
+++If you are using the @code{ucs-2} or @code{ucs-4} encoding then the
+++string is expected to be either a 2 or 4 byte wide integer
+++(respectively) and the @code{_w} macro vesion should be used:
+++
+++@smallexample
+++int correct = aspell_speller_check_w(spell_checker, @var{word}, @var{size});
+++@end smallexample
+++
+++The macro will cast the string to to the correct type and convert
+++@var{size} into bytes for you and then a call the special wide version of the
+++function that will make sure the encoding is correct for the type
+++passed in.  For compatibility with older versions of Aspell the normal
+++non-wide functions can still be used provided that the size of the
+++string, in bytes, is also passed in.  Null terminated @code{ucs-2} or
+++@code{ucs-4} are no longer supported when using the non-wide functions.
++ 
++ If the word is not correct, then the @code{suggest} method can be used
++ to come up with likely replacements.
++@@ -2236,7 +2245,28 @@ delete_aspell_string_enumeration(elements);
++ 
++ Notice how @code{elements} is deleted but @code{suggestions} is not.
++ The value returned by @code{suggestions} is only valid to the next
++-call to @code{suggest}.  Once a replacement is made the
+++call to @code{suggest}.
+++
+++If you are using the @code{ucs-2} or @code{ucs-4} encoding then, in
+++addition to using the @code{_w} macro for the @code{suggest} method, you
+++should also use the @code{_w} macro with the @code{next} method which
+++will cast the string to the correct type for you.  For example, if you
+++are using the @code{ucs-2} encoding and the string is a @code{const
+++uint16_t *} then you should use:
+++
+++@smallexample
+++AspellWordList * suggestions = aspell_speller_suggest_w(spell_checker,
+++                                                        @var{word}, @var{size});
+++AspellStringEnumeration * elements = aspell_word_list_elements(suggestions);
+++const uint16_t * word;
+++while ( (word = aspell_string_enumeration_next_w(uint16_t, aspell_elements)) != NULL )
+++@{
+++  // add to suggestion list
+++@}
+++delete_aspell_string_enumeration(elements);
+++@end smallexample
+++
+++Once a replacement is made the
++ @code{store_repl} method should be used to communicate the replacement
++ pair back to the spell checker (for the reason, @pxref{Notes on
++ Storing Replacement Pairs}).  Its usage is as follows:
++diff --git a/manual/readme.texi b/manual/readme.texi
++index 669ab8e..531721f 100644
++--- a/manual/readme.texi
+++++ b/manual/readme.texi
++@@ -15,15 +15,16 @@ The latest version can always be found at GNU Aspell's home page at
++ @uref{http://aspell.net}.
++ 
++ @menu
++-* Generic Install Instructions::  
++-* HTML Manuals and "make clean"::  
++-* Curses Notes::                
++-* Loadable Filter Notes::       
++-* Using 32-Bit Dictionaries on a 64-Bit System::  
++-* Upgrading from Aspell 0.50::  
++-* Upgrading from Aspell .33/Pspell .12::  
++-* Upgrading from a Pre-0.50 snapshot::  
++-* WIN32 Notes::                 
+++* Generic Install Instructions::
+++* HTML Manuals and "make clean"::
+++* Curses Notes::
+++* Upgrading from Aspell 0.60.7::
+++* Loadable Filter Notes::
+++* Using 32-Bit Dictionaries on a 64-Bit System::
+++* Upgrading from Aspell 0.50::
+++* Upgrading from Aspell .33/Pspell .12::
+++* Upgrading from a Pre-0.50 snapshot::
+++* WIN32 Notes::
++ @end menu
++ 
++ @node Generic Install Instructions
++@@ -121,17 +122,62 @@ In addition your system must also support the @code{mblen} function.
++ Although this function was defined in the ISO C89 standard (ANSI
++ X3.159-1989), not all systems have it.
++ 
+++@node Upgrading from Aspell 0.60.7
+++@appendixsec Upgrading from Aspell 0.60.7
+++
+++To prevent a potentially unbounded buffer over-read, Aspell no longer
+++supports null-terminated UCS-2 and UCS-4 encoded strings with the
+++original C API.  Null-termianted 8-bit or UTF-8 encoded strings are
+++still supported, as are UCS-2 and UCS-4 encoded strings when the
+++length is passed in.
+++
+++As of Aspell 0.60.8 a function from the original API that expects an
+++encoded string as a parameter will return meaningless results (or an
+++error code) if string is null terminated and the encoding is set to
+++@code{ucs-2} or @code{ucs-4}.  In addition, a single:
+++@example
+++ERROR: aspell_speller_check: Null-terminated wide-character strings unsupported when used this way.
+++@end example
+++will be printed to standard error the first time one of those
+++functions is called.
+++
+++Application that use null-terminated UCS-2/4 strings should either (1)
+++use the interface intended for working with wide-characters
+++(@xref{Through the C API}); or (2) define
+++@code{ASPELL_ENCODE_SETTING_SECURE} before including @code{aspell.h}.
+++In the latter case is is important that the application explicitly
+++sets the encoding to a known value.  Defining
+++@code{ASPELL_ENCODE_SETTING_SECURE} and not setting the encoding
+++explicitly or allowing user of the application to set the encoding
+++could result in an unbounded buffer over-read.
+++
+++If it is necessary to preserve binary compatibility with older
+++versions of Aspell, the easiest thing would be to determine the length
+++of the UCS-2/4 string---in bytes---and pass that in.  Due to an
+++implemenation detail, existing API functions can be made to work with
+++null-terminated UCS-2/4 strings safely by passing in either @code{-2}
+++or @code{-4} (corresponding to the width of the character type) as the
+++size.  Doing so, however, will cause a buffer over-read for unpatched
+++version of Aspell.  To avoid this it will be necessary to parse the
+++version string to determine the correct value to use.  However, no
+++official support will be provided for the latter method.
+++
+++If the application can not be recompiled, then Aspell can be configured
+++to preserve the old behavior by passing
+++@option{--enable-sloppy-null-term-strings} to @command{configure}.  When Aspell
+++is compiled this way the version string will include the string
+++@samp{ SLOPPY}.
+++
++ @node Loadable Filter Notes
++ @appendixsec Loadable Filter Notes
++-
+++             
++ Support for being able to load additional filter modules at run-time
++ has only been verified to work on Linux platforms.  If you get linker
++ errors when trying to use a filter, then it is likely that loadable
++ filter support is not working yet on your platform.  Thus, in order to
++ get Aspell to work correctly you will need to avoid compiling the
++ filters as individual modules by using the
++-@option{--enable-compile-in-filters} when configuring Aspell with
++-@command{./configure}.
+++@option{--enable-compile-in-filters} @command{configure} option.
++ 
++ @node Using 32-Bit Dictionaries on a 64-Bit System
++ @appendixsec Using 32-Bit Dictionaries on a 64-Bit System
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch
+new file mode 100644
+index 0000000000..9569ddeebe
+--- /dev/null
++++ b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch
+@@ -0,0 +1,68 @@
++From cefd447e5528b08bb0cd6656bc52b4255692cefc Mon Sep 17 00:00:00 2001
++From: Kevin Atkinson <kevina@gnu.org>
++Date: Sat, 17 Aug 2019 20:25:21 -0400
++Subject: [PATCH 2/2] Increment library version to reflect API changes.
++
++CVE: CVE-2019-20433
++Upstream-Status: Backport [https://github.com/GNUAspell/aspell/commit/cefd447e5528b08bb0cd6656bc52b4255692cefc]
++
++Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
++---
++ Makefile.am | 31 +++++++++++++++++--------------
++ 1 file changed, 17 insertions(+), 14 deletions(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index 7e15851..19dc044 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -94,18 +94,25 @@ libaspell_la_SOURCES =\
++ 
++ libaspell_la_LIBADD =  $(LTLIBINTL) $(PTHREAD_LIB)
++ 
++-## Libtool to so name
++-## C:R:A => (C-A).(A).(R)
++-## 16:5:0 => 16.0.5
++-## 16:5:1 => 15.1.5
++-## 18:0:2 => 16.2.0 
++-## 17:0:2 => 15.2.0
++-
+++## The version string is current[:revision[:age]]
+++##
+++## Before a release that has changed the source code at all
+++## increment revision.
+++##
+++## After merging changes that have changed the API in a backwards
+++## comptable way set revision to 0 and bump both current and age.
+++##
+++## Do not change the API in a backwards incompatible way.
+++##
+++## See "Libtool: Updating version info"
+++## (https://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html)
+++## for more into
+++##
++ if INCREMENTED_SONAME
++-libaspell_la_LDFLAGS = -version-info 18:0:2 -no-undefined
+++libaspell_la_LDFLAGS = -version-info 19:0:3 -no-undefined
++ else
++ ## Use C-1:R:A 
++-libaspell_la_LDFLAGS = -version-info 17:0:2 -no-undefined
+++libaspell_la_LDFLAGS = -version-info 18:0:3 -no-undefined
++ endif
++ 
++ if PSPELL_COMPATIBILITY
++@@ -113,11 +120,7 @@ libpspell_la_SOURCES = lib/dummy.cpp
++ 
++ libpspell_la_LIBADD = libaspell.la
++ 
++-if INCREMENTED_SONAME
++-libpspell_la_LDFLAGS = -version-info 18:0:2 -no-undefined
++-else
++-libpspell_la_LDFLAGS = -version-info 17:0:2 -no-undefined
++-endif
+++libpspell_la_LDFLAGS = $(libaspell_la_LDFLAGS)
++ 
++ endif
++ 
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/aspell/aspell_0.60.7.bb b/meta/recipes-support/aspell/aspell_0.60.7.bb
+index b565cb3c6e..1e104c263c 100644
+--- a/meta/recipes-support/aspell/aspell_0.60.7.bb
++++ b/meta/recipes-support/aspell/aspell_0.60.7.bb
+@@ -8,6 +8,8 @@ PR = "r1"
+ 
+ SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz \
+            file://0001-Fix-various-bugs-found-by-OSS-Fuze.patch \
++           file://CVE-2019-20433-0001.patch \
++           file://CVE-2019-20433-0002.patch \
+           "
+ SRC_URI[md5sum] = "8ef2252609c511cd2bb26f3a3932ef28"
+ SRC_URI[sha256sum] = "5ca8fc8cb0370cc6c9eb5b64c6d1bc5d57b3750dbf17887726c3407d833b70e4"
+-- 
+2.17.1
 
 
