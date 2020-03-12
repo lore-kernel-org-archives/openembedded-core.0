@@ -1,51 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 59B0661C31
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com
+	[209.85.221.195])
+	by mail.openembedded.org (Postfix) with ESMTP id CFF4260AE4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 07:50:02 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id w3so2335362plz.5
+	Thu, 12 Mar 2020 08:24:01 +0000 (UTC)
+Received: by mail-vk1-f195.google.com with SMTP id k63so1322796vka.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 00:50:03 -0700 (PDT)
+	Thu, 12 Mar 2020 01:24:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=1TQgHyD9ezMsHTWRWBywUKGX4oWuE3kHBWV78tn68Yo=;
-	b=UbAvwzZJj5GodGK+cRxda6SyXzXZGCgx0F1xo3wK54c99aK09+MBnSL/5g5m0urOoC
-	oX5OCrJy18Pr3xhyjhO8mes3GTT8DWonyNdeXoO4UdJD+auEXzDgs8uLHs/tFHdWOIfM
-	MUjw+kZuiNRZO57p9XJVHt3v0MvvjJfvlp14HJdVyz/8K/zPk2lGZK8WXIB3EBq9jswo
-	qgFKkbhvWGZISDTSeN54SCBs0NR2Y1SLp736ITvgLPMPEiwnVASWnqu0SUMZE6eaHqGG
-	DwREZNrkq4y4r/Gu0SYBb18aWDWnwoMdDZQ/8obpwqmVjEfAb0I94HEymODjLGxljd77
-	gdiA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=2zbvqVUtSpOW7fppHhxfexcxsKhw0E0jxaL9jut536o=;
+	b=tugiI7CTqL81XvFcPXRJPhlZBbJsMVvDWLSHCj9wg2oEADlAsGuch6BHlf5NJddEv+
+	Y+nssTFQBXaQWgIWTKVZ656bjYcTloTRpV6LQjjyneybXKVeictqtvSNB0Ez2DzSy/1x
+	2bF9QVU6HR5UP/vVJ6+Uc/eL7UHWqStSQ8rVyQRpDgdOsdWW7LVUCkTgD//WSY6BQs3d
+	tKILVtdR2D9xFQxkn313QBUxUenNTKwXXNpQuH9K9Tybwn9y2qg4iFbJ82U3ubHtAUXp
+	6mibL1ecEwFVwP81eVRgGe53H0bjhLtVjMbPcB+MqRpKVZOy+gfjQBlm02iDTZhPqykY
+	ZNwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=1TQgHyD9ezMsHTWRWBywUKGX4oWuE3kHBWV78tn68Yo=;
-	b=Rh2sytu9NLS50kz+jEux7yNbh+t1rLXc9rvnFD4QDeWjG7RtvOlVwnNaOiboiQLFeX
-	x62iatuaSgG861pqk2Dq7cOmatEeVJ6MrdPuOoM1pxQaTErgv+fyRCkZ7qHHg0lNSQus
-	3Jpjzo1VhHVfCnYiJy3KOF/mOfFoJkvsW8Wk0nrYuHNPTxFnQdCMJRiR2FdEhMhOrBtT
-	axno9JlGiP6vMZibOY5R3fKPfzukbFwWDlVB2zFSHg99AE1+PgnLP7aW0fn0hBXiMZSA
-	IJAcl08GOcLHAIvYnUS6CjXqvXNgQXDQnA6cXzhTRCH3EYBVGxyDs3nNrkIXMxlvqFOh
-	G1UQ==
-X-Gm-Message-State: ANhLgQ2PxdtYhtcXUX2fM5ISZea4mxoTb/odfKHpa2FMuB3IaIoOxNjw
-	BMx+qlMiv+txppmleOpt1VtyPB5Kq3E=
-X-Google-Smtp-Source: ADFU+vtXQgwjc6Os1B3i41PHV/I+IOkXaZteUfpf1sKxCIOP+pg+lRBjShGOVQiIPJsgFXRHLasofw==
-X-Received: by 2002:a17:902:8307:: with SMTP id
-	bd7mr6670409plb.74.1583999402628; 
-	Thu, 12 Mar 2020 00:50:02 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::94a8])
-	by smtp.gmail.com with ESMTPSA id
-	135sm3148832pfu.207.2020.03.12.00.50.01
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Mar 2020 00:50:02 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Mar 2020 00:50:14 -0700
-Message-Id: <20200312075014.3313451-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=2zbvqVUtSpOW7fppHhxfexcxsKhw0E0jxaL9jut536o=;
+	b=S4QcGLzHw14p+G2w7nrV8Js99w9y/Wfcw4vhSbADw92tz+Hi4ywpjPIZhRNhB9/qgu
+	MXUOm/7D38i33uRizkhZvziCYMNsBVdYK1qqRKY5rgsaSz/nkc1aA6QriB4hx3HotSa5
+	xCPVoomVdKNMGZBF9fgGgWdDy98f+EK4mGmemos2xSeNwj1g5WkLbR9ICvnCC+DbZzmL
+	28367B6tie8vrT7i3hSlHEc/fe1dd7TC7YN49OYdJ3vEcBS3aRm0xeUAaOv1jcN7yTk5
+	8oA4e+a8QgyCf877seu4Mf8UfOTjHjuRgOap9xx6UbamDANQDvPfqRobhSCVPk9egHSY
+	3FHA==
+X-Gm-Message-State: ANhLgQ3AoqiXpIEq8/tjWgfchR5Xkrln/8VZeWw7U6eIwHg4GJnozWtA
+	1zcKK0zEsZHonr1jF1F1cTaatB9HLlLAaAuKWSz+pYd+
+X-Google-Smtp-Source: ADFU+vvRYR1UYcEqrj857r/aWGLgPYo83h+b2/A+KIWaeU5HHWhV8gxmXY+pPW7R8b5Q8PKGCDX7hUIWtKLSmu8pU1c=
+X-Received: by 2002:a1f:38cb:: with SMTP id f194mr4568472vka.29.1584001442319; 
+	Thu, 12 Mar 2020 01:24:02 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] oeqa/qemuarm64: Ignore logind: failed to get session seat
+References: <20200311163730.78078-1-sk@typedivision.de>
+	<c487b390822a86c1f5dd9339324e86c973142e0e.camel@linuxfoundation.org>
+	<d950b7b1-b5f1-8395-69d8-dde1d17725a8@typedivision.de>
+	<CANNYZj-BW-y=Ky_WLdGaJR6-5g-Ok00a7dRDTdnxuN3M7Vt5FQ@mail.gmail.com>
+	<3b553c8a-4c08-cb95-923c-7f03cb6d01aa@typedivision.de>
+In-Reply-To: <3b553c8a-4c08-cb95-923c-7f03cb6d01aa@typedivision.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 12 Mar 2020 09:23:50 +0100
+Message-ID: <CANNYZj-XKW0moxJBfgOpTTBtgn8kafnSG+JPph5eGzBz2P-FdQ@mail.gmail.com>
+To: Stefan Kral <sk@typedivision.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oeqa: enable testresults.json for testexport
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +57,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 07:50:02 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 12 Mar 2020 08:24:02 -0000
+Content-Type: multipart/alternative; boundary="0000000000004b114405a0a413bf"
 
-When booting weston images this error is seen commonly, but Qemu boots
-the image fine, session seat error is thrown by libweston perhaps using
---seat option or setting XDG_SEAT variable in weston.ini could fix it
+--0000000000004b114405a0a413bf
+Content-Type: text/plain; charset="UTF-8"
 
-[YOCTO #13828]
+On Wed, 11 Mar 2020 at 22:27, Stefan Kral <sk@typedivision.de> wrote:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/lib/oeqa/runtime/cases/parselogs.py | 1 +
- 1 file changed, 1 insertion(+)
+> Doing build and test in one pipeline turns out to be more complicated due
+> to:
+>
+> - build machine may be different from test machine (with access to
+> hardware)
+> - build the image is a one time job, tests may have to be repeated
+> reproducibly
+> - executing long running tests slows down image creation (for development)
+> - tests on dedicated hardware should be runable asynchronously when hw is
+> available
+>
+> Running tests by bitbake -c testimage could be an option but to provide a
+> full repo/bitbake/cache setup to run test cases sounds not as easy as
+> having just python installed. And for that, testexport does its job quite
+> well.
+>
+> Btw. have you ever thought about to integrate/support some external test
+> framework (like robot framework)?
+>
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index 6444fe814c..cc4f5f8c78 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -131,6 +131,7 @@ ignore_errors = {
-         '(EE) Server terminated with error (1). Closing log file.',
-         'dmi: Firmware registration failed.',
-         'irq: type mismatch, failed to map hwirq-27 for /intc',
-+        'logind: failed to get session seat',
-         ] + common_errors,
-     'intel-core2-32' : [
-         'ACPI: No _BQC method, cannot determine initial brightness',
--- 
-2.25.1
+Core project does all testing on qemu (using direct testimage); there are
+no resources to set up testing on real hardware. So those scenarios aren't
+well supported or tested, but patches/proposals welcome :)
 
+Alex
 
+--0000000000004b114405a0a413bf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 11 Mar 2020 at 22:27, Stefan Kral=
+ &lt;<a href=3D"mailto:sk@typedivision.de">sk@typedivision.de</a>&gt; wrote=
+:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">
+ =20
+   =20
+ =20
+  <div>Doing build and test in one pipeline turns out to be more
+      complicated due to:
+    <p>- build machine may be different from test machine (with access
+      to hardware)<br>
+      - build the image is a one time job, tests may have to be repeated
+      reproducibly<br>
+      - executing long running tests slows down image creation (for
+      development)<br>
+      - tests on dedicated hardware should be runable asynchronously
+      when hw is available</p>
+    <p>Running tests by bitbake -c testimage could be an option but to
+      provide a full repo/bitbake/cache setup to run test cases sounds
+      not as easy as having just python installed. And for that,
+      testexport does its job quite well.<br>
+    </p>
+    <p>Btw. have you ever thought about to integrate/support some
+      external test framework (like robot framework)?<br></p></div></blockq=
+uote><div><br></div><div>Core project does all testing on qemu (using direc=
+t testimage); there are no resources to set up testing on real hardware. So=
+ those scenarios aren&#39;t well supported or tested, but patches/proposals=
+ welcome :)</div><div><br></div><div>Alex<br></div></div></div>
+
+--0000000000004b114405a0a413bf--
