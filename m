@@ -1,24 +1,36 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A0A361B88
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 988B160B48
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 03:21:44 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02C3LOXC003463
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Mar 2020 20:21:35 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.487.0; Wed, 11 Mar 2020 20:21:14 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Mar 2020 11:21:12 +0800
-Message-ID: <1583983272-116095-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 12 Mar 2020 06:14:38 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,543,1574092800"; d="scan'208";a="86205824"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 12 Mar 2020 14:14:37 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 67904406AB15;
+	Thu, 12 Mar 2020 14:04:38 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.81) by
+	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Thu, 12 Mar 2020 14:14:37 +0800
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <b1aa0d35-35bb-8043-fdd2-d57261eeb714@cn.fujitsu.com>
+	<CADkTA4NOf2MXDkdta6o4MbEVTehSF+vY_D8ez53HjBgSzoDG6w@mail.gmail.com>
+From: zangrc <zangrc.fnst@cn.fujitsu.com>
+Message-ID: <c82b8e9e-28e7-b703-3ffc-06e0c06e5458@cn.fujitsu.com>
+Date: Thu, 12 Mar 2020 14:16:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.1.1
 MIME-Version: 1.0
-Subject: [PATCH] netbase: use snapshot.debian.org
+In-Reply-To: <CADkTA4NOf2MXDkdta6o4MbEVTehSF+vY_D8ez53HjBgSzoDG6w@mail.gmail.com>
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: 67904406AB15.A754E
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: CVE related consulting on linux-yocto on zeus branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 03:21:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Mar 2020 06:14:39 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Our team plans to submit CVE-related patches that are not included in 
+-stable, but we found that the current version of the linux-yocto recipe 
+is lower than the linux-yocto git repository. On which version should we 
+make the patch.
 
-Use snapshot.debian.org as the previous URL only
-stores the latest source file and fails to locate
-the source tar file if we don't upgrade timely.
+On 3/11/20 8:36 PM, Bruce Ashfield wrote:
+> On Wed, Mar 11, 2020 at 2:02 AM zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
+>>
+>> Hello,
+>>
+>>
+>> our team is currently working on CVE-related work. I would like to ask
+>> if the zeus branch of yocto has an update plan for linux-yocto in the
+>> near future. If not, can we submit a CVE-related patch for the
+>> linux-yocto of the zeus branch.
+> If it is part of -stable, then yes, it will be integrated into any of
+> the active upstream kernels. If it is in 5.2, we also have a -stable
+> process for those kernels as well.
+>
+> If it doesn't fall into those categories, then send any patches
+> (against the kernel itself) to the linux-yocto mailing list, do not
+> send them as patches to the linux-yocto recipe itself.
+>
+> Cheers,
+>
+> Bruce
+>
+>>    --
+>> Best Regards!
+>> Zang Ruochen
+>>
+>>
+>>
+>
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- meta/recipes-core/netbase/netbase_6.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/netbase/netbase_6.1.bb b/meta/recipes-core/netbase/netbase_6.1.bb
-index bc0049c..57faf3d 100644
---- a/meta/recipes-core/netbase/netbase_6.1.bb
-+++ b/meta/recipes-core/netbase/netbase_6.1.bb
-@@ -6,7 +6,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
- PE = "1"
- 
--SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20200311T090704Z/pool/main/n/${BPN}/${BPN}_${PV}.tar.xz"
- 
- SRC_URI[md5sum] = "e5871a3a5c8390557b8033cf19316a55"
- SRC_URI[sha256sum] = "084d743bd84d4d9380bac4c71c51e57406dce44f5a69289bb823c903e9b035d8"
--- 
-2.7.4
 
 
