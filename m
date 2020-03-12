@@ -1,39 +1,47 @@
-Return-Path: <rpjday@crashcourse.ca>
-Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BF7861C31
+Return-Path: <prvs=333343292=Mikko.Rapeli@bmw.de>
+Received: from esa1.bmw.c3s2.iphmx.com (esa1.bmw.c3s2.iphmx.com
+	[68.232.133.201])
+	by mail.openembedded.org (Postfix) with ESMTP id 3700F61C32
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Mar 2020 13:24:06 +0000 (UTC)
-Received: from [127.0.0.1] (port=56018 helo=cpanel7.indieserve.net)
-	by cpanel7.indieserve.net with esmtpsa (TLS1.2) tls
-	TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.93)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jCNok-004DR1-Gk; Thu, 12 Mar 2020 09:24:07 -0400
-Received: from [66.129.241.14] ([66.129.241.14]) by crashcourse.ca (Horde
-	Framework) with HTTPS; Thu, 12 Mar 2020 09:24:06 -0400
-Date: Thu, 12 Mar 2020 09:24:06 -0400
-Message-ID: <20200312092406.Horde.dKGE_j40Nb1uLkJiJ77C4ZG@crashcourse.ca>
-From: rpjday@crashcourse.ca
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20200312085608.Horde.kbPh9KWkZJR4Zi-lry-_TrN@crashcourse.ca>
-	<CANNYZj-KNVxXWjTWqc-a6Xe4YqBx4aZkuFAkNjQb3ZhBL-hUcw@mail.gmail.com>
-In-Reply-To: <CANNYZj-KNVxXWjTWqc-a6Xe4YqBx4aZkuFAkNjQb3ZhBL-hUcw@mail.gmail.com>
-User-Agent: Horde Application Framework 5
+	Thu, 12 Mar 2020 13:25:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1584019522; x=1615555522;
+	h=from:to:cc:subject:date:message-id:in-reply-to:
+	content-id:content-transfer-encoding:mime-version;
+	bh=B3SC/03xptabRldwwtI2Hdqd5JmFIW8sooMSSbrrRpM=;
+	b=jbFDYnwOm2IxeJdEHM9leGndRtByOzgqv/ncj6LyBS2HO0eee19P5JZ2
+	IA8QLyNk2xVF1nmPswo71Nh+Fx0o0jwD/v8oUyI8qzffvrsZsXEQ9e/gC
+	xYR3QmLEOMf/f+nXXWX4GDeDk1vsFanab4EccBq3tO1RXbnbuZc8i6lrg c=;
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+	esa1.bmw.c3s2.iphmx.com with ESMTP/TLS; 12 Mar 2020 14:25:20 +0100
+Received: from esabb5.muc ([160.50.100.47])  by esagw4.muc with ESMTP/TLS;
+	12 Mar 2020 14:25:19 +0100
+Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
+	([160.48.96.48])
+	by esabb5.muc with ESMTP/TLS; 12 Mar 2020 14:25:18 +0100
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10l.europe.bmw.corp
+	(160.48.96.48) with Microsoft SMTP Server (TLS;
+	Thu, 12 Mar 2020 14:25:18 +0100
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
+	Thu, 12 Mar 2020 14:25:18 +0100
+From: <Mikko.Rapeli@bmw.de>
+To: <bunk@stusta.de>, <anuj.mittal@intel.com>
+Thread-Topic: [OE-core] [PATCH] [zeus] aspell: CVE-2019-20433
+Thread-Index: AQHV+HGs3kZ9JBBQ50+WAdtzEWjdnA==
+Date: Thu, 12 Mar 2020 13:25:18 +0000
+Message-ID: <20200312132517.GV104502@korppu>
+In-Reply-To: <C0207330DF60C5409302EC78C3FE68F30349D9B0@PGSMSX101.gar.corp.intel.com>
+	<20200312124908.GA21921@localhost>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
-	rpjday@crashcourse.ca
-X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: simplest command to display which layers are applying the same patch?
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] [zeus] aspell: CVE-2019-20433
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,68 +54,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Mar 2020 13:24:06 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed; DelSp=Yes
-Content-Disposition: inline
+X-List-Received-Date: Thu, 12 Mar 2020 13:25:19 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <60B60CD36918ED48968E3934779410AF@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-Ah, I was just playing with a build of my own (which works so I can't
-replicate the error), but if I "bitbake -e openssl", then I can obviously
-see all the operations that go into constructing the SRC_URI, along with
-the layers that contribute to that expansion, so I am assuming that,
-even if more than one layer tries to apply the same patch, all those
-SRC_URI values will be properly appended, in the sense of a duplicate
-patch will occur twice in the final value of SRC_URI, yes?
+Yes, you are correct. White listing isn't right either.
 
-And only when do_patch() kicks in will the duplicate patch generate a
-patch error, correct? That seems pretty straightforward, as long as
-I'm understanding the process here.
-
-Thanks again.
-
-rday
-
-Quoting Alexander Kanavin <alex.kanavin@gmail.com>:
-
-> I think 'bitbake -e recipe', and then searching for SRC_URI in it should
-> show which layer applies which patch.
->
-> Alex
->
-> On Thu, 12 Mar 2020 at 13:56, <rpjday@crashcourse.ca> wrote:
->
->>    just got from colleague a miniscule snippet of build output:
->>
->> ERROR: openssl-1.0.2u-r0 do_patch: Command Error: 'quilt --quiltrc ...
->> snip ...
->> Output: Patch Use-SHA256-not-MD5-as-default-digest.patch is already
->> applied; check your series file
->>
->> the problem seems obvious ... more than one layer being pulled
->> into the build is trying to apply the same patch to that version
->> of openssl.
->>
->> i don't have access to that build system, but i'm not surprised
->> as it appears that at least three layers (oe-core, vendor, and
->> wind river linux fixes layer) all supply that very patch.
->>
->> what is the simplest command from way back in "morty" that
->> could display something as clear as, "layer A already applied
->> this patch, now layer B is trying to apply it as well?"
->>
->> if it's in the log file, i can just point the person at that,
->> short of getting access to the build system and finding it
->> myself.  thank you kindly.
->>
->> rday
->>
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
-
-
-
+-Mikko=
 
