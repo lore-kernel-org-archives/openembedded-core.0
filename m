@@ -1,49 +1,26 @@
-Return-Path: <eichest@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 012C4605B3
+Return-Path: <tgamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F2DDC6073C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 11:09:25 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id d5so11215933wrc.2
+	Fri, 13 Mar 2020 11:27:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02DBRVhv020774
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 04:09:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=G/mE+nX5cLf8yj9pRkNHZ/TIfYI8Vy8kT1Ie2e1jnTI=;
-	b=ntO31SGbnbl9jLVEZAetmzy41qOnrdiT0i8fMTlsHGch7eeO3T+9B630qfDIk8qgeF
-	dcnHlcok1ihZMjb/MHv3mBcXiz300vtWgnKQxb9leR9qFX1XhLNhqla1RLnwGDAGcBsP
-	7jIaTZnLVBNA+GRSeia05SC7uG5keFeLanBXXNLgPVrqD1qntX7ms7aXluiOGQowLvFj
-	9DBXEBd2AT7p58d3pXx3G9aF/LmEsYuAVScyoj4F+apaj/pXdrF0JRxcwAdpF9gBHutc
-	5ZXsUSWrTrpDjQgRknEwBq6xGIzgXWIpvIO2JmgraTwY+IAOLnz7wYZbiHbjGYJE4Zur
-	bTrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=G/mE+nX5cLf8yj9pRkNHZ/TIfYI8Vy8kT1Ie2e1jnTI=;
-	b=c1vOco5MhnH09cdqmdUXcZeKnVeYAh9cOXRZjhaNkbIlHdOT7x1RpKz2dvXxlVfe++
-	BIiGzCKWb7mjsvaRAk3Cl/9D8Y9FtxlW/UycHu9iV7V1HLnqtKvsPr/CrCBB6xwNeeau
-	ZkJcgnE/k6KhxCerHYJCqf5AuZxqKfuJohJdKIRN43Rz/Q7lJ+aULJTruP3TskVHxU3w
-	8abMi3/npFzpHW6K8ad3iFKER1VO6ooyOQgoNeCpQiMCNlMCfhV8KDEtNpHqyo8OAXB+
-	oVr/YIueWAJIMcA/UIbryKuDIb+21vVZmhMq7dCUg4W7dnGpRMig//FplkV6P1RpMfJI
-	PrnQ==
-X-Gm-Message-State: ANhLgQ273ejKwbjtKR2liOIO1p1W48f1FOZR087XvcgQHFGylFdcnG4T
-	UGOW4cZU5/2xoi86c1AvtC3LeO4+
-X-Google-Smtp-Source: ADFU+vstIb8zLqjTYDrjXsu89coUg5c+0ag4oi2YzDuThyXJSIraLTJZ8xUYDFtW3xq0Ur6cKu6EMw==
-X-Received: by 2002:adf:d4d1:: with SMTP id w17mr17504853wrk.206.1584097766496;
-	Fri, 13 Mar 2020 04:09:26 -0700 (PDT)
-Received: from stefan-nb.local (77-57-203-148.dclient.hispeed.ch.
-	[77.57.203.148]) by smtp.gmail.com with ESMTPSA id
-	a199sm7692347wme.29.2020.03.13.04.09.25
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 13 Mar 2020 04:09:25 -0700 (PDT)
-From: eichest@gmail.com
-X-Google-Original-From: stefan.eichenberger@toradex.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Mar 2020 12:09:07 +0100
-Message-Id: <20200313110907.8700-1-stefan.eichenberger@toradex.com>
+	Fri, 13 Mar 2020 04:27:41 -0700
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.487.0;
+	Fri, 13 Mar 2020 04:27:20 -0700
+Received: by ala-lpggp3.wrs.com (Postfix, from userid 20958)	id 9C12C900B17;
+	Fri, 13 Mar 2020 04:27:20 -0700 (PDT)
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Mar 2020 04:27:20 -0700
+Message-ID: <20200313112720.151263-1-trevor.gamblin@windriver.com>
 X-Mailer: git-send-email 2.17.1
-Cc: Stefan Eichenberger <stefan.eichenberger@toradex.com>
-Subject: [PATCH] initramfs-framework: fix boothang when console=null
+MIME-Version: 1.0
+Subject: [PATCH] python: upgrade 3.8.1 -> 3.8.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +33,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2020 11:09:26 -0000
+X-List-Received-Date: Fri, 13 Mar 2020 11:27:56 -0000
+Content-Type: text/plain
 
-From: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+THE LICENSE checksum changed in this update due to copyright notice
+added for 2020.
 
-If console=null systemd-udevd throws an assertion which prevents the
-system from booting. This patch redirects stdin, stdout and stderr to
-/dev/null in case that the console can't be opened so that udevd still
-boots.
-
-A systemd issue was reported here. However, they will not fix this
-specific use-case:
-https://github.com/systemd/systemd/issues/13332
-
-Signed-off-by: Stefan Eichenberger <stefan.eichenberger@toradex.com>
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
- meta/recipes-core/initrdscripts/initramfs-framework/udev | 3 +++
- 1 file changed, 3 insertions(+)
+ .../python/{python3_3.8.1.bb => python3_3.8.2.bb}           | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.8.1.bb => python3_3.8.2.bb} (98%)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-index 87551ff4a9..4898b89246 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-@@ -41,6 +41,9 @@ udev_run() {
- 	mkdir -p /run
- 	mkdir -p /var/run
+diff --git a/meta/recipes-devtools/python/python3_3.8.1.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python3_3.8.1.bb
+rename to meta/recipes-devtools/python/python3_3.8.2.bb
+index 5e3c29cb4c..fc01935948 100644
+--- a/meta/recipes-devtools/python/python3_3.8.1.bb
++++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.python.org"
+ LICENSE = "PSFv2"
+ SECTION = "devel/python"
  
-+	# Workaround if console=null, systemd-udevd needs valid stdin, stdout and stderr to work
-+	sh -c "exec 4< /dev/console" || { exec 0> /dev/null; exec 1> /dev/null; exec 2> /dev/null; }
-+
- 	$_UDEV_DAEMON --daemon
- 	udevadm trigger --action=add
- 	udevadm settle
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=e466242989bd33c1bd2b6a526a742498"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=203a6dbc802ee896020a47161e759642"
+ 
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://run-ptest \
+@@ -40,8 +40,8 @@ SRC_URI_append_class-native = " \
+            file://0001-Don-t-search-system-for-headers-libraries.patch \
+            "
+ 
+-SRC_URI[md5sum] = "b3fb85fd479c0bf950c626ef80cacb57"
+-SRC_URI[sha256sum] = "75894117f6db7051c1b34f37410168844bbb357c139a8a10a352e9bf8be594e8"
++SRC_URI[md5sum] = "e9d6ebc92183a177b8e8a58cad5b8d67"
++SRC_URI[sha256sum] = "2646e7dc233362f59714c6193017bb2d6f7b38d6ab4a0cb5fbac5c36c4d845df"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.17.1
 
