@@ -1,52 +1,52 @@
-Return-Path: <wallinux@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B84E9608A7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4070861C9D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 12:15:12 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id 19so10235890ljj.7
+	Fri, 13 Mar 2020 12:27:55 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id b2so5615988wrj.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 05:15:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=/sQuryrp35PWLUHs9ksLU1HyQsUnkobKL46rd1uY5gs=;
-	b=sd9SIqwc5vjH3ncXZgEWXlZaY3BkRfXob81MuiTHEYy+KKhmOsCEdaEiaak3WiEkkj
-	3PI3DwjvIrsDn6Eytbaphl2EP8CFzh8fsTa74KN6kAJ/TDowO3rrMspAH0y1jHC0wsyd
-	kQKw4t/v0dkGPoypmpp+cJywfInvVkVDTs2hK7Yap32l2RmoystDcXZBs365VnE63O0M
-	CXcLgi0nxZSZ5iRWlHg8IUO54GlHhH3zKDDBpTH+b+M93Yp1lIZgy86szhndrngzUmNw
-	btjTVQpuDz+wq3sXYZXHYK7UirR8WIv/3IDvy32GiGMMgG+5sIpwivyE1qCwz5xkfzJK
-	H+kA==
+	Fri, 13 Mar 2020 05:27:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=cFoDFJxe46qHm9T3gSRbJPlih9p3LEVYs9La2W9DG40=;
+	b=ZrEmIlItJ+7RdCe5CJR9QzzvyG2qTX7I39kt9e7AgCU506ac1Lo5oFiBgqC4fhAuG4
+	D7Twea1z2bLHeo5Z5nFCotKJICAnUVLvZSWAaeUpZNsVCR6HEiTuI7/lC+zXPQ+VtsDz
+	AUdBpdrz+bAcwXeZoQ7bSafp0+o9kCVz7Itpo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=/sQuryrp35PWLUHs9ksLU1HyQsUnkobKL46rd1uY5gs=;
-	b=ghVBGNoXI8JsrhVyaje3pL7mdaGLkRXiLVxOEPdNl2ODbp30dG/KGPOE84sYBuuy/h
-	rLC2UoD3GaRwp+LvjDbj1S8MI5fldzuVgViXwDyW7T/oSku2WTnC5Vnp7Hyc2IAYrEBf
-	EBV+wvt/lZNce4sxiz4yFCdLhAc628dvkLVSKAO6hBwYSZOMle8ritrXdZ58+nQhtspV
-	+LJT8d/GbWMYYsI1CdYyaCTRWbX4XltmcoXNrReKX7OMntIPVNp7kCtSgi8FSo3HC5m2
-	i+3csce/1Hw80PPeM5ovgIzXtuAUGBO/8Um6x6jJ4TIXJ8O8+/IRqRrQqg/IfcaeB1fd
-	tI9g==
-X-Gm-Message-State: ANhLgQ0nzfmACWnDBtkhPYXULu3dG5B2vSR11EcJTgYPIYSCDq4od9WP
-	mu4fCcvar7fZkb9uISijJ6PDlnjIsqI=
-X-Google-Smtp-Source: ADFU+vubPtisfQR6ap6v6jUM7718e72m/1EIWXX0mbmlSHDwi9LQIisqU2TwSpEKDE0XaPcdnmNaHg==
-X-Received: by 2002:a05:651c:545:: with SMTP id
-	q5mr8141219ljp.139.1584101712625; 
-	Fri, 13 Mar 2020 05:15:12 -0700 (PDT)
-Received: from arn-awallin-linux-l5.corp.ad.wrs.com
-	(host-95-199-150-227.mobileonline.telia.com. [95.199.150.227])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=cFoDFJxe46qHm9T3gSRbJPlih9p3LEVYs9La2W9DG40=;
+	b=HNr6DH1xV0b290uCBjCr4fkRQxzPoZpQv5/qD+QYtnzxswKLMI9EaQSksifjM1ooQb
+	2Sv2eac+Wpcy0EIwkfFJp2mLfV3Ncefc4clTzXbWedsrNdTi15kVvQHoV0FbGV6i51rk
+	COcmJGmM1fgQnhy/J5wvEqwCyWJ3SPYy/2RYYs45w6sv/1Bh1qdAL3fE9TYbauLSb7K+
+	TwLLxnS6xJhaQUwZNyUoq1VmTlPBdva50WxYgfZh31F7IzA0Qo+NuPEW56LrIwY8mYm9
+	cmZ2u4TT4xcjUAPnMdhLLN3inBu1KPg4QIfuQu/51TkOalcz55r4NRnMQt5csjqpnnlM
+	lBgQ==
+X-Gm-Message-State: ANhLgQ2yd3Ric6oepBGqFFdox/8v1Wh10OC66jAsshlDZtBYiqI9bUVB
+	8HNak+AoVt/eIhaHYNckreDWkQ==
+X-Google-Smtp-Source: ADFU+vtdVqch5FkzMSaToknpFcanbyGKXqMsW2pLgn5iqMYLCIcr7FX1XSq+r/uqtozPB5cFfCBBhQ==
+X-Received: by 2002:adf:df8f:: with SMTP id z15mr17342800wrl.184.1584102476661;
+	Fri, 13 Mar 2020 05:27:56 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	q14sm5263431lji.100.2020.03.13.05.15.11
+	o7sm27441383wrx.60.2020.03.13.05.27.55
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 13 Mar 2020 05:15:12 -0700 (PDT)
-From: Anders Wallin <wallinux@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Mar 2020 13:14:58 +0100
-Message-Id: <20200313121458.32066-1-wallinux@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	Fri, 13 Mar 2020 05:27:56 -0700 (PDT)
+Message-ID: <8f52d0044ca78ef655eec2113fca67eeed7f6963.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>, Khem Raj <raj.khem@gmail.com>
+Date: Fri, 13 Mar 2020 12:27:54 +0000
+In-Reply-To: <20200313081516.GA24555@localhost>
+References: <20200312230840.751166-1-raj.khem@gmail.com>
+	<20200313081516.GA24555@localhost>
+User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-Subject: [PATCH] babeltrace2: updated to 2.0.2
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gcc: Upgrade to 9.3 bugfix release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +59,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2020 12:15:13 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 13 Mar 2020 12:27:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Anders Wallin <wallinux@gmail.com>
----
- .../lttng/{babeltrace2_2.0.1.bb => babeltrace2_2.0.2.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/lttng/{babeltrace2_2.0.1.bb => babeltrace2_2.0.2.bb} (98%)
+On Fri, 2020-03-13 at 10:15 +0200, Adrian Bunk wrote:
+> On Thu, Mar 12, 2020 at 04:08:40PM -0700, Khem Raj wrote:
+> > ...
+> >  ...le-sysroot-support-for-nativesdk-gcc.patch | 187 +------
+> > ...
+> 
+> Why was part of this patch removed?
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.2.bb
-similarity index 98%
-rename from meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
-rename to meta/recipes-kernel/lttng/babeltrace2_2.0.2.bb
-index e71ac1ad57..0791c654f9 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.2.bb
-@@ -13,7 +13,7 @@ SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-2.0
-            file://0001-Make-manpages-multilib-identical.patch \
-            file://0001-fs.c-initialize-other_entry.patch \
- 	  "
--SRCREV = "06df58f89ee51b1a2c6a2c187ec3f15691633910"
-+SRCREV = "33003c352ed56aa49e0b3df272bbab6fac36cae8"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
- 
- S = "${WORKDIR}/git"
--- 
-2.25.1
+It looked like this commit was dropped:
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=5507707f0d36a612992758dabd58d68a72ab0cfc
+
+unintentionally. I've added it back into the patch in master-next.
+
+Cheers,
+
+Richard
+
+
 
 
