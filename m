@@ -1,57 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 156896069B
+Return-Path: <oleksandr.s.popovych@globallogic.com>
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+	[209.85.208.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 4854860C1E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 14:42:22 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id w65so5331909pfb.6
+	Fri, 13 Mar 2020 15:18:55 +0000 (UTC)
+Received: by mail-lj1-f173.google.com with SMTP id g12so10967129ljj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 07:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=HOILZT88LdgfPhoxP7N7DkQebhXOStfyjLyRLNX2278=;
-	b=CWpLidga7I3fRuSN8K0aZ9tOpZv6trePHZKnwQh9jSnjTzx7wwfmgxBdbaoKXMGMPO
-	sFVtQMAjNbyQoxVZRbga5TJ1JbnfC0SocT0297ofVLndJ/L4C0x60LsePGeGbHo+Q/r/
-	+QX6t+m4zt4NI56T/VLG90xA1HogQFECtlAwhAVHQxVaBRbFIwatS2femLLy2MKI10qw
-	Bf5wSpdKsGd8nYR3AyWGjkkGABYM07ajO2omKJT1W8Js+R+wEbi9f4SHOpK/QUIFcwva
-	MWaQa/toN2N1rCCXo5n4TKBUtDmfEwJ5Flf9V5eYN6CjvEBq2fNmptUIB7wwnEwvZbwU
-	GKsw==
+	Fri, 13 Mar 2020 08:18:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=globallogic.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=f6XEbqu+2dM/QKmRBjtCrhZbVmGYNw5qwqTlydGBBmE=;
+	b=NAhw8/HOUDaHMB2Coea6WbNsOYdh4CXYqxa5cu0P9LGoYjLAQvcuVYPZvis68GjumM
+	7+uPBC3hcD6GbdfbSwQibWW+jVmiwTIFKcTVoXstLpybcgcpKCAyEd1guJvgbqv2JO1k
+	zUbr1AzspV57ZCDfdi5A9ZvDRN/aCvJhB8HW+UivLZ8hisS371y2VatA5XNn8fjlbftb
+	9gpC/ebSclKDTWdDeTQ0X/RNJ+rbmtxRpkpf8Td6v5J/kiJJkuhflIdwisG5c0G3KqLJ
+	6mKToAs5zxnM+0fD/s/tucnKkPoVMngLJF9ZP2BVKXlAlY2MUcGlaqLgeHux7isk5Bhb
+	Ng7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=HOILZT88LdgfPhoxP7N7DkQebhXOStfyjLyRLNX2278=;
-	b=GlWCmTDgliA1U+2op+WAMMGTQaTvM6Gidjuh1IS4WlmONgHn6BVaTBKZCcSdu61TJ4
-	pxjazQRQIaaVA1xRquhur4NV2MM93uBS32tAAb5/EcnVUTNmb+FABQXlE/T7eqx9f7Js
-	9TdcdJQEry9T10wTh1s3rJsSB63BwKOIe1UxzhJQF4VHcwqns3Igl0cNcb7hWT9DibQf
-	D1CxaQ+JNsvByM+S+bF2BLkBm1aRf+8unc7IWBV2SfdVIjbeFKMaq0bdftMPxM1JGX8T
-	P00UpIPuiL4yvTOniZi9cnK6gpUI6ZBvqpJM3iqstLec2e9agryJB6AENE/JUZoFbPLm
-	M5Jg==
-X-Gm-Message-State: ANhLgQ3nFRaViZGgGwq3mtiw2rfT1TyyA/H2kOtPo+Av34DeWOcdb7mF
-	4MDRVnSZUwiV4/Hd8vlcyk2cVjalStU=
-X-Google-Smtp-Source: ADFU+vu7kcbJKXkwRJYv4GiX6YBRT+OeBUnNiSR90bDr4KNyymjUuU8+UdhhxrSsp781sMsuIdlCUQ==
-X-Received: by 2002:aa7:9f93:: with SMTP id z19mr14655746pfr.187.1584110542906;
-	Fri, 13 Mar 2020 07:42:22 -0700 (PDT)
-Received: from ?IPv6:2601:646:9200:4e0:d558:25ee:538d:b97a?
-	([2601:646:9200:4e0:d558:25ee:538d:b97a])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=f6XEbqu+2dM/QKmRBjtCrhZbVmGYNw5qwqTlydGBBmE=;
+	b=aHK/V9ONf98oXWAkoCW5frvsAWO4s6B+NLhPjcfpmrGlzDb6cCpW8Rhr5DkIWkEit+
+	es45q4jxYHygYg6Ihes4bAyc/f2EddERuX1FHt6y7joGswwgVvZou91DdLKOhKCvOGaH
+	8xGI9Z1DPTviFDhaNEZLP//h0Q/32fnzZbhJ6nzV4Lugn5Yi/Nz5Gx6i3dSmXAKw892k
+	OkJXIay3Cb3tVIAlaU1cu2zIwqwel/IDSKPIuMY0f2/LeUI3tb3b7yCVU6pmXIeP8wJl
+	Pz4dL9HkRLMAD+DqloBgOmKcPsQt6pmkaGG11Fl/2jjeHBnOlyEW1OmMNgqxxYN62a6U
+	Zydw==
+X-Gm-Message-State: ANhLgQ2ajxtmdpbb5Ft8PVy4S+x+qd7+m9JPT6TEwbh1D4oTx/WtGzer
+	HxJJEwAENuTxfLe449JbfV2cdfkQu6Y=
+X-Google-Smtp-Source: ADFU+vuhaqvqzj9ltythYRLJOACKKU0TptZvkymdMUwYy+HN8IEAyGzLIDL+dfarBEmlotc4CFAaKQ==
+X-Received: by 2002:a2e:9949:: with SMTP id r9mr7032916ljj.135.1584112734555; 
+	Fri, 13 Mar 2020 08:18:54 -0700 (PDT)
+Received: from kbp1-ldl-F65306.synapse.com ([195.238.92.77])
 	by smtp.gmail.com with ESMTPSA id
-	i2sm11887963pjs.21.2020.03.13.07.42.21
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 13 Mar 2020 07:42:22 -0700 (PDT)
-To: Anuj Mittal <anuj.mittal@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20200313010939.586772-1-anuj.mittal@intel.com>
-	<20200313010939.586772-2-anuj.mittal@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <c285cb6b-8218-0150-fe36-f34449191cd1@gmail.com>
-Date: Fri, 13 Mar 2020 07:42:21 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200313010939.586772-2-anuj.mittal@intel.com>
-Subject: Re: [PATCH 2/2] binutils: fix CVE-2020-0551
+	g25sm29136150ljn.107.2020.03.13.08.18.53
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 13 Mar 2020 08:18:53 -0700 (PDT)
+From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Mar 2020 17:18:41 +0200
+Message-Id: <20200313151841.11613-1-oleksandr.s.popovych@globallogic.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v7] expat: Added ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,590 +55,228 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2020 14:42:23 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Mar 2020 15:18:55 -0000
 
-Please backport the tests patch [1] as well along with this
+For ptest support for expat package:
 
-[1] 
-https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=97b4a8f744f437fa35afbe20f53e657e9de957cd
+ - expat_2.2.9.bb recipe was switched on cmake-based building system to
+avoid cahnges in autotools build system  which considered in upstream as
+deprecated (https://github.com/libexpat/libexpat/issues/330).
 
-On 3/12/20 6:09 PM, Anuj Mittal wrote:
-> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> ---
->   .../binutils/binutils-2.34.inc                |   1 +
->   .../binutils/binutils/CVE-2020-0551.patch     | 549 ++++++++++++++++++
->   2 files changed, 550 insertions(+)
->   create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-0551.patch
-> 
-> diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
-> index eaaa5ed2ac..ed9f902fd2 100644
-> --- a/meta/recipes-devtools/binutils/binutils-2.34.inc
-> +++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
-> @@ -40,6 +40,7 @@ SRC_URI = "\
->        file://0013-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
->        file://0014-Detect-64-bit-MIPS-targets.patch \
->        file://0015-sync-with-OE-libtool-changes.patch \
-> +     file://CVE-2020-0551.patch \
->   "
->   S  = "${WORKDIR}/git"
->   
-> diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2020-0551.patch b/meta/recipes-devtools/binutils/binutils/CVE-2020-0551.patch
-> new file mode 100644
-> index 0000000000..53e3caf445
-> --- /dev/null
-> +++ b/meta/recipes-devtools/binutils/binutils/CVE-2020-0551.patch
-> @@ -0,0 +1,549 @@
-> +From ae531041c7c5956672342f89c486a011c84f027f Mon Sep 17 00:00:00 2001
-> +From: "H.J. Lu" <hjl.tools@gmail.com>
-> +Date: Wed, 11 Mar 2020 09:46:19 -0700
-> +Subject: [PATCH 1/1] i386: Generate lfence with load/indirect branch/ret
-> + [CVE-2020-0551]
-> +
-> +Add 3 command-line options to generate lfence for load, indirect near
-> +branch and ret to help mitigate:
-> +
-> +https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00334.html
-> +http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-0551
-> +
-> +1. -mlfence-after-load=[no|yes]:
-> +  -mlfence-after-load=yes generates lfence after load instructions.
-> +2. -mlfence-before-indirect-branch=[none|all|memory|register]:
-> +  a. -mlfence-before-indirect-branch=all generates lfence before indirect
-> +  near branches via register and a warning before indirect near branches
-> +  via memory.
-> +  b. -mlfence-before-indirect-branch=memory issue a warning before
-> +  indirect near branches via memory.
-> +  c. -mlfence-before-indirect-branch=register generates lfence before
-> +  indirect near branches via register.
-> +Note that lfence won't be generated before indirect near branches via
-> +register with -mlfence-after-load=yes since lfence will be generated
-> +after loading branch target register.
-> +3. -mlfence-before-ret=[none|or|not]
-> +  a. -mlfence-before-ret=or generates or with lfence before ret.
-> +  b. -mlfence-before-ret=not generates not with lfence before ret.
-> +
-> +A warning will be issued and lfence won't be generated before indirect
-> +near branch and ret if the previous item is a prefix or a constant
-> +directive, which may be used to hardcode an instruction, since there
-> +is no clear instruction boundary.
-> +
-> +	* config/tc-i386.c (lfence_after_load): New.
-> +	(lfence_before_indirect_branch_kind): New.
-> +	(lfence_before_indirect_branch): New.
-> +	(lfence_before_ret_kind): New.
-> +	(lfence_before_ret): New.
-> +	(last_insn): New.
-> +	(load_insn_p): New.
-> +	(insert_lfence_after): New.
-> +	(insert_lfence_before): New.
-> +	(md_assemble): Call insert_lfence_before and insert_lfence_after.
-> +	Set last_insn.
-> +	(OPTION_MLFENCE_AFTER_LOAD): New.
-> +	(OPTION_MLFENCE_BEFORE_INDIRECT_BRANCH): New.
-> +	(OPTION_MLFENCE_BEFORE_RET): New.
-> +	(md_longopts): Add -mlfence-after-load=,
-> +	-mlfence-before-indirect-branch= and -mlfence-before-ret=.
-> +	(md_parse_option): Handle -mlfence-after-load=,
-> +	-mlfence-before-indirect-branch= and -mlfence-before-ret=.
-> +	(md_show_usage): Display -mlfence-after-load=,
-> +	-mlfence-before-indirect-branch= and -mlfence-before-ret=.
-> +	(i386_cons_align): New.
-> +	* config/tc-i386.h (i386_cons_align): New.
-> +	(md_cons_align): New.
-> +	* doc/c-i386.texi: Document -mlfence-after-load=,
-> +	-mlfence-before-indirect-branch= and -mlfence-before-ret=.
-> +
-> +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> +Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=ae531041c7c5956672342f89c486a011c84f027f]
-> +CVE: CVE-2020-0551
-> +---
-> +diff --git a/gas/config/tc-i386.c b/gas/config/tc-i386.c
-> +index b020f39c863..09063f784b7 100644
-> +--- a/gas/config/tc-i386.c
-> ++++ b/gas/config/tc-i386.c
-> +@@ -629,7 +629,29 @@ static int omit_lock_prefix = 0;
-> +    "lock addl $0, (%{re}sp)".  */
-> + static int avoid_fence = 0;
-> +
-> +-/* Type of the previous instruction.  */
-> ++/* 1 if lfence should be inserted after every load.  */
-> ++static int lfence_after_load = 0;
-> ++
-> ++/* Non-zero if lfence should be inserted before indirect branch.  */
-> ++static enum lfence_before_indirect_branch_kind
-> ++  {
-> ++    lfence_branch_none = 0,
-> ++    lfence_branch_register,
-> ++    lfence_branch_memory,
-> ++    lfence_branch_all
-> ++  }
-> ++lfence_before_indirect_branch;
-> ++
-> ++/* Non-zero if lfence should be inserted before ret.  */
-> ++static enum lfence_before_ret_kind
-> ++  {
-> ++    lfence_before_ret_none = 0,
-> ++    lfence_before_ret_not,
-> ++    lfence_before_ret_or
-> ++  }
-> ++lfence_before_ret;
-> ++
-> ++/* Types of previous instruction is .byte or prefix.  */
-> + static struct
-> +   {
-> +     segT seg;
-> +@@ -4311,6 +4333,283 @@ optimize_encoding (void)
-> +     }
-> + }
-> +
-> ++/* Return non-zero for load instruction.  */
-> ++
-> ++static int
-> ++load_insn_p (void)
-> ++{
-> ++  unsigned int dest;
-> ++  int any_vex_p = is_any_vex_encoding (&i.tm);
-> ++  unsigned int base_opcode = i.tm.base_opcode | 1;
-> ++
-> ++  if (!any_vex_p)
-> ++    {
-> ++      /* lea  */
-> ++      if (i.tm.base_opcode == 0x8d)
-> ++	return 0;
-> ++
-> ++      /* pop  */
-> ++      if ((i.tm.base_opcode & ~7) == 0x58
-> ++	  || (i.tm.base_opcode == 0x8f && i.tm.extension_opcode == 0))
-> ++	return 1;
-> ++
-> ++      /* movs, cmps, lods, scas.  */
-> ++      if ((i.tm.base_opcode | 0xb) == 0xaf)
-> ++	return 1;
-> ++
-> ++      /* outs */
-> ++      if (base_opcode == 0x6f)
-> ++	return 1;
-> ++    }
-> ++
-> ++  /* No memory operand.  */
-> ++  if (!i.mem_operands)
-> ++    return 0;
-> ++
-> ++  if (any_vex_p)
-> ++    {
-> ++      /* vldmxcsr.  */
-> ++      if (i.tm.base_opcode == 0xae
-> ++	  && i.tm.opcode_modifier.vex
-> ++	  && i.tm.opcode_modifier.vexopcode == VEX0F
-> ++	  && i.tm.extension_opcode == 2)
-> ++	return 1;
-> ++    }
-> ++  else
-> ++    {
-> ++      /* test, not, neg, mul, imul, div, idiv.  */
-> ++      if ((i.tm.base_opcode == 0xf6 || i.tm.base_opcode == 0xf7)
-> ++	  && i.tm.extension_opcode != 1)
-> ++	return 1;
-> ++
-> ++      /* inc, dec.  */
-> ++      if (base_opcode == 0xff && i.tm.extension_opcode <= 1)
-> ++	return 1;
-> ++
-> ++      /* add, or, adc, sbb, and, sub, xor, cmp.  */
-> ++      if (i.tm.base_opcode >= 0x80 && i.tm.base_opcode <= 0x83)
-> ++	return 1;
-> ++
-> ++      /* bt, bts, btr, btc.  */
-> ++      if (i.tm.base_opcode == 0xfba
-> ++	  && (i.tm.extension_opcode >= 4 && i.tm.extension_opcode <= 7))
-> ++	return 1;
-> ++
-> ++      /* rol, ror, rcl, rcr, shl/sal, shr, sar. */
-> ++      if ((base_opcode == 0xc1
-> ++	   || (i.tm.base_opcode >= 0xd0 && i.tm.base_opcode <= 0xd3))
-> ++	  && i.tm.extension_opcode != 6)
-> ++	return 1;
-> ++
-> ++      /* cmpxchg8b, cmpxchg16b, xrstors.  */
-> ++      if (i.tm.base_opcode == 0xfc7
-> ++	  && (i.tm.extension_opcode == 1 || i.tm.extension_opcode == 3))
-> ++	return 1;
-> ++
-> ++      /* fxrstor, ldmxcsr, xrstor.  */
-> ++      if (i.tm.base_opcode == 0xfae
-> ++	  && (i.tm.extension_opcode == 1
-> ++	      || i.tm.extension_opcode == 2
-> ++	      || i.tm.extension_opcode == 5))
-> ++	return 1;
-> ++
-> ++      /* lgdt, lidt, lmsw.  */
-> ++      if (i.tm.base_opcode == 0xf01
-> ++	  && (i.tm.extension_opcode == 2
-> ++	      || i.tm.extension_opcode == 3
-> ++	      || i.tm.extension_opcode == 6))
-> ++	return 1;
-> ++
-> ++      /* vmptrld */
-> ++      if (i.tm.base_opcode == 0xfc7
-> ++	  && i.tm.extension_opcode == 6)
-> ++	return 1;
-> ++
-> ++      /* Check for x87 instructions.  */
-> ++      if (i.tm.base_opcode >= 0xd8 && i.tm.base_opcode <= 0xdf)
-> ++	{
-> ++	  /* Skip fst, fstp, fstenv, fstcw.  */
-> ++	  if (i.tm.base_opcode == 0xd9
-> ++	      && (i.tm.extension_opcode == 2
-> ++		  || i.tm.extension_opcode == 3
-> ++		  || i.tm.extension_opcode == 6
-> ++		  || i.tm.extension_opcode == 7))
-> ++	    return 0;
-> ++
-> ++	  /* Skip fisttp, fist, fistp, fstp.  */
-> ++	  if (i.tm.base_opcode == 0xdb
-> ++	      && (i.tm.extension_opcode == 1
-> ++		  || i.tm.extension_opcode == 2
-> ++		  || i.tm.extension_opcode == 3
-> ++		  || i.tm.extension_opcode == 7))
-> ++	    return 0;
-> ++
-> ++	  /* Skip fisttp, fst, fstp, fsave, fstsw.  */
-> ++	  if (i.tm.base_opcode == 0xdd
-> ++	      && (i.tm.extension_opcode == 1
-> ++		  || i.tm.extension_opcode == 2
-> ++		  || i.tm.extension_opcode == 3
-> ++		  || i.tm.extension_opcode == 6
-> ++		  || i.tm.extension_opcode == 7))
-> ++	    return 0;
-> ++
-> ++	  /* Skip fisttp, fist, fistp, fbstp, fistp.  */
-> ++	  if (i.tm.base_opcode == 0xdf
-> ++	      && (i.tm.extension_opcode == 1
-> ++		  || i.tm.extension_opcode == 2
-> ++		  || i.tm.extension_opcode == 3
-> ++		  || i.tm.extension_opcode == 6
-> ++		  || i.tm.extension_opcode == 7))
-> ++	    return 0;
-> ++
-> ++	  return 1;
-> ++	}
-> ++    }
-> ++
-> ++  dest = i.operands - 1;
-> ++
-> ++  /* Check fake imm8 operand and 3 source operands.  */
-> ++  if ((i.tm.opcode_modifier.immext
-> ++       || i.tm.opcode_modifier.vexsources == VEX3SOURCES)
-> ++      && i.types[dest].bitfield.imm8)
-> ++    dest--;
-> ++
-> ++  /* add, or, adc, sbb, and, sub, xor, cmp, test, xchg, xadd  */
-> ++  if (!any_vex_p
-> ++      && (base_opcode == 0x1
-> ++	  || base_opcode == 0x9
-> ++	  || base_opcode == 0x11
-> ++	  || base_opcode == 0x19
-> ++	  || base_opcode == 0x21
-> ++	  || base_opcode == 0x29
-> ++	  || base_opcode == 0x31
-> ++	  || base_opcode == 0x39
-> ++	  || (i.tm.base_opcode >= 0x84 && i.tm.base_opcode <= 0x87)
-> ++	  || base_opcode == 0xfc1))
-> ++    return 1;
-> ++
-> ++  /* Check for load instruction.  */
-> ++  return (i.types[dest].bitfield.class != ClassNone
-> ++	  || i.types[dest].bitfield.instance == Accum);
-> ++}
-> ++
-> ++/* Output lfence, 0xfaee8, after instruction.  */
-> ++
-> ++static void
-> ++insert_lfence_after (void)
-> ++{
-> ++  if (lfence_after_load && load_insn_p ())
-> ++    {
-> ++      char *p = frag_more (3);
-> ++      *p++ = 0xf;
-> ++      *p++ = 0xae;
-> ++      *p = 0xe8;
-> ++    }
-> ++}
-> ++
-> ++/* Output lfence, 0xfaee8, before instruction.  */
-> ++
-> ++static void
-> ++insert_lfence_before (void)
-> ++{
-> ++  char *p;
-> ++
-> ++  if (is_any_vex_encoding (&i.tm))
-> ++    return;
-> ++
-> ++  if (i.tm.base_opcode == 0xff
-> ++      && (i.tm.extension_opcode == 2 || i.tm.extension_opcode == 4))
-> ++    {
-> ++      /* Insert lfence before indirect branch if needed.  */
-> ++
-> ++      if (lfence_before_indirect_branch == lfence_branch_none)
-> ++	return;
-> ++
-> ++      if (i.operands != 1)
-> ++	abort ();
-> ++
-> ++      if (i.reg_operands == 1)
-> ++	{
-> ++	  /* Indirect branch via register.  Don't insert lfence with
-> ++	     -mlfence-after-load=yes.  */
-> ++	  if (lfence_after_load
-> ++	      || lfence_before_indirect_branch == lfence_branch_memory)
-> ++	    return;
-> ++	}
-> ++      else if (i.mem_operands == 1
-> ++	       && lfence_before_indirect_branch != lfence_branch_register)
-> ++	{
-> ++	  as_warn (_("indirect `%s` with memory operand should be avoided"),
-> ++		   i.tm.name);
-> ++	  return;
-> ++	}
-> ++      else
-> ++	return;
-> ++
-> ++      if (last_insn.kind != last_insn_other
-> ++	  && last_insn.seg == now_seg)
-> ++	{
-> ++	  as_warn_where (last_insn.file, last_insn.line,
-> ++			 _("`%s` skips -mlfence-before-indirect-branch on `%s`"),
-> ++			 last_insn.name, i.tm.name);
-> ++	  return;
-> ++	}
-> ++
-> ++      p = frag_more (3);
-> ++      *p++ = 0xf;
-> ++      *p++ = 0xae;
-> ++      *p = 0xe8;
-> ++      return;
-> ++    }
-> ++
-> ++  /* Output or/not and lfence before ret.  */
-> ++  if (lfence_before_ret != lfence_before_ret_none
-> ++      && (i.tm.base_opcode == 0xc2
-> ++	  || i.tm.base_opcode == 0xc3
-> ++	  || i.tm.base_opcode == 0xca
-> ++	  || i.tm.base_opcode == 0xcb))
-> ++    {
-> ++      if (last_insn.kind != last_insn_other
-> ++	  && last_insn.seg == now_seg)
-> ++	{
-> ++	  as_warn_where (last_insn.file, last_insn.line,
-> ++			 _("`%s` skips -mlfence-before-ret on `%s`"),
-> ++			 last_insn.name, i.tm.name);
-> ++	  return;
-> ++	}
-> ++      if (lfence_before_ret == lfence_before_ret_or)
-> ++	{
-> ++	  /* orl: 0x830c2400.  */
-> ++	  p = frag_more ((flag_code == CODE_64BIT ? 1 : 0) + 4 + 3);
-> ++	  if (flag_code == CODE_64BIT)
-> ++	    *p++ = 0x48;
-> ++	  *p++ = 0x83;
-> ++	  *p++ = 0xc;
-> ++	  *p++ = 0x24;
-> ++	  *p++ = 0x0;
-> ++	}
-> ++      else
-> ++	{
-> ++	  p = frag_more ((flag_code == CODE_64BIT ? 2 : 0) + 6 + 3);
-> ++	  /* notl: 0xf71424.  */
-> ++	  if (flag_code == CODE_64BIT)
-> ++	    *p++ = 0x48;
-> ++	  *p++ = 0xf7;
-> ++	  *p++ = 0x14;
-> ++	  *p++ = 0x24;
-> ++	  /* notl: 0xf71424.  */
-> ++	  if (flag_code == CODE_64BIT)
-> ++	    *p++ = 0x48;
-> ++	  *p++ = 0xf7;
-> ++	  *p++ = 0x14;
-> ++	  *p++ = 0x24;
-> ++	}
-> ++      *p++ = 0xf;
-> ++      *p++ = 0xae;
-> ++      *p = 0xe8;
-> ++    }
-> ++}
-> ++
-> + /* This is the guts of the machine-dependent assembler.  LINE points to a
-> +    machine dependent instruction.  This function is supposed to emit
-> +    the frags/bytes it assembles to.  */
-> +@@ -4628,9 +4927,13 @@ md_assemble (char *line)
-> +   if (i.rex != 0)
-> +     add_prefix (REX_OPCODE | i.rex);
-> +
-> ++  insert_lfence_before ();
-> ++
-> +   /* We are ready to output the insn.  */
-> +   output_insn ();
-> +
-> ++  insert_lfence_after ();
-> ++
-> +   last_insn.seg = now_seg;
-> +
-> +   if (i.tm.opcode_modifier.isprefix)
-> +@@ -12250,6 +12553,9 @@ const char *md_shortopts = "qnO::";
-> + #define OPTION_MALIGN_BRANCH_PREFIX_SIZE (OPTION_MD_BASE + 28)
-> + #define OPTION_MALIGN_BRANCH (OPTION_MD_BASE + 29)
-> + #define OPTION_MBRANCHES_WITH_32B_BOUNDARIES (OPTION_MD_BASE + 30)
-> ++#define OPTION_MLFENCE_AFTER_LOAD (OPTION_MD_BASE + 31)
-> ++#define OPTION_MLFENCE_BEFORE_INDIRECT_BRANCH (OPTION_MD_BASE + 32)
-> ++#define OPTION_MLFENCE_BEFORE_RET (OPTION_MD_BASE + 33)
-> +
-> + struct option md_longopts[] =
-> + {
-> +@@ -12289,6 +12595,10 @@ struct option md_longopts[] =
-> +   {"malign-branch-prefix-size", required_argument, NULL, OPTION_MALIGN_BRANCH_PREFIX_SIZE},
-> +   {"malign-branch", required_argument, NULL, OPTION_MALIGN_BRANCH},
-> +   {"mbranches-within-32B-boundaries", no_argument, NULL, OPTION_MBRANCHES_WITH_32B_BOUNDARIES},
-> ++  {"mlfence-after-load", required_argument, NULL, OPTION_MLFENCE_AFTER_LOAD},
-> ++  {"mlfence-before-indirect-branch", required_argument, NULL,
-> ++   OPTION_MLFENCE_BEFORE_INDIRECT_BRANCH},
-> ++  {"mlfence-before-ret", required_argument, NULL, OPTION_MLFENCE_BEFORE_RET},
-> +   {"mamd64", no_argument, NULL, OPTION_MAMD64},
-> +   {"mintel64", no_argument, NULL, OPTION_MINTEL64},
-> +   {NULL, no_argument, NULL, 0}
-> +@@ -12668,6 +12978,41 @@ md_parse_option (int c, const char *arg)
-> +         as_fatal (_("invalid -mfence-as-lock-add= option: `%s'"), arg);
-> +       break;
-> +
-> ++    case OPTION_MLFENCE_AFTER_LOAD:
-> ++      if (strcasecmp (arg, "yes") == 0)
-> ++	lfence_after_load = 1;
-> ++      else if (strcasecmp (arg, "no") == 0)
-> ++	lfence_after_load = 0;
-> ++      else
-> ++        as_fatal (_("invalid -mlfence-after-load= option: `%s'"), arg);
-> ++      break;
-> ++
-> ++    case OPTION_MLFENCE_BEFORE_INDIRECT_BRANCH:
-> ++      if (strcasecmp (arg, "all") == 0)
-> ++	lfence_before_indirect_branch = lfence_branch_all;
-> ++      else if (strcasecmp (arg, "memory") == 0)
-> ++	lfence_before_indirect_branch = lfence_branch_memory;
-> ++      else if (strcasecmp (arg, "register") == 0)
-> ++	lfence_before_indirect_branch = lfence_branch_register;
-> ++      else if (strcasecmp (arg, "none") == 0)
-> ++	lfence_before_indirect_branch = lfence_branch_none;
-> ++      else
-> ++        as_fatal (_("invalid -mlfence-before-indirect-branch= option: `%s'"),
-> ++		  arg);
-> ++      break;
-> ++
-> ++    case OPTION_MLFENCE_BEFORE_RET:
-> ++      if (strcasecmp (arg, "or") == 0)
-> ++	lfence_before_ret = lfence_before_ret_or;
-> ++      else if (strcasecmp (arg, "not") == 0)
-> ++	lfence_before_ret = lfence_before_ret_not;
-> ++      else if (strcasecmp (arg, "none") == 0)
-> ++	lfence_before_ret = lfence_before_ret_none;
-> ++      else
-> ++        as_fatal (_("invalid -mlfence-before-ret= option: `%s'"),
-> ++		  arg);
-> ++      break;
-> ++
-> +     case OPTION_MRELAX_RELOCATIONS:
-> +       if (strcasecmp (arg, "yes") == 0)
-> +         generate_relax_relocations = 1;
-> +@@ -13025,6 +13370,15 @@ md_show_usage (FILE *stream)
-> +   -mbranches-within-32B-boundaries\n\
-> +                           align branches within 32 byte boundary\n"));
-> +   fprintf (stream, _("\
-> ++  -mlfence-after-load=[no|yes] (default: no)\n\
-> ++                          generate lfence after load\n"));
-> ++  fprintf (stream, _("\
-> ++  -mlfence-before-indirect-branch=[none|all|register|memory] (default: none)\n\
-> ++                          generate lfence before indirect near branch\n"));
-> ++  fprintf (stream, _("\
-> ++  -mlfence-before-ret=[none|or|not] (default: none)\n\
-> ++                          generate lfence before ret\n"));
-> ++  fprintf (stream, _("\
-> +   -mamd64                 accept only AMD64 ISA [default]\n"));
-> +   fprintf (stream, _("\
-> +   -mintel64               accept only Intel64 ISA\n"));
-> +@@ -13254,6 +13608,16 @@ i386_cons_align (int ignore ATTRIBUTE_UNUSED)
-> +       last_insn.kind = last_insn_directive;
-> +       last_insn.name = "constant directive";
-> +       last_insn.file = as_where (&last_insn.line);
-> ++      if (lfence_before_ret != lfence_before_ret_none)
-> ++	{
-> ++	  if (lfence_before_indirect_branch != lfence_branch_none)
-> ++	    as_warn (_("constant directive skips -mlfence-before-ret "
-> ++		       "and -mlfence-before-indirect-branch"));
-> ++	  else
-> ++	    as_warn (_("constant directive skips -mlfence-before-ret"));
-> ++	}
-> ++      else if (lfence_before_indirect_branch != lfence_branch_none)
-> ++	as_warn (_("constant directive skips -mlfence-before-indirect-branch"));
-> +     }
-> + }
-> +
-> +diff --git a/gas/doc/c-i386.texi b/gas/doc/c-i386.texi
-> +index c536759cb38..1dd99f91bb0 100644
-> +--- a/gas/doc/c-i386.texi
-> ++++ b/gas/doc/c-i386.texi
-> +@@ -464,6 +464,49 @@ on an instruction.  It is equivalent to
-> + @option{-malign-branch-prefix-size=5}.
-> + The default doesn't align branches.
-> +
-> ++@cindex @samp{-mlfence-after-load=} option, i386
-> ++@cindex @samp{-mlfence-after-load=} option, x86-64
-> ++@item -mlfence-after-load=@var{no}
-> ++@itemx -mlfence-after-load=@var{yes}
-> ++These options control whether the assembler should generate lfence
-> ++after load instructions.  @option{-mlfence-after-load=@var{yes}} will
-> ++generate lfence.  @option{-mlfence-after-load=@var{no}} will not generate
-> ++lfence, which is the default.
-> ++
-> ++@cindex @samp{-mlfence-before-indirect-branch=} option, i386
-> ++@cindex @samp{-mlfence-before-indirect-branch=} option, x86-64
-> ++@item -mlfence-before-indirect-branch=@var{none}
-> ++@item -mlfence-before-indirect-branch=@var{all}
-> ++@item -mlfence-before-indirect-branch=@var{register}
-> ++@itemx -mlfence-before-indirect-branch=@var{memory}
-> ++These options control whether the assembler should generate lfence
-> ++after indirect near branch instructions.
-> ++@option{-mlfence-before-indirect-branch=@var{all}} will generate lfence
-> ++after indirect near branch via register and issue a warning before
-> ++indirect near branch via memory.
-> ++@option{-mlfence-before-indirect-branch=@var{register}} will generate
-> ++lfence after indirect near branch via register.
-> ++@option{-mlfence-before-indirect-branch=@var{memory}} will issue a
-> ++warning before indirect near branch via memory.
-> ++@option{-mlfence-before-indirect-branch=@var{none}} will not generate
-> ++lfence nor issue warning, which is the default.  Note that lfence won't
-> ++be generated before indirect near branch via register with
-> ++@option{-mlfence-after-load=@var{yes}} since lfence will be generated
-> ++after loading branch target register.
-> ++
-> ++@cindex @samp{-mlfence-before-ret=} option, i386
-> ++@cindex @samp{-mlfence-before-ret=} option, x86-64
-> ++@item -mlfence-before-ret=@var{none}
-> ++@item -mlfence-before-ret=@var{or}
-> ++@itemx -mlfence-before-ret=@var{not}
-> ++These options control whether the assembler should generate lfence
-> ++before ret.  @option{-mlfence-before-ret=@var{or}} will generate
-> ++generate or instruction with lfence.
-> ++@option{-mlfence-before-ret=@var{not}} will generate not instruction
-> ++with lfence.
-> ++@option{-mlfence-before-ret=@var{none}} will not generate lfence,
-> ++which is the default.
-> ++
-> + @cindex @samp{-mx86-used-note=} option, i386
-> + @cindex @samp{-mx86-used-note=} option, x86-64
-> + @item -mx86-used-note=@var{no}
-> +--
-> +2.18.2
-> 
+ - expat_2.2.9.bb recipe was divided into expat_2.2.9.bb recipe which is
+switched on cmake-based build system and expat-native_2.2.9.bb recipe
+which is left with autotools build system. This solves problem with
+dependency loop between cmake-native and expat-native packages. Without
+this split, because expat-native package is listed in DEPENDS for
+cmake-native package, next dependency loop appears:
+
+	Dependency loop #1 found:
+	  Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_compile (dependent Tasks ['cmake-native_3.16.1.bb:do_configure'])
+	  Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_install (dependent Tasks ['cmake-native_3.16.1.bb:do_compile'])
+	  Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_populate_sysroot (dependent Tasks ['cmake-native_3.16.1.bb:do_install'])
+	  Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_prepare_recipe_sysroot (dependent Tasks ['ninja_1.10.0.bb:do_populate_sysroot', 'cmake-native_3.16.1.bb:do_populate_sysroot', 'expat_2.2.9.bb:do_fetch'])
+	  Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_configure (dependent Tasks ['expat_2.2.9.bb:do_prepare_recipe_sysroot', 'expat_2.2.9.bb:do_deploy_source_date_epoch', 'expat_2.2.9.bb:do_generate_toolchain_file', 'expat_2.2.9.bb:do_patch'])
+	  Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_compile (dependent Tasks ['expat_2.2.9.bb:do_configure'])
+	  Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_install (dependent Tasks ['expat_2.2.9.bb:do_compile'])
+	  Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_populate_sysroot (dependent Tasks ['expat_2.2.9.bb:do_install'])
+	  Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_prepare_recipe_sysroot (dependent Tasks ['expat_2.2.9.bb:do_populate_sysroot', 'zlib_1.2.11.bb:do_populate_sysroot', 'bzip2_1.0.8.bb:do_populate_sysroot', 'xz_5.2.4.bb:do_populate_sysroot', 'ncurses_6.2.bb:do_populate_sysroot', 'curl_7.69.0.bb:do_populate_sysroot', 'cmake-native_3.16.1.bb:do_fetch'])
+	  Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_configure (dependent Tasks ['cmake-native_3.16.1.bb:do_deploy_source_date_epoch', 'cmake-native_3.16.1.bb:do_patch', 'cmake-native_3.16.1.bb:do_prepare_recipe_sysroot'])
+
+ - run-ptest script that initalizes testing, copies testing
+executables' output to log file and measures execution time of each testing
+executable was added.
+
+ - patch that implements output of each testcase result in testing exectutable
+was added.
+
+Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+---
+ meta/recipes-core/expat/expat-native_2.2.9.bb | 20 +++++
+ .../0001-Add-output-of-tests-result.patch     | 84 +++++++++++++++++++
+ meta/recipes-core/expat/expat/run-ptest       | 24 ++++++
+ meta/recipes-core/expat/expat_2.2.9.bb        | 14 +++-
+ 4 files changed, 138 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-core/expat/expat-native_2.2.9.bb
+ create mode 100644 meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
+ create mode 100644 meta/recipes-core/expat/expat/run-ptest
+
+diff --git a/meta/recipes-core/expat/expat-native_2.2.9.bb b/meta/recipes-core/expat/expat-native_2.2.9.bb
+new file mode 100644
+index 0000000000..c5dbb09ee2
+--- /dev/null
++++ b/meta/recipes-core/expat/expat-native_2.2.9.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "A stream-oriented XML parser library"
++DESCRIPTION = "Expat is an XML parser library written in C. It is a stream-oriented parser in which an application registers handlers for things the parser might find in the XML document (like start tags)"
++HOMEPAGE = "http://expat.sourceforge.net/"
++SECTION = "libs"
++LICENSE = "MIT"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
++           file://libtool-tag.patch \
++	  "
++
++SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
++SRC_URI[sha256sum] = "f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
++
++inherit autotools lib_package native
++
++do_configure_prepend () {
++	rm -f ${S}/conftools/libtool.m4
++}
+diff --git a/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch b/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
+new file mode 100644
+index 0000000000..c78fd2bbef
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
+@@ -0,0 +1,84 @@
++From aa84835a00bfd65e784d58411e76f60658e939dc Mon Sep 17 00:00:00 2001
++From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++Date: Tue, 18 Feb 2020 19:04:55 +0200
++Subject: [PATCH] Add output of tests result
++
++Added console output of testing results in form 'RESULT: TEST_NAME'.
++
++Changed verbose mode of test application set by '-v' ('--verbose')
++argument to CK_NORMAL.
++Added new supported argument '-vv' ('--extra-verbose') that changes
++verbose mode of test application to CK_VERBOSE. Results of each test
++are shown in output only if this mode is set.
++
++Upstream-Status: Denied
++
++This patch changes potentially deprecated feature that shoud be changed
++in upstream. [https://github.com/libexpat/libexpat/issues/382]
++
++Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++---
++ tests/minicheck.c | 10 +++++++++-
++ tests/runtests.c  |  4 +++-
++ 2 files changed, 12 insertions(+), 2 deletions(-)
++
++diff --git a/expat/tests/minicheck.c b/expat/tests/minicheck.c
++index a5a1efb..94fa412 100644
++--- a/tests/minicheck.c
+++++ b/tests/minicheck.c
++@@ -164,6 +164,8 @@ srunner_run_all(SRunner *runner, int verbosity) {
++       if (tc->setup != NULL) {
++         /* setup */
++         if (setjmp(env)) {
+++          if (verbosity >= CK_VERBOSE)
+++            printf("SKIP: %s\n", _check_current_function);
++           add_failure(runner, verbosity);
++           continue;
++         }
++@@ -171,6 +173,8 @@ srunner_run_all(SRunner *runner, int verbosity) {
++       }
++       /* test */
++       if (setjmp(env)) {
+++        if (verbosity >= CK_VERBOSE)
+++          printf("FAIL: %s\n", _check_current_function);
++         add_failure(runner, verbosity);
++         continue;
++       }
++@@ -178,12 +182,16 @@ srunner_run_all(SRunner *runner, int verbosity) {
++ 
++       /* teardown */
++       if (tc->teardown != NULL) {
++-        if (setjmp(env)) {
+++        if (setjmp(env)) { 
+++          if (verbosity >= CK_VERBOSE)
+++           printf("PASS: %s\n", _check_current_function);
++           add_failure(runner, verbosity);
++           continue;
++         }
++         tc->teardown();
++       }
+++      if (verbosity >= CK_VERBOSE)
+++        printf("PASS: %s\n", _check_current_function);
++     }
++     tc = tc->next_tcase;
++   }
++diff --git a/tests/runtests.c b/expat/tests/runtests.c
++index 7791fe0..75724e5 100644
++--- a/tests/runtests.c
+++++ b/tests/runtests.c
++@@ -11619,9 +11619,11 @@ main(int argc, char *argv[]) {
++   for (i = 1; i < argc; ++i) {
++     char *opt = argv[i];
++     if (strcmp(opt, "-v") == 0 || strcmp(opt, "--verbose") == 0)
++-      verbosity = CK_VERBOSE;
+++      verbosity = CK_NORMAL;
++     else if (strcmp(opt, "-q") == 0 || strcmp(opt, "--quiet") == 0)
++       verbosity = CK_SILENT;
+++    else if (strcmp(opt, "-vv") == 0 || strcmp(opt, "--extra-verbose") == 0)
+++	verbosity = CK_VERBOSE;
++     else {
++       fprintf(stderr, "runtests: unknown option '%s'\n", opt);
++       return 2;
++-- 
++2.17.1
++
+diff --git a/meta/recipes-core/expat/expat/run-ptest b/meta/recipes-core/expat/expat/run-ptest
+new file mode 100644
+index 0000000000..7bc81eba8a
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/run-ptest
+@@ -0,0 +1,24 @@
++#!/bin/bash
++
++output=${1:-"expat_tests.log"} # default log file 
++
++# logging function
++function testCheck() {
++	testExec="$1"
++	shift
++	echo && echo ${testExec} && ./${testExec} "$@"
++	error=$?
++	result=$([[ ${error} -eq 0 ]] && echo "PASS" || echo "FAIL")
++	echo "${result}: ${testExec}" && echo "============================"
++}
++
++export output
++export -f testCheck
++TIME=$(which time)
++
++echo "Architecture: $(uname -m)" > ${output}
++echo "Image: $(uname -sr)" >> ${output}
++${TIME} -f 'Execution time: %e s' bash -c "testCheck runtests -vv" |& tee -a ${output}
++${TIME} -f 'Execution time: %e s' bash -c "testCheck runtestspp -vv" |& tee -a ${output}
++echo
++
+diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
+index 8f3db41352..a0224c627e 100644
+--- a/meta/recipes-core/expat/expat_2.2.9.bb
++++ b/meta/recipes-core/expat/expat_2.2.9.bb
+@@ -8,15 +8,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+            file://libtool-tag.patch \
++	   file://run-ptest \
++	   file://0001-Add-output-of-tests-result.patch \
+ 	  "
+ 
+ SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
+ SRC_URI[sha256sum] = "f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
+ 
+-inherit autotools lib_package
++RDEPENDS_${PN}-ptest += "bash"
+ 
+-do_configure_prepend () {
+-	rm -f ${S}/conftools/libtool.m4
++#S = "${WORKDIR}"
++
++inherit cmake lib_package ptest
++
++do_install_ptest_class-target() {
++	install -m 755 ${B}/tests/* ${D}${PTEST_PATH}
+ }
+ 
+-BBCLASSEXTEND = "native nativesdk"
++BBCLASSEXTEND += "nativesdk"
+-- 
+2.17.1
+
 
