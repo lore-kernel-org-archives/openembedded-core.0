@@ -1,24 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D6AD60FCB
+	by mail.openembedded.org (Postfix) with ESMTP id A3CA160FCB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 01:09:44 +0000 (UTC)
+	Fri, 13 Mar 2020 01:09:45 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Mar 2020 18:09:45 -0700
-X-IronPort-AV: E=Sophos;i="5.70,546,1574150400"; d="scan'208";a="322652357"
+	12 Mar 2020 18:09:47 -0700
+X-IronPort-AV: E=Sophos;i="5.70,546,1574150400"; d="scan'208";a="322652360"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.74.239])
 	by orsmga001-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Mar 2020 18:09:43 -0700
+	12 Mar 2020 18:09:45 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Mar 2020 09:09:38 +0800
-Message-Id: <20200313010939.586772-1-anuj.mittal@intel.com>
+Date: Fri, 13 Mar 2020 09:09:39 +0800
+Message-Id: <20200313010939.586772-2-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200313010939.586772-1-anuj.mittal@intel.com>
+References: <20200313010939.586772-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] bluez: fix CVE-2020-0556
+Subject: [PATCH 2/2] binutils: fix CVE-2020-0551
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,227 +36,580 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Fri, 13 Mar 2020 01:09:45 -0000
 Content-Transfer-Encoding: 8bit
 
-It was discovered that BlueZ's HID and HOGP profiles implementations
-don't specifically require bonding between the device and the host.
-
-This creates an opportunity for an malicious device to connect to a
-target host to either impersonate an existing HID device without
-security or to cause an SDP or GATT service discovery to take place
-which would allow HID reports to be injected to the input subsystem from
-a non-bonded source.
-
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |   2 +
- .../bluez5/bluez5/CVE-2020-0556-1.patch       |  35 +++++
- .../bluez5/bluez5/CVE-2020-0556-2.patch       | 143 ++++++++++++++++++
- 3 files changed, 180 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-1.patch
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-2.patch
+ .../binutils/binutils-2.34.inc                |   1 +
+ .../binutils/binutils/CVE-2020-0551.patch     | 549 ++++++++++++++++++
+ 2 files changed, 550 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2020-0551.patch
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 150d909d73..708fa1ccec 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -52,6 +52,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-            file://0001-test-gatt-Fix-hung-issue.patch \
-+           file://CVE-2020-0556-1.patch \
-+           file://CVE-2020-0556-2.patch \
-            "
- S = "${WORKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
+index eaaa5ed2ac..ed9f902fd2 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.34.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
+@@ -40,6 +40,7 @@ SRC_URI = "\
+      file://0013-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
+      file://0014-Detect-64-bit-MIPS-targets.patch \
+      file://0015-sync-with-OE-libtool-changes.patch \
++     file://CVE-2020-0551.patch \
+ "
+ S  = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-1.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-1.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2020-0551.patch b/meta/recipes-devtools/binutils/binutils/CVE-2020-0551.patch
 new file mode 100644
-index 0000000000..a6bf31e14b
+index 0000000000..53e3caf445
 --- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-1.patch
-@@ -0,0 +1,35 @@
-+From 8cdbd3b09f29da29374e2f83369df24228da0ad1 Mon Sep 17 00:00:00 2001
-+From: Alain Michaud <alainm@chromium.org>
-+Date: Tue, 10 Mar 2020 02:35:16 +0000
-+Subject: [PATCH 1/2] HOGP must only accept data from bonded devices.
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2020-0551.patch
+@@ -0,0 +1,549 @@
++From ae531041c7c5956672342f89c486a011c84f027f Mon Sep 17 00:00:00 2001
++From: "H.J. Lu" <hjl.tools@gmail.com>
++Date: Wed, 11 Mar 2020 09:46:19 -0700
++Subject: [PATCH 1/1] i386: Generate lfence with load/indirect branch/ret
++ [CVE-2020-0551]
 +
-+HOGP 1.0 Section 6.1 establishes that the HOGP must require bonding.
++Add 3 command-line options to generate lfence for load, indirect near
++branch and ret to help mitigate:
 +
-+Reference:
-+https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00352.htm
++https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00334.html
++http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-0551
 +
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=8cdbd3b09f29da29374e2f83369df24228da0ad1]
++1. -mlfence-after-load=[no|yes]:
++  -mlfence-after-load=yes generates lfence after load instructions.
++2. -mlfence-before-indirect-branch=[none|all|memory|register]:
++  a. -mlfence-before-indirect-branch=all generates lfence before indirect
++  near branches via register and a warning before indirect near branches
++  via memory.
++  b. -mlfence-before-indirect-branch=memory issue a warning before
++  indirect near branches via memory.
++  c. -mlfence-before-indirect-branch=register generates lfence before
++  indirect near branches via register.
++Note that lfence won't be generated before indirect near branches via
++register with -mlfence-after-load=yes since lfence will be generated
++after loading branch target register.
++3. -mlfence-before-ret=[none|or|not]
++  a. -mlfence-before-ret=or generates or with lfence before ret.
++  b. -mlfence-before-ret=not generates not with lfence before ret.
++
++A warning will be issued and lfence won't be generated before indirect
++near branch and ret if the previous item is a prefix or a constant
++directive, which may be used to hardcode an instruction, since there
++is no clear instruction boundary.
++
++	* config/tc-i386.c (lfence_after_load): New.
++	(lfence_before_indirect_branch_kind): New.
++	(lfence_before_indirect_branch): New.
++	(lfence_before_ret_kind): New.
++	(lfence_before_ret): New.
++	(last_insn): New.
++	(load_insn_p): New.
++	(insert_lfence_after): New.
++	(insert_lfence_before): New.
++	(md_assemble): Call insert_lfence_before and insert_lfence_after.
++	Set last_insn.
++	(OPTION_MLFENCE_AFTER_LOAD): New.
++	(OPTION_MLFENCE_BEFORE_INDIRECT_BRANCH): New.
++	(OPTION_MLFENCE_BEFORE_RET): New.
++	(md_longopts): Add -mlfence-after-load=,
++	-mlfence-before-indirect-branch= and -mlfence-before-ret=.
++	(md_parse_option): Handle -mlfence-after-load=,
++	-mlfence-before-indirect-branch= and -mlfence-before-ret=.
++	(md_show_usage): Display -mlfence-after-load=,
++	-mlfence-before-indirect-branch= and -mlfence-before-ret=.
++	(i386_cons_align): New.
++	* config/tc-i386.h (i386_cons_align): New.
++	(md_cons_align): New.
++	* doc/c-i386.texi: Document -mlfence-after-load=,
++	-mlfence-before-indirect-branch= and -mlfence-before-ret=.
++
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+CVE: CVE-2020-0556
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=ae531041c7c5956672342f89c486a011c84f027f]
++CVE: CVE-2020-0551
 +---
-+ profiles/input/hog.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/profiles/input/hog.c b/profiles/input/hog.c
-+index 83c017dcb..dfac68921 100644
-+--- a/profiles/input/hog.c
-++++ b/profiles/input/hog.c
-+@@ -186,6 +186,10 @@ static int hog_accept(struct btd_service *service)
-+ 			return -EINVAL;
-+ 	}
++diff --git a/gas/config/tc-i386.c b/gas/config/tc-i386.c
++index b020f39c863..09063f784b7 100644
++--- a/gas/config/tc-i386.c
+++++ b/gas/config/tc-i386.c
++@@ -629,7 +629,29 @@ static int omit_lock_prefix = 0;
++    "lock addl $0, (%{re}sp)".  */
++ static int avoid_fence = 0;
 + 
-++	/* HOGP 1.0 Section 6.1 requires bonding */
-++	if (!device_is_bonded(device, btd_device_get_bdaddr_type(device)))
-++		return -ECONNREFUSED;
++-/* Type of the previous instruction.  */
+++/* 1 if lfence should be inserted after every load.  */
+++static int lfence_after_load = 0;
 ++
-+ 	/* TODO: Replace GAttrib with bt_gatt_client */
-+ 	bt_hog_attach(dev->hog, attrib);
-+ 
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-2.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-2.patch
-new file mode 100644
-index 0000000000..8acb2f15ec
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-2.patch
-@@ -0,0 +1,143 @@
-+From 3cccdbab2324086588df4ccf5f892fb3ce1f1787 Mon Sep 17 00:00:00 2001
-+From: Alain Michaud <alainm@chromium.org>
-+Date: Tue, 10 Mar 2020 02:35:18 +0000
-+Subject: [PATCH 2/2] HID accepts bonded device connections only.
-+
-+This change adds a configuration for platforms to choose a more secure
-+posture for the HID profile.  While some older mice are known to not
-+support pairing or encryption, some platform may choose a more secure
-+posture by requiring the device to be bonded  and require the
-+connection to be encrypted when bonding is required.
-+
-+Reference:
-+https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00352.html
-+
-+Upstream-Status: Backport [https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=3cccdbab2324086588df4ccf5f892fb3ce1f1787]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+CVE: CVE-2020-0556
-+
-+---
-+ profiles/input/device.c   | 23 ++++++++++++++++++++++-
-+ profiles/input/device.h   |  1 +
-+ profiles/input/input.conf |  8 ++++++++
-+ profiles/input/manager.c  | 13 ++++++++++++-
-+ 4 files changed, 43 insertions(+), 2 deletions(-)
-+
-+diff --git a/profiles/input/device.c b/profiles/input/device.c
-+index 2cb3811c8..d89da2d7c 100644
-+--- a/profiles/input/device.c
-++++ b/profiles/input/device.c
-+@@ -92,6 +92,7 @@ struct input_device {
-+ 
-+ static int idle_timeout = 0;
-+ static bool uhid_enabled = false;
-++static bool classic_bonded_only = false;
-+ 
-+ void input_set_idle_timeout(int timeout)
-+ {
-+@@ -103,6 +104,11 @@ void input_enable_userspace_hid(bool state)
-+ 	uhid_enabled = state;
+++/* Non-zero if lfence should be inserted before indirect branch.  */
+++static enum lfence_before_indirect_branch_kind
+++  {
+++    lfence_branch_none = 0,
+++    lfence_branch_register,
+++    lfence_branch_memory,
+++    lfence_branch_all
+++  }
+++lfence_before_indirect_branch;
+++
+++/* Non-zero if lfence should be inserted before ret.  */
+++static enum lfence_before_ret_kind
+++  {
+++    lfence_before_ret_none = 0,
+++    lfence_before_ret_not,
+++    lfence_before_ret_or
+++  }
+++lfence_before_ret;
+++
+++/* Types of previous instruction is .byte or prefix.  */
++ static struct
++   {
++     segT seg;
++@@ -4311,6 +4333,283 @@ optimize_encoding (void)
++     }
 + }
 + 
-++void input_set_classic_bonded_only(bool state)
+++/* Return non-zero for load instruction.  */
+++
+++static int
+++load_insn_p (void)
 ++{
-++	classic_bonded_only = state;
+++  unsigned int dest;
+++  int any_vex_p = is_any_vex_encoding (&i.tm);
+++  unsigned int base_opcode = i.tm.base_opcode | 1;
+++
+++  if (!any_vex_p)
+++    {
+++      /* lea  */
+++      if (i.tm.base_opcode == 0x8d)
+++	return 0;
+++
+++      /* pop  */
+++      if ((i.tm.base_opcode & ~7) == 0x58
+++	  || (i.tm.base_opcode == 0x8f && i.tm.extension_opcode == 0))
+++	return 1;
+++
+++      /* movs, cmps, lods, scas.  */
+++      if ((i.tm.base_opcode | 0xb) == 0xaf)
+++	return 1;
+++
+++      /* outs */
+++      if (base_opcode == 0x6f)
+++	return 1;
+++    }
+++
+++  /* No memory operand.  */
+++  if (!i.mem_operands)
+++    return 0;
+++
+++  if (any_vex_p)
+++    {
+++      /* vldmxcsr.  */
+++      if (i.tm.base_opcode == 0xae
+++	  && i.tm.opcode_modifier.vex
+++	  && i.tm.opcode_modifier.vexopcode == VEX0F
+++	  && i.tm.extension_opcode == 2)
+++	return 1;
+++    }
+++  else
+++    {
+++      /* test, not, neg, mul, imul, div, idiv.  */
+++      if ((i.tm.base_opcode == 0xf6 || i.tm.base_opcode == 0xf7)
+++	  && i.tm.extension_opcode != 1)
+++	return 1;
+++
+++      /* inc, dec.  */
+++      if (base_opcode == 0xff && i.tm.extension_opcode <= 1)
+++	return 1;
+++
+++      /* add, or, adc, sbb, and, sub, xor, cmp.  */
+++      if (i.tm.base_opcode >= 0x80 && i.tm.base_opcode <= 0x83)
+++	return 1;
+++
+++      /* bt, bts, btr, btc.  */
+++      if (i.tm.base_opcode == 0xfba
+++	  && (i.tm.extension_opcode >= 4 && i.tm.extension_opcode <= 7))
+++	return 1;
+++
+++      /* rol, ror, rcl, rcr, shl/sal, shr, sar. */
+++      if ((base_opcode == 0xc1
+++	   || (i.tm.base_opcode >= 0xd0 && i.tm.base_opcode <= 0xd3))
+++	  && i.tm.extension_opcode != 6)
+++	return 1;
+++
+++      /* cmpxchg8b, cmpxchg16b, xrstors.  */
+++      if (i.tm.base_opcode == 0xfc7
+++	  && (i.tm.extension_opcode == 1 || i.tm.extension_opcode == 3))
+++	return 1;
+++
+++      /* fxrstor, ldmxcsr, xrstor.  */
+++      if (i.tm.base_opcode == 0xfae
+++	  && (i.tm.extension_opcode == 1
+++	      || i.tm.extension_opcode == 2
+++	      || i.tm.extension_opcode == 5))
+++	return 1;
+++
+++      /* lgdt, lidt, lmsw.  */
+++      if (i.tm.base_opcode == 0xf01
+++	  && (i.tm.extension_opcode == 2
+++	      || i.tm.extension_opcode == 3
+++	      || i.tm.extension_opcode == 6))
+++	return 1;
+++
+++      /* vmptrld */
+++      if (i.tm.base_opcode == 0xfc7
+++	  && i.tm.extension_opcode == 6)
+++	return 1;
+++
+++      /* Check for x87 instructions.  */
+++      if (i.tm.base_opcode >= 0xd8 && i.tm.base_opcode <= 0xdf)
+++	{
+++	  /* Skip fst, fstp, fstenv, fstcw.  */
+++	  if (i.tm.base_opcode == 0xd9
+++	      && (i.tm.extension_opcode == 2
+++		  || i.tm.extension_opcode == 3
+++		  || i.tm.extension_opcode == 6
+++		  || i.tm.extension_opcode == 7))
+++	    return 0;
+++
+++	  /* Skip fisttp, fist, fistp, fstp.  */
+++	  if (i.tm.base_opcode == 0xdb
+++	      && (i.tm.extension_opcode == 1
+++		  || i.tm.extension_opcode == 2
+++		  || i.tm.extension_opcode == 3
+++		  || i.tm.extension_opcode == 7))
+++	    return 0;
+++
+++	  /* Skip fisttp, fst, fstp, fsave, fstsw.  */
+++	  if (i.tm.base_opcode == 0xdd
+++	      && (i.tm.extension_opcode == 1
+++		  || i.tm.extension_opcode == 2
+++		  || i.tm.extension_opcode == 3
+++		  || i.tm.extension_opcode == 6
+++		  || i.tm.extension_opcode == 7))
+++	    return 0;
+++
+++	  /* Skip fisttp, fist, fistp, fbstp, fistp.  */
+++	  if (i.tm.base_opcode == 0xdf
+++	      && (i.tm.extension_opcode == 1
+++		  || i.tm.extension_opcode == 2
+++		  || i.tm.extension_opcode == 3
+++		  || i.tm.extension_opcode == 6
+++		  || i.tm.extension_opcode == 7))
+++	    return 0;
+++
+++	  return 1;
+++	}
+++    }
+++
+++  dest = i.operands - 1;
+++
+++  /* Check fake imm8 operand and 3 source operands.  */
+++  if ((i.tm.opcode_modifier.immext
+++       || i.tm.opcode_modifier.vexsources == VEX3SOURCES)
+++      && i.types[dest].bitfield.imm8)
+++    dest--;
+++
+++  /* add, or, adc, sbb, and, sub, xor, cmp, test, xchg, xadd  */
+++  if (!any_vex_p
+++      && (base_opcode == 0x1
+++	  || base_opcode == 0x9
+++	  || base_opcode == 0x11
+++	  || base_opcode == 0x19
+++	  || base_opcode == 0x21
+++	  || base_opcode == 0x29
+++	  || base_opcode == 0x31
+++	  || base_opcode == 0x39
+++	  || (i.tm.base_opcode >= 0x84 && i.tm.base_opcode <= 0x87)
+++	  || base_opcode == 0xfc1))
+++    return 1;
+++
+++  /* Check for load instruction.  */
+++  return (i.types[dest].bitfield.class != ClassNone
+++	  || i.types[dest].bitfield.instance == Accum);
 ++}
 ++
-+ static void input_device_enter_reconnect_mode(struct input_device *idev);
-+ static int connection_disconnect(struct input_device *idev, uint32_t flags);
-+ 
-+@@ -970,8 +976,18 @@ static int hidp_add_connection(struct input_device *idev)
-+ 	if (device_name_known(idev->device))
-+ 		device_get_name(idev->device, req->name, sizeof(req->name));
-+ 
-++	/* Make sure the device is bonded if required */
-++	if (classic_bonded_only && !device_is_bonded(idev->device,
-++				btd_device_get_bdaddr_type(idev->device))) {
-++		error("Rejected connection from !bonded device %s", dst_addr);
-++		goto cleanup;
+++/* Output lfence, 0xfaee8, after instruction.  */
+++
+++static void
+++insert_lfence_after (void)
+++{
+++  if (lfence_after_load && load_insn_p ())
+++    {
+++      char *p = frag_more (3);
+++      *p++ = 0xf;
+++      *p++ = 0xae;
+++      *p = 0xe8;
+++    }
+++}
+++
+++/* Output lfence, 0xfaee8, before instruction.  */
+++
+++static void
+++insert_lfence_before (void)
+++{
+++  char *p;
+++
+++  if (is_any_vex_encoding (&i.tm))
+++    return;
+++
+++  if (i.tm.base_opcode == 0xff
+++      && (i.tm.extension_opcode == 2 || i.tm.extension_opcode == 4))
+++    {
+++      /* Insert lfence before indirect branch if needed.  */
+++
+++      if (lfence_before_indirect_branch == lfence_branch_none)
+++	return;
+++
+++      if (i.operands != 1)
+++	abort ();
+++
+++      if (i.reg_operands == 1)
+++	{
+++	  /* Indirect branch via register.  Don't insert lfence with
+++	     -mlfence-after-load=yes.  */
+++	  if (lfence_after_load
+++	      || lfence_before_indirect_branch == lfence_branch_memory)
+++	    return;
+++	}
+++      else if (i.mem_operands == 1
+++	       && lfence_before_indirect_branch != lfence_branch_register)
+++	{
+++	  as_warn (_("indirect `%s` with memory operand should be avoided"),
+++		   i.tm.name);
+++	  return;
+++	}
+++      else
+++	return;
+++
+++      if (last_insn.kind != last_insn_other
+++	  && last_insn.seg == now_seg)
+++	{
+++	  as_warn_where (last_insn.file, last_insn.line,
+++			 _("`%s` skips -mlfence-before-indirect-branch on `%s`"),
+++			 last_insn.name, i.tm.name);
+++	  return;
 ++	}
 ++
-+ 	/* Encryption is mandatory for keyboards */
-+-	if (req->subclass & 0x40) {
-++	/* Some platforms may choose to require encryption for all devices */
-++	/* Note that this only matters for pre 2.1 devices as otherwise the */
-++	/* device is encrypted by default by the lower layers */
-++	if (classic_bonded_only || req->subclass & 0x40) {
-+ 		if (!bt_io_set(idev->intr_io, &gerr,
-+ 					BT_IO_OPT_SEC_LEVEL, BT_IO_SEC_MEDIUM,
-+ 					BT_IO_OPT_INVALID)) {
-+@@ -1203,6 +1219,11 @@ static void input_device_enter_reconnect_mode(struct input_device *idev)
-+ 	DBG("path=%s reconnect_mode=%s", idev->path,
-+ 				reconnect_mode_to_string(idev->reconnect_mode));
-+ 
-++	/* Make sure the device is bonded if required */
-++	if (classic_bonded_only && !device_is_bonded(idev->device,
-++				btd_device_get_bdaddr_type(idev->device)))
-++		return;
+++      p = frag_more (3);
+++      *p++ = 0xf;
+++      *p++ = 0xae;
+++      *p = 0xe8;
+++      return;
+++    }
 ++
-+ 	/* Only attempt an auto-reconnect when the device is required to
-+ 	 * accept reconnections from the host.
-+ 	 */
-+diff --git a/profiles/input/device.h b/profiles/input/device.h
-+index 51a9aee18..3044db673 100644
-+--- a/profiles/input/device.h
-++++ b/profiles/input/device.h
-+@@ -29,6 +29,7 @@ struct input_conn;
-+ 
-+ void input_set_idle_timeout(int timeout);
-+ void input_enable_userspace_hid(bool state);
-++void input_set_classic_bonded_only(bool state);
-+ 
-+ int input_device_register(struct btd_service *service);
-+ void input_device_unregister(struct btd_service *service);
-+diff --git a/profiles/input/input.conf b/profiles/input/input.conf
-+index 3e1d65aae..166aff4a4 100644
-+--- a/profiles/input/input.conf
-++++ b/profiles/input/input.conf
-+@@ -11,3 +11,11 @@
-+ # Enable HID protocol handling in userspace input profile
-+ # Defaults to false (HIDP handled in HIDP kernel module)
-+ #UserspaceHID=true
+++  /* Output or/not and lfence before ret.  */
+++  if (lfence_before_ret != lfence_before_ret_none
+++      && (i.tm.base_opcode == 0xc2
+++	  || i.tm.base_opcode == 0xc3
+++	  || i.tm.base_opcode == 0xca
+++	  || i.tm.base_opcode == 0xcb))
+++    {
+++      if (last_insn.kind != last_insn_other
+++	  && last_insn.seg == now_seg)
+++	{
+++	  as_warn_where (last_insn.file, last_insn.line,
+++			 _("`%s` skips -mlfence-before-ret on `%s`"),
+++			 last_insn.name, i.tm.name);
+++	  return;
+++	}
+++      if (lfence_before_ret == lfence_before_ret_or)
+++	{
+++	  /* orl: 0x830c2400.  */
+++	  p = frag_more ((flag_code == CODE_64BIT ? 1 : 0) + 4 + 3);
+++	  if (flag_code == CODE_64BIT)
+++	    *p++ = 0x48;
+++	  *p++ = 0x83;
+++	  *p++ = 0xc;
+++	  *p++ = 0x24;
+++	  *p++ = 0x0;
+++	}
+++      else
+++	{
+++	  p = frag_more ((flag_code == CODE_64BIT ? 2 : 0) + 6 + 3);
+++	  /* notl: 0xf71424.  */
+++	  if (flag_code == CODE_64BIT)
+++	    *p++ = 0x48;
+++	  *p++ = 0xf7;
+++	  *p++ = 0x14;
+++	  *p++ = 0x24;
+++	  /* notl: 0xf71424.  */
+++	  if (flag_code == CODE_64BIT)
+++	    *p++ = 0x48;
+++	  *p++ = 0xf7;
+++	  *p++ = 0x14;
+++	  *p++ = 0x24;
+++	}
+++      *p++ = 0xf;
+++      *p++ = 0xae;
+++      *p = 0xe8;
+++    }
+++}
 ++
-++# Limit HID connections to bonded devices
-++# The HID Profile does not specify that devices must be bonded, however some
-++# platforms may want to make sure that input connections only come from bonded
-++# device connections. Several older mice have been known for not supporting
-++# pairing/encryption.
-++# Defaults to false to maximize device compatibility.
-++#ClassicBondedOnly=true
-+diff --git a/profiles/input/manager.c b/profiles/input/manager.c
-+index 1d31b0652..5cd27b839 100644
-+--- a/profiles/input/manager.c
-++++ b/profiles/input/manager.c
-+@@ -96,7 +96,7 @@ static int input_init(void)
-+ 	config = load_config_file(CONFIGDIR "/input.conf");
-+ 	if (config) {
-+ 		int idle_timeout;
-+-		gboolean uhid_enabled;
-++		gboolean uhid_enabled, classic_bonded_only;
++ /* This is the guts of the machine-dependent assembler.  LINE points to a
++    machine dependent instruction.  This function is supposed to emit
++    the frags/bytes it assembles to.  */
++@@ -4628,9 +4927,13 @@ md_assemble (char *line)
++   if (i.rex != 0)
++     add_prefix (REX_OPCODE | i.rex);
 + 
-+ 		idle_timeout = g_key_file_get_integer(config, "General",
-+ 							"IdleTimeout", &err);
-+@@ -114,6 +114,17 @@ static int input_init(void)
-+ 			input_enable_userspace_hid(uhid_enabled);
-+ 		} else
-+ 			g_clear_error(&err);
+++  insert_lfence_before ();
 ++
-++		classic_bonded_only = g_key_file_get_boolean(config, "General",
-++						"ClassicBondedOnly", &err);
-++
-++		if (!err) {
-++			DBG("input.conf: ClassicBondedOnly=%s",
-++					classic_bonded_only ? "true" : "false");
-++			input_set_classic_bonded_only(classic_bonded_only);
-++		} else
-++			g_clear_error(&err);
-++
-+ 	}
++   /* We are ready to output the insn.  */
++   output_insn ();
 + 
-+ 	btd_profile_register(&input_profile);
+++  insert_lfence_after ();
+++
++   last_insn.seg = now_seg;
++ 
++   if (i.tm.opcode_modifier.isprefix)
++@@ -12250,6 +12553,9 @@ const char *md_shortopts = "qnO::";
++ #define OPTION_MALIGN_BRANCH_PREFIX_SIZE (OPTION_MD_BASE + 28)
++ #define OPTION_MALIGN_BRANCH (OPTION_MD_BASE + 29)
++ #define OPTION_MBRANCHES_WITH_32B_BOUNDARIES (OPTION_MD_BASE + 30)
+++#define OPTION_MLFENCE_AFTER_LOAD (OPTION_MD_BASE + 31)
+++#define OPTION_MLFENCE_BEFORE_INDIRECT_BRANCH (OPTION_MD_BASE + 32)
+++#define OPTION_MLFENCE_BEFORE_RET (OPTION_MD_BASE + 33)
++ 
++ struct option md_longopts[] =
++ {
++@@ -12289,6 +12595,10 @@ struct option md_longopts[] =
++   {"malign-branch-prefix-size", required_argument, NULL, OPTION_MALIGN_BRANCH_PREFIX_SIZE},
++   {"malign-branch", required_argument, NULL, OPTION_MALIGN_BRANCH},
++   {"mbranches-within-32B-boundaries", no_argument, NULL, OPTION_MBRANCHES_WITH_32B_BOUNDARIES},
+++  {"mlfence-after-load", required_argument, NULL, OPTION_MLFENCE_AFTER_LOAD},
+++  {"mlfence-before-indirect-branch", required_argument, NULL,
+++   OPTION_MLFENCE_BEFORE_INDIRECT_BRANCH},
+++  {"mlfence-before-ret", required_argument, NULL, OPTION_MLFENCE_BEFORE_RET},
++   {"mamd64", no_argument, NULL, OPTION_MAMD64},
++   {"mintel64", no_argument, NULL, OPTION_MINTEL64},
++   {NULL, no_argument, NULL, 0}
++@@ -12668,6 +12978,41 @@ md_parse_option (int c, const char *arg)
++         as_fatal (_("invalid -mfence-as-lock-add= option: `%s'"), arg);
++       break;
++ 
+++    case OPTION_MLFENCE_AFTER_LOAD:
+++      if (strcasecmp (arg, "yes") == 0)
+++	lfence_after_load = 1;
+++      else if (strcasecmp (arg, "no") == 0)
+++	lfence_after_load = 0;
+++      else
+++        as_fatal (_("invalid -mlfence-after-load= option: `%s'"), arg);
+++      break;
+++
+++    case OPTION_MLFENCE_BEFORE_INDIRECT_BRANCH:
+++      if (strcasecmp (arg, "all") == 0)
+++	lfence_before_indirect_branch = lfence_branch_all;
+++      else if (strcasecmp (arg, "memory") == 0)
+++	lfence_before_indirect_branch = lfence_branch_memory;
+++      else if (strcasecmp (arg, "register") == 0)
+++	lfence_before_indirect_branch = lfence_branch_register;
+++      else if (strcasecmp (arg, "none") == 0)
+++	lfence_before_indirect_branch = lfence_branch_none;
+++      else
+++        as_fatal (_("invalid -mlfence-before-indirect-branch= option: `%s'"),
+++		  arg);
+++      break;
+++
+++    case OPTION_MLFENCE_BEFORE_RET:
+++      if (strcasecmp (arg, "or") == 0)
+++	lfence_before_ret = lfence_before_ret_or;
+++      else if (strcasecmp (arg, "not") == 0)
+++	lfence_before_ret = lfence_before_ret_not;
+++      else if (strcasecmp (arg, "none") == 0)
+++	lfence_before_ret = lfence_before_ret_none;
+++      else
+++        as_fatal (_("invalid -mlfence-before-ret= option: `%s'"),
+++		  arg);
+++      break;
+++
++     case OPTION_MRELAX_RELOCATIONS:
++       if (strcasecmp (arg, "yes") == 0)
++         generate_relax_relocations = 1;
++@@ -13025,6 +13370,15 @@ md_show_usage (FILE *stream)
++   -mbranches-within-32B-boundaries\n\
++                           align branches within 32 byte boundary\n"));
++   fprintf (stream, _("\
+++  -mlfence-after-load=[no|yes] (default: no)\n\
+++                          generate lfence after load\n"));
+++  fprintf (stream, _("\
+++  -mlfence-before-indirect-branch=[none|all|register|memory] (default: none)\n\
+++                          generate lfence before indirect near branch\n"));
+++  fprintf (stream, _("\
+++  -mlfence-before-ret=[none|or|not] (default: none)\n\
+++                          generate lfence before ret\n"));
+++  fprintf (stream, _("\
++   -mamd64                 accept only AMD64 ISA [default]\n"));
++   fprintf (stream, _("\
++   -mintel64               accept only Intel64 ISA\n"));
++@@ -13254,6 +13608,16 @@ i386_cons_align (int ignore ATTRIBUTE_UNUSED)
++       last_insn.kind = last_insn_directive;
++       last_insn.name = "constant directive";
++       last_insn.file = as_where (&last_insn.line);
+++      if (lfence_before_ret != lfence_before_ret_none)
+++	{
+++	  if (lfence_before_indirect_branch != lfence_branch_none)
+++	    as_warn (_("constant directive skips -mlfence-before-ret "
+++		       "and -mlfence-before-indirect-branch"));
+++	  else
+++	    as_warn (_("constant directive skips -mlfence-before-ret"));
+++	}
+++      else if (lfence_before_indirect_branch != lfence_branch_none)
+++	as_warn (_("constant directive skips -mlfence-before-indirect-branch"));
++     }
++ }
++ 
++diff --git a/gas/doc/c-i386.texi b/gas/doc/c-i386.texi
++index c536759cb38..1dd99f91bb0 100644
++--- a/gas/doc/c-i386.texi
+++++ b/gas/doc/c-i386.texi
++@@ -464,6 +464,49 @@ on an instruction.  It is equivalent to
++ @option{-malign-branch-prefix-size=5}.
++ The default doesn't align branches.
++ 
+++@cindex @samp{-mlfence-after-load=} option, i386
+++@cindex @samp{-mlfence-after-load=} option, x86-64
+++@item -mlfence-after-load=@var{no}
+++@itemx -mlfence-after-load=@var{yes}
+++These options control whether the assembler should generate lfence
+++after load instructions.  @option{-mlfence-after-load=@var{yes}} will
+++generate lfence.  @option{-mlfence-after-load=@var{no}} will not generate
+++lfence, which is the default.
+++
+++@cindex @samp{-mlfence-before-indirect-branch=} option, i386
+++@cindex @samp{-mlfence-before-indirect-branch=} option, x86-64
+++@item -mlfence-before-indirect-branch=@var{none}
+++@item -mlfence-before-indirect-branch=@var{all}
+++@item -mlfence-before-indirect-branch=@var{register}
+++@itemx -mlfence-before-indirect-branch=@var{memory}
+++These options control whether the assembler should generate lfence
+++after indirect near branch instructions.
+++@option{-mlfence-before-indirect-branch=@var{all}} will generate lfence
+++after indirect near branch via register and issue a warning before
+++indirect near branch via memory.
+++@option{-mlfence-before-indirect-branch=@var{register}} will generate
+++lfence after indirect near branch via register.
+++@option{-mlfence-before-indirect-branch=@var{memory}} will issue a
+++warning before indirect near branch via memory.
+++@option{-mlfence-before-indirect-branch=@var{none}} will not generate
+++lfence nor issue warning, which is the default.  Note that lfence won't
+++be generated before indirect near branch via register with
+++@option{-mlfence-after-load=@var{yes}} since lfence will be generated
+++after loading branch target register.
+++
+++@cindex @samp{-mlfence-before-ret=} option, i386
+++@cindex @samp{-mlfence-before-ret=} option, x86-64
+++@item -mlfence-before-ret=@var{none}
+++@item -mlfence-before-ret=@var{or}
+++@itemx -mlfence-before-ret=@var{not}
+++These options control whether the assembler should generate lfence
+++before ret.  @option{-mlfence-before-ret=@var{or}} will generate
+++generate or instruction with lfence.
+++@option{-mlfence-before-ret=@var{not}} will generate not instruction
+++with lfence.
+++@option{-mlfence-before-ret=@var{none}} will not generate lfence,
+++which is the default.
+++
++ @cindex @samp{-mx86-used-note=} option, i386
++ @cindex @samp{-mx86-used-note=} option, x86-64
++ @item -mx86-used-note=@var{no}
 +-- 
-+2.24.1
-+
++2.18.2
 -- 
 2.24.1
 
