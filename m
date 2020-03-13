@@ -1,26 +1,52 @@
-Return-Path: <tgamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F2DDC6073C
+Return-Path: <wallinux@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B84E9608A7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 11:27:50 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02DBRVhv020774
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Fri, 13 Mar 2020 12:15:12 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id 19so10235890ljj.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 04:27:41 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.487.0;
-	Fri, 13 Mar 2020 04:27:20 -0700
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 20958)	id 9C12C900B17;
-	Fri, 13 Mar 2020 04:27:20 -0700 (PDT)
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 13 Mar 2020 04:27:20 -0700
-Message-ID: <20200313112720.151263-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Fri, 13 Mar 2020 05:15:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/sQuryrp35PWLUHs9ksLU1HyQsUnkobKL46rd1uY5gs=;
+	b=sd9SIqwc5vjH3ncXZgEWXlZaY3BkRfXob81MuiTHEYy+KKhmOsCEdaEiaak3WiEkkj
+	3PI3DwjvIrsDn6Eytbaphl2EP8CFzh8fsTa74KN6kAJ/TDowO3rrMspAH0y1jHC0wsyd
+	kQKw4t/v0dkGPoypmpp+cJywfInvVkVDTs2hK7Yap32l2RmoystDcXZBs365VnE63O0M
+	CXcLgi0nxZSZ5iRWlHg8IUO54GlHhH3zKDDBpTH+b+M93Yp1lIZgy86szhndrngzUmNw
+	btjTVQpuDz+wq3sXYZXHYK7UirR8WIv/3IDvy32GiGMMgG+5sIpwivyE1qCwz5xkfzJK
+	H+kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/sQuryrp35PWLUHs9ksLU1HyQsUnkobKL46rd1uY5gs=;
+	b=ghVBGNoXI8JsrhVyaje3pL7mdaGLkRXiLVxOEPdNl2ODbp30dG/KGPOE84sYBuuy/h
+	rLC2UoD3GaRwp+LvjDbj1S8MI5fldzuVgViXwDyW7T/oSku2WTnC5Vnp7Hyc2IAYrEBf
+	EBV+wvt/lZNce4sxiz4yFCdLhAc628dvkLVSKAO6hBwYSZOMle8ritrXdZ58+nQhtspV
+	+LJT8d/GbWMYYsI1CdYyaCTRWbX4XltmcoXNrReKX7OMntIPVNp7kCtSgi8FSo3HC5m2
+	i+3csce/1Hw80PPeM5ovgIzXtuAUGBO/8Um6x6jJ4TIXJ8O8+/IRqRrQqg/IfcaeB1fd
+	tI9g==
+X-Gm-Message-State: ANhLgQ0nzfmACWnDBtkhPYXULu3dG5B2vSR11EcJTgYPIYSCDq4od9WP
+	mu4fCcvar7fZkb9uISijJ6PDlnjIsqI=
+X-Google-Smtp-Source: ADFU+vubPtisfQR6ap6v6jUM7718e72m/1EIWXX0mbmlSHDwi9LQIisqU2TwSpEKDE0XaPcdnmNaHg==
+X-Received: by 2002:a05:651c:545:: with SMTP id
+	q5mr8141219ljp.139.1584101712625; 
+	Fri, 13 Mar 2020 05:15:12 -0700 (PDT)
+Received: from arn-awallin-linux-l5.corp.ad.wrs.com
+	(host-95-199-150-227.mobileonline.telia.com. [95.199.150.227])
+	by smtp.gmail.com with ESMTPSA id
+	q14sm5263431lji.100.2020.03.13.05.15.11
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 13 Mar 2020 05:15:12 -0700 (PDT)
+From: Anders Wallin <wallinux@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Mar 2020 13:14:58 +0100
+Message-Id: <20200313121458.32066-1-wallinux@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Subject: [PATCH] python: upgrade 3.8.1 -> 3.8.2
+Subject: [PATCH] babeltrace2: updated to 2.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2020 11:27:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 13 Mar 2020 12:15:13 -0000
+Content-Transfer-Encoding: 8bit
 
-THE LICENSE checksum changed in this update due to copyright notice
-added for 2020.
-
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Signed-off-by: Anders Wallin <wallinux@gmail.com>
 ---
- .../python/{python3_3.8.1.bb => python3_3.8.2.bb}           | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.8.1.bb => python3_3.8.2.bb} (98%)
+ .../lttng/{babeltrace2_2.0.1.bb => babeltrace2_2.0.2.bb}        | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/lttng/{babeltrace2_2.0.1.bb => babeltrace2_2.0.2.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3_3.8.1.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb b/meta/recipes-kernel/lttng/babeltrace2_2.0.2.bb
 similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.8.1.bb
-rename to meta/recipes-devtools/python/python3_3.8.2.bb
-index 5e3c29cb4c..fc01935948 100644
---- a/meta/recipes-devtools/python/python3_3.8.1.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.2.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.python.org"
- LICENSE = "PSFv2"
- SECTION = "devel/python"
+rename from meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
+rename to meta/recipes-kernel/lttng/babeltrace2_2.0.2.bb
+index e71ac1ad57..0791c654f9 100644
+--- a/meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb
++++ b/meta/recipes-kernel/lttng/babeltrace2_2.0.2.bb
+@@ -13,7 +13,7 @@ SRC_URI = "git://git.linuxfoundation.org/diamon/babeltrace.git;branch=stable-2.0
+            file://0001-Make-manpages-multilib-identical.patch \
+            file://0001-fs.c-initialize-other_entry.patch \
+ 	  "
+-SRCREV = "06df58f89ee51b1a2c6a2c187ec3f15691633910"
++SRCREV = "33003c352ed56aa49e0b3df272bbab6fac36cae8"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
  
--LIC_FILES_CHKSUM = "file://LICENSE;md5=e466242989bd33c1bd2b6a526a742498"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=203a6dbc802ee896020a47161e759642"
- 
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://run-ptest \
-@@ -40,8 +40,8 @@ SRC_URI_append_class-native = " \
-            file://0001-Don-t-search-system-for-headers-libraries.patch \
-            "
- 
--SRC_URI[md5sum] = "b3fb85fd479c0bf950c626ef80cacb57"
--SRC_URI[sha256sum] = "75894117f6db7051c1b34f37410168844bbb357c139a8a10a352e9bf8be594e8"
-+SRC_URI[md5sum] = "e9d6ebc92183a177b8e8a58cad5b8d67"
-+SRC_URI[sha256sum] = "2646e7dc233362f59714c6193017bb2d6f7b38d6ab4a0cb5fbac5c36c4d845df"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ S = "${WORKDIR}/git"
 -- 
-2.17.1
+2.25.1
 
 
