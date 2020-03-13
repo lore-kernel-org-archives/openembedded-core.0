@@ -1,51 +1,53 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E51660B56
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 24F2760CB9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 07:09:38 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id n15so10656174wrw.13
+	Fri, 13 Mar 2020 07:22:04 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id f7so9116116wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 00:09:39 -0700 (PDT)
+	Fri, 13 Mar 2020 00:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=jiIcvKA12cmPrjqVUkW5bM9K2YJ2cFd3so5BrQq/XxA=;
-	b=FBD6dOJO2WqOlbYrW6f3vcO6tTRiI3RWaZePm90n8d5LwsWb/P5vZzsxwA4gi2FM6X
-	lUpie4FhFxIymZmTWCbD6g9C9iPLcWQOxrdPOLlViE5n06n3rn/11omyPbFtpxKHxnqI
-	Nm+ytgL2//Y9DdrdSPhUo0yR+m27vavnj14pA=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=81U1Bhf05AC0u6fRK9S0JCeSxLhmljTh9NoOBtNbhuc=;
+	b=Mt8TJZhaYvbOcLvBeNydbWFJf74EYWkcVFXf8GqeIRKcBOZ3dBtPQGn9rqZlFRYcEt
+	y9ljBX9HxIvQA9SK5/RQ5w5ZASHVI1nZlQ2pB3zsDFgtpvchpu4E4ZNqzBVUp5chxQWW
+	9pZyu24wju4j6+Az80tvIzIXI5N092acOKB80=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=jiIcvKA12cmPrjqVUkW5bM9K2YJ2cFd3so5BrQq/XxA=;
-	b=FZOq0YV82GbrrvFbRufNCnbNRPKmI8OsZwdIZE58JecqmODWo2Op4PdTiYA7zq4Bc3
-	fwT76sdypkYP6ibNZ06GJOw1b2GeWNaZTc/X6BTLRyXIg8HOZVtedVtucFBNe6lZAfhR
-	jhC3OxY43nIgu5Y6OGcu6Ij0KIFE8sW0Lm2p6nLpNQQN/FWoIISIKXeMJAdIPlnW6RPt
-	gkxX954JQ3PgbadMcHvuZJTzrcGr1pRSRrs0fpZelAe+IONa91WlKO8TiLiIOQ2A7YC+
-	VICfXtzglH/D+1eGzwh6Pm696AgpEUEX1QoGzxkb2DtNJV/oXJTdkeZNZFtG7Vvp5IHM
-	uKuw==
-X-Gm-Message-State: ANhLgQ0hmfkWt3/Shkp23UTBQc8QfVy2c3IBgNKiRm2gSAUe4t47jYIn
-	kPgLLxfoqOsmcTmuAvBBUL5/IQ==
-X-Google-Smtp-Source: ADFU+vt3Ric3vVW8+0vh9uFmu2BWbUDTwsZ378c7W1xbcbx4+JRf4LB2AESTip9Ei3rBNUqIXwtKOA==
-X-Received: by 2002:a5d:66c4:: with SMTP id k4mr15206975wrw.133.1584083378962; 
-	Fri, 13 Mar 2020 00:09:38 -0700 (PDT)
+	bh=81U1Bhf05AC0u6fRK9S0JCeSxLhmljTh9NoOBtNbhuc=;
+	b=SD65Z866JRH3MXnboCEm09rLRsQDV/lCWOnYrIbTMm5TUJqbmbiq31s2uMgxNOtoyd
+	xzTYHOAr4IXUTqZmGVeTa7NfnSu9zUsE5+u7fudgxJH2jlWsyjv+bnBP4oamtPdAlpGQ
+	FEHth809fjfWyme9mBeHS45GnxDW0rY9sSQF0d1OLFH8HuydrQVPtfQXFLxUvEngw1PX
+	xcLlY/8zSYYkS2ebhUKsEXbfpRTubNs1rFADY7OfdjvrQxB8KBKmFNVvvnf9qZEaWx06
+	CDq6b2gxTZ+QUuLnw2RLhyjQAmTS66x2o8x7a/Me4lndbGpnGRl6pZoxXkeTbSRpqN+7
+	Y6tA==
+X-Gm-Message-State: ANhLgQ3A8j+Bp0JhYANcHUm9k+WQidxQzIpZyYQUG4CusqSOXVPQ/izE
+	5gk1MGvxwQFeRIrXrShq5Z6ghcz+EoQ=
+X-Google-Smtp-Source: ADFU+vtE4zwKWJ9yoTIWyh3e/jDB+v+RLT4ZRhsj4IQxoSTMOWvawhJLIghs4FxNqH3Q4/LPF1QVTg==
+X-Received: by 2002:a1c:b7d7:: with SMTP id h206mr4657312wmf.143.1584084124795;
+	Fri, 13 Mar 2020 00:22:04 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	y189sm16462771wmb.26.2020.03.13.00.09.37
+	x8sm68095498wro.55.2020.03.13.00.22.03
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 13 Mar 2020 00:09:38 -0700 (PDT)
-Message-ID: <44535d2e53175baa8b7b7969fa9276e924a43fca.camel@linuxfoundation.org>
+	Fri, 13 Mar 2020 00:22:04 -0700 (PDT)
+Message-ID: <da907d6a7f3e2a7391896c767a19bd36e2e87f1a.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 13 Mar 2020 07:09:36 +0000
-In-Reply-To: <1584097866-54513-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1584097866-54513-1-git-send-email-wangmy@cn.fujitsu.com>
+To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>, 
+	"Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Date: Fri, 13 Mar 2020 07:22:03 +0000
+In-Reply-To: <20200312142524.GB30953@joraj-alpa>
+References: <20200311222249.29880-1-jpuhlman@mvista.com>
+	<20200312142524.GB30953@joraj-alpa>
 User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH] base-passwd: LICENSE changed to GPLv2
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] babletrace2: make manpages multilib identical
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,37 +60,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2020 07:09:38 -0000
+X-List-Received-Date: Fri, 13 Mar 2020 07:22:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-03-13 at 04:11 -0700, Wang Mingyu wrote:
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
->  meta/recipes-core/base-passwd/base-passwd_3.5.29.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> index d1aab09181..d01cd7e297 100644
-> --- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> +++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
-> @@ -1,7 +1,7 @@
->  SUMMARY = "Base system master password/group files"
->  DESCRIPTION = "The master copies of the user database files
-> (/etc/passwd and /etc/group).  The update-passwd tool is also
-> provided to keep the system databases synchronized with these master
-> files."
->  SECTION = "base"
-> -LICENSE = "GPLv2+"
-> +LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM =
-> "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
+On Thu, 2020-03-12 at 10:25 -0400, Jonathan Rajotte-Julien wrote:
+> Is this something upstream (lttng-dev mailing list) should be
+> interested in?
 
-Why? The license file didn't change. This needs an explanation.
+Its a tough one as the man page is technically correct but the
+references give us a challenge in packaging it. I can therefore
+understand upstreams not accepting changes like this but if they were
+open to some kind of tweak it does help us not have to have patches...
 
 Cheers,
 
 Richard
+
+> Cheers
+> 
+> On Wed, Mar 11, 2020 at 03:22:48PM -0700, Jeremy A. Puhlman wrote:
+> > From: Jeremy Puhlman <jpuhlman@mvista.com>
+> > 
+> > Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+> > ---
+> >  .../0001-Make-manpages-multilib-identical.patch    | 28
+> > ++++++++++++++++++++++
+> >  meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb     |  1 +
+> >  2 files changed, 29 insertions(+)
+> >  create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-
+> > Make-manpages-multilib-identical.patch
+> > 
+> > diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-
+> > manpages-multilib-identical.patch b/meta/recipes-
+> > kernel/lttng/babeltrace2/0001-Make-manpages-multilib-
+> > identical.patch
+> > new file mode 100644
+> > index 0000000000..2401b176e6
+> > --- /dev/null
+> > +++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-
+> > multilib-identical.patch
+> > @@ -0,0 +1,28 @@
+> > +From 56986190e4b0c10945ce6aaa7ca10d6bd8a26a39 Mon Sep 17 00:00:00
+> > 2001
+> > +From: Jeremy Puhlman <jpuhlman@mvista.com>
+> > +Date: Mon, 9 Mar 2020 21:10:35 +0000
+> > +Subject: [PATCH] Make manpages multilib identical
+> > +
+> > +Upstream-Status: Pending
+> > +Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+> > +---
+> > + doc/man/asciidoc-attrs.conf.in | 4 ++--
+> > + 1 file changed, 2 insertions(+), 2 deletions(-)
+> > +
+> > +diff --git a/doc/man/asciidoc-attrs.conf.in b/doc/man/asciidoc-
+> > attrs.conf.in
+> > +index ad1183f1..e11c7031 100644
+> > +--- a/doc/man/asciidoc-attrs.conf.in
+> > ++++ b/doc/man/asciidoc-attrs.conf.in
+> > +@@ -1,7 +1,7 @@
+> > + [attributes]
+> > + # default values
+> > +-system_plugin_path="@LIBDIR@/babeltrace2/plugins"
+> > +-system_plugin_provider_path="@LIBDIR@/babeltrace2/plugin-
+> > providers"
+> > ++system_plugin_path="@prefix@/lib*/babeltrace2/plugins"
+> > ++system_plugin_provider_path="@prefix@/lib*/babeltrace2/plugin-
+> > providers"
+> > + babeltrace_version="@PACKAGE_VERSION@"
+> > + enable_debug_info="@ENABLE_DEBUG_INFO_VAL@"
+> > + defrdport=5344
+> > +-- 
+> > 
 
 
