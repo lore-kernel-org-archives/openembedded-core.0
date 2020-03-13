@@ -1,53 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 24F2760CB9
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id B086C61B90
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 07:22:04 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id f7so9116116wml.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 00:22:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=81U1Bhf05AC0u6fRK9S0JCeSxLhmljTh9NoOBtNbhuc=;
-	b=Mt8TJZhaYvbOcLvBeNydbWFJf74EYWkcVFXf8GqeIRKcBOZ3dBtPQGn9rqZlFRYcEt
-	y9ljBX9HxIvQA9SK5/RQ5w5ZASHVI1nZlQ2pB3zsDFgtpvchpu4E4ZNqzBVUp5chxQWW
-	9pZyu24wju4j6+Az80tvIzIXI5N092acOKB80=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=81U1Bhf05AC0u6fRK9S0JCeSxLhmljTh9NoOBtNbhuc=;
-	b=SD65Z866JRH3MXnboCEm09rLRsQDV/lCWOnYrIbTMm5TUJqbmbiq31s2uMgxNOtoyd
-	xzTYHOAr4IXUTqZmGVeTa7NfnSu9zUsE5+u7fudgxJH2jlWsyjv+bnBP4oamtPdAlpGQ
-	FEHth809fjfWyme9mBeHS45GnxDW0rY9sSQF0d1OLFH8HuydrQVPtfQXFLxUvEngw1PX
-	xcLlY/8zSYYkS2ebhUKsEXbfpRTubNs1rFADY7OfdjvrQxB8KBKmFNVvvnf9qZEaWx06
-	CDq6b2gxTZ+QUuLnw2RLhyjQAmTS66x2o8x7a/Me4lndbGpnGRl6pZoxXkeTbSRpqN+7
-	Y6tA==
-X-Gm-Message-State: ANhLgQ3A8j+Bp0JhYANcHUm9k+WQidxQzIpZyYQUG4CusqSOXVPQ/izE
-	5gk1MGvxwQFeRIrXrShq5Z6ghcz+EoQ=
-X-Google-Smtp-Source: ADFU+vtE4zwKWJ9yoTIWyh3e/jDB+v+RLT4ZRhsj4IQxoSTMOWvawhJLIghs4FxNqH3Q4/LPF1QVTg==
-X-Received: by 2002:a1c:b7d7:: with SMTP id h206mr4657312wmf.143.1584084124795;
-	Fri, 13 Mar 2020 00:22:04 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	x8sm68095498wro.55.2020.03.13.00.22.03
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 13 Mar 2020 00:22:04 -0700 (PDT)
-Message-ID: <da907d6a7f3e2a7391896c767a19bd36e2e87f1a.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>, 
-	"Jeremy A. Puhlman" <jpuhlman@mvista.com>
-Date: Fri, 13 Mar 2020 07:22:03 +0000
-In-Reply-To: <20200312142524.GB30953@joraj-alpa>
-References: <20200311222249.29880-1-jpuhlman@mvista.com>
-	<20200312142524.GB30953@joraj-alpa>
-User-Agent: Evolution 3.35.91-1 
+	Fri, 13 Mar 2020 08:15:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48dz5f2KcHz4C;
+	Fri, 13 Mar 2020 09:15:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1584087318;
+	bh=0NmJOd+WeI4smPfynHr+y4svhk7CmPJv0jc+SSkdBU0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Qe1s6IVTSLrT2msIYPTQuYVARoaOaY0LpTFcneql2Urqlq2a7MRDxyc6H1pe1UtFP
+	s37UvODfhuq7GDvpEh++RD7zc5wdZtZ+r5UY4wjUOkZJqYEOrU/IhASAj2tlpRxuLp
+	d4jXesLnffMsB6JpWO+01oeWWq1+MXa3e3RE/FB1cjI8yAZFt42yfjqKeU6/e5+Jt4
+	lUmHXgZqr6QmhKMYSEebG/y0dDwjPcZTPi8B7bugdbfz3dlZj6kAYlaTBnq7q+f9fn
+	TR58vkpoHfR2KGxP8c1UUIZu9ZKkZXIEoE2i69apCizzJ0CYkXaHqx1SIr6cW60T3q
+	sWW/WUBqPHNMdKAI4r6TkY3nTikyzGk37/Ve2lHGdB6VsToEN1Dk1aSmv0yjlnSjCI
+	pX2eQSOPiOzYbqguKdcTBbLvMViqHaYIM0VvRrt4lqN5SqHQ27KGF8grXahXXcY72k
+	0e7oyAp1m2yWHvMu5M1uJvjohBUAWXVApsJ8dIloWqk03MeCNbSliQtrclUClWwC3l
+	BVH69CQW+XWtyAMiUtGdMR+E2pd8jzzj6poNk23l2xqVlWkXvJuJ+RWR1f5R3L9CWS
+	qONSu/sdMYsLBLnm0goFjggGf5xDGxwX35r5CFIsuQmBLAOhzVArhYzHytIpO7mV4I
+	zpFr5IIZ50nqgugkRSHnfKp4=
+Date: Fri, 13 Mar 2020 10:15:16 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20200313081516.GA24555@localhost>
+References: <20200312230840.751166-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <20200312230840.751166-1-raj.khem@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] babletrace2: make manpages multilib identical
+Subject: Re: [PATCH] gcc: Upgrade to 9.3 bugfix release
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,77 +43,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2020 07:22:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 13 Mar 2020 08:15:21 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Thu, 2020-03-12 at 10:25 -0400, Jonathan Rajotte-Julien wrote:
-> Is this something upstream (lttng-dev mailing list) should be
-> interested in?
+On Thu, Mar 12, 2020 at 04:08:40PM -0700, Khem Raj wrote:
+>...
+>  ...le-sysroot-support-for-nativesdk-gcc.patch | 187 +------
+>...
 
-Its a tough one as the man page is technically correct but the
-references give us a challenge in packaging it. I can therefore
-understand upstreams not accepting changes like this but if they were
-open to some kind of tweak it does help us not have to have patches...
+Why was part of this patch removed?
 
-Cheers,
-
-Richard
-
-> Cheers
-> 
-> On Wed, Mar 11, 2020 at 03:22:48PM -0700, Jeremy A. Puhlman wrote:
-> > From: Jeremy Puhlman <jpuhlman@mvista.com>
-> > 
-> > Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
-> > ---
-> >  .../0001-Make-manpages-multilib-identical.patch    | 28
-> > ++++++++++++++++++++++
-> >  meta/recipes-kernel/lttng/babeltrace2_2.0.1.bb     |  1 +
-> >  2 files changed, 29 insertions(+)
-> >  create mode 100644 meta/recipes-kernel/lttng/babeltrace2/0001-
-> > Make-manpages-multilib-identical.patch
-> > 
-> > diff --git a/meta/recipes-kernel/lttng/babeltrace2/0001-Make-
-> > manpages-multilib-identical.patch b/meta/recipes-
-> > kernel/lttng/babeltrace2/0001-Make-manpages-multilib-
-> > identical.patch
-> > new file mode 100644
-> > index 0000000000..2401b176e6
-> > --- /dev/null
-> > +++ b/meta/recipes-kernel/lttng/babeltrace2/0001-Make-manpages-
-> > multilib-identical.patch
-> > @@ -0,0 +1,28 @@
-> > +From 56986190e4b0c10945ce6aaa7ca10d6bd8a26a39 Mon Sep 17 00:00:00
-> > 2001
-> > +From: Jeremy Puhlman <jpuhlman@mvista.com>
-> > +Date: Mon, 9 Mar 2020 21:10:35 +0000
-> > +Subject: [PATCH] Make manpages multilib identical
-> > +
-> > +Upstream-Status: Pending
-> > +Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-> > +---
-> > + doc/man/asciidoc-attrs.conf.in | 4 ++--
-> > + 1 file changed, 2 insertions(+), 2 deletions(-)
-> > +
-> > +diff --git a/doc/man/asciidoc-attrs.conf.in b/doc/man/asciidoc-
-> > attrs.conf.in
-> > +index ad1183f1..e11c7031 100644
-> > +--- a/doc/man/asciidoc-attrs.conf.in
-> > ++++ b/doc/man/asciidoc-attrs.conf.in
-> > +@@ -1,7 +1,7 @@
-> > + [attributes]
-> > + # default values
-> > +-system_plugin_path="@LIBDIR@/babeltrace2/plugins"
-> > +-system_plugin_provider_path="@LIBDIR@/babeltrace2/plugin-
-> > providers"
-> > ++system_plugin_path="@prefix@/lib*/babeltrace2/plugins"
-> > ++system_plugin_provider_path="@prefix@/lib*/babeltrace2/plugin-
-> > providers"
-> > + babeltrace_version="@PACKAGE_VERSION@"
-> > + enable_debug_info="@ENABLE_DEBUG_INFO_VAL@"
-> > + defrdport=5344
-> > +-- 
-> > 
-
+cu
+Adrian
 
