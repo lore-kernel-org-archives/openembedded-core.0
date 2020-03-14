@@ -1,43 +1,24 @@
-Return-Path: <wangmy@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id F327261CF3
+Return-Path: <Yanfei.Xu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C388A601D9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Mar 2020 04:49:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,551,1574092800"; d="scan'208";a="86310728"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 14 Mar 2020 12:49:45 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 142F5406AB15
+	Sat, 14 Mar 2020 11:04:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02EB4STf024217
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Mar 2020 12:39:44 +0800 (CST)
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) by
-	G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Sat, 14 Mar 2020 12:49:45 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::f101:2f1d:aaf2:5e47])
-	by G08CNEXMBPEKD05.g08.fujitsu.local
-	([fe80::f101:2f1d:aaf2:5e47%14]) with
-	mapi id 15.00.1395.000; Sat, 14 Mar 2020 12:49:45 +0800
-From: "Wang, Mingyu" <wangmy@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core]  [PATCH] base-passwd: LICENSE changed to GPLv2
-Thread-Index: AQHV+QZoQRmO7f69xEq2OnJMTMyzHahHb95g
-Date: Sat, 14 Mar 2020 04:49:45 +0000
-Message-ID: <6aff6b44d0d9458992b5467336ceac82@G08CNEXMBPEKD05.g08.fujitsu.local>
-References: <1584097866-54513-1-git-send-email-wangmy@cn.fujitsu.com>
-	<44535d2e53175baa8b7b7969fa9276e924a43fca.camel@linuxfoundation.org>
-In-Reply-To: <44535d2e53175baa8b7b7969fa9276e924a43fca.camel@linuxfoundation.org>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.167.225.33]
+	Sat, 14 Mar 2020 04:04:38 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.487.0;
+	Sat, 14 Mar 2020 04:04:04 -0700
+From: <yanfei.xu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sat, 14 Mar 2020 19:04:03 +0800
+Message-ID: <20200314110403.17437-1-yanfei.xu@windriver.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 142F5406AB15.A8996
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH] base-passwd: LICENSE changed to GPLv2
+Subject: [PATCH] Fix lttng-modules build failure on some versions of kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,72 +31,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Mar 2020 04:49:49 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Sat, 14 Mar 2020 11:04:47 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-SGksDQpSaWNoYXJkDQoNCj4gV2h5PyBUaGUgbGljZW5zZSBmaWxlIGRpZG4n
-dCBjaGFuZ2UuIFRoaXMgbmVlZHMgYW4gZXhwbGFuYXRpb24uDQoNCjEuIEZv
-ciBiYXNlLXBhc3N3ZCwgSSB0aGluayB0aGF0IGl0J3MgZ3BsLTIuMC1vbmx5
-IHNpbmNlIGl0IGlzIGRlY2xhcmVkIGFzICJncGwtMiIgaW4gZGViaWFuL2Nv
-cHlyaWdodCwgbm90ICJncGwtMiBvciBsYXRlciINCg0KTGljZW5zZTogR1BM
-LTINCiBPbiBEZWJpYW4gYW5kIERlYmlhbi1iYXNlZCBzeXN0ZW1zLCBhIGNv
-cHkgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYw0KIExpY2Vuc2UgdmVyc2lv
-biAyIGlzIGF2YWlsYWJsZSBpbiAvdXNyL3NoYXJlL2NvbW1vbi1saWNlbnNl
-cy9HUEwtMi4NCg0KMi5HUEx2MiBjb25zdGFudDoNCj4gICA5LiBUaGUgRnJl
-ZSBTb2Z0d2FyZSBGb3VuZGF0aW9uIG1heSBwdWJsaXNoIHJldmlzZWQgYW5k
-L29yIG5ldyB2ZXJzaW9ucw0KPiBvZiB0aGUgR2VuZXJhbCBQdWJsaWMgTGlj
-ZW5zZSBmcm9tIHRpbWUgdG8gdGltZS4gIFN1Y2ggbmV3IHZlcnNpb25zIHdp
-bGwNCj4gYmUgc2ltaWxhciBpbiBzcGlyaXQgdG8gdGhlIHByZXNlbnQgdmVy
-c2lvbiwgYnV0IG1heSBkaWZmZXIgaW4gZGV0YWlsIHRvDQo+IGFkZHJlc3Mg
-bmV3IHByb2JsZW1zIG9yIGNvbmNlcm5zLg0KPg0KPiBFYWNoIHZlcnNpb24g
-aXMgZ2l2ZW4gYSBkaXN0aW5ndWlzaGluZyB2ZXJzaW9uIG51bWJlci4gIElm
-IHRoZSBQcm9ncmFtDQo+IHNwZWNpZmllcyBhIHZlcnNpb24gbnVtYmVyIG9m
-IHRoaXMgTGljZW5zZSB3aGljaCBhcHBsaWVzIHRvIGl0IGFuZCAiYW55DQo+
-IGxhdGVyIHZlcnNpb24iLCB5b3UgaGF2ZSB0aGUgb3B0aW9uIG9mIGZvbGxv
-d2luZyB0aGUgdGVybXMgYW5kIGNvbmRpdGlvbnMNCj4gZWl0aGVyIG9mIHRo
-YXQgdmVyc2lvbiBvciBvZiBhbnkgbGF0ZXIgdmVyc2lvbiBwdWJsaXNoZWQg
-YnkgdGhlIEZyZWUNCj4gU29mdHdhcmUgRm91bmRhdGlvbi4gIElmIHRoZSBQ
-cm9ncmFtIGRvZXMgbm90IHNwZWNpZnkgYSB2ZXJzaW9uIG51bWJlciBvZg0K
-PiB0aGlzIExpY2Vuc2UsIHlvdSBtYXkgY2hvb3NlIGFueSB2ZXJzaW9uIGV2
-ZXIgcHVibGlzaGVkIGJ5IHRoZSBGcmVlIFNvZnR3YXJlDQo+IEZvdW5kYXRp
-b24uDQpUaGUgbGljZW5zZSB3b3VsZCBiZSBHUEx2MissIG9ubHkgd2hlbiBs
-aWNlbnNlIG5hbWUgaXMgImdwbC0yIG9yIGxhdGVyIi4NCg0KMy4gVGhlIGJi
-IGZpbGUgb2YgbGliY29tcHMgY29udGFpbnMgdGhlIGZvbGxvd2luZyBjb250
-ZW50czoNCkxJQ0VOU0UgPSAiR1BMdjIiDQpUaGUgIkNPUFlJTkfigJwgZmls
-ZSBmcm9tIGxpYmNvbXBzIGFuZCBiYXNlLXBhc3N3ZCBhcmUgdGhlIHNhbWUs
-DQpTbyBpdCBzZWVtcyB0aGF0IHRoZSBwYWNrYWdlIExJQ0VOU0UgZmllbGRz
-IG9mIHRoZSBzYW1lIGNvcHlyaWdodCBkZWNsYXJhdGlvbiBhcmUgbm90IHVu
-aWZpZWQuDQoNCkJ5IHdhbmdteQ0KDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2Fn
-ZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQu
-cHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddIA0KU2VudDogRnJpZGF5LCBN
-YXJjaCAxMywgMjAyMCAzOjEwIFBNDQpUbzogV2FuZywgTWluZ3l1L+eOiyDp
-uKPnkZwgPHdhbmdteUBjbi5mdWppdHN1LmNvbT47IG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0Ut
-Y29yZV0gW1BBVENIXSBiYXNlLXBhc3N3ZDogTElDRU5TRSBjaGFuZ2VkIHRv
-IEdQTHYyDQoNCk9uIEZyaSwgMjAyMC0wMy0xMyBhdCAwNDoxMSAtMDcwMCwg
-V2FuZyBNaW5neXUgd3JvdGU6DQo+IFNpZ25lZC1vZmYtYnk6IFdhbmcgTWlu
-Z3l1IDx3YW5nbXlAY24uZnVqaXRzdS5jb20+DQo+IC0tLQ0KPiAgbWV0YS9y
-ZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2RfMy41LjI5LmJi
-IHwgMiArLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
-IGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
-LWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2RfMy41LjI5LmJiDQo+IGIv
-bWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2RfMy41
-LjI5LmJiDQo+IGluZGV4IGQxYWFiMDkxODEuLmQwMWNkN2UyOTcgMTAwNjQ0
-DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2Ut
-cGFzc3dkXzMuNS4yOS5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9i
-YXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZF8zLjUuMjkuYmINCj4gQEAgLTEsNyAr
-MSw3IEBADQo+ICBTVU1NQVJZID0gIkJhc2Ugc3lzdGVtIG1hc3RlciBwYXNz
-d29yZC9ncm91cCBmaWxlcyINCj4gIERFU0NSSVBUSU9OID0gIlRoZSBtYXN0
-ZXIgY29waWVzIG9mIHRoZSB1c2VyIGRhdGFiYXNlIGZpbGVzIA0KPiAoL2V0
-Yy9wYXNzd2QgYW5kIC9ldGMvZ3JvdXApLiAgVGhlIHVwZGF0ZS1wYXNzd2Qg
-dG9vbCBpcyBhbHNvIHByb3ZpZGVkIA0KPiB0byBrZWVwIHRoZSBzeXN0ZW0g
-ZGF0YWJhc2VzIHN5bmNocm9uaXplZCB3aXRoIHRoZXNlIG1hc3RlciBmaWxl
-cy4iDQo+ICBTRUNUSU9OID0gImJhc2UiDQo+IC1MSUNFTlNFID0gIkdQTHYy
-KyINCj4gK0xJQ0VOU0UgPSAiR1BMdjIiDQo+ICBMSUNfRklMRVNfQ0hLU1VN
-ID0NCj4gImZpbGU6Ly9DT1BZSU5HO21kNT1lYjcyM2I2MTUzOWZlZWYwMTNk
-ZTQ3NmU2OGI1YzUwYSINCg0KV2h5PyBUaGUgbGljZW5zZSBmaWxlIGRpZG4n
-dCBjaGFuZ2UuIFRoaXMgbmVlZHMgYW4gZXhwbGFuYXRpb24uDQoNCkNoZWVy
-cywNCg0KUmljaGFyZA0KDQoNCg0KCgo=
+From: Yanfei Xu <yanfei.xu@windriver.com>
+
+Fix lttng-modules build failure on some versions of the kernel that
+between 4.19.103 and 4.20.0
+between 5.4.19   and 5.5.0
+between 5.5.3    and 5.6.0
+greater than or equal to 5.6.0
+
+---------Error messages-------------
+build_default_image_feature_list8/intel-x86-64-standard-glibc-std-OE/build/tmp-glibc/work/intel_x86_64-wrs-linux/lttng-modules/2.11.1+gitAUTOINC+6ad0e68b43-r0/git/probes/lttng-probe-kvm-x86-mmu.c:39:
+| /buildarea1/WRL1019_Regression/qemu_build/build_dir_nxt/intel-x86-64/03032007-build_default_image_feature_list8/intel-x86-64-standard-glibc-std-OE/build/tmp-glibc/work/intel_x86_64-wrs-linux/lttng-modules/2.11.1+gitAUTOINC+6ad0e68b43-r0/git/probes/../probes/lttng-tracepoint-event-impl.h:130:6: error: conflicting types for 'trace_fast_page_fault'
+|   130 | void trace_##_name(_proto);
+|       |      ^~~~~~
+| /buildarea1/WRL1019_Regression/qemu_build/build_dir_nxt/intel-x86-64/03032007-build_default_image_feature_list8/intel-x86-64-standard-glibc-std-OE/build/tmp-glibc/work/intel_x86_64-wrs-linux/lttng-modules/2.11.1+gitAUTOINC+6ad0e68b43-r0/git/probes/../probes/lttng-tracepoint-event-impl.h:42:2: note: in expansion of macro 'LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP'
+
+------------------------------------
+
+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+---
+ ...-Use-gpa_t-for-cr2-gpa-to-fix-TDP-support.patch | 97 ++++++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb  |  1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-KVM-x86-Use-gpa_t-for-cr2-gpa-to-fix-TDP-support.patch
+
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-KVM-x86-Use-gpa_t-for-cr2-gpa-to-fix-TDP-support.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-KVM-x86-Use-gpa_t-for-cr2-gpa-to-fix-TDP-support.patch
+new file mode 100644
+index 0000000..1fd3609
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-KVM-x86-Use-gpa_t-for-cr2-gpa-to-fix-TDP-support.patch
+@@ -0,0 +1,97 @@
++From 175c0c3c2ee8aae7a1185f591988f02e0e3be103 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Tue, 11 Feb 2020 14:41:29 -0500
++Subject: [PATCH] fix: KVM: x86: Use gpa_t for cr2/gpa to fix TDP support on
++ 32-bit (v5.6)
++
++See upstream commit :
++
++  commit 736c291c9f36b07f8889c61764c28edce20e715d
++  Author: Sean Christopherson <sean.j.christopherson@intel.com>
++  Date:   Fri Dec 6 15:57:14 2019 -0800
++
++    KVM: x86: Use gpa_t for cr2/gpa to fix TDP support on 32-bit KVM
++
++    Convert a plethora of parameters and variables in the MMU and page fault
++    flows from type gva_t to gpa_t to properly handle TDP on 32-bit KVM.
++
++    Thanks to PSE and PAE paging, 32-bit kernels can access 64-bit physical
++    addresses.  When TDP is enabled, the fault address is a guest physical
++    address and thus can be a 64-bit value, even when both KVM and its guest
++    are using 32-bit virtual addressing, e.g. VMX's VMCS.GUEST_PHYSICAL is a
++    64-bit field, not a natural width field.
++
++    Using a gva_t for the fault address means KVM will incorrectly drop the
++    upper 32-bits of the GPA.  Ditto for gva_to_gpa() when it is used to
++    translate L2 GPAs to L1 GPAs.
++
++    Opportunistically rename variables and parameters to better reflect the
++    dual address modes, e.g. use "cr2_or_gpa" for fault addresses and plain
++    "addr" instead of "vaddr" when the address may be either a GVA or an L2
++    GPA.  Similarly, use "gpa" in the nonpaging_page_fault() flows to avoid
++    a confusing "gpa_t gva" declaration; this also sets the stage for a
++    future patch to combing nonpaging_page_fault() and tdp_page_fault() with
++    minimal churn.
++
++    Sprinkle in a few comments to document flows where an address is known
++    to be a GVA and thus can be safely truncated to a 32-bit value.  Add
++    WARNs in kvm_handle_page_fault() and FNAME(gva_to_gpa_nested)() to help
++    document such cases and detect bugs.
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++
++Upstream-Status: Backport [https://github.com/lttng/lttng-modules/commit/175c0c3c2ee8aae7a1185f591988f02e0e3be103]
++Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
++
++---
++ .../lttng-module/arch/x86/kvm/mmutrace.h      | 26 +++++++++++++++++++
++ 1 file changed, 26 insertions(+)
++
++diff --git a/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h b/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
++index e25a774..dd0c679 100644
++--- a/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
+++++ b/instrumentation/events/lttng-module/arch/x86/kvm/mmutrace.h
++@@ -214,6 +214,30 @@ LTTNG_TRACEPOINT_EVENT_MAP(
++ 	)
++ )
++ 
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,6,0) || \
+++	LTTNG_KERNEL_RANGE(4,19,103, 4,20,0) || \
+++	LTTNG_KERNEL_RANGE(5,4,19, 5,5,0) || \
+++	LTTNG_KERNEL_RANGE(5,5,3, 5,6,0))
+++LTTNG_TRACEPOINT_EVENT_MAP(
+++	fast_page_fault,
+++
+++	kvm_mmu_fast_page_fault,
+++
+++	TP_PROTO(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa, u32 error_code,
+++		 u64 *sptep, u64 old_spte, bool retry),
+++	TP_ARGS(vcpu, cr2_or_gpa, error_code, sptep, old_spte, retry),
+++
+++	TP_FIELDS(
+++		ctf_integer(int, vcpu_id, vcpu->vcpu_id)
+++		ctf_integer(gpa_t, cr2_or_gpa, cr2_or_gpa)
+++		ctf_integer(u32, error_code, error_code)
+++		ctf_integer_hex(u64 *, sptep, sptep)
+++		ctf_integer(u64, old_spte, old_spte)
+++		ctf_integer(u64, new_spte, *sptep)
+++		ctf_integer(bool, retry, retry)
+++	)
+++)
+++#else
++ LTTNG_TRACEPOINT_EVENT_MAP(
++ 	fast_page_fault,
++ 
++@@ -233,6 +257,8 @@ LTTNG_TRACEPOINT_EVENT_MAP(
++ 		ctf_integer(bool, retry, retry)
++ 	)
++ )
+++#endif
+++
++ #endif /* LTTNG_TRACE_KVM_MMU_H */
++ 
++ #undef TRACE_INCLUDE_PATH
++-- 
++2.18.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+index c833ff7..db0888a 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+@@ -11,6 +11,7 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
+ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
++           file://0001-fix-KVM-x86-Use-gpa_t-for-cr2-gpa-to-fix-TDP-support.patch \
+            "
+ 
+ SRC_URI[md5sum] = "0d964723c8765b39835e5e6efc60a604"
+-- 
+2.7.4
+
 
