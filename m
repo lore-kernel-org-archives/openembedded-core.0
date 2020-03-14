@@ -1,41 +1,36 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C5A7D601E1
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 586F960B21
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Mar 2020 19:40:39 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id m3so13806465wmi.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Mar 2020 12:40:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=jO9Z3Iq0L/H4J9CMpUfkvKNY5tc8dliVataQkloddRs=;
-	b=OBKnANoP29fvFOeffqcXCfAef8T4vB/JR8M+t2JTNSHJF/GVN95rFs47IWjEOxN6x5
-	eGKq6AduDtrNs500egTCgYbVL/NEvNarETKtWvvaPudjoRTtVWvErqWa1xWoHz5aEZOe
-	H5TUge7iDXs6imCXlLjHyyS9XB1KMgIkASWmn4O+VSDuVh+zJPPT3c1hMegb1IR1AdnJ
-	AvwtKUcTQjgv8N1JjT7KvJb8L75/8hBvfNpJaHL/fDykCKAJk1z2n21W6vkPhUhKlrdC
-	2JogYmMLNQECoUA4+D/0MRa6Oa3s2j5HEREhsi0A9FersENTEdzYkX5MxVNOQBDMO6+O
-	kEDw==
-X-Gm-Message-State: ANhLgQ0b6Uk/CiqXU5owrvg9kUJl8rGHhO/VyWi0fT3GraarBHygGkcs
-	3Yhl7MOvPoORFHT9V6NVgSIGWl82
-X-Google-Smtp-Source: ADFU+vsWfNeTjPRG14BiEU3lEgu8qNOl/V4Z5+kFrJ76piLKCi3VhK83QK7UAW9NYJ5jJGVYUpXZ2Q==
-X-Received: by 2002:a05:600c:34b:: with SMTP id
-	u11mr17449440wmd.69.1584214839854; 
-	Sat, 14 Mar 2020 12:40:39 -0700 (PDT)
-Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id q6sm21603680wmj.6.2020.03.14.12.40.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 14 Mar 2020 12:40:38 -0700 (PDT)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Mar 2020 19:40:38 +0000
-Message-Id: <20200314194038.5051-1-git@andred.net>
-X-Mailer: git-send-email 2.23.0.rc1
+	Sat, 14 Mar 2020 20:32:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48fvPc3RwPz3w;
+	Sat, 14 Mar 2020 21:32:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1584217941;
+	bh=feXwX0DQirmzsFsYcQT3mx4tSsXwmWCr1paIg22+qVE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DZCZJ39xkxtiVU0oKT3RJGXI9VhrThWMf43RDjct0aQdiZ3ePabu9fzv7fVP/Jy1J
+	FHgbk1+0f+x72uQRQRj/issZn8nc51jMyLOC+T/2k+5mIHOgdd/IiRdTD487H9XDU7
+	ofZPhPM8jAPh6ii1frdh867rQwQgaKRKReBqrQ4U669yEZWf7/edh6Uac8xw7MHswN
+	KQAyPWe+A6vsooO+LZgIZZRZsuygZrh15/lshaGFB1v+t7xLnnIQ+M29RxjF/N85Eq
+	GhGbvsxBXhE/M2ZnzrKza5cHy0m6oxLi/C30ftV+8/US5T1sisc3r9z1gklVHzlbMC
+	IRfVZ0M56QgfXRng/9aVVdF3BxVg3qbM0f2SLOSlHWsN+ZUAIsckXDxv3dy8u+WUoF
+	xj/3oBObCkXJDVNqkq4hyFJiVb6K9mS6FJ6E/0JiRFpY3KRjtA6FIkSdHBfOKlOJgY
+	9grzeK6aNlUA4pvbf/5vToWcE4ecY/+bvNsvjsueca6BZELZcosGiQXhKki9P+Y07U
+	LFjFn9ximWCEAeCS5bqQGBsVQ+2E0bQbOtAuWxvGzQpA2NqSca+B3thToKXMnrJciI
+	vkoK4inalcSup69As3xOV3GdfOvzm8NkjLi14q5+PeLVzHomRHq1mO1mOFSq7aunku
+	AJD/Sd3R4I/Zskjc0ElYKZbI=
+Date: Sat, 14 Mar 2020 22:32:18 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: =?utf-8?B?QW5kcsOp?= Draszik <git@andred.net>
+Message-ID: <20200314203218.GB10881@localhost>
+References: <20200314194038.5051-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH] python-numpy: incompatible with armv4 and armv5
+In-Reply-To: <20200314194038.5051-1-git@andred.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] python-numpy: incompatible with armv4 and armv5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,34 +43,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Mar 2020 19:40:40 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 14 Mar 2020 20:32:23 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-Just throws lots of compiler errors regarding the floating point macros,
-similar to the ones mentioned in commit 3e40a1d230a9
-("boost: fix mips soft float compilation") commit 7e712e1831f8 in
-poky.
+On Sat, Mar 14, 2020 at 07:40:38PM +0000, André Draszik wrote:
+> Just throws lots of compiler errors regarding the floating point macros,
+> similar to the ones mentioned in commit 3e40a1d230a9
+> ("boost: fix mips soft float compilation") commit 7e712e1831f8 in
+> poky.
+> 
+> Just disable, to avoid frustration.
+>...
+> +COMPATIBLE_HOST_armv4 = "null"
+> +COMPATIBLE_HOST_armv5 = "null"
+>...
 
-Just disable, to avoid frustration.
+Builds for me for qemuarmv5.
 
-Signed-off-by: André Draszik <git@andred.net>
----
- meta/recipes-devtools/python-numpy/python-numpy.inc | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
-index 8413434af9..66fd589e8c 100644
---- a/meta/recipes-devtools/python-numpy/python-numpy.inc
-+++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
-@@ -50,3 +50,6 @@ RDEPENDS_${PN} = "${PYTHON_PN}-unittest \
- RDEPENDS_${PN}_class-native = ""
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+COMPATIBLE_HOST_armv4 = "null"
-+COMPATIBLE_HOST_armv5 = "null"
--- 
-2.23.0.rc1
-
+cu
+Adrian
 
