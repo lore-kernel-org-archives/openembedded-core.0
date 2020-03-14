@@ -1,44 +1,43 @@
-Return-Path: <mhalstead@linuxfoundation.org>
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com
-	[209.85.210.43])
-	by mail.openembedded.org (Postfix) with ESMTP id C57A061CC6
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id F327261CF3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 23:58:40 +0000 (UTC)
-Received: by mail-ot1-f43.google.com with SMTP id 66so11982478otd.9
+	Sat, 14 Mar 2020 04:49:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,551,1574092800"; d="scan'208";a="86310728"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 14 Mar 2020 12:49:45 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id 142F5406AB15
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Mar 2020 16:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=Rq0sYyqzUa6ve58wf9QFme0R8HeZmQUxKqKZghBzCBs=;
-	b=U5cx0/pNEnncr4fatQwFkIfgicrNZl0tjvC6z9kyzPJYmEHvLUJPpzn4cGvvZ2K/Vp
-	ZSDRTomXJ9UpszClcCrE/N1kXodDQhvR2HIrGd10nTkIZ6CQR/iyX/Jt5xvMLDRbnptQ
-	ktphpA+hPHyYm/VzIPZQOFTKIoswseSskpER4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=Rq0sYyqzUa6ve58wf9QFme0R8HeZmQUxKqKZghBzCBs=;
-	b=KB8hhGoar8fgVTxNCcp05WeMJWvr9Vt+adbDnpx5Kas3TE60XTBi5TJDoM1K+CYb9Q
-	NbVY9VKuL2NPcHfyfyYsHbLB+GjTPLSIQTVH6V3cEoqj6d2YtAsnCiSDTUpQNy9BBmHq
-	PbRQciQmBq6cvcWwMLiFoVAXAEusup/E7ml3HpaP/TBd12M1Tc6sQYodK0DLyGpUwkOE
-	BsmyS5DGjvKhtjQOXQR991mfBPFsLlPUhJa3LXozekHGKIKQTpD5ufz2UXCcQr1Q0jBR
-	Qubifm423nowwEq/hriXQbTlBZ4i4J68Qc3Pglk2BtKwr5CZTcWdd0tHgbrKPrt1Idc+
-	IOOg==
-X-Gm-Message-State: ANhLgQ3k2LZ/g7jVmLck1xdQ6P2LwPpGVNZEozc943cPbT0+SDaeizgK
-	Oq2pa+hJMG0x5d1KHm2OUUeazq6ePcmJ2XSNZ0XeTA==
-X-Google-Smtp-Source: ADFU+vuaWgTdGvwte3xYfKMHJQKAmg3AtmkhbSQgebszsBl7foyE7MTvX4gl+CdkhnwRtTLO9bnXGwslBIwcBSjzXlk=
-X-Received: by 2002:a05:6830:1e25:: with SMTP id
-	t5mr1367081otr.70.1584143921519; 
-	Fri, 13 Mar 2020 16:58:41 -0700 (PDT)
+	Sat, 14 Mar 2020 12:39:44 +0800 (CST)
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) by
+	G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Sat, 14 Mar 2020 12:49:45 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::f101:2f1d:aaf2:5e47])
+	by G08CNEXMBPEKD05.g08.fujitsu.local
+	([fe80::f101:2f1d:aaf2:5e47%14]) with
+	mapi id 15.00.1395.000; Sat, 14 Mar 2020 12:49:45 +0800
+From: "Wang, Mingyu" <wangmy@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core]  [PATCH] base-passwd: LICENSE changed to GPLv2
+Thread-Index: AQHV+QZoQRmO7f69xEq2OnJMTMyzHahHb95g
+Date: Sat, 14 Mar 2020 04:49:45 +0000
+Message-ID: <6aff6b44d0d9458992b5467336ceac82@G08CNEXMBPEKD05.g08.fujitsu.local>
+References: <1584097866-54513-1-git-send-email-wangmy@cn.fujitsu.com>
+	<44535d2e53175baa8b7b7969fa9276e924a43fca.camel@linuxfoundation.org>
+In-Reply-To: <44535d2e53175baa8b7b7969fa9276e924a43fca.camel@linuxfoundation.org>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.167.225.33]
 MIME-Version: 1.0
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-Date: Fri, 13 Mar 2020 16:58:30 -0700
-Message-ID: <CADfgfobNNXr9HSOiwyamzbZ4q1uc8wgD5PzobDF56cDyYui-HQ@mail.gmail.com>
-To: bitbake-devel@lists.openembedded.org, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-architecture@lists.openembedded.org, 
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Subject: Mailing list platform change March 20th
+X-yoursite-MailScanner-ID: 142F5406AB15.A8996
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [PATCH] base-passwd: LICENSE changed to GPLv2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,50 +50,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Mar 2020 23:58:42 -0000
-Content-Type: multipart/alternative; boundary="000000000000b7349905a0c53f33"
+X-List-Received-Date: Sat, 14 Mar 2020 04:49:49 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---000000000000b7349905a0c53f33
-Content-Type: text/plain; charset="UTF-8"
+SGksDQpSaWNoYXJkDQoNCj4gV2h5PyBUaGUgbGljZW5zZSBmaWxlIGRpZG4n
+dCBjaGFuZ2UuIFRoaXMgbmVlZHMgYW4gZXhwbGFuYXRpb24uDQoNCjEuIEZv
+ciBiYXNlLXBhc3N3ZCwgSSB0aGluayB0aGF0IGl0J3MgZ3BsLTIuMC1vbmx5
+IHNpbmNlIGl0IGlzIGRlY2xhcmVkIGFzICJncGwtMiIgaW4gZGViaWFuL2Nv
+cHlyaWdodCwgbm90ICJncGwtMiBvciBsYXRlciINCg0KTGljZW5zZTogR1BM
+LTINCiBPbiBEZWJpYW4gYW5kIERlYmlhbi1iYXNlZCBzeXN0ZW1zLCBhIGNv
+cHkgb2YgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYw0KIExpY2Vuc2UgdmVyc2lv
+biAyIGlzIGF2YWlsYWJsZSBpbiAvdXNyL3NoYXJlL2NvbW1vbi1saWNlbnNl
+cy9HUEwtMi4NCg0KMi5HUEx2MiBjb25zdGFudDoNCj4gICA5LiBUaGUgRnJl
+ZSBTb2Z0d2FyZSBGb3VuZGF0aW9uIG1heSBwdWJsaXNoIHJldmlzZWQgYW5k
+L29yIG5ldyB2ZXJzaW9ucw0KPiBvZiB0aGUgR2VuZXJhbCBQdWJsaWMgTGlj
+ZW5zZSBmcm9tIHRpbWUgdG8gdGltZS4gIFN1Y2ggbmV3IHZlcnNpb25zIHdp
+bGwNCj4gYmUgc2ltaWxhciBpbiBzcGlyaXQgdG8gdGhlIHByZXNlbnQgdmVy
+c2lvbiwgYnV0IG1heSBkaWZmZXIgaW4gZGV0YWlsIHRvDQo+IGFkZHJlc3Mg
+bmV3IHByb2JsZW1zIG9yIGNvbmNlcm5zLg0KPg0KPiBFYWNoIHZlcnNpb24g
+aXMgZ2l2ZW4gYSBkaXN0aW5ndWlzaGluZyB2ZXJzaW9uIG51bWJlci4gIElm
+IHRoZSBQcm9ncmFtDQo+IHNwZWNpZmllcyBhIHZlcnNpb24gbnVtYmVyIG9m
+IHRoaXMgTGljZW5zZSB3aGljaCBhcHBsaWVzIHRvIGl0IGFuZCAiYW55DQo+
+IGxhdGVyIHZlcnNpb24iLCB5b3UgaGF2ZSB0aGUgb3B0aW9uIG9mIGZvbGxv
+d2luZyB0aGUgdGVybXMgYW5kIGNvbmRpdGlvbnMNCj4gZWl0aGVyIG9mIHRo
+YXQgdmVyc2lvbiBvciBvZiBhbnkgbGF0ZXIgdmVyc2lvbiBwdWJsaXNoZWQg
+YnkgdGhlIEZyZWUNCj4gU29mdHdhcmUgRm91bmRhdGlvbi4gIElmIHRoZSBQ
+cm9ncmFtIGRvZXMgbm90IHNwZWNpZnkgYSB2ZXJzaW9uIG51bWJlciBvZg0K
+PiB0aGlzIExpY2Vuc2UsIHlvdSBtYXkgY2hvb3NlIGFueSB2ZXJzaW9uIGV2
+ZXIgcHVibGlzaGVkIGJ5IHRoZSBGcmVlIFNvZnR3YXJlDQo+IEZvdW5kYXRp
+b24uDQpUaGUgbGljZW5zZSB3b3VsZCBiZSBHUEx2MissIG9ubHkgd2hlbiBs
+aWNlbnNlIG5hbWUgaXMgImdwbC0yIG9yIGxhdGVyIi4NCg0KMy4gVGhlIGJi
+IGZpbGUgb2YgbGliY29tcHMgY29udGFpbnMgdGhlIGZvbGxvd2luZyBjb250
+ZW50czoNCkxJQ0VOU0UgPSAiR1BMdjIiDQpUaGUgIkNPUFlJTkfigJwgZmls
+ZSBmcm9tIGxpYmNvbXBzIGFuZCBiYXNlLXBhc3N3ZCBhcmUgdGhlIHNhbWUs
+DQpTbyBpdCBzZWVtcyB0aGF0IHRoZSBwYWNrYWdlIExJQ0VOU0UgZmllbGRz
+IG9mIHRoZSBzYW1lIGNvcHlyaWdodCBkZWNsYXJhdGlvbiBhcmUgbm90IHVu
+aWZpZWQuDQoNCkJ5IHdhbmdteQ0KDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2Fn
+ZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSBbbWFpbHRvOnJpY2hhcmQu
+cHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmddIA0KU2VudDogRnJpZGF5LCBN
+YXJjaCAxMywgMjAyMCAzOjEwIFBNDQpUbzogV2FuZywgTWluZ3l1L+eOiyDp
+uKPnkZwgPHdhbmdteUBjbi5mdWppdHN1LmNvbT47IG9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0Ut
+Y29yZV0gW1BBVENIXSBiYXNlLXBhc3N3ZDogTElDRU5TRSBjaGFuZ2VkIHRv
+IEdQTHYyDQoNCk9uIEZyaSwgMjAyMC0wMy0xMyBhdCAwNDoxMSAtMDcwMCwg
+V2FuZyBNaW5neXUgd3JvdGU6DQo+IFNpZ25lZC1vZmYtYnk6IFdhbmcgTWlu
+Z3l1IDx3YW5nbXlAY24uZnVqaXRzdS5jb20+DQo+IC0tLQ0KPiAgbWV0YS9y
+ZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2RfMy41LjI5LmJi
+IHwgMiArLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
+IGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2RfMy41LjI5LmJiDQo+IGIv
+bWV0YS9yZWNpcGVzLWNvcmUvYmFzZS1wYXNzd2QvYmFzZS1wYXNzd2RfMy41
+LjI5LmJiDQo+IGluZGV4IGQxYWFiMDkxODEuLmQwMWNkN2UyOTcgMTAwNjQ0
+DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2Jhc2UtcGFzc3dkL2Jhc2Ut
+cGFzc3dkXzMuNS4yOS5iYg0KPiArKysgYi9tZXRhL3JlY2lwZXMtY29yZS9i
+YXNlLXBhc3N3ZC9iYXNlLXBhc3N3ZF8zLjUuMjkuYmINCj4gQEAgLTEsNyAr
+MSw3IEBADQo+ICBTVU1NQVJZID0gIkJhc2Ugc3lzdGVtIG1hc3RlciBwYXNz
+d29yZC9ncm91cCBmaWxlcyINCj4gIERFU0NSSVBUSU9OID0gIlRoZSBtYXN0
+ZXIgY29waWVzIG9mIHRoZSB1c2VyIGRhdGFiYXNlIGZpbGVzIA0KPiAoL2V0
+Yy9wYXNzd2QgYW5kIC9ldGMvZ3JvdXApLiAgVGhlIHVwZGF0ZS1wYXNzd2Qg
+dG9vbCBpcyBhbHNvIHByb3ZpZGVkIA0KPiB0byBrZWVwIHRoZSBzeXN0ZW0g
+ZGF0YWJhc2VzIHN5bmNocm9uaXplZCB3aXRoIHRoZXNlIG1hc3RlciBmaWxl
+cy4iDQo+ICBTRUNUSU9OID0gImJhc2UiDQo+IC1MSUNFTlNFID0gIkdQTHYy
+KyINCj4gK0xJQ0VOU0UgPSAiR1BMdjIiDQo+ICBMSUNfRklMRVNfQ0hLU1VN
+ID0NCj4gImZpbGU6Ly9DT1BZSU5HO21kNT1lYjcyM2I2MTUzOWZlZWYwMTNk
+ZTQ3NmU2OGI1YzUwYSINCg0KV2h5PyBUaGUgbGljZW5zZSBmaWxlIGRpZG4n
+dCBjaGFuZ2UuIFRoaXMgbmVlZHMgYW4gZXhwbGFuYXRpb24uDQoNCkNoZWVy
+cywNCg0KUmljaGFyZA0KDQoNCg0KCgo=
 
-We are moving our lists from Mailman to Groups.io. E-mail to lists will be
-delayed during the move window. We are aiming to complete the migration
-during business hours in the Pacific time zone.
-
-A new account will be created for you on the Groups.io platform if you
-don't already have one.
-
-You can read more about the change on the wiki:
-https://www.openembedded.org/wiki/GroupsMigration
-
-If there are serious issues we will rollback the changes. We will e-mail
-all lists when work is complete.
-
---
-Michael Halstead
-Linux Foundation / Yocto Project
-Systems Operations Engineer
-
---000000000000b7349905a0c53f33
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>We are moving our lists from Mailman to=C2=A0<span cl=
-ass=3D"gmail-il">Groups</span>.<span class=3D"gmail-il">io</span>. E-mail t=
-o lists will be delayed during the move window. We are aiming to complete t=
-he migration during business hours in the Pacific time zone.<br></div><div>=
-<br></div><div>A new account will be created for you on the=C2=A0<span clas=
-s=3D"gmail-il">Groups</span>.<span class=3D"gmail-il">io</span>=C2=A0platfo=
-rm if you don&#39;t already have one.<br></div><div><br></div><div>You can =
-read more about the change on the wiki:<br></div><a href=3D"https://www.ope=
-nembedded.org/wiki/GroupsMigration">https://www.openembedded.org/wiki/Group=
-sMigration</a><br><div><br></div><div>If there are serious issues we will r=
-ollback the changes. We will e-mail<br>all lists when work is complete.<br>=
-</div><div><br></div><div><span style=3D"color:rgb(136,136,136)">--</span><=
-br style=3D"color:rgb(136,136,136)"><span style=3D"color:rgb(136,136,136)">=
-Michael Halstead</span><br style=3D"color:rgb(136,136,136)"><span style=3D"=
-color:rgb(136,136,136)">Linux Foundation / Yocto Project</span><br style=3D=
-"color:rgb(136,136,136)"><span style=3D"color:rgb(136,136,136)">Systems Ope=
-rations Engineer</span><br></div><div><br></div></div>
-
---000000000000b7349905a0c53f33--
