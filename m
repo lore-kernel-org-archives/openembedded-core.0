@@ -1,24 +1,39 @@
-Return-Path: <Wenlin.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 19A0C601F9
+Return-Path: <daisuke.yamane@miraclelinux.com>
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+	[209.85.216.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F4AC60581
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Mar 2020 12:19:53 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02ECJY0W025596
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Sat, 14 Mar 2020 13:09:47 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id ca13so5838569pjb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Mar 2020 05:19:44 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.487.0;
-	Sat, 14 Mar 2020 05:19:23 -0700
-From: Wenlin Kang <wenlin.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 14 Mar 2020 05:19:23 -0700
-Message-ID: <20200314121923.78526-1-wenlin.kang@windriver.com>
-X-Mailer: git-send-email 2.23.0
-MIME-Version: 1.0
-Subject: [zeus][PATCH] libarchive: Fix CVE-2020-9308
+	Sat, 14 Mar 2020 06:09:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tCtk6NCwLL56orLqRMm8SaAY5R8sil4SDMGY6kzEozQ=;
+	b=Aa7ahtGMxbQ1CacL6j4B3TYh79iD+RbkyghyV0yvcqYlRaMGl7BVQwNxt+/rxjGw96
+	8a3dBjatUZya2yoWxIP0WzHgV3RPQEyCX71MYFKvZpPcAbwYY8j1eHkA0Zy+MwW0qm9q
+	qsWfYVUiMe8lj62lK9ljhZ4DOYSw7a0wdPBqfq/mmDIfZwHE7azt2pXZ6deL/dIa19tO
+	KDcJ0UXDBPRhLxZpale7z0hWfF2Y3mQrHfjSCCGKMH90ahLNzLVJUY6yMiYp4gDCUqYm
+	gUtZl/bXU4RrOtCKuTbwlSi+KwnBW6kZdGv+dMx8eIDoRreQrYhbDOVyHmEgs/omX5Su
+	Kchw==
+X-Gm-Message-State: ANhLgQ0Je1L0/Mc7VCjNN9RVmDURTZqTeBF023ruCn/0rbz9GmARdfsS
+	dg4xEF89jx1xwvmwhK4716Wj0iOrn4o=
+X-Google-Smtp-Source: ADFU+vvqTzRCjR8wy3rorq+52KQFgVTlqy9gxWPVY3m+HbKIvj7iYUVUXOsOK+SqaTGGqJYBTc7CRQ==
+X-Received: by 2002:a17:90b:11d0:: with SMTP id
+	gv16mr12095325pjb.106.1584191387840; 
+	Sat, 14 Mar 2020 06:09:47 -0700 (PDT)
+Received: from localhost.localdomain (softbank060117076056.bbtec.net.
+	[60.117.76.56]) by smtp.googlemail.com with ESMTPSA id
+	v5sm4733376pjn.2.2020.03.14.06.09.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 14 Mar 2020 06:09:47 -0700 (PDT)
+From: Daisuke Yamane <daisuke.yamane@cybertrust.co.jp>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 14 Mar 2020 13:09:42 +0000
+Message-Id: <1584191382-14094-1-git-send-email-daisuke.yamane@cybertrust.co.jp>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] selftest/package: Add test to ensure ownership is preserved
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,162 +46,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Mar 2020 12:19:54 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Sat, 14 Mar 2020 13:09:48 -0000
 
-Fix CVE-2020-9308
+Yocto Bug: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13806
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+Add test_preserve_ownership to selftest/package.
+This test creates a file, a directory and a symbolic link and changes ownership,
+then compares with them installed in rootfs to ensure ownership is preserved.
+
+[Test without a commit 'bitbake: lib/bb/utils.py: Preserve ownership of symlink']
+| 2020-03-14 10:01:14,519 - oe-selftest - INFO - test_preserve_ownership (package.PackageTests)
+| 2020-03-14 10:56:44,612 - oe-selftest - INFO - Check ownership of /etc/selftest-chown/file
+| 2020-03-14 10:56:44,770 - oe-selftest - INFO - Check ownership of /etc/selftest-chown/dir
+| 2020-03-14 10:56:44,822 - oe-selftest - INFO - Check ownership of /etc/selftest-chown/symlink
+| 2020-03-14 10:56:44,879 - oe-selftest - ERROR - Incrrect ownership /etc/selftest-chown/symlink [root:root]
+| 2020-03-14 10:56:45,884 - oe-selftest - INFO -  ... FAIL
+
+[Test with a commit 'bitbake: lib/bb/utils.py: Preserve ownership of symlink']
+| 2020-03-14 10:58:49,599 - oe-selftest - INFO - test_preserve_ownership (package.PackageTests)
+| 2020-03-14 11:51:39,947 - oe-selftest - INFO - Check ownership of /etc/selftest-chown/file
+| 2020-03-14 11:51:40,013 - oe-selftest - INFO - Check ownership of /etc/selftest-chown/dir
+| 2020-03-14 11:51:40,063 - oe-selftest - INFO - Check ownership of /etc/selftest-chown/symlink
+| 2020-03-14 11:51:41,118 - oe-selftest - INFO -  ... ok
+
+Signed-off-by: Daisuke Yamane <daisuke.yamane@cybertrust.co.jp>
 ---
- ...ct-files-that-declare-invalid-header.patch | 124 ++++++++++++++++++
- .../libarchive/libarchive_3.4.0.bb            |   1 +
- 2 files changed, 125 insertions(+)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
+ .../recipes-test/selftest-chown/selftest-chown.bb  | 25 ++++++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/package.py            | 23 ++++++++++++++++++++
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch b/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
+diff --git a/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb b/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
 new file mode 100644
-index 0000000000..a84c1f1f76
+index 0000000..87bf943
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
-@@ -0,0 +1,124 @@
-+From c1fe0a8cc8dde8ba3eae3d17e34060d2d6e4eb96 Mon Sep 17 00:00:00 2001
-+From: Grzegorz Antoniak <ga@anadoxin.org>
-+Date: Sun, 2 Feb 2020 08:04:41 +0100
-+Subject: [PATCH] RAR5 reader: reject files that declare invalid header flags
++++ b/meta-selftest/recipes-test/selftest-chown/selftest-chown.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "selftest chown"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 +
-+One of the fields in RAR5's base block structure is the size of the
-+header. Some invalid files declare a 0 header size setting, which can
-+confuse the unpacker. Minimum header size for RAR5 base blocks is 7
-+bytes (4 bytes for CRC, and 3 bytes for the rest), so block size of 0
-+bytes should be rejected at header parsing stage.
++LICENSE = "MIT"
 +
-+The fix adds an error condition if header size of 0 bytes is detected.
-+In this case, the unpacker will not attempt to unpack the file, as the
-+header is corrupted.
++S = "${WORKDIR}"
 +
-+The commit also adds OSSFuzz #20459 sample to test further regressions
-+in this area.
++inherit useradd allarch
 +
-+Upstream-Status: Backport[https://github.com/libarchive/libarchive/commit/94821008d6eea81e315c5881cdf739202961040a]
-+CVE: CVE-2020-9308
++USERADD_PACKAGES = "${PN}"
++USERADD_PARAM_${PN} = "-u 1234 -M test"
++TESTDIR = "${D}${sysconfdir}/selftest-chown"
 +
-+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-+---
-+ Makefile.am                                     |  1 +
-+ libarchive/archive_read_support_format_rar5.c   | 17 +++++++++++++++--
-+ libarchive/test/test_read_format_rar5.c         | 15 +++++++++++++++
-+ ...d_format_rar5_block_size_is_too_small.rar.uu |  8 ++++++++
-+ 4 files changed, 39 insertions(+), 2 deletions(-)
-+ create mode 100644 libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
++do_install() {
++	install -d   ${TESTDIR}
++	install -d   ${TESTDIR}/dir
++	touch        ${TESTDIR}/file
++	ln -s ./file ${TESTDIR}/symlink
 +
-+diff --git a/Makefile.am b/Makefile.am
-+index da78b24..01abf20 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -863,6 +863,7 @@ libarchive_test_EXTRA_DIST=\
-+ 	libarchive/test/test_read_format_rar5_symlink.rar.uu \
-+ 	libarchive/test/test_read_format_rar5_truncated_huff.rar.uu \
-+ 	libarchive/test/test_read_format_rar5_win32.rar.uu \
-++	libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu \
-+ 	libarchive/test/test_read_format_raw.bufr.uu \
-+ 	libarchive/test/test_read_format_raw.data.gz.uu \
-+ 	libarchive/test/test_read_format_raw.data.Z.uu \
-+diff --git a/libarchive/archive_read_support_format_rar5.c b/libarchive/archive_read_support_format_rar5.c
-+index 7c24627..f73393c 100644
-+--- a/libarchive/archive_read_support_format_rar5.c
-++++ b/libarchive/archive_read_support_format_rar5.c
-+@@ -2034,6 +2034,8 @@ static int scan_for_signature(struct archive_read* a);
-+ static int process_base_block(struct archive_read* a,
-+     struct archive_entry* entry)
-+ {
-++	const size_t SMALLEST_RAR5_BLOCK_SIZE = 3;
-++
-+ 	struct rar5* rar = get_context(a);
-+ 	uint32_t hdr_crc, computed_crc;
-+ 	size_t raw_hdr_size = 0, hdr_size_len, hdr_size;
-+@@ -2057,15 +2059,26 @@ static int process_base_block(struct archive_read* a,
-+ 		return ARCHIVE_EOF;
-+ 	}
-+ 
-++	hdr_size = raw_hdr_size + hdr_size_len;
-++
-+ 	/* Sanity check, maximum header size for RAR5 is 2MB. */
-+-	if(raw_hdr_size > (2 * 1024 * 1024)) {
-++	if(hdr_size > (2 * 1024 * 1024)) {
-+ 		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
-+ 		    "Base block header is too large");
-+ 
-+ 		return ARCHIVE_FATAL;
-+ 	}
-+ 
-+-	hdr_size = raw_hdr_size + hdr_size_len;
-++	/* Additional sanity checks to weed out invalid files. */
-++	if(raw_hdr_size == 0 || hdr_size_len == 0 ||
-++		hdr_size < SMALLEST_RAR5_BLOCK_SIZE)
-++	{
-++		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
-++			"Too small block encountered (%ld bytes)",
-++			raw_hdr_size);
-++
-++		return ARCHIVE_FATAL;
-++	}
-+ 
-+ 	/* Read the whole header data into memory, maximum memory use here is
-+ 	 * 2MB. */
-+diff --git a/libarchive/test/test_read_format_rar5.c b/libarchive/test/test_read_format_rar5.c
-+index 1408f37..32e7ed8 100644
-+--- a/libarchive/test/test_read_format_rar5.c
-++++ b/libarchive/test/test_read_format_rar5.c
-+@@ -1194,3 +1194,18 @@ DEFINE_TEST(test_read_format_rar5_fileattr)
-+ 
-+ 	EPILOGUE();
-+ }
-++
-++DEFINE_TEST(test_read_format_rar5_block_size_is_too_small)
-++{
-++	char buf[4096];
-++	PROLOGUE("test_read_format_rar5_block_size_is_too_small.rar");
-++
-++	/* This file is damaged, so those functions should return failure.
-++	 * Additionally, SIGSEGV shouldn't be raised during execution
-++	 * of those functions. */
-++
-++	assertA(archive_read_next_header(a, &ae) != ARCHIVE_OK);
-++	assertA(archive_read_data(a, buf, sizeof(buf)) <= 0);
-++
-++	EPILOGUE();
-++}
-+diff --git a/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu b/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
-+new file mode 100644
-+index 0000000..5cad219
-+--- /dev/null
-++++ b/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
-+@@ -0,0 +1,8 @@
-++begin 644 test_read_format_rar5_block_size_is_too_small.rar
-++M4F%R(1H'`0"-[P+2``+'(!P,("`@N`,!`B`@("`@("`@("`@("`@("#_("`@
-++M("`@("`@("`@((:Q;2!4-'-^4B`!((WO`M(``O\@$/\@-R`@("`@("`@("`@
-++M``X@("`@("`@____("`@("`@(/\@("`@("`@("`@("#_(+6U,2"UM;6UM[CU
-++M)B`@*(0G(`!.`#D\3R``(/__(,+_````-0#_($&%*/HE=C+N`"```"```"`D
-++J`)$#("#_("#__P`@__\@_R#_("`@("`@("#_("#__R`@(/__("#__R`"
-++`
-++end
-+-- 
-+2.23.0
++	chown    test:test ${TESTDIR}/file
++	chown -R test:test ${TESTDIR}/dir
++	chown -h test:test ${TESTDIR}/symlink
++}
 +
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.0.bb b/meta/recipes-extended/libarchive/libarchive_3.4.0.bb
-index c196382b07..db45ccf654 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.4.0.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.4.0.bb
-@@ -33,6 +33,7 @@ EXTRA_OECONF += "--enable-largefile"
- 
- SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://CVE-2019-19221.patch \
-+           file://0001-RAR5-reader-reject-files-that-declare-invalid-header.patch \
- "
- 
- SRC_URI[md5sum] = "6046396255bd7cf6d0f6603a9bda39ac"
++FILES_${PN} = "${sysconfdir}/selftest-chown/*"
+diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
+index b87f8dc..3010b1a 100644
+--- a/meta/lib/oeqa/selftest/cases/package.py
++++ b/meta/lib/oeqa/selftest/cases/package.py
+@@ -148,3 +148,26 @@ class PackageTests(OESelftestTestCase):
+                            '/usr/libexec/hello4']:
+                 if not gdbtest(qemu, binary):
+                     self.fail('GDB %s failed' % binary)
++
++    def test_preserve_ownership(self):
++        import os, stat, oe.cachedpath
++        features = 'IMAGE_INSTALL_append = " selftest-chown"\n'
++        self.write_config(features)
++        bitbake("core-image-minimal")
++
++        sysconfdir = get_bb_var('sysconfdir', 'selftest-chown')
++        def check_ownership(qemu, gid, uid, path):
++            self.logger.info("Check ownership of %s", path)
++            status, output = qemu.run_serial(r'/bin/stat -c "%U %G" ' + path, timeout=60)
++            output = output.split(" ")
++            if output[0] != uid or output[1] != gid :
++                self.logger.error("Incrrect ownership %s [%s:%s]", path, output[0], output[1])
++                return False
++            return True
++
++        with runqemu('core-image-minimal') as qemu:
++            for path in [ sysconfdir + "/selftest-chown/file",
++                          sysconfdir + "/selftest-chown/dir",
++                          sysconfdir + "/selftest-chown/symlink"]:
++                if not check_ownership(qemu, "test", "test", path):
++                    self.fail('Test ownership %s failed' % path)
 -- 
-2.23.0
+2.7.4
 
 
