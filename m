@@ -1,35 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id DA8116089D
+	by mail.openembedded.org (Postfix) with ESMTP id 556826089D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Mar 2020 18:13:09 +0000 (UTC)
+	Sun, 15 Mar 2020 18:14:05 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48gSGZ0Xmwz4f
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48gSHf0gvMz3w
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Mar 2020 19:13:10 +0100 (CET)
+	Sun, 15 Mar 2020 19:14:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1584295990;
-	bh=VQpsOoQyLFGqKtxiUIKYhBXVwu8spD0BgFDaF3y+FAs=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=fJJhnEBh9ygMZP3ogoa0pND1qc5plo2ZG5PqcKgRQaSBKtT15kHR2C9yeyb97BdUz
-	o9dUaIVqE68QJXYuypUNOe0te4auRocIe7k2eq+9OxEGksjSJfb/S8ptzGYgqrUxfM
-	BJHwL6SNUMUXEOqvFyI13mHSktOTuqZ8JQxTwk60Z1ss68XnzyiEDRTjQKunuxMKng
-	AmDJJjircicjAcHS4PmVocNqWocIfL7rWWHkKnRwTldXLhiGLfF7s2iMmrm10Ye/N8
-	o0xRdv7+F3/GW+j9nPp6w3uxU7m9UNLA2ORVFRqya+EjSRCdsoDQwAv/yg8F6uU2QD
-	5msMDQXlmYkENGcZYrQRn4aaQIITGUN1ZRME727csmodjmyN4u9+WrBl+vi46i1rZT
-	KfLNCovw/IZ3SWZfs2RGm+fszkue8ieXVOXROw47NY13F53BOjmUu//y4O4RJYoL3v
-	otr7ZbmmkDfys+5MKirRWjVKVOhU66U6iYRf75SGCMeMKdd/yJ3f620lTy0/ZnpXDI
-	x/hYCS08QLY7pYlH8p88i5glnLUgj05sQX+K2CiLuoFj5ezGqjHTt/3P5ybFnxLgnE
-	TW9ZlUzhwNuMWvW8U5amqFv+97JCMPGgniEaf/CLXpqzWaswxDu/GFlDLutG1k6RLs
-	GXQDUz98WDivvBiRHnAvZ47Q=
+	s=default; t=1584296046;
+	bh=Gp6q8CBz0Mo1bzcE/AYE+u0YDz00WNEMCfCBYGWNeoU=;
+	h=From:To:Subject:Date:From;
+	b=TD243IsitAiV+hplO2QlbeYBiE35Q7q5/lkTlPiiPiRtCueyDWv+GoyRZVTlDFcXI
+	+v4+n9UKe9UVAJPGm+RyNHkSRNOy1j0rskfaTqXmfzdTPJ1LK3xDeiIZ2OXXRK079J
+	3oHlNnCZlDokNXiW0zZz5T1Ykq3tgdWkncq66P4v/o9CzL9UhIqpCQzYdqUpafkEg2
+	8z0ZWNWGFUzyR1kmXfiFgjkpyMKmG2ftRmApG2KPlD369wtxy87u44IbJ+f80nm0Hc
+	NmAG/bKcdtrxU61df7BdiZehUWpEkdtlft0gz0HD6nNNnYtClC2QJaXZEe1gwXibxr
+	bFUfX5dhhZnThPLE/94jfyiVpNNje6Fgwp4iqp7lTySvNvU0HBONzsiqUWcecrveVN
+	cJO+uG6LrlEHLVAQPtfTHisU6RB0EEWfyefpA3qyrpHsDsB+sOCIWt0P7rcZPexRfo
+	rkWd9R9uChPNjd18ExuqkMr2A44yEGv90BbVnIDRsAiYrFToKkKBd7jXOVYTKcqI76
+	M9Iu4DShcHsa0gPhgx40mEViHuAUxsM3Dv8vsKKErpPQbeokhUlAIVf6S4CJkktGzH
+	HnEoF33S7V9atY04HOF5LsxmWnwm0j9JolJNeDhjH8qF/25PQC8zF4dK0IoQXkFH+R
+	eLe52vC5qsNiraBBtGZ0whqg=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Mar 2020 20:13:07 +0200
-Message-Id: <20200315181308.12792-2-bunk@stusta.de>
+Date: Sun, 15 Mar 2020 20:14:05 +0200
+Message-Id: <20200315181405.12903-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200315181308.12792-1-bunk@stusta.de>
-References: <20200315181308.12792-1-bunk@stusta.de>
-Subject: [warrior][PATCH 2/3] gnupg: upgrade 2.2.15 -> 2.2.16
+Subject: [warrior][PATCH] python3: Upgrade 3.7.6 -> 3.7.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,38 +40,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Mar 2020 18:13:10 -0000
+X-List-Received-Date: Sun, 15 Mar 2020 18:14:05 -0000
 
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+THE LICENSE checksum changed in this update due to copyright notice
+added for 2020.
 
-(From OE-Core rev: 825be9d66ae9f503f1dd2dce0fac530554057613)
-
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../gnupg/{gnupg_2.2.15.bb => gnupg_2.2.16.bb}                | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.2.15.bb => gnupg_2.2.16.bb} (93%)
+ .../python/{python3_3.7.6.bb => python3_3.7.7.bb}           | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.7.6.bb => python3_3.7.7.bb} (98%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.2.15.bb b/meta/recipes-support/gnupg/gnupg_2.2.16.bb
-similarity index 93%
-rename from meta/recipes-support/gnupg/gnupg_2.2.15.bb
-rename to meta/recipes-support/gnupg/gnupg_2.2.16.bb
-index 06a257333d..cb7c6c5c62 100644
---- a/meta/recipes-support/gnupg/gnupg_2.2.15.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.2.16.bb
-@@ -20,8 +20,8 @@ SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-
-                                 file://relocate.patch"
+diff --git a/meta/recipes-devtools/python/python3_3.7.6.bb b/meta/recipes-devtools/python/python3_3.7.7.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python3_3.7.6.bb
+rename to meta/recipes-devtools/python/python3_3.7.7.bb
+index 3efd3bcac8..114cf2fe09 100644
+--- a/meta/recipes-devtools/python/python3_3.7.6.bb
++++ b/meta/recipes-devtools/python/python3_3.7.7.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.python.org"
+ LICENSE = "PSFv2"
+ SECTION = "devel/python"
  
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=e466242989bd33c1bd2b6a526a742498"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=203a6dbc802ee896020a47161e759642"
  
--SRC_URI[md5sum] = "3ab87e377aa0af2f463649515bf66508"
--SRC_URI[sha256sum] = "cb8ce298d7b36558ffc48aec961b14c830ff1783eef7a623411188b5e0f5d454"
-+SRC_URI[md5sum] = "d90e186df1c06845880ea58a318f070b"
-+SRC_URI[sha256sum] = "6cbe8d454bf5dc204621eed3016d721b66298fa95363395bb8eeceb1d2fd14cb"
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://run-ptest \
+@@ -38,8 +38,8 @@ SRC_URI_append_class-nativesdk = " \
+            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
+            "
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+-SRC_URI[md5sum] = "c08fbee72ad5c2c95b0f4e44bf6fd72c"
+-SRC_URI[sha256sum] = "55a2cce72049f0794e9a11a84862e9039af9183603b78bc60d89539f82cf533f"
++SRC_URI[md5sum] = "172c650156f7bea68ce31b2fd01fa766"
++SRC_URI[sha256sum] = "06a0a9f1bf0d8cd1e4121194d666c4e28ddae4dd54346de6c343206599f02136"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.17.1
 
