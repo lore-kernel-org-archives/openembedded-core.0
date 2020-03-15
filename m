@@ -1,35 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id DAF2C61BB4
+	by mail.openembedded.org (Postfix) with ESMTP id DA93A61BB2
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 15 Mar 2020 18:13:09 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48gSGZ34zDz4n
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48gSGY50Vjz3w
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Mar 2020 19:13:10 +0100 (CET)
+	Sun, 15 Mar 2020 19:13:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1584295990;
-	bh=U8fHd1bszXTx/KpKYfGQWE4sLj9riUahSAmeDUN1enk=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=MQs/DTv4GifTYfAiCRPQOrPgjdnShK+9MVu3IBbc/FucYFrCsJeOMhddxqbVyC9Uf
-	+STi6pevmPFioMbYOLUwtabrb0JU1aLlrcFu/taufLvgtvC8OtWaN1aXWjn99oiczP
-	rEOfICEnh3la/uLcLDZfKgxyWyMJRBrghWxooGA47hO3jvCmV27doZKPJEAOwSsW9H
-	gjdD+ZHVJ/8Fxopc8gt3+Ogmi1vc19lwGzmUmxAWumrCQZj2p/qxVR/qH1yOaLmn0b
-	p3PAcm/S/WvaSqmS99h2PVm84aZpJKl65iozg3kTqKWB91P9jdZPeFvh/lofiMefPM
-	xZEZ4TnOhrPxaX6P41jfrcnZDRO47maUDW+gfxDnlOyfyPtjFJtnxqIO/PlTCJA348
-	9HRMC/FRqZR8RUydJwO9Pzh/XHH2dGgLG003IaIPUd2PwVRJNEXMlJt8oOYGEQhLIR
-	TjSq8clBe70QmqG1ik8kxRST3uATyHWGaRPpNugaq9N8a+xBZ9JVp6sb1Fe55Ck3ZH
-	ui64lt+8x2/Xf4LoS2OHz4e1nn/wXQlqHjg5J2XbsRjR+hhlP/bZewidxFZmzJLLre
-	7eotEJsqW5G1x99Fxc3FRcmmjjQUgCSF25B3jF7cY/8sv4MVgKm+HyLw28g+VASWBY
-	jD9VTciRAtSZUAMlSZMUEy5E=
+	s=default; t=1584295989;
+	bh=ztDOXCUBtZ08eopnuw9sbl9mm+11fEwobWzdzLCXWJI=;
+	h=From:To:Subject:Date:From;
+	b=LqcLwQ+tQCuCAuFopmO+MmdYq0/K3dZJ2S7NWrqnMbjY9vB2qnmQPSQn1SPhQI+b0
+	gE3yZLeW3J+bhN5ddTQJMHxwB3xXdZY/oIzbo3a9aDyBSPZZiqBebzc2Jnctg1dwJR
+	gDGfiCokCSijvBfPFuchJBZTHqI1kGJGp3a7RNAt+dJYEyMbAuQxoQsiH1Bs0ZWMbE
+	EG4U+hMta88HuEhMCQYBwPKkIMZPAAmfKXi/iDtJAAdR86zaZvHe8mDhZKbUN/FNpO
+	+rrWeaPDqNjm2MPW2m39rubHku5z6bHckyR3KHlNWyq2KtVpx/Zb38nfCKbpshXxtx
+	hhwrEmFfH+b75t6GWfTh5AVIuUKvlbAcUtUoh1Ao0GqSlaXLRhoEHcDVP4St2AjS5Q
+	RCv/ukIUT79jwxIrIxQbfUIlixU5GH8iCAqFV1EQGd1XT9L9zGQbjGlCgEdJJpkUQO
+	kYxi9Yz+XOXBNIV2Rx8xOY9KqjoHN3fJYhnMHzqNJREX+TmXd6oBhKiDFdoORD1y2l
+	4jC/Gh1W9cG5v5E5GmNfIxTDM34x3hXUH2NRNm3KXRrF47ai2ZjDidXTD9xPLmVDAh
+	oGS+/EVPnmUUzxayYkeRqVZb+3coj1WciVQ/2LeNfapGN3s3lKGCxHZ+NFRCLMQ25y
+	lH4nPi7LIIpEy/PTZXISqvEI=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Mar 2020 20:13:08 +0200
-Message-Id: <20200315181308.12792-3-bunk@stusta.de>
+Date: Sun, 15 Mar 2020 20:13:06 +0200
+Message-Id: <20200315181308.12792-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200315181308.12792-1-bunk@stusta.de>
-References: <20200315181308.12792-1-bunk@stusta.de>
-Subject: [warrior][PATCH 3/3] gnupg: upgrade 2.2.16 -> 2.2.17
+Subject: [warrior][PATCH 1/3] gnupg: update to 2.2.15
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,38 +42,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 15 Mar 2020 18:13:10 -0000
 
-From: Anuj Mittal <anuj.mittal@intel.com>
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 
-Also fixes CVE-2019-13050. Announcement:
+(From OE-Core rev: e60b3994d4bc282191302e1fd9b7d2106ee2f6cb)
 
-https://lists.gnupg.org/pipermail/gnupg-announce/2019q3/000439.html
-
-(From OE-Core rev: c6e46323f0d62daf8bd424e642581fdcba920ef7)
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../gnupg/{gnupg_2.2.16.bb => gnupg_2.2.17.bb}               | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.2.16.bb => gnupg_2.2.17.bb} (92%)
+ ...01-Woverride-init-is-not-needed-with-gcc-9.patch | 13 ++++++++-----
+ .../gnupg/{gnupg_2.2.13.bb => gnupg_2.2.15.bb}      |  4 ++--
+ 2 files changed, 10 insertions(+), 7 deletions(-)
+ rename meta/recipes-support/gnupg/{gnupg_2.2.13.bb => gnupg_2.2.15.bb} (93%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.2.16.bb b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
-similarity index 92%
-rename from meta/recipes-support/gnupg/gnupg_2.2.16.bb
-rename to meta/recipes-support/gnupg/gnupg_2.2.17.bb
-index cb7c6c5c62..e5456dd9b9 100644
---- a/meta/recipes-support/gnupg/gnupg_2.2.16.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
-@@ -19,9 +19,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
- SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+index 4a280f9d5c..83195b5bd4 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+@@ -1,4 +1,4 @@
+-From 0df5800cc2e720aad883a517f7d24a9722fe5845 Mon Sep 17 00:00:00 2001
++From e3adc816d2d56dd929016073937ba24e01e03cb8 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 20 Dec 2018 17:37:48 -0800
+ Subject: [PATCH] Woverride-init is not needed with gcc 9
+@@ -17,15 +17,18 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/dirmngr/dns.h b/dirmngr/dns.h
+-index 30d0b45..98fe412 100644
++index 024d6dcc8..c6e141e16 100644
+ --- a/dirmngr/dns.h
+ +++ b/dirmngr/dns.h
+-@@ -154,7 +154,7 @@ DNS_PUBLIC int *dns_debug_p(void);
++@@ -139,7 +139,7 @@ DNS_PUBLIC int *dns_debug_p(void);
++ #define DNS_PRAGMA_QUIET _Pragma("clang diagnostic ignored \"-Winitializer-overrides\"")
++ #define DNS_PRAGMA_POP _Pragma("clang diagnostic pop")
+  
+- #define dns_quietinit(...) \
+- 	DNS_PRAGMA_PUSH DNS_PRAGMA_QUIET __VA_ARGS__ DNS_PRAGMA_POP
+ -#elif (__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || __GNUC__ > 4
+ +#elif (__GNUC__ == 4 && __GNUC_MINOR__ >= 6) || (__GNUC__ > 4 && __GNUC__ < 9)
+  #define DNS_PRAGMA_PUSH _Pragma("GCC diagnostic push")
+  #define DNS_PRAGMA_QUIET _Pragma("GCC diagnostic ignored \"-Woverride-init\"")
+  #define DNS_PRAGMA_POP _Pragma("GCC diagnostic pop")
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.13.bb b/meta/recipes-support/gnupg/gnupg_2.2.15.bb
+similarity index 93%
+rename from meta/recipes-support/gnupg/gnupg_2.2.13.bb
+rename to meta/recipes-support/gnupg/gnupg_2.2.15.bb
+index 3ce2a38c0e..06a257333d 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.13.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.15.bb
+@@ -20,8 +20,8 @@ SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-
                                  file://relocate.patch"
  
--
--SRC_URI[md5sum] = "d90e186df1c06845880ea58a318f070b"
--SRC_URI[sha256sum] = "6cbe8d454bf5dc204621eed3016d721b66298fa95363395bb8eeceb1d2fd14cb"
-+SRC_URI[md5sum] = "1ba2d9b70c377f8e967742064c27a19c"
-+SRC_URI[sha256sum] = "afa262868e39b651a2db4c071fba90415154243e83a830ca00516f9a807fd514"
+ 
+-SRC_URI[md5sum] = "563b959d0c3856e34526e9ca51c80d7b"
+-SRC_URI[sha256sum] = "76c787a955f9e6e0ead47c9be700bfb9d454f955a7b7c7e697aa719bac7b11d8"
++SRC_URI[md5sum] = "3ab87e377aa0af2f463649515bf66508"
++SRC_URI[sha256sum] = "cb8ce298d7b36558ffc48aec961b14c830ff1783eef7a623411188b5e0f5d454"
  
  EXTRA_OECONF = "--disable-ldap \
  		--disable-ccid-driver \
