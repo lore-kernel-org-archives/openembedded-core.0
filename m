@@ -1,53 +1,35 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E34161BAF
-	for <openembedded-core@openembedded.org>;
-	Sun, 15 Mar 2020 18:12:14 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id t14so6823951plr.8
-	for <openembedded-core@openembedded.org>;
-	Sun, 15 Mar 2020 11:12:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=G/6rSE0wOqgbtOp5iCxju0Jyrq/KWj5H/A8V20Lzj3M=;
-	b=NInRZSANMpKPYraYwSnorEgsbxSGUWcoW+4O2omepRyot1vo1OiZ+w0gNJWFOzUxOR
-	pCscMpuOZ2DRp1wntCh/6qXTQhUVNCOAwNuWki2hukDYSmcNg95NVTc141UvR3PEzmiP
-	lrb2+j/obsAD80ZtlZYiivPhUsedmqNCr0j8asFWQvNC9n5lSQ3Tdr6nAScAJEniSqIz
-	shAX2WUGiNNd1RCK1KFBIdTgJW7o03nLB0yIz5o3Ytu6LLAv5pIoBo0YeXWG2P1sYZoO
-	oi96CP9SFWCB3EtAaaSGTzhVncRlUQQk6o3aCEPOa+KXkdz5hfZJJmQ186M/hgHj0Mge
-	dVNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=G/6rSE0wOqgbtOp5iCxju0Jyrq/KWj5H/A8V20Lzj3M=;
-	b=iAl49GpWEqNXP/pTc5F3A6UakpWdU7NmcqQ9fvgfoEq9sCU3w7qeucQm3l8om0vDv+
-	FeGzezVbEvBJEr8UehmtnRYSJ9H02mc97F6ktYLmXl3pf2sNh9KMNrdqG5XDfLNHPomu
-	WPSvAPL/fQKbR8FDXJJGL1PSHMRsBFdEvsOB7rmqWGzgsxDjXKSJTFbZUuZduF0wipFl
-	oCwBXSEFLLcVdE7z+6vROqsZ5WE/vHE8pnURf2Nf5CiJTIgRxQiAcw0lb0m1RCwusXwX
-	wpbKVTXY3I8oIf5ywGuVhg0wTkuhvpRHiG+OS5H0k6DaYR2Fvk/+Zup2NLO42Ti61FvA
-	JzaQ==
-X-Gm-Message-State: ANhLgQ2D1ciznxSLGZX9I+Yej9qHa8v0fDhtndz/8svtpHqTH25C+vtG
-	oWxWc/Tw6zSn6U48rY46mBs76+vB
-X-Google-Smtp-Source: ADFU+vtd3uRmFyuR0qFh8hJ/VM0ZVQ01v3qAOlQ8Bfhv3iY6B5VULKlP3OUvBpWceiXufA9RP9h2dg==
-X-Received: by 2002:a17:902:b617:: with SMTP id
-	b23mr23804629pls.285.1584295935871; 
-	Sun, 15 Mar 2020 11:12:15 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:a5c0:c9cd:7c61:9c1c:2d2f])
-	by smtp.gmail.com with ESMTPSA id
-	n5sm12223816pfq.35.2020.03.15.11.12.15
-	for <openembedded-core@openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 15 Mar 2020 11:12:15 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@openembedded.org
-Date: Sun, 15 Mar 2020 11:11:58 -0700
-Message-Id: <2ccf28a773fb1416ecd9b10f98b59a6d34beffd8.1584295805.git.akuster808@gmail.com>
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id DAF2C61BB4
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Mar 2020 18:13:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48gSGZ34zDz4n
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Mar 2020 19:13:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1584295990;
+	bh=U8fHd1bszXTx/KpKYfGQWE4sLj9riUahSAmeDUN1enk=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=MQs/DTv4GifTYfAiCRPQOrPgjdnShK+9MVu3IBbc/FucYFrCsJeOMhddxqbVyC9Uf
+	+STi6pevmPFioMbYOLUwtabrb0JU1aLlrcFu/taufLvgtvC8OtWaN1aXWjn99oiczP
+	rEOfICEnh3la/uLcLDZfKgxyWyMJRBrghWxooGA47hO3jvCmV27doZKPJEAOwSsW9H
+	gjdD+ZHVJ/8Fxopc8gt3+Ogmi1vc19lwGzmUmxAWumrCQZj2p/qxVR/qH1yOaLmn0b
+	p3PAcm/S/WvaSqmS99h2PVm84aZpJKl65iozg3kTqKWB91P9jdZPeFvh/lofiMefPM
+	xZEZ4TnOhrPxaX6P41jfrcnZDRO47maUDW+gfxDnlOyfyPtjFJtnxqIO/PlTCJA348
+	9HRMC/FRqZR8RUydJwO9Pzh/XHH2dGgLG003IaIPUd2PwVRJNEXMlJt8oOYGEQhLIR
+	TjSq8clBe70QmqG1ik8kxRST3uATyHWGaRPpNugaq9N8a+xBZ9JVp6sb1Fe55Ck3ZH
+	ui64lt+8x2/Xf4LoS2OHz4e1nn/wXQlqHjg5J2XbsRjR+hhlP/bZewidxFZmzJLLre
+	7eotEJsqW5G1x99Fxc3FRcmmjjQUgCSF25B3jF7cY/8sv4MVgKm+HyLw28g+VASWBY
+	jD9VTciRAtSZUAMlSZMUEy5E=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 15 Mar 2020 20:13:08 +0200
+Message-Id: <20200315181308.12792-3-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1584295805.git.akuster808@gmail.com>
-References: <cover.1584295805.git.akuster808@gmail.com>
-Subject: [zeus 16/16] cve-check: fix ValueError
+In-Reply-To: <20200315181308.12792-1-bunk@stusta.de>
+References: <20200315181308.12792-1-bunk@stusta.de>
+Subject: [warrior][PATCH 3/3] gnupg: upgrade 2.2.16 -> 2.2.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,58 +42,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Mar 2020 18:12:15 -0000
+X-List-Received-Date: Sun, 15 Mar 2020 18:13:10 -0000
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+From: Anuj Mittal <anuj.mittal@intel.com>
 
-fix below error for whitelisted recipe and recipe skip cve check.
+Also fixes CVE-2019-13050. Announcement:
 
-Error:
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_cve_check(d)
-     0003:
-File: '/poky-master/meta/classes/cve-check.bbclass', lineno: 59, function: do_cve_check
-     0055:        try:
-     0056:            patched_cves = get_patches_cves(d)
-     0057:        except FileNotFoundError:
-     0058:            bb.fatal("Failure in searching patches")
- *** 0059:        whitelisted, patched, unpatched = check_cves(d, patched_cves)
-     0060:        if patched or unpatched:
-     0061:            cve_data = get_cve_info(d, patched + unpatched)
-     0062:            cve_write_data(d, patched, unpatched, whitelisted, cve_data)
-     0063:    else:
-Exception: ValueError: not enough values to unpack (expected 3, got 2)
+https://lists.gnupg.org/pipermail/gnupg-announce/2019q3/000439.html
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+(From OE-Core rev: c6e46323f0d62daf8bd424e642581fdcba920ef7)
+
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 64a362bd2dd0b4f3165d5162adbc600826af66f8)
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/classes/cve-check.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../gnupg/{gnupg_2.2.16.bb => gnupg_2.2.17.bb}               | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/gnupg/{gnupg_2.2.16.bb => gnupg_2.2.17.bb} (92%)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 7f98da60f1..5d84b93d71 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -179,13 +179,13 @@ def check_cves(d, patched_cves):
-     products = d.getVar("CVE_PRODUCT").split()
-     # If this has been unset then we're not scanning for CVEs here (for example, image recipes)
-     if not products:
--        return ([], [])
-+        return ([], [], [])
-     pv = d.getVar("CVE_VERSION").split("+git")[0]
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.16.bb b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
+similarity index 92%
+rename from meta/recipes-support/gnupg/gnupg_2.2.16.bb
+rename to meta/recipes-support/gnupg/gnupg_2.2.17.bb
+index cb7c6c5c62..e5456dd9b9 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.16.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
+@@ -19,9 +19,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+ SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
+                                 file://relocate.patch"
  
-     # If the recipe has been whitlisted we return empty lists
-     if d.getVar("PN") in d.getVar("CVE_CHECK_PN_WHITELIST").split():
-         bb.note("Recipe has been whitelisted, skipping check")
--        return ([], [])
-+        return ([], [], [])
+-
+-SRC_URI[md5sum] = "d90e186df1c06845880ea58a318f070b"
+-SRC_URI[sha256sum] = "6cbe8d454bf5dc204621eed3016d721b66298fa95363395bb8eeceb1d2fd14cb"
++SRC_URI[md5sum] = "1ba2d9b70c377f8e967742064c27a19c"
++SRC_URI[sha256sum] = "afa262868e39b651a2db4c071fba90415154243e83a830ca00516f9a807fd514"
  
-     old_cve_whitelist =  d.getVar("CVE_CHECK_CVE_WHITELIST")
-     if old_cve_whitelist:
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
 2.17.1
 
