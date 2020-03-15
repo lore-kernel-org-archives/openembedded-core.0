@@ -1,55 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 945DF60984
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 2F468606AA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Mar 2020 12:30:23 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id g62so15021928wme.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Mar 2020 05:30:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=N5lBv2Ne+C+b4GSHY8bXQ1IohO5tKSilORViyNSg0y4=;
-	b=MpEJpjCmOHKV62I1jy2tOI6Zfe49CVKQV0xiTGZj/UfWZ1I+MNkr5RS5YaLG3U1UM/
-	z3WJ/HyFtJdYMMGx/xOy3dvWIU5UQDwV7zeoVtk2jHXxsPgD++r3v7AITFEEam63XE/0
-	lETdTk8igIQ3swMILaSF7FeCdNcuIJAT09HpU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=N5lBv2Ne+C+b4GSHY8bXQ1IohO5tKSilORViyNSg0y4=;
-	b=oDk16ZQCtEQTEnqw+yZ2flbz9QSnLFCwPCaVrmYhEY9ZkO3+mYpxyTMv3eJ3QB0vKu
-	DO8Fzcr4Ra/WSDMZDliXOgX0Cti+gMslICaelOS0VpM2MOA0tS76zthw5TTTY5w2dTh3
-	Xnfp2k51ZueSy3OsbfX3rLcQjlzGbGdIlgHWj0uoRtzJOu2PrT78uOlIcusuKNYrNDiz
-	qC2USpggksx/zgrBkMWB7llBzBp4l12i1gCtWFBCvhIiyM9g4W2oSwWP0Uye3eXHgvsz
-	tIzHWJ69jWbiUqggQ3gyREwwNcBdFxuQFPsQPSHE8U1LEcxNiLZ9cX2hZzh/c5uzm1OZ
-	+A/A==
-X-Gm-Message-State: ANhLgQ3EjXGcvquEMUze+AepMWqRgA4U8tQONKtnHgLZqI7wBcRUBlAz
-	TQv1d1BEqxoWqWRKBQ9RfJQ/HFOfipg=
-X-Google-Smtp-Source: ADFU+vuTuHesQFuNdUxs4zZzU32rc5uQ9DgUNTq6iIkDWVPNDEFm/QkUCHLnQp/K/jvESsZmQhVjyg==
-X-Received: by 2002:a05:600c:2f10:: with SMTP id
-	r16mr18352368wmn.92.1584275424146; 
-	Sun, 15 Mar 2020 05:30:24 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	g7sm89539202wrq.21.2020.03.15.05.30.22
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 15 Mar 2020 05:30:23 -0700 (PDT)
-Message-ID: <7a2ed63ed53af8e472dde821cb5a416bf04140d4.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Wang, Mingyu" <wangmy@cn.fujitsu.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Sun, 15 Mar 2020 12:30:22 +0000
-In-Reply-To: <6aff6b44d0d9458992b5467336ceac82@G08CNEXMBPEKD05.g08.fujitsu.local>
-References: <1584097866-54513-1-git-send-email-wangmy@cn.fujitsu.com>
-	<44535d2e53175baa8b7b7969fa9276e924a43fca.camel@linuxfoundation.org>
-	<6aff6b44d0d9458992b5467336ceac82@G08CNEXMBPEKD05.g08.fujitsu.local>
-User-Agent: Evolution 3.35.91-1 
+	Sun, 15 Mar 2020 13:10:24 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48gKYB4GCzz3r;
+	Sun, 15 Mar 2020 14:10:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1584277823;
+	bh=1T4eWiSKaSlmVNDdqddZeQVuHYzNS7t0KUtNZLKRfiY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HZ8hDG4/IaFDBNu9iBR6UwR0J9E7B+4nqfs1J+8bPwH+L0An0+ZlpUAhxCyJEAJpp
+	3AGhoprVVNgg/oldf7diIu1xIu23IaSmCDZcpghuwJqbGzI4KcwS7pJmWvijRuq1mW
+	AxRsh8ui7as1Hv47x2XgUvcA55SY52Ls4r/8lbWOivbfu3a6+9GB9BwVhSS2oPfWhd
+	S0abiLPSakCyFOSVLQQbs0qS2fbENQ4zvLFZY1ZNPbQ3hZLuYzO45UljCbjQ+3oKyA
+	Rhp2x+s3Vyuq+3tDbSiNOttLR0CdULbhxLNB0wChaCj7cISXTY+2GBy5A4Ov9qBsYB
+	KTZzcLOP6Dzvn9JE7nJ2o7paYQ3OmYnUgyb1UBp/H9Mwz0BqatFqx0jVPB8+6FdExy
+	gR77+zulOzhjBxexZLOxnQW6BTsWVRQPEhEy9CwEAPN365llrvsmGsAVqbM+YF9V/4
+	8HmVMmqK3P3ge+Jp+45Du4waNUlQiUrpge9fnuaJGyha57+jbZYZ9hXE8ZtOu+HDKO
+	X/onZpm6pLz/VVW2E+4JPJoByEti9UlgP791y27EaNLUWAq91vvygKpZkWrVj+zpvL
+	3Dv2KJ4x+WUtfYvF7pNaw958WJSu9uoJlpE+FbrHMISxNkN4N0LR1wL8nQSJke99+H
+	xiAnHtBKeQa9Ize3USqNAobs=
+Date: Sun, 15 Mar 2020 15:10:05 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20200315131005.GA31660@localhost>
+References: <20200315042947.3257882-1-raj.khem@gmail.com>
+	<CANNYZj98XmAvvu5PTmUKyFyGU5+f4XDo7J6=cHFEr2u3Ge5T1A@mail.gmail.com>
+	<CAMKF1sr=3OvOCLiAzeYN+KD1LqkcUj2QfSHE3A+5GNT3QWm+mQ@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] base-passwd: LICENSE changed to GPLv2
+In-Reply-To: <CAMKF1sr=3OvOCLiAzeYN+KD1LqkcUj2QfSHE3A+5GNT3QWm+mQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bison: Reset load average settings if specified in environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,69 +45,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Mar 2020 12:30:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 15 Mar 2020 13:10:26 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On Sat, 2020-03-14 at 04:49 +0000, Wang, Mingyu wrote:
-> Hi,
-> Richard
+On Sun, Mar 15, 2020 at 12:52:25AM -0700, Khem Raj wrote:
+> On Sat, Mar 14, 2020 at 10:38 PM Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
 > 
-> > Why? The license file didn't change. This needs an explanation.
+> > Shouldn’t the race be fixed? This might still happen because -j still
+> > parallelises the build,no?
 > 
-> 1. For base-passwd, I think that it's gpl-2.0-only since it is
-> declared as "gpl-2" in debian/copyright, not "gpl-2 or later"
-> 
-> License: GPL-2
->  On Debian and Debian-based systems, a copy of the GNU General Public
->  License version 2 is available in /usr/share/common-licenses/GPL-2.
-> 
-> 2.GPLv2 constant:
-> >   9. The Free Software Foundation may publish revised and/or new
-> > versions
-> > of the General Public License from time to time.  Such new versions
-> > will
-> > be similar in spirit to the present version, but may differ in
-> > detail to
-> > address new problems or concerns.
-> > 
-> > Each version is given a distinguishing version number.  If the
-> > Program
-> > specifies a version number of this License which applies to it and
-> > "any
-> > later version", you have the option of following the terms and
-> > conditions
-> > either of that version or of any later version published by the
-> > Free
-> > Software Foundation.  If the Program does not specify a version
-> > number of
-> > this License, you may choose any version ever published by the Free
-> > Software
-> > Foundation.
-> The license would be GPLv2+, only when license name is "gpl-2 or
-> later".
-> 
-> 3. The bb file of libcomps contains the following contents:
-> LICENSE = "GPLv2"
-> The "COPYING“ file from libcomps and base-passwd are the same,
-> So it seems that the package LICENSE fields of the same copyright
-> declaration are not unified.
+> It perhaps is a make bug which only triggers with -j and -l being both
+> present  it’s perhaps easily reproducible using these together on bison
+> builds
+> As such I don’t see anything wrong with bison makery
 
-Thanks.
+This is the second bison-native problem in addition to
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13825
 
-Can you resend this patch with an explanation in the commit message
-please?
+It is possible that the gnulib issue was a red herring and it is
+actually is a parallel build issue, but both being in bison-native
+does point more towards a problem specific to bison.
 
-It can just be something like:
-
-"The source code such as update-passwd.c states the license to be under
-GPL v2 only and does not contain the "or later" clause so correct the
-recipe LICENSE field to match".
-
-Cheers,
-
-Richard
-
-
-
+cu
+Adrian
 
