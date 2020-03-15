@@ -1,38 +1,50 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 4379961B4F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FC2161B29
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Mar 2020 19:07:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48gTTl3Rp3z3w;
-	Sun, 15 Mar 2020 20:07:55 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1584299275;
-	bh=oH8QcPxvyqMjv6fqt3FG2l5E2Ce6pjGJkjixLirxCvQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rDmYaKFhzcXpPHJ5wjD7y/GmWdEHHVCllbt5OFnNxNIdAI6nKNk1wbk0vp743WrBg
-	tuE/iQXwJHkIm/EgfhBLQ3s1D9X+4DYdSu47tSEpBYBhgsfykSy27yR2P5Luznfolw
-	Kl5HN49XhpMSA2sIHcdwtbqmDIhv4+oCxTXRKohffMx+BnmOuU8T15zvv0TvjVhgZc
-	G75xZ8gZzevoHrViDt3vtpyQ4owy/pXOMd6knrOry3UTD/QQbcVERfH7lRpHBAczzd
-	gO84j2tBaoQnq9trYh7UVYmRIXm1wwMOKMy0eRU/2QsinHGkXPkgK26n1SOnlmsIXn
-	6FZJ4g0vxM/KjnWiu8RoldB3TOxy9H96Fg+k/z1YXPgR2pjCwqpvtDqYv7Y9K+owoC
-	BWAL1hqGKfyaeLO77+ltjhco+QF2UOC66VmjfAZm2XTfitzckbk4MlN/ilq22+dSRM
-	UvAR29kc1gRWgx9QAJ5MLxRGUvW/avOBwW/RwxOSAXqMOjSUQVpP7+28jUs4Cbnh4g
-	rzFXywJGIMuTmFLiWh8WwMpmtF32LBGYg+b9zjEEDfBCACjklE9wc0onbJnDsCtWxK
-	icbhx9Zo/WJSw57rstWJcp3V531NIBm2zXogittrWtrYlQNFYo9PRcv4umK8cPSIo3
-	cUp3w3vpSkrg7MRdLcnNJXmg=
-Date: Sun, 15 Mar 2020 21:07:53 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20200315190753.GA14992@localhost>
-References: <20200315181308.12792-1-bunk@stusta.de>
-	<20200315181308.12792-3-bunk@stusta.de>
-	<51a214de-d173-1dcd-061d-7e127487e364@gmail.com>
+	Sun, 15 Mar 2020 22:14:06 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id f7so15983450wml.4
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Mar 2020 15:14:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=69b7szO+sekmlRsSV3lUwPKNLF7P3pxF41ssq+Cc/NQ=;
+	b=PQZNUb/FaBwwnx+Zm4a/+0MObkX376gaJta83fNXGeG9YcQ2SwFOJhI505U057VK3T
+	LzoriGi3EzVGJj6ISy/uzCtVNBI+mhelVNVvHZIL9CkSPqDMy4csbDm7BL1XTq31hJ3o
+	DTqoWsGYKBrde1nJ58FXYiJGZmH5pI/HfwbBs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=69b7szO+sekmlRsSV3lUwPKNLF7P3pxF41ssq+Cc/NQ=;
+	b=kUU329qJuZZc/2zC7f/QhzzvaVkjdTNtE56d2Ig8nh4Llgyjwn8fo9PfVu8LUG06I3
+	2Ux2mzczPoFkXYjkjsAWT5XaQd+nV5jG6UpmbS79VOky5J/BcJla7oPzbbrfpzKiNwfR
+	8jZtyIhGPJGc1qErukGPxz8bcY1O7yAuf34w+64z1aa8HGd6W6b7Qy/WBG43XBwv9v/2
+	4y1oH8N++Ja5UDSPbNWtqTy0wY/DHVkN1hCUYK+UkOzy2RiO2/bPGLwLkWZP7tNP7wJY
+	NoOuCLdLo7T0L9N9T4oxcrQP5ODXLbcN7zoQQXUeE/seTpe8IRXcp5ttGKyuv6GnKrRf
+	A5sA==
+X-Gm-Message-State: ANhLgQ04CrSihc2zNGf+JwJ1etAoSfKcmqtSA0ZUpb6q+REl3+0Ia90s
+	j4tdt3ayZKVK5fyaOv4VPkSazg==
+X-Google-Smtp-Source: ADFU+vvlk7SCW/DfUkAk42qq+VrVasUSgW/8ppwouRapVULhrC+Fuia1ilxCMklaCE7h8deZNeBVkQ==
+X-Received: by 2002:a7b:c5c2:: with SMTP id n2mr24033038wmk.18.1584310447681; 
+	Sun, 15 Mar 2020 15:14:07 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	q3sm25670687wmj.38.2020.03.15.15.14.06
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 15 Mar 2020 15:14:07 -0700 (PDT)
+Message-ID: <cc5e7bc5640347ac632c65f9f2ebf1f6a2693a0c.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sun, 15 Mar 2020 22:14:06 +0000
+In-Reply-To: <20200315042947.3257882-1-raj.khem@gmail.com>
+References: <20200315042947.3257882-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-In-Reply-To: <51a214de-d173-1dcd-061d-7e127487e364@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [warrior][PATCH 3/3] gnupg: upgrade 2.2.16 -> 2.2.17
+Subject: Re: [PATCH] bison: Reset load average settings if specified in environment
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,33 +57,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Mar 2020 19:07:57 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sun, 15 Mar 2020 22:14:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, Mar 15, 2020 at 11:56:09AM -0700, akuster808 wrote:
+On Sat, 2020-03-14 at 21:29 -0700, Khem Raj wrote:
+> In some cases, we run into parallel build failures where
+> BUILT_SOURCES
+> is skipped, as a result required header files are not generated and
+> the
+> build fails with missing header errors like
 > 
+> ../bison-3.5.2/lib/uniwidth/width.c:21:10: fatal error: uniwidth.h:
+> No such file or directory
+>  #include "uniwidth.h"
+>           ^~~~~~~~~~~~
+> compilation terminated.
 > 
-> On 3/15/20 11:13 AM, Adrian Bunk wrote:
-> > From: Anuj Mittal <anuj.mittal@intel.com>
-> >
-> > Also fixes CVE-2019-13050. Announcement:
-> >
-> > https://lists.gnupg.org/pipermail/gnupg-announce/2019q3/000439.html
-> >
-> > (From OE-Core rev: c6e46323f0d62daf8bd424e642581fdcba920ef7)
-> >
-> > Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> BUILT_SOURCES should be built automatically with `make all` [1]
+> therefore
+> ensure that make is invoked with `all` target
 > 
-> are these bug fix only updates?
+> bison-native parallel build fails when -l<n> is passed globally from
+> build environment, errors like below due to race starts to show up
+> 
+> Therefore removes a previous load limit if set
+> 
+> [1] 
+> https://www.gnu.org/software/automake/manual/html_node/Built-Sources-Example.html#Built-Sources-Example
 
-Mostly just bugfixes, no major functionality changes.
+I'm not sure I understand this. We've seen a failure on our ubuntu1604
+performance tester which I think is the same bug as this. The
+environment on that machine doesn't change, so how/where is this -l
+option coming from?
 
-Backporting only the bugfixes gives you a patch list like Debian stable:
-https://sources.debian.org/src/gnupg2/2.2.12-1+deb10u1/debian/patches/series/
+I suspect there is some issue we're not quite getting to still :(
 
-cu
-Adrian
+Cheers,
+
+Richard
+
 
