@@ -1,51 +1,53 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id B7E0060C68
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id DEA0360F33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 18:49:06 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id mj6so8669771pjb.5
+	Mon, 16 Mar 2020 18:49:10 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id b22so8397288pls.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 11:49:08 -0700 (PDT)
+	Mon, 16 Mar 2020 11:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=upap8ryMU4iZNYgrHnx0t6JL64j2wyB7C95RyImNp6A=;
-	b=YPt9lL6VnQp3Bd+LJDeFqdbrIz11h7YmJKwSHhQyLpy4DzAuhYh7orboeKKHj2aA5V
-	L3Jduq8sL7+dTHeO6lmSmddFR2T2Lh7JD76mxIw4cUN3Ocr/b9sK3/4ne1tuGhAgcncE
-	1J4XvhSy5veYoy+cYyXVWOJGHHUtD1sfvmJ0Pvui86PJA1eznyHhIQWHXzOwvjuQahTW
-	R/2gj56OW0AZHCC1oY3eZ7zNAmzV7s/qUmAlMF9MiEJMC/xudO9Q2DN1wTEKrkBZMuRp
-	FhfNHaQfD0CAsaxThkYg8Dag/sgP7wtoYbY01gvnIR1pnkRAy1OX3lz9Dbr+T1q41RWB
-	YsLw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=h8me4N+q5iVL0wuwXeMLnH4529TY9SQz+tNes3AxZT4=;
+	b=vK96QLUfkMhjcFvyY/0sF2bsImGmkTVVtg6mppez/Qo+FNtoRwpYxH3yiFaDBSP/Bs
+	lDJG0hWphGfgYc60scUneE8+G8idpuBl91HOHjBidZxj0PVVTpMqYDj4SmWKory3A6+Y
+	/ysO3wJ3w0f0iZAkK8UOaYcmPMYOvdw543TQLguSrShnwb2DVvcHOMwDe/28Z8I9Qqap
+	O//9S3jd1DBA9jqtX4SiFqWYoSZww5RnSXn7BEQsIrx3EqF3IsuXIAA9+bWAxYcsi2Z9
+	KhsIf1yBcnmmMmyniBHkmLCGC0ArP4wgoEolMm3kA/urObwnJemZcmnvfaw6030hBQE6
+	B7Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=upap8ryMU4iZNYgrHnx0t6JL64j2wyB7C95RyImNp6A=;
-	b=PDAi710DzTM/vl3YEnsHrjeb8O8N8T7d6ipBq7PPUtnOBVXMq8A4/UqCpH4lXPx5sR
-	3+tk5GObOHU79J6gey8Vw9b6VO6/hyxCWQN4euk1CNHGKbzceitn4e9mgusuZeMlEol4
-	lqEMAQM5c9pmuxtYXwUpeDQL+Nl9iGho1VLhaN0P2Xo/UoEt0CrYH1mTjl+k+cySZM0u
-	L9rAkQUyBgKNeG5fOsd9ckBLKmOTJJNJBLd52JSko++Ppvhxr4cKqAQ5MHYnQcvPS+S7
-	OStZ0PSm4PtNMFThEZz4lIHuD7A0YlLWvFcd+wr89fSnD5FO2O4mYJKU7Z4RYQDPiUBV
-	5j/A==
-X-Gm-Message-State: ANhLgQ0wrRGKGJHON2rvLPGeSZo3DCRNz8j8rTUTTDXON80t9kAyVrS8
-	URnsBs5WFIT+5VMBmjrK+nwZW8dv
-X-Google-Smtp-Source: ADFU+vsxGQs84R/u1OCJB/4ejERqTb9GOnoltvvw9TBS3lW/TL4ntBgAp78d/RHBo+mJpcm6B1ZV2A==
-X-Received: by 2002:a17:90a:9a90:: with SMTP id
-	e16mr939757pjp.164.1584384547301; 
-	Mon, 16 Mar 2020 11:49:07 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=h8me4N+q5iVL0wuwXeMLnH4529TY9SQz+tNes3AxZT4=;
+	b=rgFm2rOwYWf+Jifo+cVpzXmmj/AAsNoeG9zMxhlZqu05nNiH6lup3ByJpxF92a2n/4
+	oN2IGaF0Yzelu4M+nVZQZZ9id4C+15n12V+DJjJ6Ochz5ESY8I6KefJd3YWhFXbMWMcF
+	BP6wCu+B3h8Xl6Nn8ungr3d2eBny733LmPCyow4MZizWEijebZxb5UiPK7aPjzK8r05y
+	ffgXbeKgSpsmLxWl4oTor5ngCojK4l5KIjdGLyGER2sLxEygo7l2qsntHHK/lv2kk0CU
+	UVZyyMSHNM1Fxvsgqj0RxA3F2aJUxSEIl33DKiT3JBg8zHo4U9S98GAAERabDIPc7AKp
+	wRmw==
+X-Gm-Message-State: ANhLgQ0132xJxgVaOV18fIEOY3K4K9NZGfE+tWVbcei2XtKeR1VU5Yoz
+	CI3vDSFqmfoSQCd6EZ90/iBi9qpQ
+X-Google-Smtp-Source: ADFU+vv73I7lIdbvVaOFTxWIHxJX6Qh16sMKPPnS1lzbXDhZ6L9Fp65g/6StJwHLoARN9Ty51exURQ==
+X-Received: by 2002:a17:90a:a40f:: with SMTP id
+	y15mr958882pjp.143.1584384551506; 
+	Mon, 16 Mar 2020 11:49:11 -0700 (PDT)
 Received: from localhost.localdomain ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	c201sm632455pfc.73.2020.03.16.11.49.06
+	c201sm632455pfc.73.2020.03.16.11.49.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 16 Mar 2020 11:49:06 -0700 (PDT)
+	Mon, 16 Mar 2020 11:49:11 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Mar 2020 11:48:55 -0700
-Message-Id: <20200316184859.11635-1-armccurdy@gmail.com>
+Date: Mon, 16 Mar 2020 11:48:56 -0700
+Message-Id: <20200316184859.11635-2-armccurdy@gmail.com>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20200316184859.11635-1-armccurdy@gmail.com>
+References: <20200316184859.11635-1-armccurdy@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/5] gcc-runtime: apply ARM specific workaround to big-endian ARM too
+Subject: [PATCH 2/5] opkg-utils: remove python scripts etc for the class-target only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,26 +60,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 18:49:06 -0000
+X-List-Received-Date: Mon, 16 Mar 2020 18:49:11 -0000
 Content-Transfer-Encoding: 8bit
+
+OE's packaging functions assume that the opkg-utils python scipts are
+always provided by opkg-utils-native, so the scripts should be removed
+for class-target only.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index b2c5d43bd4..771f344ac0 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -20,6 +20,7 @@ EXTRA_OECONF_append_libc-newlib = " --with-newlib"
+diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
+index eda73db6a4..9315240190 100644
+--- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
++++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
+@@ -34,13 +34,13 @@ do_install() {
+ 	if ! ${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'true', 'false', d)}; then
+ 		rm -f "${D}${bindir}/update-alternatives"
+ 	fi
+-
+-    if ! ${@bb.utils.contains('PACKAGECONFIG', 'python', 'true', 'false', d)}; then
+-        grep -lZ "/usr/bin/env.*python" ${D}${bindir}/* | xargs -0 rm
+-    fi
+ }
  
- # Disable ifuncs for libatomic on arm conflicts -march/-mcpu
- EXTRA_OECONF_append_arm = " libat_cv_have_ifunc=no "
-+EXTRA_OECONF_append_armeb = " libat_cv_have_ifunc=no "
- 
- # Newlib does not support symbol versioning on libsdtcc++
- SYMVERS_CONF_libc-newlib = ""
+ do_install_append_class-target() {
++	if ! ${@bb.utils.contains('PACKAGECONFIG', 'python', 'true', 'false', d)}; then
++		grep -lZ "/usr/bin/env.*python" ${D}${bindir}/* | xargs -0 rm
++	fi
++
+ 	if [ -e "${D}${bindir}/update-alternatives" ]; then
+ 		sed -i ${D}${bindir}/update-alternatives -e 's,/usr/bin,${bindir},g; s,/usr/lib,${nonarch_libdir},g'
+ 	fi
 -- 
 2.24.0
 
