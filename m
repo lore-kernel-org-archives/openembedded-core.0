@@ -1,57 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 502C160CA9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id AD01760CA9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 22:20:10 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id s5so23300791wrg.3
+	Mon, 16 Mar 2020 22:20:42 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id m15so10531729pgv.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 15:20:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=pCoF2ps2OVIJa01Bsh0VyM9Dni18/0sK81RgFD5AgdU=;
-	b=GTstKWZR/V4jRBoAx+T5LF5nxLZ/dmU/ACZLM9sIgzqDiTt/5GRVQBbKmcLsBsL/Dy
-	W1BinVAXfG/m+YHV7Y/WXwRx3QSrIupcFS2zdFEddgCpBjqlLlDhHnebiFoxqj7Vsaul
-	HW4VZCF/K1D81u0QY86Q8sDubdtKKSZO/2Rwo=
+	Mon, 16 Mar 2020 15:20:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=6L82qHe+E29T9PAgVGWc4jnSP+RkyFplJkqKOMRXlik=;
+	b=LdzG6HcIv0sWyAxl/9mRvvHY9wTt+icLhaQeaJPcBHb3uGHC9PSXMC0506EgqpgBPp
+	BDqXjyyZC96hoz1CHhj/ggeZcMPaa2Y5pIl5Cz7b3+ijaFA7xYBOVGA1eHAJTlVjhW8E
+	DifqYjstvW675Z6da5emmnskbDKhELUoLPtajbwbV+tsRqeOXl2X/OpkFuHxf62II9Lx
+	MGSMZ9wuQ+gao19nN9z35hQqWzbQVnvP6dfl9BS98nFn00OS6v7BydmiYr4RHTHw6yEd
+	DK+bpc91KVyGuU1/4WyxbgQZQoQutIx8dvZZrm3cgf6P7xn4ndFOU1ilgljl54BnqQQe
+	XWuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=pCoF2ps2OVIJa01Bsh0VyM9Dni18/0sK81RgFD5AgdU=;
-	b=V6gaUJLP9+og8GYf6YV2L6EUyAadReoP6ZSzMkt6dwiHUJOXDmb8yHV3SOEu7DUapN
-	0uUl2Xc+j702UQ1v9V1bT8IXDegRmRuhFUk8ramdTz368Wx8Ane15ASLMRNTmT6IdeeF
-	tkSpwELfbujE0BalOyPjxZWRISgutfzjc69ZAn8UzfbbGPr3z9yIm3lzxkZ5wXH9VSKq
-	QOICNl3yAMVTTH5WTpjSRi16l4SREO269LwKcAAB/Og/micMRTDzqKnPeChFejqBulpV
-	vSYPFh0QQyK1HHKjm+CdOsZf+9bTNGwb4UJGjR+RTnFKsiuB+ss+n4l06G6AKq8uTLz6
-	aCag==
-X-Gm-Message-State: ANhLgQ1kLzj58mWmgcRWq5bjPjVccnD8lfLZ/L8baQUaOeWUcEh4tFYk
-	iEVh78L4OAgKk/x9wt1YwM40tg==
-X-Google-Smtp-Source: ADFU+vtokf1AC14x84folaIaFNVd4xQeOoQl4cvjwRi1Hvopy+Yw1T6mQSK0k80XaVe8KQAOlQOjyw==
-X-Received: by 2002:adf:ed0b:: with SMTP id a11mr1547218wro.78.1584397210939; 
-	Mon, 16 Mar 2020 15:20:10 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=6L82qHe+E29T9PAgVGWc4jnSP+RkyFplJkqKOMRXlik=;
+	b=WKMqFM2xbbi1QWm+90gS5WBu+cGai180pjY89ijrdEmXu0i6owQms8Hk9+ZXapI93/
+	249+QL1JU4lyqql6CKLIi/S/01b21YKGjR/UMk4SoGvk0HVJf26DwZMeb0+dFE6r8nWY
+	dnh0ylj6f8n2UjEVKuaMoOnamYX55ADb1d9OcIDha4q0fYfeFmYq5qeDFBaUYx3Wc4DX
+	+AzFRTaPxTmAv7gUW7FWyAnWtty/PKPdI6lx5J7TGgnMaCZXf2B/aQXJNSUemjaHwSS8
+	o3qliv4gOstZfeVHyT+dyFgGsPGkgByegSzFgUGvvghTSO/h4OMWoLAHufJXSNiQDtG1
+	qoiw==
+X-Gm-Message-State: ANhLgQ0AL2dN1tEcQPJMnXDPvKQk/Sjks+NaVO53CtUPMOa4p5R/fRIM
+	hCcYBAaoaHhHvPoaMJsTRHOWfSZIro4=
+X-Google-Smtp-Source: ADFU+vuzaTaUdlaxFB/yudosfAigKeCpXiHw/xXWgUZsoF0gS5e/2IRxVZSln7woyTNmG4i706ezNg==
+X-Received: by 2002:a62:1b05:: with SMTP id b5mr1816942pfb.281.1584397243243; 
+	Mon, 16 Mar 2020 15:20:43 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::593])
 	by smtp.gmail.com with ESMTPSA id
-	n186sm1309521wme.25.2020.03.16.15.20.09
+	w128sm464722pgb.55.2020.03.16.15.20.42
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 16 Mar 2020 15:20:10 -0700 (PDT)
-Message-ID: <8eefd1f82f080fd17e2880fd979c87cf3b37090e.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, =?ISO-8859-1?Q?Andr=E9?= Draszik
-	<git@andred.net>
-Date: Mon, 16 Mar 2020 22:20:08 +0000
-In-Reply-To: <CAMKF1srjjKfaLFQH8UtL+-xdmB6_HtX=MaK3ZnJjP7LHBV2qng@mail.gmail.com>
-References: <20200316190628.19383-1-raj.khem@gmail.com>
-	<62485e60-999e-54c6-09a6-590a8a3e2072@gmail.com>
-	<CAMKF1spN-06_oN-gnXO8osuKva3DerMBoGJ8zf41ybQPtm2Csw@mail.gmail.com>
-	<c741696cac17d9b3cc50630c32ba9b0a46396cf0.camel@andred.net>
-	<CAMKF1srjjKfaLFQH8UtL+-xdmB6_HtX=MaK3ZnJjP7LHBV2qng@mail.gmail.com>
-User-Agent: Evolution 3.35.91-1 
+	Mon, 16 Mar 2020 15:20:42 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Mar 2020 15:20:56 -0700
+Message-Id: <20200316222056.2674295-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] oeqa: Extend parselogs to rpi4
+Cc: Ross Burton <ross.burton@intel.com>
+Subject: [PATCH] gcc-target: Use --with-arch=native for target gcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,56 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 22:20:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 16 Mar 2020 22:20:42 -0000
 Content-Transfer-Encoding: 8bit
 
-On Mon, 2020-03-16 at 13:50 -0700, Khem Raj wrote:
-> On Mon, Mar 16, 2020 at 1:37 PM André Draszik <git@andred.net> wrote:
-> > On Mon, 2020-03-16 at 12:17 -0700, Khem Raj wrote:
-> > > On Mon, Mar 16, 2020 at 12:12 PM akuster808 <akuster808@gmail.com
-> > > > wrote:
-> > > > 
-> > > > On 3/16/20 12:06 PM, Khem Raj wrote:
-> > > > > rpi had additional diagnostics which should be ignored [1]
-> > > > > 
-> > > > > [1] https://github.com/raspberrypi/linux/issues/3195
-> > > > 
-> > > > So does this mean OE will take similar patches for every BSP in
-> > > > the world?
-> > > > 
-> > > 
-> > > suggest a better way and I will do that in BSP layer.
-> > 
-> > Not sure about better way, but in my BSP layer I have:
-> > 
-> 
-> thanks it certainly is better than what I have, I will adapt to it
-> 
-> > layer.conf:
-> > -----------
-> > DEFAULT_TEST_SUITES_remove_mx7d = "parselogs"
-> > DEFAULT_TEST_SUITES_append_mx7d = " parselogs_mx7bsp"
-> > 
-> > lib/oeqa/runtime/cases/parselogs_mx7bsp.py:
-> > -------------------------------------------
-> > from oeqa.runtime.cases.parselogs import *
-> > 
-> > mx7bsp_errors = [
-> >     'list of messages',
-> > ]
-> > 
-> > ignore_errors['mymachine'] = mx7bsp_errors + common_errors
-> > 
-> > class ParseLogsTestMX7BSP(ParseLogsTest):
-> >     pass
+This should help gcc detect and use target ISA on x86_64 machines when
+-march is not used on cmdline
 
-Its definitely better. I'd also take patches to further improve things
-to allow easier customisation by BSPs. I did think there was some
-mechanism but I'm struggling to remember what was intended.
+[YOCTO #139]
 
-Cheers,
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-devtools/gcc/gcc-target.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-Richard
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index 7cf819272f..aa274bb936 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -19,6 +19,7 @@ EXTRA_OECONF_append_armv6 = " --with-arch=armv6${ARMFPARCHEXT}"
+ EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a${ARMFPARCHEXT}"
+ EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve${ARMFPARCHEXT}"
+ EXTRA_OECONF_append_arc = " --with-cpu=${TUNE_PKGARCH}"
++EXTRA_OECONF_append_x86-64 = " --with-arch=native"
+ 
+ # libcc1 requres gcc_cv_objdump when cross build, but gcc_cv_objdump is
+ # set in subdir gcc, so subdir libcc1 can't use it, export it here to
+-- 
+2.25.1
 
 
