@@ -1,30 +1,30 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 710C060C70
+	by mail.openembedded.org (Postfix) with ESMTP id 1B99F60C83
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 16:31:33 +0000 (UTC)
-IronPort-SDR: kFeu4sMMfOKyLNeprJw8gBY6PZkURYm811RyHbnHYtpR+h+cldJM4tK7YE5G9uTy5lDFzifJfp
-	1kkhXef3y45g==
+	Mon, 16 Mar 2020 16:31:35 +0000 (UTC)
+IronPort-SDR: wXNHtUL+9SUMHTMmSULqZbtTNF8o0TZvJSvjVBFWRbKtB4MPUGnadj+nFqLxiS544Slf02ODo9
+	7WfP2CXPf0+Q==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	16 Mar 2020 09:31:34 -0700
-IronPort-SDR: hC5mq4B1Dp0CfNW2XjYJZydynBLi+g8srbJTz+IeTlYKDbJlo78yGO16dF3FO8lgUITUvrJfwr
-	MUihFck7jB4A==
-X-IronPort-AV: E=Sophos;i="5.70,561,1574150400"; d="scan'208";a="390745667"
+	16 Mar 2020 09:31:36 -0700
+IronPort-SDR: EzuLOiiirPD+jp6O+pmot9RZlE0NFpHtIkj4077iMALbQnQ8hYZsjadF68GcPT1hduoA0+KUDX
+	8xirewUGpt1g==
+X-IronPort-AV: E=Sophos;i="5.70,561,1574150400"; d="scan'208";a="390745675"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.148.157])
 	by orsmga004-auth.jf.intel.com with
-	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2020 09:31:33 -0700
+	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2020 09:31:35 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Mar 2020 00:31:03 +0800
-Message-Id: <3c40cfe7433999272e1698e2c914d6d190f76b63.1584375668.git.anuj.mittal@intel.com>
+Date: Tue, 17 Mar 2020 00:31:04 +0800
+Message-Id: <878817358eb7c25ffa48d10dde9475299674a96c.1584375668.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1584375668.git.anuj.mittal@intel.com>
 References: <cover.1584375668.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH][zeus 5/7] python3: Upgrade 3.7.6 -> 3.7.7
+Subject: [PATCH][zeus 6/7] libarchive: Fix CVE-2020-9308
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +37,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 16:31:33 -0000
+X-List-Received-Date: Mon, 16 Mar 2020 16:31:35 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Adrian Bunk <bunk@stusta.de>
+From: Wenlin Kang <wenlin.kang@windriver.com>
 
-THE LICENSE checksum changed in this update due to copyright notice
-added for 2020.
+Fix CVE-2020-9308
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../python/{python3_3.7.6.bb => python3_3.7.7.bb}           | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.7.6.bb => python3_3.7.7.bb} (98%)
+ ...ct-files-that-declare-invalid-header.patch | 124 ++++++++++++++++++
+ .../libarchive/libarchive_3.4.0.bb            |   1 +
+ 2 files changed, 125 insertions(+)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
 
-diff --git a/meta/recipes-devtools/python/python3_3.7.6.bb b/meta/recipes-devtools/python/python3_3.7.7.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.7.6.bb
-rename to meta/recipes-devtools/python/python3_3.7.7.bb
-index b33b7028d4..823eb2f8fd 100644
---- a/meta/recipes-devtools/python/python3_3.7.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.7.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.python.org"
- LICENSE = "PSFv2"
- SECTION = "devel/python"
+diff --git a/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch b/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
+new file mode 100644
+index 0000000000..a84c1f1f76
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
+@@ -0,0 +1,124 @@
++From c1fe0a8cc8dde8ba3eae3d17e34060d2d6e4eb96 Mon Sep 17 00:00:00 2001
++From: Grzegorz Antoniak <ga@anadoxin.org>
++Date: Sun, 2 Feb 2020 08:04:41 +0100
++Subject: [PATCH] RAR5 reader: reject files that declare invalid header flags
++
++One of the fields in RAR5's base block structure is the size of the
++header. Some invalid files declare a 0 header size setting, which can
++confuse the unpacker. Minimum header size for RAR5 base blocks is 7
++bytes (4 bytes for CRC, and 3 bytes for the rest), so block size of 0
++bytes should be rejected at header parsing stage.
++
++The fix adds an error condition if header size of 0 bytes is detected.
++In this case, the unpacker will not attempt to unpack the file, as the
++header is corrupted.
++
++The commit also adds OSSFuzz #20459 sample to test further regressions
++in this area.
++
++Upstream-Status: Backport[https://github.com/libarchive/libarchive/commit/94821008d6eea81e315c5881cdf739202961040a]
++CVE: CVE-2020-9308
++
++Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
++---
++ Makefile.am                                     |  1 +
++ libarchive/archive_read_support_format_rar5.c   | 17 +++++++++++++++--
++ libarchive/test/test_read_format_rar5.c         | 15 +++++++++++++++
++ ...d_format_rar5_block_size_is_too_small.rar.uu |  8 ++++++++
++ 4 files changed, 39 insertions(+), 2 deletions(-)
++ create mode 100644 libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
++
++diff --git a/Makefile.am b/Makefile.am
++index da78b24..01abf20 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -863,6 +863,7 @@ libarchive_test_EXTRA_DIST=\
++ 	libarchive/test/test_read_format_rar5_symlink.rar.uu \
++ 	libarchive/test/test_read_format_rar5_truncated_huff.rar.uu \
++ 	libarchive/test/test_read_format_rar5_win32.rar.uu \
+++	libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu \
++ 	libarchive/test/test_read_format_raw.bufr.uu \
++ 	libarchive/test/test_read_format_raw.data.gz.uu \
++ 	libarchive/test/test_read_format_raw.data.Z.uu \
++diff --git a/libarchive/archive_read_support_format_rar5.c b/libarchive/archive_read_support_format_rar5.c
++index 7c24627..f73393c 100644
++--- a/libarchive/archive_read_support_format_rar5.c
+++++ b/libarchive/archive_read_support_format_rar5.c
++@@ -2034,6 +2034,8 @@ static int scan_for_signature(struct archive_read* a);
++ static int process_base_block(struct archive_read* a,
++     struct archive_entry* entry)
++ {
+++	const size_t SMALLEST_RAR5_BLOCK_SIZE = 3;
+++
++ 	struct rar5* rar = get_context(a);
++ 	uint32_t hdr_crc, computed_crc;
++ 	size_t raw_hdr_size = 0, hdr_size_len, hdr_size;
++@@ -2057,15 +2059,26 @@ static int process_base_block(struct archive_read* a,
++ 		return ARCHIVE_EOF;
++ 	}
++ 
+++	hdr_size = raw_hdr_size + hdr_size_len;
+++
++ 	/* Sanity check, maximum header size for RAR5 is 2MB. */
++-	if(raw_hdr_size > (2 * 1024 * 1024)) {
+++	if(hdr_size > (2 * 1024 * 1024)) {
++ 		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
++ 		    "Base block header is too large");
++ 
++ 		return ARCHIVE_FATAL;
++ 	}
++ 
++-	hdr_size = raw_hdr_size + hdr_size_len;
+++	/* Additional sanity checks to weed out invalid files. */
+++	if(raw_hdr_size == 0 || hdr_size_len == 0 ||
+++		hdr_size < SMALLEST_RAR5_BLOCK_SIZE)
+++	{
+++		archive_set_error(&a->archive, ARCHIVE_ERRNO_FILE_FORMAT,
+++			"Too small block encountered (%ld bytes)",
+++			raw_hdr_size);
+++
+++		return ARCHIVE_FATAL;
+++	}
++ 
++ 	/* Read the whole header data into memory, maximum memory use here is
++ 	 * 2MB. */
++diff --git a/libarchive/test/test_read_format_rar5.c b/libarchive/test/test_read_format_rar5.c
++index 1408f37..32e7ed8 100644
++--- a/libarchive/test/test_read_format_rar5.c
+++++ b/libarchive/test/test_read_format_rar5.c
++@@ -1194,3 +1194,18 @@ DEFINE_TEST(test_read_format_rar5_fileattr)
++ 
++ 	EPILOGUE();
++ }
+++
+++DEFINE_TEST(test_read_format_rar5_block_size_is_too_small)
+++{
+++	char buf[4096];
+++	PROLOGUE("test_read_format_rar5_block_size_is_too_small.rar");
+++
+++	/* This file is damaged, so those functions should return failure.
+++	 * Additionally, SIGSEGV shouldn't be raised during execution
+++	 * of those functions. */
+++
+++	assertA(archive_read_next_header(a, &ae) != ARCHIVE_OK);
+++	assertA(archive_read_data(a, buf, sizeof(buf)) <= 0);
+++
+++	EPILOGUE();
+++}
++diff --git a/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu b/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
++new file mode 100644
++index 0000000..5cad219
++--- /dev/null
+++++ b/libarchive/test/test_read_format_rar5_block_size_is_too_small.rar.uu
++@@ -0,0 +1,8 @@
+++begin 644 test_read_format_rar5_block_size_is_too_small.rar
+++M4F%R(1H'`0"-[P+2``+'(!P,("`@N`,!`B`@("`@("`@("`@("`@("#_("`@
+++M("`@("`@("`@((:Q;2!4-'-^4B`!((WO`M(``O\@$/\@-R`@("`@("`@("`@
+++M``X@("`@("`@____("`@("`@(/\@("`@("`@("`@("#_(+6U,2"UM;6UM[CU
+++M)B`@*(0G(`!.`#D\3R``(/__(,+_````-0#_($&%*/HE=C+N`"```"```"`D
+++J`)$#("#_("#__P`@__\@_R#_("`@("`@("#_("#__R`@(/__("#__R`"
+++`
+++end
++-- 
++2.23.0
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.0.bb b/meta/recipes-extended/libarchive/libarchive_3.4.0.bb
+index c196382b07..db45ccf654 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.4.0.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.4.0.bb
+@@ -33,6 +33,7 @@ EXTRA_OECONF += "--enable-largefile"
  
--LIC_FILES_CHKSUM = "file://LICENSE;md5=e466242989bd33c1bd2b6a526a742498"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=203a6dbc802ee896020a47161e759642"
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://CVE-2019-19221.patch \
++           file://0001-RAR5-reader-reject-files-that-declare-invalid-header.patch \
+ "
  
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://run-ptest \
-@@ -38,8 +38,8 @@ SRC_URI_append_class-nativesdk = " \
-            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
-            "
- 
--SRC_URI[md5sum] = "c08fbee72ad5c2c95b0f4e44bf6fd72c"
--SRC_URI[sha256sum] = "55a2cce72049f0794e9a11a84862e9039af9183603b78bc60d89539f82cf533f"
-+SRC_URI[md5sum] = "172c650156f7bea68ce31b2fd01fa766"
-+SRC_URI[sha256sum] = "06a0a9f1bf0d8cd1e4121194d666c4e28ddae4dd54346de6c343206599f02136"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ SRC_URI[md5sum] = "6046396255bd7cf6d0f6603a9bda39ac"
 -- 
 2.24.1
 
