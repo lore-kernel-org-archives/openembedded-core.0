@@ -1,52 +1,46 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 188E5601E6
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
+	[209.85.217.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 61037601E6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 09:05:52 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id c20so13350107lfb.0
+	Mon, 16 Mar 2020 09:13:00 +0000 (UTC)
+Received: by mail-vs1-f44.google.com with SMTP id y138so2933428vsy.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 02:05:54 -0700 (PDT)
+	Mon, 16 Mar 2020 02:13:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-language;
-	bh=zRBlsUvYm5UdEegnxOmmU211oa8MEPGYwkOAuiqoZDo=;
-	b=mLpl/24zex43Q9Zn1oqPTuixkea8YjNLZJX2iPbKoqjuWhR5qL6JxaicY8mJXWBEUn
-	qbDJZ4Gr18lSqbC8386zKtGc/ZEYf46p+RKU+HGB1fPxyIlJ/WzjvbPx7O6OWh5mrmY1
-	+Hj7ORK1Q4y1vGrEs4ZuWjR/oGOJ3+kSKFIdgLGl4tBf074nXClBzB5T8ZapzK9fAI61
-	quedhpzYL91MiL5TusxLyXlgp52u+X4ed38WTBX4benOlLPh9E4lePfXUAhsXfNNtSKA
-	LMoT+bb3pNey8ALRzGc13DtOfU9MMHlH1oyJjVyRSI3NiUSCuhrUY2TLpfx/e0AhE8l/
-	moaA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=FW1Nui9+S46EvjtHo/7d4c4IvUb/LZEgOR2QB9AXIRo=;
+	b=m6WJIzYpiAtELGw/Y6cfEOzfEia4ceptg0+tNlpkwZuGHCY0r1OfS6VdwPXwVUS8Ix
+	RJN6dlASCEdY/r+azZ3tkOC272eznBOXWB3U+c8ifDAj14F7yT2J5aAyNVaHhCRGXnXy
+	BXxy5u0iXL7PKk9ASbiTThoeeWNoREY8LqhBiVCUl0yjWnpac9A6PLZE0OARFfKDKgeJ
+	vIRpV1WTPe0e4DzK4njRN6D2ezj7iXGTHxlV7b7+Q1v2oR3Q4wHYi702bdbf1X70DiRV
+	X0PD1fZNxEq1SKUhb6fguqYIxZ2J2P03Mtkz/oo+FUbzT7FJWqpL64LZN8L8MDwpRuY2
+	1xuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-language;
-	bh=zRBlsUvYm5UdEegnxOmmU211oa8MEPGYwkOAuiqoZDo=;
-	b=S+8M3z8+S2aCeRvPystune2sw/J7fod3aAie+ScaHXPJT/QMHX3W8IoFxpEjmwMhnN
-	go5t0ZOgXIDjXpEn4goDHrwsmuMdSZjwJr0gJAHwXDunnkQdz4N/uCnzQxM8LveAn9rQ
-	eACmCiIvZ37/M4Yg56km6IeczHvmizlfrCFpxqo3JmPur5/Qcd+tEszbOOPEJ+Tlvcyq
-	OjQ7PPwMRC7MtmPD5ggaXOHBgVC83jXEjYmIHlNuWUloSIcjgxeZa6QwARM/Gfxre8zL
-	MDgY7Q4cHSm9KCz7YczInqsxf03GE23UAUbtWKEV0aP9wRUDTdC9UhrCcbX7ZXgQWiNb
-	bEkw==
-X-Gm-Message-State: ANhLgQ36n+eE6Eleke+8LcHBYWzA8UjvZvFDhryujsyxfLH6a+4PmXab
-	XzyaqunRr4CV67NL8rhJ/iHtA1QG
-X-Google-Smtp-Source: ADFU+vtJ52SMWdIYyUiaPTtx3vDkmpUMZT7auOyoSu/ScQHlby2Djd97jr8vnZBs5ZJ4vJkP5uwbsw==
-X-Received: by 2002:a19:c7cd:: with SMTP id
-	x196mr16007872lff.106.1584349553029; 
-	Mon, 16 Mar 2020 02:05:53 -0700 (PDT)
-Received: from localhost.localdomain ([213.185.29.22])
-	by smtp.gmail.com with ESMTPSA id 4sm3983516ljq.27.2020.03.16.02.05.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 16 Mar 2020 02:05:50 -0700 (PDT)
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-Message-ID: <74a48760-cfec-a2ff-e50b-ebd5d70ae8d8@gmail.com>
-Date: Mon, 16 Mar 2020 10:05:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=FW1Nui9+S46EvjtHo/7d4c4IvUb/LZEgOR2QB9AXIRo=;
+	b=Liu+xGGrvU6pWnQmnwie4McuZUAxzzzKn3bKEohk3nvz5Xk9kkP2A/TyVbubx4vBeC
+	XGwIa/91yjn9g9jkUahixymwkYh3BLqnqCt7CE5WQCCWHjH1wVT4X6QIQ+CLhH4VdnRM
+	ZEGmOInEEtVs/RpdSFiaTz4Kuy61c1u1I05CXHCKChZ6qiS3cWgc3uNZQm6qbAQJw9Zi
+	aKpa5/0wpsxr1AcgOflbOLeFNcodBaczOUzN60AQBE291YZkuOd/Rml+Ll3Vfl8AFiIN
+	oACUTiFo4OOTlXAHISIrGBflwtai+ST4ANvZENVsDzCKfttoV/PSZf+8cEgMfuy50S7v
+	Ubzw==
+X-Gm-Message-State: ANhLgQ3TcwVmds/Bwn2xRQzFkWXsCpKUPBc3FRkwoYn23kJ5QFr6oU/D
+	5yZcv6afFPgTVDTyklhdXbib7RAxrBUwWZosh8g=
+X-Google-Smtp-Source: ADFU+vvF0tsaGosayutEgbbdBm/tmfQ+bFxvmg5fLIpTMKN8axmmMnhtsolW+8zzdBbfDg+wTlKJU8flxCP2h6DHXNU=
+X-Received: by 2002:a67:1d03:: with SMTP id d3mr16460832vsd.25.1584349981030; 
+	Mon, 16 Mar 2020 02:13:01 -0700 (PDT)
 MIME-Version: 1.0
-Subject: How to skip building kernel modules
+References: <74a48760-cfec-a2ff-e50b-ebd5d70ae8d8@gmail.com>
+In-Reply-To: <74a48760-cfec-a2ff-e50b-ebd5d70ae8d8@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 16 Mar 2020 10:12:49 +0100
+Message-ID: <CANNYZj_koSi=wyZ04G-xQQsvTeY79N4S=yTpw=rLUS-bmF2sVw@mail.gmail.com>
+To: Jacob Kroon <jacob.kroon@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: How to skip building kernel modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,74 +53,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 09:05:53 -0000
-X-Groupsio-MsgNum: 136417
-Content-Type: multipart/mixed; boundary="------------2387A484E79F9CFF293FE42E"
-Content-Language: en-US
+X-List-Received-Date: Mon, 16 Mar 2020 09:13:00 -0000
+Content-Type: multipart/alternative; boundary="000000000000d1bf6f05a0f539e9"
 
---------------2387A484E79F9CFF293FE42E
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+--000000000000d1bf6f05a0f539e9
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+The way I read kernel.bbclass, you need to set CONFIG_MODULES=n in your
+configuration through some mechanism; then they'll be skipped altogether.
 
-I'm using the linux-yocto kernel recipes together with additional kernel 
-config fragments that I append in our custom distro layer. All required 
-functionality is built into the kernel, so we don't install any kernel 
-modules on target.
+Alex
 
-What would be the correct way to save compilation time and skip 
-building/packaging the kernel modules ? Do I need to provide a custom 
-defconfig that explicitly disables all modules ?
+On Mon, 16 Mar 2020 at 10:06, Jacob Kroon <jacob.kroon@gmail.com> wrote:
 
-I can monkey-patch oe-core with the attached patch in order to achieve 
-that goal, but I'm guessing something like this wouldn't be suitable for 
-upstreaming ?
+> Hi,
+>
+> I'm using the linux-yocto kernel recipes together with additional kernel
+> config fragments that I append in our custom distro layer. All required
+> functionality is built into the kernel, so we don't install any kernel
+> modules on target.
+>
+> What would be the correct way to save compilation time and skip
+> building/packaging the kernel modules ? Do I need to provide a custom
+> defconfig that explicitly disables all modules ?
+>
+> I can monkey-patch oe-core with the attached patch in order to achieve
+> that goal, but I'm guessing something like this wouldn't be suitable for
+> upstreaming ?
+>
+> Cheers,
+> Jacob
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-Cheers,
-Jacob
+--000000000000d1bf6f05a0f539e9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>The way I read kernel.bbclass, you need to set CONFIG=
+_MODULES=3Dn in your configuration through some mechanism; then they&#39;ll=
+ be skipped altogether.</div><div><br></div><div>Alex<br></div></div><br><d=
+iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 16 M=
+ar 2020 at 10:06, Jacob Kroon &lt;<a href=3D"mailto:jacob.kroon@gmail.com">=
+jacob.kroon@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">Hi,<br>
+<br>
+I&#39;m using the linux-yocto kernel recipes together with additional kerne=
+l <br>
+config fragments that I append in our custom distro layer. All required <br=
+>
+functionality is built into the kernel, so we don&#39;t install any kernel =
+<br>
+modules on target.<br>
+<br>
+What would be the correct way to save compilation time and skip <br>
+building/packaging the kernel modules ? Do I need to provide a custom <br>
+defconfig that explicitly disables all modules ?<br>
+<br>
+I can monkey-patch oe-core with the attached patch in order to achieve <br>
+that goal, but I&#39;m guessing something like this wouldn&#39;t be suitabl=
+e for <br>
+upstreaming ?<br>
+<br>
+Cheers,<br>
+Jacob<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
---------------2387A484E79F9CFF293FE42E
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-Handle-KERNEL_MODULES.patch"
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="0001-Handle-KERNEL_MODULES.patch"
-
-From: Jacob Kroon <jacob.kroon@gmail.com>
-Date: Mon, 16 Mar 2020 09:47:58 +0100
-Subject: [PATCH] Handle KERNEL_MODULES
-
----
- meta/classes/kernel.bbclass | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index a724645466..538e769f89 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -329,7 +329,12 @@ kernel_do_compile() {
- 	fi
- }
- 
-+KERNEL_MODULES ?= "1"
-+
- do_compile_kernelmodules() {
-+	if [ "${KERNEL_MODULES}" = "0" ]; then
-+		exit 0
-+	fi
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
- 	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
- 		cc_extra=$(get_cc_option)
-@@ -353,7 +358,7 @@ kernel_do_install() {
- 	# First install the modules
- 	#
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
--	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-+	if [ "${KERNEL_MODULES}" = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
- 		oe_runmake DEPMOD=echo MODLIB=${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=${D}${nonarch_base_libdir}/firmware modules_install
- 		rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
- 		rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
-
---------------2387A484E79F9CFF293FE42E--
+--000000000000d1bf6f05a0f539e9--
