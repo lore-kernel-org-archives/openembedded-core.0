@@ -1,47 +1,28 @@
-Return-Path: <andrei@gherzan.ro>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C804606BD
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D42E60867
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 15:28:37 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 6so18142860wmi.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 08:28:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.ro; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=eoHK59SaRbwYdogdkcrfWY/0Q7deYeFqizfES/+zAqw=;
-	b=TGP2LrnkmVlUDWgedfWxZIGmGtCZFZvgfk1l10QQ6T6auz3hzLnpQo05lLOGk/KaF/
-	+cH0gBQd0Oj8V0F445n6kaTdOoHnJDFFJigF4XPN+oomEFpq3kaJVB5fjar1ALo4WBLP
-	WEaO4N4IzV0IkudajjOU84HJqmYh3m14Fxovbcpy0LLFe9YhO+EUhmImnx4zzwc7elq3
-	w+cTALlujEJzdbAbzhPA8inhZQ0rJf/3jhgWboHFPsEmigWaCEXe1/d2Yp5nzxe5cGyd
-	wnMFMbboYBy+NFf0RoUwwWs93RbFQx9YLmaO1RPPmiQ4Hg9DdlmSrBvLf8rhSaJbXN1W
-	Rq0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=eoHK59SaRbwYdogdkcrfWY/0Q7deYeFqizfES/+zAqw=;
-	b=phcg4rtfn++R4wt9O0uwLGf8Zo3txMUIpCDADNBllRYc/WxvDDX63/T0DtD5plI2az
-	Rdz7o+pnfHP6cxofJYEhKlPCRvqVYJBLY0oKQ3HbkYeWxILOvvjmKreOMphd8jjkLb5U
-	bcw6GUFeXZzrFL4oD3JL2uCb6bOhrdFAfKFsYWEWCjJpGKf0AdzrukgUanyRBThLYGFp
-	T1Gi5fZ2CB4SsSuD8DS4OPnt/tdz3dsAchulDKbHu2yQ3y/2khy3OaX2V8kYLFJ8TeFD
-	9rpQ9blUwG0O6qxE74QInoOfHbGhz08Lv13rjWXg+Pso+qENFAbBFIwlLiKeYiyZT4fD
-	y5yQ==
-X-Gm-Message-State: ANhLgQ0FcmA/gG4KpWsSQBL7ngU+OKhXRf87oZQb4gexK6pOu4KPAgV6
-	x+Tp0U05H/Lno1c0aWALxQRS2+v/0w3Y5g==
-X-Google-Smtp-Source: ADFU+vscLtxzykZ49sRP/OoaeYXXzlYbhrPn2PmhIKaN7bR10s/Plsdjpmo+nr+iaULhPWQtMl+N/g==
-X-Received: by 2002:a05:600c:2c06:: with SMTP id
-	q6mr22791890wmg.52.1584372517889; 
-	Mon, 16 Mar 2020 08:28:37 -0700 (PDT)
-Received: from agherzan-lnxU.hanoverdisplays.com ([81.145.148.228])
-	by smtp.gmail.com with ESMTPSA id i9sm51036wmd.37.2020.03.16.08.28.36
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 16 Mar 2020 08:28:36 -0700 (PDT)
-From: Andrei Gherzan <andrei@gherzan.ro>
+	Mon, 16 Mar 2020 16:31:25 +0000 (UTC)
+IronPort-SDR: PjmBpYdJg6E3LmNVyFfutUilQTDjVSUwXwI4A4DMV7IrFLSqobKiqupI9wKP8j6hd1thfUupXG
+	jF8YB88pFeqA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	16 Mar 2020 09:31:26 -0700
+IronPort-SDR: 5DfmcooilmEGeiF0LWN/uy2XCZQqg/TYk52LlIzRUNtFP30AjTkkABnL6Ict1MqRaeCD/ZD46h
+	zC39m1uxuYFQ==
+X-IronPort-AV: E=Sophos;i="5.70,561,1574150400"; d="scan'208";a="390745589"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.148.157])
+	by orsmga004-auth.jf.intel.com with
+	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2020 09:31:24 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Mar 2020 15:28:20 +0000
-Message-Id: <20200316152820.23437-1-andrei@gherzan.ro>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] wic/bootimg-efi: Respect fixed partition size
+Date: Tue, 17 Mar 2020 00:30:58 +0800
+Message-Id: <cover.1584375668.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Subject: [PATCH][zeus 0/7] zeus review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,50 +35,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 15:28:37 -0000
+X-List-Received-Date: Mon, 16 Mar 2020 16:31:25 -0000
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
----
- scripts/lib/wic/plugins/source/bootimg-efi.py | 21 +++++++++++--------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+This series includes some CVE fixes for zeus. Please review.
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 2cfdc10ecd..6c3d7b8491 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -263,19 +263,22 @@ class BootimgEFIPlugin(SourcePlugin):
-             cp_cmd = "cp %s %s/" % (startup, hdddir)
-             exec_cmd(cp_cmd, True)
- 
--        du_cmd = "du -bks %s" % hdddir
--        out = exec_cmd(du_cmd)
--        blocks = int(out.split()[0])
-+        if part.fixed-size:
-+            blocks = part.fixed_size
-+        else:
-+            du_cmd = "du -bks %s" % hdddir
-+            out = exec_cmd(du_cmd)
-+            blocks = int(out.split()[0])
- 
--        extra_blocks = part.get_extra_block_count(blocks)
-+            extra_blocks = part.get_extra_block_count(blocks)
- 
--        if extra_blocks < BOOTDD_EXTRA_SPACE:
--            extra_blocks = BOOTDD_EXTRA_SPACE
-+            if extra_blocks < BOOTDD_EXTRA_SPACE:
-+                extra_blocks = BOOTDD_EXTRA_SPACE
- 
--        blocks += extra_blocks
-+            blocks += extra_blocks
- 
--        logger.debug("Added %d extra blocks to %s to get to %d total blocks",
--                     extra_blocks, part.mountpoint, blocks)
-+            logger.debug("Added %d extra blocks to %s to get to %d total blocks",
-+                         extra_blocks, part.mountpoint, blocks)
- 
-         # dosfs image, created by mkdosfs
-         bootimg = "%s/boot.img" % cr_workdir
+Thanks,
+
+Anuj
+
+The following changes since commit d8cfc309f9dd0dc8904ab18e5898770502ee2540:
+
+  cve-check: fix ValueError (2020-03-15 13:33:19 -0700)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/zeus
+
+Adrian Bunk (1):
+  python3: Upgrade 3.7.6 -> 3.7.7
+
+Anuj Mittal (1):
+  bluez: fix CVE-2020-0556
+
+Lee Chee Yang (2):
+  qemu: fix CVE-2019-20382
+  libpcre2: fix CVE-2019-20454
+
+Ross Burton (1):
+  sqlite: fix numerous CVEs
+
+Stefan Ghinea (1):
+  aspell: CVE-2019-20433
+
+Wenlin Kang (1):
+  libarchive: Fix CVE-2020-9308
+
+ meta/recipes-connectivity/bluez5/bluez5.inc   |    2 +
+ .../bluez5/bluez5/CVE-2020-0556-1.patch       |   35 +
+ .../bluez5/bluez5/CVE-2020-0556-2.patch       |  143 +++
+ .../{python3_3.7.6.bb => python3_3.7.7.bb}    |    6 +-
+ meta/recipes-devtools/qemu/qemu.inc           |    1 +
+ .../qemu/qemu/CVE-2019-20382.patch            | 1018 +++++++++++++++++
+ ...ct-files-that-declare-invalid-header.patch |  124 ++
+ .../libarchive/libarchive_3.4.0.bb            |    1 +
+ .../aspell/aspell/CVE-2019-20433-0001.patch   |  999 ++++++++++++++++
+ .../aspell/aspell/CVE-2019-20433-0002.patch   |   68 ++
+ meta/recipes-support/aspell/aspell_0.60.7.bb  |    2 +
+ .../libpcre/libpcre2/CVE-2019-20454.patch     |   19 +
+ .../recipes-support/libpcre/libpcre2_10.33.bb |    1 +
+ .../sqlite/sqlite3/CVE-2019-19244.patch       |   33 +
+ .../sqlite/sqlite3/CVE-2019-19923.patch       |   50 +
+ .../sqlite/sqlite3/CVE-2019-19924.patch       |   65 ++
+ .../sqlite/sqlite3/CVE-2019-19925.patch       |   33 +
+ .../sqlite/sqlite3/CVE-2019-19926.patch       |   31 +
+ .../sqlite/sqlite3/CVE-2019-19959.patch       |   46 +
+ .../sqlite/sqlite3/CVE-2019-20218.patch       |   31 +
+ meta/recipes-support/sqlite/sqlite3_3.29.0.bb |   10 +-
+ 21 files changed, 2714 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-1.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-2.patch
+ rename meta/recipes-devtools/python/{python3_3.7.6.bb => python3_3.7.7.bb} (98%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-20382.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
+ create mode 100644 meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch
+ create mode 100644 meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch
+ create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2019-20454.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19244.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19923.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19924.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19925.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19926.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19959.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-20218.patch
+
 -- 
-2.17.1
+2.24.1
 
 
