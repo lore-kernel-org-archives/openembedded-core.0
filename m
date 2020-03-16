@@ -1,35 +1,52 @@
-Return-Path: <wangmy@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E31061B41
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 188E5601E6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 02:01:46 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,558,1574092800"; d="scan'208";a="86367508"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 16 Mar 2020 10:01:47 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 84BD750A9992
+	Mon, 16 Mar 2020 09:05:52 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id c20so13350107lfb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 09:51:44 +0800 (CST)
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
-	Server (TLS) id 15.0.1497.2; Mon, 16 Mar 2020 10:01:45 +0800
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 16 Mar 2020 10:01:52 +0800
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Mar 2020 00:39:37 -0700
-Message-ID: <1584344377-112331-4-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1584344377-112331-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1584344377-112331-1-git-send-email-wangmy@cn.fujitsu.com>
+	Mon, 16 Mar 2020 02:05:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=to:from:subject:message-id:date:user-agent:mime-version
+	:content-language;
+	bh=zRBlsUvYm5UdEegnxOmmU211oa8MEPGYwkOAuiqoZDo=;
+	b=mLpl/24zex43Q9Zn1oqPTuixkea8YjNLZJX2iPbKoqjuWhR5qL6JxaicY8mJXWBEUn
+	qbDJZ4Gr18lSqbC8386zKtGc/ZEYf46p+RKU+HGB1fPxyIlJ/WzjvbPx7O6OWh5mrmY1
+	+Hj7ORK1Q4y1vGrEs4ZuWjR/oGOJ3+kSKFIdgLGl4tBf074nXClBzB5T8ZapzK9fAI61
+	quedhpzYL91MiL5TusxLyXlgp52u+X4ed38WTBX4benOlLPh9E4lePfXUAhsXfNNtSKA
+	LMoT+bb3pNey8ALRzGc13DtOfU9MMHlH1oyJjVyRSI3NiUSCuhrUY2TLpfx/e0AhE8l/
+	moaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+	:mime-version:content-language;
+	bh=zRBlsUvYm5UdEegnxOmmU211oa8MEPGYwkOAuiqoZDo=;
+	b=S+8M3z8+S2aCeRvPystune2sw/J7fod3aAie+ScaHXPJT/QMHX3W8IoFxpEjmwMhnN
+	go5t0ZOgXIDjXpEn4goDHrwsmuMdSZjwJr0gJAHwXDunnkQdz4N/uCnzQxM8LveAn9rQ
+	eACmCiIvZ37/M4Yg56km6IeczHvmizlfrCFpxqo3JmPur5/Qcd+tEszbOOPEJ+Tlvcyq
+	OjQ7PPwMRC7MtmPD5ggaXOHBgVC83jXEjYmIHlNuWUloSIcjgxeZa6QwARM/Gfxre8zL
+	MDgY7Q4cHSm9KCz7YczInqsxf03GE23UAUbtWKEV0aP9wRUDTdC9UhrCcbX7ZXgQWiNb
+	bEkw==
+X-Gm-Message-State: ANhLgQ36n+eE6Eleke+8LcHBYWzA8UjvZvFDhryujsyxfLH6a+4PmXab
+	XzyaqunRr4CV67NL8rhJ/iHtA1QG
+X-Google-Smtp-Source: ADFU+vtJ52SMWdIYyUiaPTtx3vDkmpUMZT7auOyoSu/ScQHlby2Djd97jr8vnZBs5ZJ4vJkP5uwbsw==
+X-Received: by 2002:a19:c7cd:: with SMTP id
+	x196mr16007872lff.106.1584349553029; 
+	Mon, 16 Mar 2020 02:05:53 -0700 (PDT)
+Received: from localhost.localdomain ([213.185.29.22])
+	by smtp.gmail.com with ESMTPSA id 4sm3983516ljq.27.2020.03.16.02.05.49
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Mon, 16 Mar 2020 02:05:50 -0700 (PDT)
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Message-ID: <74a48760-cfec-a2ff-e50b-ebd5d70ae8d8@gmail.com>
+Date: Mon, 16 Mar 2020 10:05:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 84BD750A9992.A1CEF
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] xcb-proto: upgrade 1.13 -> 1.14
+Subject: How to skip building kernel modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,38 +59,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 02:01:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 16 Mar 2020 09:05:53 -0000
+X-Groupsio-MsgNum: 136417
+Content-Type: multipart/mixed; boundary="------------2387A484E79F9CFF293FE42E"
+Content-Language: en-US
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+--------------2387A484E79F9CFF293FE42E
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+Hi,
+
+I'm using the linux-yocto kernel recipes together with additional kernel 
+config fragments that I append in our custom distro layer. All required 
+functionality is built into the kernel, so we don't install any kernel 
+modules on target.
+
+What would be the correct way to save compilation time and skip 
+building/packaging the kernel modules ? Do I need to provide a custom 
+defconfig that explicitly disables all modules ?
+
+I can monkey-patch oe-core with the attached patch in order to achieve 
+that goal, but I'm guessing something like this wouldn't be suitable for 
+upstreaming ?
+
+Cheers,
+Jacob
+
+
+--------------2387A484E79F9CFF293FE42E
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-Handle-KERNEL_MODULES.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-Handle-KERNEL_MODULES.patch"
+
+From: Jacob Kroon <jacob.kroon@gmail.com>
+Date: Mon, 16 Mar 2020 09:47:58 +0100
+Subject: [PATCH] Handle KERNEL_MODULES
+
 ---
- .../xorg-proto/{xcb-proto_1.13.bb => xcb-proto_1.14.bb}     | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.13.bb => xcb-proto_1.14.bb} (82%)
+ meta/classes/kernel.bbclass | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
-similarity index 82%
-rename from meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-rename to meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
-index 7467090920..563143f070 100644
---- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-+++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
-@@ -11,9 +11,9 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
-                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index a724645466..538e769f89 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -329,7 +329,12 @@ kernel_do_compile() {
+ 	fi
+ }
  
--SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.bz2"
--SRC_URI[md5sum] = "abe9aa4886138150bbc04ae4f29b90e3"
--SRC_URI[sha256sum] = "7b98721e669be80284e9bbfeab02d2d0d54cd11172b72271e47a2fe875e2bde1"
-+SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.gz"
-+SRC_URI[md5sum] = "b3e265a6b42d994e3d811a5d0b9ca924"
-+SRC_URI[sha256sum] = "1c3fa23d091fb5e4f1e9bf145a902161cec00d260fabf880a7a248b02ab27031"
- 
- inherit autotools pkgconfig python3native
- 
--- 
-2.17.1
++KERNEL_MODULES ?= "1"
++
+ do_compile_kernelmodules() {
++	if [ "${KERNEL_MODULES}" = "0" ]; then
++		exit 0
++	fi
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+ 	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
+ 		cc_extra=$(get_cc_option)
+@@ -353,7 +358,7 @@ kernel_do_install() {
+ 	# First install the modules
+ 	#
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+-	if (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
++	if [ "${KERNEL_MODULES}" = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		oe_runmake DEPMOD=echo MODLIB=${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=${D}${nonarch_base_libdir}/firmware modules_install
+ 		rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
+ 		rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
 
-
-
-
+--------------2387A484E79F9CFF293FE42E--
