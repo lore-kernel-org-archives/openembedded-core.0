@@ -1,50 +1,52 @@
-Return-Path: <brgl@bgdev.pl>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BFB7C6028E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F93D601EB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 10:48:49 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id d15so16613490iog.3
+	Mon, 16 Mar 2020 11:01:47 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id z12so8306854wmf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 03:48:51 -0700 (PDT)
+	Mon, 16 Mar 2020 04:01:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=U/0f1iRHsXL/JDyXOTqS5zP4kV4OC4roE4qYgLhn0r4=;
-	b=klj0ufNMwKRUseltHbDnGoytKEEBlATErwRXT/z/WzIs1uebYDKiuVJAhuvILqpkNn
-	pQHNjJAH0Am8VUTgxkn4VtKlh1+LSrPCAUTwMgYAjw3lnYJfw4ufBhGmUKc6pK0aDyC1
-	oa0IAgj+B39cO7Xx7nnXrA2tAxeUPeI5YhAKpU2u3aDCzUUa7M1apie9NIzCWDMNrN+u
-	03TKyw3zDuSCHToGhrq9A/fmXTpxC612rePrtV474LuLZeszh0zYzXu+h4Ga7acF87b0
-	O99AHV8pKxz6dKJK6IHt4hf0q4miIOFmPgDCljsnFf0Xa4akhussNe8Wjf1tHzi3NFRE
-	NZ9A==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=reK0gOShzuk+81WQ1hRyx9bgelo4m1xQcHuOeYqgDKw=;
+	b=ASfUIZb0wDp/Txd/O/Y75I33oeVhVdFqGKtGxJa3dztGgyPm07r4+oLholiyrZ+jdV
+	1WBKpMPieOrYFKCrXmKaqFmXPYX6KFis7vASvnNWmqN5kELe1Wi2XglxnUE7gnNTtpq6
+	fYxOlYafdP/76rPplIyIEiJ3tH33FsXl14Eh8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=U/0f1iRHsXL/JDyXOTqS5zP4kV4OC4roE4qYgLhn0r4=;
-	b=kQI+xFIE2/RugLcVBefEkDpc2ptAYwRJ2w735C24OGkABXVOLCEBYeX6aO9gMNCWgW
-	yIr6qUE2FgJO0Ojs0Vl4rV4F86cSzqf6oKHDCdba6zK48YnroRE+Lp0BModpFzCNcIge
-	+6ECUtHBiNc2lyjzxJyZyFLKpDwT5j2h/OC8jt8WgGnrNSZN20FHk3BF/kA/bOeNCDYO
-	RiMWgr4DXBxwsioc7fyOjlyTG25t0RjqIfmFhUD70xr5bcS9JUYyV6J85bM4pEV68/xN
-	AMmM0DwtrJ9GfZoH7EdsSe1pvVnxqcBEwRwhH77if73kIygPfx/VeYEQd5WnDrlO3z4E
-	hwHw==
-X-Gm-Message-State: ANhLgQ0smMMLMTaq7JKGZh42LRFlomwHHWxwWyX2oL1XUCZEnpZ5jpDp
-	reofyTeaK3O6Kvq1HTpc7Mvx5/6x0h4phhGMSpspTTv+
-X-Google-Smtp-Source: ADFU+vvxQq0ZzOQCVnWwicAZdK7TmfQg6Fv9/QB0towZ1jS3w7WThxdP9X/ZLkuL5nUwuCdQSL0KjzP0GUkfxU/k9+o=
-X-Received: by 2002:a05:6602:cf:: with SMTP id
-	z15mr22752058ioe.13.1584355730378; 
-	Mon, 16 Mar 2020 03:48:50 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=reK0gOShzuk+81WQ1hRyx9bgelo4m1xQcHuOeYqgDKw=;
+	b=CJ8UwVUBYJZfQDz5kpxMVxJaPb6NNbTTQdyfGdpYYGHTpqTmu1gdy/oqFuF7ebFuJN
+	Kz1iRrCgpd8xA07mHxHW741zVBeyDzC2fnASsaXuZZOTdAMyxP7aZABJ8RzaUj88H1+V
+	o4sWA2T1WGjE+pQEdwi2Ushx01vnFM0TkjpgJ9CVxlO9UkgNYYOltFoZTp5erjlffBvY
+	wd6IBd09Lnl7RbyXhorMv9twD/0JHLcobmiUs+KVO0yals+d0l44t27ap0qnxA/hoaJP
+	D0+7zZFScWIgfj2lMQMeMSeJFgEe7SNL0j2ONcrBr2ANnDpQxrk6jsIduO5XWRn2w3N3
+	xzMw==
+X-Gm-Message-State: ANhLgQ31t9rHj3dwTzPdaTVnxAhYj3IOvO3Vs6tG3+SbRTzYJhpgpTcd
+	srx4iDpL8aWVAGGI3/GNcEmPsw==
+X-Google-Smtp-Source: ADFU+vuIDJtQfLSOfR5WFHCIUUwPInnIngRr3bTsUrR5nsiwjUdNYGYV8y2aStDY8xLAafAfXQuziw==
+X-Received: by 2002:a1c:7214:: with SMTP id n20mr26677838wmc.24.1584356508299; 
+	Mon, 16 Mar 2020 04:01:48 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b202sm4662411wmd.15.2020.03.16.04.01.46
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 16 Mar 2020 04:01:47 -0700 (PDT)
+Message-ID: <f1026c8fbd01e72648f487e024ce3b18e09581cb.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Patches and discussions about the
+	oe-core layer <openembedded-core@lists.openembedded.org>, Armin Kuster
+	<akuster808@gmail.com>, Khem Raj <raj.khem@gmail.com>
+Date: Mon, 16 Mar 2020 11:01:46 +0000
+In-Reply-To: <CAMRc=MdcU5UTt6iLcpjUDxs5JkwD3db7QP--b2xjXBpqiHfguA@mail.gmail.com>
 References: <CAMRc=Mf_Ld80=Egf3jPBGYoGGZScSG3JHKL7cVArLihJSC8P0g@mail.gmail.com>
-In-Reply-To: <CAMRc=Mf_Ld80=Egf3jPBGYoGGZScSG3JHKL7cVArLihJSC8P0g@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Mon, 16 Mar 2020 11:48:39 +0100
-Message-ID: <CAMRc=MdcU5UTt6iLcpjUDxs5JkwD3db7QP--b2xjXBpqiHfguA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Armin Kuster <akuster808@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CAMRc=MdcU5UTt6iLcpjUDxs5JkwD3db7QP--b2xjXBpqiHfguA@mail.gmail.com>
+User-Agent: Evolution 3.35.91-1 
+MIME-Version: 1.0
 Cc: Guillaume Pain <gpain@baylibre.com>, Jerome Neanne <jneanne@baylibre.com>
 Subject: Re: Solving a circular dependency issue between the main image and initramfs
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -59,94 +61,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 10:48:51 -0000
+X-List-Received-Date: Mon, 16 Mar 2020 11:01:48 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-wt., 10 mar 2020 o 22:23 Bartosz Golaszewski <brgl@bgdev.pl> napisa=C5=82(a=
-):
->
-> Hi,
->
-> I've been struggling for a while now trying to fix a circular
-> dependency issue when the initramfs image needs to access an image
-> file generated by the main (for lack of a better term) image recipe.
->
-> I've tried to fix our downstream layer only to come to the conclusion
-> that some things must probably be modified upstream to make sense.
-> Unfortunately when trying different solutions I always arrive at some
-> kind of circular dependency with the current task order.
->
-> My use-case is the following:
->
-> I'd like to use dm-verity to protect the rootfs from tampering as part
-> of the verified boot flow. At boot-time the rootfs partition is mapped
-> using veritysetup from a trusted initramfs stored in a signed
-> fitImage. This initramfs also contains the root verity hash while the
-> rest of the hash tree is stored on a different partition.
->
-> The dm-verity meta data is generated from a class[1] I wrote with the
-> aim of upstreaming it to meta-security as an image conversion of
-> ext[234] and btrfs images.
->
-> For the sake of clarity of the example let's assume we're generating
-> an ext4 image for core-image-full-cmdline and set INITRAMFS_IMAGE to
-> "dm-verity-image-initramfs".
->
-> The veritysetup conversion becomes part of the
-> core-image-full-cmdline:do_image_ext4 task, while
-> dm-verity-image-initramfs:do_rootfs needs to depend on
-> core-image-full-cmdline:do_image_ext4 as it needs to compute the
-> hashes based on the block device image. It cannot however depend on
-> core-image-full-cmdline:do_image_complete as it depends on many tasks
-> (e.g. kernel and u-boot tasks) that would inevitably lead to a
-> circular dependency.
->
-> The output files from recipes inheriting image.bbclass are not
-> deployed before do_image_complete nor is anything done in do_install
-> or do_populate_sysroot (these tasks are flagged noexec or deleted), so
-> I cannot access them from dm-verity-image-initramfs:do_rootfs.
->
-> As a workaround in the downstream layer I've been manually putting the
-> verity meta data into the DEPLOY_DIR_IMAGE from
-> core-image-full-cmdline:do_image_ext4 but this obviously isn't correct
-> as far as the deploy class and sstate are concerned.
->
-> Now the question is: how do I approach it so that I can eventually
-> make it part of upstream meta-security?
->
-> Do I implement do_install in image.bbclass so that initramfs can
-> depend on core-image-full-cmdline:do_populate_sysroot and have the
-> artifacts installed locally? But this would mean that the initramfs
-> recipe deploys the main image artifact. Should we deploy the images
-> earlier (before do_image_complete) for the initramfs recipe to fetch
-> from DEPLOY_DIR_IMAGE? Any other ideas?
->
-> Best regards,
-> Bartosz Golaszewski
->
-> [1] https://github.com/brgl/meta-security/blob/topic/verity-et-al/classes=
-/dm-verity-img.bbclass
+On Mon, 2020-03-16 at 11:48 +0100, Bartosz Golaszewski wrote:
+> There has been no relevant feedback, but I've been experimenting with
+> various things. I think that the best approach would be to make image
+> artifacts installable into dependant recipes' sysroots (in
+> /usr/share/images/). This way the initramfs recipe could calculate
+> the
+> dm-verity hashes from the resulting ext4 image before it gets
+> deployed. We could also modify the kernel recipe to not fetch the
+> initramfs image from the shared directory but instead have it
+> installed in its sysroot.
+> 
+> For this I tried to re-enable the do_install task in image.bbclass.
+> Unfortunately either I'm doing something wrong or standard tasks are
+> subject to different rules when it comes to dependencies. I've been
+> so
+> far unable to make do_install depend on any image tasks (i.e. make
+> do_install depend on do_image_ext4/wic etc.) no matter if I use
+> do_install[depends] or addtask or appropriate helpers from python.
+> Unfortunately I've been unable to find any information on that in the
+> manual.
+> 
+> Is there some trick to changing the dependencies of standard tasks?
 
-There has been no relevant feedback, but I've been experimenting with
-various things. I think that the best approach would be to make image
-artifacts installable into dependant recipes' sysroots (in
-/usr/share/images/). This way the initramfs recipe could calculate the
-dm-verity hashes from the resulting ext4 image before it gets
-deployed. We could also modify the kernel recipe to not fetch the
-initramfs image from the shared directory but instead have it
-installed in its sysroot.
+I don't know how exactly you're configuring the system but it should be
+possible to have the main rootfs built first, adding in the signing,
+then have the initramfs depend on that.
 
-For this I tried to re-enable the do_install task in image.bbclass.
-Unfortunately either I'm doing something wrong or standard tasks are
-subject to different rules when it comes to dependencies. I've been so
-far unable to make do_install depend on any image tasks (i.e. make
-do_install depend on do_image_ext4/wic etc.) no matter if I use
-do_install[depends] or addtask or appropriate helpers from python.
-Unfortunately I've been unable to find any information on that in the
-manual.
+I can understand some circular dependencies could creep in as many
+configurations have the initramfs as part of the main image but if you
+don't configure that, you shouldn't see those dependencies.
 
-Is there some trick to changing the dependencies of standard tasks?
+I do fear your "re-enable" do_install route isn't going to get you
+where you want to be.
 
-Bartosz
+Can you give a simple example of how you reproduce the circular
+dependencies with standard poky or oe-core? That might let others give
+comment more easily.
+
+Cheers,
+
+Richard
+
 
