@@ -1,54 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 12D7E60273
+Return-Path: <jonathan.rajotte-julien@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+	by mail.openembedded.org (Postfix) with ESMTP id D038E60B24
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 13:07:46 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id z15so21108593wrl.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 06:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=Djp4oKvip1as1fiHwk2fbuCDsBlSKln3cXHFKTRpgF4=;
-	b=CanACfEUlNk2LwzVtNpS9PJNM+yy+Hfzfzat/UCztXeDsjlVVCmMzGxFqEpltPrLJS
-	uzMkuev+rijauAiPNZ6g8Qm4EeqzBShdvgpA/ClMr5S9MZ5PT7fn7J0LaT1uRea+6gi6
-	nF1byL6ViT3aXZ1aPgl54bwIDfoe/ISAO3g/U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Djp4oKvip1as1fiHwk2fbuCDsBlSKln3cXHFKTRpgF4=;
-	b=GG4WS8R3U+uEvTE7yB+58tSPI9fl9c8AD+4kicL9M2UcvSK0CIs9/fUXo1NjdZGFxP
-	NzUa0rGkbBrV7HLmYOLkW3YuoFQCzfVzaHDjQ5Z+ocYgQ/QbEdNlvP16B89D/0FtLjxo
-	YR5Kz3sA1ufucqJwYjgh0ipr+56p6ZrXHsdl0puDGIS1/+5TSOpMjJd8B674z6E2+Nfe
-	qQOsPoC0M/CXsK9zQJtehS6Nt26xKH9IC5Iy1qhYmvCcdInjjnUf6Y124dtUfmeouJyY
-	APZLllxNga0C6qrj4Gu5bUDCo35nVoz8diawsoxKhXD4RW0MDzgiPNaUQhH8lEvVty8E
-	woIQ==
-X-Gm-Message-State: ANhLgQ3UvvOBPyMmFmi8aBgi+tS5kWPQkGDi1uKzbMCkrYpOVtUDt4Lt
-	k0m5hynVNfUKBPbwJSljZTnxrg==
-X-Google-Smtp-Source: ADFU+vu/2nuizJJOlKu3et7U39jQ26klw48cUjl6F3HdOIulyad0OWGdygymkR8ZXSHP20CLGqUMcA==
-X-Received: by 2002:a5d:4ecd:: with SMTP id s13mr852356wrv.186.1584364067525; 
-	Mon, 16 Mar 2020 06:07:47 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	z19sm31232424wma.41.2020.03.16.06.07.46
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 16 Mar 2020 06:07:46 -0700 (PDT)
-Message-ID: <df089c009e2e77be0383c6b1222cfb71095669f0.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrej Valek <andrej.valek@siemens.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Mar 2020 13:07:45 +0000
-In-Reply-To: <bab60f8c-3c52-48e4-c453-db2cf1ea0542@siemens.com>
-References: <20200306153234.23875-1-andrej.valek@siemens.com>
-	<fc1e74eeded8fc881df72be0623b528a7c0e6d5f.camel@linuxfoundation.org>
-	<bab60f8c-3c52-48e4-c453-db2cf1ea0542@siemens.com>
-User-Agent: Evolution 3.35.91-1 
+	Mon, 16 Mar 2020 13:17:08 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id 8A37726AAF6;
+	Mon, 16 Mar 2020 09:17:09 -0400 (EDT)
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id vO5OJS3sWW-E; Mon, 16 Mar 2020 09:17:09 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id 619EB26AF0A;
+	Mon, 16 Mar 2020 09:17:09 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 619EB26AF0A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1584364629;
+	bh=1fu73cwXpL9b4zlFrzhj+ZBJP3S9CpJojFTSSsmmS44=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=LNz3tFBHEg3CK//5SoPepxMqr6Jhsb5W6leAn5OQ2zSS8PAQ7y9ZrAj8uOji96HVe
+	H3gfbZ9u3YCbRgwirye1z+Qi19wKsJrGVBrFbtMNfLhqKibB3nrwrngz3wQyfnVEmk
+	8Kk5UlLjIzWJeenCN5YTfqndnazgAeFS8Ag2RRCKTWPxmv7FQI4+RxGjWA0elibBt6
+	fAsYqVkYNXGqwK4VX9X56p8afmWFjzPx+lbsl3d3IMY2739q6wuV8GKcng2PKjbpOp
+	oy0to6vTipjmu3uJvS0lTbWUIILd+YX7AksXNEnqHX8cxiJtWsCNpg13wmqId7llH9
+	SUD0l27XP6RvA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id qAjZnvMx1GIW; Mon, 16 Mar 2020 09:17:09 -0400 (EDT)
+Received: from joraj-alpa (unknown [107.159.43.215])
+	by mail.efficios.com (Postfix) with ESMTPSA id 2B4CD26AB70;
+	Mon, 16 Mar 2020 09:17:09 -0400 (EDT)
+Date: Mon, 16 Mar 2020 09:17:04 -0400
+From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20200316131704.GA5753@joraj-alpa>
+References: <20200311222249.29880-1-jpuhlman@mvista.com>
+	<20200312142524.GB30953@joraj-alpa>
+	<da907d6a7f3e2a7391896c767a19bd36e2e87f1a.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/2] Extensible SDK improvements
+In-Reply-To: <da907d6a7f3e2a7391896c767a19bd36e2e87f1a.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] babletrace2: make manpages multilib identical
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,108 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 13:07:47 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 16 Mar 2020 13:17:09 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Andrej,
-
-On Mon, 2020-03-09 at 09:05 +0100, Andrej Valek wrote:
-> I can try to explain it in some examples.
+On Fri, Mar 13, 2020 at 07:22:03AM +0000, Richard Purdie wrote:
+> On Thu, 2020-03-12 at 10:25 -0400, Jonathan Rajotte-Julien wrote:
+> > Is this something upstream (lttng-dev mailing list) should be
+> > interested in?
 > 
-> I would like to add some extra (dynamic) variables into local.conf in
-> eSDK mode. I have found, that there are 2 possibilities (in
-> populate_sdk_ext.bbclass) sdk-extra.conf and sdk_extraconf.
-> 
-> - sdk-extra.conf
->  - You have to have handle own function to write into sdk-extra.conf. 
-> I
-> think, this is not the right way for me.
-> - sdk_extraconf
->  - This variable is fine, but there are some restrictions. There is
-> no
-> easy way to add multiple variables including values.
-> 
-> I would like to have:
-> aaa = "valueA"
-> bbb = "valueB"
-> in local.conf file.
-> 
-> 1. sdk_extraconf = 'aaa = "valueA"\nbbb = "valueB"'
->  - this will write aaa = "valueA"\nbbb = "valueB"
-> 2. python copy_buildsystem_prepend() {
->   d.setVar('sdk_extraconf','aaa = "valueA"\nbbb = "valueB"')
-> }
->  - This will write exactly, what you want, but you have to have an
-> copy_buildsystem_prepend and mentioned all variables with values
-> defined in your class/recipe.
+> Its a tough one as the man page is technically correct but the
+> references give us a challenge in packaging it. I can therefore
+> understand upstreams not accepting changes like this but if they were
+> open to some kind of tweak it does help us not have to have patches...
 
-Why do you have to set this in a copy_buildsystem_prepend ? Shouldn't
-setting the variable in your distro config or class or somewhere else
-work?
+Jeremy does plan to send us a version for upstream (bt2) someday, or at least
+start the discussion on how to help yocto packaging on that end. We will see how
+we can make everyone happy then.
 
-> 3. sdk_extraconf = "# My notes about local.conf"
->  - Yes, you can write some string into local.conf with this way.
+Cheers
 
-I suspect you can also do:
-
-sdk_extraconf () {
-# My notes about local.conf
-aaa = "valueA"
-bbb = "valueB"
-}
-
-or something like that, I admit I've not tested it though.
-
-> So I have founded an way, how to add multiple variables without
-> explicitly specifying their values.
-> 
-> # format variables for sdk_extraconf
-> def write_sdk_vars(d):
->   return '\n' + '\n'.join([var + ' = "' + d.getVar(var) + '"' for var
-> in
-> d.getVar('SDK_EXTRACONF_VARS').split()])
-> 
-> SDK_EXTRACONF_VARS = "aaa bbb"
-> sdk_extraconf_append = " ${@write_sdk_vars(d)}"
-> 
-> It will do exactly what I want, but this way is little bit nasty. So
-> I have created a more complex solution for community usage.
-> I think, this patch adds more functionality also for other projects.
-> They can add only variables into list and the class will handle all
-> the
-> rest.
-
-I do see the problem with expansion. I suspect the code in
-populate_sdk_ext should be:
-
-extraconf = (d.getVar('sdk_extraconf', False) or '').strip()
-instead of:
-extraconf = (d.getVar('sdk_extraconf') or '').strip()
-
-so that variables can be used as part of the expressions. It may be our
-change to the defaults for getVar messed this up, or it may be we just
-didn't correctly predict this problem.
-
-> Is it enough for the explanation?
-
-It helps, yes, thanks. What I don't want to do is add multiple
-confusing mechanisms which do approximately the same thing slightly
-differently. I'd much prefer one mechanism most people can use.
-
-As such the original proposal still concerns me. I'd prefer to tweak
-one of the existing ones (even merge them!) rather than add a third
-slightly different one.
-
-I do also still think some (but not all) of what you're describing
-should be in your distro/classes rather than local.conf.
-
-Is there a way we can improve the current code rather than adding more
-options. Would the expansion change be enough?
-
-Cheers,
-
-Richard
-
-
+-- 
+Jonathan Rajotte-Julien
+EfficiOS
 
