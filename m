@@ -1,30 +1,30 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 2156B60C70
+	by mail.openembedded.org (Postfix) with ESMTP id 30C6760C70
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 16:31:30 +0000 (UTC)
-IronPort-SDR: 9A5y27adUJOfDZIr3PpnW0PY0y13j3A6FltPtXE5lblyzQ9nYNVfg5S6Zuej5nIjwiGqZJOjaF
-	XAsHh1WCFrlA==
+	Mon, 16 Mar 2020 16:31:32 +0000 (UTC)
+IronPort-SDR: o0PdYEejBA2CDcIcz8roOWtSe8XZHdZRrgcX8MFtCDCHTyZDzfSxjWVzfkZZ2IFC0JxhhZAJ6N
+	im0cwBrYgqYw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	16 Mar 2020 09:31:31 -0700
-IronPort-SDR: hSDWe5QD+UkZfroXbaP5kdMTiUkEdq34c/+EoWBPEy7p6TJWqQeBZUL2EbLGPVIFqoPyUxd7Ps
-	2j61UkR1tuCA==
-X-IronPort-AV: E=Sophos;i="5.70,561,1574150400"; d="scan'208";a="390745625"
+	16 Mar 2020 09:31:33 -0700
+IronPort-SDR: ZlCa0jL7RkwYfhSuABKrPc1PKb91vpSvsXPfZehQmMI+KIr873vbMAx8QufwZBAGagQNSpCJlN
+	9f4az/RtEQbA==
+X-IronPort-AV: E=Sophos;i="5.70,561,1574150400"; d="scan'208";a="390745648"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.148.157])
 	by orsmga004-auth.jf.intel.com with
-	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2020 09:31:30 -0700
+	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Mar 2020 09:31:31 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Mar 2020 00:31:01 +0800
-Message-Id: <feb8982ac6670af3bcb1243b51054bba9b027c83.1584375668.git.anuj.mittal@intel.com>
+Date: Tue, 17 Mar 2020 00:31:02 +0800
+Message-Id: <07dc85604baf696cccf784c909dbad67275ad7b3.1584375668.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1584375668.git.anuj.mittal@intel.com>
 References: <cover.1584375668.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH][zeus 3/7] sqlite: fix numerous CVEs
+Subject: [PATCH][zeus 4/7] aspell: CVE-2019-20433
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,395 +37,1125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 16:31:30 -0000
+X-List-Received-Date: Mon, 16 Mar 2020 16:31:32 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross.burton@intel.com>
+From: Stefan Ghinea <stefan.ghinea@windriver.com>
 
-Fix the following CVEs:
+libaspell.a in GNU Aspell before 0.60.8 has a buffer over-read for a string
+ending with a single '\0' byte, if the encoding is set to ucs-2 or ucs-4
+outside of the application, as demonstrated by the ASPELL_CONF environment
+variable.
 
-- CVE-2019-19244
-- CVE-2019-19923
-- CVE-2019-19924
-- CVE-2019-19925
-- CVE-2019-19926
-- CVE-2019-19959
-- CVE-2019-20218
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2019-20433
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[ removed the CVE-2019-19880 fix that did not apply cleanly ]
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Upstream patches:
+https://github.com/GNUAspell/aspell/commit/de29341638833ba7717bd6b5e6850998454b044b
+https://github.com/GNUAspell/aspell/commit/cefd447e5528b08bb0cd6656bc52b4255692cefc
+
+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../sqlite/sqlite3/CVE-2019-19244.patch       | 33 ++++++++++
- .../sqlite/sqlite3/CVE-2019-19923.patch       | 50 ++++++++++++++
- .../sqlite/sqlite3/CVE-2019-19924.patch       | 65 +++++++++++++++++++
- .../sqlite/sqlite3/CVE-2019-19925.patch       | 33 ++++++++++
- .../sqlite/sqlite3/CVE-2019-19926.patch       | 31 +++++++++
- .../sqlite/sqlite3/CVE-2019-19959.patch       | 46 +++++++++++++
- .../sqlite/sqlite3/CVE-2019-20218.patch       | 31 +++++++++
- meta/recipes-support/sqlite/sqlite3_3.29.0.bb | 10 ++-
- 8 files changed, 298 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19244.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19923.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19924.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19925.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19926.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19959.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-20218.patch
+ .../aspell/aspell/CVE-2019-20433-0001.patch   | 999 ++++++++++++++++++
+ .../aspell/aspell/CVE-2019-20433-0002.patch   |  68 ++
+ meta/recipes-support/aspell/aspell_0.60.7.bb  |   2 +
+ 3 files changed, 1069 insertions(+)
+ create mode 100644 meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch
+ create mode 100644 meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19244.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19244.patch
+diff --git a/meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch
 new file mode 100644
-index 0000000000..3f70979acc
+index 0000000000..fd68461e32
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19244.patch
-@@ -0,0 +1,33 @@
-+CVE: CVE-2019-19244
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
++++ b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch
+@@ -0,0 +1,999 @@
++From de29341638833ba7717bd6b5e6850998454b044b Mon Sep 17 00:00:00 2001
++From: Kevin Atkinson <kevina@gnu.org>
++Date: Sat, 17 Aug 2019 17:06:53 -0400
++Subject: [PATCH 1/2] Don't allow null-terminated UCS-2/4 strings using the
++ original API.
 +
-+From 0f690d4ae5ffe656762fdbb7f36cc4c2dcbb2d9d Mon Sep 17 00:00:00 2001
-+From: dan <dan@noemail.net>
-+Date: Fri, 22 Nov 2019 10:14:01 +0000
-+Subject: [PATCH] Fix a crash that could occur if a sub-select that uses both
-+ DISTINCT and window functions also used an ORDER BY that is the same as its
-+ select list.
++Detect if the encoding is UCS-2/4 and the length is -1 in affected API
++functions and refuse to convert the string.  If the string ends up
++being converted somehow, abort with an error message in DecodeDirect
++and ConvDirect.  To convert a null terminated string in
++Decode/ConvDirect, a negative number corresponding to the width of the
++underlying character type for the encoding is expected; for example,
++if the encoding is "ucs-2" then a the size is expected to be -2.
 +
-+Amalgamation version of the patch:
-+FossilOrigin-Name: bcdd66c1691955c697f3d756c2b035acfe98f6aad72e90b0021bab6e9023b3ba
++Also fix a 1-3 byte over-read in DecodeDirect when reading UCS-2/4
++strings when a size is provided (found by OSS-Fuzz).
++
++Also fix a bug in DecodeDirect that caused DocumentChecker to return
++the wrong offsets when working with UCS-2/4 strings.
++
++CVE: CVE-2019-20433
++Upstream-Status: Backport [https://github.com/GNUAspell/aspell/commit/de29341638833ba7717bd6b5e6850998454b044b]
++
++[SG: - adjusted context
++     - discarded test changes as test framework is not available
++     - discarded manual entry changes for features that aren't backported]
++Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
 +---
-+ sqlite3.c | 5 +++--
-+ sqlite3.h | 2 +-
-+ 2 files changed, 4 insertions(+), 3 deletions(-)
++ auto/MkSrc/CcHelper.pm      | 99 ++++++++++++++++++++++++++++++++++---
++ auto/MkSrc/Create.pm        |  5 +-
++ auto/MkSrc/Info.pm          |  5 +-
++ auto/MkSrc/ProcCc.pm        | 24 +++++----
++ auto/MkSrc/ProcImpl.pm      | 57 +++++++++++++++------
++ auto/MkSrc/Read.pm          |  4 +-
++ auto/mk-src.in              | 44 +++++++++++++++--
++ common/convert.cpp          | 39 ++++++++++++---
++ common/convert.hpp          | 38 +++++++++++++-
++ common/document_checker.cpp | 17 ++++++-
++ common/document_checker.hpp |  1 +
++ common/version.cpp          | 15 ++++--
++ configure.ac                |  8 +++
++ manual/aspell.texi          | 58 ++++++++++++++++------
++ manual/readme.texi          | 70 +++++++++++++++++++++-----
++ 15 files changed, 409 insertions(+), 75 deletions(-)
 +
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 8fd740b..db1c649 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -131679,6 +131679,7 @@ SQLITE_PRIVATE int sqlite3Select(
-+   */
-+   if( (p->selFlags & (SF_Distinct|SF_Aggregate))==SF_Distinct 
-+    && sqlite3ExprListCompare(sSort.pOrderBy, pEList, -1)==0
-++   && p->pWin==0
-+   ){
-+     p->selFlags &= ~SF_Distinct;
-+     pGroupBy = p->pGroupBy = sqlite3ExprListDup(db, pEList, 0);
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19923.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19923.patch
-new file mode 100644
-index 0000000000..b1b866b250
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19923.patch
-@@ -0,0 +1,50 @@
-+CVE: CVE-2019-19923
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From b64463719dc53bde98b0ce3930b10a32560c3a02 Mon Sep 17 00:00:00 2001
-+From: "D. Richard Hipp" <drh@hwaci.com>
-+Date: Wed, 18 Dec 2019 20:51:58 +0000
-+Subject: [PATCH] Continue to back away from the LEFT JOIN optimization of
-+ check-in [41c27bc0ff1d3135] by disallowing query flattening if the outer
-+ query is DISTINCT.  Without this fix, if an index scan is run on the table
-+ within the view on the right-hand side of the LEFT JOIN, stale result
-+ registers might be accessed yielding incorrect results, and/or an
-+ OP_IfNullRow opcode might be invoked on the un-opened table, resulting in a
-+ NULL-pointer dereference.  This problem was found by the Yongheng and Rui
-+ fuzzer.
-+
-+FossilOrigin-Name: 862974312edf00e9d1068115d1a39b7235b7db68b6d86b81d38a12f025a4748e
-+---
-+ sqlite3.c | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index d29da07..5bc06c8 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -129216,6 +129216,7 @@ static void substSelect(
-+ **        (3b) the FROM clause of the subquery may not contain a virtual
-+ **             table and
-+ **        (3c) the outer query may not be an aggregate.
-++**        (3d) the outer query may not be DISTINCT.
-+ **
-+ **   (4)  The subquery can not be DISTINCT.
-+ **
-+@@ -129412,8 +129413,11 @@ static int flattenSubquery(
-+   */
-+   if( (pSubitem->fg.jointype & JT_OUTER)!=0 ){
-+     isLeftJoin = 1;
-+-    if( pSubSrc->nSrc>1 || isAgg || IsVirtual(pSubSrc->a[0].pTab) ){
-+-      /*  (3a)             (3c)     (3b) */
-++    if( pSubSrc->nSrc>1                   /* (3a) */
-++     || isAgg                             /* (3b) */
-++     || IsVirtual(pSubSrc->a[0].pTab)     /* (3c) */
-++     || (p->selFlags & SF_Distinct)!=0    /* (3d) */
-++    ){
-+       return 0;
-+     }
-+   }
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19924.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19924.patch
-new file mode 100644
-index 0000000000..80d5edbb0c
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19924.patch
-@@ -0,0 +1,65 @@
-+CVE: CVE-2019-19924
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 854fe21e8a987f84da81f6bb9e90abc5355c6621 Mon Sep 17 00:00:00 2001
-+From: "D. Richard Hipp" <drh@hwaci.com>
-+Date: Thu, 19 Dec 2019 20:37:32 +0000
-+Subject: [PATCH] When an error occurs while rewriting the parser tree for
-+ window functions in the sqlite3WindowRewrite() routine, make sure that
-+ pParse->nErr is set, and make sure that this shuts down any subsequent code
-+ generation that might depend on the transformations that were implemented. 
-+ This fixes a problem discovered by the Yongheng and Rui fuzzer.
-+
-+Amalgamation format of backported patch
-+FossilOrigin-Name: e2bddcd4c55ba3cbe0130332679ff4b048630d0ced9a8899982edb5a3569ba7f
-+---
-+ sqlite3.c | 16 +++++++++++-----
-+ sqlite3.h |  2 +-
-+ 2 files changed, 12 insertions(+), 6 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 408ec4c..857c28e 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -77798,7 +77798,8 @@ SQLITE_PRIVATE void sqlite3VdbeSetP4KeyInfo(Parse *pParse, Index *pIdx){
-+ */
-+ static void vdbeVComment(Vdbe *p, const char *zFormat, va_list ap){
-+   assert( p->nOp>0 || p->aOp==0 );
-+-  assert( p->aOp==0 || p->aOp[p->nOp-1].zComment==0 || p->db->mallocFailed );
-++  assert( p->aOp==0 || p->aOp[p->nOp-1].zComment==0 || p->db->mallocFailed
-++          || p->pParse->nErr>0 );
-+   if( p->nOp ){
-+     assert( p->aOp );
-+     sqlite3DbFree(p->db, p->aOp[p->nOp-1].zComment);
-+@@ -97872,6 +97873,7 @@ static int codeCompare(
-+   int addr;
-+   CollSeq *p4;
-+ 
-++  if( pParse->nErr ) return 0;
-+   p4 = sqlite3BinaryCompareCollSeq(pParse, pLeft, pRight);
-+   p5 = binaryCompareP5(pLeft, pRight, jumpIfNull);
-+   addr = sqlite3VdbeAddOp4(pParse->pVdbe, opcode, in2, dest, in1,
-+@@ -147627,7 +147629,7 @@ SQLITE_PRIVATE int sqlite3WindowRewrite(Parse *pParse, Select *p){
-+ 
-+     pTab = sqlite3DbMallocZero(db, sizeof(Table));
-+     if( pTab==0 ){
-+-      return SQLITE_NOMEM;
-++      return sqlite3ErrorToParser(db, SQLITE_NOMEM);
-+     }
-+ 
-+     p->pSrc = 0;
-+@@ -147731,6 +147733,10 @@ SQLITE_PRIVATE int sqlite3WindowRewrite(Parse *pParse, Select *p){
-+     sqlite3DbFree(db, pTab);
-+   }
-+ 
-++  if( rc && pParse->nErr==0 ){
-++    assert( pParse->db->mallocFailed );
-++    return sqlite3ErrorToParser(pParse->db, SQLITE_NOMEM);
-++  }
-+   return rc;
++diff --git a/auto/MkSrc/CcHelper.pm b/auto/MkSrc/CcHelper.pm
++index f2de991..0044335 100644
++--- a/auto/MkSrc/CcHelper.pm
+++++ b/auto/MkSrc/CcHelper.pm
++@@ -10,8 +10,8 @@ BEGIN {
++   use Exporter;
++   our @ISA = qw(Exporter);
++   our @EXPORT = qw(to_c_return_type c_error_cond
++-		   to_type_name make_desc make_func call_func
++-		   make_c_method call_c_method form_c_method
+++		   to_type_name make_desc make_func call_func get_c_func_name
+++		   make_c_method make_wide_macro call_c_method form_c_method
++ 		   make_cxx_method);
 + }
 + 
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19925.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19925.patch
-new file mode 100644
-index 0000000000..ffc2c6afff
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19925.patch
-@@ -0,0 +1,33 @@
-+CVE: CVE-2019-19925
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From e92580434d2cdca228649d32f76167492de4f512 Mon Sep 17 00:00:00 2001
-+From: "D. Richard Hipp" <drh@hwaci.com>
-+Date: Thu, 19 Dec 2019 15:15:40 +0000
-+Subject: [PATCH] Fix the zipfile extension so that INSERT works even if the
-+ pathname of the file being inserted is a NULL.  Bug discovered by the
-+ Yongheng and Rui fuzzer.
-+
-+FossilOrigin-Name: a80f84b511231204658304226de3e075a55afc2e3f39ac063716f7a57f585c06
-+---
-+ shell.c   | 1 +
-+ sqlite3.c | 4 ++--
-+ sqlite3.h | 2 +-
-+ 3 files changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/shell.c b/shell.c
-+index 053180c..404a8d4 100644
-+--- a/shell.c
-++++ b/shell.c
-+@@ -5827,6 +5827,7 @@ static int zipfileUpdate(
++@@ -90,6 +90,69 @@ sub make_func ( $ \@ $ ; \% ) {
++ 	   ')'));
++ }
 + 
-+     if( rc==SQLITE_OK ){
-+       zPath = (const char*)sqlite3_value_text(apVal[2]);
-++      if( zPath==0 ) zPath = "";
-+       nPath = (int)strlen(zPath);
-+       mTime = zipfileGetTime(apVal[4]);
+++=item make_wide_version NAME @TYPES PARMS ; %ACCUM
+++
+++Creates the wide character version of the function if needed
+++
+++=cut
+++
+++sub make_wide_version ( $ \@ $ ; \% ) {
+++  my ($name, $d, $p, $accum) = @_;
+++  my @d = @$d;
+++  shift @d;
+++  return '' unless grep {$_->{type} eq 'encoded string'} @d;
+++  $accum->{sys_headers}{'stddef.h'} = true;
+++  $accum->{suffix}[5] = <<'---';
+++
+++/******************* private implemantion details *********************/
+++
+++#ifdef __cplusplus
+++#  define aspell_cast_(type, expr) (static_cast<type>(expr))
+++#  define aspell_cast_from_wide_(str) (static_cast<const void *>(str))
+++#else
+++#  define aspell_cast_(type, expr) ((type)(expr))
+++#  define aspell_cast_from_wide_(str) ((const char *)(str))
+++#endif
+++---
+++  my @parms = map {$_->{type} eq 'encoded string'
+++                       ? ($_->{name}, $_->{name}.'_size')
+++                       : $_->{name}} @d;
+++  $name = to_lower $name;
+++  $accum->{suffix}[0] = <<'---';
+++/**********************************************************************/
+++
+++#ifdef ASPELL_ENCODE_SETTING_SECURE
+++---
+++  $accum->{suffix}[2] = "#endif\n";
+++  my @args = map  {$_->{type} eq 'encoded string'
+++                       ? ($_->{name}, "$_->{name}_size", '-1')
+++                       : $_->{name}} @d;
+++  $accum->{suffix}[1] .=
+++      (join '',
+++       "#define $name",
+++       '(', join(', ', @parms), ')',
+++       "\\\n    ",
+++       $name, '_wide',
+++       '(', join(', ', @args), ')',
+++       "\n");
+++  @args = map  {$_->{type} eq 'encoded string'
+++                    ? ("aspell_cast_from_wide_($_->{name})",
+++                       "$_->{name}_size*aspell_cast_(int,sizeof(*($_->{name})))",
+++                       "sizeof(*($_->{name}))")
+++                    : $_->{name}} @d;
+++  return (join '',
+++          "\n",
+++          "/* version of $name that is safe to use with (null terminated) wide characters */\n",
+++          '#define ',
+++          $name, '_w',
+++          '(', join(', ', @parms), ')', 
+++          "\\\n    ",
+++          $name, '_wide',
+++          '(', join(', ', @args), ')',
+++          "\n");
+++}
+++
+++
++ =item call_func NAME @TYPES PARMS ; %ACCUM
++ 
++ Return a string to call a func.  Will prefix the function with return
++@@ -103,7 +166,6 @@ Parms can be any of:
++ 
++ sub call_func ( $ \@ $ ; \% ) {
++   my ($name, $d, $p, $accum) = @_;
++-  $accum = {} unless defined $accum;
++   my @d = @$d;
++   my $func_ret = to_type_name(shift @d, {%$p,pos=>'return'}, %$accum);
++   return (join '',
++@@ -148,8 +210,14 @@ sub to_type_name ( $ $ ; \% ) {
++   my $name = $t->{name};
++   my $type = $t->{type};
++ 
++-  return ( (to_type_name {%$d, type=>'string'}, $p, %$accum) ,
++-	   (to_type_name {%$d, type=>'int', name=>"$d->{name}_size"}, $p, %$accum) )
+++  if ($name eq 'encoded string' && $is_cc && $pos eq 'parm') {
+++    my @types = ((to_type_name {%$d, type=>($p->{wide}?'const void pointer':'string')}, $p, %$accum),
+++                 (to_type_name {%$d, type=>'int', name=>"$d->{name}_size"}, $p, %$accum));
+++    push @types, (to_type_name {%$d, type=>'int', name=>"$d->{name}_type_width"}, $p, %$accum) if $p->{wide};
+++    return @types;
+++  }
+++  return ( (to_type_name {%$d, type=>($p->{wide}?'const void pointer':'string')}, $p, %$accum) ,
+++           (to_type_name {%$d, type=>'int', name=>"$d->{name}_size"}, $p, %$accum) )
++       if $name eq 'encoded string' && $is_cc && $pos eq 'parm';
++ 
++   my $str;
++@@ -174,7 +242,7 @@ sub to_type_name ( $ $ ; \% ) {
++ 	$str .= "String";
++       }
++     } elsif ($name eq 'encoded string') {
++-      $str .= "const char *";
+++      $str .= $p->{wide} ? "const void *" : "const char *";
++     } elsif ($name eq '') {
++       $str .= "void";
++     } elsif ($name eq 'bool' && $is_cc) {
++@@ -186,7 +254,7 @@ sub to_type_name ( $ $ ; \% ) {
++       if ($t->{pointer}) {
++ 	$accum->{types}->{$name} = $t;
++       } else {
++-	$accum->{headers}->{$t->{created_in}} = true;
+++        $accum->{headers}->{$t->{created_in}} = true unless $mode eq 'cc';
++       }
++       $str .= "$c_type Aspell" if $mode eq 'cc';
++       $str .= to_mixed($name);
++@@ -214,6 +282,7 @@ sub to_type_name ( $ $ ; \% ) {
++   return $str;
++ }
++ 
+++
++ =item make_desc DESC ; LEVEL
++ 
++ Make a C comment out of DESC optionally indenting it LEVEL spaces.
++@@ -286,6 +355,7 @@ sub form_c_method ($ $ $ ; \% )
++     } else {
++       $func = "aspell $class $name";
 +     }
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19926.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19926.patch
-new file mode 100644
-index 0000000000..92bc7908bc
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19926.patch
-@@ -0,0 +1,31 @@
-+CVE: CVE-2019-19926
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 4165b1e1e0001165ace9051a70f938099505eadc Mon Sep 17 00:00:00 2001
-+From: "D. Richard Hipp" <drh@hwaci.com>
-+Date: Thu, 19 Dec 2019 22:08:19 +0000
-+Subject: [PATCH] Continuation of [e2bddcd4c55ba3cb]: Add another spot where it
-+ is necessary to abort early due to prior errors in sqlite3WindowRewrite().
-+
-+FossilOrigin-Name: cba2a2a44cdf138a629109bb0ad088ed4ef67fc66bed3e0373554681a39615d2
-+---
-+ sqlite3.c | 7 ++++---
-+ sqlite3.h | 2 +-
-+ 2 files changed, 5 insertions(+), 4 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 857c28e..19a474d 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -128427,6 +128427,7 @@ static int multiSelect(
-+     }
-+   #endif
+++    $func .= " wide" if $p->{wide};
++     if (exists $d->{'const'}) {
++       splice @data, 1, 0, {type => "const $class", name=> $this_name};
++     } else {
++@@ -306,6 +376,21 @@ sub make_c_method ($ $ $ ; \%)
++   return &make_func(@ret);
++ }
++ 
+++sub get_c_func_name ($ $ $)
+++{
+++  my @ret = &form_c_method(@_);
+++  return undef unless @ret > 0;
+++  return to_lower $ret[0];
+++}
+++
+++sub make_wide_macro ($ $ $ ; \%)
+++{
+++  my @ret = &form_c_method(@_);
+++  return undef unless @ret > 0;
+++  my $str = &make_wide_version(@ret);
+++  return $str;
+++}
+++
++ sub call_c_method ($ $ $ ; \%)
++ {
++   my @ret = &form_c_method(@_);
++diff --git a/auto/MkSrc/Create.pm b/auto/MkSrc/Create.pm
++index d39b60e..630ede5 100644
++--- a/auto/MkSrc/Create.pm
+++++ b/auto/MkSrc/Create.pm
++@@ -77,8 +77,10 @@ sub create_cc_file ( % )  {
++   $file .= "#include \"aspell.h\"\n" if $p{type} eq 'cxx';
++   $file .= "#include \"settings.h\"\n" if $p{type} eq 'native_impl' && $p{name} eq 'errors';
++   $file .= "#include \"gettext.h\"\n" if $p{type} eq 'native_impl' && $p{name} eq 'errors';
+++  $file .= cmap {"#include <$_>\n"} sort keys %{$accum{sys_headers}};
++   $file .= cmap {"#include \"".to_lower($_).".hpp\"\n"} sort keys %{$accum{headers}};
++-  $file .= "#ifdef __cplusplus\nextern \"C\" {\n#endif\n" if $p{header} && !$p{cxx};
+++  $file .= "\n#ifdef __cplusplus\nextern \"C\" {\n#endif\n" if $p{header} && !$p{cxx};
+++  $file .= join('', grep {defined $_} @{$accum{prefix}});
++   $file .= "\nnamespace $p{namespace} {\n\n" if $p{cxx};
++   if (defined $info{forward}{proc}{$p{type}}) {
++     my @types = sort {$a->{name} cmp $b->{name}} (values %{$accum{types}});
++@@ -86,6 +88,7 @@ sub create_cc_file ( % )  {
 +   }
-++  if( pParse->nErr ) goto multi_select_end;
-+   
-+   /* Compute collating sequences used by 
-+   ** temporary tables needed to implement the compound select.
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19959.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19959.patch
-new file mode 100644
-index 0000000000..cba8ec9d30
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19959.patch
-@@ -0,0 +1,46 @@
-+CVE: CVE-2019-19959
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From f83f7e8141ee7cbbf7f2dc8985279a7372b259b6 Mon Sep 17 00:00:00 2001
-+From: "D. Richard Hipp" <drh@hwaci.com>
-+Date: Mon, 23 Dec 2019 21:04:33 +0000
-+Subject: [PATCH] Fix the zipfile() function in the zipfile extension so that
-+ it is able to deal with goofy filenames that contain embedded zeros.
-+
-+FossilOrigin-Name: cc0fb00a128fd0773db5ff7891f7aa577a3671d570166d2cbb30df922344adcf
-+---
-+ shell.c   | 4 ++--
-+ sqlite3.c | 4 ++--
-+ sqlite3.h | 2 +-
-+ 3 files changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/shell.c b/shell.c
-+index 404a8d4..48065e9 100644
-+--- a/shell.c
-++++ b/shell.c
-+@@ -5841,7 +5841,7 @@ static int zipfileUpdate(
-+         zFree = sqlite3_mprintf("%s/", zPath);
-+         if( zFree==0 ){ rc = SQLITE_NOMEM; }
-+         zPath = (const char*)zFree;
-+-        nPath++;
-++        nPath = (int)strlen(zPath);
++   $file .= "\n";
++   $file .= $body;
+++  $file .= join('', grep {defined $_} @{$accum{suffix}});
++   $file .= "\n\n}\n\n" if $p{cxx};
++   $file .= "#ifdef __cplusplus\n}\n#endif\n" if $p{header} && !$p{cxx};
++   $file .= "#endif /* $hm */\n" if $p{header};
++diff --git a/auto/MkSrc/Info.pm b/auto/MkSrc/Info.pm
++index c644028..ace8e21 100644
++--- a/auto/MkSrc/Info.pm
+++++ b/auto/MkSrc/Info.pm
++@@ -60,6 +60,7 @@ each proc sub should take the following argv
++     the object from which it is a member of
++   no native: do not attempt to create a native implementation
++   treat as object: treat as a object rather than a pointer
+++  no conv: do not converted an encoded string
++ 
++ The %info structure is initialized as follows:
++ 
++@@ -104,8 +105,8 @@ The %info structure is initialized as follows:
++   errors => {}, # possible errors
++   method => {
++     # A class method
++-    options => ['desc', 'posib err', 'c func', 'const',
++-		'c only', 'c impl', 'cxx impl'],
+++    options => ['desc', 'posib err', 'c func', 'const', 'no conv', 'on conv error',
+++		'c only', 'c impl', 'cxx impl', 'cc extra'],
++     groups => undef},
++   constructor => {
++     # A class constructor
++diff --git a/auto/MkSrc/ProcCc.pm b/auto/MkSrc/ProcCc.pm
++index 47c4338..98cc435 100644
++--- a/auto/MkSrc/ProcCc.pm
+++++ b/auto/MkSrc/ProcCc.pm
++@@ -23,7 +23,7 @@ use MkSrc::Info;
++ sub make_c_object ( $ @ );
++ 
++ $info{group}{proc}{cc} = sub {
++-  my ($data) = @_;
+++  my ($data,@rest) = @_;
++   my $ret;
++   my $stars = (70 - length $data->{name})/2;
++   $ret .= "/";
++@@ -33,14 +33,14 @@ $info{group}{proc}{cc} = sub {
++   $ret .= "/\n";
++   foreach my $d (@{$data->{data}}) {
++     $ret .= "\n\n";
++-    $ret .= $info{$d->{type}}{proc}{cc}->($d);
+++    $ret .= $info{$d->{type}}{proc}{cc}->($d,@rest);
++   }
++   $ret .= "\n\n";
++   return $ret;
++ };
++ 
++ $info{enum}{proc}{cc} = sub {
++-  my ($d) = @_;
+++  my ($d,@rest) = @_;
++   my $n = "Aspell".to_mixed($d->{name});
++   return ("\n".
++ 	  make_desc($d->{desc}).
++@@ -58,21 +58,26 @@ $info{struct}{proc}{cc} = sub {
++ };
++ 
++ $info{union}{proc}{cc} = sub {
++-  return make_c_object "union", $_[0];
+++  return make_c_object "union", @_;
++ };
++ 
++ $info{class}{proc}{cc} = sub {
++-  my ($d) = @_;
+++  my ($d,$accum) = @_;
++   my $class = $d->{name};
++   my $classname = "Aspell".to_mixed($class);
++   my $ret = "";
++   $ret .= "typedef struct $classname $classname;\n\n";
++   foreach (@{$d->{data}}) {
++-    my $s = make_c_method($class, $_, {mode=>'cc'});
+++    my $s = make_c_method($class, $_, {mode=>'cc'}, %$accum);
++     next unless defined $s;
++     $ret .= "\n";
++     $ret .= make_desc($_->{desc});
++-    $ret .= make_c_method($class, $_, {mode=>'cc'}).";\n";
+++    $ret .= make_c_method($class, $_, {mode=>'cc'}, %$accum).";\n";
+++    if (grep {$_->{type} eq 'encoded string'} @{$_->{data}}) {
+++      $ret .= make_c_method($class, $_, {mode=>'cc', wide=>true}, %$accum).";\n";
+++      $ret .= make_wide_macro($class, $_, {mode=>'cc'}, %$accum);
+++    }
+++    $ret .= "\n".$_->{'cc extra'}."\n" if defined $_->{'cc extra'};
++   }
++   $ret .= "\n";
++   return $ret;
++@@ -105,7 +110,8 @@ $info{errors}{proc}{cc} = sub {
++ };
++ 
++ sub make_c_object ( $ @ ) {
++-  my ($t, $d) = @_;
+++  my ($t, $d, $accum) = @_;
+++  $accum = {} unless defined $accum;
++   my $struct;
++   $struct .= "Aspell";
++   $struct .= to_mixed($d->{name});
++@@ -120,7 +126,7 @@ sub make_c_object ( $ @ ) {
++ 		"\n};\n"),
++ 	  "typedef $t $struct $struct;",
++ 	  join ("\n",
++-		map {make_c_method($d->{name}, $_, {mode=>'cc'}).";"}
+++		map {make_c_method($d->{name}, $_, {mode=>'cc'}, %$accum).";"}
++ 		grep {$_->{type} eq 'method'}
++ 		@{$d->{data}})
++ 	  )."\n";
++diff --git a/auto/MkSrc/ProcImpl.pm b/auto/MkSrc/ProcImpl.pm
++index b8628fd..3d0f220 100644
++--- a/auto/MkSrc/ProcImpl.pm
+++++ b/auto/MkSrc/ProcImpl.pm
++@@ -45,10 +45,13 @@ $info{class}{proc}{impl} = sub {
++   foreach (grep {$_ ne ''} split /\s*,\s*/, $data->{'c impl headers'}) {
++     $accum->{headers}{$_} = true;
++   }
++-  foreach my $d (@{$data->{data}}) {
+++  my @d = @{$data->{data}};
+++  while (@d) {
+++    my $d = shift @d;
+++    my $need_wide = false;
++     next unless one_of $d->{type}, qw(method constructor destructor);
++     my @parms = @{$d->{data}} if exists $d->{data};
++-    my $m = make_c_method $data->{name}, $d, {mode=>'cc_cxx', use_name=>true}, %$accum;
+++    my $m = make_c_method $data->{name}, $d, {mode=>'cc_cxx', use_name=>true, wide=>$d->{wide}}, %$accum;
++     next unless defined $m;
++     $ret .= "extern \"C\" $m\n";
++     $ret .= "{\n";
++@@ -57,24 +60,49 @@ $info{class}{proc}{impl} = sub {
++     } else {
++       if ($d->{type} eq 'method') {
++ 	my $ret_type = shift @parms;
++-	my $ret_native = to_type_name $ret_type, {mode=>'native_no_err', pos=>'return'}, %$accum;
+++	my $ret_native = to_type_name $ret_type, {mode=>'native_no_err', pos=>'return', wide=>$d->{wide}}, %$accum;
++ 	my $snum = 0;
+++        my $call_fun = $d->{name};
+++        my @call_parms;
++ 	foreach (@parms) {
++ 	  my $n = to_lower($_->{name});
++-	  if ($_->{type} eq 'encoded string') {
++-	    $accum->{headers}{'mutable string'} = true;
++-	    $accum->{headers}{'convert'} = true;
++-	    $ret .= "  ths->temp_str_$snum.clear();\n";
++-	    $ret .= "  ths->to_internal_->convert($n, ${n}_size, ths->temp_str_$snum);\n";
++-	    $ret .= "  unsigned int s$snum = ths->temp_str_$snum.size();\n";
++-	    $_ = "MutableString(ths->temp_str_$snum.mstr(), s$snum)";
++-	    $snum++;
+++	  if ($_->{type} eq 'encoded string' && !exists($d->{'no conv'})) {
+++            $need_wide = true unless $d->{wide};
+++            die unless exists $d->{'posib err'};
+++            $accum->{headers}{'mutable string'} = true;
+++            $accum->{headers}{'convert'} = true;
+++            my $name = get_c_func_name $data->{name}, $d, {mode=>'cc_cxx', use_name=>true, wide=>$d->{wide}};
+++            $ret .= "  ths->temp_str_$snum.clear();\n";
+++            if ($d->{wide}) {
+++              $ret .= "  ${n}_size = get_correct_size(\"$name\", ths->to_internal_->in_type_width(), ${n}_size, ${n}_type_width);\n";
+++            } else {
+++              $ret .= "  PosibErr<int> ${n}_fixed_size = get_correct_size(\"$name\", ths->to_internal_->in_type_width(), ${n}_size);\n";
+++              if (exists($d->{'on conv error'})) {
+++                $ret .= "  if (${n}_fixed_size.get_err()) {\n";
+++                $ret .= "    ".$d->{'on conv error'}."\n";
+++                $ret .= "  } else {\n";
+++                $ret .= "    ${n}_size = ${n}_fixed_size;\n";
+++                $ret .= "  }\n";
+++              } else {
+++                $ret .= "  ths->err_.reset(${n}_fixed_size.release_err());\n";
+++                $ret .= "  if (ths->err_ != 0) return ".(c_error_cond $ret_type).";\n";
+++              }
+++            }
+++            $ret .= "  ths->to_internal_->convert($n, ${n}_size, ths->temp_str_$snum);\n";
+++            $ret .= "  unsigned int s$snum = ths->temp_str_$snum.size();\n";
+++            push @call_parms, "MutableString(ths->temp_str_$snum.mstr(), s$snum)";
+++            $snum++;
+++          } elsif ($_->{type} eq 'encoded string') {
+++            $need_wide = true unless $d->{wide};
+++            push @call_parms, $n, "${n}_size";
+++            push @call_parms, "${n}_type_width" if $d->{wide};
+++            $call_fun .= " wide" if $d->{wide};
++ 	  } else {
++-	    $_ = $n;
+++	    push @call_parms, $n;
++ 	  }
++ 	}
++-	my $parms = '('.(join ', ', @parms).')';
++-	my $exp = "ths->".to_lower($d->{name})."$parms";
+++	my $parms = '('.(join ', ', @call_parms).')';
+++	my $exp = "ths->".to_lower($call_fun)."$parms";
++ 	if (exists $d->{'posib err'}) {
++ 	  $accum->{headers}{'posib err'} = true;
++ 	  $ret .= "  PosibErr<$ret_native> ret = $exp;\n";
++@@ -118,6 +146,7 @@ $info{class}{proc}{impl} = sub {
++       }
++     }
++     $ret .= "}\n\n";
+++    unshift @d,{%$d, wide=>true} if $need_wide;
++   }
++   return $ret;
++ };
++diff --git a/auto/MkSrc/Read.pm b/auto/MkSrc/Read.pm
++index 4b3d1d0..4bf640e 100644
++--- a/auto/MkSrc/Read.pm
+++++ b/auto/MkSrc/Read.pm
++@@ -88,13 +88,13 @@ sub advance ( ) {
++     $in_pod = $1 if $line =~ /^\=(\w+)/;
++     $line = '' if $in_pod;
++     $in_pod = undef if $in_pod && $in_pod eq 'cut';
++-    $line =~ s/\#.*$//;
+++    $line =~ s/(?<!\\)\#.*$//;
++     $line =~ s/^(\t*)//;
++     $level = $base_level + length($1);
++       $line =~ s/\s*$//;
++     ++$base_level if $line =~ s/^\{$//;
++     --$base_level if $line =~ s/^\}$//;
++-    $line =~ s/\\([{}])/$1/g;
+++    $line =~ s/\\([{}#\\])/$1/g;
++   } while ($line eq '');
++   #print "$level:$line\n";
++ }
++diff --git a/auto/mk-src.in b/auto/mk-src.in
++index 0e7833a..eb3353f 100644
++--- a/auto/mk-src.in
+++++ b/auto/mk-src.in
++@@ -608,6 +608,7 @@ errors:
++ 		invalid expression
++ 			mesg => "%expression" is not a valid regular expression.
++ 			parms => expression
+++
++ }
++ group: speller
++ {
++@@ -650,6 +651,7 @@ class: speller
++ 		posib err
++ 		desc => Returns 0 if it is not in the dictionary,
++ 			1 if it is, or -1 on error.
+++		on conv error => return 0;
++ 		/
++ 		bool
++ 		encoded string: word
++@@ -715,6 +717,8 @@ class: speller
++ 		desc => Return NULL on error.
++ 			The word list returned by suggest is only
++ 			valid until the next call to suggest.
+++		on conv error =>
+++			word = NULL; word_size = 0;
++ 		/
++ 		const word list
++ 		encoded string: word
++@@ -840,7 +844,6 @@ class: document checker
++ 		void
++ 
++ 	method: process
++-
++ 		desc => Process a string.
++ 			The string passed in should only be split on
++ 			white space characters.  Furthermore, between
++@@ -849,10 +852,10 @@ class: document checker
++ 			in the document.  Passing in strings out of
++ 			order, skipping strings or passing them in
++ 			more than once may lead to undefined results.
+++		no conv
++ 		/
++ 		void
++-		string: str
++-		int: size
+++		encoded string: str
++ 
++ 	method: next misspelling
++ 
++@@ -860,9 +863,23 @@ class: document checker
++ 			processed string.  If there are no more
++ 			misspelled words, then token.word will be
++ 			NULL and token.size will be 0
+++		cc extra =>
+++			\#define aspell_document_checker_next_misspelling_w(type, ths) \\
+++			    aspell_document_checker_next_misspelling_adj(ths, sizeof(type))
++ 		/
++ 		token object
++ 
+++	method: next misspelling adj
+++		desc => internal: do not use
+++		c impl =>
+++			Token res = ths->next_misspelling();
+++			res.offset /= type_width;
+++			res.len /= type_width;
+++			return res;
+++		/
+++		token object
+++		int: type_width
+++
++ 	method: filter
++ 
++ 		desc => Returns the underlying filter class.
++@@ -922,9 +939,30 @@ class: string enumeration
++ 			  ths->from_internal_->append_null(ths->temp_str);
++ 			  return ths->temp_str.data();
++ 			\}
+++		cc extra =>
+++			\#define aspell_string_enumeration_next_w(type, ths) \\
+++			    aspell_cast_(const type *, aspell_string_enumeration_next_wide(ths, sizeof(type)))
++ 		/
++ 		const string
++ 
+++	method: next wide
+++		c impl =>
+++			const char * s = ths->next();
+++			if (s == 0) {
+++			  return s;
+++			} else if (ths->from_internal_ == 0) \{
+++			  assert(type_width == 1);
+++			  return s;
+++			\} else \{
+++			  assert(type_width == ths->from_internal_->out_type_width());
+++			  ths->temp_str.clear();
+++			  ths->from_internal_->convert(s,-1,ths->temp_str);
+++			  ths->from_internal_->append_null(ths->temp_str);
+++			  return ths->temp_str.data();
+++			\}
+++		/
+++		const void pointer
+++		int: type_width
++ }
++ group: info
++ {
++diff --git a/common/convert.cpp b/common/convert.cpp
++index 1add95a..7ae0317 100644
++--- a/common/convert.cpp
+++++ b/common/convert.cpp
++@@ -541,18 +541,25 @@ namespace acommon {
++   // Trivial Conversion
++   //
++ 
+++  const char * unsupported_null_term_wide_string_msg =
+++    "Null-terminated wide-character strings unsupported when used this way.";
+++
++   template <typename Chr>
++   struct DecodeDirect : public Decode 
++   {
+++    DecodeDirect() {type_width = sizeof(Chr);}
++     void decode(const char * in0, int size, FilterCharVector & out) const {
++       const Chr * in = reinterpret_cast<const Chr *>(in0);
++-      if (size == -1) {
+++      if (size == -sizeof(Chr)) {
++         for (;*in; ++in)
++-          out.append(*in);
+++          out.append(*in, sizeof(Chr));
+++      } else if (size <= -1) {
+++        fprintf(stderr, "%s\n", unsupported_null_term_wide_string_msg);
+++        abort();
++       } else {
++-        const Chr * stop = reinterpret_cast<const Chr *>(in0 +size);
+++        const Chr * stop = reinterpret_cast<const Chr *>(in0) + size/sizeof(Chr);
++         for (;in != stop; ++in)
++-          out.append(*in);
+++          out.append(*in, sizeof(Chr));
++       }
++     }
++     PosibErr<void> decode_ec(const char * in0, int size, 
++@@ -565,6 +572,7 @@ namespace acommon {
++   template <typename Chr>
++   struct EncodeDirect : public Encode
++   {
+++    EncodeDirect() {type_width = sizeof(Chr);}
++     void encode(const FilterChar * in, const FilterChar * stop, 
++                 CharVector & out) const {
++       for (; in != stop; ++in) {
++@@ -594,11 +602,15 @@ namespace acommon {
++   template <typename Chr>
++   struct ConvDirect : public DirectConv
++   {
+++    ConvDirect() {type_width = sizeof(Chr);}
++     void convert(const char * in0, int size, CharVector & out) const {
++-      if (size == -1) {
+++      if (size == -sizeof(Chr)) {
++         const Chr * in = reinterpret_cast<const Chr *>(in0);
++         for (;*in != 0; ++in)
++           out.append(in, sizeof(Chr));
+++      } else if (size <= -1) {
+++        fprintf(stderr, "%s\n", unsupported_null_term_wide_string_msg);
+++        abort();
++       } else {
++         out.append(in0, size);
++       }
++@@ -1121,5 +1133,20 @@ namespace acommon {
++     }
++     return 0;
++   }
++-  
+++
+++  PosibErr<void> unsupported_null_term_wide_string_err_(const char * func) {
+++    static bool reported_to_stderr = false;
+++    PosibErr<void> err = make_err(other_error, unsupported_null_term_wide_string_msg);
+++    if (!reported_to_stderr) {
+++      CERR.printf("ERROR: %s: %s\n", func, unsupported_null_term_wide_string_msg);
+++      reported_to_stderr = true;
+++    }
+++    return err;
+++  }
+++
+++  void unsupported_null_term_wide_string_abort_(const char * func) {
+++    CERR.printf("%s: %s\n", unsupported_null_term_wide_string_msg);
+++    abort();
+++  }
+++ 
++ }
++diff --git a/common/convert.hpp b/common/convert.hpp
++index 76332ee..c948973 100644
++--- a/common/convert.hpp
+++++ b/common/convert.hpp
++@@ -7,6 +7,8 @@
++ #ifndef ASPELL_CONVERT__HPP
++ #define ASPELL_CONVERT__HPP
++ 
+++#include "settings.h"
+++
++ #include "string.hpp"
++ #include "posib_err.hpp"
++ #include "char_vector.hpp"
++@@ -25,8 +27,9 @@ namespace acommon {
++     typedef const Config CacheConfig;
++     typedef const char * CacheKey;
++     String key;
+++    int type_width; // type width in bytes
++     bool cache_key_eq(const char * l) const  {return key == l;}
++-    ConvBase() {}
+++    ConvBase() : type_width(1) {}
++   private:
++     ConvBase(const ConvBase &);
++     void operator=(const ConvBase &);
++@@ -56,6 +59,8 @@ namespace acommon {
++     virtual ~Encode() {}
++   };
++   struct DirectConv { // convert directly from in_code to out_code.
+++    int type_width; // type width in bytes
+++    DirectConv() : type_width(1) {}
++     // should not take ownership of decode and encode.
++     // decode and encode guaranteed to stick around for the life
++     // of the object.
++@@ -126,6 +131,9 @@ namespace acommon {
++     const char * in_code() const   {return decode_->key.c_str();}
++     const char * out_code() const  {return encode_->key.c_str();}
++ 
+++    int in_type_width() const {return decode_->type_width;}
+++    int out_type_width() const {return encode_->type_width;}
+++
++     void append_null(CharVector & out) const
++     {
++       const char nul[4] = {0,0,0,0}; // 4 should be enough
++@@ -191,6 +199,10 @@ namespace acommon {
 +       }
 +     }
 + 
-+@@ -6242,11 +6242,11 @@ void zipfileStep(sqlite3_context *pCtx, int nVal, sqlite3_value **apVal){
-+   }else{
-+     if( zName[nName-1]!='/' ){
-+       zName = zFree = sqlite3_mprintf("%s/", zName);
-+-      nName++;
-+       if( zName==0 ){
-+         rc = SQLITE_NOMEM;
-+         goto zipfile_step_out;
-+       }
-++      nName = (int)strlen(zName);
-+     }else{
-+       while( nName>1 && zName[nName-2]=='/' ) nName--;
-+     }
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-20218.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-20218.patch
-new file mode 100644
-index 0000000000..fb6cd6df2d
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-20218.patch
-@@ -0,0 +1,31 @@
-+CVE: CVE-2019-20218
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 6bbd76d34f29f61483791231f2ce579dcadab8a5 Mon Sep 17 00:00:00 2001
-+From: Dan Kennedy <danielk1977@gmail.com>
-+Date: Fri, 27 Dec 2019 20:54:42 +0000
-+Subject: [PATCH] Do not attempt to unwind the WITH stack in the Parse object
-+ following an error. This fixes a separate case to [de6e6d68].
-+
-+FossilOrigin-Name: d29edef93451cc67a5d69c1cce1b1832d9ca8fff1f600afdd51338b74d077b92
-+---
-+ sqlite3.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 5bc06c8..408ec4c 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -130570,7 +130570,7 @@ static int selectExpander(Walker *pWalker, Select *p){
+++    void convert(const void * in, int size, CharVector & out) {
+++      convert(static_cast<const char *>(in), size, out);
+++    }
+++
++     void generic_convert(const char * in, int size, CharVector & out);
++     
++   };
++@@ -412,6 +424,30 @@ namespace acommon {
++       return operator()(str, str + byte_size);}
++   };
 + 
-+   /* Process NATURAL keywords, and ON and USING clauses of joins.
-+   */
-+-  if( db->mallocFailed || sqliteProcessJoin(pParse, p) ){
-++  if( pParse->nErr || db->mallocFailed || sqliteProcessJoin(pParse, p) ){
-+     return WRC_Abort;
+++#ifdef SLOPPY_NULL_TERM_STRINGS
+++  static const bool sloppy_null_term_strings = true;
+++#else
+++  static const bool sloppy_null_term_strings = false;
+++#endif
+++  
+++  PosibErr<void> unsupported_null_term_wide_string_err_(const char * func);
+++  void unsupported_null_term_wide_string_abort_(const char * func);
+++    
+++  static inline PosibErr<int> get_correct_size(const char * func, int conv_type_width, int size) {
+++    if (sloppy_null_term_strings && size <= -1)
+++      return -conv_type_width;
+++    if (size <= -1 && -conv_type_width != size)
+++      return unsupported_null_term_wide_string_err_(func);
+++    return size;
+++  }
+++  static inline int get_correct_size(const char * func, int conv_type_width, int size, int type_width) {
+++    if ((sloppy_null_term_strings || type_width <= -1) && size <= -1)
+++      return -conv_type_width;
+++    if (size <= -1 && conv_type_width != type_width)
+++      unsupported_null_term_wide_string_abort_(func);
+++    return size;
+++  }
+++
++ }
++ 
++ #endif
++diff --git a/common/document_checker.cpp b/common/document_checker.cpp
++index 5e510c4..0ccf1cd 100644
++--- a/common/document_checker.cpp
+++++ b/common/document_checker.cpp
++@@ -44,7 +44,9 @@ namespace acommon {
++   void DocumentChecker::process(const char * str, int size)
++   {
++     proc_str_.clear();
++-    conv_->decode(str, size, proc_str_);
+++    PosibErr<int> fixed_size = get_correct_size("aspell_document_checker_process", conv_->in_type_width(), size);
+++    if (!fixed_size.has_err())
+++      conv_->decode(str, fixed_size, proc_str_);
++     proc_str_.append(0);
++     FilterChar * begin = proc_str_.pbegin();
++     FilterChar * end   = proc_str_.pend() - 1;
++@@ -53,6 +55,19 @@ namespace acommon {
++     tokenizer_->reset(begin, end);
 +   }
 + 
+++  void DocumentChecker::process_wide(const void * str, int size, int type_width)
+++  {
+++    proc_str_.clear();
+++    int fixed_size = get_correct_size("aspell_document_checker_process", conv_->in_type_width(), size, type_width);
+++    conv_->decode(static_cast<const char *>(str), fixed_size, proc_str_);
+++    proc_str_.append(0);
+++    FilterChar * begin = proc_str_.pbegin();
+++    FilterChar * end   = proc_str_.pend() - 1;
+++    if (filter_)
+++      filter_->process(begin, end);
+++    tokenizer_->reset(begin, end);
+++  }
+++  
++   Token DocumentChecker::next_misspelling()
++   {
++     bool correct;
++diff --git a/common/document_checker.hpp b/common/document_checker.hpp
++index d35bb88..11a3c73 100644
++--- a/common/document_checker.hpp
+++++ b/common/document_checker.hpp
++@@ -36,6 +36,7 @@ namespace acommon {
++     PosibErr<void> setup(Tokenizer *, Speller *, Filter *);
++     void reset();
++     void process(const char * str, int size);
+++    void process_wide(const void * str, int size, int type_width);
++     Token next_misspelling();
++     
++     Filter * filter() {return filter_;}
++diff --git a/common/version.cpp b/common/version.cpp
++index 414d938..9e60b75 100644
++--- a/common/version.cpp
+++++ b/common/version.cpp
++@@ -1,8 +1,17 @@
++ #include "settings.h"
++ 
++-extern "C" const char * aspell_version_string() {
++ #ifdef NDEBUG
++-  return VERSION " NDEBUG";
+++#  define NDEBUG_STR " NDEBUG"
+++#else
+++#  define NDEBUG_STR
+++#endif
+++
+++#ifdef SLOPPY_NULL_TERM_STRINGS
+++#  define SLOPPY_STR " SLOPPY"
+++#else
+++#  define SLOPPY_STR
++ #endif
++-  return VERSION;
+++
+++extern "C" const char * aspell_version_string() {
+++  return VERSION NDEBUG_STR SLOPPY_STR;
++ }
++diff --git a/configure.ac b/configure.ac
++index 60e3b39..a5d51e3 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -73,6 +73,9 @@ AC_ARG_ENABLE(filter-version-control,
++ AC_ARG_ENABLE(32-bit-hash-fun,
++   AS_HELP_STRING([--enable-32-bit-hash-fun],[use 32-bit hash function for compiled dictionaries]))
++ 
+++AC_ARG_ENABLE(sloppy-null-term-strings,
+++  AS_HELP_STRING([--enable-sloppy-null-term-strings],[allows allow null terminated UCS-2 and UCS-4 strings]))
+++
++ AC_ARG_ENABLE(pspell-compatibility,
++   AS_HELP_STRING([--disable-pspell-compatibility],[don't install pspell compatibility libraries]))
++ 
++@@ -141,6 +144,11 @@ then
++   AC_DEFINE(USE_32_BIT_HASH_FUN, 1, [Defined if 32-bit hash function should be used for compiled dictionaries.])
++ fi
++ 
+++if test "$enable_sloppy_null_term_strings" = "yes"
+++then
+++  AC_DEFINE(SLOPPY_NULL_TERM_STRINGS, 1, [Defined if null-terminated UCS-2 and UCS-4 strings should always be allowed.])
+++fi
+++
++ AM_CONDITIONAL(PSPELL_COMPATIBILITY,  
++   [test "$enable_pspell_compatibility" != "no"])
++ AM_CONDITIONAL(INCREMENTED_SONAME,    
++diff --git a/manual/aspell.texi b/manual/aspell.texi
++index 45fa091..f400e06 100644
++--- a/manual/aspell.texi
+++++ b/manual/aspell.texi
++@@ -158,7 +158,8 @@ Installing
++ 
++ * Generic Install Instructions::  
++ * HTML Manuals and "make clean"::  
++-* Curses Notes::                
+++* Curses Notes::
+++* Upgrading from Aspell 0.60.7::
++ * Loadable Filter Notes::       
++ * Upgrading from Aspell 0.50::  
++ * Upgrading from Aspell .33/Pspell .12::  
++@@ -2206,18 +2207,26 @@ int correct = aspell_speller_check(spell_checker, @var{word}, @var{size});
++ @end smallexample
++ 
++ @noindent
++-@var{word} is expected to be a @code{const char *} character
++-string.  If the encoding is set to be @code{ucs-2} or
++-@code{ucs-4} @var{word} is expected to be a cast
++-from either @code{const u16int *} or @code{const u32int *}
++-respectively.  @code{u16int} and @code{u32int} are generally
++-@code{unsigned short} and @code{unsigned int} respectively.
++-@var{size} is the length of the string or @code{-1} if the string
++-is null terminated.  If the string is a cast from @code{const u16int
++-*} or @code{const u32int *} then @code{@i{size}} is the amount of
++-space in bytes the string takes up after being cast to @code{const
++-char *} and not the true size of the string.  @code{sspell_speller_check}
++-will return @code{0} if it is not found and non-zero otherwise.
+++@var{word} is expected to be a @code{const char *} character string.
+++@var{size} is the length of the string or @code{-1} if the string is
+++null terminated.  @code{aspell_speller_check} will return @code{0} if it is not found
+++and non-zero otherwise.
+++
+++If you are using the @code{ucs-2} or @code{ucs-4} encoding then the
+++string is expected to be either a 2 or 4 byte wide integer
+++(respectively) and the @code{_w} macro vesion should be used:
+++
+++@smallexample
+++int correct = aspell_speller_check_w(spell_checker, @var{word}, @var{size});
+++@end smallexample
+++
+++The macro will cast the string to to the correct type and convert
+++@var{size} into bytes for you and then a call the special wide version of the
+++function that will make sure the encoding is correct for the type
+++passed in.  For compatibility with older versions of Aspell the normal
+++non-wide functions can still be used provided that the size of the
+++string, in bytes, is also passed in.  Null terminated @code{ucs-2} or
+++@code{ucs-4} are no longer supported when using the non-wide functions.
++ 
++ If the word is not correct, then the @code{suggest} method can be used
++ to come up with likely replacements.
++@@ -2236,7 +2245,28 @@ delete_aspell_string_enumeration(elements);
++ 
++ Notice how @code{elements} is deleted but @code{suggestions} is not.
++ The value returned by @code{suggestions} is only valid to the next
++-call to @code{suggest}.  Once a replacement is made the
+++call to @code{suggest}.
+++
+++If you are using the @code{ucs-2} or @code{ucs-4} encoding then, in
+++addition to using the @code{_w} macro for the @code{suggest} method, you
+++should also use the @code{_w} macro with the @code{next} method which
+++will cast the string to the correct type for you.  For example, if you
+++are using the @code{ucs-2} encoding and the string is a @code{const
+++uint16_t *} then you should use:
+++
+++@smallexample
+++AspellWordList * suggestions = aspell_speller_suggest_w(spell_checker,
+++                                                        @var{word}, @var{size});
+++AspellStringEnumeration * elements = aspell_word_list_elements(suggestions);
+++const uint16_t * word;
+++while ( (word = aspell_string_enumeration_next_w(uint16_t, aspell_elements)) != NULL )
+++@{
+++  // add to suggestion list
+++@}
+++delete_aspell_string_enumeration(elements);
+++@end smallexample
+++
+++Once a replacement is made the
++ @code{store_repl} method should be used to communicate the replacement
++ pair back to the spell checker (for the reason, @pxref{Notes on
++ Storing Replacement Pairs}).  Its usage is as follows:
++diff --git a/manual/readme.texi b/manual/readme.texi
++index 669ab8e..531721f 100644
++--- a/manual/readme.texi
+++++ b/manual/readme.texi
++@@ -15,15 +15,16 @@ The latest version can always be found at GNU Aspell's home page at
++ @uref{http://aspell.net}.
++ 
++ @menu
++-* Generic Install Instructions::  
++-* HTML Manuals and "make clean"::  
++-* Curses Notes::                
++-* Loadable Filter Notes::       
++-* Using 32-Bit Dictionaries on a 64-Bit System::  
++-* Upgrading from Aspell 0.50::  
++-* Upgrading from Aspell .33/Pspell .12::  
++-* Upgrading from a Pre-0.50 snapshot::  
++-* WIN32 Notes::                 
+++* Generic Install Instructions::
+++* HTML Manuals and "make clean"::
+++* Curses Notes::
+++* Upgrading from Aspell 0.60.7::
+++* Loadable Filter Notes::
+++* Using 32-Bit Dictionaries on a 64-Bit System::
+++* Upgrading from Aspell 0.50::
+++* Upgrading from Aspell .33/Pspell .12::
+++* Upgrading from a Pre-0.50 snapshot::
+++* WIN32 Notes::
++ @end menu
++ 
++ @node Generic Install Instructions
++@@ -121,17 +122,62 @@ In addition your system must also support the @code{mblen} function.
++ Although this function was defined in the ISO C89 standard (ANSI
++ X3.159-1989), not all systems have it.
++ 
+++@node Upgrading from Aspell 0.60.7
+++@appendixsec Upgrading from Aspell 0.60.7
+++
+++To prevent a potentially unbounded buffer over-read, Aspell no longer
+++supports null-terminated UCS-2 and UCS-4 encoded strings with the
+++original C API.  Null-termianted 8-bit or UTF-8 encoded strings are
+++still supported, as are UCS-2 and UCS-4 encoded strings when the
+++length is passed in.
+++
+++As of Aspell 0.60.8 a function from the original API that expects an
+++encoded string as a parameter will return meaningless results (or an
+++error code) if string is null terminated and the encoding is set to
+++@code{ucs-2} or @code{ucs-4}.  In addition, a single:
+++@example
+++ERROR: aspell_speller_check: Null-terminated wide-character strings unsupported when used this way.
+++@end example
+++will be printed to standard error the first time one of those
+++functions is called.
+++
+++Application that use null-terminated UCS-2/4 strings should either (1)
+++use the interface intended for working with wide-characters
+++(@xref{Through the C API}); or (2) define
+++@code{ASPELL_ENCODE_SETTING_SECURE} before including @code{aspell.h}.
+++In the latter case is is important that the application explicitly
+++sets the encoding to a known value.  Defining
+++@code{ASPELL_ENCODE_SETTING_SECURE} and not setting the encoding
+++explicitly or allowing user of the application to set the encoding
+++could result in an unbounded buffer over-read.
+++
+++If it is necessary to preserve binary compatibility with older
+++versions of Aspell, the easiest thing would be to determine the length
+++of the UCS-2/4 string---in bytes---and pass that in.  Due to an
+++implemenation detail, existing API functions can be made to work with
+++null-terminated UCS-2/4 strings safely by passing in either @code{-2}
+++or @code{-4} (corresponding to the width of the character type) as the
+++size.  Doing so, however, will cause a buffer over-read for unpatched
+++version of Aspell.  To avoid this it will be necessary to parse the
+++version string to determine the correct value to use.  However, no
+++official support will be provided for the latter method.
+++
+++If the application can not be recompiled, then Aspell can be configured
+++to preserve the old behavior by passing
+++@option{--enable-sloppy-null-term-strings} to @command{configure}.  When Aspell
+++is compiled this way the version string will include the string
+++@samp{ SLOPPY}.
+++
++ @node Loadable Filter Notes
++ @appendixsec Loadable Filter Notes
++-
+++             
++ Support for being able to load additional filter modules at run-time
++ has only been verified to work on Linux platforms.  If you get linker
++ errors when trying to use a filter, then it is likely that loadable
++ filter support is not working yet on your platform.  Thus, in order to
++ get Aspell to work correctly you will need to avoid compiling the
++ filters as individual modules by using the
++-@option{--enable-compile-in-filters} when configuring Aspell with
++-@command{./configure}.
+++@option{--enable-compile-in-filters} @command{configure} option.
++ 
++ @node Using 32-Bit Dictionaries on a 64-Bit System
++ @appendixsec Using 32-Bit Dictionaries on a 64-Bit System
 +-- 
-+2.24.1
++2.17.1
 +
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-index 34066fbe89..cf3b179845 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.29.0.bb
-@@ -4,6 +4,14 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+diff --git a/meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch
+new file mode 100644
+index 0000000000..9569ddeebe
+--- /dev/null
++++ b/meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch
+@@ -0,0 +1,68 @@
++From cefd447e5528b08bb0cd6656bc52b4255692cefc Mon Sep 17 00:00:00 2001
++From: Kevin Atkinson <kevina@gnu.org>
++Date: Sat, 17 Aug 2019 20:25:21 -0400
++Subject: [PATCH 2/2] Increment library version to reflect API changes.
++
++CVE: CVE-2019-20433
++Upstream-Status: Backport [https://github.com/GNUAspell/aspell/commit/cefd447e5528b08bb0cd6656bc52b4255692cefc]
++
++Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
++---
++ Makefile.am | 31 +++++++++++++++++--------------
++ 1 file changed, 17 insertions(+), 14 deletions(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index 7e15851..19dc044 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -94,18 +94,25 @@ libaspell_la_SOURCES =\
++ 
++ libaspell_la_LIBADD =  $(LTLIBINTL) $(PTHREAD_LIB)
++ 
++-## Libtool to so name
++-## C:R:A => (C-A).(A).(R)
++-## 16:5:0 => 16.0.5
++-## 16:5:1 => 15.1.5
++-## 18:0:2 => 16.2.0 
++-## 17:0:2 => 15.2.0
++-
+++## The version string is current[:revision[:age]]
+++##
+++## Before a release that has changed the source code at all
+++## increment revision.
+++##
+++## After merging changes that have changed the API in a backwards
+++## comptable way set revision to 0 and bump both current and age.
+++##
+++## Do not change the API in a backwards incompatible way.
+++##
+++## See "Libtool: Updating version info"
+++## (https://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html)
+++## for more into
+++##
++ if INCREMENTED_SONAME
++-libaspell_la_LDFLAGS = -version-info 18:0:2 -no-undefined
+++libaspell_la_LDFLAGS = -version-info 19:0:3 -no-undefined
++ else
++ ## Use C-1:R:A 
++-libaspell_la_LDFLAGS = -version-info 17:0:2 -no-undefined
+++libaspell_la_LDFLAGS = -version-info 18:0:3 -no-undefined
++ endif
++ 
++ if PSPELL_COMPATIBILITY
++@@ -113,11 +120,7 @@ libpspell_la_SOURCES = lib/dummy.cpp
++ 
++ libpspell_la_LIBADD = libaspell.la
++ 
++-if INCREMENTED_SONAME
++-libpspell_la_LDFLAGS = -version-info 18:0:2 -no-undefined
++-else
++-libpspell_la_LDFLAGS = -version-info 17:0:2 -no-undefined
++-endif
+++libpspell_la_LDFLAGS = $(libaspell_la_LDFLAGS)
++ 
++ endif
++ 
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/aspell/aspell_0.60.7.bb b/meta/recipes-support/aspell/aspell_0.60.7.bb
+index b565cb3c6e..1e104c263c 100644
+--- a/meta/recipes-support/aspell/aspell_0.60.7.bb
++++ b/meta/recipes-support/aspell/aspell_0.60.7.bb
+@@ -8,6 +8,8 @@ PR = "r1"
  
- SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
--           file://0001-Fix-CVE-2019-16168.patch"
-+           file://0001-Fix-CVE-2019-16168.patch \
-+           file://CVE-2019-19244.patch \
-+           file://CVE-2019-19923.patch \
-+           file://CVE-2019-19924.patch \
-+           file://CVE-2019-19925.patch \
-+           file://CVE-2019-19926.patch \
-+           file://CVE-2019-19959.patch \
-+           file://CVE-2019-20218.patch \
-+"
- SRC_URI[md5sum] = "8f3dfe83387e62ecb91c7c5c09c688dc"
- SRC_URI[sha256sum] = "8e7c1e2950b5b04c5944a981cb31fffbf9d2ddda939d536838ebc854481afd5b"
+ SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz \
+            file://0001-Fix-various-bugs-found-by-OSS-Fuze.patch \
++           file://CVE-2019-20433-0001.patch \
++           file://CVE-2019-20433-0002.patch \
+           "
+ SRC_URI[md5sum] = "8ef2252609c511cd2bb26f3a3932ef28"
+ SRC_URI[sha256sum] = "5ca8fc8cb0370cc6c9eb5b64c6d1bc5d57b3750dbf17887726c3407d833b70e4"
 -- 
 2.24.1
 
