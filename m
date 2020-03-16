@@ -1,54 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F93D601EB
+Return-Path: <andrej.valek@siemens.com>
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by mail.openembedded.org (Postfix) with ESMTP id 1465A60212
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 11:01:47 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id z12so8306854wmf.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 04:01:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=reK0gOShzuk+81WQ1hRyx9bgelo4m1xQcHuOeYqgDKw=;
-	b=ASfUIZb0wDp/Txd/O/Y75I33oeVhVdFqGKtGxJa3dztGgyPm07r4+oLholiyrZ+jdV
-	1WBKpMPieOrYFKCrXmKaqFmXPYX6KFis7vASvnNWmqN5kELe1Wi2XglxnUE7gnNTtpq6
-	fYxOlYafdP/76rPplIyIEiJ3tH33FsXl14Eh8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=reK0gOShzuk+81WQ1hRyx9bgelo4m1xQcHuOeYqgDKw=;
-	b=CJ8UwVUBYJZfQDz5kpxMVxJaPb6NNbTTQdyfGdpYYGHTpqTmu1gdy/oqFuF7ebFuJN
-	Kz1iRrCgpd8xA07mHxHW741zVBeyDzC2fnASsaXuZZOTdAMyxP7aZABJ8RzaUj88H1+V
-	o4sWA2T1WGjE+pQEdwi2Ushx01vnFM0TkjpgJ9CVxlO9UkgNYYOltFoZTp5erjlffBvY
-	wd6IBd09Lnl7RbyXhorMv9twD/0JHLcobmiUs+KVO0yals+d0l44t27ap0qnxA/hoaJP
-	D0+7zZFScWIgfj2lMQMeMSeJFgEe7SNL0j2ONcrBr2ANnDpQxrk6jsIduO5XWRn2w3N3
-	xzMw==
-X-Gm-Message-State: ANhLgQ31t9rHj3dwTzPdaTVnxAhYj3IOvO3Vs6tG3+SbRTzYJhpgpTcd
-	srx4iDpL8aWVAGGI3/GNcEmPsw==
-X-Google-Smtp-Source: ADFU+vuIDJtQfLSOfR5WFHCIUUwPInnIngRr3bTsUrR5nsiwjUdNYGYV8y2aStDY8xLAafAfXQuziw==
-X-Received: by 2002:a1c:7214:: with SMTP id n20mr26677838wmc.24.1584356508299; 
-	Mon, 16 Mar 2020 04:01:48 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b202sm4662411wmd.15.2020.03.16.04.01.46
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 16 Mar 2020 04:01:47 -0700 (PDT)
-Message-ID: <f1026c8fbd01e72648f487e024ce3b18e09581cb.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>, Patches and discussions about the
-	oe-core layer <openembedded-core@lists.openembedded.org>, Armin Kuster
-	<akuster808@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Date: Mon, 16 Mar 2020 11:01:46 +0000
-In-Reply-To: <CAMRc=MdcU5UTt6iLcpjUDxs5JkwD3db7QP--b2xjXBpqiHfguA@mail.gmail.com>
-References: <CAMRc=Mf_Ld80=Egf3jPBGYoGGZScSG3JHKL7cVArLihJSC8P0g@mail.gmail.com>
-	<CAMRc=MdcU5UTt6iLcpjUDxs5JkwD3db7QP--b2xjXBpqiHfguA@mail.gmail.com>
-User-Agent: Evolution 3.35.91-1 
+	Mon, 16 Mar 2020 12:41:26 +0000 (UTC)
+Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
+	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id 02GCfQcl023565
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Mon, 16 Mar 2020 13:41:26 +0100
+Received: from [192.168.20.128] ([167.87.54.143])
+	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id 02GCfPP7019821;
+	Mon, 16 Mar 2020 13:41:26 +0100
+From: Andrej Valek <andrej.valek@siemens.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20200306153234.23875-1-andrej.valek@siemens.com>
+	<fc1e74eeded8fc881df72be0623b528a7c0e6d5f.camel@linuxfoundation.org>
+	<bab60f8c-3c52-48e4-c453-db2cf1ea0542@siemens.com>
+Message-ID: <51dd6bcf-a496-1f0e-5489-471864eba300@siemens.com>
+Date: Mon, 16 Mar 2020 13:41:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-Cc: Guillaume Pain <gpain@baylibre.com>, Jerome Neanne <jneanne@baylibre.com>
-Subject: Re: Solving a circular dependency issue between the main image and initramfs
+In-Reply-To: <bab60f8c-3c52-48e4-c453-db2cf1ea0542@siemens.com>
+Subject: Re: [PATCH 0/2] Extensible SDK improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,50 +36,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 11:01:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 16 Mar 2020 12:41:27 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-03-16 at 11:48 +0100, Bartosz Golaszewski wrote:
-> There has been no relevant feedback, but I've been experimenting with
-> various things. I think that the best approach would be to make image
-> artifacts installable into dependant recipes' sysroots (in
-> /usr/share/images/). This way the initramfs recipe could calculate
-> the
-> dm-verity hashes from the resulting ext4 image before it gets
-> deployed. We could also modify the kernel recipe to not fetch the
-> initramfs image from the shared directory but instead have it
-> installed in its sysroot.
+Hello Richard,
+
+Did you have some time to take a look on it?
+
+It would be really helpful to have this feature in.
+As I said I am trying to use this functionality for write some extra
+variables into local.conf only in eSDK case. I am using a custom
+oe-init-buildenv script, means that not all cases are covered by the
+general one.
+
+Thank you,
+Andrej
+
+On 2020-03-09 09:05, Andrej Valek wrote:
+> Hello Richard,
 > 
-> For this I tried to re-enable the do_install task in image.bbclass.
-> Unfortunately either I'm doing something wrong or standard tasks are
-> subject to different rules when it comes to dependencies. I've been
-> so
-> far unable to make do_install depend on any image tasks (i.e. make
-> do_install depend on do_image_ext4/wic etc.) no matter if I use
-> do_install[depends] or addtask or appropriate helpers from python.
-> Unfortunately I've been unable to find any information on that in the
-> manual.
+> I can try to explain it in some examples.
 > 
-> Is there some trick to changing the dependencies of standard tasks?
-
-I don't know how exactly you're configuring the system but it should be
-possible to have the main rootfs built first, adding in the signing,
-then have the initramfs depend on that.
-
-I can understand some circular dependencies could creep in as many
-configurations have the initramfs as part of the main image but if you
-don't configure that, you shouldn't see those dependencies.
-
-I do fear your "re-enable" do_install route isn't going to get you
-where you want to be.
-
-Can you give a simple example of how you reproduce the circular
-dependencies with standard poky or oe-core? That might let others give
-comment more easily.
-
-Cheers,
-
-Richard
-
+> I would like to add some extra (dynamic) variables into local.conf in
+> eSDK mode. I have found, that there are 2 possibilities (in
+> populate_sdk_ext.bbclass) sdk-extra.conf and sdk_extraconf.
+> 
+> - sdk-extra.conf
+>  - You have to have handle own function to write into sdk-extra.conf. I
+> think, this is not the right way for me.
+> - sdk_extraconf
+>  - This variable is fine, but there are some restrictions. There is no
+> easy way to add multiple variables including values.
+> 
+> I would like to have:
+> aaa = "valueA"
+> bbb = "valueB"
+> in local.conf file.
+> 
+> 1. sdk_extraconf = 'aaa = "valueA"\nbbb = "valueB"'
+>  - this will write aaa = "valueA"\nbbb = "valueB"
+> 2. python copy_buildsystem_prepend() {
+>   d.setVar('sdk_extraconf','aaa = "valueA"\nbbb = "valueB"')
+> }
+>  - This will write exactly, what you want, but you have to have an
+> copy_buildsystem_prepend and mentioned all variables with values defined
+> in your class/recipe.
+> 3. sdk_extraconf = "# My notes about local.conf"
+>  - Yes, you can write some string into local.conf with this way.
+> 
+> So I have founded an way, how to add multiple variables without
+> explicitly specifying their values.
+> 
+> # format variables for sdk_extraconf
+> def write_sdk_vars(d):
+>   return '\n' + '\n'.join([var + ' = "' + d.getVar(var) + '"' for var in
+> d.getVar('SDK_EXTRACONF_VARS').split()])
+> 
+> SDK_EXTRACONF_VARS = "aaa bbb"
+> sdk_extraconf_append = " ${@write_sdk_vars(d)}"
+> 
+> It will do exactly what I want, but this way is little bit nasty. So I
+> have created a more complex solution for community usage.
+> I think, this patch adds more functionality also for other projects.
+> They can add only variables into list and the class will handle all the
+> rest.
+> 
+> Is it enough for the explanation?
+> 
+> Regards,
+> Andrej
+> 
+> On 2020-03-06 18:16, Richard Purdie wrote:
+>> On Fri, 2020-03-06 at 16:32 +0100, Andrej Valek wrote:
+>>> "add option to append lines into local.conf":
+>>>  - What about dropping "sdk_extraconf"?
+>>
+>> I'm curious what you didn't find useful about the other format and why
+>> this version is better?
+>>
+>> Cheers,
+>>
+>> Richard
+>>
 
