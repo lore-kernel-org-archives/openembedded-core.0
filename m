@@ -1,53 +1,53 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id DEA0360F33
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+	[209.85.216.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E3DD260F2E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 18:49:10 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id b22so8397288pls.12
+	Mon, 16 Mar 2020 18:49:12 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id hg10so4873400pjb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 11:49:12 -0700 (PDT)
+	Mon, 16 Mar 2020 11:49:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=h8me4N+q5iVL0wuwXeMLnH4529TY9SQz+tNes3AxZT4=;
-	b=vK96QLUfkMhjcFvyY/0sF2bsImGmkTVVtg6mppez/Qo+FNtoRwpYxH3yiFaDBSP/Bs
-	lDJG0hWphGfgYc60scUneE8+G8idpuBl91HOHjBidZxj0PVVTpMqYDj4SmWKory3A6+Y
-	/ysO3wJ3w0f0iZAkK8UOaYcmPMYOvdw543TQLguSrShnwb2DVvcHOMwDe/28Z8I9Qqap
-	O//9S3jd1DBA9jqtX4SiFqWYoSZww5RnSXn7BEQsIrx3EqF3IsuXIAA9+bWAxYcsi2Z9
-	KhsIf1yBcnmmMmyniBHkmLCGC0ArP4wgoEolMm3kA/urObwnJemZcmnvfaw6030hBQE6
-	B7Rw==
+	bh=0ZpAlX1qFAZxlwgwv5N4B63dmrGK84yk2jQ3sx3663Q=;
+	b=HICDaAXwZRlDtRkL2kFXuFtAey+vj+g4unyr71SyLQd4/LmVnotpaClA7hNBjXu9hR
+	CvrIH78WbFhbPMxzoZ0mVxVHa+I5YYqrsePVo3lR8GG5QrUizc1AyUsOd0h1WsI1BcDP
+	M8LaH4aRIxfw5PCoC3aNAHxpZVzm/BVP6IYE5agOj40MrwSj8xRRUcKm3yGGTIDBYoFl
+	zEKmNT4EdpMPFdON82sfqTlsrLilm8RhT6FYawn4IHGU4UW2HCKdpfATnHC0SQnWhvlI
+	QO50ecAZS9j8kZEQGu+/rOtYPO6kwMuagAaPEjMnG0RyRqGbiMeeZhJsB8TJoObO4B3X
+	1d4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=h8me4N+q5iVL0wuwXeMLnH4529TY9SQz+tNes3AxZT4=;
-	b=rgFm2rOwYWf+Jifo+cVpzXmmj/AAsNoeG9zMxhlZqu05nNiH6lup3ByJpxF92a2n/4
-	oN2IGaF0Yzelu4M+nVZQZZ9id4C+15n12V+DJjJ6Ochz5ESY8I6KefJd3YWhFXbMWMcF
-	BP6wCu+B3h8Xl6Nn8ungr3d2eBny733LmPCyow4MZizWEijebZxb5UiPK7aPjzK8r05y
-	ffgXbeKgSpsmLxWl4oTor5ngCojK4l5KIjdGLyGER2sLxEygo7l2qsntHHK/lv2kk0CU
-	UVZyyMSHNM1Fxvsgqj0RxA3F2aJUxSEIl33DKiT3JBg8zHo4U9S98GAAERabDIPc7AKp
-	wRmw==
-X-Gm-Message-State: ANhLgQ0132xJxgVaOV18fIEOY3K4K9NZGfE+tWVbcei2XtKeR1VU5Yoz
-	CI3vDSFqmfoSQCd6EZ90/iBi9qpQ
-X-Google-Smtp-Source: ADFU+vv73I7lIdbvVaOFTxWIHxJX6Qh16sMKPPnS1lzbXDhZ6L9Fp65g/6StJwHLoARN9Ty51exURQ==
-X-Received: by 2002:a17:90a:a40f:: with SMTP id
-	y15mr958882pjp.143.1584384551506; 
-	Mon, 16 Mar 2020 11:49:11 -0700 (PDT)
+	bh=0ZpAlX1qFAZxlwgwv5N4B63dmrGK84yk2jQ3sx3663Q=;
+	b=cJO7sfLEPe76SLUmGZh7cLGP1xjgebvUejh5LVnmWGrZuZdl6G10UZtqHPR5M4rJgz
+	UnYMjSNJj0zHHogMYTtb6/2m0mqNjwZxGCLRGweLCwUdmC7xyNl/Buno/oLI0cAdG+TK
+	yIoSebOJhK9FkhuLWUr/and5PoKHF/gXiuEwcgenS9kwsHgMpB4vh9geT62st3CsijMq
+	13Z6P2gklr8bAoR/0GBOMCN55K3yJ4iKVBVOgjb//RiuZ08GwWytpOq8v6N5t3ED5nEO
+	18O9id/zqSMroWqqXls7VMVwGazZs2RoM5lYoZXoGcBKRW7eEFZdTUpYyJKpllpQ+C7i
+	SVBQ==
+X-Gm-Message-State: ANhLgQ0oibCAFm7dxc6/SJnZc9iu5HnkDkNya7IH633Y+K3f7i/pB9YK
+	GNycH776wDwKmT2ceAyWBAsH/cjn
+X-Google-Smtp-Source: ADFU+vudv0erjrSMS9zjTQPjyYa9SPTo04rjIWcLF9vwAYiyASdpuJwjhX1xe+CnN2CTGjXwi037VQ==
+X-Received: by 2002:a17:902:9308:: with SMTP id
+	bc8mr567145plb.268.1584384553751; 
+	Mon, 16 Mar 2020 11:49:13 -0700 (PDT)
 Received: from localhost.localdomain ([4.16.80.121])
 	by smtp.gmail.com with ESMTPSA id
-	c201sm632455pfc.73.2020.03.16.11.49.10
+	c201sm632455pfc.73.2020.03.16.11.49.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 16 Mar 2020 11:49:11 -0700 (PDT)
+	Mon, 16 Mar 2020 11:49:13 -0700 (PDT)
 From: Andre McCurdy <armccurdy@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Mar 2020 11:48:56 -0700
-Message-Id: <20200316184859.11635-2-armccurdy@gmail.com>
+Date: Mon, 16 Mar 2020 11:48:57 -0700
+Message-Id: <20200316184859.11635-3-armccurdy@gmail.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200316184859.11635-1-armccurdy@gmail.com>
 References: <20200316184859.11635-1-armccurdy@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/5] opkg-utils: remove python scripts etc for the class-target only
+Subject: [PATCH 3/5] tune-arm1136jf-s.inc: restore vfp to TUNE_FEATURES_tune-arm1136jfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,40 +60,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 18:49:11 -0000
+X-List-Received-Date: Mon, 16 Mar 2020 18:49:13 -0000
 Content-Transfer-Encoding: 8bit
 
-OE's packaging functions assume that the opkg-utils python scipts are
-always provided by opkg-utils-native, so the scripts should be removed
-for class-target only.
+The change to TUNE_FEATURES_tune-arm1136jfs as part of:
+
+  https://git.openembedded.org/openembedded-core/commit/?id=ac83d22eb5031f7fdd09d34a1a46d92fd3e39a3c
+
+effectively removed both armv6 and vfp, when it should have removed
+armv6 only. Add vfp back to TUNE_FEATURES_tune-arm1136jfs.
 
 Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ---
- meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/conf/machine/include/tune-arm1136jf-s.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-index eda73db6a4..9315240190 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-@@ -34,13 +34,13 @@ do_install() {
- 	if ! ${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'true', 'false', d)}; then
- 		rm -f "${D}${bindir}/update-alternatives"
- 	fi
--
--    if ! ${@bb.utils.contains('PACKAGECONFIG', 'python', 'true', 'false', d)}; then
--        grep -lZ "/usr/bin/env.*python" ${D}${bindir}/* | xargs -0 rm
--    fi
- }
- 
- do_install_append_class-target() {
-+	if ! ${@bb.utils.contains('PACKAGECONFIG', 'python', 'true', 'false', d)}; then
-+		grep -lZ "/usr/bin/env.*python" ${D}${bindir}/* | xargs -0 rm
-+	fi
-+
- 	if [ -e "${D}${bindir}/update-alternatives" ]; then
- 		sed -i ${D}${bindir}/update-alternatives -e 's,/usr/bin,${bindir},g; s,/usr/lib,${nonarch_libdir},g'
- 	fi
+diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
+index b25995d495..173cb468ef 100644
+--- a/meta/conf/machine/include/tune-arm1136jf-s.inc
++++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
+@@ -10,7 +10,7 @@ AVAILTUNES += "arm1136jfs arm1136jfshf"
+ ARMPKGARCH_tune-arm1136jfs = "arm1136jfs"
+ ARMPKGARCH_tune-arm1136jfshf = "arm1136jfs"
+ # mcpu is used so don't use armv6 as we don't want march
+-TUNE_FEATURES_tune-arm1136jfs = "arm arm1136jfs"
++TUNE_FEATURES_tune-arm1136jfs = "arm vfp arm1136jfs"
+ TUNE_FEATURES_tune-arm1136jfshf = "${TUNE_FEATURES_tune-arm1136jfs} callconvention-hard"
+ PACKAGE_EXTRA_ARCHS_tune-arm1136jfs = "${PACKAGE_EXTRA_ARCHS_tune-armv6} arm1136jfs-vfp"
+ PACKAGE_EXTRA_ARCHS_tune-arm1136jfshf = "${PACKAGE_EXTRA_ARCHS_tune-armv6hf} arm1136jfshf-vfp"
 -- 
 2.24.0
 
