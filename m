@@ -1,99 +1,47 @@
-Return-Path: <ernst.sjostrand@verisure.com>
-Received: from mx08-00271601.pphosted.com (mx08-00271601.pphosted.com
-	[62.209.51.218])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FCDB601E6
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C804606BD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 14:03:30 +0000 (UTC)
-Received: from pps.filterd (m0107398.ppops.net [127.0.0.1])
-	by mx08-00271601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
-	02GDeBL7028805; Mon, 16 Mar 2020 15:03:00 +0100
-Received: from eur03-ve1-obe.outbound.protection.outlook.com
-	(mail-ve1eur03lp2056.outbound.protection.outlook.com [104.47.9.56])
-	by mx08-00271601.pphosted.com with ESMTP id 2yrp4jpd1j-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 16 Mar 2020 15:03:00 +0100
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=l8XmY4E/Qt5GBSBl1HrAadO7XO3icd6frcACpbq/1/Q7FIcNY3UkVSaAKcYuMpxSPKwy8S6uQv2Au++6EDYIuypQ9ny2rkf/SMnSd4NiMBWy8nvZZj175oNRo/WkC/G6VjRy6s1Z/J5O3PUL7g/b2WagAhuB9H7Vswr8dLmayB7863R6vT1v3p9oTDDa8ubnD3vARqU5xqawGpnq2wP2/5VB5gpmSWtxTinRu2IdwKkW3djN+4s64KpkvWpevqgMK+2Fj8hLUUUl9oMFS3UrnrrJZEawNDpvYJm5hUH19HIuJXnUOtomMmyqwfVU2sF9ZYHAX7UiAx5vOzbawY6tdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=RhqVWCVRJxzvd3r9vgh/SJXclhZdPENIVJQYHTV+T7s=;
-	b=Dv2rVU4Qy8SlsWOk/wDpPJyPGC4RpFU8GMXoaxQgTv9iXyaB95HqckDOlKe85VFo1d0rnEpp3AwoMrRPbsjefUmt3Xy61Acgmm7nwKPf5u+3i/svkir6y9UtSzD0Hx1A8RYF4RvFhlNumy0+dqkjfeGFKqwcsIWLQWRBzzCoenjKwzXbS0x2WCaHP13UOJF9CIk3rTQgxWO4GLZkWmVWGjiSUBlUb9jFeKiZhkHszmf7/vUBTB52QSkXYdwyEw4/CBKKOsJCPiViw19/hgcAnlFAyKEfugpw4cuftlExOEAhmuvHkRQtz1GMnaRMHoB4me02M4G8s5bI7xyz5LkAxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=verisure.com;
-	dmarc=pass action=none header.from=verisure.com; 
-	dkim=pass header.d=verisure.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=verisure.onmicrosoft.com; s=selector1-verisure-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=RhqVWCVRJxzvd3r9vgh/SJXclhZdPENIVJQYHTV+T7s=;
-	b=aZPy8CIez5DtQZy4edBv3I8djQIwFmEuE+pIQ/2KIGtluYSLxGyp7Sb/lChrjr9zVA5u1M9gFB5V4et9xlVR7sO62wdCUjXEz8b+xXPOplhEVswcZPIDRoazyHJRIUMGgukkMe26gVK0ek72GLs8LkX+61FU3DWKtXJyLvEnSI4=
-Received: from AM0PR10MB2324.EURPRD10.PROD.OUTLOOK.COM (20.177.110.217) by
-	AM0PR10MB2948.EURPRD10.PROD.OUTLOOK.COM (10.255.30.20) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2814.22; Mon, 16 Mar 2020 14:02:56 +0000
-Received: from AM0PR10MB2324.EURPRD10.PROD.OUTLOOK.COM
-	([fe80::3c35:bbd2:1a01:a042]) by
-	AM0PR10MB2324.EURPRD10.PROD.OUTLOOK.COM
-	([fe80::3c35:bbd2:1a01:a042%5]) with mapi id 15.20.2814.021;
-	Mon, 16 Mar 2020 14:02:56 +0000
-From: =?utf-8?B?RXJuc3QgU2rDtnN0cmFuZA==?= <ernst.sjostrand@verisure.com>
-To: "brgl@bgdev.pl" <brgl@bgdev.pl>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	"akuster808@gmail.com" <akuster808@gmail.com>, "raj.khem@gmail.com"
-	<raj.khem@gmail.com>
-Thread-Topic: [OE-core] Solving a circular dependency issue between the main
-	image and initramfs
-Thread-Index: AQHV9yIzheI0kjtJGkW5OFjB33EpgahLSOoA
-Date: Mon, 16 Mar 2020 14:02:56 +0000
-Message-ID: <e9e9a9c8fc2a1895ace0e4f9d57df0b0c1f3f86b.camel@verisure.com>
-References: <CAMRc=Mf_Ld80=Egf3jPBGYoGGZScSG3JHKL7cVArLihJSC8P0g@mail.gmail.com>
-In-Reply-To: <CAMRc=Mf_Ld80=Egf3jPBGYoGGZScSG3JHKL7cVArLihJSC8P0g@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [83.254.138.119]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b0589aa3-9d19-4e9a-0119-08d7c9b2baa4
-x-ms-traffictypediagnostic: AM0PR10MB2948:
-x-microsoft-antispam-prvs: <AM0PR10MB2948B1E0F5EC41054D48FD3E94F90@AM0PR10MB2948.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 03449D5DD1
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(4636009)(39860400002)(346002)(376002)(366004)(396003)(136003)(199004)(966005)(54906003)(478600001)(36756003)(316002)(110136005)(76116006)(91956017)(64756008)(66446008)(66556008)(71200400001)(66476007)(66946007)(5660300002)(26005)(186003)(2906002)(2616005)(6486002)(85182001)(81156014)(4326008)(85202003)(86362001)(81166006)(8676002)(8936002)(6506007)(6512007);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AM0PR10MB2948;
-	H:AM0PR10MB2324.EURPRD10.PROD.OUTLOOK.COM; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; 
-received-spf: None (protection.outlook.com: verisure.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: xK7IDpgYF5ytFKj43JFJiW2pDzL/UdlNgwbxk5JDx0tkCU+WtShtCYgycV2382nNcXjd81SS2BQHdAS5onBqRjO3ORxLpSsJl45cZwnx6FibP4f/lwe7lnCeINvDmY7UHdKrirBh2GFM/D1ITcFhn4apINj0unH5dqilTcujw1DYZ+LctuYe6yd6lMqv2DxU+wVXnewKLd2GWoOwG86XGkAeYq1/RRqd64Ks+t+hS3yIYCxZihc3RQtbAE6q6FkmAnQ50SLqJr1I2osJTLYalBtWY75HceU4mdIcsNmLpCkfxoFVYMuTKJyt4peC1NbEfzVkYLlt58sgQ4se6ec7ElqkRL8FsUThiatDGmQocDfs1UZ/CwHCQKFnTkOF1MQOzbd862O5wcVTJGv68O/ZgVTDHcoveKFQ/gZ6u/7iHzoM+Cy5NCuqcaDbxTz6TTZwS2TjGZXAhx+ecfFSkFJTr81l9lNo8kxVLy6twg30qUfZ3FNWUCN7FwQeWU2qDq2YfvxceWeqztWiITWJIP4JVQ==
-x-ms-exchange-antispam-messagedata: 4a2EzTTvKxdp2fz0hnhBlTr+GBp9IKPCybxMBdmcN56hD4W/R4bcXVOs3mCz+i0KZVJW2D/+RqUiEH0O3s2vmHqiYfhVtq5bsGjATPrFHMRi7+Al23BCat7cmMDSNaUNhgE7VcazONBwoHJxKlIwiw==
-x-ms-exchange-transport-forked: True
-MIME-Version: 1.0
-X-OriginatorOrg: verisure.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0589aa3-9d19-4e9a-0119-08d7c9b2baa4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Mar 2020 14:02:56.7747 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3055fa7f-a944-4927-801e-a62b63119e43
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: y0YbMRY12IobGmMDqBB9uTxJwJ32GQMzHcWYVXews1gGZSbHox5oPqEz0w9ZyQ5TrjSGlw+0tcSustccJd2LPFlk5YTmST/2WCFShuaJtAA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB2948
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138, 18.0.572
-	definitions=2020-03-16_03:2020-03-12,
-	2020-03-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	lowpriorityscore=0
-	suspectscore=0 spamscore=0 malwarescore=0 impostorscore=0 clxscore=1011
-	phishscore=0 bulkscore=0 adultscore=0 priorityscore=1501 mlxscore=0
-	mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
-	engine=8.12.0-2003020000 definitions=main-2003160068
-Cc: "gpain@baylibre.com" <gpain@baylibre.com>,
-	"jneanne@baylibre.com" <jneanne@baylibre.com>
-Subject: Re: Solving a circular dependency issue between the main image and initramfs
+	Mon, 16 Mar 2020 15:28:37 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 6so18142860wmi.5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Mar 2020 08:28:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.ro; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=eoHK59SaRbwYdogdkcrfWY/0Q7deYeFqizfES/+zAqw=;
+	b=TGP2LrnkmVlUDWgedfWxZIGmGtCZFZvgfk1l10QQ6T6auz3hzLnpQo05lLOGk/KaF/
+	+cH0gBQd0Oj8V0F445n6kaTdOoHnJDFFJigF4XPN+oomEFpq3kaJVB5fjar1ALo4WBLP
+	WEaO4N4IzV0IkudajjOU84HJqmYh3m14Fxovbcpy0LLFe9YhO+EUhmImnx4zzwc7elq3
+	w+cTALlujEJzdbAbzhPA8inhZQ0rJf/3jhgWboHFPsEmigWaCEXe1/d2Yp5nzxe5cGyd
+	wnMFMbboYBy+NFf0RoUwwWs93RbFQx9YLmaO1RPPmiQ4Hg9DdlmSrBvLf8rhSaJbXN1W
+	Rq0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=eoHK59SaRbwYdogdkcrfWY/0Q7deYeFqizfES/+zAqw=;
+	b=phcg4rtfn++R4wt9O0uwLGf8Zo3txMUIpCDADNBllRYc/WxvDDX63/T0DtD5plI2az
+	Rdz7o+pnfHP6cxofJYEhKlPCRvqVYJBLY0oKQ3HbkYeWxILOvvjmKreOMphd8jjkLb5U
+	bcw6GUFeXZzrFL4oD3JL2uCb6bOhrdFAfKFsYWEWCjJpGKf0AdzrukgUanyRBThLYGFp
+	T1Gi5fZ2CB4SsSuD8DS4OPnt/tdz3dsAchulDKbHu2yQ3y/2khy3OaX2V8kYLFJ8TeFD
+	9rpQ9blUwG0O6qxE74QInoOfHbGhz08Lv13rjWXg+Pso+qENFAbBFIwlLiKeYiyZT4fD
+	y5yQ==
+X-Gm-Message-State: ANhLgQ0FcmA/gG4KpWsSQBL7ngU+OKhXRf87oZQb4gexK6pOu4KPAgV6
+	x+Tp0U05H/Lno1c0aWALxQRS2+v/0w3Y5g==
+X-Google-Smtp-Source: ADFU+vscLtxzykZ49sRP/OoaeYXXzlYbhrPn2PmhIKaN7bR10s/Plsdjpmo+nr+iaULhPWQtMl+N/g==
+X-Received: by 2002:a05:600c:2c06:: with SMTP id
+	q6mr22791890wmg.52.1584372517889; 
+	Mon, 16 Mar 2020 08:28:37 -0700 (PDT)
+Received: from agherzan-lnxU.hanoverdisplays.com ([81.145.148.228])
+	by smtp.gmail.com with ESMTPSA id i9sm51036wmd.37.2020.03.16.08.28.36
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 16 Mar 2020 08:28:36 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Mar 2020 15:28:20 +0000
+Message-Id: <20200316152820.23437-1-andrei@gherzan.ro>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] wic/bootimg-efi: Respect fixed partition size
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -106,178 +54,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 14:03:30 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_e9e9a9c8fc2a1895ace0e4f9d57df0b0c1f3f86bcamelverisureco_"
+X-List-Received-Date: Mon, 16 Mar 2020 15:28:37 -0000
 
---_000_e9e9a9c8fc2a1895ace0e4f9d57df0b0c1f3f86bcamelverisureco_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 21 +++++++++++--------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-SGkhDQoNCkkgaGF2ZSBkb25lIHNvbWV0aGluZyB2ZXJ5IHNpbWlsYXIsIGhlcmUncyB3aGF0IEkg
-ZGlkLg0KDQpNeSByYW1kaXNrIGlzIGp1c3QgYSB2YW5pbGxhIGNwaW8uDQpNeSBrZXJuZWwgaXMg
-anVzdCB2YW5pbGxhIHpJbWFnZS4NCg0KTXkgbWFpbiBpbWFnZSBkb2VzICJpbmhlcml0IG1hZ2lj
-IiBhbmQgbWFnaWMuYmJjbGFzcyBkb2VzIHNvbWV0aGluZyBsaWtlIHRoaXMsIHdoZXJlIGNyZWF0
-ZV9jdXN0b21fZml0aW1hZ2UgaGFzIGEgbG90IG9mIGtlcm5lbC1maXRpbWFnZS5iYmNsYXNzIGNv
-cGllZCBvdXQuDQpkb19tYWdpYyAoKSB7DQpjcmVhdGVfY3VzdG9tX2ZpdGltYWdlDQppbnN0YWxs
-IGZpdEltYWdlLmJpbiAke0lNQUdFX1JPT1RGU30vYm9vdC9maXRJbWFnZQ0KfQ0KZG9fbWFnaWNb
-ZGVwZW5kc10gKz0gIm15LXJhbWRpc2s6ZG9faW1hZ2VfY29tcGxldGUgIHZpcnR1YWwva2VybmVs
-Ig0KYWRkdGFzayBtYWdpYyBiZWZvcmUgZG9faW1hZ2UgYWZ0ZXIgZG9fcHJlX2ltYWdlX3Rhc2sN
-Cg0KSXQgZG9lcyByZWFkIGEgbG90IG9mIHN0dWZmIGZyb20gZGVwbG95IGJ1dCBzbyBkb2VzIHRo
-ZSBtYWluIGtlcm5lbC1maXRpbWFnZS5iYmNsYXNzIHNvIEkgZG9uJ3QgdGhpbmsgdGhhdCdzIGEg
-cHJvYmxlbS4NCg0KUmVnYXJkcw0KLy9Fcm5zdA0KDQpPbiBUdWUsIDIwMjAtMDMtMTAgYXQgMjI6
-MjMgKzAxMDAsIEJhcnRvc3ogR29sYXN6ZXdza2kgd3JvdGU6DQoNCkhpLA0KDQoNCkkndmUgYmVl
-biBzdHJ1Z2dsaW5nIGZvciBhIHdoaWxlIG5vdyB0cnlpbmcgdG8gZml4IGEgY2lyY3VsYXINCg0K
-ZGVwZW5kZW5jeSBpc3N1ZSB3aGVuIHRoZSBpbml0cmFtZnMgaW1hZ2UgbmVlZHMgdG8gYWNjZXNz
-IGFuIGltYWdlDQoNCmZpbGUgZ2VuZXJhdGVkIGJ5IHRoZSBtYWluIChmb3IgbGFjayBvZiBhIGJl
-dHRlciB0ZXJtKSBpbWFnZSByZWNpcGUuDQoNCg0KSSd2ZSB0cmllZCB0byBmaXggb3VyIGRvd25z
-dHJlYW0gbGF5ZXIgb25seSB0byBjb21lIHRvIHRoZSBjb25jbHVzaW9uDQoNCnRoYXQgc29tZSB0
-aGluZ3MgbXVzdCBwcm9iYWJseSBiZSBtb2RpZmllZCB1cHN0cmVhbSB0byBtYWtlIHNlbnNlLg0K
-DQpVbmZvcnR1bmF0ZWx5IHdoZW4gdHJ5aW5nIGRpZmZlcmVudCBzb2x1dGlvbnMgSSBhbHdheXMg
-YXJyaXZlIGF0IHNvbWUNCg0Ka2luZCBvZiBjaXJjdWxhciBkZXBlbmRlbmN5IHdpdGggdGhlIGN1
-cnJlbnQgdGFzayBvcmRlci4NCg0KDQpNeSB1c2UtY2FzZSBpcyB0aGUgZm9sbG93aW5nOg0KDQoN
-CkknZCBsaWtlIHRvIHVzZSBkbS12ZXJpdHkgdG8gcHJvdGVjdCB0aGUgcm9vdGZzIGZyb20gdGFt
-cGVyaW5nIGFzIHBhcnQNCg0Kb2YgdGhlIHZlcmlmaWVkIGJvb3QgZmxvdy4gQXQgYm9vdC10aW1l
-IHRoZSByb290ZnMgcGFydGl0aW9uIGlzIG1hcHBlZA0KDQp1c2luZyB2ZXJpdHlzZXR1cCBmcm9t
-IGEgdHJ1c3RlZCBpbml0cmFtZnMgc3RvcmVkIGluIGEgc2lnbmVkDQoNCmZpdEltYWdlLiBUaGlz
-IGluaXRyYW1mcyBhbHNvIGNvbnRhaW5zIHRoZSByb290IHZlcml0eSBoYXNoIHdoaWxlIHRoZQ0K
-DQpyZXN0IG9mIHRoZSBoYXNoIHRyZWUgaXMgc3RvcmVkIG9uIGEgZGlmZmVyZW50IHBhcnRpdGlv
-bi4NCg0KDQpUaGUgZG0tdmVyaXR5IG1ldGEgZGF0YSBpcyBnZW5lcmF0ZWQgZnJvbSBhIGNsYXNz
-WzFdIEkgd3JvdGUgd2l0aCB0aGUNCg0KYWltIG9mIHVwc3RyZWFtaW5nIGl0IHRvIG1ldGEtc2Vj
-dXJpdHkgYXMgYW4gaW1hZ2UgY29udmVyc2lvbiBvZg0KDQpleHRbMjM0XSBhbmQgYnRyZnMgaW1h
-Z2VzLg0KDQoNCkZvciB0aGUgc2FrZSBvZiBjbGFyaXR5IG9mIHRoZSBleGFtcGxlIGxldCdzIGFz
-c3VtZSB3ZSdyZSBnZW5lcmF0aW5nDQoNCmFuIGV4dDQgaW1hZ2UgZm9yIGNvcmUtaW1hZ2UtZnVs
-bC1jbWRsaW5lIGFuZCBzZXQgSU5JVFJBTUZTX0lNQUdFIHRvDQoNCiJkbS12ZXJpdHktaW1hZ2Ut
-aW5pdHJhbWZzIi4NCg0KDQpUaGUgdmVyaXR5c2V0dXAgY29udmVyc2lvbiBiZWNvbWVzIHBhcnQg
-b2YgdGhlDQoNCmNvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lOmRvX2ltYWdlX2V4dDQgdGFzaywgd2hp
-bGUNCg0KZG0tdmVyaXR5LWltYWdlLWluaXRyYW1mczpkb19yb290ZnMgbmVlZHMgdG8gZGVwZW5k
-IG9uDQoNCmNvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lOmRvX2ltYWdlX2V4dDQgYXMgaXQgbmVlZHMg
-dG8gY29tcHV0ZSB0aGUNCg0KaGFzaGVzIGJhc2VkIG9uIHRoZSBibG9jayBkZXZpY2UgaW1hZ2Uu
-IEl0IGNhbm5vdCBob3dldmVyIGRlcGVuZCBvbg0KDQpjb3JlLWltYWdlLWZ1bGwtY21kbGluZTpk
-b19pbWFnZV9jb21wbGV0ZSBhcyBpdCBkZXBlbmRzIG9uIG1hbnkgdGFza3MNCg0KKGUuZy4ga2Vy
-bmVsIGFuZCB1LWJvb3QgdGFza3MpIHRoYXQgd291bGQgaW5ldml0YWJseSBsZWFkIHRvIGENCg0K
-Y2lyY3VsYXIgZGVwZW5kZW5jeS4NCg0KDQpUaGUgb3V0cHV0IGZpbGVzIGZyb20gcmVjaXBlcyBp
-bmhlcml0aW5nIGltYWdlLmJiY2xhc3MgYXJlIG5vdA0KDQpkZXBsb3llZCBiZWZvcmUgZG9faW1h
-Z2VfY29tcGxldGUgbm9yIGlzIGFueXRoaW5nIGRvbmUgaW4gZG9faW5zdGFsbA0KDQpvciBkb19w
-b3B1bGF0ZV9zeXNyb290ICh0aGVzZSB0YXNrcyBhcmUgZmxhZ2dlZCBub2V4ZWMgb3IgZGVsZXRl
-ZCksIHNvDQoNCkkgY2Fubm90IGFjY2VzcyB0aGVtIGZyb20gZG0tdmVyaXR5LWltYWdlLWluaXRy
-YW1mczpkb19yb290ZnMuDQoNCg0KQXMgYSB3b3JrYXJvdW5kIGluIHRoZSBkb3duc3RyZWFtIGxh
-eWVyIEkndmUgYmVlbiBtYW51YWxseSBwdXR0aW5nIHRoZQ0KDQp2ZXJpdHkgbWV0YSBkYXRhIGlu
-dG8gdGhlIERFUExPWV9ESVJfSU1BR0UgZnJvbQ0KDQpjb3JlLWltYWdlLWZ1bGwtY21kbGluZTpk
-b19pbWFnZV9leHQ0IGJ1dCB0aGlzIG9idmlvdXNseSBpc24ndCBjb3JyZWN0DQoNCmFzIGZhciBh
-cyB0aGUgZGVwbG95IGNsYXNzIGFuZCBzc3RhdGUgYXJlIGNvbmNlcm5lZC4NCg0KDQpOb3cgdGhl
-IHF1ZXN0aW9uIGlzOiBob3cgZG8gSSBhcHByb2FjaCBpdCBzbyB0aGF0IEkgY2FuIGV2ZW50dWFs
-bHkNCg0KbWFrZSBpdCBwYXJ0IG9mIHVwc3RyZWFtIG1ldGEtc2VjdXJpdHk/DQoNCg0KRG8gSSBp
-bXBsZW1lbnQgZG9faW5zdGFsbCBpbiBpbWFnZS5iYmNsYXNzIHNvIHRoYXQgaW5pdHJhbWZzIGNh
-bg0KDQpkZXBlbmQgb24gY29yZS1pbWFnZS1mdWxsLWNtZGxpbmU6ZG9fcG9wdWxhdGVfc3lzcm9v
-dCBhbmQgaGF2ZSB0aGUNCg0KYXJ0aWZhY3RzIGluc3RhbGxlZCBsb2NhbGx5PyBCdXQgdGhpcyB3
-b3VsZCBtZWFuIHRoYXQgdGhlIGluaXRyYW1mcw0KDQpyZWNpcGUgZGVwbG95cyB0aGUgbWFpbiBp
-bWFnZSBhcnRpZmFjdC4gU2hvdWxkIHdlIGRlcGxveSB0aGUgaW1hZ2VzDQoNCmVhcmxpZXIgKGJl
-Zm9yZSBkb19pbWFnZV9jb21wbGV0ZSkgZm9yIHRoZSBpbml0cmFtZnMgcmVjaXBlIHRvIGZldGNo
-DQoNCmZyb20gREVQTE9ZX0RJUl9JTUFHRT8gQW55IG90aGVyIGlkZWFzPw0KDQoNCkJlc3QgcmVn
-YXJkcywNCg0KQmFydG9zeiBHb2xhc3pld3NraQ0KDQoNClsxXSBodHRwczovL3VybGRlZmVuc2Uu
-Y29tL3YzL19faHR0cHM6Ly9naXRodWIuY29tL2JyZ2wvbWV0YS1zZWN1cml0eS9ibG9iL3RvcGlj
-L3Zlcml0eS1ldC1hbC9jbGFzc2VzL2RtLXZlcml0eS1pbWcuYmJjbGFzc19fOyEhQkZDTG5SRERi
-TTNGT213IXR4cGVPd00zZXRWNE5KdkdmZmxJc1NXN1Y4UnN2aGhMTnJEU0pMajBpbGlLb2lFbThJ
-dTJUZjBORHNKeUpWRHhJY1pGSWckDQoNCg==
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 2cfdc10ecd..6c3d7b8491 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -263,19 +263,22 @@ class BootimgEFIPlugin(SourcePlugin):
+             cp_cmd = "cp %s %s/" % (startup, hdddir)
+             exec_cmd(cp_cmd, True)
+ 
+-        du_cmd = "du -bks %s" % hdddir
+-        out = exec_cmd(du_cmd)
+-        blocks = int(out.split()[0])
++        if part.fixed-size:
++            blocks = part.fixed_size
++        else:
++            du_cmd = "du -bks %s" % hdddir
++            out = exec_cmd(du_cmd)
++            blocks = int(out.split()[0])
+ 
+-        extra_blocks = part.get_extra_block_count(blocks)
++            extra_blocks = part.get_extra_block_count(blocks)
+ 
+-        if extra_blocks < BOOTDD_EXTRA_SPACE:
+-            extra_blocks = BOOTDD_EXTRA_SPACE
++            if extra_blocks < BOOTDD_EXTRA_SPACE:
++                extra_blocks = BOOTDD_EXTRA_SPACE
+ 
+-        blocks += extra_blocks
++            blocks += extra_blocks
+ 
+-        logger.debug("Added %d extra blocks to %s to get to %d total blocks",
+-                     extra_blocks, part.mountpoint, blocks)
++            logger.debug("Added %d extra blocks to %s to get to %d total blocks",
++                         extra_blocks, part.mountpoint, blocks)
+ 
+         # dosfs image, created by mkdosfs
+         bootimg = "%s/boot.img" % cr_workdir
+-- 
+2.17.1
 
---_000_e9e9a9c8fc2a1895ace0e4f9d57df0b0c1f3f86bcamelverisureco_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <2C4B2451600CF140BBF60D6288D4DA55@EURPRD10.PROD.OUTLOOK.COM>
-Content-Transfer-Encoding: base64
 
-PGh0bWwgZGlyPSJsdHIiPg0KPGhlYWQ+DQo8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUi
-IGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD11dGYtOCI+DQo8L2hlYWQ+DQo8Ym9keSBzdHls
-ZT0idGV4dC1hbGlnbjpsZWZ0OyBkaXJlY3Rpb246bHRyOyI+DQo8ZGl2PkhpITwvZGl2Pg0KPGRp
-dj48YnI+DQo8L2Rpdj4NCjxkaXY+SSBoYXZlIGRvbmUgc29tZXRoaW5nIHZlcnkgc2ltaWxhciwg
-aGVyZSdzIHdoYXQgSSBkaWQuPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5NeSByYW1k
-aXNrIGlzIGp1c3QgYSB2YW5pbGxhIGNwaW8uPC9kaXY+DQo8ZGl2Pk15IGtlcm5lbCBpcyBqdXN0
-IHZhbmlsbGEgekltYWdlLjwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+TXkgbWFpbiBp
-bWFnZSBkb2VzICZxdW90O2luaGVyaXQgbWFnaWMmcXVvdDsgYW5kIG1hZ2ljLmJiY2xhc3MgZG9l
-cyBzb21ldGhpbmcgbGlrZSB0aGlzLCB3aGVyZSBjcmVhdGVfY3VzdG9tX2ZpdGltYWdlIGhhcyBh
-IGxvdCBvZiBrZXJuZWwtZml0aW1hZ2UuYmJjbGFzcyBjb3BpZWQgb3V0LjwvZGl2Pg0KPGRpdj5k
-b19tYWdpYyAoKSB7PC9kaXY+DQo8ZGl2PmNyZWF0ZV9jdXN0b21fZml0aW1hZ2U8L2Rpdj4NCjxk
-aXY+aW5zdGFsbCBmaXRJbWFnZS5iaW4gJHtJTUFHRV9ST09URlN9L2Jvb3QvZml0SW1hZ2U8L2Rp
-dj4NCjxkaXY+fTwvZGl2Pg0KPGRpdj5kb19tYWdpY1tkZXBlbmRzXSAmIzQzOz0gJnF1b3Q7bXkt
-cmFtZGlzazpkb19pbWFnZV9jb21wbGV0ZSZuYnNwOyB2aXJ0dWFsL2tlcm5lbCZxdW90OzwvZGl2
-Pg0KPGRpdj5hZGR0YXNrIG1hZ2ljIGJlZm9yZSBkb19pbWFnZSBhZnRlciBkb19wcmVfaW1hZ2Vf
-dGFzazwvZGl2Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+SXQgZG9lcyByZWFkIGEgbG90IG9m
-IHN0dWZmIGZyb20gZGVwbG95IGJ1dCBzbyBkb2VzIHRoZSBtYWluIGtlcm5lbC1maXRpbWFnZS5i
-YmNsYXNzIHNvIEkgZG9uJ3QgdGhpbmsgdGhhdCdzIGEgcHJvYmxlbS48L2Rpdj4NCjxkaXY+PGJy
-Pg0KPC9kaXY+DQo8ZGl2PlJlZ2FyZHM8L2Rpdj4NCjxkaXY+Ly9Fcm5zdDwvZGl2Pg0KPGRpdj48
-L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2Pk9uIFR1ZSwgMjAyMC0wMy0xMCBhdCAyMjoy
-MyAmIzQzOzAxMDAsIEJhcnRvc3ogR29sYXN6ZXdza2kgd3JvdGU6PC9kaXY+DQo8YmxvY2txdW90
-ZSB0eXBlPSJjaXRlIiBzdHlsZT0ibWFyZ2luOjAgMCAwIC44ZXg7IGJvcmRlci1sZWZ0OjJweCAj
-NzI5ZmNmIHNvbGlkO3BhZGRpbmctbGVmdDoxZXgiPg0KPHByZT5IaSw8L3ByZT4NCjxwcmU+PGJy
-PjwvcHJlPg0KPHByZT5JJ3ZlIGJlZW4gc3RydWdnbGluZyBmb3IgYSB3aGlsZSBub3cgdHJ5aW5n
-IHRvIGZpeCBhIGNpcmN1bGFyPC9wcmU+DQo8cHJlPmRlcGVuZGVuY3kgaXNzdWUgd2hlbiB0aGUg
-aW5pdHJhbWZzIGltYWdlIG5lZWRzIHRvIGFjY2VzcyBhbiBpbWFnZTwvcHJlPg0KPHByZT5maWxl
-IGdlbmVyYXRlZCBieSB0aGUgbWFpbiAoZm9yIGxhY2sgb2YgYSBiZXR0ZXIgdGVybSkgaW1hZ2Ug
-cmVjaXBlLjwvcHJlPg0KPHByZT48YnI+PC9wcmU+DQo8cHJlPkkndmUgdHJpZWQgdG8gZml4IG91
-ciBkb3duc3RyZWFtIGxheWVyIG9ubHkgdG8gY29tZSB0byB0aGUgY29uY2x1c2lvbjwvcHJlPg0K
-PHByZT50aGF0IHNvbWUgdGhpbmdzIG11c3QgcHJvYmFibHkgYmUgbW9kaWZpZWQgdXBzdHJlYW0g
-dG8gbWFrZSBzZW5zZS48L3ByZT4NCjxwcmU+VW5mb3J0dW5hdGVseSB3aGVuIHRyeWluZyBkaWZm
-ZXJlbnQgc29sdXRpb25zIEkgYWx3YXlzIGFycml2ZSBhdCBzb21lPC9wcmU+DQo8cHJlPmtpbmQg
-b2YgY2lyY3VsYXIgZGVwZW5kZW5jeSB3aXRoIHRoZSBjdXJyZW50IHRhc2sgb3JkZXIuPC9wcmU+
-DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+TXkgdXNlLWNhc2UgaXMgdGhlIGZvbGxvd2luZzo8L3By
-ZT4NCjxwcmU+PGJyPjwvcHJlPg0KPHByZT5JJ2QgbGlrZSB0byB1c2UgZG0tdmVyaXR5IHRvIHBy
-b3RlY3QgdGhlIHJvb3RmcyBmcm9tIHRhbXBlcmluZyBhcyBwYXJ0PC9wcmU+DQo8cHJlPm9mIHRo
-ZSB2ZXJpZmllZCBib290IGZsb3cuIEF0IGJvb3QtdGltZSB0aGUgcm9vdGZzIHBhcnRpdGlvbiBp
-cyBtYXBwZWQ8L3ByZT4NCjxwcmU+dXNpbmcgdmVyaXR5c2V0dXAgZnJvbSBhIHRydXN0ZWQgaW5p
-dHJhbWZzIHN0b3JlZCBpbiBhIHNpZ25lZDwvcHJlPg0KPHByZT5maXRJbWFnZS4gVGhpcyBpbml0
-cmFtZnMgYWxzbyBjb250YWlucyB0aGUgcm9vdCB2ZXJpdHkgaGFzaCB3aGlsZSB0aGU8L3ByZT4N
-CjxwcmU+cmVzdCBvZiB0aGUgaGFzaCB0cmVlIGlzIHN0b3JlZCBvbiBhIGRpZmZlcmVudCBwYXJ0
-aXRpb24uPC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+VGhlIGRtLXZlcml0eSBtZXRhIGRh
-dGEgaXMgZ2VuZXJhdGVkIGZyb20gYSBjbGFzc1sxXSBJIHdyb3RlIHdpdGggdGhlPC9wcmU+DQo8
-cHJlPmFpbSBvZiB1cHN0cmVhbWluZyBpdCB0byBtZXRhLXNlY3VyaXR5IGFzIGFuIGltYWdlIGNv
-bnZlcnNpb24gb2Y8L3ByZT4NCjxwcmU+ZXh0WzIzNF0gYW5kIGJ0cmZzIGltYWdlcy48L3ByZT4N
-CjxwcmU+PGJyPjwvcHJlPg0KPHByZT5Gb3IgdGhlIHNha2Ugb2YgY2xhcml0eSBvZiB0aGUgZXhh
-bXBsZSBsZXQncyBhc3N1bWUgd2UncmUgZ2VuZXJhdGluZzwvcHJlPg0KPHByZT5hbiBleHQ0IGlt
-YWdlIGZvciBjb3JlLWltYWdlLWZ1bGwtY21kbGluZSBhbmQgc2V0IElOSVRSQU1GU19JTUFHRSB0
-bzwvcHJlPg0KPHByZT4mcXVvdDtkbS12ZXJpdHktaW1hZ2UtaW5pdHJhbWZzJnF1b3Q7LjwvcHJl
-Pg0KPHByZT48YnI+PC9wcmU+DQo8cHJlPlRoZSB2ZXJpdHlzZXR1cCBjb252ZXJzaW9uIGJlY29t
-ZXMgcGFydCBvZiB0aGU8L3ByZT4NCjxwcmU+Y29yZS1pbWFnZS1mdWxsLWNtZGxpbmU6ZG9faW1h
-Z2VfZXh0NCB0YXNrLCB3aGlsZTwvcHJlPg0KPHByZT5kbS12ZXJpdHktaW1hZ2UtaW5pdHJhbWZz
-OmRvX3Jvb3RmcyBuZWVkcyB0byBkZXBlbmQgb248L3ByZT4NCjxwcmU+Y29yZS1pbWFnZS1mdWxs
-LWNtZGxpbmU6ZG9faW1hZ2VfZXh0NCBhcyBpdCBuZWVkcyB0byBjb21wdXRlIHRoZTwvcHJlPg0K
-PHByZT5oYXNoZXMgYmFzZWQgb24gdGhlIGJsb2NrIGRldmljZSBpbWFnZS4gSXQgY2Fubm90IGhv
-d2V2ZXIgZGVwZW5kIG9uPC9wcmU+DQo8cHJlPmNvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lOmRvX2lt
-YWdlX2NvbXBsZXRlIGFzIGl0IGRlcGVuZHMgb24gbWFueSB0YXNrczwvcHJlPg0KPHByZT4oZS5n
-LiBrZXJuZWwgYW5kIHUtYm9vdCB0YXNrcykgdGhhdCB3b3VsZCBpbmV2aXRhYmx5IGxlYWQgdG8g
-YTwvcHJlPg0KPHByZT5jaXJjdWxhciBkZXBlbmRlbmN5LjwvcHJlPg0KPHByZT48YnI+PC9wcmU+
-DQo8cHJlPlRoZSBvdXRwdXQgZmlsZXMgZnJvbSByZWNpcGVzIGluaGVyaXRpbmcgaW1hZ2UuYmJj
-bGFzcyBhcmUgbm90PC9wcmU+DQo8cHJlPmRlcGxveWVkIGJlZm9yZSBkb19pbWFnZV9jb21wbGV0
-ZSBub3IgaXMgYW55dGhpbmcgZG9uZSBpbiBkb19pbnN0YWxsPC9wcmU+DQo8cHJlPm9yIGRvX3Bv
-cHVsYXRlX3N5c3Jvb3QgKHRoZXNlIHRhc2tzIGFyZSBmbGFnZ2VkIG5vZXhlYyBvciBkZWxldGVk
-KSwgc288L3ByZT4NCjxwcmU+SSBjYW5ub3QgYWNjZXNzIHRoZW0gZnJvbSBkbS12ZXJpdHktaW1h
-Z2UtaW5pdHJhbWZzOmRvX3Jvb3Rmcy48L3ByZT4NCjxwcmU+PGJyPjwvcHJlPg0KPHByZT5BcyBh
-IHdvcmthcm91bmQgaW4gdGhlIGRvd25zdHJlYW0gbGF5ZXIgSSd2ZSBiZWVuIG1hbnVhbGx5IHB1
-dHRpbmcgdGhlPC9wcmU+DQo8cHJlPnZlcml0eSBtZXRhIGRhdGEgaW50byB0aGUgREVQTE9ZX0RJ
-Ul9JTUFHRSBmcm9tPC9wcmU+DQo8cHJlPmNvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lOmRvX2ltYWdl
-X2V4dDQgYnV0IHRoaXMgb2J2aW91c2x5IGlzbid0IGNvcnJlY3Q8L3ByZT4NCjxwcmU+YXMgZmFy
-IGFzIHRoZSBkZXBsb3kgY2xhc3MgYW5kIHNzdGF0ZSBhcmUgY29uY2VybmVkLjwvcHJlPg0KPHBy
-ZT48YnI+PC9wcmU+DQo8cHJlPk5vdyB0aGUgcXVlc3Rpb24gaXM6IGhvdyBkbyBJIGFwcHJvYWNo
-IGl0IHNvIHRoYXQgSSBjYW4gZXZlbnR1YWxseTwvcHJlPg0KPHByZT5tYWtlIGl0IHBhcnQgb2Yg
-dXBzdHJlYW0gbWV0YS1zZWN1cml0eT88L3ByZT4NCjxwcmU+PGJyPjwvcHJlPg0KPHByZT5EbyBJ
-IGltcGxlbWVudCBkb19pbnN0YWxsIGluIGltYWdlLmJiY2xhc3Mgc28gdGhhdCBpbml0cmFtZnMg
-Y2FuPC9wcmU+DQo8cHJlPmRlcGVuZCBvbiBjb3JlLWltYWdlLWZ1bGwtY21kbGluZTpkb19wb3B1
-bGF0ZV9zeXNyb290IGFuZCBoYXZlIHRoZTwvcHJlPg0KPHByZT5hcnRpZmFjdHMgaW5zdGFsbGVk
-IGxvY2FsbHk/IEJ1dCB0aGlzIHdvdWxkIG1lYW4gdGhhdCB0aGUgaW5pdHJhbWZzPC9wcmU+DQo8
-cHJlPnJlY2lwZSBkZXBsb3lzIHRoZSBtYWluIGltYWdlIGFydGlmYWN0LiBTaG91bGQgd2UgZGVw
-bG95IHRoZSBpbWFnZXM8L3ByZT4NCjxwcmU+ZWFybGllciAoYmVmb3JlIGRvX2ltYWdlX2NvbXBs
-ZXRlKSBmb3IgdGhlIGluaXRyYW1mcyByZWNpcGUgdG8gZmV0Y2g8L3ByZT4NCjxwcmU+ZnJvbSBE
-RVBMT1lfRElSX0lNQUdFPyBBbnkgb3RoZXIgaWRlYXM/PC9wcmU+DQo8cHJlPjxicj48L3ByZT4N
-CjxwcmU+QmVzdCByZWdhcmRzLDwvcHJlPg0KPHByZT5CYXJ0b3N6IEdvbGFzemV3c2tpPC9wcmU+
-DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+WzFdIDxhIGhyZWY9Imh0dHBzOi8vdXJsZGVmZW5zZS5j
-b20vdjMvX19odHRwczovL2dpdGh1Yi5jb20vYnJnbC9tZXRhLXNlY3VyaXR5L2Jsb2IvdG9waWMv
-dmVyaXR5LWV0LWFsL2NsYXNzZXMvZG0tdmVyaXR5LWltZy5iYmNsYXNzX187ISFCRkNMblJERGJN
-M0ZPbXchdHhwZU93TTNldFY0Tkp2R2ZmbElzU1c3VjhSc3ZoaExOckRTSkxqMGlsaUtvaUVtOEl1
-MlRmME5Ec0p5SlZEeEljWkZJZyQiPmh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwczov
-L2dpdGh1Yi5jb20vYnJnbC9tZXRhLXNlY3VyaXR5L2Jsb2IvdG9waWMvdmVyaXR5LWV0LWFsL2Ns
-YXNzZXMvZG0tdmVyaXR5LWltZy5iYmNsYXNzX187ISFCRkNMblJERGJNM0ZPbXchdHhwZU93TTNl
-dFY0Tkp2R2ZmbElzU1c3VjhSc3ZoaExOckRTSkxqMGlsaUtvaUVtOEl1MlRmME5Ec0p5SlZEeElj
-WkZJZyQ8L2E+IDwvcHJlPg0KPHByZT48YnI+PC9wcmU+DQo8L2Jsb2NrcXVvdGU+DQo8L2JvZHk+
-DQo8L2h0bWw+DQo=
-
---_000_e9e9a9c8fc2a1895ace0e4f9d57df0b0c1f3f86bcamelverisureco_--
