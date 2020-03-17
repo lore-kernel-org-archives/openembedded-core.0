@@ -1,53 +1,51 @@
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
-	[209.85.128.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 475AE60B46
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id BC6AE60B3F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 15:27:02 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id g62so22503652wme.1
+	Tue, 17 Mar 2020 15:28:49 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id a141so22491790wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 08:27:03 -0700 (PDT)
+	Tue, 17 Mar 2020 08:28:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=yZbatRajxbZKSjnz28vUau1UaAS15g1s59vKVjIURRg=;
-	b=GIqzvfu6Zpd5zwmZbLhG80YpqInLOmcpVKl8yCakQ3DstVjhNlZr/C4p/UAJtmP8mH
-	ji4tjsS9mO/gEehFr5h0uIVG+uRVCBVR5Pv2pcoUBzJwyPaFwJun3TYtt5I2pfJlNzYN
-	eJMIjlbaRU8HewswJQhK8yYgLEJZMxNgfvknos4E6RvaPBc5V/djLf8DdmYchlWT2OKd
-	w9diF6fT9gpUzLOw/far9RpMcZa0wISbpJMTRfIzXAHPFbC7Yus8/1Sm/86ohoQB0Pop
-	PPvb6le99TwUToUlXNRAF5O0GQxBATlqTgFh1/QfvlfEvk5Q10qfm943LsyBCA1/sfOM
-	mj8w==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zFil9Msv6ZKGg24epxJahplVGqy07n8YVSYIme0hDIQ=;
+	b=FDsNdVU8IuayNtP3Hn32xfxnc7wn7FVOaMSq36yvM282yltLFtPVTb0KvxFc9PQsmu
+	O6LEfw5rr640S7WUEGS8VjAqME1J/tdo+Z7a4VYbSfRR+Xz2Nd7bKIQmlyVkupwZs4AH
+	qoHWzIQ2YqVp+E/a0wWcYXV2FUbQSeOfK5GhMyXO0PWbzVRlkXvl6DJHJxmjBk3j4KJq
+	aIYUqxFI6eutuHjxLAnjZGPJmWnTKI2I/luRhPsApH42sofr7CXnRMCXCIGAmQxzVdmY
+	eD9rxdcLVEuJ1873u2106Xg/BKmRuPsVFxkxTPE9q1BlwsKlXUFn6bvRnhux5tqWQ1PB
+	AsSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=yZbatRajxbZKSjnz28vUau1UaAS15g1s59vKVjIURRg=;
-	b=ejzuTXEFJpyPCgjhA0Mgo+7tsEMtG4V91HXnk8TpCkmddMnWo5v8CNNcD5T2C/+Csh
-	wLqN0vRPfv0F0GAuYUymQIlNtZF/EKuiY5KYih+EDh9+UVEdqbI0XwFs20TcFSRaiDH6
-	GMyGAu2F7e+SuuxJDasNFfvcMXWT4b4KlP7YxRv70a8CvkS3YG9iBl7I2uE5HGZPEZew
-	RwgDquLwANcxPK4YpQXLi9+c8w5zYaj/YTnwycbvVA9R8z0ZYVyIb8ZCT00ldG3bRE0v
-	XCd40EcL/EmFapvh4uiqFknWKCnNc1nobtoMJFZJLukEKJ9cNxxJn0o6jJM17tpmT642
-	pOhw==
-X-Gm-Message-State: ANhLgQ2DUnpSO4gWiLV14x3XAH6r6hs0aR6GjO02AbMBoeKDWJKspIga
-	aOw+qxtYOW8RZcwNjRxULQIYzYPm
-X-Google-Smtp-Source: ADFU+vufs4j9B1RN1Uhuz+LJbxxlbhus++gQaS61kLNw/UV8DlDP8ZLFyKDTkXy4Js0N6d4lsiMS1w==
-X-Received: by 2002:a1c:f214:: with SMTP id s20mr5615097wmc.57.1584458822283; 
-	Tue, 17 Mar 2020 08:27:02 -0700 (PDT)
-Received: from wsadrian2.lan.ffah.ch (c-82-192-240-69.customer.ggaweb.ch.
-	[82.192.240.69])
-	by smtp.gmail.com with ESMTPSA id q8sm371249wrc.8.2020.03.17.08.27.00
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zFil9Msv6ZKGg24epxJahplVGqy07n8YVSYIme0hDIQ=;
+	b=hiYQRxTjEPPa6NsIDyGKuhm0CLRy8mpemcXll5BHH+nrAXAhFf6mAHqGtu1gJsigS7
+	Q6SpLj+z1rHpQcltoxRoEvTpqSefS4w0ut9x2ExTdxnVBC3058DLLhmFbsES/FirAzKx
+	FA7OGY+ARsC/zGbgxw0gMVF+EFHdZyvBE3rcBWsdhXYPn5900jMtTYRYk6DEbkUmosaI
+	k7KQ5b5nhLiXODJewD0J6WIFQFcu+DUDMGzwtvvgymzuS1RWGtXY0eoRkm/EZEBVj9yx
+	/vPi0OAmGlXh60kzW7sAbT7npvkZENW13YX2/5eINh8MYbw58TFYy1PFI9p0hOwAXMuM
+	xiLQ==
+X-Gm-Message-State: ANhLgQ1mphQA+QTSRNLAAo2/rJZvLcWg1Okz7GICRsWZ7XF0rteGGiNU
+	DZGtLGfSyyBVzowlVjGqGO3vkpWP
+X-Google-Smtp-Source: ADFU+vvpeC3qsnzp/9zwa8QdbTkF4hqhcEyhIu8FB9xH5shnOTWcR8fdQOAslNk1MIduyNfBp6cJMw==
+X-Received: by 2002:a05:600c:4114:: with SMTP id
+	j20mr5793652wmi.58.1584458929895; 
+	Tue, 17 Mar 2020 08:28:49 -0700 (PDT)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246])
+	by smtp.gmail.com with ESMTPSA id c2sm4307128wma.39.2020.03.17.08.28.48
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Mar 2020 08:27:01 -0700 (PDT)
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
+	Tue, 17 Mar 2020 08:28:49 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Mar 2020 16:26:50 +0100
-Message-Id: <20200317152650.2131885-2-adrian.freihofer@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200317152650.2131885-1-adrian.freihofer@gmail.com>
-References: <20200317152650.2131885-1-adrian.freihofer@gmail.com>
+Date: Tue, 17 Mar 2020 15:22:52 +0000
+Message-Id: <20200317152303.4600-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v4 1/1] runqemu: support multiple NICs
+Subject: [RFC PATCH 00/11] Systemd 245 and related updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,132 +58,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2020 15:27:02 -0000
+X-List-Received-Date: Tue, 17 Mar 2020 15:28:50 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+Throwing these out there, so that anyone else who's looking at systemd
+245 doesn't have to repeat the work, equally now is clearly not the time
+to be applying these to master!
 
-Emulating more than one network interface with runqemu is a bit tricky,
-but possible. For example, the following leads to an emulated device with
-eth0 and eth1:
+Not all of these are stricly related to systemd 245.
 
-QB_NETWORK_DEVICE_prepend = " \
-    -device virtio-net-device,mac=52:54:00:12:34:03 \
-"
 
-or
+Alex Kiernan (11):
+  systemd: Package udev rules explicitly
+  systemd: Reinstate systemd-hwdb-update.service
+  systemd: Add sch-fq-codel to RRECOMMENDS
+  systemd: Add PACKAGECONFIG for sysvinit
+  systemd: Remove X11 related files when disabled
+  psplash: Set RemainAfterExit on systemd units
+  oeqa/runtime/cases: Disable and stop systemd-timesyncd
+  systemd: upgrade v244.3 -> v245
+  systemd: Enable smack based on DISTRO_FEATURES
+  systemd: Enable audit based on DISTRO_FEATURES
+  systemd: Enable acl based on DISTRO_FEATURES
 
-QB_NETWORK_DEVICE_append = " \
-    -device virtio-net-pci,mac=52:54:00:12:34:03 \
-"
+ meta/lib/oeqa/runtime/cases/date.py           |   4 +-
+ .../psplash/files/psplash-start.service       |   1 +
+ .../psplash/files/psplash-systemd.service     |   2 +-
+ ...temd-boot_244.3.bb => systemd-boot_245.bb} |   0
+ ...temd-conf_244.3.bb => systemd-conf_245.bb} |   0
+ meta/recipes-core/systemd/systemd.inc         |   4 +-
+ .../systemd/0001-Handle-missing-gshadow.patch | 171 ++++++++++++++++++
+ ...tall-dependency-links-at-install-tim.patch |  14 +-
+ ...-not-disable-buffer-in-writing-files.patch |  46 ++---
+ ...002-don-t-use-glibc-specific-qsort_r.patch |  12 +-
+ ...k-parse_printf_format-implementation.patch |  10 +-
+ ...set-util.h-add-__cpu_mask-definition.patch |   8 +-
+ ...missing.h-check-for-missing-strndupa.patch |  93 ++++++----
+ .../0006-Include-netinet-if_ether.h.patch     |  41 +++--
+ ..._register_atfork-for-non-glibc-build.patch |   6 +-
+ ...11-Use-uintmax_t-for-handling-rlim_t.patch |  10 +-
+ ...sable-tests-for-missing-typedefs-in-.patch |   8 +-
+ ...uffering-when-writing-to-oom_score_a.patch |   8 +-
+ .../{systemd_244.3.bb => systemd_245.bb}      |  67 +++++--
+ scripts/postinst-intercepts/update_udev_hwdb  |  16 +-
+ 20 files changed, 376 insertions(+), 145 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot_244.3.bb => systemd-boot_245.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-conf_244.3.bb => systemd-conf_245.bb} (100%)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-Handle-missing-gshadow.patch
+ rename meta/recipes-core/systemd/{systemd_244.3.bb => systemd_245.bb} (91%)
 
-When booting Qemu with two NICs, the kernel does not know which
-interface the specified ip=192.168.7.... command line argument
-should be applied. This delays the boot process for a very long
-time and a guest wihtout IP configuration.
-
-This add two new configuraton parameters to runqemu:
-QB_CMDLINE_IP_SLIRP and QB_CMDLINE_IP_TAP to explicitely specify the ip=
-kernel command line arguments for tap and slirp mode.
-
-Note: Simply adding "::eth0" broke some builds on the Yocto autobuilder.
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- meta/classes/qemuboot.bbclass | 14 ++++++++++++++
- scripts/runqemu               | 16 ++++++++++++----
- 2 files changed, 26 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
-index 15a9e63f2b..54044c38da 100644
---- a/meta/classes/qemuboot.bbclass
-+++ b/meta/classes/qemuboot.bbclass
-@@ -36,6 +36,9 @@
- #                    Note, runqemu will replace @MAC@ with a predefined mac, you can set
- #                    a custom one, but that may cause conflicts when multiple qemus are
- #                    running on the same host.
-+#                    Note: If more than one interface of type -device virtio-net-device gets added,
-+#                          QB_NETWORK_DEVICE_prepend might be used, since Qemu enumerates the eth*
-+#                          devices in reverse order to -device arguments.
- #
- # QB_TAP_OPT: netowrk option for 'tap' mode, e.g.,
- #             "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
-@@ -43,6 +46,15 @@
- #
- # QB_SLIRP_OPT: network option for SLIRP mode, e.g., -netdev user,id=net0"
- #
-+# QB_CMDLINE_IP_SLIRP: If QB_NETWORK_DEVICE adds more than one network interface to qemu, usually the
-+#                      ip= kernel comand line argument needs to be changed accordingly. Details are documented
-+#                      in the kernel docuemntation https://www.kernel.org/doc/Documentation/filesystems/nfs/nfsroot.txt
-+#                      Example to configure only the first interface: "ip=eth0:dhcp"
-+# QB_CMDLINE_IP_TAP: This parameter is similar to the QB_CMDLINE_IP_SLIRP parameter. Since the tap interface requires
-+#                    static IP configuration @CLIENT@ and @GATEWAY@ place holders are replaced by the IP and the gateway
-+#                    address of the qemu guest by runqemu.
-+#                    Example: "ip=192.168.7.@CLIENT@::192.168.7.@GATEWAY@:255.255.255.0::eth0"
-+#
- # QB_ROOTFS_OPT: used as rootfs, e.g.,
- #               "-drive id=disk0,file=@ROOTFS@,if=none,format=raw -device virtio-blk-device,drive=disk0"
- #              Note, runqemu will replace "@ROOTFS@" with the one which is used, such as core-image-minimal-qemuarm64.ext4.
-@@ -63,6 +75,8 @@ QB_DEFAULT_KERNEL ?= "${KERNEL_IMAGETYPE}"
- QB_DEFAULT_FSTYPE ?= "ext4"
- QB_OPT_APPEND ?= "-show-cursor"
- QB_NETWORK_DEVICE ?= "-device virtio-net-pci,netdev=net0,mac=@MAC@"
-+QB_CMDLINE_IP_SLIRP ?= "ip=dhcp"
-+QB_CMDLINE_IP_TAP ?= "ip=192.168.7.@CLIENT@::192.168.7.@GATEWAY@:255.255.255.0"
- 
- # This should be kept align with ROOT_VM
- QB_DRIVE_TYPE ?= "/dev/sd"
-diff --git a/scripts/runqemu b/scripts/runqemu
-index dd0aa4b28f..6f24093d77 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -185,6 +185,8 @@ class BaseConfig(object):
-         self.vmtypes = ('hddimg', 'iso')
-         self.fsinfo = {}
-         self.network_device = "-device e1000,netdev=net0,mac=@MAC@"
-+        self.cmdline_ip_slirp = "ip=dhcp"
-+        self.cmdline_ip_tap = "ip=192.168.7.@CLIENT@::192.168.7.@GATEWAY@:255.255.255.0"
-         # Use different mac section for tap and slirp to avoid
-         # conflicts, e.g., when one is running with tap, the other is
-         # running with slirp.
-@@ -1032,7 +1034,9 @@ class BaseConfig(object):
- 
-         if self.fstype == 'nfs':
-             self.setup_nfs()
--        self.kernel_cmdline_script += ' ip=dhcp'
-+        netconf = " " + self.cmdline_ip_slirp
-+        logger.info("Network configuration:%s", netconf)
-+        self.kernel_cmdline_script += netconf
-         # Port mapping
-         hostfwd = ",hostfwd=tcp::2222-:22,hostfwd=tcp::2323-:23"
-         qb_slirp_opt_default = "-netdev user,id=net0%s,tftp=%s" % (hostfwd, self.get('DEPLOY_DIR_IMAGE'))
-@@ -1147,9 +1151,11 @@ class BaseConfig(object):
-         client = gateway + 1
-         if self.fstype == 'nfs':
-             self.setup_nfs()
--        netconf = "192.168.7.%s::192.168.7.%s:255.255.255.0" % (client, gateway)
--        logger.info("Network configuration: %s", netconf)
--        self.kernel_cmdline_script += " ip=%s" % netconf
-+        netconf = " " + self.cmdline_ip_tap
-+        netconf = netconf.replace('@CLIENT@', str(client))
-+        netconf = netconf.replace('@GATEWAY@', str(gateway))
-+        logger.info("Network configuration:%s", netconf)
-+        self.kernel_cmdline_script += netconf
-         mac = "%s%02x" % (self.mac_tap, client)
-         qb_tap_opt = self.get('QB_TAP_OPT')
-         if qb_tap_opt:
-@@ -1171,8 +1177,10 @@ class BaseConfig(object):
-         if self.net_bridge:
-             self.setup_net_bridge()
-         elif self.slirp_enabled:
-+            self.cmdline_ip_slirp = self.get('QB_CMDLINE_IP_SLIRP') or self.cmdline_ip_slirp
-             self.setup_slirp()
-         else:
-+            self.cmdline_ip_tap = self.get('QB_CMDLINE_IP_TAP') or self.cmdline_ip_tap
-             self.setup_tap()
- 
-     def setup_rootfs(self):
 -- 
-2.25.1
+2.17.1
 
 
