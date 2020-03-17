@@ -1,83 +1,52 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com
-	(mail-co1nam11on2061.outbound.protection.outlook.com [40.107.220.61])
-	by mail.openembedded.org (Postfix) with ESMTP id F0B3F6021A
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
+	[209.85.219.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D44A6021A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 04:31:20 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=myjV5Vc6osnoDemuZC0ANzf+qVAHReZdWKDSLkxOcJlYuPQv99l1F9+TA/Ja9L5ZB5MrwXACYT1nDHT0G75R7FYPLVRv9MCLPBYuM/ytON/b9u3K2JoqFSgTncEDTel0Ix6AtnqbrZPHLPx3bLcF0BEobF+7rticI7OmWJJi60Tk476M4SzUk74gWSi9Gk/pOMy/6LeWEXhctKtxTuW6ITVLKODVYj6EtaIbIlrrOJUteS66pTIaG2Iw0YzTahd4E9bem+fAmOVy9d7dZ/XpLBng20zuN1mxTRD1oRLw2kbDy4HhOqFyBMPsszf14aAGBlO4+4CqBaqbZsJVh6IsRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=vf1LrJTjTxboe8VIqorcuFv6jj3pwjenKCE3C5gW10A=;
-	b=YVBj6FwzBhSLgEXfmoqC/yBaTCkv6IgPYiiaqHdQMtF+yydOgDnvECFhFNnuTqq2kQNV3fmvoC+eYckVCWv2i8AgYkRi7elgwVn3P5ctHg9zvIh+HFPPbJfJ32oHZPAKOiR+jd5Ft0ulOHhbgQCUNerjA9zRNrN1R1PZhraOo1QqhZwbsrGpZWU1fmCBnbjceuJH6z+b5aaXUo98BQrc1RiGoYH4JxiW5Azy2FIqt53AMhMeOHWJvkm2EK7iIFPWrhFEYxvSia5oQ+zrJsSNC62g59hiJnLt1nuhQh7cNH2En54k5/GY1dDeZvhT7bd3ukXmv6EpAblWOa7BuP7ETA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=windriver.com; dmarc=pass action=none
-	header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=windriversystems.onmicrosoft.com;
-	s=selector2-windriversystems-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=vf1LrJTjTxboe8VIqorcuFv6jj3pwjenKCE3C5gW10A=;
-	b=P5H8Mijl7qgJAc4l2E8tTfb4usOj2p0WKqB7gRUdpRYCZ/BXJ5d3youukXo+7YILI4AwTk58bOsqd/xEoJ6cipATJhOi2NDGgxqfsNfdD9MHtyRDXFXUZYQktaW77ARcDrl18AO/iur7JaS+w60g7bbsdrVaNJE+F3x6voup38g=
-Received: from DM6PR11MB3498.namprd11.prod.outlook.com (2603:10b6:5:6c::22) by
-	DM6PR11MB2588.namprd11.prod.outlook.com (2603:10b6:5:c6::18) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2814.22; Tue, 17 Mar 2020 04:31:20 +0000
-Received: from DM6PR11MB3498.namprd11.prod.outlook.com
-	([fe80::59da:f995:a842:c07c]) by
-	DM6PR11MB3498.namprd11.prod.outlook.com
-	([fe80::59da:f995:a842:c07c%4]) with mapi id 15.20.2814.021;
-	Tue, 17 Mar 2020 04:31:20 +0000
-From: "Chen, Qi" <Qi.Chen@windriver.com>
-To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: =?gb2312?B?u9i4tDogu9i4tDogW09FLWNvcmVdIFtQQVRDSCAyLzJdIGdsaWItMi4wOiBD?=
-	=?gb2312?Q?orrect_multilib_conflict?=
-Thread-Index: AQHV9/O+5EVbjdVU4Ua2YQSp4M5BtahMJrISgAALPQCAAAfVzQ==
-Date: Tue, 17 Mar 2020 04:31:20 +0000
-Message-ID: <DM6PR11MB34987CF94AFA084E609D4270EDF60@DM6PR11MB3498.namprd11.prod.outlook.com>
-References: <20200311222249.29880-1-jpuhlman@mvista.com>
-	<20200311222249.29880-2-jpuhlman@mvista.com>
-	<DM6PR11MB3498030B61816C49B946EA35EDF60@DM6PR11MB3498.namprd11.prod.outlook.com>,
-	<a5332339-6281-76fd-e23e-3ee2ed762720@mvista.com>
-In-Reply-To: <a5332339-6281-76fd-e23e-3ee2ed762720@mvista.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=Qi.Chen@windriver.com; 
-x-originating-ip: [192.103.52.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 7471c3d9-4560-4391-e215-08d7ca2c0ae1
-x-ms-traffictypediagnostic: DM6PR11MB2588:
-x-microsoft-antispam-prvs: <DM6PR11MB2588E49D2F78760019F44AE8EDF60@DM6PR11MB2588.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 0345CFD558
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(346002)(39850400004)(366004)(376002)(136003)(396003)(199004)(81166006)(81156014)(52536014)(8936002)(224303003)(66446008)(66556008)(64756008)(91956017)(66476007)(966005)(66946007)(76116006)(478600001)(2906002)(316002)(19627405001)(66574012)(110136005)(86362001)(7696005)(55016002)(6506007)(9686003)(53546011)(26005)(186003)(71200400001)(15974865002)(33656002)(5660300002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR11MB2588;
-	H:DM6PR11MB3498.namprd11.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; 
-received-spf: None (protection.outlook.com: windriver.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: wWFiEC662c1lwyfJuty+SGDW8IqDW2/s1pY1TJ8XcqM7LMh1e4p3SxUYOc5tXOsUa4vFma+Yb44VFjm5EhwQDWvNAxnOyoCDaRLbfI/Qhw1cUsTU810NcdjbQifXUw9gn4o/cGHsDbtQoiVDKNuxQQ3Z00a9t3Ja+FjDRNxjxUFLtVs++vHn3pKZtAyVkpm8LpVTGDHiBkPcc2KAPT9cltiZNAH22k/xmCVrLzi+9azEElRNU6RncesyX4HE4yNJoTuEBm5CK0KWHbccGCLGGb4PjIHqPhsLf/jglkn15jY0o+oPBugT0Rys1LhKQW9RuIYGsjHLFQ5lj+pLnyM/jk5xOaM3GWFnrsbDSLI58AZir0y6p21RzZVewldw0bcafQhUpFLu7uTt0jgis2mXp6mdGI+vBaKQCpSknx4AEDHr06aVnKKkL5Isla6+Z8Pz5i3yZjxOaXEv/qEW3KiV/DsF8oHjIUH4IXzb74d3SBDAFbdsVDUpQ/3/zSot2w93yFfbAzUrkVnxeXhAY3DkqQ==
-x-ms-exchange-antispam-messagedata: 5EHLdoEfXSK0kOxxm/qWBAoJfM4yVsJMq3nDMdQjpLhD8BhJhOSMoFdyHNA1/VmMWhRFCrlvWoTMlSP3pNh7QGNrab7+HPV/++o7pO7Fk+dTrvESWAGjtgbKja3IRNQeeAWpW9X/LewQ6lwOqNbzVQ==
-x-ms-exchange-transport-forked: True
+	Tue, 17 Mar 2020 04:39:18 +0000 (UTC)
+Received: by mail-qv1-f66.google.com with SMTP id cz10so10199857qvb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Mar 2020 21:39:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JMjGL/6OAJ35oany+ZLquMM3e/3x6v4k27G5R9Okz4Y=;
+	b=T95W3lY0r6Ta1ilVXzfjmUPzRCjwNZ6eBWOc92bzPGWJy9xDAGiNiPJ1VFZWMedtHb
+	f0l95fMGK8tJpAsQl0p6QiMnmtJwj0nR9bLgSPAS2U9D4KnKts8phdQSTSbBLfOnWoWC
+	Ez3SWh1/kAozg3/wLwhxErE1jYR2FFxSJ2x8+LKRUS5Le4ek5aQRVKDKmapmRCOjJsFd
+	T1rxLxtxBN094air1H07uBI9iJ2V2dy9M1QIE6TYQ8Z1gXOsfIfGEsMdB1x/tXBp0S/m
+	iVBSxTZNBYLjHfOJNbzS/hPc3+cxLYn6u3oYvB/bqOhVU9bCA+GgXUiwaB0MamgBZhOb
+	49Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JMjGL/6OAJ35oany+ZLquMM3e/3x6v4k27G5R9Okz4Y=;
+	b=KjIBZDrlqEej42tCv0KiO1yeKNk6xIbkZM+ROpCUYAmEL7dAdTkmUBJduSj4lE2DAM
+	xs61gv0NU1CmIbiR4VG684ETucTcOTB0k/rrB6m93UfrK3UqGvVxbD0pb4/Ph50VFnMI
+	cObHELrNTlXDfPy/x2FEsuXwfu2CqniJe7H4mcVR0Zdw+SLLZh60IGRagEBPdhxoEjE1
+	JNkBPMN/L2SBNonoWFC4xskUtVpz62Vpn0vSFhZwXHTft2VpwmXGYPIZ51FUNPBsSHfc
+	tOJhLCGzSwakdffivHY62L+DFgvVR1QXIjnqrTVcFYcsrR7z837H6FCGvPE7x6dKpVaK
+	K8FQ==
+X-Gm-Message-State: ANhLgQ0IrIlvN8oGbDkX8UoE98OelGsimS7J9c3F0+KngCjfdSRYwVrw
+	ECkWd8eWukLQmKwQm+Vrwsk=
+X-Google-Smtp-Source: ADFU+vtK9gB3ljCRCBVgEXHH5KxYGYvGq18Q0T5CJyHGFhGDsml+4E0Vw43lHuEwKBgsFtm/o+TS/A==
+X-Received: by 2002:a0c:fa03:: with SMTP id q3mr3061295qvn.228.1584419958824; 
+	Mon, 16 Mar 2020 21:39:18 -0700 (PDT)
+Received: from localhost.localdomain
+	(CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.112.240.214])
+	by smtp.gmail.com with ESMTPSA id 73sm1245498qkf.82.2020.03.16.21.39.17
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 16 Mar 2020 21:39:18 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Tue, 17 Mar 2020 00:39:16 -0400
+Message-Id: <20200317043916.47514-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7471c3d9-4560-4391-e215-08d7ca2c0ae1
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Mar 2020 04:31:20.5322 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TpCpIK8xdRp506Mkh/0FO1nykSbIrwOCej+Nl1J9QxTEej/8FPANmZ3wVJJP9UPYnCAV/oNYlz21RB8YV7EJ0w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2588
-Subject: =?UTF-8?B?5Zue5aSNOiDlm57lpI06IFtQQVRDSCAyLzJdIGdsaWItMi4wOiBDb3JyZWN0IG11bHRpbGliIGNvbmZsaWN0?=
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH][zeus] linux-yocto/4.19: update to v4.19.107
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -90,259 +59,289 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2020 04:31:21 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_DM6PR11MB34987CF94AFA084E609D4270EDF60DM6PR11MB3498namp_"
+X-List-Received-Date: Tue, 17 Mar 2020 04:39:18 -0000
+Content-Transfer-Encoding: 8bit
 
---_000_DM6PR11MB34987CF94AFA084E609D4270EDF60DM6PR11MB3498namp_
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-TVVMVElMSUJTID89ICJtdWx0aWxpYjpsaWIzMiINCkRFRkFVTFRUVU5FX3ZpcnRjbGFzcy1tdWx0
-aWxpYi1saWIzMiA/PSAiYXJtdjd2ZXRoZiINCg0KSSB0aGluayB5b3UgY2FuIHVzZSB0aGVzZSB0
-d28gbGluZXMgdG8gcmVwcm9kdWNlIHRoZSBwcm9ibGVtIHdpdGggbXVsdGlsaWIgZW5hYmxlZC4N
-Cg0KUmVnYXJkcywNCkNoZW4gUWkNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQq3
-orz+yMs6IEplcmVteSBBLiBQdWhsbWFuIDxqcHVobG1hbkBtdmlzdGEuY29tPg0Kt6LLzcqxvOQ6
-IDIwMjDE6jPUwjE3yNUgMTI6MDINCsrVvP7IyzogQ2hlbiwgUWkgPFFpLkNoZW5Ad2luZHJpdmVy
-LmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJl
-ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQrW98ziOiBSZTogu9i4tDogW09FLWNv
-cmVdIFtQQVRDSCAyLzJdIGdsaWItMi4wOiBDb3JyZWN0IG11bHRpbGliIGNvbmZsaWN0DQoNCkp1
-c3Qgc3RhbmRhcmQgeDg2L2k1ODUuIFdoYXQgYXJlIHlvdSB1c2luZyBmb3IgeW91ciBtdWxpdGxp
-Yi4gaWxwMzIvYWFyY2gzMi9hcm03Pw0KDQpyZXF1aXJlIGNvbmYvbXVsdGlsaWIuY29uZg0KTVVM
-VElMSUJTID0gIm11bHRpbGliOmxpYjMyIg0KWDg2QVJDSDMyID0gImk1ODYiDQpERUZBVUxUVFVO
-RV92aXJ0Y2xhc3MtbXVsdGlsaWItbGliMzIgPSAiaTU4NiINClRBUkdFVF9BUkNIX3ZpcnRjbGFz
-cy1tdWx0aWxpYi1saWIzMiA9ICJpNTg2Ig0KVEFSR0VUX0xEX0FSQ0hfdmlydGNsYXNzLW11bHRp
-bGliLWxpYjMyID0gIi1tIGVsZl9pMzg2Ig0KQUxUQklORElSX1NVRkZJWF92aXJ0Y2xhc3MtbXVs
-dGlsaWItbGliMzIgPSAiMzIiDQoNCldoYXQgZG9lcyB5b3VyIC1lIGxvb2sgbGlrZSBmb3IgdGhl
-IHJlY2lwZSB0aGF0IGZhaWxzPw0KDQpPbiAzLzE2LzIwMjAgODozMCBQTSwgQ2hlbiwgUWkgd3Jv
-dGU6DQpUaGlzIHBhdGNoIGlzIGNhdXNpbmcgcmVncmVzc2lvbiBpbiBjYXNlIG9mIHFlbXVhcm02
-NCBtdWx0aWxpYiBmb3IgbWUuIFRoZSBzdGF0aWMtbGluay50ZXN0IGZpbGUgaXMgbm90IHRoZXJl
-LCByZXN1bHRpbmcgdGhlIGBtdicgY29tbWFuZCBmYWlsdXJlLiBJJ3ZlIHNlbnQgb3V0IGEgcGF0
-Y2ggdG8gZml4IHRoaXMgcHJvYmxlbSwgYnV0IEkgZG9uJ3Qga25vdyB3aGF0J3MgeW91ciBlbnZp
-cm9ubWVudC4gU28gcGxlYXNlIGhlbHAgcmV2aWV3Lg0KDQpSZWdhcmRzLA0KQ2hlbiBRaQ0KX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCreivP7Iyzogb3BlbmVtYmVkZGVkLWNvcmUt
-Ym91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnPG1haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IDxvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2Vz
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+PG1haWx0bzpvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2Vz
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+ILT6se0gSmVyZW15IEEuIFB1aGxtYW4gPGpwdWhsbWFu
-QG12aXN0YS5jb20+PG1haWx0bzpqcHVobG1hbkBtdmlzdGEuY29tPg0Kt6LLzcqxvOQ6IDIwMjDE
-6jPUwjEyyNUgNjoyMg0KytW8/sjLOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnPG1haWx0bzpvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiA8
-b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz48bWFpbHRvOm9wZW5lbWJl
-ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQrW98ziOiBbT0UtY29yZV0gW1BBVENI
-IDIvMl0gZ2xpYi0yLjA6IENvcnJlY3QgbXVsdGlsaWIgY29uZmxpY3QNCg0KRnJvbTogSmVyZW15
-IFB1aGxtYW4gPGpwdWhsbWFuQG12aXN0YS5jb20+PG1haWx0bzpqcHVobG1hbkBtdmlzdGEuY29t
-Pg0KDQpTaWduZWQtb2ZmLWJ5OiBKZXJlbXkgQS4gUHVobG1hbiA8anB1aGxtYW5AbXZpc3RhLmNv
-bT48bWFpbHRvOmpwdWhsbWFuQG12aXN0YS5jb20+DQotLS0NCiBtZXRhL3JlY2lwZXMtY29yZS9n
-bGliLTIuMC9nbGliLmluYyB8IDMgKysrDQogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygr
-KQ0KDQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYi0yLjAvZ2xpYi5pbmMgYi9t
-ZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLmluYw0KaW5kZXggMjNjMzQ3ZGJmNy4uZWRl
-Y2M1MWZkYiAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2dsaWItMi4wL2dsaWIuaW5j
-DQorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9nbGliLTIuMC9nbGliLmluYw0KQEAgLTEyOCw2ICsx
-MjgsOSBAQCBkb19pbnN0YWxsX2FwcGVuZF9jbGFzcy10YXJnZXQgKCkgew0KICAgICAgICAgICAg
-ICAgICAgICAgICAgIHJtICR7RH0ke2RhdGFkaXJ9L2luc3RhbGxlZC10ZXN0cy9nbGliL2dkYnVz
-LXNlcmlhbGl6YXRpb24udGVzdA0KICAgICAgICAgICAgICAgICBmaQ0KICAgICAgICAgZmkNCisg
-ICAgICAgIGlmIHRlc3QgIngke01MUFJFRklYfSIgIT0gIngiOyB0aGVuDQorICAgICAgICAgICAg
-ICAgIG12ICR7RH0ke2RhdGFkaXJ9L2luc3RhbGxlZC10ZXN0cy9nbGliL3N0YXRpYy1saW5rLnRl
-c3QgJHtEfSR7ZGF0YWRpcn0vaW5zdGFsbGVkLXRlc3RzL2dsaWIvJHtNTFBSRUZJWH1zdGF0aWMt
-bGluay50ZXN0DQorICAgICAgICBmaQ0KIH0NCg0KICMgQXMgd2UgZG8gbm90IGJ1aWxkIHB5dGhv
-bjMgZm9yIHdpbmRvd3MsIG1ha2VzIG5vIHNlbnNlIHRvIHNoaXAgdGhlIHNjcmlwdCB0aGF0J3Mg
-dXNpbmcgaXQNCi0tDQoyLjEzLjMNCg0KLS0NCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fDQpPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCk9wZW5l
-bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOk9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCltodHRwczovL2lwbWNkbi5h
-dmFzdC5jb20vaW1hZ2VzL2ljb25zL2ljb24tZW52ZWxvcGUtdGljay1ncmVlbi1hdmctdjEucG5n
-XTxodHRwOi8vd3d3LmF2Zy5jb20vZW1haWwtc2lnbmF0dXJlP3V0bV9tZWRpdW09ZW1haWwmdXRt
-X3NvdXJjZT1saW5rJnV0bV9jYW1wYWlnbj1zaWctZW1haWwmdXRtX2NvbnRlbnQ9ZW1haWxjbGll
-bnQ+IFZpcnVzLWZyZWUuIHd3dy5hdmcuY29tPGh0dHA6Ly93d3cuYXZnLmNvbS9lbWFpbC1zaWdu
-YXR1cmU/dXRtX21lZGl1bT1lbWFpbCZ1dG1fc291cmNlPWxpbmsmdXRtX2NhbXBhaWduPXNpZy1l
-bWFpbCZ1dG1fY29udGVudD1lbWFpbGNsaWVudD4NCg0KDQotLQ0KSmVyZW15IEEuIFB1aGxtYW4N
-CmpwdWhsbWFuQG12aXN0YS5jb208bWFpbHRvOmpwdWhsbWFuQG12aXN0YS5jb20+DQo=
+Updating linux-yocto/4.19 to the latest korg -stable release that comprises
+the following commits:
 
---_000_DM6PR11MB34987CF94AFA084E609D4270EDF60DM6PR11MB3498namp_
-Content-Type: text/html; charset="gb2312"
-Content-Transfer-Encoding: quoted-printable
+    16ae5406361a crypto: CVE-2019-18808
+    a083db76118d Linux 4.19.107
+    cfc30449bbc5 Revert "char/random: silence a lockdep splat with printk()"
+    8541452acba5 s390/mm: Explicitly compare PAGE_DEFAULT_KEY against zero in storage_key_init_range
+    fee87e931cc5 xen: Enable interrupts when calling _cond_resched()
+    28a73a946a46 ata: ahci: Add shutdown to freeze hardware resources of ahci
+    43cac315bec1 rxrpc: Fix call RCU cleanup using non-bh-safe locks
+    acbc5071f073 netfilter: xt_hashlimit: limit the max size of hashtable
+    5a2972600a2f ALSA: seq: Fix concurrent access to queue current tick/time
+    b105447809b1 ALSA: seq: Avoid concurrent access to queue flags
+    63495d1e1c7c ALSA: rawmidi: Avoid bit fields for state flags
+    bf3043d27755 bpf, offload: Replace bitwise AND by logical AND in bpf_prog_offload_info_fill
+    3132696dd748 genirq/proc: Reject invalid affinity masks (again)
+    ba2c07dfa0d8 iommu/vt-d: Fix compile warning from intel-svm.h
+    c0965be4b28b ecryptfs: replace BUG_ON with error handling code
+    1bae8f424c84 staging: greybus: use after free in gb_audio_manager_remove_all()
+    568991c91849 staging: rtl8723bs: fix copy of overlapping memory
+    f8e6a3412dc6 usb: dwc2: Fix in ISOC request length checking
+    de8dbb7b02fa usb: gadget: composite: Fix bMaxPower for SuperSpeedPlus
+    1cad1a6497ec scsi: Revert "target: iscsi: Wait for all commands to finish before freeing a session"
+    c66b2b571211 scsi: Revert "RDMA/isert: Fix a recently introduced regression related to logout"
+    b046c6fec04e Revert "dmaengine: imx-sdma: Fix memory leak"
+    cd26d53a27d6 Btrfs: fix btrfs_wait_ordered_range() so that it waits for all ordered extents
+    4d886f91ca13 btrfs: do not check delayed items are empty for single transaction cleanup
+    68b7db197bf8 btrfs: reset fs_root to NULL on error in open_ctree
+    0ba8e5f347b2 btrfs: fix bytes_may_use underflow in prealloc error condtition
+    e541982a6e5f KVM: apic: avoid calculating pending eoi from an uninitialized val
+    267eec2d216d KVM: nVMX: handle nested posted interrupts when apicv is disabled for L1
+    85dd0eb771e8 KVM: nVMX: Check IO instruction VM-exit conditions
+    e5c0857bd5cc KVM: nVMX: Refactor IO bitmap checks into helper function
+    8cf20fb73e73 ext4: fix race between writepages and enabling EXT4_EXTENTS_FL
+    48fdbe2a818d ext4: rename s_journal_flag_rwsem to s_writepages_rwsem
+    b7dc081c24db ext4: fix mount failure with quota configured as module
+    50017cec3dbb ext4: fix potential race between s_flex_groups online resizing and access
+    7720966a68c8 ext4: fix potential race between s_group_info online resizing and access
+    cc9948abe47b ext4: fix potential race between online resizing and write operations
+    38884609b8b5 ext4: add cond_resched() to __ext4_find_entry()
+    9b6e90918bc0 ext4: fix a data race in EXT4_I(inode)->i_disksize
+    0e3a6e86d43b drm/nouveau/kms/gv100-: Re-set LUT after clearing for modesets
+    da3418ad747f lib/stackdepot.c: fix global out-of-bounds in stack_slabs
+    56ad5b4b7405 tty: serial: qcom_geni_serial: Fix RX cancel command failure
+    e6ebad85883d tty: serial: qcom_geni_serial: Remove xfer_mode variable
+    4e438733f727 tty: serial: qcom_geni_serial: Remove set_rfr_wm() and related variables
+    1cc8834773b2 tty: serial: qcom_geni_serial: Remove use of *_relaxed() and mb()
+    4d1a94fa6d14 tty: serial: qcom_geni_serial: Remove interrupt storm
+    0a38fd9326fd tty: serial: qcom_geni_serial: Fix UART hang
+    fe1cfc645845 KVM: x86: don't notify userspace IOAPIC on edge-triggered interrupt EOI
+    ed9e97c35b45 KVM: nVMX: Don't emulate instructions in guest mode
+    6ca274be314b xhci: apply XHCI_PME_STUCK_QUIRK to Intel Comet Lake platforms
+    8300ed5a2175 drm/amdgpu/soc15: fix xclk for raven
+    837ba4829b9f mm/vmscan.c: don't round up scan size for online memory cgroup
+    ea2a11561d01 genirq/irqdomain: Make sure all irq domain flags are distinct
+    576c04cbbef2 nvme-multipath: Fix memory leak with ana_log_buf
+    e75d2de90b86 mm/memcontrol.c: lost css_put in memcg_expand_shrinker_maps()
+    cf85f00f87db Revert "ipc,sem: remove uneeded sem_undo_list lock usage in exit_sem()"
+    af4693daff1b MAINTAINERS: Update drm/i915 bug filing URL
+    c9ca2010202b serdev: ttyport: restore client ops on deregistration
+    463a3db812d9 tty: serial: imx: setup the correct sg entry for tx dma
+    6807593e8edc tty/serial: atmel: manage shutdown in case of RS485 or ISO7816 mode
+    f4e6d51f3f40 serial: 8250: Check UPF_IRQ_SHARED in advance
+    f28ec250579c x86/cpu/amd: Enable the fixed Instructions Retired counter IRPERF
+    5e5b443ae6cc x86/mce/amd: Fix kobject lifetime
+    0a3aca3a0f41 x86/mce/amd: Publish the bank pointer only after setup has succeeded
+    4512119ac90a jbd2: fix ocfs2 corrupt when clearing block group bits
+    72e2df70fb52 powerpc/tm: Fix clearing MSR[TS] in current when reclaiming on signal delivery
+    e34182fb8a2f staging: rtl8723bs: Fix potential overuse of kernel memory
+    e4770de3ae41 staging: rtl8723bs: Fix potential security hole
+    b4eab56d96f1 staging: rtl8188eu: Fix potential overuse of kernel memory
+    2a50bd9e2a69 staging: rtl8188eu: Fix potential security hole
+    d59f6a6e35b7 usb: dwc3: gadget: Check for IOC/LST bit in TRB->ctrl fields
+    c787444891a4 usb: dwc2: Fix SET/CLEAR_FEATURE and GET_STATUS flows
+    8cfda0c9c966 USB: hub: Fix the broken detection of USB3 device in SMSC hub
+    37d2eb43b64c USB: hub: Don't record a connect-change event during reset-resume
+    babaa26b7c1c USB: Fix novation SourceControl XL after suspend
+    2debc1717cf2 usb: uas: fix a plug & unplug racing
+    4db4761cfe15 USB: quirks: blacklist duplicate ep on Sound Devices USBPre2
+    63d176ed148a USB: core: add endpoint-blacklist quirk
+    d74d5d042d42 usb: host: xhci: update event ring dequeue pointer on purpose
+    2a2582dc62e9 xhci: Fix memory leak when caching protocol extended capability PSI tables - take 2
+    7c8cde41a0c3 xhci: fix runtime pm enabling for quirky Intel hosts
+    dce60e7efa97 xhci: Force Maximum Packet size for Full-speed bulk devices to valid range.
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dgb2312">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<span>MULTILIBS ?=3D &quot;multilib:lib32&quot;<br>
-</span>
-<div>DEFAULTTUNE_virtclass-multilib-lib32 ?=3D &quot;armv7vethf&quot;</div>
-<div><br>
-</div>
-<div>I think you can use these two lines to reproduce the problem with mult=
-ilib enabled.<br>
-</div>
-<span></span></div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Regards,</div>
-<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
-: 12pt; color: rgb(0, 0, 0);">
-Chen Qi<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>=B7=A2=BC=FE=C8=CB:</b> Jeremy =
-A. Puhlman &lt;jpuhlman@mvista.com&gt;<br>
-<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2020=C4=EA3=D4=C217=C8=D5 12:02<br>
-<b>=CA=D5=BC=FE=C8=CB:</b> Chen, Qi &lt;Qi.Chen@windriver.com&gt;; openembe=
-dded-core@lists.openembedded.org &lt;openembedded-core@lists.openembedded.o=
-rg&gt;<br>
-<b>=D6=F7=CC=E2:</b> Re: =BB=D8=B8=B4: [OE-core] [PATCH 2/2] glib-2.0: Corr=
-ect multilib conflict</font>
-<div>&nbsp;</div>
-</div>
-<div>Just standard x86/i585. What are you using for your mulitlib. ilp32/aa=
-rch32/arm7?<br>
-<br>
-require conf/multilib.conf<br>
-MULTILIBS =3D &quot;multilib:lib32&quot;<br>
-X86ARCH32 =3D &quot;i586&quot;<br>
-DEFAULTTUNE_virtclass-multilib-lib32 =3D &quot;i586&quot;<br>
-TARGET_ARCH_virtclass-multilib-lib32 =3D &quot;i586&quot;<br>
-TARGET_LD_ARCH_virtclass-multilib-lib32 =3D &quot;-m elf_i386&quot;<br>
-ALTBINDIR_SUFFIX_virtclass-multilib-lib32 =3D &quot;32&quot;<br>
-<br>
-What does your -e look like for the recipe that fails?<br>
-<br>
-<div class=3D"x_moz-cite-prefix">On 3/16/2020 8:30 PM, Chen, Qi wrote:<br>
-</div>
-<blockquote type=3D"cite"><style type=3D"text/css" style=3D"display:none">
-<!--
-p
-	{margin-top:0;
-	margin-bottom:0}
--->
-</style>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-This patch is causing regression in case of qemuarm64 multilib for me. The =
-static-link.test file is not there, resulting the `mv' command failure. I'v=
-e sent out a patch to fix this problem, but I don't know what's your enviro=
-nment. So please help review.</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-Regards,</div>
-<div style=3D"font-family:Calibri,Arial,Helvetica,sans-serif; font-size:12p=
-t; color:rgb(0,0,0)">
-Chen Qi<br>
-</div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" =
-color=3D"#000000" style=3D"font-size:11pt"><b>=B7=A2=BC=FE=C8=CB:</b>
-<a class=3D"x_moz-txt-link-abbreviated" href=3D"mailto:openembedded-core-bo=
-unces@lists.openembedded.org">
-openembedded-core-bounces@lists.openembedded.org</a> <a class=3D"x_moz-txt-=
-link-rfc2396E" href=3D"mailto:openembedded-core-bounces@lists.openembedded.=
-org">
-&lt;openembedded-core-bounces@lists.openembedded.org&gt;</a> =B4=FA=B1=ED J=
-eremy A. Puhlman <a class=3D"x_moz-txt-link-rfc2396E" href=3D"mailto:jpuhlm=
-an@mvista.com">
-&lt;jpuhlman@mvista.com&gt;</a><br>
-<b>=B7=A2=CB=CD=CA=B1=BC=E4:</b> 2020=C4=EA3=D4=C212=C8=D5 6:22<br>
-<b>=CA=D5=BC=FE=C8=CB:</b> <a class=3D"x_moz-txt-link-abbreviated" href=3D"=
-mailto:openembedded-core@lists.openembedded.org">
-openembedded-core@lists.openembedded.org</a> <a class=3D"x_moz-txt-link-rfc=
-2396E" href=3D"mailto:openembedded-core@lists.openembedded.org">
-&lt;openembedded-core@lists.openembedded.org&gt;</a><br>
-<b>=D6=F7=CC=E2:</b> [OE-core] [PATCH 2/2] glib-2.0: Correct multilib confl=
-ict</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"x_BodyFragment"><font size=3D"2"><span style=3D"font-size:11p=
-t">
-<div class=3D"x_PlainText">From: Jeremy Puhlman <a class=3D"x_moz-txt-link-=
-rfc2396E" href=3D"mailto:jpuhlman@mvista.com">
-&lt;jpuhlman@mvista.com&gt;</a><br>
-<br>
-Signed-off-by: Jeremy A. Puhlman <a class=3D"x_moz-txt-link-rfc2396E" href=
-=3D"mailto:jpuhlman@mvista.com">
-&lt;jpuhlman@mvista.com&gt;</a><br>
----<br>
-&nbsp;meta/recipes-core/glib-2.0/glib.inc | 3 &#43;&#43;&#43;<br>
-&nbsp;1 file changed, 3 insertions(&#43;)<br>
-<br>
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2=
-.0/glib.inc<br>
-index 23c347dbf7..edecc51fdb 100644<br>
---- a/meta/recipes-core/glib-2.0/glib.inc<br>
-&#43;&#43;&#43; b/meta/recipes-core/glib-2.0/glib.inc<br>
-@@ -128,6 &#43;128,9 @@ do_install_append_class-target () {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rm ${=
-D}${datadir}/installed-tests/glib/gdbus-serialization.test<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; fi<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi<br>
-&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if test &quot;x${MLPREFIX}&=
-quot; !=3D &quot;x&quot;; then<br>
-&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; mv ${D}${datadir}/installed-tests/glib/static-link.tes=
-t ${D}${datadir}/installed-tests/glib/${MLPREFIX}static-link.test<br>
-&#43;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi<br>
-&nbsp;}<br>
-&nbsp;<br>
-&nbsp;# As we do not build python3 for windows, makes no sense to ship the =
-script that's using it<br>
--- <br>
-2.13.3<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a class=3D"x_moz-txt-link-abbreviated" href=3D"mailto:Openembedded-core@li=
-sts.openembedded.org">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-</div>
-</span></font></div>
-<div id=3D"x_DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2"><br>
-<table style=3D"border-top:1px solid #D3D4DE">
-<tbody>
-<tr>
-<td style=3D"width:55px; padding-top:13px"><a href=3D"http://www.avg.com/em=
-ail-signature?utm_medium=3Demail&amp;utm_source=3Dlink&amp;utm_campaign=3Ds=
-ig-email&amp;utm_content=3Demailclient" target=3D"_blank"><img alt=3D"" wid=
-th=3D"46" height=3D"29" style=3D"width:46px; height:29px" src=3D"https://ip=
-mcdn.avast.com/images/icons/icon-envelope-tick-green-avg-v1.png"></a></td>
-<td style=3D"width:470px; padding-top:12px; color:#41424e; font-size:13px; =
-font-family:Arial,Helvetica,sans-serif; line-height:18px">
-Virus-free. <a href=3D"http://www.avg.com/email-signature?utm_medium=3Demai=
-l&amp;utm_source=3Dlink&amp;utm_campaign=3Dsig-email&amp;utm_content=3Demai=
-lclient" target=3D"_blank" style=3D"color:#4453ea">
-www.avg.com</a> </td>
-</tr>
-</tbody>
-</table>
-<a href=3D"#x_DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2" width=3D"1" height=3D"1=
-"></a></div>
-</blockquote>
-<br>
-<pre class=3D"x_moz-signature" cols=3D"72">--=20
-Jeremy A. Puhlman
-<a class=3D"x_moz-txt-link-abbreviated" href=3D"mailto:jpuhlman@mvista.com"=
->jpuhlman@mvista.com</a></pre>
-</div>
-</body>
-</html>
+    <snip>
 
---_000_DM6PR11MB34987CF94AFA084E609D4270EDF60DM6PR11MB3498namp_--
+    c7f81d70d7ae ubifs: Fix default compression selection in ubifs
+    3331e61b23b1 nvme: fix kernel paging oops
+    2f99d478ddbd xfs: require both realtime inodes to mount
+    b2d84967f076 bcache: do not mark writeback_running too early
+    6f48e23888b9 bcache: do not check if debug dentry is ERR or NULL explicitly on remove
+    c318f88411a8 rtl818x: fix potential use after free
+    7cf86c89d7e4 brcmfmac: set SDIO F1 MesBusyCtrl for CYW4373
+    38b73129c113 brcmfmac: set F2 watermark to 256 for 4373
+    6138e4b132cd mwifiex: debugfs: correct histogram spacing, formatting
+    1450ff720076 mwifiex: fix potential NULL dereference and use after free
+    4912b454e029 arm64: dts: renesas: draak: Fix CVBS input
+    48d37cc42390 crypto: user - support incremental algorithm dumps
+    43cd68d7002b s390/zcrypt: make sysfs reset attribute trigger queue reset
+    5ac0da68eae1 nvme: provide fallback for discard alloc failure
+    d702d7bc7eb4 scsi: qla2xxx: Fix for FC-NVMe discovery for NPIV port
+    78777dd6174e scsi: qla2xxx: Fix NPIV handling for FC-NVMe
+    58ab95b03497 scsi: lpfc: Enable Management features for IF_TYPE=6
+    e772949a3fd6 ACPI / LPSS: Ignore acpi_device_fix_up_power() return value
+    d411bd858447 ARM: ks8695: fix section mismatch warning
+    22227437ca68 xfs: zero length symlinks are not valid
+    4d54a7969524 PM / AVS: SmartReflex: NULL check before some freeing functions is not needed
+    d2e3e3c3c14b RDMA/vmw_pvrdma: Use atomic memory allocation in create AH
+    64694b276d74 arm64: preempt: Fix big-endian when checking preempt count in assembly
+    2ec103458855 RDMA/hns: Fix the bug while use multi-hop of pbl
+    60da6da4b511 ARM: OMAP1: fix USB configuration for device-only setups
+    0086d127f90d platform/x86: mlx-platform: Fix LED configuration
+    08d8ab9615c5 bus: ti-sysc: Check for no-reset and no-idle flags at the child level
+    4b40393b5240 arm64: smp: Handle errors reported by the firmware
+    e3d27b94111b arm64: mm: Prevent mismatched 52-bit VA support
+    57f3359cdabe ARM: dts: Fix hsi gdd range for omap4
+    9b1f6bde17d6 parisc: Fix HP SDC hpa address output
+    d18f228f504e parisc: Fix serio address output
+    72a50a1e1c65 ARM: dts: imx53-voipac-dmm-668: Fix memory node duplication
+    bf39f5b323eb ARM: dts: imx25: Fix memory node duplication
+    d2eb50e57a5c ARM: dts: imx27: Fix memory node duplication
+    54750b6f6671 ARM: dts: imx1: Fix memory node duplication
+    6aeb6bd0eda6 ARM: dts: imx23: Fix memory node duplication
+    1694780bd4ca ARM: dts: imx50: Fix memory node duplication
+    2442b4c0f30a ARM: dts: imx6sl: Fix memory node duplication
+    bae011f4c9a4 ARM: dts: imx6sx: Fix memory node duplication
+    0990926c9395 ARM: dts: imx6ul: Fix memory node duplication
+    e021f0ccc4fa ARM: dts: imx7: Fix memory node duplication
+    a90469345b26 ARM: dts: imx35: Fix memory node duplication
+    6bc1e695b4be ARM: dts: imx31: Fix memory node duplication
+    ca02e14bdd7f ARM: dts: imx53: Fix memory node duplication
+    5a1e6f95733c ARM: dts: imx51: Fix memory node duplication
+    8c0c8c2a80b2 ARM: debug-imx: only define DEBUG_IMX_UART_PORT if needed
+    dee3f7703207 tracing: Lock event_mutex before synth_event_mutex
+    67547b9b4660 ARM: dts: Fix up SQ201 flash access
+    ee6d2bedb400 scsi: lpfc: Fix dif and first burst use in write commands
+    20feb7333049 scsi: lpfc: Fix kernel Oops due to null pring pointers
+    a8c0f6334e56 scsi: target/tcmu: Fix queue_cmd_ring() declaration
+    480233f89d42 pwm: bcm-iproc: Prevent unloading the driver module while in use
+    27d22db4ccf1 block: drbd: remove a stray unlock in __drbd_send_protocol()
+    51a564498cfb mac80211: fix station inactive_time shortly after boot
+    b707e0da2791 net/fq_impl: Switch to kvmalloc() for memory allocation
+    a8a61f82cc9f ceph: return -EINVAL if given fsc mount option on kernel w/o support
+    0f716cda304b net: mscc: ocelot: fix __ocelot_rmw_ix prototype
+    a30c6e424fdd net: bcmgenet: reapply manual settings to the PHY
+    acd6a29134f0 net: bcmgenet: use RGMII loopback for MAC reset
+    ff3f7465ee98 scripts/gdb: fix debugging modules compiled with hot/cold partitioning
+    22f4892950b2 ASoC: stm32: sai: add restriction on mmap support
+    3f034e6889e7 watchdog: meson: Fix the wrong value of left time
+    7302e7b10855 can: mcp251x: mcp251x_restart_work_handler(): Fix potential force_quit race condition
+    24e10fc2e0db can: flexcan: increase error counters if skb enqueueing via can_rx_offload_queue_sorted() fails
+    ee7981538293 can: rx-offload: can_rx_offload_irq_offload_fifo(): continue on error
+    5c8f5485614c can: rx-offload: can_rx_offload_irq_offload_timestamp(): continue on error
+    eca4b786f3bb can: rx-offload: can_rx_offload_offload_one(): use ERR_PTR() to propagate error value in case of errors
+    a85ce0107d6b can: rx-offload: can_rx_offload_offload_one(): increment rx_fifo_errors on queue overflow or OOM
+    b83d4e4899d6 can: rx-offload: can_rx_offload_offload_one(): do not increase the skb_queue beyond skb_queue_len_max
+    77f94f0d7f52 can: rx-offload: can_rx_offload_queue_tail(): fix error handling, avoid skb mem leak
+    66e21b7b9251 can: c_can: D_CAN: c_can_chip_config(): perform a sofware reset on open
+    7559e68ca91f can: peak_usb: report bus recovery as well
+    c5b0bbef4367 bridge: ebtables: don't crash when using dnat target in output chains
+    2070b33ee987 net: fec: add missed clk_disable_unprepare in remove
+    28f34294442b clk: ti: clkctrl: Fix failed to enable error with double udelay timeout
+    cb5a4049608c clk: ti: dra7-atl-clock: Remove ti_clk_add_alias call
+    1677a0e54937 x86/resctrl: Prevent NULL pointer dereference when reading mondata
+    8ef58b82d1e4 idr: Fix idr_alloc_u32 on 32-bit systems
+    88358c7610cc idr: Fix integer overflow in idr_for_each_entry
+    a6359d5e2d98 powerpc/bpf: Fix tail call implementation
+    4665759af735 samples/bpf: fix build by setting HAVE_ATTR_TEST to zero
+    40c3b8fc47b3 ARM: dts: sun8i-a83t-tbs-a711: Fix WiFi resume from suspend
+    40017db20bfa clk: sunxi-ng: a80: fix the zero'ing of bits 16 and 18
+    49ade064ea4b clk: sunxi: Fix operator precedence in sunxi_divs_clk_setup
+    15fc2f3c64e7 clk: at91: avoid sleeping early
+    8885552a061b reset: fix reset_control_ops kerneldoc comment
+    a94913c0c8cf ARM: dts: imx6qdl-sabreauto: Fix storm of accelerometer interrupts
+    5b15b1bf5428 pinctrl: cherryview: Allocate IRQ chip dynamic
+    a0554203bc12 clk: samsung: exynos5420: Preserve PLL configuration during suspend/resume
+    80e28fa256c9 ASoC: kirkwood: fix device remove ordering
+    6a7472add344 ASoC: kirkwood: fix external clock probe defer
+    a2c2cf16b059 clk: samsung: exynos5433: Fix error paths
+    9a5933aa1242 reset: Fix memory leak in reset_control_array_put()
+    e8eb6233be9a ASoC: compress: fix unsigned integer overflow check
+    7971b7fd5623 ASoC: msm8916-wcd-analog: Fix RX1 selection in RDAC2 MUX
+    daa2c4030510 clocksource/drivers/mediatek: Fix error handling
+    9c65bb9518ea clk: meson: gxbb: let sar_adc_clk_div set the parent clock rate
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/linux-yocto-rt_4.19.bb              |  6 +++---
+ .../linux/linux-yocto-tiny_4.19.bb            |  8 ++++----
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb | 20 +++++++++----------
+ 3 files changed, 17 insertions(+), 17 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+index b6e0a1e9e2..93c4472316 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "2fbf678238302f33b3aec5a2cba829f260744f24"
+-SRCREV_meta ?= "4f5d761316a9cf14605e5d0cc91b53c1b2e9dc6a"
++SRCREV_machine ?= "40e34fdcb540e35b1a97e8e52c11dfe52bd68b16"
++SRCREV_meta ?= "7cb520d405cd5ca8f21a333941fbc0861bbb36b0"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "4.19.87"
++LINUX_VERSION ?= "4.19.107"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+index e2626ab4c9..76b2467ef5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "4.19.87"
++LINUX_VERSION ?= "4.19.107"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "bd239fb802a15c2759ea456dd1f09f5e106fc88a"
+-SRCREV_machine ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
+-SRCREV_meta ?= "4f5d761316a9cf14605e5d0cc91b53c1b2e9dc6a"
++SRCREV_machine_qemuarm ?= "e2c947b59c650f2aa2f0f88d6af90f9dfb336e04"
++SRCREV_machine ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
++SRCREV_meta ?= "7cb520d405cd5ca8f21a333941fbc0861bbb36b0"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+index c6e482a984..6e3b00e0e5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+@@ -11,22 +11,22 @@ KBRANCH_qemux86  ?= "v4.19/standard/base"
+ KBRANCH_qemux86-64 ?= "v4.19/standard/base"
+ KBRANCH_qemumips64 ?= "v4.19/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "19fa1657d1d82d01647c6f73a2bbf39305505294"
+-SRCREV_machine_qemuarm64 ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
+-SRCREV_machine_qemumips ?= "8fb7ab96b84852ee3d9e1d9d9e7bc35e1249b653"
+-SRCREV_machine_qemuppc ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
+-SRCREV_machine_qemux86 ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
+-SRCREV_machine_qemux86-64 ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
+-SRCREV_machine_qemumips64 ?= "c8a036abd7d469013dddab15a23e0d2dde1d0000"
+-SRCREV_machine ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
+-SRCREV_meta ?= "4f5d761316a9cf14605e5d0cc91b53c1b2e9dc6a"
++SRCREV_machine_qemuarm ?= "c8b87f4d12eb957d8a95442a928ef4820037bb55"
++SRCREV_machine_qemuarm64 ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
++SRCREV_machine_qemumips ?= "94f102eaca76ffdcc3d47ea94b47486d7157c531"
++SRCREV_machine_qemuppc ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
++SRCREV_machine_qemux86 ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
++SRCREV_machine_qemux86-64 ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
++SRCREV_machine_qemumips64 ?= "98288b7e79bc8130c2a889d763c9c1aa15ff4939"
++SRCREV_machine ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
++SRCREV_meta ?= "7cb520d405cd5ca8f21a333941fbc0861bbb36b0"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA} \
+           "
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "4.19.87"
++LINUX_VERSION ?= "4.19.107"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
+-- 
+2.19.1
+
+
