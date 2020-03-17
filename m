@@ -1,53 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DA9460C18
+Return-Path: <3yXhwXgMKAHYqUeaiiafY.Wig@flex--wak.bounces.google.com>
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com
+	[209.85.216.73])
+	by mail.openembedded.org (Postfix) with ESMTP id DC60360C3E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 07:04:06 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id a23so9231088plm.1
+	Tue, 17 Mar 2020 07:14:16 +0000 (UTC)
+Received: by mail-pj1-f73.google.com with SMTP id v8so9943303pju.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 00:04:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=P36REPv26l5tbZQwZ4z/kip9GDLptzsUZtds4RNQras=;
-	b=jg1p0STAK5KdQT5N0hq3VkrWw1+4dmFofcdfD6bI0DQvVLITQRvMq7+1wnCLQk0O7k
-	uDEWu14pmpQ5MDKkvfqe3CP/Np5lso328fjZdUOiB8UZMM6QGld+3pu1mb07oaGwa9NG
-	LGRfnHv5sdL3/OXGIOBivQXncbPfwoZPF3x1V9QPV8Rx8WRKuJDQcqX08TGLanXCty+m
-	LH/hOKlXlaeVsDBTTJ/Im4JM+loEwT4RjKTSVHg9qIljltRsjuKAjG+7WYnoPWVYa73Z
-	L4P5YikoUHzChpUSv3jqi/01PtmmdhjbenA4Z7NRVXvltC/mQOTTC00iWvDZWETa2cEF
-	LFcA==
+	Tue, 17 Mar 2020 00:14:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+	h=date:message-id:mime-version:subject:from:to:cc;
+	bh=bzuv8OY4mwOVfw4omrAybDp0yz1CjELi9MCdk80vFVg=;
+	b=ofTMeVPvU6gkuHoXGbZlhP+2/40ITgTQOyihmLxN2Z63JEeJ3aOCT3A70VEBSFsZcN
+	F5hbSCZmag+P79v+SDKkLB5S9FPvN/0U165FtbTpcvcPIxBwm/D6oIjlZ5HQeb9EnT8T
+	mgBvGW3qXPbQ0syPpZHF+hP/Xa+V7XKfmTnTXMOKFeJYx9ylcgpZHP4eiQ9bvkRLB9Fq
+	kiwKrCG8rxhk8WJ0epL5BwEicUKbLcvOB9g0b1RBF+K8eNZbSM4YTKUtgA/SkHLFDL1N
+	DRMxocadjgYTYbMFrJndis95ekFAXsEQMxMtyGGkGP2QLjjpNYQ2X9m+etfK1wzVzXpA
+	jEYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=P36REPv26l5tbZQwZ4z/kip9GDLptzsUZtds4RNQras=;
-	b=mpSK9c5D6hdUncBEpJ3ul61fKKXlxqJNq2VEIjuaKLA/kVS+bV5cgbeQ2I09PVgqHT
-	j3aGBMiIDGd4i2i7STnvSGGQ/H9vZlYKCoP6ZIgcTjmi8Dz6wOxlvAYLsYft2jHZGhrd
-	QB5EIegl8FanLFVig/AO6dinV5kSPeW8lwurF3NZ5pRVjbXV8EOLrSFF6UnOU3lTUQjj
-	PrDe1qLie7Ld+tm8n6SWIgvu7ZriaxkPcU8qj3TEPOEWL0E9n8GTbMcw9sCGcYmSd6w5
-	jQ0wAPy4ZLIKFqKikfX/UGrROm+txEHMCkserPQP0dft4YVdLitgTzOyMuyAlN4wOFoc
-	y7Bg==
-X-Gm-Message-State: ANhLgQ18Nt5YojQpEBnFG5LMAVnK48kMgBc7K4g3424SX8C9YLTVuybf
-	rNlOBiIK2EiOFS1nCb9fGBzWvZJjrYU=
-X-Google-Smtp-Source: ADFU+vuButTr/6s9i6E6Md1CpnpZQPK4q+L6pSUM26gDIaqQOEon5E9MG1WsE39VGcCwSgi8c+LbuA==
-X-Received: by 2002:a17:902:8604:: with SMTP id
-	f4mr3074762plo.278.1584428646736; 
-	Tue, 17 Mar 2020 00:04:06 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::593])
-	by smtp.gmail.com with ESMTPSA id
-	jz19sm1754331pjb.48.2020.03.17.00.04.06
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Mar 2020 00:04:06 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
+	h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+	bh=bzuv8OY4mwOVfw4omrAybDp0yz1CjELi9MCdk80vFVg=;
+	b=s3UhfHiSSFTMPrdhFwdTjs/rB9H5V+ME5mDzmqwRd+KpijJSywrvxqIFpgHBKcPU6T
+	4uDVWP4OwODgRQh4f4nYLE+Toh4GD4viy2aAJMOEiblfH8BecFFe7pRTiH59opESWTp5
+	blEbzaTl/LYWic7pdyD3TE2l+TdmximO+dqX7/JnOefBBHWO9Woj+his2/4S1iC4XRlM
+	O1vUhFjO7Fz+7mAOwGlX3oMfoEqgku4Ut56Z7sBLd+a16HnCaAKyTI+z9pVSYpbCjG3i
+	i1x8pOgaBBURIMrJuYgtcPkQiljydrDXpryEKtTpskQ0axVk1YutncRIhGdu8bD5Dumo
+	SwDA==
+X-Gm-Message-State: ANhLgQ3PQ8EYP44L2WYG1Fg0OEVsmkCkLDDuThuhiamY1MsmbtdvycTq
+	3asvNZ63C8EHGGUIrs8hyf+Eg1m33tOzKOn9OV4/l18ZGyUMIDHu6UDeBeX5lfcV5t3da39AQuP
+	8XYSrMR+69Xc3CFrHWHMVnC9xoiD6TAAh3HRjw7E5MTq+RGHCIKbZ4D90dBE9RZ/+1E9Fq4nEFd
+	zuYg==
+X-Google-Smtp-Source: ADFU+vuiueV7yQiHDm0DVDLvNDSHVZVtWO+X9ZnkAxn7BGeFfHlyhNvGhRJyyKQPE+Kpz+DoIVpGkuk=
+X-Received: by 2002:a17:90a:357:: with SMTP id
+	23mr3888198pjf.192.1584429257703; 
+	Tue, 17 Mar 2020 00:14:17 -0700 (PDT)
+Date: Tue, 17 Mar 2020 00:14:10 -0700
+Message-Id: <20200317071410.136012-1-wak@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.25.0
+From: "William A. Kennington III" <wak@google.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Mar 2020 00:04:17 -0700
-Message-Id: <20200317070417.1250936-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200317070417.1250936-1-raj.khem@gmail.com>
-References: <20200317070417.1250936-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] musl: Add support for multilib
+Subject: [PATCH] meson: upgrade 0.53.1 -> 0.53.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,68 +53,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2020 07:04:06 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 17 Mar 2020 07:14:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-ldso is always stored in /lib regardless of multilib
-add ld-musl-${MUSL_LDSO_ARCH}.path to aid ldso finding default library
-loading paths, it helps when using multilib, where system libraries are
-moved to lib32 or lib64 paths under / or /usr
-
-[YOCTO #11971]
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: William A. Kennington III <wak@google.com>
 ---
- meta/recipes-core/musl/musl_git.bb | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/meson/meson.inc                         | 4 ++--
+ .../meson/{meson_0.53.1.bb => meson_0.53.2.bb}                | 0
+ .../{nativesdk-meson_0.53.1.bb => nativesdk-meson_0.53.2.bb}  | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/meson/{meson_0.53.1.bb => meson_0.53.2.bb} (100%)
+ rename meta/recipes-devtools/meson/{nativesdk-meson_0.53.1.bb => nativesdk-meson_0.53.2.bb} (100%)
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 2a15a78cd5..82379fd1c5 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -29,6 +29,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}binutils \
-            libssp-nonshared \
-           "
- GLIBC_LDSO = "${@get_glibc_loader(d)}"
-+MUSL_LDSO_ARCH = "${@get_musl_loader_arch(d)}"
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index d391c9cf29..50fb41ac98 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -17,8 +17,8 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://0001-mesonbuild-environment.py-check-environment-for-vari.patch \
+            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
+            "
+-SRC_URI[sha256sum] = "ec1ba33eea701baca2c1607dac458152dc8323364a51fdef6babda2623413b04"
+-SRC_URI[md5sum] = "9bf73f7b5a2426a7c8674a809bb8cae2"
++SRC_URI[sha256sum] = "3e8f830f33184397c2eb0b651ec502adb63decb28978bdc84b3558d71284c21f"
++SRC_URI[md5sum] = "80303535995fcae72bdb887df102b421"
  
- export CROSS_COMPILE="${TARGET_PREFIX}"
- 
-@@ -48,7 +49,7 @@ CONFIGUREOPTS = " \
-     --bindir=${bindir} \
-     --libdir=${libdir} \
-     --includedir=${includedir} \
--    --syslibdir=${base_libdir} \
-+    --syslibdir=/lib \
- "
- 
- do_configure() {
-@@ -61,8 +62,9 @@ do_compile() {
- 
- do_install() {
- 	oe_runmake install DESTDIR='${D}'
--
--	install -d ${D}${bindir}
-+	install -d ${D}${bindir} ${D}${base_libdir} ${D}${sysconfdir}
-+        echo "${base_libdir}" > ${D}${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path
-+        echo "${libdir}" >> ${D}${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path
- 	rm -f ${D}${bindir}/ldd ${D}${GLIBC_LDSO}
- 	lnr ${D}${libdir}/libc.so ${D}${bindir}/ldd
- 	lnr ${D}${libdir}/libc.so ${D}${GLIBC_LDSO}
-@@ -70,6 +72,7 @@ do_install() {
- 
- PACKAGES =+ "${PN}-glibc-compat"
- 
-+FILES_${PN} += "/lib/ld-musl-${MUSL_LDSO_ARCH}.so.1 ${sysconfdir}/ld-musl-${MUSL_LDSO_ARCH}.path"
- FILES_${PN}-glibc-compat += "${GLIBC_LDSO}"
- FILES_${PN}-staticdev = "${libdir}/libc.a"
- FILES_${PN}-dev =+ "${libdir}/libcrypt.a ${libdir}/libdl.a ${libdir}/libm.a \
-@@ -83,3 +86,4 @@ RPROVIDES_${PN} += "ldd libsegfault rtld(GNU_HASH)"
- 
- LEAD_SONAME = "libc.so"
- INSANE_SKIP_${PN}-dev = "staticdev"
-+INSANE_SKIP_${PN} = "libdir"
+ SRC_URI_append_class-native = " \
+     file://0001-Make-CPU-family-warnings-fatal.patch \
+diff --git a/meta/recipes-devtools/meson/meson_0.53.1.bb b/meta/recipes-devtools/meson/meson_0.53.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/meson/meson_0.53.1.bb
+rename to meta/recipes-devtools/meson/meson_0.53.2.bb
+diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.53.1.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.53.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/meson/nativesdk-meson_0.53.1.bb
+rename to meta/recipes-devtools/meson/nativesdk-meson_0.53.2.bb
 -- 
-2.25.1
+2.25.0
 
 
