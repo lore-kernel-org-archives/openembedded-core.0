@@ -1,31 +1,46 @@
-Return-Path: <alhe@linux.microsoft.com>
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C2F8260B47
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 89D9760234
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 15:58:22 +0000 (UTC)
-Received: from [10.8.8.50] (unknown [172.83.40.229])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 784AB20B9C02;
-	Tue, 17 Mar 2020 08:58:23 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 784AB20B9C02
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1584460703;
-	bh=8OCMpYw+ZZ4dQaet38ENgJRkIQvUeUjVdz3IYiEBm90=;
-	h=Subject:To:References:From:Date:In-Reply-To:From;
-	b=M7H6XfWmzrhN3rbBaoZTUqo6MehPvIWCqEDO1YD9COygllQ/wDB5R27hWyfDiCZDW
-	rCsrpq/xzi/FGNBXkS+4+O0dhVAcd94KWtRxAD6pa20tCdL7I/RWiQADLy74MDl+75
-	zeNYbN+a5VS8vn3ReNrM9u1ALCRBg0EDpbqSgcwc=
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20200315061311.19344-1-alhe@linux.microsoft.com>
-	<f3cec84a2711d700cf49ccad001eb9c1c36eef49.camel@linuxfoundation.org>
-From: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
-Message-ID: <f3789b3e-9707-b8c7-f8da-f2d1c278c423@linux.microsoft.com>
-Date: Tue, 17 Mar 2020 15:58:24 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-	Thunderbird/68.6.0
+	Tue, 17 Mar 2020 17:47:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=axis.com; l=4107; q=dns/txt; s=axis-central1;
+	t=1584467232; x=1616003232;
+	h=from:to:subject:date:message-id:references:in-reply-to:
+	content-transfer-encoding:mime-version;
+	bh=Lo+Iv0Kq9SR5tmS/e1AS8slm0+7Iw4WpyeFPIfHkSV4=;
+	b=mLIRPi8oeHu+nupIliu8ukLsz8QdejRYRdrB+YxJlhJ4OmvJrgODWS9W
+	aVmy/K4+1ipEbrbk3m1Jexsof1CVNteyDqfQ4YqaEAPS+b9RrgyqaAd2A
+	+Q3591L/7zlp6SCupYYMfp+16IhRYZzX6QSF0doCNPicoe5kQx+YhPMeW
+	J4TJ59XUDzPIAHqQZ7NKjMOtNMKe2X4idBrqXoTPZqjMseWnq7FBjn0o7
+	nYpihAEXSiS9j0SogSwS7BuxJ6oxYDV8xyNLMLpi4tyTEfEcm73FxQ/7p
+	Fs3rP96o76DoMHKPfivx0I3mlxG6iZrafdfAOoHcNX2gotD0zoocEsZFb A==;
+IronPort-SDR: 66RZesgWbQxs1xvSVyJRegVoh4yUiNW/bxaqcShCgsE6JMEcrcwhMKbS0rihGFH65z41ZTDXFG
+	al53mS8niLQ36+rFK+Y03RzfqGzqKq3KUmz+GrkXz4mjbOdk6mTTqW5uWQrWM+PJFUBiqGAt7m
+	2C5+UXVy0QLWZ3VV5gyP/pejqZa//zmKCfdfqgAxJchSC7yhUO07322zNTrU/rtaA7dQjibRyI
+	BROPlS5N0/a3JtrHt26+l363AH4SP3Ef2yy1jf8/Jgnsfk5dgW3vYoC0IHHHJDjEYD+cuWCSiR
+	PHQ=
+X-IronPort-AV: E=Sophos;i="5.70,565,1574118000"; 
+   d="scan'208";a="6427158"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [OE-Core][RFC PATCH 04/11] systemd: Add PACKAGECONFIG
+	for	sysvinit
+Thread-Index: AQHV/HDauPPk90VBz0y/hZ9wdhbUsahNDeHQ
+Date: Tue, 17 Mar 2020 17:47:10 +0000
+Message-ID: <4ba6a14e42f541488dd004804f13be73@XBOX03.axis.com>
+References: <20200317152303.4600-1-alex.kiernan@gmail.com>
+	<20200317152303.4600-5-alex.kiernan@gmail.com>
+In-Reply-To: <20200317152303.4600-5-alex.kiernan@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <f3cec84a2711d700cf49ccad001eb9c1c36eef49.camel@linuxfoundation.org>
-Subject: Re: [PATCH] Windows: Enable Windows builds under WSLv2 and warn accordingly
+Subject: Re: [RFC PATCH 04/11] systemd: Add PACKAGECONFIG for	sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,194 +53,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2020 15:58:22 -0000
-Content-Type: multipart/alternative;
-	boundary="------------9280367D898A78EB8A22F079"
-Content-Language: en-GB
+X-List-Received-Date: Tue, 17 Mar 2020 17:47:11 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
---------------9280367D898A78EB8A22F079
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Alex Kiernan
+> Sent: den 17 mars 2020 16:23
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [OE-Core][RFC PATCH 04/11] systemd: Add PACKAGECONFIG
+> for sysvinit
+>=20
+> Add sysvinit PACKAGECONFIG which is bound to DISTRO_FEATURES, this
+> then disables all sysvinit handling in systemd if it isn't present.
+>=20
+> Consolidate sysvinit handling so that when it's disabled we exclude all
+> sysvinit features.
+>=20
+> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> ---
+>=20
+>  meta/recipes-core/systemd/systemd_244.3.bb | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd_244.3.bb b/meta/recipes-co=
+re/systemd/systemd_244.3.bb
+> index b26f3cb72d2b..7c33bde21a39 100644
+> --- a/meta/recipes-core/systemd/systemd_244.3.bb
+> +++ b/meta/recipes-core/systemd/systemd_244.3.bb
+> @@ -56,7 +56,7 @@ PAM_PLUGINS =3D " \
+>  "
+>=20
+>  PACKAGECONFIG ??=3D " \
+> -    ${@bb.utils.filter('DISTRO_FEATURES', 'efi ldconfig pam selinux usrm=
+erge polkit', d)} \
+> +    ${@bb.utils.filter('DISTRO_FEATURES', 'efi ldconfig pam selinux sysv=
+init usrmerge polkit', d)} \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '', d)} \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} =
+\
+>      acl \
+> @@ -165,6 +165,7 @@ PACKAGECONFIG[seccomp] =3D "-Dseccomp=3Dtrue,-Dseccom=
+p=3Dfalse,libseccomp"
+>  PACKAGECONFIG[selinux] =3D "-Dselinux=3Dtrue,-Dselinux=3Dfalse,libselinu=
+x,initscripts-sushell"
+>  PACKAGECONFIG[smack] =3D "-Dsmack=3Dtrue,-Dsmack=3Dfalse"
+>  PACKAGECONFIG[sysusers] =3D "-Dsysusers=3Dtrue,-Dsysusers=3Dfalse"
+> +PACKAGECONFIG[sysvinit] =3D "-Dsysvinit-path=3D${sysconfdir}/init.d -Dsy=
+svrcnd-path=3D${sysconfdir},-Dsysvinit-path=3D -Dsysvrcnd-path=3D"
+>  # When enabled use reproducble build timestamp if set as time epoch,
+>  # or build time if not. When disabled, time epoch is unset.
+>  def build_epoch(d):
+> @@ -198,7 +199,6 @@ EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
+>                    -Dnobody-group=3Dnobody \
+>                    -Drootlibdir=3D${rootlibdir} \
+>                    -Drootprefix=3D${rootprefix} \
+> -                  -Dsysvrcnd-path=3D${sysconfdir} \
+>                    -Ddefault-locale=3DC \
+>                    "
+>=20
+> @@ -234,6 +234,7 @@ do_install() {
+>  		install -d ${D}${sysconfdir}/init.d
+>  		install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/systemd-udevd
+>  		sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${syscon=
+fdir}/init.d/systemd-udevd
+> +		install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}=
+${systemd_unitdir}/systemd-sysv-install
+>  	fi
+>=20
+>  	chown root:systemd-journal ${D}/${localstatedir}/log/journal
+> @@ -273,7 +274,6 @@ do_install() {
+>  		sed -i -e "s%^L! /etc/resolv.conf.*$%L! /etc/resolv.conf - - - - ../ru=
+n/systemd/resolve/resolv.conf%g" ${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
+>  		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf=
+.systemd
+>  	fi
+> -	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}$=
+{systemd_unitdir}/systemd-sysv-install
+>=20
+>  	# If polkit is setup fixup permissions and ownership
+>  	if ${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'true', 'false', d)}=
+; then
+> @@ -560,7 +560,8 @@ FILES_${PN}-dev +=3D "${base_libdir}/security/*.la ${=
+datadir}/dbus-1/interfaces/ $
+>=20
+>  RDEPENDS_${PN} +=3D "kmod dbus util-linux-mount util-linux-umount udev (=
+=3D ${EXTENDPKGV}) util-linux-agetty util-linux-fsck"
+>  RDEPENDS_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty=
+-generator', '', 'systemd-serialgetty', d)}"
+> -RDEPENDS_${PN} +=3D "volatile-binds update-rc.d"
+> +RDEPENDS_${PN} +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit',=
+ 'update-rc.d', '', d)}"
 
-Hey Richard,
+Move the dependency on update-rc.d up to the sysvinit PACKAGECONFIG.
 
-On 3/15/2020 4:48 AM, Richard Purdie wrote:
-> On Sat, 2020-03-14 at 23:13 -0700, Alejandro Hernandez Samaniego wrote:
->> Due to the architectural changes between Windows Subsystem for Linux
->> v2, and WSL v1 it should now be possible to run bitbake on the
->> several distros offered through the Microsoft Store.
->>
->> WSLv2 is available on Windows 10 build number > 18917
->>
->> The current build number may be checked by opening a cmd prompt on
->> Windows and running:
->>
->> C:\Users\myuser>ver
->>
->> Microsoft Windows [Version 10.0.19041.113]
-> Thanks, this is useful information. How much of our system works on
-> WSL2? runqemu? testimage? eSDK? virtgl? Is anything known not to work?
-> This email implies everything works?
->
-> My big worry here is that we have a set subset of bugs which only occur
-> on WSL2. We're struggling with the bug reports we have today, adding in
-> a whole new set with no help to support that is a concern.
+> +RDEPENDS_${PN} +=3D "volatile-binds"
+>=20
+>  RRECOMMENDS_${PN} +=3D "systemd-extra-utils \
+>                        systemd-compat-units udev-hwdb \
+> --
+> 2.17.1
 
-I have tested enough to be confident that this should not be the case, testimage works,
-runqemu works (after creating the tap interfaces), unless you have specific tests that
-you want me to run for virtgl, I did test virtgl on runqemu and ran the image along with
-some basic graphics testing, esdk works, I just ran bitbake-selftest and oe-selftest and
-they both work, I understand your concern but I dont believe this would be the case.
+//Peter
 
->
-> Is this for 3.1 LTS? Are Microsoft going to be able to help us in any
-> way? How "official" is this change?
 
-I can speak for myself and say that if there are any WSL related bugs, they can be assigned
-to me during TRIAGE and I will take a look at them, also note that these are only the
-changes on the OE part of things, WSLv2 will be generally available on Windows 10 v2004
-https://devblogs.microsoft.com/commandline/wsl2-will-be-generally-available-in-windows-10-version-2004/
-
-So, while my hope is that this can be merged on Dunfell, if possible I'd like to backport
-this to Zeus at least, note that the previous check simply won't work on WSLv2 and it wont
-throw any errors about it, I believe people will start using this regardless and its better
-if we warn them properly about the process (I have tested both current master and Zeus).
-
-If that is not possible then at the very least we should throw an error as well for WSLv2 on
-previous releases.
-
->>           if "Microsoft" in l:
->> -            return "OpenEmbedded doesn't work under WSL at this time, sorry"
->> +            return "OpenEmbedded doesn't work under WSLv1, please upgrade to WSLv2 if you want to run builds on Windows"
->> +        elif "microsoft" in l:
->> +            bb.warn("You are running bitbake under WSLv2, this works properly but you should optimize your VHDX file eventually to avoid running out of storage space")
->>       return None
->>   
->>   # Tar version 1.24 and onwards handle overwriting symlinks correctly
-> Is Microsoft vs microsoft the best check we can have? Should we be
-> checking the version specifically?
-
-AFAIC this is a good way to test it, it is kept across all Microsoft Store Distros for both WSLv1 and WSLv2.
-
-Cheers,
-
-Alejandro
-
->
-> Cheers,
->
-> Richard
-
---------------9280367D898A78EB8A22F079
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre>Hey Richard,
-</pre>
-    <div class="moz-cite-prefix">On 3/15/2020 4:48 AM, Richard Purdie
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:f3cec84a2711d700cf49ccad001eb9c1c36eef49.camel@linuxfoundation.org">
-      <pre class="moz-quote-pre" wrap="">On Sat, 2020-03-14 at 23:13 -0700, Alejandro Hernandez Samaniego wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Due to the architectural changes between Windows Subsystem for Linux
-v2, and WSL v1 it should now be possible to run bitbake on the
-several distros offered through the Microsoft Store.
-
-WSLv2 is available on Windows 10 build number &gt; 18917
-
-The current build number may be checked by opening a cmd prompt on
-Windows and running:
-
-C:\Users\myuser&gt;ver
-
-Microsoft Windows [Version 10.0.19041.113]
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Thanks, this is useful information. How much of our system works on
-WSL2? runqemu? testimage? eSDK? virtgl? Is anything known not to work?
-This email implies everything works?
-
-My big worry here is that we have a set subset of bugs which only occur
-on WSL2. We're struggling with the bug reports we have today, adding in
-a whole new set with no help to support that is a concern.</pre>
-    </blockquote>
-    <pre>I have tested enough to be confident that this should not be the case, testimage works,
-runqemu works (after creating the tap interfaces), unless you have specific tests that
-you want me to run for virtgl, I did test virtgl on runqemu and ran the image along with
-some basic graphics testing, esdk works, I just ran bitbake-selftest and oe-selftest and
-they both work, I understand your concern but I dont believe this would be the case.
-
-</pre>
-    <blockquote type="cite"
-cite="mid:f3cec84a2711d700cf49ccad001eb9c1c36eef49.camel@linuxfoundation.org">
-      <pre class="moz-quote-pre" wrap="">
-
-Is this for 3.1 LTS? Are Microsoft going to be able to help us in any
-way? How "official" is this change?</pre>
-    </blockquote>
-    <pre>I can speak for myself and say that if there are any WSL related bugs, they can be assigned
-to me during TRIAGE and I will take a look at them, also note that these are only the
-changes on the OE part of things, WSLv2 will be generally available on Windows 10 v2004
-<a href="https://devblogs.microsoft.com/commandline/wsl2-will-be-generally-available-in-windows-10-version-2004/">https://devblogs.microsoft.com/commandline/wsl2-will-be-generally-available-in-windows-10-version-2004/</a>
-
-So, while my hope is that this can be merged on Dunfell, if possible I'd like to backport
-this to Zeus at least, note that the previous check simply won't work on WSLv2 and it wont
-throw any errors about it, I believe people will start using this regardless and its better
-if we warn them properly about the process (I have tested both current master and Zeus).
-
-If that is not possible then at the very least we should throw an error as well for WSLv2 on
-previous releases.
-</pre>
-    <blockquote type="cite"
-cite="mid:f3cec84a2711d700cf49ccad001eb9c1c36eef49.camel@linuxfoundation.org">
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-    <blockquote type="cite"
-cite="mid:f3cec84a2711d700cf49ccad001eb9c1c36eef49.camel@linuxfoundation.org">
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-         if "Microsoft" in l:
--            return "OpenEmbedded doesn't work under WSL at this time, sorry"
-+            return "OpenEmbedded doesn't work under WSLv1, please upgrade to WSLv2 if you want to run builds on Windows"
-+        elif "microsoft" in l:
-+            bb.warn("You are running bitbake under WSLv2, this works properly but you should optimize your VHDX file eventually to avoid running out of storage space")
-     return None
- 
- # Tar version 1.24 and onwards handle overwriting symlinks correctly
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-Is Microsoft vs microsoft the best check we can have? Should we be
-checking the version specifically?</pre>
-    </blockquote>
-    <pre>AFAIC this is a good way to test it, it is kept across all Microsoft Store Distros for both WSLv1 and WSLv2.
-
-Cheers,
-
-Alejandro
-</pre>
-    <blockquote type="cite"
-cite="mid:f3cec84a2711d700cf49ccad001eb9c1c36eef49.camel@linuxfoundation.org">
-      <pre class="moz-quote-pre" wrap="">
-
-Cheers,
-
-Richard
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------9280367D898A78EB8A22F079--
