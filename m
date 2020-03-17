@@ -1,50 +1,50 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AA6F60B9A
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 7934F60C61
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 15:28:58 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id 6so26235429wre.4
+	Tue, 17 Mar 2020 15:29:01 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id s1so4509209wrv.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 08:29:00 -0700 (PDT)
+	Tue, 17 Mar 2020 08:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OEBxDQL1fR+8OaxRWXaa2QcFqNST7H5ztTbKw871iw0=;
-	b=Su0KhRTcq9bHKFZjUFDrcD57H4HeuYZs/nAuG+mROzZAk048URQQ82wG+isXH+8vTZ
-	R3Q5nPhu8d9KKkvTyZOW6/n+F3/bGla8UrcCKVaUlBjslhy95cWkXKeMGvzLPnzAmJPm
-	U+TbAJPgvcjwtw+8obU8OjZdEns/35K/rViik06+cmflFN7LNHT1Qij/6F7CSnQVyqSK
-	phiP4T43leeIwTv8MCj2nEZWlu3nGopp4NDig/+P5UjbNk9fz5nt7OLghC8eMbatzHDa
-	pTO4XPVD5bdDjFQGoytH/L39p5SyEeyHl6JGIP05IRBwTj8SgfZ6yQSAdqBWO9O/OrFD
-	Av9A==
+	bh=EhE3lZKOW+DOWsjhjiI/fhaUGNz5cPbDAQFAqTEeCqM=;
+	b=nJbtSZtZna+DXfugNjo2Bqs+PTiYckFSFh2SXPPJ1cHao9BW/ai4mC+SPqdbFiGl+z
+	+IkRku8kltsQ0jOrnbBjCwdbNFwLFQKrFCtRnCxtc/sZtjaz/vvs9CG8DjTvnmOa3wkY
+	U4S42ZOW8QvA/aOKp0cR/sgQSJqU/em03Qy4gIhn2XNwWab1hYECSEr/06eTvadO7FaJ
+	L5nyKBgkDfIuqlLGuOSRuBCMNCOhkCN09lSQED0qWzWJJ5FBCsQBMczynNxeV4QcsH41
+	8oNUgjcP6qTcJxc/xxbHIQiCdGsc5EUvmX6tVHFtmkwdtwtIMkc3tGZ5jhtc7k0MAMJ3
+	9jqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=OEBxDQL1fR+8OaxRWXaa2QcFqNST7H5ztTbKw871iw0=;
-	b=UE826yywQ1vRS30V1SuzLIJMqkM+Oa38gkcI/xI9ze277m7tM2E/sA5wJ+Q2QrKv2Y
-	ovPnIi2E5jvm+2KN4MNTT2syhc4e+i+LSPWVBNrhu0j0sEGCuFiH1sZgJEEIKJW8mGOV
-	zQDbJ4NZmxAV3MSFidDjsEGqpl9mXqPmDb9xTkl4moKYBd2t3sBmzILwBjEQ7/rAeSA3
-	7taK+z6U+iIS1NuCEPZTgLocmwN/QFcVRhzC2N8T8D27nEAN7JtTHIy1wvR63KNRRL0H
-	qszqQsb1JoowcqkQmuynwZFLOPzT96fxcBiHZvSXu8d8ptHeWDrrAh0SbStHzSKe7SAL
-	wm9g==
-X-Gm-Message-State: ANhLgQ2HBPAmJMp6B2wMLnX9WuSbRnJk4SgTMVkn7nT0adPolZkIZ9Ka
-	xXm8IVrQ2Xe80fFf/kHTMurJw3MS
-X-Google-Smtp-Source: ADFU+vuhnyWfWBbwMz4OwPUKfUQ2pgiXPJmdUISx/cX5Dm4ZbWolJj4Lsas9VdGjjF052XYunnEp4g==
-X-Received: by 2002:adf:80cb:: with SMTP id 69mr6344004wrl.320.1584458939049; 
-	Tue, 17 Mar 2020 08:28:59 -0700 (PDT)
+	bh=EhE3lZKOW+DOWsjhjiI/fhaUGNz5cPbDAQFAqTEeCqM=;
+	b=jwOMkCclHxJe7bleb6jTAJNzSkdk6pj0lQVlaefG+mpuZEzW68/ct9GgIgLiPnJ4OW
+	A0Qc7hpEmlAEbRlcBr/cboyWL/8ctxnv6gtU2TAaLFwWP83igw4+10LdKjgAJ83b4mrg
+	Lu0ccvycTDzY868RJLUZ2g/M1HU/XvZJwRZrrjzMCYLtFidsgREeMEaLm/wtA2KO4+Ou
+	e7wk56PJ75l49DdKcBS5rYghNwjlNS+zQ6pqsANVHw0zZRH2PdfJrqh5o2GKmj8+6I6y
+	JeIej+GNn1+OEWczAxVunkKh91ahHeGSdm/RD9lagnlHPIyWhSI/Nwy0emqHJ+J86y3u
+	hpYQ==
+X-Gm-Message-State: ANhLgQ3SLSGugQg5ht6KtpkNJjYtYJHwzKtl8z7v3oCjB5D0Me5FBYSa
+	/NaRFYVBhrNTSP1z/oXvymN2cGIx
+X-Google-Smtp-Source: ADFU+vuXZxewe7iBO4bD58XfFbUoFNfPge3KNJ48BHFJ18mCmclRt8B7Nltkc+6MOnCAwftQLHM3CA==
+X-Received: by 2002:a5d:6344:: with SMTP id b4mr6558639wrw.354.1584458941913; 
+	Tue, 17 Mar 2020 08:29:01 -0700 (PDT)
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
 	[91.135.6.246])
-	by smtp.gmail.com with ESMTPSA id c2sm4307128wma.39.2020.03.17.08.28.58
+	by smtp.gmail.com with ESMTPSA id c2sm4307128wma.39.2020.03.17.08.29.00
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Mar 2020 08:28:58 -0700 (PDT)
+	Tue, 17 Mar 2020 08:29:01 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Mar 2020 15:22:59 +0000
-Message-Id: <20200317152303.4600-8-alex.kiernan@gmail.com>
+Date: Tue, 17 Mar 2020 15:23:01 +0000
+Message-Id: <20200317152303.4600-10-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200317152303.4600-1-alex.kiernan@gmail.com>
 References: <20200317152303.4600-1-alex.kiernan@gmail.com>
-Subject: [RFC PATCH 07/11] oeqa/runtime/cases: Disable and stop systemd-timesyncd
+Subject: [RFC PATCH 09/11] systemd: Enable smack based on DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2020 15:28:59 -0000
-
-Stopping systemd-timesyncd doesn't prevent it being restarted by a
-different transaction within systemd. Disable the service instead during
-the date test to ensure it can't be restarted.
+X-List-Received-Date: Tue, 17 Mar 2020 15:29:03 -0000
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
- meta/lib/oeqa/runtime/cases/date.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/systemd/systemd_245.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/date.py b/meta/lib/oeqa/runtime/cases/date.py
-index 7750a7293f8e..fdd2a6ae587e 100644
---- a/meta/lib/oeqa/runtime/cases/date.py
-+++ b/meta/lib/oeqa/runtime/cases/date.py
-@@ -13,12 +13,12 @@ class DateTest(OERuntimeTestCase):
-     def setUp(self):
-         if self.tc.td.get('VIRTUAL-RUNTIME_init_manager') == 'systemd':
-             self.logger.debug('Stopping systemd-timesyncd daemon')
--            self.target.run('systemctl stop systemd-timesyncd')
-+            self.target.run('systemctl disable --now systemd-timesyncd')
+diff --git a/meta/recipes-core/systemd/systemd_245.bb b/meta/recipes-core/systemd/systemd_245.bb
+index 19a8f0cb18af..a7fae930f770 100644
+--- a/meta/recipes-core/systemd/systemd_245.bb
++++ b/meta/recipes-core/systemd/systemd_245.bb
+@@ -57,7 +57,7 @@ PAM_PLUGINS = " \
+ "
  
-     def tearDown(self):
-         if self.tc.td.get('VIRTUAL-RUNTIME_init_manager') == 'systemd':
-             self.logger.debug('Starting systemd-timesyncd daemon')
--            self.target.run('systemctl start systemd-timesyncd')
-+            self.target.run('systemctl enable --now systemd-timesyncd')
- 
-     @OETestDepends(['ssh.SSHTest.test_ssh'])
-     @OEHasPackage(['coreutils', 'busybox'])
+ PACKAGECONFIG ??= " \
+-    ${@bb.utils.filter('DISTRO_FEATURES', 'efi ldconfig pam selinux sysvinit usrmerge polkit', d)} \
++    ${@bb.utils.filter('DISTRO_FEATURES', 'efi ldconfig pam selinux smack sysvinit usrmerge polkit', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
+     acl \
+@@ -81,7 +81,6 @@ PACKAGECONFIG ??= " \
+     randomseed \
+     resolved \
+     set-time-epoch \
+-    smack \
+     sysusers \
+     timedated \
+     timesyncd \
+@@ -99,7 +98,6 @@ PACKAGECONFIG_remove_libc-musl = " \
+     nss \
+     nss-mymachines \
+     nss-resolve \
+-    smack \
+     sysusers \
+     userdb \
+     utmp \
 -- 
 2.17.1
 
