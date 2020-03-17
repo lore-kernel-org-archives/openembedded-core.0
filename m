@@ -1,46 +1,49 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 89D9760234
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com
+	[209.85.215.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 9811360B33
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 17:47:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=axis.com; l=4107; q=dns/txt; s=axis-central1;
-	t=1584467232; x=1616003232;
-	h=from:to:subject:date:message-id:references:in-reply-to:
-	content-transfer-encoding:mime-version;
-	bh=Lo+Iv0Kq9SR5tmS/e1AS8slm0+7Iw4WpyeFPIfHkSV4=;
-	b=mLIRPi8oeHu+nupIliu8ukLsz8QdejRYRdrB+YxJlhJ4OmvJrgODWS9W
-	aVmy/K4+1ipEbrbk3m1Jexsof1CVNteyDqfQ4YqaEAPS+b9RrgyqaAd2A
-	+Q3591L/7zlp6SCupYYMfp+16IhRYZzX6QSF0doCNPicoe5kQx+YhPMeW
-	J4TJ59XUDzPIAHqQZ7NKjMOtNMKe2X4idBrqXoTPZqjMseWnq7FBjn0o7
-	nYpihAEXSiS9j0SogSwS7BuxJ6oxYDV8xyNLMLpi4tyTEfEcm73FxQ/7p
-	Fs3rP96o76DoMHKPfivx0I3mlxG6iZrafdfAOoHcNX2gotD0zoocEsZFb A==;
-IronPort-SDR: 66RZesgWbQxs1xvSVyJRegVoh4yUiNW/bxaqcShCgsE6JMEcrcwhMKbS0rihGFH65z41ZTDXFG
-	al53mS8niLQ36+rFK+Y03RzfqGzqKq3KUmz+GrkXz4mjbOdk6mTTqW5uWQrWM+PJFUBiqGAt7m
-	2C5+UXVy0QLWZ3VV5gyP/pejqZa//zmKCfdfqgAxJchSC7yhUO07322zNTrU/rtaA7dQjibRyI
-	BROPlS5N0/a3JtrHt26+l363AH4SP3Ef2yy1jf8/Jgnsfk5dgW3vYoC0IHHHJDjEYD+cuWCSiR
-	PHQ=
-X-IronPort-AV: E=Sophos;i="5.70,565,1574118000"; 
-   d="scan'208";a="6427158"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [OE-Core][RFC PATCH 04/11] systemd: Add PACKAGECONFIG
-	for	sysvinit
-Thread-Index: AQHV/HDauPPk90VBz0y/hZ9wdhbUsahNDeHQ
-Date: Tue, 17 Mar 2020 17:47:10 +0000
-Message-ID: <4ba6a14e42f541488dd004804f13be73@XBOX03.axis.com>
-References: <20200317152303.4600-1-alex.kiernan@gmail.com>
-	<20200317152303.4600-5-alex.kiernan@gmail.com>
-In-Reply-To: <20200317152303.4600-5-alex.kiernan@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Tue, 17 Mar 2020 18:32:07 +0000 (UTC)
+Received: by mail-pg1-f175.google.com with SMTP id 37so12180621pgm.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Mar 2020 11:32:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=sFmx5nnmYZSFyPZOf1b+5VjS3Mcc9DtmIKCbS2my+uA=;
+	b=WX3Bei3KBmRUNg+AVw4qMoBeXYQyOmsNX0RHU4JEJt4yZRDSNu4f1B1yBtNqLsgCwm
+	djoXvNzgfDGEzlh5Rpzuf1jhxq6eawiC2Ne/sNbAVHscPrSr10aDrfX9lpkn3RCwZjd5
+	/Z87VDbsgE1dRu9O1ppPM6VOJSgsBz0aDp10dMvHNv6DalRFs4yr27Zpyij/R5eIe7Tb
+	dbTvzY+x7z/m4BO9Of6cIYyyluKc4xTjHKRaPAFvkPoCPwXPakHsVDVivQAG83QLTOAx
+	qKJHYjElLYNiuleZDkcsu/Io8srTWhundXUA1BdVs9lExgSqVXUyxg50WG38YAFoH1B4
+	EjgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=sFmx5nnmYZSFyPZOf1b+5VjS3Mcc9DtmIKCbS2my+uA=;
+	b=agQUCKeIPn16TWTA/MBc54HdWghOkCssBxq1HaABO56KQCAHrM/w+zwVxBXAHRqRiN
+	KJ+22G2aL5Wr44IIpkZNrZm2+nji8OLPZULUqvj2IhAlg0XLdfKOaP2I7ZJgNce4UYZi
+	+q+95WaIr8+m2zcM504tvaLPoD1UJSMgsyyXs/G6fHUiGesvh1Dm/z7BtjMs5eFXwFrE
+	X9AirfFQiXbXkwdHLXrcEuiOhFFGApmH1J3fsN82t10rSBdCVQeuIZ5crfh9MZxFwIdY
+	9JfVV2Z+ZKwSx+WyP+Yq0zj7yVCvyNNb1rUVmxrZF38GeQg9mYiS+8pp2mUw+24PUdIM
+	yRyg==
+X-Gm-Message-State: ANhLgQ3Imt+Ickm023Q47OoRv3qqU3NOIGEIJxwpoK0OWwFpTjVogROr
+	kVovlTCa5HVDxysBYoE3ZIP5iz0Sop0=
+X-Google-Smtp-Source: ADFU+vu8HqQcnVAGKtjxoeAwOsraz/Mc5MgfgQqqwTNtJyy1cDWrpHlOUV5gd/qUcQxd9N9F2spAwA==
+X-Received: by 2002:a62:2b90:: with SMTP id r138mr115535pfr.102.1584469927848; 
+	Tue, 17 Mar 2020 11:32:07 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::593])
+	by smtp.gmail.com with ESMTPSA id f3sm3383092pgg.46.2020.03.17.11.32.07
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 17 Mar 2020 11:32:07 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Mar 2020 11:32:20 -0700
+Message-Id: <20200317183220.774083-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Subject: Re: [RFC PATCH 04/11] systemd: Add PACKAGECONFIG for	sysvinit
+Subject: [PATCH] libucontext: Fix multilib build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,110 +56,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2020 17:47:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 17 Mar 2020 18:32:07 -0000
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of Alex Kiernan
-> Sent: den 17 mars 2020 16:23
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [OE-Core][RFC PATCH 04/11] systemd: Add PACKAGECONFIG
-> for sysvinit
->=20
-> Add sysvinit PACKAGECONFIG which is bound to DISTRO_FEATURES, this
-> then disables all sysvinit handling in systemd if it isn't present.
->=20
-> Consolidate sysvinit handling so that when it's disabled we exclude all
-> sysvinit features.
->=20
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> ---
->=20
->  meta/recipes-core/systemd/systemd_244.3.bb | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-core/systemd/systemd_244.3.bb b/meta/recipes-co=
-re/systemd/systemd_244.3.bb
-> index b26f3cb72d2b..7c33bde21a39 100644
-> --- a/meta/recipes-core/systemd/systemd_244.3.bb
-> +++ b/meta/recipes-core/systemd/systemd_244.3.bb
-> @@ -56,7 +56,7 @@ PAM_PLUGINS =3D " \
->  "
->=20
->  PACKAGECONFIG ??=3D " \
-> -    ${@bb.utils.filter('DISTRO_FEATURES', 'efi ldconfig pam selinux usrm=
-erge polkit', d)} \
-> +    ${@bb.utils.filter('DISTRO_FEATURES', 'efi ldconfig pam selinux sysv=
-init usrmerge polkit', d)} \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '', d)} \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} =
-\
->      acl \
-> @@ -165,6 +165,7 @@ PACKAGECONFIG[seccomp] =3D "-Dseccomp=3Dtrue,-Dseccom=
-p=3Dfalse,libseccomp"
->  PACKAGECONFIG[selinux] =3D "-Dselinux=3Dtrue,-Dselinux=3Dfalse,libselinu=
-x,initscripts-sushell"
->  PACKAGECONFIG[smack] =3D "-Dsmack=3Dtrue,-Dsmack=3Dfalse"
->  PACKAGECONFIG[sysusers] =3D "-Dsysusers=3Dtrue,-Dsysusers=3Dfalse"
-> +PACKAGECONFIG[sysvinit] =3D "-Dsysvinit-path=3D${sysconfdir}/init.d -Dsy=
-svrcnd-path=3D${sysconfdir},-Dsysvinit-path=3D -Dsysvrcnd-path=3D"
->  # When enabled use reproducble build timestamp if set as time epoch,
->  # or build time if not. When disabled, time epoch is unset.
->  def build_epoch(d):
-> @@ -198,7 +199,6 @@ EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
->                    -Dnobody-group=3Dnobody \
->                    -Drootlibdir=3D${rootlibdir} \
->                    -Drootprefix=3D${rootprefix} \
-> -                  -Dsysvrcnd-path=3D${sysconfdir} \
->                    -Ddefault-locale=3DC \
->                    "
->=20
-> @@ -234,6 +234,7 @@ do_install() {
->  		install -d ${D}${sysconfdir}/init.d
->  		install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/systemd-udevd
->  		sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${syscon=
-fdir}/init.d/systemd-udevd
-> +		install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}=
-${systemd_unitdir}/systemd-sysv-install
->  	fi
->=20
->  	chown root:systemd-journal ${D}/${localstatedir}/log/journal
-> @@ -273,7 +274,6 @@ do_install() {
->  		sed -i -e "s%^L! /etc/resolv.conf.*$%L! /etc/resolv.conf - - - - ../ru=
-n/systemd/resolve/resolv.conf%g" ${D}${exec_prefix}/lib/tmpfiles.d/etc.conf
->  		ln -s ../run/systemd/resolve/resolv.conf ${D}${sysconfdir}/resolv-conf=
-.systemd
->  	fi
-> -	install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}$=
-{systemd_unitdir}/systemd-sysv-install
->=20
->  	# If polkit is setup fixup permissions and ownership
->  	if ${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'true', 'false', d)}=
-; then
-> @@ -560,7 +560,8 @@ FILES_${PN}-dev +=3D "${base_libdir}/security/*.la ${=
-datadir}/dbus-1/interfaces/ $
->=20
->  RDEPENDS_${PN} +=3D "kmod dbus util-linux-mount util-linux-umount udev (=
-=3D ${EXTENDPKGV}) util-linux-agetty util-linux-fsck"
->  RDEPENDS_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty=
--generator', '', 'systemd-serialgetty', d)}"
-> -RDEPENDS_${PN} +=3D "volatile-binds update-rc.d"
-> +RDEPENDS_${PN} +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit',=
- 'update-rc.d', '', d)}"
+libdir is hardcoded to /lib which is not going to work in multilib
+scene, patch makefile to add a variable to override the libdir from env
 
-Move the dependency on update-rc.d up to the sysvinit PACKAGECONFIG.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../0001-Makefile-Add-LIBDIR-variable.patch   | 46 +++++++++++++++++++
+ meta/recipes-core/musl/libucontext_git.bb     |  3 +-
+ 2 files changed, 48 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/musl/libucontext/0001-Makefile-Add-LIBDIR-variable.patch
 
-> +RDEPENDS_${PN} +=3D "volatile-binds"
->=20
->  RRECOMMENDS_${PN} +=3D "systemd-extra-utils \
->                        systemd-compat-units udev-hwdb \
-> --
-> 2.17.1
-
-//Peter
+diff --git a/meta/recipes-core/musl/libucontext/0001-Makefile-Add-LIBDIR-variable.patch b/meta/recipes-core/musl/libucontext/0001-Makefile-Add-LIBDIR-variable.patch
+new file mode 100644
+index 0000000000..4f91c8f189
+--- /dev/null
++++ b/meta/recipes-core/musl/libucontext/0001-Makefile-Add-LIBDIR-variable.patch
+@@ -0,0 +1,46 @@
++From 9bc3cedba54708c40c4a853b240c46e69f87de3c Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Tue, 17 Mar 2020 10:04:40 -0700
++Subject: [PATCH] Makefile: Add LIBDIR variable
++
++This ensures that it can be installed into custom location and also
++
++Upstream-Status: Submitted
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Makefile | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++--- a/Makefile
+++++ b/Makefile
++@@ -1,5 +1,5 @@
++ ARCH := $(shell uname -m)
++-
+++LIBDIR := /lib
++ CFLAGS = -ggdb3 -O2 -Wall -Iarch/${ARCH}
++ 
++ LIBUCONTEXT_C_SRC = $(wildcard arch/${ARCH}/*.c)
++@@ -10,8 +10,8 @@ LIBUCONTEXT_SOVERSION = 0
++ LIBUCONTEXT_NAME = libucontext.so
++ LIBUCONTEXT_STATIC_NAME = libucontext.a
++ LIBUCONTEXT_SONAME = libucontext.so.${LIBUCONTEXT_SOVERSION}
++-LIBUCONTEXT_PATH = /lib/${LIBUCONTEXT_SONAME}
++-LIBUCONTEXT_STATIC_PATH = /lib/${LIBUCONTEXT_STATIC_NAME}
+++LIBUCONTEXT_PATH = ${LIBDIR}/${LIBUCONTEXT_SONAME}
+++LIBUCONTEXT_STATIC_PATH = ${LIBDIR}/${LIBUCONTEXT_STATIC_NAME}
++ 
++ all: ${LIBUCONTEXT_SONAME} ${LIBUCONTEXT_STATIC_NAME}
++ 
++@@ -36,9 +36,9 @@ clean:
++ 		${LIBUCONTEXT_OBJ} test_libucontext
++ 
++ install: all
++-	install -D -m755 ${LIBUCONTEXT_NAME} ${DESTDIR}/${LIBUCONTEXT_PATH}
++-	install -D -m664 ${LIBUCONTEXT_STATIC_NAME} ${DESTDIR}/${LIBUCONTEXT_STATIC_PATH}
++-	ln -sf ${LIBUCONTEXT_SONAME} ${DESTDIR}/lib/${LIBUCONTEXT_NAME}
+++	install -D -m755 ${LIBUCONTEXT_NAME} ${DESTDIR}${LIBUCONTEXT_PATH}
+++	install -D -m664 ${LIBUCONTEXT_STATIC_NAME} ${DESTDIR}${LIBUCONTEXT_STATIC_PATH}
+++	ln -sf ${LIBUCONTEXT_SONAME} ${DESTDIR}${LIBDIR}/${LIBUCONTEXT_NAME}
++ 
++ check: test_libucontext ${LIBUCONTEXT_SONAME}
++ 	env LD_LIBRARY_PATH=$(shell pwd) ./test_libucontext
+diff --git a/meta/recipes-core/musl/libucontext_git.bb b/meta/recipes-core/musl/libucontext_git.bb
+index 72e15aa9a4..92cb703b0b 100644
+--- a/meta/recipes-core/musl/libucontext_git.bb
++++ b/meta/recipes-core/musl/libucontext_git.bb
+@@ -12,6 +12,7 @@ PV = "0.1.3+${SRCPV}"
+ SRCREV = "e6b4d7516dae9b200e94fcfcb9ebc9331389655f"
+ SRC_URI = "git://code.foxkit.us/adelie/libucontext.git;protocol=https \
+            file://0001-pass-LDFLAGS-to-link-step.patch \
++           file://0001-Makefile-Add-LIBDIR-variable.patch \
+ "
+ 
+ S = "${WORKDIR}/git"
+@@ -51,7 +52,7 @@ export ARCH = "${@map_kernel_arch(d.getVar('TARGET_ARCH'), d)}"
+ 
+ CFLAGS += "-Iarch/${ARCH}"
+ 
+-EXTRA_OEMAKE = "CFLAGS='${CFLAGS}' LDFLAGS='${LDFLAGS}'"
++EXTRA_OEMAKE = "CFLAGS='${CFLAGS}' LDFLAGS='${LDFLAGS}' LIBDIR='${base_libdir}'"
+ 
+ do_compile() {
+     oe_runmake ARCH=${ARCH}
+-- 
+2.25.1
 
 
