@@ -1,52 +1,60 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
-	[209.85.219.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D44A6021A
+Return-Path: <jpuhlman@mvista.com>
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
+	[209.85.210.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CDDD60B06
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 04:39:18 +0000 (UTC)
-Received: by mail-qv1-f66.google.com with SMTP id cz10so10199857qvb.0
+	Tue, 17 Mar 2020 04:58:40 +0000 (UTC)
+Received: by mail-ot1-f48.google.com with SMTP id 66so20355709otd.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 21:39:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=JMjGL/6OAJ35oany+ZLquMM3e/3x6v4k27G5R9Okz4Y=;
-	b=T95W3lY0r6Ta1ilVXzfjmUPzRCjwNZ6eBWOc92bzPGWJy9xDAGiNiPJ1VFZWMedtHb
-	f0l95fMGK8tJpAsQl0p6QiMnmtJwj0nR9bLgSPAS2U9D4KnKts8phdQSTSbBLfOnWoWC
-	Ez3SWh1/kAozg3/wLwhxErE1jYR2FFxSJ2x8+LKRUS5Le4ek5aQRVKDKmapmRCOjJsFd
-	T1rxLxtxBN094air1H07uBI9iJ2V2dy9M1QIE6TYQ8Z1gXOsfIfGEsMdB1x/tXBp0S/m
-	iVBSxTZNBYLjHfOJNbzS/hPc3+cxLYn6u3oYvB/bqOhVU9bCA+GgXUiwaB0MamgBZhOb
-	49Cw==
+	Mon, 16 Mar 2020 21:58:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language;
+	bh=+0J+m7o3bOgpuAKG73v6CppgJv1BEotnLJbl4EgFUDg=;
+	b=HAcCiK+ojdpt8zonURM7G/G1InqxeqW3K7IyWy1v42PAJugookEHQs8+HsBZTbj5gQ
+	4maeWT3ySmMXCyDm3Pu6/yYf4UT2S57eXDYg7z5LNUYfzbj6g3KS3jd2f6PMoeJMHdlb
+	/cEVwfBa6u37RCCG/1aUjEAdo6DlXvaldTSuhSOv32/MCSdgXhv8SmVtzEXkd+IsTuEd
+	JaGXRnenZVXH5rEIMgCNh/bNc+zsH111zeTCvFuGT/0i4QRh8toJeJcO8jmFG6yAqVuU
+	ENh6v7cEBWgv/zsN151V5qOY9pQWhRpk/xIEBCa0xJKROl2rtY/qeQAnscECs3K73q8p
+	BHfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=JMjGL/6OAJ35oany+ZLquMM3e/3x6v4k27G5R9Okz4Y=;
-	b=KjIBZDrlqEej42tCv0KiO1yeKNk6xIbkZM+ROpCUYAmEL7dAdTkmUBJduSj4lE2DAM
-	xs61gv0NU1CmIbiR4VG684ETucTcOTB0k/rrB6m93UfrK3UqGvVxbD0pb4/Ph50VFnMI
-	cObHELrNTlXDfPy/x2FEsuXwfu2CqniJe7H4mcVR0Zdw+SLLZh60IGRagEBPdhxoEjE1
-	JNkBPMN/L2SBNonoWFC4xskUtVpz62Vpn0vSFhZwXHTft2VpwmXGYPIZ51FUNPBsSHfc
-	tOJhLCGzSwakdffivHY62L+DFgvVR1QXIjnqrTVcFYcsrR7z837H6FCGvPE7x6dKpVaK
-	K8FQ==
-X-Gm-Message-State: ANhLgQ0IrIlvN8oGbDkX8UoE98OelGsimS7J9c3F0+KngCjfdSRYwVrw
-	ECkWd8eWukLQmKwQm+Vrwsk=
-X-Google-Smtp-Source: ADFU+vtK9gB3ljCRCBVgEXHH5KxYGYvGq18Q0T5CJyHGFhGDsml+4E0Vw43lHuEwKBgsFtm/o+TS/A==
-X-Received: by 2002:a0c:fa03:: with SMTP id q3mr3061295qvn.228.1584419958824; 
-	Mon, 16 Mar 2020 21:39:18 -0700 (PDT)
-Received: from localhost.localdomain
-	(CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.112.240.214])
-	by smtp.gmail.com with ESMTPSA id 73sm1245498qkf.82.2020.03.16.21.39.17
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 16 Mar 2020 21:39:18 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Date: Tue, 17 Mar 2020 00:39:16 -0400
-Message-Id: <20200317043916.47514-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language;
+	bh=+0J+m7o3bOgpuAKG73v6CppgJv1BEotnLJbl4EgFUDg=;
+	b=d8ihcaCNR9qYlw6iBttIgzB/cHZUWFoQNpz1VsX40orQcHOAo045BfE8yI5J2jy7UC
+	ALeMCRwMjBJcir6yKGokRbZqjziyLrjYpzUCtrz0UZxWWjG5Mq47Y4ZHd+XZb996JWUF
+	BFES1MN2npiGt9vrm2nUN01UDGghyUklfusHrQ+70p4I8VPtCyVP5ihvKnAONMS/8Ut/
+	HWdXMbvkzYMeXtOmEfbeXsrDgr5O7JMxaXm2RjM41Q/o/ZgaIoM5pG4FhuhzyMgFMWey
+	YIAvTtYFba0rp4o0Tj6ZoyE2Aeq9M1Sz69ZECOM89H7Btk1La2HtsJdxyHunjVNV19mE
+	cC6Q==
+X-Gm-Message-State: ANhLgQ1TvPeHvsk+XOG9KcTD6bIPsVUfd5u27T6Tc8Q2HfRP/ClevYJB
+	nhIAeIPQOHYVuSsQHG/FI5Ezs7sxyTo=
+X-Google-Smtp-Source: ADFU+vutDV4r6N/B0iDeIkVqFq5LQa5y139Z2qV5dZ0vYXSMoNpTz8GhgAME4jUzil9YiYxgTnpd4g==
+X-Received: by 2002:a9d:ac5:: with SMTP id 63mr2252661otq.239.1584421120641;
+	Mon, 16 Mar 2020 21:58:40 -0700 (PDT)
+Received: from ?IPv6:2600:1700:4c90:60a0:5566:b07f:3f47:4a0e?
+	([2600:1700:4c90:60a0:5566:b07f:3f47:4a0e])
+	by smtp.gmail.com with ESMTPSA id k17sm719085oic.45.2020.03.16.21.58.39
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Mon, 16 Mar 2020 21:58:39 -0700 (PDT)
+To: "Chen, Qi" <Qi.Chen@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20200311222249.29880-1-jpuhlman@mvista.com>
+	<20200311222249.29880-2-jpuhlman@mvista.com>
+	<DM6PR11MB3498030B61816C49B946EA35EDF60@DM6PR11MB3498.namprd11.prod.outlook.com>
+	<a5332339-6281-76fd-e23e-3ee2ed762720@mvista.com>
+	<DM6PR11MB34987CF94AFA084E609D4270EDF60@DM6PR11MB3498.namprd11.prod.outlook.com>
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Message-ID: <893056b5-2095-a84e-553b-d6278adfc579@mvista.com>
+Date: Mon, 16 Mar 2020 21:58:35 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH][zeus] linux-yocto/4.19: update to v4.19.107
+In-Reply-To: <DM6PR11MB34987CF94AFA084E609D4270EDF60@DM6PR11MB3498.namprd11.prod.outlook.com>
+Subject: =?UTF-8?B?UmU6IOWbnuWkjTog5Zue5aSNOiBbUEFUQ0ggMi8yXSBnbGliLTIuMDogQ29ycmVjdCBtdWx0aWxpYiBjb25mbGljdA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,289 +67,332 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2020 04:39:18 -0000
+X-List-Received-Date: Tue, 17 Mar 2020 04:58:40 -0000
+Content-Type: multipart/alternative;
+	boundary="------------89787DF83C9D757AA50BFCAE"
+Content-Language: en-US
+
+--------------89787DF83C9D757AA50BFCAE
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Do you have ptests turned off?
+Looks like all the test checking is done in do_install rather then 
+do_install_ptest. I think I need to add a check for the existance like 
+the change above the added one.
 
-Updating linux-yocto/4.19 to the latest korg -stable release that comprises
-the following commits:
+On 3/16/2020 9:31 PM, Chen, Qi wrote:
+> MULTILIBS ?= "multilib:lib32"
+> DEFAULTTUNE_virtclass-multilib-lib32 ?= "armv7vethf"
+>
+> I think you can use these two lines to reproduce the problem with 
+> multilib enabled.
+>
+> Regards,
+> Chen Qi
+> ------------------------------------------------------------------------
+> *发件人:* Jeremy A. Puhlman <jpuhlman@mvista.com>
+> *发送时间:* 2020年3月17日 12:02
+> *收件人:* Chen, Qi <Qi.Chen@windriver.com>; 
+> openembedded-core@lists.openembedded.org 
+> <openembedded-core@lists.openembedded.org>
+> *主题:* Re: 回复: [OE-core] [PATCH 2/2] glib-2.0: Correct multilib 
+> conflict
+> Just standard x86/i585. What are you using for your mulitlib. 
+> ilp32/aarch32/arm7?
+>
+> require conf/multilib.conf
+> MULTILIBS = "multilib:lib32"
+> X86ARCH32 = "i586"
+> DEFAULTTUNE_virtclass-multilib-lib32 = "i586"
+> TARGET_ARCH_virtclass-multilib-lib32 = "i586"
+> TARGET_LD_ARCH_virtclass-multilib-lib32 = "-m elf_i386"
+> ALTBINDIR_SUFFIX_virtclass-multilib-lib32 = "32"
+>
+> What does your -e look like for the recipe that fails?
+>
+> On 3/16/2020 8:30 PM, Chen, Qi wrote:
+>> This patch is causing regression in case of qemuarm64 multilib for 
+>> me. The static-link.test file is not there, resulting the `mv' 
+>> command failure. I've sent out a patch to fix this problem, but I 
+>> don't know what's your environment. So please help review.
+>>
+>> Regards,
+>> Chen Qi
+>> ------------------------------------------------------------------------
+>> *发件人:* openembedded-core-bounces@lists.openembedded.org 
+>> <mailto:openembedded-core-bounces@lists.openembedded.org> 
+>> <openembedded-core-bounces@lists.openembedded.org> 
+>> <mailto:openembedded-core-bounces@lists.openembedded.org> 代表 Jeremy 
+>> A. Puhlman <jpuhlman@mvista.com> <mailto:jpuhlman@mvista.com>
+>> *发送时间:* 2020年3月12日 6:22
+>> *收件人:* openembedded-core@lists.openembedded.org 
+>> <mailto:openembedded-core@lists.openembedded.org> 
+>> <openembedded-core@lists.openembedded.org> 
+>> <mailto:openembedded-core@lists.openembedded.org>
+>> *主题:* [OE-core] [PATCH 2/2] glib-2.0: Correct multilib conflict
+>> From: Jeremy Puhlman <jpuhlman@mvista.com> <mailto:jpuhlman@mvista.com>
+>>
+>> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com> 
+>> <mailto:jpuhlman@mvista.com>
+>> ---
+>>  meta/recipes-core/glib-2.0/glib.inc | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/meta/recipes-core/glib-2.0/glib.inc 
+>> b/meta/recipes-core/glib-2.0/glib.inc
+>> index 23c347dbf7..edecc51fdb 100644
+>> --- a/meta/recipes-core/glib-2.0/glib.inc
+>> +++ b/meta/recipes-core/glib-2.0/glib.inc
+>> @@ -128,6 +128,9 @@ do_install_append_class-target () {
+>>                          rm 
+>> ${D}${datadir}/installed-tests/glib/gdbus-serialization.test
+>>                  fi
+>>          fi
+>> +        if test "x${MLPREFIX}" != "x"; then
+>> +                mv 
+>> ${D}${datadir}/installed-tests/glib/static-link.test 
+>> ${D}${datadir}/installed-tests/glib/${MLPREFIX}static-link.test
+>> +        fi
+>>  }
+>>
+>>  # As we do not build python3 for windows, makes no sense to ship the 
+>> script that's using it
+>> -- 
+>> 2.13.3
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org 
+>> <mailto:Openembedded-core@lists.openembedded.org>
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>> <http://www.avg.com/email-signature?utm_medium=email&utm_source=link&utm_campaign=sig-email&utm_content=emailclient> 
+>> 	Virus-free. www.avg.com 
+>> <http://www.avg.com/email-signature?utm_medium=email&utm_source=link&utm_campaign=sig-email&utm_content=emailclient> 
+>>
+>>
+>
+> -- 
+> Jeremy A. Puhlman
+> jpuhlman@mvista.com  <mailto:jpuhlman@mvista.com>
 
-    16ae5406361a crypto: CVE-2019-18808
-    a083db76118d Linux 4.19.107
-    cfc30449bbc5 Revert "char/random: silence a lockdep splat with printk()"
-    8541452acba5 s390/mm: Explicitly compare PAGE_DEFAULT_KEY against zero in storage_key_init_range
-    fee87e931cc5 xen: Enable interrupts when calling _cond_resched()
-    28a73a946a46 ata: ahci: Add shutdown to freeze hardware resources of ahci
-    43cac315bec1 rxrpc: Fix call RCU cleanup using non-bh-safe locks
-    acbc5071f073 netfilter: xt_hashlimit: limit the max size of hashtable
-    5a2972600a2f ALSA: seq: Fix concurrent access to queue current tick/time
-    b105447809b1 ALSA: seq: Avoid concurrent access to queue flags
-    63495d1e1c7c ALSA: rawmidi: Avoid bit fields for state flags
-    bf3043d27755 bpf, offload: Replace bitwise AND by logical AND in bpf_prog_offload_info_fill
-    3132696dd748 genirq/proc: Reject invalid affinity masks (again)
-    ba2c07dfa0d8 iommu/vt-d: Fix compile warning from intel-svm.h
-    c0965be4b28b ecryptfs: replace BUG_ON with error handling code
-    1bae8f424c84 staging: greybus: use after free in gb_audio_manager_remove_all()
-    568991c91849 staging: rtl8723bs: fix copy of overlapping memory
-    f8e6a3412dc6 usb: dwc2: Fix in ISOC request length checking
-    de8dbb7b02fa usb: gadget: composite: Fix bMaxPower for SuperSpeedPlus
-    1cad1a6497ec scsi: Revert "target: iscsi: Wait for all commands to finish before freeing a session"
-    c66b2b571211 scsi: Revert "RDMA/isert: Fix a recently introduced regression related to logout"
-    b046c6fec04e Revert "dmaengine: imx-sdma: Fix memory leak"
-    cd26d53a27d6 Btrfs: fix btrfs_wait_ordered_range() so that it waits for all ordered extents
-    4d886f91ca13 btrfs: do not check delayed items are empty for single transaction cleanup
-    68b7db197bf8 btrfs: reset fs_root to NULL on error in open_ctree
-    0ba8e5f347b2 btrfs: fix bytes_may_use underflow in prealloc error condtition
-    e541982a6e5f KVM: apic: avoid calculating pending eoi from an uninitialized val
-    267eec2d216d KVM: nVMX: handle nested posted interrupts when apicv is disabled for L1
-    85dd0eb771e8 KVM: nVMX: Check IO instruction VM-exit conditions
-    e5c0857bd5cc KVM: nVMX: Refactor IO bitmap checks into helper function
-    8cf20fb73e73 ext4: fix race between writepages and enabling EXT4_EXTENTS_FL
-    48fdbe2a818d ext4: rename s_journal_flag_rwsem to s_writepages_rwsem
-    b7dc081c24db ext4: fix mount failure with quota configured as module
-    50017cec3dbb ext4: fix potential race between s_flex_groups online resizing and access
-    7720966a68c8 ext4: fix potential race between s_group_info online resizing and access
-    cc9948abe47b ext4: fix potential race between online resizing and write operations
-    38884609b8b5 ext4: add cond_resched() to __ext4_find_entry()
-    9b6e90918bc0 ext4: fix a data race in EXT4_I(inode)->i_disksize
-    0e3a6e86d43b drm/nouveau/kms/gv100-: Re-set LUT after clearing for modesets
-    da3418ad747f lib/stackdepot.c: fix global out-of-bounds in stack_slabs
-    56ad5b4b7405 tty: serial: qcom_geni_serial: Fix RX cancel command failure
-    e6ebad85883d tty: serial: qcom_geni_serial: Remove xfer_mode variable
-    4e438733f727 tty: serial: qcom_geni_serial: Remove set_rfr_wm() and related variables
-    1cc8834773b2 tty: serial: qcom_geni_serial: Remove use of *_relaxed() and mb()
-    4d1a94fa6d14 tty: serial: qcom_geni_serial: Remove interrupt storm
-    0a38fd9326fd tty: serial: qcom_geni_serial: Fix UART hang
-    fe1cfc645845 KVM: x86: don't notify userspace IOAPIC on edge-triggered interrupt EOI
-    ed9e97c35b45 KVM: nVMX: Don't emulate instructions in guest mode
-    6ca274be314b xhci: apply XHCI_PME_STUCK_QUIRK to Intel Comet Lake platforms
-    8300ed5a2175 drm/amdgpu/soc15: fix xclk for raven
-    837ba4829b9f mm/vmscan.c: don't round up scan size for online memory cgroup
-    ea2a11561d01 genirq/irqdomain: Make sure all irq domain flags are distinct
-    576c04cbbef2 nvme-multipath: Fix memory leak with ana_log_buf
-    e75d2de90b86 mm/memcontrol.c: lost css_put in memcg_expand_shrinker_maps()
-    cf85f00f87db Revert "ipc,sem: remove uneeded sem_undo_list lock usage in exit_sem()"
-    af4693daff1b MAINTAINERS: Update drm/i915 bug filing URL
-    c9ca2010202b serdev: ttyport: restore client ops on deregistration
-    463a3db812d9 tty: serial: imx: setup the correct sg entry for tx dma
-    6807593e8edc tty/serial: atmel: manage shutdown in case of RS485 or ISO7816 mode
-    f4e6d51f3f40 serial: 8250: Check UPF_IRQ_SHARED in advance
-    f28ec250579c x86/cpu/amd: Enable the fixed Instructions Retired counter IRPERF
-    5e5b443ae6cc x86/mce/amd: Fix kobject lifetime
-    0a3aca3a0f41 x86/mce/amd: Publish the bank pointer only after setup has succeeded
-    4512119ac90a jbd2: fix ocfs2 corrupt when clearing block group bits
-    72e2df70fb52 powerpc/tm: Fix clearing MSR[TS] in current when reclaiming on signal delivery
-    e34182fb8a2f staging: rtl8723bs: Fix potential overuse of kernel memory
-    e4770de3ae41 staging: rtl8723bs: Fix potential security hole
-    b4eab56d96f1 staging: rtl8188eu: Fix potential overuse of kernel memory
-    2a50bd9e2a69 staging: rtl8188eu: Fix potential security hole
-    d59f6a6e35b7 usb: dwc3: gadget: Check for IOC/LST bit in TRB->ctrl fields
-    c787444891a4 usb: dwc2: Fix SET/CLEAR_FEATURE and GET_STATUS flows
-    8cfda0c9c966 USB: hub: Fix the broken detection of USB3 device in SMSC hub
-    37d2eb43b64c USB: hub: Don't record a connect-change event during reset-resume
-    babaa26b7c1c USB: Fix novation SourceControl XL after suspend
-    2debc1717cf2 usb: uas: fix a plug & unplug racing
-    4db4761cfe15 USB: quirks: blacklist duplicate ep on Sound Devices USBPre2
-    63d176ed148a USB: core: add endpoint-blacklist quirk
-    d74d5d042d42 usb: host: xhci: update event ring dequeue pointer on purpose
-    2a2582dc62e9 xhci: Fix memory leak when caching protocol extended capability PSI tables - take 2
-    7c8cde41a0c3 xhci: fix runtime pm enabling for quirky Intel hosts
-    dce60e7efa97 xhci: Force Maximum Packet size for Full-speed bulk devices to valid range.
-
-    <snip>
-
-    c7f81d70d7ae ubifs: Fix default compression selection in ubifs
-    3331e61b23b1 nvme: fix kernel paging oops
-    2f99d478ddbd xfs: require both realtime inodes to mount
-    b2d84967f076 bcache: do not mark writeback_running too early
-    6f48e23888b9 bcache: do not check if debug dentry is ERR or NULL explicitly on remove
-    c318f88411a8 rtl818x: fix potential use after free
-    7cf86c89d7e4 brcmfmac: set SDIO F1 MesBusyCtrl for CYW4373
-    38b73129c113 brcmfmac: set F2 watermark to 256 for 4373
-    6138e4b132cd mwifiex: debugfs: correct histogram spacing, formatting
-    1450ff720076 mwifiex: fix potential NULL dereference and use after free
-    4912b454e029 arm64: dts: renesas: draak: Fix CVBS input
-    48d37cc42390 crypto: user - support incremental algorithm dumps
-    43cd68d7002b s390/zcrypt: make sysfs reset attribute trigger queue reset
-    5ac0da68eae1 nvme: provide fallback for discard alloc failure
-    d702d7bc7eb4 scsi: qla2xxx: Fix for FC-NVMe discovery for NPIV port
-    78777dd6174e scsi: qla2xxx: Fix NPIV handling for FC-NVMe
-    58ab95b03497 scsi: lpfc: Enable Management features for IF_TYPE=6
-    e772949a3fd6 ACPI / LPSS: Ignore acpi_device_fix_up_power() return value
-    d411bd858447 ARM: ks8695: fix section mismatch warning
-    22227437ca68 xfs: zero length symlinks are not valid
-    4d54a7969524 PM / AVS: SmartReflex: NULL check before some freeing functions is not needed
-    d2e3e3c3c14b RDMA/vmw_pvrdma: Use atomic memory allocation in create AH
-    64694b276d74 arm64: preempt: Fix big-endian when checking preempt count in assembly
-    2ec103458855 RDMA/hns: Fix the bug while use multi-hop of pbl
-    60da6da4b511 ARM: OMAP1: fix USB configuration for device-only setups
-    0086d127f90d platform/x86: mlx-platform: Fix LED configuration
-    08d8ab9615c5 bus: ti-sysc: Check for no-reset and no-idle flags at the child level
-    4b40393b5240 arm64: smp: Handle errors reported by the firmware
-    e3d27b94111b arm64: mm: Prevent mismatched 52-bit VA support
-    57f3359cdabe ARM: dts: Fix hsi gdd range for omap4
-    9b1f6bde17d6 parisc: Fix HP SDC hpa address output
-    d18f228f504e parisc: Fix serio address output
-    72a50a1e1c65 ARM: dts: imx53-voipac-dmm-668: Fix memory node duplication
-    bf39f5b323eb ARM: dts: imx25: Fix memory node duplication
-    d2eb50e57a5c ARM: dts: imx27: Fix memory node duplication
-    54750b6f6671 ARM: dts: imx1: Fix memory node duplication
-    6aeb6bd0eda6 ARM: dts: imx23: Fix memory node duplication
-    1694780bd4ca ARM: dts: imx50: Fix memory node duplication
-    2442b4c0f30a ARM: dts: imx6sl: Fix memory node duplication
-    bae011f4c9a4 ARM: dts: imx6sx: Fix memory node duplication
-    0990926c9395 ARM: dts: imx6ul: Fix memory node duplication
-    e021f0ccc4fa ARM: dts: imx7: Fix memory node duplication
-    a90469345b26 ARM: dts: imx35: Fix memory node duplication
-    6bc1e695b4be ARM: dts: imx31: Fix memory node duplication
-    ca02e14bdd7f ARM: dts: imx53: Fix memory node duplication
-    5a1e6f95733c ARM: dts: imx51: Fix memory node duplication
-    8c0c8c2a80b2 ARM: debug-imx: only define DEBUG_IMX_UART_PORT if needed
-    dee3f7703207 tracing: Lock event_mutex before synth_event_mutex
-    67547b9b4660 ARM: dts: Fix up SQ201 flash access
-    ee6d2bedb400 scsi: lpfc: Fix dif and first burst use in write commands
-    20feb7333049 scsi: lpfc: Fix kernel Oops due to null pring pointers
-    a8c0f6334e56 scsi: target/tcmu: Fix queue_cmd_ring() declaration
-    480233f89d42 pwm: bcm-iproc: Prevent unloading the driver module while in use
-    27d22db4ccf1 block: drbd: remove a stray unlock in __drbd_send_protocol()
-    51a564498cfb mac80211: fix station inactive_time shortly after boot
-    b707e0da2791 net/fq_impl: Switch to kvmalloc() for memory allocation
-    a8a61f82cc9f ceph: return -EINVAL if given fsc mount option on kernel w/o support
-    0f716cda304b net: mscc: ocelot: fix __ocelot_rmw_ix prototype
-    a30c6e424fdd net: bcmgenet: reapply manual settings to the PHY
-    acd6a29134f0 net: bcmgenet: use RGMII loopback for MAC reset
-    ff3f7465ee98 scripts/gdb: fix debugging modules compiled with hot/cold partitioning
-    22f4892950b2 ASoC: stm32: sai: add restriction on mmap support
-    3f034e6889e7 watchdog: meson: Fix the wrong value of left time
-    7302e7b10855 can: mcp251x: mcp251x_restart_work_handler(): Fix potential force_quit race condition
-    24e10fc2e0db can: flexcan: increase error counters if skb enqueueing via can_rx_offload_queue_sorted() fails
-    ee7981538293 can: rx-offload: can_rx_offload_irq_offload_fifo(): continue on error
-    5c8f5485614c can: rx-offload: can_rx_offload_irq_offload_timestamp(): continue on error
-    eca4b786f3bb can: rx-offload: can_rx_offload_offload_one(): use ERR_PTR() to propagate error value in case of errors
-    a85ce0107d6b can: rx-offload: can_rx_offload_offload_one(): increment rx_fifo_errors on queue overflow or OOM
-    b83d4e4899d6 can: rx-offload: can_rx_offload_offload_one(): do not increase the skb_queue beyond skb_queue_len_max
-    77f94f0d7f52 can: rx-offload: can_rx_offload_queue_tail(): fix error handling, avoid skb mem leak
-    66e21b7b9251 can: c_can: D_CAN: c_can_chip_config(): perform a sofware reset on open
-    7559e68ca91f can: peak_usb: report bus recovery as well
-    c5b0bbef4367 bridge: ebtables: don't crash when using dnat target in output chains
-    2070b33ee987 net: fec: add missed clk_disable_unprepare in remove
-    28f34294442b clk: ti: clkctrl: Fix failed to enable error with double udelay timeout
-    cb5a4049608c clk: ti: dra7-atl-clock: Remove ti_clk_add_alias call
-    1677a0e54937 x86/resctrl: Prevent NULL pointer dereference when reading mondata
-    8ef58b82d1e4 idr: Fix idr_alloc_u32 on 32-bit systems
-    88358c7610cc idr: Fix integer overflow in idr_for_each_entry
-    a6359d5e2d98 powerpc/bpf: Fix tail call implementation
-    4665759af735 samples/bpf: fix build by setting HAVE_ATTR_TEST to zero
-    40c3b8fc47b3 ARM: dts: sun8i-a83t-tbs-a711: Fix WiFi resume from suspend
-    40017db20bfa clk: sunxi-ng: a80: fix the zero'ing of bits 16 and 18
-    49ade064ea4b clk: sunxi: Fix operator precedence in sunxi_divs_clk_setup
-    15fc2f3c64e7 clk: at91: avoid sleeping early
-    8885552a061b reset: fix reset_control_ops kerneldoc comment
-    a94913c0c8cf ARM: dts: imx6qdl-sabreauto: Fix storm of accelerometer interrupts
-    5b15b1bf5428 pinctrl: cherryview: Allocate IRQ chip dynamic
-    a0554203bc12 clk: samsung: exynos5420: Preserve PLL configuration during suspend/resume
-    80e28fa256c9 ASoC: kirkwood: fix device remove ordering
-    6a7472add344 ASoC: kirkwood: fix external clock probe defer
-    a2c2cf16b059 clk: samsung: exynos5433: Fix error paths
-    9a5933aa1242 reset: Fix memory leak in reset_control_array_put()
-    e8eb6233be9a ASoC: compress: fix unsigned integer overflow check
-    7971b7fd5623 ASoC: msm8916-wcd-analog: Fix RX1 selection in RDAC2 MUX
-    daa2c4030510 clocksource/drivers/mediatek: Fix error handling
-    9c65bb9518ea clk: meson: gxbb: let sar_adc_clk_div set the parent clock rate
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- .../linux/linux-yocto-rt_4.19.bb              |  6 +++---
- .../linux/linux-yocto-tiny_4.19.bb            |  8 ++++----
- meta/recipes-kernel/linux/linux-yocto_4.19.bb | 20 +++++++++----------
- 3 files changed, 17 insertions(+), 17 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-index b6e0a1e9e2..93c4472316 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-@@ -11,13 +11,13 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "2fbf678238302f33b3aec5a2cba829f260744f24"
--SRCREV_meta ?= "4f5d761316a9cf14605e5d0cc91b53c1b2e9dc6a"
-+SRCREV_machine ?= "40e34fdcb540e35b1a97e8e52c11dfe52bd68b16"
-+SRCREV_meta ?= "7cb520d405cd5ca8f21a333941fbc0861bbb36b0"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA}"
- 
--LINUX_VERSION ?= "4.19.87"
-+LINUX_VERSION ?= "4.19.107"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-index e2626ab4c9..76b2467ef5 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
-@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
- 
- require recipes-kernel/linux/linux-yocto.inc
- 
--LINUX_VERSION ?= "4.19.87"
-+LINUX_VERSION ?= "4.19.107"
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "bd239fb802a15c2759ea456dd1f09f5e106fc88a"
--SRCREV_machine ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
--SRCREV_meta ?= "4f5d761316a9cf14605e5d0cc91b53c1b2e9dc6a"
-+SRCREV_machine_qemuarm ?= "e2c947b59c650f2aa2f0f88d6af90f9dfb336e04"
-+SRCREV_machine ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
-+SRCREV_meta ?= "7cb520d405cd5ca8f21a333941fbc0861bbb36b0"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-index c6e482a984..6e3b00e0e5 100644
---- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
-@@ -11,22 +11,22 @@ KBRANCH_qemux86  ?= "v4.19/standard/base"
- KBRANCH_qemux86-64 ?= "v4.19/standard/base"
- KBRANCH_qemumips64 ?= "v4.19/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "19fa1657d1d82d01647c6f73a2bbf39305505294"
--SRCREV_machine_qemuarm64 ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
--SRCREV_machine_qemumips ?= "8fb7ab96b84852ee3d9e1d9d9e7bc35e1249b653"
--SRCREV_machine_qemuppc ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
--SRCREV_machine_qemux86 ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
--SRCREV_machine_qemux86-64 ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
--SRCREV_machine_qemumips64 ?= "c8a036abd7d469013dddab15a23e0d2dde1d0000"
--SRCREV_machine ?= "b44ad1b1e7c685e75b7788a026a2416edc2ee656"
--SRCREV_meta ?= "4f5d761316a9cf14605e5d0cc91b53c1b2e9dc6a"
-+SRCREV_machine_qemuarm ?= "c8b87f4d12eb957d8a95442a928ef4820037bb55"
-+SRCREV_machine_qemuarm64 ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
-+SRCREV_machine_qemumips ?= "94f102eaca76ffdcc3d47ea94b47486d7157c531"
-+SRCREV_machine_qemuppc ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
-+SRCREV_machine_qemux86 ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
-+SRCREV_machine_qemux86-64 ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
-+SRCREV_machine_qemumips64 ?= "98288b7e79bc8130c2a889d763c9c1aa15ff4939"
-+SRCREV_machine ?= "16ae5406361af8329b74580697cb738dadeb1ecb"
-+SRCREV_meta ?= "7cb520d405cd5ca8f21a333941fbc0861bbb36b0"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.19;destsuffix=${KMETA} \
-           "
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
--LINUX_VERSION ?= "4.19.87"
-+LINUX_VERSION ?= "4.19.107"
- 
- DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
- DEPENDS += "openssl-native util-linux-native"
 -- 
-2.19.1
+Jeremy A. Puhlman
+jpuhlman@mvista.com
 
 
+--------------89787DF83C9D757AA50BFCAE
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    Do you have ptests turned off?<br>
+    Looks like all the test checking is done in do_install rather then
+    do_install_ptest. I think I need to add a check for the existance
+    like the change above the added one.<br>
+    <br>
+    <div class="moz-cite-prefix">On 3/16/2020 9:31 PM, Chen, Qi wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:DM6PR11MB34987CF94AFA084E609D4270EDF60@DM6PR11MB3498.namprd11.prod.outlook.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <style type="text/css" style="display:none;"> P {margin-top:0;margin-bottom:0;} </style>
+      <div style="font-family: Calibri, Arial, Helvetica, sans-serif;
+        font-size: 12pt; color: rgb(0, 0, 0);">
+        <span>MULTILIBS ?= "multilib:lib32"<br>
+        </span>
+        <div>DEFAULTTUNE_virtclass-multilib-lib32 ?= "armv7vethf"</div>
+        <div><br>
+        </div>
+        <div>I think you can use these two lines to reproduce the
+          problem with multilib enabled.<br>
+        </div>
+        <span></span></div>
+      <div style="font-family: Calibri, Arial, Helvetica, sans-serif;
+        font-size: 12pt; color: rgb(0, 0, 0);">
+        <br>
+      </div>
+      <div style="font-family: Calibri, Arial, Helvetica, sans-serif;
+        font-size: 12pt; color: rgb(0, 0, 0);">
+        Regards,</div>
+      <div style="font-family: Calibri, Arial, Helvetica, sans-serif;
+        font-size: 12pt; color: rgb(0, 0, 0);">
+        Chen Qi<br>
+      </div>
+      <hr style="display:inline-block;width:98%" tabindex="-1">
+      <div id="divRplyFwdMsg" dir="ltr"><font style="font-size:11pt"
+          face="Calibri, sans-serif" color="#000000"><b>发件人:</b> Jeremy
+          A. Puhlman <a class="moz-txt-link-rfc2396E" href="mailto:jpuhlman@mvista.com">&lt;jpuhlman@mvista.com&gt;</a><br>
+          <b>发送时间:</b> 2020年3月17日 12:02<br>
+          <b>收件人:</b> Chen, Qi <a class="moz-txt-link-rfc2396E" href="mailto:Qi.Chen@windriver.com">&lt;Qi.Chen@windriver.com&gt;</a>;
+          <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org</a>
+          <a class="moz-txt-link-rfc2396E" href="mailto:openembedded-core@lists.openembedded.org">&lt;openembedded-core@lists.openembedded.org&gt;</a><br>
+          <b>主题:</b> Re: 回复: [OE-core] [PATCH 2/2] glib-2.0: Correct
+          multilib conflict</font>
+        <div> </div>
+      </div>
+      <div>Just standard x86/i585. What are you using for your mulitlib.
+        ilp32/aarch32/arm7?<br>
+        <br>
+        require conf/multilib.conf<br>
+        MULTILIBS = "multilib:lib32"<br>
+        X86ARCH32 = "i586"<br>
+        DEFAULTTUNE_virtclass-multilib-lib32 = "i586"<br>
+        TARGET_ARCH_virtclass-multilib-lib32 = "i586"<br>
+        TARGET_LD_ARCH_virtclass-multilib-lib32 = "-m elf_i386"<br>
+        ALTBINDIR_SUFFIX_virtclass-multilib-lib32 = "32"<br>
+        <br>
+        What does your -e look like for the recipe that fails?<br>
+        <br>
+        <div class="x_moz-cite-prefix">On 3/16/2020 8:30 PM, Chen, Qi
+          wrote:<br>
+        </div>
+        <blockquote type="cite">
+          <style type="text/css" style="display:none">
+<!--
+p
+	{margin-top:0;
+	margin-bottom:0}
+-->
+</style>
+          <div style="font-family:Calibri,Arial,Helvetica,sans-serif;
+            font-size:12pt; color:rgb(0,0,0)">
+            This patch is causing regression in case of qemuarm64
+            multilib for me. The static-link.test file is not there,
+            resulting the `mv' command failure. I've sent out a patch to
+            fix this problem, but I don't know what's your environment.
+            So please help review.</div>
+          <div style="font-family:Calibri,Arial,Helvetica,sans-serif;
+            font-size:12pt; color:rgb(0,0,0)">
+            <br>
+          </div>
+          <div style="font-family:Calibri,Arial,Helvetica,sans-serif;
+            font-size:12pt; color:rgb(0,0,0)">
+            Regards,</div>
+          <div style="font-family:Calibri,Arial,Helvetica,sans-serif;
+            font-size:12pt; color:rgb(0,0,0)">
+            Chen Qi<br>
+          </div>
+          <hr tabindex="-1" style="display:inline-block; width:98%">
+          <div id="x_divRplyFwdMsg" dir="ltr"><font
+              style="font-size:11pt" face="Calibri, sans-serif"
+              color="#000000"><b>发件人:</b>
+              <a class="x_moz-txt-link-abbreviated"
+                href="mailto:openembedded-core-bounces@lists.openembedded.org"
+                moz-do-not-send="true">
+                openembedded-core-bounces@lists.openembedded.org</a> <a
+                class="x_moz-txt-link-rfc2396E"
+                href="mailto:openembedded-core-bounces@lists.openembedded.org"
+                moz-do-not-send="true">
+                &lt;openembedded-core-bounces@lists.openembedded.org&gt;</a>
+              代表 Jeremy A. Puhlman <a class="x_moz-txt-link-rfc2396E"
+                href="mailto:jpuhlman@mvista.com" moz-do-not-send="true">
+                &lt;jpuhlman@mvista.com&gt;</a><br>
+              <b>发送时间:</b> 2020年3月12日 6:22<br>
+              <b>收件人:</b> <a class="x_moz-txt-link-abbreviated"
+                href="mailto:openembedded-core@lists.openembedded.org"
+                moz-do-not-send="true">
+                openembedded-core@lists.openembedded.org</a> <a
+                class="x_moz-txt-link-rfc2396E"
+                href="mailto:openembedded-core@lists.openembedded.org"
+                moz-do-not-send="true">
+                &lt;openembedded-core@lists.openembedded.org&gt;</a><br>
+              <b>主题:</b> [OE-core] [PATCH 2/2] glib-2.0: Correct
+              multilib conflict</font>
+            <div> </div>
+          </div>
+          <div class="x_BodyFragment"><font size="2"><span
+                style="font-size:11pt">
+                <div class="x_PlainText">From: Jeremy Puhlman <a
+                    class="x_moz-txt-link-rfc2396E"
+                    href="mailto:jpuhlman@mvista.com"
+                    moz-do-not-send="true">
+                    &lt;jpuhlman@mvista.com&gt;</a><br>
+                  <br>
+                  Signed-off-by: Jeremy A. Puhlman <a
+                    class="x_moz-txt-link-rfc2396E"
+                    href="mailto:jpuhlman@mvista.com"
+                    moz-do-not-send="true">
+                    &lt;jpuhlman@mvista.com&gt;</a><br>
+                  ---<br>
+                   meta/recipes-core/glib-2.0/glib.inc | 3 +++<br>
+                   1 file changed, 3 insertions(+)<br>
+                  <br>
+                  diff --git a/meta/recipes-core/glib-2.0/glib.inc
+                  b/meta/recipes-core/glib-2.0/glib.inc<br>
+                  index 23c347dbf7..edecc51fdb 100644<br>
+                  --- a/meta/recipes-core/glib-2.0/glib.inc<br>
+                  +++ b/meta/recipes-core/glib-2.0/glib.inc<br>
+                  @@ -128,6 +128,9 @@ do_install_append_class-target ()
+                  {<br>
+                                           rm
+                  ${D}${datadir}/installed-tests/glib/gdbus-serialization.test<br>
+                                   fi<br>
+                           fi<br>
+                  +        if test "x${MLPREFIX}" != "x"; then<br>
+                  +                mv
+                  ${D}${datadir}/installed-tests/glib/static-link.test
+                  ${D}${datadir}/installed-tests/glib/${MLPREFIX}static-link.test<br>
+                  +        fi<br>
+                   }<br>
+                   <br>
+                   # As we do not build python3 for windows, makes no
+                  sense to ship the script that's using it<br>
+                  -- <br>
+                  2.13.3<br>
+                  <br>
+                  -- <br>
+                  _______________________________________________<br>
+                  Openembedded-core mailing list<br>
+                  <a class="x_moz-txt-link-abbreviated"
+                    href="mailto:Openembedded-core@lists.openembedded.org"
+                    moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
+                  <a
+                    href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                    moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+                </div>
+              </span></font></div>
+          <div id="x_DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2"><br>
+            <table style="border-top:1px solid #D3D4DE">
+              <tbody>
+                <tr>
+                  <td style="width:55px; padding-top:13px"><a
+href="http://www.avg.com/email-signature?utm_medium=email&amp;utm_source=link&amp;utm_campaign=sig-email&amp;utm_content=emailclient"
+                      target="_blank" moz-do-not-send="true"><img alt=""
+                        style="width:46px; height:29px"
+src="https://ipmcdn.avast.com/images/icons/icon-envelope-tick-green-avg-v1.png"
+                        moz-do-not-send="true" width="46" height="29"></a></td>
+                  <td style="width:470px; padding-top:12px;
+                    color:#41424e; font-size:13px;
+                    font-family:Arial,Helvetica,sans-serif;
+                    line-height:18px">
+                    Virus-free. <a
+href="http://www.avg.com/email-signature?utm_medium=email&amp;utm_source=link&amp;utm_campaign=sig-email&amp;utm_content=emailclient"
+                      target="_blank" style="color:#4453ea"
+                      moz-do-not-send="true">
+                      www.avg.com</a> </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </blockquote>
+        <br>
+        <pre class="x_moz-signature" cols="72">-- 
+Jeremy A. Puhlman
+<a class="x_moz-txt-link-abbreviated" href="mailto:jpuhlman@mvista.com" moz-do-not-send="true">jpuhlman@mvista.com</a></pre>
+      </div>
+    </blockquote>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Jeremy A. Puhlman
+<a class="moz-txt-link-abbreviated" href="mailto:jpuhlman@mvista.com">jpuhlman@mvista.com</a></pre>
+  </body>
+</html>
+
+--------------89787DF83C9D757AA50BFCAE--
