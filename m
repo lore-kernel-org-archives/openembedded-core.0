@@ -1,30 +1,47 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AE6E608DC
+Return-Path: <domarys.correa@ossystems.com.br>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 9756260AE1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 09:05:43 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 02H95g59011984
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Tue, 17 Mar 2020 10:05:42 +0100
-Received: from [192.168.20.128] ([167.87.103.117])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 02H95fc4012160;
-	Tue, 17 Mar 2020 10:05:41 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20200306153234.23875-1-andrej.valek@siemens.com>
-	<fc1e74eeded8fc881df72be0623b528a7c0e6d5f.camel@linuxfoundation.org>
-	<bab60f8c-3c52-48e4-c453-db2cf1ea0542@siemens.com>
-	<df089c009e2e77be0383c6b1222cfb71095669f0.camel@linuxfoundation.org>
-From: Andrej Valek <andrej.valek@siemens.com>
-Message-ID: <ce011feb-0edc-dffb-454e-b3ffaa5a42e0@siemens.com>
-Date: Tue, 17 Mar 2020 10:05:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <df089c009e2e77be0383c6b1222cfb71095669f0.camel@linuxfoundation.org>
-Subject: Re: [PATCH 0/2] Extensible SDK improvements
+	Tue, 17 Mar 2020 12:45:14 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id d22so17239971qtn.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Mar 2020 05:45:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=3+h6auDmZpPVZ/L4xwP1juXFsKvHejo20CoGU1s1El8=;
+	b=X5QPW+EELmoMJV6x2jVxUsAAgxPnmayL/79D1tNrxAgqfNXTOxR1qaC4pZOBQb1fMM
+	oYR+0lxCECUatmBU8klNRfYWCnd9cuh2OZJo8QFHdMfA6BPeKOekIViLVDQHbyQA8iBm
+	71up+f+QV22oH/6uP6YSP7F95WxknllJtU/5RRXJrWqq2NS+ix+gAduV2uYOvr/IxF80
+	Z+mzayY9/Lsks8GrsyeFs9+LIIhENq1eCpkT9vUii6QWNQBJbDvF1Sg+4NZ9lPzP9jTA
+	cgd8wz1dITe6TvldS3m9l6cTfCierc29zLtRBQHARf6V7z2zZRmJ8MTBKh+t1TKo6dMs
+	mPLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=3+h6auDmZpPVZ/L4xwP1juXFsKvHejo20CoGU1s1El8=;
+	b=JVv1YcYGcm5Ofiap34o1swKjcwqgsSWX5d2Ml4JFP5WchDQsWL9J7wOgzolFfs3caN
+	ZJUYgKy3PtiOKZIGb2Jyt+AjjMufCIFcd/g1RrUYKiNqQb4BjAGwDsSswOgPmEGmdNou
+	ZgekstrOnkJaLuHPJm+6ftIeSV/dHVZsCN3S82t24kyiAutK/ztQhnXrBmdGeUws40AO
+	Oy1UkYO2m64Uf4FXruVl9GQAQfwR5GzjDKgP9M6sq6+u9PMivClsRXDE1mQdRJ/lwyRK
+	LE2PO0XUeczjKKs24CRmfNP5c+wgK3QzzXfRma/hxS2ybe0VWX1m5FWjlHrhrzNEFPVx
+	dRtg==
+X-Gm-Message-State: ANhLgQ3ZDaMTW1d3p5g5rqwSHZGSheNlnpQ4rKf4KhhLCCtCCVk7UIO4
+	ZhdAW1JRiovQXQ7KxTdnIUKO3Va0Wxw=
+X-Google-Smtp-Source: ADFU+vsZn/7p1CuRGGDZ+iFOeIWCjBxQKa0/0WdlKHKwwYsC10z/Wnw7HauZVa2ADAXpu210fPoYgw==
+X-Received: by 2002:ac8:545a:: with SMTP id d26mr5176634qtq.238.1584449115193; 
+	Tue, 17 Mar 2020 05:45:15 -0700 (PDT)
+Received: from Monster.lab.ossystems ([181.220.114.167])
+	by smtp.gmail.com with ESMTPSA id 18sm1819021qkk.84.2020.03.17.05.45.13
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 17 Mar 2020 05:45:14 -0700 (PDT)
+From: Domarys Correa <domarys.correa@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Mar 2020 09:44:54 -0300
+Message-Id: <20200317124454.12732-1-domarys.correa@ossystems.com.br>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] cmake: Update 3.16.1 -> 3.16.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,127 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2020 09:05:44 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Mar 2020 12:45:14 -0000
 
-Hello Richard,
+Signed-off-by: Domarys Correa <domarys.correa@ossystems.com.br>
+---
+ .../cmake/{cmake-native_3.16.1.bb => cmake-native_3.16.5.bb}  | 0
+ meta/recipes-devtools/cmake/cmake.inc                         | 4 ++--
+ .../cmake/{cmake_3.16.1.bb => cmake_3.16.5.bb}                | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.16.1.bb => cmake-native_3.16.5.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.16.1.bb => cmake_3.16.5.bb} (100%)
 
-Thank you for taking care of it. I didn't know, that is possible to use
-"functions" in d.getVar case. Yes, I have tested it. And yes, what you
-have mentioned is working, as we were expecting.
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.16.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.16.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.16.1.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.16.5.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 9d14c14b54..09949b566c 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -22,7 +22,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+ "
+ 
+-SRC_URI[md5sum] = "142cf11cd9a7c298cf875604cee96434"
+-SRC_URI[sha256sum] = "a275b3168fa8626eca4465da7bb159ff07c8c6cb0fb7179be59e12cbdfa725fd"
++SRC_URI[md5sum] = "d86ccaf3d2462b6b5947919abe5b9f15"
++SRC_URI[sha256sum] = "5f760b50b8ecc9c0c37135fae5fbf00a2fef617059aa9d61c1bb91653e5a8bfc"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/cmake/cmake_3.16.1.bb b/meta/recipes-devtools/cmake/cmake_3.16.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.16.1.bb
+rename to meta/recipes-devtools/cmake/cmake_3.16.5.bb
+-- 
+2.17.1
 
-I will rather use my mechanism to just fill a list with variables. Then
-I don't need to take a care, if there are fully expanded it or not.
-
-So we can keep like it is.
-
-But, yes, a small improvement for someone else could be, that we will
-put a "False" there, but not for me.
-
-Regards,
-Andrej
-
-On 2020-03-16 14:07, Richard Purdie wrote:
-> Hi Andrej,
-> 
-> On Mon, 2020-03-09 at 09:05 +0100, Andrej Valek wrote:
->> I can try to explain it in some examples.
->>
->> I would like to add some extra (dynamic) variables into local.conf in
->> eSDK mode. I have found, that there are 2 possibilities (in
->> populate_sdk_ext.bbclass) sdk-extra.conf and sdk_extraconf.
->>
->> - sdk-extra.conf
->>  - You have to have handle own function to write into sdk-extra.conf. 
->> I
->> think, this is not the right way for me.
->> - sdk_extraconf
->>  - This variable is fine, but there are some restrictions. There is
->> no
->> easy way to add multiple variables including values.
->>
->> I would like to have:
->> aaa = "valueA"
->> bbb = "valueB"
->> in local.conf file.
->>
->> 1. sdk_extraconf = 'aaa = "valueA"\nbbb = "valueB"'
->>  - this will write aaa = "valueA"\nbbb = "valueB"
->> 2. python copy_buildsystem_prepend() {
->>   d.setVar('sdk_extraconf','aaa = "valueA"\nbbb = "valueB"')
->> }
->>  - This will write exactly, what you want, but you have to have an
->> copy_buildsystem_prepend and mentioned all variables with values
->> defined in your class/recipe.
-> 
-> Why do you have to set this in a copy_buildsystem_prepend ? Shouldn't
-> setting the variable in your distro config or class or somewhere else
-> work?
-> 
->> 3. sdk_extraconf = "# My notes about local.conf"
->>  - Yes, you can write some string into local.conf with this way.
-> 
-> I suspect you can also do:
-> 
-> sdk_extraconf () {
-> # My notes about local.conf
-> aaa = "valueA"
-> bbb = "valueB"
-> }
-> 
-> or something like that, I admit I've not tested it though.
-> 
->> So I have founded an way, how to add multiple variables without
->> explicitly specifying their values.
->>
->> # format variables for sdk_extraconf
->> def write_sdk_vars(d):
->>   return '\n' + '\n'.join([var + ' = "' + d.getVar(var) + '"' for var
->> in
->> d.getVar('SDK_EXTRACONF_VARS').split()])
->>
->> SDK_EXTRACONF_VARS = "aaa bbb"
->> sdk_extraconf_append = " ${@write_sdk_vars(d)}"
->>
->> It will do exactly what I want, but this way is little bit nasty. So
->> I have created a more complex solution for community usage.
->> I think, this patch adds more functionality also for other projects.
->> They can add only variables into list and the class will handle all
->> the
->> rest.
-> 
-> I do see the problem with expansion. I suspect the code in
-> populate_sdk_ext should be:
-> 
-> extraconf = (d.getVar('sdk_extraconf', False) or '').strip()
-> instead of:
-> extraconf = (d.getVar('sdk_extraconf') or '').strip()
-> 
-> so that variables can be used as part of the expressions. It may be our
-> change to the defaults for getVar messed this up, or it may be we just
-> didn't correctly predict this problem.
-> 
->> Is it enough for the explanation?
-> 
-> It helps, yes, thanks. What I don't want to do is add multiple
-> confusing mechanisms which do approximately the same thing slightly
-> differently. I'd much prefer one mechanism most people can use.
-> 
-> As such the original proposal still concerns me. I'd prefer to tweak
-> one of the existing ones (even merge them!) rather than add a third
-> slightly different one.
-> 
-> I do also still think some (but not all) of what you're describing
-> should be in your distro/classes rather than local.conf.
-> 
-> Is there a way we can improve the current code rather than adding more
-> options. Would the expansion change be enough?
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
 
