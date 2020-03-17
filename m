@@ -1,46 +1,30 @@
-Return-Path: <3yXhwXgMKAHYqUeaiiafY.Wig@flex--wak.bounces.google.com>
-Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com
-	[209.85.216.73])
-	by mail.openembedded.org (Postfix) with ESMTP id DC60360C3E
+Return-Path: <andrej.valek@siemens.com>
+Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AE6E608DC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 07:14:16 +0000 (UTC)
-Received: by mail-pj1-f73.google.com with SMTP id v8so9943303pju.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 00:14:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
-	h=date:message-id:mime-version:subject:from:to:cc;
-	bh=bzuv8OY4mwOVfw4omrAybDp0yz1CjELi9MCdk80vFVg=;
-	b=ofTMeVPvU6gkuHoXGbZlhP+2/40ITgTQOyihmLxN2Z63JEeJ3aOCT3A70VEBSFsZcN
-	F5hbSCZmag+P79v+SDKkLB5S9FPvN/0U165FtbTpcvcPIxBwm/D6oIjlZ5HQeb9EnT8T
-	mgBvGW3qXPbQ0syPpZHF+hP/Xa+V7XKfmTnTXMOKFeJYx9ylcgpZHP4eiQ9bvkRLB9Fq
-	kiwKrCG8rxhk8WJ0epL5BwEicUKbLcvOB9g0b1RBF+K8eNZbSM4YTKUtgA/SkHLFDL1N
-	DRMxocadjgYTYbMFrJndis95ekFAXsEQMxMtyGGkGP2QLjjpNYQ2X9m+etfK1wzVzXpA
-	jEYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-	bh=bzuv8OY4mwOVfw4omrAybDp0yz1CjELi9MCdk80vFVg=;
-	b=s3UhfHiSSFTMPrdhFwdTjs/rB9H5V+ME5mDzmqwRd+KpijJSywrvxqIFpgHBKcPU6T
-	4uDVWP4OwODgRQh4f4nYLE+Toh4GD4viy2aAJMOEiblfH8BecFFe7pRTiH59opESWTp5
-	blEbzaTl/LYWic7pdyD3TE2l+TdmximO+dqX7/JnOefBBHWO9Woj+his2/4S1iC4XRlM
-	O1vUhFjO7Fz+7mAOwGlX3oMfoEqgku4Ut56Z7sBLd+a16HnCaAKyTI+z9pVSYpbCjG3i
-	i1x8pOgaBBURIMrJuYgtcPkQiljydrDXpryEKtTpskQ0axVk1YutncRIhGdu8bD5Dumo
-	SwDA==
-X-Gm-Message-State: ANhLgQ3PQ8EYP44L2WYG1Fg0OEVsmkCkLDDuThuhiamY1MsmbtdvycTq
-	3asvNZ63C8EHGGUIrs8hyf+Eg1m33tOzKOn9OV4/l18ZGyUMIDHu6UDeBeX5lfcV5t3da39AQuP
-	8XYSrMR+69Xc3CFrHWHMVnC9xoiD6TAAh3HRjw7E5MTq+RGHCIKbZ4D90dBE9RZ/+1E9Fq4nEFd
-	zuYg==
-X-Google-Smtp-Source: ADFU+vuiueV7yQiHDm0DVDLvNDSHVZVtWO+X9ZnkAxn7BGeFfHlyhNvGhRJyyKQPE+Kpz+DoIVpGkuk=
-X-Received: by 2002:a17:90a:357:: with SMTP id
-	23mr3888198pjf.192.1584429257703; 
-	Tue, 17 Mar 2020 00:14:17 -0700 (PDT)
-Date: Tue, 17 Mar 2020 00:14:10 -0700
-Message-Id: <20200317071410.136012-1-wak@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.25.0
-From: "William A. Kennington III" <wak@google.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] meson: upgrade 0.53.1 -> 0.53.2
+	Tue, 17 Mar 2020 09:05:43 +0000 (UTC)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id 02H95g59011984
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Tue, 17 Mar 2020 10:05:42 +0100
+Received: from [192.168.20.128] ([167.87.103.117])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 02H95fc4012160;
+	Tue, 17 Mar 2020 10:05:41 +0100
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20200306153234.23875-1-andrej.valek@siemens.com>
+	<fc1e74eeded8fc881df72be0623b528a7c0e6d5f.camel@linuxfoundation.org>
+	<bab60f8c-3c52-48e4-c453-db2cf1ea0542@siemens.com>
+	<df089c009e2e77be0383c6b1222cfb71095669f0.camel@linuxfoundation.org>
+From: Andrej Valek <andrej.valek@siemens.com>
+Message-ID: <ce011feb-0edc-dffb-454e-b3ffaa5a42e0@siemens.com>
+Date: Tue, 17 Mar 2020 10:05:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <df089c009e2e77be0383c6b1222cfb71095669f0.camel@linuxfoundation.org>
+Subject: Re: [PATCH 0/2] Extensible SDK improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,42 +37,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2020 07:14:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 17 Mar 2020 09:05:44 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: William A. Kennington III <wak@google.com>
----
- meta/recipes-devtools/meson/meson.inc                         | 4 ++--
- .../meson/{meson_0.53.1.bb => meson_0.53.2.bb}                | 0
- .../{nativesdk-meson_0.53.1.bb => nativesdk-meson_0.53.2.bb}  | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/meson/{meson_0.53.1.bb => meson_0.53.2.bb} (100%)
- rename meta/recipes-devtools/meson/{nativesdk-meson_0.53.1.bb => nativesdk-meson_0.53.2.bb} (100%)
+Hello Richard,
 
-diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
-index d391c9cf29..50fb41ac98 100644
---- a/meta/recipes-devtools/meson/meson.inc
-+++ b/meta/recipes-devtools/meson/meson.inc
-@@ -17,8 +17,8 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
-            file://0001-mesonbuild-environment.py-check-environment-for-vari.patch \
-            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
-            "
--SRC_URI[sha256sum] = "ec1ba33eea701baca2c1607dac458152dc8323364a51fdef6babda2623413b04"
--SRC_URI[md5sum] = "9bf73f7b5a2426a7c8674a809bb8cae2"
-+SRC_URI[sha256sum] = "3e8f830f33184397c2eb0b651ec502adb63decb28978bdc84b3558d71284c21f"
-+SRC_URI[md5sum] = "80303535995fcae72bdb887df102b421"
- 
- SRC_URI_append_class-native = " \
-     file://0001-Make-CPU-family-warnings-fatal.patch \
-diff --git a/meta/recipes-devtools/meson/meson_0.53.1.bb b/meta/recipes-devtools/meson/meson_0.53.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/meson/meson_0.53.1.bb
-rename to meta/recipes-devtools/meson/meson_0.53.2.bb
-diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.53.1.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.53.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/meson/nativesdk-meson_0.53.1.bb
-rename to meta/recipes-devtools/meson/nativesdk-meson_0.53.2.bb
--- 
-2.25.0
+Thank you for taking care of it. I didn't know, that is possible to use
+"functions" in d.getVar case. Yes, I have tested it. And yes, what you
+have mentioned is working, as we were expecting.
 
+I will rather use my mechanism to just fill a list with variables. Then
+I don't need to take a care, if there are fully expanded it or not.
+
+So we can keep like it is.
+
+But, yes, a small improvement for someone else could be, that we will
+put a "False" there, but not for me.
+
+Regards,
+Andrej
+
+On 2020-03-16 14:07, Richard Purdie wrote:
+> Hi Andrej,
+> 
+> On Mon, 2020-03-09 at 09:05 +0100, Andrej Valek wrote:
+>> I can try to explain it in some examples.
+>>
+>> I would like to add some extra (dynamic) variables into local.conf in
+>> eSDK mode. I have found, that there are 2 possibilities (in
+>> populate_sdk_ext.bbclass) sdk-extra.conf and sdk_extraconf.
+>>
+>> - sdk-extra.conf
+>>  - You have to have handle own function to write into sdk-extra.conf. 
+>> I
+>> think, this is not the right way for me.
+>> - sdk_extraconf
+>>  - This variable is fine, but there are some restrictions. There is
+>> no
+>> easy way to add multiple variables including values.
+>>
+>> I would like to have:
+>> aaa = "valueA"
+>> bbb = "valueB"
+>> in local.conf file.
+>>
+>> 1. sdk_extraconf = 'aaa = "valueA"\nbbb = "valueB"'
+>>  - this will write aaa = "valueA"\nbbb = "valueB"
+>> 2. python copy_buildsystem_prepend() {
+>>   d.setVar('sdk_extraconf','aaa = "valueA"\nbbb = "valueB"')
+>> }
+>>  - This will write exactly, what you want, but you have to have an
+>> copy_buildsystem_prepend and mentioned all variables with values
+>> defined in your class/recipe.
+> 
+> Why do you have to set this in a copy_buildsystem_prepend ? Shouldn't
+> setting the variable in your distro config or class or somewhere else
+> work?
+> 
+>> 3. sdk_extraconf = "# My notes about local.conf"
+>>  - Yes, you can write some string into local.conf with this way.
+> 
+> I suspect you can also do:
+> 
+> sdk_extraconf () {
+> # My notes about local.conf
+> aaa = "valueA"
+> bbb = "valueB"
+> }
+> 
+> or something like that, I admit I've not tested it though.
+> 
+>> So I have founded an way, how to add multiple variables without
+>> explicitly specifying their values.
+>>
+>> # format variables for sdk_extraconf
+>> def write_sdk_vars(d):
+>>   return '\n' + '\n'.join([var + ' = "' + d.getVar(var) + '"' for var
+>> in
+>> d.getVar('SDK_EXTRACONF_VARS').split()])
+>>
+>> SDK_EXTRACONF_VARS = "aaa bbb"
+>> sdk_extraconf_append = " ${@write_sdk_vars(d)}"
+>>
+>> It will do exactly what I want, but this way is little bit nasty. So
+>> I have created a more complex solution for community usage.
+>> I think, this patch adds more functionality also for other projects.
+>> They can add only variables into list and the class will handle all
+>> the
+>> rest.
+> 
+> I do see the problem with expansion. I suspect the code in
+> populate_sdk_ext should be:
+> 
+> extraconf = (d.getVar('sdk_extraconf', False) or '').strip()
+> instead of:
+> extraconf = (d.getVar('sdk_extraconf') or '').strip()
+> 
+> so that variables can be used as part of the expressions. It may be our
+> change to the defaults for getVar messed this up, or it may be we just
+> didn't correctly predict this problem.
+> 
+>> Is it enough for the explanation?
+> 
+> It helps, yes, thanks. What I don't want to do is add multiple
+> confusing mechanisms which do approximately the same thing slightly
+> differently. I'd much prefer one mechanism most people can use.
+> 
+> As such the original proposal still concerns me. I'd prefer to tweak
+> one of the existing ones (even merge them!) rather than add a third
+> slightly different one.
+> 
+> I do also still think some (but not all) of what you're describing
+> should be in your distro/classes rather than local.conf.
+> 
+> Is there a way we can improve the current code rather than adding more
+> options. Would the expansion change be enough?
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
 
