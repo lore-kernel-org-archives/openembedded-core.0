@@ -1,35 +1,35 @@
 Return-Path: <wangmy@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 9CBAA60BC9
+	by mail.openembedded.org (Postfix) with ESMTP id 6E2B860C16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 01:43:06 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,562,1574092800"; d="scan'208";a="86435154"
+	Tue, 17 Mar 2020 01:43:38 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,562,1574092800"; d="scan'208";a="86435199"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 17 Mar 2020 09:43:07 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id F080950A996F
+	by heian.cn.fujitsu.com with ESMTP; 17 Mar 2020 09:43:39 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 2347350A9967
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 09:33:00 +0800 (CST)
+	Tue, 17 Mar 2020 09:33:36 +0800 (CST)
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP
-	Server (TLS) id 15.0.1497.2; Tue, 17 Mar 2020 09:42:55 +0800
+	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP
+	Server (TLS) id 15.0.1497.2; Tue, 17 Mar 2020 09:43:36 +0800
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Tue, 17 Mar 2020 09:43:04 +0800
+	Server (TLS) id 14.3.439.0; Tue, 17 Mar 2020 09:43:45 +0800
 From: Wang Mingyu <wangmy@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 17 Mar 2020 00:16:49 -0700
-Message-ID: <1584429410-1890-2-git-send-email-wangmy@cn.fujitsu.com>
+Date: Tue, 17 Mar 2020 00:16:50 -0700
+Message-ID: <1584429410-1890-3-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1584429410-1890-1-git-send-email-wangmy@cn.fujitsu.com>
 References: <1584429410-1890-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: F080950A996F.A29DA
+X-yoursite-MailScanner-ID: 2347350A9967.AFA74
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] gtk+3: upgrade 3.24.13 -> 3.24.14
+Subject: [PATCH] stress-ng: upgrade 0.11.01 -> 0.11.02
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2020 01:43:07 -0000
+X-List-Received-Date: Tue, 17 Mar 2020 01:43:39 -0000
 Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../recipes-gnome/gtk+/{gtk+3_3.24.13.bb => gtk+3_3.24.14.bb} | 4 ++--
+ .../stress-ng/{stress-ng_0.11.01.bb => stress-ng_0.11.02.bb}  | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gtk+/{gtk+3_3.24.13.bb => gtk+3_3.24.14.bb} (85%)
+ rename meta/recipes-extended/stress-ng/{stress-ng_0.11.01.bb => stress-ng_0.11.02.bb} (83%)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.13.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.14.bb
-similarity index 85%
-rename from meta/recipes-gnome/gtk+/gtk+3_3.24.13.bb
-rename to meta/recipes-gnome/gtk+/gtk+3_3.24.14.bb
-index 025d8870e2..ab1f87c22e 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.24.13.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.14.bb
-@@ -9,8 +9,8 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
-            file://link_fribidi.patch \
-            file://sort-resources.patch \
-           "
--SRC_URI[md5sum] = "f65515e7bfa2199bd2188e871d69c686"
--SRC_URI[sha256sum] = "4c775c38cf1e3c534ef0ca52ca6c7a890fe169981af66141c713e054e68930a9"
-+SRC_URI[md5sum] = "62e39212fa0a84016a3392a9d291faf8"
-+SRC_URI[sha256sum] = "1c4d69f93ab884fd80c6b95115bfbc12d51ecd029178b6dad3672fdc5ff91e88"
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.11.01.bb b/meta/recipes-extended/stress-ng/stress-ng_0.11.02.bb
+similarity index 83%
+rename from meta/recipes-extended/stress-ng/stress-ng_0.11.01.bb
+rename to meta/recipes-extended/stress-ng/stress-ng_0.11.02.bb
+index 3486be1b03..e79ee49e24 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.11.01.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.11.02.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+            "
+-SRC_URI[md5sum] = "a558fc7fb9d0a851afe6de09080b5401"
+-SRC_URI[sha256sum] = "9fe19548c87aa1a1b9b2be3b359ec2621b88bcb16998b77527549a7736f65494"
++SRC_URI[md5sum] = "a353287968818f7181eae9a90ddc4f25"
++SRC_URI[sha256sum] = "ad1a6fca8f90f67a4364aa6ff0c406995960dc4f8689e9d5289fc083e1d8986f"
  
- S = "${WORKDIR}/gtk+-${PV}"
+ DEPENDS = "coreutils-native"
  
 -- 
 2.17.1
