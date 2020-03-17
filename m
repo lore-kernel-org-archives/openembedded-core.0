@@ -1,51 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AD01760CA9
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 828EA60207
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 22:20:42 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id m15so10531729pgv.12
+	Tue, 17 Mar 2020 01:42:52 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,562,1574092800"; d="scan'208";a="86435142"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 17 Mar 2020 09:42:48 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id CC50150A9983
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Mar 2020 15:20:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=6L82qHe+E29T9PAgVGWc4jnSP+RkyFplJkqKOMRXlik=;
-	b=LdzG6HcIv0sWyAxl/9mRvvHY9wTt+icLhaQeaJPcBHb3uGHC9PSXMC0506EgqpgBPp
-	BDqXjyyZC96hoz1CHhj/ggeZcMPaa2Y5pIl5Cz7b3+ijaFA7xYBOVGA1eHAJTlVjhW8E
-	DifqYjstvW675Z6da5emmnskbDKhELUoLPtajbwbV+tsRqeOXl2X/OpkFuHxf62II9Lx
-	MGSMZ9wuQ+gao19nN9z35hQqWzbQVnvP6dfl9BS98nFn00OS6v7BydmiYr4RHTHw6yEd
-	DK+bpc91KVyGuU1/4WyxbgQZQoQutIx8dvZZrm3cgf6P7xn4ndFOU1ilgljl54BnqQQe
-	XWuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=6L82qHe+E29T9PAgVGWc4jnSP+RkyFplJkqKOMRXlik=;
-	b=WKMqFM2xbbi1QWm+90gS5WBu+cGai180pjY89ijrdEmXu0i6owQms8Hk9+ZXapI93/
-	249+QL1JU4lyqql6CKLIi/S/01b21YKGjR/UMk4SoGvk0HVJf26DwZMeb0+dFE6r8nWY
-	dnh0ylj6f8n2UjEVKuaMoOnamYX55ADb1d9OcIDha4q0fYfeFmYq5qeDFBaUYx3Wc4DX
-	+AzFRTaPxTmAv7gUW7FWyAnWtty/PKPdI6lx5J7TGgnMaCZXf2B/aQXJNSUemjaHwSS8
-	o3qliv4gOstZfeVHyT+dyFgGsPGkgByegSzFgUGvvghTSO/h4OMWoLAHufJXSNiQDtG1
-	qoiw==
-X-Gm-Message-State: ANhLgQ0AL2dN1tEcQPJMnXDPvKQk/Sjks+NaVO53CtUPMOa4p5R/fRIM
-	hCcYBAaoaHhHvPoaMJsTRHOWfSZIro4=
-X-Google-Smtp-Source: ADFU+vuzaTaUdlaxFB/yudosfAigKeCpXiHw/xXWgUZsoF0gS5e/2IRxVZSln7woyTNmG4i706ezNg==
-X-Received: by 2002:a62:1b05:: with SMTP id b5mr1816942pfb.281.1584397243243; 
-	Mon, 16 Mar 2020 15:20:43 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::593])
-	by smtp.gmail.com with ESMTPSA id
-	w128sm464722pgb.55.2020.03.16.15.20.42
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 16 Mar 2020 15:20:42 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Mar 2020 15:20:56 -0700
-Message-Id: <20200316222056.2674295-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.1
+	Tue, 17 Mar 2020 09:32:43 +0800 (CST)
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
+	Server (TLS) id 15.0.1497.2; Tue, 17 Mar 2020 09:42:25 +0800
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Tue, 17 Mar 2020 09:42:33 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 17 Mar 2020 00:16:48 -0700
+Message-ID: <1584429410-1890-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Cc: Ross Burton <ross.burton@intel.com>
-Subject: [PATCH] gcc-target: Use --with-arch=native for target gcc
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: CC50150A9983.A2794
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2] base-passwd: LICENSE changed to GPLv2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +40,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Mar 2020 22:20:42 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 17 Mar 2020 01:42:54 -0000
+Content-Type: text/plain
 
-This should help gcc detect and use target ISA on x86_64 machines when
--march is not used on cmdline
+The source code such as update-passwd.c states the license to be under
+GPL v2 only and does not contain the "or later" clause so correct the
+recipe LICENSE field to match.
 
-[YOCTO #139]
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- meta/recipes-devtools/gcc/gcc-target.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/base-passwd/base-passwd_3.5.29.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-index 7cf819272f..aa274bb936 100644
---- a/meta/recipes-devtools/gcc/gcc-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-target.inc
-@@ -19,6 +19,7 @@ EXTRA_OECONF_append_armv6 = " --with-arch=armv6${ARMFPARCHEXT}"
- EXTRA_OECONF_append_armv7a = " --with-arch=armv7-a${ARMFPARCHEXT}"
- EXTRA_OECONF_append_armv7ve = " --with-arch=armv7ve${ARMFPARCHEXT}"
- EXTRA_OECONF_append_arc = " --with-cpu=${TUNE_PKGARCH}"
-+EXTRA_OECONF_append_x86-64 = " --with-arch=native"
+diff --git a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+index d1aab09181..d01cd7e297 100644
+--- a/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
++++ b/meta/recipes-core/base-passwd/base-passwd_3.5.29.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Base system master password/group files"
+ DESCRIPTION = "The master copies of the user database files (/etc/passwd and /etc/group).  The update-passwd tool is also provided to keep the system databases synchronized with these master files."
+ SECTION = "base"
+-LICENSE = "GPLv2+"
++LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb723b61539feef013de476e68b5c50a"
  
- # libcc1 requres gcc_cv_objdump when cross build, but gcc_cv_objdump is
- # set in subdir gcc, so subdir libcc1 can't use it, export it here to
+ RECIPE_NO_UPDATE_REASON = "Version 3.5.38 requires cdebconf for update-passwd utility"
 -- 
-2.25.1
+2.17.1
+
+
 
 
