@@ -1,24 +1,49 @@
-Return-Path: <Daniel.Dragomir@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 525666027D
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C41D360223
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2020 14:52:37 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02IEqHJ3005206
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Wed, 18 Mar 2020 17:18:32 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id h131so25835888iof.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2020 07:52:28 -0700
-Received: from otp-ps-s1.wrs.com (128.224.124.60) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.487.0;
-	Wed, 18 Mar 2020 07:51:49 -0700
-From: Daniel Dragomir <Daniel.Dragomir@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Mar 2020 16:42:35 +0000
-Message-ID: <20200318164235.65997-1-Daniel.Dragomir@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Wed, 18 Mar 2020 10:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=GttJW6nbOdJRfCjAt/887bIoZP5JiprpoTZ6WecP2rE=;
+	b=IX2n3r71c7Tnot5Pkj1IjfOKW7Q3SpYON0pJ2aTTlN0DEbvu3FuSAsxeCV8ZMvFO4C
+	QXyfXhxBqAVuG0OK3RmitvF5Og0a/trwKFGp2FNzxG7dycmA5Fl9X3ts2fHCzgqUe/os
+	ObB7AmHdTcaZujfYuEiMx4XroOS0dvy3/LCeNyuOKj99V+STcaG8e0Ws7ePxYPoIVYCj
+	VAA7UfnjrJ++AfBZqFWNcgrRu3Jqycn7SfCQKmNArK6PnIuhtCFaeiXZBDBADvVowaeH
+	pDvhZ8zN6K1OBC+mpKSbdR9OICpW+XGe9YM/HyHAo0/bkmbLZnsXZJ3FTPOiQa9Bh/hq
+	vAMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=GttJW6nbOdJRfCjAt/887bIoZP5JiprpoTZ6WecP2rE=;
+	b=TdbiH5ljEGPaaImrJpx1LWBfKMph7AKF0lN9Kc93qbOe8QeGb42+y3hxoyjxS0Wb+l
+	HgAI9HQnPxYPTKWj1q6aknkXa1bdjGX2JZevAI127QRhJOVJp5lDKfMSTvqg7FGI2T/s
+	tjk+owWqM71vs7MV8xJBXNN4I+ceFyjYWKQa9tkIzP6Ul8RGBVftrQowuxJ12GfjWthW
+	WqtUJR/2ECIN6Awgfcj0fibJcH+VHxLHx9w+jSP192tQZw/8rjVYHovaysNuKRmAmJSj
+	8CQ2WiSdngus5GSgQNMMsNvK4i/ZvSJqZi+xYDRaN8pdP7yofsfsMOcxBmfZVOHrEwD9
+	4mBA==
+X-Gm-Message-State: ANhLgQ1zBzQ/Sp7Jgcw+6/pxqnAeah37wqlEtV/+YTlNUy+QnZxxdN6I
+	NKxU1XIuVKAWRBOTddAp5iaz5/dopzsS5qZes5D/GSLk
+X-Google-Smtp-Source: ADFU+vvwNCPU3Txw19vJdpkpbV0xJz62kTajyEC+0jBIG6olT0joHA/NCkc9rxndxtNnkOrTzYdT0zcB0KYvetBhlDU=
+X-Received: by 2002:a02:a78c:: with SMTP id e12mr5505529jaj.42.1584551913486; 
+	Wed, 18 Mar 2020 10:18:33 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] lttng-modules: update to 2.11.2
+References: <20200317152303.4600-1-alex.kiernan@gmail.com>
+	<20200317152303.4600-2-alex.kiernan@gmail.com>
+	<CAP9ODKoAXWCgREiSr2xRkGNNvEEwtz6Mzhqx0gK+0mQu6a+kFw@mail.gmail.com>
+In-Reply-To: <CAP9ODKoAXWCgREiSr2xRkGNNvEEwtz6Mzhqx0gK+0mQu6a+kFw@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Wed, 18 Mar 2020 17:18:22 +0000
+Message-ID: <CAO5Uq5Q9_KUQ7ccoZHj8yHp+naDcJTWiHWdu684Rvj+_=FmHzg@mail.gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 01/11] systemd: Package udev rules explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,72 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2020 14:52:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Mar 2020 17:18:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Upgrade to version 2.11.2 in order to fix some build errors
-with latest 5.4 kernel.
+On Wed, Mar 18, 2020 at 3:02 AM Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
+>
+> On Tue, Mar 17, 2020 at 12:29 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> > udev is packaged before systemd so any wildcard inclusions in FILES will
+> > override later specifics. List all udev rules explicitly so that the
+> > systemd specific rules, packaged alongside systemd, appear in the
+> > correct package.
+> >
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+>
+> I believe udev ought to be on PACKAGE_BEFORE_PN so it is still handled
+> with the wildcard and allow for easier maintenance in future.
+>
 
-- conflicting types for 'trace_fast_page_fault'
-Reproductible on kernel greater than v5.4.19, starting with commit
-8a1cd01bee ("KVM: x86: Use gpa_t for cr2/gpa to fix TDP support on
-32-bit KVM")
+It's done with an =+ at the moment, replacing it with
+PACKAGE_BEFORE_PN would certainly make it clearer (and avoid holes
+where dev/dbg stuff could leak through). But I don't think that helps
+with the greedy wildcard problem - we have:
 
-Error messages:
-lttng-modules-2.11.1/probes/../probes/lttng-tracepoint-event-impl.h:130:6:
-error:
-  130 | void trace_##_name(_proto);
-tmp/work-shared/axxiax86-64/kernel-source/include/linux/tracepoint.h:233:21:
-note: previous definition of 'trace_fast_page_fault' was here
-  233 |  static inline void trace_##name(proto)
+FILES_udev += "...
+               ${rootlibexecdir}/udev/rules.d/*.rules \
 
-- conflicting types for 'trace_rcu_dyntick'
-Reproductible on kernel greater than v5.4.22, starting with commit
-6cf539a87a ("rcu: Fix data-race due to atomic_t copy-by-value")
+and
 
-Error messages:
-lttng-modules-2.11.1/probes/../probes/lttng-tracepoint-event-impl.h:130:6:
-error: conflicting types for 'trace_rcu_dyntick'
-  130 | void trace_##_name
-tmp/work-shared/axxiax86-64/kernel-source/include/linux/tracepoint.h:233:21:
-note: previous definition of 'trace_rcu_dyntick' was here
-  233 |  static inline void trace_##name(proto)
+FILES_${PN} = " ...
+                ${nonarch_base_libdir}/udev/rules.d/70-uaccess.rules \
+                ${nonarch_base_libdir}/udev/rules.d/71-seat.rules \
+                ${nonarch_base_libdir}/udev/rules.d/73-seat-late.rules \
+                ${nonarch_base_libdir}/udev/rules.d/99-systemd.rules \
 
-Signed-off-by: Daniel Dragomir <Daniel.Dragomir@windriver.com>
----
- .../{lttng-modules_2.11.1.bb => lttng-modules_2.11.2.bb}  | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.11.1.bb => lttng-modules_2.11.2.bb} (86%)
+Where the FILES_udev consumes all the rules before ${PN} gets a look
+in, unless there's some magic I'm overlooking?
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb b/meta/recipes-kernel/lttng/lttng-modules_2.11.2.bb
-similarity index 86%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.11.2.bb
-index c833ff7009..6fff096a37 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.11.2.bb
-@@ -13,8 +13,8 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-            "
- 
--SRC_URI[md5sum] = "0d964723c8765b39835e5e6efc60a604"
--SRC_URI[sha256sum] = "d3e5648937e59dee983ef844f9316c55e9961f9dc8515b9260c473bbb70696c1"
-+SRC_URI[md5sum] = "2e3bc8cfb264fa13f374618b46f170e7"
-+SRC_URI[sha256sum] = "8a42240813b8fd1d001835cd6f5ec687f7d7f3b26070d4e21604c35a51a6441d"
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
- 
-@@ -37,7 +37,7 @@ SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.1
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-            "
--SRCREV_class-devupstream = "6ad0e68b43c3e52fcb3d47c4d823a7b84aeb443a"
--PV_class-devupstream = "2.11.1+git${SRCPV}"
-+SRCREV_class-devupstream = "17c413953603f063f2a9d6c3788bec914ce6f955"
-+PV_class-devupstream = "2.11.2+git${SRCPV}"
- S_class-devupstream = "${WORKDIR}/git"
- SRCREV_FORMAT ?= "lttng_git"
--- 
-2.17.1
+The inconsistent path usage wants fixing too... I'd not noticed that before!
 
+--
+Alex Kiernan
 
