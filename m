@@ -1,33 +1,36 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 40822605A3
+Return-Path: <mike.looijmans@topic.nl>
+X-Greylist: delayed 543 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 18 Mar 2020 12:32:01 UTC
+Received: from jax4mhfb01.myregisteredsite.com
+	(jax4mhfb01.myregisteredsite.com [64.69.218.94])
+	by mail.openembedded.org (Postfix) with ESMTP id 76C7E60B1E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2020 11:46:30 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CFF7DE017EE; Wed, 18 Mar 2020 04:46:31 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1DBE7E018C9
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2020 04:46:02 -0700 (PDT)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id 0DB80440001
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2020 04:46:02 -0700 (PDT)
-MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
+	Wed, 18 Mar 2020 12:32:01 +0000 (UTC)
+Received: from jax4mhob04.myregisteredsite.com
+	(jax4mhob04.myregisteredsite.com [64.69.218.84])
+	by jax4mhfb01.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	02ICN0TE010208 for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Mar 2020 08:23:00 -0400
+Received: from mailpod.hostingplatform.com
+	(atl4qobmail03pod0.registeredsite.com [10.30.71.205])
+	by jax4mhob04.myregisteredsite.com (8.14.4/8.14.4) with ESMTP id
+	02ICMAte025467
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=FAIL) for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Mar 2020 08:22:10 -0400
+Received: (qmail 15215 invoked by uid 0); 18 Mar 2020 12:22:10 -0000
+X-TCPREMOTEIP: 83.128.90.119
+X-Authenticated-UID: mike@milosoftware.com
+Received: from unknown (HELO phenom.domain?not?set.invalid)
+	(mike@milosoftware.com@83.128.90.119)
+	by 0 with ESMTPA; 18 Mar 2020 12:22:10 -0000
+From: Mike Looijmans <mike.looijmans@topic.nl>
 To: openembedded-core@lists.openembedded.org
-Message-Id: <20200318114602.0DB80440001@auh.yoctoproject.org>
-Date: Wed, 18 Mar 2020 04:46:02 -0700 (PDT)
-Subject: [AUH] Upgrade status: 2020-03-18
+Date: Wed, 18 Mar 2020 13:21:56 +0100
+Message-Id: <20200318122156.23599-1-mike.looijmans@topic.nl>
+X-Mailer: git-send-email 2.17.1
+Cc: Mike Looijmans <mike.looijmans@topic.nl>
+Subject: [PATCH] classes/populate_sdk_base: Implement xz compression options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,162 +43,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2020 11:46:31 -0000
-Content-Type: multipart/mixed; boundary="===============4894313185212622355=="
+X-List-Received-Date: Wed, 18 Mar 2020 12:32:01 -0000
 
---===============4894313185212622355==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Building an SDK on a machine with 8GB RAM resulted in excessive swapping
+due to the xz compressor using ~20GB of memory. This is because xz is
+being called with "-T 0 -9".
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZChkb19jb21waWxlKTogMjMK
-ICAgICAgICBycGNzdmMtcHJvdG8sIDEuNC4xLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29t
-PgogICAgICAgIGdjciwgMy4zNi4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
-YWlsLmNvbT4KICAgICAgICB2dWxrYW4tdG9vbHMsIDEuMi4xMzEuMSwgQW51aiBNaXR0YWwgPGFu
-dWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICB4a2V5Ym9hcmQtY29uZmlnLCAyLjI5LCBBcm1p
-biBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIGFsc2EtdXRpbHMsIDEuMi4y
-LCBUYW51IEthc2tpbmVuIDx0YW51a0Bpa2kuZmk+CiAgICAgICAgbGliY2FwLCAyLjMzLCBZaSBa
-aGFvIDx5aS56aGFvQHdpbmRyaXZlci5jb20+CiAgICAgICAgYXZhaGktdWksIDAuOCwgWWkgWmhh
-byA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIGNvbm5tYW4sIDEuMzgsIENoYW5naHll
-b2sgQmFlIDxjaGFuZ2h5ZW9rLmJhZUBnbWFpbC5jb20+CiAgICAgICAgbGlibm90aWZ5LCAwLjcu
-OSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICB2dGUsIDAuNjAu
-MCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBlcGlwaGFueSwg
-My4zNi4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAg
-ICB3cGViYWNrZW5kLWZkbywgMS42LjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5A
-Z21haWwuY29tPgogICAgICAgIGdsaWItbmV0d29ya2luZywgMi42NC4wLCBBbnVqIE1pdHRhbCA8
-YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHZ1bGthbi1kZW1vcywgZ2l0LW5ldy1jb21t
-aXRzLWF2YWlsYWJsZSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAg
-ICBnaXQsIDIuMjUuMSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAg
-ICAgICAgY21ha2UsIDMuMTYuNSwgUGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNoQHNpZW1lbnMuY29t
-PgogICAgICAgIGF2YWhpLCAwLjgsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAg
-ICAgICBwdWxzZWF1ZGlvLCAxMy45OS4xLCBUYW51IEthc2tpbmVuIDx0YW51a0Bpa2kuZmk+CiAg
-ICAgICAgZGlmZm9zY29wZSwgMTM3LCBKb3NodWEgV2F0dCA8SlBFV2hhY2tlckBnbWFpbC5jb20+
-CiAgICAgICAgbGlieGNyeXB0LCA0LjQuMTUsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+
-CiAgICAgICAgdnVsa2FuLWxvYWRlciwgMS4yLjEzMS4yLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0
-YWxAaW50ZWwuY29tPgogICAgICAgIGNsdXR0ZXItMS4wLCAxLjI2LjQsIFJvc3MgQnVydG9uIDxy
-b3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgZ3B0ZmRpc2ssIDEuMC41LCBBbGV4YW5kZXIg
-S2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICogU3VjY2VlZGVkOiA0NgogICAg
-ICAgIGJsdWV6NSwgNS41NCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAg
-ICAgICBnc2V0dGluZ3MtZGVza3RvcC1zY2hlbWFzLCAzLjM2LjAsIEFudWogTWl0dGFsIDxhbnVq
-Lm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgcHl0aG9uMy1zZXR1cHRvb2xzLCA0Ni4wLjAsIE9s
-ZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAg
-ICAgICBtZXNvbiwgMC41My4yLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWls
-LmNvbT4KICAgICAgICBweXRob24zLXB5Y2Fpcm8sIDEuMTkuMSwgT2xla3NhbmRyIEtyYXZjaHVr
-IDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIHB5dGhvbjMtc3Vi
-dW5pdCwgMS40LjAsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWty
-YXZjaHVrLmNvbT4KICAgICAgICBhc2NpaWRvYywgOC42LjEwLCBZaSBaaGFvIDx5aS56aGFvQHdp
-bmRyaXZlci5jb20+CiAgICAgICAgbHR0bmctdXN0LCAyLjExLjEsIFJpY2hhcmQgUHVyZGllIDxy
-aWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgogICAgICAgIHB5dGhvbjMtcHlnb2Jq
-ZWN0LCAzLjM2LjAsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWty
-YXZjaHVrLmNvbT4KICAgICAgICBweXRob24zLXRlc3R0b29scywgMi40LjAsIE9sZWtzYW5kciBL
-cmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBsaWJz
-b3VwLTIuNCwgMi43MC4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAg
-ICAgIGd0ayszLCAzLjI0LjE0LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgog
-ICAgICAgIGVkLCAxLjE2LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
-bT4KICAgICAgICBiaXNvbiwgMy41LjMsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4K
-ICAgICAgICBsaWJkYXp6bGUsIDMuMzYuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZp
-bkBnbWFpbC5jb20+CiAgICAgICAgcHV6emxlcywgMC4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwg
-QW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBod2xhdGRldGVjdCwg
-MS43LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBs
-aWJ4Y3J5cHQtY29tcGF0LCA0LjQuMTUsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAg
-ICAgICAgbGlicmVwbywgMS4xMS4zLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
-YWlsLmNvbT4KICAgICAgICBwaWdsaXQsIDEuMC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvc3Mg
-QnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgbGlid3BlLCAxLjYuMCwgQWxl
-eGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAga21vZCwgMjcs
-IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICB2dWxrYW4taGVhZGVycywg
-MS4yLjEzMS4xLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHB5
-dGhvbjMtcHlnbWVudHMsIDIuNi4xLCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291cmNlQG9s
-ZWtzYW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgZHBrZywgMS4yMC4wLCBBbsOtYmFsIExpbcOz
-biA8bGltb24uYW5pYmFsQGdtYWlsLmNvbT4KICAgICAgICBhbHNhLXBsdWdpbnMsIDEuMi4yLCBU
-YW51IEthc2tpbmVuIDx0YW51a0Bpa2kuZmk+CiAgICAgICAgcHl0aG9uMy1zbW1hcCwgMy4wLjEs
-IE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4K
-ICAgICAgICBweXRob24zLWdpdCwgMy4xLjAsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3Vy
-Y2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBhdC1zcGkyLWNvcmUsIDIuMzYuMCwg
-VGltIE9ybGluZyA8dGltb3RoeS50Lm9ybGluZ0BsaW51eC5pbnRlbC5jb20+CiAgICAgICAgbGli
-c29sdiwgMC43LjExLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAg
-IGxpYmljYWwsIDMuMC44LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAg
-ICAgIGNvZ2wtMS4wLCAxLjIyLjYsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+
-CiAgICAgICAgc3VkbywgMS44LjMxcDEsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4K
-ICAgICAgICBkdGMsIDEuNi4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWls
-LmNvbT4KICAgICAgICBjcmVhdGVyZXBvLWMsIDAuMTUuOSwgQWxleGFuZGVyIEthbmF2aW4gPGFs
-ZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgbGlic2VjcmV0LCAwLjIwLjIsIEFsZXhhbmRl
-ciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIG1hbi1kYiwgMi45LjEs
-IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBhbHNhLXRvb2xz
-LCAxLjIuMiwgVGFudSBLYXNraW5lbiA8dGFudWtAaWtpLmZpPgogICAgICAgIHB5dGhvbjMtbWFr
-bywgMS4xLjIsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZj
-aHVrLmNvbT4KICAgICAgICBsaWJpbnB1dCwgMS4xNS4zLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0
-b25AaW50ZWwuY29tPgogICAgICAgIGF0LXNwaTItYXRrLCAyLjM0LjIsIFRpbSBPcmxpbmcgPHRp
-bW90aHkudC5vcmxpbmdAbGludXguaW50ZWwuY29tPgogICAgICAgIGx0dG5nLW1vZHVsZXMsIDIu
-MTEuMiwgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+
-CiAgICAgICAgdmFsYSwgMC40OC4xLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
-YWlsLmNvbT4KICAgICAgICBzdHJlc3MtbmcsIDAuMTEuMDIsIEFudWogTWl0dGFsIDxhbnVqLm1p
-dHRhbEBpbnRlbC5jb20+CiAgICAgICAgZG5mLCA0LjIuMTksIEFsZXhhbmRlciBLYW5hdmluIDxh
-bGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGFkd2FpdGEtaWNvbi10aGVtZSwgMy4zNi4w
-LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgKiBGYWlsZWQgKGRldnRv
-b2wgZXJyb3IpOiAyOAogICAgICAgIGxpYmRuZiwgMC40NS4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8
-YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBlMmZzcHJvZ3MsIDEuNDUuNSwgUm9iZXJ0
-IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgYWxzYS10b3BvbG9neS1j
-b25mLCAxLjIuMiwgVGFudSBLYXNraW5lbiA8dGFudWtAaWtpLmZpPgogICAgICAgIGdsaWItMi4w
-LCAyLjY0LjEsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgcnBt
-LCA0LjE1LjEsIE1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT4KICAgICAgICBi
-aW5kLCA5LjE2LjAsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAg
-bGlieGNiLCAxLjE0LCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAg
-IGNvcmV1dGlscywgOC4zMiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAg
-IGljdSwgNjYuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAg
-ICAgICAgbGliZXZkZXYsIDEuOS4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29t
-PgogICAgICAgIGFwdCwgMi4wLjAsIEFuw61iYWwgTGltw7NuIDxsaW1vbi5hbmliYWxAZ21haWwu
-Y29tPgogICAgICAgIGZyaWJpZGksIDEuMC45LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50
-ZWwuY29tPgogICAgICAgIGFsc2EtbGliLCAxLjIuMiwgVGFudSBLYXNraW5lbiA8dGFudWtAaWtp
-LmZpPgogICAgICAgIGFsc2EtdWNtLWNvbmYsIDEuMi4yLCBUYW51IEthc2tpbmVuIDx0YW51a0Bp
-a2kuZmk+CiAgICAgICAgcHl0aG9uMy1naXRkYiwgNC4wLjIsIE9sZWtzYW5kciBLcmF2Y2h1ayA8
-b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICB3ZWJraXRndGssIDIu
-MjguMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAg
-Z2hvc3RzY3JpcHQsIDkuNTEsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4K
-ICAgICAgICBtYywgNC44LjI0LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgog
-ICAgICAgIHhjYi1wcm90bywgMS4xNCwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNv
-bT4KICAgICAgICBrbXNjdWJlLCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBDYXJsb3MgUmFm
-YWVsIEdpYW5pIDxkdkBwc2V1ZG90ZXJtaW5hbC5vcmc+CiAgICAgICAgc3lzdGVtZC1ib290LCAy
-NDUsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBydC10ZXN0cywgMS43
-LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBsb2dy
-b3RhdGUsIDMuMTYuMCwgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIHB5
-dGhvbjMtbnVtcHksIDEuMTguMSwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBvbGVr
-c2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIGdvYmplY3QtaW50cm9zcGVjdGlvbiwgMS42NC4w
-LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBidWls
-ZC1jb21wYXJlLCAyMDE5LjA4LjE0LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUGF1bCBFZ2dsZXRv
-biA8cGF1bC5lZ2dsZXRvbkBsaW51eC5pbnRlbC5jb20+CiAgICAgICAgb3ZtZiwgZWRrMi1zdGFi
-bGUyMDIwMDIsIFJpY2FyZG8gTmVyaSA8cmljYXJkby5uZXJpLWNhbGRlcm9uQGxpbnV4LmludGVs
-LmNvbT4KICAgICAgICBwZXJsLCA1LjMwLjIsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2
-aW5AZ21haWwuY29tPgoKICAgIFRPVEFMOiBhdHRlbXB0ZWQ9OTcgc3VjY2VlZGVkPTQ2KDQ3LjQy
-JSkgZmFpbGVkPTUxKDUyLjU4JSkKClJlY2lwZSB1cGdyYWRlIHN0YXRpc3RpY3MgcGVyIE1haW50
-YWluZXI6CgogICAgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbjogYXR0ZW1wdGVkPTIx
-IHN1Y2NlZWRlZD0xMSg1Mi4zOCUpIGZhaWxlZD0xMCg0Ny42MiUpCiAgICBSb3NzIEJ1cnRvbiA8
-cm9zcy5idXJ0b246IGF0dGVtcHRlZD0xMCBzdWNjZWVkZWQ9Nig2MC4wMCUpIGZhaWxlZD00KDQw
-LjAwJSkKICAgIFRhbnUgS2Fza2luZW4gPHRhbnVrOiBhdHRlbXB0ZWQ9NyBzdWNjZWVkZWQ9Migy
-OC41NyUpIGZhaWxlZD01KDcxLjQzJSkKICAgIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3Vy
-Y2U6IGF0dGVtcHRlZD0xMSBzdWNjZWVkZWQ9OSg4MS44MiUpIGZhaWxlZD0yKDE4LjE4JSkKICAg
-IEFybWluIEt1c3RlciA8YWt1c3RlcjgwODogYXR0ZW1wdGVkPTQgc3VjY2VlZGVkPTAoMC4wMCUp
-IGZhaWxlZD00KDEwMC4wMCUpCiAgICBNYXJrIEhhdGxlIDxtYXJrLmhhdGxlOiBhdHRlbXB0ZWQ9
-MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIENoYW5naHllb2sgQmFl
-IDxjaGFuZ2h5ZW9rLmJhZTogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0x
-KDEwMC4wMCUpCiAgICBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsOiBhdHRlbXB0ZWQ9MiBz
-dWNjZWVkZWQ9MSg1MC4wMCUpIGZhaWxlZD0xKDUwLjAwJSkKICAgIFJvYmVydCBZYW5nIDxsaWV6
-aGkueWFuZzogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUp
-CiAgICBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdjogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4w
-MCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBSaWNhcmRvIE5lcmkgPHJpY2FyZG8ubmVyaS1jYWxk
-ZXJvbjogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAg
-ICBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWw6IGF0dGVtcHRlZD0xNCBzdWNjZWVkZWQ9Nyg1MC4w
-MCUpIGZhaWxlZD03KDUwLjAwJSkKICAgIFlpIFpoYW8gPHlpLnpoYW86IGF0dGVtcHRlZD01IHN1
-Y2NlZWRlZD0xKDIwLjAwJSkgZmFpbGVkPTQoODAuMDAlKQogICAgSG9uZ3h1IEppYSA8aG9uZ3h1
-LmppYTogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTEoNTAuMDAlKSBmYWlsZWQ9MSg1MC4wMCUpCiAg
-ICBLaGVtIFJhaiA8cmFqLmtoZW06IGF0dGVtcHRlZD0zIHN1Y2NlZWRlZD0xKDMzLjMzJSkgZmFp
-bGVkPTIoNjYuNjclKQogICAgUGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNoOiBhdHRlbXB0ZWQ9MSBz
-dWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIENoZW4gUWkgPFFpLkNoZW46
-IGF0dGVtcHRlZD01IHN1Y2NlZWRlZD0zKDYwLjAwJSkgZmFpbGVkPTIoNDAuMDAlKQogICAgVGlt
-IE9ybGluZyA8dGltb3RoeS50Lm9ybGluZzogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTIoMTAwLjAw
-JSkgZmFpbGVkPTAoMC4wMCUpCiAgICBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xldG9uOiBhdHRl
-bXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFJpY2hhcmQg
-UHVyZGllIDxyaWNoYXJkLnB1cmRpZTogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTIoMTAwLjAwJSkg
-ZmFpbGVkPTAoMC4wMCUpCiAgICBKb3NodWEgV2F0dCA8SlBFV2hhY2tlcjogYXR0ZW1wdGVkPTEg
-c3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCg==
+To allow tuning the compression versus memory usage, introduce a variable
+named SDK_XZ_OPTIONS that defaults to a more sane default:
+SDK_XZ_OPTIONS ?= "${XZ_DEFAULTS} ${XZ_COMPRESSION_LEVEL}"
+Thus, inherit any XZ tuning already done, and allow users to specify
+overrides for this task in their config by supplying SDK_XZ_OPTIONS.
+Since XZ_COMPRESSION_LEVEL defaults to -9 this does not change the standard
+behavior.
 
---===============4894313185212622355==--
+Signed-off-by: Mike Looijmans <mike.looijmans@topic.nl>
+---
+ meta/classes/populate_sdk_base.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index d03465b6fc..13247e42e5 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -48,6 +48,7 @@ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
+ 
+ # Default archived SDK's suffix
+ SDK_ARCHIVE_TYPE ?= "tar.xz"
++SDK_XZ_OPTIONS ?= "${XZ_DEFAULTS} ${XZ_COMPRESSION_LEVEL}"
+ 
+ # To support different sdk type according to SDK_ARCHIVE_TYPE, now support zip and tar.xz
+ python () {
+@@ -58,7 +59,7 @@ python () {
+        d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip -r ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
+     else:
+        d.setVar('SDK_ARCHIVE_DEPENDS', 'xz-native')
+-       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz -T 0 -9 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
++       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz ${SDK_XZ_OPTIONS} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
+ }
+ 
+ SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+-- 
+2.17.1
+
+
