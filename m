@@ -1,62 +1,62 @@
 Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id BBB8560ADF
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A05060AE1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2020 03:08:29 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id h14so36462488qke.5
+	Wed, 18 Mar 2020 03:12:31 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id u25so36489669qkk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 20:08:31 -0700 (PDT)
+	Tue, 17 Mar 2020 20:12:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc; bh=FY4y6lOQhIxj+//kgwD0iWnJEizslavlkVftRprS9No=;
-	b=JOdRUoMXX9v3Db7ddAekDlc0GjM99dr7udKdtGUbRh6k/sc9YoCz4sOxUXcbH3erbI
-	M9EeLoEW5qlks4ssKp6Dk9KgJNFqkWWFloyr7hVnJGZCMEk16wiTn1f/XOZsLqTq12DQ
-	u6OLQ7trHjEQOj/cz9rGZ5E9mEp5D/Mq3tGci67nFAsOZoHOuRZlqr8NJJAjvhCegP5N
-	FuIuMWl9WdUZ6epd83Vp8UhodzPK315VncwFB7gdhGNmZkUT7HPIkA/mCjE8vv0ZKD04
-	pnMsgNXeiWjHowZFJaO0+q8DcT/nElK4sYiHIdzyGVyYaokoG4tqbJXaTUT8c8BuCuzt
-	Vbjg==
+	:cc; bh=O+EdPWLgF2khGMgcALsX8fi9IZ3UnOTCYhYUoww8Ak8=;
+	b=xqjLGdLXNPOcqa/Csv9ChGGLBQ3/sOk5QeixBQnad6E5cg1p+ig/RqNO5zpxIAmZQy
+	b5Zmiv5Y8c4sDd0wuz88AyYCBfQnwOAnJ4vc6VdW97J1TOtidiht4/YcI1NZvhVLwogU
+	bokcL0yALuK/x0mQ8a4dZC34OJs0Qng7k7Kra4crv9hGQopsSYLtfVQb1YEMJgcjvkiQ
+	+8b1WxQaoPSz7p3Zujph6BpISS07/jvSVcLakgGtU3RU27j0vAvBduFe920Xz1xyx/UW
+	+GwwuLUWhxfwE/iZ0UDwQym3WIUxONwhI6TQeRjXsi86eZaxwrm4rMrI9dT5VlOzaCi4
+	NCmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
 	:message-id:subject:to:cc;
-	bh=FY4y6lOQhIxj+//kgwD0iWnJEizslavlkVftRprS9No=;
-	b=Mvyl+vZ7sjyGsKnQ63psBYf/a67mBMLZRUml0yu8lwOIcCNlA3Qjh+ulC8pKEjEqqH
-	bj1ka2K64riqwfXSu9AhZwUFswe7gC30TpFI7rvewTCPa4tLf+qONzvX+IrzbndXF4NB
-	t5dWvJv0pVzp+MZD1Q4v/8vFy1pZLf+m3GbHJeozs1CU82DdPmou4zrLKzURQi8sfw3y
-	YV4qZA5gBRxOdPdXn0ysH+s0i4X81+ak2t7zVF14RabreSI49oiYfNcyottjdZri47ox
-	1VyeYEyUiG9HY++FW6QlDWPa2eKSGITWZhe/hAqEShdHd7zlL845AO5eCJh6jMLUOYQY
-	HdHg==
-X-Gm-Message-State: ANhLgQ2uDh8DorMZOzbcix6L9zTcYt82/X94tSi1QMYwq9UvJnEWvgt8
-	RL2/n7gWN9c0C9k+vaZ9Im0s6R0Cov3Umg==
-X-Google-Smtp-Source: ADFU+vuyehT0NBL2Q2o/42skIAwJZtCvDXefZBhDJlAfZm//qgzK0qvvM1IbceQqTDHsh/rTWgd/qg==
-X-Received: by 2002:a37:27cd:: with SMTP id n196mr2175488qkn.144.1584500910418;
-	Tue, 17 Mar 2020 20:08:30 -0700 (PDT)
-Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com.
-	[209.85.222.177])
-	by smtp.gmail.com with ESMTPSA id x6sm3303836qke.43.2020.03.17.20.08.29
+	bh=O+EdPWLgF2khGMgcALsX8fi9IZ3UnOTCYhYUoww8Ak8=;
+	b=Sr4dqTrT0LZicEhd+IrN3FjHW3zVm6D1o8eDVggWwuyU55S3qKaqN97NF6Y6r16Yw+
+	AzIWS69p+G9K6d2QEzaSP/kGgOuPxZQaSleghg9r4fKuALJRfsDz1KXjIP7iRk+ZyiUQ
+	Q6FjV4+ql6fySmzhY/PLqVeIyzT39PWFPdl13qao1FoP/gbXFwGAjQSCRlWndJQLNKJb
+	bZCBpOYImPtsrDVPmdL52+0TCOSTKmueHqBY+E5IcjsH7Jmv17T9onzLVsnV3e2gVzmI
+	t4tUMti3+PoMbSoDlf5hZh4KXlTL/SdHAnltmQ3qI5WB09JWYPeCT+PpB4Wh0PbQY+WW
+	oq/Q==
+X-Gm-Message-State: ANhLgQ2L1Hon+SQTQb5J8nobyvozWFRC15XwQCL9MBsHBJxtazoSFweb
+	6zwX9L1RfqbpWUof4ScvjydvR3Bqym0BMA==
+X-Google-Smtp-Source: ADFU+vv3YBuMii0RtGrG/1TcA/BMkby180vtuVTDFzA48kvwr/a4mS8eE1lD+KeqiUzPRVApQ0YR/w==
+X-Received: by 2002:ae9:edc4:: with SMTP id c187mr2086827qkg.369.1584501151837;
+	Tue, 17 Mar 2020 20:12:31 -0700 (PDT)
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com.
+	[209.85.219.53])
+	by smtp.gmail.com with ESMTPSA id m19sm3311285qkk.1.2020.03.17.20.12.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Tue, 17 Mar 2020 20:08:29 -0700 (PDT)
+	Tue, 17 Mar 2020 20:12:31 -0700 (PDT)
 From: Otavio Salvador <otavio.salvador@ossystems.com.br>
 X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f177.google.com with SMTP id q17so11793650qki.0
+Received: by mail-qv1-f53.google.com with SMTP id c28so12142120qvb.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 20:08:29 -0700 (PDT)
-X-Received: by 2002:a37:9542:: with SMTP id x63mr2171127qkd.82.1584500909362; 
-	Tue, 17 Mar 2020 20:08:29 -0700 (PDT)
+	Tue, 17 Mar 2020 20:12:31 -0700 (PDT)
+X-Received: by 2002:a0c:ed34:: with SMTP id u20mr2243578qvq.226.1584501150706; 
+	Tue, 17 Mar 2020 20:12:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200317152303.4600-1-alex.kiernan@gmail.com>
-	<20200317152303.4600-11-alex.kiernan@gmail.com>
-In-Reply-To: <20200317152303.4600-11-alex.kiernan@gmail.com>
-Date: Wed, 18 Mar 2020 00:08:17 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKq=hbFLaYb-tr0CUkZmm0poEv5-0Edwtsz7T+aZaSyVnA@mail.gmail.com>
-Message-ID: <CAP9ODKq=hbFLaYb-tr0CUkZmm0poEv5-0Edwtsz7T+aZaSyVnA@mail.gmail.com>
+	<20200317152303.4600-9-alex.kiernan@gmail.com>
+In-Reply-To: <20200317152303.4600-9-alex.kiernan@gmail.com>
+Date: Wed, 18 Mar 2020 00:12:19 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoH5vfgAzF3hsH90qWAymd_o7J5BGZrfCpBSsM4e59v5w@mail.gmail.com>
+Message-ID: <CAP9ODKoH5vfgAzF3hsH90qWAymd_o7J5BGZrfCpBSsM4e59v5w@mail.gmail.com>
 To: Alex Kiernan <alex.kiernan@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC PATCH 10/11] systemd: Enable audit based on DISTRO_FEATURES
+Subject: Re: [RFC PATCH 08/11] systemd: upgrade v244.3 -> v245
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,16 +69,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2020 03:08:30 -0000
+X-List-Received-Date: Wed, 18 Mar 2020 03:12:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 On Tue, Mar 17, 2020 at 12:30 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
 >
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> Refresh patches for v245, enable userdb by default. Update musl patches
+> for additional missing stdlib headers. Add musl patch to avoid gshadow.
 
-Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+Please move this commit as the latest one for multiple reasons:
 
-
+- all previous patches are fixes
+- most could eventually be backported
+- they could be merged earlier while the upgrade is under test
 
 -- 
 Otavio Salvador                             O.S. Systems
