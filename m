@@ -1,55 +1,64 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 885AD60579
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1078860B2E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2020 21:31:56 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id r7so3291022wmg.0
+	Wed, 18 Mar 2020 23:18:15 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id f28so211300qkk.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2020 14:31:57 -0700 (PDT)
+	Wed, 18 Mar 2020 16:18:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=a4qTvRcOhNIMu8kF5qLFbwdw+eQfulNb8ehkCgzBTV0=;
-	b=U9hBMCZtxwIKAvIZOCeGG5Rpn3Hlxs0GD8ONWknsncchlJMVQA7bFISkmpyc9KA0SN
-	q2S3izEvSPcQQyriW/kiaACsZS9yFuDcnOjANvBdxhV2U0K6MoF3oLl0ZuT6VmSYVGmi
-	hc1PxnBsMSehFcxKVCphI8Bxtflytce9EYSI8=
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=gbAkvUNITxsra+YNy+bLii011mdSiUVxjEvzFcAvn58=;
+	b=wr19EhjRBmQo5KOUG4ztLF2SG9Wotvyq6tPpKMFcN8dnUM1a7kg9h9i0GXQEuSP53L
+	O8rrp+R5/19DKqFu6VaA/bvkL5Fcj9uZwskGjtERFgberzEj2bAHHfn9g+GSqj2e7yzN
+	3TJmob8Mt9quq04rtgQtkbY2Ku3kCOnZXIc03BPEfbxNKiNCAZJw6QYVKRMsaU4i5hDz
+	FNbOlsDi/LVNfWcck//iteeu5ZDPkAr9h9cniBWfPtuJCPxARvOwq5JqHZjVvV6ZN5j6
+	aMAXWwk5mxNToWPQg1Y9xXXesBZzwm5G2rkBM59ozo3R8EnRbueyh8/InK8hKceLpOs2
+	/cTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=a4qTvRcOhNIMu8kF5qLFbwdw+eQfulNb8ehkCgzBTV0=;
-	b=LsowUH22ohuZYWv0GA2o1EnQTnW7xTpjhQ6thF6zvgwzf1kk3fPY+omiaxZtQixH7j
-	1C9r5t5kQvwy/Nr1DGkFPzOf3IytUnVpPkDxmvM5Z730g7fC0A44NuJRXWvP2ffOZ5fa
-	/owrrb76MyYInVFh4XZXeGXq4VNE2jC0k1qJykgovcyRP7JIjC5QVoK6v9UcR/Es8bgq
-	80NVLA1M890pb8+XM6tFcKc4SMkO2vqzKQ13fjaHN80pVIAM/2eWFflYNl7656sJO3B2
-	1HPCbY424V9SFw8nPrn2Qh0MTcgQTqldd+tPkxqhkwuuTs/uFMxPYBsuhzP8+o5JaFfC
-	7Iwg==
-X-Gm-Message-State: ANhLgQ1zKoQ2XwqPGWQizHYkzeRZohNinJJFLLUYybcVx9UJ+f+TbfXS
-	IvjOeDMPe4hIj3B2wV6Ak4m7xQ==
-X-Google-Smtp-Source: ADFU+vtP+SHScyiWG57/o6yowsobxN1kPNkKFnsaKR+XLNS4kQIOjYT65Efv9EI/xh/FjqrJqJvc8A==
-X-Received: by 2002:a7b:c218:: with SMTP id x24mr7433159wmi.48.1584567116727; 
-	Wed, 18 Mar 2020 14:31:56 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id k9sm159417wrd.74.2020.03.18.14.31.54
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 18 Mar 2020 14:31:55 -0700 (PDT)
-Message-ID: <5839fa696c78f06c668fe8cb8dbd0a80732c7bbd.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 18 Mar 2020 21:31:52 +0000
-In-Reply-To: <CANNYZj9eiLf7n=Cu7X5A4z+YYz5upiW_9pjTgSPCX_2x2egSvA@mail.gmail.com>
-References: <20200229101433.30787-1-alex.kanavin@gmail.com>
-	<23132fd4872488b259751cdf8bcd8335d703b205.camel@linuxfoundation.org>
-	<CANNYZj_orEnKxs6AvyYTauDVexY+Eby2DeRYeh=9=-9i8TzTwg@mail.gmail.com>
-	<d415671888365ca180bcfb72000bcd394f0e7b24.camel@linuxfoundation.org>
-	<CANNYZj_RZ=Q1Me7_Ye+N4NmQBvW+fE2yDiRdsYu_XnCOGY_+nA@mail.gmail.com>
-	<CANNYZj9eiLf7n=Cu7X5A4z+YYz5upiW_9pjTgSPCX_2x2egSvA@mail.gmail.com>
-User-Agent: Evolution 3.35.91-1 
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+	:message-id:subject:to:cc;
+	bh=gbAkvUNITxsra+YNy+bLii011mdSiUVxjEvzFcAvn58=;
+	b=GasY9uuR7u7fOB9OKdAWKln0guSh2a23tfjmrmzLPMo70+PHhxOy7wjCbeMPGrXZVQ
+	KQhTxVXTIfK8/lNjCmKI3g7b/LSyRh9iKD2YzHTobAARpIHMdzEvcek4L/WCqaLhLaOB
+	TX7eNTdyGY3Yj8Pxu1l7l73HksUwitw5hcgLiatI0IL61+rQDxDUFOCrKE+UxGLitar2
+	fBXSd8hn33tvNuYGd6hIXUYUuMybgz5zTqTTZGE7DxGyLl9gH2vte4uMHJRDuyfrju6d
+	Spn9pirdenfV63w6XyyW2iLP7lCoKqvzJL+jm7i4gGZQ8gXjAK696LeBpEK+YWRnvuV+
+	FHdw==
+X-Gm-Message-State: ANhLgQ2GXb5qNKHq3j2YV9ibyrR3/FLHHTj6f8D9z8vUPWUzF88S1WkC
+	HlJ1vBOQg1tNn/OW3xl03Br4n/mBY2FvhQ==
+X-Google-Smtp-Source: ADFU+vtfSCfRSc1HIMuMWwtNI6nVrvFmPRFNE9DDPPMX+9nN5kgjg0wiZOJvP+5lTHvztAwaR6lV2A==
+X-Received: by 2002:a37:47d3:: with SMTP id u202mr330526qka.264.1584573496506; 
+	Wed, 18 Mar 2020 16:18:16 -0700 (PDT)
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com.
+	[209.85.222.170])
+	by smtp.gmail.com with ESMTPSA id b6sm195460qtj.15.2020.03.18.16.18.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 18 Mar 2020 16:18:15 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f170.google.com with SMTP id s11so253541qks.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Mar 2020 16:18:15 -0700 (PDT)
+X-Received: by 2002:a37:9ad0:: with SMTP id c199mr304072qke.277.1584573495226; 
+	Wed, 18 Mar 2020 16:18:15 -0700 (PDT)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] piglit: move to meta-oe
+References: <20200317152303.4600-1-alex.kiernan@gmail.com>
+	<20200317152303.4600-2-alex.kiernan@gmail.com>
+	<CAP9ODKoAXWCgREiSr2xRkGNNvEEwtz6Mzhqx0gK+0mQu6a+kFw@mail.gmail.com>
+	<CAO5Uq5Q9_KUQ7ccoZHj8yHp+naDcJTWiHWdu684Rvj+_=FmHzg@mail.gmail.com>
+In-Reply-To: <CAO5Uq5Q9_KUQ7ccoZHj8yHp+naDcJTWiHWdu684Rvj+_=FmHzg@mail.gmail.com>
+Date: Wed, 18 Mar 2020 20:18:03 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKpYESOprjfk+FD0Q0SXoc6u0j2UXQbgDLRuFZjz_9oyPg@mail.gmail.com>
+Message-ID: <CAP9ODKpYESOprjfk+FD0Q0SXoc6u0j2UXQbgDLRuFZjz_9oyPg@mail.gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 01/11] systemd: Package udev rules explicitly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,56 +71,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2020 21:31:56 -0000
+X-List-Received-Date: Wed, 18 Mar 2020 23:18:16 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Wed, 2020-03-18 at 14:49 +0100, Alexander Kanavin wrote:
-> On Sat, 29 Feb 2020 at 14:42, Alexander Kanavin <
-> alex.kanavin@gmail.com> wrote:
-> > > > I'm not sure about this. The intent was to use piglit as a way
-> > of
-> > > > > improving our graphics testing, particularly allowing it to
-> > > be
-> > > > > automated.
-> > > > > 
-> > > > > Whilst we've had to focus on getting the basics right, I'm
-> > > not sure
-> > > > > that objective isn't still a worthy goal over time?
-> > > > 
-> > > > Piglit is meant for testing and validating OpenGL drivers for
-> > > real
-> > > > hardware. While we can put it on top of software Mesa driver or
-> > > > virgl, I am not sure there is much value in that? Software
-> > > rendering
-> > > > might even be too slow to run in practice.
-> > > 
-> > > OE-Core is meant to be usable for validating BSPs amongst other
-> > > things
-> > > though. Testing virgl does prove the graphics stack is working
-> > > too from
-> > > a software perspective so does have some value.
-> > 
-> > Right, I can put Piglit on top of virgl and see how well that
-> > works. It would be good to enable virgl ‘out of the box’ at some
-> > point, I’ve been proposing that for a while :)
-> > 
-> 
-> I found an old ticket where piglit was proposed for the core image
-> testing, and the idea was rejected due to its huge install size, so I
-> won't be pursuing this further.
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10047
-> 
-> Would you still say it's worth to keep the recipe in core? Python-
-> numpy (that piglit and only piglit needs) isn't trivial to maintain
-> either (for instance, update to latest version needs cython to be
-> added to core).
+On Wed, Mar 18, 2020 at 2:19 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+>
+> On Wed, Mar 18, 2020 at 3:02 AM Otavio Salvador
+> <otavio.salvador@ossystems.com.br> wrote:
+> >
+> > On Tue, Mar 17, 2020 at 12:29 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> > > udev is packaged before systemd so any wildcard inclusions in FILES will
+> > > override later specifics. List all udev rules explicitly so that the
+> > > systemd specific rules, packaged alongside systemd, appear in the
+> > > correct package.
+> > >
+> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> >
+> > I believe udev ought to be on PACKAGE_BEFORE_PN so it is still handled
+> > with the wildcard and allow for easier maintenance in future.
+> >
+>
+> It's done with an =+ at the moment, replacing it with
+> PACKAGE_BEFORE_PN would certainly make it clearer (and avoid holes
+> where dev/dbg stuff could leak through). But I don't think that helps
+> with the greedy wildcard problem - we have:
+>
+> FILES_udev += "...
+>                ${rootlibexecdir}/udev/rules.d/*.rules \
+>
+> and
+>
+> FILES_${PN} = " ...
+>                 ${nonarch_base_libdir}/udev/rules.d/70-uaccess.rules \
+>                 ${nonarch_base_libdir}/udev/rules.d/71-seat.rules \
+>                 ${nonarch_base_libdir}/udev/rules.d/73-seat-late.rules \
+>                 ${nonarch_base_libdir}/udev/rules.d/99-systemd.rules \
+>
+> Where the FILES_udev consumes all the rules before ${PN} gets a look
+> in, unless there's some magic I'm overlooking?
+>
+> The inconsistent path usage wants fixing too... I'd not noticed that before!
 
-That bug is for piglit as a default in testapps. We decided that was a
-bad idea, not that testing with piglit was a bad idea overall.
+Oh, now I see. This is indeed a real problem.
 
-Cheers,
+A more long-term friendly approach would be to create a new
+${PN}-rules package which is packaged before udev and is added as
+rdepends on ${PN}. Another alternative is package ${PN} prior udev.
 
-Richard
+Personally I dislike listing all rules as we can easily miss a removal
+of any in the future and the list become outdated.
 
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
