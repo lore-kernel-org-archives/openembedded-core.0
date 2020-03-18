@@ -1,25 +1,43 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id ED35E60AF0
+Return-Path: <rahulk@mvista.com>
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+	[209.85.221.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 33003606BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2020 03:38:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02I3cDk0019667
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Wed, 18 Mar 2020 09:10:23 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id z15so29220547wrl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Mar 2020 20:38:23 -0700
-Received: from localhost (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0;
-	Tue, 17 Mar 2020 20:38:02 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 18 Mar 2020 11:38:00 +0800
-Message-ID: <20200318033800.5550-1-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Wed, 18 Mar 2020 02:10:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=bUxFAJJsD+ryAMYaoiA2xuMYkI0zQZCZEMtMhgWGxm8=;
+	b=T/cLQdEQioLTHeUGhTkh0MQUXFOF4Ec5aVR560RdcPIzDA/Rk2iZwookZtkrX5+nH9
+	r8wXDpr6Quxxxofhn8Kocm/L+CVPnqJxacxpWYA9RBalngRTNhDp8bApeJFDibPGg8o1
+	xk51sJAQN3PlYPm+40BkQq2oy94AJKVG556bIbpkqUVXvZDsU7bPMkrRk+DlTIR6rTOz
+	1CST2IJoXPJwlH8aZb86LfMVPoPVuG8oSoPQDt2RnqM6uxHfQ6SVv7L+frh3QBCdtqTP
+	WOqMLRFttyucNurLpqBuaYy1WNHYGi0NHCo+NcLhoRB9OsScFbYr6y19vxXVP3Kj4LB1
+	12ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=bUxFAJJsD+ryAMYaoiA2xuMYkI0zQZCZEMtMhgWGxm8=;
+	b=sz7g1K1U2FKaz3uMscXaGC0BwhFRT9o/IO3SS9TRJDuTZ3slRUUItbLgFoVGo8qDmj
+	frxlWPDgJ1EILh3IWdnceRpxZF0/JmHJLHYUzNKdkEtXQov4S4PbcWiGOJJZDUMOXPaQ
+	WGbIWom2Bh3ftZHU+MhPDo2A07d1O3fYNMSB3OVx7YwWOJecNCkD4Ph7MRdalvgvzCyC
+	rPX5sEUelMW1EqN7C7p0AHWEddIMGVuiinxrg3Dxkuhn7kJkxZMJRLTUJuMwMZuUZhid
+	wlkqOVnHf+sk86gXvDeSmXDACZi2UCGbHd3zaQyxoEk0RkU0CT3rYjeWM/sh9L1Od2tM
+	2EyQ==
+X-Gm-Message-State: ANhLgQ3JfZ0fCdyjHx210wDzqgBL4ikBB3ck94EzrmIQATMoi9Q3h6RK
+	dftyYPfeguRhgvHwnx5d/YMHdk6OmZIxeEix6WWNoIZ/eCg=
+X-Google-Smtp-Source: ADFU+vsvMIXBsv43h39bu2L8JBL50iVh2FcNIc57Lf5tHOKl4WL/j2AugfGgeJdrdE4atLfxcYSUJX1Z+U/2D04SPh0=
+X-Received: by 2002:a05:6000:41:: with SMTP id k1mr4673687wrx.53.1584522624234;
+	Wed, 18 Mar 2020 02:10:24 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.174]
-Subject: [PATCH] oeqa/manual/bsp-hw.json: fix syntax error
+From: Rahul Kumar <rahulk@mvista.com>
+Date: Wed, 18 Mar 2020 14:40:13 +0530
+Message-ID: <CANv91vMoHRL8a4YUYyvbHZppKGYoXzcOT75cfiokRM7fkh_iHg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: oe-core (master branch) build failed during enable ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +50,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Mar 2020 03:38:34 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Mar 2020 09:10:24 -0000
+Content-Type: multipart/alternative; boundary="00000000000028086005a11d6c19"
 
-Remove the redundant comma to fix the json decode error:
+--00000000000028086005a11d6c19
+Content-Type: text/plain; charset="UTF-8"
 
-$ resulttool manualexecution ../meta/lib/oeqa/manual/bsp-hw.json
-Traceback (most recent call last):
-[snip]
-  File "/usr/lib/python3.6/json/decoder.py", line 357, in raw_decode
-    raise JSONDecodeError("Expecting value", s, err.value) from None
-json.decoder.JSONDecodeError: Expecting value: line 948 column 1 (char 39810)
+Hi,
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- meta/lib/oeqa/manual/bsp-hw.json | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I Created OE-Core Standalone Setup.
+I am building core-image-minimal with openembedded-core (master branch) ,
+bitbake (master branch) and trying to enable ptest for bzip2-ptest.
 
-diff --git a/meta/lib/oeqa/manual/bsp-hw.json b/meta/lib/oeqa/manual/bsp-hw.json
-index 73cbaaa7c2..a9bc7d4501 100644
---- a/meta/lib/oeqa/manual/bsp-hw.json
-+++ b/meta/lib/oeqa/manual/bsp-hw.json
-@@ -944,5 +944,5 @@
-             },
-             "summary": "System_can_boot_up_via_NFS"
-         }
--    },
-+    }
- ]
--- 
-2.17.1
+To enable ptest added below lines in local.conf
+DISTRO_FEATURES_append = " ptest"
+CORE_IMAGE_EXTRA_INSTALL += "bzip2-ptest"
 
+but I am facing below error.
 
+=========================
+ERROR: busybox-1.31.1-r0 do_package: Error executing a python function in
+exec_python_func() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:ptest_update_alternatives(d)
+     0003:
+File: '/opt/opensource/openembedded-core.git/meta/classes/ptest.bbclass',
+lineno: 98, function: ptest_update_alternatives
+     0094:        for alt_name, alt_link, alt_target, _ in alternatives:
+     0095:            # Some alternatives are for man pages,
+     0096:            # check if the alternative is in PATH
+     0097:            if os.path.dirname(alt_link) in bin_paths:
+ *** 0098:                os.symlink(alt_target, os.path.join(ptest_bindir,
+alt_name))
+     0099:}
+     0100:
+     0101:do_configure_ptest_base[dirs] = "${B}"
+     0102:do_compile_ptest_base[dirs] = "${B}"
+Exception: FileExistsError: [Errno 17] File exists: '/bin/busybox.suid' ->
+'/opt/opensource/openembedded-core.git/build-master/tmp-glibc/work/core2-64-oe-linux/busybox/1.31.1-r0/package/usr/lib/busybox/ptest/bin/login'
+
+ERROR: Logfile of failure stored in:
+/opt/opensource/openembedded-core.git/build-master/tmp-glibc/work/core2-64-oe-linux/busybox/1.31.1-r0/temp/log.do_package.16217
+ERROR: Task
+(/opt/opensource/openembedded-core.git/meta/recipes-core/busybox/busybox_1.31.1.bb:do_package)
+failed with exit code '1'
+================================
+
+Can group member please provide any pointers on this issue.
+
+*Thanks & Regards,*
+Rahul Kumar
+Software Engineer,Linux Solutions Engineering
+Group,Montavista Software LLC
+Email Id: rahulk@mvista.com
+<https://plus.google.com/+CodeTwoSoftware>
+
+--00000000000028086005a11d6c19
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
+sans-serif;color:#0b5394">Hi,</div><div class=3D"gmail_default" style=3D"fo=
+nt-family:verdana,sans-serif;color:#0b5394"><br>I Created OE-Core Standalon=
+e Setup.<br>I am building core-image-minimal with openembedded-core (master=
+ branch) , bitbake (master branch) and trying to enable ptest for bzip2-pte=
+st.<br><br>To enable ptest added below lines in local.conf<br>DISTRO_FEATUR=
+ES_append =3D &quot; ptest&quot;<br>CORE_IMAGE_EXTRA_INSTALL +=3D &quot;bzi=
+p2-ptest&quot;<br><br>but I am facing below error.</div><div class=3D"gmail=
+_default" style=3D"font-family:verdana,sans-serif;color:#0b5394"><br>=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>ER=
+ROR: busybox-1.31.1-r0 do_package: Error executing a python function in exe=
+c_python_func() autogenerated:<br><br>The stack trace of python calls that =
+resulted in this exception/failure was:<br>File: &#39;exec_python_func() au=
+togenerated&#39;, lineno: 2, function: &lt;module&gt;<br>=C2=A0 =C2=A0 =C2=
+=A00001:<br>=C2=A0*** 0002:ptest_update_alternatives(d)<br>=C2=A0 =C2=A0 =
+=C2=A00003:<br>File: &#39;/opt/opensource/openembedded-core.git/meta/classe=
+s/ptest.bbclass&#39;, lineno: 98, function: ptest_update_alternatives<br>=
+=C2=A0 =C2=A0 =C2=A00094: =C2=A0 =C2=A0 =C2=A0 =C2=A0for alt_name, alt_link=
+, alt_target, _ in alternatives:<br>=C2=A0 =C2=A0 =C2=A00095: =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0# Some alternatives are for man pages,<br>=C2=
+=A0 =C2=A0 =C2=A00096: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# check if =
+the alternative is in PATH<br>=C2=A0 =C2=A0 =C2=A00097: =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0if os.path.dirname(alt_link) in bin_paths:<br>=C2=
+=A0*** 0098: =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0os.syml=
+ink(alt_target, os.path.join(ptest_bindir, alt_name))<br>=C2=A0 =C2=A0 =C2=
+=A00099:}<br>=C2=A0 =C2=A0 =C2=A00100:<br>=C2=A0 =C2=A0 =C2=A00101:do_confi=
+gure_ptest_base[dirs] =3D &quot;${B}&quot;<br>=C2=A0 =C2=A0 =C2=A00102:do_c=
+ompile_ptest_base[dirs] =3D &quot;${B}&quot;<br>Exception: FileExistsError:=
+ [Errno 17] File exists: &#39;/bin/busybox.suid&#39; -&gt; &#39;/opt/openso=
+urce/openembedded-core.git/build-master/tmp-glibc/work/core2-64-oe-linux/bu=
+sybox/1.31.1-r0/package/usr/lib/busybox/ptest/bin/login&#39;<br><br>ERROR: =
+Logfile of failure stored in: /opt/opensource/openembedded-core.git/build-m=
+aster/tmp-glibc/work/core2-64-oe-linux/busybox/1.31.1-r0/temp/log.do_packag=
+e.16217<br>ERROR: Task (/opt/opensource/openembedded-core.git/meta/recipes-=
+core/busybox/busybox_1.31.1.bb:do_package) failed with exit code &#39;1&#39=
+;<br clear=3D"all"></div><div class=3D"gmail_default" style=3D"font-family:=
+verdana,sans-serif;color:#0b5394">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D</div><div class=
+=3D"gmail_default" style=3D"font-family:verdana,sans-serif;color:#0b5394"><=
+br></div><div class=3D"gmail_default" style=3D"font-family:verdana,sans-ser=
+if;color:#0b5394">Can group member please provide any pointers on this issu=
+e.<br></div><div class=3D"gmail_default" style=3D"font-family:verdana,sans-=
+serif;color:#0b5394"><br></div><div><div dir=3D"ltr" class=3D"gmail_signatu=
+re" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"lt=
+r"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><=
+div dir=3D"ltr"><div><span style=3D"color:rgb(111,168,220)">	=09
+  =09
+ =20
+   <b><span style=3D"color:rgb(11,83,148)">Thanks &amp; Regards,</span></b>=
+</span></div><div><span style=3D"color:rgb(111,168,220)"><span style=3D"col=
+or:rgb(11,83,148)"></span></span><span style=3D"color:rgb(111,168,220)"><sp=
+an style=3D"color:rgb(11,83,148)"></span></span></div><div><span style=3D"c=
+olor:rgb(111,168,220)"><span style=3D"color:rgb(11,83,148)">Rahul Kumar</sp=
+an></span></div><div><span style=3D"color:rgb(11,83,148)">Software Engineer=
+,Linux Solutions Engineering</span></div><div><span style=3D"color:rgb(11,8=
+3,148)"> Group,Montavista Software LLC</span></div><div><span style=3D"colo=
+r:rgb(11,83,148)">Email Id: <span style=3D"font-size:10pt"><a href=3D"mailt=
+o:rahulk@mvista.com" target=3D"_blank">rahulk@mvista.com</a></span></span><=
+span><a href=3D"https://plus.google.com/+CodeTwoSoftware" rel=3D"noopener" =
+target=3D"_blank"><span style=3D"font-family:Verdana,sans-serif;font-size:1=
+0pt;color:rgb(42,42,42)"><br></span></a></span></div></div></div></div></di=
+v></div></div></div></div></div></div></div></div></div></div>
+
+--00000000000028086005a11d6c19--
