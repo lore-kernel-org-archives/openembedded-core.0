@@ -1,28 +1,36 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id AC67460592
+Return-Path: <SRS0=nN3C=5E=stusta.de=bunk@stusta.mhn.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id A41B160B74
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 08:36:33 +0000 (UTC)
-IronPort-SDR: A6LomLJUkJxry4UU1SXhJtuuHYzsN9MzS8vp9aPbsK0qRx++s+yla5i18wNI7BYnl3HaAjndZ8
-	VsC2lHv3ZdzQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	19 Mar 2020 01:36:34 -0700
-IronPort-SDR: /rlGjtqO4tU8q46WDbXV1/Sq8rhB1zJ8ttDI4LjSxmu3JWBmxtjbzjmTZ91oJQ8U7shBpe9XZJ
-	8fs3jPn6Kf0A==
-X-IronPort-AV: E=Sophos;i="5.70,571,1574150400"; d="scan'208";a="268664017"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.78.196])
-	by fmsmga004-auth.fm.intel.com with
-	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2020 01:36:33 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Mar 2020 16:36:21 +0800
-Message-Id: <cover.1584606859.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.25.1
+	Thu, 19 Mar 2020 11:37:42 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48jlJN4S3kz3L;
+	Thu, 19 Mar 2020 12:37:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1584617860;
+	bh=n68YPdd0PlIMP5bJH01XBcsQCVsqs7eOBKzlLrBFuf8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CwsBMBGKCz9YfRyeNmduf6gefAOU3IwMVZjoqTV1N2/Ssk8z1u1EkLvJ5FtBs8k+1
+	nIIoARVL2A/Zsb9Dqy9aXPevIvGQCxDSzr5tziPqoT7WlpX/gZkQ1Xri/XNrIXeNCH
+	FRBsDg6p++ZStMOWJwUdejPrtxsLexG4A3Z4z5xOTpifI1F+462xMltwd/bYNW4pw0
+	frchVEbMWZ72bgN9o2WHKkTt49ewYk86SRjfHEhPsBNV8qmOdUdfXisVjv7cg3s/a0
+	qqz24d+kKufCJ9V+9GKOzXGz3u+3AMOf8m4FVLeunqpJdJXuQ+rZgY8OY3/DUEajsm
+	2LNGcJyGVKmFUYygpgSoCdg9tw/Pa4jSxIk9L/0CGTEl55rzFXACbdJBXM/OtXxHWA
+	AIyUbUWB1CkrF0LZ5bEWQVFarTjjZOrXM4A1+Du1RiBjWLJqU4yBVSZl/hk+2yWEF9
+	cVej++nh8hsd76byRqp1EP60ZFw8q/Ak9UPKC+SfBgb193o7NIvLwUUgzAvPJxhc+3
+	JIgZtt7oWhCtktbD/0qt2eNiXsVWIQcFrMGlBnCTjVUG6wkm8c30TE7GsFvCI55jRQ
+	AMZVpDP1hYo14qJGBiSlKEcNMi6MjzaMXOMnTDsPD64YMay7b+6aj0Jm+/ro9p0x9M
+	5GBnBatn0eiqBZQf0j37AGiw=
+Date: Thu, 19 Mar 2020 13:37:36 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Mike Looijmans <mike.looijmans@topic.nl>
+Message-ID: <20200319113736.GA28081@localhost>
+References: <20200318122156.23599-1-mike.looijmans@topic.nl>
 MIME-Version: 1.0
-Subject: [PATCH][zeus 0/7] zeus pull request - cover letter only
+In-Reply-To: <20200318122156.23599-1-mike.looijmans@topic.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] classes/populate_sdk_base: Implement xz compression options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,81 +43,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2020 08:36:33 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 19 Mar 2020 11:37:42 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Please pull these changes for zeus. Clean a-full on autobuilder.
+On Wed, Mar 18, 2020 at 01:21:56PM +0100, Mike Looijmans wrote:
+> Building an SDK on a machine with 8GB RAM resulted in excessive swapping
+> due to the xz compressor using ~20GB of memory. This is because xz is
+> being called with "-T 0 -9".
+> 
+> To allow tuning the compression versus memory usage, introduce a variable
+> named SDK_XZ_OPTIONS that defaults to a more sane default:
+> SDK_XZ_OPTIONS ?= "${XZ_DEFAULTS} ${XZ_COMPRESSION_LEVEL}"
+> Thus, inherit any XZ tuning already done, and allow users to specify
+> overrides for this task in their config by supplying SDK_XZ_OPTIONS.
+> Since XZ_COMPRESSION_LEVEL defaults to -9 this does not change the standard
+> behavior.
+>...
+> +SDK_XZ_OPTIONS ?= "${XZ_DEFAULTS} ${XZ_COMPRESSION_LEVEL}"
 
-Thanks,
+A problem is that XZ_COMPRESSION_LEVEL compression would now be used for 
+unrelated usecases, and lowering the compression for being able to boot
+on low-end targets (<= 64 MB RAM) shouldn't impact the SDK.
 
-Anuj
+>...
+> -       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz -T 0 -9 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
+> +       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz ${SDK_XZ_OPTIONS} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
+>...
 
-The following changes since commit d8cfc309f9dd0dc8904ab18e5898770502ee2540:
+Replacing "-T 0" with ${XZ_DEFAULTS} should solve your problem.
+This already takes both cpus and memory into account.
 
-  cve-check: fix ValueError (2020-03-15 13:33:19 -0700)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/zeus-next
-
-Adrian Bunk (1):
-  python3: Upgrade 3.7.6 -> 3.7.7
-
-Anuj Mittal (1):
-  bluez: fix CVE-2020-0556
-
-Lee Chee Yang (2):
-  qemu: fix CVE-2019-20382
-  libpcre2: fix CVE-2019-20454
-
-Ross Burton (1):
-  sqlite: fix numerous CVEs
-
-Stefan Ghinea (1):
-  aspell: CVE-2019-20433
-
-Wenlin Kang (1):
-  libarchive: Fix CVE-2020-9308
-
- meta/recipes-connectivity/bluez5/bluez5.inc   |    2 +
- .../bluez5/bluez5/CVE-2020-0556-1.patch       |   35 +
- .../bluez5/bluez5/CVE-2020-0556-2.patch       |  143 +++
- .../{python3_3.7.6.bb => python3_3.7.7.bb}    |    6 +-
- meta/recipes-devtools/qemu/qemu.inc           |    1 +
- .../qemu/qemu/CVE-2019-20382.patch            | 1018 +++++++++++++++++
- ...ct-files-that-declare-invalid-header.patch |  124 ++
- .../libarchive/libarchive_3.4.0.bb            |    1 +
- .../aspell/aspell/CVE-2019-20433-0001.patch   |  999 ++++++++++++++++
- .../aspell/aspell/CVE-2019-20433-0002.patch   |   68 ++
- meta/recipes-support/aspell/aspell_0.60.7.bb  |    2 +
- .../libpcre/libpcre2/CVE-2019-20454.patch     |   19 +
- .../recipes-support/libpcre/libpcre2_10.33.bb |    1 +
- .../sqlite/sqlite3/CVE-2019-19244.patch       |   33 +
- .../sqlite/sqlite3/CVE-2019-19923.patch       |   50 +
- .../sqlite/sqlite3/CVE-2019-19924.patch       |   65 ++
- .../sqlite/sqlite3/CVE-2019-19925.patch       |   33 +
- .../sqlite/sqlite3/CVE-2019-19926.patch       |   31 +
- .../sqlite/sqlite3/CVE-2019-19959.patch       |   46 +
- .../sqlite/sqlite3/CVE-2019-20218.patch       |   31 +
- meta/recipes-support/sqlite/sqlite3_3.29.0.bb |   10 +-
- 21 files changed, 2714 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-1.patch
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-2.patch
- rename meta/recipes-devtools/python/{python3_3.7.6.bb => python3_3.7.7.bb} (98%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2019-20382.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/0001-RAR5-reader-reject-files-that-declare-invalid-header.patch
- create mode 100644 meta/recipes-support/aspell/aspell/CVE-2019-20433-0001.patch
- create mode 100644 meta/recipes-support/aspell/aspell/CVE-2019-20433-0002.patch
- create mode 100644 meta/recipes-support/libpcre/libpcre2/CVE-2019-20454.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19244.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19923.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19924.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19925.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19926.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19959.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-20218.patch
-
--- 
-2.25.1
-
+cu
+Adrian
 
