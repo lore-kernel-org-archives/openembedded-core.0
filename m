@@ -1,36 +1,51 @@
-Return-Path: <SRS0=nN3C=5E=stusta.de=bunk@stusta.mhn.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id A41B160B74
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B41360AD8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 11:37:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48jlJN4S3kz3L;
-	Thu, 19 Mar 2020 12:37:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1584617860;
-	bh=n68YPdd0PlIMP5bJH01XBcsQCVsqs7eOBKzlLrBFuf8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CwsBMBGKCz9YfRyeNmduf6gefAOU3IwMVZjoqTV1N2/Ssk8z1u1EkLvJ5FtBs8k+1
-	nIIoARVL2A/Zsb9Dqy9aXPevIvGQCxDSzr5tziPqoT7WlpX/gZkQ1Xri/XNrIXeNCH
-	FRBsDg6p++ZStMOWJwUdejPrtxsLexG4A3Z4z5xOTpifI1F+462xMltwd/bYNW4pw0
-	frchVEbMWZ72bgN9o2WHKkTt49ewYk86SRjfHEhPsBNV8qmOdUdfXisVjv7cg3s/a0
-	qqz24d+kKufCJ9V+9GKOzXGz3u+3AMOf8m4FVLeunqpJdJXuQ+rZgY8OY3/DUEajsm
-	2LNGcJyGVKmFUYygpgSoCdg9tw/Pa4jSxIk9L/0CGTEl55rzFXACbdJBXM/OtXxHWA
-	AIyUbUWB1CkrF0LZ5bEWQVFarTjjZOrXM4A1+Du1RiBjWLJqU4yBVSZl/hk+2yWEF9
-	cVej++nh8hsd76byRqp1EP60ZFw8q/Ak9UPKC+SfBgb193o7NIvLwUUgzAvPJxhc+3
-	JIgZtt7oWhCtktbD/0qt2eNiXsVWIQcFrMGlBnCTjVUG6wkm8c30TE7GsFvCI55jRQ
-	AMZVpDP1hYo14qJGBiSlKEcNMi6MjzaMXOMnTDsPD64YMay7b+6aj0Jm+/ro9p0x9M
-	5GBnBatn0eiqBZQf0j37AGiw=
-Date: Thu, 19 Mar 2020 13:37:36 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Mike Looijmans <mike.looijmans@topic.nl>
-Message-ID: <20200319113736.GA28081@localhost>
-References: <20200318122156.23599-1-mike.looijmans@topic.nl>
+	Thu, 19 Mar 2020 14:10:56 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id v11so3161385wrm.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Mar 2020 07:10:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=ciJsr+fIF018ppErvVRWBADmoHCR0+9Oubxbu8Y0v1E=;
+	b=YKLQwxPj/qsZB5FYC+j5FwRuVHFthUDDVBES+KneN5vQs1/iRYNFgVt6qTWHAptAkl
+	tzQjiss+5LdS0CAR3rEqCcEeqyEriOzxi7JhKrFL0ygHv+/jW41trQ0WyTgfpWEFbEhJ
+	zZI/1xZlujAThkrUgnuEAHCdrKUt8dRm+7OIw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=ciJsr+fIF018ppErvVRWBADmoHCR0+9Oubxbu8Y0v1E=;
+	b=kLo26jPIDrgsib/Phhk6NezDcRpRCDaiRTQiZDgYK0LrgLK0t+nKmRsKTwyE5P8iLz
+	B4TiHlae7mDz2z/xYCw20L7IX6NAc9oYzmwj1O/k+/R00Nlw3arJOOuQE59IlU0CCE2p
+	V/DMyskNTI387Gihq1SAvuXpbQ2epm1M0yTN1ILl4S9JvDqGYoLCMxUWvPn43oXp8QwG
+	+513TTNZ2IwNKXLydjyDFJgP06XV3DSj05C0YBWK/h41JmM30akyrXpDOqwgTScaWFBh
+	vhUK5wX/G1jciXDALX7okscBsT6Ye3TkSJfL1nbFD2lFREqa7ONSt2447k19JtYAuiNB
+	h7wQ==
+X-Gm-Message-State: ANhLgQ2dtRrlpet/F4vtOC/HMV3b8UZq2uxkBYwmvktNOOwfskwPlvwe
+	EO5rrn3BxjhkPPgdpScmKKPOmQ==
+X-Google-Smtp-Source: ADFU+vtsGriV3gbmS3+isnXizyAvawIGUE660V6Tq98371DAKucPLOGm3RhgLv+tIjBbsRODDyer5g==
+X-Received: by 2002:adf:eac7:: with SMTP id o7mr4811319wrn.292.1584627056737; 
+	Thu, 19 Mar 2020 07:10:56 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id b5sm3752625wrj.1.2020.03.19.07.10.55
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 19 Mar 2020 07:10:56 -0700 (PDT)
+Message-ID: <d88284c9fa0ca7eda58543a4a3b262b6fbe1fcb3.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 19 Mar 2020 14:10:52 +0000
+In-Reply-To: <1584603707-43423-6-git-send-email-wangmy@cn.fujitsu.com>
+References: <1584603707-43423-1-git-send-email-wangmy@cn.fujitsu.com>
+	<1584603707-43423-6-git-send-email-wangmy@cn.fujitsu.com>
+User-Agent: Evolution 3.35.91-1 
 MIME-Version: 1.0
-In-Reply-To: <20200318122156.23599-1-mike.looijmans@topic.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] classes/populate_sdk_base: Implement xz compression options
+Subject: Re: [PATCH] mc: upgrade 4.8.23 -> 4.8.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,37 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2020 11:37:42 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 19 Mar 2020 14:10:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Mar 18, 2020 at 01:21:56PM +0100, Mike Looijmans wrote:
-> Building an SDK on a machine with 8GB RAM resulted in excessive swapping
-> due to the xz compressor using ~20GB of memory. This is because xz is
-> being called with "-T 0 -9".
+On Thu, 2020-03-19 at 00:41 -0700, Wang Mingyu wrote:
+> 0001-Add-option-to-control-configure-args.patch
+> 0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
+> removed since they are included in 4.8.24
 > 
-> To allow tuning the compression versus memory usage, introduce a variable
-> named SDK_XZ_OPTIONS that defaults to a more sane default:
-> SDK_XZ_OPTIONS ?= "${XZ_DEFAULTS} ${XZ_COMPRESSION_LEVEL}"
-> Thus, inherit any XZ tuning already done, and allow users to specify
-> overrides for this task in their config by supplying SDK_XZ_OPTIONS.
-> Since XZ_COMPRESSION_LEVEL defaults to -9 this does not change the standard
-> behavior.
->...
-> +SDK_XZ_OPTIONS ?= "${XZ_DEFAULTS} ${XZ_COMPRESSION_LEVEL}"
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> ---
+>  ...Add-option-to-control-configure-args.patch |  99 ----------------
+>  ...29-configure.ac-drop-bundled-gettext.patch | 110 ----------------
+> --
 
-A problem is that XZ_COMPRESSION_LEVEL compression would now be used for 
-unrelated usecases, and lowering the compression for being able to boot
-on low-end targets (<= 64 MB RAM) shouldn't impact the SDK.
+Fails in do_install:
 
->...
-> -       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz -T 0 -9 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
-> +       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz ${SDK_XZ_OPTIONS} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
->...
+https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/1945
+https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/609
 
-Replacing "-T 0" with ${XZ_DEFAULTS} should solve your problem.
-This already takes both cpus and memory into account.
+How was this tested?
 
-cu
-Adrian
+Cheers,
+
+Richard
+
 
