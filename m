@@ -1,54 +1,33 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
-	[209.85.128.45])
-	by mail.openembedded.org (Postfix) with ESMTP id EF6CA60AF7
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B909605B3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 01:12:16 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id 11so261509wmo.2
+	Thu, 19 Mar 2020 02:15:09 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,569,1574092800"; d="scan'208";a="86569344"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 19 Mar 2020 10:15:07 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id DB63E49DF12D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2020 18:12:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=lJUUFMX3pqPeKqz0MDeWBmJqEPa9h7jxealWzWBZxlY=;
-	b=n2zXuGvTkV+bRQBjTiW74zstA4tMoTq9hqwBCxOwET6dmEcd9zwKrUadTjVNnLFAc9
-	URwV/kkLqsz2xP8xmnZ62ECoubJiU4DI1MLch7IYU3ipx5Ren/wOJdc6TyW4lgbkZff/
-	k+Pnz2gPGG7O9ZuGQFt6Fov6a0ZXO282xCpg3SkEi/iO142XTk28+DydsPa/6J6DkmWL
-	eXHRSJ2v/UQ/r+YqApUTdgfs/3MOSaVKRCEqSqIDY/nJPTAu3R729qoo3wI67xBnMjpG
-	52It0nfOV+vGYWrV/GzKVcH4YXXqOT/9qXr898BoOsFfauYEl98wSc5LVETg5EhqqVPa
-	356w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=lJUUFMX3pqPeKqz0MDeWBmJqEPa9h7jxealWzWBZxlY=;
-	b=CgHuhC/9QoQ/il0NhU24PZYHHZdwyqJ5QVCFle1H+NDmtVwt7OADuLqwFgeBt9+W+6
-	QJe47esKVBkFzIvlx+m7kvt9mI48178hQQy8C5qJ0qYv4KmP+22tpdLaYqtSLAX/kxtp
-	lv4wZV7cSAzqBdEYy/N3wOq/Yl0sd+P4Jfn6PYhL8hDqNtaZXfrspjkfLyrTY0cL7jCj
-	Vs4Gsd5+tgvDm/9/AqF8RrXvSUtQpG+/m6xy1Im4k1Zr00+pOYcUYN/hiZIl9K6LoIsd
-	QdEBffK+AJAcqV7bXK2iMOEQpT66J9MYsCcVUNS9mJQgziMOKrK+8w9yFP6+zi6djKj2
-	2U4g==
-X-Gm-Message-State: ANhLgQ3Sj1Vgvjk/DAYkkdT2WkRDs3ThcrIwR5csNmX39LH/3G9IEyV1
-	lTKZ9l0f7g07dvUuB1P+MqcYlM2aB/8=
-X-Google-Smtp-Source: ADFU+vuM4ikwgr3UaH5Bp3imL5DJn9Ptbxc2tlHJWn4p4pf6dCh+5qb7CD02HGvycgakk1QGKQw4WQ==
-X-Received: by 2002:a1c:6385:: with SMTP id x127mr489159wmb.141.1584580337379; 
-	Wed, 18 Mar 2020 18:12:17 -0700 (PDT)
-Received: from superandy.speedport.ip
-	(p200300F07F0E8C3838FF9D0BB177A6DE.dip0.t-ipconnect.de.
-	[2003:f0:7f0e:8c38:38ff:9d0b:b177:a6de])
-	by smtp.gmail.com with ESMTPSA id f15sm926249wrt.9.2020.03.18.18.12.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 18 Mar 2020 18:12:16 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Mar 2020 02:12:06 +0100
-Message-Id: <20200319011206.14726-2-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200319011206.14726-1-schnitzeltony@gmail.com>
-References: <20200319011206.14726-1-schnitzeltony@gmail.com>
+	Thu, 19 Mar 2020 10:04:59 +0800 (CST)
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+	G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP
+	Server (TLS) id 15.0.1497.2; Thu, 19 Mar 2020 10:14:59 +0800
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 19 Mar 2020 10:15:07 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 19 Mar 2020 00:41:42 -0700
+Message-ID: <1584603707-43423-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] libsecret: upgrade 0.20.1 -> 0.20.2 / port to meson
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: DB63E49DF12D.A931E
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] bluez5: upgrade 5.53 -> 5.54
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,106 +40,247 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2020 01:12:17 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 19 Mar 2020 02:15:11 -0000
+Content-Type: text/plain
 
-From [1]:
+CVE-2020-0556-1.patch
+CVE-2020-0556-2.patch
+removed since they are included in 5.54
 
-0.20.2
- * secret-file-collection: force little-endian in GVariant [!49, #42]
- * Prefer g_info() over g_message() [!48, #40]
- * meson: Don't specify shared_library() [!47]
- * docs: Make sure to set install: true [!46]
-
-[1] http://ftp.gnome.org/pub/gnome/sources/libsecret/0.20/libsecret-0.20.2.news
-
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- ...an-subdir-only-if-manpage-is-enabled.patch | 30 +++++++++++++++++++
- ...ibsecret_0.20.1.bb => libsecret_0.20.2.bb} | 20 ++++++++-----
- 2 files changed, 42 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-gnome/libsecret/libsecret/0001-docs-Add-man-subdir-only-if-manpage-is-enabled.patch
- rename meta/recipes-gnome/libsecret/{libsecret_0.20.1.bb => libsecret_0.20.2.bb} (59%)
+ meta/recipes-connectivity/bluez5/bluez5.inc   |   2 -
+ .../bluez5/bluez5/CVE-2020-0556-1.patch       |  35 -----
+ .../bluez5/bluez5/CVE-2020-0556-2.patch       | 143 ------------------
+ .../bluez5/{bluez5_5.53.bb => bluez5_5.54.bb} |   4 +-
+ 4 files changed, 2 insertions(+), 182 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-1.patch
+ delete mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-2.patch
+ rename meta/recipes-connectivity/bluez5/{bluez5_5.53.bb => bluez5_5.54.bb} (91%)
 
-diff --git a/meta/recipes-gnome/libsecret/libsecret/0001-docs-Add-man-subdir-only-if-manpage-is-enabled.patch b/meta/recipes-gnome/libsecret/libsecret/0001-docs-Add-man-subdir-only-if-manpage-is-enabled.patch
-new file mode 100644
-index 0000000000..f434e6ae01
---- /dev/null
-+++ b/meta/recipes-gnome/libsecret/libsecret/0001-docs-Add-man-subdir-only-if-manpage-is-enabled.patch
-@@ -0,0 +1,30 @@
-+From a2037bfcf14a0b5b81f5160b69b5ff94a6096584 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-+Date: Thu, 19 Mar 2020 01:42:22 +0100
-+Subject: [PATCH] docs: Add man subdir only if manpage is enabled
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libsecret/-/merge_requests/51]
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-+---
-+ docs/meson.build | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/docs/meson.build b/docs/meson.build
-+index cc8d964..aa7cfbc 100644
-+--- a/docs/meson.build
-++++ b/docs/meson.build
-+@@ -1,4 +1,6 @@
-+-subdir('man')
-++if with_manpage
-++  subdir('man')
-++endif
-+ if with_gtkdoc
-+   subdir('reference/libsecret')
-+ endif
-+-- 
-+2.21.1
-+
-diff --git a/meta/recipes-gnome/libsecret/libsecret_0.20.1.bb b/meta/recipes-gnome/libsecret/libsecret_0.20.2.bb
-similarity index 59%
-rename from meta/recipes-gnome/libsecret/libsecret_0.20.1.bb
-rename to meta/recipes-gnome/libsecret/libsecret_0.20.2.bb
-index 72511af02d..0effd492fd 100644
---- a/meta/recipes-gnome/libsecret/libsecret_0.20.1.bb
-+++ b/meta/recipes-gnome/libsecret/libsecret_0.20.2.bb
-@@ -7,21 +7,25 @@ LICENSE = "LGPLv2.1"
- BUGTRACKER = "https://gitlab.gnome.org/GNOME/libsecret/issues"
- LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 708fa1ccec..150d909d73 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -52,8 +52,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'file://0001-Allow-using-obexd-without-systemd-in-the-user-sessio.patch', d)} \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-test-gatt-Fix-hung-issue.patch \
+-           file://CVE-2020-0556-1.patch \
+-           file://CVE-2020-0556-2.patch \
+            "
+ S = "${WORKDIR}/bluez-${PV}"
  
-+GNOMEBASEBUILDCLASS = "meson"
-+
- inherit gnomebase gtk-doc vala gobject-introspection manpages
- 
- DEPENDS += "glib-2.0 libgcrypt gettext-native"
- 
--PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
-+SRC_URI[archive.md5sum] = "f24f82e49d360ff742901d6c387e2bc9"
-+SRC_URI[archive.sha256sum] = "81e9143833785cdcf96c1da5d0357a8bcf0cd2b0119f15aa0cae775d1f19ffc3"
-+SRC_URI += "file://0001-docs-Add-man-subdir-only-if-manpage-is-enabled.patch"
-+
-+GTKDOC_MESON_OPTION = 'gtk_doc'
- 
--SRC_URI[archive.md5sum] = "d2dd660a8d502099317bc8af9f30302e"
--SRC_URI[archive.sha256sum] = "57f73e94ec6263a17a077fb809cf8cf424637a897a7f15b4eec42ce4aef52447"
-+# gobject-introspection is mandatory and cannot be configured
-+REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
-+UNKNOWN_CONFIGURE_WHITELIST_append = " introspection"
-+
-+PACKAGECONFIG[manpages] = "-Dmanpage=true,-Dmanpage=false,libxslt-native xmlto-native"
- 
- # http://errors.yoctoproject.org/Errors/Details/20228/
- ARM_INSTRUCTION_SET_armv4 = "arm"
- ARM_INSTRUCTION_SET_armv5 = "arm"
- ARM_INSTRUCTION_SET_armv6 = "arm"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-1.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-1.patch
+deleted file mode 100644
+index a6bf31e14b..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-1.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 8cdbd3b09f29da29374e2f83369df24228da0ad1 Mon Sep 17 00:00:00 2001
+-From: Alain Michaud <alainm@chromium.org>
+-Date: Tue, 10 Mar 2020 02:35:16 +0000
+-Subject: [PATCH 1/2] HOGP must only accept data from bonded devices.
 -
--# vapigen.m4 bundled with the tarball does not yet have our cross-compilation fixes
--do_configure_prepend() {
--    rm -f ${S}/build/m4/vapigen.m4
--}
+-HOGP 1.0 Section 6.1 establishes that the HOGP must require bonding.
+-
+-Reference:
+-https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00352.htm
+-
+-Upstream-Status: Backport [https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=8cdbd3b09f29da29374e2f83369df24228da0ad1]
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+-CVE: CVE-2020-0556
+----
+- profiles/input/hog.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/profiles/input/hog.c b/profiles/input/hog.c
+-index 83c017dcb..dfac68921 100644
+---- a/profiles/input/hog.c
+-+++ b/profiles/input/hog.c
+-@@ -186,6 +186,10 @@ static int hog_accept(struct btd_service *service)
+- 			return -EINVAL;
+- 	}
+- 
+-+	/* HOGP 1.0 Section 6.1 requires bonding */
+-+	if (!device_is_bonded(device, btd_device_get_bdaddr_type(device)))
+-+		return -ECONNREFUSED;
+-+
+- 	/* TODO: Replace GAttrib with bt_gatt_client */
+- 	bt_hog_attach(dev->hog, attrib);
+- 
+--- 
+-2.24.1
+-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-2.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-2.patch
+deleted file mode 100644
+index 8acb2f15ec..0000000000
+--- a/meta/recipes-connectivity/bluez5/bluez5/CVE-2020-0556-2.patch
++++ /dev/null
+@@ -1,143 +0,0 @@
+-From 3cccdbab2324086588df4ccf5f892fb3ce1f1787 Mon Sep 17 00:00:00 2001
+-From: Alain Michaud <alainm@chromium.org>
+-Date: Tue, 10 Mar 2020 02:35:18 +0000
+-Subject: [PATCH 2/2] HID accepts bonded device connections only.
+-
+-This change adds a configuration for platforms to choose a more secure
+-posture for the HID profile.  While some older mice are known to not
+-support pairing or encryption, some platform may choose a more secure
+-posture by requiring the device to be bonded  and require the
+-connection to be encrypted when bonding is required.
+-
+-Reference:
+-https://www.intel.com/content/www/us/en/security-center/advisory/intel-sa-00352.html
+-
+-Upstream-Status: Backport [https://git.kernel.org/pub/scm/bluetooth/bluez.git/commit/?id=3cccdbab2324086588df4ccf5f892fb3ce1f1787]
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+-CVE: CVE-2020-0556
+-
+----
+- profiles/input/device.c   | 23 ++++++++++++++++++++++-
+- profiles/input/device.h   |  1 +
+- profiles/input/input.conf |  8 ++++++++
+- profiles/input/manager.c  | 13 ++++++++++++-
+- 4 files changed, 43 insertions(+), 2 deletions(-)
+-
+-diff --git a/profiles/input/device.c b/profiles/input/device.c
+-index 2cb3811c8..d89da2d7c 100644
+---- a/profiles/input/device.c
+-+++ b/profiles/input/device.c
+-@@ -92,6 +92,7 @@ struct input_device {
+- 
+- static int idle_timeout = 0;
+- static bool uhid_enabled = false;
+-+static bool classic_bonded_only = false;
+- 
+- void input_set_idle_timeout(int timeout)
+- {
+-@@ -103,6 +104,11 @@ void input_enable_userspace_hid(bool state)
+- 	uhid_enabled = state;
+- }
+- 
+-+void input_set_classic_bonded_only(bool state)
+-+{
+-+	classic_bonded_only = state;
+-+}
+-+
+- static void input_device_enter_reconnect_mode(struct input_device *idev);
+- static int connection_disconnect(struct input_device *idev, uint32_t flags);
+- 
+-@@ -970,8 +976,18 @@ static int hidp_add_connection(struct input_device *idev)
+- 	if (device_name_known(idev->device))
+- 		device_get_name(idev->device, req->name, sizeof(req->name));
+- 
+-+	/* Make sure the device is bonded if required */
+-+	if (classic_bonded_only && !device_is_bonded(idev->device,
+-+				btd_device_get_bdaddr_type(idev->device))) {
+-+		error("Rejected connection from !bonded device %s", dst_addr);
+-+		goto cleanup;
+-+	}
+-+
+- 	/* Encryption is mandatory for keyboards */
+--	if (req->subclass & 0x40) {
+-+	/* Some platforms may choose to require encryption for all devices */
+-+	/* Note that this only matters for pre 2.1 devices as otherwise the */
+-+	/* device is encrypted by default by the lower layers */
+-+	if (classic_bonded_only || req->subclass & 0x40) {
+- 		if (!bt_io_set(idev->intr_io, &gerr,
+- 					BT_IO_OPT_SEC_LEVEL, BT_IO_SEC_MEDIUM,
+- 					BT_IO_OPT_INVALID)) {
+-@@ -1203,6 +1219,11 @@ static void input_device_enter_reconnect_mode(struct input_device *idev)
+- 	DBG("path=%s reconnect_mode=%s", idev->path,
+- 				reconnect_mode_to_string(idev->reconnect_mode));
+- 
+-+	/* Make sure the device is bonded if required */
+-+	if (classic_bonded_only && !device_is_bonded(idev->device,
+-+				btd_device_get_bdaddr_type(idev->device)))
+-+		return;
+-+
+- 	/* Only attempt an auto-reconnect when the device is required to
+- 	 * accept reconnections from the host.
+- 	 */
+-diff --git a/profiles/input/device.h b/profiles/input/device.h
+-index 51a9aee18..3044db673 100644
+---- a/profiles/input/device.h
+-+++ b/profiles/input/device.h
+-@@ -29,6 +29,7 @@ struct input_conn;
+- 
+- void input_set_idle_timeout(int timeout);
+- void input_enable_userspace_hid(bool state);
+-+void input_set_classic_bonded_only(bool state);
+- 
+- int input_device_register(struct btd_service *service);
+- void input_device_unregister(struct btd_service *service);
+-diff --git a/profiles/input/input.conf b/profiles/input/input.conf
+-index 3e1d65aae..166aff4a4 100644
+---- a/profiles/input/input.conf
+-+++ b/profiles/input/input.conf
+-@@ -11,3 +11,11 @@
+- # Enable HID protocol handling in userspace input profile
+- # Defaults to false (HIDP handled in HIDP kernel module)
+- #UserspaceHID=true
+-+
+-+# Limit HID connections to bonded devices
+-+# The HID Profile does not specify that devices must be bonded, however some
+-+# platforms may want to make sure that input connections only come from bonded
+-+# device connections. Several older mice have been known for not supporting
+-+# pairing/encryption.
+-+# Defaults to false to maximize device compatibility.
+-+#ClassicBondedOnly=true
+-diff --git a/profiles/input/manager.c b/profiles/input/manager.c
+-index 1d31b0652..5cd27b839 100644
+---- a/profiles/input/manager.c
+-+++ b/profiles/input/manager.c
+-@@ -96,7 +96,7 @@ static int input_init(void)
+- 	config = load_config_file(CONFIGDIR "/input.conf");
+- 	if (config) {
+- 		int idle_timeout;
+--		gboolean uhid_enabled;
+-+		gboolean uhid_enabled, classic_bonded_only;
+- 
+- 		idle_timeout = g_key_file_get_integer(config, "General",
+- 							"IdleTimeout", &err);
+-@@ -114,6 +114,17 @@ static int input_init(void)
+- 			input_enable_userspace_hid(uhid_enabled);
+- 		} else
+- 			g_clear_error(&err);
+-+
+-+		classic_bonded_only = g_key_file_get_boolean(config, "General",
+-+						"ClassicBondedOnly", &err);
+-+
+-+		if (!err) {
+-+			DBG("input.conf: ClassicBondedOnly=%s",
+-+					classic_bonded_only ? "true" : "false");
+-+			input_set_classic_bonded_only(classic_bonded_only);
+-+		} else
+-+			g_clear_error(&err);
+-+
+- 	}
+- 
+- 	btd_profile_register(&input_profile);
+--- 
+-2.24.1
+-
+diff --git a/meta/recipes-connectivity/bluez5/bluez5_5.53.bb b/meta/recipes-connectivity/bluez5/bluez5_5.54.bb
+similarity index 91%
+rename from meta/recipes-connectivity/bluez5/bluez5_5.53.bb
+rename to meta/recipes-connectivity/bluez5/bluez5_5.54.bb
+index 055e76bcf1..260eee1402 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5_5.53.bb
++++ b/meta/recipes-connectivity/bluez5/bluez5_5.54.bb
+@@ -1,7 +1,7 @@
+ require bluez5.inc
+ 
+-SRC_URI[md5sum] = "85b14abb138948f50b1650aa866cb019"
+-SRC_URI[sha256sum] = "38aa2da8302fefad53116bb281a11968732a42eeb19c5fb3668342f39b7938bc"
++SRC_URI[md5sum] = "e637feb2dbb7582bbbff1708367a847c"
++SRC_URI[sha256sum] = "68cdab9e63e8832b130d5979dc8c96fdb087b31278f342874d992af3e56656dc"
+ 
+ # noinst programs in Makefile.tools that are conditional on READLINE
+ # support
 -- 
-2.21.1
+2.17.1
+
+
 
 
