@@ -1,82 +1,51 @@
-Return-Path: <tom.hochstein@nxp.com>
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com
-	(mail-eopbgr140089.outbound.protection.outlook.com [40.107.14.89])
-	by mail.openembedded.org (Postfix) with ESMTP id 1704060FD8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 874CC60CB9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 18:35:12 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=P4/oKM/PISfAVa/5J801dd/+pYsUf0EorMIZX8uhG8tw3sCyyWLSfzSZ+qq4asH12xDcenr0HCLbjajY9QsPG3KhPRqH5FXqfB7/QPdk2RUNS4i6Lfe7iDUGP8++0aX+LirQsAnLtBzzRcw6LcTF5ao6yLTUl14n79B4oHkR8cuSl+KIumgBg1gCOotN1XjnY1LJeFTfGSgGh0eiYSC0Ys50JEkzXlUfspbRFMm3dzUZoIU0ifWoSHyuE0gtKOwVsb3P9cRqhAe3VC55F5+YI8GLRzGUdV5X6Ayidrri+b72KisFwe+VR/2XHhrdLkJEJGgNmE1/jCSCDxJvARUFRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=oBidiYZWjpFlB079BT0SZeGnYwkG6tj6TUZEEIsDXu0=;
-	b=ina/sG78vUrfiOwelFB11+720b7D8hbkiou9IPI2uwsi1evOVZVRKinBLZ37x77ETIKePufxluqPF/vmezXNnymdV/9Wne1FJjNo1vNktmP0l5tBW3gEz6rReKWqgl5GHgQ0IK7Bn61rZGEBlkCUqQ4EPXwV/NvpuraO/uKftqn+/aDrtfIhgloHnxgiE7XT6asfwB29f0Azaqu/5vxZEyA6m78ocOpTmIPGAZ/Qugq2dtmOGeKBfcxfxQt4nrmCajnOG5k90UwOnLNiESG82qzliR6rY30srB99Rv1HzjtpDxJa7C6oow/V4PK8dw80a6vbMmDIdirrQpIDAVU77w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com;
-	dkim=pass header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=oBidiYZWjpFlB079BT0SZeGnYwkG6tj6TUZEEIsDXu0=;
-	b=b9NgDsIu9vWie0SQqBW/c/i+U1ZuId3G95EJvMIkaDTTU3RRxhceRnjJhalQ2NpBXk2+feebEIVBTQ1gXfdRghErA0WlMvqhljJeiBdqoXDTTuzAdH4KrCIg58fqXI+kfun2lbBBNlOTsGFobX+X2RoXVyFqYfI4TShA//iq2bU=
-Authentication-Results: spf=none (sender IP is )
-	smtp.mailfrom=tom.hochstein@nxp.com; 
-Received: from VE1PR04MB6621.eurprd04.prod.outlook.com (20.179.234.213) by
-	VE1PR04MB6542.eurprd04.prod.outlook.com (20.179.234.160) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2835.20; Thu, 19 Mar 2020 18:35:12 +0000
-Received: from VE1PR04MB6621.eurprd04.prod.outlook.com
-	([fe80::71aa:4c20:47c4:759a]) by
-	VE1PR04MB6621.eurprd04.prod.outlook.com
-	([fe80::71aa:4c20:47c4:759a%7]) with mapi id 15.20.2835.017;
-	Thu, 19 Mar 2020 18:35:12 +0000
-From: Tom Hochstein <tom.hochstein@nxp.com>
+	Thu, 19 Mar 2020 19:19:19 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id a9so636495wmj.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Mar 2020 12:19:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=j987LqWEVC14+Mc+ZRv3Rp4mF6qRumXrn4Qh3cpLthY=;
+	b=NXC9HPYLK2iR3WiP66u4ylomucCJbEWDmEHrZiFYia5sL8U/uPlMlRrFp1YbVOuzTT
+	0UXCLPHR1hVDGlR6/ZmHDs2LcUt4fABVWwxt24yMs2FVmHt6gFV+JOMcz3r+GgVuydsg
+	QHSRH+xxGbME4+urZCZh9QOK9opQ3yjaSgfAWbKbLytJWtkg+p2LuAtgsIefoT6b6Ytc
+	hkNeCtnGAl9J93WxfaFXwFxF1Jxxlemu4owz6G2nSCkhJiQ4gcJXdILcG9+40yQpSo/i
+	wQak5J63M/RR65WSPIaOBJTRpUKNoYCziWoQ1PwAN2cMQizo4wGP4wVl+Kw1qGpZN6Ld
+	rR0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=j987LqWEVC14+Mc+ZRv3Rp4mF6qRumXrn4Qh3cpLthY=;
+	b=XQx3zJdhXj4lSNQEe2PYmfN8O5sZml2GRiaiN9DsAiTz8wEr9cwSgIC3+vgI/BaE4e
+	SLLHmF0iaNc0CXjb7rVEoXz6YjuGjQ1R1udWOB4z4w7F0FYYs7MDS/LRmMokP1ZoG7G/
+	wTemwGuc/pdFhWwLP9pFxDiDZdSP6ssVZatWaL0bf0QDhd0J9nTC4mZYsZlKNJk5z2Tf
+	KPYHuGbl1Fq3GxKwV77pxGW7ufcxv0hjku7b1mh08J68Ao/rtTswLWhXRg/TlpJugPRI
+	WuyLSB2BEvsDXnjXoX+LpkNV4GzHuWCysp6odeCPZdFb1cInYzjzPEaraHRyC7L4UarW
+	peFA==
+X-Gm-Message-State: ANhLgQ1gweCpnrxnKF7XiGjjqcn7NYEMDYhS7zZOhaaJI0Hb6EWRPuaI
+	5gHDRaCtDJUhlBOaZ8QlZPAwtev7
+X-Google-Smtp-Source: ADFU+vscRtgthu6dPCSaS+MRt0b7+heCLWdUwO5MlPGuhvJerfzSztZO1V3UJuOU3YE/5hvHaI60wQ==
+X-Received: by 2002:a7b:c153:: with SMTP id z19mr5203495wmi.37.1584645557675; 
+	Thu, 19 Mar 2020 12:19:17 -0700 (PDT)
+Received: from localhost ([109.238.218.228]) by smtp.gmail.com with ESMTPSA id
+	d124sm218204wmd.37.2020.03.19.12.19.16
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 19 Mar 2020 12:19:17 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Mar 2020 13:34:25 -0500
-Message-Id: <20200319183425.12294-2-tom.hochstein@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200319183425.12294-1-tom.hochstein@nxp.com>
-References: <20200319183425.12294-1-tom.hochstein@nxp.com>
-X-ClientProxiedBy: BYAPR07CA0047.namprd07.prod.outlook.com
-	(2603:10b6:a03:60::24) To VE1PR04MB6621.eurprd04.prod.outlook.com
-	(2603:10a6:803:124::21)
+Date: Thu, 19 Mar 2020 20:19:13 +0100
+Message-Id: <20200319191913.13388-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from tx30imx-01.am.freescale.net (64.157.242.222) by
-	BYAPR07CA0047.namprd07.prod.outlook.com (2603:10b6:a03:60::24)
-	with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.15
-	via Frontend Transport; Thu, 19 Mar 2020 18:35:11 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [64.157.242.222]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 788413da-d1c6-47b6-a10e-08d7cc344294
-X-MS-TrafficTypeDiagnostic: VE1PR04MB6542:|VE1PR04MB6542:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR04MB6542AEEBA8672331FEC63C10E2F40@VE1PR04MB6542.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
-X-Forefront-PRVS: 0347410860
-X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(4636009)(376002)(39860400002)(346002)(396003)(136003)(366004)(199004)(26005)(2906002)(2616005)(956004)(6512007)(4326008)(186003)(478600001)(16526019)(1076003)(6506007)(44832011)(66946007)(8936002)(81166006)(66476007)(66556008)(8676002)(81156014)(6916009)(52116002)(6486002)(86362001)(6666004)(5660300002)(36756003)(316002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:VE1PR04MB6542;
-	H:VE1PR04MB6621.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2uwmhJKMS+pEI+9ulqK4gqUIeAoWvcVcMmHCTkG94Sw/AZL2rjq2YTWrlmKt5/NxNUnMt2W5Oi1tiT6Wm8DToN7JfEhSMAA4IW8h73MKQvfxZHpPWZRuC893SYTRzZ5gIh63q1JyzVyIO6N/QnDu+/KORiD2m0XJn00UCTr71BYGji2apuxaVoovBq1Ye8vvbosyFFGr82lzMle35PCbcZZnXoWTzoa1BKpswfnvLPlXuWs35wpSr+He6RnRANahe+BvdIjhfTtHDVFtgW+Yj+s4vrYUVQ3LEDXAyfohCR3fTnrHQ1GrZ6yMFQSyG8A1TiuCaeBNd9XeY41Lo+ywoDKXfNRklWA6hJNMFBd7P7kAhDIJwFXsr9YHbYY+8Z+Ue7qvUV2+MM5LzhQn2NGUAuujDzNYrlcNrW9OL1Uvcond1tjKjrCnhjBT0C0bAyYd
-X-MS-Exchange-AntiSpam-MessageData: cjtdEgsgWxlJdNFTbm5FsqfEExQj/c6/GrZOIK0a35Jp2ywedMHuXgCuzuHN6bbxqcID/3AqyUD27qtUs7rWx8p7FYED4aAc+Php6xglAdha9oX5EsFXdjhmOdFefwYdU0KRKN5IA6nWSFPUUJ/fRA==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 788413da-d1c6-47b6-a10e-08d7cc344294
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2020 18:35:12.7914 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MeUVUcdWFFPbj9kevBFekbK7s1oO37PnvmhOQUt8lo2QF4UiIZdYBLeq7aZvuf7u7gzWkMqbxdszGuAa/fiOTw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6542
-Subject: [PATCH 2/2] wayland: Fix wayland-scanner missing from SDK
+Cc: Ross Burton <ross.burton@intel.com>
+Subject: [zeus][PATCH] sanity: check for more bits of Python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -89,38 +58,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2020 18:35:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 19 Mar 2020 19:19:19 -0000
+Content-Transfer-Encoding: 8bit
 
-The FILES variable is customized to package wayland-scanner
-in the target -dev package. However, this is not correct for
-the nativesdk packages and causes wayland-scanner to be
-missing from the SDK.
+From: Ross Burton <ross.burton@intel.com>
 
-Fix the nativesdk packaging by properly limiting the
-wayland-scanner target packaging.
+MJ: icu in master doesn't need distutils anymore, because icu 65.1 currently in
+dunfell/master doesn't depend on python3-distutils anymore since:
+https://github.com/unicode-org/icu/commit/b4d41b0561b6e8de38b99850ce0e4be8ef536bb1
 
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+but the icu-64.2 in zeus and openembedded-core/meta/recipes-core/ovmf/ovmf_git.bb
+still need python3-distutils as described in:
+http://lists.openembedded.org/pipermail/openembedded-core/2020-March/293984.html
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-graphics/wayland/wayland_1.18.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/sanity.bbclass | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/wayland_1.18.0.bb b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
-index 00be3aac27..c7098483bc 100644
---- a/meta/recipes-graphics/wayland/wayland_1.18.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
-@@ -54,8 +54,8 @@ sysroot_stage_all_append_class-target () {
- 	cp ${STAGING_DATADIR_NATIVE}/aclocal/wayland-scanner.m4 ${SYSROOT_DESTDIR}/${datadir}/aclocal/
- }
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 936fe913b4..5c2f8f9d75 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -625,13 +625,14 @@ def check_sanity_version_change(status, d):
+     # In other words, these tests run once in a given build directory and then 
+     # never again until the sanity version or host distrubution id/version changes.
  
--FILES_${PN} = "${libdir}/*${SOLIBS}"
--FILES_${PN}-dev += "${bindir} ${datadir}/wayland"
-+FILES_${PN}_class-target = "${libdir}/*${SOLIBS}"
-+FILES_${PN}-dev_append_class-target = " ${bindir} ${datadir}/wayland"
+-    # Check the python install is complete. glib-2.0-natives requries
+-    # xml.parsers.expat
++    # Check the python install is complete. Examples that are often removed in
++    # minimal installations: glib-2.0-natives requries # xml.parsers.expat and icu
++    # requires distutils.sysconfig.
+     try:
+         import xml.parsers.expat
+-    except ImportError:
+-        status.addresult('Your python is not a full install. Please install the module xml.parsers.expat (python-xml on openSUSE and SUSE Linux).\n')
+-    import stat
++        import distutils.sysconfig
++    except ImportError as e:
++        status.addresult('Your Python 3 is not a full install. Please install the module %s (see the Getting Started guide for further information).\n' % e.name)
  
- BBCLASSEXTEND = "native nativesdk"
+     status.addresult(check_make_version(d))
+     status.addresult(check_patch_version(d))
+@@ -667,6 +668,7 @@ def check_sanity_version_change(status, d):
+         status.addresult('Please use ASSUME_PROVIDED +=, not ASSUME_PROVIDED = in your local.conf\n')
  
+     # Check that TMPDIR isn't on a filesystem with limited filename length (eg. eCryptFS)
++    import stat
+     tmpdir = d.getVar('TMPDIR')
+     status.addresult(check_create_long_filename(tmpdir, "TMPDIR"))
+     tmpdirmode = os.stat(tmpdir).st_mode
 -- 
-2.17.1
+2.20.1
 
 
