@@ -1,58 +1,46 @@
-Return-Path: <brgl@bgdev.pl>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 1701460FA4
+Return-Path: <mhalstead@linuxfoundation.org>
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
+	[209.85.167.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 24C1A60FBD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 16:44:20 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id h9so3935444wrc.8
+	Thu, 19 Mar 2020 16:44:54 +0000 (UTC)
+Received: by mail-oi1-f178.google.com with SMTP id r7so3425126oij.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 09:44:22 -0700 (PDT)
+	Thu, 19 Mar 2020 09:44:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=anGUOlZYgucYq5nWzfc1Ry6bHv1XjBWe7m2dJESEqrk=;
-	b=OiFAjQC5VEfovXn8V8V6p2x4mXmtCgkdGy5mVFCuHIPyTdydkCYyhJ/bHpOF2qGot7
-	sUD24k5f7uQlzCRI4XmVDLC51IJZn01U+dXr5ODrur4T3g/zQqlBbZhspX/fSnZUgLQl
-	lO6/XkIjz+nDKuihz5SWmBgcceuaUWZE/aw3BYpk/v0QOPzQY/oL5uZyKlTK9sFKBjeL
-	NUOJ0+6dq7NOW+rdCqQBla6XivqLDEV0lieLd83JNJMv96Sny2ltMrgOoHwPepczmOKw
-	ePSYmpV4cB7RXgH4yeG3vr1AjSWUi2krqXi2vcysIRW14s5LjXYgOG/EU86PFCf0Lzkf
-	iy4w==
+	d=linuxfoundation.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=PHT0ibg/IfCI9Z7QE6cxK1xt/RNq3J/mKnMXaMNQgDM=;
+	b=FlFAC4pExC2YxCrloI+bpptOiV67xIbqj8REcdzE/eOarukLXVfMnFbCa+8mpoDDS0
+	FPWOjWjZPB+SAY8gjWpyovtwjRmCgkdmeHJEEsCp0PYhb9qzC9+IKJdG11nhngxlykZP
+	IfFylI9qoPXLfAEiYhWu5FdqIMybYNVH9d4Q4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=anGUOlZYgucYq5nWzfc1Ry6bHv1XjBWe7m2dJESEqrk=;
-	b=atf5zDlcAYGeQoo1bbzm21nc0ihrp53ammP2dQQoR4HduJfdNh7xItbd0MeMQw67j2
-	h/wBVEKtznrRngoQ87r3r6v5eKDdhDDcetDMy2ptIQRLtZ35F35tq013a6gTRBTEPXxU
-	VvQsJyKvDGNRNa+uC/sFAIA8Y+5Ck2priEXrdTvs4omwzcevU44SrF+wwdS4fTGK2Q/O
-	DIK2UUJP8Gu2qlXX0Ugv5NHvwR68c/Phy3/jsgT0ZHTXhKoDuH+n9OBLrD15ZM4eermi
-	rYHmHseHyvnZpk3jvSH/u+svOzIEbCFztn1Tx90PSIjPi1iY5N+BJCdxysuVUQPxhBQk
-	1qMQ==
-X-Gm-Message-State: ANhLgQ1n/7ahY1KkwrIpbXrkpjhLvx6r/TDT3Ht4qxeh+wTGuJLZqNXw
-	R1E8hcv9Nbdb6YLg4Y96byiYXQ==
-X-Google-Smtp-Source: ADFU+vveaLXT7SbdLimA37hpvdDtH4lHT1rrk5OpnBAINKkERZq2AB4cBPTYI8lESa67hFuktQ9yPg==
-X-Received: by 2002:a5d:6992:: with SMTP id g18mr5424402wru.426.1584636261460; 
-	Thu, 19 Mar 2020 09:44:21 -0700 (PDT)
-Received: from localhost.localdomain (lfbn-nic-1-65-232.w2-15.abo.wanadoo.fr.
-	[2.15.156.232]) by smtp.gmail.com with ESMTPSA id
-	b82sm3741970wmb.46.2020.03.19.09.44.20
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 19 Mar 2020 09:44:21 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Armin Kuster <akuster808@gmail.com>, Jerome Neanne <jneanne@baylibre.com>,
-	Quentin Schulz <quentin.schulz@streamunlimited.com>
-Date: Thu, 19 Mar 2020 17:44:03 +0100
-Message-Id: <20200319164403.29605-3-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200319164403.29605-1-brgl@bgdev.pl>
-References: <20200319164403.29605-1-brgl@bgdev.pl>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=PHT0ibg/IfCI9Z7QE6cxK1xt/RNq3J/mKnMXaMNQgDM=;
+	b=exHWKBFNkrl7ezrel+youv5ZdDcbFANeLVgCPFxUSvlGdTiIce5a8Vkfi1sdpeldRZ
+	aguu6dppg5ySclEmE7jht2lAKV/C+anySokScNqnSgbqiT6MkTagZggoiXkxu3T3FJHC
+	T8BVd3yuBMZjkblne4hR//lX1EJhHdo+p1AoVD/OcWzFTQIMojqWCKUeEEBHmW05vFt4
+	XF1iU4jnecO0xNHe9yH964h7Y23G53+pWEKpRrahR6R7OjuD/as4Qb78svBaW9XU3mLm
+	7xiKV+6jE5i4Lfd44P2dnCpvM5PHlzJ5rNLqSwRnJTvjpo6WHxFbMkQht0rOcsdjp0JM
+	sPzA==
+X-Gm-Message-State: ANhLgQ0NKr7t65GrLK0oAkTBxju16aMxuyuS4xVI2m002ENIxixL+V76
+	qNg/2LBBTnUg6SDfysWKa74EtCyeYFTQsEtc7JRMxQ==
+X-Google-Smtp-Source: ADFU+vsbozWCzHOBfG0Encl02Jiy1tH9FESgJh6BE8rNrAb81tAJhvLpjJhfAo3bEUJyO/fse8dfWAeOtuGWbFZxdvM=
+X-Received: by 2002:aca:56c2:: with SMTP id k185mr2909127oib.141.1584636295002;
+	Thu, 19 Mar 2020 09:44:55 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-	openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 2/2] image.bbclass: deploy artifacts in two stages
+References: <CADfgfobNNXr9HSOiwyamzbZ4q1uc8wgD5PzobDF56cDyYui-HQ@mail.gmail.com>
+In-Reply-To: <CADfgfobNNXr9HSOiwyamzbZ4q1uc8wgD5PzobDF56cDyYui-HQ@mail.gmail.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+Date: Thu, 19 Mar 2020 09:44:43 -0700
+Message-ID: <CADfgfoYCjVip=oc_U0TdFzOVst5U-KU+R31JhdckRv77APzQ-g@mail.gmail.com>
+To: bitbake-devel@lists.openembedded.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-architecture@lists.openembedded.org, 
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Subject: Re: Mailing list platform change March 20th
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,182 +53,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2020 16:44:21 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 19 Mar 2020 16:44:54 -0000
+Content-Type: multipart/alternative; boundary="00000000000076507b05a137e391"
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+--00000000000076507b05a137e391
+Content-Type: text/plain; charset="UTF-8"
 
-Currently the artifacts for all image types are deployed to the shared
-space at the same time by the do_image_deploy task. This however creates
-a problem with circular dependencies if we want to use certain security
-features[1]. Because wic is designed to fetch artifacts generated by other
-recipes as well as other images generated by the same recipe it's useful
-to delay its creation and deployment until after do_image_complete.
+Everything is proceeding smoothly and this work will continue as planned.
+The migration starts at noon PDT tomorrow.
 
-This patch adds a new variable: IMAGE_TYPES_DEPLOY_LATE which contains
-a list of image types for which the associated IMAGE_CMD tasks should be
-called after do_image_complete. The deployment is now done in two stages:
-before do_image_complete for all regular types and after for types listed
-in the new variable.
+List owners please take care of all outstanding moderation in the next 24
+hours to ensure a smooth transition.
 
-This will allow us to fine tune the dependencies in order to implement
-dm-verity support where initramfs on which the main image depends needs to
-access the partition image before we create the wic image.
+Thank you,
+--
+Michael Halstead
+Linux Foundation / Yocto Project
+Systems Operations Engineer
 
-[1] http://lists.openembedded.org/pipermail/openembedded-core/2020-March/294094.html
+On Fri, Mar 13, 2020 at 4:58 PM Michael Halstead <
+mhalstead@linuxfoundation.org> wrote:
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
----
- meta/classes/image.bbclass                    | 39 ++++++++++++++-----
- meta/classes/image_types.bbclass              |  3 ++
- meta/classes/image_types_wic.bbclass          |  4 +-
- .../images/build-appliance-image_15.0.0.bb    |  2 +-
- 4 files changed, 36 insertions(+), 12 deletions(-)
+> We are moving our lists from Mailman to Groups.io. E-mail to lists will
+> be delayed during the move window. We are aiming to complete the migration
+> during business hours in the Pacific time zone.
+>
+> A new account will be created for you on the Groups.io platform if you
+> don't already have one.
+>
+> You can read more about the change on the wiki:
+> https://www.openembedded.org/wiki/GroupsMigration
+>
+> If there are serious issues we will rollback the changes. We will e-mail
+> all lists when work is complete.
+>
+> --
+> Michael Halstead
+> Linux Foundation / Yocto Project
+> Systems Operations Engineer
+>
+>
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 6e2b864f73..7d0dd6ee50 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -83,6 +83,7 @@ export PACKAGE_INSTALL ?= "${IMAGE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL} ${FEATUR
- PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
- 
- IMGDEPLOYDIR = "${WORKDIR}/deploy-${PN}-image-complete"
-+LATEIMGDEPLOYDIR = "${WORKDIR}/deploy-${PN}-image-complete-late"
- 
- # Images are generally built explicitly, do not need to be part of world.
- EXCLUDE_FROM_WORLD = "1"
-@@ -127,7 +128,7 @@ def rootfs_variables(d):
-                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS', 'IMAGE_LINGUAS_COMPLEMENTARY',
-                  'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
-                  'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
--                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'REPRODUCIBLE_TIMESTAMP_ROOTFS', 'IMAGE_INSTALL_DEBUGFS']
-+                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'LATEIMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'REPRODUCIBLE_TIMESTAMP_ROOTFS', 'IMAGE_INSTALL_DEBUGFS']
-     variables.extend(rootfs_command_variables(d))
-     variables.extend(variable_depends(d))
-     return " ".join(variables)
-@@ -247,7 +248,7 @@ fakeroot python do_rootfs () {
-     progress_reporter.finish()
- }
- do_rootfs[dirs] = "${TOPDIR}"
--do_rootfs[cleandirs] += "${S} ${IMGDEPLOYDIR}"
-+do_rootfs[cleandirs] += "${S} ${IMGDEPLOYDIR} ${LATEIMGDEPLOYDIR}"
- do_rootfs[umask] = "022"
- do_rootfs[file-checksums] += "${POSTINST_INTERCEPT_CHECKSUMS}"
- addtask rootfs after do_prepare_recipe_sysroot
-@@ -273,7 +274,21 @@ SSTATETASKS += "do_image_deploy"
- do_image_deploy[sstate-inputdirs] = "${IMGDEPLOYDIR}"
- do_image_deploy[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
- SSTATE_SKIP_CREATION_task-image-deploy = '1'
--addtask do_image_deploy after do_image before do_build
-+addtask do_image_deploy after do_image before do_image_complete
-+
-+do_image_deploy_late() {
-+    # Avoid using SSTATE_DUPWHITELIST - check which images have already been
-+    # deployed and copy those that haven't into a separate pre-deploy directory
-+    # which will serve as the sstate input directory for this task.
-+    for file in $(ls ${IMGDEPLOYDIR}) ; do
-+        test -e ${DEPLOY_DIR_IMAGE}/$file || cp -a ${IMGDEPLOYDIR}/$file ${LATEIMGDEPLOYDIR}/$file
-+    done
-+}
-+SSTATETASKS += "do_image_deploy_late"
-+do_image_deploy_late[sstate-inputdirs] = "${LATEIMGDEPLOYDIR}"
-+do_image_deploy_late[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
-+SSTATE_SKIP_CREATION_task-image-deploy-late = '1'
-+addtask do_image_deploy_late after do_image_complete before do_build
- 
- fakeroot python do_image_complete () {
-     from oe.utils import execute_pre_post_process
-@@ -285,7 +300,7 @@ fakeroot python do_image_complete () {
- do_image_complete[dirs] = "${TOPDIR}"
- do_image_complete[umask] = "022"
- do_image_complete[stamp-extra-info] = "${MACHINE_ARCH}"
--addtask do_image_complete after do_image_deploy before do_build
-+addtask do_image_complete after do_image_deploy before do_image_deploy_late
- python do_image_complete_setscene () {
-     sstate_setscene(d)
- }
-@@ -412,6 +427,7 @@ python () {
- 
-     maskedtypes = (d.getVar('IMAGE_TYPES_MASKED') or "").split()
-     maskedtypes = [dbg + t for t in maskedtypes for dbg in ("", "debugfs_")]
-+    latetypes = d.getVar('IMAGE_TYPES_DEPLOY_LATE').split()
- 
-     for t in basetypes:
-         vardeps = set()
-@@ -491,9 +507,14 @@ python () {
-         for image in sorted(rm_tmp_images):
-             cmds.append("\trm " + image)
- 
--        after = 'do_image'
--        for dep in typedeps[t]:
--            after += ' do_image_%s' % dep.replace("-", "_").replace(".", "_")
-+        if t in latetypes:
-+            before = 'do_image_deploy_late'
-+            after = 'do_image_complete'
-+        else:
-+            before = 'do_image_deploy'
-+            after = 'do_image'
-+            for dep in typedeps[t]:
-+                after += ' do_image_%s' % dep.replace("-", "_").replace(".", "_")
- 
-         task = "do_image_%s" % t.replace("-", "_").replace(".", "_")
- 
-@@ -507,8 +528,8 @@ python () {
-         d.appendVarFlag(task, 'vardeps', ' ' + ' '.join(vardeps))
-         d.appendVarFlag(task, 'vardepsexclude', ' DATETIME DATE ' + ' '.join(vardepsexclude))
- 
--        bb.debug(2, "Adding task %s before do_image_deploy, after %s" % (task, after))
--        bb.build.addtask(task, 'do_image_deploy', after, d)
-+        bb.debug(2, "Adding task %s before %s, after %s" % (task, before, after))
-+        bb.build.addtask(task, before, after, d)
- }
- 
- #
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index f82f1d8862..665bd7c4b3 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -331,5 +331,8 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
- # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hddimg, iso, etc.
- IMAGE_TYPES_MASKED ?= ""
- 
-+# Image types that should be generated and deployed after do_image_complete task.
-+IMAGE_TYPES_DEPLOY_LATE ?= "wic"
-+
- # bmap requires python3 to be in the PATH
- EXTRANATIVEPATH += "${@'python3-native' if d.getVar('IMAGE_FSTYPES').find('.bmap') else ''}"
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index b83308b45c..80039ed19c 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -113,7 +113,7 @@ python () {
-                 # a variable and let the metadata deal with the deps.
-                 d.setVar('_WKS_TEMPLATE', body)
-                 bb.build.addtask('do_write_wks_template', 'do_image_wic', 'do_image', d)
--        bb.build.addtask('do_image_wic', 'do_image_complete', None, d)
-+        bb.build.addtask('do_image_wic', None, 'do_image_complete', d)
- }
- 
- #
-@@ -139,6 +139,6 @@ python do_rootfs_wicenv () {
-     depdir = d.getVar('IMGDEPLOYDIR')
-     bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
- }
--addtask do_rootfs_wicenv after do_image before do_image_wic
-+addtask do_rootfs_wicenv after do_image_complete before do_image_wic
- do_rootfs_wicenv[vardeps] += "${WICVARS}"
- do_rootfs_wicenv[prefuncs] = 'set_image_size'
-diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-index 8c9fe92485..5ec66ebd76 100644
---- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-+++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
-@@ -138,4 +138,4 @@ python do_bundle_files() {
-     bb.build.exec_func('create_bundle_files', d)
- }
- 
--addtask bundle_files after do_image_wic before do_image_complete
-+addtask bundle_files after do_image_wic
--- 
-2.19.1
+--00000000000076507b05a137e391
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Everything is proceeding smoothly and this work will conti=
+nue as planned. The migration starts at noon PDT tomorrow.<div><br></div><d=
+iv>List owners please take care of all outstanding moderation in the next 2=
+4 hours to ensure a smooth transition.</div><div><br></div><div>Thank you,<=
+/div><div>--<br>Michael Halstead<br>Linux Foundation / Yocto Project<br>Sys=
+tems Operations Engineer<br></div></div><br><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 13, 2020 at 4:58 PM Michael H=
+alstead &lt;<a href=3D"mailto:mhalstead@linuxfoundation.org">mhalstead@linu=
+xfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex"><div dir=3D"ltr"><div>We are moving our lists from Mailman t=
+o=C2=A0<span>Groups</span>.<span>io</span>. E-mail to lists will be delayed=
+ during the move window. We are aiming to complete the migration during bus=
+iness hours in the Pacific time zone.<br></div><div><br></div><div>A new ac=
+count will be created for you on the=C2=A0<span>Groups</span>.<span>io</spa=
+n>=C2=A0platform if you don&#39;t already have one.<br></div><div><br></div=
+><div>You can read more about the change on the wiki:<br></div><a href=3D"h=
+ttps://www.openembedded.org/wiki/GroupsMigration" target=3D"_blank">https:/=
+/www.openembedded.org/wiki/GroupsMigration</a><br><div><br></div><div>If th=
+ere are serious issues we will rollback the changes. We will e-mail<br>all =
+lists when work is complete.<br></div><div><br></div><div><span style=3D"co=
+lor:rgb(136,136,136)">--</span><br style=3D"color:rgb(136,136,136)"><span s=
+tyle=3D"color:rgb(136,136,136)">Michael Halstead</span><br style=3D"color:r=
+gb(136,136,136)"><span style=3D"color:rgb(136,136,136)">Linux Foundation / =
+Yocto Project</span><br style=3D"color:rgb(136,136,136)"><span style=3D"col=
+or:rgb(136,136,136)">Systems Operations Engineer</span><br></div><div><br><=
+/div></div>
+</blockquote></div>
 
+--00000000000076507b05a137e391--
