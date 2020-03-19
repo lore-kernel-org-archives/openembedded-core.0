@@ -1,51 +1,57 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B41360AD8
+Return-Path: <brgl@bgdev.pl>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D2EB96004E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 14:10:56 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id v11so3161385wrm.9
+	Thu, 19 Mar 2020 16:44:18 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id 26so991187wmk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 07:10:57 -0700 (PDT)
+	Thu, 19 Mar 2020 09:44:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=ciJsr+fIF018ppErvVRWBADmoHCR0+9Oubxbu8Y0v1E=;
-	b=YKLQwxPj/qsZB5FYC+j5FwRuVHFthUDDVBES+KneN5vQs1/iRYNFgVt6qTWHAptAkl
-	tzQjiss+5LdS0CAR3rEqCcEeqyEriOzxi7JhKrFL0ygHv+/jW41trQ0WyTgfpWEFbEhJ
-	zZI/1xZlujAThkrUgnuEAHCdrKUt8dRm+7OIw=
+	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=EaVa+fvY6Pnu19px7zYQBOoWvTZIBuX9XWxv1E2GPnE=;
+	b=ZU6ephv1pBMa3fWmdTgPL+l8bx+bqTek3G+YVKGABoiJ1DTZs+IGPuBw8uYKXXWRdI
+	NantOyLkuwDM/cyr9+OiyIMRM1AATBUgzgCusD6rJKsILBwvmhav8jHvbBW2ocPZYylQ
+	RMHXRHkq4L66ZQKOvgTU7JL9OVYJ1HNAv57C4JXFKq19sIDLU7TKauErq288pm7wpHoj
+	xXDoiRqU9VQeiWLKTgs095LznHn66Lg3hMGLYt6JWauw9of8lLESamDGqpZS3W62XDNk
+	JmQuEkjCXMQXgm9gSt8XDNWalBggJD/jG8mA6Bj40thpXBV+UH2hE6JxnXcRE33GoYjm
+	+Rww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ciJsr+fIF018ppErvVRWBADmoHCR0+9Oubxbu8Y0v1E=;
-	b=kLo26jPIDrgsib/Phhk6NezDcRpRCDaiRTQiZDgYK0LrgLK0t+nKmRsKTwyE5P8iLz
-	B4TiHlae7mDz2z/xYCw20L7IX6NAc9oYzmwj1O/k+/R00Nlw3arJOOuQE59IlU0CCE2p
-	V/DMyskNTI387Gihq1SAvuXpbQ2epm1M0yTN1ILl4S9JvDqGYoLCMxUWvPn43oXp8QwG
-	+513TTNZ2IwNKXLydjyDFJgP06XV3DSj05C0YBWK/h41JmM30akyrXpDOqwgTScaWFBh
-	vhUK5wX/G1jciXDALX7okscBsT6Ye3TkSJfL1nbFD2lFREqa7ONSt2447k19JtYAuiNB
-	h7wQ==
-X-Gm-Message-State: ANhLgQ2dtRrlpet/F4vtOC/HMV3b8UZq2uxkBYwmvktNOOwfskwPlvwe
-	EO5rrn3BxjhkPPgdpScmKKPOmQ==
-X-Google-Smtp-Source: ADFU+vtsGriV3gbmS3+isnXizyAvawIGUE660V6Tq98371DAKucPLOGm3RhgLv+tIjBbsRODDyer5g==
-X-Received: by 2002:adf:eac7:: with SMTP id o7mr4811319wrn.292.1584627056737; 
-	Thu, 19 Mar 2020 07:10:56 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id b5sm3752625wrj.1.2020.03.19.07.10.55
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=EaVa+fvY6Pnu19px7zYQBOoWvTZIBuX9XWxv1E2GPnE=;
+	b=NpxA0a0f/1ZZ4lDby45GkwsGdGMvkc4FRw5GtZsRWGQtCiPg7ueTZkvg3XjgrREygT
+	m3R8LEwgbYIvl5HDm8jETRjARyn4wZqIO8tYvaVPTW21NfjqdNSRuWxnAoz8X0QlWkGq
+	hAkIrKHq3kkzKWOYzPT25QQGuy68fj1271jvnlHw7dX4L3BKSYAcjzsNQXcvlHvRIUKC
+	elOzDnqL1zdQMeZG8fx0SQq9LEGXpXxXGOUT+nsXNkx/CBAE18Ut0nGJlbQU7VEAwSUN
+	9jNfhMPqDhxnHijV7J7XDuBiOAd18njJ6j21MS7JUPu7KKq2jTA7GrzE0psJBfZABX7S
+	LqQQ==
+X-Gm-Message-State: ANhLgQ3MersDjgkhwVkM1Cc7aj5i4ryBlsyVhm6oy4nXMg63pCQVylGI
+	PvMIj+s/Ovj/SrWk4oICP+mWAg==
+X-Google-Smtp-Source: ADFU+vtLLpKAA44ayGBndWwRsbs6KuDBpWpZ5rHKoqVFKqKnOaszgtZu3Mbo2lW3gVAuQ9tiAAFCSA==
+X-Received: by 2002:a05:600c:2210:: with SMTP id
+	z16mr3927744wml.38.1584636259130; 
+	Thu, 19 Mar 2020 09:44:19 -0700 (PDT)
+Received: from localhost.localdomain (lfbn-nic-1-65-232.w2-15.abo.wanadoo.fr.
+	[2.15.156.232]) by smtp.gmail.com with ESMTPSA id
+	b82sm3741970wmb.46.2020.03.19.09.44.18
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 19 Mar 2020 07:10:56 -0700 (PDT)
-Message-ID: <d88284c9fa0ca7eda58543a4a3b262b6fbe1fcb3.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 19 Mar 2020 14:10:52 +0000
-In-Reply-To: <1584603707-43423-6-git-send-email-wangmy@cn.fujitsu.com>
-References: <1584603707-43423-1-git-send-email-wangmy@cn.fujitsu.com>
-	<1584603707-43423-6-git-send-email-wangmy@cn.fujitsu.com>
-User-Agent: Evolution 3.35.91-1 
+	Thu, 19 Mar 2020 09:44:18 -0700 (PDT)
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+To: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Armin Kuster <akuster808@gmail.com>, Jerome Neanne <jneanne@baylibre.com>,
+	Quentin Schulz <quentin.schulz@streamunlimited.com>
+Date: Thu, 19 Mar 2020 17:44:01 +0100
+Message-Id: <20200319164403.29605-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] mc: upgrade 4.8.23 -> 4.8.24
+Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+	openembedded-core@lists.openembedded.org
+Subject: [RFC PATCH 0/2] image.bbclass: support two-stage deployment of image artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +64,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2020 14:10:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Mar 2020 16:44:19 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-03-19 at 00:41 -0700, Wang Mingyu wrote:
-> 0001-Add-option-to-control-configure-args.patch
-> 0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
-> removed since they are included in 4.8.24
-> 
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
->  ...Add-option-to-control-configure-args.patch |  99 ----------------
->  ...29-configure.ac-drop-bundled-gettext.patch | 110 ----------------
-> --
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Fails in do_install:
+This is a follow-up to the discussion I started on the OE-core mailing
+list a couple days ago[1]. These patches propose to split the deployment
+of image artifacts into two stages where the first one includes all
+"regular" images and takes place before do_image_complete and the second
+is mostly aimed at wic right now and happens after do_image_complete.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/1945
-https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/609
+These patches work but I'm sending them as RFC mostly to continue the
+discussion about possible solutions for the circular dependencies between
+the rootfs and initramfs.
 
-How was this tested?
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2020-March/294094.html
 
-Cheers,
+Bartosz Golaszewski (2):
+  image.bbclass: add an intermediate deploy task
+  image.bbclass: deploy artifacts in two stages
 
-Richard
+ meta/classes/image.bbclass                    | 54 ++++++++++++++-----
+ meta/classes/image_types.bbclass              |  3 ++
+ meta/classes/image_types_wic.bbclass          |  4 +-
+ .../images/build-appliance-image_15.0.0.bb    |  2 +-
+ 4 files changed, 47 insertions(+), 16 deletions(-)
+
+-- 
+2.19.1
 
 
