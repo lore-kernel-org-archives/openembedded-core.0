@@ -1,57 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 773E5600A4
+Return-Path: <jpitti@cisco.com>
+X-Greylist: delayed 425 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 19 Mar 2020 23:40:39 UTC
+Received: from rcdn-iport-4.cisco.com (rcdn-iport-4.cisco.com [173.37.86.75])
+	by mail.openembedded.org (Postfix) with ESMTP id D6F8260FF1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 23:38:17 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id h4so5472268wru.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 16:38:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=k17/MnVfZnECNOzMVpinSkMQ8dOvvBvU3UuS4Va7YXg=;
-	b=DiGeXdg62Rpi3SaF2XyMwncgW1MFd0Nv3FjJhZnL5QldbC3qPSVfdNiTSJ+MAVc8WT
-	6mxm+6yMuBc6GlIak2SQyLDOp7eXX6UNMf443ytvgoiD0lef5poHsYPmDHCZxsg2bqB4
-	H7qj9fXSfQfarLxqK/PMcEMMXX9Vo1hothymw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=k17/MnVfZnECNOzMVpinSkMQ8dOvvBvU3UuS4Va7YXg=;
-	b=uaVlx54lWt1VLYm8mAOgMu4Fy4RERWBKiNpuCtOAzCkPahOfIMT+7novrRDs7tx8cX
-	TymXuP43XQotTX6FZl1eM744U/VReMHyeXhkJbiSQ+KMcQINIZ9EY7iUvqetD1MOD2/d
-	rDUe2Yu4F8fwfLykDuYoZN9xzb6N8Mr4pE2J9e8N+lQLaobKCkZqxihJ2yPMrnF1yGA4
-	pG6V87K54axxW4U//R8RZVJdt5S/Hl0ZY2ClLyddDctpAwReAOTjoxnBqSUJiUCkTr3h
-	e2lCGKaQXB95ym3vtdG4K+3vnW1NjdgtiQ3rv6U9LLoHJawScbnI7FIJxxS+S/s2wELz
-	cqMQ==
-X-Gm-Message-State: ANhLgQ3wnlnMLO1JMEA1KP1NbFeSjXOL5Q92vhPD0mDQHQS2lo3PR0Ec
-	x5KgJKw+EvOM1tAHmz6vqp+wag==
-X-Google-Smtp-Source: ADFU+vvXeMfkxnwozOvSClxGpfRggmlQDhV1FlUQCx/8jAt5CSwqqSQQcTh9H2axKkR2VztTTCcOLA==
-X-Received: by 2002:adf:84a3:: with SMTP id 32mr3149990wrg.378.1584661098102; 
-	Thu, 19 Mar 2020 16:38:18 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	z188sm2934541wme.46.2020.03.19.16.38.16
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 19 Mar 2020 16:38:17 -0700 (PDT)
-Message-ID: <c574ae14be64e888fd15102e7145c4d4867667ea.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 19 Mar 2020 23:38:15 +0000
-In-Reply-To: <CAMRc=MeF5beTkadXL6WGJhq-AsXTxu_4WC2c+sFeMqm+EsgaHQ@mail.gmail.com>
-References: <20200319164403.29605-1-brgl@bgdev.pl>
-	<21fcbda1e8b274ba75534159179ca9535c618d68.camel@linuxfoundation.org>
-	<CAMRc=MeF5beTkadXL6WGJhq-AsXTxu_4WC2c+sFeMqm+EsgaHQ@mail.gmail.com>
-User-Agent: Evolution 3.35.91-1 
+	Thu, 19 Mar 2020 23:40:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=3345; q=dns/txt; s=iport;
+	t=1584661241; x=1585870841;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=ELlHhxhzmkGZ05aflattNuSbKPuSAzA1hTIMC517tYM=;
+	b=dsVEv3iL8JpzkFeTBLXSb+oTUbBztRkIuqC4Gvz8k8YY8a5LFTd5psRQ
+	J+wNwTVHLK6WSldaTUqictuMnYpptIOZiysoq5Fej4atAvELu7X13iIYG
+	qFASXwUFL4re9XccDLPar6aQtbsso0qXBxBE0l/ACxo4yp3/N7leiGJDO 8=;
+X-IronPort-AV: E=Sophos;i="5.70,573,1574121600"; d="scan'208";a="740867036"
+Received: from rcdn-core-2.cisco.com ([173.37.93.153])
+	by rcdn-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	19 Mar 2020 23:33:35 +0000
+Received: from sjc-ads-5706.cisco.com (sjc-ads-5706.cisco.com [10.28.88.220])
+	by rcdn-core-2.cisco.com (8.15.2/8.15.2) with ESMTP id
+	02JNXY1d006236; Thu, 19 Mar 2020 23:33:35 GMT
+From: Julius Hemanth Pitti <jpitti@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Mar 2020 16:33:30 -0700
+Message-Id: <20200319233330.65306-1-jpitti@cisco.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Cc: Jerome Neanne <jneanne@baylibre.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-	Quentin Schulz <quentin.schulz@streamunlimited.com>
-Subject: Re: [RFC PATCH 0/2] image.bbclass: support two-stage deployment of image artifacts
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 10.28.88.220, sjc-ads-5706.cisco.com
+X-Outbound-Node: rcdn-core-2.cisco.com
+Cc: xe-linux-external@cisco.com
+Subject: [zeus][PATCH] nfs-utils: Disable statx if using glibc emulation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,65 +44,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2020 23:38:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 19 Mar 2020 23:40:40 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-03-19 at 19:20 +0100, Bartosz Golaszewski wrote:
-> If we'll really get to a point where we need to create a hierarchy of
-> multiple levels of image deployment, then maybe we should switch to
-> deploying each image right after it is created in its dedicated
-> do_image_<type> task, then we could really fine-tune the inter-task
-> dependencies. But we're not there yet and IMO currently it would be
-> overkill. The rule of thumb for me is not to add new interfaces
-> nobody asks for.
+nfs-utils 2.4.1, moves from "stat" to "statx
+with AT_STATX_DONT_SYNC" in parts of the code.
 
-Going back in time I'm the person who split the image pieces off from
-do_rootfs and split the different image commands into different tasks.
-I did this for several reasons but one was we were developing new task
-dependency code inside the image construction which was just crazy.
+statx is supported in Linux kernel v4.11 and above.
+For all older kernels glibc emulates statx, and it
+doesn't support AT_STATX_DONT_SYNC and will return
+EINVAL.
 
-I was wondering about the option of having the image task deploy the
-image earlier. I think that could be made to work. I think conceptually
-it makes more sense architecturally than adding in arbitrary new task
-levels to the existing structure.
+When server uses nfs-utils 2.4.1 on kernel v4.10
+and older, mount.nfs4 would fail with error
+"reason given by server: No such file or directory".
 
-> This also makes your argument about adding a third category purely
-> theoretical: I don't see how we would need another category of images
-> anytime soon.
+Since Linux v4.4 and v4.9 are LTS, its more likely
+that people would use above combination.
 
-I often think things like that but then new use cases come along...
+This issue has been fixed in nfs-utils 2.4.3 and
+above. Backporting fix to 2.4.1.
 
-> Please do - I'm open for other ideas. Just please keep in mind:
-> there's obviously a problem with the current approach. I described it
-> in detail and it turned out Quentin had encountered it too and dealt
-> with it using a nasty workaround (fitImage deployed by the image
-> recipe and not the kernel). I'd like to fix it upstream and proposed
-> a solution that is IMO not horrible. I'd appreciate if we could reach
-> a compromise that wouldn't leave us with downstream hacks.
+Signed-off-by: Julius Hemanth Pitti <jpitti@cisco.com>
+---
+ ...sable-statx-if-using-glibc-emulation.patch | 34 +++++++++++++++++++
+ .../nfs-utils/nfs-utils_2.4.1.bb              |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Disable-statx-if-using-glibc-emulation.patch
 
-I do understand there is a problem. We also have problems with people
-not understanding the code as it works today. Your proposal adds
-something else with is hard to explain to users ("Is my image simple or
-composed?") and whilst we can and do add complexity where we need to,
-I'm not yet convinced this change makes enough sense to have it.
-
-Changing the way image deployment works would in many ways be much
-easier for people to understand and makes the system more flexible
-without adding problematic terminology.
-
-> Please also note that sometimes "gets the job done" really is better
-> than not solving problems. Just look at initcall levels in the linux
-> kernel - they are similar to what I proposed here and serve as a
-> surrogate for real dependencies.
-
-We have piles of "get the job done" and also need to sometimes take a
-step back and see if we can do something better. Right now I think your
-proposal makes things worse and will be hard to explain to people. My
-instinct is we can do better here.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Disable-statx-if-using-glibc-emulation.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Disable-statx-if-using-glibc-emulation.patch
+new file mode 100644
+index 0000000000..b8f96f3fba
+--- /dev/null
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Disable-statx-if-using-glibc-emulation.patch
+@@ -0,0 +1,34 @@
++From ff3ad88c233ecd87f7983ad13836323f944540ec Mon Sep 17 00:00:00 2001
++From: Doug Nazar <nazard@nazar.ca>
++Date: Mon, 9 Dec 2019 10:53:37 -0500
++Subject: [PATCH] Disable statx if using glibc emulation
++
++On older kernels without statx, glibc with statx support will attempt
++to emulate the call. However it doesn't support AT_STATX_DONT_SYNC and
++will return EINVAL. This causes all xstat/xlstat calls to fail.
++
++Upstream Status: Backport
++
++Signed-off-by: Doug Nazar <nazard@nazar.ca>
++Signed-off-by: Steve Dickson <steved@redhat.com>
++---
++ support/misc/xstat.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/support/misc/xstat.c b/support/misc/xstat.c
++index 661e29e4..a438fbcc 100644
++--- a/support/misc/xstat.c
+++++ b/support/misc/xstat.c
++@@ -51,6 +51,9 @@ statx_do_stat(int fd, const char *pathname, struct stat *statbuf, int flags)
++ 			statx_copy(statbuf, &stxbuf);
++ 			return 0;
++ 		}
+++		/* glibc emulation doesn't support AT_STATX_DONT_SYNC */
+++		if (errno == EINVAL)
+++			errno = ENOSYS;
++ 		if (errno == ENOSYS)
++ 			statx_supported = 0;
++ 	} else
++-- 
++2.19.1
++
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
+index 7e80354e4e..3ae8f965c8 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
+@@ -33,6 +33,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
+            file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
+            file://0001-Fix-include-order-between-config.h-and-stat.h.patch \
++           file://0001-Disable-statx-if-using-glibc-emulation.patch \
+ "
+ SRC_URI_append_libc-glibc = " file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch"
+ SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
+-- 
+2.18.1
 
 
