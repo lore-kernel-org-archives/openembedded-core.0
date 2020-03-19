@@ -1,58 +1,58 @@
 Return-Path: <brgl@bgdev.pl>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id A795E60F32
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 1701460FA4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 16:44:19 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id a9so72585wmj.4
+	Thu, 19 Mar 2020 16:44:20 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id h9so3935444wrc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 09:44:21 -0700 (PDT)
+	Thu, 19 Mar 2020 09:44:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=028+oElPlpdnMqOLa58lF8x4sM/HBneil+GrO6C3Nzs=;
-	b=wqUkXPn8pKCz/ccUn6FOzianaf2fypruC+mkG+gF0FxSIn4G7ADVWgU5lZaqLV5uBg
-	1HctVsg/oXS1qA/9mBDamHcan/tjPQADb5eTn2S6Tg7z9WUXxHi+vHKqnzkUNhu+LaGb
-	Ju8Js9nGCsW79Z7JbxkL0Y9nxGK/Ufu5UFs/3H2jheeO7EVnDNc//HP0+bKx3jGBx5QG
-	DG5KizJzmOFanqzNk5sftYhYUOviLZ6jGG0PyBdgDZNkR3E/Kd201yR9ovCLgM0yTxHW
-	YwrQSZQovIEakNqYNz8vM8DpifRcpaMAv+8RZUe065nRozyIqC/nMuG6DPt+dW7NjQID
-	pCsw==
+	bh=anGUOlZYgucYq5nWzfc1Ry6bHv1XjBWe7m2dJESEqrk=;
+	b=OiFAjQC5VEfovXn8V8V6p2x4mXmtCgkdGy5mVFCuHIPyTdydkCYyhJ/bHpOF2qGot7
+	sUD24k5f7uQlzCRI4XmVDLC51IJZn01U+dXr5ODrur4T3g/zQqlBbZhspX/fSnZUgLQl
+	lO6/XkIjz+nDKuihz5SWmBgcceuaUWZE/aw3BYpk/v0QOPzQY/oL5uZyKlTK9sFKBjeL
+	NUOJ0+6dq7NOW+rdCqQBla6XivqLDEV0lieLd83JNJMv96Sny2ltMrgOoHwPepczmOKw
+	ePSYmpV4cB7RXgH4yeG3vr1AjSWUi2krqXi2vcysIRW14s5LjXYgOG/EU86PFCf0Lzkf
+	iy4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=028+oElPlpdnMqOLa58lF8x4sM/HBneil+GrO6C3Nzs=;
-	b=Tx7MM8DG7Xt+2QzroCtg/h/TiMMat1DKfxePykSwgp7W0pzMPx8uiWkuhrWWPvYY2v
-	0KC/AXqILy+YF/l33rql0FZ/ww5kXFUBL7Dv5upjePoswRUXoLUiDKNsx4X10cbqu2Vj
-	xk4CmuREe02h/pAa8UQd+KTcYASrz9cOb/I1Jeyl2ayczUz1mrWDD5KBZn0LJBjIhNYH
-	dqt/iXuvf9aTi8JGAXtdeXdIu7mJG7hPkbGIyth7/fgnZmO9iGjD76u4MqyhrdehSZiL
-	PAu4K+T463EiNJebUAyvpNbw1bikOA3ZtYaSfaHkFWviqK+TM4rM1UhIhaCqDvU58shc
-	RnnA==
-X-Gm-Message-State: ANhLgQ2xbu6sfYNMCrDoBjkKR0PSh3Z5o309O9EU89VeVYWDgglv3ZQY
-	FQS7nUPnZfl1IppU2aZu3wqZ0w==
-X-Google-Smtp-Source: ADFU+vtoPGi8jQLezsda2RDMrhrPVIrGjaOPP2Eujjf1S7sNKIxlwVsf6VPSqAEm+JuaTr56vkeqmg==
-X-Received: by 2002:a7b:ca41:: with SMTP id m1mr4526754wml.127.1584636260352; 
-	Thu, 19 Mar 2020 09:44:20 -0700 (PDT)
+	bh=anGUOlZYgucYq5nWzfc1Ry6bHv1XjBWe7m2dJESEqrk=;
+	b=atf5zDlcAYGeQoo1bbzm21nc0ihrp53ammP2dQQoR4HduJfdNh7xItbd0MeMQw67j2
+	h/wBVEKtznrRngoQ87r3r6v5eKDdhDDcetDMy2ptIQRLtZ35F35tq013a6gTRBTEPXxU
+	VvQsJyKvDGNRNa+uC/sFAIA8Y+5Ck2priEXrdTvs4omwzcevU44SrF+wwdS4fTGK2Q/O
+	DIK2UUJP8Gu2qlXX0Ugv5NHvwR68c/Phy3/jsgT0ZHTXhKoDuH+n9OBLrD15ZM4eermi
+	rYHmHseHyvnZpk3jvSH/u+svOzIEbCFztn1Tx90PSIjPi1iY5N+BJCdxysuVUQPxhBQk
+	1qMQ==
+X-Gm-Message-State: ANhLgQ1n/7ahY1KkwrIpbXrkpjhLvx6r/TDT3Ht4qxeh+wTGuJLZqNXw
+	R1E8hcv9Nbdb6YLg4Y96byiYXQ==
+X-Google-Smtp-Source: ADFU+vveaLXT7SbdLimA37hpvdDtH4lHT1rrk5OpnBAINKkERZq2AB4cBPTYI8lESa67hFuktQ9yPg==
+X-Received: by 2002:a5d:6992:: with SMTP id g18mr5424402wru.426.1584636261460; 
+	Thu, 19 Mar 2020 09:44:21 -0700 (PDT)
 Received: from localhost.localdomain (lfbn-nic-1-65-232.w2-15.abo.wanadoo.fr.
 	[2.15.156.232]) by smtp.gmail.com with ESMTPSA id
-	b82sm3741970wmb.46.2020.03.19.09.44.19
+	b82sm3741970wmb.46.2020.03.19.09.44.20
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 19 Mar 2020 09:44:19 -0700 (PDT)
+	Thu, 19 Mar 2020 09:44:21 -0700 (PDT)
 From: Bartosz Golaszewski <brgl@bgdev.pl>
 To: Khem Raj <raj.khem@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Armin Kuster <akuster808@gmail.com>, Jerome Neanne <jneanne@baylibre.com>,
 	Quentin Schulz <quentin.schulz@streamunlimited.com>
-Date: Thu, 19 Mar 2020 17:44:02 +0100
-Message-Id: <20200319164403.29605-2-brgl@bgdev.pl>
+Date: Thu, 19 Mar 2020 17:44:03 +0100
+Message-Id: <20200319164403.29605-3-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200319164403.29605-1-brgl@bgdev.pl>
 References: <20200319164403.29605-1-brgl@bgdev.pl>
 MIME-Version: 1.0
 Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
 	openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 1/2] image.bbclass: add an intermediate deploy task
+Subject: [RFC PATCH 2/2] image.bbclass: deploy artifacts in two stages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,74 +70,176 @@ Content-Transfer-Encoding: 8bit
 
 From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Instead of using do_image_complete for both the deployment of image
-artifacts into DEPLOY_DIR_IMAGE as well as calling the image
-post-process commands, split the responsability between two separate
-tasks: do_image_deploy will take care of the sstate deployment, while
-do_image_complete will only do the post-processing. This way we can
-make the dependencies more fine-grained.
+Currently the artifacts for all image types are deployed to the shared
+space at the same time by the do_image_deploy task. This however creates
+a problem with circular dependencies if we want to use certain security
+features[1]. Because wic is designed to fetch artifacts generated by other
+recipes as well as other images generated by the same recipe it's useful
+to delay its creation and deployment until after do_image_complete.
+
+This patch adds a new variable: IMAGE_TYPES_DEPLOY_LATE which contains
+a list of image types for which the associated IMAGE_CMD tasks should be
+called after do_image_complete. The deployment is now done in two stages:
+before do_image_complete for all regular types and after for types listed
+in the new variable.
+
+This will allow us to fine tune the dependencies in order to implement
+dm-verity support where initramfs on which the main image depends needs to
+access the partition image before we create the wic image.
+
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2020-March/294094.html
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- meta/classes/image.bbclass | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ meta/classes/image.bbclass                    | 39 ++++++++++++++-----
+ meta/classes/image_types.bbclass              |  3 ++
+ meta/classes/image_types_wic.bbclass          |  4 +-
+ .../images/build-appliance-image_15.0.0.bb    |  2 +-
+ 4 files changed, 36 insertions(+), 12 deletions(-)
 
 diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 07aa1f1fa5..6e2b864f73 100644
+index 6e2b864f73..7d0dd6ee50 100644
 --- a/meta/classes/image.bbclass
 +++ b/meta/classes/image.bbclass
-@@ -144,7 +144,7 @@ python () {
-             deps += " %s:%s" % (dep, task)
-         return deps
+@@ -83,6 +83,7 @@ export PACKAGE_INSTALL ?= "${IMAGE_INSTALL} ${ROOTFS_BOOTSTRAP_INSTALL} ${FEATUR
+ PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
  
--    d.appendVarFlag('do_image_complete', 'depends', extraimage_getdepends('do_populate_sysroot'))
-+    d.appendVarFlag('do_image_deploy', 'depends', extraimage_getdepends('do_populate_sysroot'))
+ IMGDEPLOYDIR = "${WORKDIR}/deploy-${PN}-image-complete"
++LATEIMGDEPLOYDIR = "${WORKDIR}/deploy-${PN}-image-complete-late"
  
-     deps = " " + imagetypes_getdepends(d)
-     d.appendVarFlag('do_rootfs', 'depends', deps)
-@@ -264,6 +264,17 @@ do_image[dirs] = "${TOPDIR}"
- do_image[umask] = "022"
- addtask do_image after do_rootfs
- 
-+do_image_deploy() {
-+    # This is a placeholder really but it still needs to run for sstate
-+    # to correctly deploy the image artifacts.
-+    true
-+}
-+SSTATETASKS += "do_image_deploy"
-+do_image_deploy[sstate-inputdirs] = "${IMGDEPLOYDIR}"
-+do_image_deploy[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
-+SSTATE_SKIP_CREATION_task-image-deploy = '1'
-+addtask do_image_deploy after do_image before do_build
+ # Images are generally built explicitly, do not need to be part of world.
+ EXCLUDE_FROM_WORLD = "1"
+@@ -127,7 +128,7 @@ def rootfs_variables(d):
+                  'IMAGE_ROOTFS_MAXSIZE','IMAGE_NAME','IMAGE_LINK_NAME','IMAGE_MANIFEST','DEPLOY_DIR_IMAGE','IMAGE_FSTYPES','IMAGE_INSTALL_COMPLEMENTARY','IMAGE_LINGUAS', 'IMAGE_LINGUAS_COMPLEMENTARY',
+                  'MULTILIBRE_ALLOW_REP','MULTILIB_TEMP_ROOTFS','MULTILIB_VARIANTS','MULTILIBS','ALL_MULTILIB_PACKAGE_ARCHS','MULTILIB_GLOBAL_VARIANTS','BAD_RECOMMENDATIONS','NO_RECOMMENDATIONS',
+                  'PACKAGE_ARCHS','PACKAGE_CLASSES','TARGET_VENDOR','TARGET_ARCH','TARGET_OS','OVERRIDES','BBEXTENDVARIANT','FEED_DEPLOYDIR_BASE_URI','INTERCEPT_DIR','USE_DEVFS',
+-                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'REPRODUCIBLE_TIMESTAMP_ROOTFS', 'IMAGE_INSTALL_DEBUGFS']
++                 'CONVERSIONTYPES', 'IMAGE_GEN_DEBUGFS', 'ROOTFS_RO_UNNEEDED', 'IMGDEPLOYDIR', 'LATEIMGDEPLOYDIR', 'PACKAGE_EXCLUDE_COMPLEMENTARY', 'REPRODUCIBLE_TIMESTAMP_ROOTFS', 'IMAGE_INSTALL_DEBUGFS']
+     variables.extend(rootfs_command_variables(d))
+     variables.extend(variable_depends(d))
+     return " ".join(variables)
+@@ -247,7 +248,7 @@ fakeroot python do_rootfs () {
+     progress_reporter.finish()
+ }
+ do_rootfs[dirs] = "${TOPDIR}"
+-do_rootfs[cleandirs] += "${S} ${IMGDEPLOYDIR}"
++do_rootfs[cleandirs] += "${S} ${IMGDEPLOYDIR} ${LATEIMGDEPLOYDIR}"
+ do_rootfs[umask] = "022"
+ do_rootfs[file-checksums] += "${POSTINST_INTERCEPT_CHECKSUMS}"
+ addtask rootfs after do_prepare_recipe_sysroot
+@@ -273,7 +274,21 @@ SSTATETASKS += "do_image_deploy"
+ do_image_deploy[sstate-inputdirs] = "${IMGDEPLOYDIR}"
+ do_image_deploy[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
+ SSTATE_SKIP_CREATION_task-image-deploy = '1'
+-addtask do_image_deploy after do_image before do_build
++addtask do_image_deploy after do_image before do_image_complete
 +
++do_image_deploy_late() {
++    # Avoid using SSTATE_DUPWHITELIST - check which images have already been
++    # deployed and copy those that haven't into a separate pre-deploy directory
++    # which will serve as the sstate input directory for this task.
++    for file in $(ls ${IMGDEPLOYDIR}) ; do
++        test -e ${DEPLOY_DIR_IMAGE}/$file || cp -a ${IMGDEPLOYDIR}/$file ${LATEIMGDEPLOYDIR}/$file
++    done
++}
++SSTATETASKS += "do_image_deploy_late"
++do_image_deploy_late[sstate-inputdirs] = "${LATEIMGDEPLOYDIR}"
++do_image_deploy_late[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
++SSTATE_SKIP_CREATION_task-image-deploy-late = '1'
++addtask do_image_deploy_late after do_image_complete before do_build
+ 
  fakeroot python do_image_complete () {
      from oe.utils import execute_pre_post_process
- 
-@@ -273,12 +284,8 @@ fakeroot python do_image_complete () {
- }
+@@ -285,7 +300,7 @@ fakeroot python do_image_complete () {
  do_image_complete[dirs] = "${TOPDIR}"
  do_image_complete[umask] = "022"
--SSTATETASKS += "do_image_complete"
--SSTATE_SKIP_CREATION_task-image-complete = '1'
--do_image_complete[sstate-inputdirs] = "${IMGDEPLOYDIR}"
--do_image_complete[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
  do_image_complete[stamp-extra-info] = "${MACHINE_ARCH}"
--addtask do_image_complete after do_image before do_build
-+addtask do_image_complete after do_image_deploy before do_build
+-addtask do_image_complete after do_image_deploy before do_build
++addtask do_image_complete after do_image_deploy before do_image_deploy_late
  python do_image_complete_setscene () {
      sstate_setscene(d)
  }
-@@ -500,8 +507,8 @@ python () {
+@@ -412,6 +427,7 @@ python () {
+ 
+     maskedtypes = (d.getVar('IMAGE_TYPES_MASKED') or "").split()
+     maskedtypes = [dbg + t for t in maskedtypes for dbg in ("", "debugfs_")]
++    latetypes = d.getVar('IMAGE_TYPES_DEPLOY_LATE').split()
+ 
+     for t in basetypes:
+         vardeps = set()
+@@ -491,9 +507,14 @@ python () {
+         for image in sorted(rm_tmp_images):
+             cmds.append("\trm " + image)
+ 
+-        after = 'do_image'
+-        for dep in typedeps[t]:
+-            after += ' do_image_%s' % dep.replace("-", "_").replace(".", "_")
++        if t in latetypes:
++            before = 'do_image_deploy_late'
++            after = 'do_image_complete'
++        else:
++            before = 'do_image_deploy'
++            after = 'do_image'
++            for dep in typedeps[t]:
++                after += ' do_image_%s' % dep.replace("-", "_").replace(".", "_")
+ 
+         task = "do_image_%s" % t.replace("-", "_").replace(".", "_")
+ 
+@@ -507,8 +528,8 @@ python () {
          d.appendVarFlag(task, 'vardeps', ' ' + ' '.join(vardeps))
          d.appendVarFlag(task, 'vardepsexclude', ' DATETIME DATE ' + ' '.join(vardepsexclude))
  
--        bb.debug(2, "Adding task %s before %s, after %s" % (task, 'do_image_complete', after))
--        bb.build.addtask(task, 'do_image_complete', after, d)
-+        bb.debug(2, "Adding task %s before do_image_deploy, after %s" % (task, after))
-+        bb.build.addtask(task, 'do_image_deploy', after, d)
+-        bb.debug(2, "Adding task %s before do_image_deploy, after %s" % (task, after))
+-        bb.build.addtask(task, 'do_image_deploy', after, d)
++        bb.debug(2, "Adding task %s before %s, after %s" % (task, before, after))
++        bb.build.addtask(task, before, after, d)
  }
  
  #
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index f82f1d8862..665bd7c4b3 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -331,5 +331,8 @@ DEPLOYABLE_IMAGE_TYPES ?= "hddimg iso"
+ # images that will not be built at do_rootfs time: vmdk, vdi, qcow2, hddimg, iso, etc.
+ IMAGE_TYPES_MASKED ?= ""
+ 
++# Image types that should be generated and deployed after do_image_complete task.
++IMAGE_TYPES_DEPLOY_LATE ?= "wic"
++
+ # bmap requires python3 to be in the PATH
+ EXTRANATIVEPATH += "${@'python3-native' if d.getVar('IMAGE_FSTYPES').find('.bmap') else ''}"
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index b83308b45c..80039ed19c 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -113,7 +113,7 @@ python () {
+                 # a variable and let the metadata deal with the deps.
+                 d.setVar('_WKS_TEMPLATE', body)
+                 bb.build.addtask('do_write_wks_template', 'do_image_wic', 'do_image', d)
+-        bb.build.addtask('do_image_wic', 'do_image_complete', None, d)
++        bb.build.addtask('do_image_wic', None, 'do_image_complete', d)
+ }
+ 
+ #
+@@ -139,6 +139,6 @@ python do_rootfs_wicenv () {
+     depdir = d.getVar('IMGDEPLOYDIR')
+     bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
+ }
+-addtask do_rootfs_wicenv after do_image before do_image_wic
++addtask do_rootfs_wicenv after do_image_complete before do_image_wic
+ do_rootfs_wicenv[vardeps] += "${WICVARS}"
+ do_rootfs_wicenv[prefuncs] = 'set_image_size'
+diff --git a/meta/recipes-core/images/build-appliance-image_15.0.0.bb b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+index 8c9fe92485..5ec66ebd76 100644
+--- a/meta/recipes-core/images/build-appliance-image_15.0.0.bb
++++ b/meta/recipes-core/images/build-appliance-image_15.0.0.bb
+@@ -138,4 +138,4 @@ python do_bundle_files() {
+     bb.build.exec_func('create_bundle_files', d)
+ }
+ 
+-addtask bundle_files after do_image_wic before do_image_complete
++addtask bundle_files after do_image_wic
 -- 
 2.19.1
 
