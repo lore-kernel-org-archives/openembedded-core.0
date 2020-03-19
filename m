@@ -1,52 +1,54 @@
 Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
-	[209.85.128.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 533F360AF7
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+	[209.85.128.45])
+	by mail.openembedded.org (Postfix) with ESMTP id EF6CA60AF7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 01:12:15 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id r7so3595222wmg.0
+	Thu, 19 Mar 2020 01:12:16 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id 11so261509wmo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Mar 2020 18:12:17 -0700 (PDT)
+	Wed, 18 Mar 2020 18:12:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=aWzXpaggsosls/GZmdgU6k962Vlt+YFyHfNgOAXmQEM=;
-	b=JpWJS3fqQbWMiPBUNbSmSHjcOXGByf81VGBPraGXcvL7snnG79CGnw+zKZsEIo/f1+
-	jjYCZECJqHmTQkFxh99lGpkEDK3XwCF+roNXoEDvQhd+469cWFtH08dEhYAIT4WQls6B
-	N40n6dyaSNmR6CdBM9SjHDW+DG3FOQV4qXhumSkQHGtyTPq05wsHGchhCG9pHVJCNyb7
-	ozoC2VTzrrTH4koS1KSFGyl6Gm7ERmXCOhW5Q31E/dFLKMpQ6K7tGNzHa5F7Dyfl0A/y
-	Xuz6xgCuYuwBMLfH1m0/TiKjguvqBinTAbsezpOCZU2VloCXjieYQqdTdRarI7wwD0nT
-	4U2A==
+	bh=lJUUFMX3pqPeKqz0MDeWBmJqEPa9h7jxealWzWBZxlY=;
+	b=n2zXuGvTkV+bRQBjTiW74zstA4tMoTq9hqwBCxOwET6dmEcd9zwKrUadTjVNnLFAc9
+	URwV/kkLqsz2xP8xmnZ62ECoubJiU4DI1MLch7IYU3ipx5Ren/wOJdc6TyW4lgbkZff/
+	k+Pnz2gPGG7O9ZuGQFt6Fov6a0ZXO282xCpg3SkEi/iO142XTk28+DydsPa/6J6DkmWL
+	eXHRSJ2v/UQ/r+YqApUTdgfs/3MOSaVKRCEqSqIDY/nJPTAu3R729qoo3wI67xBnMjpG
+	52It0nfOV+vGYWrV/GzKVcH4YXXqOT/9qXr898BoOsFfauYEl98wSc5LVETg5EhqqVPa
+	356w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=aWzXpaggsosls/GZmdgU6k962Vlt+YFyHfNgOAXmQEM=;
-	b=nbsqO9SNRN+cvcc1Xia0W6htjDmXAw+7KSTSDt/QLXO3oxI5L1o/Eb8LsVcVlH1/NF
-	BAp+/Er3MVhZmzJjjIUedAy1NKq43f7lMLiYqNPLCchK2D/JTD6Md6EWlu/xUC+3ovB6
-	We0blJwKZup6ANKC9Kj+tlrgs1nCJPN1JyB0V/lNKNLKyUgoLk9/czts9Ox8d+WPcmOM
-	+WbeIsqs/pUeOV8YpB5KTXvx6rxV8zDYPmTq4czc1Nlfw9OJWNoFpsZiVSgvMTxjP2CM
-	sizhr8awFoIHBv1xtrRP8x6E49/EZbfrlsx2kaARVFuMmdWduntiFeTDcE2gIVBKKnfH
-	3gkQ==
-X-Gm-Message-State: ANhLgQ1xC/TzYtpSYzJWd4cQrt1QZdnVSwxYoZ3J6NSEjDlwgK9Qu4Jj
-	hBIxgimtllCyuAMdjw+78i7D1nIU+xI=
-X-Google-Smtp-Source: ADFU+vscy0nJiVD6Bdwj0O+QAwm/zoNRtlHHPzJbsvOnYunK/qFk9v6QhShYxGjSaP1fJvcBJUabgg==
-X-Received: by 2002:a1c:6605:: with SMTP id a5mr552002wmc.32.1584580336459;
-	Wed, 18 Mar 2020 18:12:16 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=lJUUFMX3pqPeKqz0MDeWBmJqEPa9h7jxealWzWBZxlY=;
+	b=CgHuhC/9QoQ/il0NhU24PZYHHZdwyqJ5QVCFle1H+NDmtVwt7OADuLqwFgeBt9+W+6
+	QJe47esKVBkFzIvlx+m7kvt9mI48178hQQy8C5qJ0qYv4KmP+22tpdLaYqtSLAX/kxtp
+	lv4wZV7cSAzqBdEYy/N3wOq/Yl0sd+P4Jfn6PYhL8hDqNtaZXfrspjkfLyrTY0cL7jCj
+	Vs4Gsd5+tgvDm/9/AqF8RrXvSUtQpG+/m6xy1Im4k1Zr00+pOYcUYN/hiZIl9K6LoIsd
+	QdEBffK+AJAcqV7bXK2iMOEQpT66J9MYsCcVUNS9mJQgziMOKrK+8w9yFP6+zi6djKj2
+	2U4g==
+X-Gm-Message-State: ANhLgQ3Sj1Vgvjk/DAYkkdT2WkRDs3ThcrIwR5csNmX39LH/3G9IEyV1
+	lTKZ9l0f7g07dvUuB1P+MqcYlM2aB/8=
+X-Google-Smtp-Source: ADFU+vuM4ikwgr3UaH5Bp3imL5DJn9Ptbxc2tlHJWn4p4pf6dCh+5qb7CD02HGvycgakk1QGKQw4WQ==
+X-Received: by 2002:a1c:6385:: with SMTP id x127mr489159wmb.141.1584580337379; 
+	Wed, 18 Mar 2020 18:12:17 -0700 (PDT)
 Received: from superandy.speedport.ip
 	(p200300F07F0E8C3838FF9D0BB177A6DE.dip0.t-ipconnect.de.
 	[2003:f0:7f0e:8c38:38ff:9d0b:b177:a6de])
-	by smtp.gmail.com with ESMTPSA id f15sm926249wrt.9.2020.03.18.18.12.15
+	by smtp.gmail.com with ESMTPSA id f15sm926249wrt.9.2020.03.18.18.12.16
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 18 Mar 2020 18:12:15 -0700 (PDT)
+	Wed, 18 Mar 2020 18:12:16 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Mar 2020 02:12:05 +0100
-Message-Id: <20200319011206.14726-1-schnitzeltony@gmail.com>
+Date: Thu, 19 Mar 2020 02:12:06 +0100
+Message-Id: <20200319011206.14726-2-schnitzeltony@gmail.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200319011206.14726-1-schnitzeltony@gmail.com>
+References: <20200319011206.14726-1-schnitzeltony@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] libnotify: upgrade 0.7.8 -> 0.7.9 / port to meson
+Subject: [PATCH 2/2] libsecret: upgrade 0.20.1 -> 0.20.2 / port to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,56 +61,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2020 01:12:16 -0000
+X-List-Received-Date: Thu, 19 Mar 2020 01:12:17 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From [1]:
-New in 0.7.9
-============
-* Fixed linking in darwin [Iain, Marco; !5]
-* Added man page for notify-send [Jan; !6]
-* Dropped autotools [Jan; !11]
 
-[1] http://ftp.gnome.org/pub/gnome/sources/libnotify/0.7/libnotify-0.7.9.news
+0.20.2
+ * secret-file-collection: force little-endian in GVariant [!49, #42]
+ * Prefer g_info() over g_message() [!48, #40]
+ * meson: Don't specify shared_library() [!47]
+ * docs: Make sure to set install: true [!46]
+
+[1] http://ftp.gnome.org/pub/gnome/sources/libsecret/0.20/libsecret-0.20.2.news
 
 Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
- .../{libnotify_0.7.8.bb => libnotify_0.7.9.bb}     | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
- rename meta/recipes-gnome/libnotify/{libnotify_0.7.8.bb => libnotify_0.7.9.bb} (59%)
+ ...an-subdir-only-if-manpage-is-enabled.patch | 30 +++++++++++++++++++
+ ...ibsecret_0.20.1.bb => libsecret_0.20.2.bb} | 20 ++++++++-----
+ 2 files changed, 42 insertions(+), 8 deletions(-)
+ create mode 100644 meta/recipes-gnome/libsecret/libsecret/0001-docs-Add-man-subdir-only-if-manpage-is-enabled.patch
+ rename meta/recipes-gnome/libsecret/{libsecret_0.20.1.bb => libsecret_0.20.2.bb} (59%)
 
-diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
+diff --git a/meta/recipes-gnome/libsecret/libsecret/0001-docs-Add-man-subdir-only-if-manpage-is-enabled.patch b/meta/recipes-gnome/libsecret/libsecret/0001-docs-Add-man-subdir-only-if-manpage-is-enabled.patch
+new file mode 100644
+index 0000000000..f434e6ae01
+--- /dev/null
++++ b/meta/recipes-gnome/libsecret/libsecret/0001-docs-Add-man-subdir-only-if-manpage-is-enabled.patch
+@@ -0,0 +1,30 @@
++From a2037bfcf14a0b5b81f5160b69b5ff94a6096584 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
++Date: Thu, 19 Mar 2020 01:42:22 +0100
++Subject: [PATCH] docs: Add man subdir only if manpage is enabled
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libsecret/-/merge_requests/51]
++
++Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
++---
++ docs/meson.build | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/docs/meson.build b/docs/meson.build
++index cc8d964..aa7cfbc 100644
++--- a/docs/meson.build
+++++ b/docs/meson.build
++@@ -1,4 +1,6 @@
++-subdir('man')
+++if with_manpage
+++  subdir('man')
+++endif
++ if with_gtkdoc
++   subdir('reference/libsecret')
++ endif
++-- 
++2.21.1
++
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.20.1.bb b/meta/recipes-gnome/libsecret/libsecret_0.20.2.bb
 similarity index 59%
-rename from meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-rename to meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
-index 0306b04f4e..38da41639b 100644
---- a/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-+++ b/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
-@@ -7,12 +7,20 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+rename from meta/recipes-gnome/libsecret/libsecret_0.20.1.bb
+rename to meta/recipes-gnome/libsecret/libsecret_0.20.2.bb
+index 72511af02d..0effd492fd 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.20.1.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.20.2.bb
+@@ -7,21 +7,25 @@ LICENSE = "LGPLv2.1"
+ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libsecret/issues"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
  
- DEPENDS = "dbus gtk+3 glib-2.0"
- 
--inherit gnomebase gtk-doc features_check gobject-introspection
 +GNOMEBASEBUILDCLASS = "meson"
 +
-+inherit gnomebase gtk-doc features_check gobject-introspection manpages
- # depends on gtk+3
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ inherit gnomebase gtk-doc vala gobject-introspection manpages
  
--SRC_URI[archive.md5sum] = "babb4b07b5f21bef42a386d3d7019599"
--SRC_URI[archive.sha256sum] = "69209e0b663776a00c7b6c0e560302a8dbf66b2551d55616304f240bba66e18c"
-+SRC_URI[archive.md5sum] = "ccd9c53364174cc8d13e18a1988faa76"
-+SRC_URI[archive.sha256sum] = "66c0517ed16df7af258e83208faaf5069727dfd66995c4bbc51c16954d674761"
+ DEPENDS += "glib-2.0 libgcrypt gettext-native"
+ 
+-PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
++SRC_URI[archive.md5sum] = "f24f82e49d360ff742901d6c387e2bc9"
++SRC_URI[archive.sha256sum] = "81e9143833785cdcf96c1da5d0357a8bcf0cd2b0119f15aa0cae775d1f19ffc3"
++SRC_URI += "file://0001-docs-Add-man-subdir-only-if-manpage-is-enabled.patch"
 +
-+GIR_MESON_ENABLE_FLAG = 'enabled'
-+GIR_MESON_DISABLE_FLAG = 'disabled'
 +GTKDOC_MESON_OPTION = 'gtk_doc'
-+
-+PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native xmlto-native"
  
- # there were times, we had two versions of libnotify (oe-core libnotify:0.6.x /
- # meta-gnome libnotify3: 0.7.x)
+-SRC_URI[archive.md5sum] = "d2dd660a8d502099317bc8af9f30302e"
+-SRC_URI[archive.sha256sum] = "57f73e94ec6263a17a077fb809cf8cf424637a897a7f15b4eec42ce4aef52447"
++# gobject-introspection is mandatory and cannot be configured
++REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
++UNKNOWN_CONFIGURE_WHITELIST_append = " introspection"
++
++PACKAGECONFIG[manpages] = "-Dmanpage=true,-Dmanpage=false,libxslt-native xmlto-native"
+ 
+ # http://errors.yoctoproject.org/Errors/Details/20228/
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+ ARM_INSTRUCTION_SET_armv5 = "arm"
+ ARM_INSTRUCTION_SET_armv6 = "arm"
+-
+-# vapigen.m4 bundled with the tarball does not yet have our cross-compilation fixes
+-do_configure_prepend() {
+-    rm -f ${S}/build/m4/vapigen.m4
+-}
 -- 
 2.21.1
 
