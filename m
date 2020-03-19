@@ -1,46 +1,53 @@
-Return-Path: <mhalstead@linuxfoundation.org>
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
-	[209.85.167.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 24C1A60FBD
+Return-Path: <brgl@bgdev.pl>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CC3C6004E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 16:44:54 +0000 (UTC)
-Received: by mail-oi1-f178.google.com with SMTP id r7so3425126oij.0
+	Thu, 19 Mar 2020 16:50:00 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id h8so3003761iob.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 09:44:55 -0700 (PDT)
+	Thu, 19 Mar 2020 09:50:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=PHT0ibg/IfCI9Z7QE6cxK1xt/RNq3J/mKnMXaMNQgDM=;
-	b=FlFAC4pExC2YxCrloI+bpptOiV67xIbqj8REcdzE/eOarukLXVfMnFbCa+8mpoDDS0
-	FPWOjWjZPB+SAY8gjWpyovtwjRmCgkdmeHJEEsCp0PYhb9qzC9+IKJdG11nhngxlykZP
-	IfFylI9qoPXLfAEiYhWu5FdqIMybYNVH9d4Q4=
+	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Hr7snNukP0QSFe5gkCoj23KcM+yHlvB3hWwSAqa7sFA=;
+	b=hatrLWKv0UOIRlPRiVE30TKPCxA2nnqq8KjHFNRLb/LyN6DA1kr/4ZaF2Lkh0UKKbJ
+	eSIXI+gR4qoOZd8K9l+HjMLlzof9EWLePDLVyApCuEY/4zi7qvzrjSuw5A9NVMOzqJXI
+	Q5Ih6yyP9i6FvOXTjrSdyu1R+MALorNlVBznZNuAahqRWT1UQVcroqN7sx7/2+CUnHGm
+	K+H+gTkLyJ9ANenVx/dp2OLfxcua0KBLQdliU6KwzPsxF0yWgLpQnc4jtP+KrPToKRaL
+	G4FDaTtUJ5L340nvMdz+SGk/HEdGau00hqbE/yU+Y4C37V8Qx0ZZTpIEcMQ/lL0OXnv0
+	n8aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=PHT0ibg/IfCI9Z7QE6cxK1xt/RNq3J/mKnMXaMNQgDM=;
-	b=exHWKBFNkrl7ezrel+youv5ZdDcbFANeLVgCPFxUSvlGdTiIce5a8Vkfi1sdpeldRZ
-	aguu6dppg5ySclEmE7jht2lAKV/C+anySokScNqnSgbqiT6MkTagZggoiXkxu3T3FJHC
-	T8BVd3yuBMZjkblne4hR//lX1EJhHdo+p1AoVD/OcWzFTQIMojqWCKUeEEBHmW05vFt4
-	XF1iU4jnecO0xNHe9yH964h7Y23G53+pWEKpRrahR6R7OjuD/as4Qb78svBaW9XU3mLm
-	7xiKV+6jE5i4Lfd44P2dnCpvM5PHlzJ5rNLqSwRnJTvjpo6WHxFbMkQht0rOcsdjp0JM
-	sPzA==
-X-Gm-Message-State: ANhLgQ0NKr7t65GrLK0oAkTBxju16aMxuyuS4xVI2m002ENIxixL+V76
-	qNg/2LBBTnUg6SDfysWKa74EtCyeYFTQsEtc7JRMxQ==
-X-Google-Smtp-Source: ADFU+vsbozWCzHOBfG0Encl02Jiy1tH9FESgJh6BE8rNrAb81tAJhvLpjJhfAo3bEUJyO/fse8dfWAeOtuGWbFZxdvM=
-X-Received: by 2002:aca:56c2:: with SMTP id k185mr2909127oib.141.1584636295002;
-	Thu, 19 Mar 2020 09:44:55 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Hr7snNukP0QSFe5gkCoj23KcM+yHlvB3hWwSAqa7sFA=;
+	b=ZrtF2bIOzb5Aafa1debk/StFBhkYLUqg6Hl5aUz0waNvjAmpGMK1QdsZgi2qOjqEgW
+	bT7CHQFNyt4qY8mh6ALaQT/KbyzFxf9P29Ty48Xu6fliHWx2VWU5f5a+P4FPL4Y0mRkF
+	t9RXbomQ2rB1ywtbBnlojHrUXVM38eoE5X9tVwve1gymNaDOYIqXEkvZVb7gqdYUrtTy
+	5ipyivw2F5/SP7r2ytk933uAINNI1L+uL6rSeyEPX+znaQ1azSoxVvo6JxtIuXRGcmKl
+	y5AHP3bB6rrtVpBYcJcDYXjeyA4BfF/df36E3yd1GJ1UuChXbdTnNVxv1R2SYAgRdQKW
+	+5tQ==
+X-Gm-Message-State: ANhLgQ3Hdc71I7/A5JIhrjrcYf+d0IuvN/EqEpgd0Cur8vPPIZotYUVx
+	W85QTGN+I3cOxjA/m7Kq13O6Leo0vo+AhrwsrjVEWw==
+X-Google-Smtp-Source: ADFU+vshp3tjaoEbGdlRphPii0C2GzcttllIsZ/Xcb/HIegCUa8yjT71otD4HAnj2ekuL8NlXFpPlwdp2Ucy4mS2e7E=
+X-Received: by 2002:a02:3808:: with SMTP id b8mr4121829jaa.136.1584636601309; 
+	Thu, 19 Mar 2020 09:50:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <CADfgfobNNXr9HSOiwyamzbZ4q1uc8wgD5PzobDF56cDyYui-HQ@mail.gmail.com>
-In-Reply-To: <CADfgfobNNXr9HSOiwyamzbZ4q1uc8wgD5PzobDF56cDyYui-HQ@mail.gmail.com>
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-Date: Thu, 19 Mar 2020 09:44:43 -0700
-Message-ID: <CADfgfoYCjVip=oc_U0TdFzOVst5U-KU+R31JhdckRv77APzQ-g@mail.gmail.com>
-To: bitbake-devel@lists.openembedded.org, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	openembedded-architecture@lists.openembedded.org, 
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Subject: Re: Mailing list platform change March 20th
+References: <20200319164403.29605-1-brgl@bgdev.pl>
+In-Reply-To: <20200319164403.29605-1-brgl@bgdev.pl>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 19 Mar 2020 17:49:50 +0100
+Message-ID: <CAMRc=MfAE42E=+CnMfuh_29QWOJACQnyJgbdRVXjm8EvhxHwsQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Armin Kuster <akuster808@gmail.com>, Jerome Neanne <jneanne@baylibre.com>, 
+	Quentin Schulz <quentin.schulz@streamunlimited.com>
+Cc: Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFC PATCH 0/2] image.bbclass: support two-stage deployment of image artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,78 +60,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2020 16:44:54 -0000
-Content-Type: multipart/alternative; boundary="00000000000076507b05a137e391"
-
---00000000000076507b05a137e391
+X-List-Received-Date: Thu, 19 Mar 2020 16:50:00 -0000
 Content-Type: text/plain; charset="UTF-8"
-
-Everything is proceeding smoothly and this work will continue as planned.
-The migration starts at noon PDT tomorrow.
-
-List owners please take care of all outstanding moderation in the next 24
-hours to ensure a smooth transition.
-
-Thank you,
---
-Michael Halstead
-Linux Foundation / Yocto Project
-Systems Operations Engineer
-
-On Fri, Mar 13, 2020 at 4:58 PM Michael Halstead <
-mhalstead@linuxfoundation.org> wrote:
-
-> We are moving our lists from Mailman to Groups.io. E-mail to lists will
-> be delayed during the move window. We are aiming to complete the migration
-> during business hours in the Pacific time zone.
->
-> A new account will be created for you on the Groups.io platform if you
-> don't already have one.
->
-> You can read more about the change on the wiki:
-> https://www.openembedded.org/wiki/GroupsMigration
->
-> If there are serious issues we will rollback the changes. We will e-mail
-> all lists when work is complete.
->
-> --
-> Michael Halstead
-> Linux Foundation / Yocto Project
-> Systems Operations Engineer
->
->
-
---00000000000076507b05a137e391
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Everything is proceeding smoothly and this work will conti=
-nue as planned. The migration starts at noon PDT tomorrow.<div><br></div><d=
-iv>List owners please take care of all outstanding moderation in the next 2=
-4 hours to ensure a smooth transition.</div><div><br></div><div>Thank you,<=
-/div><div>--<br>Michael Halstead<br>Linux Foundation / Yocto Project<br>Sys=
-tems Operations Engineer<br></div></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Fri, Mar 13, 2020 at 4:58 PM Michael H=
-alstead &lt;<a href=3D"mailto:mhalstead@linuxfoundation.org">mhalstead@linu=
-xfoundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex"><div dir=3D"ltr"><div>We are moving our lists from Mailman t=
-o=C2=A0<span>Groups</span>.<span>io</span>. E-mail to lists will be delayed=
- during the move window. We are aiming to complete the migration during bus=
-iness hours in the Pacific time zone.<br></div><div><br></div><div>A new ac=
-count will be created for you on the=C2=A0<span>Groups</span>.<span>io</spa=
-n>=C2=A0platform if you don&#39;t already have one.<br></div><div><br></div=
-><div>You can read more about the change on the wiki:<br></div><a href=3D"h=
-ttps://www.openembedded.org/wiki/GroupsMigration" target=3D"_blank">https:/=
-/www.openembedded.org/wiki/GroupsMigration</a><br><div><br></div><div>If th=
-ere are serious issues we will rollback the changes. We will e-mail<br>all =
-lists when work is complete.<br></div><div><br></div><div><span style=3D"co=
-lor:rgb(136,136,136)">--</span><br style=3D"color:rgb(136,136,136)"><span s=
-tyle=3D"color:rgb(136,136,136)">Michael Halstead</span><br style=3D"color:r=
-gb(136,136,136)"><span style=3D"color:rgb(136,136,136)">Linux Foundation / =
-Yocto Project</span><br style=3D"color:rgb(136,136,136)"><span style=3D"col=
-or:rgb(136,136,136)">Systems Operations Engineer</span><br></div><div><br><=
-/div></div>
-</blockquote></div>
+czw., 19 mar 2020 o 17:44 Bartosz Golaszewski <brgl@bgdev.pl> napisa=C5=82(=
+a):
+>
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+>
+> This is a follow-up to the discussion I started on the OE-core mailing
+> list a couple days ago[1]. These patches propose to split the deployment
+> of image artifacts into two stages where the first one includes all
+> "regular" images and takes place before do_image_complete and the second
+> is mostly aimed at wic right now and happens after do_image_complete.
+>
+> These patches work but I'm sending them as RFC mostly to continue the
+> discussion about possible solutions for the circular dependencies between
+> the rootfs and initramfs.
+>
+> [1] http://lists.openembedded.org/pipermail/openembedded-core/2020-March/=
+294094.html
+>
+> Bartosz Golaszewski (2):
+>   image.bbclass: add an intermediate deploy task
+>   image.bbclass: deploy artifacts in two stages
+>
+>  meta/classes/image.bbclass                    | 54 ++++++++++++++-----
+>  meta/classes/image_types.bbclass              |  3 ++
+>  meta/classes/image_types_wic.bbclass          |  4 +-
+>  .../images/build-appliance-image_15.0.0.bb    |  2 +-
+>  4 files changed, 47 insertions(+), 16 deletions(-)
+>
+> --
+> 2.19.1
+>
 
---00000000000076507b05a137e391--
+Just for clarity: this what the task order would look like for a
+standard beaglebone-yocto image with these patches:
+
+do_prepare_recipe_sysroot (32199): log.do_prepare_recipe_sysroot.32199
+do_deploy_source_date_epoch (32201): log.do_deploy_source_date_epoch.32201
+do_rootfs (32246): log.do_rootfs.32246
+do_write_qemuboot_conf (8655): log.do_write_qemuboot_conf.8655
+do_image_qa (8657): log.do_image_qa.8657
+do_image (8661): log.do_image.8661
+do_image_ext4 (35128): log.do_image_ext4.35128
+do_image_tar (35133): log.do_image_tar.35133
+do_image_jffs2 (35136): log.do_image_jffs2.35136
+do_image_deploy (35246): log.do_image_deploy.35246
+do_image_complete (35262): log.do_image_complete.35262
+do_rootfs_wicenv (35264): log.do_rootfs_wicenv.35264
+do_populate_lic_deploy (35267): log.do_populate_lic_deploy.35267
+do_image_wic (35283): log.do_image_wic.35283
+do_image_deploy_late (35448): log.do_image_deploy_late.35448
+
+Bart
+
