@@ -1,35 +1,52 @@
-Return-Path: <wangmy@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AAA360B5C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
+	[209.85.221.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 8651A600A8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 02:17:10 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,569,1574092800"; d="scan'208";a="86569527"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Mar 2020 10:17:11 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 51A7250A9990
+	Thu, 19 Mar 2020 07:54:21 +0000 (UTC)
+Received: by mail-vk1-f196.google.com with SMTP id e20so444948vke.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 10:07:04 +0800 (CST)
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
-	Server (TLS) id 15.0.1497.2; Thu, 19 Mar 2020 10:16:56 +0800
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Thu, 19 Mar 2020 10:17:04 +0800
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 19 Mar 2020 00:41:47 -0700
-Message-ID: <1584603707-43423-6-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1584603707-43423-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1584603707-43423-1-git-send-email-wangmy@cn.fujitsu.com>
+	Thu, 19 Mar 2020 00:54:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=1fO07HZZo9lSnNJ1aXzhOiIdFQGdkeTrsSN2oqZaZVk=;
+	b=a3yK+QnnIyBUZ6sh66kYIWKN5qr6Ca+BLnDY2sE1qPGXoeJjJLgN2bHA2Sf0UOzryg
+	qxHmp2jCGioDivE2qnQ2hrS2F5Mbimvc2j+Um7CwIV46xtbIqykA4PRG+NeC33/oL806
+	4OWaaKasWPhRbC+O9flqjLpJU9D3maH8kFyIqPTTLbuhOdfpJKNl+xuLiEpFodhFnVG8
+	Yzf5BLcalKgRn72OO5hW9O7i0hfoZ7o+LsB9Dc4vh+6v6a0nwWV2Mt+mpiGXLdkgiP/w
+	317XqDihMVdozwrEgSuyhQQfka8xXXLNaYyxJHlfxvGZSkOSz3GlhjbTJeoCIAJuni/1
+	7qQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=1fO07HZZo9lSnNJ1aXzhOiIdFQGdkeTrsSN2oqZaZVk=;
+	b=AsebTR/VndPVP61iA5fYCbm3yHJhF87IyTstuDTkboYl9E7cvvHL6xEMSlM9CAdfCh
+	HOQR/sXW1aQ9ht/+D5YqHMaDVMN/xxCIgRJXiZ8OJMYysJduUJrJR6zdxbPIqQegQsTF
+	oFexRqoAaCUhzaMcJgvgJcdiOOtY8cWfjD2NoZG8/V7GLDf2rA8KJspD9Qj2UmCNwUMP
+	8zGDkG/BHYBQvZiCxWeD1aGxjMIPH5bp9JY3BEu7KWn0V9fOw6VmiYJWzmx+rzDGo/+2
+	9xBO7bDCSmWCmZboGeWTah5bwuSv8z3XcJXBd+kk5ysq87AibBVVKxzR5bES9Cs/ivHF
+	lB8w==
+X-Gm-Message-State: ANhLgQ1t1J/TUq0FWm7Phi254vBGkztKTPGoQdhVeVZQlSshDi81ghDr
+	YueyR5ywLrqeUnZZjzla0sNLsJLWhHGLdjBoVm/+7bWO
+X-Google-Smtp-Source: ADFU+vuIWQ9ANAsJVXkgDT+qfnTgOyxscypq5crti0/KlfXsC7z3urg96UxkO0cQSMc1vY6TjJUaei6XXT9TOSEMp3E=
+X-Received: by 2002:a1f:f2ce:: with SMTP id q197mr1328747vkh.49.1584604462230; 
+	Thu, 19 Mar 2020 00:54:22 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 51A7250A9990.A3F04
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] mc: upgrade 4.8.23 -> 4.8.24
+References: <20200229101433.30787-1-alex.kanavin@gmail.com>
+	<23132fd4872488b259751cdf8bcd8335d703b205.camel@linuxfoundation.org>
+	<CANNYZj_orEnKxs6AvyYTauDVexY+Eby2DeRYeh=9=-9i8TzTwg@mail.gmail.com>
+	<d415671888365ca180bcfb72000bcd394f0e7b24.camel@linuxfoundation.org>
+	<CANNYZj_RZ=Q1Me7_Ye+N4NmQBvW+fE2yDiRdsYu_XnCOGY_+nA@mail.gmail.com>
+	<CANNYZj9eiLf7n=Cu7X5A4z+YYz5upiW_9pjTgSPCX_2x2egSvA@mail.gmail.com>
+	<5839fa696c78f06c668fe8cb8dbd0a80732c7bbd.camel@linuxfoundation.org>
+In-Reply-To: <5839fa696c78f06c668fe8cb8dbd0a80732c7bbd.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 19 Mar 2020 08:54:10 +0100
+Message-ID: <CANNYZj8LAkjOZQqT6Kje+pog71PCvo1jQV7AhCvGZ1ea_Fc1yw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] piglit: move to meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,269 +59,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2020 02:17:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 19 Mar 2020 07:54:21 -0000
+Content-Type: multipart/alternative; boundary="00000000000014b32805a1307a4d"
 
-0001-Add-option-to-control-configure-args.patch
-0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
-removed since they are included in 4.8.24
+--00000000000014b32805a1307a4d
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- ...Add-option-to-control-configure-args.patch |  99 ----------------
- ...29-configure.ac-drop-bundled-gettext.patch | 110 ------------------
- .../mc/{mc_4.8.23.bb => mc_4.8.24.bb}         |   6 +-
- 3 files changed, 2 insertions(+), 213 deletions(-)
- delete mode 100644 meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
- delete mode 100644 meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
- rename meta/recipes-extended/mc/{mc_4.8.23.bb => mc_4.8.24.bb} (88%)
+On Wed, 18 Mar 2020 at 22:31, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-diff --git a/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch b/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
-deleted file mode 100644
-index e76aac8161..0000000000
---- a/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
-+++ /dev/null
-@@ -1,99 +0,0 @@
--From a54501d3c9541bc8600225aa2d42531f93c6def7 Mon Sep 17 00:00:00 2001
--From: Joshua Watt <JPEWhacker@gmail.com>
--Date: Sat, 9 Nov 2019 20:01:48 -0600
--Subject: [PATCH] Add option to control configure args
--
--Embedding the configure time options into the executable can lead to
--non-reproducible builds, since configure options often have embedded
--paths. Add a configure time option to control if the configure args are
--embedded so this can be disabled.
--
--Upstream-Status: Submitted [https://midnight-commander.org/ticket/4031]
--Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-----
-- configure.ac   | 6 ++++++
-- src/args.c     | 6 ++++++
-- src/textconf.c | 2 ++
-- 3 files changed, 14 insertions(+)
--
--diff --git a/configure.ac b/configure.ac
--index 19d1a76be..a1948f6b9 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -544,6 +544,12 @@ dnl Clarify do we really need GModule
-- AM_CONDITIONAL([HAVE_GMODULE], [test -n "$g_module_supported" && \
--                                 test x"$textmode_x11_support" = x"yes" -o x"$enable_aspell" = x"yes"])
-- 
--+AC_ARG_ENABLE([configure-args],
--+    AS_HELP_STRING([--enable-configure-args], [Handle all compiler warnings as errors]))
--+if test "x$enable_configure_args" != xno; then
--+    AC_DEFINE([ENABLE_CONFIGURE_ARGS], 1, [Define to enable showing configure arguments in help])
--+fi
--+
-- AC_DEFINE_UNQUOTED([MC_CONFIGURE_ARGS], ["$ac_configure_args"], [MC configure arguments])
-- 
-- AC_CONFIG_FILES(
--diff --git a/src/args.c b/src/args.c
--index baef1a1c8..f8dc24020 100644
----- a/src/args.c
--+++ b/src/args.c
--@@ -95,7 +95,9 @@ static gboolean mc_args__nouse_subshell = FALSE;
-- #endif /* ENABLE_SUBSHELL */
-- static gboolean mc_args__show_datadirs = FALSE;
-- static gboolean mc_args__show_datadirs_extended = FALSE;
--+#ifdef ENABLE_CONFIGURE_ARGS
-- static gboolean mc_args__show_configure_opts = FALSE;
--+#endif
-- 
-- static GOptionGroup *main_group;
-- 
--@@ -125,6 +127,7 @@ static const GOptionEntry argument_main_table[] = {
--      NULL
--     },
-- 
--+#ifdef ENABLE_CONFIGURE_ARGS
--     /* show configure options */
--     {
--      "configure-options", '\0', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE,
--@@ -132,6 +135,7 @@ static const GOptionEntry argument_main_table[] = {
--      N_("Print configure options"),
--      NULL
--     },
--+#endif
-- 
--     {
--      "printwd", 'P', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_STRING,
--@@ -758,11 +762,13 @@ mc_args_show_info (void)
--         return FALSE;
--     }
-- 
--+#ifdef ENABLE_CONFIGURE_ARGS
--     if (mc_args__show_configure_opts)
--     {
--         show_configure_options ();
--         return FALSE;
--     }
--+#endif
-- 
--     return TRUE;
-- }
--diff --git a/src/textconf.c b/src/textconf.c
--index 1e0613e58..f39b9e028 100644
----- a/src/textconf.c
--+++ b/src/textconf.c
--@@ -232,10 +232,12 @@ show_datadirs_extended (void)
-- 
-- /* --------------------------------------------------------------------------------------------- */
-- 
--+#ifdef ENABLE_CONFIGURE_ARGS
-- void
-- show_configure_options (void)
-- {
--     (void) printf ("%s\n", MC_CONFIGURE_ARGS);
-- }
--+#endif
-- 
-- /* --------------------------------------------------------------------------------------------- */
---- 
--2.23.0
--
-diff --git a/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch b/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
-deleted file mode 100644
-index 8f357378d0..0000000000
---- a/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
-+++ /dev/null
-@@ -1,110 +0,0 @@
--From 0d677a014a87b968d79eea2353ac4e342b0fd4ca Mon Sep 17 00:00:00 2001
--From: Sergei Trofimovich <slyfox@gentoo.org>
--Date: Wed, 11 Sep 2019 22:58:18 +0100
--Subject: [PATCH] Ticket #3629: configure.ac: drop bundled gettext
--
--Bundled libintl did not support linking to internal static
--libraries (libmc in our case): directly specified static
--libraries are not pulled by libtool and are not usable for
--dynamic libraries as PIC-related flags are not passed for
--compilation.
--
--This renders bundled libintl library unusable.
--
--The change drops libintl bundling support and always relies
--on external libintl (or falls back to disabled NLS).
--
--On a related note gettext-0.20 drops support for bundling
--or libintl and this change will ease migration to newer version.
--
--The change is tested on x86_64-gentoo-linux-musl: mc builds
--and links all tests successfully. A few tests fail for lack
--of NLS support.
--
--Upstream-Status: Backport [https://github.com/MidnightCommander/mc/commit/f30e6ff283f4bc86177e4360de94dad794678395]
--Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
--Signed-off-by: Andrew Borodin <aborodin@vmail.ru>
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- Makefile.am           | 2 +-
-- configure.ac          | 5 +++--
-- doc/doxygen.cfg       | 2 +-
-- lib/Makefile.am       | 2 +-
-- m4.include/mc-i18n.m4 | 5 -----
-- 5 files changed, 6 insertions(+), 10 deletions(-)
--
--diff --git a/Makefile.am b/Makefile.am
--index ac05a83..f86f6ed 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -1,7 +1,7 @@
-- ## Process this file with automake to create Makefile.in.
-- AUTOMAKE_OPTIONS = 1.5
-- 
---SUBDIRS = intl po lib src doc contrib misc
--+SUBDIRS = po lib src doc contrib misc
-- 
-- if HAVE_TESTS
--     SUBDIRS += tests
--diff --git a/configure.ac b/configure.ac
--index a1948f6..bbc9e71 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -272,7 +272,9 @@ dnl ############################################################################
-- dnl Internationalization
-- dnl ############################################################################
-- 
---AM_GNU_GETTEXT([no-libtool], [need-ngettext])
--+AC_CHECK_FUNCS([setlocale])
--+
--+AM_GNU_GETTEXT([external], [need-ngettext])
-- AM_GNU_GETTEXT_VERSION([0.18.1])
-- 
-- mc_I18N
--@@ -680,7 +682,6 @@ doc/hlp/pl/Makefile
-- doc/hlp/ru/Makefile
-- doc/hlp/sr/Makefile
-- 
---intl/Makefile
-- po/Makefile.in
-- ])
-- 
--diff --git a/doc/doxygen.cfg b/doc/doxygen.cfg
--index 07bc973..1118062 100644
----- a/doc/doxygen.cfg
--+++ b/doc/doxygen.cfg
--@@ -91,7 +91,7 @@ FILE_PATTERNS          = *.c \
-- RECURSIVE              = YES
-- EXCLUDE                =
-- EXCLUDE_SYMLINKS       = NO
---EXCLUDE_PATTERNS       = */intl/* */tests/* */.git/*
--+EXCLUDE_PATTERNS       = */tests/* */.git/*
-- EXCLUDE_SYMBOLS        =
-- EXAMPLE_PATH           = $(SRCDIR)
-- EXAMPLE_PATTERNS       =
--diff --git a/lib/Makefile.am b/lib/Makefile.am
--index c448e2d..455f9dd 100644
----- a/lib/Makefile.am
--+++ b/lib/Makefile.am
--@@ -74,4 +74,4 @@ else
--     libmc_la_LIBADD += $(GLIB_LIBS)
-- endif
-- 
---libmc_la_LIBADD += $(PCRE_LIBS) $(LIBICONV) $(LIBINTL)
--+libmc_la_LIBADD += $(PCRE_LIBS)
--diff --git a/m4.include/mc-i18n.m4 b/m4.include/mc-i18n.m4
--index dd10d00..ec08324 100644
----- a/m4.include/mc-i18n.m4
--+++ b/m4.include/mc-i18n.m4
--@@ -8,11 +8,6 @@ dnl @license GPL
-- dnl @copyright Free Software Foundation, Inc.
-- 
-- AC_DEFUN([mc_I18N],[
---
---    if test "x$USE_INCLUDED_LIBINTL" = xyes; then
---        CPPFLAGS="$CPPFLAGS -I\$(top_builddir)/intl -I\$(top_srcdir)/intl"
---    fi
---
--     dnl User visible support for charset conversion.
--     AC_ARG_ENABLE([charset],
--         AS_HELP_STRING([--enable-charset], [Support for charset selection and conversion @<:@yes@:>@]))
-diff --git a/meta/recipes-extended/mc/mc_4.8.23.bb b/meta/recipes-extended/mc/mc_4.8.24.bb
-similarity index 88%
-rename from meta/recipes-extended/mc/mc_4.8.23.bb
-rename to meta/recipes-extended/mc/mc_4.8.24.bb
-index ead348b92e..7a68270dd2 100644
---- a/meta/recipes-extended/mc/mc_4.8.23.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.24.bb
-@@ -9,12 +9,10 @@ RRECOMMENDS_${PN} = "ncurses-terminfo"
- 
- SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
-            file://0001-mc-replace-perl-w-with-use-warnings.patch \
--           file://0001-Add-option-to-control-configure-args.patch \
--           file://0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch \
-            file://nomandate.patch \
-            "
--SRC_URI[md5sum] = "152927ac29cf0e61d7d019f261bb7d89"
--SRC_URI[sha256sum] = "238c4552545dcf3065359bd50753abbb150c1b22ec5a36eaa02c82808293267d"
-+SRC_URI[md5sum] = "2621de1fa9058a9c41a4248becc969f9"
-+SRC_URI[sha256sum] = "cfcc4d0546d0c3a88645a8bf71612ed36647ea3264d973b1f28183a0c84bae34"
- 
- inherit autotools gettext pkgconfig
- 
--- 
-2.17.1
+> > I found an old ticket where piglit was proposed for the core image
+> > testing, and the idea was rejected due to its huge install size, so I
+> > won't be pursuing this further.
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=10047
+> >
+> > Would you still say it's worth to keep the recipe in core? Python-
+> > numpy (that piglit and only piglit needs) isn't trivial to maintain
+> > either (for instance, update to latest version needs cython to be
+> > added to core).
+>
+> That bug is for piglit as a default in testapps. We decided that was a
+> bad idea, not that testing with piglit was a bad idea overall.
+>
 
+So adding piglit to perhaps core-image-sato-ptest would be okay? (with the
+resulting increase in size and do_rootfs times)
 
+Alex
 
+--00000000000014b32805a1307a4d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 18 Mar 2020 at 22:31, Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">&gt; I found an old ticket =
+where piglit was proposed for the core image<br>
+&gt; testing, and the idea was rejected due to its huge install size, so I<=
+br>
+&gt; won&#39;t be pursuing this further.<br>
+&gt; <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D10047" =
+rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show=
+_bug.cgi?id=3D10047</a><br>
+&gt; <br>
+&gt; Would you still say it&#39;s worth to keep the recipe in core? Python-=
+<br>
+&gt; numpy (that piglit and only piglit needs) isn&#39;t trivial to maintai=
+n<br>
+&gt; either (for instance, update to latest version needs cython to be<br>
+&gt; added to core).<br>
+<br>
+That bug is for piglit as a default in testapps. We decided that was a<br>
+bad idea, not that testing with piglit was a bad idea overall.<br></blockqu=
+ote><div><br></div><div>So adding piglit to perhaps core-image-sato-ptest w=
+ould be okay? (with the resulting increase in size and do_rootfs times) <br=
+></div><div><br></div><div>Alex<br></div></div></div>
+
+--00000000000014b32805a1307a4d--
