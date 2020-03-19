@@ -1,50 +1,53 @@
-Return-Path: <jpuhlman@gmail.com>
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
-	[209.85.167.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ED5160B31
+Return-Path: <brgl@bgdev.pl>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id CEE5F60FEA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 18:20:51 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id k8so3776987oik.2
+	Thu, 19 Mar 2020 18:21:04 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id c19so3315212ioo.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 11:20:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=FHcrR7cPrt2jx9KJIdMTaEE07QAPLIHxi+pR6Gq1lQc=;
-	b=VGKjebfmlxfer/ExwUUkmT5Hdt7XTtBHgF0juWVQJsFg0xkt6PzCWlbcUofcJRSpVk
-	zsvcsEcqpEA8xaJhyuUH258MHlay25xfuEufEqqHgzHPk1Rkwu89gkX2Qts/J8jYvVQd
-	GZKI73z9bTdj4eiVyAaPNibCANVtNbVqhBc/FwZcvX9rpzpYYp8New9w/fTc0iHO5r9g
-	z/uejULO035dXSHZPKyvAERM2O5yJq9nWILMvfAN1aUu/dzpw/bFUb624uaU63ZnCEmF
-	cnNN+PTfaLPJsDafT61I5KrJW/HtcXCwDBAw5d1CxkWEfsYbWGJ8zGvvq+Woz+HPVnoh
-	VW/Q==
+	Thu, 19 Mar 2020 11:21:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=eImsRnIEfzYBPspiXFheqHw1hChmj1dB10l7gxHTt/Y=;
+	b=NJVMqK9oZT6uTQyqdAvT99I+eoixmDQTOKQYs7/xx3t+sQVlGVKLpqJy4UO1QoKxvv
+	GQvJUm7G/Egq+y8kl2WdKdtcKDmOsX56ntYttvLuM85jWJ21JXKMTtfto/ZxdOYgc7yn
+	lYN1rL4YvkAxQRyI7ul5PbxarY8O/xBoLmL+IuDUow/2JtYi8Sz6XbZYNL7yKtwH8Qwk
+	Ezzatk1HkqVzmNgFmmpnC8IxFCAtMB9spW297vgZqaaxKaCGhTTL1eNsvc+1tNe1dJoN
+	X3q7pnXAZizaoQ9U7ck1Jrl9vFnYp5lLxnx7JjrWxKmyTFtXGcRVHkBXGo2ylVRRI+iq
+	yXNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=FHcrR7cPrt2jx9KJIdMTaEE07QAPLIHxi+pR6Gq1lQc=;
-	b=ZIWt8dGKIHnWmnyf+kBQ98nX6jStIf563/dJN6GD3QyxbQ1hikJ74h2vqAW9XxJpd7
-	J3Vzg3buUXpW1boDxqewQpxd8C0Ph2UGQt1sW/sWudRIw0c6UACVPFLbOYHXtL+mGcxz
-	vxL9Oxks3wfjnt+tFkQv0L2comz7kAyrI60/lZkgjimZpMBO7ZonV9rJRHaEJNIKlMRt
-	niJKXz2x+AOcXUs2iyhzFn/bBf9ppmdAS4vBnLVsSgcl6bTN0WhEr+CzisQhjM37XLUu
-	4OcXn7LBI3zoIbvf8tJHqb4YuPa5fEIHeSaKPCw6gBTtgxbvG/9LmqmDEUm+fyRJ/u0A
-	SIxw==
-X-Gm-Message-State: ANhLgQ2P/sm7a8udUicFAFgWYab5lZZBtQ/slicZ3yXTbl26/kVffRqm
-	E9c3GNjGpMljfTdzF6rmOWIlTF1X
-X-Google-Smtp-Source: ADFU+vsVhomSmil4x2MTeUv/IBfQaRhoAmshbHosE1gPjw2gk3ochXI4HBlbi+7UIs7lFckxy+yeDw==
-X-Received: by 2002:aca:37c3:: with SMTP id e186mr3469393oia.155.1584642051758;
-	Thu, 19 Mar 2020 11:20:51 -0700 (PDT)
-Received: from workhorse.localdomain
-	([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
-	by smtp.gmail.com with ESMTPSA id i5sm1071447otk.0.2020.03.19.11.20.50
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 19 Mar 2020 11:20:51 -0700 (PDT)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id DD1042A042C; Thu, 19 Mar 2020 11:20:49 -0700 (PDT)
-From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Mar 2020 11:20:48 -0700
-Message-Id: <20200319182048.28380-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.13.3
-Subject: [PATCH] toolchain-shar-extract: check for available python
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=eImsRnIEfzYBPspiXFheqHw1hChmj1dB10l7gxHTt/Y=;
+	b=s82A15yyvuZmiRBU9T8wsgIodf0gczMhMdafHj2mElvZneHUV+gvM5IdbDy06Z2xGs
+	p+D6azc19LSlf4eEwhT3Q5ckRhcw84cDOA3NoGTbXdaEn+8MMS/2+L83G5wu2Wa+1Bgk
+	hQoO3y4upiCy/Pn13Jnh6pTm+z0JcCmnUoz31BH64EjZF0hiJrjV5iUysbyCM7y/awGs
+	Rom9LXgEiAYxLjg54gz5lWApPvpQUHO8dzwCu3aXUX5vr2kLeK2t6JACppj3fMVSvObQ
+	efjQB7I4xcsT6DFnGl9zg9JLWGNbM9/7RJ7aXjKWenUEHwvjWF9fBWGcjTayYx+rhuiI
+	Gm+w==
+X-Gm-Message-State: ANhLgQ3kzPgL0VRDqvpLcgP65n2Mj8Sx9BlcQj+6HWNGNyoK3nssFYF9
+	C5a+SuTTalaga8fOBS1qJfYUyBm9an7Z65mosXgZDg==
+X-Google-Smtp-Source: ADFU+vsIR4BZ6UtDsoYPggj1ElmnYxIaEEDvw+6Ago6kRtjfK3P61tPszOy7yCc17bCp31gpnF1nttoPKBuSBX4wEag=
+X-Received: by 2002:a5e:dd43:: with SMTP id u3mr3814057iop.119.1584642065718; 
+	Thu, 19 Mar 2020 11:21:05 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200319164403.29605-1-brgl@bgdev.pl>
+	<21fcbda1e8b274ba75534159179ca9535c618d68.camel@linuxfoundation.org>
+In-Reply-To: <21fcbda1e8b274ba75534159179ca9535c618d68.camel@linuxfoundation.org>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 19 Mar 2020 19:20:54 +0100
+Message-ID: <CAMRc=MeF5beTkadXL6WGJhq-AsXTxu_4WC2c+sFeMqm+EsgaHQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Jerome Neanne <jneanne@baylibre.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+	Quentin Schulz <quentin.schulz@streamunlimited.com>
+Subject: Re: [RFC PATCH 0/2] image.bbclass: support two-stage deployment of image artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +60,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Mar 2020 18:20:51 -0000
+X-List-Received-Date: Thu, 19 Mar 2020 18:21:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+czw., 19 mar 2020 o 18:13 Richard Purdie
+<richard.purdie@linuxfoundation.org> napisa=C5=82(a):
+>
+> On Thu, 2020-03-19 at 17:44 +0100, Bartosz Golaszewski wrote:
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> >
+> > This is a follow-up to the discussion I started on the OE-core
+> > mailing
+> > list a couple days ago[1]. These patches propose to split the
+> > deployment
+> > of image artifacts into two stages where the first one includes all
+> > "regular" images and takes place before do_image_complete and the
+> > second
+> > is mostly aimed at wic right now and happens after do_image_complete.
+> >
+> > These patches work but I'm sending them as RFC mostly to continue the
+> > discussion about possible solutions for the circular dependencies
+> > between
+> > the rootfs and initramfs.
+> >
+> > [1]
+> > http://lists.openembedded.org/pipermail/openembedded-core/2020-March/29=
+4094.html
+>
+> This works fine until we have some new image type which then has to
+> depend on happening after wic. We then add a three stage process and so
+> on. Basically this feels like we're hardcoding something for one
+> specific use case which will later break and not scale to other
+> problems/solutions.
+>
 
-centos7 doesn't have python3 intalled by default, so running
-the script errors in novel ways if it is not installed.
+I understand you see it as controversial but let me try to convince you:
 
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
----
- meta/files/toolchain-shar-extract.sh | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+If we'll really get to a point where we need to create a hierarchy of
+multiple levels of image deployment, then maybe we should switch to
+deploying each image right after it is created in its dedicated
+do_image_<type> task, then we could really fine-tune the inter-task
+dependencies. But we're not there yet and IMO currently it would be
+overkill. The rule of thumb for me is not to add new interfaces nobody
+asks for.
 
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 2e0fe94963..04527f891f 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -1,8 +1,13 @@
- #!/bin/sh
- 
- export LC_ALL=en_US.UTF-8
-+#Make sure at least one python is installed
-+INIT_PYTHON=$(which python3 2>/dev/null )
-+[ -z "$INIT_PYTHON" ] && INIT_PYTHON=$(which python2 2>/dev/null)
-+[ -z "$INIT_PYTHON" ] && echo "Error: The SDK needs a python installed" && exit 1
-+
- # Remove invalid PATH elements first (maybe from a previously setup toolchain now deleted
--PATH=`python3 -c 'import os; print(":".join(e for e in os.environ["PATH"].split(":") if os.path.exists(e)))'`
-+PATH=`$INIT_PYTHON -c 'import os; print(":".join(e for e in os.environ["PATH"].split(":") if os.path.exists(e)))'`
- 
- tweakpath () {
-     case ":${PATH}:" in
--- 
-2.13.3
+The thing with wic is that it's aggregating other deployed images.
+What we're dealing with are *two* categories of image artifacts: let's
+call them simple and composed types. Obviously composed types may need
+to access the simple types and, due to the use-case I described in my
+previous thread, it's useful if we can depend on the tasks for simple
+and composed images separately. Maybe if I renamed the tasks:
+do_image_deploy_simple and do_image_deploy_composed it would look
+better than an ambiguous do_image_deploy_late.
 
+This also makes your argument about adding a third category purely
+theoretical: I don't see how we would need another category of images
+anytime soon. Even if we added another aggregating type (one could
+argue that hddimg qualifies as such) it could, with a 99% chance, run
+in parallel to wic and thus qualify as a deploy_late/composed image.
+
+> Sorry, I'm not convinced this is the right way to move forward. I will
+> try and have a think about what the right way is but sadly I don't get
+> much time to spend on specific problems like this :(
+>
+
+Please do - I'm open for other ideas. Just please keep in mind:
+there's obviously a problem with the current approach. I described it
+in detail and it turned out Quentin had encountered it too and dealt
+with it using a nasty workaround (fitImage deployed by the image
+recipe and not the kernel). I'd like to fix it upstream and proposed a
+solution that is IMO not horrible. I'd appreciate if we could reach a
+compromise that wouldn't leave us with downstream hacks.
+
+Please also note that sometimes "gets the job done" really is better
+than not solving problems. Just look at initcall levels in the linux
+kernel - they are similar to what I proposed here and serve as a
+surrogate for real dependencies.
+
+Best regards,
+Bartosz Golaszewski
 
