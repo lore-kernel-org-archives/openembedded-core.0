@@ -1,28 +1,28 @@
 Return-Path: <anuj.mittal@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 981BC61085
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id BE0B1618F7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2020 01:02:03 +0000 (UTC)
-IronPort-SDR: 6Ks6q5a39xzOFg/+sYNQH9O1sv9ScConxPkFP1EYe/ptw0u5KDvVJ1T5R+hx8XcgDZ2+jJf3ly
-	Ah2Q4230Lk/w==
+	Fri, 20 Mar 2020 01:56:25 +0000 (UTC)
+IronPort-SDR: bwn0zoe24NDKopy9li1z5nsSr8ZN6aaKqcz+v/QQrB3fiw4Bd5qbZYsNBRwW9T0iWYH2f8lySY
+	m39lv+BmJT8g==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	19 Mar 2020 18:02:02 -0700
-IronPort-SDR: Sx+GfT7pdPFCa6V9XU3mgXTwwbjtA7FA0Bb4KzzdlAksaNfzUV8GejaaN0Lp+5Y2AxkPTPOvS2
-	7qUiDxf69HfQ==
-X-IronPort-AV: E=Sophos;i="5.72,573,1580803200"; d="scan'208";a="418546964"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	19 Mar 2020 18:56:26 -0700
+IronPort-SDR: Jnw6o1xFbOS80NzBLoQcgTsbO8KvATHe3vp98VU5Uknlns6UKXkah5WcPqHXDgRSYf5q9TjjS6
+	RjLnwFaK+lYQ==
+X-IronPort-AV: E=Sophos;i="5.72,282,1580803200"; d="scan'208";a="392001800"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.77.159])
-	by orsmga005-auth.jf.intel.com with
-	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2020 18:02:01 -0700
+	by orsmga004-auth.jf.intel.com with
+	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2020 18:56:24 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Mar 2020 09:01:56 +0800
-Message-Id: <20200320010156.120590-1-anuj.mittal@intel.com>
+Date: Fri, 20 Mar 2020 09:56:19 +0800
+Message-Id: <20200320015620.125128-1-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Subject: [PATCH] icu: fix CVE-2020-10531
+Subject: [zeus][PATCH 1/2] icu: fix CVE-2020-10531
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,13 +35,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2020 01:02:03 -0000
+X-List-Received-Date: Fri, 20 Mar 2020 01:56:25 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
  .../icu/icu/CVE-2020-10531.patch              | 122 ++++++++++++++++++
- meta/recipes-support/icu/icu_65.1.bb          |   1 +
+ meta/recipes-support/icu/icu_64.2.bb          |   1 +
  2 files changed, 123 insertions(+)
  create mode 100644 meta/recipes-support/icu/icu/CVE-2020-10531.patch
 
@@ -173,11 +173,11 @@ index 0000000000..56303fc0f2
 + };
 + 
 + #endif
-diff --git a/meta/recipes-support/icu/icu_65.1.bb b/meta/recipes-support/icu/icu_65.1.bb
-index bd932d7db4..2512916780 100644
---- a/meta/recipes-support/icu/icu_65.1.bb
-+++ b/meta/recipes-support/icu/icu_65.1.bb
-@@ -23,6 +23,7 @@ SRC_URI = "${BASE_SRC_URI} \
+diff --git a/meta/recipes-support/icu/icu_64.2.bb b/meta/recipes-support/icu/icu_64.2.bb
+index 10bac7aac0..2ed807787d 100644
+--- a/meta/recipes-support/icu/icu_64.2.bb
++++ b/meta/recipes-support/icu/icu_64.2.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${BASE_SRC_URI} \
             file://fix-install-manx.patch \
             file://0001-Fix-big-endian-build.patch \
             file://0001-icu-Added-armeb-support.patch \
