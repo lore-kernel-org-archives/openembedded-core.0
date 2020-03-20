@@ -1,34 +1,34 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 19A22606F3
+	by mail.openembedded.org (Postfix) with ESMTP id 09A2361B77
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2020 18:03:15 +0000 (UTC)
+	Fri, 20 Mar 2020 18:04:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=axis.com; l=1259; q=dns/txt; s=axis-central1;
-	t=1584727399; x=1616263399;
+	d=axis.com; l=1662; q=dns/txt; s=axis-central1;
+	t=1584727463; x=1616263463;
 	h=from:to:subject:date:message-id:mime-version:
 	content-transfer-encoding;
-	bh=VpSf5vaHi3CEwQ7E/RisEWV3mWL3Y24z2HYe9sP2Bh4=;
-	b=l6pS6QwNNvhIqKxjU4sGXllybK72cgDVsIQncW5VsGUMUAbCIKULNJzB
-	bSQRzuTiD9EdJzUeZJdlcnLkFYNB4S2+67liN5o0tG829SGLHnd3vnaaO
-	XNlz77E8aVORq8WXGAfCHGibbejrzE0goFu+cmnDm+0XQEy3xyOffXSxX
-	XMZP13WKYfdbDt3S7TKTRFpRDyJ7L12u0swgVxMQI/CWBAtTum818xqYC
-	A43r/Qj72TosgbZ1NfJ25rw8qdK7f/zNNsOdKN8SEj4km9M24rf//VFk/
-	KyhlNLRmpjxe6UAF+DmIrKca43B37IL4E3CtZPtZG430/gzTJ0CwF89v7 A==;
-IronPort-SDR: 5bv2kefMsXFEYRFKUKEYM2ji7ljcIMdtznmKCXOVTlAOF2fnH+c5HUH2HsWcKFRrp72DVadjY1
-	h4dh/K6UrPBWXOoWOmCRF28xYR45KRzPD2bNOoDG/RgWzf5p4EaDOHocCfQtOIYz5ThlZ2mX7L
-	JpYBisQcLefXSlabfeDdW7Z9P+0ryMzijYfTFsq7IzPIS40FTepsp2zKiME+4Hub6CHA0t1ibT
-	VKMQSEFqkcXLXLa31Cm/l9xCwvYSl+eIR+zHk5Y5SU9haZcTmsjTYWI1W9i/G9mBgiHEu2HoDx
-	gNY=
+	bh=v4eW+o6vVe2ZtnLGCoJ54oV9aWveMdiWFJHgxdconmk=;
+	b=dozWWHscZy0WwbDEBSO/3D78V4Z/HeCACcu3epDiK/8uDIB1wGEBx9E+
+	ebaXBh9skyppCv7ckUopMC5VhZru7FnwO/iy86eiOQ8MazhvXserAde1y
+	vyvgP2B0/2UbOwJhw/juKJPvJAVc1B6fHUYztt4HOzKCRo5zLUaxzfcJ3
+	3ReSf+2qP3nJbXYxCPxxs1I7AVygnloJ2VdF8fJ6JRrMaJYOQ1OpJkgDM
+	DN5HqC50iPuJCZL8DOdD3Ylo/7Ig2l5voZ3c+/9bPdGQejjW5m9c8isXX
+	FCnIOM4IZl5wdIG9hwqodB0zw7A4DSbdu8vJL9itnPx/PdyrvnJlJu/ks A==;
+IronPort-SDR: a5Bb9/xVBhbVkFAyGgMf7The3bdngRJ4nXVvCsnIaucsEJM9qDrZabbjmfEdg67fu2mFWw3iS7
+	yuEsOxJhIe8wFnD6lQ4DhhUFj/eVjkq/8YfTZcJc1ILdp6SE55shZbYnQpJAwsQuCAiTKD6i9f
+	fJvOvraZ4csOa4eMg1G+TYQDmTnpWrKNyfuWxeevTsW+qOCUZx3BMMoOHX9hqZLT+nY9NurYOw
+	3y3wSr7xE1GDhILc6sK49yS/F71+4B9CQpE8i/ZEqtdGhl3dFowBPErZ3G4svBjD/fO530YFF6
+	W5A=
 X-IronPort-AV: E=Sophos;i="5.72,285,1580770800"; 
-   d="scan'208";a="6750189"
+   d="scan'208";a="6750270"
 From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Mar 2020 19:03:12 +0100
-Message-ID: <20200320180312.31459-1-pkj@axis.com>
+Date: Fri, 20 Mar 2020 19:04:20 +0100
+Message-ID: <20200320180420.32303-1-pkj@axis.com>
 X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Subject: [PATCH] archiver.bbclass: Correct a typo
+Subject: [master][zeus][PATCH] relocatable.bbclass: Avoid an exception if an empty pkgconfig dir exist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,39 +41,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2020 18:03:17 -0000
+X-List-Received-Date: Fri, 20 Mar 2020 18:04:21 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Also add a missing space in a warning message.
+Rewrite relocatable_native_pcfiles() so that it can handle that any of
+the checked pkgconfig directories are empty without causing an
+exception.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/archiver.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/relocatable.bbclass | 20 +++++++++++---------
+ 1 file changed, 11 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 013195df7d..48b4913a9f 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -32,7 +32,7 @@
- #     directory suitable for direct use as a mirror. Duplicate sources are
- #     ignored.
- # 12) Source mirror exclusions:
--#     ARCHIVE_MIRROR_EXCLUDE is a list of prefixes to exclude from the mirror.
-+#     ARCHIVER_MIRROR_EXCLUDE is a list of prefixes to exclude from the mirror.
- #     This may be used for sources which you are already publishing yourself
- #     (e.g. if the URI starts with 'https://mysite.com/' and your mirror is
- #     going to be published to the same site). It may also be used to exclude
-@@ -359,7 +359,7 @@ python do_ar_mirror() {
-                 break
+diff --git a/meta/classes/relocatable.bbclass b/meta/classes/relocatable.bbclass
+index 582812c1cf..af04be5cca 100644
+--- a/meta/classes/relocatable.bbclass
++++ b/meta/classes/relocatable.bbclass
+@@ -6,13 +6,15 @@ python relocatable_binaries_preprocess() {
+     rpath_replace(d.expand('${SYSROOT_DESTDIR}'), d)
+ }
  
-         if len(ud.mirrortarballs) and not localpath:
--            bb.warn('Mirror tarballs are listed for a source but none are present.' \
-+            bb.warn('Mirror tarballs are listed for a source but none are present. ' \
-                     'Falling back to original download.\n' \
-                     'SRC_URI = %s' % (url))
- 
+-relocatable_native_pcfiles () {
+-	if [ -d ${SYSROOT_DESTDIR}${libdir}/pkgconfig ]; then
+-		rel=${@os.path.relpath(d.getVar('base_prefix'), d.getVar('libdir') + "/pkgconfig")}
+-		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDIR}${libdir}/pkgconfig/*.pc
+-	fi
+-	if [ -d ${SYSROOT_DESTDIR}${datadir}/pkgconfig ]; then
+-		rel=${@os.path.relpath(d.getVar('base_prefix'), d.getVar('datadir') + "/pkgconfig")}
+-		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDIR}${datadir}/pkgconfig/*.pc
+-	fi
++relocatable_native_pcfiles() {
++	for dir in ${libdir}/pkgconfig ${datadir}/pkgconfig; do
++		files_template=${SYSROOT_DESTDIR}$dir/*.pc
++		# Expand to any files matching $files_template
++		files=$(echo $files_template)
++		# $files_template and $files will differ if any files were found
++		if [ "$files_template" != "$files" ]; then
++			rel=$(realpath -m --relative-to=$dir ${base_prefix})
++			sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" $files
++		fi
++	done
+ }
 -- 
 2.21.1
 
