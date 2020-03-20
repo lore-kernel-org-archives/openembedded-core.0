@@ -1,131 +1,33 @@
-Return-Path: <mike.looijmans@topicproducts.com>
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
-	(mail-vi1eur05on2069.outbound.protection.outlook.com [40.107.21.69])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DCD56101C
+Return-Path: <SRS0=qdqA=5F=stusta.de=bunk@stusta.mhn.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B4A160FF1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2020 14:48:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=topicbv.onmicrosoft.com; s=selector2-topicbv-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=pkOSpRvP5b/a2uWk6ewEqVleAnBeDHAi99F/zvO/Wa4=;
-	b=qcSPBDywpzZ1Dv50bqKC0o2YuNIiWHuotOk2FHA/dYcGthhge1J/VSTpoIqJEnuFXxi/lFsoiZ3YVsPofEWVf1Dt2Gk9xBP6t4ccLFGpe1fPQ3H0XosYRoNz7Bv+ved/FRx+zp2IQZOIC7Iwy1JOiLcE9kwqmS7n08xXAlGUctM=
-Received: from DB6PR07CA0166.eurprd07.prod.outlook.com (2603:10a6:6:43::20) by
-	AM0PR04MB4180.eurprd04.prod.outlook.com (2603:10a6:208:5d::15) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2835.18; Fri, 20 Mar 2020 14:48:08 +0000
-Received: from DB5EUR01FT031.eop-EUR01.prod.protection.outlook.com
-	(2603:10a6:6:43:cafe::a4) by DB6PR07CA0166.outlook.office365.com
-	(2603:10a6:6:43::20) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2856.9 via
-	Frontend Transport; Fri, 20 Mar 2020 14:48:08 +0000
-Authentication-Results: spf=pass (sender IP is 13.81.10.179)
-	smtp.mailfrom=topicproducts.com; lists.openembedded.org;
-	dkim=fail (signature
-	did not verify) header.d=topicbv.onmicrosoft.com; lists.openembedded.org;
-	dmarc=none action=none header.from=topic.nl;
-Received-SPF: Pass (protection.outlook.com: domain of topicproducts.com
-	designates 13.81.10.179 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=13.81.10.179; helo=westeu13-emailsignatures-cloud.codetwo.com;
-Received: from westeu13-emailsignatures-cloud.codetwo.com (13.81.10.179) by
-	DB5EUR01FT031.mail.protection.outlook.com (10.152.4.253) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2814.14 via Frontend Transport; Fri, 20 Mar 2020 14:48:06 +0000
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (104.47.12.54) by
-	westeu13-emailsignatures-cloud.codetwo.com with CodeTwo SMTP
-	Server (TLS12) via SMTP; Fri, 20 Mar 2020 14:48:04 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=n2ZcmLN8ridUKm7EYMRtTOvJZTAMbl79GRFoCCvIon/UGi+MNt0BWpapudy9bWjqwnSRZ9SwKKPcTd6EG22zu9hdjw2452OMeZWXolYqIsVMS+LwMu+od1phejaf0c2toLEITTFKC5MQ464lJQmzg3Y53sXVAEPEa77r9ElEgKiBJ+Z+C7F4tr/JGj/Fqti4YBfGtpnXIBre8VqdEodyvd4coWVLTsHQI2SSDVRpxrYYCfT6WX9CzQ+l9wWm4qCH365PAnL65MRS9JMNuWUmbgS9QVM6M+g4veJJct0t5wuRQVL1u7BTLgFGw/cj2bEY1gwNTHAZVvaH83PnPVdylA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=pkOSpRvP5b/a2uWk6ewEqVleAnBeDHAi99F/zvO/Wa4=;
-	b=NT7vBPYAeK3OfHpTQS3Ue9nRWRiuPP5EoPMqlsiA94vjLMvwe2iJjgWOE9OpX7OHIcU15mp9b5kkwGY1ua73PpsoBGbT27ccWEMCV3Oy+BlSLqMVs/o2YUXViSyD+3rMtoaecWQpVP/kmFgq0hFwYiCRDIfni3CNW/SwmEb6txApNk6L/xJXjlhtJqAt3faYPNUQSlWx2eq8nminmIgOL2AUqWffoPhnmnfS+DXb3+FwLuq0791RhaEBb3xjGGNuzNpwMFatL2jhVFS3aFH+zqm61NgtJ+ivVyDJ8qifUwrXbv9mlu90akTm7bA64QAF8E8nGiUIWKQ28gNina0NFA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=topicproducts.com;
-	dmarc=pass action=none header.from=topic.nl; 
-	dkim=pass header.d=topic.nl; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=topicbv.onmicrosoft.com; s=selector2-topicbv-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=pkOSpRvP5b/a2uWk6ewEqVleAnBeDHAi99F/zvO/Wa4=;
-	b=uMu9MSiY/k/CbhtDxCefcppJQqPZj42DOEaTNNuNgKBPfjls8EmiMUvB0ILqP4qG8Y9VyBpmGZ9HYO2c+IeOc/9ax3K4tV4AbP4edp1eN29ZO/Lna8ENLjox0N2MYzXzuQZZ1eRLPtioiB0B2LFbnv45gswfSP8FVuDY6QJYN/M=
-Authentication-Results-Original: spf=none (sender IP is )
-	smtp.mailfrom=mike.looijmans@topicproducts.com; 
-Received: from DB3PR0402MB3947.eurprd04.prod.outlook.com (52.134.67.147) by
-	DB3PR0402MB3787.eurprd04.prod.outlook.com (52.134.73.25) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2814.21; Fri, 20 Mar 2020 14:48:02 +0000
-Received: from DB3PR0402MB3947.eurprd04.prod.outlook.com
-	([fe80::380e:f722:2d0d:9c71]) by
-	DB3PR0402MB3947.eurprd04.prod.outlook.com
-	([fe80::380e:f722:2d0d:9c71%6]) with mapi id 15.20.2835.017;
-	Fri, 20 Mar 2020 14:48:02 +0000
-To: Adrian Bunk <bunk@stusta.de>
-References: <20200318122156.23599-1-mike.looijmans@topic.nl>
-	<20200319113736.GA28081@localhost>
-From: Mike Looijmans <mike.looijmans@topic.nl>
-Organization: Topic
-Message-ID: <aa4de5d3-3f2e-6f18-21bb-bc47b62dddfe@topic.nl>
-Date: Fri, 20 Mar 2020 15:48:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
-In-Reply-To: <20200319113736.GA28081@localhost>
-X-ClientProxiedBy: AM3PR07CA0067.eurprd07.prod.outlook.com
-	(2603:10a6:207:4::25) To DB3PR0402MB3947.eurprd04.prod.outlook.com
-	(2603:10a6:8:7::19)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.130] (83.128.90.119) by
-	AM3PR07CA0067.eurprd07.prod.outlook.com (2603:10a6:207:4::25)
-	with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.12
-	via Frontend Transport; Fri, 20 Mar 2020 14:48:01 +0000
-X-Originating-IP: [83.128.90.119]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5e206bfb-067c-4844-2f2c-08d7ccddb344
-X-MS-TrafficTypeDiagnostic: DB3PR0402MB3787:|AM0PR04MB4180:
-X-Microsoft-Antispam-PRVS: <AM0PR04MB41804D617BC5E39BF9E6869F96F50@AM0PR04MB4180.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;OLM:9508;
-X-Forefront-PRVS: 03484C0ABF
-X-Forefront-Antispam-Report-Untrusted: SFV:NSPM;
-	SFS:(10009020)(346002)(39840400004)(396003)(376002)(366004)(136003)(199004)(31696002)(6916009)(81156014)(81166006)(8936002)(16576012)(44832011)(8676002)(186003)(16526019)(2906002)(26005)(316002)(53546011)(66946007)(42882007)(5660300002)(66476007)(36756003)(4326008)(2616005)(31686004)(66556008)(956004)(508600001)(52116002)(6486002)(36916002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DB3PR0402MB3787;
-	H:DB3PR0402MB3947.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; 
-Received-SPF: None (protection.outlook.com: topicproducts.com does not
-	designate permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: EU/IwO7B2sFU3sVgnUkkdW5K5iq5YgLAjJ7WZMS+mC1l5Vrh0dF+XNLTeKk6Gkn14PmY4UPb195bBvRnljJtGGp9wwO2eizM3QZYtfZvQqS9SzmJpy3wXmlBv3qjLRAuEs42JXFs6tdmcHx7eIdjW4vG+C4HKbzwlAbayQY3ihD4+8ozhfhdv5MQOKpyp8hcHmq8sJNiWmU+KjBb8Rt7YPIIV6j2K6q9uoq7lHPwBbuBsuSiARwAJeQE8zLJ00h4xSVCrr53LUrjHR8zcd2CUH1jQvLm8b/wYqFcdsbScd1voxL8Mq4YjlmX5nSD6Z0cs9fjXs2P42b4VOOC+lXPZCdpaxz33WDH6YqeUUnSk9gJjtjJabtrQH6KLzv4ofN16ZVgdHygk708jzAZ56EEccsWbgxbOg/KQaNgsu3pq87nqm7wzKrLQWXrIaljnb5a
-X-MS-Exchange-AntiSpam-MessageData: 8i5b7IxH7nozGvkwVWQLEglnmgr51ie/JgGqqL3ycyxiuUX1wiGsc3JXUZ7OeGwu4ym+ULe0A6jDtcdxFpWMRm0bqRS3DwUILB/KfSWiWxrpgi+HPgfuVw0DJoMnWz/yl8V2S4N12pClsVdaqEkctw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0402MB3787
-X-CodeTwo-MessageID: fbbb223e-f857-424a-9487-8146f46b5fae.20200320144804@westeu13-emailsignatures-cloud.codetwo.com
-X-CodeTwoProcessed: true
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: DB5EUR01FT031.eop-EUR01.prod.protection.outlook.com
-X-Forefront-Antispam-Report: CIP:13.81.10.179; IPV:; CTRY:NL; EFV:NLI; SFV:NSPM;
-	SFS:(10009020)(136003)(39840400004)(376002)(396003)(346002)(199004)(46966005)(36756003)(336012)(7636002)(7596002)(5660300002)(2616005)(6916009)(956004)(42882007)(6486002)(47076004)(186003)(356004)(16526019)(26005)(36916002)(8676002)(44832011)(70206006)(246002)(82310400001)(31686004)(53546011)(2906002)(508600001)(4326008)(31696002)(316002)(70586007)(8936002)(16576012);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AM0PR04MB4180;
-	H:westeu13-emailsignatures-cloud.codetwo.com; FPR:; SPF:Pass;
-	LANG:en; PTR:westeu13-emailsignatures-cloud.codetwo.com; A:1; 
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 2be19843-5c9e-4c55-1c20-08d7ccddb092
-X-Forefront-PRVS: 03484C0ABF
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: X+1aAKgQqhyoaKxS2T2IM9sZY3LNfB3M2tMpDFULNBY2t++dXmZ4gpXHsOz2I1KzHE/pFoWbE4brefERocaO8WVlqboXZ1o85qsy85R26pZ+IutDWDADNNVdZXzaYtzH/p7kgdIQAHWjBxPM6sN+C/5ortEN2kCntzWk5aB2nL0FgAXD1JADudP5O6Es+W7Ge7bg+pogEDgdxwR7XDpt7eimiW3DH+OrnwKQqfFKzx1IroKidkfMuQE4q3BRHijc8LGpj0dUQ61fzr0cpxZFyF3/L+kiBKK4fil9Y7mKBkpuCydipdHFNi9+24UwqZ7ZuMGZrycp7UjA0tBqdgLKNfnNtcL59XfdFFYpySEkZQSOMSCeOkzf/kIhgxP0tqt29uqYWDoEtQ6Tbf9Q7KIPwT6isn/dc8oeXei7ATTfZxMhwVV9RWdgRU+JpJ49DbTaRJy/aRApm3y5WFZ0u4QHBEKhWzYXHc5QA7DVeoWn2zmnG4X93HP0dqxC+QrUwnJ3m0Tf+CJZAgwFF9/29kqe2Q==
-X-OriginatorOrg: topic.nl
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Mar 2020 14:48:06.2963 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5e206bfb-067c-4844-2f2c-08d7ccddb344
-X-MS-Exchange-CrossTenant-Id: 449607a5-3517-482d-8d16-41dd868cbda3
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=449607a5-3517-482d-8d16-41dd868cbda3; Ip=[13.81.10.179];
-	Helo=[westeu13-emailsignatures-cloud.codetwo.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB4180
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] classes/populate_sdk_base: Implement xz compression options
+	Fri, 20 Mar 2020 17:23:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48kVxS4Fxjz40
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Mar 2020 18:23:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1584725036;
+	bh=eNCY0QngPo/5FovzZHSiZQ2S3UAzdqem0gIxMV7Mazo=;
+	h=From:To:Subject:Date:From;
+	b=I2khbtS/JAVBG1lo8kaoh7GsEckJTg2AtakOuhOC9pu2e2jv/47rXNjysL8JOB8OW
+	+XZ4V+eUSY0CcQfVIypZ+EirK3B2unbkr5VfXWENgw3bdAyVYJqCLUWs2Ojaenn+1z
+	YnUPffBJRAsXPXm9O0cXEF3LwUot16HN7vjCOtlxg35y7rmqpH1orp0D/baBghF4jn
+	jD1eJ/JYrpNOzgmHTqsCUw+sF2lpJfeRdNaIQv4UtbhCn6WgVwEp+OZu+muiO+ZsxM
+	rA6OjjaWMXxGlJFoFsovK6qN6DCoV38JbgMx1ymDJBegoQN+Xi2t63EjhWk+hmsidF
+	qo141BtLFGE9Re6G9QmPlywPL6Zb+u9oG/elbk2I05x5yhEAs5vAWAxpcRKTzY96hX
+	VC1d77+nAXpwQh+Ph/5r8FgdfQkETUtKs7BBfUM7J9nSxhAJkzBOOq+SNFyxQewi1C
+	s9qagy47dlw5gPw43BqtO114CQ22RqIadnag6sIXQWphUDT/pBxVuVVcn77zUr9GTO
+	SG58qTg9Rfl+zWgHKyRYfatZnC3balhkYTCkay4NOpwsBCvCs3nz4A+vtmo9mZgQCy
+	lD+ZtLlbtGxmhQZj6rv627LOvd1EfZXbd8HnjqPhRcXmM87awTBVsOaMyCxAMp53Se
+	YIgUBoSu8bSAzsW/Mam3yIJI=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Mar 2020 19:23:53 +0200
+Message-Id: <20200320172354.9777-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [zeus][PATCH 1/2] e2fsprogs: fix CVE-2019-5188
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -138,48 +40,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2020 14:48:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 20 Mar 2020 17:23:59 -0000
 
-On 19-03-2020 12:37, Adrian Bunk wrote:
-> On Wed, Mar 18, 2020 at 01:21:56PM +0100, Mike Looijmans wrote:
->> Building an SDK on a machine with 8GB RAM resulted in excessive swapping
->> due to the xz compressor using ~20GB of memory. This is because xz is
->> being called with "-T 0 -9".
->>
->> To allow tuning the compression versus memory usage, introduce a variable
->> named SDK_XZ_OPTIONS that defaults to a more sane default:
->> SDK_XZ_OPTIONS ?= "${XZ_DEFAULTS} ${XZ_COMPRESSION_LEVEL}"
->> Thus, inherit any XZ tuning already done, and allow users to specify
->> overrides for this task in their config by supplying SDK_XZ_OPTIONS.
->> Since XZ_COMPRESSION_LEVEL defaults to -9 this does not change the standard
->> behavior.
->> ...
->> +SDK_XZ_OPTIONS ?= "${XZ_DEFAULTS} ${XZ_COMPRESSION_LEVEL}"
-> 
-> A problem is that XZ_COMPRESSION_LEVEL compression would now be used for
-> unrelated usecases, and lowering the compression for being able to boot
-> on low-end targets (<= 64 MB RAM) shouldn't impact the SDK.
+From: Anuj Mittal <anuj.mittal@intel.com>
 
-Clear. I wasn't aware that this was for the targets...
+Also see:
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=948508
 
-> 
->> ...
->> -       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz -T 0 -9 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
->> +       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz ${SDK_XZ_OPTIONS} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
->> ...
-> 
-> Replacing "-T 0" with ${XZ_DEFAULTS} should solve your problem.
-> This already takes both cpus and memory into account.
+(From OE-Core rev: 09bdcef183d885025da6aa87a7c2bf7e8268774e)
 
-I'd still want to have control over that -9 though.
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ ...-t-try-to-rehash-a-deleted-directory.patch | 49 ++++++++++++++++
+ .../e2fsprogs/e2fsprogs/CVE-2019-5188.patch   | 57 +++++++++++++++++++
+ .../e2fsprogs/e2fsprogs_1.45.3.bb             |  2 +
+ 3 files changed, 108 insertions(+)
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-don-t-try-to-rehash-a-deleted-directory.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5188.patch
 
-It's not worth it to spend 15 minutes compressing just a few megabytes 
-better in a development environment.
-
-
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-don-t-try-to-rehash-a-deleted-directory.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-don-t-try-to-rehash-a-deleted-directory.patch
+new file mode 100644
+index 0000000000..ba4e3a3c97
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-don-t-try-to-rehash-a-deleted-directory.patch
+@@ -0,0 +1,49 @@
++From 71ba13755337e19c9a826dfc874562a36e1b24d3 Mon Sep 17 00:00:00 2001
++From: Theodore Ts'o <tytso@mit.edu>
++Date: Thu, 19 Dec 2019 19:45:06 -0500
++Subject: [PATCH] e2fsck: don't try to rehash a deleted directory
++
++If directory has been deleted in pass1[bcd] processing, then we
++shouldn't try to rehash the directory in pass 3a when we try to
++rehash/reoptimize directories.
++
++Signed-off-by: Theodore Ts'o <tytso@mit.edu>
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/commit/?id=71ba13755337e19c9a826dfc874562a36e1b24d3]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ e2fsck/pass1b.c | 4 ++++
++ e2fsck/rehash.c | 2 ++
++ 2 files changed, 6 insertions(+)
++
++diff --git a/e2fsck/pass1b.c b/e2fsck/pass1b.c
++index 5693b9cf..bca701ca 100644
++--- a/e2fsck/pass1b.c
+++++ b/e2fsck/pass1b.c
++@@ -705,6 +705,10 @@ static void delete_file(e2fsck_t ctx, ext2_ino_t ino,
++ 		fix_problem(ctx, PR_1B_BLOCK_ITERATE, &pctx);
++ 	if (ctx->inode_bad_map)
++ 		ext2fs_unmark_inode_bitmap2(ctx->inode_bad_map, ino);
+++	if (ctx->inode_reg_map)
+++		ext2fs_unmark_inode_bitmap2(ctx->inode_reg_map, ino);
+++	ext2fs_unmark_inode_bitmap2(ctx->inode_dir_map, ino);
+++	ext2fs_unmark_inode_bitmap2(ctx->inode_used_map, ino);
++ 	ext2fs_inode_alloc_stats2(fs, ino, -1, LINUX_S_ISDIR(dp->inode.i_mode));
++ 	quota_data_sub(ctx->qctx, &dp->inode, ino,
++ 		       pb.dup_blocks * fs->blocksize);
++diff --git a/e2fsck/rehash.c b/e2fsck/rehash.c
++index 3dd1e941..2c908be0 100644
++--- a/e2fsck/rehash.c
+++++ b/e2fsck/rehash.c
++@@ -1028,6 +1028,8 @@ void e2fsck_rehash_directories(e2fsck_t ctx)
++ 			if (!ext2fs_u32_list_iterate(iter, &ino))
++ 				break;
++ 		}
+++		if (!ext2fs_test_inode_bitmap2(ctx->inode_dir_map, ino))
+++			continue;
++ 
++ 		pctx.dir = ino;
++ 		if (first) {
++-- 
++2.24.1
++
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5188.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5188.patch
+new file mode 100644
+index 0000000000..de4bce0037
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5188.patch
+@@ -0,0 +1,57 @@
++From 8dd73c149f418238f19791f9d666089ef9734dff Mon Sep 17 00:00:00 2001
++From: Theodore Ts'o <tytso@mit.edu>
++Date: Thu, 19 Dec 2019 19:37:34 -0500
++Subject: [PATCH] e2fsck: abort if there is a corrupted directory block when
++ rehashing
++
++In e2fsck pass 3a, when we are rehashing directories, at least in
++theory, all of the directories should have had corruptions with
++respect to directory entry structure fixed.  However, it's possible
++(for example, if the user declined a fix) that we can reach this stage
++of processing with a corrupted directory entries.
++
++So check for that case and don't try to process a corrupted directory
++block so we don't run into trouble in mutate_name() if there is a
++zero-length file name.
++
++Addresses: TALOS-2019-0973
++Addresses: CVE-2019-5188
++Signed-off-by: Theodore Ts'o <tytso@mit.edu>
++
++CVE: CVE-2019-5188
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/commit/?id=8dd73c149f418238f19791f9d666089ef9734dff]
++---
++ e2fsck/rehash.c | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/e2fsck/rehash.c b/e2fsck/rehash.c
++index a5fc1be1..3dd1e941 100644
++--- a/e2fsck/rehash.c
+++++ b/e2fsck/rehash.c
++@@ -160,6 +160,10 @@ static int fill_dir_block(ext2_filsys fs,
++ 		dir_offset += rec_len;
++ 		if (dirent->inode == 0)
++ 			continue;
+++		if ((name_len) == 0) {
+++			fd->err = EXT2_ET_DIR_CORRUPTED;
+++			return BLOCK_ABORT;
+++		}
++ 		if (!fd->compress && (name_len == 1) &&
++ 		    (dirent->name[0] == '.'))
++ 			continue;
++@@ -401,6 +405,11 @@ static int duplicate_search_and_fix(e2fsck_t ctx, ext2_filsys fs,
++ 			continue;
++ 		}
++ 		new_len = ext2fs_dirent_name_len(ent->dir);
+++		if (new_len == 0) {
+++			 /* should never happen */
+++			ext2fs_unmark_valid(fs);
+++			continue;
+++		}
++ 		memcpy(new_name, ent->dir->name, new_len);
++ 		mutate_name(new_name, &new_len);
++ 		for (j=0; j < fd->num_array; j++) {
++-- 
++2.24.1
++
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb
+index 14c05a446c..2014e68579 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb
+@@ -6,6 +6,8 @@ SRC_URI += "file://remove.ldconfig.call.patch \
+             file://mkdir_p.patch \
+             file://0001-misc-create_inode.c-set-dir-s-mode-correctly.patch \
+             file://CVE-2019-5094.patch \
++            file://CVE-2019-5188.patch \
++            file://0001-e2fsck-don-t-try-to-rehash-a-deleted-directory.patch \
+             "
+ 
+ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
 -- 
-Mike Looijmans
+2.17.1
+
 
