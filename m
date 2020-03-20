@@ -1,34 +1,37 @@
-Return-Path: <SRS0=qdqA=5F=stusta.de=bunk@stusta.mhn.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id D07AD6064E
+Return-Path: <rpjday@crashcourse.ca>
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+	by mail.openembedded.org (Postfix) with ESMTP id 82EA261B21
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2020 11:28:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48kM2x3y4Kz40;
-	Fri, 20 Mar 2020 12:28:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1584703689;
-	bh=8MPSLh5ERIY3zBtsP/+Dz5ePXYA5uENIeaErFufrbk4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MWnlS7rmiM0bqFqdSJ2UF4xYBDazmRY3S5w1LnRYfG7LvfTTzj24mMuQzHn8CvkQG
-	iEsIXXmmCARMLGHJeCdlQVF0HIJ7sczoOpob563TwGl9l62bKv3mS1sqNoEGBOMmul
-	NnwGoApedo2ft/x2T6ivpGAi2K3MT1ZlXQDDUw2ZmID0sZDxuKQCUIXq6WRK/OWro5
-	WIABFlOz5y1wjpI3UVYodhjc6I1P2oN4A5cO2+C+4Jyxhg7wRtSJPJh4ZqhmakU/Uq
-	OrropYhNAIqVLZDq4OYd1DvhcO7YtbA1V8gKC5EGe+uO/Qg1xWGaAaOILZbJlZMOdL
-	b8K47KZ/mS+GMMXe+LEihKu+BT/ATMP98CtHSh4Pl1jUGB0hW9XrxFPemkv68Wczvt
-	m57YW6tN0I4yLIOT2ZOU22wtB9eVP5a/4pAFQlksJlkCKzr+N346+M9D9zE4nZFXwO
-	jbrXwVepeaeb7gR+NStT/iKp6nnrfk63lNuZZhzmhzn8qJi/KS1P9WxfTN08BzYnFW
-	3z46ECMloohpf2yeZWj0frQiiat/371SbUzRd/U3fuZgRVMOIOtZAJtjfSokvXqEMF
-	zjOtLYW4vT037EaG0rYpMz+mpH8KwoBdl29a8Pwn3iDEQSHYui1u8S+3OcUgE1+/hp
-	9Niw2IprGvAI3SqOZqMYpeaU=
-Date: Fri, 20 Mar 2020 13:28:07 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>
-Message-ID: <20200320112807.GB31090@localhost>
+	Fri, 20 Mar 2020 11:32:26 +0000 (UTC)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com
+	([174.114.100.179]:42376 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa (TLS1.2) tls
+	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jFFt4-00F5vS-ID; Fri, 20 Mar 2020 07:32:27 -0400
+Date: Fri, 20 Mar 2020 07:32:24 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Ankur Tyagi <ankur.tyagi85@gmail.com>
+In-Reply-To: <CADySD0EMgZoMWYjwcjXv_8AHD3p0nmytd8sgBVdfB8ddq9anJA@mail.gmail.com>
+Message-ID: <alpine.LFD.2.21.2003200730490.8837@localhost.localdomain>
 References: <alpine.LFD.2.21.2003200649320.8492@localhost.localdomain>
+	<CADySD0EMgZoMWYjwcjXv_8AHD3p0nmytd8sgBVdfB8ddq9anJA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.21.2003200649320.8492@localhost.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-OutGoing-Spam-Status: No, score=-0.2
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
+	rpjday+crashcourse.ca/only user confirmed/virtual account not
+	confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: recipe design curiosity: how to best install a package configuration file?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,24 +46,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2020 11:28:11 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 20 Mar 2020 11:32:26 -0000
+Content-Type: multipart/mixed; boundary="8323328-513952832-1584703946=:8837"
 
-On Fri, Mar 20, 2020 at 07:04:05AM -0400, Robert P. J. Day wrote:
->...
->   in this current situation, it turns out that that sample conf file
-> just happens to be appropriate,
->...
+--8323328-513952832-1584703946=:8837
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-I'd guess you are wrong on that.
+On Sat, 21 Mar 2020, Ankur Tyagi wrote:
 
-  IPv4_interface 192.168.100.100
-  Interface eth2
+> what if sample file is updated in new version? Now you have to
+> maintain the copy in your "file/" as well.
+>
+> If you are using sample file as it is, then keeping a copy is
+> probably not a good idea
+>
+> Cheers
+> Ankur
 
+  i actually think that's an argument in my favour ... i would be very
+nervous about how upgrading a recipe version would quietly upgrade my
+configuration file. i would far prefer to have to manually upgrade my
+configuration to keep in step.
 
-> rday
+rday
 
-cu
-Adrian
+>         got into a discussion yesterday about the "cleanest" way to design a
+>       .bbappend file to install a package's configuration file, so i'm
+>       curious about best practices, and here's an example. (and i'm asking
+>       as it looks like this will be an issue for a number of recipes i'm
+>       looking at.)
+>
+>         current recipe for conntrack-tools:
+>
+>       http://cgit.openembedded.org/meta-openembedded/tree/meta-networking/recipes-filter/conntrack-tools/conntrack-tools_1.4.5.bb
+>
+>       note how the recipe install step installs a conntrack.conf.sample
+>       file:
+>
+>       do_install_append() {
+>         install -d ${D}/${sysconfdir}/conntrackd
+>         install -d ${D}/${sysconfdir}/init.d
+>         install -m 0644 ${S}/doc/sync/ftfw/conntrackd.conf ${D}/${sysconfdir}/conntrackd/conntrackd.conf.sample
+>         ...
+>
+>       so far, so good. now, in cases where a sample conf file is provided,
+>       there is, of course, no guarantee that it will be applicable out of
+>       the box -- one *expects* that it might be necessary to tweak such a
+>       file and install it as part of a .bbappend file. and here's the point
+>       of contention.
+>
+>         in this current situation, it turns out that that sample conf file
+>       just happens to be appropriate, so the entire .bbappend file for this
+>       recipe consists of:
+>
+>       do_install_append () {
+>           install -m 0644  \
+>           ${D}/${sysconfdir}/conntrackd/conntrackd.conf.sample \
+>           ${D}/${sysconfdir}/conntrackd/conntrackd.conf
+>       }
+>
+>         yes, that will work, but i suggested that, even though it's
+>       convenient, the problem with that approach is that looking at the
+>       .bbappend file doesn't show you the contents of the file that will be
+>       installed. to see the actual conf file, you'd have to peruse the
+>       source, or check the final result ... you get the idea.
+>
+>         i suggested that, even though the sample file in *this* case was
+>       perfectly appropriate, i would choose to make a copy of it under
+>       files/, and install the conf file from *there*, the advantage being
+>       that the actual file being installed is immediately readable.
+>
+>         does anyone have any strong opinions on this? it seems mundane, but
+>       i think the latter approach is still superior, especially since i
+>       suspect most sample configuration files would have to be adjusted,
+>       anyway.
+>
+>         thoughts? just trying to collect some best practices to apply to
+>       this project.
+>
+>       rday
+>       --
+>       _______________________________________________
+>       Openembedded-core mailing list
+>       Openembedded-core@lists.openembedded.org
+>       http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
 
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                         http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
+
+--8323328-513952832-1584703946=:8837--
