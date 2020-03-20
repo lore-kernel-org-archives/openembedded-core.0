@@ -1,51 +1,37 @@
-Return-Path: <jpuhlman@gmail.com>
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
-	[209.85.210.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 98ED66188A
+Return-Path: <jpitti@cisco.com>
+X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 20 Mar 2020 00:33:51 UTC
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DA8E611CD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2020 00:21:59 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id j10so2304947pfi.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 17:22:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=0Qz5v59DFfQ6lxQLtLCCYxGhHuzokQISw2Ro5WuT2GQ=;
-	b=IA4yqIXOvN4pMeA9jRFMlfRd85OYjVi0i/em7rPmE35nwAP08lZK7Iszk8DHgT8FIX
-	tddb4daq2QidgYjswNEC0SMMMMQn4XiuVoKUq7IFsQvIn6kK+etn2uAA4j/Jjh3m5u0f
-	t3goEGKHsB5EuCYfjZIiLgD9Q3cYjLIV7USm1rOzj+1eqQNRfAGQpd+F5wwETZULeeS3
-	46ReFM8AB3ay52up0jDxpg549YtCNJ/hP32r+FGf48qLFajHWSN7Ksi5AKd5a/K3i7sv
-	2aPJxhqnJT7ovzH9JCTtOSowyuna/eNLWzaY2RRESG5wtJGInLsnxB/uDGul2dfikd84
-	EEag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=0Qz5v59DFfQ6lxQLtLCCYxGhHuzokQISw2Ro5WuT2GQ=;
-	b=IMy7wSLSMaHNtm+BXO/wyd3wNvjX9aDr2hn+bpk4VuAizkiJr9mafWFRSbxm4tiejA
-	QPNMAR4hojg9CEtg6gpFExF6iPJzKT1L/ggvahZoYuGVknc2Nolj13FIZk7Z0rIEseqp
-	iFlmNDQcHwMEXGQ9Ul7B/h1FztgUcPvjXRgYDrBO5l1Q2bJKWqwoIbfYQnEldf/1jXFB
-	JnkNRw3MTdRW6/oepoYK+QGz3ymDD/z8dv/BEuKHq8m/3N3v0Rm2Z2KKTA7GQxLj2ON4
-	Wgy3Za5rE7tKKzxtkSjWV0Z0oS4EPzIsQOFT1LbesPtXYoZU8cPT8wtH1o0OILTk0JsT
-	vABA==
-X-Gm-Message-State: ANhLgQ3UIbSDzi4ZvXH+VL2TBPCI6R1/gUNTZUE5BmUHlnPvriEPdpCd
-	58LF6M7znRMowi8YXYP8I/P3HCru7c4=
-X-Google-Smtp-Source: ADFU+vuJf5Ndm/MYAziqAV5oOtEAoZaLJAL42jB0HygSxBQOPaJNSRQRt3pe0BAa/3sZIaMIq0t/6A==
-X-Received: by 2002:a63:6f0c:: with SMTP id k12mr6057989pgc.142.1584663720292; 
-	Thu, 19 Mar 2020 17:22:00 -0700 (PDT)
-Received: from workhorse.localdomain
-	([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
-	by smtp.gmail.com with ESMTPSA id
-	d11sm3464914pfo.39.2020.03.19.17.21.59
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 19 Mar 2020 17:21:59 -0700 (PDT)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 250F02A042C; Thu, 19 Mar 2020 17:21:58 -0700 (PDT)
-From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+	Fri, 20 Mar 2020 00:33:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=3345; q=dns/txt; s=iport;
+	t=1584664433; x=1585874033;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=yAvAwAWBkF5qO5rhh+uxLfjWoQOZkQ0o7hIvYFJqoPc=;
+	b=dhYfr7/xwOkpra/N36SHT/szY+jQtCMsY4zTcNiobfJBZZG8LviZ1kKs
+	LDEvsQ7c3+2jBBPmXqztfSXqDR6wkeKly33hffxLQKGfIwLuAdw+iddUo
+	HVvC1Zi8ri1Avb6ua4kzS3Ow3uDREb/BzyAko07VNZE3i99dgZMOfL0ZQ M=;
+X-IronPort-AV: E=Sophos;i="5.70,573,1574121600"; d="scan'208";a="450092462"
+Received: from rcdn-core-8.cisco.com ([173.37.93.144])
+	by alln-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	20 Mar 2020 00:26:46 +0000
+Received: from sjc-ads-5706.cisco.com (sjc-ads-5706.cisco.com [10.28.88.220])
+	by rcdn-core-8.cisco.com (8.15.2/8.15.2) with ESMTP id
+	02K0Qjdb024078; Fri, 20 Mar 2020 00:26:45 GMT
+From: Julius Hemanth Pitti <jpitti@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Mar 2020 17:21:56 -0700
-Message-Id: <20200320002156.8456-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.13.3
-Subject: [PATCH v2] qemu-system-native: disable options not included in extended tarball
+Date: Thu, 19 Mar 2020 17:26:43 -0700
+Message-Id: <20200320002643.14888-1-jpitti@cisco.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 10.28.88.220, sjc-ads-5706.cisco.com
+X-Outbound-Node: rcdn-core-8.cisco.com
+Cc: xe-linux-external@cisco.com
+Subject: [zeus][PATCH v2] nfs-utils: Disable statx if using glibc emulation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,91 +44,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2020 00:21:59 -0000
+X-List-Received-Date: Fri, 20 Mar 2020 00:33:51 -0000
+Content-Transfer-Encoding: 8bit
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+nfs-utils 2.4.1, moves from "stat" to "statx
+with AT_STATX_DONT_SYNC" in parts of the code.
 
-* Add PACKAGECONFIG option for xkbcommon
-qemu-keymap.c:16:10: fatal error: xkbcommon/xkbcommon.h: No such file or directory
+statx is supported in Linux kernel v4.11 and above.
+For all older kernels glibc emulates statx, and it
+doesn't support AT_STATX_DONT_SYNC and will return
+EINVAL.
 
-* Add PACKAGECONFIG option and patch for libudev
-commands-posix.c:53:10: fatal error: libudev.h: No such file or directory
+When server uses nfs-utils 2.4.1 on kernel v4.10
+and older, mount.nfs4 would fail with error
+"reason given by server: No such file or directory".
 
-* Add PACKAGECONFIG option for libxml2
-util/osdep.c:136: undefined reference to `fcntl64'
+Since Linux v4.4 and v4.9 are LTS, its more likely
+that people would use above combination.
 
-- Without specifying libxml2, configure searches the system and pulls in the system
-  libxml2 if it is present. In the process it adds -L/usr/lib64 which causes the
-  system libc to be linked instead of the one from the extended tarball.
+This issue has been fixed in nfs-utils 2.4.3 and
+above. Backporting fix to 2.4.1.
 
-None of the above libraries appear to be included in the depends for any of the qemu
-builds, so if they are getting linked in, its probably not intentionally.
-
-Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Julius Hemanth Pitti <jpitti@cisco.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc                |  4 +++
- .../qemu/qemu/0001-Add-enable-disable-udev.patch   | 29 ++++++++++++++++++++++
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-Add-enable-disable-udev.patch
+ ...sable-statx-if-using-glibc-emulation.patch | 34 +++++++++++++++++++
+ .../nfs-utils/nfs-utils_2.4.1.bb              |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Disable-statx-if-using-glibc-emulation.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 3ce14d9fa0..7cf436783d 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -33,6 +33,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-7039-1.patch \
-            file://CVE-2020-7039-2.patch \
-            file://CVE-2020-7039-3.patch \
-+           file://0001-Add-enable-disable-udev.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-@@ -172,6 +173,9 @@ PACKAGECONFIG[spice] = "--enable-spice,--disable-spice,spice"
- PACKAGECONFIG[usb-redir] = "--enable-usb-redir,--disable-usb-redir,usbredir"
- PACKAGECONFIG[snappy] = "--enable-snappy,--disable-snappy,snappy"
- PACKAGECONFIG[glusterfs] = "--enable-glusterfs,--disable-glusterfs"
-+PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
-+PACKAGECONFIG[libudev] = "--enable-libudev,--disable-libudev,eudev"
-+#PACKAGECONFIG[libxml2] = "--enable-libxml2,--disable-libxml2,libxml2"
- 
- INSANE_SKIP_${PN} = "arch"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-Add-enable-disable-udev.patch b/meta/recipes-devtools/qemu/qemu/0001-Add-enable-disable-udev.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Disable-statx-if-using-glibc-emulation.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Disable-statx-if-using-glibc-emulation.patch
 new file mode 100644
-index 0000000000..c2c5849d65
+index 0000000000..98b1391923
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-Add-enable-disable-udev.patch
-@@ -0,0 +1,29 @@
-+From a471cf4e4c73350e090eb2cd87ec959d138012e5 Mon Sep 17 00:00:00 2001
-+From: Jeremy Puhlman <jpuhlman@mvista.com>
-+Date: Thu, 19 Mar 2020 11:54:26 -0700
-+Subject: [PATCH] Add enable/disable libudev
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Disable-statx-if-using-glibc-emulation.patch
+@@ -0,0 +1,34 @@
++From ff3ad88c233ecd87f7983ad13836323f944540ec Mon Sep 17 00:00:00 2001
++From: Doug Nazar <nazard@nazar.ca>
++Date: Mon, 9 Dec 2019 10:53:37 -0500
++Subject: [PATCH] Disable statx if using glibc emulation
 +
-+Upstream-Status: Pending
-+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
++On older kernels without statx, glibc with statx support will attempt
++to emulate the call. However it doesn't support AT_STATX_DONT_SYNC and
++will return EINVAL. This causes all xstat/xlstat calls to fail.
++
++Upstream-Status: Backport
++
++Signed-off-by: Doug Nazar <nazard@nazar.ca>
++Signed-off-by: Steve Dickson <steved@redhat.com>
 +---
-+ configure | 4 ++++
-+ 1 file changed, 4 insertions(+)
++ support/misc/xstat.c | 3 +++
++ 1 file changed, 3 insertions(+)
 +
-+diff --git a/configure b/configure
-+index cac271c..bd116eb 100755
-+--- a/configure
-++++ b/configure
-+@@ -1539,6 +1539,10 @@ for opt do
-+   ;;
-+   --disable-plugins) plugins="no"
-+   ;;
-++  --enable-libudev) libudev="yes"
-++  ;;
-++  --disable-libudev) libudev="no"
-++  ;;
-+   *)
-+       echo "ERROR: unknown option $opt"
-+       echo "Try '$0 --help' for more information"
++diff --git a/support/misc/xstat.c b/support/misc/xstat.c
++index 661e29e4..a438fbcc 100644
++--- a/support/misc/xstat.c
+++++ b/support/misc/xstat.c
++@@ -51,6 +51,9 @@ statx_do_stat(int fd, const char *pathname, struct stat *statbuf, int flags)
++ 			statx_copy(statbuf, &stxbuf);
++ 			return 0;
++ 		}
+++		/* glibc emulation doesn't support AT_STATX_DONT_SYNC */
+++		if (errno == EINVAL)
+++			errno = ENOSYS;
++ 		if (errno == ENOSYS)
++ 			statx_supported = 0;
++ 	} else
 +-- 
-+1.8.3.1
++2.19.1
 +
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
+index 7e80354e4e..3ae8f965c8 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
+@@ -33,6 +33,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
+            file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
+            file://0001-Fix-include-order-between-config.h-and-stat.h.patch \
++           file://0001-Disable-statx-if-using-glibc-emulation.patch \
+ "
+ SRC_URI_append_libc-glibc = " file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch"
+ SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
 -- 
-2.13.3
+2.17.1
 
 
