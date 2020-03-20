@@ -1,27 +1,36 @@
-Return-Path: <chee.yang.lee@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F4DE60583
+Return-Path: <rpjday@crashcourse.ca>
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A7B460111
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2020 08:06:43 +0000 (UTC)
-IronPort-SDR: g3v3/s6/l6Norz9D0pGpUMcoLMWveKILf3vPCpXGdcS+CRR78MORj6GVhrvqVGuOq34Ev058St
-	dekfFELBtRYA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	20 Mar 2020 01:06:43 -0700
-IronPort-SDR: HbXaxZ5YNJObcHTbA2F7eK30tcn6ENQ0mpGt7NqgU1oBxD8qIg3+JzqbYvT5PsBcp5xEPplXA/
-	xVeXg2Hzvy9A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,283,1580803200"; d="scan'208";a="291861742"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by FMSMGA003.fm.intel.com with ESMTP; 20 Mar 2020 01:06:43 -0700
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Mar 2020 16:06:42 +0800
-Message-Id: <1584691602-12741-1-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH][zeus] virglrenderer : fix CVE-2019-18388
+	Fri, 20 Mar 2020 11:04:08 +0000 (UTC)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com
+	([174.114.100.179]:42316 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa (TLS1.2) tls
+	TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 (Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>) id 1jFFRg-00F2Cb-Ll
+	for openembedded-core@lists.openembedded.org;
+	Fri, 20 Mar 2020 07:04:09 -0400
+Date: Fri, 20 Mar 2020 07:04:05 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.21.2003200649320.8492@localhost.localdomain>
+MIME-Version: 1.0
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
+	rpjday+crashcourse.ca/only user confirmed/virtual account not
+	confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: recipe design curiosity: how to best install a package configuration file?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,179 +43,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2020 08:06:43 -0000
+X-List-Received-Date: Fri, 20 Mar 2020 11:04:09 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
----
- .../virglrenderer/CVE-2019-18388.patch             | 141 +++++++++++++++++++++
- .../virglrenderer/virglrenderer_0.8.0.bb           |   3 +-
- 2 files changed, 143 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18388.patch
+  got into a discussion yesterday about the "cleanest" way to design a
+.bbappend file to install a package's configuration file, so i'm
+curious about best practices, and here's an example. (and i'm asking
+as it looks like this will be an issue for a number of recipes i'm
+looking at.)
 
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18388.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18388.patch
-new file mode 100644
-index 0000000..43563e4
---- /dev/null
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18388.patch
-@@ -0,0 +1,141 @@
-+From 0d9a2c88dc3a70023541b3260b9f00c982abda16 Mon Sep 17 00:00:00 2001
-+From: Gert Wollny <gert.wollny@collabora.com>
-+Date: Thu, 10 Oct 2019 09:42:25 +0200
-+Subject: [PATCH] vrend: Check resource creation more thoroughly
-+
-+While we are at it:
-+  - free memory if texture allocation fails
-+
-+Closes #144
-+Closes #145
-+Closes #146
-+
-+v2: Move the error string creation to extra patch (Emil)
-+v3: Fix whitespace errors (Emil) and one logic error
-+
-+Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
-+Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/virgl/virglrenderer/commit/0d9a2c88dc3a70023541b3260b9f00c982abda16]
-+CVE: CVE-2019-18388
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+
-+
-+---
-+ src/vrend_renderer.c | 58 ++++++++++++++++++++++++++++++++++++++++++--
-+ 1 file changed, 56 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
-+index 0c6b5efd..1fb657b7 100644
-+--- a/src/vrend_renderer.c
-++++ b/src/vrend_renderer.c
-+@@ -6044,6 +6044,8 @@ static int check_resource_valid(struct vrend_renderer_resource_create_args *args
-+ 
-+    if (args->format >= VIRGL_FORMAT_MAX)
-+       return -1;
-++   bool format_can_texture_storage = has_feature(feat_texture_storage) &&
-++         (tex_conv_table[args->format].flags & VIRGL_TEXTURE_CAN_TEXTURE_STORAGE);
-+ 
-+    /* only texture 2d and 2d array can have multiple samples */
-+    if (args->nr_samples > 0) {
-+@@ -6061,15 +6063,18 @@ static int check_resource_valid(struct vrend_renderer_resource_create_args *args
-+       /* buffer and rect textures can't have mipmaps */
-+       if (args->target == PIPE_BUFFER || args->target == PIPE_TEXTURE_RECT)
-+          return -1;
-++
-+       if (args->last_level > (floor(log2(MAX2(args->width, args->height))) + 1))
-+          return -1;
-+    }
-++
-+    if (args->flags != 0 && args->flags != VIRGL_RESOURCE_Y_0_TOP)
-+       return -1;
-+ 
-+-   if (args->flags & VIRGL_RESOURCE_Y_0_TOP)
-++   if (args->flags & VIRGL_RESOURCE_Y_0_TOP) {
-+       if (args->target != PIPE_TEXTURE_2D && args->target != PIPE_TEXTURE_RECT)
-+          return -1;
-++   }
-+ 
-+    /* array size for array textures only */
-+    if (args->target == PIPE_TEXTURE_CUBE) {
-+@@ -6088,6 +6093,9 @@ static int check_resource_valid(struct vrend_renderer_resource_create_args *args
-+       if (!has_feature(feat_texture_array))
-+          return -1;
-+    }
-++   if (format_can_texture_storage && !args->width) {
-++      return -1;
-++   }
-+ 
-+    if (args->bind == 0 ||
-+        args->bind == VIRGL_BIND_CUSTOM ||
-+@@ -6124,11 +6132,55 @@ static int check_resource_valid(struct vrend_renderer_resource_create_args *args
-+           args->target == PIPE_TEXTURE_CUBE_ARRAY) {
-+          if (args->depth != 1)
-+             return -1;
-++         if (format_can_texture_storage && !args->height) {
-++            return -1;
-++         }
-+       }
-+       if (args->target == PIPE_TEXTURE_1D ||
-+           args->target == PIPE_TEXTURE_1D_ARRAY) {
-+          if (args->height != 1 || args->depth != 1)
-+             return -1;
-++         if (args->width > vrend_state.max_texture_2d_size) {
-++            return -1;
-++         }
-++      }
-++
-++      if (args->target == PIPE_TEXTURE_2D ||
-++          args->target == PIPE_TEXTURE_RECT ||
-++          args->target == PIPE_TEXTURE_2D_ARRAY) {
-++         if (args->width > vrend_state.max_texture_2d_size ||
-++             args->height > vrend_state.max_texture_2d_size) {
-++            return -1;
-++         }
-++      }
-++
-++      if (args->target == PIPE_TEXTURE_3D) {
-++         if (format_can_texture_storage &&
-++             (!args->height || !args->depth)) {
-++            return -1;
-++         }
-++         if (args->width > vrend_state.max_texture_3d_size ||
-++             args->height > vrend_state.max_texture_3d_size ||
-++             args->depth > vrend_state.max_texture_3d_size) {
-++            return -1;
-++         }
-++      }
-++      if (args->target == PIPE_TEXTURE_2D_ARRAY ||
-++          args->target == PIPE_TEXTURE_CUBE_ARRAY ||
-++          args->target == PIPE_TEXTURE_1D_ARRAY) {
-++         if (format_can_texture_storage &&
-++             !args->array_size) {
-++            return -1;
-++         }
-++      }
-++      if (args->target == PIPE_TEXTURE_CUBE ||
-++          args->target == PIPE_TEXTURE_CUBE_ARRAY) {
-++         if (args->width != args->height) {
-++            return -1;
-++         }
-++         if (args->width > vrend_state.max_texture_cube_size) {
-++            return -1;
-++         }
-+       }
-+    }
-+    return 0;
-+@@ -6458,8 +6510,10 @@ int vrend_renderer_resource_create(struct vrend_renderer_resource_create_args *a
-+       vrend_create_buffer(gr, args->width);
-+    } else {
-+       int r = vrend_renderer_resource_allocate_texture(gr, image_oes);
-+-      if (r)
-++      if (r) {
-++         FREE(gr);
-+          return r;
-++      }
-+    }
-+ 
-+    ret = vrend_resource_insert(gr, args->handle);
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
-index e91ccc6..0480d90 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
-@@ -11,7 +11,8 @@ SRC_URI = "git://anongit.freedesktop.org/virglrenderer \
-            file://CVE-2019-18390.patch \
-            file://CVE-2019-18391.patch \
-            file://CVE-2020-8002.patch  \
--           "
-+           file://CVE-2019-18388.patch \
-+"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.7.4
+  current recipe for conntrack-tools:
 
+http://cgit.openembedded.org/meta-openembedded/tree/meta-networking/recipes-filter/conntrack-tools/conntrack-tools_1.4.5.bb
+
+note how the recipe install step installs a conntrack.conf.sample
+file:
+
+do_install_append() {
+  install -d ${D}/${sysconfdir}/conntrackd
+  install -d ${D}/${sysconfdir}/init.d
+  install -m 0644 ${S}/doc/sync/ftfw/conntrackd.conf ${D}/${sysconfdir}/conntrackd/conntrackd.conf.sample
+  ...
+
+so far, so good. now, in cases where a sample conf file is provided,
+there is, of course, no guarantee that it will be applicable out of
+the box -- one *expects* that it might be necessary to tweak such a
+file and install it as part of a .bbappend file. and here's the point
+of contention.
+
+  in this current situation, it turns out that that sample conf file
+just happens to be appropriate, so the entire .bbappend file for this
+recipe consists of:
+
+do_install_append () {
+    install -m 0644  \
+    ${D}/${sysconfdir}/conntrackd/conntrackd.conf.sample \
+    ${D}/${sysconfdir}/conntrackd/conntrackd.conf
+}
+
+  yes, that will work, but i suggested that, even though it's
+convenient, the problem with that approach is that looking at the
+.bbappend file doesn't show you the contents of the file that will be
+installed. to see the actual conf file, you'd have to peruse the
+source, or check the final result ... you get the idea.
+
+  i suggested that, even though the sample file in *this* case was
+perfectly appropriate, i would choose to make a copy of it under
+files/, and install the conf file from *there*, the advantage being
+that the actual file being installed is immediately readable.
+
+  does anyone have any strong opinions on this? it seems mundane, but
+i think the latter approach is still superior, especially since i
+suspect most sample configuration files would have to be adjusted,
+anyway.
+
+  thoughts? just trying to collect some best practices to apply to
+this project.
+
+rday
 
