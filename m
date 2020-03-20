@@ -1,57 +1,51 @@
-Return-Path: <jpuhlman@mvista.com>
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
-	[209.85.216.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B94360CBD
+Return-Path: <jpuhlman@gmail.com>
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+	[209.85.210.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 98ED66188A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2020 00:06:29 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id hg10so1716022pjb.1
+	Fri, 20 Mar 2020 00:21:59 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id j10so2304947pfi.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Mar 2020 17:06:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=j0+yy35cnhedaDVZiExT8an8Olg0/nf8jjZhwWVjwqU=;
-	b=RpGMDBamk1CY8eajQ03Xje2bSBQC1Ho6gWX+vSwBuICsaqUalc98mf6s6h03ACC4N3
-	lCGqNA/BBUZgUJNJgmFB7YOC3sN4hTR95gZ+K0oAFBMibbPNaUwCwpbhQzuFhblnNAfg
-	OW6JPtGOTG6Vz5o7eysMjzRbwYHSni5cmGAzFzRbUwSlmBlEanwOumuZ/t2VCHhlxt9v
-	uP5pke/B6gj9K90OAqL+CsdCeFc59lLHdUWm+HBqqcu6OqFinrKUpTF4s2sFYEUH+y/w
-	TFTY813c4XKyL154rNKZaoUic/b7hoKR4GwSwm4vHatg4uhfdf31vhncYD6Aa56p1agS
-	y8Og==
+	Thu, 19 Mar 2020 17:22:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=0Qz5v59DFfQ6lxQLtLCCYxGhHuzokQISw2Ro5WuT2GQ=;
+	b=IA4yqIXOvN4pMeA9jRFMlfRd85OYjVi0i/em7rPmE35nwAP08lZK7Iszk8DHgT8FIX
+	tddb4daq2QidgYjswNEC0SMMMMQn4XiuVoKUq7IFsQvIn6kK+etn2uAA4j/Jjh3m5u0f
+	t3goEGKHsB5EuCYfjZIiLgD9Q3cYjLIV7USm1rOzj+1eqQNRfAGQpd+F5wwETZULeeS3
+	46ReFM8AB3ay52up0jDxpg549YtCNJ/hP32r+FGf48qLFajHWSN7Ksi5AKd5a/K3i7sv
+	2aPJxhqnJT7ovzH9JCTtOSowyuna/eNLWzaY2RRESG5wtJGInLsnxB/uDGul2dfikd84
+	EEag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=j0+yy35cnhedaDVZiExT8an8Olg0/nf8jjZhwWVjwqU=;
-	b=do8wj22Aa7SMPHv4G6mxgJ9genNa4OgrE6qPDa2X0tDJy2kM24Kpalcv4RfgY6bOfo
-	pI4Edej1mvrh1v4+vD8KxrJVF9NK1hze/skdfapa8Wb4A0KH9oGFXXr2Bo+75jtdd9Po
-	VBVvYdkArNSBc472x2JnmXk3JS4PACWucpntJRx1jgcF9o8gQno0qFcezTjgpD6s4Irq
-	Fnz9YcWZ7ovJjHle3x06uS/FJoG5ChjHqXYPbrnAmAzzErP1vMpYhthJcNPQMbZQFhJP
-	Nh2HNRxpC7cTvgFgox2WoXR5yK4kAhl27bFYHdvzPMKG4XHdRiaPlOiTK3dYlw75arJx
-	c7VQ==
-X-Gm-Message-State: ANhLgQ3r+eSTZZMyr0uOkFnavequuEr61+BtxHljFHe7bpEq49giou6V
-	3851Bs+iRPEeyFyHJCAgYk3IZzKEVKY=
-X-Google-Smtp-Source: ADFU+vslLCmbLMKv1vp2JAqpe24fU0bXkZ6uwAQ13EmMAHcXBsVRtqLIfqsdQHAUj8s9GCP3AiWAqw==
-X-Received: by 2002:a17:902:32b:: with SMTP id 40mr5829418pld.22.1584662789352;
-	Thu, 19 Mar 2020 17:06:29 -0700 (PDT)
-Received: from [192.168.1.93] (99-14-97-149.lightspeed.frokca.sbcglobal.net.
-	[99.14.97.149]) by smtp.googlemail.com with ESMTPSA id
-	y14sm3511368pfp.127.2020.03.19.17.06.28
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 19 Mar 2020 17:06:28 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20200319224450.4798-1-jpuhlman@mvista.com>
-	<4cf821be03065accd90e14237708eaf7f343b572.camel@linuxfoundation.org>
-From: Jeremy Puhlman <jpuhlman@mvista.com>
-Message-ID: <f309fe09-e87e-3857-b4a3-c9a8a3438a8b@mvista.com>
-Date: Thu, 19 Mar 2020 17:06:26 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-	Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <4cf821be03065accd90e14237708eaf7f343b572.camel@linuxfoundation.org>
-Subject: Re: [PATCH] qemu-system-native: disable options not included in extended tarball
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=0Qz5v59DFfQ6lxQLtLCCYxGhHuzokQISw2Ro5WuT2GQ=;
+	b=IMy7wSLSMaHNtm+BXO/wyd3wNvjX9aDr2hn+bpk4VuAizkiJr9mafWFRSbxm4tiejA
+	QPNMAR4hojg9CEtg6gpFExF6iPJzKT1L/ggvahZoYuGVknc2Nolj13FIZk7Z0rIEseqp
+	iFlmNDQcHwMEXGQ9Ul7B/h1FztgUcPvjXRgYDrBO5l1Q2bJKWqwoIbfYQnEldf/1jXFB
+	JnkNRw3MTdRW6/oepoYK+QGz3ymDD/z8dv/BEuKHq8m/3N3v0Rm2Z2KKTA7GQxLj2ON4
+	Wgy3Za5rE7tKKzxtkSjWV0Z0oS4EPzIsQOFT1LbesPtXYoZU8cPT8wtH1o0OILTk0JsT
+	vABA==
+X-Gm-Message-State: ANhLgQ3UIbSDzi4ZvXH+VL2TBPCI6R1/gUNTZUE5BmUHlnPvriEPdpCd
+	58LF6M7znRMowi8YXYP8I/P3HCru7c4=
+X-Google-Smtp-Source: ADFU+vuJf5Ndm/MYAziqAV5oOtEAoZaLJAL42jB0HygSxBQOPaJNSRQRt3pe0BAa/3sZIaMIq0t/6A==
+X-Received: by 2002:a63:6f0c:: with SMTP id k12mr6057989pgc.142.1584663720292; 
+	Thu, 19 Mar 2020 17:22:00 -0700 (PDT)
+Received: from workhorse.localdomain
+	([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
+	by smtp.gmail.com with ESMTPSA id
+	d11sm3464914pfo.39.2020.03.19.17.21.59
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 19 Mar 2020 17:21:59 -0700 (PDT)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id 250F02A042C; Thu, 19 Mar 2020 17:21:58 -0700 (PDT)
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Mar 2020 17:21:56 -0700
+Message-Id: <20200320002156.8456-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.13.3
+Subject: [PATCH v2] qemu-system-native: disable options not included in extended tarball
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,72 +58,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2020 00:06:29 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 20 Mar 2020 00:21:59 -0000
 
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
+* Add PACKAGECONFIG option for xkbcommon
+qemu-keymap.c:16:10: fatal error: xkbcommon/xkbcommon.h: No such file or directory
 
-On 3/19/2020 5:02 PM, Richard Purdie wrote:
-> On Thu, 2020-03-19 at 15:44 -0700, Jeremy A. Puhlman wrote:
->> From: Jeremy Puhlman <jpuhlman@mvista.com>
->>
->> * Add PACKAGECONFIG option for xkbcommon
->> qemu-keymap.c:16:10: fatal error: xkbcommon/xkbcommon.h: No such file or directory
->>
->> * Add PACKAGECONFIG option and patch for libudev
->> commands-posix.c:53:10: fatal error: libudev.h: No such file or directory
->>
->> * Add PACKAGECONFIG option for libxml2
->> util/osdep.c:136: undefined reference to `fcntl64'
->>
->> - Without specifying libxml2, configure searches the system and pulls in the system
->>    libxml2 if it is present. In the process it adds -L/usr/lib64 which causes the
->>    system libc to be linked instead of the one from the extended tarball.
->>
->> * Specifically remove xkbcommon and libudev from qemu-system-native PACKAGECONFIG
->>
->> None of the above libraries appear to be included in the depends for any of the qemu
->> builds, so if they are getting linked in, its probably not intentionally.
->>
->> Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
->> ---
->>   .../qemu/qemu-system-native_4.2.0.bb               |  3 +++
->>   meta/recipes-devtools/qemu/qemu.inc                |  4 +++
->>   .../qemu/qemu/0001-Add-enable-disable-udev.patch   | 29 ++++++++++++++++++++++
->>   3 files changed, 36 insertions(+)
->>   create mode 100644 meta/recipes-devtools/qemu/qemu/0001-Add-enable-disable-udev.patch
->>
->> diff --git a/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
->> index d83ee59375..f3ceaa1003 100644
->> --- a/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
->> +++ b/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
->> @@ -10,6 +10,9 @@ DEPENDS = "glib-2.0-native zlib-native pixman-native qemu-native bison-native"
->>   EXTRA_OECONF_append = " --target-list=${@get_qemu_system_target_list(d)}"
->>   
->>   PACKAGECONFIG ??= "fdt alsa kvm"
->> +# Do not exist in buildtools-extended-tarball"
->> +PACKAGECONFIG_remove = "xkbcommon"
->> +PACKAGECONFIG_remove = "libudev"
-> I don't like this piece of the patch. Remove is generally a bad idea as
-> its very hard to counteract. If you did add this to PACKAGECONFIG, it
-> would add the appropriate -native pieces to DEPENDS so I'm not sure
-> what we're trying to achieve here anyway, it should work without this
-> remove code either way?
+* Add PACKAGECONFIG option and patch for libudev
+commands-posix.c:53:10: fatal error: libudev.h: No such file or directory
 
-Fair enough, I was just trying to ensure it would build if the options 
-got set elsewhere. We don't have a eudev-native or
-xkbcommon-native so if it got enabled it should die from lack of 
-dependencies. I was trying to be cautious.
+* Add PACKAGECONFIG option for libxml2
+util/osdep.c:136: undefined reference to `fcntl64'
 
->
-> At the very least the comment is very misleading and will be hard to
-> understand in a few months time without looking back at this commit.
-Okay I can remove it,
+- Without specifying libxml2, configure searches the system and pulls in the system
+  libxml2 if it is present. In the process it adds -L/usr/lib64 which causes the
+  system libc to be linked instead of the one from the extended tarball.
 
+None of the above libraries appear to be included in the depends for any of the qemu
+builds, so if they are getting linked in, its probably not intentionally.
+
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+---
+ meta/recipes-devtools/qemu/qemu.inc                |  4 +++
+ .../qemu/qemu/0001-Add-enable-disable-udev.patch   | 29 ++++++++++++++++++++++
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0001-Add-enable-disable-udev.patch
+
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 3ce14d9fa0..7cf436783d 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -33,6 +33,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-7039-1.patch \
+            file://CVE-2020-7039-2.patch \
+            file://CVE-2020-7039-3.patch \
++           file://0001-Add-enable-disable-udev.patch \
+ 	   "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+@@ -172,6 +173,9 @@ PACKAGECONFIG[spice] = "--enable-spice,--disable-spice,spice"
+ PACKAGECONFIG[usb-redir] = "--enable-usb-redir,--disable-usb-redir,usbredir"
+ PACKAGECONFIG[snappy] = "--enable-snappy,--disable-snappy,snappy"
+ PACKAGECONFIG[glusterfs] = "--enable-glusterfs,--disable-glusterfs"
++PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
++PACKAGECONFIG[libudev] = "--enable-libudev,--disable-libudev,eudev"
++#PACKAGECONFIG[libxml2] = "--enable-libxml2,--disable-libxml2,libxml2"
+ 
+ INSANE_SKIP_${PN} = "arch"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-Add-enable-disable-udev.patch b/meta/recipes-devtools/qemu/qemu/0001-Add-enable-disable-udev.patch
+new file mode 100644
+index 0000000000..c2c5849d65
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/0001-Add-enable-disable-udev.patch
+@@ -0,0 +1,29 @@
++From a471cf4e4c73350e090eb2cd87ec959d138012e5 Mon Sep 17 00:00:00 2001
++From: Jeremy Puhlman <jpuhlman@mvista.com>
++Date: Thu, 19 Mar 2020 11:54:26 -0700
++Subject: [PATCH] Add enable/disable libudev
++
++Upstream-Status: Pending
++Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
++---
++ configure | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/configure b/configure
++index cac271c..bd116eb 100755
++--- a/configure
+++++ b/configure
++@@ -1539,6 +1539,10 @@ for opt do
++   ;;
++   --disable-plugins) plugins="no"
++   ;;
+++  --enable-libudev) libudev="yes"
+++  ;;
+++  --disable-libudev) libudev="no"
+++  ;;
++   *)
++       echo "ERROR: unknown option $opt"
++       echo "Try '$0 --help' for more information"
++-- 
++1.8.3.1
++
 -- 
-Jeremy A. Puhlman
-jpuhlman@mvista.com
+2.13.3
 
 
