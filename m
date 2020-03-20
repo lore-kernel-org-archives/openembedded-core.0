@@ -1,34 +1,47 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 09A2361B77
+Return-Path: <mhalstead@linuxfoundation.org>
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com
+	[209.85.210.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 73F6860667
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2020 18:04:20 +0000 (UTC)
+	Fri, 20 Mar 2020 18:59:53 +0000 (UTC)
+Received: by mail-ot1-f52.google.com with SMTP id e9so7001651otr.12
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 20 Mar 2020 11:59:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=axis.com; l=1662; q=dns/txt; s=axis-central1;
-	t=1584727463; x=1616263463;
-	h=from:to:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=v4eW+o6vVe2ZtnLGCoJ54oV9aWveMdiWFJHgxdconmk=;
-	b=dozWWHscZy0WwbDEBSO/3D78V4Z/HeCACcu3epDiK/8uDIB1wGEBx9E+
-	ebaXBh9skyppCv7ckUopMC5VhZru7FnwO/iy86eiOQ8MazhvXserAde1y
-	vyvgP2B0/2UbOwJhw/juKJPvJAVc1B6fHUYztt4HOzKCRo5zLUaxzfcJ3
-	3ReSf+2qP3nJbXYxCPxxs1I7AVygnloJ2VdF8fJ6JRrMaJYOQ1OpJkgDM
-	DN5HqC50iPuJCZL8DOdD3Ylo/7Ig2l5voZ3c+/9bPdGQejjW5m9c8isXX
-	FCnIOM4IZl5wdIG9hwqodB0zw7A4DSbdu8vJL9itnPx/PdyrvnJlJu/ks A==;
-IronPort-SDR: a5Bb9/xVBhbVkFAyGgMf7The3bdngRJ4nXVvCsnIaucsEJM9qDrZabbjmfEdg67fu2mFWw3iS7
-	yuEsOxJhIe8wFnD6lQ4DhhUFj/eVjkq/8YfTZcJc1ILdp6SE55shZbYnQpJAwsQuCAiTKD6i9f
-	fJvOvraZ4csOa4eMg1G+TYQDmTnpWrKNyfuWxeevTsW+qOCUZx3BMMoOHX9hqZLT+nY9NurYOw
-	3y3wSr7xE1GDhILc6sK49yS/F71+4B9CQpE8i/ZEqtdGhl3dFowBPErZ3G4svBjD/fO530YFF6
-	W5A=
-X-IronPort-AV: E=Sophos;i="5.72,285,1580770800"; 
-   d="scan'208";a="6750270"
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 20 Mar 2020 19:04:20 +0100
-Message-ID: <20200320180420.32303-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.1
+	d=linuxfoundation.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=ATLBVZjQ0GKcSc9fHlTjYbhawWCKHgXS0NTjtCYAILg=;
+	b=J1ESmFqfu1rB/vM9KNJlgM0kyoBO5xymEsuODXg2rBiOVRWXfwjssl9vu8qypzi5+4
+	wNpgdLRDdqwiEfWzsUfuYjPLBw0VEillDq8mspDHz5FM236I6BGaj+tLY855c8LWGjlP
+	ak4OZUtV7btofUgLZOzOVTt2zREkLJJU6c3Os=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=ATLBVZjQ0GKcSc9fHlTjYbhawWCKHgXS0NTjtCYAILg=;
+	b=nNbLS0IrvNHXzVzRf085a2QgryM6HptL65hvh5CzTFx/yDyTOho4bED+8y2ldBkMUZ
+	D5qweFtprjSV0KJ7+H4gGwnBDigTSJX14o5/zxBo8gmkYUONWSllhtq34RO0BPmsJYE4
+	POb615TcyzIm/dgbtYlmpVrNeKtFZEQuyfl5w6+2WRLXOS8dVrtkFp3Eb/+NrXZGsfSX
+	lKBzx0jggN/l8NREtcbRYcS85GVkmwSZ8EVRWxc3+5VgxcllXXKSUykD5IeZ8tvPhV2n
+	O+gvF8MhUR/4xigQEmFn/1M2rkIaFvz+RNbx8/CMt98EZaHbzUgfS+WO4CeT+jjM3rkr
+	x9TQ==
+X-Gm-Message-State: ANhLgQ1ReL9dqpMk52FEhBLzw5OUcCyGU/5UqvWo1tVGFwtJOcxdPrn3
+	W9AinK4Pnwo/ACbEBy6Dp3QaVs2eazn4Do8cLoIj6A==
+X-Google-Smtp-Source: ADFU+vtEd5Rz+zKdA1a1ya+Px26LKMKdyZTjjUAxkTSWBoE2ktGHiEcqndGXTvp66Hc8Q/1t9GBWddpN5NXEKjqfShU=
+X-Received: by 2002:a9d:12b4:: with SMTP id g49mr8453384otg.50.1584730793953; 
+	Fri, 20 Mar 2020 11:59:53 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [master][zeus][PATCH] relocatable.bbclass: Avoid an exception if an empty pkgconfig dir exist
+References: <CADfgfobNNXr9HSOiwyamzbZ4q1uc8wgD5PzobDF56cDyYui-HQ@mail.gmail.com>
+	<CADfgfoYCjVip=oc_U0TdFzOVst5U-KU+R31JhdckRv77APzQ-g@mail.gmail.com>
+In-Reply-To: <CADfgfoYCjVip=oc_U0TdFzOVst5U-KU+R31JhdckRv77APzQ-g@mail.gmail.com>
+From: Michael Halstead <mhalstead@linuxfoundation.org>
+Date: Fri, 20 Mar 2020 11:59:42 -0700
+Message-ID: <CADfgfob4=Zeh=jn9b9uMqq6Wnt83oGmJ-8yf1wSXYEFTppv2Bg@mail.gmail.com>
+To: bitbake-devel@lists.openembedded.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-architecture@lists.openembedded.org, 
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Subject: Re: Mailing list platform change March 20th
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,49 +54,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2020 18:04:21 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Fri, 20 Mar 2020 18:59:53 -0000
+Content-Type: multipart/alternative; boundary="00000000000009e18a05a14de442"
 
-Rewrite relocatable_native_pcfiles() so that it can handle that any of
-the checked pkgconfig directories are empty without causing an
-exception.
+--00000000000009e18a05a14de442
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/relocatable.bbclass | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+The migration will begin shortly. List mail will be delayed until the
+process is complete. E-mail sent during downtime should eventually be
+delivered. However waiting to send until after the switch is recommended.
 
-diff --git a/meta/classes/relocatable.bbclass b/meta/classes/relocatable.bbclass
-index 582812c1cf..af04be5cca 100644
---- a/meta/classes/relocatable.bbclass
-+++ b/meta/classes/relocatable.bbclass
-@@ -6,13 +6,15 @@ python relocatable_binaries_preprocess() {
-     rpath_replace(d.expand('${SYSROOT_DESTDIR}'), d)
- }
- 
--relocatable_native_pcfiles () {
--	if [ -d ${SYSROOT_DESTDIR}${libdir}/pkgconfig ]; then
--		rel=${@os.path.relpath(d.getVar('base_prefix'), d.getVar('libdir') + "/pkgconfig")}
--		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDIR}${libdir}/pkgconfig/*.pc
--	fi
--	if [ -d ${SYSROOT_DESTDIR}${datadir}/pkgconfig ]; then
--		rel=${@os.path.relpath(d.getVar('base_prefix'), d.getVar('datadir') + "/pkgconfig")}
--		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDIR}${datadir}/pkgconfig/*.pc
--	fi
-+relocatable_native_pcfiles() {
-+	for dir in ${libdir}/pkgconfig ${datadir}/pkgconfig; do
-+		files_template=${SYSROOT_DESTDIR}$dir/*.pc
-+		# Expand to any files matching $files_template
-+		files=$(echo $files_template)
-+		# $files_template and $files will differ if any files were found
-+		if [ "$files_template" != "$files" ]; then
-+			rel=$(realpath -m --relative-to=$dir ${base_prefix})
-+			sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" $files
-+		fi
-+	done
- }
--- 
-2.21.1
+Thank you,
+--
+Michael Halstead
+Linux Foundation / Yocto Project
+Systems Operations Engineer
 
+On Thu, Mar 19, 2020 at 9:44 AM Michael Halstead <
+mhalstead@linuxfoundation.org> wrote:
 
+> Everything is proceeding smoothly and this work will continue as planned.
+> The migration starts at noon PDT tomorrow.
+>
+> List owners please take care of all outstanding moderation in the next 24
+> hours to ensure a smooth transition.
+>
+> Thank you,
+> --
+> Michael Halstead
+> Linux Foundation / Yocto Project
+> Systems Operations Engineer
+>
+> On Fri, Mar 13, 2020 at 4:58 PM Michael Halstead <
+> mhalstead@linuxfoundation.org> wrote:
+>
+>> We are moving our lists from Mailman to Groups.io. E-mail to lists will
+>> be delayed during the move window. We are aiming to complete the migration
+>> during business hours in the Pacific time zone.
+>>
+>> A new account will be created for you on the Groups.io platform if you
+>> don't already have one.
+>>
+>> You can read more about the change on the wiki:
+>> https://www.openembedded.org/wiki/GroupsMigration
+>>
+>> If there are serious issues we will rollback the changes. We will e-mail
+>> all lists when work is complete.
+>>
+>> --
+>> Michael Halstead
+>> Linux Foundation / Yocto Project
+>> Systems Operations Engineer
+>>
+>>
+
+--00000000000009e18a05a14de442
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">The migration will begin shortly. List mail will be delaye=
+d until the process is complete. E-mail sent during downtime should eventua=
+lly be delivered. However waiting to send until after the switch is recomme=
+nded.<div><br></div><div>Thank you,<br>--<br>Michael Halstead<br>Linux Foun=
+dation / Yocto Project<br>Systems Operations Engineer<br></div></div><br><d=
+iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Mar =
+19, 2020 at 9:44 AM Michael Halstead &lt;<a href=3D"mailto:mhalstead@linuxf=
+oundation.org">mhalstead@linuxfoundation.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Everything is =
+proceeding smoothly and this work will continue as planned. The migration s=
+tarts at noon PDT tomorrow.<div><br></div><div>List owners please take care=
+ of all outstanding moderation in the next 24 hours to ensure a smooth tran=
+sition.</div><div><br></div><div>Thank you,</div><div>--<br>Michael Halstea=
+d<br>Linux Foundation / Yocto Project<br>Systems Operations Engineer<br></d=
+iv></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Fri, Mar 13, 2020 at 4:58 PM Michael Halstead &lt;<a href=3D"mailto:m=
+halstead@linuxfoundation.org" target=3D"_blank">mhalstead@linuxfoundation.o=
+rg</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+"><div dir=3D"ltr"><div>We are moving our lists from Mailman to=C2=A0<span>=
+Groups</span>.<span>io</span>. E-mail to lists will be delayed during the m=
+ove window. We are aiming to complete the migration during business hours i=
+n the Pacific time zone.<br></div><div><br></div><div>A new account will be=
+ created for you on the=C2=A0<span>Groups</span>.<span>io</span>=C2=A0platf=
+orm if you don&#39;t already have one.<br></div><div><br></div><div>You can=
+ read more about the change on the wiki:<br></div><a href=3D"https://www.op=
+enembedded.org/wiki/GroupsMigration" target=3D"_blank">https://www.openembe=
+dded.org/wiki/GroupsMigration</a><br><div><br></div><div>If there are serio=
+us issues we will rollback the changes. We will e-mail<br>all lists when wo=
+rk is complete.<br></div><div><br></div><div><span style=3D"color:rgb(136,1=
+36,136)">--</span><br style=3D"color:rgb(136,136,136)"><span style=3D"color=
+:rgb(136,136,136)">Michael Halstead</span><br style=3D"color:rgb(136,136,13=
+6)"><span style=3D"color:rgb(136,136,136)">Linux Foundation / Yocto Project=
+</span><br style=3D"color:rgb(136,136,136)"><span style=3D"color:rgb(136,13=
+6,136)">Systems Operations Engineer</span><br></div><div><br></div></div>
+</blockquote></div>
+</blockquote></div>
+
+--00000000000009e18a05a14de442--
