@@ -1,30 +1,27 @@
-Return-Path: <anuj.mittal@intel.com>
+Return-Path: <chee.yang.lee@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 1498C618F7
+	by mail.openembedded.org (Postfix) with ESMTP id 2F4DE60583
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Mar 2020 01:56:26 +0000 (UTC)
-IronPort-SDR: jAYv9b+XxsmWfPwzpKIq840bmrsQoOEW9Ms1RJTmUiuMT6eRxJp2xP1710tyS2SzOBNJl+kCMX
-	LGl81ms+NbiA==
+	Fri, 20 Mar 2020 08:06:43 +0000 (UTC)
+IronPort-SDR: g3v3/s6/l6Norz9D0pGpUMcoLMWveKILf3vPCpXGdcS+CRR78MORj6GVhrvqVGuOq34Ev058St
+	dekfFELBtRYA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	19 Mar 2020 18:56:27 -0700
-IronPort-SDR: oOUkEuryJOBQ6MDcs9RbmFMPXaggd5EbFhR44naGOvYKsouECRAeJu+45NeWqccLJOHKkbtIQK
-	7MzNy3levTKw==
-X-IronPort-AV: E=Sophos;i="5.72,282,1580803200"; d="scan'208";a="392001803"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.77.159])
-	by orsmga004-auth.jf.intel.com with
-	ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2020 18:56:26 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
+	20 Mar 2020 01:06:43 -0700
+IronPort-SDR: HbXaxZ5YNJObcHTbA2F7eK30tcn6ENQ0mpGt7NqgU1oBxD8qIg3+JzqbYvT5PsBcp5xEPplXA/
+	xVeXg2Hzvy9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,283,1580803200"; d="scan'208";a="291861742"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by FMSMGA003.fm.intel.com with ESMTP; 20 Mar 2020 01:06:43 -0700
+From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Mar 2020 09:56:20 +0800
-Message-Id: <20200320015620.125128-2-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200320015620.125128-1-anuj.mittal@intel.com>
-References: <20200320015620.125128-1-anuj.mittal@intel.com>
-MIME-Version: 1.0
-Subject: [zeus][PATCH 2/2] screen: fix CVE-2020-9366
+Date: Fri, 20 Mar 2020 16:06:42 +0800
+Message-Id: <1584691602-12741-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH][zeus] virglrenderer : fix CVE-2019-18388
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,84 +34,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Mar 2020 01:56:26 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 20 Mar 2020 08:06:43 -0000
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+From: Chee Yang Lee <chee.yang.lee@intel.com>
+
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 ---
- .../screen/screen/CVE-2020-9366.patch         | 48 +++++++++++++++++++
- meta/recipes-extended/screen/screen_4.6.2.bb  |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-extended/screen/screen/CVE-2020-9366.patch
+ .../virglrenderer/CVE-2019-18388.patch             | 141 +++++++++++++++++++++
+ .../virglrenderer/virglrenderer_0.8.0.bb           |   3 +-
+ 2 files changed, 143 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18388.patch
 
-diff --git a/meta/recipes-extended/screen/screen/CVE-2020-9366.patch b/meta/recipes-extended/screen/screen/CVE-2020-9366.patch
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18388.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18388.patch
 new file mode 100644
-index 0000000000..a52b9e6e68
+index 0000000..43563e4
 --- /dev/null
-+++ b/meta/recipes-extended/screen/screen/CVE-2020-9366.patch
-@@ -0,0 +1,48 @@
-+From 8ce90c1d3d5bece150479d8bc9303fd9d9f45e03 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
-+Date: Thu, 30 Jan 2020 17:56:27 +0100
-+Subject: [PATCH] Fix out of bounds access when setting w_xtermosc after OSC 49
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer/CVE-2019-18388.patch
+@@ -0,0 +1,141 @@
++From 0d9a2c88dc3a70023541b3260b9f00c982abda16 Mon Sep 17 00:00:00 2001
++From: Gert Wollny <gert.wollny@collabora.com>
++Date: Thu, 10 Oct 2019 09:42:25 +0200
++Subject: [PATCH] vrend: Check resource creation more thoroughly
 +
-+From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++While we are at it:
++  - free memory if texture allocation fails
 +
-+echo -e "\e]49\e;                                    \n\ec"
-+crashes screen.
++Closes #144
++Closes #145
++Closes #146
 +
-+This happens because 49 is divided by 10 and used as table index
-+resulting in access to w_xtermosc[4], which is out of bounds with table
-+itself being size 4. Increase size of table by 1 to 5, which is enough
-+for all current uses.
++v2: Move the error string creation to extra patch (Emil)
++v3: Fix whitespace errors (Emil) and one logic error
 +
-+As this overwrites memory based on user input it is potential security
-+issue.
++Signed-off-by: Gert Wollny <gert.wollny@collabora.com>
++Reviewed-by: Emil Velikov <emil.velikov@collabora.com>
 +
-+Reported-by: pippin@gimp.org
-+Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
++Upstream-Status: Backport [https://gitlab.freedesktop.org/virgl/virglrenderer/commit/0d9a2c88dc3a70023541b3260b9f00c982abda16]
++CVE: CVE-2019-18388
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/screen.git/commit/?h=v.4.8.0&id=68386dfb1fa33471372a8cd2e74686758a2f527b]
-+CVE: CVE-2020-9366
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +
 +---
-+ window.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ src/vrend_renderer.c | 58 ++++++++++++++++++++++++++++++++++++++++++--
++ 1 file changed, 56 insertions(+), 2 deletions(-)
 +
-+diff --git a/window.h b/window.h
-+index bd10dcd..a8afa19 100644
-+--- a/window.h
-++++ b/window.h
-+@@ -237,7 +237,7 @@ struct win
-+   char	 w_vbwait;
-+   char	 w_norefresh;		/* dont redisplay when switching to that win */
-+ #ifdef RXVT_OSC
-+-  char	 w_xtermosc[4][MAXSTR];	/* special xterm/rxvt escapes */
-++  char	 w_xtermosc[5][MAXSTR];	/* special xterm/rxvt escapes */
-+ #endif
-+   int    w_mouse;		/* mouse mode 0,9,1000 */
-+ #ifdef HAVE_BRAILLE
-diff --git a/meta/recipes-extended/screen/screen_4.6.2.bb b/meta/recipes-extended/screen/screen_4.6.2.bb
-index 21b476ddb0..d00b849021 100644
---- a/meta/recipes-extended/screen/screen_4.6.2.bb
-+++ b/meta/recipes-extended/screen/screen_4.6.2.bb
-@@ -25,6 +25,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
-            file://0001-fix-for-multijob-build.patch \
-            file://0001-configure.ac-fix-configure-failed-while-build-dir-ha.patch \
-            file://0001-Remove-more-compatibility-stuff.patch \
-+           file://CVE-2020-9366.patch \
-           "
++diff --git a/src/vrend_renderer.c b/src/vrend_renderer.c
++index 0c6b5efd..1fb657b7 100644
++--- a/src/vrend_renderer.c
+++++ b/src/vrend_renderer.c
++@@ -6044,6 +6044,8 @@ static int check_resource_valid(struct vrend_renderer_resource_create_args *args
++ 
++    if (args->format >= VIRGL_FORMAT_MAX)
++       return -1;
+++   bool format_can_texture_storage = has_feature(feat_texture_storage) &&
+++         (tex_conv_table[args->format].flags & VIRGL_TEXTURE_CAN_TEXTURE_STORAGE);
++ 
++    /* only texture 2d and 2d array can have multiple samples */
++    if (args->nr_samples > 0) {
++@@ -6061,15 +6063,18 @@ static int check_resource_valid(struct vrend_renderer_resource_create_args *args
++       /* buffer and rect textures can't have mipmaps */
++       if (args->target == PIPE_BUFFER || args->target == PIPE_TEXTURE_RECT)
++          return -1;
+++
++       if (args->last_level > (floor(log2(MAX2(args->width, args->height))) + 1))
++          return -1;
++    }
+++
++    if (args->flags != 0 && args->flags != VIRGL_RESOURCE_Y_0_TOP)
++       return -1;
++ 
++-   if (args->flags & VIRGL_RESOURCE_Y_0_TOP)
+++   if (args->flags & VIRGL_RESOURCE_Y_0_TOP) {
++       if (args->target != PIPE_TEXTURE_2D && args->target != PIPE_TEXTURE_RECT)
++          return -1;
+++   }
++ 
++    /* array size for array textures only */
++    if (args->target == PIPE_TEXTURE_CUBE) {
++@@ -6088,6 +6093,9 @@ static int check_resource_valid(struct vrend_renderer_resource_create_args *args
++       if (!has_feature(feat_texture_array))
++          return -1;
++    }
+++   if (format_can_texture_storage && !args->width) {
+++      return -1;
+++   }
++ 
++    if (args->bind == 0 ||
++        args->bind == VIRGL_BIND_CUSTOM ||
++@@ -6124,11 +6132,55 @@ static int check_resource_valid(struct vrend_renderer_resource_create_args *args
++           args->target == PIPE_TEXTURE_CUBE_ARRAY) {
++          if (args->depth != 1)
++             return -1;
+++         if (format_can_texture_storage && !args->height) {
+++            return -1;
+++         }
++       }
++       if (args->target == PIPE_TEXTURE_1D ||
++           args->target == PIPE_TEXTURE_1D_ARRAY) {
++          if (args->height != 1 || args->depth != 1)
++             return -1;
+++         if (args->width > vrend_state.max_texture_2d_size) {
+++            return -1;
+++         }
+++      }
+++
+++      if (args->target == PIPE_TEXTURE_2D ||
+++          args->target == PIPE_TEXTURE_RECT ||
+++          args->target == PIPE_TEXTURE_2D_ARRAY) {
+++         if (args->width > vrend_state.max_texture_2d_size ||
+++             args->height > vrend_state.max_texture_2d_size) {
+++            return -1;
+++         }
+++      }
+++
+++      if (args->target == PIPE_TEXTURE_3D) {
+++         if (format_can_texture_storage &&
+++             (!args->height || !args->depth)) {
+++            return -1;
+++         }
+++         if (args->width > vrend_state.max_texture_3d_size ||
+++             args->height > vrend_state.max_texture_3d_size ||
+++             args->depth > vrend_state.max_texture_3d_size) {
+++            return -1;
+++         }
+++      }
+++      if (args->target == PIPE_TEXTURE_2D_ARRAY ||
+++          args->target == PIPE_TEXTURE_CUBE_ARRAY ||
+++          args->target == PIPE_TEXTURE_1D_ARRAY) {
+++         if (format_can_texture_storage &&
+++             !args->array_size) {
+++            return -1;
+++         }
+++      }
+++      if (args->target == PIPE_TEXTURE_CUBE ||
+++          args->target == PIPE_TEXTURE_CUBE_ARRAY) {
+++         if (args->width != args->height) {
+++            return -1;
+++         }
+++         if (args->width > vrend_state.max_texture_cube_size) {
+++            return -1;
+++         }
++       }
++    }
++    return 0;
++@@ -6458,8 +6510,10 @@ int vrend_renderer_resource_create(struct vrend_renderer_resource_create_args *a
++       vrend_create_buffer(gr, args->width);
++    } else {
++       int r = vrend_renderer_resource_allocate_texture(gr, image_oes);
++-      if (r)
+++      if (r) {
+++         FREE(gr);
++          return r;
+++      }
++    }
++ 
++    ret = vrend_resource_insert(gr, args->handle);
++-- 
++2.24.1
++
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
+index e91ccc6..0480d90 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
+@@ -11,7 +11,8 @@ SRC_URI = "git://anongit.freedesktop.org/virglrenderer \
+            file://CVE-2019-18390.patch \
+            file://CVE-2019-18391.patch \
+            file://CVE-2020-8002.patch  \
+-           "
++           file://CVE-2019-18388.patch \
++"
  
- SRC_URI[md5sum] = "a0f529d3333b128dfaa324d978ba73a8"
+ S = "${WORKDIR}/git"
+ 
 -- 
-2.25.1
+2.7.4
 
 
