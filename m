@@ -1,112 +1,124 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [])
- by mx.groups.io with SMTP id smtpd.web11.3336.1584768436244436711
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.48])
+ by mx.groups.io with SMTP id smtpd.web12.3552.1584769806539171280
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2020 22:27:17 -0700
+ Fri, 20 Mar 2020 22:50:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nxp.com header.s=selector2 header.b=H9dh72lH;
- spf=fail (domain: nxp.com, ip: <nil>, mailfrom: tom.hochstein@nxp.com)
+ dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=c6BW7J4Y;
+ spf=pass (domain: windriver.com, ip: 40.107.220.48, mailfrom: kexin.hao@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BVA3w2tDvBeezqxAWgA9i3ADyjdemMMsIRMd4vpsli6uU7N2/SuG10wCaAr/bK6f3yFhTiBXnzisCQ9QMnlMF6DK/AzPdVJhS0xWJnDi3xB9ApXszUkQJYhmqNI9PKgc2/zaWREVq6W0p2mS1wFNfEQ5KpKetnJDsRXLiCQRArH3jRD6zppjKJeFOh5MV5Z4dPpbM5mBk6vNiEVtIFxqNMXSt2uKSw6J49eKdVblJ9h6JHFYb8UmYc/iEtrNWsa3saJp2I0PoYdSDfPChno1bZ1JnWRknQ5SFIDproz3Eof2puHtyPf8oJYy3HRCNZ0gblnX/uS/MeJ6rmjwEX8gvQ==
+ b=ZbhIfN90jlqVeHgboHoxdAFaSDYzpw5cl+Yw9oZnuBHJS6awCrqKXGDdZ6X0yGjijQzgmzwrRjztX4utsYAxRDOF7rCMRP3h2QRCIBO72DKUZWrlAfHgejYD70Sn1p9v+rk6NFgWoHV5u9qpnlYfgQcPm4NEPY1dxb9uTAjETdaBmPVjqO/WSBTWTxJLUiAETtTFKBWbTbqtlJPBO9ssc+9IWkSgW7roYr2jTnxR6FDn0HiNpXKaAMWCmdTWjZKDU1N0TuQOCET1ZbRhMhHv4vtLsoHgjjxlT4Xo7vX4JRd+6ij7CSqtB/Lt6zfObL99HTK04SieMFJQr//yD9T5gw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MmRW6xHktVZi9SVZ4EvLdgmC6KOHIsypqB8GENiW+78=;
- b=hSvjjyAMQmwQemMmxhwnU5t3o24DB/KQg+vfNKyJYu/hznaN4hu9G/Ip6H3Xz7OnK69x5yG9OaH1tAgUmYVsls23lw53W3ZWMZ/5xn0FQt+7f5IVnBP2ZLpCJi5WbTxeYtMeAJt2ra3kQ+f8wjUxr8lmxl9yFZyxgnnA7bIr3hZ5EqKjYIe7CvqStalWpFqRNyReNmnLH2oZdLSHTesDUI2Cs7odz+fjgTDJqB2wTBDtf5PejgNw4MsvHXUFLTmLub5oJakYE8KRgSA0tGPN9JIk3N02HlFfrIYJYYhEFrQokCMTKLJD1wDHE2Xz2fXVx9/6tD8hck0EgQRWXTEn1Q==
+ bh=5xHskKid6PHjC/4/mvqKxuchVpsjAJviuHxn3oJYntM=;
+ b=MBeOXGI+hAnjpuawbJkcaqVyP2ozaVZ+u1nTPaCG6YCOt5iFVexf+UM3O7J+0tpHwtx452shdwx0L09GLmZGey0v9i/yZpsOhBN34xLjOpCzigLXUodoKufyPcK66SWUJvWT4xd1yE1AoJJ0TrhWPI1l1LoAW299VQK+MLMhOBAPbCDa5c1QM9aCFf1Egf0RFF4uCQ7DdDf3HooHHt3q8Dd2GbU9+8IKz9CvJ1wAUQXKMj6mh9KWE4x1euWBgTgPye57YAiPO/u/QNVC9C1hdDZ5aHX1HRFaZiKx9N9NbUDBhG/0YS4TynYQPzf9C1oNuwN0H7xPNlsLBxYuIbBfWw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MmRW6xHktVZi9SVZ4EvLdgmC6KOHIsypqB8GENiW+78=;
- b=H9dh72lH/98+gwbt09kxjF4YKpe5TVkLyWUH9R2dQgELctND+5P9OITTlUwd9NYwZ0nr506tM9JGtg3d9+T9Qcn8JkaKamr5kxr0GxIX7qJTWXQF8PxHqthj9asqkn8PraBL6NRxTKMYRqQeb6z5EpzaOavEkDrZPcmWJiom6Wg=
+ bh=5xHskKid6PHjC/4/mvqKxuchVpsjAJviuHxn3oJYntM=;
+ b=c6BW7J4Yv3lr9/hNoY8PTudjNnHIZTQOgZvy0GcYZs2p3uIAVxCD4+/uZfdMm3I/SA0x+uuGFhIhos1xUU42d+gB57I6KramkoSANUrFZ86RIen0TC6hqFSE15VbUxcQTOnYlx6U4o9XupuVOAJ2EwkdeWLCcuUqqq9WHMZnC90=
 Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=tom.hochstein@nxp.com; 
-Received: from VE1PR04MB6621.eurprd04.prod.outlook.com (20.179.234.213) by
- VE1PR04MB6510.eurprd04.prod.outlook.com (20.179.235.151) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.19; Sat, 21 Mar 2020 05:27:15 +0000
-Received: from VE1PR04MB6621.eurprd04.prod.outlook.com
- ([fe80::71aa:4c20:47c4:759a]) by VE1PR04MB6621.eurprd04.prod.outlook.com
- ([fe80::71aa:4c20:47c4:759a%7]) with mapi id 15.20.2835.021; Sat, 21 Mar 2020
- 05:27:15 +0000
-From: "Tom Hochstein" <tom.hochstein@nxp.com>
+ smtp.mailfrom=Kexin.Hao@windriver.com; 
+Received: from DM6PR11MB4314.namprd11.prod.outlook.com (2603:10b6:5:1de::32)
+ by DM6PR11MB2666.namprd11.prod.outlook.com (2603:10b6:5:c9::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2814.14; Sat, 21 Mar
+ 2020 05:50:04 +0000
+Received: from DM6PR11MB4314.namprd11.prod.outlook.com
+ ([fe80::51ee:49fd:5fa4:3ac5]) by DM6PR11MB4314.namprd11.prod.outlook.com
+ ([fe80::51ee:49fd:5fa4:3ac5%7]) with mapi id 15.20.2814.025; Sat, 21 Mar 2020
+ 05:50:04 +0000
+From: "Kevin Hao" <kexin.hao@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Tom Hochstein <tom.hochstein@nxp.com>
-Subject: [OE-core][PATCH v2 2/2] wayland: Fix wayland-scanner missing from SDK
-Date: Sat, 21 Mar 2020 00:26:50 -0500
-Message-Id: <20200321052650.24220-2-tom.hochstein@nxp.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200321052650.24220-1-tom.hochstein@nxp.com>
-References: <20200321052650.24220-1-tom.hochstein@nxp.com>
-X-ClientProxiedBy: BYAPR02CA0024.namprd02.prod.outlook.com
- (2603:10b6:a02:ee::37) To VE1PR04MB6621.eurprd04.prod.outlook.com
- (2603:10a6:803:124::21)
-Return-Path: tom.hochstein@nxp.com
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Kevin Hao <kexin.hao@windriver.com>
+Subject: [PATCH] linux-yocto-dev: Bump to 5.6-rcx
+Date: Sat, 21 Mar 2020 13:02:18 +0800
+Message-ID: <20200321050218.33726-1-kexin.hao@windriver.com>
+X-Mailer: git-send-email 2.25.1.377.g2d2118b814c1
+X-ClientProxiedBy: HK2PR0401CA0004.apcprd04.prod.outlook.com
+ (2603:1096:202:2::14) To DM6PR11MB4314.namprd11.prod.outlook.com
+ (2603:10b6:5:1de::32)
+Return-Path: kexin.hao@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from tx30imx-01.am.freescale.net (64.157.242.222) by BYAPR02CA0024.namprd02.prod.outlook.com (2603:10b6:a02:ee::37) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.21 via Frontend Transport; Sat, 21 Mar 2020 05:27:13 +0000
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [64.157.242.222]
+Received: from pek-lpggp6.wrs.com (60.247.85.82) by HK2PR0401CA0004.apcprd04.prod.outlook.com (2603:1096:202:2::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.19 via Frontend Transport; Sat, 21 Mar 2020 05:50:02 +0000
+X-Mailer: git-send-email 2.25.1.377.g2d2118b814c1
+X-Originating-IP: [60.247.85.82]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 37846b62-1c26-4d15-f4d1-08d7cd5883b4
-X-MS-TrafficTypeDiagnostic: VE1PR04MB6510:|VE1PR04MB6510:
+X-MS-Office365-Filtering-Correlation-Id: 320748e5-962c-40b0-57ad-08d7cd5bb3de
+X-MS-TrafficTypeDiagnostic: DM6PR11MB2666:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<VE1PR04MB651034FE6238C7B6B18223A2E2F20@VE1PR04MB6510.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+	<DM6PR11MB26661A5782DB3E9CC4BD0267E2F20@DM6PR11MB2666.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1728;
 X-Forefront-PRVS: 034902F5BC
 X-Forefront-Antispam-Report: 
-	SFV:NSPM;SFS:(10009020)(4636009)(396003)(136003)(366004)(39860400002)(346002)(376002)(199004)(1076003)(478600001)(66476007)(66556008)(956004)(6512007)(6666004)(66946007)(2616005)(4326008)(6486002)(6916009)(86362001)(81156014)(186003)(2906002)(81166006)(8676002)(16526019)(6506007)(26005)(5660300002)(52116002)(316002)(44832011)(36756003)(8936002);DIR:OUT;SFP:1101;SCL:1;SRVR:VE1PR04MB6510;H:VE1PR04MB6621.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
-Received-SPF: None (protection.outlook.com: nxp.com does not designate
+	SFV:NSPM;SFS:(10009020)(396003)(39850400004)(346002)(136003)(366004)(376002)(199004)(36756003)(26005)(1076003)(6506007)(54906003)(4326008)(316002)(6512007)(186003)(8676002)(86362001)(6666004)(16526019)(2906002)(81166006)(2616005)(956004)(107886003)(8936002)(81156014)(6916009)(66556008)(6486002)(478600001)(52116002)(66476007)(5660300002)(66946007);DIR:OUT;SFP:1101;SCL:1;SRVR:DM6PR11MB2666;H:DM6PR11MB4314.namprd11.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
+Received-SPF: None (protection.outlook.com: windriver.com does not designate
  permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	w50+Q337EYpKl8AGUERkBuO/ll2fUyoUXVKtiLqCMPT3ngc9+WDsLWcfdtiD47YUJ+PQJnu5ofihCUwUxJhiG3bwu9oytiqKR1xW574DucNuDwNhLWgJotHhr3y7d3vs2jLLKuBzC4DftJgKgtSxaAxfmPeS2Q/OnGgHChZgBksZozZHlftuS73ZwSt4FOUIZDkO0AiWOI+0TRFGJEFIJpDyjjWuBqWxCNysUy82Nz2i1+Mej+XH/hRnmeeishpH9eTb2MUgXCzWRt4R0LQ8bFZfKT4Uai7ETFWHslE/ZirYUnuf1GPxc1eOgxHw0Zaz0YjBTZbbkNTsMi8UfVRvgjB/2II3KJErVKNbp94Hrd67yuIGjVKWLPdK6M6YuC42exmSv/uOkTr3lO3uSq/rNB1877FlDuA2rNWQv2/rgsz8apkqk+eznQmPaqgh0qwc
+	pFo1R2uVTd0hl5Ulm7dcsRyX6QXqrcc2UXZjuOfVH+J7rcpDfjfm/h6ZMH56MwPp6f47ck2pVhZ8tbP1kBBSiilyPP9dm2ngAK59PK7rrN9GLZhF9yDidKTTJy8smKbw9A/dcvkJwykSZmpC/VsSgoyHrxnKBULp3JwKswafNUWEfIfqE/MWfjWWb4NSSAd9bMWCDkSyaB7GT9aqTevPUQh/CNIvntevhabowl3pg/UeV/c044kHEgEFYEXp98K0gzr/Chd9Y69yt9fADNwUUxvdIh0pdCyb9elM1+uQkCKj3HYoIYz4SZvmrKaM/2P19Wsy5nlBev4d3bSFQIWJB7Vod58zg7v7JxdZ5Owy4zu6i7Z2uVTyFLfFedOutULnkxRmGzhoqO8W0MJry+wEbC3Ey59MfGvISFBZTGZyArKNjRU4fORbHLwchl8BLNA/
 X-MS-Exchange-AntiSpam-MessageData: 
-	/r4AhwA5xMajnlVHZj2bEJWj87o7G1kWrJGEJ+cZqiY5O+9KfBjQ5OfwJZn6WZkA5N251D9M8JktsSTkEauct54nVLBbB+V41hgsBf/I9qN+tZV/++I/I2qBJ4SYoyEWxsFqEnnj2tU21x1LYy5rBQ==
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 37846b62-1c26-4d15-f4d1-08d7cd5883b4
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2020 05:27:15.0812
+	0CKFWTX4tw1TARRbwZPepMRVLaJO66M38CMKgo5RUhQ9PYRgHNFNjHH/OAl94ZFzrX+pCBWFGVf7mHakaWhkxnyky56KxLke6H6V9cYS/SAUFlqrZFK0E9RppdJHS0wERa0bwsw8cD0pXmz3HNZLVw==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 320748e5-962c-40b0-57ad-08d7cd5bb3de
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2020 05:50:04.3373
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hmWn2hP9wjjQDEnzQ83DBwg1r7+QWLroyS2oY6nNA8nwdLbZr5HltORXFWT2fp0trf7tEtio1Ar9ov55YZzEMw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6510
+X-MS-Exchange-CrossTenant-UserPrincipalName: i/enQKHntBBdYqzvh0loV/OYDfQkLupBUPSDg6R/tInR6yGqPjypgRIL9/yczQWnD9eHEhR4Q1rRFet7/vIJHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB2666
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 
-The FILES variable was customized to package wayland-scanner
-in the -dev package. However, this is only correct for the
-target package and causes wayland-scanner to be missing from
-the SDK.
+The -dev kernel has been upgraded to v5.6-rcx and the COPYING file in
+the kernel source was updated by kernel commit 74835c7db032 ("COPYING:
+state that all contributions really are covered by this file"). So we
+should also update the md5 checksum of the COPYING file in the
+linux-yocto-dev.bb in order to make the -dev kernel buildable.
+Also update the LINUX_VERSION at the same time.
 
-Fix the nativesdk packaging by properly limiting the
-wayland-scanner -dev packaging to the target.
-
-Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
 ---
- meta/recipes-graphics/wayland/wayland_1.18.0.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/wayland/wayland_1.18.0.bb b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
-index 00be3aac27..4d110a6e1f 100644
---- a/meta/recipes-graphics/wayland/wayland_1.18.0.bb
-+++ b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
-@@ -54,8 +54,10 @@ sysroot_stage_all_append_class-target () {
- 	cp ${STAGING_DATADIR_NATIVE}/aclocal/wayland-scanner.m4 ${SYSROOT_DESTDIR}/${datadir}/aclocal/
- }
- 
--FILES_${PN} = "${libdir}/*${SOLIBS}"
--FILES_${PN}-dev += "${bindir} ${datadir}/wayland"
-+# Place wayland-scanner in the -dev package for the target.
-+# Leave it in the main package for native so it is included
-+# in the SDK.
-+FILES_${PN}-dev_append_class-target = " ${bindir} ${datadir}/wayland"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--- 
-2.17.1
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-ke=
+rnel/linux/linux-yocto-dev.bb
+index c364a97cba4b..06a9108fab49 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -30,11 +30,11 @@ SRC_URI =3D "git://git.yoctoproject.org/linux-yocto-dev=
+.git;branch=3D${KBRANCH};name
+ SRCREV_machine ?=3D '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/k=
+ernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53=
+970c60e", d)}'
+ SRCREV_meta ?=3D '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kern=
+el", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970=
+c60e", d)}'
+=20
+-LINUX_VERSION ?=3D "5.5-rc+"
++LINUX_VERSION ?=3D "5.6-rc+"
+ LINUX_VERSION_EXTENSION ?=3D "-yoctodev-${LINUX_KERNEL_TYPE}"
+ PV =3D "${LINUX_VERSION}+git${SRCPV}"
+=20
+-LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dbbea815ee2795b2f4230826c0c6b881=
+4"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7e4=
+6"
+=20
+ DEPENDS +=3D "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d=
+)}"
+ DEPENDS +=3D "openssl-native util-linux-native"
+--=20
+2.25.1.377.g2d2118b814c1
 
