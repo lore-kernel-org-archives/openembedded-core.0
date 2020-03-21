@@ -1,91 +1,102 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web10.2461.1584761507855433954
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.87])
+ by mx.groups.io with SMTP id smtpd.web11.3336.1584768436244436711
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Mar 2020 20:31:48 -0700
+ Fri, 20 Mar 2020 22:27:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: randy.macleod@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 02L3VlHu021816
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Mar 2020 20:31:47 -0700 (PDT)
-Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 20 Mar
- 2020 20:31:46 -0700
-Subject: Re: [OE-core] [PATCH] nfs-utils: fix do_package error when enable PACKAGECONFIG[nfsv4]
-To: Yi Zhao <yi.zhao@windriver.com>,
-        <openembedded-core@lists.openembedded.org>
-References: <20200311033819.15438-1-yi.zhao@windriver.com>
-From: "Randy MacLeod" <randy.macleod@windriver.com>
-Message-ID: <b3401922-d841-9e13-6929-a3eb6149bf44@windriver.com>
-Date: Fri, 20 Mar 2020 23:31:43 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ dkim=pass header.i=@nxp.com header.s=selector2 header.b=dDLCB4TJ;
+ spf=pass (domain: nxp.com, ip: 40.107.22.87, mailfrom: tom.hochstein@nxp.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LZQy/WJGS7LuD6QGjAO7jpSqZentAfMO+lRLEIAtHB40DQ5bnBubcH5m5+xDZ+O7IQrHtf6td6RaPRUavwi1VktJsCwD2kz9607TdiJmkPJiAShZ7wFldhwYg5hcN+0pfbJ2vkVh3lkTdOXiyKElzaL8vkbGthq6DEtBfh1QuzgsO8+0619nj2Q3BGVs2xDFiQQYJY39MVualZe5h1cwD6ggJsc2galyqq+4X9RcF3UIsw1wZ50SgXV5Mdjn4aMnJ87VeN2zSHhkc5bWBFFtYuVb74T8E8f7UnToW3Fk7sThHJxOulaOmKXrbmdUj2ryJRv+cYP2/omFIWTgzgasTw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RxHMuIkUtOkYicP55H0Y623E2m6WMzb7re7QzBBnnC4=;
+ b=Q3SvB5MPVmQz2TlNGuE4wLy1L19csBaVv3B1XBSvTsLL//NuYATJn+jBJpkgNhcHdV+eg1PRqPEfjBtaiH5UkdDEVa1NOnSc40ztL2z2CG4dK8+5gV72SEJT2b8rtmgAklgMTHJghDAgBFr7E9OI992ZSjkGFaRu/8dUI4aLvG0zEmfTax1b+OBT3MR14wKQ6/g3CCLr2nKA7PBktOK/EGENbV+KZ73P24gwDjrDMvWba72f9QS1EAgPR84huEZ6OzWK2iMzlWZtdY6Y4Ihsc9YRjnCMJEufiHThEoXG+2zpg2E6Aa4kn9IbcmK25BveVTCvTlKEst4JHpv4NC6PTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=RxHMuIkUtOkYicP55H0Y623E2m6WMzb7re7QzBBnnC4=;
+ b=dDLCB4TJGXpFdW63Uzpi8NjbKVJ9DHt3VHxp/D0+7JG3s8iU6VPf0bQza0RZNRMzjo8uMxS6sP9emgHJdtcfnEnpbPOa6xuIOzF7s/FzGWa36BMeR2q5HINZZmfzALn94UZptG3jHEMOpqvy7M2EX/O3eBLNG/4GO5nCu9cSIY4=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=tom.hochstein@nxp.com; 
+Received: from VE1PR04MB6621.eurprd04.prod.outlook.com (20.179.234.213) by
+ VE1PR04MB6510.eurprd04.prod.outlook.com (20.179.235.151) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2835.19; Sat, 21 Mar 2020 05:27:13 +0000
+Received: from VE1PR04MB6621.eurprd04.prod.outlook.com
+ ([fe80::71aa:4c20:47c4:759a]) by VE1PR04MB6621.eurprd04.prod.outlook.com
+ ([fe80::71aa:4c20:47c4:759a%7]) with mapi id 15.20.2835.021; Sat, 21 Mar 2020
+ 05:27:13 +0000
+From: "Tom Hochstein" <tom.hochstein@nxp.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tom Hochstein <tom.hochstein@nxp.com>
+Subject: [OE-core][PATCH v2 1/2] bitbake.conf: Fix nativesdk-wayland missing from SDK
+Date: Sat, 21 Mar 2020 00:26:49 -0500
+Message-Id: <20200321052650.24220-1-tom.hochstein@nxp.com>
+X-Mailer: git-send-email 2.17.1
+X-ClientProxiedBy: BYAPR02CA0024.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::37) To VE1PR04MB6621.eurprd04.prod.outlook.com
+ (2603:10a6:803:124::21)
+Return-Path: tom.hochstein@nxp.com
 MIME-Version: 1.0
-In-Reply-To: <20200311033819.15438-1-yi.zhao@windriver.com>
-X-Originating-IP: [172.25.44.3]
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from tx30imx-01.am.freescale.net (64.157.242.222) by BYAPR02CA0024.namprd02.prod.outlook.com (2603:10b6:a02:ee::37) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.21 via Frontend Transport; Sat, 21 Mar 2020 05:27:12 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [64.157.242.222]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 4c55cb79-812e-433e-8674-08d7cd5882d7
+X-MS-TrafficTypeDiagnostic: VE1PR04MB6510:|VE1PR04MB6510:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<VE1PR04MB6510D4303145944365A4F179E2F20@VE1PR04MB6510.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3513;
+X-Forefront-PRVS: 034902F5BC
+X-Forefront-Antispam-Report: 
+	SFV:NSPM;SFS:(10009020)(4636009)(396003)(136003)(366004)(39860400002)(346002)(376002)(199004)(1076003)(478600001)(66476007)(66556008)(956004)(6512007)(6666004)(66946007)(2616005)(4326008)(6486002)(6916009)(4744005)(86362001)(81156014)(186003)(2906002)(81166006)(8676002)(16526019)(6506007)(26005)(5660300002)(52116002)(316002)(44832011)(36756003)(8936002);DIR:OUT;SFP:1101;SCL:1;SRVR:VE1PR04MB6510;H:VE1PR04MB6621.eurprd04.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;A:1;
+Received-SPF: None (protection.outlook.com: nxp.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	w3jkgLk+eWTnCTl5dUG0qrjTlCwm4XAbDkpDOns7i8AC/drk5ShIl+Z0LMavQF+gLUi4EIF4P6tiW0fQSr8jf7ds8PEaCb5XzRZXfPWWxhpu+RLqu8NfoufxYoaGcS4NABdAsIEaI1BA9dIcEMHGztzgv+PYs3Zmgy3LkEqLyKYzAFHTW/Gq+vjwVavlIXWvXg5gZA8sXfg1CiW8j654ByVREv4bjjo/9jCgenkrI+L1XDWdO/hSMEBFtJ1KCijIO/8jSATXMP3Rly/y9baasKyZ4vm99knyCUGkSEghZfmFp8WlG+6TMm/QjKeJ0VqrRbgGh0hFPHZwG+XwcCT/8hC8ST5CdLdcXh1l7W96MxaANqEuVJgSpO7+X8+W4MnQprH7D8wv+mXoUiLeox/CsQt8AD+UHOMtHdsPVEEsYVqnSQ04UTJ9VlKsqmLzp8gQ
+X-MS-Exchange-AntiSpam-MessageData: 
+	Q+vwl0I8sG2sKPrtSJwiu39j4WHnMlknfwChquC5fJBJdJwQLoPhYeFPPsT8P3xS7LVasoy6wjUNeEjd3cVXl/Hjny7d9ZZ2Su7yMiK/F+asTEQVUjJ+yfcTXExmP+ulRX2kOqrKWGj4SmkK5KHorA==
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c55cb79-812e-433e-8674-08d7cd5882d7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2020 05:27:13.5541
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: c83RVjd3qhoRjj6uBhkHPTZy6VRAhgrRxcTkiOkvGWQkAwOmB1S74/oFnkcZDkDfon7bha3II/F/Rzft7e0NbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6510
+Content-Type: text/plain
 
-On 2020-03-10 11:38 p.m., Yi Zhao wrote:
-> Fixes:
-> ERROR: nfs-utils-2.4.3-r0 do_package: QA Issue: nfs-utils:
-> Files/directories were installed but not shipped in any package:
-> /usr/lib/libnfsidmap/nsswitch.so
-> /usr/lib/libnfsidmap/static.so
-> Please set FILES such that these items are packaged. Alternatively if
-> they are unneeded, avoid installing them or delete them within do_install.
-> nfs-utils: 2 installed and not shipped files. [installed-vs-shipped]
-> 
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->   meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb | 10 ++++++----
->   1 file changed, 6 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
-> index 42a4ba3dbd..9bdb6f4ae4 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
-> @@ -67,9 +67,9 @@ PACKAGECONFIG_remove_libc-musl = "tcp-wrappers"
->   PACKAGECONFIG[tcp-wrappers] = "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
->   PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
->   # libdevmapper is available in meta-oe
+nativesdk-wayland was not being added to the SDK because it
+relies on checking the distro feature. This fixes that by
+filtering the wayland feature to the SDK build.
 
-> -PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper"
-> -# keyutils is available in meta-security
-> -PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils"
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+---
+ meta/conf/bitbake.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper,libdevmapper"
-
-Did you really mean to have libdevmapper twice?
-If so, why not make it a mandatory DEPENDS?
-
-> +# keyutils is available in meta-oe
-> +PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils,python3-core"
-
-Why? This change wasn't explained in the long log.
-
-The rest seems fine, v2 please.
-
-../Randy
-
->   
->   PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
->   
-> @@ -94,7 +94,9 @@ FILES_${PN}-mount = "${base_sbindir}/*mount.nfs*"
->   FILES_${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat"
->   RDEPENDS_${PN}-stats = "python3-core"
->   
-> -FILES_${PN} += "${systemd_unitdir}"
-> +FILES_${PN}-staticdev += "${libdir}/libnfsidmap/*.a"
-> +
-> +FILES_${PN} += "${systemd_unitdir} ${libdir}/libnfsidmap/"
->   
->   do_configure_prepend() {
->           sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
-> 
-
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 4b544a22cd..e44de34a00 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -830,7 +830,7 @@ DISTRO_FEATURES_NATIVESDK ?= "x11"
+ # Normally target distro features will not be applied to native builds:
+ # Native distro features on this list will use the target feature value
+ DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation"
+-DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation"
++DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation wayland"
+ 
+ DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit gobject-introspection-data ldconfig"
+ MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.17.1
+
