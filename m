@@ -1,125 +1,99 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
- by mx.groups.io with SMTP id smtpd.web12.18452.1584827475373779115
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+ by mx.groups.io with SMTP id smtpd.web11.18599.1584827873173211759
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Mar 2020 14:51:15 -0700
+ Sat, 21 Mar 2020 14:57:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Hihv0G1h;
- spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f196.google.com with SMTP id b1so5007795pgm.8
-        for <openembedded-core@lists.openembedded.org>; Sat, 21 Mar 2020 14:51:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=U0iIOqpW;
+ spf=pass (domain: gmail.com, ip: 209.85.210.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f195.google.com with SMTP id f206so5338305pfa.10
+        for <openembedded-core@lists.openembedded.org>; Sat, 21 Mar 2020 14:57:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:references:from:message-id:date:user-agent:mime-version
          :in-reply-to:content-language:content-transfer-encoding;
-        bh=vANCRplcWlvHYEs9wZrSM7EdGk2Sycijyx+8u4Kcxyw=;
-        b=Hihv0G1hydVYn+aXe/bgriCe5OtBSSeG3nEe7jvZox3Nk/z0HUhpsG2GvkI09Df6St
-         NpKVqB0g/uD9ex+FwADbqtbTZ7KMdzZHzIWKEsIbgEnm2xuDHHp8QAsbLMtCEeXosf+n
-         cG8eO3I1wTTIeg/uTTyJSKUfcz1StzgFg1e+w/jGqNBcNsmocj04RaZ/wYts91Kog3iw
-         +aNclSskteIQJD8P/vKj7Tylb+74LXZr1cFGf3yzwN/+WjL8BQloXUskFUY+/AOBIvZI
-         Xaq7MjYGIilRwXbQ0oanpApipimp9VRvG3RdbDRnR10fbXC9YJVKepPZLbm9fbIl6o2Z
-         eZ/g==
+        bh=lwAI+BN2ZTb4OjCcoBvyjqwg7Bl7qf8E0XBAAFfwNvU=;
+        b=U0iIOqpW8FAx0/Dr7hf6zJiAvAUUZauq7UJUMpO/NxwIpgxEM2pjc8L1q7fzyzsHwh
+         tWT013V1zWz9NRd7LGOOygyyygJ+fsCYSPmutuCQj+Jj+UhOD6/XHudxZiRfNm914VYg
+         ZaaPcXgr56zK4+sQZMOL324/OR3H3tVf6fdfIAOeejLoKiDV5VmADps4tCf8tQVkb2Z9
+         +e+6f8ujpEgiZAsZshd56TFOKFI63nvXT6xt1488ZxDgdK72PosB6KjACAy8XtVVG/ll
+         hE/jubA6C98sjQBGcNHxdCSrBhZvzhHLwz4AG+7OuQQOBborUon8r+MvGlPm4/kiUXSj
+         +eJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=vANCRplcWlvHYEs9wZrSM7EdGk2Sycijyx+8u4Kcxyw=;
-        b=Z9lHPc8vo1A+F3cDKZZPNeS0wi+lENUR09gJvDtmHrSzMg42Ud4Exsk74TxZnW4b2y
-         Gl+obFBhGjIGFwgy+u1r+NGN5474F++vshc8pxOQqVsUODG9GKCivr/9hTLWQspQtju2
-         KN2w+eR/Rvz9Masz6/Evm5uhuUqocF1nxp0Z1uKpohJCV5avBXexGSnURuHVOis/R1OJ
-         zFRAVa8Jyi5BOg8buE2efoZ4tID/r/OlzJjgwHk5FsEKsMZFzuxF0+NccALi1SNKJYDC
-         Rqcy99nPSlj4d0VJYelgwdK+JJ6JUGZ2YZZNvpsW3bDrGJxm3iljHKt2HaxxqCFoBbQ3
-         38BA==
-X-Gm-Message-State: ANhLgQ0V2KIq3p+cUTrkCdR7iHu3bVsSG7tSptJiPUD+HPsI/AzfIqjM
-	/fcp17dOeBFRwWoEUKM7UcyF1FKf+g4=
-X-Google-Smtp-Source: ADFU+vvK88pOUeDr9r4FpIt4+U0MchrclZ5BXd7Gni+CwEJy0wP6KJFHiG1wPDLFa6uTNlLKFICY+Q==
-X-Received: by 2002:a62:b40b:: with SMTP id h11mr2555752pfn.116.1584827474163;
-        Sat, 21 Mar 2020 14:51:14 -0700 (PDT)
+        bh=lwAI+BN2ZTb4OjCcoBvyjqwg7Bl7qf8E0XBAAFfwNvU=;
+        b=eShgFltBshcvVyFiVg5bJpdCSyWzYdw6EO0iqdYx03Ey5Ou8T7nIbt4lVfvWJcac0Z
+         hP0gz8FvlLzH4tpgrF0rTFb6Wy2f9zWntpuWBUwNXnF3dDtq/RneiQ2A2gSCAhaZYMj9
+         qIIZlAq76u9CX47YNaZbMgnadHF7yeNtVGaSJasrJrX/5qK7LNPwjPsdRfUjXvqTbkql
+         9ahOZrIBtEbRM0yZ44qxtfe62nU3kf75Q1Q/7O3wBXInScEIT3eRs7WHYF8jAxpaFWvT
+         HcEaJYh4i0FIZWR3PuO97zKiJQJ39vX3IwsJd0g4M8Hn5aJVO1JaTS1qsexNs5RBCd5q
+         Ic5A==
+X-Gm-Message-State: ANhLgQ1ti2rvJzG7SLG3eLsKA2jr2TTMcOQnYCjnUlNETDuAHg1bSEbD
+	krjtqzUDjos3E0klOgeMeGnpGMNXQm0=
+X-Google-Smtp-Source: ADFU+vv4QRYZ5Cvi3ppsXAhpCsMkNvZxjvC65LU+omR2QdlT7W6K0SMK5WXvhGkKKMdZVw518sA8qg==
+X-Received: by 2002:a62:cf84:: with SMTP id b126mr16756603pfg.316.1584827872222;
+        Sat, 21 Mar 2020 14:57:52 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0:24a5:af12:d349:bb13? ([2601:646:9200:4e0:24a5:af12:d349:bb13])
-        by smtp.gmail.com with ESMTPSA id n7sm8340950pgm.28.2020.03.21.14.51.13
+        by smtp.gmail.com with ESMTPSA id d4sm9069802pfo.217.2020.03.21.14.57.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 21 Mar 2020 14:51:13 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] nfs-utils: fix do_package error when enable PACKAGECONFIG[nfsv4]
-To: Randy MacLeod <randy.macleod@windriver.com>,
- Yi Zhao <yi.zhao@windriver.com>, openembedded-core@lists.openembedded.org
-References: <20200311033819.15438-1-yi.zhao@windriver.com>
- <b3401922-d841-9e13-6929-a3eb6149bf44@windriver.com>
+        Sat, 21 Mar 2020 14:57:51 -0700 (PDT)
+Subject: Re: [OE-core][PATCH v2 2/2] wayland: Fix wayland-scanner missing from SDK
+To: Tom Hochstein <tom.hochstein@nxp.com>,
+ openembedded-core@lists.openembedded.org
+References: <20200321052650.24220-1-tom.hochstein@nxp.com>
+ <20200321052650.24220-2-tom.hochstein@nxp.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <8df65dd4-03eb-df07-214b-bf802ebae6a5@gmail.com>
-Date: Sat, 21 Mar 2020 14:51:12 -0700
+Message-ID: <1764300b-ff3d-ff62-29ba-47d428734f47@gmail.com>
+Date: Sat, 21 Mar 2020 14:57:51 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
  Gecko/20100101 Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <b3401922-d841-9e13-6929-a3eb6149bf44@windriver.com>
+In-Reply-To: <20200321052650.24220-2-tom.hochstein@nxp.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 3/20/20 8:31 PM, Randy MacLeod wrote:
-> On 2020-03-10 11:38 p.m., Yi Zhao wrote:
->> Fixes:
->> ERROR: nfs-utils-2.4.3-r0 do_package: QA Issue: nfs-utils:
->> Files/directories were installed but not shipped in any package:
->> /usr/lib/libnfsidmap/nsswitch.so
->> /usr/lib/libnfsidmap/static.so
->> Please set FILES such that these items are packaged. Alternatively if
->> they are unneeded, avoid installing them or delete them within 
->> do_install.
->> nfs-utils: 2 installed and not shipped files. [installed-vs-shipped]
->>
->> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
->> ---
->>   meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb | 10 ++++++----
->>   1 file changed, 6 insertions(+), 4 deletions(-)
->>
->> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb 
->> b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
->> index 42a4ba3dbd..9bdb6f4ae4 100644
->> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
->> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
->> @@ -67,9 +67,9 @@ PACKAGECONFIG_remove_libc-musl = "tcp-wrappers"
->>   PACKAGECONFIG[tcp-wrappers] = 
->> "--with-tcp-wrappers,--without-tcp-wrappers,tcp-wrappers"
->>   PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
->>   # libdevmapper is available in meta-oe
+On 3/20/20 10:26 PM, Tom Hochstein wrote:
+> The FILES variable was customized to package wayland-scanner
+> in the -dev package. However, this is only correct for the
+> target package and causes wayland-scanner to be missing from
+> the SDK.
 > 
->> -PACKAGECONFIG[nfsv41] = "--enable-nfsv41,--disable-nfsv41,libdevmapper"
->> -# keyutils is available in meta-security
->> -PACKAGECONFIG[nfsv4] = "--enable-nfsv4,--disable-nfsv4,keyutils"
-> 
->> +PACKAGECONFIG[nfsv41] = 
->> "--enable-nfsv41,--disable-nfsv41,libdevmapper,libdevmapper"
-> 
-> Did you really mean to have libdevmapper twice?
-> If so, why not make it a mandatory DEPENDS?
+> Fix the nativesdk packaging by properly limiting the
+> wayland-scanner -dev packaging to the target.
 > 
 
-One of them is rdep and other is builddep, so it should be fine
-they only trigger when this knob is enabled.
+Perhaps it should be packaged into a separate package like
+wayland-tools or somesuch. It does not belong to -dev package
 
->> +# keyutils is available in meta-oe
->> +PACKAGECONFIG[nfsv4] = 
->> "--enable-nfsv4,--disable-nfsv4,keyutils,python3-core"
+Then perhaps nativesdk-packagegroup-sdk-host.bb should be adjusted to 
+include nativesdk-wayland-tools as well.
+
+> Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+> ---
+>   meta/recipes-graphics/wayland/wayland_1.18.0.bb | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> Why? This change wasn't explained in the long log.
-> 
-> The rest seems fine, v2 please.
-> 
-> ../Randy
-> 
->>   PACKAGES =+ "${PN}-client ${PN}-mount ${PN}-stats"
->> @@ -94,7 +94,9 @@ FILES_${PN}-mount = "${base_sbindir}/*mount.nfs*"
->>   FILES_${PN}-stats = "${sbindir}/mountstats ${sbindir}/nfsiostat"
->>   RDEPENDS_${PN}-stats = "python3-core"
->> -FILES_${PN} += "${systemd_unitdir}"
->> +FILES_${PN}-staticdev += "${libdir}/libnfsidmap/*.a"
->> +
->> +FILES_${PN} += "${systemd_unitdir} ${libdir}/libnfsidmap/"
->>   do_configure_prepend() {
->>           sed -i -e 's,sbindir = /sbin,sbindir = ${base_sbindir},g' \
->>
-> 
+> diff --git a/meta/recipes-graphics/wayland/wayland_1.18.0.bb b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
+> index 00be3aac27..4d110a6e1f 100644
+> --- a/meta/recipes-graphics/wayland/wayland_1.18.0.bb
+> +++ b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
+> @@ -54,8 +54,10 @@ sysroot_stage_all_append_class-target () {
+>   	cp ${STAGING_DATADIR_NATIVE}/aclocal/wayland-scanner.m4 ${SYSROOT_DESTDIR}/${datadir}/aclocal/
+>   }
+>   
+> -FILES_${PN} = "${libdir}/*${SOLIBS}"
+> -FILES_${PN}-dev += "${bindir} ${datadir}/wayland"
+> +# Place wayland-scanner in the -dev package for the target.
+> +# Leave it in the main package for native so it is included
+> +# in the SDK.
+> +FILES_${PN}-dev_append_class-target = " ${bindir} ${datadir}/wayland"
+>   
+>   BBCLASSEXTEND = "native nativesdk"
+>   
 > 
