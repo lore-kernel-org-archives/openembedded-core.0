@@ -1,88 +1,73 @@
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
- by mx.groups.io with SMTP id smtpd.web12.21902.1584839898309837721
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web11.25073.1584860243365815657
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Mar 2020 18:18:18 -0700
+ Sat, 21 Mar 2020 23:57:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qN18NMzt;
- spf=pass (domain: gmail.com, ip: 209.85.219.68, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f68.google.com with SMTP id z13so5312419qvw.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 21 Mar 2020 18:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xXbPzYA4GnyqoLjL2aAl9g9R6TneG9J37UCitk6Ysdc=;
-        b=qN18NMztO43At1g58cxvKfuH5YIniY5tMSKlO/kSUx22Npi8JTEidp3aN8F200ZRZt
-         pNY2Yw4zb9b+IunmcAzB0KQjiCPMyYQrTDC8Mhuu0kYQgbdp9d/aH3MQWivpao0URy2V
-         eWD14H7B5zA5cNIx10QrokNH3wa778egQNYgcbFzweis22J/+qKoD6tyX1J2dBNuvgQC
-         fUKpZ84h9hult2axe1x88m3EU01L2UnFbAhlooi+bn/t2gwisnjqDc7LKiH/NLxxKI5v
-         XDc3+PRZ1mCfN/IGVW+S1ga0sNtVwe8eH70oFR2zTrg/fB+9RfUtoR3lrfrchlygldIK
-         7B1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xXbPzYA4GnyqoLjL2aAl9g9R6TneG9J37UCitk6Ysdc=;
-        b=EOMvDdHtdoK6+uWoJe2F5inDpqaVMwVI5LPBP+u5fZZ1JBjG/1wn6ThCoDp3bwpqqc
-         PjmuRtGBYrpikkltLnNqFFRUqwS4Q6M2XcNY/s4Fu30xhPqzf5srq138B7mAY7zYFafJ
-         4eprVsE6dPKNUU3/qDu4xbnGwsrplIXAaLhZOgEUF7KY9/fkDluYTx0pdJYs0O+Hxb7F
-         sh9KPdraAIbYKbTsNqOd0C03+pqPLqAhBYha/DYeu9WxTyQwNvYUaUeP/TRwJQxWFjRT
-         2oJlbfCnQzZKMACjDQZ8SCrXWYyEvI+jLJrd18ArsvMrU+pL8SwygdUoFOmwXzGPMM+y
-         4i+g==
-X-Gm-Message-State: ANhLgQ2hu3MsXZOvBulf1+rxlvEylw02vK+PCJ3K1igOVvrRFl7YvIky
-	jD2a/V31LG6cd4c9x6NKFA0=
-X-Google-Smtp-Source: ADFU+vu5wwiOVIfzbrcNXDgH2pk5ykL7ZKqVylTe0XORIlF0SxSprWFx6yj6UsRBJs6IhLBl2MDNFA==
-X-Received: by 2002:ad4:420c:: with SMTP id k12mr14823047qvp.39.1584839897451;
-        Sat, 21 Mar 2020 18:18:17 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id q44sm4536614qtq.11.2020.03.21.18.18.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Mar 2020 18:18:16 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] linux-yocto-rt/5.4: update to -rt16
-Date: Sat, 21 Mar 2020 21:18:11 -0400
-Message-Id: <789c899b1058fdd0a9053c68d174c7b4d36802ae.1584839764.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1584839764.git.bruce.ashfield@gmail.com>
-References: <cover.1584839764.git.bruce.ashfield@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: rw40OlWS7hTIb0vb0JzJRFTQKnDiGU2Cbbv+k828pxC1U3NCIEcSBMVmzPN/qhkQWZu3gxDcbL
+ E9FZO70U0nbg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2020 23:57:22 -0700
+IronPort-SDR: cBQ+NayLdIyvVydRPKpZo6/vd3RWYZH5QDP83p3+SS17is+LXf0W3aKD+c2Y7OLXt7O4mNwdrz
+ L7jTdjeG4Bjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,291,1580803200"; 
+   d="scan'208";a="249294263"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by orsmga006.jf.intel.com with ESMTP; 21 Mar 2020 23:57:21 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] wic/direct: reserve 2 sector for extended partition
+Date: Sun, 22 Mar 2020 14:57:20 +0800
+Message-Id: <1584860240-64723-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-Updating the latest v5.4-rt release:
+extended partition should reserve at least 2 unallocated sectors
+between the start of the extended partition and the start of a
+logical partition.
 
-   2659f7a7212c v5.4.26-rt16
-   60c22c68d486 v5.4.24-rt15
-   efa03618228 mm: Warn on memory allocation in non-preemptible context on RT
-   908775cdf21e v5.4.24-rt14
-   b4edc32e2e46 v5.4.22-rt13
-   49a5b8ead027 tracing: make preempt_lazy and migrate_disable counter smaller
-   8f2ed8895c0c drm/vmwgfx: Drop preempt_disable() in vmw_fifo_ping_host()
-   b558bcd37e5d bpf: Update the "bpf: Make BPF and PREEMPT_RT co-exist" series
-   d197132b1dd5 v5.4.22-rt12
+[YOCTO #13658]
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/wic/plugins/imager/direct.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-index a02a4a14ed..446eae2be6 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index c50645f..2d06c24 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -403,7 +403,7 @@ class PartitionedImage():
+                 # Reserve a sector for EBR for every logical partition
+                 # before alignment is performed.
+                 if part.type == 'logical':
+-                    self.offset += 1
++                    self.offset += 2
  
--SRCREV_machine ?= "8908d882dee239b858bd3b42f0c951a35220efb1"
-+SRCREV_machine ?= "2659f7a7212cd80e2b69b2e5e8ceec8bcffec6aa"
- SRCREV_meta ?= "9fe365b9395a05831177ec309e9857962b2496a9"
+             align_sectors = 0
+             if part.align:
+@@ -446,7 +446,7 @@ class PartitionedImage():
+                         self.extendedpart = part.num
+                     else:
+                         self.extended_size_sec += align_sectors
+-                    self.extended_size_sec += part.size_sec + 1
++                    self.extended_size_sec += part.size_sec + 2
+                 else:
+                     self.primary_part_num += 1
+                     part.num = self.primary_part_num
+@@ -512,7 +512,7 @@ class PartitionedImage():
+                 # add a sector at the back, so that there is enough
+                 # room for all logical partitions.
+                 self._create_partition(self.path, "extended",
+-                                       None, part.start - 1,
++                                       None, part.start - 2,
+                                        self.extended_size_sec)
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+             if part.fstype == "swap":
 -- 
-2.19.1
+2.7.4
 
