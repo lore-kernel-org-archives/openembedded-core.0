@@ -1,54 +1,83 @@
-Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
- by mx.groups.io with SMTP id smtpd.web10.58313.1584983200510991623
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.300.1584983849664982402
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2020 10:06:40 -0700
+ Mon, 23 Mar 2020 10:17:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:50174 helo=localhost.localdomain)
-	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jGQX9-00789w-6D; Mon, 23 Mar 2020 13:06:39 -0400
-Date: Mon, 23 Mar 2020 13:06:37 -0400 (EDT)
-From: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Adrian Bunk <bunk@stusta.de>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] wanting to clarify variables related to using host tools
-In-Reply-To: <20200323170422.GA10964@localhost>
-Message-ID: <alpine.LFD.2.21.2003231306070.43469@localhost.localdomain>
-References: <alpine.LFD.2.21.2003231207540.20339@localhost.localdomain> <20200323170422.GA10964@localhost>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CW1KpNhP;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id b12so230417wmj.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2020 10:17:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IcZJmBhHDpH5MbfKw4T4ix8Kq/WRNW0TcPl+KMjUHIU=;
+        b=CW1KpNhPreNS7eynDY4VDLQeD/pjW+pXQrL3QbBG8rRujElv6kab/pLOpdPTpQBJkP
+         eSeOYNouWo/n5qu/5YAc+jEOyJEsu1rp/U1maySzHQysmSVmYsr6/Ic35XTs/nA3avk6
+         9rk3/bWZGcoMvVZd6ZUD18HoQgryajsnsjDMA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=IcZJmBhHDpH5MbfKw4T4ix8Kq/WRNW0TcPl+KMjUHIU=;
+        b=Jjqm9jymey0MR+mHIGzssjPHMErCvX+fThv3YMkmXF+olwtpZffR0wZoM0VAqEX+ns
+         hO5GzwhXhzqtYfwhT+3rX5kz7nvu5usfTpsnQRQ0GX+HVXxjTcm0/LLp0MVEoO8jreyf
+         R+lnRYI3iP0c8vEXH2RZobYWhVL59hoDNbF8UKoHtXta39o9rzwPN3k5Bn89ARFPTcga
+         VfK/VrPL6ke5KOguHgSx/3cPhoJYQaMJWTI74czqJWTedT1u10Ph4XoAinUpbI9XLHzE
+         bNMpRw3MBl86CjVG2M/7nQ8tbOtKtIJKnO2+EMn/J7EuHpmVmDogp8NFYq27kNAAnj1t
+         tenw==
+X-Gm-Message-State: ANhLgQ2kvYQGQ9NWTTL3f7Om9Z3M+uFUWwv7Qvx8nx53YC+/Vn7cCXzc
+	95t5Omh7c6l6k+EWtxwOZpNblS97B0Y=
+X-Google-Smtp-Source: ADFU+vtWZbgBr2W7v4HBeBgGlTP2nT4KTbNHAX1kW37B8mhjQWE1aNowuFvvfOYaCoMNQeYAibBHDA==
+X-Received: by 2002:a1c:2701:: with SMTP id n1mr317274wmn.180.1584983846978;
+        Mon, 23 Mar 2020 10:17:26 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id l8sm313896wmj.2.2020.03.23.10.17.25
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Mar 2020 10:17:26 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] oeqa/selftest/tinfoil: Drop test for functionality removed upstream
+Date: Mon, 23 Mar 2020 17:17:24 +0000
+Message-Id: <20200323171725.435004-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-On Mon, 23 Mar 2020, Adrian Bunk wrote:
+bitbake dropped support for this piece of functionality (the test was
+the only user), drop the test too.
 
-> On Mon, Mar 23, 2020 at 12:26:04PM -0400, rpjday@crashcourse.ca wrote:
-> >...
-> >   in that case, i notice this line from bitbake.conf regarding
-> > ASSUME_PROVIDED:
-> >
-> >   # gzip-native should be listed above?
-> >
-> > which seems like a reasonable question since both gzip and gunzip are
-> > listed in HOSTTOOLS, so why would gzip-native *not* be in
-> > ASSUME_PROVIDED?
-> >...
->
-> meta/conf/distro/include/default-providers.inc:
-> PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/tinfoil.py | 13 -------------
+ 1 file changed, 13 deletions(-)
 
-  ah, thanks, must remember to take that file into account.
+diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
+index 42a1b6b4f4d..d1aa7b9afdc 100644
+--- a/meta/lib/oeqa/selftest/cases/tinfoil.py
++++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
+@@ -65,19 +65,6 @@ class TinfoilTests(OESelftestTestCase):
+             localdata.setVar('PN', 'hello')
+             self.assertEqual('hello', localdata.getVar('BPN'))
+ 
+-    def test_parse_recipe_initial_datastore(self):
+-        with bb.tinfoil.Tinfoil() as tinfoil:
+-            tinfoil.prepare(config_only=False, quiet=2)
+-            testrecipe = 'mdadm'
+-            best = tinfoil.find_best_provider(testrecipe)
+-            if not best:
+-                self.fail('Unable to find recipe providing %s' % testrecipe)
+-            dcopy = bb.data.createCopy(tinfoil.config_data)
+-            dcopy.setVar('MYVARIABLE', 'somevalue')
+-            rd = tinfoil.parse_recipe_file(best[3], config_data=dcopy)
+-            # Check we can get variable values
+-            self.assertEqual('somevalue', rd.getVar('MYVARIABLE'))
+-
+     def test_list_recipes(self):
+         with bb.tinfoil.Tinfoil() as tinfoil:
+             tinfoil.prepare(config_only=False, quiet=2)
+-- 
+2.25.1
 
-rday
