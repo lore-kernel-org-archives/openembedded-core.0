@@ -1,51 +1,53 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.455.1584992171547751981
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web10.448.1584998905760051702
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2020 12:36:11 -0700
+ Mon, 23 Mar 2020 14:28:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: ssajal@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: ssajal@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02NJZeLT000462
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 02NLSPsV003488
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2020 12:36:00 -0700
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2020 14:28:25 -0700 (PDT)
 Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Mon, 23 Mar 2020
- 12:35:37 -0700
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 20885)	id C4B0A900563;
- Mon, 23 Mar 2020 12:35:37 -0700 (PDT)
+ 14:28:24 -0700
+Received: by ala-lpggp3.wrs.com (Postfix, from userid 20885)	id EA8AB900563;
+ Mon, 23 Mar 2020 14:28:24 -0700 (PDT)
 From: "Sakib Sajal" <sakib.sajal@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 Subject: [PATCH] libpng: Fix CVE-2019-6129
-Date: Mon, 23 Mar 2020 12:35:27 -0700
-Message-ID: <20200323193527.107633-1-sakib.sajal@windriver.com>
+Date: Mon, 23 Mar 2020 14:28:23 -0700
+Message-ID: <20200323212823.104190-1-sakib.sajal@windriver.com>
 X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Fix of memory leak in png_create_info_struct.
+Fix memory leak in png_create_info_struct.
 
 Upstream-Status: Submitted [https://github.com/glennrp/libpng/pull/293]
 CVE: CVE-2019-6129
 
 Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 ---
- .../libpng/0001-Repair-of-CVE-2019-6129.patch | 25 +++++++++++++++++++
+ .../libpng/0001-Repair-of-CVE-2019-6129.patch | 27 +++++++++++++++++++
  .../libpng/libpng_1.6.37.bb                   |  5 +++-
- 2 files changed, 29 insertions(+), 1 deletion(-)
+ 2 files changed, 31 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-multimedia/libpng/libpng/0001-Repair-of-CVE-2019-6129.patch
 
 diff --git a/meta/recipes-multimedia/libpng/libpng/0001-Repair-of-CVE-2019-6129.patch b/meta/recipes-multimedia/libpng/libpng/0001-Repair-of-CVE-2019-6129.patch
 new file mode 100644
-index 0000000000..9adc5b1bb5
+index 0000000000..1bb2da1984
 --- /dev/null
 +++ b/meta/recipes-multimedia/libpng/libpng/0001-Repair-of-CVE-2019-6129.patch
-@@ -0,0 +1,25 @@
-+From a0ca4293454ef65e67efca5dc440c601d2835e90 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,27 @@
++From ed73b082d0296c6181f2ac11e8dd78e8f7c6d66b Mon Sep 17 00:00:00 2001
 +From: tangyaofang <tangyaofang6666@163.com>
 +Date: Mon, 10 Jun 2019 11:30:15 +0800
 +Subject: [PATCH] Repair of CVE-2019-6129
 +
++CVE: CVE-2019-6129
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
 +---
 + contrib/tools/pngcp.c | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
