@@ -1,21 +1,24 @@
 Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
- by mx.groups.io with SMTP id smtpd.web12.56807.1584980766620335860
+ by mx.groups.io with SMTP id smtpd.web11.56934.1584980896078850769
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2020 09:26:06 -0700
+ Mon, 23 Mar 2020 09:28:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:49806 helo=localhost.localdomain)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:49810 helo=localhost.localdomain)
 	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jGPts-0072gt-RT
-	for openembedded-core@lists.openembedded.org; Mon, 23 Mar 2020 12:26:05 -0400
-Date: Mon, 23 Mar 2020 12:26:04 -0400 (EDT)
+	id 1jGPvy-0072yg-D2; Mon, 23 Mar 2020 12:28:15 -0400
+Date: Mon, 23 Mar 2020 12:28:12 -0400 (EDT)
 From: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: wanting to clarify variables related to using host tools
-Message-ID: <alpine.LFD.2.21.2003231207540.20339@localhost.localdomain>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] what is the current purpose of PRIORITY variable?
+In-Reply-To: <534b0df5f09c60381ed520ff3f840a1b315d3142.camel@linuxfoundation.org>
+Message-ID: <alpine.LFD.2.21.2003231227180.20763@localhost.localdomain>
+References: <alpine.LFD.2.21.2003230924440.14394@localhost.localdomain>  <89ed530a5dc904f8ea677e2633f3732b59b3bbc8.camel@linuxfoundation.org>  <alpine.LFD.2.21.2003231206180.20339@localhost.localdomain>
+ <534b0df5f09c60381ed520ff3f840a1b315d3142.camel@linuxfoundation.org>
 MIME-Version: 1.0
 X-OutGoing-Spam-Status: No, score=-1.0
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
@@ -30,81 +33,61 @@ X-Source-Args:
 X-Source-Dir: 
 Content-Type: text/plain; charset=US-ASCII
 
+On Mon, 23 Mar 2020, Richard Purdie wrote:
 
-  (given some spare time these days, i'm trying to clean up some docs,
-so yet another question regarding some OE variables.)
+> On Mon, 2020-03-23 at 12:06 -0400, Robert P. J. Day wrote:
+> > On Mon, 23 Mar 2020, Richard Purdie wrote:
+> >
+> > > On Mon, 2020-03-23 at 09:28 -0400, rpjday@crashcourse.ca wrote:
+> > > >   continuing my travels, ran across "PRIORITY" variable that i
+> > > > was
+> > > > not
+> > > > aware of, was introduced in bitbake.conf way back in 2005 in
+> > > > oelint.bbclass, but there are only a few lonely references to it
+> > > > these days:
+> > > >
+> > > > meta/conf/documentation.conf:PRIORITY[doc] = "Indicates the
+> > > > importance
+> > > > of a package.  The default value is 'optional'.  Other standard
+> > > > values
+> > > > are 'required', 'standard' and 'extra'."
+> > > >
+> > > > meta/conf/bitbake.conf:PRIORITY = "optional"
+> > > >
+> > > > meta/classes/package_ipk.bbclass:        fields.append(["Priority
+> > > > :
+> > > > %s\n", ['PRIORITY']])
+> > > >
+> > > > meta/classes/package_ipk.bbclass:IPKEXTRAVARS = "PRIORITY
+> > > > MAINTAINER
+> > > > PACKAGE_ARCH HOMEPAGE"
+> > > >
+> > > > meta/classes/package_deb.bbclass:        fields.append(["Priority
+> > > > :
+> > > > %s\n", ['PRIORITY']])
+> > > >
+> > > > meta/classes/package_deb.bbclass:do_package_write_deb[vardeps] +=
+> > > > "PKGV PKGR PKGV DESCRIPTION SECTION PRIORITY MAINTAINER DPKG_ARCH
+> > > > PN
+> > > > HOMEPAGE"
+> > > >
+> > > >   is this doing anything useful these days?
+> > >
+> > > Not really, no.
+> >
+> >   any objection to my submitting a patch to remove it?
+>
+> I'm torn on that. The Priority field is a standard part of a debian
+> package (
+> https://www.debian.org/doc/manuals/debian-faq/ch-pkg_basics.en.html#s-priority
+> ) and also part of opkg's implementation.
+>
+> We don't use it, I'm not sure that means we should remove the code
+> which would allow someone to though.
+>
+> I also don't know if dpkg/apt supports an unset value for it.
 
-  i'm trying to organize OE variables into related sub-categories, and
-there are a few related to using host tools i can see:
-
-  ASSUME_PROVIDED
-  HOSTTOOLS
-  HOSTTOOLS_DIR
-  HOSTTOOLS_NONFATAL
-
-here's how i read it.
-
-  first, ASSUME_PROVIDED (set initially in bitbake.conf) defines
-simply those recipes that will not be built if required, as in:
-
-  ASSUME_PROVIDED = "\
-    bzip2-native \
-    chrpath-native \
-    file-native \
-    findutils-native \
-    gawk-native \
-    git-native \
-    grep-native \
-    ... etc etc ...
-
-now, AIUI, that variable says nothing about whether those
-corresponding tools are actually *available* on the build system, only
-that those recipes will not be built, is that correct?
-
-  related to that (also in bitbake.conf), we have HOSTTOOLS which
-(again, AIUI) reflects commands that *must* be on the host system:
-
-# Tools needed to run builds with OE-Core
-HOSTTOOLS += " \
-    [ ar as awk basename bash bzip2 cat chgrp chmod chown chrpath cmp comm cp cpio \
-    cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
-    fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
-    head hostname iconv id install ld ldd ln ls make md5sum mkdir mknod \
-    mktemp mv nm objcopy objdump od patch perl pr printf pwd \
-    python3 ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh \
-    sha1sum sha224sum sha256sum sha384sum sha512sum \
-    sleep sort split stat strings strip tail tar tee test touch tr true uname \
-    uniq wc wget which xargs \
-"
-
-any one of whose absence triggers an error based on this from
-base.bbclass:
-
-    ... snip ...
-    if notfound and fatal:
-        bb.fatal("The following required tools (as specified by
-HOSTTOOLS) appear to be unavailable in PATH, please install them in
-order to proceed:\n  %s" % " ".join(notfound))
-
-  this suggests a strong correspondence between those two variables --
-ASSUME_PROVIDED lists what will not be built (natively), while
-HOSTTOOLS should then list the host tools that correspond to pretty
-much the very host tools that those recipes would provide. IOW, adding
-another native recipe to ASSUME_PROVIDED should require its
-corresponding membership in HOSTTOOLS to make up for it not being
-built (and vice versa).
-
-  in that case, i notice this line from bitbake.conf regarding
-ASSUME_PROVIDED:
-
-  # gzip-native should be listed above?
-
-which seems like a reasonable question since both gzip and gunzip are
-listed in HOSTTOOLS, so why would gzip-native *not* be in
-ASSUME_PROVIDED? (and possibly some others, as long as i am reading
-this correctly.)
-
-  just trying to clarify that those two variables should stay
-reasonably in sync.
+  ok, i'll pass on that and move on, there's plenty of other stuff to
+work on.
 
 rday
