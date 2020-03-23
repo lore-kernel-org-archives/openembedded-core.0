@@ -1,100 +1,87 @@
-Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
- by mx.groups.io with SMTP id smtpd.web11.50656.1584964720864854522
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+ by mx.groups.io with SMTP id smtpd.web10.51215.1584965951609962192
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2020 04:58:41 -0700
+ Mon, 23 Mar 2020 05:19:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=WhTlg21E;
- spf=pass (domain: linaro.org, ip: 209.85.219.176, mailfrom: nicolas.dechesne@linaro.org)
-Received: by mail-yb1-f176.google.com with SMTP id x63so6916463ybx.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2020 04:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=1jFEcE5IrdkFCUEAN4hBvQnwwTh3aNn7cX6HwuubK3o=;
-        b=WhTlg21E1q/zemMpZqs1CxyC4Z5h1FAX/yaiocyU84osZV6UAS+FjilwmhGl/d5bd+
-         /NUtBfs4ADM8Z8C0o03thpDDZOtMZ8JZUnRsIMtODyg9gE44caQWEjPC0pX246t9Iqoc
-         1XE0dRPE5YY4nktEkDRH2skuSoqZflJ0mWrQGDlMYOyEQpVSDiT2X1Nu7QLPvSCWkfuH
-         YQAi1IEpxI7G0RmkwyQBNMwQIntMDESWEBcN3RqvG2y4tIB3D1nQ/sd39xCeInmBKwxx
-         XhUOn3lUL/AbKOewgLYAqwrWKJxQDiNNLwxg21+TjeY4/3otRVSEIEmeTp5PdYY+Nwps
-         acDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=1jFEcE5IrdkFCUEAN4hBvQnwwTh3aNn7cX6HwuubK3o=;
-        b=aFUtNMk8vLsepfolvtxYvwQjnWiJZ1HGQKy8Gq6U7Y19Tts/t8TPQl3tgIs2hlC6Uf
-         p7VVQlrtfxZu365uRL4pKOQXKCXAUKTOBQH4C6FqpX/0d0LBvYPqvYMOeght88hQJFtk
-         aOWIumS5T935Yf4JANkpmwFJGtkVhhl0aLujaBXEjn1zJOQuHJZiZd9AuxcB8witvswd
-         X9JhdTXz2NPslJAwemrCE25rCco2+CjWsY6zdkaFhDS4/dJukMrdfLtyeZ3t6/cO1+k7
-         /46bByFr0DRpihGWGNvjoI/5sc/xLGMtupuyz/ZxzAQg5GEXBe/6cLLNOEvA8WEN8H65
-         HauA==
-X-Gm-Message-State: ANhLgQ2lQwt/6N0ykU5SsduujgMA+23lurntcAfFqOowHRubyVtZ+bQP
-	jQ8VCYXuHBPChoOpY6WYyXbercktikSgQmHrVpDNYw==
-X-Google-Smtp-Source: ADFU+vuYDJqkHov9bPciG/OixiW6kXZ+wxeuFR9ujyN+cbPzg0rXkC4LBFoX2wsYRGLNnhia2kU5pybITywWwXgxJHU=
-X-Received: by 2002:a5b:9d1:: with SMTP id y17mr34240175ybq.133.1584964719763;
- Mon, 23 Mar 2020 04:58:39 -0700 (PDT)
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:48368 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jGM2w-006Rr9-71
+	for openembedded-core@lists.openembedded.org; Mon, 23 Mar 2020 08:19:10 -0400
+Date: Mon, 23 Mar 2020 08:19:06 -0400 (EDT)
+From: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: safe to get rid of refs to CVSDIR, SVNDIR, GITDIR?
+Message-ID: <alpine.LFD.2.21.2003230814250.10783@localhost.localdomain>
 MIME-Version: 1.0
-From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
-Date: Mon, 23 Mar 2020 12:58:28 +0100
-Message-ID: <CAP71WjxA6Z=OFBF_Dhp=jjjqXseGvHyzJURdZ8k0H4=2=a2omQ@mail.gmail.com>
-Subject: Community stats dashboard
-To: yocto@lists.yoctoproject.org, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	openembedded-devel <openembedded-devel@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000001a797f05a1845bc6"
-
---0000000000001a797f05a1845bc6
-Content-Type: text/plain; charset="UTF-8"
-
-hi there,
-
-we have put in place a dashboard that shows our community engagement and
-stats. We are using a service from Bitergia for that, and they are using
-open source tools from the LF CHAOSS project [1].
-
-The dashboard is publicly available at [2]. Feel free to have a look at the
-data, the tool is doing its best to map users' identities (email, git,
-bugzilla, ...). It also tries to map when possible users with their
-respective company/employer, so that gives everyone a map of who
-contributes and participate to the project.
-
-If you have any questions or issues with the tool, please let me know.  If
-any mailing list or git tree is missing and you would like it to be added,
-let me know and I will do it.
-
-If you want to update your data on the dashboard such as typo, or if you
-want to show (or update, or hide) your employer affiliation, or if you want
-to anonymise your data on the public dashboard, please reach out to me as
-well.
-
-cheers
-nicolas
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
 
-[1] https://chaoss.community/
-[2] https://yoctoproject.biterg.io
+  cleaning up docs, and just noticed this from several months back:
 
---0000000000001a797f05a1845bc6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+commit 4ff058226cfc3e7d5bf9a873d1de4475f65ef2f2
+Author: Andre McCurdy <armccurdy@gmail.com>
+Date:   Fri Aug 23 13:51:32 2019 -0700
 
-<div dir=3D"ltr"><div>hi there,</div><div><br></div><div>we have put in pla=
-ce a dashboard that shows our community engagement and stats. We are using =
-a service from Bitergia for that, and they are using open source tools from=
- the LF CHAOSS project [1].</div><div><br></div><div>The dashboard is publi=
-cly available at [2]. Feel free to have a look at the data, the tool is doi=
-ng its best to map users&#39; identities (email, git, bugzilla, ...). It al=
-so tries to map when possible users with their respective company/employer,=
- so that gives everyone a map of who contributes and participate to the pro=
-ject.</div><div><br></div><div>If you have any questions or issues with the=
- tool, please let me know.=C2=A0 If any mailing list or git tree is missing=
- and you would like it to be added, let me know and I will do it.</div><div=
-><br></div><div>If you want to update your data on the dashboard such as ty=
-po, or if you want to show (or update, or hide) your employer affiliation, =
-or if you want to anonymise your data on the public dashboard, please reach=
- out to me as well.</div><div><br></div><div>cheers</div><div>nicolas<br></=
-div><div><br></div><div><br></div><div>[1] <a href=3D"https://chaoss.commun=
-ity/" target=3D"_blank">https://chaoss.community/</a></div><div>[2] <a href=
-=3D"https://yoctoproject.biterg.io" target=3D"_blank">https://yoctoproject.=
-biterg.io</a></div></div>
+    bitbake.conf: drop FETCHCMD, GITDIR, etc fetcher over-rides
 
---0000000000001a797f05a1845bc6--
+    This completes cleanup originally proposed in 2012:
+
+
+http://lists.openembedded.org/pipermail/openembedded-core/2012-July/064224.html
+
+    Current versions of bitbake have "sane" default fetcher commands
+    so it's no longer necessary for bitbake.conf to over-ride them.
+
+    Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+    Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 1311e6b5fd..a0a7f4911e 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -360,12 +360,6 @@ CACHE = "${TMPDIR}/cache${@['', '/' +
+str(d.getVar('MACHINE'))][bool(d.getVar('M
+ # The persistent cache should be shared by all builds
+ PERSISTENT_DIR = "${TOPDIR}/cache"
+ LOG_DIR = "${TMPDIR}/log"
+-CO_DIR = "${DL_DIR}"
+-CVSDIR = "${CO_DIR}/cvs"
+-SVNDIR = "${CO_DIR}/svn"
+-GITDIR = "${CO_DIR}/git2"
+-BZRDIR = "${CO_DIR}/bzr"
+-HGDIR = "${CO_DIR}/hg"
+
+
+  so is it safe to remove the remnants of references to those
+variables? all that's left is [doc] references to CVSDIR, SVNDIR and
+GITDIR, and this from meta/lib/oe/recipeutils.py:
+
+  def get_recipe_upgrade_status(recipes=None):
+      pkgs_list = []
+      data_copy_list = []
+      copy_vars = ('SRC_URI',
+                 'PV',
+                 'GITDIR',       <---
+                 'DL_DIR',
+                 'PN',
+                 'CACHE',
+
+all of that safe to delete? any others that can go with it? (i didn't
+notice any.)
+
+rday
