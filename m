@@ -1,57 +1,54 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web11.57968.1584983070158098167
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+ by mx.groups.io with SMTP id smtpd.web10.58313.1584983200510991623
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2020 10:04:35 -0700
+ Mon, 23 Mar 2020 10:06:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=qkHNMt5s;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=wdyw=5i=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48mLMX3l40z4J;
-	Mon, 23 Mar 2020 18:04:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1584983065;
-	bh=D6zF5GpRbWK5EhwbIKxESEnbjHydSoSUijG3yE/VGMM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qkHNMt5scJLUUDj4ray4RSWxGILwf8pY0PLo8IO2Q9vRLexmyC2IVGc6YeRB94vlP
-	 d6pW/OtvWp6C7oKtcp01kHTvNyd4/SnM7Xzt//avwWVYSrs0OAj/lRwDCdEF8Za4Nv
-	 B5PuK+CAf5fAaCrbWDbjoyN+jJQcwKR9kUYospWKy4fZzG07wexoA+2ld56wHHWOCb
-	 GI6IPziAgP9w9oX4Zm7d3MUdMYZBZEBr4t3/NWTn4UZH2xYqzeapQjtQ1KJ42iKCHc
-	 BURaNDwZUykBSYDghLv9Nb1YUenMaYQ15cne969dG7GVz94Fxu8z+MZVEwT/i52I+V
-	 94FOSEllBfoywtV81y/edPI5ZMocnGQK4GbIoSeRdu+h+f4ejTGe2eSGVWrriAPgI5
-	 oAGNt4ORJe1hvigzVuh4NDBUIxVpfLxsU3Hq+Fr8UJoPlNU3k1E3mfWWXXFNK3xNh0
-	 xhA+NOgCvHHJKIJrvaAQBCN7f0ucM447DZrFYzT1vkU1j5LpfvzuBr53Nu1+YvL/eb
-	 lt1D6UAo+/SvgbHXlJbrEjCxak+PmEjbd4v9xUOHR6Men8dKTdbz/0d4c5RZzTbXMH
-	 BzC1QsWwM5em9KYJCM+QYb2URy6U3kpRjEpCXDYGZXfKS+KMvBKkkPeakNr+3/b6Lh
-	 mzFXmC82jEppyEXB8Azu7cKA=
-Date: Mon, 23 Mar 2020 19:04:22 +0200
-From: "Adrian Bunk" <bunk@stusta.de>
-To: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:50174 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jGQX9-00789w-6D; Mon, 23 Mar 2020 13:06:39 -0400
+Date: Mon, 23 Mar 2020 13:06:37 -0400 (EDT)
+From: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Adrian Bunk <bunk@stusta.de>
+cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] wanting to clarify variables related to using host tools
-Message-ID: <20200323170422.GA10964@localhost>
-References: <alpine.LFD.2.21.2003231207540.20339@localhost.localdomain>
+In-Reply-To: <20200323170422.GA10964@localhost>
+Message-ID: <alpine.LFD.2.21.2003231306070.43469@localhost.localdomain>
+References: <alpine.LFD.2.21.2003231207540.20339@localhost.localdomain> <20200323170422.GA10964@localhost>
 MIME-Version: 1.0
-In-Reply-To: <alpine.LFD.2.21.2003231207540.20339@localhost.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-On Mon, Mar 23, 2020 at 12:26:04PM -0400, rpjday@crashcourse.ca wrote:
->...
->   in that case, i notice this line from bitbake.conf regarding
-> ASSUME_PROVIDED:
-> 
->   # gzip-native should be listed above?
-> 
-> which seems like a reasonable question since both gzip and gunzip are
-> listed in HOSTTOOLS, so why would gzip-native *not* be in
-> ASSUME_PROVIDED?
->...
+On Mon, 23 Mar 2020, Adrian Bunk wrote:
 
-meta/conf/distro/include/default-providers.inc:
-PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
+> On Mon, Mar 23, 2020 at 12:26:04PM -0400, rpjday@crashcourse.ca wrote:
+> >...
+> >   in that case, i notice this line from bitbake.conf regarding
+> > ASSUME_PROVIDED:
+> >
+> >   # gzip-native should be listed above?
+> >
+> > which seems like a reasonable question since both gzip and gunzip are
+> > listed in HOSTTOOLS, so why would gzip-native *not* be in
+> > ASSUME_PROVIDED?
+> >...
+>
+> meta/conf/distro/include/default-providers.inc:
+> PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
 
-> rday
+  ah, thanks, must remember to take that file into account.
 
-cu
-Adrian
+rday
