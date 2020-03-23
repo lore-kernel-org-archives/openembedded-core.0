@@ -1,107 +1,92 @@
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
- by mx.groups.io with SMTP id smtpd.web11.47636.1584948039581569611
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.47998.1584950620069856333
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Mar 2020 00:20:39 -0700
+ Mon, 23 Mar 2020 01:03:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: QbiDY3xrX8P2+tqsw3v89wAxHwvCYBVxuCdb68bXx98Yp3Tj13MAWfoKl+aLQ8Sdy8WXE1OuGh
- ArF59P5GtRhg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Mar 2020 00:20:37 -0700
-IronPort-SDR: O8QAakX2GDSCTqDWwLcFs8aoUO5PJvtio5MFm6ADsTb4OHUElJUFE7sci8ZYP2O3uwx1cRlKMc
- OBBoCXY/3akg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,295,1580803200"; 
-   d="scan'208";a="325487382"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by orsmga001.jf.intel.com with ESMTP; 23 Mar 2020 00:20:36 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] qemu/slirp: fix CVE-2020-7211
-Date: Mon, 23 Mar 2020 15:20:35 +0800
-Message-Id: <1584948035-7484-1-git-send-email-chee.yang.lee@intel.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02N83JRc013424
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Mar 2020 01:03:29 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 23 Mar 2020 01:03:08 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] sysklogd: fix one parallel build error
+Date: Mon, 23 Mar 2020 16:03:07 +0800
+Message-ID: <1584950587-371159-1-git-send-email-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-fix CVE-2020-7211 for qemu slirp submodule
-see :
-https://www.openwall.com/lists/oss-security/2020/01/17/2
-https://gitlab.freedesktop.org/slirp/libslirp/commit/14ec36e107a8c9af7d0a80c3571fe39b291ff1d4
-
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc                |  1 +
- .../recipes-devtools/qemu/qemu/CVE-2020-7211.patch | 46 ++++++++++++++++++++++
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch
+ ...-rarely-reproduced-parallel-build-problem.patch | 40 ++++++++++++++++++++++
+ meta/recipes-extended/sysklogd/sysklogd.inc        |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 7cf4367..f62220a 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -34,6 +34,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-7039-2.patch \
-            file://CVE-2020-7039-3.patch \
-            file://0001-Add-enable-disable-udev.patch \
-+	   file://CVE-2020-7211.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch
+diff --git a/meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch b/meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch
 new file mode 100644
-index 0000000..11be4c9
+index 0000000..334577a
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch
-@@ -0,0 +1,46 @@
-+From 14ec36e107a8c9af7d0a80c3571fe39b291ff1d4 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Mon, 13 Jan 2020 17:44:31 +0530
-+Subject: [PATCH] slirp: tftp: restrict relative path access
++++ b/meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch
+@@ -0,0 +1,40 @@
++From dcaa75391ff267c38e776d48c579cdb734b91af3 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Mon, 23 Mar 2020 15:52:32 +0800
++Subject: [PATCH] fix one rarely reproduced parallel build problem
 +
-+tftp restricts relative or directory path access on Linux systems.
-+Apply same restrictions on Windows systems too. It helps to avoid
-+directory traversal issue.
++fix for this issue:
++https://github.com/troglobit/sysklogd/issues/17
 +
-+Fixes: https://bugs.launchpad.net/qemu/+bug/1812451
-+Reported-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-+Message-Id: <20200113121431.156708-1-ppandit@redhat.com>
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/slirp/libslirp/-/commit/14ec36e107a8c9af7d0a80c3571fe39b291ff1d4.patch]
-+CVE: CVE-2020-7211
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++Upstream-Status: Backport
++[https://github.com/troglobit/sysklogd/commit/b88e21d1770a262f0e5d0f6b84f0abd4a5de55b7]
 +
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +---
-+ slirp/src/tftp.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
++ src/Makefile.am | 10 ++++++++++
++ 1 file changed, 10 insertions(+)
 +
-+diff --git a/slirp/src/tftp.c b/slirp/src/tftp.c
-+index 093c2e0..e52e71b 100644
-+--- a/slirp/src/tftp.c
-++++ b/slirp/src/tftp.c
-+@@ -344,8 +344,13 @@ static void tftp_handle_rrq(Slirp *slirp, struct sockaddr_storage *srcsas,
-+     k += 6; /* skipping octet */
-+ 
-+     /* do sanity checks on the filename */
-+-    if (!strncmp(req_fname, "../", 3) ||
-+-        req_fname[strlen(req_fname) - 1] == '/' || strstr(req_fname, "/../")) {
-++    if (
-++#ifdef G_OS_WIN32
-++        strstr(req_fname, "..\\") ||
-++        req_fname[strlen(req_fname) - 1] == '\\' ||
-++#endif
-++        strstr(req_fname, "../") ||
-++        req_fname[strlen(req_fname) - 1] == '/') {
-+         tftp_send_error(spt, 2, "Access violation", tp);
-+         return;
-+     }
++diff --git a/src/Makefile.am b/src/Makefile.am
++index 993dbfd..06b706d 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -56,3 +56,13 @@ libsyslog_la_SOURCES  = syslog.c syslog.h compat.h
++ libsyslog_la_CPPFLAGS = $(AM_CPPFLAGS) -D_XOPEN_SOURCE=600
++ libsyslog_la_LDFLAGS  = $(AM_LDFLAGS) -version-info 0:0:0
++ libsyslog_la_LIBADD   = $(LTLIBOBJS)
+++
+++# Both libsyslog_la and syslogd/logger requires objects like lib/pidfile.o, for
+++# # libsyslog_la, the objects should be compiled with -fPIC, but for
+++# # syslogd/logger, it doesn't need -fPIC, so there is a race issue when the two
+++# # different lib/pidfile.o are compiled at the same time, which would cause errors like:
+++# # ld: syslogd-syslogd.o: in function `main':
+++# # syslogd.c:417: undefined reference to `__pidfile'
+++# #
+++# # Make LIBOBJS depend on LTLIBOBJS to fix the problem.
+++# $(LIBOBJS): $(LTLIBOBJS)
 +-- 
-+2.24.1
++2.7.4
 +
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index 2e3d983..8899daa 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -12,6 +12,7 @@ inherit update-rc.d update-alternatives systemd autotools
+ 
+ SRC_URI = "git://github.com/troglobit/sysklogd.git;nobranch=1 \
+            file://sysklogd \
++           file://0001-fix-one-rarely-reproduced-parallel-build-problem.patch \
+            "
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.7.4
 
