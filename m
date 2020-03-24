@@ -1,81 +1,94 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web10.454.1585090662424532217
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+ by mx.groups.io with SMTP id smtpd.web11.576.1585091106857552689
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2020 15:58:02 -0700
+ Tue, 24 Mar 2020 16:05:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="key unavailable" header.i=@linuxfoundation.org header.s=google header.b=XiYT9C4F;
- spf=temperror, err=temporary DNS error (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id 65so728456wrl.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 15:57:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CWuAxA8/;
+ spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f195.google.com with SMTP id d12so561816qtj.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 16:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=0CnjRdZCI24l/B43uptTBakhjWquM8NxBbzbLd5AN4w=;
-        b=XiYT9C4FuD+npEo7mgHf61WhLQxPaNV/irjG80kJA5caMX5pMuXP43bgrTNlqJSnJ1
-         U96vcbFxt+lng6flhBir4MmL0HvqDBUwo3x+3EJiMIg1yintHZ4SSuyGp0dLc8D9X1d7
-         Q8RTdyZpPF3XXdaHffklbjpYJkXvYDZCHIEZg=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zFGVlCk+46lVsvx7IV4qKaMTQ33+j4sjdurp1BDYTsE=;
+        b=CWuAxA8/zHHqmwkt6NbbvDE1JJKjMi0KA+KGpjWyRRueAQmmiGjRKc9ZZmpKAfCWZA
+         0tIvytCMysyheMtxdLNERGepfHJLDHSHoOmMHu7nxZAIvZ+00QNjyrbwbO6Q9TGc60d8
+         bLeCc2t7t30Ck9o1yAkhjy2ATk6Z5D6LtT464BjaWfxjsUy0aS+aavh6tmX6hu1Oq+KG
+         fyGokoAGMDe+9MgTAa+hYpk2C+RpV2h0zkmYiftECzGsx+0Ld+99xS6Fd6//xIPhARRa
+         Jc0yN7naIjAlBkmicWeF0a6jAE5tC6Z5JT0v+mgFrRIEj1cynMOfYd/F/yMcixD4eB4a
+         tTRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=0CnjRdZCI24l/B43uptTBakhjWquM8NxBbzbLd5AN4w=;
-        b=Lmuungj0xPsJpSp03In6AZu4F1aRLwW4hTvmBliXZZHuPjfGm3zEQwBMD6h3hsUK+q
-         DlUUJ9GHHPSAML86YWSKMgwfQz66ZnMVCmX4EoH7USXWXBSivj3LLdkfnVupItTtG4AB
-         DaM1GfROChz4uwm4CnHKCrZRFQeWTUlGzAkMkDpN8/L0xNb2s93sKF047lAAfasgGucL
-         AhPZ8ta0P2vDY3ZUPnbhE3dwyMlCebHol6lZYdnpvH65gNFYGHg4zR4Q4pBbPgbLfdXU
-         Hhm13A3k42TrTrChMj9+8/Dt8j6isbEe+0hXKpdww/TA9NNWEGp6VtQI/rkTQlb4YaQi
-         TmRg==
-X-Gm-Message-State: ANhLgQ2ID74Jq3G59n3zy8M3Nien8hKC0WUxT5Tn9Y3hvdD3OJS9VYBO
-	kFpEtkvJ9eAGOFKOrpSEj0UBwQ==
-X-Google-Smtp-Source: ADFU+vvrL1m9a0KgZDkjoXev2S/EGXf29yTrrsmoHzxzcU0AjZ13cIuwlKdBFfDFaneii8gGYW5yew==
-X-Received: by 2002:adf:b307:: with SMTP id j7mr47737wrd.128.1585090660951;
-        Tue, 24 Mar 2020 15:57:40 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id a1sm31055134wro.72.2020.03.24.15.57.39
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=zFGVlCk+46lVsvx7IV4qKaMTQ33+j4sjdurp1BDYTsE=;
+        b=Mwneil/bZp9stXMqv7Hsb8C0Q7gbf2G346/wmE1YR6tpLpS6fkHo/H/U4gxyqd7N7R
+         z7Ffn3B8yVStxuMpU1wkCQHzM7SK747cyYtHGXN1erbyvNY9Lie2kka8v1Px3IPxE0Jm
+         g5SpAu0BWLCRKMd5rOJ35Hl2SsyJYoLwEDtWvzJbyGJyVhgAxr3/J4G6b5BZmL8K3ZbT
+         24RPpn3hHvKkSn9IYaic5iJUBGw34KO3yIxnFuhyxOcVuNKBOS8Fdgv5blu45eUI9yoH
+         b7Ka8Im/RpFrJHCj6mDA3+60pXzeGQALeS+1Ecfzx5gwGvRSdflG+XEw0pFWblFqdgAm
+         qrFg==
+X-Gm-Message-State: ANhLgQ2SYpaMk4wR5jcWIl5ghRwh8e2iySkPtz/4WQFHFL7tKqvZC7l0
+	yh3266BpC1Hhxctvyn4w6pM=
+X-Google-Smtp-Source: ADFU+vsu+fE/Wca4kvdxZfaS2nEM6CXqSM24h0lvzDXHlKboJEhu4cBn5lOAjSQeHvPvK6HEXgK2Xw==
+X-Received: by 2002:ac8:108b:: with SMTP id a11mr282090qtj.176.1585091105787;
+        Tue, 24 Mar 2020 16:05:05 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id l22sm15153655qkj.120.2020.03.24.16.05.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 15:57:40 -0700 (PDT)
-Message-ID: <1745659de941c18de2c96c16b3f8c3fc5b457c7d.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] security_flags.inc: fix flags missing from SDK toolchain
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Antoine Manache <a.manache@gmail.com>, Tom Hochstein
- <tom.hochstein@nxp.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Mar 2020 22:57:39 +0000
-In-Reply-To: <CAMu9SpKSFfexqz2sqsr6ZyPtdeSCu1XfLYSSznX1FtpG5=TK7g@mail.gmail.com>
-References: <20200324170259.3206-1-tom.hochstein@nxp.com>
-	 <CAMu9SpJmwRw9gmCJS4NkdhMuyNdVij_-C4AsyeLs+zb6+pV2fA@mail.gmail.com>
-	 <5e1f58719f8835201ddcd82bb19af555f5c2dcc2.camel@linuxfoundation.org>
-	 <VE1PR04MB6621F3264C205F46AACCA6AFE2F10@VE1PR04MB6621.eurprd04.prod.outlook.com>
-	 <CAMu9SpKSFfexqz2sqsr6ZyPtdeSCu1XfLYSSznX1FtpG5=TK7g@mail.gmail.com>
-User-Agent: Evolution 3.35.92-1 
+        Tue, 24 Mar 2020 16:05:05 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/5] linux-yocto: consolidated pull request
+Date: Tue, 24 Mar 2020 19:04:58 -0400
+Message-Id: <cover.1585090957.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2020-03-24 at 20:06 +0100, Antoine Manache wrote:
-> Absolutely.
-> I would add an example of issue I've seen in a software project.
-> Someone developing a new application and using the image-based SDK
-> that I provided got the right functional behaviour on target.
-> Once this application was integrated into the core image of our Yocto
-> project (new recipe), the same tests on target failed (application
-> crash).
-> The root cause was : the two binaries produced were different because
-> the effective GCC options at compile time were different between both
-> methods (security flags not enabled when compiling with the SDK).
-> Antoine
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Thanks. Antonine's emails/patches are coming through as html and hence
-are mangled and I can't apply them which is probably where things got
-lost previously.
+Hi all,
 
-I've therefore taken Tom's version with some tweaks to the commit
-message.
+Here's the queued bug fixes for linux-yocto. It has khem's identified fixes
+for the kernel selftest issues with the latest -stable udpates, as well as
+some BSP fixes and config changes.
+
+I ran this through the AB and everything came back green.
+
+I've done this in multiple commits, so we'll have granularity to look
+into individual fixes if we have trouble.
 
 Cheers,
 
-Richard
+Bruce
+
+The following changes since commit d5db9d12642e03a1d5cca5f1520dad5fcc9524c3:
+
+  archiver.py: fix typo of "ARCHIVER_MIRROR_EXCLUDE" in comment (2020-03-24 16:39:40 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  linux-yocto/5.4: Revert "platform/x86: wmi: Destroy on cleanup rather
+    than unregister"
+  linux-yocto/5.4: fix kernel selftests
+  linux-yocto/5.4: KVM: LAPIC: Mark hrtimer for period or oneshot mode
+    to expire in hard interrupt context
+  linux-yocto/5.4: ARM: 8918/2: only build return_address() if needed
+  linux-yocto/5.4: configuration tweaks
+
+ .../linux/linux-yocto-rt_5.4.bb               |  4 ++--
+ .../linux/linux-yocto-tiny_5.4.bb             |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 20 +++++++++----------
+ 3 files changed, 15 insertions(+), 15 deletions(-)
+
+-- 
+2.19.1
 
