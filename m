@@ -1,93 +1,67 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.1858.1585072704984975477
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web12.1881.1585073000582933121
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2020 10:58:25 -0700
+ Tue, 24 Mar 2020 11:03:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 502D740BCC;
-	Tue, 24 Mar 2020 17:58:24 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id 0UefRg8auMON; Tue, 24 Mar 2020 17:58:24 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 3268F40BAC;
-	Tue, 24 Mar 2020 17:58:22 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 8AF6B1718E9; Tue, 24 Mar 2020 13:58:21 -0400 (EDT)
-Date: Tue, 24 Mar 2020 13:58:21 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: Anuj Mittal <anuj.mittal@intel.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gbyy/lY3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id b12so4272644wmj.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 11:03:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=EiutYhZ/z2SulX4XGfPMNvAfzh9yIP1nkqmHmbMhsP8=;
+        b=gbyy/lY3OtshrKc1l7Ff/Sr9Zlpc/hrms3tRgmwwRv3omANBabe+ohwKkicPz8bL1q
+         9VVktrFwBd9xHbqXdCIuD8LaEFBn9Ka4rQkRDtGfVnQS08fuZnbmwW/4VC3xMBLrAD6U
+         3ly3HHZqfO3UiyfsI2BYKWAIyPAz3xVUPAefU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=EiutYhZ/z2SulX4XGfPMNvAfzh9yIP1nkqmHmbMhsP8=;
+        b=bDbXDLJ1kPJ5Hq8odIwQmhjJ+tRHuwtIkxSRYrusYV4su+Y46xl4mWqu1y1lYogore
+         FpA4O6EHoEo/nX/ZL1og0AahZWZ4trpxzjgcUBvB70oHKF2GsDhloAt1GWf+tYQcqHov
+         Guoby31eE8XTZljK6b4EH9YpKpYP/YpoaD2zZ86JQHr8Ft6x6F10u4BvA+kYAWcPOs6i
+         dR0j6eW+LxHbFCN1OSkAgklYjX/OOdO/pb7W8Ez0I2YScu2Yg6iQQOW7HL1XOBTwdC5J
+         0tP2S0VFizkOdhEy4GNiMb5dZJ2qWcj6+/TkuGlLyLJ+c3aZSsPgMkmo5k3a7hsktr5J
+         Kglg==
+X-Gm-Message-State: ANhLgQ0mDybcMhSDdvxWiuoBT/QTDxDRDklRo2MAM53enGA8bfflo2di
+	xIjbKnkIXoiCn/2ALdQDeSVzVg==
+X-Google-Smtp-Source: ADFU+vtI6d/D5aerOyM5Taho8Cu1cQVP/B+h1jQWJcu7oVg87SAX+0URsdj1T0W9pEUbDRx2wecEbQ==
+X-Received: by 2002:a7b:c0d3:: with SMTP id s19mr6765459wmh.19.1585072998120;
+        Tue, 24 Mar 2020 11:03:18 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id b203sm5379878wmc.45.2020.03.24.11.03.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2020 11:03:17 -0700 (PDT)
+Message-ID: <5e1f58719f8835201ddcd82bb19af555f5c2dcc2.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] security_flags.inc: fix flags missing from SDK toolchain
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Antoine Manache <a.manache@gmail.com>, Tom Hochstein
+ <tom.hochstein@nxp.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 2/2] gstreamer1.0-plugins-good: add qt5 PACKAGECONFIG
-Message-ID: <20200324175821.GW1578@denix.org>
-References: <1582252918-89191-1-git-send-email-anuj.mittal@intel.com>
- <1582252918-89191-2-git-send-email-anuj.mittal@intel.com>
+Date: Tue, 24 Mar 2020 18:03:15 +0000
+In-Reply-To: <CAMu9SpJmwRw9gmCJS4NkdhMuyNdVij_-C4AsyeLs+zb6+pV2fA@mail.gmail.com>
+References: <20200324170259.3206-1-tom.hochstein@nxp.com>
+	 <CAMu9SpJmwRw9gmCJS4NkdhMuyNdVij_-C4AsyeLs+zb6+pV2fA@mail.gmail.com>
+User-Agent: Evolution 3.35.92-1 
 MIME-Version: 1.0
-In-Reply-To: <1582252918-89191-2-git-send-email-anuj.mittal@intel.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Feb 21, 2020 at 10:41:58AM +0800, Anuj Mittal wrote:
-> Instead of disabling unconditionally, add PACKAGECONFIG for
-> qt5. Imported from meta-qt5 layer.
-> 
-> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> ---
->  .../gstreamer/gstreamer1.0-plugins-good_1.16.2.bb                  | 7 +------
->  1 file changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
-> index f3e0cee..8b34111 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
-> @@ -42,6 +42,7 @@ PACKAGECONFIG[libpng]     = "-Dpng=enabled,-Dpng=disabled,libpng"
->  PACKAGECONFIG[libv4l2]    = "-Dv4l2-libv4l2=enabled,-Dv4l2-libv4l2=disabled,v4l-utils"
->  PACKAGECONFIG[mpg123]     = "-Dmpg123=enabled,-Dmpg123=disabled,mpg123"
->  PACKAGECONFIG[pulseaudio] = "-Dpulse=enabled,-Dpulse=disabled,pulseaudio"
-> +PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-Dqt5=disabled,qtbase qtdeclarative qtbase-native"
+On Tue, 2020-03-24 at 18:25 +0100, Antoine Manache wrote:
+> I've already sent this patch few months ago but not taken into
+> account yet.
 
-Does it make oe-core depend on meta-qt5 layer?
+Can someone explain more about the issue here please?
 
-What is the policy here for having inter-layer dependencies in DEPENDS vs. 
-PACKAGECONFIG without explicitly listing them in LAYERDEPENDS?
+Shouldn't these flags be added to the SDK toolchain environment files
+rather than coded into the compiler? Why aren't they being coded in? or
+is gcc being misconfigured?
 
--- 
-Denys
+Cheers,
 
+Richard
 
->  PACKAGECONFIG[soup]       = "-Dsoup=enabled,-Dsoup=disabled,libsoup-2.4"
->  PACKAGECONFIG[speex]      = "-Dspeex=enabled,-Dspeex=disabled,speex"
->  PACKAGECONFIG[taglib]     = "-Dtaglib=enabled,-Dtaglib=disabled,taglib"
-> @@ -50,11 +51,6 @@ PACKAGECONFIG[vpx]        = "-Dvpx=enabled,-Dvpx=disabled,libvpx"
->  PACKAGECONFIG[wavpack]    = "-Dwavpack=enabled,-Dwavpack=disabled,wavpack"
->  PACKAGECONFIG[x11]        = "${X11ENABLEOPTS},${X11DISABLEOPTS},${X11DEPENDS}"
->  
-> -# qt5 support is disabled, because it is not present in OE core, and requires more work than
-> -# just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
-> -# This is better done in a separate qt5 layer (which then should add a "qt5" packageconfig
-> -# in a gstreamer1.0-plugins-good bbappend).
-> -
->  EXTRA_OEMESON += " \
->      -Daalib=disabled \
->      -Ddirectsound=disabled \
-> @@ -64,7 +60,6 @@ EXTRA_OEMESON += " \
->      -Doss4=disabled \
->      -Dosxaudio=disabled \
->      -Dosxvideo=disabled \
-> -    -Dqt5=disabled \
->      -Dshout2=disabled \
->      -Dtwolame=disabled \
->      -Dwaveform=disabled \
-> -- 
-> 2.7.4
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
