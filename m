@@ -1,341 +1,1176 @@
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [])
- by mx.groups.io with SMTP id smtpd.web10.7872.1585061087308698415
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web12.8023.1585061635526249423
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2020 07:44:53 -0700
+ Tue, 24 Mar 2020 07:53:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@criticaltechworks.onmicrosoft.com header.s=selector2-criticaltechworks-onmicrosoft-com header.b=DZ7EZeow;
- spf=permerror, err=parse error for token &{10 18 spf.kmitd.com}: permanent DNS error (domain: criticaltechworks.com, ip: <nil>, mailfrom: luis.martins@criticaltechworks.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I5uRMOXP4ZlZd1ndGFXakO31JJ6PmxiH7lVeyy0zlTKODJ6CCzqeB0sU0J7DWpf6Sh0+HGzyVDaq8SdjOwHw6kymRRourSeqhClYjCAHOwv4IcC89ixtOXkk6XUpnLhF2lQ/xMyEOEmACNbW2mxhaPlU6SL7DG8T4Bh5KKltT0Bo1obPIq6wDhzn3Ej10toHB6gJ9mRwhO3bVaL9W9BS6dQEDMAJHrp9sJiLMG/oczdk3Rymv+AuEFMI2wtJYypLa8iPKNfidX6Y6RXZRaBAZ62Tme9E/C73D5kbEWCXu4VzYUXyjzTwaysJ4eqIJWJKc8XOEkVkVb6m3WQS6yL3ug==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mWa0DDyQRONnQZS86MaPM5astZYMAhYVFExw2im9xBI=;
- b=NQhIDZHLs+P9B2/pixQBUeAz4HJvHVcG10g6s3EbHptzgg+S3uwjGKjr9jfq3JA6/QBfxbNxbPVJR+sKAa9ZEzp0oDWpr5qTXK7i4MB2FLLCJo4S60Ktu1uxD21Zmvmk0pFRDbhwDe6LSW/sEVlGjj8e6hgmehO/iW8F8iJhWtc3iFTLD4OrjB/RsBi8UsOLB07bWf8k8LNI4CXGcBvhBUiv6AP0x5DEph8fj6w7M4DXUQmo7brgwe06IacX3quLk2I6aTE5YngbNR2jcnX/t/N5cWHkun7CwLoTYi799WkYkOcIFNiBAFynPlaOJXatwN7kQSt9UDRXmUYj9FIIWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=criticaltechworks.com; dmarc=pass action=none
- header.from=criticaltechworks.com; dkim=pass header.d=criticaltechworks.com;
- arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=r0u6VoMP;
+ spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pg1-f181.google.com with SMTP id 142so3887694pgf.11
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 07:53:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=criticaltechworks.onmicrosoft.com;
- s=selector2-criticaltechworks-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mWa0DDyQRONnQZS86MaPM5astZYMAhYVFExw2im9xBI=;
- b=DZ7EZeowayQiXQpBLHAVbdHWFscDiiuDagkgqtY0WRfuboPl2Hm/1TZ99aaXrqUe+e/A3iPMvx7D9G2cAyOcXUcqTAoFyIEmE4k2ioa4M/Z0CotyUirTrDO9r8MdgmKBOn8AG4/4O5d/ml7Rp5w6KXgmq0sMbtzX2lAyBO6c+7g=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=Luis.Martins@criticaltechworks.com; 
-Received: from DB7P193MB0282.EURP193.PROD.OUTLOOK.COM (52.134.109.21) by
- DB7P193MB0393.EURP193.PROD.OUTLOOK.COM (52.135.128.32) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.2835.19; Tue, 24 Mar 2020 14:44:47 +0000
-Received: from DB7P193MB0282.EURP193.PROD.OUTLOOK.COM
- ([fe80::a0cd:4b77:8f8f:c6e1]) by DB7P193MB0282.EURP193.PROD.OUTLOOK.COM
- ([fe80::a0cd:4b77:8f8f:c6e1%3]) with mapi id 15.20.2835.021; Tue, 24 Mar 2020
- 14:44:47 +0000
-From: "Luis Martins" <luis.martins@criticaltechworks.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 5/5] buildstats*.sh: fix spacing indentation in the files
-Date: Tue, 24 Mar 2020 14:44:41 +0000
-Message-ID: <20200324144441.41230-6-luis.martins@criticaltechworks.com>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <20200324144441.41230-1-luis.martins@criticaltechworks.com>
-References: <20200324113313.39528-6-luis.martins@criticaltechworks.com>
- <20200324144441.41230-1-luis.martins@criticaltechworks.com>
-X-ClientProxiedBy: LO2P265CA0283.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:a1::31) To DB7P193MB0282.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:5:1b::21)
-Return-Path: luis.martins@criticaltechworks.com
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version:content-language
+         :thread-index;
+        bh=uQqgPCh8GxFNbkS3Wn10m1PwW1pMmzqDL4YF5DsePx4=;
+        b=r0u6VoMP2m7iTMGGfdXPYxt6ztXlYtDmxHMCK3DskA6bcGc6VEyGwu+T8kTmndQZH2
+         19B+6JamTitOkJg9wYjoLLujvF+gNsbiADPsL3r9ZouqyQtUiXenqQq1u7n21R6StPWT
+         /lf1R5Zi+E81/lWwMbOzLUN/dY0ncae9u8ZmbzTy9hhKyLngLdBRZ5FIrragvE1kxMl7
+         4lE+Hn9n5RX9/uyAqQ1gpyN8W/2QdmkRpMW4ouhD/EI51fCIpjlTGizLR0WdDc1RBmHn
+         FEX0QxXXv1XE+TnkRKL208lvvEAMM067SBlfAV6jx/DlcPzrehaviAF82y5xdmKFlFn7
+         JF8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-language:thread-index;
+        bh=uQqgPCh8GxFNbkS3Wn10m1PwW1pMmzqDL4YF5DsePx4=;
+        b=m4/DTR27Nr3Cjotiihi4H2YlAzaNUvbY0dPW6UTDkBp76eLbSOx7XEAVTD1WSeGFzu
+         7ecy7Ow9u++/fgEmwwuhor1iYkllnkWUMCcyGAabK7IxI0ewdBfw8Pls5nskO6hDgMOk
+         M//HmWKRKF1E/be9i9lzPNO95SV7bcyUffTzEcY+fNzUz6SW7aDZMe0RTreNcaMbBs7+
+         M4VIGKpd1dMCQeS2dHCMZJTrz5v9KH93cfX51+J9kRYD1Qwb8YGZWju9fX0dPI1mcq4+
+         XHefomv8VAijc/tO+KcBA9Rwf7hEs1NbS7XnXa3rTrmxQiymPNT00Fph9DfWCHTUqOFx
+         a1iw==
+X-Gm-Message-State: ANhLgQ2uyLNTfjfzDdoPp5HhEAnlKso7YpnlRjo9w38pz5fz5cAMCOdg
+	r2/TpLmXBLMsukxo9SS98R0=
+X-Google-Smtp-Source: ADFU+vtTCNp/gRfx6s1VSM1ChIl4yiPO9PuLj1lrLSABP37Q1s1YAqaLmbWWYtL+HPtI5r/IyuT1Yg==
+X-Received: by 2002:a05:6a00:c8:: with SMTP id e8mr28725944pfj.131.1585061634975;
+        Tue, 24 Mar 2020 07:53:54 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+        by smtp.gmail.com with ESMTPSA id g2sm8979838pfh.193.2020.03.24.07.53.54
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 24 Mar 2020 07:53:54 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Status WW12'20
+Date: Tue, 24 Mar 2020 07:53:54 -0700
+Message-ID: <0ec301d601ec$0a1b01a0$1e5104e0$@gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.localdomain (213.205.68.220) by LO2P265CA0283.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:a1::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2835.19 via Frontend Transport; Tue, 24 Mar 2020 14:44:46 +0000
-X-Mailer: git-send-email 2.25.2
-X-Originating-IP: [213.205.68.220]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 235491e4-6791-4efd-ef1e-08d7d001e601
-X-MS-TrafficTypeDiagnostic: DB7P193MB0393:
-X-Microsoft-Antispam-PRVS: 
-	<DB7P193MB0393B8247C4F2A94DE44A92E85F10@DB7P193MB0393.EURP193.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:338;
-X-Forefront-PRVS: 03524FBD26
-X-Forefront-Antispam-Report: 
-	SFV:NSPM;SFS:(10009020)(4636009)(39850400004)(396003)(136003)(346002)(376002)(366004)(316002)(5660300002)(52116002)(26005)(6512007)(6666004)(44832011)(36756003)(1076003)(6506007)(186003)(66556008)(81166006)(81156014)(8936002)(66476007)(956004)(2906002)(6916009)(2616005)(86362001)(16526019)(66946007)(6486002)(69590400007)(8676002)(478600001);DIR:OUT;SFP:1101;SCL:1;SRVR:DB7P193MB0393;H:DB7P193MB0282.EURP193.PROD.OUTLOOK.COM;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;
-Received-SPF: None (protection.outlook.com: criticaltechworks.com does not
- designate permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	hbl5ZJeBBIoJ6DGU4UXoXg1/p+6H9IL4wLjUcAHYJtMEgQw27if2Pnb1BZ1BZ/IXDHnQj08BC+hNRytNt9cd2ugQJrvRNW5Htvpptco3NYIMyXciGplFjxFnBxcfynJyEkU3Hakb6m70L/hCxRUPoVlwnIitGjL9b1xEuHZqOxBLnu4MnDW27dWbLj9Nv3YRCE3ok8bI76CwJWIQ/11LdyBTdT5+S2BjQQoThPJygVtioGRH/1fKwYThBNjH/GuZYJRVbfmtL/XMQmHO3uS2XsgSnCRADbbJ46yUrDHVCox/VBT7cJoHIFEdLi+QKUXTPf1GVwYl5eE25UxZrUKRYNawy8YdPr50TBKpq9VVoc309Ob0DZf5K4K0jJiAHlyTIbKz7DbtvwrcMPxllOuiElpHz7xjZRmMMXzGPyDJxYkjbodHqBXB4huTYXbnQ3KKOhlv/VIXH08LToAfGP1NcY7ayaQGhMKs/+3J+DomAX6v2hRPED3enwezOcrXPBG0
-X-MS-Exchange-AntiSpam-MessageData: 
-	VESwoQ/mFVKUCLENx++PwCihh5P88n9gI/DXUwJvonOd9JkUP4LTkg2W8LQaKT3Ci2D/1gMBGvF6Hc/UfCyFpiVndjm+RU77ROHV74fbQkE+64hjf21YRQIvAS1C+vrMdx0F+iXH1NJyYi452yFEPg==
-X-OriginatorOrg: criticaltechworks.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 235491e4-6791-4efd-ef1e-08d7d001e601
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Mar 2020 14:44:47.2743
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 61f30b8e-4f6b-44fe-9bc2-041e3a9f7346
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vhsMD1ihsKjLmZ41I2PN+pqgot/UdtQ1lz/ze7fw0cr4XsbEBXsNSZjfVAQbG/i4B33kDostcIMYYpmUaWeONlPRkMmvMdRiikytqc4viIY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7P193MB0393
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdYB69piYkTv+sSiQSeMvmBD1knHcg==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0EC4_01D601B1.5DC180D0"
+Content-Language: en-us
+
+------=_NextPart_000_0EC4_01D601B1.5DC180D0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+Current Dev Position: YP 3.1 M4 - Stabilization
+
+Next Deadline: YP 3.1 M4 build date  3/30/2020
+
+ 
+
+Next Team Meetings:
+
+*	Bug Triage meeting Thursday Mar. 26th  at 7:30am PDT (
+<https://zoom.us/j/454367603> https://zoom.us/j/454367603)
+*	Monthly Project Meeting Tuesday Apr. 7th  at 8am PDT (
+<https://zoom.us/j/990892712> https://zoom.us/j/990892712)
+*	Weekly Engineering Sync Tuesday Mar. 24th  at 8am PDT (
+<https://zoom.us/j/990892712> https://zoom.us/j/990892712)
+*	Twitch -  See http://www.twitch.tv/letoatreidesthe2nd
+
+ 
+
+Key Status/Updates:
+
+*	M3 is through QA and due to be released.
+*	The first M4 rc candidate is due to be built on Monday.
+*	YP 3.1 has been announced as an LTS release:
+<https://www.yoctoproject.org/yocto-project-long-term-support-announced/>
+https://www.yoctoproject.org/yocto-project-long-term-support-announced/
+*	We've uncovered significant issues with the datastore connector
+approach in tinfoil. There is a proposed fix which effectively rewrites it
+which is not something undertaken lightly at this point in release but
+reluctantly, is probably necessary.
+*	The focus is now on stabilizing and bug fixing for the final release
+
+ 
+
+YP 3.1 Milestone Dates:
+
+*	YP 3.1 M3 being reviewed for release
+*	YP 3.1 M4 build date  3/30/2020
+*	YP 3.1 M4 release date  4/24/2020
+
+ 
+
+Planned upcoming dot releases:
+
+*	YP 3.0.3 build date  5/4/2020
+*	YP 3.0.3 release date 5/15/2020
+*	YP 2.7.4 build date  5/18/2020
+*	YP 2.7.4 release date 5/29/2020
+
+ 
+
+Tracking Metrics:
+
+*	WDD 2681 (last week 2698) (
+<https://wiki.yoctoproject.org/charts/combo.html>
+https://wiki.yoctoproject.org/charts/combo.html)
+*	Poky Patch Metrics  
+
+*	Total patches found: 1350 (last week 1351)
+*	Patches in the Pending State: 535 (40%) [last week 534 (40%)]
+
+ 
+
+The Yocto Project's technical governance is through its Technical Steering
+Committee, more information is available at:
+
+ <https://wiki.yoctoproject.org/wiki/TSC>
+https://wiki.yoctoproject.org/wiki/TSC
+
+ 
+
+The Status reports are now stored on the wiki at:
+<https://wiki.yoctoproject.org/wiki/Weekly_Status>
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
+ 
+
+[If anyone has suggestions for other information you'd like to see on this
+weekly status update, let us know!]
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_0EC4_01D601B1.5DC180D0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_05B9_01D5FC33.3CD6F630";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
 
-Fix indentation in buildstats.sh and buildstats-plot.sh
-to convert every line to 4 spaces indentation.
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:186411761;
+	mso-list-template-ids:-770295522;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:194581084;
+	mso-list-template-ids:-9131702;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2
+	{mso-list-id:663776148;
+	mso-list-template-ids:-1655121224;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l2:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l2:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3
+	{mso-list-id:760757472;
+	mso-list-template-ids:1538319468;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l3:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l3:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4
+	{mso-list-id:820779771;
+	mso-list-template-ids:1926539620;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l4:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l4:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5
+	{mso-list-id:1414739184;
+	mso-list-template-ids:874814664;}
+@list l5:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l5:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l5:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6
+	{mso-list-id:1464345998;
+	mso-list-template-ids:-324648816;}
+@list l6:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l6:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l6:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7
+	{mso-list-id:1497526795;
+	mso-list-template-ids:-441057182;}
+@list l7:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l7:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l7:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8
+	{mso-list-id:1566334633;
+	mso-list-template-ids:1704374122;}
+@list l8:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l8:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l8:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9
+	{mso-list-id:1905487272;
+	mso-list-template-ids:538477070;}
+@list l9:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l9:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l9:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Current Dev =
+Position: YP 3.1 M4 - Stabilization</span><o:p></o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Deadline: YP =
+3.1 M4 build date&nbsp; 3/30/2020</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Team =
+Meetings:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l9 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Bug Triage meeting Thursday =
+Mar. 26th&nbsp; at 7:30am PDT (<a =
+href=3D"https://zoom.us/j/454367603"><span =
+style=3D'font-size:10.0pt;color:#1155CC'>https://zoom.us/j/454367603</spa=
+n></a>)<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l9 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Monthly Project Meeting Tuesday =
+Apr. 7th&nbsp; at 8am PDT (<a href=3D"https://zoom.us/j/990892712"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/990892712)</span></a><o:p></o:p=
+></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l9 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Weekly Engineering Sync Tuesday =
+Mar. 24th&nbsp; at 8am PDT (<a =
+href=3D"https://zoom.us/j/990892712"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/990892712)</span></a><o:p></o:p=
+></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l9 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Twitch -&nbsp; See =
+http://www.twitch.tv/letoatreidesthe2nd<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Key =
+Status/Updates:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l7 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>M3 is through QA and due to be =
+released.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l7 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>The first M4 rc candidate is =
+due to be built on Monday.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l7 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1 has been announced as an =
+LTS release: <a =
+href=3D"https://www.yoctoproject.org/yocto-project-long-term-support-anno=
+unced/"><span =
+style=3D'color:#1155CC'>https://www.yoctoproject.org/yocto-project-long-t=
+erm-support-announced/</span></a><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l7 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We&#8217;ve uncovered =
+significant issues with the datastore connector approach in tinfoil. =
+There is a proposed fix which effectively rewrites it which is not =
+something undertaken lightly at this point in release but reluctantly, =
+is probably necessary.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l7 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>The focus is now on stabilizing =
+and bug fixing for the final release<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>YP 3.1 Milestone =
+Dates:</span><o:p></o:p></p><ul style=3D'margin-top:0in' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l1 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1 M3 being reviewed for =
+release<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l1 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1 M4 build date&nbsp; =
+3/30/2020<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l1 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1 M4 release date&nbsp; =
+4/24/2020<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Planned upcoming =
+dot releases:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l0 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.0.3 build date&nbsp; =
+5/4/2020<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l0 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.0.3 release date =
+5/15/2020<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l0 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7.4 build date&nbsp; =
+5/18/2020<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l0 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7.4 release date =
+5/29/2020<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Tracking =
+Metrics:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level1 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>WDD 2681 (last week =
+2698)</span><span style=3D'font-family:Consolas'> (</span><span =
+style=3D'font-family:"Arial",sans-serif'><a =
+href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/charts/combo.html</=
+span></a></span><span style=3D'font-family:Consolas'>)</span><span =
+style=3D'font-family:"Arial",sans-serif'><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level1 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Poky Patch =
+Metrics&nbsp;&nbsp;</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li><ul =
+style=3D'margin-top:0in' type=3Dcircle><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level2 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Total patches found: 1350 (last =
+week 1351)<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l8 level2 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Patches in the Pending State: =
+535 (40%) [last week 534 (40%)]</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li></ul></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Yocto =
+Project&#8217;s technical governance is through its Technical Steering =
+Committee, more information is available at:</span><o:p></o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/TSC"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/TSC</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Status reports =
+are now stored on the wiki at: </span><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/Weekly_Status</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>[If anyone has =
+suggestions for other information you&#8217;d like to see on this weekly =
+status update, let us know!]</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-Signed-off-by: Luis Martins <luis.martins@criticaltechworks.com>
----
- scripts/contrib/bb-perf/buildstats-plot.sh |  56 ++++-----
- scripts/contrib/bb-perf/buildstats.sh      | 131 +++++++++++----------
- 2 files changed, 94 insertions(+), 93 deletions(-)
-
-diff --git a/scripts/contrib/bb-perf/buildstats-plot.sh b/scripts/contrib/b=
-b-perf/buildstats-plot.sh
-index 320c4910a1..80fd30960c 100755
---- a/scripts/contrib/bb-perf/buildstats-plot.sh
-+++ b/scripts/contrib/bb-perf/buildstats-plot.sh
-@@ -72,40 +72,40 @@ EOM
-=20
- # Parse and validate arguments
- while getopts "b:n:r:t:s:o:aSh" OPT; do
--	case $OPT in
--	b)
--		BS_DIR=3D"$OPTARG"
--		;;
--	n)
--		N=3D"$OPTARG"
--		;;
-+    case $OPT in
-+    b)
-+        BS_DIR=3D"$OPTARG"
-+        ;;
-+    n)
-+        N=3D"$OPTARG"
-+        ;;
-     r)
-         RECIPE=3D"-r $OPTARG"
-         ;;
-     t)
-         TASKS=3D"$OPTARG"
-         ;;
--	s)
--	        STATS=3D"$OPTARG"
--	        ;;
--	a)
-+    s)
-+        STATS=3D"$OPTARG"
-+        ;;
-+    a)
-         ACCUMULATE=3D"-a"
-         ;;
--	S)
--	        SUM=3D"y"
--	        ;;
--	o)
--	        OUTDATA_FILE=3D"$OPTARG"
--	        ;;
--	h)
--		usage
--		exit 0
--		;;
--	*)
--		usage
--		exit 1
--		;;
--	esac
-+    S)
-+        SUM=3D"y"
-+        ;;
-+    o)
-+        OUTDATA_FILE=3D"$OPTARG"
-+        ;;
-+    h)
-+        usage
-+        exit 0
-+        ;;
-+    *)
-+        usage
-+        exit 1
-+        ;;
-+    esac
- done
-=20
- # Get number of stats
-@@ -141,8 +141,8 @@ else
-     declare -a sumargs
-     j=3D0
-     for i in `seq $nstats`; do
--	sumargs[j]=3Dsum; j=3D$(( $j + 1 ))
--	sumargs[j]=3D`expr 3 + $i - 1`;  j=3D$(( $j + 1 ))
-+        sumargs[j]=3Dsum; j=3D$(( $j + 1 ))
-+        sumargs[j]=3D`expr 3 + $i - 1`;  j=3D$(( $j + 1 ))
-     done
-=20
-     # Do the processing with datamash
-diff --git a/scripts/contrib/bb-perf/buildstats.sh b/scripts/contrib/bb-per=
-f/buildstats.sh
-index 2f017efeb8..e45cfc146d 100755
---- a/scripts/contrib/bb-perf/buildstats.sh
-+++ b/scripts/contrib/bb-perf/buildstats.sh
-@@ -66,62 +66,63 @@ EOM
-=20
- # Parse and validate arguments
- while getopts "b:r:t:s:aHh" OPT; do
--	case $OPT in
--	b)
--		BS_DIR=3D"$OPTARG"
--		;;
--	r)
--		RECIPE=3D"$OPTARG"
--		;;
--	t)
--		TASKS=3D"$OPTARG"
--		;;
--	s)
--		STATS=3D"$OPTARG"
--		;;
--	a)
-+    case $OPT in
-+    b)
-+        BS_DIR=3D"$OPTARG"
-+        ;;
-+    r)
-+        RECIPE=3D"$OPTARG"
-+        ;;
-+    t)
-+        TASKS=3D"$OPTARG"
-+        ;;
-+    s)
-+        STATS=3D"$OPTARG"
-+        ;;
-+    a)
-         ACCUMULATE=3D"y"
-         ;;
--	H)
--	        HEADER=3D"y"
--	        ;;
--	h)
--		usage
--		exit 0
--		;;
--	*)
--		usage
--		exit 1
--		;;
--	esac
-+    H)
-+        HEADER=3D"y"
-+        ;;
-+    h)
-+        usage
-+        exit 0
-+        ;;
-+    *)
-+        usage
-+        exit 1
-+        ;;
-+    esac
- done
-=20
- # Ensure the buildstats folder exists
- if [ ! -d "$BS_DIR" ]; then
--	echo "ERROR: $BS_DIR does not exist"
--	usage
--	exit 1
-+    echo "ERROR: $BS_DIR does not exist"
-+    usage
-+    exit 1
- fi
-=20
- stats=3D""
- IFS=3D":"
- for stat in ${STATS}; do
--	case $stat in
--	    TIME)
--		stats=3D"${stats}:${TIME}"
--		;;
--	    IO)
--		stats=3D"${stats}:${IO}"
--		;;
--	    RUSAGE)
--		stats=3D"${stats}:${RUSAGE}"
--		;;
--	    CHILD_RUSAGE)
--		stats=3D"${stats}:${CHILD_RUSAGE}"
--		;;
--	    *)
--		stats=3D"${STATS}"
--	esac
-+    case $stat in
-+        TIME)
-+            stats=3D"${stats}:${TIME}"
-+            ;;
-+        IO)
-+            stats=3D"${stats}:${IO}"
-+            ;;
-+        RUSAGE)
-+            stats=3D"${stats}:${RUSAGE}"
-+            ;;
-+        CHILD_RUSAGE)
-+            stats=3D"${stats}:${CHILD_RUSAGE}"
-+            ;;
-+        *)
-+            stats=3D"${STATS}"
-+            ;;
-+    esac
- done
-=20
- # remove possible colon at the beginning
-@@ -140,27 +141,27 @@ for task in ${TASKS}; do
-     task=3D"do_${task}"
-     for file in $(find ${BS_DIR} -type f -path *${RECIPE}*/${task} | awk '=
-BEGIN{ ORS=3D""; OFS=3D":" } { print $0,"" }'); do
-         recipe=3D"$(basename $(dirname $file))"
--	times=3D""
--	for stat in ${stats}; do
--	    [ -z "$stat" ] && { echo "empty stats"; }
--	    time=3D$(sed -n -e "s/^\($stat\): \\(.*\\)/\\2/p" $file)
--	    # in case the stat is not present, set the value as NA
--	    [ -z "$time" ] && { time=3D"NA"; }
--	    # Append it to times
--	    if [ -z "$times" ]; then
--		times=3D"${time}"
--	    else
--		times=3D"${times} ${time}"
--	    fi
--	done
--    if [ -n "$ACCUMULATE" ]; then
--        IFS=3D' '; valuesarray=3D(${times}); IFS=3D':'
--        times=3D0
--        for value in "${valuesarray[@]}"; do
--            [ "$value" =3D=3D "NA" ] && { echo "ERROR: stat is not present=
-."; usage; exit 1; }
--            times=3D$(( $times + $value ))
-+        times=3D""
-+        for stat in ${stats}; do
-+            [ -z "$stat" ] && { echo "empty stats"; }
-+            time=3D$(sed -n -e "s/^\($stat\): \\(.*\\)/\\2/p" $file)
-+            # in case the stat is not present, set the value as NA
-+            [ -z "$time" ] && { time=3D"NA"; }
-+            # Append it to times
-+            if [ -z "$times" ]; then
-+                times=3D"${time}"
-+            else
-+                times=3D"${times} ${time}"
-+            fi
-         done
--    fi
-+        if [ -n "$ACCUMULATE" ]; then
-+            IFS=3D' '; valuesarray=3D(${times}); IFS=3D':'
-+            times=3D0
-+            for value in "${valuesarray[@]}"; do
-+                [ "$value" =3D=3D "NA" ] && { echo "ERROR: stat is not pre=
-sent."; usage; exit 1; }
-+                times=3D$(( $times + $value ))
-+            done
-+        fi
-         echo "${task} ${recipe} ${times}"
-     done
- done
---=20
-2.25.2
-
+------=_NextPart_000_0EC4_01D601B1.5DC180D0--
