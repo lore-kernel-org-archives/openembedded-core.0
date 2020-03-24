@@ -1,181 +1,76 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web10.819.1585081046198409742
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web12.1381.1585085850585709697
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2020 13:17:26 -0700
+ Tue, 24 Mar 2020 14:37:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PDrfD+AU;
- spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f66.google.com with SMTP id d198so4796977wmd.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 13:17:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=k4IDZlh0;
+ spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f67.google.com with SMTP id a25so473149wrd.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 14:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=DzLCm2VCoyDwYBW5srwJr3pQK5UA3HKIFtH7OZIoawQ=;
-        b=PDrfD+AUbMAIpDP2k/p5PmZHA9m7yalCTjusadKZFHXPCcdZ0P5w6DOUTMhxgjFDp5
-         ugILWel2u33zsdBYY3UDVOZTUBXhQFTvVHTxwIAnQNbMfPgoPt03VDEQlS6uoqVWv1w6
-         hAwKFXSYbiOxIEhVXzhdtWViorkr+iFtGIfxsI67dnJSxpm/lr32NWtHa98davDD+GVq
-         BiX1VvR5eP3GYDgcjjtgHdsbhS+B+IZIOKZpma2Z3EVbMQlzkFDp8EtaPZZs8+kQ+X9q
-         ooqSyG07MzZU/MELjRapp7cpAF8hDcxCluAxOeED75bElScGAxiFhNT4WxagxBbrPefT
-         AcJA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TSsW0DhBAvRr1EWcikM+WFdW5JUbW0UaU1rcAId212A=;
+        b=k4IDZlh0qVazWqsyj4bS6xzJzpq+Re10izbg8f/oykO6JWFpaqg+ocGfQ++MLWgwHp
+         TmDkRg52rrJIvToJQLV+4X2ZGW9wdUKrU+ppHlM+h5bxP604/Rojs5u3lFu/XcjYGG9o
+         lS3o0IcIYt88QZ4lwFcNtl+q/8h7xR+rX2p8RVQx6aRP6mc4N2+mOaJExDGTJomckM6c
+         97qotqmAfpBsr2JQljzQotKXY9ZzCVD35vPQBXAvcT787vV6Q26XedLpDBuCVdvmtUIv
+         hNiQsx4M/LAz72YxvTiMqsIZcO9HOskP3sFp+xm0zqBYZc2VVucR9+B2IY3y+NdpEWHU
+         UJPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=DzLCm2VCoyDwYBW5srwJr3pQK5UA3HKIFtH7OZIoawQ=;
-        b=W8GFW8/c1juD/7jLJG/mYrEm6Hm3ulWqN29sGTJ2bIie9DKCpeHuSAMQJ168J6I19Q
-         vhBI8O+QUwlz3YFvlr0m41scNo1a4RZqQ7z+FvQxlw44MwZ1e7TWJu9M4wGPoIrN+W+C
-         pcmQrfdClMxQI0ePY8fqNE8Nb8Lh+O4iFGK/MKeZ5aYxgLTijFYLZO2SKS2cr5gshIRx
-         3Aq65wjQggagnVrZWyzuGn/hn12VvF6qWh2nTWLdjGMWDojc64tLYm6+rL63/Rvwh9Qo
-         241+J+7Ofdk4C8CiEiM3rnFxbS9xZYs/yxhYV3wwSpaJOY5yVuteLGAQTsU1SjgtIL5T
-         9yMw==
-X-Gm-Message-State: ANhLgQ3UQxkns6CwTl50d3IS7NbX4Ui5OQLC0XDsxkowcPgwxFgT2/zl
-	+SGMFfSxLWgFCDNuhg3Gm0E=
-X-Google-Smtp-Source: ADFU+vu0gFWSWwVHcAbekKUD8AMJRkoy5iU395VzXCcnWRlvHKrmKVBANFRp/A68o7LSlIT9mPcDjw==
-X-Received: by 2002:a05:600c:2101:: with SMTP id u1mr7622478wml.177.1585081044560;
-        Tue, 24 Mar 2020 13:17:24 -0700 (PDT)
-Return-Path: <adrian.freihofer@gmail.com>
-Received: from md2pfrec.lan.ffah.ch (c-82-192-240-69.customer.ggaweb.ch. [82.192.240.69])
-        by smtp.gmail.com with ESMTPSA id z188sm5895190wme.46.2020.03.24.13.17.23
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=TSsW0DhBAvRr1EWcikM+WFdW5JUbW0UaU1rcAId212A=;
+        b=cze11kuNFXejP+VH1ijtUS0GVsDR+GblqNIerC/gl9WK/Zn7+8vE3Wb/AdvpjsBAE0
+         85+PQzmJ+g0Ti6Q7GprxqLEzmk5fGLT00dtkqEkFfZBp1rrsH+FHh9nhbRe8DYCHpYFj
+         ttWsrWEnN9uzrvNzykBU7ulCzNnqxcvJl0A7VcwghUEtnPzyH+ixEUkiSt46c0qoOTis
+         8c6wsosIVWPVZ8CzmQJMJJqulbD3xliWspSQSmcmlKNXw+lQ7rVl7djJ+doY8YUc4eII
+         yR2xYAMDkJx83XFnnlxomabwrJJK6XAdImPYacBQmbgF2/Nq+1Fpq5dmkm9OID1w7BU7
+         4cSA==
+X-Gm-Message-State: ANhLgQ0Dj0kNfjOuXJpuchE2wuOcTU++3jPLUUwKNyazv2l+LB6prG6q
+	bbCJVoAlr+iFW3yeXTGTwSOnRPNxghI=
+X-Google-Smtp-Source: ADFU+vsXwowzE0/e5FXhvXqm8c18EMxM6aB7ZcvgDmGHfcfckMWjxSbIwjkjbiQzd1S9ftTMwugcUA==
+X-Received: by 2002:adf:c651:: with SMTP id u17mr40879359wrg.40.1585085848508;
+        Tue, 24 Mar 2020 14:37:28 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.box ([5.28.93.197])
+        by smtp.gmail.com with ESMTPSA id z188sm6167782wme.46.2020.03.24.14.37.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 13:17:23 -0700 (PDT)
-Message-ID: <3a484c2606764690adcf4e03946fa46c53e67e02.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH] bitbake: gitsm: download submodules
-From: "Adrian Freihofer" <adrian.freihofer@gmail.com>
-To: Paul Barker <pbarker@konsulko.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Mar 2020 21:17:22 +0100
-In-Reply-To: <20200323173003.14e4695e@ub1910>
-References: <84e64ccddc46261a59bb1e281ef3294e08119abc.camel@siemens.com>
-	 <20200304095944.792423a0@ub1910>
-	 <cdda8416d63d0a7cdec45eefc8d93b1f74f175ec.camel@siemens.com>
-	 <20200305094209.3704f549@ub1910>
-	 <1292952b0e1fd7de3b123a1fbef8366cd7a22b80.camel@siemens.com>
-	 <20200323173003.14e4695e@ub1910>
-User-Agent: Evolution 3.34.4 (3.34.4-1.fc31) 
+        Tue, 24 Mar 2020 14:37:27 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH 1/2] quilt: do not test patch-wrapper as it is not enabled
+Date: Tue, 24 Mar 2020 22:36:46 +0100
+Message-Id: <20200324213647.20829-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2020-03-23 at 17:30 +0000, Paul Barker wrote:
-> On Thu, 5 Mar 2020 22:56:15 +0000
-> "Freihofer, Adrian" <adrian.freihofer@siemens.com> wrote:
-> 
-> > On Thu, 2020-03-05 at 09:42 +0000, Paul Barker wrote:
-> > > On Wed, 4 Mar 2020 12:30:10 +0000
-> > > "Freihofer, Adrian" <adrian.freihofer@siemens.com> wrote:
-> > >   
-> > > > -----Original Message-----
-> > > > From: Paul Barker <pbarker@konsulko.com>
-> > > > To: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
-> > > > Cc: openembedded-core@lists.openembedded.org <
-> > > > openembedded-core@lists.openembedded.org>
-> > > > Subject: Re: [OE-core] [PATCH] bitbake: gitsm: download submodules
-> > > > Date: Wed, 04 Mar 2020 09:59:44 +0000
-> > > > 
-> > > > On Wed, 4 Mar 2020 08:12:27 +0000
-> > > > "Freihofer, Adrian" <adrian.freihofer@siemens.com> wrote:
-> > > >   
-> > > > > The unpack function failed because the submodules were not
-> > > > > downloaded.
-> > > > > Calling download before unpack for each submodule solves this
-> > > > > issue.
-> > > > > 
-> > > > > Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> > > > > ---
-> > > > >  bitbake/lib/bb/fetch2/gitsm.py | 1 +
-> > > > >  1 file changed, 1 insertion(+)
-> > > > > 
-> > > > > diff --git a/bitbake/lib/bb/fetch2/gitsm.py
-> > > > > b/bitbake/lib/bb/fetch2/gitsm.py
-> > > > > index c622771d21..3715e9824f 100644
-> > > > > --- a/bitbake/lib/bb/fetch2/gitsm.py
-> > > > > +++ b/bitbake/lib/bb/fetch2/gitsm.py
-> > > > > @@ -184,6 +184,7 @@ class GitSM(Git):
-> > > > >  
-> > > > >              try:
-> > > > >                  newfetch = Fetch([url], d, cache=False)
-> > > > > +                newfetch.download()
-> > > > >                  newfetch.unpack(root=os.path.dirname(os.path.joi
-> > > > > n(re
-> > > > > po
-> > > > > _conf, 'modules', module)))
-> > > > >              except Exception as e:
-> > > > >                  logger.error('gitsm: submodule unpack failed: %s
-> > > > > %s'
-> > > > > %
-> > > > > (type(e).__name__, str(e)))    
-> > > > 
-> > > > You shouldn't be trying to download submodules in the do_unpack
-> > > > step.
-> > > > If
-> > > > they're missing at this stage it probably indicates a fetch issue.
-> > > > 
-> > > > Basically true, but the information about which submodules need to
-> > > > be
-> > > > downloaded is not available before the top level repo has been
-> > > > unpacked. I guess the solution must be something like:
-> > > > 
-> > > > fetch top-level
-> > > > unpack top-level
-> > > > foreach submodule:
-> > > >   fetch submodule
-> > > >   unpack submodule
-> > > > 
-> > > > What's the exact error that you're seeing?
-> > > > 
-> > > > Don't remeber exactly. But when I debugged the flow, it became
-> > > > obvious,
-> > > > that the submodules are not downloaded.
-> > > > 
-> > > > This could be related to the issue I saw when the fetcher uses git
-> > > > shallow
-> > > > tarballs from a mirror - if that's the case I'm planning to get
-> > > > that
-> > > > fixed
-> > > > this weekend.
-> > > > 
-> > > > Yes, the problem occurs with git shallows. The patch solves it with
-> > > > and
-> > > > without shallows for us.
-> > > > 
-> > > > Also, your email client seems to have chewed the patch up. It's
-> > > > best to
-> > > > send
-> > > > patches using `git send-email` only.
-> > > > 
-> > > > Sorry, we switched to a new e-mail solution. I have to adapt my
-> > > > setup.  
-> > > 
-> > > The problem with your patch is that it would require network access
-> > > during
-> > > do_unpack which then breaks our ability to do offline builds.  
-> > Fetching in the unpack task is probably really wrong, I agree.
-> > However, it also works on our CI infrastructure which runs without
-> > Internet connectivity.
-> > > Do you only see this issue when fetching from git shallow mirror
-> > > tarballs?  
-> > 
-> > On our CI which works with gitshallow archives, fetching did not work
-> > at all. On machines with Internet access we also had problems, but I did not completely analyze what happened. The ovmf package from poky was causing the troubles in our case.
-> > 
-> > > If so, the mirror tarballs need to be extracted during do_fetch but
-> > > not placed in the usual 'git2' directory (as future fetches can't
-> > > cope with shallow clones in that directory).  
-> > 
-> > Do you already have an idea how this could be implemented?
-> 
-> Sorry for the late response, I meant to let you know when my fix for this had
-> gone in to bitbake but I ended up away due to illness for a couple of weeks.
-> Commit 3987db95 "fetch2/gitsm: Unpack shallow mirror tarballs" should resolve
-> your issue, please let me know if it doesn't.
+Upstream only enables the test if --with-patch-wrapper
+was supplied to ./configure, and so should we.
 
-Thank you Paul. We picked your commit during the last days. It looks
-much better than mine and it works perfect.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-devtools/quilt/quilt.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Regards,
-Adrian
-> 
-> 
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index d6d06c049c..d2db079e0b 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -71,6 +71,9 @@ do_install_ptest() {
+ 	tar -c --exclude=mail.test --exclude=delete.test test/ | ( cd ${D}${PTEST_PATH} && tar -xf - && chmod 777 test)
+ 	cp ${WORKDIR}/Makefile ${D}${PTEST_PATH}
+ 	cp ${WORKDIR}/test.sh ${D}${PTEST_PATH}
++
++	# This is specifically excluded when --with-patch-wrapper is absent during ./configure
++	rm ${D}${PTEST_PATH}/test/patch-wrapper.test
+ }
+ 
+ PACKAGES += "guards guards-doc"
+-- 
+2.25.1
 
