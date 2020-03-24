@@ -1,91 +1,105 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web12.1382.1585085851002202765
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.2122.1585087955020474700
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2020 14:37:31 -0700
+ Tue, 24 Mar 2020 15:12:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vNKaSTul;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id l20so242818wmi.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 14:37:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=zgIoas0yvrzRJfeaSvudM6yCD+ehzoJ1iAvGKbD9FYI=;
-        b=vNKaSTulSX2uY6hv2HNJgoIdQeFVCxxS6bs2aP00R1IYpyFTe7dRZMJzGG+SR+Dlke
-         DyduL/0wBt8mhywbR96sinBRNDMBYqLA840tMdCoOqtT/Ynpiv7Vhxl8tt7Wg6X1j8qy
-         ypzF0un96A16h4Mp6xTLBxaafzEwUttiktfTCxg3f5VkFhvt+x8bhWoYNg0IRmaMO215
-         hxeTibPAK6gLqzJHQEHFyqoBAtz0u5bm5e24XeL6E30HKUj3C3ut1QymPYgOJ8MYSpq4
-         G1pF5ywCaNnGgc2XHqAUOtYbw0oeY+HUaWyQjWs8oNoALG7vmfmbV2eZ3jjzxp/sKyfY
-         kvNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=zgIoas0yvrzRJfeaSvudM6yCD+ehzoJ1iAvGKbD9FYI=;
-        b=h0qPcFA3vVZo4ddbBSz4YAr+9cvGbB1uGJiwh3Ps4gPxCrYXfZzpP9jagd9mc0jCTA
-         UalU5JFVevIXfYFAPOVTBJSTvrxa7Uet5FaNCWowG01ldbzuWWf4FGpn/q2N6ze5MoDC
-         qTxo65wGlfMtmWmTR0Q+MQ7fgkiPcCXW4iVlE/7aupddsYq6+MDyVHK2fbIsGatVHcGx
-         Bp1Y6MQ0Sk1VHwneeXV90evVXUSKGxE4qt5BAppdpBiK/GrphEJK9TYf4QGe3NXl8UyH
-         YfrXoFW0p53SpvbmlsRJ1Y0RmqA9ip3xl2a8gqTZAV/v1F7bCXFKmEnpTNPOT9uYxaGJ
-         MHZQ==
-X-Gm-Message-State: ANhLgQ3zg5IUeFuD/dTVEJJBvYHotsvwnOzq03Jfa8mIZOFviOl4pOtH
-	lT4hwii/DUMbYHKS0KCWV7NNMy4aMiw=
-X-Google-Smtp-Source: ADFU+vslW3t7h7tUlWCfdwdLbuBpvrn7N8GYhe2W30zLapyxGv5tl7JImJWN/65K/GL/5wr2LSYVEA==
-X-Received: by 2002:a1c:456:: with SMTP id 83mr74110wme.54.1585085849375;
-        Tue, 24 Mar 2020 14:37:29 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.93.197])
-        by smtp.gmail.com with ESMTPSA id z188sm6167782wme.46.2020.03.24.14.37.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 14:37:28 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 2/2] ptest: further bump RAM in qemu
-Date: Tue, 24 Mar 2020 22:36:47 +0100
-Message-Id: <20200324213647.20829-2-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200324213647.20829-1-alex.kanavin@gmail.com>
-References: <20200324213647.20829-1-alex.kanavin@gmail.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 5B47440C78;
+	Tue, 24 Mar 2020 22:12:34 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id LtF-x11GQO-w; Tue, 24 Mar 2020 22:12:34 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2FBC940C6A;
+	Tue, 24 Mar 2020 22:12:32 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 81C431718E9; Tue, 24 Mar 2020 18:12:31 -0400 (EDT)
+Date: Tue, 24 Mar 2020 18:12:31 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Michael Halstead <mhalstead@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 2/2] gstreamer1.0-plugins-good: add qt5 PACKAGECONFIG
+Message-ID: <20200324221231.GB1578@denix.org>
+References: <1582252918-89191-2-git-send-email-anuj.mittal@intel.com>
+ <20200324175821.GW1578@denix.org>
+ <19b30b569a31c0068d5c3b46e1f83178942ecc8e.camel@linuxfoundation.org>
+ <20200324181234.GX1578@denix.org>
+ <355e8218d0ac4611df2ad2ed0c199149c1dd1465.camel@linuxfoundation.org>
+ <15FF5122E920BDAA.24006@lists.openembedded.org>
+ <20200324184323.GZ1578@denix.org>
+ <467110132be087c26851033a7b9e45972b5c0bd4.camel@linuxfoundation.org>
+ <20200324193222.GA1578@denix.org>
+ <fe9b411737f87754311de2c607656b8ac74aee86.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <fe9b411737f87754311de2c607656b8ac74aee86.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Particularly gdk-pixbuf tests were hitting the 2M limit with an image size
-that is just under that.
+On Tue, Mar 24, 2020 at 07:57:27PM +0000, Richard Purdie wrote:
+> On Tue, 2020-03-24 at 15:32 -0400, Denys Dmytriyenko wrote:
+> > On Tue, Mar 24, 2020 at 07:29:42PM +0000, Richard Purdie wrote:
+> > > On Tue, 2020-03-24 at 14:43 -0400, Denys Dmytriyenko wrote:
+> > > > On Tue, Mar 24, 2020 at 02:33:19PM -0400, Denys Dmytriyenko
+> > > > wrote:
+> > > > > Richard,
+> > > > > 
+> > > > > Yes, yes, I understanf all that from a technical perspective
+> > > > > and
+> > > > > agree with 
+> > > > > it, but I was thinking about a more clear definition of this
+> > > > > policy
+> > > > > to be able 
+> > > > > to point anyone having such questions in the future...
+> > > > 
+> > > > BTW, I don't remember discussing this at YP TSC... Maybe OE TSC
+> > > > covered this in the past?
+> > > 
+> > > Metadata architecture decision would be the OE TSC and "TSC
+> > > discussion
+> > > long ago" means something from several years ago.
+> > 
+> > Thought so - were there any meeting minutes from back then? Sorry for
+> > being so 
+> > persistent, just trying to find some paper trail... :)
+> 
+> Yes, there is a record. You can find it quite easily. I don't need to
+> do this for you...
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-sato/images/core-image-sato-ptest-fast.bb | 2 +-
- meta/recipes-sato/images/core-image-sato-sdk-ptest.bb  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+All I could find is OE TSC minutes from 7 May 2013 referring to some related 
+list discussion:
 
-diff --git a/meta/recipes-sato/images/core-image-sato-ptest-fast.bb b/meta/recipes-sato/images/core-image-sato-ptest-fast.bb
-index 3641217306..29afb91d77 100644
---- a/meta/recipes-sato/images/core-image-sato-ptest-fast.bb
-+++ b/meta/recipes-sato/images/core-image-sato-ptest-fast.bb
-@@ -13,7 +13,7 @@ IMAGE_OVERHEAD_FACTOR = "1.0"
- IMAGE_ROOTFS_EXTRA_SPACE = "1524288"
- 
- # ptests need more memory than standard to avoid the OOM killer
--QB_MEM = "-m 1024"
-+QB_MEM = "-m 2560"
- 
- # Sadly at the moment the fast set of ptests is not robust enough and sporadically fails in a couple of places
- PTEST_EXPECT_FAILURE = "1"
-diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-index bf749acd79..220c427387 100644
---- a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-+++ b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-@@ -17,7 +17,7 @@ IMAGE_ROOTFS_EXTRA_SPACE = "1124288"
- 
- # ptests need more memory than standard to avoid the OOM killer
- # also lttng-tools needs /tmp that has at least 1G
--QB_MEM = "-m 2048"
-+QB_MEM = "-m 2560"
- 
- # Sadly at the moment the full set of ptests is not robust enough and sporadically fails in random places
- PTEST_EXPECT_FAILURE = "1"
+https://lists.openembedded.org/g/tsc/message/369?p=,,,20,0,0,0::Created,,PACKAGECONFIG,20,2,0,72188707
+
+(9:47:21 AM) RP: bluelightning: I think this was to PACKAGECONFIG more recipes
+(9:47:28 AM) bluelightning: ah ok
+(9:47:36 AM) RP: bluelightning: remove the need to bbappend, have
+people set mode config options
+(9:47:51 AM) bluelightning: and PACKAGECONFIG to enable deps on things
+outside OE-Core as well presumably
+(9:48:01 AM) bluelightning: (as discussed on the ml a few weeks ago)
+(9:48:06 AM) fray: yup
+
+I spent last couple hours digging through my archives of openembedded-core and 
+openembedded-devel lists around that time (Spring 2013), but besides general 
+move to enable PACKAGECONFIG in recipes, I didn't see anything specific about 
+crossing layer boundaries by PACKAGECONFIG dependencies, unfortunately. And it 
+was a wild time - all the energy, extra activity, conflicts, flamewars - that 
+definitely brought up some memories re-reading those discussions again... :)
+
+
+BTW, all the links on this page are now dead, since they point to the old 
+mailman/pipermail archives:
+https://www.openembedded.org/wiki/TSC
+
+Michael,
+
+Is there any way to correct the links in bulk or preserve the old archives, so 
+the old links would still work?
+
 -- 
-2.25.1
-
+Denys
