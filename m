@@ -1,47 +1,94 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web10.3922.1585049880895431901
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.4065.1585050616126121779
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2020 04:38:02 -0700
+ Tue, 24 Mar 2020 04:50:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=McRPOsSG;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=etaf=5j=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48mq4Q5dRhz4J;
-	Tue, 24 Mar 2020 12:37:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1585049879;
-	bh=qXhkjxlRHCEpcqC9AKPFQewIWP0h1mqonCZ6AJOo9xw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=McRPOsSGI+j4lkj2cOpip8Am3Dg6E12XqxQXdlMDOqBgobf8f1WiYRRSpkBWuX9vY
-	 yD8LgSLWf+4UuqCjGPDqbg3xZ6Lyqpc6p23AjGhhKlPWe5erVOj8HVBnjTD0d/d4Nb
-	 Wgc+N6752zAlLfPS65847HKzOU2XhSFROjRL3D06U7l2xquJMpWfF6DUGAaauNCKi5
-	 k/QUu6nDDjlaYzehvuOIVrlNfwBr2NPdiFkwYP/bi+tKDzgnMMOP1Ozm11BZbWZTAs
-	 uvNj2DNDw0W585eGNRUqLVn4QarFbtXLZ6AoUx9oGzDFwFTIVkGzRmEFVIw0wvuYX+
-	 6ibscd2aBgkl5hbfXtE7pWKVncn6NV35VU0feSoV54mCeqtGz72j91Uk6lVMMrW/3G
-	 yENNyfIhyn6eyv07O6wdO8JB2NjjWse6SUeFjn5GCsmPWyhxFsm5XN4XYBbihEqhav
-	 Pz+2f5teu5MYLj00hzfx4nz7tWgvQ5vMs+zLNrduOHqehfgvhIYPG0+tK6DGyjQ7yE
-	 Hxaj8CN+cOpw5mdk8lDzRBkzXPyRiUCk87ywOxUAfxq4CjM1nMS1T2MasZsv5CF6VD
-	 teIjpnlYfrk+5DY4J8mO9bLvY3DGiymR+/LUyJsXLmiZ2IA7zyjcFEqvH/kWTs/+NR
-	 rKLT/o6+eDLNyP67zEdaZKhA=
-Date: Tue, 24 Mar 2020 13:37:56 +0200
-From: "Adrian Bunk" <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f7gGf8XV;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id l20so3103456wmi.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 04:50:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=BbS2dtzAOq/eVmg6vm1DkQtzyFvh9rnM/ynKnpc8/zc=;
+        b=f7gGf8XVa6Sc7nuzNpVdGX2eOzTCJRKKb4I64Ia2zWyV88HPfUQvH7tSclNUmbN5Lz
+         Ez3B8EQ2U6SFjRBRCwgb5BaQmiyRVL13UJ9jYknjiYIIOHGHtHeQGACclHgkYc7CV9UY
+         Ka1Ti90AykxW0+U576aOHfxQXH/Ksz9KDwBPo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=BbS2dtzAOq/eVmg6vm1DkQtzyFvh9rnM/ynKnpc8/zc=;
+        b=A9F3J2+hIK5t5SU3E+6fMLoirIZ0x1s8IK5WLoJx3ZrPoAgkqP72MKfpw5fjL8YS7f
+         FIDSIZDrNTlF2cmflQGKfWFd4VYnAdiSuHtqWgt/dCbzSDlMzo48b0wdRVjsuxVpf86q
+         /bnngO5T+kTvexIARpCN2rhAu/jG+910uNUUh1u9cHwX7XoIrcJWy/ja5/2OoH3uKfFa
+         fqy8VJGY+bhpxa17qGHNrZwhk90IYPxZ8NWt7wlHbZbS1+L3yymJX89I12PsJgjKeSL/
+         d6xdQcrxfp1bdJrhokar+qeLfk075GGFs3N1CPTZibnhY8iR5mp94iZ8PSS/sVN9lJd2
+         YHWg==
+X-Gm-Message-State: ANhLgQ2Goc50eBCkhxuVxuGrDxLR6KhwmqyMgaO8Bfd+b0a0FPE2fX48
+	oTuikXCr8L37XePnAaWfF7oQNg==
+X-Google-Smtp-Source: ADFU+vve6imOy/Ii+5xVtfQS8NITc0JoZFdeeuO7S0azSVNcwx/vQ0SyhX59Inzq3yzxlj4EexXm+A==
+X-Received: by 2002:a7b:cbcf:: with SMTP id n15mr5440068wmi.13.1585050614671;
+        Tue, 24 Mar 2020 04:50:14 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id p13sm16149910wru.3.2020.03.24.04.50.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Mar 2020 04:50:14 -0700 (PDT)
+Message-ID: <ab2b3e84dea3b88666bf4807466b4bb64ab359b3.camel@linuxfoundation.org>
 Subject: Re: [OE-core] [PATCH] lto.inc: Add global LTO distro policy file
-Message-ID: <20200324113756.GB10278@localhost>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>, Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Mar 2020 11:50:13 +0000
+In-Reply-To: <20200324112723.GA10278@localhost>
 References: <20200323232529.3658577-1-raj.khem@gmail.com>
+	 <20200324112723.GA10278@localhost>
+User-Agent: Evolution 3.35.92-1 
 MIME-Version: 1.0
-In-Reply-To: <20200323232529.3658577-1-raj.khem@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 23, 2020 at 04:25:29PM -0700, Khem Raj wrote:
->...
-> +LTO_pn-python3 = ""
->...
+On Tue, 2020-03-24 at 13:27 +0200, Adrian Bunk wrote:
+> On Mon, Mar 23, 2020 at 04:25:29PM -0700, Khem Raj wrote:
+> > Distros which want to enable LTO can utilize this file, it only
+> > covers
+> > packages from OE-Core, other layers should include there own
+> > exclusion
+> > list for recipe which dont work with LTO
+> > ...
+> > +++ b/meta/conf/distro/include/lto.inc
+> > @@ -0,0 +1,23 @@
+> > +LTO_pn-glibc = ""
+> > +LTO_pn-gcc-runtime = ""
+> > +LTO_pn-libgcc-initial = ""
+> > +LTO_pn-libgcc = ""
+> > +LTO_pn-libpam = ""
+> > +LTO_pn-elfutils = ""
+> > +LTO_pn-perl = ""
+> > +LTO_pn-busybox = ""
+> > +LTO_pn-libxcrypt = ""
+> > +LTO_pn-curl = ""
+> > +LTO_pn-libcap = ""
+> > +LTO_pn-python3 = ""
+> > +LTO_pn-libproxy = ""
+> > +LTO_pn-libbsd = ""
+> > ...
+> 
+> It would be better to have these in the individual recipes,
+> it is much easier to understand what is going on when all
+> recipe-specific information is in the recipe.
 
-Building Python with LTO works by passing --with-lto to configure.
+I disagree. These files do let someone working on specific enablement
+see the status collectively and allow people to opt in/out of a given
+development feature.
 
-cu
-Adrian
+At some point in the future that can tip into making more sense in a
+recipe but its a staged process and things often make sense to start
+like this.
+
+Cheers,
+
+Richard
+
