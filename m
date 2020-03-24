@@ -1,101 +1,85 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web10.1910.1585039061757387452
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+ by mx.groups.io with SMTP id smtpd.web10.3552.1585048297921996027
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2020 01:37:42 -0700
+ Tue, 24 Mar 2020 04:11:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=THhYne4d;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id a81so2359320wmf.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 01:37:41 -0700 (PDT)
+ dkim=pass header.i=@kynetics-com.20150623.gappssmtp.com header.s=20150623 header.b=Un+kIs0O;
+ spf=neutral (domain: kynetics.com, ip: 209.85.208.43, mailfrom: diego.rondini@kynetics.com)
+Received: by mail-ed1-f43.google.com with SMTP id w26so13862335edu.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 04:11:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=qFhPtNZScJusR7jsLb0H9771+JwfHOxoIWS7Jp6dFvY=;
-        b=THhYne4dG5zLpbCYMJ0br/nC2Eyg+spS+5LyHH/ttN7TqIb6ASCgbiATjKcoaDW4+F
-         NzeWpsArrPF3LcTagf9rdCaObiypB0d7DAfgU9mZOslydS0PX+vdP2kpNDelYjW/Oash
-         z/B+qaS91aRUHgWtZ8Ey7mu87OTpts1KBmaYc=
+        d=kynetics-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=2WPpKYrpiwX1xUFbTRxEiuQsQrF26/wz0fEh2SgjmnU=;
+        b=Un+kIs0OHzi4O6QRSvPlVbTnk4Or+3Wybk3jtZR9oOQi1GAmxUSxk6TgD51wLyR2Qj
+         51tt9z4UxN4ZUE+BjsZ+7vxbHDuZYEGbhWeFvPN5bqAH6/hLRuNBiGtMeBTxyJQno3Yg
+         b/eO+/gxyFOu/wejbkgGoLgGBt+VFvOajCGXW3STi12lyqaY+3VmrJXco00TUIv+9tfj
+         AtiI/MSdMtH40bB5WWb+nQkdW6I58Ma4B6rGarbEPv1PaJ8OARAc4E5xJYoa5voUtdjB
+         f23SLpMrjGgs4KSsBjFcoGEcC2mW0ZdVHTSRLUpbajqN96/GKXPjQSorOrQrcbPPYKfm
+         4+tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=qFhPtNZScJusR7jsLb0H9771+JwfHOxoIWS7Jp6dFvY=;
-        b=WZr+QDgtUmPj7s0XibX3A6YKlxqorWoHQKl9n8DRvb2sc6n4cMeDI2QuWjsZvXb8Cr
-         HZrUm2jEI+aHjkPvL3nl5CxhxtEHs2P/gi8F/Z6RC9sxdawc8JxVVSdzAkeI5U+704XA
-         NRcyyoOa7fgHStaXhOxJOqDxm6nTC3svDtK7VEBMZdeiJ+2DK/1B5IitF+CDs0LfT5Zj
-         jebeuvU/Pj/AbGz2a7+DSTVe6eZgjOO1qcKLmcMv+Afuk1fXYF7qLl2RdVKp37QRGB2r
-         BdAr0UDTDqyO01hH7px9jNOoenaldYqgOhNnkOMjPg3O4VJKJqMLiBU++5YDJnvNmHMh
-         UF6g==
-X-Gm-Message-State: ANhLgQ2bpU8cg2bhjcdDOPi8aR2ouLQvrHFYkj8+T0KW/hqZ91YhgyKb
-	ipoCwZfePnK0QN4avhmQhMHXBg==
-X-Google-Smtp-Source: ADFU+vu0vL9CNTZQAC2LZbTHiNaj1hiSf5KLHbLY7qB9TVq/jIa3izthaMOO3gt2A1i7VZso8FhVVg==
-X-Received: by 2002:a05:600c:2311:: with SMTP id 17mr1107954wmo.64.1585039060252;
-        Tue, 24 Mar 2020 01:37:40 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id z6sm26197414wrp.95.2020.03.24.01.37.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 01:37:39 -0700 (PDT)
-Message-ID: <abaddad171ffa75900059fffee546157544befae.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] lto.inc: Add global LTO distro policy file
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 24 Mar 2020 08:37:38 +0000
-In-Reply-To: <20200323232529.3658577-1-raj.khem@gmail.com>
-References: <20200323232529.3658577-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.35.92-1 
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=2WPpKYrpiwX1xUFbTRxEiuQsQrF26/wz0fEh2SgjmnU=;
+        b=hm+wTzy1Rj5ZQ43sAox4QXDL5tHt6He/T856g+oJoh2PMT6jXHp8zwl/FRJENue/4N
+         U/NdjbRybFesWpT9p8LGJL2qQw1Fuz+wXYZM2tbkCaRYLg/1dT9Dw9OX6XdWl2GOPRIc
+         YmljK4BJmkmT1KuIxe/wnzGYgjqqnlV8q0Vowjmo0sJE2D2CLwF+uwPeqMuRmkXl62DU
+         +c4hM1kPKMeY2fEhcSC1WSrffWpy3pw7mjHc1FIGGVm7Af+HFp4CSuFvg5HhhumuElGy
+         /PJfxjmV7PeQsGmwvEIz6blMH2AXM3zs7hp4Owp8Enb0vV569G7MDfbknReh0pa2Vnfj
+         JS8w==
+X-Gm-Message-State: ANhLgQ27Q/5gGRV7m8NKRyYBOUTgf3/ER3bRd6CAk0NiMpzxUB6/ZW6y
+	LqNnlPeWputupQXNjUioAa+AiWACBthTnJWFYLkNLJqR3P8=
+X-Google-Smtp-Source: ADFU+vsmrhos23iE31YTKAuqnpLzvjNGzkSbmMe8f+CNQacJDMr3lVP7qJ+E5ICLkNkukiR19L4j92h538DLvMumQiA=
+X-Received: by 2002:a17:906:30d9:: with SMTP id b25mr12855356ejb.168.1585048295961;
+ Tue, 24 Mar 2020 04:11:35 -0700 (PDT)
 MIME-Version: 1.0
+From: "Diego" <diego.rondini@kynetics.com>
+Date: Tue, 24 Mar 2020 12:11:25 +0100
+Message-ID: <CAMfw5YqoLWdHLxcJNAfz8CxVd9GanYgZJV5B76wgPF1fgzK=zg@mail.gmail.com>
+Subject: python3 and util-linux dependency loop
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000a20b8005a197d01a"
+
+--000000000000a20b8005a197d01a
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-03-23 at 16:25 -0700, Khem Raj wrote:
-> Distros which want to enable LTO can utilize this file, it only
-> covers
-> packages from OE-Core, other layers should include there own
-> exclusion
-> list for recipe which dont work with LTO
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/conf/distro/include/lto.inc | 23 +++++++++++++++++++++++
->  1 file changed, 23 insertions(+)
->  create mode 100644 meta/conf/distro/include/lto.inc
-> 
-> diff --git a/meta/conf/distro/include/lto.inc
-> b/meta/conf/distro/include/lto.inc
-> new file mode 100644
-> index 0000000000..0cedc8deca
-> --- /dev/null
-> +++ b/meta/conf/distro/include/lto.inc
-> @@ -0,0 +1,23 @@
-> +LTO_pn-glibc = ""
-> +LTO_pn-gcc-runtime = ""
-> +LTO_pn-libgcc-initial = ""
-> +LTO_pn-libgcc = ""
-> +LTO_pn-libpam = ""
-> +LTO_pn-elfutils = ""
-> +LTO_pn-perl = ""
-> +LTO_pn-busybox = ""
-> +LTO_pn-libxcrypt = ""
-> +LTO_pn-curl = ""
-> +LTO_pn-libcap = ""
-> +LTO_pn-python3 = ""
-> +LTO_pn-libproxy = ""
-> +LTO_pn-libbsd = ""
-> +
-> +LTO ?= "-flto"
-> +
-> +SELECTED_OPTIMIZATION_append_class-target = " ${LTO}"
-> +TARGET_LDFLAGS_append_class-target = " ${LTO}"
-> +
-> +SELECTED_OPTIMIZATION[vardeps] += "LTO"
-> +
-> +PACKAGE_DEBUG_SPLIT_STYLE = "debug-without-src"
+Hi list,
 
-Why do we need to specify the debug split style here?
+I'm trying to enable the pylibmount PACKAGECONFIG of util-linux.
+Unfortunately this seems to uncover a dependency loop:
+python3 depends on util-linux:
+https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/python/python3_3.8.2.bb#n69
+while util-linux with pylibmount enabled depends on python3:
+https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-core/util-linux/util-linux.inc#n123
 
-Cheers,
+What do you think is the best approach to solve this dependency loop?
 
-Richard
+Thank you,
+Diego Rondini
+Sr. Embedded Engineer
 
+Kynetics
+www.kynetics.com
 
+--000000000000a20b8005a197d01a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi list,</div><div><br></div><div>I&#39;m trying to e=
+nable the pylibmount PACKAGECONFIG of util-linux.</div><div>Unfortunately t=
+his seems to uncover a dependency loop:</div><div>python3 depends on util-l=
+inux:</div><div><a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/poky/=
+tree/meta/recipes-devtools/python/python3_3.8.2.bb#n69">https://git.yoctopr=
+oject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/python/python3_3.8.=
+2.bb#n69</a></div><div>while util-linux with pylibmount enabled depends on =
+python3:<br><a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree=
+/meta/recipes-core/util-linux/util-linux.inc#n123">https://git.yoctoproject=
+.org/cgit/cgit.cgi/poky/tree/meta/recipes-core/util-linux/util-linux.inc#n1=
+23</a></div><div><br></div><div>What do you think is the best approach to s=
+olve this dependency loop?<br></div><div><br></div><div>Thank you,<br></div=
+><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_si=
+gnature"><div dir=3D"ltr">Diego Rondini<br>Sr. Embedded Engineer<br><br>Kyn=
+etics<br><a href=3D"http://www.kynetics.com" target=3D"_blank">www.kynetics=
+.com</a><br></div></div></div></div>
+
+--000000000000a20b8005a197d01a--
