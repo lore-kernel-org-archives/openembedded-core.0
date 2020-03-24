@@ -1,85 +1,72 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web10.3552.1585048297921996027
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web12.3778.1585049249249586707
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2020 04:11:38 -0700
+ Tue, 24 Mar 2020 04:27:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kynetics-com.20150623.gappssmtp.com header.s=20150623 header.b=Un+kIs0O;
- spf=neutral (domain: kynetics.com, ip: 209.85.208.43, mailfrom: diego.rondini@kynetics.com)
-Received: by mail-ed1-f43.google.com with SMTP id w26so13862335edu.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 04:11:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynetics-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=2WPpKYrpiwX1xUFbTRxEiuQsQrF26/wz0fEh2SgjmnU=;
-        b=Un+kIs0OHzi4O6QRSvPlVbTnk4Or+3Wybk3jtZR9oOQi1GAmxUSxk6TgD51wLyR2Qj
-         51tt9z4UxN4ZUE+BjsZ+7vxbHDuZYEGbhWeFvPN5bqAH6/hLRuNBiGtMeBTxyJQno3Yg
-         b/eO+/gxyFOu/wejbkgGoLgGBt+VFvOajCGXW3STi12lyqaY+3VmrJXco00TUIv+9tfj
-         AtiI/MSdMtH40bB5WWb+nQkdW6I58Ma4B6rGarbEPv1PaJ8OARAc4E5xJYoa5voUtdjB
-         f23SLpMrjGgs4KSsBjFcoGEcC2mW0ZdVHTSRLUpbajqN96/GKXPjQSorOrQrcbPPYKfm
-         4+tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=2WPpKYrpiwX1xUFbTRxEiuQsQrF26/wz0fEh2SgjmnU=;
-        b=hm+wTzy1Rj5ZQ43sAox4QXDL5tHt6He/T856g+oJoh2PMT6jXHp8zwl/FRJENue/4N
-         U/NdjbRybFesWpT9p8LGJL2qQw1Fuz+wXYZM2tbkCaRYLg/1dT9Dw9OX6XdWl2GOPRIc
-         YmljK4BJmkmT1KuIxe/wnzGYgjqqnlV8q0Vowjmo0sJE2D2CLwF+uwPeqMuRmkXl62DU
-         +c4hM1kPKMeY2fEhcSC1WSrffWpy3pw7mjHc1FIGGVm7Af+HFp4CSuFvg5HhhumuElGy
-         /PJfxjmV7PeQsGmwvEIz6blMH2AXM3zs7hp4Owp8Enb0vV569G7MDfbknReh0pa2Vnfj
-         JS8w==
-X-Gm-Message-State: ANhLgQ27Q/5gGRV7m8NKRyYBOUTgf3/ER3bRd6CAk0NiMpzxUB6/ZW6y
-	LqNnlPeWputupQXNjUioAa+AiWACBthTnJWFYLkNLJqR3P8=
-X-Google-Smtp-Source: ADFU+vsmrhos23iE31YTKAuqnpLzvjNGzkSbmMe8f+CNQacJDMr3lVP7qJ+E5ICLkNkukiR19L4j92h538DLvMumQiA=
-X-Received: by 2002:a17:906:30d9:: with SMTP id b25mr12855356ejb.168.1585048295961;
- Tue, 24 Mar 2020 04:11:35 -0700 (PDT)
+ dkim=pass header.i=@stusta.de header.s=default header.b=sFLNCmvp;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=etaf=5j=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48mprF4zzRz5g;
+	Tue, 24 Mar 2020 12:27:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1585049246;
+	bh=7SfcgP4zNGcldcPBtRNqB+XpbTzSfUiLR6af7LXCY+M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sFLNCmvpbA1PJ19X+S53TZwK0hfXotWzXMfXsn0AxUkARgMcGUCSSdnf33p51NLGJ
+	 nwhuT0MfU4t0Iw0RKyIkXDo1PwxkW08B7twEGdqQrqYjYs78vrmizxTiGwYqjST6MZ
+	 WfTlI3vLu3O4VTS4IyinKPU72aDUZrde/64RGsI1m5fuaBREMomWbgMy0pa7XPyXHl
+	 70kCcjwLhgiZACIhXJHWz9fyUvYYj2+yCUtHW/OHM8rrSjlvhc3j7YFQLlrDzX7R+q
+	 +w68ylg53cE3wSqw7Q2JX7i4onxm8fLR8sW6Gw9NcelRpIJ8t9s7TAMwfpREKbptBe
+	 2JawKTWVHZsfBGIDhlQ+ulxQb4/A+Q4V91qj3TI23pdnciDAf6fAysA+0r4tkOLiMG
+	 MbRWr/6PNp46ZPLhOqli9kwwiOPqKOLMUeAcQ0EJlibp2IH7r0F/2WO448ijmsxI48
+	 Kf91Toh4TxKPAi2CMtpsJ9GCN09eqUvhyRcAh7tHGo2m4mGl5tc+zjU4x06K8HQzc9
+	 YAOTOzdL3Ti7k2qH/E08fkeAXzqrAD75rtK8mYpmqYhPQmQ0faY0TfaXL+dBaF4/ZC
+	 POjbpWZ90iwpdOdqOZ0xMV4+gA2Tn3UcVnahsk8jxX173J34vuX45VaimMeTxliZA7
+	 ddABPnzz8rGradzWGHUmdia0=
+Date: Tue, 24 Mar 2020 13:27:23 +0200
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] lto.inc: Add global LTO distro policy file
+Message-ID: <20200324112723.GA10278@localhost>
+References: <20200323232529.3658577-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-From: "Diego" <diego.rondini@kynetics.com>
-Date: Tue, 24 Mar 2020 12:11:25 +0100
-Message-ID: <CAMfw5YqoLWdHLxcJNAfz8CxVd9GanYgZJV5B76wgPF1fgzK=zg@mail.gmail.com>
-Subject: python3 and util-linux dependency loop
-To: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000a20b8005a197d01a"
+In-Reply-To: <20200323232529.3658577-1-raj.khem@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
---000000000000a20b8005a197d01a
-Content-Type: text/plain; charset="UTF-8"
+On Mon, Mar 23, 2020 at 04:25:29PM -0700, Khem Raj wrote:
+> Distros which want to enable LTO can utilize this file, it only covers
+> packages from OE-Core, other layers should include there own exclusion
+> list for recipe which dont work with LTO
+>...
+> +++ b/meta/conf/distro/include/lto.inc
+> @@ -0,0 +1,23 @@
+> +LTO_pn-glibc = ""
+> +LTO_pn-gcc-runtime = ""
+> +LTO_pn-libgcc-initial = ""
+> +LTO_pn-libgcc = ""
+> +LTO_pn-libpam = ""
+> +LTO_pn-elfutils = ""
+> +LTO_pn-perl = ""
+> +LTO_pn-busybox = ""
+> +LTO_pn-libxcrypt = ""
+> +LTO_pn-curl = ""
+> +LTO_pn-libcap = ""
+> +LTO_pn-python3 = ""
+> +LTO_pn-libproxy = ""
+> +LTO_pn-libbsd = ""
+>...
 
-Hi list,
+It would be better to have these in the individual recipes,
+it is much easier to understand what is going on when all
+recipe-specific information is in the recipe.
 
-I'm trying to enable the pylibmount PACKAGECONFIG of util-linux.
-Unfortunately this seems to uncover a dependency loop:
-python3 depends on util-linux:
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/python/python3_3.8.2.bb#n69
-while util-linux with pylibmount enabled depends on python3:
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-core/util-linux/util-linux.inc#n123
+Otherwise this will end as an implementation of workarounds that
+might not even be needed anymore, for a previous example with
+several workarounds that were no longer needed see
+https://git.openembedded.org/openembedded-core/commit/?id=8bbb17d2dcafa9b4e26941a55932f4be2782e1d1
 
-What do you think is the best approach to solve this dependency loop?
-
-Thank you,
-Diego Rondini
-Sr. Embedded Engineer
-
-Kynetics
-www.kynetics.com
-
---000000000000a20b8005a197d01a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi list,</div><div><br></div><div>I&#39;m trying to e=
-nable the pylibmount PACKAGECONFIG of util-linux.</div><div>Unfortunately t=
-his seems to uncover a dependency loop:</div><div>python3 depends on util-l=
-inux:</div><div><a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/poky/=
-tree/meta/recipes-devtools/python/python3_3.8.2.bb#n69">https://git.yoctopr=
-oject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/python/python3_3.8.=
-2.bb#n69</a></div><div>while util-linux with pylibmount enabled depends on =
-python3:<br><a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree=
-/meta/recipes-core/util-linux/util-linux.inc#n123">https://git.yoctoproject=
-.org/cgit/cgit.cgi/poky/tree/meta/recipes-core/util-linux/util-linux.inc#n1=
-23</a></div><div><br></div><div>What do you think is the best approach to s=
-olve this dependency loop?<br></div><div><br></div><div>Thank you,<br></div=
-><div><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"gmail_si=
-gnature"><div dir=3D"ltr">Diego Rondini<br>Sr. Embedded Engineer<br><br>Kyn=
-etics<br><a href=3D"http://www.kynetics.com" target=3D"_blank">www.kynetics=
-.com</a><br></div></div></div></div>
-
---000000000000a20b8005a197d01a--
+cu
+Adrian
