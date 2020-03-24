@@ -1,62 +1,98 @@
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
- by mx.groups.io with SMTP id smtpd.web11.6379.1585057704669279260
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+ by mx.groups.io with SMTP id smtpd.web11.6416.1585057837367936536
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2020 06:48:24 -0700
+ Tue, 24 Mar 2020 06:50:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=unjP5wJp;
- spf=pass (domain: gmail.com, ip: 209.85.160.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f193.google.com with SMTP id 10so14936974qtp.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 06:48:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=GUuKRFAq;
+ spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f66.google.com with SMTP id z13so9223102qvw.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 06:50:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lIt71TPPRfSRfePmU7WYcVOYocCW+z1KtbKJ+f3+xVg=;
-        b=unjP5wJpDtfg9YJJqXw+b2vu+GTYKLWMyFnulXawrI767sKL5FjBSstIVE5kKYpKhs
-         TMJM0r/q55g0OMaSpazBuExCGfPWKFmCFFmjYavTCWEBds0kDv4i/W/AbdrXy12SYLZI
-         SY1H93SxNtg7Wq1Y22AvEJG2N7kP9nfZl3RQWNKWaEmvI7HLSinD3k38kaLyY9LwJQs+
-         kq5LSIIxiPbMg1LRG4+4ic17Yd1n0HcJJynxUakwhheBCdymUhQ3/XXRnI8xoH5ppz6i
-         AJqRf0iXsK9dapz5863eABychT9mILRV3WZ0zNWxyHMIvzBu97r4lrRc/cBhn/ay605L
-         gS/g==
+        bh=om01XSJAXF8YE6rZwzNJSCTKghrsavyyS2cVL8cM88M=;
+        b=GUuKRFAqp4fOie7nEzEAEpkUuB8Tq/t55ROq8IAR1p/euyvViu3NyA5QnYdsL58M0p
+         w1DEzer+/j9K7w2fKDvJ5+RigHvWsrB+1Wd8et3yVSatfT3/mRgOojCRcI0rP4jR7Wzy
+         Dqdf+WWDPoz757MlMdFt+Ma10+VrJftpQSx+LNTxdl39r3iNr1YzDoaKR66i6hV70DB5
+         gSHAbalaFIjeNTNswHPy71Lp7KHSe2ofK9IAEBxe88NA9iPBAqVFrwFIpj/Xz4cCMdcW
+         kZMxim2Ntne2Y0UAyujPFZPOujWugW/StjNEKZ7grUn7gbWUQd7zb3iVHRyxMyYTJcAh
+         6jbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lIt71TPPRfSRfePmU7WYcVOYocCW+z1KtbKJ+f3+xVg=;
-        b=HNesLbXopHdjwas3GQbCz7G7QsQ/Ua5zNuM9ugmgYkPljCpzqZslu/SDBsCKjQIXW+
-         2KILhitXMB2v1IQxBV+6UKi4OISztct4b/9pNxpqDm8n77sKlukKbbdVH+7ArHRSZF4T
-         E1pSila0IAoTItEHvVHA1rmQpbzm5Iu6rj4jFUgz7xSU3KXD+rwB0lxm9kqXoxxJw7QY
-         VTt3QromRG8DQ83IT9IAwi5AsrNZJnp7dKGeMxMO8peZ3pzMLSrV7tvi5w6IBz2Jnhqr
-         rvEPHgPrnU5xyc1M03sG/QJnNDmlJnbQIU85udbiYy1UkaJ3ofAJZu9b1Th1RVGQs6g2
-         8MCQ==
-X-Gm-Message-State: ANhLgQ05J10h3fWGYZ8tQVTXaV94/phPJLaHe2xtk9AtuBPuvBo9Vp4h
-	bAztzFW0Uoc9mjRLqcMNzG9itVk3hLerGfvyOJOMyN0x
-X-Google-Smtp-Source: ADFU+vv7b1Ei8Lumd6m7FYD2/T8sZPAOXM9AmL9Rkx9wdBKk/3EBL5GEblecciWNMZUbkXnFJviiXAYIxQi41qQ7DLs=
-X-Received: by 2002:ac8:17f9:: with SMTP id r54mr26228414qtk.285.1585057703556;
- Tue, 24 Mar 2020 06:48:23 -0700 (PDT)
+        bh=om01XSJAXF8YE6rZwzNJSCTKghrsavyyS2cVL8cM88M=;
+        b=HDwqAj50ChNOklIwuawa0Yh3sIF/6z29gDLfQy+92RJja0S6xy7J1OZlvMSSt1EjLB
+         xvQO3Jzez2wzt7SqDYtVs+pZvqhmBhaBIaNLJjJ3Y19XD5IeJ1t2tVT3HLGOo/3lHaca
+         TGEDCnyjbnRfc+4Oeg1r1JJEhLr49wiAMHqHaeDmPqK5DJ+UY/cpMwyYPbejnIvmULZ9
+         4Is8cyCHt9sFJ1flOFZlNKZD0VrOs0a6jnSju7DpaIFP43JmYYrmX0JrHegI++qWbJj1
+         I+XdGi3e8ywEL4UomLKj9MVXLpaYucYz6l+PXm2Tx3X0qp13/kVAEQUBrWeAR9qyEwd4
+         ztfA==
+X-Gm-Message-State: ANhLgQ0AZySTNBqCjQb1/ELdvSOQbjbt3+Fh2LoXLKA9ZgODSIYdi33s
+	J0vPpERB7VMBoo4/ZtDpHdGPSNbitXoFYZS4AobDHipc
+X-Google-Smtp-Source: ADFU+vtHbkQPuy78zjYBRSKEdc05wG3kKj6i23UtVHmTvHA89lC4jb7UxPDyV7hGJkUuOTSnqR9qBXA/CkvKjCEaEuM=
+X-Received: by 2002:a0c:9104:: with SMTP id q4mr26148318qvq.61.1585057836322;
+ Tue, 24 Mar 2020 06:50:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200323232529.3658577-1-raj.khem@gmail.com> <20200324113756.GB10278@localhost>
-In-Reply-To: <20200324113756.GB10278@localhost>
+References: <20200323232529.3658577-1-raj.khem@gmail.com> <20200324112723.GA10278@localhost>
+ <ab2b3e84dea3b88666bf4807466b4bb64ab359b3.camel@linuxfoundation.org>
+In-Reply-To: <ab2b3e84dea3b88666bf4807466b4bb64ab359b3.camel@linuxfoundation.org>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Tue, 24 Mar 2020 06:47:56 -0700
-Message-ID: <CAMKF1sokYen+3WDEtcwL-rLkBJbYJAFOC3UPx=7E=fLUnA6=Sw@mail.gmail.com>
+Date: Tue, 24 Mar 2020 06:50:09 -0700
+Message-ID: <CAMKF1sqQq7mR5UEYgsFybwJMegHoH3utxc3AJvgw_bEyzqBKEA@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] lto.inc: Add global LTO distro policy file
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Adrian Bunk <bunk@stusta.de>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Mar 24, 2020 at 4:37 AM Adrian Bunk <bunk@stusta.de> wrote:
+On Tue, Mar 24, 2020 at 4:50 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On Mon, Mar 23, 2020 at 04:25:29PM -0700, Khem Raj wrote:
-> >...
-> > +LTO_pn-python3 = ""
-> >...
+> On Tue, 2020-03-24 at 13:27 +0200, Adrian Bunk wrote:
+> > On Mon, Mar 23, 2020 at 04:25:29PM -0700, Khem Raj wrote:
+> > > Distros which want to enable LTO can utilize this file, it only
+> > > covers
+> > > packages from OE-Core, other layers should include there own
+> > > exclusion
+> > > list for recipe which dont work with LTO
+> > > ...
+> > > +++ b/meta/conf/distro/include/lto.inc
+> > > @@ -0,0 +1,23 @@
+> > > +LTO_pn-glibc = ""
+> > > +LTO_pn-gcc-runtime = ""
+> > > +LTO_pn-libgcc-initial = ""
+> > > +LTO_pn-libgcc = ""
+> > > +LTO_pn-libpam = ""
+> > > +LTO_pn-elfutils = ""
+> > > +LTO_pn-perl = ""
+> > > +LTO_pn-busybox = ""
+> > > +LTO_pn-libxcrypt = ""
+> > > +LTO_pn-curl = ""
+> > > +LTO_pn-libcap = ""
+> > > +LTO_pn-python3 = ""
+> > > +LTO_pn-libproxy = ""
+> > > +LTO_pn-libbsd = ""
+> > > ...
+> >
+> > It would be better to have these in the individual recipes,
+> > it is much easier to understand what is going on when all
+> > recipe-specific information is in the recipe.
 >
-> Building Python with LTO works by passing --with-lto to configure.
+> I disagree. These files do let someone working on specific enablement
+> see the status collectively and allow people to opt in/out of a given
+> development feature.
+>
+> At some point in the future that can tip into making more sense in a
+> recipe but its a staged process and things often make sense to start
+> like this.
 
-I think per recipe knobs I did not work on yet but perhaps worth
-adding them in next release
-or may be as packageconfig dependent on lto distro feature
+yeah. Maybe there should be a distro feature knob this inc file should
+add which can be used by recipes
+for an exception like adding configure options
 >
-> cu
-> Adrian
+> Cheers,
+>
+> Richard
+>
