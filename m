@@ -1,150 +1,190 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web10.3119.1585075547753687504
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+ by mx.groups.io with SMTP id smtpd.web12.78.1585076827241207743
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2020 11:45:48 -0700
+ Tue, 24 Mar 2020 12:07:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UsxncuSd;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id m3so4770010wmi.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 11:45:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TV6KV4aA;
+ spf=pass (domain: gmail.com, ip: 209.85.208.68, mailfrom: a.manache@gmail.com)
+Received: by mail-ed1-f68.google.com with SMTP id bd14so8173980edb.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Mar 2020 12:07:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Z1zAJDGxPnU+Ob6p4P1NKETh6ceqjii3fCfjg6N1Wek=;
-        b=UsxncuSdtcK/zLTowG5Bd1CugxW3D0EVH3MgejEYnN01PfPNXKJykjAGw9+84xslhf
-         eM/v9GwC5BQu53bFukWwpb2QmevEe1AVA8Q1aZWF5mDcYLyFRxPVpbIxUK5hm1kJqNhq
-         vSr13vPchSysfagBXaLxBTxDxlPYQgke9CIwM=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XpnZjs/4CkcHcWsMiDcjmaCP1/tzkqOq9SnL/1U7bYk=;
+        b=TV6KV4aApDUPJ6wLFqnq6S0GCRlUgf8Mnd4CfmV806IrWdM+D/uiCc3lrP/lH1Clqb
+         9yeKGJu0eOztG/gzHcdzsVUO2iOrA9KoWN1hCiKt5S91ZaLl5KKu9L0K1ikDeDGKCkXp
+         jSRgpjTWi+UV7q+gRQRZY7piBlQM4nwm9dw9nVCA8qMiGelnjsbMO3hmAofeH2a3PNZh
+         FZ7U917F5dX92WMi38oeexw6qJwH5XRa13ynkKHm2WSs4E6dAH7KSf9PFmw13IFDovnA
+         1nzleLKQIzPtD9u+YhD9d0UNlFaE9x0s6PBZQJfY1JNu/Nhuz3r3DLheNPu32kon5sXO
+         iD5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Z1zAJDGxPnU+Ob6p4P1NKETh6ceqjii3fCfjg6N1Wek=;
-        b=Uo/2VfuV42+rdiZJ/uqqYN4LXPESbAx4vSTpmY7tq+4pu197dATiAKzi64xlEd/UvS
-         K+eObJwkDsY0ytL8J07Pv1AOFmnasf/vt0grSZdd4T/h4HyNl+uff997wbGpK2F4ZFTu
-         ++NXcpX4+6GALHC49A5aLIvqhK6cWKrphbJgK1pOEJEHmNtKDD6hQ2f9e3krhpsG7o1i
-         U1KyvbgBcU2peKuK8R2UxRxDYbBxYWehgABxJFlvON69XRibpw4YsVB8h/6rHE+Dql2T
-         7icrBCnlnOSFwZR/YbVgWYEpyrwT6mTPuBsx+Viml5ZKAdCHPk1Db0Q2glyEPGedx9e+
-         wFgw==
-X-Gm-Message-State: ANhLgQ2q4Pg5T+ayTHygax0mTRmNMwSP9hQ7aYTHkm66j3gCTMUJ95iL
-	kgJ5ylJ6L3UTIT4+Nwr4CqUsRg==
-X-Google-Smtp-Source: ADFU+vtrLSqkTos8AhQNuricTvhtJb2w3v/6dx0oQ3xaZobGhOtRl0JWVA7XqZO15f0U05+0gyIyxg==
-X-Received: by 2002:a05:600c:2111:: with SMTP id u17mr7130569wml.158.1585075546127;
-        Tue, 24 Mar 2020 11:45:46 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id r18sm30336786wro.13.2020.03.24.11.45.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Mar 2020 11:45:44 -0700 (PDT)
-Message-ID: <d06c85c99d491e1a023fd3d858e34b428d40912b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] gstreamer1.0-plugins-good: add qt5 PACKAGECONFIG
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Anuj Mittal <anuj.mittal@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 24 Mar 2020 18:45:43 +0000
-In-Reply-To: <20200324183319.GY1578@denix.org>
-References: <1582252918-89191-1-git-send-email-anuj.mittal@intel.com>
-	 <1582252918-89191-2-git-send-email-anuj.mittal@intel.com>
-	 <20200324175821.GW1578@denix.org>
-	 <19b30b569a31c0068d5c3b46e1f83178942ecc8e.camel@linuxfoundation.org>
-	 <20200324181234.GX1578@denix.org>
-	 <355e8218d0ac4611df2ad2ed0c199149c1dd1465.camel@linuxfoundation.org>
-	 <20200324183319.GY1578@denix.org>
-User-Agent: Evolution 3.35.92-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XpnZjs/4CkcHcWsMiDcjmaCP1/tzkqOq9SnL/1U7bYk=;
+        b=sgvQ3CI6QfCjS+3dTVNeZWyp7VjaJiNzFXnKlD1Z5QDJegIBWESdc38dWAAqsSdygG
+         gShHmX5yhprPDQ4Gq2VCkyFTTpg691M54FJnFxAwdDvBM5TXB2/GX9qAjHzgxsMwzvO/
+         jWgsqogYiuNPf9EkfvxhnIMrlc0fwkuDuT+Dl6LBOUlRAeNCD/RCWbb3qLK9XEdQU20Q
+         3sHwQdqhtdnfaA7BF0Yh8BX0ka2G6RpiuiEiP1aFq0KietN6solmemLWNoTwSOom4yl8
+         beMgCq1+kj+zJQaxTnNoQSzss19QOx0v3Qt3SC9ass5NAxFpHi+xZr4/9h0BbibxusF1
+         vOWg==
+X-Gm-Message-State: ANhLgQ1fHo1JfrRGZnukAqDfvPMMJsVKEZqD/PdZLw8ggZcEvnO0KJJD
+	tKLwJupKl8ULf5as3Ii+Q5AMJ93RfNlHtPkxRUY=
+X-Google-Smtp-Source: ADFU+vsR8TL1WhJX2s7pxgQ9rjSeljtmoFMKWEy4qrXuNvWkXY8d2U/s9YHrOJTt7IToewVaD/tR5W2fJVVslEbPfxA=
+X-Received: by 2002:a17:906:524f:: with SMTP id y15mr5407515ejm.231.1585076825465;
+ Tue, 24 Mar 2020 12:07:05 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200324170259.3206-1-tom.hochstein@nxp.com> <CAMu9SpJmwRw9gmCJS4NkdhMuyNdVij_-C4AsyeLs+zb6+pV2fA@mail.gmail.com>
+ <5e1f58719f8835201ddcd82bb19af555f5c2dcc2.camel@linuxfoundation.org> <VE1PR04MB6621F3264C205F46AACCA6AFE2F10@VE1PR04MB6621.eurprd04.prod.outlook.com>
+In-Reply-To: <VE1PR04MB6621F3264C205F46AACCA6AFE2F10@VE1PR04MB6621.eurprd04.prod.outlook.com>
+From: "Antoine Manache" <a.manache@gmail.com>
+Date: Tue, 24 Mar 2020 20:06:54 +0100
+Message-ID: <CAMu9SpKSFfexqz2sqsr6ZyPtdeSCu1XfLYSSznX1FtpG5=TK7g@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] security_flags.inc: fix flags missing from SDK toolchain
+To: Tom Hochstein <tom.hochstein@nxp.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000001faa4005a19e75e2"
+
+--0000000000001faa4005a19e75e2
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2020-03-24 at 14:33 -0400, Denys Dmytriyenko wrote:
-> On Tue, Mar 24, 2020 at 06:15:51PM +0000, Richard Purdie wrote:
-> > On Tue, 2020-03-24 at 14:12 -0400, Denys Dmytriyenko wrote:
-> > > On Tue, Mar 24, 2020 at 06:07:44PM +0000, Richard Purdie wrote:
-> > > > On Tue, 2020-03-24 at 13:58 -0400, Denys Dmytriyenko wrote:
-> > > > > On Fri, Feb 21, 2020 at 10:41:58AM +0800, Anuj Mittal wrote:
-> > > > > > Instead of disabling unconditionally, add PACKAGECONFIG for
-> > > > > > qt5. Imported from meta-qt5 layer.
-> > > > > > 
-> > > > > > Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> > > > > > ---
-> > > > > >  .../gstreamer/gstreamer1.0-plugins-
-> > > > > > good_1.16.2.bb                  | 7 +------
-> > > > > >  1 file changed, 1 insertion(+), 6 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/meta/recipes-
-> > > > > > multimedia/gstreamer/gstreamer1.0-
-> > > > > > plugins-good_1.16.2.bb b/meta/recipes-
-> > > > > > multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
-> > > > > > index f3e0cee..8b34111 100644
-> > > > > > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-
-> > > > > > plugins-
-> > > > > > good_1.16.2.bb
-> > > > > > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-
-> > > > > > plugins-
-> > > > > > good_1.16.2.bb
-> > > > > > @@ -42,6 +42,7 @@ PACKAGECONFIG[libpng]     = "-
-> > > > > > Dpng=enabled,-
-> > > > > > Dpng=disabled,libpng"
-> > > > > >  PACKAGECONFIG[libv4l2]    = "-Dv4l2-libv4l2=enabled,-
-> > > > > > Dv4l2-
-> > > > > > libv4l2=disabled,v4l-utils"
-> > > > > >  PACKAGECONFIG[mpg123]     = "-Dmpg123=enabled,-
-> > > > > > Dmpg123=disabled,mpg123"
-> > > > > >  PACKAGECONFIG[pulseaudio] = "-Dpulse=enabled,-
-> > > > > > Dpulse=disabled,pulseaudio"
-> > > > > > +PACKAGECONFIG[qt5]        = "-Dqt5=enabled,-
-> > > > > > Dqt5=disabled,qtbase
-> > > > > > qtdeclarative qtbase-native"
-> > > > > 
-> > > > > Does it make oe-core depend on meta-qt5 layer?
-> > > > > 
-> > > > > What is the policy here for having inter-layer dependencies
-> > > > > in
-> > > > > DEPENDS vs. PACKAGECONFIG without explicitly listing them in
-> > > > > LAYERDEPENDS?
-> > > > 
-> > > > We have a clear policy that listing such options is ok as long
-> > > > as
-> > > > its
-> > > > not enabled by default.
-> > > 
-> > > Richard,
-> > > 
-> > > This is good, thank you for confirming. Do you have a link where
-> > > this
-> > > is clearly explained? Thanks again.
-> > 
-> > Its come up many times over the years and we've been consistent
-> > about
-> > it. I don't have a link but there has been mailing list discussion
-> > and
-> > perhaps TSC discussion long ago, I simply don't remember. There are
-> > many examples of that in OE-Core.
-> > 
-> > The alternative is forcing more into bbappends which doesn't seem
-> > to
-> > gain anything (PACKAGECONFIG itself could be changed from distro
-> > config
-> > for example).
-> > 
-> > Its also easy to catch bad defaults since the recipes would no
-> > longer
-> > parse due to missing dependencies which we'd quickly spot.
-> 
-> Yes, yes, I understanf all that from a technical perspective and
-> agree with it, but I was thinking about a more clear definition of
-> this policy to be able to point anyone having such questions in the
-> future...
+Absolutely.
+I would add an example of issue I've seen in a software project.
+Someone developing a new application and using the image-based SDK that I
+provided got the right functional behaviour on target.
+Once this application was integrated into the core image of our Yocto
+project (new recipe), the same tests on target failed (application crash).
+The root cause was : the two binaries produced were different because the
+effective GCC options at compile time were different between both methods
+(security flags not enabled when compiling with the SDK).
+Antoine
 
-Sure, that sounds great. This doesn't happen without someone doing it
-though.
+Le mar. 24 mars 2020 =C3=A0 19:34, Tom Hochstein <tom.hochstein@nxp.com> a
+=C3=A9crit :
 
-I have not looked at the wiki to see if we did already document it. I
-guess you already searched there before asking the question. If we
-don't have a policy documented, you can edit the wiki and add something
-?
+>
+>
+> > -----Original Message-----
+> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > Sent: Tuesday, March 24, 2020 1:03 PM
+> > To: Antoine Manache <a.manache@gmail.com>; Tom Hochstein <
+> tom.hochstein@nxp.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core][PATCH] security_flags.inc: fix flags missing fro=
+m
+> SDK toolchain
+> >
+> > On Tue, 2020-03-24 at 18:25 +0100, Antoine Manache wrote:
+> > > I've already sent this patch few months ago but not taken into
+> > > account yet.
+> >
+> > Can someone explain more about the issue here please?
+> >
+> > Shouldn't these flags be added to the SDK toolchain environment files
+> > rather than coded into the compiler? Why aren't they being coded in? or
+> > is gcc being misconfigured?
+>
+> The recipe meta-environment inherits cross-canadian and toolchain-scripts=
+.
+> The latter generates the SDK toolchain environment file using
+> TARGET_CC_ARCH and TARGET_LDFLAGS like this:
+>
+>         echo 'export CC=3D"${TARGET_PREFIX}gcc ${TARGET_CC_ARCH}
+> --sysroot=3D$SDKTARGETSYSROOT"' >> $script
+>         echo 'export LDFLAGS=3D"${TARGET_LDFLAGS}"' >> $script
+>
+>
+> https://github.com/openembedded/openembedded-core/blob/master/meta/classe=
+s/toolchain-scripts.bbclass#L82
+>
+> With class-cross-canadian as the applicable override, updating the
+> security flags for class-target does nothing for the SDK toolchain, hence
+> the proposed fix:
+>
+> TARGET_CC_ARCH_append_class-target =3D " ${SECURITY_CFLAGS}"
+> +TARGET_CC_ARCH_append_class-cross-canadian =3D " ${SECURITY_CFLAGS}"
+>  TARGET_LDFLAGS_append_class-target =3D " ${SECURITY_LDFLAGS}"
+> +TARGET_LDFLAGS_append_class-cross-canadian =3D " ${SECURITY_LDFLAGS}"
+>
+> Tom
+>
 
-Cheers,
+--0000000000001faa4005a19e75e2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div>Absolutely.</div><div>I would add an example of issue=
+ I&#39;ve seen in a software project.</div><div>Someone developing a new ap=
+plication and using the image-based SDK that I provided got the right funct=
+ional behaviour on target.</div><div>Once this application was integrated i=
+nto the core image of our Yocto project (new recipe), the same tests on tar=
+get failed (application crash).</div><div>The root cause was : the two  bin=
+aries produced were different because the effective GCC options at compile =
+time were different between both methods (security flags not enabled when c=
+ompiling with the SDK).<br></div><div>Antoine<br></div><br><div class=3D"gm=
+ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Le=C2=A0mar. 24 mars 2020 =
+=C3=A0=C2=A019:34, Tom Hochstein &lt;<a href=3D"mailto:tom.hochstein@nxp.co=
+m">tom.hochstein@nxp.com</a>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex"><br>
+<br>
+&gt; -----Original Message-----<br>
+&gt; From: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundat=
+ion.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<br>
+&gt; Sent: Tuesday, March 24, 2020 1:03 PM<br>
+&gt; To: Antoine Manache &lt;<a href=3D"mailto:a.manache@gmail.com" target=
+=3D"_blank">a.manache@gmail.com</a>&gt;; Tom Hochstein &lt;<a href=3D"mailt=
+o:tom.hochstein@nxp.com" target=3D"_blank">tom.hochstein@nxp.com</a>&gt;<br=
+>
+&gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Subject: Re: [OE-core][PATCH] security_flags.inc: fix flags missing fr=
+om SDK toolchain<br>
+&gt; <br>
+&gt; On Tue, 2020-03-24 at 18:25 +0100, Antoine Manache wrote:<br>
+&gt; &gt; I&#39;ve already sent this patch few months ago but not taken int=
+o<br>
+&gt; &gt; account yet.<br>
+&gt; <br>
+&gt; Can someone explain more about the issue here please?<br>
+&gt; <br>
+&gt; Shouldn&#39;t these flags be added to the SDK toolchain environment fi=
+les<br>
+&gt; rather than coded into the compiler? Why aren&#39;t they being coded i=
+n? or<br>
+&gt; is gcc being misconfigured?<br>
+<br>
+The recipe meta-environment inherits cross-canadian and toolchain-scripts. =
+The latter generates the SDK toolchain environment file using TARGET_CC_ARC=
+H and TARGET_LDFLAGS like this:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &#39;export CC=3D&quot;${TARGET_PREFIX}gcc=
+ ${TARGET_CC_ARCH} --sysroot=3D$SDKTARGETSYSROOT&quot;&#39; &gt;&gt; $scrip=
+t<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &#39;export LDFLAGS=3D&quot;${TARGET_LDFLA=
+GS}&quot;&#39; &gt;&gt; $script<br>
+<br>
+<a href=3D"https://github.com/openembedded/openembedded-core/blob/master/me=
+ta/classes/toolchain-scripts.bbclass#L82" rel=3D"noreferrer" target=3D"_bla=
+nk">https://github.com/openembedded/openembedded-core/blob/master/meta/clas=
+ses/toolchain-scripts.bbclass#L82</a><br>
+<br>
+With class-cross-canadian as the applicable override, updating the security=
+ flags for class-target does nothing for the SDK toolchain, hence the propo=
+sed fix:<br>
+<br>
+TARGET_CC_ARCH_append_class-target =3D &quot; ${SECURITY_CFLAGS}&quot;<br>
++TARGET_CC_ARCH_append_class-cross-canadian =3D &quot; ${SECURITY_CFLAGS}&q=
+uot;<br>
+=C2=A0TARGET_LDFLAGS_append_class-target =3D &quot; ${SECURITY_LDFLAGS}&quo=
+t;<br>
++TARGET_LDFLAGS_append_class-cross-canadian =3D &quot; ${SECURITY_LDFLAGS}&=
+quot;<br>
+<br>
+Tom<br>
+</blockquote></div></div>
 
+--0000000000001faa4005a19e75e2--
