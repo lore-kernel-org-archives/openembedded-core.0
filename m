@@ -1,71 +1,72 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
- by mx.groups.io with SMTP id smtpd.web11.3460.1585100617988134149
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.7540.1585126287461850099
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Mar 2020 18:43:44 -0700
+ Wed, 25 Mar 2020 01:51:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: <nil>, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.72,302,1580745600"; 
-   d="scan'208";a="87206055"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 25 Mar 2020 09:43:43 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 2F4CE406AB15
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2020 09:33:29 +0800 (CST)
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 25 Mar 2020 09:43:39 +0800
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Wed, 25 Mar 2020 09:43:48 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=W5zjBIOL;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; l=1416; q=dns/txt; s=axis-central1;
+  t=1585126287; x=1616662287;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=f7kNHwSTmXkG7aRRK0QqZIxqQNf7Buznf+1v630D0QQ=;
+  b=W5zjBIOLq+kApPOAFAqusfn/Y2D+PzD+l/Jk0OAzdYsIHkAbGgRjqd0q
+   yqFl7x8rkd3jw3yqnPqa/boENE/29Imc/S1L2ltqiu1894w+ltf2C7q7V
+   9FRmio7ZTpQkwJvv6nGeGcAI8t6cM9wdq82qexFd6NoalD+bdU02i9bJR
+   930Ty/rMsRR+Q2m0Cddu5pnaVgAzf31ouX7hx5QUdCuwv+x6cfXf3VSVs
+   ZXNeSSD9/rLLBphuhIRnfZh1xu3EFGXIHyD5vKeEDR8wZYIE6xwl2uGKN
+   2PSpYUxi7M0SdF6z5kbQYQV2j+k0qQ3aNO7VlZhm62Q8pCMD2ZropUvJg
+   Q==;
+IronPort-SDR: 0PJYO6yJDDfECH6ealyJ/CzkhMKldM/x50ZhYz0qpgQX1JGuwY8mlIAyDVcg0s6LmO0uupGa9A
+ 9T9cuSYHMrkTpp9WIBYhnd4ybZBAduADbL0xwoZNKg08xMRntV/kAtiwxtLVS/qTlssmYyxj6n
+ PTIbNoQTv0NfucMOrYfDuviyscRkgkM7Tm5Q+S0PfsBg1gFjcj6sNzrakaSEP0MBgjG4Q5TAWF
+ GWo1CPRl3r1QwIoS5gcMxNht/NWjvFUwRrgv+mj2ha4G7zeN6i2YDVlAbttrHb51gQj6pWMKWS
+ 1aA=
+X-IronPort-AV: E=Sophos;i="5.72,303,1580770800"; 
+   d="scan'208";a="6717968"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] mesa: upgrade 20.0.1 -> 20.0.2
-Date: Tue, 24 Mar 2020 23:47:52 -0700
-Message-ID: <1585118872-33976-3-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1585118872-33976-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1585118872-33976-1-git-send-email-wangmy@cn.fujitsu.com>
+Subject: [PATCH] buildstats-plot.sh: Show spaces and underscores correctly in titles/keys
+Date: Wed, 25 Mar 2020 09:51:14 +0100
+Message-ID: <20200325085114.15148-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 2F4CE406AB15.A22ED
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
+Return-Path: pkj@axis.com
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Spaces were previously converted to dashes, and underscores caused the
+next character in the title/key to be printed using subscript due to the
+enhanced string support in gnuplot.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- .../mesa/{mesa-gl_20.0.1.bb => mesa-gl_20.0.2.bb}             | 0
- meta/recipes-graphics/mesa/{mesa_20.0.1.bb => mesa_20.0.2.bb} | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_20.0.1.bb => mesa-gl_20.0.2.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_20.0.1.bb => mesa_20.0.2.bb} (88%)
+ scripts/contrib/bb-perf/buildstats-plot.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_20.0.1.bb b/meta/recipes-graphics/mesa/mesa-gl_20.0.2.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_20.0.1.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_20.0.2.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_20.0.1.bb b/meta/recipes-graphics/mesa/mesa_20.0.2.bb
-similarity index 88%
-rename from meta/recipes-graphics/mesa/mesa_20.0.1.bb
-rename to meta/recipes-graphics/mesa/mesa_20.0.2.bb
-index e18c00b051..56ee28c870 100644
---- a/meta/recipes-graphics/mesa/mesa_20.0.1.bb
-+++ b/meta/recipes-graphics/mesa/mesa_20.0.2.bb
-@@ -9,8 +9,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-            "
+diff --git a/scripts/contrib/bb-perf/buildstats-plot.sh b/scripts/contrib/bb-perf/buildstats-plot.sh
+index 80fd30960c..45c27d0b97 100755
+--- a/scripts/contrib/bb-perf/buildstats-plot.sh
++++ b/scripts/contrib/bb-perf/buildstats-plot.sh
+@@ -120,7 +120,7 @@ OUTBUILDSTATS="$PWD/buildstats.log"
+ $CD/buildstats.sh -b "$BS_DIR" -s "$STATS" -t "$TASKS" $RECIPE $ACCUMULATE -H > $OUTBUILDSTATS
  
--SRC_URI[md5sum] = "428ac511e4b05647a00b3778f1279da7"
--SRC_URI[sha256sum] = "6153ba3f8cb0524bbfc08e4db76b408126b2d1be8f789dffe28d1a0461eedde4"
-+SRC_URI[md5sum] = "31ca59cd92c38cb8e1a58b62b01c3e08"
-+SRC_URI[sha256sum] = "aa54f1cb669550606aab8ceb475105d15aeb814fca5a778ce70d0fd10e98e86f"
+ # Get headers
+-HEADERS=$(cat $OUTBUILDSTATS | sed -n -e '1s/ /-/g' -e '1s/:/ /gp')
++HEADERS=$(cat $OUTBUILDSTATS | sed -n -e 's/\(.*\)/"\1"/' -e '1s/ /\\\\\\\\ /g' -e 's/_/\\\\\\\\_/g' -e '1s/:/" "/gp')
  
- UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ echo -e "set boxwidth 0.9 relative"
+ echo -e "set style data histograms"
+@@ -129,7 +129,7 @@ echo -e "set xtics rotate by 45 right"
  
+ # Get output data
+ if [ -z "$SUM" ]; then
+-    cat $OUTBUILDSTATS | sed -e '1d' | sort -k3 -n -r | head -$N > $OUTDATA_FILE
++    cat $OUTBUILDSTATS | sed -e '1d' -e 's/_/\\\\_/g' | sort -k3 -n -r | head -$N > $OUTDATA_FILE
+     # include task at recipe column
+     sed -i -e "1i\
+ ${HEADERS}" $OUTDATA_FILE
 -- 
-2.17.1
-
-
+2.21.1
 
