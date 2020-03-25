@@ -1,80 +1,89 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web11.24800.1585173530391331407
+Received: from smtp01.udag.de (smtp01.udag.de [62.146.106.17])
+ by mx.groups.io with SMTP id smtpd.web11.26318.1585177896669160520
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2020 14:58:50 -0700
+ Wed, 25 Mar 2020 16:11:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=zmrl5hqH;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.196, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f196.google.com with SMTP id h14so4409207qke.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2020 14:58:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=i0rVEhuiiVObjx4kNQGPPPOvsdwlOIR9MtgQIt9OtNA=;
-        b=zmrl5hqH/PuIDqu1wx42A7bcjjbHTwNoBjFgpsMNLCOKmYLY+LznAHqhISgGFvHM+p
-         puhCiaKyUVnlZ/CPQnIm7A1Z2yn/7tSx1c0WOoCqdzaAIlHLEk5iUwgEiUATrGMeWGvj
-         mLei5UrIXCWGjuOruzqH5R8vstF494jyfZpFtwWFGO4Ubg4az6lPXMgxlooLT4UMK9n8
-         pSTSaKIkKr54riY7iCx0iK1UC7r/28O/xX6QehKLn5Wx7Dw7uygug3J/zMeFwoo6nVkd
-         3EfeWnAieb2FQntG5M48oCC4ssbyWhZGqJPBsfL30gz46TiLxjNTrMgO6lm4VU1q7d9N
-         TO8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=i0rVEhuiiVObjx4kNQGPPPOvsdwlOIR9MtgQIt9OtNA=;
-        b=t12QkTLNqfQaKVbwxZptHrbFIyebd3SKFnXDHBCejA5KjgIOKAc5HG9jWFhgwRKdLT
-         WaYgF7emt+muXxbpB5HcUB/lLDflr3K2h7oxRpPlijk4J5ym7AwGBKK+3R7o7FNoE+vg
-         E+D4FKxWG2IIR4p47cUvmoE8CbZ1gv8MCoKNBHt5jPlI286rX27Eeihc+/47+u1oR8aS
-         Cn57zQnMkp42/eDVZcA3K1mb4Qc+ksxUrp19ErOKqWNttyKjJtwRq3ELvz37zlDHuE8p
-         xkqDndSVc9QNpAU1L7ulBAe8WQJ9a3DuucQTRJWGEyHt3nAU7PjJr26VXIUPwp6H/IO0
-         Yw2g==
-X-Gm-Message-State: ANhLgQ0Q+BPxlEU1zAh23NdgdzKJzDOmufWY5D9W8dPf5q8moerl74dC
-	o/4cOqlBoEsJANPSD9sk4OHj+yev0ic5qA==
-X-Google-Smtp-Source: ADFU+vu5y8T7H1U6VxKcYME9OWfEFJoe2uhDnC3j1pVArokhHDhgmQZLBw8S8i3DFMGs6CQ9Ba4odA==
-X-Received: by 2002:a37:a40e:: with SMTP id n14mr5163662qke.494.1585173529257;
-        Wed, 25 Mar 2020 14:58:49 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
-        by smtp.gmail.com with ESMTPSA id h46sm206492qtc.84.2020.03.25.14.58.48
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Mar 2020 14:58:48 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f172.google.com with SMTP id e11so4370079qkg.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2020 14:58:48 -0700 (PDT)
-X-Received: by 2002:a37:9e05:: with SMTP id h5mr4968307qke.71.1585173528090;
- Wed, 25 Mar 2020 14:58:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200325181447.14750-1-mark.hatle@kernel.crashing.org>
-In-Reply-To: <20200325181447.14750-1-mark.hatle@kernel.crashing.org>
-Date: Wed, 25 Mar 2020 18:58:36 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKr3EFtcpu3cxvr4BSw9LkoM+qL-2idSDiMLzu-DGpAbVA@mail.gmail.com>
-Message-ID: <CAP9ODKr3EFtcpu3cxvr4BSw9LkoM+qL-2idSDiMLzu-DGpAbVA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mesa-gl: The purpose of mesa-gl is to provide for X11 usage
-To: Mark Hatle <mark.hatle@kernel.crashing.org>
-Cc: "Burton, Ross" <ross.burton@intel.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=missing; spf=none, err=permanent DNS error (domain: typedivision.de, ip: 62.146.106.17, mailfrom: sk@typedivision.de)
+Received: from localhost.localdomain (x4e36161a.dyn.telefonica.de [78.54.22.26])
+	by smtp01.udag.de (Postfix) with ESMTPA id 48F9D397;
+	Thu, 26 Mar 2020 00:11:34 +0100 (CET)
+From: "Stefan Kral" <sk@typedivision.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Stefan Kral <sk@typedivision.de>
+Subject: [PATCH] oeqa: default runtime json results for testexport
+Date: Thu, 26 Mar 2020 00:11:05 +0100
+Message-Id: <20200325231105.24851-1-sk@typedivision.de>
+X-Mailer: git-send-email 2.17.2 (Apple Git-113)
+Authentication-Results: smtp01.udag.de;
+	auth=pass smtp.auth=typedivision-de-0001 smtp.mailfrom=sk@typedivision.de
 
-On Wed, Mar 25, 2020 at 3:15 PM Mark Hatle
-<mark.hatle@kernel.crashing.org> wrote:
->
-> Trying to build mesa-gl without X11 enabled, results in numerous errors
-> about being incorrectly configured, such as:
->
->   ERROR: Problem encountered: building dri drivers require at least one windowing system or classic osmesa
->
-> After consulting with the author of this recipe, it was clear that it
-> was only intended for the X11 use-case, so requring X11 should avoid the
-> error message above.
->
-> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Set the json result output dir in the oeqe runtime context to create
+testresults.json file by default for exported runtime test runs.
 
-This is wrong. We ought to add osmesa as fallback and not hard-require X11
+Use current datetime for the json result property name (not DATETIME
+from build) to allow multiple result entries.
 
+Signed-off-by: Stefan Kral <sk@typedivision.de>
+---
+ meta/lib/oeqa/core/context.py    | 10 ++++++----
+ meta/lib/oeqa/runtime/context.py |  1 +
+ 2 files changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
+index b9a28ce319..4705d608ac 100644
+--- a/meta/lib/oeqa/core/context.py
++++ b/meta/lib/oeqa/core/context.py
+@@ -100,24 +100,26 @@ class OETestContextExecutor(object):
+     name = 'core'
+     help = 'core test component example'
+     description = 'executes core test suite example'
++    datetime = time.strftime("%Y%m%d%H%M%S")
+ 
+     default_cases = [os.path.join(os.path.abspath(os.path.dirname(__file__)),
+             'cases/example')]
+     default_test_data = os.path.join(default_cases[0], 'data.json')
+     default_tests = None
++    default_json_result_dir = None
+ 
+     def register_commands(self, logger, subparsers):
+         self.parser = subparsers.add_parser(self.name, help=self.help,
+                 description=self.description, group='components')
+ 
+-        self.default_output_log = '%s-results-%s.log' % (self.name,
+-                time.strftime("%Y%m%d%H%M%S"))
++        self.default_output_log = '%s-results-%s.log' % (self.name, self.datetime)
+         self.parser.add_argument('--output-log', action='store',
+                 default=self.default_output_log,
+                 help="results output log, default: %s" % self.default_output_log)
+ 
+         self.parser.add_argument('--json-result-dir', action='store',
+-                help="json result output dir, create testresults.json here if set")
++                default=self.default_json_result_dir,
++                help="json result output dir, default: %s" % self.default_json_result_dir)
+ 
+         group = self.parser.add_mutually_exclusive_group()
+         group.add_argument('--run-tests', action='store', nargs='+',
+@@ -195,7 +197,7 @@ class OETestContextExecutor(object):
+ 
+     def _get_result_id(self, configuration):
+         return '%s_%s_%s_%s' % (configuration['TEST_TYPE'], configuration['IMAGE_BASENAME'],
+-                                configuration['MACHINE'], configuration['DATETIME'])
++                                configuration['MACHINE'], self.datetime)
+ 
+     def _pre_run(self):
+         pass
+diff --git a/meta/lib/oeqa/runtime/context.py b/meta/lib/oeqa/runtime/context.py
+index 101434a595..3826f27642 100644
+--- a/meta/lib/oeqa/runtime/context.py
++++ b/meta/lib/oeqa/runtime/context.py
+@@ -47,6 +47,7 @@ class OERuntimeTestContextExecutor(OETestContextExecutor):
+     default_data = None
+     default_test_data = 'data/testdata.json'
+     default_tests = ''
++    default_json_result_dir = '%s-results' % name
+ 
+     default_target_type = 'simpleremote'
+     default_manifest = 'data/manifest'
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+2.17.2 (Apple Git-113)
+
