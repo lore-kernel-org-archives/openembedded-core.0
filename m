@@ -1,67 +1,87 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web11.2570.1585247442491544147
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web11.2613.1585247556896225731
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 11:30:42 -0700
+ Thu, 26 Mar 2020 11:32:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oiMi4S7r;
- spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f193.google.com with SMTP id k13so7897091qki.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 11:30:42 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=r3pxryg4;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.222.196, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qk1-f196.google.com with SMTP id h14so7891954qke.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 11:32:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
          :cc;
-        bh=lQOQRf7ymfjYfQVeL0v9BQSdlbQcS1EKv5GFYYkS8/k=;
-        b=oiMi4S7r37Ah2Pi3kgXu128t8XS4Yk465Sid4rIKlvfu8B6Bp0rDBCPB1g9v/YuVHK
-         U61m/OO7YEXXccbG/ZfGF4DFjD90nVxTWy64ke93FtxxXlh4CSQIkfaHNc9esDwic8kV
-         dEEDVpO03cYcIsk7PFgF4Ky1TrSIKBcOPeoC9bsLSpDswlu0bG5D7NOuqAxwkSeOLJAL
-         1r7DvVn/a7CfYbycuv1Py4QoTY05CUn724x/7FWONL1yuAfWwMfdRf5IPkpKrMbNhWn0
-         Yl7IfwMbu0GKUu2jrXH2Fdxp+LqncmeD/gRQvHIEzGZlK/aAEp0zT418d25mvrXVEje9
-         2cMQ==
+        bh=Byj/2rAN9CeLS3GXkFOjJMufbHT+9h7t3r+6fWQ6kWk=;
+        b=r3pxryg4EkQCkY5wS0BKr4WFLLB7X3xhMiwJW69n26ByfUIalCr7c2MNRqvl6aGTTn
+         e5deHDuc3ejvIlDSKn2HK9/ul35DfHoDGVqSWus6bwD1trRc6bBxhOw2dHCIAy5yPHEg
+         5k3xFL7xCiHiMonXMhwqRR1aeqQ8ylqPMq6oHyFk5D0/ccJdKHHLaHxs7BZPG71xqbyL
+         IVZd3wzjyNWGWJ5+SGRecoCHSTyAm9oyGilKVtq7AK6fMFQXAoKaQK+bLr8FLQZBEfia
+         hH61b9bLg4Ai20Dawgy+K6YPo2jYnVLacNsAJ3JB3860dtymVriMqz2pm33v5sefp7s7
+         JpOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
          :message-id:subject:to:cc;
-        bh=lQOQRf7ymfjYfQVeL0v9BQSdlbQcS1EKv5GFYYkS8/k=;
-        b=FTmjp77zwefxI3OY7xt43im43xKogAXUevs74f0JFUIeIFPdOC4weSLDMuKUe6xRE5
-         x0YGlJjB2YXbKevTKi/IjkzEj+U1tU7vipMBZIdl3iPppxD358OJj/z01mmGpMHRu0q8
-         PLp680/0gSu1FT2iJi+ksH7Epf/lVCe/lgJOP4XYUx/KArLaobnv+XD3aCfLm7DOSmPZ
-         /O/QmNiOG+guFk9sn0y6bSxulK1NWw4OE788rMkEzBP6HWlMdlOFGx8TGf9lq3pK3nh1
-         Sogj3pPy8akFg2UeVCDt2x8E7bIb44WVY9Eiqs6apCWuYmJiOIbM8eJbMFEMqAKwRHQN
-         bmkQ==
-X-Gm-Message-State: ANhLgQ2WCIpOv/wNcsGtYfVPbFTTDexvFAj4ClwLfIT9dOP4r6/lyGgG
-	/EdBTCvdZBUCzGDGMRC37AgnMTiyR0hTq3xAtWHVV6Md
-X-Google-Smtp-Source: ADFU+vvD/PisQ7cNMm5vFc6BlhYg8FQ4MO8s709IoQtMfmcyBxf3SQJmofzHFeN8Cbk3g4jFr0JEMoElJbvsNIiAVdY=
-X-Received: by 2002:a37:bec5:: with SMTP id o188mr9695496qkf.165.1585247441413;
- Thu, 26 Mar 2020 11:30:41 -0700 (PDT)
+        bh=Byj/2rAN9CeLS3GXkFOjJMufbHT+9h7t3r+6fWQ6kWk=;
+        b=jyTNQXb2IJVrEQ6p709RZDC+0L3saUgb4AsYtfR289tPDMDlv988CVnxGZKPaYzIQV
+         jWakdT/G7pNvKWvbLIgejpv4w5+DJ+mK8UibWcBJlxHDet7QlPw8Pyhr43DmNQHukKjj
+         fkd+E3/UbOaWUVn9eTxJRzTExUWPM1fmbFFgzLsrngJ3rjcxjcjQMaalKUztGMqXXruP
+         IZD5/eFg4Kpgy2KbDfaiCxIfTGHU01Jbn/m2ujk3/QP0ln07TdFA92JiQN8VcQuoqlnA
+         9CENWUUWBY9SrODvnCA1cmZfxEwf1c3j6FMv4AloDIcIfni+yAILGLY3K7oDtbX0tl6R
+         VIeg==
+X-Gm-Message-State: ANhLgQ2/ogyy0cpSbTJT4+ckkaYGH3FaCMreG9UzBSH9fBQARgACZWZs
+	4i6JU0yY6diazZxBpu38ZlmsuR7EJWloSw==
+X-Google-Smtp-Source: ADFU+vu2k7pE+57Oy9+hmQELYePZpO1nyqRGmV5dnAOcR6/YBXGDQH3VXgIP6gh91VfDaZmNcMkiOA==
+X-Received: by 2002:a37:606:: with SMTP id 6mr99586qkg.194.1585247555667;
+        Thu, 26 Mar 2020 11:32:35 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com. [209.85.160.181])
+        by smtp.gmail.com with ESMTPSA id l188sm1891879qkc.106.2020.03.26.11.32.34
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Mar 2020 11:32:34 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qt1-f181.google.com with SMTP id z12so6324308qtq.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 11:32:34 -0700 (PDT)
+X-Received: by 2002:ac8:6edc:: with SMTP id f28mr7414889qtv.271.1585247554360;
+ Thu, 26 Mar 2020 11:32:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200326062919.1929050-1-raj.khem@gmail.com> <20200326130754.GA17705@localhost>
- <CAMKF1sptRDswkw=GAsE-S0o-s1WHMFVdh1zO-oXuaSOhzsF5JA@mail.gmail.com>
-In-Reply-To: <CAMKF1sptRDswkw=GAsE-S0o-s1WHMFVdh1zO-oXuaSOhzsF5JA@mail.gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 26 Mar 2020 11:30:14 -0700
-Message-ID: <CAMKF1spivW-WEtRJdBrbg5bvPHb7YBbcriJSdmHgWtCpsawauQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] glibc: Backport patch to fix ifuncs on risc-v and gcc10 builds
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <20200326085426.117209-1-alex.kiernan@gmail.com>
+ <20200326085426.117209-7-alex.kiernan@gmail.com> <20200326145614.GA26693@localhost>
+ <CAO5Uq5Qz2EpUZUFGfRy-6BTrLZuK9sm7bTarmkCwZM9RA5eysw@mail.gmail.com>
+ <20200326173258.GA31846@localhost> <CAJ86T=UWhfdQ9-F8QfbbHHW9r8BYGUgQhWjj_1Q6J4m1g482tg@mail.gmail.com>
+In-Reply-To: <CAJ86T=UWhfdQ9-F8QfbbHHW9r8BYGUgQhWjj_1Q6J4m1g482tg@mail.gmail.com>
+Date: Thu, 26 Mar 2020 15:32:21 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqAc3sqEZDFfS7J1NXuBrNCu4YSBVXt6_8Ve+Mrzbo41Q@mail.gmail.com>
+Message-ID: <CAP9ODKqAc3sqEZDFfS7J1NXuBrNCu4YSBVXt6_8Ve+Mrzbo41Q@mail.gmail.com>
+Subject: Re: [OE-Core][RFC PATCH 06/13] systemd: Add PACKAGECONFIG for sysvinit
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Adrian Bunk <bunk@stusta.de>, Alex Kiernan <alex.kiernan@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 26, 2020 at 10:09 AM Khem Raj <raj.khem@gmail.com> wrote:
+On Thu, Mar 26, 2020 at 3:17 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 >
-> On Thu, Mar 26, 2020 at 6:07 AM Adrian Bunk <bunk@stusta.de> wrote:
+> On Thu, Mar 26, 2020 at 10:33 AM Adrian Bunk <bunk@stusta.de> wrote:
 > >
-> > >...
-> > > + configure    | 2 +-
-> > > + configure.ac | 2 +-
-> > >...
-> >
-> > This shouldn't patch both.
-> >
+> > On Thu, Mar 26, 2020 at 03:54:55PM +0000, Alex Kiernan wrote:
+> > > On Thu, Mar 26, 2020 at 2:56 PM Adrian Bunk <bunk@stusta.de> wrote:
+...
+> > For packages that can provide both, if the init script gets installed
+> > it is ignored by systemd when there is also a systemd unit.
 >
-> why ?
->
+> True but we don't usually reply on that. If sysvinit is not present in
+> DISTRO_FEATURES and the package includes a systemd service file then
+> any init scripts will be forcefully removed (see
+> rm_sysvinit_initddir() in systemd.bbclass).
 
-Yes, there were few more, so I have rather sent a new patch on top
+Agreed. The preferred one is defined by the init system and virtual runtime.
 
-> > cu
-> > Adrian
+The patch seems ok for me. Besides, you can override it on your custom
+distro if you have a weird requirement.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
