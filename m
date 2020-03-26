@@ -1,352 +1,52 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web12.31000.1585196819114276767
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.31385.1585199904858913479
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2020 21:26:59 -0700
+ Wed, 25 Mar 2020 22:18:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 134.134.136.100, mailfrom: timothy.t.orling@linux.intel.com)
-IronPort-SDR: kaPX/Vw/E7cW3gWN7NfogIjXnHtnhrUu1HBQkCMTUqCUUMZofWbRe3VJ+CJ1X7S+Ux2NZvc+Gw
- WICXjsuDQPkg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2020 21:26:58 -0700
-IronPort-SDR: ZHttTlvV779F9Ec2YtA1WS/ccHmA2Do2BSasvV/w+lMfm4tM4xU6S2bCcApFA/jlDpJoiO2CLO
- wGZUvU6W3IXw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,307,1580803200"; 
-   d="scan'208";a="240837406"
-Received: from wrath.jf.intel.com ([10.54.31.24])
-  by orsmga008.jf.intel.com with ESMTP; 25 Mar 2020 21:26:58 -0700
-From: "Tim Orling" <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <timothy.t.orling@linux.intel.com>
-Subject: [PATCH] scripts/install-buildtools: add helper script to install buildtools
-Date: Wed, 25 Mar 2020 21:26:55 -0700
-Message-Id: <20200326042655.12713-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.24.0
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: changqing.li@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 02Q5IK2F009928
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Mar 2020 22:18:20 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 25 Mar 2020 22:18:19 -0700
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] vala.bbclass: add libdir to XDG_DATA_DIRS
+Date: Thu, 26 Mar 2020 13:18:18 +0800
+Message-ID: <1585199898-87195-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-For distros such as CentOS-7 where the default buildtools are too
-old we need to make it easy for users to install a pre-built SDK
-with all of "build-essentials" included.
+From: Changqing Li <changqing.li@windriver.com>
 
-Other uses may include building older Yocto Project releases with
-a distro where buildtools are too new.
+Otherwise .gir files installed in the sysroot will not be found when
+multilib is in use.
 
-For convenience, the standard buildtools installation is also
-supported.
+for vapigen, it need to find .vapi and .gir files under XDG_DATA_DIRS,
+for gobject-introspection, multilib configurations use libdir rather
+than datadir
 
-NOTE: extended buildtools is the default, e.g.
-      --with-extended-buildtools is on by default
-
-Example usage (extended buildtools from milestone):
-  (1) using --url and --filename
-      $ install-buildtools \
-        --url http://downloads.yoctoproject.org/releases/yocto/milestones/yocto-3.1_M2/buildtools \
-        --filename x86_64-buildtools-extended-nativesdk-standalone-3.0+snapshot-20200122.sh
-  (2) using --base-url, --release, --installer-version and --build-date
-      $ install-buildtools \
-        --base-url http://downloads.yoctoproject.org/releases/yocto \
-        --release yocto-3.1_M2 \
-        --install-version 3.0+snapshot
-        --build-date 202000122
-
-Example usage (standard buildtools from release):
-  (3) using --url and --filename
-      $ install-buildtools --without-extended-buildtools \
-        --url http://downloads.yoctoproject.org/releases/yocto/yocto-3.0.2/buildtools \
-        --filename x86_64-buildtools-nativesdk-standalone-3.0.2.sh
-  (4) using --base-url, --release and --installer-version
-      $ install-buildtools --without-extended-buildtools \
-        --base-url http://downloads.yoctoproject.org/releases/yocto \
-        --release yocto-3.0.2 \
-        --install-version 3.0.2
-
-[YOCTO #13832]
-
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- scripts/install-buildtools | 270 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 270 insertions(+)
- create mode 100755 scripts/install-buildtools
+ meta/classes/vala.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-new file mode 100755
-index 0000000000..0947e9c4d6
---- /dev/null
-+++ b/scripts/install-buildtools
-@@ -0,0 +1,270 @@
-+#!/usr/bin/env python3
-+
-+# Buildtools and buildtools extended installer helper script
-+#
-+# Copyright (C) 2017-2020 Intel Corporation
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+#  NOTE: --with-extended-buildtools is on by default
-+#
-+#  Example usage (extended buildtools from milestone):
-+#    (1) using --url and --filename
-+#        $ install-buildtools \
-+#          --url http://downloads.yoctoproject.org/releases/yocto/milestones/yocto-3.1_M2/buildtools \
-+#          --filename x86_64-buildtools-extended-nativesdk-standalone-3.0+snapshot-20200122.sh
-+#    (2) using --base-url, --release, --installer-version and --build-date
-+#        $ install-buildtools \
-+#          --base-url http://downloads.yoctoproject.org/releases/yocto \
-+#          --release yocto-3.1_M2 \
-+#          --install-version 3.0+snapshot
-+#          --build-date 202000122
-+#
-+#  Example usage (standard buildtools from release):
-+#    (3) using --url and --filename
-+#        $ install-buildtools --without-extended-buildtools \
-+#          --url http://downloads.yoctoproject.org/releases/yocto/yocto-3.0.2/buildtools \
-+#          --filename x86_64-buildtools-nativesdk-standalone-3.0.2.sh
-+#    (4) using --base-url, --release and --installer-version
-+#        $ install-buildtools --without-extended-buildtools \
-+#          --base-url http://downloads.yoctoproject.org/releases/yocto \
-+#          --release yocto-3.0.2 \
-+#          --install-version 3.0.2
-+#
-+
-+import argparse
-+import logging
-+import os
-+import re
-+import shutil
-+import stat
-+import subprocess
-+import sys
-+import tempfile
-+from urllib.parse import quote
-+
-+scripts_path = os.path.dirname(os.path.realpath(__file__))
-+lib_path = scripts_path + '/lib'
-+sys.path = sys.path + [lib_path]
-+import scriptutils
-+import scriptpath
-+
-+# Figure out where is the bitbake/lib/bb since we need bb.utils.md5_file
-+bitbakepath = scriptpath.add_bitbake_lib_path()
-+if not bitbakepath:
-+    sys.stderr.write("Unable to find bitbake by searching parent directory "
-+                     "of this script or PATH\n")
-+    sys.exit(1)
-+
-+PROGNAME = 'install-buildtools'
-+logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
-+
-+DEFAULT_BASE_URL: str = 'http://downloads.yoctoproject.org/releases/yocto'
-+DEFAULT_RELEASE: str = 'yocto-3.1_M2'
-+DEFAULT_INSTALLER_VERSION: str = '3.0+snapshot'
-+DEFAULT_BUILDDATE: str = "20200122"
-+
-+
-+def main():
-+    global DEFAULT_BASE_URL
-+    global DEFAULT_RELEASE
-+    global DEFAULT_INSTALLER_VERSION
-+    global DEFAULT_BUILDDATE
-+    filename: str = ""
-+    release: str = ""
-+    buildtools_url: str = ""
-+
-+    parser = argparse.ArgumentParser(
-+        description="Buildtools installation helper",
-+        add_help=False)
-+    parser.add_argument('-u', '--url',
-+                        help='URL from where to fetch buildtools SDK installer, not '
-+                             'including filename (optional)\n'
-+                             'Requires --filename.',
-+                        action='store')
-+    parser.add_argument('-f', '--filename',
-+                        help='filename for the buildtools SDK installer to be installed '
-+                             '(optional)\nRequires --url',
-+                        action='store')
-+    parser.add_argument('-d', '--directory',
-+                        help='directory where buildtools SDK will be installed (optional)',
-+                        action='store')
-+    parser.add_argument('-r', '--release',
-+                        default=DEFAULT_RELEASE,
-+                        help='Yocto Project release string for SDK which will be '
-+                             'installed (optional)',
-+                        action='store')
-+    parser.add_argument('-V', '--installer-version',
-+                        default=DEFAULT_INSTALLER_VERSION,
-+                        help='version string for the SDK to be installed (optional)',
-+                        action='store')
-+    parser.add_argument('-b', '--base-url',
-+                        default=DEFAULT_BASE_URL,
-+                        help='base URL from which to fetch SDK (optional)', action='store')
-+    parser.add_argument('-t', '--build-date',
-+                        default=DEFAULT_BUILDDATE,
-+                        help='Build date of pre-release SDK (optional)', action='store')
-+    group = parser.add_mutually_exclusive_group()
-+    group.add_argument('--with-extended-buildtools', action='store_true',
-+                       dest='with_extended_buildtools',
-+                       default=True,
-+                       help='enable extended buildtools tarball (on by default)')
-+    group.add_argument('--without-extended-buildtools', action='store_false',
-+                       dest='with_extended_buildtools',
-+                       help='disable extended buildtools (traditional buildtools tarball)')
-+    parser.add_argument('-c', '--check', help='enable md5 checksum checking',
-+                        default=True,
-+                        action='store_true')
-+    parser.add_argument('-D', '--debug', help='enable debug output',
-+                        action='store_true')
-+    parser.add_argument('-q', '--quiet', help='print only errors',
-+                        action='store_true')
-+
-+    parser.add_argument('-h', '--help', action='help',
-+                        default=argparse.SUPPRESS,
-+                        help='show this help message and exit')
-+
-+    args = parser.parse_args()
-+
-+    if args.debug:
-+        logger.setLevel(logging.DEBUG)
-+    elif args.quiet:
-+        logger.setLevel(logging.ERROR)
-+
-+    if args.url and args.filename:
-+        logger.debug("--url and --filename detected. Ignoring --base-url "
-+                     "--release --installer-version  arguments.")
-+        filename = args.filename
-+        buildtools_url = "%s/%s" % (args.url, filename)
-+    else:
-+        if args.base_url:
-+            base_url = args.base_url
-+        else:
-+            base_url = DEFAULT_BASE_URL
-+        if args.release:
-+            # check if this is a pre-release "milestone" SDK
-+            m = re.search(r"^(?P<distro>[a-zA-Z\-]+)(?P<version>[0-9.]+)(?P<milestone>_M[1-9])$",
-+                          args.release)
-+            logger.debug("milestone regex: %s" % m)
-+            if m and m.group('milestone'):
-+                logger.debug("release[distro]: %s" % m.group('distro'))
-+                logger.debug("release[version]: %s" % m.group('version'))
-+                logger.debug("release[milestone]: %s" % m.group('milestone'))
-+                if not args.build_date:
-+                    logger.error("Milestone installers require --build-date")
-+                else:
-+                    if args.with_extended_buildtools:
-+                        filename = "x86_64-buildtools-extended-nativesdk-standalone-%s-%s.sh" % (
-+                            args.installer_version, args.build_date)
-+                    else:
-+                        filename = "x86_64-buildtools-nativesdk-standalone-%s-%s.sh" % (
-+                            args.installer_version, args.build_date)
-+                    safe_filename = quote(filename)
-+                    buildtools_url = "%s/milestones/%s/buildtools/%s" % (base_url, args.release, safe_filename)
-+            # regular release SDK
-+            else:
-+                if args.with_extended_buildtools:
-+                    filename = "x86_64-buildtools-extended-nativesdk-standalone-%s.sh" % args.installer_version
-+                else:
-+                    filename = "x86_64-buildtools-nativesdk-standalone-%s.sh" % args.installer_version
-+                safe_filename = quote(filename)
-+                buildtools_url = "%s/%s/buildtools/%s" % (base_url, args.release, safe_filename)
-+
-+    tmpsdk_dir = tempfile.mkdtemp()
-+    try:
-+        # Fetch installer
-+        logger.info("Fetching buildtools installer")
-+        tmpbuildtools = os.path.join(tmpsdk_dir, filename)
-+        ret = subprocess.call("wget -q -O %s %s" %
-+                              (tmpbuildtools, buildtools_url), shell=True)
-+        if ret != 0:
-+            logger.error("Could not download file from %s" % buildtools_url)
-+            return ret
-+
-+        # Verify checksum
-+        if args.check:
-+            import bb
-+            logger.info("Fetching buildtools installer checksum")
-+            check_url = "{}.md5sum".format(buildtools_url)
-+            checksum_filename = "%s.md5sum" % filename
-+            tmpbuildtools_checksum = os.path.join(tmpsdk_dir, checksum_filename)
-+            ret = subprocess.call("wget -q -O %s %s" %
-+                                  (tmpbuildtools_checksum, check_url), shell=True)
-+            if ret != 0:
-+                logger.error("Could not download file from %s" % check_url)
-+                return ret
-+            regex = re.compile(r"^(?P<md5sum>[0-9a-f]+)\s\s(?P<path>.*/)(?P<filename>.*)$")
-+            with open(tmpbuildtools_checksum, 'rb') as f:
-+                original = f.read()
-+                m = re.search(regex, original.decode("utf-8"))
-+                logger.debug("md5sum: %s" % m.group('md5sum'))
-+                logger.debug("path: %s" % m.group('path'))
-+                logger.debug("filename: %s" % m.group('filename'))
-+                if filename != m.group('filename'):
-+                    logger.error("Filename does not match name in checksum")
-+                    return 1
-+                md5sum = m.group('md5sum')
-+            md5value = bb.utils.md5_file(tmpbuildtools)
-+            if md5sum == md5value:
-+                logger.info("Checksum success")
-+            else:
-+                logger.error("Checksum %s expected. Actual checksum is %s." %
-+                             (md5sum, md5value))
-+
-+        # Make installer executable
-+        logger.info("Making installer executable")
-+        st = os.stat(tmpbuildtools)
-+        os.chmod(tmpbuildtools, st.st_mode | stat.S_IEXEC)
-+        logger.debug(os.stat(tmpbuildtools))
-+        install_dir = "/opt/poky/%s" % args.installer_version
-+        if args.directory:
-+            install_dir = args.directory
-+            ret = subprocess.call("%s -d %s -y" %
-+                                  (tmpbuildtools, install_dir), shell=True)
-+        else:
-+            ret = subprocess.call("%s -y" % tmpbuildtools, shell=True)
-+        if ret != 0:
-+            logger.error("Could not run buildtools installer")
-+
-+        # Test installation
-+        logger.info("Testing installation")
-+        tool = ""
-+        m = re.search("extended", tmpbuildtools)
-+        logger.debug("extended regex: %s" % m)
-+        if args.with_extended_buildtools and not m:
-+            logger.info("Ignoring --with-extended-buildtools as filename "
-+                        "does not contain 'extended'")
-+        if args.with_extended_buildtools and m:
-+            tool = 'gcc'
-+        else:
-+            tool = 'tar'
-+        proc = subprocess.run("source %s/environment-setup-x86_64-pokysdk-linux && which %s" %
-+                              (install_dir, tool),
-+                              shell=True, stdout=subprocess.PIPE)
-+        which_tool = proc.stdout.decode("utf-8")
-+        logger.debug("which %s: %s" % (tool, which_tool))
-+        ret = proc.returncode
-+        if not which_tool.startswith(install_dir):
-+            logger.error("Something went wrong: %s not found in %s" %
-+                         (tool, install_dir))
-+        if ret != 0:
-+            logger.error("Something went wrong: installation failed")
-+        else:
-+            logger.info("Installation successful. Remember to source the "
-+                        "environment setup script now and in any new session.")
-+        return ret
-+
-+    finally:
-+        # cleanup tmp directory
-+        shutil.rmtree(tmpsdk_dir)
-+
-+
-+if __name__ == '__main__':
-+    try:
-+        ret = main()
-+    except Exception:
-+        ret = 1
-+        import traceback
-+
-+        traceback.print_exc()
-+    sys.exit(ret)
+diff --git a/meta/classes/vala.bbclass b/meta/classes/vala.bbclass
+index 615eb37..bcaf68c 100644
+--- a/meta/classes/vala.bbclass
++++ b/meta/classes/vala.bbclass
+@@ -8,7 +8,7 @@ DEPENDS_append = " vala-native ${VALADEPENDS}"
+ # Our patched version of Vala looks in STAGING_DATADIR for .vapi files
+ export STAGING_DATADIR
+ # Upstream Vala >= 0.11 looks in XDG_DATA_DIRS for .vapi files
+-export XDG_DATA_DIRS = "${STAGING_DATADIR}"
++export XDG_DATA_DIRS = "${STAGING_DATADIR}:${STAGING_LIBDIR}"
+ 
+ # Package additional files
+ FILES_${PN}-dev += "\
 -- 
-2.24.0
+2.7.4
 
