@@ -1,179 +1,108 @@
 Received: from mga04.intel.com (mga04.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.32965.1585212831047026777
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 01:53:51 -0700
+ Thu, 26 Mar 2020 01:53:52 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: suCKEWIBdDjue9KcSDQVYpCOD5mYzphgZb3yxlfkFKOkUpQlG2mhB7dRLxrv/dnmwLBn8NL3C2
- VQwgQ3yqeM2g==
+IronPort-SDR: e7J+xxknw9zoiVTxbD4+fHk868FFVPPSowpRJ6cJgJ/YvLMHWBVSi5pp3gIm/br6ythRBXO2mQ
+ v4wSesp2fRbA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2020 01:53:52 -0700
-IronPort-SDR: 56AWBp67aYqE+ymH335vrlzkZ4l6V/ge721gGWXhM6jq3k80R1nQcDBJKbT/dTb+mO//ZYFiTT
- reBZlflCWtEw==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Mar 2020 01:53:53 -0700
+IronPort-SDR: AHeKbA3kBnPt9bUYYyl78XQXGl6d7KY91s03xbVw5Iy7EmhdkzgsYqHoV8buyLKFH+ZRCToKbb
+ zgwEEINGPprQ==
 X-IronPort-AV: E=Sophos;i="5.72,307,1580803200"; 
-   d="scan'208";a="420621841"
+   d="scan'208";a="420621842"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA; 26 Mar 2020 01:53:50 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-SHA; 26 Mar 2020 01:53:51 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 1/9] icu: fix CVE-2020-10531
-Date: Thu, 26 Mar 2020 16:53:28 +0800
-Message-Id: <76f53b383b17f0cc568201843e8dac8690791495.1585211896.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 2/9] screen: fix CVE-2020-9366
+Date: Thu, 26 Mar 2020 16:53:29 +0800
+Message-Id: <6d79a4d7545bc78ac759e575f6d15d7b23fad638.1585211896.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1585211896.git.anuj.mittal@intel.com>
 References: <cover.1585211896.git.anuj.mittal@intel.com>
+MIME-Version: 1.0
 In-Reply-To: <cover.1585211896.git.anuj.mittal@intel.com>
 References: <cover.1585211896.git.anuj.mittal@intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-support/icu/icu/CVE-2020-10531.patch | 122 ++++++++++++++++++++++
- meta/recipes-support/icu/icu_64.2.bb              |   1 +
- 2 files changed, 123 insertions(+)
- create mode 100644 meta/recipes-support/icu/icu/CVE-2020-10531.patch
+ .../screen/screen/CVE-2020-9366.patch              | 48 ++++++++++++++++++++++
+ meta/recipes-extended/screen/screen_4.6.2.bb       |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-extended/screen/screen/CVE-2020-9366.patch
 
-diff --git a/meta/recipes-support/icu/icu/CVE-2020-10531.patch b/meta/recipes-support/icu/icu/CVE-2020-10531.patch
+diff --git a/meta/recipes-extended/screen/screen/CVE-2020-9366.patch b/meta/recipes-extended/screen/screen/CVE-2020-9366.patch
 new file mode 100644
-index 0000000..56303fc
+index 0000000..a52b9e6
 --- /dev/null
-+++ b/meta/recipes-support/icu/icu/CVE-2020-10531.patch
-@@ -0,0 +1,122 @@
-+From b7d08bc04a4296982fcef8b6b8a354a9e4e7afca Mon Sep 17 00:00:00 2001
-+From: Frank Tang <ftang@chromium.org>
-+Date: Sat, 1 Feb 2020 02:39:04 +0000
-+Subject: [PATCH] ICU-20958 Prevent SEGV_MAPERR in append
++++ b/meta/recipes-extended/screen/screen/CVE-2020-9366.patch
+@@ -0,0 +1,48 @@
++From 8ce90c1d3d5bece150479d8bc9303fd9d9f45e03 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
++Date: Thu, 30 Jan 2020 17:56:27 +0100
++Subject: [PATCH] Fix out of bounds access when setting w_xtermosc after OSC 49
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+See #971
++From: =?UTF-8?q?Amadeusz=20S=C5=82awi=C5=84ski?= <amade@asmblr.net>
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+Upstream-Status: Backport [https://github.com/unicode-org/icu/commit/b7d08bc04a4296982fcef8b6b8a354a9e4e7afca]
-+CVE: CVE-2020-10531
++echo -e "\e]49\e;                                    \n\ec"
++crashes screen.
++
++This happens because 49 is divided by 10 and used as table index
++resulting in access to w_xtermosc[4], which is out of bounds with table
++itself being size 4. Increase size of table by 1 to 5, which is enough
++for all current uses.
++
++As this overwrites memory based on user input it is potential security
++issue.
++
++Reported-by: pippin@gimp.org
++Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
++
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/screen.git/commit/?h=v.4.8.0&id=68386dfb1fa33471372a8cd2e74686758a2f527b]
++CVE: CVE-2020-9366
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ icu4c/source/common/unistr.cpp          |  6 ++-
-+ icu4c/source/test/intltest/ustrtest.cpp | 62 +++++++++++++++++++++++++
-+ icu4c/source/test/intltest/ustrtest.h   |  1 +
-+ 3 files changed, 68 insertions(+), 1 deletion(-)
 +
-+diff --git a/icu4c/source/common/unistr.cpp b/icu4c/source/common/unistr.cpp
-+index 901bb3358ba..077b4d6ef20 100644
-+--- a/icu4c/source/common/unistr.cpp
-++++ b/icu4c/source/common/unistr.cpp
-+@@ -1563,7 +1563,11 @@ UnicodeString::doAppend(const UChar *srcChars, int32_t srcStart, int32_t srcLeng
-+   }
-+ 
-+   int32_t oldLength = length();
-+-  int32_t newLength = oldLength + srcLength;
-++  int32_t newLength;
-++  if (uprv_add32_overflow(oldLength, srcLength, &newLength)) {
-++    setToBogus();
-++    return *this;
-++  }
-+ 
-+   // Check for append onto ourself
-+   const UChar* oldArray = getArrayStart();
-+diff --git a/icu4c/source/test/intltest/ustrtest.cpp b/icu4c/source/test/intltest/ustrtest.cpp
-+index b6515ea813c..ad38bdf53a3 100644
-+--- a/icu4c/source/test/intltest/ustrtest.cpp
-++++ b/icu4c/source/test/intltest/ustrtest.cpp
-+@@ -67,6 +67,7 @@ void UnicodeStringTest::runIndexedTest( int32_t index, UBool exec, const char* &
-+     TESTCASE_AUTO(TestWCharPointers);
-+     TESTCASE_AUTO(TestNullPointers);
-+     TESTCASE_AUTO(TestUnicodeStringInsertAppendToSelf);
-++    TESTCASE_AUTO(TestLargeAppend);
-+     TESTCASE_AUTO_END;
-+ }
-+ 
-+@@ -2310,3 +2311,64 @@ void UnicodeStringTest::TestUnicodeStringInsertAppendToSelf() {
-+     str.insert(2, sub);
-+     assertEquals("", u"abbcdcde", str);
-+ }
-++
-++void UnicodeStringTest::TestLargeAppend() {
-++    if(quick) return;
-++
-++    IcuTestErrorCode status(*this, "TestLargeAppend");
-++    // Make a large UnicodeString
-++    int32_t len = 0xAFFFFFF;
-++    UnicodeString str;
-++    char16_t *buf = str.getBuffer(len);
-++    // A fast way to set buffer to valid Unicode.
-++    // 4E4E is a valid unicode character
-++    uprv_memset(buf, 0x4e, len * 2);
-++    str.releaseBuffer(len);
-++    UnicodeString dest;
-++    // Append it 16 times
-++    // 0xAFFFFFF times 16 is 0xA4FFFFF1,
-++    // which is greater than INT32_MAX, which is 0x7FFFFFFF.
-++    int64_t total = 0;
-++    for (int32_t i = 0; i < 16; i++) {
-++        dest.append(str);
-++        total += len;
-++        if (total <= INT32_MAX) {
-++            assertFalse("dest is not bogus", dest.isBogus());
-++        } else {
-++            assertTrue("dest should be bogus", dest.isBogus());
-++        }
-++    }
-++    dest.remove();
-++    total = 0;
-++    for (int32_t i = 0; i < 16; i++) {
-++        dest.append(str);
-++        total += len;
-++        if (total + len <= INT32_MAX) {
-++            assertFalse("dest is not bogus", dest.isBogus());
-++        } else if (total <= INT32_MAX) {
-++            // Check that a string of exactly the maximum size works
-++            UnicodeString str2;
-++            int32_t remain = INT32_MAX - total;
-++            char16_t *buf2 = str2.getBuffer(remain);
-++            if (buf2 == nullptr) {
-++                // if somehow memory allocation fail, return the test
-++                return;
-++            }
-++            uprv_memset(buf2, 0x4e, remain * 2);
-++            str2.releaseBuffer(remain);
-++            dest.append(str2);
-++            total += remain;
-++            assertEquals("When a string of exactly the maximum size works", (int64_t)INT32_MAX, total);
-++            assertEquals("When a string of exactly the maximum size works", INT32_MAX, dest.length());
-++            assertFalse("dest is not bogus", dest.isBogus());
-++
-++            // Check that a string size+1 goes bogus
-++            str2.truncate(1);
-++            dest.append(str2);
-++            total++;
-++            assertTrue("dest should be bogus", dest.isBogus());
-++        } else {
-++            assertTrue("dest should be bogus", dest.isBogus());
-++        }
-++    }
-++}
-+diff --git a/icu4c/source/test/intltest/ustrtest.h b/icu4c/source/test/intltest/ustrtest.h
-+index 218befdcc68..4a356a92c7a 100644
-+--- a/icu4c/source/test/intltest/ustrtest.h
-++++ b/icu4c/source/test/intltest/ustrtest.h
-+@@ -97,6 +97,7 @@ class UnicodeStringTest: public IntlTest {
-+     void TestWCharPointers();
-+     void TestNullPointers();
-+     void TestUnicodeStringInsertAppendToSelf();
-++    void TestLargeAppend();
-+ };
-+ 
++---
++ window.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/window.h b/window.h
++index bd10dcd..a8afa19 100644
++--- a/window.h
+++++ b/window.h
++@@ -237,7 +237,7 @@ struct win
++   char	 w_vbwait;
++   char	 w_norefresh;		/* dont redisplay when switching to that win */
++ #ifdef RXVT_OSC
++-  char	 w_xtermosc[4][MAXSTR];	/* special xterm/rxvt escapes */
+++  char	 w_xtermosc[5][MAXSTR];	/* special xterm/rxvt escapes */
 + #endif
-diff --git a/meta/recipes-support/icu/icu_64.2.bb b/meta/recipes-support/icu/icu_64.2.bb
-index 10bac7a..2ed8077 100644
---- a/meta/recipes-support/icu/icu_64.2.bb
-+++ b/meta/recipes-support/icu/icu_64.2.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${BASE_SRC_URI} \
-            file://fix-install-manx.patch \
-            file://0001-Fix-big-endian-build.patch \
-            file://0001-icu-Added-armeb-support.patch \
-+           file://CVE-2020-10531.patch;striplevel=3 \
-            "
++   int    w_mouse;		/* mouse mode 0,9,1000 */
++ #ifdef HAVE_BRAILLE
+diff --git a/meta/recipes-extended/screen/screen_4.6.2.bb b/meta/recipes-extended/screen/screen_4.6.2.bb
+index 21b476d..d00b849 100644
+--- a/meta/recipes-extended/screen/screen_4.6.2.bb
++++ b/meta/recipes-extended/screen/screen_4.6.2.bb
+@@ -25,6 +25,7 @@ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
+            file://0001-fix-for-multijob-build.patch \
+            file://0001-configure.ac-fix-configure-failed-while-build-dir-ha.patch \
+            file://0001-Remove-more-compatibility-stuff.patch \
++           file://CVE-2020-9366.patch \
+           "
  
- SRC_URI_append_class-target = "\
+ SRC_URI[md5sum] = "a0f529d3333b128dfaa324d978ba73a8"
 -- 
 2.7.4
 
