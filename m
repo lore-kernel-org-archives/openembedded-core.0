@@ -1,82 +1,91 @@
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
- by mx.groups.io with SMTP id smtpd.web10.34419.1585220660584353297
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+ by mx.groups.io with SMTP id smtpd.web12.35638.1585225639362077036
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 04:04:20 -0700
+ Thu, 26 Mar 2020 05:27:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=doZGfwCC;
- spf=pass (domain: gmail.com, ip: 209.85.166.193, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-il1-f193.google.com with SMTP id a6so4896213ilr.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 04:04:20 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=DDTxL0zU;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.160.195, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qt1-f195.google.com with SMTP id z12so4999691qtq.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 05:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ety4QPFx37ZnyIuC+hMhpge8niEhq61S1oncysWLV1w=;
-        b=doZGfwCCI9cIKalsz5JuZ++kuS33DXoLb+R8G8xsCNLnnyoXow8e4p2ZM7jK4/0wBc
-         RY5eWFxqc4jbCYfXBbESJuSsDSBXynBM72gBXInYUFhrrfFSGJg2E2J1w4Cg8DrD9Ufy
-         rClx6+F4j0qZ/IYS4XeFQL72Mcrs2JKCgSxQmnLLbw5+VDCkVzzp83mnB/DAW55TNwdj
-         e9yDaFdl1ajOd736D6n+/T+C47P9PUPYJ4yHT+iYNZNk6Ekmd7jjiHwp+3a1yLRA+rSj
-         1SIB8tVz+BgSEZ1lxDtcHQ1UfWzharEWPveQ5kee6HNVunfYLZDZXv4PnFSk20Lcuyrd
-         UIpA==
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc;
+        bh=MJp8v+zLPiZ1XjnhJqdeFLtrrWxxgFcG3PG3E1CR4lQ=;
+        b=DDTxL0zUZbjZEWFKwHxWs87AtSza0jD7UmhAC5qNHnIkYgMqGvbcnKgaFcxfwDv9mu
+         qka7XdPfx7VTKgaoVQZ9fxblRDYBVBHbNTzwZPKsUH6OSGREiMr57QqrgrAn3pi2pfVr
+         PPrDpRh02/YsGpraZCOVy67r5JqZ+gxpKuPDVUyEyhcoz6eaM2ZkZizzFyzqRDssd+kU
+         vaTVR49xJjl1V1QHrmm0ZCxAE64PBEYH1S/XiFDs8tqlKPfT8RQNDYkzSuRj6JZdsJYA
+         9W2x1ASl6kWOWqq9Ocdn40ULoFA62oJnDDJv3HFzLONjxWGalswKTCok1hBue/a/sQPC
+         1Cdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ety4QPFx37ZnyIuC+hMhpge8niEhq61S1oncysWLV1w=;
-        b=hTeoqP1Z4FpdrZmazlzRQmjU0siW2ReiZBJJUVizpXW47wB2LJ2Va8BENQWFbid7+p
-         pE+1+gWF0w2sNCnXhTUtNMHwzdjhJu4j+9BLrDzu/mMyJR1Zq4wzuc7ZBprQes3C/RHQ
-         o/TqpQ6f4rMEID2mw9MGjOkZPucJHme6ZIAHAa948BNuCFI4FQYGuY1Zhvb7Giq9VWRh
-         E7Rtsr8TqekL167v7aNfWnDQIEbVM68eKk8A866luWNSQldx0CXvVfOKEuKixLE0naOl
-         RWg0KDYiIlJdCgFm0z9dK6P+OfYeh9eZ0V2NsUqj7m5RAFSDQegjF+ZalmawTCXyuMGh
-         E21A==
-X-Gm-Message-State: ANhLgQ1fQs60iY+h/yvSsiR67xd8licQtsAkwy++hFl9Z936AeLilMER
-	ZDqcNzWZ8/feZ6JTNCQBHc9INbp9Ti0YPuAOrfc=
-X-Google-Smtp-Source: ADFU+vtr+adpAHWYej1qlWW7liUEKb4WCz9IMAyVB89MJianpK6L9CN8xo3ER63LHkibJl+CrhGNHdcPaQgm7TRhYm4=
-X-Received: by 2002:a92:8659:: with SMTP id g86mr8276465ild.267.1585220660014;
- Thu, 26 Mar 2020 04:04:20 -0700 (PDT)
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc;
+        bh=MJp8v+zLPiZ1XjnhJqdeFLtrrWxxgFcG3PG3E1CR4lQ=;
+        b=VndUM/Ocz6DwtJKxXimjhzMHt473firCgIc/YnL5d5z0ihGl93AA7p8mstawdFzRZ2
+         MCdKTkpqJZIj6K3mzi4cU/uWpNsWsy770Ti72t4Zmjh9NfKCk3ZAR3YPTKaksYhLF488
+         xsaamkH+yau6JwD5k60AkfRtoEOHmY2XxOz/C/gklxWYRVCyculR6idXU5d3zrioxhCj
+         X5F0hZhAw/juCq9lcd6MEsyAg3DdEkL/7EFiAw3eMy/QmjquxDXxGpVAcR8O1U61gC1z
+         pTfOVEYGAJvB/RE5ZhWI31A9L7dGosvGmYpZrPx+ZHaa2UnYlLeSI0TK48X8yS3uw+FF
+         UAPw==
+X-Gm-Message-State: ANhLgQ38S2BgJaFJGYVdiQaYmMbu6Dy50RxDvXuTEM+mc1xUSHvYXCQy
+	P8amcatR4bEhHKpfry8f4SaKUENtvdT9mA==
+X-Google-Smtp-Source: ADFU+vt8g2y+N+w3hUxLcdFjw/o8s1Hy90slRPQnu4gYqgOVU7QC1xOgpWGLXbhocEN8cEN4zr97Kg==
+X-Received: by 2002:ac8:304e:: with SMTP id g14mr7909347qte.376.1585225638226;
+        Thu, 26 Mar 2020 05:27:18 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com. [209.85.222.170])
+        by smtp.gmail.com with ESMTPSA id m92sm1436432qtd.94.2020.03.26.05.27.17
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Mar 2020 05:27:17 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f170.google.com with SMTP id j4so6027152qkc.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 05:27:17 -0700 (PDT)
+X-Received: by 2002:a37:b1c6:: with SMTP id a189mr2792265qkf.26.1585225637196;
+ Thu, 26 Mar 2020 05:27:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200319011206.14726-1-schnitzeltony@gmail.com>
- <CALbNGRQ-4wLXC-fttpLc6ixJYxWb0HHGgsDQr+x8RhvxLGOgpw@mail.gmail.com> <3ac793ad1e480d3af9c599bdce6e21a02a33162d.camel@linuxfoundation.org>
-In-Reply-To: <3ac793ad1e480d3af9c599bdce6e21a02a33162d.camel@linuxfoundation.org>
-From: "Andreas M?ller" <schnitzeltony@gmail.com>
-Date: Thu, 26 Mar 2020 12:04:08 +0100
-Message-ID: <CALbNGRSt0HeMjGnxnvjM_DkopkZ_yxAuQaD2WJdsSj0=K=UgPw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] libnotify: upgrade 0.7.8 -> 0.7.9 / port to meson
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20200326085426.117209-1-alex.kiernan@gmail.com>
+In-Reply-To: <20200326085426.117209-1-alex.kiernan@gmail.com>
+Date: Thu, 26 Mar 2020 09:27:05 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKooB5smjjX_TQ_dX4aar2pC20RrW2vzBW-Jo1ZX24+5Mw@mail.gmail.com>
+Message-ID: <CAP9ODKooB5smjjX_TQ_dX4aar2pC20RrW2vzBW-Jo1ZX24+5Mw@mail.gmail.com>
+Subject: Re: [OE-Core][RFC PATCH 00/13] Systemd 245 and related updates
+To: Alex Kiernan <alex.kiernan@gmail.com>, 
+	"Purdie, Richard" <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 26, 2020 at 11:02 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2020-03-26 at 09:13 +0100, Andreas M?ller wrote:
-> > On Thu, Mar 19, 2020 at 2:12 AM Andreas M=C3=BCller <
-> > schnitzeltony@gmail.com> wrote:
-> > > From [1]:
-> > > New in 0.7.9
-> > > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > * Fixed linking in darwin [Iain, Marco; !5]
-> > > * Added man page for notify-send [Jan; !6]
-> > > * Dropped autotools [Jan; !11]
-> > >
-> > > [1]
-> > > http://ftp.gnome.org/pub/gnome/sources/libnotify/0.7/libnotify-0.7.9.=
-news
-> > >
-> > > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> > >
-> > >
-> > Ping?
->
-> We're at feature freeze and stabilisation for 3.1. I've already taken a
-> number of things I probably shouldn't at this stage but changing
-> software over to meson poses far too much risk at this point in the
-> release so this cannot go in, sorry.
->
-> Cheers,
->
-> Richard
-Ahh - ok - sorry
+Hello,
 
-Andreas
+On Thu, Mar 26, 2020 at 5:54 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+...
+> Alex Kiernan (13):
+>   systemd: Use PACKAGE_BEFORE_PN, not =+
+>   systemd: Package udev rules explicitly
+>   systemd: Replace nonarch_base_libdir with rootlibexecdir
+>   systemd: Reinstate systemd-hwdb-update.service
+>   systemd: Add sch-fq-codel to RRECOMMENDS
+>   systemd: Add PACKAGECONFIG for sysvinit
+>   systemd: Remove X11 related files when disabled
+>   systemd: Enable smack based on DISTRO_FEATURES
+>   systemd: Enable audit based on DISTRO_FEATURES
+>   systemd: Enable acl based on DISTRO_FEATURES
+>   psplash: Set RemainAfterExit on systemd units
+>   oeqa/runtime/cases: Disable and stop systemd-timesyncd
+
+I'd like to ask if Richard could consider the above patches for merge,
+they are bug fixes and minor improvements and suite well for the
+current release.
+
+>   systemd: upgrade v244.3 -> v245.2
+
+I am not against merging this but if it is intended to be done, I'd
+wait few days with the above ones merged.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
