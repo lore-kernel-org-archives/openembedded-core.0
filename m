@@ -1,79 +1,65 @@
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by mx.groups.io with SMTP id smtpd.web11.39703.1585236363958318948
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web12.39686.1585236392545696760
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 08:26:04 -0700
+ Thu, 26 Mar 2020 08:26:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from lons-builder.int.hatle.net ([192.40.192.88])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 02QFQ0fR015172
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 10:26:02 -0500
-From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [v2 PATCH] base.bbclass: Add COMPATIBLE_OS, useful for non-Linux target recipes
-Date: Thu, 26 Mar 2020 10:25:59 -0500
-Message-Id: <20200326152559.64446-1-mark.hatle@kernel.crashing.org>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: stefan.ghinea@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 02QFQVeR025593
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 08:26:31 -0700 (PDT)
+Received: from localhost.localdomain (128.224.15.159) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 26 Mar 2020 08:26:30 -0700
+From: "Stefan Ghinea" <stefan.ghinea@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] pulseaudio: fix for ARM thumb + frame pointers compilation error
+Date: Thu, 26 Mar 2020 17:26:29 +0200
+Message-ID: <20200326152629.29272-1-stefan.ghinea@windriver.com>
 X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain
 
-Add the ability to generate non-Linux based components, such as
-baremetal, FreeRTOS, Zypher, etc, exist.  There is a need for a way
-to take components as specific to a given OS.
+From: Catalin Enache <catalin.enache@windriver.com>
 
-This is especially important in a multiconfig build where you may be
-targeting different OSes which different sets of recipes in a common
-set of layers.
+When compiling for Thumb or Thumb2, frame pointers _must_ be disabled
+since the Thumb frame pointer in r7 clashes with pulseaudio's use of inline
+asm to make syscalls (where r7 is used for the syscall NR).
 
-Setting a default of (matching bitbake.conf's default TARGET_OS):
+In most cases, frame pointers will be disabled automatically due to
+the optimisation level, but appending an explicit -fomit-frame-pointer
+to CFLAGS handles cases where optimisation is set to -O0 or frame
+pointers have been enabled by -fno-omit-frame-pointer earlier in
+CFLAGS, etc.
 
-   COMPATIBLE_OS ?= "linux${LIBCEXTENSION}${ABIEXTENSION}"
+References:
+https://www.openwall.com/lists/musl/2017/10/09/2
 
-will allow all existing recipes to be tagged as Linux specific, so
-only non-Linux recipes would need to be tagged with specific
-compatibility.
-
-For a baremetal recipes, the following was used to test this code:
-
-   COMPATIBLE_OS = "elf"
-   COMPATIBLE_OS_arm = "eabi"
-
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
 ---
-V2:
-Only difference to V1 is typograhic fixes to the commit message.
+ meta/recipes-multimedia/pulseaudio/pulseaudio.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
- meta/classes/base.bbclass    | 7 +++++++
- meta/conf/documentation.conf | 1 +
- 2 files changed, 8 insertions(+)
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 45f9435fd8..c123c5dc50 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -509,6 +509,13 @@ python () {
-         d.setVarFlag('do_devshell', 'fakeroot', '1')
-         d.appendVarFlag('do_devshell', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+index 4e32b27087..c7f3e67022 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
+@@ -63,6 +63,14 @@ DEPENDS += "speexdsp libxml-parser-perl-native libcap"
  
-+    need_os = d.getVar('COMPATIBLE_OS')
-+    if need_os and not d.getVar('PARSE_ALL_RECIPES', False):
-+        import re
-+        this_os = d.getVar('TARGET_OS')
-+        if not re.match(need_os, this_os):
-+            raise bb.parse.SkipRecipe("incompatible with os %s (not in COMPATIBLE_OS)" % this_os)
+ inherit autotools bash-completion pkgconfig useradd gettext perlnative systemd manpages gsettings
+ 
++# When compiling for Thumb or Thumb2, frame pointers _must_ be disabled since the
++# Thumb frame pointer in r7 clashes with pulseaudio's use of inline asm to make syscalls
++# (where r7 is used for the syscall NR). In most cases, frame pointers will be
++# disabled automatically due to the optimisation level, but append an explicit
++# -fomit-frame-pointer to handle cases where optimisation is set to -O0 or frame
++# pointers have been enabled by -fno-omit-frame-pointer earlier in CFLAGS, etc.
++CFLAGS_append_arm = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
 +
-     need_machine = d.getVar('COMPATIBLE_MACHINE')
-     if need_machine and not d.getVar('PARSE_ALL_RECIPES', False):
-         import re
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 0b21d1f63e..7a87540f43 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -111,6 +111,7 @@ COMBINED_FEATURES[doc] = "A set of features common between MACHINE_FEATURES and
- COMMON_LICENSE_DIR[doc] = "Points to meta/files/common-licenses in the Source Directory, which is where generic license files reside."
- COMPATIBLE_HOST[doc] = "A regular expression that resolves to one or more hosts (when the recipe is native) or one or more targets (when the recipe is non-native) with which a recipe is compatible."
- COMPATIBLE_MACHINE[doc] = "A regular expression that resolves to one or more target machines with which a recipe is compatible."
-+COMPATIBLE_OS[doc] = "A regular expression that resolves to one or more target oses which a recipe is compatible."
- COMPLEMENTARY_GLOB[doc] = "Defines wildcards to match when installing a list of complementary packages for all the packages installed in an image."
- CONFFILES[doc] = "Identifies editable or configurable files that are part of a package."
- CONFIG_SITE[doc] = "A list of files that contains autoconf test results relevant to the current build. This variable is used by the Autotools utilities when running configure."
+ # *.desktop rules wont be generated during configure and build will fail
+ # if using --disable-nls
+ USE_NLS = "yes"
 -- 
 2.17.1
 
