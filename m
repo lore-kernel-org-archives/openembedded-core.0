@@ -1,95 +1,53 @@
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.web10.37762.1585232176307264398
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web10.38818.1585234580814920414
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 07:16:16 -0700
+ Thu, 26 Mar 2020 07:56:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
-	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 02QEG0Dr032088;
-	Thu, 26 Mar 2020 09:16:00 -0500
-Received: (from apache@localhost)
-	by gate.crashing.org (8.14.1/8.14.1/Submit) id 02QEFxqe032087;
-	Thu, 26 Mar 2020 09:15:59 -0500
-X-Authentication-Warning: gate.crashing.org: apache set sender to mark.hatle@kernel.crashing.org using -f
-Received: from 149.199.62.130
-        (SquirrelMail authenticated user mark.hatle)
-        by gate.crashing.org with HTTP;
-        Thu, 26 Mar 2020 09:15:58 -0500 (CDT)
-Message-ID: <58432.149.199.62.130.1585232158.squirrel@gate.crashing.org>
-In-Reply-To: <20200326131141.GB17705@localhost>
-References: <20200325181447.14750-1-mark.hatle@kernel.crashing.org>
-    <20200325182129.GD1578@denix.org>
-    <11151.149.199.62.130.1585161676.squirrel@gate.crashing.org>
-    <CANNYZj_s6yG2qRnEMv_PrFc6ut2mOfJFNFpBd4EzdhUHe8Xxyw@mail.gmail.com>
-    <10720.149.199.62.130.1585164457.squirrel@gate.crashing.org>
-    <20200326131141.GB17705@localhost>
-Date: Thu, 26 Mar 2020 09:15:58 -0500 (CDT)
-Subject: Re: [OE-core] [PATCH] mesa-gl: The purpose of mesa-gl is to provide for X11 usage
-From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
-To: "Adrian Bunk" <bunk@stusta.de>
-Cc: "Mark Hatle" <mark.hatle@kernel.crashing.org>,
-        "Alexander Kanavin" <alex.kanavin@gmail.com>,
-        "Denys Dmytriyenko" <denis@denix.org>,
-        "Burton, Ross" <ross.burton@intel.com>,
-        "OE-core" <openembedded-core@lists.openembedded.org>
-User-Agent: SquirrelMail/1.4.10a-1.fc6
+ dkim=pass header.i=@stusta.de header.s=default header.b=uS3wOmM2;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=rbqv=5l=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48p7NJ3cqCz3Q;
+	Thu, 26 Mar 2020 15:56:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1585234577;
+	bh=PyNDHzVNOa9prslJwpvm8+//ktuVeLAns4W4a7754Ek=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uS3wOmM2FmRC86kPZl47D/CjbraA+GgDsRJMpq6VlJ8zXbFgaNJnskP9swR940lmU
+	 117m0MP0V/HldLSeT99+941gsajoU1T6CE2KcIMUN2rXdppBboLMtXelxwqa8F60Td
+	 vbNelwhlPHcOpjBaQDziJpjggh+37tFlbvbenAkxTmMtDtP24YYGJH+qBVMfcKNEWS
+	 4VjwRcDuiY+r9pfdavZYNkofRbqN3b6XNOs9rI1gk2mGPW3+G5diPeP+4IkO+PHzYv
+	 cOdWyLGb3xb/tsWv9zkf5ir7zWxjL3ZkJZ8v+M5DOKu0BCizPpJnWTLRR61jM6kASg
+	 /S8D9l6xkdk95uT44z8JmaWpuYPAkKK2ji/o+W9woK4jo6OkITdsf1Ma9YlUC1qflE
+	 UcUlwm2btml6M4w0wKeFK+EPfnoNut2ibp19I6YeJA38YXV2yY4g5DYBPJJpVQ9zJM
+	 8h4D8MLa92o9eu/pLmMZ5MuxpUsaV3DoCOCiCxsgDZeal5hvqVuVcW4EE/NGABYPMx
+	 izAyUBMosnChbUWrBTo80daLNnpnrkCOatN/R/Jsgrtnsi5UiVppbrBeBMJNRD280s
+	 s8WQFKAe0LqUzZUZVuJD6xQo4H8MjUeZNBfsYHWLv+znOuFQmT/90/fodk594Tm7dc
+	 5m621OMG+7jpkidFXiapoU0M=
+Date: Thu, 26 Mar 2020 16:56:14 +0200
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-Core][RFC PATCH 06/13] systemd: Add PACKAGECONFIG for sysvinit
+Message-ID: <20200326145614.GA26693@localhost>
+References: <20200326085426.117209-1-alex.kiernan@gmail.com>
+ <20200326085426.117209-7-alex.kiernan@gmail.com>
 MIME-Version: 1.0
-X-Priority: 3 (Normal)
-Importance: Normal
-Content-Type: text/plain;charset=iso-8859-1
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200326085426.117209-7-alex.kiernan@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-> On Wed, Mar 25, 2020 at 02:27:37PM -0500, Mark Hatle wrote:
->> > To be honest, I would just take the entire recipe out. It's causing
->> > trouble
->> > during updates, isn't being tested neither for builds nor at runtime,
->> and
->> > is supposed to provide some specific configuration which as this
->> > discussion
->> > makes clear, nobody seems to quite understand.
->>
->> With the abomination that is libmali (and similar), it is still needed.
->> It's the only way to support GL on a primarily GLES compatible system.
->>
->> The problem is the way they do this seems to be a custom version of
->> libdrm, which then conflicts with the mesa version.  Thus the issues.
->>
->> I'm happy to continue testing my particular needs now and the future
->> (thus
->> the patch against master.)
->>...
->
-> Stupid question:
->
-> Is
->   PREFERRED_PROVIDER_virtual/mesa = "mesa-gl"
->   PREFERRED_PROVIDER_virtual/libgl = "mesa-gl"
-> equivalent to
->   PACKAGECONFIG_pn-mesa = "opengl dri x11"
-> ?
+On Thu, Mar 26, 2020 at 08:54:19AM +0000, Alex Kiernan wrote:
+> Add sysvinit PACKAGECONFIG which is bound to DISTRO_FEATURES, this
+> then disables all sysvinit handling in systemd if it isn't present.
+> 
+> Consolidate sysvinit handling so that when it's disabled we exclude all
+> sysvinit features.
+>...
 
-I don't know.  I didn't write this.
+What exactly are "sysvinit handling" and "sysvinit features"?
 
-However, doing some investigation, the big difference here is the overall
-capabilities.  There are common distributions where a user may want to use
-mesa (no external libdrm) as well as distress where they want to use an
-external drm and the mesa-gl version only.
+It seems to disable systemd-sysv-generator, and this is wrong.
 
-So 'mesa' and 'external drm + mesa-gl' are equivalent in functionality for
-a given distro.  Only difference being optimization.
-
-You may ask why would I use one vs the other.  In my case, we have a
-family of SoC parts.  Some of the family have a Mali graphics chip on
-them, while others don't have any optimized graphics so everything has to
-be software rendered.  The only difference (from a software point of view)
-is if the Mali is on-board or not.  So using a common (binary)
-distribution, and being able to just swap those parts is highly desirable.
- (Does that ACTUALLY work right now, I'm not sure.. but that is what I am
-working on.)
-
->> --Mark
->
-> cu
-> Adrian
->
-
+cu
+Adrian
