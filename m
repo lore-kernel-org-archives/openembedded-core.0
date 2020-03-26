@@ -1,77 +1,159 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.4961.1585253402414533151
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com [209.85.167.193])
+ by mx.groups.io with SMTP id smtpd.web12.4960.1585253658227194216
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 13:10:03 -0700
+ Thu, 26 Mar 2020 13:14:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mind.be header.s=google header.b=Gzw8jQwn;
- spf=pass (domain: essensium.com, ip: 209.85.208.49, mailfrom: charles-antoine.couret@essensium.com)
-Received: by mail-ed1-f49.google.com with SMTP id a20so8479264edj.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 13:10:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ow75bqYc;
+ spf=pass (domain: gmail.com, ip: 209.85.167.193, mailfrom: jpuhlman@gmail.com)
+Received: by mail-oi1-f193.google.com with SMTP id p125so6716875oif.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 13:14:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mind.be; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=t5fpAJ6zc8PFICPUbIjG0tIXmE1I6Xyr7mHSmc4MtEU=;
-        b=Gzw8jQwnJYUqhx3XkXi4uUTmgAPQtk13iRZE767qA4LQdRwcxsvg91A4dLPOyltqWq
-         AQGnAYVsr94/klN2SvBqfPWJaZ1clcO4kGWOg3XoeKUvmLHx5wuo2UsgRur5Cwvs3mzh
-         7qLSnvIZN2PpqX7LYryRfZa9w1Mo5OPeO0Cn5JqWhiPq5+2+0sG5RIQGoRe9mW9C2EIC
-         MLhqerB4Q1rs7IdZUZDgeepODafjWhDZFAyr1+PRP2mg3IYHHnUOMafsGujyuBqhwB1A
-         Gn9pyhnTCrZIIHLxHD4cmCQZU1rlPKJkF/2eN9hBSmuBVyEMQq3oCWQRLfg/Vp7LXj0w
-         I0zw==
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id;
+        bh=/MxIdEUVmMShMNH4lLzAC73IwCVPRhQwt8HB4/sfiu0=;
+        b=Ow75bqYckWo7N0ufIAXQpgJNdgHVz+ExgGqaWBI2UZSMwqLPkd5yrsL1RKpmeXPRPu
+         HLDZ0i62WnrEo95LALHZzmZzc+vQJ9Ny0Fa4oNS8X2GM4yBpUx5V6n/lncQt6A4fBrLN
+         o6awcDlTuqrTXoBQbGRRvgnuCWr5U3fII3IrDA6UZWNikUnyHcbDOJTNvI3iw5XbykMZ
+         jzg/NCZb6WElWch0ApAX66cDHqXmTI9MrLqSVpgBDfNY16keq1S7CY4kkellZADE28C2
+         scZBULZLKH3I24RoX5Gyzp8y1fHYEmVbhcFD7KFgGHOb+mbfmgDEEFX16bAKrpC5ilZe
+         ZB3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=t5fpAJ6zc8PFICPUbIjG0tIXmE1I6Xyr7mHSmc4MtEU=;
-        b=mlVQQb/SWLAVz2PZZXkzjVs9iktG8++ryoPpGakFrl9tRjvhxDnRPT/XB3+osKKDg2
-         Rx91c8Q9W7cwy2aJDDpNVYEsPLNTmVUJTRV8+fA2ed6TucC3rBj91w4A4fwxhZKEqG0O
-         pGs65jVmNoavx60SMsqvP71H4GbU0syG/CViC/PEuo/kwfz1OjyFUxhX2jQztQmuG3z1
-         HBM73kLqT/HCOWKCMlhSv/lLeKMyqxL4kGOQ99V/iWmZwu0Zn5fsX//GSJIXcZSJNQ3V
-         t3qETwKwfMyZayWSA+BveW5nrTLvcQ4pRDGuoxIzRVoeQcTrPxyLtiXvYAtk8Gh1xRhI
-         8/vA==
-X-Gm-Message-State: ANhLgQ1fJQaBbIgjWAfcR6E2OqOmtW8A7hBpQrbGB0Jb6rmRxj9j12qI
-	z5cc3M12DbzRHxFXahDHOZBEipujaVbOEw==
-X-Google-Smtp-Source: ADFU+vsK85/fvlt2oUula5rtou9CKNERowo+POsx/fjJ9RWjhK0tNz/Dmnce2RukRmMgMT4IyemDVg==
-X-Received: by 2002:a17:906:a387:: with SMTP id k7mr9226525ejz.256.1585253400383;
-        Thu, 26 Mar 2020 13:10:00 -0700 (PDT)
-Return-Path: <charles-antoine.couret@essensium.com>
-Received: from localhost.localdomain ([2a02:a03f:c930:4300:2b1a:3a25:ef77:ee9e])
-        by smtp.googlemail.com with ESMTPSA id s4sm514187edw.19.2020.03.26.13.09.59
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+        bh=/MxIdEUVmMShMNH4lLzAC73IwCVPRhQwt8HB4/sfiu0=;
+        b=o27BWPFRtG3CWFTKzgNLPkZ/rZBW46QtBrpMiKpZhYR9jcxYEgtc6efHGLlMTNvvnU
+         X1q/fP66giGvqS8IcZy0g03eLmCuq5zou3cjiCRf/CCaqPBA4oyETcFgjz30ERkUdtp7
+         OGlDOBx/STlwCPs32GhmaVmzfCa49F5/jnOdwlHPMvbZFOHgVONJ2E0pQyo2Hu/001AC
+         6Mkxh7leJvHL8H02M3bebj/yBIUx3a3VO7+Kjzcoc56AZDvPIL2+KuVlHekUhVgxekQt
+         DBLGPRfvznY5k2H9RFy0kBuZqFLzzsvwj6r04HmHEsfpGoBClm3BtvEGTSZqtPLUrbs7
+         ZOVg==
+X-Gm-Message-State: ANhLgQ2aAiqjRcaQtJ3w9KKag8Cm0A5fugJYaWbnHjOdZu8RRA0otgtp
+	0xin8n/NbNOZRqK2ApKJAZj+dfrCgno=
+X-Google-Smtp-Source: ADFU+vvSG/A/D491fBRj4wDgvqcnDohO20/6D8PY1k2mUdEVf0QUgzOKH3c1iwZepk6RPXZblnHgMg==
+X-Received: by 2002:aca:55ce:: with SMTP id j197mr1567547oib.84.1585253657226;
+        Thu, 26 Mar 2020 13:14:17 -0700 (PDT)
+Return-Path: <jpuhlman@gmail.com>
+Received: from workhorse.localdomain ([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
+        by smtp.gmail.com with ESMTPSA id k132sm891786oih.9.2020.03.26.13.14.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2020 13:09:59 -0700 (PDT)
-From: "Charles-Antoine Couret" <charles-antoine.couret@mind.be>
+        Thu, 26 Mar 2020 13:14:16 -0700 (PDT)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id CFC7A2A0AB3; Thu, 26 Mar 2020 13:14:15 -0700 (PDT)
+From: "Jeremy Puhlman" <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Charles-Antoine Couret <charles-antoine.couret@mind.be>
-Subject: [PATCHv2] utils: fix gcc 10 version detection
-Date: Thu, 26 Mar 2020 21:09:49 +0100
-Message-Id: <20200326200949.149497-1-charles-antoine.couret@mind.be>
-X-Mailer: git-send-email 2.26.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Jeremy Puhlman <jpuhlman@mvista.com>
+Subject: [PATCH] apr: add option for disabling time dependant tests
+Date: Thu, 26 Mar 2020 13:14:11 -0700
+Message-Id: <20200326201411.11713-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.13.3
 
-Utils can not detect GCC 10 correctly due to wrong regex.
-It generates this error "ERROR: Can't get compiler version from gcc  --version output"
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-Sub-version numbers should be 1 or more digits instead of 1 only.
+[YOCTO #13839]
 
-Signed-off-by: Charles-Antoine Couret <charles-antoine.couret@mind.be>
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 ---
- meta/lib/oe/utils.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...d-option-to-disable-timed-dependant-tests.patch | 69 ++++++++++++++++++++++
+ meta/recipes-support/apr/apr_1.7.0.bb              |  2 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch
 
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index aee4336482..9042b370f7 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -391,7 +391,7 @@ def host_gcc_version(d, taskcontextonly=False):
-     except subprocess.CalledProcessError as e:
-         bb.fatal("Error running %s --version: %s" % (compiler, e.output.decode("utf-8")))
+diff --git a/meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch b/meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch
+new file mode 100644
+index 0000000000..abff4e9331
+--- /dev/null
++++ b/meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch
+@@ -0,0 +1,69 @@
++From 2bbe20b4f69e84e7a18bc79d382486953f479328 Mon Sep 17 00:00:00 2001
++From: Jeremy Puhlman <jpuhlman@mvista.com>
++Date: Thu, 26 Mar 2020 18:30:36 +0000
++Subject: [PATCH] Add option to disable timed dependant tests
++
++The disabled tests rely on timing to pass correctly. On a virtualized 
++system under heavy load, these tests randomly fail because they miss
++a timer or other timing related issues.
++
++Upstream-Status: Pending
++Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
++---
++ configure.in     | 6 ++++++
++ include/apr.h.in | 1 +
++ test/testlock.c  | 4 ++--
++ 3 files changed, 9 insertions(+), 2 deletions(-)
++
++diff --git a/configure.in b/configure.in
++index d9f32d6..f0c5661 100644
++--- a/configure.in
+++++ b/configure.in
++@@ -2886,6 +2886,12 @@ AC_ARG_ENABLE(timedlocks,
++ )
++ AC_SUBST(apr_has_timedlocks)
++ 
+++AC_ARG_ENABLE(timed-tests,
+++  [  --disable-timed-tests	  Disable timed tests ],
+++  [apr_has_timedtests="0"], [apr_has_timedtests="1"]
+++)
+++AC_SUBST(apr_has_timedtests)
+++
++ # hstrerror is only needed if IPv6 is not enabled,
++ # so getaddrinfo/gai_strerror are not used.
++ if test $have_ipv6 = 0; then
++diff --git a/include/apr.h.in b/include/apr.h.in
++index ee99def..c46a5f4 100644
++--- a/include/apr.h.in
+++++ b/include/apr.h.in
++@@ -298,6 +298,7 @@ extern "C" {
++ #define APR_HAS_XTHREAD_FILES     @apr_has_xthread_files@
++ #define APR_HAS_OS_UUID           @osuuid@
++ #define APR_HAS_TIMEDLOCKS        @apr_has_timedlocks@
+++#define APR_HAVE_TIME_DEPENDANT_TESTS        @apr_has_timedtests@
++ 
++ #define APR_PROCATTR_USER_SET_REQUIRES_PASSWORD @apr_procattr_user_set_requires_password@
++ 
++diff --git a/test/testlock.c b/test/testlock.c
++index a43f477..6233d0b 100644
++--- a/test/testlock.c
+++++ b/test/testlock.c
++@@ -396,13 +396,13 @@ abts_suite *testlock(abts_suite *suite)
++     abts_run_test(suite, threads_not_impl, NULL);
++ #else
++     abts_run_test(suite, test_thread_mutex, NULL);
++-#if APR_HAS_TIMEDLOCKS
+++#if APR_HAS_TIMEDLOCKS && APR_HAVE_TIME_DEPENDANT_TESTS
++     abts_run_test(suite, test_thread_timedmutex, NULL);
++ #endif
++     abts_run_test(suite, test_thread_rwlock, NULL);
++     abts_run_test(suite, test_cond, NULL);
++     abts_run_test(suite, test_timeoutcond, NULL);
++-#if APR_HAS_TIMEDLOCKS
+++#if APR_HAS_TIMEDLOCKS && APR_HAVE_TIME_DEPENDANT_TESTS
++     abts_run_test(suite, test_timeoutmutex, NULL);
++ #endif
++ #endif
++-- 
++2.23.0
++
+diff --git a/meta/recipes-support/apr/apr_1.7.0.bb b/meta/recipes-support/apr/apr_1.7.0.bb
+index 8a9b780593..7073af8c98 100644
+--- a/meta/recipes-support/apr/apr_1.7.0.bb
++++ b/meta/recipes-support/apr/apr_1.7.0.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
+            file://0006-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch \
+            file://0007-explicitly-link-libapr-against-phtread-to-make-gold-.patch \
+            file://libtoolize_check.patch \
++           file://0001-Add-option-to-disable-timed-dependant-tests.patch \
+            "
  
--    match = re.match(r".* (\d\.\d)\.\d.*", output.split('\n')[0])
-+    match = re.match(r".* (\d+\.\d+)\.\d+.*", output.split('\n')[0])
-     if not match:
-         bb.fatal("Can't get compiler version from %s --version output" % compiler)
+ SRC_URI[md5sum] = "7a14a83d664e87599ea25ff4432e48a7"
+@@ -39,6 +40,7 @@ CACHED_CONFIGUREVARS += "ac_cv_file__dev_zero=yes"
  
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
++PACKAGECONFIG[timed-tests] = "--enable-timed-tests,--disable-timed-tests,"
+ 
+ do_configure_prepend() {
+ 	# Avoid absolute paths for grep since it causes failures
 -- 
-2.26.0
+2.13.3
 
