@@ -1,81 +1,47 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web11.36088.1585227374750485281
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web10.36336.1585228081183987689
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 05:56:14 -0700
+ Thu, 26 Mar 2020 06:08:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=G3wTW4r7;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.196, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f196.google.com with SMTP id u4so6128940qkj.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 05:56:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=GBJyYN0CkHI60d7wQuI6LiinT63bV1Inu67/6dPvr7A=;
-        b=G3wTW4r7zFGFJ8xh4yu10MsmRlRuc2vJje7cPVHpiOCjuIfxlQaxEHW07+D2kZxcOY
-         Yk/9DLtMp7iodcA7G1viCiV1ANh5xXEfR5RHrHHiwAHmR/txwfjTjMM7XiAZU8lDbmGw
-         zqXOF73WqZLwto2DF2ntSPNjsOuGjuf7mCI8WK20PyYLQ1elBJZ28xx5QO1+qNbWQ4xm
-         YaBK6nZuWQ8326O81CpLJPPYoNARxgaV8jj3cD6jHAm03WCzJSh61TN+5kJDL39iSHOA
-         DHlzh8ZCL+bTkRj7RdsdqeNPAwjLlFKC91CJiEi+8V+l4pSl9kbMqwCm9uSZcmBo4ccu
-         DhKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=GBJyYN0CkHI60d7wQuI6LiinT63bV1Inu67/6dPvr7A=;
-        b=ZaSjcVfhn9w65Xckx/9tgINdsXd2H3TPBHfSqg9XW8tLJ6u0iZqrBuj8a6JKwN9GHY
-         eJCunOr3rFZyNeE/1GZsiayS+s5f9Te1buV8oUMWMCoXlPTD6wYe1nZJbMMACIjuigQE
-         IzPwjgD0fiAhyHrJYicUqowNzm5n9qyhuWl8ur6tA+IL7CoG729hmKN5fg0ZFZzvtpSK
-         0NrkS5f1xeaq0R1XSSN4bfonqghNZuQ8yLdeqzfjt96R/1y8EP6tfRD5AdIn6pfev5k/
-         FJtbUTWRbXugiH+R/Qn9DpONv5/BC5ed5SQYwvxEHWEvtQCVuHIEU2duu5Bwq+R5YvWG
-         KNsA==
-X-Gm-Message-State: ANhLgQ1WLB3pa1p5AIAZKUlorDV14BlDhs2ISlOm4GM5Et+HS0MKbzHS
-	a3wBl2p5zEz5Q94FhnsjLpTWT5AfQp3obA==
-X-Google-Smtp-Source: ADFU+vsq/KmjoXPW+2tW4o3rXgeU4DbPiW/p5oV8jMog8o4RbUlF67H8/SR5Z34Z0/BNRDcKx5FmYw==
-X-Received: by 2002:a05:620a:49d:: with SMTP id 29mr8255975qkr.206.1585227373556;
-        Thu, 26 Mar 2020 05:56:13 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com. [209.85.219.52])
-        by smtp.gmail.com with ESMTPSA id a19sm1481120qtp.5.2020.03.26.05.56.12
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2020 05:56:12 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qv1-f52.google.com with SMTP id m2so2780569qvu.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 05:56:12 -0700 (PDT)
-X-Received: by 2002:ad4:5427:: with SMTP id g7mr7914705qvt.23.1585227372343;
- Thu, 26 Mar 2020 05:56:12 -0700 (PDT)
+ dkim=pass header.i=@stusta.de header.s=default header.b=PEdTFYDg;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=rbqv=5l=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48p4zJ5n9Zz3Q;
+	Thu, 26 Mar 2020 14:07:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1585228078;
+	bh=A0tUEtY8ln9JMWtfkS2xYMOw9xBli6b69dJVcIl72qM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PEdTFYDgTjyveQn+pud0+nhQVMwuTJV295gRpYgZEL4is3HxMFCdSo7jZeagabmke
+	 fAoAr+mzKEPo3b5g2OoKU4ZcMzdeT3plfFvsOFtFXWdqCEBNw4YK9lRiWDo+zRaO2H
+	 Qrj18URmlyR1ozJno1pky46bQiW3F5tAJFRg8fddtfUKBy+7c18Gt3tj4Y5AW07Rla
+	 Wj5LRuodINEbxH7pwDJ+EjEMJXZ/8CKwkZEpW/4W+0gpc05EVmcL2aXW5oJsgO/BEa
+	 LOqXYVvDD0eLRlwBJhmSf0HmZP1s5Ov6wrgKYMcNVba/txm/lJOy68ToKdaFQxiHxz
+	 qbdbwmjvtx3TEDr6chlwH+afcV3vCINfBwu4hBvouLA12ByNBmI7AHJpjTVa/qwiTR
+	 QTgbasLmrR2FRa7gAPkY/kQtHVelzj2fVYVJBBPv9kpudhTmceKsOgXcQXlam+aOYh
+	 Upqex6D8q8sxlGRimXm1WyEFq4LLKQrp4X36KagZ8qsp8B5Oa+w2IflXmXRN0yZ9PL
+	 LiAp36IpVjPI+KodH7vJZ/tMHezO5pNx3pi1e4IABm5jvpjWVIcQErXW14H1ZH2K9A
+	 /ZrTlkk8uZJ0UsoOyUYywPhcS5dW2q/Wy4iuavPORZDenJody5RbHJmWT0nP99mzhj
+	 ellYcP/KJfEW423Pw2FqwH1M=
+Date: Thu, 26 Mar 2020 15:07:54 +0200
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] glibc: Backport patch to fix ifuncs on risc-v and gcc10 builds
+Message-ID: <20200326130754.GA17705@localhost>
+References: <20200326062919.1929050-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-References: <20200325231637.802324-1-raj.khem@gmail.com> <9c14fe5a594e1edd4cb678340ec27859ba9df864.camel@linuxfoundation.org>
-In-Reply-To: <9c14fe5a594e1edd4cb678340ec27859ba9df864.camel@linuxfoundation.org>
-Date: Thu, 26 Mar 2020 09:56:01 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKomZjQ30ZGSnt3MpHvBQPHSfj=71tBQ+VxzaVOwLLTrZw@mail.gmail.com>
-Message-ID: <CAP9ODKomZjQ30ZGSnt3MpHvBQPHSfj=71tBQ+VxzaVOwLLTrZw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] binutils: Pregenerate autoconf files
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Khem Raj <raj.khem@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Ross Burton <ross.burton@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200326062919.1929050-1-raj.khem@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Thu, Mar 26, 2020 at 9:45 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2020-03-25 at 16:16 -0700, Khem Raj wrote:
-...
-> I'm also worried about patches which touch both configure and
-> configure.ac since the timestamp changes can cause things to autoreconf
-> even when we're trying to avoid that. As such this is actually quite a
-> risky change given past bad experiences :(
->
-> I'm not completely against it but I am worried.
+>...
+> + configure    | 2 +-
+> + configure.ac | 2 +-
+>...
 
-+1
+This shouldn't patch both.
 
-I also prefer to generate them. The patches are easier to upgrade and
-allow for easier fixes, as mentioned.
-
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+cu
+Adrian
