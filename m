@@ -1,92 +1,121 @@
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
- by mx.groups.io with SMTP id smtpd.web10.39817.1585236742781446710
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web11.40185.1585237493721777663
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 08:32:23 -0700
+ Thu, 26 Mar 2020 08:44:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ol1/fVg6;
- spf=pass (domain: gmail.com, ip: 209.85.160.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f193.google.com with SMTP id 10so5640123qtp.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 08:32:22 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=S7xKF72d;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f67.google.com with SMTP id m3so7559294wmi.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 08:44:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=nsjrzm7qLsoXJyajxF9sNKcT5YwEGVyzgIlXqVfuODE=;
-        b=Ol1/fVg6CBPZXj4ghz+q/RY28ksMZ8KkKCO9G2+ZNRuqVW7N5nfZoIxeLCaIcn9y1j
-         /Qi9tnMDRT+hH2IuBhlrp0yjUne91jBuyFazR0lVdDM83YPf+CIuDfU5YYMscJzOFs3O
-         CiprUvYvHQyngK6gwPsvh9Iv2BSGKOsEwDS1KUYfYFmU+EWDu0m5Oesc9gWnQKoibkDG
-         pDEYCIwNdQuMVO0MMrK7k71Hj+4s/9izefi4AzoE12gKQ5bcd6tCY+DLewHWYDD8wWfn
-         DoImeBpNupGp2h54QLwP0LYWhe7gZPwEIzwtMTeniCWgEGB5R2i6NnvIaCS0qVkho0Es
-         7qzQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=ka0A4+MDo31m+oJEhbvWawLQBSOzgT8C8IG4tgGr8Q0=;
+        b=S7xKF72d+XiYxD+oUEFBYacWwgG9pSC65zVdvayAL5iZm0pNnIQWzX6EWuL/cW0p0P
+         4LsXdN+exIEAL40YEp1vlDSr5yld8jFu51sN6UfnShrUg7UacgLNuUt4/1UW2Xhg8MEC
+         VP8RwlvFrEYs5bQGGRZPwujgE22AjAnJufvcs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=nsjrzm7qLsoXJyajxF9sNKcT5YwEGVyzgIlXqVfuODE=;
-        b=nLqPz1kTdmCfTQocfZZGB8rbJYz1ZYgTy0UKEyT5vyOxqeSSsAzIUcPf7VFuvQ73Wd
-         sWjXa6m6mA3+VUQ3JJrC40bAjPWxpFgskakjpXWGKf2GRfelljT8jyVvQ6DtAp9z2VKR
-         PFMi1BmCXBD797pYrxD9NrPTWtnNA3fdP2Y7nIT6N9cQbnosLMj+WRqvTCNZuzgzy+op
-         ciFXAUXDV47U75gtm6HZOEsZdep0JOhbDu2XANB/Zyxofe8AKlR87D9emCDAeqKQsDGn
-         MGl6Rp1g+sU4oK6hW3uDOei8e9V/7yiDHytc3OfKZnOcJ/NfXDo2cMoDUOBCV5cKrH2W
-         g+cQ==
-X-Gm-Message-State: ANhLgQ1r4zCKv9tSaGocl3ZLQwhcNdeu6Qkofwc9/KTLSzrI+d6QRjlr
-	K3l5dTUChKpux4UgxfHJ/I+oCCYDGiEpylH3fWs=
-X-Google-Smtp-Source: ADFU+vs38wbeTWH2KoihY9KpK8cxERFeaIO45DvdpyHuRcs5ssof0k0QrAx5tv7P/g9RPr3hEgJDEFrRMe+6BZm+fXc=
-X-Received: by 2002:ac8:f4a:: with SMTP id l10mr8949610qtk.146.1585236741561;
- Thu, 26 Mar 2020 08:32:21 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ka0A4+MDo31m+oJEhbvWawLQBSOzgT8C8IG4tgGr8Q0=;
+        b=nmDpMbUw0v7KV4D4h/EJfXrqf7KFFPGGtcgmB+ieCXGCQHn3gOulZemwq3YyfslcAI
+         WIr1g566Rxg8MniZ6RbKWlj8q/3f5GN3XDXYzh4xjTL4bTwdmTW/O7tF1HpljYtN/K5x
+         KFWct2ia024GO1tELh9xrnu5YgEEVldQmHrB0saVQWrwU7llg/J1bzf1YYVi24s+qrum
+         z026Tf4YEPbvU0LUtrtJFnnQq378MrQrqIODytO66rljl9UgKl6MmUqIEVUfJVbQGXw7
+         cRhoOdphxtRBT+LOjwjuG9NL4xiJNbgAWaEhYE+3sXh2F/n7Hnp+9scCi4ZAC2sx3y/C
+         ytKA==
+X-Gm-Message-State: ANhLgQ17v2TUSTZlfMEoT5wGxKlffjmF9zgv3N/5CIXLZtXXokonjPH8
+	XbMxR0Whmfrp6c+YXFWbC++IGg==
+X-Google-Smtp-Source: ADFU+vuMLTb2+xmmyrGeRBC2LPVz/hU83mKRWcxf7Fn99KVoZmq1CczQ4JgQj8PBVXOBNttCf7+xqg==
+X-Received: by 2002:a1c:ba04:: with SMTP id k4mr581132wmf.10.1585237492185;
+        Thu, 26 Mar 2020 08:44:52 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id r17sm4077159wrx.46.2020.03.26.08.44.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2020 08:44:51 -0700 (PDT)
+Message-ID: <0b6612fe59631529b92e231400373b93e3396944.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [v2 PATCH] base.bbclass: Add COMPATIBLE_OS, useful for non-Linux target recipes
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Mark Hatle <mark.hatle@kernel.crashing.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 26 Mar 2020 15:44:50 +0000
+In-Reply-To: <20200326152559.64446-1-mark.hatle@kernel.crashing.org>
+References: <20200326152559.64446-1-mark.hatle@kernel.crashing.org>
+User-Agent: Evolution 3.35.92-1 
 MIME-Version: 1.0
-References: <20200316184859.11635-1-armccurdy@gmail.com> <20200316184859.11635-2-armccurdy@gmail.com>
-In-Reply-To: <20200316184859.11635-2-armccurdy@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 26 Mar 2020 08:31:54 -0700
-Message-ID: <CAMKF1so2yHpArVTdMFttWHhsKaf4kqiQDLh5O35gpKYiH98xvg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/5] opkg-utils: remove python scripts etc for the class-target only
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+On Thu, 2020-03-26 at 10:25 -0500, Mark Hatle wrote:
+> Add the ability to generate non-Linux based components, such as
+> baremetal, FreeRTOS, Zypher, etc, exist.  There is a need for a way
+> to take components as specific to a given OS.
+> 
+> This is especially important in a multiconfig build where you may be
+> targeting different OSes which different sets of recipes in a common
+> set of layers.
+> 
+> Setting a default of (matching bitbake.conf's default TARGET_OS):
+> 
+>    COMPATIBLE_OS ?= "linux${LIBCEXTENSION}${ABIEXTENSION}"
+> 
+> will allow all existing recipes to be tagged as Linux specific, so
+> only non-Linux recipes would need to be tagged with specific
+> compatibility.
+> 
+> For a baremetal recipes, the following was used to test this code:
+> 
+>    COMPATIBLE_OS = "elf"
+>    COMPATIBLE_OS_arm = "eabi"
+> 
+> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+> ---
+> V2:
+> Only difference to V1 is typograhic fixes to the commit message.
+> 
+>  meta/classes/base.bbclass    | 7 +++++++
+>  meta/conf/documentation.conf | 1 +
+>  2 files changed, 8 insertions(+)
+> 
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index 45f9435fd8..c123c5dc50 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -509,6 +509,13 @@ python () {
+>          d.setVarFlag('do_devshell', 'fakeroot', '1')
+>          d.appendVarFlag('do_devshell', 'depends', '
+> virtual/fakeroot-native:do_populate_sysroot')
+>  
+> +    need_os = d.getVar('COMPATIBLE_OS')
+> +    if need_os and not d.getVar('PARSE_ALL_RECIPES', False):
+> +        import re
+> +        this_os = d.getVar('TARGET_OS')
+> +        if not re.match(need_os, this_os):
+> +            raise bb.parse.SkipRecipe("incompatible with os %s (not
+> in COMPATIBLE_OS)" % this_os)
+> +
+>      need_machine = d.getVar('COMPATIBLE_MACHINE')
+>      if need_machine and not d.getVar('PARSE_ALL_RECIPES', False):
+>          import re
+> diff --git a/meta/conf/documentation.conf
+> b/meta/conf/documentation.conf
+> index 0b21d1f63e..7a87540f43 100644
+> --- a/meta/conf/documentation.conf
+> +++ b/meta/conf/documentation.conf
+> @@ -111,6 +111,7 @@ COMBINED_FEATURES[doc] = "A set of features
+> common between MACHINE_FEATURES and
+>  COMMON_LICENSE_DIR[doc] = "Points to meta/files/common-licenses in
+> the Source Directory, which is where generic license files reside."
+>  COMPATIBLE_HOST[doc] = "A regular expression that resolves to one or
+> more hosts (when the recipe is native) or one or more targets (when
+> the recipe is non-native) with which a recipe is compatible."
+
+How does COMPATIBLE_OS compare to COMPATIBLE_HOST (documented above)?
+
+Cheers
 
 Richard
 
-ping on this patch, I am also running into the issue fixed by it.
-
-On Mon, Mar 16, 2020 at 11:49 AM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> OE's packaging functions assume that the opkg-utils python scipts are
-> always provided by opkg-utils-native, so the scripts should be removed
-> for class-target only.
->
-> Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
-> ---
->  meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-> index eda73db6a4..9315240190 100644
-> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-> @@ -34,13 +34,13 @@ do_install() {
->         if ! ${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'true', 'false', d)}; then
->                 rm -f "${D}${bindir}/update-alternatives"
->         fi
-> -
-> -    if ! ${@bb.utils.contains('PACKAGECONFIG', 'python', 'true', 'false', d)}; then
-> -        grep -lZ "/usr/bin/env.*python" ${D}${bindir}/* | xargs -0 rm
-> -    fi
->  }
->
->  do_install_append_class-target() {
-> +       if ! ${@bb.utils.contains('PACKAGECONFIG', 'python', 'true', 'false', d)}; then
-> +               grep -lZ "/usr/bin/env.*python" ${D}${bindir}/* | xargs -0 rm
-> +       fi
-> +
->         if [ -e "${D}${bindir}/update-alternatives" ]; then
->                 sed -i ${D}${bindir}/update-alternatives -e 's,/usr/bin,${bindir},g; s,/usr/lib,${nonarch_libdir},g'
->         fi
-> --
-> 2.24.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
