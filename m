@@ -1,53 +1,54 @@
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com [209.85.166.195])
- by mx.groups.io with SMTP id smtpd.web12.1930.1585246144087284673
+Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com [209.85.222.67])
+ by mx.groups.io with SMTP id smtpd.web11.2239.1585246676239388498
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 11:09:04 -0700
+ Thu, 26 Mar 2020 11:17:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=D4Hq/Hck;
- spf=pass (domain: gmail.com, ip: 209.85.166.195, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-il1-f195.google.com with SMTP id x16so6259751ilp.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 11:09:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XTl1i0de;
+ spf=pass (domain: gmail.com, ip: 209.85.222.67, mailfrom: armccurdy@gmail.com)
+Received: by mail-ua1-f67.google.com with SMTP id m18so2494953uap.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 11:17:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=vwbz0EIpuiUbxOZkKhEuGef7D6W0t/Hs6vjLIy1b4gI=;
-        b=D4Hq/HckNinRMCD0Vs5tr9bDgiOzU5wnOwJEffUiBvgZudfEiNS/2ZwlAB3Te6T3lI
-         taJiVbQmKWT30TEmw1yEjV5d5GPbgSCqXc2YVLdeEmKhlM2ROaXZC4rahcM8s5+HXMSN
-         h+A8MY19MthOw7mpNcRtKKtUOwHFStcuLvUAxsKZTvk6bQQ3fxiOB6BvmNHG6jhagt17
-         ng2fHW3Ejjio73iBNTYf1XXVvXk77sm+D+i+A+Ax1fkx4A242Z1oUxXrylnWQVJR8V0K
-         k2k5cADH36fXEYubvKdneMhC9rTGGvFwdwObpG9NiZAr9MySDybV38JjpBIsuQtahUoZ
-         zy8w==
+        bh=ZrrAfDxu4s8u9eydiTQeXZ9pG69eXZp1iFNpgX7rhIM=;
+        b=XTl1i0deeKO6IYl1Pv4ElrD8PWRN/O8h+voa0Ye5bee1ji87FiTmPnjFDFn6qB6bWS
+         /i3JiIwsYtD4mby6+LDbZ+qlrgXHJb0OLAH64Qrk8qu7JpmIE2nQWeYIKfO0hO1Apb+7
+         lFb0i3WiC4DkB3Y+DTTKpRVTFOAY9Zmpg42TUFfQ6OrYigByhjD9t8jC8awt/cvOC1UM
+         vspBldybDpqF2brZF/PbGcrbMIN2pzc19Obz1DgNTmyolq5mcSP5hg2CIjQnJcK/Lfdx
+         8ji43oYrc7HgFeVA7fSInMLOw3eGiPi3elNtjpyJKiPRygQ9zlnf9x3U19cT4uMciZtv
+         otBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vwbz0EIpuiUbxOZkKhEuGef7D6W0t/Hs6vjLIy1b4gI=;
-        b=D9Ex/Vv8CbrXxziIduGndnGGUW00HXpGHCKgpj9F/QYJNQGg0BGpd3TdxftSwGRPWE
-         KHy5MpyiyBtlCi4Vp3PiYuHsULu4vZLFIuHKd1to94UHpKTp0aoBDyrpPGiNYgfQjtxu
-         goy4T8Yq7CP33N+k0UUA6cprrEA/5bycSuLbDFKDZqu4FRAqlGXoMOu1wnjEKtv7B7Y6
-         Z1QHDW2lVvVh+LXSkldFSW3S2bzaG4yMpipgYO0Um1akKfa3L3xCrVcla1MdTsnt3ja1
-         MkRvJI2hFKTDZYBMcGQIanZmyZyvEgQO4WJN4VLW1zEPYEldeGJH6VTypXSgUu0OeQjg
-         OdSw==
-X-Gm-Message-State: ANhLgQ1iV665pScZy2vxFkqH2o/YbfjMNe4draq459gssYxpvXxlrynR
-	HXrGXpvVzv5sm8E0BPaZbYaZOAl5YAyp8tu8rD616cgA
-X-Google-Smtp-Source: ADFU+vt0FgubdLsq7MgDyykx5tu2bhneXFLD/NhKg+CmFd0AeroRVpKczJfWHL2SXttXuxODf+9JlobqyUEjKU+F/UA=
-X-Received: by 2002:a92:ce06:: with SMTP id b6mr10749504ilo.102.1585246143425;
- Thu, 26 Mar 2020 11:09:03 -0700 (PDT)
+        bh=ZrrAfDxu4s8u9eydiTQeXZ9pG69eXZp1iFNpgX7rhIM=;
+        b=No2P3nboDcTUgkUYs/2fNlFs9nfPlTtXxv88xQQcHlFqVxPrxOg8ZPhBoARWKAmnlP
+         CXcsTSjdWnLEEmGFtGeUE/GFD/AfyWn3Fi0eH3EZPsZwI5EJjSLCxiH7W/jx/JtjE4fJ
+         Vf9m7PNbCgz+oDNYXs8+AN/CZnAkOWNGOokJL8uL3EMg3h/lfGy4oskjYGvEc4PIBrOO
+         AMGQGBZUM3+0G6ipjPOWilT6OKpwxt8OTcMU8p2g4UHdwh2ImMiNfNcTCrI2hg8HXPvA
+         I9Tb4cvCrKioZBVLFoBbHWsqEc/Lyp/bDPeMqYfyZXY2Gt3HFtFgdUUZG/JpxhLP+hdo
+         VmJQ==
+X-Gm-Message-State: ANhLgQ0uA661c6sLp82eeEnoXxEuxm22b9Djdkl4xqVfp+9sULNPOb5D
+	UcCZfuvSRctr6gIpNnhqOrWaRGWA9vSjZsDzg7E=
+X-Google-Smtp-Source: ADFU+vuFqV3MDI5FxQvn9HYsv7i8oQEqOtRqhRhUGNgB2qCJSGv3JlL78B5PqkZfmN7Tygm48eqSIItR1ZLIO0d25YY=
+X-Received: by 2002:ab0:1869:: with SMTP id j41mr7617262uag.99.1585246675264;
+ Thu, 26 Mar 2020 11:17:55 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200326085426.117209-1-alex.kiernan@gmail.com>
  <20200326085426.117209-7-alex.kiernan@gmail.com> <20200326145614.GA26693@localhost>
  <CAO5Uq5Qz2EpUZUFGfRy-6BTrLZuK9sm7bTarmkCwZM9RA5eysw@mail.gmail.com> <20200326173258.GA31846@localhost>
 In-Reply-To: <20200326173258.GA31846@localhost>
-From: "Alex Kiernan" <alex.kiernan@gmail.com>
-Date: Thu, 26 Mar 2020 18:08:52 +0000
-Message-ID: <CAO5Uq5R-zAdk06WRwKY3e_4ycNCHcy7oNGbWf8DOfLTY-SHLSw@mail.gmail.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Thu, 26 Mar 2020 11:17:49 -0700
+Message-ID: <CAJ86T=UWhfdQ9-F8QfbbHHW9r8BYGUgQhWjj_1Q6J4m1g482tg@mail.gmail.com>
 Subject: Re: [OE-Core][RFC PATCH 06/13] systemd: Add PACKAGECONFIG for sysvinit
 To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Mar 26, 2020 at 5:33 PM Adrian Bunk <bunk@stusta.de> wrote:
+On Thu, Mar 26, 2020 at 10:33 AM Adrian Bunk <bunk@stusta.de> wrote:
 >
 > On Thu, Mar 26, 2020 at 03:54:55PM +0000, Alex Kiernan wrote:
 > > On Thu, Mar 26, 2020 at 2:56 PM Adrian Bunk <bunk@stusta.de> wrote:
@@ -79,7 +80,17 @@ On Thu, Mar 26, 2020 at 5:33 PM Adrian Bunk <bunk@stusta.de> wrote:
 >
 > For packages that can provide both, if the init script gets installed
 > it is ignored by systemd when there is also a systemd unit.
->
+
+True but we don't usually reply on that. If sysvinit is not present in
+DISTRO_FEATURES and the package includes a systemd service file then
+any init scripts will be forcefully removed (see
+rm_sysvinit_initddir() in systemd.bbclass).
+
+The behaviour of rm_sysvinit_initddir() seems to suggest that if you
+don't have sysvinit in DISTRO_FEATURES you shouldn't expect any
+sysvinit related functionality to work... so configuring it out of
+systemd in that case seems OK.
+
 > systemd-sysv-generator provides support for packages that do not
 > (yet) provide a systemd unit, only an init script.
 >
@@ -87,10 +98,8 @@ On Thu, Mar 26, 2020 at 5:33 PM Adrian Bunk <bunk@stusta.de> wrote:
 > installed package needs it, but this is not in any way related
 > to sysvinit in DISTRO_FEATURES.
 >
-
-That's the piece of context I'm missing then... so whilst adding
-sysvinit as a PACKAGECONFIG is valid, it shouldn't be linked to
-DISTRO_FEATURES?
-
--- 
-Alex Kiernan
+> > Alex Kiernan
+>
+> cu
+> Adrian
+> 
