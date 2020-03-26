@@ -1,138 +1,352 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web10.29685.1585190548031721577
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web12.31000.1585196819114276767
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Mar 2020 19:42:28 -0700
+ Wed, 25 Mar 2020 21:26:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: MlgrKzCaQox/V27CYjZ3zmiAvBtMl5DjIt9WO7ItS6awpQmsArteWSOKebSuS50LjtvmF8VY6s
- kjzsHBa4g6lg==
+ dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 134.134.136.100, mailfrom: timothy.t.orling@linux.intel.com)
+IronPort-SDR: kaPX/Vw/E7cW3gWN7NfogIjXnHtnhrUu1HBQkCMTUqCUUMZofWbRe3VJ+CJ1X7S+Ux2NZvc+Gw
+ WICXjsuDQPkg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2020 19:42:27 -0700
-IronPort-SDR: mgwunBaHIgTBMxEQkS2ST0Ey49LuGADe/FSrpLeDHX7bhe3Wx182b5QKdWaZ1vouufPoToMg1S
- /ISFJOnoH5iw==
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Mar 2020 21:26:58 -0700
+IronPort-SDR: ZHttTlvV779F9Ec2YtA1WS/ccHmA2Do2BSasvV/w+lMfm4tM4xU6S2bCcApFA/jlDpJoiO2CLO
+ wGZUvU6W3IXw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,306,1580803200"; 
-   d="scan'208";a="358007438"
-Received: from pgsmsx102.gar.corp.intel.com ([10.221.44.80])
-  by fmsmga001.fm.intel.com with ESMTP; 25 Mar 2020 19:42:27 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.189]) by
- PGSMSX102.gar.corp.intel.com ([169.254.6.245]) with mapi id 14.03.0439.000;
- Thu, 26 Mar 2020 10:36:57 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: Sakib Sajal <sakib.sajal@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v3] libpng: Fix CVE-2019-6129
-Thread-Topic: [OE-core] [PATCH v3] libpng: Fix CVE-2019-6129
-Thread-Index: AQHWAV0a7KLCOR/Q6k+VUZrjuoWAh6haKrxQ
-Date: Thu, 26 Mar 2020 02:36:57 +0000
-Message-ID: <C0207330DF60C5409302EC78C3FE68F3034AD388@PGSMSX101.gar.corp.intel.com>
-References: <20200323215034.144217-1-sakib.sajal@windriver.com>
-In-Reply-To: <20200323215034.144217-1-sakib.sajal@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.206]
+X-IronPort-AV: E=Sophos;i="5.72,307,1580803200"; 
+   d="scan'208";a="240837406"
+Received: from wrath.jf.intel.com ([10.54.31.24])
+  by orsmga008.jf.intel.com with ESMTP; 25 Mar 2020 21:26:58 -0700
+From: "Tim Orling" <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <timothy.t.orling@linux.intel.com>
+Subject: [PATCH] scripts/install-buildtools: add helper script to install buildtools
+Date: Wed, 25 Mar 2020 21:26:55 -0700
+Message-Id: <20200326042655.12713-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-This patch has not yet been merged upstream and upstream has disputed the s=
-ecurity impact of this CVE. So I am not sure if we should take this.
+For distros such as CentOS-7 where the default buildtools are too
+old we need to make it easy for users to install a pre-built SDK
+with all of "build-essentials" included.
 
-https://github.com/glennrp/libpng/issues/269
+Other uses may include building older Yocto Project releases with
+a distro where buildtools are too new.
 
-Has any distro taken this?
+For convenience, the standard buildtools installation is also
+supported.
 
-Thanks,
+NOTE: extended buildtools is the default, e.g.
+      --with-extended-buildtools is on by default
 
-Anuj
+Example usage (extended buildtools from milestone):
+  (1) using --url and --filename
+      $ install-buildtools \
+        --url http://downloads.yoctoproject.org/releases/yocto/milestones/yocto-3.1_M2/buildtools \
+        --filename x86_64-buildtools-extended-nativesdk-standalone-3.0+snapshot-20200122.sh
+  (2) using --base-url, --release, --installer-version and --build-date
+      $ install-buildtools \
+        --base-url http://downloads.yoctoproject.org/releases/yocto \
+        --release yocto-3.1_M2 \
+        --install-version 3.0+snapshot
+        --build-date 202000122
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Sakib Sajal
-> Sent: Tuesday, March 24, 2020 05:51 AM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH v3] libpng: Fix CVE-2019-6129
->=20
-> Fix memory leak in png_create_info_struct.
->=20
-> Upstream-Status: Submitted [https://github.com/glennrp/libpng/pull/293]
-> CVE: CVE-2019-6129
->=20
-> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> ---
->  .../libpng/0001-Repair-of-CVE-2019-6129.patch | 28 +++++++++++++++++++
->  .../libpng/libpng_1.6.37.bb                   |  5 +++-
->  2 files changed, 32 insertions(+), 1 deletion(-)  create mode 100644 met=
-a/recipes-
-> multimedia/libpng/libpng/0001-Repair-of-CVE-2019-6129.patch
->=20
-> diff --git a/meta/recipes-multimedia/libpng/libpng/0001-Repair-of-CVE-201=
-9-
-> 6129.patch b/meta/recipes-multimedia/libpng/libpng/0001-Repair-of-CVE-201=
-9-
-> 6129.patch
-> new file mode 100644
-> index 0000000000..641e771c17
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/libpng/libpng/0001-Repair-of-CVE-2019-6129
-> +++ .patch
-> @@ -0,0 +1,28 @@
-> +From c8205147753e6684accb73d79f932d0c028fcc80 Mon Sep 17 00:00:00 2001
-> +From: tangyaofang <tangyaofang6666@163.com>
-> +Date: Mon, 10 Jun 2019 11:30:15 +0800
-> +Subject: [PATCH] Repair of CVE-2019-6129
-> +
-> +CVE: CVE-2019-6129
-> +Upstream-Status: Submitted [https://github.com/glennrp/libpng/pull/293]
-> +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> +---
-> + contrib/tools/pngcp.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/contrib/tools/pngcp.c b/contrib/tools/pngcp.c index
-> +16d4e7f4d..a02d5b7ff 100644
-> +--- a/contrib/tools/pngcp.c
-> ++++ b/contrib/tools/pngcp.c
-> +@@ -506,7 +506,7 @@ static void
-> + display_clean_read(struct display *dp)  {
-> +    if (dp->read_pp !=3D NULL)
-> +-      png_destroy_read_struct(&dp->read_pp, NULL, NULL);
-> ++      png_destroy_read_struct(&dp->read_pp, (dp->ip!=3DNULL ? &dp->ip :
-> ++ NULL), NULL);
-> +
-> +    if (dp->fp !=3D NULL)
-> +    {
-> +--
-> +2.20.1
-> +
-> diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb b/meta/recip=
-es-
-> multimedia/libpng/libpng_1.6.37.bb
-> index 8c53d11642..f33b942cd7 100644
-> --- a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-> +++ b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-> @@ -7,7 +7,10 @@ DEPENDS =3D "zlib"
->=20
->  LIBV =3D "16"
->=20
-> -SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz"
-> +SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz
-> \
-> +           file://0001-Repair-of-CVE-2019-6129.patch \
-> +          "
-> +
->  SRC_URI[md5sum] =3D "015e8e15db1eecde5f2eb9eb5b6e59e9"
->  SRC_URI[sha256sum] =3D
-> "505e70834d35383537b6491e7ae8641f1a4bed1876dbfe361201fc80868d88ca"
->=20
-> --
-> 2.24.1
+Example usage (standard buildtools from release):
+  (3) using --url and --filename
+      $ install-buildtools --without-extended-buildtools \
+        --url http://downloads.yoctoproject.org/releases/yocto/yocto-3.0.2/buildtools \
+        --filename x86_64-buildtools-nativesdk-standalone-3.0.2.sh
+  (4) using --base-url, --release and --installer-version
+      $ install-buildtools --without-extended-buildtools \
+        --base-url http://downloads.yoctoproject.org/releases/yocto \
+        --release yocto-3.0.2 \
+        --install-version 3.0.2
+
+[YOCTO #13832]
+
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+---
+ scripts/install-buildtools | 270 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 270 insertions(+)
+ create mode 100755 scripts/install-buildtools
+
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+new file mode 100755
+index 0000000000..0947e9c4d6
+--- /dev/null
++++ b/scripts/install-buildtools
+@@ -0,0 +1,270 @@
++#!/usr/bin/env python3
++
++# Buildtools and buildtools extended installer helper script
++#
++# Copyright (C) 2017-2020 Intel Corporation
++#
++# SPDX-License-Identifier: MIT
++#
++#  NOTE: --with-extended-buildtools is on by default
++#
++#  Example usage (extended buildtools from milestone):
++#    (1) using --url and --filename
++#        $ install-buildtools \
++#          --url http://downloads.yoctoproject.org/releases/yocto/milestones/yocto-3.1_M2/buildtools \
++#          --filename x86_64-buildtools-extended-nativesdk-standalone-3.0+snapshot-20200122.sh
++#    (2) using --base-url, --release, --installer-version and --build-date
++#        $ install-buildtools \
++#          --base-url http://downloads.yoctoproject.org/releases/yocto \
++#          --release yocto-3.1_M2 \
++#          --install-version 3.0+snapshot
++#          --build-date 202000122
++#
++#  Example usage (standard buildtools from release):
++#    (3) using --url and --filename
++#        $ install-buildtools --without-extended-buildtools \
++#          --url http://downloads.yoctoproject.org/releases/yocto/yocto-3.0.2/buildtools \
++#          --filename x86_64-buildtools-nativesdk-standalone-3.0.2.sh
++#    (4) using --base-url, --release and --installer-version
++#        $ install-buildtools --without-extended-buildtools \
++#          --base-url http://downloads.yoctoproject.org/releases/yocto \
++#          --release yocto-3.0.2 \
++#          --install-version 3.0.2
++#
++
++import argparse
++import logging
++import os
++import re
++import shutil
++import stat
++import subprocess
++import sys
++import tempfile
++from urllib.parse import quote
++
++scripts_path = os.path.dirname(os.path.realpath(__file__))
++lib_path = scripts_path + '/lib'
++sys.path = sys.path + [lib_path]
++import scriptutils
++import scriptpath
++
++# Figure out where is the bitbake/lib/bb since we need bb.utils.md5_file
++bitbakepath = scriptpath.add_bitbake_lib_path()
++if not bitbakepath:
++    sys.stderr.write("Unable to find bitbake by searching parent directory "
++                     "of this script or PATH\n")
++    sys.exit(1)
++
++PROGNAME = 'install-buildtools'
++logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
++
++DEFAULT_BASE_URL: str = 'http://downloads.yoctoproject.org/releases/yocto'
++DEFAULT_RELEASE: str = 'yocto-3.1_M2'
++DEFAULT_INSTALLER_VERSION: str = '3.0+snapshot'
++DEFAULT_BUILDDATE: str = "20200122"
++
++
++def main():
++    global DEFAULT_BASE_URL
++    global DEFAULT_RELEASE
++    global DEFAULT_INSTALLER_VERSION
++    global DEFAULT_BUILDDATE
++    filename: str = ""
++    release: str = ""
++    buildtools_url: str = ""
++
++    parser = argparse.ArgumentParser(
++        description="Buildtools installation helper",
++        add_help=False)
++    parser.add_argument('-u', '--url',
++                        help='URL from where to fetch buildtools SDK installer, not '
++                             'including filename (optional)\n'
++                             'Requires --filename.',
++                        action='store')
++    parser.add_argument('-f', '--filename',
++                        help='filename for the buildtools SDK installer to be installed '
++                             '(optional)\nRequires --url',
++                        action='store')
++    parser.add_argument('-d', '--directory',
++                        help='directory where buildtools SDK will be installed (optional)',
++                        action='store')
++    parser.add_argument('-r', '--release',
++                        default=DEFAULT_RELEASE,
++                        help='Yocto Project release string for SDK which will be '
++                             'installed (optional)',
++                        action='store')
++    parser.add_argument('-V', '--installer-version',
++                        default=DEFAULT_INSTALLER_VERSION,
++                        help='version string for the SDK to be installed (optional)',
++                        action='store')
++    parser.add_argument('-b', '--base-url',
++                        default=DEFAULT_BASE_URL,
++                        help='base URL from which to fetch SDK (optional)', action='store')
++    parser.add_argument('-t', '--build-date',
++                        default=DEFAULT_BUILDDATE,
++                        help='Build date of pre-release SDK (optional)', action='store')
++    group = parser.add_mutually_exclusive_group()
++    group.add_argument('--with-extended-buildtools', action='store_true',
++                       dest='with_extended_buildtools',
++                       default=True,
++                       help='enable extended buildtools tarball (on by default)')
++    group.add_argument('--without-extended-buildtools', action='store_false',
++                       dest='with_extended_buildtools',
++                       help='disable extended buildtools (traditional buildtools tarball)')
++    parser.add_argument('-c', '--check', help='enable md5 checksum checking',
++                        default=True,
++                        action='store_true')
++    parser.add_argument('-D', '--debug', help='enable debug output',
++                        action='store_true')
++    parser.add_argument('-q', '--quiet', help='print only errors',
++                        action='store_true')
++
++    parser.add_argument('-h', '--help', action='help',
++                        default=argparse.SUPPRESS,
++                        help='show this help message and exit')
++
++    args = parser.parse_args()
++
++    if args.debug:
++        logger.setLevel(logging.DEBUG)
++    elif args.quiet:
++        logger.setLevel(logging.ERROR)
++
++    if args.url and args.filename:
++        logger.debug("--url and --filename detected. Ignoring --base-url "
++                     "--release --installer-version  arguments.")
++        filename = args.filename
++        buildtools_url = "%s/%s" % (args.url, filename)
++    else:
++        if args.base_url:
++            base_url = args.base_url
++        else:
++            base_url = DEFAULT_BASE_URL
++        if args.release:
++            # check if this is a pre-release "milestone" SDK
++            m = re.search(r"^(?P<distro>[a-zA-Z\-]+)(?P<version>[0-9.]+)(?P<milestone>_M[1-9])$",
++                          args.release)
++            logger.debug("milestone regex: %s" % m)
++            if m and m.group('milestone'):
++                logger.debug("release[distro]: %s" % m.group('distro'))
++                logger.debug("release[version]: %s" % m.group('version'))
++                logger.debug("release[milestone]: %s" % m.group('milestone'))
++                if not args.build_date:
++                    logger.error("Milestone installers require --build-date")
++                else:
++                    if args.with_extended_buildtools:
++                        filename = "x86_64-buildtools-extended-nativesdk-standalone-%s-%s.sh" % (
++                            args.installer_version, args.build_date)
++                    else:
++                        filename = "x86_64-buildtools-nativesdk-standalone-%s-%s.sh" % (
++                            args.installer_version, args.build_date)
++                    safe_filename = quote(filename)
++                    buildtools_url = "%s/milestones/%s/buildtools/%s" % (base_url, args.release, safe_filename)
++            # regular release SDK
++            else:
++                if args.with_extended_buildtools:
++                    filename = "x86_64-buildtools-extended-nativesdk-standalone-%s.sh" % args.installer_version
++                else:
++                    filename = "x86_64-buildtools-nativesdk-standalone-%s.sh" % args.installer_version
++                safe_filename = quote(filename)
++                buildtools_url = "%s/%s/buildtools/%s" % (base_url, args.release, safe_filename)
++
++    tmpsdk_dir = tempfile.mkdtemp()
++    try:
++        # Fetch installer
++        logger.info("Fetching buildtools installer")
++        tmpbuildtools = os.path.join(tmpsdk_dir, filename)
++        ret = subprocess.call("wget -q -O %s %s" %
++                              (tmpbuildtools, buildtools_url), shell=True)
++        if ret != 0:
++            logger.error("Could not download file from %s" % buildtools_url)
++            return ret
++
++        # Verify checksum
++        if args.check:
++            import bb
++            logger.info("Fetching buildtools installer checksum")
++            check_url = "{}.md5sum".format(buildtools_url)
++            checksum_filename = "%s.md5sum" % filename
++            tmpbuildtools_checksum = os.path.join(tmpsdk_dir, checksum_filename)
++            ret = subprocess.call("wget -q -O %s %s" %
++                                  (tmpbuildtools_checksum, check_url), shell=True)
++            if ret != 0:
++                logger.error("Could not download file from %s" % check_url)
++                return ret
++            regex = re.compile(r"^(?P<md5sum>[0-9a-f]+)\s\s(?P<path>.*/)(?P<filename>.*)$")
++            with open(tmpbuildtools_checksum, 'rb') as f:
++                original = f.read()
++                m = re.search(regex, original.decode("utf-8"))
++                logger.debug("md5sum: %s" % m.group('md5sum'))
++                logger.debug("path: %s" % m.group('path'))
++                logger.debug("filename: %s" % m.group('filename'))
++                if filename != m.group('filename'):
++                    logger.error("Filename does not match name in checksum")
++                    return 1
++                md5sum = m.group('md5sum')
++            md5value = bb.utils.md5_file(tmpbuildtools)
++            if md5sum == md5value:
++                logger.info("Checksum success")
++            else:
++                logger.error("Checksum %s expected. Actual checksum is %s." %
++                             (md5sum, md5value))
++
++        # Make installer executable
++        logger.info("Making installer executable")
++        st = os.stat(tmpbuildtools)
++        os.chmod(tmpbuildtools, st.st_mode | stat.S_IEXEC)
++        logger.debug(os.stat(tmpbuildtools))
++        install_dir = "/opt/poky/%s" % args.installer_version
++        if args.directory:
++            install_dir = args.directory
++            ret = subprocess.call("%s -d %s -y" %
++                                  (tmpbuildtools, install_dir), shell=True)
++        else:
++            ret = subprocess.call("%s -y" % tmpbuildtools, shell=True)
++        if ret != 0:
++            logger.error("Could not run buildtools installer")
++
++        # Test installation
++        logger.info("Testing installation")
++        tool = ""
++        m = re.search("extended", tmpbuildtools)
++        logger.debug("extended regex: %s" % m)
++        if args.with_extended_buildtools and not m:
++            logger.info("Ignoring --with-extended-buildtools as filename "
++                        "does not contain 'extended'")
++        if args.with_extended_buildtools and m:
++            tool = 'gcc'
++        else:
++            tool = 'tar'
++        proc = subprocess.run("source %s/environment-setup-x86_64-pokysdk-linux && which %s" %
++                              (install_dir, tool),
++                              shell=True, stdout=subprocess.PIPE)
++        which_tool = proc.stdout.decode("utf-8")
++        logger.debug("which %s: %s" % (tool, which_tool))
++        ret = proc.returncode
++        if not which_tool.startswith(install_dir):
++            logger.error("Something went wrong: %s not found in %s" %
++                         (tool, install_dir))
++        if ret != 0:
++            logger.error("Something went wrong: installation failed")
++        else:
++            logger.info("Installation successful. Remember to source the "
++                        "environment setup script now and in any new session.")
++        return ret
++
++    finally:
++        # cleanup tmp directory
++        shutil.rmtree(tmpsdk_dir)
++
++
++if __name__ == '__main__':
++    try:
++        ret = main()
++    except Exception:
++        ret = 1
++        import traceback
++
++        traceback.print_exc()
++    sys.exit(ret)
+-- 
+2.24.0
 
