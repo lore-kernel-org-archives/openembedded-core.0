@@ -1,71 +1,77 @@
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com [209.85.222.65])
- by mx.groups.io with SMTP id smtpd.web12.4451.1585252394656629508
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web10.4961.1585253402414533151
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 12:53:14 -0700
+ Thu, 26 Mar 2020 13:10:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=rcbboXWt;
- spf=pass (domain: gmail.com, ip: 209.85.222.65, mailfrom: armccurdy@gmail.com)
-Received: by mail-ua1-f65.google.com with SMTP id o16so2635529uap.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 12:53:14 -0700 (PDT)
+ dkim=pass header.i=@mind.be header.s=google header.b=Gzw8jQwn;
+ spf=pass (domain: essensium.com, ip: 209.85.208.49, mailfrom: charles-antoine.couret@essensium.com)
+Received: by mail-ed1-f49.google.com with SMTP id a20so8479264edj.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 13:10:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=k4Og18WfTepgokKnLFnCzqKw5AhBcjH0fFxh9c75f0w=;
-        b=rcbboXWt19aIeH/wwYFEfyex57u/X5OrKxp+yG1UhUrPLfb1wK2Co1Vpeqr92PlGNw
-         M5k/QoPTYZfq0ZroNKHcKYnF0ES48ntvg+2EOCn37Jrssbc4akedYqLe1k8+hXQ/i0MP
-         wc7tWJk+cYHFdiLY/Fr/Q783F+ZufPM+F4pd9Mb3bKuf+16jdFARqRuuyFZMxrFJjYCU
-         ymllum4ggSisAYomp/rOFN3+BMZOrFzZGZ1/pA9rU2EryiCc3V16rlym0Jfzr90XoPsZ
-         VHCzY4zwQgKGMyhRqPIQCDWz9ySmZCJBaleYoDG/xPPh2AD+wkavGVokjsCBaM5m/fZ1
-         2S1A==
+        d=mind.be; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t5fpAJ6zc8PFICPUbIjG0tIXmE1I6Xyr7mHSmc4MtEU=;
+        b=Gzw8jQwnJYUqhx3XkXi4uUTmgAPQtk13iRZE767qA4LQdRwcxsvg91A4dLPOyltqWq
+         AQGnAYVsr94/klN2SvBqfPWJaZ1clcO4kGWOg3XoeKUvmLHx5wuo2UsgRur5Cwvs3mzh
+         7qLSnvIZN2PpqX7LYryRfZa9w1Mo5OPeO0Cn5JqWhiPq5+2+0sG5RIQGoRe9mW9C2EIC
+         MLhqerB4Q1rs7IdZUZDgeepODafjWhDZFAyr1+PRP2mg3IYHHnUOMafsGujyuBqhwB1A
+         Gn9pyhnTCrZIIHLxHD4cmCQZU1rlPKJkF/2eN9hBSmuBVyEMQq3oCWQRLfg/Vp7LXj0w
+         I0zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=k4Og18WfTepgokKnLFnCzqKw5AhBcjH0fFxh9c75f0w=;
-        b=BMWuPTZvY7bUYkIloojjFffA68h85K41QIVKVsj0EzAq0//mkQCLzRoO4IHwBn46GV
-         GHipxRYG5EcoajcoI/nnuyJzrJk4TQQVfy4BYcdg/xEZ1yOcZtnhA68ymIFbih05maAf
-         Un8Mu8rznmb0gn4KGIVp32Dw60f6m1KBrr1zl17FV51kvSiWabDWm3+XUMHz6f3jzBiJ
-         hV4Ql0iIiFmx4AK4UtwY0FH+gimthqj3a8A8I6vD33tZ9WKGiomg0ym0pKfrpETUu+SI
-         HVzg0u62lpyX+VOvxZY5DaMHqyStnEF1YAWhUs/OP2Sl+KrIOISaazr/BwYdC0pZ1bTg
-         kwUw==
-X-Gm-Message-State: ANhLgQ2B704H7u10OwOADjcdgJEhV8kqgMifvR9sBbMJ4KCdupNICFfC
-	GCPf1k9z5eSyRbRLkZXclyLU7L9IoHr2yaAMsCY=
-X-Google-Smtp-Source: ADFU+vt0M50oO4jdiZMBJCjpKgtSUNSKJGYCiMkx0B37C21bhxbAlXKM+y8/PWaG+IVfW3NAZLeid8pDkwkLLuNm3+o=
-X-Received: by 2002:ab0:1869:: with SMTP id j41mr8117358uag.99.1585252393628;
- Thu, 26 Mar 2020 12:53:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t5fpAJ6zc8PFICPUbIjG0tIXmE1I6Xyr7mHSmc4MtEU=;
+        b=mlVQQb/SWLAVz2PZZXkzjVs9iktG8++ryoPpGakFrl9tRjvhxDnRPT/XB3+osKKDg2
+         Rx91c8Q9W7cwy2aJDDpNVYEsPLNTmVUJTRV8+fA2ed6TucC3rBj91w4A4fwxhZKEqG0O
+         pGs65jVmNoavx60SMsqvP71H4GbU0syG/CViC/PEuo/kwfz1OjyFUxhX2jQztQmuG3z1
+         HBM73kLqT/HCOWKCMlhSv/lLeKMyqxL4kGOQ99V/iWmZwu0Zn5fsX//GSJIXcZSJNQ3V
+         t3qETwKwfMyZayWSA+BveW5nrTLvcQ4pRDGuoxIzRVoeQcTrPxyLtiXvYAtk8Gh1xRhI
+         8/vA==
+X-Gm-Message-State: ANhLgQ1fJQaBbIgjWAfcR6E2OqOmtW8A7hBpQrbGB0Jb6rmRxj9j12qI
+	z5cc3M12DbzRHxFXahDHOZBEipujaVbOEw==
+X-Google-Smtp-Source: ADFU+vsK85/fvlt2oUula5rtou9CKNERowo+POsx/fjJ9RWjhK0tNz/Dmnce2RukRmMgMT4IyemDVg==
+X-Received: by 2002:a17:906:a387:: with SMTP id k7mr9226525ejz.256.1585253400383;
+        Thu, 26 Mar 2020 13:10:00 -0700 (PDT)
+Return-Path: <charles-antoine.couret@essensium.com>
+Received: from localhost.localdomain ([2a02:a03f:c930:4300:2b1a:3a25:ef77:ee9e])
+        by smtp.googlemail.com with ESMTPSA id s4sm514187edw.19.2020.03.26.13.09.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2020 13:09:59 -0700 (PDT)
+From: "Charles-Antoine Couret" <charles-antoine.couret@mind.be>
+To: openembedded-core@lists.openembedded.org
+Cc: Charles-Antoine Couret <charles-antoine.couret@mind.be>
+Subject: [PATCHv2] utils: fix gcc 10 version detection
+Date: Thu, 26 Mar 2020 21:09:49 +0100
+Message-Id: <20200326200949.149497-1-charles-antoine.couret@mind.be>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-References: <20200326152629.29272-1-stefan.ghinea@windriver.com> <20200326191628.GC5401@localhost>
-In-Reply-To: <20200326191628.GC5401@localhost>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Thu, 26 Mar 2020 12:53:08 -0700
-Message-ID: <CAJ86T=WJ4+8Ly59gxj6maeLQC5NAcZiM-G+uKqhTTi3u9C_FtQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] pulseaudio: fix for ARM thumb + frame pointers compilation error
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Stefan Ghinea <stefan.ghinea@windriver.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 26, 2020 at 12:16 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Thu, Mar 26, 2020 at 05:26:29PM +0200, Stefan Ghinea wrote:
-> >...
-> > When compiling for Thumb or Thumb2, frame pointers _must_ be disabled
-> > since the Thumb frame pointer in r7
-> >...
->
-> How are you reproducing the problem in pulseaudio?
->
-> This sounds like a workaround for a bug in musl that was fixed 2 years ago.
+Utils can not detect GCC 10 correctly due to wrong regex.
+It generates this error "ERROR: Can't get compiler version from gcc  --version output"
 
-The problem can show up anywhere that inline asm is trying to use r7.
-In this case it looks like:
+Sub-version numbers should be 1 or more digits instead of 1 only.
 
-  https://github.com/pulseaudio/pulseaudio/blob/master/src/pulsecore/remap_neon.c#L50
+Signed-off-by: Charles-Antoine Couret <charles-antoine.couret@mind.be>
+---
+ meta/lib/oe/utils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Better fix there might be to use registers { r4,r5,r6,r12 } instead of
-{ r4,r5,r6,r7 } ?
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index aee4336482..9042b370f7 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -391,7 +391,7 @@ def host_gcc_version(d, taskcontextonly=False):
+     except subprocess.CalledProcessError as e:
+         bb.fatal("Error running %s --version: %s" % (compiler, e.output.decode("utf-8")))
+ 
+-    match = re.match(r".* (\d\.\d)\.\d.*", output.split('\n')[0])
++    match = re.match(r".* (\d+\.\d+)\.\d+.*", output.split('\n')[0])
+     if not match:
+         bb.fatal("Can't get compiler version from %s --version output" % compiler)
+ 
+-- 
+2.26.0
 
-> cu
-> Adrian
-> 
