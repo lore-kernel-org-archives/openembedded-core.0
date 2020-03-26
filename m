@@ -1,53 +1,76 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web10.38818.1585234580814920414
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web12.39029.1585234875161410841
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 07:56:25 -0700
+ Thu, 26 Mar 2020 08:01:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=uS3wOmM2;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=rbqv=5l=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48p7NJ3cqCz3Q;
-	Thu, 26 Mar 2020 15:56:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1585234577;
-	bh=PyNDHzVNOa9prslJwpvm8+//ktuVeLAns4W4a7754Ek=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uS3wOmM2FmRC86kPZl47D/CjbraA+GgDsRJMpq6VlJ8zXbFgaNJnskP9swR940lmU
-	 117m0MP0V/HldLSeT99+941gsajoU1T6CE2KcIMUN2rXdppBboLMtXelxwqa8F60Td
-	 vbNelwhlPHcOpjBaQDziJpjggh+37tFlbvbenAkxTmMtDtP24YYGJH+qBVMfcKNEWS
-	 4VjwRcDuiY+r9pfdavZYNkofRbqN3b6XNOs9rI1gk2mGPW3+G5diPeP+4IkO+PHzYv
-	 cOdWyLGb3xb/tsWv9zkf5ir7zWxjL3ZkJZ8v+M5DOKu0BCizPpJnWTLRR61jM6kASg
-	 /S8D9l6xkdk95uT44z8JmaWpuYPAkKK2ji/o+W9woK4jo6OkITdsf1Ma9YlUC1qflE
-	 UcUlwm2btml6M4w0wKeFK+EPfnoNut2ibp19I6YeJA38YXV2yY4g5DYBPJJpVQ9zJM
-	 8h4D8MLa92o9eu/pLmMZ5MuxpUsaV3DoCOCiCxsgDZeal5hvqVuVcW4EE/NGABYPMx
-	 izAyUBMosnChbUWrBTo80daLNnpnrkCOatN/R/Jsgrtnsi5UiVppbrBeBMJNRD280s
-	 s8WQFKAe0LqUzZUZVuJD6xQo4H8MjUeZNBfsYHWLv+znOuFQmT/90/fodk594Tm7dc
-	 5m621OMG+7jpkidFXiapoU0M=
-Date: Thu, 26 Mar 2020 16:56:14 +0200
-From: "Adrian Bunk" <bunk@stusta.de>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-Core][RFC PATCH 06/13] systemd: Add PACKAGECONFIG for sysvinit
-Message-ID: <20200326145614.GA26693@localhost>
-References: <20200326085426.117209-1-alex.kiernan@gmail.com>
- <20200326085426.117209-7-alex.kiernan@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20200326085426.117209-7-alex.kiernan@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from lons-builder.int.hatle.net ([192.40.192.88])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 02QF1C7a014883
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 10:01:13 -0500
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] base.bbclass: Add COMPATIBLE_OS, useful to for non-Linux target recipes
+Date: Thu, 26 Mar 2020 10:01:12 -0500
+Message-Id: <20200326150112.60991-1-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
 
-On Thu, Mar 26, 2020 at 08:54:19AM +0000, Alex Kiernan wrote:
-> Add sysvinit PACKAGECONFIG which is bound to DISTRO_FEATURES, this
-> then disables all sysvinit handling in systemd if it isn't present.
-> 
-> Consolidate sysvinit handling so that when it's disabled we exclude all
-> sysvinit features.
->...
+As the ability to generate non-Linux based components, such as
+baremetal, FreeRTOS, Zypher, etc, exist.  There is a need for a way
+to take components as specific to a given OS.
 
-What exactly are "sysvinit handling" and "sysvinit features"?
+This is especially important in a multiconfig build where you may be
+targeting different OSes which different sets of recipes in a common
+set of layers.
 
-It seems to disable systemd-sysv-generator, and this is wrong.
+Setting a default of (matching bitbake.conf's default TARGET_OS):
 
-cu
-Adrian
+   COMPATIBLE_OS ?= "linux${LIBCEXTENSION}${ABIEXTENSION}"
+
+Will allow all existing recipes to be tagged as Linux specific, so
+only non-Linux recipes would need to be tagged with specific
+compatibility.
+
+For a baremetal recipes, the following was used to test this code:
+
+   COMPATIBLE_OS = "elf"
+   COMPATIBLE_OS_arm = "eabi"
+
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+---
+ meta/classes/base.bbclass    | 7 +++++++
+ meta/conf/documentation.conf | 1 +
+ 2 files changed, 8 insertions(+)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 45f9435fd8..c123c5dc50 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -509,6 +509,13 @@ python () {
+         d.setVarFlag('do_devshell', 'fakeroot', '1')
+         d.appendVarFlag('do_devshell', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
+ 
++    need_os = d.getVar('COMPATIBLE_OS')
++    if need_os and not d.getVar('PARSE_ALL_RECIPES', False):
++        import re
++        this_os = d.getVar('TARGET_OS')
++        if not re.match(need_os, this_os):
++            raise bb.parse.SkipRecipe("incompatible with os %s (not in COMPATIBLE_OS)" % this_os)
++
+     need_machine = d.getVar('COMPATIBLE_MACHINE')
+     if need_machine and not d.getVar('PARSE_ALL_RECIPES', False):
+         import re
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 0b21d1f63e..7a87540f43 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -111,6 +111,7 @@ COMBINED_FEATURES[doc] = "A set of features common between MACHINE_FEATURES and
+ COMMON_LICENSE_DIR[doc] = "Points to meta/files/common-licenses in the Source Directory, which is where generic license files reside."
+ COMPATIBLE_HOST[doc] = "A regular expression that resolves to one or more hosts (when the recipe is native) or one or more targets (when the recipe is non-native) with which a recipe is compatible."
+ COMPATIBLE_MACHINE[doc] = "A regular expression that resolves to one or more target machines with which a recipe is compatible."
++COMPATIBLE_OS[doc] = "A regular expression that resolves to one or more target oses which a recipe is compatible."
+ COMPLEMENTARY_GLOB[doc] = "Defines wildcards to match when installing a list of complementary packages for all the packages installed in an image."
+ CONFFILES[doc] = "Identifies editable or configurable files that are part of a package."
+ CONFIG_SITE[doc] = "A list of files that contains autoconf test results relevant to the current build. This variable is used by the Autotools utilities when running configure."
+-- 
+2.17.1
+
