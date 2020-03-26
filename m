@@ -1,159 +1,73 @@
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com [209.85.167.193])
- by mx.groups.io with SMTP id smtpd.web12.4960.1585253658227194216
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web12.5264.1585254419715459353
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 13:14:18 -0700
+ Thu, 26 Mar 2020 13:27:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ow75bqYc;
- spf=pass (domain: gmail.com, ip: 209.85.167.193, mailfrom: jpuhlman@gmail.com)
-Received: by mail-oi1-f193.google.com with SMTP id p125so6716875oif.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 13:14:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id;
-        bh=/MxIdEUVmMShMNH4lLzAC73IwCVPRhQwt8HB4/sfiu0=;
-        b=Ow75bqYckWo7N0ufIAXQpgJNdgHVz+ExgGqaWBI2UZSMwqLPkd5yrsL1RKpmeXPRPu
-         HLDZ0i62WnrEo95LALHZzmZzc+vQJ9Ny0Fa4oNS8X2GM4yBpUx5V6n/lncQt6A4fBrLN
-         o6awcDlTuqrTXoBQbGRRvgnuCWr5U3fII3IrDA6UZWNikUnyHcbDOJTNvI3iw5XbykMZ
-         jzg/NCZb6WElWch0ApAX66cDHqXmTI9MrLqSVpgBDfNY16keq1S7CY4kkellZADE28C2
-         scZBULZLKH3I24RoX5Gyzp8y1fHYEmVbhcFD7KFgGHOb+mbfmgDEEFX16bAKrpC5ilZe
-         ZB3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-        bh=/MxIdEUVmMShMNH4lLzAC73IwCVPRhQwt8HB4/sfiu0=;
-        b=o27BWPFRtG3CWFTKzgNLPkZ/rZBW46QtBrpMiKpZhYR9jcxYEgtc6efHGLlMTNvvnU
-         X1q/fP66giGvqS8IcZy0g03eLmCuq5zou3cjiCRf/CCaqPBA4oyETcFgjz30ERkUdtp7
-         OGlDOBx/STlwCPs32GhmaVmzfCa49F5/jnOdwlHPMvbZFOHgVONJ2E0pQyo2Hu/001AC
-         6Mkxh7leJvHL8H02M3bebj/yBIUx3a3VO7+Kjzcoc56AZDvPIL2+KuVlHekUhVgxekQt
-         DBLGPRfvznY5k2H9RFy0kBuZqFLzzsvwj6r04HmHEsfpGoBClm3BtvEGTSZqtPLUrbs7
-         ZOVg==
-X-Gm-Message-State: ANhLgQ2aAiqjRcaQtJ3w9KKag8Cm0A5fugJYaWbnHjOdZu8RRA0otgtp
-	0xin8n/NbNOZRqK2ApKJAZj+dfrCgno=
-X-Google-Smtp-Source: ADFU+vvSG/A/D491fBRj4wDgvqcnDohO20/6D8PY1k2mUdEVf0QUgzOKH3c1iwZepk6RPXZblnHgMg==
-X-Received: by 2002:aca:55ce:: with SMTP id j197mr1567547oib.84.1585253657226;
-        Thu, 26 Mar 2020 13:14:17 -0700 (PDT)
-Return-Path: <jpuhlman@gmail.com>
-Received: from workhorse.localdomain ([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
-        by smtp.gmail.com with ESMTPSA id k132sm891786oih.9.2020.03.26.13.14.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2020 13:14:16 -0700 (PDT)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id CFC7A2A0AB3; Thu, 26 Mar 2020 13:14:15 -0700 (PDT)
-From: "Jeremy Puhlman" <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jeremy Puhlman <jpuhlman@mvista.com>
-Subject: [PATCH] apr: add option for disabling time dependant tests
-Date: Thu, 26 Mar 2020 13:14:11 -0700
-Message-Id: <20200326201411.11713-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.13.3
+ dkim=pass header.i=@stusta.de header.s=default header.b=jxHINTs5;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=rbqv=5l=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48pGjm4gf5z3Q;
+	Thu, 26 Mar 2020 21:26:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1585254414;
+	bh=AmQXCv4ncmGO1xH7s8+1QO+cJAiAS9ArhE1bReZdZpM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jxHINTs5WhfVYDJfOudwmXTCPPat38XsFH6XfuzP0p7aXo2dhN9Efr/b6bKhAMCX8
+	 U21WWpKEViVGDa7vYZ15gEarhW91tsucuSuVlcrBtElDPtxcjoe1+NRqE04uE5Uiu6
+	 /h0FhB0wtyMswBaJm0qEj7x0N40j+B6FnDO24X4Om1BZIC3zbxpGQos6Ty6gJH65ou
+	 dTyRfuFRjbNTDvSNL4wgu7vPo6C+/kOQqhz4TEXDt2yIT18RD5HNtxuauf6rKML86w
+	 TrZEgBsE4rrVpsf11lZXlgwzg7FrgS01mNhs1Zhy/jTMrOqkT4MRv9L08+YV8Lvdsz
+	 2tuv826aTQP+zz/6vHOkvTTP9g5PjqlpvXQQXBqwkZE/hNlb/P3rmHmUIvS7RHAUrC
+	 c8syMR7nRMdH/05K4QDtRAlkiVPbaFdnvT0X/l9T4xPOfQxDMTwm0pafTS+HcYdiEg
+	 HcQGQpMZ1kKMlyLbwLgm7Wh1LdPS+5XyOpcYEFVAietkQgx+9fU7kueLXndsDPOner
+	 SIBPGce4n4489p0KMKECas0YW5ZuIGMMhLjFlFBeXQTwZasGSFa7azpL8o6pmgf4p7
+	 eQjoKLhiIAItnpH2PDdOJtOPN5xjqHM2o940pPYwqHBTFusD0nApuSlbzcnKax+pdB
+	 UMpVQN5k16Q4FubV4fqvKF+M=
+Date: Thu, 26 Mar 2020 22:26:50 +0200
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Stefan Ghinea <stefan.ghinea@windriver.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] pulseaudio: fix for ARM thumb + frame pointers compilation error
+Message-ID: <20200326202650.GA14127@localhost>
+References: <20200326152629.29272-1-stefan.ghinea@windriver.com>
+ <20200326191628.GC5401@localhost>
+ <CAJ86T=WJ4+8Ly59gxj6maeLQC5NAcZiM-G+uKqhTTi3u9C_FtQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJ86T=WJ4+8Ly59gxj6maeLQC5NAcZiM-G+uKqhTTi3u9C_FtQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+On Thu, Mar 26, 2020 at 12:53:08PM -0700, Andre McCurdy wrote:
+> On Thu, Mar 26, 2020 at 12:16 PM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > On Thu, Mar 26, 2020 at 05:26:29PM +0200, Stefan Ghinea wrote:
+> > >...
+> > > When compiling for Thumb or Thumb2, frame pointers _must_ be disabled
+> > > since the Thumb frame pointer in r7
+> > >...
+> >
+> > How are you reproducing the problem in pulseaudio?
+> >
+> > This sounds like a workaround for a bug in musl that was fixed 2 years ago.
+> 
+> The problem can show up anywhere that inline asm is trying to use r7.
+> In this case it looks like:
+> 
+>   https://github.com/pulseaudio/pulseaudio/blob/master/src/pulsecore/remap_neon.c#L50
+>...
 
-[YOCTO #13839]
+After looking at the pulseaudio code I suspected the patch description 
+claiming pulseaudio syscall code would be the problem was rubbish, and 
+that this NEON code was the problem.
 
-Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
----
- ...d-option-to-disable-timed-dependant-tests.patch | 69 ++++++++++++++++++++++
- meta/recipes-support/apr/apr_1.7.0.bb              |  2 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch
+But when I tried to reproduce the problem it built for me with both 
+glibc and musl in master (the patch didn't mention that this was a
+musl-only problem).
 
-diff --git a/meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch b/meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch
-new file mode 100644
-index 0000000000..abff4e9331
---- /dev/null
-+++ b/meta/recipes-support/apr/apr/0001-Add-option-to-disable-timed-dependant-tests.patch
-@@ -0,0 +1,69 @@
-+From 2bbe20b4f69e84e7a18bc79d382486953f479328 Mon Sep 17 00:00:00 2001
-+From: Jeremy Puhlman <jpuhlman@mvista.com>
-+Date: Thu, 26 Mar 2020 18:30:36 +0000
-+Subject: [PATCH] Add option to disable timed dependant tests
-+
-+The disabled tests rely on timing to pass correctly. On a virtualized 
-+system under heavy load, these tests randomly fail because they miss
-+a timer or other timing related issues.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
-+---
-+ configure.in     | 6 ++++++
-+ include/apr.h.in | 1 +
-+ test/testlock.c  | 4 ++--
-+ 3 files changed, 9 insertions(+), 2 deletions(-)
-+
-+diff --git a/configure.in b/configure.in
-+index d9f32d6..f0c5661 100644
-+--- a/configure.in
-++++ b/configure.in
-+@@ -2886,6 +2886,12 @@ AC_ARG_ENABLE(timedlocks,
-+ )
-+ AC_SUBST(apr_has_timedlocks)
-+ 
-++AC_ARG_ENABLE(timed-tests,
-++  [  --disable-timed-tests	  Disable timed tests ],
-++  [apr_has_timedtests="0"], [apr_has_timedtests="1"]
-++)
-++AC_SUBST(apr_has_timedtests)
-++
-+ # hstrerror is only needed if IPv6 is not enabled,
-+ # so getaddrinfo/gai_strerror are not used.
-+ if test $have_ipv6 = 0; then
-+diff --git a/include/apr.h.in b/include/apr.h.in
-+index ee99def..c46a5f4 100644
-+--- a/include/apr.h.in
-++++ b/include/apr.h.in
-+@@ -298,6 +298,7 @@ extern "C" {
-+ #define APR_HAS_XTHREAD_FILES     @apr_has_xthread_files@
-+ #define APR_HAS_OS_UUID           @osuuid@
-+ #define APR_HAS_TIMEDLOCKS        @apr_has_timedlocks@
-++#define APR_HAVE_TIME_DEPENDANT_TESTS        @apr_has_timedtests@
-+ 
-+ #define APR_PROCATTR_USER_SET_REQUIRES_PASSWORD @apr_procattr_user_set_requires_password@
-+ 
-+diff --git a/test/testlock.c b/test/testlock.c
-+index a43f477..6233d0b 100644
-+--- a/test/testlock.c
-++++ b/test/testlock.c
-+@@ -396,13 +396,13 @@ abts_suite *testlock(abts_suite *suite)
-+     abts_run_test(suite, threads_not_impl, NULL);
-+ #else
-+     abts_run_test(suite, test_thread_mutex, NULL);
-+-#if APR_HAS_TIMEDLOCKS
-++#if APR_HAS_TIMEDLOCKS && APR_HAVE_TIME_DEPENDANT_TESTS
-+     abts_run_test(suite, test_thread_timedmutex, NULL);
-+ #endif
-+     abts_run_test(suite, test_thread_rwlock, NULL);
-+     abts_run_test(suite, test_cond, NULL);
-+     abts_run_test(suite, test_timeoutcond, NULL);
-+-#if APR_HAS_TIMEDLOCKS
-++#if APR_HAS_TIMEDLOCKS && APR_HAVE_TIME_DEPENDANT_TESTS
-+     abts_run_test(suite, test_timeoutmutex, NULL);
-+ #endif
-+ #endif
-+-- 
-+2.23.0
-+
-diff --git a/meta/recipes-support/apr/apr_1.7.0.bb b/meta/recipes-support/apr/apr_1.7.0.bb
-index 8a9b780593..7073af8c98 100644
---- a/meta/recipes-support/apr/apr_1.7.0.bb
-+++ b/meta/recipes-support/apr/apr_1.7.0.bb
-@@ -18,6 +18,7 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 \
-            file://0006-apr-fix-off_t-size-doesn-t-match-in-glibc-when-cross.patch \
-            file://0007-explicitly-link-libapr-against-phtread-to-make-gold-.patch \
-            file://libtoolize_check.patch \
-+           file://0001-Add-option-to-disable-timed-dependant-tests.patch \
-            "
- 
- SRC_URI[md5sum] = "7a14a83d664e87599ea25ff4432e48a7"
-@@ -39,6 +40,7 @@ CACHED_CONFIGUREVARS += "ac_cv_file__dev_zero=yes"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-+PACKAGECONFIG[timed-tests] = "--enable-timed-tests,--disable-timed-tests,"
- 
- do_configure_prepend() {
- 	# Avoid absolute paths for grep since it causes failures
--- 
-2.13.3
+Then I saw that this was fixed in musl upstream 2 years ago:
+https://git.musl-libc.org/cgit/musl/commit/?id=e3c682ab5257aaa6739ef242a9676d897370e78e
 
+cu
+Adrian
