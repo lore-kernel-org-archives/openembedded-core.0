@@ -1,91 +1,69 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web12.35638.1585225639362077036
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+ by mx.groups.io with SMTP id smtpd.web11.35719.1585226164683621537
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 05:27:19 -0700
+ Thu, 26 Mar 2020 05:36:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=DDTxL0zU;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.195, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f195.google.com with SMTP id z12so4999691qtq.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 05:27:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=MJp8v+zLPiZ1XjnhJqdeFLtrrWxxgFcG3PG3E1CR4lQ=;
-        b=DDTxL0zUZbjZEWFKwHxWs87AtSza0jD7UmhAC5qNHnIkYgMqGvbcnKgaFcxfwDv9mu
-         qka7XdPfx7VTKgaoVQZ9fxblRDYBVBHbNTzwZPKsUH6OSGREiMr57QqrgrAn3pi2pfVr
-         PPrDpRh02/YsGpraZCOVy67r5JqZ+gxpKuPDVUyEyhcoz6eaM2ZkZizzFyzqRDssd+kU
-         vaTVR49xJjl1V1QHrmm0ZCxAE64PBEYH1S/XiFDs8tqlKPfT8RQNDYkzSuRj6JZdsJYA
-         9W2x1ASl6kWOWqq9Ocdn40ULoFA62oJnDDJv3HFzLONjxWGalswKTCok1hBue/a/sQPC
-         1Cdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=MJp8v+zLPiZ1XjnhJqdeFLtrrWxxgFcG3PG3E1CR4lQ=;
-        b=VndUM/Ocz6DwtJKxXimjhzMHt473firCgIc/YnL5d5z0ihGl93AA7p8mstawdFzRZ2
-         MCdKTkpqJZIj6K3mzi4cU/uWpNsWsy770Ti72t4Zmjh9NfKCk3ZAR3YPTKaksYhLF488
-         xsaamkH+yau6JwD5k60AkfRtoEOHmY2XxOz/C/gklxWYRVCyculR6idXU5d3zrioxhCj
-         X5F0hZhAw/juCq9lcd6MEsyAg3DdEkL/7EFiAw3eMy/QmjquxDXxGpVAcR8O1U61gC1z
-         pTfOVEYGAJvB/RE5ZhWI31A9L7dGosvGmYpZrPx+ZHaa2UnYlLeSI0TK48X8yS3uw+FF
-         UAPw==
-X-Gm-Message-State: ANhLgQ38S2BgJaFJGYVdiQaYmMbu6Dy50RxDvXuTEM+mc1xUSHvYXCQy
-	P8amcatR4bEhHKpfry8f4SaKUENtvdT9mA==
-X-Google-Smtp-Source: ADFU+vt8g2y+N+w3hUxLcdFjw/o8s1Hy90slRPQnu4gYqgOVU7QC1xOgpWGLXbhocEN8cEN4zr97Kg==
-X-Received: by 2002:ac8:304e:: with SMTP id g14mr7909347qte.376.1585225638226;
-        Thu, 26 Mar 2020 05:27:18 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com. [209.85.222.170])
-        by smtp.gmail.com with ESMTPSA id m92sm1436432qtd.94.2020.03.26.05.27.17
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2020 05:27:17 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f170.google.com with SMTP id j4so6027152qkc.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 05:27:17 -0700 (PDT)
-X-Received: by 2002:a37:b1c6:: with SMTP id a189mr2792265qkf.26.1585225637196;
- Thu, 26 Mar 2020 05:27:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200326085426.117209-1-alex.kiernan@gmail.com>
-In-Reply-To: <20200326085426.117209-1-alex.kiernan@gmail.com>
-Date: Thu, 26 Mar 2020 09:27:05 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKooB5smjjX_TQ_dX4aar2pC20RrW2vzBW-Jo1ZX24+5Mw@mail.gmail.com>
-Message-ID: <CAP9ODKooB5smjjX_TQ_dX4aar2pC20RrW2vzBW-Jo1ZX24+5Mw@mail.gmail.com>
-Subject: Re: [OE-Core][RFC PATCH 00/13] Systemd 245 and related updates
-To: Alex Kiernan <alex.kiernan@gmail.com>, 
-	"Purdie, Richard" <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@koncepto.io header.s=default header.b=RsHcTQJY;
+ spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
+Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr [193.250.66.88])
+	by koncepto.io (Postfix) with ESMTPSA id 02D90602D7;
+	Thu, 26 Mar 2020 13:36:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1585226161;
+	bh=IvlYQkEDvNCvZufjGibV1tQEZThDAkhSJe5Hv/ayLko=;
+	h=From:To:Cc:Subject:Date:From;
+	b=RsHcTQJYEJjUUxbw05Tr2EoGEJ/HIo9tNqzXTDORJrpAHWk3AUNU6G4zeIGW3j8ld
+	 oe8ud80pC3/wkp71wTCqJljUvQy2fq6pITSL/hoj8zSJ7MTmM+3ChbrR/zXxX59b3L
+	 /o/KaqH9zjLnIPXo1kfEioyWxEpRIaEcnOkaVcFg7ssvyTxl3BbMgSWDieLhifULQy
+	 x3qaRvI7ZjrpQDGf0kqHOkHCmxUaxtvqrpevKwFjzWDogiQzRrtTMX5VjxJc79j5TW
+	 S271ucK5KYWxTJ+lKe8FTACkrwzOwCbrDpxlnjNIBcI/RcqtyaGxwwWfzkximpyKi/
+	 yqsKdhbPUC3fA==
+From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
+Subject: [PATCH] ell: upgrade 0.28 -> 0.30
+Date: Thu, 26 Mar 2020 13:35:12 +0100
+Message-Id: <1585226112-13506-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
 
-Hello,
+Since commit 5a0d5de68957ed11407694cf1acee1ab1cb4be79 ("build: Require at least version 0.29 when building with external ELL") in iwd [1]
+ell version 0.29 is required.
 
-On Thu, Mar 26, 2020 at 5:54 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-...
-> Alex Kiernan (13):
->   systemd: Use PACKAGE_BEFORE_PN, not =+
->   systemd: Package udev rules explicitly
->   systemd: Replace nonarch_base_libdir with rootlibexecdir
->   systemd: Reinstate systemd-hwdb-update.service
->   systemd: Add sch-fq-codel to RRECOMMENDS
->   systemd: Add PACKAGECONFIG for sysvinit
->   systemd: Remove X11 related files when disabled
->   systemd: Enable smack based on DISTRO_FEATURES
->   systemd: Enable audit based on DISTRO_FEATURES
->   systemd: Enable acl based on DISTRO_FEATURES
->   psplash: Set RemainAfterExit on systemd units
->   oeqa/runtime/cases: Disable and stop systemd-timesyncd
+Also, this is a bug fix release, see after:
 
-I'd like to ask if Richard could consider the above patches for merge,
-they are bug fixes and minor improvements and suite well for the
-current release.
+ver 0.30:
+	Fix issue with missing export of RTNL helper functions.
 
->   systemd: upgrade v244.3 -> v245.2
+ver 0.29:
+ 	Fix issue with time overflow on 32-bit systems.
+ 	Add support for RTNL helper functionality.
 
-I am not against merging this but if it is intended to be done, I'd
-wait few days with the above ones merged.
+[1] - https://git.kernel.org/pub/scm/network/wireless/iwd.git/commit/?id=5a0d5de68957ed11407694cf1acee1ab1cb4be79
 
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+---
+ meta/recipes-core/ell/{ell_0.28.bb => ell_0.30.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/ell/{ell_0.28.bb => ell_0.30.bb} (83%)
+
+diff --git a/meta/recipes-core/ell/ell_0.28.bb b/meta/recipes-core/ell/ell_0.30.bb
+similarity index 83%
+rename from meta/recipes-core/ell/ell_0.28.bb
+rename to meta/recipes-core/ell/ell_0.30.bb
+index 464bf63..17045b3 100644
+--- a/meta/recipes-core/ell/ell_0.28.bb
++++ b/meta/recipes-core/ell/ell_0.30.bb
+@@ -14,8 +14,8 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
+ 
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "e38089e54d4b41e508bbb7f37a4a59d9"
+-SRC_URI[sha256sum] = "6254fcb98d681cb2c3078dde462ba20bf90e6c10919204c6878a4381adcdb74b"
++SRC_URI[md5sum] = "79c757858688cc6c36087605234d87a8"
++SRC_URI[sha256sum] = "51cf8cc66a9d1038e41f7d619ea5660aa4476904496562b2d45ca79370ca4a5e"
+ 
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+2.7.4
+
