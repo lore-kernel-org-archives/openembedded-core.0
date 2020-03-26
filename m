@@ -1,20 +1,20 @@
 Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by mx.groups.io with SMTP id smtpd.web12.39029.1585234875161410841
+ by mx.groups.io with SMTP id smtpd.web11.39703.1585236363958318948
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 08:01:15 -0700
+ Thu, 26 Mar 2020 08:26:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
 Received: from lons-builder.int.hatle.net ([192.40.192.88])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 02QF1C7a014883
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 10:01:13 -0500
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 02QFQ0fR015172
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 10:26:02 -0500
 From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] base.bbclass: Add COMPATIBLE_OS, useful to for non-Linux target recipes
-Date: Thu, 26 Mar 2020 10:01:12 -0500
-Message-Id: <20200326150112.60991-1-mark.hatle@kernel.crashing.org>
+Subject: [v2 PATCH] base.bbclass: Add COMPATIBLE_OS, useful for non-Linux target recipes
+Date: Thu, 26 Mar 2020 10:25:59 -0500
+Message-Id: <20200326152559.64446-1-mark.hatle@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
 
-As the ability to generate non-Linux based components, such as
+Add the ability to generate non-Linux based components, such as
 baremetal, FreeRTOS, Zypher, etc, exist.  There is a need for a way
 to take components as specific to a given OS.
 
@@ -26,7 +26,7 @@ Setting a default of (matching bitbake.conf's default TARGET_OS):
 
    COMPATIBLE_OS ?= "linux${LIBCEXTENSION}${ABIEXTENSION}"
 
-Will allow all existing recipes to be tagged as Linux specific, so
+will allow all existing recipes to be tagged as Linux specific, so
 only non-Linux recipes would need to be tagged with specific
 compatibility.
 
@@ -37,6 +37,9 @@ For a baremetal recipes, the following was used to test this code:
 
 Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 ---
+V2:
+Only difference to V1 is typograhic fixes to the commit message.
+
  meta/classes/base.bbclass    | 7 +++++++
  meta/conf/documentation.conf | 1 +
  2 files changed, 8 insertions(+)
