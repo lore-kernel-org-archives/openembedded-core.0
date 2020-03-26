@@ -1,87 +1,77 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web11.2613.1585247556896225731
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web12.2645.1585247847489249354
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 11:32:37 -0700
+ Thu, 26 Mar 2020 11:37:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=r3pxryg4;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.196, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f196.google.com with SMTP id h14so7891954qke.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 11:32:36 -0700 (PDT)
+ dkim=pass header.i=@mind.be header.s=google header.b=HKPPaQNH;
+ spf=pass (domain: essensium.com, ip: 209.85.208.49, mailfrom: charles-antoine.couret@essensium.com)
+Received: by mail-ed1-f49.google.com with SMTP id de14so8107154edb.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 11:37:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=Byj/2rAN9CeLS3GXkFOjJMufbHT+9h7t3r+6fWQ6kWk=;
-        b=r3pxryg4EkQCkY5wS0BKr4WFLLB7X3xhMiwJW69n26ByfUIalCr7c2MNRqvl6aGTTn
-         e5deHDuc3ejvIlDSKn2HK9/ul35DfHoDGVqSWus6bwD1trRc6bBxhOw2dHCIAy5yPHEg
-         5k3xFL7xCiHiMonXMhwqRR1aeqQ8ylqPMq6oHyFk5D0/ccJdKHHLaHxs7BZPG71xqbyL
-         IVZd3wzjyNWGWJ5+SGRecoCHSTyAm9oyGilKVtq7AK6fMFQXAoKaQK+bLr8FLQZBEfia
-         hH61b9bLg4Ai20Dawgy+K6YPo2jYnVLacNsAJ3JB3860dtymVriMqz2pm33v5sefp7s7
-         JpOg==
+        d=mind.be; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CAy7TUKKGsSry02YBVWabKAulzelhbKUK3VWdPLBHB0=;
+        b=HKPPaQNHsC9RkW3t30TqiOnN8btABbs7e8FHoYe4VtVghdFPUM/+IikNnyhpbDTPWA
+         ygrgjsBM6BEaevly0phlntwv91R95p+fGYZ5GL6oshCOXEXX+Pls/mpV2B5flSmGftcu
+         eOdlwL0R5gilMlxIk8oU3V2+XAxUDQMvcgTMeCleXih+AoXhqSOqS83669kyE0sUGcSe
+         dtzJz7Xq8etYDzjH8X1073HBXUQQL9eMxVkzwOJrqwQpKOTuvmiEQfwceUXir5W4SayT
+         nRGUmFD3vrBOIHuvTI/JAgX4D7j0MEsMPfI6vX07+4lbOudWd09AI3xyULeG6kw1ftJQ
+         GY6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=Byj/2rAN9CeLS3GXkFOjJMufbHT+9h7t3r+6fWQ6kWk=;
-        b=jyTNQXb2IJVrEQ6p709RZDC+0L3saUgb4AsYtfR289tPDMDlv988CVnxGZKPaYzIQV
-         jWakdT/G7pNvKWvbLIgejpv4w5+DJ+mK8UibWcBJlxHDet7QlPw8Pyhr43DmNQHukKjj
-         fkd+E3/UbOaWUVn9eTxJRzTExUWPM1fmbFFgzLsrngJ3rjcxjcjQMaalKUztGMqXXruP
-         IZD5/eFg4Kpgy2KbDfaiCxIfTGHU01Jbn/m2ujk3/QP0ln07TdFA92JiQN8VcQuoqlnA
-         9CENWUUWBY9SrODvnCA1cmZfxEwf1c3j6FMv4AloDIcIfni+yAILGLY3K7oDtbX0tl6R
-         VIeg==
-X-Gm-Message-State: ANhLgQ2/ogyy0cpSbTJT4+ckkaYGH3FaCMreG9UzBSH9fBQARgACZWZs
-	4i6JU0yY6diazZxBpu38ZlmsuR7EJWloSw==
-X-Google-Smtp-Source: ADFU+vu2k7pE+57Oy9+hmQELYePZpO1nyqRGmV5dnAOcR6/YBXGDQH3VXgIP6gh91VfDaZmNcMkiOA==
-X-Received: by 2002:a37:606:: with SMTP id 6mr99586qkg.194.1585247555667;
-        Thu, 26 Mar 2020 11:32:35 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com. [209.85.160.181])
-        by smtp.gmail.com with ESMTPSA id l188sm1891879qkc.106.2020.03.26.11.32.34
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Mar 2020 11:32:34 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f181.google.com with SMTP id z12so6324308qtq.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 11:32:34 -0700 (PDT)
-X-Received: by 2002:ac8:6edc:: with SMTP id f28mr7414889qtv.271.1585247554360;
- Thu, 26 Mar 2020 11:32:34 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=CAy7TUKKGsSry02YBVWabKAulzelhbKUK3VWdPLBHB0=;
+        b=mXF77pzMoDGr7H81DOePsnylYyWTj72M26pLAVs/Rvb26XLtC8TyMlpQXNjXvttRfs
+         Z5FK44sOFsbW+gAkQ0/5TJBJyLvXrf88+AroL7b/8paQulNtYY9Ars85+e1+aUh/z/Fq
+         nVQqTSHxQnwYG5Tfro5II2GqSTaxvAht9TEwsVQ6gouemunDT8XyHrgp5i1mnTGD6A0X
+         n8cWdVyup9qGAgmS3YrMIu4r2Iz6nJFE4akOu8YNACpjS86u5xR8101lxsFl4Kf2fska
+         SK1wOzYh6LGCiD1g3mAnNpCRiwQ3I6LpdVqwu9Bdy+PdiwamAXcatCQa9k0OJpOmoshL
+         bnMg==
+X-Gm-Message-State: ANhLgQ1dEPtSupQB7OqDtoOOvZQbP/BDHX7vsqwc7lhIjJx7HPVlPQJe
+	FbvBbuH1ks0OD1hxo3SzuW7HffuxUwM66Q==
+X-Google-Smtp-Source: ADFU+vvfwTgxVMYEHOkUQbTRZcJ9tDjztu5xnGbBVwzEPfPhx8G/kJCzNAgfAvb2HjIE8ZnKA6qAmw==
+X-Received: by 2002:a17:906:484:: with SMTP id f4mr9215923eja.61.1585247845636;
+        Thu, 26 Mar 2020 11:37:25 -0700 (PDT)
+Return-Path: <charles-antoine.couret@essensium.com>
+Received: from localhost.localdomain ([2a02:a03f:c930:4300:2b1a:3a25:ef77:ee9e])
+        by smtp.googlemail.com with ESMTPSA id m4sm396309ejg.78.2020.03.26.11.37.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Mar 2020 11:37:24 -0700 (PDT)
+From: charles-antoine.couret@mind.be
+To: openembedded-core@lists.openembedded.org
+Cc: Charles-Antoine Couret <charles-antoine.couret@mind.be>
+Subject: [PATCH] utils: fix gcc 10 version detection
+Date: Thu, 26 Mar 2020 19:37:16 +0100
+Message-Id: <20200326183716.132772-1-charles-antoine.couret@mind.be>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-References: <20200326085426.117209-1-alex.kiernan@gmail.com>
- <20200326085426.117209-7-alex.kiernan@gmail.com> <20200326145614.GA26693@localhost>
- <CAO5Uq5Qz2EpUZUFGfRy-6BTrLZuK9sm7bTarmkCwZM9RA5eysw@mail.gmail.com>
- <20200326173258.GA31846@localhost> <CAJ86T=UWhfdQ9-F8QfbbHHW9r8BYGUgQhWjj_1Q6J4m1g482tg@mail.gmail.com>
-In-Reply-To: <CAJ86T=UWhfdQ9-F8QfbbHHW9r8BYGUgQhWjj_1Q6J4m1g482tg@mail.gmail.com>
-Date: Thu, 26 Mar 2020 15:32:21 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqAc3sqEZDFfS7J1NXuBrNCu4YSBVXt6_8Ve+Mrzbo41Q@mail.gmail.com>
-Message-ID: <CAP9ODKqAc3sqEZDFfS7J1NXuBrNCu4YSBVXt6_8Ve+Mrzbo41Q@mail.gmail.com>
-Subject: Re: [OE-Core][RFC PATCH 06/13] systemd: Add PACKAGECONFIG for sysvinit
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Adrian Bunk <bunk@stusta.de>, Alex Kiernan <alex.kiernan@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 26, 2020 at 3:17 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Thu, Mar 26, 2020 at 10:33 AM Adrian Bunk <bunk@stusta.de> wrote:
-> >
-> > On Thu, Mar 26, 2020 at 03:54:55PM +0000, Alex Kiernan wrote:
-> > > On Thu, Mar 26, 2020 at 2:56 PM Adrian Bunk <bunk@stusta.de> wrote:
-...
-> > For packages that can provide both, if the init script gets installed
-> > it is ignored by systemd when there is also a systemd unit.
->
-> True but we don't usually reply on that. If sysvinit is not present in
-> DISTRO_FEATURES and the package includes a systemd service file then
-> any init scripts will be forcefully removed (see
-> rm_sysvinit_initddir() in systemd.bbclass).
+Utils can not detect GCC 10 correctly due to wrong regex.
+It generates this error "ERROR: Can't get compiler version from gcc  --version output"
 
-Agreed. The preferred one is defined by the init system and virtual runtime.
+The major version should be 1 or more digits instead of 1 only.
 
-The patch seems ok for me. Besides, you can override it on your custom
-distro if you have a weird requirement.
+Signed-off-by: Charles-Antoine Couret <charles-antoine.couret@mind.be>
+---
+ meta/lib/oe/utils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index aee4336482..a4cdce6ff0 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -391,7 +391,7 @@ def host_gcc_version(d, taskcontextonly=False):
+     except subprocess.CalledProcessError as e:
+         bb.fatal("Error running %s --version: %s" % (compiler, e.output.decode("utf-8")))
+ 
+-    match = re.match(r".* (\d\.\d)\.\d.*", output.split('\n')[0])
++    match = re.match(r".* (\d+\.\d)\.\d.*", output.split('\n')[0])
+     if not match:
+         bb.fatal("Can't get compiler version from %s --version output" % compiler)
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+2.26.0
+
