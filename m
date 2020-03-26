@@ -1,97 +1,105 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web12.32989.1585212872613055655
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web12.32990.1585212873535323349
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 01:54:32 -0700
+ Thu, 26 Mar 2020 01:54:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HKlPtq8L;
- spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f67.google.com with SMTP id s1so6698332wrv.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 01:54:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=A1WjtSSH;
+ spf=pass (domain: gmail.com, ip: 209.85.128.65, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wm1-f65.google.com with SMTP id w25so4040829wmi.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 01:54:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=4ie2GzCnDNpopflos9ePOd5oaeelp0hvFuR2ES8eAwA=;
-        b=HKlPtq8LPvXS2zhzIkFdnAScyEWAcz1Y2UxWL0y3N7uw24wHvzC4j/SBhT3qCF15gT
-         zaeJhsg+X87y++ceFRaAPsFuWKUWyiaK9xZzUXwyTcQIjP2sGFpQTQNOAzoggsf0jAIJ
-         PbxD6AZtEwrF5Yw1WQqh8dwPrMuWYjc/Xz0UKMjcWoOIt+yyG16mxgKIze/T7exdf3pa
-         iOuis4n9WwESWxzHoF9W4x3W1CxfMNahDewMJBES46y5RLA4U/Yw2WOFxguaqPy29UNc
-         U61E2qE6NBDrZfdV00ZswQ40chgyZAgxfCcpTNno+/ennvuKDojWOZelsT7yDxH27TDz
-         b4gA==
+        bh=iHGJzgcBDGgxc/10WS8s64OZ8XBVilIgJ4RaaQCjKLs=;
+        b=A1WjtSSHO7tUgs7CWmPIgFHmUreUEGHCQfaDusV5lLSKK4NKL7dIlKezbtLGzoIOKA
+         7H19H4o4QqD9HN36gkUZpZlJYUjRmzOsBpJp9em97PgfG7bART2j71/kXZud2eIpZbdY
+         qbrG2bj+mBUeZEf3Nb75V2YPLlXrbGhEH8Yaemx5K0POO7x/nY57k8Vk+NDM7erqvfir
+         CxBDM4ijnfviDlG+n6TTrAMhT+fXyoMlqQH3lcOdtNYj81mRRo+pYxmmFVVkvIH47+wN
+         YN/Ar4tN2B8hmQfXz7/Elr1cxkyn8wiPpSEcHvBNShnJowlFauMPyF3YX9/UhmXxkHTs
+         1W7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=4ie2GzCnDNpopflos9ePOd5oaeelp0hvFuR2ES8eAwA=;
-        b=tjAR3RagK5wAqitt5NDRi6uPqW68lHwyP40RDT96ojq+E9AE/pFE11b8+ZW1vKkcly
-         9RY6ybLImzZZavr/EZXwsM9D/fz/t+c4MRvwCy3SuSY6pLJlsTV9HNDhDJmAXaAgOECM
-         xMvJL9JH9AzrMxyTl647djJ+zB/Eo5+84kvB3/SU0TQkwYkSfrzP7zx/H8/9HVdml39q
-         hZAF8g7zYgkTr6+TaVDMQ+0xGPpyZHRbv9cS+/v1ukWuC/BBiDykH9iuigEv3Qpd4Ihu
-         3IIHQu6OE4GThMYTl7p5KZDlCcoCpMQw0Q52ETx9GWWosiZNNhSlyLQHFoJ4d0RmDxEN
-         DbXg==
-X-Gm-Message-State: ANhLgQ3NRcWLLCaIXoc1JtZ5feTuLoZhjNIx20sOhaaCiqjEULewvaEY
-	PmQuLNQoaBvh8GNPuoGqHeWB4vp/
-X-Google-Smtp-Source: ADFU+vv5byh5giQ9sn63PH7RN5okDppqUlU7C+cRvpqV2HBCn+Mzoxoe1BWVoVJmofdmtGi6DznT4Q==
-X-Received: by 2002:a5d:4bc1:: with SMTP id l1mr8581476wrt.103.1585212871040;
+        bh=iHGJzgcBDGgxc/10WS8s64OZ8XBVilIgJ4RaaQCjKLs=;
+        b=Z2B9nEeX7u8hMxNYqYsGVfmxlEdi9iUQQg6ifdjGcUwQr2+AJxtHp6aBktTxGKOHew
+         qaZ/DCZZ3exAaIMOIPMHiANHjEwJ4ppks69xtBOkrFG3VNILmpFdmPZoYLkne4DuzCka
+         VLyctKhRTx/EEhmz9xO27WJ+YMEw5bRcR2NIukm5aCxq489MGSWkCpiXmJ/Z+uIPfX86
+         qPg7lXkBcHk6eX+UrOSDe7Sxv+lGWN0jFAfr78AMTvGD+xUn5l7JfeXpiJ5HvdMg0wMy
+         ExkduNMC5wXugrUdJyBvwFk4oWRZq5AhydQIzaX3AibsLnVNVOVkdS3N1IqqCkUtf9fB
+         Zg/A==
+X-Gm-Message-State: ANhLgQ2/YGvMRGnZaALHfGwAnvZb7/++K2PAlTb/z32oWdUStO8Hb+rS
+	SCDBD8vGmRZFRsmdmEZ/KddWemHV
+X-Google-Smtp-Source: ADFU+vtEjVfXxviymm4Mge03pCgEX6gHvMbm8N62Xy4ekmmTw4LORGcq8Tmp2jH7D6C3o2PouCK8Bg==
+X-Received: by 2002:a1c:2c85:: with SMTP id s127mr2031229wms.18.1585212871900;
         Thu, 26 Mar 2020 01:54:31 -0700 (PDT)
 Return-Path: <alex.kiernan@gmail.com>
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id h26sm2484107wmb.19.2020.03.26.01.54.30
+        by smtp.gmail.com with ESMTPSA id h26sm2484107wmb.19.2020.03.26.01.54.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Mar 2020 01:54:30 -0700 (PDT)
+        Thu, 26 Mar 2020 01:54:31 -0700 (PDT)
 From: "Alex Kiernan" <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][RFC PATCH 01/13] systemd: Use PACKAGE_BEFORE_PN, not =+
-Date: Thu, 26 Mar 2020 08:54:14 +0000
-Message-Id: <20200326085426.117209-2-alex.kiernan@gmail.com>
+Subject: [OE-Core][RFC PATCH 02/13] systemd: Package udev rules explicitly
+Date: Thu, 26 Mar 2020 08:54:15 +0000
+Message-Id: <20200326085426.117209-3-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200326085426.117209-1-alex.kiernan@gmail.com>
 References: <20200326085426.117209-1-alex.kiernan@gmail.com>
 
-By using PACKAGE_BEFORE_PN rather than =+ it's clearer how we expect the
-package ordering to work. It also avoids the possibilty that dev/dbg/etc.
-artefacts attempt to package as part of these packages.
+udev is packaged before systemd so any wildcard inclusions in FILES will
+override later specifics. List all udev rules explicitly so that the
+systemd specific rules, packaged alongside systemd, appear in the
+correct package.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
-Changes in v2:
-- new (use PACKAGE_BEFORE_PN)
+Changes in v2: None
 
- meta/recipes-core/systemd/systemd_244.3.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-core/systemd/systemd_244.3.bb | 28 +++++++++++++++++++++-
+ 1 file changed, 27 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-core/systemd/systemd_244.3.bb b/meta/recipes-core/systemd/systemd_244.3.bb
-index c5c0ce4bad05..f0cf102dc250 100644
+index f0cf102dc250..809dbcb9a69b 100644
 --- a/meta/recipes-core/systemd/systemd_244.3.bb
 +++ b/meta/recipes-core/systemd/systemd_244.3.bb
-@@ -305,7 +305,7 @@ python populate_packages_prepend (){
- }
- PACKAGES_DYNAMIC += "^lib(udev|systemd|nss).*"
- 
--PACKAGES =+ "\
-+PACKAGE_BEFORE_PN = "\
-     ${PN}-gui \
-     ${PN}-vconsole-setup \
-     ${PN}-initramfs \
-@@ -319,6 +319,8 @@ PACKAGES =+ "\
-     ${PN}-journal-upload \
-     ${PN}-journal-remote \
-     ${PN}-extra-utils \
-+    udev \
-+    udev-hwdb \
- "
- 
- SUMMARY_${PN}-container = "Tools for containers and VMs"
-@@ -578,8 +580,6 @@ INSANE_SKIP_${PN} += "dev-so libdir"
- INSANE_SKIP_${PN}-dbg += "libdir"
- INSANE_SKIP_${PN}-doc += " libdir"
- 
--PACKAGES =+ "udev udev-hwdb"
--
- RPROVIDES_udev = "hotplug"
- 
- RDEPENDS_udev-hwdb += "udev"
+@@ -599,7 +599,33 @@ FILES_udev += "${base_sbindir}/udevd \
+                ${rootlibexecdir}/udev/scsi_id \
+                ${rootlibexecdir}/udev/v4l_id \
+                ${rootlibexecdir}/udev/keymaps \
+-               ${rootlibexecdir}/udev/rules.d/*.rules \
++               ${rootlibexecdir}/udev/rules.d/50-udev-default.rules \
++               ${rootlibexecdir}/udev/rules.d/60-autosuspend-chromiumos.rules \
++               ${rootlibexecdir}/udev/rules.d/60-block.rules \
++               ${rootlibexecdir}/udev/rules.d/60-cdrom_id.rules \
++               ${rootlibexecdir}/udev/rules.d/60-drm.rules \
++               ${rootlibexecdir}/udev/rules.d/60-evdev.rules \
++               ${rootlibexecdir}/udev/rules.d/60-fido-id.rules \
++               ${rootlibexecdir}/udev/rules.d/60-input-id.rules \
++               ${rootlibexecdir}/udev/rules.d/60-persistent-alsa.rules \
++               ${rootlibexecdir}/udev/rules.d/60-persistent-input.rules \
++               ${rootlibexecdir}/udev/rules.d/60-persistent-storage.rules \
++               ${rootlibexecdir}/udev/rules.d/60-persistent-storage-tape.rules \
++               ${rootlibexecdir}/udev/rules.d/60-persistent-v4l.rules \
++               ${rootlibexecdir}/udev/rules.d/60-sensor.rules \
++               ${rootlibexecdir}/udev/rules.d/60-serial.rules \
++               ${rootlibexecdir}/udev/rules.d/61-autosuspend-manual.rules \
++               ${rootlibexecdir}/udev/rules.d/64-btrfs.rules \
++               ${rootlibexecdir}/udev/rules.d/70-joystick.rules \
++               ${rootlibexecdir}/udev/rules.d/70-mouse.rules \
++               ${rootlibexecdir}/udev/rules.d/70-power-switch.rules \
++               ${rootlibexecdir}/udev/rules.d/70-touchpad.rules \
++               ${rootlibexecdir}/udev/rules.d/75-net-description.rules \
++               ${rootlibexecdir}/udev/rules.d/75-probe_mtd.rules \
++               ${rootlibexecdir}/udev/rules.d/78-sound-card.rules \
++               ${rootlibexecdir}/udev/rules.d/80-drivers.rules \
++               ${rootlibexecdir}/udev/rules.d/80-net-setup-link.rules \
++               ${rootlibexecdir}/udev/rules.d/90-vconsole.rules \
+                ${sysconfdir}/udev \
+                ${sysconfdir}/init.d/systemd-udevd \
+                ${systemd_unitdir}/system/*udev* \
 -- 
 2.17.1
 
