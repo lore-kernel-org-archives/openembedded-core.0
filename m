@@ -1,109 +1,136 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web10.224.1585242259042009552
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web12.229.1585242309199915523
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 10:04:19 -0700
+ Thu, 26 Mar 2020 10:05:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ONCS7Flb;
- spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f195.google.com with SMTP id t17so5973782qtn.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 10:04:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vzFJMR/7hVHKzuKEis8pqUNTrv48g2TB4lV4kdHw7FA=;
-        b=ONCS7Flb5ELJbzxSbXOM81Bv6hA5AhvmLqGkqtryjq0ieGLDPqsTo38fokOHGY0UgG
-         vPi7XW0/peebMxtCqX9Zl7teTv3I1umXntMIARwLU6egXLAznxCTVYPpTyjw4XCYj557
-         SNIgLG5JqVNcpIhUrNT/z7O3g/XcszmjdNsCBEczDgfnWDhPD53TfPYscBkyywl2LGfo
-         aTOKhdKEQk1V6LuX/GJhFNVe5RvGHKyODKAI3jAL0k/DsfAR7btbazPjlbq7nI5Yn3C3
-         lGJsrTTZ9rRVebU8cyfbkSjC/f4rpb0HmWvzBfbzWX6P8KyhC0ZR/QZNPJArwoFEEYCa
-         AEeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vzFJMR/7hVHKzuKEis8pqUNTrv48g2TB4lV4kdHw7FA=;
-        b=W7W4J15cT4P+QRJdjvfiYbMHrZj4tu1+pg6Y5DNAsG1Q4JV1ExiwJwczzElIH+GxXe
-         XeXk6onbzDRnQlMJx1JXKB7ld55lD0oKcUd4iOAHeJItrhmo0C7miKMR5UBjYrLtCdcI
-         dmn0dUH+lLsiuhdHGQ9Ed2oiL5JVRaFz/Ht5BgrQOFgoHZjaP+FaNCZs9G/02vTy/7cv
-         36JxtuQe3v3qtqBfrXwLar41LTfrpKz3mYvcFOo34ag0beXRF99NwiHjcEQKdDwSZcPr
-         KBFW99/8FDhosvOnsOZhaCyAvckBq9AyWMhkw/yRJbFPWiFFyu5qthXYfVyeohlFBdm9
-         rRHw==
-X-Gm-Message-State: ANhLgQ1s2RvsUbnV7PI/rBYkMjP8CacbPUERFT3tW1aKMoKwaq2+ZLhF
-	smNJsBLuVJRutL3H76X6ykF3is4YisB9AMR5NeE=
-X-Google-Smtp-Source: ADFU+vvDiBKfqoegO6gScQVsizxOGxwr4+sAsXk1yPQOTJGr/tGm/wAH/x5ykZWq+nJYgo2pxfJQg5/iUNhf0YVXk9A=
-X-Received: by 2002:ac8:17f9:: with SMTP id r54mr9277543qtk.285.1585242257865;
- Thu, 26 Mar 2020 10:04:17 -0700 (PDT)
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from gate.crashing.org (localhost.localdomain [127.0.0.1])
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 02QH56qe010909;
+	Thu, 26 Mar 2020 12:05:06 -0500
+Received: (from apache@localhost)
+	by gate.crashing.org (8.14.1/8.14.1/Submit) id 02QH55LI010907;
+	Thu, 26 Mar 2020 12:05:05 -0500
+X-Authentication-Warning: gate.crashing.org: apache set sender to mark.hatle@kernel.crashing.org using -f
+Received: from 149.199.62.130
+        (SquirrelMail authenticated user mark.hatle)
+        by gate.crashing.org with HTTP;
+        Thu, 26 Mar 2020 12:05:05 -0500 (CDT)
+Message-ID: <27695.149.199.62.130.1585242305.squirrel@gate.crashing.org>
+In-Reply-To: 
+     <0b6612fe59631529b92e231400373b93e3396944.camel@linuxfoundation.org>
+References: <20200326152559.64446-1-mark.hatle@kernel.crashing.org>
+    <0b6612fe59631529b92e231400373b93e3396944.camel@linuxfoundation.org>
+Date: Thu, 26 Mar 2020 12:05:05 -0500 (CDT)
+Subject: Re: [OE-core] [v2 PATCH] base.bbclass: Add COMPATIBLE_OS, useful for non-Linux target recipes
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+To: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+Cc: "Mark Hatle" <mark.hatle@kernel.crashing.org>,
+        openembedded-core@lists.openembedded.org
+User-Agent: SquirrelMail/1.4.10a-1.fc6
 MIME-Version: 1.0
-References: <20200325231637.802324-1-raj.khem@gmail.com> <9c14fe5a594e1edd4cb678340ec27859ba9df864.camel@linuxfoundation.org>
-In-Reply-To: <9c14fe5a594e1edd4cb678340ec27859ba9df864.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 26 Mar 2020 10:03:49 -0700
-Message-ID: <CAMKF1srYNHp7hNBzuTcgxHDAnA7rsu=53Qs8YyaE+tCxfd26Rg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] binutils: Pregenerate autoconf files
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Ross Burton <ross.burton@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Priority: 3 (Normal)
+Importance: Normal
+Content-Type: text/plain;charset=iso-8859-1
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 26, 2020 at 5:45 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2020-03-26 at 10:25 -0500, Mark Hatle wrote:
+>> Add the ability to generate non-Linux based components, such as
+>> baremetal, FreeRTOS, Zypher, etc, exist.  There is a need for a way
+>> to take components as specific to a given OS.
+>>
+>> This is especially important in a multiconfig build where you may be
+>> targeting different OSes which different sets of recipes in a common
+>> set of layers.
+>>
+>> Setting a default of (matching bitbake.conf's default TARGET_OS):
+>>
+>>    COMPATIBLE_OS ?= "linux${LIBCEXTENSION}${ABIEXTENSION}"
+>>
+>> will allow all existing recipes to be tagged as Linux specific, so
+>> only non-Linux recipes would need to be tagged with specific
+>> compatibility.
+>>
+>> For a baremetal recipes, the following was used to test this code:
+>>
+>>    COMPATIBLE_OS = "elf"
+>>    COMPATIBLE_OS_arm = "eabi"
+>>
+>> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+>> ---
+>> V2:
+>> Only difference to V1 is typograhic fixes to the commit message.
+>>
+>>  meta/classes/base.bbclass    | 7 +++++++
+>>  meta/conf/documentation.conf | 1 +
+>>  2 files changed, 8 insertions(+)
+>>
+>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+>> index 45f9435fd8..c123c5dc50 100644
+>> --- a/meta/classes/base.bbclass
+>> +++ b/meta/classes/base.bbclass
+>> @@ -509,6 +509,13 @@ python () {
+>>          d.setVarFlag('do_devshell', 'fakeroot', '1')
+>>          d.appendVarFlag('do_devshell', 'depends', '
+>> virtual/fakeroot-native:do_populate_sysroot')
+>>
+>> +    need_os = d.getVar('COMPATIBLE_OS')
+>> +    if need_os and not d.getVar('PARSE_ALL_RECIPES', False):
+>> +        import re
+>> +        this_os = d.getVar('TARGET_OS')
+>> +        if not re.match(need_os, this_os):
+>> +            raise bb.parse.SkipRecipe("incompatible with os %s (not
+>> in COMPATIBLE_OS)" % this_os)
+>> +
+>>      need_machine = d.getVar('COMPATIBLE_MACHINE')
+>>      if need_machine and not d.getVar('PARSE_ALL_RECIPES', False):
+>>          import re
+>> diff --git a/meta/conf/documentation.conf
+>> b/meta/conf/documentation.conf
+>> index 0b21d1f63e..7a87540f43 100644
+>> --- a/meta/conf/documentation.conf
+>> +++ b/meta/conf/documentation.conf
+>> @@ -111,6 +111,7 @@ COMBINED_FEATURES[doc] = "A set of features
+>> common between MACHINE_FEATURES and
+>>  COMMON_LICENSE_DIR[doc] = "Points to meta/files/common-licenses in
+>> the Source Directory, which is where generic license files reside."
+>>  COMPATIBLE_HOST[doc] = "A regular expression that resolves to one or
+>> more hosts (when the recipe is native) or one or more targets (when
+>> the recipe is non-native) with which a recipe is compatible."
 >
-> On Wed, 2020-03-25 at 16:16 -0700, Khem Raj wrote:
-> > libtool patch will result in configure file regeneration, instead of
-> > doing that at build time, do it in patch itself, this avoids running
-> > autoconf before configure step.
-> >
-> > Since binutils needs specific version of autoconf ( which is 2.69 )
-> > this will break on systems using newer or older verisons of autoconf
-> > in current state.
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Cc: Ross Burton <ross.burton@intel.com>
-> > ---
-> >  meta/recipes-devtools/binutils/binutils.inc   |     8 +-
-> >  .../binutils/0007-Use-libtool-2.4.patch       | 26583 ++++++++++++
-> > ----
-> >  2 files changed, 20352 insertions(+), 6239 deletions(-)
->
-> Whilst I appreciate the intent here, our policy is to autoreconf most
-> things in general. This allows us to more easily support newer
-> architectures and platforms.
->
-> There is a significant build speed benefit from not autoreconf'ing
-> things but where do we draw the line?
->
+> How does COMPATIBLE_OS compare to COMPATIBLE_HOST (documented above)?
 
-in general this is fine but binutils, gcc , glibc can not be treated
-in general category
-since they have dependencies on specific versions of autotools
-unfortunately, it currently
-works for binutils because our version of autoconf matches with what
-binutils expects
-as of now, but this will skew if this changes in future. In nutshell,
-the auto-fu in these
-packages is quite involved and has hard dependencies on specific
-versions of tools
-needed to reconfig them.
+HOST_SYS="aarch64-oe-linux"
 
-> I'm also worried about patches which touch both configure and
-> configure.ac since the timestamp changes can cause things to autoreconf
-> even when we're trying to avoid that. As such this is actually quite a
-> risky change given past bad experiences :(
+So the equivalent to the COMPATIBLE_OS would be:
 
-We were not fully reconfiguring binutils even now, because of other
-autotool sversion mimatches
-only autoconf was being run which does not change the case if
-configure was say regenerated
-as you say.
+COMPATIBLE_HOST ?= ".*-linux.*"
 
->
-> I'm not completely against it but I am worried.
->
+So it COULD be used in most cases.
 
-perhaps addresses some of your concerns.
+When I tried this before though, I could get it to work in a multiconfig
+setting.
 
-> Cheers,
+Specifically what I tried was setting, in my local.conf:
+
+COMPATIBLE_HOST ?= ".*-linux${LIBCEXTENSION}${ABIEXTENSION}"
+
+And then in the recipes:
+
+COMPATIBLE_HOST = ".*-elf"
+COMPATIBLE_HOST_arm = ".*-eabi"
+
+But then the second one matches the linux ABIEXTENSION and broke..
+
+So really the issue is that I -only- ever want to match on the OS part of
+the "SYS" string.  And done to the multiple natures of the '-', it's
+difficult to get right.
+
+I didn't try something complex like: [^-]-[^-]-eabi
+
+--Mark
+
+> Cheers
 >
 > Richard
 >
+
