@@ -1,156 +1,119 @@
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by mx.groups.io with SMTP id smtpd.web10.3720.1585250426815031838
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+ by mx.groups.io with SMTP id smtpd.web10.3744.1585250486964971196
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 12:20:27 -0700
+ Thu, 26 Mar 2020 12:21:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
-	(authenticated bits=0)
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 02QJKJB4018018
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO)
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 14:20:25 -0500
-Subject: Re: [OE-core] [v2 PATCH] base.bbclass: Add COMPATIBLE_OS, useful for non-Linux target recipes
-To: openembedded-core@lists.openembedded.org
-References: <20200326152559.64446-1-mark.hatle@kernel.crashing.org>
- <0b6612fe59631529b92e231400373b93e3396944.camel@linuxfoundation.org>
- <15FFE97B8BC33CAA.21883@lists.openembedded.org>
-From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
-Message-ID: <0379d991-c38b-f08a-c502-5ad12a727070@kernel.crashing.org>
-Date: Thu, 26 Mar 2020 14:20:18 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.5.0
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=1cf0gtbE;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.160.195, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qt1-f195.google.com with SMTP id e14so6503377qts.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 12:21:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc;
+        bh=AlG5r1oOZiEe8eX3PKistkDiFo5QMmuykoFeOhuGywY=;
+        b=1cf0gtbEZikUXjfzO/c96/N5hDY1itFAnn8nOHnNndAHmZHlgoO+3sbbT2k6r3Vv3J
+         /dg6itRWvpm+0IGZJRxGwFapCtsQxF/OmRhXw9X62oICKmmQWlNVyGHkg/eUPk7/zX6d
+         MtI+1HGKkrTvjTXg2vmIhl1sPPl2kK1W4/SbgOejMpFymyydtmalBVsphW6Fq/umCApo
+         MDW/3nAHM1LmriTmsXu8M9w6Uh8b12V9PRF++cwQed9T5CZ1PakUSMGcKM3PMKLV7e5Y
+         q1QVAkhItXtZcNPsczWaeCJhqc94eoxDzb0wpZ4rPQxEZS897VN1F/u4KMybv2CFZuNC
+         IsJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc;
+        bh=AlG5r1oOZiEe8eX3PKistkDiFo5QMmuykoFeOhuGywY=;
+        b=PB0Nas8JxNOd4p/y4lcgUMcPzHuwEFqL4cTT9JufgWQ+H0ai3UkvGgL7WD3silQRRD
+         ZuaCgMJ5Tp3qwLtfyi3W45u2kIMFiyARKNPGSBGW0PVnj/+n/Y/CgWJ5zKNpDWktvncu
+         PQ/fIAn5SjY3mNcAoMJk1pFEBq1+CelEi30o0WQLMU4NXc1F+esIEIjV5d8SD32uBrle
+         vhBcEqzCUCRBo1K/VRZO9W4P7XT0OxoNXEd9iW5L1EGN5HfK8WHE3drdGG0uf8+mTtCb
+         +AK7bY67dcBjWL0cnAhcBzpqlybf/b2yoydbgZKD+UhpTlS9qSdzAkvC2T9C/IALWeYu
+         rq6w==
+X-Gm-Message-State: ANhLgQ2s5cYTWXidtGxq0ntunDeRB0a9iQ4Xf05AeZWprIsGVfp1Uge0
+	5eSO1R7DC3qMFQbIiitZTaFj30eYBUXnrQ==
+X-Google-Smtp-Source: ADFU+vtRhkdbfUfNMEzmgC7GKQ7XKoMU/YxK8NmtDDekBZA2wKMu+n7MUkFQSCAkPyM10eN12ndDHQ==
+X-Received: by 2002:ac8:4e4f:: with SMTP id e15mr2947066qtw.212.1585250485724;
+        Thu, 26 Mar 2020 12:21:25 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com. [209.85.222.178])
+        by smtp.gmail.com with ESMTPSA id j15sm2086110qtr.40.2020.03.26.12.21.24
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Mar 2020 12:21:24 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f178.google.com with SMTP id h14so8110662qke.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 12:21:24 -0700 (PDT)
+X-Received: by 2002:a37:9e05:: with SMTP id h5mr9661889qke.71.1585250484301;
+ Thu, 26 Mar 2020 12:21:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <15FFE97B8BC33CAA.21883@lists.openembedded.org>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200326085426.117209-1-alex.kiernan@gmail.com>
+ <20200326085426.117209-7-alex.kiernan@gmail.com> <20200326145614.GA26693@localhost>
+ <CAO5Uq5Qz2EpUZUFGfRy-6BTrLZuK9sm7bTarmkCwZM9RA5eysw@mail.gmail.com>
+ <20200326173258.GA31846@localhost> <CAO5Uq5R-zAdk06WRwKY3e_4ycNCHcy7oNGbWf8DOfLTY-SHLSw@mail.gmail.com>
+ <20200326191315.GB5401@localhost>
+In-Reply-To: <20200326191315.GB5401@localhost>
+Date: Thu, 26 Mar 2020 16:21:12 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKq607DCjyCB95PJ5oC2D0Okixmd9aRYZjsFPxSjX_SEAw@mail.gmail.com>
+Message-ID: <CAP9ODKq607DCjyCB95PJ5oC2D0Okixmd9aRYZjsFPxSjX_SEAw@mail.gmail.com>
+Subject: Re: [OE-Core][RFC PATCH 06/13] systemd: Add PACKAGECONFIG for sysvinit
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Alex Kiernan <alex.kiernan@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-I talked with RP off the list and got this working.
+On Thu, Mar 26, 2020 at 4:13 PM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> On Thu, Mar 26, 2020 at 06:08:52PM +0000, Alex Kiernan wrote:
+> > On Thu, Mar 26, 2020 at 5:33 PM Adrian Bunk <bunk@stusta.de> wrote:
+> > >
+> > > On Thu, Mar 26, 2020 at 03:54:55PM +0000, Alex Kiernan wrote:
+> > > > On Thu, Mar 26, 2020 at 2:56 PM Adrian Bunk <bunk@stusta.de> wrote:
+> > > > > On Thu, Mar 26, 2020 at 08:54:19AM +0000, Alex Kiernan wrote:
+> > > > > > Add sysvinit PACKAGECONFIG which is bound to DISTRO_FEATURES, this
+> > > > > > then disables all sysvinit handling in systemd if it isn't present.
+> > > > > >
+> > > > > > Consolidate sysvinit handling so that when it's disabled we exclude all
+> > > > > > sysvinit features.
+> > > > > >...
+> > > > >
+> > > > > What exactly are "sysvinit handling" and "sysvinit features"?
+> > > > >
+> > > > > It seems to disable systemd-sysv-generator, and this is wrong.
+> > > >
+> > > > Like this it sets HAVE_SYSV_COMPAT which does disable
+> > > > systemd-sysv-generator, but if sysvinit is disabled completely in the
+> > > > distro, I'm missing why that's a bad thing?
+> > > >
+> > > > Or have I misunderstood what sysvinit in DISTRO_FEATURES is meant to
+> > > > mean?
+> > >
+> > > sysvinit in DISTRO_FEATURES means that sysvinit is supported as init system.
+> > >
+> > > > I'd taken in that sysvinit not present in DISTRO_FEATURES meant
+> > > > that packages should install systemd units, not rely on init scripts.
+> > >
+> > > Packages that do provide both are not the relevant ones.
+> > >
+> > > For packages that can provide both, if the init script gets installed
+> > > it is ignored by systemd when there is also a systemd unit.
+> > >
+> > > systemd-sysv-generator provides support for packages that do not
+> > > (yet) provide a systemd unit, only an init script.
+> > >
+> > > Disabling this could save a few bytes on a small system when no
+> > > installed package needs it, but this is not in any way related
+> > > to sysvinit in DISTRO_FEATURES.
+> >
+> > That's the piece of context I'm missing then... so whilst adding
+> > sysvinit as a PACKAGECONFIG is valid, it shouldn't be linked to
+> > DISTRO_FEATURES?
+>
+> Yes, and it should stay enabled by default.
 
-Below is what I ended up doing to prevent the default packages from working with
-baremetal, unless they were configured to.
+Agreed.
 
-In my baremetal distro.conf:
-
-COMPATOS = ""
-COMPATOS_class-target = ".*-linux${LIBCEXTENSION}${ABIEXTENSION}"
-COMPATIBLE_HOST ?= "${COMPATOS}"
-
-Then in each of the baremetal -only- recipes:
-
-COMPATIBLE_HOST = ".*-elf"
-COMPATIBLE_HOST_arm = "[^-]*-[^-]*-eabi"
-
-In the recipes for BOTH baremetal and Linux:
-
-COMPATIBLE_HOST = "${HOST_SYS}"
-
-(Setting to "" should work as well..)
-
---Mark
-
-On 3/26/20 12:05 PM, Mark Hatle wrote:
->> On Thu, 2020-03-26 at 10:25 -0500, Mark Hatle wrote:
->>> Add the ability to generate non-Linux based components, such as
->>> baremetal, FreeRTOS, Zypher, etc, exist.  There is a need for a way
->>> to take components as specific to a given OS.
->>>
->>> This is especially important in a multiconfig build where you may be
->>> targeting different OSes which different sets of recipes in a common
->>> set of layers.
->>>
->>> Setting a default of (matching bitbake.conf's default TARGET_OS):
->>>
->>>    COMPATIBLE_OS ?= "linux${LIBCEXTENSION}${ABIEXTENSION}"
->>>
->>> will allow all existing recipes to be tagged as Linux specific, so
->>> only non-Linux recipes would need to be tagged with specific
->>> compatibility.
->>>
->>> For a baremetal recipes, the following was used to test this code:
->>>
->>>    COMPATIBLE_OS = "elf"
->>>    COMPATIBLE_OS_arm = "eabi"
->>>
->>> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
->>> ---
->>> V2:
->>> Only difference to V1 is typograhic fixes to the commit message.
->>>
->>>  meta/classes/base.bbclass    | 7 +++++++
->>>  meta/conf/documentation.conf | 1 +
->>>  2 files changed, 8 insertions(+)
->>>
->>> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
->>> index 45f9435fd8..c123c5dc50 100644
->>> --- a/meta/classes/base.bbclass
->>> +++ b/meta/classes/base.bbclass
->>> @@ -509,6 +509,13 @@ python () {
->>>          d.setVarFlag('do_devshell', 'fakeroot', '1')
->>>          d.appendVarFlag('do_devshell', 'depends', '
->>> virtual/fakeroot-native:do_populate_sysroot')
->>>
->>> +    need_os = d.getVar('COMPATIBLE_OS')
->>> +    if need_os and not d.getVar('PARSE_ALL_RECIPES', False):
->>> +        import re
->>> +        this_os = d.getVar('TARGET_OS')
->>> +        if not re.match(need_os, this_os):
->>> +            raise bb.parse.SkipRecipe("incompatible with os %s (not
->>> in COMPATIBLE_OS)" % this_os)
->>> +
->>>      need_machine = d.getVar('COMPATIBLE_MACHINE')
->>>      if need_machine and not d.getVar('PARSE_ALL_RECIPES', False):
->>>          import re
->>> diff --git a/meta/conf/documentation.conf
->>> b/meta/conf/documentation.conf
->>> index 0b21d1f63e..7a87540f43 100644
->>> --- a/meta/conf/documentation.conf
->>> +++ b/meta/conf/documentation.conf
->>> @@ -111,6 +111,7 @@ COMBINED_FEATURES[doc] = "A set of features
->>> common between MACHINE_FEATURES and
->>>  COMMON_LICENSE_DIR[doc] = "Points to meta/files/common-licenses in
->>> the Source Directory, which is where generic license files reside."
->>>  COMPATIBLE_HOST[doc] = "A regular expression that resolves to one or
->>> more hosts (when the recipe is native) or one or more targets (when
->>> the recipe is non-native) with which a recipe is compatible."
->>
->> How does COMPATIBLE_OS compare to COMPATIBLE_HOST (documented above)?
-> 
-> HOST_SYS="aarch64-oe-linux"
-> 
-> So the equivalent to the COMPATIBLE_OS would be:
-> 
-> COMPATIBLE_HOST ?= ".*-linux.*"
-> 
-> So it COULD be used in most cases.
-> 
-> When I tried this before though, I could get it to work in a multiconfig
-> setting.
-> 
-> Specifically what I tried was setting, in my local.conf:
-> 
-> COMPATIBLE_HOST ?= ".*-linux${LIBCEXTENSION}${ABIEXTENSION}"
-> 
-> And then in the recipes:
-> 
-> COMPATIBLE_HOST = ".*-elf"
-> COMPATIBLE_HOST_arm = ".*-eabi"
-> 
-> But then the second one matches the linux ABIEXTENSION and broke..
-> 
-> So really the issue is that I -only- ever want to match on the OS part of
-> the "SYS" string.  And done to the multiple natures of the '-', it's
-> difficult to get right.
-> 
-> I didn't try something complex like: [^-]-[^-]-eabi
-> 
-> --Mark
-> 
->> Cheers
->>
->> Richard
->>
-> 
-> 
-> 
-> 
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
