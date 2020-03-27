@@ -1,47 +1,74 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.7483.1585298054099360260
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web12.7581.1585298826143148121
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2020 01:34:14 -0700
+ Fri, 27 Mar 2020 01:47:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: ovidiu.panait@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02R8XqtN031802
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2020 01:34:03 -0700
-Received: from otp-linux01.wrs.com (128.224.126.17) by ALA-HCB.corp.ad.wrs.com
- (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Fri, 27 Mar 2020
- 01:33:24 -0700
-From: "Ovidiu Panait" <ovidiu.panait@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/2] db: Add dbm packageconfig
-Date: Fri, 27 Mar 2020 10:31:55 +0200
-Message-ID: <20200327083156.20874-1-ovidiu.panait@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tLxgKq0M;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id l25so10009659qki.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2020 01:47:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nx1D703bZhAmKO/+9uQAVX33xZxIbvtcwBpip6GjCHk=;
+        b=tLxgKq0MeL1GPMh0FtSkHdZOra+FzkVXrBxaxtCtX1EqnS2FhX6Ijsgp6LNVyZC4qn
+         bP2uSIxYYM5lXwmgWLa+nZi8IcPnfnLAtlF+Mc7s/0m05P9HwDYPiZp1FPbe3dLJOToN
+         LDa5VGgr8XXZjhj8TY9x7WsN8hQxN7SnCmxPdev2DORjibHUyhpBQw3BQNvTJx9APefA
+         8N5MywGfzmOAPzsm9DrMd/D03lbnJCSS3KtBReniGkYRosuLTG3rNcBJUnzzuDkbTNbO
+         2tQdp8hrMLZB703mnujwY0hqT3djl5CuApQdfg+Nzyw+NEkBpQ/qm8X39ciK/oHPlZQ1
+         v75A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nx1D703bZhAmKO/+9uQAVX33xZxIbvtcwBpip6GjCHk=;
+        b=flgHLnZEfnW07E7TCfk9UIPl9IfGGvNSzQ3MaP+PdUpOawctgEQUt5LbutfEVPvRN7
+         yGgseH+c04lotLtiVTmX37D2edXGYzB5sb5NoL7R8Avu83cKwHuBZ4Znj+9TGtEhWORe
+         2OTE3NUl8K5GGc+1vc3BUBK4xVA1ULV8t8JGChMbXW6wdyq4+dTzqe11EbVu/uL8eQLw
+         lOgGIbwHTjPxHH1TnqXNus1w/84eA8zcYyuCxhwX2vQxZ9QczfeeGEBJz6kfHlShVwrE
+         lfzMK1kPqohLrtIbUvt06maT7v/VcqKpe7UwQA6qBGJtrOpwePK2i9BRtfPVTlqujP1L
+         NA2Q==
+X-Gm-Message-State: ANhLgQ3K+mCuLpeT+nDQT7svAxkAIgjXrQiEAZ0GoCv4xJkJ2cllY9Bz
+	2bKyj634OIPuTQtJ+HjD6HtzVkCPFeBZ1Ez52wCHHlYs
+X-Google-Smtp-Source: ADFU+vtjZDc+vz/ICz0aJwNhRwaxbw3v0rU+xmqODshy83oNmooM1CoDHELS1Nmj9YGKVzh+/rEmPNkMJAyoRQIy5sg=
+X-Received: by 2002:a37:a746:: with SMTP id q67mr13262213qke.215.1585298824848;
+ Fri, 27 Mar 2020 01:47:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20200326062919.1929050-1-raj.khem@gmail.com> <20200326130754.GA17705@localhost>
+ <CAMKF1sptRDswkw=GAsE-S0o-s1WHMFVdh1zO-oXuaSOhzsF5JA@mail.gmail.com> <CAMKF1spivW-WEtRJdBrbg5bvPHb7YBbcriJSdmHgWtCpsawauQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spivW-WEtRJdBrbg5bvPHb7YBbcriJSdmHgWtCpsawauQ@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 27 Mar 2020 01:46:38 -0700
+Message-ID: <CAMKF1sq1fQa8tFULTft91miEA_yXd8OEw6B+at73XBQsXAeazw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] glibc: Backport patch to fix ifuncs on risc-v and gcc10 builds
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Add "dbm" packageconfig to enable legacy dbm support in libdb. This support is
-needed to build libpam pam_userdb.so plugin.
+On Thu, Mar 26, 2020 at 11:30 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Thu, Mar 26, 2020 at 10:09 AM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > On Thu, Mar 26, 2020 at 6:07 AM Adrian Bunk <bunk@stusta.de> wrote:
+> > >
+> > > >...
+> > > > + configure    | 2 +-
+> > > > + configure.ac | 2 +-
+> > > >...
+> > >
+> > > This shouldn't patch both.
+> > >
+> >
+> > why ?
+> >
+>
+> Yes, there were few more, so I have rather sent a new patch on top
+>
 
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
----
- meta/recipes-support/db/db_5.3.28.bb | 2 ++
- 1 file changed, 2 insertions(+)
+well in glibc we do not configure inplace instead we use pre-generated
+configure files
+and we touch them specifically so they dont get regenerated. So this patch is ok
 
-diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
-index badb79f9ea..3a0923ae36 100644
---- a/meta/recipes-support/db/db_5.3.28.bb
-+++ b/meta/recipes-support/db/db_5.3.28.bb
-@@ -61,7 +61,9 @@ DB5_CONFIG ?= "--enable-o_direct --disable-cryptography --disable-queue --disabl
- 
- EXTRA_OECONF = "${DB5_CONFIG} --enable-shared --enable-cxx --with-sysroot STRIP=true"
- 
-+PACKAGECONFIG ??= ""
- PACKAGECONFIG[verify] = "--enable-verify, --disable-verify"
-+PACKAGECONFIG[dbm] = "--enable-dbm,--disable-dbm,"
- 
- EXTRA_OEMAKE += "LIBTOOL='./${HOST_SYS}-libtool'"
- 
--- 
-2.17.1
-
+> > > cu
+> > > Adrian
