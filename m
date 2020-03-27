@@ -1,87 +1,56 @@
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
- by mx.groups.io with SMTP id smtpd.web10.511.1585347800388294679
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+ by mx.groups.io with SMTP id smtpd.web10.51.1585349136781270403
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2020 15:23:20 -0700
+ Fri, 27 Mar 2020 15:45:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mbw8C1PS;
- spf=pass (domain: gmail.com, ip: 209.85.210.65, mailfrom: jpuhlman@gmail.com)
-Received: by mail-ot1-f65.google.com with SMTP id z5so11209559oth.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2020 15:23:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=gpCQUqZe6BpzAkw3BUhR9Dn7QA0f/2lQN7pw/mO8Lj8=;
-        b=mbw8C1PSjQGVeQteNuYTiYNPCpDr9BmbuVggdBrMZi59jGy+lRxJXOdbK7jyCp3RGm
-         iXZ+mqN2Ia+WWeUlVpWWB47fxEgRKS7vmRcceanFIZU1iUjVuZ4GsHedutMaiE+0nn0y
-         osqvoOM8Ggmhv9+0LBbIJzPEt0x8r7T29N3Tb8MnPkUnQUqMI33nkeGuaISE73vVqFJE
-         uL7bRygMhIwmNqciREzAnDfH8wBSzcnFGfpbyhU81GSLbp/oBYmrv8N1Qs93oWxXVUX9
-         /v3yf2Jt1k9SoHd5OFogRY3R5dSux8x56lGY76iWO9BWLS3o+4SNYX/p/1nmjpldQudK
-         a4iQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=gpCQUqZe6BpzAkw3BUhR9Dn7QA0f/2lQN7pw/mO8Lj8=;
-        b=CKMArR869VoMoRrvKq1Nb/lPfF/qzRN31IQ3N60WMqhPuVGOUqVZaKvpFdEGGmwiY8
-         y+BVOpejlBehUGMN3W2Gm/9k3YsdIVyxEIhm0dS1+t3Y/fidQi8Ts/VQpHxmU/J+lB/m
-         QrJMTnXOBuelI91obQ/6J07sinog9i7hawiWxsuD9VcoruLtvNQilgRLMV3lc/WKvHcy
-         6sR8zbtJ6sCL2hcRsP+ORSL1Ksk/ChGQ4XA2i7SFkDIaU1DNexr7C68/tD1F0vYtIx4O
-         1C4ppW3yOkuaTtvbx+vQsXlt+eyvWTQ2kYp8Hw6KrhVfJNQ+hgv4v9UZgXHR5Bz2qd0u
-         LmJQ==
-X-Gm-Message-State: ANhLgQ23m/JReBn3dFIfX/m93PYVsW8357WqQ87rq1LnC7xU9vrSKNwF
-	ndJE3z+xep+X0NIic+Q+b93pmcFG
-X-Google-Smtp-Source: ADFU+vtmpa8ht1o6G43uoAhJ/7PFDGofvzj45dM7HuQtMnP41Mv3fngC7FBuAUr5Y0vjA9KrTry5qw==
-X-Received: by 2002:a9d:5888:: with SMTP id x8mr674191otg.361.1585347799516;
-        Fri, 27 Mar 2020 15:23:19 -0700 (PDT)
-Return-Path: <jpuhlman@gmail.com>
-Received: from workhorse.localdomain ([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
-        by smtp.gmail.com with ESMTPSA id f3sm2341158ooq.9.2020.03.27.15.23.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Mar 2020 15:23:18 -0700 (PDT)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 90DCB2A0860; Fri, 27 Mar 2020 15:23:17 -0700 (PDT)
-From: "Jeremy Puhlman" <jpuhlman@mvista.com>
+ dkim=pass header.i=@koncepto.io header.s=default header.b=nK5Q6gxw;
+ spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
+Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr [193.250.66.88])
+	by koncepto.io (Postfix) with ESMTPSA id 9FFE160044;
+	Fri, 27 Mar 2020 23:45:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1585349134;
+	bh=45Lg0HvZdv12iaiiovpDRiOmeZCmg2Or+2yvUVzjCtk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nK5Q6gxwh8c/AVptCCcF0437TbSoD/6/bB4+9Z5nx8po1oFn1tf8T9g+Fs1i+X3fP
+	 htezEAZDpY46cOgtFVrXFtl/RlrpQ3zaH0i3yjGnZfBuXK3KVPiMC+tZlZWVKb/yoJ
+	 iri7AeUowKEw7f4OnRQKbElkvLOlYlWbv+kCGVwXElz/Wb+46Izja1XoRnrZfzCK92
+	 ZXn0NMnyURArSe14YzqKGaYVmYNAYNedQzhYKHtsDUwi0X7Gmro9qMpIzBew5tC7a8
+	 xT2vJXg6EGTAAAdi+xDRnhj7KxUkFruAUWPimuZNhYi9dW0pOraQV6wS8p8sZJgQ83
+	 ERi/R5ksRsvcQ==
+From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
 To: openembedded-core@lists.openembedded.org
-Cc: Jeremy Puhlman <jpuhlman@mvista.com>
-Subject: [PATCH] nativesdk-git: point to system gitconfig
-Date: Fri, 27 Mar 2020 15:23:16 -0700
-Message-Id: <20200327222316.8414-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
+Subject: [meta-python][PATCH] python-engineio: upgrade 3.11.2 -> 3.12.1
+Date: Fri, 27 Mar 2020 23:45:31 +0100
+Message-Id: <1585349131-4922-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+See full changelog https://github.com/miguelgrinberg/python-engineio/blob/master/CHANGES.md
 
-On a system with selinux turned on, trying to access a directory
-that is in a tree that doesn't exist returns the error permission
-denined rather then no such file or directory, which causes git
-to die.
-
-git clone git://git.yoctoproject.org/poky
-Cloning into 'poky'...
-fatal: unable to access '/opt/poky/3.0+snapshot/sysroots/x86_64-pokysdk-linux/etc/gitconfig': Permission denied
-
-Switch to using the system gitconfig of the host.
-
-Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
- meta/recipes-devtools/git/git.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta-python/recipes-devtools/python/python-engineio.inc               | 4 ++--
+ .../python/{python3-engineio_3.11.2.bb => python3-engineio_3.12.1.bb} | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta-python/recipes-devtools/python/{python3-engineio_3.11.2.bb => python3-engineio_3.12.1.bb} (100%)
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 95ab397f6a..4131c98977 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -22,6 +22,7 @@ PACKAGECONFIG[svn] = ""
- EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
- 		--without-tcltk \
- "
-+EXTRA_OECONF_append_class-nativesdk = " --with-gitconfig=/etc/gitconfig "
+diff --git a/meta-python/recipes-devtools/python/python-engineio.inc b/meta-python/recipes-devtools/python/python-engineio.inc
+index 9c067c9..965f420 100644
+--- a/meta-python/recipes-devtools/python/python-engineio.inc
++++ b/meta-python/recipes-devtools/python/python-engineio.inc
+@@ -9,5 +9,5 @@ inherit pypi
  
- # Needs brokensep as this doesn't use automake
- inherit autotools-brokensep perlnative bash-completion
+ PYPI_PACKAGE = "python-engineio"
+ 
+-SRC_URI[md5sum] = "13345452be25c3b63d041f8f89e662d1"
+-SRC_URI[sha256sum] = "47ae4a9b3b4f2e8a68929f37a518338838e119f24c9a9121af92c49f8bea55c3"
++SRC_URI[md5sum] = "e6ea8b3f2f32eeeb02014c46092f2adb"
++SRC_URI[sha256sum] = "2481732d93646998f7372ef0ecf003af7817b82720b881db173c3d50b4887916"
+diff --git a/meta-python/recipes-devtools/python/python3-engineio_3.11.2.bb b/meta-python/recipes-devtools/python/python3-engineio_3.12.1.bb
+similarity index 100%
+rename from meta-python/recipes-devtools/python/python3-engineio_3.11.2.bb
+rename to meta-python/recipes-devtools/python/python3-engineio_3.12.1.bb
 -- 
-2.20.1
+2.7.4
 
