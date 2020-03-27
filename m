@@ -1,140 +1,118 @@
-Received: from hel-mailgw-01.vaisala.com (hel-mailgw-01.vaisala.com [193.143.230.17])
- by mx.groups.io with SMTP id smtpd.web10.19140.1585333495380422599
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web11.19326.1585334233532943017
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2020 11:24:56 -0700
+ Fri, 27 Mar 2020 11:37:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: vaisala.com, ip: 193.143.230.17, mailfrom: nandor.han@vaisala.com)
-IronPort-SDR: RlnTwzi256HLo8DP9uyMsGwRsq14uFfud847o5PiQCoceC8tEZXFAnHetxO5iBSSbGoS5+AIqk
- gMziyzcsGGO/Hj3nprOudvb4QSihHoHd+PC+qR4W1Rtxi1K0j6JjRqO7eGRD1oQPlD/aqAsUhN
- DongK3cANKCspo97TkPw3GRAlzYXLiDuFYYGjRHLLymC8rPCfmsquDa1xOynP/677EWRlglh09
- yCh4C+e7qS7n01yXXJ2i0l+avovUnTMqwFLScTh5vj0yDTN/zIzGAhya/DgFsi0iEUvSsQL/WF
- p2w=
-X-IronPort-AV: E=Sophos;i="5.72,313,1580767200"; 
-   d="scan'208";a="274846915"
-Subject: Re: [OE-core] [PATCH v3] classes: Add a new bbclass that abstracts the generation of FIT blobs
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Zach Booth <zbooth.dev@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20200326214308.1042374-1-nandor.han@vaisala.com>
- <20200327082918.1213345-1-nandor.han@vaisala.com>
- <CAFhEjg1kxfhcxngtCpsZ3bxvGr63p3Sf26mwSbMtZ3eVKc=SYQ@mail.gmail.com>
- <b2ac5289-ac78-35a7-ed3c-6fd17435e644@vaisala.com>
- <20200327181648.GK1578@denix.org>
-From: "Nandor Han" <nandor.han@vaisala.com>
-Message-ID: <d2cb84cb-0480-eef1-5731-5cdab254b864@vaisala.com>
-Date: Fri, 27 Mar 2020 20:24:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ dkim=pass header.i=@googlemail.com header.s=20161025 header.b=OENoFwD5;
+ spf=pass (domain: googlemail.com, ip: 209.85.128.67, mailfrom: matthias.schoepfer@googlemail.com)
+Received: by mail-wm1-f67.google.com with SMTP id b12so12482073wmj.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2020 11:37:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v3BYn5BypG8Ue9TtSuHw8Zh+FD+D0j5FVBjgo4152UU=;
+        b=OENoFwD5jcbfalkyFOkUdwdyY1lr3cej/k864oF5HabcaTBaGKNQGnEZifCjuZBTmt
+         8d1wXY7Q23fHWQ5+iv+58IkZmFKzMO0VUD8oGj9yFMiJ5eAd5X03aqnS28hKdUnQy2De
+         QgZnjbO0hVAmdWgCqAlmqAAyPYLR9MHDwoc+kQ13d1ZT99o0bevAxV1IJHWvXuFd6uj4
+         CSQFBTjw4Xx9ByDw238l693AxLv7OfZKe733edE9oeebRbg5L9WrykQ9CS8U6jCAx3Lm
+         +3HXMAwLQFKygjsCeqsZKDHIGj/wKSxwFwGCzRBbv5r79usg0sGUjWFhKdK/R8kIu6wx
+         IdyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=v3BYn5BypG8Ue9TtSuHw8Zh+FD+D0j5FVBjgo4152UU=;
+        b=YKiuOhZKPWAoqnNFqKUNi+PIFfhpaUSPogZAack1twAGVTcIKbUDZ9m1NGeflzxKwF
+         utKxpzRfk1dlxNDR5rkauwCIiyk3+0U0mg53EB4vMXcEWE7U/dWs3gHAQgaDDc5+AMZ0
+         jD0e6y1CRpXDMSImvkjwn+9t3O0QYqSztiPK5aDROo6BD/ty9PClm8mdr3zjr0Eqv8Ar
+         hXJF14utVS9KgwraXpGtAY90pz0l0e4DcZB0AXXl24tf0rEbkhW35rr0bdNDpdyd/c8K
+         TQ8yLruHY5cmTVJAuSlMfeuIgXnrvDOp90oGZqAmjXwXOaffNsz2J/QRDG59AxN9GJ0e
+         7UkA==
+X-Gm-Message-State: ANhLgQ3+JfLau1ORaPdjrFaHjf/3liFzmh8IC7Hunitvc/0XHEv0vnxR
+	OhcdYoyBy5m+TcrU/FnGjxdLbncRmjg=
+X-Google-Smtp-Source: ADFU+vsuBysclvaUKgNRGy5E2peZEz165XFiBVqd4J7cN/RB9oUhsRpiQPAQesmZ3f6eZy6oFI4hTw==
+X-Received: by 2002:a1c:2b43:: with SMTP id r64mr54927wmr.77.1585334231535;
+        Fri, 27 Mar 2020 11:37:11 -0700 (PDT)
+Return-Path: <matthias.schoepfer@googlemail.com>
+Received: from giesela.fritz.box (p200300E5171FDB00499A1C4FE5832282.dip0.t-ipconnect.de. [2003:e5:171f:db00:499a:1c4f:e583:2282])
+        by smtp.gmail.com with ESMTPSA id c85sm9082979wmd.48.2020.03.27.11.37.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2020 11:37:10 -0700 (PDT)
+From: "Matthias Schoepfer" <matthias.schoepfer@googlemail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
+Subject: [PATCH] python3: fixing bpo-36852 patch for builds on i686 architecture
+Date: Fri, 27 Mar 2020 19:37:01 +0100
+Message-Id: <20200327183701.119401-1-matthias.schoepfer@googlemail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200327181648.GK1578@denix.org>
-Return-Path: nandor.han@vaisala.com
-X-OriginalArrivalTime: 27 Mar 2020 18:24:49.0579 (UTC) FILETIME=[003687B0:01D60465]
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2020-03-27 20:16, Denys Dmytriyenko wrote:
-> On Fri, Mar 27, 2020 at 07:33:24PM +0200, Nandor Han wrote:
->> On 2020-03-27 17:11, Zach Booth wrote:
->>> On Fri, Mar 27, 2020 at 3:29 AM Nandor Han <nandor.han@vaisala.com> wrote:
->>>>
->>>> FIT format is very versatile allowing various combination of booting
->>>> sequences. In the same time different U-Boot boot stages can use FIT
->>>> blobs to pack various binaries (e.g. SPL supports reading U-Boot from a
->>>> FIT blob). Because of the allowed level of customization, the generation
->>>> of a FIT blob using a fixed image tree source, becomes challenging and
->>>> increase the level of complexity where different configurations and
->>>> combinations are needed.
->>>>
->>>> This bbclass will know how to generate a FIT blob, leaving the mechanics
->>>> of the process (dependencies, task order...) to be handled by the users
->>>> of the bbclass. In the same time will allow to separate the knowledge of
->>>> the FIT format leaving the user code cleaner and more readable.
->>>>
->>>> Signed-off-by: Nandor Han <nandor.han@vaisala.com>
->>>
->>> This class looks very useful, but I did have a question. How would you
->>> account for creating nodes dynamically? One use case of this would be
->>> adding a DT node for each reference in KERNEL_DEVICETREE. Would that
->>> functionality be expected to go in the recipe including this class or
->>> the class itself?
->>>
->>
->> Thanks Zack for feedback. Like I mentioned in one of Rickard's
->> answer, I'm planning to update the `kernel-fitimage.bbclass` to use
->> this class.
->>
->> In my local repo I have already a class that does what you're saying.
->>
->> e.g
->> ```
->> ...
->> 24 python do_generate_fit_image() {
->>   25     import os.path
->>   26
->>   27     device_trees = (d.getVar("KERNEL_DEVICETREE").split())
->>   28     kernel_key_path =
->> '{path}'.format(path=d.getVar("SECURITY_DIR_KEYS_RD") or "")
->>   29     conf_signature = (d.getVar("CONF_NODE_CONF1") or "")
->>   30     image_name = ""
->>   31     mkimage_opts = ""
->>   32
->>   33     for dtb in device_trees:
->>   34         d.setVarFlag("IMAGE_NODE_FDT", "data",
->> '/incbin/("./arch/{arch}/boot/dts/{dtb}")'.format(
->>   35          arch=d.getVar("ARCH"), dtb=dtb))
->>   36         d.setVarFlag("IMAGE_NODE_FDT", "description", dtb)
->>   37
->>   38         if os.path.exists(kernel_key_path):
->>   39             image_name =
->> "kernel-{dtb_name}{suffix}".format(dtb_name=os.path.splitext(dtb)[0],
->> suffix=".rdkeys")
->>   40             mkimage_opts = d.getVar("FIT_IMAGE_MKIMAGE_OPTS_SIGNED")
->>   41             d.setVar("FIT_IMAGE_UBOOT_MKIMAGE_OPTS", ("-k {key}
->> -r {extra}".format(
->>   42              key=kernel_key_path, extra=mkimage_opts)))
->>   43             generate_fit_image(image_name, d)
->>   44
->>   45         if not conf_signature:
->>   46             d.delVarFlag("CONF_NODE_CONF1", "signature")
->>   47
->>   48         mkimage_opts = d.getVar("FIT_IMAGE_MKIMAGE_OPTS_UNSIGNED")
->>   49         d.setVar("FIT_IMAGE_UBOOT_MKIMAGE_OPTS",
->> "{extra}".format(extra=mkimage_opts))
->>   50         image_name =
->> "kernel-{dtb_name}{suffix}".format(dtb_name=os.path.splitext(dtb)[0],
->> suffix=".unsigned")
->>   51         generate_fit_image(image_name, d)
->>   52
->>   53         if not conf_signature:
->>   54             d.setVarFlag("CONF_NODE_CONF1", "signature",
->> conf_signature)
->>   55 }
->> ...
->> ```
->>
->> The code above will generate a separate FIT blob for every device
->> tree declared in KERNEL_DEVICETREE. However this functionality
-> 
-> So, no multiple device trees in a single FIT image? No multiple
-> configurations, ramdisks, etc?
-> 
-> 
+From: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
 
-Given the class API is possible to configure your FIT source as you 
-want. However, my plan is to refactor `kernel-fitimage` class to have 
-this kind of features. The above code was only an example, something 
-that I'm working on. I want to get this in and then it's easier to add 
-new functionalities.
+The original patch "bpo-36852: proper detection of mips architecture
+for soft float" uses AC_CANONICAL_TARGET to determine the platform
+triplet. While AC_CANONICAL_TARGET exports i686 as target_cpu, gcc
+is using i386 instead. We fall back here to i386, as it is conform
+to the previous behavior.
 
->> overlaps with `kernel-fitimage` and my target is to keep this class
->> as simple as possible and refactor `kernel-fitimage` to use the
->> `fit_image` class. The code above will go in `kernel-fitimage`.
->>
->> Later on I'm planning to add a different class that can be use to
->> generate U-Boot FIT blobs, which can be used by SPL.
->>
->> So this is only the first step :)
->>
+Upstream Status: Submitted [https://github.com/python/cpython/pull/13196]
 
-Nandor
+Signed-off-by: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
+---
+ ...-detection-of-mips-architecture-for-.patch | 20 +++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch b/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
+index fe0aa8aabe..2c226863d3 100644
+--- a/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
++++ b/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
+@@ -1,4 +1,4 @@
+-From 2581ebe3cd9686089aed223651e1b8bf0b862b48 Mon Sep 17 00:00:00 2001
++From 1667edb6f5557593d2421856680e86fa3cb9b253 Mon Sep 17 00:00:00 2001
+ From: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
+ Date: Fri, 31 May 2019 15:34:34 +0200
+ Subject: [PATCH] bpo-36852: proper detection of mips architecture for soft
+@@ -13,15 +13,16 @@ to do this in a more autoconf/autotools manner.
+ Upstream-Status: Submitted [https://github.com/python/cpython/pull/13196]
+ Signed-off-by: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
+ 
++%% original patch: 0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
+ ---
+- configure.ac | 171 +++++----------------------------------------------
+- 1 file changed, 17 insertions(+), 154 deletions(-)
++ configure.ac | 175 +++++++--------------------------------------------
++ 1 file changed, 21 insertions(+), 154 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 0f85486..0ca7e24 100644
++index ede710e..7bbdc89 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -704,160 +704,23 @@ fi
++@@ -710,161 +710,27 @@ fi
+  MULTIARCH=$($CC --print-multiarch 2>/dev/null)
+  AC_SUBST(MULTIARCH)
+  
+@@ -193,9 +194,16 @@ index 0f85486..0ca7e24 100644
+ +     	PLATFORM_TRIPLET=vxworks
+ +	;;
+ +     *)
+-+	PLATFORM_TRIPLET=${target_cpu}-${target_os}
+++        if test "${target_cpu}" != "i686"; then
+++	    PLATFORM_TRIPLET=${target_cpu}-${target_os}
+++	else
+++	    PLATFORM_TRIPLET=i386-${target_os}
+++	fi
+ +	;;
+ +esac	
+  
+  if test x$PLATFORM_TRIPLET != x && test x$MULTIARCH != x; then
+    if test x$PLATFORM_TRIPLET != x$MULTIARCH; then
++--
++2.24.1
++
+-- 
+2.24.1
+
