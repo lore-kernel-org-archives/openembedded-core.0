@@ -1,58 +1,87 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web10.19904.1585335383221593314
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
+ by mx.groups.io with SMTP id smtpd.web10.511.1585347800388294679
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2020 11:56:26 -0700
+ Fri, 27 Mar 2020 15:23:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=d4YZORRk;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=hdlx=5m=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48prfp2wcmz40;
-	Fri, 27 Mar 2020 19:56:18 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1585335380;
-	bh=KFosnqAAPYJfkC7AYT9XzLLiMF2RB05vyoB8fqFAY+g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d4YZORRkmsnOCyuJaSKjgDdCXHkUj3+Qo5R/3+Dp8a+zgvOLlRx5yeZULe9SWgcGS
-	 aFD2hFU7I2qCGWnHwVptzpt4vLAbsPi2dd6hW8qJn3NRhJ9cKfGRBE1A75w/T2cYR2
-	 LvZZR6dmTPuvnmq91EBICuCY4kXfMNf/JnUgLPQNjzUabts4qpR0dZ063+IGvyz28i
-	 CbmtJr3R+bqYl+OKRhQoaQzoVPi19ZxSgQ6ig56XDKVDfl1e28SIqieXN3jysGYNnt
-	 dA6JdiqqBKrNmxnRc9T/nKo8/rRd6NbpjbIro0IBF9p61TElj1IEPnHo9C8uv/nSbP
-	 iG/eSbyiIvCssjYRLNTz+FHQeGvLr3x40cGi8PEeTMq0byd886BhfaHX33UQToGoB/
-	 htbg+yMDctysO72VJWlZnYnMp7qGNCe3qxkQP40MJNmtbryWxvf4JGwgXMiX5DZwjL
-	 Yeq59iQ7XgM3MOiaJAP1MBNSVYjMUcLU/ThNJ6cxT782r4fVZY+hrOuVXvmgrYu/3c
-	 dXMZUTXHjE8Y/Ui9jAWbhUn9BRlbUWVcRe02rSTeodm6sPrQAcZzQbco7YULyaANpE
-	 D9jvr3xRNm6ZeC9dMMsQBxMkuqZ+ZOnV3U88TbpxbrO0O0X5R3VW34GTgJmTsYH8ro
-	 Q1jQurcEdIWZhQcRlFgkL5aE=
-Date: Fri, 27 Mar 2020 20:56:16 +0200
-From: "Adrian Bunk" <bunk@stusta.de>
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Stefan Ghinea <stefan.ghinea@windriver.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] pulseaudio: fix for ARM thumb + frame pointers compilation error
-Message-ID: <20200327185616.GB23840@localhost>
-References: <20200326152629.29272-1-stefan.ghinea@windriver.com>
- <20200326191628.GC5401@localhost>
- <CAJ86T=WJ4+8Ly59gxj6maeLQC5NAcZiM-G+uKqhTTi3u9C_FtQ@mail.gmail.com>
- <20200326202650.GA14127@localhost>
- <CAJ86T=ULPheVBCFMQd8-rF5v6YyCpO6phPZqeYW88NtL=f=t+g@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mbw8C1PS;
+ spf=pass (domain: gmail.com, ip: 209.85.210.65, mailfrom: jpuhlman@gmail.com)
+Received: by mail-ot1-f65.google.com with SMTP id z5so11209559oth.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2020 15:23:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gpCQUqZe6BpzAkw3BUhR9Dn7QA0f/2lQN7pw/mO8Lj8=;
+        b=mbw8C1PSjQGVeQteNuYTiYNPCpDr9BmbuVggdBrMZi59jGy+lRxJXOdbK7jyCp3RGm
+         iXZ+mqN2Ia+WWeUlVpWWB47fxEgRKS7vmRcceanFIZU1iUjVuZ4GsHedutMaiE+0nn0y
+         osqvoOM8Ggmhv9+0LBbIJzPEt0x8r7T29N3Tb8MnPkUnQUqMI33nkeGuaISE73vVqFJE
+         uL7bRygMhIwmNqciREzAnDfH8wBSzcnFGfpbyhU81GSLbp/oBYmrv8N1Qs93oWxXVUX9
+         /v3yf2Jt1k9SoHd5OFogRY3R5dSux8x56lGY76iWO9BWLS3o+4SNYX/p/1nmjpldQudK
+         a4iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=gpCQUqZe6BpzAkw3BUhR9Dn7QA0f/2lQN7pw/mO8Lj8=;
+        b=CKMArR869VoMoRrvKq1Nb/lPfF/qzRN31IQ3N60WMqhPuVGOUqVZaKvpFdEGGmwiY8
+         y+BVOpejlBehUGMN3W2Gm/9k3YsdIVyxEIhm0dS1+t3Y/fidQi8Ts/VQpHxmU/J+lB/m
+         QrJMTnXOBuelI91obQ/6J07sinog9i7hawiWxsuD9VcoruLtvNQilgRLMV3lc/WKvHcy
+         6sR8zbtJ6sCL2hcRsP+ORSL1Ksk/ChGQ4XA2i7SFkDIaU1DNexr7C68/tD1F0vYtIx4O
+         1C4ppW3yOkuaTtvbx+vQsXlt+eyvWTQ2kYp8Hw6KrhVfJNQ+hgv4v9UZgXHR5Bz2qd0u
+         LmJQ==
+X-Gm-Message-State: ANhLgQ23m/JReBn3dFIfX/m93PYVsW8357WqQ87rq1LnC7xU9vrSKNwF
+	ndJE3z+xep+X0NIic+Q+b93pmcFG
+X-Google-Smtp-Source: ADFU+vtmpa8ht1o6G43uoAhJ/7PFDGofvzj45dM7HuQtMnP41Mv3fngC7FBuAUr5Y0vjA9KrTry5qw==
+X-Received: by 2002:a9d:5888:: with SMTP id x8mr674191otg.361.1585347799516;
+        Fri, 27 Mar 2020 15:23:19 -0700 (PDT)
+Return-Path: <jpuhlman@gmail.com>
+Received: from workhorse.localdomain ([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
+        by smtp.gmail.com with ESMTPSA id f3sm2341158ooq.9.2020.03.27.15.23.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2020 15:23:18 -0700 (PDT)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id 90DCB2A0860; Fri, 27 Mar 2020 15:23:17 -0700 (PDT)
+From: "Jeremy Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jeremy Puhlman <jpuhlman@mvista.com>
+Subject: [PATCH] nativesdk-git: point to system gitconfig
+Date: Fri, 27 Mar 2020 15:23:16 -0700
+Message-Id: <20200327222316.8414-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=ULPheVBCFMQd8-rF5v6YyCpO6phPZqeYW88NtL=f=t+g@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 26, 2020 at 02:23:03PM -0700, Andre McCurdy wrote:
->...
-> Right, it's not related to musl or glibc. I suspect it can be
-> reproduced by building for an ARM target which supports NEON, ensuring
-> that DEFAULTTUNE doesn't forcefully disable Thumb (e.g. it should be
-> armv7vethf-neon, not armv7vehf-neon), setting ARM_INSTRUCTION_SET to
-> thumb and then compiling with frame pointers enabled (e.g. by adding
-> -fno-omit-frame-pointer to CFLAGS).
->...
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-Thanks, this was helpful in figuring out what I missed when testing.
-I can now confirm that the problem still exists, also with glibc.
+On a system with selinux turned on, trying to access a directory
+that is in a tree that doesn't exist returns the error permission
+denined rather then no such file or directory, which causes git
+to die.
 
-cu
-Adrian
+git clone git://git.yoctoproject.org/poky
+Cloning into 'poky'...
+fatal: unable to access '/opt/poky/3.0+snapshot/sysroots/x86_64-pokysdk-linux/etc/gitconfig': Permission denied
+
+Switch to using the system gitconfig of the host.
+
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+---
+ meta/recipes-devtools/git/git.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 95ab397f6a..4131c98977 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -22,6 +22,7 @@ PACKAGECONFIG[svn] = ""
+ EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
+ 		--without-tcltk \
+ "
++EXTRA_OECONF_append_class-nativesdk = " --with-gitconfig=/etc/gitconfig "
+ 
+ # Needs brokensep as this doesn't use automake
+ inherit autotools-brokensep perlnative bash-completion
+-- 
+2.20.1
+
