@@ -1,310 +1,919 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web10.3259.1585270807010162008
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.4604.1585276749158410219
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Mar 2020 18:00:07 -0700
+ Thu, 26 Mar 2020 19:39:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MjJvNjHM;
- spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f193.google.com with SMTP id c145so9205347qke.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 18:00:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=cpFhpIy9HbGZaPua2vKDaPDl87VxmT9BqieFpkvsd0U=;
-        b=MjJvNjHM8VDyo9ia0Xaux3wlJTE4f+VN6EsIvnJTYSWe4T/jsIcFmXvAYT82g7fLMZ
-         nMWUiai7+IAXJWwqkc1C5U2ivHRUXSkHCHbrH06cQ544DBqFGj5ZttCgjyyUmOOkLul6
-         MsC64PEuu8NQHFYZlRG2ajxal1rLNgBZRbLXV1jxohd/hcpCaeP//0W20iQO1MisJx41
-         nOB3UKfh5/VWsLXD4yfQU1unD3nIbW7YJSD2TVHVVINIW0MG+f55FWgsmxEO0Y1L0Qb5
-         GPSoo4tXXa0ze1T0Q/2PbQhH2Uk9kxyiZJjsZxlyCOAbzCIC+yJRVMQlOFeityuBzNbs
-         N6Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=cpFhpIy9HbGZaPua2vKDaPDl87VxmT9BqieFpkvsd0U=;
-        b=KKOUxwe9+p6p4zou8CZibRUm+mLFXMNCeHINtOhI1v7ao2PTiLOLez5GnnwLsuWYcA
-         KEgsMfzslUILpsVzJLairQTWBZYEtPfJV9Wb6a5FTYMAIFMJzwtZQZc1IsKd9P/GzYDg
-         SNrlCBkuVANtQJGfN9Tus6pfY2LSymMhXqMFQ8wUTTxrJRTi6qfEn38TP8CS/cuqoan0
-         j+jkia5lWn6Hl0zo9QcMrIHEbIryoMRpX+ucEFMhRIMIF+0v+/jneXhnbLiuTAPpQQq3
-         Xd8ta9EdYt/t9R73mPmWR2q1PzLWDTTkTktAoiomT6n8UAuhpsTXZZ4ztUpQeNK3x32i
-         sfTQ==
-X-Gm-Message-State: ANhLgQ0ED3yBuI6SVM0C+MSDbH6I2reCgUwWcTY2AE7NzyKCFivbIZHl
-	zu0DFoNXfdVcQaaOqTx86rFcm7vibtEDYE2lYkMWLAEk
-X-Google-Smtp-Source: ADFU+vv6ottX3M2UY7JKDs2rtTcibLQthDMMCUOBzIaDJ+jGyoBLJO3/+CErQaecLD7BRFMDhyQ/mB8n7/yoOWlsrOQ=
-X-Received: by 2002:a37:bec5:: with SMTP id o188mr11751212qkf.165.1585270805364;
- Thu, 26 Mar 2020 18:00:05 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: haiqing.bai@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02R2ckQu022336
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Mar 2020 19:38:57 -0700
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Thu, 26 Mar 2020
+ 19:38:36 -0700
+From: "haiqing" <haiqing.bai@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <haiqing.bai@windriver.com>
+Subject: [OE-core][zeus][PATCH] glib-2.0: fix CVE-2020-6750
+Date: Fri, 27 Mar 2020 10:38:05 +0800
+Message-ID: <1585276686-231517-1-git-send-email-Haiqing.Bai@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-References: <20200326182658.2898982-1-raj.khem@gmail.com>
-In-Reply-To: <20200326182658.2898982-1-raj.khem@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 26 Mar 2020 17:59:37 -0700
-Message-ID: <CAMKF1srWg+LQG_=ZEYJR3z=UPfbYUpeAhMU9sFaiJ7JKSDLkOg@mail.gmail.com>
-Subject: Re: [PATCH] glibc: Drop patching configure scripts
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 02R2ckQu022336
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 26, 2020 at 11:26 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> It can cause million problems due to timestamp reversals
-> if they are patched, system will regen the confgure reliably
-> if we do not do this
->
+GSocketClient in GNOME GLib through 2.62.4 may occasionally connect direc=
+tly
+to a target address instead of connecting via a proxy server when configu=
+red
+to do so, because the proxy_addr field is mishandled. This bug is timing-=
+dependent
+and may occur only sporadically depending on network delays. The greatest=
+ security
+relevance is in use cases where a proxy is used to help with privacy/anon=
+ymity,
+even though there is no technical barrier to a direct connection.
 
-Please drop this patch, it is wrong to not have patch configure
-scripts for glibc
-we intentionally do not run reconfigure on glibc for that fact we
-touch the configure
-files to ensure they dont get regenerated.
+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+---
+ .../glib-2.0/glib-2.0/CVE-2020-6750.patch     | 741 ++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb |   1 +
+ 2 files changed, 742 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-6750.pat=
+ch
 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  ...igure.ac-handle-correctly-libc_cv_ro.patch |  13 --
->  ...the-path-sets-wrong-config-variables.patch | 133 ------------------
->  .../0030-Improve-IFUNC-check-BZ-25506.patch   |  14 --
->  3 files changed, 160 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc/0015-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch b/meta/recipes-core/glibc/glibc/0015-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch
-> index 0cdd0567df..f3bf66e4fd 100644
-> --- a/meta/recipes-core/glibc/glibc/0015-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch
-> +++ b/meta/recipes-core/glibc/glibc/0015-sysdeps-gnu-configure.ac-handle-correctly-libc_cv_ro.patch
-> @@ -9,22 +9,9 @@ Upstream-Status:Pending
->  Signed-off-by: Matthieu Crapet <Matthieu.Crapet@ingenico.com>
->  Signed-off-by: Khem Raj <raj.khem@gmail.com>
->  ---
-> - sysdeps/gnu/configure    | 2 +-
->   sysdeps/gnu/configure.ac | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> -diff --git a/sysdeps/gnu/configure b/sysdeps/gnu/configure
-> -index c15d1087e8..37cc983f2a 100644
-> ---- a/sysdeps/gnu/configure
-> -+++ b/sysdeps/gnu/configure
-> -@@ -32,6 +32,6 @@ case "$prefix" in
-> -   else
-> -     libc_cv_localstatedir=$localstatedir
-> -    fi
-> --  libc_cv_rootsbindir=/sbin
-> -+  test -n "$libc_cv_rootsbindir" || libc_cv_rootsbindir=/sbin
-> -   ;;
-> - esac
->  diff --git a/sysdeps/gnu/configure.ac b/sysdeps/gnu/configure.ac
->  index 634fe4de2a..3db1697f4f 100644
->  --- a/sysdeps/gnu/configure.ac
-> diff --git a/meta/recipes-core/glibc/glibc/0017-yes-within-the-path-sets-wrong-config-variables.patch b/meta/recipes-core/glibc/glibc/0017-yes-within-the-path-sets-wrong-config-variables.patch
-> index 49089af41e..f4dadd11a0 100644
-> --- a/meta/recipes-core/glibc/glibc/0017-yes-within-the-path-sets-wrong-config-variables.patch
-> +++ b/meta/recipes-core/glibc/glibc/0017-yes-within-the-path-sets-wrong-config-variables.patch
-> @@ -14,39 +14,14 @@ Upstream-Status: Submitted [libc-alpha@sourceware.org]
->  Signed-off-by: Benjamin Esquivel <benjamin.esquivel@linux.intel.com>
->  Signed-off-by: Khem Raj <raj.khem@gmail.com>
->  ---
-> - sysdeps/aarch64/configure                              | 4 ++--
->   sysdeps/aarch64/configure.ac                           | 4 ++--
-> - sysdeps/arm/configure                                  | 4 ++--
->   sysdeps/arm/configure.ac                               | 4 ++--
-> - sysdeps/mips/configure                                 | 4 ++--
->   sysdeps/mips/configure.ac                              | 4 ++--
-> - sysdeps/nios2/configure                                | 4 ++--
->   sysdeps/nios2/configure.ac                             | 4 ++--
-> - sysdeps/unix/sysv/linux/mips/configure                 | 4 ++--
->   sysdeps/unix/sysv/linux/mips/configure.ac              | 4 ++--
-> - sysdeps/unix/sysv/linux/powerpc/powerpc64/configure    | 8 ++++----
->   sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac | 8 ++++----
->   12 files changed, 28 insertions(+), 28 deletions(-)
->
-> -diff --git a/sysdeps/aarch64/configure b/sysdeps/aarch64/configure
-> -index 5bd355a691..3bc5537bc0 100644
-> ---- a/sysdeps/aarch64/configure
-> -+++ b/sysdeps/aarch64/configure
-> -@@ -148,12 +148,12 @@ else
-> -   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-> - /* end confdefs.h.  */
-> - #ifdef __AARCH64EB__
-> --                      yes
-> -+                      is_aarch64_be
-> -                      #endif
-> -
-> - _ACEOF
-> - if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-> --  $EGREP "yes" >/dev/null 2>&1; then :
-> -+  $EGREP "is_aarch64_be" >/dev/null 2>&1; then :
-> -   libc_cv_aarch64_be=yes
-> - else
-> -   libc_cv_aarch64_be=no
->  diff --git a/sysdeps/aarch64/configure.ac b/sysdeps/aarch64/configure.ac
->  index 7851dd4dac..6e9238171f 100644
->  --- a/sysdeps/aarch64/configure.ac
-> @@ -62,25 +37,6 @@ index 7851dd4dac..6e9238171f 100644
->                        #endif
->     ], libc_cv_aarch64_be=yes, libc_cv_aarch64_be=no)])
->   if test $libc_cv_aarch64_be = yes; then
-> -diff --git a/sysdeps/arm/configure b/sysdeps/arm/configure
-> -index 431e843b2b..e152461138 100644
-> ---- a/sysdeps/arm/configure
-> -+++ b/sysdeps/arm/configure
-> -@@ -151,12 +151,12 @@ else
-> -   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-> - /* end confdefs.h.  */
-> - #ifdef __ARM_PCS_VFP
-> --                    yes
-> -+                    use_arm_pcs_vfp
-> -                    #endif
-> -
-> - _ACEOF
-> - if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-> --  $EGREP "yes" >/dev/null 2>&1; then :
-> -+  $EGREP "use_arm_pcs_vfp" >/dev/null 2>&1; then :
-> -   libc_cv_arm_pcs_vfp=yes
-> - else
-> -   libc_cv_arm_pcs_vfp=no
->  diff --git a/sysdeps/arm/configure.ac b/sysdeps/arm/configure.ac
->  index 90cdd69c75..05a262ba00 100644
->  --- a/sysdeps/arm/configure.ac
-> @@ -96,24 +52,6 @@ index 90cdd69c75..05a262ba00 100644
->                      #endif
->     ], libc_cv_arm_pcs_vfp=yes, libc_cv_arm_pcs_vfp=no)])
->   if test $libc_cv_arm_pcs_vfp = yes; then
-> -diff --git a/sysdeps/mips/configure b/sysdeps/mips/configure
-> -index 4e13248c03..f14af952d0 100644
-> ---- a/sysdeps/mips/configure
-> -+++ b/sysdeps/mips/configure
-> -@@ -143,11 +143,11 @@ else
-> - /* end confdefs.h.  */
-> - dnl
-> - #ifdef __mips_nan2008
-> --yes
-> -+use_mips_nan2008
-> - #endif
-> - _ACEOF
-> - if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-> --  $EGREP "yes" >/dev/null 2>&1; then :
-> -+  $EGREP "use_mips_nan2008" >/dev/null 2>&1; then :
-> -   libc_cv_mips_nan2008=yes
-> - else
-> -   libc_cv_mips_nan2008=no
->  diff --git a/sysdeps/mips/configure.ac b/sysdeps/mips/configure.ac
->  index bcbdaffd9f..ad3057f4cc 100644
->  --- a/sysdeps/mips/configure.ac
-> @@ -130,25 +68,6 @@ index bcbdaffd9f..ad3057f4cc 100644
->   #endif], libc_cv_mips_nan2008=yes, libc_cv_mips_nan2008=no)])
->   if test x$libc_cv_mips_nan2008 = xyes; then
->     AC_DEFINE(HAVE_MIPS_NAN2008)
-> -diff --git a/sysdeps/nios2/configure b/sysdeps/nios2/configure
-> -index 14c8a3a014..dde3814ef2 100644
-> ---- a/sysdeps/nios2/configure
-> -+++ b/sysdeps/nios2/configure
-> -@@ -142,12 +142,12 @@ else
-> -   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-> - /* end confdefs.h.  */
-> - #ifdef __nios2_big_endian__
-> --                      yes
-> -+                      is_nios2_be
-> -                      #endif
-> -
-> - _ACEOF
-> - if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-> --  $EGREP "yes" >/dev/null 2>&1; then :
-> -+  $EGREP "is_nios2_be" >/dev/null 2>&1; then :
-> -   libc_cv_nios2_be=yes
-> - else
-> -   libc_cv_nios2_be=no
->  diff --git a/sysdeps/nios2/configure.ac b/sysdeps/nios2/configure.ac
->  index f05f43802b..dc8639902d 100644
->  --- a/sysdeps/nios2/configure.ac
-> @@ -164,24 +83,6 @@ index f05f43802b..dc8639902d 100644
->                        #endif
->     ], libc_cv_nios2_be=yes, libc_cv_nios2_be=no)])
->   if test $libc_cv_nios2_be = yes; then
-> -diff --git a/sysdeps/unix/sysv/linux/mips/configure b/sysdeps/unix/sysv/linux/mips/configure
-> -index 25f98e0c7b..e95bfae359 100644
-> ---- a/sysdeps/unix/sysv/linux/mips/configure
-> -+++ b/sysdeps/unix/sysv/linux/mips/configure
-> -@@ -414,11 +414,11 @@ else
-> - /* end confdefs.h.  */
-> - dnl
-> - #ifdef __mips_nan2008
-> --yes
-> -+use_mips_nan2008
-> - #endif
-> - _ACEOF
-> - if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-> --  $EGREP "yes" >/dev/null 2>&1; then :
-> -+  $EGREP "use_mips_nan2008" >/dev/null 2>&1; then :
-> -   libc_cv_mips_nan2008=yes
-> - else
-> -   libc_cv_mips_nan2008=no
->  diff --git a/sysdeps/unix/sysv/linux/mips/configure.ac b/sysdeps/unix/sysv/linux/mips/configure.ac
->  index 3db1b32b08..f8cd375ebc 100644
->  --- a/sysdeps/unix/sysv/linux/mips/configure.ac
-> @@ -198,40 +99,6 @@ index 3db1b32b08..f8cd375ebc 100644
->   #endif], libc_cv_mips_nan2008=yes, libc_cv_mips_nan2008=no)])
->
->   libc_mips_nan=
-> -diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
-> -index ae7f254da4..874519000b 100644
-> ---- a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
-> -+++ b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure
-> -@@ -155,12 +155,12 @@ else
-> -   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-> - /* end confdefs.h.  */
-> - #if _CALL_ELF == 2
-> --                      yes
-> -+                      use_ppc_elfv2_abi
-> -                      #endif
-> -
-> - _ACEOF
-> - if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-> --  $EGREP "yes" >/dev/null 2>&1; then :
-> -+  $EGREP "use_ppc_elfv2_abi" >/dev/null 2>&1; then :
-> -   libc_cv_ppc64_elfv2_abi=yes
-> - else
-> -   libc_cv_ppc64_elfv2_abi=no
-> -@@ -188,12 +188,12 @@ else
-> -   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-> - /* end confdefs.h.  */
-> - #ifdef _CALL_ELF
-> --                         yes
-> -+                         is_def_call_elf
-> -                        #endif
-> -
-> - _ACEOF
-> - if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-> --  $EGREP "yes" >/dev/null 2>&1; then :
-> -+  $EGREP "is_def_call_elf" >/dev/null 2>&1; then :
-> -   libc_cv_ppc64_def_call_elf=yes
-> - else
-> -   libc_cv_ppc64_def_call_elf=no
->  diff --git a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac b/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
->  index f9cba6e15d..b21f72f1e4 100644
->  --- a/sysdeps/unix/sysv/linux/powerpc/powerpc64/configure.ac
-> diff --git a/meta/recipes-core/glibc/glibc/0030-Improve-IFUNC-check-BZ-25506.patch b/meta/recipes-core/glibc/glibc/0030-Improve-IFUNC-check-BZ-25506.patch
-> index 1cb398d2bc..33e234dc3e 100644
-> --- a/meta/recipes-core/glibc/glibc/0030-Improve-IFUNC-check-BZ-25506.patch
-> +++ b/meta/recipes-core/glibc/glibc/0030-Improve-IFUNC-check-BZ-25506.patch
-> @@ -12,23 +12,9 @@ Tested-by: Aurelien Jarno <aurelien@aurel32.net>
->  Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
->  Signed-off-by: Khem Raj <raj.khem@gmail.com>
->  ---
-> - configure    | 2 +-
->   configure.ac | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
->
-> -diff --git a/configure b/configure
-> -index b959d2d988..3b98ec312f 100755
-> ---- a/configure
-> -+++ b/configure
-> -@@ -4035,7 +4035,7 @@ if ${CC-cc} $CFLAGS $CPPFLAGS $LDFLAGS \
-> -           -o conftest conftest.S 1>&5 2>&5; then
-> -   # Do a link to see if the backend supports IFUNC relocs.
-> -   $READELF -r conftest 1>&5
-> --  LC_ALL=C $READELF -r conftest | grep 'no relocations' >/dev/null || {
-> -+  LC_ALL=C $READELF -Wr conftest | grep -q 'IRELATIVE\|R_SPARC_JMP_IREL' && {
-> -     libc_cv_ld_gnu_indirect_function=yes
-> -   }
-> - fi
->  diff --git a/configure.ac b/configure.ac
->  index 49b900c1ed..e20034f301 100644
->  --- a/configure.ac
-> --
-> 2.26.0
->
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-6750.patch b/me=
+ta/recipes-core/glib-2.0/glib-2.0/CVE-2020-6750.patch
+new file mode 100644
+index 0000000000..6db3934978
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-6750.patch
+@@ -0,0 +1,741 @@
++From 747f2c646f5a86ac58ad59be08036e81388e971d Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <tingping@tingping.se>
++Date: Thu, 23 Jan 2020 19:58:41 -0800
++Subject: [PATCH] Refactor g_socket_client_connect_async()
++
++This is a fairly large refactoring. The highlights are:
++
++- Removing in-progress connections/addresses from GSocketClientAsyncConn=
+ectData:
++
++  This caused issues where multiple ConnectionAttempt's would step over =
+eachother
++  and modify shared state causing bugs like accidentally bypassing a set=
+ proxy.
++
++  Fixes #1871
++  Fixes #1989
++  Fixes #1902
++
++- Cancelling address enumeration on error/completion
++
++- Queuing successful TCP connections and doing application layer work se=
+rially:
++
++  This is more in the spirit of Happy Eyeballs but it also greatly simpl=
+ifies
++  the flow of connection handling so fewer tasks are happening in parall=
+el
++  when they don't need to be.
++
++  The behavior also should more closely match that of g_socket_client_co=
+nnect().
++
++- Better track the state of address enumeration:
++
++  Previously we were over eager to treat enumeration finishing as an err=
+or.
++
++  Fixes #1872
++  See also #1982
++
++- Add more detailed documentation and logging.
++
++Closes #1995
++
++CVE: CVE-2020-6750
++
++Upstream-Status: Backport [ https://gitlab.gnome.org/GNOME/glib.git;
++commit=3D2722620e3291b930a3a228100d7c0e07b69534e3 ]
++
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
++---
++ gio/gsocketclient.c | 459 ++++++++++++++++++++++++++++----------------
++ 1 file changed, 296 insertions(+), 163 deletions(-)
++
++diff --git a/gio/gsocketclient.c b/gio/gsocketclient.c
++index 81767c0..b1d5f6c 100644
++--- a/gio/gsocketclient.c
+++++ b/gio/gsocketclient.c
++@@ -1332,13 +1332,15 @@ typedef struct
++=20
++   GSocketConnectable *connectable;
++   GSocketAddressEnumerator *enumerator;
++-  GProxyAddress *proxy_addr;
++-  GSocket *socket;
++-  GIOStream *connection;
+++  GCancellable *enumeration_cancellable;
++=20
++   GSList *connection_attempts;
+++  GSList *successful_connections;
++   GError *last_error;
++=20
+++  gboolean enumerated_at_least_once;
+++  gboolean enumeration_completed;
+++  gboolean connection_in_progress;
++   gboolean completed;
++ } GSocketClientAsyncConnectData;
++=20
++@@ -1350,10 +1352,9 @@ g_socket_client_async_connect_data_free (GSocketC=
+lientAsyncConnectData *data)
++   data->task =3D NULL;
++   g_clear_object (&data->connectable);
++   g_clear_object (&data->enumerator);
++-  g_clear_object (&data->proxy_addr);
++-  g_clear_object (&data->socket);
++-  g_clear_object (&data->connection);
+++  g_clear_object (&data->enumeration_cancellable);
++   g_slist_free_full (data->connection_attempts, connection_attempt_unre=
+f);
+++  g_slist_free_full (data->successful_connections, connection_attempt_u=
+nref);
++=20
++   g_clear_error (&data->last_error);
++=20
++@@ -1365,6 +1366,7 @@ typedef struct
++   GSocketAddress *address;
++   GSocket *socket;
++   GIOStream *connection;
+++  GProxyAddress *proxy_addr;
++   GSocketClientAsyncConnectData *data; /* unowned */
++   GSource *timeout_source;
++   GCancellable *cancellable;
++@@ -1396,6 +1398,7 @@ connection_attempt_unref (gpointer pointer)
++       g_clear_object (&attempt->socket);
++       g_clear_object (&attempt->connection);
++       g_clear_object (&attempt->cancellable);
+++      g_clear_object (&attempt->proxy_addr);
++       if (attempt->timeout_source)
++         {
++           g_source_destroy (attempt->timeout_source);
++@@ -1413,37 +1416,59 @@ connection_attempt_remove (ConnectionAttempt *at=
+tempt)
++ }
++=20
++ static void
++-g_socket_client_async_connect_complete (GSocketClientAsyncConnectData *=
+data)
+++cancel_all_attempts (GSocketClientAsyncConnectData *data)
++ {
++-  g_assert (data->connection);
+++  GSList *l;
++=20
++-  if (!G_IS_SOCKET_CONNECTION (data->connection))
+++  for (l =3D data->connection_attempts; l; l =3D g_slist_next (l))
++     {
++-      GSocketConnection *wrapper_connection;
++-
++-      wrapper_connection =3D g_tcp_wrapper_connection_new (data->connec=
+tion, data->socket);
++-      g_object_unref (data->connection);
++-      data->connection =3D (GIOStream *)wrapper_connection;
+++      ConnectionAttempt *attempt_entry =3D l->data;
+++      g_cancellable_cancel (attempt_entry->cancellable);
+++      connection_attempt_unref (attempt_entry);
++     }
+++  g_slist_free (data->connection_attempts);
+++  data->connection_attempts =3D NULL;
++=20
++-  if (!data->completed)
+++  g_slist_free_full (data->successful_connections, connection_attempt_u=
+nref);
+++  data->successful_connections =3D NULL;
+++
+++  g_cancellable_cancel (data->enumeration_cancellable);
+++}
+++
+++static void
+++g_socket_client_async_connect_complete (ConnectionAttempt *attempt)
+++{
+++  GSocketClientAsyncConnectData *data =3D attempt->data;
+++  GError *error =3D NULL;
+++  g_assert (attempt->connection);
+++  g_assert (!data->completed);
+++
+++  if (!G_IS_SOCKET_CONNECTION (attempt->connection))
++     {
++-      GError *error =3D NULL;
+++      GSocketConnection *wrapper_connection;
++=20
++-      if (g_cancellable_set_error_if_cancelled (g_task_get_cancellable =
+(data->task), &error))
++-        {
++-          g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COM=
+PLETE, data->connectable, NULL);
++-          g_task_return_error (data->task, g_steal_pointer (&error));
++-        }
++-      else
++-        {
++-          g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COM=
+PLETE, data->connectable, data->connection);
++-          g_task_return_pointer (data->task, g_steal_pointer (&data->co=
+nnection), g_object_unref);
++-        }
+++      wrapper_connection =3D g_tcp_wrapper_connection_new (attempt->con=
+nection, attempt->socket);
+++      g_object_unref (attempt->connection);
+++      attempt->connection =3D (GIOStream *)wrapper_connection;
+++    }
++=20
++-      data->completed =3D TRUE;
+++  data->completed =3D TRUE;
+++  cancel_all_attempts (data);
+++
+++  if (g_cancellable_set_error_if_cancelled (g_task_get_cancellable (dat=
+a->task), &error))
+++    {
+++      g_debug ("GSocketClient: Connection cancelled!");
+++      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLET=
+E, data->connectable, NULL);
+++      g_task_return_error (data->task, g_steal_pointer (&error));
+++    }
+++  else
+++    {
+++      g_debug ("GSocketClient: Connection successful!");
+++      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLET=
+E, data->connectable, attempt->connection);
+++      g_task_return_pointer (data->task, g_steal_pointer (&attempt->con=
+nection), g_object_unref);
++     }
++=20
+++  connection_attempt_unref (attempt);
++   g_object_unref (data->task);
++ }
++=20
++@@ -1465,59 +1490,63 @@ static void
++ enumerator_next_async (GSocketClientAsyncConnectData *data,
++                        gboolean                       add_task_ref)
++ {
++-  /* We need to cleanup the state */
++-  g_clear_object (&data->socket);
++-  g_clear_object (&data->proxy_addr);
++-  g_clear_object (&data->connection);
++-
++   /* Each enumeration takes a ref. This arg just avoids repeated unrefs=
+ when
++      an enumeration starts another enumeration */
++   if (add_task_ref)
++     g_object_ref (data->task);
++=20
++   g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_RESOLVING, =
+data->connectable, NULL);
+++  g_debug ("GSocketClient: Starting new address enumeration");
++   g_socket_address_enumerator_next_async (data->enumerator,
++-					  g_task_get_cancellable (data->task),
+++					  data->enumeration_cancellable,
++ 					  g_socket_client_enumerator_callback,
++ 					  data);
++ }
++=20
+++static void try_next_connection_or_finish (GSocketClientAsyncConnectDat=
+a *, gboolean);
+++
++ static void
++ g_socket_client_tls_handshake_callback (GObject      *object,
++ 					GAsyncResult *result,
++ 					gpointer      user_data)
++ {
++-  GSocketClientAsyncConnectData *data =3D user_data;
+++  ConnectionAttempt *attempt =3D user_data;
+++  GSocketClientAsyncConnectData *data =3D attempt->data;
++=20
++   if (g_tls_connection_handshake_finish (G_TLS_CONNECTION (object),
++ 					 result,
++ 					 &data->last_error))
++     {
++-      g_object_unref (data->connection);
++-      data->connection =3D G_IO_STREAM (object);
+++      g_object_unref (attempt->connection);
+++      attempt->connection =3D G_IO_STREAM (object);
++=20
++-      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_TLS_HAN=
+DSHAKED, data->connectable, data->connection);
++-      g_socket_client_async_connect_complete (data);
+++      g_debug ("GSocketClient: TLS handshake succeeded");
+++      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_TLS_HAN=
+DSHAKED, data->connectable, attempt->connection);
+++      g_socket_client_async_connect_complete (attempt);
++     }
++   else
++     {
++       g_object_unref (object);
++-      enumerator_next_async (data, FALSE);
+++      connection_attempt_unref (attempt);
+++      g_debug ("GSocketClient: TLS handshake failed: %s", data->last_er=
+ror->message);
+++      try_next_connection_or_finish (data, TRUE);
++     }
++ }
++=20
++ static void
++-g_socket_client_tls_handshake (GSocketClientAsyncConnectData *data)
+++g_socket_client_tls_handshake (ConnectionAttempt *attempt)
++ {
+++  GSocketClientAsyncConnectData *data =3D attempt->data;
++   GIOStream *tlsconn;
++=20
++   if (!data->client->priv->tls)
++     {
++-      g_socket_client_async_connect_complete (data);
+++      g_socket_client_async_connect_complete (attempt);
++       return;
++     }
++=20
++-  tlsconn =3D g_tls_client_connection_new (data->connection,
+++  g_debug ("GSocketClient: Starting TLS handshake");
+++  tlsconn =3D g_tls_client_connection_new (attempt->connection,
++ 					 data->connectable,
++ 					 &data->last_error);
++   if (tlsconn)
++@@ -1529,11 +1558,12 @@ g_socket_client_tls_handshake (GSocketClientAsyn=
+cConnectData *data)
++ 					G_PRIORITY_DEFAULT,
++ 					g_task_get_cancellable (data->task),
++ 					g_socket_client_tls_handshake_callback,
++-					data);
+++					attempt);
++     }
++   else
++     {
++-      enumerator_next_async (data, FALSE);
+++      connection_attempt_unref (attempt);
+++      try_next_connection_or_finish (data, TRUE);
++     }
++ }
++=20
++@@ -1542,23 +1572,38 @@ g_socket_client_proxy_connect_callback (GObject =
+     *object,
++ 					GAsyncResult *result,
++ 					gpointer      user_data)
++ {
++-  GSocketClientAsyncConnectData *data =3D user_data;
+++  ConnectionAttempt *attempt =3D user_data;
+++  GSocketClientAsyncConnectData *data =3D attempt->data;
++=20
++-  g_object_unref (data->connection);
++-  data->connection =3D g_proxy_connect_finish (G_PROXY (object),
++-					     result,
++-					     &data->last_error);
++-  if (data->connection)
+++  g_object_unref (attempt->connection);
+++  attempt->connection =3D g_proxy_connect_finish (G_PROXY (object),
+++                                                result,
+++                                                &data->last_error);
+++  if (attempt->connection)
++     {
++-      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_PROXY_N=
+EGOTIATED, data->connectable, data->connection);
+++      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_PROXY_N=
+EGOTIATED, data->connectable, attempt->connection);
++     }
++   else
++     {
++-      enumerator_next_async (data, FALSE);
+++      connection_attempt_unref (attempt);
+++      try_next_connection_or_finish (data, TRUE);
++       return;
++     }
++=20
++-  g_socket_client_tls_handshake (data);
+++  g_socket_client_tls_handshake (attempt);
+++}
+++
+++static void
+++complete_connection_with_error (GSocketClientAsyncConnectData *data,
+++                                GError                        *error)
+++{
+++  g_debug ("GSocketClient: Connection failed: %s", error->message);
+++  g_assert (!data->completed);
+++
+++  g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLETE, d=
+ata->connectable, NULL);
+++  data->completed =3D TRUE;
+++  cancel_all_attempts (data);
+++  g_task_return_error (data->task, error);
++ }
++=20
++ static gboolean
++@@ -1572,15 +1617,114 @@ task_completed_or_cancelled (GSocketClientAsync=
+ConnectData *data)
++     return TRUE;
++   else if (g_cancellable_set_error_if_cancelled (cancellable, &error))
++     {
++-      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLET=
+E, data->connectable, NULL);
++-      g_task_return_error (task, g_steal_pointer (&error));
++-      data->completed =3D TRUE;
+++      complete_connection_with_error (data, g_steal_pointer (&error));
++       return TRUE;
++     }
++   else
++     return FALSE;
++ }
++=20
+++static gboolean
+++try_next_successful_connection (GSocketClientAsyncConnectData *data)
+++{
+++  ConnectionAttempt *attempt;
+++  const gchar *protocol;
+++  GProxy *proxy;
+++
+++  if (data->connection_in_progress)
+++    return FALSE;
+++
+++  g_assert (data->successful_connections !=3D NULL);
+++  attempt =3D data->successful_connections->data;
+++  g_assert (attempt !=3D NULL);
+++  data->successful_connections =3D g_slist_remove (data->successful_con=
+nections, attempt);
+++  data->connection_in_progress =3D TRUE;
+++
+++  g_debug ("GSocketClient: Starting application layer connection");
+++
+++  if (!attempt->proxy_addr)
+++    {
+++      g_socket_client_tls_handshake (g_steal_pointer (&attempt));
+++      return TRUE;
+++    }
+++
+++  protocol =3D g_proxy_address_get_protocol (attempt->proxy_addr);
+++
+++  /* The connection should not be anything other than TCP,
+++   * but let's put a safety guard in case
+++   */
+++  if (!G_IS_TCP_CONNECTION (attempt->connection))
+++    {
+++      g_critical ("Trying to proxy over non-TCP connection, this is "
+++          "most likely a bug in GLib IO library.");
+++
+++      g_set_error_literal (&data->last_error,
+++          G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED,
+++          _("Proxying over a non-TCP connection is not supported."));
+++    }
+++  else if (g_hash_table_contains (data->client->priv->app_proxies, prot=
+ocol))
+++    {
+++      /* Simply complete the connection, we don't want to do TLS handsh=
+ake
+++       * as the application proxy handling may need proxy handshake fir=
+st */
+++      g_socket_client_async_connect_complete (g_steal_pointer (&attempt=
+));
+++      return TRUE;
+++    }
+++  else if ((proxy =3D g_proxy_get_default_for_protocol (protocol)))
+++    {
+++      GIOStream *connection =3D attempt->connection;
+++      GProxyAddress *proxy_addr =3D attempt->proxy_addr;
+++
+++      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_PROXY_N=
+EGOTIATING, data->connectable, attempt->connection);
+++      g_debug ("GSocketClient: Starting proxy connection");
+++      g_proxy_connect_async (proxy,
+++                             connection,
+++                             proxy_addr,
+++                             g_task_get_cancellable (data->task),
+++                             g_socket_client_proxy_connect_callback,
+++                             g_steal_pointer (&attempt));
+++      g_object_unref (proxy);
+++      return TRUE;
+++    }
+++  else
+++    {
+++      g_clear_error (&data->last_error);
+++
+++      g_set_error (&data->last_error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPOR=
+TED,
+++          _("Proxy protocol =E2=80=9C%s=E2=80=9D is not supported."),
+++          protocol);
+++    }
+++
+++  data->connection_in_progress =3D FALSE;
+++  g_clear_pointer (&attempt, connection_attempt_unref);
+++  return FALSE; /* All non-return paths are failures */
+++}
+++
+++static void
+++try_next_connection_or_finish (GSocketClientAsyncConnectData *data,
+++                               gboolean                       end_curre=
+nt_connection)
+++{
+++  if (end_current_connection)
+++    data->connection_in_progress =3D FALSE;
+++
+++  if (data->connection_in_progress)
+++    return;
+++
+++  /* Keep trying successful connections until one works, each iteration=
+ pops one */
+++  while (data->successful_connections)
+++    {
+++      if (try_next_successful_connection (data))
+++        return;
+++    }
+++
+++  if (!data->enumeration_completed)
+++    {
+++      enumerator_next_async (data, FALSE);
+++      return;
+++    }
+++
+++  complete_connection_with_error (data, data->last_error);
+++}
+++
++ static void
++ g_socket_client_connected_callback (GObject      *source,
++ 				    GAsyncResult *result,
++@@ -1588,10 +1732,7 @@ g_socket_client_connected_callback (GObject      =
+*source,
++ {
++   ConnectionAttempt *attempt =3D user_data;
++   GSocketClientAsyncConnectData *data =3D attempt->data;
++-  GSList *l;
++   GError *error =3D NULL;
++-  GProxy *proxy;
++-  const gchar *protocol;
++=20
++   if (task_completed_or_cancelled (data) || g_cancellable_is_cancelled =
+(attempt->cancellable))
++     {
++@@ -1613,11 +1754,12 @@ g_socket_client_connected_callback (GObject     =
+ *source,
++         {
++           clarify_connect_error (error, data->connectable, attempt->add=
+ress);
++           set_last_error (data, error);
+++          g_debug ("GSocketClient: Connection attempt failed: %s", erro=
+r->message);
++           connection_attempt_remove (attempt);
++-          enumerator_next_async (data, FALSE);
++           connection_attempt_unref (attempt);
+++          try_next_connection_or_finish (data, FALSE);
++         }
++-      else
+++      else /* Silently ignore cancelled attempts */
++         {
++           g_clear_error (&error);
++           g_object_unref (data->task);
++@@ -1627,74 +1769,21 @@ g_socket_client_connected_callback (GObject     =
+ *source,
++       return;
++     }
++=20
++-  data->socket =3D g_steal_pointer (&attempt->socket);
++-  data->connection =3D g_steal_pointer (&attempt->connection);
++-
++-  for (l =3D data->connection_attempts; l; l =3D g_slist_next (l))
++-    {
++-      ConnectionAttempt *attempt_entry =3D l->data;
++-      g_cancellable_cancel (attempt_entry->cancellable);
++-      connection_attempt_unref (attempt_entry);
++-    }
++-  g_slist_free (data->connection_attempts);
++-  data->connection_attempts =3D NULL;
++-  connection_attempt_unref (attempt);
++-
++-  g_socket_connection_set_cached_remote_address ((GSocketConnection*)da=
+ta->connection, NULL);
++-  g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_CONNECTED, =
+data->connectable, data->connection);
+++  g_socket_connection_set_cached_remote_address ((GSocketConnection*)at=
+tempt->connection, NULL);
+++  g_debug ("GSocketClient: TCP connection successful");
+++  g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_CONNECTED, =
+data->connectable, attempt->connection);
++=20
++   /* wrong, but backward compatible */
++-  g_socket_set_blocking (data->socket, TRUE);
+++  g_socket_set_blocking (attempt->socket, TRUE);
++=20
++-  if (!data->proxy_addr)
++-    {
++-      g_socket_client_tls_handshake (data);
++-      return;
++-    }
++-
++-  protocol =3D g_proxy_address_get_protocol (data->proxy_addr);
++-
++-  /* The connection should not be anything other than TCP,
++-   * but let's put a safety guard in case
+++  /* This ends the parallel "happy eyeballs" portion of connecting.
+++     Now that we have a successful tcp connection we will attempt to co=
+nnect
+++     at the TLS/Proxy layer. If those layers fail we will move on to th=
+e next
+++     connection.
++    */
++-  if (!G_IS_TCP_CONNECTION (data->connection))
++-    {
++-      g_critical ("Trying to proxy over non-TCP connection, this is "
++-          "most likely a bug in GLib IO library.");
++-
++-      g_set_error_literal (&data->last_error,
++-          G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED,
++-          _("Proxying over a non-TCP connection is not supported."));
++-
++-      enumerator_next_async (data, FALSE);
++-    }
++-  else if (g_hash_table_contains (data->client->priv->app_proxies, prot=
+ocol))
++-    {
++-      /* Simply complete the connection, we don't want to do TLS handsh=
+ake
++-       * as the application proxy handling may need proxy handshake fir=
+st */
++-      g_socket_client_async_connect_complete (data);
++-    }
++-  else if ((proxy =3D g_proxy_get_default_for_protocol (protocol)))
++-    {
++-      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_PROXY_N=
+EGOTIATING, data->connectable, data->connection);
++-      g_proxy_connect_async (proxy,
++-                             data->connection,
++-                             data->proxy_addr,
++-                             g_task_get_cancellable (data->task),
++-                             g_socket_client_proxy_connect_callback,
++-                             data);
++-      g_object_unref (proxy);
++-    }
++-  else
++-    {
++-      g_clear_error (&data->last_error);
++-
++-      g_set_error (&data->last_error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPOR=
+TED,
++-          _("Proxy protocol =E2=80=9C%s=E2=80=9D is not supported."),
++-          protocol);
++-
++-      enumerator_next_async (data, FALSE);
++-    }
+++  connection_attempt_remove (attempt);
+++  data->successful_connections =3D g_slist_append (data->successful_con=
+nections, g_steal_pointer (&attempt));
+++  try_next_connection_or_finish (data, FALSE);
++ }
++=20
++ static gboolean
++@@ -1702,7 +1791,11 @@ on_connection_attempt_timeout (gpointer data)
++ {
++   ConnectionAttempt *attempt =3D data;
++=20
++-  enumerator_next_async (attempt->data, TRUE);
+++  if (!attempt->data->enumeration_completed)
+++    {
+++      g_debug ("GSocketClient: Timeout reached, trying another enumerat=
+ion");
+++      enumerator_next_async (attempt->data, TRUE);
+++    }
++=20
++   g_clear_pointer (&attempt->timeout_source, g_source_unref);
++   return G_SOURCE_REMOVE;
++@@ -1712,9 +1805,9 @@ static void
++ on_connection_cancelled (GCancellable *cancellable,
++                          gpointer      data)
++ {
++-  GCancellable *attempt_cancellable =3D data;
+++  GCancellable *linked_cancellable =3D G_CANCELLABLE (data);
++=20
++-  g_cancellable_cancel (attempt_cancellable);
+++  g_cancellable_cancel (linked_cancellable);
++ }
++=20
++ static void
++@@ -1738,39 +1831,49 @@ g_socket_client_enumerator_callback (GObject    =
+  *object,
++ 						     result, &error);
++   if (address =3D=3D NULL)
++     {
++-      if (data->connection_attempts)
+++      if (G_UNLIKELY (data->enumeration_completed))
+++        return;
+++
+++      data->enumeration_completed =3D TRUE;
+++      g_debug ("GSocketClient: Address enumeration completed (out of ad=
+dresses)");
+++
+++      /* As per API docs: We only care about error if its the first cal=
+l,
+++         after that the enumerator is done.
+++
+++         Note that we don't care about cancellation errors because
+++         task_completed_or_cancelled() above should handle that.
+++
+++         If this fails and nothing is in progress then we will complete=
+ task here.
+++       */
+++      if ((data->enumerated_at_least_once && !data->connection_attempts=
+ && !data->connection_in_progress) ||
+++          !data->enumerated_at_least_once)
++         {
++-          g_object_unref (data->task);
++-          return;
+++          g_debug ("GSocketClient: Address enumeration failed: %s", err=
+or ? error->message : NULL);
+++          if (data->last_error)
+++            {
+++              g_clear_error (&error);
+++              error =3D data->last_error;
+++              data->last_error =3D NULL;
+++            }
+++          else if (!error)
+++            {
+++              g_set_error_literal (&error, G_IO_ERROR, G_IO_ERROR_FAILE=
+D,
+++                _("Unknown error on connect"));
+++            }
+++
+++          complete_connection_with_error (data, error);
++         }
++=20
++-      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLET=
+E, data->connectable, NULL);
++-      data->completed =3D TRUE;
++-      if (!error)
++-	{
++-	  if (data->last_error)
++-	    {
++-	      error =3D data->last_error;
++-	      data->last_error =3D NULL;
++-	    }
++-	  else
++-	    {
++-	      g_set_error_literal (&error, G_IO_ERROR, G_IO_ERROR_FAILED,
++-				   _("Unknown error on connect"));
++-	    }
++-	}
++-      g_task_return_error (data->task, error);
+++      /* Enumeration should never trigger again, drop our ref */
++       g_object_unref (data->task);
++       return;
++     }
++=20
+++  data->enumerated_at_least_once =3D TRUE;
+++  g_debug ("GSocketClient: Address enumeration succeeded");
++   g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_RESOLVED,
++ 			      data->connectable, NULL);
++=20
++-  if (G_IS_PROXY_ADDRESS (address) &&
++-      data->client->priv->enable_proxy)
++-    data->proxy_addr =3D g_object_ref (G_PROXY_ADDRESS (address));
++-
++   g_clear_error (&data->last_error);
++=20
++   socket =3D create_socket (data->client, address, &data->last_error);
++@@ -1788,6 +1891,10 @@ g_socket_client_enumerator_callback (GObject     =
+ *object,
++   attempt->cancellable =3D g_cancellable_new ();
++   attempt->connection =3D (GIOStream *)g_socket_connection_factory_crea=
+te_connection (socket);
++   attempt->timeout_source =3D g_timeout_source_new (HAPPY_EYEBALLS_CONN=
+ECTION_ATTEMPT_TIMEOUT_MS);
+++
+++  if (G_IS_PROXY_ADDRESS (address) && data->client->priv->enable_proxy)
+++    attempt->proxy_addr =3D g_object_ref (G_PROXY_ADDRESS (address));
+++
++   g_source_set_callback (attempt->timeout_source, on_connection_attempt=
+_timeout, attempt, NULL);
++   g_source_attach (attempt->timeout_source, g_main_context_get_thread_d=
+efault ());
++   data->connection_attempts =3D g_slist_append (data->connection_attemp=
+ts, attempt);
++@@ -1797,6 +1904,7 @@ g_socket_client_enumerator_callback (GObject      =
+*object,
++                            g_object_ref (attempt->cancellable), g_objec=
+t_unref);
++=20
++   g_socket_connection_set_cached_remote_address ((GSocketConnection *)a=
+ttempt->connection, address);
+++  g_debug ("GSocketClient: Starting TCP connection attempt");
++   g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_CONNECTING,=
+ data->connectable, attempt->connection);
++   g_socket_connection_connect_async (G_SOCKET_CONNECTION (attempt->conn=
+ection),
++ 				     address,
++@@ -1849,24 +1957,48 @@ g_socket_client_connect_async (GSocketClient    =
+   *client,
++   else
++     data->enumerator =3D g_socket_connectable_enumerate (connectable);
++=20
++-  /* The flow and ownership here isn't quite obvious:
++-    - The task starts an async attempt to connect.
++-      - Each attempt holds a single ref on task.
++-      - Each attempt may create new attempts by timing out (not a failu=
+re) so
++-        there are multiple attempts happening in parallel.
++-      - Upon failure an attempt will start a new attempt that steals it=
+s ref
++-        until there are no more attempts left and it drops its ref.
++-      - Upon success it will cancel all other attempts and continue on
++-        to the rest of the connection (tls, proxies, etc) which do not
++-        happen in parallel and at the very end drop its ref.
++-      - Upon cancellation an attempt drops its ref.
++-   */
+++  /* This function tries to match the behavior of g_socket_client_conne=
+ct ()
+++     which is simple enough but much of it is done in parallel to be as=
+ responsive
+++     as possible as per Happy Eyeballs (RFC 8305). This complicates flo=
+w quite a
+++     bit but we can describe it in 3 sections:
+++
+++     Firstly we have address enumeration (DNS):
+++       - This may be triggered multiple times by enumerator_next_async(=
+).
+++       - It also has its own cancellable (data->enumeration_cancellable=
+).
+++       - Enumeration is done lazily because GNetworkAddressAddressEnume=
+rator
+++         also does work in parallel and may lazily add new addresses.
+++       - If the first enumeration errors then the task errors. Otherwis=
+e all enumerations
+++         will potentially be used (until task or enumeration is cancell=
+ed).
+++
+++      Then we start attempting connections (TCP):
+++        - Each connection is independent and kept in a ConnectionAttemp=
+t object.
+++          - They each hold a ref on the main task and have their own ca=
+ncellable.
+++        - Multiple attempts may happen in parallel as per Happy Eyeball=
+s.
+++        - Upon failure or timeouts more connection attempts are made.
+++          - If no connections succeed the task errors.
+++        - Upon success they are kept in a list of successful connection=
+s.
+++
+++      Lastly we connect at the application layer (TLS, Proxies):
+++        - These are done in serial.
+++          - The reasoning here is that Happy Eyeballs is about making b=
+ad connections responsive
+++            at the IP/TCP layers. Issues at the application layer are g=
+enerally not due to
+++            connectivity issues but rather misconfiguration.
+++        - Upon failure it will try the next TCP connection until it run=
+s out and
+++          the task errors.
+++        - Upon success it cancels everything remaining (enumeration and=
+ connections)
+++          and returns the connection.
+++  */
++=20
++   data->task =3D g_task_new (client, cancellable, callback, user_data);
++   g_task_set_check_cancellable (data->task, FALSE); /* We handle this m=
+anually */
++   g_task_set_source_tag (data->task, g_socket_client_connect_async);
++   g_task_set_task_data (data->task, data, (GDestroyNotify)g_socket_clie=
+nt_async_connect_data_free);
++=20
+++  data->enumeration_cancellable =3D g_cancellable_new ();
+++  if (cancellable)
+++    g_cancellable_connect (cancellable, G_CALLBACK (on_connection_cance=
+lled),
+++                           g_object_ref (data->enumeration_cancellable)=
+, g_object_unref);
+++
++   enumerator_next_async (data, FALSE);
++ }
++=20
++@@ -1985,6 +2117,7 @@ g_socket_client_connect_to_uri_async (GSocketClien=
+t        *client,
++     }
++   else
++     {
+++      g_debug("g_socket_client_connect_to_uri_async");
++       g_socket_client_connect_async (client,
++ 				     connectable, cancellable,
++ 				     callback, user_data);
++--=20
++2.23.0
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb b/meta/recipes=
+-core/glib-2.0/glib-2.0_2.60.7.bb
+index 5aefa6ad8b..5be81a8f31 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
+@@ -16,6 +16,7 @@ SRC_URI =3D "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV=
+}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson.build-do-not-hardcode-linux-as-the-host-sys=
+tem.patch \
+            file://0001-meson-do-a-build-time-check-for-strlcpy-before-at=
+tem.patch \
++           file://CVE-2020-6750.patch \
+            "
+=20
+ SRC_URI_append_class-native =3D " file://relocate-modules.patch"
+--=20
+2.23.0
+
