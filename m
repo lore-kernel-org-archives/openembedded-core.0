@@ -1,117 +1,113 @@
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com [209.85.166.66])
- by mx.groups.io with SMTP id smtpd.web12.17562.1585329807475144879
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web12.17611.1585329925995846083
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2020 10:23:27 -0700
+ Fri, 27 Mar 2020 10:25:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fTSrpZDV;
- spf=pass (domain: gmail.com, ip: 209.85.166.66, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f66.google.com with SMTP id k9so10668619iov.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2020 10:23:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hA27IInj;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id p10so12360035wrt.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2020 10:25:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pydm2MyDBFzCsrrFErR0boif0ev2XAwWXgZpkU5SVkU=;
-        b=fTSrpZDV0OROgXHimVUsXRHB+mKQeV9ifnwj6SKAUyanhhz/GAS7jOL/Xltf5YYfyg
-         56SX9w5zm+41lBujdWI/Y+IeJcEKAf+/8TQoUhCKDJm1HfcVpSN/CJD9KlNj9vQK+iit
-         1lEvPWwugBGo+x+7C3rFbgK15C6ho0ZDoBQDofoWgogSmcFQWnvG8Iph4aM1OcMJkNDE
-         fLjzGGVYxJGrJxdSgb8KWxzBFruFD6R+IQaOu4kVMi3Sa5/cOzqBfriWM8LivYIcwYIy
-         luVe4R+6SHBl6c141L6fY4hTn+/R780ARmHHNOES2nh/TgT6NGBc+11gxzHP76hq6ozO
-         hG1w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gaS8t/hbcQG2COKr4n57AtXUe/HGzhPpyMMKe5ddAfg=;
+        b=hA27IInjM9dmOg3MaaG1lF35MJZRpWJBouG2Kt0rx7yHpnvDdlCVmmPmJQOMc9VWUK
+         9MxvNV6tp/JiE0W3m2LlCyqpYeS+R4NCeCI8vdPuA2y75iz6zfIxOsn+k/vLmrs6xznm
+         Bdl7Ce73+AZmGCRIwAktAGQqotBypDhx0X+rLceLKQBbwjYrUzQXPlxiEKZ7TujHDCOU
+         wBLMyYiDuzQIQXqxRKseaPJd8fLTxov6lKFV3lEIu+s4P9jDUgq2qy8P9cBQ9wxUToNn
+         AzC7EE28RZDrqcQWEEePwmDewAVl4BV9aJvhSP0t85ksoyV/pJYLNS+lX5ua3qm1Ci6e
+         LevA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pydm2MyDBFzCsrrFErR0boif0ev2XAwWXgZpkU5SVkU=;
-        b=fJfI+Ya0mRWvyETZAh164qA5j/ld/sd4ID1JyIFcElZLq8+hLJmjuEU1RAknYMPA/Q
-         IVRMcQ6jjO3OvgGdo57aUfqdRttnC/dGlJe8IEoQ9QH+yD+r9MubbYNB97ZjzCfT7GbL
-         4yzXHV3QEWjf7fpR9u94kb40AwhC06XxVyfVL44yiJs04l1xoOK7IOhw0w6uFipKhzlu
-         l0yW9q+DAaAOfHNR+2bHs7t/b4GNTBw5x5ZRiujhEq3k81oG2Vsj2+6hCGaWkydbslAV
-         6ho+dB74/e847tC+AAgzhPGgBgDsCVQyrt81Wuadei8eq6JhJI2gWH6mrRucHZEc4ZlS
-         6vMQ==
-X-Gm-Message-State: ANhLgQ0O9+p/Fw5wuXOrLZJqu1ykh47dzitO0mIwpVxzO9c/gVTbFpwq
-	LLhrx69r+dsjrQ5i3wIU+tarYU6J9bX7VcdISLs=
-X-Google-Smtp-Source: ADFU+vtm+NOPMF2Avjaw3DqCxZ/RQ4yMUCU1KfVhbbNAptuVHIU3V46l+/+diYMSx84yEQF4K/xW7sUeJhareiDo5Bk=
-X-Received: by 2002:a05:6602:14e:: with SMTP id v14mr7229073iot.129.1585329806538;
- Fri, 27 Mar 2020 10:23:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200326214308.1042374-1-nandor.han@vaisala.com> <20200327071550.1200675-1-nandor.han@vaisala.com>
-In-Reply-To: <20200327071550.1200675-1-nandor.han@vaisala.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gaS8t/hbcQG2COKr4n57AtXUe/HGzhPpyMMKe5ddAfg=;
+        b=j3ZNHNwjR6N08lAmst/qalQcZBiS5qO+e23RGakoDR2ADSE7KCxJm4e/cK0Php4EL5
+         fOh4PblAGOx5IusilJ6VKr+MuLnRUpHgI6rd5Kc/yQofxasOGa3WqTBV+HVBxSluSvy7
+         dPa4mjx8yXUsnmyBWYJCESbopMK/gDb+ndNgZqXQj6cWSITXwHWB19LGFsw6yjOu8epG
+         ANHDQDDvNJwzejb/7L8yWV2u1yoYVWgssj9XqPFpuSGJ6wuRgf/z+Bl7xsJaNp21yHk1
+         dxHRUJcm807/1NnGO/tUisE4CtsMoi5+eij4RsRm26HoypZZRWTD64fNwDFREZ7zlJTS
+         6l6g==
+X-Gm-Message-State: ANhLgQ0IfNzlldUSlgp17hoigjrrVEvVVj+jss3eUi/Fqt71feaNAiXU
+	21r4ncTIP7OyLXUmixl3qdW273qA
+X-Google-Smtp-Source: ADFU+vv6WAMRYdRzRpVMFB9cxDL4kun8GEbwPAaKJ9J03YdDzfalhUK9nDxq7MOrZN14G4pweTFc6A==
+X-Received: by 2002:adf:ef45:: with SMTP id c5mr479908wrp.112.1585329924186;
+        Fri, 27 Mar 2020 10:25:24 -0700 (PDT)
+Return-Path: <alex.kiernan@gmail.com>
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
+        by smtp.gmail.com with ESMTPSA id g186sm9281419wmg.36.2020.03.27.10.25.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Mar 2020 10:25:23 -0700 (PDT)
 From: "Alex Kiernan" <alex.kiernan@gmail.com>
-Date: Fri, 27 Mar 2020 17:23:15 +0000
-Message-ID: <CAO5Uq5TjhSR+nu7GcLNs5dZYdRBt5e4PSk6m3dqvXq3ddAKqhg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] classes: Add a new bbclass that abstracts the generation of FIT blobs
-To: Nandor Han <nandor.han@vaisala.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][RFC PATCH v3 00/13] Systemd 245 and related updates
+Date: Fri, 27 Mar 2020 17:25:07 +0000
+Message-Id: <20200327172520.62888-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 27, 2020 at 7:16 AM Nandor Han <nandor.han@vaisala.com> wrote:
->
-> FIT format is very versatile allowing various combination of booting
-> sequences. In the same time different U-Boot boot stages can use FIT
-> blobs to pack various binaries (e.g. SPL supports reading U-Boot from a
-> FIT blob). Because of the allowed level of customization, the generation
-> of a FIT blob using a fixed image tree source, becomes challenging and
-> increase the level of complexity where different configurations and
-> combinations are needed.
->
-> This bbclass will know how to generate a FIT blob, leaving the mechanics
-> of the process (dependencies, task order...) to be handled by the users
-> of the bbclass. In the same time will allow to separate the knowledge of
-> the FIT format leaving the user code cleaner and more readable.
->
-> Signed-off-by: Nandor Han <nandor.han@vaisala.com>
-> ---
->
-> Notes:
->     Testing
->     -------
->
->     1. linux-yocto_5.4.bbappend was modified to have the following configuration:
->
->     ```
->     inherit fit-image
->
->     KERNEL_IMAGE_NODE[name] = "kernel"
->     KERNEL_IMAGE_NODE[description] = "${PF}"
->     KERNEL_IMAGE_NODE[data] = '/incbin/("./arch/${ARCH}/boot/zImage")'
->     KERNEL_IMAGE_NODE[type] = "kernel"
->     KERNEL_IMAGE_NODE[arch] = "${ARCH}"
->     KERNEL_IMAGE_NODE[os] = "linux"
->     KERNEL_IMAGE_NODE[compression] = "none"
->     KERNEL_IMAGE_NODE[load] = "${UBOOT_LOADADDRESS}"
->     KERNEL_IMAGE_NODE[entry] = "${UBOOT_ENTRYPOINT}"
->     KERNEL_IMAGE_NODE[hash] = "sha256"
->
->     FDT_IMAGE_NODE[name] = "fdt"
->     FDT_IMAGE_NODE[description] = "FDT blob"
->     FDT_IMAGE_NODE[data] = '/incbin/("./arch/${ARCH}/boot/dts/am335x-bone.dtb")'
->     FDT_IMAGE_NODE[type] = "flat_dt"
->     FDT_IMAGE_NODE[arch] = "${ARCH}"
->     FDT_IMAGE_NODE[compression] = "none"
->     FDT_IMAGE_NODE[hash] = "sha256"
->
->     CONF1_CONF_NODE[name] = "conf"
->     CONF1_CONF_NODE[description] = "Linux kernel and FDT blob"
->     CONF1_CONF_NODE[kernel] = "kernel"
->     CONF1_CONF_NODE[fdt] = "fdt"
->
->     FIT_IMAGES_NODE = "KERNEL_IMAGE_NODE FDT_IMAGE_NODE"
->     FIT_CONFIGURATIONS_NODE = "CONF1_CONF_NODE"
->     FIT_CONFIGURATIONS_NODE[default] = "${@d.getVarFlag('CONF1_CONF_NODE', 'name') or ""}"
->     ```
->     2. Build the kernel: `bitbake virtual/kernel`
->     3. Verify that `image-fit.itb` is present in the build directory: PASS
->     4. Disassemble the image using the command: `dtc -I dtb -O dts image-fit.itb`
->     5. Verify that the FIT source contains the expected configuration: PASS
->
+Throwing these out there, so that anyone else who's looking at systemd
+245 doesn't have to repeat the work, equally now is clearly not the time
+to be applying these to master!
 
-Whilst I'm definitely interested in this, building the its file
-through dozens of variables is fragile and ugly...
+Not all of these are stricly related to systemd 245.
 
-What I had in a class that I'd started, but hadn't got anything like
-this far was something like a .its.in file which got passed through
-bitbake's expand.
+Changes in v3:
+- sysvinit: remove binding to DISTRO_FEATURES
+- update to systemd 245.3
+
+Changes in v2:
+- new (use PACKAGE_BEFORE_PN)
+- new (s/nonarch_base_libdir/rootlibexecdir/)
+- sysvinit: moved update-rc.d RDEPENDS to PACKAGECONFIG
+- move systemd 245 upgrade to last in series
+- update to systemd 245.2
+
+Alex Kiernan (13):
+  systemd: Use PACKAGE_BEFORE_PN, not =+
+  systemd: Package udev rules explicitly
+  systemd: Replace nonarch_base_libdir with rootlibexecdir
+  systemd: Reinstate systemd-hwdb-update.service
+  systemd: Add sch-fq-codel to RRECOMMENDS
+  systemd: Add PACKAGECONFIG for sysvinit
+  systemd: Remove X11 related files when disabled
+  systemd: Enable smack based on DISTRO_FEATURES
+  systemd: Enable audit based on DISTRO_FEATURES
+  systemd: Enable acl based on DISTRO_FEATURES
+  psplash: Set RemainAfterExit on systemd units
+  oeqa/runtime/cases: Disable and stop systemd-timesyncd
+  systemd: upgrade v244.3 -> v245.3
+
+ meta/lib/oeqa/runtime/cases/date.py           |   4 +-
+ .../psplash/files/psplash-start.service       |   1 +
+ .../psplash/files/psplash-systemd.service     |   2 +-
+ ...md-boot_244.3.bb => systemd-boot_245.3.bb} |   0
+ ...md-conf_244.3.bb => systemd-conf_245.3.bb} |   0
+ meta/recipes-core/systemd/systemd.inc         |   4 +-
+ .../systemd/0001-Handle-missing-gshadow.patch | 171 ++++++++++++++++++
+ ...tall-dependency-links-at-install-tim.patch |  14 +-
+ ...-not-disable-buffer-in-writing-files.patch |  46 ++---
+ ...002-don-t-use-glibc-specific-qsort_r.patch |  12 +-
+ ...k-parse_printf_format-implementation.patch |  10 +-
+ ...set-util.h-add-__cpu_mask-definition.patch |   8 +-
+ ...missing.h-check-for-missing-strndupa.patch |  93 ++++++----
+ .../0006-Include-netinet-if_ether.h.patch     |  41 +++--
+ ..._register_atfork-for-non-glibc-build.patch |   6 +-
+ ...11-Use-uintmax_t-for-handling-rlim_t.patch |  10 +-
+ ...sable-tests-for-missing-typedefs-in-.patch |   8 +-
+ ...uffering-when-writing-to-oom_score_a.patch |   8 +-
+ .../{systemd_244.3.bb => systemd_245.3.bb}    |  83 ++++++---
+ scripts/postinst-intercepts/update_udev_hwdb  |  16 +-
+ 20 files changed, 384 insertions(+), 153 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot_244.3.bb => systemd-boot_245.3.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-conf_244.3.bb => systemd-conf_245.3.bb} (100%)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-Handle-missing-gshadow.patch
+ rename meta/recipes-core/systemd/{systemd_244.3.bb => systemd_245.3.bb} (90%)
 
 -- 
-Alex Kiernan
+2.17.1
+
