@@ -1,72 +1,117 @@
-Received: from hel-mailgw-01.vaisala.com (hel-mailgw-01.vaisala.com [193.143.230.17])
- by mx.groups.io with SMTP id smtpd.web12.17404.1585329497330055573
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com [209.85.166.66])
+ by mx.groups.io with SMTP id smtpd.web12.17562.1585329807475144879
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2020 10:18:17 -0700
+ Fri, 27 Mar 2020 10:23:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: vaisala.com, ip: 193.143.230.17, mailfrom: nandor.han@vaisala.com)
-IronPort-SDR: dHGGB5J5rYp0FEWKoZMth1YM+msHstujBI1ze/zDq/Zv/k90UO9fFZTDMqspHfNGNqil3w5chQ
- 0Bas9JgwyC9Wt2CTHoTzgQqLakE7rOrl5iyIWFOQv/aTDn/u9vKclvwFW6kH5ZPPtwHRZhbZd3
- Iv5BHHYs7KissS9NBwSi+I4XADORzDDoF10mt3LzxQcnt0NE07qqT88/TavSm+mezkxJl8Ol6J
- Iv1oqJjOYzwHxEIILVHnQxkh663QgXtp3fsTGRowzHMBt5Z1Y9z/LU7eVW6L6GhCH6Z/LvwvxR
- /pI=
-X-IronPort-AV: E=Sophos;i="5.72,313,1580767200"; 
-   d="scan'208";a="274840899"
-Subject: Re: [OE-core] [PATCH v3] classes: Add a new bbclass that abstracts the generation of FIT blobs
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20200326214308.1042374-1-nandor.han@vaisala.com>
- <20200327082918.1213345-1-nandor.han@vaisala.com>
- <6a748f7bf39bba8b9bb2680360c15f57d9009dce.camel@linuxfoundation.org>
-From: "Nandor Han" <nandor.han@vaisala.com>
-Message-ID: <5fc4299b-4888-3e3f-501e-555520a75978@vaisala.com>
-Date: Fri, 27 Mar 2020 19:18:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fTSrpZDV;
+ spf=pass (domain: gmail.com, ip: 209.85.166.66, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f66.google.com with SMTP id k9so10668619iov.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2020 10:23:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=pydm2MyDBFzCsrrFErR0boif0ev2XAwWXgZpkU5SVkU=;
+        b=fTSrpZDV0OROgXHimVUsXRHB+mKQeV9ifnwj6SKAUyanhhz/GAS7jOL/Xltf5YYfyg
+         56SX9w5zm+41lBujdWI/Y+IeJcEKAf+/8TQoUhCKDJm1HfcVpSN/CJD9KlNj9vQK+iit
+         1lEvPWwugBGo+x+7C3rFbgK15C6ho0ZDoBQDofoWgogSmcFQWnvG8Iph4aM1OcMJkNDE
+         fLjzGGVYxJGrJxdSgb8KWxzBFruFD6R+IQaOu4kVMi3Sa5/cOzqBfriWM8LivYIcwYIy
+         luVe4R+6SHBl6c141L6fY4hTn+/R780ARmHHNOES2nh/TgT6NGBc+11gxzHP76hq6ozO
+         hG1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=pydm2MyDBFzCsrrFErR0boif0ev2XAwWXgZpkU5SVkU=;
+        b=fJfI+Ya0mRWvyETZAh164qA5j/ld/sd4ID1JyIFcElZLq8+hLJmjuEU1RAknYMPA/Q
+         IVRMcQ6jjO3OvgGdo57aUfqdRttnC/dGlJe8IEoQ9QH+yD+r9MubbYNB97ZjzCfT7GbL
+         4yzXHV3QEWjf7fpR9u94kb40AwhC06XxVyfVL44yiJs04l1xoOK7IOhw0w6uFipKhzlu
+         l0yW9q+DAaAOfHNR+2bHs7t/b4GNTBw5x5ZRiujhEq3k81oG2Vsj2+6hCGaWkydbslAV
+         6ho+dB74/e847tC+AAgzhPGgBgDsCVQyrt81Wuadei8eq6JhJI2gWH6mrRucHZEc4ZlS
+         6vMQ==
+X-Gm-Message-State: ANhLgQ0O9+p/Fw5wuXOrLZJqu1ykh47dzitO0mIwpVxzO9c/gVTbFpwq
+	LLhrx69r+dsjrQ5i3wIU+tarYU6J9bX7VcdISLs=
+X-Google-Smtp-Source: ADFU+vtm+NOPMF2Avjaw3DqCxZ/RQ4yMUCU1KfVhbbNAptuVHIU3V46l+/+diYMSx84yEQF4K/xW7sUeJhareiDo5Bk=
+X-Received: by 2002:a05:6602:14e:: with SMTP id v14mr7229073iot.129.1585329806538;
+ Fri, 27 Mar 2020 10:23:26 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <6a748f7bf39bba8b9bb2680360c15f57d9009dce.camel@linuxfoundation.org>
-Return-Path: nandor.han@vaisala.com
-X-OriginalArrivalTime: 27 Mar 2020 17:18:14.0650 (UTC) FILETIME=[B30CBDA0:01D6045B]
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200326214308.1042374-1-nandor.han@vaisala.com> <20200327071550.1200675-1-nandor.han@vaisala.com>
+In-Reply-To: <20200327071550.1200675-1-nandor.han@vaisala.com>
+From: "Alex Kiernan" <alex.kiernan@gmail.com>
+Date: Fri, 27 Mar 2020 17:23:15 +0000
+Message-ID: <CAO5Uq5TjhSR+nu7GcLNs5dZYdRBt5e4PSk6m3dqvXq3ddAKqhg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] classes: Add a new bbclass that abstracts the generation of FIT blobs
+To: Nandor Han <nandor.han@vaisala.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On 2020-03-27 18:35, Richard Purdie wrote:
-> On Fri, 2020-03-27 at 10:29 +0200, Nandor Han wrote:
->> FIT format is very versatile allowing various combination of booting
->> sequences. In the same time different U-Boot boot stages can use FIT
->> blobs to pack various binaries (e.g. SPL supports reading U-Boot from a
->> FIT blob). Because of the allowed level of customization, the generation
->> of a FIT blob using a fixed image tree source, becomes challenging and
->> increase the level of complexity where different configurations and
->> combinations are needed.
->>
->> This bbclass will know how to generate a FIT blob, leaving the mechanics
->> of the process (dependencies, task order...) to be handled by the users
->> of the bbclass. In the same time will allow to separate the knowledge of
->> the FIT format leaving the user code cleaner and more readable.
->>
->> Signed-off-by: Nandor Han <nandor.han@vaisala.com>
-> 
-> Have you considered adding automated tests for this?
-> 
+On Fri, Mar 27, 2020 at 7:16 AM Nandor Han <nandor.han@vaisala.com> wrote:
+>
+> FIT format is very versatile allowing various combination of booting
+> sequences. In the same time different U-Boot boot stages can use FIT
+> blobs to pack various binaries (e.g. SPL supports reading U-Boot from a
+> FIT blob). Because of the allowed level of customization, the generation
+> of a FIT blob using a fixed image tree source, becomes challenging and
+> increase the level of complexity where different configurations and
+> combinations are needed.
+>
+> This bbclass will know how to generate a FIT blob, leaving the mechanics
+> of the process (dependencies, task order...) to be handled by the users
+> of the bbclass. In the same time will allow to separate the knowledge of
+> the FIT format leaving the user code cleaner and more readable.
+>
+> Signed-off-by: Nandor Han <nandor.han@vaisala.com>
+> ---
+>
+> Notes:
+>     Testing
+>     -------
+>
+>     1. linux-yocto_5.4.bbappend was modified to have the following configuration:
+>
+>     ```
+>     inherit fit-image
+>
+>     KERNEL_IMAGE_NODE[name] = "kernel"
+>     KERNEL_IMAGE_NODE[description] = "${PF}"
+>     KERNEL_IMAGE_NODE[data] = '/incbin/("./arch/${ARCH}/boot/zImage")'
+>     KERNEL_IMAGE_NODE[type] = "kernel"
+>     KERNEL_IMAGE_NODE[arch] = "${ARCH}"
+>     KERNEL_IMAGE_NODE[os] = "linux"
+>     KERNEL_IMAGE_NODE[compression] = "none"
+>     KERNEL_IMAGE_NODE[load] = "${UBOOT_LOADADDRESS}"
+>     KERNEL_IMAGE_NODE[entry] = "${UBOOT_ENTRYPOINT}"
+>     KERNEL_IMAGE_NODE[hash] = "sha256"
+>
+>     FDT_IMAGE_NODE[name] = "fdt"
+>     FDT_IMAGE_NODE[description] = "FDT blob"
+>     FDT_IMAGE_NODE[data] = '/incbin/("./arch/${ARCH}/boot/dts/am335x-bone.dtb")'
+>     FDT_IMAGE_NODE[type] = "flat_dt"
+>     FDT_IMAGE_NODE[arch] = "${ARCH}"
+>     FDT_IMAGE_NODE[compression] = "none"
+>     FDT_IMAGE_NODE[hash] = "sha256"
+>
+>     CONF1_CONF_NODE[name] = "conf"
+>     CONF1_CONF_NODE[description] = "Linux kernel and FDT blob"
+>     CONF1_CONF_NODE[kernel] = "kernel"
+>     CONF1_CONF_NODE[fdt] = "fdt"
+>
+>     FIT_IMAGES_NODE = "KERNEL_IMAGE_NODE FDT_IMAGE_NODE"
+>     FIT_CONFIGURATIONS_NODE = "CONF1_CONF_NODE"
+>     FIT_CONFIGURATIONS_NODE[default] = "${@d.getVarFlag('CONF1_CONF_NODE', 'name') or ""}"
+>     ```
+>     2. Build the kernel: `bitbake virtual/kernel`
+>     3. Verify that `image-fit.itb` is present in the build directory: PASS
+>     4. Disassemble the image using the command: `dtc -I dtb -O dts image-fit.itb`
+>     5. Verify that the FIT source contains the expected configuration: PASS
+>
 
-Thanks for feedback Rickard. I haven't considered adding any extra
-tests (automate), but I think is a great idea. I'll try to have a look.
+Whilst I'm definitely interested in this, building the its file
+through dozens of variables is fragile and ugly...
 
-> Does adding this class remove or obsolete any of the existing
-> code/support?
-> 
+What I had in a class that I'd started, but hadn't got anything like
+this far was something like a .its.in file which got passed through
+bitbake's expand.
 
-Currently no, AFAIK. But this is only the first step and my plan is to 
-go forward and update the `kernel-fitimage.bbclass` to use this class. 
-This way we can very easily extend the FIT source dynamically and in the 
-same time reduce the complexity of the `kernel-fitimage.bbclass`. More 
-over I'm planning to create also a U-Boot related class that will be 
-able to generate a FIT blobs that can contain U-Boot... and is used by SPL.
-
-> Cheers,
-> 
-> Richard
-> 
-
-Nandor
+-- 
+Alex Kiernan
