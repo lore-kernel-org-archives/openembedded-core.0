@@ -1,57 +1,72 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.16434.1585327431226769270
+Received: from hel-mailgw-01.vaisala.com (hel-mailgw-01.vaisala.com [193.143.230.17])
+ by mx.groups.io with SMTP id smtpd.web12.17404.1585329497330055573
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Mar 2020 09:43:51 -0700
+ Fri, 27 Mar 2020 10:18:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: matthew.zeng@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 02RGhU8w011927
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 27 Mar 2020 09:43:40 -0700
-Received: from mt-manjaro (128.224.21.60) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 27 Mar
- 2020 09:43:19 -0700
-User-agent: mu4e 1.2.0; emacs 28.0.50
-From: "Matthew" <matthew.zeng@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] avahi: add LICENSE for individual packages
-Date: Fri, 27 Mar 2020 12:43:18 -0400
-Message-ID: <87v9mp21g9.fsf@windriver.com>
+ dkim=missing; spf=pass (domain: vaisala.com, ip: 193.143.230.17, mailfrom: nandor.han@vaisala.com)
+IronPort-SDR: dHGGB5J5rYp0FEWKoZMth1YM+msHstujBI1ze/zDq/Zv/k90UO9fFZTDMqspHfNGNqil3w5chQ
+ 0Bas9JgwyC9Wt2CTHoTzgQqLakE7rOrl5iyIWFOQv/aTDn/u9vKclvwFW6kH5ZPPtwHRZhbZd3
+ Iv5BHHYs7KissS9NBwSi+I4XADORzDDoF10mt3LzxQcnt0NE07qqT88/TavSm+mezkxJl8Ol6J
+ Iv1oqJjOYzwHxEIILVHnQxkh663QgXtp3fsTGRowzHMBt5Z1Y9z/LU7eVW6L6GhCH6Z/LvwvxR
+ /pI=
+X-IronPort-AV: E=Sophos;i="5.72,313,1580767200"; 
+   d="scan'208";a="274840899"
+Subject: Re: [OE-core] [PATCH v3] classes: Add a new bbclass that abstracts the generation of FIT blobs
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20200326214308.1042374-1-nandor.han@vaisala.com>
+ <20200327082918.1213345-1-nandor.han@vaisala.com>
+ <6a748f7bf39bba8b9bb2680360c15f57d9009dce.camel@linuxfoundation.org>
+From: "Nandor Han" <nandor.han@vaisala.com>
+Message-ID: <5fc4299b-4888-3e3f-501e-555520a75978@vaisala.com>
+Date: Fri, 27 Mar 2020 19:18:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-Originating-IP: [128.224.21.60]
-Content-Type: text/plain
+In-Reply-To: <6a748f7bf39bba8b9bb2680360c15f57d9009dce.camel@linuxfoundation.org>
+Return-Path: nandor.han@vaisala.com
+X-OriginalArrivalTime: 27 Mar 2020 17:18:14.0650 (UTC) FILETIME=[B30CBDA0:01D6045B]
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Fixes [YOCTO #13609]
+On 2020-03-27 18:35, Richard Purdie wrote:
+> On Fri, 2020-03-27 at 10:29 +0200, Nandor Han wrote:
+>> FIT format is very versatile allowing various combination of booting
+>> sequences. In the same time different U-Boot boot stages can use FIT
+>> blobs to pack various binaries (e.g. SPL supports reading U-Boot from a
+>> FIT blob). Because of the allowed level of customization, the generation
+>> of a FIT blob using a fixed image tree source, becomes challenging and
+>> increase the level of complexity where different configurations and
+>> combinations are needed.
+>>
+>> This bbclass will know how to generate a FIT blob, leaving the mechanics
+>> of the process (dependencies, task order...) to be handled by the users
+>> of the bbclass. In the same time will allow to separate the knowledge of
+>> the FIT format leaving the user code cleaner and more readable.
+>>
+>> Signed-off-by: Nandor Han <nandor.han@vaisala.com>
+> 
+> Have you considered adding automated tests for this?
+> 
 
-avahi_0.7.bb defines 9 PACKAGES. However, avahi.inc generically sets
-LICENSE to "GPLv2+ & LGPLv2.1+". The library specific
-packages should be LGPLv2.1+ only.
+Thanks for feedback Rickard. I haven't considered adding any extra
+tests (automate), but I think is a great idea. I'll try to have a look.
 
-Signed-off-by: Matthew Zeng <matthew.zeng@windriver.com>
----
- meta/recipes-connectivity/avahi/avahi_0.7.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+> Does adding this class remove or obsolete any of the existing
+> code/support?
+> 
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.7.bb b/meta/recipes-connectivity/avahi/avahi_0.7.bb
-index 2e04d304c7..24523c7f81 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.7.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.7.bb
-@@ -10,6 +10,16 @@ inherit update-rc.d systemd useradd
+Currently no, AFAIK. But this is only the first step and my plan is to 
+go forward and update the `kernel-fitimage.bbclass` to use this class. 
+This way we can very easily extend the FIT source dynamically and in the 
+same time reduce the complexity of the `kernel-fitimage.bbclass`. More 
+over I'm planning to create also a U-Boot related class that will be 
+able to generate a FIT blobs that can contain U-Boot... and is used by SPL.
 
- PACKAGES =+ "libavahi-gobject avahi-daemon libavahi-common libavahi-core libavahi-client avahi-dnsconfd libavahi-glib avahi-autoipd avahi-utils"
+> Cheers,
+> 
+> Richard
+> 
 
-+LICENSE_libavahi-gobject = "LGPLv2.1+"
-+LICENSE_avahi-daemon = "LGPLv2.1+"
-+LICENSE_libavahi-common = "LGPLv2.1+"
-+LICENSE_libavahi-core = "LGPLv2.1+"
-+LICENSE_avahi-client = "LGPLv2.1+"
-+LICENSE_avahi-dnsconfd = "LGPLv2.1+"
-+LICENSE_libavahi-glib = "LGPLv2.1+"
-+LICENSE_avahi-autoipd = "LGPLv2.1+"
-+LICENSE_avahi-utils = "LGPLv2.1+"
-+
- # As avahi doesn't put any files into PN, clear the files list to avoid problems
- # if extra libraries appear.
- FILES_${PN} = ""
---
-Mingde (Matthew) Zeng
+Nandor
