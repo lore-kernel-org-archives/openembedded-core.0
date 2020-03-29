@@ -1,25 +1,23 @@
 Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
- by mx.groups.io with SMTP id smtpd.web10.36900.1585516020069309885
+ by mx.groups.io with SMTP id smtpd.web10.37075.1585516586035930325
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Mar 2020 14:07:00 -0700
+ Sun, 29 Mar 2020 14:16:26 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:57282 helo=localhost.localdomain)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:57294 helo=localhost.localdomain)
 	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jIf90-00CyTl-Cq; Sun, 29 Mar 2020 17:06:58 -0400
-Date: Sun, 29 Mar 2020 17:06:55 -0400 (EDT)
+	id 1jIfI8-00D03r-HG
+	for openembedded-core@lists.openembedded.org; Sun, 29 Mar 2020 17:16:25 -0400
+Date: Sun, 29 Mar 2020 17:16:21 -0400 (EDT)
 From: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] can i assume the following uses of _append could use fixing?
-In-Reply-To: <6ec68faae728cfcfeba133146a58765076716aa0.camel@linuxfoundation.org>
-Message-ID: <alpine.LFD.2.21.2003291706350.14897@localhost.localdomain>
-References: <alpine.LFD.2.21.2003290853010.17224@localhost.localdomain> <6ec68faae728cfcfeba133146a58765076716aa0.camel@linuxfoundation.org>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] fix "append_" assignments to guarantee leading space
+Message-ID: <alpine.LFD.2.21.2003291715060.15341@localhost.localdomain>
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
+X-OutGoing-Spam-Status: No, score=-0.2
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
 X-AntiAbuse: Original Domain - lists.openembedded.org
@@ -32,23 +30,46 @@ X-Source-Args:
 X-Source-Dir: 
 Content-Type: text/plain; charset=US-ASCII
 
-On Sun, 29 Mar 2020, Richard Purdie wrote:
 
-> On Sun, 2020-03-29 at 08:55 -0400, rpjday@crashcourse.ca wrote:
-> >   all under recipes-devtools:
-> >
-> > file/file_5.38.bb:EXTRA_OEMAKE_append_class-target = "-e
-> > FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
-> > file/file_5.38.bb:EXTRA_OEMAKE_append_class-nativesdk = "-e
-> > FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
-> > elfutils/elfutils_0.178.bb:EXTRA_OECONF_append_class-target += "
-> > --disable-tests-rpath"
-> >
-> >   all three look like they could use a leading space, and the third
-> > example uses the redundant "+=". or am i misreading?
->
-> Worth fixing but the last one works due to the += adding a space...
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-  i know, but it's still weird. :-)
+---
 
-rday
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.178.bb b/meta/recipes-devtools/elfutils/elfutils_0.178.bb
+index 8f5deb2c62..c500ae3c19 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.178.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.178.bb
+@@ -56,7 +56,7 @@ PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
+
+ RDEPENDS_${PN}-ptest += "libasm libelf bash make coreutils ${PN}-binutils"
+
+-EXTRA_OECONF_append_class-target += "--disable-tests-rpath"
++EXTRA_OECONF_append_class-target = " --disable-tests-rpath"
+
+ RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
+
+diff --git a/meta/recipes-devtools/file/file_5.38.bb b/meta/recipes-devtools/file/file_5.38.bb
+index 99c75988c2..b8f09107e8 100644
+--- a/meta/recipes-devtools/file/file_5.38.bb
++++ b/meta/recipes-devtools/file/file_5.38.bb
+@@ -23,8 +23,8 @@ EXTRA_OECONF += "--disable-libseccomp"
+ ALTERNATIVE_${PN} = "file"
+ ALTERNATIVE_LINK_NAME[file] = "${bindir}/file"
+
+-EXTRA_OEMAKE_append_class-target = "-e FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
+-EXTRA_OEMAKE_append_class-nativesdk = "-e FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
++EXTRA_OEMAKE_append_class-target = " -e FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
++EXTRA_OEMAKE_append_class-nativesdk = " -e FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
+
+ FILES_${PN} += "${datadir}/misc/*.mgc"
+
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                         http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
