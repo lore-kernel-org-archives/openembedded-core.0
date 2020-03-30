@@ -1,73 +1,107 @@
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com [66.111.4.27])
- by mx.groups.io with SMTP id smtpd.web12.54707.1585585759067680781
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web11.54633.1585585913402541634
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2020 09:29:20 -0700
+ Mon, 30 Mar 2020 09:32:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=mUe/LF8E;
- spf=neutral (domain: iki.fi, ip: 66.111.4.27, mailfrom: tanuk@iki.fi)
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
-	by mailout.nyi.internal (Postfix) with ESMTP id 4A6D85C00D1;
-	Mon, 30 Mar 2020 12:29:18 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute2.internal (MEProxy); Mon, 30 Mar 2020 12:29:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=iNaeFo/aHWU717D/7hVf+WtsviBZ97LjpuzQS7sYU
-	IE=; b=mUe/LF8EVubSD3wDavgM+icq2pEvQd4mHWYj4oFlvpYKFhv57ryRwRvS/
-	TRrnkbhwcCNQy8Qkdcjx13RgveKLRmvKlcpnEiNc6j4KnePQA1N4M4nj83K+C71/
-	pIzUN9LdjW8WXs9WYPRpzqR/ipEWQ4ueTauOPYqhEr20N76m8F5ZnbLp1cGg2GWu
-	taq4rYkExVbEdouFCGBFuP1ulFxa5GJmy5Ffc0OqQXB14fENwMBO/BqsfGI5/bv2
-	qm2o+au6TC6ZgRQ3SiChZJSETikd2mWjskO+Ie/GHfFsGYA6XK96UcSUIogcpZ4Y
-	bd3WKSLvaJoVGZRgds/Qr+5z3UAPA==
-X-ME-Sender: <xms:XB6CXt2SSWncEnYXEHynDEDKP2KpgNIIUfkdDVM_J7gpaZoGN-YXEg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedugedrudeihedguddtudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefvrghn
-    uhcumfgrshhkihhnvghnuceothgrnhhukhesihhkihdrfhhiqeenucffohhmrghinhepph
-    grthhrvghonhdrtghomhdplhhisggvrhgrphgrhidrtghomhenucfkphepudeliedrvdeg
-    gedrudeluddrjeegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilh
-    hfrhhomhepthgrnhhukhesihhkihdrfhhi
-X-ME-Proxy: <xmx:XB6CXuK6y56hnx5Wawt_-742LlyeENMqCsx7IxvHjsljscth_UaZwA>
-    <xmx:XB6CXgz3ejvmr06eStS28TzYHAKAlD2wX8yvlQN6dTtWfOFKm45cVQ>
-    <xmx:XB6CXizjxL2QF_tC_yV4jMf90br3U-eqt_Mp_L2p2qkju_GASEOQPw>
-    <xmx:Xh6CXnPiqutRNG7Md4-f_mKpGHEv_m6HEOB9Waq--08qOzh40x8mDw>
-Received: from laptop (unknown [196.244.191.74])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 04CA5306CA0B;
-	Mon, 30 Mar 2020 12:29:15 -0400 (EDT)
-Message-ID: <9144dad892ac92ed87755ad0545aef0ecd4fbbcf.camel@iki.fi>
-Subject: Re: [OE-core] [PATCH] pulseaudio: fix for ARM thumb + frame pointers compilation error
-From: "Tanu Kaskinen" <tanuk@iki.fi>
-To: Stefan Ghinea <stefan.ghinea@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 30 Mar 2020 19:29:10 +0300
-In-Reply-To: <20200326152629.29272-1-stefan.ghinea@windriver.com>
-References: <20200326152629.29272-1-stefan.ghinea@windriver.com>
-User-Agent: Evolution 3.30.5-1.1 
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XeMppPeE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f67.google.com with SMTP id j19so3899015wmi.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2020 09:31:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=h5yU/G3kApCoE8OgSEBAoaTjqMZS/YMC2LXJKzd/RHc=;
+        b=XeMppPeEw35c3wYxmane9WmYYOn21ybX/jFRinLgPp8bzYMPpWotk8GiPjRuP9WGz0
+         psU9beS+4G5XOHdO0P7lZB38++ib69S2bM+mGuCdhDiDrr9guHB+lTdqLrHSlb6I60UY
+         NsFcn2R4xO3XVvBuKVGd3GEX1X6h91hBA4lgw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=h5yU/G3kApCoE8OgSEBAoaTjqMZS/YMC2LXJKzd/RHc=;
+        b=FbhLU219d9yQXnccGrnN/42uT0sApPdKE38pb+ehg/cPFwA9fE/yNj6YM2pGEil5Zc
+         Z/1DH1VxlUoye9OewdH2DcCEUI0ZPQQHeJF2a7hawSA5AQ4rbu+6zpOSuhLj+4YGqtzu
+         YaYXnBy0zWHXAG0dOBUNiEkqJ+XmKz2tZcmktnYrQcULwk7E/lC1GJgsciUXONH1YJ2d
+         b4h6E0F8JmE+j/n6ExHMW8IsClggQpRawio7VUGnPJM6D8bY0Ca7Wf17i7ZYeuGHzHFd
+         HGRjR9AvY7TvCbLkT3gzT/iosNeyPG+zsn4upujWOMNObFOVwyIIgJYjjkUspZsR1qH/
+         KpLA==
+X-Gm-Message-State: ANhLgQ3WWbPm8FUzkddiXKlq9EweENFxMcSzhQMyfl5zrQdhjxiGQp2n
+	RF7sNHdKW7nfqOyN8D6Xsmd/FA==
+X-Google-Smtp-Source: ADFU+vtqNU64W2MG9w/x2jSFqdB7METeWyoNhyUTAd2zt3LK52avI+Qu43Yk+HMIlkFd57Ypx24ZIg==
+X-Received: by 2002:a1c:1b14:: with SMTP id b20mr85504wmb.163.1585585911807;
+        Mon, 30 Mar 2020 09:31:51 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id l12sm22340600wrt.73.2020.03.30.09.31.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2020 09:31:51 -0700 (PDT)
+Message-ID: <673150a994845977a61edbd6a3a3e39f5dc8b3c6.camel@linuxfoundation.org>
+Subject: Re: [OE-core][RFC PATCH 2/2] image.bbclass: deploy image artifacts in stages
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Khem Raj <raj.khem@gmail.com>, 
+ Armin Kuster <akuster808@gmail.com>, Jerome Neanne <jneanne@baylibre.com>,
+ Quentin Schulz <quentin.schulz@streamunlimited.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>, Bartosz Golaszewski
+	 <bgolaszewski@baylibre.com>
+Date: Mon, 30 Mar 2020 17:31:49 +0100
+In-Reply-To: <CAMRc=Md2DfUTEhR-DzswDc=LQSHdJ35NMeQCVMJ_qC7V_4jiEw@mail.gmail.com>
+References: <20200323172808.26338-1-brgl@bgdev.pl>
+	 <20200323172808.26338-3-brgl@bgdev.pl>
+	 <CAMRc=Md2DfUTEhR-DzswDc=LQSHdJ35NMeQCVMJ_qC7V_4jiEw@mail.gmail.com>
+User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-03-26 at 17:26 +0200, Stefan Ghinea wrote:
-> From: Catalin Enache <catalin.enache@windriver.com>
+On Mon, 2020-03-30 at 18:26 +0200, Bartosz Golaszewski wrote:
+> pon., 23 mar 2020 o 18:28 Bartosz Golaszewski <brgl@bgdev.pl>
+> napisał(a):
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > 
+> > Make each IMAGE_CMD task an sstate task with its own IMGDEPLOYDIR
+> > override. This way each generated set of artifacts is deployed as
+> > soon
+> > as it's ready instead of the do_image_complete task handling the
+> > entire
+> > deployement. This allows us to better fine-tune dependencies e.g.
+> > we
+> > can make do_image_wic depend on fitImage task which can in turn
+> > depend
+> > on do_image_ext4.
+> > 
+> > We need to completely delete the do_package task in order to avoid
+> > problems with task hash changes as well as delete the IMGDEPLOYDIR
+> > variable from the data object passed to each image task so that
+> > it's
+> > expanded with the correct override.
+> > 
+> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > 
-> When compiling for Thumb or Thumb2, frame pointers _must_ be disabled
-> since the Thumb frame pointer in r7 clashes with pulseaudio's use of inline
-> asm to make syscalls (where r7 is used for the syscall NR).
+> It's been a week. Can I get some feedback on this? Is the idea at
+> least remotely acceptable/can we build upon it?
 
-Do you have a pointer to the asm code that does syscalls? I'm an
-upstream maintainer of PulseAudio, and to me it sounds a bit strange
-that there would be inline asm that does syscalls.
+FWIW at a quick glance I didn't think it was too bad.
 
-It would be great to fix this problem in upstream (either by applying
-this fix/workaround in the build system, or by modifying the asm code
-so that the problem goes away).
+I think there will be corner cases to resolve which I was hoping to
+look into and give some pointers to but I haven't had the time.
 
--- 
-Tanu
+I'm hoping somehow we can improve the FIXME you mention too.
 
-https://www.patreon.com/tanuk
-https://liberapay.com/tanuk
+The do_package change should probably be separated out - I'm guessing
+we did noexec there for a reason though?
+
+Also, you used {}.format which I'm torn on since most of the codebase
+uses the other approach.
+
+Its too late to get this into 3.1 and that is where I'm focusing my
+effort right now but I think this is probably going the right way.
+
+Cheers,
+
+Richard
+
+
+
 
