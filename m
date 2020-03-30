@@ -1,112 +1,89 @@
 Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.52510.1585581535177424775
+ by mx.groups.io with SMTP id smtpd.web11.53031.1585582706572829792
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2020 08:18:56 -0700
+ Mon, 30 Mar 2020 08:38:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=GHSPeDjq;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id d5so22198702wrn.2;
-        Mon, 30 Mar 2020 08:18:54 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YVetaF5J;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f47.google.com with SMTP id m11so16351218wrx.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2020 08:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=e2h8VOz0p4Pg+RzOQEkI6HqOfuafCjE03DiyPGhlj/s=;
-        b=GHSPeDjqyrc92C5TXQRtrLoava7sDow/dr5oyKQHPxiSqg31ZiiS+cYdcoN4U26PM8
-         pL5XLB+OZlfT19TvPo6gvdpIb87YhlDOQJjCx9KS3YKS8bdTmgziFcYiCld7jBlyHpHf
-         WtJPLeS4etwbjhqMwUe0hhCOTDE9QOFYaY8nESX4puO1imI59XyaCbFUG0Iq9RhWX9o8
-         JclPqW+5AyhL5U8bLFQUOec9JWTSzAwjDnajCoecjdOIo6c70WNwNAdc6MwOt/1RMzuo
-         30syidzxGf7C3W/uqyngq1FNYXg+bWQFgA3YZXlqdoNUY7o3nBDzMElCqtRwOSCAwWRn
-         3tBA==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MUGQcvq4E89FrSbMC6u8ylbU/WElYJz//6EOmHc1q8s=;
+        b=YVetaF5JEEsfmQRJL4tydx5FteMNjla7Oej+T1uQ1jW69LpVQaqf8Pwc1zw1lUR+88
+         WGgEjBri6GZLtVjHFD3ssyvYP8rclUq6Z6HtOtSUVZC5C7RG09s3mSodzIuC6zmNJ+0E
+         1mSZDMG75jP2w4RwdzirbMjxD8+T9IkglOoKs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=e2h8VOz0p4Pg+RzOQEkI6HqOfuafCjE03DiyPGhlj/s=;
-        b=fXxmCGs683WnPYLSjTEjKjPKPBOmYcX2AnRn4D+P8oyUdnLfNMoUd6LgAQj5E0AfsT
-         PVA1PYeQYJ+yy/Sjxbod04UTgJV6VoXoONUjps9X0ACVb95hK3dB6eX/A7Ct9TYLoeo7
-         vNIjyklyy7fy9StbTqXLXCz6sdrvQ1daoRVf/5guXLseP36HOEviAlaxAPpoqC/83eUR
-         KEEohaKBYYZ121wfBjfiwc4/7O2HDZ5xHBVS+XhOBB2TmhH3+hs1AqNzJk6miJP0lGMC
-         YpiF9SqHGa5+L6BjWfK8u2CgBnIjg/9Vfk/bNOA10S7imiM9VLM5dwUfETgFwd1ChYCp
-         BE9Q==
-X-Gm-Message-State: ANhLgQ15hLjaVu5Xefwb0WQFuEFBfz96PPO5JFfW2QOv90TZdUhkM8Hs
-	CgU/ZKEdPIscHPmKbR2jW90=
-X-Google-Smtp-Source: ADFU+vumv9AAIwecRYd3Le4a8dNU/fCiX1mqxopYDHpoirPlfUEj2WgnDruM4/G7yhIR7HuCdY0lAw==
-X-Received: by 2002:adf:94c6:: with SMTP id 64mr15735724wrr.386.1585581533734;
-        Mon, 30 Mar 2020 08:18:53 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id y7sm25157307wrq.54.2020.03.30.08.18.52
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=MUGQcvq4E89FrSbMC6u8ylbU/WElYJz//6EOmHc1q8s=;
+        b=IhgwVHQ9muBitUZpDQGDYtprGDqAPcOiLfpZl8Yd0u0TCfTo6d2sB5E5bDkb/nzX+E
+         vnTBiRD9dwAWPvlz2SEGREwRHdOQoztw1S8/0tdSniKfHNMeJ1d23Rj1Yug0bEuNsqeO
+         /6/87Gn6IrneySCrf3jlAUsgOz3t2rl+wSOb0cQdhGpkMVJvAyoIeVgvSD2/6DTAH5LE
+         N7KHjs+rtYxIuY0s3J/s6kBSu7R0cAdMm8Oo5OLxMBN5l0ABFaS+f/sR61S/ArLLRQ1v
+         lc5amMgBoRild0IKtH+k6C8hwK3OZ+KaEi0No8iVPfANWvFH+tV68zezbCbanAoW1kHY
+         Pulg==
+X-Gm-Message-State: ANhLgQ3bknBSnqxXiP94T0B7nq+phlV9zXuX9x//GxzsQL4DcWKuFZNF
+	Lzasf1wTFp6vWoZ0NTMeTIx2vJkppIo=
+X-Google-Smtp-Source: ADFU+vvZWgtsTs/daPRKz8YtRUCcAUtPA44QOj1BLjlvAo9XwSbCSpywyINXawJOWEMkBtlE4reelw==
+X-Received: by 2002:a5d:630b:: with SMTP id i11mr14765309wru.94.1585582704618;
+        Mon, 30 Mar 2020 08:38:24 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id j11sm22344253wrt.14.2020.03.30.08.38.22
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2020 08:18:52 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 30 Mar 2020 17:18:52 +0200
-To: Michael Halstead <mhalstead@linuxfoundation.org>
-Cc: akuster808 <akuster808@gmail.com>, bitbake-devel@lists.openembedded.org,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	openembedded-architecture@lists.openembedded.org,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>
-Subject: Re: [oe] [bitbake-devel] Mailing list platform change March 20th
-Message-ID: <20200330151851.s4p24hkg4kbrysd4@jama>
-References: <CADfgfobNNXr9HSOiwyamzbZ4q1uc8wgD5PzobDF56cDyYui-HQ@mail.gmail.com>
- <CADfgfoYCjVip=oc_U0TdFzOVst5U-KU+R31JhdckRv77APzQ-g@mail.gmail.com>
- <CADfgfob4=Zeh=jn9b9uMqq6Wnt83oGmJ-8yf1wSXYEFTppv2Bg@mail.gmail.com>
- <24a37655-8c0b-ca10-543e-90a32bc6bdb9@gmail.com>
- <CADfgfoZRZCM_Dvot5_z4YnG+OOyMg6xvDE13XQOK50wpucZWFA@mail.gmail.com>
- <20200325150325.yq5jtofhnxaui6he@jama>
+        Mon, 30 Mar 2020 08:38:23 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] pseudo: Ensure we use our own libsqlite
+Date: Mon, 30 Mar 2020 16:38:21 +0100
+Message-Id: <20200330153821.658396-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200325150325.yq5jtofhnxaui6he@jama>
-User-Agent: NeoMutt/20180716
-X-Groupsio-MsgNum: 136855
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="bztawwnrdg3bwbdj"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---bztawwnrdg3bwbdj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+pseudo-native is special in that bitbake ends up executing it from the
+sysroot-components directory before we have any workdirs for the bitbake
+fakeroot worker. Since we switched to dynamically linking sqlite, it
+means sqlite from the host system may be found, we really want the version
+in sysroot-components. Trying to run tasks to create some special environment
+for pseudo is hard and error prone. The simplest fix is to add an RPATH to
+the binary so that it can correctly find the sqlite we want.
 
-On Wed, Mar 25, 2020 at 04:03:25PM +0100, Martin Jansa wrote:
-> On Fri, Mar 20, 2020 at 05:44:36PM -0700, Michael Halstead wrote:
-> > The migration to Groups.io is nearly complete. All functionality is rea=
-dy
-> > to use and you can send e-mail now. Archives are in place except for the
-> > most recent from the Openembedded-commits list. Those are continuing to
-> > import.
-> >=20
-> > There is no need to update your address book as the list addresses have=
- not
-> > changed.
-> >=20
-> > If you encounter any issues please visit
-> > https://www.openembedded.org/wiki/GroupsMigration for the latest
-> > information. If your concern isn't addressed e-mail me directly.
->=20
-> Hi,
->=20
-> thanks Michael!
->=20
-> Can you please check if git hooks sending e-mail notifications still
-> work or need some change (possibly related to this)?
->=20
-> There were new commits recently in couple repositories, but last e-mail
-> from git hook I see from Mar 19th.
+Unfortunately passing $ORIGIN into make doesn't work so well with shell
+quoting so we have to fix that during do_install.
 
-There was one e-mail today, but it doesn't seem to be working correctly:
-https://lists.openembedded.org/g/openembedded-commits/message/186006
+[YOCTO #13814]
 
-Cheers,
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/pseudo/pseudo.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
---bztawwnrdg3bwbdj
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+index 7ff8e449e9a..50e30064bde 100644
+--- a/meta/recipes-devtools/pseudo/pseudo.inc
++++ b/meta/recipes-devtools/pseudo/pseudo.inc
+@@ -16,6 +16,7 @@ INSANE_SKIP_${PN}-dbg += "libdir"
+ PROVIDES += "virtual/fakeroot"
+ 
+ MAKEOPTS = ""
++MAKEOPTS_class-native = "'RPATH=-Wl,--rpath=XORIGIN/../../../sqlite3-native/usr/lib/'"
+ 
+ inherit siteinfo pkgconfig
+ 
+@@ -115,6 +116,7 @@ do_install () {
+ }
+ 
+ do_install_append_class-native () {
++	chrpath ${D}${bindir}/pseudo -r `chrpath ${D}${bindir}/pseudo | cut -d = -f 2 | sed s/XORIGIN/\\$ORIGIN/`
+ 	install -d ${D}${sysconfdir}
+ 	# The fallback files should never be modified
+ 	install -m 444 ${WORKDIR}/fallback-passwd ${D}${sysconfdir}/passwd
+-- 
+2.25.1
 
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXoINjQAKCRA3VSO3ZXaA
-HNKmAJ0XgCK+F1JhVq4FZrozxZ33Oda0qACeIsKD5SbCsgZsxdMLorxFe9WTHiA=
-=b2wI
------END PGP SIGNATURE-----
-
---bztawwnrdg3bwbdj--
