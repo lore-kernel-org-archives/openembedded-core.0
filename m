@@ -1,142 +1,145 @@
-Received: from hel-mailgw-01.vaisala.com (hel-mailgw-01.vaisala.com [193.143.230.17])
- by mx.groups.io with SMTP id smtpd.web10.55233.1585586792565760419
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web11.55178.1585587074608208309
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2020 09:46:33 -0700
+ Mon, 30 Mar 2020 09:51:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: vaisala.com, ip: 193.143.230.17, mailfrom: nandor.han@vaisala.com)
-IronPort-SDR: ThbaB7ncwtPlNpc/TVuD6CcQth3RIY9BMz4Mlw8VcSTUHc4+qMAti/dOErFG1CK19nLbMLX2cm
- 91kohuX91hbhLXE6w11kDbQJtFQqspS+WJl9Li6RbgNKZRdA01E9yuiqPGjjiN4WTbDF48NJr1
- OlncOK4EboqCH+c4QcdNcvSgLyLcnxnlK6fFzQAjE//gPvqQwZ5YlsFO/8u0182x+vMXY32Iv0
- FGIXV7SodGHyNjIlNQ/S8ZBB9QIxxNH7JyYFVWJpnhZRr5UOqS0OK9ajfhdCnk2RyzoHN65VRD
- moY=
-X-IronPort-AV: E=Sophos;i="5.72,325,1580767200"; 
-   d="scan'208";a="275066299"
-Subject: Re: [OE-core] [PATCH v3] classes: Add a new bbclass that abstracts the generation of FIT blobs
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Zach Booth <zbooth.dev@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20200326214308.1042374-1-nandor.han@vaisala.com>
- <20200327082918.1213345-1-nandor.han@vaisala.com>
- <CAFhEjg1kxfhcxngtCpsZ3bxvGr63p3Sf26mwSbMtZ3eVKc=SYQ@mail.gmail.com>
- <b2ac5289-ac78-35a7-ed3c-6fd17435e644@vaisala.com>
- <20200327181648.GK1578@denix.org>
- <d2cb84cb-0480-eef1-5731-5cdab254b864@vaisala.com>
- <20200330160748.GL1578@denix.org>
-From: "Nandor Han" <nandor.han@vaisala.com>
-Message-ID: <f34e7ac5-a630-eae7-13d8-505a5b366d50@vaisala.com>
-Date: Mon, 30 Mar 2020 19:46:23 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200330160748.GL1578@denix.org>
-Return-Path: nandor.han@vaisala.com
-X-OriginalArrivalTime: 30 Mar 2020 16:46:25.0665 (UTC) FILETIME=[C071FF10:01D606B2]
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ITCcYfpA;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: rehsack@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id h15so22527299wrx.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2020 09:51:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id;
+        bh=Eo9L6agWzZQsafCTxcxLP2HXxw67IaZbgNysYVNV0l4=;
+        b=ITCcYfpAQWLgC05SwR2AWpEhIYjtEyJGlUNMzKc/F+5UCn8HUZj4EmTv/i2Vlz6h9T
+         12/c8aQrA2wqAgjyBSXPVfWIRCEWrmSyC69asqki4cIy3FkLnaYf1YBp/LxjI8d4ace6
+         d1p84xsMUUTYklaC8xNVzOLv4trjW1A6vAqtvkY5lRjrgnwn/o5+HxwSczu+qLs18cnA
+         2O1MLVYJa+LLw1j8XXKR0GVEfqmlEmv6pMYLz0QwAP8cEuBDv1sG4XMwMXWdfawvVJ8k
+         S088R5vbHIKRufDV1Vsyop6DSSkQY+lbNLIdhdo3ZOsakDvzzZqAU2GnqyihQeWAAzFE
+         00NQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+        bh=Eo9L6agWzZQsafCTxcxLP2HXxw67IaZbgNysYVNV0l4=;
+        b=LHmHsQpSh+OQS7lQWBUsmPb/rK5iQxHaTw7015KnnYw1OBcMhfSiLEsGBukiIIztVy
+         ugs9L1C23h5Tkysor56Ooqy8RsvxD294ofAbc+Fgpf1Fy9CP8A+Vg7d1T4WyN4E9S1s6
+         gPh5a5nSacOgb76Lr3MykIWXjulFWP21wG+RSk8+1uSOLeJrFshCbUU7DRastiK/1OV3
+         8mQRKmsuHNaCIyuvyBoiFFY6vjAHzXGMxtR1nrOxLBcn9bzAMO9v1loW+ENSp/mmnu5r
+         xpulSHvnn3p7lHER1vrmznB5bmA1TerP3ShkLqUZQ07fWLMeb+QNAdbubcrOoYMnrEi5
+         xBYA==
+X-Gm-Message-State: ANhLgQ1cl9nZb+Xrrz9y1wXOv98/QPXWKi2dB5wW0/XUf6mZZXP7vOpE
+	TQYcYK9uzgFNBnwmbF1hhkBuYiF0
+X-Google-Smtp-Source: ADFU+vsnsUWguez+C4+Zbsl0VaPkQWXNjSPncF63frwakoPulEgQYQipfXbDXZD5Pr5eEAvXscA7xg==
+X-Received: by 2002:a5d:604a:: with SMTP id j10mr15456767wrt.126.1585587072476;
+        Mon, 30 Mar 2020 09:51:12 -0700 (PDT)
+Return-Path: <rehsack@gmail.com>
+Received: from beaker.muppets.liwing.de (p5B25B65E.dip0.t-ipconnect.de. [91.37.182.94])
+        by smtp.gmail.com with ESMTPSA id d21sm23985819wrb.51.2020.03.30.09.51.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2020 09:51:11 -0700 (PDT)
+Sender: Jens Rehsack <rehsack@gmail.com>
+From: "Jens Rehsack" <rehsack@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jens Rehsack <sno@netbsd.org>
+Subject: [OE-core][PATCH] initscripts/init-system-helpers: fix mountnfs.sh dependency
+Date: Mon, 30 Mar 2020 18:51:05 +0200
+Message-Id: <20200330165105.7151-1-sno@netbsd.org>
+X-Mailer: git-send-email 2.17.1
 
-On 2020-03-30 19:07, Denys Dmytriyenko wrote:
-> On Fri, Mar 27, 2020 at 08:24:49PM +0200, Nandor Han wrote:
->> On 2020-03-27 20:16, Denys Dmytriyenko wrote:
->>> On Fri, Mar 27, 2020 at 07:33:24PM +0200, Nandor Han wrote:
->>>> On 2020-03-27 17:11, Zach Booth wrote:
->>>>> On Fri, Mar 27, 2020 at 3:29 AM Nandor Han <nandor.han@vaisala.com> wrote:
->>>>>>
->>>>>> FIT format is very versatile allowing various combination of booting
->>>>>> sequences. In the same time different U-Boot boot stages can use FIT
->>>>>> blobs to pack various binaries (e.g. SPL supports reading U-Boot from a
->>>>>> FIT blob). Because of the allowed level of customization, the generation
->>>>>> of a FIT blob using a fixed image tree source, becomes challenging and
->>>>>> increase the level of complexity where different configurations and
->>>>>> combinations are needed.
->>>>>>
->>>>>> This bbclass will know how to generate a FIT blob, leaving the mechanics
->>>>>> of the process (dependencies, task order...) to be handled by the users
->>>>>> of the bbclass. In the same time will allow to separate the knowledge of
->>>>>> the FIT format leaving the user code cleaner and more readable.
->>>>>>
->>>>>> Signed-off-by: Nandor Han <nandor.han@vaisala.com>
->>>>>
->>>>> This class looks very useful, but I did have a question. How would you
->>>>> account for creating nodes dynamically? One use case of this would be
->>>>> adding a DT node for each reference in KERNEL_DEVICETREE. Would that
->>>>> functionality be expected to go in the recipe including this class or
->>>>> the class itself?
->>>>>
->>>>
->>>> Thanks Zack for feedback. Like I mentioned in one of Rickard's
->>>> answer, I'm planning to update the `kernel-fitimage.bbclass` to use
->>>> this class.
->>>>
->>>> In my local repo I have already a class that does what you're saying.
->>>>
->>>> e.g
->>>> ```
->>>> ...
->>>> 24 python do_generate_fit_image() {
->>>>   25     import os.path
->>>>   26
->>>>   27     device_trees = (d.getVar("KERNEL_DEVICETREE").split())
->>>>   28     kernel_key_path =
->>>> '{path}'.format(path=d.getVar("SECURITY_DIR_KEYS_RD") or "")
->>>>   29     conf_signature = (d.getVar("CONF_NODE_CONF1") or "")
->>>>   30     image_name = ""
->>>>   31     mkimage_opts = ""
->>>>   32
->>>>   33     for dtb in device_trees:
->>>>   34         d.setVarFlag("IMAGE_NODE_FDT", "data",
->>>> '/incbin/("./arch/{arch}/boot/dts/{dtb}")'.format(
->>>>   35          arch=d.getVar("ARCH"), dtb=dtb))
->>>>   36         d.setVarFlag("IMAGE_NODE_FDT", "description", dtb)
->>>>   37
->>>>   38         if os.path.exists(kernel_key_path):
->>>>   39             image_name =
->>>> "kernel-{dtb_name}{suffix}".format(dtb_name=os.path.splitext(dtb)[0],
->>>> suffix=".rdkeys")
->>>>   40             mkimage_opts = d.getVar("FIT_IMAGE_MKIMAGE_OPTS_SIGNED")
->>>>   41             d.setVar("FIT_IMAGE_UBOOT_MKIMAGE_OPTS", ("-k {key}
->>>> -r {extra}".format(
->>>>   42              key=kernel_key_path, extra=mkimage_opts)))
->>>>   43             generate_fit_image(image_name, d)
->>>>   44
->>>>   45         if not conf_signature:
->>>>   46             d.delVarFlag("CONF_NODE_CONF1", "signature")
->>>>   47
->>>>   48         mkimage_opts = d.getVar("FIT_IMAGE_MKIMAGE_OPTS_UNSIGNED")
->>>>   49         d.setVar("FIT_IMAGE_UBOOT_MKIMAGE_OPTS",
->>>> "{extra}".format(extra=mkimage_opts))
->>>>   50         image_name =
->>>> "kernel-{dtb_name}{suffix}".format(dtb_name=os.path.splitext(dtb)[0],
->>>> suffix=".unsigned")
->>>>   51         generate_fit_image(image_name, d)
->>>>   52
->>>>   53         if not conf_signature:
->>>>   54             d.setVarFlag("CONF_NODE_CONF1", "signature",
->>>> conf_signature)
->>>>   55 }
->>>> ...
->>>> ```
->>>>
->>>> The code above will generate a separate FIT blob for every device
->>>> tree declared in KERNEL_DEVICETREE. However this functionality
->>>
->>> So, no multiple device trees in a single FIT image? No multiple
->>> configurations, ramdisks, etc?
->>
->> Given the class API is possible to configure your FIT source as you
->> want. However, my plan is to refactor `kernel-fitimage` class to
->> have this kind of features. The above code was only an example,
->> something that I'm working on. I want to get this in and then it's
->> easier to add new functionalities.
-> 
-> Considering that fitimage is a critical functionality used by many BSPs
-> (even though it's not used in OE-Core itself), breaking it would upset
-> so many people... Not sure about this gradual approach.
-> 
+With commit c9fc9110be33fe0f24bc3a7c242b584a4ca33e04
+    Author: Yue Tao <Yue.Tao@windriver.com>
+    Date:   Fri May 25 10:48:08 2018 +0800
 
-Totally agree :). That's the beauty of this class...nothing is impacted. 
-My plan is to build gradually on top of this class different classes and 
-impact nobody about this. The users will be able to seamlessly take in 
-use the final solution without any big changes.
+	initscripts: Avoid starting rpcbind daemon twice
 
-Nandor
+	Check the status before start it to avoid duplicates.
+
+the use of a script {/usr/sbin/}service is introduced - maybe earlier
+provided by systemd, nowadays mostly by init-system-helpers from
+debian project.
+
+For the very first shot, maybe discussions and improvements based
+on that script collection, use just the init-system-helpers-service
+in initscripts/mountnfs.sh to avoid problems mounting NFS in later
+boot stage.
+
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
+---
+ .../initscripts/init-system-helpers_1.57.bb   | 52 +++++++++++++++++++
+ .../initscripts/initscripts_1.0.bb            |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-core/initscripts/init-system-helpers_1.57.bb
+
+diff --git a/meta/recipes-core/initscripts/init-system-helpers_1.57.bb b/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
+new file mode 100644
+index 0000000000..2b09983483
+--- /dev/null
++++ b/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
+@@ -0,0 +1,52 @@
++# Copyright (C) 2020 Jens Rehsack <sno@netbsd.org>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++SUMMARY = "helper tools for all init systems"
++DESCRIPTION = "This package contains helper tools that are necessary for switching between \
++the various init systems that Debian contains (e. g. sysvinit or \
++systemd). An example is deb-systemd-helper, a script that enables systemd unit \
++files without depending on a running systemd. \
++\
++It also includes the \"service\", \"invoke-rc.d\", and \"update-rc.d\" scripts which \
++provide an abstraction for enabling, disabling, starting, and stopping \
++services for all supported Debian init systems as specified by the policy. \
++\
++While this package is maintained by pkg-systemd-maintainers, it is NOT \
++specific to systemd at all. Maintainers of other init systems are welcome to \
++include their helpers in this package."
++HOMEPAGE = "https://salsa.debian.org/debian/init-system-helpers"
++SECTION = "base"
++LICENSE = "BSD-3-clause & GPLv2"
++LIC_FILES_CHKSUM = "file://debian/copyright;md5=ee2b1830fcfead84d07bc060ec43e072"
++
++PACKAGES += "${PN}-invoke-rc.d ${PN}-service ${PN}-update-rc.d"
++
++DEPENDS = "perl"
++
++SRCREV = "760c625ec0e1ffebec2e391d891d389da0f65726"
++SRC_URI = "git://salsa.debian.org/debian/init-system-helpers.git"
++
++S = "${WORKDIR}/git"
++
++do_configure() {
++	:
++}
++
++do_compile() {
++	:
++}
++
++do_install() {
++	install -d -m 0755 ${D}${sbindir}
++	install -m 0755 ${S}/script/invoke-rc.d ${D}${sbindir}
++	install -m 0755 ${S}/script/service ${D}${sbindir}
++	install -m 0755 ${S}/script/update-rc.d ${D}${sbindir}
++}
++
++FILES_${PN} = ""
++FILES_${PN}-invoke-rc.d = "${sbindir}/invoke-rc.d"
++FILES_${PN}-service = "${sbindir}/service"
++FILES_${PN}-update-rc.d = "${sbindir}/update-rc.d"
++
++RDEPENDS_${PN}-update-rc.d = "perl"
++RRECOMMENDS_${PN} += "${PN}-invoke-rc.d ${PN}-service ${PN}-update-rc.d"
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index 1a59b82fbf..4080c4a495 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -50,6 +50,7 @@ PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','
+ PACKAGES =+ "${PN}-functions ${PN}-sushell"
+ RDEPENDS_${PN} = "initd-functions \
+                   ${@bb.utils.contains('DISTRO_FEATURES','selinux','${PN}-sushell','',d)} \
++                  init-system-helpers-service \
+ 		 "
+ # Recommend pn-functions so that it will be a preferred default provider for initd-functions
+ RRECOMMENDS_${PN} = "${PN}-functions"
+-- 
+2.17.1
+
