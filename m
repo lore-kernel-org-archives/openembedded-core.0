@@ -1,100 +1,95 @@
-Received: from mga11.intel.com (mga11.intel.com [])
- by mx.groups.io with SMTP id smtpd.web12.408.1585597399149814363
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com [209.85.217.65])
+ by mx.groups.io with SMTP id smtpd.web11.662.1585597962715100108
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2020 12:43:30 -0700
+ Mon, 30 Mar 2020 12:52:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: <nil>, mailfrom: timothy.t.orling@linux.intel.com)
-IronPort-SDR: rYOZ61KIZ8dHWPnJdf1fmiQoAFTFF0jSH8PYCA2XwjA6gUHhCTgYSdZcEwR8BIFuXcZUtOIuy+
- REN8jQFW7R7A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2020 12:43:30 -0700
-IronPort-SDR: kfzPiM8Auguo4cIkwvATNXbYD5INnJl9pBfgAKAFohQ7ytj7uGRwx0717pn4oKsm5IjPTSDkuk
- FF9kJ/hGJ7fg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,325,1580803200"; 
-   d="scan'208";a="359273502"
-Received: from wrath.jf.intel.com ([10.54.31.24])
-  by fmsmga001.fm.intel.com with ESMTP; 30 Mar 2020 12:43:30 -0700
-From: "Tim Orling" <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <timothy.t.orling@linux.intel.com>
-Subject: [PATCH 4/4] sanity.bbclass: add test for gcc < 5.0
-Date: Mon, 30 Mar 2020 12:43:02 -0700
-Message-Id: <20200330194302.30032-4-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200330194302.30032-1-timothy.t.orling@linux.intel.com>
-References: <20200330194302.30032-1-timothy.t.orling@linux.intel.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=O17YQyvt;
+ spf=pass (domain: gmail.com, ip: 209.85.217.65, mailfrom: armccurdy@gmail.com)
+Received: by mail-vs1-f65.google.com with SMTP id w185so11898833vsw.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2020 12:52:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=cCW9orwSL9NiKtX9yN7Ufy7M0oNnGhVreMb+j/fKXTw=;
+        b=O17YQyvtLhhR0CT+GTSTEhgZVfybdV32F2wyeg84NTkrGUQ+1RFOZHe4JSpLo0Z7XA
+         N4I0YHLM0BUj1rrOIo4g46IQ+2Y6wSqiNSDSPinVhFXPkly5ViyzPi3OEr7f0i6FggiH
+         N02fNgr1lP+5LCoXrT90e1LRJe6ACNSP0Cl7u3+vgLuVmYTfe/3JXkQgRCI6qv4qFM0z
+         Of5rcTFVNfbKqcqM3Fyzewu3sJ6x7uFBkNQPE5VQpVQWvUoNONKiGOSN5o3iY2CGsupC
+         EYNxwJlsVpJoLcOPd4zfBRTMagCY40W/56q9UYQUwpGhq1INf60pbp8PDZBC6gwWaEcR
+         ypDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=cCW9orwSL9NiKtX9yN7Ufy7M0oNnGhVreMb+j/fKXTw=;
+        b=eNM2FlzPDiqVCheGljlENmMfJjqiNEYsapWG98Mf85sjeN9nJ3TW7P9O7jbFJRgWC5
+         b9sPE4E/Ff6mZB2xreFBtzLt4AqfcUm7qakRRP/JWjN8zYUKa32lErl4RTueC/kYGIrI
+         aNTiYAnaBPuso3AlaBFpgRU0tG22QnMa+eJl/19MVINdXefmLkrHXRp6syZ3TeoKR/Uh
+         7rsXOu2pGpo5OQBNQSqKI4XDZi/2jj/PL4wBcedSZN0u/WICRzoWagabKkFUzXGP4Oz0
+         tc20UaLSqKYwSywL463tqUPe9KqL33haOaiJpErin1lMxn9VHC6iNql8qKJtgum8THtf
+         RONQ==
+X-Gm-Message-State: AGi0PuZkvMwvWRyi37PPs+/ueOxfcknxoSYYrnkK5vav4Fyv4Y0INbUx
+	duEQQPTY3hFnV+uo/MdwMYV9x0oWiaQXCPE1ld7doA==
+X-Google-Smtp-Source: APiQypL/n4ocaV2EaVvVBRTFuNa+PXXRCR0rds8s18GMgCkZRwsOLZHOURJZLC8OUi+jFKTaTEoT18nG4GZ0xVsNckE=
+X-Received: by 2002:a67:80d6:: with SMTP id b205mr9089895vsd.137.1585597961768;
+ Mon, 30 Mar 2020 12:52:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200330194302.30032-1-timothy.t.orling@linux.intel.com> <20200330194302.30032-3-timothy.t.orling@linux.intel.com>
+In-Reply-To: <20200330194302.30032-3-timothy.t.orling@linux.intel.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Mon, 30 Mar 2020 12:52:31 -0700
+Message-ID: <CAJ86T=WkdB4W7rC7Nc254oUT+kRQk09Z4iCJ4jL38iLqHhD6BQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 3/4] sanity.bbclass: recommend using install-buildtools
+To: Tim Orling <timothy.t.orling@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It is known that the version of gcc in CentOS-7 (4.8.5) causes builds to fail.
+On Mon, Mar 30, 2020 at 12:43 PM Tim Orling
+<timothy.t.orling@linux.intel.com> wrote:
+>
+> For old tar versions (1.24 and 1.28), recommned using
 
-Add a test for BUILD_CC == 'gcc' and gcc < 5.0 and recommend using
-scripts/install-buildtools or user built buildtools-extended-tarball.
+Typo.
 
-NOTE: another solution is to install devtoolset-6+ from scl [1], but
-this is a rather large install (> 1 Gb) and fairly invasive.
+> scripts/install-buildtools
+>
+> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+> ---
+>  meta/classes/sanity.bbclass | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> index cca5cdad17..0cf955a341 100644
+> --- a/meta/classes/sanity.bbclass
+> +++ b/meta/classes/sanity.bbclass
+> @@ -533,9 +533,9 @@ def check_tar_version(sanity_data):
+>          return "Unable to execute tar --version, exit code %d\n%s\n" % =
+(e.returncode, e.output)
+>      version =3D result.split()[3]
+>      if LooseVersion(version) < LooseVersion("1.24"):
+> -        return "Your version of tar is older than 1.24 and has bugs whi=
+ch will break builds. Please install a newer version of tar (1.28+).\n"
+> +        return "Your version of tar is older than 1.24 and has bugs whi=
+ch will break builds. Please install a newer version of tar (1.28+). You co=
+uld use the project's buildtools-tarball from our last release or use scrip=
+ts/install-buildtools\n"
+>      if LooseVersion(version) < LooseVersion("1.28"):
+> -        return "Your version of tar is older than 1.28 and does not hav=
+e the support needed to enable reproducible builds. Please install a newer =
+version of tar (you could use the projects buildtools-tarball from our last=
+ release).\n"
+> +        return "Your version of tar is older than 1.28 and does not hav=
+e the support needed to enable reproducible builds. Please install a newer =
+version of tar (you could use the projects buildtools-tarball from our last=
+ release or use scripts/install-buildtools).\n"
+>      return None
 
-[1] https://www.softwarecollections.org/en/scls/rhscl/devtoolset-6/
+Is it useful to keep two levels of version check?
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
----
- meta/classes/sanity.bbclass | 26 +++++++++++++++++++++++++-
- 1 file changed, 25 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 0cf955a341..a1cb8c6b88 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -521,6 +521,29 @@ def check_wsl(d):
-             return "OpenEmbedded doesn't work under WSL at this time, sorry"
-     return None
- 
-+# The gcc version in CentOS-7 (4.8.5) is known to be a problem.
-+# Require at least gcc version 5.0.
-+#
-+# This can be fixed on CentOS-7 with devtoolset-6+
-+# https://www.softwarecollections.org/en/scls/rhscl/devtoolset-6/
-+#
-+# A less invasive fix is with scripts/install-buildtools (or with user
-+# built buildtools-extended-tarball)
-+#
-+def check_gcc_version(sanity_data):
-+    from distutils.version import LooseVersion
-+    import subprocess
-+    build_cc = sanity_data.getVar('BUILD_CC').strip()
-+    if build_cc == "gcc":
-+        try:
-+            result = subprocess.check_output(["gcc", "--version"], stderr=subprocess.DEVNULL).decode('utf-8')
-+        except subprocess.CalledProcessError as e:
-+            return "Unable to execute gcc --version, exit code %d\n%s\n" % (e.returncode, e.output)
-+        version = result.split()[2]
-+        if LooseVersion(version) < LooseVersion("5.0"):
-+            return "Your version of gcc is older than 5.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
-+    return None
-+
- # Tar version 1.24 and onwards handle overwriting symlinks correctly
- # but earlier versions do not; this needs to work properly for sstate
- # Version 1.28 is needed so opkg-build works correctly when reproducibile builds are enabled
-@@ -535,7 +558,7 @@ def check_tar_version(sanity_data):
-     if LooseVersion(version) < LooseVersion("1.24"):
-         return "Your version of tar is older than 1.24 and has bugs which will break builds. Please install a newer version of tar (1.28+). You could use the project's buildtools-tarball from our last release or use scripts/install-buildtools\n"
-     if LooseVersion(version) < LooseVersion("1.28"):
--        return "Your version of tar is older than 1.28 and does not have the support needed to enable reproducible builds. Please install a newer version of tar (you could use the projects buildtools-tarball from our last release or use scripts/install-buildtools).\n"
-+        return "Your version of tar is older than 1.28 and does not have the support needed to enable reproducible builds. Please install a newer version of tar (you could use the project's buildtools-tarball from our last release or use scripts/install-buildtools).\n"
-     return None
- 
- # We use git parameters and functionality only found in 1.7.8 or later
-@@ -634,6 +657,7 @@ def check_sanity_version_change(status, d):
-     except ImportError as e:
-         status.addresult('Your Python 3 is not a full install. Please install the module %s (see the Getting Started guide for further information).\n' % e.name)
- 
-+    status.addresult(check_gcc_version(d))
-     status.addresult(check_make_version(d))
-     status.addresult(check_patch_version(d))
-     status.addresult(check_tar_version(d))
--- 
-2.24.0
-
+>  # We use git parameters and functionality only found in 1.7.8 or later
+> --
+> 2.24.0
+>
+>=20
