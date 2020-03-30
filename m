@@ -1,107 +1,142 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web11.54633.1585585913402541634
+Received: from hel-mailgw-01.vaisala.com (hel-mailgw-01.vaisala.com [193.143.230.17])
+ by mx.groups.io with SMTP id smtpd.web10.55233.1585586792565760419
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2020 09:32:03 -0700
+ Mon, 30 Mar 2020 09:46:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XeMppPeE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id j19so3899015wmi.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2020 09:31:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=h5yU/G3kApCoE8OgSEBAoaTjqMZS/YMC2LXJKzd/RHc=;
-        b=XeMppPeEw35c3wYxmane9WmYYOn21ybX/jFRinLgPp8bzYMPpWotk8GiPjRuP9WGz0
-         psU9beS+4G5XOHdO0P7lZB38++ib69S2bM+mGuCdhDiDrr9guHB+lTdqLrHSlb6I60UY
-         NsFcn2R4xO3XVvBuKVGd3GEX1X6h91hBA4lgw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=h5yU/G3kApCoE8OgSEBAoaTjqMZS/YMC2LXJKzd/RHc=;
-        b=FbhLU219d9yQXnccGrnN/42uT0sApPdKE38pb+ehg/cPFwA9fE/yNj6YM2pGEil5Zc
-         Z/1DH1VxlUoye9OewdH2DcCEUI0ZPQQHeJF2a7hawSA5AQ4rbu+6zpOSuhLj+4YGqtzu
-         YaYXnBy0zWHXAG0dOBUNiEkqJ+XmKz2tZcmktnYrQcULwk7E/lC1GJgsciUXONH1YJ2d
-         b4h6E0F8JmE+j/n6ExHMW8IsClggQpRawio7VUGnPJM6D8bY0Ca7Wf17i7ZYeuGHzHFd
-         HGRjR9AvY7TvCbLkT3gzT/iosNeyPG+zsn4upujWOMNObFOVwyIIgJYjjkUspZsR1qH/
-         KpLA==
-X-Gm-Message-State: ANhLgQ3WWbPm8FUzkddiXKlq9EweENFxMcSzhQMyfl5zrQdhjxiGQp2n
-	RF7sNHdKW7nfqOyN8D6Xsmd/FA==
-X-Google-Smtp-Source: ADFU+vtqNU64W2MG9w/x2jSFqdB7METeWyoNhyUTAd2zt3LK52avI+Qu43Yk+HMIlkFd57Ypx24ZIg==
-X-Received: by 2002:a1c:1b14:: with SMTP id b20mr85504wmb.163.1585585911807;
-        Mon, 30 Mar 2020 09:31:51 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id l12sm22340600wrt.73.2020.03.30.09.31.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2020 09:31:51 -0700 (PDT)
-Message-ID: <673150a994845977a61edbd6a3a3e39f5dc8b3c6.camel@linuxfoundation.org>
-Subject: Re: [OE-core][RFC PATCH 2/2] image.bbclass: deploy image artifacts in stages
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>, Khem Raj <raj.khem@gmail.com>, 
- Armin Kuster <akuster808@gmail.com>, Jerome Neanne <jneanne@baylibre.com>,
- Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>, Bartosz Golaszewski
-	 <bgolaszewski@baylibre.com>
-Date: Mon, 30 Mar 2020 17:31:49 +0100
-In-Reply-To: <CAMRc=Md2DfUTEhR-DzswDc=LQSHdJ35NMeQCVMJ_qC7V_4jiEw@mail.gmail.com>
-References: <20200323172808.26338-1-brgl@bgdev.pl>
-	 <20200323172808.26338-3-brgl@bgdev.pl>
-	 <CAMRc=Md2DfUTEhR-DzswDc=LQSHdJ35NMeQCVMJ_qC7V_4jiEw@mail.gmail.com>
-User-Agent: Evolution 3.36.0-1 
+ dkim=missing; spf=pass (domain: vaisala.com, ip: 193.143.230.17, mailfrom: nandor.han@vaisala.com)
+IronPort-SDR: ThbaB7ncwtPlNpc/TVuD6CcQth3RIY9BMz4Mlw8VcSTUHc4+qMAti/dOErFG1CK19nLbMLX2cm
+ 91kohuX91hbhLXE6w11kDbQJtFQqspS+WJl9Li6RbgNKZRdA01E9yuiqPGjjiN4WTbDF48NJr1
+ OlncOK4EboqCH+c4QcdNcvSgLyLcnxnlK6fFzQAjE//gPvqQwZ5YlsFO/8u0182x+vMXY32Iv0
+ FGIXV7SodGHyNjIlNQ/S8ZBB9QIxxNH7JyYFVWJpnhZRr5UOqS0OK9ajfhdCnk2RyzoHN65VRD
+ moY=
+X-IronPort-AV: E=Sophos;i="5.72,325,1580767200"; 
+   d="scan'208";a="275066299"
+Subject: Re: [OE-core] [PATCH v3] classes: Add a new bbclass that abstracts the generation of FIT blobs
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Zach Booth <zbooth.dev@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20200326214308.1042374-1-nandor.han@vaisala.com>
+ <20200327082918.1213345-1-nandor.han@vaisala.com>
+ <CAFhEjg1kxfhcxngtCpsZ3bxvGr63p3Sf26mwSbMtZ3eVKc=SYQ@mail.gmail.com>
+ <b2ac5289-ac78-35a7-ed3c-6fd17435e644@vaisala.com>
+ <20200327181648.GK1578@denix.org>
+ <d2cb84cb-0480-eef1-5731-5cdab254b864@vaisala.com>
+ <20200330160748.GL1578@denix.org>
+From: "Nandor Han" <nandor.han@vaisala.com>
+Message-ID: <f34e7ac5-a630-eae7-13d8-505a5b366d50@vaisala.com>
+Date: Mon, 30 Mar 2020 19:46:23 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200330160748.GL1578@denix.org>
+Return-Path: nandor.han@vaisala.com
+X-OriginalArrivalTime: 30 Mar 2020 16:46:25.0665 (UTC) FILETIME=[C071FF10:01D606B2]
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-03-30 at 18:26 +0200, Bartosz Golaszewski wrote:
-> pon., 23 mar 2020 o 18:28 Bartosz Golaszewski <brgl@bgdev.pl>
-> napisał(a):
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > 
-> > Make each IMAGE_CMD task an sstate task with its own IMGDEPLOYDIR
-> > override. This way each generated set of artifacts is deployed as
-> > soon
-> > as it's ready instead of the do_image_complete task handling the
-> > entire
-> > deployement. This allows us to better fine-tune dependencies e.g.
-> > we
-> > can make do_image_wic depend on fitImage task which can in turn
-> > depend
-> > on do_image_ext4.
-> > 
-> > We need to completely delete the do_package task in order to avoid
-> > problems with task hash changes as well as delete the IMGDEPLOYDIR
-> > variable from the data object passed to each image task so that
-> > it's
-> > expanded with the correct override.
-> > 
-> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+On 2020-03-30 19:07, Denys Dmytriyenko wrote:
+> On Fri, Mar 27, 2020 at 08:24:49PM +0200, Nandor Han wrote:
+>> On 2020-03-27 20:16, Denys Dmytriyenko wrote:
+>>> On Fri, Mar 27, 2020 at 07:33:24PM +0200, Nandor Han wrote:
+>>>> On 2020-03-27 17:11, Zach Booth wrote:
+>>>>> On Fri, Mar 27, 2020 at 3:29 AM Nandor Han <nandor.han@vaisala.com> wrote:
+>>>>>>
+>>>>>> FIT format is very versatile allowing various combination of booting
+>>>>>> sequences. In the same time different U-Boot boot stages can use FIT
+>>>>>> blobs to pack various binaries (e.g. SPL supports reading U-Boot from a
+>>>>>> FIT blob). Because of the allowed level of customization, the generation
+>>>>>> of a FIT blob using a fixed image tree source, becomes challenging and
+>>>>>> increase the level of complexity where different configurations and
+>>>>>> combinations are needed.
+>>>>>>
+>>>>>> This bbclass will know how to generate a FIT blob, leaving the mechanics
+>>>>>> of the process (dependencies, task order...) to be handled by the users
+>>>>>> of the bbclass. In the same time will allow to separate the knowledge of
+>>>>>> the FIT format leaving the user code cleaner and more readable.
+>>>>>>
+>>>>>> Signed-off-by: Nandor Han <nandor.han@vaisala.com>
+>>>>>
+>>>>> This class looks very useful, but I did have a question. How would you
+>>>>> account for creating nodes dynamically? One use case of this would be
+>>>>> adding a DT node for each reference in KERNEL_DEVICETREE. Would that
+>>>>> functionality be expected to go in the recipe including this class or
+>>>>> the class itself?
+>>>>>
+>>>>
+>>>> Thanks Zack for feedback. Like I mentioned in one of Rickard's
+>>>> answer, I'm planning to update the `kernel-fitimage.bbclass` to use
+>>>> this class.
+>>>>
+>>>> In my local repo I have already a class that does what you're saying.
+>>>>
+>>>> e.g
+>>>> ```
+>>>> ...
+>>>> 24 python do_generate_fit_image() {
+>>>>   25     import os.path
+>>>>   26
+>>>>   27     device_trees = (d.getVar("KERNEL_DEVICETREE").split())
+>>>>   28     kernel_key_path =
+>>>> '{path}'.format(path=d.getVar("SECURITY_DIR_KEYS_RD") or "")
+>>>>   29     conf_signature = (d.getVar("CONF_NODE_CONF1") or "")
+>>>>   30     image_name = ""
+>>>>   31     mkimage_opts = ""
+>>>>   32
+>>>>   33     for dtb in device_trees:
+>>>>   34         d.setVarFlag("IMAGE_NODE_FDT", "data",
+>>>> '/incbin/("./arch/{arch}/boot/dts/{dtb}")'.format(
+>>>>   35          arch=d.getVar("ARCH"), dtb=dtb))
+>>>>   36         d.setVarFlag("IMAGE_NODE_FDT", "description", dtb)
+>>>>   37
+>>>>   38         if os.path.exists(kernel_key_path):
+>>>>   39             image_name =
+>>>> "kernel-{dtb_name}{suffix}".format(dtb_name=os.path.splitext(dtb)[0],
+>>>> suffix=".rdkeys")
+>>>>   40             mkimage_opts = d.getVar("FIT_IMAGE_MKIMAGE_OPTS_SIGNED")
+>>>>   41             d.setVar("FIT_IMAGE_UBOOT_MKIMAGE_OPTS", ("-k {key}
+>>>> -r {extra}".format(
+>>>>   42              key=kernel_key_path, extra=mkimage_opts)))
+>>>>   43             generate_fit_image(image_name, d)
+>>>>   44
+>>>>   45         if not conf_signature:
+>>>>   46             d.delVarFlag("CONF_NODE_CONF1", "signature")
+>>>>   47
+>>>>   48         mkimage_opts = d.getVar("FIT_IMAGE_MKIMAGE_OPTS_UNSIGNED")
+>>>>   49         d.setVar("FIT_IMAGE_UBOOT_MKIMAGE_OPTS",
+>>>> "{extra}".format(extra=mkimage_opts))
+>>>>   50         image_name =
+>>>> "kernel-{dtb_name}{suffix}".format(dtb_name=os.path.splitext(dtb)[0],
+>>>> suffix=".unsigned")
+>>>>   51         generate_fit_image(image_name, d)
+>>>>   52
+>>>>   53         if not conf_signature:
+>>>>   54             d.setVarFlag("CONF_NODE_CONF1", "signature",
+>>>> conf_signature)
+>>>>   55 }
+>>>> ...
+>>>> ```
+>>>>
+>>>> The code above will generate a separate FIT blob for every device
+>>>> tree declared in KERNEL_DEVICETREE. However this functionality
+>>>
+>>> So, no multiple device trees in a single FIT image? No multiple
+>>> configurations, ramdisks, etc?
+>>
+>> Given the class API is possible to configure your FIT source as you
+>> want. However, my plan is to refactor `kernel-fitimage` class to
+>> have this kind of features. The above code was only an example,
+>> something that I'm working on. I want to get this in and then it's
+>> easier to add new functionalities.
 > 
-> It's been a week. Can I get some feedback on this? Is the idea at
-> least remotely acceptable/can we build upon it?
+> Considering that fitimage is a critical functionality used by many BSPs
+> (even though it's not used in OE-Core itself), breaking it would upset
+> so many people... Not sure about this gradual approach.
+> 
 
-FWIW at a quick glance I didn't think it was too bad.
+Totally agree :). That's the beauty of this class...nothing is impacted. 
+My plan is to build gradually on top of this class different classes and 
+impact nobody about this. The users will be able to seamlessly take in 
+use the final solution without any big changes.
 
-I think there will be corner cases to resolve which I was hoping to
-look into and give some pointers to but I haven't had the time.
-
-I'm hoping somehow we can improve the FIXME you mention too.
-
-The do_package change should probably be separated out - I'm guessing
-we did noexec there for a reason though?
-
-Also, you used {}.format which I'm torn on since most of the codebase
-uses the other approach.
-
-Its too late to get this into 3.1 and that is where I'm focusing my
-effort right now but I think this is probably going the right way.
-
-Cheers,
-
-Richard
-
-
-
-
+Nandor
