@@ -1,89 +1,89 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.53031.1585582706572829792
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web12.53566.1585583490800997346
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2020 08:38:26 -0700
+ Mon, 30 Mar 2020 08:51:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YVetaF5J;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id m11so16351218wrx.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2020 08:38:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MUGQcvq4E89FrSbMC6u8ylbU/WElYJz//6EOmHc1q8s=;
-        b=YVetaF5JEEsfmQRJL4tydx5FteMNjla7Oej+T1uQ1jW69LpVQaqf8Pwc1zw1lUR+88
-         WGgEjBri6GZLtVjHFD3ssyvYP8rclUq6Z6HtOtSUVZC5C7RG09s3mSodzIuC6zmNJ+0E
-         1mSZDMG75jP2w4RwdzirbMjxD8+T9IkglOoKs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MUGQcvq4E89FrSbMC6u8ylbU/WElYJz//6EOmHc1q8s=;
-        b=IhgwVHQ9muBitUZpDQGDYtprGDqAPcOiLfpZl8Yd0u0TCfTo6d2sB5E5bDkb/nzX+E
-         vnTBiRD9dwAWPvlz2SEGREwRHdOQoztw1S8/0tdSniKfHNMeJ1d23Rj1Yug0bEuNsqeO
-         /6/87Gn6IrneySCrf3jlAUsgOz3t2rl+wSOb0cQdhGpkMVJvAyoIeVgvSD2/6DTAH5LE
-         N7KHjs+rtYxIuY0s3J/s6kBSu7R0cAdMm8Oo5OLxMBN5l0ABFaS+f/sR61S/ArLLRQ1v
-         lc5amMgBoRild0IKtH+k6C8hwK3OZ+KaEi0No8iVPfANWvFH+tV68zezbCbanAoW1kHY
-         Pulg==
-X-Gm-Message-State: ANhLgQ3bknBSnqxXiP94T0B7nq+phlV9zXuX9x//GxzsQL4DcWKuFZNF
-	Lzasf1wTFp6vWoZ0NTMeTIx2vJkppIo=
-X-Google-Smtp-Source: ADFU+vvZWgtsTs/daPRKz8YtRUCcAUtPA44QOj1BLjlvAo9XwSbCSpywyINXawJOWEMkBtlE4reelw==
-X-Received: by 2002:a5d:630b:: with SMTP id i11mr14765309wru.94.1585582704618;
-        Mon, 30 Mar 2020 08:38:24 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id j11sm22344253wrt.14.2020.03.30.08.38.22
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2020 08:38:23 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: C3IjbzcVXaSC0qKmUAHgZCTx+26fGAh/Twwy67pt4YKEQjAwb+wng6bK6sId0zTFImfTtIocHw
+ 2R0E1Ock5W/g==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2020 08:51:30 -0700
+IronPort-SDR: q4RETBG7DdIPRlD2UxwtOCyZTC2VI/GpIlFJMd/wNaMsEPUxbezUoRa4UTGwI0BMy8Zw/jZjjR
+ 84szb6q1hv7g==
+X-IronPort-AV: E=Sophos;i="5.72,324,1580803200"; 
+   d="scan'208";a="395165993"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.144.5])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Mar 2020 08:51:28 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] pseudo: Ensure we use our own libsqlite
-Date: Mon, 30 Mar 2020 16:38:21 +0100
-Message-Id: <20200330153821.658396-1-richard.purdie@linuxfoundation.org>
+Subject: [zeus][PATCH 0/9] zeus pull request - cover letter only
+Date: Mon, 30 Mar 2020 23:51:23 +0800
+Message-Id: <cover.1585583178.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pseudo-native is special in that bitbake ends up executing it from the
-sysroot-components directory before we have any workdirs for the bitbake
-fakeroot worker. Since we switched to dynamically linking sqlite, it
-means sqlite from the host system may be found, we really want the version
-in sysroot-components. Trying to run tasks to create some special environment
-for pseudo is hard and error prone. The simplest fix is to add an RPATH to
-the binary so that it can correctly find the sqlite we want.
+Please pull these changes for zeus. Clean a-full on autobuilder.
 
-Unfortunately passing $ORIGIN into make doesn't work so well with shell
-quoting so we have to fix that during do_install.
+Thanks,
 
-[YOCTO #13814]
+Anuj
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/pseudo/pseudo.inc | 2 ++
- 1 file changed, 2 insertions(+)
+The following changes since commit c940e4b858d6be28b198770768117ecc098fa0d3:
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index 7ff8e449e9a..50e30064bde 100644
---- a/meta/recipes-devtools/pseudo/pseudo.inc
-+++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -16,6 +16,7 @@ INSANE_SKIP_${PN}-dbg += "libdir"
- PROVIDES += "virtual/fakeroot"
- 
- MAKEOPTS = ""
-+MAKEOPTS_class-native = "'RPATH=-Wl,--rpath=XORIGIN/../../../sqlite3-native/usr/lib/'"
- 
- inherit siteinfo pkgconfig
- 
-@@ -115,6 +116,7 @@ do_install () {
- }
- 
- do_install_append_class-native () {
-+	chrpath ${D}${bindir}/pseudo -r `chrpath ${D}${bindir}/pseudo | cut -d = -f 2 | sed s/XORIGIN/\\$ORIGIN/`
- 	install -d ${D}${sysconfdir}
- 	# The fallback files should never be modified
- 	install -m 444 ${WORKDIR}/fallback-passwd ${D}${sysconfdir}/passwd
+  bluez: fix CVE-2020-0556 (2020-03-16 15:49:02 +0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/zeus-next
+
+Anuj Mittal (4):
+  icu: fix CVE-2020-10531
+  screen: fix CVE-2020-9366
+  e2fsprogs: fix CVE-2019-5188
+  e2fsprogs: backport upstream patch
+
+Bruce Ashfield (1):
+  linux-yocto/4.19: update to v4.19.107
+
+Chee Yang Lee (1):
+  wic/direct: reserve 2 sector for extended partition
+
+Julius Hemanth Pitti (1):
+  nfs-utils: Disable statx if using glibc emulation
+
+Ross Burton (1):
+  sanity: check for more bits of Python
+
+Tom Hochstein (1):
+  security_flags.inc: fix flags missing from SDK toolchain
+
+ meta/classes/sanity.bbclass                   |  12 +-
+ meta/conf/distro/include/security_flags.inc   |   2 +
+ ...sable-statx-if-using-glibc-emulation.patch |  34 +++++
+ .../nfs-utils/nfs-utils_2.4.1.bb              |   1 +
+ ...-t-try-to-rehash-a-deleted-directory.patch |  49 +++++++
+ .../e2fsprogs/e2fsprogs/CVE-2019-5188.patch   |  57 ++++++++
+ ...fix-use-after-free-in-calculate_tree.patch |  76 +++++++++++
+ .../e2fsprogs/e2fsprogs_1.45.3.bb             |   3 +
+ .../screen/screen/CVE-2020-9366.patch         |  48 +++++++
+ meta/recipes-extended/screen/screen_4.6.2.bb  |   1 +
+ .../linux/linux-yocto-rt_4.19.bb              |   6 +-
+ .../linux/linux-yocto-tiny_4.19.bb            |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb |  20 +--
+ .../icu/icu/CVE-2020-10531.patch              | 122 ++++++++++++++++++
+ meta/recipes-support/icu/icu_64.2.bb          |   1 +
+ scripts/lib/wic/plugins/imager/direct.py      |   6 +-
+ 16 files changed, 421 insertions(+), 25 deletions(-)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Disable-statx-if-using-glibc-emulation.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/0001-e2fsck-don-t-try-to-rehash-a-deleted-directory.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5188.patch
+ create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/e2fsck-fix-use-after-free-in-calculate_tree.patch
+ create mode 100644 meta/recipes-extended/screen/screen/CVE-2020-9366.patch
+ create mode 100644 meta/recipes-support/icu/icu/CVE-2020-10531.patch
+
 -- 
 2.25.1
 
