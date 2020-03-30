@@ -1,95 +1,88 @@
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com [209.85.217.65])
- by mx.groups.io with SMTP id smtpd.web11.662.1585597962715100108
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web12.657.1585597965859487712
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2020 12:52:42 -0700
+ Mon, 30 Mar 2020 12:52:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=O17YQyvt;
- spf=pass (domain: gmail.com, ip: 209.85.217.65, mailfrom: armccurdy@gmail.com)
-Received: by mail-vs1-f65.google.com with SMTP id w185so11898833vsw.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2020 12:52:42 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QFLY9047;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id s1so23168238wrv.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2020 12:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=cCW9orwSL9NiKtX9yN7Ufy7M0oNnGhVreMb+j/fKXTw=;
-        b=O17YQyvtLhhR0CT+GTSTEhgZVfybdV32F2wyeg84NTkrGUQ+1RFOZHe4JSpLo0Z7XA
-         N4I0YHLM0BUj1rrOIo4g46IQ+2Y6wSqiNSDSPinVhFXPkly5ViyzPi3OEr7f0i6FggiH
-         N02fNgr1lP+5LCoXrT90e1LRJe6ACNSP0Cl7u3+vgLuVmYTfe/3JXkQgRCI6qv4qFM0z
-         Of5rcTFVNfbKqcqM3Fyzewu3sJ6x7uFBkNQPE5VQpVQWvUoNONKiGOSN5o3iY2CGsupC
-         EYNxwJlsVpJoLcOPd4zfBRTMagCY40W/56q9UYQUwpGhq1INf60pbp8PDZBC6gwWaEcR
-         ypDA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=AknU01pLLl0DvlPF3UsahedNCow1qnXJFURvbWOe2AI=;
+        b=QFLY9047TLQSnCXVR8Z7FHMZmHnxbmyW1FCjwQaOUpUhFRV3j5ni+EIsgs2jo+hMc3
+         Mou9fuHfrJ92wF/TekspdO1Yl5CeOA4ClPr8TQNu6eATdK+RG9zRmspn8Mo7qYKrVAFX
+         7knbLXlg3M4XGAca55dal3ovUACDAhftSpuA4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=cCW9orwSL9NiKtX9yN7Ufy7M0oNnGhVreMb+j/fKXTw=;
-        b=eNM2FlzPDiqVCheGljlENmMfJjqiNEYsapWG98Mf85sjeN9nJ3TW7P9O7jbFJRgWC5
-         b9sPE4E/Ff6mZB2xreFBtzLt4AqfcUm7qakRRP/JWjN8zYUKa32lErl4RTueC/kYGIrI
-         aNTiYAnaBPuso3AlaBFpgRU0tG22QnMa+eJl/19MVINdXefmLkrHXRp6syZ3TeoKR/Uh
-         7rsXOu2pGpo5OQBNQSqKI4XDZi/2jj/PL4wBcedSZN0u/WICRzoWagabKkFUzXGP4Oz0
-         tc20UaLSqKYwSywL463tqUPe9KqL33haOaiJpErin1lMxn9VHC6iNql8qKJtgum8THtf
-         RONQ==
-X-Gm-Message-State: AGi0PuZkvMwvWRyi37PPs+/ueOxfcknxoSYYrnkK5vav4Fyv4Y0INbUx
-	duEQQPTY3hFnV+uo/MdwMYV9x0oWiaQXCPE1ld7doA==
-X-Google-Smtp-Source: APiQypL/n4ocaV2EaVvVBRTFuNa+PXXRCR0rds8s18GMgCkZRwsOLZHOURJZLC8OUi+jFKTaTEoT18nG4GZ0xVsNckE=
-X-Received: by 2002:a67:80d6:: with SMTP id b205mr9089895vsd.137.1585597961768;
- Mon, 30 Mar 2020 12:52:41 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=AknU01pLLl0DvlPF3UsahedNCow1qnXJFURvbWOe2AI=;
+        b=PU4x+h5kUycoKKZCjA7/c5o5q2exVuLt3ZUAyFBpmwlb67nu3m7NKhWMYB3YUtim0D
+         83RvVaDAamn+y1wW8aEOSkpEO3dPq6at2QjpmymhlDuSLifSk4i1XZtxfISNcrhhPQyk
+         cmlxp5wXibHSQmBNoI1einuFA5KVuyqab07zu4svmzVKWiDek8wrJPnF7WcqJjEd3Uy/
+         xYweKqFJUD8EaPxtnjEIdQ6G2Vz0Imeq47NcEbrjtTNqZxXwHJLRRdlVkEbBfdKm/txx
+         UuPZfV1ghfFLYpHjNPIKrO+B85iXCZLAJ3dKo31eWin/Rlhu6G8u/yjKmZ8HZ2tfl3yv
+         /WCQ==
+X-Gm-Message-State: ANhLgQ0mcrB8Xo2Ddbmfmi3l6SUmpYgE129aJEV2h54BZYuX89aLpiFE
+	lMacb53jPYGFFtWo2kR0Nwt9Eg==
+X-Google-Smtp-Source: ADFU+vt6y64qsWvscjOCekvzxd8ZnW8k6L0vpXn1XZq1IY7Q1m1ulvPxMBqfVukAVESlApR5WVd1yg==
+X-Received: by 2002:a5d:464e:: with SMTP id j14mr16528056wrs.339.1585597964322;
+        Mon, 30 Mar 2020 12:52:44 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id 71sm24817277wrc.53.2020.03.30.12.52.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Mar 2020 12:52:43 -0700 (PDT)
+Message-ID: <1c499374846e55d377d60b4faf28c50bb7b675f6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 4/4] sanity.bbclass: add test for gcc < 5.0
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Tim Orling <timothy.t.orling@linux.intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 30 Mar 2020 20:52:42 +0100
+In-Reply-To: <20200330194302.30032-4-timothy.t.orling@linux.intel.com>
+References: <20200330194302.30032-1-timothy.t.orling@linux.intel.com>
+	 <20200330194302.30032-4-timothy.t.orling@linux.intel.com>
+User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
-References: <20200330194302.30032-1-timothy.t.orling@linux.intel.com> <20200330194302.30032-3-timothy.t.orling@linux.intel.com>
-In-Reply-To: <20200330194302.30032-3-timothy.t.orling@linux.intel.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Mon, 30 Mar 2020 12:52:31 -0700
-Message-ID: <CAJ86T=WkdB4W7rC7Nc254oUT+kRQk09Z4iCJ4jL38iLqHhD6BQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 3/4] sanity.bbclass: recommend using install-buildtools
-To: Tim Orling <timothy.t.orling@linux.intel.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 30, 2020 at 12:43 PM Tim Orling
-<timothy.t.orling@linux.intel.com> wrote:
->
-> For old tar versions (1.24 and 1.28), recommned using
+On Mon, 2020-03-30 at 12:43 -0700, Tim Orling wrote:
+> +# The gcc version in CentOS-7 (4.8.5) is known to be a problem.
+> +# Require at least gcc version 5.0.
+> +#
+> +# This can be fixed on CentOS-7 with devtoolset-6+
+> +# https://www.softwarecollections.org/en/scls/rhscl/devtoolset-6/
+> +#
+> +# A less invasive fix is with scripts/install-buildtools (or with user
+> +# built buildtools-extended-tarball)
+> +#
+> +def check_gcc_version(sanity_data):
+> +    from distutils.version import LooseVersion
+> +    import subprocess
+> +    build_cc = sanity_data.getVar('BUILD_CC').strip()
+> +    if build_cc == "gcc":
+> +        try:
+> +            result = subprocess.check_output(["gcc", "--version"], stderr=subprocess.DEVNULL).decode('utf-8')
+> +        except subprocess.CalledProcessError as e:
+> +            return "Unable to execute gcc --version, exit code %d\n%s\n" % (e.returncode, e.output)
+> +        version = result.split()[2]
+> +        if LooseVersion(version) < LooseVersion("5.0"):
+> +            return "Your version of gcc is older than 5.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
+> +    return None
 
-Typo.
+I had forgotten we had this but a recent patch reminded me, would we
+want to tweak this function:
 
-> scripts/install-buildtools
->
-> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
-> ---
->  meta/classes/sanity.bbclass | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index cca5cdad17..0cf955a341 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -533,9 +533,9 @@ def check_tar_version(sanity_data):
->          return "Unable to execute tar --version, exit code %d\n%s\n" % =
-(e.returncode, e.output)
->      version =3D result.split()[3]
->      if LooseVersion(version) < LooseVersion("1.24"):
-> -        return "Your version of tar is older than 1.24 and has bugs whi=
-ch will break builds. Please install a newer version of tar (1.28+).\n"
-> +        return "Your version of tar is older than 1.24 and has bugs whi=
-ch will break builds. Please install a newer version of tar (1.28+). You co=
-uld use the project's buildtools-tarball from our last release or use scrip=
-ts/install-buildtools\n"
->      if LooseVersion(version) < LooseVersion("1.28"):
-> -        return "Your version of tar is older than 1.28 and does not hav=
-e the support needed to enable reproducible builds. Please install a newer =
-version of tar (you could use the projects buildtools-tarball from our last=
- release).\n"
-> +        return "Your version of tar is older than 1.28 and does not hav=
-e the support needed to enable reproducible builds. Please install a newer =
-version of tar (you could use the projects buildtools-tarball from our last=
- release or use scripts/install-buildtools).\n"
->      return None
+http://git.yoctoproject.org/cgit.cgi/poky/tree/meta/lib/oe/utils.py?h=master-next#n376
 
-Is it useful to keep two levels of version check?
+?
 
->  # We use git parameters and functionality only found in 1.7.8 or later
-> --
-> 2.24.0
->
->=20
+Cheers,
+
+Richard
+
+
