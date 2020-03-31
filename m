@@ -1,108 +1,95 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
- by mx.groups.io with SMTP id smtpd.web12.1354.1585676813224997111
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web10.1557.1585677189856968548
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2020 10:46:53 -0700
+ Tue, 31 Mar 2020 10:53:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.222.179, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qk1-f179.google.com with SMTP id l25so23998531qki.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 10:46:53 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=0spoqU8B;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.222.194, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qk1-f194.google.com with SMTP id l25so24022523qki.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 10:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc;
+        bh=BXh7dHQtD/cvkC6jw0U8ipr6OklEZPGJS8X6fImeevc=;
+        b=0spoqU8B5ZKKfIs+xQuYn0duI7ZENZ1ihcUOyCVh8B2culgeEnRTaD1OGHBuzsTQ8A
+         LujuUL/vMWlet8A3a/0QZKD36ePbq8DDzUaL+MamKKY9+7Y/rFFwIUoY4Kd9hwhZhgIN
+         aVDq9D0Ih16Ruq4At4wxuuAsXOz3/sQfbrCcz2eSXlHUXbTasMs70/rEzcL0LegcPsql
+         f/AMHRBflFhfpGR+Nf4RvVuWz6lh2/fbIXkdk59GfDoLXxt0bqAHHpnWMfuDJCTHuwkK
+         NokoXx0OyUS4b59/TuoOlfENzBTRLBWi6VIPmkXoPbqGLzTu0YrA4oH7iejJVow8qGgK
+         Bf9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :organization:content-transfer-encoding;
-        bh=XKACpooL5KeCzPZtnFdDwgRvNN62rPBgeBAMlXx2OZo=;
-        b=ZbgRtzPEl2JFlVpgW/DAnqOGRbh+XNrm4b+XCb0nnKTuLf3drDnivpYGOkrg7f/pVP
-         973EFv+cVMA96+tLufFYqBkvFW4fblMXfCCSss1/oS9px25GHXwtO5Nc4nUY8xbEWmx5
-         Z2cZKH0Nj6iRpy6cCtM0GpS6i+ykZy3Zz8vK5GVqWpruno58/m5QKACGC8uJOPXRV4nY
-         Gx8eaxgnv2nYVp3zQLkTQO5ccWP6B5StqRlquta65QjTjnIiC20wLGj5hZDaqhqQIiff
-         sejb/IteTky7x5WkqgZSKuC3O+tDaYQIUNXcJzN1HqTZnZFfNbhTip7AXwF+bYiNQ8GS
-         bv8w==
-X-Gm-Message-State: ANhLgQ3JVszhiCUHMwDAnEm3N3EwUf8LBPBjE05BPdGwrsky0z8Sm6zl
-	J+gESXADGHzGB+npUZSbWt7AMMGaDqU=
-X-Google-Smtp-Source: ADFU+vvtWxfsE4GcCqbvLaFxXOAkOAgsQjcD1au0HpXsD0SFtaj+JZGGf55oGL6+KR2INJk1AgNanA==
-X-Received: by 2002:a37:9b16:: with SMTP id d22mr6130953qke.318.1585676811959;
-        Tue, 31 Mar 2020 10:46:51 -0700 (PDT)
-Return-Path: <otavio.salvador@gmail.com>
-Received: from localhost ([181.220.114.167])
-        by smtp.gmail.com with ESMTPSA id t6sm13405005qkd.60.2020.03.31.10.46.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2020 10:46:51 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@gmail.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Cc: Tom Rini <trini@konsulko.com>,
-	Stefano Babic <sbabic@denx.de>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] u-boot: Add UBOOT_LOCALVERSION_AUTO support
-Date: Tue, 31 Mar 2020 14:46:41 -0300
-Message-Id: <20200331174641.1094071-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.26.0
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc;
+        bh=BXh7dHQtD/cvkC6jw0U8ipr6OklEZPGJS8X6fImeevc=;
+        b=o1i0oBlxnVLxX3THWnUQTGlXtu35ZQ5HfhPL8w3veLItRGGWMxGAe1uDJdQMvgccrm
+         R0rVK13eDYLRQ7+ZmUbk/0qVkaA06PghUlsg2uJlgZ2U1srefuQAdaXRts1Wq5vuajr8
+         +I6Tvoa+eNjR/XwG/tZh5rkn3uNxByojMzQe4XCL9k7kP3uRmMfMDdh/X9CPuP+7mpRh
+         6PUNlHwbNPv1UGIG/O0F3iuvrsFyCUxUmBBCPkLcnFg1/vGJPGz+sNF+RXkJi0EsrQLC
+         4uubEM0BV1vP1tZ4YDxGtmiLYNYm+5nyDlxyImt+dt4dwF3TyDcLcwjft7i9Q6Hj4y3j
+         g/UQ==
+X-Gm-Message-State: ANhLgQ3LcbqxL1ONFyqCEGAbzD3WRgKNqF2EpMdcl5PlwCRiGe3cUVfe
+	n3a6Fn7iIUbRWyoDLeVpPvaUUI+HBn/J+A==
+X-Google-Smtp-Source: ADFU+vv85hKyfLe0Uu661ykBf246sO4GQr9eQLE+tlo7z7jgn9h2y5JSImWkySrJbd9xdjz/b1bjVw==
+X-Received: by 2002:a37:a08b:: with SMTP id j133mr6394973qke.265.1585677188726;
+        Tue, 31 Mar 2020 10:53:08 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com. [209.85.222.175])
+        by smtp.gmail.com with ESMTPSA id 207sm13101793qkj.41.2020.03.31.10.53.07
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Mar 2020 10:53:07 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f175.google.com with SMTP id x3so24010785qki.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 10:53:07 -0700 (PDT)
+X-Received: by 2002:a05:620a:9:: with SMTP id j9mr5608175qki.82.1585677186757;
+ Tue, 31 Mar 2020 10:53:06 -0700 (PDT)
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Content-Transfer-Encoding: 8bit
+References: <20200331151645.1030603-1-otavio@ossystems.com.br>
+ <04006361-dc62-45a3-3cff-7f00004180e0@denx.de> <CAP9ODKqVEmRYzj6OOcXMjeZq-LwZgAQmSOiJ5v67NRueFBOGKQ@mail.gmail.com>
+ <e7d00367-55ea-666b-2cd8-a9ab1fb3a09d@denx.de>
+In-Reply-To: <e7d00367-55ea-666b-2cd8-a9ab1fb3a09d@denx.de>
+Date: Tue, 31 Mar 2020 14:52:54 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoQshX1-i72Q1Q2o-Dd1J8p4FS-0RiaSomRNEDKr1=PmA@mail.gmail.com>
+Message-ID: <CAP9ODKoQshX1-i72Q1Q2o-Dd1J8p4FS-0RiaSomRNEDKr1=PmA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] u-boot: Restore valid default environment for running system
+To: Stefano Babic <sbabic@denx.de>
+Cc: Otavio Salvador <otavio@ossystems.com.br>, 
+	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, Tom Rini <trini@konsulko.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Add the Git revision used for the build. It is very useful especially when
-using custom or vendor U-Boot forks so we can map a binary to a specific
-source revision. Valid values are "0" or "1".
+On Tue, Mar 31, 2020 at 2:03 PM Stefano Babic <sbabic@denx.de> wrote:
+> On 31.03.20 18:44, Otavio Salvador wrote:
+> > Hello Stefano,
+> >
+> > On Tue, Mar 31, 2020 at 12:32 PM Stefano Babic <sbabic@denx.de> wrote:
+> >> On 31.03.20 17:16, Otavio Salvador wrote:
+> > ...
+> >>> - u-boot-initial-env on deploy
+> >>> - fw_env.config on deploy
+> >>
+> >> Why do we need both of them in deploy ? For making system functional, we
+> >> just need that both files are in /etc, that is ${PN}-env must be
+> >> installed (and then you set RRECOMMENDS). But why in deploy ? Am I
+> >> missing something ?
+> >
+> > This is used externally, as well as the u-boot binary. In our case, we
+> > use this to add them to the UpdateHub package so we can upgrade the
+> > U-Boot environment during the update process. Something similar can be
+> > done using swupdate.
+> >
+>
+> Ah, ok - got it.
+>
+> In your commit message, you stated that as side-effect after switching
+> to libubootenv is to put the initial environment in deploy. Fine with me
 
-This is based on a class which has been in use in `meta-freescale` BSP
-for years and has been very useful especially for custom U-Boot releases
-as it allow we to know the exact Git revision used for the binary.
+What I meant was a side effect of the change itself.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
----
 
- meta/recipes-bsp/u-boot/u-boot.inc | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index b13db224732..39d35500e11 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -24,6 +24,11 @@ PACKAGECONFIG[openssl] = ",,openssl-native"
- # file already exists it will not be overwritten.
- UBOOT_LOCALVERSION ?= ""
- 
-+# Add the Git revision used for the build. It is very useful especially when
-+# using custom or vendor U-Boot forks so we can map a binary to a specific
-+# source revision. Valid values are "0" or "1".
-+UBOOT_LOCALVERSION_AUTO ?= "0"
-+
- # Some versions of u-boot use .bin and others use .img.  By default use .bin
- # but enable individual recipes to change this value.
- UBOOT_SUFFIX ??= "bin"
-@@ -84,6 +89,19 @@ do_configure () {
-             oe_runmake -C ${S} O=${B} oldconfig
-         fi
-         merge_config.sh -m .config ${@" ".join(find_cfgs(d))}
-+
-+        if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]; then
-+            if [ "${UBOOT_LOCALVERSION_AUTO}" = "1" ]; then
-+                # Add GIT revision to the local version
-+                head=`cd ${S} ; git rev-parse --verify --short HEAD 2> /dev/null`
-+                printf "%s%s%s" "${UBOOT_LOCALVERSION}" +g $head > ${S}/.scmversion
-+                printf "%s%s%s" "${UBOOT_LOCALVERSION}" +g $head > ${B}/.scmversion
-+            else
-+                printf "%s" "${UBOOT_LOCALVERSION}" > ${S}/.scmversion
-+                printf "%s" "${UBOOT_LOCALVERSION}" > ${B}/.scmversion
-+            fi
-+        fi
-+
-         cml1_do_configure
-     else
-         DEVTOOL_DISABLE_MENUCONFIG=true
-@@ -99,12 +117,6 @@ do_compile () {
- 	unset CFLAGS
- 	unset CPPFLAGS
- 
--	if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]
--	then
--		echo ${UBOOT_LOCALVERSION} > ${B}/.scmversion
--		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
--	fi
--
-     if [ -n "${UBOOT_CONFIG}" ]
-     then
-         unset i j k
 -- 
-2.26.0
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
