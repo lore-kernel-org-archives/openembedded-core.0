@@ -1,139 +1,101 @@
-Received: from mga04.intel.com (mga04.intel.com [])
- by mx.groups.io with SMTP id smtpd.web11.4791.1585685005811098451
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web10.205.1585686312101170051
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2020 13:03:30 -0700
+ Tue, 31 Mar 2020 13:25:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: <nil>, mailfrom: timothy.t.orling@linux.intel.com)
-IronPort-SDR: 0mxAal/xxj3XPXFQJcX2FRZRzeE/zKrXfTWOczfwj5BV10kTiD79uBHSzgKJ216ie0dbsGklKr
- +/X69W/aIjhQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2020 13:03:30 -0700
-IronPort-SDR: KNr8NZFGzx49ccnxHdblr10eKYajDsXmVZggwILtQs3I2MS2y/rsEsziQ1sTldgS4P/1D1OC0H
- rDQiK+uHtj/w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,328,1580803200"; 
-   d="scan'208";a="267398051"
-Received: from wrath.jf.intel.com ([10.54.31.24])
-  by orsmga002.jf.intel.com with ESMTP; 31 Mar 2020 13:03:30 -0700
-From: "Tim Orling" <timothy.t.orling@linux.intel.com>
+ dkim=pass header.i=@linaro.org header.s=google header.b=Fc1VFxFm;
+ spf=pass (domain: linaro.org, ip: 209.85.210.53, mailfrom: anibal.limon@linaro.org)
+Received: by mail-ot1-f53.google.com with SMTP id f52so23487270otf.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 13:25:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bwNyztI4KQuzp3dsvoF2BiK/IoM6PiP9wUfTz7l5nAs=;
+        b=Fc1VFxFm59nuZdGY2N2OQwMafRgXFDupRaAgPDgX/bqU/3/JRjXAt0lKGLDA27NS7i
+         nVKVJ6uvwZU6tGZBWKtEVgXlRmEctIuuJxVPjYgLzvP8MnxwQYgpvh6z4E7MueU0X9XS
+         SNNDSIjzKaK4cichopf7EyLI1PGWvMkNGJ54cCHdrIwFSzW1hKCIrKVaYA/NBvs+PSGp
+         0O3kj+qrxPSBdl7SrcfBmipS01vtqyGhO9jNJ/PUBIrbD8m77472x/EZvsbsaLg7RZkU
+         SJVtTb1p/MY4/k4jSmdcGQS8E9tBObhqwSnD1btzXViW+UHFQ31VdQMTOngXG2kvW/gB
+         19sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bwNyztI4KQuzp3dsvoF2BiK/IoM6PiP9wUfTz7l5nAs=;
+        b=CrT0QmUzazQf54q2O1TygCSVcoseox8y9YlH6VTypa1pC84GR1Aa7gmT77XKbCzIay
+         rybDBVeNmTxI48V0VMeEKi4tAiCz32Oubsin879MaAeRmGUZVA78lvy+ifpa1YKZ3jMJ
+         SPgr5oE4WHxSi1JBjfpoEcquBVcylUWN4fvXAdOMMDvEw7pQ0WkRswKtYSQ5b12678ZM
+         psr7OekP6+YJEGmKTQFw4uW0LANjBAacanN93sf89o+Q756PWNS0zHUKBuB5QJPLFmVp
+         D1s0NhC9BfaXR82F46/H0+MUSzQoj4ROWMF4qXsQlid9+50ILzvbJ/VcRm32YzTUFP33
+         qaLA==
+X-Gm-Message-State: ANhLgQ0Ce7q3eE8+1MtieY+veqUi0Pj0jWkAcUuEHMO/9Fx8UjF9prvr
+	qzIqCA+BMbSrYq+QjEXih147+kt/9So=
+X-Google-Smtp-Source: ADFU+vtI68qSW+80NfxtgI62sOzDMy8MD15uBXgjeUhNajFl6Re/RWqgfC2jspm0TkArGDfTL4m8Hg==
+X-Received: by 2002:a05:6830:1f39:: with SMTP id e25mr14628701oth.135.1585686311146;
+        Tue, 31 Mar 2020 13:25:11 -0700 (PDT)
+Return-Path: <anibal.limon@linaro.org>
+Received: from blackbox.rga.ip ([2806:109f:4:66a1:908a:c7ff:fe6a:e9f5])
+        by smtp.gmail.com with ESMTPSA id j132sm14201oih.1.2020.03.31.13.25.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2020 13:25:10 -0700 (PDT)
+From: "Anibal Limon" <anibal.limon@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: kai.kang@windriver.com,
-	randy.macleod@windriver.com,
-	Tim Orling <timothy.t.orling@linux.intel.com>
-Subject: [PATCH v2 6/6] install-buildtools: bump default to yocto-3.1_M3, fixes
-Date: Tue, 31 Mar 2020 13:03:06 -0700
-Message-Id: <20200331200306.36942-6-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200331200306.36942-1-timothy.t.orling@linux.intel.com>
-References: <20200331200306.36942-1-timothy.t.orling@linux.intel.com>
+Cc: nicolas.dechesne@linaro.org,
+	richard.purdie@linuxfoundation.org,
+	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+Subject: [PATCHv2] recipes-kernel/linux-firmware: Add qcom-sdm845-{audio,compute,modem} firmware packages
+Date: Tue, 31 Mar 2020 14:25:07 -0600
+Message-Id: <20200331202507.280778-1-anibal.limon@linaro.org>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add ability to check md5sum (yocto-3.1_M2 and before) or sha256
-(yocto-3.1_M3 and beyond).
+Contains the firmware for the audio, compute and modem/wireless in SDM845 platforms.
 
-Make regex for path in checksum file optional, since
-for yocto-3.1_M3 the format is <checksum>  <filename>,
-but prior releases was <checksum>  <path><filename>
-
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
- scripts/install-buildtools | 51 ++++++++++++++++++++++----------------
- 1 file changed, 30 insertions(+), 21 deletions(-)
+ .../linux-firmware/linux-firmware_20200122.bb            | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 49cab1345a..92fb1eb7d2 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -11,14 +11,14 @@
- #  Example usage (extended buildtools from milestone):
- #    (1) using --url and --filename
- #        $ install-buildtools \
--#          --url http://downloads.yoctoproject.org/releases/yocto/milestones/yocto-3.1_M2/buildtools \
--#          --filename x86_64-buildtools-extended-nativesdk-standalone-3.0+snapshot-20200122.sh
-+#          --url http://downloads.yoctoproject.org/releases/yocto/milestones/yocto-3.1_M3/buildtools \
-+#          --filename x86_64-buildtools-extended-nativesdk-standalone-3.0+snapshot-20200315.sh
- #    (2) using --base-url, --release, --installer-version and --build-date
- #        $ install-buildtools \
- #          --base-url http://downloads.yoctoproject.org/releases/yocto \
--#          --release yocto-3.1_M2 \
-+#          --release yocto-3.1_M3 \
- #          --installer-version 3.0+snapshot
--#          --build-date 202000122
-+#          --build-date 202000315
- #
- #  Example usage (standard buildtools from release):
- #    (3) using --url and --filename
-@@ -61,9 +61,9 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
+index a7406e48de..7173409e05 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
+@@ -289,6 +289,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
+              ${PN}-qcom-license \
+              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 \
+              ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 \
++             ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
+              ${PN}-whence-license \
+              ${PN}-license \
+              "
+@@ -841,17 +842,23 @@ FILES_${PN}-qat-license   = "${nonarch_base_libdir}/firmware/LICENCE.qat_firmwar
+ FILES_${PN}-qat           = "${nonarch_base_libdir}/firmware/qat*.bin"
+ RDEPENDS_${PN}-qat        = "${PN}-qat-license"
  
- DEFAULT_INSTALL_DIR: str = os.path.join(os.path.split(scripts_path)[0],'buildtools')
- DEFAULT_BASE_URL: str = 'http://downloads.yoctoproject.org/releases/yocto'
--DEFAULT_RELEASE: str = 'yocto-3.1_M2'
-+DEFAULT_RELEASE: str = 'yocto-3.1_M3'
- DEFAULT_INSTALLER_VERSION: str = '3.0+snapshot'
--DEFAULT_BUILDDATE: str = "20200122"
-+DEFAULT_BUILDDATE: str = "20200315"
+-# For QCOM VPU/GPU
++# For QCOM VPU/GPU and SDM845
+ LICENSE_${PN}-qcom-license = "Firmware-qcom"
+ FILES_${PN}-qcom-license   = "${nonarch_base_libdir}/firmware/LICENSE.qcom ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt"
+ FILES_${PN}-qcom-venus-1.8 = "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
+ FILES_${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
+ FILES_${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
+ FILES_${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
++FILES_${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
++FILES_${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
++FILES_${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.*"
+ RDEPENDS_${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
++RDEPENDS_${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
  
+ FILES_${PN}-liquidio = "${nonarch_base_libdir}/firmware/liquidio"
  
- def main():
-@@ -189,31 +189,40 @@ def main():
-         if args.check:
-             import bb
-             logger.info("Fetching buildtools installer checksum")
--            check_url = "{}.md5sum".format(buildtools_url)
--            checksum_filename = "%s.md5sum" % filename
--            tmpbuildtools_checksum = os.path.join(tmpsdk_dir, checksum_filename)
--            ret = subprocess.call("wget -q -O %s %s" %
--                                  (tmpbuildtools_checksum, check_url), shell=True)
--            if ret != 0:
--                logger.error("Could not download file from %s" % check_url)
--                return ret
--            regex = re.compile(r"^(?P<md5sum>[0-9a-f]+)\s\s(?P<path>.*/)(?P<filename>.*)$")
-+            checksum_type = ""
-+            for checksum_type in ["md5sum", "sha256"]: 
-+                check_url = "{}.{}".format(buildtools_url, checksum_type)
-+                checksum_filename = "{}.{}".format(filename, checksum_type)
-+                tmpbuildtools_checksum = os.path.join(tmpsdk_dir, checksum_filename)
-+                ret = subprocess.call("wget -q -O %s %s" %
-+                                      (tmpbuildtools_checksum, check_url), shell=True)
-+                if ret == 0:
-+                    break
-+            else:
-+                if ret != 0:
-+                    logger.error("Could not download file from %s" % check_url)
-+                    return ret
-+            regex = re.compile(r"^(?P<checksum>[0-9a-f]+)\s\s(?P<path>.*/)?(?P<filename>.*)$")
-             with open(tmpbuildtools_checksum, 'rb') as f:
-                 original = f.read()
-                 m = re.search(regex, original.decode("utf-8"))
--                logger.debug("md5sum: %s" % m.group('md5sum'))
-+                logger.debug("checksum regex match: %s" % m)
-+                logger.debug("checksum: %s" % m.group('checksum'))
-                 logger.debug("path: %s" % m.group('path'))
-                 logger.debug("filename: %s" % m.group('filename'))
-                 if filename != m.group('filename'):
-                     logger.error("Filename does not match name in checksum")
-                     return 1
--                md5sum = m.group('md5sum')
--            md5value = bb.utils.md5_file(tmpbuildtools)
--            if md5sum == md5value:
--                logger.info("Checksum success")
-+                checksum = m.group('checksum')
-+            if checksum_type == "md5sum":
-+                checksum_value = bb.utils.md5_file(tmpbuildtools)
-+            else:
-+                checksum_value = bb.utils.sha256_file(tmpbuildtools)
-+            if checksum == checksum_value:
-+                    logger.info("Checksum success")
-             else:
-                 logger.error("Checksum %s expected. Actual checksum is %s." %
--                             (md5sum, md5value))
-+                             (checksum, checksum_value))
- 
-         # Make installer executable
-         logger.info("Making installer executable")
 -- 
-2.24.0
+2.26.0
 
