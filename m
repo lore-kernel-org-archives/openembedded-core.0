@@ -1,79 +1,77 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.1055.1585689198267295004
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+ by mx.groups.io with SMTP id smtpd.web11.199.1585692897069266976
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2020 14:13:18 -0700
+ Tue, 31 Mar 2020 15:14:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Drukv+iF;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id t8so793537wmi.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 14:13:18 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=LS4gPsTl;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.219.68, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qv1-f68.google.com with SMTP id z13so11804249qvw.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 15:14:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xDHa+rB52a+ZItnuQGog1l6HqJ1r8xejMTTwa2Lv0Dk=;
-        b=Drukv+iFbLXBJOrgYZThsiTVMc476oJ6Kv3bh9sbdrNgtXyYfwQ2zOFhPqJthHXVWG
-         ZuRfnGPJe6KKECYxQ0223IA06t/NXAiLeG9RwNrV35QzY8dzqz35Vq4ksJj6yxW65kOH
-         q54jtXGb+UD1/s2gCW5zJ0OvDGeyn94qhEI62tDLJLaMTxTAXKEt/hRiCW/hHJ0LHg7e
-         NGO2v63mvGhRIIKdkMJXGOa3kUd4cPlfdvUF7tISbbgmw69/tELisemKxCxbb0sBrWvk
-         EKOimPzmsytCV7p/PpAFZHsTue42YljSwFA/SXd7ak+iAx6GzTEyLEZvfcl12Nbg/hyU
-         Dp9w==
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc;
+        bh=3pLUI1vp0uxWjRXROUWSRgJpt3RxHpujPnym8HnWTtM=;
+        b=LS4gPsTl5EVvr22+Wif2BXNxq37ETCf+CjTn1MFnI0vT4Vfk7BK/P7NVhv0Wwnc4NA
+         itpNtioq5oYnqEEsE07FK3Y1p5mhmOnApCjDPaQgFGZnTUo7dc8ulVCRPMQgoA+JuoNg
+         YeiEDg01ifLkNQmiAqtv23hmHspleKmz0Dg2kkLUsuWJ6/Y+RgMG/CdTROXVXZa2SN7g
+         mFUxWNjFMIK1bjsm9GflKOZDLlfpJDTtWiZRuNKiZvN+lSfCD2Hy8HcVGImTqPNHydWB
+         kNA3rhV53tw5vWuCoS0b1+21GrJR2aFhaM9Ba2x6b7pqBYwqZLEg56aUdyYNLW1KNsZn
+         FY7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=xDHa+rB52a+ZItnuQGog1l6HqJ1r8xejMTTwa2Lv0Dk=;
-        b=cVSAJdqLL2OqeGnVn3TJw4mRXn/vgOZScifjur+vhH7c61EmcH09CKI6oTsAR/LlEn
-         aLI8fjeyBm2Hy/gH2hHZFqtYJsYcuzWdFdDOwMhR2lz7JzzAcJVC1kFNzIgb/CSv9NPO
-         +tkz6IXOulAJgHM+62SOMBsBcfW9lWtW92gy8bTsCT7KFTVXHDfo2cEB8KxI+z44Nm7L
-         KKj4BAlX+Er8/g6doWGO9gMEYyj3JUg82TyN+cd4YWAdTkxrsCdSkBzPWeXpFs5ktA5w
-         gCkNNwWCeYDV6QZSkYbCnj33RICISYhOw6RGLeWDk8z6IlhnNid9VhKrwFM6DKHKokGf
-         wL7g==
-X-Gm-Message-State: AGi0PuaYUc4KzmCAoYFZJ7Ps07pCo6TX3ocMORFPImKGg1o2EXCKyHY8
-	3Rx++0mn0PnAt2kVk/WkUvbpYabGhtM=
-X-Google-Smtp-Source: APiQypLhKoSDVcoHYDhdI36tVV6ih2oqgzJtCWCcKggu7c41XnhN5Zkz6YgzJicIEipPnWoD0wE+fQ==
-X-Received: by 2002:a1c:4c19:: with SMTP id z25mr770208wmf.53.1585689196581;
-        Tue, 31 Mar 2020 14:13:16 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id s66sm3418424wme.40.2020.03.31.14.13.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2020 14:13:16 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] openssl: update to 1.1.1f
-Date: Tue, 31 Mar 2020 23:12:48 +0200
-Message-Id: <20200331211248.4401-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc;
+        bh=3pLUI1vp0uxWjRXROUWSRgJpt3RxHpujPnym8HnWTtM=;
+        b=SgL38+NNUytwhS190880qDZq/fQCOr1Bo+pEmydozaEF8l8GOexGkA1OY/LRrZ4TYN
+         mHY4D3KN+QpXRbA+3WPxv7WxF9rSoAJwxhBOztf7rKm3I3cUI/PUbFSrObGvLllEyXUB
+         Mxm4tWYc1pDwpGQwlpLYuBPq7qNGeKI34N+N/3KnW3+StW0+RVW/2qtj/k9ZaW8Gbadl
+         RAQmb/axGtxeSSsiBaEQhR8fKFpto+OdgUw1lLFSuEX2SzsBa5RMVt1JL90aNQ5LjbpT
+         VrU3RpKt692s9UqXfJcyA/GlQGrsSRBKpMKnMQRcItStco+wqRQLwXH9Dfjmh9y8R3Q+
+         knSg==
+X-Gm-Message-State: ANhLgQ1j7EfD0NW5D97dlFcnv71uQaNiWG6IUX48GqVmxd3w1oYxupZw
+	843KDF7XBlG1dj5NJiumgg+sGYQAh/bKGg==
+X-Google-Smtp-Source: ADFU+vvgen2ttFUjYR1Xf2x1raQkXR6+LwxXUqxXG+AETEap0wS36cIOhh6mUYJlNhL+kjq5YLzN1Q==
+X-Received: by 2002:a0c:e810:: with SMTP id y16mr18845657qvn.198.1585692895843;
+        Tue, 31 Mar 2020 15:14:55 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com. [209.85.222.182])
+        by smtp.gmail.com with ESMTPSA id j6sm177415qti.25.2020.03.31.15.14.54
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Mar 2020 15:14:55 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f182.google.com with SMTP id i6so24957824qke.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 15:14:54 -0700 (PDT)
+X-Received: by 2002:a05:620a:9:: with SMTP id j9mr6687636qki.82.1585692894585;
+ Tue, 31 Mar 2020 15:14:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200327172520.62888-1-alex.kiernan@gmail.com>
+ <20200327172520.62888-7-alex.kiernan@gmail.com> <CAP9ODKroMUKsP3b+tpM7kYvtVUO_Om-4TB=NTSi5cSTZJJ94qA@mail.gmail.com>
+ <160163452C4DFA3B.16021@lists.openembedded.org> <CAO5Uq5TbsVpR9czdELSDZ3cKG+Ck6weGpXqqqgSoDefZ2+XAqA@mail.gmail.com>
+In-Reply-To: <CAO5Uq5TbsVpR9czdELSDZ3cKG+Ck6weGpXqqqgSoDefZ2+XAqA@mail.gmail.com>
+Date: Tue, 31 Mar 2020 19:14:42 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKo=chBHoL-4U70-cF2GAdRRbnHuDDju+=EeEsxVyLP1wg@mail.gmail.com>
+Message-ID: <CAP9ODKo=chBHoL-4U70-cF2GAdRRbnHuDDju+=EeEsxVyLP1wg@mail.gmail.com>
+Subject: Re: [OE-Core][RFC PATCH v3 06/13] systemd: Add PACKAGECONFIG for sysvinit
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This also un-breaks python3 ptest which got broken
-with 1.1.1e update.
+On Tue, Mar 31, 2020 at 4:45 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> On Tue, Mar 31, 2020 at 1:28 PM Alex Kiernan via
+> Lists.Openembedded.Org <alex.kiernan=gmail.com@lists.openembedded.org>
+> wrote:
+>
+> I'm looking at the wrong build... if you remove sysvinit, systemd
+> drops legacy.conf. What are you seeing that expects /run/lock?
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- .../openssl/{openssl_1.1.1e.bb => openssl_1.1.1f.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1e.bb => openssl_1.1.1f.bb} (98%)
+fw_printenv and fw_setenv
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1e.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
-index 8f0702b535..3fa2b41fb9 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1e.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
-@@ -23,7 +23,7 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[sha256sum] = "694f61ac11cb51c9bf73f54e771ff6022b0327a43bbdfa1b2f19de1662a6dcbe"
-+SRC_URI[sha256sum] = "186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35"
- 
- inherit lib_package multilib_header multilib_script ptest
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+https://github.com/sbabic/libubootenv/blob/master/src/uboot_env.c#L56-L71
+
 -- 
-2.25.1
-
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
