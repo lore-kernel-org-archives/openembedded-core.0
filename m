@@ -1,73 +1,98 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web11.724.1585697560092071636
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+ by mx.groups.io with SMTP id smtpd.web11.1131.1585698979208260194
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2020 16:32:40 -0700
+ Tue, 31 Mar 2020 16:56:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qk1-f193.google.com with SMTP id c145so25123457qke.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 16:32:39 -0700 (PDT)
+ dkim=pass header.i=@google.com header.s=20161025 header.b=O7t4b1J5;
+ spf=pass (domain: flex--paulburton.bounces.google.com, ip: 209.85.214.202, mailfrom: 3otidxgokaf0k5pg6pmojibjjbg9.7jh@flex--paulburton.bounces.google.com)
+Received: by mail-pl1-f202.google.com with SMTP id 2so16983642plb.20
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 16:56:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=mPVsxrT0eMqRmQfH3owVW4lSJtt8v+wb3OqM9hZfT1k=;
+        b=O7t4b1J51aLw9oqUvbDbeu/zK3746oq6cCauJPA1V4UvA5NbUsZpJhm4/cwieBnj+M
+         LrJAJSqVyOTitA8Ln0ImanCtDM/2Nf2CbDXfIYJFwLqndVSMaQkAmSGAhUbb7oI+IcLJ
+         O1hBBUW9gKD1v8pMnXDnZr6IUK1NzIGTBKQzaqaCcC80ZI2gX8S9O0LErAQBTaBMgBFY
+         /s5bvS9IUYMLUe50WgBfUoXoJac3SSWXauzXve9LOi0pqfy9ZHrQ9pekBbgbpI+pNIx1
+         ZYE41ykLuFe7l7PoLZWORSjpZl1wuldAXR/hlKMoMat2Gzs+z8K/K4BNssvuCDGsb6NR
+         wxDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :organization:content-transfer-encoding;
-        bh=27u2nQqXJu0D3IGDf7jGLW29Qki6LR4/JOpeHKpeTZ0=;
-        b=mvpVuwLQRPULYyTWihiv0MaavfZSKCgFdQ852PLb6rZ9yNY7PGUEAg9omDTzwjTvl3
-         M5xY4iElulDocRKJ8NvopQ14VgXRVASzmbDfgbczneTD3MVi+qw+jZdT2o5wdmM9YjNm
-         7FRFY49gDyqFacK8AZ6ipQvCw1KsNUbfd6BaHT9pvqDG7nitn+GZEyqRS7vKKlLDsWdI
-         BNL4XdWSIo2bbrN3BhE7QFJeErPf37oMzhFPCUE18UTN/lqi5upXNmWFSAnjSmUWIVlk
-         djUIPaaJmgrsuO5pLxON30fA++Q9oL2a6IcCxga0awupXBGFSuGcvS8GJjBAlChUbuGo
-         t9ug==
-X-Gm-Message-State: ANhLgQ0CK1BbLBDeIn3mkNAPBmS5uPAQQHLiJcnJxd7hkqS64Ds8F+oi
-	SL6dytQJBhL7yds9jgTgQl4Kqk5i0oYT2Q==
-X-Google-Smtp-Source: ADFU+vs04TCRPxEXKlBtjIZwrI5MCdBRW31b1v0YqrOXDo4MnY9oBy5sQB/wXvhw4avCIE5JBDBIKQ==
-X-Received: by 2002:ae9:edd2:: with SMTP id c201mr6926280qkg.366.1585697558908;
-        Tue, 31 Mar 2020 16:32:38 -0700 (PDT)
-Return-Path: <otavio.salvador@gmail.com>
-Received: from localhost ([181.220.114.167])
-        by smtp.gmail.com with ESMTPSA id l13sm286745qtu.66.2020.03.31.16.32.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2020 16:32:38 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@gmail.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Cc: Stefano Babic <sbabic@denx.de>,
-	Tom Rini <trini@konsulko.com>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH] default-providers.inc: Set U-Boot related default providers
-Date: Tue, 31 Mar 2020 20:32:28 -0300
-Message-Id: <20200331233228.1206088-1-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.26.0
-MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=mPVsxrT0eMqRmQfH3owVW4lSJtt8v+wb3OqM9hZfT1k=;
+        b=atRd0ajeSEObCV5itSMACWERdKJ0zpkas0VnAgic3UqD4LlZiZ+aHcrAEgtc0GgNM3
+         apvmt8PVTgqkkeP+g6ub//AdhNEnFoM5M+kFHKYsJpNJO37Ueyopi4X+Biy/EbV1rBEJ
+         o4UX7TPO0xTQ36uwYf/KCXeMaSZscJG/2oMp5JeT6SCQCYtDXHSreVrbMJUx9odV+l7b
+         QzM9hnCUTYtU8i6uPg8my8Dj4+l0cKj8BZN/B+rXT73KacIZQDwE+5APD/j4PpykrmGK
+         BqGET/iKdjxD5Fhk1jyDPdPrRp6hCj52HjOnSZ0JD8kNYgDK8B+a1dqQ2D7Omayb7bs8
+         iP6Q==
+X-Gm-Message-State: AGi0PuYf5MpzwKe7IND6oUapWHN2MWFOcVaH6E69lVxzcnLL9xhoLRp5
+	mvbuR4jHMf4EnA8ECNFRJ9AQoHViql1T+rIyOPW9dwD/L0ytvnkBAeenNJSk4zjcYHvVMWA6z+Z
+	VTM6PpuDjfEPhd9XYS6WslvqptxdxNK8+tBhfABbT5C0FBx3Yn44Mn7ntV7bjDpCvNIBcAmIykk
+	+vmF7FVc6P01tOWhtgFW1Q
+X-Google-Smtp-Source: APiQypJzbmKLVEyAMClQoSDArV4jWwqZRa4qUsStVYfkV4CIkuoXee2qvVfa+B1A6WE7e540CYwb8hfqPraaGHOu
+X-Received: by 2002:a17:90a:de0e:: with SMTP id m14mr1551338pjv.54.1585698978298;
+ Tue, 31 Mar 2020 16:56:18 -0700 (PDT)
+Date: Tue, 31 Mar 2020 16:56:07 -0700
+Message-Id: <20200331235607.93023-1-paulburton@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.26.0.rc2.310.g2932bb562d-goog
+Subject: [PATCH] kernel.bbclass: Stop creating empty .scmversion files
+From: paulburton@google.com
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Burton <paulburton@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-We should set the default providers for the U-Boot related packages and
-recipes. Multiple providers are common to be found in the field due to
-custom hardware BSP implementations.
+The kernel_do_configure() function creates empty .scmversion files
+within both the source & build directories. The presence of these files
+causes the scm_version function within the kernel's
+scripts/setlocalversion to always output the empty string, breaking the
+kernel's CONFIG_LOCALVERSION_AUTO=y functionality which appends that
+string to the kernel version. Rather than appending the git commit hash
+or another SCM revision to the kernel version, the empty string is
+appended causing CONFIG_LOCALVERSION_AUTO to do nothing.
 
-Following providers are set:
+This behavior was introduced for the build directory by commit
+c73e50a91e02 ("kernel.bbclass: fix extra + in kernelrelease") and
+extended to the source directory by commit cafb94f57123
+("kernel.bbclass: touch .scmversion also in ${S}"). The motive isn't
+entirely clear since these commits contain no meaningful descriptions
+and the former links to a mailing list archive that is no longer online,
+but the '+' character referenced would be appended if the kernel were
+built from a dirty working tree. This in itself is useful information;
+hiding that fact can only serve to muddy a user's understanding of what
+kernel they're actually running. I have verified that building a kernel
+from a clean working tree does not result in a spurious '+' character.
 
- - PREFERRED_PROVIDER_u-boot-fw-utils ?= "libubootenv"
- - PREFERRED_RPROVIDER_u-boot-fw-utils ?= "libubootenv-bin"
- - PREFERRED_RPROVIDER_nativesdk-u-boot-mkimage ?= "nativesdk-u-boot-tools"
+Remove the creation of the empty .scmversion files in order to restore
+the kernel's CONFIG_LOCALVERSION_AUTO functionality. This allows users
+of kernels built from non-tagged source & configured with
+CONFIG_LOCALVERSION_AUTO=y to better determine what kernel they're
+actually running.
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+Signed-off-by: Paul Burton <paulburton@google.com>
 ---
+ meta/classes/kernel.bbclass | 6 ------
+ 1 file changed, 6 deletions(-)
 
- meta/conf/distro/include/default-providers.inc | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index ea88bd4876a..7cde1b5c17b 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -58,3 +58,7 @@ PREFERRED_PROVIDER_pkgconfig-native ?= "pkgconfig-native"
- PREFERRED_RPROVIDER_initd-functions ?= "initscripts"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index a724645466..46e24a19e2 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -521,12 +521,6 @@ check_oldest_kernel[vardepsexclude] += "OLDEST_KERNEL KERNEL_VERSION"
+ do_configure[prefuncs] += "check_oldest_kernel"
  
- PREFERRED_PROVIDER_nativesdk-mesa ?= "nativesdk-mesa"
-+
-+PREFERRED_PROVIDER_u-boot-fw-utils ?= "libubootenv"
-+PREFERRED_RPROVIDER_u-boot-fw-utils ?= "libubootenv-bin"
-+PREFERRED_RPROVIDER_nativesdk-u-boot-mkimage ?= "nativesdk-u-boot-tools"
+ kernel_do_configure() {
+-	# fixes extra + in /lib/modules/2.6.37+
+-	# $ scripts/setlocalversion . => +
+-	# $ make kernelversion => 2.6.37
+-	# $ make kernelrelease => 2.6.37+
+-	touch ${B}/.scmversion ${S}/.scmversion
+-
+ 	if [ "${S}" != "${B}" ] && [ -f "${S}/.config" ] && [ ! -f "${B}/.config" ]; then
+ 		mv "${S}/.config" "${B}/.config"
+ 	fi
 -- 
-2.26.0
+2.26.0.rc2.310.g2932bb562d-goog
 
