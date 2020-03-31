@@ -1,62 +1,90 @@
 Received: from mga04.intel.com (mga04.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.4791.1585685005811098451
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2020 13:03:26 -0700
+ Tue, 31 Mar 2020 13:03:28 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: <nil>, mailfrom: timothy.t.orling@linux.intel.com)
-IronPort-SDR: 1WtLS2czw0la/Qnt+0f6OJhF255KoBaEjko8viic+0iTTkiJf8xXZLOCRE8FiDt4+FQ/1ofh6V
- /ldyhjRqe9VQ==
+IronPort-SDR: KTPtkVz10Bn6OcgGnqvrNysQl0VOJEPe4fgCFkt4y9uFpfDzqknghRtr/pjoDFeLLp+fqjQ2hs
+ Eg1fL0gSyvxQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2020 13:03:26 -0700
-IronPort-SDR: cLsKU99SL2AETNeKBIRiJWRBVWGxIYmCx3W1p5I1zqS0h7J1hXz4wdxtWsxiFpiomq+I8mKs9Z
- /z7PXr+PhGDQ==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2020 13:03:27 -0700
+IronPort-SDR: IMJ7r601VatiSRE2kxS3MPrsfdoIMjLPfomovyLSDdTyFZJpT+EN2us+2mjPgo19TE+edUxblJ
+ N3qlfImmxLqw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.72,328,1580803200"; 
-   d="scan'208";a="267398037"
+   d="scan'208";a="267398047"
 Received: from wrath.jf.intel.com ([10.54.31.24])
-  by orsmga002.jf.intel.com with ESMTP; 31 Mar 2020 13:03:26 -0700
+  by orsmga002.jf.intel.com with ESMTP; 31 Mar 2020 13:03:27 -0700
 From: "Tim Orling" <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
 Cc: kai.kang@windriver.com,
 	randy.macleod@windriver.com,
 	Tim Orling <timothy.t.orling@linux.intel.com>
-Subject: [PATCH v2 3/6] sanity.bbclass: recommend using install-buildtools
-Date: Tue, 31 Mar 2020 13:03:03 -0700
-Message-Id: <20200331200306.36942-3-timothy.t.orling@linux.intel.com>
+Subject: [PATCH v2 4/6] lib/oe/utils.py: add get_host_compiler_version()
+Date: Tue, 31 Mar 2020 13:03:04 -0700
+Message-Id: <20200331200306.36942-4-timothy.t.orling@linux.intel.com>
 X-Mailer: git-send-email 2.24.0
 In-Reply-To: <20200331200306.36942-1-timothy.t.orling@linux.intel.com>
 References: <20200331200306.36942-1-timothy.t.orling@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-For old tar version (< 1.28), recommend using
-scripts/install-buildtools
+Add helper function to get the host compiler and version.
+Do not assume compiler is gcc.
 
-Drop check for tar version 1.24. Dubious extra value.
+NOTE: cannot set env to d.getVar("PATH") as that does not contain
+the session PATH which was set by environment-setup-... which
+breaks the install-buildtools use-case
 
 Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- meta/classes/sanity.bbclass | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/lib/oe/utils.py | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index cca5cdad17..fef05fb012 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -532,10 +532,8 @@ def check_tar_version(sanity_data):
-     except subprocess.CalledProcessError as e:
-         return "Unable to execute tar --version, exit code %d\n%s\n" % (e.returncode, e.output)
-     version = result.split()[3]
--    if LooseVersion(version) < LooseVersion("1.24"):
--        return "Your version of tar is older than 1.24 and has bugs which will break builds. Please install a newer version of tar (1.28+).\n"
-     if LooseVersion(version) < LooseVersion("1.28"):
--        return "Your version of tar is older than 1.28 and does not have the support needed to enable reproducible builds. Please install a newer version of tar (you could use the projects buildtools-tarball from our last release).\n"
-+        return "Your version of tar is older than 1.28 and does not have the support needed to enable reproducible builds. Please install a newer version of tar (you could use the projects buildtools-tarball from our last release or use scripts/install-buildtools).\n"
-     return None
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 9042b370f7..13f4271da0 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -373,6 +373,37 @@ def format_pkg_list(pkg_dict, ret_format=None):
  
- # We use git parameters and functionality only found in 1.7.8 or later
+     return output_str
+ 
++
++# Helper function to get the host compiler version
++# Do not assume the compiler is gcc
++def get_host_compiler_version(d, taskcontextonly=False):
++    import re, subprocess
++
++    if taskcontextonly and d.getVar('BB_WORKERCONTEXT') != '1':
++        return
++
++    compiler = d.getVar("BUILD_CC")
++    # Get rid of ccache since it is not present when parsing.
++    if compiler.startswith('ccache '):
++        compiler = compiler[7:]
++    try:
++        env = os.environ.copy()
++        # datastore PATH does not contain session PATH as set by environment-setup-...
++        # this breaks the install-buildtools use-case
++        # env["PATH"] = d.getVar("PATH")
++        output = subprocess.check_output("%s --version" % compiler, \
++                    shell=True, env=env, stderr=subprocess.STDOUT).decode("utf-8")
++    except subprocess.CalledProcessError as e:
++        bb.fatal("Error running %s --version: %s" % (compiler, e.output.decode("utf-8")))
++
++    match = re.match(r".* (\d+\.\d+)\.\d+.*", output.split('\n')[0])
++    if not match:
++        bb.fatal("Can't get compiler version from %s --version output" % compiler)
++
++    version = match.group(1)
++    return compiler, version
++
++
+ def host_gcc_version(d, taskcontextonly=False):
+     import re, subprocess
+ 
 -- 
 2.24.0
 
