@@ -1,77 +1,73 @@
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
- by mx.groups.io with SMTP id smtpd.web11.199.1585692897069266976
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
+ by mx.groups.io with SMTP id smtpd.web11.724.1585697560092071636
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2020 15:14:57 -0700
+ Tue, 31 Mar 2020 16:32:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=LS4gPsTl;
- spf=pass (domain: ossystems.com.br, ip: 209.85.219.68, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qv1-f68.google.com with SMTP id z13so11804249qvw.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 15:14:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=3pLUI1vp0uxWjRXROUWSRgJpt3RxHpujPnym8HnWTtM=;
-        b=LS4gPsTl5EVvr22+Wif2BXNxq37ETCf+CjTn1MFnI0vT4Vfk7BK/P7NVhv0Wwnc4NA
-         itpNtioq5oYnqEEsE07FK3Y1p5mhmOnApCjDPaQgFGZnTUo7dc8ulVCRPMQgoA+JuoNg
-         YeiEDg01ifLkNQmiAqtv23hmHspleKmz0Dg2kkLUsuWJ6/Y+RgMG/CdTROXVXZa2SN7g
-         mFUxWNjFMIK1bjsm9GflKOZDLlfpJDTtWiZRuNKiZvN+lSfCD2Hy8HcVGImTqPNHydWB
-         kNA3rhV53tw5vWuCoS0b1+21GrJR2aFhaM9Ba2x6b7pqBYwqZLEg56aUdyYNLW1KNsZn
-         FY7g==
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qk1-f193.google.com with SMTP id c145so25123457qke.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 16:32:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=3pLUI1vp0uxWjRXROUWSRgJpt3RxHpujPnym8HnWTtM=;
-        b=SgL38+NNUytwhS190880qDZq/fQCOr1Bo+pEmydozaEF8l8GOexGkA1OY/LRrZ4TYN
-         mHY4D3KN+QpXRbA+3WPxv7WxF9rSoAJwxhBOztf7rKm3I3cUI/PUbFSrObGvLllEyXUB
-         Mxm4tWYc1pDwpGQwlpLYuBPq7qNGeKI34N+N/3KnW3+StW0+RVW/2qtj/k9ZaW8Gbadl
-         RAQmb/axGtxeSSsiBaEQhR8fKFpto+OdgUw1lLFSuEX2SzsBa5RMVt1JL90aNQ5LjbpT
-         VrU3RpKt692s9UqXfJcyA/GlQGrsSRBKpMKnMQRcItStco+wqRQLwXH9Dfjmh9y8R3Q+
-         knSg==
-X-Gm-Message-State: ANhLgQ1j7EfD0NW5D97dlFcnv71uQaNiWG6IUX48GqVmxd3w1oYxupZw
-	843KDF7XBlG1dj5NJiumgg+sGYQAh/bKGg==
-X-Google-Smtp-Source: ADFU+vvgen2ttFUjYR1Xf2x1raQkXR6+LwxXUqxXG+AETEap0wS36cIOhh6mUYJlNhL+kjq5YLzN1Q==
-X-Received: by 2002:a0c:e810:: with SMTP id y16mr18845657qvn.198.1585692895843;
-        Tue, 31 Mar 2020 15:14:55 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com. [209.85.222.182])
-        by smtp.gmail.com with ESMTPSA id j6sm177415qti.25.2020.03.31.15.14.54
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2020 15:14:55 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f182.google.com with SMTP id i6so24957824qke.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 15:14:54 -0700 (PDT)
-X-Received: by 2002:a05:620a:9:: with SMTP id j9mr6687636qki.82.1585692894585;
- Tue, 31 Mar 2020 15:14:54 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :organization:content-transfer-encoding;
+        bh=27u2nQqXJu0D3IGDf7jGLW29Qki6LR4/JOpeHKpeTZ0=;
+        b=mvpVuwLQRPULYyTWihiv0MaavfZSKCgFdQ852PLb6rZ9yNY7PGUEAg9omDTzwjTvl3
+         M5xY4iElulDocRKJ8NvopQ14VgXRVASzmbDfgbczneTD3MVi+qw+jZdT2o5wdmM9YjNm
+         7FRFY49gDyqFacK8AZ6ipQvCw1KsNUbfd6BaHT9pvqDG7nitn+GZEyqRS7vKKlLDsWdI
+         BNL4XdWSIo2bbrN3BhE7QFJeErPf37oMzhFPCUE18UTN/lqi5upXNmWFSAnjSmUWIVlk
+         djUIPaaJmgrsuO5pLxON30fA++Q9oL2a6IcCxga0awupXBGFSuGcvS8GJjBAlChUbuGo
+         t9ug==
+X-Gm-Message-State: ANhLgQ0CK1BbLBDeIn3mkNAPBmS5uPAQQHLiJcnJxd7hkqS64Ds8F+oi
+	SL6dytQJBhL7yds9jgTgQl4Kqk5i0oYT2Q==
+X-Google-Smtp-Source: ADFU+vs04TCRPxEXKlBtjIZwrI5MCdBRW31b1v0YqrOXDo4MnY9oBy5sQB/wXvhw4avCIE5JBDBIKQ==
+X-Received: by 2002:ae9:edd2:: with SMTP id c201mr6926280qkg.366.1585697558908;
+        Tue, 31 Mar 2020 16:32:38 -0700 (PDT)
+Return-Path: <otavio.salvador@gmail.com>
+Received: from localhost ([181.220.114.167])
+        by smtp.gmail.com with ESMTPSA id l13sm286745qtu.66.2020.03.31.16.32.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Mar 2020 16:32:38 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@gmail.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Cc: Stefano Babic <sbabic@denx.de>,
+	Tom Rini <trini@konsulko.com>,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] default-providers.inc: Set U-Boot related default providers
+Date: Tue, 31 Mar 2020 20:32:28 -0300
+Message-Id: <20200331233228.1206088-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-References: <20200327172520.62888-1-alex.kiernan@gmail.com>
- <20200327172520.62888-7-alex.kiernan@gmail.com> <CAP9ODKroMUKsP3b+tpM7kYvtVUO_Om-4TB=NTSi5cSTZJJ94qA@mail.gmail.com>
- <160163452C4DFA3B.16021@lists.openembedded.org> <CAO5Uq5TbsVpR9czdELSDZ3cKG+Ck6weGpXqqqgSoDefZ2+XAqA@mail.gmail.com>
-In-Reply-To: <CAO5Uq5TbsVpR9czdELSDZ3cKG+Ck6weGpXqqqgSoDefZ2+XAqA@mail.gmail.com>
-Date: Tue, 31 Mar 2020 19:14:42 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKo=chBHoL-4U70-cF2GAdRRbnHuDDju+=EeEsxVyLP1wg@mail.gmail.com>
-Message-ID: <CAP9ODKo=chBHoL-4U70-cF2GAdRRbnHuDDju+=EeEsxVyLP1wg@mail.gmail.com>
-Subject: Re: [OE-Core][RFC PATCH v3 06/13] systemd: Add PACKAGECONFIG for sysvinit
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Organization: O.S. Systems Software LTDA.
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 31, 2020 at 4:45 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> On Tue, Mar 31, 2020 at 1:28 PM Alex Kiernan via
-> Lists.Openembedded.Org <alex.kiernan=gmail.com@lists.openembedded.org>
-> wrote:
->
-> I'm looking at the wrong build... if you remove sysvinit, systemd
-> drops legacy.conf. What are you seeing that expects /run/lock?
+We should set the default providers for the U-Boot related packages and
+recipes. Multiple providers are common to be found in the field due to
+custom hardware BSP implementations.
 
-fw_printenv and fw_setenv
+Following providers are set:
 
-https://github.com/sbabic/libubootenv/blob/master/src/uboot_env.c#L56-L71
+ - PREFERRED_PROVIDER_u-boot-fw-utils ?= "libubootenv"
+ - PREFERRED_RPROVIDER_u-boot-fw-utils ?= "libubootenv-bin"
+ - PREFERRED_RPROVIDER_nativesdk-u-boot-mkimage ?= "nativesdk-u-boot-tools"
 
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+
+ meta/conf/distro/include/default-providers.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
+index ea88bd4876a..7cde1b5c17b 100644
+--- a/meta/conf/distro/include/default-providers.inc
++++ b/meta/conf/distro/include/default-providers.inc
+@@ -58,3 +58,7 @@ PREFERRED_PROVIDER_pkgconfig-native ?= "pkgconfig-native"
+ PREFERRED_RPROVIDER_initd-functions ?= "initscripts"
+ 
+ PREFERRED_PROVIDER_nativesdk-mesa ?= "nativesdk-mesa"
++
++PREFERRED_PROVIDER_u-boot-fw-utils ?= "libubootenv"
++PREFERRED_RPROVIDER_u-boot-fw-utils ?= "libubootenv-bin"
++PREFERRED_RPROVIDER_nativesdk-u-boot-mkimage ?= "nativesdk-u-boot-tools"
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+2.26.0
+
