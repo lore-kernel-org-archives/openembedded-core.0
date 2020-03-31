@@ -1,82 +1,117 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web11.1162.1585673098595884318
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+ by mx.groups.io with SMTP id smtpd.web10.261.1585674204764438497
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2020 09:44:59 -0700
+ Tue, 31 Mar 2020 10:03:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=kyEo1CU8;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.193, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f193.google.com with SMTP id l25so23748887qki.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 09:44:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=7ROsMPUVBJz471NL98cItHtft8oQngvhpNBawM8l+ug=;
-        b=kyEo1CU8Os44GB57QyMjDsTA6+SojtWblMoQOFOgfXW/Q1FZSEC5CWbdcfpcHwfrQL
-         CniiP6iKWyfghP30NSEVDeZhY47jFb4RjqhqRITcSgQrwRYjVkgvwzkfEUUvajJoL8lX
-         gf3QluMu466+CUsmu9dKSweYIQnUHNdetYkgnn6//ctoo8kfxby3RB23QKL20OwieUEi
-         220ShZMs6vgNo+USiR98Vdzn/2WOAM5Mr/Zxf+HaimgczNwH8jnMk2AibThYOoHKDgzG
-         OF3nfpFrSCm/Yi8m0auiX55UIQWocBZoZIov6MW+Rb2rCXzzxHJDaIUQzkPD/OqsDQe+
-         chJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=7ROsMPUVBJz471NL98cItHtft8oQngvhpNBawM8l+ug=;
-        b=f1Ch9OL8sI+I1Ycwa2qu1DnwdOwQ4bJmYJYzlGVfCJA1LEYAJ5RMYKde+Uopbq8G2r
-         QIFDxmO0WlQiS6dY4Ddr9iQ0stxJrOgmwGe9uScODcp3XjWqc6E/LrDhIFUD+rk/X8n9
-         VGoKVuYIFROvwXUBqQjYTluK/swaxHaoNRqo8gctlZ+FOj9jgLxsSvNoMxF/BJrWomV8
-         5diB7VagfE7W2U0F6fxTQtKkz+E22Y7MQpVwq4nlw24/Siftkc9aJf6WHeiSzdNsaFhh
-         vFc+SsAOOHtTPn0lpqkfSIZT3e0SIdFI7UnYNXBqyY6l83hKuJEF6USDtRAOXurRmeeI
-         EILA==
-X-Gm-Message-State: ANhLgQ0mPtVPNGweSeK4D1rKduC84wZ3Dw8mrnsir/vR1MhGBujHeWty
-	9BlF9cRJuK4M+9VglUTkz6VwLI+K5UDIWA==
-X-Google-Smtp-Source: ADFU+vtEXH3R73UL+YCbr/QN5QXPKRKuIzLonDB/Nam9OXtyNSgsRZWlVNUVfwATm+CmaH9ExF+vHQ==
-X-Received: by 2002:a37:b702:: with SMTP id h2mr5960992qkf.491.1585673097441;
-        Tue, 31 Mar 2020 09:44:57 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com. [209.85.222.171])
-        by smtp.gmail.com with ESMTPSA id o186sm12972900qke.39.2020.03.31.09.44.56
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Mar 2020 09:44:56 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f171.google.com with SMTP id u4so23668183qkj.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 09:44:56 -0700 (PDT)
-X-Received: by 2002:a37:b1c6:: with SMTP id a189mr5170056qkf.26.1585673096183;
- Tue, 31 Mar 2020 09:44:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200331151645.1030603-1-otavio@ossystems.com.br> <04006361-dc62-45a3-3cff-7f00004180e0@denx.de>
-In-Reply-To: <04006361-dc62-45a3-3cff-7f00004180e0@denx.de>
-Date: Tue, 31 Mar 2020 13:44:44 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqVEmRYzj6OOcXMjeZq-LwZgAQmSOiJ5v67NRueFBOGKQ@mail.gmail.com>
-Message-ID: <CAP9ODKqVEmRYzj6OOcXMjeZq-LwZgAQmSOiJ5v67NRueFBOGKQ@mail.gmail.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: denx.de, ip: 212.18.0.10, mailfrom: sbabic@denx.de)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 48sFyg10qCz1rqBY;
+	Tue, 31 Mar 2020 19:03:23 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 48sFyg07KRz1r0cG;
+	Tue, 31 Mar 2020 19:03:23 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+	with ESMTP id PFEohuhdsjrO; Tue, 31 Mar 2020 19:03:20 +0200 (CEST)
+Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net [88.217.136.221])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPS;
+	Tue, 31 Mar 2020 19:03:20 +0200 (CEST)
+Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
+	by babic.homelinux.org (Postfix) with ESMTP id A3339454069A;
+	Tue, 31 Mar 2020 19:03:20 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
+Received: from babic.homelinux.org ([127.0.0.1])
+	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id kXPYFchJbfPp; Tue, 31 Mar 2020 19:03:18 +0200 (CEST)
+Received: from [IPv6:2001:a61:61b7:b701:d97c:c5f5:7ce4:45bd] (paperino.fritz.box [IPv6:2001:a61:61b7:b701:d97c:c5f5:7ce4:45bd])
+	by babic.homelinux.org (Postfix) with ESMTP id 08DC245400D4;
+	Tue, 31 Mar 2020 19:03:18 +0200 (CEST)
 Subject: Re: [OE-core] [PATCH v2] u-boot: Restore valid default environment for running system
-To: Stefano Babic <sbabic@denx.de>
-Cc: Otavio Salvador <otavio@ossystems.com.br>, 
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, Tom Rini <trini@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>,
+ Stefano Babic <sbabic@denx.de>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+ OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
+ Tom Rini <trini@konsulko.com>
+References: <20200331151645.1030603-1-otavio@ossystems.com.br>
+ <04006361-dc62-45a3-3cff-7f00004180e0@denx.de>
+ <CAP9ODKqVEmRYzj6OOcXMjeZq-LwZgAQmSOiJ5v67NRueFBOGKQ@mail.gmail.com>
+From: "Stefano Babic" <sbabic@denx.de>
+Autocrypt: addr=sbabic@denx.de; prefer-encrypt=mutual; keydata=
+ mQGiBEfdB5IRBADkpYcnh2BoAkGD5p186ysEkWlcp5DU07m7BKzvkEMRhFjeFUOU0klKNmh0
+ ZM6rKpYpAYPYBm9YahMyqvj9DmLrZ4yfJ5MssvW9SRETmHpva+h1rN+DzmEcwrqZmLG1JWGy
+ LA5ruJaFSzxJHBoROoog1NDMbNDB8A9F7VKrePfkVwCgmODpW/uh2IuMYLVidzDeuvo7alED
+ /iV8rwU7C+eBcKy2htuDsEmsqlkBxIDM7IO6h5XxdyqbZOYizuBP3Ksb6xK54weEaB5aQs7S
+ 8N9Soi0p1Xh0LMWj6PBCzTC4LF+OCGEMBPc6bBHNzivChgztJlUMioCDSVpOXB/QpBaK302G
+ yP5WdmcB1Jn6neq/YRlxHN38MV2yA/46jnzeUotL9LliVZKA/ql4GmyWg2Ae1BUiCqEJQNwl
+ knGJOmIS4uABLArB5HjsfDU5hA9FORaNGCIiZlezBkZ3JXA2uQMQhfgqBXrZt4j1fcw9I7E+
+ 7IZ2kSCeTPZFLd5FiGQPDOm3Z9eHrpK6pmBGMeBG0pDgUEbN9awyLNBLj7QeU3RlZmFubyBC
+ YWJpYyA8c2JhYmljQGRlbnguZGU+iGMEExECACMCGwMGCwkIBwMCBBUCCAMEFgIDAQIeAQIX
+ gAUCT9deSgIZAQAKCRD09WXkmmjvppF1AKCRl8d49K4yxWzdBVRTTWG55cyo/gCfRD1RAttl
+ R1ofs2wGLHNtXousyL25Ag0ER90HmBAIAIFfX4bKnOmCyB3nPh+jbXZuBSMZTuyDEnguRxl5
+ N8Q0ayofQwucCBjXYv65sQ9Rq6FNhEnWqUZBu8A5CwvSakOFOGNC5ta/8VxVRLh0Z0ZTgEep
+ SKiPonJyacCbmgWDECdVrKowV7QB9be3Wu67uAZ74rPw2Kd7f0FKnL3djvVRMaBWFIpyQ6SE
+ bGOCJjhRQ5L1pIM1Soko+reU7eO+1g6IBw6YkFJisdQE6fzTwaSqUKPPsQLz/W03invQltOb
+ Eg7ZwtFs0DFonr1DMm57ksiEhW6SN1wylRO/JzRYG1Qe7u1EVln6iV3ilBvbbfkyRssk4/0e
+ kicpSnQknA72YOMAAwYH+QGpAiQ4hAMHrp1bUrtyGXYdeQpYufIZAM4etOnBy/G+e1nfu6y+
+ jH4SN9sVK7bwBBAbhEJqkqR5LVsFIRapThJQOWB11rQxLpwkBU9wao/pRM+o95ujGo32WUzf
+ wWrzWrkTDy7vMCZuUOLVi4n1GZlUAwpG4rzb6UxPC6GWymkVWGgXp1NC58og5i3Y+rKT7+Xi
+ XT2BtvC6PDepoH4JhD+9OkHQO6UfTxPSmtgNbTgtl6L6tj+bm5dOHgkPJFMkEiG8qhUZYQzb
+ bYz37orRbA72M2bxK76e9QKn0mVu+d/YCd8wRcvvJbGsozpzcxPvD5Wy5RNJCES8McPtAseU
+ tMeISQQYEQIACQUCR90HmAIbDAAKCRD09WXkmmjvpv+3AJ9RakBsH1j0X/Kxp6t2lf0VUfS2
+ qACfZ+J6ktk8PKNuyHf0J/I0mbCrhV4=
+Message-ID: <e7d00367-55ea-666b-2cd8-a9ab1fb3a09d@denx.de>
+Date: Tue, 31 Mar 2020 19:03:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <CAP9ODKqVEmRYzj6OOcXMjeZq-LwZgAQmSOiJ5v67NRueFBOGKQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: de-DE
+Content-Transfer-Encoding: 7bit
 
-Hello Stefano,
+Hi Otavio,
 
-On Tue, Mar 31, 2020 at 12:32 PM Stefano Babic <sbabic@denx.de> wrote:
-> On 31.03.20 17:16, Otavio Salvador wrote:
-...
-> > - u-boot-initial-env on deploy
-> > - fw_env.config on deploy
->
-> Why do we need both of them in deploy ? For making system functional, we
-> just need that both files are in /etc, that is ${PN}-env must be
-> installed (and then you set RRECOMMENDS). But why in deploy ? Am I
-> missing something ?
+On 31.03.20 18:44, Otavio Salvador wrote:
+> Hello Stefano,
+> 
+> On Tue, Mar 31, 2020 at 12:32 PM Stefano Babic <sbabic@denx.de> wrote:
+>> On 31.03.20 17:16, Otavio Salvador wrote:
+> ...
+>>> - u-boot-initial-env on deploy
+>>> - fw_env.config on deploy
+>>
+>> Why do we need both of them in deploy ? For making system functional, we
+>> just need that both files are in /etc, that is ${PN}-env must be
+>> installed (and then you set RRECOMMENDS). But why in deploy ? Am I
+>> missing something ?
+> 
+> This is used externally, as well as the u-boot binary. In our case, we
+> use this to add them to the UpdateHub package so we can upgrade the
+> U-Boot environment during the update process. Something similar can be
+> done using swupdate.
+> 
 
-This is used externally, as well as the u-boot binary. In our case, we
-use this to add them to the UpdateHub package so we can upgrade the
-U-Boot environment during the update process. Something similar can be
-done using swupdate.
+Ah, ok - got it.
+
+In your commit message, you stated that as side-effect after switching
+to libubootenv is to put the initial environment in deploy. Fine with me
+if this helps to add further fetaures or you need it in UpdateHub.
+
+
+Best regards,
+Stefano
+
+> 
+> 
+> 
+
 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+=====================================================================
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
+=====================================================================
