@@ -1,89 +1,74 @@
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
- by mx.groups.io with SMTP id smtpd.web10.1251.1585620079232036079
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web10.4461.1585639566423983682
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Mar 2020 19:01:19 -0700
+ Tue, 31 Mar 2020 00:26:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=zpTSh47g;
- spf=pass (domain: linaro.org, ip: 209.85.210.65, mailfrom: anibal.limon@linaro.org)
-Received: by mail-ot1-f65.google.com with SMTP id x11so20444530otp.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Mar 2020 19:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=r6Bfl8cx8zLfnnzIg0O0dkwoC+ZPxNHHxYIJi89DiVE=;
-        b=zpTSh47gchFbremePN8FmBrnphOv8eX+BoorjrwaX4OHLdn2P0942tMEH+jHCn9Lnc
-         hCrfd+VqW3lnksd2Kd0Y7kOjD1mwKp0zDqiV0RiAhgAtzcwSiqZJwPrxumBmf+15s6TJ
-         vqrvmhfmidrFkHHN5WxIKSnOyqm3dUK8RW2R4yN8Y/SgmVyb6d2u3BD0QB5g+8847veg
-         1s01tE8gdyjIwei6ValdhF2rtXY8vVYCvoM1E+GEcgyVlmrUFdtIh5JeBPrAz3TsKpmv
-         IOXg8IArr68r2TeVX2hT9kNJ4nXSYpa8EshTzGPcBLsFQpK7O5y1XbQq8dTEq/QOl2+4
-         b4EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=r6Bfl8cx8zLfnnzIg0O0dkwoC+ZPxNHHxYIJi89DiVE=;
-        b=cI8ycRDPlsvlXxIk5RrWzzn/Ak7hD3kLC9h+SDo6EEvhWtPN0IPxHKzMcpskaeEtVw
-         q0ZVdHVuw1Z3CPPR5D1TO66b6OfFgPgQEtitSBOuguQcNxLEj2MTigFh9JnF9yx4CWkA
-         2wvuG7psBkuLmm/MWM1YyOIB0g0XJJA78KHBxYbkm329E4pGNT86eoMtWntaJQHv1LX9
-         mJc8t5EqdgjAQFznMYLMZ8t9urrrCGPhB0NR/9k8EbpKbN2IXshYWOFLHRhVl/pLO+Pz
-         8Nb7AYCzQbWYHZN1s/azTB7e3MK39xxPCREnTRWZdQWZCOFz+SkG0tStlDqBC71g5Rn9
-         ZvSA==
-X-Gm-Message-State: ANhLgQ1rxWL/ny5x1ux5z7QBxHj0o1DFF1iN3jtKaA/SRN/fPas3y/ez
-	U2Bs8b4zmOElh9jijHPG8GPqI+b25a4=
-X-Google-Smtp-Source: ADFU+vvtLbISe6+yRapcZQ4S+9/ggioYPBMiltjrL8TXRnUflF4lO9RS2/4MryPFf9KbXDhVf2HYfA==
-X-Received: by 2002:a05:6830:2314:: with SMTP id u20mr11505348ote.166.1585620078254;
-        Mon, 30 Mar 2020 19:01:18 -0700 (PDT)
-Return-Path: <anibal.limon@linaro.org>
-Received: from blackbox.rga.ip ([2806:109f:4:66a1:908a:c7ff:fe6a:e9f5])
-        by smtp.gmail.com with ESMTPSA id y207sm4767497oia.6.2020.03.30.19.01.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Mar 2020 19:01:17 -0700 (PDT)
-From: "Anibal Limon" <anibal.limon@linaro.org>
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: Yn/yFUqg0P7oqYQ2rVTTphQu7GHFpKvOD8B/8kSrZWwjZeg5kVPBhLh24T9Sldc1tacx7UFRrK
+ gipbsGlzkE4Q==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2020 00:26:05 -0700
+IronPort-SDR: UGnTQAyUc0KMrJ5az75bph2imU/neXsSp/4Mw0ynaEzO+JIPZ+jnNRyepz3mM+Plvg503/wCgR
+ NeAH6q9QgQyQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,327,1580803200"; 
+   d="scan'208";a="272652446"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga004.fm.intel.com with ESMTP; 31 Mar 2020 00:26:04 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: nicolas.dechesne@linaro.org,
-	richard.purdie@linuxfoundation.org,
-	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
-Subject: [PATCH] recipes-kernel/linux-firmware: Add qcom-sdm845 firmware package
-Date: Mon, 30 Mar 2020 20:01:13 -0600
-Message-Id: <20200331020114.25468-1-anibal.limon@linaro.org>
-X-Mailer: git-send-email 2.26.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH] cve-check: CPE version '-' as all version
+Date: Tue, 31 Mar 2020 15:26:03 +0800
+Message-Id: <1585639563-13482-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-Contains the firmware for the modem and wireless in SDM845 platforms.
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+CPE version could be '-' to mean no version info.
+Current cve_check treat it as not valid and does not report these
+CVE but some of these could be a valid vulnerabilities.
+
+Since non-valid CVE can be whitelisted, so treat '-' as all version
+and report all these CVE to capture possible vulnerabilities.
+
+Non-valid CVE to be whitelisted separately.
+
+[YOCTO #13617]
+
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes/cve-check.bbclass                 | 2 +-
+ meta/recipes-core/meta/cve-update-db-native.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-index a7406e48de..3e03aafb6b 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-@@ -289,6 +289,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-qcom-license \
-              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 \
-              ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 \
-+             ${PN}-qcom-sdm845 \
-              ${PN}-whence-license \
-              ${PN}-license \
-              "
-@@ -848,10 +849,12 @@ FILES_${PN}-qcom-venus-1.8 = "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
- FILES_${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
- FILES_${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
- FILES_${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
-+FILES_${PN}-qcom-sdm845 = "${nonarch_base_libdir}/firmware/qcom/sdm845/*"
- RDEPENDS_${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-sdm845 = "${PN}-qcom-license"
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 5d84b93..2a530a0 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -221,7 +221,7 @@ def check_cves(d, patched_cves):
+                 (_, _, _, version_start, operator_start, version_end, operator_end) = row
+                 #bb.debug(2, "Evaluating row " + str(row))
  
- FILES_${PN}-liquidio = "${nonarch_base_libdir}/firmware/liquidio"
+-                if (operator_start == '=' and pv == version_start):
++                if (operator_start == '=' and pv == version_start) or version_start == '-':
+                     vulnerable = True
+                 else:
+                     if operator_start:
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 6afe091..497d957 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -135,7 +135,7 @@ def parse_node_and_insert(c, node, cveId):
+             product = cpe23[4]
+             version = cpe23[5]
  
+-            if version != '*':
++            if version != '*' and version != '-':
+                 # Version is defined, this is a '=' match
+                 yield [cveId, vendor, product, version, '=', '', '']
+             else:
 -- 
-2.26.0
+2.7.4
 
