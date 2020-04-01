@@ -1,80 +1,70 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.web11.2391.1585732172959537939
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web11.2493.1585732824190800476
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 02:09:33 -0700
+ Wed, 01 Apr 2020 02:20:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@externs-easymile-com.20150623.gappssmtp.com header.s=20150623 header.b=TtzY3YPT;
- spf=none, err=SPF record not found (domain: externs.easymile.com, ip: 209.85.167.177, mailfrom: arnaud.pecoraro@externs.easymile.com)
-Received: by mail-oi1-f177.google.com with SMTP id k5so11910625oiw.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 02:09:32 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZednxhO7;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f67.google.com with SMTP id u10so29642576wro.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 02:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=externs-easymile-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=YxIAxQMPrH6HwiSg/zQBSkA0KoalU9vftPuVeclPvJM=;
-        b=TtzY3YPTbi0Qj9M4xhhRsmOD10Q94+oD/KJGflzIuWXZ6CQmuQ9oZeOrOZeowDy2Zn
-         L0rAxCEnxzkuzdNMaJsEKjO9dn6M5xY2lLoR0yIhCi3enBGtqVW4Cuif1MjNHn/VgHti
-         F8tBbSd8wVV+R2rqYRTq9LBTB8SRYVxVhEZlz0CnsQrQrc8LfpOhLgenb4kr4zWo9c/5
-         Ndfng3MCNm0r4+tLjVkA/+M/XgpCk7zKAwLe18S8X3vIfMKaRefDchW1qLOex5bUQcdv
-         b8INmePCER6w24Stq6GXOhAR3MUq8G76xJp7Hm48XLlYGVWWtM5o/yNDP+EqI4TNjG8H
-         DFGA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=0Me2er0jDVN6TRND44VvBjlVk6QSU8ZE9O3N/YtyLD8=;
+        b=ZednxhO76PWjPTpQ6tYEyIqR4+sOvla5picoN0y7RhRHT9CwmQX7w/fJO0oQF1ZgPF
+         qCgjVZ7FBJ1DqAmMwTTsmtfaYnaeJq0fRnc3O9D+6fhxA+S0ny8Ins1O2S3Nz9M7LSr4
+         dWEv9w0cikQNKMJR0soZNtpmOsFK80iUpLRG4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=YxIAxQMPrH6HwiSg/zQBSkA0KoalU9vftPuVeclPvJM=;
-        b=WKxhEFSwtWtcRdcKDj/CS2ZjOc7ozSI0LRDK5pppW+zOuf2ayTOqNMUzLx3F3Drd1A
-         CJMmEHw6njgS2OHF7D1dYcoZqEjOu/5RtLG6vXnhQL6qk9QreRwrhudwaFEiiQrrgQny
-         QOKB688PvdwNuwo0puqNPMS3Q7j69aiULJh58PeuSj5TZvXUIjs8Tr64H28whBpXZBbW
-         3FlDL7saR1n6g8rvU/vYdT5LtsYvkEgpGIgkd3hDMr/LqHDkMAkutx/uJXJ0tUjoEpPp
-         vrxQJr/5n/53IRSs7rxpfrHAW54UwTeXLCbkZ1NFc5KGjWXavsdRANHALpAcZvZBWfgL
-         tS6Q==
-X-Gm-Message-State: AGi0PuZks1lf3sRro+9Fk5R6Eke+rfOZLBoJn8fuItBVuj2xjXBLdzAV
-	n71N+Ve6jbt3CAq3PJWmfLD4LynmWn0GM60OojxUKhTaXvioXw==
-X-Google-Smtp-Source: APiQypLyC9vxShECJp43K5RVoIdy3Ce1jjp3Mk3p7wuNa5g6ssPpGV9MGsVrKb94CjJdxX5Ag+2vxXbRW0XS/7kiLEA=
-X-Received: by 2002:aca:56c2:: with SMTP id k185mr1944790oib.141.1585732172061;
- Wed, 01 Apr 2020 02:09:32 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=0Me2er0jDVN6TRND44VvBjlVk6QSU8ZE9O3N/YtyLD8=;
+        b=shyxnUhWSGN836/BhDpARTFLOibhQl9vuMlWwDHVhptn1F0vjEs6KNZTVwXfx7QIbe
+         K9kCi4fViuWy4Pnd9mQc7VDzc8jZeAaUxpXMEEkOuTvjWyAzHKkkjzQG/QMW0ORvFxlB
+         iRKfkTq5li8gadB71Izcghc4hETAjw5BzUYpH+RwJQXv9Z0zE72TumfeWD9nIVM7D0rN
+         SwW/Bua3GWRNrqMr5rRf19feJu229x6kMae+JLvhL8zbrB9Zat6fYIM3p5J9l501rgs/
+         zOjRaRyGEdu0tR2Nq0tfpCz+P33bM+yPPHgZWcYlJYiUNHhstnvH/CtuRDneApF1VBAJ
+         gSFw==
+X-Gm-Message-State: ANhLgQ1z8Vu2uPOWaT7d5S80qofKPdxhwO+MPF+5omrjquhQlXHei2bG
+	s9Q2DZu6H834miVTwbJOqNiatg==
+X-Google-Smtp-Source: ADFU+vtaBIlpbnchtK8qqhDhzeXZHA++PZJ80RD6RoMPqLj9ho33CBVPw/Q5/x2zG8N/O213NgnOyw==
+X-Received: by 2002:adf:df8a:: with SMTP id z10mr23671301wrl.278.1585732822651;
+        Wed, 01 Apr 2020 02:20:22 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id v11sm2120353wrm.43.2020.04.01.02.20.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2020 02:20:21 -0700 (PDT)
+Message-ID: <796ecb1469a1944bb7386c5c6ba9bfe580795057.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] netbase: use git fetcher
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
+Date: Wed, 01 Apr 2020 10:20:20 +0100
+In-Reply-To: <1584350653-141457-1-git-send-email-mingli.yu@windriver.com>
+References: <1584350653-141457-1-git-send-email-mingli.yu@windriver.com>
+User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
-From: arnaud.pecoraro@externs.easymile.com
-Date: Wed, 1 Apr 2020 11:09:21 +0200
-Message-ID: <CAM15ne=BtZqVdByS9VxHPSyDk+uAMVEWL6cQAaP8KXC_HX_DPA@mail.gmail.com>
-Subject: [OE-core] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
-To: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000d32eae05a2370a5c"
-
---000000000000d32eae05a2370a5c
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On Mon, 2020-03-16 at 17:24 +0800, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> Use git repo as the the previous URL only stores
+> the latest source file and fails to locate the
+> source tar file if we don't upgrade timely.
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/recipes-core/netbase/netbase_6.1.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 
-We are having the same issue as described in the link below :
+Breaks reproducible builds:
 
-https://lists.openembedded.org/g/openembedded-core/message?id=162040285
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/825
 
-WARNING: Paths in the rootfs are owned by the same user or group as the
-user running bitbake. See the logfile for the specific paths.
-/data/poky-tmp/master/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/rootfs/usr/share/fonts/.uuid
-/data/poky-tmp/master/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/rootfs/usr/share/fonts/ttf/.uuid
+Cheers,
 
-Any update on the patch?
+Richard
 
-Thank you in advance!
-
-Arnaud
-
---000000000000d32eae05a2370a5c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hello,</div><div><br></div><div>We are having the sam=
-e issue as described in the link below :<br></div><div><br></div><div><a hr=
-ef=3D"https://lists.openembedded.org/g/openembedded-core/message?id=3D16204=
-0285">https://lists.openembedded.org/g/openembedded-core/message?id=3D16204=
-0285</a></div><div><br></div><div style=3D"margin-left:40px">WARNING: Paths=
- in the rootfs are owned by the same user or group as the=20
-user running bitbake. See the logfile for the specific paths.<br>/data/poky=
--tmp/master/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/rootfs/u=
-sr/share/fonts/.uuid<br>/data/poky-tmp/master/work/intel_corei7_64-poky-lin=
-ux/core-image-sato/1.0-r0/rootfs/usr/share/fonts/ttf/.uuid<br></div><div><b=
-r></div><div>Any update on the patch?<br></div><div><br></div><div>Thank yo=
-u in advance!</div><div><br></div><div>Arnaud<br></div></div>
-
---000000000000d32eae05a2370a5c--
