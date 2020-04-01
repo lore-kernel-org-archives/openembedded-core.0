@@ -1,457 +1,248 @@
-Received: from mail-il1-f177.google.com (mail-il1-f177.google.com [209.85.166.177])
- by mx.groups.io with SMTP id smtpd.web11.989.1585778539663653302
+Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com [209.85.222.67])
+ by mx.groups.io with SMTP id smtpd.web11.1175.1585779007849116215
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 15:02:19 -0700
+ Wed, 01 Apr 2020 15:10:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lwsEOaIZ;
- spf=pass (domain: gmail.com, ip: 209.85.166.177, mailfrom: ticotimo@gmail.com)
-Received: by mail-il1-f177.google.com with SMTP id a6so1600768ilr.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 15:02:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=aU0YKdTZ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.67, mailfrom: armccurdy@gmail.com)
+Received: by mail-ua1-f67.google.com with SMTP id m18so417841uap.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 15:10:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QD1DNPQk8Hnl87odWNO9XIZ5dxuU6vOdB1ve8/6i6J4=;
-        b=lwsEOaIZnrBGmp6twTRyJTQOh4bODTX8cIwd7ju4bJIdowo9pMa7EqiDa8SL92g+y2
-         LOs4HbmTpt2wFY6h0qUj3kSxYMxcOVJfyYeIT5TbrP96ty/8nWUEX6/xqGHNKXiV7fou
-         nsj0OBSIUmE8rTp9brwyAAJPToDhylzO6Z3G+SintZwvWUOga0C9L/DDKgJiKfkxWMB/
-         /aZ3gps9ArZA2cQ8wmFeIm1Xf0+5GZ/cq10dYgjgPeuQRvoCILvwWlmpzgjM5La/aHGn
-         jlvAdDsqnwTlX499Q5xoJhKt8/GnzcH013DB42VKI0MqKeridzUeBdJin8z+MXk14E6j
-         OV0w==
+         :cc:content-transfer-encoding;
+        bh=9XxkV7kI1CR8+fPmJBVdVvu2rVE28UtdNg4QDAAAhgU=;
+        b=aU0YKdTZhXzwICWtbGnoMCe0a/ZtOkB8G6wF+cSFleGjae4cLhcLFjR6/y+ASw+SSx
+         k9FzrmOSdFzs/8hcZSvQcKRwJvVkocqt69D5plQJLmwBLfFy0GDrWfI/m/hWSGS3akxu
+         2SI4PpXKRmhlw6jc3dRCd6cf+nQqw5YD87TFCKKMNeXAwOaceMLtOUeQszsJDiDPrrd1
+         447AkXkEMgYIz6e2z9MVZmsHVxmJPG93iLeLyxepn61jZEnADeXyspASrqEsAIYk24HQ
+         mxWUee5Y5yRUxf1wRg04JnjzoZ0T5Gun8TxbDcoImKyGXBdLIaC2daOp31j8G/o3vdWJ
+         LJJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QD1DNPQk8Hnl87odWNO9XIZ5dxuU6vOdB1ve8/6i6J4=;
-        b=RiCCeHwUoWhKkoajuh1b11RzPIoddqSfDpPY6Z3Ow/jlZOFR2SwaYql4x5CIkYbq+G
-         KL9InWCsBqGCP6ELe3rjwpaGuBnwMUGjUy6bWvslhJLy7mz6imWxCe1ZrQ3TSBb0qHs1
-         lpoiOz0FLkPIQ3tFxf0SB6fT0xsq3clhs3fycL6bUm5j7eLYJXb4LpTLiSuoxJiShAWI
-         2FcdhkAMgDJy9Q37edgzSCq7aNOya/3FuRB8hidMCAIoZt8bHTCqNz1IdNTgKstthJMU
-         /3XiQ6tjN6WykLL1z7OPy63LgkQOQ1q1YuKxO3MHJrIuIbI+0cXEn5UZEOXBgitM/ngb
-         OX5A==
-X-Gm-Message-State: AGi0PuajEyVCtclYwN/lHqckcZX2GiyU7PK9JuWw5W14mC2G1BYD3s1S
-	SSII7jznxn+7U3hPUIWVBqthf62Y32PhgZ87E1w=
-X-Google-Smtp-Source: APiQypJOahnv6aYWZTvDZp7MqgUHM7LYYYtGONreY4hJvBTp1jPQ6KqdYRfdNTpnUo/pLrGc8KtxGztXQsIwujldOK8=
-X-Received: by 2002:a92:d0d:: with SMTP id 13mr186512iln.170.1585778538980;
- Wed, 01 Apr 2020 15:02:18 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9XxkV7kI1CR8+fPmJBVdVvu2rVE28UtdNg4QDAAAhgU=;
+        b=dxlENdzmNvaLvA2xA2Hj9wf7QWt529p6f3WGfrl0B1EX7o2pJz0+1pFtXvPYvybiMe
+         y9cLstgzudZcgrYoFANFzw+WNW8Lh8DBkgNg7uOL1H8CnjGMzojyZUpN+v1ywMK2Culb
+         GzjSbz3fh80tLI/6Fy1dHn5Skx5vflafyg6TzqwxuCkyEwQuDyQzV1ei3Ewv6XhSkrEo
+         9W/p96cPy3HPadFmjBCng6nViSMVSWVZA3FmshwU5IDP0kNfXv4YUdbngkgSAFZOGTj8
+         6JUxtG0jKgG9bzj2vif+Jnzeo6sSGp25jHB/0GYVLcylw5DZLEZGyrd0Q8/9JOooGtsG
+         L7HA==
+X-Gm-Message-State: AGi0PubunaYkaO1VhkfEQU5n+2M1Bhryl4GxKtVwKb6kunt1G3fBuZn9
+	2/+p5XsOvyaSAPsZg/cQBI/4AJg8lKmok8/7MIo=
+X-Google-Smtp-Source: APiQypIlow8Q60sLO48UB08TGgsDuEuhmJL2ZvCfxEUKCZHEtLkZ1U+FoV9dgvTKAm5U6Gfd9Y8jtsu1/GYYgO+89jY=
+X-Received: by 2002:ab0:2b90:: with SMTP id q16mr494952uar.82.1585779006693;
+ Wed, 01 Apr 2020 15:10:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200330194302.30032-1-timothy.t.orling@linux.intel.com>
- <CAJ86T=XCX7MGRVzoTzaaD3Xe9FqdWM9zX2Zha5Mk8Zo2y1MRVg@mail.gmail.com> <1601CF873C42565A.6346@lists.openembedded.org>
-In-Reply-To: <1601CF873C42565A.6346@lists.openembedded.org>
-From: "Tim Orling" <ticotimo@gmail.com>
-Date: Wed, 1 Apr 2020 15:02:07 -0700
-Message-ID: <CANx9H-BNf9ubLHJr3V_2ZAHcpucYooRtXkA9bOJ8_Q1_aPQmjw@mail.gmail.com>
+ <CAJ86T=XCX7MGRVzoTzaaD3Xe9FqdWM9zX2Zha5Mk8Zo2y1MRVg@mail.gmail.com>
+ <1601CF873C42565A.6346@lists.openembedded.org> <CANx9H-BNf9ubLHJr3V_2ZAHcpucYooRtXkA9bOJ8_Q1_aPQmjw@mail.gmail.com>
+In-Reply-To: <CANx9H-BNf9ubLHJr3V_2ZAHcpucYooRtXkA9bOJ8_Q1_aPQmjw@mail.gmail.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Wed, 1 Apr 2020 15:09:57 -0700
+Message-ID: <CAJ86T=WwkHPTyi4K7jg0=XOV4OgSGAjN8NcYhQ8JvUY5JY7jxw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 1/4] scripts/install-buildtools: improvements
-To: ticotimo@gmail.com
-Cc: Andre McCurdy <armccurdy@gmail.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>, 
+To: Tim Orling <ticotimo@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, 
 	Richard Purdie <richard.purdie@linuxfoundation.org>, 
 	Tim Orling <timothy.t.orling@linux.intel.com>
-Content-Type: multipart/alternative; boundary="000000000000822af805a241d65e"
-
---000000000000822af805a241d65e
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 1, 2020 at 2:32 PM Tim Orling via lists.openembedded.org
-<ticotimo=3Dgmail.com@lists.openembedded.org> wrote:
+On Wed, Apr 1, 2020 at 3:02 PM Tim Orling <ticotimo@gmail.com> wrote:
+> On Wed, Apr 1, 2020 at 2:32 PM Tim Orling via lists.openembedded.org <ti=
+cotimo=3Dgmail.com@lists.openembedded.org> wrote:
+>> On Wed, Apr 1, 2020 at 1:09 PM Andre McCurdy <armccurdy@gmail.com> wrot=
+e:
+>>>
+>>> On Mon, Mar 30, 2020 at 12:43 PM Tim Orling
+>>> <timothy.t.orling@linux.intel.com> wrote:
+>>> >
+>>> > * Install directory defaults to scripts/../buildtools
+>>> >   e.g. --directory is set by default
+>>> >   This avoids the user having to type in their sudo password
+>>> >   to install in /opt/poky/<installer-version>
+>>> >
+>>> > * Use "." rather than "source" for sourcing the environment script
+>>> >   as not all distros (e.g. Debian) have "source" by default.
+>>> >
+>>> > * Add buildtools/ to .gitignore
+>>> >
+>>> > * Fix typos in example usage (--install-version -> --installer-versi=
+on)
+>>> >
+>>> > [YOCTO #13832]
+>>> >
+>>> > Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+>>> > ---
+>>> >  .gitignore                 |  1 +
+>>> >  scripts/install-buildtools | 13 +++++++++----
+>>> >  2 files changed, 10 insertions(+), 4 deletions(-)
+>>> >
+>>> > diff --git a/.gitignore b/.gitignore
+>>> > index d0e6b2fb89..b66d371aac 100644
+>>> > --- a/.gitignore
+>>> > +++ b/.gitignore
+>>> > @@ -9,6 +9,7 @@ pstage/
+>>> >  scripts/oe-git-proxy-socks
+>>> >  sources/
+>>> >  meta-*/
+>>> > +buildtools/
+>>> >  !meta-skeleton
+>>> >  !meta-selftest
+>>> >  hob-image-*.bb
+>>> > diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+>>> > index 0947e9c4d6..49cab1345a 100755
+>>> > --- a/scripts/install-buildtools
+>>> > +++ b/scripts/install-buildtools
+>>> > @@ -17,7 +17,7 @@
+>>> >  #        $ install-buildtools \
+>>> >  #          --base-url http://downloads.yoctoproject.org/releases/yo=
+cto \
+>>> >  #          --release yocto-3.1_M2 \
+>>> > -#          --install-version 3.0+snapshot
+>>> > +#          --installer-version 3.0+snapshot
+>>> >  #          --build-date 202000122
+>>> >  #
+>>> >  #  Example usage (standard buildtools from release):
+>>> > @@ -29,7 +29,7 @@
+>>> >  #        $ install-buildtools --without-extended-buildtools \
+>>> >  #          --base-url http://downloads.yoctoproject.org/releases/yo=
+cto \
+>>> >  #          --release yocto-3.0.2 \
+>>> > -#          --install-version 3.0.2
+>>> > +#          --installer-version 3.0.2
+>>> >  #
+>>> >
+>>> >  import argparse
+>>> > @@ -59,6 +59,7 @@ if not bitbakepath:
+>>> >  PROGNAME =3D 'install-buildtools'
+>>> >  logger =3D scriptutils.logger_create(PROGNAME, stream=3Dsys.stdout)
+>>> >
+>>> > +DEFAULT_INSTALL_DIR: str =3D os.path.join(os.path.split(scripts_pat=
+h)[0],'buildtools')
+>>>
+>>> It looks like there are some assumptions about the minimum version of
+>>> python3 on the host in order to even be able to run
+>>> install-buildtools. Should that be checked explicitly?
+>>
+>>
+>> To be honest, everything was written on CentOS-7, where =E2=80=98python=
+3=E2=80=99 is now python36.
+>>
+>> The remaining supported holdout for 3.4 is Debian-8 (Jessie). Which als=
+o happens to have tar 1.27. At least it has git 2.1.4, so it=E2=80=99s not =
+a complete mess.
+>>
+>> Python 3.4 is already EOL. We should not support it for the complete bu=
+ild system, but I can see that the install-buildtools script should ideally=
+ still run on python34. The whole point is to make it easier to install the=
+ pre-built buildtools.
+>
+> Python 3.5 is now required in bitbake/lib/bb/__init__.py
+> Which is needed for bb.utils.md5sum_file and sha256_file to check the ch=
+ecksum of the download. I=E2=80=99d rather not have to rewrite those functi=
+ons.
 
->
->
-> On Wed, Apr 1, 2020 at 1:09 PM Andre McCurdy <armccurdy@gmail.com> wrote=
+Looks like copy and pasting ~30 lines? Maybe not even much of a net
+increase in code size if you can remove the existing code to check
+that bitbake libs are available...
+
+def _hasher(method, filename):
+    import mmap
+
+    with open(filename, "rb") as f:
+        try:
+            with mmap.mmap(f.fileno(), 0, access=3Dmmap.ACCESS_READ) as mm=
 :
->
->> On Mon, Mar 30, 2020 at 12:43 PM Tim Orling
->> <timothy.t.orling@linux.intel.com> wrote:
->> >
->> > * Install directory defaults to scripts/../buildtools
->> >   e.g. --directory is set by default
->> >   This avoids the user having to type in their sudo password
->> >   to install in /opt/poky/<installer-version>
->> >
->> > * Use "." rather than "source" for sourcing the environment script
->> >   as not all distros (e.g. Debian) have "source" by default.
->> >
->> > * Add buildtools/ to .gitignore
->> >
->> > * Fix typos in example usage (--install-version -> --installer-versio=
-n)
->> >
->> > [YOCTO #13832]
->> >
->> > Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
->> > ---
->> >  .gitignore                 |  1 +
->> >  scripts/install-buildtools | 13 +++++++++----
->> >  2 files changed, 10 insertions(+), 4 deletions(-)
->> >
->> > diff --git a/.gitignore b/.gitignore
->> > index d0e6b2fb89..b66d371aac 100644
->> > --- a/.gitignore
->> > +++ b/.gitignore
->> > @@ -9,6 +9,7 @@ pstage/
->> >  scripts/oe-git-proxy-socks
->> >  sources/
->> >  meta-*/
->> > +buildtools/
->> >  !meta-skeleton
->> >  !meta-selftest
->> >  hob-image-*.bb
->> > diff --git a/scripts/install-buildtools b/scripts/install-buildtools
->> > index 0947e9c4d6..49cab1345a 100755
->> > --- a/scripts/install-buildtools
->> > +++ b/scripts/install-buildtools
->> > @@ -17,7 +17,7 @@
->> >  #        $ install-buildtools \
->> >  #          --base-url http://downloads.yoctoproject.org/releases/yoc=
-to
->> \
->> >  #          --release yocto-3.1_M2 \
->> > -#          --install-version 3.0+snapshot
->> > +#          --installer-version 3.0+snapshot
->> >  #          --build-date 202000122
->> >  #
->> >  #  Example usage (standard buildtools from release):
->> > @@ -29,7 +29,7 @@
->> >  #        $ install-buildtools --without-extended-buildtools \
->> >  #          --base-url http://downloads.yoctoproject.org/releases/yoc=
-to
->> \
->> >  #          --release yocto-3.0.2 \
->> > -#          --install-version 3.0.2
->> > +#          --installer-version 3.0.2
->> >  #
->> >
->> >  import argparse
->> > @@ -59,6 +59,7 @@ if not bitbakepath:
->> >  PROGNAME =3D 'install-buildtools'
->> >  logger =3D scriptutils.logger_create(PROGNAME, stream=3Dsys.stdout)
->> >
->> > +DEFAULT_INSTALL_DIR: str =3D
->> os.path.join(os.path.split(scripts_path)[0],'buildtools')
+                for chunk in iter(lambda: mm.read(8192), b''):
+                    method.update(chunk)
+        except ValueError:
+            # You can't mmap() an empty file so silence this exception
+            pass
+    return method.hexdigest()
+
+def md5_file(filename):
+    """
+    Return the hex string representation of the MD5 checksum of filename.
+    """
+    import hashlib
+    return _hasher(hashlib.md5(), filename)
+
+def sha256_file(filename):
+    """
+    Return the hex string representation of the 256-bit SHA checksum of
+    filename.
+    """
+    import hashlib
+    return _hasher(hashlib.sha256(), filename)
+
+
+>> Debian-8 is EOL in June 2020.
 >>
->> It looks like there are some assumptions about the minimum version of
->> python3 on the host in order to even be able to run
->> install-buildtools. Should that be checked explicitly?
->>
->
-> To be honest, everything was written on CentOS-7, where =E2=80=98python3=
-=
-=E2=80=99 is now
-> python36.
->
-> The remaining supported holdout for 3.4 is Debian-8 (Jessie). Which also
-> happens to have tar 1.27. At least it has git 2.1.4, so it=E2=80=99s not=
- a complete
-> mess.
->
-> Python 3.4 is already EOL. We should not support it for the complete bui=
-ld
-> system, but I can see that the install-buildtools script should ideally
-> still run on python34. The whole point is to make it easier to install t=
-he
-> pre-built buildtools.
->
-
-Python 3.5 is now required in bitbake/lib/bb/__init__.py
-Which is needed for bb.utils.md5sum_file and sha256_file to check the
-checksum of the download. I=E2=80=99d rather not have to rewrite those fun=
-ctions.
-
-This means Debian-8 is a conundrum.
-
-
-> Debian-8 is EOL in June 2020.
->
->
->> >  DEFAULT_BASE_URL: str =3D '
->> http://downloads.yoctoproject.org/releases/yocto'
->> >  DEFAULT_RELEASE: str =3D 'yocto-3.1_M2'
->> >  DEFAULT_INSTALLER_VERSION: str =3D '3.0+snapshot'
->> > @@ -66,6 +67,7 @@ DEFAULT_BUILDDATE: str =3D "20200122"
->> >
->> >
->> >  def main():
->> > +    global DEFAULT_INSTALL_DIR
->> >      global DEFAULT_BASE_URL
->> >      global DEFAULT_RELEASE
->> >      global DEFAULT_INSTALLER_VERSION
->> > @@ -73,6 +75,7 @@ def main():
->> >      filename: str =3D ""
->> >      release: str =3D ""
->> >      buildtools_url: str =3D ""
->> > +    install_dir: str =3D ""
->> >
->> >      parser =3D argparse.ArgumentParser(
->> >          description=3D"Buildtools installation helper",
->> > @@ -87,6 +90,7 @@ def main():
->> >                               '(optional)\nRequires --url',
->> >                          action=3D'store')
->> >      parser.add_argument('-d', '--directory',
->> > +                        default=3DDEFAULT_INSTALL_DIR,
->> >                          help=3D'directory where buildtools SDK will =
-be
->> installed (optional)',
->> >                          action=3D'store')
->> >      parser.add_argument('-r', '--release',
->> > @@ -216,12 +220,12 @@ def main():
->> >          st =3D os.stat(tmpbuildtools)
->> >          os.chmod(tmpbuildtools, st.st_mode | stat.S_IEXEC)
->> >          logger.debug(os.stat(tmpbuildtools))
->> > -        install_dir =3D "/opt/poky/%s" % args.installer_version
->> >          if args.directory:
->> >              install_dir =3D args.directory
->> >              ret =3D subprocess.call("%s -d %s -y" %
->> >                                    (tmpbuildtools, install_dir),
->> shell=3DTrue)
->> >          else:
->> > +            install_dir =3D "/opt/poky/%s" % args.installer_version
->> >              ret =3D subprocess.call("%s -y" % tmpbuildtools, shell=
+>>>
+>>> >  DEFAULT_BASE_URL: str =3D 'http://downloads.yoctoproject.org/releas=
+es/yocto'
+>>> >  DEFAULT_RELEASE: str =3D 'yocto-3.1_M2'
+>>> >  DEFAULT_INSTALLER_VERSION: str =3D '3.0+snapshot'
+>>> > @@ -66,6 +67,7 @@ DEFAULT_BUILDDATE: str =3D "20200122"
+>>> >
+>>> >
+>>> >  def main():
+>>> > +    global DEFAULT_INSTALL_DIR
+>>> >      global DEFAULT_BASE_URL
+>>> >      global DEFAULT_RELEASE
+>>> >      global DEFAULT_INSTALLER_VERSION
+>>> > @@ -73,6 +75,7 @@ def main():
+>>> >      filename: str =3D ""
+>>> >      release: str =3D ""
+>>> >      buildtools_url: str =3D ""
+>>> > +    install_dir: str =3D ""
+>>> >
+>>> >      parser =3D argparse.ArgumentParser(
+>>> >          description=3D"Buildtools installation helper",
+>>> > @@ -87,6 +90,7 @@ def main():
+>>> >                               '(optional)\nRequires --url',
+>>> >                          action=3D'store')
+>>> >      parser.add_argument('-d', '--directory',
+>>> > +                        default=3DDEFAULT_INSTALL_DIR,
+>>> >                          help=3D'directory where buildtools SDK will=
+ be installed (optional)',
+>>> >                          action=3D'store')
+>>> >      parser.add_argument('-r', '--release',
+>>> > @@ -216,12 +220,12 @@ def main():
+>>> >          st =3D os.stat(tmpbuildtools)
+>>> >          os.chmod(tmpbuildtools, st.st_mode | stat.S_IEXEC)
+>>> >          logger.debug(os.stat(tmpbuildtools))
+>>> > -        install_dir =3D "/opt/poky/%s" % args.installer_version
+>>> >          if args.directory:
+>>> >              install_dir =3D args.directory
+>>> >              ret =3D subprocess.call("%s -d %s -y" %
+>>> >                                    (tmpbuildtools, install_dir), she=
+ll=3DTrue)
+>>> >          else:
+>>> > +            install_dir =3D "/opt/poky/%s" % args.installer_version
+>>> >              ret =3D subprocess.call("%s -y" % tmpbuildtools, shell=
 =3DTrue)
->> >          if ret !=3D 0:
->> >              logger.error("Could not run buildtools installer")
->> > @@ -238,7 +242,8 @@ def main():
->> >              tool =3D 'gcc'
->> >          else:
->> >              tool =3D 'tar'
->> > -        proc =3D subprocess.run("source
->> %s/environment-setup-x86_64-pokysdk-linux && which %s" %
->> > +        logger.debug("install_dir: %s" % install_dir)
->> > +        proc =3D subprocess.run(".
->> %s/environment-setup-x86_64-pokysdk-linux && which %s" %
->> >                                (install_dir, tool),
->> >                                shell=3DTrue, stdout=3Dsubprocess.PIPE=
-)
->> >          which_tool =3D proc.stdout.decode("utf-8")
->> > --
->> > 2.24.0
->> >
->> >
->>
+>>> >          if ret !=3D 0:
+>>> >              logger.error("Could not run buildtools installer")
+>>> > @@ -238,7 +242,8 @@ def main():
+>>> >              tool =3D 'gcc'
+>>> >          else:
+>>> >              tool =3D 'tar'
+>>> > -        proc =3D subprocess.run("source %s/environment-setup-x86_64=
+-pokysdk-linux && which %s" %
+>>> > +        logger.debug("install_dir: %s" % install_dir)
+>>> > +        proc =3D subprocess.run(". %s/environment-setup-x86_64-poky=
+sdk-linux && which %s" %
+>>> >                                (install_dir, tool),
+>>> >                                shell=3DTrue, stdout=3Dsubprocess.PIP=
+E)
+>>> >          which_tool =3D proc.stdout.decode("utf-8")
+>>> > --
+>>> > 2.24.0
+>>> >
+>>> >
+>>>
 >>=20
->
-
---000000000000822af805a241d65e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Apr 1, 2020 at 2:32 PM Tim Orling via <a href=3D"h=
-ttp://lists.openembedded.org">lists.openembedded.org</a> &lt;ticotimo=3D<a =
-href=3D"mailto:gmail.com@lists.openembedded.org">gmail.com@lists.openembedd=
-ed.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div><br></di=
-v><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Wed, Apr 1, 2020 at 1:09 PM Andre McCurdy &lt;<a href=3D"mailto:armccur=
-dy@gmail.com" target=3D"_blank">armccurdy@gmail.com</a>&gt; wrote:<br></div=
-></div></div><div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->On Mon, Mar 30, 2020 at 12:43 PM Tim Orling<br>
-&lt;<a href=3D"mailto:timothy.t.orling@linux.intel.com" target=3D"_blank">=
-timothy.t.orling@linux.intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; * Install directory defaults to scripts/../buildtools<br>
-&gt;=C2=A0 =C2=A0e.g. --directory is set by default<br>
-&gt;=C2=A0 =C2=A0This avoids the user having to type in their sudo passwor=
-d<br>
-&gt;=C2=A0 =C2=A0to install in /opt/poky/&lt;installer-version&gt;<br>
-&gt;<br>
-&gt; * Use &quot;.&quot; rather than &quot;source&quot; for sourcing the e=
-nvironment script<br>
-&gt;=C2=A0 =C2=A0as not all distros (e.g. Debian) have &quot;source&quot; =
-by default.<br>
-&gt;<br>
-&gt; * Add buildtools/ to .gitignore<br>
-&gt;<br>
-&gt; * Fix typos in example usage (--install-version -&gt; --installer-ver=
-sion)<br>
-&gt;<br>
-&gt; [YOCTO #13832]<br>
-&gt;<br>
-&gt; Signed-off-by: Tim Orling &lt;<a href=3D"mailto:timothy.t.orling@linu=
-x.intel.com" target=3D"_blank">timothy.t.orling@linux.intel.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .gitignore=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0|=C2=A0 1 +<br>
-&gt;=C2=A0 scripts/install-buildtools | 13 +++++++++----<br>
-&gt;=C2=A0 2 files changed, 10 insertions(+), 4 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/.gitignore b/.gitignore<br>
-&gt; index d0e6b2fb89..b66d371aac 100644<br>
-&gt; --- a/.gitignore<br>
-&gt; +++ b/.gitignore<br>
-&gt; @@ -9,6 +9,7 @@ pstage/<br>
-&gt;=C2=A0 scripts/oe-git-proxy-socks<br>
-&gt;=C2=A0 sources/<br>
-&gt;=C2=A0 meta-*/<br>
-&gt; +buildtools/<br>
-&gt;=C2=A0 !meta-skeleton<br>
-&gt;=C2=A0 !meta-selftest<br>
-&gt;=C2=A0 hob-image-*.bb<br>
-&gt; diff --git a/scripts/install-buildtools b/scripts/install-buildtools<=
-br>
-&gt; index 0947e9c4d6..49cab1345a 100755<br>
-&gt; --- a/scripts/install-buildtools<br>
-&gt; +++ b/scripts/install-buildtools<br>
-&gt; @@ -17,7 +17,7 @@<br>
-&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 $ install-buildtools \<br>
-&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --base-url <a href=3D"http:=
-//downloads.yoctoproject.org/releases/yocto" rel=3D"noreferrer" target=3D"_=
-blank">http://downloads.yoctoproject.org/releases/yocto</a> \<br>
-&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --release yocto-3.1_M2 \<br=
->
-&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --install-version 3.0+snapshot<b=
-r>
-&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --installer-version 3.0+snapshot=
-<br>
-&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --build-date 202000122<br>
-&gt;=C2=A0 #<br>
-&gt;=C2=A0 #=C2=A0 Example usage (standard buildtools from release):<br>
-&gt; @@ -29,7 +29,7 @@<br>
-&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 $ install-buildtools --without-ext=
-ended-buildtools \<br>
-&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --base-url <a href=3D"http:=
-//downloads.yoctoproject.org/releases/yocto" rel=3D"noreferrer" target=3D"_=
-blank">http://downloads.yoctoproject.org/releases/yocto</a> \<br>
-&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --release yocto-3.0.2 \<br>
-&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --install-version 3.0.2<br>
-&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 --installer-version 3.0.2<br>
-&gt;=C2=A0 #<br>
-&gt;<br>
-&gt;=C2=A0 import argparse<br>
-&gt; @@ -59,6 +59,7 @@ if not bitbakepath:<br>
-&gt;=C2=A0 PROGNAME =3D &#39;install-buildtools&#39;<br>
-&gt;=C2=A0 logger =3D scriptutils.logger_create(PROGNAME, stream=3Dsys.std=
-out)<br>
-&gt;<br>
-&gt; +DEFAULT_INSTALL_DIR: str =3D os.path.join(os.path.split(scripts_path=
-)[0],&#39;buildtools&#39;)<br>
-<br>
-It looks like there are some assumptions about the minimum version of<br>
-python3 on the host in order to even be able to run<br>
-install-buildtools. Should that be checked explicitly?<br>
-</blockquote><div dir=3D"auto"><br></div></div></div><div><div class=3D"gm=
-ail_quote"><div dir=3D"auto">To be honest, everything was written on CentOS=
--7, where =E2=80=98python3=E2=80=99 is now python36.</div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">The remaining supported holdout for 3.4 is Deb=
-ian-8 (Jessie). Which also happens to have tar 1.27. At least it has git 2.=
-1.4, so it=E2=80=99s not a complete mess.</div><div dir=3D"auto"><br></div>=
-<div dir=3D"auto">Python 3.4 is already EOL. We should not support it for t=
-he complete build system, but I can see that the install-buildtools script =
-should ideally still run on python34. The whole point is to make it easier =
-to install the pre-built buildtools.</div><div dir=3D"auto"></div></div></d=
-iv></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Python 3.5 is=
- now required in bitbake/lib/bb/__init__.py</div><div dir=3D"auto">Which is=
- needed for bb.utils.md5sum_file and sha256_file to check the checksum of t=
-he download. I=E2=80=99d rather not have to rewrite those functions.</div><=
-div dir=3D"auto"><br></div><div dir=3D"auto">This means Debian-8 is a conun=
-drum.</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>=
-<div class=3D"gmail_quote"><div dir=3D"auto"><br></div><div dir=3D"auto">De=
-bian-8 is EOL in June 2020.</div><div dir=3D"auto"><br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex"><br></blockquote></div></div><div><div class=3D"gmail_quot=
-e"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex">
-&gt;=C2=A0 DEFAULT_BASE_URL: str =3D &#39;<a href=3D"http://downloads.yoct=
-oproject.org/releases/yocto" rel=3D"noreferrer" target=3D"_blank">http://do=
-wnloads.yoctoproject.org/releases/yocto</a>&#39;<br>
-&gt;=C2=A0 DEFAULT_RELEASE: str =3D &#39;yocto-3.1_M2&#39;<br>
-&gt;=C2=A0 DEFAULT_INSTALLER_VERSION: str =3D &#39;3.0+snapshot&#39;<br>
-&gt; @@ -66,6 +67,7 @@ DEFAULT_BUILDDATE: str =3D &quot;20200122&quot;<br>
-&gt;<br>
-&gt;<br>
-&gt;=C2=A0 def main():<br>
-&gt; +=C2=A0 =C2=A0 global DEFAULT_INSTALL_DIR<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 global DEFAULT_BASE_URL<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 global DEFAULT_RELEASE<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 global DEFAULT_INSTALLER_VERSION<br>
-&gt; @@ -73,6 +75,7 @@ def main():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 filename: str =3D &quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 release: str =3D &quot;&quot;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 buildtools_url: str =3D &quot;&quot;<br>
-&gt; +=C2=A0 =C2=A0 install_dir: str =3D &quot;&quot;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 parser =3D argparse.ArgumentParser(<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 description=3D&quot;Buildtools inst=
-allation helper&quot;,<br>
-&gt; @@ -87,6 +90,7 @@ def main():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;(optional)\nRequires --url&#=
-39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 action=3D&#39;store&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 parser.add_argument(&#39;-d&#39;, &#39;--director=
-y&#39;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 default=3DDEFAULT_INSTALL_DIR,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 help=3D&#39;directory where buildtools SDK will be in=
-stalled (optional)&#39;,<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 action=3D&#39;store&#39;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 parser.add_argument(&#39;-r&#39;, &#39;--release&=
-#39;,<br>
-&gt; @@ -216,12 +220,12 @@ def main():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 st =3D os.stat(tmpbuildtools)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.chmod(tmpbuildtools, st.st_mode =
-| stat.S_IEXEC)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(os.stat(tmpbuildtools)=
-)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 install_dir =3D &quot;/opt/poky/%s&quot;=
- % args.installer_version<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if args.directory:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install_dir =3D args.=
-directory<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D subprocess.ca=
-ll(&quot;%s -d %s -y&quot; %<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (tmpbuildtools, in=
-stall_dir), shell=3DTrue)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install_dir =3D &quot;/opt=
-/poky/%s&quot; % args.installer_version<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret =3D subprocess.ca=
-ll(&quot;%s -y&quot; % tmpbuildtools, shell=3DTrue)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ret !=3D 0:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.error(&quot;Co=
-uld not run buildtools installer&quot;)<br>
-&gt; @@ -238,7 +242,8 @@ def main():<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tool =3D &#39;gcc&#39=
-;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tool =3D &#39;tar&#39=
-;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 proc =3D subprocess.run(&quot;source %s/=
-environment-setup-x86_64-pokysdk-linux &amp;&amp; which %s&quot; %<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;install_dir: %s&quot;=
- % install_dir)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 proc =3D subprocess.run(&quot;. %s/envir=
-onment-setup-x86_64-pokysdk-linux &amp;&amp; which %s&quot; %<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (install_dir, tool),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 shell=3DTrue, stdout=3Dsubproces=
-s.PIPE)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 which_tool =3D proc.stdout.decode(&=
-quot;utf-8&quot;)<br>
-&gt; --<br>
-&gt; 2.24.0<br>
-&gt;<br>
-&gt; <br>
-<br>
-</blockquote></div></div><div><div class=3D"gmail_quote"><blockquote class=
-=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"></blockquote></div></div>
-<br>
-</blockquote></div></div>
-
---000000000000822af805a241d65e--
