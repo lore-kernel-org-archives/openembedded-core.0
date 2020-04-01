@@ -1,129 +1,151 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web12.1311.1585779405364972068
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.3135.1585785257709854382
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 15:16:45 -0700
+ Wed, 01 Apr 2020 16:54:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PkA7lsW1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id p10so1927985wrt.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 15:16:45 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HiiXtVHG;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id c81so1553005wmd.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 16:54:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=HnoRGS8MjW7XDIXnE33XdxYSUbT7EGQtt7zYoWxS6Es=;
-        b=PkA7lsW1CZCkxG21EMkW9/8gpggYG4nTUBlfvmRAq1B47y5Nvv+zdzR5r8nIvx+0ua
-         6dt+RoCUMA0XIPW4z92JT5/hve+BoyYgpy4cayS/9oYzghxFUxwvMrE2UwyX13ElJkfg
-         Oj6exFTOIVjov7c+VWmcN7Jmke367fLSAGdDI=
+        bh=8YoqOpexV+8cflff4/860lWe6OEeKSVhAIrZzE3CYDg=;
+        b=HiiXtVHGzj2SKZvK+rF5eRcA+NCU+1xSusZqIHYvMbeG3yYBN6Vl9y5mT1CPnABbg1
+         OcULzTE2+g5BVi/b+Q3VMuRAoXeNAPqBli3N1HUtYP+zXk4f/Y7CGzIswbuYulCgZBWg
+         tqOIgDjS72Z2kg9nKCvNiJ5kI1tntvoGeFUUI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=HnoRGS8MjW7XDIXnE33XdxYSUbT7EGQtt7zYoWxS6Es=;
-        b=rotzHTHhREdnIv6dSl111CKCikkYnLtsBndQ1mChKxuYCYqruBDZt579PwonCTCdNR
-         8oXkQmiIfRSxIm2ChAtxbbolG3tjFL4LnGYuMFhsKvrgjtHjxXuqvDNXqCsNAjKmq0qS
-         0GqBkBpxR0j2KPOuMg3+UuulZ49D0XcZ6ZiYmPNag4mSTa6It1sBGTxA1rt/mLN+l9pW
-         yzrDCUcHxS3IPmmS87Y+hCgkgWOW7vN155DNJZF/4jhTwLqIF65jbx9QqGG85zPmdi1W
-         eXmF5Fujm6M9tLNMkHFbRst0L7tbwiAIfaDq6joEeEM8u793KL8kXDqguc4EEdhnjpW7
-         +BSg==
-X-Gm-Message-State: AGi0Pubmsv+9uB1bdRZ2RJd4X1C1BVjbZqiNlaW5ijYcWJOnsfjGqYzG
-	oLJUkijiAXNhWxXfNoU1GR1oNA==
-X-Google-Smtp-Source: APiQypLaQyjD3Lnvm8G5hbNt9GbCTHqzFQsYwsMa9BQ6BmCrgArKcrYxF616Oy2OQLfSGb9kaeSWrw==
-X-Received: by 2002:a5d:4611:: with SMTP id t17mr174324wrq.16.1585779403841;
-        Wed, 01 Apr 2020 15:16:43 -0700 (PDT)
+        bh=8YoqOpexV+8cflff4/860lWe6OEeKSVhAIrZzE3CYDg=;
+        b=RmJnqkXGCOsZjn/qfFVKqbICIx/SfYNAu3X1QCpfCXQIkMZjrUyVLNKc0vRBuLuLCW
+         rGLWboJCAgBEkBTyH0B1sgcF9bj/OEF+fEjQQ9P1zEkfGMOWaXkQVpRd3VOi8rb/P/SF
+         J7eZ+Mw5zi+2Pug9jUOdDpuH/3ikEehnbq44jwTNxLJttq+mkaMvGdEVujzppma6QzEw
+         MJYBYNsAkTR9isgYtFOo/bzaSUvxL9hOravBAZumJnG+wb8e9qD48X21U9NzvlG6nftY
+         njT0l6/qbKEhX8OR5VnngNvG/lJE7Z8GLwBSEvidHHyMvdk3tPgyycKNvlAjYVxQxUnX
+         zY8g==
+X-Gm-Message-State: AGi0PuaSr6BH9/XYjCqZCGLkz9FPw049ENLcJ6SBakbhx7YNLa79b8c9
+	ceU9I8PyLYVnRYkn8kGB1LTlGw==
+X-Google-Smtp-Source: APiQypI4jnfMdEuC/dbLl+qfAoPBJhFIw94RRY8EHWCVrXp7eISzF1AairRS53z5uAt7Rp65IKlCtw==
+X-Received: by 2002:a1c:62c5:: with SMTP id w188mr509609wmb.112.1585785256047;
+        Wed, 01 Apr 2020 16:54:16 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id p10sm4678955wre.15.2020.04.01.15.16.42
+        by smtp.gmail.com with ESMTPSA id v7sm4930221wrs.96.2020.04.01.16.54.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2020 15:16:43 -0700 (PDT)
-Message-ID: <9bd493e6c0a4117b04e636bc0f3200e84ab30cbd.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/4] scripts/install-buildtools: improvements
+        Wed, 01 Apr 2020 16:54:15 -0700 (PDT)
+Message-ID: <fcad93f710482b42d125e173a410c8396a518a71.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] kernel.bbclass: Stop creating empty .scmversion files
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>, Tim Orling <ticotimo@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>, Tim
-	Orling <timothy.t.orling@linux.intel.com>
-Date: Wed, 01 Apr 2020 23:16:41 +0100
-In-Reply-To: <CAJ86T=WwkHPTyi4K7jg0=XOV4OgSGAjN8NcYhQ8JvUY5JY7jxw@mail.gmail.com>
-References: <20200330194302.30032-1-timothy.t.orling@linux.intel.com>
-	 <CAJ86T=XCX7MGRVzoTzaaD3Xe9FqdWM9zX2Zha5Mk8Zo2y1MRVg@mail.gmail.com>
-	 <1601CF873C42565A.6346@lists.openembedded.org>
-	 <CANx9H-BNf9ubLHJr3V_2ZAHcpucYooRtXkA9bOJ8_Q1_aPQmjw@mail.gmail.com>
-	 <CAJ86T=WwkHPTyi4K7jg0=XOV4OgSGAjN8NcYhQ8JvUY5JY7jxw@mail.gmail.com>
+To: paulburton@google.com, openembedded-core@lists.openembedded.org
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Martin Jansa
+	 <martin.jansa@gmail.com>, Trevor Woerner <twoerner@gmail.com>
+Date: Thu, 02 Apr 2020 00:54:14 +0100
+In-Reply-To: <20200401194102.161130-1-paulburton@google.com>
+References: <20200331235607.93023-1-paulburton@google.com>
+	 <20200401194102.161130-1-paulburton@google.com>
 User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-04-01 at 15:09 -0700, Andre McCurdy wrote:
-> On Wed, Apr 1, 2020 at 3:02 PM Tim Orling <ticotimo@gmail.com> wrote:
-> > On Wed, Apr 1, 2020 at 2:32 PM Tim Orling via
-> > lists.openembedded.org <ticotimo=gmail.com@lists.openembedded.org>
-> > wrote:
-> > > On Wed, Apr 1, 2020 at 1:09 PM Andre McCurdy <armccurdy@gmail.com
-> > > > wrote:
-> > > > It looks like there are some assumptions about the minimum
-> > > > version of
-> > > > python3 on the host in order to even be able to run
-> > > > install-buildtools. Should that be checked explicitly?
-> > > 
-> > > To be honest, everything was written on CentOS-7, where ‘python3’
-> > > is now python36.
-> > > 
-> > > The remaining supported holdout for 3.4 is Debian-8 (Jessie).
-> > > Which also happens to have tar 1.27. At least it has git 2.1.4,
-> > > so it’s not a complete mess.
-> > > 
-> > > Python 3.4 is already EOL. We should not support it for the
-> > > complete build system, but I can see that the install-buildtools
-> > > script should ideally still run on python34. The whole point is
-> > > to make it easier to install the pre-built buildtools.
-> > 
-> > Python 3.5 is now required in bitbake/lib/bb/__init__.py
-> > Which is needed for bb.utils.md5sum_file and sha256_file to check
-> > the checksum of the download. I’d rather not have to rewrite those
-> > functions.
+On Wed, 2020-04-01 at 12:41 -0700, Paul Burton via lists.openembedded.org wrote:
+> The kernel_do_configure() task creates empty .scmversion files within
+> both the source & build directories. The presence of these files causes
+> the scm_version function within the kernel's scripts/setlocalversion to
+> always output the empty string, breaking the kernel's
+> CONFIG_LOCALVERSION_AUTO=y functionality which appends that string to
+> the kernel version. Rather than appending the git commit hash or another
+> SCM revision to the kernel version, the empty string is appended causing
+> CONFIG_LOCALVERSION_AUTO to do nothing.
 > 
-> Looks like copy and pasting ~30 lines? Maybe not even much of a net
-> increase in code size if you can remove the existing code to check
-> that bitbake libs are available...
+> Remove the creation of the empty .scmversion files in order to restore
+> the kernel's CONFIG_LOCALVERSION_AUTO functionality. This allows users
+> of kernels built from non-tagged source & configured with
+> CONFIG_LOCALVERSION_AUTO=y to better determine what kernel they're
+> actually running.
 > 
-> def _hasher(method, filename):
->     import mmap
+> The .scmversion behavior was introduced for the build directory by
+> commit 56fe5300ab5a ("kernel.bbclass: fix extra + in kernelrelease") and
+> extended to the source directory by commit e3bf54731973
+> ("kernel.bbclass: touch .scmversion also in ${S}"). The '+' character
+> referenced would be appended if the kernel believed it were being built
+> from a dirty working tree. If that is genuinely the case then this in
+> itself is useful information; hiding that fact can only serve to muddy a
+> user's understanding of what kernel they're actually running.
 > 
->     with open(filename, "rb") as f:
->         try:
->             with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as
-> mm:
->                 for chunk in iter(lambda: mm.read(8192), b''):
->                     method.update(chunk)
->         except ValueError:
->             # You can't mmap() an empty file so silence this
-> exception
->             pass
->     return method.hexdigest()
+> One case that Martin suggests may have been the original motivation for
+> these commits is building a kernel whose source is not coming from git,
+> but is a subdirectory of a larger git working tree. In that case git
+> will ascend through the parent directories of the kernel source until it
+> finds the .git directory of that larger repository & report version
+> information that is nonsensical with regards to the kernel. As such,
+> prevent this from happening by setting the GIT_CEILING_DIRECTORIES
+> environment variable such that git will not ascend outside of the kernel
+> source directory and therefore won't pick up on version information that
+> doesn't relate to the kernel.
 > 
-> def md5_file(filename):
->     """
->     Return the hex string representation of the MD5 checksum of
-> filename.
->     """
->     import hashlib
->     return _hasher(hashlib.md5(), filename)
+> Signed-off-by: Paul Burton <paulburton@google.com>
+> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Cc: Martin Jansa <martin.jansa@gmail.com>
+> Cc: Trevor Woerner <twoerner@gmail.com>
+> ---
+>  meta/classes/kernel.bbclass | 17 +++++++++++------
+>  1 file changed, 11 insertions(+), 6 deletions(-)
 > 
-> def sha256_file(filename):
->     """
->     Return the hex string representation of the 256-bit SHA checksum
-> of
->     filename.
->     """
->     import hashlib
->     return _hasher(hashlib.sha256(), filename)
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index a724645466..bf0b14285e 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -171,6 +171,17 @@ KERNEL_RELEASE ?= "${KERNEL_VERSION}"
+>  KERNEL_OUTPUT_DIR ?= "arch/${ARCH}/boot"
+>  KERNEL_IMAGEDEST ?= "boot"
+>  
+> +# The kernel's scripts/setlocalversion invokes git to determine whether we're
+> +# building from source that isn't clean or isn't tagged, and append that
+> +# information to the kernel version if CONFIG_LOCALVERSION_AUTO is enabled. If
+> +# we're building kernel source that isn't directly from git, but is a
+> +# subdirectory of a larger git repository, then we need to ensure the kernel's
+> +# script doesn't pick up on the state of that larger git repository to prevent
+> +# it reporting incorrect version information. We do that by ensuring git won't
+> +# ascend above the kernel source directory whilst searching for a .git
+> +# directory.
+> +export GIT_CEILING_DIRECTORIES = "${@os.path.dirname('${S}')}"
+> +
+>  #
+>  # configuration
+>  #
+> @@ -521,12 +532,6 @@ check_oldest_kernel[vardepsexclude] += "OLDEST_KERNEL KERNEL_VERSION"
+>  do_configure[prefuncs] += "check_oldest_kernel"
+>  
+>  kernel_do_configure() {
+> -	# fixes extra + in /lib/modules/2.6.37+
+> -	# $ scripts/setlocalversion . => +
+> -	# $ make kernelversion => 2.6.37
+> -	# $ make kernelrelease => 2.6.37+
+> -	touch ${B}/.scmversion ${S}/.scmversion
+> -
+>  	if [ "${S}" != "${B}" ] && [ -f "${S}/.config" ] && [ ! -f "${B}/.config" ]; then
+>  		mv "${S}/.config" "${B}/.config"
+>  	fi
 
-Can you send a patch against master-next please? The buildtools
-installer is one place we probably do want to support older pythons and
-it shouldn't be too onnerous.
+I get very nervous about patches like this that come in a day before
+the final release build. I'm not 100% certain its this patch but a
+build with this patch in resulted in:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1747
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1749
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1753
+https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/649
+
+and a ton of other similar failures.
+
+I'm starting a retest without it.
 
 Cheers,
 
 Richard
+
 
