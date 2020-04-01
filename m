@@ -1,221 +1,88 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web12.8394.1585751269366932290
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web11.9135.1585752606983654875
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 07:27:49 -0700
+ Wed, 01 Apr 2020 07:50:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZTSbSOMj;
- spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: jpewhacker@gmail.com)
-Received: by mail-io1-f41.google.com with SMTP id q9so25862014iod.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 07:27:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=zPkjuYr0TG/FJRrxwYIpfw5Yb14F+0qRpnNSTz3ht5Y=;
-        b=ZTSbSOMj9bGK6gkldoLZ2xYdVDE57EfV69Xmt7qXbrCBxnue5A7Y5Xpr52SNopEyTv
-         Q4XuYiv5ypQhJ3VOkIkZ9Ddj5Wm8l9PSscKQbMAP7SPmaQvLRY31ivU6VSfPw8DKTllk
-         faAoV3b1cAnqflXNnLOJMPmjqk1874uoS/fX4cKEo2dGP6/pWrhCBud9KOi1YX9/Qn5H
-         v7ElDE4dxG+7iUfcnWj98V9+qIlrUIkFzou/lJ7qKb9+U8bN6B4FushWO36OeCdBhdyu
-         /WC98NJMjRt0juOMctim19CvsliY0PQrcCcJmEzcDMyqAhuG/nWJM8lPRHdUivvMRrpF
-         ShUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=zPkjuYr0TG/FJRrxwYIpfw5Yb14F+0qRpnNSTz3ht5Y=;
-        b=n/qAC/JZvsyDEtdRBNz7uswlHMDhTvy5Sv5MgFqP/LJGmWNLd8wDtED8r8cazvAtOv
-         js3j2mVpCe4gwXnpbqOLzb98IsWU/yugNBslIXq3w7qhEHZL32kkXoR8a89DezPUHYqq
-         zliIMC4CqT/KwtbZ6GrjNnNMiHg4aF5PWYU9kLF+Ku/lEt5SpEHiInSsTKAQv/vnfzBx
-         +itxbol43IIsqyt1f5SdEnEerqk8uTfLwbH8IOeel86tjhQc61KYjR47hRgbB75sJ8d2
-         SaEh7iIyZMndzoA9mOUENaVo0tRDcYt4yhbfj8f+tgUdjoxTVjpQQrkmSCfJbsCP1Xjj
-         TcJA==
-X-Gm-Message-State: ANhLgQ2TqDS1o3bsaW9yzsQLYk3N2jArS841sd6Hx7xXAAdu73lXInZM
-	6rP83qQZhTR7+nDAZnzxrn3NlQDcuGI=
-X-Google-Smtp-Source: ADFU+vtAz8YEXP+geujnic78a6LcCF3TLqbXNbivOIingWE2FBM42Nw/Gc3hGph+jnc+yMGvAC0WUw==
-X-Received: by 2002:a05:6602:2352:: with SMTP id r18mr5604245iot.165.1585751268275;
-        Wed, 01 Apr 2020 07:27:48 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:f063:bb2d:1dd1:efc2])
-        by smtp.gmail.com with ESMTPSA id i4sm726770ilq.4.2020.04.01.07.27.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2020 07:27:47 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][zeus][PATCH v2] u-boot-tools: Split out inc file
-Date: Wed,  1 Apr 2020 09:27:36 -0500
-Message-Id: <20200401142736.22850-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200401132757.21453-1-JPEWhacker@gmail.com>
-References: <20200401132757.21453-1-JPEWhacker@gmail.com>
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
+	(authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 031EnqwI012486
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+	Wed, 1 Apr 2020 09:49:58 -0500
+Subject: Re: [OE-core] [PATCH 2/5] archiver.bbclass: Make do_deploy_archives a recursive dependency
+To: Paul Barker <pbarker@konsulko.com>,
+        Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+References: <20200309142139.15741-1-pbarker@konsulko.com>
+ <20200309142139.15741-3-pbarker@konsulko.com>
+ <a6f3718866f85a6208023b253bec26bf6b5d4172.camel@linuxfoundation.org>
+ <20200311114028.31344b22@ub1910>
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+Message-ID: <b7977e47-ebe4-7d83-1bcd-4ed40be1975a@kernel.crashing.org>
+Date: Wed, 1 Apr 2020 09:49:52 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <20200311114028.31344b22@ub1910>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Spilts out the inc file for u-boot-tools so that BSPs can include it for
-their forked version of the tools, just like u-boot.inc.
+(I know this is an old thread, but I ran into this as well..)
 
-As an example, this recipe [1] builds mkimage u-boot as part of the
-u-boot recipe itself. This is incorrect because u-boot is a target
-recipe, which means that the uninative loader transformations do not get
-applied when the recipe is restored from sstate, breaking the mkimage
-command breaks. The correct solution is to have a u-boot-tools-imx
-recipe that pulls in their custom u-boot source; this inc file makes
-that much easier to maintain.
+...
 
-[1]: https://github.com/Freescale/meta-freescale/blob/aa27fc62095cfd6c147c8f6865296ddc29bf0fa6/recipes-bsp/u-boot/u-boot-imx_2019.04.bb
+On 3/11/20 6:40 AM, Paul Barker wrote:
+> On Tue, 10 Mar 2020 23:18:33 +0000
+> Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> 
+>> On Mon, 2020-03-09 at 14:21 +0000, Paul Barker wrote:
+>>> To ensure that archives are captured for all dependencies of a typical
+>>> bitbake build we add do_deploy_archives to the list of recursive
+>>> dependencies of do_build. Without this, archives may be missed for
+>>> recipes such as gcc-source which do not create packages or populate a
+>>> sysroot.
+>>>
+>>> do_deploy_archives is also added to the recursive dependencies of
+>>> do_populate_sdk so that all sources required for an SDK can be captured.
+>>>
+>>> Signed-off-by: Paul Barker <pbarker@konsulko.com>
+>>> ---
+>>>  meta/classes/archiver.bbclass | 4 +++-
+>>>  1 file changed, 3 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+>>> index fef7ad4f62..c11d36d708 100644
+>>> --- a/meta/classes/archiver.bbclass
+>>> +++ b/meta/classes/archiver.bbclass
+>>> @@ -604,7 +604,9 @@ addtask do_ar_configured after do_unpack_and_patch
+>>>  addtask do_ar_mirror after do_fetch
+>>>  addtask do_dumpdata
+>>>  addtask do_ar_recipe
+>>> -addtask do_deploy_archives before do_build
+>>> +addtask do_deploy_archives
+>>> +do_build[recrdeptask] += "do_deploy_archives"
+>>> +do_populate_sdk[recrdeptask] += "do_deploy_archives"  
+>>
+>> We implemented the --runall option to bitbake to try and avoid having
+>> recrdeptask versions of most tasks. Does that not work here? It should
+>> also work for the SDK I think?
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2f3bd198d9b1e85f17f7a587b1690ab196ab0300)
----
- meta/recipes-bsp/u-boot/u-boot-tools.inc      | 65 ++++++++++++++++++
- .../u-boot/u-boot-tools_2019.07.bb            | 67 +------------------
- 2 files changed, 66 insertions(+), 66 deletions(-)
- create mode 100644 meta/recipes-bsp/u-boot/u-boot-tools.inc
+You can't use a --runall operation on a task target, such as:
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools.inc b/meta/recipes-bsp/u-boot/u-boot-tools.inc
-new file mode 100644
-index 0000000000..35894e1a8f
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools.inc
-@@ -0,0 +1,65 @@
-+SUMMARY = "U-Boot bootloader tools"
-+DEPENDS += "openssl"
-+
-+PROVIDES = "${MLPREFIX}u-boot-mkimage ${MLPREFIX}u-boot-mkenvimage"
-+PROVIDES_class-native = "u-boot-mkimage-native u-boot-mkenvimage-native"
-+
-+PACKAGES += "${PN}-mkimage ${PN}-mkenvimage"
-+
-+# Required for backward compatibility with "u-boot-mkimage-xxx.bb"
-+RPROVIDES_${PN}-mkimage = "u-boot-mkimage"
-+RREPLACES_${PN}-mkimage = "u-boot-mkimage"
-+RCONFLICTS_${PN}-mkimage = "u-boot-mkimage"
-+
-+EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
-+EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
-+EXTRA_OEMAKE_class-nativesdk = 'CROSS_COMPILE="${HOST_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
-+
-+SED_CONFIG_EFI = '-e "s/CONFIG_EFI_LOADER=.*/# CONFIG_EFI_LOADER is not set/"'
-+SED_CONFIG_EFI_x86 = ''
-+SED_CONFIG_EFI_x86-64 = ''
-+SED_CONFIG_EFI_arm = ''
-+SED_CONFIG_EFI_armeb = ''
-+SED_CONFIG_EFI_aarch64 = ''
-+
-+do_compile () {
-+	oe_runmake sandbox_defconfig
-+
-+	# Disable CONFIG_CMD_LICENSE, license.h is not used by tools and
-+	# generating it requires bin2header tool, which for target build
-+	# is built with target tools and thus cannot be executed on host.
-+	sed -i -e "s/CONFIG_CMD_LICENSE=.*/# CONFIG_CMD_LICENSE is not set/" ${SED_CONFIG_EFI} .config
-+
-+	oe_runmake cross_tools NO_SDL=1
-+}
-+
-+do_install () {
-+	install -d ${D}${bindir}
-+
-+	# mkimage
-+	install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
-+	ln -sf uboot-mkimage ${D}${bindir}/mkimage
-+
-+	# mkenvimage
-+	install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
-+	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
-+
-+	# dumpimage
-+	install -m 0755 tools/dumpimage ${D}${bindir}/uboot-dumpimage
-+	ln -sf uboot-dumpimage ${D}${bindir}/dumpimage
-+
-+	# fit_check_sign
-+	install -m 0755 tools/fit_check_sign ${D}${bindir}/uboot-fit_check_sign
-+	ln -sf uboot-fit_check_sign ${D}${bindir}/fit_check_sign
-+}
-+
-+ALLOW_EMPTY_${PN} = "1"
-+FILES_${PN} = ""
-+FILES_${PN}-mkimage = "${bindir}/uboot-mkimage ${bindir}/mkimage ${bindir}/uboot-dumpimage ${bindir}/dumpimage ${bindir}/uboot-fit_check_sign ${bindir}/fit_check_sign"
-+FILES_${PN}-mkenvimage = "${bindir}/uboot-mkenvimage ${bindir}/mkenvimage"
-+
-+RDEPENDS_${PN}-mkimage += "dtc"
-+RDEPENDS_${PN} += "${PN}-mkimage ${PN}-mkenvimage"
-+RDEPENDS_${PN}_class-native = ""
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2019.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2019.07.bb
-index bede984ef7..7eaf721ca8 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools_2019.07.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools_2019.07.bb
-@@ -1,67 +1,2 @@
- require u-boot-common.inc
--
--SUMMARY = "U-Boot bootloader tools"
--DEPENDS += "openssl"
--
--PROVIDES = "${MLPREFIX}u-boot-mkimage ${MLPREFIX}u-boot-mkenvimage"
--PROVIDES_class-native = "u-boot-mkimage-native u-boot-mkenvimage-native"
--
--PACKAGES += "${PN}-mkimage ${PN}-mkenvimage"
--
--# Required for backward compatibility with "u-boot-mkimage-xxx.bb"
--RPROVIDES_${PN}-mkimage = "u-boot-mkimage"
--RREPLACES_${PN}-mkimage = "u-boot-mkimage"
--RCONFLICTS_${PN}-mkimage = "u-boot-mkimage"
--
--EXTRA_OEMAKE_class-target = 'CROSS_COMPILE="${TARGET_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
--EXTRA_OEMAKE_class-native = 'CC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
--EXTRA_OEMAKE_class-nativesdk = 'CROSS_COMPILE="${HOST_PREFIX}" CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" STRIP=true V=1'
--
--SED_CONFIG_EFI = '-e "s/CONFIG_EFI_LOADER=.*/# CONFIG_EFI_LOADER is not set/"'
--SED_CONFIG_EFI_x86 = ''
--SED_CONFIG_EFI_x86-64 = ''
--SED_CONFIG_EFI_arm = ''
--SED_CONFIG_EFI_armeb = ''
--SED_CONFIG_EFI_aarch64 = ''
--
--do_compile () {
--	oe_runmake sandbox_defconfig
--
--	# Disable CONFIG_CMD_LICENSE, license.h is not used by tools and
--	# generating it requires bin2header tool, which for target build
--	# is built with target tools and thus cannot be executed on host.
--	sed -i -e "s/CONFIG_CMD_LICENSE=.*/# CONFIG_CMD_LICENSE is not set/" ${SED_CONFIG_EFI} .config
--
--	oe_runmake cross_tools NO_SDL=1
--}
--
--do_install () {
--	install -d ${D}${bindir}
--
--	# mkimage
--	install -m 0755 tools/mkimage ${D}${bindir}/uboot-mkimage
--	ln -sf uboot-mkimage ${D}${bindir}/mkimage
--
--	# mkenvimage
--	install -m 0755 tools/mkenvimage ${D}${bindir}/uboot-mkenvimage
--	ln -sf uboot-mkenvimage ${D}${bindir}/mkenvimage
--
--	# dumpimage
--	install -m 0755 tools/dumpimage ${D}${bindir}/uboot-dumpimage
--	ln -sf uboot-dumpimage ${D}${bindir}/dumpimage
--
--	# fit_check_sign
--	install -m 0755 tools/fit_check_sign ${D}${bindir}/uboot-fit_check_sign
--	ln -sf uboot-fit_check_sign ${D}${bindir}/fit_check_sign
--}
--
--ALLOW_EMPTY_${PN} = "1"
--FILES_${PN} = ""
--FILES_${PN}-mkimage = "${bindir}/uboot-mkimage ${bindir}/mkimage ${bindir}/uboot-dumpimage ${bindir}/dumpimage ${bindir}/uboot-fit_check_sign ${bindir}/fit_check_sign"
--FILES_${PN}-mkenvimage = "${bindir}/uboot-mkenvimage ${bindir}/mkenvimage"
--
--RDEPENDS_${PN}-mkimage += "dtc"
--RDEPENDS_${PN} += "${PN}-mkimage ${PN}-mkenvimage"
--RDEPENDS_${PN}_class-native = ""
--
--BBCLASSEXTEND = "native nativesdk"
-+require u-boot-tools.inc
--- 
-2.17.1
+bitbake core-image-minimal -c populate_sdk
 
+I can't find any way to get all of the archiver sources for the populate_sdk
+target.  The above should resolve this, and as Paul said below it will ensure
+that populate_sdk follows the same behavior as regular image generation as well.
+
+I'm wondering if do_populate_sdk_ext needs it as well.
+
+> If the archiver is enabled, its tasks should be in the dependency tree of
+> whatever you're building so that you don't need to invoke bitbake twice to
+> produce the required artifacts. For images that's the way the archiver has
+> always worked, if it's enabled then you just need to do `bitbake image` to
+> build the image and deploy the source archives. This change just extends that
+> behaviour to cover other things we can build and ensures that we don't miss
+> sources for recipes like gcc-source.
+> 
