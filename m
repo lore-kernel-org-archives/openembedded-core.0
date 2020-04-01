@@ -1,85 +1,83 @@
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
- by mx.groups.io with SMTP id smtpd.web11.2745.1585764799023001520
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+ by mx.groups.io with SMTP id smtpd.web11.3650.1585766060510496101
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 11:13:19 -0700
+ Wed, 01 Apr 2020 11:34:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SYj7DE9n;
- spf=pass (domain: gmail.com, ip: 209.85.214.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f194.google.com with SMTP id s23so239288plq.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 11:13:18 -0700 (PDT)
+ dkim=pass header.i=@google.com header.s=20161025 header.b=Lj8HS09y;
+ spf=pass (domain: google.com, ip: 209.85.167.67, mailfrom: paulburton@google.com)
+Received: by mail-lf1-f67.google.com with SMTP id j17so545292lfe.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 11:34:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3ScnSzqbj/DQN9to2+TbaFXNQTOHjcgCuXmnwecdKUY=;
-        b=SYj7DE9nd2IznZfDWkMOzuxuFo062A/10aOp6nelLmN3RYi7CyxEAcj59A0Bs12N+q
-         YDNtqebSYQQGdlhzNMBeRNiGKcd030SwWaQqvArohYNvgnzlgXHA4/Aea6JRCKZWsiv5
-         v92u07IouI4LZw4f0KdKFq9aCwEB2Qxw/j3NaMX4a88Y0ddXINAQdKPNmgDIyb/SfnbI
-         ljD2a8uNqDN3MyHujTtLaLDdv3Xxs8C3w32wZwdiEImrInITtuue4lES8R5O8P4VW/tT
-         Xfwe/2BqnMSWaZ6Vv2K4wHCqbJpXOB4UpDZ/3QjhPCvahRtyGrRPJ3QFFO8gY5PTLwAP
-         IOxw==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=g78/6G6H1nCUospKX1I2EGMstw5Tc64JOmvYSPZ8EBk=;
+        b=Lj8HS09yb8LnEfCW1i400TB1NflnAcAN2JYARCn98FhxeiI1UXz2n4g7QVnnXW2ofc
+         nMWWaYqlN1EjaNkB2AiULtIQilXi05b2WO0EsFTD+JKj3ZeGJ5MRUy1z93R0vETccLvm
+         fKrpoHOato1Qjsn8wLBF6S94OWtYBj6aAo/Pa+P1a96upyFpOUoiqNA1zb4Rhggn6juu
+         pnbf2yMCbAIEvgnG5ZIifeXZADvwTsGqIE5NroGr5kcyowkj0fixBRJzxrgi+r8mrZ07
+         EGo1/pxRZv0gpKMk7GW5WyC61v01bxKfMfrIni3WXqxdSepf9kP4+/mCVNQkeNt3TB6w
+         tiTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=3ScnSzqbj/DQN9to2+TbaFXNQTOHjcgCuXmnwecdKUY=;
-        b=Zlk/aHp6Z11oit+2cTwY9/AQaTqhbZFAQ0/TIYRcv4PZMgf6OW26Hlx9nmkuB+qVTK
-         9fPEaLt54AXhJr6ZDPE/mrBfNFdeEOC/sLCuDq+5g/Pm8FkxkTK+n62CI5hvK04Phvl0
-         G5dlF1WSlzERMi0n1OGWMEetfHvZbtDs+IJogQid45m+rM3J4uRFwewGsnyfTKTZTznG
-         n8DqQDWk5qNMLyNqKn4hJnwD9XBNjAUGzqkGAt/DHtm0pFqeAFnNbwcdHnzBbn+kImKe
-         GuGyXq+oR52s7XNtj7GKOTTXsaHnJBytkKgutocLXaCXHS6FHj0D1SKh8rVxxDQs5D9J
-         jCiw==
-X-Gm-Message-State: AGi0PuZLmnvC2pDSVdwTS1lwybLnCJ8SWl6YAP1rULS9vkpZK8uuM54g
-	yjFz8Ave53kJh1n3y4GtbFzViLnTIf0=
-X-Google-Smtp-Source: APiQypIKeNMbU712cOwMdZbKRuWpweYse+zvoWH/m9VorxRWJTMEiY9sYDcEBu6w8ckQJ565/3KAyQ==
-X-Received: by 2002:a17:90a:feb:: with SMTP id 98mr6437932pjz.72.1585764797961;
-        Wed, 01 Apr 2020 11:13:17 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::3e84])
-        by smtp.gmail.com with ESMTPSA id f64sm2140232pfb.72.2020.04.01.11.13.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2020 11:13:17 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] binutils: Do not build gold linker on mips/glibc
-Date: Wed,  1 Apr 2020 11:13:31 -0700
-Message-Id: <20200401181331.1939188-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=g78/6G6H1nCUospKX1I2EGMstw5Tc64JOmvYSPZ8EBk=;
+        b=PbOFsJkz15oRyO3nxBPEub7IA2wrfB7x58wDvG2ObIAq7Pv1AGwchne3fPqspUTN48
+         DHYZwb8q2/szhTsRiEe4z+eK/+Z0MV5nMjPkNghyWzdH/ZPMWzmhE+s03mBjukgtk2lx
+         fdgeE2u5jzsD/9mv+6nqmQZpWhHdvq23bT0KkQNfBj34AwWrConFVDdsuZ4oEZCDAnvU
+         zV0Xr5bjF5L8WfJ3Pq0NZQbjJvNvjXg+mqSGbEEH87rzOVXoOUJbPG9LzLxxLb3xrepr
+         g/04X71xULQcWQgj3emsWB8TDc93/IclpXj3BqsPdKqbEppts67b2KWKBtliDoyyZwhG
+         fIsg==
+X-Gm-Message-State: AGi0PuaRefxiRK8tWKC4AYfCytdN7scq86Cs3guBhkrpWZWEWnlzCnyd
+	qJUCOxJ/P8z5pDs53LazVPMIcfiOyMvP3KJPekZj+A==
+X-Google-Smtp-Source: APiQypJwFIfw96hTRaHSennLyI2qPPF6yJo4sbXA8+2xgX6kArY14rcB48ICefj0SpttkX30Y/FWD8T91yGzR6Sq3Fo=
+X-Received: by 2002:a05:6512:3189:: with SMTP id i9mr5864363lfe.178.1585766058530;
+ Wed, 01 Apr 2020 11:34:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200331235607.93023-1-paulburton@google.com> <CADkTA4NEN1PPVrm7N2HF+tVa4j2Tgv1_=YYFmQhbFscV5RSjWA@mail.gmail.com>
+ <CADkTA4NQ4g1qOrbi1fdzmUq6Xk_8fm=QtNPpm7C+0U-oVpmU=w@mail.gmail.com> <CA+chaQcg5NS+DJ0be92Wz+EaozpomKg12fkFrmFFaJcr7RGdiA@mail.gmail.com>
+In-Reply-To: <CA+chaQcg5NS+DJ0be92Wz+EaozpomKg12fkFrmFFaJcr7RGdiA@mail.gmail.com>
+From: "Paul Burton" <paulburton@google.com>
+Date: Wed, 1 Apr 2020 11:34:07 -0700
+Message-ID: <CAB_4824tHLRghj8gewGd8kLSRor7uLUmus1X5nvvKWipz5C3tQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] kernel.bbclass: Stop creating empty .scmversion files
+To: Martin Jansa <martin.jansa@gmail.com>, Trevor Woerner <twoerner@gmail.com>, 
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Using gnu_hash style is unsupported on gold for now therefore disable
-building gold on mips/glibc
+Hi Martin & Bruce,
 
-Certain applications poke for presence of gold linker and silently use
-it (webkit), therefore its best to disable building it
+Thanks for your responses & filling in some of the background here.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/binutils/binutils.inc | 2 ++
- 1 file changed, 2 insertions(+)
+On Tue, Mar 31, 2020 at 6:32 PM Bruce Ashfield <bruce.ashfield@gmail.com> w=
+rote:
+> Also note that in 2017 Trevor Woerner tried exactly the same fix that
+> you are doing, but ended up retracting it when he found a test case
+> that was still adding a + to the version.
+>
+> see: [OE-core] [PATCH] meta/classes/kernel.bbclass: revert 56fe5300ab5
+>
+> It might be worth checking with Trevor to see if he recalls what case
+> it was where the + snuck back in.
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 53f46bb611..f6c20fc229 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -38,6 +38,7 @@ FILES_${PN}-dev = " \
- LDGOLD_ALTS ?= "ld.gold dwp"
- LDGOLD_ALTS_riscv64 = ""
- LDGOLD_ALTS_riscv32 = ""
-+LDGOLD_ALTS_libc-glibc_mipsarch = ""
- 
- USE_ALTERNATIVES_FOR = " \
- 	addr2line \
-@@ -84,6 +85,7 @@ EXTRA_TARGETS_class-native = ""
- 
- LDGOLD_class-native = ""
- LDGOLD_class-crosssdk = ""
-+LDGOLD_libc-glibc_mipsarch = ""
- LDGOLD ?= "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default --enable-threads', '--enable-gold --enable-ld=default --enable-threads', d)}"
- 
- 
--- 
-2.26.0
+Absolutely - Trevor if you recall any details they'd be very much
+appreciated. I have my fingers crossed it might have been a case like
+the one Martin describes below :)
 
+On Tue, Mar 31, 2020 at 7:03 PM Martin Jansa <martin.jansa@gmail.com> wrote=
+:
+> Another piece of this puzzle might also be that in 2012 I was still using=
+ minimalistic gentoo chroot, which was shared across all builders as git re=
+pository, so even when you were building some kernel from tarball it might =
+have incorrectly assume that the kernel repo is dirty (even when it was the=
+ git repo in top level rootfs directory which was dirty).
+
+Interesting - I think we should be able to deal with that case by
+setting the GIT_CEILING_DIRECTORIES environment variable, I'll give
+that a go.
+
+Thanks,
+    Paul
