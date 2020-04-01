@@ -1,88 +1,88 @@
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by mx.groups.io with SMTP id smtpd.web11.9135.1585752606983654875
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web10.9241.1585753103281714408
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 07:50:07 -0700
+ Wed, 01 Apr 2020 07:58:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
-	(authenticated bits=0)
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 031EnqwI012486
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-	Wed, 1 Apr 2020 09:49:58 -0500
-Subject: Re: [OE-core] [PATCH 2/5] archiver.bbclass: Make do_deploy_archives a recursive dependency
-To: Paul Barker <pbarker@konsulko.com>,
-        Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-References: <20200309142139.15741-1-pbarker@konsulko.com>
- <20200309142139.15741-3-pbarker@konsulko.com>
- <a6f3718866f85a6208023b253bec26bf6b5d4172.camel@linuxfoundation.org>
- <20200311114028.31344b22@ub1910>
-From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
-Message-ID: <b7977e47-ebe4-7d83-1bcd-4ed40be1975a@kernel.crashing.org>
-Date: Wed, 1 Apr 2020 09:49:52 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.6.0
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: jlu@pengutronix.de)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1jJeov-00011g-IQ; Wed, 01 Apr 2020 16:58:21 +0200
+Received: from jlu by dude.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1jJeou-0003G0-Tp; Wed, 01 Apr 2020 16:58:20 +0200
+From: "Jan Luebbe" <jlu@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Jan Luebbe <jlu@pengutronix.de>
+Subject: [OE-core][PATCH 3/5] lib/oe/package_manager: collect provided package names when using debs
+Date: Wed,  1 Apr 2020 16:58:03 +0200
+Message-Id: <20200401145805.6936-4-jlu@pengutronix.de>
+X-Mailer: git-send-email 2.26.0.rc2
+In-Reply-To: <20200401145805.6936-1-jlu@pengutronix.de>
+References: <20200401145805.6936-1-jlu@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <20200311114028.31344b22@ub1910>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: jlu@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Transfer-Encoding: 8bit
 
-(I know this is an old thread, but I ran into this as well..)
+This is needed for a later change to avoid installing packages which are
+already provided by an installed package.
 
-...
+Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
+---
+ meta/lib/oe/package_manager.py | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-On 3/11/20 6:40 AM, Paul Barker wrote:
-> On Tue, 10 Mar 2020 23:18:33 +0000
-> Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> 
->> On Mon, 2020-03-09 at 14:21 +0000, Paul Barker wrote:
->>> To ensure that archives are captured for all dependencies of a typical
->>> bitbake build we add do_deploy_archives to the list of recursive
->>> dependencies of do_build. Without this, archives may be missed for
->>> recipes such as gcc-source which do not create packages or populate a
->>> sysroot.
->>>
->>> do_deploy_archives is also added to the recursive dependencies of
->>> do_populate_sdk so that all sources required for an SDK can be captured.
->>>
->>> Signed-off-by: Paul Barker <pbarker@konsulko.com>
->>> ---
->>>  meta/classes/archiver.bbclass | 4 +++-
->>>  1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
->>> index fef7ad4f62..c11d36d708 100644
->>> --- a/meta/classes/archiver.bbclass
->>> +++ b/meta/classes/archiver.bbclass
->>> @@ -604,7 +604,9 @@ addtask do_ar_configured after do_unpack_and_patch
->>>  addtask do_ar_mirror after do_fetch
->>>  addtask do_dumpdata
->>>  addtask do_ar_recipe
->>> -addtask do_deploy_archives before do_build
->>> +addtask do_deploy_archives
->>> +do_build[recrdeptask] += "do_deploy_archives"
->>> +do_populate_sdk[recrdeptask] += "do_deploy_archives"  
->>
->> We implemented the --runall option to bitbake to try and avoid having
->> recrdeptask versions of most tasks. Does that not work here? It should
->> also work for the SDK I think?
+diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
+index 072372892732..e862915b1b75 100644
+--- a/meta/lib/oe/package_manager.py
++++ b/meta/lib/oe/package_manager.py
+@@ -40,6 +40,7 @@ def opkg_query(cmd_output):
+     ver = ""
+     filename = ""
+     dep = []
++    prov = []
+     pkgarch = ""
+     for line in cmd_output.splitlines()+['']:
+         line = line.rstrip()
+@@ -64,6 +65,10 @@ def opkg_query(cmd_output):
+                     dep.append("%s [REC]" % recommend)
+             elif line.startswith("PackageArch: "):
+                 pkgarch = line.split(": ")[1]
++            elif line.startswith("Provides: "):
++                provides = verregex.sub('', line.split(": ")[1])
++                for provide in provides.split(", "):
++                    prov.append(provide)
+ 
+         # When there is a blank line save the package information
+         elif not line:
+@@ -72,12 +77,13 @@ def opkg_query(cmd_output):
+                 filename = "%s_%s_%s.ipk" % (pkg, ver, arch)
+             if pkg:
+                 output[pkg] = {"arch":arch, "ver":ver,
+-                        "filename":filename, "deps": dep, "pkgarch":pkgarch }
++                        "filename":filename, "deps": dep, "pkgarch":pkgarch, "provs": prov}
+             pkg = ""
+             arch = ""
+             ver = ""
+             filename = ""
+             dep = []
++            prov = []
+             pkgarch = ""
+ 
+     return output
+@@ -355,7 +361,7 @@ class DpkgPkgsList(PkgsList):
+                "--admindir=%s/var/lib/dpkg" % self.rootfs_dir,
+                "-W"]
+ 
+-        cmd.append("-f=Package: ${Package}\nArchitecture: ${PackageArch}\nVersion: ${Version}\nFile: ${Package}_${Version}_${Architecture}.deb\nDepends: ${Depends}\nRecommends: ${Recommends}\n\n")
++        cmd.append("-f=Package: ${Package}\nArchitecture: ${PackageArch}\nVersion: ${Version}\nFile: ${Package}_${Version}_${Architecture}.deb\nDepends: ${Depends}\nRecommends: ${Recommends}\nProvides: ${Provides}\n\n")
+ 
+         try:
+             cmd_output = subprocess.check_output(cmd, stderr=subprocess.STDOUT).strip().decode("utf-8")
+-- 
+2.26.0.rc2
 
-You can't use a --runall operation on a task target, such as:
-
-bitbake core-image-minimal -c populate_sdk
-
-I can't find any way to get all of the archiver sources for the populate_sdk
-target.  The above should resolve this, and as Paul said below it will ensure
-that populate_sdk follows the same behavior as regular image generation as well.
-
-I'm wondering if do_populate_sdk_ext needs it as well.
-
-> If the archiver is enabled, its tasks should be in the dependency tree of
-> whatever you're building so that you don't need to invoke bitbake twice to
-> produce the required artifacts. For images that's the way the archiver has
-> always worked, if it's enabled then you just need to do `bitbake image` to
-> build the image and deploy the source archives. This change just extends that
-> behaviour to cover other things we can build and ensures that we don't miss
-> sources for recipes like gcc-source.
-> 
