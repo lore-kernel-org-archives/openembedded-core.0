@@ -1,83 +1,132 @@
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
- by mx.groups.io with SMTP id smtpd.web11.3650.1585766060510496101
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+ by mx.groups.io with SMTP id smtpd.web12.5663.1585770094536791588
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 11:34:20 -0700
+ Wed, 01 Apr 2020 12:41:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@google.com header.s=20161025 header.b=Lj8HS09y;
- spf=pass (domain: google.com, ip: 209.85.167.67, mailfrom: paulburton@google.com)
-Received: by mail-lf1-f67.google.com with SMTP id j17so545292lfe.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 11:34:20 -0700 (PDT)
+ dkim=pass header.i=@google.com header.s=20161025 header.b=Bq6NxHPj;
+ spf=pass (domain: flex--paulburton.bounces.google.com, ip: 209.85.214.201, mailfrom: 3be6exgokafgf0kb1khjed6ee6b4.2ec@flex--paulburton.bounces.google.com)
+Received: by mail-pl1-f201.google.com with SMTP id z9so612994pln.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 12:41:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=g78/6G6H1nCUospKX1I2EGMstw5Tc64JOmvYSPZ8EBk=;
-        b=Lj8HS09yb8LnEfCW1i400TB1NflnAcAN2JYARCn98FhxeiI1UXz2n4g7QVnnXW2ofc
-         nMWWaYqlN1EjaNkB2AiULtIQilXi05b2WO0EsFTD+JKj3ZeGJ5MRUy1z93R0vETccLvm
-         fKrpoHOato1Qjsn8wLBF6S94OWtYBj6aAo/Pa+P1a96upyFpOUoiqNA1zb4Rhggn6juu
-         pnbf2yMCbAIEvgnG5ZIifeXZADvwTsGqIE5NroGr5kcyowkj0fixBRJzxrgi+r8mrZ07
-         EGo1/pxRZv0gpKMk7GW5WyC61v01bxKfMfrIni3WXqxdSepf9kP4+/mCVNQkeNt3TB6w
-         tiTg==
+        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+         :cc;
+        bh=Sw9G1vuvesGW8pdVs6wCQCDvRcG1cRLG2oo80BUCirw=;
+        b=Bq6NxHPj+m96h7wj+bZnHGq48ed4Yf1UdhoNcP1cagN0O93dl/vNpPjnavad8tkIL2
+         MKmOu/9NfTBB5XTUVjWPW4SjrF7B6wIGuwyMR1Yw1kUaOhF6EFuJs0CPGDSYzpBi5kbh
+         Y2N1eBzyUsslD4tHmDw3BC36jqzSvkcbrnA3wz+Mv0ymj5G5qlrawPFVeOtbw9zZFhQJ
+         FtFF5sw9/VFY9LxzmwBzGWuoUaX+VMVWIm95ti1sZRkPX5smgxvei4yB4ndvRB/rAee3
+         lztTk+TEvvWJuezEFx11BeE3laC/HI73FwjIKqhtRgfWAOgRWFhnaxrnzXKZZPUX52ip
+         1VSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=g78/6G6H1nCUospKX1I2EGMstw5Tc64JOmvYSPZ8EBk=;
-        b=PbOFsJkz15oRyO3nxBPEub7IA2wrfB7x58wDvG2ObIAq7Pv1AGwchne3fPqspUTN48
-         DHYZwb8q2/szhTsRiEe4z+eK/+Z0MV5nMjPkNghyWzdH/ZPMWzmhE+s03mBjukgtk2lx
-         fdgeE2u5jzsD/9mv+6nqmQZpWhHdvq23bT0KkQNfBj34AwWrConFVDdsuZ4oEZCDAnvU
-         zV0Xr5bjF5L8WfJ3Pq0NZQbjJvNvjXg+mqSGbEEH87rzOVXoOUJbPG9LzLxxLb3xrepr
-         g/04X71xULQcWQgj3emsWB8TDc93/IclpXj3BqsPdKqbEppts67b2KWKBtliDoyyZwhG
-         fIsg==
-X-Gm-Message-State: AGi0PuaRefxiRK8tWKC4AYfCytdN7scq86Cs3guBhkrpWZWEWnlzCnyd
-	qJUCOxJ/P8z5pDs53LazVPMIcfiOyMvP3KJPekZj+A==
-X-Google-Smtp-Source: APiQypJwFIfw96hTRaHSennLyI2qPPF6yJo4sbXA8+2xgX6kArY14rcB48ICefj0SpttkX30Y/FWD8T91yGzR6Sq3Fo=
-X-Received: by 2002:a05:6512:3189:: with SMTP id i9mr5864363lfe.178.1585766058530;
- Wed, 01 Apr 2020 11:34:18 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200331235607.93023-1-paulburton@google.com> <CADkTA4NEN1PPVrm7N2HF+tVa4j2Tgv1_=YYFmQhbFscV5RSjWA@mail.gmail.com>
- <CADkTA4NQ4g1qOrbi1fdzmUq6Xk_8fm=QtNPpm7C+0U-oVpmU=w@mail.gmail.com> <CA+chaQcg5NS+DJ0be92Wz+EaozpomKg12fkFrmFFaJcr7RGdiA@mail.gmail.com>
-In-Reply-To: <CA+chaQcg5NS+DJ0be92Wz+EaozpomKg12fkFrmFFaJcr7RGdiA@mail.gmail.com>
+        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
+         :references:subject:from:to:cc;
+        bh=Sw9G1vuvesGW8pdVs6wCQCDvRcG1cRLG2oo80BUCirw=;
+        b=Dkyuu9FBbV2tZU6bmTdih9TRgGpx2jxn3AWyCuGQnKZXjzd7vy/8aKFOYz6Z2KfiYA
+         XUqPdhgs/Ij7iYNZuuvnsa4qKTti4d9SAHsnj845Yc9/LBdLjUoP8lFprZOBIVy9UijC
+         V5c+vy2ipab5qHeqpd0iSuSincNXeexruITP0SFFSoBfcbc9ZB67iofQ8q3lD5jj3/UE
+         DT5/P1ZHfve88U4MjszMe/Lq1nJoejK8ycggBdY+fU3Op94qRnGxTqwhLxqPRh7hPydM
+         Q1k5/gGGmkqyV0KSEkQ6L0thfOesEHyGJTgsOhK8dL4cAoPq8Uh0XDo0Hzo7GLFHNRPb
+         VUPg==
+X-Gm-Message-State: AGi0PuZHcoGLetoRI33wtfwOPVsWujov/XaHO2la2vgK1AGpJxV/R7i1
+	r1JUCuZqtJK1BgZtOMgJ9ZV0D6Mxw84E0bStC7+Q0UG29J8bP/OEk0XGPCd1Yq3zpAepxIOhVYd
+	phMEog1kdk2Zv2nJZJZ5Zt2K+pZSpq+IMjLwuByujog96Cd5ltUVQ6ktd3iT6ULMFRpsrXxcyNw
+	d+uXjEUXZvHlfB+ane44RI
+X-Google-Smtp-Source: APiQypLF7XdKYR9BXFec2pZIhfzTGXKHp0GNII7PDTMeqAp4NsjTk3P3K5KMDWMRTm3cMIAaUGCQMHsNhaLWztgo
+X-Received: by 2002:a17:90a:240e:: with SMTP id h14mr6691078pje.5.1585770093602;
+ Wed, 01 Apr 2020 12:41:33 -0700 (PDT)
+Date: Wed,  1 Apr 2020 12:41:02 -0700
+In-Reply-To: <20200331235607.93023-1-paulburton@google.com>
+Message-Id: <20200401194102.161130-1-paulburton@google.com>
+Mime-Version: 1.0
+References: <20200331235607.93023-1-paulburton@google.com>
+X-Mailer: git-send-email 2.26.0.rc2.310.g2932bb562d-goog
+Subject: [PATCH v2] kernel.bbclass: Stop creating empty .scmversion files
 From: "Paul Burton" <paulburton@google.com>
-Date: Wed, 1 Apr 2020 11:34:07 -0700
-Message-ID: <CAB_4824tHLRghj8gewGd8kLSRor7uLUmus1X5nvvKWipz5C3tQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] kernel.bbclass: Stop creating empty .scmversion files
-To: Martin Jansa <martin.jansa@gmail.com>, Trevor Woerner <twoerner@gmail.com>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Burton <paulburton@google.com>, Bruce Ashfield <bruce.ashfield@gmail.com>, 
+	Martin Jansa <martin.jansa@gmail.com>, Trevor Woerner <twoerner@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Martin & Bruce,
+The kernel_do_configure() task creates empty .scmversion files within
+both the source & build directories. The presence of these files causes
+the scm_version function within the kernel's scripts/setlocalversion to
+always output the empty string, breaking the kernel's
+CONFIG_LOCALVERSION_AUTO=y functionality which appends that string to
+the kernel version. Rather than appending the git commit hash or another
+SCM revision to the kernel version, the empty string is appended causing
+CONFIG_LOCALVERSION_AUTO to do nothing.
 
-Thanks for your responses & filling in some of the background here.
+Remove the creation of the empty .scmversion files in order to restore
+the kernel's CONFIG_LOCALVERSION_AUTO functionality. This allows users
+of kernels built from non-tagged source & configured with
+CONFIG_LOCALVERSION_AUTO=y to better determine what kernel they're
+actually running.
 
-On Tue, Mar 31, 2020 at 6:32 PM Bruce Ashfield <bruce.ashfield@gmail.com> w=
-rote:
-> Also note that in 2017 Trevor Woerner tried exactly the same fix that
-> you are doing, but ended up retracting it when he found a test case
-> that was still adding a + to the version.
->
-> see: [OE-core] [PATCH] meta/classes/kernel.bbclass: revert 56fe5300ab5
->
-> It might be worth checking with Trevor to see if he recalls what case
-> it was where the + snuck back in.
+The .scmversion behavior was introduced for the build directory by
+commit 56fe5300ab5a ("kernel.bbclass: fix extra + in kernelrelease") and
+extended to the source directory by commit e3bf54731973
+("kernel.bbclass: touch .scmversion also in ${S}"). The '+' character
+referenced would be appended if the kernel believed it were being built
+from a dirty working tree. If that is genuinely the case then this in
+itself is useful information; hiding that fact can only serve to muddy a
+user's understanding of what kernel they're actually running.
 
-Absolutely - Trevor if you recall any details they'd be very much
-appreciated. I have my fingers crossed it might have been a case like
-the one Martin describes below :)
+One case that Martin suggests may have been the original motivation for
+these commits is building a kernel whose source is not coming from git,
+but is a subdirectory of a larger git working tree. In that case git
+will ascend through the parent directories of the kernel source until it
+finds the .git directory of that larger repository & report version
+information that is nonsensical with regards to the kernel. As such,
+prevent this from happening by setting the GIT_CEILING_DIRECTORIES
+environment variable such that git will not ascend outside of the kernel
+source directory and therefore won't pick up on version information that
+doesn't relate to the kernel.
 
-On Tue, Mar 31, 2020 at 7:03 PM Martin Jansa <martin.jansa@gmail.com> wrote=
-:
-> Another piece of this puzzle might also be that in 2012 I was still using=
- minimalistic gentoo chroot, which was shared across all builders as git re=
-pository, so even when you were building some kernel from tarball it might =
-have incorrectly assume that the kernel repo is dirty (even when it was the=
- git repo in top level rootfs directory which was dirty).
+Signed-off-by: Paul Burton <paulburton@google.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>
+Cc: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/classes/kernel.bbclass | 17 +++++++++++------
+ 1 file changed, 11 insertions(+), 6 deletions(-)
 
-Interesting - I think we should be able to deal with that case by
-setting the GIT_CEILING_DIRECTORIES environment variable, I'll give
-that a go.
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index a724645466..bf0b14285e 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -171,6 +171,17 @@ KERNEL_RELEASE ?= "${KERNEL_VERSION}"
+ KERNEL_OUTPUT_DIR ?= "arch/${ARCH}/boot"
+ KERNEL_IMAGEDEST ?= "boot"
+ 
++# The kernel's scripts/setlocalversion invokes git to determine whether we're
++# building from source that isn't clean or isn't tagged, and append that
++# information to the kernel version if CONFIG_LOCALVERSION_AUTO is enabled. If
++# we're building kernel source that isn't directly from git, but is a
++# subdirectory of a larger git repository, then we need to ensure the kernel's
++# script doesn't pick up on the state of that larger git repository to prevent
++# it reporting incorrect version information. We do that by ensuring git won't
++# ascend above the kernel source directory whilst searching for a .git
++# directory.
++export GIT_CEILING_DIRECTORIES = "${@os.path.dirname('${S}')}"
++
+ #
+ # configuration
+ #
+@@ -521,12 +532,6 @@ check_oldest_kernel[vardepsexclude] += "OLDEST_KERNEL KERNEL_VERSION"
+ do_configure[prefuncs] += "check_oldest_kernel"
+ 
+ kernel_do_configure() {
+-	# fixes extra + in /lib/modules/2.6.37+
+-	# $ scripts/setlocalversion . => +
+-	# $ make kernelversion => 2.6.37
+-	# $ make kernelrelease => 2.6.37+
+-	touch ${B}/.scmversion ${S}/.scmversion
+-
+ 	if [ "${S}" != "${B}" ] && [ -f "${S}/.config" ] && [ ! -f "${B}/.config" ]; then
+ 		mv "${S}/.config" "${B}/.config"
+ 	fi
+-- 
+2.26.0.rc2.310.g2932bb562d-goog
 
-Thanks,
-    Paul
