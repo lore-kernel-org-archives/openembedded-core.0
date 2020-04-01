@@ -1,218 +1,225 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.62.1585715419523575174
+Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com [209.85.219.194])
+ by mx.groups.io with SMTP id smtpd.web11.489.1585718284978437053
  for <openembedded-core@lists.openembedded.org>;
- Tue, 31 Mar 2020 21:30:19 -0700
+ Tue, 31 Mar 2020 22:18:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tN8jpmYm;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d24so5267717pll.8
-        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 21:30:19 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=id1UZkbr;
+ spf=pass (domain: linaro.org, ip: 209.85.219.194, mailfrom: nicolas.dechesne@linaro.org)
+Received: by mail-yb1-f194.google.com with SMTP id g6so12510960ybh.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 31 Mar 2020 22:18:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+VdrtILszPFY+8fgZlUbyd4Y4Lrkoyqb5JwFEeOAI8E=;
-        b=tN8jpmYmWTpCrQcP2zyUqAKftGcgckDlFNe6x7F6j5xlC84zo7cowCev+4N3r1gJwg
-         KkpL7EnmqoIrxZqwj8obVFzjL9NcAcmMYyfVzY4YXr2jm3MbF0XKWFh5SWdt+THiVV1s
-         ZpreV9aQMgJrIYKAWvYKguQ3YGa9NImxLCJ3TRLGuHGyH5CUizU8r54PjNzRDVKVFJIk
-         kUGyzE2kM75A18PuLoFQCbhrwTz9c50HHbJu/KQ734i3K8jrVfwaYlmc2Grw6qr8HT2X
-         yyKcBIoiBE0ng7dw2i8hnrAdiYRp20n9f2a21KBN6luREDwT1VEbE0bogA3zK+6qJPjg
-         p0hw==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jwtp4kTu2kNzZZu517kWkDdmInDLNl94Fw/ZLW2BASI=;
+        b=id1UZkbrRAy5kwoXHzclQ4NKhfxvhhPbPkF+oQi3bKiTHBhJu+mVCA6k+CQTNIzksX
+         SBxJrVdxAJpMVVQzbeKggmz/+/UjIKFtZST+PRja5zEHGW2Fq6C8OkSM4JNRRIMzsdyk
+         0WidUw32kO0mi+xRcU4nkDdOcnO1YXs07/v/lRji/k8NtvR6MiSKcDbzouAlu79X2S9r
+         bmQ5BcGjNXMWHHXUKAfRz/jUDUBfPxN5zuf5Pwn6Hy0oTt43kDx126w0MbHnS7OqI7EK
+         cjafun8ycRxJY9sX8GTx2wOC8WWtwPoC5RUmroBd1tnnxCH3dFIdVdqqhBjPQ0I7gKbl
+         hhBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+VdrtILszPFY+8fgZlUbyd4Y4Lrkoyqb5JwFEeOAI8E=;
-        b=Dl2O3YVFOEAjwqypbKzfjQOK0EapicRZT98F2bxWJ6xsuQYAaqfHBvQ0ax3oE4cNJT
-         mPOrFwNVg+8Ofi4CJ51bgTRV4PqrP32RfEXUMdDMFvGyOhZgVUBLouxjPYdOV7NTzXH4
-         ENEojeT+b9ENFvXtdH0XG3rXDrFM/qbPPSuj+P45qMG5pRXmsomjBAksSKnw37zvI/ed
-         VnwgxOLIxPSY4cCesJtgseqSSemrA0JrGCuC5IqLJrS64S6DCMVU5l/Sz8LtqR2azw4v
-         zz4RxklOTEM0/JMkl6lrUUsBDHcOxkL4Ix3E7fM7h1vDhr6t+SvsdlDuWzGPW2LJ4COA
-         JpdA==
-X-Gm-Message-State: AGi0PubB/d3wV0JKIRtxheB8W//VXfl1IUT/A/jt1Q5sDnrMuigvhg9E
-	o/l9QtOWS97cDuu5jo2z1VRm7hqn6xc=
-X-Google-Smtp-Source: APiQypI8DbSb8zGAKKaQFzehS+hGzKJSijDEvFUwBqhiKWGuzASAbrVB4DPQORhqikmzWBP038mPFw==
-X-Received: by 2002:a17:90a:8b96:: with SMTP id z22mr2429526pjn.159.1585715418419;
-        Tue, 31 Mar 2020 21:30:18 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::3e84])
-        by smtp.gmail.com with ESMTPSA id t1sm444744pgh.88.2020.03.31.21.30.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Mar 2020 21:30:17 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] gstreamer1.0-plugins-good: Fix build when egl is enabled but no x11/wayland
-Date: Tue, 31 Mar 2020 21:30:32 -0700
-Message-Id: <20200401043032.2636269-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jwtp4kTu2kNzZZu517kWkDdmInDLNl94Fw/ZLW2BASI=;
+        b=bv97YUHDkFIKeskXva5rAUzoMJC4O1vTSpqCdVfs8uCe5zO88RqXL0T203uaUY1W/H
+         l/hZ0PkZw0jHTOPgVte7hfHBnsnx9l3/cf+nghsTQ99BiVdM+W1iTOv0VItqQU6JUhwn
+         UdXIgUOEWfyf4AbcEXmJTo2epGZ5TswgIXLai7AnvGV07pht8KkznpGNh/1iffx2TDtD
+         GsAsoIV3AUuDYSej3xzWaHFkzWn6Dy/q8ZxNJYXUTYPqJ0uz660A+C07LdlTN0CZDbZU
+         tKkBsFdwRmcOmTCPuYqLP+KBsBxpC4RgD+0JMyLwSPSj0GTz8fzuPyJNjQWEebKW4TWt
+         FQmg==
+X-Gm-Message-State: ANhLgQ0nsZfrRpgXSbM2qgp1Qa/ZgrekO21zWG4sePv+WsgabsdzHpYk
+	ZJaSD48KiRUXoKe//VPbgPU5NTWoq0dmyLuNzDyQdQ==
+X-Google-Smtp-Source: ADFU+vutspxD+1zv1CUvVFfkQS2vviJMXbaoKYBaVYynAqiAxIPRDzKlAQ5AyUJJOBpYvd/i2YwzoQHtSKdUAawm1F4=
+X-Received: by 2002:a25:2d49:: with SMTP id s9mr36002503ybe.273.1585718284069;
+ Tue, 31 Mar 2020 22:18:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200331202507.280778-1-anibal.limon@linaro.org>
+In-Reply-To: <20200331202507.280778-1-anibal.limon@linaro.org>
+From: "Nicolas Dechesne" <nicolas.dechesne@linaro.org>
+Date: Wed, 1 Apr 2020 07:17:53 +0200
+Message-ID: <CAP71Wjy=b2JyeYtNgd81UjVzotiWuxJLvZ7EUHsLj0YR+-6+QQ@mail.gmail.com>
+Subject: Re: [PATCHv2] recipes-kernel/linux-firmware: Add qcom-sdm845-{audio,compute,modem} firmware packages
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="00000000000009466505a233cf7e"
 
-This fixes build errors seen in no-x11/no-wayland configuration ( eglfs
-) and when QT5 support is enabled
+--00000000000009466505a233cf7e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...defines-GLsync-to-fix-compile-on-som.patch | 70 +++++++++++++++++++
- ...t-gstqtgl.h-instead-of-gst-gl-gstglf.patch | 56 +++++++++++++++
- .../gstreamer1.0-plugins-good_1.16.2.bb       |  2 +
- 3 files changed, 128 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch
+On Tue, Mar 31, 2020 at 10:25 PM An=C3=ADbal Lim=C3=B3n <anibal.limon@linar=
+o.org>
+wrote:
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
-new file mode 100644
-index 0000000000..136848763b
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch
-@@ -0,0 +1,70 @@
-+From 3e0d5577444b32579bdf5b69d720a322322ff7bc Mon Sep 17 00:00:00 2001
-+From: Milian Wolff <milian.wolff@kdab.com>
-+Date: Tue, 26 Nov 2019 15:08:20 +0100
-+Subject: [PATCH] qmlgl: ensure Qt defines GLsync to fix compile on some platforms
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+By explictly including QtGui/qopengl.h we force the code path that
-+defines GLsync in the Qt-specific way. Without that, some platforms
-+failed to compile the qmlgl plugin, since neither Qt nor gstreamer
-+defined GLsync then, leading to e.g.:
-+
-+```
-+make[4]: Entering directory '/.../gst-plugins-good-1.16.1/ext/qt'
-+  CXX      libgstqmlgl_la-qtitem.lo
-+In file included from gstqtgl.h:32,
-+                 from qtitem.h:27,
-+                 from qtitem.cc:28:
-+/.../usr/include/gstreamer-1.0/
-+gst/gl/gstglfuncs.h:93:17: error: expected identifier before ‘*’ token
-+   ret (GSTGLAPI *name) args;
-+                 ^
-+/.../usr/include/gstreamer-1.0/
-+gst/gl/glprototypes/sync.h:27:1: note: in expansion of macro
-+‘GST_GL_EXT_FUNCTION’
-+ GST_GL_EXT_FUNCTION (GLsync, FenceSync,
-+ ^~~~~~~~~~~~~~~~~~~
-+```
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/commit/3e0d5577444b32579bdf5b69d720a322322ff7bc]
-+---
-+ ext/qt/gstqtgl.h | 18 +++++++++++-------
-+ 1 file changed, 11 insertions(+), 7 deletions(-)
-+
-+--- a/ext/qt/gstqtgl.h
-++++ b/ext/qt/gstqtgl.h
-+@@ -22,14 +22,7 @@
-+ #include <QtGui/qtgui-config.h>
-+ #endif
-+ 
-+-/* qt uses the same trick as us to typedef GLsync on GLES2 but to a different
-+- * type which confuses the preprocessor. Instead of trying to reconcile the
-+- * two, we instead use the GLsync definition from Qt from above, and ensure
-+- * that we don't typedef GLsync in gstglfuncs.h */
-+ #include <gst/gl/gstglconfig.h>
-+-#undef GST_GL_HAVE_GLSYNC
-+-#define GST_GL_HAVE_GLSYNC 1
-+-#include <gst/gl/gstglfuncs.h>
-+ 
-+ /* The glext.h guard was renamed in 2018, but some software which
-+  * includes their own copy of the GL headers (such as qt) might have
-+@@ -46,6 +39,17 @@
-+ #endif
-+ #endif
-+ 
-++/* pulls in GLsync, see below */
-++#include <QtGui/qopengl.h>
-++
-++/* qt uses the same trick as us to typedef GLsync on GLES2 but to a different
-++ * type which confuses the preprocessor. Instead of trying to reconcile the
-++ * two, we instead use the GLsync definition from Qt from above, and ensure
-++ * that we don't typedef GLsync in gstglfuncs.h */
-++#undef GST_GL_HAVE_GLSYNC
-++#define GST_GL_HAVE_GLSYNC 1
-++#include <gst/gl/gstglfuncs.h>
-++
-+ #if defined(QT_OPENGL_ES_2)
-+ #include <QtGui/QOpenGLContext>
-+ #include <QtGui/QOpenGLFunctions>
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch
-new file mode 100644
-index 0000000000..3d423154e0
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch
-@@ -0,0 +1,56 @@
-+From d08234a659bec1fd5c984fedefbeb8192af07839 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Tue, 31 Mar 2020 21:23:28 -0700
-+Subject: [PATCH] qt: include ext/qt/gstqtgl.h instead of gst/gl/gstglfuncs.h
-+
-+gst/gl/gstglfuncs.h is included via ext/qt/gstqtgl.h which has logic to
-+prefer qt headers definitions for GLsync
-+
-+This helps in fixing build errors like below
-+
-+/mnt/b/yoe/build/tmp/work/cortexa7t2hf-neon-vfpv4-yoe-linux-gnueabi/gstreamer1.0-plugins-good/1.16.2-r0/recipe-sysroot/usr/include/QtGui/qopengles2ext.h:24:26: error: conflicting declaration 'typedef struct __GLsync* GLsync'
-+   24 | typedef struct __GLsync *GLsync;
-+      |                          ^~~~~~
-+In file included from /mnt/b/yoe/build/tmp/work/cortexa7t2hf-neon-vfpv4-yoe-linux-gnueabi/gstreamer1.0-plugins-good/1.16.2-r0/recipe-sysroot/usr/include/gstreamer-1.0/gst/gl/gstglfuncs.h:84,
-+                 from ../gst-plugins-good-1.16.2/ext/qt/gstqsgtexture.cc:30:
-+/mnt/b/yoe/build/tmp/work/cortexa7t2hf-neon-vfpv4-yoe-linux-gnueabi/gstreamer1.0-plugins-good/1.16.2-r0/recipe-sysroot/usr/include/gstreamer-1.0/gst/gl/glprototypes/gstgl_compat.h:40:18: note: previous declaration as 'typedef void* GLsync
-+'
-+   40 | typedef gpointer GLsync;
-+      |                  ^~~~~~
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ ext/qt/gstqsgtexture.cc | 2 +-
-+ ext/qt/qtwindow.cc      | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/ext/qt/gstqsgtexture.cc b/ext/qt/gstqsgtexture.cc
-+index 2b314e0..12b15dd 100644
-+--- a/ext/qt/gstqsgtexture.cc
-++++ b/ext/qt/gstqsgtexture.cc
-+@@ -27,7 +27,7 @@
-+ 
-+ #include <gst/video/video.h>
-+ #include <gst/gl/gl.h>
-+-#include <gst/gl/gstglfuncs.h>
-++#include <ext/qt/gstqtgl.h>
-+ #include "gstqsgtexture.h"
-+ 
-+ #define GST_CAT_DEFAULT gst_qsg_texture_debug
-+diff --git a/ext/qt/qtwindow.cc b/ext/qt/qtwindow.cc
-+index 62d26b6..bf68ebb 100644
-+--- a/ext/qt/qtwindow.cc
-++++ b/ext/qt/qtwindow.cc
-+@@ -25,7 +25,7 @@
-+ #include <stdio.h>
-+ 
-+ #include <gst/video/video.h>
-+-#include <gst/gl/gstglfuncs.h>
-++#include <ext/qt/gstqtgl.h>
-+ #include "qtwindow.h"
-+ #include "gstqsgtexture.h"
-+ #include "gstqtglutility.h"
-+-- 
-+2.26.0
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
-index 8b34111d38..17c9421394 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.2.bb
-@@ -2,6 +2,8 @@ require gstreamer1.0-plugins-common.inc
- 
- SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
-+            file://0001-qmlgl-ensure-Qt-defines-GLsync-to-fix-compile-on-som.patch \
-+            file://0001-qt-include-ext-qt-gstqtgl.h-instead-of-gst-gl-gstglf.patch \
-             "
- 
- SRC_URI[md5sum] = "bd025f8f14974f94b75ac69a9d1b9c93"
--- 
-2.26.0
+> Contains the firmware for the audio, compute and modem/wireless in SDM845
+> platforms.
+>
 
+thanks. it's better this way.
+
+in case it helps:
+Reviewed-by: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+
+
+>
+> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
+> ---
+>  .../linux-firmware/linux-firmware_20200122.bb            | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.b=
+b
+> b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
+> index a7406e48de..7173409e05 100644
+> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
+> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
+> @@ -289,6 +289,7 @@ PACKAGES =3D+ "${PN}-ralink-license ${PN}-ralink \
+>               ${PN}-qcom-license \
+>               ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 \
+>               ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 \
+> +             ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute
+> ${PN}-qcom-sdm845-modem \
+>               ${PN}-whence-license \
+>               ${PN}-license \
+>               "
+> @@ -841,17 +842,23 @@ FILES_${PN}-qat-license   =3D
+> "${nonarch_base_libdir}/firmware/LICENCE.qat_firmwar
+>  FILES_${PN}-qat           =3D "${nonarch_base_libdir}/firmware/qat*.bin"
+>  RDEPENDS_${PN}-qat        =3D "${PN}-qat-license"
+>
+> -# For QCOM VPU/GPU
+> +# For QCOM VPU/GPU and SDM845
+>  LICENSE_${PN}-qcom-license =3D "Firmware-qcom"
+>  FILES_${PN}-qcom-license   =3D
+> "${nonarch_base_libdir}/firmware/LICENSE.qcom
+> ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt"
+>  FILES_${PN}-qcom-venus-1.8 =3D
+> "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
+>  FILES_${PN}-qcom-venus-4.2 =3D
+> "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
+>  FILES_${PN}-qcom-adreno-a3xx =3D
+> "${nonarch_base_libdir}/firmware/qcom/a300_*.fw
+> ${nonarch_base_libdir}/firmware/a300_*.fw"
+>  FILES_${PN}-qcom-adreno-a530 =3D
+> "${nonarch_base_libdir}/firmware/qcom/a530*.*"
+> +FILES_${PN}-qcom-sdm845-audio =3D
+> "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
+> +FILES_${PN}-qcom-sdm845-compute =3D
+> "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
+> +FILES_${PN}-qcom-sdm845-modem =3D
+> "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn
+> ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.*"
+>  RDEPENDS_${PN}-qcom-venus-1.8 =3D "${PN}-qcom-license"
+>  RDEPENDS_${PN}-qcom-venus-4.2 =3D "${PN}-qcom-license"
+>  RDEPENDS_${PN}-qcom-adreno-a3xx =3D "${PN}-qcom-license"
+>  RDEPENDS_${PN}-qcom-adreno-a530 =3D "${PN}-qcom-license"
+> +RDEPENDS_${PN}-qcom-sdm845-audio =3D "${PN}-qcom-license"
+> +RDEPENDS_${PN}-qcom-sdm845-compute =3D "${PN}-qcom-license"
+> +RDEPENDS_${PN}-qcom-sdm845-modem =3D "${PN}-qcom-license"
+>
+>  FILES_${PN}-liquidio =3D "${nonarch_base_libdir}/firmware/liquidio"
+>
+> --
+> 2.26.0
+>
+>
+
+--00000000000009466505a233cf7e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 31, 2020 at 10:25 PM An=
+=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@linaro.org">anibal.=
+limon@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">Contains the firmware for the audio, compute and modem/wire=
+less in SDM845 platforms.<br></blockquote><div><br></div><div>thanks. it&#3=
+9;s better this way.</div><div><br></div><div>in case it helps:</div><div>R=
+eviewed-by: Nicolas Dechesne &lt;<a href=3D"mailto:nicolas.dechesne@linaro.=
+org">nicolas.dechesne@linaro.org</a>&gt;</div><div>=C2=A0</div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
+naro.org" target=3D"_blank">anibal.limon@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0.../linux-firmware/<a href=3D"http://linux-firmware_20200122.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-firmware_20200122.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 9 ++++++++-<br>
+=C2=A01 file changed, 8 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-kernel/linux-firmware/<a href=3D"http://linux-fir=
+mware_20200122.bb" rel=3D"noreferrer" target=3D"_blank">linux-firmware_2020=
+0122.bb</a> b/meta/recipes-kernel/linux-firmware/<a href=3D"http://linux-fi=
+rmware_20200122.bb" rel=3D"noreferrer" target=3D"_blank">linux-firmware_202=
+00122.bb</a><br>
+index a7406e48de..7173409e05 100644<br>
+--- a/meta/recipes-kernel/linux-firmware/<a href=3D"http://linux-firmware_2=
+0200122.bb" rel=3D"noreferrer" target=3D"_blank">linux-firmware_20200122.bb=
+</a><br>
++++ b/meta/recipes-kernel/linux-firmware/<a href=3D"http://linux-firmware_2=
+0200122.bb" rel=3D"noreferrer" target=3D"_blank">linux-firmware_20200122.bb=
+</a><br>
+@@ -289,6 +289,7 @@ PACKAGES =3D+ &quot;${PN}-ralink-license ${PN}-ralink \=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${PN}-qcom-license \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${PN}-qcom-venus-1.8 ${PN}=
+-qcom-venus-4.2 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${PN}-qcom-adreno-a3xx ${P=
+N}-qcom-adreno-a530 \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${PN}-qcom-sdm845-audio ${=
+PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${PN}-whence-license \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${PN}-license \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+@@ -841,17 +842,23 @@ FILES_${PN}-qat-license=C2=A0 =C2=A0=3D &quot;${nonar=
+ch_base_libdir}/firmware/LICENCE.qat_firmwar<br>
+=C2=A0FILES_${PN}-qat=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;${n=
+onarch_base_libdir}/firmware/qat*.bin&quot;<br>
+=C2=A0RDEPENDS_${PN}-qat=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;${PN}-qat-lic=
+ense&quot;<br>
+<br>
+-# For QCOM VPU/GPU<br>
++# For QCOM VPU/GPU and SDM845<br>
+=C2=A0LICENSE_${PN}-qcom-license =3D &quot;Firmware-qcom&quot;<br>
+=C2=A0FILES_${PN}-qcom-license=C2=A0 =C2=A0=3D &quot;${nonarch_base_libdir}=
+/firmware/LICENSE.qcom ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt&quot=
+;<br>
+=C2=A0FILES_${PN}-qcom-venus-1.8 =3D &quot;${nonarch_base_libdir}/firmware/=
+qcom/venus-1.8/*&quot;<br>
+=C2=A0FILES_${PN}-qcom-venus-4.2 =3D &quot;${nonarch_base_libdir}/firmware/=
+qcom/venus-4.2/*&quot;<br>
+=C2=A0FILES_${PN}-qcom-adreno-a3xx =3D &quot;${nonarch_base_libdir}/firmwar=
+e/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw&quot;<br>
+=C2=A0FILES_${PN}-qcom-adreno-a530 =3D &quot;${nonarch_base_libdir}/firmwar=
+e/qcom/a530*.*&quot;<br>
++FILES_${PN}-qcom-sdm845-audio =3D &quot;${nonarch_base_libdir}/firmware/qc=
+om/sdm845/adsp*.*&quot;<br>
++FILES_${PN}-qcom-sdm845-compute =3D &quot;${nonarch_base_libdir}/firmware/=
+qcom/sdm845/cdsp*.*&quot;<br>
++FILES_${PN}-qcom-sdm845-modem =3D &quot;${nonarch_base_libdir}/firmware/qc=
+om/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.*&quot=
+;<br>
+=C2=A0RDEPENDS_${PN}-qcom-venus-1.8 =3D &quot;${PN}-qcom-license&quot;<br>
+=C2=A0RDEPENDS_${PN}-qcom-venus-4.2 =3D &quot;${PN}-qcom-license&quot;<br>
+=C2=A0RDEPENDS_${PN}-qcom-adreno-a3xx =3D &quot;${PN}-qcom-license&quot;<br=
+>
+=C2=A0RDEPENDS_${PN}-qcom-adreno-a530 =3D &quot;${PN}-qcom-license&quot;<br=
+>
++RDEPENDS_${PN}-qcom-sdm845-audio =3D &quot;${PN}-qcom-license&quot;<br>
++RDEPENDS_${PN}-qcom-sdm845-compute =3D &quot;${PN}-qcom-license&quot;<br>
++RDEPENDS_${PN}-qcom-sdm845-modem =3D &quot;${PN}-qcom-license&quot;<br>
+<br>
+=C2=A0FILES_${PN}-liquidio =3D &quot;${nonarch_base_libdir}/firmware/liquid=
+io&quot;<br>
+<br>
+-- <br>
+2.26.0<br>
+<br>
+</blockquote></div></div>
+
+--00000000000009466505a233cf7e--
