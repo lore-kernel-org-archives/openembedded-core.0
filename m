@@ -1,132 +1,169 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
- by mx.groups.io with SMTP id smtpd.web12.5663.1585770094536791588
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+ by mx.groups.io with SMTP id smtpd.web12.642.1585771781347469941
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 12:41:34 -0700
+ Wed, 01 Apr 2020 13:09:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@google.com header.s=20161025 header.b=Bq6NxHPj;
- spf=pass (domain: flex--paulburton.bounces.google.com, ip: 209.85.214.201, mailfrom: 3be6exgokafgf0kb1khjed6ee6b4.2ec@flex--paulburton.bounces.google.com)
-Received: by mail-pl1-f201.google.com with SMTP id z9so612994pln.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 12:41:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=M4q1tjB9;
+ spf=pass (domain: gmail.com, ip: 209.85.217.44, mailfrom: armccurdy@gmail.com)
+Received: by mail-vs1-f44.google.com with SMTP id x82so735674vsc.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 13:09:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Sw9G1vuvesGW8pdVs6wCQCDvRcG1cRLG2oo80BUCirw=;
-        b=Bq6NxHPj+m96h7wj+bZnHGq48ed4Yf1UdhoNcP1cagN0O93dl/vNpPjnavad8tkIL2
-         MKmOu/9NfTBB5XTUVjWPW4SjrF7B6wIGuwyMR1Yw1kUaOhF6EFuJs0CPGDSYzpBi5kbh
-         Y2N1eBzyUsslD4tHmDw3BC36jqzSvkcbrnA3wz+Mv0ymj5G5qlrawPFVeOtbw9zZFhQJ
-         FtFF5sw9/VFY9LxzmwBzGWuoUaX+VMVWIm95ti1sZRkPX5smgxvei4yB4ndvRB/rAee3
-         lztTk+TEvvWJuezEFx11BeE3laC/HI73FwjIKqhtRgfWAOgRWFhnaxrnzXKZZPUX52ip
-         1VSQ==
+        bh=Q66lxv6VYxqVt7wPfbIEv3k7Nc70B/dv/8oWCB5et/8=;
+        b=M4q1tjB9piCj8/aIxqKkYqXO8JVQZeMPZz/QN1X0fOOK1wv7AeMMTRNdCiMU02epPw
+         i6/5AV3qVeRZNuNRfU9Lg8zHZMyhtj91t8mg1MzE1XuoVaosbzvNk6MgMbhHQK2BwS0P
+         QUE0fMmfQQj24NE2XMHjofg4NjdMUVMRBoDsSa5JapG8nz314Z+k2gxyeGuzAr/Ga2g+
+         m8ugJhqETD0FDDTH2t4DgHdXPzFWFwNZbbHcRaSZKZxyr7mChW9E8k4rtUlj3j7wfnEa
+         dDpz7UjsTCTCYOmd+QHXM4xLwutK/AR5bxnZ9d3eTCoG0NLR21ZjMRnDgi4MQ2DFG8Xe
+         klZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=Sw9G1vuvesGW8pdVs6wCQCDvRcG1cRLG2oo80BUCirw=;
-        b=Dkyuu9FBbV2tZU6bmTdih9TRgGpx2jxn3AWyCuGQnKZXjzd7vy/8aKFOYz6Z2KfiYA
-         XUqPdhgs/Ij7iYNZuuvnsa4qKTti4d9SAHsnj845Yc9/LBdLjUoP8lFprZOBIVy9UijC
-         V5c+vy2ipab5qHeqpd0iSuSincNXeexruITP0SFFSoBfcbc9ZB67iofQ8q3lD5jj3/UE
-         DT5/P1ZHfve88U4MjszMe/Lq1nJoejK8ycggBdY+fU3Op94qRnGxTqwhLxqPRh7hPydM
-         Q1k5/gGGmkqyV0KSEkQ6L0thfOesEHyGJTgsOhK8dL4cAoPq8Uh0XDo0Hzo7GLFHNRPb
-         VUPg==
-X-Gm-Message-State: AGi0PuZHcoGLetoRI33wtfwOPVsWujov/XaHO2la2vgK1AGpJxV/R7i1
-	r1JUCuZqtJK1BgZtOMgJ9ZV0D6Mxw84E0bStC7+Q0UG29J8bP/OEk0XGPCd1Yq3zpAepxIOhVYd
-	phMEog1kdk2Zv2nJZJZ5Zt2K+pZSpq+IMjLwuByujog96Cd5ltUVQ6ktd3iT6ULMFRpsrXxcyNw
-	d+uXjEUXZvHlfB+ane44RI
-X-Google-Smtp-Source: APiQypLF7XdKYR9BXFec2pZIhfzTGXKHp0GNII7PDTMeqAp4NsjTk3P3K5KMDWMRTm3cMIAaUGCQMHsNhaLWztgo
-X-Received: by 2002:a17:90a:240e:: with SMTP id h14mr6691078pje.5.1585770093602;
- Wed, 01 Apr 2020 12:41:33 -0700 (PDT)
-Date: Wed,  1 Apr 2020 12:41:02 -0700
-In-Reply-To: <20200331235607.93023-1-paulburton@google.com>
-Message-Id: <20200401194102.161130-1-paulburton@google.com>
-Mime-Version: 1.0
-References: <20200331235607.93023-1-paulburton@google.com>
-X-Mailer: git-send-email 2.26.0.rc2.310.g2932bb562d-goog
-Subject: [PATCH v2] kernel.bbclass: Stop creating empty .scmversion files
-From: "Paul Burton" <paulburton@google.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Burton <paulburton@google.com>, Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	Martin Jansa <martin.jansa@gmail.com>, Trevor Woerner <twoerner@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Q66lxv6VYxqVt7wPfbIEv3k7Nc70B/dv/8oWCB5et/8=;
+        b=TIRfuc8JqJ96RTkrFxIgU6nkn/Ad4OtPPgbhV/IN3CxQvlEJjOw5OCaWAefBrN02F+
+         /8cbquXz762kDPcNaXAyb6qky1wiOdElJQfOP38t2JR/by7s6nRKSuMQwBO1HlauWMpe
+         Agq6iUHL2V0hQOPUesbHQv7/QK3GqIddlsRA9aWE3EtGw+A0/u24kvWa5GPmQu/ymUAL
+         52yqa0wbNa8UCWpW7dt8Vk75FIfxLrfG0vZyX/HFuwcEoBu+VrKNDDrU37b2dyaC+H4s
+         7q3RHnWuopGrrTc9jgCy4GcrPammp83DVfteVmVWp5pBYLby3XwHaBbLmMtUhCJ/eD4q
+         oWvA==
+X-Gm-Message-State: AGi0Pub9IlkacNdWMWl8+tKH6QMPU6teZJ8ER9zbgO895OcC3iovX4Uu
+	rNvkedYbTa2trKvUxleKdD6CYfsG1MR61zX52lw=
+X-Google-Smtp-Source: APiQypKHFJGfDttvSOwiiEJCSfTBrYA4t05r1PoY7HAYUm+7MnriF2I1UMKhIPzVFqbZ75J60YYya0xDjVK8hy7YvfU=
+X-Received: by 2002:a05:6102:1c8:: with SMTP id s8mr13430002vsq.11.1585771780343;
+ Wed, 01 Apr 2020 13:09:40 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200330194302.30032-1-timothy.t.orling@linux.intel.com>
+In-Reply-To: <20200330194302.30032-1-timothy.t.orling@linux.intel.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Wed, 1 Apr 2020 13:09:31 -0700
+Message-ID: <CAJ86T=XCX7MGRVzoTzaaD3Xe9FqdWM9zX2Zha5Mk8Zo2y1MRVg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/4] scripts/install-buildtools: improvements
+To: Tim Orling <timothy.t.orling@linux.intel.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-The kernel_do_configure() task creates empty .scmversion files within
-both the source & build directories. The presence of these files causes
-the scm_version function within the kernel's scripts/setlocalversion to
-always output the empty string, breaking the kernel's
-CONFIG_LOCALVERSION_AUTO=y functionality which appends that string to
-the kernel version. Rather than appending the git commit hash or another
-SCM revision to the kernel version, the empty string is appended causing
-CONFIG_LOCALVERSION_AUTO to do nothing.
+On Mon, Mar 30, 2020 at 12:43 PM Tim Orling
+<timothy.t.orling@linux.intel.com> wrote:
+>
+> * Install directory defaults to scripts/../buildtools
+>   e.g. --directory is set by default
+>   This avoids the user having to type in their sudo password
+>   to install in /opt/poky/<installer-version>
+>
+> * Use "." rather than "source" for sourcing the environment script
+>   as not all distros (e.g. Debian) have "source" by default.
+>
+> * Add buildtools/ to .gitignore
+>
+> * Fix typos in example usage (--install-version -> --installer-version)
+>
+> [YOCTO #13832]
+>
+> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+> ---
+>  .gitignore                 |  1 +
+>  scripts/install-buildtools | 13 +++++++++----
+>  2 files changed, 10 insertions(+), 4 deletions(-)
+>
+> diff --git a/.gitignore b/.gitignore
+> index d0e6b2fb89..b66d371aac 100644
+> --- a/.gitignore
+> +++ b/.gitignore
+> @@ -9,6 +9,7 @@ pstage/
+>  scripts/oe-git-proxy-socks
+>  sources/
+>  meta-*/
+> +buildtools/
+>  !meta-skeleton
+>  !meta-selftest
+>  hob-image-*.bb
+> diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+> index 0947e9c4d6..49cab1345a 100755
+> --- a/scripts/install-buildtools
+> +++ b/scripts/install-buildtools
+> @@ -17,7 +17,7 @@
+>  #        $ install-buildtools \
+>  #          --base-url http://downloads.yoctoproject.org/releases/yocto \
+>  #          --release yocto-3.1_M2 \
+> -#          --install-version 3.0+snapshot
+> +#          --installer-version 3.0+snapshot
+>  #          --build-date 202000122
+>  #
+>  #  Example usage (standard buildtools from release):
+> @@ -29,7 +29,7 @@
+>  #        $ install-buildtools --without-extended-buildtools \
+>  #          --base-url http://downloads.yoctoproject.org/releases/yocto \
+>  #          --release yocto-3.0.2 \
+> -#          --install-version 3.0.2
+> +#          --installer-version 3.0.2
+>  #
+>
+>  import argparse
+> @@ -59,6 +59,7 @@ if not bitbakepath:
+>  PROGNAME = 'install-buildtools'
+>  logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+>
+> +DEFAULT_INSTALL_DIR: str = os.path.join(os.path.split(scripts_path)[0],'buildtools')
 
-Remove the creation of the empty .scmversion files in order to restore
-the kernel's CONFIG_LOCALVERSION_AUTO functionality. This allows users
-of kernels built from non-tagged source & configured with
-CONFIG_LOCALVERSION_AUTO=y to better determine what kernel they're
-actually running.
+It looks like there are some assumptions about the minimum version of
+python3 on the host in order to even be able to run
+install-buildtools. Should that be checked explicitly?
 
-The .scmversion behavior was introduced for the build directory by
-commit 56fe5300ab5a ("kernel.bbclass: fix extra + in kernelrelease") and
-extended to the source directory by commit e3bf54731973
-("kernel.bbclass: touch .scmversion also in ${S}"). The '+' character
-referenced would be appended if the kernel believed it were being built
-from a dirty working tree. If that is genuinely the case then this in
-itself is useful information; hiding that fact can only serve to muddy a
-user's understanding of what kernel they're actually running.
-
-One case that Martin suggests may have been the original motivation for
-these commits is building a kernel whose source is not coming from git,
-but is a subdirectory of a larger git working tree. In that case git
-will ascend through the parent directories of the kernel source until it
-finds the .git directory of that larger repository & report version
-information that is nonsensical with regards to the kernel. As such,
-prevent this from happening by setting the GIT_CEILING_DIRECTORIES
-environment variable such that git will not ascend outside of the kernel
-source directory and therefore won't pick up on version information that
-doesn't relate to the kernel.
-
-Signed-off-by: Paul Burton <paulburton@google.com>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>
-Cc: Trevor Woerner <twoerner@gmail.com>
----
- meta/classes/kernel.bbclass | 17 +++++++++++------
- 1 file changed, 11 insertions(+), 6 deletions(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index a724645466..bf0b14285e 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -171,6 +171,17 @@ KERNEL_RELEASE ?= "${KERNEL_VERSION}"
- KERNEL_OUTPUT_DIR ?= "arch/${ARCH}/boot"
- KERNEL_IMAGEDEST ?= "boot"
- 
-+# The kernel's scripts/setlocalversion invokes git to determine whether we're
-+# building from source that isn't clean or isn't tagged, and append that
-+# information to the kernel version if CONFIG_LOCALVERSION_AUTO is enabled. If
-+# we're building kernel source that isn't directly from git, but is a
-+# subdirectory of a larger git repository, then we need to ensure the kernel's
-+# script doesn't pick up on the state of that larger git repository to prevent
-+# it reporting incorrect version information. We do that by ensuring git won't
-+# ascend above the kernel source directory whilst searching for a .git
-+# directory.
-+export GIT_CEILING_DIRECTORIES = "${@os.path.dirname('${S}')}"
-+
- #
- # configuration
- #
-@@ -521,12 +532,6 @@ check_oldest_kernel[vardepsexclude] += "OLDEST_KERNEL KERNEL_VERSION"
- do_configure[prefuncs] += "check_oldest_kernel"
- 
- kernel_do_configure() {
--	# fixes extra + in /lib/modules/2.6.37+
--	# $ scripts/setlocalversion . => +
--	# $ make kernelversion => 2.6.37
--	# $ make kernelrelease => 2.6.37+
--	touch ${B}/.scmversion ${S}/.scmversion
--
- 	if [ "${S}" != "${B}" ] && [ -f "${S}/.config" ] && [ ! -f "${B}/.config" ]; then
- 		mv "${S}/.config" "${B}/.config"
- 	fi
--- 
-2.26.0.rc2.310.g2932bb562d-goog
-
+>  DEFAULT_BASE_URL: str = 'http://downloads.yoctoproject.org/releases/yocto'
+>  DEFAULT_RELEASE: str = 'yocto-3.1_M2'
+>  DEFAULT_INSTALLER_VERSION: str = '3.0+snapshot'
+> @@ -66,6 +67,7 @@ DEFAULT_BUILDDATE: str = "20200122"
+>
+>
+>  def main():
+> +    global DEFAULT_INSTALL_DIR
+>      global DEFAULT_BASE_URL
+>      global DEFAULT_RELEASE
+>      global DEFAULT_INSTALLER_VERSION
+> @@ -73,6 +75,7 @@ def main():
+>      filename: str = ""
+>      release: str = ""
+>      buildtools_url: str = ""
+> +    install_dir: str = ""
+>
+>      parser = argparse.ArgumentParser(
+>          description="Buildtools installation helper",
+> @@ -87,6 +90,7 @@ def main():
+>                               '(optional)\nRequires --url',
+>                          action='store')
+>      parser.add_argument('-d', '--directory',
+> +                        default=DEFAULT_INSTALL_DIR,
+>                          help='directory where buildtools SDK will be installed (optional)',
+>                          action='store')
+>      parser.add_argument('-r', '--release',
+> @@ -216,12 +220,12 @@ def main():
+>          st = os.stat(tmpbuildtools)
+>          os.chmod(tmpbuildtools, st.st_mode | stat.S_IEXEC)
+>          logger.debug(os.stat(tmpbuildtools))
+> -        install_dir = "/opt/poky/%s" % args.installer_version
+>          if args.directory:
+>              install_dir = args.directory
+>              ret = subprocess.call("%s -d %s -y" %
+>                                    (tmpbuildtools, install_dir), shell=True)
+>          else:
+> +            install_dir = "/opt/poky/%s" % args.installer_version
+>              ret = subprocess.call("%s -y" % tmpbuildtools, shell=True)
+>          if ret != 0:
+>              logger.error("Could not run buildtools installer")
+> @@ -238,7 +242,8 @@ def main():
+>              tool = 'gcc'
+>          else:
+>              tool = 'tar'
+> -        proc = subprocess.run("source %s/environment-setup-x86_64-pokysdk-linux && which %s" %
+> +        logger.debug("install_dir: %s" % install_dir)
+> +        proc = subprocess.run(". %s/environment-setup-x86_64-pokysdk-linux && which %s" %
+>                                (install_dir, tool),
+>                                shell=True, stdout=subprocess.PIPE)
+>          which_tool = proc.stdout.decode("utf-8")
+> --
+> 2.24.0
+>
+> 
