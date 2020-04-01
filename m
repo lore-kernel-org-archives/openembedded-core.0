@@ -1,68 +1,100 @@
 Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web11.2493.1585732824190800476
+ by mx.groups.io with SMTP id smtpd.web11.2532.1585733062984594781
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 02:20:24 -0700
+ Wed, 01 Apr 2020 02:24:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZednxhO7;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iMyk0s5K;
  spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id u10so29642576wro.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 02:20:23 -0700 (PDT)
+Received: by mail-wr1-f67.google.com with SMTP id m11so23800326wrx.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 02:24:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=0Me2er0jDVN6TRND44VvBjlVk6QSU8ZE9O3N/YtyLD8=;
-        b=ZednxhO76PWjPTpQ6tYEyIqR4+sOvla5picoN0y7RhRHT9CwmQX7w/fJO0oQF1ZgPF
-         qCgjVZ7FBJ1DqAmMwTTsmtfaYnaeJq0fRnc3O9D+6fhxA+S0ny8Ins1O2S3Nz9M7LSr4
-         dWEv9w0cikQNKMJR0soZNtpmOsFK80iUpLRG4=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=UOvc6ihF5/EnKhhn87ZaNZQx2TrpuTzSI9ZD2YMEPAM=;
+        b=iMyk0s5KO5wnDKKUmaVzmz/oLnSc0zcqcCX88id5dI1agSDqN9cVf+/C9v/8qo+hbt
+         BL3sqPMfJ2K8faasi53n9hB77AMpA8leFQC3aN++6xkDulupvrqhfiRl7MShbI6Vhi3t
+         0QYOMZqmGyDHD5BUb6iQcAVF8Do+eUnmBffW4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=0Me2er0jDVN6TRND44VvBjlVk6QSU8ZE9O3N/YtyLD8=;
-        b=shyxnUhWSGN836/BhDpARTFLOibhQl9vuMlWwDHVhptn1F0vjEs6KNZTVwXfx7QIbe
-         K9kCi4fViuWy4Pnd9mQc7VDzc8jZeAaUxpXMEEkOuTvjWyAzHKkkjzQG/QMW0ORvFxlB
-         iRKfkTq5li8gadB71Izcghc4hETAjw5BzUYpH+RwJQXv9Z0zE72TumfeWD9nIVM7D0rN
-         SwW/Bua3GWRNrqMr5rRf19feJu229x6kMae+JLvhL8zbrB9Zat6fYIM3p5J9l501rgs/
-         zOjRaRyGEdu0tR2Nq0tfpCz+P33bM+yPPHgZWcYlJYiUNHhstnvH/CtuRDneApF1VBAJ
-         gSFw==
-X-Gm-Message-State: ANhLgQ1z8Vu2uPOWaT7d5S80qofKPdxhwO+MPF+5omrjquhQlXHei2bG
-	s9Q2DZu6H834miVTwbJOqNiatg==
-X-Google-Smtp-Source: ADFU+vtaBIlpbnchtK8qqhDhzeXZHA++PZJ80RD6RoMPqLj9ho33CBVPw/Q5/x2zG8N/O213NgnOyw==
-X-Received: by 2002:adf:df8a:: with SMTP id z10mr23671301wrl.278.1585732822651;
-        Wed, 01 Apr 2020 02:20:22 -0700 (PDT)
+        bh=UOvc6ihF5/EnKhhn87ZaNZQx2TrpuTzSI9ZD2YMEPAM=;
+        b=hBfkcV710QiL66qGdbMkxWTOlDOeYS93Qe0AGnX7xjbqVtP0wjhsa2t2+21GbVzhxk
+         PpkLBGIEbaYplzuj4K6R6fSx5QE6ir5Ua+mj9CdwK0pVEkMhMQyaXErlJuDvTninc+pU
+         uzPODTBfcjpJlT3jNDnvq1bAJAi70PoWbxk5ImwrR6dHYa6VmMeMo4emTrE7xDtRPJ2N
+         sctdG5OgtphMClWNkliagLpMhzKphDfFPWfyR9mabOezy4pGtRxRdnQTbGp5hqPrM87A
+         gauvSwcWMnReCwLNpaJFl58fF0OabAUQq0/B+N/24v2CleSplqUu9wr4MHDu3oyyrlC3
+         180A==
+X-Gm-Message-State: ANhLgQ3WzCnaJzwucUGguOVx2Fpr9vs+Z2e2jtoeAwqHXfjTnCpfmgQj
+	tckcj2xSnCR2dpgI5gdM6oQQc70eLm8=
+X-Google-Smtp-Source: ADFU+vvFBz0nQXbfVg61cXGc0XwDS9gfrMq2QDaB8dHsSTWgAP1N8nYjqKtN3oiaib/nR0ckOqWYZw==
+X-Received: by 2002:adf:aacf:: with SMTP id i15mr22297465wrc.31.1585733061477;
+        Wed, 01 Apr 2020 02:24:21 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id v11sm2120353wrm.43.2020.04.01.02.20.21
+        by smtp.gmail.com with ESMTPSA id d1sm2206407wrm.86.2020.04.01.02.24.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2020 02:20:21 -0700 (PDT)
-Message-ID: <796ecb1469a1944bb7386c5c6ba9bfe580795057.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] netbase: use git fetcher
+        Wed, 01 Apr 2020 02:24:20 -0700 (PDT)
+Message-ID: <6e0af711c659eeb8fdb223a1fd58d907fe73b90d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] u-boot: Restore valid default environment for running system
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
-Date: Wed, 01 Apr 2020 10:20:20 +0100
-In-Reply-To: <1584350653-141457-1-git-send-email-mingli.yu@windriver.com>
-References: <1584350653-141457-1-git-send-email-mingli.yu@windriver.com>
+To: Otavio Salvador <otavio.salvador@gmail.com>, OpenEmbedded Core Mailing
+	List <openembedded-core@lists.openembedded.org>
+Cc: Stefano Babic <sbabic@denx.de>, Tom Rini <trini@konsulko.com>, Otavio
+	Salvador <otavio@ossystems.com.br>
+Date: Wed, 01 Apr 2020 10:24:19 +0100
+In-Reply-To: <20200331151645.1030603-1-otavio@ossystems.com.br>
+References: <20200331151645.1030603-1-otavio@ossystems.com.br>
 User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-03-16 at 17:24 +0800, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <mingli.yu@windriver.com>
+On Tue, 2020-03-31 at 12:16 -0300, Otavio Salvador wrote:
+> One significant change from previous OE-Core releases was the move
+> from
+> u-boot-fw-utils to libubootenv which offers a generic and not machine
+> specific alternative. However, it is not fully functional as
+> currently
+> we don't provide the default environment nor the required
+> configuration
+> file to be used by it.
 > 
-> Use git repo as the the previous URL only stores
-> the latest source file and fails to locate the
-> source tar file if we don't upgrade timely.
+> This change address this and include on the default u-boot.inc the
+> needed code to generate, install and deploy the default environment.
 > 
-> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> The side effect of this change are:
+> 
+> - new ${PN}-env
+> - u-boot-initial-env on deploy
+> - fw_env.config on deploy
+> 
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 > ---
->  meta/recipes-core/netbase/netbase_6.1.bb | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> This change is late in the cycle but it is critical in my opinion.
+> 
+> The lack of default environment as well as the configuration for the
+> tool is a regression from the previous release and this mitigates it.
+> 
+> Changes in v2:
+> - Fix wrong path on do_install
+> - Change virtual/bootloader-env to u-boot-default-env (RP)
+> - Add Tom Rini and Stefano Babic to Cc
 
-Breaks reproducible builds:
+Sadly it breaks oe-selftest's sstatetests:
 
 https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/825
+
+(reproduce with oe-selftest -r sstatetests.SStateTests)
+
+As well as world build file conflicts in deploy:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/405
+https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/1731
+
+which is a large number of issues to introduce just before final
+release :(
 
 Cheers,
 
