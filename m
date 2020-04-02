@@ -1,239 +1,347 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by mx.groups.io with SMTP id smtpd.web11.1927.1585815036084458884
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
+ by mx.groups.io with SMTP id smtpd.web10.4134.1585825875202931898
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2020 01:10:36 -0700
+ Thu, 02 Apr 2020 04:11:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denx.de, ip: 212.18.0.10, mailfrom: sbabic@denx.de)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 48tG2y0gjzz1rpf2;
-	Thu,  2 Apr 2020 10:10:34 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 48tG2y01Gsz1qv49;
-	Thu,  2 Apr 2020 10:10:33 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-	with ESMTP id qzoXMNy1E9jG; Thu,  2 Apr 2020 10:10:32 +0200 (CEST)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net [88.217.136.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPS;
-	Thu,  2 Apr 2020 10:10:32 +0200 (CEST)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id 983CC45404A9;
-	Thu,  2 Apr 2020 10:10:32 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([IPv6:::1])
-	by localhost (mail.babic.homelinux.org [IPv6:::1]) (amavisd-new, port 10024)
-	with ESMTP id clI4wlKRLjRQ; Thu,  2 Apr 2020 10:10:30 +0200 (CEST)
-Received: from [IPv6:2001:a61:51ea:901:acc0:48d3:770a:18b9] (paperino.fritz.box [IPv6:2001:a61:51ea:901:acc0:48d3:770a:18b9])
-	by babic.homelinux.org (Postfix) with ESMTP id 45005454039C;
-	Thu,  2 Apr 2020 10:10:30 +0200 (CEST)
-Subject: Re: [OE-core] [PATCH v3] u-boot: Restore valid default environment for running system
-To: Otavio Salvador <otavio.salvador@gmail.com>,
- OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Cc: Stefano Babic <sbabic@denx.de>, Tom Rini <trini@konsulko.com>,
- Otavio Salvador <otavio@ossystems.com.br>
-References: <20200402001431.435999-1-otavio@ossystems.com.br>
-From: "Stefano Babic" <sbabic@denx.de>
-Autocrypt: addr=sbabic@denx.de; prefer-encrypt=mutual; keydata=
- mQGiBEfdB5IRBADkpYcnh2BoAkGD5p186ysEkWlcp5DU07m7BKzvkEMRhFjeFUOU0klKNmh0
- ZM6rKpYpAYPYBm9YahMyqvj9DmLrZ4yfJ5MssvW9SRETmHpva+h1rN+DzmEcwrqZmLG1JWGy
- LA5ruJaFSzxJHBoROoog1NDMbNDB8A9F7VKrePfkVwCgmODpW/uh2IuMYLVidzDeuvo7alED
- /iV8rwU7C+eBcKy2htuDsEmsqlkBxIDM7IO6h5XxdyqbZOYizuBP3Ksb6xK54weEaB5aQs7S
- 8N9Soi0p1Xh0LMWj6PBCzTC4LF+OCGEMBPc6bBHNzivChgztJlUMioCDSVpOXB/QpBaK302G
- yP5WdmcB1Jn6neq/YRlxHN38MV2yA/46jnzeUotL9LliVZKA/ql4GmyWg2Ae1BUiCqEJQNwl
- knGJOmIS4uABLArB5HjsfDU5hA9FORaNGCIiZlezBkZ3JXA2uQMQhfgqBXrZt4j1fcw9I7E+
- 7IZ2kSCeTPZFLd5FiGQPDOm3Z9eHrpK6pmBGMeBG0pDgUEbN9awyLNBLj7QeU3RlZmFubyBC
- YWJpYyA8c2JhYmljQGRlbnguZGU+iGMEExECACMCGwMGCwkIBwMCBBUCCAMEFgIDAQIeAQIX
- gAUCT9deSgIZAQAKCRD09WXkmmjvppF1AKCRl8d49K4yxWzdBVRTTWG55cyo/gCfRD1RAttl
- R1ofs2wGLHNtXousyL25Ag0ER90HmBAIAIFfX4bKnOmCyB3nPh+jbXZuBSMZTuyDEnguRxl5
- N8Q0ayofQwucCBjXYv65sQ9Rq6FNhEnWqUZBu8A5CwvSakOFOGNC5ta/8VxVRLh0Z0ZTgEep
- SKiPonJyacCbmgWDECdVrKowV7QB9be3Wu67uAZ74rPw2Kd7f0FKnL3djvVRMaBWFIpyQ6SE
- bGOCJjhRQ5L1pIM1Soko+reU7eO+1g6IBw6YkFJisdQE6fzTwaSqUKPPsQLz/W03invQltOb
- Eg7ZwtFs0DFonr1DMm57ksiEhW6SN1wylRO/JzRYG1Qe7u1EVln6iV3ilBvbbfkyRssk4/0e
- kicpSnQknA72YOMAAwYH+QGpAiQ4hAMHrp1bUrtyGXYdeQpYufIZAM4etOnBy/G+e1nfu6y+
- jH4SN9sVK7bwBBAbhEJqkqR5LVsFIRapThJQOWB11rQxLpwkBU9wao/pRM+o95ujGo32WUzf
- wWrzWrkTDy7vMCZuUOLVi4n1GZlUAwpG4rzb6UxPC6GWymkVWGgXp1NC58og5i3Y+rKT7+Xi
- XT2BtvC6PDepoH4JhD+9OkHQO6UfTxPSmtgNbTgtl6L6tj+bm5dOHgkPJFMkEiG8qhUZYQzb
- bYz37orRbA72M2bxK76e9QKn0mVu+d/YCd8wRcvvJbGsozpzcxPvD5Wy5RNJCES8McPtAseU
- tMeISQQYEQIACQUCR90HmAIbDAAKCRD09WXkmmjvpv+3AJ9RakBsH1j0X/Kxp6t2lf0VUfS2
- qACfZ+J6ktk8PKNuyHf0J/I0mbCrhV4=
-Message-ID: <4316c73b-801b-6f06-442e-adfc68675b0d@denx.de>
-Date: Thu, 2 Apr 2020 10:10:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <20200402001431.435999-1-otavio@ossystems.com.br>
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=G+Pabl0u;
+ spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.215.193, mailfrom: rahulk@mvista.com)
+Received: by mail-pg1-f193.google.com with SMTP id r4so222798pgg.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 04:11:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=8ehpEoiRU47g+I3Fwlyqyjz3+gi80c8gzEvlCIWxUMk=;
+        b=G+Pabl0u/b3tYEMWfbM3b9mrm+31PoQz1GhhWyv+aGHJkquFwH4DcX/L0BJrPPZdmZ
+         RjQmbfes1XmLgbI1keVbYZ4LXo7pKmwl70GYlF1U051o5yBAeab6mI+0pqjNQnvmyYmN
+         1DaIPWsoK05xLodvfkiVcnxvnmE/4ttCnieOHcT1zNxcMG/k+GqKGpzpKAg79y8N/E/L
+         +fGxsT8HaZTsZ4YgNPtHUIsmmfvB5rC+l6d4VFBpN77fcQgVU2Bsmpf+VGpaiSqPccYS
+         EKxILmfCyt46PNzdAyBJaSrQX4MpUH1SzTaXbvvXZJjzSBrpx46jtMHUkvymEEUWGJ46
+         I9Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=8ehpEoiRU47g+I3Fwlyqyjz3+gi80c8gzEvlCIWxUMk=;
+        b=lHrQL1jIjHKMu9ZKaRRShXirvWu3QrT6Wfaki7zAYHuBr1M7srmdUhDRtHBRJKc+D3
+         chLMbbSVxar2muuHlQ/F82+VKg1qVIKfLTunVCOr7Bl+DB1vWVqIicZGfOBI7KFdnG92
+         aWqdEt2YChyfluC1MQ8LOLBR+lGGVWHhH9j1wMe4zWC+NCmtsXB2h+JklfeYgMG/rPw2
+         RVG8BVYRwUesErB0LGps0L0KymEAyCIVyePa7/L5eD9DyYUbQ5nWw25Y2f/+cjwJaarb
+         LVFs0rzqdLRrCI7KKJDZfqBNPq4JfgJIjgIEx2IKEufS65NCLL7Rfs3GPKfVHeH8Vxs9
+         MhzA==
+X-Gm-Message-State: AGi0PuamwtV0uHsf1CTDZkmBjbp5gg/Up7nU2moYwqiMUZDXvyIFn3bX
+	Qu06dYiCnn40TPc2PKdzlxRSD/if1wE=
+X-Google-Smtp-Source: APiQypJjsevr6/iWnEI/1Qx9/E6tgZ/oyKefmtdVa/HZKcig+qt+Mgkc1uDGMWQ80bgWOHd5n0EKMA==
+X-Received: by 2002:a62:fc93:: with SMTP id e141mr2565898pfh.282.1585825873770;
+        Thu, 02 Apr 2020 04:11:13 -0700 (PDT)
+Return-Path: <rahulk@mvista.com>
+Received: from CelSys065.mvista.com ([36.255.87.199])
+        by smtp.gmail.com with ESMTPSA id 141sm3507402pfu.174.2020.04.02.04.11.11
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Thu, 02 Apr 2020 04:11:12 -0700 (PDT)
+From: "Rahul Kumar" <rahulk@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Rahul Kumar <rahulk@mvista.com>
+Subject: [PATCH] bzip2: Add test suite for bzip2
+Date: Thu,  2 Apr 2020 16:40:57 +0530
+Message-Id: <1585825857-28025-1-git-send-email-rahulk@mvista.com>
+X-Mailer: git-send-email 2.7.4
 
-On 02.04.20 02:14, Otavio Salvador wrote:
-> One significant change from previous OE-Core releases was the move from
-> u-boot-fw-utils to libubootenv which offers a generic and not machine
-> specific alternative. However, it is not fully functional as currently
-> we don't provide the default environment nor the required configuration
-> file to be used by it.
-> 
-> This change address this and include on the default u-boot.inc the
-> needed code to generate, install and deploy the default environment.
-> 
-> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> ---
-> This change is late in the cycle but it is critical in my opinion.
-> 
-> The lack of default environment as well as the configuration for the
-> tool is a regression from the previous release and this mitigates it.
-> 
-> Changes in v3:
-> - Remove rrecommends in libubootenv
-> - Add ${MACHINE} to the files following other binaries
-> - Change commit log
-> 
-> Changes in v2:
-> - Fix wrong path on do_install
-> - Change virtual/bootloader-env to u-boot-default-env (RP)
-> - Add Tom Rini and Stefano Babic to Cc
-> 
->  meta/recipes-bsp/u-boot/u-boot.inc | 62 +++++++++++++++++++++++++-----
->  1 file changed, 53 insertions(+), 9 deletions(-)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-> index d4ab9c3222e..dc4f7884b82 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> @@ -134,6 +134,11 @@ do_compile () {
->                              cp ${B}/${config}/${binary} ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX}
->                          fi
->                      done
-> +
-> +                    # Generate the uboot-initial-env
-> +                    oe_runmake -C ${S} O=${B}/${config} u-boot-initial-env
-> +                    cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-boot-initial-env-${type}
-> +
->                      unset k
->                  fi
->              done
-> @@ -142,6 +147,9 @@ do_compile () {
->          unset  i
->      else
->          oe_runmake -C ${S} O=${B} ${UBOOT_MAKE_TARGET}
-> +
-> +        # Generate the uboot-initial-env
-> +        oe_runmake -C ${S} O=${B} u-boot-initial-env
->      fi
->  
->  }
-> @@ -155,19 +163,28 @@ do_install () {
->                  j=$(expr $j + 1);
->                  if [ $j -eq $i ]
->                  then
-> -                    install -d ${D}/boot
-> -                    install -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-> +                    install -D -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
->                      ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
->                      ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-> +
-> +                    # Install the uboot-initial-env
-> +                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR}
-> +                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${type}
-> +                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${type}
-> +                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env
->                  fi
->              done
->              unset  j
->          done
->          unset  i
->      else
-> -        install -d ${D}/boot
-> -        install -m 644 ${B}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
-> +        install -D -m 644 ${B}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
->          ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
-> +
-> +        # Install the uboot-initial-env
-> +        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${PV}-${PR}
-> +        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}
-> +        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env
->      fi
->  
->      if [ -n "${UBOOT_ELF}" ]
-> @@ -236,7 +253,16 @@ do_install () {
->  
->  }
->  
-> -FILES_${PN} = "/boot ${sysconfdir} ${datadir}"
-> +PACKAGE_BEFORE_PN += "${PN}-env"
-> +
-> +RPROVIDES_${PN}-env += "u-boot-default-env"
-> +FILES_${PN}-env = " \
-> +    ${sysconfdir}/u-boot-initial-env* \
-> +    ${sysconfdir}/fw_env.config \
-> +"
-> +
-> +FILES_${PN} = "/boot ${datadir}"
-> +RDEPENDS_${PN} += "${PN}-env"
->  
->  do_deploy () {
->      if [ -n "${UBOOT_CONFIG}" ]
-> @@ -247,25 +273,43 @@ do_deploy () {
->                  j=$(expr $j + 1);
->                  if [ $j -eq $i ]
->                  then
-> -                    install -d ${DEPLOYDIR}
-> -                    install -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-> +                    install -D -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
->                      cd ${DEPLOYDIR}
->                      ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}-${type}
->                      ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
->                      ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}-${type}
->                      ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
-> +
-> +                    # Deploy the uboot-initial-env
-> +                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR}
-> +                    cd ${DEPLOYDIR}
-> +                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} u-boot-initial-env-${MACHINE}-${type}
-> +                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} u-boot-initial-env-${type}
->                  fi
->              done
->              unset  j
->          done
->          unset  i
->      else
-> -        install -d ${DEPLOYDIR}
-> -        install -m 644 ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-> +        install -D -m 644 ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-> +
->          cd ${DEPLOYDIR}
->          rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
->          ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
->          ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
-> +
-> +        # Deploy the uboot-initial-env
-> +        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/u-boot-initial-env-${MACHINE}-${PV}-${PR}
-> +        cd ${DEPLOYDIR}
-> +        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} u-boot-initial-env-${MACHINE}
-> +        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} u-boot-initial-env
-> +    fi
-> +
-> +    if [ -e ${WORKDIR}/fw_env.config ] ; then
-> +        install -D -m 644 ${WORKDIR}/fw_env.config ${DEPLOYDIR}/fw_env.config-${MACHINE}-${PV}-${PR}
-> +        cd ${DEPLOYDIR}
-> +        ln -sf fw_env.config-${MACHINE}-${PV}-${PR} fw_env.config-${MACHINE}
-> +        ln -sf fw_env.config-${MACHINE}-${PV}-${PR} fw_env.config
->      fi
->  
->      if [ -n "${UBOOT_ELF}" ]
-> 
+[YOCTO #13444]
 
-Reviewed-by: Stefano Babic <sbabic@denx.de>
+Signed-off-by: Rahul Kumar <rahulk@mvista.com>
+---
+ .../bzip2/0001-bzip2-modify-run-tests-script.patch | 220 +++++++++++++++++++++
+ meta/recipes-extended/bzip2/bzip2/Makefile.am      |   2 +
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb         |  15 +-
+ 3 files changed, 234 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
 
-Best regards,
-Stefano Babic
-
+diff --git a/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch b/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
+new file mode 100644
+index 0000000..8ae3c4e
+--- /dev/null
++++ b/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
+@@ -0,0 +1,220 @@
++From 42e6258485030085285d4b30854bfb94bcf43880 Mon Sep 17 00:00:00 2001
++From: Rahul Kumar <rahulk@mvista.com>
++Date: Mon, 30 Mar 2020 12:17:00 +0530
++Subject: [PATCH] bzip2: modify run-tests script
++
++Upstream-Status: Inappropriate [ modify run-tests script for ptest infrastructure ]
++
++modify run-tests script to write PASS/FAIL as expected by the ptest infrastructure
++
++Signed-off-by: Rahul Kumar <rahulk@mvista.com>
++---
++ run-tests.sh | 83 +++++++++++++++++++++++++++++++-----------------------------
++ 1 file changed, 43 insertions(+), 40 deletions(-)
++
++diff --git a/run-tests.sh b/run-tests.sh
++index 1ba8c27..1eff62a 100755
++--- a/run-tests.sh
+++++ b/run-tests.sh
++@@ -10,7 +10,7 @@
++ VALGRIND="valgrind"
++ VALGRIND_ARGS="-q --error-exitcode=9"
++ BZIP2="bzip2"
++-TESTS_DIR="."
+++TESTS_DIR="./bzip2-tests"
++ IGNORE_MD5=0
++
++ for i in "$@"
++@@ -40,21 +40,21 @@ case $i in
++ esac
++ done
++
++-if ! type "valgrind" > /dev/null; then
+++if ! type "valgrind" > /dev/null 2>&1; then
++   VALGRIND=""
++   VALGRIND_ARGS=""
++ fi
++
++ echo "Testing ${BZIP2} in directory ${TESTS_DIR}"
++ if [ "$VALGRIND" != "" ]; then
++-  echo "  using valgrind"
+++  echo "Using valgrind: Yes"
++ else
++-  echo "  NOT using valgrind"
+++  echo "Using valgrind: No"
++ fi
++ if [[ ${IGNORE_MD5} -eq 0 ]]; then
++-  echo "  checking md5 sums"
+++  echo "Checking md5 sums: Yes"
++ else
++-  echo "  NOT checking md5 sums"
+++  echo "Checking md5 sums: No"
++ fi
++
++ # Remove any left over tesfilecopies from previous runs first.
++@@ -76,16 +76,16 @@ while IFS= read -r -d '' bzfile; do
++   echo "Processing ${bzfile}"
++
++   # Decompress it.
++-  echo "  Decompress..."
+++  # echo "  Decompress..."
++   rm -f "${file}"
++-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${bzfile} \
++-    || { echo "!!! bad decompress result $?";
+++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${bzfile} && { echo "PASS: ${bzfile} Decompress"; } \
+++    || { echo "FAIL: ${bzfile} Decompress";
++          badtests=("${badtests[@]}" $"${bzfile} bad decompress result")
++          nogood=$[${nogood}+1]; continue; }
++
++   if [[ ${IGNORE_MD5} -ne 1 ]]; then
++-    md5sum --check --status ${md5file} < ${file} \
++-      || { echo "!!! md5sum doesn't match decompressed file";
+++    md5sum -c ${md5file} < ${file} && { echo "PASS: ${bzfile} md5sum Matched"; } \
+++      || { echo "FAIL: ${bzfile} md5sum Matched";
++            badtests=("${badtests[@]}" $"${file} md5sum doesn't match")
++            nogood=$[${nogood}+1]; continue; }
++   fi
++@@ -93,20 +93,20 @@ while IFS= read -r -d '' bzfile; do
++   # Compress and decompress a copy
++   mv "${file}" "${copy}"
++   rm -f "${bzcopy}"
++-  echo "  Recompress..."
++-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} \
++-    || { echo "!!! bad compress result $?";
+++  # echo "  Recompress..."
+++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} && { echo "PASS: ${bzfile} Recompress "; } \
+++    || { echo "FAIL: ${bzfile} Recompress";
++          badtests=("${badtests[@]}" $"${copy} bad result")
++          nogood=$[${nogood}+1]; continue; }
++-  echo "  Redecompress..."
++-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} \
++-    || { echo "!!! bad (re)decompress result $?";
+++  # echo "  Redecompress..."
+++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} && { echo "PASS: ${bzfile} Redecompress"; } \
+++    || { echo "FAIL: ${bzfile} Redecompress";
++          badtests=("${badtests[@]}" $"${bzcopy} bad result")
++          nogood=$[${nogood}+1]; continue; }
++
++   if [[ ${IGNORE_MD5} -ne 1 ]]; then
++-    md5sum --check --status ${md5file} < ${copy} \
++-      || { echo "!!! md5sum doesn't match (re)decompressed file";
+++    md5sum -c ${md5file} < ${copy} && { echo "PASS: ${bzfile} md5sum Matched"; } \
+++      || { echo "FAIL: ${bzfile} md5sum Matched";
++            badtests=("${badtests[@]}" $"${copy} md5sum doesn't match")
++            nogood=$[${nogood}+1]; continue; }
++   fi
++@@ -114,16 +114,16 @@ while IFS= read -r -d '' bzfile; do
++   rm "${copy}"
++
++   # Now do it all again in "small" mode.
++-  echo "  Decompress (small)..."
+++  # echo "  Decompress (small)..."
++   rm -f "${file}"
++-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${bzfile} \
++-    || { echo "!!! bad decompress result $?";
+++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${bzfile} &&{ echo "PASS: ${bzfile} Decompress (small)"; } \
+++    || { echo "FAIL: ${bzfile} Decompress (small)";
++          badtests=("${badtests[@]}" $"${bzfile} bad decompress result")
++          nogood=$[${nogood}+1]; continue; }
++
++   if [[ ${IGNORE_MD5} -ne 1 ]]; then
++-    md5sum --check --status ${md5file} < ${file} \
++-      || { echo "!!! md5sum doesn't match decompressed file";
+++    md5sum -c ${md5file} < ${file} > /dev/null 2>&1 && { echo "PASS: ${bzfile} Md5sum Matched"; } \
+++      || { echo "FAIL: ${bzfile} Md5sum Matched";
++            badtests=("${badtests[@]}" $"${file} md5sum doesn't match")
++            nogood=$[${nogood}+1]; continue; }
++   fi
++@@ -131,20 +131,20 @@ while IFS= read -r -d '' bzfile; do
++   # Compress and decompress a copy
++   mv "${file}" "${copy}"
++   rm -f "${bzcopy}"
++-  echo "  Recompress (small)..."
++-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} \
++-    || { echo "!!! bad compress result $?";
+++  # echo "  Recompress (small)..."
+++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} && { echo "PASS: ${bzfile} Recompress (small)"; } \
+++    || { echo "FAIL: ${bzfile} Recompress (small)";
++          badtests=("${badtests[@]}" $"${copy} bad result")
++          nogood=$[${nogood}+1]; continue; }
++-  echo "  Redecompress (small)..."
++-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} \
++-    || { echo "!!! bad (re)decompress result $?";
+++  # echo "  Redecompress (small)..."
+++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} && { echo "PASS: ${bzfile} Redecompress (small)"; } \
+++    || { echo "FAIL: ${bzfile} Redecompress (small)";
++          badtests=("${badtests[@]}" $"${bzcopy} bad result")
++          nogood=$[${nogood}+1]; continue; }
++
++   if [[ ${IGNORE_MD5} -ne 1 ]]; then
++-    md5sum --check --status ${md5file} < ${copy} \
++-      || { echo "!!! md5sum doesn't match (re)decompressed file";
+++    md5sum -c ${md5file} < ${copy} && { echo "PASS: ${bzfile} md5sum Matched"; } \
+++      || { echo "FAIL: ${bzfile} md5sum : Miss Matched";
++            badtests=("${badtests[@]}" $"${copy} md5sum doesn't match")
++            nogood=$[${nogood}+1]; continue; }
++   fi
++@@ -169,14 +169,14 @@ nobad=0
++ badbad=0
++ while IFS= read -r -d '' badfile; do
++
++-  echo "Processing ${badfile}"
+++  # echo "Processing ${badfile}"
++
++-  echo "  Trying to decompress..."
+++  # echo "  Trying to decompress..."
++   ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${badfile}
++   ret=$?
++
++   if [[ ${ret} -eq 0 ]]; then
++-    echo "!!! badness not detected"
+++    echo "FAIL: badness not detected"
++     nobad=$[${nobad}+1]
++     badtests=("${badtests[@]}" $"${badfile} badness not detected")
++     continue
++@@ -185,18 +185,20 @@ while IFS= read -r -d '' badfile; do
++   # Assumes "normal" badness is detected by exit code 1 or 2.
++   # A crash or valgrind issue will be reported with something else.
++   if [[ ${ret} != 1 ]] && [[ ${ret} != 2 ]]; then
++-    echo "!!! baddness caused baddness in ${BZIP2}"
+++    echo "FAIL: baddness caused baddness in ${BZIP2}"
++     badbad=$[${badbad}+1]
++     badtests=("${badtests[@]}" $"${badfile} badness caused baddness")
++     continue
+++  else
+++    echo "PASS: Correctly found data integrity errors in ${badfile} during decompress."
++   fi
++
++-  echo "  Trying to decompress (small)..."
+++  # echo "  Trying to decompress (small)..."
++   ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${badfile}
++   ret=$?
++
++   if [[ ${ret} -eq 0 ]]; then
++-    echo "!!! badness not detected"
+++    echo "FAIL: badness not detected "
++     nobad=$[${nobad}+1]
++     badtests=("${badtests[@]}" $"${badfile} badness not detected")
++     continue
++@@ -205,10 +207,12 @@ while IFS= read -r -d '' badfile; do
++   # Assumes "normal" badness is detected by exit code 1 or 2.
++   # A crash or valgrind issue will be reported with something else.
++   if [[ ${ret} != 1 ]] && [[ ${ret} != 2 ]]; then
++-    echo "!!! baddness caused baddness in ${BZIP2}"
+++    echo "FAIL: baddness caused baddness in ${BZIP2}"
++     badbad=$[${badbad}+1]
++     badtests=("${badtests[@]}" $"${badfile} badness caused baddness")
++     continue
+++  else
+++    echo "PASS: Correctly found data integrity errors in ${badfile} during decompress (small)"
++   fi
++
++ done < <(find ${TESTS_DIR} -type f -name \*\.bz2.bad -print0)
++@@ -234,5 +238,4 @@ if [[ ${results} -eq 0 ]]; then
++ else
++   echo "Bad results, look for !!! in the logs above"
++   printf ' - %s\n' "${badtests[@]}"
++-  exit 1
++ fi
++--
++2.7.4
+diff --git a/meta/recipes-extended/bzip2/bzip2/Makefile.am b/meta/recipes-extended/bzip2/bzip2/Makefile.am
+index dcf6458..f917b23 100644
+--- a/meta/recipes-extended/bzip2/bzip2/Makefile.am
++++ b/meta/recipes-extended/bzip2/bzip2/Makefile.am
+@@ -46,6 +46,7 @@ runtest:
+ 	else echo "FAIL: sample2 decompress"; fi
+ 	@if cmp sample3.tst sample3.ref; then echo "PASS: sample3 decompress";\
+ 	else echo "FAIL: sample3 decompress"; fi
++	./bzip2-tests/run-tests.sh
+ 
+ install-ptest:
+ 	sed  -n '/^runtest:/,/^install-ptest:/{/^install-ptest:/!p}' \
+@@ -56,6 +57,7 @@ install-ptest:
+ 	cp $(srcdir)/sample1.bz2	$(DESTDIR)/
+ 	cp $(srcdir)/sample2.bz2	$(DESTDIR)/
+ 	cp $(srcdir)/sample3.bz2	$(DESTDIR)/
++	cp -rf $(srcdir)/../git		$(DESTDIR)/bzip2-tests
+ 	ln -s $(bindir)/bzip2		$(DESTDIR)/bzip2
+ 
+ install-exec-hook:
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index 8e9b779..e8ec5c6 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -5,16 +5,25 @@ LZ77/LZ78-based compressors, and approaches the performance of the PPM family of
+ HOMEPAGE = "https://sourceware.org/bzip2/"
+ SECTION = "console/utils"
+ LICENSE = "bzip2"
+-LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664"
+-
++LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664 \
++                    file://../git/go/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707 \
++                    file://../git/dotnetzip/License.txt;md5=9cb56871eed4e748c3bc7e8ff352a54f \
++                    file://../git/dotnetzip/License.zlib.txt;md5=cc421ccd22eeb2e5db6b79e6de0a029f \
++                    file://../git/commons-compress/LICENSE.txt;md5=86d3f3a95c324c9479bd8986968f4327 \
++                   "
+ SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
++           git://sourceware.org/git/bzip2-tests.git;name=bzip2-tests \
+            file://configure.ac;subdir=${BP} \
+            file://Makefile.am;subdir=${BP} \
+            file://run-ptest \
++           file://0001-bzip2-modify-run-tests-script.patch;patchdir=${WORKDIR}/git \
+            "
++
+ SRC_URI[md5sum] = "67e051268d0c475ea773822f7500d0e5"
+ SRC_URI[sha256sum] = "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
+ 
++SRCREV_bzip2-tests = "8b0198efda1603cf81fa2c7a9bb673dd22ae1661"
++
+ UPSTREAM_CHECK_URI = "https://www.sourceware.org/pub/bzip2/"
+ 
+ PACKAGES =+ "libbz2"
+@@ -39,7 +48,7 @@ do_install_ptest () {
+ 
+ FILES_libbz2 = "${libdir}/lib*${SOLIBS}"
+ 
+-RDEPENDS_${PN}-ptest += "make"
++RDEPENDS_${PN}-ptest += "make bash"
+ 
+ PROVIDES_append_class-native = " bzip2-replacement-native"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-=====================================================================
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
-=====================================================================
+2.7.4
+
