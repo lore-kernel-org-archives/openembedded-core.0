@@ -1,151 +1,199 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web12.3135.1585785257709854382
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+ by mx.groups.io with SMTP id smtpd.web12.3550.1585786484377758099
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 16:54:18 -0700
+ Wed, 01 Apr 2020 17:14:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HiiXtVHG;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id c81so1553005wmd.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 16:54:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=8YoqOpexV+8cflff4/860lWe6OEeKSVhAIrZzE3CYDg=;
-        b=HiiXtVHGzj2SKZvK+rF5eRcA+NCU+1xSusZqIHYvMbeG3yYBN6Vl9y5mT1CPnABbg1
-         OcULzTE2+g5BVi/b+Q3VMuRAoXeNAPqBli3N1HUtYP+zXk4f/Y7CGzIswbuYulCgZBWg
-         tqOIgDjS72Z2kg9nKCvNiJ5kI1tntvoGeFUUI=
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qv1-f66.google.com with SMTP id v38so813861qvf.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 17:14:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=8YoqOpexV+8cflff4/860lWe6OEeKSVhAIrZzE3CYDg=;
-        b=RmJnqkXGCOsZjn/qfFVKqbICIx/SfYNAu3X1QCpfCXQIkMZjrUyVLNKc0vRBuLuLCW
-         rGLWboJCAgBEkBTyH0B1sgcF9bj/OEF+fEjQQ9P1zEkfGMOWaXkQVpRd3VOi8rb/P/SF
-         J7eZ+Mw5zi+2Pug9jUOdDpuH/3ikEehnbq44jwTNxLJttq+mkaMvGdEVujzppma6QzEw
-         MJYBYNsAkTR9isgYtFOo/bzaSUvxL9hOravBAZumJnG+wb8e9qD48X21U9NzvlG6nftY
-         njT0l6/qbKEhX8OR5VnngNvG/lJE7Z8GLwBSEvidHHyMvdk3tPgyycKNvlAjYVxQxUnX
-         zY8g==
-X-Gm-Message-State: AGi0PuaSr6BH9/XYjCqZCGLkz9FPw049ENLcJ6SBakbhx7YNLa79b8c9
-	ceU9I8PyLYVnRYkn8kGB1LTlGw==
-X-Google-Smtp-Source: APiQypI4jnfMdEuC/dbLl+qfAoPBJhFIw94RRY8EHWCVrXp7eISzF1AairRS53z5uAt7Rp65IKlCtw==
-X-Received: by 2002:a1c:62c5:: with SMTP id w188mr509609wmb.112.1585785256047;
-        Wed, 01 Apr 2020 16:54:16 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id v7sm4930221wrs.96.2020.04.01.16.54.14
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :organization:content-transfer-encoding;
+        bh=kIpor+jVLLyTvk0LBXLa8JVPcIZc8RwwsKHK5m6j3sQ=;
+        b=oRrjhX5bsuHlVvI6UIPrEXDRV60I46WFMxuIILik/USNdWteg18LM4SinoqQMgq1ol
+         33zFnfIblPTUxMgRAwUmf0tlLcB1ry5cPhT5GP402flFaefqB83xfGI0sioLL2p8BQQk
+         pZoJUVEuLR5ln5jW2yCrq7935PZP646arGAoaL/JxhC4TKevjNra3F2vX0mPt4Ts5XLV
+         dAJ02U3SwUkwCaJu/9KLyGc2UN3HEfDH5zooDVtDtQfC93o0Gf836TaPTbg7BKPh0N8b
+         RxAS/2+wM8UMWmPCf1hZysphkqEoxTcuep1Y1+yXxK4TWOcXktB85i82PLkHMgHnQrP4
+         0rxw==
+X-Gm-Message-State: AGi0PuYDRAMqMhxvtyUx48K3vX4zzaabi94o1L0GouCrZKqoJtOKLidA
+	SCCF2i3ZtzGjIVn2CR0+TEUCQVB0c6tWDA==
+X-Google-Smtp-Source: APiQypI7Jr3r4k0vNZUQ4kEyFyy+p50TFBGLaXUyvRipewDuFLO6qt8nbAyB6x85gU0N9wQrFfl1Kw==
+X-Received: by 2002:a0c:f684:: with SMTP id p4mr723027qvn.172.1585786483136;
+        Wed, 01 Apr 2020 17:14:43 -0700 (PDT)
+Return-Path: <otavio.salvador@gmail.com>
+Received: from localhost ([181.220.114.167])
+        by smtp.gmail.com with ESMTPSA id z43sm2624042qtb.92.2020.04.01.17.14.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2020 16:54:15 -0700 (PDT)
-Message-ID: <fcad93f710482b42d125e173a410c8396a518a71.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2] kernel.bbclass: Stop creating empty .scmversion files
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: paulburton@google.com, openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, Martin Jansa
-	 <martin.jansa@gmail.com>, Trevor Woerner <twoerner@gmail.com>
-Date: Thu, 02 Apr 2020 00:54:14 +0100
-In-Reply-To: <20200401194102.161130-1-paulburton@google.com>
-References: <20200331235607.93023-1-paulburton@google.com>
-	 <20200401194102.161130-1-paulburton@google.com>
-User-Agent: Evolution 3.36.0-1 
+        Wed, 01 Apr 2020 17:14:42 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@gmail.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Cc: Stefano Babic <sbabic@denx.de>,
+	Tom Rini <trini@konsulko.com>,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v3] u-boot: Restore valid default environment for running system
+Date: Wed,  1 Apr 2020 21:14:31 -0300
+Message-Id: <20200402001431.435999-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Organization: O.S. Systems Software LTDA.
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2020-04-01 at 12:41 -0700, Paul Burton via lists.openembedded.org wrote:
-> The kernel_do_configure() task creates empty .scmversion files within
-> both the source & build directories. The presence of these files causes
-> the scm_version function within the kernel's scripts/setlocalversion to
-> always output the empty string, breaking the kernel's
-> CONFIG_LOCALVERSION_AUTO=y functionality which appends that string to
-> the kernel version. Rather than appending the git commit hash or another
-> SCM revision to the kernel version, the empty string is appended causing
-> CONFIG_LOCALVERSION_AUTO to do nothing.
-> 
-> Remove the creation of the empty .scmversion files in order to restore
-> the kernel's CONFIG_LOCALVERSION_AUTO functionality. This allows users
-> of kernels built from non-tagged source & configured with
-> CONFIG_LOCALVERSION_AUTO=y to better determine what kernel they're
-> actually running.
-> 
-> The .scmversion behavior was introduced for the build directory by
-> commit 56fe5300ab5a ("kernel.bbclass: fix extra + in kernelrelease") and
-> extended to the source directory by commit e3bf54731973
-> ("kernel.bbclass: touch .scmversion also in ${S}"). The '+' character
-> referenced would be appended if the kernel believed it were being built
-> from a dirty working tree. If that is genuinely the case then this in
-> itself is useful information; hiding that fact can only serve to muddy a
-> user's understanding of what kernel they're actually running.
-> 
-> One case that Martin suggests may have been the original motivation for
-> these commits is building a kernel whose source is not coming from git,
-> but is a subdirectory of a larger git working tree. In that case git
-> will ascend through the parent directories of the kernel source until it
-> finds the .git directory of that larger repository & report version
-> information that is nonsensical with regards to the kernel. As such,
-> prevent this from happening by setting the GIT_CEILING_DIRECTORIES
-> environment variable such that git will not ascend outside of the kernel
-> source directory and therefore won't pick up on version information that
-> doesn't relate to the kernel.
-> 
-> Signed-off-by: Paul Burton <paulburton@google.com>
-> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> Cc: Martin Jansa <martin.jansa@gmail.com>
-> Cc: Trevor Woerner <twoerner@gmail.com>
-> ---
->  meta/classes/kernel.bbclass | 17 +++++++++++------
->  1 file changed, 11 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index a724645466..bf0b14285e 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -171,6 +171,17 @@ KERNEL_RELEASE ?= "${KERNEL_VERSION}"
->  KERNEL_OUTPUT_DIR ?= "arch/${ARCH}/boot"
->  KERNEL_IMAGEDEST ?= "boot"
->  
-> +# The kernel's scripts/setlocalversion invokes git to determine whether we're
-> +# building from source that isn't clean or isn't tagged, and append that
-> +# information to the kernel version if CONFIG_LOCALVERSION_AUTO is enabled. If
-> +# we're building kernel source that isn't directly from git, but is a
-> +# subdirectory of a larger git repository, then we need to ensure the kernel's
-> +# script doesn't pick up on the state of that larger git repository to prevent
-> +# it reporting incorrect version information. We do that by ensuring git won't
-> +# ascend above the kernel source directory whilst searching for a .git
-> +# directory.
-> +export GIT_CEILING_DIRECTORIES = "${@os.path.dirname('${S}')}"
-> +
->  #
->  # configuration
->  #
-> @@ -521,12 +532,6 @@ check_oldest_kernel[vardepsexclude] += "OLDEST_KERNEL KERNEL_VERSION"
->  do_configure[prefuncs] += "check_oldest_kernel"
->  
->  kernel_do_configure() {
-> -	# fixes extra + in /lib/modules/2.6.37+
-> -	# $ scripts/setlocalversion . => +
-> -	# $ make kernelversion => 2.6.37
-> -	# $ make kernelrelease => 2.6.37+
-> -	touch ${B}/.scmversion ${S}/.scmversion
-> -
->  	if [ "${S}" != "${B}" ] && [ -f "${S}/.config" ] && [ ! -f "${B}/.config" ]; then
->  		mv "${S}/.config" "${B}/.config"
->  	fi
+One significant change from previous OE-Core releases was the move from
+u-boot-fw-utils to libubootenv which offers a generic and not machine
+specific alternative. However, it is not fully functional as currently
+we don't provide the default environment nor the required configuration
+file to be used by it.
 
-I get very nervous about patches like this that come in a day before
-the final release build. I'm not 100% certain its this patch but a
-build with this patch in resulted in:
+This change address this and include on the default u-boot.inc the
+needed code to generate, install and deploy the default environment.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1747
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1749
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1753
-https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/649
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+This change is late in the cycle but it is critical in my opinion.
 
-and a ton of other similar failures.
+The lack of default environment as well as the configuration for the
+tool is a regression from the previous release and this mitigates it.
 
-I'm starting a retest without it.
+Changes in v3:
+- Remove rrecommends in libubootenv
+- Add ${MACHINE} to the files following other binaries
+- Change commit log
 
-Cheers,
+Changes in v2:
+- Fix wrong path on do_install
+- Change virtual/bootloader-env to u-boot-default-env (RP)
+- Add Tom Rini and Stefano Babic to Cc
 
-Richard
+ meta/recipes-bsp/u-boot/u-boot.inc | 62 +++++++++++++++++++++++++-----
+ 1 file changed, 53 insertions(+), 9 deletions(-)
 
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index d4ab9c3222e..dc4f7884b82 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -134,6 +134,11 @@ do_compile () {
+                             cp ${B}/${config}/${binary} ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX}
+                         fi
+                     done
++
++                    # Generate the uboot-initial-env
++                    oe_runmake -C ${S} O=${B}/${config} u-boot-initial-env
++                    cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-boot-initial-env-${type}
++
+                     unset k
+                 fi
+             done
+@@ -142,6 +147,9 @@ do_compile () {
+         unset  i
+     else
+         oe_runmake -C ${S} O=${B} ${UBOOT_MAKE_TARGET}
++
++        # Generate the uboot-initial-env
++        oe_runmake -C ${S} O=${B} u-boot-initial-env
+     fi
+ 
+ }
+@@ -155,19 +163,28 @@ do_install () {
+                 j=$(expr $j + 1);
+                 if [ $j -eq $i ]
+                 then
+-                    install -d ${D}/boot
+-                    install -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
++                    install -D -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
++
++                    # Install the uboot-initial-env
++                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR}
++                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${type}
++                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${type}
++                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env
+                 fi
+             done
+             unset  j
+         done
+         unset  i
+     else
+-        install -d ${D}/boot
+-        install -m 644 ${B}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
++        install -D -m 644 ${B}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
+         ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
++
++        # Install the uboot-initial-env
++        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${PV}-${PR}
++        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}
++        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env
+     fi
+ 
+     if [ -n "${UBOOT_ELF}" ]
+@@ -236,7 +253,16 @@ do_install () {
+ 
+ }
+ 
+-FILES_${PN} = "/boot ${sysconfdir} ${datadir}"
++PACKAGE_BEFORE_PN += "${PN}-env"
++
++RPROVIDES_${PN}-env += "u-boot-default-env"
++FILES_${PN}-env = " \
++    ${sysconfdir}/u-boot-initial-env* \
++    ${sysconfdir}/fw_env.config \
++"
++
++FILES_${PN} = "/boot ${datadir}"
++RDEPENDS_${PN} += "${PN}-env"
+ 
+ do_deploy () {
+     if [ -n "${UBOOT_CONFIG}" ]
+@@ -247,25 +273,43 @@ do_deploy () {
+                 j=$(expr $j + 1);
+                 if [ $j -eq $i ]
+                 then
+-                    install -d ${DEPLOYDIR}
+-                    install -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
++                    install -D -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
+                     cd ${DEPLOYDIR}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}-${type}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}-${type}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
++
++                    # Deploy the uboot-initial-env
++                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR}
++                    cd ${DEPLOYDIR}
++                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} u-boot-initial-env-${MACHINE}-${type}
++                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} u-boot-initial-env-${type}
+                 fi
+             done
+             unset  j
+         done
+         unset  i
+     else
+-        install -d ${DEPLOYDIR}
+-        install -m 644 ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
++        install -D -m 644 ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
++
+         cd ${DEPLOYDIR}
+         rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
++
++        # Deploy the uboot-initial-env
++        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/u-boot-initial-env-${MACHINE}-${PV}-${PR}
++        cd ${DEPLOYDIR}
++        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} u-boot-initial-env-${MACHINE}
++        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} u-boot-initial-env
++    fi
++
++    if [ -e ${WORKDIR}/fw_env.config ] ; then
++        install -D -m 644 ${WORKDIR}/fw_env.config ${DEPLOYDIR}/fw_env.config-${MACHINE}-${PV}-${PR}
++        cd ${DEPLOYDIR}
++        ln -sf fw_env.config-${MACHINE}-${PV}-${PR} fw_env.config-${MACHINE}
++        ln -sf fw_env.config-${MACHINE}-${PV}-${PR} fw_env.config
+     fi
+ 
+     if [ -n "${UBOOT_ELF}" ]
+-- 
+2.26.0
 
