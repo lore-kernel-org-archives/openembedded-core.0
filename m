@@ -1,139 +1,384 @@
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.73])
- by mx.groups.io with SMTP id smtpd.web12.4709.1585861187529726092
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web10.6651.1585866745278304970
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2020 13:59:48 -0700
+ Thu, 02 Apr 2020 15:32:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@uievolution.onmicrosoft.com header.s=selector2-uievolution-onmicrosoft-com header.b=TSg2dLK1;
- spf=pass (domain: xevo.com, ip: 40.107.243.73, mailfrom: mkelly@xevo.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=d6cym8wASkeyeTEhWIB5YcUFTvYmXWSwY4cfZ69G92MvFk2xn1QgPrkt16UiJVecE8FEWSe7ixOUFdoDJEEYwvrbhGOMQa4QEI5M3LaFkdUPcJSEPhFQJQ+phxPJinWCP6DYCcbQUsF9rvgdZNrTIC1dNpb7VNogWKE9bcYkUTN5/yJkOCiqwWo3VPOE/0fa92/8EJP5wj49IiSkgulzQKVByXmfoHQtRTiCV6DRCRPQ9UMwGwjBsGmsFaVOtwUYBWujXHJftxa1h6PTZGwHAxoSkwuQjfEnuS0Hn7E2orowYRGUZl65w5rJUSr9QeKPYW7TKn5j0bjaX+fvZOqpPw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gNEyVxggOQnq79e8LJG/Fx+oox97JSrW1ZtFf7+ofuA=;
- b=XV9TFzxaqYRZe7uwFZdiDp7NyRh3rehdhMJ/pIa5JXsIu9EH56dmJZEr9SZ3Rg2i+JANgMBQ4sApr8dMGUrFCbLduUCIzg9y7TunBmgzxc8ix8nN9Pa5iVI/VdeKRYeQwPJgOqKZbR5UUguoK3caWTTyHvOlFuz49odskyLxmqW39UDcT7I7b9nSb3d53YdhiHO0RojKj4PJHWRWNBnxSvxfWOQlelLl5Y7P9D+VGdU7MVvSwPVaSKTzRDNwq3DvWmiFaN6CCklW0sWtRIgUXGDmsQPtrH146jnabgg93JjhHPESy1lVAihNYZfbvysDJKUqxqgmY/eAHlrgkbVD2g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xevo.com; dmarc=pass action=none header.from=xevo.com;
- dkim=pass header.d=xevo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=uievolution.onmicrosoft.com; s=selector2-uievolution-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gNEyVxggOQnq79e8LJG/Fx+oox97JSrW1ZtFf7+ofuA=;
- b=TSg2dLK1NigonH4bGgiOKiOJ698xjTUO9N/lOj9eIAq3/wbkU/dRa9vPi8sj4nvenux0CKbCUyec0j/iPGMQsYW2pNcQ/hpAUhntO0KBxDKaK7p0M/vpJ7YP0TtRQOCDhYpk+CKZG8jUy7Yxh8fAHzu9tTVlcmpW4bd+Yd8dVts=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=mkelly@xevo.com; 
-Received: from MW2PR18MB2236.namprd18.prod.outlook.com (2603:10b6:907:7::14)
- by MW2PR18MB2313.namprd18.prod.outlook.com (2603:10b6:907:8::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.15; Thu, 2 Apr
- 2020 20:59:44 +0000
-Received: from MW2PR18MB2236.namprd18.prod.outlook.com
- ([fe80::3d:5c5b:af00:a4a6]) by MW2PR18MB2236.namprd18.prod.outlook.com
- ([fe80::3d:5c5b:af00:a4a6%5]) with mapi id 15.20.2878.014; Thu, 2 Apr 2020
- 20:59:44 +0000
-From: "Martin Kelly" <mkelly@xevo.com>
-To: openembedded-core@lists.openembedded.org
-CC: Martin Kelly <mkelly@xevo.com>
-Subject: [PATCH] cmake: fix Python executable with cmake
-Date: Thu,  2 Apr 2020 13:56:32 -0700
-Message-ID: <20200402205632.1355452-1-mkelly@xevo.com>
-X-Mailer: git-send-email 2.25.1
-X-ClientProxiedBy: CO2PR04CA0161.namprd04.prod.outlook.com
- (2603:10b6:104:4::15) To MW2PR18MB2236.namprd18.prod.outlook.com
- (2603:10b6:907:7::14)
-Return-Path: mkelly@xevo.com
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: randy.macleod@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 032MWMPH007865
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 2 Apr 2020 15:32:22 -0700 (PDT)
+Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 2 Apr
+ 2020 15:32:19 -0700
+Subject: Re: [OE-core] [PATCH] bzip2: Add test suite for bzip2
+To: Rahul Kumar <rahulk@mvista.com>,
+        <openembedded-core@lists.openembedded.org>
+References: <1585825857-28025-1-git-send-email-rahulk@mvista.com>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <90e01eab-2485-8a01-fae5-10f970d3242c@windriver.com>
+Date: Thu, 2 Apr 2020 18:32:16 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from columbia.corp.xevo.com (50.54.140.49) by CO2PR04CA0161.namprd04.prod.outlook.com (2603:10b6:104:4::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.15 via Frontend Transport; Thu, 2 Apr 2020 20:59:43 +0000
-X-Mailer: git-send-email 2.25.1
-X-Originating-IP: [50.54.140.49]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 69343797-82de-46f8-8dd1-08d7d748c549
-X-MS-TrafficTypeDiagnostic: MW2PR18MB2313:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: 
-	<MW2PR18MB231340CE9C2AA962AF5A1140ABC60@MW2PR18MB2313.namprd18.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-Forefront-PRVS: 0361212EA8
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR18MB2236.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(396003)(39850400004)(346002)(366004)(376002)(136003)(186003)(66556008)(1076003)(86362001)(66476007)(66946007)(6486002)(81156014)(6666004)(5660300002)(19627235002)(8676002)(36756003)(478600001)(107886003)(316002)(26005)(966005)(8936002)(81166006)(16526019)(7696005)(52116002)(6916009)(956004)(2616005)(2906002)(4326008);DIR:OUT;SFP:1101;
-Received-SPF: None (protection.outlook.com: xevo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	pEnefCWROxlyx+J0/venB+tU0LS3acOVpqt3CbCbQsIX7SIJ5t01617ZPCLNct3w7GC7dQOZLtWiyjBvqfclZwi8S9B9r+uovgdpfQqAGtNut2RODmS9CPL9R4BWTBGZnEWYWQoq3oN+mH12GOfAXthISjOF8gaHQpheN3SSq9qK25k3Rbb1JeBmWNaOrO9eu4IoOKhDk/vZuNh2UiDbVTCqXVoETSEokRqJmJnuI+9ePOfcGiNgTkJVS1rrWQkTsU02vtJhoJWjQ8vqKconsNf+9sYqDlZq60MBGwJaNAPLUL0xgYa97pPAGHUWT3YRc3yr80mGmmdtHO6T5/SphuFcFMdrfr/fZPa0dlwjtskQBBHWQRb0pgQbmV0FyOmnvqxPe4jACeRkaSz7N5/5ij6gYCdpxgUpPjxpC+S/VTay5hn2B07ClptT7aGzjQ48JZF/1jNxNicHkJgCqJlNU5ABz7D+krzeNQpgOymfQ4CrZ2QPAVEChQdDG45TxXE92/iYTCI9qZt9fMiJz461qA==
-X-MS-Exchange-AntiSpam-MessageData: 
-	OaR+RDpW9unEY4xyuqbI+FijxfeB8sw6niC3GqQVoAH7bXZ7B+saSI1h6muhFwCycnOLYrbOyQ9Ai0xwR3K040T9xwSK6fps3mVr7B931nWMekQEbPoxWDt7D/6DkTV03KSMLCRV0gD0UNdGur1Mjw==
-X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 69343797-82de-46f8-8dd1-08d7d748c549
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2020 20:59:44.6961
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qPmRaWuaOFb1mTiTAixem2C7GY8N3PBRMZAjuv8wPoy2oe4PhVDDFDx+NpOfUw5z
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR18MB2313
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+In-Reply-To: <1585825857-28025-1-git-send-email-rahulk@mvista.com>
+X-Originating-IP: [172.25.44.3]
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
-Currently, CMake has two ways of finding Python executables:
-FindPythonInterp and FindPython/FindPython3. FindPythonInterp is
-deprecated and may be removed at some point. Currently, python3native
-sets PYTHON_EXECUTABLE, which FindPythonInterp uses. This is a problem
-for a few reasons:
+On 2020-04-02 7:10 a.m., Rahul Kumar wrote:
+> [YOCTO #13444]
 
-- Setting PYTHON_EXECUTABLE as an environment variable doesn't work, as
-  CMake needs it to be set as an explicit CMake option via -D.
-- Projects using the newer FindPython/FindPython3 don't pickup the right
-  Python, as the newer routines use Python_EXECUTABLE and
-  Python3_EXECUTABLE.
+Thanks for contributing this work Rahul.
 
-Fix this by setting PYTHON_EXECUTABLE, Python_EXECUTABLE, and
-Python3_EXECUTABLE using -D options to EXTRA_OECMAKE.
+It would be good if the long log explained the changes made
+in a sentence or two. I've made some comments and asked
+some questions inline below. I may have gone overboard but
+I hope you get the idea that we'd like to see not just the
+changes but the reason for the changes.
 
-The CMake routines are documented below:
-https://cmake.org/cmake/help/latest/module/FindPythonInterp.html
-https://cmake.org/cmake/help/latest/module/FindPython.html
-https://cmake.org/cmake/help/latest/module/FindPython3.html
+Also, can you present the results of running:
+# ptest-runner bzip2
+on qemux86-64 with kvm enabled in the long log?
+If there are tests that fail or are skipped
+comment on that even it it's to say that you don't know what is wrong.
 
-Signed-off-by: Martin Kelly <mkelly@xevo.com>
----
- meta/classes/cmake.bbclass         | 3 +++
- meta/classes/python3native.bbclass | 2 --
- 2 files changed, 3 insertions(+), 2 deletions(-)
+> 
+> Signed-off-by: Rahul Kumar <rahulk@mvista.com>
+> ---
+>   .../bzip2/0001-bzip2-modify-run-tests-script.patch | 220 +++++++++++++++++++++
+>   meta/recipes-extended/bzip2/bzip2/Makefile.am      |   2 +
+>   meta/recipes-extended/bzip2/bzip2_1.0.8.bb         |  15 +-
+>   3 files changed, 234 insertions(+), 3 deletions(-)
+>   create mode 100644 meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
+> 
+> diff --git a/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch b/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
+> new file mode 100644
+> index 0000000..8ae3c4e
+> --- /dev/null
+> +++ b/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
+> @@ -0,0 +1,220 @@
+> +From 42e6258485030085285d4b30854bfb94bcf43880 Mon Sep 17 00:00:00 2001
+> +From: Rahul Kumar <rahulk@mvista.com>
+> +Date: Mon, 30 Mar 2020 12:17:00 +0530
+> +Subject: [PATCH] bzip2: modify run-tests script
+> +
+> +Upstream-Status: Inappropriate [ modify run-tests script for ptest infrastructure ]
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index d91cf20130..94ed8061bb 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -175,6 +175,9 @@ cmake_do_configure() {
- 	  -DCMAKE_INSTALL_LIBDIR:PATH=3D${@os.path.relpath(d.getVar('libdir'), d.=
-getVar('prefix') + '/')} \
- 	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=3D${@os.path.relpath(d.getVar('included=
-ir'), d.getVar('prefix') + '/')} \
- 	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=3D${@os.path.relpath(d.getVar('datadir=
-'), d.getVar('prefix') + '/')} \
-+	  -DPYTHON_EXECUTABLE:PATH=3D${PYTHON} \
-+	  -DPython_EXECUTABLE:PATH=3D${PYTHON} \
-+	  -DPython3_EXECUTABLE:PATH=3D${PYTHON} \
- 	  -DLIB_SUFFIX=3D${@d.getVar('baselib').replace('lib', '')} \
- 	  -DCMAKE_INSTALL_SO_NO_EXE=3D0 \
- 	  -DCMAKE_TOOLCHAIN_FILE=3D${WORKDIR}/toolchain.cmake \
-diff --git a/meta/classes/python3native.bbclass b/meta/classes/python3nativ=
-e.bbclass
-index 182c11aa2e..d98fb4c758 100644
---- a/meta/classes/python3native.bbclass
-+++ b/meta/classes/python3native.bbclass
-@@ -1,8 +1,6 @@
- inherit python3-dir
-=20
- PYTHON=3D"${STAGING_BINDIR_NATIVE}/python3-native/python3"
--# PYTHON_EXECUTABLE is used by cmake
--PYTHON_EXECUTABLE=3D"${PYTHON}"
- EXTRANATIVEPATH +=3D "python3-native"
- DEPENDS_append =3D " python3-native "
-=20
---=20
-2.25.1
+It seems that some of the changes are to make the tests less verbose and
+to 'tighten-up' the language and formatting used. Upstream might accept
+them, have you checked? If you change the status to Pending I think it
+would be better for now because that would force someone check on the
+progress at some point.
 
+> +
+> +modify run-tests script to write PASS/FAIL as expected by the ptest infrastructure
+> +
+> +Signed-off-by: Rahul Kumar <rahulk@mvista.com>
+> +---
+> + run-tests.sh | 83 +++++++++++++++++++++++++++++++-----------------------------
+> + 1 file changed, 43 insertions(+), 40 deletions(-)
+> +
+> +diff --git a/run-tests.sh b/run-tests.sh
+> +index 1ba8c27..1eff62a 100755
+> +--- a/run-tests.sh
+> ++++ b/run-tests.sh
+> +@@ -10,7 +10,7 @@
+> + VALGRIND="valgrind"
+> + VALGRIND_ARGS="-q --error-exitcode=9"
+> + BZIP2="bzip2"
+> +-TESTS_DIR="."
+> ++TESTS_DIR="./bzip2-tests"
+
+Can you explain why you did this? Maybe upstream would accept it.
+
+> + IGNORE_MD5=0
+> +
+> + for i in "$@"
+> +@@ -40,21 +40,21 @@ case $i in
+> + esac
+> + done
+> +
+> +-if ! type "valgrind" > /dev/null; then
+> ++if ! type "valgrind" > /dev/null 2>&1; then
+> +   VALGRIND=""
+> +   VALGRIND_ARGS=""
+> + fi
+> +
+> + echo "Testing ${BZIP2} in directory ${TESTS_DIR}"
+> + if [ "$VALGRIND" != "" ]; then
+> +-  echo "  using valgrind"
+> ++  echo "Using valgrind: Yes"
+> + else
+> +-  echo "  NOT using valgrind"
+> ++  echo "Using valgrind: No"
+> + fi
+> + if [[ ${IGNORE_MD5} -eq 0 ]]; then
+> +-  echo "  checking md5 sums"
+> ++  echo "Checking md5 sums: Yes"
+> + else
+> +-  echo "  NOT checking md5 sums"
+> ++  echo "Checking md5 sums: No"
+> + fi
+> +
+> + # Remove any left over tesfilecopies from previous runs first.
+> +@@ -76,16 +76,16 @@ while IFS= read -r -d '' bzfile; do
+> +   echo "Processing ${bzfile}"
+> +
+> +   # Decompress it.
+> +-  echo "  Decompress..."
+> ++  # echo "  Decompress..."
+
+Without an explanation in the long log, I can't tell if this
+comment was removed intentionally or perhaps when you were debugging.
+I expect you have a good reason to remove it but an explaination would
+be helpful.
+
+> +   rm -f "${file}"
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${bzfile} \
+> +-    || { echo "!!! bad decompress result $?";
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${bzfile} && { echo "PASS: ${bzfile} Decompress"; } \
+> ++    || { echo "FAIL: ${bzfile} Decompress";
+> +          badtests=("${badtests[@]}" $"${bzfile} bad decompress result")
+> +          nogood=$[${nogood}+1]; continue; }
+> +
+> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
+> +-    md5sum --check --status ${md5file} < ${file} \
+> +-      || { echo "!!! md5sum doesn't match decompressed file";
+> ++    md5sum -c ${md5file} < ${file} && { echo "PASS: ${bzfile} md5sum Matched"; } \
+> ++      || { echo "FAIL: ${bzfile} md5sum Matched";
+> +            badtests=("${badtests[@]}" $"${file} md5sum doesn't match")
+> +            nogood=$[${nogood}+1]; continue; }
+> +   fi
+> +@@ -93,20 +93,20 @@ while IFS= read -r -d '' bzfile; do
+> +   # Compress and decompress a copy
+> +   mv "${file}" "${copy}"
+> +   rm -f "${bzcopy}"
+> +-  echo "  Recompress..."
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} \
+> +-    || { echo "!!! bad compress result $?";
+> ++  # echo "  Recompress..."
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} && { echo "PASS: ${bzfile} Recompress "; } \
+> ++    || { echo "FAIL: ${bzfile} Recompress";
+> +          badtests=("${badtests[@]}" $"${copy} bad result")
+> +          nogood=$[${nogood}+1]; continue; }
+> +-  echo "  Redecompress..."
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} \
+> +-    || { echo "!!! bad (re)decompress result $?";
+> ++  # echo "  Redecompress..."
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} && { echo "PASS: ${bzfile} Redecompress"; } \
+> ++    || { echo "FAIL: ${bzfile} Redecompress";
+> +          badtests=("${badtests[@]}" $"${bzcopy} bad result")
+> +          nogood=$[${nogood}+1]; continue; }
+> +
+> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
+> +-    md5sum --check --status ${md5file} < ${copy} \
+> +-      || { echo "!!! md5sum doesn't match (re)decompressed file";
+> ++    md5sum -c ${md5file} < ${copy} && { echo "PASS: ${bzfile} md5sum Matched"; } \
+> ++      || { echo "FAIL: ${bzfile} md5sum Matched";
+> +            badtests=("${badtests[@]}" $"${copy} md5sum doesn't match")
+> +            nogood=$[${nogood}+1]; continue; }
+> +   fi
+> +@@ -114,16 +114,16 @@ while IFS= read -r -d '' bzfile; do
+> +   rm "${copy}"
+> +
+> +   # Now do it all again in "small" mode.
+> +-  echo "  Decompress (small)..."
+> ++  # echo "  Decompress (small)..."
+> +   rm -f "${file}"
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${bzfile} \
+> +-    || { echo "!!! bad decompress result $?";
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${bzfile} &&{ echo "PASS: ${bzfile} Decompress (small)"; } \
+> ++    || { echo "FAIL: ${bzfile} Decompress (small)";
+> +          badtests=("${badtests[@]}" $"${bzfile} bad decompress result")
+> +          nogood=$[${nogood}+1]; continue; }
+> +
+> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
+> +-    md5sum --check --status ${md5file} < ${file} \
+> +-      || { echo "!!! md5sum doesn't match decompressed file";
+> ++    md5sum -c ${md5file} < ${file} > /dev/null 2>&1 && { echo "PASS: ${bzfile} Md5sum Matched"; } \
+> ++      || { echo "FAIL: ${bzfile} Md5sum Matched";
+> +            badtests=("${badtests[@]}" $"${file} md5sum doesn't match")
+> +            nogood=$[${nogood}+1]; continue; }
+> +   fi
+> +@@ -131,20 +131,20 @@ while IFS= read -r -d '' bzfile; do
+> +   # Compress and decompress a copy
+> +   mv "${file}" "${copy}"
+> +   rm -f "${bzcopy}"
+> +-  echo "  Recompress (small)..."
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} \
+> +-    || { echo "!!! bad compress result $?";
+> ++  # echo "  Recompress (small)..."
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} && { echo "PASS: ${bzfile} Recompress (small)"; } \
+> ++    || { echo "FAIL: ${bzfile} Recompress (small)";
+> +          badtests=("${badtests[@]}" $"${copy} bad result")
+> +          nogood=$[${nogood}+1]; continue; }
+> +-  echo "  Redecompress (small)..."
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} \
+> +-    || { echo "!!! bad (re)decompress result $?";
+> ++  # echo "  Redecompress (small)..."
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} && { echo "PASS: ${bzfile} Redecompress (small)"; } \
+> ++    || { echo "FAIL: ${bzfile} Redecompress (small)";
+> +          badtests=("${badtests[@]}" $"${bzcopy} bad result")
+> +          nogood=$[${nogood}+1]; continue; }
+> +
+> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
+> +-    md5sum --check --status ${md5file} < ${copy} \
+> +-      || { echo "!!! md5sum doesn't match (re)decompressed file";
+> ++    md5sum -c ${md5file} < ${copy} && { echo "PASS: ${bzfile} md5sum Matched"; } \
+> ++      || { echo "FAIL: ${bzfile} md5sum : Miss Matched";
+> +            badtests=("${badtests[@]}" $"${copy} md5sum doesn't match")
+> +            nogood=$[${nogood}+1]; continue; }
+> +   fi
+> +@@ -169,14 +169,14 @@ nobad=0
+> + badbad=0
+> + while IFS= read -r -d '' badfile; do
+> +
+> +-  echo "Processing ${badfile}"
+> ++  # echo "Processing ${badfile}"
+> +
+> +-  echo "  Trying to decompress..."
+> ++  # echo "  Trying to decompress..."
+> +   ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${badfile}
+> +   ret=$?
+> +
+> +   if [[ ${ret} -eq 0 ]]; then
+> +-    echo "!!! badness not detected"
+> ++    echo "FAIL: badness not detected"
+> +     nobad=$[${nobad}+1]
+> +     badtests=("${badtests[@]}" $"${badfile} badness not detected")
+> +     continue
+> +@@ -185,18 +185,20 @@ while IFS= read -r -d '' badfile; do
+> +   # Assumes "normal" badness is detected by exit code 1 or 2.
+> +   # A crash or valgrind issue will be reported with something else.
+> +   if [[ ${ret} != 1 ]] && [[ ${ret} != 2 ]]; then
+> +-    echo "!!! baddness caused baddness in ${BZIP2}"
+> ++    echo "FAIL: baddness caused baddness in ${BZIP2}"
+It's 'badness':
+https://www.merriam-webster.com/thesaurus/badness
+> +     badbad=$[${badbad}+1]
+> +     badtests=("${badtests[@]}" $"${badfile} badness caused baddness")
+> +     continue
+> ++  else
+> ++    echo "PASS: Correctly found data integrity errors in ${badfile} during decompress."
+> +   fi
+> +
+> +-  echo "  Trying to decompress (small)..."
+> ++  # echo "  Trying to decompress (small)..."
+> +   ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${badfile}
+> +   ret=$?
+> +
+> +   if [[ ${ret} -eq 0 ]]; then
+> +-    echo "!!! badness not detected"
+> ++    echo "FAIL: badness not detected "
+> +     nobad=$[${nobad}+1]
+> +     badtests=("${badtests[@]}" $"${badfile} badness not detected")
+> +     continue
+> +@@ -205,10 +207,12 @@ while IFS= read -r -d '' badfile; do
+> +   # Assumes "normal" badness is detected by exit code 1 or 2.
+> +   # A crash or valgrind issue will be reported with something else.
+> +   if [[ ${ret} != 1 ]] && [[ ${ret} != 2 ]]; then
+> +-    echo "!!! baddness caused baddness in ${BZIP2}"
+> ++    echo "FAIL: baddness caused baddness in ${BZIP2}"
+> +     badbad=$[${badbad}+1]
+> +     badtests=("${badtests[@]}" $"${badfile} badness caused baddness")
+> +     continue
+> ++  else
+> ++    echo "PASS: Correctly found data integrity errors in ${badfile} during decompress (small)"
+> +   fi
+> +
+> + done < <(find ${TESTS_DIR} -type f -name \*\.bz2.bad -print0)
+> +@@ -234,5 +238,4 @@ if [[ ${results} -eq 0 ]]; then
+> + else
+> +   echo "Bad results, look for !!! in the logs above"
+> +   printf ' - %s\n' "${badtests[@]}"
+> +-  exit 1
+> + fi
+> +--
+> +2.7.4
+> diff --git a/meta/recipes-extended/bzip2/bzip2/Makefile.am b/meta/recipes-extended/bzip2/bzip2/Makefile.am
+> index dcf6458..f917b23 100644
+> --- a/meta/recipes-extended/bzip2/bzip2/Makefile.am
+> +++ b/meta/recipes-extended/bzip2/bzip2/Makefile.am
+> @@ -46,6 +46,7 @@ runtest:
+>   	else echo "FAIL: sample2 decompress"; fi
+>   	@if cmp sample3.tst sample3.ref; then echo "PASS: sample3 decompress";\
+>   	else echo "FAIL: sample3 decompress"; fi
+> +	./bzip2-tests/run-tests.sh
+>   
+>   install-ptest:
+>   	sed  -n '/^runtest:/,/^install-ptest:/{/^install-ptest:/!p}' \
+> @@ -56,6 +57,7 @@ install-ptest:
+>   	cp $(srcdir)/sample1.bz2	$(DESTDIR)/
+>   	cp $(srcdir)/sample2.bz2	$(DESTDIR)/
+>   	cp $(srcdir)/sample3.bz2	$(DESTDIR)/
+> +	cp -rf $(srcdir)/../git		$(DESTDIR)/bzip2-tests
+>   	ln -s $(bindir)/bzip2		$(DESTDIR)/bzip2
+>   
+>   install-exec-hook:
+> diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> index 8e9b779..e8ec5c6 100644
+> --- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> +++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> @@ -5,16 +5,25 @@ LZ77/LZ78-based compressors, and approaches the performance of the PPM family of
+>   HOMEPAGE = "https://sourceware.org/bzip2/"
+>   SECTION = "console/utils"
+>   LICENSE = "bzip2"
+> -LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664"
+> -
+> +LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664 \
+> +                    file://../git/go/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707 \
+> +                    file://../git/dotnetzip/License.txt;md5=9cb56871eed4e748c3bc7e8ff352a54f \
+> +                    file://../git/dotnetzip/License.zlib.txt;md5=cc421ccd22eeb2e5db6b79e6de0a029f \
+> +                    file://../git/commons-compress/LICENSE.txt;md5=86d3f3a95c324c9479bd8986968f4327 \
+
+What's all this additional license info about?
+Please explain in when replying as well as in the long log.
+
+> +                   "
+>   SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+> +           git://sourceware.org/git/bzip2-tests.git;name=bzip2-tests \
+
+Mention how big this repo is in the long log.
+
+>              file://configure.ac;subdir=${BP} \
+>              file://Makefile.am;subdir=${BP} \
+>              file://run-ptest \
+> +           file://0001-bzip2-modify-run-tests-script.patch;patchdir=${WORKDIR}/git \
+>              "
+> +
+>   SRC_URI[md5sum] = "67e051268d0c475ea773822f7500d0e5"
+>   SRC_URI[sha256sum] = "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
+>   
+> +SRCREV_bzip2-tests = "8b0198efda1603cf81fa2c7a9bb673dd22ae1661"
+> +
+>   UPSTREAM_CHECK_URI = "https://www.sourceware.org/pub/bzip2/"
+>   
+>   PACKAGES =+ "libbz2"
+> @@ -39,7 +48,7 @@ do_install_ptest () {
+>   
+>   FILES_libbz2 = "${libdir}/lib*${SOLIBS}"
+>   
+> -RDEPENDS_${PN}-ptest += "make"
+> +RDEPENDS_${PN}-ptest += "make bash"
+
+Does it really depend on bash or just a POSIX compliant /bin/sh ?
+If it requires bash, how bad are the scripts and can they be made
+POSIX compliant with the help of:
+    https://www.shellcheck.net/
+
+../Randy
+
+>   
+>   PROVIDES_append_class-native = " bzip2-replacement-native"
+>   BBCLASSEXTEND = "native nativesdk"
+> 
+> 
+> 
+> 
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
