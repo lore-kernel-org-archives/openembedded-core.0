@@ -1,147 +1,198 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
- by mx.groups.io with SMTP id smtpd.web12.245.1585868315100584898
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web12.339.1585868674579463359
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2020 15:58:35 -0700
+ Thu, 02 Apr 2020 16:04:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=azIonce4;
- spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: jpuhlman@gmail.com)
-Received: by mail-ot1-f50.google.com with SMTP id a49so5310709otc.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 15:58:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rKCFON7N;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: jpewhacker@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id 65so6331621wrl.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 16:04:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jHFdrgrgmWUC+pZayt4VKX2ywJ8mPCi/0rc8QnNi+zk=;
-        b=azIonce4o+Lj2brgmfB87fjAJ+9RMwKqeE6iYWDZxKlFQACiERNcw4d8tbDxyjIknj
-         GyKlxplkHWSyx70XkXrqvirab8FgxGzRepGNkkW7cTRjHaDkoMm4WL4UhGBhgKXk/gqI
-         T8XDqCBmd2MZvod3GI1epRg9jGed4GFE6QXYdlSYtRQyJ86pW4BHNwvYk5mdCEog4IdR
-         u3IN+Z8ycm/uZmUCONWZu6qxEQyytAkUoPqMJFSzrp2i6d7LQhmZt2Mdw1iWjYYQXTrk
-         Ff3vUiPKv9H8z7MyDPeZuOsbQEtMAGwDQ9zSq6SdA084zD5MY8XqvMxAFFmA7gJWRhYD
-         z21g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=T6Ex8fn/vsxrpZke4JQHhe5emHxle+J3ICDeOrZ7w/A=;
+        b=rKCFON7NcdN0ZMzkj3VbkyNMrTjP/WTp9KE7dbHJAxhmS3fdu2zx0DGNzk1aNagvyJ
+         mSChBVtpXKI1Jqr8QFRyd/o7ZZz1AH/no+KmLJc7wrQ7/Mr22E+RB20faMsFNrwMVn6P
+         A7hC4ULKr7KIqO4KmFHgPlb3qRr3i/in1OW3xDMmhvZB/Z1URAWIMioKjVfM/VnYpZrv
+         +inPWR9K3zlNoFEiSt7esPg+gzYnCJGVl/ROuNvDeAyrDNw5QLdWE6gGVzxY4qDqSvn4
+         VSzIBY6J9iX1v/jRJ3QtiENdbwDKEi3UpU23Si6mVOR7u2w4wr3fiCjEAkIvSKCWDiPH
+         d1RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=jHFdrgrgmWUC+pZayt4VKX2ywJ8mPCi/0rc8QnNi+zk=;
-        b=gbu66ZdMViXPmN4N6O+kJC755LaDeJUdVD2wuotjHyfsIKw2DuMHLvFYXxNfZ9K3gz
-         PU0Q5orE32ZFcx+SxwNf8jSY4XMCsmuJZjwA7gAR137X/KP4AeSXZ6YoJOoqNoC5gkeQ
-         X99B0Kb6+9AQIyPniHpcqAf3FDV5ea4OSYPPaA1x1A8Aoj0luT8ak6tOoP70I5Fc1aa2
-         PdkfX0w1i+l33Ma0HqXrWt/JmVeAaTGmXsimgry+GmehQdmRDHKuaaipmHJ5LNiK4yJU
-         rdOY+9EFxcaHQoNPcSxefKScKxYQZFllXI1a5hTcEFMwtPWJXez0k0M8jDsHoVHlDoJp
-         0eMw==
-X-Gm-Message-State: AGi0PubNsfASNM25d0X2DBJEggrQuzbJT1/ZVsfC38MTkld2VF5jxrA9
-	CA/ZJ1C4FHT0sgJhxGWmvWl3PvWqiQo=
-X-Google-Smtp-Source: APiQypKygSxNvczR1jhV9r68MgwXEH+djTfDLVS7LyI7DtPcFg83rPc+6MLtiJv4ojwjCfmEoPnuww==
-X-Received: by 2002:a05:6830:110c:: with SMTP id w12mr3946236otq.175.1585868313898;
-        Thu, 02 Apr 2020 15:58:33 -0700 (PDT)
-Return-Path: <jpuhlman@gmail.com>
-Received: from workhorse.localdomain ([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
-        by smtp.gmail.com with ESMTPSA id c18sm1609780ooa.8.2020.04.02.15.58.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2020 15:58:33 -0700 (PDT)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id C8FC72A05DF; Thu,  2 Apr 2020 15:58:26 -0700 (PDT)
-From: "Jeremy Puhlman" <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jeremy Puhlman <jpuhlman@mvista.com>
-Subject: [PATCH] busybox: on upgrade save busybox if it is the last shell
-Date: Thu,  2 Apr 2020 15:58:20 -0700
-Message-Id: <20200402225820.6709-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.20.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=T6Ex8fn/vsxrpZke4JQHhe5emHxle+J3ICDeOrZ7w/A=;
+        b=uNYQxiU8+HVD/ZMJxv2LTX9WcS/qieCeWdpUVXL96Fu+Thu1QdOGJdNMcSJYG4X32v
+         bgulxK3G6EYyXeRIuv9rs8w6EN0DE4U5Q0SHgCOTbPZ8wGYZLUrte69hyGadbxTH4sJg
+         L4LR/Chn/K8QQGD2DkAca0EHVo1pLsn+nK9FL1K55TIZK1pL8BQPSwvgiGyp2vD2QN1J
+         gDbH+VIvSV7g6WmlxCwq84iCpNPVlbPHVpYqEgXQ9Jyhf6szbRXH2bw2R6JSpJijzGKy
+         YXYn/PUaxPUHJYAW5ygyB7/Y9I6MyiAVjJho31elRwnr2hUSc13n1fKnG0g4et/Dge8X
+         H6qw==
+X-Gm-Message-State: AGi0Pua9veopYDSlaGkp1rDEgU2740pk7ECp+YIWsFbE16bLAoG4lvDp
+	DR16SvXT93Xx+oIGHd6xny9udVWZSaPFWE+9X8U=
+X-Google-Smtp-Source: APiQypL/zcfQbp+6d5F2DX95EPyf+0/TO0CVpkIlh42a1sKHB8vS/s+GZMMH1kIqLoPuNakOZzflzsKHEgOyeBaJdAg=
+X-Received: by 2002:adf:80af:: with SMTP id 44mr5853474wrl.241.1585868673027;
+ Thu, 02 Apr 2020 16:04:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200402180832.12814-1-JPEWhacker@gmail.com> <7c6f84dd795b37bbabc594cc90683405933e3063.camel@linuxfoundation.org>
+In-Reply-To: <7c6f84dd795b37bbabc594cc90683405933e3063.camel@linuxfoundation.org>
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+Date: Thu, 2 Apr 2020 18:04:21 -0500
+Message-ID: <CAJdd5GaCsfa6_kNA6SvH7LcA4mDpomVz=XQGvFOUm6g6biQJYA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] classes/reproducible_build: Skip SDE for non-finalizing virtual recipes
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000ea977d05a256d283"
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+--000000000000ea977d05a256d283
+Content-Type: text/plain; charset="UTF-8"
 
-During a busybox upgrade on a ipk based system, it is possible
-that busybox is the only shell in the system. During the uninstall
-the alternative for /bin/sh is removed and everything after that
-goes down hill.
+On Thu, Apr 2, 2020, 3:15 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-* Add a check to verify if busybox is the shell, and save it to
-the busyboxrm directory created in tmp. Then add an alternative
-for /bin/sh that points to that busybox at the lowest priority.
+> On Thu, 2020-04-02 at 13:08 -0500, Joshua Watt wrote:
+> > Don't capture the source date epoch for recipes that are not being
+> > finalized. This prevents a virtual recipe (e.g. multilib) from
+> > attempting to read the source date epoch file from the non-virtual
+> > recipes workdir.
+> >
+> > [YOCTO #13851]
+> >
+> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > ---
+> >  meta/classes/reproducible_build.bbclass | 14 ++++++++++++++
+> >  1 file changed, 14 insertions(+)
+>
+> Thanks, its a start. Unfortunately it pokes or assumes far too much
+> knowledge of bitbake internals so we'll have to come up with something
+> neater.
+>
 
-* Add PATH to the busyboxrm directory using shell(as during an upgrade
-busybox and its links are missing).
+Ya I was in a hurry, but I was imagining some sort of
+bb.utils.is_finalizing(d) to wrap the logic
 
-* When install over remove extra busybox if present.
 
-deb and rpm are uneffected by the bug because they both drag in bash,
-however neither upgrade seemed to have issue with the changes.
+> I'll give this some further thought.
+>
+> Cheers,
+>
+> Richard
+>
+> > diff --git a/meta/classes/reproducible_build.bbclass
+> > b/meta/classes/reproducible_build.bbclass
+> > index 8da40f656a..48ec9108a5 100644
+> > --- a/meta/classes/reproducible_build.bbclass
+> > +++ b/meta/classes/reproducible_build.bbclass
+> > @@ -172,6 +172,20 @@ python create_source_date_epoch_stamp() {
+> >  }
+> >
+> >  def get_source_date_epoch_value(d):
+> > +    onlyfinalize = d.getVar('__ONLYFINALISE')
+> > +    virtual = "%s:%s" % (d.getVar("BBEXTENDCURR") or "",
+> > d.getVar("BBEXTENDVARIANT") or "")
+> > +
+> > +    if onlyfinalize == "default":
+> > +        onlyfinalize = ":"
+> > +
+> > +    # Only capture the source date epoch if the current virtual
+> > recipe is the
+> > +    # one being finalized. This prevents looking for the SDE file in
+> > another
+> > +    # recipes ${WORKDIR}, where it may or may not exist
+> > +    if onlyfinalize:
+> > +        if onlyfinalize != virtual:
+> > +            bb.debug(2, "Skipping SOURCE_DATE_EPOCH: virtual '%s' !=
+> > finalize '%s'" % (virtual, onlyfinalize))
+> > +            return 0
+> > +
+> >      cached = d.getVar('__CACHED_SOURCE_DATE_EPOCH')
+> >      if cached:
+> >          return cached
+> > 
+>
+>
 
-[YOCTO 13850]
+--000000000000ea977d05a256d283
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
----
- meta/recipes-core/busybox/busybox.inc | 43 +++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, Apr 2, 2020, 3:15 PM Richard Purdie &lt;<a hre=
+f=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundat=
+ion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, 2020=
+-04-02 at 13:08 -0500, Joshua Watt wrote:<br>
+&gt; Don&#39;t capture the source date epoch for recipes that are not bein=
+g<br>
+&gt; finalized. This prevents a virtual recipe (e.g. multilib) from<br>
+&gt; attempting to read the source date epoch file from the non-virtual<br=
+>
+&gt; recipes workdir.<br>
+&gt; <br>
+&gt; [YOCTO #13851]<br>
+&gt; <br>
+&gt; Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com=
+" target=3D"_blank" rel=3D"noreferrer">JPEWhacker@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/classes/reproducible_build.bbclass | 14 ++++++++++++++<br>
+&gt;=C2=A0 1 file changed, 14 insertions(+)<br>
+<br>
+Thanks, its a start. Unfortunately it pokes or assumes far too much<br>
+knowledge of bitbake internals so we&#39;ll have to come up with something=
+<br>
+neater.<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">Ya I was in a hurry, but I was imagining some sort of bb.utils.i=
+s_finalizing(d) to wrap the logic</div><div dir=3D"auto"><br></div><div dir=
+=
+=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+I&#39;ll give this some further thought.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+&gt; diff --git a/meta/classes/reproducible_build.bbclass<br>
+&gt; b/meta/classes/reproducible_build.bbclass<br>
+&gt; index 8da40f656a..48ec9108a5 100644<br>
+&gt; --- a/meta/classes/reproducible_build.bbclass<br>
+&gt; +++ b/meta/classes/reproducible_build.bbclass<br>
+&gt; @@ -172,6 +172,20 @@ python create_source_date_epoch_stamp() {<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 def get_source_date_epoch_value(d):<br>
+&gt; +=C2=A0 =C2=A0 onlyfinalize =3D d.getVar(&#39;__ONLYFINALISE&#39;)<br=
+>
+&gt; +=C2=A0 =C2=A0 virtual =3D &quot;%s:%s&quot; % (d.getVar(&quot;BBEXTE=
+NDCURR&quot;) or &quot;&quot;,<br>
+&gt; d.getVar(&quot;BBEXTENDVARIANT&quot;) or &quot;&quot;)<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 if onlyfinalize =3D=3D &quot;default&quot;:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 onlyfinalize =3D &quot;:&quot;<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 # Only capture the source date epoch if the current vi=
+rtual<br>
+&gt; recipe is the<br>
+&gt; +=C2=A0 =C2=A0 # one being finalized. This prevents looking for the S=
+DE file in<br>
+&gt; another<br>
+&gt; +=C2=A0 =C2=A0 # recipes ${WORKDIR}, where it may or may not exist<br=
+>
+&gt; +=C2=A0 =C2=A0 if onlyfinalize:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if onlyfinalize !=3D virtual:<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.debug(2, &quot;Skipping=
+ SOURCE_DATE_EPOCH: virtual &#39;%s&#39; !=3D<br>
+&gt; finalize &#39;%s&#39;&quot; % (virtual, onlyfinalize))<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 cached =3D d.getVar(&#39;__CACHED_SOURCE_DATE_EPO=
+CH&#39;)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if cached:<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return cached<br>
+&gt; <br>
+<br>
+</blockquote></div></div></div>
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 1a82f23b0f..344e891f7a 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -433,6 +433,32 @@ fi
-     d.prependVar('pkg_postinst_%s' % pkg, postinst)
- }
- 
-+pkg_postinst_${PN}_prepend () {
-+        # Need path to saved utils, but they may have be removed on upgrade of busybox
-+        # Only use shell to get paths. Also capture if busybox was saved.
-+        BUSYBOX=""
-+        if [ "x$D" = "x" ] ; then 
-+           for busybox_rmdir in /tmp/busyboxrm-*; do
-+               if [ "$busybox_rmdir" != '/tmp/busyboxrm-*' ] ; then
-+                  export PATH=$busybox_rmdir:$PATH
-+                  if [ -e $busybox_rmdir/busybox* ] ; then
-+                    BUSYBOX="$busybox_rmdir/busybox*"
-+                  fi
-+               fi
-+           done
-+        fi
-+}
-+
-+pkg_postinst_${PN}_append () {
-+        # If busybox exists in the remove directory it is because it was the only shell left.
-+        if [ "x$D" = "x" ] ; then
-+           if [ "x$BUSYBOX" != "x" ] ; then
-+              update-alternatives --remove sh $BUSYBOX
-+              rm -f $BUSYBOX
-+           fi
-+        fi
-+} 
-+
- pkg_prerm_${PN} () {
- 	# This is so you can make busybox commit suicide - removing busybox with no other packages
- 	# providing its files, this will make update-alternatives work, but the update-rc.d part
-@@ -453,9 +479,26 @@ pkg_prerm_${PN} () {
- 	ln -s ${base_bindir}/busybox $tmpdir/grep
- 	ln -s ${base_bindir}/busybox $tmpdir/tail
- 	export PATH=$PATH:$tmpdir
-+
-+        # If busybox is the shell, we need to save it since its the lowest priority shell
-+        # Register saved bitbake as the lowest priority shell possible as back up.
-+        if [ -n "$(readlink -f /bin/sh | grep busybox)" ] ; then
-+           BUSYBOX=$(readlink -f /bin/sh)
-+           cp $BUSYBOX $tmpdir/$(basename $BUSYBOX)
-+           update-alternatives --install /bin/sh sh $tmpdir/$(basename $BUSYBOX) 1 
-+        fi
- }
- 
- pkg_postrm_${PN} () {
-+        # Add path to remove dir in case we removed our only grep
-+        if [ "x$D" = "x" ] ; then
-+           for busybox_rmdir in /tmp/busyboxrm-*; do
-+               if [ "$busybox_rmdir" != '/tmp/busyboxrm-*' ] ; then
-+                  export PATH=$busybox_rmdir:$PATH
-+               fi
-+           done
-+        fi
-+
- 	if grep -q "^${base_bindir}/bash$" $D${sysconfdir}/busybox.links* && [ ! -e $D${base_bindir}/bash ]; then
- 		printf "$(grep -v "^${base_bindir}/bash$" $D${sysconfdir}/shells)\n" > $D${sysconfdir}/shells
- 	fi
--- 
-2.20.1
-
+--000000000000ea977d05a256d283--
