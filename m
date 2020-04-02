@@ -1,347 +1,54 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web10.4134.1585825875202931898
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web10.4596.1585828137819974945
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2020 04:11:15 -0700
+ Thu, 02 Apr 2020 04:48:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=G+Pabl0u;
- spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.215.193, mailfrom: rahulk@mvista.com)
-Received: by mail-pg1-f193.google.com with SMTP id r4so222798pgg.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 04:11:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=8ehpEoiRU47g+I3Fwlyqyjz3+gi80c8gzEvlCIWxUMk=;
-        b=G+Pabl0u/b3tYEMWfbM3b9mrm+31PoQz1GhhWyv+aGHJkquFwH4DcX/L0BJrPPZdmZ
-         RjQmbfes1XmLgbI1keVbYZ4LXo7pKmwl70GYlF1U051o5yBAeab6mI+0pqjNQnvmyYmN
-         1DaIPWsoK05xLodvfkiVcnxvnmE/4ttCnieOHcT1zNxcMG/k+GqKGpzpKAg79y8N/E/L
-         +fGxsT8HaZTsZ4YgNPtHUIsmmfvB5rC+l6d4VFBpN77fcQgVU2Bsmpf+VGpaiSqPccYS
-         EKxILmfCyt46PNzdAyBJaSrQX4MpUH1SzTaXbvvXZJjzSBrpx46jtMHUkvymEEUWGJ46
-         I9Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=8ehpEoiRU47g+I3Fwlyqyjz3+gi80c8gzEvlCIWxUMk=;
-        b=lHrQL1jIjHKMu9ZKaRRShXirvWu3QrT6Wfaki7zAYHuBr1M7srmdUhDRtHBRJKc+D3
-         chLMbbSVxar2muuHlQ/F82+VKg1qVIKfLTunVCOr7Bl+DB1vWVqIicZGfOBI7KFdnG92
-         aWqdEt2YChyfluC1MQ8LOLBR+lGGVWHhH9j1wMe4zWC+NCmtsXB2h+JklfeYgMG/rPw2
-         RVG8BVYRwUesErB0LGps0L0KymEAyCIVyePa7/L5eD9DyYUbQ5nWw25Y2f/+cjwJaarb
-         LVFs0rzqdLRrCI7KKJDZfqBNPq4JfgJIjgIEx2IKEufS65NCLL7Rfs3GPKfVHeH8Vxs9
-         MhzA==
-X-Gm-Message-State: AGi0PuamwtV0uHsf1CTDZkmBjbp5gg/Up7nU2moYwqiMUZDXvyIFn3bX
-	Qu06dYiCnn40TPc2PKdzlxRSD/if1wE=
-X-Google-Smtp-Source: APiQypJjsevr6/iWnEI/1Qx9/E6tgZ/oyKefmtdVa/HZKcig+qt+Mgkc1uDGMWQ80bgWOHd5n0EKMA==
-X-Received: by 2002:a62:fc93:: with SMTP id e141mr2565898pfh.282.1585825873770;
-        Thu, 02 Apr 2020 04:11:13 -0700 (PDT)
-Return-Path: <rahulk@mvista.com>
-Received: from CelSys065.mvista.com ([36.255.87.199])
-        by smtp.gmail.com with ESMTPSA id 141sm3507402pfu.174.2020.04.02.04.11.11
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Thu, 02 Apr 2020 04:11:12 -0700 (PDT)
-From: "Rahul Kumar" <rahulk@mvista.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: bK1RSesXjPUXnMo2RQI4OArM5siFO6YHOjhtGouiHfI5Whyht/6040YmC6EWfmWbjgjMihNeWj
+ lzykTY2yWKNg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2020 04:48:57 -0700
+IronPort-SDR: t0ZFDn2LRPLjjYgbUp/VE8uvgDioYZ24+L64U7LWxpXZnce9F6LiGVjPjFxjyGU7k62XsxEqCD
+ OT4yfWRNDmyg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,335,1580803200"; 
+   d="scan'208";a="238501893"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by orsmga007.jf.intel.com with ESMTP; 02 Apr 2020 04:48:56 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Rahul Kumar <rahulk@mvista.com>
-Subject: [PATCH] bzip2: Add test suite for bzip2
-Date: Thu,  2 Apr 2020 16:40:57 +0530
-Message-Id: <1585825857-28025-1-git-send-email-rahulk@mvista.com>
+Subject: [PATCH] cve-update-db-native: fix DB file version for '-'
+Date: Thu,  2 Apr 2020 19:48:55 +0800
+Message-Id: <1585828135-77360-1-git-send-email-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.7.4
 
-[YOCTO #13444]
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Signed-off-by: Rahul Kumar <rahulk@mvista.com>
+fix logic for CVE DB update so that when the CPE version is '-',
+it keeps the version as '-' in the DB file too and leave other
+operation as blank.
+
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../bzip2/0001-bzip2-modify-run-tests-script.patch | 220 +++++++++++++++++++++
- meta/recipes-extended/bzip2/bzip2/Makefile.am      |   2 +
- meta/recipes-extended/bzip2/bzip2_1.0.8.bb         |  15 +-
- 3 files changed, 234 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
+ meta/recipes-core/meta/cve-update-db-native.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch b/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
-new file mode 100644
-index 0000000..8ae3c4e
---- /dev/null
-+++ b/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
-@@ -0,0 +1,220 @@
-+From 42e6258485030085285d4b30854bfb94bcf43880 Mon Sep 17 00:00:00 2001
-+From: Rahul Kumar <rahulk@mvista.com>
-+Date: Mon, 30 Mar 2020 12:17:00 +0530
-+Subject: [PATCH] bzip2: modify run-tests script
-+
-+Upstream-Status: Inappropriate [ modify run-tests script for ptest infrastructure ]
-+
-+modify run-tests script to write PASS/FAIL as expected by the ptest infrastructure
-+
-+Signed-off-by: Rahul Kumar <rahulk@mvista.com>
-+---
-+ run-tests.sh | 83 +++++++++++++++++++++++++++++++-----------------------------
-+ 1 file changed, 43 insertions(+), 40 deletions(-)
-+
-+diff --git a/run-tests.sh b/run-tests.sh
-+index 1ba8c27..1eff62a 100755
-+--- a/run-tests.sh
-++++ b/run-tests.sh
-+@@ -10,7 +10,7 @@
-+ VALGRIND="valgrind"
-+ VALGRIND_ARGS="-q --error-exitcode=9"
-+ BZIP2="bzip2"
-+-TESTS_DIR="."
-++TESTS_DIR="./bzip2-tests"
-+ IGNORE_MD5=0
-+
-+ for i in "$@"
-+@@ -40,21 +40,21 @@ case $i in
-+ esac
-+ done
-+
-+-if ! type "valgrind" > /dev/null; then
-++if ! type "valgrind" > /dev/null 2>&1; then
-+   VALGRIND=""
-+   VALGRIND_ARGS=""
-+ fi
-+
-+ echo "Testing ${BZIP2} in directory ${TESTS_DIR}"
-+ if [ "$VALGRIND" != "" ]; then
-+-  echo "  using valgrind"
-++  echo "Using valgrind: Yes"
-+ else
-+-  echo "  NOT using valgrind"
-++  echo "Using valgrind: No"
-+ fi
-+ if [[ ${IGNORE_MD5} -eq 0 ]]; then
-+-  echo "  checking md5 sums"
-++  echo "Checking md5 sums: Yes"
-+ else
-+-  echo "  NOT checking md5 sums"
-++  echo "Checking md5 sums: No"
-+ fi
-+
-+ # Remove any left over tesfilecopies from previous runs first.
-+@@ -76,16 +76,16 @@ while IFS= read -r -d '' bzfile; do
-+   echo "Processing ${bzfile}"
-+
-+   # Decompress it.
-+-  echo "  Decompress..."
-++  # echo "  Decompress..."
-+   rm -f "${file}"
-+-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${bzfile} \
-+-    || { echo "!!! bad decompress result $?";
-++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${bzfile} && { echo "PASS: ${bzfile} Decompress"; } \
-++    || { echo "FAIL: ${bzfile} Decompress";
-+          badtests=("${badtests[@]}" $"${bzfile} bad decompress result")
-+          nogood=$[${nogood}+1]; continue; }
-+
-+   if [[ ${IGNORE_MD5} -ne 1 ]]; then
-+-    md5sum --check --status ${md5file} < ${file} \
-+-      || { echo "!!! md5sum doesn't match decompressed file";
-++    md5sum -c ${md5file} < ${file} && { echo "PASS: ${bzfile} md5sum Matched"; } \
-++      || { echo "FAIL: ${bzfile} md5sum Matched";
-+            badtests=("${badtests[@]}" $"${file} md5sum doesn't match")
-+            nogood=$[${nogood}+1]; continue; }
-+   fi
-+@@ -93,20 +93,20 @@ while IFS= read -r -d '' bzfile; do
-+   # Compress and decompress a copy
-+   mv "${file}" "${copy}"
-+   rm -f "${bzcopy}"
-+-  echo "  Recompress..."
-+-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} \
-+-    || { echo "!!! bad compress result $?";
-++  # echo "  Recompress..."
-++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} && { echo "PASS: ${bzfile} Recompress "; } \
-++    || { echo "FAIL: ${bzfile} Recompress";
-+          badtests=("${badtests[@]}" $"${copy} bad result")
-+          nogood=$[${nogood}+1]; continue; }
-+-  echo "  Redecompress..."
-+-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} \
-+-    || { echo "!!! bad (re)decompress result $?";
-++  # echo "  Redecompress..."
-++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} && { echo "PASS: ${bzfile} Redecompress"; } \
-++    || { echo "FAIL: ${bzfile} Redecompress";
-+          badtests=("${badtests[@]}" $"${bzcopy} bad result")
-+          nogood=$[${nogood}+1]; continue; }
-+
-+   if [[ ${IGNORE_MD5} -ne 1 ]]; then
-+-    md5sum --check --status ${md5file} < ${copy} \
-+-      || { echo "!!! md5sum doesn't match (re)decompressed file";
-++    md5sum -c ${md5file} < ${copy} && { echo "PASS: ${bzfile} md5sum Matched"; } \
-++      || { echo "FAIL: ${bzfile} md5sum Matched";
-+            badtests=("${badtests[@]}" $"${copy} md5sum doesn't match")
-+            nogood=$[${nogood}+1]; continue; }
-+   fi
-+@@ -114,16 +114,16 @@ while IFS= read -r -d '' bzfile; do
-+   rm "${copy}"
-+
-+   # Now do it all again in "small" mode.
-+-  echo "  Decompress (small)..."
-++  # echo "  Decompress (small)..."
-+   rm -f "${file}"
-+-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${bzfile} \
-+-    || { echo "!!! bad decompress result $?";
-++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${bzfile} &&{ echo "PASS: ${bzfile} Decompress (small)"; } \
-++    || { echo "FAIL: ${bzfile} Decompress (small)";
-+          badtests=("${badtests[@]}" $"${bzfile} bad decompress result")
-+          nogood=$[${nogood}+1]; continue; }
-+
-+   if [[ ${IGNORE_MD5} -ne 1 ]]; then
-+-    md5sum --check --status ${md5file} < ${file} \
-+-      || { echo "!!! md5sum doesn't match decompressed file";
-++    md5sum -c ${md5file} < ${file} > /dev/null 2>&1 && { echo "PASS: ${bzfile} Md5sum Matched"; } \
-++      || { echo "FAIL: ${bzfile} Md5sum Matched";
-+            badtests=("${badtests[@]}" $"${file} md5sum doesn't match")
-+            nogood=$[${nogood}+1]; continue; }
-+   fi
-+@@ -131,20 +131,20 @@ while IFS= read -r -d '' bzfile; do
-+   # Compress and decompress a copy
-+   mv "${file}" "${copy}"
-+   rm -f "${bzcopy}"
-+-  echo "  Recompress (small)..."
-+-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} \
-+-    || { echo "!!! bad compress result $?";
-++  # echo "  Recompress (small)..."
-++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} && { echo "PASS: ${bzfile} Recompress (small)"; } \
-++    || { echo "FAIL: ${bzfile} Recompress (small)";
-+          badtests=("${badtests[@]}" $"${copy} bad result")
-+          nogood=$[${nogood}+1]; continue; }
-+-  echo "  Redecompress (small)..."
-+-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} \
-+-    || { echo "!!! bad (re)decompress result $?";
-++  # echo "  Redecompress (small)..."
-++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} && { echo "PASS: ${bzfile} Redecompress (small)"; } \
-++    || { echo "FAIL: ${bzfile} Redecompress (small)";
-+          badtests=("${badtests[@]}" $"${bzcopy} bad result")
-+          nogood=$[${nogood}+1]; continue; }
-+
-+   if [[ ${IGNORE_MD5} -ne 1 ]]; then
-+-    md5sum --check --status ${md5file} < ${copy} \
-+-      || { echo "!!! md5sum doesn't match (re)decompressed file";
-++    md5sum -c ${md5file} < ${copy} && { echo "PASS: ${bzfile} md5sum Matched"; } \
-++      || { echo "FAIL: ${bzfile} md5sum : Miss Matched";
-+            badtests=("${badtests[@]}" $"${copy} md5sum doesn't match")
-+            nogood=$[${nogood}+1]; continue; }
-+   fi
-+@@ -169,14 +169,14 @@ nobad=0
-+ badbad=0
-+ while IFS= read -r -d '' badfile; do
-+
-+-  echo "Processing ${badfile}"
-++  # echo "Processing ${badfile}"
-+
-+-  echo "  Trying to decompress..."
-++  # echo "  Trying to decompress..."
-+   ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${badfile}
-+   ret=$?
-+
-+   if [[ ${ret} -eq 0 ]]; then
-+-    echo "!!! badness not detected"
-++    echo "FAIL: badness not detected"
-+     nobad=$[${nobad}+1]
-+     badtests=("${badtests[@]}" $"${badfile} badness not detected")
-+     continue
-+@@ -185,18 +185,20 @@ while IFS= read -r -d '' badfile; do
-+   # Assumes "normal" badness is detected by exit code 1 or 2.
-+   # A crash or valgrind issue will be reported with something else.
-+   if [[ ${ret} != 1 ]] && [[ ${ret} != 2 ]]; then
-+-    echo "!!! baddness caused baddness in ${BZIP2}"
-++    echo "FAIL: baddness caused baddness in ${BZIP2}"
-+     badbad=$[${badbad}+1]
-+     badtests=("${badtests[@]}" $"${badfile} badness caused baddness")
-+     continue
-++  else
-++    echo "PASS: Correctly found data integrity errors in ${badfile} during decompress."
-+   fi
-+
-+-  echo "  Trying to decompress (small)..."
-++  # echo "  Trying to decompress (small)..."
-+   ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${badfile}
-+   ret=$?
-+
-+   if [[ ${ret} -eq 0 ]]; then
-+-    echo "!!! badness not detected"
-++    echo "FAIL: badness not detected "
-+     nobad=$[${nobad}+1]
-+     badtests=("${badtests[@]}" $"${badfile} badness not detected")
-+     continue
-+@@ -205,10 +207,12 @@ while IFS= read -r -d '' badfile; do
-+   # Assumes "normal" badness is detected by exit code 1 or 2.
-+   # A crash or valgrind issue will be reported with something else.
-+   if [[ ${ret} != 1 ]] && [[ ${ret} != 2 ]]; then
-+-    echo "!!! baddness caused baddness in ${BZIP2}"
-++    echo "FAIL: baddness caused baddness in ${BZIP2}"
-+     badbad=$[${badbad}+1]
-+     badtests=("${badtests[@]}" $"${badfile} badness caused baddness")
-+     continue
-++  else
-++    echo "PASS: Correctly found data integrity errors in ${badfile} during decompress (small)"
-+   fi
-+
-+ done < <(find ${TESTS_DIR} -type f -name \*\.bz2.bad -print0)
-+@@ -234,5 +238,4 @@ if [[ ${results} -eq 0 ]]; then
-+ else
-+   echo "Bad results, look for !!! in the logs above"
-+   printf ' - %s\n' "${badtests[@]}"
-+-  exit 1
-+ fi
-+--
-+2.7.4
-diff --git a/meta/recipes-extended/bzip2/bzip2/Makefile.am b/meta/recipes-extended/bzip2/bzip2/Makefile.am
-index dcf6458..f917b23 100644
---- a/meta/recipes-extended/bzip2/bzip2/Makefile.am
-+++ b/meta/recipes-extended/bzip2/bzip2/Makefile.am
-@@ -46,6 +46,7 @@ runtest:
- 	else echo "FAIL: sample2 decompress"; fi
- 	@if cmp sample3.tst sample3.ref; then echo "PASS: sample3 decompress";\
- 	else echo "FAIL: sample3 decompress"; fi
-+	./bzip2-tests/run-tests.sh
- 
- install-ptest:
- 	sed  -n '/^runtest:/,/^install-ptest:/{/^install-ptest:/!p}' \
-@@ -56,6 +57,7 @@ install-ptest:
- 	cp $(srcdir)/sample1.bz2	$(DESTDIR)/
- 	cp $(srcdir)/sample2.bz2	$(DESTDIR)/
- 	cp $(srcdir)/sample3.bz2	$(DESTDIR)/
-+	cp -rf $(srcdir)/../git		$(DESTDIR)/bzip2-tests
- 	ln -s $(bindir)/bzip2		$(DESTDIR)/bzip2
- 
- install-exec-hook:
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-index 8e9b779..e8ec5c6 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-@@ -5,16 +5,25 @@ LZ77/LZ78-based compressors, and approaches the performance of the PPM family of
- HOMEPAGE = "https://sourceware.org/bzip2/"
- SECTION = "console/utils"
- LICENSE = "bzip2"
--LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664"
--
-+LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664 \
-+                    file://../git/go/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707 \
-+                    file://../git/dotnetzip/License.txt;md5=9cb56871eed4e748c3bc7e8ff352a54f \
-+                    file://../git/dotnetzip/License.zlib.txt;md5=cc421ccd22eeb2e5db6b79e6de0a029f \
-+                    file://../git/commons-compress/LICENSE.txt;md5=86d3f3a95c324c9479bd8986968f4327 \
-+                   "
- SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
-+           git://sourceware.org/git/bzip2-tests.git;name=bzip2-tests \
-            file://configure.ac;subdir=${BP} \
-            file://Makefile.am;subdir=${BP} \
-            file://run-ptest \
-+           file://0001-bzip2-modify-run-tests-script.patch;patchdir=${WORKDIR}/git \
-            "
-+
- SRC_URI[md5sum] = "67e051268d0c475ea773822f7500d0e5"
- SRC_URI[sha256sum] = "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
- 
-+SRCREV_bzip2-tests = "8b0198efda1603cf81fa2c7a9bb673dd22ae1661"
-+
- UPSTREAM_CHECK_URI = "https://www.sourceware.org/pub/bzip2/"
- 
- PACKAGES =+ "libbz2"
-@@ -39,7 +48,7 @@ do_install_ptest () {
- 
- FILES_libbz2 = "${libdir}/lib*${SOLIBS}"
- 
--RDEPENDS_${PN}-ptest += "make"
-+RDEPENDS_${PN}-ptest += "make bash"
- 
- PROVIDES_append_class-native = " bzip2-replacement-native"
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 497d957..f27ade4 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -138,6 +138,9 @@ def parse_node_and_insert(c, node, cveId):
+             if version != '*' and version != '-':
+                 # Version is defined, this is a '=' match
+                 yield [cveId, vendor, product, version, '=', '', '']
++            elif version == '-':
++                # no version information is available
++                yield [cveId, vendor, product, version, '', '', '']
+             else:
+                 # Parse start version, end version and operators
+                 op_start = ''
 -- 
 2.7.4
 
