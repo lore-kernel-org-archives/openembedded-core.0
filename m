@@ -1,52 +1,75 @@
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
- by mx.groups.io with SMTP id smtpd.web11.6504.1585797176159193517
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+ by mx.groups.io with SMTP id smtpd.web10.962.1585808501525262465
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 20:12:56 -0700
+ Wed, 01 Apr 2020 23:21:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: PQZnJCKwGzTZOe7NO2stB14QGDBo/T7aNuZlv5rbxi/arsfxTIVlrKddM/fCC3NtUBUIeNetjL
- QCV1SUrQNP0g==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2020 20:12:55 -0700
-IronPort-SDR: mWSGJjb2Up1eoDWm+VY9JldZJEetoBSkx6waNmvPxkeRsOnyZtv2Lj5fvKgjh//P5ZxGTxgi2Z
- 9qIwKMOdClGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,334,1580803200"; 
-   d="scan'208";a="449457326"
-Received: from pgsmsx102.gar.corp.intel.com ([10.221.44.80])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Apr 2020 20:12:54 -0700
-Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.161]) by
- PGSMSX102.gar.corp.intel.com ([169.254.6.245]) with mapi id 14.03.0439.000;
- Thu, 2 Apr 2020 11:01:01 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
-	"mingli.yu@windriver.com" <mingli.yu@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] netbase: use git fetcher
-Thread-Topic: [OE-core] [PATCH] netbase: use git fetcher
-Thread-Index: AQHV+3Svf6tDprAuJ02a3n0td7HOYqhjkIEAgAEh5oCAAAZxAA==
-Date: Thu, 2 Apr 2020 03:01:00 +0000
-Message-ID: <31f08cab86820e3217a681651d240a4369099ee4.camel@intel.com>
-References: <1584350653-141457-1-git-send-email-mingli.yu@windriver.com>
-	 ,<796ecb1469a1944bb7386c5c6ba9bfe580795057.camel@linuxfoundation.org>
-	 <DM6PR11MB3817B7D03D5961DA36C44231F1C60@DM6PR11MB3817.namprd11.prod.outlook.com>
-In-Reply-To: <DM6PR11MB3817B7D03D5961DA36C44231F1C60@DM6PR11MB3817.namprd11.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.142.44]
+ dkim=pass header.i=@google.com header.s=20161025 header.b=a9lSKV0Y;
+ spf=pass (domain: google.com, ip: 209.85.167.67, mailfrom: paulburton@google.com)
+Received: by mail-lf1-f67.google.com with SMTP id c5so1738576lfp.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 23:21:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fdMGOefkKivV6FpVMLQ8IH9B4opv6y60NaqXlfm85sI=;
+        b=a9lSKV0Y531R9wVZxy8rUbMi9z2OZlqg32LKU2r6E8OUrMpq23UYmr/xJXX05GJhPK
+         KQ1Z/I59IB8PPrLm9S01Xg1iAses1UE0mMDbqy6kSNZ7rtMo8jn0qrbX+3UvGXRaFl40
+         QAGD3HWDO2lJS+jEKFT+IRSo7cWetL9OVYEaiotzC7OiNoHoCun0/Z5m5i766mE25f9X
+         3rOVAjfRCrJRddZWg1CNJWCybjK3DGthViCH4yQbv/jwz0cJONn8l7kMn2O5ufVzfQUv
+         SOJ2t6UshO+w7jMmip/9fY3T6JOQ8QdihGEeCtfKcm4f88n5golypkZ/hWP83mViC2YY
+         gxNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fdMGOefkKivV6FpVMLQ8IH9B4opv6y60NaqXlfm85sI=;
+        b=oXI8pskcSFiG+fB5r6rCDCTbjUn2C+hiPjfTPG+8Px1FisgDZAyYWhy291KyJ26qJB
+         scbiniwkpC+E8+hBTzIwbyPp8wvS6XlmdIxto0XIg4t4acYqSZS7IxKsrQ4kbLM1I6t7
+         cJmS49xnSgr/ZXZtY/4IAtFmSKqCNd1yZBhIOMkK+hb2leGK2Xd5zaG94aaVMasIQUAf
+         /TOScR8WhTEF951humbpSS359WcxYM1D2lfHmS5vaXv5cqMgcbLp0Tdz0itWdE336W9Z
+         2+LJbfNvhG54dIK/ZhSsy0raqStPgcdDT5ScCy8tgSFm3FCmmMl6k27jOhdpsGzWflVB
+         IkFw==
+X-Gm-Message-State: AGi0PuatxKq3UDGhmPgwTXWHRrPdJpi2THqiwpI0Cr6Qvq417R8iX0Ze
+	k+Lx4397AVE23dPScIa07ZkSmCU1bV2936z7NXmQxg==
+X-Google-Smtp-Source: APiQypKGEdNUAn82sIQwi5kMiTkzPyUYlbsWitrfVdEYITPWf2b4YAP9fsm6dnUHwzsP8elq6wzGVkGbWkeh1DdqHp0=
+X-Received: by 2002:a19:691d:: with SMTP id e29mr1110756lfc.83.1585808499478;
+ Wed, 01 Apr 2020 23:21:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8E88E4C7E9E7B94489B8C6C7580901DA@intel.com>
-Content-Transfer-Encoding: base64
+References: <20200331235607.93023-1-paulburton@google.com> <20200401194102.161130-1-paulburton@google.com>
+ <fcad93f710482b42d125e173a410c8396a518a71.camel@linuxfoundation.org>
+In-Reply-To: <fcad93f710482b42d125e173a410c8396a518a71.camel@linuxfoundation.org>
+From: "Paul Burton" <paulburton@google.com>
+Date: Wed, 1 Apr 2020 23:21:27 -0700
+Message-ID: <CAB_4827BARe6DGfHf-gco2oOiXPyu2MmjVRPbzZ42X9xS4R+5Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] kernel.bbclass: Stop creating empty .scmversion files
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Bruce Ashfield <bruce.ashfield@gmail.com>, Martin Jansa <martin.jansa@gmail.com>, 
+	Trevor Woerner <twoerner@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-T24gVGh1LCAyMDIwLTA0LTAyIGF0IDAyOjM3ICswMDAwLCBZdSwgTWluZ2xpIHdyb3RlOg0KPiBI
-aSBSUCwNCj4gDQo+IFdoYXQncyB0aGUgZXJyb3IgZG8geW91IG1lYW4/IEkgZGlkbid0IGZpbmQg
-dGhlIGVycm9yIHJlbGF0ZWQgdG8NCj4gbmV0YmFzZSwgY291bGQgeW91IGhlbHAgdG8gcHJvdmlk
-ZSBtb3JlIGluZm8/DQoNCkl0J3MgaGVyZToNCg0KaHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3By
-b2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy83OS9idWlsZHMvODI1L3N0ZXBzLzgvbG9ncy9z
-dGVwMmQNCg0KVGhhbmtzLA0KDQpBbnVqDQo=
+Hi Richard,
+
+On Wed, Apr 1, 2020 at 4:54 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> I get very nervous about patches like this that come in a day before
+> the final release build.
+
+Absolutely - I would too; I didn't realize a release was imminent &
+certainly had no expectation this would be part of it.
+
+> I'm not 100% certain its this patch but a
+> build with this patch in resulted in:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1747
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1749
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1753
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/649
+>
+> and a ton of other similar failures.
+>
+> I'm starting a retest without it.
+
+Thanks for the pointers, I'll do some digging.
+
+Paul
