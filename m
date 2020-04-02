@@ -1,81 +1,88 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web12.40.1585847124010374104
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
+ by mx.groups.io with SMTP id smtpd.web12.308.1585850918177601521
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2020 10:05:24 -0700
+ Thu, 02 Apr 2020 11:08:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pNd9cpYN;
- spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f66.google.com with SMTP id z14so91285wmf.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 10:05:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=K3F7wjNL;
+ spf=pass (domain: gmail.com, ip: 209.85.166.196, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f196.google.com with SMTP id i75so4509510ild.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 11:08:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fbFivhSURY9bxaQG+5YS+KRfY9J8fIDZ1u6Q1ITd2sY=;
-        b=pNd9cpYNOQRhYkAH7ej0ZI09svANZ42hIpUZufChL5r3V2qZnt7dth+dPdNh7HjuTu
-         lD2WNtduytAy8PbORYBIil+u/kpZ47aq49s8xw3C+woqNTeIXLJndSlkotgvEAf90fIo
-         ShoLHZIfuOxWEcfBsExNETrmx6Zw38POhdaPRSfEEusEglD8RokIogA3KOyVtuNJZNcE
-         ohg1fzbSXRlF4s8zaIiAnKkli7GjYh2iRJkqyYm1cbNiwxlbYWjTJ/IN3cOLfx1KWrSc
-         Bp4bsUlRQ/WRtxJm09OruSIeLGU1SetZZnEN87KvodK8ys0jcquity1bCD4ygNYE9mnl
-         zDpw==
+        h=from:to:cc:subject:date:message-id;
+        bh=iPbnUHx8CaCKZ4ZwcTjxXfczgecOuAcn5RKhQ3TC3A0=;
+        b=K3F7wjNLX51qyH+qTiEZnH5PtIg+1NXdQlmw3Gm759+CxNyAlVurrC8tQo3EE+BM+C
+         LY6WzZo7cwwV7secsLxJc4WgWYD/0w9Y4kJaM6wNCnJiKXVfQowwKUkJAHbEXG9RdQ9E
+         Zg50CtuxCdgxWdPQ4vNpCOVCgiCgxkqkwjzMxGrkvDowLc98Z/5Oibcfmx5iN9HTsnZv
+         4ib/ezjUWX4A9f+WBqjdcaq+mMEjLXLWd/kj4TsoTq4HHSvWjMXaAziFYbQPJlIBPu3o
+         FedT3k3Wv+CXceZ/ow0/4z0J9K9NiRaKDREG3qdSRyejvbim2/kigR1O6GCzDV9CfIRL
+         XaXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fbFivhSURY9bxaQG+5YS+KRfY9J8fIDZ1u6Q1ITd2sY=;
-        b=CGsbEuK4oRgKOYnE8t19/g4DpQJl8ustJu4bIi96fms3DUFaLTQcWsv90W4rshyXdl
-         sezwb7hO1P+hWtBC2Zg7z3pqfGZAQkYUis2vINbSWKhnlEQmluAxyctZsAkDQwQ/hZ0d
-         7+40KSUpZzfv99RgbN0n/R5IOHk9Ux+d77Stfe1o1vGeVMcmuEl2j8NlnDVa7Nmg8QJA
-         vVpL5lAt2l+5p3BVxByIZgEKC21n0VL4UW1lmmZYe9V5LbwS8F/rdCQfB0PMNAwFJbAC
-         KmESBt8PZWolb29+a4aEIOmDHfTMP4mRH3ZYlHULeG5p2RkZs7j2e4Q14jH0j1hL2RzS
-         jbKA==
-X-Gm-Message-State: AGi0PuaBY8YRhf/WIvxKrr/R/bY3lFBrRVZrdgE7aVjKJ5pEvJ0s308N
-	SFO0wV1Jy62rAd9nyc6TjPSoE27k
-X-Google-Smtp-Source: APiQypLf5KpVCzBNQOyaI1SOtrJ8HUqUuwuvDcNx0r0h0UqcmWAquJYFk3kY7dRivU6BYMfZ66hNRg==
-X-Received: by 2002:a1c:4e11:: with SMTP id g17mr4480162wmh.80.1585847122176;
-        Thu, 02 Apr 2020 10:05:22 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id q4sm12036951wmj.1.2020.04.02.10.05.21
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=iPbnUHx8CaCKZ4ZwcTjxXfczgecOuAcn5RKhQ3TC3A0=;
+        b=qnQNzdV+WJgQKKhfMJuTiUf8AQmt7+ZedO+jOuNUJRGsqSOj/nNVJ3ibyHauDCgCTb
+         rk8/iZSqT2FVd+15+AjD7wMnq+N4MlQFlRRCMoIH+3Db6pMjGK2eK0Xs81pdMpRqwjBv
+         VfJMuqYB32XDLwlhPkxU3D5GkndnVCcTwmbUK9AzkTUZ45keZCDaMmUMPeOqO6GEAOpQ
+         CnWLnDK0PEUcS1CvghA6h21qNT8DwOpkfiVQxLiICyGG5vPstto9G1OtPqN0ry04hAOn
+         JFRDcCagyXJXACWxo13/zGFkx7jEZcc7t9bbPDBYgBYWVlRY3DCw9hbGmkCsBAvZ20Xa
+         /1zA==
+X-Gm-Message-State: AGi0Pub7EVxBW7QTNWLUkRTyELnduo6MHW4a3s2Uiv02gxCUAcjbh95I
+	glwx8IG152UYmMDErLMKcjSD0APxFBw=
+X-Google-Smtp-Source: APiQypIOI9IAlG27N9TloPDaLZaRSEDHdgtrvC3OYRRBaZhdeLgRKyCdkXIf1SlUvdixGvyPZdvnSA==
+X-Received: by 2002:a92:7eda:: with SMTP id q87mr4375969ill.179.1585850917249;
+        Thu, 02 Apr 2020 11:08:37 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:b44c:69fe:8097:ef03])
+        by smtp.gmail.com with ESMTPSA id c12sm1985635ila.31.2020.04.02.11.08.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2020 10:05:21 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+        Thu, 02 Apr 2020 11:08:36 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH] prservice.py: fix do_package with newer Python in Ubuntu 20.04
-Date: Thu,  2 Apr 2020 19:05:14 +0200
-Message-Id: <20200402170514.1434362-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] classes/reproducible_build: Skip SDE for non-finalizing virtual recipes
+Date: Thu,  2 Apr 2020 13:08:32 -0500
+Message-Id: <20200402180832.12814-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-* with Ubuntu 20.04 which is using python 3.8 I'm seeing a lot of errors like:
-  ERROR: libxml2-2.9.10-r0 do_package: Can NOT get PRAUTO, exception No module named '_sysconfigdata'
-  not sure what caused this from python 3.8, but this seems to work
-* PRserv is enabled with:
-  PRSERV_HOST = "localhost:0"
+Don't capture the source date epoch for recipes that are not being
+finalized. This prevents a virtual recipe (e.g. multilib) from
+attempting to read the source date epoch file from the non-virtual
+recipes workdir.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+[YOCTO #13851]
+
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oe/prservice.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/reproducible_build.bbclass | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
-index fcdbe66c19..2d3c9c7e50 100644
---- a/meta/lib/oe/prservice.py
-+++ b/meta/lib/oe/prservice.py
-@@ -3,6 +3,10 @@
- #
+diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
+index 8da40f656a..48ec9108a5 100644
+--- a/meta/classes/reproducible_build.bbclass
++++ b/meta/classes/reproducible_build.bbclass
+@@ -172,6 +172,20 @@ python create_source_date_epoch_stamp() {
+ }
  
- def prserv_make_conn(d, check = False):
-+    # Otherwise this fails when called from recipes which e.g. inherit python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) with:
-+    # No module named '_sysconfigdata'
-+    if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
-+        del os.environ['_PYTHON_SYSCONFIGDATA_NAME']
-     import prserv.serv
-     host_params = list([_f for _f in (d.getVar("PRSERV_HOST") or '').split(':') if _f])
-     try:
+ def get_source_date_epoch_value(d):
++    onlyfinalize = d.getVar('__ONLYFINALISE')
++    virtual = "%s:%s" % (d.getVar("BBEXTENDCURR") or "", d.getVar("BBEXTENDVARIANT") or "")
++
++    if onlyfinalize == "default":
++        onlyfinalize = ":"
++
++    # Only capture the source date epoch if the current virtual recipe is the
++    # one being finalized. This prevents looking for the SDE file in another
++    # recipes ${WORKDIR}, where it may or may not exist
++    if onlyfinalize:
++        if onlyfinalize != virtual:
++            bb.debug(2, "Skipping SOURCE_DATE_EPOCH: virtual '%s' != finalize '%s'" % (virtual, onlyfinalize))
++            return 0
++
+     cached = d.getVar('__CACHED_SOURCE_DATE_EPOCH')
+     if cached:
+         return cached
 -- 
-2.25.1
+2.17.1
 
