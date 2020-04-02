@@ -1,87 +1,81 @@
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com [209.85.166.65])
- by mx.groups.io with SMTP id smtpd.web10.17.1585845987184777060
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.40.1585847124010374104
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2020 09:46:27 -0700
+ Thu, 02 Apr 2020 10:05:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bgdev-pl.20150623.gappssmtp.com header.s=20150623 header.b=R5oxPKiF;
- spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.166.65, mailfrom: brgl@bgdev.pl)
-Received: by mail-io1-f65.google.com with SMTP id c16so4313771iod.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 09:46:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pNd9cpYN;
+ spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f66.google.com with SMTP id z14so91285wmf.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 10:05:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=g4/TkCozE7DR9LEOCr+EBzF3QUolPFewFC0Gj0nctHA=;
-        b=R5oxPKiFU4+9G3e01m8T9UO68O7ptHV+0WSs2jpkNaU+hNCjbGpTF+YjF2QoIbMTJj
-         NgZ6xr7YodE+gUWETq3fIKo0KXxqdPagzi2ZW0dPHrWnCBHROUFtYkG1i76atOpIS/ol
-         X8Y+IDC5n2W94AO9UHuC50rL2BTJ1qI2JU09ZOxkWJT0QGDd6epzvxLpJ9ENAp0MaZ7f
-         g0sphWOrD/Bmz6UO3qVlWDdDpp/bdJW/hA/P/65cNtNSAyxvvd37OTHAePOjFX/PZaRA
-         oDpSq0/VqUnfKAUPjshsSPzC2ROTxBuXoDSa2ToQmWu19QdGkcgiW2ZmhCgyi7DScMCL
-         cNvA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fbFivhSURY9bxaQG+5YS+KRfY9J8fIDZ1u6Q1ITd2sY=;
+        b=pNd9cpYNOQRhYkAH7ej0ZI09svANZ42hIpUZufChL5r3V2qZnt7dth+dPdNh7HjuTu
+         lD2WNtduytAy8PbORYBIil+u/kpZ47aq49s8xw3C+woqNTeIXLJndSlkotgvEAf90fIo
+         ShoLHZIfuOxWEcfBsExNETrmx6Zw38POhdaPRSfEEusEglD8RokIogA3KOyVtuNJZNcE
+         ohg1fzbSXRlF4s8zaIiAnKkli7GjYh2iRJkqyYm1cbNiwxlbYWjTJ/IN3cOLfx1KWrSc
+         Bp4bsUlRQ/WRtxJm09OruSIeLGU1SetZZnEN87KvodK8ys0jcquity1bCD4ygNYE9mnl
+         zDpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=g4/TkCozE7DR9LEOCr+EBzF3QUolPFewFC0Gj0nctHA=;
-        b=GzGXTKsxaDf19uDFtG1jtfDoZknOg7mlBkr9mZKM7p28RJLvPW84mJa5UPFlmb+Uz6
-         2EuzqBPSGWEotOjEezWYadd8mWFDnZ/BPl1Yy8PAKBETqiEOkDbQmF8vKyy+sdRqsn2U
-         6x0GqN1oaZe5N1QYboBru/1CBc7c4ddnWKRRWU5FoDRAMOkH1jepXnBX+PFz1eJ6Jn33
-         4l5EpMjCD5Kqg9hB2oZOlzV9OSN7bwS46vfaKe8fziyocibozCVtrPQO95JvO0GxUUym
-         NceA+JoC7/kwMlSZbLE5hsRYR+u1T9FGLeMHw8h/OwibLAdoEboa21AVSsmXc+5EKthK
-         YSFQ==
-X-Gm-Message-State: AGi0Puauig+y9HSQ98DFMBA1pf2ML/0F1SRIMMw4sV98J9z5ll9nQfsk
-	4duqPyawCrZEBTswyRjlyHScxXMvxTz8ld+AemMpeQ==
-X-Google-Smtp-Source: APiQypJidqUbcP7tGYI090qirfJlEj2Qxn9IVHUuYTAYflFQ/jIipPwO+XJ3ya/OMG7UkhB+2N/77xJZKYOToSOkGhs=
-X-Received: by 2002:a5e:8703:: with SMTP id y3mr3559435ioj.119.1585845986570;
- Thu, 02 Apr 2020 09:46:26 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fbFivhSURY9bxaQG+5YS+KRfY9J8fIDZ1u6Q1ITd2sY=;
+        b=CGsbEuK4oRgKOYnE8t19/g4DpQJl8ustJu4bIi96fms3DUFaLTQcWsv90W4rshyXdl
+         sezwb7hO1P+hWtBC2Zg7z3pqfGZAQkYUis2vINbSWKhnlEQmluAxyctZsAkDQwQ/hZ0d
+         7+40KSUpZzfv99RgbN0n/R5IOHk9Ux+d77Stfe1o1vGeVMcmuEl2j8NlnDVa7Nmg8QJA
+         vVpL5lAt2l+5p3BVxByIZgEKC21n0VL4UW1lmmZYe9V5LbwS8F/rdCQfB0PMNAwFJbAC
+         KmESBt8PZWolb29+a4aEIOmDHfTMP4mRH3ZYlHULeG5p2RkZs7j2e4Q14jH0j1hL2RzS
+         jbKA==
+X-Gm-Message-State: AGi0PuaBY8YRhf/WIvxKrr/R/bY3lFBrRVZrdgE7aVjKJ5pEvJ0s308N
+	SFO0wV1Jy62rAd9nyc6TjPSoE27k
+X-Google-Smtp-Source: APiQypLf5KpVCzBNQOyaI1SOtrJ8HUqUuwuvDcNx0r0h0UqcmWAquJYFk3kY7dRivU6BYMfZ66hNRg==
+X-Received: by 2002:a1c:4e11:: with SMTP id g17mr4480162wmh.80.1585847122176;
+        Thu, 02 Apr 2020 10:05:22 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id q4sm12036951wmj.1.2020.04.02.10.05.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2020 10:05:21 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] prservice.py: fix do_package with newer Python in Ubuntu 20.04
+Date: Thu,  2 Apr 2020 19:05:14 +0200
+Message-Id: <20200402170514.1434362-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200323172808.26338-1-brgl@bgdev.pl> <20200323172808.26338-2-brgl@bgdev.pl>
-In-Reply-To: <20200323172808.26338-2-brgl@bgdev.pl>
-From: "Bartosz Golaszewski" <brgl@bgdev.pl>
-Date: Thu, 2 Apr 2020 18:46:15 +0200
-Message-ID: <CAMRc=Md3S1QGun1fuh5HpU4QFYFUae0ec3Ou96CLMoH6d=+3SQ@mail.gmail.com>
-Subject: Re: [OE-core][RFC PATCH 1/2] qemuboot.bbclass: don't redefine IMGDEPLOYDIR
-To: Khem Raj <raj.khem@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Armin Kuster <akuster808@gmail.com>, Jerome Neanne <jneanne@baylibre.com>, 
-	Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-pon., 23 mar 2020 o 18:28 Bartosz Golaszewski <brgl@bgdev.pl> napisa=C5=82(=
-a):
->
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->
-> This variable is already defined in image.bbclass and there's not need
-> to redefine it here.
->
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  meta/classes/qemuboot.bbclass | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclas=
-s
-> index 54044c38da..68f7a03619 100644
-> --- a/meta/classes/qemuboot.bbclass
-> +++ b/meta/classes/qemuboot.bbclass
-> @@ -83,7 +83,6 @@ QB_DRIVE_TYPE ?=3D "/dev/sd"
->
->  # Create qemuboot.conf
->  addtask do_write_qemuboot_conf after do_rootfs before do_image
-> -IMGDEPLOYDIR ?=3D "${WORKDIR}/deploy-${PN}-image-complete"
->
->  def qemuboot_vars(d):
->      build_vars =3D ['MACHINE', 'TUNE_ARCH', 'DEPLOY_DIR_IMAGE',
-> --
-> 2.19.1
->
+* with Ubuntu 20.04 which is using python 3.8 I'm seeing a lot of errors like:
+  ERROR: libxml2-2.9.10-r0 do_package: Can NOT get PRAUTO, exception No module named '_sysconfigdata'
+  not sure what caused this from python 3.8, but this seems to work
+* PRserv is enabled with:
+  PRSERV_HOST = "localhost:0"
 
-Hi Richard,
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/lib/oe/prservice.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-this patch can be applied without waiting for the v2 of the image
-deployment patch. Would you mind picking it up into your tree?
+diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
+index fcdbe66c19..2d3c9c7e50 100644
+--- a/meta/lib/oe/prservice.py
++++ b/meta/lib/oe/prservice.py
+@@ -3,6 +3,10 @@
+ #
+ 
+ def prserv_make_conn(d, check = False):
++    # Otherwise this fails when called from recipes which e.g. inherit python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) with:
++    # No module named '_sysconfigdata'
++    if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
++        del os.environ['_PYTHON_SYSCONFIGDATA_NAME']
+     import prserv.serv
+     host_params = list([_f for _f in (d.getVar("PRSERV_HOST") or '').split(':') if _f])
+     try:
+-- 
+2.25.1
 
-Bartosz
