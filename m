@@ -1,129 +1,139 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web12.4306.1585860142151209908
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.73])
+ by mx.groups.io with SMTP id smtpd.web12.4709.1585861187529726092
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2020 13:42:22 -0700
+ Thu, 02 Apr 2020 13:59:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YD823TiR;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id m17so5805439wrw.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 13:42:21 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@uievolution.onmicrosoft.com header.s=selector2-uievolution-onmicrosoft-com header.b=TSg2dLK1;
+ spf=pass (domain: xevo.com, ip: 40.107.243.73, mailfrom: mkelly@xevo.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d6cym8wASkeyeTEhWIB5YcUFTvYmXWSwY4cfZ69G92MvFk2xn1QgPrkt16UiJVecE8FEWSe7ixOUFdoDJEEYwvrbhGOMQa4QEI5M3LaFkdUPcJSEPhFQJQ+phxPJinWCP6DYCcbQUsF9rvgdZNrTIC1dNpb7VNogWKE9bcYkUTN5/yJkOCiqwWo3VPOE/0fa92/8EJP5wj49IiSkgulzQKVByXmfoHQtRTiCV6DRCRPQ9UMwGwjBsGmsFaVOtwUYBWujXHJftxa1h6PTZGwHAxoSkwuQjfEnuS0Hn7E2orowYRGUZl65w5rJUSr9QeKPYW7TKn5j0bjaX+fvZOqpPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gNEyVxggOQnq79e8LJG/Fx+oox97JSrW1ZtFf7+ofuA=;
+ b=XV9TFzxaqYRZe7uwFZdiDp7NyRh3rehdhMJ/pIa5JXsIu9EH56dmJZEr9SZ3Rg2i+JANgMBQ4sApr8dMGUrFCbLduUCIzg9y7TunBmgzxc8ix8nN9Pa5iVI/VdeKRYeQwPJgOqKZbR5UUguoK3caWTTyHvOlFuz49odskyLxmqW39UDcT7I7b9nSb3d53YdhiHO0RojKj4PJHWRWNBnxSvxfWOQlelLl5Y7P9D+VGdU7MVvSwPVaSKTzRDNwq3DvWmiFaN6CCklW0sWtRIgUXGDmsQPtrH146jnabgg93JjhHPESy1lVAihNYZfbvysDJKUqxqgmY/eAHlrgkbVD2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xevo.com; dmarc=pass action=none header.from=xevo.com;
+ dkim=pass header.d=xevo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=6Z+apjpNvjSueSlExDBtLtd2u8Zg4OHMNsK8P1Zzhcw=;
-        b=YD823TiRNnN7cxK3ORbQA8n1ZQDb+mP7Aj82cJergazpTjBiG3tfGcg/loLz7zRMI3
-         DgRklWHInfMw+3103pmTW4hf6/338y7ZJaQYzwQHKFT6d7x0weI5kKMPEnVoue0nrPm6
-         3GVVJODJ7W8CIk9N9iG0ry4qbkJKsyTtyFtBI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=6Z+apjpNvjSueSlExDBtLtd2u8Zg4OHMNsK8P1Zzhcw=;
-        b=F3GPAQKvXKsU1d0mcj0bi7fqW1LhRdmFXR1Flo3Od2bIawDDFJ6UBG34enaQxNm/cq
-         swdUMYwwwMFYF+dmtE5zPRCtqSLuwP97VVDSOFunh+FDyPiBvIukGFGC8D626b1UBDVm
-         cWEMwgsyhNLfNRnZIvHL5P1qANyTXIH/9YnNWFMwBOtunrVLPVa96MGg62MhpuElr5t+
-         UkAYbc0F8eOyR9aZlNZxvix3vlB47fnN5fNsbK81A9S3HBOrjJQaVgR4g5pJV99k3zFs
-         6kW8cSuhXGAHI1xjyBOb0KIocC9B4UxXaCd4RihwCNROzQopunSNaBs5qsJDEFMnARWC
-         KWJw==
-X-Gm-Message-State: AGi0PualUF//bz++vcLCgk3rhn1RBLkflB5SxtCHN/m8A8qUOMHZ341C
-	2j+bqTuvUGlmmze9M/IyIyP1jg==
-X-Google-Smtp-Source: APiQypIU1JQFy7TRMvc3+HFSDHt5zZOWtUQEZgR9/sx3Uq87jALwxrtztHxeUQPDB3exzZuZYd3w4Q==
-X-Received: by 2002:adf:e650:: with SMTP id b16mr5062318wrn.328.1585860140566;
-        Thu, 02 Apr 2020 13:42:20 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id f187sm8749482wme.9.2020.04.02.13.42.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2020 13:42:19 -0700 (PDT)
-Message-ID: <b69366f4b2632b18997691497c8799a93cb36b27.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] classes/reproducible_build: Skip SDE for non-finalizing virtual recipes
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <JPEWhacker@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 02 Apr 2020 21:42:18 +0100
-In-Reply-To: <20200402180832.12814-1-JPEWhacker@gmail.com>
-References: <20200402180832.12814-1-JPEWhacker@gmail.com>
-User-Agent: Evolution 3.36.0-1 
+ d=uievolution.onmicrosoft.com; s=selector2-uievolution-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gNEyVxggOQnq79e8LJG/Fx+oox97JSrW1ZtFf7+ofuA=;
+ b=TSg2dLK1NigonH4bGgiOKiOJ698xjTUO9N/lOj9eIAq3/wbkU/dRa9vPi8sj4nvenux0CKbCUyec0j/iPGMQsYW2pNcQ/hpAUhntO0KBxDKaK7p0M/vpJ7YP0TtRQOCDhYpk+CKZG8jUy7Yxh8fAHzu9tTVlcmpW4bd+Yd8dVts=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=mkelly@xevo.com; 
+Received: from MW2PR18MB2236.namprd18.prod.outlook.com (2603:10b6:907:7::14)
+ by MW2PR18MB2313.namprd18.prod.outlook.com (2603:10b6:907:8::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.15; Thu, 2 Apr
+ 2020 20:59:44 +0000
+Received: from MW2PR18MB2236.namprd18.prod.outlook.com
+ ([fe80::3d:5c5b:af00:a4a6]) by MW2PR18MB2236.namprd18.prod.outlook.com
+ ([fe80::3d:5c5b:af00:a4a6%5]) with mapi id 15.20.2878.014; Thu, 2 Apr 2020
+ 20:59:44 +0000
+From: "Martin Kelly" <mkelly@xevo.com>
+To: openembedded-core@lists.openembedded.org
+CC: Martin Kelly <mkelly@xevo.com>
+Subject: [PATCH] cmake: fix Python executable with cmake
+Date: Thu,  2 Apr 2020 13:56:32 -0700
+Message-ID: <20200402205632.1355452-1-mkelly@xevo.com>
+X-Mailer: git-send-email 2.25.1
+X-ClientProxiedBy: CO2PR04CA0161.namprd04.prod.outlook.com
+ (2603:10b6:104:4::15) To MW2PR18MB2236.namprd18.prod.outlook.com
+ (2603:10b6:907:7::14)
+Return-Path: mkelly@xevo.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from columbia.corp.xevo.com (50.54.140.49) by CO2PR04CA0161.namprd04.prod.outlook.com (2603:10b6:104:4::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.15 via Frontend Transport; Thu, 2 Apr 2020 20:59:43 +0000
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [50.54.140.49]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 69343797-82de-46f8-8dd1-08d7d748c549
+X-MS-TrafficTypeDiagnostic: MW2PR18MB2313:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<MW2PR18MB231340CE9C2AA962AF5A1140ABC60@MW2PR18MB2313.namprd18.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 0361212EA8
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR18MB2236.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(396003)(39850400004)(346002)(366004)(376002)(136003)(186003)(66556008)(1076003)(86362001)(66476007)(66946007)(6486002)(81156014)(6666004)(5660300002)(19627235002)(8676002)(36756003)(478600001)(107886003)(316002)(26005)(966005)(8936002)(81166006)(16526019)(7696005)(52116002)(6916009)(956004)(2616005)(2906002)(4326008);DIR:OUT;SFP:1101;
+Received-SPF: None (protection.outlook.com: xevo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	pEnefCWROxlyx+J0/venB+tU0LS3acOVpqt3CbCbQsIX7SIJ5t01617ZPCLNct3w7GC7dQOZLtWiyjBvqfclZwi8S9B9r+uovgdpfQqAGtNut2RODmS9CPL9R4BWTBGZnEWYWQoq3oN+mH12GOfAXthISjOF8gaHQpheN3SSq9qK25k3Rbb1JeBmWNaOrO9eu4IoOKhDk/vZuNh2UiDbVTCqXVoETSEokRqJmJnuI+9ePOfcGiNgTkJVS1rrWQkTsU02vtJhoJWjQ8vqKconsNf+9sYqDlZq60MBGwJaNAPLUL0xgYa97pPAGHUWT3YRc3yr80mGmmdtHO6T5/SphuFcFMdrfr/fZPa0dlwjtskQBBHWQRb0pgQbmV0FyOmnvqxPe4jACeRkaSz7N5/5ij6gYCdpxgUpPjxpC+S/VTay5hn2B07ClptT7aGzjQ48JZF/1jNxNicHkJgCqJlNU5ABz7D+krzeNQpgOymfQ4CrZ2QPAVEChQdDG45TxXE92/iYTCI9qZt9fMiJz461qA==
+X-MS-Exchange-AntiSpam-MessageData: 
+	OaR+RDpW9unEY4xyuqbI+FijxfeB8sw6niC3GqQVoAH7bXZ7B+saSI1h6muhFwCycnOLYrbOyQ9Ai0xwR3K040T9xwSK6fps3mVr7B931nWMekQEbPoxWDt7D/6DkTV03KSMLCRV0gD0UNdGur1Mjw==
+X-OriginatorOrg: xevo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 69343797-82de-46f8-8dd1-08d7d748c549
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2020 20:59:44.6961
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qPmRaWuaOFb1mTiTAixem2C7GY8N3PBRMZAjuv8wPoy2oe4PhVDDFDx+NpOfUw5z
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR18MB2313
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Thu, 2020-04-02 at 13:08 -0500, Joshua Watt wrote:
-> Don't capture the source date epoch for recipes that are not being
-> finalized. This prevents a virtual recipe (e.g. multilib) from
-> attempting to read the source date epoch file from the non-virtual
-> recipes workdir.
-> 
-> [YOCTO #13851]
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/classes/reproducible_build.bbclass | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+Currently, CMake has two ways of finding Python executables:
+FindPythonInterp and FindPython/FindPython3. FindPythonInterp is
+deprecated and may be removed at some point. Currently, python3native
+sets PYTHON_EXECUTABLE, which FindPythonInterp uses. This is a problem
+for a few reasons:
 
-What puzzles me with this is that we're telling bitbake to ignore the
-variable for hashing purposes, yet it still goes ahead and executes it.
+- Setting PYTHON_EXECUTABLE as an environment variable doesn't work, as
+  CMake needs it to be set as an explicit CMake option via -D.
+- Projects using the newer FindPython/FindPython3 don't pickup the right
+  Python, as the newer routines use Python_EXECUTABLE and
+  Python3_EXECUTABLE.
 
-If we decide that is a bug, we can come up with the patch that follows
-below, which I think should also fix this issue and perhaps some
-others?
+Fix this by setting PYTHON_EXECUTABLE, Python_EXECUTABLE, and
+Python3_EXECUTABLE using -D options to EXTRA_OECMAKE.
 
-data/siggen: Don't expand ignored variables
+The CMake routines are documented below:
+https://cmake.org/cmake/help/latest/module/FindPythonInterp.html
+https://cmake.org/cmake/help/latest/module/FindPython.html
+https://cmake.org/cmake/help/latest/module/FindPython3.html
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Kelly <mkelly@xevo.com>
 ---
- bitbake/lib/bb/data.py       | 4 ++--
- bitbake/lib/bb/siggen.py     | 2 +-
- bitbake/lib/bb/tests/data.py | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/cmake.bbclass         | 3 +++
+ meta/classes/python3native.bbclass | 2 --
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/bitbake/lib/bb/data.py b/bitbake/lib/bb/data.py
-index 6dc02172cb..b0683c5180 100644
---- a/bitbake/lib/bb/data.py
-+++ b/bitbake/lib/bb/data.py
-@@ -365,7 +365,7 @@ def build_dependencies(key, keys, shelldeps, varflagsexcl, d):
-     #bb.note("Variable %s references %s and calls %s" % (key, str(deps), str(execs)))
-     #d.setVarFlag(key, "vardeps", deps)
- 
--def generate_dependencies(d):
-+def generate_dependencies(d, whitelist):
- 
-     keys = set(key for key in d if not key.startswith("__"))
-     shelldeps = set(key for key in d.getVar("__exportlist", False) if d.getVarFlag(key, "export", False) and not d.getVarFlag(key, "unexport", False))
-@@ -380,7 +380,7 @@ def generate_dependencies(d):
-         newdeps = deps[task]
-         seen = set()
-         while newdeps:
--            nextdeps = newdeps
-+            nextdeps = newdeps - whitelist
-             seen |= nextdeps
-             newdeps = set()
-             for dep in nextdeps:
-diff --git a/bitbake/lib/bb/siggen.py b/bitbake/lib/bb/siggen.py
-index 8bfc45235d..4c8d81c5da 100644
---- a/bitbake/lib/bb/siggen.py
-+++ b/bitbake/lib/bb/siggen.py
-@@ -146,7 +146,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
-     def _build_data(self, fn, d):
- 
-         ignore_mismatch = ((d.getVar("BB_HASH_IGNORE_MISMATCH") or '') == '1')
--        tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d)
-+        tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d, self.basewhitelist)
- 
-         taskdeps, basehash = bb.data.generate_dependency_hash(tasklist, gendeps, lookupcache, self.basewhitelist, fn)
- 
-diff --git a/bitbake/lib/bb/tests/data.py b/bitbake/lib/bb/tests/data.py
-index 2b137706dd..5f195047de 100644
---- a/bitbake/lib/bb/tests/data.py
-+++ b/bitbake/lib/bb/tests/data.py
-@@ -476,7 +476,7 @@ class Contains(unittest.TestCase):
- class TaskHash(unittest.TestCase):
-     def test_taskhashes(self):
-         def gettask_bashhash(taskname, d):
--            tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d)
-+            tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d, set())
-             taskdeps, basehash = bb.data.generate_dependency_hash(tasklist, gendeps, lookupcache, set(), "somefile")
-             bb.warn(str(lookupcache))
-             return basehash["somefile:" + taskname]
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index d91cf20130..94ed8061bb 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -175,6 +175,9 @@ cmake_do_configure() {
+ 	  -DCMAKE_INSTALL_LIBDIR:PATH=3D${@os.path.relpath(d.getVar('libdir'), d.=
+getVar('prefix') + '/')} \
+ 	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=3D${@os.path.relpath(d.getVar('included=
+ir'), d.getVar('prefix') + '/')} \
+ 	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=3D${@os.path.relpath(d.getVar('datadir=
+'), d.getVar('prefix') + '/')} \
++	  -DPYTHON_EXECUTABLE:PATH=3D${PYTHON} \
++	  -DPython_EXECUTABLE:PATH=3D${PYTHON} \
++	  -DPython3_EXECUTABLE:PATH=3D${PYTHON} \
+ 	  -DLIB_SUFFIX=3D${@d.getVar('baselib').replace('lib', '')} \
+ 	  -DCMAKE_INSTALL_SO_NO_EXE=3D0 \
+ 	  -DCMAKE_TOOLCHAIN_FILE=3D${WORKDIR}/toolchain.cmake \
+diff --git a/meta/classes/python3native.bbclass b/meta/classes/python3nativ=
+e.bbclass
+index 182c11aa2e..d98fb4c758 100644
+--- a/meta/classes/python3native.bbclass
++++ b/meta/classes/python3native.bbclass
+@@ -1,8 +1,6 @@
+ inherit python3-dir
+=20
+ PYTHON=3D"${STAGING_BINDIR_NATIVE}/python3-native/python3"
+-# PYTHON_EXECUTABLE is used by cmake
+-PYTHON_EXECUTABLE=3D"${PYTHON}"
+ EXTRANATIVEPATH +=3D "python3-native"
+ DEPENDS_append =3D " python3-native "
+=20
+--=20
+2.25.1
 
