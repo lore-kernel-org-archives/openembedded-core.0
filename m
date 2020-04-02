@@ -1,75 +1,87 @@
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
- by mx.groups.io with SMTP id smtpd.web10.962.1585808501525262465
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web10.999.1585808772298406088
  for <openembedded-core@lists.openembedded.org>;
- Wed, 01 Apr 2020 23:21:42 -0700
+ Wed, 01 Apr 2020 23:26:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@google.com header.s=20161025 header.b=a9lSKV0Y;
- spf=pass (domain: google.com, ip: 209.85.167.67, mailfrom: paulburton@google.com)
-Received: by mail-lf1-f67.google.com with SMTP id c5so1738576lfp.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 01 Apr 2020 23:21:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fdMGOefkKivV6FpVMLQ8IH9B4opv6y60NaqXlfm85sI=;
-        b=a9lSKV0Y531R9wVZxy8rUbMi9z2OZlqg32LKU2r6E8OUrMpq23UYmr/xJXX05GJhPK
-         KQ1Z/I59IB8PPrLm9S01Xg1iAses1UE0mMDbqy6kSNZ7rtMo8jn0qrbX+3UvGXRaFl40
-         QAGD3HWDO2lJS+jEKFT+IRSo7cWetL9OVYEaiotzC7OiNoHoCun0/Z5m5i766mE25f9X
-         3rOVAjfRCrJRddZWg1CNJWCybjK3DGthViCH4yQbv/jwz0cJONn8l7kMn2O5ufVzfQUv
-         SOJ2t6UshO+w7jMmip/9fY3T6JOQ8QdihGEeCtfKcm4f88n5golypkZ/hWP83mViC2YY
-         gxNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fdMGOefkKivV6FpVMLQ8IH9B4opv6y60NaqXlfm85sI=;
-        b=oXI8pskcSFiG+fB5r6rCDCTbjUn2C+hiPjfTPG+8Px1FisgDZAyYWhy291KyJ26qJB
-         scbiniwkpC+E8+hBTzIwbyPp8wvS6XlmdIxto0XIg4t4acYqSZS7IxKsrQ4kbLM1I6t7
-         cJmS49xnSgr/ZXZtY/4IAtFmSKqCNd1yZBhIOMkK+hb2leGK2Xd5zaG94aaVMasIQUAf
-         /TOScR8WhTEF951humbpSS359WcxYM1D2lfHmS5vaXv5cqMgcbLp0Tdz0itWdE336W9Z
-         2+LJbfNvhG54dIK/ZhSsy0raqStPgcdDT5ScCy8tgSFm3FCmmMl6k27jOhdpsGzWflVB
-         IkFw==
-X-Gm-Message-State: AGi0PuatxKq3UDGhmPgwTXWHRrPdJpi2THqiwpI0Cr6Qvq417R8iX0Ze
-	k+Lx4397AVE23dPScIa07ZkSmCU1bV2936z7NXmQxg==
-X-Google-Smtp-Source: APiQypKGEdNUAn82sIQwi5kMiTkzPyUYlbsWitrfVdEYITPWf2b4YAP9fsm6dnUHwzsP8elq6wzGVkGbWkeh1DdqHp0=
-X-Received: by 2002:a19:691d:: with SMTP id e29mr1110756lfc.83.1585808499478;
- Wed, 01 Apr 2020 23:21:39 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0326QBGa026826
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 1 Apr 2020 23:26:11 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 1 Apr 2020 23:26:10 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 1/2] dhclient: not always skip the nfsroot interface
+Date: Thu, 2 Apr 2020 14:26:08 +0800
+Message-ID: <1585808769-176932-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20200331235607.93023-1-paulburton@google.com> <20200401194102.161130-1-paulburton@google.com>
- <fcad93f710482b42d125e173a410c8396a518a71.camel@linuxfoundation.org>
-In-Reply-To: <fcad93f710482b42d125e173a410c8396a518a71.camel@linuxfoundation.org>
-From: "Paul Burton" <paulburton@google.com>
-Date: Wed, 1 Apr 2020 23:21:27 -0700
-Message-ID: <CAB_4827BARe6DGfHf-gco2oOiXPyu2MmjVRPbzZ42X9xS4R+5Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] kernel.bbclass: Stop creating empty .scmversion files
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>, Martin Jansa <martin.jansa@gmail.com>, 
-	Trevor Woerner <twoerner@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-Hi Richard,
+From: Mingli Yu <mingli.yu@windriver.com>
 
-On Wed, Apr 1, 2020 at 4:54 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> I get very nervous about patches like this that come in a day before
-> the final release build.
+Don't skip the nfsroot interface when use dhcp
+to get the address for nfsroot interface as the
+nfsroot interface may need dhclient to renew
+the lease.
 
-Absolutely - I would too; I didn't realize a release was imminent &
-certainly had no expectation this would be part of it.
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ .../dhcp/files/dhclient-systemd-wrapper            | 26 +++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
 
-> I'm not 100% certain its this patch but a
-> build with this patch in resulted in:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1747
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1749
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1753
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/110/builds/649
->
-> and a ton of other similar failures.
->
-> I'm starting a retest without it.
+diff --git a/meta/recipes-connectivity/dhcp/files/dhclient-systemd-wrapper b/meta/recipes-connectivity/dhcp/files/dhclient-systemd-wrapper
+index 7d0e224..87c60fa 100644
+--- a/meta/recipes-connectivity/dhcp/files/dhclient-systemd-wrapper
++++ b/meta/recipes-connectivity/dhcp/files/dhclient-systemd-wrapper
+@@ -1,5 +1,19 @@
+ #!/bin/sh
+ 
++# Add an initial /var/lib/dhcp/dhclient.leases to make
++# sure the IP which dhclient try to renew is the same
++# with the IP which kernel got from dhcp server during
++# boot
++update_dhclient_leases()
++{
++    local addr=$1
++    local interface=$2
++    echo "lease {" >> /var/lib/dhcp/dhclient.leases
++    echo "  interface \"${addr}\";" >> /var/lib/dhcp/dhclient.leases
++    echo "  fixed-address ${interface:0:-3};" >> /var/lib/dhcp/dhclient.leases
++    echo "}" >> /var/lib/dhcp/dhclient.leases
++}
++
+ # In case the interface is used for nfs, skip it.
+ nfsroot=0
+ interfaces=""
+@@ -19,6 +33,7 @@ while read dev mtpt fstype rest; do
+ done
+ exec 0<&9 9<&-
+ 
++
+ if [ $nfsroot -eq 0 ]; then
+     interfaces="$INTERFACES"
+ else
+@@ -27,7 +42,16 @@ else
+     fi
+     for i in $INTERFACES; do
+ 	if test "x$i" = "x$nfs_iface"; then
+-            echo "dhclient skipping nfsroot interface $i"
++            interface_addr=`ip -4 address show $nfs_iface | grep 'inet '|sed 's/.*inet \(\S\+\).*/\1/'`
++            if [ "x$interface_addr" != "x" ] && cat /proc/cmdline | grep "ip=dhcp" > /dev/null ; then
++                # use to renew lease if needed
++                interfaces="$interfaces $i"
++                # use to update /var/lib/dhcp/dhclient.leases if needed
++                # when the ip got by kernel, we need use dhclient to renew the ip
++                update_dhclient_leases $nfs_iface $interface_addr
++            else
++                echo "dhclient skipping nfsroot interface $i"
++            fi
+ 	else
+ 	    interfaces="$interfaces $i"
+ 	fi
+-- 
+2.7.4
 
-Thanks for the pointers, I'll do some digging.
-
-Paul
