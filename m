@@ -1,384 +1,147 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web10.6651.1585866745278304970
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web12.245.1585868315100584898
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2020 15:32:25 -0700
+ Thu, 02 Apr 2020 15:58:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: randy.macleod@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 032MWMPH007865
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 2 Apr 2020 15:32:22 -0700 (PDT)
-Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 2 Apr
- 2020 15:32:19 -0700
-Subject: Re: [OE-core] [PATCH] bzip2: Add test suite for bzip2
-To: Rahul Kumar <rahulk@mvista.com>,
-        <openembedded-core@lists.openembedded.org>
-References: <1585825857-28025-1-git-send-email-rahulk@mvista.com>
-From: "Randy MacLeod" <randy.macleod@windriver.com>
-Message-ID: <90e01eab-2485-8a01-fae5-10f970d3242c@windriver.com>
-Date: Thu, 2 Apr 2020 18:32:16 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=azIonce4;
+ spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: jpuhlman@gmail.com)
+Received: by mail-ot1-f50.google.com with SMTP id a49so5310709otc.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 15:58:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jHFdrgrgmWUC+pZayt4VKX2ywJ8mPCi/0rc8QnNi+zk=;
+        b=azIonce4o+Lj2brgmfB87fjAJ+9RMwKqeE6iYWDZxKlFQACiERNcw4d8tbDxyjIknj
+         GyKlxplkHWSyx70XkXrqvirab8FgxGzRepGNkkW7cTRjHaDkoMm4WL4UhGBhgKXk/gqI
+         T8XDqCBmd2MZvod3GI1epRg9jGed4GFE6QXYdlSYtRQyJ86pW4BHNwvYk5mdCEog4IdR
+         u3IN+Z8ycm/uZmUCONWZu6qxEQyytAkUoPqMJFSzrp2i6d7LQhmZt2Mdw1iWjYYQXTrk
+         Ff3vUiPKv9H8z7MyDPeZuOsbQEtMAGwDQ9zSq6SdA084zD5MY8XqvMxAFFmA7gJWRhYD
+         z21g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=jHFdrgrgmWUC+pZayt4VKX2ywJ8mPCi/0rc8QnNi+zk=;
+        b=gbu66ZdMViXPmN4N6O+kJC755LaDeJUdVD2wuotjHyfsIKw2DuMHLvFYXxNfZ9K3gz
+         PU0Q5orE32ZFcx+SxwNf8jSY4XMCsmuJZjwA7gAR137X/KP4AeSXZ6YoJOoqNoC5gkeQ
+         X99B0Kb6+9AQIyPniHpcqAf3FDV5ea4OSYPPaA1x1A8Aoj0luT8ak6tOoP70I5Fc1aa2
+         PdkfX0w1i+l33Ma0HqXrWt/JmVeAaTGmXsimgry+GmehQdmRDHKuaaipmHJ5LNiK4yJU
+         rdOY+9EFxcaHQoNPcSxefKScKxYQZFllXI1a5hTcEFMwtPWJXez0k0M8jDsHoVHlDoJp
+         0eMw==
+X-Gm-Message-State: AGi0PubNsfASNM25d0X2DBJEggrQuzbJT1/ZVsfC38MTkld2VF5jxrA9
+	CA/ZJ1C4FHT0sgJhxGWmvWl3PvWqiQo=
+X-Google-Smtp-Source: APiQypKygSxNvczR1jhV9r68MgwXEH+djTfDLVS7LyI7DtPcFg83rPc+6MLtiJv4ojwjCfmEoPnuww==
+X-Received: by 2002:a05:6830:110c:: with SMTP id w12mr3946236otq.175.1585868313898;
+        Thu, 02 Apr 2020 15:58:33 -0700 (PDT)
+Return-Path: <jpuhlman@gmail.com>
+Received: from workhorse.localdomain ([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
+        by smtp.gmail.com with ESMTPSA id c18sm1609780ooa.8.2020.04.02.15.58.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2020 15:58:33 -0700 (PDT)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id C8FC72A05DF; Thu,  2 Apr 2020 15:58:26 -0700 (PDT)
+From: "Jeremy Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jeremy Puhlman <jpuhlman@mvista.com>
+Subject: [PATCH] busybox: on upgrade save busybox if it is the last shell
+Date: Thu,  2 Apr 2020 15:58:20 -0700
+Message-Id: <20200402225820.6709-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1585825857-28025-1-git-send-email-rahulk@mvista.com>
-X-Originating-IP: [172.25.44.3]
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 2020-04-02 7:10 a.m., Rahul Kumar wrote:
-> [YOCTO #13444]
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-Thanks for contributing this work Rahul.
+During a busybox upgrade on a ipk based system, it is possible
+that busybox is the only shell in the system. During the uninstall
+the alternative for /bin/sh is removed and everything after that
+goes down hill.
 
-It would be good if the long log explained the changes made
-in a sentence or two. I've made some comments and asked
-some questions inline below. I may have gone overboard but
-I hope you get the idea that we'd like to see not just the
-changes but the reason for the changes.
+* Add a check to verify if busybox is the shell, and save it to
+the busyboxrm directory created in tmp. Then add an alternative
+for /bin/sh that points to that busybox at the lowest priority.
 
-Also, can you present the results of running:
-# ptest-runner bzip2
-on qemux86-64 with kvm enabled in the long log?
-If there are tests that fail or are skipped
-comment on that even it it's to say that you don't know what is wrong.
+* Add PATH to the busyboxrm directory using shell(as during an upgrade
+busybox and its links are missing).
 
-> 
-> Signed-off-by: Rahul Kumar <rahulk@mvista.com>
-> ---
->   .../bzip2/0001-bzip2-modify-run-tests-script.patch | 220 +++++++++++++++++++++
->   meta/recipes-extended/bzip2/bzip2/Makefile.am      |   2 +
->   meta/recipes-extended/bzip2/bzip2_1.0.8.bb         |  15 +-
->   3 files changed, 234 insertions(+), 3 deletions(-)
->   create mode 100644 meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
-> 
-> diff --git a/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch b/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
-> new file mode 100644
-> index 0000000..8ae3c4e
-> --- /dev/null
-> +++ b/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-script.patch
-> @@ -0,0 +1,220 @@
-> +From 42e6258485030085285d4b30854bfb94bcf43880 Mon Sep 17 00:00:00 2001
-> +From: Rahul Kumar <rahulk@mvista.com>
-> +Date: Mon, 30 Mar 2020 12:17:00 +0530
-> +Subject: [PATCH] bzip2: modify run-tests script
-> +
-> +Upstream-Status: Inappropriate [ modify run-tests script for ptest infrastructure ]
+* When install over remove extra busybox if present.
 
-It seems that some of the changes are to make the tests less verbose and
-to 'tighten-up' the language and formatting used. Upstream might accept
-them, have you checked? If you change the status to Pending I think it
-would be better for now because that would force someone check on the
-progress at some point.
+deb and rpm are uneffected by the bug because they both drag in bash,
+however neither upgrade seemed to have issue with the changes.
 
-> +
-> +modify run-tests script to write PASS/FAIL as expected by the ptest infrastructure
-> +
-> +Signed-off-by: Rahul Kumar <rahulk@mvista.com>
-> +---
-> + run-tests.sh | 83 +++++++++++++++++++++++++++++++-----------------------------
-> + 1 file changed, 43 insertions(+), 40 deletions(-)
-> +
-> +diff --git a/run-tests.sh b/run-tests.sh
-> +index 1ba8c27..1eff62a 100755
-> +--- a/run-tests.sh
-> ++++ b/run-tests.sh
-> +@@ -10,7 +10,7 @@
-> + VALGRIND="valgrind"
-> + VALGRIND_ARGS="-q --error-exitcode=9"
-> + BZIP2="bzip2"
-> +-TESTS_DIR="."
-> ++TESTS_DIR="./bzip2-tests"
+[YOCTO 13850]
 
-Can you explain why you did this? Maybe upstream would accept it.
+Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+---
+ meta/recipes-core/busybox/busybox.inc | 43 +++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
 
-> + IGNORE_MD5=0
-> +
-> + for i in "$@"
-> +@@ -40,21 +40,21 @@ case $i in
-> + esac
-> + done
-> +
-> +-if ! type "valgrind" > /dev/null; then
-> ++if ! type "valgrind" > /dev/null 2>&1; then
-> +   VALGRIND=""
-> +   VALGRIND_ARGS=""
-> + fi
-> +
-> + echo "Testing ${BZIP2} in directory ${TESTS_DIR}"
-> + if [ "$VALGRIND" != "" ]; then
-> +-  echo "  using valgrind"
-> ++  echo "Using valgrind: Yes"
-> + else
-> +-  echo "  NOT using valgrind"
-> ++  echo "Using valgrind: No"
-> + fi
-> + if [[ ${IGNORE_MD5} -eq 0 ]]; then
-> +-  echo "  checking md5 sums"
-> ++  echo "Checking md5 sums: Yes"
-> + else
-> +-  echo "  NOT checking md5 sums"
-> ++  echo "Checking md5 sums: No"
-> + fi
-> +
-> + # Remove any left over tesfilecopies from previous runs first.
-> +@@ -76,16 +76,16 @@ while IFS= read -r -d '' bzfile; do
-> +   echo "Processing ${bzfile}"
-> +
-> +   # Decompress it.
-> +-  echo "  Decompress..."
-> ++  # echo "  Decompress..."
-
-Without an explanation in the long log, I can't tell if this
-comment was removed intentionally or perhaps when you were debugging.
-I expect you have a good reason to remove it but an explaination would
-be helpful.
-
-> +   rm -f "${file}"
-> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${bzfile} \
-> +-    || { echo "!!! bad decompress result $?";
-> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${bzfile} && { echo "PASS: ${bzfile} Decompress"; } \
-> ++    || { echo "FAIL: ${bzfile} Decompress";
-> +          badtests=("${badtests[@]}" $"${bzfile} bad decompress result")
-> +          nogood=$[${nogood}+1]; continue; }
-> +
-> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
-> +-    md5sum --check --status ${md5file} < ${file} \
-> +-      || { echo "!!! md5sum doesn't match decompressed file";
-> ++    md5sum -c ${md5file} < ${file} && { echo "PASS: ${bzfile} md5sum Matched"; } \
-> ++      || { echo "FAIL: ${bzfile} md5sum Matched";
-> +            badtests=("${badtests[@]}" $"${file} md5sum doesn't match")
-> +            nogood=$[${nogood}+1]; continue; }
-> +   fi
-> +@@ -93,20 +93,20 @@ while IFS= read -r -d '' bzfile; do
-> +   # Compress and decompress a copy
-> +   mv "${file}" "${copy}"
-> +   rm -f "${bzcopy}"
-> +-  echo "  Recompress..."
-> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} \
-> +-    || { echo "!!! bad compress result $?";
-> ++  # echo "  Recompress..."
-> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} && { echo "PASS: ${bzfile} Recompress "; } \
-> ++    || { echo "FAIL: ${bzfile} Recompress";
-> +          badtests=("${badtests[@]}" $"${copy} bad result")
-> +          nogood=$[${nogood}+1]; continue; }
-> +-  echo "  Redecompress..."
-> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} \
-> +-    || { echo "!!! bad (re)decompress result $?";
-> ++  # echo "  Redecompress..."
-> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} && { echo "PASS: ${bzfile} Redecompress"; } \
-> ++    || { echo "FAIL: ${bzfile} Redecompress";
-> +          badtests=("${badtests[@]}" $"${bzcopy} bad result")
-> +          nogood=$[${nogood}+1]; continue; }
-> +
-> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
-> +-    md5sum --check --status ${md5file} < ${copy} \
-> +-      || { echo "!!! md5sum doesn't match (re)decompressed file";
-> ++    md5sum -c ${md5file} < ${copy} && { echo "PASS: ${bzfile} md5sum Matched"; } \
-> ++      || { echo "FAIL: ${bzfile} md5sum Matched";
-> +            badtests=("${badtests[@]}" $"${copy} md5sum doesn't match")
-> +            nogood=$[${nogood}+1]; continue; }
-> +   fi
-> +@@ -114,16 +114,16 @@ while IFS= read -r -d '' bzfile; do
-> +   rm "${copy}"
-> +
-> +   # Now do it all again in "small" mode.
-> +-  echo "  Decompress (small)..."
-> ++  # echo "  Decompress (small)..."
-> +   rm -f "${file}"
-> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${bzfile} \
-> +-    || { echo "!!! bad decompress result $?";
-> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${bzfile} &&{ echo "PASS: ${bzfile} Decompress (small)"; } \
-> ++    || { echo "FAIL: ${bzfile} Decompress (small)";
-> +          badtests=("${badtests[@]}" $"${bzfile} bad decompress result")
-> +          nogood=$[${nogood}+1]; continue; }
-> +
-> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
-> +-    md5sum --check --status ${md5file} < ${file} \
-> +-      || { echo "!!! md5sum doesn't match decompressed file";
-> ++    md5sum -c ${md5file} < ${file} > /dev/null 2>&1 && { echo "PASS: ${bzfile} Md5sum Matched"; } \
-> ++      || { echo "FAIL: ${bzfile} Md5sum Matched";
-> +            badtests=("${badtests[@]}" $"${file} md5sum doesn't match")
-> +            nogood=$[${nogood}+1]; continue; }
-> +   fi
-> +@@ -131,20 +131,20 @@ while IFS= read -r -d '' bzfile; do
-> +   # Compress and decompress a copy
-> +   mv "${file}" "${copy}"
-> +   rm -f "${bzcopy}"
-> +-  echo "  Recompress (small)..."
-> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} \
-> +-    || { echo "!!! bad compress result $?";
-> ++  # echo "  Recompress (small)..."
-> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} && { echo "PASS: ${bzfile} Recompress (small)"; } \
-> ++    || { echo "FAIL: ${bzfile} Recompress (small)";
-> +          badtests=("${badtests[@]}" $"${copy} bad result")
-> +          nogood=$[${nogood}+1]; continue; }
-> +-  echo "  Redecompress (small)..."
-> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} \
-> +-    || { echo "!!! bad (re)decompress result $?";
-> ++  # echo "  Redecompress (small)..."
-> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} && { echo "PASS: ${bzfile} Redecompress (small)"; } \
-> ++    || { echo "FAIL: ${bzfile} Redecompress (small)";
-> +          badtests=("${badtests[@]}" $"${bzcopy} bad result")
-> +          nogood=$[${nogood}+1]; continue; }
-> +
-> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
-> +-    md5sum --check --status ${md5file} < ${copy} \
-> +-      || { echo "!!! md5sum doesn't match (re)decompressed file";
-> ++    md5sum -c ${md5file} < ${copy} && { echo "PASS: ${bzfile} md5sum Matched"; } \
-> ++      || { echo "FAIL: ${bzfile} md5sum : Miss Matched";
-> +            badtests=("${badtests[@]}" $"${copy} md5sum doesn't match")
-> +            nogood=$[${nogood}+1]; continue; }
-> +   fi
-> +@@ -169,14 +169,14 @@ nobad=0
-> + badbad=0
-> + while IFS= read -r -d '' badfile; do
-> +
-> +-  echo "Processing ${badfile}"
-> ++  # echo "Processing ${badfile}"
-> +
-> +-  echo "  Trying to decompress..."
-> ++  # echo "  Trying to decompress..."
-> +   ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${badfile}
-> +   ret=$?
-> +
-> +   if [[ ${ret} -eq 0 ]]; then
-> +-    echo "!!! badness not detected"
-> ++    echo "FAIL: badness not detected"
-> +     nobad=$[${nobad}+1]
-> +     badtests=("${badtests[@]}" $"${badfile} badness not detected")
-> +     continue
-> +@@ -185,18 +185,20 @@ while IFS= read -r -d '' badfile; do
-> +   # Assumes "normal" badness is detected by exit code 1 or 2.
-> +   # A crash or valgrind issue will be reported with something else.
-> +   if [[ ${ret} != 1 ]] && [[ ${ret} != 2 ]]; then
-> +-    echo "!!! baddness caused baddness in ${BZIP2}"
-> ++    echo "FAIL: baddness caused baddness in ${BZIP2}"
-It's 'badness':
-https://www.merriam-webster.com/thesaurus/badness
-> +     badbad=$[${badbad}+1]
-> +     badtests=("${badtests[@]}" $"${badfile} badness caused baddness")
-> +     continue
-> ++  else
-> ++    echo "PASS: Correctly found data integrity errors in ${badfile} during decompress."
-> +   fi
-> +
-> +-  echo "  Trying to decompress (small)..."
-> ++  # echo "  Trying to decompress (small)..."
-> +   ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${badfile}
-> +   ret=$?
-> +
-> +   if [[ ${ret} -eq 0 ]]; then
-> +-    echo "!!! badness not detected"
-> ++    echo "FAIL: badness not detected "
-> +     nobad=$[${nobad}+1]
-> +     badtests=("${badtests[@]}" $"${badfile} badness not detected")
-> +     continue
-> +@@ -205,10 +207,12 @@ while IFS= read -r -d '' badfile; do
-> +   # Assumes "normal" badness is detected by exit code 1 or 2.
-> +   # A crash or valgrind issue will be reported with something else.
-> +   if [[ ${ret} != 1 ]] && [[ ${ret} != 2 ]]; then
-> +-    echo "!!! baddness caused baddness in ${BZIP2}"
-> ++    echo "FAIL: baddness caused baddness in ${BZIP2}"
-> +     badbad=$[${badbad}+1]
-> +     badtests=("${badtests[@]}" $"${badfile} badness caused baddness")
-> +     continue
-> ++  else
-> ++    echo "PASS: Correctly found data integrity errors in ${badfile} during decompress (small)"
-> +   fi
-> +
-> + done < <(find ${TESTS_DIR} -type f -name \*\.bz2.bad -print0)
-> +@@ -234,5 +238,4 @@ if [[ ${results} -eq 0 ]]; then
-> + else
-> +   echo "Bad results, look for !!! in the logs above"
-> +   printf ' - %s\n' "${badtests[@]}"
-> +-  exit 1
-> + fi
-> +--
-> +2.7.4
-> diff --git a/meta/recipes-extended/bzip2/bzip2/Makefile.am b/meta/recipes-extended/bzip2/bzip2/Makefile.am
-> index dcf6458..f917b23 100644
-> --- a/meta/recipes-extended/bzip2/bzip2/Makefile.am
-> +++ b/meta/recipes-extended/bzip2/bzip2/Makefile.am
-> @@ -46,6 +46,7 @@ runtest:
->   	else echo "FAIL: sample2 decompress"; fi
->   	@if cmp sample3.tst sample3.ref; then echo "PASS: sample3 decompress";\
->   	else echo "FAIL: sample3 decompress"; fi
-> +	./bzip2-tests/run-tests.sh
->   
->   install-ptest:
->   	sed  -n '/^runtest:/,/^install-ptest:/{/^install-ptest:/!p}' \
-> @@ -56,6 +57,7 @@ install-ptest:
->   	cp $(srcdir)/sample1.bz2	$(DESTDIR)/
->   	cp $(srcdir)/sample2.bz2	$(DESTDIR)/
->   	cp $(srcdir)/sample3.bz2	$(DESTDIR)/
-> +	cp -rf $(srcdir)/../git		$(DESTDIR)/bzip2-tests
->   	ln -s $(bindir)/bzip2		$(DESTDIR)/bzip2
->   
->   install-exec-hook:
-> diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> index 8e9b779..e8ec5c6 100644
-> --- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> +++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> @@ -5,16 +5,25 @@ LZ77/LZ78-based compressors, and approaches the performance of the PPM family of
->   HOMEPAGE = "https://sourceware.org/bzip2/"
->   SECTION = "console/utils"
->   LICENSE = "bzip2"
-> -LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664"
-> -
-> +LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664 \
-> +                    file://../git/go/LICENSE;md5=5d4950ecb7b26d2c5e4e7b4e0dd74707 \
-> +                    file://../git/dotnetzip/License.txt;md5=9cb56871eed4e748c3bc7e8ff352a54f \
-> +                    file://../git/dotnetzip/License.zlib.txt;md5=cc421ccd22eeb2e5db6b79e6de0a029f \
-> +                    file://../git/commons-compress/LICENSE.txt;md5=86d3f3a95c324c9479bd8986968f4327 \
-
-What's all this additional license info about?
-Please explain in when replying as well as in the long log.
-
-> +                   "
->   SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
-> +           git://sourceware.org/git/bzip2-tests.git;name=bzip2-tests \
-
-Mention how big this repo is in the long log.
-
->              file://configure.ac;subdir=${BP} \
->              file://Makefile.am;subdir=${BP} \
->              file://run-ptest \
-> +           file://0001-bzip2-modify-run-tests-script.patch;patchdir=${WORKDIR}/git \
->              "
-> +
->   SRC_URI[md5sum] = "67e051268d0c475ea773822f7500d0e5"
->   SRC_URI[sha256sum] = "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
->   
-> +SRCREV_bzip2-tests = "8b0198efda1603cf81fa2c7a9bb673dd22ae1661"
-> +
->   UPSTREAM_CHECK_URI = "https://www.sourceware.org/pub/bzip2/"
->   
->   PACKAGES =+ "libbz2"
-> @@ -39,7 +48,7 @@ do_install_ptest () {
->   
->   FILES_libbz2 = "${libdir}/lib*${SOLIBS}"
->   
-> -RDEPENDS_${PN}-ptest += "make"
-> +RDEPENDS_${PN}-ptest += "make bash"
-
-Does it really depend on bash or just a POSIX compliant /bin/sh ?
-If it requires bash, how bad are the scripts and can they be made
-POSIX compliant with the help of:
-    https://www.shellcheck.net/
-
-../Randy
-
->   
->   PROVIDES_append_class-native = " bzip2-replacement-native"
->   BBCLASSEXTEND = "native nativesdk"
-> 
-> 
-> 
-> 
-
-
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 1a82f23b0f..344e891f7a 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -433,6 +433,32 @@ fi
+     d.prependVar('pkg_postinst_%s' % pkg, postinst)
+ }
+ 
++pkg_postinst_${PN}_prepend () {
++        # Need path to saved utils, but they may have be removed on upgrade of busybox
++        # Only use shell to get paths. Also capture if busybox was saved.
++        BUSYBOX=""
++        if [ "x$D" = "x" ] ; then 
++           for busybox_rmdir in /tmp/busyboxrm-*; do
++               if [ "$busybox_rmdir" != '/tmp/busyboxrm-*' ] ; then
++                  export PATH=$busybox_rmdir:$PATH
++                  if [ -e $busybox_rmdir/busybox* ] ; then
++                    BUSYBOX="$busybox_rmdir/busybox*"
++                  fi
++               fi
++           done
++        fi
++}
++
++pkg_postinst_${PN}_append () {
++        # If busybox exists in the remove directory it is because it was the only shell left.
++        if [ "x$D" = "x" ] ; then
++           if [ "x$BUSYBOX" != "x" ] ; then
++              update-alternatives --remove sh $BUSYBOX
++              rm -f $BUSYBOX
++           fi
++        fi
++} 
++
+ pkg_prerm_${PN} () {
+ 	# This is so you can make busybox commit suicide - removing busybox with no other packages
+ 	# providing its files, this will make update-alternatives work, but the update-rc.d part
+@@ -453,9 +479,26 @@ pkg_prerm_${PN} () {
+ 	ln -s ${base_bindir}/busybox $tmpdir/grep
+ 	ln -s ${base_bindir}/busybox $tmpdir/tail
+ 	export PATH=$PATH:$tmpdir
++
++        # If busybox is the shell, we need to save it since its the lowest priority shell
++        # Register saved bitbake as the lowest priority shell possible as back up.
++        if [ -n "$(readlink -f /bin/sh | grep busybox)" ] ; then
++           BUSYBOX=$(readlink -f /bin/sh)
++           cp $BUSYBOX $tmpdir/$(basename $BUSYBOX)
++           update-alternatives --install /bin/sh sh $tmpdir/$(basename $BUSYBOX) 1 
++        fi
+ }
+ 
+ pkg_postrm_${PN} () {
++        # Add path to remove dir in case we removed our only grep
++        if [ "x$D" = "x" ] ; then
++           for busybox_rmdir in /tmp/busyboxrm-*; do
++               if [ "$busybox_rmdir" != '/tmp/busyboxrm-*' ] ; then
++                  export PATH=$busybox_rmdir:$PATH
++               fi
++           done
++        fi
++
+ 	if grep -q "^${base_bindir}/bash$" $D${sysconfdir}/busybox.links* && [ ! -e $D${base_bindir}/bash ]; then
+ 		printf "$(grep -v "^${base_bindir}/bash$" $D${sysconfdir}/shells)\n" > $D${sysconfdir}/shells
+ 	fi
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.20.1
+
