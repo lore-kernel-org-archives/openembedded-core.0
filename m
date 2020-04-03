@@ -1,227 +1,224 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by mx.groups.io with SMTP id smtpd.web12.9023.1585955510286011396
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+ by mx.groups.io with SMTP id smtpd.web12.9185.1585956143036486143
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2020 16:11:50 -0700
+ Fri, 03 Apr 2020 16:22:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 192.55.52.43, mailfrom: timothy.t.orling@linux.intel.com)
-IronPort-SDR: PGYCiayofkEd1VwZCyUq2pZDmpe3DMeeRgJ4iTFe/aTI3PIZeTdega3iYyx6IoW8lscPk0KjXs
- 2El97ac+O4BA==
+ dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 192.55.52.151, mailfrom: timothy.t.orling@linux.intel.com)
+IronPort-SDR: Gez9speEnwOsmTPNzGO9PvDh4LvR/A/+8vi6KYFWFfHNGROLEUmto+OQXiStO3XpHdEeQjAAnN
+ N19bsvy6b6pQ==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2020 16:11:49 -0700
-IronPort-SDR: +/WLDL6K6Spw1KrsdQuvHLQ4vLpFd6ZOTJBdUf8Eh62Lgokl4SIFScs2diXxRBxosU09wZhDJ/
- ud/MbIm0/HIA==
-X-ExtLoop1: 1
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2020 16:22:22 -0700
+IronPort-SDR: QGZhcNy0ket72lZzYwyr3oOgztAe6098UpZfW+iUgR3SCqPB0Ec+AtCOnRITmMvxddakrRz3Gb
+ ilRQIDQgo+mQ==
 X-IronPort-AV: E=Sophos;i="5.72,341,1580803200"; 
-   d="scan'208";a="241250382"
-Received: from wrath.jf.intel.com ([10.54.31.24])
-  by fmsmga007.fm.intel.com with ESMTP; 03 Apr 2020 16:11:49 -0700
+   d="scan'208,217";a="250310974"
+Received: from amspicke-mobl.amr.corp.intel.com ([10.255.230.64])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2020 16:22:21 -0700
 From: "Tim Orling" <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: kai.kang@windriver.com,
-	randy.macleod@windriver.com,
-	armccurdy@gmail.com,
-	Tim Orling <timothy.t.orling@linux.intel.com>
-Subject: [PATCH] scripts/install-buildtools: refactor for Python 3.4
-Date: Fri,  3 Apr 2020 16:11:38 -0700
-Message-Id: <20200403231138.9560-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.24.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-Id: <CA7CE9BB-3AFE-40B8-B1A6-22BBB43A23F5@linux.intel.com>
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [OE-core] [PATCH 1/4] scripts/install-buildtools: improvements
+Date: Fri, 3 Apr 2020 16:22:20 -0700
+In-Reply-To: <9bd493e6c0a4117b04e636bc0f3200e84ab30cbd.camel@linuxfoundation.org>
+Cc: Tim Orling <ticotimo@gmail.com>,
+ OE Core mailing list <openembedded-core@lists.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Andre McCurdy <armccurdy@gmail.com>
+References: <20200330194302.30032-1-timothy.t.orling@linux.intel.com>
+ <CAJ86T=XCX7MGRVzoTzaaD3Xe9FqdWM9zX2Zha5Mk8Zo2y1MRVg@mail.gmail.com>
+ <1601CF873C42565A.6346@lists.openembedded.org>
+ <CANx9H-BNf9ubLHJr3V_2ZAHcpucYooRtXkA9bOJ8_Q1_aPQmjw@mail.gmail.com>
+ <CAJ86T=WwkHPTyi4K7jg0=XOV4OgSGAjN8NcYhQ8JvUY5JY7jxw@mail.gmail.com>
+ <9bd493e6c0a4117b04e636bc0f3200e84ab30cbd.camel@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+Content-Type: multipart/alternative;
+	boundary="Apple-Mail=_54294D89-DAFE-4E48-9885-88A9D1E6DEEC"
 
-Our least common denominator supported distro is debian-8
-which has python 3.4. The whole point of the install-buildtools
-script is to make it easier on the user to install buildtools
-tarball. So it needs to run on Python 3.4.
+--Apple-Mail=_54294D89-DAFE-4E48-9885-88A9D1E6DEEC
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-The way we checked if the install was successful in the prior
-version of the script was not workable in python 3.4. Since
-the environment-setup-... script is currently just exporting
-environment variables, use os.environ to do the equivalent from
-values gleaned via regex from the environment-setup-... file.
 
-Corrected a couple minor whitespace errors
 
-NOTE: License changed to GPL-2.0-only due to inclusion of code
-copied directly from bitbake/lib/bb/utils.py. This avoids the
-need to depend on bitbake, which is now Python 3.5+ only.
+> On Apr 1, 2020, at 3:16 PM, Richard Purdie <richard.purdie@linuxfoundati=
+on.org> wrote:
+>=20
+> On Wed, 2020-04-01 at 15:09 -0700, Andre McCurdy wrote:
+>> On Wed, Apr 1, 2020 at 3:02 PM Tim Orling <ticotimo@gmail.com> wrote:
+>>> On Wed, Apr 1, 2020 at 2:32 PM Tim Orling via
+>>> lists.openembedded.org <ticotimo=3Dgmail.com@lists.openembedded.org>
+>>> wrote:
+>>>> On Wed, Apr 1, 2020 at 1:09 PM Andre McCurdy <armccurdy@gmail.com
+>>>>> wrote:
+>>>>> It looks like there are some assumptions about the minimum
+>>>>> version of
+>>>>> python3 on the host in order to even be able to run
+>>>>> install-buildtools. Should that be checked explicitly?
+>>>>=20
+>>>> To be honest, everything was written on CentOS-7, where =E2=80=98pyth=
+on3=E2=80=99
+>>>> is now python36.
+>>>>=20
+>>>> The remaining supported holdout for 3.4 is Debian-8 (Jessie).
+>>>> Which also happens to have tar 1.27. At least it has git 2.1.4,
+>>>> so it=E2=80=99s not a complete mess.
+>>>>=20
+>>>> Python 3.4 is already EOL. We should not support it for the
+>>>> complete build system, but I can see that the install-buildtools
+>>>> script should ideally still run on python34. The whole point is
+>>>> to make it easier to install the pre-built buildtools.
+>>>=20
+>>> Python 3.5 is now required in bitbake/lib/bb/__init__.py
+>>> Which is needed for bb.utils.md5sum_file and sha256_file to check
+>>> the checksum of the download. I=E2=80=99d rather not have to rewrite t=
+hose
+>>> functions.
+>>=20
+>> Looks like copy and pasting ~30 lines? Maybe not even much of a net
+>> increase in code size if you can remove the existing code to check
+>> that bitbake libs are available...
+>>=20
+>> def _hasher(method, filename):
+>>    import mmap
+>>=20
+>>    with open(filename, "rb") as f:
+>>        try:
+>>            with mmap.mmap(f.fileno(), 0, access=3Dmmap.ACCESS_READ) as
+>> mm:
+>>                for chunk in iter(lambda: mm.read(8192), b''):
+>>                    method.update(chunk)
+>>        except ValueError:
+>>            # You can't mmap() an empty file so silence this
+>> exception
+>>            pass
+>>    return method.hexdigest()
+>>=20
+>> def md5_file(filename):
+>>    """
+>>    Return the hex string representation of the MD5 checksum of
+>> filename.
+>>    """
+>>    import hashlib
+>>    return _hasher(hashlib.md5(), filename)
+>>=20
+>> def sha256_file(filename):
+>>    """
+>>    Return the hex string representation of the 256-bit SHA checksum
+>> of
+>>    filename.
+>>    """
+>>    import hashlib
+>>    return _hasher(hashlib.sha256(), filename)
+>=20
+> Can you send a patch against master-next please? The buildtools
+> installer is one place we probably do want to support older pythons and
+> it shouldn't be too onnerous.
+>=20
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
----
- scripts/install-buildtools | 103 ++++++++++++++++++++++++++++---------
- 1 file changed, 79 insertions(+), 24 deletions(-)
+Submitted. The check for whether the install worked or not was the hardest=
+ part.
+After many iterations, I just could not get subprocess.Popen to work as ex=
+pected on python 3.4.
+https://patchwork.openembedded.org/patch/171593/ <https://patchwork.openem=
+bedded.org/patch/171593/>
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 92fb1eb7d25..9da364981e5 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -4,7 +4,7 @@
- #
- # Copyright (C) 2017-2020 Intel Corporation
- #
--# SPDX-License-Identifier: MIT
-+# SPDX-License-Identifier: GPL-2.0-only
- #
- #  NOTE: --with-extended-buildtools is on by default
- #
-@@ -37,6 +37,7 @@ import logging
- import os
- import re
- import shutil
-+import shlex
- import stat
- import subprocess
- import sys
-@@ -49,21 +50,56 @@ sys.path = sys.path + [lib_path]
- import scriptutils
- import scriptpath
- 
--# Figure out where is the bitbake/lib/bb since we need bb.utils.md5_file
--bitbakepath = scriptpath.add_bitbake_lib_path()
--if not bitbakepath:
--    sys.stderr.write("Unable to find bitbake by searching parent directory "
--                     "of this script or PATH\n")
--    sys.exit(1)
- 
- PROGNAME = 'install-buildtools'
- logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
- 
--DEFAULT_INSTALL_DIR: str = os.path.join(os.path.split(scripts_path)[0],'buildtools')
--DEFAULT_BASE_URL: str = 'http://downloads.yoctoproject.org/releases/yocto'
--DEFAULT_RELEASE: str = 'yocto-3.1_M3'
--DEFAULT_INSTALLER_VERSION: str = '3.0+snapshot'
--DEFAULT_BUILDDATE: str = "20200315"
-+DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
-+DEFAULT_BASE_URL = 'http://downloads.yoctoproject.org/releases/yocto'
-+DEFAULT_RELEASE = 'yocto-3.1_M3'
-+DEFAULT_INSTALLER_VERSION = '3.0+snapshot'
-+DEFAULT_BUILDDATE = "20200315"
-+
-+# Python version sanity check
-+if not (sys.version_info.major == 3 and sys.version_info.minor >= 4):
-+    logger.error("This script requires Python 3.4 or greater")
-+    logger.error("You have Python %s.%s" %
-+	  (sys.version_info.major, sys.version_info.minor))
-+    sys.exit(1)
-+
-+# The following three functions are copied directly from
-+# bitbake/lib/bb/utils.py, in order to allow this script
-+# to run on versions of python earlier than what bitbake
-+# supports (e.g. less than Python 3.5 for YP 3.1 release)
-+
-+def _hasher(method, filename):
-+    import mmap
-+
-+    with open(filename, "rb") as f:
-+        try:
-+            with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
-+                for chunk in iter(lambda: mm.read(8192), b''):
-+                    method.update(chunk)
-+        except ValueError:
-+            # You can't mmap() an empty file so silence this exception
-+            pass
-+    return method.hexdigest()
-+
-+
-+def md5_file(filename):
-+    """
-+    Return the hex string representation of the MD5 checksum of filename.
-+    """
-+    import hashlib
-+    return _hasher(hashlib.md5(), filename)
-+
-+def sha256_file(filename):
-+    """
-+    Return the hex string representation of the 256-bit SHA checksum of
-+    filename.
-+    """
-+    import hashlib
-+    return _hasher(hashlib.sha256(), filename)
- 
- 
- def main():
-@@ -72,10 +108,10 @@ def main():
-     global DEFAULT_RELEASE
-     global DEFAULT_INSTALLER_VERSION
-     global DEFAULT_BUILDDATE
--    filename: str = ""
--    release: str = ""
--    buildtools_url: str = ""
--    install_dir: str = ""
-+    filename = ""
-+    release = ""
-+    buildtools_url = ""
-+    install_dir = ""
- 
-     parser = argparse.ArgumentParser(
-         description="Buildtools installation helper",
-@@ -187,10 +223,9 @@ def main():
- 
-         # Verify checksum
-         if args.check:
--            import bb
-             logger.info("Fetching buildtools installer checksum")
-             checksum_type = ""
--            for checksum_type in ["md5sum", "sha256"]: 
-+            for checksum_type in ["md5sum", "sha256"]:
-                 check_url = "{}.{}".format(buildtools_url, checksum_type)
-                 checksum_filename = "{}.{}".format(filename, checksum_type)
-                 tmpbuildtools_checksum = os.path.join(tmpsdk_dir, checksum_filename)
-@@ -215,9 +250,9 @@ def main():
-                     return 1
-                 checksum = m.group('checksum')
-             if checksum_type == "md5sum":
--                checksum_value = bb.utils.md5_file(tmpbuildtools)
-+                checksum_value = md5_file(tmpbuildtools)
-             else:
--                checksum_value = bb.utils.sha256_file(tmpbuildtools)
-+                checksum_value = sha256_file(tmpbuildtools)
-             if checksum == checksum_value:
-                     logger.info("Checksum success")
-             else:
-@@ -239,6 +274,21 @@ def main():
-         if ret != 0:
-             logger.error("Could not run buildtools installer")
- 
-+        # Setup the environment
-+        logger.info("Setting up the environment")
-+        regex = re.compile(r'^(?P<export>export )?(?P<env_var>[A-Z_]+)=(?P<env_val>.+)$')
-+        with open("%s/environment-setup-x86_64-pokysdk-linux" %
-+                  install_dir, 'rb') as f:
-+            for line in f:
-+                match = regex.search(line.decode('utf-8'))
-+                logger.debug("export regex: %s" % match)
-+                if match:
-+                    env_var = match.group('env_var')
-+                    logger.debug("env_var: %s" % env_var)
-+                    env_val = match.group('env_val')
-+                    logger.debug("env_val: %s" % env_val)
-+                    os.environ[env_var] = env_val
-+
-         # Test installation
-         logger.info("Testing installation")
-         tool = ""
-@@ -252,10 +302,15 @@ def main():
-         else:
-             tool = 'tar'
-         logger.debug("install_dir: %s" % install_dir)
--        proc = subprocess.run(". %s/environment-setup-x86_64-pokysdk-linux && which %s" %
--                              (install_dir, tool),
--                              shell=True, stdout=subprocess.PIPE)
--        which_tool = proc.stdout.decode("utf-8")
-+        cmd = shlex.split("/usr/bin/which %s" % tool)
-+        logger.debug("cmd: %s" % cmd)
-+        logger.debug("tool: %s" % tool)
-+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-+        output, errors = proc.communicate()
-+        logger.debug("proc.args: %s" % proc.args)
-+        logger.debug("proc.communicate(): output %s" % output)
-+        logger.debug("proc.communicate(): errors %s" % errors)
-+        which_tool = output.decode('utf-8')
-         logger.debug("which %s: %s" % (tool, which_tool))
-         ret = proc.returncode
-         if not which_tool.startswith(install_dir):
--- 
-2.24.0
+Thank you Andre for the testing and input. It takes a village to make a go=
+od release.
 
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+
+
+--Apple-Mail=_54294D89-DAFE-4E48-9885-88A9D1E6DEEC
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=utf-8
+
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; charset=
+=
+=3Dutf-8"></head><body style=3D"word-wrap: break-word; -webkit-nbsp-mode: =
+space; line-break: after-white-space;" class=3D""><br class=3D""><div><br c=
+lass=3D""><blockquote type=3D"cite" class=3D""><div class=3D"">On Apr 1, 20=
+20, at 3:16 PM, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
+undation.org" class=3D"">richard.purdie@linuxfoundation.org</a>&gt; wrote:<=
+/div><br class=3D"Apple-interchange-newline"><div class=3D""><div class=3D"=
+">On Wed, 2020-04-01 at 15:09 -0700, Andre McCurdy wrote:<br class=3D""><bl=
+ockquote type=3D"cite" class=3D"">On Wed, Apr 1, 2020 at 3:02 PM Tim Orling=
+ &lt;<a href=3D"mailto:ticotimo@gmail.com" class=3D"">ticotimo@gmail.com</a=
+>&gt; wrote:<br class=3D""><blockquote type=3D"cite" class=3D"">On Wed, Apr=
+ 1, 2020 at 2:32 PM Tim Orling via<br class=3D""><a href=3D"http://lists.op=
+enembedded.org" class=3D"">lists.openembedded.org</a> &lt;<a href=3D"mailto=
+:ticotimo=3Dgmail.com@lists.openembedded.org" class=3D"">ticotimo=3Dgmail.c=
+om@lists.openembedded.org</a>&gt;<br class=3D"">wrote:<br class=3D""><block=
+quote type=3D"cite" class=3D"">On Wed, Apr 1, 2020 at 1:09 PM Andre McCurdy=
+ &lt;<a href=3D"mailto:armccurdy@gmail.com" class=3D"">armccurdy@gmail.com<=
+/a><br class=3D""><blockquote type=3D"cite" class=3D"">wrote:<br class=3D""=
+>It looks like there are some assumptions about the minimum<br class=3D"">v=
+ersion of<br class=3D"">python3 on the host in order to even be able to run=
+<br class=3D"">install-buildtools. Should that be checked explicitly?<br cl=
+ass=3D""></blockquote><br class=3D"">To be honest, everything was written o=
+n CentOS-7, where =E2=80=98python3=E2=80=99<br class=3D"">is now python36.<=
+br class=3D""><br class=3D"">The remaining supported holdout for 3.4 is Deb=
+ian-8 (Jessie).<br class=3D"">Which also happens to have tar 1.27. At least=
+ it has git 2.1.4,<br class=3D"">so it=E2=80=99s not a complete mess.<br cl=
+ass=3D""><br class=3D"">Python 3.4 is already EOL. We should not support it=
+ for the<br class=3D"">complete build system, but I can see that the instal=
+l-buildtools<br class=3D"">script should ideally still run on python34. The=
+ whole point is<br class=3D"">to make it easier to install the pre-built bu=
+ildtools.<br class=3D""></blockquote><br class=3D"">Python 3.5 is now requi=
+red in bitbake/lib/bb/__init__.py<br class=3D"">Which is needed for bb.util=
+s.md5sum_file and sha256_file to check<br class=3D"">the checksum of the do=
+wnload. I=E2=80=99d rather not have to rewrite those<br class=3D"">function=
+s.<br class=3D""></blockquote><br class=3D"">Looks like copy and pasting ~3=
+0 lines? Maybe not even much of a net<br class=3D"">increase in code size i=
+f you can remove the existing code to check<br class=3D"">that bitbake libs=
+ are available...<br class=3D""><br class=3D"">def _hasher(method, filename=
+):<br class=3D""> &nbsp;&nbsp;&nbsp;import mmap<br class=3D""><br class=3D"=
+"> &nbsp;&nbsp;&nbsp;with open(filename, "rb") as f:<br class=3D""> &nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try:<br class=3D""> &nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;with mmap.mmap(f.fileno(), 0,=
+ access=3Dmmap.ACCESS_READ) as<br class=3D"">mm:<br class=3D""> &nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;for chunk in iter(lambda: mm.read(8192), b''):<br class=3D""> &nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;method.update(chunk)<br class=3D""> &nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;except ValueError:<br class=3D""> &nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# You can't mmap(=
+) an empty file so silence this<br class=3D"">exception<br class=3D""> &nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pass<br class=
+=
+=3D""> &nbsp;&nbsp;&nbsp;return method.hexdigest()<br class=3D""><br class=
+=
+=3D"">def md5_file(filename):<br class=3D""> &nbsp;&nbsp;&nbsp;"""<br clas=
+s=3D""> &nbsp;&nbsp;&nbsp;Return the hex string representation of the MD5 c=
+hecksum of<br class=3D"">filename.<br class=3D""> &nbsp;&nbsp;&nbsp;"""<br =
+class=3D""> &nbsp;&nbsp;&nbsp;import hashlib<br class=3D""> &nbsp;&nbsp;&nb=
+sp;return _hasher(hashlib.md5(), filename)<br class=3D""><br class=3D"">def=
+ sha256_file(filename):<br class=3D""> &nbsp;&nbsp;&nbsp;"""<br class=3D"">=
+ &nbsp;&nbsp;&nbsp;Return the hex string representation of the 256-bit SHA =
+checksum<br class=3D"">of<br class=3D""> &nbsp;&nbsp;&nbsp;filename.<br cla=
+ss=3D""> &nbsp;&nbsp;&nbsp;"""<br class=3D""> &nbsp;&nbsp;&nbsp;import hash=
+lib<br class=3D""> &nbsp;&nbsp;&nbsp;return _hasher(hashlib.sha256(), filen=
+ame)<br class=3D""></blockquote><br class=3D"">Can you send a patch against=
+ master-next please? The buildtools<br class=3D"">installer is one place we=
+ probably do want to support older pythons and<br class=3D"">it shouldn't b=
+e too onnerous.<br class=3D""><br class=3D""></div></div></blockquote><div>=
+<br class=3D""></div><div>Submitted. The check for whether the install work=
+ed or not was the hardest part.</div><div>After many iterations, I just cou=
+ld not get subprocess.Popen to work as expected on python 3.4.</div><a href=
+=
+=3D"https://patchwork.openembedded.org/patch/171593/" class=3D"">https://p=
+atchwork.openembedded.org/patch/171593/</a></div><div><br class=3D""></div>=
+<div>Thank you Andre for the testing and input. It takes a village to make =
+a good release.</div><div><br class=3D""><blockquote type=3D"cite" class=3D=
+""><div class=3D""><div class=3D"">Cheers,<br class=3D""><br class=3D"">Ric=
+hard<br class=3D""><br class=3D""><br class=3D""></div></div></blockquote><=
+/div><br class=3D""></body></html>
+
+--Apple-Mail=_54294D89-DAFE-4E48-9885-88A9D1E6DEEC--
