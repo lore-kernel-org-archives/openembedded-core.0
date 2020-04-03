@@ -1,165 +1,97 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
- by mx.groups.io with SMTP id smtpd.web12.7159.1585949502725239075
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web10.7109.1585949673630022444
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2020 14:31:42 -0700
+ Fri, 03 Apr 2020 14:34:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nSJXiVzT;
- spf=pass (domain: gmail.com, ip: 209.85.210.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f193.google.com with SMTP id c138so4218028pfc.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 14:31:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WA1Snrpx;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id i186so786026qke.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 14:34:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tfSsJbABoFRzNKug89qt+jmUoGRHcE2o6rx+uKYhSl8=;
-        b=nSJXiVzTqe5iPAirfmb4zGXK+CEJPPanYS8ZbXn6PhyTZjVElWD39WGi08VtkGf+sm
-         lcJKuQgikocvTC1d9G3AMKyxe8Yaa80TgOroOSHSCqrwC8ZHeHleoKP6hXIineKV8jd+
-         kA7bvMOLhE2H/22ChgJR2fmWf3N7TYXuQkDBeFAzvmogEt0ghYAjH2k7lU11kbFV5T2D
-         r9ioZDvoU/CJHDr7R20KW6xZ/7uxTZIDiZMm9fPrXa8fvQ7yL7CbFFvAU+F8gCnrqAIg
-         ngPBRdyI5zSpQSHCqjpnPerl+PhtE/F8bgV3TJm2JE7x3O1KyO2HUwRuQZcyrUpqxNfR
-         CaQw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yBksuf2coR96DG2NHAEE6udc7iExQHctPh+Ve6kM9q4=;
+        b=WA1SnrpxMINYRa2mnucsDyFjP3N3+LhNXDm+fq/pGY21TxPo4xlOgmW5FDgsjqcXg7
+         Miwv4cZUu5e5Vx5dHoLwyj6HmYgUDy9ZU3dQWjwC1NFEGV9h3BU+rF7KudR7y6hAKvcM
+         hwDOHW59miXuSFktBF3tFHplKRhGX8S67tNqlXTmsPIjMCVRRH1gbdSna6A6wjsm8jj0
+         CP12T7gm093XocXssk/b/UwKXEW8CQSL83OFlJ774UgEoql6tW0ZfvYUst9KMXN2s13/
+         jQshzRyiKkBpOxnqHBXoQJgSx2YSD+m99LfnUSxXUcTpuCQgReecDFSig5kiZTv4vbQS
+         FZ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=tfSsJbABoFRzNKug89qt+jmUoGRHcE2o6rx+uKYhSl8=;
-        b=gzP3IJqNHNVVVe0AVj9AmH9KeCVOtKTh7iEbhvvmOne6gShUzODDFBHNw5WnlGWhv8
-         Mk9PNHLwFM3iPXsJszypPWQNy+LD7onXu6bFZ4RTRmoYXIZ2lZ4SLrrNALMOacaHAheE
-         /L0yUuX4VQIDHHiulwAE3utp67QENn0/+dhAL4lsFi+ohSqj5Lc/CtMoTPYA6kGvdZVE
-         fCXRC4EAbGO+2NU6UAeWDWEd0DNMcp1nipoDdgCPLdOO2dCqEvewMe5tbkMDwBpGuTB6
-         J1wba6B1aXt/guA0cVvyYyBpXGJ4GnO7GgIX/HV43gCOQAdGCIcrVTWvJb/ElNsDT/7n
-         MfYg==
-X-Gm-Message-State: AGi0PuYwGCAaslsR41dlYtxBHPt37Lh5rsJwpK46MEusasIGubQYRNx3
-	Onll8v1IphZ5W9qqzlf7wJJ0tcbgYNE=
-X-Google-Smtp-Source: APiQypKA/WnyXmpVOuUWYBK4JmZgow9ggxMVV2u/81vqan7LgujieWJndqIDKmocSTW/KzvVB6+KYA==
-X-Received: by 2002:a63:5716:: with SMTP id l22mr10183473pgb.164.1585949501501;
-        Fri, 03 Apr 2020 14:31:41 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::3e84])
-        by smtp.gmail.com with ESMTPSA id d3sm6410077pjc.42.2020.04.03.14.31.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2020 14:31:40 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Wouter Meek <w.meek@metrological.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH V2] icu: Add knobs to generate a subset of ICU data
-Date: Fri,  3 Apr 2020 14:31:54 -0700
-Message-Id: <20200403213154.197656-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yBksuf2coR96DG2NHAEE6udc7iExQHctPh+Ve6kM9q4=;
+        b=iSpba9n4+JJbqwb8wDLIrN936suJkNMcgvVhy9UIhWlzwsihFgREiLTXc5Pk1Vv4If
+         tZcFJSEeDtTmZTqIOBu8FZieiaeK7EIv5/o8JIpHejT9hoHalN8wHPyi3kpofgHA2bKS
+         4bAVDft6pRtdwd5kZhOKO0xs4HSqSJkBv7dZNYcWNNV0OKbr73J0kp7CWchK16oAiTBW
+         MeIbMZNNdbdVbBZ8o17mJVwLDLiShFugw4F2sv4nCpyuLUHTabAIDW3+YlifeY9c/9xS
+         Vmjw/Tj571WOeUGLhowXdA1qYIr280V4KrhCWm6rPkuFTOOXB0dD9/8WILg98tXmuCGX
+         jrnw==
+X-Gm-Message-State: AGi0PuZ1Yr4k5paHs82Bz9T+2b7RCQUU/mk40QTBb8qEJY8wVXRPu7VW
+	H/nNPx2RpZjjs3d8i77JjDS5MBMzxdqZGCG2idA=
+X-Google-Smtp-Source: APiQypKFrA5Ssioq6kSo7XpXYxs7XqJAsct+95iie7bpDhrecyGPzlz8Fpi3p70yhOMs85zw31IFcOapqduEPiKrg84=
+X-Received: by 2002:a37:bd81:: with SMTP id n123mr11119098qkf.431.1585949672525;
+ Fri, 03 Apr 2020 14:34:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200403015350.1002891-1-raj.khem@gmail.com> <dee2e56432928c971eb0f1512f5945d6af846b89.camel@linuxfoundation.org>
+ <CAMKF1srEjB5cg57jWM2dVfESrf17M2diBB_5P4Ws3bgZgmhgig@mail.gmail.com> <9eed52a88b813418984822caaa6417d009417cb9.camel@linuxfoundation.org>
+In-Reply-To: <9eed52a88b813418984822caaa6417d009417cb9.camel@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Fri, 3 Apr 2020 14:34:06 -0700
+Message-ID: <CAMKF1soLEpfbCUoT3ap_76fR-y6T3pBtJG52ixR-EAw7YziJ6g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] icu: Add knobs to generate a subset of ICU data
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Wouter Meek <w.meek@metrological.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Recent versions of ICU (64+) provides a tool for configuring ICU
-locale data file with finer granularity [1]
+On Fri, Apr 3, 2020 at 10:47 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2020-04-03 at 08:55 -0700, Khem Raj wrote:
+> > On Fri, Apr 3, 2020 at 8:26 AM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > On Thu, 2020-04-02 at 18:53 -0700, Khem Raj wrote:
+> > > > Recent versions of ICU (64+) provides a tool for configuring ICU
+> > > > locale data file with finer granularity [1]
+> > > >
+> > > > Default generated size for libicudata.so.66.1 is ~27M, which is
+> > > > quite
+> > > > large for embedded systems and all of them may not even need all
+> > > > locale
+> > > > data.
+> > > >
+> > > > This patch calls the icudata buildtool during configure on the
+> > > > icudata
+> > > > and utilizes a filter called 'filter.json` ( empty by default) to
+> > > > create the data, default behavior should remain same but someone
+> > > > can
+> > > > add a filter.json in own layer to configure this data, e.g.
+> > >
+> > > Nice idea, fails on ppc:
+> > >
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/107/builds/411
+> > >
+> >
+> > yeah looking into it. Are there any other arch failures ?
+>
+> mips:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1749
+> mips64:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/1753
+> edgerouter:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/111/builds/414
+>
 
-Default generated size for libicudata.so.66.1 is ~27M, which is quite
-large for embedded systems and all of them may not even need all locale
-data.
+Thanks, I think I understand the problem, its when target endianness
+is bigendian
+and the host is little-endian, I have sent a v2 which should fix it.
+Give v2 a shot.
 
-This patch calls the icudata buildtool during configure on the icudata
-and utilizes a filter called 'filter.json` ( empty by default) to
-create the data, default behavior should remain same but someone can
-add a filter.json in own layer to configure this data, e.g.
-
-{
-  "localeFilter": {
-    "filterType": "language",
-    "whitelist": [
-      "en",
-      "de",
-      "it"
-    ]
-  }
-}
-
-would only generate the locale data for english/german/italian
-
-This would reduce the size of libicudata.so.66.1 to 12M
-
-Ensure that icudata is generated using host-tools so it can deal with
-endianness correctly, when host and target systems have different
-endianness
-
-[1] https://github.com/unicode-org/icu/blob/master/docs/userguide/icu_data/buildtool.md
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Suggested-by: Wouter Meek <w.meek@metrological.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
-v2: Fix build for BE systems
-
- meta/recipes-support/icu/icu.inc         |  2 +-
- meta/recipes-support/icu/icu/filter.json |  2 ++
- meta/recipes-support/icu/icu_66.1.bb     | 25 +++++++++++++++++++++---
- 3 files changed, 25 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-support/icu/icu/filter.json
-
-diff --git a/meta/recipes-support/icu/icu.inc b/meta/recipes-support/icu/icu.inc
-index 6d9728903d..d6ff82926e 100644
---- a/meta/recipes-support/icu/icu.inc
-+++ b/meta/recipes-support/icu/icu.inc
-@@ -59,7 +59,7 @@ do_install_append_class-target() {
-     # Use icupkg to re-generate it.
-     if [ "${SITEINFO_ENDIANNESS}" = "be" ] ; then
-         rm -f ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
--        icupkg -tb ${S}/data/in/icudt${ICU_MAJOR_VER}l.dat ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
-+        icupkg -tb ${S}/data/out/icudt${ICU_MAJOR_VER}l.dat ${D}/${datadir}/${BPN}/${PV}/icudt${ICU_MAJOR_VER}b.dat
-     fi
- 	
- 	# Remove build host references...
-diff --git a/meta/recipes-support/icu/icu/filter.json b/meta/recipes-support/icu/icu/filter.json
-new file mode 100644
-index 0000000000..2c63c08510
---- /dev/null
-+++ b/meta/recipes-support/icu/icu/filter.json
-@@ -0,0 +1,2 @@
-+{
-+}
-diff --git a/meta/recipes-support/icu/icu_66.1.bb b/meta/recipes-support/icu/icu_66.1.bb
-index 5018464c14..0e1304b52d 100644
---- a/meta/recipes-support/icu/icu_66.1.bb
-+++ b/meta/recipes-support/icu/icu_66.1.bb
-@@ -18,7 +18,10 @@ ARM_INSTRUCTION_SET_armv4 = "arm"
- ARM_INSTRUCTION_SET_armv5 = "arm"
- 
- BASE_SRC_URI = "https://github.com/unicode-org/icu/releases/download/release-${ICU_FOLDER}/icu4c-${ICU_PV}-src.tgz"
--SRC_URI = "${BASE_SRC_URI} \
-+DATA_SRC_URI = "https://github.com/unicode-org/icu/releases/download/release-${ICU_FOLDER}/icu4c-${ICU_PV}-data.zip"
-+SRC_URI = "${BASE_SRC_URI};name=code \
-+           ${DATA_SRC_URI};name=data \
-+           file://filter.json \
-            file://icu-pkgdata-large-cmd.patch \
-            file://fix-install-manx.patch \
-            file://0001-Fix-big-endian-build.patch \
-@@ -28,8 +31,24 @@ SRC_URI = "${BASE_SRC_URI} \
- SRC_URI_append_class-target = "\
-            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
-           "
--SRC_URI[md5sum] = "b33dc6766711517c98d318447e5110f8"
--SRC_URI[sha256sum] = "52a3f2209ab95559c1cf0a14f24338001f389615bf00e2585ef3dbc43ecf0a2e"
-+SRC_URI[code.sha256sum] = "52a3f2209ab95559c1cf0a14f24338001f389615bf00e2585ef3dbc43ecf0a2e"
-+SRC_URI[data.sha256sum] = "8be647f738891d2beb79d48f99077b3499948430eae6f1be112553b15ab0243e"
- 
- UPSTREAM_CHECK_REGEX = "icu4c-(?P<pver>\d+(_\d+)+)-src"
- UPSTREAM_CHECK_URI = "https://github.com/unicode-org/icu/releases"
-+
-+do_make_icudata_class-target () {
-+    rm -rf ${S}/data
-+    cp -a ${WORKDIR}/data ${S}
-+    cd ${S}
-+    unset CC CPP CXX CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-+    ICU_DATA_FILTER_FILE=${WORKDIR}/filter.json \
-+    ./runConfigureICU Linux --with-data-packaging=archive
-+    oe_runmake ${PARALLEL_MAKE}
-+}
-+
-+do_make_icudata() {
-+    :
-+}
-+
-+addtask make_icudata before do_configure after do_patch
--- 
-2.26.0
-
+> Cheers,
+>
+> Richard
+>
+> 
