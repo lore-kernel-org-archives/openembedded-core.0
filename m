@@ -1,324 +1,272 @@
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com [209.85.166.65])
- by mx.groups.io with SMTP id smtpd.web11.779.1585934172904921488
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web11.966.1585934632214538226
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2020 10:16:13 -0700
+ Fri, 03 Apr 2020 10:23:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PE/Pc2Jt;
- spf=pass (domain: gmail.com, ip: 209.85.166.65, mailfrom: raj.khem@gmail.com)
-Received: by mail-io1-f65.google.com with SMTP id m15so8298730iob.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 10:16:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=D9Tb76FU;
+ spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: rehsack@gmail.com)
+Received: by mail-wm1-f66.google.com with SMTP id z14so2616244wmf.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 10:23:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=cHLxPKAFgR9zpePFcbtvP0tk1ayctqjtfpt15fvD3yo=;
-        b=PE/Pc2JtIXpFCFqIKFc2SUw8M5S5hPrxTAVFC7a6INIpqbDlERg3/O5p7fRzqymSIE
-         fVm9LODgbfub6VwMvm+ribhJl6sAPcW7LSqRg7ySMtE8Mys/rOSHuUtC4GWNOIIzh+TU
-         DCtxmp7rgpUNaV8FECEy+211oM4bO0nWGS23tUqnYm9NX7wKy1339/dxuBsY3/mn6vEO
-         NWONuEeuYZXoTQZ1l9fs8LAhINhftpgR9/kM64cIZYP96xebA2dvaIJHZJN7w0yN4GLT
-         0NssdHaq3ZmRhk4H4VhjnF59hHMStUQzelARoG1blhBflLZfKp4Sn9CeiLDDnCJTvB2L
-         2W2g==
+        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
+         :references;
+        bh=c7rt70I+vZCVzqKLr9b9S+xfxSoPlqd9Q8vRBQmNi4Y=;
+        b=D9Tb76FUeFu2kHO31TFjBJYZ3om1zlCvyGqvA8+9SQKsEPybwtyx2Ym0+4yKeEP5kd
+         4/q15hfg2soCKpZbjX4F3ngh0pNy5pvuusBGqTzstuYMSX/3p+VLHJvVYliDb0rfUu65
+         8J7REU/zIbsZhD+tdiDOUB6iUd0oe6r3CFCYiGP5yJZ8ZRzpj3icjR3xDqHaJmVESNyv
+         xThxDSeF9alK71uKB906tn7R4pRCFUiAyV9YVK90Cw1Q3ceukOy11fj8rjrv5FxpcnMk
+         ruL9ldGdnVehyJu41IUUg3V4JcEp8a8JE0WF0WMHXxUaSRzxTQBgpPzanJFSFRNXQc+y
+         Tjwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=cHLxPKAFgR9zpePFcbtvP0tk1ayctqjtfpt15fvD3yo=;
-        b=P1bbn0Qf/3WpXF241xK1VAvy2D7Ift9lvUMeo3cD6rkl9tvEVd2277zAtIu9jG5emr
-         vEKmDflZNL1lWkAa14MfWKecNymCga44QEZiWRQ9aFXy/XVj5EU4EAgSnFJhjUUtleeQ
-         oThb9r7S44/wL6NCM6tdNwtgQfkD/sALdBrJuNax8Xxp6xM1Lx6PHB0XQ3LCw8qH41WM
-         dK3+k7L97UK+k3aJdOvFziDEwwLZ0ki2TZ/JabkXlSqNySL6JT3qOHtPlNud86OpyhLd
-         3rPgJzod8/IiS2YBYB39nIc8Cqjjsqnioq0FbfnSRj2peFUhgtyyGXxuYSWdHjdGPT1d
-         BFNw==
-X-Gm-Message-State: AGi0PubJsCqSl3NFj9HgvPTR8C9gp3U/KolJhFnIM4iOE80xVIu5Zeh0
-	qRqC6d/tF7ylGEuJo5JcjaEvU1JEXnI=
-X-Google-Smtp-Source: APiQypJzIK06RHWKj0WpvGDKgjsW4LO7lJeYfF2MGXCj262luV5qU9PThw0tzr/RDfOSBgZqpYnSFQ==
-X-Received: by 2002:a6b:8fd8:: with SMTP id r207mr8605456iod.158.1585934171293;
-        Fri, 03 Apr 2020 10:16:11 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0:5d80:f4ba:ee3c:9546? ([2601:646:9200:4e0:5d80:f4ba:ee3c:9546])
-        by smtp.gmail.com with ESMTPSA id 82sm2392527iou.54.2020.04.03.10.16.10
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Apr 2020 10:16:10 -0700 (PDT)
-Subject: Re: [OE-core][PATCH] glib-2.0: Backport GMainContext fixes
-To: openembedded-core@lists.openembedded.org
-References: <20200403072018.2952371-1-daniel@qtec.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <04a9bc5c-fa6f-ea78-36b2-5db00bdcaeb7@gmail.com>
-Date: Fri, 3 Apr 2020 10:16:08 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.6.0
-MIME-Version: 1.0
-In-Reply-To: <20200403072018.2952371-1-daniel@qtec.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+        h=x-gm-message-state:from:message-id:mime-version:subject:date
+         :in-reply-to:cc:to:references;
+        bh=c7rt70I+vZCVzqKLr9b9S+xfxSoPlqd9Q8vRBQmNi4Y=;
+        b=jJFwCXn71biHWYQNQzW/PLmervfEhD9INFUf67ZvVKx1ybyMlopVabzzfFdxIvkNI/
+         SDvtJ95UwM/WQmIceohdwFby4hGXDC3TeB/d5IBR05WJmr7L3rhkqvDYm9o7VQT+EriK
+         x1wOshLSKqosh5udDuctVb0VPNuAlGGEGVTK3OI421tfEC6CqPZI5eiOkD1gxDjzCQCf
+         zDc1v0YUm1U95/rOgNNPcO7ReknVIxU4h62SUOD3NFRVY34yR3nzgchoJhmEplKw7QsS
+         sgmtWigRV8nEp5MBdNBEDBzQv2E7+CG7lukK3c5pZyeOcTtqr0kf/EQgF9qFnMaX0W9z
+         E1tw==
+X-Gm-Message-State: AGi0PuYp7GmhrU58La9kUnBaSFCMZSOom9rSVaR5wPnWSfa4B8VzCPUV
+	G6v2CB8kka6u0fcCTdZPgDQ=
+X-Google-Smtp-Source: APiQypLZl7ql18Mx0ShJu+7NYGzDGbnjgnSgmzPB9WGGLaD1eXay/dAxnKC6/JbJy9MPGgsN4AaD9Q==
+X-Received: by 2002:a05:600c:552:: with SMTP id k18mr10271934wmc.180.1585934630763;
+        Fri, 03 Apr 2020 10:23:50 -0700 (PDT)
+Return-Path: <rehsack@gmail.com>
+Received: from [10.42.8.217] (p5B25B65E.dip0.t-ipconnect.de. [91.37.182.94])
+        by smtp.gmail.com with ESMTPSA id e8sm4889025wrw.40.2020.04.03.10.23.49
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 03 Apr 2020 10:23:49 -0700 (PDT)
+From: "Jens Rehsack" <rehsack@gmail.com>
+Message-Id: <9AC1F461-839C-476A-A91B-0FE0AE18A570@gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [OE-core][PATCH] initscripts/init-system-helpers: fix mountnfs.sh dependency
+Date: Fri, 3 Apr 2020 19:23:48 +0200
+In-Reply-To: <CAJ86T=VW2WxbxpKNvF4fSV6iPg6_NHPtSu6kKAY37XRZ_m_c8Q@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <20200330165105.7151-1-sno@netbsd.org>
+ <CAJ86T=UzXroEiVQhD8TZOH6ia0bnGY+drtSZawtocvWOH7JsWQ@mail.gmail.com>
+ <6603E84C-D054-4927-968B-1AFBFFCF129D@gmail.com>
+ <CAJ86T=VW2WxbxpKNvF4fSV6iPg6_NHPtSu6kKAY37XRZ_m_c8Q@mail.gmail.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-Groupsio-MsgNum: 136986
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_430448AC-0163-4ED2-B97E-B2364B6067C5";
+	protocol="application/pgp-signature";
+	micalg=pgp-sha512
+
+--Apple-Mail=_430448AC-0163-4ED2-B97E-B2364B6067C5
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
+
+
+
+> Am 03.04.2020 um 19:11 schrieb Andre McCurdy <armccurdy@gmail.com>:
+>=20
+> On Fri, Apr 3, 2020 at 8:57 AM Jens Rehsack <rehsack@gmail.com> wrote:
+>>> Am 30.03.2020 um 19:19 schrieb Andre McCurdy <armccurdy@gmail.com>:
+>>> On Mon, Mar 30, 2020 at 9:51 AM Jens Rehsack <rehsack@gmail.com> wrote=
+:
+>>>>=20
+>>>> With commit c9fc9110be33fe0f24bc3a7c242b584a4ca33e04
+>>>>   Author: Yue Tao <Yue.Tao@windriver.com>
+>>>>   Date:   Fri May 25 10:48:08 2018 +0800
+>>>>=20
+>>>>       initscripts: Avoid starting rpcbind daemon twice
+>>>>=20
+>>>>       Check the status before start it to avoid duplicates.
+>>>>=20
+>>>> the use of a script {/usr/sbin/}service is introduced - maybe earlier
+>>>> provided by systemd, nowadays mostly by init-system-helpers from
+>>>> debian project.
+>>>>=20
+>>>> For the very first shot, maybe discussions and improvements based
+>>>> on that script collection, use just the init-system-helpers-service
+>>>> in initscripts/mountnfs.sh to avoid problems mounting NFS in later
+>>>> boot stage.
+>>>>=20
+>>>> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+>>>> ---
+>>>> .../initscripts/init-system-helpers_1.57.bb   | 52 ++++++++++++++++++=
++
+>>>> .../initscripts/initscripts_1.0.bb            |  1 +
+>>>> 2 files changed, 53 insertions(+)
+>>>> create mode 100644 meta/recipes-core/initscripts/init-system-helpers_=
+1.57.bb
+>>>>=20
+>>>> diff --git a/meta/recipes-core/initscripts/init-system-helpers_1.57.b=
+b b/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
+>>>> new file mode 100644
+>>>> index 0000000000..2b09983483
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
+>>>> @@ -0,0 +1,52 @@
+>>>> +# Copyright (C) 2020 Jens Rehsack <sno@netbsd.org>
+>>>> +# Released under the MIT license (see COPYING.MIT for the terms)
+>>>=20
+>>> Is this really necessary?
+>>=20
+>> Nope. It's a default preambel, vim adds :)
+>>=20
+>>>> +SUMMARY =3D "helper tools for all init systems"
+>>>> +DESCRIPTION =3D "This package contains helper tools that are necessa=
+ry for switching between \
+>>>> +the various init systems that Debian contains (e. g. sysvinit or \
+>>>> +systemd). An example is deb-systemd-helper, a script that enables sy=
+stemd unit \
+>>>> +files without depending on a running systemd. \
+>>>> +\
+>>>> +It also includes the \"service\", \"invoke-rc.d\", and \"update-rc.d=
+\" scripts which \
+>>>> +provide an abstraction for enabling, disabling, starting, and stoppi=
+ng \
+>>>> +services for all supported Debian init systems as specified by the p=
+olicy. \
+>>>> +\
+>>>> +While this package is maintained by pkg-systemd-maintainers, it is N=
+OT \
+>>>> +specific to systemd at all. Maintainers of other init systems are we=
+lcome to \
+>>>> +include their helpers in this package."
+>>>> +HOMEPAGE =3D "https://salsa.debian.org/debian/init-system-helpers"
+>>>> +SECTION =3D "base"
+>>>> +LICENSE =3D "BSD-3-clause & GPLv2"
+>>>> +LIC_FILES_CHKSUM =3D "file://debian/copyright;md5=3Dee2b1830fcfead84=
+d07bc060ec43e072"
+>>>> +
+>>>> +PACKAGES +=3D "${PN}-invoke-rc.d ${PN}-service ${PN}-update-rc.d"
+>>>=20
+>>> According to the OE style guide, PACKAGES should go near the end of
+>>> the recipe (after do_install, before FILES_${PN}).
+>>=20
+>> *shrug*
+>> I see that neither initscripts nor busybox following this guide - so I =
+don't know.
+>=20
+> Yeah, most people don't care about variable ordering and maintainers
+> don't do anything to enforce it so this comment was mainly FYI.
+
+I checked http://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEm=
+bedded
+but there is nothing prominent regarding style.
+
+>>>> +DEPENDS =3D "perl"
+>>>=20
+>>> Since this recipe doesn't do anything in do_configure or do_compile
+>>> it's odd that it needs a build time dependency on perl?
+>>=20
+>> As debian/control says so.
+>>=20
+>> And maybe little time later someone wants to do something with
+>> update-rc.d or one of the systemd helpers as debian does.
+>> Or one likes to add man-pages (pod2man)?
+>>=20
+>> It's not that wrong.
+>=20
+> Unnecessary build time dependencies can cause increased build times
+> (either due to building dependencies which otherwise would not have
+> been needed or limiting the scope the build scheduler has for
+> parallelization). Maybe not in this case since there's a run time
+> dependency on perl too, but in general adding unnecessary dependencies
+> just looks bad - as if you don't really understand the concept. Adding
+> a dependency now because it might be needed in the future isn't a good
+> justification either.
+
+You can bet that I care for seriously unnecessary dependencies :)
+
+>>>> +SRCREV =3D "760c625ec0e1ffebec2e391d891d389da0f65726"
+>>>> +SRC_URI =3D "git://salsa.debian.org/debian/init-system-helpers.git"
+>>>> +
+>>>> +S =3D "${WORKDIR}/git"
+>>>> +
+>>>> +do_configure() {
+>>>> +       :
+>>>> +}
+>>>> +
+>>>> +do_compile() {
+>>>> +       :
+>>>> +}
+>>>> +
+>>>> +do_install() {
+>>>> +       install -d -m 0755 ${D}${sbindir}
+>>>> +       install -m 0755 ${S}/script/invoke-rc.d ${D}${sbindir}
+>>>> +       install -m 0755 ${S}/script/service ${D}${sbindir}
+>>>> +       install -m 0755 ${S}/script/update-rc.d ${D}${sbindir}
+>>>> +}
+>>>> +
+>>>> +FILES_${PN} =3D ""
+>>>=20
+>>> If you want the default package to be empty then you probably need to =
+add:
+>>>=20
+>>> ALLOW_EMPTY_${PN} =3D "1"
+>>=20
+>> Yeah - wanted to add that but fall through ...
+>>=20
+>>>> +FILES_${PN}-invoke-rc.d =3D "${sbindir}/invoke-rc.d"
+>>>> +FILES_${PN}-service =3D "${sbindir}/service"
+>>>> +FILES_${PN}-update-rc.d =3D "${sbindir}/update-rc.d"
+>>>> +
+>>>> +RDEPENDS_${PN}-update-rc.d =3D "perl"
+>>>> +RRECOMMENDS_${PN} +=3D "${PN}-invoke-rc.d ${PN}-service ${PN}-update=
+-rc.d"
+>>>> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/=
+recipes-core/initscripts/initscripts_1.0.bb
+>>>> index 1a59b82fbf..4080c4a495 100644
+>>>> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+>>>> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+>>>> @@ -50,6 +50,7 @@ PACKAGE_WRITE_DEPS_append =3D " ${@bb.utils.contain=
+s('DISTRO_FEATURES','systemd','
+>>>> PACKAGES =3D+ "${PN}-functions ${PN}-sushell"
+>>>> RDEPENDS_${PN} =3D "initd-functions \
+>>>>                  ${@bb.utils.contains('DISTRO_FEATURES','selinux','${=
+PN}-sushell','',d)} \
+>>>> +                  init-system-helpers-service \
+>>>>                "
+>>>> # Recommend pn-functions so that it will be a preferred default provi=
+der for initd-functions
+>>>> RRECOMMENDS_${PN} =3D "${PN}-functions"
+>>>> --
+>>>> 2.17.1
+>>>>=20
+>>>>=20
+>>=20
+>> --
+>> Jens Rehsack - rehsack@gmail.com
+>>=20
+>=20
+
+--
+Jens Rehsack - rehsack@gmail.com
+
+
+--Apple-Mail=_430448AC-0163-4ED2-B97E-B2364B6067C5
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
 
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAl6HcSQACgkQRJmWrtzl
+Cp13zw//fexmxXr1/gULgumu+M8fadW3Dz0itHMV+VQfa4i4EVjwWyw8zFJ8T9g3
+zrdteQxdXK3ui+9x8rbEvSBh4XWDZdTAsFWypnisbq9Pru91D63IipVORMbCph5x
+eZUv5+j7kKsOYOIRS7n6FqienhN6soSqS4zYVjxQbCzwaA/brQFu2/CnccwMnQqn
+wHavVwtD1j6J0b0OIkqXTG8eYgHSIKJFsZ4NM1mqt2Mv0DCBLhyiJGnT8zvQTnSi
+TX5ghgp0ZRFk4Vuk5q1LVB1M0aKAVq2H+IaJoz3+4IS7C1hSEYYjSJEf5FNRdq+4
++IqioitWdVoJVS9F/RTRBzPhkI/rhC2/v9NCA7pVSJDbhOdhp3HImT48RpcFU2iF
+1Gxn3X72Sf6OYCf0yWs/Co0LjR1tcGcqwwxd1X5YHbOG9TK5xtvSznDhHf2Ehspt
+pcr+GlGsDuX9J2eAxz2rN0JSrcBpb13r9lDI5vo1keQ0ajiTXpyu9uXtSSIIpp1y
+Qjih9oX5ud9XHmUy37DWBabVc0tvnYwC1c4on9CqjJXrkQBej0TOlQiC6k9esPH7
+GCkwbxxgRFapVi9+klAq92LE0ZPRAh6iPj+SRlB0mjU124Pd6xaORoXaRneKoAsO
+XXxfyoi5g0G8rookPWFR/+sHWs6Evorgzuy6gshK4oZ/MO/ROV4=
+=JRIE
+-----END PGP SIGNATURE-----
 
-On 4/3/20 12:20 AM, Daniel Gomez wrote:
-> Backport fixes introduced in 2.63.6 for memory leaks and memory corruption in
-> GMainContext
-> 
-> Upstream merge: https://gitlab.gnome.org/GNOME/glib/-/merge_requests/1353
-> 
-> Fixes SIGSEGV in GStreamer:
-> 
->      Thread 2 "multihandlesink" received signal SIGSEGV, Segmentation fault.
->      [Switching to Thread 0x7ffff6bb9700 (LWP 18045)]
->      0x00007ffff7d65992 in g_source_unref_internal (source=0x7ffff00047d0, context=0x55555561c800, have_lock=1) at ../../../../../../../repo/workspace/sources/glib-2.0/glib/gmain.c:2146
->      2146    ../../../../../../../repo/workspace/sources/glib-2.0/glib/gmain.c: No such file or directory.
->      (gdb) bt
->      #0  0x00007ffff7d65992 in g_source_unref_internal (source=0x7ffff00047d0, context=0x55555561c800, have_lock=1) at ../../../../../../../repo/workspace/sources/glib-2.0/glib/gmain.c:2146
->      #1  0x00007ffff7d65bb6 in g_source_iter_next (iter=iter@entry=0x7ffff6bb8db0, source=source@entry=0x7ffff6bb8da8) at ../../../../../../../repo/workspace/sources/glib-2.0/glib/gmain.c:980
->      #2  0x00007ffff7d67ef3 in g_main_context_prepare (context=context@entry=0x55555561c800, priority=priority@entry=0x7ffff6bb8e30) at ../../../../../../../repo/workspace/sources/glib-2.0/glib/gmain.c:944
->      #3  0x00007ffff7d6896b in g_main_context_iterate (context=context@entry=0x55555561c800, block=block@entry=1, dispatch=dispatch@entry=1, self=<optimized out>) at ../../../../../../../repo/workspace/sources/glib-2.0/glib/gmain.c:3900
->      #4  0x00007ffff7d68b4c in g_main_context_iteration (context=0x55555561c800, may_block=may_block@entry=1) at ../../../../../../../repo/workspace/sources/glib-2.0/glib/gmain.c:3981
->      #5  0x00007ffff6be4482 in gst_multi_socket_sink_thread (mhsink=0x555555679ab0 [GstMultiSocketSink]) at ../../../gst-plugins-base-1.14.4/gst/tcp/gstmultisocketsink.c:1164
->      #6  0x00007ffff7d8fb35 in g_thread_proxy (data=0x55555565c770) at ../../../../../../../repo/workspace/sources/glib-2.0/glib/gthread.c:784
->      #7  0x00007ffff7841ebd in start_thread (arg=<optimized out>) at pthread_create.c:486
->      #8  0x00007ffff7aa12bf in clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
->      #8  0x00007ffff7aa12bf in clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
-> 
-
-this change is good
-
-
-> Signed-off-by: Daniel Gomez <daniel@qtec.com>
-> ---
->   ...-GSource-iterator-if-iteration-can-m.patch |  43 +++++++
->   ...-memory-leaks-and-memory-corruption-.patch | 109 ++++++++++++++++++
->   ...e-mutex-unlocking-in-destructor-righ.patch |  36 ++++++
->   meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb |   3 +
->   4 files changed, 191 insertions(+)
->   create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0011-GMainContext-Fix-GSource-iterator-if-iteration-can-m.patch
->   create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0012-GMainContext-Fix-memory-leaks-and-memory-corruption-.patch
->   create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0013-GMainContext-Move-mutex-unlocking-in-destructor-righ.patch
-> 
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0011-GMainContext-Fix-GSource-iterator-if-iteration-can-m.patch b/meta/recipes-core/glib-2.0/glib-2.0/0011-GMainContext-Fix-GSource-iterator-if-iteration-can-m.patch
-> new file mode 100644
-> index 0000000000..3aae6f0c8c
-> --- /dev/null
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0011-GMainContext-Fix-GSource-iterator-if-iteration-can-m.patch
-> @@ -0,0 +1,43 @@
-> +From ef2be42998e3fc10299055a5a01f7c791538174c Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-> +Date: Mon, 3 Feb 2020 15:38:28 +0200
-> +Subject: [PATCH] GMainContext - Fix GSource iterator if iteration can modify
-> + the list
-> +
-> +We first have to ref the next source and then unref the previous one.
-> +This might be the last reference to the previous source, and freeing the
-> +previous source might unref and free the next one which would then leave
-> +use with a dangling pointer here.
-> +
-> +Fixes https://gitlab.gnome.org/GNOME/glib/issues/2031
-> +
-> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/b06c48de7554607ff3fb58d6c0510cfa5088e909]
-> +
-> +---
-> + glib/gmain.c | 8 ++++++--
-> + 1 file changed, 6 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/glib/gmain.c b/glib/gmain.c
-> +index af979c8..a9a287d 100644
-> +--- a/glib/gmain.c
-> ++++ b/glib/gmain.c
-> +@@ -969,13 +969,17 @@ g_source_iter_next (GSourceIter *iter, GSource **source)
-> +    * GSourceList to be removed from source_lists (if iter->source is
-> +    * the only source in its list, and it is destroyed), so we have to
-> +    * keep it reffed until after we advance iter->current_list, above.
-> ++   *
-> ++   * Also we first have to ref the next source before unreffing the
-> ++   * previous one as unreffing the previous source can potentially
-> ++   * free the next one.
-> +    */
-> ++  if (next_source && iter->may_modify)
-> ++    g_source_ref (next_source);
-> +
-> +   if (iter->source && iter->may_modify)
-> +     g_source_unref_internal (iter->source, iter->context, TRUE);
-> +   iter->source = next_source;
-> +-  if (iter->source && iter->may_modify)
-> +-    g_source_ref (iter->source);
-> +
-> +   *source = iter->source;
-> +   return *source != NULL;
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0012-GMainContext-Fix-memory-leaks-and-memory-corruption-.patch b/meta/recipes-core/glib-2.0/glib-2.0/0012-GMainContext-Fix-memory-leaks-and-memory-corruption-.patch
-> new file mode 100644
-> index 0000000000..8c025f7fc6
-> --- /dev/null
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0012-GMainContext-Fix-memory-leaks-and-memory-corruption-.patch
-> @@ -0,0 +1,109 @@
-> +From 611430a32a46d0dc806a829161e2dccf9c0196a8 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-> +Date: Mon, 3 Feb 2020 15:35:51 +0200
-> +Subject: [PATCH] GMainContext - Fix memory leaks and memory corruption when
-> + freeing sources while freeing a context
-> +
-> +Instead of destroying sources directly while freeing the context, and
-> +potentially freeing them if this was the last reference to them, collect
-> +new references of all sources in a separate list before and at the same
-> +time invalidate their context so that they can't access it anymore. Only
-> +once all sources have their context invalidated, destroy them while
-> +still keeping a reference to them. Once all sources are destroyed we get
-> +rid of the additional references and free them if nothing else keeps a
-> +reference to them anymore.
-> +
-> +This fixes a regression introduced by 26056558be in 2012.
-> +
-> +The previous code that invalidated the context of each source and then
-> +destroyed it before going to the next source without keeping an
-> +additional reference caused memory leaks or memory corruption depending
-> +on the order of the sources in the sources lists.
-> +
-> +If a source was destroyed it might happen that this was the last
-> +reference to this source, and it would then be freed. This would cause
-> +the finalize function to be called, which might destroy and unref
-> +another source and potentially free it. This other source would then
-> +either
-> +- go through the normal free logic and change the intern linked list
-> +  between the sources, while other sources that are unreffed as part of
-> +  the main context freeing would not. As such the list would be in an
-> +  inconsistent state and we might dereference freed memory.
-> +- go through the normal destroy and free logic but because the context
-> +  pointer was already invalidated it would simply mark the source as
-> +  destroyed without actually removing it from the context. This would
-> +  then cause a memory leak because the reference owned by the context is
-> +  not freed.
-> +
-> +Fixes https://github.com/gtk-rs/glib/issues/583 while still keeping
-> +https://bugzilla.gnome.org/show_bug.cgi?id=661767 fixes.
-> +
-> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/aa20167d419c649f34fed06a9463890b41b1eba0]
-> +
-> +---
-> + glib/gmain.c | 35 ++++++++++++++++++++++++++++++++++-
-> + 1 file changed, 34 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/glib/gmain.c b/glib/gmain.c
-> +index a9a287d..10ba2f8 100644
-> +--- a/glib/gmain.c
-> ++++ b/glib/gmain.c
-> +@@ -538,6 +538,7 @@ g_main_context_unref (GMainContext *context)
-> +   GSourceIter iter;
-> +   GSource *source;
-> +   GList *sl_iter;
-> ++  GSList *s_iter, *remaining_sources = NULL;
-> +   GSourceList *list;
-> +   guint i;
-> +
-> +@@ -557,10 +558,30 @@ g_main_context_unref (GMainContext *context)
-> +
-> +   /* g_source_iter_next() assumes the context is locked. */
-> +   LOCK_CONTEXT (context);
-> +-  g_source_iter_init (&iter, context, TRUE);
-> ++
-> ++  /* First collect all remaining sources from the sources lists and store a
-> ++   * new reference in a separate list. Also set the context of the sources
-> ++   * to NULL so that they can't access a partially destroyed context anymore.
-> ++   *
-> ++   * We have to do this first so that we have a strong reference to all
-> ++   * sources and destroying them below does not also free them, and so that
-> ++   * none of the sources can access the context from their finalize/dispose
-> ++   * functions. */
-> ++  g_source_iter_init (&iter, context, FALSE);
-> +   while (g_source_iter_next (&iter, &source))
-> +     {
-> +       source->context = NULL;
-> ++      remaining_sources = g_slist_prepend (remaining_sources, g_source_ref (source));
-> ++    }
-> ++  g_source_iter_clear (&iter);
-> ++
-> ++  /* Next destroy all sources. As we still hold a reference to all of them,
-> ++   * this won't cause any of them to be freed yet and especially prevents any
-> ++   * source that unrefs another source from its finalize function to be freed.
-> ++   */
-> ++  for (s_iter = remaining_sources; s_iter; s_iter = s_iter->next)
-> ++    {
-> ++      source = s_iter->data;
-> +       g_source_destroy_internal (source, context, TRUE);
-> +     }
-> +   UNLOCK_CONTEXT (context);
-> +@@ -585,6 +606,18 @@ g_main_context_unref (GMainContext *context)
-> +   g_cond_clear (&context->cond);
-> +
-> +   g_free (context);
-> ++
-> ++  /* And now finally get rid of our references to the sources. This will cause
-> ++   * them to be freed unless something else still has a reference to them. Due
-> ++   * to setting the context pointers in the sources to NULL above, this won't
-> ++   * ever access the context or the internal linked list inside the GSource.
-> ++   * We already removed the sources completely from the context above. */
-> ++  for (s_iter = remaining_sources; s_iter; s_iter = s_iter->next)
-> ++    {
-> ++      source = s_iter->data;
-> ++      g_source_unref_internal (source, NULL, FALSE);
-> ++    }
-> ++  g_slist_free (remaining_sources);
-> + }
-> +
-> + /* Helper function used by mainloop/overflow test.
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0013-GMainContext-Move-mutex-unlocking-in-destructor-righ.patch b/meta/recipes-core/glib-2.0/glib-2.0/0013-GMainContext-Move-mutex-unlocking-in-destructor-righ.patch
-> new file mode 100644
-> index 0000000000..b10ba0066e
-> --- /dev/null
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0/0013-GMainContext-Move-mutex-unlocking-in-destructor-righ.patch
-> @@ -0,0 +1,36 @@
-> +From 3e9d85f1b75e2b1096d9643563d7d17380752fc7 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
-> +Date: Tue, 11 Feb 2020 09:34:38 +0200
-> +Subject: [PATCH] GMainContext - Move mutex unlocking in destructor right
-> + before freeing the mutex
-> +
-> +This does not have any behaviour changes but is cleaner. The mutex is
-> +only unlocked now after all operations on the context are done and right
-> +before freeing the mutex and the context itself.
-> +
-> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/730a75fc8e8271c38fbd5363d1f77a00876b9ddc]
-> +
-> +---
-> + glib/gmain.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/glib/gmain.c b/glib/gmain.c
-> +index 10ba2f8..b1df470 100644
-> +--- a/glib/gmain.c
-> ++++ b/glib/gmain.c
-> +@@ -584,7 +584,6 @@ g_main_context_unref (GMainContext *context)
-> +       source = s_iter->data;
-> +       g_source_destroy_internal (source, context, TRUE);
-> +     }
-> +-  UNLOCK_CONTEXT (context);
-> +
-> +   for (sl_iter = context->source_lists; sl_iter; sl_iter = sl_iter->next)
-> +     {
-> +@@ -595,6 +594,7 @@ g_main_context_unref (GMainContext *context)
-> +
-> +   g_hash_table_destroy (context->sources);
-> +
-> ++  UNLOCK_CONTEXT (context);
-> +   g_mutex_clear (&context->mutex);
-> +
-> +   g_ptr_array_free (context->pending_dispatches, TRUE);
-> diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
-> index 5ed3b4e871..d496235003 100644
-> --- a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
-> +++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
-> @@ -16,6 +16,9 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
->              file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
->              file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
->              file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
-> +           file://0011-GMainContext-Fix-GSource-iterator-if-iteration-can-m.patch \
-> +           file://0012-GMainContext-Fix-memory-leaks-and-memory-corruption-.patch \
-> +           file://0013-GMainContext-Move-mutex-unlocking-in-destructor-righ.patch \
->              "
-> 
->   SRC_URI_append_class-native = " file://relocate-modules.patch"
-> --
-> 2.25.1
-> 
-> 
-> 
-> 
+--Apple-Mail=_430448AC-0163-4ED2-B97E-B2364B6067C5--
