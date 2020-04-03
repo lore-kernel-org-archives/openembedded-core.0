@@ -1,219 +1,227 @@
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com [209.85.217.67])
- by mx.groups.io with SMTP id smtpd.web10.8479.1585953554366259333
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web12.9023.1585955510286011396
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2020 15:39:14 -0700
+ Fri, 03 Apr 2020 16:11:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=up6Ep8Wy;
- spf=pass (domain: gmail.com, ip: 209.85.217.67, mailfrom: armccurdy@gmail.com)
-Received: by mail-vs1-f67.google.com with SMTP id y138so6044254vsy.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 15:39:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Z4nknzCNXcYlq73p4xUmMNVgECkFHxVErYrR6h8BJHA=;
-        b=up6Ep8WyxEtzLMsdXJgYcuZfwFSXzBk3IzkxelNecSsVoOAvNXkCr+gqspEHmTUBfY
-         t/jNc6rU2K/O8MUb3DN8OjxbI4qX7p0ccfEPXI0rwJE1CJlWHJaPYhVOL4s/1p4ruIr6
-         RJG/q5LdhjpEu6nfvKJ3B9tZLsgW1H2Im8NZpHmftmGtDYGHRyN7am56Zc+D8Mn13SEc
-         VKhr0zEdWBg7m9pcmp+XHFPoxe3Lm2W4PrdNYYbvqVzkA1d38u/rpMXccrcGvue9Tp4v
-         IJh07lj2AZ+fmywSq9c+JaskfA6pcJoVsK+9EsKkRht7q8vvKOpsqGbDMlCjKmW9jY3/
-         MMOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Z4nknzCNXcYlq73p4xUmMNVgECkFHxVErYrR6h8BJHA=;
-        b=tsW4gvolVP+xmu8gaoJ64WWLGXHCgGmh7pjXyDG526176PcNIZIheuPDOA+5VS+mFa
-         c+T/C26ZsvHytZ471dnDj95WMi2RdGvXRddauqvAViK/lZtwKFz4+PygXL7YtqOQvquV
-         Tjk2SdgKbadK26erlc16AqoUcIcExrja5OjQ4JUp2MjR1ME0KVMyLiLRoJ5ufoACcHh1
-         415yStuDAjQOta6MEmKZj9uB5WbP1oV5tt9JaQ5CotZy8otz6mSBP2jfQQjGj1/brcHL
-         E4K9Na3BsHzQHuKXmxhQm0Vu+RkuXYhpxhHFDPEDSkzV8u/jUxZIUod1712P28GoZ8IX
-         qBvA==
-X-Gm-Message-State: AGi0PuYt48IpmmeGNepDWA0JGo7cyzBO4n1Jot8onSOcskMrKKD4j6bh
-	Ifzs6n8MPr3pEYAeM/c07TLwF9fGMdg2iZpSOpU=
-X-Google-Smtp-Source: APiQypLJAAjAaHQOzHSaqtoO7HDU6Mp7I5GMiKRwwHYXepGphSSPN819UXK2lgFAbe1PBaYvDKE9Whlkor71j6kuTcM=
-X-Received: by 2002:a67:80d6:: with SMTP id b205mr8013725vsd.137.1585953553243;
- Fri, 03 Apr 2020 15:39:13 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 192.55.52.43, mailfrom: timothy.t.orling@linux.intel.com)
+IronPort-SDR: PGYCiayofkEd1VwZCyUq2pZDmpe3DMeeRgJ4iTFe/aTI3PIZeTdega3iYyx6IoW8lscPk0KjXs
+ 2El97ac+O4BA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2020 16:11:49 -0700
+IronPort-SDR: +/WLDL6K6Spw1KrsdQuvHLQ4vLpFd6ZOTJBdUf8Eh62Lgokl4SIFScs2diXxRBxosU09wZhDJ/
+ ud/MbIm0/HIA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,341,1580803200"; 
+   d="scan'208";a="241250382"
+Received: from wrath.jf.intel.com ([10.54.31.24])
+  by fmsmga007.fm.intel.com with ESMTP; 03 Apr 2020 16:11:49 -0700
+From: "Tim Orling" <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: kai.kang@windriver.com,
+	randy.macleod@windriver.com,
+	armccurdy@gmail.com,
+	Tim Orling <timothy.t.orling@linux.intel.com>
+Subject: [PATCH] scripts/install-buildtools: refactor for Python 3.4
+Date: Fri,  3 Apr 2020 16:11:38 -0700
+Message-Id: <20200403231138.9560-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-References: <20200403215938.175657-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20200403215938.175657-1-richard.purdie@linuxfoundation.org>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Fri, 3 Apr 2020 15:39:04 -0700
-Message-ID: <CAJ86T=XabPQEn6xFeCwU9MLTPx50N86o6-HAyAAgu1r6UYWwCQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] pseudo: Force seccomp to return success when in fact doing nothing
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 3, 2020 at 2:59 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> Pseudo changes the syscall access patterns which makes it incompatible with
-> seccomp. Therefore intercept the seccomp syscall and alter it, pretending that
-> seccomp was setup when in fact we do nothing. If we error as unsupported,
-> utilities like file will exit with errors so we can't just disable it.
->
-> This works around issues on platforms where seccomp is enabled in file
-> (e.g. archlinux).
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  .../pseudo/files/seccomp.patch                | 124 ++++++++++++++++++
->  meta/recipes-devtools/pseudo/pseudo_git.bb    |   1 +
->  2 files changed, 125 insertions(+)
->  create mode 100644 meta/recipes-devtools/pseudo/files/seccomp.patch
->
-> diff --git a/meta/recipes-devtools/pseudo/files/seccomp.patch b/meta/recipes-devtools/pseudo/files/seccomp.patch
-> new file mode 100644
-> index 00000000000..dd4ba666a90
-> --- /dev/null
-> +++ b/meta/recipes-devtools/pseudo/files/seccomp.patch
-> @@ -0,0 +1,124 @@
-> +Pseudo changes the syscall access patterns which makes it incompatible with
-> +seccomp. Therefore intercept the seccomp syscall and alter it, pretending that
-> +seccomp was setup when in fact we do nothing. If we error as unsupported,
-> +utilities like file will exit with errors so we can't just disable it.
-> +
-> +Upstream-Status: Pending
-> +RP 2020/4/3
-> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> +
-> +Index: git/ports/linux/pseudo_wrappers.c
-> +===================================================================
-> +--- git.orig/ports/linux/pseudo_wrappers.c
-> ++++ git/ports/linux/pseudo_wrappers.c
-> +@@ -57,6 +57,7 @@ int pseudo_capset(cap_user_header_t hdrp
-> + long
-> + syscall(long number, ...) {
-> +       long rc = -1;
-> ++      va_list ap;
-> +
-> +       if (!pseudo_check_wrappers() || !real_syscall) {
-> +               /* rc was initialized to the "failure" value */
-> +@@ -77,6 +78,20 @@ syscall(long number, ...) {
-> +       (void) number;
-> + #endif
-> +
-> ++#ifdef SYS_seccomp
-> ++      /* pseudo and seccomp are incompatible as pseudo uses different syscalls
-> ++       * so pretend to enable seccomp but really do nothing */
-> ++      if (number == SYS_seccomp) {
-> ++              unsigned long cmd;
-> ++              va_start(ap, number);
-> ++              cmd = va_arg(ap, unsigned long);
-> ++              va_end(ap);
-> ++              if (cmd == SECCOMP_SET_MODE_FILTER) {
-> ++                  return 0;
-> ++              }
-> ++      }
-> ++#endif
-> ++
-> +       /* gcc magic to attempt to just pass these args to syscall. we have to
-> +        * guess about the number of args; the docs discuss calling conventions
-> +        * up to 7, so let's try that?
-> +@@ -92,3 +108,42 @@ static long wrap_syscall(long nr, va_lis
-> +       (void) ap;
-> +       return -1;
-> + }
-> ++
-> ++int
-> ++prctl(int option, ...) {
-> ++      int rc = -1;
-> ++      va_list ap;
-> ++
-> ++      if (!pseudo_check_wrappers() || !real_syscall) {
-> ++              /* rc was initialized to the "failure" value */
-> ++              pseudo_enosys("prctl");
-> ++              return rc;
-> ++      }
-> ++
-> ++      /* pseudo and seccomp are incompatible as pseudo uses different syscalls
-> ++       * so pretend to enable seccomp but really do nothing */
-> ++      if (option == PR_SET_SECCOMP) {
-> ++              unsigned long cmd;
-> ++              va_start(ap, option);
-> ++              cmd = va_arg(ap, unsigned long);
-> ++              va_end(ap);
-> ++              if (cmd == SECCOMP_SET_MODE_FILTER) {
-> ++                  return 0;
-> ++              }
-> ++      }
-> ++
-> ++      /* gcc magic to attempt to just pass these args to syscall. we have to
+Our least common denominator supported distro is debian-8
+which has python 3.4. The whole point of the install-buildtools
+script is to make it easier on the user to install buildtools
+tarball. So it needs to run on Python 3.4.
 
-Comment needs updating - you are calling prctl() here, not syscall().
+The way we checked if the install was successful in the prior
+version of the script was not workable in python 3.4. Since
+the environment-setup-... script is currently just exporting
+environment variables, use os.environ to do the equivalent from
+values gleaned via regex from the environment-setup-... file.
 
-> ++       * guess about the number of args; the docs discuss calling conventions
-> ++       * up to 4, so let's try that?
+Corrected a couple minor whitespace errors
 
-The args for prctl() are option plus 4 additional arguments, so a
-total of 5, not 4.
+NOTE: License changed to GPL-2.0-only due to inclusion of code
+copied directly from bitbake/lib/bb/utils.py. This avoids the
+need to depend on bitbake, which is now Python 3.5+ only.
 
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+---
+ scripts/install-buildtools | 103 ++++++++++++++++++++++++++++---------
+ 1 file changed, 79 insertions(+), 24 deletions(-)
 
-> ++       */
-> ++      void *res = __builtin_apply((void (*)()) real_prctl, __builtin_apply_args(), sizeof(long) * 4);
-> ++      __builtin_return(res);
-> ++}
-> ++
-> ++/* unused.
-> ++ */
-> ++static int wrap_prctl(int option, va_list ap) {
-> ++      (void) option;
-> ++      (void) ap;
-> ++      return -1;
-> ++}
-> +Index: git/ports/linux/guts/prctl.c
-> +===================================================================
-> +--- /dev/null
-> ++++ git/ports/linux/guts/prctl.c
-> +@@ -0,0 +1,15 @@
-> ++/*
-> ++ * Copyright (c) 2020 Richard Purdie
-> ++ *
-> ++ * SPDX-License-Identifier: LGPL-2.1-only
-> ++ *
-> ++ * int prctl(int option, ...)
-> ++ *    int rc = -1;
-> ++ */
-> ++
-> ++      /* we should never get here, prctl is hand-wrapped */
-> ++      rc = -1;
-> ++
-> ++/*    return rc;
-> ++ * }
-> ++ */
-> +Index: git/ports/linux/portdefs.h
-> +===================================================================
-> +--- git.orig/ports/linux/portdefs.h
-> ++++ git/ports/linux/portdefs.h
-> +@@ -32,3 +32,5 @@ GLIBC_COMPAT_SYMBOL(memcpy,2.0);
-> +
-> + #include <linux/capability.h>
-> + #include <sys/syscall.h>
-> ++#include <sys/prctl.h>
-> ++#include <linux/seccomp.h>
-> +Index: git/ports/linux/wrapfuncs.in
-> +===================================================================
-> +--- git.orig/ports/linux/wrapfuncs.in
-> ++++ git/ports/linux/wrapfuncs.in
-> +@@ -56,3 +56,4 @@ int getgrent_r(struct group *gbuf, char
-> + int capset(cap_user_header_t hdrp, const cap_user_data_t datap); /* real_func=pseudo_capset */
-> + long syscall(long nr, ...); /* hand_wrapped=1 */
-> + int renameat2(int olddirfd, const char *oldpath, int newdirfd, const char *newpath, unsigned int flags); /* flags=AT_SYMLINK_NOFOLLOW */
-> ++int prctl(int option, ...); /* hand_wrapped=1 */
-> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> index d921d85a05c..89e43c59969 100644
-> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> @@ -10,6 +10,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
->             file://0001-Add-statx.patch \
->             file://0001-realpath.c-Remove-trailing-slashes.patch \
->             file://0006-xattr-adjust-for-attr-2.4.48-release.patch \
-> +           file://seccomp.patch \
->             "
->
->  SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
-> --
-> 2.25.1
->
-> 
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index 92fb1eb7d25..9da364981e5 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -4,7 +4,7 @@
+ #
+ # Copyright (C) 2017-2020 Intel Corporation
+ #
+-# SPDX-License-Identifier: MIT
++# SPDX-License-Identifier: GPL-2.0-only
+ #
+ #  NOTE: --with-extended-buildtools is on by default
+ #
+@@ -37,6 +37,7 @@ import logging
+ import os
+ import re
+ import shutil
++import shlex
+ import stat
+ import subprocess
+ import sys
+@@ -49,21 +50,56 @@ sys.path = sys.path + [lib_path]
+ import scriptutils
+ import scriptpath
+ 
+-# Figure out where is the bitbake/lib/bb since we need bb.utils.md5_file
+-bitbakepath = scriptpath.add_bitbake_lib_path()
+-if not bitbakepath:
+-    sys.stderr.write("Unable to find bitbake by searching parent directory "
+-                     "of this script or PATH\n")
+-    sys.exit(1)
+ 
+ PROGNAME = 'install-buildtools'
+ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+ 
+-DEFAULT_INSTALL_DIR: str = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+-DEFAULT_BASE_URL: str = 'http://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE: str = 'yocto-3.1_M3'
+-DEFAULT_INSTALLER_VERSION: str = '3.0+snapshot'
+-DEFAULT_BUILDDATE: str = "20200315"
++DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
++DEFAULT_BASE_URL = 'http://downloads.yoctoproject.org/releases/yocto'
++DEFAULT_RELEASE = 'yocto-3.1_M3'
++DEFAULT_INSTALLER_VERSION = '3.0+snapshot'
++DEFAULT_BUILDDATE = "20200315"
++
++# Python version sanity check
++if not (sys.version_info.major == 3 and sys.version_info.minor >= 4):
++    logger.error("This script requires Python 3.4 or greater")
++    logger.error("You have Python %s.%s" %
++	  (sys.version_info.major, sys.version_info.minor))
++    sys.exit(1)
++
++# The following three functions are copied directly from
++# bitbake/lib/bb/utils.py, in order to allow this script
++# to run on versions of python earlier than what bitbake
++# supports (e.g. less than Python 3.5 for YP 3.1 release)
++
++def _hasher(method, filename):
++    import mmap
++
++    with open(filename, "rb") as f:
++        try:
++            with mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ) as mm:
++                for chunk in iter(lambda: mm.read(8192), b''):
++                    method.update(chunk)
++        except ValueError:
++            # You can't mmap() an empty file so silence this exception
++            pass
++    return method.hexdigest()
++
++
++def md5_file(filename):
++    """
++    Return the hex string representation of the MD5 checksum of filename.
++    """
++    import hashlib
++    return _hasher(hashlib.md5(), filename)
++
++def sha256_file(filename):
++    """
++    Return the hex string representation of the 256-bit SHA checksum of
++    filename.
++    """
++    import hashlib
++    return _hasher(hashlib.sha256(), filename)
+ 
+ 
+ def main():
+@@ -72,10 +108,10 @@ def main():
+     global DEFAULT_RELEASE
+     global DEFAULT_INSTALLER_VERSION
+     global DEFAULT_BUILDDATE
+-    filename: str = ""
+-    release: str = ""
+-    buildtools_url: str = ""
+-    install_dir: str = ""
++    filename = ""
++    release = ""
++    buildtools_url = ""
++    install_dir = ""
+ 
+     parser = argparse.ArgumentParser(
+         description="Buildtools installation helper",
+@@ -187,10 +223,9 @@ def main():
+ 
+         # Verify checksum
+         if args.check:
+-            import bb
+             logger.info("Fetching buildtools installer checksum")
+             checksum_type = ""
+-            for checksum_type in ["md5sum", "sha256"]: 
++            for checksum_type in ["md5sum", "sha256"]:
+                 check_url = "{}.{}".format(buildtools_url, checksum_type)
+                 checksum_filename = "{}.{}".format(filename, checksum_type)
+                 tmpbuildtools_checksum = os.path.join(tmpsdk_dir, checksum_filename)
+@@ -215,9 +250,9 @@ def main():
+                     return 1
+                 checksum = m.group('checksum')
+             if checksum_type == "md5sum":
+-                checksum_value = bb.utils.md5_file(tmpbuildtools)
++                checksum_value = md5_file(tmpbuildtools)
+             else:
+-                checksum_value = bb.utils.sha256_file(tmpbuildtools)
++                checksum_value = sha256_file(tmpbuildtools)
+             if checksum == checksum_value:
+                     logger.info("Checksum success")
+             else:
+@@ -239,6 +274,21 @@ def main():
+         if ret != 0:
+             logger.error("Could not run buildtools installer")
+ 
++        # Setup the environment
++        logger.info("Setting up the environment")
++        regex = re.compile(r'^(?P<export>export )?(?P<env_var>[A-Z_]+)=(?P<env_val>.+)$')
++        with open("%s/environment-setup-x86_64-pokysdk-linux" %
++                  install_dir, 'rb') as f:
++            for line in f:
++                match = regex.search(line.decode('utf-8'))
++                logger.debug("export regex: %s" % match)
++                if match:
++                    env_var = match.group('env_var')
++                    logger.debug("env_var: %s" % env_var)
++                    env_val = match.group('env_val')
++                    logger.debug("env_val: %s" % env_val)
++                    os.environ[env_var] = env_val
++
+         # Test installation
+         logger.info("Testing installation")
+         tool = ""
+@@ -252,10 +302,15 @@ def main():
+         else:
+             tool = 'tar'
+         logger.debug("install_dir: %s" % install_dir)
+-        proc = subprocess.run(". %s/environment-setup-x86_64-pokysdk-linux && which %s" %
+-                              (install_dir, tool),
+-                              shell=True, stdout=subprocess.PIPE)
+-        which_tool = proc.stdout.decode("utf-8")
++        cmd = shlex.split("/usr/bin/which %s" % tool)
++        logger.debug("cmd: %s" % cmd)
++        logger.debug("tool: %s" % tool)
++        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE)
++        output, errors = proc.communicate()
++        logger.debug("proc.args: %s" % proc.args)
++        logger.debug("proc.communicate(): output %s" % output)
++        logger.debug("proc.communicate(): errors %s" % errors)
++        which_tool = output.decode('utf-8')
+         logger.debug("which %s: %s" % (tool, which_tool))
+         ret = proc.returncode
+         if not which_tool.startswith(install_dir):
+-- 
+2.24.0
+
