@@ -1,93 +1,137 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web11.1589.1585936019161109344
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web10.1739.1585936427001073053
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2020 10:46:59 -0700
+ Fri, 03 Apr 2020 10:53:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SUnUgYnL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id e9so8638641wme.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 10:46:58 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=acVNbMBE;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id r16so8011932wmg.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 10:53:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=Xc0QWB0MfcXqJ3EF8g77IWWEabwsC2C5HLw2v8EHd6g=;
-        b=SUnUgYnLksMrRTv4Daljw77qJNy/Znk+6rwx1AOd1FMMJ4G2G+jqwe0pe3JHT7Ll/g
-         /G7WFuLLVPXgw/xSptgJBIoLw+E+rFsWpkKQN7AZw75z9xFbhO8Y2iWyzIHpcddzDE38
-         iHd58bcL5J4yIPhgJC92v8XQHzLS5NSXSRWkk=
+        bh=Wb1FaiX5xtpOdRo/c5+0cx2Kw+viYkjB/DwO5jpgrto=;
+        b=acVNbMBEs6izKBVXtKRZfmjJKwwCidpBUgAof7/KMZJSzmJ++8+qQPzCxZ//X466cP
+         9UbB/4SGegrOVEEatltoPQKP/9Mr+CEcCr78tSX0kN/q0juUFUhtBfFYpemJ985UbXo/
+         PQ3EId+jWe/v6vG4gT+5Ye20dK/a53Aq9MpQY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Xc0QWB0MfcXqJ3EF8g77IWWEabwsC2C5HLw2v8EHd6g=;
-        b=QL8lIvCKUxsFQbL6gm/ILztrsOULAePrXMOKApWFNdJseIRXjtUEvJ2N/kxerjNHYc
-         54TmwRvFaNReeF+luM87ZWfNMvrPG/E4ksRe3uUtD7hDu4DdU+LEYX/vDjDC406J0cGf
-         X66N/llLhK/AYytFdHg/h83SUGYfRfFPnCknq1SIUt9Pi/56z97Nt1Pg+e3pS3NUXMxQ
-         PyhLbcavMSKDzYnzM/9US7NrO9PuC8H6vixkKPiHWg8jwnooVKUps7DsHikGDF2UToDo
-         TydnpX8xEO7EUKSrXs52BHJIrD3G6D3Gi8yybwEXvCJW6Ko51x5hP+SmN7CN/UYQYvRV
-         T+Ow==
-X-Gm-Message-State: AGi0PuaWWf3JBL5ZWqzohczyu52tex4xZQ9gyUGoP/JQ+oTy8YyG2/b0
-	dXVPmwMv0KcBjNYhpRNRdOyLBA==
-X-Google-Smtp-Source: APiQypJV1Coo1r1Jz6KqQxUOPALGcgUPKSp2ny7xvLtQ6hrK6sxXzSgeUac++VBuT9j7XEZ3M8ky+w==
-X-Received: by 2002:a05:600c:2294:: with SMTP id 20mr9571892wmf.130.1585936016826;
-        Fri, 03 Apr 2020 10:46:56 -0700 (PDT)
+        bh=Wb1FaiX5xtpOdRo/c5+0cx2Kw+viYkjB/DwO5jpgrto=;
+        b=X9O94Ty6WGwBlVsiqkpv3Lu/ZuuPjdc1QCY6Ydss7Qb333g2B/4+T2G7GW6IH0ajzX
+         6viJ8lrJuSNGtbYuX1IDpo14jp5YaCZfu3EA47FRfhtJdx5ypdkjtmkbSzahBFsxix0E
+         c9UfGWBJL9sTS0t2y12HtWGbEcYpIhgRmHzO7wsNSYjdF0m6CPzqCQ+zBq5MpQNJTNVb
+         nu6J10o5FhAMo2MeszIJ/IV57rwMCDy7fAvEKhgzD1fX2JQMjai4SGKmquVBwinCpXg+
+         G6sWTG3UoTxbpsuA+aV4/u4wyPF5U9h35RwKfAQ9J8o0vqMDjtqfmLEHarZ8AJMkf40K
+         sffg==
+X-Gm-Message-State: AGi0PuaEQw7qsAO31gJ0oTxVsD4dSnr/hC4RDkkFZgc/nD4JQQP4pyqv
+	j+UPjDg0QBcSibUq7fSdDQ8cow==
+X-Google-Smtp-Source: APiQypLGkYZqz/tr/PcsSSczvF1uu9iccqhxaGSqRLcpcZJqStG2V3DFnSIubLHDxkUl/3AIxrLoAw==
+X-Received: by 2002:a05:600c:2c4d:: with SMTP id r13mr9204904wmg.146.1585936425446;
+        Fri, 03 Apr 2020 10:53:45 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id e23sm1731957wra.43.2020.04.03.10.46.55
+        by smtp.gmail.com with ESMTPSA id v26sm13181112wra.7.2020.04.03.10.53.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2020 10:46:56 -0700 (PDT)
-Message-ID: <9eed52a88b813418984822caaa6417d009417cb9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] icu: Add knobs to generate a subset of ICU data
+        Fri, 03 Apr 2020 10:53:44 -0700 (PDT)
+Message-ID: <1d202abdb429a4e49027986c0c47aa66f13fa0d4.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] file: explicitly disable seccomp
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>, Wouter Meek
-	 <w.meek@metrological.com>
-Date: Fri, 03 Apr 2020 18:46:55 +0100
-In-Reply-To: <CAMKF1srEjB5cg57jWM2dVfESrf17M2diBB_5P4Ws3bgZgmhgig@mail.gmail.com>
-References: <20200403015350.1002891-1-raj.khem@gmail.com>
-	 <dee2e56432928c971eb0f1512f5945d6af846b89.camel@linuxfoundation.org>
-	 <CAMKF1srEjB5cg57jWM2dVfESrf17M2diBB_5P4Ws3bgZgmhgig@mail.gmail.com>
+Cc: Jan Luebbe <jlu@pengutronix.de>, Ross Burton <ross.burton@intel.com>, 
+ Martin =?ISO-8859-1?Q?Hundeb=F8ll?= <martin@geanix.com>, Patches and
+ discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>, Enrico Jorns
+ <ejo@pengutronix.de>
+Date: Fri, 03 Apr 2020 18:53:42 +0100
+In-Reply-To: <CAMKF1sotrF5wOYxxQJ_XsJgD2FgLxGAqJJ_fcuuMUJnChtkbVA@mail.gmail.com>
+References: <20191018112819.16210-1-ross.burton@intel.com>
+	 <CAMKF1soy5adOpd49H0dTqtwu=vSRc0EPMnXFvD5uQTaJd+JCig@mail.gmail.com>
+	 <1615697b554b612f329820f2b3f692011b7722ba.camel@linuxfoundation.org>
+	 <9bac0b45-777c-faba-f448-d2d03c7e6fac@geanix.com>
+	 <CAMKF1soa5bEfN23uPAhDCk4rfD_OGjaf2xR+m5ET9cLt+kOn0Q@mail.gmail.com>
+	 <f6cb669c-d302-c1fa-e2ed-5995b82677ed@intel.com>
+	 <9464fbdc93aa48aac796a3ea44e04efcd9564963.camel@pengutronix.de>
+	 <b409429b4afa97ddeeeec6313fb7315110775f9f.camel@linuxfoundation.org>
+	 <CAMKF1sotrF5wOYxxQJ_XsJgD2FgLxGAqJJ_fcuuMUJnChtkbVA@mail.gmail.com>
 User-Agent: Evolution 3.36.1-1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2020-04-03 at 08:55 -0700, Khem Raj wrote:
-> On Fri, Apr 3, 2020 at 8:26 AM Richard Purdie
+On Fri, 2020-04-03 at 07:23 -0700, Khem Raj wrote:
+> On Fri, Apr 3, 2020 at 6:36 AM Richard Purdie
 > <richard.purdie@linuxfoundation.org> wrote:
-> > On Thu, 2020-04-02 at 18:53 -0700, Khem Raj wrote:
-> > > Recent versions of ICU (64+) provides a tool for configuring ICU
-> > > locale data file with finer granularity [1]
+> > On Tue, 2020-03-31 at 12:57 +0200, Jan Luebbe wrote:
+> > > Hi,
 > > > 
-> > > Default generated size for libicudata.so.66.1 is ~27M, which is
-> > > quite
-> > > large for embedded systems and all of them may not even need all
-> > > locale
-> > > data.
+> > > On Mon, 2020-01-20 at 17:10 +0000, Ross Burton wrote:
+> > > > On 20/01/2020 15:45, Khem Raj wrote:
+> > > > > pseudo needs some love since it alters syscalls which go out of
+> > > > > bounds
+> > > > > what is allowed by libseccomp until then pin your file version to
+> > > > > 5.37
+> > > > > in arch till a supported distro is affected by same problem. It
+> > > > > wont
+> > > > > be long better option is to fix pseudo
+> > > > 
+> > > > That's not quite right.  pseudo LD_PRELOADs itself into file, and
+> > > > makes
+> > > > syscalls which are not whitelisted in file's seccomp configuration.
+> > > > 
+> > > > There's nothing pseudo can do to solve this.
 > > > 
-> > > This patch calls the icudata buildtool during configure on the
-> > > icudata
-> > > and utilizes a filter called 'filter.json` ( empty by default) to
-> > > create the data, default behavior should remain same but someone
-> > > can
-> > > add a filter.json in own layer to configure this data, e.g.
+> > > I stumbled across this thread when checking why libseccomp is not in
+> > > oe-core or meta-oe. It seems to me that pseudo could intercept the
+> > > seccomp(2) or libseccomps seccomp_* function calls and report them as
+> > > unsupported to simulate running on a kernel without seccomp support.
+> > > 
+> > > What am I missing? :)
 > > 
-> > Nice idea, fails on ppc:
+> > I made a guess at a patch:
 > > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/107/builds/411
+> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=d675ff53d3ccbc6bd7db5f067d331bf3f94de5cd
+> > 
+> > Just need someone with a system that can test it now!
 > > 
 > 
-> yeah looking into it. Are there any other arch failures ?
+> seems pseudo still has same issue with archlinux latest file
+> (file-5.38-3) utility
+> 
+> Command '['file', '-b',
+> '/mnt/b/yoe/build/tmp/work/aarch64-yoe-linux/glibc/2.31+gitAUTOINC+71f2b249a2-r0/package/lib/libnss_db-2.31.so']'
+> died with <Signals.SIGSYS: 31>.: Traceback (most recent call last):
+>   File "/mnt/b/yoe/sources/openembedded-core/meta/lib/oe/utils.py",
+> line 280, in run
+>     ret = self._target(*self._args, **self._kwargs)
+>   File "/mnt/b/yoe/sources/openembedded-core/meta/lib/oe/package.py",
+> line 74, in is_elf
+>     result = subprocess.check_output(["file", "-b", path],
+> stderr=subprocess.STDOUT).decode("utf-8")
+>   File "/usr/lib/python3.8/subprocess.py", line 411, in check_output
+>     return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+>   File "/usr/lib/python3.8/subprocess.py", line 512, in run
+>     raise CalledProcessError(retcode, process.args,
 
-mips:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1749
-mips64:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/1753
-edgerouter:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/111/builds/414
+There is a pretty horrendous hack in master-next which avoids this (I
+think). I went through the following:
+
+a) Disabling seccomp syscall. It falls back to prctl().
+
+b) Disabling prctl() (which is variadac) means file exits with an
+error, seccomp must be enabled.
+
+c) Return success but do nothing (don't load the seccomp program)
+
+It appears that returning success works.
+
+Not convinced we want to do that mind...
 
 Cheers,
 
 Richard
+
+
 
