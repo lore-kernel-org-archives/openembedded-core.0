@@ -1,48 +1,48 @@
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
- by mx.groups.io with SMTP id smtpd.web12.8442.1585953284654084157
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com [209.85.217.67])
+ by mx.groups.io with SMTP id smtpd.web10.8479.1585953554366259333
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2020 15:34:44 -0700
+ Fri, 03 Apr 2020 15:39:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=S5+UXRMH;
- spf=pass (domain: gmail.com, ip: 209.85.160.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f193.google.com with SMTP id x16so7876294qts.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 15:34:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=up6Ep8Wy;
+ spf=pass (domain: gmail.com, ip: 209.85.217.67, mailfrom: armccurdy@gmail.com)
+Received: by mail-vs1-f67.google.com with SMTP id y138so6044254vsy.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 15:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=d6myF1a2d0NNI5vWEThfdxomrFx8W1Bg59FUpr8y0VM=;
-        b=S5+UXRMHWhjpCrCv1rnClJF+Is5/lO7b1BifeVIbXJ2ZCvRcjE2odYC+VSMsfFcigW
-         6BBX87EyqlwmItqIhKJpfrrrEZXD0oWdhYfsEXjnjZLTe8V+W5E44RBz+mJiplX1Xahe
-         cuOxcA4w4Q4vuJps4RqxtjnyUA+9hz03HoJzG+pcTo7wCI1Sl4KAynXDj2HR2weFEyXQ
-         gqcaEgn8bDQT6o94BFXgV7tjXJ+9DMXW/m/oI0cqxBBj1YeY0GHEqGk8A862IUYOUeBI
-         pStwJjvrZ33P87IYDq3d+5BfDHCsZIII2WilxBjfKRCS0SPWQWQxSPtHXCF6/fnp2cPW
-         PJzA==
+        bh=Z4nknzCNXcYlq73p4xUmMNVgECkFHxVErYrR6h8BJHA=;
+        b=up6Ep8WyxEtzLMsdXJgYcuZfwFSXzBk3IzkxelNecSsVoOAvNXkCr+gqspEHmTUBfY
+         t/jNc6rU2K/O8MUb3DN8OjxbI4qX7p0ccfEPXI0rwJE1CJlWHJaPYhVOL4s/1p4ruIr6
+         RJG/q5LdhjpEu6nfvKJ3B9tZLsgW1H2Im8NZpHmftmGtDYGHRyN7am56Zc+D8Mn13SEc
+         VKhr0zEdWBg7m9pcmp+XHFPoxe3Lm2W4PrdNYYbvqVzkA1d38u/rpMXccrcGvue9Tp4v
+         IJh07lj2AZ+fmywSq9c+JaskfA6pcJoVsK+9EsKkRht7q8vvKOpsqGbDMlCjKmW9jY3/
+         MMOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=d6myF1a2d0NNI5vWEThfdxomrFx8W1Bg59FUpr8y0VM=;
-        b=TLP1iCV35KEzLcmbbuDw3t6eNmQA2oU5l37qvtxaef8P4snC0+UhQcMUCaSs4zGTO9
-         Eym3azFusG9K2/81di0nxd3ilrbgVWfiaRFRuXfEHolaQKr5T8PkNjDs8yuqgKmzQ/r/
-         gLITv/k9OrJiJxFcFddHZU8eULHQKPfVH+5GbZJXP6psahxYo4995ZpGxWuM1IlX8/GE
-         oyN9IWzg5aqq6KZyhYH/g4TtY33nJP0XFQNiMEAnwV0ijYteK3OfdWNFWCnZdjtRiEbM
-         r+Zjx3qtNKngEP/8OmUPrk1atI5DNolBxLSn37DuqtrtsKoZnGCsuaw5ittXo9IvGVIz
-         v2zA==
-X-Gm-Message-State: AGi0PubpoJ38xi0kxs+LmEbrSnNZNxpdr4eXNRWmgLP9L2iKDlFguf0g
-	gO78Y/qUhuYerpT364zFzCxOpc8wG7tOTATUqL8=
-X-Google-Smtp-Source: APiQypIFVMUkNOCplqhuvzAJpOhoAxVBE0PjNvckIctfNW79IvjS9FJflB0ABLaK1b5iQ8pQ1teQUWuUOHJOZDnXeTY=
-X-Received: by 2002:ac8:2fe6:: with SMTP id m35mr10115385qta.316.1585953283570;
- Fri, 03 Apr 2020 15:34:43 -0700 (PDT)
+        bh=Z4nknzCNXcYlq73p4xUmMNVgECkFHxVErYrR6h8BJHA=;
+        b=tsW4gvolVP+xmu8gaoJ64WWLGXHCgGmh7pjXyDG526176PcNIZIheuPDOA+5VS+mFa
+         c+T/C26ZsvHytZ471dnDj95WMi2RdGvXRddauqvAViK/lZtwKFz4+PygXL7YtqOQvquV
+         Tjk2SdgKbadK26erlc16AqoUcIcExrja5OjQ4JUp2MjR1ME0KVMyLiLRoJ5ufoACcHh1
+         415yStuDAjQOta6MEmKZj9uB5WbP1oV5tt9JaQ5CotZy8otz6mSBP2jfQQjGj1/brcHL
+         E4K9Na3BsHzQHuKXmxhQm0Vu+RkuXYhpxhHFDPEDSkzV8u/jUxZIUod1712P28GoZ8IX
+         qBvA==
+X-Gm-Message-State: AGi0PuYt48IpmmeGNepDWA0JGo7cyzBO4n1Jot8onSOcskMrKKD4j6bh
+	Ifzs6n8MPr3pEYAeM/c07TLwF9fGMdg2iZpSOpU=
+X-Google-Smtp-Source: APiQypLJAAjAaHQOzHSaqtoO7HDU6Mp7I5GMiKRwwHYXepGphSSPN819UXK2lgFAbe1PBaYvDKE9Whlkor71j6kuTcM=
+X-Received: by 2002:a67:80d6:: with SMTP id b205mr8013725vsd.137.1585953553243;
+ Fri, 03 Apr 2020 15:39:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200403215938.175657-1-richard.purdie@linuxfoundation.org>
 In-Reply-To: <20200403215938.175657-1-richard.purdie@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 3 Apr 2020 15:34:17 -0700
-Message-ID: <CAMKF1sqrHwS9RZGER=m+DfEgNsfp7EYLLR6VO+Po-rCO5Wdq_Q@mail.gmail.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Fri, 3 Apr 2020 15:39:04 -0700
+Message-ID: <CAJ86T=XabPQEn6xFeCwU9MLTPx50N86o6-HAyAAgu1r6UYWwCQ@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] pseudo: Force seccomp to return success when in fact doing nothing
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
 On Fri, Apr 3, 2020 at 2:59 PM Richard Purdie
@@ -56,9 +56,6 @@ On Fri, Apr 3, 2020 at 2:59 PM Richard Purdie
 > This works around issues on platforms where seccomp is enabled in file
 > (e.g. archlinux).
 >
-
-This patch seems to be sailing smoothly on my setup.
-
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
 >  .../pseudo/files/seccomp.patch                | 124 ++++++++++++++++++
@@ -143,8 +140,16 @@ This patch seems to be sailing smoothly on my setup.
 > ++      }
 > ++
 > ++      /* gcc magic to attempt to just pass these args to syscall. we have to
+
+Comment needs updating - you are calling prctl() here, not syscall().
+
 > ++       * guess about the number of args; the docs discuss calling conventions
 > ++       * up to 4, so let's try that?
+
+The args for prctl() are option plus 4 additional arguments, so a
+total of 5, not 4.
+
+
 > ++       */
 > ++      void *res = __builtin_apply((void (*)()) real_prctl, __builtin_apply_args(), sizeof(long) * 4);
 > ++      __builtin_return(res);
