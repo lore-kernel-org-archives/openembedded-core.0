@@ -1,110 +1,137 @@
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
- by mx.groups.io with SMTP id smtpd.web12.2780.1585877821084889120
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
+ by mx.groups.io with SMTP id smtpd.web12.3022.1585878818967791870
  for <openembedded-core@lists.openembedded.org>;
- Thu, 02 Apr 2020 18:37:01 -0700
+ Thu, 02 Apr 2020 18:53:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IslnZqeu;
- spf=pass (domain: gmail.com, ip: 209.85.160.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f193.google.com with SMTP id x16so5221819qts.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 18:37:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vgtA4hQ6;
+ spf=pass (domain: gmail.com, ip: 209.85.216.67, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f67.google.com with SMTP id l36so2316632pjb.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 02 Apr 2020 18:53:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1Wgm5n53T/Ki151jX4iVC0zgh+JovUGPKaRmpNtuxCE=;
-        b=IslnZqeu4Uq0oHhBpSgo6jWyHrwL7tmfDgs+SlFihezfKdgCGOrmtPgV8H/+reABUU
-         2urolVJMMraEICZxAwKK9sOsgiOwXybqJ2tWSL/vFhnEkvAhgf0Vb3ETKWKUe6GhrM3n
-         m4Tfr5sOgE7F0jnJTTyvzcysIz6rbAJRcy/ZJhlWWUBXEDd36Jcs2kQ/mrd0wuIuFK33
-         1dGlbUutKbSKkFpOv5/7qpg0ccFf5FN7+gCu/gbMNGDbQGqwNGg/9nmaQ/pyKkk8p7hT
-         IWH0b+bi/ssvJdYCDuDD/UZqqeApbXdyTQcDn781IF861zfDF51fgiQtqjcpJRHSU+pM
-         D6aA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hpV4U4dE1cLmzLsusOPsTQ6RzNA3a3bH1u4IvCjnjG8=;
+        b=vgtA4hQ6u7ReKQlJkfWLjnWre4pcUK0rT6Ln5IM7uZqKTSaM1mqo3uz9TOktO225SB
+         IhuQ4hWPpbIaWcH7651NWWNJFbXxIBd1jQ6ZhFKYBsYryPnbJxi9HfpgCKqLpcCYHxiw
+         LeAvv0yKWR1WRLtk79Y26cX+dRcLcjOEs6VxzJiemAm4Ry5re6rdmiJBfhcvg2Wsro3I
+         ZLAweF/4HCu+WLFwjEPMIfbqYQeJ8jJeEcTLs6AOz3wWVw6vhKKxgdXmIUzZ68ef6CwJ
+         o8m4k49NlGT1vRWjDGqWLrC4IlSTX4LrFp6sbracxTaiXE9HXZmIcBoX0usR3H6Aq0gV
+         3sng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1Wgm5n53T/Ki151jX4iVC0zgh+JovUGPKaRmpNtuxCE=;
-        b=rFGvUv4H+oYBNGBQXa6IyHDBI/of/NRxkSQabWEhE1skJSRzwZsWvNAu8JNU9ns7cO
-         eMRbxe0GuBEKgK1zDRxPwqA/T4SvOYEhOq0teIKDoRSQkzSpz6/NulpCbldaLXHUg1Li
-         2L+ra8YPyub/jF1NTrb9lyrEwRJ+yqQ+OVuePh7j+ULnAimZodJF736yK7ZK6fM1E9VJ
-         p3Hb2+6gorw6r1fctx/owaNz08kjCqP9VWqkEhqLHA7ng2nVCSgLF/18UtersC/ZikRr
-         uyuTNsHdmbiJMUacoDKaBdTvbnGD0HMHuvm6jot2XZUPF3HIUvUgfBk66LVwghKAxXsG
-         zHXw==
-X-Gm-Message-State: AGi0Pub8ajLp/e+S1TgPmLN4NahqZAyR5t8KLKdPN/B7crTjxkIyfMYB
-	j9vG/4iQb3iZTwCI0JsD7WnO6aRKrmw1BlE/YEU=
-X-Google-Smtp-Source: APiQypIdi/ZUd8cpkAsmLj9J5lamI1X3lp098nhrvmIualRKUZVkowXFaobCsQdTkgfQ9ceIiCCbwhbmcVGulf/dCqs=
-X-Received: by 2002:ac8:3003:: with SMTP id f3mr5832827qte.293.1585877820046;
- Thu, 02 Apr 2020 18:37:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200110172938.3060002-1-raj.khem@gmail.com> <20200110172938.3060002-2-raj.khem@gmail.com>
- <CAJ86T=V2GqcCs91ruQ8pMekc+PetJMs6-Ps-UAVQ=-zejVTcxA@mail.gmail.com>
-In-Reply-To: <CAJ86T=V2GqcCs91ruQ8pMekc+PetJMs6-Ps-UAVQ=-zejVTcxA@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=hpV4U4dE1cLmzLsusOPsTQ6RzNA3a3bH1u4IvCjnjG8=;
+        b=MZx+6TKKApL8ZGxK6zHE3iIyi1JJGLBcKB4z13QhDvR3bOACfqXl+NNvfwnQF7GFnk
+         yiIzqPDXN/kq843y1HXSApwr4bvfXNBK4f1TbHoaPfmb1dJzsASItF5Csiw/dZeoXxWj
+         opHnTW5MqJ3k26bu0rHCYx6l14r0RjCV2iMQf63mcOovMP80WeJPmoV3cqJc4r3ukXEJ
+         jgxDGz7d8iepRv90Ov+IReRMi7XlTHHb8i7vfthjYaJeBhCCGmAame6ypwoyUQGXd46w
+         u//Y5iEoE3mcq/I9sdRQ9T0QnLyW/eBfOuHs5anL+TTm35UKh0Nt/fMl60jQ2QSmHCg2
+         2mBg==
+X-Gm-Message-State: AGi0PuZ3StlxLuEREBL536deVu/Y0cfMHqt+T04FC9MTlEdSink6YRfP
+	/0WLHPbPPOm8sxePf64GzcIyB9159Ik=
+X-Google-Smtp-Source: APiQypITDuR+DeIjoE2Fe60uxZBbfrunP1dOx64wV5U/AS1bMIHRaSCJYHkZOVY6UoclB+bwUHiDyw==
+X-Received: by 2002:a17:90a:db4a:: with SMTP id u10mr6857434pjx.101.1585878817845;
+        Thu, 02 Apr 2020 18:53:37 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::3e84])
+        by smtp.gmail.com with ESMTPSA id iq14sm4581722pjb.43.2020.04.02.18.53.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2020 18:53:37 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 2 Apr 2020 18:36:33 -0700
-Message-ID: <CAMKF1sr+Fgc4kokVPBcmK2kQwdDmepX_vUP++7VDgpgfT1e-_A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] busybox: Update inittab
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Wouter Meek <w.meek@metrological.com>
+Subject: [PATCH] icu: Add knobs to generate a subset of ICU data
+Date: Thu,  2 Apr 2020 18:53:50 -0700
+Message-Id: <20200403015350.1002891-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.26.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 2, 2020 at 6:12 PM Andre McCurdy <armccurdy@gmail.com> wrote:
->
-> On Fri, Jan 10, 2020 at 9:29 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > Add stdin/stdout/stderr symlinks in case when not using hotplug
-> > Disable ctrl+alt+del, not used much
-> > Mount swap if defined
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-core/busybox/files/inittab | 12 ++++++++----
-> >  1 file changed, 8 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/busybox/files/inittab b/meta/recipes-core/busybox/files/inittab
-> > index 2bc831c7c6..e8ec2ab68e 100644
-> > --- a/meta/recipes-core/busybox/files/inittab
-> > +++ b/meta/recipes-core/busybox/files/inittab
-> > @@ -8,11 +8,17 @@
-> >  ::sysinit:/bin/mkdir -p /dev/pts
-> >  ::sysinit:/bin/mount -t devpts devpts /dev/pts
-> >  ::sysinit:/bin/mount -a
-> > -
-> > +::sysinit:/sbin/swapon -a
-> > +null::sysinit:/bin/ln -sf /proc/self/fd /dev/fd
-> > +null::sysinit:/bin/ln -sf /proc/self/fd/0 /dev/stdin
-> > +null::sysinit:/bin/ln -sf /proc/self/fd/1 /dev/stdout
-> > +null::sysinit:/bin/ln -sf /proc/self/fd/2 /dev/stderr
-> > +# set hostname
-> > +null::sysinit:/bin/busybox hostname -F /etc/hostname
->
-> Trying to send the output of these commands to /dev/null seems to go
-> against the fix previously made to inittab to stop doing that?
->
->   https://git.openembedded.org/openembedded-core/commit/?id=82de49b899bca915259ea7ea149f50e1401c2426
->
+Recent versions of ICU (64+) provides a tool for configuring ICU
+locale data file with finer granularity [1]
 
-It was to avoid additional messages on stdout, so remove null there
-should be ok if it fixes initramfs please send a patch
+Default generated size for libicudata.so.66.1 is ~27M, which is quite
+large for embedded systems and all of them may not even need all locale
+data.
 
+This patch calls the icudata buildtool during configure on the icudata
+and utilizes a filter called 'filter.json` ( empty by default) to
+create the data, default behavior should remain same but someone can
+add a filter.json in own layer to configure this data, e.g.
 
-> >  ::sysinit:/etc/init.d/rcS
-> >
-> >  # Stuff to do before rebooting
-> > -::ctrlaltdel:/sbin/reboot
-> > +#::ctrlaltdel:/sbin/reboot
-> >  ::shutdown:/etc/init.d/rcK
-> >  ::shutdown:/sbin/swapoff -a
-> >  ::shutdown:/bin/umount -a -r
-> > @@ -20,5 +26,3 @@
-> >  # Stuff to do when restarting the init process
-> >  ::restart:/sbin/init
-> >
-> > -# set hostname
-> > -null::sysinit:/bin/busybox hostname -F /etc/hostname
-> > --
-> > 2.24.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+{
+  "localeFilter": {
+    "filterType": "language",
+    "whitelist": [
+      "en",
+      "de",
+      "it"
+    ]
+  }
+}
+
+would only generate the locale data for english/german/italian
+
+This would reduce the size of libicudata.so.66.1 to 12M
+
+[1] https://github.com/unicode-org/icu/blob/master/docs/userguide/icu_data/buildtool.md
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Suggested-by: Wouter Meek <w.meek@metrological.com>
+---
+ meta/recipes-support/icu/icu/filter.json |  2 ++
+ meta/recipes-support/icu/icu_66.1.bb     | 19 ++++++++++++++++---
+ 2 files changed, 18 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-support/icu/icu/filter.json
+
+diff --git a/meta/recipes-support/icu/icu/filter.json b/meta/recipes-support/icu/icu/filter.json
+new file mode 100644
+index 0000000000..2c63c08510
+--- /dev/null
++++ b/meta/recipes-support/icu/icu/filter.json
+@@ -0,0 +1,2 @@
++{
++}
+diff --git a/meta/recipes-support/icu/icu_66.1.bb b/meta/recipes-support/icu/icu_66.1.bb
+index 5018464c14..a8cfdf9eed 100644
+--- a/meta/recipes-support/icu/icu_66.1.bb
++++ b/meta/recipes-support/icu/icu_66.1.bb
+@@ -18,7 +18,10 @@ ARM_INSTRUCTION_SET_armv4 = "arm"
+ ARM_INSTRUCTION_SET_armv5 = "arm"
+ 
+ BASE_SRC_URI = "https://github.com/unicode-org/icu/releases/download/release-${ICU_FOLDER}/icu4c-${ICU_PV}-src.tgz"
+-SRC_URI = "${BASE_SRC_URI} \
++DATA_SRC_URI = "https://github.com/unicode-org/icu/releases/download/release-${ICU_FOLDER}/icu4c-${ICU_PV}-data.zip"
++SRC_URI = "${BASE_SRC_URI};name=code \
++           ${DATA_SRC_URI};name=data \
++           file://filter.json \
+            file://icu-pkgdata-large-cmd.patch \
+            file://fix-install-manx.patch \
+            file://0001-Fix-big-endian-build.patch \
+@@ -28,8 +31,18 @@ SRC_URI = "${BASE_SRC_URI} \
+ SRC_URI_append_class-target = "\
+            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+           "
+-SRC_URI[md5sum] = "b33dc6766711517c98d318447e5110f8"
+-SRC_URI[sha256sum] = "52a3f2209ab95559c1cf0a14f24338001f389615bf00e2585ef3dbc43ecf0a2e"
++SRC_URI[code.sha256sum] = "52a3f2209ab95559c1cf0a14f24338001f389615bf00e2585ef3dbc43ecf0a2e"
++SRC_URI[data.sha256sum] = "8be647f738891d2beb79d48f99077b3499948430eae6f1be112553b15ab0243e"
+ 
+ UPSTREAM_CHECK_REGEX = "icu4c-(?P<pver>\d+(_\d+)+)-src"
+ UPSTREAM_CHECK_URI = "https://github.com/unicode-org/icu/releases"
++
++CONFIGURE_SCRIPT_class-target = "${S}/runConfigureICU"
++CONFIGUREOPTS_prepend_class-target = "Linux "
++CACHED_CONFIGUREVARS_append_class-target = "ICU_DATA_FILTER_FILE=${WORKDIR}/filter.json"
++
++do_configure_prepend_class-target () {
++    rm -rf ${S}/data
++    cp -a ${WORKDIR}/data ${S}/
++}
++
+-- 
+2.26.0
+
