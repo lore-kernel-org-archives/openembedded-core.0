@@ -1,203 +1,97 @@
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
- by mx.groups.io with SMTP id smtpd.web10.4858.1585943637446981141
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+ by mx.groups.io with SMTP id smtpd.web10.6941.1585949160656722636
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2020 12:53:57 -0700
+ Fri, 03 Apr 2020 14:26:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-lj1-f193.google.com with SMTP id r7so8152241ljg.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 12:53:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=etFerFJ2;
+ spf=pass (domain: gmail.com, ip: 209.85.210.195, mailfrom: jpuhlman@gmail.com)
+Received: by mail-pf1-f195.google.com with SMTP id v23so1293297pfm.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 14:26:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EFckN2uSUPffGJQsyfk4b55vG0Cs7E/MdO7w7LPHv0M=;
+        b=etFerFJ27h/TEopPMB1r9hVJCgki3WgL1nDSkSu4TVmJ0A7ekNByxzCNFmGA7W+p1S
+         gq+P3jWOUx8x+UY3ZUMrfdRg8tuZfBmTAMamNsgESOsTsA7He0pGKCqKLSs7fDF2sq3k
+         Jyo6qAwazFhqSg9OrLrKTIUQoLgLoI8mfEDtiwyHaJ0UvmE6SOmdvNZf8YVjzEf7mFw0
+         gtg05zXyrht/uhT8HJkhHbH5Pzvf97vkTDbikkfRIhfj8xXV0TIio5evU7VnX4LWI75R
+         wvTkl1L85XllErnsfhQTTqBDUiW9tjia7lNHmFzsxAnHccOt3hi4hufNnsI3eZLuFCL8
+         jTyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7FQU4GpZyy6dZfH/B8zZoLvE5QtfKxIIEFHEGVEE+r4=;
-        b=eWQHWa0t44BHuUnpsZ6MuXdXfDtxD1AkQQM36Mb/moc4kZZ25tzQ5tVzyaccXqt40p
-         Nkzl/0ECMAQgEhyYcojIYupfBNOxlHDdnS/3vh51vE1kv8KB6I1Et2IakhcKpYGAbTwv
-         d4QfyCYJVlBYHSjoEHbUbZp2KNkb4jZ3GnUfu6ohE9g+v3Y7Vf+v9JgJPjPO3QhjrH2Q
-         N5RheEU0q6Q2K6GiXnR7o7stvTYf+UkGr5p6yzLSq0SY6GhPjW3A2pZpy9b87shbakQR
-         CcluoAXZ5kZKs2ogpJTWXgbl1mE/bpPlWKsY2mutsT5WOaqLVXZC1GjSUHOYwHhNp6cK
-         gVDw==
-X-Gm-Message-State: AGi0PubkEZ5vjfzDeB5j0KMHhn7hdoaNyVxdKz7TJIP/FhkMKwAq5ghF
-	au0pCavXcGcwNAmBVykFj6vOmxuCUJj1L3FlbUQ=
-X-Google-Smtp-Source: APiQypK175moZYG72Mt958qelzh7BDeP++VA298Lp9P38WGQufbu5YQR3RfAZMRNSos93AE3bW53Ahp07JV2wRoiATg=
-X-Received: by 2002:a2e:6e0f:: with SMTP id j15mr5409535ljc.230.1585943635649;
- Fri, 03 Apr 2020 12:53:55 -0700 (PDT)
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=EFckN2uSUPffGJQsyfk4b55vG0Cs7E/MdO7w7LPHv0M=;
+        b=FasbcC4CM4Yrw+8b7prJs9P2yJ0cgT51kD4b2piuTbr6Mr3wbD/AdnFfrEoZvv15ik
+         Qm0aOU4jy58m7WREwqCWKJL7hSPNnbr6eshD8mWSqR+1din/DEn0oj6HseoZER2t4tIW
+         HLuO25VxpTCK8XCrtr1uGBI+M72cmwhA/W2Tq46DKsp/wGS0qSgGYBq1y3SP6uvLhyxX
+         Vdre/ljMB+f+IqkrkEriwmx5GNRHsjL6Veqspc791d30iyvYK9hRgjx43z7JofYdSJlS
+         WnZXhTA07ciu84HYbs3wa1VJ6lL6yzyBXnFnPHglu9Ptv6qt9S/Ro51KBvoBW1M0xKFl
+         xR3A==
+X-Gm-Message-State: AGi0PuaSaLs3e4x5Gk/zt7ZScxgVkgu4CrO5TDlaaNH4SX2ODG0wv/FQ
+	0I/TOwLrRpFzz7RVkMWln9nHeWU94sc=
+X-Google-Smtp-Source: APiQypKVBB6muxNwoPlYD0E/B/WXnDFrbGueQ+qZVMNVyW/TG8cjzl6j7wQA8Q/sA5fq01VBTEcX4w==
+X-Received: by 2002:a62:2b07:: with SMTP id r7mr9837311pfr.273.1585949159822;
+        Fri, 03 Apr 2020 14:25:59 -0700 (PDT)
+Return-Path: <jpuhlman@gmail.com>
+Received: from workhorse.localdomain ([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
+        by smtp.gmail.com with ESMTPSA id w69sm6425822pfc.52.2020.04.03.14.25.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2020 14:25:59 -0700 (PDT)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id E69CC2A05B9; Fri,  3 Apr 2020 14:25:57 -0700 (PDT)
+From: "Jeremy Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jeremy Puhlman <jpuhlman@mvista.com>
+Subject: [PATCH] nativesdk-binutils: correct path to ld.so.conf
+Date: Fri,  3 Apr 2020 14:25:55 -0700
+Message-Id: <20200403212555.27475-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200304083438.1022216-1-ricardo@ribalda.com> <20200304095334.1f20ddd9@ub1910>
- <CAPybu_17EBoQH45Cpb+2UJ-Yoho062_5sGWAT1qmu4MPycOHBQ@mail.gmail.com>
- <20200305092855.1f9ccae8@ub1910> <CAPybu_0Avf3ckaFNvkmB6Q1FwLmQB_T886HSwNLrjCnu3tkh_w@mail.gmail.com>
-In-Reply-To: <CAPybu_0Avf3ckaFNvkmB6Q1FwLmQB_T886HSwNLrjCnu3tkh_w@mail.gmail.com>
-From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
-Date: Fri, 3 Apr 2020 21:53:39 +0200
-Message-ID: <CAPybu_03RzN3zyQuoHJorcnbqWfvC+cGvGo5yNiVC8pHP-MQ=g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] wic: Fix permissions when using exclude or include path
-To: Paul Barker <pbarker@konsulko.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-ping?
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-On Thu, Mar 5, 2020 at 10:46 AM Ricardo Ribalda Delgado
-<ricardo@ribalda.com> wrote:
->
-> Hi Paul
->
-> On Thu, Mar 5, 2020 at 10:32 AM Paul Barker <pbarker@konsulko.com> wrote:
-> >
-> > On Wed, 4 Mar 2020 11:02:47 +0100
-> > Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
-> >
-> > > Hi Paul
-> > >
-> > > On Wed, Mar 4, 2020 at 10:53 AM Paul Barker <pbarker@konsulko.com> wrote:
-> > > >
-> > > > On Wed,  4 Mar 2020 09:34:37 +0100
-> > > > Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
-> > > >
-> > > > > When parameters include_path or exclude_path are passed to the rootfs
-> > > > > plugin, it will copy the partition content into a folder and make all
-> > > > > the modifications there.
-> > > > >
-> > > > > This is done using copyhardlinktree(), which does not take into
-> > > > > consideration the content of the pseudo folder, which contains the
-> > > > > information about the right permissions and ownership of the folders.
-> > > >
-> > > > How are you running wic here? In the do_image_wic task it's executed under
-> > > > pseudo so all this is handled already. Executing wic outside of bitbake may
-> > > > need some more testing here.
-> > >
-> > > I am running wic outside bitbake. But even if it is run under bitbake,
-> > > it should also fail. The pseudo directory needs to be present on the
-> > > target image
-> >
-> > If you're running wic outside of bitbake, is there any guarantee that pseudo
-> > is available?
->
-> Yes, the same guarantee that the ext3_tools are available. So I
-> believe we are safe here. Actually in my docker pseudo is not
-> installed and when I invoke with wic, everything is fine.
->
-> >
-> > >
-> > > >
-> > > > >
-> > > > > This results in a rootfs owned by the user that is running the wic
-> > > > > command (usually UID 1000), which makes some rootfs unbootable.
-> > > > >
-> > > > > To fix this we copy the content of the pseudo folders to the new folder
-> > > > > and modify the pseudo database using the "pseudo -B" command.
-> > > > >
-> > > > > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > > > > ---
-> > > > >  scripts/lib/wic/plugins/source/rootfs.py | 22 +++++++++++++++++++---
-> > > > >  1 file changed, 19 insertions(+), 3 deletions(-)
-> > > > >
-> > > > > diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-> > > > > index 705aeb5563..40419a64b3 100644
-> > > > > --- a/scripts/lib/wic/plugins/source/rootfs.py
-> > > > > +++ b/scripts/lib/wic/plugins/source/rootfs.py
-> > > > > @@ -16,11 +16,11 @@ import os
-> > > > >  import shutil
-> > > > >  import sys
-> > > > >
-> > > > > -from oe.path import copyhardlinktree
-> > > > > +from oe.path import copyhardlinktree, copytree
-> > > > >
-> > > > >  from wic import WicError
-> > > > >  from wic.pluginbase import SourcePlugin
-> > > > > -from wic.misc import get_bitbake_var
-> > > > > +from wic.misc import get_bitbake_var, exec_native_cmd
-> > > > >
-> > > > >  logger = logging.getLogger('wic')
-> > > > >
-> > > > > @@ -44,6 +44,15 @@ class RootfsPlugin(SourcePlugin):
-> > > > >
-> > > > >          return os.path.realpath(image_rootfs_dir)
-> > > > >
-> > > > > +    @staticmethod
-> > > > > +    def __get_pseudo(native_sysroot, rootfs):
-> > > > > +        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
-> > > > > +        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % os.path.join(rootfs, "../pseudo")
-> > > > > +        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs
-> > > > > +        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
-> > > > > +        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-> > > > > +        return pseudo
-> > > > > +
-> > > > >      @classmethod
-> > > > >      def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-> > > > >                               oe_builddir, bootimg_dir, kernel_dir,
-> > > > > @@ -78,9 +87,16 @@ class RootfsPlugin(SourcePlugin):
-> > > > >
-> > > > >              if os.path.lexists(new_rootfs):
-> > > > >                  shutil.rmtree(os.path.join(new_rootfs))
-> > > > > -
-> > > > >              copyhardlinktree(part.rootfs_dir, new_rootfs)
-> > > > >
-> > > > > +            if os.path.lexists(os.path.join(new_rootfs, "../pseudo")):
-> > > > > +                shutil.rmtree(os.path.join(new_rootfs, "../pseudo"))
-> > > > > +            copytree(os.path.join(part.rootfs_dir, "../pseudo"),
-> > > > > +                     os.path.join(new_rootfs, "../pseudo"))
-> > > >
-> > > > I don't like stepping up the directory tree like this. We should be more
-> > > > explicit with the paths.
-> > >
-> > > You are thinking on:
-> > > os.path.dirname(directory)
-> >
-> > No, I'm wondering why we're taking a step up the directory tree from
-> > `part.rootfs_dir`. I can point that at any path using the `--rootfs-dir`
-> > argument and there's no guarantee that ../pseudo exists or is relevant to the
-> > path I gave to `--rootfs-dir`.
->
-> Because we are asuming that the rootfs is being generated with
-> OE/yocto, and there is where the pseudo folder lives.
-> It is the same asumption part.prepare_rootfs() is taking.
->
-> >
-> > >
-> > > >
-> > > > > +            pseudo_cmd = "%s -B -m %s -M %s" % (cls.__get_pseudo(native_sysroot,new_rootfs),
-> > > > > +                                                part.rootfs_dir, new_rootfs)
-> > > > > +            exec_native_cmd(pseudo_cmd, native_sysroot)
-> > > > > +
-> > > > >              for path in part.include_path or []:
-> > > > >                  copyhardlinktree(path, new_rootfs)
-> > > >
-> > > >                    ^^^^^^^^^^^^^^^^
-> > > >
-> > > > If this is the right approach I imagine you would also need to fix things up
-> > > > with pseudo after the copyhardlinktree call above.
-> > >
-> > > I do not think it is needed. include_path does not contain its own
-> > > pseudo directory
-> >
-> > That's not necessarily true. The include_path could have been built by Yocto
-> > using pseudo.
->
-> Then you need to provide where the pseudo folder is. Eg
->
-> --include_path folder/A/B/C/D/file
->
-> Where is the pseudo database? in folder/A/B/C/D/pseudo,
-> folder/A/B/C/pseudo , folder/A/B/C/pseudo /...
->
->
->
-> >
-> > I can see that there is an issue using these arguments to wic outside of
-> > bitbake but I'm not sure this is the correct solution.
-> >
-> > --
-> > Paul Barker
-> > Konsulko Group
->
->
->
-> --
-> Ricardo Ribalda
+The alternative ld.so patch is set up so the linker will search
+the nativesdk sysroot before searching the host filesystem.
 
+However the patch concatenates <sysroot>/etc and /etc/ld.so.conf
+leading to a path that does not exist:
 
+3061991 openat(AT_FDCWD, "/buildtools/sysroots/x86_64-pokysdk-linux/etc/etc/ld.so.conf",
+O_RDONLY) = -1 ENOENT (No such file or directory)
 
+In native-nspr, the build uses -lpthread, which triggers a search for librt, but because
+of the above it drags in the system librt leading to errors as follows:
+
+/buildtools/sysroots/x86_64-pokysdk-linux/usr/lib/gcc/x86_64-pokysdk-linux/
+9.3.0/../../../../x86_64-pokysdk-linux/bin/ld: /lib64/librt.so.1:
+undefined reference to `__clock_getcpuclockid@GLIBC_PRIVATE'
+
+update concatenation to correctly construct the path to the nativesdk ld.so.conf
+
+[YOCTO #13853]
+
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+---
+ ...3-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch b/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
+index 8b59ba5dec..4b4d73d21d 100644
+--- a/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
++++ b/meta/recipes-devtools/binutils/binutils/0003-binutils-nativesdk-Search-for-alternative-ld.so.conf.patch
+@@ -65,7 +65,7 @@ index 2e27cf48a8..a095d6aac5 100644
+        info.path = NULL;
+        info.len = info.alloc = 0;
+ -      tmppath = concat (ld_sysroot, prefix, "/etc/ld.so.conf",
+-+      tmppath = concat (ld_sysconfdir, "/etc/ld.so.conf",
+++      tmppath = concat (ld_sysconfdir, "/ld.so.conf",
+  			(const char *) NULL);
+        if (!ldelf_parse_ld_so_conf (&info, tmppath))
+  	{
 -- 
-Ricardo Ribalda
+2.20.1
+
