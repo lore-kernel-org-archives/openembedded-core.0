@@ -1,62 +1,74 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
- by mx.groups.io with SMTP id smtpd.web11.13544.1585927209145777699
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web10.13577.1585927594542959163
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2020 08:20:09 -0700
+ Fri, 03 Apr 2020 08:26:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JB4WDBMW;
- spf=pass (domain: gmail.com, ip: 209.85.166.41, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f41.google.com with SMTP id h131so7882103iof.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 08:20:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YrfW27to;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id w10so9045741wrm.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 08:26:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=5NlR3mWxwiIdAlFquNFrFYMB4oYsz7/NFEw1CogLDpk=;
-        b=JB4WDBMWfdI5ETQvN2mV8pj62yamJpOZRwOonQgUbmLajx66gx/BXY9JsUDHbLJ8rm
-         wJTnS7yYwVln+fShzMztdsoVxxPqayf4hPxHRsVqHVTn/x6rpnh5pnnlPDMnEyl80Yhk
-         IEtcmKbHrtzllqHUa0dzq/RlRKF8dkk5aSzgwIa9dZMJGC1iYg927ZteoOncPJqYcCdy
-         V1YLMN+mAuFiggeyh22Q5zg3y786sAB5jjDsX38Ys5Qj4owGywsf1Mcv5I6kk2HQfymy
-         ENrD1pqejmE+vIOHph+05G9IMvnTsco+rdAqdMK3D9HhswtY0zrBnztMh312Fhba/9V5
-         idbA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=BZOx7fsrI5n92myHbLrKwlinH4gEHuqAngSIn29rcL8=;
+        b=YrfW27toKJ3cV9nTing/vcIVy7QKpsfH16yCpPBavDVNWIdLSUi5/nmILi4BQqQ3MQ
+         lm0Gw0bOqV+67+N2XTKNIqZXg1bBwjerDESG2EnlxefacHIvXH/kIzj0yBX0ep0sNSqv
+         U+HxbXmLbuW5xylmRLdY8GfmqAFeregkCgU/k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=5NlR3mWxwiIdAlFquNFrFYMB4oYsz7/NFEw1CogLDpk=;
-        b=eEMKwKHPsFEPSGgP70BIoF0RcDIbqWMQEt/1TI7RHN4IBX7+eFQTo0td6Jr+BbBEZl
-         mVuGrIPBbTG5aXK9HIcxSZaghcQ/YJMPBjblceQvDVxXYt2nGAPC5xF0wmKA3YjsINxU
-         xOgB++fLcubZGiGKec20F6mgVuu469X2EMntvl6Jc0sbo6K6kmWipEIIz8nXUE5Hg3kM
-         4OkHbM7QeGiWsBWkmKa3r1qTjcAgHTdSY4dCYUEwMoGL1oG4u+g52Z1Au0ezBHCmftB6
-         b4i8mSTyXt+fVk4XBmnECggWydSxqLgHZ8UtxAdavAPZOjVFkLUY+/aKbQTMeOiLkVYi
-         8poA==
-X-Gm-Message-State: AGi0PuZn1dpKdpeszhFNMi784FzGm+BMBEARLqQqb3Xo7eMcbhlGaoek
-	Vi6mnBx0QX7gCDoNEbbNw7OXdziyB8bRCc5dpEM=
-X-Google-Smtp-Source: APiQypIMij6B4HY++4acBp8I7B5rUlWxm2uarPqZSQjKFjMVT7qghnkBytAP/pt8f8+hlnC3crZcu6uJVwHX7LL0QAo=
-X-Received: by 2002:a05:6638:24c:: with SMTP id w12mr8853646jaq.42.1585927208545;
- Fri, 03 Apr 2020 08:20:08 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=BZOx7fsrI5n92myHbLrKwlinH4gEHuqAngSIn29rcL8=;
+        b=bgBQWsS1aR++wTuqEcg2UB9Fh63t0g7RakbBmDGsQdRth2x7uVsxAPqZB5MwQfj9yL
+         MwYUgY/HaodtFaWyv8nHClHkrIPyVhzhITElYiz3gL8lIcjhHA+M7KMoPg/+ItB0q1sH
+         VEpMhpYAGVMhxWB7iGlxczLqvDZL3WfMVc42OzhfQGMnvfhZ/MZ8VvNzH+CskscxteUe
+         9HMAfIKayv7PWOEAkT07UedIkBuAays0OmGaDBk/etXRvUJDFdVO0nnitQtFnvYuTx3J
+         IyHn8UWY//7Eg8kq5p+Ux6cYNgAH/59nOB6Kqp/WA6f24WtEh0nq+epkshlQvNgPt/sj
+         uqfg==
+X-Gm-Message-State: AGi0PuZyj7PMYCc6GV5zHpx0yWN2GRGIEmnmEXx4eQX44ISmV43rr+sz
+	Unh0P4mVsa8z+Vm/Aof8k0H2BQ==
+X-Google-Smtp-Source: APiQypLESoKMqZJzcs/MThIRZG7IvozFNRdFawsJL+SEPFCXGiw3Q51VVHpzNC3BvjctoDMEU1eagQ==
+X-Received: by 2002:adf:9022:: with SMTP id h31mr9430283wrh.223.1585927593044;
+        Fri, 03 Apr 2020 08:26:33 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id d7sm12195501wrr.77.2020.04.03.08.26.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2020 08:26:32 -0700 (PDT)
+Message-ID: <dee2e56432928c971eb0f1512f5945d6af846b89.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] icu: Add knobs to generate a subset of ICU data
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Cc: Wouter Meek <w.meek@metrological.com>
+Date: Fri, 03 Apr 2020 16:26:30 +0100
+In-Reply-To: <20200403015350.1002891-1-raj.khem@gmail.com>
+References: <20200403015350.1002891-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.36.1-1 
 MIME-Version: 1.0
-References: <CAM15ne=BtZqVdByS9VxHPSyDk+uAMVEWL6cQAaP8KXC_HX_DPA@mail.gmail.com>
- <CAO5Uq5QYE9Cn1DQxUtnKptqwyzpbUyY8dMaYMdwAm55yHj4mLQ@mail.gmail.com> <CAM15nenPsBbL95RwC21UT9B7U0MY0y9pXYu+=-560C0tks=s6g@mail.gmail.com>
-In-Reply-To: <CAM15nenPsBbL95RwC21UT9B7U0MY0y9pXYu+=-560C0tks=s6g@mail.gmail.com>
-From: "Alex Kiernan" <alex.kiernan@gmail.com>
-Date: Fri, 3 Apr 2020 16:19:57 +0100
-Message-ID: <CAO5Uq5SzYq5se-=xdAgGZPHC_JO9=OMd7YPLWziDeH8AZwV0mA@mail.gmail.com>
-Subject: Re: [OE-core] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
-To: Arnaud Pecoraro <arnaud.pecoraro@externs.easymile.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 3, 2020 at 3:08 PM Arnaud Pecoraro
-<arnaud.pecoraro@externs.easymile.com> wrote:
->
-> Thanks for your answer.
->
-> I am currently working with zeus revision of poky, but the check is in master as well:
->
-> http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/rootfs-postcommands.bbclass?h=master#n306
->
+On Thu, 2020-04-02 at 18:53 -0700, Khem Raj wrote:
+> Recent versions of ICU (64+) provides a tool for configuring ICU
+> locale data file with finer granularity [1]
+> 
+> Default generated size for libicudata.so.66.1 is ~27M, which is quite
+> large for embedded systems and all of them may not even need all
+> locale
+> data.
+> 
+> This patch calls the icudata buildtool during configure on the
+> icudata
+> and utilizes a filter called 'filter.json` ( empty by default) to
+> create the data, default behavior should remain same but someone can
+> add a filter.json in own layer to configure this data, e.g.
 
-The method is there, but nothing pulls it into the image in poky. I'd
-check your other layers.
+Nice idea, fails on ppc:
 
--- 
-Alex Kiernan
+https://autobuilder.yoctoproject.org/typhoon/#/builders/107/builds/411
+
+Cheers,
+
+Richard
+
