@@ -1,112 +1,140 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web11.12118.1585923861140019721
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com [209.85.166.68])
+ by mx.groups.io with SMTP id smtpd.web10.12183.1585924450370852358
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2020 07:24:21 -0700
+ Fri, 03 Apr 2020 07:34:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=K9dw1eR0;
- spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f195.google.com with SMTP id z24so6563888qtu.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 07:24:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ByoETYOZ;
+ spf=pass (domain: gmail.com, ip: 209.85.166.68, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f68.google.com with SMTP id o3so7746474ioh.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 07:34:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1YgDZJvelI08zjcR3m87roQMXW/ez1NdlqHWmE4JtcY=;
-        b=K9dw1eR0F1mDhEfIIADSffGGSbVeH3Es8cUb6agWNJQrX6ZgBr+AXhZQ6kyuEZtO8Z
-         WQU/C4OanVvWQorZ2rWfcnwb/bJz32g7tuZ2hQmpD2aqdbNYNrBsPWe/rxtLQNCbvET1
-         ngGzM1Yf4hlREpNbj3f8jdBY/G/db7QOOu5CKqqDMX8LJRGjdwgTe8U9WIVvOMYZ2UFy
-         5aGD19776Jre7XKpHIMhCgqsF7pMwA3f3RIMSONXfLB1C73whpXA0BeI8Ti8PoPggaRs
-         A8GprGTyqDsl0aQkZ/XK29sdAFhcfLJEoPoL6BNzaUeTHVc6GaDEgwGNR45ZQ2EiBwaC
-         dwBQ==
+        h=from:subject:to:references:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=91hFspp+2uPUQE09LpV7CFAbRGIvgRTBC41RnG3tHVM=;
+        b=ByoETYOZ3z0lFm0BVQoebkY+vtYH/VfoS3kpgMjyBikWqWnSbnzQOC7WKxleyVHz1U
+         DvCBIsITO84wzVkZKcHRhIP5TsMmSkaP1eVRqpCqoty5RCj3gXZlGFytHzglIaGFVGQS
+         3lxHmh8s3mJAdXDae+3WPaZ/pLWHfruVD9B24MfsFxe2Yr0uIZix1RUHLcwpJNEymosU
+         yJqojMWAaP2iQfOe5qtjycZRFoFIUHmy+QejzlW4RXYs8wQ1HmmjD01K+vhyY8FHsD4k
+         UfYUTrxfEhttbV9fZ16/eh0BV9BI7i11iMAef3Exevlneqb6OpNsYFyzjTJiAcgUYrDH
+         ZoaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1YgDZJvelI08zjcR3m87roQMXW/ez1NdlqHWmE4JtcY=;
-        b=C0QhLo3+glQzNoNgQ/vE5+ZB3C/ADTndRLz1x5+wwTf4itNFOWYC87cPespwg7fxRa
-         3Qq9Ox2pekUdVR+U7wdPkfiXpaaTw8DcxgUMUh6/uEr/pO1277TRQ/ry+QhUiTBBXEp6
-         M4m0obzzVjb2yagT18k+RYvTSEFvvhyRgAaqRr09vDPOXKnN5nwfQyE5kB45Hqn6XIfc
-         Rk+zvZXS68dH1167Ke+MmdWa1pVttlYIirgWoZGpCp6vKw7i9ZgfSYTDiD9TkpabB3mx
-         38FNAgRisvlGeivNS+FbSf1gcBmzRP4vMBfwHqKXY7DNDER04+8PSNBPe/TFBkyHel84
-         RL1w==
-X-Gm-Message-State: AGi0PuasPYw0UWVSYaTHS3p66DdnmQizL3J8JzJtVNV29AFXAq8HNZMg
-	1feT78VtwQfVDL4OWm8XuUmsQoRNqxY5+S1aHso=
-X-Google-Smtp-Source: APiQypK36Aiu/5Oi6cZKEnNESoSuXWuqxZROq41HFPDBc71gu7Mk/JuQLrcx0liyJ5w9OKL84Wyk7EaVzpl4qB7ycWg=
-X-Received: by 2002:ac8:f4a:: with SMTP id l10mr8530303qtk.146.1585923859984;
- Fri, 03 Apr 2020 07:24:19 -0700 (PDT)
+        h=x-gm-message-state:from:subject:to:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=91hFspp+2uPUQE09LpV7CFAbRGIvgRTBC41RnG3tHVM=;
+        b=tErYor6RAg6agbQICbwNE5KvM09OJrKvsVrUreSaEZBZYxwr6ErJM3wnTndCfdRK+A
+         6xhaeZMAoSBa6Z8fff99ilGQ/gMBKX3tzYzOQXVgC2u3ExKXodXG8f8WSLYX1NcNTx2T
+         /UgFRMB4Uq/UPwfA2GAPX7iweg7/VHF9ypZNTDKtXgXcbL+jBjlXCphUT/IyMeRELkL5
+         yUU/QAgRaufUo4AwECoTgCimh0grC12gKRHQNWTN6W53ePQXJG449AeV43yVI8sGwKd4
+         2RgFLgPDjG1XEOH5aTi36RzZwiFwC93dcBe54MLKDIyrhnKzTkizQNk02VIrC9KaL/nK
+         xRgw==
+X-Gm-Message-State: AGi0PuYQsXCy9wMqIKFXOlCGhVqu1SmPGznK9CSg4+e07A/85MnSMAUG
+	9hyQ8wK3J4rtBw8aDy5rIPhhZp+p9L8=
+X-Google-Smtp-Source: APiQypJ35qmcC7rWcXUxCAs+NjvcBLnMtzRAnvU2p3V07iwGtz2l66yjfFAAf/q552qCOurEbBJC4g==
+X-Received: by 2002:a6b:b747:: with SMTP id h68mr8037674iof.105.1585924449484;
+        Fri, 03 Apr 2020 07:34:09 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from ?IPv6:2605:a601:ac3d:c100:5893:3fb5:2c4e:5d65? ([2605:a601:ac3d:c100:5893:3fb5:2c4e:5d65])
+        by smtp.gmail.com with ESMTPSA id s25sm2777940ilb.37.2020.04.03.07.34.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 03 Apr 2020 07:34:08 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Subject: Re: [OE-core][PATCH] classes/reproducible_build: Skip SDE for non-finalizing virtual recipes
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20200402180832.12814-1-JPEWhacker@gmail.com>
+ <b69366f4b2632b18997691497c8799a93cb36b27.camel@linuxfoundation.org>
+Message-ID: <0d23a1a6-6dc0-7fb2-09ce-47b255f5773c@gmail.com>
+Date: Fri, 3 Apr 2020 09:34:08 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20191018112819.16210-1-ross.burton@intel.com> <CAMKF1soy5adOpd49H0dTqtwu=vSRc0EPMnXFvD5uQTaJd+JCig@mail.gmail.com>
- <1615697b554b612f329820f2b3f692011b7722ba.camel@linuxfoundation.org>
- <9bac0b45-777c-faba-f448-d2d03c7e6fac@geanix.com> <CAMKF1soa5bEfN23uPAhDCk4rfD_OGjaf2xR+m5ET9cLt+kOn0Q@mail.gmail.com>
- <f6cb669c-d302-c1fa-e2ed-5995b82677ed@intel.com> <9464fbdc93aa48aac796a3ea44e04efcd9564963.camel@pengutronix.de>
- <b409429b4afa97ddeeeec6313fb7315110775f9f.camel@linuxfoundation.org>
-In-Reply-To: <b409429b4afa97ddeeeec6313fb7315110775f9f.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 3 Apr 2020 07:23:53 -0700
-Message-ID: <CAMKF1sotrF5wOYxxQJ_XsJgD2FgLxGAqJJ_fcuuMUJnChtkbVA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] file: explicitly disable seccomp
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Jan Luebbe <jlu@pengutronix.de>, Ross Burton <ross.burton@intel.com>, 
-	=?UTF-8?Q?Martin_Hundeb=C3=B8ll?= <martin@geanix.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Enrico Jorns <ejo@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <b69366f4b2632b18997691497c8799a93cb36b27.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Fri, Apr 3, 2020 at 6:36 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On 4/2/20 3:42 PM, Richard Purdie wrote:
+> On Thu, 2020-04-02 at 13:08 -0500, Joshua Watt wrote:
+>> Don't capture the source date epoch for recipes that are not being
+>> finalized. This prevents a virtual recipe (e.g. multilib) from
+>> attempting to read the source date epoch file from the non-virtual
+>> recipes workdir.
+>>
+>> [YOCTO #13851]
+>>
+>> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+>> ---
+>>   meta/classes/reproducible_build.bbclass | 14 ++++++++++++++
+>>   1 file changed, 14 insertions(+)
+> What puzzles me with this is that we're telling bitbake to ignore the
+> variable for hashing purposes, yet it still goes ahead and executes it.
 >
-> On Tue, 2020-03-31 at 12:57 +0200, Jan Luebbe wrote:
-> > Hi,
-> >
-> > On Mon, 2020-01-20 at 17:10 +0000, Ross Burton wrote:
-> > > On 20/01/2020 15:45, Khem Raj wrote:
-> > > > pseudo needs some love since it alters syscalls which go out of
-> > > > bounds
-> > > > what is allowed by libseccomp until then pin your file version to
-> > > > 5.37
-> > > > in arch till a supported distro is affected by same problem. It
-> > > > wont
-> > > > be long better option is to fix pseudo
-> > >
-> > > That's not quite right.  pseudo LD_PRELOADs itself into file, and
-> > > makes
-> > > syscalls which are not whitelisted in file's seccomp configuration.
-> > >
-> > > There's nothing pseudo can do to solve this.
-> >
-> > I stumbled across this thread when checking why libseccomp is not in
-> > oe-core or meta-oe. It seems to me that pseudo could intercept the
-> > seccomp(2) or libseccomps seccomp_* function calls and report them as
-> > unsupported to simulate running on a kernel without seccomp support.
-> >
-> > What am I missing? :)
+> If we decide that is a bug, we can come up with the patch that follows
+> below, which I think should also fix this issue and perhaps some
+> others?
 >
-> I made a guess at a patch:
+> data/siggen: Don't expand ignored variables
 >
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=rpurdie/t222&id=d675ff53d3ccbc6bd7db5f067d331bf3f94de5cd
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   bitbake/lib/bb/data.py       | 4 ++--
+>   bitbake/lib/bb/siggen.py     | 2 +-
+>   bitbake/lib/bb/tests/data.py | 2 +-
+>   3 files changed, 4 insertions(+), 4 deletions(-)
 >
-> Just need someone with a system that can test it now!
+> diff --git a/bitbake/lib/bb/data.py b/bitbake/lib/bb/data.py
+> index 6dc02172cb..b0683c5180 100644
+> --- a/bitbake/lib/bb/data.py
+> +++ b/bitbake/lib/bb/data.py
+> @@ -365,7 +365,7 @@ def build_dependencies(key, keys, shelldeps, varflagsexcl, d):
+>       #bb.note("Variable %s references %s and calls %s" % (key, str(deps), str(execs)))
+>       #d.setVarFlag(key, "vardeps", deps)
+>   
+> -def generate_dependencies(d):
+> +def generate_dependencies(d, whitelist):
+>   
+>       keys = set(key for key in d if not key.startswith("__"))
+>       shelldeps = set(key for key in d.getVar("__exportlist", False) if d.getVarFlag(key, "export", False) and not d.getVarFlag(key, "unexport", False))
+> @@ -380,7 +380,7 @@ def generate_dependencies(d):
+>           newdeps = deps[task]
+>           seen = set()
+>           while newdeps:
+> -            nextdeps = newdeps
+> +            nextdeps = newdeps - whitelist
+>               seen |= nextdeps
+>               newdeps = set()
+>               for dep in nextdeps:
+> diff --git a/bitbake/lib/bb/siggen.py b/bitbake/lib/bb/siggen.py
+> index 8bfc45235d..4c8d81c5da 100644
+> --- a/bitbake/lib/bb/siggen.py
+> +++ b/bitbake/lib/bb/siggen.py
+> @@ -146,7 +146,7 @@ class SignatureGeneratorBasic(SignatureGenerator):
+>       def _build_data(self, fn, d):
+>   
+>           ignore_mismatch = ((d.getVar("BB_HASH_IGNORE_MISMATCH") or '') == '1')
+> -        tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d)
+> +        tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d, self.basewhitelist)
+>   
+>           taskdeps, basehash = bb.data.generate_dependency_hash(tasklist, gendeps, lookupcache, self.basewhitelist, fn)
+>   
+> diff --git a/bitbake/lib/bb/tests/data.py b/bitbake/lib/bb/tests/data.py
+> index 2b137706dd..5f195047de 100644
+> --- a/bitbake/lib/bb/tests/data.py
+> +++ b/bitbake/lib/bb/tests/data.py
+> @@ -476,7 +476,7 @@ class Contains(unittest.TestCase):
+>   class TaskHash(unittest.TestCase):
+>       def test_taskhashes(self):
+>           def gettask_bashhash(taskname, d):
+> -            tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d)
+> +            tasklist, gendeps, lookupcache = bb.data.generate_dependencies(d, set())
+>               taskdeps, basehash = bb.data.generate_dependency_hash(tasklist, gendeps, lookupcache, set(), "somefile")
+>               bb.warn(str(lookupcache))
+>               return basehash["somefile:" + taskname]
 >
+LGTM
 
-seems pseudo still has same issue with archlinux latest file
-(file-5.38-3) utility
-
-Command '['file', '-b',
-'/mnt/b/yoe/build/tmp/work/aarch64-yoe-linux/glibc/2.31+gitAUTOINC+71f2b249a2-r0/package/lib/libnss_db-2.31.so']'
-died with <Signals.SIGSYS: 31>.: Traceback (most recent call last):
-  File "/mnt/b/yoe/sources/openembedded-core/meta/lib/oe/utils.py",
-line 280, in run
-    ret = self._target(*self._args, **self._kwargs)
-  File "/mnt/b/yoe/sources/openembedded-core/meta/lib/oe/package.py",
-line 74, in is_elf
-    result = subprocess.check_output(["file", "-b", path],
-stderr=subprocess.STDOUT).decode("utf-8")
-  File "/usr/lib/python3.8/subprocess.py", line 411, in check_output
-    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
-  File "/usr/lib/python3.8/subprocess.py", line 512, in run
-    raise CalledProcessError(retcode, process.args,
-
-> Cheers,
->
-> Richard
->
+Review-by: Joshua Watt <JPEWhacker@gmail.com>
