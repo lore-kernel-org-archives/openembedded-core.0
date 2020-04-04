@@ -1,114 +1,145 @@
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
- by mx.groups.io with SMTP id smtpd.web12.1263.1585961673577136832
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.1850.1585964010632045817
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2020 17:54:33 -0700
+ Fri, 03 Apr 2020 18:33:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XdUYsL1I;
- spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f195.google.com with SMTP id o18so7317021qko.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 17:54:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VqaCxCy+;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: jpuhlman@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id x1so3511006plm.4
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 18:33:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=e9gh9s8EK8+4tUWAwEIozL24WpYbor8S5/LcjdFvzGM=;
-        b=XdUYsL1IttYTfb+V1m3GjQZ0P/Zn6UslNtQHzfoMf3AheXx4IdZIeAfGQB5p9M11WR
-         4L8Cde+dksiKiqmu+NaI3cqgKkdQTM670cQetbYucpYRqwSsV8lEe3kHW3XaDXvnIf1T
-         jQowFvjQAUTC9miEL6IYpB25FaNc+zJpa5nPfU8clpQZP0RJpT3yrzhPg+J1ViXk5OCu
-         t8jQ9OA5g7InYB3NOg5PYNQGkIXwUCQyA450+u/ozIW0ftz0RQLNqAU40bkbDsmhgx0k
-         vJS0FMYeS2/zoxLjDsOKXgnmE86/v7ujfrnS0XQ4iMtVB6pLVY56v6PWU/EUuaGsD17+
-         SJUg==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8P9nlJZLiDYxx2BiE1kFfMw5fi9ntNcujSImp+BXN9s=;
+        b=VqaCxCy+wFISIXC7gDLuPcZ1pF1XCx9fY9s2xdIXdqo7PI5D/Ns3iACDmccglh42Pe
+         OIPEE5tFgEQRzsRqxiQG0eSXNNwbXRxBadoMFKO+2BB1DyfU4aluJHRe3qCxILSDHts+
+         PqVTV8Z3VLkVgSCMIvKcuW5Y2tkJgZ0Re4LXQ45DmCsma79BRv6O7RUpxJofBR20Bwvw
+         TnMovcquHBnOLf5ZFYY9QjfTqD4BdAXUtejshfk200JYu0E28dqeGdUCD9Z1vsRSexFp
+         PZ/MEVljPvfhQCDJFAGvf49aqyH96DXMWb6Zqr6FjPSbnGId4AuYwjsmfAZyV2JBU9Q7
+         KiNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=e9gh9s8EK8+4tUWAwEIozL24WpYbor8S5/LcjdFvzGM=;
-        b=QQNTHRFwt3gRuYAhaSMuRecOdFAoIMKXYVw5yswqg2cnJp2pnlvMLXE2z2TfSaJ3Ag
-         kqjxhhGqKhk9cmRsPoVGnPrWotH78C29pK2a4eaHX1k+/5vI6yocZgI+d6gAuLGNVinC
-         u8633tWU6IqT2RvY2fBAJ1TEUFnj3Z9WXyeVROhRu+Sefd4s/jRxk1kOmKilW9ZLjlMK
-         QmKqJdZadINlkEY7gBphh8HtSAph9UlgJWJZD3LzJIoWwc13bbFIlMf85L6ujw66fFpH
-         Oeh6T3xPLlGfHYkHkwiTHt6BDhDRvmRbXOOUa0l/XfS0Iei0EKWOcaGGHgRLcxFKS4f/
-         fRdg==
-X-Gm-Message-State: AGi0PuZBW/P6fIDWcN8xM3dV7he2lJ9sEKpN+JieynHs4y6F8Q3XFWtK
-	71+twdgmK/748MamoRpNNb+Z/pHgCkYv/EOSXoE=
-X-Google-Smtp-Source: APiQypLpUiWtaNtjEwkmXTd1LsbkmOlxJwOwsGky161zfYwiqsvGkPTjSE6ndRjFeP9yLpfrMcLI1SJCYTyAYVWRAVI=
-X-Received: by 2002:a05:620a:10a8:: with SMTP id h8mr11834563qkk.215.1585961672376;
- Fri, 03 Apr 2020 17:54:32 -0700 (PDT)
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=8P9nlJZLiDYxx2BiE1kFfMw5fi9ntNcujSImp+BXN9s=;
+        b=IGrIyQM8N39RmvhW1ChOij3sg3IILrdesMnqxSlblkSM5Gx1lzawyapt2blBTek0M9
+         MFRovWdTHL8ARExTKwjSbdLW/GtMOJWefwoX3WMQvNDulAj3XylPWa94GNFFTtez5vCa
+         vAwyx4w0rdI3oDxfXBhLUMBeMgkkbIKNMMJJgo26qAccL71BYLxia6Q2RNL8yNppy+co
+         wrTBsWiJ3UF7M+qfSIeEgHlOQ0DJ13vlkErAVnC4YQChXAr3EAZ5BY69Ez1AI3+IpAlP
+         mdO2wBlcmBLiqUrb3H49Ojv/ZId0k0ywYX29WtqPm8fiWmClmb2C22jGnt24vn4rIbU6
+         xt4A==
+X-Gm-Message-State: AGi0PubxQI6PHy3k1xe8dqmeLTgxqhwsOcNHKd/N+EnocJmmWT041NlZ
+	nm53kO/gw0PwuZ38svIrywEELNeLm08=
+X-Google-Smtp-Source: APiQypJmcxtH0EZ8tG5Ne9SdqBQYCTpUJ/XAnqXjRURHoUf78momhAleyfAFEIU9K67TXi3MeTGbtg==
+X-Received: by 2002:a17:90a:1acf:: with SMTP id p73mr12915424pjp.53.1585964009606;
+        Fri, 03 Apr 2020 18:33:29 -0700 (PDT)
+Return-Path: <jpuhlman@gmail.com>
+Received: from workhorse.localdomain ([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
+        by smtp.gmail.com with ESMTPSA id v4sm6677378pfb.31.2020.04.03.18.33.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Apr 2020 18:33:28 -0700 (PDT)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id 8A1782A0567; Fri,  3 Apr 2020 18:33:27 -0700 (PDT)
+From: "Jeremy Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jeremy Puhlman <jpuhlman@mvista.com>
+Subject: [zeus][PATCH] busybox: on upgrade save busybox if it is the last shell
+Date: Fri,  3 Apr 2020 18:33:21 -0700
+Message-Id: <20200404013321.5932-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200402205632.1355452-1-mkelly@xevo.com>
-In-Reply-To: <20200402205632.1355452-1-mkelly@xevo.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Fri, 3 Apr 2020 17:54:05 -0700
-Message-ID: <CAMKF1sof=p33GFPcw2wL4JO59iAuSh6e0+9ZcaQd1K5HK-MOuw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cmake: fix Python executable with cmake
-To: Martin Kelly <mkelly@xevo.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Martin
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-I am seeing upm package failures, which I think are related to this change
+During a busybox upgrade on a ipk based system, it is possible
+that busybox is the only shell in the system. During the uninstall
+the alternative for /bin/sh is removed and everything after that
+goes down hill.
 
-https://errors.yoctoproject.org/Errors/Details/400570/
-https://errors.yoctoproject.org/Errors/Details/400566/
-https://errors.yoctoproject.org/Errors/Details/400588/
+* Add a check to verify if busybox is the shell, and save it to
+the busyboxrm directory created in tmp. Then add an alternative
+for /bin/sh that points to that busybox at the lowest priority.
 
-On Thu, Apr 2, 2020 at 1:59 PM Martin Kelly <mkelly@xevo.com> wrote:
->
-> Currently, CMake has two ways of finding Python executables:
-> FindPythonInterp and FindPython/FindPython3. FindPythonInterp is
-> deprecated and may be removed at some point. Currently, python3native
-> sets PYTHON_EXECUTABLE, which FindPythonInterp uses. This is a problem
-> for a few reasons:
->
-> - Setting PYTHON_EXECUTABLE as an environment variable doesn't work, as
->   CMake needs it to be set as an explicit CMake option via -D.
-> - Projects using the newer FindPython/FindPython3 don't pickup the right
->   Python, as the newer routines use Python_EXECUTABLE and
->   Python3_EXECUTABLE.
->
-> Fix this by setting PYTHON_EXECUTABLE, Python_EXECUTABLE, and
-> Python3_EXECUTABLE using -D options to EXTRA_OECMAKE.
->
-> The CMake routines are documented below:
-> https://cmake.org/cmake/help/latest/module/FindPythonInterp.html
-> https://cmake.org/cmake/help/latest/module/FindPython.html
-> https://cmake.org/cmake/help/latest/module/FindPython3.html
->
-> Signed-off-by: Martin Kelly <mkelly@xevo.com>
-> ---
->  meta/classes/cmake.bbclass         | 3 +++
->  meta/classes/python3native.bbclass | 2 --
->  2 files changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index d91cf20130..94ed8061bb 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -175,6 +175,9 @@ cmake_do_configure() {
->           -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
->           -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
->           -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix') + '/')} \
-> +         -DPYTHON_EXECUTABLE:PATH=${PYTHON} \
-> +         -DPython_EXECUTABLE:PATH=${PYTHON} \
-> +         -DPython3_EXECUTABLE:PATH=${PYTHON} \
->           -DLIB_SUFFIX=${@d.getVar('baselib').replace('lib', '')} \
->           -DCMAKE_INSTALL_SO_NO_EXE=0 \
->           -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
-> diff --git a/meta/classes/python3native.bbclass b/meta/classes/python3native.bbclass
-> index 182c11aa2e..d98fb4c758 100644
-> --- a/meta/classes/python3native.bbclass
-> +++ b/meta/classes/python3native.bbclass
-> @@ -1,8 +1,6 @@
->  inherit python3-dir
->
->  PYTHON="${STAGING_BINDIR_NATIVE}/python3-native/python3"
-> -# PYTHON_EXECUTABLE is used by cmake
-> -PYTHON_EXECUTABLE="${PYTHON}"
->  EXTRANATIVEPATH += "python3-native"
->  DEPENDS_append = " python3-native "
->
-> --
-> 2.25.1
->
-> 
+* Add PATH to the busyboxrm directory using shell(as during an upgrade
+busybox and its links are missing).
+
+* When install over remove extra busybox if present.
+
+deb and rpm are uneffected by the bug because they both drag in bash,
+however neither upgrade seemed to have issue with the changes.
+
+[YOCTO 13850]
+---
+ meta/recipes-core/busybox/busybox.inc | 43 +++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index bf6ddae7d1..33c84bc2c1 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -431,6 +431,32 @@ fi
+     d.prependVar('pkg_postinst_%s' % pkg, postinst)
+ }
+ 
++pkg_postinst_${PN}_prepend () {
++        # Need path to saved utils, but they may have be removed on upgrade of busybox
++        # Only use shell to get paths. Also capture if busybox was saved.
++        BUSYBOX=""
++        if [ "x$D" = "x" ] ; then 
++           for busybox_rmdir in /tmp/busyboxrm-*; do
++               if [ "$busybox_rmdir" != '/tmp/busyboxrm-*' ] ; then
++                  export PATH=$busybox_rmdir:$PATH
++                  if [ -e $busybox_rmdir/busybox* ] ; then
++                    BUSYBOX="$busybox_rmdir/busybox*"
++                  fi
++               fi
++           done
++        fi
++}
++
++pkg_postinst_${PN}_append () {
++        # If busybox exists in the remove directory it is because it was the only shell left.
++        if [ "x$D" = "x" ] ; then
++           if [ "x$BUSYBOX" != "x" ] ; then
++              update-alternatives --remove sh $BUSYBOX
++              rm -f $BUSYBOX
++           fi
++        fi
++} 
++
+ pkg_prerm_${PN} () {
+ 	# This is so you can make busybox commit suicide - removing busybox with no other packages
+ 	# providing its files, this will make update-alternatives work, but the update-rc.d part
+@@ -451,9 +477,26 @@ pkg_prerm_${PN} () {
+ 	ln -s ${base_bindir}/busybox $tmpdir/grep
+ 	ln -s ${base_bindir}/busybox $tmpdir/tail
+ 	export PATH=$PATH:$tmpdir
++
++        # If busybox is the shell, we need to save it since its the lowest priority shell
++        # Register saved bitbake as the lowest priority shell possible as back up.
++        if [ -n "$(readlink -f /bin/sh | grep busybox)" ] ; then
++           BUSYBOX=$(readlink -f /bin/sh)
++           cp $BUSYBOX $tmpdir/$(basename $BUSYBOX)
++           update-alternatives --install /bin/sh sh $tmpdir/$(basename $BUSYBOX) 1 
++        fi
+ }
+ 
+ pkg_postrm_${PN} () {
++        # Add path to remove dir in case we removed our only grep
++        if [ "x$D" = "x" ] ; then
++           for busybox_rmdir in /tmp/busyboxrm-*; do
++               if [ "$busybox_rmdir" != '/tmp/busyboxrm-*' ] ; then
++                  export PATH=$busybox_rmdir:$PATH
++               fi
++           done
++        fi
++
+ 	if grep -q "^${base_bindir}/bash$" $D${sysconfdir}/busybox.links* && [ ! -e $D${base_bindir}/bash ]; then
+ 		printf "$(grep -v "^${base_bindir}/bash$" $D${sysconfdir}/shells)\n" > $D${sysconfdir}/shells
+ 	fi
+-- 
+2.20.1
+
