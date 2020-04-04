@@ -1,53 +1,53 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.1854.1585964040325409358
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web12.1819.1585964083506429560
  for <openembedded-core@lists.openembedded.org>;
- Fri, 03 Apr 2020 18:34:00 -0700
+ Fri, 03 Apr 2020 18:34:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=h1rsUJeK;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: jpuhlman@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id k18so3511404pll.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 18:34:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gx2k+rqz;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: jpuhlman@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id ay1so3521094plb.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 03 Apr 2020 18:34:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=tv/SAYJqwVLjd1zV+ayQEDott6l6JSAAOTFmAjfIoZk=;
-        b=h1rsUJeKpL1b3K2l40/19SUTUQuPCSzx9pzIyB/aaK4jL4GQJY1RkUWZUeSaS2e4Ld
-         +u8WLcTFcxOur86cCjqBs/T3cIccPT5PVo1XXRHoSZEDZD5YVmiGdCgojBdRIWE63to2
-         Pd91Xl+O7ucV5CT+QYm/fZ98ojShk6rVWcbHXYw2yCQBHnXQ0ncdexKVkuq97aQyv/v4
-         OFWs2Vbdp7TpqgpHJywJDNTuUP68hDuGYHHpWHpyWxVc7n5N6gfYZhlMS2dCf5e7fXaB
-         V+wJ+pSCMmUjn8MYQRQwp+5j+OvPGPq9ardhYd0KafzqJWoxRapBBgb6MRFzJVq2ZGFF
-         6l9Q==
+        bh=WOUnWDaps/Wtgudown/m1l4z0sOSRfzlETNWxyT1fsY=;
+        b=gx2k+rqzqcKLF6KK2gCP+s/dBGzZ0BgP0D8YvCBWwXNVehoU20B2L9PYLqmmBVsHQi
+         ePw0aQC4YFwMqPzZq0iSpxTw9ICLXCICIovV/c97U/7RMc3OUFANVLoyAPWADZI+KQEW
+         hHUR6CHrfhOH8OH4JApq1hBHfO0YKzxhvsYFQviFVapWKdvTWngT+FboqzOENQAX25Mk
+         Fh5EJB3YzIbRYda1qWF9sBZGVgP2Cgad/VbhVWqPqFc8pABLiVpQ1Wm3YhVlrK/Eak+X
+         iWhI47CnoIiSmL4xkt6ZNRf2MUJzibxumRr2BtBtaUkgk95axKLD+jlDd7PaTNyAefj9
+         IQ5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :mime-version:content-transfer-encoding;
-        bh=tv/SAYJqwVLjd1zV+ayQEDott6l6JSAAOTFmAjfIoZk=;
-        b=UFv4T9uxFyy8ZJlzFA0K2n8tMKdmuz3cnCyLqW2JqzRXL/glSKCWz9MtwDzUiohpnS
-         LpK+OpIYaaGx3ellnTfswNZek0Hn/sP7Zgrr5Bv7a7T+/AoZmgI3rgCieEVtfJR4CxGc
-         YX3gvwzGxnFVI8vXA84rRo/x3h7tsyZJC1xchcUGIW3JjCt+OobgaOXPhYufIYXgsU1e
-         3+eG6U6Lyxwx3BkfIXwxo8OO3VAMyUPodJKCVYrn8A0ZV+LAj87u3M5iTv34+BJWWnE0
-         Jfp5DfrTUyzGLDYOuoTRhexFhL3GmJ1A78LmRWXXJ8rOj4YKdUBG//5V72eh1cDXYr3o
-         31LA==
-X-Gm-Message-State: AGi0PubfdcooMF0my5PGFE2Td6BVy/kPT4egi1dZZZhgtVCnEpv91sxC
-	MqzCErFC+91nxuhe8yD32v9V4Ct5BDI=
-X-Google-Smtp-Source: APiQypJuOgDvoGok8z+1kruelxBVHh8s+ihiHwj4fdl0Vu2dCs0ZTUVfTT5vkjxlg5ldsPYxz5zKWA==
-X-Received: by 2002:a17:902:b60d:: with SMTP id b13mr10902307pls.324.1585964039616;
-        Fri, 03 Apr 2020 18:33:59 -0700 (PDT)
+        bh=WOUnWDaps/Wtgudown/m1l4z0sOSRfzlETNWxyT1fsY=;
+        b=hOjObdIQ6Ircpxy4sg0/t1osy31CHjuECm4DbKyDHSEHPyko+eG6lLDHEkEsTMmXKH
+         l/5Z6lP/zRJkXsrSMpx4SY7QevEcnq7PvQjOucGN3OjYxloQ9bWsizIlF6tGYoqIMD9A
+         bGX8oO7HZzkxBsUqi6uWkGKOtFBzlvLR8Z5h9mIcdFTJkRojlqfx1DY8FcAKJXWlH0Kw
+         bCtexoNPC7QqYemXpB6NkpW1fL5i0a5kaFcVfyQPHFoSaVgDynOt9Ldk+O8qpzz8QmCa
+         SKxTOhgzqJfXHDFmkEcjw6pZ1GJarPhQhH9uPGU5ytjtprzSYawY7jGSxtl/fy3hThit
+         lSKA==
+X-Gm-Message-State: AGi0PuaIAoA6zLSgiZ305UlC4EFb/cfs4nxyq1is22f12WQbGZgPhaRL
+	vz3sRVLp3jdamC6x32tTFw0QFcWNklY=
+X-Google-Smtp-Source: APiQypKZkc9UFA1XDel7JeTuv8Ue2k5ACeK215CznHuzK7QlP/THniRd0KwDCxjBlnZLmEeATj9Nnw==
+X-Received: by 2002:a17:90a:206a:: with SMTP id n97mr13368746pjc.16.1585964082722;
+        Fri, 03 Apr 2020 18:34:42 -0700 (PDT)
 Return-Path: <jpuhlman@gmail.com>
-Received: from workhorse.localdomain ([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
-        by smtp.gmail.com with ESMTPSA id b25sm6621589pfp.201.2020.04.03.18.33.59
+Received: from workhorse.localdomain (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+        by smtp.gmail.com with ESMTPSA id m68sm10126682pjb.0.2020.04.03.18.34.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2020 18:33:59 -0700 (PDT)
+        Fri, 03 Apr 2020 18:34:42 -0700 (PDT)
 Sender: Jeremy Puhlman <jpuhlman@gmail.com>
 Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 01CD52A0567; Fri,  3 Apr 2020 18:33:57 -0700 (PDT)
+	id 3F8EF2A0567; Fri,  3 Apr 2020 18:34:41 -0700 (PDT)
 From: "Jeremy Puhlman" <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jeremy Puhlman <jpuhlman@mvista.com>
-Subject: [warrior][PATCH] busybox: on upgrade save busybox if it is the last shell
-Date: Fri,  3 Apr 2020 18:33:56 -0700
-Message-Id: <20200404013356.6040-1-jpuhlman@mvista.com>
+Subject: [thud][PATCH] busybox: on upgrade save busybox if it is the last shell
+Date: Fri,  3 Apr 2020 18:34:39 -0700
+Message-Id: <20200404013439.6143-1-jpuhlman@mvista.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -71,7 +71,7 @@ busybox and its links are missing).
 deb and rpm are uneffected by the bug because they both drag in bash,
 however neither upgrade seemed to have issue with the changes.
 
-Backported from master and reworked for warrior since the postinst
+Backported from master and reworked for thud since the postinst
 scripts are handled slightly differently in the metadata.
 
 [YOCTO 13850]
@@ -80,10 +80,10 @@ scripts are handled slightly differently in the metadata.
  1 file changed, 51 insertions(+)
 
 diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 174ce5a8c0..64ab79aa60 100644
+index 0c0d26ed3a..571a9dd626 100644
 --- a/meta/recipes-core/busybox/busybox.inc
 +++ b/meta/recipes-core/busybox/busybox.inc
-@@ -422,6 +422,40 @@ pkg_postinst_${PN} () {
+@@ -418,6 +418,40 @@ pkg_postinst_${PN} () {
  	fi
  }
  
@@ -124,7 +124,7 @@ index 174ce5a8c0..64ab79aa60 100644
  pkg_prerm_${PN} () {
  	# This is so you can make busybox commit suicide - removing busybox with no other packages
  	# providing its files, this will make update-alternatives work, but the update-rc.d part
-@@ -442,9 +476,26 @@ pkg_prerm_${PN} () {
+@@ -438,9 +472,26 @@ pkg_prerm_${PN} () {
  	ln -s ${base_bindir}/busybox $tmpdir/grep
  	ln -s ${base_bindir}/busybox $tmpdir/tail
  	export PATH=$PATH:$tmpdir
