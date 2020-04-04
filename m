@@ -1,25 +1,23 @@
 Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
- by mx.groups.io with SMTP id smtpd.web10.6615.1585998211600277784
+ by mx.groups.io with SMTP id smtpd.web10.7234.1586001616250549208
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Apr 2020 04:03:32 -0700
+ Sat, 04 Apr 2020 05:00:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:51540 helo=localhost.localdomain)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:51716 helo=localhost.localdomain)
 	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jKgaH-002Okk-Rh; Sat, 04 Apr 2020 07:03:30 -0400
-Date: Sat, 4 Apr 2020 07:03:27 -0400 (EDT)
+	id 1jKhTC-002Xsz-Qx
+	for openembedded-core@lists.openembedded.org; Sat, 04 Apr 2020 08:00:15 -0400
+Date: Sat, 4 Apr 2020 08:00:12 -0400 (EDT)
 From: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] trivial(?) question about post-installation scripts
-In-Reply-To: <5d2d70a05eeb516678cf3b11abd7b948d197e341.camel@linuxfoundation.org>
-Message-ID: <alpine.LFD.2.21.2004040649120.9240@localhost.localdomain>
-References: <alpine.LFD.2.21.2004040549380.6252@localhost.localdomain> <5d2d70a05eeb516678cf3b11abd7b948d197e341.camel@linuxfoundation.org>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] bin_package.bbclass: emphasize setting of S with "subdir"
+Message-ID: <alpine.LFD.2.21.2004040758090.11753@localhost.localdomain>
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
+X-OutGoing-Spam-Status: No, score=-0.2
 X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
 X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
 X-AntiAbuse: Original Domain - lists.openembedded.org
@@ -32,83 +30,34 @@ X-Source-Args:
 X-Source-Dir: 
 Content-Type: text/plain; charset=US-ASCII
 
-On Sat, 4 Apr 2020, Richard Purdie wrote:
+Clarify the setting of "S" so there is absolutely no confusion.
 
-> On Sat, 2020-04-04 at 05:52 -0400, rpjday@crashcourse.ca wrote:
-> >   still working my way through the YP docs and, in dev manual,
-> > 3.3.19,
-> > "Post-Installation Scripts", one reads the final note:
-> >
-> > "Equivalent support for pre-install, pre-uninstall, and post-
-> > uninstall
-> > scripts exist by way of pkg_preinst, pkg_prerm, and pkg_postrm,
-> > respectively. These scrips work in exactly the same way as does
-> > pkg_postinst with the exception that they run at different times.
-> > Also, because of when they run, they are not applicable to being run
-> > at image creation time like pkg_postinst."
-> >
-> >   i'm confused ... why would a pkg_preinst script not be applicable
-> > to
-> > being run at image creation time? or am i misreading that?
-> >
-> >   i'll probably have more questions about these scripts as i dig
-> > further into them.
->
-> I think however wrote it misunderstood. prerm and postrm are unlikely
-> to run at image install time (but can if packages are removed). preinst
-> will run.
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-  just to clarify a couple more points about those scripts (and i'm
-definitely going to rewrite the dev manual section on this after i
-figure it out, with copious examples), as i read it, the pkg_postinst
-script will normally be run at one of two times:
+---
 
-  * at image creation time if package is listed as part of the image, or
-  * at a later time on a running system
+diff --git a/meta/classes/bin_package.bbclass b/meta/classes/bin_package.bbclass
+index cbc9b1fa13..4e74557967 100644
+--- a/meta/classes/bin_package.bbclass
++++ b/meta/classes/bin_package.bbclass
+@@ -14,8 +14,8 @@
+ #
+ # SRC_URI = "http://foo.com/foo-1.0-r1.i586.rpm;subdir=foo-1.0"
+ #
+-# Then the files would be unpacked to ${WORKDIR}/foo-1.0, otherwise
+-# they would be in ${WORKDIR}.
++# Then the files would be unpacked to S=${WORKDIR}/foo-1.0, otherwise
++# they would be in S=${WORKDIR}.
+ #
 
-the difference being that the first case requires the process to
-recognize that the script is being run in the context of the image
-directory $D.
+ # Skip the unwanted steps
 
-  in some cases, it appears the script doesn't need to *explicitly*
-check which context it's in, as using "$D" will automatically do the
-right thing. here's an example from shutdown-desktop.bb:
+-- 
 
-  pkg_postinst_${PN} () {
-    grep -q qemuarm $D${sysconfdir}/hostname && \
-        sed -i $D${datadir}/applications/shutdown.desktop -e
-              's#^Exec=\(.*\)/halt#Exec=\1/reboot#' \
-        || true
-  }
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                         http://crashcourse.ca
 
-so (and correct me if i'm wrong), the use of "$D" above will simply do
-the right thing as, in the first case, it will have the correct value
-(that is, ${D}), and in the latter case, it will be empty and so will
-simply work on a running system as well.
-
-  in other cases, however, depending on the context, there might need
-to be tweaks, as in this case from modutils-initscripts.bb:
-
-  pkg_postinst_${PN} () {
-    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-        if [ -n "$D" ]; then
-            OPTS="--root=$D"     <-- trivial tweak for image build time
-        fi
-        systemctl $OPTS mask modutils.service
-    fi
-  }
-
-in short, all pkg_postinst_* scripts need to access $D, at least
-implicitly, if they're designed to work in either context.
-
-  as for an example of pkg_postinst_ontarget(), i've already found
-opkg-keyrings_1.0.bb, which most readers will understand should be run
-*only* at first boot time:
-
-  pkg_postinst_ontarget_${PN} () {
-  opkg-key populate
-  }
-
-slowly getting a handle on this ...
-
-rday
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
