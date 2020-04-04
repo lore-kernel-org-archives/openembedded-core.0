@@ -1,22 +1,22 @@
 Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
- by mx.groups.io with SMTP id smtpd.web12.8032.1586004745947986164
+ by mx.groups.io with SMTP id smtpd.web10.8099.1586005299532269979
  for <openembedded-core@lists.openembedded.org>;
- Sat, 04 Apr 2020 05:52:26 -0700
+ Sat, 04 Apr 2020 06:01:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:52106 helo=localhost.localdomain)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:52124 helo=localhost.localdomain)
 	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jKiHg-002hDl-Ae; Sat, 04 Apr 2020 08:52:25 -0400
-Date: Sat, 4 Apr 2020 08:52:22 -0400 (EDT)
+	id 1jKiQb-002ik6-Hy; Sat, 04 Apr 2020 09:01:38 -0400
+Date: Sat, 4 Apr 2020 09:01:35 -0400 (EDT)
 From: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH] bin_package.bbclass: emphasize setting of S with "subdir"
 In-Reply-To: <e67a1e376aacd73587ebc4f6c938b732e87a3fd8.camel@linuxfoundation.org>
-Message-ID: <alpine.LFD.2.21.2004040851400.13947@localhost.localdomain>
+Message-ID: <alpine.LFD.2.21.2004040856460.14065@localhost.localdomain>
 References: <alpine.LFD.2.21.2004040758090.11753@localhost.localdomain> <e67a1e376aacd73587ebc4f6c938b732e87a3fd8.camel@linuxfoundation.org>
 MIME-Version: 1.0
 X-OutGoing-Spam-Status: No, score=-1.0
@@ -60,6 +60,12 @@ On Sat, 4 Apr 2020, Richard Purdie wrote:
 > ${WORKDIR}/foo-1.0, or ${WORKDIR}. The value of S remains at whatever
 > its set to.
 
-  oh, i didn't realize that, my mistake. i could have sworn ...
+  so if one inherits bin_package and uses a "subdir" option, what is
+installed (via tar) is the entire subdir directory structure, as in
+
+  foo-1.0/*
+
+unless the recipe explicitly sets S to match it, is that it? that
+might be worth noting in the comments, then.
 
 rday
