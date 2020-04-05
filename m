@@ -1,86 +1,151 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web10.13421.1586070110508312372
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
+ by mx.groups.io with SMTP id smtpd.web12.13659.1586071312555986671
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Apr 2020 00:01:50 -0700
+ Sun, 05 Apr 2020 00:21:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RgqZwqkE;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id a25so13562266wrd.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2020 00:01:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=v3yO4teKCnipD7qZjnITVjw87bs6RqFLkblGsd3+qh8=;
-        b=RgqZwqkEWNOKbMtp82Lsr4dRkEM12ikErYLlwAGh5yT6DLXtSmmqrD3Icpp3GUAG3d
-         Xrgv0ElPzMxLrbGSZK8RY5KN6icWYGDKiM/rEKCVcOTMn5IuhFd37SCfXxH11Atp/EQM
-         GNV+Ydt6Hi2KpKfrNJHTxgYtQ17/vWmkA34KE=
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: ricardo.ribalda@gmail.com)
+Received: by mail-lj1-f193.google.com with SMTP id i20so11208161ljn.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2020 00:21:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=v3yO4teKCnipD7qZjnITVjw87bs6RqFLkblGsd3+qh8=;
-        b=HcpM9t/dJp2LOqLa1YNRb4Jl1xQa85wasF6Bv8M85w0mX+cVYaYnaP95GEDncZxG79
-         qu7D1c52qLexwfelI+FxVS9jZ8S8UVytFmIx+AWoV1Szmv/aI75/65GvPUpE13cn5F6c
-         yV6aROrqvrdj8lzVZ0RO14encYAvNwz6sY2soNCRPKAQ6BxRUse8lFfyhTxozll+QX6D
-         2iOP6hP7IKg/4yQ6eZSC3RITx5oqa2QTSZulunXznQ810eVLBkPICziipWyjbIH/k2Q7
-         dsWbsAjKdud1Y5KfMmyLvbTrwieIobH8wpElOS32iYgxCAqZ6XfN0+ry1MxYk5vIIGF4
-         tNMQ==
-X-Gm-Message-State: AGi0PuZ3SUjjOR5c1K2Ikd+DEUqKeExw4ClHFYE90YWa21MnCM12hjeI
-	c8brsC3FzaSNCmWtAx64TUylGg==
-X-Google-Smtp-Source: APiQypJf7vJr61TI6PgmjGPOOa6IU9y0mDDZykw4p1DRJp9EdoCFuwA10Tsg/65cLsCWMiroUB4sRQ==
-X-Received: by 2002:a5d:4844:: with SMTP id n4mr9967966wrs.314.1586070108813;
-        Sun, 05 Apr 2020 00:01:48 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id t2sm1534609wrs.7.2020.04.05.00.01.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2020 00:01:48 -0700 (PDT)
-Message-ID: <8a556aedfe46e327c5d64d77c3b282f2108d12aa.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 1/2] wic: Fix permissions when using exclude or include path
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Ricardo Ribalda Delgado <ricardo@ribalda.com>, 
-	openembedded-core@lists.openembedded.org, jpewhacker@gmail.com, 
-	pbarker@konsulko.com
-Date: Sun, 05 Apr 2020 08:01:47 +0100
-In-Reply-To: <20200304144936.2559106-1-ricardo@ribalda.com>
-References: <20200304144936.2559106-1-ricardo@ribalda.com>
-User-Agent: Evolution 3.36.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=C2WISygO7lyFNIta+KS9MR3+P6lGgK9KpQt71jZVNmc=;
+        b=uUsZkUU9yezOKfXg0xYrjTz9F7Y6GOoBv9VADKTuXuWNY5cv2RUyGLQ5504kEUn+bB
+         6qB5dWRet0cJ26hnNzOFrLFVuEfQblAnny5CxdpP96/i4ChkFNcGl5WZdEcPYVQom2T3
+         sDRpa6vwrRL7k7Nm99DGN5rGbxMQZ9+owAZADYqzN/g+QLU8PDe/zfrbJ08e+1v4//zN
+         hoqJq8OpWh9ByRlhPdCTDxFBQmBhde3ZqKgeIGHvBX0l4ctWZqomSQ5N3SEA2UMlVlao
+         EX0RXdWcnWxIRQxZ8WMXfkh5uVse79Ytf6/4wgwQxgmspq1+gZJvgX+1chNY29Yeg3n+
+         4e9A==
+X-Gm-Message-State: AGi0PuZAJqnmcvkkMINSsudcJX2Y5+SKUvxE41LZWsvIRF5DQHgTmXN7
+	hz83818HURfrIgEPGgPRWStQUrqEfe9GqkXNBng=
+X-Google-Smtp-Source: APiQypJpChsMsDRyvgHaEYkxr2LatoxzAlmtvdC466qwI3cPsFAL+oP0N/Ba/7k5mzL7ai5JHXYeNJ+Gxbx7PIPjLkI=
+X-Received: by 2002:a2e:9497:: with SMTP id c23mr8830065ljh.286.1586071310622;
+ Sun, 05 Apr 2020 00:21:50 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200304144936.2559106-1-ricardo@ribalda.com> <8a556aedfe46e327c5d64d77c3b282f2108d12aa.camel@linuxfoundation.org>
+In-Reply-To: <8a556aedfe46e327c5d64d77c3b282f2108d12aa.camel@linuxfoundation.org>
+From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
+Date: Sun, 5 Apr 2020 09:21:34 +0200
+Message-ID: <CAPybu_2joVKPtPhZpWDy_9ra-TN6=ZyMSES6vGNOBVdqQXBvNg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/2] wic: Fix permissions when using exclude or include path
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, jpewhacker@gmail.com, 
+	Paul Barker <pbarker@konsulko.com>
+Content-Type: multipart/alternative; boundary="0000000000000ee45105a28601c4"
+
+--0000000000000ee45105a28601c4
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-03-04 at 15:49 +0100, Ricardo Ribalda Delgado wrote:
-> When parameters include_path or exclude_path are passed to the rootfs
-> plugin, it will copy the partition content into a folder and make all
-> the modifications there.
+Hi Richard
+
+It looks pretty much related to my patch. Will try to replicate locally and
+fix it.
+
+Thanks!
+
+On Sun, 5 Apr 2020, 09:01 Richard Purdie, <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Wed, 2020-03-04 at 15:49 +0100, Ricardo Ribalda Delgado wrote:
+> > When parameters include_path or exclude_path are passed to the rootfs
+> > plugin, it will copy the partition content into a folder and make all
+> > the modifications there.
+> >
+> > This is done using copyhardlinktree(), which does not take into
+> > consideration the content of the pseudo folder, which contains the
+> > information about the right permissions and ownership of the folders.
+> >
+> > This results in a rootfs owned by the user that is running the wic
+> > command (usually UID 1000), which makes some rootfs unbootable.
+> >
+> > To fix this we copy the content of the pseudo folders to the new
+> > folder
+> > and modify the pseudo database using the "pseudo -B" command.
+> >
+> > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+> > ---
+> >  scripts/lib/wic/plugins/source/rootfs.py | 22 +++++++++++++++++++---
+> >  1 file changed, 19 insertions(+), 3 deletions(-)
+>
+> I added these two changes to -next but we're seeing a test failure on
+> Fedora, twice now:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/834
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/831
+>
+> I suspect its related to these patches but haven't confirmed that as
+> yet...
+>
+> Cheers,
+>
+> Richard
+>
 > 
-> This is done using copyhardlinktree(), which does not take into
-> consideration the content of the pseudo folder, which contains the
-> information about the right permissions and ownership of the folders.
-> 
-> This results in a rootfs owned by the user that is running the wic
-> command (usually UID 1000), which makes some rootfs unbootable.
-> 
-> To fix this we copy the content of the pseudo folders to the new
-> folder
-> and modify the pseudo database using the "pseudo -B" command.
-> 
-> Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> ---
->  scripts/lib/wic/plugins/source/rootfs.py | 22 +++++++++++++++++++---
->  1 file changed, 19 insertions(+), 3 deletions(-)
+>
 
-I added these two changes to -next but we're seeing a test failure on
-Fedora, twice now:
+--0000000000000ee45105a28601c4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/834
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/831
+<div dir=3D"ltr"><div dir=3D"auto">Hi Richard</div><div dir=3D"auto"><br></=
+div><div>It looks pretty much related to my patch. Will try to replicate lo=
+cally and fix it.</div><div><br></div><div>Thanks!</div></div><br><div clas=
+s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, 5 Apr 2020,=
+ 09:01 Richard Purdie, &lt;<a href=3D"mailto:richard.purdie@linuxfoundation=
+.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, 2020-03-0=
+4 at 15:49 +0100, Ricardo Ribalda Delgado wrote:<br>
+&gt; When parameters include_path or exclude_path are passed to the rootfs=
+<br>
+&gt; plugin, it will copy the partition content into a folder and make all=
+<br>
+&gt; the modifications there.<br>
+&gt; <br>
+&gt; This is done using copyhardlinktree(), which does not take into<br>
+&gt; consideration the content of the pseudo folder, which contains the<br=
+>
+&gt; information about the right permissions and ownership of the folders.=
+<br>
+&gt; <br>
+&gt; This results in a rootfs owned by the user that is running the wic<br=
+>
+&gt; command (usually UID 1000), which makes some rootfs unbootable.<br>
+&gt; <br>
+&gt; To fix this we copy the content of the pseudo folders to the new<br>
+&gt; folder<br>
+&gt; and modify the pseudo database using the &quot;pseudo -B&quot; comman=
+d.<br>
+&gt; <br>
+&gt; Signed-off-by: Ricardo Ribalda Delgado &lt;<a href=3D"mailto:ricardo@=
+ribalda.com" rel=3D"noreferrer" target=3D"_blank">ricardo@ribalda.com</a>&g=
+t;<br>
+&gt; ---<br>
+&gt;=C2=A0 scripts/lib/wic/plugins/source/rootfs.py | 22 +++++++++++++++++=
+++---<br>
+&gt;=C2=A0 1 file changed, 19 insertions(+), 3 deletions(-)<br>
+<br>
+I added these two changes to -next but we&#39;re seeing a test failure on<=
+br>
+Fedora, twice now:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/86/buil=
+ds/834" rel=3D"noreferrer noreferrer" target=3D"_blank">https://autobuilder=
+.yoctoproject.org/typhoon/#/builders/86/builds/834</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/86/buil=
+ds/831" rel=3D"noreferrer noreferrer" target=3D"_blank">https://autobuilder=
+.yoctoproject.org/typhoon/#/builders/86/builds/831</a><br>
+<br>
+I suspect its related to these patches but haven&#39;t confirmed that as<b=
+r>
+yet...<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+</blockquote></div>
 
-I suspect its related to these patches but haven't confirmed that as
-yet...
-
-Cheers,
-
-Richard
-
+--0000000000000ee45105a28601c4--
