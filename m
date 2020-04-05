@@ -1,116 +1,128 @@
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
- by mx.groups.io with SMTP id smtpd.web12.15881.1586087602069817287
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+ by mx.groups.io with SMTP id smtpd.web12.15982.1586088132432266606
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Apr 2020 04:53:22 -0700
+ Sun, 05 Apr 2020 05:02:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VzSYXOmk;
- spf=pass (domain: gmail.com, ip: 209.85.167.66, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-lf1-f66.google.com with SMTP id r17so5886367lff.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2020 04:53:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ij0sxoPk;
+ spf=pass (domain: gmail.com, ip: 209.85.167.67, mailfrom: ricardo.ribalda@gmail.com)
+Received: by mail-lf1-f67.google.com with SMTP id s13so9439160lfb.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2020 05:02:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=gxBr7r0hOkWMIf1mW+AHYvYSp/R7+CYLWKF9eERY8nw=;
-        b=VzSYXOmk+XU5/G3E02BmZ9+u4QgbBG8DNZb2mt9DXhhsSDdVEvJV+y3YLQs1HlPx5e
-         fZb6k1sXnM7eBXljZsyuxTgcXaJiOPU2WXnLdU0UEdwXoWQlxFU8B9jlr/KTANbkgveI
-         yholuXoN+oVC/dymQy0/+NuS64t9h8Zkk/lXIS0QVS0RYdMQiXIdvaWGd/FlBDJ8KIZt
-         lbitA7Tfl2bg2bvt3KZN/VJ4Xc5QQ47yZGmU1QgZjfdScYp9gByK6a4lsyhNfuI3C/LI
-         oadVX36pJJHSSPnba3czOLzWmavWJmSTiImA8NECkH5cUm137n3NcsxGOe1jY4io8lpS
-         STQA==
+        bh=108+XFaaz6L2rSrgKMApep30HcMIcrC4COSL27/G+Go=;
+        b=ij0sxoPkuVkLc5R4wdryHtfQtWjBC9sLU001aqlFtjvi7wl+6zD30nHd9Ebok6aU7f
+         Au1UlfeUE0YRyZ4rWkGPufk/W0gK+jhOIdY4LZGqePXRI63JN+4uv4y1dAhEimMdZtUn
+         1oNom042EmCSbQ7anOBxArecD3J4IxBpIqSGjEDhbx8SvyMhGZStB0DyjhCYCZK+WP6L
+         LCgsfOdgGOYxvWCeN0ZkWZWRhtpZHUXYbEG112EmOhO7pDAWKW/vUxJ9pgQsObfdJfzj
+         sR74J9vfMVhUkqjDZ/lvN7d04lglIoF9IYsk4f8QBEiNfOTEzoHKnu3Z07yzlP4+uxsM
+         sFUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=gxBr7r0hOkWMIf1mW+AHYvYSp/R7+CYLWKF9eERY8nw=;
-        b=mOF49uGagB/o2gjqLi+8mz93YX/HoShIvUfvRUO/9O6h8e7BG+SnhTkq2IX6Vif779
-         Ysde6Ylt83NU+eF1ewUZCtS+ESb7KVVy3pDZSfMq6PJjrwpauQt6u/xIdcnOSodpNinS
-         gVtDvb5QLchW5cGW7YowFW/vWH0Mz37JibEPvHtXuazCA/gPuKA/YiGRQ5JGs/f//fkV
-         dzdnNWvO8Ih03HSsbVadPbRjyhTdeG1gmpWNH6XdqyT+5myYDAgVhkg/mq214ugxQ526
-         u7HvT+kpN3ymMGYbCrgtCPJ2pEacrS46sQAEsrpNXsmzdlwsL4eEqIIqjz8HpWSkcsfR
-         OaXw==
-X-Gm-Message-State: AGi0Pub/XACIB+HrEj07MwAqRPPam8sJdvlgO4Bha/rsoPC8bhTQ5iEF
-	xZxEcFmIkV3o6jMm+BfzgCVniDk88SuTwStsSEA=
-X-Google-Smtp-Source: APiQypJuty94mMBYwO091YjwvjzibLFLceKCT4wQjzsSUGNXH1gYdV1Mq9mT/r8Sp4QMHA7Mz7+zWJE7bIuiTkgEbg8=
-X-Received: by 2002:ac2:545b:: with SMTP id d27mr10131567lfn.187.1586087599996;
- Sun, 05 Apr 2020 04:53:19 -0700 (PDT)
+        bh=108+XFaaz6L2rSrgKMApep30HcMIcrC4COSL27/G+Go=;
+        b=qtnjIgusS+bwzABnGJnCOtg3L/9H/ou63ANyaCHyu2Uhty7Vtyxfgbd/vgaNdME+AT
+         x60kZ5T1dCGYyRMw6qDvwakbm+POwAKgFNaFoHqm8wsN0jLCtAdLqjBXqjcVMVwSKVVj
+         Q6TZrwA7NxDVMiWc138C2Qd6Uvvg+gRRbcjGDAFciPFyBK7OnqC9V5wW9r34FwgJbKh+
+         fv5QPYgHSmSxcasHA2sqa/GvmqZoXm7c7BnV16J1c8s/rECfzfJKa8Zqmk+7djgwtRah
+         fo6esUYBjT8TJStx4P5drd6iHRZOS4WiCmtYRqlq9wyIuddWJ47+ewIZFXkwv5LxAzkA
+         zzTg==
+X-Gm-Message-State: AGi0PuaWAIKLqSLCqSn2/rHnmoZiFSRExyMTrhKjefONBeagM4OZ7GCy
+	tFNN+bOBuh0LXpcxX/4mnFcSF3Mq2coXq7v8VpA=
+X-Google-Smtp-Source: APiQypJ7U9cJG5UpiGKHehaCr7cqgelzueRB9AFp921kJmTV7mCuoqjXjqjFGvXs8jQdeOyqLPaMotfLs0jQRcYY728=
+X-Received: by 2002:ac2:483a:: with SMTP id 26mr2861371lft.5.1586088130406;
+ Sun, 05 Apr 2020 05:02:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200304144936.2559106-1-ricardo@ribalda.com> <8a556aedfe46e327c5d64d77c3b282f2108d12aa.camel@linuxfoundation.org>
  <1602DB74B6717A3F.2403@lists.openembedded.org> <CAPybu_2JFR2Q-id-7Fc5+p=RhKBbscMfEF11rE_yX0bmruqJvA@mail.gmail.com>
- <ed35318a96db8ac58bde7596f47bb0bfcd27b27b.camel@linuxfoundation.org>
-In-Reply-To: <ed35318a96db8ac58bde7596f47bb0bfcd27b27b.camel@linuxfoundation.org>
+ <ed35318a96db8ac58bde7596f47bb0bfcd27b27b.camel@linuxfoundation.org> <CAPybu_0W9FAQaH17X7jt7+cJU05XaD+3J5owAMvoXurfGpc8fA@mail.gmail.com>
+In-Reply-To: <CAPybu_0W9FAQaH17X7jt7+cJU05XaD+3J5owAMvoXurfGpc8fA@mail.gmail.com>
 From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
-Date: Sun, 5 Apr 2020 13:53:02 +0200
-Message-ID: <CAPybu_0W9FAQaH17X7jt7+cJU05XaD+3J5owAMvoXurfGpc8fA@mail.gmail.com>
+Date: Sun, 5 Apr 2020 14:01:53 +0200
+Message-ID: <CAPybu_2LZgaDFL-jexc0DcnEb0nzsLpZq30nA4UNufztDsKs1w@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH v2 1/2] wic: Fix permissions when using exclude or include path
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>, jpewhacker@gmail.com, 
 	Paul Barker <pbarker@konsulko.com>
-X-Groupsio-MsgNum: 137032
-Content-Type: multipart/mixed; boundary="000000000000fbb6b005a289cbee"
+X-Groupsio-MsgNum: 137033
+Content-Type: multipart/mixed; boundary="0000000000009892db05a289eb81"
 
---000000000000fbb6b005a289cbee
+--0000000000009892db05a289eb81
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Richard
+Ups, wrong version
 
+This is the one, sorry.
 
-On Sun, Apr 5, 2020 at 1:04 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Sun, Apr 5, 2020 at 1:53 PM Ricardo Ribalda Delgado
+<ricardo.ribalda@gmail.com> wrote:
 >
-> On Sun, 2020-04-05 at 11:56 +0200, Ricardo Ribalda Delgado wrote:
-> > Hi Richard
+> Hi Richard
+>
+>
+> On Sun, Apr 5, 2020 at 1:04 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
 > >
-> > I have tried with master  (0c91fcba446418ad1f71d3df9aa3b186bbd353c7)
-> > +
-> > my two patches.
-> > Then I have used crops/poky:fedora-30
+> > On Sun, 2020-04-05 at 11:56 +0200, Ricardo Ribalda Delgado wrote:
+> > > Hi Richard
+> > >
+> > > I have tried with master  (0c91fcba446418ad1f71d3df9aa3b186bbd353c7)
+> > > +
+> > > my two patches.
+> > > Then I have used crops/poky:fedora-30
+> > >
+> > > and: oe-selftest  --run-tests wic.Wic.test_exclude_path oe-selftest
+> > > --run-tests wic.Wic.test_include_path wic.Wic.test_exclude_path
+> > >
+> > > With an OK result :(
 > >
-> > and: oe-selftest  --run-tests wic.Wic.test_exclude_path oe-selftest
-> > --run-tests wic.Wic.test_include_path wic.Wic.test_exclude_path
+> > I worried this may be the case. There definitely is something wrong and
+> > I could replicate it a third time too.
 > >
-> > With an OK result :(
+> > My guess is that there are perhaps files in /tmp/ which are logged in
+> > the pseudo database but don't exist when the second rootfs is created.
+> > Since the files no longer exist, the database integrity check fails.
 >
-> I worried this may be the case. There definitely is something wrong and
-> I could replicate it a third time too.
+> That is definitely a good hypothesis. Since you can replicate the bug,
+> can you try to add also the attached patch to your tree and re-run the
+> test.
 >
-> My guess is that there are perhaps files in /tmp/ which are logged in
-> the pseudo database but don't exist when the second rootfs is created.
-> Since the files no longer exist, the database integrity check fails.
+> What it does, is to remove a file from the database if it has
+> vanished, during the bitbake move.
+>
+> If it works I can add it to the beginning of my series, or even trying
+> to upstream it to pseudo.
+>
+> Best regards
+>
+> >
+> > Why that only occurs on Fedora case on the autobuilder, I don't know,
+> > I'm just hypothesising right now...
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+>
+>
+> --
+> Ricardo Ribalda
 
-That is definitely a good hypothesis. Since you can replicate the bug,
-can you try to add also the attached patch to your tree and re-run the
-test.
-
-What it does, is to remove a file from the database if it has
-vanished, during the bitbake move.
-
-If it works I can add it to the beginning of my series, or even trying
-to upstream it to pseudo.
-
-Best regards
-
->
-> Why that only occurs on Fedora case on the autobuilder, I don't know,
-> I'm just hypothesising right now...
->
-> Cheers,
->
-> Richard
->
 
 
 -- 
 Ricardo Ribalda
 
---000000000000fbb6b005a289cbee
+--0000000000009892db05a289eb81
 Content-Type: text/x-patch; charset="US-ASCII"; 
 	name="0001-pseudo-During-DB-fix-remove-files-that-do-not-exist.patch"
 Content-Disposition: attachment; 
 	filename="0001-pseudo-During-DB-fix-remove-files-that-do-not-exist.patch"
 Content-Transfer-Encoding: base64
-Content-ID: <f_k8mzjevq0>
-X-Attachment-Id: f_k8mzjevq0
+Content-ID: <f_k8mzwelq0>
+X-Attachment-Id: f_k8mzwelq0
 
 RnJvbSBiYmRkZWM1MjdkOTA1NmUxZmVkYTBkMjFlZGQ4ZGRiOWQ2NDYyM2IyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBSaWNhcmRvIFJpYmFsZGEgRGVsZ2FkbyA8cmljYXJkb0ByaWJh
@@ -172,4 +184,4 @@ LzAwMDEtcHNldWRvLU9uLWEtREItZml4dXAtcmVtb3ZlLWZpbGVzLXRoYXQtZG8tbm90LWV4aXN0
 LS5wYXRjaCBcCiAgICAgICAgICAgICIKIAogU1JDUkVWID0gIjA2MDA1OGJiMjlmNzBiMjQ0ZTY4
 NWIzYzcwNGViMDY0MWI3MzZmNzMiCi0tIAoyLjI1LjEKCg==
 
---000000000000fbb6b005a289cbee--
+--0000000000009892db05a289eb81--
