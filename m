@@ -1,96 +1,56 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web10.9304.1586175616687470068
- for <Openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2020 05:20:16 -0700
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web12.10462.1586179444031548108
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 06 Apr 2020 06:24:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jMKPP004;
- spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: vinay.m.engg@gmail.com)
-Received: by mail-qt1-f195.google.com with SMTP id a5so12526227qtw.10
-        for <Openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2020 05:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=INPPoRLRUtu+wA4PUu9iSk7iqDOMF5ZE84uqoxsRrXk=;
-        b=jMKPP004sMcVk6ulr5eqs/4oI7pLJtD6K8u4RDNBJGInKhoh1c1ipg1FJO+6AZw6nG
-         Rf0sWI+GwZmrWbcA6SkjwjG4llQbwA7UeMwxJ86rC4XxiV7CvX8JhGzkPfJQ73JWLuvS
-         NUZ1ajEmZgK8VXvA6n4frnysOmuappNy162A1E+PRVrC9NhpoHlOuFgexFplL1PbKnDF
-         Ajtcx7ghC726yOAxtPpn20FzpwpcgfFVhgRQll0YWKhFvkuKatCOvByjPC3X6a93+28u
-         pFg1X1B9rTLFsz77+WjBjyIBVC26DVFY4OhQtUxpL77pXZCcY89MyOAYnZrmNc1v1EsJ
-         ckxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=INPPoRLRUtu+wA4PUu9iSk7iqDOMF5ZE84uqoxsRrXk=;
-        b=ERB3c6PmwQVFLKjC9IEV3Emq1ff6f9QFXeRUiYuHgyP2aNoSJw5Xd+8tUdSFv5JPKy
-         EtLBdHaFXvLQnzyOFKZjkG1AvrM2zUEBk+DNVYR9L9vOF38mjlwvQlwV3FQKwe4SBcdz
-         20160N8mNzVNQF3VGb5driAkvVExRX6gxRmk9jxhd+YFVpbwC1LWgDye69DgojZHl9QI
-         UUi5HqaSxHpqn7fb/31NmXv86n0WMlyYJ3RNE5B7B5eK5wLw3Rwuex8p0c/3TcFH8iXw
-         b+86FTlxjnp030P4Tdprns2KSwaRAPwSeroy8aDL6X4stVA7i4cH4HyYAYAMmKAI2QPw
-         e8eg==
-X-Gm-Message-State: AGi0PuYG5NulaW08lR98CufTYGe8ClMICKiRxAOtu6RpDaW1Q/NKgbDr
-	d4goRLQVlIj0frayMp4NAN9hsM5cMa88hXxybPg=
-X-Google-Smtp-Source: APiQypJ4EK54q/sSdxvpyXMvhsKVHhL1nzOcVnyZBRNBLCKXLC1plfK+LDLR97D0vdd4T1X+Q3vi8L8A+O5fNjtb6XA=
-X-Received: by 2002:ac8:1b97:: with SMTP id z23mr8342475qtj.294.1586175615678;
- Mon, 06 Apr 2020 05:20:15 -0700 (PDT)
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: jlu@pengutronix.de)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1jLRjO-0007lw-3g; Mon, 06 Apr 2020 15:24:02 +0200
+Received: from jlu by dude.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1jLRjN-0003MW-2M; Mon, 06 Apr 2020 15:24:01 +0200
+From: "Jan Luebbe" <jlu@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Jan Luebbe <jlu@pengutronix.de>
+Subject: [OE-core][PATCH] apt-native: don't let dpkg overwrite files by default
+Date: Mon,  6 Apr 2020 15:23:57 +0200
+Message-Id: <20200406132357.12858-1-jlu@pengutronix.de>
+X-Mailer: git-send-email 2.26.0.rc2
 MIME-Version: 1.0
-References: <CANUMPcVyxL9c3x0z9cv6EYads+LGeYL4ccwFbnnvyA_gkx9MXg@mail.gmail.com>
- <CANNYZj8uEXS9GwmZj4rONX_FodL1J8Wj0VKcL6v77pco8rEAEA@mail.gmail.com>
-In-Reply-To: <CANNYZj8uEXS9GwmZj4rONX_FodL1J8Wj0VKcL6v77pco8rEAEA@mail.gmail.com>
-From: "Vinay Kumar" <vinay.m.engg@gmail.com>
-Date: Mon, 6 Apr 2020 17:50:04 +0530
-Message-ID: <CANUMPcWxfvpZ3OVgaRiphqGsob6zEq96nd4Yu0PMoqjEeBvGZQ@mail.gmail.com>
-Subject: Re: [OE-core] librsvg-2.46.4 recipe build failure.
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Openembedded-core@lists.openembedded.org, rwmacleod@gmail.com, 
-	umesh.kalappa0@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: jlu@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Transfer-Encoding: 8bit
 
-I confirmed by below steps,
+With --force-overwrite (implied by --force-all), dpkg will not abort
+when a package overwrites files from different packages. As this can
+also lead to "The following package disappeared from your system as
+all files have been overwritten by other packages: <package>" and
+subsequently broken dependencies, this makes the simple case of
+conflicting files hard to debug.
 
-If we consider only  "inherit cargo gettext" in librsvg-2.46.4.bb
-run.do_compile contain "cargo_do_compile".
+Instead of finding all possibly required force options, only disable
+overwrite for now.
 
-When we use  gnomebase as  "inherit cargo gettext gnomebase" librsvg
-run.do_compile generated with "autotools_do_compile" in it and it
-comes through autotools.bbclass
+Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
+---
+ meta/recipes-devtools/apt/files/apt.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Vinay
+diff --git a/meta/recipes-devtools/apt/files/apt.conf b/meta/recipes-devtools/apt/files/apt.conf
+index 03351356bc01..c95a5b07af54 100644
+--- a/meta/recipes-devtools/apt/files/apt.conf
++++ b/meta/recipes-devtools/apt/files/apt.conf
+@@ -39,4 +39,4 @@ APT
+   };
+ };
+ 
+-DPkg::Options {"--root=#ROOTFS#";"--admindir=#ROOTFS#/var/lib/dpkg";"--force-all";"--no-debsig"};
++DPkg::Options {"--root=#ROOTFS#";"--admindir=#ROOTFS#/var/lib/dpkg";"--force-all";"--no-force-overwrite";"--no-debsig"};
+-- 
+2.26.0.rc2
 
-On Mon, Apr 6, 2020 at 1:58 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> The upstream tree still uses auto tools for the build, so the issue you are seeing is probably caused by something else?
->
-> Ale
->
-> On Mon 6. Apr 2020 at 9.00, Vinay Kumar <vinay.m.engg@gmail.com> wrote:
->>
->> Hi,
->>
->> Regarding, https://github.com/meta-rust/meta-rust/issues/264
->>
->> As per my analysis the
->> "openembedded-core/meta/classes/autotools.bbclass" inherited through
->> "openembedded-core/meta/classes/gnomebase.bbclass" from  seems to be
->> overriding the "meta-rust/classes/cargo.bbclass" from meta-rust.
->>
->> $cat openembedded-core/meta/classes/gnomebase.bbclass
->>
->> GNOMEBASEBUILDCLASS ??= "autotools"
->> inherit ${GNOMEBASEBUILDCLASS}  pkgconfig
->>
->> The "librsvg" configure  and compile  scripts in "temp" directory
->> contains "autotools_do_compile" with "inherit cargo", it should be
->> "cargo_do_compile".
->>
->> Reference:
->> "bitbake rust-hello-world" builds without any error ( with "inherit cargo").
->>
->> Is there any way to disable "autotools" for "gnomebase.bbclass"
->> through "librsvg-2.46.4.bb"  ?
->>
->> Regards,
->> Vinay
->> 
