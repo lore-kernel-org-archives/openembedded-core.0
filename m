@@ -1,109 +1,221 @@
-Received: from NAM04-CO1-obe.outbound.protection.outlook.com (NAM04-CO1-obe.outbound.protection.outlook.com [40.107.69.87])
- by mx.groups.io with SMTP id smtpd.web12.2729.1586205384491939031
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com [209.85.210.67])
+ by mx.groups.io with SMTP id smtpd.web11.3162.1586206747477909741
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2020 13:36:28 -0700
+ Mon, 06 Apr 2020 13:59:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@uievolution.onmicrosoft.com header.s=selector2-uievolution-onmicrosoft-com header.b=WaiuiLWh;
- spf=pass (domain: xevo.com, ip: 40.107.69.87, mailfrom: jbroadus@xevo.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Rgs+/xXT4AahjBU4znhf1PsKZG5p9GdX0Hp2vbFg3dJcSJVkR6UTlUXZGZt7yjhja6ARwERAYPUcHJqKnYlV9KlCFPwtCC641LK4+IK7nC5RL0wa5RB+7KV1mMXROgIsDRNkngVEBDDp7fiHz7iId3cZcxEU3tj3fS+0GAWv3WrguKulmSE0/yMdgnrP5lmYokAyA4X78wxSH701BJOfOsa8UIfz39uZozjtR/jW3hJ3DQwTreyIl4mX6POrKtZn7WN1Hjb+cnl9WZFy8uH8oK8KQXkfrRUj0/Y2szAY+xjQThqCC8IfFvveL4RVMIYQJNrRa4ik6Yul6w0jTIevQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ajwKHL9jsceGBChLcfNTA+aF5YDK+g6I0BqBfYYDPhg=;
- b=b1cCRDNl96LXtq7pxfPioFR9lpkbC3RLADKXiz8OM7zetDfGa93oJ7A+pq/6wiNqQchlueORmESwhsDw8Qpt20NfaRoVEofO3DI55FH75u5sVvxRzC5rujBBkJYz1NuDxbfr/uuei/Jb+TikW4j/qWPCJKzEyiP6XmmEVcm6NboL1nV8Gu6aBO3Hd1i0cuP7IgjumGgyrWj5z54jYSpRpVzx2teQOgTBewSJzQnctWjlLJnhIACBDBjkxJQdAUFAlZHPFMQojtCiYF7FFYbRbAmiLjxWSr2gAOR+NGpyXUrQJ7r8j1kHltCaC24A4AQQkRKb8hN9hz7ZzCDkWr4vWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xevo.com; dmarc=pass action=none header.from=xevo.com;
- dkim=pass header.d=xevo.com; arc=none
+ dkim=fail reason="unable to parse pub key" header.i=@blade-group.com header.s=google header.b=r8mivKo+;
+ spf=pass (domain: blade-group.com, ip: 209.85.210.67, mailfrom: yann.dirson@blade-group.com)
+Received: by mail-ot1-f67.google.com with SMTP id v2so881710oto.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2020 13:59:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=uievolution.onmicrosoft.com; s=selector2-uievolution-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ajwKHL9jsceGBChLcfNTA+aF5YDK+g6I0BqBfYYDPhg=;
- b=WaiuiLWhB6VUmBWnOlTjd2zwH9bO4E25NSRS2Yk2t+aOkWYYGdQx7lKS6ZxHGxhooYmnUxgUAoOPXpxmfgnw+qP/0pz8NJHJBfcy3BGb5PuLBmCa/dYLjWrC3pV/Sl9dTv+om9usd/gXdz5gURaZl9Yn2wm/OC4G6sgOmTudyeU=
-Authentication-Results: spf=none (sender IP is )
- smtp.mailfrom=jbroadus@xevo.com; 
-Received: from MW2PR18MB2188.namprd18.prod.outlook.com (2603:10b6:907:d::31)
- by MW2PR18MB2169.namprd18.prod.outlook.com (2603:10b6:907:5::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.19; Mon, 6 Apr
- 2020 20:35:45 +0000
-Received: from MW2PR18MB2188.namprd18.prod.outlook.com
- ([fe80::152e:c63c:5575:6586]) by MW2PR18MB2188.namprd18.prod.outlook.com
- ([fe80::152e:c63c:5575:6586%7]) with mapi id 15.20.2878.021; Mon, 6 Apr 2020
- 20:35:45 +0000
-Subject: Re: [OE-core][PATCH] curl: allow configuration of default CA bundle location
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Jim Broadus <jbroadus@gmail.com>, openembedded-core@lists.openembedded.org
-References: <20200406060014.78150-1-jbroadus@xevo.com>
- <3d20f00ac2d4f54f6bf4e67998df400548f0bfeb.camel@linuxfoundation.org>
-From: jbroadus@xevo.com
-Message-ID: <ee3a15cb-afde-3b3f-59be-9c279313927c@xevo.com>
-Date: Mon, 6 Apr 2020 13:35:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
-In-Reply-To: <3d20f00ac2d4f54f6bf4e67998df400548f0bfeb.camel@linuxfoundation.org>
-X-ClientProxiedBy: CO2PR07CA0049.namprd07.prod.outlook.com (2603:10b6:100::17)
- To MW2PR18MB2188.namprd18.prod.outlook.com (2603:10b6:907:d::31)
-Return-Path: jbroadus@xevo.com
+        d=blade-group.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=10U0SH5CTo+DI5YZO7YGCijDVqB5tFxZHB7I4Y6LmWM=;
+        b=r8mivKo+CAC5aKjXktCnx8A7LoeQs8Kyycm1imI0PawWwdF99U2LvY+nD9LjW+/21+
+         Nsjfmq3UQ9gcGSPGHgVstu3RFkZkzt8sXvoFWI+Yv5YBGuoKf8BAuCj6fTBH8wZKdbbb
+         ObKH3kA9U1HbmqUrDt/pFyX7ToAL7iaxJMJYlONpsOtXVhl2J1/JOvTlhEO12ARQHAgB
+         cvO9vyaR44DuQ78svqnJhdnnR3qcusX7uKDUMV31lN/Zpw8n0TUzKIfwY8EMsds5GSWi
+         2ieGV6WbObmZ+dunVVgK1BAQwWEfZ96fOPoVltTjXm1i7Zq+TaSpYI2gnkErY0adiqBc
+         Aagw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=10U0SH5CTo+DI5YZO7YGCijDVqB5tFxZHB7I4Y6LmWM=;
+        b=ukg1HU2Z6lwrRmJARKuhNfeGfU1uJaTUYqYsvzh/ai5R05BV5/5JShUjyiIsBHMc62
+         36V8wn7AnhEQV+kyZKcdUVxvdE3TlqTLVb+KeUn2023SfJUi/2qDsy8HMzVW6ceMDUv2
+         4tQdmLftN1d+oYfIDFcg6RrJucW4IV2DOUAcGGW32MBTCOzoBK7vjytSQQQEtRev9/es
+         AS20Bi1uuhIj5gRc/W0JKjvCJIDEtHDC6XqRRxfVQZBr/ftoo8ud2sEDBWf6760wluO3
+         q3j/Hk2VrFj7dW0t4NSL1lklI6qVxXbH6P3pbQ/sAqnmn76LRBOhcsRodoMGaUMxvYQo
+         MJRg==
+X-Gm-Message-State: AGi0Puaq6ma1nWYjZGF9iSvR1ifHkIYgbZHfT7rmSiLYGJliXH6SacfZ
+	0dT+aEI+3Jxorcs1eOQBGUs8LSfNCpqPe191Qhfv4w==
+X-Google-Smtp-Source: APiQypKashTudoS6Q+PgNf5ym3qEDJA+A6f9Il9L049ViN/i6d2telAPsFKhpqdEYVI8INP5WwaWXh+QlweV3pXhaLM=
+X-Received: by 2002:a9d:4f0:: with SMTP id 103mr18917203otm.336.1586206746743;
+ Mon, 06 Apr 2020 13:59:06 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.0.150] (73.169.153.56) by CO2PR07CA0049.namprd07.prod.outlook.com (2603:10b6:100::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.16 via Frontend Transport; Mon, 6 Apr 2020 20:35:44 +0000
-X-Originating-IP: [73.169.153.56]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5b27fe82-3b4e-487d-1f1f-08d7da6a14d2
-X-MS-TrafficTypeDiagnostic: MW2PR18MB2169:
-X-Microsoft-Antispam-PRVS: 
-	<MW2PR18MB2169A93D3809237A6F750B6AA7C20@MW2PR18MB2169.namprd18.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
-X-Forefront-PRVS: 0365C0E14B
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR18MB2188.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(136003)(366004)(39840400004)(346002)(396003)(376002)(110136005)(16576012)(478600001)(66946007)(66476007)(53546011)(81166006)(316002)(52116002)(2906002)(31686004)(31696002)(66556008)(86362001)(26005)(6486002)(5660300002)(186003)(16526019)(2616005)(81156014)(8676002)(36756003)(8936002)(956004)(4744005);DIR:OUT;SFP:1101;
-Received-SPF: None (protection.outlook.com: xevo.com does not designate
- permitted sender hosts)
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	CxSybYnnfidOUvDnrTmnj7OP1GHAAwWKMjpYfUvhuli5lwC58+l4MxFsk9b2U1kz0tD2pSrKntDXvgjNG3XRiO58YVhmSGAhgM4qDGioxYtzQE6LDbmeC28mImljZXz5QuGMxbklqnGO/Lu6yywrNUTmyi1iLD6NtT4fBoc/sygJu2C5Q5dntj0WaGT41Adpi1ftI46RdgP6jcKLnH0zGeXatbDgzFf3onnnM5f3cgE9HuHMsmHJw54GCR5JCgMIzXbQwlZaX5CoUAVdaMTXXxMcyG/mOqMp/7PqaQx8PdpoR/SDW9aOU5xCzrG/DuFfT/1NoCHMkqmxoT4gcjm2fdm9KZH5Q5Rf1WrPzEAObZljMTbHtBxXNTzlSyks71dTDPGzRsPd4cUy8LWA1Nr50dZvuFAzeGnwbg/dZYqXLZYR+HpYWQ7/cAGNzTWoIM5/
-X-MS-Exchange-AntiSpam-MessageData: 
-	di16rge2QkjanD2OvGPPCw/5xnr+xFh0Dk/w5v9JqF+b8pSTMwAk7+v+xfT48TUkRCaK6ytIe9pzCXAOr41fu8iW4g9OoE7hFqdQ/D57UhoUpsEDlmynl1jFzDYhwTswwHwlCjSMk0IrpL0aCK130A==
-X-OriginatorOrg: xevo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b27fe82-3b4e-487d-1f1f-08d7da6a14d2
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2020 20:35:44.8447
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yZifdH1OW2X7XwSyyJ3qVmWxpaybY7lQd8l8RXG6cJiNxgiQXnqzonj9PBr7FsPbkT7sFQ72hZRFcUafM+7Rzw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR18MB2169
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200406060014.78150-1-jbroadus@xevo.com> <3d20f00ac2d4f54f6bf4e67998df400548f0bfeb.camel@linuxfoundation.org>
+ <ee3a15cb-afde-3b3f-59be-9c279313927c@xevo.com>
+In-Reply-To: <ee3a15cb-afde-3b3f-59be-9c279313927c@xevo.com>
+From: "Yann Dirson" <yann.dirson@blade-group.com>
+Date: Mon, 6 Apr 2020 22:58:55 +0200
+Message-ID: <CA+4=imZeFQwOUtfmD4AR=EJ_sSvqAZy_fiN6xPurTLB-cfBkLA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] curl: allow configuration of default CA bundle location
+To: Jim Broadus <jbroadus@xevo.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Jim Broadus <jbroadus@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000ae29ee05a2a5890e"
 
-On 4/6/20 5:00 AM, Richard Purdie wrote:
-> On Sun, 2020-04-05 at 23:00 -0700, Jim Broadus wrote:
->> Add a CA_BUNDLE variable to set the built-in CA bundle location. By default,
->> don't set anything for curl-native since that target's sysconfdir is a
->> location in the recipe's native sysroot directory.
->>
->> Signed-off-by: Jim Broadus <jbroadus@xevo.com>
-> 
-> That is a huge change in behaviour with potentially quite serious side
-> effects. As far as I remember we deliberately make our native utils
-> self contained rather than relying on the host system (which may or may
-> not have cert files).
-> 
-> We point at sysconfdir in the native case since we install ca-
-> certificates there if I remember correctly?
-> 
-> Cheers,
-> 
-> Richard
-> 
+--000000000000ae29ee05a2a5890e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Richard. Currently, I don't see the certs installed in the native 
-sysroot, so maybe this was broken recently. If that was the intended 
-behavior, I can look for a fix for that instead.
+The problem motivating this patch may be the same that motivated a hack of
+mine which I never
+cleaned up for submit: at least in some early warrior versions curl was
+attempting to use cacerts
+from the host.
 
-Thanks,
-Jim
+This is a hand-edited copypaste and may not apply cleanly, but you should
+get the idea: make it
+so curl-native uses its own certs and not the host ones.
 
+commit fde6fcfaae0021d33e917cae81581dbfdb6618de
+Author: Yann Dirson <yann@blade-group.com>
+Date:   Mon Jun 24 18:18:06 2019 +0200
+
+    curl-native: use a wrapper script to locate cacert
+
+diff --git a/meta-blade/recipes-support/curl/curl_%.bbappend
+b/meta-blade/recipes-support/curl/curl_%.bbappend
+index 01b203e..650a764 100644
+--- a/meta-blade/recipes-support/curl/curl_%.bbappend
++++ b/meta-blade/recipes-support/curl/curl_%.bbappend
+@@ -1,3 +1,20 @@
++# install a wrapper script to locate cacert
++
++FILESEXTRAPATHS_prepend :=3D "${THISDIR}/files:"
++SRC_URI +=3D "file://curl.in"
++
++do_install_append_class-native () {
++    mv ${D}${bindir}/curl ${D}${bindir}/curl.real
++    sed s:@STAGING@:${STAGING_DIR_NATIVE}: < ${WORKDIR}/curl.in >
+${D}${bindir}/curl
++    chmod 755 ${D}${bindir}/curl
++}
++
++FILES_${BPN}-native +=3D "${bindir}/curl.real"
+diff --git a/meta-blade/recipes-support/curl/files/curl.in
+b/meta-blade/recipes-support/curl/files/curl.in
+new file mode 100644
+index 0000000..cfb4456
+--- /dev/null
++++ b/meta-blade/recipes-support/curl/files/curl.in
+@@ -0,0 +1,2 @@
++#!/bin/sh
++exec $0.real --cacert @STAGING@/etc/ssl/certs/ca-certificates.crt "$@"
+
+Le lun. 6 avr. 2020 =C3=A0 22:36, Jim Broadus <jbroadus@xevo.com> a =C3=A9=
+crit :
+
+> On 4/6/20 5:00 AM, Richard Purdie wrote:
+> > On Sun, 2020-04-05 at 23:00 -0700, Jim Broadus wrote:
+> >> Add a CA_BUNDLE variable to set the built-in CA bundle location. By
+> default,
+> >> don't set anything for curl-native since that target's sysconfdir is =
+a
+> >> location in the recipe's native sysroot directory.
+> >>
+> >> Signed-off-by: Jim Broadus <jbroadus@xevo.com>
+> >
+> > That is a huge change in behaviour with potentially quite serious side
+> > effects. As far as I remember we deliberately make our native utils
+> > self contained rather than relying on the host system (which may or ma=
+y
+> > not have cert files).
+> >
+> > We point at sysconfdir in the native case since we install ca-
+> > certificates there if I remember correctly?
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+>
+> Hi Richard. Currently, I don't see the certs installed in the native
+> sysroot, so maybe this was broken recently. If that was the intended
+> behavior, I can look for a fix for that instead.
+>
+> Thanks,
+> Jim
+>
+>=20
+>
+
+
+--=20
+Yann Dirson <yann@blade-group.com>
+Blade / Shadow -- http://shadow.tech
+
+--000000000000ae29ee05a2a5890e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div>The problem motivating this patch ma=
+y be the same that motivated a hack of mine which I never</div><div>cleaned=
+ up for submit: at least in some early warrior versions curl was attempting=
+ to use cacerts</div><div>from the host.</div><div><br></div><div>This is a=
+ hand-edited copypaste and may not apply cleanly, but you should get the id=
+ea: make it</div><div>so curl-native uses its own certs and not the host on=
+es.<br></div><div><br></div><div>commit fde6fcfaae0021d33e917cae81581dbfdb6=
+618de</div>Author: Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com">=
+yann@blade-group.com</a>&gt;<br>Date: =C2=A0 Mon Jun 24 18:18:06 2019 +0200=
+<br><br>=C2=A0 =C2=A0 curl-native: use a wrapper script to locate cacert<br=
+><br>diff --git a/meta-blade/recipes-support/curl/curl_%.bbappend b/meta-bl=
+ade/recipes-support/curl/curl_%.bbappend<br>index 01b203e..650a764 100644<b=
+r>--- a/meta-blade/recipes-support/curl/curl_%.bbappend<br>+++ b/meta-blade=
+/recipes-support/curl/curl_%.bbappend<br>@@ -1,3 +1,20 @@<br>+# install a w=
+rapper script to locate cacert<br>+<br>+FILESEXTRAPATHS_prepend :=3D &quot;=
+${THISDIR}/files:&quot;<br>+SRC_URI +=3D &quot;file://<a href=3D"http://cur=
+l.in">curl.in</a>&quot;<br>+<br>+do_install_append_class-native () {<br>+ =
+=C2=A0 =C2=A0mv ${D}${bindir}/curl ${D}${bindir}/curl.real<br>+ =C2=A0 =C2=
+=
+=A0sed s:@STAGING@:${STAGING_DIR_NATIVE}: &lt; ${WORKDIR}/<a href=3D"http:=
+//curl.in">curl.in</a> &gt; ${D}${bindir}/curl<br>+ =C2=A0 =C2=A0chmod 755 =
+${D}${bindir}/curl<br>+}<br>+<br>+FILES_${BPN}-native +=3D &quot;${bindir}/=
+curl.real&quot;<br>diff --git a/meta-blade/recipes-support/curl/files/<a hr=
+ef=3D"http://curl.in">curl.in</a> b/meta-blade/recipes-support/curl/files/<=
+a href=3D"http://curl.in">curl.in</a><br>new file mode 100644<br>index 0000=
+000..cfb4456<br>--- /dev/null<br>+++ b/meta-blade/recipes-support/curl/file=
+s/<a href=3D"http://curl.in">curl.in</a><br>@@ -0,0 +1,2 @@<br>+#!/bin/sh<b=
+r>+exec $0.real --cacert @STAGING@/etc/ssl/certs/ca-certificates.crt &quot;=
+$@&quot;<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
+gmail_attr">Le=C2=A0lun. 6 avr. 2020 =C3=A0=C2=A022:36, Jim Broadus &lt;<a =
+href=3D"mailto:jbroadus@xevo.com">jbroadus@xevo.com</a>&gt; a =C3=A9crit=C2=
+=
+=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 4/6/20 =
+5:00 AM, Richard Purdie wrote:<br>
+&gt; On Sun, 2020-04-05 at 23:00 -0700, Jim Broadus wrote:<br>
+&gt;&gt; Add a CA_BUNDLE variable to set the built-in CA bundle location. =
+By default,<br>
+&gt;&gt; don&#39;t set anything for curl-native since that target&#39;s sy=
+sconfdir is a<br>
+&gt;&gt; location in the recipe&#39;s native sysroot directory.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Jim Broadus &lt;<a href=3D"mailto:jbroadus@xevo.co=
+m" target=3D"_blank">jbroadus@xevo.com</a>&gt;<br>
+&gt; <br>
+&gt; That is a huge change in behaviour with potentially quite serious sid=
+e<br>
+&gt; effects. As far as I remember we deliberately make our native utils<b=
+r>
+&gt; self contained rather than relying on the host system (which may or m=
+ay<br>
+&gt; not have cert files).<br>
+&gt; <br>
+&gt; We point at sysconfdir in the native case since we install ca-<br>
+&gt; certificates there if I remember correctly?<br>
+&gt; <br>
+&gt; Cheers,<br>
+&gt; <br>
+&gt; Richard<br>
+&gt; <br>
+<br>
+Hi Richard. Currently, I don&#39;t see the certs installed in the native <=
+br>
+sysroot, so maybe this was broken recently. If that was the intended <br>
+behavior, I can look for a fix for that instead.<br>
+<br>
+Thanks,<br>
+Jim<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"=
+gmail_signature">Yann Dirson &lt;<a href=3D"mailto:yann@blade-group.com" ta=
+rget=3D"_blank">yann@blade-group.com</a>&gt;<br>Blade / Shadow -- <a href=
+=3D"http://shadow.tech" target=3D"_blank">http://shadow.tech</a><br><br></=
+div></div>
+
+--000000000000ae29ee05a2a5890e--
