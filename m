@@ -1,31 +1,31 @@
 Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web11.18317.1586464096122446104
+ by mx.groups.io with SMTP id smtpd.web10.18745.1586464696228713236
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2020 13:28:16 -0700
+ Thu, 09 Apr 2020 13:38:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BF1160C3E;
-	Mon,  6 Apr 2020 09:32:27 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 06D0D60C6A;
+	Mon,  6 Apr 2020 15:32:46 +0000 (UTC)
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHNldWRvOiBPbiBhIERCIGZpeHVwIHJlbW92ZSBmaWxlcyB0aGF0IGRvIG5vdCBleGlzdCBhbnltb3Jl?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgemV1cyAtbmV4dCByZXZpZXcgKHJldjQp?=
 From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 06 Apr 2020 09:32:28 -0000
-Message-ID: <20200406093228.2275.4678@do>
-References: <20200406091102.3367349-1-ricardo@ribalda.com>
+Date: Mon, 06 Apr 2020 15:32:48 -0000
+Message-ID: <20200406153248.2277.39828@do>
+References: <cover.1586185832.git.anuj.mittal@intel.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20200406091102.3367349-1-ricardo@ribalda.com>
+In-Reply-To: <cover.1586185832.git.anuj.mittal@intel.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: pseudo: On a DB fixup remove files that do not exist anymore
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/23617/
+Series: zeus -next review (rev4)
+Revision: 4
+URL   : https://patchwork.openembedded.org/series/21451/
 State : failure
 
 == Summary ==
@@ -37,9 +37,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at ff074f495d)
+* Patch            [zeus, 05/13] busybox: on upgrade save busybox if it is the last shell
+ Issue             Yocto Project bugzilla tag is not correctly formatted [test_bugzilla_entry_format] 
+  Suggested fix    Specify bugzilla ID in commit description with format: "[YOCTO #<bugzilla ID>]"
 
 
 
