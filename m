@@ -1,492 +1,809 @@
 Received: from mga14.intel.com (mga14.intel.com [])
  by mx.groups.io with SMTP id smtpd.web11.12871.1586185918252682432
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2020 08:12:02 -0700
+ Mon, 06 Apr 2020 08:12:04 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: DRM5ZdpnrGjcuMFxjVFhpePw4sXmhk/IB82ihcxqdM8DPa96UmDE5Kmo0SOFEYHyiYsWG4OM0l
- oxJY31ZJ5aTg==
+IronPort-SDR: P/Zmy2X8s06D6jiUlRVCL3CTGQfPmUtyX1kAgaglLdFq6XpJDG5BCqVfHrYoe6emOR2qzGQA9w
+ 740RxTR/L2IA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2020 08:12:01 -0700
-IronPort-SDR: MidVpDHhYkOOA+oDYzuPQEfvXiSK8sxftHxdK16XAcZKPk++o49d0df7G64Jne4XGREJtPgzCP
- ti4XYMDcbMNg==
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2020 08:12:03 -0700
+IronPort-SDR: sHifDexc4zN/+PiXgVWC/2dUEBHV+ecoEwYfOhH76KGsbjLJbS6WED7UNE/qNW55wmFZz0WknF
+ GOSjUZZJGy+Q==
 X-IronPort-AV: E=Sophos;i="5.72,351,1580803200"; 
-   d="scan'208";a="424391125"
+   d="scan'208";a="424391143"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.70.63])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2020 08:12:00 -0700
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2020 08:12:02 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 03/13] lttng-modules: update to 2.10.14
-Date: Mon,  6 Apr 2020 23:11:31 +0800
-Message-Id: <88cce1d9d06ed4c5a7b58a31d75cfd1503605df9.1586185832.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 04/13] glib-2.0: fix CVE-2020-6750
+Date: Mon,  6 Apr 2020 23:11:32 +0800
+Message-Id: <29ed9fc7341cc3db716115aef1a6910fdb893145.1586185832.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <cover.1586185832.git.anuj.mittal@intel.com>
 References: <cover.1586185832.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-From: Marek Vasut <marex@denx.de>
+From: haiqing <haiqing.bai@windriver.com>
 
-Upgrade to version 2.10.14 in order to fix some build errors
-with latest 5.4 kernel.
+GSocketClient in GNOME GLib through 2.62.4 may occasionally connect directly
+to a target address instead of connecting via a proxy server when configured
+to do so, because the proxy_addr field is mishandled. This bug is timing-dependent
+and may occur only sporadically depending on network delays. The greatest security
+relevance is in use cases where a proxy is used to help with privacy/anonymity,
+even though there is no technical barrier to a direct connection.
 
-- conflicting types for 'trace_rcu_dyntick'
-  Reproductible on kernel greater than v5.4.22, starting with commit
-  6cf539a87a ("rcu: Fix data-race due to atomic_t copy-by-value")
-
-Also drop patches which are no longer required.
-
-Signed-off-by: Marek Vasut <marex@denx.de>
-Cc: Armin Kuster <akuster808@gmail.com>
-Cc: Daniel Dragomir <Daniel.Dragomir@windriver.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...ops-when-trace-sunrpc_task-events-in.patch |  94 -------------
- ...rpc_clnt-dereference-in-rpc_task_que.patch |  44 ------
- ...rpc-use-signed-integer-for-client-id.patch | 105 --------------
- ...nrpc-introduce-lttng_get_clid-helper.patch | 130 ------------------
- ...es_2.10.11.bb => lttng-modules_2.10.14.bb} |  12 +-
- 5 files changed, 4 insertions(+), 381 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-Fix-sunrpc-use-signed-integer-for-client-id.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-sunrpc-introduce-lttng_get_clid-helper.patch
- rename meta/recipes-kernel/lttng/{lttng-modules_2.10.11.bb => lttng-modules_2.10.14.bb} (75%)
+ .../glib-2.0/glib-2.0/CVE-2020-6750.patch     | 741 ++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb |   1 +
+ 2 files changed, 742 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-6750.patch
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
-deleted file mode 100644
-index bdbc4f811e..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
-+++ /dev/null
-@@ -1,94 +0,0 @@
--From 1ff7013bcf7f068cf4371d12d758f9c0fd16a619 Mon Sep 17 00:00:00 2001
--From: Quanyang Wang <quanyang.wang@windriver.com>
--Date: Thu, 5 Dec 2019 15:35:32 +0800
--Subject: [PATCH 1/4] Fix: SUNRPC: Fix oops when trace sunrpc_task events in
-- nfs client
--
--See upstream commit :
--
--	commit 2ca310fc4160ed0420da65534a21ae77b24326a8
--	Author: Ditang Chen <chendt.fnst@cn.fujitsu.com>
--	Date: Fri, 7 Mar 2014 13:27:57 +0800
--	Subject: SUNRPC: Fix oops when trace sunrpc_task events in nfs client
--
--	When tracking sunrpc_task events in nfs client, the clnt pointer may be NULL.
--
--	[  139.269266] BUG: unable to handle kernel NULL pointer dereference at 0000000000000004
--	[  139.269915] IP: [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
--	[  139.269915] PGD 1d293067 PUD 1d294067 PMD 0
--	[  139.269915] Oops: 0000 [#1] SMP
--	[  139.269915] Modules linked in: nfsv4 dns_resolver nfs lockd sunrpc fscache sg ppdev e1000
--	serio_raw pcspkr parport_pc parport i2c_piix4 i2c_core microcode xfs libcrc32c sd_mod sr_mod
--	cdrom ata_generic crc_t10dif crct10dif_common pata_acpi ahci libahci ata_piix libata dm_mirror
--	dm_region_hash dm_log dm_mod
--	[  139.269915] CPU: 0 PID: 59 Comm: kworker/0:2 Not tainted 3.10.0-84.el7.x86_64 #1
--	[  139.269915] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
--	[  139.269915] Workqueue: rpciod rpc_async_schedule [sunrpc]
--	[  139.269915] task: ffff88001b598000 ti: ffff88001b632000 task.ti: ffff88001b632000
--	[  139.269915] RIP: 0010:[<ffffffffa026f216>]  [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
--	[  139.269915] RSP: 0018:ffff88001b633d70  EFLAGS: 00010206
--	[  139.269915] RAX: ffff88001dfc5338 RBX: ffff88001cc37a00 RCX: ffff88001dfc5334
--	[  139.269915] RDX: ffff88001dfc5338 RSI: 0000000000000000 RDI: ffff88001dfc533c
--	[  139.269915] RBP: ffff88001b633db0 R08: 000000000000002c R09: 000000000000000a
--	[  139.269915] R10: 0000000000062180 R11: 00000020759fb9dc R12: ffffffffa0292c20
--	[  139.269915] R13: ffff88001dfc5334 R14: 0000000000000000 R15: 0000000000000000
--	[  139.269915] FS:  0000000000000000(0000) GS:ffff88001fc00000(0000) knlGS:0000000000000000
--	[  139.269915] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
--	[  139.269915] CR2: 0000000000000004 CR3: 000000001d290000 CR4: 00000000000006f0
--	[  139.269915] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
--	[  139.269915] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
--	[  139.269915] Stack:
--	[  139.269915]  000000001b633d98 0000000000000246 ffff88001df1dc00 ffff88001cc37a00
--	[  139.269915]  ffff88001bc35e60 0000000000000000 ffff88001ffa0a48 ffff88001bc35ee0
--	[  139.269915]  ffff88001b633e08 ffffffffa02704b5 0000000000010000 ffff88001cc37a70
--	[  139.269915] Call Trace:
--	[  139.269915]  [<ffffffffa02704b5>] __rpc_execute+0x1d5/0x400 [sunrpc]
--	[  139.269915]  [<ffffffffa0270706>] rpc_async_schedule+0x26/0x30 [sunrpc]
--	[  139.269915]  [<ffffffff8107867b>] process_one_work+0x17b/0x460
--	[  139.269915]  [<ffffffff8107942b>] worker_thread+0x11b/0x400
--	[  139.269915]  [<ffffffff81079310>] ? rescuer_thread+0x3e0/0x3e0
--	[  139.269915]  [<ffffffff8107fc80>] kthread+0xc0/0xd0
--	[  139.269915]  [<ffffffff8107fbc0>] ? kthread_create_on_node+0x110/0x110
--	[  139.269915]  [<ffffffff815d122c>] ret_from_fork+0x7c/0xb0
--	[  139.269915]  [<ffffffff8107fbc0>] ? kthread_create_on_node+0x110/0x110
--	[  139.269915] Code: 4c 8b 45 c8 48 8d 7d d0 89 4d c4 41 89 c9 b9 28 00 00 00 e8 9d b4 e9
--	e0 48 85 c0 49 89 c5 74 a2 48 89 c7 e8 9d 3f e9 e0 48 89 c2 <41> 8b 46 04 48 8b 7d d0 4c
--	89 e9 4c 89 e6 89 42 0c 0f b7 83 d4
--	[  139.269915] RIP  [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
--	[  139.269915]  RSP <ffff88001b633d70>
--	[  139.269915] CR2: 0000000000000004
--	[  140.946406] ---[ end trace ba486328b98d7622 ]---
--
--Upstream-Status: Backport [https://github.com/lttng/lttng-modules/commit/2b228b503cad10bf0c5a99b42a908ca906eab5b9]
--
--Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-----
-- instrumentation/events/lttng-module/rpc.h | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/instrumentation/events/lttng-module/rpc.h b/instrumentation/events/lttng-module/rpc.h
--index 3798e8e..fb13106 100644
----- a/instrumentation/events/lttng-module/rpc.h
--+++ b/instrumentation/events/lttng-module/rpc.h
--@@ -139,7 +139,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
-- 		ctf_integer_hex(const void *, action, action)
-- 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-- 		ctf_integer(int, status, task->tk_status)
--@@ -208,7 +208,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
-- 		ctf_integer_hex(const void *, action, action)
-- 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-- 		ctf_integer(int, status, task->tk_status)
---- 
--2.17.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch b/meta/recipes-kernel/lttng/lttng-modules/0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch
-deleted file mode 100644
-index 03264bac68..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From 032a74d83b263c4faead8e4c25d497fb8ea07b6e Mon Sep 17 00:00:00 2001
--From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
--Date: Thu, 12 Dec 2019 10:29:02 -0500
--Subject: [PATCH 2/4] Fix: sunrpc: null rpc_clnt dereference in rpc_task_queued
-- tracepoint
--
--Based on upstream Linux commit:
--
--commit 0be283f676a1e7b208db0c992283197ef8b52158
--Author: Benjamin Coddington <bcodding@redhat.com>
--Date:   Tue Jan 23 09:32:35 2018 -0500
--
--    SUNRPC: Fix null rpc_clnt dereference in rpc_task_queued tracepoint
--
--    Backchannel tasks will not have a reference to the rpc_clnt.  Return -1 for
--    cl_clid in that case.
--
--    Signed-off-by: Benjamin Coddington <bcodding@redhat.com>
--    Signed-off-by: Trond Myklebust <trondmy@gmail.com>
--
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
--Upstream-Status: Backport [https://github.com/lttng/lttng-modules/commit/8f83a9103dcdf4f6b73783427fc5ded4869309d5]
--Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-----
-- instrumentation/events/lttng-module/rpc.h | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/instrumentation/events/lttng-module/rpc.h b/instrumentation/events/lttng-module/rpc.h
--index fb13106..68c622c 100644
----- a/instrumentation/events/lttng-module/rpc.h
--+++ b/instrumentation/events/lttng-module/rpc.h
--@@ -176,7 +176,8 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_queued,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(unsigned int, client_id, task->tk_client ?
--+				task->tk_client->cl_clid : -1)
-- 		ctf_integer(unsigned long, timeout, task->tk_timeout)
-- 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-- 		ctf_integer(int, status, task->tk_status)
---- 
--2.17.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0003-Fix-sunrpc-use-signed-integer-for-client-id.patch b/meta/recipes-kernel/lttng/lttng-modules/0003-Fix-sunrpc-use-signed-integer-for-client-id.patch
-deleted file mode 100644
-index c7529f16dd..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0003-Fix-sunrpc-use-signed-integer-for-client-id.patch
-+++ /dev/null
-@@ -1,105 +0,0 @@
--From 70389e422dd3146161089d454f525367c9046ecd Mon Sep 17 00:00:00 2001
--From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
--Date: Thu, 12 Dec 2019 10:29:37 -0500
--Subject: [PATCH 3/4] Fix: sunrpc: use signed integer for client id
--
--Within include/linux/sunrpc/clnt.h:struct rpc_cltn, the cl_clid field
--is an unsigned integer, which is the type expected by the tracepoint
--signature.
--
--However, looking into net/sunrpc/clnt.c:rpc_alloc_clid(), its allocation
--considers negative signed integer as errors.
--
--Therefore, in order to properly show "-1" in the trace output (rather
--than MAX_INT) when called with a NULL task->tk_client, move to a
--signed integer as backing type for the client_id field.
--
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
--Upstream-Status: Backport [https://github.com/lttng/lttng-modules/commit/cc7bb0aa52cae22255581d67841449bb8ea36fda]
--Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-----
-- instrumentation/events/lttng-module/rpc.h | 19 +++++++++++--------
-- 1 file changed, 11 insertions(+), 8 deletions(-)
--
--diff --git a/instrumentation/events/lttng-module/rpc.h b/instrumentation/events/lttng-module/rpc.h
--index 68c622c..2d06e55 100644
----- a/instrumentation/events/lttng-module/rpc.h
--+++ b/instrumentation/events/lttng-module/rpc.h
--@@ -18,7 +18,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_status,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(int, client_id, task->tk_client->cl_clid)
-- 		ctf_integer(int, status, task->tk_status)
-- 	)
-- )
--@@ -43,7 +43,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_status,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(int, client_id, task->tk_client->cl_clid)
-- 		ctf_integer(int, status, task->tk_status)
-- 	)
-- )
--@@ -100,7 +100,7 @@ LTTNG_TRACEPOINT_EVENT(rpc_connect_status,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(int, client_id, task->tk_client->cl_clid)
-- 		ctf_integer(int, status, task->tk_status)
-- 	)
-- )
--@@ -112,7 +112,7 @@ LTTNG_TRACEPOINT_EVENT(rpc_connect_status,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(int, client_id, task->tk_client->cl_clid)
-- 		ctf_integer(int, status, status)
-- 	)
-- )
--@@ -139,7 +139,8 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
--+		ctf_integer(int, client_id, task->tk_client ?
--+			task->tk_client->cl_clid : -1)
-- 		ctf_integer_hex(const void *, action, action)
-- 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-- 		ctf_integer(int, status, task->tk_status)
--@@ -176,7 +177,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_queued,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(unsigned int, client_id, task->tk_client ?
--+		ctf_integer(int, client_id, task->tk_client ?
-- 				task->tk_client->cl_clid : -1)
-- 		ctf_integer(unsigned long, timeout, task->tk_timeout)
-- 		ctf_integer(unsigned long, runstate, task->tk_runstate)
--@@ -209,7 +210,8 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
--+		ctf_integer(int, client_id, task->tk_client ?
--+			task->tk_client->cl_clid : -1)
-- 		ctf_integer_hex(const void *, action, action)
-- 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-- 		ctf_integer(int, status, task->tk_status)
--@@ -246,7 +248,8 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_queued,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(int, client_id, task->tk_client ?
--+			task->tk_client->cl_clid : -1)
-- 		ctf_integer(unsigned long, timeout, task->tk_timeout)
-- 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-- 		ctf_integer(int, status, task->tk_status)
---- 
--2.17.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0004-sunrpc-introduce-lttng_get_clid-helper.patch b/meta/recipes-kernel/lttng/lttng-modules/0004-sunrpc-introduce-lttng_get_clid-helper.patch
-deleted file mode 100644
-index 4dd726cf2c..0000000000
---- a/meta/recipes-kernel/lttng/lttng-modules/0004-sunrpc-introduce-lttng_get_clid-helper.patch
-+++ /dev/null
-@@ -1,130 +0,0 @@
--From b6903d57e4c3234ec5b1c7f72e232023cdee0fab Mon Sep 17 00:00:00 2001
--From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
--Date: Thu, 12 Dec 2019 10:39:38 -0500
--Subject: [PATCH 4/4] sunrpc: introduce lttng_get_clid helper
--
--Introduce the lttng_get_clid helper to always check for NULL pointer
--when getting the client id. While not always strictly needed depending
--on the tracepoint callsite, prefer robustness of instrumentation and
--always check for NULL rather than play whack-a-mole.
--
--Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
--Upstream-Status: Backport [https://github.com/lttng/lttng-modules/commit/1330a091a687a406513c3a326c2fc2a0dbe75536]
--Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-----
-- instrumentation/events/lttng-module/rpc.h | 43 ++++++++++++++++-------
-- 1 file changed, 31 insertions(+), 12 deletions(-)
--
--diff --git a/instrumentation/events/lttng-module/rpc.h b/instrumentation/events/lttng-module/rpc.h
--index 2d06e55..ceaf9db 100644
----- a/instrumentation/events/lttng-module/rpc.h
--+++ b/instrumentation/events/lttng-module/rpc.h
--@@ -9,6 +9,29 @@
-- #include <linux/sunrpc/sched.h>
-- #include <linux/sunrpc/clnt.h>
-- 
--+#ifndef ONCE_LTTNG_RPC_H
--+#define ONCE_LTTNG_RPC_H
--+
--+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0))
--+static inline
--+int lttng_get_clid(const struct rpc_task *task)
--+{
--+	struct rpc_clnt *tk_client;
--+
--+	tk_client = task->tk_client;
--+	if (!tk_client)
--+		return -1;
--+	/*
--+	 * The cl_clid field is always initialized to positive signed
--+	 * integers. Negative signed integer values are treated as
--+	 * errors.
--+	 */
--+	return (int) tk_client->cl_clid;
--+}
--+#endif /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0)) */
--+
--+#endif /* ONCE_LTTNG_RPC_H */
--+
-- #if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,0,0))
-- LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_status,
-- 
--@@ -18,7 +41,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_status,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(int, client_id, lttng_get_clid(task))
-- 		ctf_integer(int, status, task->tk_status)
-- 	)
-- )
--@@ -43,7 +66,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_status,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(int, client_id, lttng_get_clid(task))
-- 		ctf_integer(int, status, task->tk_status)
-- 	)
-- )
--@@ -100,7 +123,7 @@ LTTNG_TRACEPOINT_EVENT(rpc_connect_status,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(int, client_id, lttng_get_clid(task))
-- 		ctf_integer(int, status, task->tk_status)
-- 	)
-- )
--@@ -112,7 +135,7 @@ LTTNG_TRACEPOINT_EVENT(rpc_connect_status,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(int, client_id, task->tk_client->cl_clid)
--+		ctf_integer(int, client_id, lttng_get_clid(task))
-- 		ctf_integer(int, status, status)
-- 	)
-- )
--@@ -139,8 +162,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(int, client_id, task->tk_client ?
---			task->tk_client->cl_clid : -1)
--+		ctf_integer(int, client_id, lttng_get_clid(task))
-- 		ctf_integer_hex(const void *, action, action)
-- 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-- 		ctf_integer(int, status, task->tk_status)
--@@ -177,8 +199,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_queued,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(int, client_id, task->tk_client ?
---				task->tk_client->cl_clid : -1)
--+		ctf_integer(int, client_id, lttng_get_clid(task))
-- 		ctf_integer(unsigned long, timeout, task->tk_timeout)
-- 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-- 		ctf_integer(int, status, task->tk_status)
--@@ -210,8 +231,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(int, client_id, task->tk_client ?
---			task->tk_client->cl_clid : -1)
--+		ctf_integer(int, client_id, lttng_get_clid(task))
-- 		ctf_integer_hex(const void *, action, action)
-- 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-- 		ctf_integer(int, status, task->tk_status)
--@@ -248,8 +268,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_queued,
-- 
-- 	TP_FIELDS(
-- 		ctf_integer(unsigned int, task_id, task->tk_pid)
---		ctf_integer(int, client_id, task->tk_client ?
---			task->tk_client->cl_clid : -1)
--+		ctf_integer(int, client_id, lttng_get_clid(task))
-- 		ctf_integer(unsigned long, timeout, task->tk_timeout)
-- 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-- 		ctf_integer(int, status, task->tk_status)
---- 
--2.17.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.14.bb
-similarity index 75%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.10.14.bb
-index cc4f44519a..1c24e94902 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.14.bb
-@@ -14,14 +14,10 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
--           file://0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch \
--           file://0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch \
--           file://0003-Fix-sunrpc-use-signed-integer-for-client-id.patch \
--           file://0004-sunrpc-introduce-lttng_get_clid-helper.patch \
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-6750.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-6750.patch
+new file mode 100644
+index 0000000000..6db3934978
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-6750.patch
+@@ -0,0 +1,741 @@
++From 747f2c646f5a86ac58ad59be08036e81388e971d Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <tingping@tingping.se>
++Date: Thu, 23 Jan 2020 19:58:41 -0800
++Subject: [PATCH] Refactor g_socket_client_connect_async()
++
++This is a fairly large refactoring. The highlights are:
++
++- Removing in-progress connections/addresses from GSocketClientAsyncConnectData:
++
++  This caused issues where multiple ConnectionAttempt's would step over eachother
++  and modify shared state causing bugs like accidentally bypassing a set proxy.
++
++  Fixes #1871
++  Fixes #1989
++  Fixes #1902
++
++- Cancelling address enumeration on error/completion
++
++- Queuing successful TCP connections and doing application layer work serially:
++
++  This is more in the spirit of Happy Eyeballs but it also greatly simplifies
++  the flow of connection handling so fewer tasks are happening in parallel
++  when they don't need to be.
++
++  The behavior also should more closely match that of g_socket_client_connect().
++
++- Better track the state of address enumeration:
++
++  Previously we were over eager to treat enumeration finishing as an error.
++
++  Fixes #1872
++  See also #1982
++
++- Add more detailed documentation and logging.
++
++Closes #1995
++
++CVE: CVE-2020-6750
++
++Upstream-Status: Backport [ https://gitlab.gnome.org/GNOME/glib.git;
++commit=2722620e3291b930a3a228100d7c0e07b69534e3 ]
++
++Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
++---
++ gio/gsocketclient.c | 459 ++++++++++++++++++++++++++++----------------
++ 1 file changed, 296 insertions(+), 163 deletions(-)
++
++diff --git a/gio/gsocketclient.c b/gio/gsocketclient.c
++index 81767c0..b1d5f6c 100644
++--- a/gio/gsocketclient.c
+++++ b/gio/gsocketclient.c
++@@ -1332,13 +1332,15 @@ typedef struct
++ 
++   GSocketConnectable *connectable;
++   GSocketAddressEnumerator *enumerator;
++-  GProxyAddress *proxy_addr;
++-  GSocket *socket;
++-  GIOStream *connection;
+++  GCancellable *enumeration_cancellable;
++ 
++   GSList *connection_attempts;
+++  GSList *successful_connections;
++   GError *last_error;
++ 
+++  gboolean enumerated_at_least_once;
+++  gboolean enumeration_completed;
+++  gboolean connection_in_progress;
++   gboolean completed;
++ } GSocketClientAsyncConnectData;
++ 
++@@ -1350,10 +1352,9 @@ g_socket_client_async_connect_data_free (GSocketClientAsyncConnectData *data)
++   data->task = NULL;
++   g_clear_object (&data->connectable);
++   g_clear_object (&data->enumerator);
++-  g_clear_object (&data->proxy_addr);
++-  g_clear_object (&data->socket);
++-  g_clear_object (&data->connection);
+++  g_clear_object (&data->enumeration_cancellable);
++   g_slist_free_full (data->connection_attempts, connection_attempt_unref);
+++  g_slist_free_full (data->successful_connections, connection_attempt_unref);
++ 
++   g_clear_error (&data->last_error);
++ 
++@@ -1365,6 +1366,7 @@ typedef struct
++   GSocketAddress *address;
++   GSocket *socket;
++   GIOStream *connection;
+++  GProxyAddress *proxy_addr;
++   GSocketClientAsyncConnectData *data; /* unowned */
++   GSource *timeout_source;
++   GCancellable *cancellable;
++@@ -1396,6 +1398,7 @@ connection_attempt_unref (gpointer pointer)
++       g_clear_object (&attempt->socket);
++       g_clear_object (&attempt->connection);
++       g_clear_object (&attempt->cancellable);
+++      g_clear_object (&attempt->proxy_addr);
++       if (attempt->timeout_source)
++         {
++           g_source_destroy (attempt->timeout_source);
++@@ -1413,37 +1416,59 @@ connection_attempt_remove (ConnectionAttempt *attempt)
++ }
++ 
++ static void
++-g_socket_client_async_connect_complete (GSocketClientAsyncConnectData *data)
+++cancel_all_attempts (GSocketClientAsyncConnectData *data)
++ {
++-  g_assert (data->connection);
+++  GSList *l;
++ 
++-  if (!G_IS_SOCKET_CONNECTION (data->connection))
+++  for (l = data->connection_attempts; l; l = g_slist_next (l))
++     {
++-      GSocketConnection *wrapper_connection;
++-
++-      wrapper_connection = g_tcp_wrapper_connection_new (data->connection, data->socket);
++-      g_object_unref (data->connection);
++-      data->connection = (GIOStream *)wrapper_connection;
+++      ConnectionAttempt *attempt_entry = l->data;
+++      g_cancellable_cancel (attempt_entry->cancellable);
+++      connection_attempt_unref (attempt_entry);
++     }
+++  g_slist_free (data->connection_attempts);
+++  data->connection_attempts = NULL;
++ 
++-  if (!data->completed)
+++  g_slist_free_full (data->successful_connections, connection_attempt_unref);
+++  data->successful_connections = NULL;
+++
+++  g_cancellable_cancel (data->enumeration_cancellable);
+++}
+++
+++static void
+++g_socket_client_async_connect_complete (ConnectionAttempt *attempt)
+++{
+++  GSocketClientAsyncConnectData *data = attempt->data;
+++  GError *error = NULL;
+++  g_assert (attempt->connection);
+++  g_assert (!data->completed);
+++
+++  if (!G_IS_SOCKET_CONNECTION (attempt->connection))
++     {
++-      GError *error = NULL;
+++      GSocketConnection *wrapper_connection;
++ 
++-      if (g_cancellable_set_error_if_cancelled (g_task_get_cancellable (data->task), &error))
++-        {
++-          g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLETE, data->connectable, NULL);
++-          g_task_return_error (data->task, g_steal_pointer (&error));
++-        }
++-      else
++-        {
++-          g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLETE, data->connectable, data->connection);
++-          g_task_return_pointer (data->task, g_steal_pointer (&data->connection), g_object_unref);
++-        }
+++      wrapper_connection = g_tcp_wrapper_connection_new (attempt->connection, attempt->socket);
+++      g_object_unref (attempt->connection);
+++      attempt->connection = (GIOStream *)wrapper_connection;
+++    }
++ 
++-      data->completed = TRUE;
+++  data->completed = TRUE;
+++  cancel_all_attempts (data);
+++
+++  if (g_cancellable_set_error_if_cancelled (g_task_get_cancellable (data->task), &error))
+++    {
+++      g_debug ("GSocketClient: Connection cancelled!");
+++      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLETE, data->connectable, NULL);
+++      g_task_return_error (data->task, g_steal_pointer (&error));
+++    }
+++  else
+++    {
+++      g_debug ("GSocketClient: Connection successful!");
+++      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLETE, data->connectable, attempt->connection);
+++      g_task_return_pointer (data->task, g_steal_pointer (&attempt->connection), g_object_unref);
++     }
++ 
+++  connection_attempt_unref (attempt);
++   g_object_unref (data->task);
++ }
++ 
++@@ -1465,59 +1490,63 @@ static void
++ enumerator_next_async (GSocketClientAsyncConnectData *data,
++                        gboolean                       add_task_ref)
++ {
++-  /* We need to cleanup the state */
++-  g_clear_object (&data->socket);
++-  g_clear_object (&data->proxy_addr);
++-  g_clear_object (&data->connection);
++-
++   /* Each enumeration takes a ref. This arg just avoids repeated unrefs when
++      an enumeration starts another enumeration */
++   if (add_task_ref)
++     g_object_ref (data->task);
++ 
++   g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_RESOLVING, data->connectable, NULL);
+++  g_debug ("GSocketClient: Starting new address enumeration");
++   g_socket_address_enumerator_next_async (data->enumerator,
++-					  g_task_get_cancellable (data->task),
+++					  data->enumeration_cancellable,
++ 					  g_socket_client_enumerator_callback,
++ 					  data);
++ }
++ 
+++static void try_next_connection_or_finish (GSocketClientAsyncConnectData *, gboolean);
+++
++ static void
++ g_socket_client_tls_handshake_callback (GObject      *object,
++ 					GAsyncResult *result,
++ 					gpointer      user_data)
++ {
++-  GSocketClientAsyncConnectData *data = user_data;
+++  ConnectionAttempt *attempt = user_data;
+++  GSocketClientAsyncConnectData *data = attempt->data;
++ 
++   if (g_tls_connection_handshake_finish (G_TLS_CONNECTION (object),
++ 					 result,
++ 					 &data->last_error))
++     {
++-      g_object_unref (data->connection);
++-      data->connection = G_IO_STREAM (object);
+++      g_object_unref (attempt->connection);
+++      attempt->connection = G_IO_STREAM (object);
++ 
++-      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_TLS_HANDSHAKED, data->connectable, data->connection);
++-      g_socket_client_async_connect_complete (data);
+++      g_debug ("GSocketClient: TLS handshake succeeded");
+++      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_TLS_HANDSHAKED, data->connectable, attempt->connection);
+++      g_socket_client_async_connect_complete (attempt);
++     }
++   else
++     {
++       g_object_unref (object);
++-      enumerator_next_async (data, FALSE);
+++      connection_attempt_unref (attempt);
+++      g_debug ("GSocketClient: TLS handshake failed: %s", data->last_error->message);
+++      try_next_connection_or_finish (data, TRUE);
++     }
++ }
++ 
++ static void
++-g_socket_client_tls_handshake (GSocketClientAsyncConnectData *data)
+++g_socket_client_tls_handshake (ConnectionAttempt *attempt)
++ {
+++  GSocketClientAsyncConnectData *data = attempt->data;
++   GIOStream *tlsconn;
++ 
++   if (!data->client->priv->tls)
++     {
++-      g_socket_client_async_connect_complete (data);
+++      g_socket_client_async_connect_complete (attempt);
++       return;
++     }
++ 
++-  tlsconn = g_tls_client_connection_new (data->connection,
+++  g_debug ("GSocketClient: Starting TLS handshake");
+++  tlsconn = g_tls_client_connection_new (attempt->connection,
++ 					 data->connectable,
++ 					 &data->last_error);
++   if (tlsconn)
++@@ -1529,11 +1558,12 @@ g_socket_client_tls_handshake (GSocketClientAsyncConnectData *data)
++ 					G_PRIORITY_DEFAULT,
++ 					g_task_get_cancellable (data->task),
++ 					g_socket_client_tls_handshake_callback,
++-					data);
+++					attempt);
++     }
++   else
++     {
++-      enumerator_next_async (data, FALSE);
+++      connection_attempt_unref (attempt);
+++      try_next_connection_or_finish (data, TRUE);
++     }
++ }
++ 
++@@ -1542,23 +1572,38 @@ g_socket_client_proxy_connect_callback (GObject      *object,
++ 					GAsyncResult *result,
++ 					gpointer      user_data)
++ {
++-  GSocketClientAsyncConnectData *data = user_data;
+++  ConnectionAttempt *attempt = user_data;
+++  GSocketClientAsyncConnectData *data = attempt->data;
++ 
++-  g_object_unref (data->connection);
++-  data->connection = g_proxy_connect_finish (G_PROXY (object),
++-					     result,
++-					     &data->last_error);
++-  if (data->connection)
+++  g_object_unref (attempt->connection);
+++  attempt->connection = g_proxy_connect_finish (G_PROXY (object),
+++                                                result,
+++                                                &data->last_error);
+++  if (attempt->connection)
++     {
++-      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_PROXY_NEGOTIATED, data->connectable, data->connection);
+++      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_PROXY_NEGOTIATED, data->connectable, attempt->connection);
++     }
++   else
++     {
++-      enumerator_next_async (data, FALSE);
+++      connection_attempt_unref (attempt);
+++      try_next_connection_or_finish (data, TRUE);
++       return;
++     }
++ 
++-  g_socket_client_tls_handshake (data);
+++  g_socket_client_tls_handshake (attempt);
+++}
+++
+++static void
+++complete_connection_with_error (GSocketClientAsyncConnectData *data,
+++                                GError                        *error)
+++{
+++  g_debug ("GSocketClient: Connection failed: %s", error->message);
+++  g_assert (!data->completed);
+++
+++  g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLETE, data->connectable, NULL);
+++  data->completed = TRUE;
+++  cancel_all_attempts (data);
+++  g_task_return_error (data->task, error);
++ }
++ 
++ static gboolean
++@@ -1572,15 +1617,114 @@ task_completed_or_cancelled (GSocketClientAsyncConnectData *data)
++     return TRUE;
++   else if (g_cancellable_set_error_if_cancelled (cancellable, &error))
++     {
++-      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLETE, data->connectable, NULL);
++-      g_task_return_error (task, g_steal_pointer (&error));
++-      data->completed = TRUE;
+++      complete_connection_with_error (data, g_steal_pointer (&error));
++       return TRUE;
++     }
++   else
++     return FALSE;
++ }
++ 
+++static gboolean
+++try_next_successful_connection (GSocketClientAsyncConnectData *data)
+++{
+++  ConnectionAttempt *attempt;
+++  const gchar *protocol;
+++  GProxy *proxy;
+++
+++  if (data->connection_in_progress)
+++    return FALSE;
+++
+++  g_assert (data->successful_connections != NULL);
+++  attempt = data->successful_connections->data;
+++  g_assert (attempt != NULL);
+++  data->successful_connections = g_slist_remove (data->successful_connections, attempt);
+++  data->connection_in_progress = TRUE;
+++
+++  g_debug ("GSocketClient: Starting application layer connection");
+++
+++  if (!attempt->proxy_addr)
+++    {
+++      g_socket_client_tls_handshake (g_steal_pointer (&attempt));
+++      return TRUE;
+++    }
+++
+++  protocol = g_proxy_address_get_protocol (attempt->proxy_addr);
+++
+++  /* The connection should not be anything other than TCP,
+++   * but let's put a safety guard in case
+++   */
+++  if (!G_IS_TCP_CONNECTION (attempt->connection))
+++    {
+++      g_critical ("Trying to proxy over non-TCP connection, this is "
+++          "most likely a bug in GLib IO library.");
+++
+++      g_set_error_literal (&data->last_error,
+++          G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED,
+++          _("Proxying over a non-TCP connection is not supported."));
+++    }
+++  else if (g_hash_table_contains (data->client->priv->app_proxies, protocol))
+++    {
+++      /* Simply complete the connection, we don't want to do TLS handshake
+++       * as the application proxy handling may need proxy handshake first */
+++      g_socket_client_async_connect_complete (g_steal_pointer (&attempt));
+++      return TRUE;
+++    }
+++  else if ((proxy = g_proxy_get_default_for_protocol (protocol)))
+++    {
+++      GIOStream *connection = attempt->connection;
+++      GProxyAddress *proxy_addr = attempt->proxy_addr;
+++
+++      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_PROXY_NEGOTIATING, data->connectable, attempt->connection);
+++      g_debug ("GSocketClient: Starting proxy connection");
+++      g_proxy_connect_async (proxy,
+++                             connection,
+++                             proxy_addr,
+++                             g_task_get_cancellable (data->task),
+++                             g_socket_client_proxy_connect_callback,
+++                             g_steal_pointer (&attempt));
+++      g_object_unref (proxy);
+++      return TRUE;
+++    }
+++  else
+++    {
+++      g_clear_error (&data->last_error);
+++
+++      g_set_error (&data->last_error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED,
+++          _("Proxy protocol “%s” is not supported."),
+++          protocol);
+++    }
+++
+++  data->connection_in_progress = FALSE;
+++  g_clear_pointer (&attempt, connection_attempt_unref);
+++  return FALSE; /* All non-return paths are failures */
+++}
+++
+++static void
+++try_next_connection_or_finish (GSocketClientAsyncConnectData *data,
+++                               gboolean                       end_current_connection)
+++{
+++  if (end_current_connection)
+++    data->connection_in_progress = FALSE;
+++
+++  if (data->connection_in_progress)
+++    return;
+++
+++  /* Keep trying successful connections until one works, each iteration pops one */
+++  while (data->successful_connections)
+++    {
+++      if (try_next_successful_connection (data))
+++        return;
+++    }
+++
+++  if (!data->enumeration_completed)
+++    {
+++      enumerator_next_async (data, FALSE);
+++      return;
+++    }
+++
+++  complete_connection_with_error (data, data->last_error);
+++}
+++
++ static void
++ g_socket_client_connected_callback (GObject      *source,
++ 				    GAsyncResult *result,
++@@ -1588,10 +1732,7 @@ g_socket_client_connected_callback (GObject      *source,
++ {
++   ConnectionAttempt *attempt = user_data;
++   GSocketClientAsyncConnectData *data = attempt->data;
++-  GSList *l;
++   GError *error = NULL;
++-  GProxy *proxy;
++-  const gchar *protocol;
++ 
++   if (task_completed_or_cancelled (data) || g_cancellable_is_cancelled (attempt->cancellable))
++     {
++@@ -1613,11 +1754,12 @@ g_socket_client_connected_callback (GObject      *source,
++         {
++           clarify_connect_error (error, data->connectable, attempt->address);
++           set_last_error (data, error);
+++          g_debug ("GSocketClient: Connection attempt failed: %s", error->message);
++           connection_attempt_remove (attempt);
++-          enumerator_next_async (data, FALSE);
++           connection_attempt_unref (attempt);
+++          try_next_connection_or_finish (data, FALSE);
++         }
++-      else
+++      else /* Silently ignore cancelled attempts */
++         {
++           g_clear_error (&error);
++           g_object_unref (data->task);
++@@ -1627,74 +1769,21 @@ g_socket_client_connected_callback (GObject      *source,
++       return;
++     }
++ 
++-  data->socket = g_steal_pointer (&attempt->socket);
++-  data->connection = g_steal_pointer (&attempt->connection);
++-
++-  for (l = data->connection_attempts; l; l = g_slist_next (l))
++-    {
++-      ConnectionAttempt *attempt_entry = l->data;
++-      g_cancellable_cancel (attempt_entry->cancellable);
++-      connection_attempt_unref (attempt_entry);
++-    }
++-  g_slist_free (data->connection_attempts);
++-  data->connection_attempts = NULL;
++-  connection_attempt_unref (attempt);
++-
++-  g_socket_connection_set_cached_remote_address ((GSocketConnection*)data->connection, NULL);
++-  g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_CONNECTED, data->connectable, data->connection);
+++  g_socket_connection_set_cached_remote_address ((GSocketConnection*)attempt->connection, NULL);
+++  g_debug ("GSocketClient: TCP connection successful");
+++  g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_CONNECTED, data->connectable, attempt->connection);
++ 
++   /* wrong, but backward compatible */
++-  g_socket_set_blocking (data->socket, TRUE);
+++  g_socket_set_blocking (attempt->socket, TRUE);
++ 
++-  if (!data->proxy_addr)
++-    {
++-      g_socket_client_tls_handshake (data);
++-      return;
++-    }
++-
++-  protocol = g_proxy_address_get_protocol (data->proxy_addr);
++-
++-  /* The connection should not be anything other than TCP,
++-   * but let's put a safety guard in case
+++  /* This ends the parallel "happy eyeballs" portion of connecting.
+++     Now that we have a successful tcp connection we will attempt to connect
+++     at the TLS/Proxy layer. If those layers fail we will move on to the next
+++     connection.
++    */
++-  if (!G_IS_TCP_CONNECTION (data->connection))
++-    {
++-      g_critical ("Trying to proxy over non-TCP connection, this is "
++-          "most likely a bug in GLib IO library.");
++-
++-      g_set_error_literal (&data->last_error,
++-          G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED,
++-          _("Proxying over a non-TCP connection is not supported."));
++-
++-      enumerator_next_async (data, FALSE);
++-    }
++-  else if (g_hash_table_contains (data->client->priv->app_proxies, protocol))
++-    {
++-      /* Simply complete the connection, we don't want to do TLS handshake
++-       * as the application proxy handling may need proxy handshake first */
++-      g_socket_client_async_connect_complete (data);
++-    }
++-  else if ((proxy = g_proxy_get_default_for_protocol (protocol)))
++-    {
++-      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_PROXY_NEGOTIATING, data->connectable, data->connection);
++-      g_proxy_connect_async (proxy,
++-                             data->connection,
++-                             data->proxy_addr,
++-                             g_task_get_cancellable (data->task),
++-                             g_socket_client_proxy_connect_callback,
++-                             data);
++-      g_object_unref (proxy);
++-    }
++-  else
++-    {
++-      g_clear_error (&data->last_error);
++-
++-      g_set_error (&data->last_error, G_IO_ERROR, G_IO_ERROR_NOT_SUPPORTED,
++-          _("Proxy protocol “%s” is not supported."),
++-          protocol);
++-
++-      enumerator_next_async (data, FALSE);
++-    }
+++  connection_attempt_remove (attempt);
+++  data->successful_connections = g_slist_append (data->successful_connections, g_steal_pointer (&attempt));
+++  try_next_connection_or_finish (data, FALSE);
++ }
++ 
++ static gboolean
++@@ -1702,7 +1791,11 @@ on_connection_attempt_timeout (gpointer data)
++ {
++   ConnectionAttempt *attempt = data;
++ 
++-  enumerator_next_async (attempt->data, TRUE);
+++  if (!attempt->data->enumeration_completed)
+++    {
+++      g_debug ("GSocketClient: Timeout reached, trying another enumeration");
+++      enumerator_next_async (attempt->data, TRUE);
+++    }
++ 
++   g_clear_pointer (&attempt->timeout_source, g_source_unref);
++   return G_SOURCE_REMOVE;
++@@ -1712,9 +1805,9 @@ static void
++ on_connection_cancelled (GCancellable *cancellable,
++                          gpointer      data)
++ {
++-  GCancellable *attempt_cancellable = data;
+++  GCancellable *linked_cancellable = G_CANCELLABLE (data);
++ 
++-  g_cancellable_cancel (attempt_cancellable);
+++  g_cancellable_cancel (linked_cancellable);
++ }
++ 
++ static void
++@@ -1738,39 +1831,49 @@ g_socket_client_enumerator_callback (GObject      *object,
++ 						     result, &error);
++   if (address == NULL)
++     {
++-      if (data->connection_attempts)
+++      if (G_UNLIKELY (data->enumeration_completed))
+++        return;
+++
+++      data->enumeration_completed = TRUE;
+++      g_debug ("GSocketClient: Address enumeration completed (out of addresses)");
+++
+++      /* As per API docs: We only care about error if its the first call,
+++         after that the enumerator is done.
+++
+++         Note that we don't care about cancellation errors because
+++         task_completed_or_cancelled() above should handle that.
+++
+++         If this fails and nothing is in progress then we will complete task here.
+++       */
+++      if ((data->enumerated_at_least_once && !data->connection_attempts && !data->connection_in_progress) ||
+++          !data->enumerated_at_least_once)
++         {
++-          g_object_unref (data->task);
++-          return;
+++          g_debug ("GSocketClient: Address enumeration failed: %s", error ? error->message : NULL);
+++          if (data->last_error)
+++            {
+++              g_clear_error (&error);
+++              error = data->last_error;
+++              data->last_error = NULL;
+++            }
+++          else if (!error)
+++            {
+++              g_set_error_literal (&error, G_IO_ERROR, G_IO_ERROR_FAILED,
+++                _("Unknown error on connect"));
+++            }
+++
+++          complete_connection_with_error (data, error);
++         }
++ 
++-      g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_COMPLETE, data->connectable, NULL);
++-      data->completed = TRUE;
++-      if (!error)
++-	{
++-	  if (data->last_error)
++-	    {
++-	      error = data->last_error;
++-	      data->last_error = NULL;
++-	    }
++-	  else
++-	    {
++-	      g_set_error_literal (&error, G_IO_ERROR, G_IO_ERROR_FAILED,
++-				   _("Unknown error on connect"));
++-	    }
++-	}
++-      g_task_return_error (data->task, error);
+++      /* Enumeration should never trigger again, drop our ref */
++       g_object_unref (data->task);
++       return;
++     }
++ 
+++  data->enumerated_at_least_once = TRUE;
+++  g_debug ("GSocketClient: Address enumeration succeeded");
++   g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_RESOLVED,
++ 			      data->connectable, NULL);
++ 
++-  if (G_IS_PROXY_ADDRESS (address) &&
++-      data->client->priv->enable_proxy)
++-    data->proxy_addr = g_object_ref (G_PROXY_ADDRESS (address));
++-
++   g_clear_error (&data->last_error);
++ 
++   socket = create_socket (data->client, address, &data->last_error);
++@@ -1788,6 +1891,10 @@ g_socket_client_enumerator_callback (GObject      *object,
++   attempt->cancellable = g_cancellable_new ();
++   attempt->connection = (GIOStream *)g_socket_connection_factory_create_connection (socket);
++   attempt->timeout_source = g_timeout_source_new (HAPPY_EYEBALLS_CONNECTION_ATTEMPT_TIMEOUT_MS);
+++
+++  if (G_IS_PROXY_ADDRESS (address) && data->client->priv->enable_proxy)
+++    attempt->proxy_addr = g_object_ref (G_PROXY_ADDRESS (address));
+++
++   g_source_set_callback (attempt->timeout_source, on_connection_attempt_timeout, attempt, NULL);
++   g_source_attach (attempt->timeout_source, g_main_context_get_thread_default ());
++   data->connection_attempts = g_slist_append (data->connection_attempts, attempt);
++@@ -1797,6 +1904,7 @@ g_socket_client_enumerator_callback (GObject      *object,
++                            g_object_ref (attempt->cancellable), g_object_unref);
++ 
++   g_socket_connection_set_cached_remote_address ((GSocketConnection *)attempt->connection, address);
+++  g_debug ("GSocketClient: Starting TCP connection attempt");
++   g_socket_client_emit_event (data->client, G_SOCKET_CLIENT_CONNECTING, data->connectable, attempt->connection);
++   g_socket_connection_connect_async (G_SOCKET_CONNECTION (attempt->connection),
++ 				     address,
++@@ -1849,24 +1957,48 @@ g_socket_client_connect_async (GSocketClient       *client,
++   else
++     data->enumerator = g_socket_connectable_enumerate (connectable);
++ 
++-  /* The flow and ownership here isn't quite obvious:
++-    - The task starts an async attempt to connect.
++-      - Each attempt holds a single ref on task.
++-      - Each attempt may create new attempts by timing out (not a failure) so
++-        there are multiple attempts happening in parallel.
++-      - Upon failure an attempt will start a new attempt that steals its ref
++-        until there are no more attempts left and it drops its ref.
++-      - Upon success it will cancel all other attempts and continue on
++-        to the rest of the connection (tls, proxies, etc) which do not
++-        happen in parallel and at the very end drop its ref.
++-      - Upon cancellation an attempt drops its ref.
++-   */
+++  /* This function tries to match the behavior of g_socket_client_connect ()
+++     which is simple enough but much of it is done in parallel to be as responsive
+++     as possible as per Happy Eyeballs (RFC 8305). This complicates flow quite a
+++     bit but we can describe it in 3 sections:
+++
+++     Firstly we have address enumeration (DNS):
+++       - This may be triggered multiple times by enumerator_next_async().
+++       - It also has its own cancellable (data->enumeration_cancellable).
+++       - Enumeration is done lazily because GNetworkAddressAddressEnumerator
+++         also does work in parallel and may lazily add new addresses.
+++       - If the first enumeration errors then the task errors. Otherwise all enumerations
+++         will potentially be used (until task or enumeration is cancelled).
+++
+++      Then we start attempting connections (TCP):
+++        - Each connection is independent and kept in a ConnectionAttempt object.
+++          - They each hold a ref on the main task and have their own cancellable.
+++        - Multiple attempts may happen in parallel as per Happy Eyeballs.
+++        - Upon failure or timeouts more connection attempts are made.
+++          - If no connections succeed the task errors.
+++        - Upon success they are kept in a list of successful connections.
+++
+++      Lastly we connect at the application layer (TLS, Proxies):
+++        - These are done in serial.
+++          - The reasoning here is that Happy Eyeballs is about making bad connections responsive
+++            at the IP/TCP layers. Issues at the application layer are generally not due to
+++            connectivity issues but rather misconfiguration.
+++        - Upon failure it will try the next TCP connection until it runs out and
+++          the task errors.
+++        - Upon success it cancels everything remaining (enumeration and connections)
+++          and returns the connection.
+++  */
++ 
++   data->task = g_task_new (client, cancellable, callback, user_data);
++   g_task_set_check_cancellable (data->task, FALSE); /* We handle this manually */
++   g_task_set_source_tag (data->task, g_socket_client_connect_async);
++   g_task_set_task_data (data->task, data, (GDestroyNotify)g_socket_client_async_connect_data_free);
++ 
+++  data->enumeration_cancellable = g_cancellable_new ();
+++  if (cancellable)
+++    g_cancellable_connect (cancellable, G_CALLBACK (on_connection_cancelled),
+++                           g_object_ref (data->enumeration_cancellable), g_object_unref);
+++
++   enumerator_next_async (data, FALSE);
++ }
++ 
++@@ -1985,6 +2117,7 @@ g_socket_client_connect_to_uri_async (GSocketClient        *client,
++     }
++   else
++     {
+++      g_debug("g_socket_client_connect_to_uri_async");
++       g_socket_client_connect_async (client,
++ 				     connectable, cancellable,
++ 				     callback, user_data);
++-- 
++2.23.0
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
+index 5aefa6ad8b..5be81a8f31 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
+            file://0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch \
++           file://CVE-2020-6750.patch \
             "
  
--SRC_URI[md5sum] = "c618fb646514dfc1bf910cfd7cda4256"
--SRC_URI[sha256sum] = "7f91e39b2e8e46d8bbba2b4c8c1614f1fb380611cd1a1fccc1d1859be26112f1"
-+SRC_URI[md5sum] = "3e9ed67a2da17edf93194f8a5e75a246"
-+SRC_URI[sha256sum] = "d0ba614a9cac3daf8ac034837f8b786e6be2ce0242aeecef7096bed5e03b762c"
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
- 
-@@ -44,7 +40,7 @@ SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.1
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-            "
--SRCREV_class-devupstream = "624aca5d7507fbd11ea4a1a474c3aa1031bd9a31"
--PV_class-devupstream = "2.10.10+git${SRCPV}"
-+SRCREV_class-devupstream = "b34304f146ea234ea764580d7ce1b03d05a215f9"
-+PV_class-devupstream = "2.10.14+git${SRCPV}"
- S_class-devupstream = "${WORKDIR}/git"
- SRCREV_FORMAT ?= "lttng_git"
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
 -- 
 2.25.1
 
