@@ -1,89 +1,97 @@
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
- by mx.groups.io with SMTP id smtpd.web11.7185.1586163844897338388
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.7329.1586164266921402311
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2020 02:04:05 -0700
+ Mon, 06 Apr 2020 02:11:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=O9bNt8Qn;
- spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-lj1-f193.google.com with SMTP id r24so13782478ljd.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2020 02:04:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oEyrmJau;
+ spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: ricardo.ribalda@gmail.com)
+Received: by mail-wm1-f66.google.com with SMTP id d77so13883466wmd.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2020 02:11:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qN+I/U0WWsIIZwo8Z9eM7oub1hkBH5j7A7SBi8tWaVE=;
-        b=O9bNt8QnffkIBEL/iq3waPhvgSaaIHTgT4cjfpEm1zpTl9sExx5T4OL4Iv5QWHzohy
-         mLi3vv4STJXM9fIUtNKfp6M2d/DDfpiGWH6HYxKo1p7J42xVIE7IVamjIjO0aHwmh5FG
-         OOY19iH/hM3vZAt2VdOtldeASgxKNU8BICO5QLXMWEgeiJNUHlP/v1kd0+ddmcdQYNOH
-         0oGx6nYFPSayzwZfJpdEDkwsVt+gQ4UlvDZnsTnCAgww08j+sqqWgY4AwAN7NR9FlJh6
-         4SnoL+uo2EV3t7Y7DZaN4nghbE6dezCiCGfuDsMYuIAgqdaRPMsjn0fqeaHJzWukiH+y
-         qUdg==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=d7G7rCI2yj0O1MWGDqc0W0/90HaEkF+wuviiPinljoA=;
+        b=oEyrmJauOR3RsnMnbgH1tShOEqQr22rFOr9QNJEB4dKcOoRJUW48cdkSUyZu6YWbE1
+         Z3xwG+i8vegieGePJ46Q0b4avsX3JGGdwjfAIM7Hr0BCC08BydnBtjVb+kicDHRRYulu
+         GY0uN+wpJCNlh66Y2VR6ApYp0OC8QkZpSGlb00BM9/zEE2UHVWtLR9NiGJwyCSUo0TgB
+         4f1oqrjmFywE2pUFx060MS/oEiLiMMpswGluBN7NIg5g0Prwj66QcaqNPoXTUYe6wHDe
+         izZKynuZ0s0ETVxYc8iWxqmTydawrs59wHJsgWsrpI5XJ1G3lLaXlqQAjz40mKq8Sb7S
+         sY4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qN+I/U0WWsIIZwo8Z9eM7oub1hkBH5j7A7SBi8tWaVE=;
-        b=bwK2/PklfP9VGSScDIEgpA0QN6m44kYcXmPuffg5+1mPQOm/pYP1zBdJ5zkak3x8OF
-         iD1yPR7Wx0E8V9y4yw5nKghacIc5LFfiCPlwFZDy0i2SFKBTVd+WNcDaw11amfxzFPR7
-         O6eiursQP5pT2FG4p0NBZyHa6+r7uoL4s/inSQ2rmXJWD6RHm2yMKaEm3kF9Z8Lncg6u
-         LE0lVk5PgLDfsjtTeMLlUmi/H5ROqfZyQLmTlncffXbTNfxlnD4ldTgxIzUJSaxx4x2f
-         8ja6nilrqawb4mft8L/Ub5JAZXSUtNKEoRBb6N6Qw6x31DXUZajsp4LPhVLhKwdxeW2H
-         YlPQ==
-X-Gm-Message-State: AGi0PuaB4Xigdn14iQoPtpHHlvxTHH8FAkms+qqpbWHN53F1gGAo2b9s
-	aywty1DTjs+T0tBlkM9Kf77MHhXSZgVznroEeUM=
-X-Google-Smtp-Source: APiQypJtVFIVNAfTrfDOOOzqvCGXlxdz4K7QR6ACk01Guc+mZUaNtWRIVmK4f62rWd0Q0saSkmyR7DwUUQAcsWHysQY=
-X-Received: by 2002:a2e:9959:: with SMTP id r25mr11711872ljj.200.1586163843203;
- Mon, 06 Apr 2020 02:04:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200304144936.2559106-1-ricardo@ribalda.com> <8a556aedfe46e327c5d64d77c3b282f2108d12aa.camel@linuxfoundation.org>
- <1602DB74B6717A3F.2403@lists.openembedded.org> <CAPybu_2JFR2Q-id-7Fc5+p=RhKBbscMfEF11rE_yX0bmruqJvA@mail.gmail.com>
- <ed35318a96db8ac58bde7596f47bb0bfcd27b27b.camel@linuxfoundation.org>
- <CAPybu_0W9FAQaH17X7jt7+cJU05XaD+3J5owAMvoXurfGpc8fA@mail.gmail.com>
- <CAPybu_2LZgaDFL-jexc0DcnEb0nzsLpZq30nA4UNufztDsKs1w@mail.gmail.com>
- <db5856cec86de82a4feddf1cf739ce7eb37c6932.camel@linuxfoundation.org>
- <CAPybu_1ULyzXSJzYAHGRh7FeM9i0PX7g0N-v=XqeFPKJ8k0hzg@mail.gmail.com> <0d818b09b16f9a1156643217599f6b774d1ebc17.camel@linuxfoundation.org>
-In-Reply-To: <0d818b09b16f9a1156643217599f6b774d1ebc17.camel@linuxfoundation.org>
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=d7G7rCI2yj0O1MWGDqc0W0/90HaEkF+wuviiPinljoA=;
+        b=A2vUFAU21tPZyvDV6Iv8WJBpiVJRAnWx43jfA25A/rQDFL+iN+OEIBRpmjWYwHPqLA
+         Khu4i0UalARrVNDvgZZrfomZDdcZDajC0NmYbE3nVnZWt/L4jd3rWAtSCeXP6aZMBJwm
+         w1DEM3lMCOn8mUve+AchBmW3/1EmwQwA/pDzowiixV8N7R+J4cY3wKyGQHqN0EjVRds2
+         azoVRADfdRy+4qRaeoEj5Pe6A39vrcgaTkoApjSanURFZYxEsV9jhGYBupA8IHZ+NXtv
+         zML5cf43wBzgwNx+jlYlMCoMRHShpMHp9aJv3xy9I9H93PNa2DikSCXoJYjskfolbit2
+         m7MA==
+X-Gm-Message-State: AGi0PuZN1xQ3SKtAEI4tGkSLiS5BdVP2slljCKwNvtN3Bc9wao/VpwYu
+	llMpc/rhX5SmaNtp/ENpyQH8dk2wTeQ=
+X-Google-Smtp-Source: APiQypICxNhb2n2Vh2WDDGCR1UuovhKK5aWp4PSdhfNxCRoovLZVubppSUQLAEZEB1jb4IKKLZSD7Q==
+X-Received: by 2002:a1c:147:: with SMTP id 68mr22164203wmb.28.1586164265150;
+        Mon, 06 Apr 2020 02:11:05 -0700 (PDT)
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from piling.lan (80-71-134-83.u.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id a80sm12300111wme.37.2020.04.06.02.11.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2020 02:11:04 -0700 (PDT)
+Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
-Date: Mon, 6 Apr 2020 11:03:46 +0200
-Message-ID: <CAPybu_3+-BKzZGvWPA1v7KNdHGejKreLw1VvwOkCEUz1MHVJ7w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/2] wic: Fix permissions when using exclude or include path
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, jpewhacker@gmail.com, 
-	Paul Barker <pbarker@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Ricardo Ribalda <ricardo@ribalda.com>
+Subject: [PATCH] pseudo: On a DB fixup remove files that do not exist anymore
+Date: Mon,  6 Apr 2020 11:11:02 +0200
+Message-Id: <20200406091102.3367349-1-ricardo@ribalda.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi
+From: Ricardo Ribalda <ricardo@ribalda.com>
 
-On Mon, Apr 6, 2020 at 11:00 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sun, 2020-04-05 at 17:44 +0200, Ricardo Ribalda Delgado wrote:
-> > Hi Richard
-> >
-> > Thanks for testing it out. Seems that I am either not very clever or
-> > I
-> > should not work on Sundays (or both), v1, and v2 where exactly the
-> > same. I am terribly sorry to spam you.
-> >
-> > I know it is abusing your patience, but can you try again. I would
-> > love to try it on my setup , but I cannot replicate the bug.
-> >
-> > As we speak I am running oe-selftest    --run-tests wic.Wic on
-> > poky/fedora-30...
->
-> I did re-run it, it took a while since a pseudo change invalidates
-> sstate. It passed:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/838
->
+If the user decides to fix a database, remove the files that do not
+exist anymore.
+If only DB test is selected do not change the behaviour (return error).
 
-Thanks a lot for testing it. I will prepare a new series including that patch.
+Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
+---
+ pseudo.c | 13 ++++++++++---
+ 1 file changed, 10 insertions(+), 3 deletions(-)
 
-> Cheers,
->
-> Richard
->
-
-
+diff --git a/pseudo.c b/pseudo.c
+index 0f5850e..d430a40 100644
+--- a/pseudo.c
++++ b/pseudo.c
+@@ -1087,9 +1087,15 @@ pseudo_db_check(int fix) {
+ 			int fixup_needed = 0;
+ 			pseudo_debug(PDBGF_DB, "Checking <%s>\n", m->path);
+ 			if (lstat(m->path, &buf)) {
+-				errors = EXIT_FAILURE;
+-				pseudo_diag("can't stat <%s>\n", m->path);
+-				continue;
++				if (!fix) {
++					pseudo_diag("can't stat <%s>\n", m->path);
++					errors = EXIT_FAILURE;
++					continue;
++				} else {
++					pseudo_debug(PDBGF_DB, "can't stat <%s>\n", m->path);
++					fixup_needed = 2;
++					goto do_fixup;
++				}
+ 			}
+ 			/* can't check for device type mismatches, uid/gid, or
+ 			 * permissions, because those are the very things we
+@@ -1125,6 +1131,7 @@ pseudo_db_check(int fix) {
+ 					S_ISDIR(m->mode));
+ 				fixup_needed = 2;
+ 			}
++			do_fixup:
+ 			if (fixup_needed) {
+ 				/* in fixup mode, either delete (mismatches) or
+ 				 * correct (dev/ino).
 -- 
-Ricardo Ribalda
+2.25.1
+
