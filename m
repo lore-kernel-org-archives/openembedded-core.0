@@ -1,65 +1,94 @@
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com [209.85.166.66])
- by mx.groups.io with SMTP id smtpd.web12.7816.1586167587822956134
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.9032.1586174293034779220
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2020 03:06:27 -0700
+ Mon, 06 Apr 2020 04:58:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tJSCUblg;
- spf=pass (domain: gmail.com, ip: 209.85.166.66, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f66.google.com with SMTP id y17so13038682iow.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2020 03:06:27 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CEwzds1u;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id z7so14315989wmk.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2020 04:58:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eO5JwbzAeGCTd/gdjaE6PULU5J9GJFU/DDnL8uREXsQ=;
-        b=tJSCUblgJCv3wQZ+SCuA95CvnwbHCqri5XBO9xKCjQmteiMEMRnZMkZKpmXqswN05Z
-         okQPAvV7b4ssdlXyS+DunRRvXq4JALITsroz83LvvHywlTiXlBQjf1H3on2HO2RqG+k7
-         tGvsx3RPWX+AG1q7LA2DVPeyYyTqXEIAVdSTQJdaWubmvpYHuhXdktryvSHyUpyl6nO6
-         GdbLgDPbMIlSkt3ooXhosyh3TgGKoYGh/D/SvLfbIoRAiq46CpWEfa0FmykT+KM8Y+Yk
-         99w+2zyqhzGo4yAqnYPx/XrmYwpFRF3tYVyq5+isopZcCPx4JAAI8iUy6czy6HF07smN
-         8Xiw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=RBXhr7FBI4tfFHWfSQpBs6XuJbn3C9xwUKrDLIJYxkU=;
+        b=CEwzds1ugLUc/WrNAdymTWmFb4BpIumhvOnRIMjW/Aa3QDUnyHZBkQH6sqMRJjyQ5q
+         nyYqioFz+r+ZIzooDXjKi1PNpCxxF/Uo0oJ8AX325tEVWr7ceEVunXVJYhtEs6Fde2Sg
+         wZKF/eW7q1tVgsfCdtOiZNtALv45A9Bz10NL0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eO5JwbzAeGCTd/gdjaE6PULU5J9GJFU/DDnL8uREXsQ=;
-        b=k4cMThsvTXiWPXuD/Ldh2ic8VKlW0K8LttxYSqCx4f0BWrSo5jrngPGTc4Br5mB+b+
-         sh7GK9M2Di4kSx85VRQRgPtJ1YACKcp/p5R5afzG2KY3yIDT0Mh63PKPgZkIkUskoOFC
-         Lf8VHxlMgpHRCNfU2GXtYeb7kb5GMOKfayrfBZwR5fmHZ10eVkRAGHsY6DxihJmA/Ufo
-         NFi5/NJUmcKi5FDnqWReoLaLOnq7CqgRDNWxlii3TYof4VyMmaK2ZUTJ/SaINStK+bRZ
-         3Tx+bU8hJH9aM6EWnCb5PuyJmtsiumYGbgEy+gd4mbf9um/jfvMzJeQcPDC59vuHrUUh
-         iF9A==
-X-Gm-Message-State: AGi0PuZtYFSC45J38orqy2wjM7jxOq4DfNc1+4B3wmMJknSrbleEbnkg
-	eQyThf+JtJM6edNXDcczi3zoSNN/+1PQtzw3dmc=
-X-Google-Smtp-Source: APiQypK9ZOmSZ5uxTenwb2tIjgZxPkh76weSPLaY1QCvbu7nf/7HrkGzmTIHxcGEyqeqxqPCUb6IK95Z2dA4bhQAi3E=
-X-Received: by 2002:a5d:8553:: with SMTP id b19mr19159691ios.129.1586167587270;
- Mon, 06 Apr 2020 03:06:27 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=RBXhr7FBI4tfFHWfSQpBs6XuJbn3C9xwUKrDLIJYxkU=;
+        b=Dwz0g1EicaEZ4xiCv+T5obUNiMgfmq+dbXntcJHVWeC+5c9+TfUFNfjdhGPzOicuSV
+         aznzpJLYY3kx6aePLc6SRDsptAnEhdXOBwmVSsD8pLVwEXg98T125ehyZvf8p3m3DSpe
+         dBF0XU6dacI5OxwnPtZnRdcAQNaB58GcoRzOuX1dP0TmxX0erp1USadPfDKlPlygBrPd
+         DiS5dC3CgzbBAhvpHeld/zpFQw/TG+zWKMG7nVfFz38R41lreHapkRGxUHmy3DMy7CD+
+         Olj9OlYoPYrhn/vpsx/Ye7QFH+DIx/k9Eet/6TQTqKwexAKAcbCTQWtokwiseDsypkeT
+         orLw==
+X-Gm-Message-State: AGi0PuZdWDrT6L0iaNVxeFPcjJiYAxLiaPPX8wFMJLoEzU5cAV7nzJl2
+	RGQgYfO1aPl1Tymbs5Qo4OXR1g==
+X-Google-Smtp-Source: APiQypJifeqrbv3LDwJibzvXnqzMT1Px9E1KySmlXJtQNnJb/QHu7zwcggwb/oquEw5EZQl08I4xdQ==
+X-Received: by 2002:a7b:ce0b:: with SMTP id m11mr21831313wmc.52.1586174291535;
+        Mon, 06 Apr 2020 04:58:11 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id d28sm14846718wrb.31.2020.04.06.04.58.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2020 04:58:10 -0700 (PDT)
+Message-ID: <5ebbb63be39a442c740660ff321338f522dc4b68.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/2 v5] coreutils: add ptest
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Trevor Gamblin
+ <trevor.gamblin@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>
+Date: Mon, 06 Apr 2020 12:58:09 +0100
+In-Reply-To: <CAMKF1spd-onZWc9j+Jx58zYtRUpAPC6X0wm+t0YSmgctmWD6Vg@mail.gmail.com>
+References: <20200311113235.61655-1-trevor.gamblin@windriver.com>
+	 <20200311113235.61655-2-trevor.gamblin@windriver.com>
+	 <CAMKF1spd-onZWc9j+Jx58zYtRUpAPC6X0wm+t0YSmgctmWD6Vg@mail.gmail.com>
+User-Agent: Evolution 3.36.1-1 
 MIME-Version: 1.0
-References: <20200406065314.1641984-1-raj.khem@gmail.com>
-In-Reply-To: <20200406065314.1641984-1-raj.khem@gmail.com>
-From: "Alex Kiernan" <alex.kiernan@gmail.com>
-Date: Mon, 6 Apr 2020 11:06:15 +0100
-Message-ID: <CAO5Uq5R1R_oegKuY7BJKfHvGhiNqdKOas21s7czw8mKOjXq4ZA@mail.gmail.com>
-Subject: Re: [PATCH] systemd: Package systemd-hwdb-update.service into udev
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Otavio Salvador <otavio@ossystems.com.br>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 6, 2020 at 7:53 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Currently, this unit is packaged into udev-hwdb which then adds it as rdep
-> instead of rrecommends to systemd itself, this meant that even if we
-> added udev-hwdb to BAD_RECOMMENDATIONS, it would not be respected since
-> its a rdep, therefore move the service unit file into udev package
-> instead, this decouples the hard runtime dependency and restores the bad
-> recommendations expectations
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Alex Kiernan <alex.kiernan@gmail.com>
-> Cc: Otavio Salvador <otavio@ossystems.com.br>
+On Sun, 2020-04-05 at 17:26 -0700, Khem Raj wrote:
+> On Wed, Mar 11, 2020 at 4:33 AM Trevor Gamblin
+> <trevor.gamblin@windriver.com> wrote:
+> > +inherit ptest
+> > +
+> > +RDEPENDS_${PN}-ptest += "bash findutils gawk liberror-perl libmodule-build-perl make perl perl-module-file-stat python3-core sed shadow"
+> > +
+> 
+> Adding libmodule-build-perl to rdeps here is pulling in whole target
+> toolchain components now while building core-image-minimal
+> the dependency chain looks like, total task building for this image are 3000+
+> 
+> "coreutils.do_package_qa" -> "libmodule-build-perl.do_packagedata" ->
+> "packagegroup-core-buildessential.do_packagedata" ->
+> "gcc.do_packagedata"
+> 
+> IMO, it's a bad experience for the user when building a simple minimal
+> image and it ends up building whole toolchain for target that
+> eventually won't even
+> be part of the image. perhaps make it dependent on ptest or some such
+> knob thats not commonly used.
+> 
+> Please revert this patch series until we can find a way to not insert
+> these build-time dependencies in normal flow.
 
-Tested-by: Alex Kiernan <alex.kiernan@gmail.com>
+We were aware of this when it merged. This should already only happen
+if ptest is enabled?
 
--- 
-Alex Kiernan
+(else ${PN}-ptest isn't in PACKAGES and hence the RDEPENDS isn't seen).
+
+I wish we had a better way of handling these dependencies but we sadly
+don't.
+
+Cheers,
+
+Richard
+
+
+
