@@ -1,72 +1,172 @@
-Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
- by mx.groups.io with SMTP id smtpd.web11.14170.1586189118949729718
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.14258.1586189316110476180
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2020 09:05:19 -0700
+ Mon, 06 Apr 2020 09:08:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:43910 helo=localhost.localdomain)
-	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jLUFR-00EGo9-5l
-	for openembedded-core@lists.openembedded.org; Mon, 06 Apr 2020 12:05:17 -0400
-Date: Mon, 6 Apr 2020 12:05:15 -0400 (EDT)
-From: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: couple questions on PACKAGECONFIG (for improving docs)
-Message-ID: <alpine.LFD.2.21.2004061153450.16686@localhost.localdomain>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: ssajal@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 036G8YYD028661
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 6 Apr 2020 09:08:34 -0700 (PDT)
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Mon, 6 Apr 2020
+ 09:08:34 -0700
+Received: by ala-lpggp3.wrs.com (Postfix, from userid 20885)	id 20D8390059E;
+ Mon,  6 Apr 2020 09:08:34 -0700 (PDT)
+From: "Sakib Sajal" <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] u-boot: cmd/gpt.c: fix memory leak
+Date: Mon, 6 Apr 2020 09:08:28 -0700
+Message-ID: <20200406160828.76014-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain
 
+Fixes CVE-2020-8432, a double free introduced
+by commit 18030d04d25d7c08d3deff85881772a520d84d49
 
-  wanted to tweak the ref manual entry for PACKAGECONFIG, so a couple
-issues. first, the ref manual entry:
+CVE: CVE-2020-8432
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+---
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |   1 +
+ ...error-cases-during-gpt-rename-more-c.patch | 116 ++++++++++++++++++
+ 2 files changed, 117 insertions(+)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot/0001-cmd-gpt-Address-error-cases-during-gpt-rename-more-c.patch
 
-https://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html#var-PACKAGECONFIG
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index edd0004792..a6bbd37d2a 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -15,6 +15,7 @@ PE = "1"
+ SRCREV = "303f8fed261020c1cb7da32dad63b610bf6873dd"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git \
++           file://0001-cmd-gpt-Address-error-cases-during-gpt-rename-more-c.patch \
+           "
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-bsp/u-boot/u-boot/0001-cmd-gpt-Address-error-cases-during-gpt-rename-more-c.patch b/meta/recipes-bsp/u-boot/u-boot/0001-cmd-gpt-Address-error-cases-during-gpt-rename-more-c.patch
+new file mode 100644
+index 0000000000..71f2c4a414
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/u-boot/0001-cmd-gpt-Address-error-cases-during-gpt-rename-more-c.patch
+@@ -0,0 +1,116 @@
++From 5749faa3d6837d6dbaf2119fc3ec49a326690c8f Mon Sep 17 00:00:00 2001
++From: Tom Rini <trini@konsulko.com>
++Date: Tue, 21 Jan 2020 11:53:38 -0500
++Subject: [PATCH] cmd/gpt: Address error cases during gpt rename more correctly
++
++New analysis by the tool has shown that we have some cases where we
++weren't handling the error exit condition correctly.  When we ran into
++the ENOMEM case we wouldn't exit the function and thus incorrect things
++could happen.  Rework the unwinding such that we don't need a helper
++function now and free what we may have allocated.
++
++Fixes: 18030d04d25d ("GPT: fix memory leaks identified by Coverity")
++Reported-by: Coverity (CID: 275475, 275476)
++Cc: Alison Chaiken <alison@she-devel.com>
++Cc: Simon Goldschmidt <simon.k.r.goldschmidt@gmail.com>
++Cc: Jordy <jordy@simplyhacker.com>
++Signed-off-by: Tom Rini <trini@konsulko.com>
++Reviewed-by: Simon Goldschmidt <simon.k.r.goldschmidt@gmail.com>
++
++CVE: CVE-2020-8432
++Upstream-Status: Backport [5749faa3d6837d6dbaf2119fc3ec49a326690c8f]
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ cmd/gpt.c | 47 ++++++++++++-----------------------------------
++ 1 file changed, 12 insertions(+), 35 deletions(-)
++
++diff --git a/cmd/gpt.c b/cmd/gpt.c
++index 0c4349f4b2..964702bad4 100644
++--- a/cmd/gpt.c
+++++ b/cmd/gpt.c
++@@ -633,21 +633,6 @@ static int do_disk_guid(struct blk_desc *dev_desc, char * const namestr)
++ }
++ 
++ #ifdef CONFIG_CMD_GPT_RENAME
++-/*
++- * There are 3 malloc() calls in set_gpt_info() and there is no info about which
++- * failed.
++- */
++-static void set_gpt_cleanup(char **str_disk_guid,
++-			    disk_partition_t **partitions)
++-{
++-#ifdef CONFIG_RANDOM_UUID
++-	if (str_disk_guid)
++-		free(str_disk_guid);
++-#endif
++-	if (partitions)
++-		free(partitions);
++-}
++-
++ static int do_rename_gpt_parts(struct blk_desc *dev_desc, char *subcomm,
++ 			       char *name1, char *name2)
++ {
++@@ -655,7 +640,7 @@ static int do_rename_gpt_parts(struct blk_desc *dev_desc, char *subcomm,
++ 	struct disk_part *curr;
++ 	disk_partition_t *new_partitions = NULL;
++ 	char disk_guid[UUID_STR_LEN + 1];
++-	char *partitions_list, *str_disk_guid;
+++	char *partitions_list, *str_disk_guid = NULL;
++ 	u8 part_count = 0;
++ 	int partlistlen, ret, numparts = 0, partnum, i = 1, ctr1 = 0, ctr2 = 0;
++ 
++@@ -697,14 +682,8 @@ static int do_rename_gpt_parts(struct blk_desc *dev_desc, char *subcomm,
++ 	/* set_gpt_info allocates new_partitions and str_disk_guid */
++ 	ret = set_gpt_info(dev_desc, partitions_list, &str_disk_guid,
++ 			   &new_partitions, &part_count);
++-	if (ret < 0) {
++-		del_gpt_info();
++-		free(partitions_list);
++-		if (ret == -ENOMEM)
++-			set_gpt_cleanup(&str_disk_guid, &new_partitions);
++-		else
++-			goto out;
++-	}
+++	if (ret < 0)
+++		goto out;
++ 
++ 	if (!strcmp(subcomm, "swap")) {
++ 		if ((strlen(name1) > PART_NAME_LEN) || (strlen(name2) > PART_NAME_LEN)) {
++@@ -766,14 +745,8 @@ static int do_rename_gpt_parts(struct blk_desc *dev_desc, char *subcomm,
++ 	 * Even though valid pointers are here passed into set_gpt_info(),
++ 	 * it mallocs again, and there's no way to tell which failed.
++ 	 */
++-	if (ret < 0) {
++-		del_gpt_info();
++-		free(partitions_list);
++-		if (ret == -ENOMEM)
++-			set_gpt_cleanup(&str_disk_guid, &new_partitions);
++-		else
++-			goto out;
++-	}
+++	if (ret < 0)
+++		goto out;
++ 
++ 	debug("Writing new partition table\n");
++ 	ret = gpt_restore(dev_desc, disk_guid, new_partitions, numparts);
++@@ -795,10 +768,14 @@ static int do_rename_gpt_parts(struct blk_desc *dev_desc, char *subcomm,
++ 	}
++ 	printf("new partition table with %d partitions is:\n", numparts);
++ 	print_gpt_info();
++-	del_gpt_info();
++  out:
++-	free(new_partitions);
++-	free(str_disk_guid);
+++	del_gpt_info();
+++#ifdef CONFIG_RANDOM_UUID
+++	if (str_disk_guid)
+++		free(str_disk_guid);
+++#endif
+++	if (new_partitions)
+++		free(new_partitions);
++ 	free(partitions_list);
++ 	return ret;
++ }
++-- 
++2.20.1
++
+-- 
+2.17.1
 
-says nothing about the possible *sixth* entry, described in
-base.bbclass as "foo_conflict_packageconfig", so i can add that but
-i'm open to proper wording since i'd probably screw it up.
-(i'd add an actual example from poky/ demonstrating this, such as:
-
-meta/recipes-support/curl/curl_7.69.1.bb:PACKAGECONFIG[threaded-resolver]
-  = "--enable-threaded-resolver,--disable-threaded-resolver,,,,ares"
-
-  i'd be tempted to show some of the simpler variations of
-PACKAGECONFIG, such as (if i read it correctly) being equivalent to
-simply adding RDEPENDS values (right?):
-
-meta/recipes-support/boost/boost.inc:PACKAGECONFIG[graph_parallel] =
-  ",,,boost-mpi mpich"
-
-  finally, i'd toss in explaining this, which might confuse people:
-
-meta/recipes-multimedia/pulseaudio/pulseaudio.inc:PACKAGECONFIG[autospawn-for-root]
-  = ",,,"
-
-i'm betting some developers might wonder what that is all about and,
-for every example i've seen for that, it involves *something*
-explicitly checking for that config setting somewhere in the recipe,
-as in the case above:
-
-do_compile_append () {
-  if ${@bb.utils.contains('PACKAGECONFIG', 'autospawn-for-root', 'true', 'false', d)}; then
-    set_cfg_value src/client.conf allow-autospawn-for-root yes
-  fi
-}
-
-  all that make sense?
-
-rday
