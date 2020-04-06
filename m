@@ -1,185 +1,116 @@
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.web12.2237.1586132814123039958
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.81])
+ by mx.groups.io with SMTP id smtpd.web11.5809.1586152830057754008
  for <openembedded-core@lists.openembedded.org>;
- Sun, 05 Apr 2020 17:26:54 -0700
+ Sun, 05 Apr 2020 23:00:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=skammXcS;
- spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f196.google.com with SMTP id f20so11597709qtq.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 05 Apr 2020 17:26:54 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@uievolution.onmicrosoft.com header.s=selector2-uievolution-onmicrosoft-com header.b=AuckdlQs;
+ spf=pass (domain: xevo.com, ip: 40.107.237.81, mailfrom: jbroadus@xevo.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LZZ+BUA+zDv2UQNJ7GiOyr6s9omr9x0v+YUwqpqxPr1G9fZa7yOnwmz6ZSDClDvAUi2JbJTXZTWaLPaE5MoO/5bPAaB3oFAxvi1MaFp6qE400SsfJDmC4sSvpqapT8qT3FwiuAWCaGXtBs703HcmX++6hRf2MNWs/FgNHufd0A84Lc3iu+EEScCdwgWKV3rqoGYrSHaNBw/E3wsyX1AhiSrq5WKqPe7QYxaPzmXDwuXEi24ronOBI5c8dATq1YhKWENvleMdmHc7xfQv58i/ZfiCjJS+cEtPAcJDpgEDp1h+ya/u0a35K0AnMf0Md7FLQYBXblTjk57Iz/phQCSCyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4leSgYB6CQcEl0wEMl2psN6BqqRAEJMKf8unroTpaZg=;
+ b=aP784gB1qRjgReXXclZutZBgYzRQZTVGXhReslHi2J5w7yh0f9fYUEuPWtsM+G0GbTxzfWyJq+YaeXNyJVUPyRDGx23b2w2WPfmhs/JgmV4+b5drrB4+45G0F9MLAWpQaTkvE/gc8Ck6PaklZ7M2T0bSxwrMsOD8WY4eoyDtNKZyuW4DElNKC6B8WVsyIh0Sr8YrGu3/LPijdo+PxlCBk9fLYQSiR01ZWzpSUPurcWC+hy5ZZ0eJZyPohIZToqtWDsoUq5IuXIeAO2pr6A0WMPd8yEYv0zNrDZu6/Rrr+tU6w0mJypYCvGmm0ak610r2pq/ILRx6Qdh9oKokJZePhQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xevo.com; dmarc=pass action=none header.from=xevo.com;
+ dkim=pass header.d=xevo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6LSWe+RLoOM+BUeLhBYdSPf95UKk81fH8YiGw4UWETM=;
-        b=skammXcS2uN1Fpw9lROauo71RCo28d1CqPz9K5o2IC/O3/Kn9+6mSSSNFOMXRdMqU8
-         1COusbsZt1GVebKBiH8PloFCtPCjKo8ykpYFJkgBRw4hSk+d8VNM//jrJVZs43+9AJTf
-         rlCctWHpxtjPlkWwZ0xVFNFegClU3L6Isf4JTxvzETqZqrHWOg4boexP0KOrV616CIov
-         6VQLQve0/DMzns6xHoaYG2/rVhJ+HEPMdQ1lI1AvPnbHv7UbPbYkZy680nPbsUpNIppf
-         x1onK64NcucRX5Zz5hP5jpbplQN7gDyiDDqIwdl3mZPGRzV9wmPzi09z1PGx63JqAy7p
-         n7CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6LSWe+RLoOM+BUeLhBYdSPf95UKk81fH8YiGw4UWETM=;
-        b=N/TRYDpS70MLSJ9ryShCiGI0xXFyxQxgsaOPqx6uP/tQwFcAlTN+bnV4qLc6jNx1i3
-         X/Dp9D/t6wCYZAdvtvklW2R8h9E8AmFSbLe51WRJCzYhqQhZ4rLrofdADn/hSk/70DCX
-         tyEkEyX7j50GdRg+RoiFFcJ1hujAYHgGIVXINGhKHpxxw94/GI2LqmJ+SjE+FgLCaoaI
-         QFV/x+X6UCVEdV3diX93vAgTN+XWK3EY2XbuNS4SwdT4fxlQjpG8EOhdrbvxDUe992eg
-         HInzKIfc4Apigtn0qEouuXjLvImzWC38T8ncRqk2BfvFW8tMuGgRd2GNYpws3TsDDN/1
-         ZYlw==
-X-Gm-Message-State: AGi0PubJuw2A8dAe/ratt4SHAI0zphMDwvIRrUIodx8MgvF4IMGAg2Lm
-	KrR3wqzRTAgzxg0AJHY4IXFJ4C8jG/gU6MZMDVCAJqVxUpY=
-X-Google-Smtp-Source: APiQypLavzDXUAEtQl88jhiiFamlzQNBeIn399ygLBFc/wQsjgBHLZHaur97rhpKDnJw2yVAGiyfPnjF5AUbJXu/E5c=
-X-Received: by 2002:ac8:a09:: with SMTP id b9mr18528006qti.190.1586132812862;
- Sun, 05 Apr 2020 17:26:52 -0700 (PDT)
+ d=uievolution.onmicrosoft.com; s=selector2-uievolution-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4leSgYB6CQcEl0wEMl2psN6BqqRAEJMKf8unroTpaZg=;
+ b=AuckdlQsobV9/ZrKy7i8Gr8e1ETnCc8X2VbLtsTL4i3Dll+htxvDI2LXt4+dF7XALA3amIsesEN98VeeIY3dgg1WQV36NLmMO8GOcqLgbSMOglFpqt64jHXcRhzu8WCzI4qGe8h/N42UTDPBSO+M7pv7E1I73hugBMlqrmVJUO0=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=jbroadus@xevo.com; 
+Received: from MW2PR18MB2188.namprd18.prod.outlook.com (2603:10b6:907:d::31)
+ by MW2PR18MB2347.namprd18.prod.outlook.com (2603:10b6:907:10::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.17; Mon, 6 Apr
+ 2020 06:00:26 +0000
+Received: from MW2PR18MB2188.namprd18.prod.outlook.com
+ ([fe80::152e:c63c:5575:6586]) by MW2PR18MB2188.namprd18.prod.outlook.com
+ ([fe80::152e:c63c:5575:6586%7]) with mapi id 15.20.2878.021; Mon, 6 Apr 2020
+ 06:00:26 +0000
+From: "Jim Broadus" <jbroadus@gmail.com>
+To: openembedded-core@lists.openembedded.org
+CC: Jim Broadus <jbroadus@xevo.com>
+Subject: [OE-core][PATCH] curl: allow configuration of default CA bundle location
+Date: Sun,  5 Apr 2020 23:00:14 -0700
+Message-ID: <20200406060014.78150-1-jbroadus@xevo.com>
+X-Mailer: git-send-email 2.25.1
+X-ClientProxiedBy: CO2PR06CA0065.namprd06.prod.outlook.com
+ (2603:10b6:104:3::23) To MW2PR18MB2188.namprd18.prod.outlook.com
+ (2603:10b6:907:d::31)
+Return-Path: jbroadus@xevo.com
 MIME-Version: 1.0
-References: <20200311113235.61655-1-trevor.gamblin@windriver.com> <20200311113235.61655-2-trevor.gamblin@windriver.com>
-In-Reply-To: <20200311113235.61655-2-trevor.gamblin@windriver.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Sun, 5 Apr 2020 17:26:26 -0700
-Message-ID: <CAMKF1spd-onZWc9j+Jx58zYtRUpAPC6X0wm+t0YSmgctmWD6Vg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2 v5] coreutils: add ptest
-To: Trevor Gamblin <trevor.gamblin@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.localdomain (73.169.153.56) by CO2PR06CA0065.namprd06.prod.outlook.com (2603:10b6:104:3::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.16 via Frontend Transport; Mon, 6 Apr 2020 06:00:26 +0000
+X-Mailer: git-send-email 2.25.1
+X-Originating-IP: [73.169.153.56]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d004ebc4-cbf9-4523-07b1-08d7d9efcd68
+X-MS-TrafficTypeDiagnostic: MW2PR18MB2347:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<MW2PR18MB2347B3B347A83E8CAE63B627A7C20@MW2PR18MB2347.namprd18.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-Forefront-PRVS: 0365C0E14B
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR18MB2188.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(346002)(376002)(366004)(396003)(136003)(39830400003)(36756003)(26005)(1076003)(52116002)(8676002)(6506007)(16526019)(8936002)(5660300002)(69590400007)(6666004)(6916009)(81156014)(81166006)(6486002)(2906002)(66556008)(66946007)(6512007)(2616005)(478600001)(186003)(956004)(4326008)(66476007)(107886003)(86362001)(316002);DIR:OUT;SFP:1101;
+Received-SPF: None (protection.outlook.com: xevo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	cDH8706i1pNxYFVIVsPuyGkCryWlWVHlYm5vT8dgQGM1FPrJvVAkNXS5aMZpPhwEKRxIP/8KXUz9Qg+MyO26y6HRGgTJXwyAggns2No6LTSlIGZlWr7GY1ZeX+8uWD1a3XC4uxjMBvhm5djio5zdu9doUmHsqtcTlDEflcVB6NYFEWJCoPIr8Q6dzKDoyTA0VS49p91RugTwVwMTTIh4JvCD7ZSQ1kKgYtx7aFiuXO8SadTX7mTQ0DA95mNQIk/unSpGtIY/K9YrbnV8Oup25QQo89e/KVuYRdXVUk4jdhxQy7wEFQEkZGLbvd5Cz3X0BTmXwpuBiVv8HSZY2g9pA/rvHqDMaot8GB8g/GrCwMSxkFY7bECddNAdI4HLMvQxYzg9aKRZitBxvGMQVE7/Lp/sPSl4g9b/xXGrBJryQkFATAWQS5LErMAnnt7WHTneSsmUbXJuY1RxwUG0N4I4Z26bhrFvomYfx4lkZLPA4VLoPGsBaabEF/FbIZYP/wdW
+X-MS-Exchange-AntiSpam-MessageData: 
+	SO/CwVbJtEJ/vRUmqMAbJdvVXAy/PX1RjEGS40DqzLo17ODoJxF5XkidLpzli2jkWQXoqRfb4HlPzyOZkqjoD8HGQy1sE5Kpk/qSINkUmK2EsQM8lD1PhXBorrUpiCTwu15EU6I7ben/CapC/0ZYoQ==
+X-OriginatorOrg: xevo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d004ebc4-cbf9-4523-07b1-08d7d9efcd68
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2020 06:00:26.6370
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oCQpdoo0bT7OT3QWD2a2OmCg9a9zS0wa73TZiywbvTqZY8dhxFOFNyO3coygV1wlb/rk05xxuMCUskZeZoCOhg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR18MB2347
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Wed, Mar 11, 2020 at 4:33 AM Trevor Gamblin
-<trevor.gamblin@windriver.com> wrote:
->
-> coreutils has a large number of tests, including some added by the
-> Makefile flags RUN_EXPENSIVE_TESTS and RUN_VERY_EXPENSIVE_TESTS that
-> significantly increase runtime (and that have been disabled). Note
-> that the coreutils ptest directory is given blanket permissions at
-> runtime with chmod -R 777 to ensure that the user created for the
-> tests will be able to run the test scripts and create the necessary
-> files in the process.
->
-> There is still room to improve the results of this ptest without
-> the aforementioned additions. Of the tests marked SKIP, there are
-> 30 tests that are currently counted as SKIP because they require
-> sudo permissions, and another 21 that require membership in
-> multiple user groups. It is important to know that coreutils has
-> tests for both root and non-root users. Testing showed that 42
-> tests are skipped when running as root versus 30 when running as a
-> non-root user, so the decision was made to run the suite as the
-> latter. Additionally, gdb, valgrind, and strace could be included
-> in the RDEPENDS list to increase pass rate, but their total
-> contribution is 13 tests, so they were omitted to reduce image size.
->
-> Finally, note that at least one ptest (misc/head-write-error.sh) is
-> prone to ERROR on builds of core-image-minimal if extra space is
-> not provided with IMAGE_ROOTFS_EXTRA_SPACE.
->
-> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-> ---
->  .../coreutils/coreutils/run-ptest             | 17 ++++++++
->  meta/recipes-core/coreutils/coreutils_8.31.bb | 40 +++++++++++++++++++
->  2 files changed, 57 insertions(+)
->  create mode 100755 meta/recipes-core/coreutils/coreutils/run-ptest
->
-> diff --git a/meta/recipes-core/coreutils/coreutils/run-ptest b/meta/recipes-core/coreutils/coreutils/run-ptest
-> new file mode 100755
-> index 0000000000..6d4a7b365d
-> --- /dev/null
-> +++ b/meta/recipes-core/coreutils/coreutils/run-ptest
-> @@ -0,0 +1,17 @@
-> +#!/bin/sh
-> +
-> +# remove any stale lock files so that the calls to groupadd/useradd don't stop
-> +# the ptest if re-using the same image
-> +rm -rf /etc/passwd.lock /etc/group.lock /etc/gshadow.lock
-> +
-> +COREUTILSLIB=@libdir@/coreutils
-> +LOG="${COREUTILSLIB}/ptest/coreutils_ptest_$(date +%Y%m%d-%H%M%S).log"
-> +USERNAME="tester"
-> +groupadd ugroup1
-> +groupadd ugroup2
-> +useradd -G ugroup1,ugroup2 $USERNAME || echo "user $USERNAME already exists"
-> +
-> +su tester -c "cd ${COREUTILSLIB}/ptest && make check-TESTS top_srcdir=. srcdir=." 2>&1 | tee -a ${LOG}
-> +userdel $USERNAME
-> +groupdel ugroup1
-> +groupdel ugroup2
-> diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
-> index 57b2c1bdba..cba0bfe15c 100644
-> --- a/meta/recipes-core/coreutils/coreutils_8.31.bb
-> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
-> @@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
->             file://0001-uname-report-processor-and-hardware-correctly.patch \
->             file://disable-ls-output-quoting.patch \
->             file://0001-local.mk-fix-cross-compiling-problem.patch \
-> +           file://run-ptest \
->            "
->
->  SRC_URI_append_libc-musl = "file://strtod_fix_clash_with_strtold.patch"
-> @@ -143,3 +144,42 @@ python __anonymous() {
->  }
->
->  BBCLASSEXTEND = "native nativesdk"
-> +
-> +inherit ptest
-> +
-> +RDEPENDS_${PN}-ptest += "bash findutils gawk liberror-perl libmodule-build-perl make perl perl-module-file-stat python3-core sed shadow"
-> +
+Add a CA_BUNDLE variable to set the built-in CA bundle location. By default=
+,
+don't set anything for curl-native since that target's sysconfdir is a
+location in the recipe's native sysroot directory.
 
-Adding libmodule-build-perl to rdeps here is pulling in whole target
-toolchain components now while building core-image-minimal
-the dependency chain looks like, total task building for this image are 3000+
+Signed-off-by: Jim Broadus <jbroadus@xevo.com>
+---
+ meta/recipes-support/curl/curl_7.69.1.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-"coreutils.do_package_qa" -> "libmodule-build-perl.do_packagedata" ->
-"packagegroup-core-buildessential.do_packagedata" ->
-"gcc.do_packagedata"
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-suppor=
+t/curl/curl_7.69.1.bb
+index e854e8d4bd..a291227db1 100644
+--- a/meta/recipes-support/curl/curl_7.69.1.bb
++++ b/meta/recipes-support/curl/curl_7.69.1.bb
+@@ -49,11 +49,15 @@ PACKAGECONFIG[threaded-resolver] =3D "--enable-threaded=
+-resolver,--disable-threade
+ PACKAGECONFIG[verbose] =3D "--enable-verbose,--disable-verbose"
+ PACKAGECONFIG[zlib] =3D "--with-zlib=3D${STAGING_LIBDIR}/../,--without-zli=
+b,zlib"
+=20
++DEFAULT_CA_BUNDLE =3D "${sysconfdir}/ssl/certs/ca-certificates.crt"
++DEFAULT_CA_BUNDLE_class-native =3D ""
++CA_BUNDLE ?=3D "${DEFAULT_CA_BUNDLE}"
++
+ EXTRA_OECONF =3D " \
+     --disable-libcurl-option \
+     --disable-ntlm-wb \
+     --enable-crypto-auth \
+-    --with-ca-bundle=3D${sysconfdir}/ssl/certs/ca-certificates.crt \
++    --with-ca-bundle=3D${CA_BUNDLE} \
+     --without-libmetalink \
+     --without-libpsl \
+ "
+--=20
+2.25.1
 
-IMO, it's a bad experience for the user when building a simple minimal
-image and it ends up building whole toolchain for target that
-eventually won't even
-be part of the image. perhaps make it dependent on ptest or some such
-knob thats not commonly used.
-
-Please revert this patch series until we can find a way to not insert
-these build-time dependencies in normal flow.
-
-> +do_install_ptest () {
-> +    install -d ${D}${PTEST_PATH}/tests
-> +    cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests
-> +    sed -i 's/ginstall/install/g'  `grep -R ginstall ${D}${PTEST_PATH}/tests | awk -F: '{print $1}' | uniq`
-> +    install -d ${D}${PTEST_PATH}/build-aux
-> +    install ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
-> +    cp ${B}/Makefile ${D}${PTEST_PATH}/
-> +    cp ${S}/init.cfg ${D}${PTEST_PATH}/
-> +    cp -r ${B}/src ${D}${PTEST_PATH}/
-> +    cp -r ${S}/src/*.c ${D}${PTEST_PATH}/src
-> +    sed -i '/^VPATH/s/= .*$/= ./g' ${D}${PTEST_PATH}/Makefile
-> +    sed -i '/^PROGRAMS/s/^/#/g' ${D}${PTEST_PATH}/Makefile
-> +    sed -i '/^Makefile: /s/^.*$/Makefile:/g' ${D}${PTEST_PATH}/Makefile
-> +    sed -i '/^abs_srcdir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
-> +    sed -i '/^abs_top_builddir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
-> +    sed -i '/^abs_top_srcdir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
-> +    sed -i '/^built_programs/s/ginstall/install/g' ${D}${PTEST_PATH}/Makefile
-> +    chmod -R 777 ${D}${PTEST_PATH}
-> +
-> +    # Disable subcase stty-pairs.sh, it will cause test framework hang
-> +    sed -i '/stty-pairs.sh/d' ${D}${PTEST_PATH}/Makefile
-> +
-> +    # Disable subcase tail-2/assert.sh as it has issues on 32-bit systems
-> +    sed -i '/assert.sh/d' ${D}${PTEST_PATH}/Makefile
-> +
-> +    # Tweak test d_type-check to use python3 instead of python
-> +    sed -i "1s@.*@#!/usr/bin/python3@" ${D}${PTEST_PATH}/tests/d_type-check
-> +    install ${B}/src/getlimits ${D}/${bindir}
-> +
-> +    # handle multilib
-> +    sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
-> +}
-> +
-> +FILES_${PN}-ptest += "${bindir}/getlimits"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
