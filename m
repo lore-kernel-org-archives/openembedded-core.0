@@ -1,102 +1,109 @@
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
- by mx.groups.io with SMTP id smtpd.web10.1129.1586200911959051714
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com (NAM04-CO1-obe.outbound.protection.outlook.com [40.107.69.87])
+ by mx.groups.io with SMTP id smtpd.web12.2729.1586205384491939031
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2020 12:21:52 -0700
+ Mon, 06 Apr 2020 13:36:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HUmQQFec;
- spf=pass (domain: gmail.com, ip: 209.85.208.196, mailfrom: liu.ming50@gmail.com)
-Received: by mail-lj1-f196.google.com with SMTP id n17so945639lji.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2020 12:21:51 -0700 (PDT)
+ dkim=pass header.i=@uievolution.onmicrosoft.com header.s=selector2-uievolution-onmicrosoft-com header.b=WaiuiLWh;
+ spf=pass (domain: xevo.com, ip: 40.107.69.87, mailfrom: jbroadus@xevo.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Rgs+/xXT4AahjBU4znhf1PsKZG5p9GdX0Hp2vbFg3dJcSJVkR6UTlUXZGZt7yjhja6ARwERAYPUcHJqKnYlV9KlCFPwtCC641LK4+IK7nC5RL0wa5RB+7KV1mMXROgIsDRNkngVEBDDp7fiHz7iId3cZcxEU3tj3fS+0GAWv3WrguKulmSE0/yMdgnrP5lmYokAyA4X78wxSH701BJOfOsa8UIfz39uZozjtR/jW3hJ3DQwTreyIl4mX6POrKtZn7WN1Hjb+cnl9WZFy8uH8oK8KQXkfrRUj0/Y2szAY+xjQThqCC8IfFvveL4RVMIYQJNrRa4ik6Yul6w0jTIevQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ajwKHL9jsceGBChLcfNTA+aF5YDK+g6I0BqBfYYDPhg=;
+ b=b1cCRDNl96LXtq7pxfPioFR9lpkbC3RLADKXiz8OM7zetDfGa93oJ7A+pq/6wiNqQchlueORmESwhsDw8Qpt20NfaRoVEofO3DI55FH75u5sVvxRzC5rujBBkJYz1NuDxbfr/uuei/Jb+TikW4j/qWPCJKzEyiP6XmmEVcm6NboL1nV8Gu6aBO3Hd1i0cuP7IgjumGgyrWj5z54jYSpRpVzx2teQOgTBewSJzQnctWjlLJnhIACBDBjkxJQdAUFAlZHPFMQojtCiYF7FFYbRbAmiLjxWSr2gAOR+NGpyXUrQJ7r8j1kHltCaC24A4AQQkRKb8hN9hz7ZzCDkWr4vWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xevo.com; dmarc=pass action=none header.from=xevo.com;
+ dkim=pass header.d=xevo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2I6ZtkAODQCnNG5pwxAAgTYsb1mBj2cTTGzvZd2zXfs=;
-        b=HUmQQFec5xHRub7Jq2Q3vLqNp/Gq7wzJCJZkDvlBldFf5tzPQziv7lM+kapmzCRMGk
-         jRLVTe0taAUpSD0fsOUgcPMoMgSbSOPInln+9rwUXnUD3LeNwwO53/QYCMEMYu9zLcHq
-         NhBR004OdbzAGb53z7WlU9q/mbwIehux9lyGid/NNwji6lfjiF8uvVktUkZ/C2EzUaXD
-         hpd59lsOOCbjWzZheQcDSk37Fa1bLSEjXEAi9e27DmrToSoZrZx1gbHxSLb3t+cN1Hlj
-         v0P8AuZhrMbKn6tKC4gHLND4ri3j/NfKvLohfFTKdHVegnGc+iGmrY/kJECPT2i0lbFj
-         xhLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=2I6ZtkAODQCnNG5pwxAAgTYsb1mBj2cTTGzvZd2zXfs=;
-        b=rdKzs6xDXk7LycO+0NkC1lSzzuU6Ot20af81fHeF0euklMZhES1N0yww5ZcusBlTPp
-         O+t+gG6fENQjfaLIoKj+A4VJ3Gc1Mr3mBohrEx0XOyAlyH5VGFm/1stidu/68DsWwnjm
-         zsBlO8jOwXs99bzb3a8aE15+M09kHO60EzTIrPe3JVEvaXgCZwyBdC7ua6WfqMDfkmXd
-         i85+RXXdtLDNPSky6eSaOcVCp5O1GKGYXsUAXQzbgH3/O+gLerusmQrkkjZp3ss/mHKU
-         5abl1nJcqR7XKPlysGiMC6NOurM8v/HfPLUWAJVHlSPrzP9mKNqYBfd2NQtFpEqJymfN
-         sUgg==
-X-Gm-Message-State: AGi0PuYTGTlgp1wuktGww6O5aVhDRnTFQmmsgtAl5FjOWGlZrAxBItq3
-	6IqxHhggIlv55N14ge3PaxJ/0ffz/80=
-X-Google-Smtp-Source: APiQypLQ6iQ9UvWnwS1RtRgqy8hJd+ZUCY2bvTrwL9bTe5eSCEDv7bzFZiHh9DFPoZKKzhnEhIc/8Q==
-X-Received: by 2002:a05:651c:22e:: with SMTP id z14mr493129ljn.64.1586200909918;
-        Mon, 06 Apr 2020 12:21:49 -0700 (PDT)
-Return-Path: <liu.ming50@gmail.com>
-Received: from peterliu-Precision-7530.lan (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
-        by smtp.gmail.com with ESMTPSA id r23sm10633870ljh.34.2020.04.06.12.21.48
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 06 Apr 2020 12:21:49 -0700 (PDT)
-From: "Ming Liu" <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: stefan.agner@toradex.com,
-	max.krummenacher@toradex.com,
-	Ming Liu <ming.liu@toradex.com>
-Subject: [OE-core] [PATCH] u-boot: support merging .cfg files for UBOOT_CONFIG
-Date: Mon,  6 Apr 2020 21:22:16 +0200
-Message-Id: <20200406192216.23434-1-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.26.0
+ d=uievolution.onmicrosoft.com; s=selector2-uievolution-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ajwKHL9jsceGBChLcfNTA+aF5YDK+g6I0BqBfYYDPhg=;
+ b=WaiuiLWhB6VUmBWnOlTjd2zwH9bO4E25NSRS2Yk2t+aOkWYYGdQx7lKS6ZxHGxhooYmnUxgUAoOPXpxmfgnw+qP/0pz8NJHJBfcy3BGb5PuLBmCa/dYLjWrC3pV/Sl9dTv+om9usd/gXdz5gURaZl9Yn2wm/OC4G6sgOmTudyeU=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=jbroadus@xevo.com; 
+Received: from MW2PR18MB2188.namprd18.prod.outlook.com (2603:10b6:907:d::31)
+ by MW2PR18MB2169.namprd18.prod.outlook.com (2603:10b6:907:5::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.19; Mon, 6 Apr
+ 2020 20:35:45 +0000
+Received: from MW2PR18MB2188.namprd18.prod.outlook.com
+ ([fe80::152e:c63c:5575:6586]) by MW2PR18MB2188.namprd18.prod.outlook.com
+ ([fe80::152e:c63c:5575:6586%7]) with mapi id 15.20.2878.021; Mon, 6 Apr 2020
+ 20:35:45 +0000
+Subject: Re: [OE-core][PATCH] curl: allow configuration of default CA bundle location
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Jim Broadus <jbroadus@gmail.com>, openembedded-core@lists.openembedded.org
+References: <20200406060014.78150-1-jbroadus@xevo.com>
+ <3d20f00ac2d4f54f6bf4e67998df400548f0bfeb.camel@linuxfoundation.org>
+From: jbroadus@xevo.com
+Message-ID: <ee3a15cb-afde-3b3f-59be-9c279313927c@xevo.com>
+Date: Mon, 6 Apr 2020 13:35:42 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+In-Reply-To: <3d20f00ac2d4f54f6bf4e67998df400548f0bfeb.camel@linuxfoundation.org>
+X-ClientProxiedBy: CO2PR07CA0049.namprd07.prod.outlook.com (2603:10b6:100::17)
+ To MW2PR18MB2188.namprd18.prod.outlook.com (2603:10b6:907:d::31)
+Return-Path: jbroadus@xevo.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.0.150] (73.169.153.56) by CO2PR07CA0049.namprd07.prod.outlook.com (2603:10b6:100::17) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.16 via Frontend Transport; Mon, 6 Apr 2020 20:35:44 +0000
+X-Originating-IP: [73.169.153.56]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5b27fe82-3b4e-487d-1f1f-08d7da6a14d2
+X-MS-TrafficTypeDiagnostic: MW2PR18MB2169:
+X-Microsoft-Antispam-PRVS: 
+	<MW2PR18MB2169A93D3809237A6F750B6AA7C20@MW2PR18MB2169.namprd18.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Forefront-PRVS: 0365C0E14B
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW2PR18MB2188.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(136003)(366004)(39840400004)(346002)(396003)(376002)(110136005)(16576012)(478600001)(66946007)(66476007)(53546011)(81166006)(316002)(52116002)(2906002)(31686004)(31696002)(66556008)(86362001)(26005)(6486002)(5660300002)(186003)(16526019)(2616005)(81156014)(8676002)(36756003)(8936002)(956004)(4744005);DIR:OUT;SFP:1101;
+Received-SPF: None (protection.outlook.com: xevo.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	CxSybYnnfidOUvDnrTmnj7OP1GHAAwWKMjpYfUvhuli5lwC58+l4MxFsk9b2U1kz0tD2pSrKntDXvgjNG3XRiO58YVhmSGAhgM4qDGioxYtzQE6LDbmeC28mImljZXz5QuGMxbklqnGO/Lu6yywrNUTmyi1iLD6NtT4fBoc/sygJu2C5Q5dntj0WaGT41Adpi1ftI46RdgP6jcKLnH0zGeXatbDgzFf3onnnM5f3cgE9HuHMsmHJw54GCR5JCgMIzXbQwlZaX5CoUAVdaMTXXxMcyG/mOqMp/7PqaQx8PdpoR/SDW9aOU5xCzrG/DuFfT/1NoCHMkqmxoT4gcjm2fdm9KZH5Q5Rf1WrPzEAObZljMTbHtBxXNTzlSyks71dTDPGzRsPd4cUy8LWA1Nr50dZvuFAzeGnwbg/dZYqXLZYR+HpYWQ7/cAGNzTWoIM5/
+X-MS-Exchange-AntiSpam-MessageData: 
+	di16rge2QkjanD2OvGPPCw/5xnr+xFh0Dk/w5v9JqF+b8pSTMwAk7+v+xfT48TUkRCaK6ytIe9pzCXAOr41fu8iW4g9OoE7hFqdQ/D57UhoUpsEDlmynl1jFzDYhwTswwHwlCjSMk0IrpL0aCK130A==
+X-OriginatorOrg: xevo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5b27fe82-3b4e-487d-1f1f-08d7da6a14d2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2020 20:35:44.8447
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e0a7ca1f-2458-4cd6-a7c7-d733c07495ab
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yZifdH1OW2X7XwSyyJ3qVmWxpaybY7lQd8l8RXG6cJiNxgiQXnqzonj9PBr7FsPbkT7sFQ72hZRFcUafM+7Rzw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW2PR18MB2169
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <ming.liu@toradex.com>
+On 4/6/20 5:00 AM, Richard Purdie wrote:
+> On Sun, 2020-04-05 at 23:00 -0700, Jim Broadus wrote:
+>> Add a CA_BUNDLE variable to set the built-in CA bundle location. By default,
+>> don't set anything for curl-native since that target's sysconfdir is a
+>> location in the recipe's native sysroot directory.
+>>
+>> Signed-off-by: Jim Broadus <jbroadus@xevo.com>
+> 
+> That is a huge change in behaviour with potentially quite serious side
+> effects. As far as I remember we deliberately make our native utils
+> self contained rather than relying on the host system (which may or may
+> not have cert files).
+> 
+> We point at sysconfdir in the native case since we install ca-
+> certificates there if I remember correctly?
+> 
+> Cheers,
+> 
+> Richard
+> 
 
-U-boot recipe supports .cfg files in SRC_URI, but they would be merged
-to .config during do_configure only when UBOOT_MACHINE is set, we
-should also support merging .cfg files for UBOOT_CONFIG.
+Hi Richard. Currently, I don't see the certs installed in the native 
+sysroot, so maybe this was broken recently. If that was the intended 
+behavior, I can look for a fix for that instead.
 
-Signed-off-by: Ming Liu <ming.liu@toradex.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 188e5295cf..9126fafe0b 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -77,7 +77,21 @@ def find_cfgs(d):
-     return sources_list
- 
- do_configure () {
--    if [ -z "${UBOOT_CONFIG}" ]; then
-+    if [ -n "${UBOOT_CONFIG}" ]; then
-+        unset i j
-+        for config in ${UBOOT_MACHINE}; do
-+            i=$(expr $i + 1);
-+            for type in ${UBOOT_CONFIG}; do
-+                j=$(expr $j + 1);
-+                if [ $j -eq $i ]; then
-+                    KCONFIG_CONFIG=${S}/configs/${config%_*}_defconfig merge_config.sh -m ${S}/configs/${config%_*}_defconfig ${@" ".join(find_cfgs(d))}
-+                    oe_runmake -C ${S} O=${B}/${config} ${config}
-+                fi
-+            done
-+            unset  j
-+        done
-+        unset  i
-+    else
-         if [ -n "${UBOOT_MACHINE}" ]; then
-             oe_runmake -C ${S} O=${B} ${UBOOT_MACHINE}
-         else
-@@ -114,7 +128,6 @@ do_compile () {
-                 j=$(expr $j + 1);
-                 if [ $j -eq $i ]
-                 then
--                    oe_runmake -C ${S} O=${B}/${config} ${config}
-                     oe_runmake -C ${S} O=${B}/${config} ${UBOOT_MAKE_TARGET}
-                     for binary in ${UBOOT_BINARIES}; do
-                         k=$(expr $k + 1);
--- 
-2.26.0
+Thanks,
+Jim
 
