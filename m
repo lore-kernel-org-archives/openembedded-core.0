@@ -1,63 +1,72 @@
-Received: from mga14.intel.com (mga14.intel.com [])
- by mx.groups.io with SMTP id smtpd.web11.12871.1586185918252682432
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+ by mx.groups.io with SMTP id smtpd.web11.14170.1586189118949729718
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2020 08:12:15 -0700
+ Mon, 06 Apr 2020 09:05:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: MqmAf0qkynbNaXiJRWmKJH5PUQRT8+Qp4FNYKVUEelAUZbVWwfKeqoPm+vbA002EEvX1pMZF/i
- ZFE4bGkIfufA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2020 08:12:15 -0700
-IronPort-SDR: PkhMGB4TIirlUOsiZD68A8IubHFtfjRR49HzS00A/Ec8yp/CEct2DXi75RUdhhsj9buhFtvo+m
- gYuBsDpq8PPw==
-X-IronPort-AV: E=Sophos;i="5.72,351,1580803200"; 
-   d="scan'208";a="424391234"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.70.63])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2020 08:12:13 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 13/13] kernelsrc.bbclass: Fix externalsrc support
-Date: Mon,  6 Apr 2020 23:11:41 +0800
-Message-Id: <5ac98c776f9b77804a0ee812f47f3ecf593e432f.1586185832.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1586185832.git.anuj.mittal@intel.com>
-References: <cover.1586185832.git.anuj.mittal@intel.com>
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:43910 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jLUFR-00EGo9-5l
+	for openembedded-core@lists.openembedded.org; Mon, 06 Apr 2020 12:05:17 -0400
+Date: Mon, 6 Apr 2020 12:05:15 -0400 (EDT)
+From: "rpjday@crashcourse.ca" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: couple questions on PACKAGECONFIG (for improving docs)
+Message-ID: <alpine.LFD.2.21.2004061153450.16686@localhost.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-From: Paul Barker <pbarker@konsulko.com>
 
-When the externalsrc class is used the tasks listed in
-SRCTREECOVEREDTASKS are deleted to prevent them being executed. If
-externalsrc is used for the kernel then this will include
-virtual/kernel:do_patch.
+  wanted to tweak the ref manual entry for PACKAGECONFIG, so a couple
+issues. first, the ref manual entry:
 
-We can depend on do_shared_workdir instead as this will survive when
-externalsrc is used.
+https://www.yoctoproject.org/docs/current/ref-manual/ref-manual.html#var-PACKAGECONFIG
 
-Signed-off-by: Paul Barker <pbarker@konsulko.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2c17d35cc7b9c5e01fd5829858d2f0234e7ac8d6)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/classes/kernelsrc.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+says nothing about the possible *sixth* entry, described in
+base.bbclass as "foo_conflict_packageconfig", so i can add that but
+i'm open to proper wording since i'd probably screw it up.
+(i'd add an actual example from poky/ demonstrating this, such as:
 
-diff --git a/meta/classes/kernelsrc.bbclass b/meta/classes/kernelsrc.bbclass
-index 675d40ec9a..a951ba3325 100644
---- a/meta/classes/kernelsrc.bbclass
-+++ b/meta/classes/kernelsrc.bbclass
-@@ -1,7 +1,7 @@
- S = "${STAGING_KERNEL_DIR}"
- deltask do_fetch
- deltask do_unpack
--do_patch[depends] += "virtual/kernel:do_patch"
-+do_patch[depends] += "virtual/kernel:do_shared_workdir"
- do_patch[noexec] = "1"
- do_package[depends] += "virtual/kernel:do_populate_sysroot"
- KERNEL_VERSION = "${@get_kernelversion_file("${STAGING_KERNEL_BUILDDIR}")}"
--- 
-2.25.1
+meta/recipes-support/curl/curl_7.69.1.bb:PACKAGECONFIG[threaded-resolver]
+  = "--enable-threaded-resolver,--disable-threaded-resolver,,,,ares"
 
+  i'd be tempted to show some of the simpler variations of
+PACKAGECONFIG, such as (if i read it correctly) being equivalent to
+simply adding RDEPENDS values (right?):
+
+meta/recipes-support/boost/boost.inc:PACKAGECONFIG[graph_parallel] =
+  ",,,boost-mpi mpich"
+
+  finally, i'd toss in explaining this, which might confuse people:
+
+meta/recipes-multimedia/pulseaudio/pulseaudio.inc:PACKAGECONFIG[autospawn-for-root]
+  = ",,,"
+
+i'm betting some developers might wonder what that is all about and,
+for every example i've seen for that, it involves *something*
+explicitly checking for that config setting somewhere in the recipe,
+as in the case above:
+
+do_compile_append () {
+  if ${@bb.utils.contains('PACKAGECONFIG', 'autospawn-for-root', 'true', 'false', d)}; then
+    set_cfg_value src/client.conf allow-autospawn-for-root yes
+  fi
+}
+
+  all that make sense?
+
+rday
