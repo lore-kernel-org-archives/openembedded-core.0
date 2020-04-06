@@ -1,31 +1,31 @@
 Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web11.18318.1586464096123049243
+ by mx.groups.io with SMTP id smtpd.web11.18317.1586464096122446104
  for <openembedded-core@lists.openembedded.org>;
  Thu, 09 Apr 2020 13:28:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id EB44A60EDE;
-	Tue,  7 Apr 2020 17:02:25 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 3BF1160C3E;
+	Mon,  6 Apr 2020 09:32:27 +0000 (UTC)
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2V0X3BhY2thZ2VfbWFwcGluZzogYXZvaWQgcmV0dXJuaW5nIGEgbWFwcGluZyBpZiB0aGUgcmVuYW1lZCBwYWNrYWdlIHJwcm92aWRlcyBpdHMgb3JpZ2luYWwgbmFtZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHNldWRvOiBPbiBhIERCIGZpeHVwIHJlbW92ZSBmaWxlcyB0aGF0IGRvIG5vdCBleGlzdCBhbnltb3Jl?=
 From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: yann.dirson@blade-group.com
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 07 Apr 2020 17:02:27 -0000
-Message-ID: <20200407170227.2274.85119@do>
-References: <20200407165829.3951246-1-yann@blade-group.com>
+Date: Mon, 06 Apr 2020 09:32:28 -0000
+Message-ID: <20200406093228.2275.4678@do>
+References: <20200406091102.3367349-1-ricardo@ribalda.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20200407165829.3951246-1-yann@blade-group.com>
+In-Reply-To: <20200406091102.3367349-1-ricardo@ribalda.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: get_package_mapping: avoid returning a mapping if the renamed package rprovides its original name
+Series: pseudo: On a DB fixup remove files that do not exist anymore
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/23636/
+URL   : https://patchwork.openembedded.org/series/23617/
 State : failure
 
 == Summary ==
@@ -39,15 +39,7 @@ series by patchtest resulting in the following failures:
 
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at fcc68424f1)
-
-* Patch            get_package_mapping: avoid returning a mapping if the renamed package rprovides its original name
- Issue             Commit shortlog is too long [test_shortlog_length] 
-  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 97 characters)
-
-* Patch            get_package_mapping: avoid returning a mapping if the renamed package rprovides its original name
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+  Targeted branch  master (currently at ff074f495d)
 
 
 
