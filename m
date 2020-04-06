@@ -1,139 +1,83 @@
-Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com [209.85.222.67])
- by mx.groups.io with SMTP id smtpd.web10.6833.1586161707947338956
- for <Openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2020 01:28:28 -0700
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web12.7238.1586163619754221752
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 06 Apr 2020 02:00:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dYzH6BWz;
- spf=pass (domain: gmail.com, ip: 209.85.222.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f67.google.com with SMTP id y17so5140509uap.13
-        for <Openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2020 01:28:27 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z491GIhN;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id i19so14934267wmb.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2020 02:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Hx1Ytp1nGr/6FTCvJD0C70dTCQnYBKrYnYXq/4y7FOc=;
-        b=dYzH6BWzqPaelLU7EIR12s3IK4+lR1uCPORb5FlW+uXyfsxqf9QJaq8CdvdLmwTj9p
-         8RfZSI2ECPyxw+eX7IfrmXB7gMxJNjjlVtZ3rq/zXkM6C2nPd2pL6XfSLKZv2SY5OX0y
-         hvUl4JZ5+qMOsj40MMdQX6i4v+A0a5hs/rz6Ddn+Imn4YktU9vIBLzWwFrwYSoeeCZPZ
-         0KQZzx8RatllYhNc3Oml06ykCYXhNudAkldxKAnYZjzNS6kBpHcJ/7MylIJw/wU3Ccfy
-         VmDu6cmzA25CPutHh5A/gPkPx5hky+EimB6cFGd2rdEB8whCnp+6hYe3AQoKrdG3ifxj
-         /mbg==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=38aDBOqYptKw7aJHHamJg/AEybIdVHcDBTP9lrGxM5o=;
+        b=Z491GIhNXKkiSlhKyOmpFt9qGwfof8poOoD1S8tiK4LPGNf4mZiaJBFk0/JqClOzol
+         aJr2lxzybSHFCPw5geAyxBhlqG0XqTJjQLXozyThlQJIfjgEZROIOhmbz4u7jdlRt1t9
+         oiv7WOgmSsjjr2t4+Fd17p/k9xKtTaEicYXK4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Hx1Ytp1nGr/6FTCvJD0C70dTCQnYBKrYnYXq/4y7FOc=;
-        b=c/H118HSigEs738MjmAnKDT4zphy5xjPASCV3rmBDQv3PSiEVhczJxmn/DcUH1nJx7
-         mCaXZ9gDe1CmkynAfncLebTNoMRlw4z5pIpwcSMJXwgIgAzq3jYfm3ELwSn1bCKo6fJM
-         W/7EgqRJUh2V6LIARG7sO9JWvaIlCDCMaUGdk9ql0sAUzoNmIaQfIeNaDX9CkL41VlXK
-         f8eZuIsguyBOn6KZdxHVsl4wnkxIIriZu6ZgMtPj+rpkYzmTOse6obFCKsr/FckC8JiL
-         ulA/OCF4Zy+bTrmVCHiT9Bf57JwRqHl/ZXkuwpY8SoVFwdYj8bpZqnEYjtC6CN2jQQhF
-         xomQ==
-X-Gm-Message-State: AGi0PubV66rBanxNZcuVFDrOwGTHppiFxQqx13rujcOioALYyO/zyAy/
-	W6zIpmvSX/rRfS4iJG5w4/M8zbrSXJMRbYLrMqY=
-X-Google-Smtp-Source: APiQypIMaJIJ39kjsy/qHhvc+75qymk0c4ndEPo1k/aw9oAn05TOxSp6yWuX+KVECOGBKXmum39gyX/Tl2mf+vuZT4M=
-X-Received: by 2002:a9f:31c5:: with SMTP id w5mr14272281uad.89.1586161706983;
- Mon, 06 Apr 2020 01:28:26 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=38aDBOqYptKw7aJHHamJg/AEybIdVHcDBTP9lrGxM5o=;
+        b=lZHNcBW+7jpdkyWXErPaCwh2RJS8d31pOoNiMbnvyzd6gdYLe3cyPZGaBTkIo2faXs
+         pI4EQ6UjjqtDBVpZkhsVbek1XL2ixFRH3AlMeMuS1zBbZF/Fk3ICMxVzt9Q8NsLORBxI
+         ZC0eGwDF+ZKE/khY+lw+vvml82KTzmS2EnBI3UpMu6Aoeq2682g2PZVo9/D7LaBEvwYh
+         UTraDhF8oSXwtsSqc9sEuZWkvd7iwtBjnxLPFkJ4ngG1qkoP0MF2IUtFJLJgFpQ8G/CV
+         /jn9/TcAGrkgAzbD18QQtpNUWeRnDZMfRLCMkESbTmWJ0nPhnfB/3Or/qSvFwZCabxmy
+         5pqg==
+X-Gm-Message-State: AGi0PubmTmUbAVvXDFWfDwyVvSyZsYPTT2mrxUikpQcvBfvlXbFtiMLK
+	ekCFukdt6MqdJWgj+bwyqNWzjQ==
+X-Google-Smtp-Source: APiQypIYo1KvZgSfqwCycHGmV4GTZD3fXpYPw7C0Gye1GVYo8pOzU8yLdfbdrAlWjJjV9NB5e1dMsw==
+X-Received: by 2002:a1c:4d07:: with SMTP id o7mr9435710wmh.59.1586163618211;
+        Mon, 06 Apr 2020 02:00:18 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id h4sm4606223wrv.91.2020.04.06.02.00.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Apr 2020 02:00:17 -0700 (PDT)
+Message-ID: <0d818b09b16f9a1156643217599f6b774d1ebc17.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 1/2] wic: Fix permissions when using exclude or include path
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	jpewhacker@gmail.com, Paul Barker <pbarker@konsulko.com>
+Date: Mon, 06 Apr 2020 10:00:16 +0100
+In-Reply-To: <CAPybu_1ULyzXSJzYAHGRh7FeM9i0PX7g0N-v=XqeFPKJ8k0hzg@mail.gmail.com>
+References: <20200304144936.2559106-1-ricardo@ribalda.com>
+	 <8a556aedfe46e327c5d64d77c3b282f2108d12aa.camel@linuxfoundation.org>
+	 <1602DB74B6717A3F.2403@lists.openembedded.org>
+	 <CAPybu_2JFR2Q-id-7Fc5+p=RhKBbscMfEF11rE_yX0bmruqJvA@mail.gmail.com>
+	 <ed35318a96db8ac58bde7596f47bb0bfcd27b27b.camel@linuxfoundation.org>
+	 <CAPybu_0W9FAQaH17X7jt7+cJU05XaD+3J5owAMvoXurfGpc8fA@mail.gmail.com>
+	 <CAPybu_2LZgaDFL-jexc0DcnEb0nzsLpZq30nA4UNufztDsKs1w@mail.gmail.com>
+	 <db5856cec86de82a4feddf1cf739ce7eb37c6932.camel@linuxfoundation.org>
+	 <CAPybu_1ULyzXSJzYAHGRh7FeM9i0PX7g0N-v=XqeFPKJ8k0hzg@mail.gmail.com>
+User-Agent: Evolution 3.36.1-1 
 MIME-Version: 1.0
-References: <CANUMPcVyxL9c3x0z9cv6EYads+LGeYL4ccwFbnnvyA_gkx9MXg@mail.gmail.com>
-In-Reply-To: <CANUMPcVyxL9c3x0z9cv6EYads+LGeYL4ccwFbnnvyA_gkx9MXg@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 6 Apr 2020 10:28:16 +0200
-Message-ID: <CANNYZj8uEXS9GwmZj4rONX_FodL1J8Wj0VKcL6v77pco8rEAEA@mail.gmail.com>
-Subject: Re: [OE-core] librsvg-2.46.4 recipe build failure.
-To: Vinay Kumar <vinay.m.engg@gmail.com>
-Cc: Openembedded-core@lists.openembedded.org, rwmacleod@gmail.com, 
-	umesh.kalappa0@gmail.com
-Content-Type: multipart/alternative; boundary="00000000000019e42c05a29b0d6f"
-
---00000000000019e42c05a29b0d6f
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The upstream tree still uses auto tools for the build, so the issue you are
-seeing is probably caused by something else?
-
-Ale
-
-On Mon 6. Apr 2020 at 9.00, Vinay Kumar <vinay.m.engg@gmail.com> wrote:
-
-> Hi,
->
-> Regarding, https://github.com/meta-rust/meta-rust/issues/264
->
-> As per my analysis the
-> "openembedded-core/meta/classes/autotools.bbclass" inherited through
-> "openembedded-core/meta/classes/gnomebase.bbclass" from  seems to be
-> overriding the "meta-rust/classes/cargo.bbclass" from meta-rust.
->
-> $cat openembedded-core/meta/classes/gnomebase.bbclass
->
-> GNOMEBASEBUILDCLASS ??= "autotools"
-> inherit ${GNOMEBASEBUILDCLASS}  pkgconfig
->
-> The "librsvg" configure  and compile  scripts in "temp" directory
-> contains "autotools_do_compile" with "inherit cargo", it should be
-> "cargo_do_compile".
->
-> Reference:
-> "bitbake rust-hello-world" builds without any error ( with "inherit
-> cargo").
->
-> Is there any way to disable "autotools" for "gnomebase.bbclass"
-> through "librsvg-2.46.4.bb"  ?
->
-> Regards,
-> Vinay
+On Sun, 2020-04-05 at 17:44 +0200, Ricardo Ribalda Delgado wrote:
+> Hi Richard
 > 
->
+> Thanks for testing it out. Seems that I am either not very clever or
+> I
+> should not work on Sundays (or both), v1, and v2 where exactly the
+> same. I am terribly sorry to spam you.
+> 
+> I know it is abusing your patience, but can you try again. I would
+> love to try it on my setup , but I cannot replicate the bug.
+> 
+> As we speak I am running oe-selftest    --run-tests wic.Wic on
+> poky/fedora-30...
 
---00000000000019e42c05a29b0d6f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I did re-run it, it took a while since a pseudo change invalidates
+sstate. It passed:
 
-<div><div dir=3D"auto">The upstream tree still uses auto tools for the buil=
-d, so the issue you are seeing is probably caused by something else?</div><=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">Ale=C2=A0</div><div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon 6. =
-Apr 2020 at 9.00, Vinay Kumar &lt;<a href=3D"mailto:vinay.m.engg@gmail.com"=
->vinay.m.engg@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
-ex">Hi,<br>
-<br>
-Regarding, <a href=3D"https://github.com/meta-rust/meta-rust/issues/264" r=
-el=3D"noreferrer" target=3D"_blank">https://github.com/meta-rust/meta-rust/=
-issues/264</a><br>
-<br>
-As per my analysis the<br>
-&quot;openembedded-core/meta/classes/autotools.bbclass&quot; inherited thr=
-ough<br>
-&quot;openembedded-core/meta/classes/gnomebase.bbclass&quot; from=C2=A0 se=
-ems to be<br>
-overriding the &quot;meta-rust/classes/cargo.bbclass&quot; from meta-rust.=
-<br>
-<br>
-$cat openembedded-core/meta/classes/gnomebase.bbclass<br>
-<br>
-GNOMEBASEBUILDCLASS ??=3D &quot;autotools&quot;<br>
-inherit ${GNOMEBASEBUILDCLASS}=C2=A0 pkgconfig<br>
-<br>
-The &quot;librsvg&quot; configure=C2=A0 and compile=C2=A0 scripts in &quot=
-;temp&quot; directory<br>
-contains &quot;autotools_do_compile&quot; with &quot;inherit cargo&quot;, =
-it should be<br>
-&quot;cargo_do_compile&quot;.<br>
-<br>
-Reference:<br>
-&quot;bitbake rust-hello-world&quot; builds without any error ( with &quot=
-;inherit cargo&quot;).<br>
-<br>
-Is there any way to disable &quot;autotools&quot; for &quot;gnomebase.bbcl=
-ass&quot;<br>
-through &quot;<a href=3D"http://librsvg-2.46.4.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">librsvg-2.46.4.bb</a>&quot;=C2=A0 ?<br>
-<br>
-Regards,<br>
-Vinay<br>
-<br>
-</blockquote></div></div>
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/838
 
---00000000000019e42c05a29b0d6f--
+Cheers,
+
+Richard
+
