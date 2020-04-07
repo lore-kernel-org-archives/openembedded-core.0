@@ -1,22 +1,22 @@
 Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
- by mx.groups.io with SMTP id smtpd.web11.671.1586294970363642296
+ by mx.groups.io with SMTP id smtpd.web11.7.1586296211097191786
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2020 14:29:30 -0700
+ Tue, 07 Apr 2020 14:50:11 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:46050 helo=localhost.localdomain)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:46142 helo=localhost.localdomain)
 	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jLvmi-0029qn-Vl; Tue, 07 Apr 2020 17:29:29 -0400
-Date: Tue, 7 Apr 2020 17:29:26 -0400 (EDT)
+	id 1jLw6j-002DP4-EE; Tue, 07 Apr 2020 17:50:10 -0400
+Date: Tue, 7 Apr 2020 17:50:06 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] clarify use of "$D" in pkg_postinst routines?
 In-Reply-To: <CANNYZj8_5_eKPnUn3Ckv0X9upaQGBe7ZcnyAysv=G6zF-+_Kyw@mail.gmail.com>
-Message-ID: <alpine.LFD.2.21.2004071728530.16056@localhost.localdomain>
+Message-ID: <alpine.LFD.2.21.2004071746290.16582@localhost.localdomain>
 References: <alpine.LFD.2.21.2004071503180.10456@localhost.localdomain> <CANNYZj8_5_eKPnUn3Ckv0X9upaQGBe7ZcnyAysv=G6zF-+_Kyw@mail.gmail.com>
 MIME-Version: 1.0
 X-OutGoing-Spam-Status: No, score=-1.0
@@ -42,13 +42,12 @@ On Tue, 7 Apr 2020, Alexander Kanavin wrote:
 >   exports $D into the environment before launching it.
 
 > - at runtime when packages are installed or updated through the same
->   package manager.  Then, $D is absent.
->
-> The scripts are written into the package files when the packages
-> gets created; they become 'post-install scriptlets' that every
-> package manager supports and executes if they are present.
+>   package manager. Then, $D is absent.
 
-  i assume the same holds for pre-install scriptlets, even though the
-docs claim otherwise.
+  i think i'm going to use
+meta-selftest/recipes-test/postinst/postinst_1.0.bb as the basis for
+writing a more extensive section on this topic, 'cuz writing this up
+is the only way i'm going to understand this. there are definitely
+subtleties here that are not documented in the manuals.
 
 rday
