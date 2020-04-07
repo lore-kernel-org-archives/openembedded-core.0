@@ -1,63 +1,84 @@
-Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
- by mx.groups.io with SMTP id smtpd.web10.2998.1586288293364852558
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web12.3105.1586288584512982215
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2020 12:38:13 -0700
+ Tue, 07 Apr 2020 12:43:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:45246 helo=localhost.localdomain)
-	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jLu32-001ouI-1i; Tue, 07 Apr 2020 15:38:12 -0400
-Date: Tue, 7 Apr 2020 15:38:09 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] clarify use of "$D" in pkg_postinst routines?
-In-Reply-To: <CANNYZj8_5_eKPnUn3Ckv0X9upaQGBe7ZcnyAysv=G6zF-+_Kyw@mail.gmail.com>
-Message-ID: <alpine.LFD.2.21.2004071532260.11485@localhost.localdomain>
-References: <alpine.LFD.2.21.2004071503180.10456@localhost.localdomain> <CANNYZj8_5_eKPnUn3Ckv0X9upaQGBe7ZcnyAysv=G6zF-+_Kyw@mail.gmail.com>
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=AFX+HBvX;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.222.171, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qk1-f171.google.com with SMTP id y3so664376qky.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2020 12:43:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc;
+        bh=EjYAosYFtpu1q6AXgHjzZnWl9Poe3ib7OeVZklVPLfM=;
+        b=AFX+HBvXLbkymQVXzhfCtrDj4a3sbhuenyzrae+eaChDw9++5iqaVdw2PyvyVevNBQ
+         +p5Q5YRbso9k8Z8Lw/ulC0uY8182VeOx0fqyQfBlRbseTl1tmmZmJOZg57gW5Psg9x4i
+         uhzcZ2w2JUn0lVdadszBZ1p/ZEv65g4z2l4oLckDzZCxz8Ku+gYUcgYiv1KC0SWDzLuZ
+         nNdra3vs4uyEIxEZezRRrmslbAQHduSd/CTZ7eeYzfFHQ66g0M/wYFzNSpyHL9s6mmJ4
+         bE5MG0mpC9Z+mxMYqxsNJsVbNGOchQQQCZRxEaMfAaBW4ts+w5S6Yf21LztXuuZB4kRv
+         cfxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc;
+        bh=EjYAosYFtpu1q6AXgHjzZnWl9Poe3ib7OeVZklVPLfM=;
+        b=Ugt3wATbnrw1/fihmUHgtiqbjTaG/UQKIpwQY+sfl8hJnV3jhvTnVygylvmk5k3Nbt
+         j0QtBrefZtUjR2brkgpcEVTDYA3LFHVLwx+JAZcu59DCjO5CeylOk8m3MkvP/IeQbznL
+         /GfiJl07U/Sg63Vl61nqSg4rOyHux1Np6FlSr8NewVm+wS93AZT7RPl1D7NWO62EvuzO
+         yc1OFttgES7R8fErrhV8aP3OtkWOs9dl3Sh3u/F5vSRJ8MVpSg0gd1THTYmizRvFSELQ
+         /t4/p82oLPUjuQbDMXn8Xl9OjThKzMTRHjaTk6B2AsFvIXFdf1cWeamyOE6DyTdOc7B9
+         ckdA==
+X-Gm-Message-State: AGi0PuZfkS7OdMDtkplaCeTxehIe3XXERYOXX2HzeHmJ2FpVZAAv7glX
+	l6xrZRQRUUCTREwynwsYIpK9CKWHevyzLg==
+X-Google-Smtp-Source: APiQypJyrhLQOwTmM7mW1/qJu/HzM0Q1lpGZ84S8ho2bGKhiWRQfRFHdSiLtIR/cFXvO+6W8eKlkwA==
+X-Received: by 2002:a05:620a:484:: with SMTP id 4mr3976638qkr.203.1586288583279;
+        Tue, 07 Apr 2020 12:43:03 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com. [209.85.222.175])
+        by smtp.gmail.com with ESMTPSA id g67sm17420359qkf.96.2020.04.07.12.43.02
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Apr 2020 12:43:02 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f175.google.com with SMTP id 13so645628qko.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2020 12:43:02 -0700 (PDT)
+X-Received: by 2002:a37:b1c6:: with SMTP id a189mr4085775qkf.26.1586288582075;
+ Tue, 07 Apr 2020 12:43:02 -0700 (PDT)
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+References: <20200407180501.9505-1-max.krummenacher@toradex.com>
+In-Reply-To: <20200407180501.9505-1-max.krummenacher@toradex.com>
+Date: Tue, 7 Apr 2020 16:42:50 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoFHFABma3PazPYjzUZf-7jX-ZAiUhj0ZcWXfX9FMTp_g@mail.gmail.com>
+Message-ID: <CAP9ODKoFHFABma3PazPYjzUZf-7jX-ZAiUhj0ZcWXfX9FMTp_g@mail.gmail.com>
+Subject: Re: [oe][OE-core][Patch] libubootenv: update to latest git hash
+To: Max Krummenacher <max.oss.09@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Otavio Salvador <otavio@ossystems.com.br>, Max Krummenacher <max.krummenacher@toradex.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 7 Apr 2020, Alexander Kanavin wrote:
+Max,
 
-> These run
+On Tue, Apr 7, 2020 at 3:06 PM Max Krummenacher <max.oss.09@gmail.com> wrote:
+> This adds the missing feature 'negative offsets' which was present
+> in the orginal U-Boot based tools.
+>
+> git change log:
+> * f4b9cde Allow negative offsets
+> * 45bf92a Detect sector size if not found in config
+> * 9f59db6 uboot_env: remove unused variables
+> * 65d243e README: libubootenv is now in oe-core
+>
+> Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
 
-> - at image creation time in the context of package manager
->   (dnf/apt/opkg) installing packages into the image rootfs
->   directory. The code that executes the package manager specifically
->   exports $D into the environment before launching it.
+Thanks for sending this.
 
-> - at runtime when packages are installed or updated through the same
->   package manager.  Then, $D is absent.
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
-  ah, that's very much what i'd guessed. i also just noted sec 4.7.7
-in ref manual, one of the QA checks:
 
-"An additional QA check has been added to detect usage of ${D} in
-FILES values where D values should not be used at all. The same check
-ensures that $D is used in
-pkg_preinst/pkg_postinst/pkg_prerm/pkg_postrm functions instead of
-${D}."
 
-> The scripts are written into the package files when the packages
-> gets created; they become 'post-install scriptlets' that every
-> package manager supports and executes if they are present.
-
-  so far, so good, i'm still going to expand on that section since
-it definitely could use some fleshing out.
-
-rday
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
