@@ -1,85 +1,141 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web12.3356.1586207192457353139
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.2224.1586226436145759244
  for <openembedded-core@lists.openembedded.org>;
- Mon, 06 Apr 2020 14:06:32 -0700
+ Mon, 06 Apr 2020 19:27:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WCUzZcg4;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id h9so1219997wrc.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 06 Apr 2020 14:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=PyUiwShdcQPyfPm4aDC61aM+fho0yLcNr36Ac8p8QoI=;
-        b=WCUzZcg4+VEJe1YCyu4elyczHKamchv5/7Ibipcq5qhkdm718DYTeWWAUDUphGpCW4
-         KWf0wrwTDKtfprnHnszo3qaRofIhh4m3ztV90YZE6OJqAWY017Y+2mCNEaNZlGOJkFaI
-         OxSMmkJgBcvsoRFG7dWXK7LvSw+KbqnTsnRF4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=PyUiwShdcQPyfPm4aDC61aM+fho0yLcNr36Ac8p8QoI=;
-        b=JnIO4D6yeXPVuVs0/AG0lx+T1L1l/nGZ0/Mexn21hdjcDzlREJIkdfjF7Gssdcr4SB
-         yFkuRu/PDdqMKurpw+gTmR0P8J9mPSmLaUdMciVYnH+sEDkFbb+KH0SgkLPy1sT30K1K
-         P5rn0UtH9UeXkBFNG8yRJLQDpUA6p3Kptoe7ONnBHV25ZNIUJDS2IM+kFfRnhR1cfU+A
-         DxoQmr5x6aM9HYJRkD4SKWUVdnF+2nzQbtk/L+yNRoQ3RcvqTsOa/Q5n0KeMv55C4Iro
-         nrJVIxjTzCmiriSQZ+pTpDdsIiyjU3Cc72mYmsJLzYkUqFTc2ni6JpgBKrCJ9hLSFXAR
-         g67A==
-X-Gm-Message-State: AGi0Pub0kyGjmfgJSWHu3X5m/+RJvW7Ml+wwAKzXw/RPNmQjHDC5gHZ6
-	Dc1igK9thSawAqoK8LIfq60kcA==
-X-Google-Smtp-Source: APiQypL8zU185wKImb010JAJmtztYJEfdKsRx1ta8AxCaHRBxpT/+BCOeEYXHyhIukq1Q1abKQg/dg==
-X-Received: by 2002:a5d:44c4:: with SMTP id z4mr1169791wrr.221.1586207190982;
-        Mon, 06 Apr 2020 14:06:30 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id 132sm868592wmc.47.2020.04.06.14.06.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2020 14:06:30 -0700 (PDT)
-Message-ID: <47d3a012664b3477a953d4c06e797243218eed01.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] curl: allow configuration of default CA bundle location
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Yann Dirson <yann.dirson@blade-group.com>, Jim Broadus
- <jbroadus@xevo.com>
-Cc: Jim Broadus <jbroadus@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 06 Apr 2020 22:06:29 +0100
-In-Reply-To: <CA+4=imZeFQwOUtfmD4AR=EJ_sSvqAZy_fiN6xPurTLB-cfBkLA@mail.gmail.com>
-References: <20200406060014.78150-1-jbroadus@xevo.com>
-	 <3d20f00ac2d4f54f6bf4e67998df400548f0bfeb.camel@linuxfoundation.org>
-	 <ee3a15cb-afde-3b3f-59be-9c279313927c@xevo.com>
-	 <CA+4=imZeFQwOUtfmD4AR=EJ_sSvqAZy_fiN6xPurTLB-cfBkLA@mail.gmail.com>
-User-Agent: Evolution 3.36.1-1 
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: randy.macleod@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0372R3cS003997
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Mon, 6 Apr 2020 19:27:03 -0700 (PDT)
+Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 6 Apr
+ 2020 19:27:02 -0700
+Subject: Re: [OE-core] [PATCH 1/2 v5] coreutils: add ptest
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        Khem Raj
+	<raj.khem@gmail.com>, <bluelightning@bluelightning.org>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+        Trevor Gamblin
+	<trevor.gamblin@windriver.com>
+References: <20200311113235.61655-1-trevor.gamblin@windriver.com>
+ <20200311113235.61655-2-trevor.gamblin@windriver.com>
+ <CAMKF1spd-onZWc9j+Jx58zYtRUpAPC6X0wm+t0YSmgctmWD6Vg@mail.gmail.com>
+ <5ebbb63be39a442c740660ff321338f522dc4b68.camel@linuxfoundation.org>
+ <CAMKF1so-A14JBx3CBAed2+zeBYN_Z8khPAMiXhcwT4HO-ZdsGg@mail.gmail.com>
+ <bbcedb53a9f5c5515acb5760237c5d3fe1f01e61.camel@linuxfoundation.org>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <d9208881-1e10-9798-5730-f99a1ebc64a5@windriver.com>
+Date: Mon, 6 Apr 2020 22:26:52 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <bbcedb53a9f5c5515acb5760237c5d3fe1f01e61.camel@linuxfoundation.org>
+X-Originating-IP: [172.25.44.3]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id 0372R3cS003997
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2020-04-06 at 22:58 +0200, Yann Dirson wrote:
-> The problem motivating this patch may be the same that motivated a
-> hack of mine which I never
-> cleaned up for submit: at least in some early warrior versions curl
-> was attempting to use cacerts
-> from the host.
-> 
-> This is a hand-edited copypaste and may not apply cleanly, but you
-> should get the idea: make it
-> so curl-native uses its own certs and not the host ones.
+On 2020-04-06 12:47 p.m., Richard Purdie wrote:
+> On Mon, 2020-04-06 at 07:32 -0700, Khem Raj wrote:
+>> On Mon, Apr 6, 2020 at 4:58 AM Richard Purdie <richard.purdie@linuxfoun=
+dation.org> wrote:
+>>> On Sun, 2020-04-05 at 17:26 -0700, Khem Raj wrote:
+>>>> On Wed, Mar 11, 2020 at 4:33 AM Trevor Gamblin
+>>>> <trevor.gamblin@windriver.com> wrote:
+>>>>> +inherit ptest
+>>>>> +
+>>>>> +RDEPENDS_${PN}-ptest +=3D "bash findutils gawk liberror-perl libmod=
+ule-build-perl make perl perl-module-file-stat python3-core sed shadow"
+>>>>> +
+>>>>
+>>>> Adding libmodule-build-perl to rdeps here is pulling in whole target
+>>>> toolchain components now while building core-image-minimal
+>>>> the dependency chain looks like, total task building for this image a=
+re 3000+
+>>>>
+>>>> "coreutils.do_package_qa" -> "libmodule-build-perl.do_packagedata" ->
+>>>> "packagegroup-core-buildessential.do_packagedata" ->
+>>>> "gcc.do_packagedata"
+>>>>
+>>>> IMO, it's a bad experience for the user when building a simple minima=
+l
+>>>> image and it ends up building whole toolchain for target that
+>>>> eventually won't even
+>>>> be part of the image. perhaps make it dependent on ptest or some such
+>>>> knob thats not commonly used.
+>>>>
+>>>> Please revert this patch series until we can find a way to not insert
+>>>> these build-time dependencies in normal flow.
+>>>
+>>> We were aware of this when it merged. This should already only happen
+>>> if ptest is enabled?
+>>>
+>>
+>> I am seeing it with a fresh checkout of poky with no other changes
+>=20
+> Poky enables ptest by default:
+>=20
+> meta-poky/conf/distro/poky.conf:
+> POKY_DEFAULT_DISTRO_FEATURES =3D "largefile opengl ptest multiarch wayla=
+nd vulkan"
+>=20
+> so that is expected.
 
-This should have been the case from 2014:
+Makes sense to me and I'm glad it's not affecting oe-core by default.
+FYI poky has had ptest enabled since at least 2016.
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=92cad721d764ec28c3570dfe4a80847c3df19453
-
-You can see fallout from that such as:
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=754a9c31232979b3f0c28906c28191af55e96be2
-
-where we had to fix curl in nativesdk to have the certs present.
-
-So something odd is going on somewhere but I think OE-Core is fairly
-consistent and has been for a few years.
-
-Cheers,
-
-Richard
+Since poky builds with coreutils will take a bit longer, we should
+mention that in the release notes. Paul E added since I hear he
+writes much of the release notes.
 
 
+../Randy
+
+>=20
+>>> (else ${PN}-ptest isn't in PACKAGES and hence the RDEPENDS isn't seen)=
+.
+>>>
+>>> I wish we had a better way of handling these dependencies but we sadly
+>>> don't.
+>>>
+>>
+>> Such changes should be left to users to enable imo may be a packageconf=
+ig or so
+>>
+>> People have reputation of long build times and large disk space for OE =
+this won=E2=80=99t help that cause
+>=20
+> Well, I tried to have this conversation when the patch was being
+> reviewed and tested. Nobody seemed bothered then. I get tired of
+> talking to myself in a vacuum and having a reputation about being
+> difficult over patches when nobody seems to care (as no other voices
+> came into the conversation). I've tried to minimise the impact which
+> was the best we can do. We are trying to encourage people to add tests.
+>=20
+> Starting to revert things just before release is a really bad idea so
+> we're not doing that.
+>=20
+> We can disable ptest in coreutils specifically if we wanted. Ultimately
+> we need to find a better way in general of handling some of these
+> runtime dependencies but at this point that is a 3.2 issue.
+>=20
+> Sorry, but if we were to have this discussion it should have been
+> months ago :(.
+>=20
+> I'd also note that 3.1 rc1 is building now.
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+>=20
+
+
+--=20
+# Randy MacLeod
+# Wind River Linux
