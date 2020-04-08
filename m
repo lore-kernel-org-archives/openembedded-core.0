@@ -1,63 +1,127 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web10.4027.1586310777503123323
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web12.4022.1586310780523850760
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2020 18:52:57 -0700
+ Tue, 07 Apr 2020 18:53:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.72,357,1580745600"; 
-   d="scan'208";a="88651946"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 08 Apr 2020 09:52:52 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 6D5D24BCC8A2
-	for <openembedded-core@lists.openembedded.org>; Wed,  8 Apr 2020 09:42:28 +0800 (CST)
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 8 Apr 2020 09:52:49 +0800
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Wed, 8 Apr 2020 09:52:57 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] gnutls: upgrade 3.6.12 -> 3.6.13
-Date: Wed, 8 Apr 2020 02:00:14 -0700
-Message-ID: <1586336415-19139-1-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hE649I+Y;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id b1so5910072ljp.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2020 18:53:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=DdAVGPOMgb2Bx7ickrTD8drAP43LfJq+/ftlZ+zsaeQ=;
+        b=hE649I+Ym01qnzf+ftPbmwWcLFaaSTX0LKSbuG/SAewFNYnTucw01WtMnGJgR/aN/n
+         sZes2YcIrGxV9scfRb4JFuhYHfamM7GmTgVI0FlWmMvO71uBxJVT5g5CGVcBA4V/WTr8
+         j4qSDH94XL9ivNMsEVWqKt6TEQwGuUES4/7c9p4s4j5SVZv/pxmcJ9XpxekFGjZgHkIU
+         CWW+FM+SeBtlXmTk4ipic9yQ2/Yo0kxWwlL5X3p1xue/83h2wRxJ00Bv3cBAGrD0I6AX
+         oiUcr9e939q+Vff2dtpUe8v7qMEdZGfRjirYyQ5c4eStM74Gk4+F4Nk2f9imRYjNZvC9
+         CipA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=DdAVGPOMgb2Bx7ickrTD8drAP43LfJq+/ftlZ+zsaeQ=;
+        b=kI8iek/wzTlD9ELJe2bF+36J0UXIiyrSZUrRzwOM9n5KZKnJ4Ql3cTa112Dqe3oYcq
+         LvWO4GY2MCF1AD4YD6P6hlp+ZGMBzA8Mz0wyvV994TGu3NnThelP4CdwOIN7Avi4J5m8
+         ZwieSWWTpfyNvANVs7HHR/Kv/tZmTgrTPmpIXjqmO4r1aj6OvB+mhJ067+jCNckXJX7k
+         CvurPoKsE9AhIQDV5Zh2gFCqVBmSAvtqUeGmnTGHTu+v6B3pjBw4q46zSXMVg4lLbNee
+         Qkiw3DZ9S1D2HFkWEm19OsxiZZC9TNDHDk6F7Sls4fvSewRQtjyeYfBeSel+wfLfY1xZ
+         Z+YA==
+X-Gm-Message-State: AGi0PuYMmLDkfnWLhWrKDgTweu2YozecnFGhFL/78wUBnncqBTVA2VmG
+	B7jeHvfk+eYhDI82owc82rKlzLQLH+YDG64yK0TeNpc36Eg=
+X-Google-Smtp-Source: APiQypIww3ciq1LO4vTGVgS5I9FDVfumX20kkh8kEjiqXuCmq7yx0nRwfkv5HMut7Y+PCoYGNuwXyAFf86If2lP/enc=
+X-Received: by 2002:a2e:8887:: with SMTP id k7mr3421190lji.193.1586310778243;
+ Tue, 07 Apr 2020 18:52:58 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 6D5D24BCC8A2.A2AB9
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+From: "Ankur Tyagi" <ankur.tyagi85@gmail.com>
+Date: Wed, 8 Apr 2020 13:52:47 +1200
+Message-ID: <CADySD0GO0510UjoSWx=sK9oiyCFCJanB7-C7Ph6y62BtOmfNXA@mail.gmail.com>
+Subject: Including vendor's pre-built binary in image
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000070cf2a05a2bdc2d7"
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- .../gnutls/{gnutls_3.6.12.bb => gnutls_3.6.13.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.6.12.bb => gnutls_3.6.13.bb} (93%)
+--00000000000070cf2a05a2bdc2d7
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.12.bb b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
-similarity index 93%
-rename from meta/recipes-support/gnutls/gnutls_3.6.12.bb
-rename to meta/recipes-support/gnutls/gnutls_3.6.13.bb
-index f1eeebc807..f56d42a613 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.12.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
-@@ -21,8 +21,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://arm_eabi.patch \
- "
- 
--SRC_URI[md5sum] = "a23900f14980a467bdce3a0fd31dfa18"
--SRC_URI[sha256sum] = "bfacf16e342949ffd977a9232556092c47164bd26e166736cf3459a870506c4b"
-+SRC_URI[md5sum] = "bb1fe696a11543433785b4fc70ca225f"
-+SRC_URI[sha256sum] = "32041df447d9f4644570cf573c9f60358e865637d69b7e59d1159b7240b52f38"
- 
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
- 
--- 
-2.17.1
+Hi,
 
+I am sure this is not being discussed for first time and I tried
+all suggested solution in previous emails but none worked hence I am asking
+again.
 
+Trying to include a pre-built binary from vendor in my image but getting
+following QA error:
 
+ERROR: my-recipe-1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool contained
+in package my-recipe requires libstdc++.so.6(CXXABI_1.3), but no providers
+found in RDEPENDS_my-recipe ? [file-rdeps]
+ERROR: my-recipe -1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool
+contained in package my-recipe requires libstdc++.so.6(GLIBCXX_3.4), but no
+providers found in RDEPENDS_my-recipe ? [file-rdeps]
+ERROR: my-recipe -1.0-r0 do_package_qa: QA run found fatal errors. Please
+consider fixing them.
+ERROR: my-recipe -1.0-r0 do_package_qa: Function failed: do_package_qa
+
+I have tried following in my-recipe_1.0.bb but error still persists
+RDEPENDS_${PN} += "libstdc++6"
+
+How can I fix this?
+
+thanks
+Ankur
+
+--00000000000070cf2a05a2bdc2d7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
+sans-serif">Hi,<br></div><div class=3D"gmail_default" style=3D"font-family:=
+verdana,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-fa=
+mily:verdana,sans-serif">I am sure this=C2=A0is not being discussed for=C2=
+=A0first time and I tried all=C2=A0suggested solution in=C2=A0previous emai=
+ls but none worked hence I am asking again.</div><div class=3D"gmail_defaul=
+t" style=3D"font-family:verdana,sans-serif"><br></div><div class=3D"gmail_d=
+efault" style=3D"font-family:verdana,sans-serif">Trying to include a pre-bu=
+ilt binary from vendor in my image but getting following QA error:</div><di=
+v class=3D"gmail_default" style=3D"font-family:verdana,sans-serif"><br></di=
+v><div class=3D"gmail_default" style=3D"font-family:verdana,sans-serif">ERR=
+OR: my-recipe-1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool contained in=
+ package=20
+
+my-recipe
+
+ requires libstdc++.so.6(CXXABI_1.3), but no providers found in RDEPENDS_my=
+-recipe
+
+? [file-rdeps]<br>ERROR:=20
+
+my-recipe
+
+-1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool contained in package=20
+
+my-recipe requires libstdc++.so.6(GLIBCXX_3.4), but no providers found in R=
+DEPENDS_my-recipe
+
+? [file-rdeps]<br>ERROR:=20
+
+my-recipe
+
+-1.0-r0 do_package_qa: QA run found fatal errors. Please consider fixing th=
+em.<br>ERROR:=20
+
+my-recipe
+
+-1.0-r0 do_package_qa: Function failed: do_package_qa<br></div><div class=
+=3D"gmail_default" style=3D"font-family:verdana,sans-serif"><br></div><div =
+class=3D"gmail_default" style=3D"font-family:verdana,sans-serif">I have tri=
+ed following in <a href=3D"http://my-recipe_1.0.bb">my-recipe_1.0.bb</a> bu=
+t error still persists</div><div class=3D"gmail_default" style=3D"font-fami=
+ly:verdana,sans-serif">RDEPENDS_${PN} +=3D &quot;libstdc++6&quot;<br></div>=
+<div class=3D"gmail_default" style=3D"font-family:verdana,sans-serif"><br><=
+/div><div class=3D"gmail_default" style=3D"font-family:verdana,sans-serif">=
+How can I=C2=A0fix this?</div><div class=3D"gmail_default" style=3D"font-fa=
+mily:verdana,sans-serif"><br></div><div class=3D"gmail_default" style=3D"fo=
+nt-family:verdana,sans-serif">thanks</div><div class=3D"gmail_default" styl=
+e=3D"font-family:verdana,sans-serif">Ankur</div></div>
+
+--00000000000070cf2a05a2bdc2d7--
