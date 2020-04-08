@@ -1,66 +1,60 @@
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
- by mx.groups.io with SMTP id smtpd.web12.8972.1586342349345928446
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web11.8847.1586342432115184713
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2020 03:39:09 -0700
+ Wed, 08 Apr 2020 03:40:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Uq9MypS7;
- spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-lj1-f173.google.com with SMTP id z26so2951780ljz.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2020 03:39:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jOlq85Yr;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 131so4724696lfh.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2020 03:40:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KDgM2ju4zhDYpPa1h950Bvj0xR9Y31BkGvGqvjgQe2I=;
-        b=Uq9MypS7mIkuXR7ytIj1UhLqf6lYYY//rBkQU7JDoRhcv2zsSBe9lCH32YA5zfBlO1
-         PeFH6s0fZjMihICg0a0TUrSWrx9cNURgtII3sjrF8abBeg0JUf6XgeX48NCJF5Ae7M4a
-         3rIphIjjzHkLe50VbD7jxtHti2uJ13YzF/NTuJKR8LNHjyovx0AGLno+QBHrGku8wPzu
-         sPX4U3mrqWfL6V4Sar+2wq44dheKvrKnJlkjSGYeYGN448qTwZ3IFEUTgDdxE9A/GoVe
-         DImN9/NWJyTrnoCYZg4G97B/BmkWw5cwdn4xqz7lRRh5oJf5dDoTxm9BVHKkZR+J8ubV
-         HhXw==
+        bh=sQgz/O7u2U7rZmBh+ThjmhrPpiD5+qr4FleXlD/Di/s=;
+        b=jOlq85YrCzWmk7FGHgUB1yXlDtpo2FEoWEUHwVCReoE0BV63Arf8gNxV4N8/93IkcL
+         GInM93qNQ92BHVPFFJPodWng0HPjwVXCRawayPjdMaIZhXV6UNgUSHdRdl2ilgGz/yhL
+         S96sLQme26NgrJuigdqRZHTUwwCDRLPa8hreROEHNtqrP9CMs70lx9S64GxaWglOjas1
+         w8qpFW4CyvijYxUFMHxufhTdiQ+oLT4PTY47FjJX5QJ0Occ/zPTVed3IzlnlfaVwj2Zd
+         vQJ4NEq89BpCfiRwzZ8BK+WXOLRos+0epX+u1ZdlIlsT1/6yARHPOi2C5mo4luvBunog
+         KS0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KDgM2ju4zhDYpPa1h950Bvj0xR9Y31BkGvGqvjgQe2I=;
-        b=Vkf3r9GuMkV6V6C2eZtbR+w4MrwqT8DWhGPQjmhThr2IZX4ESou6bJDj857VSAzoNh
-         alV3SzL+alGwDX0jVhLM3t9jjSgLB+XNVh2wjL+25x4akpsFgS9/nUng2D3jRqtkO9dR
-         lAe8e7ccFtQuwjOBQ/1vS6Pus2AjiUvTPkHFwYBxpy+CxvcILl73BtKoGVQOUDEiE5lw
-         m767sKk6UC9+nu3WClp3Mu4w/XDn5CCpTSCaQ5vcND7Fu3/gKdT2yZ9pKAikfmksu3BX
-         6xayoHwmThynyqq4qqb2Q2ZpxLQgU8uoCnT0xgaowqUwBd9zePvuZq1OyxjtJz1c6MPF
-         FMCg==
-X-Gm-Message-State: AGi0PuaUEicrdNe8KhMqH1rWENfaQ2Weahx4JefEclqZaPdLDgrRaCeO
-	VWnRqL6Q2yavGQ4TrEGfD3fja5K5Bgj1vkHWBNY=
-X-Google-Smtp-Source: APiQypI6rTJGY7L9PPQUj/FIY6z7lj41x0/Yo8iPOhrIfJ18uIR8BBbt97GA+WfEmqGtvR/V0TBmlBjssOp8enH40Mo=
-X-Received: by 2002:a2e:7e06:: with SMTP id z6mr4746564ljc.60.1586342347345;
- Wed, 08 Apr 2020 03:39:07 -0700 (PDT)
+        bh=sQgz/O7u2U7rZmBh+ThjmhrPpiD5+qr4FleXlD/Di/s=;
+        b=Ob6u7Vgc8q3SDiB0x+5IMLBn3wdTIgj2kcvdVOKo8j0T401ZjiKDknud/5L4adBGxH
+         wjn8LHzyHdRiQ+I4ALAJKvVTDO3vqgEj8LKtx1a02DWQZ6NdZV4lNvSSQwuxDMD5rpXB
+         sMb4zzXQaO+KnQaHESQt1z0tM6obTT808R/6R/8IOC2dmkTUtito8wHrINt5UeKMxHI7
+         a3vXYv+Lrcu65/axZHN4QlXP/6eYIq5bjjbXm018KBD0H4Uucge1j6Gmr50PHG3kwT+m
+         9Sad+b42WoQT97V4CivE+ZWS53GP1zIcpjt/nyHKGauM6HsbhULwwPhXsBG+JzUsCJtU
+         TVIA==
+X-Gm-Message-State: AGi0PuYSzPSG4nkI2LjFdxe+cnz26hEsB0T+iTHxaTpZE1+sW1V7EV/a
+	1/igrDtR9lhdBz/E4vQlJdN56/eNBdzTUm9ZKl0=
+X-Google-Smtp-Source: APiQypJDspasPqCdwA5vjkSPasE6APXhXFF4jz5+n/Z13gSjogZxHFldr16B94rcagiloRh4dfYH2++uUtgOw9i24Pw=
+X-Received: by 2002:ac2:418b:: with SMTP id z11mr4274773lfh.134.1586342430194;
+ Wed, 08 Apr 2020 03:40:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <CADySD0GO0510UjoSWx=sK9oiyCFCJanB7-C7Ph6y62BtOmfNXA@mail.gmail.com>
- <20200408064233.GE104502@korppu>
-In-Reply-To: <20200408064233.GE104502@korppu>
+ <20200408071242.GC1578@denix.org>
+In-Reply-To: <20200408071242.GC1578@denix.org>
 From: "Ankur Tyagi" <ankur.tyagi85@gmail.com>
-Date: Wed, 8 Apr 2020 22:38:56 +1200
-Message-ID: <CADySD0EXOCLT=bT8qZ2RqNWvmdQcWAzuqXon+Rn1xxJQr7OMrg@mail.gmail.com>
+Date: Wed, 8 Apr 2020 22:40:19 +1200
+Message-ID: <CADySD0GibZ7NHOTiOhR5bqVrpda9K2MpFQ-UBw=E5jhTPjyLdg@mail.gmail.com>
 Subject: Re: [OE-core] Including vendor's pre-built binary in image
-To: Mikko.Rapeli@bmw.de
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000001b12a005a2c51ca7"
+Content-Type: multipart/alternative; boundary="0000000000000b404f05a2c5218d"
 
---0000000000001b12a005a2c51ca7
+--0000000000000b404f05a2c5218d
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Thank you Denys, INSANE_SKIP "file-rdeps" solved the issue
 
-Ideally yes but vendor won't be able to do so.
-I am looking for a fix at my end.
+cheers
 
-thanks
-Ankur
+On Wed, Apr 8, 2020 at 7:12 PM Denys Dmytriyenko <denis@denix.org> wrote:
 
-On Wed, Apr 8, 2020 at 6:42 PM <Mikko.Rapeli@bmw.de> wrote:
-
-> Hi,
->
 > On Wed, Apr 08, 2020 at 01:52:47PM +1200, Ankur Tyagi wrote:
 > > Hi,
 > >
@@ -87,49 +81,33 @@ On Wed, Apr 8, 2020 at 6:42 PM <Mikko.Rapeli@bmw.de> wrote:
 > >
 > > I have tried following in my-recipe_1.0.bb but error still persists
 > > RDEPENDS_${PN} += "libstdc++6"
->
-> This shared library comes from gcc-runtime recipe and libstdc++ binary
-> package
-> (before name manglings). buildhistory helps with cases like this.
->
-> I would write recipes for all binaries and make sure all QA checks are
-> passing
-> with them. Best way is to get vendors to compile with your SDK.
->
-> Cheers,
->
-> -Mikko
->
 > >
 > > How can I fix this?
-> >
+>
+> https://lists.yoctoproject.org/g/poky/message/11900
+>
+>
 > > thanks
 > > Ankur
 >
 > > 
 >
+>
 
---0000000000001b12a005a2c51ca7
+--0000000000000b404f05a2c5218d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-family:verdana,sans-serif">Hi,</div><div class=3D"gmail_default" style=3D=
-"font-family:verdana,sans-serif"><br></div><div class=3D"gmail_default" sty=
-le=3D"font-family:verdana,sans-serif">Ideally yes but vendor won&#39;t be a=
-ble to do so.</div><div class=3D"gmail_default" style=3D"font-family:verdan=
-a,sans-serif">I am looking for a fix at my end.</div><div class=3D"gmail_de=
-fault" style=3D"font-family:verdana,sans-serif"><br></div><div class=3D"gma=
-il_default" style=3D"font-family:verdana,sans-serif">thanks</div><div class=
-=
-=3D"gmail_default" style=3D"font-family:verdana,sans-serif">Ankur</div></d=
-iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
-Wed, Apr 8, 2020 at 6:42 PM &lt;<a href=3D"mailto:Mikko.Rapeli@bmw.de">Mikk=
-o.Rapeli@bmw.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">Hi,<br>
-<br>
-On Wed, Apr 08, 2020 at 01:52:47PM +1200, Ankur Tyagi wrote:<br>
+t-family:verdana,sans-serif">Thank you Denys, INSANE_SKIP &quot;file-rdeps&=
+quot; solved the issue</div><div class=3D"gmail_default" style=3D"font-fami=
+ly:verdana,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font=
+-family:verdana,sans-serif">cheers</div></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Apr 8, 2020 at 7:12 PM Deny=
+s Dmytriyenko &lt;<a href=3D"mailto:denis@denix.org">denis@denix.org</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Wed,=
+ Apr 08, 2020 at 01:52:47PM +1200, Ankur Tyagi wrote:<br>
 &gt; Hi,<br>
 &gt; <br>
 &gt; I am sure this is not being discussed for first time and I tried<br>
@@ -161,26 +139,19 @@ a<br>
 noreferrer" target=3D"_blank">my-recipe_1.0.bb</a> but error still persists=
 <br>
 &gt; RDEPENDS_${PN} +=3D &quot;libstdc++6&quot;<br>
-<br>
-This shared library comes from gcc-runtime recipe and libstdc++ binary pac=
-kage<br>
-(before name manglings). buildhistory helps with cases like this.<br>
-<br>
-I would write recipes for all binaries and make sure all QA checks are pas=
-sing<br>
-with them. Best way is to get vendors to compile with your SDK.<br>
-<br>
-Cheers,<br>
-<br>
--Mikko<br>
-<br>
 &gt; <br>
 &gt; How can I fix this?<br>
-&gt; <br>
+<br>
+<a href=3D"https://lists.yoctoproject.org/g/poky/message/11900" rel=3D"nor=
+eferrer" target=3D"_blank">https://lists.yoctoproject.org/g/poky/message/11=
+900</a><br>
+<br>
+<br>
 &gt; thanks<br>
 &gt; Ankur<br>
 <br>
 &gt; <br>
+<br>
 </blockquote></div></div>
 
---0000000000001b12a005a2c51ca7--
+--0000000000000b404f05a2c5218d--
