@@ -1,60 +1,65 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.6909.1586329492053350241
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.6970.1586329964624202331
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2020 00:04:52 -0700
+ Wed, 08 Apr 2020 00:12:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: changqing.li@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 03874oB5022197
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 8 Apr 2020 00:04:51 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 8 Apr 2020 00:04:50 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] parselogs.py: ignore pulseaudio startup warning messages
-Date: Wed, 8 Apr 2020 15:04:48 +0800
-Message-ID: <1586329488-115444-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id DD55D40C1D;
+	Wed,  8 Apr 2020 07:12:43 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id VGxI303khwBE; Wed,  8 Apr 2020 07:12:43 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C24B8409DE;
+	Wed,  8 Apr 2020 07:12:42 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 791521718E9; Wed,  8 Apr 2020 03:12:42 -0400 (EDT)
+Date: Wed, 8 Apr 2020 03:12:42 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] Including vendor's pre-built binary in image
+Message-ID: <20200408071242.GC1578@denix.org>
+References: <CADySD0GO0510UjoSWx=sK9oiyCFCJanB7-C7Ph6y62BtOmfNXA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <CADySD0GO0510UjoSWx=sK9oiyCFCJanB7-C7Ph6y62BtOmfNXA@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Changqing Li <changqing.li@windriver.com>
+On Wed, Apr 08, 2020 at 01:52:47PM +1200, Ankur Tyagi wrote:
+> Hi,
+> 
+> I am sure this is not being discussed for first time and I tried
+> all suggested solution in previous emails but none worked hence I am asking
+> again.
+> 
+> Trying to include a pre-built binary from vendor in my image but getting
+> following QA error:
+> 
+> ERROR: my-recipe-1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool contained
+> in package my-recipe requires libstdc++.so.6(CXXABI_1.3), but no providers
+> found in RDEPENDS_my-recipe ? [file-rdeps]
+> ERROR: my-recipe -1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool
+> contained in package my-recipe requires libstdc++.so.6(GLIBCXX_3.4), but no
+> providers found in RDEPENDS_my-recipe ? [file-rdeps]
+> ERROR: my-recipe -1.0-r0 do_package_qa: QA run found fatal errors. Please
+> consider fixing them.
+> ERROR: my-recipe -1.0-r0 do_package_qa: Function failed: do_package_qa
+> 
+> I have tried following in my-recipe_1.0.bb but error still persists
+> RDEPENDS_${PN} += "libstdc++6"
+> 
+> How can I fix this?
 
-If set default syslog to rsyslog, we can see below messages
-in user.log,
+https://lists.yoctoproject.org/g/poky/message/11900
 
-[pulseaudio] authkey.c: Failed to open cookie file
-[pulseaudio] authkey.c: Failed to load authentication key
 
-They are only warnings when cookie file is not found. And
-PulseAudio will create it if it doesn't exist.
+> thanks
+> Ankur
 
-refer:
-https://wiki.archlinux.org/index.php/PulseAudio/Configuration
-https://lists.freedesktop.org/archives/pulseaudio-discuss/2014-December/022719.html
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/lib/oeqa/runtime/cases/parselogs.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index f94387c..a1791b5 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -58,7 +58,9 @@ common_errors = [
-     "Failed to rename network interface",
-     "Failed to process device, ignoring: Device or resource busy",
-     "Cannot find a map file",
--    "[rdrand]: Initialization Failed"
-+    "[rdrand]: Initialization Failed",
-+    "[pulseaudio] authkey.c: Failed to open cookie file",
-+    "[pulseaudio] authkey.c: Failed to load authentication key",
-     ]
- 
- video_related = [
--- 
-2.7.4
+> 
 
