@@ -1,77 +1,99 @@
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web11.5790.1586320873532869834
+Received: from esa4.bmw.c3s2.iphmx.com (esa4.bmw.c3s2.iphmx.com [68.232.139.62])
+ by mx.groups.io with SMTP id smtpd.web10.6856.1586328164482044111
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2020 21:41:13 -0700
+ Tue, 07 Apr 2020 23:42:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Dn/TyAIE;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: jpuhlman@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id z6so587110plk.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2020 21:41:13 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@bmw.de header.s=mailing1 header.b=bSd9BMK2;
+ spf=pass (domain: bmw.de, ip: 68.232.139.62, mailfrom: prvs=360c08544=mikko.rapeli@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=hSOj7gqqL9sF359hBYAuzohuboqY0gEWJANgc0uVtDk=;
-        b=Dn/TyAIEZlyf/JyZKu7SDZVzaiiRkw+5iF3eG9FAOXAlCdRuXdgK7hwyhqP4LLrXjS
-         NkD7wLef6sFNVDWJp3ejPkNcllSmOKimBquIsY3kRlhSkuAZduieT0eUry4dAuG87TV0
-         HEI8kcVLW2xgJ55e56iianX9VTX3KkhWRcOhyX26ndM7Q535TF7GXVUWqamCQEZJoUmg
-         iZRMiIYiSYGND+Ic1pm25Pc1XFF6Y3401r7XbXm9nNx1PlsO+Fv/Ne0t/TWojV42ByJi
-         zbZQpSlO+Ir9ApNFeK9fanR3/cTY9LPB4tlDvMb44g9G/8LhDDURIOLgRojhg19spNrG
-         oNCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=hSOj7gqqL9sF359hBYAuzohuboqY0gEWJANgc0uVtDk=;
-        b=pD/Im4aL3hbfJCrAn6D4fL4rmKdgAcpZ2jWmyc/ekHsbElPpz7hdOO35ncq8xJHG/o
-         vj8tQX3tOSTk9mn2nKsi/8qHZ62NIZAcEdQI6zJzEZa6wXvlcVd9iqLZAOyGIDQhZ05u
-         kERWq+Quls6NpT1pI8EQ2fC98JjaqdgVVzPeh5TMpzGzU1vpIxHUkl3Vd3/96QOlgStn
-         QJGpAr48MNDqJ/IcujfUwKfE+lJLZ9I+NMIyvfsUsSWqFJ003UEi5v0zvK6x4Et/q2YM
-         EGyiaIBreoBSv7B+h5bj97Ww/zuExKsEXf1nkrk1skrnJ90PQPzxqkmiqtzNQhxuEctE
-         4twA==
-X-Gm-Message-State: AGi0PubgxrOqydK3dmt/o4KiDDxlBzuIAevHIZ321PzKxoozOJCfaFM7
-	OzySFNMZTpE8AOB311iCurSUySuJBCw=
-X-Google-Smtp-Source: APiQypKYhBSMz6fWb/XxYUGbp2PFFd8B72mU8TkQ5sY31l5jrtlcsHzArFJ+TlaYpjqPt72vMQfhVA==
-X-Received: by 2002:a17:902:8bc7:: with SMTP id r7mr5618524plo.12.1586320872667;
-        Tue, 07 Apr 2020 21:41:12 -0700 (PDT)
-Return-Path: <jpuhlman@gmail.com>
-Received: from workhorse.localdomain (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
-        by smtp.gmail.com with ESMTPSA id r140sm2273571pfc.137.2020.04.07.21.41.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Apr 2020 21:41:11 -0700 (PDT)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 0F73C2A0885; Tue,  7 Apr 2020 21:41:02 -0700 (PDT)
-From: "Jeremy Puhlman" <jpuhlman@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Jeremy Puhlman <jpuhlman@mvista.com>
-Subject: [PATCH] qemu-system-native: Fix commented out PACKAGECONFIG
-Date: Tue,  7 Apr 2020 21:40:56 -0700
-Message-Id: <20200408044056.8220-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.20.1
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1586328164; x=1617864164;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=C3TfuMuv3TqC7N3Rp4W0p3J+kpQ8/Gje5ARgxLiy9Rs=;
+  b=bSd9BMK2lbBx0AzqgjqUy7Oo7qsnMX4F26JPipGdOpSXCC4VzjoWPLvY
+   cXSDXME1APdl/Wx2u/wmNBuYi5rGo7TZjrHG1j15QvchUziBJexYpTNQu
+   j2g1HXJmwa1EDZYigmupEEEjkh4eX8IunQwZVgYpWofwt7QreDlaN+kTN
+   c=;
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+ esa4.bmw.c3s2.iphmx.com with ESMTP/TLS; 08 Apr 2020 08:42:35 +0200
+Received: from esabb3.muc ([160.50.100.30])  by esagw5.muc with ESMTP/TLS;
+ 08 Apr 2020 08:42:34 +0200
+Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp) ([160.48.96.48])
+ by esabb3.muc with ESMTP/TLS; 08 Apr 2020 08:42:35 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by smucm10l.europe.bmw.corp
+ (160.48.96.48) with Microsoft SMTP Server (TLS;
+ Wed, 8 Apr 2020 08:42:34 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+ smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005; Wed, 8
+ Apr 2020 08:42:34 +0200
+From: "Mikko Rapeli" <mikko.rapeli@bmw.de>
+To: <ankur.tyagi85@gmail.com>
+CC: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] Including vendor's pre-built binary in image
+Thread-Topic: [OE-core] Including vendor's pre-built binary in image
+Thread-Index: AQHWDUhxt9j9gr4UsEG6t/GLw0bBzahupauA
+Date: Wed, 8 Apr 2020 06:42:34 +0000
+Message-ID: <20200408064233.GE104502@korppu>
+References: <CADySD0GO0510UjoSWx=sK9oiyCFCJanB7-C7Ph6y62BtOmfNXA@mail.gmail.com>
+In-Reply-To: <CADySD0GO0510UjoSWx=sK9oiyCFCJanB7-C7Ph6y62BtOmfNXA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <D3551C32EC95C1438C085A2F46FC63F7@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+Hi,
 
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
----
- meta/recipes-devtools/qemu/qemu.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Wed, Apr 08, 2020 at 01:52:47PM +1200, Ankur Tyagi wrote:
+> Hi,
+>=20
+> I am sure this is not being discussed for first time and I tried
+> all suggested solution in previous emails but none worked hence I am ask=
+ing
+> again.
+>=20
+> Trying to include a pre-built binary from vendor in my image but getting
+> following QA error:
+>=20
+> ERROR: my-recipe-1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool contai=
+ned
+> in package my-recipe requires libstdc++.so.6(CXXABI_1.3), but no provide=
+rs
+> found in RDEPENDS_my-recipe ? [file-rdeps]
+> ERROR: my-recipe -1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool
+> contained in package my-recipe requires libstdc++.so.6(GLIBCXX_3.4), but=
+ no
+> providers found in RDEPENDS_my-recipe ? [file-rdeps]
+> ERROR: my-recipe -1.0-r0 do_package_qa: QA run found fatal errors. Pleas=
+e
+> consider fixing them.
+> ERROR: my-recipe -1.0-r0 do_package_qa: Function failed: do_package_qa
+>=20
+> I have tried following in my-recipe_1.0.bb but error still persists
+> RDEPENDS_${PN} +=3D "libstdc++6"
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index f17a046fca..7a1ccf2115 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -180,7 +180,7 @@ PACKAGECONFIG[snappy] = "--enable-snappy,--disable-snappy,snappy"
- PACKAGECONFIG[glusterfs] = "--enable-glusterfs,--disable-glusterfs"
- PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
- PACKAGECONFIG[libudev] = "--enable-libudev,--disable-libudev,eudev"
--#PACKAGECONFIG[libxml2] = "--enable-libxml2,--disable-libxml2,libxml2"
-+PACKAGECONFIG[libxml2] = "--enable-libxml2,--disable-libxml2,libxml2"
- 
- INSANE_SKIP_${PN} = "arch"
- 
--- 
-2.20.1
+This shared library comes from gcc-runtime recipe and libstdc++ binary pac=
+kage
+(before name manglings). buildhistory helps with cases like this.
 
+I would write recipes for all binaries and make sure all QA checks are pas=
+sing
+with them. Best way is to get vendors to compile with your SDK.
+
+Cheers,
+
+-Mikko
+
+>=20
+> How can I fix this?
+>=20
+> thanks
+> Ankur
+
+>=20
