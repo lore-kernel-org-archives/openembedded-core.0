@@ -1,196 +1,85 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web12.8154.1586337457336387657
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.8050.1586337458845600322
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2020 02:17:37 -0700
+ Wed, 08 Apr 2020 02:17:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=G3XFhCuW;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id 31so6963385wre.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2020 02:17:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eSXdG5jl;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: ricardo.ribalda@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id c15so6900683wro.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2020 02:17:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CHy3GJ33A9+eJHZDNvqJC+pdRomJXYketypct9fE5xk=;
-        b=G3XFhCuWck0+VyLYAPNJXX0OQZ9XYlIfffBYidqi61zD7iaweE21BY4GeIWKe6f8nC
-         aOrqEkAuWVABwIGNKgbx4fsFnXCV5UOcr8WIMN3HdC/1KA7tVxm7RClpHNYFd0duQnm9
-         Vr0WPhu20XnjgJSuSjo2hajQmg9hfJHzip49BI8k5ynEDc0m+N+hD4EjrrKOI7xeNxfG
-         GWV1FArCbzQNMbogZtMqwwkPpwQT+mUZxKDsefuhdDud4IDsFolrgYxcSB9CWCbv9rV4
-         dbQcZeF5vc4b3+EBVp3YPUvAbfJz2gzw8JbDPtIQQYw8VrCVkjdb+KbWfxEryOzMAO08
-         qfaw==
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=avRbMLAdK5uCBFwWUhbkvhKBjHP7RBdXVVsuPVsZfoQ=;
+        b=eSXdG5jlDRWYHlhoUKca/ySfteAN+0lnApjijM9oFaPPD1jhZOr85OE9VjzolblBBN
+         T9pY6s/eovt5cFXQlA59ig5h4M2SrCwZwxEYYGDoMcm2GjcWAmu9VGPoYzYv/RP+l//R
+         VPpReOxcKsHzR+RjvVT1izuLb+FT4v3UQMliN50hnDhXti2vEgGMtFUPWF1nf0xP13at
+         QR3XcIv8wlJjLxKw7Lt9g84a2hjAv6wRgZQHh9c4T9hvSxnVm16dOd8P7R+tTBvkjsZ3
+         5lQheBPh881yI/Kg5dVYNtG1Eg0D3gP7XZ0NyJlOk7e4czk1rjqFfT0i7bECJP0FRLkX
+         e2og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=CHy3GJ33A9+eJHZDNvqJC+pdRomJXYketypct9fE5xk=;
-        b=rOrTCGr8CyUQ5gMnAhR/S9j8lWkgNC16wYTJuw1ra2JjUQBQIoiGlyKsPU3QTRCY4I
-         eAi3eVlI7HUCH/VT3jjr+5B5PCcFKnctbFEm7AOFBUuSvrz7PMceZ3TNtfDVk360DdkG
-         Rqjb9cSWG4ATW8TRV1h1CFZ8Ee+nss7oaCNYaFA6F1GUN0fCKe1upVlTIbx89Iyj0vqj
-         7XG/dB/JCXj2620ODZHku7cp9JEkB0dph/qoHR6eMsmOpaR2bPAZxaI3S+exXvoKI9Gb
-         6AwAktWF+I1+Bk/zE3uf5ibdZPjjAr+bCIB7sA8mJlRM0nQrd8meK2M4EICuBQ4LytCx
-         BPNA==
-X-Gm-Message-State: AGi0PuYo7oFqA8yiccRS9eCSZjJoEphlJhdUZJoFq7WKlYLqNR056bGq
-	+oBKUhyaO1gSClCEYaoMm0abaYBh4u8=
-X-Google-Smtp-Source: APiQypKUIVt926ffnygEjvD7psw+9gpVyfS0kjstgdnb7qCrFv0EBXz/mMWYlXgdbfkJTWxCZYxNIQ==
-X-Received: by 2002:adf:b1c1:: with SMTP id r1mr6822428wra.337.1586337454887;
-        Wed, 08 Apr 2020 02:17:34 -0700 (PDT)
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=avRbMLAdK5uCBFwWUhbkvhKBjHP7RBdXVVsuPVsZfoQ=;
+        b=KnshfZO9F1ktMCvg4jOfuPM6djpXTMLkOiIKxwhbwOWtebjrJn6SEFIxwcX+/i1CgY
+         oaVYQkQmDlQRZsjYBFpfyJBP1/TDXALAbKgwYk8kndVMvrGxo+7bC+UzXsVkD5Zk6RNY
+         baK0cbapdWyMlCOqWxt9m2GX+86NrazYdYiASJpjnAFE7IErzx4Kh/2RVmruD8btJQ16
+         vuwVCuyIuMsunkobPGQyYtRIFgPJczNOewd0aFQufaYKP8O12820D3qfDo0qGA6JhuCk
+         A7td9w+XHAuVft5TpG0D7w38pvA87zEpMXdv1bAzoaYz93b4iNGg5Ss63GOFIevYux16
+         JDPw==
+X-Gm-Message-State: AGi0PuaROLcVURmR8zfVM6nFrpzWbw6rKD9WSwUt4VwQTK8Z7BY8KDKY
+	TmXH74QS2OrvokjTdctMamU4a5lemls=
+X-Google-Smtp-Source: APiQypLzw9cSFv6pvySaX7d/zKV3/xrYKUIrsepAGh1RHgu7T8G631SgnqxYU6QkZPfhHJoHT0wAEQ==
+X-Received: by 2002:adf:fd4e:: with SMTP id h14mr7295229wrs.297.1586337457122;
+        Wed, 08 Apr 2020 02:17:37 -0700 (PDT)
 Return-Path: <ricardo.ribalda@gmail.com>
 Received: from piling.lan (80-71-134-83.u.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id a2sm34789591wrp.13.2020.04.08.02.17.33
+        by smtp.gmail.com with ESMTPSA id a2sm34789591wrp.13.2020.04.08.02.17.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2020 02:17:33 -0700 (PDT)
+        Wed, 08 Apr 2020 02:17:36 -0700 (PDT)
 Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>,
-	Paul Barker <pbarker@konsulko.com>
-Subject: [PATCH v3 1/2] wic: Fix permissions when using exclude or include path
-Date: Wed,  8 Apr 2020 11:17:21 +0200
-Message-Id: <20200408091722.15992-1-ricardo@ribalda.com>
+Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Subject: [PATCH v3 2/2] wic: Continue if excluded_path does not exist
+Date: Wed,  8 Apr 2020 11:17:22 +0200
+Message-Id: <20200408091722.15992-2-ricardo@ribalda.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200408091722.15992-1-ricardo@ribalda.com>
+References: <20200408091722.15992-1-ricardo@ribalda.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When parameters include_path or exclude_path are passed to the rootfs
-plugin, it will copy the partition content into a folder and make all
-the modifications there.
+If an excuded path does not exist, continue without an error.
+This allows to seamleasly reuse .wks among different projects.
 
-This is done using copyhardlinktree(), which does not take into
-consideration the content of the pseudo folder, which contains the
-information about the right permissions and ownership of the folders.
+Eg:
 
-This results in a rootfs owned by the user that is running the wic
-command (usually UID 1000), which makes some rootfs unbootable.
+part / --source rootfs --fstype=ext4 --exclude-path=/opt/private_keys
 
-This bug can be easily triggerd with the following .wks
+Where /opt/private_keys in only populated by some of the image.bb files.
 
-part / --source rootfs --fstype=ext4 --exclude-path=home
-
-And this sequence:
-
-$ wic create test-permissions -e core-image-minimal -o test/
-$ sudo mount test/test-permissions-202004080823-sda.direct.p1 /mnt
-$ ls -la /mnt/etc/shadow
-
-To fix this we copy the content of the pseudo folders to the new folder
-and modify the pseudo database using the "pseudo -B" command.
-
-If the rootfs is not a rootfs generated by bitbake a warning is shown
-making the user aware that the permissions on the target might not match
-what he expects.
-
-WARNING: /tmp/test/../pseudo folder does not exist. Usernames and permissions will be invalid
-
-Cc: Paul Barker <pbarker@konsulko.com>
 Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 ---
- scripts/lib/wic/partition.py             |  7 +++--
- scripts/lib/wic/plugins/source/rootfs.py | 35 +++++++++++++++++++++---
- 2 files changed, 35 insertions(+), 7 deletions(-)
+ scripts/lib/wic/plugins/source/rootfs.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 2d95f78439..b02711be37 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -190,7 +190,7 @@ class Partition():
-                            (self.mountpoint, self.size, self.fixed_size))
- 
-     def prepare_rootfs(self, cr_workdir, oe_builddir, rootfs_dir,
--                       native_sysroot, real_rootfs = True):
-+                       native_sysroot, real_rootfs = True, pseudo_dir = None):
-         """
-         Prepare content for a rootfs partition i.e. create a partition
-         and fill it from a /rootfs dir.
-@@ -198,8 +198,9 @@ class Partition():
-         Currently handles ext2/3/4, btrfs, vfat and squashfs.
-         """
-         p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
--        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR",
--                                         "%s/../pseudo" %  rootfs_dir)
-+        if (pseudo_dir == None):
-+            pseudo_dir = "%s/../pseudo" %  rootfs_dir
-+        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR", pseudo_dir)
-         p_passwd = os.environ.get("PSEUDO_PASSWD", rootfs_dir)
-         p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
-         pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
 diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index 705aeb5563..f161d1eae0 100644
+index f161d1eae0..871f349b8c 100644
 --- a/scripts/lib/wic/plugins/source/rootfs.py
 +++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -16,11 +16,11 @@ import os
- import shutil
- import sys
+@@ -117,6 +117,9 @@ class RootfsPlugin(SourcePlugin):
+                     sys.exit(1)
  
--from oe.path import copyhardlinktree
-+from oe.path import copyhardlinktree, copytree
+                 full_path = os.path.realpath(os.path.join(new_rootfs, path))
++                
++                if not os.path.lexists(full_path):
++                    continue
  
- from wic import WicError
- from wic.pluginbase import SourcePlugin
--from wic.misc import get_bitbake_var
-+from wic.misc import get_bitbake_var, exec_native_cmd
- 
- logger = logging.getLogger('wic')
- 
-@@ -44,6 +44,15 @@ class RootfsPlugin(SourcePlugin):
- 
-         return os.path.realpath(image_rootfs_dir)
- 
-+    @staticmethod
-+    def __get_pseudo(native_sysroot, rootfs, pseudo_dir):
-+        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
-+        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
-+        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs
-+        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
-+        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-+        return pseudo
-+
-     @classmethod
-     def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
-                              oe_builddir, bootimg_dir, kernel_dir,
-@@ -68,8 +77,14 @@ class RootfsPlugin(SourcePlugin):
-                                "it is not a valid path, exiting" % part.rootfs_dir)
- 
-         part.rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
-+        pseudo_dir = os.path.join(part.rootfs_dir, "../pseudo")
-+        if not os.path.lexists(pseudo_dir):
-+            logger.warn("%s folder does not exist. "
-+                        "Usernames and permissions will be invalid " % pseudo_dir)
-+            pseudo_dir = None
- 
-         new_rootfs = None
-+        new_pseudo = None
-         # Handle excluded paths.
-         if part.exclude_path or part.include_path:
-             # We need a new rootfs directory we can delete files from. Copy to
-@@ -78,9 +93,20 @@ class RootfsPlugin(SourcePlugin):
- 
-             if os.path.lexists(new_rootfs):
-                 shutil.rmtree(os.path.join(new_rootfs))
--
-             copyhardlinktree(part.rootfs_dir, new_rootfs)
- 
-+            # Convert the pseudo directory to its new location
-+            if (pseudo_dir):
-+                new_pseudo = os.path.join(new_rootfs, "../pseudo%d" % part.lineno)
-+                if os.path.lexists(new_pseudo):
-+                    shutil.rmtree(new_pseudo)
-+                copytree(pseudo_dir, new_pseudo)
-+                pseudo_cmd = "%s -B -m %s -M %s" % (cls.__get_pseudo(native_sysroot,
-+                                                                     new_rootfs,
-+                                                                     new_pseudo),
-+                                                    part.rootfs_dir, new_rootfs)
-+                exec_native_cmd(pseudo_cmd, native_sysroot)
-+
-             for path in part.include_path or []:
-                 copyhardlinktree(path, new_rootfs)
- 
-@@ -112,4 +138,5 @@ class RootfsPlugin(SourcePlugin):
-                     shutil.rmtree(full_path)
- 
-         part.prepare_rootfs(cr_workdir, oe_builddir,
--                            new_rootfs or part.rootfs_dir, native_sysroot)
-+                            new_rootfs or part.rootfs_dir, native_sysroot,
-+                            pseudo_dir = new_pseudo or pseudo_dir)
+                 # Disallow climbing outside of parent directory using '..',
+                 # because doing so could be quite disastrous (we will delete the
 -- 
 2.25.1
 
