@@ -1,127 +1,114 @@
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web12.4022.1586310780523850760
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web11.3898.1586310785919499070
  for <openembedded-core@lists.openembedded.org>;
- Tue, 07 Apr 2020 18:53:00 -0700
+ Tue, 07 Apr 2020 18:53:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hE649I+Y;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id b1so5910072ljp.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 07 Apr 2020 18:53:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=DdAVGPOMgb2Bx7ickrTD8drAP43LfJq+/ftlZ+zsaeQ=;
-        b=hE649I+Ym01qnzf+ftPbmwWcLFaaSTX0LKSbuG/SAewFNYnTucw01WtMnGJgR/aN/n
-         sZes2YcIrGxV9scfRb4JFuhYHfamM7GmTgVI0FlWmMvO71uBxJVT5g5CGVcBA4V/WTr8
-         j4qSDH94XL9ivNMsEVWqKt6TEQwGuUES4/7c9p4s4j5SVZv/pxmcJ9XpxekFGjZgHkIU
-         CWW+FM+SeBtlXmTk4ipic9yQ2/Yo0kxWwlL5X3p1xue/83h2wRxJ00Bv3cBAGrD0I6AX
-         oiUcr9e939q+Vff2dtpUe8v7qMEdZGfRjirYyQ5c4eStM74Gk4+F4Nk2f9imRYjNZvC9
-         CipA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=DdAVGPOMgb2Bx7ickrTD8drAP43LfJq+/ftlZ+zsaeQ=;
-        b=kI8iek/wzTlD9ELJe2bF+36J0UXIiyrSZUrRzwOM9n5KZKnJ4Ql3cTa112Dqe3oYcq
-         LvWO4GY2MCF1AD4YD6P6hlp+ZGMBzA8Mz0wyvV994TGu3NnThelP4CdwOIN7Avi4J5m8
-         ZwieSWWTpfyNvANVs7HHR/Kv/tZmTgrTPmpIXjqmO4r1aj6OvB+mhJ067+jCNckXJX7k
-         CvurPoKsE9AhIQDV5Zh2gFCqVBmSAvtqUeGmnTGHTu+v6B3pjBw4q46zSXMVg4lLbNee
-         Qkiw3DZ9S1D2HFkWEm19OsxiZZC9TNDHDk6F7Sls4fvSewRQtjyeYfBeSel+wfLfY1xZ
-         Z+YA==
-X-Gm-Message-State: AGi0PuYMmLDkfnWLhWrKDgTweu2YozecnFGhFL/78wUBnncqBTVA2VmG
-	B7jeHvfk+eYhDI82owc82rKlzLQLH+YDG64yK0TeNpc36Eg=
-X-Google-Smtp-Source: APiQypIww3ciq1LO4vTGVgS5I9FDVfumX20kkh8kEjiqXuCmq7yx0nRwfkv5HMut7Y+PCoYGNuwXyAFf86If2lP/enc=
-X-Received: by 2002:a2e:8887:: with SMTP id k7mr3421190lji.193.1586310778243;
- Tue, 07 Apr 2020 18:52:58 -0700 (PDT)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.72,357,1580745600"; 
+   d="scan'208";a="88652006"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 08 Apr 2020 09:53:04 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id 267ED49DF126
+	for <openembedded-core@lists.openembedded.org>; Wed,  8 Apr 2020 09:42:42 +0800 (CST)
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 8 Apr 2020 09:53:03 +0800
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+ G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
+ (TLS) id 14.3.439.0; Wed, 8 Apr 2020 09:53:10 +0800
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] libdrm: upgrade 2.4.100 -> 2.4.101
+Date: Wed, 8 Apr 2020 02:00:15 -0700
+Message-ID: <1586336415-19139-2-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1586336415-19139-1-git-send-email-wangmy@cn.fujitsu.com>
+References: <1586336415-19139-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
-From: "Ankur Tyagi" <ankur.tyagi85@gmail.com>
-Date: Wed, 8 Apr 2020 13:52:47 +1200
-Message-ID: <CADySD0GO0510UjoSWx=sK9oiyCFCJanB7-C7Ph6y62BtOmfNXA@mail.gmail.com>
-Subject: Including vendor's pre-built binary in image
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000070cf2a05a2bdc2d7"
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: 267ED49DF126.A3478
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
---00000000000070cf2a05a2bdc2d7
-Content-Type: text/plain; charset="UTF-8"
+musl-ioctl.patch
+removed since it is included in 2.4.101
 
-Hi,
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ .../drm/libdrm/musl-ioctl.patch               | 35 -------------------
+ .../{libdrm_2.4.100.bb => libdrm_2.4.101.bb}  |  7 ++--
+ 2 files changed, 3 insertions(+), 39 deletions(-)
+ delete mode 100644 meta/recipes-graphics/drm/libdrm/musl-ioctl.patch
+ rename meta/recipes-graphics/drm/{libdrm_2.4.100.bb => libdrm_2.4.101.bb} (92%)
 
-I am sure this is not being discussed for first time and I tried
-all suggested solution in previous emails but none worked hence I am asking
-again.
+diff --git a/meta/recipes-graphics/drm/libdrm/musl-ioctl.patch b/meta/recipes-graphics/drm/libdrm/musl-ioctl.patch
+deleted file mode 100644
+index e3d6c5b853..0000000000
+--- a/meta/recipes-graphics/drm/libdrm/musl-ioctl.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-Upstream-Status: Submitted
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From 46c0fd6c827a8cb4d04e067bf04fab579ac4712e Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Mon, 18 Jun 2018 15:07:03 +0100
+-Subject: [PATCH] tests/nouveau/threaded: adapt ioctl signature
+-
+-POSIX says ioctl() has the signature (int, int, ...) but glibc has decided to
+-use (int, unsigned long int, ...) instead.
+-
+-Use a #ifdef to adapt the replacement function as appropriate.
+----
+- tests/nouveau/threaded.c | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/tests/nouveau/threaded.c b/tests/nouveau/threaded.c
+-index 3669bcd3..e1c27c01 100644
+---- a/tests/nouveau/threaded.c
+-+++ b/tests/nouveau/threaded.c
+-@@ -36,7 +36,11 @@ static int failed;
+- 
+- static int import_fd;
+- 
+-+#ifdef __GLIBC__
+- int ioctl(int fd, unsigned long request, ...)
+-+#else
+-+int ioctl(int fd, int request, ...)
+-+#endif
+- {
+- 	va_list va;
+- 	int ret;
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-graphics/drm/libdrm_2.4.100.bb b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
+similarity index 92%
+rename from meta/recipes-graphics/drm/libdrm_2.4.100.bb
+rename to meta/recipes-graphics/drm/libdrm_2.4.101.bb
+index 4859425672..8ec566faa9 100644
+--- a/meta/recipes-graphics/drm/libdrm_2.4.100.bb
++++ b/meta/recipes-graphics/drm/libdrm_2.4.101.bb
+@@ -10,10 +10,9 @@ LIC_FILES_CHKSUM = "file://xf86drm.c;beginline=9;endline=32;md5=c8a3b961af7667c5
+ PROVIDES = "drm"
+ DEPENDS = "libpthread-stubs"
+ 
+-SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
+-           file://musl-ioctl.patch"
+-SRC_URI[md5sum] = "f47bc87e28198ba527e6b44ffdd62f65"
+-SRC_URI[sha256sum] = "c77cc828186c9ceec3e56ae202b43ee99eb932b4a87255038a80e8a1060d0a5d"
++SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.xz"
++SRC_URI[md5sum] = "e6a6f1b88963210b3d62acd7310a1cc7"
++SRC_URI[sha256sum] = "ddf31baa8e49473624860bd166ce654dc349873f7a6c7b3305964249315c78a7"
+ 
+ inherit meson pkgconfig manpages
+ 
+-- 
+2.17.1
 
-Trying to include a pre-built binary from vendor in my image but getting
-following QA error:
 
-ERROR: my-recipe-1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool contained
-in package my-recipe requires libstdc++.so.6(CXXABI_1.3), but no providers
-found in RDEPENDS_my-recipe ? [file-rdeps]
-ERROR: my-recipe -1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool
-contained in package my-recipe requires libstdc++.so.6(GLIBCXX_3.4), but no
-providers found in RDEPENDS_my-recipe ? [file-rdeps]
-ERROR: my-recipe -1.0-r0 do_package_qa: QA run found fatal errors. Please
-consider fixing them.
-ERROR: my-recipe -1.0-r0 do_package_qa: Function failed: do_package_qa
 
-I have tried following in my-recipe_1.0.bb but error still persists
-RDEPENDS_${PN} += "libstdc++6"
-
-How can I fix this?
-
-thanks
-Ankur
-
---00000000000070cf2a05a2bdc2d7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
-sans-serif">Hi,<br></div><div class=3D"gmail_default" style=3D"font-family:=
-verdana,sans-serif"><br></div><div class=3D"gmail_default" style=3D"font-fa=
-mily:verdana,sans-serif">I am sure this=C2=A0is not being discussed for=C2=
-=A0first time and I tried all=C2=A0suggested solution in=C2=A0previous emai=
-ls but none worked hence I am asking again.</div><div class=3D"gmail_defaul=
-t" style=3D"font-family:verdana,sans-serif"><br></div><div class=3D"gmail_d=
-efault" style=3D"font-family:verdana,sans-serif">Trying to include a pre-bu=
-ilt binary from vendor in my image but getting following QA error:</div><di=
-v class=3D"gmail_default" style=3D"font-family:verdana,sans-serif"><br></di=
-v><div class=3D"gmail_default" style=3D"font-family:verdana,sans-serif">ERR=
-OR: my-recipe-1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool contained in=
- package=20
-
-my-recipe
-
- requires libstdc++.so.6(CXXABI_1.3), but no providers found in RDEPENDS_my=
--recipe
-
-? [file-rdeps]<br>ERROR:=20
-
-my-recipe
-
--1.0-r0 do_package_qa: QA Issue: /etc/vendor/tool contained in package=20
-
-my-recipe requires libstdc++.so.6(GLIBCXX_3.4), but no providers found in R=
-DEPENDS_my-recipe
-
-? [file-rdeps]<br>ERROR:=20
-
-my-recipe
-
--1.0-r0 do_package_qa: QA run found fatal errors. Please consider fixing th=
-em.<br>ERROR:=20
-
-my-recipe
-
--1.0-r0 do_package_qa: Function failed: do_package_qa<br></div><div class=
-=3D"gmail_default" style=3D"font-family:verdana,sans-serif"><br></div><div =
-class=3D"gmail_default" style=3D"font-family:verdana,sans-serif">I have tri=
-ed following in <a href=3D"http://my-recipe_1.0.bb">my-recipe_1.0.bb</a> bu=
-t error still persists</div><div class=3D"gmail_default" style=3D"font-fami=
-ly:verdana,sans-serif">RDEPENDS_${PN} +=3D &quot;libstdc++6&quot;<br></div>=
-<div class=3D"gmail_default" style=3D"font-family:verdana,sans-serif"><br><=
-/div><div class=3D"gmail_default" style=3D"font-family:verdana,sans-serif">=
-How can I=C2=A0fix this?</div><div class=3D"gmail_default" style=3D"font-fa=
-mily:verdana,sans-serif"><br></div><div class=3D"gmail_default" style=3D"fo=
-nt-family:verdana,sans-serif">thanks</div><div class=3D"gmail_default" styl=
-e=3D"font-family:verdana,sans-serif">Ankur</div></div>
-
---00000000000070cf2a05a2bdc2d7--
