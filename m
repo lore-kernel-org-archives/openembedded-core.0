@@ -1,184 +1,97 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web10.6872.1586431962625841406
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web12.10027.1586442663595208144
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2020 04:32:43 -0700
+ Thu, 09 Apr 2020 07:31:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.208.195, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-lj1-f195.google.com with SMTP id q22so7326997ljg.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2020 04:32:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=l/OMNXh5;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id c63so4122092qke.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2020 07:31:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0fgEvWRXEP5VEIAomFkV/yPNuBiq0kZMCy9sPaupzBQ=;
+        b=l/OMNXh570rllapfnZznAvr7xcdwmlbBvbNMCSNWSrJkBlEU0DmUme78LVr9iRd9/Y
+         uqZDj2PC8Bt2UzfLhaBPHB6ssMFJ92yPapDykWV7Smow7PRS+Mz9xe2ZPJ/4U4RYzVKV
+         XPWYDLYCBhjssws2B+hF6GbtYOXHht/qC5g1evYmBfM9zoSjctE6J9oCwBjES3IZg/YI
+         pwpjOB3sV9fbbTMTREfX7URXtoKK37qp70070i1k/nyV6NTPNuvlW58z7pZCk/qaU0bJ
+         lVKGnhubwdGBtljLnFxMsFZzz6fCR7Jx49SJxsbJZjTPW4wzddbq/hUb73mImqXlCNFZ
+         ENEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=33e7seV4VEZapkpg7jZzlGzVb0F0DfUq3kndLSNWwMA=;
-        b=aL7J/e7A3fLu0EHf9yNL6/lt8FaJVOMOCBLe6/rMytiB+TTtosVO7L98Wk10fl6AG0
-         hpSHo9MFuSfHLOQNM/OtR2zeyNtp7p2KQbIZXA0Poe+ZbNPcE8Ff84HD4KxwFsnqiEXJ
-         reDPaFIIDMsoY23MsqRXaVSaIG4vAlHmtWfhlKSjsfPIIxTPWgPDQNJ4Zb56y7GtVJ9b
-         MdBCe7yRvZ2QvkhTQv08QSfN5TBxa+1Xlt1jikrzDOb6ka7olR4oqP/wpHzl/M+cmlJa
-         pR5Y3e/qB0yTyC3CpdnecUO4irPygDsVFKZgv+g3l2WYFdKmyRfeHhmB9ch7D6Afd9eW
-         thfQ==
-X-Gm-Message-State: AGi0PuY8qnig7r7AJxLfFzve8JRaCVGIRU26YwcP2x2Z/Elw6x8NjL2C
-	qTEGum/esiAVwqVfIov0Z2zp6fCFi1O2N8ZuwgM=
-X-Google-Smtp-Source: APiQypK9PntuIAwgN+XeQwCnejLmtZflxKtQyoIPzW8VEgBRsu36RUAejq4FG8hH4AEGGqQ5iNYeI07mbfG3xVQJDn0=
-X-Received: by 2002:a2e:9959:: with SMTP id r25mr8107720ljj.200.1586431960406;
- Thu, 09 Apr 2020 04:32:40 -0700 (PDT)
+        bh=0fgEvWRXEP5VEIAomFkV/yPNuBiq0kZMCy9sPaupzBQ=;
+        b=g6hP97C/vMkBppLYM1tOKMQToRh2S/DtEGvk1YVY0S1R1KgZ6DyxpiEhen0IX+nNkl
+         nENue/URjFEaMDaVPbjiHOzj+7TGbNDEz/F6idoY34cjn0hllRAEr/Ftc7+RfXI9DtNH
+         bvHRDY0sP7DcBkbsqY9FjOml2X5j3EuYHN5f5HaN6zBt8D9vukI2CAgS4zNm92JUEr6T
+         Rq2LVzYD3R9pz6TBB6liJTG/2uXsxSd/tnJ3qEpsiqylmejLELHju+QIAQMsDHCAws7k
+         XYkzplCksb+RfqK8RS+UaryXgZgC60kMXZB+xIpKILbhexrHZASMK5nmVVy/QDVJJr6Q
+         ceaQ==
+X-Gm-Message-State: AGi0PubYZzqC14qBONmov8JS76qI/qfhMp3rzkNwzubscii2I4I68lQy
+	sx+m0cyvCpmO1JpEvSzyoy0gRto1sC8UcuVwfuQ=
+X-Google-Smtp-Source: APiQypIDs/VcSCC1Vqdgqb7Iyf9icg1P9/ykyp9eFs7ZENP3nqFnMfOGGzC8i9GdrN78NQ7wjWn1zEt5mBBYwFQTPkc=
+X-Received: by 2002:a37:bec5:: with SMTP id o188mr53152qkf.165.1586442662263;
+ Thu, 09 Apr 2020 07:31:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200409104951.948242-1-ricardo@ribalda.com> <20200409121031.0efee461@ub1910>
-In-Reply-To: <20200409121031.0efee461@ub1910>
-From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
-Date: Thu, 9 Apr 2020 13:32:23 +0200
-Message-ID: <CAPybu_2CHmVa-sfhZdXzQ_PrkqCToZ-wd2rPnGo7bnEPzVEuvg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] wic: Fix permissions
-To: Paul Barker <pbarker@konsulko.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+References: <20200408231808.393685-1-richard.purdie@linuxfoundation.org>
+ <CAMKF1srJ72-knr8BJxGcJ6Mct=y_Dt4DtZWMhs5UM+eoCf4i6A@mail.gmail.com> <ed42da631684e5b7151a03a3bfd692fe779ded65.camel@linuxfoundation.org>
+In-Reply-To: <ed42da631684e5b7151a03a3bfd692fe779ded65.camel@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 9 Apr 2020 07:30:34 -0700
+Message-ID: <CAMKF1sroZrjR+g5DP1vZ3pFYxsJAxBHp2eMiDkE7DiurTa8YLA@mail.gmail.com>
+Subject: Re: [PATCH] musl: Show error when used with multilibs
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Paul
-
-On Thu, Apr 9, 2020 at 1:10 PM Paul Barker <pbarker@konsulko.com> wrote:
+On Thu, Apr 9, 2020 at 2:47 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On Thu,  9 Apr 2020 12:49:47 +0200
-> Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
+> On Wed, 2020-04-08 at 16:45 -0700, Khem Raj wrote:
+> > On Wed, Apr 8, 2020 at 4:18 PM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > As discussed in the bugzilla entry, musl is not compatible with
+> > > multilibs
+> > > and has no plans to support this. Therefore tell users this from
+> > > the
+> > > recipe rather than letting them run into build failures.
+> > >
+> >
+> > I dont think thats the case anymore, I have sent patches to fix
+> > multilib on musl. this seems a broad brush. What are you trying to
+> > fix ?
 >
-> > Hi
-> >
-> >
-> > Today wic behaves differently if we run it from bitbake of directly from the
-> > commandline.
-> >
-> > When it is run from bitbake, the permissions/usersnames are handled by the
-> > pseudo database of the main image.
-> >
-> > When it is run from the comandline , it is run outside the main image database.
-> >
-> > This results on permissions/usernames not working ok on some usecases on both
-> > bitbake and wic.
-> >
-> >
-> > This is an attempt to fix all the permission bugs that I am aware from wic.
-> > Using the following usecases
-> >
-> >
-> > #exclude-path
-> > part / --source rootfs --fstype=ext4 --exclude-path=home
-> >
-> > #split_partition
-> > part / --source rootfs --ondisk sda --fstype=ext4 --exclude-path=etc/
-> > part /etc --source rootfs --rootfs-dir=tmp/work/qt5222-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/ --fstype=ext4
-> >
-> > #multi_partition
-> > part / --source rootfs --ondisk sda --fstype=ext4
-> > part /export --source rootfs --rootfs=core-image-minimal-mtdutils --fstype=ext4
-> >
-> >
-> > With the current master:
-> > -------------------------
-> > #exclude-path
-> > From Bitbake: OK
-> > wic cmdline: FAIL
-> >
-> > #split_partition
-> > From Bitbake: OK
-> > wic cmdline: FAIL, permissions invalid on both partitions
-> >
-> > #multi_partition
-> > From Bitbake: FAIL second partition
-> > wic cmdline: OK
-> >
-> >
-> > After:  wic: Fix permissions when using exclude or include path
-> > --------------------------------------------------------------------
-> > #exclude-path
-> > From Bitbake: OK
-> > wic cmdline: OK
-> >
-> > #split_partition
-> > From Bitbake: OK
-> > wic cmdline: FAIL, permissions invalid on second partition
-> >
-> > #multi_partition
-> > From Bitbake: FAIL second partition
-> > wic cmdline: OK
-> >
-> >
-> > After: wic: Fix multi images .wks with bitbake
-> > ----------------------------------------------
-> > #exclude-path
-> > From Bitbake: OK
-> > wic cmdline: OK
-> >
-> > #split_partition
-> > From Bitbake: FAIL, permissions invalid on second partition
-> > wic cmdline: FAIL, permissions invalid on second partition
-> >
-> > #multi_partition
-> > From Bitbake: OK
-> > wic cmdline: OK
-> >
+> The bug said we don't support multilib and musl and the code clearly
+> currently doesn't, so this patch was to make the situation clearer to
+> users.
 >
-> This looks really good, are you able to automate any of these tests and put
-> them in meta/lib/oeqa/selftest/cases/wic.py?
+> Based on the need for your patch and other patches, its clear that musl
+> and multilib doesn't work as things stand today.
+>
+> The question becomes whether we want to support that? Do we want/need
+> to add automated tests for it?
+>
+> We've built 3.1 rc2 which is in QA so this wasn't going into the
+> release, maybe the point release, or if we rebuild for some reason. I
+> do want to do something with the bug. If we want to enable multilib
+> with musl that would be a 3.2 activity.
+>
+> Perhaps we should merge this change, then remove it when the other
+> issues are fixed?
 
-Havent done it before, but for sure I can give it a try.
-
-Any good guide I can use? Last time I was playing with selftest
-whenever I changed something on a test I had to run the whole test
-from scratch, which is not very productive :).
-
-
+I tthink fixing musl for a mixed mulilib is a bit invasive at this
+time of release so
+agreed on that. however this will disable a usecase which is valid for
+musl systems
+64bit kernel + 32bit-only-userspace. So I am a bit torn here to
+disable it completely.
+perhaps a parse warning might be good compromise.
 
 >
-> >
-> >
-> > After: wic: Add --change-directory argument
-> > --------------------------------------------
-> >
-> > we can have a .wks like:
-> > part / --source rootfs --ondisk sda --fstype=ext4 --exclude-path=etc/
-> > part /etc --source rootfs --fstype=ext4 --change-directory=/etc
-> >
-> >
-> > Wich works fine from bitbake and from cmdline, and has the same functionality as
-> > split_partition.
-> >
-> >
-> > Ricardo Ribalda Delgado (4):
-> >   wic: Fix permissions when using exclude or include path
-> >   wic: Fix multi images .wks with bitbake
-> >   wic: Add --change-directory argument
-> >   wic: Continue if excluded_path does not exist
-> >
-> >  meta/classes/image_types_wic.bbclass     |  8 +++-
-> >  scripts/lib/wic/help.py                  |  6 +++
-> >  scripts/lib/wic/ksparser.py              |  1 +
-> >  scripts/lib/wic/partition.py             | 15 ++++---
-> >  scripts/lib/wic/plugins/source/rootfs.py | 52 ++++++++++++++++++++++--
-> >  5 files changed, 68 insertions(+), 14 deletions(-)
-> >
+> Cheers,
 >
-> I'll give this a detailed review over the weekend. Looks good at first
-> glance, though I may suggest renaming `--change-directory` to something else
-> so it's more obvious what it's doing when you just read that in a wks file.
-> Perhaps `--part-subdir`, I don't know. Let's not bikeshed it too much though.
+> Richard
 >
-
-I do not care about the name, I have used tar as "inspiration"
-
-       -C, --directory=DIR
-              Change  to DIR before performing any operations.  This option is
-              order-sensitive, i.e. it affects all options that follow.
-
-If you have any preference on the name I will take it.
-
-Thanks!
-
-> Thanks,
 >
-> --
-> Paul Barker
-> Konsulko Group
-
-
-
--- 
-Ricardo Ribalda
