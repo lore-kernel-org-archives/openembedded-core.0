@@ -1,78 +1,184 @@
-Received: from bsmtp2.bon.at (bsmtp2.bon.at [213.33.87.16])
- by mx.groups.io with SMTP id smtpd.web11.6853.1586431805049830177
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
+ by mx.groups.io with SMTP id smtpd.web10.6872.1586431962625841406
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2020 04:30:05 -0700
+ Thu, 09 Apr 2020 04:32:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.16, mailfrom: quentin.schulz@streamunlimited.com)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp2.bon.at (Postfix) with ESMTPSA id 48yf7t2vvkz5tlD;
-	Thu,  9 Apr 2020 13:30:02 +0200 (CEST)
-Date: Thu, 9 Apr 2020 13:30:01 +0200
-From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
-To: Paul Barker <pbarker@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] cairo: work around multilib issue resulting in improper handling of licenses
-Message-ID: <20200409113001.mwpkka6inzq6byfu@qschulz>
-References: <20200409110423.11841-1-quentin.schulz@streamunlimited.com>
- <20200409121700.66bffc1c@ub1910>
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.208.195, mailfrom: ricardo.ribalda@gmail.com)
+Received: by mail-lj1-f195.google.com with SMTP id q22so7326997ljg.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2020 04:32:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=33e7seV4VEZapkpg7jZzlGzVb0F0DfUq3kndLSNWwMA=;
+        b=aL7J/e7A3fLu0EHf9yNL6/lt8FaJVOMOCBLe6/rMytiB+TTtosVO7L98Wk10fl6AG0
+         hpSHo9MFuSfHLOQNM/OtR2zeyNtp7p2KQbIZXA0Poe+ZbNPcE8Ff84HD4KxwFsnqiEXJ
+         reDPaFIIDMsoY23MsqRXaVSaIG4vAlHmtWfhlKSjsfPIIxTPWgPDQNJ4Zb56y7GtVJ9b
+         MdBCe7yRvZ2QvkhTQv08QSfN5TBxa+1Xlt1jikrzDOb6ka7olR4oqP/wpHzl/M+cmlJa
+         pR5Y3e/qB0yTyC3CpdnecUO4irPygDsVFKZgv+g3l2WYFdKmyRfeHhmB9ch7D6Afd9eW
+         thfQ==
+X-Gm-Message-State: AGi0PuY8qnig7r7AJxLfFzve8JRaCVGIRU26YwcP2x2Z/Elw6x8NjL2C
+	qTEGum/esiAVwqVfIov0Z2zp6fCFi1O2N8ZuwgM=
+X-Google-Smtp-Source: APiQypK9PntuIAwgN+XeQwCnejLmtZflxKtQyoIPzW8VEgBRsu36RUAejq4FG8hH4AEGGqQ5iNYeI07mbfG3xVQJDn0=
+X-Received: by 2002:a2e:9959:: with SMTP id r25mr8107720ljj.200.1586431960406;
+ Thu, 09 Apr 2020 04:32:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200409121700.66bffc1c@ub1910>
-User-Agent: NeoMutt/20180716
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20200409104951.948242-1-ricardo@ribalda.com> <20200409121031.0efee461@ub1910>
+In-Reply-To: <20200409121031.0efee461@ub1910>
+From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
+Date: Thu, 9 Apr 2020 13:32:23 +0200
+Message-ID: <CAPybu_2CHmVa-sfhZdXzQ_PrkqCToZ-wd2rPnGo7bnEPzVEuvg@mail.gmail.com>
+Subject: Re: [PATCH v4 0/4] wic: Fix permissions
+To: Paul Barker <pbarker@konsulko.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Paul,
+Hi Paul
 
-On Thu, Apr 09, 2020 at 12:17:00PM +0100, Paul Barker wrote:
-> On Thu,  9 Apr 2020 13:04:23 +0200
-> "Quentin Schulz" <quentin.schulz@streamunlimited.com> wrote:
-> 
-> > There is currently an issue when a LICENSE for a package is defined
-> > differently than how the package is defined in PACKAGES.
-> > 
-> > See bug tracker: http://bugzilla.yoctoproject.org/show_bug.cgi?id=13865
-> > 
-> > This results in LICENSE being taken instead of LICENSE_${PN}-gobject
-> > because the latter is expanded to LICENSE_lib32-cairo-gobject while the
-> > entry in PACKAGES is still cairo-object at the moment of setting
-> > LICENSE_EXCLUSION in base.bbclass.
-> > 
-> > This means that instead of the expected MPL-1.1 | LGPLv2.1 license for
-> > lib32-cairo-object, it is (MPL-1.1 | LGPLv2.1) & GPLv3+ which does not
-> > work when you have INCOMPATIBLE_LICENSE set to GPLv3.
-> > 
-> > Same applies to cairo-perf-utils and cairo-script-interpreter.
-> > 
-> > Let's use ${PN} instead of hardcoded cairo in PACKAGES so that we
-> > mitigate the multilib issue on this recipe level.
-> > 
-> > Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
-> > ---
-> >  meta/recipes-graphics/cairo/cairo_1.16.0.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> > index b772c2ece2..e18159e96c 100644
-> > --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> > +++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> > @@ -72,7 +72,7 @@ do_install_append () {
-> >  	rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
-> >  }
-> >  
-> > -PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
-> > +PACKAGES =+ "${PN}-gobject ${PN}-script-interpreter ${PN}-perf-utils"
-> >  
-> >  SUMMARY_cairo-gobject = "The Cairo library GObject wrapper library"
-> >  DESCRIPTION_cairo-gobject = "A GObject wrapper library for the Cairo API."
-> 
-> Should we also change these entries to `SUMMARY_${PN}-gobject` and
-> `DESCRIPTION_${PN}-gobject`? There may be others as well, I'm just looking at
-> the diff not the full recipe.
-> 
+On Thu, Apr 9, 2020 at 1:10 PM Paul Barker <pbarker@konsulko.com> wrote:
+>
+> On Thu,  9 Apr 2020 12:49:47 +0200
+> Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
+>
+> > Hi
+> >
+> >
+> > Today wic behaves differently if we run it from bitbake of directly from the
+> > commandline.
+> >
+> > When it is run from bitbake, the permissions/usersnames are handled by the
+> > pseudo database of the main image.
+> >
+> > When it is run from the comandline , it is run outside the main image database.
+> >
+> > This results on permissions/usernames not working ok on some usecases on both
+> > bitbake and wic.
+> >
+> >
+> > This is an attempt to fix all the permission bugs that I am aware from wic.
+> > Using the following usecases
+> >
+> >
+> > #exclude-path
+> > part / --source rootfs --fstype=ext4 --exclude-path=home
+> >
+> > #split_partition
+> > part / --source rootfs --ondisk sda --fstype=ext4 --exclude-path=etc/
+> > part /etc --source rootfs --rootfs-dir=tmp/work/qt5222-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/ --fstype=ext4
+> >
+> > #multi_partition
+> > part / --source rootfs --ondisk sda --fstype=ext4
+> > part /export --source rootfs --rootfs=core-image-minimal-mtdutils --fstype=ext4
+> >
+> >
+> > With the current master:
+> > -------------------------
+> > #exclude-path
+> > From Bitbake: OK
+> > wic cmdline: FAIL
+> >
+> > #split_partition
+> > From Bitbake: OK
+> > wic cmdline: FAIL, permissions invalid on both partitions
+> >
+> > #multi_partition
+> > From Bitbake: FAIL second partition
+> > wic cmdline: OK
+> >
+> >
+> > After:  wic: Fix permissions when using exclude or include path
+> > --------------------------------------------------------------------
+> > #exclude-path
+> > From Bitbake: OK
+> > wic cmdline: OK
+> >
+> > #split_partition
+> > From Bitbake: OK
+> > wic cmdline: FAIL, permissions invalid on second partition
+> >
+> > #multi_partition
+> > From Bitbake: FAIL second partition
+> > wic cmdline: OK
+> >
+> >
+> > After: wic: Fix multi images .wks with bitbake
+> > ----------------------------------------------
+> > #exclude-path
+> > From Bitbake: OK
+> > wic cmdline: OK
+> >
+> > #split_partition
+> > From Bitbake: FAIL, permissions invalid on second partition
+> > wic cmdline: FAIL, permissions invalid on second partition
+> >
+> > #multi_partition
+> > From Bitbake: OK
+> > wic cmdline: OK
+> >
+>
+> This looks really good, are you able to automate any of these tests and put
+> them in meta/lib/oeqa/selftest/cases/wic.py?
 
-We could for consistency but those aren't impacted by the bug (I checked
-in tmp/pkgdata/<machine>/runtime/lib32-cairo-*).
+Havent done it before, but for sure I can give it a try.
 
-Would you want me to change them anyway?
+Any good guide I can use? Last time I was playing with selftest
+whenever I changed something on a test I had to run the whole test
+from scratch, which is not very productive :).
 
-Quentin
+
+
+>
+> >
+> >
+> > After: wic: Add --change-directory argument
+> > --------------------------------------------
+> >
+> > we can have a .wks like:
+> > part / --source rootfs --ondisk sda --fstype=ext4 --exclude-path=etc/
+> > part /etc --source rootfs --fstype=ext4 --change-directory=/etc
+> >
+> >
+> > Wich works fine from bitbake and from cmdline, and has the same functionality as
+> > split_partition.
+> >
+> >
+> > Ricardo Ribalda Delgado (4):
+> >   wic: Fix permissions when using exclude or include path
+> >   wic: Fix multi images .wks with bitbake
+> >   wic: Add --change-directory argument
+> >   wic: Continue if excluded_path does not exist
+> >
+> >  meta/classes/image_types_wic.bbclass     |  8 +++-
+> >  scripts/lib/wic/help.py                  |  6 +++
+> >  scripts/lib/wic/ksparser.py              |  1 +
+> >  scripts/lib/wic/partition.py             | 15 ++++---
+> >  scripts/lib/wic/plugins/source/rootfs.py | 52 ++++++++++++++++++++++--
+> >  5 files changed, 68 insertions(+), 14 deletions(-)
+> >
+>
+> I'll give this a detailed review over the weekend. Looks good at first
+> glance, though I may suggest renaming `--change-directory` to something else
+> so it's more obvious what it's doing when you just read that in a wks file.
+> Perhaps `--part-subdir`, I don't know. Let's not bikeshed it too much though.
+>
+
+I do not care about the name, I have used tar as "inspiration"
+
+       -C, --directory=DIR
+              Change  to DIR before performing any operations.  This option is
+              order-sensitive, i.e. it affects all options that follow.
+
+If you have any preference on the name I will take it.
+
+Thanks!
+
+> Thanks,
+>
+> --
+> Paul Barker
+> Konsulko Group
+
+
+
+-- 
+Ricardo Ribalda
