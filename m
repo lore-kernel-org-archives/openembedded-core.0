@@ -1,69 +1,122 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.web12.3313.1586407287479745582
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+ by mx.groups.io with SMTP id smtpd.web10.3208.1586407290900494247
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2020 21:41:27 -0700
+ Wed, 08 Apr 2020 21:41:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=I4kP6fhd;
- spf=pass (domain: gmail.com, ip: 209.85.160.173, mailfrom: bkylerussell@gmail.com)
-Received: by mail-qt1-f173.google.com with SMTP id o10so704242qtr.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2020 21:41:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RB6o30+7;
+ spf=pass (domain: gmail.com, ip: 209.85.222.173, mailfrom: bkylerussell@gmail.com)
+Received: by mail-qk1-f173.google.com with SMTP id j4so2741037qkc.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 08 Apr 2020 21:41:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=HT8BayMBTw2MvH7Ntg2xNAI7cwyyk4Bepv7GWAw7eFE=;
-        b=I4kP6fhdEkuEEO0KNh72eXu6L+9+nvEzqMaMFHi4KJ1zZEuW4OX9lMC+7GL4Ac9xUD
-         lWqTIIrHYBjv1HDTXi2IQAgxYp4ubcbTsERZY9JKZv51gL/4tfXCBR1bpaIaE92BYEju
-         kz6hcuFZf1XZ/llFtrAs3xQhXkfnpnmlUVhOA3mZwrSYcVPHRQCTfy2BDDirdsIvnafD
-         7B3+tvnLVRkBtreWmmF9GJluu+g3W/Ov4DagT24zzhxc4EmkADuBbb9BJSHNF3Fz7Lv3
-         FCscKG/nhWCTHZuTICJwiw9KECMJPI/q8vssZAUdlhTOChTkfVGquhYfqgkaziaQH4R+
-         0lnQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=6lcaZx203dSOEaeqmvHencgPpI1LzkAxDdmLjUIzj7Y=;
+        b=RB6o30+7iry8UKufILYJojJKUKlHxvJK1j/dF9Swo9lOWs0vj8qJhb+vsCmGBdmpcf
+         3v5nRlVcDBM+kWdQhlMstdJezzsvEbcj+l1wxMYxDpqDY7aPPOdgEmGiEwM1R1x4qYSW
+         RTOD//1Wp4zwhLL1Jd4tqRKUhTIvYZjA/n8XfBFXAbOpKbM3mvHjny7KLhHQ8g3jsqvu
+         xFPoXbTUEdN4HvFxnVeblqXTHxeP9Suxo3eqY7Z3P81rmjoW7xl5IP7tmKfUZC24YWRo
+         ZPI/CawDq24t49GNCYA60lsIefFo0+s9UT0PkNWEqWN4/+KWXTRGV3x8zvmbL0YiOHzx
+         3tsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=HT8BayMBTw2MvH7Ntg2xNAI7cwyyk4Bepv7GWAw7eFE=;
-        b=O78cLXQ8Z+rWaPQK77NU0QwPBhrkcGynS0F/FjLGoFn3js8r09c6ihWnh6n9/CPJZD
-         5jW4W5TmOGuQ/vDlUrqWnn3XNz+VjdlCRF3TlUUjbiRPFw25ttMlJKtnrDq6/UoIUliu
-         PAcmWnn/yDfbfnmWv34+lYmZIYf3D/+ihr9+9vVrdnE0cTHty4aEgBxnSTgpPdlUJhGy
-         93w7Qud1eQwEHMI8tSmfGeRFYDQF4vIHGM1iQIaEve9CzLmaCgwihJIUyu4B55SNz0n9
-         QnQoNM4hb/wpzi6YG8YypUuHFMKk9U5EP91DzlstxOfCAyCKS1tRDmhW1N/i6+NXRatm
-         ghtA==
-X-Gm-Message-State: AGi0PuYAXEbj7726lCtBi/m+pkZZDJc1O7I7HiG/MNqWnGw3S0bz07Pj
-	zNf+tAtnZNZH6/bH7TEodOtUq2ncFTE=
-X-Google-Smtp-Source: APiQypK7r8BPLM5grsXW8mPKdsQSHk1+BGGWIDizTqdhsP3QzCM2IEw4a42AmG9UpMMnKjbLohHtjA==
-X-Received: by 2002:aed:2450:: with SMTP id s16mr2844440qtc.345.1586407286445;
-        Wed, 08 Apr 2020 21:41:26 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=6lcaZx203dSOEaeqmvHencgPpI1LzkAxDdmLjUIzj7Y=;
+        b=MG7EA6O5hRmbyi1Mc87ImU+y0ARtaXXj2lfDo9JTsluiu2joo1LwF6uGpjJbfRBXQ8
+         c/SU1P4AXYQB6+/M7QW5Fb7PuC87bstRm9HqF2dJwEeyK1lj7+Ksux5ZAu4WjCoKjswG
+         CqsKKhvUqJ6JOYIbsY0+GocTKtpTqX0i5dkbbYnD4rJ3fGQHCPxNtQl1sL5dB6RAs1j/
+         y3ynQxGvzYQZLHdzoiYE6eA9U6PCLqs0YgmcSxe0M5LmeFpq6+OQ3/T9ycFz2RcSgknV
+         s4K+G43Wjd56Fkjy5i4dFuSauHDJk4oozAkrAxN9lpEmx83D1i6EyIa531Kn6t0+dEGX
+         KA7Q==
+X-Gm-Message-State: AGi0Puaj4p9/34vDX57yhW3GJFkJFca1/kvYoxBKyLYXgTu4RvZhmjq6
+	CAO+sXKUJxSvyLq+NH9Qf0HyIqO/2Fc=
+X-Google-Smtp-Source: APiQypKEEEHqBKuCzpIbdpPwY3xuKQVXj7ZkQf8eIQLzFCdvdeunZG04Pc8fN0xYzt+1K/LPkvGClQ==
+X-Received: by 2002:a37:a555:: with SMTP id o82mr9072235qke.397.1586407289826;
+        Wed, 08 Apr 2020 21:41:29 -0700 (PDT)
 Return-Path: <bkylerussell@gmail.com>
 Received: from poirot.cinci.rr.com ([2605:a000:160c:8831:dc9a:14dd:5a5b:9f19])
-        by smtp.gmail.com with ESMTPSA id x66sm15854131qka.121.2020.04.08.21.41.24
+        by smtp.gmail.com with ESMTPSA id x66sm15854131qka.121.2020.04.08.21.41.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2020 21:41:25 -0700 (PDT)
+        Wed, 08 Apr 2020 21:41:29 -0700 (PDT)
 From: bkylerussell@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: wesley.lindauer@gmail.com,
 	Kyle Russell <bkylerussell@gmail.com>
-Subject: [PATCH 0/1] patch: don't strip GitApplyTree patches
-Date: Thu,  9 Apr 2020 00:41:15 -0400
-Message-Id: <20200409044116.27070-1-bkylerussell@gmail.com>
+Subject: [PATCH 1/1] patch: don't strip GitApplyTree patches
+Date: Thu,  9 Apr 2020 00:41:16 -0400
+Message-Id: <20200409044116.27070-2-bkylerussell@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200409044116.27070-1-bkylerussell@gmail.com>
+References: <20200409044116.27070-1-bkylerussell@gmail.com>
 
-I think that the GitApplyTree patch implementation may not be quite
-performing as expected when dealing with a non-default ${S} and patch
-striplevels.
+Don't pass a path removal parameter to git am/git apply since GitApplyTree
+always applies patches from the root of the git repo, not from each
+individual patchdir (like quilt).
 
-I'm not quite sure there aren't scenarios where we *do* want to honor
-striplevel in GitApplyTree, even though it always appears to apply
-patches at the repository's root, so I wanted to send this out for
-feedback.
+GitApplyTree uses `git rev-parse --show-toplevel` to find the root of
+the repo no matter which patchdir is passed into the GitApplyTree instance.
+In most cases, this works fine when applying patches since the three-way
+merge can figure out where the patch should be applied to existing files
+based on the history, even if the file paths are excessively stripped.
 
-The change does at least address the scenario I encountered, but there's
-probably a legitimate use case I'm missing where we need striplevel here.
+An exception to this occurs if a patch adds a new file to the repo
+and a custom ${S} has been set to a subdirectory of the repo such
+that the patch requires a non-default striplevel parameter.
 
-Kyle Russell (1):
-  patch: don't strip GitApplyTree patches
+When processed by GitApplyTree, the patch will have its striplevel
+parameter given to git even though it's applied at the root of the
+tree.
 
+For example, consider a patch that adds a new file src/foo to a repo.
+
+  --- /dev/null
+  +++ b/src/foo
+  @@ -0,0 +1 @@
+  +new file test
+
+The recipe sets S = "${WORKDIR}/git/src" and the patch is added to SRC_URI
+using "striplevel=2" since the default patch tool, quilt, applies each
+patch at its patchdir, which defaults to ${S}.
+
+When the GitApplyTree patch class is used (for example, through devtool),
+the root of the repo is passed to git as the work tree, in addition to the
+path removal paramter.  In the case above, GitApplyTree creates
+${WORKDIR}/git/foo instead of ${WORKDIR}/git/src/foo.
+
+Interestingly enough, you can take a more typical patch example that only
+changes existing files (instead of adding a new file) and remove the -3
+argument from the git am/git apply commands issued by GitApplyTree.  In
+this scenario, the patch will also fail to apply because the path removal
+arg is still being passed, and the resulting path does not exist.
+
+Since GitApplyTree always applies from the root of the repo, it should
+ignore any striplevel arguments.
+---
  meta/lib/oe/patch.py | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 2b1eee1003..2e45a7ef89 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -517,7 +517,7 @@ class GitApplyTree(PatchTree):
+             try:
+                 shellcmd = [patchfilevar, "git", "--work-tree=%s" % reporoot]
+                 self.gitCommandUserOptions(shellcmd, self.commituser, self.commitemail)
+-                shellcmd += ["am", "-3", "--keep-cr", "-p%s" % patch['strippath']]
++                shellcmd += ["am", "-3", "--keep-cr"]
+                 return _applypatchhelper(shellcmd, patch, force, reverse, run)
+             except CmdError:
+                 # Need to abort the git am, or we'll still be within it at the end
+@@ -534,7 +534,7 @@ class GitApplyTree(PatchTree):
+                 runcmd(["sh", "-c", " ".join(shellcmd)], self.dir)
+ 
+                 # Fall back to git apply
+-                shellcmd = ["git", "--git-dir=%s" % reporoot, "apply", "-p%s" % patch['strippath']]
++                shellcmd = ["git", "--git-dir=%s" % reporoot, "apply"]
+                 try:
+                     output = _applypatchhelper(shellcmd, patch, force, reverse, run)
+                 except CmdError:
 -- 
 2.17.1
 
