@@ -1,118 +1,159 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web10.5989.1586426877918295297
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web11.6448.1586429397028130946
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2020 03:07:58 -0700
+ Thu, 09 Apr 2020 03:49:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CNIPXklM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f41.google.com with SMTP id i10so4939610wrv.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2020 03:07:57 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sUZ3UX4U;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: ricardo.ribalda@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id s8so11361976wrt.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2020 03:49:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=JujBrKzkwnyql7EPj7v/SAiurXPs8lk/AFjD7YvxkRo=;
-        b=CNIPXklM8kVM2rXEEaFIMkXWzN/cNqtJ6AbOmiK9pZSFlupCiiykVlzGOpwdHKbb9I
-         x2aey6qu3VU90hEBW+ERjTnaOTMfrVmc0STIvDxMagWMXisobkqblwGgAlnsPo7Sy/Ga
-         EKae9px6ILzC9ViFjOp+KG5ZRITNdvo1xt5l0=
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0DdQWUy3oovcq/9RJcmCwEBjmjwqUUXYiyxTInUkDnY=;
+        b=sUZ3UX4Uwp5UEhT+aqUnAsrV6thx+IAZnudVbB2gX/dlszlwSIqRY8sw6Z6/CI8HKB
+         DbQKHTfEZNPftLHGQ7n5aUbmDuwdzPLQDoZp4PQk1g/Rt/HwtzkAOGPtwD4i0VSqjMeZ
+         Oi6d2Tu9tS4u+kx/OSrL+owYAaWYHqYb+9HAecIaNUCZfehGWsaDXACiFcbr60Rkj94l
+         le5PNBcpcz1LI6E44v9/KUVlMSkA4gq9y8l83stZr1Zw4aFCiVFwyXqaaRaL1nsiMeQN
+         eBPaN1dUtdDgsh/6RED2Qeho/wRhhF6mXGcNhUQHHFezeaqJ9DoRltLOC0Cz6CgI9YBW
+         IxHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=JujBrKzkwnyql7EPj7v/SAiurXPs8lk/AFjD7YvxkRo=;
-        b=ZAOCTE7xijmfRuaExPneJxRu704acY6FDxgperRitmaF3Uacii74jmHpSF0YiNRh7U
-         RBfr5zJ5fuq3IAvQN6NJ0uBUFSHY5C5BXBTDipxZxYrOB037P1lqd8HlH9AjtFdVKqzS
-         MjmqHLu7rZZ5WK54S7TZdkP2qL3wwghqQzm0n+uZWZt3SDQ6cKszDwYmx775Opk25UVV
-         mUs4Q5CQNWt8/13FIi1mGTvWLTCq7BxZgzKEqkaVae6erER+3QGVbJ2qVW9UfqminPff
-         1tPOPJspZNBqz/70RdjjstD1hs7plQomeWd5HuXUnIrsn+uKvzBcRQZfshHU946WBRfJ
-         VxLQ==
-X-Gm-Message-State: AGi0PuYqJzx+GK4AUTf1bmVPWOaqdhuj3HPEt1om4r3DMlLJrD2P0wkf
-	HSp071wFT34YM86bq4jcJxnM/Q==
-X-Google-Smtp-Source: APiQypJZyyPndotZvywCmq4J0angnJ1QWJ4IBxxmSCVugSOvjanT84PwRv+ty/QbdKBx6is/iQabwA==
-X-Received: by 2002:adf:9321:: with SMTP id 30mr12686492wro.330.1586426876305;
-        Thu, 09 Apr 2020 03:07:56 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id a7sm3130966wmj.12.2020.04.09.03.07.55
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=0DdQWUy3oovcq/9RJcmCwEBjmjwqUUXYiyxTInUkDnY=;
+        b=kSpxLPXdVG5pBFwzVbmS93CwelRfM7M+TJV4St3p7yiExp7+EQ9t13F8CkZlmXaokd
+         u/TMMlPWjtBRVw54dm2k462lS1rUHSrcXEzsqHLJvEm4eDii+PZCfJbjglPkK5umqHrd
+         T3t8NZTNq0fHPYLkssEJCniv0SxRhHeXw4L0XuSAGp7NWfGughTOcqPVnAsHr0+mycoJ
+         Sdkc5O2DsuoMGfDw7Ogc+ZgAMampnlMVJQbqRURx3Yaw46D2bR9kZtTEDRBCm5OlCV+A
+         IClPNdShU8iF3IghynTEvILzmGu5mGZiaUTSJHv1eeZBC8/o1bju6Cdb/ZYb3Vh4ajPi
+         BFOw==
+X-Gm-Message-State: AGi0PuY2nh/YPMnL5NyKKxcACFdP290O8Oy/VzH276klHsfriag5nqB1
+	QCuq3BBZQLOJqI87Mu+rbW6D6lzD924=
+X-Google-Smtp-Source: APiQypJEgNG7x6m/wLuH82/pcxi+LibwLtVVvqDmQiMmRIsdnJIIVI9Gh22qwiC6CFj9v3Wg4jkdfQ==
+X-Received: by 2002:a5d:69ca:: with SMTP id s10mr13610151wrw.260.1586429395045;
+        Thu, 09 Apr 2020 03:49:55 -0700 (PDT)
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from piling.lan (80-71-134-83.u.parknet.dk. [80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id l5sm4985737wrm.66.2020.04.09.03.49.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2020 03:07:55 -0700 (PDT)
-Message-ID: <b1f74d2ff1a76a6f66c23fe9ee09971346a886b1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/1] patch: don't strip GitApplyTree patches
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: bkylerussell@gmail.com, openembedded-core@lists.openembedded.org
-Cc: wesley.lindauer@gmail.com
-Date: Thu, 09 Apr 2020 11:07:54 +0100
-In-Reply-To: <20200409044116.27070-2-bkylerussell@gmail.com>
-References: <20200409044116.27070-1-bkylerussell@gmail.com>
-	 <20200409044116.27070-2-bkylerussell@gmail.com>
-User-Agent: Evolution 3.36.1-1 
+        Thu, 09 Apr 2020 03:49:53 -0700 (PDT)
+Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>,
+	Paul Barker <pbarker@konsulko.com>
+Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Subject: [PATCH v4 0/4] wic: Fix permissions
+Date: Thu,  9 Apr 2020 12:49:47 +0200
+Message-Id: <20200409104951.948242-1-ricardo@ribalda.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-04-09 at 00:41 -0400, bkylerussell@gmail.com wrote:
-> Don't pass a path removal parameter to git am/git apply since GitApplyTree
-> always applies patches from the root of the git repo, not from each
-> individual patchdir (like quilt).
-> 
-> GitApplyTree uses `git rev-parse --show-toplevel` to find the root of
-> the repo no matter which patchdir is passed into the GitApplyTree instance.
-> In most cases, this works fine when applying patches since the three-way
-> merge can figure out where the patch should be applied to existing files
-> based on the history, even if the file paths are excessively stripped.
-> 
-> An exception to this occurs if a patch adds a new file to the repo
-> and a custom ${S} has been set to a subdirectory of the repo such
-> that the patch requires a non-default striplevel parameter.
-> 
-> When processed by GitApplyTree, the patch will have its striplevel
-> parameter given to git even though it's applied at the root of the
-> tree.
-> 
-> For example, consider a patch that adds a new file src/foo to a repo.
-> 
->   --- /dev/null
->   +++ b/src/foo
->   @@ -0,0 +1 @@
->   +new file test
-> 
-> The recipe sets S = "${WORKDIR}/git/src" and the patch is added to SRC_URI
-> using "striplevel=2" since the default patch tool, quilt, applies each
-> patch at its patchdir, which defaults to ${S}.
-> 
-> When the GitApplyTree patch class is used (for example, through devtool),
-> the root of the repo is passed to git as the work tree, in addition to the
-> path removal paramter.  In the case above, GitApplyTree creates
-> ${WORKDIR}/git/foo instead of ${WORKDIR}/git/src/foo.
-> 
-> Interestingly enough, you can take a more typical patch example that only
-> changes existing files (instead of adding a new file) and remove the -3
-> argument from the git am/git apply commands issued by GitApplyTree.  In
-> this scenario, the patch will also fail to apply because the path removal
-> arg is still being passed, and the resulting path does not exist.
-> 
-> Since GitApplyTree always applies from the root of the repo, it should
-> ignore any striplevel arguments.
+Hi
 
-I don't follow this argument. We have several recipes in OE-Core which
-set striplevel in SRC_URI (e.g. bash, llvm and a pointless looking one
-in build-compare). If you changed the patch tool to git for those
-recipes, doesn't it fail with this patch applied?
 
-I think you're right and there is an issue here since do_patch assumes
-${S} is the root for patches whilst git assumes the root of the repo is
-the patch root. If those are different, it will break.
+Today wic behaves differently if we run it from bitbake of directly from the
+commandline.
 
-Put another way, I think your patch fixes one case whilst breaking
-others :(.
+When it is run from bitbake, the permissions/usersnames are handled by the 
+pseudo database of the main image.
 
-I'm not sure how we reconcile this. I certainly do not like hoping 'git
-am -3' figures it out. We may need to teach GitApplyTree to calculate
-the difference between the git repodir and patchdir and adjust the
-offsets accordingly?
+When it is run from the comandline , it is run outside the main image database.
 
-Cheers,
+This results on permissions/usernames not working ok on some usecases on both
+bitbake and wic.
 
-Richard
 
+This is an attempt to fix all the permission bugs that I am aware from wic.
+Using the following usecases
+
+
+#exclude-path
+part / --source rootfs --fstype=ext4 --exclude-path=home
+
+#split_partition
+part / --source rootfs --ondisk sda --fstype=ext4 --exclude-path=etc/
+part /etc --source rootfs --rootfs-dir=tmp/work/qt5222-poky-linux/core-image-minimal/1.0-r0/rootfs/etc/ --fstype=ext4
+
+#multi_partition
+part / --source rootfs --ondisk sda --fstype=ext4
+part /export --source rootfs --rootfs=core-image-minimal-mtdutils --fstype=ext4
+
+
+With the current master:
+-------------------------
+#exclude-path
+From Bitbake: OK
+wic cmdline: FAIL
+
+#split_partition
+From Bitbake: OK
+wic cmdline: FAIL, permissions invalid on both partitions
+
+#multi_partition
+From Bitbake: FAIL second partition
+wic cmdline: OK
+
+
+After:  wic: Fix permissions when using exclude or include path
+--------------------------------------------------------------------
+#exclude-path
+From Bitbake: OK
+wic cmdline: OK
+
+#split_partition
+From Bitbake: OK
+wic cmdline: FAIL, permissions invalid on second partition
+
+#multi_partition
+From Bitbake: FAIL second partition
+wic cmdline: OK
+
+
+After: wic: Fix multi images .wks with bitbake
+----------------------------------------------
+#exclude-path
+From Bitbake: OK
+wic cmdline: OK
+
+#split_partition
+From Bitbake: FAIL, permissions invalid on second partition
+wic cmdline: FAIL, permissions invalid on second partition
+
+#multi_partition
+From Bitbake: OK
+wic cmdline: OK
+
+
+
+After: wic: Add --change-directory argument
+--------------------------------------------
+
+we can have a .wks like:
+part / --source rootfs --ondisk sda --fstype=ext4 --exclude-path=etc/   
+part /etc --source rootfs --fstype=ext4 --change-directory=/etc
+
+
+Wich works fine from bitbake and from cmdline, and has the same functionality as
+split_partition.
+
+
+Ricardo Ribalda Delgado (4):
+  wic: Fix permissions when using exclude or include path
+  wic: Fix multi images .wks with bitbake
+  wic: Add --change-directory argument
+  wic: Continue if excluded_path does not exist
+
+ meta/classes/image_types_wic.bbclass     |  8 +++-
+ scripts/lib/wic/help.py                  |  6 +++
+ scripts/lib/wic/ksparser.py              |  1 +
+ scripts/lib/wic/partition.py             | 15 ++++---
+ scripts/lib/wic/plugins/source/rootfs.py | 52 ++++++++++++++++++++++--
+ 5 files changed, 68 insertions(+), 14 deletions(-)
+
+-- 
+2.25.1
 
