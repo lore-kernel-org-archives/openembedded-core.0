@@ -1,31 +1,31 @@
 Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.18745.1586464696228713236
+ by mx.groups.io with SMTP id smtpd.web11.18513.1586464696223962225
  for <openembedded-core@lists.openembedded.org>;
  Thu, 09 Apr 2020 13:38:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 06D0D60C6A;
-	Mon,  6 Apr 2020 15:32:46 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id E6EFD60B31;
+	Thu,  9 Apr 2020 03:02:27 +0000 (UTC)
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgemV1cyAtbmV4dCByZXZpZXcgKHJldjQp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHNldWRvX3V0aWwuYzogT3BlbiBmaWxlIHdpdGggT19DTE9FWEVDIHRvIGF2b2lkIGZkIGxlYWs=?=
 From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: mingli.yu@windriver.com
 Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 06 Apr 2020 15:32:48 -0000
-Message-ID: <20200406153248.2277.39828@do>
-References: <cover.1586185832.git.anuj.mittal@intel.com>
+Date: Thu, 09 Apr 2020 03:02:29 -0000
+Message-ID: <20200409030229.2273.76315@do>
+References: <1586399921-418794-1-git-send-email-mingli.yu@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1586185832.git.anuj.mittal@intel.com>
+In-Reply-To: <1586399921-418794-1-git-send-email-mingli.yu@windriver.com>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: zeus -next review (rev4)
-Revision: 4
-URL   : https://patchwork.openembedded.org/series/21451/
+Series: pseudo_util.c: Open file with O_CLOEXEC to avoid fd leak
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/23664/
 State : failure
 
 == Summary ==
@@ -37,9 +37,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            [zeus, 05/13] busybox: on upgrade save busybox if it is the last shell
- Issue             Yocto Project bugzilla tag is not correctly formatted [test_bugzilla_entry_format] 
-  Suggested fix    Specify bugzilla ID in commit description with format: "[YOCTO #<bugzilla ID>]"
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 1795f30d8a)
 
 
 
