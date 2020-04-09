@@ -1,86 +1,48 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.6419.1586429402147485010
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+ by mx.groups.io with SMTP id smtpd.web10.6576.1586430384372543315
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2020 03:50:02 -0700
+ Thu, 09 Apr 2020 04:06:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QUsbAY6p;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id a25so11406975wrd.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2020 03:50:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=RjJdfavSnl7lsG65MgN4cQpt9UjuoEiZZOaxEDSQBuQ=;
-        b=QUsbAY6pZXZQqmcIXenIddHoR97oCJggtpDBw3kTeyrBOwIBgkSq+YFca6I1Q1yu5e
-         1Hqk6hiMSYa+vtltsnfbHbQYH+v+667xNg1QPNihaWd2jSEWo4kUpugSsDgnq6Dl9PKz
-         wqYg9T1JHakrhBU6/rk8uZHspfqelqVL3tuahczpiu2cjksXLK/idFadU/9OEjuJudTK
-         rm7XEHNHCwu3s0IfjmXnbkVeLwGy9ZcGPeIVqpTBAP0j9WXJvaRCtJHepyAMDhCZR+pr
-         RH+g/7jQmDwatOPb1Ho+bG9s2zPpdL+gyKSl7/ilU3dkOXPazA1dY2LwQ/NmBlu6uJZ+
-         AOWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=RjJdfavSnl7lsG65MgN4cQpt9UjuoEiZZOaxEDSQBuQ=;
-        b=MRXTwIq1Q8txDcCd7cVkAP2XrcGPqbLVvHgGxzF+YPa7E2bFiyNXG6rkVQvAdsBkYO
-         sbdK1aNXR7td8/wS/jjXpkxUem6oTy0uNrME6ALVq2Ocj7rD9wLVGWyH6DP+lAQCNCeP
-         oZvi9zFYaGnZSdryRgOteogwQ9I/tHY5h4POS2Cx2AoDMajCCYPMObMw3IE0eGuf+sSx
-         yoxdTh+JQIb/R3bCk5r+MHvvPedTWDDdGigFqUJWrUiI3jdMx+ae4Elg0ut4iyFT7Tz1
-         EsZnm5BW1P58IjzSYV93JmYkUtHKowVoYMu0iP6HV4YyaePnzEeInZtGO6/Soa9s35ff
-         98Bg==
-X-Gm-Message-State: AGi0PuaDRxJIOMGB71fHHEEfvvOlu1jDG13mz2DUgwo6IT3w2bRuf6ro
-	QynDNHpsaWTO93fH02Wvhk4xBi5YuOk=
-X-Google-Smtp-Source: APiQypKzWM7n46+ne5LM7RYXkMczNBltRvhjqQOFRcWzCmEm8SE+0vba7uS2MDcAE9vbm1/W7FqPfw==
-X-Received: by 2002:a5d:69ca:: with SMTP id s10mr13610548wrw.260.1586429400376;
-        Thu, 09 Apr 2020 03:50:00 -0700 (PDT)
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from piling.lan (80-71-134-83.u.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id l5sm4985737wrm.66.2020.04.09.03.49.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2020 03:49:59 -0700 (PDT)
-Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>,
-	Paul Barker <pbarker@konsulko.com>
-Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Subject: [PATCH v4 4/4] wic: Continue if excluded_path does not exist
-Date: Thu,  9 Apr 2020 12:49:51 +0200
-Message-Id: <20200409104951.948242-5-ricardo@ribalda.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200409104951.948242-1-ricardo@ribalda.com>
-References: <20200409104951.948242-1-ricardo@ribalda.com>
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:36384 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jMV0o-008WDR-Qs
+	for openembedded-core@lists.openembedded.org; Thu, 09 Apr 2020 07:06:23 -0400
+Date: Thu, 9 Apr 2020 07:06:20 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: removal of long-deprecated SSTATEPOSTINSTFUNCS?
+Message-ID: <alpine.LFD.2.21.2004090702130.8071@localhost.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-If an excuded path does not exist, continue without an error.
-This allows to seamleasly reuse .wks among different projects.
 
-Eg:
+  i note that, way back in YP ref manual, migration to YP 2.3, we
+read:
 
-part / --source rootfs --fstype=ext4 --exclude-path=/opt/private_keys
+"The SSTATEPOSTINSTFUNCS variable itself is now deprecated in favor of
+the do_populate_sysroot[postfuncs] task. Consequently, if you do still
+have any function or functions that need to be called after the
+sysroot component is created for a recipe, then you would be well
+advised to take steps to use a post installation script as described
+previously. Taking these steps prepares your code for when
+SSTATEPOSTINSTFUNCS is removed in a future Yocto Project release."
 
-Where /opt/private_keys in only populated by some of the image.bb files.
+  it doesn't *appear* that anything still uses that variable, other
+than the buildhistory.bbclass file. any value in hanging onto it?
 
-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
----
- scripts/lib/wic/plugins/source/rootfs.py | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index d3742802bb..8874ac62c4 100644
---- a/scripts/lib/wic/plugins/source/rootfs.py
-+++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -131,6 +131,9 @@ class RootfsPlugin(SourcePlugin):
-                     sys.exit(1)
- 
-                 full_path = os.path.realpath(os.path.join(new_rootfs, path))
-+                
-+                if not os.path.lexists(full_path):
-+                    continue
- 
-                 # Disallow climbing outside of parent directory using '..',
-                 # because doing so could be quite disastrous (we will delete the
--- 
-2.25.1
-
+rday
