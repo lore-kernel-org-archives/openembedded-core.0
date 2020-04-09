@@ -1,182 +1,57 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web11.6638.1586430638602441581
+Received: from bsmtp2.bon.at (bsmtp2.bon.at [213.33.87.16])
+ by mx.groups.io with SMTP id smtpd.web10.6649.1586430725229178235
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2020 04:10:38 -0700
+ Thu, 09 Apr 2020 04:12:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=BcNtID0K;
- spf=pass (domain: konsulko.com, ip: 209.85.128.65, mailfrom: pbarker@konsulko.com)
-Received: by mail-wm1-f65.google.com with SMTP id d77so3490713wmd.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2020 04:10:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :organization:mime-version:content-transfer-encoding;
-        bh=NXl7Z0YKxwTzDZfcEkRBRuZSJLzK/fnRsX46vWw0FG4=;
-        b=BcNtID0KUXHubPzzV6KutFYiFM0yECrFpmuFYdEqLSK+KznVsvTeZzUIFliktOfywk
-         2zHN8aH+uUp2eWOqJQfFu3dsqgfhrxgHfUEQhNU0kPOhHJPdmP4M5XWO+N/yMlhMpRHM
-         TSXRFi3w/DrAmav1G4hKkOaKHHpoX8qFZv6a8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=NXl7Z0YKxwTzDZfcEkRBRuZSJLzK/fnRsX46vWw0FG4=;
-        b=F42n+XQ+ijd95VA44DKHNUHlzbmpvdiYaU4eElCrQQhRPoYh3I3v/zqfRgzR6eSEME
-         7Bb+hmi8AJhk0VMLn4FHEj8rWn/f3JOtVhNSGvCxg8HXikj7ST0nnpnHJhs9p6UKh7jq
-         qlSwP2UrgCaUgIdfeF7hU7lLLhxOkPFzt4N/sSeGQrkZYGg8RdXn/YByE2Gy/XzE79mh
-         WoWxJlvptL9M4FkYjh9waKEMYXWSegTs8bh2ZRpob4dbl+/8WVxIjVzwI7e9ZE1FjD8i
-         eaJEO32Gcl778MvMIQhqioDY3pFGleYKpWj+KouOvZVAQf/U1/ZnMhzvY1p5GhiZKazV
-         8v6g==
-X-Gm-Message-State: AGi0Pubvdh1iYDpeHEzUsdSwIK7SVBD7TinRIE7SR/kPOMhMMWvHk3Pw
-	K1RYrkcOXNqI1DD/EPgMdzqcRw==
-X-Google-Smtp-Source: APiQypJFKXoeiRqTHj7I9gQjsLqLyDbUXo2Okk3ZymLwrjbWwUS8deH9+dDUAGGVTWnaq/MbUFHXOg==
-X-Received: by 2002:a7b:c8cd:: with SMTP id f13mr9846126wml.181.1586430637029;
-        Thu, 09 Apr 2020 04:10:37 -0700 (PDT)
-Return-Path: <pbarker@konsulko.com>
-Received: from ub1910 ([213.48.11.149])
-        by smtp.gmail.com with ESMTPSA id w7sm40226519wrr.60.2020.04.09.04.10.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2020 04:10:36 -0700 (PDT)
-Date: Thu, 9 Apr 2020 12:10:31 +0100
-From: "Paul Barker" <pbarker@konsulko.com>
-To: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4 0/4] wic: Fix permissions
-Message-ID: <20200409121031.0efee461@ub1910>
-In-Reply-To: <20200409104951.948242-1-ricardo@ribalda.com>
-References: <20200409104951.948242-1-ricardo@ribalda.com>
-Organization: Konsulko Group
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.16, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz.suevie (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp2.bon.at (Postfix) with ESMTPSA id 48ydl72tjbz5tl9;
+	Thu,  9 Apr 2020 13:12:02 +0200 (CEST)
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Subject: [PATCH] cairo: work around multilib issue resulting in improper handling of licenses
+Date: Thu,  9 Apr 2020 13:04:23 +0200
+Message-Id: <20200409110423.11841-1-quentin.schulz@streamunlimited.com>
+X-Mailer: git-send-email 2.17.1
 
-On Thu,  9 Apr 2020 12:49:47 +0200
-Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
+There is currently an issue when a LICENSE for a package is defined
+differently than how the package is defined in PACKAGES.
 
-> Hi
->=20
->=20
-> Today wic behaves differently if we run it from bitbake of directly from =
-the
-> commandline.
->=20
-> When it is run from bitbake, the permissions/usersnames are handled by th=
-e=20
-> pseudo database of the main image.
->=20
-> When it is run from the comandline , it is run outside the main image dat=
-abase.
->=20
-> This results on permissions/usernames not working ok on some usecases on =
-both
-> bitbake and wic.
->=20
->=20
-> This is an attempt to fix all the permission bugs that I am aware from wi=
-c.
-> Using the following usecases
->=20
->=20
-> #exclude-path
-> part / --source rootfs --fstype=3Dext4 --exclude-path=3Dhome
->=20
-> #split_partition
-> part / --source rootfs --ondisk sda --fstype=3Dext4 --exclude-path=3Detc/
-> part /etc --source rootfs --rootfs-dir=3Dtmp/work/qt5222-poky-linux/core-=
-image-minimal/1.0-r0/rootfs/etc/ --fstype=3Dext4
->=20
-> #multi_partition
-> part / --source rootfs --ondisk sda --fstype=3Dext4
-> part /export --source rootfs --rootfs=3Dcore-image-minimal-mtdutils --fst=
-ype=3Dext4
->=20
->=20
-> With the current master:
-> -------------------------
-> #exclude-path
-> From Bitbake: OK
-> wic cmdline: FAIL
->=20
-> #split_partition
-> From Bitbake: OK
-> wic cmdline: FAIL, permissions invalid on both partitions
->=20
-> #multi_partition
-> From Bitbake: FAIL second partition
-> wic cmdline: OK
->=20
->=20
-> After: =C2=A0wic: Fix permissions when using exclude or include path
-> --------------------------------------------------------------------
-> #exclude-path
-> From Bitbake: OK
-> wic cmdline: OK
->=20
-> #split_partition
-> From Bitbake: OK
-> wic cmdline: FAIL, permissions invalid on second partition
->=20
-> #multi_partition
-> From Bitbake: FAIL second partition
-> wic cmdline: OK
->=20
->=20
-> After: wic: Fix multi images .wks with bitbake
-> ----------------------------------------------
-> #exclude-path
-> From Bitbake: OK
-> wic cmdline: OK
->=20
-> #split_partition
-> From Bitbake: FAIL, permissions invalid on second partition
-> wic cmdline: FAIL, permissions invalid on second partition
->=20
-> #multi_partition
-> From Bitbake: OK
-> wic cmdline: OK
->=20
+See bug tracker: http://bugzilla.yoctoproject.org/show_bug.cgi?id=13865
 
-This looks really good, are you able to automate any of these tests and put
-them in meta/lib/oeqa/selftest/cases/wic.py?
+This results in LICENSE being taken instead of LICENSE_${PN}-gobject
+because the latter is expanded to LICENSE_lib32-cairo-gobject while the
+entry in PACKAGES is still cairo-object at the moment of setting
+LICENSE_EXCLUSION in base.bbclass.
 
->=20
->=20
-> After: wic: Add --change-directory argument
-> --------------------------------------------
->=20
-> we can have a .wks like:
-> part / --source rootfs --ondisk sda --fstype=3Dext4 --exclude-path=3Detc/=
- =C2=A0=20
-> part /etc --source rootfs --fstype=3Dext4 --change-directory=3D/etc
->=20
->=20
-> Wich works fine from bitbake and from cmdline, and has the same functiona=
-lity as
-> split_partition.
->=20
->=20
-> Ricardo Ribalda Delgado (4):
->   wic: Fix permissions when using exclude or include path
->   wic: Fix multi images .wks with bitbake
->   wic: Add --change-directory argument
->   wic: Continue if excluded_path does not exist
->=20
->  meta/classes/image_types_wic.bbclass     |  8 +++-
->  scripts/lib/wic/help.py                  |  6 +++
->  scripts/lib/wic/ksparser.py              |  1 +
->  scripts/lib/wic/partition.py             | 15 ++++---
->  scripts/lib/wic/plugins/source/rootfs.py | 52 ++++++++++++++++++++++--
->  5 files changed, 68 insertions(+), 14 deletions(-)
->=20
+This means that instead of the expected MPL-1.1 | LGPLv2.1 license for
+lib32-cairo-object, it is (MPL-1.1 | LGPLv2.1) & GPLv3+ which does not
+work when you have INCOMPATIBLE_LICENSE set to GPLv3.
 
-I'll give this a detailed review over the weekend. Looks good at first
-glance, though I may suggest renaming `--change-directory` to something else
-so it's more obvious what it's doing when you just read that in a wks file.
-Perhaps `--part-subdir`, I don't know. Let's not bikeshed it too much thoug=
-h.
+Same applies to cairo-perf-utils and cairo-script-interpreter.
 
-Thanks,
+Let's use ${PN} instead of hardcoded cairo in PACKAGES so that we
+mitigate the multilib issue on this recipe level.
 
---=20
-Paul Barker
-Konsulko Group
+Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
+---
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+index b772c2ece2..e18159e96c 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+@@ -72,7 +72,7 @@ do_install_append () {
+ 	rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
+ }
+ 
+-PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
++PACKAGES =+ "${PN}-gobject ${PN}-script-interpreter ${PN}-perf-utils"
+ 
+ SUMMARY_cairo-gobject = "The Cairo library GObject wrapper library"
+ DESCRIPTION_cairo-gobject = "A GObject wrapper library for the Cairo API."
+-- 
+2.17.1
+
