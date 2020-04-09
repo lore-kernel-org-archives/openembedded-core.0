@@ -1,95 +1,126 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.4081.1586413945459015060
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web11.4567.1586417543449094664
  for <openembedded-core@lists.openembedded.org>;
- Wed, 08 Apr 2020 23:32:25 -0700
+ Thu, 09 Apr 2020 00:32:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: xiao.zhang@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0396W4N4013431
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 8 Apr 2020 23:32:14 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
- (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Wed, 8 Apr 2020
- 23:31:35 -0700
-From: "ZhangXiao" <xiao.zhang@windriver.com>
-To: <xiao.zhang@windriver.com>, <openembedded-core@lists.openembedded.org>
-Subject: [oe][meta-networking][zeus][PATCH] ntp: upgrade 4.2.8p13 -> 4.2.8p14
-Date: Wed, 8 Apr 2020 23:31:34 -0700
-Message-ID: <20200409063134.125606-1-xiao.zhang@windriver.com>
-X-Mailer: git-send-email 2.23.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=D5ZytMKi;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id j4so3005036qkc.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2020 00:32:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=o8dVqiNd6NTLdi99/ydQRlRO0NpTea0okTI7CS7R7DA=;
+        b=D5ZytMKirmS8XiNx81ypftghZdjo6hfoLgDuz2vkM6DVYuLV9GScB3+YWDvx0FBj3/
+         uUkzBCbE0g4mVtt8rbnRPHQq2wILEs8zjWmPK/6yzO2iKEk58LmCoN1iQcFcICjV67ae
+         BZ8SnBezZ/41dAcL7zTu6oMBxH4O+RhGMow1D3Q7mjL/jcQxJ1BtvaWysKJN5NzmzdeM
+         ynDzIRMqolbcqh2ISb5+uRxOVY3nJbD7iP57VKgWpEFnydVp6PiTMbzmU+GFpe65JfZe
+         Trod6U4zY4LAuCzREzjS8/Ve9NPjawO/gDZ7/vr40ZZli5Vx8ILTw08S6yZkGRgv3lfV
+         7yXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=o8dVqiNd6NTLdi99/ydQRlRO0NpTea0okTI7CS7R7DA=;
+        b=swTnM7Xz9gxn/OJg94T0EtPYnvAFSMgaGc6kO7nbU1dO/sPwtp1jRjAti264SKMKpm
+         bRti8CkInWDuWRKFKdr/opPLovdVJruWyC00ZpXWk1asQPmP83R/yDiozMnZAmvXshdc
+         w324wxHlSB+v9LA0MGCrfkgDH3voTo/PzgGrTKhRjC91HuUDLxErf5MtPMRK+qvkkJ6/
+         2E5P5cksPip/XUg6xmis3eUq28Scs769iJ88ia0lRuNa/iCeocElgh6Q8DZDDkbKRKlM
+         z5A/YdLW/VTNMLrBvIQXHe73uXGFgKhRKTfcHyoSuYEz7/XValF1pZjreHYnEXYyAXbO
+         DQFA==
+X-Gm-Message-State: AGi0PuaNrIxuAmtAqKe5YIltf56/vAsPZh27VHwtylDHiSHSDPD71G7Z
+	4iGQhpRhY0X+WtbA0ZMKF788n4cXXmkWxsgf2eLc4u9q
+X-Google-Smtp-Source: APiQypI0iiWy3B+bv0dnUDLNYdFHJLifdkJk6BM3B+PcDLyzVp2f/aHTHxVPI0Vq6U4Sl0K46nf2HsY2mHeoDz/a47I=
+X-Received: by 2002:a37:bec5:: with SMTP id o188mr11246610qkf.165.1586417542361;
+ Thu, 09 Apr 2020 00:32:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20200408231808.393685-1-richard.purdie@linuxfoundation.org>
+ <CAMKF1srJ72-knr8BJxGcJ6Mct=y_Dt4DtZWMhs5UM+eoCf4i6A@mail.gmail.com>
+ <CAMKF1sox5DY7Zh5EN5onjGArv0ZTH=+L6+H8dQZtmcHCgFru2A@mail.gmail.com> <CAMKF1sqfqFvK3U7b_59Au=Ko8fWEevRBndNGCEnCdBPpMtw5Ag@mail.gmail.com>
+In-Reply-To: <CAMKF1sqfqFvK3U7b_59Au=Ko8fWEevRBndNGCEnCdBPpMtw5Ag@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 9 Apr 2020 00:31:56 -0700
+Message-ID: <CAMKF1sqepk11V3DAPx7=R9UegE+P9Uv5789QzQdSAr2TFfbTJQ@mail.gmail.com>
+Subject: Re: [PATCH] musl: Show error when used with multilibs
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-License has been changed due to date time, no new stuff added.
+the patch I proposed make the problem in bug report fixed but would
+require more testing, this patch I feel is disabling it completely,
+perhaps we need to either let release go as such and backport the fix
+since I think multilib should be fine witth musl we might have some
+quirks to take care,
 
-delete source patch reproducibility-respect-source-date-epoch.patch
-for new version source tree contains it.
-
-Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
----
- ...producibility-respect-source-date-epoch.patch | 16 ----------------
- .../ntp/{ntp_4.2.8p13.bb => ntp_4.2.8p14.bb}     |  7 +++----
- 2 files changed, 3 insertions(+), 20 deletions(-)
- delete mode 100644 meta-networking/recipes-support/ntp/ntp/reproducibility-respect-source-date-epoch.patch
- rename meta-networking/recipes-support/ntp/{ntp_4.2.8p13.bb => ntp_4.2.8p14.bb} (96%)
-
-diff --git a/meta-networking/recipes-support/ntp/ntp/reproducibility-respect-source-date-epoch.patch b/meta-networking/recipes-support/ntp/ntp/reproducibility-respect-source-date-epoch.patch
-deleted file mode 100644
-index 58e71c3b8..000000000
---- a/meta-networking/recipes-support/ntp/ntp/reproducibility-respect-source-date-epoch.patch
-+++ /dev/null
-@@ -1,16 +0,0 @@
----- ntp-4.2.8p12.original/scripts/build/mkver.in	2018-11-12 14:06:49.333020430 +1300
--+++ ntp-4.2.8p12/scripts/build/mkver.in	2018-11-12 14:15:04.947480167 +1300
--@@ -15,7 +15,12 @@
--  *) ConfStr="${ConfStr}-@VER_SUFFIX@" ;;
-- esac
-- 
---ConfStr="$ConfStr `LC_TIME=C TZ=UTC date`"
--+if [ -n "$SOURCE_DATE_EPOCH" ]; then
--+   ConfStr="$ConfStr `LC_TIME=C TZ=UTC date -d@$SOURCE_DATE_EPOCH 2>/dev/null`" ||
--+   ConfStr="$ConfStr `LC_TIME=C TZ=UTC date -r $SOURCE_DATE_EPOCH`"
--+else
--+   ConfStr="$ConfStr `LC_TIME=C TZ=UTC date`"
--+fi
-- 
-- if [ ! -f .version ]; then
--   echo 0 > .version
-diff --git a/meta-networking/recipes-support/ntp/ntp_4.2.8p13.bb b/meta-networking/recipes-support/ntp/ntp_4.2.8p14.bb
-similarity index 96%
-rename from meta-networking/recipes-support/ntp/ntp_4.2.8p13.bb
-rename to meta-networking/recipes-support/ntp/ntp_4.2.8p14.bb
-index 9b327ba2f..5c312ea82 100644
---- a/meta-networking/recipes-support/ntp/ntp_4.2.8p13.bb
-+++ b/meta-networking/recipes-support/ntp/ntp_4.2.8p14.bb
-@@ -6,14 +6,13 @@ or satellite receiver or modem."
- HOMEPAGE = "http://support.ntp.org"
- SECTION = "net"
- LICENSE = "NTP"
--LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4cee33257467509e498f4cd9a6a4bd53"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4190b39435611e92a4da74e682623f19"
- 
- DEPENDS = "libevent"
- 
- SRC_URI = "http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-${PV}.tar.gz \
-            file://ntp-4.2.4_p6-nano.patch \
-            file://reproducibility-fixed-path-to-posix-shell.patch \
--           file://reproducibility-respect-source-date-epoch.patch \
-            file://ntpd \
-            file://ntp.conf \
-            file://ntpdate \
-@@ -25,8 +24,8 @@ SRC_URI = "http://www.eecis.udel.edu/~ntp/ntp_spool/ntp4/ntp-4.2/ntp-${PV}.tar.g
-            file://ntpd.list \
- "
- 
--SRC_URI[md5sum] = "ea040ab9b4ca656b5229b89d6b822f13"
--SRC_URI[sha256sum] = "288772cecfcd9a53694ffab108d1825a31ba77f3a8466b0401baeca3bc232a38"
-+SRC_URI[md5sum] = "783edaf1d68ddf651bde64eda54a579d"
-+SRC_URI[sha256sum] = "1960e4f081f6aafd108d721bc3ab15f9e8dfd08dc08339aa95bca9d2545e4eb7"
- 
- inherit autotools update-rc.d useradd systemd pkgconfig
- 
--- 
-2.23.0
-
+On Wed, Apr 8, 2020 at 6:24 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Wed, Apr 8, 2020 at 4:59 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > On Wed, Apr 8, 2020 at 4:45 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > >
+> > > On Wed, Apr 8, 2020 at 4:18 PM Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > >
+> > > > As discussed in the bugzilla entry, musl is not compatible with multilibs
+> > > > and has no plans to support this. Therefore tell users this from the
+> > > > recipe rather than letting them run into build failures.
+> > > >
+> > >
+> > > I dont think thats the case anymore, I have sent patches to fix
+> > > multilib on musl.
+> > > this seems a broad brush. What are you trying to fix ?
+> > >
+> >
+> > I see the bug list a fix that was done last year as a workaround to
+> > disable multilib headers that should be reverted something like this
+> >
+> > diff --git a/meta/classes/multilib_header.bbclass
+> > b/meta/classes/multilib_header.bbclass
+> > index e03f5b13b2..48f231eed0 100644
+> > --- a/meta/classes/multilib_header.bbclass
+> > +++ b/meta/classes/multilib_header.bbclass
+> > @@ -6,13 +6,6 @@ inherit siteinfo
+> > # all of the ABI variants for that given architecture.
+> > #
+> > oe_multilib_header() {
+> > -
+> > -       case ${HOST_OS} in
+> > -       *-musl*)
+> > -               return
+> > -               ;;
+> > -       *)
+> > -       esac
+> > # For MIPS: "n32" is a special case, which needs to be
+> > # distinct from both 64-bit and 32-bit.
+> > case ${TARGET_ARCH} in
+> >
+> > would be more appropriate now a days.
+> >
+>
+> I have now tested the above patch and sent for review to ml.
+>
+> > > > [YOCTO #13122]
+> > > >
+> > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > > ---
+> > > >  meta/recipes-core/musl/musl.inc | 6 ++++++
+> > > >  1 file changed, 6 insertions(+)
+> > > >
+> > > > diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
+> > > > index bdce412162c..f2f3d3d054b 100644
+> > > > --- a/meta/recipes-core/musl/musl.inc
+> > > > +++ b/meta/recipes-core/musl/musl.inc
+> > > > @@ -29,3 +29,9 @@ ARM_INSTRUCTION_SET_armv4 = "arm"
+> > > >  B = "${WORKDIR}/build"
+> > > >
+> > > >  do_configure[cleandirs] = "${B}"
+> > > > +
+> > > > +python () {
+> > > > +    multilibs = d.getVar("MULTILIBS")
+> > > > +    if multilibs:
+> > > > +        raise bb.parse.SkipRecipe("musl is not compatible with multilibs")
+> > > > +}
+> > > > --
+> > > > 2.25.1
+> > > >
