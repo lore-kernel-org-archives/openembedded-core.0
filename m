@@ -1,97 +1,185 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web11.12057.1586447584126164012
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web12.11911.1586447586805735489
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2020 08:53:04 -0700
+ Thu, 09 Apr 2020 08:53:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TpEI4gUR;
- spf=pass (domain: gmail.com, ip: 209.85.128.65, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-wm1-f65.google.com with SMTP id h2so247253wmb.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2020 08:53:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=B6KF3ZNi;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: ricardo.ribalda@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id a81so235199wmf.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2020 08:53:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=sQn6QvR3ZSgLyvyyvoNcThmMRbw38uXlPlfUuaTh9Jw=;
-        b=TpEI4gURW9r9dM3ec+KFuToD2Ut5PLEKvnAJOO0hE/xgbXlHd2ttZ0MUMc0xu8XjJ7
-         t8sd7+9cloDyGoqho2IArrbrJEMIiAHGowWfhxZh6Cl5J7XsgLXvN4RHOX4bXCvWL81J
-         jPfoRjS2wKd2LR7zlF5ItqmMZhpbVf6DMecghUyVEqTD4ohwEuF7cLpNup3crwkXl59Z
-         iE9BKNMkWEOt3G0pA/NHslYAXOlgFE4zRzP41GNz5HIUWV8WPkod7RU0cA0SM8dGhSpw
-         AoVkeKaiujGpPqjYXkwM3oBvqs3oigLiUbTK/CoP94V1uRuzuI+lBgoO29OJvDBWVD3T
-         NmuQ==
+        bh=DQOYuVJPTWch4okdI2DfwHlRxibA+EKTXe1ahwaTJPk=;
+        b=B6KF3ZNitdIr114GJn0yr3fPK2E6t3dCPxf0lxCmvetYeOzhYv2s69T7hYNXEGsQeW
+         tsCJKvfj2EXtR2RkEbSoEx6lT7sYfwUMk3gKPOh99ys39pwte6OgGPzPhoMqfv8WPIrz
+         JnK2nv5qxS/maeea+h/1DA1An1NKZWw4K+3mYhaZkmLQ/2octBGZ+q2GKU3Ijv1xzR+k
+         7Rmws7vXvcdsLRIczw6DCattkdlD7Q53Cg0s8w49TG2YzsRTWFcgerMMcj5v+lUH6jAH
+         sPLllrk2HfjHpQRYqAuxhcdH4lN1kSpzdcW1WKl2OKs4Mj+q6jhpmXLFK8ZNJfTqLHfe
+         oX4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=sQn6QvR3ZSgLyvyyvoNcThmMRbw38uXlPlfUuaTh9Jw=;
-        b=e4v50Gi6b7Wt2WY7EYN/S0guuua6jhBJzuXofSfVbhYbYJJ1CnsVlx+MUlvjipxHD9
-         PloM2zt3lG6xkYtkOO2zYfPpELzbcwgE/GVqBOg9ym+ER/JWXctJyhS04lJfwcjKQZoi
-         XujL0WJL7oP2IhfyFlyRGPWSt68VG2WnXc+Ju/f9usAloyUCPisSGXnqg0Fcw9bttDYy
-         JJ6CLOVzEFs3syryjPSj0UVVpzvOhBdwdqdUoHvv5BeBOLQkC8HGOvMgKf0l77OVqnKB
-         uwTAvXROlUn3j/ASmcIP11YzqTHs4EkP/qjTOZyNxZLj2w3IlJrm8NGkzkofdUMNN8sI
-         sD9g==
-X-Gm-Message-State: AGi0PuaMa4SOWU6dbeOOgX/CHn68u+8XWoYu0fmOdA5/qxB6o69mB+V7
-	aKfbIoVQ/UMcdZ+r39OKeek9EHRX7f8=
-X-Google-Smtp-Source: APiQypLrfdmlkHTy909k2Op4O+CW9DKyXpof4j/4UWhP/YrbwEpVuD3lgg9bl4RUoEXPFUJ3gOCtEA==
-X-Received: by 2002:a05:600c:2255:: with SMTP id a21mr532021wmm.150.1586447582393;
-        Thu, 09 Apr 2020 08:53:02 -0700 (PDT)
+        bh=DQOYuVJPTWch4okdI2DfwHlRxibA+EKTXe1ahwaTJPk=;
+        b=e2xN/N/m9ppncrNvTzpizV6HOGaiKEFr2RMYcwVl0lSdUd3/l8AlpcIj8kWF5HTtYV
+         lHIMDTdw3qEX9iqlqlflxGT8/IztqbbQB9rsIFXBw8llIeMt6PqIeRH4LmRkPL0mD2WF
+         Sxi1LI2qx3PjTnyO1o6mRWAGHMx7ypTWB5bIUGObfitvqIASpgRvgZY2+UlxpEY+8xMu
+         7FBoJt7oCcUp/4QingtZ9+IAuEFAdosvuzNB3iDnyVt7WRl46jXMuAmFMFtD6uX6ImHX
+         cP4QOFBBpBOCZsbHXds9me6Yh7O2ZhKFtdWZJTRDfjBm/8PYt7EhJk/Q6Y9YjsPgdUeA
+         gBlg==
+X-Gm-Message-State: AGi0PuYmPMyRQ5yy2ZU/CRD6qOFiHeV3dzdTTsMVYgYVdirNVmEAg128
+	eSl2Eil7iG6/WmY0ZGpgc1ZkVccF8as=
+X-Google-Smtp-Source: APiQypLP/gs4ipJ4CDFq6BYQJTIVGIoVGW8zNdrotqODDnmpLm9uHm8Z6ZcYX68uowLCHEQO3ayYvA==
+X-Received: by 2002:a1c:8106:: with SMTP id c6mr529097wmd.88.1586447585053;
+        Thu, 09 Apr 2020 08:53:05 -0700 (PDT)
 Return-Path: <ricardo.ribalda@gmail.com>
 Received: from piling.lan (80-71-134-83.u.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id t67sm4253635wmt.48.2020.04.09.08.53.00
+        by smtp.gmail.com with ESMTPSA id t67sm4253635wmt.48.2020.04.09.08.53.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2020 08:53:01 -0700 (PDT)
+        Thu, 09 Apr 2020 08:53:04 -0700 (PDT)
 Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
 To: openembedded-core <openembedded-core@lists.openembedded.org>,
 	Paul Barker <pbarker@konsulko.com>
 Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Subject: [PATCH v5 5/6] wic: Avoid creating invalid pseudo directory
-Date: Thu,  9 Apr 2020 17:52:50 +0200
-Message-Id: <20200409155251.982424-6-ricardo@ribalda.com>
+Subject: [PATCH v5 6/6] oeqa: wic: Add tests for permissions and change-directory
+Date: Thu,  9 Apr 2020 17:52:51 +0200
+Message-Id: <20200409155251.982424-7-ricardo@ribalda.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200409155251.982424-1-ricardo@ribalda.com>
 References: <20200409155251.982424-1-ricardo@ribalda.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-If the source of the rootfs is not a bitbake cooked image, or it is not
-pointing to the root of one, we call pseudo again, which will produce
-a new pseudo folder at rootfs/../pseudo
+Make sure that the permissions and username are respected when using all
+the rootfs modifiers.
 
-Eg:
-
-part /etc --source rootfs --rootfs-dir=${IMAGE_ROOTFS}/home --fstype=ext4
+Add tests for checnage-directory command
 
 Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 ---
- scripts/lib/wic/partition.py | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 91 +++++++++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
 
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 3240be072a..7d9dd616a6 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -199,13 +199,14 @@ class Partition():
-         Currently handles ext2/3/4, btrfs, vfat and squashfs.
-         """
-         p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
--        if (pseudo_dir == None):
--            pseudo_dir = "%s/../pseudo" %  rootfs_dir
--        pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
--        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
--        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
--        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
--        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-+        if (pseudo_dir):
-+            pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
-+            pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
-+            pseudo += "export PSEUDO_PASSWD=%s;" % rootfs_dir
-+            pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
-+            pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-+        else:
-+            pseudo = None
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 626a217e69..8ef08c3d77 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -62,6 +62,12 @@ def extract_files(debugfs_output):
+     return [line.split('/')[5].strip() for line in \
+             debugfs_output.strip().split('/\n')]
  
-         rootfs = "%s/rootfs_%s.%s.%s" % (cr_workdir, self.label,
-                                          self.lineno, self.fstype)
++def files_own_by_root(debugfs_output):
++    for line in debugfs_output.strip().split('/\n'):
++        if line.split('/')[3:5] != ['0', '0']:
++            print(debugfs_output)
++            return False
++    return True
+ 
+ class WicTestCase(OESelftestTestCase):
+     """Wic test class."""
+@@ -84,6 +90,7 @@ class WicTestCase(OESelftestTestCase):
+                 self.skipTest('wic-tools cannot be built due its (intltool|gettext)-native dependency and NLS disable')
+ 
+             bitbake('core-image-minimal')
++            bitbake('core-image-minimal-mtdutils')
+             WicTestCase.image_is_ready = True
+ 
+         rmtree(self.resultdir, ignore_errors=True)
+@@ -506,6 +513,90 @@ part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
+                                       % (wks_file, self.resultdir), ignore_status=True).status)
+         os.remove(wks_file)
+ 
++    def test_permissions(self):
++        """Test permissions are respected"""
++
++        oldpath = os.environ['PATH']
++        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
++
++        t_normal = """
++part / --source rootfs --fstype=ext4
++"""
++        t_exclude = """
++part / --source rootfs --fstype=ext4 --exclude-path=home
++"""
++        t_multi = """
++part / --source rootfs --ondisk sda --fstype=ext4
++part /export --source rootfs --rootfs=core-image-minimal-mtdutils --fstype=ext4
++"""
++        t_change = """
++part / --source rootfs --ondisk sda --fstype=ext4 --exclude-path=etc/   
++part /etc --source rootfs --fstype=ext4 --change-directory=etc
++"""
++        tests = [t_normal, t_exclude, t_multi, t_change]
++
++        try:
++            for test in tests:
++                include_path = os.path.join(self.resultdir, 'test-include')
++                os.makedirs(include_path)
++                wks_file = os.path.join(include_path, 'temp.wks')
++                with open(wks_file, 'w') as wks:
++                    wks.write(test)
++                runCmd("wic create %s -e core-image-minimal -o %s" \
++                                       % (wks_file, self.resultdir))
++
++                for part in glob(os.path.join(self.resultdir, 'temp-*.direct.p*')):
++                    res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part))
++                    self.assertEqual(True, files_own_by_root(res.output))
++
++                rmtree(self.resultdir, ignore_errors=True)
++
++        finally:
++            os.environ['PATH'] = oldpath
++
++    def test_change_directory(self):
++        """Test --change-directory wks option."""
++
++        oldpath = os.environ['PATH']
++        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
++
++        try:
++            include_path = os.path.join(self.resultdir, 'test-include')
++            os.makedirs(include_path)
++            wks_file = os.path.join(include_path, 'temp.wks')
++            with open(wks_file, 'w') as wks:
++                rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
++                wks.write("part /etc --source rootfs --fstype=ext4 --change-directory=etc")
++            runCmd("wic create %s -e core-image-minimal -o %s" \
++                                       % (wks_file, self.resultdir))
++
++            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
++
++            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part1))
++            files = extract_files(res.output)
++            self.assertIn('shadow', files)
++
++        finally:
++            os.environ['PATH'] = oldpath
++
++    def test_change_directory_errors(self):
++        """Test --change-directory wks option error handling."""
++        wks_file = 'temp.wks'
++
++        # Absolute argument.
++        with open(wks_file, 'w') as wks:
++            wks.write("part / --source rootfs --fstype=ext4 --change-directory /usr")
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
++                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        os.remove(wks_file)
++
++        # Argument pointing to parent directory.
++        with open(wks_file, 'w') as wks:
++            wks.write("part / --source rootfs --fstype=ext4 --change-directory ././..")
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
++                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        os.remove(wks_file)
++
+ class Wic2(WicTestCase):
+ 
+     def test_bmap_short(self):
 -- 
 2.25.1
 
