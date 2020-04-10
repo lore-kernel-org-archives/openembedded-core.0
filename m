@@ -1,98 +1,94 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web10.22279.1586476335163331420
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web10.2738.1586488549457790611
  for <openembedded-core@lists.openembedded.org>;
- Thu, 09 Apr 2020 16:52:15 -0700
+ Thu, 09 Apr 2020 20:15:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WE045gK9;
- spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f179.google.com with SMTP id c138so306303pfc.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 09 Apr 2020 16:52:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=YTieVNMNxDTr6ZBY2YoMdLgAwdwdIo9g3uOIDK+RCmw=;
-        b=WE045gK9a4Ki5+UZoyuhbJE69iTZNQgNZY9tG27ZbgO74h7HgjL6esWIl7u8MqNmVd
-         vWPZ688PBOkmonGHOHYdPzJyOAOfgYDAt0FLuyj0dG5c3Z9nuAEBc+fepKsxrjszCOzY
-         YHrdot7+ngd7Gd+Ot1fLXPIYCh4rHQuo70JXOepSNmJtCJP2Ge2WXPS9xmsJQL1O8rGo
-         SEPbgpfFh/R3yVC1E3wsU46zZZR9KhznbAQJyAaE508KWlNfBlLMwpLAop6OvH1kfPGx
-         pOrY+hixSiKCmCu7lAFTaGxBIvvMMrWv3+nfVvzVTUrpiSgCjFCE7hkpgIHqlWuXpWiy
-         +RgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=YTieVNMNxDTr6ZBY2YoMdLgAwdwdIo9g3uOIDK+RCmw=;
-        b=dpM8Q6bcWLOgFP6588KG1qsGOHmpTOfZfTAYeJBDV/oE8IBe7W/aJwwryU8syP2Nd8
-         WQ3TIXCIXl9O8JuXqdoKBIpMJgXmijSoqT8leKAyaJR35/LgmCTkUseWbm7FvuU6SPDN
-         as7rY9uwuTrmuL5m0rB0/kqm1PHF4qY4GY7CJ4F2CWZL8lq5fycPEzODJEobmSFy7zsq
-         R8DQodf/HIHzDuzkTpxN++axHkGEr1NOGscVUE0ito9zjIcz5Bd3KdpUN0u9E2TskOqh
-         a3rcv+ba18Sw21qMb3+Ztad4SpWqr4tAyznbPV1eWgyKpXhFuyvkzB9CWBWpGQUmn2RF
-         i+mQ==
-X-Gm-Message-State: AGi0PubZBZE85nJG0AcIibPynnWtxmhR9QbIjkLz/91zYsOmJ98u1AF3
-	iQLp2bt3LJ96KtZf42Sw56yCDrm1WHs=
-X-Google-Smtp-Source: APiQypJ8geLwt0nqznFWxWXPBEoVuOD+OCvNdbuupLg+p1g9yyX60YMoY0tlgzuZfCRNx7Bs6GwZgA==
-X-Received: by 2002:a63:c345:: with SMTP id e5mr1718326pgd.403.1586476334301;
-        Thu, 09 Apr 2020 16:52:14 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::58e0])
-        by smtp.gmail.com with ESMTPSA id 36sm200091pgs.70.2020.04.09.16.52.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2020 16:52:13 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: j9OKoe7ydoXwI0xTKSGg0xP9pUOFrSjJMbxR2tVu/CVaKWheMlOgfIAnldD6EjHD+Ni//lG1tW
+ eHRewMl6G5rw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2020 20:15:49 -0700
+IronPort-SDR: IyMa7wConCAF04gVC7ZJai4b3inXZ3dh/XqAxQKqcowCEwbPtUFkbdvBP2En0MlYklnnZABYeE
+ 7Yih5IRVNZ/A==
+X-IronPort-AV: E=Sophos;i="5.72,364,1580803200"; 
+   d="scan'208";a="276052662"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.76.35])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2020 20:15:47 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 2/2] ruby: Link with libucontext on musl
-Date: Thu,  9 Apr 2020 16:52:09 -0700
-Message-Id: <20200409235209.985108-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200409235209.985108-1-raj.khem@gmail.com>
-References: <20200409235209.985108-1-raj.khem@gmail.com>
+Subject: [zeus][PATCH 00/13] zeus pull request - cover letter only
+Date: Fri, 10 Apr 2020 11:15:41 +0800
+Message-Id: <cover.1586488410.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-coroutines in ruby 2.7+ needs ucontext APIs which are not available in
-musl but an external library is available to provide them so use it
+Please pull these changes for zeus. a-full passed on autobuilder.
 
-Use cached values for ac_cv_func_isnan and ac_cv_func_isinf this is not
-detected correctly by configure on musl
+Thanks,
 
-on ARM drop using old arm32 implementation of coroutine which is slow and
-inefficient
+Anuj
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: No change
+The following changes since commit 0743dcd0cd70dee87a49d3bcd017168352e60982:
 
- meta/recipes-devtools/ruby/ruby_2.7.0.bb | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+  wic/direct: reserve 2 sector for extended partition (2020-03-26 07:33:07 +0800)
 
-diff --git a/meta/recipes-devtools/ruby/ruby_2.7.0.bb b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
-index 44c76161d5..7f07080497 100644
---- a/meta/recipes-devtools/ruby/ruby_2.7.0.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
-@@ -1,5 +1,7 @@
- require ruby.inc
- 
-+DEPENDS_append_libc-musl = " libucontext"
-+
- SRC_URI += " \
-            file://remove_has_include_macros.patch \
-            file://run-ptest \
-@@ -25,8 +27,11 @@ EXTRA_OECONF = "\
-     --with-pkg-config=pkg-config \
- "
- 
--EXTRA_OECONF_append_libc-musl_arm = " --with-coroutine=arm32"
--EXTRA_OECONF_append_libc-musl_armeb = " --with-coroutine=arm32"
-+EXTRA_OECONF_append_libc-musl = "\
-+    LIBS='-lucontext' \
-+    ac_cv_func_isnan=yes \
-+    ac_cv_func_isinf=yes \
-+"
- 
- do_install() {
-     oe_runmake 'DESTDIR=${D}' install
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/zeus-next
+
+Jan Luebbe (5):
+  lib/oe/package_manager: make sure to not remove packages in apt
+    install
+  lib/oe/package_manager: fix handling of last package
+  lib/oe/package_manager: collect provided package names when using debs
+  lib/oe/package_manager: avoid installing provided packages via apt
+  lib/oe/package_manager: don't try to rm /var/lib/opkg
+
+Jeremy Puhlman (1):
+  busybox: on upgrade save busybox if it is the last shell
+
+Joshua Watt (1):
+  u-boot-tools: Split out inc file
+
+Marek Vasut (2):
+  waffle: no need to depend on target python3
+  lttng-modules: update to 2.10.14
+
+Paul Barker (3):
+  kernel-yocto.bbclass: Support config fragments with externalsrc
+  perf: Fix externalsrc support
+  kernelsrc.bbclass: Fix externalsrc support
+
+haiqing (1):
+  glib-2.0: fix CVE-2020-6750
+
+ meta/classes/kernel-yocto.bbclass             |   3 +-
+ meta/classes/kernelsrc.bbclass                |   2 +-
+ meta/lib/oe/package_manager.py                |  37 +-
+ meta/recipes-bsp/u-boot/u-boot-tools.inc      |  65 ++
+ .../u-boot/u-boot-tools_2019.07.bb            |  67 +-
+ meta/recipes-core/busybox/busybox.inc         |  43 +
+ .../glib-2.0/glib-2.0/CVE-2020-6750.patch     | 741 ++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb |   1 +
+ meta/recipes-graphics/waffle/waffle_1.6.0.bb  |   5 +
+ ...ops-when-trace-sunrpc_task-events-in.patch |  94 ---
+ ...rpc_clnt-dereference-in-rpc_task_que.patch |  44 --
+ ...rpc-use-signed-integer-for-client-id.patch | 105 ---
+ ...nrpc-introduce-lttng_get_clid-helper.patch | 130 ---
+ ...es_2.10.11.bb => lttng-modules_2.10.14.bb} |  12 +-
+ meta/recipes-kernel/perf/perf.bb              |   2 +-
+ 15 files changed, 887 insertions(+), 464 deletions(-)
+ create mode 100644 meta/recipes-bsp/u-boot/u-boot-tools.inc
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2020-6750.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-Fix-sunrpc-use-signed-integer-for-client-id.patch
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-sunrpc-introduce-lttng_get_clid-helper.patch
+ rename meta/recipes-kernel/lttng/{lttng-modules_2.10.11.bb => lttng-modules_2.10.14.bb} (75%)
+
 -- 
-2.26.0
+2.25.2
 
