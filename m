@@ -1,99 +1,65 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
- by mx.groups.io with SMTP id smtpd.web11.2937.1586543489544061113
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web10.1356.1586568435211841411
  for <openembedded-core@lists.openembedded.org>;
- Fri, 10 Apr 2020 11:31:29 -0700
+ Fri, 10 Apr 2020 18:27:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CFEdG0nH;
- spf=pass (domain: gmail.com, ip: 209.85.210.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f178.google.com with SMTP id a13so1373434pfa.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 10 Apr 2020 11:31:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LA8NRcf0JNtLhAMXvk4cwvQ8WU5/UoPYGt2uBLY+eps=;
-        b=CFEdG0nHqEpHv+XqBfle4CCiUvxzB/y3ZZYFgUTAIO7PpiK+kLuWVqalHRmrrvGPqM
-         9ysxGFVAPnMNr2WCU3lbnJ8fSs5cEZmD+6y1m+kuz0rvMT4uNzdXQjm0v7oUHUJgCmxA
-         +Vw8rNezg3F1y7Wx0/wxXyHov0StcyjhwnDBufTfNvJbZnmZVLOoFZf1BwtMbvjmYAup
-         zrN/AlNuFmPzL0h4fn1rnyaPZ0BBFkttK8tLCWWJjrT5vds4Owol7bZZPkuqAi6IK8fG
-         XawwFtmn/NyTD1ffMQ4YijIJEpPAH5v1Wcl5PexiomBTpFUZhGfv+3X7e8QCbf2rhJyw
-         LTpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LA8NRcf0JNtLhAMXvk4cwvQ8WU5/UoPYGt2uBLY+eps=;
-        b=XU5vEqXdwr3OfmAq2rDzbiofNsXQAxo/nouF9K7NcOgoWScLHVS/ethWWXNHJt1RCC
-         I0suSdxUMBcPfPwAOXvBdcAXMIOq3eDitQyEZFTXSDdPB+XXQ4ahidiQUbhVqY2vcy+7
-         yqUGJBnV6QzdDfXXUvjB8CrlKbQgvVOG6A7racS7SF4XuiD3Msz6x/JGp0C0b1TY3P2w
-         01ODkdNEfTFR06IjCxtQdN+Z0aVM6N+oJnZkL035GTEboKbTeWu+3f7K/U+PNI8cWnsq
-         O3r/PiWbPp+6XHUq/KkTPueoWFGCuxm7O0WdEsvSg9/PHVTfHtb9k+0AxyPgzIMa046a
-         79PA==
-X-Gm-Message-State: AGi0PuZxn7DRnkJLKliLZi3lpj7+opWyougqSUGw7uicgRS77RhBDTKB
-	IN44iIDbG0nBdOp9uTG2vQ20X3EPFXc=
-X-Google-Smtp-Source: APiQypJD9PmTJjz+lPhdWtO996yflPI32BLKbjYRHFZRfao9BfIxWMw3qjdFdp0q181cLosRhtYOQw==
-X-Received: by 2002:a63:f658:: with SMTP id u24mr5555652pgj.357.1586543488601;
-        Fri, 10 Apr 2020 11:31:28 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::58e0])
-        by smtp.gmail.com with ESMTPSA id c12sm2463353pji.19.2020.04.10.11.31.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2020 11:31:28 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 134.134.136.24, mailfrom: timothy.t.orling@linux.intel.com)
+IronPort-SDR: IigYxnWqAwiWjAn0onvrZHd1Zv+FU/XZ8vEjzmZKdCYNzWd9ljBWQGA1bAIHnIwNRpQtrHgxwf
+ z8HXQ3tz+6og==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2020 18:27:14 -0700
+IronPort-SDR: WRsMSGhkZ6YA84wa8tlyja4+C0sZA4T7JBKJg6VksALUwAVNYwWcjwWU+WzaaSuqeKX/MXVyQ9
+ xPZ1kZuU2h2g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,368,1580803200"; 
+   d="scan'208";a="262379766"
+Received: from wrath.jf.intel.com ([10.54.31.24])
+  by orsmga008.jf.intel.com with ESMTP; 10 Apr 2020 18:27:14 -0700
+From: "Tim Orling" <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v3 2/2] ruby: Link with libucontext on musl
-Date: Fri, 10 Apr 2020 11:31:25 -0700
-Message-Id: <20200410183125.1026358-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200410183125.1026358-1-raj.khem@gmail.com>
-References: <20200410183125.1026358-1-raj.khem@gmail.com>
+Cc: Tim Orling <timothy.t.orling@linux.intel.com>
+Subject: [PATCH] python3-manifest.json: add pathlib to core
+Date: Fri, 10 Apr 2020 18:27:02 -0700
+Message-Id: <20200411012702.26186-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-coroutines in ruby 2.7+ needs ucontext APIs which are not available in
-musl but an external library is available to provide them so use it
+The pathlib module is for Object-oriented filesystem paths
 
-Use cached values for ac_cv_func_isnan and ac_cv_func_isinf this is not
-detected correctly by configure on musl
+It also provides a lot of handy utilities for checking on
+paths. This seems to justify adding it to the core package
+along side os, sys, and the other *path libraries.
 
-on ARM drop using old arm32 implementation of coroutine which is slow and
-inefficient
+[YOCTO #13670]
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
-v2: No change
-v3: No change
+ meta/recipes-devtools/python/python3/python3-manifest.json | 2 ++
+ 1 file changed, 2 insertions(+)
 
- meta/recipes-devtools/ruby/ruby_2.7.0.bb | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/ruby/ruby_2.7.0.bb b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
-index 44c76161d5..7f07080497 100644
---- a/meta/recipes-devtools/ruby/ruby_2.7.0.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
-@@ -1,5 +1,7 @@
- require ruby.inc
- 
-+DEPENDS_append_libc-musl = " libucontext"
-+
- SRC_URI += " \
-            file://remove_has_include_macros.patch \
-            file://run-ptest \
-@@ -25,8 +27,11 @@ EXTRA_OECONF = "\
-     --with-pkg-config=pkg-config \
- "
- 
--EXTRA_OECONF_append_libc-musl_arm = " --with-coroutine=arm32"
--EXTRA_OECONF_append_libc-musl_armeb = " --with-coroutine=arm32"
-+EXTRA_OECONF_append_libc-musl = "\
-+    LIBS='-lucontext' \
-+    ac_cv_func_isnan=yes \
-+    ac_cv_func_isinf=yes \
-+"
- 
- do_install() {
-     oe_runmake 'DESTDIR=${D}' install
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 251271cb84f..3bcc9b8662e 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -285,6 +285,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/operator.py",
+             "${libdir}/python${PYTHON_MAJMIN}/optparse.py",
+             "${libdir}/python${PYTHON_MAJMIN}/os.py",
++	    "${libdir}/python${PYTHON_MAJMIN}/pathlib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/pkgutil.py",
+             "${libdir}/python${PYTHON_MAJMIN}/platform.py",
+             "${libdir}/python${PYTHON_MAJMIN}/posixpath.py",
+@@ -358,6 +359,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/operator.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/optparse.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/os.*.pyc",
++	    "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pathlib.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*.pyc",
 -- 
-2.26.0
+2.24.0
 
