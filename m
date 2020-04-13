@@ -1,63 +1,81 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web12.479.1586794163324658150
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+ by mx.groups.io with SMTP id smtpd.web12.1070.1586795357084323911
  for <openembedded-core@lists.openembedded.org>;
- Mon, 13 Apr 2020 09:09:23 -0700
+ Mon, 13 Apr 2020 09:29:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 5956740C1E;
-	Mon, 13 Apr 2020 16:09:22 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id a5jLPF7AOImG; Mon, 13 Apr 2020 16:09:22 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id DDBF340A93;
-	Mon, 13 Apr 2020 16:09:17 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 4D5D01724AB; Mon, 13 Apr 2020 12:09:17 -0400 (EDT)
-Date: Mon, 13 Apr 2020 12:09:17 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>,
-	Stefano Babic <sbabic@denx.de>, Tom Rini <trini@konsulko.com>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [OE-core] [PATCH v3] u-boot: Restore valid default environment for running system
-Message-ID: <20200413160917.GF1578@denix.org>
-References: <20200402001431.435999-1-otavio@ossystems.com.br>
- <20200412210715.GE1578@denix.org>
- <CAP9ODKo+r=74d1B3Nu3aX9AfT_tgo9UN8YkzRyUki82fSJZRZQ@mail.gmail.com>
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=Aj4AeOlL;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.160.196, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qt1-f196.google.com with SMTP id s30so7608323qth.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2020 09:29:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc;
+        bh=o39DMwOOn3/fpMS9aclQ8K3FgBDBnQGq0Q3b1xMpHWo=;
+        b=Aj4AeOlLT8txJT0O6JgjT4wTjYVUR16u8nkfeHo6zIWI8MnFFghaHbNQxQaRU6YoD6
+         x+iVCmwr5vOCwKO99H6dHuRaXmrmbD9HhdAy9UmUPhbhkNt5in9Lbu0RNkyxAUrHO/nx
+         E3gGnkKsRPoCGNegoNBLRyPEwFq3Q8OhOWgZZ/Wk0cC0B86kH1HI4K5Twn1ryRJHToFw
+         LW7TJmlIE7r4Nn4jB7DCt95g2kObmgljsHGUGmeg8AfJbwxnHPwdHQ6GbjKeFK0TWp7a
+         EC8X7adH/jHJoQk9nYl2vfUIP6YSzJScWYCJ68SL9lK7ycsUF9WIx4Q9i6TCHUyeB0nx
+         vdfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc;
+        bh=o39DMwOOn3/fpMS9aclQ8K3FgBDBnQGq0Q3b1xMpHWo=;
+        b=ZgJKbj4M5VrwdnInN3YZ4b+DAcFf11tDKFju57Xs+yX3GBKVan6T3YpW4kqjpq/oq8
+         c3O9/MjjTHcw9hrGJxqIC6cENpzgJpXqCHoZw4WEJfwQB0R5/hjXPJMyD1SlKEovZDYz
+         Ate1nYdC1iyK69/5MexfDJPjGh5Sc4VPfmtlcExMFrdQtFM08A0n8JXMC1gbrrC3U9xK
+         RKRfQLXyvBIv+s9P5QC1zolmd9IzguokMXiLB31nLFftnl5jcgQCFONF/wcofxrJm/QJ
+         Z88Til7Az3IbEWSk/aIlLzwuqMwWRjPSNY/t/etgn60ktJyh6/f+V5c+TzrrbM90wMWs
+         ONZA==
+X-Gm-Message-State: AGi0PuZRAL7wZa/Pjo8uMzAIa4nX8//TZ/I+HPFhP1zSnpt+NQRk2yce
+	NXzjqRIdTQmq/km3RNRyXVk1mslXn7s4mg==
+X-Google-Smtp-Source: APiQypJMAag4s3MK0zxNYhZDsKFNTkh04kdethPgr6VcSl6kbNdDoZHxSjMUr9riJn2uMDvcxfwdTQ==
+X-Received: by 2002:ac8:6987:: with SMTP id o7mr12220866qtq.118.1586795355759;
+        Mon, 13 Apr 2020 09:29:15 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com. [209.85.222.182])
+        by smtp.gmail.com with ESMTPSA id a5sm8462207qkn.83.2020.04.13.09.29.14
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Apr 2020 09:29:14 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f182.google.com with SMTP id s63so5859661qke.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 13 Apr 2020 09:29:14 -0700 (PDT)
+X-Received: by 2002:a37:48c7:: with SMTP id v190mr16737998qka.46.1586795354182;
+ Mon, 13 Apr 2020 09:29:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAP9ODKo+r=74d1B3Nu3aX9AfT_tgo9UN8YkzRyUki82fSJZRZQ@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <1586731357-36079-1-git-send-email-denis@denix.org>
+In-Reply-To: <1586731357-36079-1-git-send-email-denis@denix.org>
+Date: Mon, 13 Apr 2020 13:29:02 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKoVfrkLZ07UiXcKRaY7XhBATm0fi83m+MyUi1Xp5Tf7kg@mail.gmail.com>
+Message-ID: <CAP9ODKoVfrkLZ07UiXcKRaY7XhBATm0fi83m+MyUi1Xp5Tf7kg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] u-boot.inc: install u-boot-initial-env as ${PN}-initial-env in $D and $DEPLOYDIR
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, Tom Rini <trini@konsulko.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Denys Dmytriyenko <denys@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Apr 13, 2020 at 08:47:21AM -0300, Otavio Salvador wrote:
-> On Sun, Apr 12, 2020 at 6:07 PM Denys Dmytriyenko <denis@denix.org> wrote:
-> > > +
-> > > +        # Generate the uboot-initial-env
-> > > +        oe_runmake -C ${S} O=${B} u-boot-initial-env
-> >
-> > So, why is this enabled unconditionally? Should this be in UBOOT_MAKE_TARGET?
-> >
-> > I use this .inc file for building different u-boot pieces by different recipes
-> > (main u-boot, SPL, etc., etc.) controlling the build with UBOOT_MAKE_TARGET
-> > below. Now each of those generate u-boot-initial-env and they clash in deploy.
-> 
-> They clash? how so? it generates different filenames so should not have a clash.
+On Sun, Apr 12, 2020 at 7:43 PM Denys Dmytriyenko <denis@denix.org> wrote:
+> From: Denys Dmytriyenko <denys@ti.com>
+>
+> The common u-boot.inc can be used by multiple recipes in the same build for
+> different cores and/or multiple stages of the bootloader. Naming initial-env
+> with ${PN} prefix avoids clashes in deploy and rootfs between those recipes.
+>
+> This fixes 69b3b093079c2ca2744d6c02747c5d1b5d3e7ecf that unconditionally
+> builds, installs and deploys u-boot-initial-env in the common u-boot.inc.
+>
+> Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+> ---
 
-Different filenames? It's always u-boot-initial-env in deploy and /etc...
-I already sent a patch last night to actually do different names...
+Acked-by: Otavio Salvador <otavio@ossystems.com.br>
 
 
-> > > This change is late in the cycle but it is critical in my opinion.
-> > >
-> > > The lack of default environment as well as the configuration for the
-> > > tool is a regression from the previous release and this mitigates it.
-> >
-> > Well, I would rather live w/o env rather than unable to build u-boot at all...
-> 
-> Please provide more information as I did not figure out what is not
-> working by your report.
+
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
