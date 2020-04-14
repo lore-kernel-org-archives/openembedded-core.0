@@ -1,96 +1,105 @@
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.web10.1480.1586887717002409252
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+ by mx.groups.io with SMTP id smtpd.web10.85.1586888436301673228
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Apr 2020 11:08:37 -0700
+ Tue, 14 Apr 2020 11:20:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@izotope.com header.s=google header.b=d78PIXUu;
- spf=permerror, err=parse error for token &{10 18 _spf.google.com}: parse error for token &{10 18 _netblocks.google.com}: limit exceeded (domain: izotope.com, ip: 209.85.160.196, mailfrom: mwillard@izotope.com)
-Received: by mail-qt1-f196.google.com with SMTP id o10so10974253qtr.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2020 11:08:36 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=CElFvpKH;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.219.68, mailfrom: domarys.correa@ossystems.com.br)
+Received: by mail-qv1-f68.google.com with SMTP id s3so328867qvk.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2020 11:20:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=izotope.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=JKKky/MK+YqA6KEVTQehMG1BZuCV/UKg2bMXpil99kU=;
-        b=d78PIXUudSaqWVpa0rN7AoWhXqryD1dafVxxj+iw1sBy6li1PX2d9pUbmo7yf846cI
-         9M2DWtt1B+cXE8g7S5W3hhvgze+d99dKfph6IvsLxxuii75NuIlhIy3y2E8To2HC8xMU
-         xeFHZPLWASbYClQqo8uyA1sPdKbpupz9t25As=
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=XHEfvtQdC2l7G62Qupqdj4lEYQO/YF3k80R52j46UGE=;
+        b=CElFvpKHaTywhupjgEROHw4pLQ2h1QV10/5bZS3D2Lr/QF3uiz5UwHOz+AlK2O7yNi
+         Y/Fry9+8WkJaDubk7kSG2iO8fM9z8rVsIq6Dv6zKaNCRzVw+p8Kfyo25YmHxi8LQ9pJw
+         0cw3+TTjStxb4kxyjKtwfzmVL6hW/QsT5LwI+S64QFpX29JBRW8w5zJZwBZ8VRCTYs1d
+         JDJqQbQsiYmLymOXpKxX3XYN3qx7xaNyDj3KjC18PJUlYH/Yon89vnH7x3XlkNClmhNJ
+         UTWso51lyCZVSBmQcNkejYUTXDuqnkd+JBXToA1kz5fYSPSNeas2ZGdDNpsaQiFLZQRX
+         fynQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=JKKky/MK+YqA6KEVTQehMG1BZuCV/UKg2bMXpil99kU=;
-        b=Uct2aXdaD4c3RbiJf4th0kgs7BkhJD4C3JnNqNoa7qOj6nAPfTgpio9837V9G1yxgP
-         L5xQFRScwXTAncJOv3HQJjEBKUfftTKNaLF7BP/Hq/7DuVKLNNJNVhypldTyI9P+M8pW
-         VL7cX0arinEfhUpQFN7VjLJ3kSbJK1SvovaRVVne7u/feFFVllUxyBTPqeODOAeAuPWs
-         AbhuW32/6DvTw3l/eIFqIlys0TPUMcig1KsV0bQlV58DV9Mf2tfWS3LmK+pvfA6LAZKZ
-         9gygcuBqRVd/DmJHOsnANiQU0ZIA4C9t3qb0UbisqGthuo0GpoLkoe52zIKwjcoRIWuA
-         1YfA==
-X-Gm-Message-State: AGi0PubojIuTo+rgOIMdr28Q29ltWmqLwOdhoA8rMWAB4+9iUweLL4W1
-	tpQ96bh/XpeOHGIqRQJg/oT495xM1t4PKg==
-X-Google-Smtp-Source: APiQypKGo3gLi8Q5iPJ1HKmB15lCHb3J4o2MvVq0uz2KRvMInujk+hU/DoV+Z/+Heo1P9Gg9Us5P7g==
-X-Received: by 2002:ac8:2c33:: with SMTP id d48mr17448697qta.323.1586887715914;
-        Tue, 14 Apr 2020 11:08:35 -0700 (PDT)
-Return-Path: <mwillard@izotope.com>
-Received: from localhost.localdomain (pool-71-184-149-228.bstnma.fios.verizon.net. [71.184.149.228])
-        by smtp.gmail.com with ESMTPSA id f68sm10900676qtb.19.2020.04.14.11.08.35
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=XHEfvtQdC2l7G62Qupqdj4lEYQO/YF3k80R52j46UGE=;
+        b=C2fLZ/INSo0LhRVqvFT1dW/YwXY6tZwmTzbJVfHGjm3otpgIBjI57+jpmaoeadLEJi
+         rm4SGucmWbA0gCH6oXNUusTpDF5DnhieX50mvl1g6rdrZoD7FRtL9ZFfEqfdmaeJIwur
+         fgPvD5fq1SWr5SGlJhzsHnkkGnJYlYDSInU8FQcMMcBqEMNEG6nRPgFNmCLvim0El6T/
+         CbEHSElQogO0rxp3B5DljSbG+CJclPzMLlRAlnwA37+eKSUzxkHkkXnvGe8NT7g0Rc9t
+         XSi9nxeRBf/XkrbkXLOXUPTbq1a20GzUzTi8KPTDRLGEpmLI1zgxTO5tdlGjxMoE6K7G
+         5SEg==
+X-Gm-Message-State: AGi0Puaj2VU8Cwbv6yT4kyPsBVsH0nDApqvQW2TaHAHJ/52uGtG1XAL3
+	rPWM0nzEtugQMRTZXEVBDb0tLPG2u/Y=
+X-Google-Smtp-Source: APiQypIrqmGdPNwKiG95p3nXsQ2ncoffWfzV8Er5w3k+aRmT1iSc8BRd1ZOYZE8b1j5Tq82Rs2gjUQ==
+X-Received: by 2002:a0c:8444:: with SMTP id l62mr1295720qva.239.1586888434947;
+        Tue, 14 Apr 2020 11:20:34 -0700 (PDT)
+Return-Path: <domarys.correa@ossystems.com.br>
+Received: from localhost.localdomain ([2804:7f4:c192:859a:b8f6:f65e:fd7a:63fc])
+        by smtp.gmail.com with ESMTPSA id j6sm11396511qti.25.2020.04.14.11.20.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 11:08:35 -0700 (PDT)
-From: "Mike Willard" <mwillard@izotope.com>
+        Tue, 14 Apr 2020 11:20:33 -0700 (PDT)
+From: "Domarys Correa" <domarys.correa@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Cc: Mike Willard <mwillard@izotope.com>
-Subject: [PATCH 1/1] insane.bbclass: Warning for so file version mismatch
-Date: Tue, 14 Apr 2020 18:08:26 +0000
-Message-Id: <908ebd3f3e9c539593802c0b81780f9292bcfd2d.1586887105.git.mwillard@izotope.com>
+Cc: Domarys Correa <domarys.correa@ossystems.com.br>
+Subject: [OE-core][PATCH v2] insane.bbclass: Add test for shebang line length
+Date: Tue, 14 Apr 2020 15:20:20 -0300
+Message-Id: <20200414182020.11777-1-domarys.correa@ossystems.com.br>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1586887105.git.mwillard@izotope.com>
-References: <cover.1586887105.git.mwillard@izotope.com>
 
-Adds a warning if a package produces a .so file with a
-version that doesn't match the package PV.
+Shebang lines longer than 128 characters can give an error
+depending on the operating system.
+This implements a test that signals an error when locating a
+faulty shebang.
 
-Signed-off-by: Mike Willard <mwillard@izotope.com>
+YOCTO: #11053
+
+Signed-off-by: Domarys Correa <domarys.correa@ossystems.com.br>
 ---
- meta/classes/insane.bbclass | 20 +++++++++++++++++++-
- 1 file changed, 19 insertions(+), 1 deletion(-)
+ meta/classes/insane.bbclass | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 478240fa57..bb7f625667 100644
+index 9605ac2bae..bcb1464c91 100644
 --- a/meta/classes/insane.bbclass
 +++ b/meta/classes/insane.bbclass
-@@ -28,7 +28,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             pn-overrides infodir build-deps src-uri-bad \
-             unknown-configure-option symlink-to-sysroot multilib \
-             invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
--            mime mime-xdg \
-+            mime mime-xdg so-file-version \
+@@ -34,7 +34,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             split-strip packages-list pkgv-undefined var-undefined \
+             version-going-backwards expanded-d invalid-chars \
+             license-checksum dev-elf file-rdeps configure-unsafe \
+-            configure-gettext perllocalpod \
++            configure-gettext perllocalpod shebang-size \
              "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -488,6 +488,24 @@ def package_qa_check_symlink_to_sysroot(path, name, d, elf, messages):
-                 trimmed = path.replace(os.path.join (d.getVar("PKGDEST"), name), "")
-                 package_qa_add_message(messages, "symlink-to-sysroot", "Symlink %s in %s points to TMPDIR" % (trimmed, name))
+ # Add usrmerge QA check based on distro feature
+ ERROR_QA_append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
+@@ -82,6 +82,29 @@ def package_qa_add_message(messages, section, new_msg):
+     else:
+         messages[section] = messages[section] + "\n" + new_msg
  
-+QAPATHTEST[so-file-version] = "package_qa_check_so_file_version"
-+def package_qa_check_so_file_version(path, name, d, elf, messages):
-+    """
-+    Check for ".so" files that do not match the package version
-+    """
-+    import re
++QAPATHTEST[shebang-size] = "package_qa_check_shebang_size"
++def package_qa_check_shebang_size(path, name, d, elf, messages):
++    if os.path.islink(path) or elf:
++        return
 +
-+    pv = d.getVar('PV')
-+    # Search for .so file with version number following
-+    prog = re.compile(r'.*\.so\.(\d+\.\d+\.\d+)')
-+    matches = prog.findall(path)
-+    if len(matches) > 0:
-+        so_file_version = matches[0]
-+        if so_file_version != pv:
-+            package_qa_add_message(messages, "so-file-version",
-+                ".so file version does not match package version:\nFile: {}\nFile version:\t{}\nPV:\t\t{}\n".format(
-+                    path, so_file_version, pv))
++    try:
++        with open(path, 'rb') as f:
++            stanza = f.readline(130)
++    except IOError:
++        return
 +
- # Check license variables
- do_populate_lic[postfuncs] += "populate_lic_qa_checksum"
- python populate_lic_qa_checksum() {
++    if stanza.startswith(b'#!'):
++        #Shebang not found
++        try:
++            stanza = stanza.decode("utf-8")
++        except UnicodeDecodeError:
++            #If it is not a text file, it is not a script
++            return
++
++        if len(stanza) > 129:
++            package_qa_add_message(messages, "shebang-size", "%s: %s maximum shebang size exceeded, the maximum size is 128." % (name, package_qa_clean_path(path, d)))
++            return
++
+ QAPATHTEST[libexec] = "package_qa_check_libexec"
+ def package_qa_check_libexec(path,name, d, elf, messages):
+ 
 -- 
 2.17.1
 
