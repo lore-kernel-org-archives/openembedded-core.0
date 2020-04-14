@@ -1,151 +1,97 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web11.11181.1586871398236894901
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web12.11331.1586871427302123899
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Apr 2020 06:36:38 -0700
+ Tue, 14 Apr 2020 06:37:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YtwG+Vsw;
- spf=pass (domain: gmail.com, ip: 209.85.208.195, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-lj1-f195.google.com with SMTP id v9so5864269ljk.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2020 06:36:37 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D29yQCJQ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id b11so2966083wrs.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2020 06:37:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=QXDdhPA2/i40XhE+qJ/JeBt4ieNhsTot3o+bWRnknWY=;
-        b=YtwG+VswK2W0SW9g+UICIP6IyK6qEXcZpz6gJcpxvst5KPeZROueYAGI6GNL70MGpz
-         2lKQpglYkpNQzVeKfvOtLpi8MAZ+L0u4WtG+r4ltZARmNob2SnECDj5mCuyl5cr7BQ1J
-         haYffXa9/9jiCp/WV0+4OWWHdSTU0H/gHbNX/33G+HlmUd/MgQ6nLxt9aoMIqjJ5a74u
-         wR0AXgin8Hnq/2jwD/vF3fDVY/NjkfbqQ8cDgVAnJpNpcYcqF5/d/uFEAKkD0wHZiQOS
-         aPsK+3nKZUkT2vPJRNm5nbf0S4TF6WQT3yzzrkxhKWxMxlmYdk+uvQTM4et45qN5NPAI
-         o4UQ==
+        d=linuxfoundation.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o85fzavr9atH3UISCKOabs14wvEDyyP6BmKVJ61uFSo=;
+        b=D29yQCJQ3FOJIJrrV+O7bIAHFwWdmGkvdaEwqk90IcFkJdtdjbmZsfTj18wYowM84x
+         QqcBkWgvmAdKy2ohrsA+C4swgS3IjpLKf6TrpXb4QKeWixocusn8rbw6epxtPhfAVZae
+         sQavylOYGPirmpVWhHdY6ekevyO/V/NYzKonM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=QXDdhPA2/i40XhE+qJ/JeBt4ieNhsTot3o+bWRnknWY=;
-        b=NdReOrZDzQR//ToVSmkz3PTHvAolsS6F01iAhoIfWqNJe00T8DIzYXZrzuXZnbmabd
-         WqawOpvcKWhxewpxydyPbvvk792tJIgHKGdG6DqtgoYHfA3iM2xcMvY6cjoCrhtrkfCx
-         xyQMIGJjMo7A8AEMJuBaMWUzi9Wp518GFpkCzh/+oKv8eRFCHrQTo4ZgaGimpugr8liN
-         BhInDNXq+hMtjnjSIQ6eHhDbBBNRsfUmiE3jzOJzFGlpk9vja+NFNUcaYoXry6ZsUPwD
-         TxCttWe2WO1oRVfSwU4DEPNzNP1T5YbaXqx1+AR2TKPUMF6P26fPas2IkTpJy5T6LKRw
-         PrRw==
-X-Gm-Message-State: AGi0PuZG4pbuC0R9Evq75QxdKnK4shQLp0nV9sV49tXNowD4wseDvdH3
-	wR4uwTJIMyo8iscNm+jwCpwT/P2je8k=
-X-Google-Smtp-Source: APiQypIXHf/WO5OveVvF0rIN3VQHUMICRwOEdCVpyC0l3D3w1QgxlX13GlGWqCyD/CpczMuTtLO8TA==
-X-Received: by 2002:a2e:900c:: with SMTP id h12mr139758ljg.290.1586871396019;
-        Tue, 14 Apr 2020 06:36:36 -0700 (PDT)
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id o6sm9218344lji.15.2020.04.14.06.36.34
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=o85fzavr9atH3UISCKOabs14wvEDyyP6BmKVJ61uFSo=;
+        b=EProwtfqhduWYvfHmEdEz0OQhPB09AbfNa3LaWfZO7WGSUXD/Fpo4h6HWVCxfxbCzx
+         OioPbrS8mm4mvZLn3MTyJ7pEnUgA34asf6yZdUF0661HX/QFjPPQJY3gG702u6uSXzRK
+         b45fM7iUVqpjcv7A9+b9VffmQgXgiyIwGLaXj5OtrbgqpGPRjjvSLdMZupFn9gQtv/dg
+         wTYpgrc8Z4XHIqiCnQwllV+YCcgdMdVa6L0K557qvzgNOWMOvDexQmIf9MyToOG5qlvE
+         gt6ECzxRho/Ek/yd3M9M2IL+CqLUplYJs6EsKCLJNREEdubwDN0EK8vAm8rwmJB+Hxct
+         WdCg==
+X-Gm-Message-State: AGi0Pua+0P9oOyz4nZhrF3qJBCNzev7fq3LCeFMubkfOHs0g1sPzzYvs
+	fEnOzE79LzKqyw0eoywPESj3gTk0k24=
+X-Google-Smtp-Source: APiQypI2WRWZ+e1r5mqym5kpwEyOjngt43+uGd0dXQcS89AxRHJ9tcbntet1QnPmyByr9pLa19Ef7w==
+X-Received: by 2002:adf:cc8c:: with SMTP id p12mr23635700wrj.165.1586871425332;
+        Tue, 14 Apr 2020 06:37:05 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id v21sm18240490wmj.8.2020.04.14.06.37.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Apr 2020 06:36:34 -0700 (PDT)
-Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>,
-	Paul Barker <pbarker@konsulko.com>
-Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Subject: [PATCH v6 10/10] oeqa: wic: Add more tests for include_path
-Date: Tue, 14 Apr 2020 15:36:14 +0200
-Message-Id: <20200414133614.1830058-11-ricardo@ribalda.com>
+        Tue, 14 Apr 2020 06:37:04 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: licensing@lists.yoctoproject.org
+Subject: [PATCH] bzip2/pbzip2: Correct license information
+Date: Tue, 14 Apr 2020 14:37:03 +0100
+Message-Id: <20200414133703.565115-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200414133614.1830058-1-ricardo@ribalda.com>
-References: <20200414133614.1830058-1-ricardo@ribalda.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make sure permissions are respected.
+The license of pbzip2 looks slightly BSD like but is in fact the bzip2
+license. The SPDX identifier for this is "bzip-1.0.6" since there is
+another version of the bzip license out there.
 
-Add new test for orig/destination option.
+To clear up all the confusion, use the SPDX license name and update
+both recipes to refer to it. The copyright information is slightly
+different between the codebases but the license looks the same.
 
-Cc: Paul Barker <pbarker@konsulko.com>
-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 64 ++++++++++++++++++++++++++++-
- 1 file changed, 63 insertions(+), 1 deletion(-)
+ meta/files/common-licenses/{bzip2 => bzip2-1.0.6} | 0
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb        | 2 +-
+ meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb     | 2 +-
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/files/common-licenses/{bzip2 => bzip2-1.0.6} (100%)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 8ef08c3d77..1036269b64 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -486,15 +486,77 @@ part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
-             res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part1))
-             files = extract_files(res.output)
-             self.assertNotIn('test-file', files)
-+            self.assertEqual(True, files_own_by_root(res.output))
+diff --git a/meta/files/common-licenses/bzip2 b/meta/files/common-licenses/bzip2-1.0.6
+similarity index 100%
+rename from meta/files/common-licenses/bzip2
+rename to meta/files/common-licenses/bzip2-1.0.6
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index 8e9b779e672..d58f553a49a 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -4,7 +4,7 @@ Huffman coding. Compression is generally considerably better than that achieved
+ LZ77/LZ78-based compressors, and approaches the performance of the PPM family of statistical compressors."
+ HOMEPAGE = "https://sourceware.org/bzip2/"
+ SECTION = "console/utils"
+-LICENSE = "bzip2"
++LICENSE = "bzip2-1.0.6"
+ LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664"
  
--            # Test partition 2, should not contain 'test-file'
-+            # Test partition 2, should contain 'test-file'
-             res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part2))
-             files = extract_files(res.output)
-             self.assertIn('test-file', files)
-+            self.assertEqual(True, files_own_by_root(res.output))
+ SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+index 1275cc00972..d7450c73c11 100644
+--- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
++++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+@@ -5,7 +5,7 @@ machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
+ newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
+ HOMEPAGE = "http://compression.ca/pbzip2/"
+ SECTION = "console/utils"
+-LICENSE = "BSD-4-Clause"
++LICENSE = "bzip-1.0.6"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=398b8832c6f840cfebd20ab2be6a3743"
  
-         finally:
-             os.environ['PATH'] = oldpath
- 
-+    def test_include_path_embeded(self):
-+        """Test --include-path wks option."""
-+
-+        oldpath = os.environ['PATH']
-+        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+
-+        try:
-+            include_path = os.path.join(self.resultdir, 'test-include')
-+            os.makedirs(include_path)
-+            with open(os.path.join(include_path, 'test-file'), 'w') as t:
-+                t.write("test\n")
-+            wks_file = os.path.join(include_path, 'temp.wks')
-+            with open(wks_file, 'w') as wks:
-+                rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
-+                wks.write("""
-+part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-image-minimal-mtdutils export/"""
-+                          % (include_path))
-+            runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                       % (wks_file, self.resultdir))
-+
-+            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-+
-+            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part1))
-+            files = extract_files(res.output)
-+            self.assertIn('test-file', files)
-+            self.assertEqual(True, files_own_by_root(res.output))
-+
-+            res = runCmd("debugfs -R 'ls -p /export/etc/' %s 2>/dev/null" % (part1))
-+            files = extract_files(res.output)
-+            self.assertIn('shadow', files)
-+            self.assertEqual(True, files_own_by_root(res.output))
-+
-+        finally:
-+            os.environ['PATH'] = oldpath
-+
-+    def test_include_path_errors(self):
-+        """Test --include-path wks option error handling."""
-+        wks_file = 'temp.wks'
-+
-+        # Absolute argument.
-+        with open(wks_file, 'w') as wks:
-+            wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils /export")
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                      % (wks_file, self.resultdir), ignore_status=True).status)
-+        os.remove(wks_file)
-+
-+        # Argument pointing to parent directory.
-+        with open(wks_file, 'w') as wks:
-+            wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils ././..")
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                      % (wks_file, self.resultdir), ignore_status=True).status)
-+        os.remove(wks_file)
-+
-+        # 3 Argument pointing to parent directory.
-+        with open(wks_file, 'w') as wks:
-+            wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils export/ dummy")
-+        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                      % (wks_file, self.resultdir), ignore_status=True).status)
-+        os.remove(wks_file)
-+
-     def test_exclude_path_errors(self):
-         """Test --exclude-path wks option error handling."""
-         wks_file = 'temp.wks'
+ DEPENDS = "bzip2"
 -- 
 2.25.1
 
