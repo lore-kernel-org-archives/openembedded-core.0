@@ -1,76 +1,78 @@
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.92.64.41])
- by mx.groups.io with SMTP id smtpd.web10.1488.1586891990786013412
+Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.92.65.64])
+ by mx.groups.io with SMTP id smtpd.web11.1465.1586891997605371908
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Apr 2020 12:19:51 -0700
+ Tue, 14 Apr 2020 12:19:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=SQNgbnht;
- spf=pass (domain: outlook.com, ip: 40.92.64.41, mailfrom: kweihmann@outlook.com)
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=A2frqCUj;
+ spf=pass (domain: outlook.com, ip: 40.92.65.64, mailfrom: kweihmann@outlook.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DkyWJs76uroipBBnjDST6AETY3XQ10yQgNiWnHJTNTLyVlGQpQFOtVCjw09DJCLGj20Y3zS575DSRWLXLv0lc2rKCgQbQ0FKvZfeIriwewMh1syW+5Gq6xuhMaQRr7zg+oonwGoaqhafftiM29T/ELjPc9AgJmzkO1v1EJ/ZmLYY6vDalxwFseeQTk81CoOWmT+z2M7DCxmWRPsOtIJ13cGzUSIacFjGkxhQ7JSa9NKVJPhUkcbZPxTVhSf42JX6w7yqR9hP14yQGZ3WhpSAKO/yLweTW2dDpA6OG++CR8yU1uc0UYdkotKsB8FGNy5ULM5QlGGjx+pC+wM446vn/A==
+ b=BeesJ0royvcN9pJWJUo1a6peIMoFo+NpU3AHbWRcURKf21q3Dt27bFi5hTccwXhnlSjSdqloh5fd7Z3b+umT9f94q/0lq4Pjo+Lv/j4CJThi3MtP7/GOfjFwckaS0g9nxQv7XSVwthljEaVk4SSV3e7RMw5RJ9wy8rwTfNJ2CtpLOoRWO6IqwD3OT8fRap/ZZjKFCp6IOK6rnaZgCt5p5VHPnSBAAe0VDuPB9VLmCz0z7VkZu8oky13qD+dTPPVMWWR+HFxcv+mi2ys3XKJ8s3iAYYT/mP/Mvi5hYkwFceojq9uGJmQSOJdzqAq3HzbfVCqZGwcodDI2qWsfdu3E3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Baz8++Lv8dSPHS8HwAsjyGq74W4WN8uIfelvXWugogQ=;
- b=e/DeStHg4/GT/idFt+TDboK+SY5Ze1hyXO/LGge4DT7Q5NKvZAvGGq3+p/3Z4mP3Ei0aWlXhEVLRNsGmSW4zLmiZerx+Lr6MYKlvumRVJPS7s7vVTRGPs8WY8Pwios3BeuUFC+B/M6dX1P9WM6QIcvJ8U71Dg/9Lh+ai6AS7fOhV+SMjPCQYDusgM6+gmyVJjwGZzMWssGMGpsfKFIxrsTLsX/PeSVrSgmEnZQRnec4xp5U2XAx35j/+KSb+oqmfXleo+8WCrrFu+9x3b2dwBcyX+xgYKUkUCrOZia7RL1PJv88oA3ZsBJLUmDftMAal1DbUKfIXCsZyTI1MFbhPtQ==
+ bh=smzmVg7zm0as1uqpxTpxd14Ck9d5HDrDYsOZkw1dtAk=;
+ b=D+VsfHkOjaY0izsddtPAhwYxEMLam60dp9RJLLcPmSo5nVD4dTLqqlJAFx/+i8pojXp3h90iCgvUyYFoSVjfiScIp2bH4Njj+uxbh5li+0CB7HgJoIqlnIkVTguJmT8X9aQrh4kYoUjuUVClIjsmRgP8OyOTZlRFln3ivxB3GiExaXK609IJHVzAhjlikJcujuh4PFaPFKiYep+3eEwwCi/+HuuzbJGBqIpmRZWK6HZKdIW5BvgQPIcYZhWXwwMBjLRi9ayljMr7g3J8x1QNbarWolMBdFNKGgHIayzaW0mOrHeJ/8VOHZT6R+opFRlMKByNnMuZLkJ4QlBNVmCUOA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=outlook.com; dmarc=pass action=none header.from=outlook.com;
  dkim=pass header.d=outlook.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Baz8++Lv8dSPHS8HwAsjyGq74W4WN8uIfelvXWugogQ=;
- b=SQNgbnhtR3ny6oU9JvNj1g9Q+SCBTIJku2qDaqkKhkhcnExagfpFi6y7QVXGNvnSR8TGt9bVqTL1+Jp32M8sz8ikXAA56BVgb12CKt7PBaP/E0MFn91Rks8BkqMgkPGRdmv/Fv3ZBqqczfbNpJKYdlfyotiTvneYChRAVDtKFx4tpDwG3KMiVCGGRe8Ylo4rZKKxjzAyKX2Nb/cE0ac8U+O4UUVfE5nA2N7zc4104KIaXHW+Pz8Djuzsb7gVBrVd0JvkYN41VrtFgC9jQ1d7Np1EfjCl5CzG+NOg61hHzSW4SPZK94lkTrht90Xx5Xh5hqZnTZT5qAupEYObWThFOA==
+ bh=smzmVg7zm0as1uqpxTpxd14Ck9d5HDrDYsOZkw1dtAk=;
+ b=A2frqCUjkSjme9ER2khJ+l5nk+8jzCZQNBOcJH0zX1cmCq/eogtylh/7ZnJCeh0yqvMtvkbBcEi53m6QmzWOjreHHzDvdVjcB4ZHKLvjnUirKY3xzfTz2kmcLNhfBqJV8HNFo9IiHTdoGKJI57D7ng+JSgxRO2kYHe5wbHWgz9dkAW1l5Kv4qNwqhiLNb41ONxPhiFgvKQt9iytZwCQRxZyYLmnURd7F5QuJEUrmBwtPXx+eyHYhhUUQ21tQ4h9/sS/KV82horR6xCBGgRGyXM8zsxie/0g3CQhl95IIQ4eADzm+vh4RCNvp4QED4wyl5t+QjPN+V5hHF7NNGbp/vg==
 Received: from VE1EUR01FT019.eop-EUR01.prod.protection.outlook.com
  (2a01:111:e400:7e19::4c) by
  VE1EUR01HT005.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e19::92)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.18; Tue, 14 Apr
- 2020 19:19:49 +0000
+ 2020 19:19:55 +0000
 Received: from VI1PR05MB4286.eurprd05.prod.outlook.com
  (2a01:111:e400:7e19::51) by VE1EUR01FT019.mail.protection.outlook.com
  (2a01:111:e400:7e19::231) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25 via Frontend
- Transport; Tue, 14 Apr 2020 19:19:49 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:C76043DB356B9D2BD841FE898777EA61C206CC819B0E47794CF1D0A5CAC65985;UpperCasedChecksum:FCFB10CD3EC52CA0E10F4F7451A288907B1C5BF86B43F0D735239057E063EA28;SizeAsReceived:7443;Count:48
+ Transport; Tue, 14 Apr 2020 19:19:55 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:41C000527DAB9EC9B9DDD2180EF270A272809DB3D3EC9E49044D7B8BD2AA1F48;UpperCasedChecksum:57AA5BF530ED0E89BEBFEB12C0E2B4359529BEBA4A7BEA090A45CF1EF9E8556C;SizeAsReceived:7569;Count:50
 Received: from VI1PR05MB4286.eurprd05.prod.outlook.com
  ([fe80::e1b1:4a5f:7dd7:4131]) by VI1PR05MB4286.eurprd05.prod.outlook.com
  ([fe80::e1b1:4a5f:7dd7:4131%4]) with mapi id 15.20.2900.028; Tue, 14 Apr 2020
- 19:19:49 +0000
+ 19:19:55 +0000
 From: "Konrad Weihmann" <kweihmann@outlook.com>
 To: openembedded-core@lists.openembedded.org
 CC: Konrad Weihmann <kweihmann@outlook.com>
-Subject: [PATCH 1/2] testimage: enable ovmf support
-Date: Tue, 14 Apr 2020 21:19:14 +0200
-Message-ID: <VI1PR05MB428659762F44A1D6BB54A98DA8DA0@VI1PR05MB4286.eurprd05.prod.outlook.com>
+Subject: [PATCH 2/2] runqemu: add ROOTFS_EXTRA_OPT parameter
+Date: Tue, 14 Apr 2020 21:19:15 +0200
+Message-ID: <VI1PR05MB4286CB9872D15C1FEC21AA3CA8DA0@VI1PR05MB4286.eurprd05.prod.outlook.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200414191915.772-1-kweihmann@outlook.com>
+References: <20200414191915.772-1-kweihmann@outlook.com>
 X-ClientProxiedBy: AM6P193CA0063.EURP193.PROD.OUTLOOK.COM
  (2603:10a6:209:8e::40) To VI1PR05MB4286.eurprd05.prod.outlook.com
  (2603:10a6:803:4d::27)
 Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: <20200414191915.772-1-kweihmann@outlook.com>
+X-Microsoft-Original-Message-ID: <20200414191915.772-2-kweihmann@outlook.com>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ICKE-EDGE.fritz.box (79.215.8.55) by AM6P193CA0063.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:8e::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15 via Frontend Transport; Tue, 14 Apr 2020 19:19:48 +0000
+Received: from ICKE-EDGE.fritz.box (79.215.8.55) by AM6P193CA0063.EURP193.PROD.OUTLOOK.COM (2603:10a6:209:8e::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15 via Frontend Transport; Tue, 14 Apr 2020 19:19:54 +0000
 X-Mailer: git-send-email 2.20.1
-X-Microsoft-Original-Message-ID: <20200414191915.772-1-kweihmann@outlook.com>
-X-TMN: [3sgSYPCFLpjbKhUt45p7ibL9bMSm1ip8]
+X-Microsoft-Original-Message-ID: <20200414191915.772-2-kweihmann@outlook.com>
+X-TMN: [jFKNgWyJspgVwkoxYkoQjWwMeKgRnpz9]
 X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 48
+X-IncomingHeaderCount: 50
 X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: df1f2d12-f6f4-487b-1d97-08d7e0a8cc6d
+X-MS-Office365-Filtering-Correlation-Id: 41a1b855-48dc-4111-260c-08d7e0a8d039
 X-MS-Exchange-SLBlob-MailProps: 
-	NS9Gj58uCj3roQqs4zoykRuzrLluS7BZXvvGCaBCUf3izLsQmZdfmjYmVKD3Ou3m5hygTh03UDzSuZyY9NjGY/XicX0h+4so7YbEazGVCN+BfkBVoxoTdOTOcoere0QdL6GNLJYbCAjj8MqKH2EAF7+S4EwhEC2l8LasjGX362oUy0aGt4brXsgumtVe/vS2cSSW197N6uAWS0O55EMMaINDM19+eoKoMiDCWa3D3UskYzrbtPCfeMoCvHFvEG+f859JAjj9v5A9L6X2AL1y1KmCkm8Us4RILO/qWGPKbMvsIIXqp81JW+S6rmKMsGQBcnS79gPXX6VE0kVq/eYco24Q8U8fByr3qn1gEoMi0Fo1dv+swXzdwaOa0pV0rR8XXrG4RMcPJGZ4KWPGI6BSgYhae7MnSflo3N3m1V0TGarkGIgCUKBIjts1dNWJFtkKlCIgB4pbna9FinWXneFBP8h5PqhmE8zcDqEP10+cgapz/ii64nBjly4N5ik6iiIzRYPnwdMIzGflfjy6TZX7oUo7GJcsLlgkglkWxUX8Zjl5lvacr37Ata08CIg/DeDm7INp64ml5PYzh9PnSuuFCw6GCRmXn+kxTmPhUl3xv1JfWGef9x/WtHoojTmVMUMmqzOshTt4OySc1m2wJu3NAASnI+Z/VncYjcWqPpLnB+exuRFjMnIgkJ0KKR9VUU3SG3RGRcsXRi0jT1wYE41ZTA==
+	mBRmoEB1kyIzIzlzYPem7vcD/JtSvPmYnQzkJoo5t1hcWT1ockVGZVkAam/Hzh6evOEIduIDCylCDVWyavbm+TRFb9/1Czc3J5qnNeoWf/UmOgLrLB2m70NyknDQsePYQS5B8EQ7ymG1R/MeOaoOBDTo3capO/Yb9/xw2i3JbePzYbdnSXw109egJAHvx46u8bJxMGKm4oobLRASMq5i6Q9iDaMxzAjZ7Do2ClSG3wrCPKJveuRoXwQ4JYFaGmhOcv8fUYXUL5wO1IoUSbFwqHk9tmCaVhI/B08RLHIG5vvmvBRoY5IrHT4z0R7BNL2/vpyOFR2VDzgp45AXFWHskLDM8RDVIvJBdfy0xkPLGRwda1ak/PW9rOsNbmvtOvehOdYRVPCqhWex/3MP+KUBki3riRDIx+4f6pc0NeuIVHlmL7zRK6xcSzyrjyiCvAmVc8AmHGNHas2/gprz3eICMUvQYPjjiwqwE3MjA6PWoNMnV/1AyBjbJ/brrTHQBaVpWCbnLDPcJPkkq5d89B8bamhgzD/eRfktlZmUM38SvkWgS76tmrrrCct7soG9qkHl6/NPrJynbVDKla0GNy8sqovrzUFiPFpHXZdMT834BIr90XYUmB54QQxnGC0M02k1oLeEaTOPHBKSNaSLbPbTg0V/cvwFwvVIIns8yJNUWwdRfOc11MDpiauayKa32DCIfBdJSQy6JEM8/a+tzZ4zsW7Z46EybvO1J0aCg0neCSZaOWwtKfF9R6vXrbST85kYUUx1SZ07RAg=
 X-MS-TrafficTypeDiagnostic: VE1EUR01HT005:
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	gpS36xTwLbmXVRuTmz9IJqs/UlC9I/B64DvPffNfD6YLkJfG1rEUeX8DZpvIfvCO0zVObpvHgp9o/OkD5qeGR+CcnX6zgIGH0EpOOCBq+UBvg3DqK4Nc1b748loKEahufjThi3dJiOaOTSg3o/F5TxkEV33WheLMCIwRXeSrIJJYS5yVyNY8TdWHg1TKl+SF
+	oyvsTKB/qgzAl9VUmeXqKdAaelV2EbPi9uEYXTQf/1ZW7TJahjIgTeklZa1tSbta71huXiYrSlaEWEp2lDW1l+lVcXXprZDYX7lLkxA7twObG5GtaaVTeHfqJJQbc4ktfh9+mDIL9+sp0qlh9zalL4wyuIwzh2vscNPjNVEeaEufxcs8+A9qreIH+B7bHQy7
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR05MB4286.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
 X-MS-Exchange-AntiSpam-MessageData: 
-	/ApQwXNIx9bc9G0RHsNex0MsRs7ifStUHm/OlCW80r9upDzHwkz0IhGPRZiYCL2lloIEqQ3p1ByUZpN2I6nylvl2uYDClsCTMwx2QdZNfK9U9bc2jw2L8TLpH9qkJE0C3UVf1lgkpWSj4O+f0kf8pg==
+	82yKUfyC1eHghzltGXjDVH7kTfsFR12yu7TDMd2GyUpFs8k1SnhMLzKz2P+qUEF9oxqjrEXjIVCMjwN9wYLnE1sQ3wK1/jLYs0kMsnTOXljOfZM7AllUQiJT+cpYtI04DS+aW0mJqTMN2cjyqdzKtA==
 X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df1f2d12-f6f4-487b-1d97-08d7e0a8cc6d
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2020 19:19:49.0262
+X-MS-Exchange-CrossTenant-Network-Message-Id: 41a1b855-48dc-4111-260c-08d7e0a8d039
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2020 19:19:55.0917
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -81,124 +83,102 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR01HT005
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 
-Add support for running wic images with EFI as testimage.
-Introduces a variable called QEMU_USE_OVMF for configuration.
+Content of the optional parameter will be appended to the rootfs-device
+in the qemu configuration, in case QB_ROOTFS_OPT is not specified.
+By default this is empty.
+
+Example use cases are:
+
+Defining 'readonly' when using squashfs, so multiple instances of qemu
+can share the same base image, something that cannot be done by just
+specifying 'snapshot'.
+
+Defining 'bootindex=3D0' which helps to get past the EFI shell in
+ovmf-binary. This also enables the use case of running WIC images with
+EFI bootloader through the testimage.bbclass.
 
 Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
 ---
- meta/classes/testimage.bbclass    | 6 +++++-
- meta/lib/oeqa/core/target/qemu.py | 6 ++++--
- meta/lib/oeqa/utils/qemurunner.py | 5 ++++-
- 3 files changed, 13 insertions(+), 4 deletions(-)
+ meta/classes/qemuboot.bbclass |  5 +++++
+ scripts/runqemu               | 11 ++++++++---
+ 2 files changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclas=
-s
-index 01d8598604..c1669f133d 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -275,11 +275,14 @@ def testimage_main(d):
-     # Get use_kvm
-     kvm =3D oe.types.qemu_use_kvm(d.getVar('QEMU_USE_KVM'), d.getVar('TARG=
-ET_ARCH'))
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index 68f7a03619..3162e7a8eb 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -65,6 +65,10 @@
+ #                   " -device virtio-serial-device -chardev socket,id=3Dvi=
+rtcon,port=3D@PORT@,host=3D127.0.0.1 -device virtconsole,chardev=3Dvirtcon"
+ #                   Note, runqemu will replace "@PORT@" with the port numb=
+er which is used.
+ #
++# QB_ROOTFS_EXTRA_OPT: extra options to be appended to the rootfs device i=
+n case there is none specified by QB_ROOTFS_OPT.
++#                      Can be used to automatically determine the image fr=
+om the other variables
++#                      but define things link 'bootindex' when booting fro=
+m EFI or 'readonly' when using squashfs
++#                      without the need to specify a dedicated qemu config=
+uration
+ # Usage:
+ # IMAGE_CLASSES +=3D "qemuboot"
+ # See "runqemu help" for more info
+@@ -77,6 +81,7 @@ QB_OPT_APPEND ?=3D "-show-cursor"
+ QB_NETWORK_DEVICE ?=3D "-device virtio-net-pci,netdev=3Dnet0,mac=3D@MAC@"
+ QB_CMDLINE_IP_SLIRP ?=3D "ip=3Ddhcp"
+ QB_CMDLINE_IP_TAP ?=3D "ip=3D192.168.7.@CLIENT@::192.168.7.@GATEWAY@:255.2=
+55.255.0"
++QB_ROOTFS_EXTRA_OPT ?=3D ""
 =20
-+    # Get OVMF
-+    ovmf =3D d.getVar("QEMU_USE_OVMF")
+ # This should be kept align with ROOT_VM
+ QB_DRIVE_TYPE ?=3D "/dev/sd"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 6a77e3db9a..310d79fdc5 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1196,6 +1196,10 @@ class BaseConfig(object):
+         else:
+             self.rootfs_options =3D '-drive file=3D%s,if=3Dvirtio,format=
+=3D%s' % (self.rootfs, rootfs_format)
+=20
++        qb_rootfs_extra_opt =3D self.get("QB_ROOTFS_EXTRA_OPT")
++        if qb_rootfs_extra_opt and not qb_rootfs_extra_opt.startswith(",")=
+:
++            qb_rootfs_extra_opt =3D "," + qb_rootfs_extra_opt
 +
-     slirp =3D False
-     if d.getVar("QEMU_USE_SLIRP"):
-         slirp =3D True
-=20
--    # TODO: We use the current implementatin of qemu runner because of
-+    # TODO: We use the current implementation of qemu runner because of
-     # time constrains, qemu runner really needs a refactor too.
-     target_kwargs =3D { 'machine'     : machine,
-                       'rootfs'      : rootfs,
-@@ -293,6 +296,7 @@ def testimage_main(d):
-                       'slirp'       : slirp,
-                       'dump_dir'    : d.getVar("TESTIMAGE_DUMP_DIR"),
-                       'serial_ports': len(d.getVar("SERIAL_CONSOLES").spli=
-t()),
-+                      'ovmf'        : ovmf,
-                     }
-=20
-     if d.getVar("TESTIMAGE_BOOT_PATTERNS"):
-diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/=
-qemu.py
-index 059106e915..295e8765e9 100644
---- a/meta/lib/oeqa/core/target/qemu.py
-+++ b/meta/lib/oeqa/core/target/qemu.py
-@@ -20,7 +20,7 @@ class OEQemuTarget(OESSHTarget):
-             port=3DNone, machine=3D'', rootfs=3D'', kernel=3D'', kvm=3DFal=
-se, slirp=3DFalse,
-             dump_dir=3D'', dump_host_cmds=3D'', display=3D'', bootlog=3D''=
-,
-             tmpdir=3D'', dir_image=3D'', boottime=3D60, serial_ports=3D2,
--            boot_patterns =3D defaultdict(str), **kwargs):
-+            boot_patterns =3D defaultdict(str), ovmf=3DFalse, **kwargs):
-=20
-         super(OEQemuTarget, self).__init__(logger, None, server_ip, timeou=
-t,
-                 user, port)
-@@ -31,6 +31,7 @@ class OEQemuTarget(OESSHTarget):
-         self.rootfs =3D rootfs
-         self.kernel =3D kernel
-         self.kvm =3D kvm
-+        self.ovmf =3D ovmf
-         self.use_slirp =3D slirp
-         self.boot_patterns =3D boot_patterns
-=20
-@@ -39,7 +40,8 @@ class OEQemuTarget(OESSHTarget):
-                                  logfile=3Dbootlog, boottime=3Dboottime,
-                                  use_kvm=3Dkvm, use_slirp=3Dslirp, dump_di=
-r=3Ddump_dir,
-                                  dump_host_cmds=3Ddump_host_cmds, logger=
-=3Dlogger,
--                                 serial_ports=3Dserial_ports, boot_pattern=
-s =3D boot_patterns)
-+                                 serial_ports=3Dserial_ports, boot_pattern=
-s =3D boot_patterns,=20
-+                                 use_ovmf=3Dovmf)
-=20
-     def start(self, params=3DNone, extra_bootparams=3DNone, runqemuparams=
-=3D''):
-         if self.use_slirp and not self.server_ip:
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemuru=
-nner.py
-index 7ae309845a..7d9b36f811 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -32,7 +32,7 @@ re_control_char =3D re.compile('[%s]' % re.escape("".join=
-(control_chars)))
- class QemuRunner:
-=20
-     def __init__(self, machine, rootfs, display, tmpdir, deploy_dir_image,=
- logfile, boottime, dump_dir, dump_host_cmds,
--                 use_kvm, logger, use_slirp=3DFalse, serial_ports=3D2, boo=
-t_patterns =3D defaultdict(str)):
-+                 use_kvm, logger, use_slirp=3DFalse, serial_ports=3D2, boo=
-t_patterns =3D defaultdict(str), use_ovmf=3DFalse):
-=20
-         # Popen object for runqemu
-         self.runqemu =3D None
-@@ -55,6 +55,7 @@ class QemuRunner:
-         self.logged =3D False
-         self.thread =3D None
-         self.use_kvm =3D use_kvm
-+        self.use_ovmf =3D use_ovmf
-         self.use_slirp =3D use_slirp
-         self.serial_ports =3D serial_ports
-         self.msg =3D ''
-@@ -158,6 +159,8 @@ class QemuRunner:
-                 launch_cmd +=3D ' nographic'
-             if self.use_slirp:
-                 launch_cmd +=3D ' slirp'
-+            if self.use_ovmf:
-+                launch_cmd +=3D ' ovmf'
-             launch_cmd +=3D ' %s %s %s' % (runqemuparams, self.machine, se=
-lf.rootfs)
-=20
-         return self.launch(launch_cmd, qemuparams=3Dqemuparams, get_ip=3Dg=
-et_ip, extra_bootparams=3Dextra_bootparams, env=3Denv)
+         if self.fstype in ('cpio.gz', 'cpio'):
+             self.kernel_cmdline =3D 'root=3D/dev/ram0 rw debugshell'
+             self.rootfs_options =3D '-initrd %s' % self.rootfs
+@@ -1208,14 +1212,15 @@ class BaseConfig(object):
+                     drive_type =3D self.get('QB_DRIVE_TYPE')
+                     if drive_type.startswith("/dev/sd"):
+                         logger.info('Using scsi drive')
+-                        vm_drive =3D '-drive if=3Dnone,id=3Dhd,file=3D%s,f=
+ormat=3D%s -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd' \
+-                                       % (self.rootfs, rootfs_format)
++                        vm_drive =3D '-drive if=3Dnone,id=3Dhd,file=3D%s,f=
+ormat=3D%s -device virtio-scsi-pci,id=3Dscsi -device scsi-hd,drive=3Dhd%s' =
+\
++                                       % (self.rootfs, rootfs_format, qb_r=
+ootfs_extra_opt)
+                     elif drive_type.startswith("/dev/hd"):
+                         logger.info('Using ide drive')
+                         vm_drive =3D "-drive file=3D%s,format=3D%s" % (sel=
+f.rootfs, rootfs_format)
+                     elif drive_type.startswith("/dev/vdb"):
+                         logger.info('Using block virtio drive');
+-                        vm_drive =3D '-drive id=3Ddisk0,file=3D%s,if=3Dnon=
+e,format=3D%s -device virtio-blk-device,drive=3Ddisk0' % (self.rootfs, root=
+fs_format)
++                        vm_drive =3D '-drive id=3Ddisk0,file=3D%s,if=3Dnon=
+e,format=3D%s -device virtio-blk-device,drive=3Ddisk0%s' \
++                                    % (self.rootfs, rootfs_format,qb_rootf=
+s_extra_opt)
+                     else:
+                         # virtio might have been selected explicitly (just=
+ use it), or
+                         # is used as fallback (then warn about that).
 --=20
 2.20.1
 
