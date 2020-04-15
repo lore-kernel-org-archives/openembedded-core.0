@@ -1,97 +1,72 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web10.13294.1586954661010140553
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+ by mx.groups.io with SMTP id smtpd.web10.15258.1586960440251574749
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2020 05:44:21 -0700
+ Wed, 15 Apr 2020 07:20:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=ruBch5OV;
- spf=pass (domain: konsulko.com, ip: 209.85.221.68, mailfrom: pbarker@konsulko.com)
-Received: by mail-wr1-f68.google.com with SMTP id f13so18951503wrm.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2020 05:44:20 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=GsDR+r64;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.194, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f194.google.com with SMTP id l14so3866260ljj.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2020 07:20:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :organization:mime-version:content-transfer-encoding;
-        bh=FMBKB0x3eLs54uSq+A0IEoJAJm/sr9KJlX4NNe08RXs=;
-        b=ruBch5OV+IHTXHkLpoTDCJTgBM6fjzgvwpIUmOSK5reHqz0GsfBoZvD3Bn+7DJ/BZq
-         vMyXMhFmwcedOqg6FWWx172Ec9/Iaqf3e3INFQryh0OkT+pRTFo0oVmj66b8A3LZrqlp
-         3JbFvArYjkZMICuJ9i5e0sp1J+4azd7/Ti5Ig=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DoXnHEBKTpzjGWzXQ9z7iADahkaQZMGQjUDSI6n0ykY=;
+        b=GsDR+r64qB2feph2/mrwkP/JTG60yTBfUispz+32Roknswgulb+R2jjGwi42NVJ8tH
+         FHpYBR43VREoh/ZZIFHeVbovlK8x7m/2MPPRZ3LLz7h1pJcujc1vSqT8UPt/ukr/y9DV
+         a1wfOQzyBz/+p9fGpznet7+PmbFqEhY8DxLDACUhRmHHg+EAqtQ/2XDMgH4lCqLT+6O1
+         gv2hz3YEGIBGaZZ/vTX8hfjY8yMxzITsCzR/KMZ/4g+tdcSOR4MGy01zCLqPCvjKJACg
+         YUUHvEvBfULyXHyRU4DVtphfiJQe1jRYDoYu45dvhKNuM4tgjMXmo0k65M/cRxTr94gP
+         /jCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=FMBKB0x3eLs54uSq+A0IEoJAJm/sr9KJlX4NNe08RXs=;
-        b=rxEpRveFJMfeIZXiyQ7n03qyCTpPa9z3uOo21K6z/4tUeh4+qSdEjMQWnDu/LwjjWA
-         1v4UrHNsz0Qe3uG0SvHlr2e1IkvLA6s4BzV84LGxCeu9dElmDRxVebHmvmUqfhili0/8
-         88NDElDf+ri1SJv4BXveLxdzXL67IAyD6hqcGRug6yD9+8nTGejfoy5YCHf6KVg0QJf9
-         uAgLtKGZ2XBzfWIT8Ur75YR2WTUa0a+lFLqTGU5YWSjc+8RczJu7RWpu2B9ZrFh/HaS4
-         rPKUoLqTY4qCOXWRFuHA8WeLJE8OVC3YWbUjz+4nvp+ka2TGkWajNZlH0iMvk9bdY7l4
-         Q+kg==
-X-Gm-Message-State: AGi0PubrrRSpAvj+tjIiXI2+yWTTja97L1UneLdgm8w4+Y6K4BJ/IIjH
-	dy+1yRtSQ3NyRhCTBYAXITcgVg==
-X-Google-Smtp-Source: APiQypJIu847VshxeQleLFq3Aaa5YU9lo+5LU3rYJ/OKiPk3Gqba536YKelNV7QVTPh64G2NyiFfcg==
-X-Received: by 2002:adf:f30c:: with SMTP id i12mr11012640wro.426.1586954659245;
-        Wed, 15 Apr 2020 05:44:19 -0700 (PDT)
-Return-Path: <pbarker@konsulko.com>
-Received: from ub1910 ([213.48.11.149])
-        by smtp.gmail.com with ESMTPSA id a80sm22825239wme.37.2020.04.15.05.44.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2020 05:44:19 -0700 (PDT)
-Date: Wed, 15 Apr 2020 13:44:13 +0100
-From: "Paul Barker" <pbarker@konsulko.com>
-To: "Konrad Weihmann" <kweihmann@outlook.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 2/2] runqemu: add ROOTFS_EXTRA_OPT parameter
-Message-ID: <20200415134413.69873eb4@ub1910>
-In-Reply-To: <VI1PR05MB4286CB9872D15C1FEC21AA3CA8DA0@VI1PR05MB4286.eurprd05.prod.outlook.com>
-References: <20200414191915.772-1-kweihmann@outlook.com>
-	<VI1PR05MB4286CB9872D15C1FEC21AA3CA8DA0@VI1PR05MB4286.eurprd05.prod.outlook.com>
-Organization: Konsulko Group
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DoXnHEBKTpzjGWzXQ9z7iADahkaQZMGQjUDSI6n0ykY=;
+        b=UUbEdA8l7hs9UfMp5GlMaVDSaVGR0GpBpphBSxeOfIcCtOy/bOp6huLtLGRpa41iJf
+         feRzp4EDZtq+VYL/W3FV7KqKuD1YiJbaOKs6sKMjv1DQiZkcy1U/MCALA61iBXkYOWuF
+         Aul/7QTQfatEzfgdP1/ZQUQhvYtWJrcdRIghnjskhZExK4J+Ta+9ro1qw/TwjJQ7nnGq
+         RwPOqBO2uNmr5NM5eUK1SqEDVr9GmvOyLkzQAI21vkMRVeWE8qh4227rLVlYJo6TPxg8
+         HnNU36hLKoBKBw+RkxeiQHS/Uv7lYTT+sQdSrX9GJHNUYP0rZtkWYBym0RjDyziiRKkq
+         odNw==
+X-Gm-Message-State: AGi0PubXxjCkMfpcc1dWqZE4ftwpc1ThDp5w5DuFm0IvOxS3dJc8PA3l
+	s1QyDm2tGBweJiyu8gbq1T5bQkW7UFNdbg9aBVeNnA==
+X-Google-Smtp-Source: APiQypLF4szijD0tB8w0sbkL5bwTpqRcHO8n6A7nKa2KOBR5H5nGvBbQMz0EbcH5UyXpN+eue+RGsNpjDGobrhyo59A=
+X-Received: by 2002:a2e:9718:: with SMTP id r24mr3201329lji.287.1586960438402;
+ Wed, 15 Apr 2020 07:20:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <CALbNGRSvxc-Vv3YwJR0xGGQBNmU9NA3V4zCPZfQb17heZhi-cQ@mail.gmail.com>
+In-Reply-To: <CALbNGRSvxc-Vv3YwJR0xGGQBNmU9NA3V4zCPZfQb17heZhi-cQ@mail.gmail.com>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Wed, 15 Apr 2020 15:20:23 +0100
+Message-ID: <CAAnfSTu17U9n7T7xE-gNszkscbC-_T-WovUP-o_NpD4_uYF4yg@mail.gmail.com>
+Subject: Re: [OE-core] Meson host_machine.system() incorrect on ARM?
+To: "Andreas M?ller" <schnitzeltony@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 14 Apr 2020 21:19:15 +0200
-"Konrad Weihmann" <kweihmann@outlook.com> wrote:
+On Wed, 15 Apr 2020 at 01:47, Andreas M?ller <schnitzeltony@gmail.com> wrote:
+> Am testing it currently but what do experts think of
+>
+> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> index 06034e8b47..167263f76c 100644
+> --- a/meta/classes/meson.bbclass
+> +++ b/meta/classes/meson.bbclass
+> @@ -68,6 +68,9 @@ def meson_operating_system(var, d):
+>      os = d.getVar(var)
+>      if "mingw" in os:
+>          return "windows"
+> +    # avoid e.g 'linux-gnueabi'
+> +    elif "linux" in os:
+> +        return "linux"
+>      else:
+>          return os
 
-> Content of the optional parameter will be appended to the rootfs-device
-> in the qemu configuration, in case QB_ROOTFS_OPT is not specified.
-> By default this is empty.
-> 
-> Example use cases are:
-> 
-> Defining 'readonly' when using squashfs, so multiple instances of qemu
-> can share the same base image, something that cannot be done by just
-> specifying 'snapshot'.
-> 
-> Defining 'bootindex=0' which helps to get past the EFI shell in
-> ovmf-binary. This also enables the use case of running WIC images with
-> EFI bootloader through the testimage.bbclass.
-> 
-> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-> ---
->  meta/classes/qemuboot.bbclass |  5 +++++
->  scripts/runqemu               | 11 ++++++++---
->  2 files changed, 13 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
-> index 68f7a03619..3162e7a8eb 100644
-> --- a/meta/classes/qemuboot.bbclass
-> +++ b/meta/classes/qemuboot.bbclass
-> @@ -65,6 +65,10 @@
->  #                   " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
->  #                   Note, runqemu will replace "@PORT@" with the port number which is used.
->  #
-> +# QB_ROOTFS_EXTRA_OPT: extra options to be appended to the rootfs device in case there is none specified by QB_ROOTFS_OPT.
-> +#                      Can be used to automatically determine the image from the other variables
-> +#                      but define things link 'bootindex' when booting from EFI or 'readonly' when using squashfs
-> +#                      without the need to specify a dedicated qemu configuration
+Looks right.  The canonical table of OS names for Meson is here:
 
-The summary line of the commit should use the full variable name
-`QB_ROOTFS_EXTRA_OPT`.
+https://mesonbuild.com/Reference-tables.html#operating-system-names
 
-Thanks,
+There's an argument to be made for validating the OS name is in that
+list before returning it from meson_operating_system.
 
--- 
-Paul Barker
-Konsulko Group
+Ross
