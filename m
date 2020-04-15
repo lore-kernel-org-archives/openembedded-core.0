@@ -1,111 +1,80 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web11.24950.1586986120701965509
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.46.1586989848825178119
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2020 14:28:41 -0700
+ Wed, 15 Apr 2020 15:30:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: joe.slater@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 03FLSdYw025945
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2020 14:28:39 -0700 (PDT)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Wed, 15 Apr 2020
- 14:28:38 -0700
-From: "Joe Slater" <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [oe-core][PATCH 1/1] vim: do not adjust script paths building for target
-Date: Wed, 15 Apr 2020 14:28:38 -0700
-Message-ID: <20200415212838.39606-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.24.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vcDtFcAW;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id y24so2053776wma.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2020 15:30:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2dwsUjjen1uoV9nEe++hmeL2/RvLF0BofCWnnReF5YY=;
+        b=vcDtFcAWxMcLWdLpsP+CnzXl0EIqN6Zm9ghBNidsHTx4udLJnG64IEiAMHHqw6Yn+2
+         r9+A4z5B4w2oK49KPMvmz66q3KhnsUcu698ce/HEGlTCkZjO/Agv8+Voc6wqI0xzTRtx
+         0Podxlq6xVjfjMV62Uxc4IfMdA/W2HtJHXzgqti4Xjv7v0/EI1S08UP6nAozv7iS97tY
+         hj1XVSzcXCbSe5mWEcoTO4qhQ7iwS0m2fRtoOPybudu9atEzB5fns8JkFlx0aPaTY2Va
+         Obz/tVGud2S6vL49BRfT2kDlYHQSezOJvK86x525qQMmtYtT+WDEQo19XpYtyOTjBf//
+         E5fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=2dwsUjjen1uoV9nEe++hmeL2/RvLF0BofCWnnReF5YY=;
+        b=MY+OmxjS/UxuGJ2bOuAD8hXD3oSF73jeAwvY5272yJFFn3uzbELumSVewdFMUIi1oF
+         rDFAW4ABDFmQqIhZ1x5TqPosRpoiTRFDdhuwj68z6QCUubr0YM793/8skhiuG2mwPQzy
+         1QK7/S3wleqrW4yvuPZTcoXOoLqYOA1pw0Hw7DVFYOkZERqZZm4LsEAONAUnq3Qs2fed
+         NfNJVXyKv6vnI5WAmFnvuh4rpmf6Vsq2OrDz4wDd7BQqpMBZUl1138rdsgBORYd5hTbu
+         FAnJelFA9gv4b93G+y3uVJQAnqsYl+ECgi0lUqgbSQDkrDTMfKW/RZNdSgewq/cfdIT/
+         59/A==
+X-Gm-Message-State: AGi0PubrsbVF+YW0x/Ua5407vG1R8yusW/gn4KxCYYgP/w74lCAjsMOI
+	XwyJOZdDsKntMi7loUYqm525WwBwxEY=
+X-Google-Smtp-Source: APiQypJYQuGMZ4mypj8iWGWAxnDdgWIKvgCTd2WPo59UFUPL/Ca2H1cPkj41/3zdmXtT9hcByGyidA==
+X-Received: by 2002:a1c:e087:: with SMTP id x129mr1535872wmg.127.1586989846852;
+        Wed, 15 Apr 2020 15:30:46 -0700 (PDT)
+Return-Path: <schnitzeltony@gmail.com>
+Received: from superandy.speedport.ip (p200300F07F0C2E9228F71216A18EC0DB.dip0.t-ipconnect.de. [2003:f0:7f0c:2e92:28f7:1216:a18e:c0db])
+        by smtp.gmail.com with ESMTPSA id p6sm17633057wrt.3.2020.04.15.15.30.45
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2020 15:30:46 -0700 (PDT)
+From: "Andreas M?ller" <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] meson.bbclass: avoid unexpected operating-system names
+Date: Thu, 16 Apr 2020 00:30:36 +0200
+Message-Id: <20200415223036.12754-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-When cross-compiling, do not change scripts to use host
-versions of perl and gawk.
+For example 'linux-gnueabi' is not what meson consumers expect: See canonical
+table of OS names for Meson (thanks Ross). Surprisingly this did not pop up
+earlier but wrong system-name can break building as described in [1]
 
-Also, use INSANE_SKIP to suppress QA complaints if perl
-or gawk are not on the target.
+[1] https://lists.openembedded.org/g/openembedded-core/topic/meson_host_machine_system/73023862
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
- .../recipes-support/vim/files/no-path-adjust.patch | 27 ++++++++++++++++++++++
- meta/recipes-support/vim/vim.inc                   | 12 +++++-----
- 2 files changed, 33 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-support/vim/files/no-path-adjust.patch
+ meta/classes/meson.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-support/vim/files/no-path-adjust.patch b/meta/recipes-support/vim/files/no-path-adjust.patch
-new file mode 100644
-index 0000000..05c2d80
---- /dev/null
-+++ b/meta/recipes-support/vim/files/no-path-adjust.patch
-@@ -0,0 +1,27 @@
-+vim: do not adjust script pathnames
-+
-+When cross-compiling, we do not want to reference the host versions of
-+things like perl and awk.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+--- a/src/Makefile
-++++ b/src/Makefile
-+@@ -2507,11 +2507,14 @@ installtools: $(TOOLS) $(DESTDIR)$(exec_
-+ 		 rm -rf $$cvs; \
-+ 	      fi
-+ 	-chmod $(FILEMOD) $(DEST_TOOLS)/*
-+-# replace the path in some tools
-++
-++# replace the path in some tools, but not when cross-compiling
-++ifneq ($(CROSS_COMPILING),1)
-+ 	perlpath=`./which.sh perl` && sed -e "s+/usr/bin/perl+$$perlpath+" $(TOOLSSOURCE)/efm_perl.pl >$(DEST_TOOLS)/efm_perl.pl
-+ 	awkpath=`./which.sh nawk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; if test -z "$$awkpath"; then \
-+ 		awkpath=`./which.sh gawk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; if test -z "$$awkpath"; then \
-+ 		awkpath=`./which.sh awk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; fi; fi
-++endif
-+ 	-chmod $(SCRIPTMOD) `grep -l "^#!" $(DEST_TOOLS)/*`
-+ 
-+ # install the language specific files for tools, if they were unpacked
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 78e3f95..9f3dc08 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -11,6 +11,7 @@ SRC_URI = "git://github.com/vim/vim.git \
-            file://disable_acl_header_check.patch \
-            file://vim-add-knob-whether-elf.h-are-checked.patch \
-            file://0001-src-Makefile-improve-reproducibility.patch \
-+           file://no-path-adjust.patch \
- "
- SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 06034e8b47..167263f76c 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -68,6 +68,9 @@ def meson_operating_system(var, d):
+     os = d.getVar(var)
+     if "mingw" in os:
+         return "windows"
++    # avoid e.g 'linux-gnueabi'
++    elif "linux" in os:
++        return "linux"
+     else:
+         return os
  
-@@ -82,12 +83,6 @@ EXTRA_OECONF = " \
- do_install() {
-     autotools_do_install
- 
--    # Work around file-rdeps picking up csh, awk, perl or python as a dep
--    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/vim132
--    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/mve.awk
--    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.pl
--    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.py
--
-     # Install example vimrc from runtime files
-     install -m 0644 runtime/vimrc_example.vim ${D}/${datadir}/${BPN}/vimrc
- 
-@@ -110,7 +105,12 @@ FILES_${PN}-help = "${datadir}/${BPN}/${VIMDIR}/doc"
- FILES_${PN}-tutor = "${datadir}/${BPN}/${VIMDIR}/tutor ${bindir}/${BPN}tutor"
- FILES_${PN}-vimrc = "${datadir}/${BPN}/vimrc"
- FILES_${PN}-data = "${datadir}/${BPN}"
-+
-+# We do not want to complain if perl or gawk are not on the target.
-+#
- FILES_${PN}-tools = "${datadir}/${BPN}/${VIMDIR}/tools"
-+INSANE_SKIP_${PN}-tools = "file-rdeps"
-+
- FILES_${PN}-common = " \
-     ${datadir}/${BPN}/${VIMDIR}/*.vim \
-     ${datadir}/${BPN}/${VIMDIR}/autoload \
 -- 
-2.7.4
+2.21.1
 
