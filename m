@@ -1,166 +1,82 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.11939.1586946724549615762
+Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
+ by mx.groups.io with SMTP id smtpd.web10.12163.1586949273470695547
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2020 03:32:04 -0700
+ Wed, 15 Apr 2020 04:14:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bWfTgyaH;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id a201so17979433wme.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2020 03:32:04 -0700 (PDT)
+ dkim=pass header.i=@bgdev-pl.20150623.gappssmtp.com header.s=20150623 header.b=nA9sBU0t;
+ spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.166.180, mailfrom: brgl@bgdev.pl)
+Received: by mail-il1-f180.google.com with SMTP id d2so2952277ilc.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2020 04:14:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=KiAwGQcCmEvOgNi+5Eyb0SkiEn8YrFIxBJSEnDyIf8I=;
-        b=bWfTgyaHNTPkKkoFhKLD9f8yOacHagPZj4M4MKIygFXoXL6HUto6Lcl2rW/tmNv5xp
-         9m218ys3GzUvlzdaeG0wm+IXV4ShRfe1slPo060+lEgx7zWt/Ok8GgA7OWOAmNIKdpMN
-         N/jkbgOFYbuftCn4IWfqpCkNvXkyFBfHLybCY=
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=BvyP6np0MLLptsF/p67irOhOEkH3/Q08JB3mDRY9XRA=;
+        b=nA9sBU0tjIm7w/Sj6tb4/SxcKbhoQ5EpZWYXdI1DqiRW5YcHywkL7ZfMmBZK7msZ48
+         NpAbisXVHUr3efHlcgnyGum4LcxebHvpSF+ubGgekiCd/XYH2LvRZ3apZa+beKYk6sic
+         e1RN7oE5QlHF/N1d4Hz6J0ntqU5nMs27jrTj/wRXtnEei0JYE2nmGnEA605sX7ZieNxw
+         qv0R68k6GW2hFFwh4SIljq/UPd3rG805PHiw3e56sJC6o+VPCxTgXtdfO8Hh3R0UZ/1Q
+         K6kGS4bXkgIKkzCW1+bgxDlHqdjbkmadfH0IH266JWDPxEVrMR99cn4lKGoiM2VwPlgB
+         gqmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=KiAwGQcCmEvOgNi+5Eyb0SkiEn8YrFIxBJSEnDyIf8I=;
-        b=XmHjpUxXdz7CFGUNeAEtRQ8WFkO2l7yKQ0voED+9jkkum8OhtoUgfFXso1WVepGMQn
-         ad550i6YmngDcbrPPyKJKp2nVh74dyg/wIrKfAd4sk94A9tVjZ4KlM7p+yOX+gHeE19E
-         D+RhXoXyTSKSYH7PN2g7g6JI2LjNYYNNcgQ8wgM5rCOpoL5RcYWxNv3ciKgXeqHi23lg
-         MeFuJY5lcHz0ZKOUxz7xfdy4NEI7KPqEWyc1TtAsZ3PmTs2MQWOj6EeQBZOUyB+CTpuI
-         eUr7cy4gIKDv5pIKgG2IoHD96s9unH+G939QtLlqSMFxEi9zM67v7FMBrZ9Tuwhu8qHo
-         3cnw==
-X-Gm-Message-State: AGi0PuYSlbcFBKTnqloN89jAthasuOVh4pblBh+6Y5WIFmrw2jWVAIJa
-	os/xHMkbICuAm0O1XZbU6/1D/w==
-X-Google-Smtp-Source: APiQypLU6xCyhk37MzgwKuf4y73h0BP3J7IPQbqllE6dsQlBPba1fNXI0WoG5g/lSOxZND49Ne9jAQ==
-X-Received: by 2002:a05:600c:4112:: with SMTP id j18mr4485324wmi.69.1586946722938;
-        Wed, 15 Apr 2020 03:32:02 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id j124sm22063074wmb.25.2020.04.15.03.32.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2020 03:32:02 -0700 (PDT)
-Message-ID: <2ee5d8832f691c36c00fcdb31609fff3648e2673.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v2 2/2] image.bbclass: deploy image artifacts in stages
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>, Khem Raj <raj.khem@gmail.com>, 
- Armin Kuster <akuster808@gmail.com>, Jerome Neanne <jneanne@baylibre.com>,
- Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: Patches and discussions about the oe-core layer
-	 <openembedded-core@lists.openembedded.org>, Bartosz Golaszewski
-	 <bgolaszewski@baylibre.com>
-Date: Wed, 15 Apr 2020 11:32:00 +0100
-In-Reply-To: <CAMRc=MdmrCSUYJXu7nhipPLLJFa6qdzD0E8Zq3S38mZKANpLUg@mail.gmail.com>
-References: <20200406170229.25363-1-brgl@bgdev.pl>
-	 <20200406170229.25363-3-brgl@bgdev.pl>
-	 <CAMRc=MdmrCSUYJXu7nhipPLLJFa6qdzD0E8Zq3S38mZKANpLUg@mail.gmail.com>
-User-Agent: Evolution 3.36.1-1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=BvyP6np0MLLptsF/p67irOhOEkH3/Q08JB3mDRY9XRA=;
+        b=TrepVqjUg8AYdnEC02mMwPkMfVMhZzoDh/n9NxQgKxWLf3ZYZZcfe+0CprDVBdlLmG
+         /c0871J1bfSPaEFXi9fLQdj6yDBDKj+KzWpgTEHmkLlv3NgXSHOkC/6F0xEWrchDWMss
+         UquNUS3y6v7e5FaXeRN+Ylp5AL4Dr6G87NJSu4DID81KytdpgNNbP+LWNZNLYSedOWuc
+         2Ls+4tjdfxHxaxvN9V19Mw0B9tlAUyM//D577PWZtgoSOswvvd1CGNy43T2LSvjEGrif
+         BFByyTsc4HPFPqixDw7JYzvcqE6Ppjtg4ClpeHLjoHBkabgzHGQGgSVhrQpw9xZrTGFy
+         REUw==
+X-Gm-Message-State: AGi0PuZey+3iMZNmLCadGAzb+cD8ntcBqM3/oQ3l+QMYACfSlb28Qwp+
+	Q5FSVtdf+JZaNrtyN12f/qNy9SX4XBVq26UcRm7jTA==
+X-Google-Smtp-Source: APiQypJXE/Gg83b7ZgmilHHeOuv9ussHM7gnEWiHCkGYfoNfhl43Y4vrCW1BAooDEHhQ1EPC+98aEwPTNJIfGC87N38=
+X-Received: by 2002:a92:bbd8:: with SMTP id x85mr5018474ilk.40.1586949272898;
+ Wed, 15 Apr 2020 04:14:32 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200406170229.25363-1-brgl@bgdev.pl> <20200406170229.25363-3-brgl@bgdev.pl>
+ <CAMRc=MdmrCSUYJXu7nhipPLLJFa6qdzD0E8Zq3S38mZKANpLUg@mail.gmail.com> <2ee5d8832f691c36c00fcdb31609fff3648e2673.camel@linuxfoundation.org>
+In-Reply-To: <2ee5d8832f691c36c00fcdb31609fff3648e2673.camel@linuxfoundation.org>
+From: "Bartosz Golaszewski" <brgl@bgdev.pl>
+Date: Wed, 15 Apr 2020 13:14:22 +0200
+Message-ID: <CAMRc=MeFqHxGcV_qqQEMWC2Ke8VBCkzr86=29YzEJ-MkwPtTaQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v2 2/2] image.bbclass: deploy image artifacts in stages
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Khem Raj <raj.khem@gmail.com>, Armin Kuster <akuster808@gmail.com>, 
+	Jerome Neanne <jneanne@baylibre.com>, Quentin Schulz <quentin.schulz@streamunlimited.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Bartosz Golaszewski <bgolaszewski@baylibre.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2020-04-15 at 12:20 +0200, Bartosz Golaszewski wrote:
-> pon., 6 kwi 2020 o 19:02 Bartosz Golaszewski <brgl@bgdev.pl> napisał(a):
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > 
-> > Make each IMAGE_CMD task an sstate task with its own IMGDEPLOYDIR
-> > override. This way each generated set of artifacts is deployed as soon
-> > as it's ready instead of the do_image_complete task handling the entire
-> > deployement. This allows us to better fine-tune dependencies e.g. we
-> > can make do_image_wic depend on fitImage task which can in turn depend
-> > on do_image_ext4.
-> > 
-> > We need delete the IMGDEPLOYDIR variable from the data object passed
-> > to each image task so that it gets expanded with the correct override.
-> > 
-> > In order to make sure that tasks added to SSTATETASKS in anonymous python
-> > functions are correctly setup, move the code that assigns pre- and
-> > postfuncs to an event handler invoked on bb.event.RecipeTaskPreProcess
-> > in sstate.bbclass. This event is fired right after the anonymous
-> > functions.
-> > 
-> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > ---
-> >  meta/classes/image.bbclass  | 17 +++++++++++++++++
-> >  meta/classes/sstate.bbclass |  4 ++++
-> >  2 files changed, 21 insertions(+)
-> > 
-> > diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> > index 07aa1f1fa5..ffd63aa82a 100644
-> > --- a/meta/classes/image.bbclass
-> > +++ b/meta/classes/image.bbclass
-> > @@ -428,10 +428,12 @@ python () {
-> >          # date/time values. It will get expanded at execution time.
-> >          # Similarly TMPDIR since otherwise we see QA stamp comparision problems
-> >          # Expand PV else it can trigger get_srcrev which can fail due to these variables being unset
-> > +        # Delete IMGDEPLOYDIR so that each task gets its own, overriden value
-> >          localdata.setVar('PV', d.getVar('PV'))
-> >          localdata.delVar('DATETIME')
-> >          localdata.delVar('DATE')
-> >          localdata.delVar('TMPDIR')
-> > +        localdata.delVar('IMGDEPLOYDIR')
-> >          vardepsexclude = (d.getVarFlag('IMAGE_CMD_' + realt, 'vardepsexclude', True) or '').split()
-> >          for dep in vardepsexclude:
-> >              localdata.delVar(dep)
-> > @@ -502,6 +504,21 @@ python () {
-> > 
-> >          bb.debug(2, "Adding task %s before %s, after %s" % (task, 'do_image_complete', after))
-> >          bb.build.addtask(task, 'do_image_complete', after, d)
-> > +
-> > +        imgdeploydir = d.getVar('IMGDEPLOYDIR')
-> > +        task_override = task[3:].replace('_', '-') # 'do_image_ext4' becomes 'image-ext4'
-> > +        taskdeploydir = '{}/deploy-{}-{}'.format(os.path.dirname(imgdeploydir),
-> > +                                                 d.getVar('PN'), task_override)
-> > +
-> > +        # Each image task gets its own IMGDEPLOYDIR directory and is added to
-> > +        # SSTATETASKS. This way every set of artifacts gets deployed right after
-> > +        # the do_image_foo task completes.
-> > +        d.setVar('IMGDEPLOYDIR_task-{}'.format(task_override), taskdeploydir)
-> > +        d.appendVar('SSTATETASKS', ' {}'.format(task))
-> > +        d.setVarFlag(task, 'sstate-inputdirs', taskdeploydir)
-> > +        d.setVarFlag(task, 'sstate-outputdirs', d.getVar('DEPLOY_DIR_IMAGE'))
-> > +        d.setVarFlag(task, 'cleandirs', taskdeploydir)
-> > +        d.setVar('SSTATE_SKIP_CREATION_task-{}'.format(task_override), '1')
-> >  }
-> > 
-> >  #
-> > diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> > index c73c3b42a7..3c71312010 100644
-> > --- a/meta/classes/sstate.bbclass
-> > +++ b/meta/classes/sstate.bbclass
-> > @@ -138,13 +138,17 @@ python () {
-> >          d.setVar('SSTATE_EXTRAPATH', "${NATIVELSBSTRING}/")
-> >          d.setVar('BB_HASHFILENAME', "True ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}")
-> >          d.setVar('SSTATE_EXTRAPATHWILDCARD', "${NATIVELSBSTRING}/")
-> > +}
-> > 
-> > +python sstate_setup_tasks() {
-> >      unique_tasks = sorted(set((d.getVar('SSTATETASKS') or "").split()))
-> >      d.setVar('SSTATETASKS', " ".join(unique_tasks))
-> >      for task in unique_tasks:
-> >          d.prependVarFlag(task, 'prefuncs', "sstate_task_prefunc ")
-> >          d.appendVarFlag(task, 'postfuncs', " sstate_task_postfunc")
-> >  }
-> > +addhandler sstate_setup_tasks
-> > +sstate_setup_tasks[eventmask] = "bb.event.RecipeTaskPreProcess"
-> > 
-> >  def sstate_init(task, d):
-> >      ss = {}
-> > --
-> > 2.25.0
-> > 
-> 
-> Gentle ping.
+=C5=9Br., 15 kwi 2020 o 12:32 Richard Purdie
+<richard.purdie@linuxfoundation.org> napisa=C5=82(a):
+>
+> > >
+> >
+> > Gentle ping.
+>
+> Gentle reminder that we're in the middle of sorting out a release. This
+> will not merge until after the release and I don't have the cycles for
+> review of this kind of change right now.
+>
 
-Gentle reminder that we're in the middle of sorting out a release. This
-will not merge until after the release and I don't have the cycles for
-review of this kind of change right now.
+Got it, I'll get back to you after the release then.
 
-FWIW I still don't like the way this integrates into sstate and I want
-to spend some time trying to find a better way. I don't have any
-constructive suggestion as to what that would look like so I haven't
-replied, I simply don't know and that isn't a useful answer to you.
+> FWIW I still don't like the way this integrates into sstate and I want
+> to spend some time trying to find a better way. I don't have any
+> constructive suggestion as to what that would look like so I haven't
+> replied, I simply don't know and that isn't a useful answer to you.
+>
 
-You've also ignored my request to follow the coding style used in the 
-rest of the class code :(.
+Sure, thanks. Despite my best efforts I couldn't figure out any
+solution without touching sstate.
 
-Cheers,
+> You've also ignored my request to follow the coding style used in the
+> rest of the class code :(.
+>
 
-Richard
+Indeed, although "forgot" would describe it better. :)
 
+Bart
