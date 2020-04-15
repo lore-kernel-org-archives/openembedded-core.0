@@ -1,129 +1,132 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web11.6.1586992713043467905
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web11.7.1586992713717074929
  for <openembedded-core@lists.openembedded.org>;
  Wed, 15 Apr 2020 16:18:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LASQHb21;
- spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f178.google.com with SMTP id 2so683149pgp.11
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=D5LTdQaz;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f172.google.com with SMTP id x3so744530pfp.7
         for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2020 16:18:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pYHYDOPG3mI1XK9ZRnVRKrAtJ9W25Ynk7Xg//qiHm5c=;
-        b=LASQHb21sasby2PbcboEmTSE1m/1UPLdFc4EbK4XeoqVyDMaMmd2SDJdlpxpfQoCxW
-         9XGjgjRf9ofIrFAYtNukrxL2nHUrClT4CellJcOAPTLSF2eKAqLIUIifcmvJATeU5F41
-         rAYvNQ94Tkqnm5DON+dMjURlhDstoJtJl1Yw9uec88ZcpeftiLpqRkNE9/vVqPhEUBMY
-         3tHecjikxgFRfrFr6Kw1u91OBIxHPjRydZRbg+tqM6870cevDewa0uaQne2QjP+CMG/z
-         nO+IA1d3gsr/XQ8jZHJrYVH24y5Y/TaerE1GE7nxY80EKHFjvSfnfKZ5X+DRVJV8105c
-         PCZg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=tljqC+yGz/d/8yUkeDnufoBpaVDumJbCDrbloHYHZIA=;
+        b=D5LTdQazPFt8MIJ+BQ87SrNKVWVzmr204GvwayarjkeUehCbyDeyy9stSMH+lFqa5S
+         Ft9cuu7cFhH4xqTo6QtNziHSpVh03QUkMCYoPnnsEgWPkmKkzkgWS09w5jSGtMcluetD
+         J5boOm2IkR1YyxffzV8T0aZHTz82K/ey4H4GzA0es9WsTxGtlxk5Njz7zEOLpK8/ztPm
+         aNo54b0RU6A4oRirgwwyJjmP+qHTSfNctgDjOmds/8FdXAJSDzTKUrMXQBTxMbbmax6v
+         oqJZEzNwzJ40ijTNaF3yJEP7yCAAkyIejU0TI5JtdKw4BQ95KqRLd4yxqAwvToK7A5mz
+         Mhlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=pYHYDOPG3mI1XK9ZRnVRKrAtJ9W25Ynk7Xg//qiHm5c=;
-        b=XaB5WnPATuVy1GTxqSgR6LvVdeYCU4RmtY4kjlzaV0n25I5jNJLASuIqHfnGtwQuDb
-         NdyiWgqui/6YJ6+3yj4kPNRRBOyn02lSK+2yqX5MG4y6Am2v2eDOqzDO9/SJUzaWSd+W
-         N8ciwltKnYO5hV9CmE4S6CuvzKylufJoPdTbUmWMRQi7O5fhC+vU2oNkF6L85oY6S+RE
-         2IIkEH+VcCqsxn/4e2athPM1/w+bZuorj9r9Zf2XQBDZzBsZOUWPwqGXqr9EhmHj1McD
-         nBNJLdNAc3Qljy468wZev/G5w75Ome1YZZZStEVfUUlu9PlDlEriOjWFUbXR+H78qtqX
-         jmWg==
-X-Gm-Message-State: AGi0Pubbce3e94c4CI/xyRmAWcpZGnNI2heUpGTl1It81SSAVzuLl0aR
-	y6flQiC7O0yHkd9aI8VENLepeX58IfQ=
-X-Google-Smtp-Source: APiQypLwVZQJqFUEKjJUFPTPSGR8cRwBj+SHULUJLLvH8m/Ey291CRAuIfjzjVe1KFZXO5XdC0m6IA==
-X-Received: by 2002:a63:1210:: with SMTP id h16mr15827366pgl.328.1586992711950;
-        Wed, 15 Apr 2020 16:18:31 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=tljqC+yGz/d/8yUkeDnufoBpaVDumJbCDrbloHYHZIA=;
+        b=ff3nYxTZtD+z0F0WKLTYUxlZib3H7xivPJugBHOW3Gibf/jZnhqjn+0GBWue0RlBzH
+         1/qEt7k/zkrI2pUuDa6qjfBM6BRw4ycWPlj1aV9yNxF2A/31gCZWW3zHvQXJTGTkgWlr
+         guq/Nwu+K7zOeuor9dIbotRuajpmq8ZWrRAUt09AV455ne9kEbe7tOs7JKAlU4DYKyES
+         pf3bidgsVy5r+RoUtVUNdyHNbzF/FuufhjNvGwzCIbuv2eMMRrllOU/E/ZABvilNl4WO
+         upLi+ziDZRaZ7nqfYGj8e3PcEUejB10ZYlULa69rGlKU5OJwg59bQMVL8qna+8v3lA0i
+         y3kA==
+X-Gm-Message-State: AGi0PuZqt1IvDJruVwrv3CMsQ9xlmuT6945mpFSYjldqpWUMW8J7ajF9
+	wtu3CtbR7FKSYFPav44T17QVdgmxyic=
+X-Google-Smtp-Source: APiQypJCcJYJDwL8nOvdsge80G/LoSoGn1JBAEARxV4M/B6EPJKiNxNRXFmMoCQljb4SfDXkFI0zKg==
+X-Received: by 2002:a63:f13:: with SMTP id e19mr28011384pgl.135.1586992712707;
+        Wed, 15 Apr 2020 16:18:32 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::58e0])
-        by smtp.gmail.com with ESMTPSA id a1sm14902161pfi.182.2020.04.15.16.18.31
+        by smtp.gmail.com with ESMTPSA id a1sm14902161pfi.182.2020.04.15.16.18.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2020 16:18:31 -0700 (PDT)
+        Wed, 15 Apr 2020 16:18:32 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/3] gcc: Configure all gccs with --disable-install-libiberty
-Date: Wed, 15 Apr 2020 16:18:27 -0700
-Message-Id: <20200415231829.4090244-1-raj.khem@gmail.com>
+Subject: [PATCH 2/3] binutils: Detect proper static-libstdc++ support when using clang
+Date: Wed, 15 Apr 2020 16:18:28 -0700
+Message-Id: <20200415231829.4090244-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20200415231829.4090244-1-raj.khem@gmail.com>
+References: <20200415231829.4090244-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-OE uses libiberty from binutils, since its properly compiled as pic
-archive and applications and other libraries needing libiberty can
-properly link with it.
-
-With this option applied, explicit delete of libiberty headers and
-libraries is not required in install step, since they wont get installed
-in first place.
+Fixes configure time tests to ensure static-libstdc++ is enabled when
+using clang
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/gcc/gcc-configure-common.inc | 1 +
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc   | 6 ------
- meta/recipes-devtools/gcc/gcc-cross.inc            | 4 ----
- meta/recipes-devtools/gcc/gcc-target.inc           | 4 ----
- 4 files changed, 1 insertion(+), 14 deletions(-)
+ .../binutils/binutils-2.34.inc                |  1 +
+ ...or-clang-before-checking-gcc-version.patch | 48 +++++++++++++++++++
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0016-Check-for-clang-before-checking-gcc-version.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index bb4f6923f2..a64c4caf00 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -33,6 +33,7 @@ EXTRA_OECONF = "\
-     --enable-libstdcxx-pch \
-     --program-prefix=${TARGET_PREFIX} \
-     --without-local-prefix \
-+    --disable-install-libiberty \
-     ${EXTRA_OECONF_BASE} \
-     ${EXTRA_OECONF_GCC_FLOAT} \
-     ${EXTRA_OECONF_PATHS} \
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index 4aac345bec..553ef7fe62 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -108,12 +108,6 @@ do_install () {
- 	# We don't care about the gcc-<version> copies
- 	rm -f ${D}${bindir}/*gcc-?.?*
- 
--	# We use libiberty from binutils
--	rm -f ${D}${prefix}/${TARGET_SYS}/lib/libiberty.a
--	# Not sure where the strange paths come from
--	rm -f ${D}${libdir}/../lib/libiberty.a
--	rm -f ${D}${libdir}/libiberty.a
--
- 	# Cleanup empty directories which are not shipped
- 	# we use rmdir instead of 'rm -f' to ensure the non empty directories are not deleted
- 	# ${D}${libdir}/../lib only seems to appear with SDKMACHINE=i686
-diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-index c68cdd5dc4..6fa8c274cd 100644
---- a/meta/recipes-devtools/gcc/gcc-cross.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-@@ -117,10 +117,6 @@ do_install () {
- 	cp ${S}/libquadmath/quadmath.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
- 	cp ${S}/libquadmath/quadmath_weak.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
- 
--	# We use libiberty from binutils
--	find ${D}${exec_prefix}/lib -name libiberty.a | xargs rm -f
--	find ${D}${exec_prefix}/lib -name libiberty.h | xargs rm -f
--
- 	find ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed -type f -not -name "README" -not -name limits.h -not -name syslimits.h | xargs rm -f
- }
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
-index 34c1b2263b..8cb432780f 100644
---- a/meta/recipes-devtools/gcc/gcc-target.inc
-+++ b/meta/recipes-devtools/gcc/gcc-target.inc
-@@ -192,10 +192,6 @@ do_install () {
- 	# We don't care about the gcc-<version> ones for this
- 	rm -f *gcc-?.?*
- 
--	# We use libiberty from binutils
--	find ${D}${libdir} -name libiberty.a | xargs rm -f
--	find ${D}${libdir} -name libiberty.h | xargs rm -f
--
- 	# Not sure why we end up with these but we don't want them...
- 	rm -f ${TARGET_PREFIX}${TARGET_PREFIX}*
- 
+diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
+index 4b085b6fe0..66a3850ef2 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.34.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
+@@ -40,6 +40,7 @@ SRC_URI = "\
+      file://0013-fix-the-incorrect-assembling-for-ppc-wait-mnemonic.patch \
+      file://0014-Detect-64-bit-MIPS-targets.patch \
+      file://0015-sync-with-OE-libtool-changes.patch \
++     file://0016-Check-for-clang-before-checking-gcc-version.patch \
+      file://CVE-2020-0551.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0016-Check-for-clang-before-checking-gcc-version.patch b/meta/recipes-devtools/binutils/binutils/0016-Check-for-clang-before-checking-gcc-version.patch
+new file mode 100644
+index 0000000000..c694b42dc3
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0016-Check-for-clang-before-checking-gcc-version.patch
+@@ -0,0 +1,48 @@
++From 67590a44c1256491fa674426f0170d5d05377d05 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 15 Apr 2020 14:17:20 -0700
++Subject: [PATCH 16/16] Check for clang before checking gcc version
++
++Clang advertises itself to be gcc 4.2.1, so when compiling this test
++here fails since gcc < 4.4.5 did not support -static-libstdc++ but thats
++not true for clang, so its better to make an additional check for clang
++before resorting to gcc version check. This should let clang enable
++static libstdc++ linking
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ configure    | 2 +-
++ configure.ac | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/configure b/configure
++index 590b03c2da0..46f116fdb54 100755
++--- a/configure
+++++ b/configure
++@@ -5140,7 +5140,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
++ cat confdefs.h - <<_ACEOF >conftest.$ac_ext
++ /* end confdefs.h.  */
++ 
++-#if (__GNUC__ < 4) || (__GNUC__ == 4 && __GNUC_MINOR__ < 5)
+++#if !defined(__clang__) && ((__GNUC__ < 4) || (__GNUC__ == 4 && __GNUC_MINOR__ < 5))
++ #error -static-libstdc++ not implemented
++ #endif
++ int main() {}
++diff --git a/configure.ac b/configure.ac
++index d3f85e6f5d5..c0eb1343121 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1309,7 +1309,7 @@ if test "$GCC" = yes; then
++   AC_MSG_CHECKING([whether g++ accepts -static-libstdc++ -static-libgcc])
++   AC_LANG_PUSH(C++)
++   AC_LINK_IFELSE([AC_LANG_SOURCE([
++-#if (__GNUC__ < 4) || (__GNUC__ == 4 && __GNUC_MINOR__ < 5)
+++#if !defined(__clang__) && ((__GNUC__ < 4) || (__GNUC__ == 4 && __GNUC_MINOR__ < 5))
++ #error -static-libstdc++ not implemented
++ #endif
++ int main() {}])],
++-- 
++2.26.1
++
 -- 
 2.26.1
 
