@@ -1,82 +1,97 @@
-Received: from mail-il1-f180.google.com (mail-il1-f180.google.com [209.85.166.180])
- by mx.groups.io with SMTP id smtpd.web10.12163.1586949273470695547
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.13294.1586954661010140553
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2020 04:14:33 -0700
+ Wed, 15 Apr 2020 05:44:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bgdev-pl.20150623.gappssmtp.com header.s=20150623 header.b=nA9sBU0t;
- spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.166.180, mailfrom: brgl@bgdev.pl)
-Received: by mail-il1-f180.google.com with SMTP id d2so2952277ilc.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2020 04:14:33 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=ruBch5OV;
+ spf=pass (domain: konsulko.com, ip: 209.85.221.68, mailfrom: pbarker@konsulko.com)
+Received: by mail-wr1-f68.google.com with SMTP id f13so18951503wrm.13
+        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2020 05:44:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=BvyP6np0MLLptsF/p67irOhOEkH3/Q08JB3mDRY9XRA=;
-        b=nA9sBU0tjIm7w/Sj6tb4/SxcKbhoQ5EpZWYXdI1DqiRW5YcHywkL7ZfMmBZK7msZ48
-         NpAbisXVHUr3efHlcgnyGum4LcxebHvpSF+ubGgekiCd/XYH2LvRZ3apZa+beKYk6sic
-         e1RN7oE5QlHF/N1d4Hz6J0ntqU5nMs27jrTj/wRXtnEei0JYE2nmGnEA605sX7ZieNxw
-         qv0R68k6GW2hFFwh4SIljq/UPd3rG805PHiw3e56sJC6o+VPCxTgXtdfO8Hh3R0UZ/1Q
-         K6kGS4bXkgIKkzCW1+bgxDlHqdjbkmadfH0IH266JWDPxEVrMR99cn4lKGoiM2VwPlgB
-         gqmg==
+        d=konsulko.com; s=google;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :organization:mime-version:content-transfer-encoding;
+        bh=FMBKB0x3eLs54uSq+A0IEoJAJm/sr9KJlX4NNe08RXs=;
+        b=ruBch5OV+IHTXHkLpoTDCJTgBM6fjzgvwpIUmOSK5reHqz0GsfBoZvD3Bn+7DJ/BZq
+         vMyXMhFmwcedOqg6FWWx172Ec9/Iaqf3e3INFQryh0OkT+pRTFo0oVmj66b8A3LZrqlp
+         3JbFvArYjkZMICuJ9i5e0sp1J+4azd7/Ti5Ig=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=BvyP6np0MLLptsF/p67irOhOEkH3/Q08JB3mDRY9XRA=;
-        b=TrepVqjUg8AYdnEC02mMwPkMfVMhZzoDh/n9NxQgKxWLf3ZYZZcfe+0CprDVBdlLmG
-         /c0871J1bfSPaEFXi9fLQdj6yDBDKj+KzWpgTEHmkLlv3NgXSHOkC/6F0xEWrchDWMss
-         UquNUS3y6v7e5FaXeRN+Ylp5AL4Dr6G87NJSu4DID81KytdpgNNbP+LWNZNLYSedOWuc
-         2Ls+4tjdfxHxaxvN9V19Mw0B9tlAUyM//D577PWZtgoSOswvvd1CGNy43T2LSvjEGrif
-         BFByyTsc4HPFPqixDw7JYzvcqE6Ppjtg4ClpeHLjoHBkabgzHGQGgSVhrQpw9xZrTGFy
-         REUw==
-X-Gm-Message-State: AGi0PuZey+3iMZNmLCadGAzb+cD8ntcBqM3/oQ3l+QMYACfSlb28Qwp+
-	Q5FSVtdf+JZaNrtyN12f/qNy9SX4XBVq26UcRm7jTA==
-X-Google-Smtp-Source: APiQypJXE/Gg83b7ZgmilHHeOuv9ussHM7gnEWiHCkGYfoNfhl43Y4vrCW1BAooDEHhQ1EPC+98aEwPTNJIfGC87N38=
-X-Received: by 2002:a92:bbd8:: with SMTP id x85mr5018474ilk.40.1586949272898;
- Wed, 15 Apr 2020 04:14:32 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:organization:mime-version:content-transfer-encoding;
+        bh=FMBKB0x3eLs54uSq+A0IEoJAJm/sr9KJlX4NNe08RXs=;
+        b=rxEpRveFJMfeIZXiyQ7n03qyCTpPa9z3uOo21K6z/4tUeh4+qSdEjMQWnDu/LwjjWA
+         1v4UrHNsz0Qe3uG0SvHlr2e1IkvLA6s4BzV84LGxCeu9dElmDRxVebHmvmUqfhili0/8
+         88NDElDf+ri1SJv4BXveLxdzXL67IAyD6hqcGRug6yD9+8nTGejfoy5YCHf6KVg0QJf9
+         uAgLtKGZ2XBzfWIT8Ur75YR2WTUa0a+lFLqTGU5YWSjc+8RczJu7RWpu2B9ZrFh/HaS4
+         rPKUoLqTY4qCOXWRFuHA8WeLJE8OVC3YWbUjz+4nvp+ka2TGkWajNZlH0iMvk9bdY7l4
+         Q+kg==
+X-Gm-Message-State: AGi0PubrrRSpAvj+tjIiXI2+yWTTja97L1UneLdgm8w4+Y6K4BJ/IIjH
+	dy+1yRtSQ3NyRhCTBYAXITcgVg==
+X-Google-Smtp-Source: APiQypJIu847VshxeQleLFq3Aaa5YU9lo+5LU3rYJ/OKiPk3Gqba536YKelNV7QVTPh64G2NyiFfcg==
+X-Received: by 2002:adf:f30c:: with SMTP id i12mr11012640wro.426.1586954659245;
+        Wed, 15 Apr 2020 05:44:19 -0700 (PDT)
+Return-Path: <pbarker@konsulko.com>
+Received: from ub1910 ([213.48.11.149])
+        by smtp.gmail.com with ESMTPSA id a80sm22825239wme.37.2020.04.15.05.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2020 05:44:19 -0700 (PDT)
+Date: Wed, 15 Apr 2020 13:44:13 +0100
+From: "Paul Barker" <pbarker@konsulko.com>
+To: "Konrad Weihmann" <kweihmann@outlook.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 2/2] runqemu: add ROOTFS_EXTRA_OPT parameter
+Message-ID: <20200415134413.69873eb4@ub1910>
+In-Reply-To: <VI1PR05MB4286CB9872D15C1FEC21AA3CA8DA0@VI1PR05MB4286.eurprd05.prod.outlook.com>
+References: <20200414191915.772-1-kweihmann@outlook.com>
+	<VI1PR05MB4286CB9872D15C1FEC21AA3CA8DA0@VI1PR05MB4286.eurprd05.prod.outlook.com>
+Organization: Konsulko Group
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-References: <20200406170229.25363-1-brgl@bgdev.pl> <20200406170229.25363-3-brgl@bgdev.pl>
- <CAMRc=MdmrCSUYJXu7nhipPLLJFa6qdzD0E8Zq3S38mZKANpLUg@mail.gmail.com> <2ee5d8832f691c36c00fcdb31609fff3648e2673.camel@linuxfoundation.org>
-In-Reply-To: <2ee5d8832f691c36c00fcdb31609fff3648e2673.camel@linuxfoundation.org>
-From: "Bartosz Golaszewski" <brgl@bgdev.pl>
-Date: Wed, 15 Apr 2020 13:14:22 +0200
-Message-ID: <CAMRc=MeFqHxGcV_qqQEMWC2Ke8VBCkzr86=29YzEJ-MkwPtTaQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2 2/2] image.bbclass: deploy image artifacts in stages
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Khem Raj <raj.khem@gmail.com>, Armin Kuster <akuster808@gmail.com>, 
-	Jerome Neanne <jneanne@baylibre.com>, Quentin Schulz <quentin.schulz@streamunlimited.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-=C5=9Br., 15 kwi 2020 o 12:32 Richard Purdie
-<richard.purdie@linuxfoundation.org> napisa=C5=82(a):
->
-> > >
-> >
-> > Gentle ping.
->
-> Gentle reminder that we're in the middle of sorting out a release. This
-> will not merge until after the release and I don't have the cycles for
-> review of this kind of change right now.
->
+On Tue, 14 Apr 2020 21:19:15 +0200
+"Konrad Weihmann" <kweihmann@outlook.com> wrote:
 
-Got it, I'll get back to you after the release then.
+> Content of the optional parameter will be appended to the rootfs-device
+> in the qemu configuration, in case QB_ROOTFS_OPT is not specified.
+> By default this is empty.
+> 
+> Example use cases are:
+> 
+> Defining 'readonly' when using squashfs, so multiple instances of qemu
+> can share the same base image, something that cannot be done by just
+> specifying 'snapshot'.
+> 
+> Defining 'bootindex=0' which helps to get past the EFI shell in
+> ovmf-binary. This also enables the use case of running WIC images with
+> EFI bootloader through the testimage.bbclass.
+> 
+> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+> ---
+>  meta/classes/qemuboot.bbclass |  5 +++++
+>  scripts/runqemu               | 11 ++++++++---
+>  2 files changed, 13 insertions(+), 3 deletions(-)
+> 
+> diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+> index 68f7a03619..3162e7a8eb 100644
+> --- a/meta/classes/qemuboot.bbclass
+> +++ b/meta/classes/qemuboot.bbclass
+> @@ -65,6 +65,10 @@
+>  #                   " -device virtio-serial-device -chardev socket,id=virtcon,port=@PORT@,host=127.0.0.1 -device virtconsole,chardev=virtcon"
+>  #                   Note, runqemu will replace "@PORT@" with the port number which is used.
+>  #
+> +# QB_ROOTFS_EXTRA_OPT: extra options to be appended to the rootfs device in case there is none specified by QB_ROOTFS_OPT.
+> +#                      Can be used to automatically determine the image from the other variables
+> +#                      but define things link 'bootindex' when booting from EFI or 'readonly' when using squashfs
+> +#                      without the need to specify a dedicated qemu configuration
 
-> FWIW I still don't like the way this integrates into sstate and I want
-> to spend some time trying to find a better way. I don't have any
-> constructive suggestion as to what that would look like so I haven't
-> replied, I simply don't know and that isn't a useful answer to you.
->
+The summary line of the commit should use the full variable name
+`QB_ROOTFS_EXTRA_OPT`.
 
-Sure, thanks. Despite my best efforts I couldn't figure out any
-solution without touching sstate.
+Thanks,
 
-> You've also ignored my request to follow the coding style used in the
-> rest of the class code :(.
->
-
-Indeed, although "forgot" would describe it better. :)
-
-Bart
+-- 
+Paul Barker
+Konsulko Group
