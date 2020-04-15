@@ -1,78 +1,77 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
- by mx.groups.io with SMTP id smtpd.web12.6762.1586915560727218271
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com [209.85.167.193])
+ by mx.groups.io with SMTP id smtpd.web12.7257.1586917935626778280
  for <openembedded-core@lists.openembedded.org>;
- Tue, 14 Apr 2020 18:52:45 -0700
+ Tue, 14 Apr 2020 19:32:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: <nil>, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.72,385,1580745600"; 
-   d="scan'208";a="89044115"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 15 Apr 2020 09:52:44 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id AEFBF406AB15
-	for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2020 09:42:10 +0800 (CST)
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 15 Apr 2020 09:52:38 +0800
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Wed, 15 Apr 2020 09:52:46 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH] ed: upgrade 1.15 -> 1.16
-Date: Wed, 15 Apr 2020 01:33:38 -0700
-Message-ID: <1586939618-29727-2-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1586939618-29727-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1586939618-29727-1-git-send-email-wangmy@cn.fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RPXFQERG;
+ spf=pass (domain: gmail.com, ip: 209.85.167.193, mailfrom: jpuhlman@gmail.com)
+Received: by mail-oi1-f193.google.com with SMTP id q204so12278523oia.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 14 Apr 2020 19:32:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qx7Sk/AGUMBPyVSfz/DPpeI1WA55cmXZABncpDKXI3Q=;
+        b=RPXFQERGHfa2b+TwFAwYTzAcYfBKNWWMsmrsZttjWOcAFAfQgCfDw1+3vC8qR7MZL7
+         Xs8OfKhEkaE6y/MSOBRD16hMaYhkC2XuMe/uOnQqcYYgnilTZZnQWqtMdVkmmkaQm5wG
+         lVIVFwnsN4ItOl2ZyCkAlb3vLRqh4qtF9UC4226LMe1NjqRvNLMFsPYWdNKcQv/ILGRk
+         2ahdhXroE29zAr0YuBtbchegm4vvNM3fuHijFmKHwT4I6AClaDEGPtxAQAPqqJCbOzV0
+         egxDu82WKw1esFjy9wdq98RbY+6dbI8rLCCoFjAYAcsKKVASJbACl+1vsqnrnTf+OUvP
+         oDEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=qx7Sk/AGUMBPyVSfz/DPpeI1WA55cmXZABncpDKXI3Q=;
+        b=LFdOK4JlbD3pbhu+/XkaNidS25aBVy9Tf1QPgmaTjebU/hlX26XsZ92j5TIF3IQYw1
+         Mfr9QfAisRYmCsNx2doxJ+VCwljvy6PzNUDUaXCI3RdkMnUPnpx5AKv5sPkLNIH47WtE
+         vwKPP4a2worscjtzNBhtqWEV8Z2qsgoaXb9EuFFbJ9dDcEPZhpzWZHU8NmpYKMvVgLxz
+         Roc2swUTTFou2k77myXWFxzXMo9hO47JpkJy7SR4VFg0COIg9bua8Q+ItBCSEVAQIZJE
+         wmvIm3+eiKQkQxk+BuAKGQIvqIcAMtHipuisbs4DYCiFZqAEUv2Xc09tb7SVpn9ZQ38v
+         tjkw==
+X-Gm-Message-State: AGi0PuZSLZIYKNCWFXGOhS1ThEpelOnr2U9l1Am9Yke2apPbvHBw/uqe
+	xs1kxEGDV49jA5UJ2o7z4wh6XLbv
+X-Google-Smtp-Source: APiQypKlbioNIxfK7LdoZKbDdm7SlqLRZZhAUrhQuwl93edDfrg4MGybq1KtWKtRr+IOwRTPxOwp6w==
+X-Received: by 2002:aca:447:: with SMTP id 68mr9702192oie.94.1586917934484;
+        Tue, 14 Apr 2020 19:32:14 -0700 (PDT)
+Return-Path: <jpuhlman@gmail.com>
+Received: from workhorse.localdomain (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+        by smtp.gmail.com with ESMTPSA id 89sm5912437otj.66.2020.04.14.19.32.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2020 19:32:13 -0700 (PDT)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id 029B12A0479; Tue, 14 Apr 2020 19:32:11 -0700 (PDT)
+From: "Jeremy Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jeremy Puhlman <jpuhlman@mvista.com>
+Subject: [PATCH 1/2] nativesdk-gcc-runtime: enable building libstdc++.a
+Date: Tue, 14 Apr 2020 19:32:04 -0700
+Message-Id: <20200415023205.26050-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: AEFBF406AB15.A566F
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
--License-Update: Copyright year updated to 2020.
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 ---
- meta/recipes-extended/ed/{ed_1.15.bb => ed_1.16.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/ed/{ed_1.15.bb => ed_1.16.bb} (71%)
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/ed/ed_1.15.bb b/meta/recipes-extended/ed/ed_1.16.bb
-similarity index 71%
-rename from meta/recipes-extended/ed/ed_1.15.bb
-rename to meta/recipes-extended/ed/ed_1.16.bb
-index 886c3ddcab..f383007b59 100644
---- a/meta/recipes-extended/ed/ed_1.15.bb
-+++ b/meta/recipes-extended/ed/ed_1.16.bb
-@@ -3,8 +3,8 @@ HOMEPAGE = "http://www.gnu.org/software/ed/"
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 771f344ac0..ace706dbf4 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -22,6 +22,8 @@ EXTRA_OECONF_append_libc-newlib = " --with-newlib"
+ EXTRA_OECONF_append_arm = " libat_cv_have_ifunc=no "
+ EXTRA_OECONF_append_armeb = " libat_cv_have_ifunc=no "
  
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0c7051aef9219dc7237f206c5c4179a7 \
--                    file://ed.h;endline=20;md5=8af8e7dc7275dca05ce6c9e7ece7aec8 \
--                    file://main.c;endline=17;md5=d4dd6a62c502712358ca18551f978781 \
-+                    file://ed.h;endline=20;md5=0226a8dd88c76afba773f2f0f7c83f5e \
-+                    file://main.c;endline=17;md5=ebd4aff86dc9fa5027d55bc5191746b9 \
-                     "
- 
- SECTION = "base"
-@@ -18,8 +18,8 @@ bindir = "${base_bindir}"
- SRC_URI = "${GNU_MIRROR}/ed/${BP}.tar.lz"
- UPSTREAM_CHECK_URI = "${GNU_MIRROR}/ed/"
- 
--SRC_URI[md5sum] = "d3aaeb5eb032142948d7a2f98a24899b"
--SRC_URI[sha256sum] = "ad4489c0ad7a108c514262da28e6c2a426946fb408a3977ef1ed34308bdfd174"
-+SRC_URI[md5sum] = "ab480d982289064ca040bc5c75fceffd"
-+SRC_URI[sha256sum] = "cfc07a14ab048a758473ce222e784fbf031485bcd54a76f74acfee1f390d8b2c"
- 
- EXTRA_OEMAKE = "-e MAKEFLAGS="
++DISABLE_STATIC_class-nativesdk ?= ""
++
+ # Newlib does not support symbol versioning on libsdtcc++
+ SYMVERS_CONF_libc-newlib = ""
  
 -- 
-2.17.1
-
-
+2.20.1
 
