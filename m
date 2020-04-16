@@ -1,122 +1,121 @@
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
- by mx.groups.io with SMTP id smtpd.web12.1486.1587016258368772391
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web12.10819.1587055433713323392
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2020 22:50:58 -0700
+ Thu, 16 Apr 2020 09:43:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: nmpeHOPbbPl4Io3hgqvY0Pklw1/9yO41OIzYZEwerkxSZQXoQjp+87eA3bksLdw0KSA02sZZsp
- od0DusQtBrSQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 22:50:57 -0700
-IronPort-SDR: CFc205CFInpQfYMw3MA+Y9WSNHws5R54NQIhUfsso7cjNzugtdkoQKO9yViOrKkPavbkv8/hLv
- NXv/F6j7P76g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,388,1580803200"; 
-   d="scan'208";a="277871039"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga004.fm.intel.com with ESMTP; 15 Apr 2020 22:50:56 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] git: fix CVE-2020-5260
-Date: Thu, 16 Apr 2020 13:50:55 +0800
-Message-Id: <1587016255-41789-1-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=XRzmj1S7;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; l=2873; q=dns/txt; s=axis-central1;
+  t=1587055434; x=1618591434;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=O+vhZHmOILMMRLPyNT8m7X7rUmmZwPUK6/3AfBhbIEs=;
+  b=XRzmj1S7K4mILg7R+YuaXUUXpG/eXyyECW2YNxZums3q4W/oC5MxbzLK
+   IYFKIVCh1maD2xYH8mqXxPybbjGP7RTk1ur4pZCIXaMzI3OTjjpuNOWj9
+   vkjMY6nBNk6eZvEOclLevK1E6Tzb7ExW2rjMAWfoibGUPbumwFuqQfVUX
+   /46BQVDmLiB1R18CTV2sAPiV0XzDlX1gDjRLmgz60wCiBMSTUD8sLc8TB
+   UU5YFoLwvjpUFYDB9UCiiSYwL9rDZHEl1hV2/J+0DhhMvGg9spI9MiuLm
+   QJqPdUkXsb98NgmGy66xlh7yARC8++a8eG9rTz0Fckajd7YfsLi4MLOGI
+   Q==;
+IronPort-SDR: O+0joTaG+Ph5x0hT1POyypYlBC6hdnrvkYHE3Ra6OOa44Ml3/4WRVbOThrSYnFvDzvnExJARc9
+ 1ZeOzByIBA8HLSXPebUEQBAqUzhtxK+4IHubkO/8zwB6Lbp55e9ltJ0jGhBvxWURRqbxBasJ6y
+ JO9YA8u2p0h8OvASbTy1e06Sc8cJgd8Op4EYz+xsZ0orvByaW2Cxa7sXp4DesBECpiGGtsHMhZ
+ yg9iTn+zQn63wocjnY0t5kMgJpYv29D4RjBC3sSz8p/xE+iB/YBKFkkFuv70IMmsY9oz3/YONU
+ jBU=
+X-IronPort-AV: E=Sophos;i="5.72,391,1580770800"; 
+   d="scan'208";a="7501691"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 3/3] package.bbclass: Support stripping and debug	copy of static libraries
+Thread-Topic: [OE-core] [PATCH 3/3] package.bbclass: Support stripping and
+ debug	copy of static libraries
+Thread-Index: AQHV3fQV2llVmRsdpkuYSrmgCV5Tlah8X4Gg
+Date: Thu, 16 Apr 2020 16:43:49 +0000
+Message-ID: <55f56ac9a2b1467d935647d4ba757b04@XBOX03.axis.com>
+References: <20200207202008.132026-1-mark.hatle@kernel.crashing.org>
+ <20200207202008.132026-4-mark.hatle@kernel.crashing.org>
+In-Reply-To: <20200207202008.132026-4-mark.hatle@kernel.crashing.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Mark Hatle
+> Sent: den 7 februari 2020 21:20
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 3/3] package.bbclass: Support stripping and
+> debug copy of static libraries
+>=20
+> By default, we won't copy and strip static libraries.  However, this
+> functionality can be useful in some cases where people are doing
+> development on the target, and don't generally want the larger debug
+> capable static libraries.  To enable the new functionality set:
+>=20
+>     PACKAGE_DEBUG_STATIC_SPLIT =3D '1'
+>=20
+> Add a new function splitstaticdebuginfo.  Thus function will copy the
+> unmodified static library into the specific debug directory location.
+> By keeping an unmodified version, it is possible for a user trying
+> to debug something to use -L /usr/lib/.debug-static and their existing
+> build commands to switch from stripped to full debug versions.
+>=20
+> The PACKAGE_DEBUG_SPLIT_STYLE will select between two different
+> approaches, /usr/lib/debug-static or <path>/.debug-static.
+>=20
+> Additionally you can now choose to strip static libraries to conserve
+> space.  If either 'PACKAGE_DEBUG_STATIC_SPLIT' or 'PACKAGE_STRIP_STATIC'
+> is set to 1, the static library will be stripped.  (This is not on by
+> default, as it could make diagnosing static library usage difficult in
+> some cases.)
+>=20
+> Add to insane.bbclass a skip to the staticdev warning for the specific
+> -dbg package versions.
+>=20
+> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+> ---
+>  meta/classes/insane.bbclass  |  2 +-
+>  meta/classes/package.bbclass | 67 ++++++++++++++++++++++++++++++++++--
+>  meta/conf/bitbake.conf       |  2 +-
+>  3 files changed, 66 insertions(+), 5 deletions(-)
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- .../recipes-devtools/git/files/CVE-2020-5260.patch | 63 ++++++++++++++++++++++
- meta/recipes-devtools/git/git.inc                  |  4 +-
- 2 files changed, 66 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/git/files/CVE-2020-5260.patch
+[cut]
 
-diff --git a/meta/recipes-devtools/git/files/CVE-2020-5260.patch b/meta/recipes-devtools/git/files/CVE-2020-5260.patch
-new file mode 100644
-index 0000000..9b09ef6
---- /dev/null
-+++ b/meta/recipes-devtools/git/files/CVE-2020-5260.patch
-@@ -0,0 +1,63 @@
-+From 9a6bbee8006c24b46a85d29e7b38cfa79e9ab21b Mon Sep 17 00:00:00 2001
-+From: Jeff King <peff@peff.net>
-+Date: Wed, 11 Mar 2020 17:53:41 -0400
-+Subject: [PATCH] credential: avoid writing values with newlines
-+
-+The credential protocol that we use to speak to helpers can't represent
-+values with newlines in them. This was an intentional design choice to
-+keep the protocol simple, since none of the values we pass should
-+generally have newlines.
-+
-+However, if we _do_ encounter a newline in a value, we blindly transmit
-+it in credential_write(). Such values may break the protocol syntax, or
-+worse, inject new valid lines into the protocol stream.
-+
-+The most likely way for a newline to end up in a credential struct is by
-+decoding a URL with a percent-encoded newline. However, since the bug
-+occurs at the moment we write the value to the protocol, we'll catch it
-+there. That should leave no possibility of accidentally missing a code
-+path that can trigger the problem.
-+
-+At this level of the code we have little choice but to die(). However,
-+since we'd not ever expect to see this case outside of a malicious URL,
-+that's an acceptable outcome.
-+
-+Reported-by: Felix Wilhelm <fwilhelm@google.com>
-+
-+Upstream-Status: Backport
-+[https://github.com/git/git/commit/9a6bbee8006c24b46a85d29e7b38cfa79e9ab21b]
-+CVE: CVE-2020-5260
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ credential.c           | 2 ++
-+ t/t0300-credentials.sh | 6 ++++++
-+ 2 files changed, 8 insertions(+)
-+
-+diff --git a/credential.c b/credential.c
-+index 9747f47b18bf2..00ee4d62db121 100644
-+--- a/credential.c
-++++ b/credential.c
-+@@ -194,6 +194,8 @@ static void credential_write_item(FILE *fp, const char *key, const char *value)
-+ {
-+ 	if (!value)
-+ 		return;
-++	if (strchr(value, '\n'))
-++		die("credential value for %s contains newline", key);
-+ 	fprintf(fp, "%s=%s\n", key, value);
-+ }
-+ 
-+diff --git a/t/t0300-credentials.sh b/t/t0300-credentials.sh
-+index 03bd31e9f22a1..15cc3c5abb5b1 100755
-+--- a/t/t0300-credentials.sh
-++++ b/t/t0300-credentials.sh
-+@@ -309,4 +309,10 @@ test_expect_success 'empty helper spec resets helper list' '
-+ 	EOF
-+ '
-+ 
-++test_expect_success 'url parser rejects embedded newlines' '
-++	test_must_fail git credential fill <<-\EOF
-++	url=https://one.example.com?%0ahost=two.example.com/
-++	EOF
-++'
-++
-+ test_done
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 4131c98..cd0bd1a 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -7,7 +7,9 @@ DEPENDS = "openssl curl zlib expat"
- PROVIDES_append_class-native = " git-replacement-native"
- 
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
--           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages"
-+           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
-+           file://CVE-2020-5260.patch \
-+"
- 
- S = "${WORKDIR}/git-${PV}"
- 
--- 
-2.7.4
+> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+> index 7080d63287..1efc396ac6 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+
+[cut]
+
+> @@ -1051,8 +1106,11 @@ python split_and_strip_files () {
+>          results =3D oe.utils.multiprocess_launch(splitdebuginfo, list(el=
+ffiles), d, extraargs=3D(dvar, debugdir, debuglibdir, debugappend, debugsrc=
+dir, d))
+>=20
+>          if debugsrcdir and not targetos.startswith("mingw"):
+> -            for file in staticlibs:
+> -                results.append( (file, source_info(file, d, fatal=3DFals=
+e)) )
+> +            if (d.getVar('PACKAGE_DEBUG_STATIC_SPLIT') =3D=3D '1'):
+> +                results =3D oe.utils.multiprocess_launch(splitstaticdebu=
+ginfo, staticlibs, d, extraargs=3D(dvar, debugstaticdir, debugstaticlibdir,=
+ debugstaticappend, debugsrcdir, d))
+> +            else:
+> +                for file in staticlibs:
+> +                    results.append( (file,source_info(file, d)) )
+
+Why was fatal=3DFalse dropped from the call to source_info()?
+
+//Peter
 
