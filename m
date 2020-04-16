@@ -1,82 +1,122 @@
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
- by mx.groups.io with SMTP id smtpd.web11.9.1586992714266739581
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web12.1486.1587016258368772391
  for <openembedded-core@lists.openembedded.org>;
- Wed, 15 Apr 2020 16:18:34 -0700
+ Wed, 15 Apr 2020 22:50:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=f8CgPLNQ;
- spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f195.google.com with SMTP id h69so694347pgc.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 15 Apr 2020 16:18:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=v9R5eKe2O5D2sMtf51yod24Hk8F6mCiIRPF/hfKvSlg=;
-        b=f8CgPLNQRR9nU3lqSHLeHgDIEC7Xgk7dTZxrbHVR2IJd6NqnqsvL67lvSyKTIoUdIr
-         7q2x68dRB77Z3+6EMCjpvx3q5aNs77F+FjaIJArwu+K/AX1zBOk++TudMBm2kPU7VgzY
-         c20eY0VnbXFbGJP4wUntxWuvTFNQGEjCZVkDXskn1kdJ7vJNFYUmlXSDj9BUE9a/IZ83
-         j42hEVQbmzR6AhtDPjbCzhntCoqYG6mH+3wasJC/6eL48ph/f5zLdDC/poAu0iaVZlLQ
-         8waZYQE/qv+XzE0eyXn83xDCRtinvMkwZEW19y/seGK6IfPhIGMuBSjHrdPpDykjHdzo
-         ZOJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=v9R5eKe2O5D2sMtf51yod24Hk8F6mCiIRPF/hfKvSlg=;
-        b=Wvp1hE2NbDA0bYoclX62MbCClHPODlrgoH1LdmwZDsnOkxY4ajS5mupO4LYg+391hB
-         yl5rxV6pRX93DbA+gX3Ws0yYp4LLcnBNYGST++GaTUJspNBPNq1jIlKBJi+7pyH1oBlH
-         gJAa2dW4sZJ0nksqNP+E0BrujWIROEla4kjVQNn3vvpoGXmL6pAsMwl0pr9Uz8iyiPPw
-         1/h2wlR1l6eL8z0/rxoCZw3I86hzAWa6phkU9HrOU174mQGVtn29s7qo3fo1xoSV6wml
-         uHFx2YL9kPs4TQXkAuG//ZAq2u5cheR37naOoRyo550B9B02dsUwrKhuk0/HB954pjJC
-         WXHQ==
-X-Gm-Message-State: AGi0PuYy7KDza6Slfe+MYf49t5bxsqLk4RRyrrcqNU3Y3yqioRz9R3GQ
-	XLpNwMQTxWvvVJnAFozMcMvH+kZSlts=
-X-Google-Smtp-Source: APiQypLa91DKA4uZARgnOZxFVN3dLtPKjT+CyjDf8SlGrMQExnBjJ8PTQVC0faSB3mSU2Z24pJ8tUg==
-X-Received: by 2002:a63:7416:: with SMTP id p22mr28514573pgc.140.1586992713456;
-        Wed, 15 Apr 2020 16:18:33 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::58e0])
-        by smtp.gmail.com with ESMTPSA id a1sm14902161pfi.182.2020.04.15.16.18.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2020 16:18:33 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.100, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: nmpeHOPbbPl4Io3hgqvY0Pklw1/9yO41OIzYZEwerkxSZQXoQjp+87eA3bksLdw0KSA02sZZsp
+ od0DusQtBrSQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2020 22:50:57 -0700
+IronPort-SDR: CFc205CFInpQfYMw3MA+Y9WSNHws5R54NQIhUfsso7cjNzugtdkoQKO9yViOrKkPavbkv8/hLv
+ NXv/F6j7P76g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,388,1580803200"; 
+   d="scan'208";a="277871039"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga004.fm.intel.com with ESMTP; 15 Apr 2020 22:50:56 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] binutils: Install PIC version of libiberty.a
-Date: Wed, 15 Apr 2020 16:18:29 -0700
-Message-Id: <20200415231829.4090244-3-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200415231829.4090244-1-raj.khem@gmail.com>
-References: <20200415231829.4090244-1-raj.khem@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [PATCH] git: fix CVE-2020-5260
+Date: Thu, 16 Apr 2020 13:50:55 +0800
+Message-Id: <1587016255-41789-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-some architectures e.g. mips complain in linking apps which have shared
-libs that are linking with libiberty.a fixes errors like below
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-libiberty/../../libiberty/hashtab.c:285:(.text+0xf8): relocation R_MIPS_26 against `htab_create_typed_alloc' cannot be used when making a shared object; recompile with -fPIC
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- meta/recipes-devtools/binutils/binutils.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../recipes-devtools/git/files/CVE-2020-5260.patch | 63 ++++++++++++++++++++++
+ meta/recipes-devtools/git/git.inc                  |  4 +-
+ 2 files changed, 66 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/git/files/CVE-2020-5260.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 4119960c63..e93cd50b20 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -152,6 +152,11 @@ do_install () {
- 	install -m 644 ${S}/include/ansidecl.h ${D}${includedir}
- 	install -m 644 ${S}/include/libiberty.h ${D}${includedir}
- 
-+	# insall pic version of libiberty if available
-+        if [ -e ${B}/libiberty/pic/libiberty.a ]; then
-+		install -Dm 0644 ${B}/libiberty/pic/libiberty.a ${D}${libdir}/libiberty.a
-+	fi
+diff --git a/meta/recipes-devtools/git/files/CVE-2020-5260.patch b/meta/recipes-devtools/git/files/CVE-2020-5260.patch
+new file mode 100644
+index 0000000..9b09ef6
+--- /dev/null
++++ b/meta/recipes-devtools/git/files/CVE-2020-5260.patch
+@@ -0,0 +1,63 @@
++From 9a6bbee8006c24b46a85d29e7b38cfa79e9ab21b Mon Sep 17 00:00:00 2001
++From: Jeff King <peff@peff.net>
++Date: Wed, 11 Mar 2020 17:53:41 -0400
++Subject: [PATCH] credential: avoid writing values with newlines
 +
- 	cd ${D}${bindir}
++The credential protocol that we use to speak to helpers can't represent
++values with newlines in them. This was an intentional design choice to
++keep the protocol simple, since none of the values we pass should
++generally have newlines.
++
++However, if we _do_ encounter a newline in a value, we blindly transmit
++it in credential_write(). Such values may break the protocol syntax, or
++worse, inject new valid lines into the protocol stream.
++
++The most likely way for a newline to end up in a credential struct is by
++decoding a URL with a percent-encoded newline. However, since the bug
++occurs at the moment we write the value to the protocol, we'll catch it
++there. That should leave no possibility of accidentally missing a code
++path that can trigger the problem.
++
++At this level of the code we have little choice but to die(). However,
++since we'd not ever expect to see this case outside of a malicious URL,
++that's an acceptable outcome.
++
++Reported-by: Felix Wilhelm <fwilhelm@google.com>
++
++Upstream-Status: Backport
++[https://github.com/git/git/commit/9a6bbee8006c24b46a85d29e7b38cfa79e9ab21b]
++CVE: CVE-2020-5260
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++---
++ credential.c           | 2 ++
++ t/t0300-credentials.sh | 6 ++++++
++ 2 files changed, 8 insertions(+)
++
++diff --git a/credential.c b/credential.c
++index 9747f47b18bf2..00ee4d62db121 100644
++--- a/credential.c
+++++ b/credential.c
++@@ -194,6 +194,8 @@ static void credential_write_item(FILE *fp, const char *key, const char *value)
++ {
++ 	if (!value)
++ 		return;
+++	if (strchr(value, '\n'))
+++		die("credential value for %s contains newline", key);
++ 	fprintf(fp, "%s=%s\n", key, value);
++ }
++ 
++diff --git a/t/t0300-credentials.sh b/t/t0300-credentials.sh
++index 03bd31e9f22a1..15cc3c5abb5b1 100755
++--- a/t/t0300-credentials.sh
+++++ b/t/t0300-credentials.sh
++@@ -309,4 +309,10 @@ test_expect_success 'empty helper spec resets helper list' '
++ 	EOF
++ '
++ 
+++test_expect_success 'url parser rejects embedded newlines' '
+++	test_must_fail git credential fill <<-\EOF
+++	url=https://one.example.com?%0ahost=two.example.com/
+++	EOF
+++'
+++
++ test_done
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 4131c98..cd0bd1a 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -7,7 +7,9 @@ DEPENDS = "openssl curl zlib expat"
+ PROVIDES_append_class-native = " git-replacement-native"
  
- 	# Symlinks for ease of running these on the native target
+ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+-           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages"
++           ${KERNELORG_MIRROR}/software/scm/git/git-manpages-${PV}.tar.gz;name=manpages \
++           file://CVE-2020-5260.patch \
++"
+ 
+ S = "${WORKDIR}/git-${PV}"
+ 
 -- 
-2.26.1
+2.7.4
 
