@@ -1,230 +1,563 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web10.2796.1587089407917616690
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.6646.1587117861342009102
  for <openembedded-core@lists.openembedded.org>;
- Thu, 16 Apr 2020 19:10:08 -0700
+ Fri, 17 Apr 2020 03:04:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: randy.macleod@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: liwei.song@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 03H2A6JL018499
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 03HA4Kld016071
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 16 Apr 2020 19:10:06 -0700 (PDT)
-Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 16 Apr
- 2020 19:10:05 -0700
-Subject: Re: [OE-core] [PATCH v2] buildall-qemu: automate build testing for qemu MACHINEs
-To: Trevor Gamblin <trevor.gamblin@windriver.com>,
-        <openembedded-core@lists.openembedded.org>
-References: <20200225141115.876047-1-trevor.gamblin@windriver.com>
-From: "Randy MacLeod" <randy.macleod@windriver.com>
-Message-ID: <55b9b8f7-1d5d-3b32-772a-0e918d0b0b66@windriver.com>
-Date: Thu, 16 Apr 2020 22:10:03 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+	for <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2020 03:04:20 -0700 (PDT)
+Received: from pek-lpggp3.wrs.com (128.224.153.76) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Fri, 17 Apr 2020
+ 03:04:19 -0700
+From: "LiweiSong" <liwei.song@windriver.com>
+To: oe-core <openembedded-core@lists.openembedded.org>
+CC: <liwei.song@windriver.com>
+Subject: [OE-core][PATCH 1/1] xf86-video-intel: Add more i915 pciids
+Date: Fri, 17 Apr 2020 18:04:13 +0800
+Message-ID: <20200417100416.37764-1-liwei.song@windriver.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200225141115.876047-1-trevor.gamblin@windriver.com>
-X-Originating-IP: [172.25.44.3]
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 2020-02-25 9:11 a.m., Trevor Gamblin wrote:
-> buildall-qemu simplifies the process of build testing an upgraded or
-> patched recipe 
+Add more i915 pciids to make graphic work well on some new boards
+like TigerLake.
 
-I think this is a useful little script. please rebase and re-submit
-once master opens up.
+Signed-off-by: Liwei Song <liwei.song@windriver.com>
+---
+ ...1-Sync-i915_pciids-upto-8717c6b7414f.patch | 505 ++++++++++++++++++
+ .../xorg-driver/xf86-video-intel_git.bb       |   4 +-
+ 2 files changed, 508 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-Sync-i915_pciids-upto-8717c6b7414f.patch
 
-../Randy (will use an alias using the original name: bitbakery) MacLeod
-
-> by cycling through the build steps for each available qemu
-> target, with desired LIBC specified by the user as an option (defaulting
-> to both glibc and musl if no option is provided). While building, a log
-> file with the name "<recipe>-buildall.log" is written, containing a PASS
-> or FAIL line upon completion of the build for each architecture. For now,
-> qemu targets are not selectable (i.e. the recipe is built for all qemu
-> targets found in meta/conf/machine), but this functionality can be added
-> in the future along with other useful options.
-> 
-> The log file created by buildall-qemu also includes some basic system
-> info (e.g. build start time, hostname, host OS, host kernel). Since it is
-> not guaranteed that tools such as lsb_release will be available on the
-> host (it isn't by default on my Fedora machine), this information is
-> collected manually. Additionally, the previous run's log is retained for
-> comparison by renaming it in the format <recipe>-buildall.log.old once a
-> new set of builds is triggered for the same recipe.
-> 
-> We've seen multiple variations of this concept in use as one-liners and
-> as bash functions in dotfiles, so it seemed appropriate to submit it in
-> script form to oe-core for everyone to use.
-> 
-> Sample log output:
-> 
-> BUILDALL-QEMU LOG FOR aspell
-> START TIME: 2020-02-11_19:50:02
-> HOSTNAME: yow-tgamblin-fedora2
-> HOST OS: Fedora 31 (Server Edition)
-> HOST KERNEL: 5.4.10-200.fc31.x86_64
-> ===============
-> BUILD RESULTS:
-> [glibc]
-> PASS: qemuarmv5
-> PASS: qemux86
-> PASS: qemuppc
-> PASS: qemumips64
-> PASS: qemux86-64
-> PASS: qemumips
-> PASS: qemuarm
-> PASS: qemuarm64
-> PASS: qemuriscv64
-> [musl]
-> PASS: qemuarmv5
-> PASS: qemux86
-> PASS: qemuppc
-> PASS: qemumips64
-> PASS: qemux86-64
-> FAIL: qemumips
-> FAIL: qemuarm
-> FAIL: qemuarm64
-> FAIL: qemuriscv64
-> ===============
-> PASSED: 14
-> FAILED: 4
-> 
-> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-> ---
->   scripts/buildall-qemu | 120 ++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 120 insertions(+)
->   create mode 100755 scripts/buildall-qemu
-> 
-> diff --git a/scripts/buildall-qemu b/scripts/buildall-qemu
-> new file mode 100755
-> index 0000000000..ca9aafadf7
-> --- /dev/null
-> +++ b/scripts/buildall-qemu
-> @@ -0,0 +1,120 @@
-> +#!/bin/sh
-> +#  Copyright (c) 2020 Wind River Systems, Inc.
-> +#
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +#
-> +# buildall-qemu: a tool for automating build testing of recipes
-> +# TODO: Add support for selecting which qemu architectures to build
-> +# TODO: Add support for queueing up multiple recipe builds
-> +# TODO: Add more logging options (e.g. local.conf info, bitbake env info)
-> +
-> +usage ()
-> +{
-> +    base=$(basename "$0")
-> +    echo "Usage: $base [options] [recipename/target]"
-> +    echo "Executes a build of a given target for selected LIBCs. With no options, default to both libc and musl."
-> +    echo "Options:"
-> +    echo "-l, --libc            Specify one of \"glibc\" or \"musl\""
-> +}
-> +
-> +
-> +buildall ()
-> +{
-> +    # Get path to oe-core directory. Since oe-init-build-env prepends $PATH with
-> +    # the path to the scripts directory, get it from there
-> +    SCRIPTS_PATH="$(echo "$PATH" | cut -d ":" -f 1)"
-> +    OE_CORE_PATH=$(echo "$SCRIPTS_PATH" | sed 's|\(.*\)/.*|\1|')
-> +
-> +    # Get target list and host machine information
-> +    TARGET_LIST=$(find "$OE_CORE_PATH"/meta/conf/machine -maxdepth 1 -type f | grep qemu | sed 's|.*/||' | sed -e 's/\.conf//')
-> +
-> +    # Set LIBC value to use for the builds based on options provided by the user
-> +    if [ -n "$2" ]
-> +    then
-> +	LIBC_LIST="$2"
-> +	echo "$LIBC_LIST"
-> +    else
-> +	LIBC_LIST="glibc musl"
-> +	echo "$LIBC_LIST"
-> +    fi
-> +
-> +    START_TIME=$(date "+%Y-%m-%d_%H:%M:%S")
-> +    LOG_FILE="$1-buildall.log"
-> +    OS_INFO=$(grep "PRETTY_NAME=" /etc/os-release | awk -F "=" '{print $2}' | sed -e 's/^"//' -e 's/"$//')
-> +
-> +    # Append an existing log file for this build with .old if one exists
-> +    if [ -f "${LOG_FILE}" ]
-> +    then
-> +       mv "${LOG_FILE}" "${LOG_FILE}.old"
-> +    else
-> +	   touch "${LOG_FILE}"
-> +    fi
-> +
-> +    # Fill the log file with build and host info
-> +    echo "BUILDALL-QEMU LOG FOR $1" >> "${LOG_FILE}"
-> +    echo "START TIME: ${START_TIME}" >> "${LOG_FILE}"
-> +    echo "HOSTNAME: $(uname -n)" >> "${LOG_FILE}"
-> +    echo "HOST OS: ${OS_INFO}" >> "${LOG_FILE}"
-> +    echo "HOST KERNEL: $(uname -r)" >> "${LOG_FILE}"
-> +    echo "===============" >> "${LOG_FILE}"
-> +    echo "BUILD RESULTS:" >> "${LOG_FILE}"
-> +
-> +    # start the builds for each MACHINE and TCLIBC
-> +    for j in ${LIBC_LIST}
-> +    do
-> +	echo "[$j]" >> "${LOG_FILE}"
-> +	for i in ${TARGET_LIST}
-> +	do
-> +	    echo "$i" "$j"; \
-> +	    TCLIBC=$j MACHINE=$i bitbake "$1" && echo "PASS: $i" >> "${LOG_FILE}" || echo "FAIL: $i" >> "${LOG_FILE}"
-> +	done
-> +    done
-> +
-> +    # Get pass/fail totals and add them to the end of the log
-> +    PASSED=$(grep "PASS:" "${LOG_FILE}" | wc -l)
-> +    FAILED=$(grep "FAIL:" "${LOG_FILE}" | wc -l)
-> +
-> +    echo "===============" >> "${LOG_FILE}"
-> +    echo "PASSED: ${PASSED}" >> "${LOG_FILE}"
-> +    echo "FAILED: ${FAILED}" >> "${LOG_FILE}"
-> +}
-> +
-> +
-> +# fail entire script if any command fails
-> +set -e
-> +
-> +# print usage and exit if not enough args given
-> +[ $# -eq 0 ] && usage && exit 1
-> +
-> +# handle arguments
-> +RECIPE=
-> +while [ $# -gt 0 ]
-> +do
-> +    arg=$1
-> +    case $arg in
-> +	-l|--libc)
-> +	if [ "$2" = "glibc" ] || [ "$2" = "musl" ]
-> +	then
-> +	    LIBC_LIST="$2"
-> +	else
-> +	    echo "Unrecognized libc option."
-> +	    usage && exit 1
-> +	fi
-> +	shift
-> +	shift
-> +	;;
-> +	*)
-> +        RECIPE="$1"
-> +	shift
-> +	;;
-> +    esac
-> +done
-> +
-> +set -- "$RECIPE"
-> +
-> +# run buildall for the given recipe and LIBC
-> +if [ -n "$1" ]
-> +then
-> +	buildall "$1" "$LIBC_LIST"
-> +fi
-> +
-> 
-
-
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-Sync-i915_pciids-upto-8717c6b7414f.patch b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-Sync-i915_pciids-upto-8717c6b7414f.patch
+new file mode 100644
+index 000000000000..ef3b1afb1f71
+--- /dev/null
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel/0001-Sync-i915_pciids-upto-8717c6b7414f.patch
+@@ -0,0 +1,505 @@
++From 05909fea93f29b2b6e1d554dd64201551bd7a022 Mon Sep 17 00:00:00 2001
++From: Liwei Song <liwei.song@windriver.com>
++Date: Fri, 17 Apr 2020 16:11:59 +0800
++Subject: [PATCH] Sync i915_pciids upto 8717c6b7414f
++
++Import the kernel's i915_pciids.h, up to:
++
++commit 8717c6b7414ffb890672276dccc284c23078ac0e
++Author: Lee Shawn C <shawn.c.lee@intel.com>
++Date:   Tue Dec 10 23:04:15 2019 +0800
++
++    drm/i915/cml: Separate U series pci id from origianl list.
++
++Upstream-Status: Submitted [https://patchwork.kernel.org/patch/11494645/]
++
++Signed-off-by: Liwei Song <liwei.song@windriver.com>
++---
++ src/i915_pciids.h  | 265 ++++++++++++++++++++++++++++++++++-----------
++ src/intel_module.c |   2 +-
++ test/dri3-test.c   |   2 +-
++ 3 files changed, 206 insertions(+), 63 deletions(-)
++
++diff --git a/src/i915_pciids.h b/src/i915_pciids.h
++index fd965ffbb92e..1d2c12219f44 100644
++--- a/src/i915_pciids.h
+++++ b/src/i915_pciids.h
++@@ -108,8 +108,10 @@
++ 	INTEL_VGA_DEVICE(0x2e42, info), /* B43_G */ \
++ 	INTEL_VGA_DEVICE(0x2e92, info)	/* B43_G.1 */
++ 
++-#define INTEL_PINEVIEW_IDS(info)			\
++-	INTEL_VGA_DEVICE(0xa001, info),			\
+++#define INTEL_PINEVIEW_G_IDS(info) \
+++	INTEL_VGA_DEVICE(0xa001, info)
+++
+++#define INTEL_PINEVIEW_M_IDS(info) \
++ 	INTEL_VGA_DEVICE(0xa011, info)
++ 
++ #define INTEL_IRONLAKE_D_IDS(info) \
++@@ -166,7 +168,18 @@
++ #define INTEL_IVB_Q_IDS(info) \
++ 	INTEL_QUANTA_VGA_DEVICE(info) /* Quanta transcode */
++ 
+++#define INTEL_HSW_ULT_GT1_IDS(info) \
+++	INTEL_VGA_DEVICE(0x0A02, info), /* ULT GT1 desktop */ \
+++	INTEL_VGA_DEVICE(0x0A0A, info), /* ULT GT1 server */ \
+++	INTEL_VGA_DEVICE(0x0A0B, info), /* ULT GT1 reserved */ \
+++	INTEL_VGA_DEVICE(0x0A06, info)  /* ULT GT1 mobile */
+++
+++#define INTEL_HSW_ULX_GT1_IDS(info) \
+++	INTEL_VGA_DEVICE(0x0A0E, info) /* ULX GT1 mobile */
+++
++ #define INTEL_HSW_GT1_IDS(info) \
+++	INTEL_HSW_ULT_GT1_IDS(info), \
+++	INTEL_HSW_ULX_GT1_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x0402, info), /* GT1 desktop */ \
++ 	INTEL_VGA_DEVICE(0x040a, info), /* GT1 server */ \
++ 	INTEL_VGA_DEVICE(0x040B, info), /* GT1 reserved */ \
++@@ -175,20 +188,26 @@
++ 	INTEL_VGA_DEVICE(0x0C0A, info), /* SDV GT1 server */ \
++ 	INTEL_VGA_DEVICE(0x0C0B, info), /* SDV GT1 reserved */ \
++ 	INTEL_VGA_DEVICE(0x0C0E, info), /* SDV GT1 reserved */ \
++-	INTEL_VGA_DEVICE(0x0A02, info), /* ULT GT1 desktop */ \
++-	INTEL_VGA_DEVICE(0x0A0A, info), /* ULT GT1 server */ \
++-	INTEL_VGA_DEVICE(0x0A0B, info), /* ULT GT1 reserved */ \
++ 	INTEL_VGA_DEVICE(0x0D02, info), /* CRW GT1 desktop */ \
++ 	INTEL_VGA_DEVICE(0x0D0A, info), /* CRW GT1 server */ \
++ 	INTEL_VGA_DEVICE(0x0D0B, info), /* CRW GT1 reserved */ \
++ 	INTEL_VGA_DEVICE(0x0D0E, info), /* CRW GT1 reserved */ \
++ 	INTEL_VGA_DEVICE(0x0406, info), /* GT1 mobile */ \
++ 	INTEL_VGA_DEVICE(0x0C06, info), /* SDV GT1 mobile */ \
++-	INTEL_VGA_DEVICE(0x0A06, info), /* ULT GT1 mobile */ \
++-	INTEL_VGA_DEVICE(0x0A0E, info), /* ULX GT1 mobile */ \
++ 	INTEL_VGA_DEVICE(0x0D06, info)  /* CRW GT1 mobile */
++ 
+++#define INTEL_HSW_ULT_GT2_IDS(info) \
+++	INTEL_VGA_DEVICE(0x0A12, info), /* ULT GT2 desktop */ \
+++	INTEL_VGA_DEVICE(0x0A1A, info), /* ULT GT2 server */ \
+++	INTEL_VGA_DEVICE(0x0A1B, info), /* ULT GT2 reserved */ \
+++	INTEL_VGA_DEVICE(0x0A16, info)  /* ULT GT2 mobile */
+++
+++#define INTEL_HSW_ULX_GT2_IDS(info) \
+++	INTEL_VGA_DEVICE(0x0A1E, info) /* ULX GT2 mobile */ \
+++
++ #define INTEL_HSW_GT2_IDS(info) \
+++	INTEL_HSW_ULT_GT2_IDS(info), \
+++	INTEL_HSW_ULX_GT2_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x0412, info), /* GT2 desktop */ \
++ 	INTEL_VGA_DEVICE(0x041a, info), /* GT2 server */ \
++ 	INTEL_VGA_DEVICE(0x041B, info), /* GT2 reserved */ \
++@@ -197,9 +216,6 @@
++ 	INTEL_VGA_DEVICE(0x0C1A, info), /* SDV GT2 server */ \
++ 	INTEL_VGA_DEVICE(0x0C1B, info), /* SDV GT2 reserved */ \
++ 	INTEL_VGA_DEVICE(0x0C1E, info), /* SDV GT2 reserved */ \
++-	INTEL_VGA_DEVICE(0x0A12, info), /* ULT GT2 desktop */ \
++-	INTEL_VGA_DEVICE(0x0A1A, info), /* ULT GT2 server */ \
++-	INTEL_VGA_DEVICE(0x0A1B, info), /* ULT GT2 reserved */ \
++ 	INTEL_VGA_DEVICE(0x0D12, info), /* CRW GT2 desktop */ \
++ 	INTEL_VGA_DEVICE(0x0D1A, info), /* CRW GT2 server */ \
++ 	INTEL_VGA_DEVICE(0x0D1B, info), /* CRW GT2 reserved */ \
++@@ -207,11 +223,17 @@
++ 	INTEL_VGA_DEVICE(0x0416, info), /* GT2 mobile */ \
++ 	INTEL_VGA_DEVICE(0x0426, info), /* GT2 mobile */ \
++ 	INTEL_VGA_DEVICE(0x0C16, info), /* SDV GT2 mobile */ \
++-	INTEL_VGA_DEVICE(0x0A16, info), /* ULT GT2 mobile */ \
++-	INTEL_VGA_DEVICE(0x0A1E, info), /* ULX GT2 mobile */ \
++ 	INTEL_VGA_DEVICE(0x0D16, info)  /* CRW GT2 mobile */
++ 
+++#define INTEL_HSW_ULT_GT3_IDS(info) \
+++	INTEL_VGA_DEVICE(0x0A22, info), /* ULT GT3 desktop */ \
+++	INTEL_VGA_DEVICE(0x0A2A, info), /* ULT GT3 server */ \
+++	INTEL_VGA_DEVICE(0x0A2B, info), /* ULT GT3 reserved */ \
+++	INTEL_VGA_DEVICE(0x0A26, info), /* ULT GT3 mobile */ \
+++	INTEL_VGA_DEVICE(0x0A2E, info)  /* ULT GT3 reserved */
+++
++ #define INTEL_HSW_GT3_IDS(info) \
+++	INTEL_HSW_ULT_GT3_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x0422, info), /* GT3 desktop */ \
++ 	INTEL_VGA_DEVICE(0x042a, info), /* GT3 server */ \
++ 	INTEL_VGA_DEVICE(0x042B, info), /* GT3 reserved */ \
++@@ -220,16 +242,11 @@
++ 	INTEL_VGA_DEVICE(0x0C2A, info), /* SDV GT3 server */ \
++ 	INTEL_VGA_DEVICE(0x0C2B, info), /* SDV GT3 reserved */ \
++ 	INTEL_VGA_DEVICE(0x0C2E, info), /* SDV GT3 reserved */ \
++-	INTEL_VGA_DEVICE(0x0A22, info), /* ULT GT3 desktop */ \
++-	INTEL_VGA_DEVICE(0x0A2A, info), /* ULT GT3 server */ \
++-	INTEL_VGA_DEVICE(0x0A2B, info), /* ULT GT3 reserved */ \
++ 	INTEL_VGA_DEVICE(0x0D22, info), /* CRW GT3 desktop */ \
++ 	INTEL_VGA_DEVICE(0x0D2A, info), /* CRW GT3 server */ \
++ 	INTEL_VGA_DEVICE(0x0D2B, info), /* CRW GT3 reserved */ \
++ 	INTEL_VGA_DEVICE(0x0D2E, info), /* CRW GT3 reserved */ \
++ 	INTEL_VGA_DEVICE(0x0C26, info), /* SDV GT3 mobile */ \
++-	INTEL_VGA_DEVICE(0x0A26, info), /* ULT GT3 mobile */ \
++-	INTEL_VGA_DEVICE(0x0A2E, info), /* ULT GT3 reserved */ \
++ 	INTEL_VGA_DEVICE(0x0D26, info)  /* CRW GT3 mobile */
++ 
++ #define INTEL_HSW_IDS(info) \
++@@ -245,35 +262,59 @@
++ 	INTEL_VGA_DEVICE(0x0157, info), \
++ 	INTEL_VGA_DEVICE(0x0155, info)
++ 
++-#define INTEL_BDW_GT1_IDS(info)  \
++-	INTEL_VGA_DEVICE(0x1602, info), /* GT1 ULT */ \
+++#define INTEL_BDW_ULT_GT1_IDS(info) \
++ 	INTEL_VGA_DEVICE(0x1606, info), /* GT1 ULT */ \
++-	INTEL_VGA_DEVICE(0x160B, info), /* GT1 Iris */ \
++-	INTEL_VGA_DEVICE(0x160E, info), /* GT1 ULX */ \
+++	INTEL_VGA_DEVICE(0x160B, info)  /* GT1 Iris */
+++
+++#define INTEL_BDW_ULX_GT1_IDS(info) \
+++	INTEL_VGA_DEVICE(0x160E, info) /* GT1 ULX */
+++
+++#define INTEL_BDW_GT1_IDS(info) \
+++	INTEL_BDW_ULT_GT1_IDS(info), \
+++	INTEL_BDW_ULX_GT1_IDS(info), \
+++	INTEL_VGA_DEVICE(0x1602, info), /* GT1 ULT */ \
++ 	INTEL_VGA_DEVICE(0x160A, info), /* GT1 Server */ \
++ 	INTEL_VGA_DEVICE(0x160D, info)  /* GT1 Workstation */
++ 
++-#define INTEL_BDW_GT2_IDS(info)  \
++-	INTEL_VGA_DEVICE(0x1612, info), /* GT2 Halo */	\
+++#define INTEL_BDW_ULT_GT2_IDS(info) \
++ 	INTEL_VGA_DEVICE(0x1616, info), /* GT2 ULT */ \
++-	INTEL_VGA_DEVICE(0x161B, info), /* GT2 ULT */ \
++-	INTEL_VGA_DEVICE(0x161E, info), /* GT2 ULX */ \
+++	INTEL_VGA_DEVICE(0x161B, info)  /* GT2 ULT */
+++
+++#define INTEL_BDW_ULX_GT2_IDS(info) \
+++	INTEL_VGA_DEVICE(0x161E, info) /* GT2 ULX */
+++
+++#define INTEL_BDW_GT2_IDS(info) \
+++	INTEL_BDW_ULT_GT2_IDS(info), \
+++	INTEL_BDW_ULX_GT2_IDS(info), \
+++	INTEL_VGA_DEVICE(0x1612, info), /* GT2 Halo */	\
++ 	INTEL_VGA_DEVICE(0x161A, info), /* GT2 Server */ \
++ 	INTEL_VGA_DEVICE(0x161D, info)  /* GT2 Workstation */
++ 
+++#define INTEL_BDW_ULT_GT3_IDS(info) \
+++	INTEL_VGA_DEVICE(0x1626, info), /* ULT */ \
+++	INTEL_VGA_DEVICE(0x162B, info)  /* Iris */ \
+++
+++#define INTEL_BDW_ULX_GT3_IDS(info) \
+++	INTEL_VGA_DEVICE(0x162E, info)  /* ULX */
+++
++ #define INTEL_BDW_GT3_IDS(info) \
+++	INTEL_BDW_ULT_GT3_IDS(info), \
+++	INTEL_BDW_ULX_GT3_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x1622, info), /* ULT */ \
++-	INTEL_VGA_DEVICE(0x1626, info), /* ULT */ \
++-	INTEL_VGA_DEVICE(0x162B, info), /* Iris */ \
++-	INTEL_VGA_DEVICE(0x162E, info),  /* ULX */\
++ 	INTEL_VGA_DEVICE(0x162A, info), /* Server */ \
++ 	INTEL_VGA_DEVICE(0x162D, info)  /* Workstation */
++ 
+++#define INTEL_BDW_ULT_RSVD_IDS(info) \
+++	INTEL_VGA_DEVICE(0x1636, info), /* ULT */ \
+++	INTEL_VGA_DEVICE(0x163B, info)  /* Iris */
+++
+++#define INTEL_BDW_ULX_RSVD_IDS(info) \
+++	INTEL_VGA_DEVICE(0x163E, info) /* ULX */
+++
++ #define INTEL_BDW_RSVD_IDS(info) \
+++	INTEL_BDW_ULT_RSVD_IDS(info), \
+++	INTEL_BDW_ULX_RSVD_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x1632, info), /* ULT */ \
++-	INTEL_VGA_DEVICE(0x1636, info), /* ULT */ \
++-	INTEL_VGA_DEVICE(0x163B, info), /* Iris */ \
++-	INTEL_VGA_DEVICE(0x163E, info), /* ULX */ \
++ 	INTEL_VGA_DEVICE(0x163A, info), /* Server */ \
++ 	INTEL_VGA_DEVICE(0x163D, info)  /* Workstation */
++ 
++@@ -289,25 +330,40 @@
++ 	INTEL_VGA_DEVICE(0x22b2, info), \
++ 	INTEL_VGA_DEVICE(0x22b3, info)
++ 
+++#define INTEL_SKL_ULT_GT1_IDS(info) \
+++	INTEL_VGA_DEVICE(0x1906, info) /* ULT GT1 */
+++
+++#define INTEL_SKL_ULX_GT1_IDS(info) \
+++	INTEL_VGA_DEVICE(0x190E, info) /* ULX GT1 */
+++
++ #define INTEL_SKL_GT1_IDS(info)	\
++-	INTEL_VGA_DEVICE(0x1906, info), /* ULT GT1 */ \
++-	INTEL_VGA_DEVICE(0x190E, info), /* ULX GT1 */ \
+++	INTEL_SKL_ULT_GT1_IDS(info), \
+++	INTEL_SKL_ULX_GT1_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x1902, info), /* DT  GT1 */ \
++ 	INTEL_VGA_DEVICE(0x190B, info), /* Halo GT1 */ \
++ 	INTEL_VGA_DEVICE(0x190A, info) /* SRV GT1 */
++ 
++-#define INTEL_SKL_GT2_IDS(info)	\
+++#define INTEL_SKL_ULT_GT2_IDS(info) \
++ 	INTEL_VGA_DEVICE(0x1916, info), /* ULT GT2 */ \
++-	INTEL_VGA_DEVICE(0x1921, info), /* ULT GT2F */ \
++-	INTEL_VGA_DEVICE(0x191E, info), /* ULX GT2 */ \
+++	INTEL_VGA_DEVICE(0x1921, info)  /* ULT GT2F */
+++
+++#define INTEL_SKL_ULX_GT2_IDS(info) \
+++	INTEL_VGA_DEVICE(0x191E, info) /* ULX GT2 */
+++
+++#define INTEL_SKL_GT2_IDS(info)	\
+++	INTEL_SKL_ULT_GT2_IDS(info), \
+++	INTEL_SKL_ULX_GT2_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x1912, info), /* DT  GT2 */ \
++ 	INTEL_VGA_DEVICE(0x191B, info), /* Halo GT2 */ \
++ 	INTEL_VGA_DEVICE(0x191A, info), /* SRV GT2 */ \
++ 	INTEL_VGA_DEVICE(0x191D, info)  /* WKS GT2 */
++ 
+++#define INTEL_SKL_ULT_GT3_IDS(info) \
+++	INTEL_VGA_DEVICE(0x1926, info) /* ULT GT3 */
+++
++ #define INTEL_SKL_GT3_IDS(info) \
+++	INTEL_SKL_ULT_GT3_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x1923, info), /* ULT GT3 */ \
++-	INTEL_VGA_DEVICE(0x1926, info), /* ULT GT3 */ \
++ 	INTEL_VGA_DEVICE(0x1927, info), /* ULT GT3 */ \
++ 	INTEL_VGA_DEVICE(0x192B, info), /* Halo GT3 */ \
++ 	INTEL_VGA_DEVICE(0x192D, info)  /* SRV GT3 */
++@@ -336,45 +392,91 @@
++ 	INTEL_VGA_DEVICE(0x3184, info), \
++ 	INTEL_VGA_DEVICE(0x3185, info)
++ 
++-#define INTEL_KBL_GT1_IDS(info)	\
++-	INTEL_VGA_DEVICE(0x5913, info), /* ULT GT1.5 */ \
++-	INTEL_VGA_DEVICE(0x5915, info), /* ULX GT1.5 */ \
+++#define INTEL_KBL_ULT_GT1_IDS(info) \
++ 	INTEL_VGA_DEVICE(0x5906, info), /* ULT GT1 */ \
+++	INTEL_VGA_DEVICE(0x5913, info)  /* ULT GT1.5 */
+++
+++#define INTEL_KBL_ULX_GT1_IDS(info) \
++ 	INTEL_VGA_DEVICE(0x590E, info), /* ULX GT1 */ \
+++	INTEL_VGA_DEVICE(0x5915, info)  /* ULX GT1.5 */
+++
+++#define INTEL_KBL_GT1_IDS(info)	\
+++	INTEL_KBL_ULT_GT1_IDS(info), \
+++	INTEL_KBL_ULX_GT1_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x5902, info), /* DT  GT1 */ \
++ 	INTEL_VGA_DEVICE(0x5908, info), /* Halo GT1 */ \
++ 	INTEL_VGA_DEVICE(0x590B, info), /* Halo GT1 */ \
++ 	INTEL_VGA_DEVICE(0x590A, info) /* SRV GT1 */
++ 
++-#define INTEL_KBL_GT2_IDS(info)	\
+++#define INTEL_KBL_ULT_GT2_IDS(info) \
++ 	INTEL_VGA_DEVICE(0x5916, info), /* ULT GT2 */ \
+++	INTEL_VGA_DEVICE(0x5921, info)  /* ULT GT2F */
+++
+++#define INTEL_KBL_ULX_GT2_IDS(info) \
+++	INTEL_VGA_DEVICE(0x591E, info)  /* ULX GT2 */
+++
+++#define INTEL_KBL_GT2_IDS(info)	\
+++	INTEL_KBL_ULT_GT2_IDS(info), \
+++	INTEL_KBL_ULX_GT2_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x5917, info), /* Mobile GT2 */ \
++-	INTEL_VGA_DEVICE(0x5921, info), /* ULT GT2F */ \
++-	INTEL_VGA_DEVICE(0x591E, info), /* ULX GT2 */ \
++ 	INTEL_VGA_DEVICE(0x5912, info), /* DT  GT2 */ \
++ 	INTEL_VGA_DEVICE(0x591B, info), /* Halo GT2 */ \
++ 	INTEL_VGA_DEVICE(0x591A, info), /* SRV GT2 */ \
++ 	INTEL_VGA_DEVICE(0x591D, info) /* WKS GT2 */
++ 
+++#define INTEL_KBL_ULT_GT3_IDS(info) \
+++	INTEL_VGA_DEVICE(0x5926, info) /* ULT GT3 */
+++
++ #define INTEL_KBL_GT3_IDS(info) \
+++	INTEL_KBL_ULT_GT3_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x5923, info), /* ULT GT3 */ \
++-	INTEL_VGA_DEVICE(0x5926, info), /* ULT GT3 */ \
++ 	INTEL_VGA_DEVICE(0x5927, info) /* ULT GT3 */
++ 
++ #define INTEL_KBL_GT4_IDS(info) \
++ 	INTEL_VGA_DEVICE(0x593B, info) /* Halo GT4 */
++ 
++ /* AML/KBL Y GT2 */
++-#define INTEL_AML_GT2_IDS(info) \
+++#define INTEL_AML_KBL_GT2_IDS(info) \
++ 	INTEL_VGA_DEVICE(0x591C, info),  /* ULX GT2 */ \
++ 	INTEL_VGA_DEVICE(0x87C0, info) /* ULX GT2 */
++ 
+++/* AML/CFL Y GT2 */
+++#define INTEL_AML_CFL_GT2_IDS(info) \
+++	INTEL_VGA_DEVICE(0x87CA, info)
+++
+++/* CML GT1 */
+++#define INTEL_CML_GT1_IDS(info)	\
+++	INTEL_VGA_DEVICE(0x9BA5, info), \
+++	INTEL_VGA_DEVICE(0x9BA8, info), \
+++	INTEL_VGA_DEVICE(0x9BA4, info), \
+++	INTEL_VGA_DEVICE(0x9BA2, info)
+++
+++#define INTEL_CML_U_GT1_IDS(info) \
+++	INTEL_VGA_DEVICE(0x9B21, info), \
+++	INTEL_VGA_DEVICE(0x9BAA, info), \
+++	INTEL_VGA_DEVICE(0x9BAC, info)
+++
+++/* CML GT2 */
+++#define INTEL_CML_GT2_IDS(info)	\
+++	INTEL_VGA_DEVICE(0x9BC5, info), \
+++	INTEL_VGA_DEVICE(0x9BC8, info), \
+++	INTEL_VGA_DEVICE(0x9BC4, info), \
+++	INTEL_VGA_DEVICE(0x9BC2, info), \
+++	INTEL_VGA_DEVICE(0x9BC6, info), \
+++	INTEL_VGA_DEVICE(0x9BE6, info), \
+++	INTEL_VGA_DEVICE(0x9BF6, info)
+++
+++#define INTEL_CML_U_GT2_IDS(info) \
+++	INTEL_VGA_DEVICE(0x9B41, info), \
+++	INTEL_VGA_DEVICE(0x9BCA, info), \
+++	INTEL_VGA_DEVICE(0x9BCC, info)
+++
++ #define INTEL_KBL_IDS(info) \
++ 	INTEL_KBL_GT1_IDS(info), \
++ 	INTEL_KBL_GT2_IDS(info), \
++ 	INTEL_KBL_GT3_IDS(info), \
++ 	INTEL_KBL_GT4_IDS(info), \
++-	INTEL_AML_GT2_IDS(info)
+++	INTEL_AML_KBL_GT2_IDS(info)
++ 
++ /* CFL S */
++ #define INTEL_CFL_S_GT1_IDS(info) \
++@@ -390,6 +492,9 @@
++ 	INTEL_VGA_DEVICE(0x3E9A, info)  /* SRV GT2 */
++ 
++ /* CFL H */
+++#define INTEL_CFL_H_GT1_IDS(info) \
+++	INTEL_VGA_DEVICE(0x3E9C, info)
+++
++ #define INTEL_CFL_H_GT2_IDS(info) \
++ 	INTEL_VGA_DEVICE(0x3E9B, info), /* Halo GT2 */ \
++ 	INTEL_VGA_DEVICE(0x3E94, info)  /* Halo GT2 */
++@@ -407,30 +512,43 @@
++ 
++ /* WHL/CFL U GT1 */
++ #define INTEL_WHL_U_GT1_IDS(info) \
++-	INTEL_VGA_DEVICE(0x3EA1, info)
+++	INTEL_VGA_DEVICE(0x3EA1, info), \
+++	INTEL_VGA_DEVICE(0x3EA4, info)
++ 
++ /* WHL/CFL U GT2 */
++ #define INTEL_WHL_U_GT2_IDS(info) \
++-	INTEL_VGA_DEVICE(0x3EA0, info)
+++	INTEL_VGA_DEVICE(0x3EA0, info), \
+++	INTEL_VGA_DEVICE(0x3EA3, info)
++ 
++ /* WHL/CFL U GT3 */
++ #define INTEL_WHL_U_GT3_IDS(info) \
++-	INTEL_VGA_DEVICE(0x3EA2, info), \
++-	INTEL_VGA_DEVICE(0x3EA3, info), \
++-	INTEL_VGA_DEVICE(0x3EA4, info)
+++	INTEL_VGA_DEVICE(0x3EA2, info)
++ 
++ #define INTEL_CFL_IDS(info)	   \
++ 	INTEL_CFL_S_GT1_IDS(info), \
++ 	INTEL_CFL_S_GT2_IDS(info), \
+++	INTEL_CFL_H_GT1_IDS(info), \
++ 	INTEL_CFL_H_GT2_IDS(info), \
++ 	INTEL_CFL_U_GT2_IDS(info), \
++ 	INTEL_CFL_U_GT3_IDS(info), \
++ 	INTEL_WHL_U_GT1_IDS(info), \
++ 	INTEL_WHL_U_GT2_IDS(info), \
++-	INTEL_WHL_U_GT3_IDS(info)
+++	INTEL_WHL_U_GT3_IDS(info), \
+++	INTEL_AML_CFL_GT2_IDS(info), \
+++	INTEL_CML_GT1_IDS(info), \
+++	INTEL_CML_GT2_IDS(info), \
+++	INTEL_CML_U_GT1_IDS(info), \
+++	INTEL_CML_U_GT2_IDS(info)
++ 
++ /* CNL */
+++#define INTEL_CNL_PORT_F_IDS(info) \
+++	INTEL_VGA_DEVICE(0x5A54, info), \
+++	INTEL_VGA_DEVICE(0x5A5C, info), \
+++	INTEL_VGA_DEVICE(0x5A44, info), \
+++	INTEL_VGA_DEVICE(0x5A4C, info)
+++
++ #define INTEL_CNL_IDS(info) \
+++	INTEL_CNL_PORT_F_IDS(info), \
++ 	INTEL_VGA_DEVICE(0x5A51, info), \
++ 	INTEL_VGA_DEVICE(0x5A59, info), \
++ 	INTEL_VGA_DEVICE(0x5A41, info), \
++@@ -440,22 +558,47 @@
++ 	INTEL_VGA_DEVICE(0x5A42, info), \
++ 	INTEL_VGA_DEVICE(0x5A4A, info), \
++ 	INTEL_VGA_DEVICE(0x5A50, info), \
++-	INTEL_VGA_DEVICE(0x5A40, info), \
++-	INTEL_VGA_DEVICE(0x5A54, info), \
++-	INTEL_VGA_DEVICE(0x5A5C, info), \
++-	INTEL_VGA_DEVICE(0x5A44, info), \
++-	INTEL_VGA_DEVICE(0x5A4C, info)
+++	INTEL_VGA_DEVICE(0x5A40, info)
++ 
++ /* ICL */
++-#define INTEL_ICL_11_IDS(info) \
+++#define INTEL_ICL_PORT_F_IDS(info) \
++ 	INTEL_VGA_DEVICE(0x8A50, info), \
++-	INTEL_VGA_DEVICE(0x8A51, info), \
++ 	INTEL_VGA_DEVICE(0x8A5C, info), \
++-	INTEL_VGA_DEVICE(0x8A5D, info), \
+++	INTEL_VGA_DEVICE(0x8A59, info),	\
+++	INTEL_VGA_DEVICE(0x8A58, info),	\
++ 	INTEL_VGA_DEVICE(0x8A52, info), \
++ 	INTEL_VGA_DEVICE(0x8A5A, info), \
++ 	INTEL_VGA_DEVICE(0x8A5B, info), \
+++	INTEL_VGA_DEVICE(0x8A57, info), \
+++	INTEL_VGA_DEVICE(0x8A56, info), \
++ 	INTEL_VGA_DEVICE(0x8A71, info), \
++-	INTEL_VGA_DEVICE(0x8A70, info)
+++	INTEL_VGA_DEVICE(0x8A70, info), \
+++	INTEL_VGA_DEVICE(0x8A53, info), \
+++	INTEL_VGA_DEVICE(0x8A54, info)
+++
+++#define INTEL_ICL_11_IDS(info) \
+++	INTEL_ICL_PORT_F_IDS(info), \
+++	INTEL_VGA_DEVICE(0x8A51, info), \
+++	INTEL_VGA_DEVICE(0x8A5D, info)
+++
+++/* EHL/JSL */
+++#define INTEL_EHL_IDS(info) \
+++	INTEL_VGA_DEVICE(0x4500, info),	\
+++	INTEL_VGA_DEVICE(0x4571, info), \
+++	INTEL_VGA_DEVICE(0x4551, info), \
+++	INTEL_VGA_DEVICE(0x4541, info), \
+++	INTEL_VGA_DEVICE(0x4E71, info), \
+++	INTEL_VGA_DEVICE(0x4E61, info), \
+++	INTEL_VGA_DEVICE(0x4E51, info)
+++
+++/* TGL */
+++#define INTEL_TGL_12_IDS(info) \
+++	INTEL_VGA_DEVICE(0x9A49, info), \
+++	INTEL_VGA_DEVICE(0x9A40, info), \
+++	INTEL_VGA_DEVICE(0x9A59, info), \
+++	INTEL_VGA_DEVICE(0x9A60, info), \
+++	INTEL_VGA_DEVICE(0x9A68, info), \
+++	INTEL_VGA_DEVICE(0x9A70, info), \
+++	INTEL_VGA_DEVICE(0x9A78, info)
++ 
++ #endif /* _I915_PCIIDS_H */
++diff --git a/src/intel_module.c b/src/intel_module.c
++index a71c2e40b774..e0b94c190254 100644
++--- a/src/intel_module.c
+++++ b/src/intel_module.c
++@@ -357,7 +357,7 @@ static const struct pci_id_match intel_device_match[] = {
++ 	INTEL_I945GM_IDS(&intel_i945_info),
++ 
++ 	INTEL_G33_IDS(&intel_g33_info),
++-	INTEL_PINEVIEW_IDS(&intel_g33_info),
+++	INTEL_PINEVIEW_G_IDS(&intel_g33_info),
++ 
++ 	INTEL_I965G_IDS(&intel_i965_info),
++ 	INTEL_I965GM_IDS(&intel_i965_info),
++diff --git a/test/dri3-test.c b/test/dri3-test.c
++index 78e105a8b64a..5265a30cea1b 100644
++--- a/test/dri3-test.c
+++++ b/test/dri3-test.c
++@@ -76,7 +76,7 @@ static const struct pci_id_match ids[] = {
++ 	INTEL_I945GM_IDS(031),
++ 
++ 	INTEL_G33_IDS(033),
++-	INTEL_PINEVIEW_IDS(033),
+++	INTEL_PINEVIEW_G_IDS(033),
++ 
++ 	INTEL_I965G_IDS(040),
++ 	INTEL_I965GM_IDS(040),
++-- 
++2.17.1
++
+diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
+index 553840ddb8fd..7ab223623712 100644
+--- a/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
++++ b/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb
+@@ -13,7 +13,9 @@ SRCREV = "f66d39544bb8339130c96d282a80f87ca1606caf"
+ PV = "2.99.917+git${SRCPV}"
+ S = "${WORKDIR}/git"
+ 
+-SRC_URI = "git://anongit.freedesktop.org/xorg/driver/xf86-video-intel"
++SRC_URI = "git://anongit.freedesktop.org/xorg/driver/xf86-video-intel \
++           file://0001-Sync-i915_pciids-upto-8717c6b7414f.patch \
++"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+ 
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.24.1
+
