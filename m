@@ -1,108 +1,75 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web10.1882.1587133148672655767
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web12.1967.1587133416717944796
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Apr 2020 07:19:09 -0700
+ Fri, 17 Apr 2020 07:23:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=UGwMxhkR;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id a81so3164999wmf.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2020 07:19:08 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Flyzqt2H;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id t14so3217845wrw.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2020 07:23:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=AQbIzoFEEpR3dfEaClNoaUwgu2OScNxNN6iikmW6SKU=;
-        b=UGwMxhkRaMKyn4MYUkPy4VxoV093XDS2oxk5JzoELk141eI8gjein5f0NTHIkQT2zJ
-         GGF3fJhuUeRLuSgfxS6Lclz+So7hoUh7GuLqGid+RziwdNc9GpRBCiZUSAkeKANVNBKv
-         8EWOTL7g0JaMTiF3q4Yo0DydZuKtAr72MK1Un6Sdu0LX7AIkmxqQthZSOKgD7igenK9q
-         fC9hu8WXO3JcjZNTZ2jMk74RDasD4WUQbsC6gzwYP+kQdFmzi55aSOgcts4bfYbyGgaW
-         vasaK4ZPYobdDVaeSCXud474PczFtCgTPf0eQSHBL20JZyFtWyclhcsNMEeLtOfuwDTB
-         IHOw==
+        bh=cbXYDdoWE2KwgyPHKpAvprogq1GHu+OVF3RNNNUr/b8=;
+        b=Flyzqt2HflpPDCw7qX2+Kk11Q3XNjlW2xYqnTuncrk+y1pDhZhnjVCxE6ha9QUICZ6
+         Aqi62SdjNXezVqPMSxnDcFTgYgwiJ2Xi1dMEVl0s23yU4Z93dpgZoiVDtJoKyT0GX0Og
+         Ykj0YxM39adQwz5JKxabhEkIJu4QRphaPEkrE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=AQbIzoFEEpR3dfEaClNoaUwgu2OScNxNN6iikmW6SKU=;
-        b=k8yNus/1zB1WFFKP/zx6I9L/MLtuHGKLR+sxWl6hGp88akrEnuWwrctfTsZDC+YX/7
-         +1e6reNu46ZsfiOgHNgy26yb7amij72QWm3cTTtuXpqoM+ZEAPAQ/LNJAhNxtVRUl3SH
-         GfTrrGKYv1Ha3LYHepBhzByF3lO28XbosB1NlRaxeFA9qlpBJlWWOfhXYL/3CpKQ69f0
-         m9xpcY8Vm41fdxWpPhTqiftTfu1UlzjPA7wR3Kjv71FRvLU1FrC40d5qanTHXFsJ4Lt/
-         P9VJYGllFvOar8rNzlFrAOUOxaBPN02WQWY2h9rMDMVaYPyKb7cMhiV34p6FueyGYIta
-         Smpw==
-X-Gm-Message-State: AGi0Pub5sBuTu8YQ0bupDRMuU45judNEObd7yuUURRKceXeuGCAPUCAu
-	8WM00JQ4jKfnV+XAn1Co9NaMkkCn
-X-Google-Smtp-Source: APiQypJCqXySIzJUYgi7VKti1f2HdjFsMU70Ok/PG77wMpbhb7UPpmEzMfiKfi1MnDxe1CzW/jzETw==
-X-Received: by 2002:a1c:2506:: with SMTP id l6mr3530634wml.44.1587133146679;
-        Fri, 17 Apr 2020 07:19:06 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id x18sm31474825wrs.11.2020.04.17.07.19.04
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=cbXYDdoWE2KwgyPHKpAvprogq1GHu+OVF3RNNNUr/b8=;
+        b=gJWuIHY5OmbxWpUL3kvepFkTsWdITQ/+5Wndc9jVAh4EDKP8AXQvW/g6wQhW7ElM71
+         tTplmJpiz0M9HiYsLW9KZdO7IBdjD4eWC60F2uwYj/YYz3A614hv/Ko+BEDDwrXTkQTG
+         sGUIoxHR/yEaf0qFXeEgMBccgyZiVOSFV1vamE950EKiepi1C1sixfaWS0XDCk+maJYe
+         lb4PotlauO5mKB6Mb2SmTHSqVkGFXV5JkMwW/IVB21oUqDVAp43at1kRqj5QHGaUNXpE
+         6DnCS4alRf59AFiz+S6KX1QovDi93HGTxz4HeKS3PXsSsRZyQ6ijqLHJSWZgBzOuo4CK
+         r34w==
+X-Gm-Message-State: AGi0PuZGaJw1AOeJfwLxy6midGUi4aHqMtsi3eGlGhYcrb28PBoOBQtX
+	HuO3qlCpVm87pbaGb6vxa1I12g==
+X-Google-Smtp-Source: APiQypJb1cyPLeHX4nPgxqcGMsHP5bdKqFOrU+zySayUegSgunlNbAiE6Eo8YfxgDW8zjb9FYqc/hg==
+X-Received: by 2002:adf:c442:: with SMTP id a2mr4157281wrg.110.1587133415330;
+        Fri, 17 Apr 2020 07:23:35 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id g186sm7961411wme.7.2020.04.17.07.23.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2020 07:19:05 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 2/2] testimage: add an overall timeout setting
-Date: Fri, 17 Apr 2020 16:18:45 +0200
-Message-Id: <20200417141845.23834-2-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200417141845.23834-1-alex.kanavin@gmail.com>
-References: <20200417141845.23834-1-alex.kanavin@gmail.com>
+        Fri, 17 Apr 2020 07:23:34 -0700 (PDT)
+Message-ID: <32628e313368db285b51d04b8278dfcdace4c7c7.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] oeqa/runtime/weston: Enhance weston tests
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "Yeoh, Ee Peng" <ee.peng.yeoh@intel.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Apr 2020 15:23:33 +0100
+In-Reply-To: <BL0PR11MB3251695A651506BDAEC39943C8D90@BL0PR11MB3251.namprd11.prod.outlook.com>
+References: <1586767753-29252-1-git-send-email-ee.peng.yeoh@intel.com>
+	 <e8c932bc18840d681befb3606076563ea5fbde84.camel@linuxfoundation.org>
+	 <BL0PR11MB3251695A651506BDAEC39943C8D90@BL0PR11MB3251.namprd11.prod.outlook.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This is useful when tests misbehave and get stuck, or when
-a significant increase in testing time is undesirable and
-needs to be caught automatically.
+Hi Ee Peng,
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/classes/testimage.bbclass | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+On Fri, 2020-04-17 at 01:53 +0000, Yeoh, Ee Peng wrote:
+> Hi Richard,
+> 
+> After more testing, I realized that it will take different amount of
+> time for each host machine to initialize new wayland compositor. I
+> had added the logic to retry the checking of new wayland compositor
+> to comprehend this host machine differences. I had submitted the v02
+> patch. 
+> 
+> Thank you very much!
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
-index deb81bc256..d5666716fb 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -31,6 +31,7 @@ TESTIMAGE_AUTO ??= "0"
- # TEST_LOG_DIR contains a command ssh log and may contain infromation about what command is running, output and return codes and for qemu a boot log till login.
- # Booting is handled by this class, and it's not a test in itself.
- # TEST_QEMUBOOT_TIMEOUT can be used to set the maximum time in seconds the launch code will wait for the login prompt.
-+# TEST_OVERALL_TIMEOUT can be used to set the maximum time in seconds the tests will be allowed to run (defaults to no limit).
- # TEST_QEMUPARAMS can be used to pass extra parameters to qemu, e.g. "-m 1024" for setting the amount of ram to 1 GB.
- # TEST_RUNQEMUPARAMS can be used to pass extra parameters to runqemu, e.g. "gl" to enable OpenGL acceleration.
- 
-@@ -75,6 +76,7 @@ DEFAULT_TEST_SUITES_remove_qemumips64 = "${MIPSREMOVE}"
- TEST_SUITES ?= "${DEFAULT_TEST_SUITES}"
- 
- TEST_QEMUBOOT_TIMEOUT ?= "1000"
-+TEST_OVERALL_TIMEOUT ?= ""
- TEST_TARGET ?= "qemu"
- TEST_QEMUPARAMS ?= ""
- TEST_RUNQEMUPARAMS ?= ""
-@@ -206,6 +208,10 @@ def testimage_main(d):
-         """
-         os.kill(os.getpid(), signal.SIGINT)
- 
-+    def handle_test_timeout(timeout):
-+        bb.warn("Global test timeout reached (%s seconds), stopping the tests." %(timeout))
-+        os.kill(os.getpid(), signal.SIGINT)
-+
-     testimage_sanity(d)
- 
-     if (d.getVar('IMAGE_PKGTYPE') == 'rpm'
-@@ -359,6 +365,11 @@ def testimage_main(d):
-         # We need to check if runqemu ends unexpectedly
-         # or if the worker send us a SIGTERM
-         tc.target.start(params=d.getVar("TEST_QEMUPARAMS"), runqemuparams=d.getVar("TEST_RUNQEMUPARAMS"))
-+        import threading
-+        try:
-+            threading.Timer(int(d.getVar("TEST_OVERALL_TIMEOUT")), handle_test_timeout, (int(d.getVar("TEST_OVERALL_TIMEOUT")),)).start()
-+        except ValueError:
-+            pass
-         results = tc.runTests()
-     except (KeyboardInterrupt, BlockingIOError) as err:
-         if isinstance(err, KeyboardInterrupt):
--- 
-2.26.0
+I did try the v2 patch but it still failed unfortunately:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/1788
+
+Cheers,
+
+Richard
 
