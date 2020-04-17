@@ -1,52 +1,61 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.6898.1587118562897372089
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+ by mx.groups.io with SMTP id smtpd.web11.7817.1587124094594937425
  for <openembedded-core@lists.openembedded.org>;
- Fri, 17 Apr 2020 03:16:03 -0700
+ Fri, 17 Apr 2020 04:48:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: yi.zhao@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 03HAFfOK015926
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 17 Apr 2020 03:15:51 -0700
-Received: from localhost (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 17 Apr
- 2020 03:15:30 -0700
-From: "Yi Zhao" <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] alsa-state: ignore 'No soundcards found' error in pkg_postinst
-Date: Fri, 17 Apr 2020 18:15:27 +0800
-Message-ID: <20200417101527.30217-1-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-X-Originating-IP: [128.224.162.174]
-Content-Type: text/plain
+ dkim=pass header.i=@koncepto.io header.s=default header.b=aO8sFwJw;
+ spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
+Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr [193.250.66.88])
+	by koncepto.io (Postfix) with ESMTPSA id 0683960133;
+	Fri, 17 Apr 2020 13:48:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1587124092;
+	bh=XjKxojWq7G+K2L66p4tHVAwQ9u6RP7ztnE5w8dIoXqM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=aO8sFwJwZQSnzTbJZ7H//IjR8ZmfHjX3lXGjiShBFtufYcrMb1Ydd2VClJNHQBNDx
+	 vX2E0lMbzHln3CLGqOeLx+fwfoYowOfTxE+/ZG11SxAHPqbKJtuSFwNbQTKj7PD5E7
+	 A08AUN5ddSvrwf1L6fN6yGmbzktzbjScoQDvWvrIHZL+5y2Whyipi7S9vh5BkomA6l
+	 3bOsD6uhw9Pog/W4KspOfTIITDlKdXXlXfxPaVndHeVSdMbtpURyTRRALKlmuDO0Rt
+	 0wTCKHAKb+GAVX1gWWrzn9FM/cl36rpsUIwqQWCtmlK4rdoPnOyIiyR2TL2NDKkXEX
+	 pFCaix9nQ/rQw==
+From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
+Subject: [PATCH] ell: upgrade 0.30 -> 0.31
+Date: Fri, 17 Apr 2020 13:47:11 +0200
+Message-Id: <1587124031-7778-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
 
-If there is no soundcards on the target (e.g. qemu), the pkp_postinst
-function will report an error:
-  alsactl: load_state:1735: No soundcards found...
-  pkg_run_script: package "alsa-state" postinst script returned status 19.
-  opkg_configure: alsa-state.postinst returned 19.
+This is a bugfix release:
 
-Pass '-g' option to alsactl to ignore this error.
+ver 0.31:
+	Fix issue with verification of the second certificate in chain.
+	Fix issue with handling trusted CA matching in verification.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
- meta/recipes-bsp/alsa-state/alsa-state.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/ell/{ell_0.30.bb => ell_0.31.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/ell/{ell_0.30.bb => ell_0.31.bb} (83%)
 
-diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
-index 0670556999..cec2272c80 100644
---- a/meta/recipes-bsp/alsa-state/alsa-state.bb
-+++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
-@@ -62,7 +62,7 @@ pkg_postinst_${PN}() {
- 	then
- 		if test -x ${sbindir}/alsactl
- 		then
--			${sbindir}/alsactl -f ${localstatedir}/lib/alsa/asound.state restore
-+			${sbindir}/alsactl -g -f ${localstatedir}/lib/alsa/asound.state restore
- 		fi
- 	fi
- }
+diff --git a/meta/recipes-core/ell/ell_0.30.bb b/meta/recipes-core/ell/ell_0.31.bb
+similarity index 83%
+rename from meta/recipes-core/ell/ell_0.30.bb
+rename to meta/recipes-core/ell/ell_0.31.bb
+index 17045b3..1db7131 100644
+--- a/meta/recipes-core/ell/ell_0.30.bb
++++ b/meta/recipes-core/ell/ell_0.31.bb
+@@ -14,8 +14,8 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
+ 
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "79c757858688cc6c36087605234d87a8"
+-SRC_URI[sha256sum] = "51cf8cc66a9d1038e41f7d619ea5660aa4476904496562b2d45ca79370ca4a5e"
++SRC_URI[md5sum] = "3f670230be4d89d621b0508c70b1d36b"
++SRC_URI[sha256sum] = "ae88617275452f9f5840b2365e33e6c7fb6fa3405d42cbf9367de642ee8b6701"
+ 
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
 -- 
-2.17.1
+2.7.4
 
