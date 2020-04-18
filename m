@@ -1,220 +1,107 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web10.5398.1587240478772855357
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+ by mx.groups.io with SMTP id smtpd.web11.5326.1587240637733729448
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Apr 2020 13:07:59 -0700
+ Sat, 18 Apr 2020 13:10:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=kB9H7DOn;
- spf=pass (domain: konsulko.com, ip: 209.85.221.68, mailfrom: pbarker@konsulko.com)
-Received: by mail-wr1-f68.google.com with SMTP id i10so7113070wrv.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2020 13:07:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :organization:mime-version:content-transfer-encoding;
-        bh=2OotSic3Nai8YgcYUQcrhOWadtl6K+8PLOgliuyZy5s=;
-        b=kB9H7DOnHF8khxgaQUV5k+SgLfpjmXdZs0NaFCTfeERyRIX1BIqi/Hw7mgTl5i166B
-         L9Tomlw/VCO3XVBc9p9I9HaYu7plDG1rtuJq26ndGZtEzktUhUW2+4BO1auWJXGkY0c6
-         5WAGjEMle0FD8YD8Y4m79nlJlckNjmKy3nh+c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:organization:mime-version:content-transfer-encoding;
-        bh=2OotSic3Nai8YgcYUQcrhOWadtl6K+8PLOgliuyZy5s=;
-        b=jZGY1qoqh6yNY6ae6JSOyoBRBlS0VbEtZb02irlzvnwXfU44n9FEbbKgmEAV603I2Q
-         mA0b0bra8mRQu4ERwwq5TAfz2PpRiMeMSAwrcFcwF1mlKI+XK4BiXe+/UiomC5B2g9oL
-         A1UCOjfhJj8PkwUjpsaNfrPx+3fX5ZirSrK5xvrz2FJO5Pt7nZphtAGx2Ny5dXqmy7wT
-         LZHvJ8aH3ZP7Ch8BW0grzhmqRavM3vTxe7VmogQxWGewnlmXviDBUopEFr2H4qhhO45U
-         tGK721vaaXliRfnlsBO5wlQJZAYDsqzIBTcTkxxRXEzpf95mcKA6xaBcuVY0C/56DWi/
-         CuHQ==
-X-Gm-Message-State: AGi0Puatgyto9c4O5jbMEbKJn5lnvSqP1UacFlWBn+tWu/k9uQvAxFTt
-	Z+OptrzZTFb/zj/ue35lbNeNbw==
-X-Google-Smtp-Source: APiQypLWcIJQylABHpsFtL4B5yYwsqmhIbfjkgsnDmbAfDVJ1MCN38V49k6vCDXl719n6VpY8cpSHg==
-X-Received: by 2002:a5d:4447:: with SMTP id x7mr10300075wrr.299.1587240477210;
-        Sat, 18 Apr 2020 13:07:57 -0700 (PDT)
-Return-Path: <pbarker@konsulko.com>
-Received: from ub1910 ([213.48.11.149])
-        by smtp.gmail.com with ESMTPSA id x18sm36479696wrs.11.2020.04.18.13.07.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2020 13:07:56 -0700 (PDT)
-Date: Sat, 18 Apr 2020 21:07:52 +0100
-From: "Paul Barker" <pbarker@konsulko.com>
-To: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6 06/10] oeqa: wic: Add tests for permissions and change-directory
-Message-ID: <20200418210752.6b7727c8@ub1910>
-In-Reply-To: <20200414133614.1830058-7-ricardo@ribalda.com>
-References: <20200414133614.1830058-1-ricardo@ribalda.com>
-	<20200414133614.1830058-7-ricardo@ribalda.com>
-Organization: Konsulko Group
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:51770 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jPtnP-003xrY-LF; Sat, 18 Apr 2020 16:10:36 -0400
+Date: Sat, 18 Apr 2020 16:10:32 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+cc: "chris.laplante@agilent.com" <chris.laplante@agilent.com>, 
+    Richard Purdie <richard.purdie@linuxfoundation.org>, 
+    OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] why does oe-buildenv-internal check for -z "$BDIR"?
+In-Reply-To: <fc3149fc55b34156baee2c375002a2a6@XBOX03.axis.com>
+Message-ID: <alpine.LFD.2.21.2004181605480.8183@localhost.localdomain>
+References: <alpine.LFD.2.21.2004181159130.1300328@localhost.localdomain> <e610ad1ecb7cd084ab61fe4bcf56b01568c5edc7.camel@linuxfoundation.org> <alpine.LFD.2.21.2004181235160.1301461@localhost.localdomain> <DM5PR12MB24711A9EF9D90BB86E95EDAA8BD60@DM5PR12MB2471.namprd12.prod.outlook.com>
+ <alpine.LFD.2.21.2004181320230.1304434@localhost.localdomain> <fc3149fc55b34156baee2c375002a2a6@XBOX03.axis.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-OutGoing-Spam-Status: No, score=1.3
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 14 Apr 2020 15:36:10 +0200
-Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
+On Sat, 18 Apr 2020, Peter Kjellerstedt wrote:
 
-> Make sure that the permissions and username are respected when using all
-> the rootfs modifiers.
->=20
-> Add tests for change-directory command
->=20
-> Cc: Paul Barker <pbarker@konsulko.com>
-> Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> ---
->  meta/lib/oeqa/selftest/cases/wic.py | 91 +++++++++++++++++++++++++++++
->  1 file changed, 91 insertions(+)
->=20
-> diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest=
-/cases/wic.py
-> index 626a217e69..8ef08c3d77 100644
-> --- a/meta/lib/oeqa/selftest/cases/wic.py
-> +++ b/meta/lib/oeqa/selftest/cases/wic.py
-> @@ -62,6 +62,12 @@ def extract_files(debugfs_output):
->      return [line.split('/')[5].strip() for line in \
->              debugfs_output.strip().split('/\n')]
-> =20
-> +def files_own_by_root(debugfs_output):
-> +    for line in debugfs_output.strip().split('/\n'):
-> +        if line.split('/')[3:5] !=3D ['0', '0']:
-> +            print(debugfs_output)
-> +            return False
-> +    return True
-> =20
->  class WicTestCase(OESelftestTestCase):
->      """Wic test class."""
-> @@ -84,6 +90,7 @@ class WicTestCase(OESelftestTestCase):
->                  self.skipTest('wic-tools cannot be built due its (intlto=
-ol|gettext)-native dependency and NLS disable')
-> =20
->              bitbake('core-image-minimal')
-> +            bitbake('core-image-minimal-mtdutils')
->              WicTestCase.image_is_ready =3D True
-> =20
->          rmtree(self.resultdir, ignore_errors=3DTrue)
-> @@ -506,6 +513,90 @@ part /part2 --source rootfs --ondisk mmcblk0 --fstyp=
-e=3Dext4 --include-path %s"""
->                                        % (wks_file, self.resultdir), igno=
-re_status=3DTrue).status)
->          os.remove(wks_file)
-> =20
-> +    def test_permissions(self):
-> +        """Test permissions are respected"""
-> +
-> +        oldpath =3D os.environ['PATH']
-> +        os.environ['PATH'] =3D get_bb_var("PATH", "wic-tools")
-> +
-> +        t_normal =3D """
-> +part / --source rootfs --fstype=3Dext4
-> +"""
-> +        t_exclude =3D """
-> +part / --source rootfs --fstype=3Dext4 --exclude-path=3Dhome
-> +"""
-> +        t_multi =3D """
-> +part / --source rootfs --ondisk sda --fstype=3Dext4
-> +part /export --source rootfs --rootfs=3Dcore-image-minimal-mtdutils --fs=
-type=3Dext4
-> +"""
-> +        t_change =3D """
-> +part / --source rootfs --ondisk sda --fstype=3Dext4 --exclude-path=3Detc=
-/=C2=A0 =C2=A0
-> +part /etc --source rootfs --fstype=3Dext4 --change-directory=3Detc
-> +"""
-> +        tests =3D [t_normal, t_exclude, t_multi, t_change]
-> +
-> +        try:
-> +            for test in tests:
-> +                include_path =3D os.path.join(self.resultdir, 'test-incl=
-ude')
-> +                os.makedirs(include_path)
-> +                wks_file =3D os.path.join(include_path, 'temp.wks')
-> +                with open(wks_file, 'w') as wks:
-> +                    wks.write(test)
-> +                runCmd("wic create %s -e core-image-minimal -o %s" \
-> +                                       % (wks_file, self.resultdir))
-> +
-> +                for part in glob(os.path.join(self.resultdir, 'temp-*.di=
-rect.p*')):
-> +                    res =3D runCmd("debugfs -R 'ls -p' %s 2>/dev/null" %=
- (part))
-> +                    self.assertEqual(True, files_own_by_root(res.output))
-> +
-> +                rmtree(self.resultdir, ignore_errors=3DTrue)
-> +
-> +        finally:
-> +            os.environ['PATH'] =3D oldpath
-> +
-> +    def test_change_directory(self):
-> +        """Test --change-directory wks option."""
-> +
-> +        oldpath =3D os.environ['PATH']
-> +        os.environ['PATH'] =3D get_bb_var("PATH", "wic-tools")
-> +
-> +        try:
-> +            include_path =3D os.path.join(self.resultdir, 'test-include')
-> +            os.makedirs(include_path)
-> +            wks_file =3D os.path.join(include_path, 'temp.wks')
-> +            with open(wks_file, 'w') as wks:
-> +                rootfs_dir =3D get_bb_var('IMAGE_ROOTFS', 'core-image-mi=
-nimal')
-> +                wks.write("part /etc --source rootfs --fstype=3Dext4 --c=
-hange-directory=3Detc")
-> +            runCmd("wic create %s -e core-image-minimal -o %s" \
-> +                                       % (wks_file, self.resultdir))
-> +
-> +            part1 =3D glob(os.path.join(self.resultdir, 'temp-*.direct.p=
-1'))[0]
-> +
-> +            res =3D runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part1))
-> +            files =3D extract_files(res.output)
-> +            self.assertIn('shadow', files)
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-
+> > core@lists.openembedded.org> On Behalf Of Robert P. J. Day
+> > Sent: den 18 april 2020 19:24
+> > To: chris.laplante@agilent.com
+> > Cc: Richard Purdie <richard.purdie@linuxfoundation.org>; OE Core mailing
+> > list <openembedded-core@lists.openembedded.org>
+> > Subject: Re: [OE-core] why does oe-buildenv-internal check for -z
+> > "$BDIR"?
+> >
+> > On Sat, 18 Apr 2020, chris.laplante@agilent.com wrote:
+> >
+> > > >   i know that -- in fact, it's the only way i use it -- the question
+> > > > is the purpose for checking if $BDIR is zero length first. that is,
+> > > > under what circumstances could it *not* be? even invoking the way you
+> > > > demonstrate, that variable is empty when tested, and i see nothing
+> > > > that could cause it to have a value before that test.
+> > >
+> > > FWIW I was curious/bored and looked to see if 'BDIR' was ever used
+> > > in poky (outside of the script of course), and I found no results.
+> > >
+> > > git rev-list --all | xargs git grep -w BDIR -- './*' ':!scripts/oe-
+> > buildenv-internal'
+> >
+> >   that's kind of the point i was making ... that variable appeared out
+> > of nowhere, clearly seemed like a local variable, and is even "unset"
+> > after it's used in that script. i poked around, trying to figure if
+> > there was some other flow of control that got you into that script
+> > from another direction, but i didn't find one.
+> >
+> >   and, yes, it seems trivial to obsess over it, but it's just those
+> > sorts of things that make me wonder, "hmmmmm ... maybe i *don't*
+> > really understand how this script can be used."
+> >
+> >   anyway, moving on ...
+> >
+> > rday
+>
+> When it comes to understanding why the code looks like it does in a
+> case like this, it is often better to look at the history than the
+> current state.
+>
+> If you go back to when the test was introduced (commit
+> 5d5fab77cf9616bf62023c202b38f309f8bbf189 in Poky), you will see that
+> BDIR could be set in a script called poky-autobuild at that time.
+> The poky-autobuild script was removed 12 years ago, but the test in
+> oe-buildenv-internal remained.
 
-This fails if `shadow` isn't part of the image:
+  additional observation, but same script also contains:
 
-2020-04-18 20:57:31,625 - oe-selftest - INFO - test_change_directory (wic.W=
-ic)
-2020-04-18 20:57:42,105 - oe-selftest - INFO -  ... FAIL
-2020-04-18 20:57:42,105 - oe-selftest - INFO - Traceback (most recent call =
-last):
-  File "/home/pbarker/Projects/Yocto/poky/meta/lib/oeqa/selftest/cases/wic.=
-py", line 639, in test_change_directory
-    self.assertIn('shadow', files)
-AssertionError: 'shadow' not found in [...]
+    if [ -n "$2" ]; then
+        BITBAKEDIR="$2"
+    fi
 
-> +
-> +        finally:
-> +            os.environ['PATH'] =3D oldpath
-> +
-> +    def test_change_directory_errors(self):
-> +        """Test --change-directory wks option error handling."""
-> +        wks_file =3D 'temp.wks'
-> +
-> +        # Absolute argument.
-> +        with open(wks_file, 'w') as wks:
-> +            wks.write("part / --source rootfs --fstype=3Dext4 --change-d=
-irectory /usr")
-> +        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minim=
-al -o %s" \
-> +                                      % (wks_file, self.resultdir), igno=
-re_status=3DTrue).status)
-> +        os.remove(wks_file)
-> +
-> +        # Argument pointing to parent directory.
-> +        with open(wks_file, 'w') as wks:
-> +            wks.write("part / --source rootfs --fstype=3Dext4 --change-d=
-irectory ././..")
-> +        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minim=
-al -o %s" \
-> +                                      % (wks_file, self.resultdir), igno=
-re_status=3DTrue).status)
-> +        os.remove(wks_file)
-> +
->  class Wic2(WicTestCase):
-> =20
->      def test_bmap_short(self):
+clearly implying a second argument pointing at bitbake directory,
+which is nowhere documented, and is followed by:
 
+ if [ -z "$BITBAKEDIR" ]; then
+    BITBAKEDIR="$OEROOT/bitbake$BBEXTRA"
+    test -d "$BITBAKEDIR" || BITBAKEDIR="$OEROOT/../bitbake$BBEXTRA"
+ fi
 
+this also seems out of date, but i won't flog it any further.
 
---=20
-Paul Barker
-Konsulko Group
+rday
+
+p.s. no mention in ref manual of "BBEXTRA" variable ... i'll leave it
+to those higher up the food chain to decide what's worth cleaning.
