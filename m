@@ -1,81 +1,69 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web11.1147.1587227461555666473
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+ by mx.groups.io with SMTP id smtpd.web11.1393.1587228199242892317
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Apr 2020 09:31:01 -0700
+ Sat, 18 Apr 2020 09:43:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FvYe5b1h;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id j2so6606612wrs.9
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2020 09:31:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=p3VsLKesuU8jFgW6dOVqXSQ/VNCu6WngYW+8JW4Ov3s=;
-        b=FvYe5b1h+QaglG2CneizlnujAgZsj7ErlYh7eEsqI25F18+lESvbex9UKo03L076Vo
-         tXcwwb7aQpuZj6A+zas3hXuCpxxG0ETbw1SDnKEk6DpyLAZ5tAXKb8I21CXiqC+Ng4lf
-         ovnkgk+EIHwYITUhdE7dXj0XQ15CQrytwSE84=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=p3VsLKesuU8jFgW6dOVqXSQ/VNCu6WngYW+8JW4Ov3s=;
-        b=NI4KWrfWAl4P9YzrZDlKFVhvbnn/4LM2R7svpIxm/Cwjdxc8GWUq6fsN5gVXvohSom
-         JHuawCTbubGIsBRJfIkFLF1v/JODrK4p0EWD4QeGpfvbs7jQl9GzYLc5oPhOhHTHrkDi
-         yZBjoYvqfDZ0oOR7wG/XDlcy6g4B8x50xVIWBw5xhdWkFWMph1T4MDS+pDx4r5shFsHu
-         6Cujvt4QKL81ECi2iVNFLJhBlp+qL7NzIXuOKyY7/irookgW7ujjzJMdF+1ZdIMBXkou
-         +TD+XAyJ+qHjCGVmGZFDI3pW8Aqir0q6H8wSOqdbUtrB4zxj6TwPI9qzdeDXQGC1hpcv
-         85ww==
-X-Gm-Message-State: AGi0PuYP37U28JDNbu/D9BgINKlMdRu4tXU1vLUeGvNJHJ9B3k3e0FEV
-	LRjEKGNgldfys7jDBnA4LnvhQA==
-X-Google-Smtp-Source: APiQypJX/gS3LEGm/T4ow+PRqnD97KMYVBjLPdNBrfNbrkTRAHsveQB78+KmMh3jfktXY/vNTcOUEA==
-X-Received: by 2002:adf:9e08:: with SMTP id u8mr9589445wre.155.1587227460041;
-        Sat, 18 Apr 2020 09:31:00 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id d7sm5237978wrn.78.2020.04.18.09.30.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2020 09:30:59 -0700 (PDT)
-Message-ID: <e610ad1ecb7cd084ab61fe4bcf56b01568c5edc7.camel@linuxfoundation.org>
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:38404 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jPqYn-003SPm-OB; Sat, 18 Apr 2020 12:43:18 -0400
+Date: Sat, 18 Apr 2020 12:43:15 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] why does oe-buildenv-internal check for -z "$BDIR"?
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
-	 <openembedded-core@lists.openembedded.org>
-Date: Sat, 18 Apr 2020 17:30:58 +0100
-In-Reply-To: <alpine.LFD.2.21.2004181159130.1300328@localhost.localdomain>
-References: <alpine.LFD.2.21.2004181159130.1300328@localhost.localdomain>
-User-Agent: Evolution 3.36.1-2 
+In-Reply-To: <e610ad1ecb7cd084ab61fe4bcf56b01568c5edc7.camel@linuxfoundation.org>
+Message-ID: <alpine.LFD.2.21.2004181235160.1301461@localhost.localdomain>
+References: <alpine.LFD.2.21.2004181159130.1300328@localhost.localdomain> <e610ad1ecb7cd084ab61fe4bcf56b01568c5edc7.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-OutGoing-Spam-Status: No, score=1.3
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-On Sat, 2020-04-18 at 12:04 -0400, Robert P. J. Day wrote:
->   perusing the OE init scripts, and noticed this in
-> oe-buildenv-internal, line 42:
-> 
-> if [ -z "$BDIR" ]; then
->     if [ -z "$1" ]; then
->         BDIR="build"
->     else
->         BDIR="$1"
->     ... snip ...
-> 
->   i'm curious ... under what circumstances would BDIR *not* be unset
-> (or not be the empty string) at that point? i'm just puzzled as to a
-> possible flow of control that gets to that point where BDIR has a
-> non-empty value, since i've never seen any mention in the docs about
-> such a possibility.
-> 
->   doesn't hurt, of course, just not sure what that test is trying to
-> accomplish.
+On Sat, 18 Apr 2020, Richard Purdie wrote:
 
-You can do:
+> On Sat, 2020-04-18 at 12:04 -0400, Robert P. J. Day wrote:
+> >   perusing the OE init scripts, and noticed this in
+> > oe-buildenv-internal, line 42:
+> >
+> > if [ -z "$BDIR" ]; then
+> >     if [ -z "$1" ]; then
+> >         BDIR="build"
+> >     else
+> >         BDIR="$1"
+> >     ... snip ...
+> >
+> >   i'm curious ... under what circumstances would BDIR *not* be unset
+> > (or not be the empty string) at that point? i'm just puzzled as to a
+> > possible flow of control that gets to that point where BDIR has a
+> > non-empty value, since i've never seen any mention in the docs about
+> > such a possibility.
+> >
+> >   doesn't hurt, of course, just not sure what that test is trying to
+> > accomplish.
+>
+> You can do:
+>
+> $ source oe-init-build-env build2
+>
+> and if your shell supports it, build becomes build2?
 
-$ source oe-init-build-env build2
+  i know that -- in fact, it's the only way i use it -- the question
+is the purpose for checking if $BDIR is zero length first. that is,
+under what circumstances could it *not* be? even invoking the way you
+demonstrate, that variable is empty when tested, and i see nothing
+that could cause it to have a value before that test.
 
-and if your shell supports it, build becomes build2?
-
-Cheers,
-
-Richard
-
+rday
