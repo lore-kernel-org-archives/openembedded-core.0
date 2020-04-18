@@ -1,209 +1,220 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web12.4197.1587236602419432563
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.5398.1587240478772855357
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Apr 2020 12:03:22 -0700
+ Sat, 18 Apr 2020 13:07:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=rc+NpD4l;
- spf=pass (domain: konsulko.com, ip: 209.85.128.66, mailfrom: pbarker@konsulko.com)
-Received: by mail-wm1-f66.google.com with SMTP id t63so5332367wmt.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2020 12:03:22 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=kB9H7DOn;
+ spf=pass (domain: konsulko.com, ip: 209.85.221.68, mailfrom: pbarker@konsulko.com)
+Received: by mail-wr1-f68.google.com with SMTP id i10so7113070wrv.10
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2020 13:07:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=konsulko.com; s=google;
         h=date:from:to:cc:subject:message-id:in-reply-to:references
          :organization:mime-version:content-transfer-encoding;
-        bh=v08XuTdwu2ggr2/p0psn801wvNFk2VYifuhUkYzpU24=;
-        b=rc+NpD4lsLWXrGfnvxXremhafRl1uLROqcwcUjqhimM7QqbhiUCoobNF90bZ/DHQxk
-         NPfovwyUMFVcPGGKpSM8SP9SSJqoOpS05WL4y6eYFyqEwpLizDLsQ8DtVCJrv5v1QLpv
-         RLOSwNveuzI9PlgZdXeYZGM/JQwNt/IzwacKY=
+        bh=2OotSic3Nai8YgcYUQcrhOWadtl6K+8PLOgliuyZy5s=;
+        b=kB9H7DOnHF8khxgaQUV5k+SgLfpjmXdZs0NaFCTfeERyRIX1BIqi/Hw7mgTl5i166B
+         L9Tomlw/VCO3XVBc9p9I9HaYu7plDG1rtuJq26ndGZtEzktUhUW2+4BO1auWJXGkY0c6
+         5WAGjEMle0FD8YD8Y4m79nlJlckNjmKy3nh+c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
          :references:organization:mime-version:content-transfer-encoding;
-        bh=v08XuTdwu2ggr2/p0psn801wvNFk2VYifuhUkYzpU24=;
-        b=jWs73dogjo7uSZjZtxSsLgo1qSjsh6j68621ByKfMdW8kzgI+30SGjMag8WOfFc95Z
-         G3mBsPWw3D3hu8m5BdVH5ow7/FCNebWuC6oPWAYQ+hJ1OGy+fqaA3AKCW1N9hopbk0rS
-         g9noOlnyC2DCmp7I6k/u1y2k59HAbN3jBWmidtla8vQYcwC0ehdr/3W9bB7v40Nwll0D
-         sb2Ewrg9wIrigxWvvJ7A5Uhi6x/FI+SeqRY5gZ8WFc0nVKIIDKHNZRkCgRdlt/V8N4eu
-         FZGwaXfv4G0wzVEwsxPYIKaUcgQ7kfji8pixFTgfCLVvdmw+awx1RqMnlSJQ2XoY3tjx
-         P3Mw==
-X-Gm-Message-State: AGi0Pub3VkpjM3oaE+utI5fV5HC6rZkAohmtpTH55sHgho7JAKj4I4jc
-	CclL7bMxSUYncRH1G4BVfDf+Sg==
-X-Google-Smtp-Source: APiQypLhWUYoLCbTmjv8rtTz8iW6Dr7oi11VGfpRG4O6tFI8mQwIY4YjyRkY/9S+Ysul6UkpDXUONg==
-X-Received: by 2002:a1c:f014:: with SMTP id a20mr9145417wmb.86.1587236600780;
-        Sat, 18 Apr 2020 12:03:20 -0700 (PDT)
+        bh=2OotSic3Nai8YgcYUQcrhOWadtl6K+8PLOgliuyZy5s=;
+        b=jZGY1qoqh6yNY6ae6JSOyoBRBlS0VbEtZb02irlzvnwXfU44n9FEbbKgmEAV603I2Q
+         mA0b0bra8mRQu4ERwwq5TAfz2PpRiMeMSAwrcFcwF1mlKI+XK4BiXe+/UiomC5B2g9oL
+         A1UCOjfhJj8PkwUjpsaNfrPx+3fX5ZirSrK5xvrz2FJO5Pt7nZphtAGx2Ny5dXqmy7wT
+         LZHvJ8aH3ZP7Ch8BW0grzhmqRavM3vTxe7VmogQxWGewnlmXviDBUopEFr2H4qhhO45U
+         tGK721vaaXliRfnlsBO5wlQJZAYDsqzIBTcTkxxRXEzpf95mcKA6xaBcuVY0C/56DWi/
+         CuHQ==
+X-Gm-Message-State: AGi0Puatgyto9c4O5jbMEbKJn5lnvSqP1UacFlWBn+tWu/k9uQvAxFTt
+	Z+OptrzZTFb/zj/ue35lbNeNbw==
+X-Google-Smtp-Source: APiQypLWcIJQylABHpsFtL4B5yYwsqmhIbfjkgsnDmbAfDVJ1MCN38V49k6vCDXl719n6VpY8cpSHg==
+X-Received: by 2002:a5d:4447:: with SMTP id x7mr10300075wrr.299.1587240477210;
+        Sat, 18 Apr 2020 13:07:57 -0700 (PDT)
 Return-Path: <pbarker@konsulko.com>
 Received: from ub1910 ([213.48.11.149])
-        by smtp.gmail.com with ESMTPSA id i6sm432988wrc.82.2020.04.18.12.03.20
+        by smtp.gmail.com with ESMTPSA id x18sm36479696wrs.11.2020.04.18.13.07.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2020 12:03:20 -0700 (PDT)
-Date: Sat, 18 Apr 2020 20:03:16 +0100
+        Sat, 18 Apr 2020 13:07:56 -0700 (PDT)
+Date: Sat, 18 Apr 2020 21:07:52 +0100
 From: "Paul Barker" <pbarker@konsulko.com>
 To: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6 01/10] wic: Fix permissions when using exclude or include path
-Message-ID: <20200418200316.6249b81c@ub1910>
-In-Reply-To: <20200414133614.1830058-2-ricardo@ribalda.com>
+Subject: Re: [PATCH v6 06/10] oeqa: wic: Add tests for permissions and change-directory
+Message-ID: <20200418210752.6b7727c8@ub1910>
+In-Reply-To: <20200414133614.1830058-7-ricardo@ribalda.com>
 References: <20200414133614.1830058-1-ricardo@ribalda.com>
- <20200414133614.1830058-2-ricardo@ribalda.com>
+	<20200414133614.1830058-7-ricardo@ribalda.com>
 Organization: Konsulko Group
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 14 Apr 2020 15:36:05 +0200
+On Tue, 14 Apr 2020 15:36:10 +0200
 Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
 
-> When parameters include_path or exclude_path are passed to the rootfs
-> plugin, it will copy the partition content into a folder and make all
-> the modifications there.
-> 
-> This is done using copyhardlinktree(), which does not take into
-> consideration the content of the pseudo folder, which contains the
-> information about the right permissions and ownership of the folders.
-> 
-> This results in a rootfs owned by the user that is running the wic
-> command (usually UID 1000), which makes some rootfs unbootable.
-> 
-> This bug can be easily triggerd with the following .wks
-> 
-> part / --source rootfs --fstype=ext4 --exclude-path=home
-> 
-> And this sequence:
-> 
-> $ wic create test-permissions -e core-image-minimal -o test/
-> $ sudo mount test/test-permissions-202004080823-sda.direct.p1 /mnt
-> $ ls -la /mnt/etc/shadow
-> 
-> To fix this we copy the content of the pseudo folders to the new folder
-> and modify the pseudo database using the "pseudo -B" command.
-> 
-> If the rootfs is not a rootfs generated by bitbake a warning is shown
-> making the user aware that the permissions on the target might not match
-> what he expects.
-> 
-> WARNING: /tmp/test/../pseudo folder does not exist. Usernames and permissions will be invalid
-> 
+> Make sure that the permissions and username are respected when using all
+> the rootfs modifiers.
+>=20
+> Add tests for change-directory command
+>=20
 > Cc: Paul Barker <pbarker@konsulko.com>
 > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 > ---
->  scripts/lib/wic/partition.py             |  7 +++--
->  scripts/lib/wic/plugins/source/rootfs.py | 36 ++++++++++++++++++++++--
->  2 files changed, 37 insertions(+), 6 deletions(-)
-> 
-> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-> index 2d95f78439..b02711be37 100644
-> --- a/scripts/lib/wic/partition.py
-> +++ b/scripts/lib/wic/partition.py
-> @@ -190,7 +190,7 @@ class Partition():
->                             (self.mountpoint, self.size, self.fixed_size))
->  
->      def prepare_rootfs(self, cr_workdir, oe_builddir, rootfs_dir,
-> -                       native_sysroot, real_rootfs = True):
-> +                       native_sysroot, real_rootfs = True, pseudo_dir = None):
->          """
->          Prepare content for a rootfs partition i.e. create a partition
->          and fill it from a /rootfs dir.
-> @@ -198,8 +198,9 @@ class Partition():
->          Currently handles ext2/3/4, btrfs, vfat and squashfs.
->          """
->          p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
-> -        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR",
-> -                                         "%s/../pseudo" %  rootfs_dir)
-> +        if (pseudo_dir == None):
-> +            pseudo_dir = "%s/../pseudo" %  rootfs_dir
-> +        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR", pseudo_dir)
->          p_passwd = os.environ.get("PSEUDO_PASSWD", rootfs_dir)
->          p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
->          pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
-> diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-> index 705aeb5563..caad9efccc 100644
-> --- a/scripts/lib/wic/plugins/source/rootfs.py
-> +++ b/scripts/lib/wic/plugins/source/rootfs.py
-> @@ -20,7 +20,7 @@ from oe.path import copyhardlinktree
->  
->  from wic import WicError
->  from wic.pluginbase import SourcePlugin
-> -from wic.misc import get_bitbake_var
-> +from wic.misc import get_bitbake_var, exec_native_cmd
->  
->  logger = logging.getLogger('wic')
->  
-> @@ -44,6 +44,15 @@ class RootfsPlugin(SourcePlugin):
->  
->          return os.path.realpath(image_rootfs_dir)
->  
-> +    @staticmethod
-> +    def __get_pseudo(native_sysroot, rootfs, pseudo_dir):
-> +        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
-> +        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
-> +        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs
-> +        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
-> +        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
-> +        return pseudo
+>  meta/lib/oeqa/selftest/cases/wic.py | 91 +++++++++++++++++++++++++++++
+>  1 file changed, 91 insertions(+)
+>=20
+> diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest=
+/cases/wic.py
+> index 626a217e69..8ef08c3d77 100644
+> --- a/meta/lib/oeqa/selftest/cases/wic.py
+> +++ b/meta/lib/oeqa/selftest/cases/wic.py
+> @@ -62,6 +62,12 @@ def extract_files(debugfs_output):
+>      return [line.split('/')[5].strip() for line in \
+>              debugfs_output.strip().split('/\n')]
+> =20
+> +def files_own_by_root(debugfs_output):
+> +    for line in debugfs_output.strip().split('/\n'):
+> +        if line.split('/')[3:5] !=3D ['0', '0']:
+> +            print(debugfs_output)
+> +            return False
+> +    return True
+> =20
+>  class WicTestCase(OESelftestTestCase):
+>      """Wic test class."""
+> @@ -84,6 +90,7 @@ class WicTestCase(OESelftestTestCase):
+>                  self.skipTest('wic-tools cannot be built due its (intlto=
+ol|gettext)-native dependency and NLS disable')
+> =20
+>              bitbake('core-image-minimal')
+> +            bitbake('core-image-minimal-mtdutils')
+>              WicTestCase.image_is_ready =3D True
+> =20
+>          rmtree(self.resultdir, ignore_errors=3DTrue)
+> @@ -506,6 +513,90 @@ part /part2 --source rootfs --ondisk mmcblk0 --fstyp=
+e=3Dext4 --include-path %s"""
+>                                        % (wks_file, self.resultdir), igno=
+re_status=3DTrue).status)
+>          os.remove(wks_file)
+> =20
+> +    def test_permissions(self):
+> +        """Test permissions are respected"""
 > +
->      @classmethod
->      def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
->                               oe_builddir, bootimg_dir, kernel_dir,
-> @@ -68,8 +77,14 @@ class RootfsPlugin(SourcePlugin):
->                                 "it is not a valid path, exiting" % part.rootfs_dir)
->  
->          part.rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
-> +        pseudo_dir = os.path.join(part.rootfs_dir, "../pseudo")
-> +        if not os.path.lexists(pseudo_dir):
-> +            logger.warn("%s folder does not exist. "
-> +                        "Usernames and permissions will be invalid " % pseudo_dir)
-> +            pseudo_dir = None
->  
->          new_rootfs = None
-> +        new_pseudo = None
->          # Handle excluded paths.
->          if part.exclude_path or part.include_path:
->              # We need a new rootfs directory we can delete files from. Copy to
-> @@ -78,9 +93,23 @@ class RootfsPlugin(SourcePlugin):
->  
->              if os.path.lexists(new_rootfs):
->                  shutil.rmtree(os.path.join(new_rootfs))
-> -
->              copyhardlinktree(part.rootfs_dir, new_rootfs)
->  
-> +            # Convert the pseudo directory to its new location
-> +            if (pseudo_dir):
-> +                new_pseudo = os.path.join(new_rootfs, "../pseudo%d" % part.lineno)
-
-I still don't like this, it's unclear from looking at the patch alone
-that it's safe to step up the directory tree here.
-
-As I've said before, let's use an explicit path instead, such as:
-
-    new_pseudo = os.path.realpath(os.path.join(cr_workdir, "pseudo%d" % part.lineno))
-
-Then there's no '..', it's obviously safe and it's less likely someone
-will break things by accident in the future.
-
-> +                if os.path.lexists(new_pseudo):
-> +                    shutil.rmtree(new_pseudo)
-> +                os.mkdir(new_pseudo)
-> +                shutil.copy(os.path.join(pseudo_dir, "files.db"),
-> +                            os.path.join(new_pseudo, "files.db"))
+> +        oldpath =3D os.environ['PATH']
+> +        os.environ['PATH'] =3D get_bb_var("PATH", "wic-tools")
 > +
-> +                pseudo_cmd = "%s -B -m %s -M %s" % (cls.__get_pseudo(native_sysroot,
-> +                                                                     new_rootfs,
-> +                                                                     new_pseudo),
-> +                                                    part.rootfs_dir, new_rootfs)
-> +                exec_native_cmd(pseudo_cmd, native_sysroot)
+> +        t_normal =3D """
+> +part / --source rootfs --fstype=3Dext4
+> +"""
+> +        t_exclude =3D """
+> +part / --source rootfs --fstype=3Dext4 --exclude-path=3Dhome
+> +"""
+> +        t_multi =3D """
+> +part / --source rootfs --ondisk sda --fstype=3Dext4
+> +part /export --source rootfs --rootfs=3Dcore-image-minimal-mtdutils --fs=
+type=3Dext4
+> +"""
+> +        t_change =3D """
+> +part / --source rootfs --ondisk sda --fstype=3Dext4 --exclude-path=3Detc=
+/=C2=A0 =C2=A0
+> +part /etc --source rootfs --fstype=3Dext4 --change-directory=3Detc
+> +"""
+> +        tests =3D [t_normal, t_exclude, t_multi, t_change]
 > +
->              for path in part.include_path or []:
->                  copyhardlinktree(path, new_rootfs)
->  
-> @@ -112,4 +141,5 @@ class RootfsPlugin(SourcePlugin):
->                      shutil.rmtree(full_path)
->  
->          part.prepare_rootfs(cr_workdir, oe_builddir,
-> -                            new_rootfs or part.rootfs_dir, native_sysroot)
-> +                            new_rootfs or part.rootfs_dir, native_sysroot,
-> +                            pseudo_dir = new_pseudo or pseudo_dir)
+> +        try:
+> +            for test in tests:
+> +                include_path =3D os.path.join(self.resultdir, 'test-incl=
+ude')
+> +                os.makedirs(include_path)
+> +                wks_file =3D os.path.join(include_path, 'temp.wks')
+> +                with open(wks_file, 'w') as wks:
+> +                    wks.write(test)
+> +                runCmd("wic create %s -e core-image-minimal -o %s" \
+> +                                       % (wks_file, self.resultdir))
+> +
+> +                for part in glob(os.path.join(self.resultdir, 'temp-*.di=
+rect.p*')):
+> +                    res =3D runCmd("debugfs -R 'ls -p' %s 2>/dev/null" %=
+ (part))
+> +                    self.assertEqual(True, files_own_by_root(res.output))
+> +
+> +                rmtree(self.resultdir, ignore_errors=3DTrue)
+> +
+> +        finally:
+> +            os.environ['PATH'] =3D oldpath
+> +
+> +    def test_change_directory(self):
+> +        """Test --change-directory wks option."""
+> +
+> +        oldpath =3D os.environ['PATH']
+> +        os.environ['PATH'] =3D get_bb_var("PATH", "wic-tools")
+> +
+> +        try:
+> +            include_path =3D os.path.join(self.resultdir, 'test-include')
+> +            os.makedirs(include_path)
+> +            wks_file =3D os.path.join(include_path, 'temp.wks')
+> +            with open(wks_file, 'w') as wks:
+> +                rootfs_dir =3D get_bb_var('IMAGE_ROOTFS', 'core-image-mi=
+nimal')
+> +                wks.write("part /etc --source rootfs --fstype=3Dext4 --c=
+hange-directory=3Detc")
+> +            runCmd("wic create %s -e core-image-minimal -o %s" \
+> +                                       % (wks_file, self.resultdir))
+> +
+> +            part1 =3D glob(os.path.join(self.resultdir, 'temp-*.direct.p=
+1'))[0]
+> +
+> +            res =3D runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part1))
+> +            files =3D extract_files(res.output)
+> +            self.assertIn('shadow', files)
 
--- 
+This fails if `shadow` isn't part of the image:
+
+2020-04-18 20:57:31,625 - oe-selftest - INFO - test_change_directory (wic.W=
+ic)
+2020-04-18 20:57:42,105 - oe-selftest - INFO -  ... FAIL
+2020-04-18 20:57:42,105 - oe-selftest - INFO - Traceback (most recent call =
+last):
+  File "/home/pbarker/Projects/Yocto/poky/meta/lib/oeqa/selftest/cases/wic.=
+py", line 639, in test_change_directory
+    self.assertIn('shadow', files)
+AssertionError: 'shadow' not found in [...]
+
+> +
+> +        finally:
+> +            os.environ['PATH'] =3D oldpath
+> +
+> +    def test_change_directory_errors(self):
+> +        """Test --change-directory wks option error handling."""
+> +        wks_file =3D 'temp.wks'
+> +
+> +        # Absolute argument.
+> +        with open(wks_file, 'w') as wks:
+> +            wks.write("part / --source rootfs --fstype=3Dext4 --change-d=
+irectory /usr")
+> +        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minim=
+al -o %s" \
+> +                                      % (wks_file, self.resultdir), igno=
+re_status=3DTrue).status)
+> +        os.remove(wks_file)
+> +
+> +        # Argument pointing to parent directory.
+> +        with open(wks_file, 'w') as wks:
+> +            wks.write("part / --source rootfs --fstype=3Dext4 --change-d=
+irectory ././..")
+> +        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minim=
+al -o %s" \
+> +                                      % (wks_file, self.resultdir), igno=
+re_status=3DTrue).status)
+> +        os.remove(wks_file)
+> +
+>  class Wic2(WicTestCase):
+> =20
+>      def test_bmap_short(self):
+
+
+
+--=20
 Paul Barker
 Konsulko Group
