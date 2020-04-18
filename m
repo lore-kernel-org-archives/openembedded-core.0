@@ -1,15 +1,15 @@
 Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
- by mx.groups.io with SMTP id smtpd.web10.7588.1587248256474737359
+ by mx.groups.io with SMTP id smtpd.web11.7574.1587248381568264859
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Apr 2020 15:17:37 -0700
+ Sat, 18 Apr 2020 15:19:41 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:52976 helo=localhost.localdomain)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:52980 helo=localhost.localdomain)
 	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.93)
 	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jPvmI-004FyH-5N; Sat, 18 Apr 2020 18:17:34 -0400
-Date: Sat, 18 Apr 2020 18:17:31 -0400 (EDT)
+	id 1jPvoJ-004GGU-M9; Sat, 18 Apr 2020 18:19:40 -0400
+Date: Sat, 18 Apr 2020 18:19:38 -0400 (EDT)
 From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 X-X-Sender: rpjday@localhost.localdomain
 To: Christopher Larson <kergoth@gmail.com>
@@ -19,7 +19,7 @@ cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
     OE Core mailing list <openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] why does oe-buildenv-internal check for -z "$BDIR"?
 In-Reply-To: <d1b1bb06-3222-4073-831d-7f25e2566ed5@Spark>
-Message-ID: <alpine.LFD.2.21.2004181815360.571354@localhost.localdomain>
+Message-ID: <alpine.LFD.2.21.2004181818270.571354@localhost.localdomain>
 References: <alpine.LFD.2.21.2004181159130.1300328@localhost.localdomain> <e610ad1ecb7cd084ab61fe4bcf56b01568c5edc7.camel@linuxfoundation.org> <alpine.LFD.2.21.2004181235160.1301461@localhost.localdomain> <DM5PR12MB24711A9EF9D90BB86E95EDAA8BD60@DM5PR12MB2471.namprd12.prod.outlook.com>
  <alpine.LFD.2.21.2004181320230.1304434@localhost.localdomain> <fc3149fc55b34156baee2c375002a2a6@XBOX03.axis.com> <alpine.LFD.2.21.2004181605480.8183@localhost.localdomain> <d1b1bb06-3222-4073-831d-7f25e2566ed5@Spark>
 MIME-Version: 1.0
@@ -34,95 +34,14 @@ X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
 X-Source: 
 X-Source-Args: 
 X-Source-Dir: 
-Content-Type: multipart/mixed; boundary="8323328-1498845375-1587248254=:571354"
+Content-Type: multipart/mixed; boundary="8323328-259416807-1587248379=:571354"
 
---8323328-1498845375-1587248254=:571354
+--8323328-259416807-1587248379=:571354
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8BIT
 
 On Sat, 18 Apr 2020, Christopher Larson wrote:
 
-> On Apr 18, 2020, 1:10 PM -0700, Robert P. J. Day <rpjday@crashcourse.ca>, wrote:
->       On Sat, 18 Apr 2020, Peter Kjellerstedt wrote:
->
->                   -----Original Message-----
->                   From: openembedded-core@lists.openembedded.org <openembedded-
->                   core@lists.openembedded.org> On Behalf Of Robert P. J. Day
->                   Sent: den 18 april 2020 19:24
->                   To: chris.laplante@agilent.com
->                   Cc: Richard Purdie <richard.purdie@linuxfoundation.org>; OE Core mailing
->                   list <openembedded-core@lists.openembedded.org>
->                   Subject: Re: [OE-core] why does oe-buildenv-internal check for -z
->                   "$BDIR"?
->
->                   On Sat, 18 Apr 2020, chris.laplante@agilent.com wrote:
->
->                               i know that -- in fact, it's the only way i use it
->                               -- the question
->                               is the purpose for checking if $BDIR is zero length
->                               first. that is,
->                               under what circumstances could it *not* be? even
->                               invoking the way you
->                               demonstrate, that variable is empty when tested,
->                               and i see nothing
->                               that could cause it to have a value before that
->                               test.
->
->
->                         FWIW I was curious/bored and looked to see if 'BDIR' was ever
->                         used
->                         in poky (outside of the script of course), and I found no
->                         results.
->
->                         git rev-list --all | xargs git grep -w BDIR -- './*'
->                         ':!scripts/oe-
->
->                   buildenv-internal'
->
->                   that's kind of the point i was making ... that variable appeared out
->                   of nowhere, clearly seemed like a local variable, and is even "unset"
->                   after it's used in that script. i poked around, trying to figure if
->                   there was some other flow of control that got you into that script
->                   from another direction, but i didn't find one.
->
->                   and, yes, it seems trivial to obsess over it, but it's just those
->                   sorts of things that make me wonder, "hmmmmm ... maybe i *don't*
->                   really understand how this script can be used."
->
->                   anyway, moving on ...
->
->                   rday
->
->
->             When it comes to understanding why the code looks like it does in a
->             case like this, it is often better to look at the history than the
->             current state.
->
->             If you go back to when the test was introduced (commit
->             5d5fab77cf9616bf62023c202b38f309f8bbf189 in Poky), you will see that
->             BDIR could be set in a script called poky-autobuild at that time.
->             The poky-autobuild script was removed 12 years ago, but the test in
->             oe-buildenv-internal remained.
->
->
->       additional observation, but same script also contains:
->
->       if [ -n "$2" ]; then
->       BITBAKEDIR="$2"
->       fi
->
->       clearly implying a second argument pointing at bitbake directory,
->       which is nowhere documented, and is followed by:
->
->       if [ -z "$BITBAKEDIR" ]; then
->       BITBAKEDIR="$OEROOT/bitbake$BBEXTRA"
->       test -d "$BITBAKEDIR" || BITBAKEDIR="$OEROOT/../bitbake$BBEXTRA"
->       fi
->
->       this also seems out of date, but i won't flog it any further. 
->
->
->
 > I don’t think this is out of date. It’s allowing the user to specify
 > the path to bitbake (which I’ve done in unusual layouts or just to
 > be explicit), falling back to either under OEROOT (poky-style) or in
@@ -134,11 +53,9 @@ On Sat, 18 Apr 2020, Christopher Larson wrote:
 > is useful. BDIR still seems like it can be dropped regardless of the
 > BITBAKEDIR logic.
 
-  that actually matches with what i concluded -- BDIR is dead and
-gone, but i realized that BITBAKEDIR could still be useful, even if
-it's currently undocumented. so i'll submit a patch to ditch BDIR, and
-leave all else as is. for now.
+  so if BBEXTRA is still valid, should it be documented, perhaps in
+the variable glossary?
 
 rday
 
---8323328-1498845375-1587248254=:571354--
+--8323328-259416807-1587248379=:571354--
