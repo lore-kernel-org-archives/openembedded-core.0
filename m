@@ -1,61 +1,80 @@
-Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
- by mx.groups.io with SMTP id smtpd.web11.7574.1587248381568264859
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.8628.1587253179360695000
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Apr 2020 15:19:41 -0700
+ Sat, 18 Apr 2020 16:39:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:52980 helo=localhost.localdomain)
-	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jPvoJ-004GGU-M9; Sat, 18 Apr 2020 18:19:40 -0400
-Date: Sat, 18 Apr 2020 18:19:38 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: Christopher Larson <kergoth@gmail.com>
-cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-    "chris.laplante@agilent.com" <chris.laplante@agilent.com>, 
-    Richard Purdie <richard.purdie@linuxfoundation.org>, 
-    OE Core mailing list <openembedded-core@lists.openembedded.org>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g80cPu/5;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f54.google.com with SMTP id j2so7477905wrs.9
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2020 16:39:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=OQ4dZhqvJqEQn9oWUxaOhPD8SpdKC3X6u1orhXt0Yqg=;
+        b=g80cPu/56GkT2d8+wCveQz6LU8duWa7baF0Ep9wss4kivGtF216ykFgvEhLcqaMgEC
+         1LCP+xrY5NRPIew2/0yOclsUIUFWO8ZdkbOFYC75Gq7Wkx3vyfbzIOcn5pcZ/9rWHs9V
+         A7GjyIRnYJclXM7X3wzourTO13tpCH7d2LKBs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=OQ4dZhqvJqEQn9oWUxaOhPD8SpdKC3X6u1orhXt0Yqg=;
+        b=QH5KFjfjymrBajluYPlIrstjRkyDaOvxxlpmRdal1YAZOOvHRYhoItVAW8bn2So1Ve
+         V9K4y9iEfqzPYPTMPAAHRU1X4z5ubT5H/S6rJHHLEGFLbGmsq2ckR5UIgK4OmUjO6Gbh
+         Sjk7RWQZ7P2fbkwiczi6wrQQfMNlLDNzdCfdA2iT9Q1793gmlXpIsYX851hioq07Jgvu
+         1zASVfL1LU6/OoSp954HYFM5wEu7Lb2mcEs6j1zO/D1JOcmyIo0esGm5A2EZVuD9Y7/x
+         D6ZIryUNV3zri+mPmvvjZToHht9GRrDD9JHrxw4DX/0ehJrErjiLIgxxXbAne4jwnoYx
+         W14A==
+X-Gm-Message-State: AGi0Pubdzm7y1yHFcXhwAEeDdVg6kMM5R7MNaGMgnzdqFAogfFjk11Fh
+	WgnOjJDPuXoPbVThnr4KXf/jBw==
+X-Google-Smtp-Source: APiQypJqE87sOuQrg56CX3dUlfB4GvSdlfax0VvbmSicLpZ/UQ6JIfXAu9kw33WUyFLawDo3NejG8w==
+X-Received: by 2002:adf:dd8a:: with SMTP id x10mr10081036wrl.308.1587253177912;
+        Sat, 18 Apr 2020 16:39:37 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id m1sm32279774wro.64.2020.04.18.16.39.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Apr 2020 16:39:37 -0700 (PDT)
+Message-ID: <d2f052416cef21416444e08512f84dd8c4f1aeca.camel@linuxfoundation.org>
 Subject: Re: [OE-core] why does oe-buildenv-internal check for -z "$BDIR"?
-In-Reply-To: <d1b1bb06-3222-4073-831d-7f25e2566ed5@Spark>
-Message-ID: <alpine.LFD.2.21.2004181818270.571354@localhost.localdomain>
-References: <alpine.LFD.2.21.2004181159130.1300328@localhost.localdomain> <e610ad1ecb7cd084ab61fe4bcf56b01568c5edc7.camel@linuxfoundation.org> <alpine.LFD.2.21.2004181235160.1301461@localhost.localdomain> <DM5PR12MB24711A9EF9D90BB86E95EDAA8BD60@DM5PR12MB2471.namprd12.prod.outlook.com>
- <alpine.LFD.2.21.2004181320230.1304434@localhost.localdomain> <fc3149fc55b34156baee2c375002a2a6@XBOX03.axis.com> <alpine.LFD.2.21.2004181605480.8183@localhost.localdomain> <d1b1bb06-3222-4073-831d-7f25e2566ed5@Spark>
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "Robert P. J. Day" <rpjday@crashcourse.ca>, Christopher Larson
+	 <kergoth@gmail.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"chris.laplante@agilent.com"
+	 <chris.laplante@agilent.com>, OE Core mailing list
+	 <openembedded-core@lists.openembedded.org>
+Date: Sun, 19 Apr 2020 00:39:36 +0100
+In-Reply-To: <alpine.LFD.2.21.2004181815360.571354@localhost.localdomain>
+References: <alpine.LFD.2.21.2004181159130.1300328@localhost.localdomain>
+	 <e610ad1ecb7cd084ab61fe4bcf56b01568c5edc7.camel@linuxfoundation.org>
+	 <alpine.LFD.2.21.2004181235160.1301461@localhost.localdomain>
+	 <DM5PR12MB24711A9EF9D90BB86E95EDAA8BD60@DM5PR12MB2471.namprd12.prod.outlook.com>
+	 <alpine.LFD.2.21.2004181320230.1304434@localhost.localdomain>
+	 <fc3149fc55b34156baee2c375002a2a6@XBOX03.axis.com>
+	 <alpine.LFD.2.21.2004181605480.8183@localhost.localdomain>
+	 <d1b1bb06-3222-4073-831d-7f25e2566ed5@Spark>
+	 <alpine.LFD.2.21.2004181815360.571354@localhost.localdomain>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=1.3
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: multipart/mixed; boundary="8323328-259416807-1587248379=:571354"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---8323328-259416807-1587248379=:571354
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+On Sat, 2020-04-18 at 18:17 -0400, Robert P. J. Day wrote:
+>   that actually matches with what i concluded -- BDIR is dead and
+> gone, but i realized that BITBAKEDIR could still be useful, even if
+> it's currently undocumented. so i'll submit a patch to ditch BDIR,
+> and leave all else as is. for now.
 
-On Sat, 18 Apr 2020, Christopher Larson wrote:
+BDIR allows the build directory to be set explicitly from a script
+without worrying about which shell is in use.
 
-> I don’t think this is out of date. It’s allowing the user to specify
-> the path to bitbake (which I’ve done in unusual layouts or just to
-> be explicit), falling back to either under OEROOT (poky-style) or in
-> its parent (more typical).
->
-> It’s also worth noting that oe-init-build-env and
-> oe-buildenv-internal are not just used directly, but many other
-> setup scripts build on top of them, so this particular flexibility
-> is useful. BDIR still seems like it can be dropped regardless of the
-> BITBAKEDIR logic.
+I'd note it is used by scripts/build-perf-test-wrapper in yocto-
+autobuilder-helper, probably for exactly this reason (I've not checked
+the history).
 
-  so if BBEXTRA is still valid, should it be documented, perhaps in
-the variable glossary?
+Cheers,
 
-rday
+Richard
 
---8323328-259416807-1587248379=:571354--
