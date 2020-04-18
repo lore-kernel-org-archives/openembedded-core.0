@@ -1,226 +1,208 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web12.4174.1587236536478814100
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.4197.1587236602419432563
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Apr 2020 12:02:16 -0700
+ Sat, 18 Apr 2020 12:03:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=E3zYwu0q;
- spf=pass (domain: konsulko.com, ip: 209.85.221.45, mailfrom: pbarker@konsulko.com)
-Received: by mail-wr1-f45.google.com with SMTP id g13so4949428wrb.8
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2020 12:02:16 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=rc+NpD4l;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.66, mailfrom: pbarker@konsulko.com)
+Received: by mail-wm1-f66.google.com with SMTP id t63so5332367wmt.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2020 12:03:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=konsulko.com; s=google;
         h=date:from:to:cc:subject:message-id:in-reply-to:references
          :organization:mime-version:content-transfer-encoding;
-        bh=0D6SL0YHe2FKQDqDJHFoWbvgb5E08nnZVnv/Ng4+jJw=;
-        b=E3zYwu0qBMFkGOOX5GYZTQRuVveLaw3zsmtSwhqH71s24g8qczVuKI9Dbh4jssrAqY
-         FVd59psFU5Rkn3SSQNVKa6p/DC1FCuImjRDS79fkhBYKDPXWlfI8W/DWjSpQtxsxQ+fa
-         nhkZIbYjyBcgdJrnA6PHGHu8VrRXxC+Wpo6Mc=
+        bh=v08XuTdwu2ggr2/p0psn801wvNFk2VYifuhUkYzpU24=;
+        b=rc+NpD4lsLWXrGfnvxXremhafRl1uLROqcwcUjqhimM7QqbhiUCoobNF90bZ/DHQxk
+         NPfovwyUMFVcPGGKpSM8SP9SSJqoOpS05WL4y6eYFyqEwpLizDLsQ8DtVCJrv5v1QLpv
+         RLOSwNveuzI9PlgZdXeYZGM/JQwNt/IzwacKY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
          :references:organization:mime-version:content-transfer-encoding;
-        bh=0D6SL0YHe2FKQDqDJHFoWbvgb5E08nnZVnv/Ng4+jJw=;
-        b=puOBpOncfIsBoxCdIvBoUrczi+/t+6gRKdBRvCLT8AhlfY+XPcOkfZLXx+2TKjqYFY
-         bTwE9m2YYjAo2CTspNjby93DFbhlfX++RO0N3D4umA+R++57J0yqBkH4ByaZ6DuoKmCR
-         IB2vU+MRtNc7w/RB3DwjdtWonvCdrfFnD2VkN/D41QTWNbDPqN/ZiwAFPDTcJNRKumC3
-         ATCHeYr11vS1qApsgyAxvzpLm0jsOyhS7EN32Pkw3AihyRvfaD/I7Eh2IUF/HqXQ0D7E
-         fQZGcRBGE09uRuojggzPGjvXBOjqwb7ET8vEuhcAoFrqmKmXyIyJNDm/DDv+2fRKqrAG
-         HU6Q==
-X-Gm-Message-State: AGi0PuZ9cU2ZPKvTo6Q2TsqmWFHGYp8bxHYZNOfUnmk7JYOk2AeQM2Ic
-	P9PXsycIhLXA31/sw6li5hlEag==
-X-Google-Smtp-Source: APiQypJgf897XGhpjxMptUvFyWLInUfDoHbxf7Vf+IjTJiJ72Mqyg6JWJrti2xotS5u4Ry1pw37aXg==
-X-Received: by 2002:adf:ce0a:: with SMTP id p10mr9825005wrn.89.1587236534962;
-        Sat, 18 Apr 2020 12:02:14 -0700 (PDT)
+        bh=v08XuTdwu2ggr2/p0psn801wvNFk2VYifuhUkYzpU24=;
+        b=jWs73dogjo7uSZjZtxSsLgo1qSjsh6j68621ByKfMdW8kzgI+30SGjMag8WOfFc95Z
+         G3mBsPWw3D3hu8m5BdVH5ow7/FCNebWuC6oPWAYQ+hJ1OGy+fqaA3AKCW1N9hopbk0rS
+         g9noOlnyC2DCmp7I6k/u1y2k59HAbN3jBWmidtla8vQYcwC0ehdr/3W9bB7v40Nwll0D
+         sb2Ewrg9wIrigxWvvJ7A5Uhi6x/FI+SeqRY5gZ8WFc0nVKIIDKHNZRkCgRdlt/V8N4eu
+         FZGwaXfv4G0wzVEwsxPYIKaUcgQ7kfji8pixFTgfCLVvdmw+awx1RqMnlSJQ2XoY3tjx
+         P3Mw==
+X-Gm-Message-State: AGi0Pub3VkpjM3oaE+utI5fV5HC6rZkAohmtpTH55sHgho7JAKj4I4jc
+	CclL7bMxSUYncRH1G4BVfDf+Sg==
+X-Google-Smtp-Source: APiQypLhWUYoLCbTmjv8rtTz8iW6Dr7oi11VGfpRG4O6tFI8mQwIY4YjyRkY/9S+Ysul6UkpDXUONg==
+X-Received: by 2002:a1c:f014:: with SMTP id a20mr9145417wmb.86.1587236600780;
+        Sat, 18 Apr 2020 12:03:20 -0700 (PDT)
 Return-Path: <pbarker@konsulko.com>
 Received: from ub1910 ([213.48.11.149])
-        by smtp.gmail.com with ESMTPSA id y18sm13870395wmc.45.2020.04.18.12.02.14
+        by smtp.gmail.com with ESMTPSA id i6sm432988wrc.82.2020.04.18.12.03.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2020 12:02:14 -0700 (PDT)
-Date: Sat, 18 Apr 2020 20:02:10 +0100
+        Sat, 18 Apr 2020 12:03:20 -0700 (PDT)
+Date: Sat, 18 Apr 2020 20:03:16 +0100
 From: "Paul Barker" <pbarker@konsulko.com>
 To: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6 08/10] wic: root: Add an opt. destination on include-path
-Message-ID: <20200418200210.4a84c45a@ub1910>
-In-Reply-To: <20200414133614.1830058-9-ricardo@ribalda.com>
+Subject: Re: [PATCH v6 01/10] wic: Fix permissions when using exclude or include path
+Message-ID: <20200418200316.6249b81c@ub1910>
+In-Reply-To: <20200414133614.1830058-2-ricardo@ribalda.com>
 References: <20200414133614.1830058-1-ricardo@ribalda.com>
- <20200414133614.1830058-9-ricardo@ribalda.com>
+ <20200414133614.1830058-2-ricardo@ribalda.com>
 Organization: Konsulko Group
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 14 Apr 2020 15:36:12 +0200
+On Tue, 14 Apr 2020 15:36:05 +0200
 Ricardo Ribalda Delgado <ricardo@ribalda.com> wrote:
 
-> Allow specifying an optional destination to include-path and make the
-> option aware of permissions and owners.
+> When parameters include_path or exclude_path are passed to the rootfs
+> plugin, it will copy the partition content into a folder and make all
+> the modifications there.
 > 
-> It is very useful for making a partition that contains the rootfs for a
-> host and a target Eg:
+> This is done using copyhardlinktree(), which does not take into
+> consideration the content of the pseudo folder, which contains the
+> information about the right permissions and ownership of the folders.
 > 
-> / -> Roofs for the host
-> /export/ -> Rootfs for the target (which will netboot)
+> This results in a rootfs owned by the user that is running the wic
+> command (usually UID 1000), which makes some rootfs unbootable.
 > 
-> Although today we support making a partition for "/export" this might
-> not be compatible with some upgrade systems, or we might be limited by
-> the number of partitions.
+> This bug can be easily triggerd with the following .wks
 > 
-> With this patch we can use something like:
+> part / --source rootfs --fstype=ext4 --exclude-path=home
 > 
-> part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils export/ --include-path hello
+> And this sequence:
 > 
-> on the .wks file.
+> $ wic create test-permissions -e core-image-minimal -o test/
+> $ sudo mount test/test-permissions-202004080823-sda.direct.p1 /mnt
+> $ ls -la /mnt/etc/shadow
+> 
+> To fix this we copy the content of the pseudo folders to the new folder
+> and modify the pseudo database using the "pseudo -B" command.
+> 
+> If the rootfs is not a rootfs generated by bitbake a warning is shown
+> making the user aware that the permissions on the target might not match
+> what he expects.
+> 
+> WARNING: /tmp/test/../pseudo folder does not exist. Usernames and permissions will be invalid
 > 
 > Cc: Paul Barker <pbarker@konsulko.com>
 > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 > ---
->  meta/recipes-core/meta/wic-tools.bb      |  2 +-
->  scripts/lib/wic/help.py                  | 20 +++++----
->  scripts/lib/wic/ksparser.py              |  2 +-
->  scripts/lib/wic/plugins/source/rootfs.py | 54 +++++++++++++++++++++++-
->  4 files changed, 66 insertions(+), 12 deletions(-)
+>  scripts/lib/wic/partition.py             |  7 +++--
+>  scripts/lib/wic/plugins/source/rootfs.py | 36 ++++++++++++++++++++++--
+>  2 files changed, 37 insertions(+), 6 deletions(-)
 > 
-> diff --git a/meta/recipes-core/meta/wic-tools.bb b/meta/recipes-core/meta/wic-tools.bb
-> index 09eb409e87..8aeb942ed2 100644
-> --- a/meta/recipes-core/meta/wic-tools.bb
-> +++ b/meta/recipes-core/meta/wic-tools.bb
-> @@ -6,7 +6,7 @@ DEPENDS = "\
->             parted-native syslinux-native gptfdisk-native dosfstools-native \
->             mtools-native bmap-tools-native grub-efi-native cdrtools-native \
->             btrfs-tools-native squashfs-tools-native pseudo-native \
-> -           e2fsprogs-native util-linux-native \
-> +           e2fsprogs-native util-linux-native tar-native\
->             "
->  DEPENDS_append_x86 = " syslinux grub-efi systemd-boot"
->  DEPENDS_append_x86-64 = " syslinux grub-efi systemd-boot"
-> diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-> index 62a2a90e79..bd3a2b97df 100644
-> --- a/scripts/lib/wic/help.py
-> +++ b/scripts/lib/wic/help.py
-> @@ -971,14 +971,18 @@ DESCRIPTION
->                           has an effect with the rootfs source plugin.
+> diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+> index 2d95f78439..b02711be37 100644
+> --- a/scripts/lib/wic/partition.py
+> +++ b/scripts/lib/wic/partition.py
+> @@ -190,7 +190,7 @@ class Partition():
+>                             (self.mountpoint, self.size, self.fixed_size))
 >  
->           --include-path: This option is specific to wic. It adds the contents
-> -                         of the given path to the resulting image. The path is
-> -                         relative to the directory in which wic is running not
-> -                         the rootfs itself so use of an absolute path is
-> -                         recommended. This option is most useful when multiple
-> -                         copies of the rootfs are added to an image and it is
-> -                         required to add extra content to only one of these
-> -                         copies. This option only has an effect with the rootfs
-> -                         source plugin.
-> +                         of the given path or a rootfs to the resulting image.
-> +                         The option contains two fields, the origin and the
-> +                         destination. When the origin is a rootfs, it follows
-> +                         the same logic as the rootfs-dir argument and the
-> +                         permissions and owners are kept. When the origin is a
-> +                         path, it is relative to the directory in which wic is
-> +                         running not the rootfs itself so use of an absolute
-> +                         path is recommended, and the owner and group is set to
-> +                         root:root. If no destination is given it is
-> +                         automatically set to the root of the rootfs. This
-> +                         option only has an effect with the rootfs source
-> +                         plugin.
->  
->           --change-directory: This option is specific to wic. It changes to the
->                               given directory before copying the files. This
-> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-> index c60869d397..b8befe78e3 100644
-> --- a/scripts/lib/wic/ksparser.py
-> +++ b/scripts/lib/wic/ksparser.py
-> @@ -137,7 +137,7 @@ class KickStart():
->          part.add_argument('--active', action='store_true')
->          part.add_argument('--align', type=int)
->          part.add_argument('--exclude-path', nargs='+')
-> -        part.add_argument('--include-path', nargs='+')
-> +        part.add_argument('--include-path', nargs='+', action='append')
->          part.add_argument('--change-directory')
->          part.add_argument("--extra-space", type=sizetype)
->          part.add_argument('--fsoptions', dest='fsopts')
+>      def prepare_rootfs(self, cr_workdir, oe_builddir, rootfs_dir,
+> -                       native_sysroot, real_rootfs = True):
+> +                       native_sysroot, real_rootfs = True, pseudo_dir = None):
+>          """
+>          Prepare content for a rootfs partition i.e. create a partition
+>          and fill it from a /rootfs dir.
+> @@ -198,8 +198,9 @@ class Partition():
+>          Currently handles ext2/3/4, btrfs, vfat and squashfs.
+>          """
+>          p_prefix = os.environ.get("PSEUDO_PREFIX", "%s/usr" % native_sysroot)
+> -        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR",
+> -                                         "%s/../pseudo" %  rootfs_dir)
+> +        if (pseudo_dir == None):
+> +            pseudo_dir = "%s/../pseudo" %  rootfs_dir
+> +        p_localstatedir = os.environ.get("PSEUDO_LOCALSTATEDIR", pseudo_dir)
+>          p_passwd = os.environ.get("PSEUDO_PASSWD", rootfs_dir)
+>          p_nosymlinkexp = os.environ.get("PSEUDO_NOSYMLINKEXP", "1")
+>          pseudo = "export PSEUDO_PREFIX=%s;" % p_prefix
 > diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-> index 1d21ec2252..9d0666b638 100644
+> index 705aeb5563..caad9efccc 100644
 > --- a/scripts/lib/wic/plugins/source/rootfs.py
 > +++ b/scripts/lib/wic/plugins/source/rootfs.py
-> @@ -17,6 +17,7 @@ import shutil
->  import sys
->  
->  from oe.path import copyhardlinktree
-> +from pathlib import Path
+> @@ -20,7 +20,7 @@ from oe.path import copyhardlinktree
 >  
 >  from wic import WicError
 >  from wic.pluginbase import SourcePlugin
-> @@ -125,8 +126,57 @@ class RootfsPlugin(SourcePlugin):
->                                                      orig_dir, new_rootfs)
->                  exec_native_cmd(pseudo_cmd, native_sysroot)
+> -from wic.misc import get_bitbake_var
+> +from wic.misc import get_bitbake_var, exec_native_cmd
 >  
-> -            for path in part.include_path or []:
-> -                copyhardlinktree(path, new_rootfs)
-> +            for in_path in part.include_path or []:
-> +                #parse arguments
-> +                include_path = in_path[0]
-> +                if len(in_path) > 2:
-> +                    logger.error("'Invalid number of arguments for include-path")
-> +                    sys.exit(1)
-> +                if len(in_path) == 2:
-> +                    path = in_path[1]
-> +                else:
-> +                    path = None
-> +
-> +                #pack content
-> +                tar_file = os.path.realpath(os.path.join(cr_workdir, "aux.tar"))
-
-Could you explain why you're using tar here either in the commit
-message or the comment?
-
-And can we use the line number from the wks in the tarfile name to
-match what we elsewhere in this script? If there's multiple lines using
-`--include-path` that would let me examine each intermediate tarball if
-I need to for debugging (assuming I locally commented out
-`os.remove(tar_file)` below).
-
-> +                if os.path.isfile(include_path):
-> +                    parent = os.path.dirname(include_path)
-> +                    tar_cmd = "tar c --owner=root --group=root -f %s -C %s %s" % (
-> +                                tar_file, parent, os.path.relpath(include_path, parent))
-> +                    exec_native_cmd(tar_cmd, native_sysroot)
-> +                else:
-> +                    if include_path in krootfs_dir:
-> +                        include_path = krootfs_dir[include_path]
-> +                    include_path = cls.__get_rootfs_dir(include_path)
-> +                    include_pseudo = os.path.join(include_path, "../pseudo")
-> +                    if os.path.lexists(include_pseudo):
-> +                        pseudo = cls.__get_pseudo(native_sysroot, include_path,
-> +                                                  include_pseudo)
-> +                        tar_cmd = "tar cf %s -C %s ." % (tar_file, include_path)
-> +                    else:
-> +                        pseudo = None
-> +                        tar_cmd = "tar c --owner=root --group=root -f %s -C %s ." % (
-> +                                tar_file, include_path)
-> +                    exec_native_cmd(tar_cmd, native_sysroot, pseudo)
-> +
-> +                #create destination
-> +                if path:
-> +                    destination = os.path.realpath(os.path.join(new_rootfs, path))
-> +                    if not destination.startswith(new_rootfs):
-> +                        logger.error("%s %s" % (destination, new_rootfs))
-> +                        sys.exit(1)
-> +                    Path(destination).mkdir(parents=True, exist_ok=True)
-> +                else:
-> +                    destination = new_rootfs
-> +
-> +                #extract destination
-> +                untar_cmd = "tar xf %s -C %s" % (tar_file, destination)
-> +                if new_pseudo:
-> +                    pseudo = cls.__get_pseudo(native_sysroot, new_rootfs, new_pseudo)
-> +                else:
-> +                    pseudo = None
-> +                exec_native_cmd(untar_cmd, native_sysroot, pseudo)
-> +                os.remove(tar_file)
+>  logger = logging.getLogger('wic')
 >  
->              for orig_path in part.exclude_path or []:
->                  path = orig_path
+> @@ -44,6 +44,15 @@ class RootfsPlugin(SourcePlugin):
+>  
+>          return os.path.realpath(image_rootfs_dir)
+>  
+> +    @staticmethod
+> +    def __get_pseudo(native_sysroot, rootfs, pseudo_dir):
+> +        pseudo = "export PSEUDO_PREFIX=%s/usr;" % native_sysroot
+> +        pseudo += "export PSEUDO_LOCALSTATEDIR=%s;" % pseudo_dir
+> +        pseudo += "export PSEUDO_PASSWD=%s;" % rootfs
+> +        pseudo += "export PSEUDO_NOSYMLINKEXP=1;"
+> +        pseudo += "%s " % get_bitbake_var("FAKEROOTCMD")
+> +        return pseudo
+> +
+>      @classmethod
+>      def do_prepare_partition(cls, part, source_params, cr, cr_workdir,
+>                               oe_builddir, bootimg_dir, kernel_dir,
+> @@ -68,8 +77,14 @@ class RootfsPlugin(SourcePlugin):
+>                                 "it is not a valid path, exiting" % part.rootfs_dir)
+>  
+>          part.rootfs_dir = cls.__get_rootfs_dir(rootfs_dir)
+> +        pseudo_dir = os.path.join(part.rootfs_dir, "../pseudo")
+> +        if not os.path.lexists(pseudo_dir):
+> +            logger.warn("%s folder does not exist. "
+> +                        "Usernames and permissions will be invalid " % pseudo_dir)
+> +            pseudo_dir = None
+>  
+>          new_rootfs = None
+> +        new_pseudo = None
+>          # Handle excluded paths.
+>          if part.exclude_path or part.include_path:
+>              # We need a new rootfs directory we can delete files from. Copy to
+> @@ -78,9 +93,23 @@ class RootfsPlugin(SourcePlugin):
+>  
+>              if os.path.lexists(new_rootfs):
+>                  shutil.rmtree(os.path.join(new_rootfs))
+> -
+>              copyhardlinktree(part.rootfs_dir, new_rootfs)
+>  
+> +            # Convert the pseudo directory to its new location
+> +            if (pseudo_dir):
+> +                new_pseudo = os.path.join(new_rootfs, "../pseudo%d" % part.lineno)
+
+I still don't like this, it's unclear from looking at the patch alone
+that it's safe to step up the directory tree here.
+
+As I've said before, let's use an explicit path instead, such as:
+
+    new_pseudo = os.path.realpath(os.path.join(cr_workdir, "pseudo%d" % part.lineno))
+
+Then there's no '..', it's obviously safe and it's less likely someone
+will break things by accident in the future.
+
+> +                if os.path.lexists(new_pseudo):
+> +                    shutil.rmtree(new_pseudo)
+> +                os.mkdir(new_pseudo)
+> +                shutil.copy(os.path.join(pseudo_dir, "files.db"),
+> +                            os.path.join(new_pseudo, "files.db"))
+> +
+> +                pseudo_cmd = "%s -B -m %s -M %s" % (cls.__get_pseudo(native_sysroot,
+> +                                                                     new_rootfs,
+> +                                                                     new_pseudo),
+> +                                                    part.rootfs_dir, new_rootfs)
+> +                exec_native_cmd(pseudo_cmd, native_sysroot)
+> +
+>              for path in part.include_path or []:
+>                  copyhardlinktree(path, new_rootfs)
+>  
+> @@ -112,4 +141,5 @@ class RootfsPlugin(SourcePlugin):
+>                      shutil.rmtree(full_path)
+>  
+>          part.prepare_rootfs(cr_workdir, oe_builddir,
+> -                            new_rootfs or part.rootfs_dir, native_sysroot)
+> +                            new_rootfs or part.rootfs_dir, native_sysroot,
+> +                            pseudo_dir = new_pseudo or pseudo_dir)
 
 -- 
 Paul Barker
