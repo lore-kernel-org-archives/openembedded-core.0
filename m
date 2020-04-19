@@ -1,53 +1,53 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.12744.1587278158675586372
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web10.12745.1587278160622243770
  for <openembedded-core@lists.openembedded.org>;
- Sat, 18 Apr 2020 23:35:59 -0700
+ Sat, 18 Apr 2020 23:36:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=W+S2pan8;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id a81so7517675wmf.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2020 23:35:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZsFhfBS7;
+ spf=pass (domain: gmail.com, ip: 209.85.128.67, mailfrom: ricardo.ribalda@gmail.com)
+Received: by mail-wm1-f67.google.com with SMTP id u127so6422637wmg.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 18 Apr 2020 23:36:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=N77GayHg/5/eLrgYHWXfnTw+B002DDe5KNzYaTDlK3o=;
-        b=W+S2pan8iLLSsy5NUrH8UCMfEL3CbwbSFZi5oRNoyV3n4s68OmSHLf3krdWOFzVbRN
-         koq8NRZkuVVQxxSgn7OzyhwPB01RD6qD0rXCHr+JOXYDTVHLnl7AdVc8CvehvD9ThKwt
-         MXmxqSE+eGSP3qk1tTZln847PR9wRzzolJqd0xblnyfYuk7b3/gAf8zbaqCim75kw5qT
-         hBzlHrsG0yfBoWQoDtn6a7h3Of4EqPQPLH58gPk0JS4QMbdfz/ft1vQFAsDpOrS1chop
-         e2i1+4sp+MY4ppkNMo9whgWDhCIlC+1Tb2Y2ffmsH1IaTVybK++JJj3XjAeTl4d/nB0x
-         pSIQ==
+        bh=m4Yl58OjyWzbRm5CxslKuL00I7NVFdx/GdANzLSiMJM=;
+        b=ZsFhfBS7iSEnYZNZoW4FQ7c0VgoHuHIgBW1IKWKGH2ZyY3/hHm1+v21erAyz0zPrf5
+         AEuOhNE4YqTrIcRgDLrALSIxnFX3TzzG4Vbwn/cb1Wc35mGph25ebBDemUirv6KvFsb2
+         Dwfl8IM7uQyLRHKvZYINMYmrcJY77d8kZcYnLdw9KjIdDhRMOKxC9LOtG4WAfbZYMp8l
+         KWb/7vqdiXQlE1alhkheLD2gMpw6YEqTJ2kyqdxTRi4cuQI4Ky0bGacQmB/O9h7RNZyO
+         5QysE4eh+aIIRNW9XWw09nk/X3wf453LA/xZIKyB7FtibwvHBnd9C/4b2kpG5GeUlUF6
+         HA/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
          :in-reply-to:references:mime-version:content-transfer-encoding;
-        bh=N77GayHg/5/eLrgYHWXfnTw+B002DDe5KNzYaTDlK3o=;
-        b=ZWapkmFtGObnKvLxfjdKU1Aw0rBSAotO3ApEfCsjDv9Eqx57pd6dmJ3EdHFCc5pJEV
-         c9kShFLAFS/n6rgSBzQAQFcA6woZhBmO/4OZqVLp2Q93O3DQDvfgWE+17mhe8l6JDfp8
-         RvFwsizxnKPA4yhM4I+sKpxLN1KXo3xSmnL/F/dpQKwIj1udnRaPglBaZb+xdrZ5Z/VQ
-         J6OduJf4iT1lhbMP6bYdnNpRKMFvY+5McB89FreYpiA1N9kc6tIB9IF0t78FS40s1MRf
-         4JDFYwzMGCOwLuvVBwuBBOmqRUnG73PxaGUP4a1ITkYsDTTbWvQ4zWYhNbJrvir01sP+
-         syug==
-X-Gm-Message-State: AGi0Pubg5Iey7WFpDuoQSRvqXw5TQagRkmaXtBVehBlcCx1qgxfAy96H
-	V7/AZvllwU1Ikuk68bxTKVvzyG2AZKc=
-X-Google-Smtp-Source: APiQypL2FCZi5nzHb8IQb8vZm08n06nkgDaDGFo1QGPN09tkhjm9ENIAvYb40VTaRkAfLohoJgz/jQ==
-X-Received: by 2002:a1c:f606:: with SMTP id w6mr11180725wmc.59.1587278156658;
-        Sat, 18 Apr 2020 23:35:56 -0700 (PDT)
+        bh=m4Yl58OjyWzbRm5CxslKuL00I7NVFdx/GdANzLSiMJM=;
+        b=lWdO97TZ4Cg8PBCMAk2WnvYrJNdsIGJXMZsAXCDbLpdmUs/a9soQF1+kOdYMQNAhbJ
+         8adoyJVjzkTD0d84Z2ncK4LJIu4LysvjKJP62pDQqZfeCnnn+cLq2MsmK0M4u8RaXP0M
+         09YULFMu7lGMzVOsbuaPnk8NDJ8ZkdRbuD5vaUs0ox76yaip+1y9J3Tr2jSBTIvhmXeA
+         OXWwkLApE7/xS/juJFK5STouOUnPP9YPyw4c+xq1hBetkVxw6CyEraU3FcAKyQ7NENTd
+         a/JAfbXG4Ovgdv/Ifr13xIx+Qh1q5tnFpQT0jOGhoGtaqx4U9WpUwa72rz7i9HeD86ES
+         abfg==
+X-Gm-Message-State: AGi0PubRJ0qKTPJH8vLku9B3VNR4L/mz1MRb6RTSRFiXQb72yp+JRZcp
+	uCjBQJ3DZeA2caHFAC9k+phgjKlUGYg=
+X-Google-Smtp-Source: APiQypJQrW4TMJ89TQqZzAuMK4SYgaAj7acGAYfMtDU9MaZprIJ1hwEkynQATl7Tyqmqv+SBofwTVQ==
+X-Received: by 2002:a1c:1f09:: with SMTP id f9mr1111034wmf.31.1587278158605;
+        Sat, 18 Apr 2020 23:35:58 -0700 (PDT)
 Return-Path: <ricardo.ribalda@gmail.com>
 Received: from piling.lan (80-71-134-83.u.parknet.dk. [80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id n6sm13980266wmc.28.2020.04.18.23.35.54
+        by smtp.gmail.com with ESMTPSA id n6sm13980266wmc.28.2020.04.18.23.35.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2020 23:35:55 -0700 (PDT)
+        Sat, 18 Apr 2020 23:35:56 -0700 (PDT)
 Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
 To: openembedded-core <openembedded-core@lists.openembedded.org>,
 	Paul Barker <pbarker@konsulko.com>
 Cc: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>,
 	Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Subject: [PATCH v7 09/10] wic: rootfs: Combine path_validation in one function
-Date: Sun, 19 Apr 2020 08:35:37 +0200
-Message-Id: <20200419063539.1467641-10-ricardo@ribalda.com>
+Subject: [PATCH v7 10/10] oeqa: wic: Add more tests for include_path
+Date: Sun, 19 Apr 2020 08:35:38 +0200
+Message-Id: <20200419063539.1467641-11-ricardo@ribalda.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200419063539.1467641-1-ricardo@ribalda.com>
 References: <20200419063539.1467641-1-ricardo@ribalda.com>
@@ -56,89 +56,98 @@ Content-Transfer-Encoding: 8bit
 
 From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
 
-Combine all the common path validation in a function to avoid code
-duplication.
+Make sure permissions are respected.
+
+Add new test for orig/destination option.
 
 Cc: Paul Barker <pbarker@konsulko.com>
 Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 ---
- scripts/lib/wic/plugins/source/rootfs.py | 41 +++++++++++-------------
- 1 file changed, 19 insertions(+), 22 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 63 ++++++++++++++++++++++++++++-
+ 1 file changed, 62 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index 544e868b5e..f1db83f8a1 100644
---- a/scripts/lib/wic/plugins/source/rootfs.py
-+++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -32,6 +32,22 @@ class RootfsPlugin(SourcePlugin):
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 41cf23f778..c8765e5330 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -486,15 +486,76 @@ part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
+             res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part1))
+             files = extract_files(res.output)
+             self.assertNotIn('test-file', files)
++            self.assertEqual(True, files_own_by_root(res.output))
  
-     name = 'rootfs'
+-            # Test partition 2, should not contain 'test-file'
++            # Test partition 2, should contain 'test-file'
+             res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part2))
+             files = extract_files(res.output)
+             self.assertIn('test-file', files)
++            self.assertEqual(True, files_own_by_root(res.output))
  
-+    @staticmethod
-+    def __validate_path(cmd, rootfs_dir, path):
-+        if os.path.isabs(path):
-+            logger.error("%s: Must be relative: %s" % (cmd, orig_path))
-+            sys.exit(1)
+         finally:
+             os.environ['PATH'] = oldpath
+ 
++    def test_include_path_embeded(self):
++        """Test --include-path wks option."""
 +
-+        # Disallow climbing outside of parent directory using '..',
-+        # because doing so could be quite disastrous (we will delete the
-+        # directory, or modify a directory outside OpenEmbedded).
-+        full_path = os.path.realpath(os.path.join(rootfs_dir, path))
-+        if not full_path.startswith(os.path.realpath(rootfs_dir)):
-+            logger.error("%s: Must point inside the rootfs:" % (cmd, path))
-+            sys.exit(1)
++        oldpath = os.environ['PATH']
++        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
 +
-+        return full_path
++        try:
++            include_path = os.path.join(self.resultdir, 'test-include')
++            os.makedirs(include_path)
++            with open(os.path.join(include_path, 'test-file'), 'w') as t:
++                t.write("test\n")
++            wks_file = os.path.join(include_path, 'temp.wks')
++            with open(wks_file, 'w') as wks:
++                wks.write("""
++part / --source rootfs  --fstype=ext4 --include-path %s --include-path core-image-minimal-mtdutils export/"""
++                          % (include_path))
++            runCmd("wic create %s -e core-image-minimal -o %s" \
++                                       % (wks_file, self.resultdir))
 +
-     @staticmethod
-     def __get_rootfs_dir(rootfs_dir):
-         if os.path.isdir(rootfs_dir):
-@@ -99,14 +115,7 @@ class RootfsPlugin(SourcePlugin):
-                 cd = part.change_directory
-                 if cd[-1] == '/':
-                     cd = cd[:-1]
--                if os.path.isabs(cd):
--                    logger.error("Must be relative: --change-directory=%s" % cd)
--                    sys.exit(1)
--                orig_dir = os.path.realpath(os.path.join(part.rootfs_dir, cd))
--                if not orig_dir.startswith(part.rootfs_dir):
--                    logger.error("'%s' points to a path outside the rootfs" % orig_dir)
--                    sys.exit(1)
--
-+                orig_dir = cls.__validate_path("--change-directory", part.rootfs_dir, cd)
-             else:
-                 orig_dir = part.rootfs_dir
-             copyhardlinktree(orig_dir, new_rootfs)
-@@ -168,10 +177,7 @@ class RootfsPlugin(SourcePlugin):
- 
-                 #create destination
-                 if path:
--                    destination = os.path.realpath(os.path.join(new_rootfs, path))
--                    if not destination.startswith(new_rootfs):
--                        logger.error("%s %s" % (destination, new_rootfs))
--                        sys.exit(1)
-+                    destination = cls.__validate_path("--include-path", new_rootfs, path)
-                     Path(destination).mkdir(parents=True, exist_ok=True)
-                 else:
-                     destination = new_rootfs
-@@ -187,17 +193,8 @@ class RootfsPlugin(SourcePlugin):
- 
-             for orig_path in part.exclude_path or []:
-                 path = orig_path
--                if os.path.isabs(path):
--                    logger.error("Must be relative: --exclude-path=%s" % orig_path)
--                    sys.exit(1)
- 
--                full_path = os.path.realpath(os.path.join(new_rootfs, path))
--                # Disallow climbing outside of parent directory using '..',
--                # because doing so could be quite disastrous (we will delete the
--                # directory).
--                if not full_path.startswith(new_rootfs):
--                    logger.error("'%s' points to a path outside the rootfs" % orig_path)
--                    sys.exit(1)
-+                full_path = cls.__validate_path("--exclude-path", new_rootfs, path)
- 
-                 if not os.path.lexists(full_path):
-                     continue
++            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
++
++            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part1))
++            files = extract_files(res.output)
++            self.assertIn('test-file', files)
++            self.assertEqual(True, files_own_by_root(res.output))
++
++            res = runCmd("debugfs -R 'ls -p /export/etc/' %s 2>/dev/null" % (part1))
++            files = extract_files(res.output)
++            self.assertIn('passwd', files)
++            self.assertEqual(True, files_own_by_root(res.output))
++
++        finally:
++            os.environ['PATH'] = oldpath
++
++    def test_include_path_errors(self):
++        """Test --include-path wks option error handling."""
++        wks_file = 'temp.wks'
++
++        # Absolute argument.
++        with open(wks_file, 'w') as wks:
++            wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils /export")
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
++                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        os.remove(wks_file)
++
++        # Argument pointing to parent directory.
++        with open(wks_file, 'w') as wks:
++            wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils ././..")
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
++                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        os.remove(wks_file)
++
++        # 3 Argument pointing to parent directory.
++        with open(wks_file, 'w') as wks:
++            wks.write("part / --source rootfs --fstype=ext4 --include-path core-image-minimal-mtdutils export/ dummy")
++        self.assertNotEqual(0, runCmd("wic create %s -e core-image-minimal -o %s" \
++                                      % (wks_file, self.resultdir), ignore_status=True).status)
++        os.remove(wks_file)
++
+     def test_exclude_path_errors(self):
+         """Test --exclude-path wks option error handling."""
+         wks_file = 'temp.wks'
 -- 
 2.25.1
 
