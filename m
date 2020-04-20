@@ -1,61 +1,125 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web12.1596.1587368585376890553
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.2708.1587376705752612316
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Apr 2020 00:43:08 -0700
+ Mon, 20 Apr 2020 02:58:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.72,405,1580745600"; 
-   d="scan'208";a="89267066"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 20 Apr 2020 15:43:00 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 4A4A150A9969
-	for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2020 15:32:22 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 20 Apr 2020 15:42:57 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: zhixiong.chi@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 03K9vhRp016325
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2020 02:58:14 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Mon, 20 Apr 2020
+ 02:58:02 -0700
+From: "Zhixiong Chi" <zhixiong.chi@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] liburcu: upgrade 0.11.1 -> 0.12.0
-Date: Tue, 21 Apr 2020 00:26:49 +0800
-Message-ID: <1587400009-93003-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+Subject: [ZEUS][OE-core][PATCH] glibc: CVE-2020-1751
+Date: Mon, 20 Apr 2020 02:58:02 -0700
+Message-ID: <20200420095802.15290-1-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: 4A4A150A9969.A7447
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Backport the CVE patch from upstream:
+git://sourceware.org/git/glibc.git
+commit d93769405996dfc11d216ddbe415946617b5a494
+
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 ---
- .../liburcu/{liburcu_0.11.1.bb => liburcu_0.12.0.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/liburcu/{liburcu_0.11.1.bb => liburcu_0.12.0.bb} (83%)
+ .../glibc/glibc/CVE-2020-1751.patch           | 70 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.30.bb         |  1 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-1751.patch
 
-diff --git a/meta/recipes-support/liburcu/liburcu_0.11.1.bb b/meta/recipes-support/liburcu/liburcu_0.12.0.bb
-similarity index 83%
-rename from meta/recipes-support/liburcu/liburcu_0.11.1.bb
-rename to meta/recipes-support/liburcu/liburcu_0.12.0.bb
-index 6a517e6f29..0c20abe6d5 100644
---- a/meta/recipes-support/liburcu/liburcu_0.11.1.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.12.0.bb
-@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e548d28737289d75a8f1e01ba2fd7825 \
- 
- SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
- 
--SRC_URI[md5sum] = "91c75d5902127f94ab556ce039b369ca"
--SRC_URI[sha256sum] = "92b9971bf3f1c443edd6c09e7bf5ff3b43531e778841f16377a812c8feeb3350"
-+SRC_URI[md5sum] = "d923a42ce38e33e883313003c8afd559"
-+SRC_URI[sha256sum] = "409b1be506989e1d26543194df1a79212be990fe5d4fd84f34f019efed989f97"
- 
- S = "${WORKDIR}/userspace-rcu-${PV}"
- inherit autotools multilib_header
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-1751.patch b/meta/recipes-core/glibc/glibc/CVE-2020-1751.patch
+new file mode 100644
+index 0000000000..0ed92d50e9
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2020-1751.patch
+@@ -0,0 +1,70 @@
++From d93769405996dfc11d216ddbe415946617b5a494 Mon Sep 17 00:00:00 2001
++From: Andreas Schwab <schwab@suse.de>
++Date: Mon, 20 Jan 2020 17:01:50 +0100
++Subject: [PATCH] Fix array overflow in backtrace on PowerPC (bug 25423)
++
++When unwinding through a signal frame the backtrace function on PowerPC
++didn't check array bounds when storing the frame address.  Fixes commit
++d400dcac5e ("PowerPC: fix backtrace to handle signal trampolines").
++
++CVE: CVE-2020-1751
++Upstream-Status: Backport [git://sourceware.org/git/glibc.git]
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ debug/tst-backtrace5.c                | 12 ++++++++++++
++ sysdeps/powerpc/powerpc32/backtrace.c |  2 ++
++ sysdeps/powerpc/powerpc64/backtrace.c |  2 ++
++ 3 files changed, 16 insertions(+)
++
++diff --git a/debug/tst-backtrace5.c b/debug/tst-backtrace5.c
++index e7ce410845..b2f46160e7 100644
++--- a/debug/tst-backtrace5.c
+++++ b/debug/tst-backtrace5.c
++@@ -89,6 +89,18 @@ handle_signal (int signum)
++       }
++   /* Symbol names are not available for static functions, so we do not
++      check do_test.  */
+++
+++  /* Check that backtrace does not return more than what fits in the array
+++     (bug 25423).  */
+++  for (int j = 0; j < NUM_FUNCTIONS; j++)
+++    {
+++      n = backtrace (addresses, j);
+++      if (n > j)
+++	{
+++	  FAIL ();
+++	  return;
+++	}
+++    }
++ }
++ 
++ NO_INLINE int
++diff --git a/sysdeps/powerpc/powerpc32/backtrace.c b/sysdeps/powerpc/powerpc32/backtrace.c
++index 7c2d4726f8..d1456c8ae4 100644
++--- a/sysdeps/powerpc/powerpc32/backtrace.c
+++++ b/sysdeps/powerpc/powerpc32/backtrace.c
++@@ -114,6 +114,8 @@ __backtrace (void **array, int size)
++         }
++       if (gregset)
++ 	{
+++	  if (count + 1 == size)
+++	    break;
++ 	  array[++count] = (void*)((*gregset)[PT_NIP]);
++ 	  current = (void*)((*gregset)[PT_R1]);
++ 	}
++diff --git a/sysdeps/powerpc/powerpc64/backtrace.c b/sysdeps/powerpc/powerpc64/backtrace.c
++index 65c260ab76..8a53a1088f 100644
++--- a/sysdeps/powerpc/powerpc64/backtrace.c
+++++ b/sysdeps/powerpc/powerpc64/backtrace.c
++@@ -87,6 +87,8 @@ __backtrace (void **array, int size)
++       if (is_sigtramp_address (current->return_address))
++         {
++ 	  struct signal_frame_64 *sigframe = (struct signal_frame_64*) current;
+++	  if (count + 1 == size)
+++	    break;
++           array[++count] = (void*) sigframe->uc.uc_mcontext.gp_regs[PT_NIP];
++ 	  current = (void*) sigframe->uc.uc_mcontext.gp_regs[PT_R1];
++ 	}
++-- 
++2.23.0
++
+diff --git a/meta/recipes-core/glibc/glibc_2.30.bb b/meta/recipes-core/glibc/glibc_2.30.bb
+index c9e44a396d..84a6538ea1 100644
+--- a/meta/recipes-core/glibc/glibc_2.30.bb
++++ b/meta/recipes-core/glibc/glibc_2.30.bb
+@@ -43,6 +43,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0028-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+            file://CVE-2019-19126.patch \
+            file://CVE-2020-10029.patch \
++           file://CVE-2020-1751.patch \
+            "
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
-2.17.1
-
-
+2.23.0
 
