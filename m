@@ -1,74 +1,61 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.7907.1587334559078863150
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web12.1500.1587367791691211755
  for <openembedded-core@lists.openembedded.org>;
- Sun, 19 Apr 2020 15:15:59 -0700
+ Mon, 20 Apr 2020 00:29:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=abm5prMb;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id k11so9834423wrp.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 19 Apr 2020 15:15:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=lK675DZKY0aH6S9/TuDb/4ozD0B7KUJHGmehocs3HWw=;
-        b=abm5prMbQLYeqjf+stRUjTQA4xb/wqXH32wYlqqYwrSn4oly1S9GnWdDfwfmtlfv6B
-         BXcfYgvmx0xSIWY7jbQo0KVu7AwJRdEtlQR9kejeDxEoUHgbxAi8S7WVqTUQTL5p/tRT
-         n8ITT3GF5Dypg/c1WLRql3l1zCbxWA9hq0Kik=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=lK675DZKY0aH6S9/TuDb/4ozD0B7KUJHGmehocs3HWw=;
-        b=t3OzHBtqFNcHAXWfLt4JvrOB6bSs8stTmd8cxZOKJeluZljVtStZ/hUcPYDgta4AHf
-         5Bt1bcySUfl3iWjHk5AWI0i3eFbes7y3p0bMvjcAiea2KPoypidqPS50szfpe3psGitR
-         Bd/r782Jxicg3+5qHuF56II+pv/gDb3ExBE2dNCMbrcLwyokwSG7mmFyWA0twFrPkl8b
-         +0JG8KiLlwRFg6hmBxtUc6w+6UkWNZafaGL97DbL3ghNY/h+qJ1SJ5C8V3CXv+/aRvph
-         fKoVfYysoQQbaa/tAyqQQGcjuHMhTRLjzoWLTfbjGUopWs8FU7jepbFkNxDq8w57w/wv
-         aOtQ==
-X-Gm-Message-State: AGi0PubTTnciUvNck78hyFVnAXw0+hqwFOYFWOM+sW8/5i1tIWGUtyRV
-	uQLlKuofWNxHNDZ0FEhWZaLyPg==
-X-Google-Smtp-Source: APiQypJ38ZNTzyF2WbHSByAjOF55fnI7D4R5cztLhigZHWgbY0sAVd1/KY2MXehHrFRj+qtyKXoJUg==
-X-Received: by 2002:a5d:54ce:: with SMTP id x14mr16713949wrv.103.1587334557528;
-        Sun, 19 Apr 2020 15:15:57 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id a205sm17185530wmh.29.2020.04.19.15.15.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2020 15:15:56 -0700 (PDT)
-Message-ID: <207860401ddfafd8de45143986549873935deff7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Uninative for i386 native tool?
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: chris.laplante@agilent.com, Martin Jansa <martin.jansa@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Sun, 19 Apr 2020 23:15:55 +0100
-In-Reply-To: <DM5PR12MB2471B5B5A25824BCF32B57DA8BD70@DM5PR12MB2471.namprd12.prod.outlook.com>
-References: 
-	<DM5PR12MB24716958338957D20225905B8BD70@DM5PR12MB2471.namprd12.prod.outlook.com>
-	 <CA+chaQdBw7KakRcy3A-1TBi361ZPutzWVG3jyRiaswoXH9+2TQ@mail.gmail.com>
-	 <DM5PR12MB2471B5B5A25824BCF32B57DA8BD70@DM5PR12MB2471.namprd12.prod.outlook.com>
-User-Agent: Evolution 3.36.1-2 
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.72,405,1580745600"; 
+   d="scan'208";a="89266253"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 20 Apr 2020 15:29:41 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id EE69E46B5FAA
+	for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2020 15:19:02 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Mon, 20 Apr 2020 15:29:38 +0800
+From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] ell: upgrade 0.30 -> 0.31
+Date: Tue, 21 Apr 2020 00:13:24 +0800
+Message-ID: <1587399204-92744-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
+X-yoursite-MailScanner-ID: EE69E46B5FAA.A9CB1
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-On Sun, 2020-04-19 at 21:58 +0000, Chris Laplante via
-lists.openembedded.org wrote:
-> One possible work around which I'm using for some prebuilt native
-> binaries is to call them with hosts loader (e.g. /lib32/ld-linux.so.2 
-> ${STAGING_BINDIR_NATIVE}/my-tool params)
->  
-> Ooh, nice. Thanks for the tip! Definitely curious about a longer-term 
-> workaround but this is good for the short term.  
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ meta/recipes-core/ell/{ell_0.30.bb => ell_0.31.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/ell/{ell_0.30.bb => ell_0.31.bb} (83%)
 
-I suspect uninative assumes all binaries are for the main system
-architecture so its probably trying to change the interpreter to a 64
-bit one which clearly won't work in this case.
+diff --git a/meta/recipes-core/ell/ell_0.30.bb b/meta/recipes-core/ell/ell_0.31.bb
+similarity index 83%
+rename from meta/recipes-core/ell/ell_0.30.bb
+rename to meta/recipes-core/ell/ell_0.31.bb
+index 17045b3ae5..1db7131ab0 100644
+--- a/meta/recipes-core/ell/ell_0.30.bb
++++ b/meta/recipes-core/ell/ell_0.31.bb
+@@ -14,8 +14,8 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
+ 
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "79c757858688cc6c36087605234d87a8"
+-SRC_URI[sha256sum] = "51cf8cc66a9d1038e41f7d619ea5660aa4476904496562b2d45ca79370ca4a5e"
++SRC_URI[md5sum] = "3f670230be4d89d621b0508c70b1d36b"
++SRC_URI[sha256sum] = "ae88617275452f9f5840b2365e33e6c7fb6fa3405d42cbf9367de642ee8b6701"
+ 
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
+-- 
+2.17.1
 
-It would be a question of stopping it for these binaries somehow...
 
-Cheers,
-
-Richard
 
