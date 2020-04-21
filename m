@@ -1,61 +1,48 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web12.3295.1587486752977187269
- for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Apr 2020 09:32:33 -0700
-Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8465760F2B;
-	Tue, 21 Apr 2020 16:32:30 +0000 (UTC)
+Subject: Re: [PATCH 2/2] boost: revert 1.72.0 regression
+To: openembedded-core@lists.openembedded.org
+From: "Andrew Geissler" <geissonator@gmail.com>
+X-Originating-Location: Austin, Texas, US (45.18.127.186)
+X-Originating-Platform: Mac Firefox 75
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImJvb3N0OiBzd2l0Y2ggb3ZlciB0byBzb3VyY2Vmby4uLiIgYW5kIDEgbW9yZQ==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Andrew Geissler <geissonator@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Apr 2020 16:32:32 -0000
-Message-ID: <20200421163232.2277.85013@do>
-References: <20200420200016.49947-1-geissonator@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200420200016.49947-1-geissonator@gmail.com>
+Date: Tue, 21 Apr 2020 12:31:26 -0700
+References: <CANNYZj_PYZSmYSdYUytQOYHJw+P=1M26nfzy7crQ0-X3MRvfRg@mail.gmail.com>
+In-Reply-To: <CANNYZj_PYZSmYSdYUytQOYHJw+P=1M26nfzy7crQ0-X3MRvfRg@mail.gmail.com>
+Message-ID: <21679.1587497486653997697@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="MFM2PkZXJpatZ1Uj1Dwi"
+
+--MFM2PkZXJpatZ1Uj1Dwi
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-== Series Details ==
+>=20
+> The patch needs an Upstream-Status. Is it a backport (then the link to
+> repo needs to be provided)?
 
-Series: "boost: switch over to sourcefo..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/23826/
-State : failure
+Thanks for the quick review Alexander. My understanding is that boost rele=
+ased 1.72.0 and then found this regression so they provide a link to this p=
+atch on their 1.72.0 release page.
 
-== Summary ==
+Here's a link to the upstream revert commit:
+https://github.com/boostorg/coroutine/commit/9c73b2f7c1759a9508ba8780b38dc=
+15f07f1a447
 
+I saw an automated response from patchwork asking for a Signed-off-by tag =
+for the patch but since the upstream commit does not have it, not sure what=
+ to do?
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+--MFM2PkZXJpatZ1Uj1Dwi
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+<blockquote>The patch needs an Upstream-Status. Is it a backport (then the =
+link to repo needs to be provided)?</blockquote>
+Thanks for the quick review Alexander. My understanding is that boost rele=
+ased 1.72.0 and then found this regression so they provide a link to this p=
+atch on their 1.72.0 release page.<br /><br />Here's a link to the upstream=
+ revert commit:<br />https://github.com/boostorg/coroutine/commit/9c73b2f7c=
+1759a9508ba8780b38dc15f07f1a447<br /><br />I saw an automated response from=
+ patchwork asking for a Signed-off-by tag for the patch but since the upstr=
+eam commit does not have it, not sure what to do?
 
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+--MFM2PkZXJpatZ1Uj1Dwi--
