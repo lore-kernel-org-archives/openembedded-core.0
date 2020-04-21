@@ -1,58 +1,57 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.1901.1587504751958050773
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+ by mx.groups.io with SMTP id smtpd.web10.111.1587507938020922549
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Apr 2020 14:32:32 -0700
+ Tue, 21 Apr 2020 15:25:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 736B460B33;
-	Tue, 21 Apr 2020 21:32:29 +0000 (UTC)
+ dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 134.134.136.100, mailfrom: timothy.t.orling@linux.intel.com)
+IronPort-SDR: G22UOHhEa1uPR6eCTEpcgstvIXZV9Bt4tGJspZJXsympoF08LXThD4eCay902thVPq9XNvJX99
+ PyhNvOiw+NZw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2020 15:25:37 -0700
+IronPort-SDR: uSd5th5+l3tx6skkpk7oXhACzrZLSUq76w45sMZjSV0W1WdjWusQ5px5u+pYQGLI0igDWIbx85
+ zLBH8aoo3VJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.72,411,1580803200"; 
+   d="scan'208";a="273677995"
+Received: from wrath.jf.intel.com ([10.54.31.24])
+  by orsmga002.jf.intel.com with ESMTP; 21 Apr 2020 15:25:37 -0700
+From: "Tim Orling" <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <timothy.t.orling@linux.intel.com>
+Subject: [master][dunfell][PATCH] scripts/install-buildtools: bump to 3.1 release by default
+Date: Tue, 21 Apr 2020 15:25:08 -0700
+Message-Id: <20200421222508.1372-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYm9vc3Q6IHJldmVydCAxLjcyLjAgcmVncmVzc2lvbg==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Andrew Geissler <geissonator@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Apr 2020 21:32:30 -0000
-Message-ID: <20200421213230.2275.54069@do>
-References: <FMfcgxwHMsSvNCwGBddRdPhnrKlPMmhL>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <FMfcgxwHMsSvNCwGBddRdPhnrKlPMmhL>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+By default, use the extended buildtools installer from the
+Yocto Project 3.1 "dunfell" release.
 
-Series: boost: revert 1.72.0 regression
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/23828/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ scripts/install-buildtools | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index 9da364981e5..c6b3a1eed72 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -56,9 +56,9 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+ 
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+ DEFAULT_BASE_URL = 'http://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-3.1_M3'
+-DEFAULT_INSTALLER_VERSION = '3.0+snapshot'
+-DEFAULT_BUILDDATE = "20200315"
++DEFAULT_RELEASE = 'yocto-3.1'
++DEFAULT_INSTALLER_VERSION = '3.1'
++DEFAULT_BUILDDATE = ''
+ 
+ # Python version sanity check
+ if not (sys.version_info.major == 3 and sys.version_info.minor >= 4):
+-- 
+2.24.0
 
