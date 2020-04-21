@@ -1,188 +1,100 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web11.236.1587499815919622481
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
+ by mx.groups.io with SMTP id smtpd.web10.277.1587499914657779783
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Apr 2020 13:10:16 -0700
+ Tue, 21 Apr 2020 13:11:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 198.145.29.25, mailfrom: auh@auh.yoctoproject.org)
-Received: from auh.yoctoproject.org (unknown [172.29.10.30])
-	by mail.yoctoproject.org (Postfix) with ESMTP id C247138C13EC
-	for <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2020 13:10:15 -0700 (PDT)
-Received: by auh.yoctoproject.org (Postfix, from userid 112)
-	id AC4DE440001; Tue, 21 Apr 2020 13:10:15 -0700 (PDT)
-Subject: AUH monthly stats, manual resend
-To: <openembedded-core@lists.openembedded.org>
-X-Mailer: mail (GNU Mailutils 2.99.99)
-Message-Id: <20200421201015.AC4DE440001@auh.yoctoproject.org>
-Date: Tue, 21 Apr 2020 13:10:15 -0700 (PDT)
-From: auh@auh.yoctoproject.org
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=r3qzgFH7;
+ spf=pass (domain: gmail.com, ip: 209.85.217.68, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f68.google.com with SMTP id s11so1120vsq.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2020 13:11:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vW8EWAsv6SP6/h34jsJMCVASuSNA3xaNnC28reDyt04=;
+        b=r3qzgFH77lMvvppxKkzirqLB3i2dej8esDqMZ+FZAez7fKzucFDwe0XjxxYHH+uM9B
+         v8MwFxUmFya7atiZHL38ozDk5HfS078iGANn93dKO6rdK2jjjANrf2G5nF9fonuFJJBw
+         f0XDtDeE2Z7A/5NeAyoa/g/xSxtjmrUGPO4wG4giMM1ocWQKyjUuXiRSw/rX3X0IYLZR
+         xGWQ4rahxVh9KKCCYReSCPay9cC6RU0Bc4/oyaU38K6TBcyHiKF2WYIOF43bdyz7o0gZ
+         O1KTSTGq8OATuU9lo46QN9y1kG1Y/JJbLwiarOo7Ib0b8+Abcb2KY1WkNkurpsFm6oMC
+         GPiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vW8EWAsv6SP6/h34jsJMCVASuSNA3xaNnC28reDyt04=;
+        b=JmFt4gxHJYFbDpX1H7fXfRjPhuoWA9PE47B0DlHodJ71fWTt6N9oIIrVRV2UL6EQ7D
+         00Fi6JW15g/cRTTY46kgDzFrzZfod1ntd+0WSXbu84Scrf3C1zXNj5xTUYfhw+AS57vA
+         3ZSlOGTfra4KuR11hXq4RthhN5uKK8dLKrS4WtdJjdS0Y6C0zoMSXQWNpjlyf1KQTVGO
+         3ZZ0ZQgqRnNaQnvkeObcbyhpKrtsfAPYNvD4vuwrj6lXZin3MCuPbVqO8fDRLCZD5m2e
+         gomYK8O2UCwlZbb9ASyW11xuqYwNkpKTHaLu3wDa62J+hlkz4fDlAngIbwtC9EWo7yar
+         GOxw==
+X-Gm-Message-State: AGi0PubUorb3x61B+L689l8NunoxVkHQV0OB6GslTI2ayol41U81TABT
+	TXvAHgQAZ8YnFADvjzhyqWz94rP1QeNvARitHSY=
+X-Google-Smtp-Source: APiQypIKdv9Pe3uj8mjYuKJWCvpf8mgPAOYF9w0LmBh/ZNliSY/h8VPgGJJT+QRz9nVuKUIxXht5rQsYRebQT7OaLJE=
+X-Received: by 2002:a67:6889:: with SMTP id d131mr13265240vsc.25.1587499913665;
+ Tue, 21 Apr 2020 13:11:53 -0700 (PDT)
+MIME-Version: 1.0
+References: <CANNYZj_PYZSmYSdYUytQOYHJw+P=1M26nfzy7crQ0-X3MRvfRg@mail.gmail.com>
+ <21679.1587497486653997697@lists.openembedded.org>
+In-Reply-To: <21679.1587497486653997697@lists.openembedded.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 21 Apr 2020 22:11:42 +0200
+Message-ID: <CANNYZj8cZfkNROS5jp2tP+Hbpw9uU4Oefc2vXSBRWqauZ_V5aQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] boost: revert 1.72.0 regression
+To: Andrew Geissler <geissonator@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000006f602105a3d2a08f"
 
-Recipe upgrade statistics:
+--0000000000006f602105a3d2a08f
+Content-Type: text/plain; charset="UTF-8"
 
-    * Failed (devtool error): 38
-        build-compare, 2019.08.14-new-commits-available, Paul Eggleton <paul.eggleton@linux.intel.com>
-        python3-gitdb, 4.0.2, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        systemd-boot, 245.4, Chen Qi <Qi.Chen@windriver.com>
-        automake, 1.16.2, Robert Yang <liezhi.yang@windriver.com>
-        ovmf, edk2-stable202002, Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
-        coreutils, 8.32, Chen Qi <Qi.Chen@windriver.com>
-        bind, 9.16.2, Armin Kuster <akuster808@gmail.com>
-        libdnf, 0.47.0, Alexander Kanavin <alex.kanavin@gmail.com>
-        libva-utils, 2.7.1, Anuj Mittal <anuj.mittal@intel.com>
-        gobject-introspection, 1.64.1, Alexander Kanavin <alex.kanavin@gmail.com>
-        perl, 5.30.2, Alexander Kanavin <alex.kanavin@gmail.com>
-        libevdev, 1.9.0, Anuj Mittal <anuj.mittal@intel.com>
-        libyaml, 0.2.3, Alexander Kanavin <alex.kanavin@gmail.com>
-        python3-numpy, 1.18.2, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        ghostscript, 9.52, Hongxu Jia <hongxu.jia@windriver.com>
-        gettext, 0.20.2, Robert Yang <liezhi.yang@windriver.com>
-        rpm, 4.15.1, Mark Hatle <mark.hatle@windriver.com>
-        alsa-topology-conf, 1.2.2, Tanu Kaskinen <tanuk@iki.fi>
-        e2fsprogs, 1.45.6, Robert Yang <liezhi.yang@windriver.com>
-        alsa-lib, 1.2.2, Tanu Kaskinen <tanuk@iki.fi>
-        xcb-proto, 1.14, Armin Kuster <akuster808@gmail.com>
-        libxcb, 1.14, Armin Kuster <akuster808@gmail.com>
-        llvm, 10.0.0, Khem Raj <raj.khem@gmail.com>
-        libdrm, 2.4.101, Otavio Salvador <otavio.salvador@ossystems.com.br>
-        rt-tests, 1.8, Alexander Kanavin <alex.kanavin@gmail.com>
-        sysklogd, 2.1.2, Chen Qi <Qi.Chen@windriver.com>
-        apt, 2.0.2, Aníbal Limón <limon.anibal@gmail.com>
-        webkitgtk, 2.28.1, Alexander Kanavin <alex.kanavin@gmail.com>
-        mc, 4.8.24, Ross Burton <ross.burton@intel.com>
-        lttng-tools, 2.12.0, Richard Purdie <richard.purdie@linuxfoundation.org>
-        alsa-ucm-conf, 1.2.2, Tanu Kaskinen <tanuk@iki.fi>
-        meson, 0.54.0rc1, Alexander Kanavin <alex.kanavin@gmail.com>
-        jquery, 3.5.0, Joshua Watt <JPEWhacker@gmail.com>
-        cmake, 3.17.1, Pascal Bach <pascal.bach@siemens.com>
-        logrotate, 3.16.0, Yi Zhao <yi.zhao@windriver.com>
-        glib-2.0, 2.64.2, Anuj Mittal <anuj.mittal@intel.com>
-        ppp, 2.4.8, Hongxu Jia <hongxu.jia@windriver.com>
-        kmscube, git-new-commits-available, Carlos Rafael Giani <dv@pseudoterminal.org>
-    * Failed(do_compile): 32
-        avahi-ui, 0.8, Yi Zhao <yi.zhao@windriver.com>
-        xkeyboard-config, 2.29, Armin Kuster <akuster808@gmail.com>
-        go, 1.14.2, Khem Raj <raj.khem@gmail.com>
-        strace, 5.6, Robert Yang <liezhi.yang@windriver.com>
-        gtk+3, 3.24.18, Ross Burton <ross.burton@intel.com>
-        git, 2.26.1, Robert Yang <liezhi.yang@windriver.com>
-        stress-ng, 0.11.07, Anuj Mittal <anuj.mittal@intel.com>
-        rpcsvc-proto, 1.4.1, Khem Raj <raj.khem@gmail.com>
-        pulseaudio, 13.99.1, Tanu Kaskinen <tanuk@iki.fi>
-        epiphany, 3.36.1, Alexander Kanavin <alex.kanavin@gmail.com>
-        libnotify, 0.7.9, Anuj Mittal <anuj.mittal@intel.com>
-        alsa-utils, 1.2.2, Tanu Kaskinen <tanuk@iki.fi>
-        libunwind, 1.4.0, Bruce Ashfield <bruce.ashfield@gmail.com>
-        avahi, 0.8, Yi Zhao <yi.zhao@windriver.com>
-        wpebackend-fdo, 1.6.0, Alexander Kanavin <alex.kanavin@gmail.com>
-        vulkan-headers, 1.2.135.0, Anuj Mittal <anuj.mittal@intel.com>
-        glib-networking, 2.64.2, Anuj Mittal <anuj.mittal@intel.com>
-        elfutils, 0.179, Hongxu Jia <hongxu.jia@windriver.com>
-        libcap, 2.33, Yi Zhao <yi.zhao@windriver.com>
-        connman, 1.38, Changhyeok Bae <changhyeok.bae@gmail.com>
-        libxcrypt, 4.4.16, Khem Raj <raj.khem@gmail.com>
-        gcr, 3.36.0, Alexander Kanavin <alex.kanavin@gmail.com>
-        clutter-1.0, 1.26.4, Ross Burton <ross.burton@intel.com>
-        gptfdisk, 1.0.5, Alexander Kanavin <alex.kanavin@gmail.com>
-        go-runtime, 1.14.2, Khem Raj <raj.khem@gmail.com>
-        mesa, 20.0.4, Otavio Salvador <otavio.salvador@ossystems.com.br>
-        vulkan-loader, 1.2.135.0, Anuj Mittal <anuj.mittal@intel.com>
-        vulkan-demos, git-new-commits-available, Ross Burton <ross.burton@intel.com>
-        vte, 0.60.1, Anuj Mittal <anuj.mittal@intel.com>
-        rng-tools, 6.10, Anuj Mittal <anuj.mittal@intel.com>
-        u-boot, 2020.04, Marek Vasut <marek.vasut@gmail.com>
-        vulkan-tools, 1.2.135.0, Anuj Mittal <anuj.mittal@intel.com>
-    * Succeeded: 65
-        ruby, 2.7.1, Ross Burton <ross.burton@intel.com>
-        man-pages, 5.06, Hongxu Jia <hongxu.jia@windriver.com>
-        piglit, 1.0-new-commits-available, Ross Burton <ross.burton@intel.com>
-        asciidoc, 8.6.10, Yi Zhao <yi.zhao@windriver.com>
-        python3-testtools, 2.4.0, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        libusb1, 1.0.23, Anuj Mittal <anuj.mittal@intel.com>
-        atk, 2.36.0, Tim Orling <timothy.t.orling@linux.intel.com>
-        adwaita-icon-theme, 3.36.0, Ross Burton <ross.burton@intel.com>
-        python3-smmap, 3.0.1, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        vala, 0.48.3, Alexander Kanavin <alex.kanavin@gmail.com>
-        librepo, 1.11.3, Alexander Kanavin <alex.kanavin@gmail.com>
-        lttng-modules, 2.12.0, Richard Purdie <richard.purdie@linuxfoundation.org>
-        hwlatdetect, 1.8, Alexander Kanavin <alex.kanavin@gmail.com>
-        msmtp, 1.8.8, Alexander Kanavin <alex.kanavin@gmail.com>
-        createrepo-c, 0.15.9, Alexander Kanavin <alex.kanavin@gmail.com>
-        xz, 5.2.5, Denys Dmytriyenko <denys@ti.com>
-        at-spi2-core, 2.36.0, Tim Orling <timothy.t.orling@linux.intel.com>
-        python3-subunit, 1.4.0, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        libxcrypt-compat, 4.4.16, Khem Raj <raj.khem@gmail.com>
-        acpica, 20200326, Ross Burton <ross.burton@intel.com>
-        libva, 2.7.0, Anuj Mittal <anuj.mittal@intel.com>
-        python3-setuptools, 46.1.3, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        cogl-1.0, 1.22.6, Ross Burton <ross.burton@intel.com>
-        ccache, 3.7.9, Robert Yang <liezhi.yang@windriver.com>
-        man-db, 2.9.1, Hongxu Jia <hongxu.jia@windriver.com>
-        gawk, 5.1.0, Chen Qi <Qi.Chen@windriver.com>
-        libdazzle, 3.36.0, Alexander Kanavin <alex.kanavin@gmail.com>
-        sudo, 1.8.31p1, Chen Qi <Qi.Chen@windriver.com>
-        python3-mako, 1.1.2, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        puzzles, 0.0-new-commits-available, Anuj Mittal <anuj.mittal@intel.com>
-        bison, 3.5.4, Chen Qi <Qi.Chen@windriver.com>
-        btrfs-tools, 5.6, Alexander Kanavin <alex.kanavin@gmail.com>
-        python3-pygobject, 3.36.0, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        python3-pygments, 2.6.1, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        u-boot-tools, 2020.04, Marek Vasut <marek.vasut@gmail.com>
-        x264, r2991-new-commits-available, Anuj Mittal <anuj.mittal@intel.com>
-        diffoscope, 141, Joshua Watt <JPEWhacker@gmail.com>
-        alsa-plugins, 1.2.2, Tanu Kaskinen <tanuk@iki.fi>
-        dnf, 4.2.21, Alexander Kanavin <alex.kanavin@gmail.com>
-        at-spi2-atk, 2.34.2, Tim Orling <timothy.t.orling@linux.intel.com>
-        libical, 3.0.8, Ross Burton <ross.burton@intel.com>
-        ell, 0.31, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        python3-pbr, 5.4.5, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        kmod, 27, Chen Qi <Qi.Chen@windriver.com>
-        libsolv, 0.7.11, Anuj Mittal <anuj.mittal@intel.com>
-        python3-git, 3.1.1, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        gnutls, 3.6.13, Armin Kuster <akuster808@gmail.com>
-        libtirpc, 1.2.6, Anuj Mittal <anuj.mittal@intel.com>
-        libcomps, 0.1.15, Alexander Kanavin <alex.kanavin@gmail.com>
-        mtools, 4.0.24, Anuj Mittal <anuj.mittal@intel.com>
-        libwpe, 1.6.0, Alexander Kanavin <alex.kanavin@gmail.com>
-        python3-pycairo, 1.19.1, Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-        dtc, 1.6.0, Alexander Kanavin <alex.kanavin@gmail.com>
-        lttng-ust, 2.12.0, Richard Purdie <richard.purdie@linuxfoundation.org>
-        dpkg, 1.20.0, Aníbal Limón <limon.anibal@gmail.com>
-        libinput, 1.15.5, Ross Burton <ross.burton@intel.com>
-        libsecret, 0.20.3, Alexander Kanavin <alex.kanavin@gmail.com>
-        alsa-tools, 1.2.2, Tanu Kaskinen <tanuk@iki.fi>
-        libsoup-2.4, 2.70.0, Anuj Mittal <anuj.mittal@intel.com>
-        less, 557, Yi Zhao <yi.zhao@windriver.com>
-        xorgproto, 2020.1, Armin Kuster <akuster808@gmail.com>
-        xserver-xorg, 1.20.8, Armin Kuster <akuster808@gmail.com>
-        iproute2, 5.6.0, Changhyeok Bae <changhyeok.bae@gmail.com>
-        liburcu, 0.12.0, Alexander Kanavin <alex.kanavin@gmail.com>
-        ed, 1.16, Alexander Kanavin <alex.kanavin@gmail.com>
+You need to sign-off the patch as yourself. Upstream-Status: should be
+Backport [link to github commit]
 
-    TOTAL: attempted=135 succeeded=65(48.15%) failed=70(51.85%)
+Alex
 
-Recipe upgrade statistics per Maintainer:
+On Tue, 21 Apr 2020 at 21:31, Andrew Geissler <geissonator@gmail.com> wrote:
 
-    Alexander Kanavin <alex.kanavin: attempted=25 succeeded=14(56.00%) failed=11(44.00%)
-    Denys Dmytriyenko <denys: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
-    Mark Hatle <mark.hatle: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
-    Joshua Watt <JPEWhacker: attempted=2 succeeded=1(50.00%) failed=1(50.00%)
-    Otavio Salvador <otavio.salvador: attempted=2 succeeded=0(0.00%) failed=2(100.00%)
-    Changhyeok Bae <changhyeok.bae: attempted=2 succeeded=1(50.00%) failed=1(50.00%)
-    Richard Purdie <richard.purdie: attempted=3 succeeded=2(66.67%) failed=1(33.33%)
-    Carlos Rafael Giani <dv: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
-    Paul Eggleton <paul.eggleton: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
-    Armin Kuster <akuster808: attempted=7 succeeded=3(42.86%) failed=4(57.14%)
-    Pascal Bach <pascal.bach: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
-    Oleksandr Kravchuk <open.source: attempted=13 succeeded=11(84.62%) failed=2(15.38%)
-    Yi Zhao <yi.zhao: attempted=6 succeeded=2(33.33%) failed=4(66.67%)
-    Ricardo Neri <ricardo.neri-calderon: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
-    Marek Vasut <marek.vasut: attempted=2 succeeded=1(50.00%) failed=1(50.00%)
-    Anuj Mittal <anuj.mittal: attempted=19 succeeded=8(42.11%) failed=11(57.89%)
-    Ross Burton <ross.burton: attempted=11 succeeded=7(63.64%) failed=4(36.36%)
-    Bruce Ashfield <bruce.ashfield: attempted=1 succeeded=0(0.00%) failed=1(100.00%)
-    Aníbal Limón <limon.anibal: attempted=2 succeeded=1(50.00%) failed=1(50.00%)
-    Tim Orling <timothy.t.orling: attempted=3 succeeded=3(100.00%) failed=0(0.00%)
-    Tanu Kaskinen <tanuk: attempted=7 succeeded=2(28.57%) failed=5(71.43%)
-    Robert Yang <liezhi.yang: attempted=6 succeeded=1(16.67%) failed=5(83.33%)
-    Khem Raj <raj.khem: attempted=6 succeeded=1(16.67%) failed=5(83.33%)
-    Chen Qi <Qi.Chen: attempted=7 succeeded=4(57.14%) failed=3(42.86%)
-    Hongxu Jia <hongxu.jia: attempted=5 succeeded=2(40.00%) failed=3(60.00%)
+> The patch needs an Upstream-Status. Is it a backport (then the link to
+> repo needs to be provided)?
+>
+> Thanks for the quick review Alexander. My understanding is that boost
+> released 1.72.0 and then found this regression so they provide a link to
+> this patch on their 1.72.0 release page.
+>
+> Here's a link to the upstream revert commit:
+>
+> https://github.com/boostorg/coroutine/commit/9c73b2f7c1759a9508ba8780b38dc15f07f1a447
+>
+> I saw an automated response from patchwork asking for a Signed-off-by tag
+> for the patch but since the upstream commit does not have it, not sure what
+> to do? 
+>
+
+--0000000000006f602105a3d2a08f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>You need to sign-off the patch as yourself. Upstream-=
+Status: should be Backport [link to github commit]</div><div><br></div><div=
+>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, 21 Apr 2020 at 21:31, Andrew Geissler &lt;<a href=
+=3D"mailto:geissonator@gmail.com">geissonator@gmail.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex"><blockquote>The pat=
+ch needs an Upstream-Status. Is it a backport (then the link to repo needs =
+to be provided)?</blockquote>
+Thanks for the quick review Alexander. My understanding is that boost rele=
+ased 1.72.0 and then found this regression so they provide a link to this p=
+atch on their 1.72.0 release page.<br><br>Here&#39;s a link to the upstream=
+ revert commit:<br><a href=3D"https://github.com/boostorg/coroutine/commit/=
+9c73b2f7c1759a9508ba8780b38dc15f07f1a447" target=3D"_blank">https://github.=
+com/boostorg/coroutine/commit/9c73b2f7c1759a9508ba8780b38dc15f07f1a447</a><=
+br><br>I saw an automated response from patchwork asking for a Signed-off-b=
+y tag for the patch but since the upstream commit does not have it, not sur=
+e what to do?
+<br>
+</blockquote></div>
+
+--0000000000006f602105a3d2a08f--
