@@ -1,191 +1,340 @@
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
- by mx.groups.io with SMTP id smtpd.web11.2243.1587438615947652789
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
+ by mx.groups.io with SMTP id smtpd.web10.2878.1587442907375598906
  for <openembedded-core@lists.openembedded.org>;
- Mon, 20 Apr 2020 20:10:16 -0700
+ Mon, 20 Apr 2020 21:21:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.onmicrosoft.com header.s=selector2-intel-onmicrosoft-com header.b=LV5fxhqB;
- spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: ee.peng.yeoh@intel.com)
-IronPort-SDR: PhQ4zaC5ILnOLLv0C1Yacj5iKZcJmy9acbCcBgYXZ+pn+EC6jKHHQjpTt4iOu58xP8GsTWgvrN
- ShdX8KykbnqQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2020 20:10:14 -0700
-IronPort-SDR: iZaYRmjZdpuAUUFIexcMH6AR9kGwR1o7AL27g4eAAGknDjTQvbNQuMiCAk19ff0kVhrZdeyam4
- zztl0UivHguA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,408,1580803200"; 
-   d="scan'208";a="279467140"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
-  by fmsmga004.fm.intel.com with ESMTP; 20 Apr 2020 20:10:14 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 20 Apr 2020 20:10:14 -0700
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 20 Apr 2020 20:10:13 -0700
-Received: from FMSEDG002.ED.cps.intel.com (10.1.192.134) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.1713.5
- via Frontend Transport; Mon, 20 Apr 2020 20:10:13 -0700
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.171)
- by edgegateway.intel.com (192.55.55.69) with Microsoft SMTP Server (TLS) id
- 14.3.439.0; Mon, 20 Apr 2020 20:10:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=iYn8Oamv2gyllbgAezcWvahf/w012m7SsEJV+9r/Dp3J25FVlqFMwK+ORLmTr23psE4l1w8/07eSUjJOzae8hIhhJxrFD6wkjkRA0GSSQ+zBcjzjKelWx0YXQilrpaYMlz3dLc7Io5Bp6qK/BT+4LdSOZiyeYDsrPDyGNEg/1GPPHGUutsP+ea7vLZxAHBa4Izvr5zCwAaokyQc1NTytUkcE2VSTRsn8D9lhBiwR4LRyAeXfrT6jG1TpoqFfbG1YwPdYH+VbeKOzVzzTtryuYOXlfMWthgoA/HQ1DtBr86IhP5A3btam0VEFYOGx9C09WrMHHaePwx6auLPEgfXp5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kE0MUrt5c6rfzAco56BdFAbk7YfE26/1WGeu6M8OKnw=;
- b=cvEnzHURi84gmRVHfImLkAMfTyzIGSUzz9D59yiOynAGH7BW8prim0VZU5bYIgegwqy5IbpE5o/Qb4KELFaj5Cg0Zm1AejPfHhWRQA04TyB/AiAgdiyOpnehPr6YOvFMZHieNwhzbG8n1362u3s9RTzWVFpmy0s5NszUOzbnnBOjl0XesX5WygtyiJt63UtUwDIEMiQlLxUerxDPswgyX8M8p9j0V1sUV1betcFTJx91ya1NPNko6oEdcCG49FsmfSpUB6rNSVwnKa/roKxOplvL8J3XJ+Sbgzp7Q8nFvPGaOgWpEue5376StNjfPdXHFsx+nLJ0ygMYnjd6swVH1A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kE0MUrt5c6rfzAco56BdFAbk7YfE26/1WGeu6M8OKnw=;
- b=LV5fxhqBFZoFr2oSAw9YWF1IRlD5lRHRqLElG7m9jKCeBG2Ag9NXMAH29VOuOvtM7MPWm+MCkEPHMB+wV9FB5+ZYmBzccEXxm5JUiAWKy9b6DzCduDtplgWthIaErrzqMKY/M3OaxVeTPE8hYQ9U7i89g9HaHTe1U+F8a4U1K80=
-Received: from BL0PR11MB3251.namprd11.prod.outlook.com (2603:10b6:208:64::23)
- by BL0PR11MB2979.namprd11.prod.outlook.com (2603:10b6:208:7c::25) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.25; Tue, 21 Apr
- 2020 03:10:11 +0000
-Received: from BL0PR11MB3251.namprd11.prod.outlook.com
- ([fe80::d836:ec26:d73a:7b4c]) by BL0PR11MB3251.namprd11.prod.outlook.com
- ([fe80::d836:ec26:d73a:7b4c%6]) with mapi id 15.20.2921.030; Tue, 21 Apr 2020
- 03:10:11 +0000
-From: "Yeoh Ee Peng" <ee.peng.yeoh@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-Subject: Re: [PATCH] selftest/imagefeatures: Enable sanity test for IMAGE_GEN_DEBUGFS
-Thread-Topic: [PATCH] selftest/imagefeatures: Enable sanity test for
- IMAGE_GEN_DEBUGFS
-Thread-Index: AQHWF4pdbOeixpkzj0+T5aPqMlACDg==
-Date: Tue, 21 Apr 2020 03:10:11 +0000
-Message-ID: <BL0PR11MB3251B150FE983465E845C1FFC8D50@BL0PR11MB3251.namprd11.prod.outlook.com>
-References: <1585719470-55818-1-git-send-email-ee.peng.yeoh@intel.com>
-In-Reply-To: <1585719470-55818-1-git-send-email-ee.peng.yeoh@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-version: 11.2.0.6
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-authentication-results: spf=none (sender IP is )
- smtp.mailfrom=ee.peng.yeoh@intel.com; 
-x-originating-ip: [192.198.147.214]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 9b26849f-7af2-4681-064f-08d7e5a18162
-x-ms-traffictypediagnostic: BL0PR11MB2979:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BL0PR11MB297936A1E268E52CDD7B12BDC8D50@BL0PR11MB2979.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1201;
-x-forefront-prvs: 038002787A
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR11MB3251.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10019020)(366004)(136003)(376002)(39860400002)(346002)(396003)(86362001)(52536014)(7696005)(6506007)(76116006)(53546011)(107886003)(6916009)(4326008)(66446008)(66476007)(66946007)(64756008)(66556008)(26005)(186003)(2906002)(9686003)(478600001)(71200400001)(55016002)(8676002)(5660300002)(316002)(8936002)(33656002)(81156014);DIR:OUT;SFP:1102;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2dGdLwkc8nSgreb+3age7CRgUR3mAf5dOJb/2xQZfV09rrjZf/ZhlJcCnTq/K496uYVMbhzFPDy+uvi0uFfb1SsZ0G7JFzFonQfQ7Mu+G+YcmZxSCefOeCSvFTU4X5gaBLGwTlDDC6RAfB1FGG8mpsdjfNVardd7pWTi0ywjNW2skvpeBm6RUm80O1ADlbq6CiG5cPi8KHmWq5dIeUrAsPb7lX7JUoRPmeaE0vLSk2EkXVf4Pjx17SMdUFEhPwkUvGieCmO8NlAoQRicCgjF5mPkJL0RVpRlYN+jcYbtxkoyuVhun6ygKfNboUq1ABYSDmtBZYT8zxKQv+zN3veuZHlX26s1L1f2im450UPXfHRlqYbYGN0vkUzOZWw5CZ+dHA6co4te9D2rQvvMGxICP6ODwyBBIhzQ2C5YNCcKs/khhYc/zituVn2mfWIwuqLR
-x-ms-exchange-antispam-messagedata: WuO4+GwAACxBHLfSq5S8A010YP1F5tBuwk4Z7hFNUU+c6lN7FVUgE34yiZjbJB938bn2FaVDYi1OE5ZDTbmMgMYCsHgYEBTvZF7A7lZSPEoiB4HVgrsmNHQcO0BHD0tyAbK2TZD9KSTgqBD0Q2mKlg==
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ODREv1XN;
+ spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f66.google.com with SMTP id v38so5953205qvf.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 20 Apr 2020 21:21:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=VaNYzEYKIMx+JQNlqZ/ymUmdnw2P9Wv24fuywuiI38E=;
+        b=ODREv1XNw0elB5EgJGreLfJpETNogRCZg4s4brijXN3WcmDRjgbhcjV2FkBJGAQkq8
+         L4USCOGP9kl4z2mBSODmX/HqqoetAJ1g5s4+Nt2CEPHuhaYhrRh4wF1rQjFisIBCNf+u
+         azpAUssLFFv3a3phpTXnLFiKvoMWttAQNDGH0kL3mZcE5DpOcjeX1cgE5IDzxD9QLu21
+         Xu/EoIWpAU1eXDt7zNSJLBMYvxzMjYEhz4I5vKbVbbpC5H4u2iOPDsJc5IHj9YYFrRYN
+         xWmaKeSIZ6k1STj/mHD5JfukYo6KOXryz6knC3Tftqt9PMo10cORayco12pOKW+Wfdbk
+         d9kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=VaNYzEYKIMx+JQNlqZ/ymUmdnw2P9Wv24fuywuiI38E=;
+        b=QTCynW5QigsTvnRVblAONRveQBH/27Ict5TZ8YmcgW4JWu1yL6acka9ZhSIBhb/4vg
+         MwAp98tQBJhUlDkW4hLWgr6Wx4f0NfXHYiybFC7Xiq01x7sFBRGx1ZE4O2GBXbBLIbh8
+         gO/Bl2GOrdGk4TPhhuf7FnmDzXAkBt9qQmhh4/g3gxDcGEPj1IRsFVntH13SR05uEHeO
+         fGdHqjt1vffDEXGXS6/eJZJZSbfoLjXiDB1lgC/j8517z0Y7zCKj7T7d0oQnd9FxZcMT
+         2JV8CHA+X8MB+zAQtofyPMiWcnDytkAGhmMr26ZcGdb9w8DKg3Ppmkz0SjblQfwd+/aW
+         RuzQ==
+X-Gm-Message-State: AGi0PuaWakmSr1egfFoPo4gdlscX9xX+wSGRVGOjoyLXiIYzhkqlfZzD
+	5w0Fa3UEa4jUzderjzzGE1jcPGVv+iz9Wc3+27Y=
+X-Google-Smtp-Source: APiQypJRsCJSYvtcHQlNMzLHr3nuQ2EKIfCxuUd5v+ul4qYWq4zoa4EcvyOfQKdg3sTyGUw2vcITX5nuRv/OTF1Kses=
+X-Received: by 2002:a0c:b78e:: with SMTP id l14mr18644801qve.4.1587442906435;
+ Mon, 20 Apr 2020 21:21:46 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9b26849f-7af2-4681-064f-08d7e5a18162
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Apr 2020 03:10:11.9065
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: WCkiDlXLrhS0Ijix9NRoW3Qql0uHCOnJ/SRij4EAKgl8Nau3bWA8GVVTxFcgxzOIijGwgZaIIKen4MwQ6v42OA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR11MB2979
-Return-Path: ee.peng.yeoh@intel.com
-X-OriginatorOrg: intel.com
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+References: <20200420095802.15290-1-zhixiong.chi@windriver.com> <ff30484f-76fc-544b-0dc7-2cbf0631cf00@gmail.com>
+In-Reply-To: <ff30484f-76fc-544b-0dc7-2cbf0631cf00@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Mon, 20 Apr 2020 21:21:35 -0700
+Message-ID: <CAMKF1spN=zsFXSwEMF2LOFzopkWV5eyK7xj=jXxzTDaxHwLQNw@mail.gmail.com>
+Subject: Re: [ZEUS][OE-core][PATCH] glibc: CVE-2020-1751
+To: akuster <akuster808@gmail.com>
+Cc: Zhixiong Chi <zhixiong.chi@windriver.com>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000008a14a005a3c55ae7"
+
+--0000000000008a14a005a3c55ae7
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi all,
+On Mon, Apr 20, 2020 at 7:31 PM akuster <akuster808@gmail.com> wrote:
 
-Anyone has any inputs or suggestions for this patch that enable selftest fo=
-r IMAGE_GEN_DEBUGFS?
-Thank you very much for your attention and help!
+>
+>
+> On 4/20/20 2:58 AM, Zhixiong Chi wrote:
+>
+> Backport the CVE patch from upstream:
+> git://sourceware.org/git/glibc.git
+> commit d93769405996dfc11d216ddbe415946617b5a494
+>
+>
+> Is Dunfell or Master affected ?
+>
 
-Best regards,
-Yeoh Ee Peng
+It=E2=80=99s already in glibc 2.31 iirc
 
------Original Message-----
-From: Yeoh, Ee Peng <ee.peng.yeoh@intel.com>=20
-Sent: Wednesday, April 1, 2020 1:38 PM
-To: openembedded-core@lists.openembedded.org
-Cc: Yeoh, Ee Peng <ee.peng.yeoh@intel.com>; Humberto Ibarra <humberto.ibarr=
-a.lopez@intel.com>
-Subject: [PATCH] selftest/imagefeatures: Enable sanity test for IMAGE_GEN_D=
-EBUGFS
 
-Add new testcase to check IMAGE_GEN_DEBUGFS. Test makes sure that debug fil=
-esystem is created accordingly. Test also check for debug symbols for some =
-packages as suggested by Ross Burton.
+> - armin
+>
+> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com> <zhixiong.chi@w=
+indriver.com>
+> ---
+>  .../glibc/glibc/CVE-2020-1751.patch           | 70 +++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.30.bb         |  1 +
+>  2 files changed, 71 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-1751.patch
+>
+> diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-1751.patch b/meta/re=
+cipes-core/glibc/glibc/CVE-2020-1751.patch
+> new file mode 100644
+> index 0000000000..0ed92d50e9
+> --- /dev/null
+> +++ b/meta/recipes-core/glibc/glibc/CVE-2020-1751.patch
+> @@ -0,0 +1,70 @@
+> +From d93769405996dfc11d216ddbe415946617b5a494 Mon Sep 17 00:00:00 2001
+> +From: Andreas Schwab <schwab@suse.de> <schwab@suse.de>
+> +Date: Mon, 20 Jan 2020 17:01:50 +0100
+> +Subject: [PATCH] Fix array overflow in backtrace on PowerPC (bug 25423)
+> +
+> +When unwinding through a signal frame the backtrace function on PowerPC
+> +didn't check array bounds when storing the frame address.  Fixes commit
+> +d400dcac5e ("PowerPC: fix backtrace to handle signal trampolines").
+> +
+> +CVE: CVE-2020-1751
+> +Upstream-Status: Backport [git://sourceware.org/git/glibc.git]
+> +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com> <zhixiong.chi@=
+windriver.com>
+> +---
+> + debug/tst-backtrace5.c                | 12 ++++++++++++
+> + sysdeps/powerpc/powerpc32/backtrace.c |  2 ++
+> + sysdeps/powerpc/powerpc64/backtrace.c |  2 ++
+> + 3 files changed, 16 insertions(+)
+> +
+> +diff --git a/debug/tst-backtrace5.c b/debug/tst-backtrace5.c
+> +index e7ce410845..b2f46160e7 100644
+> +--- a/debug/tst-backtrace5.c
+> ++++ b/debug/tst-backtrace5.c
+> +@@ -89,6 +89,18 @@ handle_signal (int signum)
+> +       }
+> +   /* Symbol names are not available for static functions, so we do not
+> +      check do_test.  */
+> ++
+> ++  /* Check that backtrace does not return more than what fits in the a=
+rray
+> ++     (bug 25423).  */
+> ++  for (int j =3D 0; j < NUM_FUNCTIONS; j++)
+> ++    {
+> ++      n =3D backtrace (addresses, j);
+> ++      if (n > j)
+> ++	{
+> ++	  FAIL ();
+> ++	  return;
+> ++	}
+> ++    }
+> + }
+> +
+> + NO_INLINE int
+> +diff --git a/sysdeps/powerpc/powerpc32/backtrace.c b/sysdeps/powerpc/po=
+werpc32/backtrace.c
+> +index 7c2d4726f8..d1456c8ae4 100644
+> +--- a/sysdeps/powerpc/powerpc32/backtrace.c
+> ++++ b/sysdeps/powerpc/powerpc32/backtrace.c
+> +@@ -114,6 +114,8 @@ __backtrace (void **array, int size)
+> +         }
+> +       if (gregset)
+> + =09{
+> ++	  if (count + 1 =3D=3D size)
+> ++	    break;
+> + =09  array[++count] =3D (void*)((*gregset)[PT_NIP]);
+> + =09  current =3D (void*)((*gregset)[PT_R1]);
+> + =09}
+> +diff --git a/sysdeps/powerpc/powerpc64/backtrace.c b/sysdeps/powerpc/po=
+werpc64/backtrace.c
+> +index 65c260ab76..8a53a1088f 100644
+> +--- a/sysdeps/powerpc/powerpc64/backtrace.c
+> ++++ b/sysdeps/powerpc/powerpc64/backtrace.c
+> +@@ -87,6 +87,8 @@ __backtrace (void **array, int size)
+> +       if (is_sigtramp_address (current->return_address))
+> +         {
+> + =09  struct signal_frame_64 *sigframe =3D (struct signal_frame_64*) cu=
+rrent;
+> ++	  if (count + 1 =3D=3D size)
+> ++	    break;
+> +           array[++count] =3D (void*) sigframe->uc.uc_mcontext.gp_regs[=
+PT_NIP];
+> + =09  current =3D (void*) sigframe->uc.uc_mcontext.gp_regs[PT_R1];
+> + =09}
+> +--
+> +2.23.0
+> +
+> diff --git a/meta/recipes-core/glibc/glibc_2.30.bb b/meta/recipes-core/g=
+libc/glibc_2.30.bb
+> index c9e44a396d..84a6538ea1 100644
+> --- a/meta/recipes-core/glibc/glibc_2.30.bb
+> +++ b/meta/recipes-core/glibc/glibc_2.30.bb
+> @@ -43,6 +43,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};n=
+ame=3Dglibc \
+>             file://0028-locale-prevent-maybe-uninitialized-errors-with-O=
+s-BZ.patch \
+>             file://CVE-2019-19126.patch \
+>             file://CVE-2020-10029.patch \
+> +           file://CVE-2020-1751.patch \
+>             "
+>  S =3D "${WORKDIR}/git"
+>  B =3D "${WORKDIR}/build-${TARGET_SYS}"
+>
+>
+>
+>=20
+>
 
-[YOCTO #10906]
+--0000000000008a14a005a3c55ae7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, Apr 20, 2020 at 7:31 PM akuster &lt;<a href=3D"mai=
+lto:akuster808@gmail.com">akuster808@gmail.com</a>&gt; wrote:<br></div><blo=
+ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
+cc solid;padding-left:1ex">
+  
+    
+  
+  <div>
+    <br>
+    <br>
+    <div>On 4/20/20 2:58 AM, Zhixiong Chi wrote:<br>
+    </div>
+    <blockquote type=3D"cite">
+      <pre>Backport the CVE patch from upstream:
+git://<a href=3D"http://sourceware.org/git/glibc.git" target=3D"_blank">so=
+urceware.org/git/glibc.git</a>
+commit d93769405996dfc11d216ddbe415946617b5a494</pre>
+    </blockquote>
+    <br>
+    Is Dunfell or Master affected ?<br>
+    </div></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">It=E2=
+=
+=80=99s already in glibc 2.31 iirc=C2=A0</div><div dir=3D"auto"><br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div><br>
+    - armin</div><div><br>
+    <blockquote type=3D"cite">
+      <pre>Signed-off-by: Zhixiong Chi <a href=3D"mailto:zhixiong.chi@wind=
+river.com" target=3D"_blank">&lt;zhixiong.chi@windriver.com&gt;</a>
 ---
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 33 +++++++++++++++++++++++=
-++++
- 1 file changed, 33 insertions(+)
+ .../glibc/glibc/CVE-2020-1751.patch           | 70 +++++++++++++++++++
+ meta/recipes-core/glibc/<a href=3D"http://glibc_2.30.bb" target=3D"_blank=
+">glibc_2.30.bb</a>         |  1 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-1751.patch
 
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/=
-selftest/cases/imagefeatures.py
-index 5c519ac..9ad5c17 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -262,3 +262,36 @@ PNBLACKLIST[busybox] =3D "Don't build this"
-         self.write_config(config)
-=20
-         bitbake("--graphviz core-image-sato")
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2020-1751.patch b/meta/reci=
+pes-core/glibc/glibc/CVE-2020-1751.patch
+new file mode 100644
+index 0000000000..0ed92d50e9
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2020-1751.patch
+@@ -0,0 +1,70 @@
++From d93769405996dfc11d216ddbe415946617b5a494 Mon Sep 17 00:00:00 2001
++From: Andreas Schwab <a href=3D"mailto:schwab@suse.de" target=3D"_blank">=
+&lt;schwab@suse.de&gt;</a>
++Date: Mon, 20 Jan 2020 17:01:50 +0100
++Subject: [PATCH] Fix array overflow in backtrace on PowerPC (bug 25423)
 +
-+    def test_image_gen_debugfs(self):
-+        """
-+        Summary:     Check debugfs generation
-+        Expected:    1. core-image-minimal can be build with IMAGE_GEN_DEB=
-UGFS variable set
-+                     2. debug filesystem is created when variable set
-+                     3. debug symbols available
-+        Product:     oe-core
-+        Author:      Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-+                     Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-+        """
-+        import glob
-+        image_name =3D 'core-image-minimal'
-+        deploy_dir_image =3D get_bb_var('DEPLOY_DIR_IMAGE')
++When unwinding through a signal frame the backtrace function on PowerPC
++didn&#39;t check array bounds when storing the frame address.  Fixes comm=
+it
++d400dcac5e (&quot;PowerPC: fix backtrace to handle signal trampolines&quo=
+t;).
 +
-+        features =3D 'IMAGE_GEN_DEBUGFS =3D "1"\n'
-+        features +=3D 'IMAGE_FSTYPES_DEBUGFS =3D "tar.bz2"\n'
-+        features +=3D 'MACHINE =3D "genericx86-64"\n'
-+        self.write_config(features)
++CVE: CVE-2020-1751
++Upstream-Status: Backport [git://<a href=3D"http://sourceware.org/git/gli=
+bc.git" target=3D"_blank">sourceware.org/git/glibc.git</a>]
++Signed-off-by: Zhixiong Chi <a href=3D"mailto:zhixiong.chi@windriver.com"=
+ target=3D"_blank">&lt;zhixiong.chi@windriver.com&gt;</a>
++---
++ debug/tst-backtrace5.c                | 12 ++++++++++++
++ sysdeps/powerpc/powerpc32/backtrace.c |  2 ++
++ sysdeps/powerpc/powerpc64/backtrace.c |  2 ++
++ 3 files changed, 16 insertions(+)
 +
-+        bitbake(image_name)
-+        dbg_tar_file =3D os.path.join(deploy_dir_image, "*-dbg.rootfs.tar.=
-bz2")
-+        debug_files =3D glob.glob(dbg_tar_file)
-+        self.assertNotEqual(len(debug_files), 0, 'debug filesystem not gen=
-erated')
-+        result =3D runCmd('cd %s; tar xvf %s' % (deploy_dir_image, dbg_tar=
-_file))
-+        self.assertEqual(result.status, 0, msg=3D'Failed to extract %s: %s=
-' % (dbg_tar_file, result.output))
-+        result =3D runCmd('find %s -name %s' % (deploy_dir_image, "udevadm=
-"))
-+        self.assertTrue("udevadm" in result.output, msg=3D'Failed to find =
-udevadm: %s' % result.output)
-+        dbg_symbols_targets =3D result.output.splitlines()
-+        self.assertTrue(dbg_symbols_targets, msg=3D'Failed to split udevad=
-m: %s' % dbg_symbols_targets)
-+        for t in dbg_symbols_targets:
-+            result =3D runCmd('objdump --syms %s | grep debug' % t)
-+            self.assertTrue("debug" in result.output, msg=3D'Failed to=20
-+ find debug symbol: %s' % result.output)
---
-2.7.4
++diff --git a/debug/tst-backtrace5.c b/debug/tst-backtrace5.c
++index e7ce410845..b2f46160e7 100644
++--- a/debug/tst-backtrace5.c
+++++ b/debug/tst-backtrace5.c
++@@ -89,6 +89,18 @@ handle_signal (int signum)
++       }
++   /* Symbol names are not available for static functions, so we do not
++      check do_test.  */
+++
+++  /* Check that backtrace does not return more than what fits in the arr=
+ay
+++     (bug 25423).  */
+++  for (int j =3D 0; j &lt; NUM_FUNCTIONS; j++)
+++    {
+++      n =3D backtrace (addresses, j);
+++      if (n &gt; j)
+++	{
+++	  FAIL ();
+++	  return;
+++	}
+++    }
++ }
++=20
++ NO_INLINE int
++diff --git a/sysdeps/powerpc/powerpc32/backtrace.c b/sysdeps/powerpc/powe=
+rpc32/backtrace.c
++index 7c2d4726f8..d1456c8ae4 100644
++--- a/sysdeps/powerpc/powerpc32/backtrace.c
+++++ b/sysdeps/powerpc/powerpc32/backtrace.c
++@@ -114,6 +114,8 @@ __backtrace (void **array, int size)
++         }
++       if (gregset)
++ =09{
+++	  if (count + 1 =3D=3D size)
+++	    break;
++ =09  array[++count] =3D (void*)((*gregset)[PT_NIP]);
++ =09  current =3D (void*)((*gregset)[PT_R1]);
++ =09}
++diff --git a/sysdeps/powerpc/powerpc64/backtrace.c b/sysdeps/powerpc/powe=
+rpc64/backtrace.c
++index 65c260ab76..8a53a1088f 100644
++--- a/sysdeps/powerpc/powerpc64/backtrace.c
+++++ b/sysdeps/powerpc/powerpc64/backtrace.c
++@@ -87,6 +87,8 @@ __backtrace (void **array, int size)
++       if (is_sigtramp_address (current-&gt;return_address))
++         {
++ =09  struct signal_frame_64 *sigframe =3D (struct signal_frame_64*) curr=
+ent;
+++	  if (count + 1 =3D=3D size)
+++	    break;
++           array[++count] =3D (void*) sigframe-&gt;uc.uc_mcontext.gp_regs=
+[PT_NIP];
++ =09  current =3D (void*) sigframe-&gt;uc.uc_mcontext.gp_regs[PT_R1];
++ =09}
++--=20
++2.23.0
++
+diff --git a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.30.bb" targ=
+et=3D"_blank">glibc_2.30.bb</a> b/meta/recipes-core/glibc/<a href=3D"http:/=
+/glibc_2.30.bb" target=3D"_blank">glibc_2.30.bb</a>
+index c9e44a396d..84a6538ea1 100644
+--- a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.30.bb" target=3D"_=
+blank">glibc_2.30.bb</a>
++++ b/meta/recipes-core/glibc/<a href=3D"http://glibc_2.30.bb" target=3D"_=
+blank">glibc_2.30.bb</a>
+@@ -43,6 +43,7 @@ SRC_URI =3D  &quot;${GLIBC_GIT_URI};branch=3D${SRCBRANCH=
+};name=3Dglibc \
+            <a>file://0028-locale-prevent-maybe-uninitialized-errors-with-=
+Os-BZ.patch</a> \
+            <a>file://CVE-2019-19126.patch</a> \
+            <a>file://CVE-2020-10029.patch</a> \
++           <a>file://CVE-2020-1751.patch</a> \
+            &quot;
+ S =3D &quot;${WORKDIR}/git&quot;
+ B =3D &quot;${WORKDIR}/build-${TARGET_SYS}&quot;
+</pre>
+      <br>
+      <fieldset></fieldset>
+      <pre></pre>
+    </blockquote>
+    <br>
+  </div><div></div>
 
+<br>
+</blockquote></div></div>
+
+--0000000000008a14a005a3c55ae7--
