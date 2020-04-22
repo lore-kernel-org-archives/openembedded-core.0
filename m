@@ -1,109 +1,114 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.1963.1587540552987199050
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web10.2182.1587542131454822733
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Apr 2020 00:29:13 -0700
+ Wed, 22 Apr 2020 00:55:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: xiao.zhang@windriver.com)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 03M7SqJ3007926
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 03M7tTFA026660
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2020 00:29:02 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 22 Apr 2020 00:28:41 -0700
-From: "Chen Qi" <Qi.Chen@windriver.com>
+	for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2020 00:55:30 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Wed, 22 Apr 2020
+ 00:55:23 -0700
+From: "ZhangXiao" <xiao.zhang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH 2/2] linux-yocto: add more support for SDK
-Date: Wed, 22 Apr 2020 15:28:38 +0800
-Message-ID: <20200422072838.27867-2-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200422072838.27867-1-Qi.Chen@windriver.com>
-References: <20200422072838.27867-1-Qi.Chen@windriver.com>
+CC: <xiao.zhang@windriver.com>
+Subject: [OE-core][zeus][PATCH] openssl: fix CVE-2020-1967
+Date: Wed, 22 Apr 2020 00:55:22 -0700
+Message-ID: <20200422075522.128216-1-xiao.zhang@windriver.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-We need to `make scripts prepare` inside SDK. So add patch
-to defect if we are insdie SDK environment, and if so change some
-PKG_CONFIG_xxx settings so that we will use things from SDK's host
-part.
+Server or client applications that call the SSL_check_chain()
+function during or after a TLS 1.3 handshake may crash due to
+a NULL pointer dereference as a result of incorrect handling of
+the "signature_algorithms_cert" TLS extension.
 
-The problem for `make scripts prepare` inside SDK is that the
-hosts' environments are different. On some hosts, it happens to
-succeed, and on some hosts, it fails. This is because the build mixes
-host's part and SDK's host part.
+The crash occurs if an invalid or unrecognised signature
+algorithm is received from the peer. This could be exploited
+by a malicious peer in a Denial of Service attack.
 
-We do such change to make sure only SDK's host part is involed in build.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
 ---
- ...port-make-scripts-prepare-inside-SDK.patch | 46 +++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto.inc     |  3 ++
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-kernel/linux/files/0001-Makefile-support-make-scripts-prepare-inside-SDK.patch
+ .../openssl/openssl/CVE-2020-1967.patch       | 53 +++++++++++++++++++
+ .../openssl/openssl_1.1.1d.bb                 |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2020-1967.patch
 
-diff --git a/meta/recipes-kernel/linux/files/0001-Makefile-support-make-scripts-prepare-inside-SDK.patch b/meta/recipes-kernel/linux/files/0001-Makefile-support-make-scripts-prepare-inside-SDK.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2020-1967.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2020-1967.patch
 new file mode 100644
-index 0000000000..5e15d9c732
+index 0000000000..dfe8ed1332
 --- /dev/null
-+++ b/meta/recipes-kernel/linux/files/0001-Makefile-support-make-scripts-prepare-inside-SDK.patch
-@@ -0,0 +1,46 @@
-+From e7b37cbdbd0f7dbd3ba99e7db6916c2dc3acecc9 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Thu, 16 Apr 2020 10:06:24 +0000
-+Subject: [PATCH] Makefile: support make scripts prepare inside SDK
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2020-1967.patch
+@@ -0,0 +1,53 @@
++From 27b06c515c0a7e14853f84be85fb70c4450a6925 Mon Sep 17 00:00:00 2001
++From: Benjamin Kaduk <kaduk@mit.edu>
++Date: Fri, 10 Apr 2020 12:27:28 -0700
++Subject: [PATCH] Fix NULL dereference in SSL_check_chain() for TLS 1.3
 +
-+Upstream-Status: Inappropriate [OE Specific]
++commit eb563247aef3e83dda7679c43f9649270462e5b1 upstream
++git://git.openssl.org/openssl.git
 +
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++In the tls1_check_sig_alg() helper function, we loop through the list of
++"signature_algorithms_cert" values received from the client and attempt
++to look up each one in turn in our internal table that maps wire
++codepoint to string-form name, digest and/or signature NID, etc., in
++order to compare the signature scheme from the peer's list against what
++is used to sign the certificates in the certificate chain we're
++checking.  Unfortunately, when the peer sends a value that we don't
++support, the lookup returns NULL, but we unconditionally dereference the
++lookup result for the comparison, leading to an application crash
++triggerable by an unauthenticated client.
++
++Since we will not be able to say anything about algorithms we don't
++recognize, treat NULL return from lookup as "does not match".
++
++We currently only apply the "signature_algorithm_cert" checks on TLS 1.3
++connections, so previous TLS versions are unaffected.  SSL_check_chain()
++is not called directly from libssl, but may be used by the application
++inside a callback (e.g., client_hello or cert callback) to verify that a
++candidate certificate chain will be acceptable to the client.
++
++CVE-2020-1967
++Upstream-Status: Backport
++
++Reviewed-by: Matt Caswell <matt@openssl.org>
++Signed-off-by: Zhang Xiao <xiao.zhang@windriver.com>
 +---
-+ Makefile | 13 ++++++++++++-
-+ 1 file changed, 12 insertions(+), 1 deletion(-)
++ ssl/t1_lib.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/Makefile b/Makefile
-+index 2f140aa..af41dca 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -277,6 +277,17 @@ ifneq ($(filter $(no-sync-config-targets), $(MAKECMDGOALS)),)
-+ 	endif
-+ endif
-+ 
-++ifneq ($(SDKTARGETSYSROOT),)
-++        ifneq ($(filter scripts prepare, $(MAKECMDGOALS)),)
-++		PKG_CONFIG_SYSROOT_DIR = 
-++		PKG_CONFIG_PATH = $(OECORE_NATIVE_SYSROOT)/usr/lib/pkgconfig:$(OECORE_NATIVE_SYSROOT)/usr/share/pkgconfig
-++		export PKG_CONFIG_SYSROOT_DIR
-++		export PKG_CONFIG_PATH
-++$(info Changed PKG_CONFIG_SYSROOT_DIR to '$(PKG_CONFIG_SYSROOT_DIR)')
-++$(info Changed PKG_CONFIG_PATH to '$(PKG_CONFIG_PATH)')
-++        endif
-++endif
-++
-+ ifneq ($(KBUILD_EXTMOD),)
-+ 	may-sync-config :=
-+ endif
-+@@ -994,7 +1005,7 @@ mod_sign_cmd = true
-+ endif
-+ export mod_sign_cmd
-+ 
-+-HOST_LIBELF_LIBS = $(shell pkg-config libelf --libs 2>/dev/null || echo -lelf)
-++HOST_LIBELF_LIBS = $(shell export PKG_CONFIG_PATH=$(PKG_CONFIG_PATH); export PKG_CONFIG_SYSROOT_DIR=$(PKG_CONFIG_SYSROOT_DIR); pkg-config libelf --libs 2>/dev/null || echo -lelf)
-+ 
-+ ifdef CONFIG_STACK_VALIDATION
-+   has_libelf := $(call try-run,\
++diff --git a/ssl/t1_lib.c b/ssl/t1_lib.c
++index b482019..5287d10 100644
++--- a/ssl/t1_lib.c
+++++ b/ssl/t1_lib.c
++@@ -2099,7 +2099,7 @@ static int tls1_check_sig_alg(SSL *s, X509 *x, int default_nid)
++         sigalg = use_pc_sigalgs
++                  ? tls1_lookup_sigalg(s->s3->tmp.peer_cert_sigalgs[i])
++                  : s->shared_sigalgs[i];
++-        if (sig_nid == sigalg->sigandhash)
+++        if (sigalg != NULL && sig_nid == sigalg->sigandhash)
++             return 1;
++     }
++     return 0;
 +-- 
-+2.24.1
++2.23.0
 +
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index 91df9c1cd5..551aa3def6 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -55,3 +55,6 @@ do_install_append(){
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+index 169824a8be..1bf7073127 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+@@ -18,6 +18,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://afalg.patch \
+            file://CVE-2019-1551.patch \
+            file://reproducible.patch \
++           file://CVE-2020-1967.patch \
+            "
  
- # enable kernel-sample for oeqa/runtime/cases's ksample.py test
- KERNEL_FEATURES_append_qemuall=" features/kernel-sample/kernel-sample.scc"
-+
-+# Ensure `make scripts prepare` succeed inside SDK
-+EXTRA_KERNEL_SRC_URI += "file://0001-Makefile-support-make-scripts-prepare-inside-SDK.patch"
+ SRC_URI_append_class-nativesdk = " \
 -- 
-2.17.1
+2.23.0
 
