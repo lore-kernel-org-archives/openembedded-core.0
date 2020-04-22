@@ -1,76 +1,142 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web12.488.1587509726914737269
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+ by mx.groups.io with SMTP id smtpd.web11.1910.1587514757522715810
  for <openembedded-core@lists.openembedded.org>;
- Tue, 21 Apr 2020 15:55:27 -0700
+ Tue, 21 Apr 2020 17:19:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kPn8N89K;
- spf=pass (domain: gmail.com, ip: 209.85.215.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f193.google.com with SMTP id o185so110262pgo.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2020 15:55:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MNVFYSLP;
+ spf=pass (domain: gmail.com, ip: 209.85.210.44, mailfrom: geissonator@gmail.com)
+Received: by mail-ot1-f44.google.com with SMTP id z17so640216oto.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 21 Apr 2020 17:19:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=9gOrJ5VKHXO2qz/1oQQI+sNpFNF2Pqo1HGTuMij0LtI=;
-        b=kPn8N89KOn4bh+rK76EkIOfUhye6msHnvQ95H+u9MmMou9uNXh4wA47SAEM8y1UIsV
-         Q9Ct1Jamfme1yy9GE0ZHsbKFCUsGGwc+swivfWdJX2R84vb35GCxznWVCcsMrQuR/5Hc
-         BrWjE+qubRR+RPGhK57z9qt6mxXcsi07HP9Y8NF4/rLRZXzPYmoP6xkK6ARGWAWgBMIG
-         GJpbdYLj4IS4+D4D9I/V62wHBGmNLRum5nZpTRhsmS+a7q9OsOVSmuzATjCcHEnmRBez
-         UwZrtCAfJDEK00KRAJ++FVE4aCrGv9vxNUGfxoO5IqMt0ys2ISMsReVlPs0cEtBHWbcD
-         K4SA==
+        bh=X+pgCF6Eu+cGgQOVaREa4KLyaDv7JwktIA0BQPTW7vY=;
+        b=MNVFYSLPjfCjpOb1HTPEt50bqN0s75FOn3kzavw+hBoW3+/La1okqkdXMWHPjs5RQ4
+         UsrDztM/XZQBYdUBDooHXCWxNGeTL3rLjXPMSCYcAj1O1hzbo81VoI46FRYRvryFiXXg
+         DcKVC2hvH1eAQ5E0n6UD4zmS3Boa6EtZZLIx/Pnt3D45758l/6zkLnnsbA3cWl80Qz+B
+         qGoITmd/RUjEUOzt/4VhWEiq1cZdCpbazTZ01b4buoRvv4WKn5loxcIfvFhOL0mk9hQB
+         UlnnxVayXJzw3r6jR0xGF5DlZE3TpaHedvXGYxpKaEnBZpZXk0BmSeEf3ReR5eVG8rPR
+         pUzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=9gOrJ5VKHXO2qz/1oQQI+sNpFNF2Pqo1HGTuMij0LtI=;
-        b=h8/HxE5ArXXk0OPlWLpbF4JB3aXYyL2ibtX6SUTWLPicjT9Edvt1BMLfvK+DKca3Fy
-         Qe3OPl6TnIsf0/suaKx2xs0kRatBKzuXEb2wR97vPSC2dHpjn/9Eg5R2S/LxHAA/Zijs
-         acLisYwT/+9NRYzY0ve2b2XEPgHI2ohtqebSQaxTutQPuZwJZMNvKeh71Eb1DVfpmVG1
-         /XId7f3GxK+kB/eIgwEniy9Svv0OQxSUxlJgTLMMt6AZ8j/wzQ8ZNXEGYBOHPpDHHaIi
-         6VC5pD6XQfw1C0G/lB9eDNFNe6XqTeb8ZasihsqQg9/P0jcDC8xSKtr3cu6pn4qV7Iz4
-         vhPA==
-X-Gm-Message-State: AGi0PuY25DGfFrHbJHhb+LOZn/9wuPfdGjQLQO5/z4/M0YltoodojBHD
-	cKtfXQ3ZrmsmoFll+6yMCfkkABNAJ7c=
-X-Google-Smtp-Source: APiQypKU/RBX4i+o4gMscbauGtLA+4MnSaSSMgbqIXEfJbMR8Z/uN1J+n1bXSlBqFb9MAaDP/XzJNg==
-X-Received: by 2002:aa7:9a92:: with SMTP id w18mr767760pfi.200.1587509726052;
-        Tue, 21 Apr 2020 15:55:26 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::d473])
-        by smtp.gmail.com with ESMTPSA id o11sm3226458pgh.78.2020.04.21.15.55.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2020 15:55:25 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+        bh=X+pgCF6Eu+cGgQOVaREa4KLyaDv7JwktIA0BQPTW7vY=;
+        b=sgWQIgPlAdmcjstKLzX/ST2KC5lGzHoy39+S3NMERURQsuq11tiZgRC1Q0fcuQTkK+
+         KGkbPTTracsqcq69mQkAlwOJJ6DM6VJii9Xv+dF24fiuP+B8skPSE5Tvv+TcNEG/8lxH
+         q6+lWHfwhp7OSWAuz4ONfRsF37J2/d8do33dYPkZZhYIs/w52IUgVA3JeQ07dVlcB5CT
+         MADHv293IyMr8TpmhtgTGFCZzIsd/jQdofcz3/KIPCAk6p9WpQWi7qtRVfGUxBP5+R0p
+         KiBBZDIJyyf7AMRIeY2v+1X+KxW8meVPewYs4d7TjZosRyqVp9X3f3dHhxdWuJ2KoFj6
+         4MsQ==
+X-Gm-Message-State: AGi0PuaBOTYxT1EqXurHOljJ2nbXysrnf/rSXJzAwN3gULzosZs1zQBE
+	Nxw315Vw6lbeZgUHEkivxtQkFKmDvX8=
+X-Google-Smtp-Source: APiQypIQVXkJQnk7q2yo4zOp3gpWM82rNWVDruXlY1UTlEKc58FFBuaZRiqO82Z0EqHARRadUj2DYw==
+X-Received: by 2002:a9d:7282:: with SMTP id t2mr15037802otj.302.1587514756607;
+        Tue, 21 Apr 2020 17:19:16 -0700 (PDT)
+Return-Path: <geissonator@gmail.com>
+Received: from Andrews-MBP-2.attlocal.net (45-18-127-186.lightspeed.austtx.sbcglobal.net. [45.18.127.186])
+        by smtp.gmail.com with ESMTPSA id i20sm1147724ots.29.2020.04.21.17.19.15
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 21 Apr 2020 17:19:16 -0700 (PDT)
+From: "Andrew Geissler" <geissonator@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] packagegroup-go-sdk-target: Add go to packagegroup
-Date: Tue, 21 Apr 2020 15:55:22 -0700
-Message-Id: <20200421225522.2026961-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200421225522.2026961-1-raj.khem@gmail.com>
-References: <20200421225522.2026961-1-raj.khem@gmail.com>
+Cc: Andrew Geissler <geissonator@gmail.com>
+Subject: [PATCH v3] boost: revert 1.72.0 regression
+Date: Tue, 21 Apr 2020 19:19:11 -0500
+Message-Id: <20200422001911.54795-1-geissonator@gmail.com>
+X-Mailer: git-send-email 2.21.0 (Apple Git-122)
+In-Reply-To: <FMfcgxwHMsVFPnVQgdLQQLSjJbLpgsnJ>
+References: <FMfcgxwHMsVFPnVQgdLQQLSjJbLpgsnJ>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This ensures that we have go compiler installed into image along with
-runtime
+https://www.boost.org/users/history/version_1_72_0.html documents a
+"Known Issue" and has a revert patch for an issue that causes code to
+fail to compile that includes the coroutine function. Without this
+patch, code which includes the asymmetric_coroutine.hpp will fail to
+compile.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Andrew Geissler <geissonator@gmail.com>
+
+v2: added Signed-off-by to patch
+    added Upstream-Status tag
+v3: moved Upstream-status tag to the patch file
 ---
- meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-support/boost/boost_1.72.0.bb    |  1 +
+ ...001-revert-cease-dependence-on-range.patch | 53 +++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
-index 86c71900ec..9a52b0781c 100644
---- a/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-go-sdk-target.bb
-@@ -3,6 +3,7 @@ SUMMARY = "Target packages for the Go SDK"
- inherit packagegroup goarch
- 
- RDEPENDS_${PN} = " \
-+    go \
-     go-runtime \
-     go-runtime-dev \
-     go-runtime-staticdev \
+diff --git a/meta/recipes-support/boost/boost_1.72.0.bb b/meta/recipes-support/boost/boost_1.72.0.bb
+index 5e9e0d87d7..0b7badbc76 100644
+--- a/meta/recipes-support/boost/boost_1.72.0.bb
++++ b/meta/recipes-support/boost/boost_1.72.0.bb
+@@ -7,4 +7,5 @@ SRC_URI += "file://arm-intrinsics.patch \
+            file://0001-Apply-boost-1.62.0-no-forced-flags.patch.patch \
+            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
+            file://0001-dont-setup-compiler-flags-m32-m64.patch \
++           file://0001-revert-cease-dependence-on-range.patch \
+            "
+diff --git a/meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch b/meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch
+new file mode 100644
+index 0000000000..d6d09a23a5
+--- /dev/null
++++ b/meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch
+@@ -0,0 +1,53 @@
++From 436e1dbe6fcd31523d261d18ad011392f1d6fbbc Mon Sep 17 00:00:00 2001
++From: Oliver Kowalke <oliver.kowalke@gmail.com>
++Date: Sun, 1 Dec 2019 20:40:28 +0100
++Subject: [PATCH] Revert "Cease dependence on Range"
++
++This reverts commit 0c556bb59241e682bbcd3f572815149c5a9b17db.
++
++see #44 (One test fails to compile after boostorg/coroutine submodule updated)
++
++Upstream-Status: Backport [https://github.com/boostorg/coroutine/commit/9c73b2f7c1759a9508ba8780b38dc15f07f1a447]
++
++Signed-off-by: Andrew Geissler <geissonator@gmail.com>
++---
++ boost/coroutine/asymmetric_coroutine.hpp | 12 +++---------
++ 1 file changed, 3 insertions(+), 9 deletions(-)
++
++diff --git a/boost/coroutine/asymmetric_coroutine.hpp b/boost/coroutine/asymmetric_coroutine.hpp
++index ea96981..640896f 100644
++--- a/boost/coroutine/asymmetric_coroutine.hpp
+++++ b/boost/coroutine/asymmetric_coroutine.hpp
++@@ -14,6 +14,7 @@
++ #include <boost/assert.hpp>
++ #include <boost/config.hpp>
++ #include <boost/move/move.hpp>
+++#include <boost/range.hpp>
++ #include <boost/throw_exception.hpp>
++ #include <boost/utility/explicit_operator_bool.hpp>
++
++@@ -2354,19 +2355,12 @@ end( push_coroutine< R > & c)
++
++ }
++
++-// forward declaration of Boost.Range traits to break dependency on it
++-template<typename C, typename Enabler>
++-struct range_mutable_iterator;
++-
++-template<typename C, typename Enabler>
++-struct range_const_iterator;
++-
++ template< typename Arg >
++-struct range_mutable_iterator< coroutines::push_coroutine< Arg >, void >
+++struct range_mutable_iterator< coroutines::push_coroutine< Arg > >
++ { typedef typename coroutines::push_coroutine< Arg >::iterator type; };
++
++ template< typename R >
++-struct range_mutable_iterator< coroutines::pull_coroutine< R >, void >
+++struct range_mutable_iterator< coroutines::pull_coroutine< R > >
++ { typedef typename coroutines::pull_coroutine< R >::iterator type; };
++
++ }
++--
++2.24.1
++
 -- 
-2.26.2
+2.21.0 (Apple Git-122)
 
