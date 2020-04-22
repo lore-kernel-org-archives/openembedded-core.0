@@ -1,95 +1,73 @@
-Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com [209.85.222.67])
- by mx.groups.io with SMTP id smtpd.web10.2075.1587581324941501371
+Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com [209.85.222.65])
+ by mx.groups.io with SMTP id smtpd.web10.927.1587585471557464190
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Apr 2020 11:48:45 -0700
+ Wed, 22 Apr 2020 12:57:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oeBtzLc8;
- spf=pass (domain: gmail.com, ip: 209.85.222.67, mailfrom: armccurdy@gmail.com)
-Received: by mail-ua1-f67.google.com with SMTP id i22so2848327uak.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2020 11:48:44 -0700 (PDT)
+ dkim=pass header.i=@northern.tech header.s=google header.b=S7tCzxa1;
+ spf=pass (domain: northern.tech, ip: 209.85.222.65, mailfrom: drew.moseley@northern.tech)
+Received: by mail-ua1-f65.google.com with SMTP id t8so3180223uap.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2020 12:57:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=s7DKXE9WuCzVCQc4pLDQaWQsXpkqY+77o2YcN4NApTQ=;
-        b=oeBtzLc8TCeFKQ1lAbaA+NWXbbcB9QJhArC5x/qaqcY6t7HJfUUaHIKMZNhm7HVabb
-         bFfQiJqudS3uPNPE6lDWbw3Hx/w7f/N2a+MyNocJ10rpYlXCQPFThFnb5bks4GuqgTsF
-         DOJ3/piFkSwAi4GNvsZXaPCt+FM7Hago18NVjm5JcFWQgxOn9SDW11HnV4eDpvEl1AZ0
-         zi7kPbKGw+hf+GQFJ1jCQtdDhxp9jWJL0RnuKPZ7AHmJNVgPQTit4kSfTbEaF0fPknKd
-         15jXWrHFulFnAA1CFX5bpIB/zJhbIWYH6pQrDOeENTztUK3FZt7l1uyZ8RXMuZPVATRj
-         K44w==
+        d=northern.tech; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RvpWm2GwsvJ3ROtyl2ow/X3fgOXhCuG0mUbnrI3jg/Q=;
+        b=S7tCzxa1qLH7W+xm2UeMdO+D3TIfEck/hS0GDGT7ruWOQlsrY4M2xpGJ5GgmAR65ms
+         sMNLq+nfKfSGabgpu5L20EmxB/9d4sHpAmpAbvo5UYDFMzlS4/AF4R6sE2UVC7YE7ysg
+         wKFbA833rXJCRZDgxjAlelaf7U8BTawv2vafbsCLcrcdUOcJVmys6BXf+Jve1+1yMRrf
+         U3dRHHe2cFu+KXLm5uDaVsdUipM0Tm2edCrCDRosh+ZyZbinfwPuQE6SEXV8mbFlHs2d
+         oYBy8BO252oXAewYINVkVylEs2woORYQPiUyG7FCV36lwzrP22H0F16sR8B3Ysz1v/F1
+         Meog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=s7DKXE9WuCzVCQc4pLDQaWQsXpkqY+77o2YcN4NApTQ=;
-        b=r4IeECiosbaAk6qpmtoBwdcIDNjGEK0xdQrFBZ5R01qQZYuEBh2yFSbWHm5QtXQeDN
-         eSNl9WFfHmKHdh2FffHU80T3dlXFlTEpafoLXTUyRzwehk67B+cjtqt6lawNzIGZnfY/
-         q5b6vtHZp98PybPtu9I7D62MityAHsBpedANIzhmw1a/xuWnNOZX3gHKn4/r+oAiEGVY
-         RvDW0kwkPZdSJZk4RMfCSC+/TXuKfEdmo2P2s4j4EXXgrwybdM/KdXWLkysayrK9VxaU
-         HKg7ilJdRoafuu27H6RFwJx8xFgupExYfR+hfoWkfGwPR0A40sBqjOSwO0XbF/hZYfDk
-         rqqQ==
-X-Gm-Message-State: AGi0Pua6xBynuiPDZXSSLSi6JmJN2IKfxJIWjURW4RdPE4dAV2nu7zLs
-	Z81HCftLxfKL0Ktc3jH5VjA+60/A1q40kfNXae4=
-X-Google-Smtp-Source: APiQypIUlsW9FM0ElqKpkaXB9zoJgJ4ItrYP06gQ8E0tpTX6DfmHUWFX0IwYwuTuakDbG381J2gXsXfhxnT2Yp5B7uk=
-X-Received: by 2002:a67:8e8a:: with SMTP id q132mr140907vsd.11.1587581323936;
- Wed, 22 Apr 2020 11:48:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=RvpWm2GwsvJ3ROtyl2ow/X3fgOXhCuG0mUbnrI3jg/Q=;
+        b=pA0y6BVYxHMa7zYl2noxoCAnpiq3PwEGBF2QqdMI+IEI92oVsZ9zrmP7XFZU++3kav
+         FrcyUAriI6DOd2ajjpbIx41h2t/omMRawq+y30vY3342RL/p2bGxwsvRPLIEs/yhxZR5
+         qQvVsQQAeoxfPaIV+J1Jx1hGIUAkESI4ErKpNDZcX7rWj7O0mO+cJYof2TNUcybQeCko
+         hIwLCoCtdh0qrhO5ByhHCagI4FG39HXXIHFh8ywM9dwVMgMmgiddZnN5Nw8eFzF2IijU
+         2IYeIuddDW3pFPq7GlWFz6/jqhqGfMLQtfC9s0qWkkxju9/OAEeb1+jbsMlkKbGRHrlI
+         XA8Q==
+X-Gm-Message-State: AGi0PuYhaWuV/9E1QrPNinYddPDkuW4WkLKlbJT0/RsAsMfLiQ8pYKnw
+	Ik82KCql9Rv/PMCUqbhI1uMXK70FKJ0=
+X-Google-Smtp-Source: APiQypIefS0rjzqY95XCEeJc9IfntloAuZN+DwEnsCtpFL8MBcMdN/9/e939qfdQ6Ze1F30on+8vTg==
+X-Received: by 2002:a67:3343:: with SMTP id z64mr489553vsz.108.1587585470078;
+        Wed, 22 Apr 2020 12:57:50 -0700 (PDT)
+Return-Path: <drew.moseley@northern.tech>
+Received: from dmoseley-build.c.developers-build-hub.internal (189.109.211.35.bc.googleusercontent.com. [35.211.109.189])
+        by smtp.googlemail.com with ESMTPSA id q21sm90734uam.7.2020.04.22.12.57.48
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Apr 2020 12:57:49 -0700 (PDT)
+From: "Drew Moseley" <drew.moseley@northern.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] perl: Add missing dependency for tie-hash on carp.
+Date: Wed, 22 Apr 2020 19:56:57 +0000
+Message-Id: <20200422195657.1634-1-drew.moseley@northern.tech>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-References: <20200422135211.121292-1-alex.kiernan@gmail.com>
-In-Reply-To: <20200422135211.121292-1-alex.kiernan@gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Wed, 22 Apr 2020 11:48:32 -0700
-Message-ID: <CAJ86T=W+CmGCZF_ej+na_tzAddNP69XJPE5MZTGFF2HjRqfGtQ@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 1/6] openssh: Move sshdgenkeys.service to sshd.socket
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 22, 2020 at 6:52 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
->
-> sshd.socket launches the templated sshd@.service, so by moving the
-> sshdgenkeys.service to sshd.socket, key generation can start in advance
-> of a connection.
+From: Drew Moseley <drew.moseley@northern.tech>
 
-Is deferring key generation until the first connection a bug or by design?
+Signed-off-by: Drew Moseley <drew.moseley@northern.tech>
+---
+ meta/recipes-devtools/perl/files/perl-rdepends.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> ---
->
->  meta/recipes-connectivity/openssh/openssh/sshd.socket   | 1 +
->  meta/recipes-connectivity/openssh/openssh/sshd@.service | 2 --
->  2 files changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.socket b/meta/recipes-connectivity/openssh/openssh/sshd.socket
-> index 12c39b26b59b..8d76d623097b 100644
-> --- a/meta/recipes-connectivity/openssh/openssh/sshd.socket
-> +++ b/meta/recipes-connectivity/openssh/openssh/sshd.socket
-> @@ -1,5 +1,6 @@
->  [Unit]
->  Conflicts=sshd.service
-> +Wants=sshdgenkeys.service
->
->  [Socket]
->  ExecStartPre=@BASE_BINDIR@/mkdir -p /var/run/sshd
-> diff --git a/meta/recipes-connectivity/openssh/openssh/sshd@.service b/meta/recipes-connectivity/openssh/openssh/sshd@.service
-> index 9d83dfb2bb1c..422450c7a190 100644
-> --- a/meta/recipes-connectivity/openssh/openssh/sshd@.service
-> +++ b/meta/recipes-connectivity/openssh/openssh/sshd@.service
-> @@ -1,13 +1,11 @@
->  [Unit]
->  Description=OpenSSH Per-Connection Daemon
-> -Wants=sshdgenkeys.service
->  After=sshdgenkeys.service
->
->  [Service]
->  Environment="SSHD_OPTS="
->  EnvironmentFile=-/etc/default/ssh
->  ExecStart=-@SBINDIR@/sshd -i $SSHD_OPTS
-> -ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
->  StandardInput=socket
->  StandardError=syslog
->  KillMode=process
-> --
-> 2.17.1
->
-> 
+diff --git a/meta/recipes-devtools/perl/files/perl-rdepends.txt b/meta/recipes-devtools/perl/files/perl-rdepends.txt
+index 331a44d308..9ecfce0011 100644
+--- a/meta/recipes-devtools/perl/files/perl-rdepends.txt
++++ b/meta/recipes-devtools/perl/files/perl-rdepends.txt
+@@ -2218,6 +2218,7 @@ RDEPENDS_perl-module-tie-handle += "perl-module-warnings-register"
+ RDEPENDS_perl-module-tie-hash-namedcapture += "perl-module-strict"
+ RDEPENDS_perl-module-tie-hash-namedcapture += "perl-module-xsloader"
+ RDEPENDS_perl-module-tie-hash += "perl-module-warnings-register"
++RDEPENDS_perl-module-tie-hash += "perl-module-carp"
+ RDEPENDS_perl-module-tie-memoize += "perl-module-strict"
+ RDEPENDS_perl-module-tie-memoize += "perl-module-tie-hash"
+ RDEPENDS_perl-module-tie-refhash += "perl-module-config"
+-- 
+2.25.0
+
