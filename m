@@ -1,90 +1,73 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web11.2086.1587563541564941505
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web12.2058.1587563542167862605
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Apr 2020 06:52:21 -0700
+ Wed, 22 Apr 2020 06:52:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nNOyBjHR;
- spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wm1-f68.google.com with SMTP id x25so2436132wmc.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hWIJ+efq;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id j2so2473712wrs.9
         for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2020 06:52:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=Y/U/GzKwzZ6sRLbTirRWMIBn0j82QqVPjxYGnml7kmg=;
-        b=nNOyBjHRA04xiRD5PX4fOiQobzVed9bvRVbseKA+jEnmeWiGng0sVJVPchSx40t+dR
-         hyXLbjvAIdBy4bWBPx8kliJq49HR2tnJe3GpsilJmeUYjmeI3VNgI6aYXiFjebIR4ONG
-         bbVmxdu2PXQJBKyHYu/hCB3aata/kqLMXiGFMzx1VUJXJ/uluxT23KUHNen01tSK+Byv
-         pY1kCTDU4NN/svKGFqSOLcRdbV7+VOGQpzTONRN5XWRNDw4hASwJFC+rWJWDP4a2Kuuh
-         YiuYNtBO5shhAO3r4lMDK7iGQPSh/YsOqyFYY+Ld84jOS0vgzgAPzZuXJmMkgHXD7VK/
-         o4fA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=z4PQXSQRaXkrDCHgssNmvya9KnNrftSfUhO/WJTUKko=;
+        b=hWIJ+efqBFF85r1XBoTj4sADdq0oJhoHsWPG48k8zj8ZJvVnASqPzgpNXe7fosWV1q
+         dWvO1PvWsdizQLCzVu2MSKKNK1D0or5BFgWDwzoMtNMtIVRdkkil6RrjmZ4rubbJ89Mb
+         2IZ7wTVBvFAxxqqrUrGbSFd+Vsf/9kKDoEUOr2SfG1U8j6SeOUEYY1MP6dfDE05JADjR
+         ph/xM0pKQJwxRrRo2UsIeLw6rJawEXqZ5n83h0LAjzqwpSXYqZnYeBUDKdu8Zm6TrGeU
+         HInDrR2Tb5kRPtf9dGFMEHz4cu6nCSiosyC3ldL1Cg0TfMM4RhwSfYW6SnEx5yliFg+U
+         3qSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Y/U/GzKwzZ6sRLbTirRWMIBn0j82QqVPjxYGnml7kmg=;
-        b=PbEVfZSCnDSmjSdge1QcBQt1/iU3lMC8LXwjxg8DuTioZDgLHdzXHAYFoWOn71Mc3Z
-         gHmTms6msKDLmLmS2LfZqAE5vCWBRt3cZLoEEbqOfDgCgFjQ9aOUuaJZtRvjH9Vy3gyT
-         5NTWsFZG3EOHCe018aRb8GEIYtqBNCt599MfD79X+8mxxE1iXWAjvQ9hwMXP5mC20QSd
-         wDL14TBvo51iDi3Qg7QVRq0UUpT9kzy2bLBrJvFHEumaoyY86HCQQpzowEfG87nh71Ma
-         FJi3bb6oWwDdPkxRn3/9lzI89CL+JV3cz9LCuQnkhJdeRqi+762mremGYlsLA/9Idmn6
-         Dq1w==
-X-Gm-Message-State: AGi0PubFJlzjKn9QCJnt/YvDKr94XQnm/OZXZlgaEjmdzFEaCktTsowA
-	FZoMZG35J7NNX8srtW0HBj+Hpvkc
-X-Google-Smtp-Source: APiQypKCT17CooDzSX97CWay6iJdin0ZX/8P/NLnZRV0D/0Umo74wa5nZNiUw+wvbFwrjGBPb7NPww==
-X-Received: by 2002:a1c:2b81:: with SMTP id r123mr10660849wmr.34.1587563539153;
-        Wed, 22 Apr 2020 06:52:19 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=z4PQXSQRaXkrDCHgssNmvya9KnNrftSfUhO/WJTUKko=;
+        b=Wv9BZ7Z9QkLoud0pE5FKOF1RAgWhrzM06cNAo/W7qVNBgRMMEfZHDiQHhqcijxQVE0
+         LtnI63wyR3PiNQ5ukvP+HynGbwF7Q9A8IK5U8KmYVE6lpnn+XVOE7hKYIlP/6QFX4YDq
+         VEF/vpx94PsSM/mReHyESfy6uX5qu4IlFujWi3caBqWY4mTl3jB4xiVnHlkmEvhMMCFv
+         i07fWwobDlI9lSvGxA84m8VaOFgDqH1C9hZ+1w8G+RQ3b4tyXYGihQK+QP0udQFi7Q0Z
+         EfKuWv+O8V4k5sT12in86oLitU0q8wG9/6J12IBPdWWOfHsHMYffykCmVlhUfdIfwC1X
+         hczA==
+X-Gm-Message-State: AGi0PuZgx+BiJODLgg5s6P7pMkgS/GY6TgE5mQvPOo9TUfqYhD48mEIA
+	IaDdqHG1z33gdxBCYxjTpQHlxddv
+X-Google-Smtp-Source: APiQypK7wNBY1Vmx91s9RGEnHW099gX24rS16tl10VoQnPknBI+18bo7rGSHMwXI04uhZMqywj6+YQ==
+X-Received: by 2002:a05:6000:1001:: with SMTP id a1mr31327674wrx.9.1587563540282;
+        Wed, 22 Apr 2020 06:52:20 -0700 (PDT)
 Return-Path: <alex.kiernan@gmail.com>
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id d7sm8155846wrn.78.2020.04.22.06.52.17
+        by smtp.gmail.com with ESMTPSA id d7sm8155846wrn.78.2020.04.22.06.52.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2020 06:52:17 -0700 (PDT)
+        Wed, 22 Apr 2020 06:52:19 -0700 (PDT)
 From: "Alex Kiernan" <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH 1/6] openssh: Move sshdgenkeys.service to sshd.socket
-Date: Wed, 22 Apr 2020 14:52:06 +0100
-Message-Id: <20200422135211.121292-1-alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH 2/6] rngd-tools: Install as part of sysinit.target
+Date: Wed, 22 Apr 2020 14:52:07 +0100
+Message-Id: <20200422135211.121292-2-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200422135211.121292-1-alex.kiernan@gmail.com>
+References: <20200422135211.121292-1-alex.kiernan@gmail.com>
 
-sshd.socket launches the templated sshd@.service, so by moving the
-sshdgenkeys.service to sshd.socket, key generation can start in advance
-of a connection.
+rngd.service has a constraint of Before=sysinit.target, installing as
+part of multi-user.target is an odd choice as unless it's pulled in by a
+different dependency, an other target would not start it.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
- meta/recipes-connectivity/openssh/openssh/sshd.socket   | 1 +
- meta/recipes-connectivity/openssh/openssh/sshd@.service | 2 --
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-support/rng-tools/rng-tools/rngd.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.socket b/meta/recipes-connectivity/openssh/openssh/sshd.socket
-index 12c39b26b59b..8d76d623097b 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshd.socket
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd.socket
-@@ -1,5 +1,6 @@
- [Unit]
- Conflicts=sshd.service
-+Wants=sshdgenkeys.service
+diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+index aaaaa290742a..084322ac40aa 100644
+--- a/meta/recipes-support/rng-tools/rng-tools/rngd.service
++++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+@@ -10,4 +10,4 @@ EnvironmentFile=-@SYSCONFDIR@/default/rng-tools
+ ExecStart=@SBINDIR@/rngd -f $EXTRA_ARGS
  
- [Socket]
- ExecStartPre=@BASE_BINDIR@/mkdir -p /var/run/sshd
-diff --git a/meta/recipes-connectivity/openssh/openssh/sshd@.service b/meta/recipes-connectivity/openssh/openssh/sshd@.service
-index 9d83dfb2bb1c..422450c7a190 100644
---- a/meta/recipes-connectivity/openssh/openssh/sshd@.service
-+++ b/meta/recipes-connectivity/openssh/openssh/sshd@.service
-@@ -1,13 +1,11 @@
- [Unit]
- Description=OpenSSH Per-Connection Daemon
--Wants=sshdgenkeys.service
- After=sshdgenkeys.service
- 
- [Service]
- Environment="SSHD_OPTS="
- EnvironmentFile=-/etc/default/ssh
- ExecStart=-@SBINDIR@/sshd -i $SSHD_OPTS
--ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
- StandardInput=socket
- StandardError=syslog
- KillMode=process
+ [Install]
+-WantedBy=multi-user.target
++WantedBy=sysinit.target
 -- 
 2.17.1
 
