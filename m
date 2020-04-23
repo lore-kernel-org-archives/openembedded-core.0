@@ -1,63 +1,103 @@
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com [209.85.166.67])
- by mx.groups.io with SMTP id smtpd.web11.2534.1587630613954848557
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
+ by mx.groups.io with SMTP id smtpd.web11.2600.1587631094228473769
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2020 01:30:14 -0700
+ Thu, 23 Apr 2020 01:38:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oijuWxUF;
- spf=pass (domain: gmail.com, ip: 209.85.166.67, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-io1-f67.google.com with SMTP id f19so5527951iog.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 01:30:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VVA73M3s;
+ spf=pass (domain: gmail.com, ip: 209.85.166.193, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-il1-f193.google.com with SMTP id z12so4748971ilb.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 01:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=pgBC4AOwGIvfKe6LoAVrHZhEfk7tS7bdCHSD8Hx0/eA=;
-        b=oijuWxUFuIq+y2epJ9nlEehQL9IqF0Vm1mndWVwItF+YEeelPTYw2jy0C+Y4HdxwR2
-         xafB0NJpAUhiYBDZmrSPpmBudYSISURSKyL80aCg7CLPelod2Zog7lVmnVrt831p7idj
-         H7cL+EqtWGxomHtQ3Xzo3IRTfRNQlsQnPrRN7Yf6zQbXPYuPYl5hCpjxPueBoOXk7aQf
-         ukDAfKl+n/BDAgt5BaczK33/c60MMr6z8klMzRHEfmFa+qJ0q7Z+ZaWvUj/vm7PRXn5i
-         v5nShAxiPQf1Dc/BNvyhcQdhcUFQwKXw3MJaVces8wV+w7D9autLLcdyH4M7AGVZuwuD
-         PnDw==
+        bh=kUYE59WJDtkLPUfYXO6afoGTRY3tqf1B0nBzD3nSD/U=;
+        b=VVA73M3scpV9r336RzRyVSQdPckzlvyWP8OT2OhEvgPv+OG3pj0Bqik4tSd1OQAXpw
+         vt2b2YCqywOkAj55Pq7PYs/BNNraQ4dJ2qHd5JOUTFaGuSWa47JczA16eEyUp6IDQyIH
+         nqM8jUxgKXOjnItjizv+LMyNX4lh3kxy9+2zbFAGyVXxYtnu68s/8UTzW86RyT5cKAdJ
+         FijoOZ6j6ZkrORdEUt4UCAPpmw3GsuP8pajSXqV72xJN8tKd+M0ENrZmCeuX8Ji2EOoy
+         Pvyw29zjK87VOnxlCFvof0t+s3Bggw13pX2UKAmvOeFgbFN+k/lhSR619gqa6lMUiSYE
+         COiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=pgBC4AOwGIvfKe6LoAVrHZhEfk7tS7bdCHSD8Hx0/eA=;
-        b=Oc0OScRd3R4AvZCBzs3fDT4EWjlcrWA7qBEAEzu0pPrUYQ32NsAiqQV9Vtcsdabk0M
-         6FljLEdNbNFYAZreG4y4+YLqswJPnVcOwqHPUY64OqpxOo3ZGD1/k/iInhRMXjWNAqXy
-         7cdL15InRcjQSCmWF//48r/yMd1CA+BZHIMusfA6Xd3TQ3AvSor+21TMZ2v603M8MqSY
-         Le/lFsIvcAayhakov7bjouC58XFAKyBrNZy+JzIWWFBW8CW63XqmVDgTLwmOqPEKXZPU
-         /zPqRf9vjr6rod25bMNnWPwcZWbmPxmQu882PNE/dhRcWHS9RDYFinPSSLBxKmHeT6z6
-         D7Gg==
-X-Gm-Message-State: AGi0PuYpIhHhgwlUPn+y/CLIHMH49qDp8JCb3btm6Vh9waPWIknCAnHw
-	59Ep2wI0LahZEvTF6FGvdRm593x57NbdC8MtSuw=
-X-Google-Smtp-Source: APiQypLG5gGAKJUi0n3XLUFHeIynNQF5V+Pf+FP9Cpcjf5YRAMBtPotjOtu3rm7om6R7BAD3wTRnLDLgRVVFUhIrVQI=
-X-Received: by 2002:a02:7611:: with SMTP id z17mr2231607jab.42.1587630613148;
- Thu, 23 Apr 2020 01:30:13 -0700 (PDT)
+        bh=kUYE59WJDtkLPUfYXO6afoGTRY3tqf1B0nBzD3nSD/U=;
+        b=Kze4hm4sGImV46iEz0+PKzAdHGzakwjs67YHs8WNHcILNevtmq320gzy2HCFcdgdNN
+         3y2H5C9hk7hyFUysFvPhFuBJaMUSXd/3k0LKT1i20DQS+7ooJzryrDptZZpM5nqw6f8K
+         AIRC76xdzxAuVpolnJjhuAxGsbUxismdRjdflFAKHL2PGOsx7gCWbUwLzzqkupjiixad
+         bV7X9fqtNvJFp0/ckoTpTOqHAKkdP5po+GxEZqbcNXlCsWQn24RaPqkey37xVQvb6PZW
+         LBIinKTOJALaCfz+8SgQHRfvkLFsYiZOlt5ZKcgCihP2GQEY3vOS01CMzuXgA2nt9NEM
+         yJMA==
+X-Gm-Message-State: AGi0PubT2fmE6m1cB2WHIK9uHXzO5pSlLDIydcKfnItGgrlBplSMvdwy
+	ibRxgFKn4z2vhHPDooCQQIfteq7xbIgmnYoCxBM=
+X-Google-Smtp-Source: APiQypI8TmexpM1LR5KQCfO2AgL4I7X57dvqhfPv6cd7Ke8SGlt5R3zUNyzMZkWQI2CpRrPDaf6qloi+N0sl/4+BCV0=
+X-Received: by 2002:a92:d90b:: with SMTP id s11mr2352999iln.295.1587631093660;
+ Thu, 23 Apr 2020 01:38:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200422135211.121292-1-alex.kiernan@gmail.com> <CAJ86T=W+CmGCZF_ej+na_tzAddNP69XJPE5MZTGFF2HjRqfGtQ@mail.gmail.com>
-In-Reply-To: <CAJ86T=W+CmGCZF_ej+na_tzAddNP69XJPE5MZTGFF2HjRqfGtQ@mail.gmail.com>
+References: <20200422135211.121292-1-alex.kiernan@gmail.com> <160828A1D0F44509.29104@lists.openembedded.org>
+In-Reply-To: <160828A1D0F44509.29104@lists.openembedded.org>
 From: "Alex Kiernan" <alex.kiernan@gmail.com>
-Date: Thu, 23 Apr 2020 09:30:02 +0100
-Message-ID: <CAO5Uq5RXQn+Q0NmVD0nWAYxp3YMs8TFKiDLudCHzUFD6LHcc5Q@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 1/6] openssh: Move sshdgenkeys.service to sshd.socket
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Apr 2020 09:38:02 +0100
+Message-ID: <CAO5Uq5S=+5QVHcB6gaTQ+gz+zW0Ce9i8BaB88yN0n++A2jW8KQ@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 3/6] rng-tools: Restrict rngd.service
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 22, 2020 at 7:48 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+On Wed, Apr 22, 2020 at 2:52 PM Alex Kiernan via
+lists.openembedded.org <alex.kiernan=gmail.com@lists.openembedded.org>
+wrote:
 >
-> On Wed, Apr 22, 2020 at 6:52 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> >
-> > sshd.socket launches the templated sshd@.service, so by moving the
-> > sshdgenkeys.service to sshd.socket, key generation can start in advance
-> > of a connection.
+> Whilst rngd has to run as root, we can significantly constrain its
+> permissions (AF_INET AF_INET6 are only required if nistbeacon is
+> enabled).
 >
-> Is deferring key generation until the first connection a bug or by design?
+> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> ---
 >
+>  .../rng-tools/rng-tools/rngd.service          | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+>
+> diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+> index 084322ac40aa..604e9500665e 100644
+> --- a/meta/recipes-support/rng-tools/rng-tools/rngd.service
+> +++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+> @@ -8,6 +8,25 @@ Conflicts=shutdown.target
+>  [Service]
+>  EnvironmentFile=-@SYSCONFDIR@/default/rng-tools
+>  ExecStart=@SBINDIR@/rngd -f $EXTRA_ARGS
+> +CapabilityBoundingSet=CAP_SYS_ADMIN
+> +IPAddressDeny=any
 
-If you've installed it, presumably you're expecting connections. But I
-agree you could argue it either way.
+I missed removing this constraint when nistbeacon is enabled - will send v2
+
+> +LockPersonality=yes
+> +MemoryDenyWriteExecute=yes
+> +NoNewPrivileges=yes
+> +PrivateTmp=yes
+> +ProtectControlGroups=yes
+> +ProtectHome=yes
+> +ProtectHostname=yes
+> +ProtectKernelModules=yes
+> +ProtectKernelLogs=yes
+> +ProtectSystem=strict
+> +RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+> +RestrictNamespaces=yes
+> +RestrictRealtime=yes
+> +RestrictSUIDSGID=yes
+> +SystemCallArchitectures=native
+> +SystemCallErrorNumber=EPERM
+> +SystemCallFilter=@system-service
+>
+>  [Install]
+>  WantedBy=sysinit.target
+> --
+> 2.17.1
+>
+> 
+
+
 
 -- 
 Alex Kiernan
