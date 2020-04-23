@@ -1,66 +1,68 @@
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com [209.85.166.65])
- by mx.groups.io with SMTP id smtpd.web11.212.1587659775393376341
+Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com [209.85.222.65])
+ by mx.groups.io with SMTP id smtpd.web10.815.1587662078822236420
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2020 09:36:15 -0700
+ Thu, 23 Apr 2020 10:14:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=E06qTxWx;
- spf=pass (domain: gmail.com, ip: 209.85.166.65, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-io1-f65.google.com with SMTP id z2so7033037iol.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 09:36:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pkqpG0bV;
+ spf=pass (domain: gmail.com, ip: 209.85.222.65, mailfrom: armccurdy@gmail.com)
+Received: by mail-ua1-f65.google.com with SMTP id i5so6540702uaq.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 10:14:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=EyestAggHfDQO5YJmqdcH8UFnJ5tcfhWRoQykR4gxbA=;
-        b=E06qTxWx1EdWGZhQyJ5NB4qkizW8eEQlXDpwev1ogEaMlic+hPR0tTEM/qLPpExXcv
-         ILNdghUwlMkjHWSXim/Z++mnZIfnm00//CT+CUGDUvOtZC5bFUikTqKvGRjA3KqbUAc+
-         G9CrxbasfhYKZAdjXF1tmJuYszpe44ZDZX/hpuuQFPJax+bfZokPDQiE+KpQtlCNEB0k
-         eh1wrdTml3fRvzmwaVVmHIW/iRhszNrSoDLZjDkNp1ajb2A4I24jAzn6l/PpixDdPGqj
-         0IujqNV28NTh5ZSgJYHPD1eg1ykRFEMg4vZcAqy5SjdRCJ+KfBi2HWN4gM4rGpeJKqQI
-         /vSg==
+         :cc;
+        bh=4CAcNoc6/jIINk6FtHDdCrI3mXfBdJT400T/gGfdO9Q=;
+        b=pkqpG0bV9vJMYJbO/Ft4SfPQPFWNOnEnaOna2XpA6eYIwrhaI2MQcd47NVcIqI3Mse
+         yR4B7Ae7zE+jay5LxYZMf67C1ooK6zf96nZHHa7Bt+xvO8ulJ5aDcYti0/sTRqj2ij5i
+         gVSCp2Mz0lwR2bdrDnJlKwVRlcFqxWWbu23lLeQJxpx2aHnx/2yR+xQU0YXHIYkK3und
+         +lWICn5PcbL7zJfXdtW6Fm21f+c69LT8dnkuwMNv6re6c/C5R8DbL5QgagvKSdfsLB5k
+         +ZjqZ1JBCElo/ppAfvai6BMt0QpFP4igTBg+3yBOKDpyzK1W1hCAI5Os8TCfI0kRfIkp
+         7C5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=EyestAggHfDQO5YJmqdcH8UFnJ5tcfhWRoQykR4gxbA=;
-        b=aX4saT6woJxIEFLK02uyZmWlf2d2NVtlwzpvr8o/SZ7jvZ83OaGFqjS2CBvKUCd59X
-         HKMI+fwkTyqtYWAth/xMuFzkd85ezUkn9OIikgMSsSBfOg0OW08GOgt4b0cA7L9GTbyd
-         ksl6Oc37V9MH6p2n/gSjpmkoRgIZdBPsz0PsEWs/7BHOp9Xu6u1E0BtivcNyxdNjcxaq
-         vtJoHgq1oxQOiK/tlFJxMhP2iJEYXKrUdHH0aqGe1WC03rOb1wrQ0blcvOvgwVgc+n62
-         FS23Nen7MeCMNCoeFJKMSRqZZIalWa6HsTEphkkYz1MDxBAZNLdr8HZJSdMmJncgFCKf
-         8pIg==
-X-Gm-Message-State: AGi0PubPfUvVcK+VNE1gincaJJOKMto8fp7HVjW8rqnI2onsZK2eR7RN
-	RxDoyZUKdSv7Hd/e+136rcVG45TlrMdaeIL5hGnCzQ==
-X-Google-Smtp-Source: APiQypLrt09fthUNZdoDSgfC4h4xy/Oc967i2eK5A+UQlpXzCCvx3ot/ntOMlxRmXB4d1EU3Bed2KYzlYNs1jPPh9E4=
-X-Received: by 2002:a02:ce8b:: with SMTP id y11mr4056874jaq.125.1587659774409;
- Thu, 23 Apr 2020 09:36:14 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=4CAcNoc6/jIINk6FtHDdCrI3mXfBdJT400T/gGfdO9Q=;
+        b=Imz38jho/jZiwF/pXwxgZJWSswQ+H86HlbqgxnIKRJwoHJ66yY8zMDt9DXIxj2xAwz
+         D88n8jZsGJ/FdT/lCQD0sm1niP1T/015nTFc3wrYdWohdU4qC3J8Eu3KpDRyljk40uBz
+         jgVZhcD6HMNUyqHKSHUXeUCC9KLz04589mAOBHOp0NTuwCmfeHtAsPn6vmbcclY0U+wZ
+         2s1NPQRR9dBPSdCgVMowtpdvRgc3KSVjnuLgTguW1A42L7lz3W0bKylh0TpFKHChWfaB
+         2hBafSvBX1oWa8KCaduyaWpD0i+bujpdb3nUCAxIwIXAWZHiD2e9RfAreqZyK0IATDJ9
+         RZaQ==
+X-Gm-Message-State: AGi0PubqjGlmDjg9kcQZfspIhwQulnKi9q2iuw2ExRsV2N+c3W7vL7Hw
+	kPCC/PlfYmt+NBDzl5+UhIxEeAIBTJF2JbEEA9o=
+X-Google-Smtp-Source: APiQypIefqAyOjTBUy08UazbBDuD+ABjtiiFV6HZwpCN+ZntUSwR2cc7D6NikFn8tQLPez7fyq5pbWg6SB0JQ3alNGo=
+X-Received: by 2002:a67:2284:: with SMTP id i126mr4152755vsi.223.1587662077915;
+ Thu, 23 Apr 2020 10:14:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200415223036.12754-1-schnitzeltony@gmail.com>
-In-Reply-To: <20200415223036.12754-1-schnitzeltony@gmail.com>
-From: "Andreas M?ller" <schnitzeltony@gmail.com>
-Date: Thu, 23 Apr 2020 18:36:03 +0200
-Message-ID: <CALbNGRTCkBdzsUSuxgejrF73xJiH=zrzuYQ=u3CmZgGxppRVAw@mail.gmail.com>
-Subject: Re: [PATCH] meson.bbclass: avoid unexpected operating-system names
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <20200422135211.121292-1-alex.kiernan@gmail.com>
+ <CAJ86T=W+CmGCZF_ej+na_tzAddNP69XJPE5MZTGFF2HjRqfGtQ@mail.gmail.com> <CAO5Uq5RXQn+Q0NmVD0nWAYxp3YMs8TFKiDLudCHzUFD6LHcc5Q@mail.gmail.com>
+In-Reply-To: <CAO5Uq5RXQn+Q0NmVD0nWAYxp3YMs8TFKiDLudCHzUFD6LHcc5Q@mail.gmail.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Thu, 23 Apr 2020 10:14:27 -0700
+Message-ID: <CAJ86T=W1jP=eMiJmcQLYfKamsD3v2+ycbS8Q3V-iEc+HVDT=Gw@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 1/6] openssh: Move sshdgenkeys.service to sshd.socket
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 16, 2020 at 12:30 AM Andreas M=C3=BCller <schnitzeltony@gmail.c=
-om> wrote:
+On Thu, Apr 23, 2020 at 1:30 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> On Wed, Apr 22, 2020 at 7:48 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+> > On Wed, Apr 22, 2020 at 6:52 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> > >
+> > > sshd.socket launches the templated sshd@.service, so by moving the
+> > > sshdgenkeys.service to sshd.socket, key generation can start in advance
+> > > of a connection.
+> >
+> > Is deferring key generation until the first connection a bug or by design?
 >
-> For example 'linux-gnueabi' is not what meson consumers expect: See canon=
-ical
-> table of OS names for Meson (thanks Ross). Surprisingly this did not pop =
-up
-> earlier but wrong system-name can break building as described in [1]
->
-> [1] https://lists.openembedded.org/g/openembedded-core/topic/meson_host_m=
-achine_system/73023862
+> If you've installed it, presumably you're expecting connections. But I
+> agree you could argue it either way.
 
-Ping
+The trade off is between slower first boot (or every boot for
+read-only rootfs if host keys are not persistent) -vs- slower first
+incoming ssh connection.
 
-* at least I consider it important: The issue fixed can cause
-undetected misconfigurations
-* yes meson can do better but this is not in the scope of this patch
-
-Andreas
+Since the first incoming ssh connection may never happen (especially
+if ssh is only used for debugging or development), optimising it at
+the expense of boot time doesn't seem to be an obvious improvement.
