@@ -1,109 +1,88 @@
 Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web12.4002.1587639903350644247
+ by mx.groups.io with SMTP id smtpd.web12.4319.1587641317595189077
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2020 04:05:03 -0700
+ Thu, 23 Apr 2020 04:28:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SGtdz+oI;
- spf=pass (domain: gmail.com, ip: 209.85.221.65, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f65.google.com with SMTP id d17so6314265wrg.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 04:05:03 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JtB6nov4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id f13so6369930wrm.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 04:28:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=WLs4SNQrgMTM2hjKrS0dkUgaK9VnGe3UbITljDOZH98=;
-        b=SGtdz+oIUmdM7Q8+QnumJ7uT75v1R8MumpMcEEiGkkJ3xxAnoK6QpOefRIb1hQqK3h
-         et19gQl2NBb9WEZ7qoppYrFQkp4vILv6uLr2rpoPIvL6g9RA2wWG5OYEQ24z6uE6DmfY
-         6GvY+RCSbNbjEb59oyqaVCmoYVSTC2qNmUDi25+hZFoJ3MMZ76Qju2U4LSHHECmXAwoj
-         K3D5eGfKyg7ABMAEKHshkN79mpk1Pkqtbazvg4xg/T1Hol29gXIV2CAQvCqDh+CwYGyu
-         pxYpLJrAcHULPPODKC0JvgwN2fxkD9m7noOCe8SB+TZwV0SPF2vVKkezyOElrBcjBFmY
-         JaAw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=Msarm+KBTbTcXpyvdvh6+b8/ban7Z4WkpMLwbqib04E=;
+        b=JtB6nov40NBjeGy0KOxkJ82+IbXyl1WhKnUaq6+5R3waOcfashf7B8oXTDhrtDQYkn
+         5mu7AIdOx+Bqrte6TLk6ZRf/9fp3GcYa6Sy+DYTbR3qzhQ4mm9pF9R3M8yULQt+0k6uM
+         8RoBSY/rWxlJSDFFDkSTj9FKHM9HCr2eSO920=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=WLs4SNQrgMTM2hjKrS0dkUgaK9VnGe3UbITljDOZH98=;
-        b=opYrhuxbGMAJ8KvxLMCAjugTn96kYiaKpoe3mRbwcuySAtwolmvxJ25fEt47rNtEzE
-         PvEiP+Cv6ko6BqHGAek6+jQSYJeRwfD/fSa8iF8QDN8s2T7EuWdsvRsPvoM8kdx+kMu4
-         7QOpan40gD9g7pz86PbX8yd6jh4ILCt9XXbzeKMKgZfLrLHI1jYvTRReGRsygpmoFLri
-         IOAfCjfxNUvZ+9NZI9GHQ1eBOISsYcuZzqPGTAqE1u7BckJozcO6qUt/TToj9nU0ZJKy
-         0CTvyk2HlSaWpKGVgn7ZGK57Rrxs9+IuEFBWXnd89ynvJQsfCBPL4CtsijBRpD5lfKen
-         KkzA==
-X-Gm-Message-State: AGi0PuaHGtnnJjJzVJ/tSbOxjYNnlrq0jjq1SIFGMS8R7AUngb6pdpV+
-	A3qZk0cdihHVNBK1kL5k3rP1KPDi
-X-Google-Smtp-Source: APiQypIS/NIp88ARO2ZgBZkAQAvQwXwof7kvAZ1Foei8z1WTNfUv8jr42TyFeCJ5webRbWuu6QIRWQ==
-X-Received: by 2002:a5d:474b:: with SMTP id o11mr4268813wrs.391.1587639901354;
-        Thu, 23 Apr 2020 04:05:01 -0700 (PDT)
-Return-Path: <alex.kiernan@gmail.com>
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id c10sm2984842wru.48.2020.04.23.04.05.00
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Msarm+KBTbTcXpyvdvh6+b8/ban7Z4WkpMLwbqib04E=;
+        b=mW4ivj1cSt0UokLRTrASaCkTL8q0H0pr0OIKJWfDvG7wNY5WOf6qM4e78wk+P0HLCT
+         SE0cUix5VXvdW/WY+Ef8yncu4AaBkN/UI+X88KwkRVJJqsbU5rxo76fK34Lfj18ZcGZG
+         Zhl2x/ZLDIxJRevhdBLSCkEOIqcgChpCRTqCz6rEY4yORT+GK53+/ZmL7Zy/QD/phvVe
+         9lK5/7+iy8j2maoho6csDVGEPLkh88PpTpRYEaI+xMu+kcihoxamJYRGlmStPNPjOoqB
+         8x9iCeBpSsFFffGtn0hw8+ty3sjdVe6BdDlJ2inS9WVsWLCH9g5ado/bH7HR0+/zT/G1
+         fcXQ==
+X-Gm-Message-State: AGi0PuaXmtx6QdW9vdjPM+AlahEbM33CuLFDvJ6+K1acpM79fDCSLFkg
+	BNDWEYrUv6hZlWcChfMhWiyXwA==
+X-Google-Smtp-Source: APiQypKFbE14ALK1GTgFzpMpazemE8FCYRWNOSplciwf6m3SxiSq+v+u0INHWLOE8ALn4iBZg0l23A==
+X-Received: by 2002:adf:e58e:: with SMTP id l14mr4262743wrm.186.1587641316003;
+        Thu, 23 Apr 2020 04:28:36 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id z1sm3277972wmf.15.2020.04.23.04.28.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2020 04:05:00 -0700 (PDT)
-From: "Alex Kiernan" <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH v2] rng-tools: Restrict rngd.service
-Date: Thu, 23 Apr 2020 12:04:57 +0100
-Message-Id: <20200423110457.81750-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Thu, 23 Apr 2020 04:28:35 -0700 (PDT)
+Message-ID: <64068ee723a3a7d767ab88efab4378c3c4e0658e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] libsolv: upgrade 0.7.10 -> 0.7.11
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 23 Apr 2020 12:28:34 +0100
+In-Reply-To: <20200422200258.84579-1-wangmy@cn.fujitsu.com>
+References: <20200422200258.84579-1-wangmy@cn.fujitsu.com>
+User-Agent: Evolution 3.36.1-2 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Whilst rngd has to run as root, we can significantly constrain its
-permissions (network is only required if nistbeacon is enabled).
+On Wed, 2020-04-22 at 13:02 -0700, Wang Mingyu wrote:
+> From: Wang Mingyu <wangmy@cn.fujitsu.com>
+> 
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> ---
+>  .../libsolv/{libsolv_0.7.10.bb => libsolv_0.7.11.bb}            | 2
+> +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-extended/libsolv/{libsolv_0.7.10.bb =>
+> libsolv_0.7.11.bb} (94%)
+> 
+> diff --git a/meta/recipes-extended/libsolv/libsolv_0.7.10.bb
+> b/meta/recipes-extended/libsolv/libsolv_0.7.11.bb
+> similarity index 94%
+> rename from meta/recipes-extended/libsolv/libsolv_0.7.10.bb
+> rename to meta/recipes-extended/libsolv/libsolv_0.7.11.bb
+> index 265a27c00d..764eb0df88 100644
+> --- a/meta/recipes-extended/libsolv/libsolv_0.7.10.bb
+> +++ b/meta/recipes-extended/libsolv/libsolv_0.7.11.bb
+> @@ -10,7 +10,7 @@ DEPENDS = "expat zlib"
+>  SRC_URI = "git://github.com/openSUSE/libsolv.git \
+>  "
+>  
+> -SRCREV = "605dd2645ef899e2b7c95709476fb51e28d7e378"
+> +SRCREV = "102ac552669181d3e43731aa275bdbbc7ddcb94c"
+> 
+This doesn't work:
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/1798
+https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/701
 
-Changes in v2:
-- fix network access
+and many other failures.
 
- .../rng-tools/rng-tools/rngd.service          | 19 +++++++++++++++++++
- .../rng-tools/rng-tools_6.9.bb                |  7 +++++++
- 2 files changed, 26 insertions(+)
+Cheers,
 
-diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-index 084322ac40aa..0559b9799154 100644
---- a/meta/recipes-support/rng-tools/rng-tools/rngd.service
-+++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-@@ -8,6 +8,25 @@ Conflicts=shutdown.target
- [Service]
- EnvironmentFile=-@SYSCONFDIR@/default/rng-tools
- ExecStart=@SBINDIR@/rngd -f $EXTRA_ARGS
-+CapabilityBoundingSet=CAP_SYS_ADMIN
-+IPAddressDeny=any
-+LockPersonality=yes
-+MemoryDenyWriteExecute=yes
-+NoNewPrivileges=yes
-+PrivateTmp=yes
-+ProtectControlGroups=yes
-+ProtectHome=yes
-+ProtectHostname=yes
-+ProtectKernelModules=yes
-+ProtectKernelLogs=yes
-+ProtectSystem=strict
-+RestrictAddressFamilies=AF_UNIX
-+RestrictNamespaces=yes
-+RestrictRealtime=yes
-+RestrictSUIDSGID=yes
-+SystemCallArchitectures=native
-+SystemCallErrorNumber=EPERM
-+SystemCallFilter=@system-service
- 
- [Install]
- WantedBy=sysinit.target
-diff --git a/meta/recipes-support/rng-tools/rng-tools_6.9.bb b/meta/recipes-support/rng-tools/rng-tools_6.9.bb
-index 913342c315de..8c98a9aa3ae2 100644
---- a/meta/recipes-support/rng-tools/rng-tools_6.9.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_6.9.bb
-@@ -49,4 +49,11 @@ do_install_append() {
-         -e 's,@SBINDIR@,${sbindir},g' \
-         ${D}${sysconfdir}/init.d/rng-tools \
-         ${D}${systemd_system_unitdir}/rngd.service
-+
-+    if [ "${@bb.utils.contains('PACKAGECONFIG', 'nistbeacon', 'yes', 'no', d)}" = "yes" ]; then
-+        sed -i \
-+            -e '/^IPAddressDeny=any/d' \
-+            -e '/^RestrictAddressFamilies=/ s/$/ AF_INET AF_INET6/' \
-+            ${D}${systemd_system_unitdir}/rngd.service
-+    fi
- }
--- 
-2.17.1
+Richard
 
