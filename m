@@ -1,303 +1,92 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.6811.1587650712218870994
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web11.6996.1587651135362827111
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2020 07:05:12 -0700
+ Thu, 23 Apr 2020 07:12:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: tgamblin@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 03NE4PWv008345
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 07:05:01 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Thu, 23 Apr 2020
- 07:04:37 -0700
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 20958)	id 0864F90013C;
- Thu, 23 Apr 2020 07:04:36 -0700 (PDT)
-From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH v2] python3: fix CVE-2020-8492
-Date: Thu, 23 Apr 2020 07:04:36 -0700
-Message-ID: <20200423140436.45264-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.24.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OC085SMT;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id d17so7000109wrg.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 07:12:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=1UW2M1C9hDpYaRvQPh2fwqxnzSe1/OP+kNoX8i0cKL8=;
+        b=OC085SMTUdLcq/7LLS4EApFnuTa90rIQQlWOHVcndrIgjzchqsZ89Qz11C4s6rmUEi
+         jfUd5FbR3P/X8s4AU3SDUxqOhliRU+Ls8SlaMl/5H/OIlyXgGxb7PdPAT51s3O/cdUMQ
+         xoRP+5JLYdnw+/p69fKbu43vhbM1gXX56d/sUXHR/kSE2e3mG/ARIRLXzR7Hwv98hjgH
+         xQHIyN+iGZVgsA3kHc2iIkh8Ax1KZHTgk9b933Kz3qCmjeT3bPWe0GE4qFYFil1TD02F
+         +haYMgIAvvp6SFc67LwoNOS5GULhMfw0S7dax5FpzX4Y5+gogNPCNA1rZvtekqiI1eHx
+         4qIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=1UW2M1C9hDpYaRvQPh2fwqxnzSe1/OP+kNoX8i0cKL8=;
+        b=hiFlHgeD05Pq0VrtnSfEXd757JfO89CfbonWlaqf9t8QxOXheYubGJ9antw2JsSYXf
+         WmSLieLJUEvpFlk7WGHg7N31yvpzm87UUFOQdbD2gOhkGrhtFbaXVWHnBKGSxWy1XU5Y
+         aFmcTVEaf1239x2TWBM6p2b07mFif/Vpr5hredUdOl4AlIAq3JKYXzsfMjZn0mZ8XykO
+         LgEVgLlaNebDM74CmcVUoMtba2O/bdenVSCATndCU5YEUtFcMNsbwDi6mCyTERZoAfYS
+         puq2DwPKNplrWKHLU4Wv4EvSob3UvKT/x4/SYxramyD28+iPDNJRXlR6bhjhrZM0uv28
+         WZSw==
+X-Gm-Message-State: AGi0PuZGxrh396IY6kzVLivVLFMFTChtqxiT8u+7WIH/6CDE2m//ObFu
+	0R+TELButiC7DjRrJk8OdyH5j2aI
+X-Google-Smtp-Source: APiQypJrjJ/XoSx6Wnuv/f6XMnOZOPxYmuQ2FS/wjju5caQDJ6Es/hKEDiZ37NwPifnBTmu1hc+5EA==
+X-Received: by 2002:adf:df8c:: with SMTP id z12mr5554139wrl.116.1587651133465;
+        Thu, 23 Apr 2020 07:12:13 -0700 (PDT)
+Return-Path: <alex.kiernan@gmail.com>
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
+        by smtp.gmail.com with ESMTPSA id a125sm3854726wme.3.2020.04.23.07.12.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2020 07:12:12 -0700 (PDT)
+From: "Alex Kiernan" <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH v2 1/6] openssh: Move sshdgenkeys.service to sshd.socket
+Date: Thu, 23 Apr 2020 15:12:04 +0100
+Message-Id: <20200423141209.82595-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-CVE: CVE-2020-8492
+sshd.socket launches the templated sshd@.service, so by moving the
+sshdgenkeys.service to sshd.socket, key generation can start in advance
+of a connection.
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- ...20-8492-Fix-AbstractBasicAuthHandler.patch | 248 ++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
- 2 files changed, 249 insertions(+)
- create mode 100644 meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
 
-diff --git a/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch b/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-new file mode 100644
-index 0000000000..e16b99bcb9
---- /dev/null
-+++ b/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-@@ -0,0 +1,248 @@
-+From 0b297d4ff1c0e4480ad33acae793fbaf4bf015b4 Mon Sep 17 00:00:00 2001
-+From: Victor Stinner <vstinner@python.org>
-+Date: Thu, 2 Apr 2020 02:52:20 +0200
-+Subject: [PATCH] bpo-39503: CVE-2020-8492: Fix AbstractBasicAuthHandler
-+ (GH-18284)
-+
-+Upstream-Status: Backport
-+(https://github.com/python/cpython/commit/0b297d4ff1c0e4480ad33acae793fbaf4bf015b4)
-+
-+CVE: CVE-2020-8492
-+
-+The AbstractBasicAuthHandler class of the urllib.request module uses
-+an inefficient regular expression which can be exploited by an
-+attacker to cause a denial of service. Fix the regex to prevent the
-+catastrophic backtracking. Vulnerability reported by Ben Caller
-+and Matt Schwager.
-+
-+AbstractBasicAuthHandler of urllib.request now parses all
-+WWW-Authenticate HTTP headers and accepts multiple challenges per
-+header: use the realm of the first Basic challenge.
-+
-+Co-Authored-By: Serhiy Storchaka <storchaka@gmail.com>
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+---
-+ Lib/test/test_urllib2.py                      | 90 ++++++++++++-------
-+ Lib/urllib/request.py                         | 69 ++++++++++----
-+ .../2020-03-25-16-02-16.bpo-39503.YmMbYn.rst  |  3 +
-+ .../2020-01-30-16-15-29.bpo-39503.B299Yq.rst  |  5 ++
-+ 4 files changed, 115 insertions(+), 52 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst
-+ create mode 100644 Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst
-+
-+diff --git a/Lib/test/test_urllib2.py b/Lib/test/test_urllib2.py
-+index 8abedaac98..e69ac3e213 100644
-+--- a/Lib/test/test_urllib2.py
-++++ b/Lib/test/test_urllib2.py
-+@@ -1446,40 +1446,64 @@ class HandlerTests(unittest.TestCase):
-+         bypass = {'exclude_simple': True, 'exceptions': []}
-+         self.assertTrue(_proxy_bypass_macosx_sysconf('test', bypass))
-+ 
-+-    def test_basic_auth(self, quote_char='"'):
-+-        opener = OpenerDirector()
-+-        password_manager = MockPasswordManager()
-+-        auth_handler = urllib.request.HTTPBasicAuthHandler(password_manager)
-+-        realm = "ACME Widget Store"
-+-        http_handler = MockHTTPHandler(
-+-            401, 'WWW-Authenticate: Basic realm=%s%s%s\r\n\r\n' %
-+-            (quote_char, realm, quote_char))
-+-        opener.add_handler(auth_handler)
-+-        opener.add_handler(http_handler)
-+-        self._test_basic_auth(opener, auth_handler, "Authorization",
-+-                              realm, http_handler, password_manager,
-+-                              "http://acme.example.com/protected",
-+-                              "http://acme.example.com/protected",
-+-                              )
-+-
-+-    def test_basic_auth_with_single_quoted_realm(self):
-+-        self.test_basic_auth(quote_char="'")
-+-
-+-    def test_basic_auth_with_unquoted_realm(self):
-+-        opener = OpenerDirector()
-+-        password_manager = MockPasswordManager()
-+-        auth_handler = urllib.request.HTTPBasicAuthHandler(password_manager)
-+-        realm = "ACME Widget Store"
-+-        http_handler = MockHTTPHandler(
-+-            401, 'WWW-Authenticate: Basic realm=%s\r\n\r\n' % realm)
-+-        opener.add_handler(auth_handler)
-+-        opener.add_handler(http_handler)
-+-        with self.assertWarns(UserWarning):
-++    def check_basic_auth(self, headers, realm):
-++        with self.subTest(realm=realm, headers=headers):
-++            opener = OpenerDirector()
-++            password_manager = MockPasswordManager()
-++            auth_handler = urllib.request.HTTPBasicAuthHandler(password_manager)
-++            body = '\r\n'.join(headers) + '\r\n\r\n'
-++            http_handler = MockHTTPHandler(401, body)
-++            opener.add_handler(auth_handler)
-++            opener.add_handler(http_handler)
-+             self._test_basic_auth(opener, auth_handler, "Authorization",
-+-                                realm, http_handler, password_manager,
-+-                                "http://acme.example.com/protected",
-+-                                "http://acme.example.com/protected",
-+-                                )
-++                                  realm, http_handler, password_manager,
-++                                  "http://acme.example.com/protected",
-++                                  "http://acme.example.com/protected")
-++
-++    def test_basic_auth(self):
-++        realm = "realm2@example.com"
-++        realm2 = "realm2@example.com"
-++        basic = f'Basic realm="{realm}"'
-++        basic2 = f'Basic realm="{realm2}"'
-++        other_no_realm = 'Otherscheme xxx'
-++        digest = (f'Digest realm="{realm2}", '
-++                  f'qop="auth, auth-int", '
-++                  f'nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093", '
-++                  f'opaque="5ccc069c403ebaf9f0171e9517f40e41"')
-++        for realm_str in (
-++            # test "quote" and 'quote'
-++            f'Basic realm="{realm}"',
-++            f"Basic realm='{realm}'",
-++
-++            # charset is ignored
-++            f'Basic realm="{realm}", charset="UTF-8"',
-++
-++            # Multiple challenges per header
-++            f'{basic}, {basic2}',
-++            f'{basic}, {other_no_realm}',
-++            f'{other_no_realm}, {basic}',
-++            f'{basic}, {digest}',
-++            f'{digest}, {basic}',
-++        ):
-++            headers = [f'WWW-Authenticate: {realm_str}']
-++            self.check_basic_auth(headers, realm)
-++
-++        # no quote: expect a warning
-++        with support.check_warnings(("Basic Auth Realm was unquoted",
-++                                     UserWarning)):
-++            headers = [f'WWW-Authenticate: Basic realm={realm}']
-++            self.check_basic_auth(headers, realm)
-++
-++        # Multiple headers: one challenge per header.
-++        # Use the first Basic realm.
-++        for challenges in (
-++            [basic,  basic2],
-++            [basic,  digest],
-++            [digest, basic],
-++        ):
-++            headers = [f'WWW-Authenticate: {challenge}'
-++                       for challenge in challenges]
-++            self.check_basic_auth(headers, realm)
-+ 
-+     def test_proxy_basic_auth(self):
-+         opener = OpenerDirector()
-+diff --git a/Lib/urllib/request.py b/Lib/urllib/request.py
-+index 7fe50535da..2a3d71554f 100644
-+--- a/Lib/urllib/request.py
-++++ b/Lib/urllib/request.py
-+@@ -937,8 +937,15 @@ class AbstractBasicAuthHandler:
-+ 
-+     # allow for double- and single-quoted realm values
-+     # (single quotes are a violation of the RFC, but appear in the wild)
-+-    rx = re.compile('(?:.*,)*[ \t]*([^ \t]+)[ \t]+'
-+-                    'realm=(["\']?)([^"\']*)\\2', re.I)
-++    rx = re.compile('(?:^|,)'   # start of the string or ','
-++                    '[ \t]*'    # optional whitespaces
-++                    '([^ \t]+)' # scheme like "Basic"
-++                    '[ \t]+'    # mandatory whitespaces
-++                    # realm=xxx
-++                    # realm='xxx'
-++                    # realm="xxx"
-++                    'realm=(["\']?)([^"\']*)\\2',
-++                    re.I)
-+ 
-+     # XXX could pre-emptively send auth info already accepted (RFC 2617,
-+     # end of section 2, and section 1.2 immediately after "credentials"
-+@@ -950,27 +957,51 @@ class AbstractBasicAuthHandler:
-+         self.passwd = password_mgr
-+         self.add_password = self.passwd.add_password
-+ 
-++    def _parse_realm(self, header):
-++        # parse WWW-Authenticate header: accept multiple challenges per header
-++        found_challenge = False
-++        for mo in AbstractBasicAuthHandler.rx.finditer(header):
-++            scheme, quote, realm = mo.groups()
-++            if quote not in ['"', "'"]:
-++                warnings.warn("Basic Auth Realm was unquoted",
-++                              UserWarning, 3)
-++
-++            yield (scheme, realm)
-++
-++            found_challenge = True
-++
-++        if not found_challenge:
-++            if header:
-++                scheme = header.split()[0]
-++            else:
-++                scheme = ''
-++            yield (scheme, None)
-++
-+     def http_error_auth_reqed(self, authreq, host, req, headers):
-+         # host may be an authority (without userinfo) or a URL with an
-+         # authority
-+-        # XXX could be multiple headers
-+-        authreq = headers.get(authreq, None)
-++        headers = headers.get_all(authreq)
-++        if not headers:
-++            # no header found
-++            return
-+ 
-+-        if authreq:
-+-            scheme = authreq.split()[0]
-+-            if scheme.lower() != 'basic':
-+-                raise ValueError("AbstractBasicAuthHandler does not"
-+-                                 " support the following scheme: '%s'" %
-+-                                 scheme)
-+-            else:
-+-                mo = AbstractBasicAuthHandler.rx.search(authreq)
-+-                if mo:
-+-                    scheme, quote, realm = mo.groups()
-+-                    if quote not in ['"',"'"]:
-+-                        warnings.warn("Basic Auth Realm was unquoted",
-+-                                      UserWarning, 2)
-+-                    if scheme.lower() == 'basic':
-+-                        return self.retry_http_basic_auth(host, req, realm)
-++        unsupported = None
-++        for header in headers:
-++            for scheme, realm in self._parse_realm(header):
-++                if scheme.lower() != 'basic':
-++                    unsupported = scheme
-++                    continue
-++
-++                if realm is not None:
-++                    # Use the first matching Basic challenge.
-++                    # Ignore following challenges even if they use the Basic
-++                    # scheme.
-++                    return self.retry_http_basic_auth(host, req, realm)
-++
-++        if unsupported is not None:
-++            raise ValueError("AbstractBasicAuthHandler does not "
-++                             "support the following scheme: %r"
-++                             % (scheme,))
-+ 
-+     def retry_http_basic_auth(self, host, req, realm):
-+         user, pw = self.passwd.find_user_password(realm, host)
-+diff --git a/Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst b/Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst
-+new file mode 100644
-+index 0000000000..be80ce79d9
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst
-+@@ -0,0 +1,3 @@
-++:class:`~urllib.request.AbstractBasicAuthHandler` of :mod:`urllib.request`
-++now parses all WWW-Authenticate HTTP headers and accepts multiple challenges
-++per header: use the realm of the first Basic challenge.
-+diff --git a/Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst b/Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst
-+new file mode 100644
-+index 0000000000..9f2800581c
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst
-+@@ -0,0 +1,5 @@
-++CVE-2020-8492: The :class:`~urllib.request.AbstractBasicAuthHandler` class of the
-++:mod:`urllib.request` module uses an inefficient regular expression which can
-++be exploited by an attacker to cause a denial of service. Fix the regex to
-++prevent the catastrophic backtracking. Vulnerability reported by Ben Caller
-++and Matt Schwager.
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
-index fc01935948..a4a16fd495 100644
---- a/meta/recipes-devtools/python/python3_3.8.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.2.bb
-@@ -32,6 +32,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-configure.ac-fix-LIBPL.patch \
-            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
-            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
-+           file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
-            "
+Changes in v2: None
+
+ meta/recipes-connectivity/openssh/openssh/sshd.socket   | 1 +
+ meta/recipes-connectivity/openssh/openssh/sshd@.service | 2 --
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd.socket b/meta/recipes-connectivity/openssh/openssh/sshd.socket
+index 12c39b26b59b..8d76d623097b 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshd.socket
++++ b/meta/recipes-connectivity/openssh/openssh/sshd.socket
+@@ -1,5 +1,6 @@
+ [Unit]
+ Conflicts=sshd.service
++Wants=sshdgenkeys.service
  
- SRC_URI_append_class-native = " \
+ [Socket]
+ ExecStartPre=@BASE_BINDIR@/mkdir -p /var/run/sshd
+diff --git a/meta/recipes-connectivity/openssh/openssh/sshd@.service b/meta/recipes-connectivity/openssh/openssh/sshd@.service
+index 9d83dfb2bb1c..422450c7a190 100644
+--- a/meta/recipes-connectivity/openssh/openssh/sshd@.service
++++ b/meta/recipes-connectivity/openssh/openssh/sshd@.service
+@@ -1,13 +1,11 @@
+ [Unit]
+ Description=OpenSSH Per-Connection Daemon
+-Wants=sshdgenkeys.service
+ After=sshdgenkeys.service
+ 
+ [Service]
+ Environment="SSHD_OPTS="
+ EnvironmentFile=-/etc/default/ssh
+ ExecStart=-@SBINDIR@/sshd -i $SSHD_OPTS
+-ExecReload=@BASE_BINDIR@/kill -HUP $MAINPID
+ StandardInput=socket
+ StandardError=syslog
+ KillMode=process
 -- 
-2.24.1
+2.17.1
 
