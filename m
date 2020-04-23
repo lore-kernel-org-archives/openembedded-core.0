@@ -1,108 +1,214 @@
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.web11.6641.1587602457874593414
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.54])
+ by mx.groups.io with SMTP id smtpd.web12.458.1587606806090266355
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Apr 2020 17:40:58 -0700
+ Wed, 22 Apr 2020 18:53:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MlIBFCFp;
- spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f196.google.com with SMTP id o10so3488435qtr.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2020 17:40:57 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Wfe0vZfd;
+ spf=pass (domain: windriver.com, ip: 40.107.236.54, mailfrom: qi.chen@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eGIEfawWOpWDeEnQWSStIPCwxhCvCy4g9/QK5v3JCp8lz9YXgAMTZb/ATe0GGx4UXZw8zXiwGZH6vwL6T6yfj9h0E1uE3s5Om0xGRXeyO/0R5Bti4/GGXiqi43FFz0284fBiec980pZNakhxWE9VLky1uSeR/Az0+x37DTvNC6ickGwMRYKCqxqE8/p0607qvnMaMGJEdnn2+PazFoGKGfx/1EFATpqjoOFqmyWcx1+yixFMNc5MFXkxr+AszrKEJiqh6RH+NOio7zfqwbX+OVGcYlr9dwjhG16VEK3g/jRo4epyfghFvExRErhRAGTFw6l1biEMiHZmypM2J15u/Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b/ds0ynqIgq1Xl5Go9RuKpGPffcGN85zMZiu/gQ299g=;
+ b=BE0SkBu5DfJhUaJzPIlAOOHGzShSzbIct7MQBlnXnC/BNdpp//lj9tGahyJuUn0IjB2n66G+jJAHD/vyS4VFXTl3odZ8LIxrnnmKk3utYyv58wyzBOepwJv1ykZPkWYRSYecFiOh5OYJv0wsNm06j8Lf3o//05u4Qq4HY1HgmPPTJUralLowYY96Md5VRMXlNr73S9528dFjFducFn7gb3B4UJLyPB56DzATXKUQ8/6IRrGV4NLJjZp/I17rg/6hO4Jjq5MOJLQKs2RUfogdAsPQrKk3aBOxN7w+/EVgvF/w6usQYpw+zDUQ20zg12pA66TwzWsPFzI5AsJvsJjZEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=d+R0CwBSGUsJ3Ixvb5UhNWkBlOyJ5RdmA9s/ldV8Mrs=;
-        b=MlIBFCFpSsdHBmKf9BMq1q8A3N8YxG3R4UUnAgNC2uVZ65wNRuZ3KAWRSdKbRDSp7a
-         YKvXMc7k7XMGxq47wssyVYpFzNA9vK00T+NkeitmS3me2JZg/8Em6IEmNrshRGYSfDiv
-         fljBZM0eP/f6Dc90dDs0Da2o1ebs0ZzKH7UR0GBDOqod0pA0Ngq36cMFLgqnALBobsRm
-         N/YbzPvLjpJZqt4O4kaoABgaF+EwWzHqPwZwwdW6d1iRR1hB7GWt0kPi4IdNSkduZLQV
-         XYQsXb9A8tD3HZNZvq6cVWJVDfZzQlcyBmpi51hgi3oW5heWM2z1JxVENFpNZXK87Q3s
-         1ICQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=d+R0CwBSGUsJ3Ixvb5UhNWkBlOyJ5RdmA9s/ldV8Mrs=;
-        b=mF8qqAnS7rYslc22aNJYh1lQtGt7bWQXKHI1bhr3DB08xG/SmEZELVTCOyuzphdvyg
-         NhNkTOVy1ufxl4yLtWsFE0a6PsPT1gb25LU/jNLrAZrPWs0JRl+PduvQo1QSzr3wsG4H
-         84f+81rJgSZbKZ2DCkJA2tyL/EmhWbCxO07hydijWQlaaUbpGG6EpgKAZBidGh6QONUj
-         BQSgPEssuMInYNU/phbkrQU7YXsgHnM5RJPYGUvDZiyycRPqOOeNuEx7+iJQ3qFiIpHi
-         FwTrOYWBkTAyHpTug8C0IT5WPo/apzNDYzkmlvXQ54aKrPAoEVmqHiDf4llkabhOnkeT
-         GE+Q==
-X-Gm-Message-State: AGi0Pua3+HqDD/B61XmtwsnGAPJiaFYTbXo0dLv2oW8ShtVI1/u/BwvO
-	Dzqcw60DYx8x61FKcmLZJGTAHRsD/h3pF/s5Qic=
-X-Google-Smtp-Source: APiQypLBoX/dXxQXYBe1zlkL1mcbRB29hxmtdcTtiVWTWPCG3pBdC7dJFtimH2kkpK2sW0Tr8YLioWvGZ1lp7nV6hdo=
-X-Received: by 2002:ac8:24b7:: with SMTP id s52mr1420672qts.316.1587602456693;
- Wed, 22 Apr 2020 17:40:56 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b/ds0ynqIgq1Xl5Go9RuKpGPffcGN85zMZiu/gQ299g=;
+ b=Wfe0vZfdpkbziWDqIb63ShcDqtzc9N5KqIyEZPj0s8sli4UturbLo80vhFxIcSiHJ5nkKhn/zAXqp3iXtT/y9QA9H0LxDSoDyOIB1QB008uhIOm5NzRKVCEfZjJFoPzcCRSYjkGQYZPqDh9dRzSlUJE1O3hHugyQ4V++72za11U=
+Received: from DM6PR11MB3498.namprd11.prod.outlook.com (2603:10b6:5:6c::22) by
+ DM6PR11MB4754.namprd11.prod.outlook.com (2603:10b6:5:2ad::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2921.29; Thu, 23 Apr 2020 01:53:24 +0000
+Received: from DM6PR11MB3498.namprd11.prod.outlook.com
+ ([fe80::fd59:e51:ca3e:2cc9]) by DM6PR11MB3498.namprd11.prod.outlook.com
+ ([fe80::fd59:e51:ca3e:2cc9%6]) with mapi id 15.20.2921.030; Thu, 23 Apr 2020
+ 01:53:24 +0000
+From: "Chen Qi" <Qi.Chen@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH 1/2] toolchain-shar-extract.sh: remove legacy .o files
+Thread-Topic: [OE-core][PATCH 1/2] toolchain-shar-extract.sh: remove legacy .o
+ files
+Thread-Index: AQHWGPyOpz0WSK+KAkiHIVm86ECuf6iF8cgZ
+Date: Thu, 23 Apr 2020 01:53:24 +0000
+Message-ID: 
+ <DM6PR11MB3498E67CB51C0B4DD48E2E6EEDD30@DM6PR11MB3498.namprd11.prod.outlook.com>
+References: 
+ <20200422072838.27867-1-Qi.Chen@windriver.com>,<127a7d4591d9071eed0dafddb69bf8dc180cfba9.camel@linuxfoundation.org>
+In-Reply-To: 
+ <127a7d4591d9071eed0dafddb69bf8dc180cfba9.camel@linuxfoundation.org>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=Qi.Chen@windriver.com; 
+x-originating-ip: [192.103.52.1]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 6fc40c49-3060-47f5-8b6e-08d7e7291bde
+x-ms-traffictypediagnostic: DM6PR11MB4754:
+x-microsoft-antispam-prvs: 
+ <DM6PR11MB4754BD76D208DDBECE3755BBEDD30@DM6PR11MB4754.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8882;
+x-forefront-prvs: 03827AF76E
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3498.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(376002)(136003)(346002)(366004)(39850400004)(396003)(5660300002)(9686003)(52536014)(110136005)(316002)(55016002)(186003)(8676002)(76116006)(66946007)(8936002)(71200400001)(26005)(19627405001)(6506007)(7696005)(2906002)(33656002)(91956017)(53546011)(86362001)(66556008)(64756008)(66446008)(66476007)(81156014)(478600001)(142923001);DIR:OUT;SFP:1101;
+received-spf: None (protection.outlook.com: windriver.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ zfaT0GCrf3/QHzUH5XKTgaChVlqJQ1FUOxgJ6wPSEuprEUBxz9COkGmJRhAchM8Xn6HKOewFqYFcX4L7yzYvdMK5etP3rThYLeIUgnjKCmFzCMkgOEr3XjEFcJVLmJIr3/uJ1Wi9XoKyCsk1FY5ouG68IxNysYphG1MTkWB4UVLhOhQ8QMEpsB8PJ6ZllmQHMBvGrjruumGs5iBi4F5DjELchAEhQi8F5k/pW8Hzwt3yhpM5co2rCKICnbRBhrMIx5rhab7nYgSHIU+/BsT5/R2dwNLWqhsZ2f44EEZcMurCH8g1OXHtQ4Pj5BYZuv0WyTHl4H+dVMa0yQlGtQlK/J96PQWNSt+vf1Mx2XN8XXkX03Gii/Zs9SRc1v/kBy9vWcG5og1nAuLjwecpcinq6F6qkK5rTdYRxHQMI3bERdrr+N1Yq368qs41/kTnweH9L2t878F6nSBvZXEIaveOKt2RNX6M9e+ct2e3rEhPpxEk+2CSErzlHKaMPigVWZWg
+x-ms-exchange-antispam-messagedata: 
+ P1bXqVViVOUQe3UNZTmP5nxbYFmPlEAfnCs/cQ+fhyJ7oHu1II8nAi6CWnOJGdsxauieHwS/Y41tkpLvSw9bdIdLIyW2r0H9IapxZKF702Wp+wVba5wD2qU6qLOqPqRo69hYOKnkKktmQxUCVtHNDw==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <20200414133703.565115-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20200414133703.565115-1-richard.purdie@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 22 Apr 2020 17:40:30 -0700
-Message-ID: <CAMKF1speYDnd7i5qmEysmRj-T2McR+Cp7nKh09mRXc_ckiWVZw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bzip2/pbzip2: Correct license information
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	licensing@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fc40c49-3060-47f5-8b6e-08d7e7291bde
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Apr 2020 01:53:24.1530
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Bo1bhobsFjyVNYfkbw+K6ZsjPKOsDWWpjf2nloXyOeRqyAqlRm3adFs0cgyy4v9jiW2VGUPeeFaEHpPygT4DPw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4754
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_DM6PR11MB3498E67CB51C0B4DD48E2E6EEDD30DM6PR11MB3498namp_"
 
-on master-next I am seeing
+--_000_DM6PR11MB3498E67CB51C0B4DD48E2E6EEDD30DM6PR11MB3498namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-WARNING: pbzip2-native-1.1.13-r0 do_populate_lic: pbzip2-native: No
-generic license file exists for: bzip-1.0.6 in any provider
+Thanks for the suggestion. I'll send out V2.
 
-I guess it is related to this patch
+Regards,
+Chen Qi
+________________________________
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Sent: Thursday, April 23, 2020 7:19
+To: Chen, Qi <Qi.Chen@windriver.com>; openembedded-core@lists.openembedded.=
+org <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH 1/2] toolchain-shar-extract.sh: remove legacy =
+.o files
 
-On Tue, Apr 14, 2020 at 6:37 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Wed, 2020-04-22 at 15:28 +0800, Chen Qi wrote:
+> We want to make sure `make scripts prepare` succeed inside SDK. However,
+> the legacy .o files under scripts/kconfig will introduce build error
+> on some hosts, thus removing them.
 >
-> The license of pbzip2 looks slightly BSD like but is in fact the bzip2
-> license. The SPDX identifier for this is "bzip-1.0.6" since there is
-> another version of the bzip license out there.
->
-> To clear up all the confusion, use the SPDX license name and update
-> both recipes to refer to it. The copyright information is slightly
-> different between the codebases but the license looks the same.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  meta/files/common-licenses/{bzip2 => bzip2-1.0.6} | 0
->  meta/recipes-extended/bzip2/bzip2_1.0.8.bb        | 2 +-
->  meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb     | 2 +-
->  3 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta/files/common-licenses/{bzip2 => bzip2-1.0.6} (100%)
+>  meta/files/toolchain-shar-extract.sh | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/meta/files/common-licenses/bzip2 b/meta/files/common-licenses/bzip2-1.0.6
-> similarity index 100%
-> rename from meta/files/common-licenses/bzip2
-> rename to meta/files/common-licenses/bzip2-1.0.6
-> diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> index 8e9b779e672..d58f553a49a 100644
-> --- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> +++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> @@ -4,7 +4,7 @@ Huffman coding. Compression is generally considerably better than that achieved
->  LZ77/LZ78-based compressors, and approaches the performance of the PPM family of statistical compressors."
->  HOMEPAGE = "https://sourceware.org/bzip2/"
->  SECTION = "console/utils"
-> -LICENSE = "bzip2"
-> +LICENSE = "bzip2-1.0.6"
->  LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664"
+> diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-=
+shar-extract.sh
+> index 04527f891f..61911e72c9 100644
+> --- a/meta/files/toolchain-shar-extract.sh
+> +++ b/meta/files/toolchain-shar-extract.sh
+> @@ -286,6 +286,9 @@ if [ -e "$post_relocate" ]; then
+>        $SUDO_EXEC rm -f $post_relocate
+>  fi
 >
->  SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
-> diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-> index 1275cc00972..d7450c73c11 100644
-> --- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-> +++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-> @@ -5,7 +5,7 @@ machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
->  newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
->  HOMEPAGE = "http://compression.ca/pbzip2/"
->  SECTION = "console/utils"
-> -LICENSE = "BSD-4-Clause"
-> +LICENSE = "bzip-1.0.6"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=398b8832c6f840cfebd20ab2be6a3743"
+> +# Remove legacy .o files to avoid kernel build failure
+> +rm -f $target_sdk_dir/sysroots/*/usr/src/kernel/scripts/kconfig/*.o
+> +
+
+We should be removing these at SDK construction time, not at extraction
+time, then the SDK is smaller and we don't have special cases in this
+extraction script...
+
+Cheers,
+
+Richard
+
+
+--_000_DM6PR11MB3498E67CB51C0B4DD48E2E6EEDD30DM6PR11MB3498namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
->  DEPENDS = "bzip2"
-> --
-> 2.25.1
->
-> 
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Thanks for the suggestion. I'll send out V2.</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Regards,</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+Chen Qi<br>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Richard Purdie &lt;ri=
+chard.purdie@linuxfoundation.org&gt;<br>
+<b>Sent:</b> Thursday, April 23, 2020 7:19<br>
+<b>To:</b> Chen, Qi &lt;Qi.Chen@windriver.com&gt;; openembedded-core@lists.=
+openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
+<b>Subject:</b> Re: [OE-core][PATCH 1/2] toolchain-shar-extract.sh: remove =
+legacy .o files</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">On Wed, 2020-04-22 at 15:28 &#43;0800, Chen Qi wro=
+te:<br>
+&gt; We want to make sure `make scripts prepare` succeed inside SDK. Howeve=
+r,<br>
+&gt; the legacy .o files under scripts/kconfig will introduce build error<b=
+r>
+&gt; on some hosts, thus removing them.<br>
+&gt; <br>
+&gt; Signed-off-by: Chen Qi &lt;Qi.Chen@windriver.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp; meta/files/toolchain-shar-extract.sh | 3 &#43;&#43;&#43;<br>
+&gt;&nbsp; 1 file changed, 3 insertions(&#43;)<br>
+&gt; <br>
+&gt; diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolcha=
+in-shar-extract.sh<br>
+&gt; index 04527f891f..61911e72c9 100644<br>
+&gt; --- a/meta/files/toolchain-shar-extract.sh<br>
+&gt; &#43;&#43;&#43; b/meta/files/toolchain-shar-extract.sh<br>
+&gt; @@ -286,6 &#43;286,9 @@ if [ -e &quot;$post_relocate&quot; ]; then<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $SUDO_EXEC rm -f $post_reloc=
+ate<br>
+&gt;&nbsp; fi<br>
+&gt;&nbsp; <br>
+&gt; &#43;# Remove legacy .o files to avoid kernel build failure<br>
+&gt; &#43;rm -f $target_sdk_dir/sysroots/*/usr/src/kernel/scripts/kconfig/*=
+.o<br>
+&gt; &#43;<br>
+<br>
+We should be removing these at SDK construction time, not at extraction<br>
+time, then the SDK is smaller and we don't have special cases in this<br>
+extraction script...<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_DM6PR11MB3498E67CB51C0B4DD48E2E6EEDD30DM6PR11MB3498namp_--
