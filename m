@@ -1,103 +1,70 @@
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
- by mx.groups.io with SMTP id smtpd.web11.2600.1587631094228473769
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web10.2755.1587631696960666623
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2020 01:38:14 -0700
+ Thu, 23 Apr 2020 01:48:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VVA73M3s;
- spf=pass (domain: gmail.com, ip: 209.85.166.193, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-il1-f193.google.com with SMTP id z12so4748971ilb.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 01:38:14 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dSeYM/V2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id d15so4234433wrx.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 01:48:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kUYE59WJDtkLPUfYXO6afoGTRY3tqf1B0nBzD3nSD/U=;
-        b=VVA73M3scpV9r336RzRyVSQdPckzlvyWP8OT2OhEvgPv+OG3pj0Bqik4tSd1OQAXpw
-         vt2b2YCqywOkAj55Pq7PYs/BNNraQ4dJ2qHd5JOUTFaGuSWa47JczA16eEyUp6IDQyIH
-         nqM8jUxgKXOjnItjizv+LMyNX4lh3kxy9+2zbFAGyVXxYtnu68s/8UTzW86RyT5cKAdJ
-         FijoOZ6j6ZkrORdEUt4UCAPpmw3GsuP8pajSXqV72xJN8tKd+M0ENrZmCeuX8Ji2EOoy
-         Pvyw29zjK87VOnxlCFvof0t+s3Bggw13pX2UKAmvOeFgbFN+k/lhSR619gqa6lMUiSYE
-         COiw==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=YkZP5khvlNpznE9wakIAPRN7Llr7Mkng3zvtEM/DC7g=;
+        b=dSeYM/V2VLMPLt3AGzDtR7ZanT3yspgmgJ8hKEjlysdpD7U6oBa/rslJbHsEQUgUgb
+         rNiMdvzAcyW8usfRMEvlBiZm8JQmxU7dsVf5jDQORE2vp20P5uMQDRmHmZdk1HX+C+GE
+         kdJKqXKEQguO68TWzlQh0/O4Wj1nJX6g+WHHA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kUYE59WJDtkLPUfYXO6afoGTRY3tqf1B0nBzD3nSD/U=;
-        b=Kze4hm4sGImV46iEz0+PKzAdHGzakwjs67YHs8WNHcILNevtmq320gzy2HCFcdgdNN
-         3y2H5C9hk7hyFUysFvPhFuBJaMUSXd/3k0LKT1i20DQS+7ooJzryrDptZZpM5nqw6f8K
-         AIRC76xdzxAuVpolnJjhuAxGsbUxismdRjdflFAKHL2PGOsx7gCWbUwLzzqkupjiixad
-         bV7X9fqtNvJFp0/ckoTpTOqHAKkdP5po+GxEZqbcNXlCsWQn24RaPqkey37xVQvb6PZW
-         LBIinKTOJALaCfz+8SgQHRfvkLFsYiZOlt5ZKcgCihP2GQEY3vOS01CMzuXgA2nt9NEM
-         yJMA==
-X-Gm-Message-State: AGi0PubT2fmE6m1cB2WHIK9uHXzO5pSlLDIydcKfnItGgrlBplSMvdwy
-	ibRxgFKn4z2vhHPDooCQQIfteq7xbIgmnYoCxBM=
-X-Google-Smtp-Source: APiQypI8TmexpM1LR5KQCfO2AgL4I7X57dvqhfPv6cd7Ke8SGlt5R3zUNyzMZkWQI2CpRrPDaf6qloi+N0sl/4+BCV0=
-X-Received: by 2002:a92:d90b:: with SMTP id s11mr2352999iln.295.1587631093660;
- Thu, 23 Apr 2020 01:38:13 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=YkZP5khvlNpznE9wakIAPRN7Llr7Mkng3zvtEM/DC7g=;
+        b=FTCZbyDynYAlEU3fq5hjVe5KYKpPikTJfts2t2CW/+CIJKv3E+jdYZYjoRZgx6AWNj
+         tVholHnWPCUvE8iBnvm875aCpTu2Z3zJiUazGfpycGC7CW6tjjsK3WCHH3lGymGPzBE0
+         9HktRp4XIssVaQLnrXz8DOkylFc96D1kQbFOok5MD53KDzpmWoFmQmBW1uOotdz5bBjE
+         cUWdEQSBGTDrlZMLnB/Ej17fNFZNSlAMaLia4jwvNNGcMo1fYwYiPBszXJuYPwTyxtjs
+         kCJZQgkYlObYhsti+y88COQbabFDZBGfPdchAugGEofzALorv1astaG3qN8+ftxOwUUJ
+         OvRA==
+X-Gm-Message-State: AGi0PuYg2lkFGAc1AjZl3zIOUUeVpJybJbWkdnpjFh2J/TM6HToDXfGs
+	y8EdkJlx5F2JRBK0pve0Lte4vw==
+X-Google-Smtp-Source: APiQypJuQstP69+jGblwD2Re/s2FHzeiBN3ddqplh/CLQzggsjiNDSID1Mfuxa6pmhWRCOWJ4/xA+g==
+X-Received: by 2002:a5d:4b43:: with SMTP id w3mr3733208wrs.208.1587631695467;
+        Thu, 23 Apr 2020 01:48:15 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id h17sm2582822wmm.6.2020.04.23.01.48.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2020 01:48:14 -0700 (PDT)
+Message-ID: <71056775dca8e55bb2724b77c52dd4cfeb743c5f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] xkeyboard-config: upgrade 2.28 -> 2.29
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 23 Apr 2020 09:48:13 +0100
+In-Reply-To: <20200422200258.84579-3-wangmy@cn.fujitsu.com>
+References: <20200422200258.84579-1-wangmy@cn.fujitsu.com>
+	 <20200422200258.84579-3-wangmy@cn.fujitsu.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-References: <20200422135211.121292-1-alex.kiernan@gmail.com> <160828A1D0F44509.29104@lists.openembedded.org>
-In-Reply-To: <160828A1D0F44509.29104@lists.openembedded.org>
-From: "Alex Kiernan" <alex.kiernan@gmail.com>
-Date: Thu, 23 Apr 2020 09:38:02 +0100
-Message-ID: <CAO5Uq5S=+5QVHcB6gaTQ+gz+zW0Ce9i8BaB88yN0n++A2jW8KQ@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 3/6] rng-tools: Restrict rngd.service
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 22, 2020 at 2:52 PM Alex Kiernan via
-lists.openembedded.org <alex.kiernan=gmail.com@lists.openembedded.org>
-wrote:
->
-> Whilst rngd has to run as root, we can significantly constrain its
-> permissions (AF_INET AF_INET6 are only required if nistbeacon is
-> enabled).
->
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> ---
->
->  .../rng-tools/rng-tools/rngd.service          | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-> index 084322ac40aa..604e9500665e 100644
-> --- a/meta/recipes-support/rng-tools/rng-tools/rngd.service
-> +++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-> @@ -8,6 +8,25 @@ Conflicts=shutdown.target
->  [Service]
->  EnvironmentFile=-@SYSCONFDIR@/default/rng-tools
->  ExecStart=@SBINDIR@/rngd -f $EXTRA_ARGS
-> +CapabilityBoundingSet=CAP_SYS_ADMIN
-> +IPAddressDeny=any
-
-I missed removing this constraint when nistbeacon is enabled - will send v2
-
-> +LockPersonality=yes
-> +MemoryDenyWriteExecute=yes
-> +NoNewPrivileges=yes
-> +PrivateTmp=yes
-> +ProtectControlGroups=yes
-> +ProtectHome=yes
-> +ProtectHostname=yes
-> +ProtectKernelModules=yes
-> +ProtectKernelLogs=yes
-> +ProtectSystem=strict
-> +RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
-> +RestrictNamespaces=yes
-> +RestrictRealtime=yes
-> +RestrictSUIDSGID=yes
-> +SystemCallArchitectures=native
-> +SystemCallErrorNumber=EPERM
-> +SystemCallFilter=@system-service
->
->  [Install]
->  WantedBy=sysinit.target
-> --
-> 2.17.1
->
+On Wed, 2020-04-22 at 13:02 -0700, Wang Mingyu wrote:
+> From: Wang Mingyu <wangmy@cn.fujitsu.com>
 > 
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> ---
+>  .../{xkeyboard-config_2.28.bb => xkeyboard-config_2.29.bb}    | 4
+> ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.28.bb =>
+> xkeyboard-config_2.29.bb} (87%)
 
 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/106/builds/707
 
--- 
-Alex Kiernan
+Cheers,
+
+Richard
+
