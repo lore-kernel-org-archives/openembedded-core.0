@@ -1,301 +1,57 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web10.6491.1587649736075493285
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web12.6740.1587650545668541609
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2020 06:48:56 -0700
+ Thu, 23 Apr 2020 07:02:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: tgamblin@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 03NDmtUt016677
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 06:48:55 -0700 (PDT)
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Thu, 23 Apr 2020
- 06:48:55 -0700
-Received: by ala-lpggp3.wrs.com (Postfix, from userid 20958)	id 16C7490013C;
- Thu, 23 Apr 2020 06:48:55 -0700 (PDT)
-From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] python3: fix CVE-2020-8492
-Date: Thu, 23 Apr 2020 06:48:55 -0700
-Message-ID: <20200423134855.39754-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.24.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8700C60FF4;
+	Thu, 23 Apr 2020 14:02:23 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uMzogZml4IENWRS0yMDIwLTg0OTI=?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Trevor Gamblin <trevor.gamblin@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Apr 2020 14:02:24 -0000
+Message-ID: <20200423140224.2273.56102@do>
+References: <20200423134855.39754-1-trevor.gamblin@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200423134855.39754-1-trevor.gamblin@windriver.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-CVE: CVE-2020-8492
+== Series Details ==
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Series: python3: fix CVE-2020-8492
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/23861/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            python3: fix CVE-2020-8492
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- ...20-8492-Fix-AbstractBasicAuthHandler.patch | 246 ++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
- 2 files changed, 247 insertions(+)
- create mode 100644 meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-
-diff --git a/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch b/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-new file mode 100644
-index 0000000000..3af70ac213
---- /dev/null
-+++ b/meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
-@@ -0,0 +1,246 @@
-+From 0b297d4ff1c0e4480ad33acae793fbaf4bf015b4 Mon Sep 17 00:00:00 2001
-+From: Victor Stinner <vstinner@python.org>
-+Date: Thu, 2 Apr 2020 02:52:20 +0200
-+Subject: [PATCH] bpo-39503: CVE-2020-8492: Fix AbstractBasicAuthHandler
-+ (GH-18284)
-+
-+Upstream-Status: Backport
-+(https://github.com/python/cpython/commit/0b297d4ff1c0e4480ad33acae793fbaf4bf015b4)
-+
-+The AbstractBasicAuthHandler class of the urllib.request module uses
-+an inefficient regular expression which can be exploited by an
-+attacker to cause a denial of service. Fix the regex to prevent the
-+catastrophic backtracking. Vulnerability reported by Ben Caller
-+and Matt Schwager.
-+
-+AbstractBasicAuthHandler of urllib.request now parses all
-+WWW-Authenticate HTTP headers and accepts multiple challenges per
-+header: use the realm of the first Basic challenge.
-+
-+Co-Authored-By: Serhiy Storchaka <storchaka@gmail.com>
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+---
-+ Lib/test/test_urllib2.py                      | 90 ++++++++++++-------
-+ Lib/urllib/request.py                         | 69 ++++++++++----
-+ .../2020-03-25-16-02-16.bpo-39503.YmMbYn.rst  |  3 +
-+ .../2020-01-30-16-15-29.bpo-39503.B299Yq.rst  |  5 ++
-+ 4 files changed, 115 insertions(+), 52 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst
-+ create mode 100644 Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst
-+
-+diff --git a/Lib/test/test_urllib2.py b/Lib/test/test_urllib2.py
-+index 8abedaac98..e69ac3e213 100644
-+--- a/Lib/test/test_urllib2.py
-++++ b/Lib/test/test_urllib2.py
-+@@ -1446,40 +1446,64 @@ class HandlerTests(unittest.TestCase):
-+         bypass = {'exclude_simple': True, 'exceptions': []}
-+         self.assertTrue(_proxy_bypass_macosx_sysconf('test', bypass))
-+ 
-+-    def test_basic_auth(self, quote_char='"'):
-+-        opener = OpenerDirector()
-+-        password_manager = MockPasswordManager()
-+-        auth_handler = urllib.request.HTTPBasicAuthHandler(password_manager)
-+-        realm = "ACME Widget Store"
-+-        http_handler = MockHTTPHandler(
-+-            401, 'WWW-Authenticate: Basic realm=%s%s%s\r\n\r\n' %
-+-            (quote_char, realm, quote_char))
-+-        opener.add_handler(auth_handler)
-+-        opener.add_handler(http_handler)
-+-        self._test_basic_auth(opener, auth_handler, "Authorization",
-+-                              realm, http_handler, password_manager,
-+-                              "http://acme.example.com/protected",
-+-                              "http://acme.example.com/protected",
-+-                              )
-+-
-+-    def test_basic_auth_with_single_quoted_realm(self):
-+-        self.test_basic_auth(quote_char="'")
-+-
-+-    def test_basic_auth_with_unquoted_realm(self):
-+-        opener = OpenerDirector()
-+-        password_manager = MockPasswordManager()
-+-        auth_handler = urllib.request.HTTPBasicAuthHandler(password_manager)
-+-        realm = "ACME Widget Store"
-+-        http_handler = MockHTTPHandler(
-+-            401, 'WWW-Authenticate: Basic realm=%s\r\n\r\n' % realm)
-+-        opener.add_handler(auth_handler)
-+-        opener.add_handler(http_handler)
-+-        with self.assertWarns(UserWarning):
-++    def check_basic_auth(self, headers, realm):
-++        with self.subTest(realm=realm, headers=headers):
-++            opener = OpenerDirector()
-++            password_manager = MockPasswordManager()
-++            auth_handler = urllib.request.HTTPBasicAuthHandler(password_manager)
-++            body = '\r\n'.join(headers) + '\r\n\r\n'
-++            http_handler = MockHTTPHandler(401, body)
-++            opener.add_handler(auth_handler)
-++            opener.add_handler(http_handler)
-+             self._test_basic_auth(opener, auth_handler, "Authorization",
-+-                                realm, http_handler, password_manager,
-+-                                "http://acme.example.com/protected",
-+-                                "http://acme.example.com/protected",
-+-                                )
-++                                  realm, http_handler, password_manager,
-++                                  "http://acme.example.com/protected",
-++                                  "http://acme.example.com/protected")
-++
-++    def test_basic_auth(self):
-++        realm = "realm2@example.com"
-++        realm2 = "realm2@example.com"
-++        basic = f'Basic realm="{realm}"'
-++        basic2 = f'Basic realm="{realm2}"'
-++        other_no_realm = 'Otherscheme xxx'
-++        digest = (f'Digest realm="{realm2}", '
-++                  f'qop="auth, auth-int", '
-++                  f'nonce="dcd98b7102dd2f0e8b11d0f600bfb0c093", '
-++                  f'opaque="5ccc069c403ebaf9f0171e9517f40e41"')
-++        for realm_str in (
-++            # test "quote" and 'quote'
-++            f'Basic realm="{realm}"',
-++            f"Basic realm='{realm}'",
-++
-++            # charset is ignored
-++            f'Basic realm="{realm}", charset="UTF-8"',
-++
-++            # Multiple challenges per header
-++            f'{basic}, {basic2}',
-++            f'{basic}, {other_no_realm}',
-++            f'{other_no_realm}, {basic}',
-++            f'{basic}, {digest}',
-++            f'{digest}, {basic}',
-++        ):
-++            headers = [f'WWW-Authenticate: {realm_str}']
-++            self.check_basic_auth(headers, realm)
-++
-++        # no quote: expect a warning
-++        with support.check_warnings(("Basic Auth Realm was unquoted",
-++                                     UserWarning)):
-++            headers = [f'WWW-Authenticate: Basic realm={realm}']
-++            self.check_basic_auth(headers, realm)
-++
-++        # Multiple headers: one challenge per header.
-++        # Use the first Basic realm.
-++        for challenges in (
-++            [basic,  basic2],
-++            [basic,  digest],
-++            [digest, basic],
-++        ):
-++            headers = [f'WWW-Authenticate: {challenge}'
-++                       for challenge in challenges]
-++            self.check_basic_auth(headers, realm)
-+ 
-+     def test_proxy_basic_auth(self):
-+         opener = OpenerDirector()
-+diff --git a/Lib/urllib/request.py b/Lib/urllib/request.py
-+index 7fe50535da..2a3d71554f 100644
-+--- a/Lib/urllib/request.py
-++++ b/Lib/urllib/request.py
-+@@ -937,8 +937,15 @@ class AbstractBasicAuthHandler:
-+ 
-+     # allow for double- and single-quoted realm values
-+     # (single quotes are a violation of the RFC, but appear in the wild)
-+-    rx = re.compile('(?:.*,)*[ \t]*([^ \t]+)[ \t]+'
-+-                    'realm=(["\']?)([^"\']*)\\2', re.I)
-++    rx = re.compile('(?:^|,)'   # start of the string or ','
-++                    '[ \t]*'    # optional whitespaces
-++                    '([^ \t]+)' # scheme like "Basic"
-++                    '[ \t]+'    # mandatory whitespaces
-++                    # realm=xxx
-++                    # realm='xxx'
-++                    # realm="xxx"
-++                    'realm=(["\']?)([^"\']*)\\2',
-++                    re.I)
-+ 
-+     # XXX could pre-emptively send auth info already accepted (RFC 2617,
-+     # end of section 2, and section 1.2 immediately after "credentials"
-+@@ -950,27 +957,51 @@ class AbstractBasicAuthHandler:
-+         self.passwd = password_mgr
-+         self.add_password = self.passwd.add_password
-+ 
-++    def _parse_realm(self, header):
-++        # parse WWW-Authenticate header: accept multiple challenges per header
-++        found_challenge = False
-++        for mo in AbstractBasicAuthHandler.rx.finditer(header):
-++            scheme, quote, realm = mo.groups()
-++            if quote not in ['"', "'"]:
-++                warnings.warn("Basic Auth Realm was unquoted",
-++                              UserWarning, 3)
-++
-++            yield (scheme, realm)
-++
-++            found_challenge = True
-++
-++        if not found_challenge:
-++            if header:
-++                scheme = header.split()[0]
-++            else:
-++                scheme = ''
-++            yield (scheme, None)
-++
-+     def http_error_auth_reqed(self, authreq, host, req, headers):
-+         # host may be an authority (without userinfo) or a URL with an
-+         # authority
-+-        # XXX could be multiple headers
-+-        authreq = headers.get(authreq, None)
-++        headers = headers.get_all(authreq)
-++        if not headers:
-++            # no header found
-++            return
-+ 
-+-        if authreq:
-+-            scheme = authreq.split()[0]
-+-            if scheme.lower() != 'basic':
-+-                raise ValueError("AbstractBasicAuthHandler does not"
-+-                                 " support the following scheme: '%s'" %
-+-                                 scheme)
-+-            else:
-+-                mo = AbstractBasicAuthHandler.rx.search(authreq)
-+-                if mo:
-+-                    scheme, quote, realm = mo.groups()
-+-                    if quote not in ['"',"'"]:
-+-                        warnings.warn("Basic Auth Realm was unquoted",
-+-                                      UserWarning, 2)
-+-                    if scheme.lower() == 'basic':
-+-                        return self.retry_http_basic_auth(host, req, realm)
-++        unsupported = None
-++        for header in headers:
-++            for scheme, realm in self._parse_realm(header):
-++                if scheme.lower() != 'basic':
-++                    unsupported = scheme
-++                    continue
-++
-++                if realm is not None:
-++                    # Use the first matching Basic challenge.
-++                    # Ignore following challenges even if they use the Basic
-++                    # scheme.
-++                    return self.retry_http_basic_auth(host, req, realm)
-++
-++        if unsupported is not None:
-++            raise ValueError("AbstractBasicAuthHandler does not "
-++                             "support the following scheme: %r"
-++                             % (scheme,))
-+ 
-+     def retry_http_basic_auth(self, host, req, realm):
-+         user, pw = self.passwd.find_user_password(realm, host)
-+diff --git a/Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst b/Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst
-+new file mode 100644
-+index 0000000000..be80ce79d9
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Library/2020-03-25-16-02-16.bpo-39503.YmMbYn.rst
-+@@ -0,0 +1,3 @@
-++:class:`~urllib.request.AbstractBasicAuthHandler` of :mod:`urllib.request`
-++now parses all WWW-Authenticate HTTP headers and accepts multiple challenges
-++per header: use the realm of the first Basic challenge.
-+diff --git a/Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst b/Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst
-+new file mode 100644
-+index 0000000000..9f2800581c
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2020-01-30-16-15-29.bpo-39503.B299Yq.rst
-+@@ -0,0 +1,5 @@
-++CVE-2020-8492: The :class:`~urllib.request.AbstractBasicAuthHandler` class of the
-++:mod:`urllib.request` module uses an inefficient regular expression which can
-++be exploited by an attacker to cause a denial of service. Fix the regex to
-++prevent the catastrophic backtracking. Vulnerability reported by Ben Caller
-++and Matt Schwager.
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
-index fc01935948..a4a16fd495 100644
---- a/meta/recipes-devtools/python/python3_3.8.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.2.bb
-@@ -32,6 +32,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-configure.ac-fix-LIBPL.patch \
-            file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
-            file://0020-configure.ac-setup.py-do-not-add-a-curses-include-pa.patch \
-+           file://0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch \
-            "
- 
- SRC_URI_append_class-native = " \
--- 
-2.24.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
