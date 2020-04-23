@@ -1,80 +1,108 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web12.5278.1587597582666949016
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+ by mx.groups.io with SMTP id smtpd.web11.6641.1587602457874593414
  for <openembedded-core@lists.openembedded.org>;
- Wed, 22 Apr 2020 16:19:43 -0700
+ Wed, 22 Apr 2020 17:40:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=T1szrY/o;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id t63so4426206wmt.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2020 16:19:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MlIBFCFp;
+ spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f196.google.com with SMTP id o10so3488435qtr.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 22 Apr 2020 17:40:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=1oUaWvgOI8OYRKBf/+v5lIJ86u3Xgl8ikDyeT8JacyE=;
-        b=T1szrY/oewNhw2FwogWUuk+xVMfd3yoNHjly+9ZErxJXvxee/OhdYsBt8xJbNcdIIR
-         NEiV/7bznzb+TJcGqiWIguO8Ky7SQm4ulMpVVyVWTGfEnTtCLXjvEZbf4E5LTmublQVN
-         oRKm/UeTNJmp9FNwDAVozpkaF67nH1RAT+qEA=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=d+R0CwBSGUsJ3Ixvb5UhNWkBlOyJ5RdmA9s/ldV8Mrs=;
+        b=MlIBFCFpSsdHBmKf9BMq1q8A3N8YxG3R4UUnAgNC2uVZ65wNRuZ3KAWRSdKbRDSp7a
+         YKvXMc7k7XMGxq47wssyVYpFzNA9vK00T+NkeitmS3me2JZg/8Em6IEmNrshRGYSfDiv
+         fljBZM0eP/f6Dc90dDs0Da2o1ebs0ZzKH7UR0GBDOqod0pA0Ngq36cMFLgqnALBobsRm
+         N/YbzPvLjpJZqt4O4kaoABgaF+EwWzHqPwZwwdW6d1iRR1hB7GWt0kPi4IdNSkduZLQV
+         XYQsXb9A8tD3HZNZvq6cVWJVDfZzQlcyBmpi51hgi3oW5heWM2z1JxVENFpNZXK87Q3s
+         1ICQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=1oUaWvgOI8OYRKBf/+v5lIJ86u3Xgl8ikDyeT8JacyE=;
-        b=PAvvq2UHNGJZpRsaB27CmOrEWT5XCV2YTAMuof7IUYVnxxE59tPIHESLON3Q51xwjG
-         iZMtuYHGV669GwmF97wBPaGX7S2pkratiGcFm/c7fcSax4PRMrOMrBmXyBYPGvSeHe5x
-         zWw6u2AOAP3jrb8zLs5j+bRPXJu3iKKU06LFvLMV/IA7vabEmf+7Jg0KI8rCcIbUNp6O
-         s8s4/gKICbf3zpr6GvwVQNgs2lPyahx/yvecOqIT6VuIUrlsXrCLasxJ3yE+4oV6ss3+
-         8Poo4TJ0Jn5FpNYktUuVr7nSMuLqbQBVvedYytBPOEzcZvURpiOs+JAvCFeKZUOrdqAy
-         GAUw==
-X-Gm-Message-State: AGi0PuaicfGQxyFSq9727l5ppYSF9ON7ir8VYOEfxwweVdXlDUFjFU6o
-	T+uyP0TZl9GY6rRID7mgo6l/2bM0Zgc=
-X-Google-Smtp-Source: APiQypKbjuu9xV1B+QncXo0v+wembz42YLjFVnYT1M6erki+pLHEf3Wi2ckDliPqN43CCRuf+m3+7g==
-X-Received: by 2002:a1c:2705:: with SMTP id n5mr862191wmn.94.1587597581014;
-        Wed, 22 Apr 2020 16:19:41 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id p7sm1027993wrf.31.2020.04.22.16.19.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2020 16:19:40 -0700 (PDT)
-Message-ID: <127a7d4591d9071eed0dafddb69bf8dc180cfba9.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH 1/2] toolchain-shar-extract.sh: remove legacy .o files
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 23 Apr 2020 00:19:39 +0100
-In-Reply-To: <20200422072838.27867-1-Qi.Chen@windriver.com>
-References: <20200422072838.27867-1-Qi.Chen@windriver.com>
-User-Agent: Evolution 3.36.1-2 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=d+R0CwBSGUsJ3Ixvb5UhNWkBlOyJ5RdmA9s/ldV8Mrs=;
+        b=mF8qqAnS7rYslc22aNJYh1lQtGt7bWQXKHI1bhr3DB08xG/SmEZELVTCOyuzphdvyg
+         NhNkTOVy1ufxl4yLtWsFE0a6PsPT1gb25LU/jNLrAZrPWs0JRl+PduvQo1QSzr3wsG4H
+         84f+81rJgSZbKZ2DCkJA2tyL/EmhWbCxO07hydijWQlaaUbpGG6EpgKAZBidGh6QONUj
+         BQSgPEssuMInYNU/phbkrQU7YXsgHnM5RJPYGUvDZiyycRPqOOeNuEx7+iJQ3qFiIpHi
+         FwTrOYWBkTAyHpTug8C0IT5WPo/apzNDYzkmlvXQ54aKrPAoEVmqHiDf4llkabhOnkeT
+         GE+Q==
+X-Gm-Message-State: AGi0Pua3+HqDD/B61XmtwsnGAPJiaFYTbXo0dLv2oW8ShtVI1/u/BwvO
+	Dzqcw60DYx8x61FKcmLZJGTAHRsD/h3pF/s5Qic=
+X-Google-Smtp-Source: APiQypLBoX/dXxQXYBe1zlkL1mcbRB29hxmtdcTtiVWTWPCG3pBdC7dJFtimH2kkpK2sW0Tr8YLioWvGZ1lp7nV6hdo=
+X-Received: by 2002:ac8:24b7:: with SMTP id s52mr1420672qts.316.1587602456693;
+ Wed, 22 Apr 2020 17:40:56 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200414133703.565115-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20200414133703.565115-1-richard.purdie@linuxfoundation.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 22 Apr 2020 17:40:30 -0700
+Message-ID: <CAMKF1speYDnd7i5qmEysmRj-T2McR+Cp7nKh09mRXc_ckiWVZw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bzip2/pbzip2: Correct license information
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	licensing@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-04-22 at 15:28 +0800, Chen Qi wrote:
-> We want to make sure `make scripts prepare` succeed inside SDK. However,
-> the legacy .o files under scripts/kconfig will introduce build error
-> on some hosts, thus removing them.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+on master-next I am seeing
+
+WARNING: pbzip2-native-1.1.13-r0 do_populate_lic: pbzip2-native: No
+generic license file exists for: bzip-1.0.6 in any provider
+
+I guess it is related to this patch
+
+On Tue, Apr 14, 2020 at 6:37 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> The license of pbzip2 looks slightly BSD like but is in fact the bzip2
+> license. The SPDX identifier for this is "bzip-1.0.6" since there is
+> another version of the bzip license out there.
+>
+> To clear up all the confusion, use the SPDX license name and update
+> both recipes to refer to it. The copyright information is slightly
+> different between the codebases but the license looks the same.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  meta/files/toolchain-shar-extract.sh | 3 +++
->  1 file changed, 3 insertions(+)
+>  meta/files/common-licenses/{bzip2 => bzip2-1.0.6} | 0
+>  meta/recipes-extended/bzip2/bzip2_1.0.8.bb        | 2 +-
+>  meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb     | 2 +-
+>  3 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/files/common-licenses/{bzip2 => bzip2-1.0.6} (100%)
+>
+> diff --git a/meta/files/common-licenses/bzip2 b/meta/files/common-licenses/bzip2-1.0.6
+> similarity index 100%
+> rename from meta/files/common-licenses/bzip2
+> rename to meta/files/common-licenses/bzip2-1.0.6
+> diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> index 8e9b779e672..d58f553a49a 100644
+> --- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> +++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> @@ -4,7 +4,7 @@ Huffman coding. Compression is generally considerably better than that achieved
+>  LZ77/LZ78-based compressors, and approaches the performance of the PPM family of statistical compressors."
+>  HOMEPAGE = "https://sourceware.org/bzip2/"
+>  SECTION = "console/utils"
+> -LICENSE = "bzip2"
+> +LICENSE = "bzip2-1.0.6"
+>  LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664"
+>
+>  SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+> diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+> index 1275cc00972..d7450c73c11 100644
+> --- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+> +++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+> @@ -5,7 +5,7 @@ machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
+>  newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
+>  HOMEPAGE = "http://compression.ca/pbzip2/"
+>  SECTION = "console/utils"
+> -LICENSE = "BSD-4-Clause"
+> +LICENSE = "bzip-1.0.6"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=398b8832c6f840cfebd20ab2be6a3743"
+>
+>  DEPENDS = "bzip2"
+> --
+> 2.25.1
+>
 > 
-> diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-> index 04527f891f..61911e72c9 100644
-> --- a/meta/files/toolchain-shar-extract.sh
-> +++ b/meta/files/toolchain-shar-extract.sh
-> @@ -286,6 +286,9 @@ if [ -e "$post_relocate" ]; then
->  	$SUDO_EXEC rm -f $post_relocate
->  fi
->  
-> +# Remove legacy .o files to avoid kernel build failure
-> +rm -f $target_sdk_dir/sysroots/*/usr/src/kernel/scripts/kconfig/*.o
-> +
-
-We should be removing these at SDK construction time, not at extraction
-time, then the SDK is smaller and we don't have special cases in this
-extraction script...
-
-Cheers,
-
-Richard
-
