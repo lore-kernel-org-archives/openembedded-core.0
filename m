@@ -1,92 +1,109 @@
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
- by mx.groups.io with SMTP id smtpd.web12.3796.1587638845171768828
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web12.4002.1587639903350644247
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2020 03:47:25 -0700
+ Thu, 23 Apr 2020 04:05:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hDpBcoq7;
- spf=pass (domain: gmail.com, ip: 209.85.167.68, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-lf1-f68.google.com with SMTP id k28so4356808lfe.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 03:47:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SGtdz+oI;
+ spf=pass (domain: gmail.com, ip: 209.85.221.65, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-wr1-f65.google.com with SMTP id d17so6314265wrg.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 04:05:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qso4XmBc7LzGspE6duPswPgc+TxZr6qrReo1hUBnJ0c=;
-        b=hDpBcoq7Q5glsawteuPpTLUB17/wFbzBQdavNqk98Dtwg+F14pd+AINZroOF2nzqh9
-         R4TH7JBssHtF4Mqwpg/dkSM/u1NpvEmGXeRpU4BSOsJzRLHcIPJoRjgPLDpJ0f9L66sn
-         ca6X28qFkLu1h1ZXLFWOaW9qCTXJ9rYpotrAfvVMV5ttS2lV7t3vsfLWDqrYTBm/QRFr
-         bbRX945rTHU873JR79qmnmsC1vVjZowkGf9h5Jw4/pV1iZVjbI4qq/nx3KIk+zEbo5cJ
-         Um9UOy5Tcqt3ypiV+dFIKQiyK19dBHT3lLEDUiHJi/RezSX2Trew/s7eSgQdiwOcydMW
-         QYMw==
+        h=from:to:cc:subject:date:message-id;
+        bh=WLs4SNQrgMTM2hjKrS0dkUgaK9VnGe3UbITljDOZH98=;
+        b=SGtdz+oIUmdM7Q8+QnumJ7uT75v1R8MumpMcEEiGkkJ3xxAnoK6QpOefRIb1hQqK3h
+         et19gQl2NBb9WEZ7qoppYrFQkp4vILv6uLr2rpoPIvL6g9RA2wWG5OYEQ24z6uE6DmfY
+         6GvY+RCSbNbjEb59oyqaVCmoYVSTC2qNmUDi25+hZFoJ3MMZ76Qju2U4LSHHECmXAwoj
+         K3D5eGfKyg7ABMAEKHshkN79mpk1Pkqtbazvg4xg/T1Hol29gXIV2CAQvCqDh+CwYGyu
+         pxYpLJrAcHULPPODKC0JvgwN2fxkD9m7noOCe8SB+TZwV0SPF2vVKkezyOElrBcjBFmY
+         JaAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qso4XmBc7LzGspE6duPswPgc+TxZr6qrReo1hUBnJ0c=;
-        b=iAfBIzoDGPjsk7KgamE0bpdXvf6HM3PnXJSPjv/Ik0OWZLUrtbyAqLPxVTN1NfPdLQ
-         6zMWX0Z3iKyBBuc7x+8Izy/9IDJ81Sp6PWuwfBabcb13/t0YgNUZ8dLm9vhTfZ7igDJN
-         Vpep4g0Q3QKBBLIoKCLpEIiLntU8C5fg1Ib75eQhW/tIcr8Sg3xy54rFKdcAkmV7KUcM
-         NoEAcJ5Y55cD7rEhaBRUD78CB58IfTwxOIWSc8RKVZHqUYTM0kJ7iDpo7vsmTmnn+qUY
-         mmVNdD6YSuHxzVj125vQHc7poAss98tVojU4PXBFxlQIKv4UWZPTIqyuSovoGMUuo4H0
-         /nNw==
-X-Gm-Message-State: AGi0PuYOcRe1ZerFyMds8isX99DMT5s14DXfwqvsXVnSGL1TtH9+wkGi
-	SmPSODJsARJ0y+629G8VvapdhVH7Vh4EGl9N5cg=
-X-Google-Smtp-Source: APiQypKKtrcR7pbWAA8fJMA+cCKEbYHO8c8bCuh7LjqcPyDxmSaiy7bjfxI2oezhUmgBCeGmhEwY2zpOjU52G7PgXnE=
-X-Received: by 2002:a19:88a:: with SMTP id 132mr2050070lfi.130.1587638843218;
- Thu, 23 Apr 2020 03:47:23 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200419063539.1467641-1-ricardo@ribalda.com> <258be2a52105a49413b954df67e61444dc73492e.camel@linuxfoundation.org>
- <CAPybu_1XdULtkfUQsjTa=PvuyUECKpNLoFXX95F_+Ly3=fbqBg@mail.gmail.com> <ebb64c86224b51b49b1d86f864566ecd91696f95.camel@linuxfoundation.org>
-In-Reply-To: <ebb64c86224b51b49b1d86f864566ecd91696f95.camel@linuxfoundation.org>
-From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
-Date: Thu, 23 Apr 2020 12:47:06 +0200
-Message-ID: <CAPybu_3Dap=Eqd1TP4RiBw=5aHRNsK1nZ5yXH9LJ_Wm=r0wGBg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v7 00/10] Fix permissions and embed-rotofs
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	Paul Barker <pbarker@konsulko.com>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=WLs4SNQrgMTM2hjKrS0dkUgaK9VnGe3UbITljDOZH98=;
+        b=opYrhuxbGMAJ8KvxLMCAjugTn96kYiaKpoe3mRbwcuySAtwolmvxJ25fEt47rNtEzE
+         PvEiP+Cv6ko6BqHGAek6+jQSYJeRwfD/fSa8iF8QDN8s2T7EuWdsvRsPvoM8kdx+kMu4
+         7QOpan40gD9g7pz86PbX8yd6jh4ILCt9XXbzeKMKgZfLrLHI1jYvTRReGRsygpmoFLri
+         IOAfCjfxNUvZ+9NZI9GHQ1eBOISsYcuZzqPGTAqE1u7BckJozcO6qUt/TToj9nU0ZJKy
+         0CTvyk2HlSaWpKGVgn7ZGK57Rrxs9+IuEFBWXnd89ynvJQsfCBPL4CtsijBRpD5lfKen
+         KkzA==
+X-Gm-Message-State: AGi0PuaHGtnnJjJzVJ/tSbOxjYNnlrq0jjq1SIFGMS8R7AUngb6pdpV+
+	A3qZk0cdihHVNBK1kL5k3rP1KPDi
+X-Google-Smtp-Source: APiQypIS/NIp88ARO2ZgBZkAQAvQwXwof7kvAZ1Foei8z1WTNfUv8jr42TyFeCJ5webRbWuu6QIRWQ==
+X-Received: by 2002:a5d:474b:: with SMTP id o11mr4268813wrs.391.1587639901354;
+        Thu, 23 Apr 2020 04:05:01 -0700 (PDT)
+Return-Path: <alex.kiernan@gmail.com>
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
+        by smtp.gmail.com with ESMTPSA id c10sm2984842wru.48.2020.04.23.04.05.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2020 04:05:00 -0700 (PDT)
+From: "Alex Kiernan" <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alex Kiernan <alex.kiernan@gmail.com>
+Subject: [OE-Core][PATCH v2] rng-tools: Restrict rngd.service
+Date: Thu, 23 Apr 2020 12:04:57 +0100
+Message-Id: <20200423110457.81750-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Thu, Apr 23, 2020 at 12:45 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2020-04-23 at 11:57 +0200, Ricardo Ribalda Delgado wrote:
-> > Hi Richard
-> >
-> > Thanks for the test.
-> >
-> > All the errors seem to have the same pattern:
-> >
-> > FileNotFoundError: [Errno 2] No such file or directory:
-> > '/home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-
-> > 27135/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0-
-> > r0/testimage/qemurunner_log.20200423015612'
-> >
-> > I do not believe that it is related to my patchset, I have seen that
-> > you are already running the selftest without the patchset
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/850
-> >
-> > Lets see if it also crashes or not. I am also trying to replicate
-> > locally.
->
-> It did recur:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/862
->
-> so your patches are probably not the cause, sorry! :)
+Whilst rngd has to run as root, we can significantly constrain its
+permissions (network is only required if nistbeacon is enabled).
 
-No problem, thanks!
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
-I am trying to replicate it anyway here. If I find a problem I will ping you.
+Changes in v2:
+- fix network access
 
->
-> I'll continue to try and track it down.
->
-> Cheers,
->
-> Richard
->
+ .../rng-tools/rng-tools/rngd.service          | 19 +++++++++++++++++++
+ .../rng-tools/rng-tools_6.9.bb                |  7 +++++++
+ 2 files changed, 26 insertions(+)
 
-
+diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+index 084322ac40aa..0559b9799154 100644
+--- a/meta/recipes-support/rng-tools/rng-tools/rngd.service
++++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
+@@ -8,6 +8,25 @@ Conflicts=shutdown.target
+ [Service]
+ EnvironmentFile=-@SYSCONFDIR@/default/rng-tools
+ ExecStart=@SBINDIR@/rngd -f $EXTRA_ARGS
++CapabilityBoundingSet=CAP_SYS_ADMIN
++IPAddressDeny=any
++LockPersonality=yes
++MemoryDenyWriteExecute=yes
++NoNewPrivileges=yes
++PrivateTmp=yes
++ProtectControlGroups=yes
++ProtectHome=yes
++ProtectHostname=yes
++ProtectKernelModules=yes
++ProtectKernelLogs=yes
++ProtectSystem=strict
++RestrictAddressFamilies=AF_UNIX
++RestrictNamespaces=yes
++RestrictRealtime=yes
++RestrictSUIDSGID=yes
++SystemCallArchitectures=native
++SystemCallErrorNumber=EPERM
++SystemCallFilter=@system-service
+ 
+ [Install]
+ WantedBy=sysinit.target
+diff --git a/meta/recipes-support/rng-tools/rng-tools_6.9.bb b/meta/recipes-support/rng-tools/rng-tools_6.9.bb
+index 913342c315de..8c98a9aa3ae2 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_6.9.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_6.9.bb
+@@ -49,4 +49,11 @@ do_install_append() {
+         -e 's,@SBINDIR@,${sbindir},g' \
+         ${D}${sysconfdir}/init.d/rng-tools \
+         ${D}${systemd_system_unitdir}/rngd.service
++
++    if [ "${@bb.utils.contains('PACKAGECONFIG', 'nistbeacon', 'yes', 'no', d)}" = "yes" ]; then
++        sed -i \
++            -e '/^IPAddressDeny=any/d' \
++            -e '/^RestrictAddressFamilies=/ s/$/ AF_INET AF_INET6/' \
++            ${D}${systemd_system_unitdir}/rngd.service
++    fi
+ }
 -- 
-Ricardo Ribalda
+2.17.1
+
