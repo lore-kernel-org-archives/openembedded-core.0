@@ -1,68 +1,64 @@
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com [209.85.222.65])
- by mx.groups.io with SMTP id smtpd.web10.815.1587662078822236420
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+ by mx.groups.io with SMTP id smtpd.web12.39.1587664420555202427
  for <openembedded-core@lists.openembedded.org>;
- Thu, 23 Apr 2020 10:14:39 -0700
+ Thu, 23 Apr 2020 10:53:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pkqpG0bV;
- spf=pass (domain: gmail.com, ip: 209.85.222.65, mailfrom: armccurdy@gmail.com)
-Received: by mail-ua1-f65.google.com with SMTP id i5so6540702uaq.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 23 Apr 2020 10:14:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4CAcNoc6/jIINk6FtHDdCrI3mXfBdJT400T/gGfdO9Q=;
-        b=pkqpG0bV9vJMYJbO/Ft4SfPQPFWNOnEnaOna2XpA6eYIwrhaI2MQcd47NVcIqI3Mse
-         yR4B7Ae7zE+jay5LxYZMf67C1ooK6zf96nZHHa7Bt+xvO8ulJ5aDcYti0/sTRqj2ij5i
-         gVSCp2Mz0lwR2bdrDnJlKwVRlcFqxWWbu23lLeQJxpx2aHnx/2yR+xQU0YXHIYkK3und
-         +lWICn5PcbL7zJfXdtW6Fm21f+c69LT8dnkuwMNv6re6c/C5R8DbL5QgagvKSdfsLB5k
-         +ZjqZ1JBCElo/ppAfvai6BMt0QpFP4igTBg+3yBOKDpyzK1W1hCAI5Os8TCfI0kRfIkp
-         7C5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4CAcNoc6/jIINk6FtHDdCrI3mXfBdJT400T/gGfdO9Q=;
-        b=Imz38jho/jZiwF/pXwxgZJWSswQ+H86HlbqgxnIKRJwoHJ66yY8zMDt9DXIxj2xAwz
-         D88n8jZsGJ/FdT/lCQD0sm1niP1T/015nTFc3wrYdWohdU4qC3J8Eu3KpDRyljk40uBz
-         jgVZhcD6HMNUyqHKSHUXeUCC9KLz04589mAOBHOp0NTuwCmfeHtAsPn6vmbcclY0U+wZ
-         2s1NPQRR9dBPSdCgVMowtpdvRgc3KSVjnuLgTguW1A42L7lz3W0bKylh0TpFKHChWfaB
-         2hBafSvBX1oWa8KCaduyaWpD0i+bujpdb3nUCAxIwIXAWZHiD2e9RfAreqZyK0IATDJ9
-         RZaQ==
-X-Gm-Message-State: AGi0PubqjGlmDjg9kcQZfspIhwQulnKi9q2iuw2ExRsV2N+c3W7vL7Hw
-	kPCC/PlfYmt+NBDzl5+UhIxEeAIBTJF2JbEEA9o=
-X-Google-Smtp-Source: APiQypIefqAyOjTBUy08UazbBDuD+ABjtiiFV6HZwpCN+ZntUSwR2cc7D6NikFn8tQLPez7fyq5pbWg6SB0JQ3alNGo=
-X-Received: by 2002:a67:2284:: with SMTP id i126mr4152755vsi.223.1587662077915;
- Thu, 23 Apr 2020 10:14:37 -0700 (PDT)
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:34056 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jRg2c-003GJP-9k
+	for openembedded-core@lists.openembedded.org; Thu, 23 Apr 2020 13:53:38 -0400
+Date: Thu, 23 Apr 2020 13:53:36 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: any value in a single variable setting for "don't use busybox"?
+Message-ID: <alpine.LFD.2.21.2004231348560.3238810@localhost.localdomain>
 MIME-Version: 1.0
-References: <20200422135211.121292-1-alex.kiernan@gmail.com>
- <CAJ86T=W+CmGCZF_ej+na_tzAddNP69XJPE5MZTGFF2HjRqfGtQ@mail.gmail.com> <CAO5Uq5RXQn+Q0NmVD0nWAYxp3YMs8TFKiDLudCHzUFD6LHcc5Q@mail.gmail.com>
-In-Reply-To: <CAO5Uq5RXQn+Q0NmVD0nWAYxp3YMs8TFKiDLudCHzUFD6LHcc5Q@mail.gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Thu, 23 Apr 2020 10:14:27 -0700
-Message-ID: <CAJ86T=W1jP=eMiJmcQLYfKamsD3v2+ycbS8Q3V-iEc+HVDT=Gw@mail.gmail.com>
-Subject: Re: [OE-Core][PATCH 1/6] openssh: Move sshdgenkeys.service to sshd.socket
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OutGoing-Spam-Status: No, score=-0.2
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-On Thu, Apr 23, 2020 at 1:30 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> On Wed, Apr 22, 2020 at 7:48 PM Andre McCurdy <armccurdy@gmail.com> wrote:
-> > On Wed, Apr 22, 2020 at 6:52 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> > >
-> > > sshd.socket launches the templated sshd@.service, so by moving the
-> > > sshdgenkeys.service to sshd.socket, key generation can start in advance
-> > > of a connection.
-> >
-> > Is deferring key generation until the first connection a bug or by design?
->
-> If you've installed it, presumably you're expecting connections. But I
-> agree you could argue it either way.
 
-The trade off is between slower first boot (or every boot for
-read-only rootfs if host keys are not persistent) -vs- slower first
-incoming ssh connection.
+  in the vein of the recently-introduced INIT_MANAGER variable, is
+there any value in introducing a variable that is short for "i don't
+want a hint of busybox in my image"?
 
-Since the first incoming ssh connection may never happen (especially
-if ssh is only used for debugging or development), optimising it at
-the expense of boot time doesn't seem to be an obvious improvement.
+  i see the equivalent in the same file i mentioned in an earlier
+post: meta/lib/oeqa/selftest/cases/imagefeatures.py, with the
+corresponding settings:
+
+# Replace busybox
+PREFERRED_PROVIDER_virtual/base-utils = "packagegroup-core-base-utils"
+VIRTUAL-RUNTIME_base-utils = "packagegroup-core-base-utils"
+VIRTUAL-RUNTIME_base-utils-hwclock = "util-linux-hwclock"
+VIRTUAL-RUNTIME_base-utils-syslog = ""
+
+# Blacklist busybox
+PNBLACKLIST[busybox] = "Don't build this"
+
+  i ask since a colleague just asked me how to do exactly that --
+prevent any trace of busybox being used in the final image.
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                         http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
