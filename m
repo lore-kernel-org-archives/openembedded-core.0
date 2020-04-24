@@ -1,131 +1,112 @@
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
- by mx.groups.io with SMTP id smtpd.web10.5615.1587735043129385484
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (NAM02-SN1-obe.outbound.protection.outlook.com [40.107.77.80])
+ by mx.groups.io with SMTP id smtpd.web12.6188.1587736792336457467
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2020 06:30:43 -0700
+ Fri, 24 Apr 2020 06:59:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Lxym4/pA;
- spf=pass (domain: gmail.com, ip: 209.85.167.67, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-lf1-f67.google.com with SMTP id w145so7701573lff.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2020 06:30:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4RYw0d6rEOcrib5vUjLVM5tgiDYxb7Xb+PfkU9RLoZw=;
-        b=Lxym4/pArrLMJSqFteH5JfrEsfQSHxiP7hDTg4cSaPXjUDvObJyYOhGR7htTWfyW0D
-         Oe1TaDERhz8rH0aFfMGv68T88yCixzV6jaAYIyroqNCCNlwwM3pimrrVS76Fv2Ex+pIW
-         HjwpuESnDLAqGksvR4U/gfsFzLvZ1zcQCFrTKGPil3ArHdofiPVakIiA3ZFPu6TbEOjz
-         5KhXAWzk/se6C7OVTNe9o1GfyzWVTNvdMOiQ3p9Mx7wMTNHKybJZ/yKrKNil9jZHrJXd
-         zemWFZDSVevWx+Qu5EM+kQukKj21f0rtpfJlZ6IuA6S7C07yrd6OVoA8tQzUe9/Djngq
-         9D/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=4RYw0d6rEOcrib5vUjLVM5tgiDYxb7Xb+PfkU9RLoZw=;
-        b=pq6NcWVlatpCJO/R4ltMON1jowI9uMhlWva9HCt9LJiz/auhsGxfiPUmyw7sXtsGjE
-         G9DuqNh7KuH3eRlaLmrD0mSp4ZbHoXk2jPmLrkUiKBD+RCtEBgWz8FAPjWmQsPV8WOwV
-         nc4jXIug3e2+xPLvLBTk+1TYO7/jjL7Z8JOPwhtpQGTLAh04DVXcVjk6yUbaYxVsaJJ9
-         Y2dsXOL8kXLzMHxB9DmCqEcYR2oMvqUjC48f72BvWtrjV+Gr+nJcz3JuzNZGRO1fgNAi
-         d9oq8rzncJv1747bMPON3ewfLFzzSsJaDUfrr6QBswBw/XPMvSl7/kfP0DtiJJxeFh2f
-         M9LA==
-X-Gm-Message-State: AGi0PuYAAJ1AzbQEdj+EoIzOBs67ya5ApPfPS4XnZveOI4fhNEdjpzYz
-	Zq9Z2OZWF87+fTSMhUgRlf4lLgSGS8s=
-X-Google-Smtp-Source: APiQypKXPLDstlvkkc4oz9WMuE/Jl1wLe0RMPb7Wnvm8dJ7yOHJC++FSA0HaYSQh4T6POW2JwcGPcA==
-X-Received: by 2002:a19:c850:: with SMTP id y77mr6213603lff.45.1587735041013;
-        Fri, 24 Apr 2020 06:30:41 -0700 (PDT)
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id u24sm3228000ljl.28.2020.04.24.06.30.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2020 06:30:35 -0700 (PDT)
-Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	henrik@newtec.dk
-Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Subject: [PATCH] RFC wic: Support .wks files for multiple machines
-Date: Fri, 24 Apr 2020 15:30:32 +0200
-Message-Id: <20200424133032.7181-1-ricardo@ribalda.com>
-X-Mailer: git-send-email 2.26.1
+ dkim=pass header.i=@agilent.com header.s=selector2 header.b=VbHp0gAN;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.77.80, mailfrom: chris.laplante@agilent.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jn46llaCeI/WvB40xt4V6REELUtxOLreYyho+QsfvMeAZY1QOu3sfb0tCy3tjLB6yJqLoDGjU6b4UkUncSHsdO9onU6nn0kSWIvxDtf5RsOUPPEBSGTZDv0n9nPsgvPtDwudcjnQ+yJcUwkQgHDJLB1qlxAhbosOGLKyzgu+BQpVTe1kyEj3YCmOYfZcLj3CJlDCWX5XMOOpiboU65IXnu11H/91QIjXbdh32mzBolcOeFgrRbARihwdC72wAmOj6y/m6qyYELVdMxkh4ba4I5d5MgNNYSzy5ocwWjCf4oPZAXc0NyMxVr5cw/6TL8g3SchcGNn9+5lyQD1j27rQLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7/e/bilDMSS12oKXT7wUvoj8087DgizV43e/x7XaEP4=;
+ b=KKjtGzFQtejqzLzCvUlncMgKRb6ZQO/gawW9McRjfnqtmWqSQvKo9ETwiZG09C7QPwHkOGEYlFksxLZUfbRwkIsuo64569L6UUJIjm6vsR9uiN7Gu3+23P0X3HGUc7nk0LJB5sQfKs3fBG098oL7DAwpx9adnbg3VdnnAttlG21nL9wUvYLohbzZUhMNv6s3kcsOrKi0awKYCrRagb5sicX3rxiTKMD6jUo3R5F9AnQrmV6fPvbKkMiYCYih9mAe8VDHGsUDrWl1xHqOdCEal658/WZfzj1b5wXdLAPknMlX2MoM47Dl4ufbX8uIEZUvGKno0mxNVO28k8iRk060Ig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=agilent.com; dmarc=pass action=none header.from=agilent.com;
+ dkim=pass header.d=agilent.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7/e/bilDMSS12oKXT7wUvoj8087DgizV43e/x7XaEP4=;
+ b=VbHp0gANog2q9nkJFodQfNAavAJ2URFhrUx9toc/YdkrHOhHF+v1uxcCkc3WgMHlRg/AeP2WDxg1qhfYZvbPsILBwp0YQELehk+d+LP+p7yv8LZYrbeLc5v4zWCGu139anrtgDymQFhUEAzJKrCp358WSU/38q/qPzY/QF3pTE0=
+Received: from SN1PR12MB2480.namprd12.prod.outlook.com (2603:10b6:802:22::21)
+ by SN1PR12MB2350.namprd12.prod.outlook.com (2603:10b6:802:24::31) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2921.29; Fri, 24 Apr
+ 2020 13:59:51 +0000
+Received: from SN1PR12MB2480.namprd12.prod.outlook.com
+ ([fe80::b1d0:1320:b3eb:183c]) by SN1PR12MB2480.namprd12.prod.outlook.com
+ ([fe80::b1d0:1320:b3eb:183c%2]) with mapi id 15.20.2937.020; Fri, 24 Apr 2020
+ 13:59:51 +0000
+From: "Chris Laplante" <chris.laplante@agilent.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] Changing DISTRO_FEATURES / build directory
+Thread-Topic: [OE-core] Changing DISTRO_FEATURES / build directory
+Thread-Index: AdYZoreS4f0qd/lxRTy9wl3fvQ25kwAJjeOAAB1wovA=
+Date: Fri, 24 Apr 2020 13:59:50 +0000
+Message-ID: 
+ <SN1PR12MB248000E2856984F4FEAB95708BD00@SN1PR12MB2480.namprd12.prod.outlook.com>
+References: 
+ <SN1PR12MB2480D4132DF632E5161532E38BD30@SN1PR12MB2480.namprd12.prod.outlook.com>
+ <f73b90e0d744276d6929bb39518a962dc07e3e4b.camel@linuxfoundation.org>
+In-Reply-To: 
+ <f73b90e0d744276d6929bb39518a962dc07e3e4b.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+ smtp.mailfrom=chris.laplante@agilent.com; 
+x-originating-ip: [76.99.179.205]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 278df138-90d0-43f4-abf7-08d7e857c1fc
+x-ms-traffictypediagnostic: SN1PR12MB2350:
+x-microsoft-antispam-prvs: 
+ <SN1PR12MB2350CFA2355C3203B682E0178BD00@SN1PR12MB2350.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 03838E948C
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2480.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(10009020)(376002)(136003)(396003)(39860400002)(366004)(346002)(29502001)(66446008)(33656002)(81156014)(64756008)(2906002)(8676002)(9686003)(8936002)(86362001)(52536014)(6506007)(110136005)(7696005)(26005)(186003)(5660300002)(55016002)(478600001)(316002)(66476007)(66556008)(66946007)(71200400001)(76116006)(966005);DIR:OUT;SFP:1101;
+received-spf: None (protection.outlook.com: agilent.com does not designate
+ permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 8Jpbq5vSHgvc3Vw0WMr4fRZgI8uk8sV2wRx8EBsahGMblt9ouhWVT/rgBeewOgtNRA14d3HgJ4tT6abvYI1yu8r8+dHxX5D2h0jPEWzNrAwS+/z8Qd4xyfyGEYgbiLrKoh93T3VCGnPNlc79TASxUauxuD/LiByzULPb+e1hIl5j+xxH8E6X65dn2D9WrfkalF+HjIlXBxI6Kgl3sqKbTarDYNdTYuW9qywrsJsSsCftrlJjiJrAtlpm3WaWwnPAC+MRvZ9U+8D9Eq0lh4q87y55COHe9tsM/sp65JC05QdlR7EPAP20wqZdHn0pphgZukgfS2xd7n1RIyB4EFL18A2kUwH2ZuwCPSOhxi1A1OidnkncMLOIRarRzgjQagXMVdt/xxy25ABSt64PgoTyO8RhfDC/45Hxgg6K5m/mWOa3SxXd7M8urCsUasrcjVUU3OT7/P5M+D6t2lqJaLCQIPvIecwmyig3llmVAD+OwtSRn9UFaH88Nh3XZ83v51aQcj8QDc+CPlBO618Yxzp+dYDnHXSc1Iw5CxsPljncdPm/fzIonrn5TfRTfLpIPTY8IuEiGLSi95rGIgBubqoDBg==
+x-ms-exchange-antispam-messagedata: 
+ T+7/f3D9SWolYH4NLBQeT5jdufAJt+Q36yaJTb/xK9EA4E6YzHx2o96DfqGS/gr+p4DFhBuqyfo/GGz8lN5w0fXMAnQeWWX/Yjhc2z5lRuVzfPS+0i6I7wZtng7PUBWTt/3vmyEYk3JOaiMmtIpp+g==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: agilent.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 278df138-90d0-43f4-abf7-08d7e857c1fc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2020 13:59:50.9085
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Fj3BcXi00tITvezoGFR+SClpm3GAgj79EvCxA6l2n+Jm2ZTGjOQ5L3TNecTEkzTvplfy2qH//2z544GKA5vSPJjZa/8xqUu97pN/WDrhO4o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2350
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-If you want to make a disk image containing rootfs for different
-machines, the only way to do it today is by calling wic and passing the
-different rootfs-paths.
-
-Eg:
-combined.wks
-part /export --source rootfs --rootfs-dir=target-image
-part / --source rootfs
-
-bitbake multiconfig:arm:target-image
-wic create combined --rootfs-dir target-image=/workdir/build/tmp/work/arm-poky-linux/target-image/1.0-r0/rootfs/ -e main
-
-This has many drawbacks:
-1) You need to know the folder location for the target-image
-2) It is easy to forget updating the target (only running wic and not
-   bitbake)
-3) It is slow
-4) It does not scale when you have multiple machines
-
-Instead, wic can be given a hint of what machine to search for:
-
-combined.wks
-part /export --source rootfs --rootfs-dir=arm:target-image
-part / --source rootfs
-
-bitbake main
-
-If we ensoure the dependency of target-image from main via
-do_image[mcdepends], all the dependencies are automatically
-handled.
-
-This patch makes wic aware of the machine to use.
-
-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
----
- scripts/lib/wic/misc.py | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
-
-diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
-index 91975ba151..51b43b49aa 100644
---- a/scripts/lib/wic/misc.py
-+++ b/scripts/lib/wic/misc.py
-@@ -206,7 +206,12 @@ class BitbakeVars(defaultdict):
- 
-         if image not in self:
-             if image and self.vars_dir:
--                fname = os.path.join(self.vars_dir, image + '.env')
-+                if image.find(":") != -1:
-+                    [machine, img] = image.split(":")
-+                    fname = os.path.join(self.vars_dir, "../../",
-+                                         machine, "imgdata", img + '.env')
-+                else:
-+                    fname = os.path.join(self.vars_dir, image + '.env')
-                 if os.path.isfile(fname):
-                     # parse .env file
-                     with open(fname) as varsfile:
-@@ -220,11 +225,16 @@ class BitbakeVars(defaultdict):
-                 # Get bitbake -e output
-                 cmd = "bitbake -e"
-                 if image:
--                    cmd += " %s" % image
-+                    if image.find(":") != -1:
-+                        [machine, img] = image.split(":")
-+                        cmd = "MACHINE=%s %s" % (machine, cmd)
-+                    else:
-+                        img = image
-+                    cmd += " %s" % img
- 
-                 log_level = logger.getEffectiveLevel()
-                 logger.setLevel(logging.INFO)
--                ret, lines = _exec_cmd(cmd)
-+                ret, lines = _exec_cmd(cmd, as_shell=True)
-                 logger.setLevel(log_level)
- 
-                 if ret:
--- 
-2.26.1
-
+PiA+IFNvLCBpcyBjaGFuZ2luZyBESVNUUk9fRkVBVFVSRVMgYnV0IG5vdCBjaGFuZ2luZyB0aGUg
+YnVpbGQgZGlyZWN0b3J5DQo+ID4gZXhwZWN0ZWQgdG8gd29yaz8NCj4gDQo+IFNob3VsZCB3b3Jr
+IGJ1dCBoYXMgYnVncy4NCj4gDQo+IFRoZXJlIHdlcmUgc29tZSBmaXhlZCBhcm91bmQgdGhlIHRo
+dWQvemV1cyB0aW1lZnJhbWUuDQo+IA0KPiBodHRwczovL2J1Z3ppbGxhLnlvY3RvcHJvamVjdC5v
+cmcvc2hvd19idWcuY2dpP2lkPTEzNzAyDQo+IA0KPiBpcyBhIHJlY2VudGx5IHJlcG9ydGVkIG9u
+ZSB0aGF0IGhhcyBwYXRjaGVzIGluIG1hc3Rlci1uZXh0IChib3RoIHRvIGZpeCBhbmQNCj4gYWRk
+IGEgdGVzdCBjYXNlKS4NCj4gDQo+IElzIHRoZXJlIGEgZmFpbHVyZSB3aXRoIHJlcHJvZHVjZXIg
+eW91IGhhdmU/IFdoaWNoIHJlbGVhc2U/DQoNCkkgaGF2ZW4ndCBlbmNvdW50ZXJlZCBhbnkgYnVn
+cyB5ZXQsIG5vLiBJIGFtIHdvcmtpbmcgb24gYWRkaW5nIHNvbWUgY3VzdG9tIERJU1RST19GRUFU
+VVJFUyB0byBvdXIgZGlzdHJvLiBJIHdhcyB0cnlpbmcgdG8gY29udmluY2UgbXlzZWxmIHdoZXRo
+ZXIgdmFyZGVwcyBhcmUgbmVjZXNzYXJ5IGZvciBESVNUUk9fRkVBVFVSRVMsIGFuZCBjb3VsZG4n
+dCBkZWNpZGUuIEZvciBpbnN0YW5jZSwgaWYgSSBoYXZlOg0KDQogICAgZG9fdW5wYWNrX2FwcGVu
+ZCgpIHsNCiAgICAgICAgZWNobyAiJHtAYmIudXRpbHMuY29udGFpbnMoIkRJU1RST19GRUFUVVJF
+UyIsICJteS1mZWF0dXJlIiwgInRydWUiLCAiZmFsc2UiLCBkKX0iID4+ICR7U30vd2hhdGV2ZXIN
+CiAgICB9DQoNCmJpdGJha2UtZHVtcHNpZ3Mgb24gdGhlIGRvX3VucGFjayBzaWdkYXRhIHJldmVh
+bHMgdGhhdCBESVNUUk9fRkVBVFVSRVMgaXMgKm5vdCogcGFydCBvZiB0aGUgdGFzayBkZXBlbmRl
+bmNpZXMuIFNvIEkgd2FzIHdvbmRlcmluZyBpZiBJIG5lZWRlZCB0byBkbzoNCg0KICAgIGRvX3Vu
+cGFja1t2YXJkZXBzXSArPSAiRElTVFJPX0ZFQVRVUkVTIg0KDQpidXQgbG9va2luZyBhcm91bmQg
+cG9reSBhbmQgbWV0YS1vcGVuZW1iZWRkZWQsIEkgZG9uJ3Qgc2VlIGFueW9uZSBlbHNlIGRvaW5n
+IHRoYXQga2luZCBvZiB0aGluZy4gDQoNClRoZSBpbnRlcmVzdGluZyB0aGluZyBpcyB0aGF0IHRo
+ZSBiaXRiYWtlLWR1bXBzaWcgZG9lcyBoYXZlIHNvbWUgc3BlY2lhbCBsb29raW5nIERJU1RST19G
+RUFUVVJFUyBvdXRwdXQsIHN1Y2ggYXM6DQoNCiAgICBESVNUUk9fRkVBVFVSRVN7dXNybWVyZ2V9
+ID0gVW5zZXQNCiAgICBESVNUUk9fRkVBVFVSRVN7bXktZmVhdHVyZX0gPSBTZXQNCg0KU28gaXQg
+c2VlbXMgdGhlcmUgaXMgc29tZSBESVNUUk9fRkVBVFVSRVMgc3BlY2lmaWMgcHJvY2Vzc2luZz8N
+Cg0KSXQncyBhbHNvIHVuY2xlYXIgdG8gbWUgd2hldGhlciB0aGUgc2lnbmF0dXJlIGNvZGUgaXMg
+YWJsZSB0byB1bmRlcnN0YW5kIGJiLnV0aWxzLmNvbnRhaW5zIGFuZCBhdXRvbWF0aWNhbGx5IHBs
+dWNrIG91dCB0aGUgZmFjdCB0aGF0IERJU1RST19GRUFUVVJFUyBzaG91bGQgYmUgYWNjb3VudGVk
+IGZvci4gDQoNClRoYW5rcywNCkNocmlzDQo=
