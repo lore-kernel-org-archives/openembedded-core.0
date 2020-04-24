@@ -1,83 +1,77 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.web10.7003.1587739499538482598
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.7345.1587740549711898818
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2020 07:44:59 -0700
+ Fri, 24 Apr 2020 08:02:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qzcgo7Rg;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f44.google.com with SMTP id d17so11143228wrg.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2020 07:44:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ooWGMbZ/;
+ spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: bartlomiej.burdukiewicz@gmail.com)
+Received: by mail-wm1-f68.google.com with SMTP id 188so10836240wmc.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2020 08:02:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=/viDQvlCvXcTlwZjnGi645t8d65SRvxXvlIUXr/Hd/k=;
-        b=Qzcgo7RgEGcfXeWPQpPuoTr8Pfsu7TATmEhXylwE5LgHvXeEAD/YmN2JvHS+lX4mxv
-         YHT64Xn9CBnNkabrCn7G26pjIebj5FwODErolxzmIqRz5nNl8S8vdRKCFLl0qFrKbIBX
-         6k4SQU458Q1UKYtpkKDikj6Hf/0XQvrnpPcjs=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HZPKdAta/XF4I8slVgoAyI1t6qYbVEZC4dOkm4szcMM=;
+        b=ooWGMbZ/yB/8vxnoLAYRg0j8bV4+ol4amKXp3g/qWdbkImo3C+Zo8n4zALhau4QbfX
+         3JlZuke6wnFCNx3hWncxQqNg0LUcU+B+YEp8xFsvS0oRlZotRc1ajP/gX6IdtyHrXDbP
+         d7JfZWoYUAsFe08vaY/+bzoGzcMuEHsoNO+i5JtLZlkO0APFq6Tp6G9uQDN2CFvjWepX
+         ilmUo6CODgQN3B7N4CIPZx3sHrYu/3bazxG/l7RZYWpAEma37pkiZW5jxFHfFuRUE32B
+         CpFK37tVIUUAU/p5ip30EnLmf7PdMheoWOXKvJFJxsgFutVWSAVRadn8pnxCIA+bmm0B
+         kEag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=/viDQvlCvXcTlwZjnGi645t8d65SRvxXvlIUXr/Hd/k=;
-        b=fz0vPfLXSkjqNJocY3UYzfZI4cfUCDU+E5B9Ch+wHfQaDwAOCPI6JFb+TjL28oV//j
-         J5P3NHGgnCd0Psq2NlZK+ykdMXBVPbx+qXWSAY7PJqNGKJIa9DVB8faUGoo1+4+6uscQ
-         qqXmuZ+b8E/T3av/rADET+D2zX4mZuWsm+RioHziP6GnymHWVaEl+8U0sBE7QncucVtV
-         MxlFcrpXeXr7Qoi1Z0ZP3Whn1ZkjMUlCcg4QN4NOOT6AiXCwqGPjUk4EhYoY2yOCpEuN
-         bRBirCJ/xR3asnZHQz2KFUrHa2qsMCHz77pkk20djELJMmmVPZxv0qML1UFq0HfUkKYD
-         5iZA==
-X-Gm-Message-State: AGi0PubQod7CePQzpabMJI8mVY/XtBv5+Ka+EkZibLgv8AHmhTvI5+eG
-	kvz+UTSQKZht0N4GiXiJoGN6Wg==
-X-Google-Smtp-Source: APiQypIOJyJc32q0YcMAOxVe6ld6nYCzEG7UATJRbHW4Dq5rbhznQzazDypG0DQiyWWrYNOIWY1F9Q==
-X-Received: by 2002:a5d:6445:: with SMTP id d5mr11140691wrw.373.1587739498109;
-        Fri, 24 Apr 2020 07:44:58 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id k17sm3140206wmi.10.2020.04.24.07.44.57
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HZPKdAta/XF4I8slVgoAyI1t6qYbVEZC4dOkm4szcMM=;
+        b=imcKJW6avN+LfnjkE92D7flyCyVIyHTp1AvxhgBtmIwpOhynFLJ0duwXPcP6ot67SR
+         tt36lk5YwVLltQT2aJv3a15B4c0ho2ev2wfUK6Rt2pDrIwfbrt9kVh/FTC7NfmrypacJ
+         HkKTo0wD017Av2tvvol0gVO54Lpc1z1z4Np3ovmuWBkMNFJbZAecqZOuqt5cz4HFF2v8
+         DdmC/94gSq3og85jSeW3TBTZzFp75pDWDyxtSANV/wVU3Dlx2KGzLjr5xtyCSKUaWo0b
+         FUNyNzImLlbxEg3wS/h9R/ML3Y0/9kCQ+8duoE99IMQ6iXeR/bHc1vmU0k7vlCxx9uLm
+         /gRQ==
+X-Gm-Message-State: AGi0PuZyPe73ztxVzV5gBcOYq/sJEc5EINhV2dljaVxSrTjf2uQ1dKba
+	eqNeJbnpLcSwDn7SQ0Y3Q726wxVPliZrqw==
+X-Google-Smtp-Source: APiQypI1UAX5RPibz7Rm/G/pmhGXMysYiFjzwivypfEIO+NB4yXu4rSmS9IftCUCWoKM3CGF0XGytw==
+X-Received: by 2002:a1c:a9d3:: with SMTP id s202mr10626366wme.160.1587740547863;
+        Fri, 24 Apr 2020 08:02:27 -0700 (PDT)
+Return-Path: <bartlomiej.burdukiewicz@gmail.com>
+Received: from localhost.localdomain (asx191.neoplus.adsl.tpnet.pl. [83.26.235.191])
+        by smtp.gmail.com with ESMTPSA id b2sm9672249wrn.6.2020.04.24.08.02.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2020 07:44:57 -0700 (PDT)
-Message-ID: <c0cbedfbd480c69ff4e25cad1f12e6e3ff1c6149.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Changing DISTRO_FEATURES / build directory
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Apr 2020 15:44:56 +0100
-In-Reply-To: <SN1PR12MB248060C51C546ED80B5FDE888BD00@SN1PR12MB2480.namprd12.prod.outlook.com>
-References: 
-	<SN1PR12MB2480D4132DF632E5161532E38BD30@SN1PR12MB2480.namprd12.prod.outlook.com>
-	 <f73b90e0d744276d6929bb39518a962dc07e3e4b.camel@linuxfoundation.org>
-	 <SN1PR12MB248000E2856984F4FEAB95708BD00@SN1PR12MB2480.namprd12.prod.outlook.com>
-	 <adfc124fd7a2a538eacdbed44eab2cd67c6bf4f6.camel@linuxfoundation.org>
-	 <SN1PR12MB248060C51C546ED80B5FDE888BD00@SN1PR12MB2480.namprd12.prod.outlook.com>
-User-Agent: Evolution 3.36.1-2 
+        Fri, 24 Apr 2020 08:02:27 -0700 (PDT)
+From: bartlomiej.burdukiewicz@gmail.com
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Bart=C5=82omiej=20Burdukiewicz?= <bartlomiej.burdukiewicz@gmail.com>
+Subject: [meta-oe][PATCH] libva: Removed virtual/mesa dependency
+Date: Fri, 24 Apr 2020 17:01:43 +0200
+Message-Id: <20200424150143.374520-1-bartlomiej.burdukiewicz@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Fri, 2020-04-24 at 14:20 +0000, chris.laplante@agilent.com wrote:
-> > "contains" has special magic where it caches the specific value
-> > presence
-> > rather than the whole string. I'd therefore recommend using the
-> > contains
-> > functions where at all possible for that reason.
-> 
-> So then regarding my other points, it is correctly handled by the
-> signature code? If so, why doesn’t it show up in task dependencies?
+Mesa can be compiled with libva support, in order to avoid recursive
+dependency between mesa and libva, virtual/mesa must be removed
+from libva recipe.
 
-It should be handled correctly and it does show up.
+Signed-off-by: Bartłomiej Burdukiewicz <bartlomiej.burdukiewicz@gmail.com>
+---
+ meta/recipes-graphics/libva/libva_2.6.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-For example, 
-
-$ bitbake-dumpsig ./tmp/stamps/core2-64-poky-linux/dbus-test/1.12.16-r0.do_configure.sig*
-Variable root_prefix value is ${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '${exec_prefix}', '${base_prefix}', d)}
-DISTRO_FEATURES{usrmerge} = Unset
-
-which means DISTRO_FEATURES didn't contain "usrmerge". It would only
-change hash if DISTRO_FEATURES then did contain it, there is no
-absolute value dependency.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/libva/libva_2.6.1.bb b/meta/recipes-graphics/libva/libva_2.6.1.bb
+index 92cea83bc1..c1a441a18b 100644
+--- a/meta/recipes-graphics/libva/libva_2.6.1.bb
++++ b/meta/recipes-graphics/libva/libva_2.6.1.bb
+@@ -23,7 +23,7 @@ SRC_URI[sha256sum] = "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e4862940
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
+ 
+-DEPENDS = "libdrm virtual/mesa"
++DEPENDS = "libdrm"
+ 
+ inherit meson pkgconfig features_check
+ 
+-- 
+2.26.2
 
