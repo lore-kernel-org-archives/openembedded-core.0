@@ -1,167 +1,108 @@
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
- by mx.groups.io with SMTP id smtpd.web11.1007.1587850190706143170
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.1010.1587850192977067133
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Apr 2020 14:29:51 -0700
+ Sat, 25 Apr 2020 14:29:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vDocGZsw;
- spf=pass (domain: gmail.com, ip: 209.85.208.194, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-lj1-f194.google.com with SMTP id l19so13598824lje.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 25 Apr 2020 14:29:50 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BMPTNo1+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id y24so15970605wma.4
+        for <openembedded-core@lists.openembedded.org>; Sat, 25 Apr 2020 14:29:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=A8L+q57EIM38NRCsMnOdCiukabovUPdeku5mKPpTIpE=;
-        b=vDocGZsweuTgp+Uh2IsLuprkTsUSWdzvbCU2a3iGIKvJMvndQu2CZxy79sTcHZzBxF
-         oi8ERuoiaTPO+GIiEOGhirn7xrG9oOnKb6Sa0+JCMdZux5YBAgJwEw9E748ho6mGWD8u
-         UcMBeZhb+pv/dVueSyvCohAMiFNkhW0OGFlBK2PvV9zHUqs0iwBgtZzDTzSRWZD/5DoO
-         Tc/HrqQKMqUnSOI+Lf0GK9lXYdFWQpCdtQATiZMLtZG0em0ROqcFS1VE0h5k8QA+KWdV
-         OHVKIDcpOJtN/gmN9jjYg9OYrSOGNBIfoIbKTuK4HXaF//muFaxZzlAXiDFhalq0alI9
-         B3nQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=J8g7or+p45zu0XcfRtjGMwmvJZ0niLw3LVDlGZe0vF4=;
+        b=BMPTNo1+VO6F8zASwv283rV+Nib3Fynl7ifp2vCvnTCyO8S8Dxgi1AjTlw1gn9m3j/
+         gLNun1V2nnoWR0ksdbE6vjLslEFGIEm5WpBv8cyRnIMHpV/UTnFYnnqYhbFuPBbzH6Aj
+         TlGr8xMmsfUOsHzpoar/lUZ9G0Pif4GRbg6RU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=A8L+q57EIM38NRCsMnOdCiukabovUPdeku5mKPpTIpE=;
-        b=cZnYvILlOxNMGZthpoutKpdSN3IkDjYdzkm9oEYLssiyhphaYkQh89N5HeqmbgzoDG
-         bbIhRlkhUSWw/iF/6OsNiH7Zfz9ubt70p1Hajsfx5igYQ3MtEvM3zMZ39oyX/FlN3VT7
-         WPGBXl3sX1RxRArEBr8bQxHdrq+HAIsGjjQ76ZYJenAb+uJPup/8Jh9zAugjp7uEUkct
-         P1W+kqqB36hAyQ6VOC2D/xQWC/hJxuNDpe7ChqN4vYDhZ3PUkBRCy1KQQc5RFSsTpENz
-         sRmZ20d2oRJab2khud2iOXV+fwXrs2ZkfOZS1KiFmQJ/bZC4AszRHRlGkQs3liG05vYu
-         5yeA==
-X-Gm-Message-State: AGi0PuY7B0DpPZiXK8nDq7rj9fmRYaek8rxCg00hgrnzIJe4jXoC3JtW
-	ed4i5fGXU94AkBraVVj0XzTi5iCdcsCy6NgDFTk=
-X-Google-Smtp-Source: APiQypJSz9yqLBmh6qUcODhMA6PKe1mjVxFUoVOERUDbKij/YLPAdjhxCIGBvEbxMfrArWLqNAQcYQX4nh5fsZwLHnY=
-X-Received: by 2002:a2e:8e22:: with SMTP id r2mr9641922ljk.286.1587850188997;
- Sat, 25 Apr 2020 14:29:48 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=J8g7or+p45zu0XcfRtjGMwmvJZ0niLw3LVDlGZe0vF4=;
+        b=rCfOsLAZmud7KMcnE1pMLDJrH3eUYykQ0QEYvYakXolrJzLf2mLq/DBkWZQglaSmKJ
+         2O8JaeWc/3DOVfrB2emNBMtxBoiygvOYfY3/6dDmdSknSnk5zb+XGIBzXIC9UT8qnrds
+         loT4hOIvjulS+bfPnZgCOOpbyFJhPNmkZ0cTCmBzCqdRD5Hblo2zTTy3rMFyNUzKzSc2
+         p0cCA++nL7iML+A+lup+fNiHHXK7hepgCZKXHdU4YFCjAFZI0+x7mJ2pfkAvkyFgumdv
+         Ab+kFZ2U4YsGEfT0FjeZCz3HpaCbrbgYYs8fC/RKFJVDrbAYSBASijNuwQbHjbDFhINo
+         620w==
+X-Gm-Message-State: AGi0PuYim1CJlaxwdTBGgmtV/a/2a/DjiFG8OVhigWqVOMn8yNHku8s8
+	dvK64j4AxUwWyLC97qGwnIMalg==
+X-Google-Smtp-Source: APiQypJWh2yvfqUha8NjlT2qOD1yfDD1Ksau5RSbh9akkLA1tb24GJr1wZv0lEQz4bTnH+/51sVNeg==
+X-Received: by 2002:a7b:cdfa:: with SMTP id p26mr17715868wmj.186.1587850190949;
+        Sat, 25 Apr 2020 14:29:50 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id h188sm9506417wme.8.2020.04.25.14.29.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Apr 2020 14:29:50 -0700 (PDT)
+Message-ID: <714c9522fe1f5377f019f67cf43ec75eecf6fec0.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v7 00/10] Fix permissions and embed-rotofs
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, Paul
+ Barker <pbarker@konsulko.com>
+Date: Sat, 25 Apr 2020 22:29:49 +0100
+In-Reply-To: <CAPybu_0n37=eUhXtAZiOoxogY6Wyb4N8VLJSQre=RUO7U8ScqQ@mail.gmail.com>
+References: <20200419063539.1467641-1-ricardo@ribalda.com>
+	 <258be2a52105a49413b954df67e61444dc73492e.camel@linuxfoundation.org>
+	 <CAPybu_1XdULtkfUQsjTa=PvuyUECKpNLoFXX95F_+Ly3=fbqBg@mail.gmail.com>
+	 <ebb64c86224b51b49b1d86f864566ecd91696f95.camel@linuxfoundation.org>
+	 <16086D1E57B63D5A.14079@lists.openembedded.org>
+	 <CAPybu_16DsHfqq-Frixoq+ySqCbb2qvGmapZR-UbKGgmT8sJyA@mail.gmail.com>
+	 <d15d1601fdec27b7667dd16f62db13fc9ff475cd.camel@linuxfoundation.org>
+	 <CAPybu_0n37=eUhXtAZiOoxogY6Wyb4N8VLJSQre=RUO7U8ScqQ@mail.gmail.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-References: <20200424133032.7181-1-ricardo@ribalda.com> <CABcZANkfogiK1+DoZ4r4RFr_mNpBySa69o0ZeTrTUvwu6DJRYg@mail.gmail.com>
-In-Reply-To: <CABcZANkfogiK1+DoZ4r4RFr_mNpBySa69o0ZeTrTUvwu6DJRYg@mail.gmail.com>
-From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
-Date: Sat, 25 Apr 2020 23:29:32 +0200
-Message-ID: <CAPybu_1iontd3rYTx52Tqhs3TxVWF0J1nkO5P3LhywxNJJb8_Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] RFC wic: Support .wks files for multiple machines
-To: Christopher Larson <kergoth@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Henrik Andersen <henrik@newtec.dk>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Christopher
+On Sat, 2020-04-25 at 23:25 +0200, Ricardo Ribalda Delgado wrote:
+> I have also been working on the issue, and eventhought I have not
+> been
+> able to replicate locally the bug, the code insspection was pointing
+> to the same direction.
+> My running hypothesis is that the logger keeps writting to the
+> filehandler because nobody has removed it, so the second time we use
+> qemu, the log file is missing and all dies
+> 
+> 
+> Eg: Here I cannot see where the handler is removed
+> https://git.openembedded.org/openembedded-core/tree/meta/lib/oeqa/targetcontrol.py?h=master-next#n122
+> 
+> 
+> Eg: Here I can
+> 
+> https://git.openembedded.org/openembedded-core/tree/meta/lib/oeqa/utils/commands.py#n353
+> 
+> 
+> Unfortunately, as I said, I cannot replicate it, so it is a bit
+> frustrating.
 
-On Fri, Apr 24, 2020 at 5:56 PM Christopher Larson <kergoth@gmail.com> wrote:
->
-> This will only work the way you expect if hte user's local.conf uses ?= or ??= for MACHINE, otherwise setting it in the environment will do nothing.
->
+The line I gave in the last email should reproduce it reliably. The key
+is to have a runqemu session which you then clean the image for
+(devtool does), then a write happens to a directory which no longer
+exists from the logging.
 
-Good catch, You are right :(,
+> Since you can replicate it, could I send you a couple of patches, not
+> to fix it, but to find out if I am on the right direction?
 
-Any idea of how could I fix it. I think I would have to change
-site.conf, or local.conf from wic, and I do not want to do that.
+Since my other email I couldn't resist poking at the code. Locally this
+patch fixed it so its now also running on the autobuilder:
 
-Ignoring this bug we are still covering a big number of usecases:
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=3e7d64adba65559e9b8af42e973c8524988b216a
 
-- bibake
-- wic with user provided rootfs-dir
-- wic without userprovided rootfs-dir and ?= or ??=
+> Can you also publish a git branch somewhere with the current error,
+> so we work on the same codebase?
+> 
+> Or you just prefer to continue on your own?
 
-At the end of the day this is just a RFC ;), so i am open to any
-implementation. I would love to hear your thoughts
+Happy to have help but I'm simply using master-next and with any luck I
+might have found it.
 
-Best regards
+Cheers,
 
-
-
-> On Fri, Apr 24, 2020 at 6:30 AM Ricardo Ribalda <ricardo.ribalda@gmail.com> wrote:
->>
->> If you want to make a disk image containing rootfs for different
->> machines, the only way to do it today is by calling wic and passing the
->> different rootfs-paths.
->>
->> Eg:
->> combined.wks
->> part /export --source rootfs --rootfs-dir=target-image
->> part / --source rootfs
->>
->> bitbake multiconfig:arm:target-image
->> wic create combined --rootfs-dir target-image=/workdir/build/tmp/work/arm-poky-linux/target-image/1.0-r0/rootfs/ -e main
->>
->> This has many drawbacks:
->> 1) You need to know the folder location for the target-image
->> 2) It is easy to forget updating the target (only running wic and not
->>    bitbake)
->> 3) It is slow
->> 4) It does not scale when you have multiple machines
->>
->> Instead, wic can be given a hint of what machine to search for:
->>
->> combined.wks
->> part /export --source rootfs --rootfs-dir=arm:target-image
->> part / --source rootfs
->>
->> bitbake main
->>
->> If we ensoure the dependency of target-image from main via
->> do_image[mcdepends], all the dependencies are automatically
->> handled.
->>
->> This patch makes wic aware of the machine to use.
->>
->> Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
->> ---
->>  scripts/lib/wic/misc.py | 16 +++++++++++++---
->>  1 file changed, 13 insertions(+), 3 deletions(-)
->>
->> diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
->> index 91975ba151..51b43b49aa 100644
->> --- a/scripts/lib/wic/misc.py
->> +++ b/scripts/lib/wic/misc.py
->> @@ -206,7 +206,12 @@ class BitbakeVars(defaultdict):
->>
->>          if image not in self:
->>              if image and self.vars_dir:
->> -                fname = os.path.join(self.vars_dir, image + '.env')
->> +                if image.find(":") != -1:
->> +                    [machine, img] = image.split(":")
->> +                    fname = os.path.join(self.vars_dir, "../../",
->> +                                         machine, "imgdata", img + '.env')
->> +                else:
->> +                    fname = os.path.join(self.vars_dir, image + '.env')
->>                  if os.path.isfile(fname):
->>                      # parse .env file
->>                      with open(fname) as varsfile:
->> @@ -220,11 +225,16 @@ class BitbakeVars(defaultdict):
->>                  # Get bitbake -e output
->>                  cmd = "bitbake -e"
->>                  if image:
->> -                    cmd += " %s" % image
->> +                    if image.find(":") != -1:
->> +                        [machine, img] = image.split(":")
->> +                        cmd = "MACHINE=%s %s" % (machine, cmd)
->> +                    else:
->> +                        img = image
->> +                    cmd += " %s" % img
->>
->>                  log_level = logger.getEffectiveLevel()
->>                  logger.setLevel(logging.INFO)
->> -                ret, lines = _exec_cmd(cmd)
->> +                ret, lines = _exec_cmd(cmd, as_shell=True)
->>                  logger.setLevel(log_level)
->>
->>                  if ret:
->> --
->> 2.26.1
->>
->> 
->
->
->
-> --
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
+Richard
 
 
 
--- 
-Ricardo Ribalda
