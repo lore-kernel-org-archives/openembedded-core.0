@@ -1,145 +1,153 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.1105.1587841252601695891
- for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Apr 2020 12:00:52 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DB8S79TA;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id k1so15653085wrx.4
-        for <openembedded-core@lists.openembedded.org>; Sat, 25 Apr 2020 12:00:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=PTy8il0i2O1CAK5qbE9Kyp6FRy1plhSwvKlOHqCDYog=;
-        b=DB8S79TAYhZBC5liC/65xnY7g5TIvyzNW8xBKcQ7OzOqgq9O4oJfEVi3q1tTeQVvK4
-         POkmsxuro89ESAD5S8KveEpjftpFg2AjQ5hR0ByG74zRzvUW7Xtg0BdQP7GK/KAoQbt/
-         Xj4ohm3zOszw/Ef4QNCs/iIimZcm/dmu/S/1mj4Dd28SbCL16JkU4Qnmw5UTv7kzBrcM
-         CCewv2uc2sJZ/U0YUguy7xRFlS9PPoxBMU8VRI5N+BGIg1K+l1hIgy5Gw/6JfiU+1i5i
-         yVdrXo9Siq606VqSs30HRlWZ6wGNJb19YW+NmUID/U0p7T1KNh4ofJkO3Cf2f4DpDWfV
-         0sfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PTy8il0i2O1CAK5qbE9Kyp6FRy1plhSwvKlOHqCDYog=;
-        b=Fzfz2jyYMvMmtWtZQx6OLPKDuzfSJPpRjJFGEVGcyxZ9wt04tj9wGQvcb+xeQHFzza
-         9NHet+BZwsmiW8TprQUYRany6SAAZiD+gAF8ylmGmpoVYXqLH/TFeQ4fZzB/M7p3urRg
-         ASoYfJz0MEZDq5Kj19jgaEg/TPrubGzaCHLqMMUWSEp6E04+V9bKCfEf0tq5o5a+h4bT
-         sBOPGP5ZiuLrjIY0lMK2IsDI87G4tmitqgQgpcgZpgjorNMenClu7oGP7LNsdrAYKYa4
-         hm1Ws2nRHwlYBRgul0NHwQ4Rpr3VRizRgRhyDv631xoJ9hD8YjAZ8WiFfNYHlBwBZBA4
-         25Pw==
-X-Gm-Message-State: AGi0Pua176ILOJYHQssmhaDzpLE36JhA7KPF8evLa4IvGP9gNZ4zMNNN
-	OTjajn534vIXfo28AXJ6QS5zRADZ
-X-Google-Smtp-Source: APiQypKXRule+97e4YhUCFRaqqmgoAR6GEdjLYdf099twihaCyuWV8bTSu8lev7sdl+yUimLObUNkQ==
-X-Received: by 2002:a5d:420a:: with SMTP id n10mr17526362wrq.235.1587841250890;
-        Sat, 25 Apr 2020 12:00:50 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id n25sm3494135wmk.9.2020.04.25.12.00.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Apr 2020 12:00:50 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Subject: Re: [meta-oe][PATCH] libva: Removed virtual/mesa dependency
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] qemu: enable virglrenderer and glx options subject to 'opengl' DISTRO_FEATURE
-Date: Sat, 25 Apr 2020 21:00:18 +0200
-Message-Id: <39856e11e454bf7c82ec7863f710a0712e57d781.1587841042.git.alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <cover.1587841042.git.alex.kanavin@gmail.com>
-References: <cover.1587841042.git.alex.kanavin@gmail.com>
+From: =?UTF-8?B?QmFydMWCb21pZWogQnVyZHVraWV3aWN6?= <bartlomiej.burdukiewicz@gmail.com>
+X-Originating-Location: Spytkowice, Lesser Poland, PL (83.26.235.191)
+X-Originating-Platform: Linux Chrome 81
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Sat, 25 Apr 2020 12:38:56 -0700
+References: <7de2a86b-e32c-35ae-716d-505845a837b2@gmail.com>
+In-Reply-To: <7de2a86b-e32c-35ae-716d-505845a837b2@gmail.com>
+Message-ID: <28192.1587843536617759309@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="eju6FBWh8sYBnFQ6rUtj"
 
-Note that to actually use accelerated GL passthrough, there are two options
+--eju6FBWh8sYBnFQ6rUtj
+Content-Type: text/plain; charset="utf-8"; markup=markdown
+Content-Transfer-Encoding: quoted-printable
 
-1) a suitable frontend need to be also enabled - gtk+ and SDL both seem to work well.
-Previously I struggled to make SDL work, but now it seems fine.
+On Sat, Apr 25, 2020 at 06:46 AM, Khem Raj wrote:
 
-2) it is also possible to render off-screen with -display egl-headless option,
-and see the output with a VNC viewer (for which, qemu needs to be started
-with a VNC server):
+>
+>=20
+>=20
+> On 4/24/20 8:01 AM, Bart=C5=82omiej Burdukiewicz wrote:
+> > Mesa can be compiled with libva support, in order to avoid recursive
+> > dependency between mesa and libva, virtual/mesa must be removed
+> > from libva recipe.
+> >=20
+> > Signed-off-by: Bart=C5=82omiej Burdukiewicz <bartlomiej.burdukiewicz@g=
+mail.com>
+> > ---
+> >  meta/recipes-graphics/libva/libva_2.6.1.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/recipes-graphics/libva/libva_2.6.1.bb
+> b/meta/recipes-graphics/libva/libva_2.6.1.bb
+> > index 92cea83bc1..c1a441a18b 100644
+> > --- a/meta/recipes-graphics/libva/libva_2.6.1.bb
+> > +++ b/meta/recipes-graphics/libva/libva_2.6.1.bb
+> > @@ -23,7 +23,7 @@ SRC_URI[sha256sum] =3D
+> "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e4862940
+> >
+> >  UPSTREAM_CHECK_URI =3D "https://github.com/intel/libva/releases"
+> >
+> > -DEPENDS =3D "libdrm virtual/mesa"
+> > +DEPENDS =3D "libdrm"
+>=20
+> I am not sure how it will work with non-mesa graphics stacks. Or is it
+> non-issue ?
 
-$ runqemu kvm egl-headless publicvnc
+It looks like libva is designed to work without mesa (or other graphical s=
+tacks), since it's using libdrm to dispatch kernel calls.
+https://en.wikipedia.org/wiki/Direct_Rendering_Manager#/media/File:DRM_arc=
+hitecture.svg
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/lib/oeqa/selftest/cases/runtime_test.py   | 18 ++++++------------
- .../qemu/qemu-system-native_4.2.0.bb           |  4 +++-
- meta/recipes-devtools/qemu/qemu_4.2.0.bb       |  5 ++++-
- 3 files changed, 13 insertions(+), 14 deletions(-)
+There is also ebuild in Gentoo for libva do not depend on mesa (https://da=
+ta.gpo.zugaina.org/gentoo/x11-libs/libva/libva-2.6.1.ebuild) or other graph=
+ical stacks (like nvidia-drivers or etc.).
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 60cb2e01a6..9b87c04e24 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -186,18 +186,14 @@ class TestImage(OESelftestTestCase):
-             self.skipTest('virgl isn\'t working with Opensuse 15.0')
- 
-         qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
--        sdl_packageconfig = get_bb_var('PACKAGECONFIG', 'libsdl2-native')
-+        qemu_distrofeatures = get_bb_var('DISTRO_FEATURES', 'qemu-system-native')
-         features = 'INHERIT += "testimage"\n'
-         if 'gtk+' not in qemu_packageconfig:
-             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"\n'
-         if 'sdl' not in qemu_packageconfig:
-             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " sdl"\n'
--        if 'virglrenderer' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"\n'
--        if 'glx' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " glx"\n'
--        if 'opengl' not in sdl_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-libsdl2-native = " opengl"\n'
-+        if 'opengl' not in qemu_distrofeatures:
-+            features += 'DISTRO_FEATURES_append = " opengl"\n'
-         features += 'TEST_SUITES = "ping ssh virgl"\n'
-         features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-         features += 'IMAGE_INSTALL_append = " kmscube"\n'
-@@ -229,12 +225,10 @@ class TestImage(OESelftestTestCase):
-             dripath = subprocess.check_output("pkg-config --variable=dridriverdir dri", shell=True)
-         except subprocess.CalledProcessError as e:
-             self.skipTest("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
--        qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
-+        qemu_distrofeatures = get_bb_var('DISTRO_FEATURES', 'qemu-system-native')
-         features = 'INHERIT += "testimage"\n'
--        if 'virglrenderer' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"\n'
--        if 'glx' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " glx"\n'
-+        if 'opengl' not in qemu_distrofeatures:
-+            features += 'DISTRO_FEATURES_append = " opengl"\n'
-         features += 'TEST_SUITES = "ping ssh virgl"\n'
-         features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-         features += 'IMAGE_INSTALL_append = " kmscube"\n'
-diff --git a/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-index d83ee59375..7394385d30 100644
---- a/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-@@ -9,7 +9,9 @@ DEPENDS = "glib-2.0-native zlib-native pixman-native qemu-native bison-native"
- 
- EXTRA_OECONF_append = " --target-list=${@get_qemu_system_target_list(d)}"
- 
--PACKAGECONFIG ??= "fdt alsa kvm"
-+PACKAGECONFIG ??= "fdt alsa kvm \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer glx', '' ,d)} \
-+"
- 
- # Handle distros such as CentOS 5 32-bit that do not have kvm support
- PACKAGECONFIG_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
-diff --git a/meta/recipes-devtools/qemu/qemu_4.2.0.bb b/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-index f0c1daabe1..a4018cc448 100644
---- a/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-@@ -21,5 +21,8 @@ do_install_append_class-nativesdk() {
- PACKAGECONFIG ??= " \
-     fdt sdl kvm \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer glx', '' ,d)} \
-+"
-+PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer glx', '' ,d)} \
- "
--PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
--- 
-2.26.1
+I'll provide more information about actual problem that is happening in me=
+ta-kodi and it's related to this patch.
 
+There is append that I created for meta-kodi, that is extending mesa with =
+libva and libvdpau capabilities:=20
+https://github.com/dev-0x7C6/meta-kodi/blob/zeus/recipes-graphics/mesa/mes=
+a_%25.bbappend
+
+And this is current workaround for libva to avoid recursive dependency:
+https://github.com/dev-0x7C6/meta-kodi/blob/zeus/recipes-graphics/libva/li=
+bva_%25.bbappend
+
+>=20
+> >
+> >  inherit meson pkgconfig features_check
+> >
+> >=20
+> >=20
+> >=20
+> >=20
+>=20
+>
+
+--eju6FBWh8sYBnFQ6rUtj
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<p>On Sat, Apr 25, 2020 at 06:46 AM, Khem Raj wrote:</p>
+
+<blockquote>
+<p>On 4/24/20 8:01 AM, Bart=C5=82omiej Burdukiewicz wrote:
+&gt; Mesa can be compiled with libva support, in order to avoid recursive
+&gt; dependency between mesa and libva, virtual/mesa must be removed
+&gt; from libva recipe.
+&gt;
+&gt; Signed-off-by: Bart=C5=82omiej Burdukiewicz <a href=3D"mailto:bartlom=
+iej.burdukiewicz@gmail.com" target=3D"_blank">bartlomiej.burdukiewicz@gmail=
+.com</a>
+&gt; ---
+&gt;  meta/recipes-graphics/libva/libva_2.6.1.bb | 2 +-
+&gt;  1 file changed, 1 insertion(+), 1 deletion(-)
+&gt;
+&gt; diff --git a/meta/recipes-graphics/libva/libva_2.6.1.bb
+b/meta/recipes-graphics/libva/libva_2.6.1.bb
+&gt; index 92cea83bc1..c1a441a18b 100644
+&gt; --- a/meta/recipes-graphics/libva/libva_2.6.1.bb
+&gt; +++ b/meta/recipes-graphics/libva/libva_2.6.1.bb
+&gt; @@ -23,7 +23,7 @@ SRC_URI[sha256sum] =3D
+&quot;6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e4862940
+&gt;
+&gt;  UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://github.com/intel/lib=
+va/releases&quot;" target=3D"_blank">https://github.com/intel/libva/release=
+s&quot;</a>
+&gt;
+&gt; -DEPENDS =3D &quot;libdrm virtual/mesa&quot;
+&gt; +DEPENDS =3D &quot;libdrm&quot;</p>
+
+<p>I am not sure how it will work with non-mesa graphics stacks. Or is it
+non-issue ?</p>
+</blockquote>
+
+<p>It looks like libva is designed to work without mesa (or other graphica=
+l stacks), since it's using libdrm to dispatch kernel calls.
+<a href=3D"https://en.wikipedia.org/wiki/Direct_Rendering_Manager#/media/F=
+ile:DRM_architecture.svg" target=3D"_blank">https://en.wikipedia.org/wiki/D=
+irect_Rendering_Manager#/media/File:DRM_architecture.svg</a></p>
+
+<p>There is also ebuild in Gentoo for libva do not depend on mesa (<a href=
+=
+=3D"https://data.gpo.zugaina.org/gentoo/x11-libs/libva/libva-2.6.1.ebuild"=
+ target=3D"_blank">https://data.gpo.zugaina.org/gentoo/x11-libs/libva/libva=
+-2.6.1.ebuild</a>) or other graphical stacks (like nvidia-drivers or etc.).=
+</p>
+
+<p>I'll provide more information about actual problem that is happening in=
+ meta-kodi and it's related to this patch.</p>
+
+<p>There is append that I created for meta-kodi, that is extending mesa wi=
+th libva and libvdpau capabilities:
+<a href=3D"https://github.com/dev-0x7C6/meta-kodi/blob/zeus/recipes-graphi=
+cs/mesa/mesa_%25.bbappend" target=3D"_blank">https://github.com/dev-0x7C6/m=
+eta-kodi/blob/zeus/recipes-graphics/mesa/mesa_%25.bbappend</a></p>
+
+<p>And this is current workaround for libva to avoid recursive dependency:
+<a href=3D"https://github.com/dev-0x7C6/meta-kodi/blob/zeus/recipes-graphi=
+cs/libva/libva_%25.bbappend" target=3D"_blank">https://github.com/dev-0x7C6=
+/meta-kodi/blob/zeus/recipes-graphics/libva/libva_%25.bbappend</a></p>
+
+<blockquote>
+<blockquote>
+<p>inherit meson pkgconfig features_check</p>
+</blockquote>
+</blockquote>
+
+--eju6FBWh8sYBnFQ6rUtj--
