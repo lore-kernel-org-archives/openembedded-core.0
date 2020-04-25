@@ -1,81 +1,62 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web11.3095.1587803510257375306
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.3412.1587805603374092905
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Apr 2020 01:31:50 -0700
+ Sat, 25 Apr 2020 02:06:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IMuhO5wX;
- spf=pass (domain: gmail.com, ip: 209.85.221.65, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-wr1-f65.google.com with SMTP id s10so14308210wrr.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 25 Apr 2020 01:31:50 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=Wokx1J6E;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=HTSc7FTJ8vSOEnDn/+PGk+R9NhILJ0laUESkihFdPYU=;
-        b=IMuhO5wXw2Re0ewj0YFsg/hcDcarvCWjYMoNXdg7T2Sv1WnMXlqdf5GCbp/smdC4Ut
-         yRIckNnpWFhQ3zdWClsKwVSgn9kkqlFEcSbUDf2j/axw3EtwWOEm+uO3ipU94dZIRaMg
-         0l+WVqSuL/Bq0Z//UEVr0UHCR3ciE9boK73zgpwBejDoLsvajsi8jHtVb2AUDmY4twW+
-         YQ5K2Knuos2CJgN8RixntrqNxSHlTGgveiLgYd7uwvgT5A1zfy+F1GXPcS8dkY2Gwc9W
-         04vZDKjgq8gzgtm+8DpiqY1DMyV+1cjPOVnn6l4S9zU6MXXlEDvcxVoaVdcb7740h+xJ
-         Pgng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=HTSc7FTJ8vSOEnDn/+PGk+R9NhILJ0laUESkihFdPYU=;
-        b=a9e93ma+NTg4HCiSfgs4W6sqRG3bLjboXhoDpWlGwo7Q5XU+GPSYX+1SKz263tvSIv
-         pXUiUA8MuX5qBGlYHOgJ4s29FYkCSFNI5XauHMXuI8/PI4Dhgli9UwoigE36gpvwibBj
-         GjwhYlwzwP9eL7oNDCUo6YoNE/9bIIU+vlOmUFM29H1cqDMbbDa1QFo+61j00IGYdmgF
-         EdaPjUApXkR+ezpzImlfc7jp4GYQCJTx30IyFMRgYFcjmu+gNwa238PAGn4KvIPiCsyd
-         Yuh8gfU8Av4wa21hMaP8DWqPckctWHjykCYP/YhL2vLlbxB+YoZC0PEgs00t3pQwl1gP
-         o53g==
-X-Gm-Message-State: AGi0PubZefb+xGZVA8gmAVlJ7PNRoj49b4voOvBx2qlPSmUjcGjpFzAF
-	aJO+jNsUbaNUbhFpyVp+3BPk8YlG
-X-Google-Smtp-Source: APiQypKEuwWwwc6cSuIl3g+W1FBkgih7kg6YGcvv2Xa+z9cEkyOftFWLg5YY+ZHvJRG8EDhcoJAuCg==
-X-Received: by 2002:adf:d0ca:: with SMTP id z10mr17217942wrh.172.1587803508347;
-        Sat, 25 Apr 2020 01:31:48 -0700 (PDT)
-Return-Path: <alex.kiernan@gmail.com>
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net. [91.135.6.246])
-        by smtp.gmail.com with ESMTPSA id o18sm11446964wrp.23.2020.04.25.01.31.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Apr 2020 01:31:47 -0700 (PDT)
-From: "Alex Kiernan" <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>
-Subject: [OE-Core][PATCH] u-boot: Upgrade 2020.01 -> 2020.04
-Date: Sat, 25 Apr 2020 09:31:42 +0100
-Message-Id: <20200425083142.9150-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
+  d=axis.com; l=849; q=dns/txt; s=axis-central1;
+  t=1587805603; x=1619341603;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=rLotO9v+/fDXEP16E4mQpRG7oX1q2r8NVji0O7YTFxw=;
+  b=Wokx1J6EheKrjr4UrnVLlQEzsl9GDF+f35Hmk/RQTJ/FD7i6kzlP5PvC
+   R8v5tFEk3dUwftyb5JhfLcxHTXMqXmMR+RmtWwicCNdESh/aNzJRXOGVz
+   PORkuQhURZWdZmg6tEEY9ACgcws+v0tcxk90HywumATgBA48jTJIcsgOV
+   +6UpV01UtR4paLJhTr0EnJg07z7ienuX/p5b9AS5PzPDcRJ9kAs75h9nA
+   4hpWsmM960PtJLZodUTgQ45RM0o71XXPtqFTrLECnmVrAEy3EoYDzA9Pb
+   IgUd8aGb9t6EfbTgNeqg6hdyOXbcMRCVvrZ52D/HYI46AJ7N63YzsY5gy
+   g==;
+IronPort-SDR: FV01qocfUWk0PnvB/3SraB/vkXfBiroehFeprjI4HbShzsG+1nR7jydpbwRaM6vR34rkBRsCPh
+ O8ZO9S/uTq8pUXkhoqwGEZy6J5l6jCSSE/2R1C/dnnYOy6DTkzTWhxsuB4/umBACK9SY68IJ/A
+ wV0uYO+HuiaEomsZUciCaPuN3HaTl11IvWNrUsJA2ShwXxhWVOYxjEuseNe0mS27S+VV0WzJNO
+ wqk4pCu29iVLgjo7bQ67N6lbtxRn01uiqJM4jFVj9XFM/0h19U0hqjerpUK/vdb6WTm/VCgKro
+ hFs=
+X-IronPort-AV: E=Sophos;i="5.73,315,1583190000"; 
+   d="scan'208";a="8080503"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] busybox: Correct the name of the bzip2 license
+Date: Sat, 25 Apr 2020 11:06:36 +0200
+Message-ID: <20200425090636.4577-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.1
+MIME-Version: 1.0
+Return-Path: pkj@axis.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+The common bzip2 license was renamed from "bzip2" to "bzip2-1.0.6" in
+commit 669600ef to match the official SPDX identifier.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
+ meta/recipes-core/busybox/busybox.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/recipes-bsp/u-boot/u-boot-common.inc                       | 2 +-
- .../u-boot/{u-boot-tools_2020.01.bb => u-boot-tools_2020.04.bb} | 0
- .../recipes-bsp/u-boot/{u-boot_2020.01.bb => u-boot_2020.04.bb} | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-bsp/u-boot/{u-boot-tools_2020.01.bb => u-boot-tools_2020.04.bb} (100%)
- rename meta/recipes-bsp/u-boot/{u-boot_2020.01.bb => u-boot_2020.04.bb} (100%)
-
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index edd0004792e6..f4790532b4a4 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -12,7 +12,7 @@ PE = "1"
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 344e891f7a..6cfdcd7344 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -7,7 +7,7 @@ DEPENDS += "kern-tools-native virtual/crypt"
  
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "303f8fed261020c1cb7da32dad63b610bf6873dd"
-+SRCREV = "1079ec0a77c3fda510f07860b2549c47f3a46c21"
+ # bzip2 applet in busybox is based on lightly-modified bzip2 source
+ # the GPL is version 2 only
+-LICENSE = "GPLv2 & bzip2"
++LICENSE = "GPLv2 & bzip2-1.0.6"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb"
  
- SRC_URI = "git://git.denx.de/u-boot.git \
-           "
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2020.04.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot-tools_2020.04.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2020.01.bb b/meta/recipes-bsp/u-boot/u-boot_2020.04.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot_2020.01.bb
-rename to meta/recipes-bsp/u-boot/u-boot_2020.04.bb
+ SECTION = "base"
 -- 
-2.17.1
+2.21.1
 
