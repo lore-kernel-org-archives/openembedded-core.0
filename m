@@ -1,125 +1,96 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.3550.1587806218874473805
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com [209.85.166.65])
+ by mx.groups.io with SMTP id smtpd.web11.4267.1587811509965888270
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Apr 2020 02:17:00 -0700
+ Sat, 25 Apr 2020 03:45:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=E3U7zWHE;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Gg4m0Mcm;
+ spf=pass (domain: gmail.com, ip: 209.85.166.65, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f65.google.com with SMTP id p10so13210421ioh.7
+        for <openembedded-core@lists.openembedded.org>; Sat, 25 Apr 2020 03:45:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=2694; q=dns/txt; s=axis-central1;
-  t=1587806219; x=1619342219;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=Nm+lwHf5yAUgeHowWno1iUFDbb+FIEj96ZOc4Q8g0Fs=;
-  b=E3U7zWHE/R+srDUGkXGKpynjNp3keafCc9SyJ8HukNMVuI2I46PmmQFe
-   yJ9e82x07VMFEoY+1/S/N6btrwlf7uZUmGs9bSI0wqaM3woKlURZE2a4t
-   tZe4c3IRhwarA5NitlCpQ9WrGuXz7iybOefCQHKAdulU++ej+amPQR4+1
-   5BADMNXtFDLwtZzhKhL8RxdGAzDHiZpT35GY3FZPimyO/+jKvBswpnQY3
-   hc5jahDWkuIfYGiCCE5E5uqttsPElNhzAWIctJVUiGaOhjQZfS542idw+
-   hoXc8dburY52w9LG1j47DZK1z7nvAvP6yTPf48kqO7IxrQj0m6ZSbcr3S
-   w==;
-IronPort-SDR: nlPWMhU+GWsJ4YsFXu7pQlp65SRH35Hvs0g3mYuPLYOTtjoVuPcNKef+nlM5Wm/js78Qum/4eg
- Fye0/KV301gKslXmUHAaYvWT0O/3Il2QU4teb0FN9R8YK8rlCa6JqUIdnLIx7wA2ZbnE20oBr2
- TwidjP4PbeFjBcHAim820BYZCucFko/U0MaJ1KHf/DsQnseiPCWxoGqtXVBquJS7TpjDfNuaJ9
- zvreTs3A28wKxnRNs1/bYqYLH9Q3Io6a4M/uVgCQ0GJsuKlz3XIhddyy9/fm3WOCMnry+Dby5X
- vaY=
-X-IronPort-AV: E=Sophos;i="5.73,315,1583190000"; 
-   d="scan'208";a="8080680"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid an exception if an empty pkgconfig dir exist
-Thread-Topic: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid an
- exception if an empty pkgconfig dir exist
-Thread-Index: AQHWCdRlzShdKB7XZ0iWsxM6QnpIZqiJsMGQ
-Date: Sat, 25 Apr 2020 09:16:57 +0000
-Message-ID: <5cf7c6a42a4a42959a9ee2ce04ab269c@XBOX03.axis.com>
-References: <20200320180420.32303-1-pkj@axis.com>
- <16025BE698C394B5.19764@lists.openembedded.org>
-In-Reply-To: <16025BE698C394B5.19764@lists.openembedded.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Uop+lM34UIwY5UzR7UJqKGpO6Ypz9xYfBgACKYvtsaw=;
+        b=Gg4m0McmzEK9JldsKXnER8Gln6+gilRmGvd37yTVRs7dPpuPnmvnwY5ZXefCJXgzKr
+         R5/JQo/4j9uIosmweWlD+zYNq5OULTIdcnKJU4Lg5v6lGRpHztNYkuklL0MEiMZH8H7F
+         S/6IlInnCwDw/iDRaGPUWNJ3VuAN7eN2dT58Hl+b/jOVbYcEMzFw6Py2sO7qDp6rTwRX
+         xM+rC04b6yr+wSai2rCydoDAhYX3z9eUS1cElYrLCOKliQpgE9lP1CC6lWG6MS3TsMky
+         mvmLYOvWGr+OQt0DnpXSQKCnaykwxesyT3ucpXKkqvAJYkDe3v/6aPgsDIYNj8vraANa
+         bLbA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Uop+lM34UIwY5UzR7UJqKGpO6Ypz9xYfBgACKYvtsaw=;
+        b=Fh7hqFPnX136Cnkm90/W4T2rCwouObIbwPmN5qwjaV+tecKNIlMIIVz7n/b9luRvZC
+         dUsT8CuVh0R/YY8SmD5FndTNbmFARcdd4eQaCfpmWQ19/V54ym4lRFKSLnrKifeGnQra
+         J6C/LJIbolmZ9OV7y6k/Ut8cp64HFmiQAUmLPa1OmmhcNv+gs3XChFpeU8YyUSj3zxfU
+         peBAudS6pb/EvfydTgX52xbHjy4HPjUxz0knmvsXonrZQAeuFgEAbIvJLbOIB0eAop1U
+         H2pZdgANFFMeY9DO1xHxhUqAXgIYosKqCm5lX8UlxKQGru0KE/iU9aXvaU0wzWIwpcRi
+         F1IQ==
+X-Gm-Message-State: AGi0Pua2GuSj4PfMtwJ2ywlAaci4pOeyD/kEnXDIKNebUiw+cek2CALr
+	ci6J5fygYUxTCFw0p7AeFOoMz3Jo6pVTbuAx+4A=
+X-Google-Smtp-Source: APiQypJO72j4bOOBeU6RqZWY6En38qL1PpeSAFkLE78n35cJiUxkal0bylUXUdlM2cKZiW/QTRzMvtBeWh9GR+H90wo=
+X-Received: by 2002:a6b:f20f:: with SMTP id q15mr13017683ioh.48.1587811509338;
+ Sat, 25 Apr 2020 03:45:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+References: <20200422135211.121292-1-alex.kiernan@gmail.com>
+ <CAJ86T=W+CmGCZF_ej+na_tzAddNP69XJPE5MZTGFF2HjRqfGtQ@mail.gmail.com>
+ <CAO5Uq5RXQn+Q0NmVD0nWAYxp3YMs8TFKiDLudCHzUFD6LHcc5Q@mail.gmail.com>
+ <CAJ86T=W1jP=eMiJmcQLYfKamsD3v2+ycbS8Q3V-iEc+HVDT=Gw@mail.gmail.com> <e2745c5f-8856-56f5-3fa0-84a89fd26216@gmail.com>
+In-Reply-To: <e2745c5f-8856-56f5-3fa0-84a89fd26216@gmail.com>
+From: "Alex Kiernan" <alex.kiernan@gmail.com>
+Date: Sat, 25 Apr 2020 11:44:58 +0100
+Message-ID: <CAO5Uq5S8cxQJJGetX=2ndAi_XWoi81DZ3hy_A9JL-mYQpgFuqw@mail.gmail.com>
+Subject: Re: [OE-Core][PATCH 1/6] openssh: Move sshdgenkeys.service to sshd.socket
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Andre McCurdy <armccurdy@gmail.com>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-*ping again*
+On Sat, Apr 25, 2020 at 2:43 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+>
+>
+> On 4/23/20 10:14 AM, Andre McCurdy wrote:
+> > On Thu, Apr 23, 2020 at 1:30 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> >> On Wed, Apr 22, 2020 at 7:48 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+> >>> On Wed, Apr 22, 2020 at 6:52 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> >>>>
+> >>>> sshd.socket launches the templated sshd@.service, so by moving the
+> >>>> sshdgenkeys.service to sshd.socket, key generation can start in advance
+> >>>> of a connection.
+> >>>
+> >>> Is deferring key generation until the first connection a bug or by design?
+> >>
+> >> If you've installed it, presumably you're expecting connections. But I
+> >> agree you could argue it either way.
+> >
+> > The trade off is between slower first boot (or every boot for
+> > read-only rootfs if host keys are not persistent) -vs- slower first
+> > incoming ssh connection.
+> >
+> > Since the first incoming ssh connection may never happen (especially
+> > if ssh is only used for debugging or development), optimising it at
+> > the expense of boot time doesn't seem to be an obvious improvement.
+> >
+>
+> I tend to agree. Perhaps it could be covered under read-only-rootfs
+> DISTRO_FEATURE
+>
 
-//Peter
+I just ran both through systemd-analyze. For qemuarm, this adds 5s to
+the total boot time, but graphical.target is reached in the same time.
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 3 april 2020 18:24
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid
-> an exception if an empty pkgconfig dir exist
->=20
-> *ping*
->=20
-> //Peter
->=20
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-
-> > bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > Sent: den 20 mars 2020 19:04
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid an
-> > exception if an empty pkgconfig dir exist
-> >
-> > Rewrite relocatable_native_pcfiles() so that it can handle that any of
-> > the checked pkgconfig directories are empty without causing an
-> > exception.
-> >
-> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > ---
-> >  meta/classes/relocatable.bbclass | 20 +++++++++++---------
-> >  1 file changed, 11 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/meta/classes/relocatable.bbclass
-> b/meta/classes/relocatable.bbclass
-> > index 582812c1cf..af04be5cca 100644
-> > --- a/meta/classes/relocatable.bbclass
-> > +++ b/meta/classes/relocatable.bbclass
-> > @@ -6,13 +6,15 @@ python relocatable_binaries_preprocess() {
-> >      rpath_replace(d.expand('${SYSROOT_DESTDIR}'), d)
-> >  }
-> >
-> > -relocatable_native_pcfiles () {
-> > -	if [ -d ${SYSROOT_DESTDIR}${libdir}/pkgconfig ]; then
-> > -		rel=3D${@os.path.relpath(d.getVar('base_prefix'),
-> d.getVar('libdir') + "/pkgconfig")}
-> > -		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g"
-> ${SYSROOT_DESTDIR}${libdir}/pkgconfig/*.pc
-> > -	fi
-> > -	if [ -d ${SYSROOT_DESTDIR}${datadir}/pkgconfig ]; then
-> > -		rel=3D${@os.path.relpath(d.getVar('base_prefix'),
-> d.getVar('datadir') + "/pkgconfig")}
-> > -		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g"
-> ${SYSROOT_DESTDIR}${datadir}/pkgconfig/*.pc
-> > -	fi
-> > +relocatable_native_pcfiles() {
-> > +	for dir in ${libdir}/pkgconfig ${datadir}/pkgconfig; do
-> > +		files_template=3D${SYSROOT_DESTDIR}$dir/*.pc
-> > +		# Expand to any files matching $files_template
-> > +		files=3D$(echo $files_template)
-> > +		# $files_template and $files will differ if any
-> files were found
-> > +		if [ "$files_template" !=3D "$files" ]; then
-> > +			rel=3D$(realpath -m --relative-to=3D$dir
-> ${base_prefix})
-> > +			sed -i -e
-> "s:${base_prefix}:\${pcfiledir}/$rel:g" $files
-> > +		fi
-> > +	done
-> >  }
-> > --
-> > 2.21.1
->=20
-> //Peter
+Clearly you can cut this one both ways - I don't have a specific
+problem this fixes, it was more an annoyance (for me).
 
+> >
+> > 
+> >
+>
+
+
+-- 
+Alex Kiernan
