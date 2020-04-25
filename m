@@ -1,277 +1,166 @@
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
- by mx.groups.io with SMTP id smtpd.web10.8558.1587743778785110676
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
+ by mx.groups.io with SMTP id smtpd.web11.6.1587779009517922690
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2020 08:56:19 -0700
+ Fri, 24 Apr 2020 18:43:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=nEuGczV5;
- spf=pass (domain: gmail.com, ip: 209.85.208.68, mailfrom: kergoth@gmail.com)
-Received: by mail-ed1-f68.google.com with SMTP id s10so7609459edy.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2020 08:56:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Fhseu/Vq;
+ spf=pass (domain: gmail.com, ip: 209.85.216.67, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f67.google.com with SMTP id ms17so4635254pjb.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2020 18:43:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=BzRikAvrFeePK8fd33l/SmXdpbEvoEiamwRYcE/nuTg=;
-        b=nEuGczV5KVHhOKgoN9ElABKzLOPO8l3HtmUlYdyGd7GiCiMZ3hDsCNSLVI7lkJzfE7
-         Gst1hkMPJs3PLj7YJu6XlKa1tlhBuMDU+A+czTiz1frMz1WzejzJQuRk49EeZzaWBQlB
-         syxnkzAqUUY6B9L/7yRo0lxvPK/oq/Ax1bAcCZEf7DyWKd3umpvTy2+JStpvkpjKOKsq
-         N6vaJN/ZweisKptY1x4ci0ttZsjmHRTJjR9D1X82djN1JHq1ok+82do2WuK5EkF/bGRu
-         jKbt0m2sUS32UCYAhRaZMVoAknahM2JUfnJPOrieZ0EQcckE8xr86P6m3r1nGzVgPfJX
-         F0zA==
+        h=subject:to:cc:references:from:autocrypt:organization:message-id
+         :date:user-agent:mime-version:in-reply-to;
+        bh=xiWmjcq1bO7FiV06wpCVt16l+Smvf7ExkFB6tq8xTIQ=;
+        b=Fhseu/VqETkP+Edj0WtVJeYBGZ1ePVg9UKGKY5/TpIM+krdljqoHsv0d6+Swj58RAz
+         udhVhc/LLBTtGADcEa41vZUSSH1BRk6yP/SfN3Tz1MACCuzHtsCrbjz9zKlB0O7u+DnB
+         frYG2YvoR5OXEQfWYQat4qPmw1K0WDH/T4xXOpHzHrwnhEwdgPezY3brB1gOClEhFtYh
+         3kpK/d0PJcn9t1aas2DvuVNt2zW/s/Ak+k+9/2zCCN7g2kFT4YFSyf5um1dPI1jepbwi
+         IsWfJfoX3iyxVZi0It7QIL0GfrQis4wvnVjEOHNNXQz6nvK7O+Biu2LnLFcrmq3g/Jr/
+         pNkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=BzRikAvrFeePK8fd33l/SmXdpbEvoEiamwRYcE/nuTg=;
-        b=qFzn3lZqItn1QcjUJEtJ6QV2ygHAHilnqprxUxuHBOKvSdiW/t2QqhyK8ccn80nXxW
-         4wQTil32le7VMK+YJ55ZhQRlX2M7OfbA6psSfkxUdc537M3Gzf0gFurDrgIvYFO3PIC9
-         t2enSN/qYhicpx2Jc6x2I41oJFyBhUxTnrG2DLSb2f+LPXC8N3BX9H8b0nNjlYp0DUwM
-         HUA9e+t4jtXTAjZbll7JkZXDQbC3RrmMkdRiZaudVeUY0u3FVcBy5Lu20/rMtSwWSXds
-         sBfvjqNP6l5XdDf9TOPUrlG/3oM3msthOUcUe7dcV9WB8XRiGEzS85VF/kH4nexl4k9t
-         3wmg==
-X-Gm-Message-State: AGi0PuZYjmJJ9JEyFtXwGF0J5IUbkIOlXa5UNvu2ZYbeqzNcchg1CrZg
-	b8SMByxBGdzGrvmnRm5sFHuO3bZ/PVQGqKcYB+k=
-X-Google-Smtp-Source: APiQypLj/4xPmQsuqH/ijU40dPw7olbkG6mRUzhsku90dw0naznSPgp2Sr3vRBaV29ruLNyPX8BRzqeXH/3xnFg8p2g=
-X-Received: by 2002:aa7:cc88:: with SMTP id p8mr7899069edt.387.1587743777293;
- Fri, 24 Apr 2020 08:56:17 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to;
+        bh=xiWmjcq1bO7FiV06wpCVt16l+Smvf7ExkFB6tq8xTIQ=;
+        b=TLi3y+137MRr7ytZipScBquSMc9bric87xk+1b9Xrr1KUkz3GOF4enNyOWvolHIlWD
+         324eKAVIcPoLOKEabh3lEpPIt48MRVjbyy6aQjlsVV/ibfUIvYWlSHCR3W1QxERP/xHe
+         D3TkqV/MtvVFMGAOukTeCGRLHh/8JxEBE96mspLpppJaDXXVBjIf1QD5F40/OKcWdivR
+         pTcIdJCa6pigWEciiMjyJJlyEy8Xq2NHNNIFNaghI3hvVkjeWf7P6rQLdTOL+c6Rj6sq
+         jqpvNgpI16l3sohdtbGEj/ZcPX5wakttxl1YK51kJeSkXQl8vxhavZmTL1OfoZIQc92N
+         6xfQ==
+X-Gm-Message-State: AGi0Pubi6z8xSJNUs/BD/eGbt3n51pd7Cl0ECbm8tpMcRY5Pez3xRNMu
+	xpX6XlryZ2n+tH7v4nUT9hN66SKi8Ek=
+X-Google-Smtp-Source: APiQypJe4VbMM0jnsJscHt/Xm6Tk3gDYs7oVMrHrr4gMJ4QhxDffTjS3V8ZHSJojFfhX3Uj4eIW6zQ==
+X-Received: by 2002:a17:902:bc8c:: with SMTP id bb12mr11595746plb.142.1587779008649;
+        Fri, 24 Apr 2020 18:43:28 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0::ac76? ([2601:646:9200:4e0::ac76])
+        by smtp.gmail.com with ESMTPSA id c10sm5988921pgh.48.2020.04.24.18.43.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Apr 2020 18:43:27 -0700 (PDT)
+Subject: Re: [OE-Core][PATCH 1/6] openssh: Move sshdgenkeys.service to sshd.socket
+To: Andre McCurdy <armccurdy@gmail.com>, Alex Kiernan <alex.kiernan@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+References: <20200422135211.121292-1-alex.kiernan@gmail.com>
+ <CAJ86T=W+CmGCZF_ej+na_tzAddNP69XJPE5MZTGFF2HjRqfGtQ@mail.gmail.com>
+ <CAO5Uq5RXQn+Q0NmVD0nWAYxp3YMs8TFKiDLudCHzUFD6LHcc5Q@mail.gmail.com>
+ <CAJ86T=W1jP=eMiJmcQLYfKamsD3v2+ycbS8Q3V-iEc+HVDT=Gw@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Autocrypt: addr=raj.khem@gmail.com; keydata=
+ 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
+Organization: HIMVIS LLC
+Message-ID: <e2745c5f-8856-56f5-3fa0-84a89fd26216@gmail.com>
+Date: Fri, 24 Apr 2020 18:43:22 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200424133032.7181-1-ricardo@ribalda.com>
-In-Reply-To: <20200424133032.7181-1-ricardo@ribalda.com>
-From: "Christopher Larson" <kergoth@gmail.com>
-Date: Fri, 24 Apr 2020 08:56:06 -0700
-Message-ID: <CABcZANkfogiK1+DoZ4r4RFr_mNpBySa69o0ZeTrTUvwu6DJRYg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] RFC wic: Support .wks files for multiple machines
-To: Ricardo Ribalda <ricardo.ribalda@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, henrik@newtec.dk, 
-	Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Content-Type: multipart/alternative; boundary="000000000000d7096205a40b6749"
+In-Reply-To: <CAJ86T=W1jP=eMiJmcQLYfKamsD3v2+ycbS8Q3V-iEc+HVDT=Gw@mail.gmail.com>
+X-Groupsio-MsgNum: 137453
+Content-Type: multipart/signed; micalg=pgp-sha1;
+ protocol="application/pgp-signature";
+ boundary="NAEgSQJwZosUhRBxgwacFRiN3kZW6VpYb"
 
---000000000000d7096205a40b6749
-Content-Type: text/plain; charset="UTF-8"
+--NAEgSQJwZosUhRBxgwacFRiN3kZW6VpYb
+Content-Type: multipart/mixed; boundary="YvSXXkC1OQGePsi2eYXDO4HqHagWiHazZ";
+ protected-headers="v1"
+From: Khem Raj <raj.khem@gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>, Alex Kiernan <alex.kiernan@gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <e2745c5f-8856-56f5-3fa0-84a89fd26216@gmail.com>
+Subject: Re: [OE-Core][PATCH 1/6] openssh: Move sshdgenkeys.service to
+ sshd.socket
+References: <20200422135211.121292-1-alex.kiernan@gmail.com>
+ <CAJ86T=W+CmGCZF_ej+na_tzAddNP69XJPE5MZTGFF2HjRqfGtQ@mail.gmail.com>
+ <CAO5Uq5RXQn+Q0NmVD0nWAYxp3YMs8TFKiDLudCHzUFD6LHcc5Q@mail.gmail.com>
+ <CAJ86T=W1jP=eMiJmcQLYfKamsD3v2+ycbS8Q3V-iEc+HVDT=Gw@mail.gmail.com>
+In-Reply-To: <CAJ86T=W1jP=eMiJmcQLYfKamsD3v2+ycbS8Q3V-iEc+HVDT=Gw@mail.gmail.com>
 
-This will only work the way you expect if hte user's local.conf uses ?= or
-??= for MACHINE, otherwise setting it in the environment will do nothing.
-
-On Fri, Apr 24, 2020 at 6:30 AM Ricardo Ribalda <ricardo.ribalda@gmail.com>
-wrote:
-
-> If you want to make a disk image containing rootfs for different
-> machines, the only way to do it today is by calling wic and passing the
-> different rootfs-paths.
->
-> Eg:
-> combined.wks
-> part /export --source rootfs --rootfs-dir=target-image
-> part / --source rootfs
->
-> bitbake multiconfig:arm:target-image
-> wic create combined --rootfs-dir
-> target-image=/workdir/build/tmp/work/arm-poky-linux/target-image/1.0-r0/rootfs/
-> -e main
->
-> This has many drawbacks:
-> 1) You need to know the folder location for the target-image
-> 2) It is easy to forget updating the target (only running wic and not
->    bitbake)
-> 3) It is slow
-> 4) It does not scale when you have multiple machines
->
-> Instead, wic can be given a hint of what machine to search for:
->
-> combined.wks
-> part /export --source rootfs --rootfs-dir=arm:target-image
-> part / --source rootfs
->
-> bitbake main
->
-> If we ensoure the dependency of target-image from main via
-> do_image[mcdepends], all the dependencies are automatically
-> handled.
->
-> This patch makes wic aware of the machine to use.
->
-> Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> ---
->  scripts/lib/wic/misc.py | 16 +++++++++++++---
->  1 file changed, 13 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py
-> index 91975ba151..51b43b49aa 100644
-> --- a/scripts/lib/wic/misc.py
-> +++ b/scripts/lib/wic/misc.py
-> @@ -206,7 +206,12 @@ class BitbakeVars(defaultdict):
->
->          if image not in self:
->              if image and self.vars_dir:
-> -                fname = os.path.join(self.vars_dir, image + '.env')
-> +                if image.find(":") != -1:
-> +                    [machine, img] = image.split(":")
-> +                    fname = os.path.join(self.vars_dir, "../../",
-> +                                         machine, "imgdata", img + '.env')
-> +                else:
-> +                    fname = os.path.join(self.vars_dir, image + '.env')
->                  if os.path.isfile(fname):
->                      # parse .env file
->                      with open(fname) as varsfile:
-> @@ -220,11 +225,16 @@ class BitbakeVars(defaultdict):
->                  # Get bitbake -e output
->                  cmd = "bitbake -e"
->                  if image:
-> -                    cmd += " %s" % image
-> +                    if image.find(":") != -1:
-> +                        [machine, img] = image.split(":")
-> +                        cmd = "MACHINE=%s %s" % (machine, cmd)
-> +                    else:
-> +                        img = image
-> +                    cmd += " %s" % img
->
->                  log_level = logger.getEffectiveLevel()
->                  logger.setLevel(logging.INFO)
-> -                ret, lines = _exec_cmd(cmd)
-> +                ret, lines = _exec_cmd(cmd, as_shell=True)
->                  logger.setLevel(log_level)
->
->                  if ret:
-> --
-> 2.26.1
->
-> 
->
-
-
--- 
-Christopher Larson
-kergoth at gmail dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Senior Software Engineer, Mentor Graphics
-
---000000000000d7096205a40b6749
-Content-Type: text/html; charset="UTF-8"
+--YvSXXkC1OQGePsi2eYXDO4HqHagWiHazZ
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">This will only work the way you expect if hte user&#39;s l=
-ocal.conf uses ?=3D or ??=3D for MACHINE, otherwise setting it in the envir=
-onment will do nothing.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Fri, Apr 24, 2020 at 6:30 AM Ricardo Ribalda &lt;=
-<a href=3D"mailto:ricardo.ribalda@gmail.com">ricardo.ribalda@gmail.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">If yo=
-u want to make a disk image containing rootfs for different<br>
-machines, the only way to do it today is by calling wic and passing the<br=
->
-different rootfs-paths.<br>
-<br>
-Eg:<br>
-combined.wks<br>
-part /export --source rootfs --rootfs-dir=3Dtarget-image<br>
-part / --source rootfs<br>
-<br>
-bitbake multiconfig:arm:target-image<br>
-wic create combined --rootfs-dir target-image=3D/workdir/build/tmp/work/ar=
-m-poky-linux/target-image/1.0-r0/rootfs/ -e main<br>
-<br>
-This has many drawbacks:<br>
-1) You need to know the folder location for the target-image<br>
-2) It is easy to forget updating the target (only running wic and not<br>
-=C2=A0 =C2=A0bitbake)<br>
-3) It is slow<br>
-4) It does not scale when you have multiple machines<br>
-<br>
-Instead, wic can be given a hint of what machine to search for:<br>
-<br>
-combined.wks<br>
-part /export --source rootfs --rootfs-dir=3Darm:target-image<br>
-part / --source rootfs<br>
-<br>
-bitbake main<br>
-<br>
-If we ensoure the dependency of target-image from main via<br>
-do_image[mcdepends], all the dependencies are automatically<br>
-handled.<br>
-<br>
-This patch makes wic aware of the machine to use.<br>
-<br>
-Signed-off-by: Ricardo Ribalda Delgado &lt;<a href=3D"mailto:ricardo@ribal=
-da.com" target=3D"_blank">ricardo@ribalda.com</a>&gt;<br>
----<br>
-=C2=A0scripts/lib/wic/misc.py | 16 +++++++++++++---<br>
-=C2=A01 file changed, 13 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/scripts/lib/wic/misc.py b/scripts/lib/wic/misc.py<br>
-index 91975ba151..51b43b49aa 100644<br>
---- a/scripts/lib/wic/misc.py<br>
-+++ b/scripts/lib/wic/misc.py<br>
-@@ -206,7 +206,12 @@ class BitbakeVars(defaultdict):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if image not in self:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if image and self.vars_dir=
-:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fname =3D os.path=
-.join(self.vars_dir, image + &#39;.env&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if image.find(&qu=
-ot;:&quot;) !=3D -1:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [ma=
-chine, img] =3D image.split(&quot;:&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fna=
-me =3D os.path.join(self.vars_dir, &quot;../../&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0m=
-achine, &quot;imgdata&quot;, img + &#39;.env&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fna=
-me =3D os.path.join(self.vars_dir, image + &#39;.env&#39;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.i=
-sfile(fname):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0# parse .env file<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0with open(fname) as varsfile:<br>
-@@ -220,11 +225,16 @@ class BitbakeVars(defaultdict):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Get bitbak=
-e -e output<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd =3D &quo=
-t;bitbake -e&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if image:<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd=
- +=3D &quot; %s&quot; % image<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if =
-image.find(&quot;:&quot;) !=3D -1:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 [machine, img] =3D image.split(&quot;:&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 cmd =3D &quot;MACHINE=3D%s %s&quot; % (machine, cmd)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 els=
-e:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 img =3D image<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd=
- +=3D &quot; %s&quot; % img<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0log_level =
-=3D logger.getEffectiveLevel()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logger.setLe=
-vel(logging.INFO)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret, lines =3D _e=
-xec_cmd(cmd)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ret, lines =3D _e=
-xec_cmd(cmd, as_shell=3DTrue)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logger.setLe=
-vel(log_level)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ret:<br>
--- <br>
-2.26.1<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-" class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr">Christop=
-her Larson<br>kergoth at gmail dot com<br>Founder - BitBake, OpenEmbedded, =
-OpenZaurus<br>Senior Software Engineer, Mentor Graphics</div></div></div></=
-div>
 
---000000000000d7096205a40b6749--
+
+On 4/23/20 10:14 AM, Andre McCurdy wrote:
+> On Thu, Apr 23, 2020 at 1:30 AM Alex Kiernan <alex.kiernan@gmail.com> wr=
+ote:
+>> On Wed, Apr 22, 2020 at 7:48 PM Andre McCurdy <armccurdy@gmail.com> wro=
+te:
+>>> On Wed, Apr 22, 2020 at 6:52 AM Alex Kiernan <alex.kiernan@gmail.com> =
+wrote:
+>>>>
+>>>> sshd.socket launches the templated sshd@.service, so by moving the
+>>>> sshdgenkeys.service to sshd.socket, key generation can start in advan=
+ce
+>>>> of a connection.
+>>>
+>>> Is deferring key generation until the first connection a bug or by des=
+ign?
+>>
+>> If you've installed it, presumably you're expecting connections. But I
+>> agree you could argue it either way.
+>=20
+> The trade off is between slower first boot (or every boot for
+> read-only rootfs if host keys are not persistent) -vs- slower first
+> incoming ssh connection.
+>=20
+> Since the first incoming ssh connection may never happen (especially
+> if ssh is only used for debugging or development), optimising it at
+> the expense of boot time doesn't seem to be an obvious improvement.
+>=20
+
+I tend to agree. Perhaps it could be covered under read-only-rootfs
+DISTRO_FEATURE
+
+>=20
+>=20
+>=20
+
+
+--YvSXXkC1OQGePsi2eYXDO4HqHagWiHazZ--
+
+--NAEgSQJwZosUhRBxgwacFRiN3kZW6VpYb
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXqOVugAKCRC7BTNVkZ0z
+FHCLAJ9Obf5WUrD7CvG49NdxAu5XiQFpcgCgj3YJ0lv2AZQW+Q9q68HuVMaoa2s=
+=rwG8
+-----END PGP SIGNATURE-----
+
+--NAEgSQJwZosUhRBxgwacFRiN3kZW6VpYb--
