@@ -1,51 +1,49 @@
-Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
- by mx.groups.io with SMTP id smtpd.web11.6.1587779009517922690
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+ by mx.groups.io with SMTP id smtpd.web10.183.1587779562320080036
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2020 18:43:29 -0700
+ Fri, 24 Apr 2020 18:52:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Fhseu/Vq;
- spf=pass (domain: gmail.com, ip: 209.85.216.67, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f67.google.com with SMTP id ms17so4635254pjb.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2020 18:43:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Rd1Hrty3;
+ spf=pass (domain: gmail.com, ip: 209.85.210.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f195.google.com with SMTP id 145so5671771pfw.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2020 18:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:autocrypt:organization:message-id
          :date:user-agent:mime-version:in-reply-to;
-        bh=xiWmjcq1bO7FiV06wpCVt16l+Smvf7ExkFB6tq8xTIQ=;
-        b=Fhseu/VqETkP+Edj0WtVJeYBGZ1ePVg9UKGKY5/TpIM+krdljqoHsv0d6+Swj58RAz
-         udhVhc/LLBTtGADcEa41vZUSSH1BRk6yP/SfN3Tz1MACCuzHtsCrbjz9zKlB0O7u+DnB
-         frYG2YvoR5OXEQfWYQat4qPmw1K0WDH/T4xXOpHzHrwnhEwdgPezY3brB1gOClEhFtYh
-         3kpK/d0PJcn9t1aas2DvuVNt2zW/s/Ak+k+9/2zCCN7g2kFT4YFSyf5um1dPI1jepbwi
-         IsWfJfoX3iyxVZi0It7QIL0GfrQis4wvnVjEOHNNXQz6nvK7O+Biu2LnLFcrmq3g/Jr/
-         pNkQ==
+        bh=pfCxl+Zya8vqKHKSzKwPaYzrzrjj/dfipbwLpJggxq8=;
+        b=Rd1Hrty3vlNS2+MChtMtJYCGtmOAyeNbIfYeHiN4UBbFO8Qn5C3ZIvEUekqNVWWrWR
+         mPsfidypInH3GJf1XclNhTDzmEpJqjttnWzJiiVDdp3SASCGXBye0eOINCipFG4L6ZK+
+         CWnGq418FRd783cCFrhzgDE1YfQ+0UB59FGt0fltHGZKlwDsCiDY21XsHXU9Q07unp84
+         JNhF458fMfpmaWMwIxXsqFmSbfPYwTluz8x+c2NuJds0MFU6efQ9FwvkXEHTXJFDTZA3
+         qCbnOKwJHy8cGXsmqRN5iXndvsYHqByrgfuyey6RvGazxq7PH+I2wEy0zHn9kgcNbW9X
+         al3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :organization:message-id:date:user-agent:mime-version:in-reply-to;
-        bh=xiWmjcq1bO7FiV06wpCVt16l+Smvf7ExkFB6tq8xTIQ=;
-        b=TLi3y+137MRr7ytZipScBquSMc9bric87xk+1b9Xrr1KUkz3GOF4enNyOWvolHIlWD
-         324eKAVIcPoLOKEabh3lEpPIt48MRVjbyy6aQjlsVV/ibfUIvYWlSHCR3W1QxERP/xHe
-         D3TkqV/MtvVFMGAOukTeCGRLHh/8JxEBE96mspLpppJaDXXVBjIf1QD5F40/OKcWdivR
-         pTcIdJCa6pigWEciiMjyJJlyEy8Xq2NHNNIFNaghI3hvVkjeWf7P6rQLdTOL+c6Rj6sq
-         jqpvNgpI16l3sohdtbGEj/ZcPX5wakttxl1YK51kJeSkXQl8vxhavZmTL1OfoZIQc92N
-         6xfQ==
-X-Gm-Message-State: AGi0Pubi6z8xSJNUs/BD/eGbt3n51pd7Cl0ECbm8tpMcRY5Pez3xRNMu
-	xpX6XlryZ2n+tH7v4nUT9hN66SKi8Ek=
-X-Google-Smtp-Source: APiQypJe4VbMM0jnsJscHt/Xm6Tk3gDYs7oVMrHrr4gMJ4QhxDffTjS3V8ZHSJojFfhX3Uj4eIW6zQ==
-X-Received: by 2002:a17:902:bc8c:: with SMTP id bb12mr11595746plb.142.1587779008649;
-        Fri, 24 Apr 2020 18:43:28 -0700 (PDT)
+        bh=pfCxl+Zya8vqKHKSzKwPaYzrzrjj/dfipbwLpJggxq8=;
+        b=N8hnPUonQ7IlJgaeTMtGTWCQqITDrfRpn5ixEXhaViHeFXtbu2ALKkDp67OA8WAjDB
+         Rd6ABMT3SXzH/fZgdSKoE3WkqbkWjoUh1PKEbnPCyxVYkeVd0hdr6f2iIaplEmvn71oP
+         ACczDgwG6QRuZ/sYzfqp7EzZmnz3B+/PPHx1CTJj8OVwLd2BO36kwGBJVHNFZ9/DtJEW
+         wR4J00Xr8QJq5cC87ByiBqhYMmrslEeuktYIOeeXGyTgfVH/s1i/xZREWdXv2pE9GMv1
+         NGtNDxqKnqN+AGptLWInj2S0uHqNRIpxqidFWPZ4iCj8d9rMYzaULK/mIZy3Rxx17uIZ
+         RSoA==
+X-Gm-Message-State: AGi0PuYneF0eGp13JulqJLWeCQp9PbLAO6jbV6hQuDDBfmBsEBS3GSj0
+	wqqQ1upW/Zm8j2BI37tXU1w=
+X-Google-Smtp-Source: APiQypIgEFwkXaF90w4jNdhnG374ibFoHdEu6SeGkFfwlbSELb8NUqmbpvFFvVRHpzFvYN7efz0zdA==
+X-Received: by 2002:aa7:81d1:: with SMTP id c17mr11623250pfn.58.1587779561644;
+        Fri, 24 Apr 2020 18:52:41 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::ac76? ([2601:646:9200:4e0::ac76])
-        by smtp.gmail.com with ESMTPSA id c10sm5988921pgh.48.2020.04.24.18.43.27
+        by smtp.gmail.com with ESMTPSA id q63sm6782480pfb.178.2020.04.24.18.52.40
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Apr 2020 18:43:27 -0700 (PDT)
-Subject: Re: [OE-Core][PATCH 1/6] openssh: Move sshdgenkeys.service to sshd.socket
-To: Andre McCurdy <armccurdy@gmail.com>, Alex Kiernan <alex.kiernan@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-References: <20200422135211.121292-1-alex.kiernan@gmail.com>
- <CAJ86T=W+CmGCZF_ej+na_tzAddNP69XJPE5MZTGFF2HjRqfGtQ@mail.gmail.com>
- <CAO5Uq5RXQn+Q0NmVD0nWAYxp3YMs8TFKiDLudCHzUFD6LHcc5Q@mail.gmail.com>
- <CAJ86T=W1jP=eMiJmcQLYfKamsD3v2+ycbS8Q3V-iEc+HVDT=Gw@mail.gmail.com>
+        Fri, 24 Apr 2020 18:52:41 -0700 (PDT)
+Subject: Re: [oe-core][PATCH 1/1] re2c: advance to version 1.3
+To: Joe Slater <joe.slater@windriver.com>,
+ openembedded-core@lists.openembedded.org
+Cc: randy.macleod@windriver.com
+References: <20200423194301.24424-1-joe.slater@windriver.com>
 From: "Khem Raj" <raj.khem@gmail.com>
 Autocrypt: addr=raj.khem@gmail.com; keydata=
  mQGiBEqXaJERBACUvFofpD3FsxD9675wcPv+rzguIfsRWilrrpSZ61JHjLHwkUnmDLpLSdfv
@@ -80,87 +78,187 @@ Autocrypt: addr=raj.khem@gmail.com; keydata=
  XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiiEkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
  VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
 Organization: HIMVIS LLC
-Message-ID: <e2745c5f-8856-56f5-3fa0-84a89fd26216@gmail.com>
-Date: Fri, 24 Apr 2020 18:43:22 -0700
+Message-ID: <5872a356-f219-9a4b-6caa-7c7d3d3b4d3e@gmail.com>
+Date: Fri, 24 Apr 2020 18:52:32 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=W1jP=eMiJmcQLYfKamsD3v2+ycbS8Q3V-iEc+HVDT=Gw@mail.gmail.com>
-X-Groupsio-MsgNum: 137453
+In-Reply-To: <20200423194301.24424-1-joe.slater@windriver.com>
+X-Groupsio-MsgNum: 137454
 Content-Type: multipart/signed; micalg=pgp-sha1;
  protocol="application/pgp-signature";
- boundary="NAEgSQJwZosUhRBxgwacFRiN3kZW6VpYb"
+ boundary="aBx4FTwCkjpp6AOlD3qmzxDPzNyDiUwSj"
 
---NAEgSQJwZosUhRBxgwacFRiN3kZW6VpYb
-Content-Type: multipart/mixed; boundary="YvSXXkC1OQGePsi2eYXDO4HqHagWiHazZ";
+--aBx4FTwCkjpp6AOlD3qmzxDPzNyDiUwSj
+Content-Type: multipart/mixed; boundary="RTksGivY685TxvPNOyR4f48F1StOhDT4C";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>, Alex Kiernan <alex.kiernan@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <e2745c5f-8856-56f5-3fa0-84a89fd26216@gmail.com>
-Subject: Re: [OE-Core][PATCH 1/6] openssh: Move sshdgenkeys.service to
- sshd.socket
-References: <20200422135211.121292-1-alex.kiernan@gmail.com>
- <CAJ86T=W+CmGCZF_ej+na_tzAddNP69XJPE5MZTGFF2HjRqfGtQ@mail.gmail.com>
- <CAO5Uq5RXQn+Q0NmVD0nWAYxp3YMs8TFKiDLudCHzUFD6LHcc5Q@mail.gmail.com>
- <CAJ86T=W1jP=eMiJmcQLYfKamsD3v2+ycbS8Q3V-iEc+HVDT=Gw@mail.gmail.com>
-In-Reply-To: <CAJ86T=W1jP=eMiJmcQLYfKamsD3v2+ycbS8Q3V-iEc+HVDT=Gw@mail.gmail.com>
+To: Joe Slater <joe.slater@windriver.com>,
+ openembedded-core@lists.openembedded.org
+Cc: randy.macleod@windriver.com
+Message-ID: <5872a356-f219-9a4b-6caa-7c7d3d3b4d3e@gmail.com>
+Subject: Re: [oe-core][PATCH 1/1] re2c: advance to version 1.3
+References: <20200423194301.24424-1-joe.slater@windriver.com>
+In-Reply-To: <20200423194301.24424-1-joe.slater@windriver.com>
 
---YvSXXkC1OQGePsi2eYXDO4HqHagWiHazZ
+--RTksGivY685TxvPNOyR4f48F1StOhDT4C
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 4/23/20 10:14 AM, Andre McCurdy wrote:
-> On Thu, Apr 23, 2020 at 1:30 AM Alex Kiernan <alex.kiernan@gmail.com> wr=
-ote:
->> On Wed, Apr 22, 2020 at 7:48 PM Andre McCurdy <armccurdy@gmail.com> wro=
-te:
->>> On Wed, Apr 22, 2020 at 6:52 AM Alex Kiernan <alex.kiernan@gmail.com> =
-wrote:
->>>>
->>>> sshd.socket launches the templated sshd@.service, so by moving the
->>>> sshdgenkeys.service to sshd.socket, key generation can start in advan=
-ce
->>>> of a connection.
->>>
->>> Is deferring key generation until the first connection a bug or by des=
-ign?
->>
->> If you've installed it, presumably you're expecting connections. But I
->> agree you could argue it either way.
+On 4/23/20 12:43 PM, Joe Slater wrote:
+> The locations of release archives has changed.  We change to pulling
+> source from the git repo.
 >=20
-> The trade off is between slower first boot (or every boot for
-> read-only rootfs if host keys are not persistent) -vs- slower first
-> incoming ssh connection.
+> Fix CVE-2020-11958 which applies to versions 1.2 and 1.3.
 >=20
-> Since the first incoming ssh connection may never happen (especially
-> if ssh is only used for debugging or development), optimising it at
-> the expense of boot time doesn't seem to be an obvious improvement.
+> Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> ---
+>  .../recipes-support/re2c/re2c/cve-2020-11958.patch | 48 +++++++++++++++=
++++++++
+>  meta/recipes-support/re2c/re2c_1.0.1.bb            | 14 -------
+>  meta/recipes-support/re2c/re2c_git.bb              | 23 +++++++++++
+>  3 files changed, 71 insertions(+), 14 deletions(-)
+>  create mode 100644 meta/recipes-support/re2c/re2c/cve-2020-11958.patch
+>  delete mode 100644 meta/recipes-support/re2c/re2c_1.0.1.bb
+>  create mode 100644 meta/recipes-support/re2c/re2c_git.bb
+>=20
+> diff --git a/meta/recipes-support/re2c/re2c/cve-2020-11958.patch b/meta/=
+recipes-support/re2c/re2c/cve-2020-11958.patch
+> new file mode 100644
+> index 0000000..95a1cb9
+> --- /dev/null
+> +++ b/meta/recipes-support/re2c/re2c/cve-2020-11958.patch
+> @@ -0,0 +1,48 @@
+> +From c4603ba5ce229db83a2a4fb93e6d4b4e3ec3776a Mon Sep 17 00:00:00 2001
+> +From: Ulya Trofimovich <skvadrik@gmail.com>
+> +Date: Fri, 17 Apr 2020 22:47:14 +0100
+> +Subject: [oe-core][PATCH 1/1] Fix crash in lexer refill (reported by Ag=
+ostino
+> + Sarubbo).
+> +
+> +The crash happened in a rare case of a very long lexeme that doen't fit
+> +into the buffer, forcing buffer reallocation.
+> +
+> +The crash was caused by an incorrect calculation of the shift offset
+> +(it was smaller than necessary). As a consequence, the data from buffer
+> +start and up to the beginning of the current lexeme was not discarded
+> +(as it should have been), resulting in less free space for new data tha=
+n
+> +expected.
+> +---
+> + src/parse/scanner.cc | 3 ++-
+> + 1 file changed, 2 insertions(+), 1 deletion(-)
+> +---
+> +
+> +CVE: CVE-2020-11958
+> +
+> +Upstream-Status: Backport [github.com/skvadrik/re2c.git]
+> +
+> +Signed-off-by: Joe Slater <jslater@windriver.com>
+> +
+> +diff --git a/src/parse/scanner.cc b/src/parse/scanner.cc
+> +index 1d6e9ef..bd65131 100644
+> +--- a/src/parse/scanner.cc
+> ++++ b/src/parse/scanner.cc
+> +@@ -155,13 +155,14 @@ bool Scanner::fill(size_t need)
+> +         if (!buf) fatal("out of memory");
+> +=20
+> +         memmove(buf, tok, copy);
+> +-        shift_ptrs_and_fpos(buf - bot);
+> ++        shift_ptrs_and_fpos(buf - tok);
+> +         delete [] bot;
+> +         bot =3D buf;
+> +=20
+> +         free =3D BSIZE - copy;
+> +     }
+> +=20
+> ++    DASSERT(lim + free <=3D bot + BSIZE);
+> +     if (!read(free)) {
+> +         eof =3D lim;
+> +         memset(lim, 0, YYMAXFILL);
+> +--=20
+> +2.7.4
+> +
+> diff --git a/meta/recipes-support/re2c/re2c_1.0.1.bb b/meta/recipes-supp=
+ort/re2c/re2c_1.0.1.bb
+> deleted file mode 100644
+> index 4ed8d25..0000000
+> --- a/meta/recipes-support/re2c/re2c_1.0.1.bb
+> +++ /dev/null
+> @@ -1,14 +0,0 @@
+> -SUMMARY =3D "Tool for writing very fast and very flexible scanners"
+> -HOMEPAGE =3D "http://re2c.sourceforge.net/"
+> -AUTHOR =3D "Marcus B=C3=B6rger <helly@users.sourceforge.net>"
+> -SECTION =3D "devel"
+> -LICENSE =3D "PD"
+> -LIC_FILES_CHKSUM =3D "file://README;beginline=3D146;md5=3D881056c9add17=
+f8019ccd8c382ba963a"
+> -
+> -SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+> -SRC_URI[md5sum] =3D "e2c6cf52fc6a21595f21bc82db5324f8"
+> -SRC_URI[sha256sum] =3D "605058d18a00e01bfc32aebf83af35ed5b13180b4e9f279=
+c90843afab2c66c7c"
+> -
+> -BBCLASSEXTEND =3D "native"
+> -
+> -inherit autotools
+> diff --git a/meta/recipes-support/re2c/re2c_git.bb b/meta/recipes-suppor=
+t/re2c/re2c_git.bb
+> new file mode 100644
+> index 0000000..06242ce
+> --- /dev/null
+> +++ b/meta/recipes-support/re2c/re2c_git.bb
+> @@ -0,0 +1,23 @@
+> +SUMMARY =3D "Tool for writing very fast and very flexible scanners"
+> +HOMEPAGE =3D "http://re2c.sourceforge.net/"
+> +AUTHOR =3D "Marcus B=C3=B6rger <helly@users.sourceforge.net>"
+> +SECTION =3D "devel"
+> +LICENSE =3D "PD"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D64eca4d8a3b67f9dc7656094731a=
+2c8d"
+> +
+> +SRC_URI =3D  "git://github.com/skvadrik/re2c.git \
+> +            file://cve-2020-11958.patch \
+> +           "
+> +
+> +# rev of 1.3 tag
+> +#
+> +SRCREV =3D "e1901b71c6414c510f10f4cc30c0a05600e55ed1"
+> +PV =3D "1.3+git"
+
+if it is release tag then just set PV =3D "1.3"
+
+> +
+> +# override the default S
+> +#
+> +S =3D "${WORKDIR}/git"
+> +
+> +BBCLASSEXTEND =3D "native"
+> +
+> +inherit autotools
+
+Usually inherit should go above BBCLASSEXTEND
+>=20
+>=20
+>=20
 >=20
 
-I tend to agree. Perhaps it could be covered under read-only-rootfs
-DISTRO_FEATURE
 
->=20
->=20
->=20
+--RTksGivY685TxvPNOyR4f48F1StOhDT4C--
 
-
---YvSXXkC1OQGePsi2eYXDO4HqHagWiHazZ--
-
---NAEgSQJwZosUhRBxgwacFRiN3kZW6VpYb
+--aBx4FTwCkjpp6AOlD3qmzxDPzNyDiUwSj
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXqOVugAKCRC7BTNVkZ0z
-FHCLAJ9Obf5WUrD7CvG49NdxAu5XiQFpcgCgj3YJ0lv2AZQW+Q9q68HuVMaoa2s=
-=rwG8
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXqOX4AAKCRC7BTNVkZ0z
+FDbHAJ9t8MVEAZJ5Yy+yPMH9b4xcEXGFtwCfc15gWKeuf8DNNs5VPgmY2ZRA+mo=
+=212+
 -----END PGP SIGNATURE-----
 
---NAEgSQJwZosUhRBxgwacFRiN3kZW6VpYb--
+--aBx4FTwCkjpp6AOlD3qmzxDPzNyDiUwSj--
