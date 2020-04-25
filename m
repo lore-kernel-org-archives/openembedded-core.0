@@ -1,153 +1,95 @@
-Subject: Re: [meta-oe][PATCH] libva: Removed virtual/mesa dependency
-To: openembedded-core@lists.openembedded.org
-From: =?UTF-8?B?QmFydMWCb21pZWogQnVyZHVraWV3aWN6?= <bartlomiej.burdukiewicz@gmail.com>
-X-Originating-Location: Spytkowice, Lesser Poland, PL (83.26.235.191)
-X-Originating-Platform: Linux Chrome 81
-User-Agent: GROUPS.IO Web Poster
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.599.1587848835532022525
+ for <openembedded-core@lists.openembedded.org>;
+ Sat, 25 Apr 2020 14:07:15 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bT6pbsHX;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id j2so15872101wrs.9
+        for <openembedded-core@lists.openembedded.org>; Sat, 25 Apr 2020 14:07:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=4G+XLuaGvJYmdDueuXwNXyS+6JPBd6cYUO3cTELO2gA=;
+        b=bT6pbsHXMHmWMEFeUO4QLZ022aBHGpv2f3nKLJhmP5p3TW2uHBs3GWNLfWSNbSYbSh
+         9a4Ih+Tf7I1fPEP0zYlIklSd1nixlFeskS9TL9dif9g0cg+muWaBCggQWT/ekw2gW5Vc
+         sgDM4UFQd/pqd+mx/nlCDWVqvqxdVX90KHOrM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=4G+XLuaGvJYmdDueuXwNXyS+6JPBd6cYUO3cTELO2gA=;
+        b=VwY208LPrardqm3dRlexk4EMt5O8RIn+cwksK5FIpJVAeL0wT26F6+bLAFq9rxKISw
+         7sWaUnFtaXqDYxJWwse4Qe+AZy1Z8w4cyLalBpTvCjM+wkv/uKu9aFgDpHGZSluH3twS
+         0V7PWOqXZBRI+aEgJJ80pJnUriRhEJrsEfRMRqjxFwlhq46NaGINWHGhZ/+QnNwEFPry
+         frFRIV50/DMzBqIThG8iQsBKEtlB0CfUt3LXL7rm5W4jtLCRn5Kwe6T7dmCBXlfPprKY
+         gylLFNRqGi0gTm7QKjLJrxvjRkELOndsZy826OYmqHFIb/j8n4p3opH6roYhbkR2uIT2
+         MkRw==
+X-Gm-Message-State: AGi0PuZpsXhMKlQY8vBVHH44rZjd2uTJGf4Jo3AjYT8xEIXk73TVND++
+	pIPAeYT4tFYojVGjqxFRbgxkjQ==
+X-Google-Smtp-Source: APiQypLncZx80QDSJCs5DV3bk9Hbx5pSy1QL+6zCLH86i6NYNbe64PQijX/o/Y5zSzC4OFhH9aabaQ==
+X-Received: by 2002:a5d:6cc2:: with SMTP id c2mr6543666wrc.60.1587848834040;
+        Sat, 25 Apr 2020 14:07:14 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id t67sm9359882wmg.40.2020.04.25.14.07.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Apr 2020 14:07:12 -0700 (PDT)
+Message-ID: <d15d1601fdec27b7667dd16f62db13fc9ff475cd.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v7 00/10] Fix permissions and embed-rotofs
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, Paul
+ Barker <pbarker@konsulko.com>
+Date: Sat, 25 Apr 2020 22:07:11 +0100
+In-Reply-To: <CAPybu_16DsHfqq-Frixoq+ySqCbb2qvGmapZR-UbKGgmT8sJyA@mail.gmail.com>
+References: <20200419063539.1467641-1-ricardo@ribalda.com>
+	 <258be2a52105a49413b954df67e61444dc73492e.camel@linuxfoundation.org>
+	 <CAPybu_1XdULtkfUQsjTa=PvuyUECKpNLoFXX95F_+Ly3=fbqBg@mail.gmail.com>
+	 <ebb64c86224b51b49b1d86f864566ecd91696f95.camel@linuxfoundation.org>
+	 <16086D1E57B63D5A.14079@lists.openembedded.org>
+	 <CAPybu_16DsHfqq-Frixoq+ySqCbb2qvGmapZR-UbKGgmT8sJyA@mail.gmail.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Date: Sat, 25 Apr 2020 12:38:56 -0700
-References: <7de2a86b-e32c-35ae-716d-505845a837b2@gmail.com>
-In-Reply-To: <7de2a86b-e32c-35ae-716d-505845a837b2@gmail.com>
-Message-ID: <28192.1587843536617759309@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="eju6FBWh8sYBnFQ6rUtj"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---eju6FBWh8sYBnFQ6rUtj
-Content-Type: text/plain; charset="utf-8"; markup=markdown
-Content-Transfer-Encoding: quoted-printable
+On Thu, 2020-04-23 at 15:17 +0200, Ricardo Ribalda Delgado wrote:
+> On my setup, using debian crops the error is even different :(
+> 
+> If you want I can keep trying, otherwise I will leave it to the
+> experts ;)
 
-On Sat, Apr 25, 2020 at 06:46 AM, Khem Raj wrote:
+Just to update, I bisected this down to my sysroot patches in master-
+next. Which makes no sense, how would sysroot changes cause wic to fail
+in runqemu?
 
->
->=20
->=20
-> On 4/24/20 8:01 AM, Bart=C5=82omiej Burdukiewicz wrote:
-> > Mesa can be compiled with libva support, in order to avoid recursive
-> > dependency between mesa and libva, virtual/mesa must be removed
-> > from libva recipe.
-> >=20
-> > Signed-off-by: Bart=C5=82omiej Burdukiewicz <bartlomiej.burdukiewicz@g=
-mail.com>
-> > ---
-> >  meta/recipes-graphics/libva/libva_2.6.1.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/recipes-graphics/libva/libva_2.6.1.bb
-> b/meta/recipes-graphics/libva/libva_2.6.1.bb
-> > index 92cea83bc1..c1a441a18b 100644
-> > --- a/meta/recipes-graphics/libva/libva_2.6.1.bb
-> > +++ b/meta/recipes-graphics/libva/libva_2.6.1.bb
-> > @@ -23,7 +23,7 @@ SRC_URI[sha256sum] =3D
-> "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e4862940
-> >
-> >  UPSTREAM_CHECK_URI =3D "https://github.com/intel/libva/releases"
-> >
-> > -DEPENDS =3D "libdrm virtual/mesa"
-> > +DEPENDS =3D "libdrm"
->=20
-> I am not sure how it will work with non-mesa graphics stacks. Or is it
-> non-issue ?
+I've discovered that you have to run two tests in the same build one
+after the other, specifically:
 
-It looks like libva is designed to work without mesa (or other graphical s=
-tacks), since it's using libdrm to dispatch kernel calls.
-https://en.wikipedia.org/wiki/Direct_Rendering_Manager#/media/File:DRM_arc=
-hitecture.svg
+oe-selftest -r  devtool.DevtoolExtractTests.test_devtool_deploy_target wic.Wic2.test_qemu_efi
 
-There is also ebuild in Gentoo for libva do not depend on mesa (https://da=
-ta.gpo.zugaina.org/gentoo/x11-libs/libva/libva-2.6.1.ebuild) or other graph=
-ical stacks (like nvidia-drivers or etc.).
+and I think my sysroot change "causes" problems as it adds a new test
+class. This reorders tests and triggers this magic order problem. I
+haven't confirmed but I think the above will fail without my patch.
 
-I'll provide more information about actual problem that is happening in me=
-ta-kodi and it's related to this patch.
+The key is the wic test failing with:
 
-There is append that I created for meta-kodi, that is extending mesa with =
-libva and libvdpau capabilities:=20
-https://github.com/dev-0x7C6/meta-kodi/blob/zeus/recipes-graphics/mesa/mes=
-a_%25.bbappend
+FileNotFoundError: [Errno 2] No such file or directory: '/media/build1/poky/build-st/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0-r0/testimage/qemurunner_log.20200425200658'
 
-And this is current workaround for libva to avoid recursive dependency:
-https://github.com/dev-0x7C6/meta-kodi/blob/zeus/recipes-graphics/libva/li=
-bva_%25.bbappend
+i.e. why is it writing to oe-selftest-image which is only used by the
+devtool test?
 
->=20
-> >
-> >  inherit meson pkgconfig features_check
-> >
-> >=20
-> >=20
-> >=20
-> >=20
->=20
->
+The answer is I think the runqemu code is leaking logfile handles
+somehow.
 
---eju6FBWh8sYBnFQ6rUtj
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+At least now we have a simpler and consistent reproducer and some idea
+of the problem this should be easier to track down.
 
-<p>On Sat, Apr 25, 2020 at 06:46 AM, Khem Raj wrote:</p>
+Cheers,
 
-<blockquote>
-<p>On 4/24/20 8:01 AM, Bart=C5=82omiej Burdukiewicz wrote:
-&gt; Mesa can be compiled with libva support, in order to avoid recursive
-&gt; dependency between mesa and libva, virtual/mesa must be removed
-&gt; from libva recipe.
-&gt;
-&gt; Signed-off-by: Bart=C5=82omiej Burdukiewicz <a href=3D"mailto:bartlom=
-iej.burdukiewicz@gmail.com" target=3D"_blank">bartlomiej.burdukiewicz@gmail=
-.com</a>
-&gt; ---
-&gt;  meta/recipes-graphics/libva/libva_2.6.1.bb | 2 +-
-&gt;  1 file changed, 1 insertion(+), 1 deletion(-)
-&gt;
-&gt; diff --git a/meta/recipes-graphics/libva/libva_2.6.1.bb
-b/meta/recipes-graphics/libva/libva_2.6.1.bb
-&gt; index 92cea83bc1..c1a441a18b 100644
-&gt; --- a/meta/recipes-graphics/libva/libva_2.6.1.bb
-&gt; +++ b/meta/recipes-graphics/libva/libva_2.6.1.bb
-&gt; @@ -23,7 +23,7 @@ SRC_URI[sha256sum] =3D
-&quot;6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e4862940
-&gt;
-&gt;  UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://github.com/intel/lib=
-va/releases&quot;" target=3D"_blank">https://github.com/intel/libva/release=
-s&quot;</a>
-&gt;
-&gt; -DEPENDS =3D &quot;libdrm virtual/mesa&quot;
-&gt; +DEPENDS =3D &quot;libdrm&quot;</p>
+Richard
 
-<p>I am not sure how it will work with non-mesa graphics stacks. Or is it
-non-issue ?</p>
-</blockquote>
 
-<p>It looks like libva is designed to work without mesa (or other graphica=
-l stacks), since it's using libdrm to dispatch kernel calls.
-<a href=3D"https://en.wikipedia.org/wiki/Direct_Rendering_Manager#/media/F=
-ile:DRM_architecture.svg" target=3D"_blank">https://en.wikipedia.org/wiki/D=
-irect_Rendering_Manager#/media/File:DRM_architecture.svg</a></p>
 
-<p>There is also ebuild in Gentoo for libva do not depend on mesa (<a href=
-=
-=3D"https://data.gpo.zugaina.org/gentoo/x11-libs/libva/libva-2.6.1.ebuild"=
- target=3D"_blank">https://data.gpo.zugaina.org/gentoo/x11-libs/libva/libva=
--2.6.1.ebuild</a>) or other graphical stacks (like nvidia-drivers or etc.).=
-</p>
-
-<p>I'll provide more information about actual problem that is happening in=
- meta-kodi and it's related to this patch.</p>
-
-<p>There is append that I created for meta-kodi, that is extending mesa wi=
-th libva and libvdpau capabilities:
-<a href=3D"https://github.com/dev-0x7C6/meta-kodi/blob/zeus/recipes-graphi=
-cs/mesa/mesa_%25.bbappend" target=3D"_blank">https://github.com/dev-0x7C6/m=
-eta-kodi/blob/zeus/recipes-graphics/mesa/mesa_%25.bbappend</a></p>
-
-<p>And this is current workaround for libva to avoid recursive dependency:
-<a href=3D"https://github.com/dev-0x7C6/meta-kodi/blob/zeus/recipes-graphi=
-cs/libva/libva_%25.bbappend" target=3D"_blank">https://github.com/dev-0x7C6=
-/meta-kodi/blob/zeus/recipes-graphics/libva/libva_%25.bbappend</a></p>
-
-<blockquote>
-<blockquote>
-<p>inherit meson pkgconfig features_check</p>
-</blockquote>
-</blockquote>
-
---eju6FBWh8sYBnFQ6rUtj--
