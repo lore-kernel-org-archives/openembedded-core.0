@@ -1,49 +1,48 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
- by mx.groups.io with SMTP id smtpd.web11.1679.1587789796315451129
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+ by mx.groups.io with SMTP id smtpd.web11.1701.1587789983836559210
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2020 21:43:16 -0700
+ Fri, 24 Apr 2020 21:46:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=o2RRfyKJ;
- spf=pass (domain: gmail.com, ip: 209.85.210.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f196.google.com with SMTP id y25so5831346pfn.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2020 21:43:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KFZtin5w;
+ spf=pass (domain: gmail.com, ip: 209.85.214.193, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f193.google.com with SMTP id t4so4514447plq.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2020 21:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:references:from:autocrypt:organization:subject:message-id:date
+        h=subject:to:references:from:autocrypt:organization:message-id:date
          :user-agent:mime-version:in-reply-to;
-        bh=rOQhkmksJITU36wwoKjHnWE1ymOqbu3MGj/qUqHCaAg=;
-        b=o2RRfyKJ1sNLoOTBagmhNFjYhO3FX+rP/o/5z218MtT092qdG5lyFd7IL4ov/NI7DO
-         mrhp+TFNCpBVHJRAogII3uf0fYFjcD5AR3Vd7u819EsmWnjrnPADxVvGT84AQEyzp48h
-         xGZEDUAFA/RgNIEct9uyqT/uCB8ZlBrNZlT0KjiRX/9gE2RShtO48wDPqOO01GhAT0zI
-         hT6O6z3NikfKKZmPiFJBO0p0vIu8agYjZuWdfQCIgeUTZfSBhZt2ZB/rMq+Y9eUMN04e
-         oIuzmPPv5oGTWhTd8kUYQshXhbp9e7eBwiK1W/G2/p9/mMbQKH0Fvae7DX/d/LviXtrn
-         aI1A==
+        bh=3AGu/CP/F5aC811cxS+CPH12Q+h5gxNx9Z/tvMfaRoI=;
+        b=KFZtin5wsXPNpxZCEqESMhCkssaZdTBIOw/BLlwhFIfzUHmRjwaVsmIuPPa+KNC6Vg
+         qBC5eO5NXVTr4nLvPulaAF4eCK7J2lKibP0sC28T8ivtZclbwJ5r/vO1n2h+Wz+HjixX
+         D96ZhUJncBjWMCAXkGu3Uu/Z6up/z2g0Wz1jeJVqCXz8542CEXT5TsA3mYVtNvhnWsBn
+         IgCrXSjzXflPdKEpLG63aPZT92sWIPUWf5HmkFV2bu3fZD6JlGH5EN5dKoMKa5xbJezA
+         Mx/U4he4Cps4TlbqpHENlRbF0D65Nk67S8iHrs2ysD2fys20k1hhlRH6+eVZmMlbRb8l
+         XrWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:references:from:autocrypt:organization
-         :subject:message-id:date:user-agent:mime-version:in-reply-to;
-        bh=rOQhkmksJITU36wwoKjHnWE1ymOqbu3MGj/qUqHCaAg=;
-        b=ouVDWD2yOJnrwqNwPumfUVCOI3LMecV0YyB1IlncaSw74ZjxbBGNCfEMgTQTKx5vd6
-         QClszXSdvyVlbV4aUOMkYyMpoDHMkPVVpmVPE3rZVGkEYIdx7KqxH17ciMUDMrBdd4W+
-         JttR/FjrkybtQosIh0VFV/jD1mXR9Sxt729vTb2YE+M4v2UAJ8TnGT0pNH+vwufedVKK
-         QkQRRFR7sc2AD7omPZtECxD1X16B06LYjuIQ8tyIpAzqXByYogJKKRSPlWYh8W9iKYg8
-         enmDK4OxktdG+VqZ17h1gT7/MMMQwuHqvjYTXM8PvKN1GaHi5+CNMFKec2hEnGBP/32H
-         dfCg==
-X-Gm-Message-State: AGi0PubV3gEPRwZbz3rq2Hqk2PPZOYMaZ7dOOCQ6Cc7UKrucNbmOiuPQ
-	6Dkk7FfGIHYNXXH6v8ZxB4QX/bWVmuE=
-X-Google-Smtp-Source: APiQypITWcYwYSIgp/6SU7REJeg2H7ZX9lMaFuNHSS+vTM0B5V1+olV6uLQlMEtlczsvCdOPfG9DyA==
-X-Received: by 2002:aa7:946d:: with SMTP id t13mr5026976pfq.111.1587789795324;
-        Fri, 24 Apr 2020 21:43:15 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to;
+        bh=3AGu/CP/F5aC811cxS+CPH12Q+h5gxNx9Z/tvMfaRoI=;
+        b=dlBP0HPL5Nmq7KpC7NUYIgCdVZSSvedvXL+HzcQWYUhlSJ8rXOsq/ChbLsgKCHpN8f
+         jAWlC8Uw22SZKBBhvd7KvdHv5fnVYNm0LQIDR0yFgxHjc/i79l5z1S+ONZZq+RTTyCbY
+         t6ldOXGgnDTTnqZWxC6gBFuoVfJhdB+XQSc7kuo1mSjuSBeuxxGb5NpafBy8Ac346BLz
+         ZZek87aA1D5K01li+DGIi2QcsZiEaFkbLCvvMxNNsQjxRz0WBGaKT/oTh5WQQFOnWPQC
+         PwtcVMu2+76LRPUXx6l+tOZYaWx34hVPvVpqlqUgIFSVpk0ziOdXPpQnotQipC7piB7h
+         KFSw==
+X-Gm-Message-State: AGi0PuZFcTq/PYvii9TlyNnU7G6BAuggDo+FR7qMdlwl9sbhDu18H8zJ
+	EHi2Hb6JzaZv+kM01YYNgrrtXBBL5mE=
+X-Google-Smtp-Source: APiQypINuf/nF4lmInTEKqZNGDtSHu+8ojpN3jgT2SgieM0ERaZwwRbC1353ApPyfmkVgjTSfQGxeA==
+X-Received: by 2002:a17:902:5a8e:: with SMTP id r14mr12796002pli.81.1587789983070;
+        Fri, 24 Apr 2020 21:46:23 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::ac76? ([2601:646:9200:4e0::ac76])
-        by smtp.gmail.com with ESMTPSA id mn1sm5954369pjb.24.2020.04.24.21.43.14
+        by smtp.gmail.com with ESMTPSA id 1sm6215599pjc.32.2020.04.24.21.46.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Apr 2020 21:43:14 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Changqing Li <changqing.li@windriver.com>,
- openembedded-core@lists.openembedded.org
-References: <20200424010941.191578-1-changqing.li@windriver.com>
- <6eb605a6c0ca7eb9a01a253da5ff1618a694da37.camel@linuxfoundation.org>
+        Fri, 24 Apr 2020 21:46:22 -0700 (PDT)
+Subject: Re: [OE-core] [meta-oe][PATCH] libva: Removed virtual/mesa dependency
+To: =?UTF-8?Q?Bart=c5=82omiej_Burdukiewicz?=
+ <bartlomiej.burdukiewicz@gmail.com>, openembedded-core@lists.openembedded.org
+References: <20200424150143.374520-1-bartlomiej.burdukiewicz@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
 Autocrypt: addr=raj.khem@gmail.com; keydata=
  mQGiBEqXaJERBACUvFofpD3FsxD9675wcPv+rzguIfsRWilrrpSZ61JHjLHwkUnmDLpLSdfv
@@ -78,79 +77,83 @@ Autocrypt: addr=raj.khem@gmail.com; keydata=
  XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiiEkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
  VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
 Organization: HIMVIS LLC
-Subject: Re: [OE-core] [PATCH 1/3] python3-pbr: change shebang to python3
-Message-ID: <fe0fde34-92fc-72b6-30f8-6f4c0d801cd9@gmail.com>
-Date: Fri, 24 Apr 2020 21:43:06 -0700
+Message-ID: <7de2a86b-e32c-35ae-716d-505845a837b2@gmail.com>
+Date: Fri, 24 Apr 2020 21:46:17 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <6eb605a6c0ca7eb9a01a253da5ff1618a694da37.camel@linuxfoundation.org>
-X-Groupsio-MsgNum: 137455
+In-Reply-To: <20200424150143.374520-1-bartlomiej.burdukiewicz@gmail.com>
+X-Groupsio-MsgNum: 137456
 Content-Type: multipart/signed; micalg=pgp-sha1;
  protocol="application/pgp-signature";
- boundary="NEOylzg6U9rb79Sq1FwAT0Tl5ToaW1TEo"
+ boundary="kDnE9gSXuuUVlmEQ7qXUGI08JSKsTDXbC"
 
---NEOylzg6U9rb79Sq1FwAT0Tl5ToaW1TEo
-Content-Type: multipart/mixed; boundary="nrXVV8CIXCXQoIq4uZVdBDqMLExpc2ENr";
+--kDnE9gSXuuUVlmEQ7qXUGI08JSKsTDXbC
+Content-Type: multipart/mixed; boundary="KJESWgmU4xiZYuuoDWp6CvYEikYsracqt";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Changqing Li <changqing.li@windriver.com>,
- openembedded-core@lists.openembedded.org
-Message-ID: <fe0fde34-92fc-72b6-30f8-6f4c0d801cd9@gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] python3-pbr: change shebang to python3
-References: <20200424010941.191578-1-changqing.li@windriver.com>
- <6eb605a6c0ca7eb9a01a253da5ff1618a694da37.camel@linuxfoundation.org>
-In-Reply-To: <6eb605a6c0ca7eb9a01a253da5ff1618a694da37.camel@linuxfoundation.org>
+To: =?UTF-8?Q?Bart=c5=82omiej_Burdukiewicz?=
+ <bartlomiej.burdukiewicz@gmail.com>, openembedded-core@lists.openembedded.org
+Message-ID: <7de2a86b-e32c-35ae-716d-505845a837b2@gmail.com>
+Subject: Re: [OE-core] [meta-oe][PATCH] libva: Removed virtual/mesa dependency
+References: <20200424150143.374520-1-bartlomiej.burdukiewicz@gmail.com>
+In-Reply-To: <20200424150143.374520-1-bartlomiej.burdukiewicz@gmail.com>
 
---nrXVV8CIXCXQoIq4uZVdBDqMLExpc2ENr
+--KJESWgmU4xiZYuuoDWp6CvYEikYsracqt
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 4/24/20 5:40 AM, Richard Purdie wrote:
-> On Fri, 2020-04-24 at 09:09 +0800, Changqing Li wrote:
->> From: Changqing Li <changqing.li@windriver.com>
->>
->> we have offcially dropped python2, so it is possible
->> that our code run on python3 only host, so change
->> shebang to python3 to avoid error like:
->> python: command not found
+On 4/24/20 8:01 AM, Bart=C5=82omiej Burdukiewicz wrote:
+> Mesa can be compiled with libva support, in order to avoid recursive
+> dependency between mesa and libva, virtual/mesa must be removed
+> from libva recipe.
 >=20
-> I worry this is going to be the start of a huge pile or unstreamable
-> patches. We may have to provide "python" on target but that probably is
-> a policy decision we should discuss.
+> Signed-off-by: Bart=C5=82omiej Burdukiewicz <bartlomiej.burdukiewicz@gma=
+il.com>
+> ---
+>  meta/recipes-graphics/libva/libva_2.6.1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-graphics/libva/libva_2.6.1.bb b/meta/recipes-g=
+raphics/libva/libva_2.6.1.bb
+> index 92cea83bc1..c1a441a18b 100644
+> --- a/meta/recipes-graphics/libva/libva_2.6.1.bb
+> +++ b/meta/recipes-graphics/libva/libva_2.6.1.bb
+> @@ -23,7 +23,7 @@ SRC_URI[sha256sum] =3D "6c57eb642d828af2411aa38f55dc10=
+111e8c98976dbab8fd62e4862940
+>  
+>  UPSTREAM_CHECK_URI =3D "https://github.com/intel/libva/releases"
+>  
+> -DEPENDS =3D "libdrm virtual/mesa"
+> +DEPENDS =3D "libdrm"
+
+I am not sure how it will work with non-mesa graphics stacks. Or is it
+non-issue ?
+
+>  
+>  inherit meson pkgconfig features_check
+>  
+>=20
+>=20
+>=20
 >=20
 
-I think python as python3 is used by some distros, but it sets up for
-same py2->py3 problem when python4 comes out, so perhaps calling out
-version specific python is a good approach but I think such patches
-should be accepted upstream first. OE should not define its own policy
-without upstream python's decision to move forward.
 
-> Cheers,
->=20
-> Richard
->=20
->=20
->=20
->=20
+--KJESWgmU4xiZYuuoDWp6CvYEikYsracqt--
 
-
---nrXVV8CIXCXQoIq4uZVdBDqMLExpc2ENr--
-
---NEOylzg6U9rb79Sq1FwAT0Tl5ToaW1TEo
+--kDnE9gSXuuUVlmEQ7qXUGI08JSKsTDXbC
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXqO/2gAKCRC7BTNVkZ0z
-FARnAJ4tgnQD633mgxm/Xh/KBzcpKFDoYgCgjdu73NXPqn8wHEBHoavjGKRj7G4=
-=xgJ1
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXqPAmQAKCRC7BTNVkZ0z
+FDdlAJ9yJGJyFmmjl3osT3l2oirPovI/1wCeOfCu1dEFARa/ouP2TI5VgWbt3v4=
+=su16
 -----END PGP SIGNATURE-----
 
---NEOylzg6U9rb79Sq1FwAT0Tl5ToaW1TEo--
+--kDnE9gSXuuUVlmEQ7qXUGI08JSKsTDXbC--
