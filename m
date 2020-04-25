@@ -1,49 +1,49 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
- by mx.groups.io with SMTP id smtpd.web10.183.1587779562320080036
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+ by mx.groups.io with SMTP id smtpd.web11.1679.1587789796315451129
  for <openembedded-core@lists.openembedded.org>;
- Fri, 24 Apr 2020 18:52:42 -0700
+ Fri, 24 Apr 2020 21:43:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Rd1Hrty3;
- spf=pass (domain: gmail.com, ip: 209.85.210.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f195.google.com with SMTP id 145so5671771pfw.13
-        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2020 18:52:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=o2RRfyKJ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f196.google.com with SMTP id y25so5831346pfn.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 24 Apr 2020 21:43:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:autocrypt:organization:message-id
-         :date:user-agent:mime-version:in-reply-to;
-        bh=pfCxl+Zya8vqKHKSzKwPaYzrzrjj/dfipbwLpJggxq8=;
-        b=Rd1Hrty3vlNS2+MChtMtJYCGtmOAyeNbIfYeHiN4UBbFO8Qn5C3ZIvEUekqNVWWrWR
-         mPsfidypInH3GJf1XclNhTDzmEpJqjttnWzJiiVDdp3SASCGXBye0eOINCipFG4L6ZK+
-         CWnGq418FRd783cCFrhzgDE1YfQ+0UB59FGt0fltHGZKlwDsCiDY21XsHXU9Q07unp84
-         JNhF458fMfpmaWMwIxXsqFmSbfPYwTluz8x+c2NuJds0MFU6efQ9FwvkXEHTXJFDTZA3
-         qCbnOKwJHy8cGXsmqRN5iXndvsYHqByrgfuyey6RvGazxq7PH+I2wEy0zHn9kgcNbW9X
-         al3g==
+        h=to:references:from:autocrypt:organization:subject:message-id:date
+         :user-agent:mime-version:in-reply-to;
+        bh=rOQhkmksJITU36wwoKjHnWE1ymOqbu3MGj/qUqHCaAg=;
+        b=o2RRfyKJ1sNLoOTBagmhNFjYhO3FX+rP/o/5z218MtT092qdG5lyFd7IL4ov/NI7DO
+         mrhp+TFNCpBVHJRAogII3uf0fYFjcD5AR3Vd7u819EsmWnjrnPADxVvGT84AQEyzp48h
+         xGZEDUAFA/RgNIEct9uyqT/uCB8ZlBrNZlT0KjiRX/9gE2RShtO48wDPqOO01GhAT0zI
+         hT6O6z3NikfKKZmPiFJBO0p0vIu8agYjZuWdfQCIgeUTZfSBhZt2ZB/rMq+Y9eUMN04e
+         oIuzmPPv5oGTWhTd8kUYQshXhbp9e7eBwiK1W/G2/p9/mMbQKH0Fvae7DX/d/LviXtrn
+         aI1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :organization:message-id:date:user-agent:mime-version:in-reply-to;
-        bh=pfCxl+Zya8vqKHKSzKwPaYzrzrjj/dfipbwLpJggxq8=;
-        b=N8hnPUonQ7IlJgaeTMtGTWCQqITDrfRpn5ixEXhaViHeFXtbu2ALKkDp67OA8WAjDB
-         Rd6ABMT3SXzH/fZgdSKoE3WkqbkWjoUh1PKEbnPCyxVYkeVd0hdr6f2iIaplEmvn71oP
-         ACczDgwG6QRuZ/sYzfqp7EzZmnz3B+/PPHx1CTJj8OVwLd2BO36kwGBJVHNFZ9/DtJEW
-         wR4J00Xr8QJq5cC87ByiBqhYMmrslEeuktYIOeeXGyTgfVH/s1i/xZREWdXv2pE9GMv1
-         NGtNDxqKnqN+AGptLWInj2S0uHqNRIpxqidFWPZ4iCj8d9rMYzaULK/mIZy3Rxx17uIZ
-         RSoA==
-X-Gm-Message-State: AGi0PuYneF0eGp13JulqJLWeCQp9PbLAO6jbV6hQuDDBfmBsEBS3GSj0
-	wqqQ1upW/Zm8j2BI37tXU1w=
-X-Google-Smtp-Source: APiQypIgEFwkXaF90w4jNdhnG374ibFoHdEu6SeGkFfwlbSELb8NUqmbpvFFvVRHpzFvYN7efz0zdA==
-X-Received: by 2002:aa7:81d1:: with SMTP id c17mr11623250pfn.58.1587779561644;
-        Fri, 24 Apr 2020 18:52:41 -0700 (PDT)
+        h=x-gm-message-state:to:references:from:autocrypt:organization
+         :subject:message-id:date:user-agent:mime-version:in-reply-to;
+        bh=rOQhkmksJITU36wwoKjHnWE1ymOqbu3MGj/qUqHCaAg=;
+        b=ouVDWD2yOJnrwqNwPumfUVCOI3LMecV0YyB1IlncaSw74ZjxbBGNCfEMgTQTKx5vd6
+         QClszXSdvyVlbV4aUOMkYyMpoDHMkPVVpmVPE3rZVGkEYIdx7KqxH17ciMUDMrBdd4W+
+         JttR/FjrkybtQosIh0VFV/jD1mXR9Sxt729vTb2YE+M4v2UAJ8TnGT0pNH+vwufedVKK
+         QkQRRFR7sc2AD7omPZtECxD1X16B06LYjuIQ8tyIpAzqXByYogJKKRSPlWYh8W9iKYg8
+         enmDK4OxktdG+VqZ17h1gT7/MMMQwuHqvjYTXM8PvKN1GaHi5+CNMFKec2hEnGBP/32H
+         dfCg==
+X-Gm-Message-State: AGi0PubV3gEPRwZbz3rq2Hqk2PPZOYMaZ7dOOCQ6Cc7UKrucNbmOiuPQ
+	6Dkk7FfGIHYNXXH6v8ZxB4QX/bWVmuE=
+X-Google-Smtp-Source: APiQypITWcYwYSIgp/6SU7REJeg2H7ZX9lMaFuNHSS+vTM0B5V1+olV6uLQlMEtlczsvCdOPfG9DyA==
+X-Received: by 2002:aa7:946d:: with SMTP id t13mr5026976pfq.111.1587789795324;
+        Fri, 24 Apr 2020 21:43:15 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::ac76? ([2601:646:9200:4e0::ac76])
-        by smtp.gmail.com with ESMTPSA id q63sm6782480pfb.178.2020.04.24.18.52.40
+        by smtp.gmail.com with ESMTPSA id mn1sm5954369pjb.24.2020.04.24.21.43.14
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Apr 2020 18:52:41 -0700 (PDT)
-Subject: Re: [oe-core][PATCH 1/1] re2c: advance to version 1.3
-To: Joe Slater <joe.slater@windriver.com>,
+        Fri, 24 Apr 2020 21:43:14 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Changqing Li <changqing.li@windriver.com>,
  openembedded-core@lists.openembedded.org
-Cc: randy.macleod@windriver.com
-References: <20200423194301.24424-1-joe.slater@windriver.com>
+References: <20200424010941.191578-1-changqing.li@windriver.com>
+ <6eb605a6c0ca7eb9a01a253da5ff1618a694da37.camel@linuxfoundation.org>
 From: "Khem Raj" <raj.khem@gmail.com>
 Autocrypt: addr=raj.khem@gmail.com; keydata=
  mQGiBEqXaJERBACUvFofpD3FsxD9675wcPv+rzguIfsRWilrrpSZ61JHjLHwkUnmDLpLSdfv
@@ -78,187 +78,79 @@ Autocrypt: addr=raj.khem@gmail.com; keydata=
  XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiiEkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
  VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
 Organization: HIMVIS LLC
-Message-ID: <5872a356-f219-9a4b-6caa-7c7d3d3b4d3e@gmail.com>
-Date: Fri, 24 Apr 2020 18:52:32 -0700
+Subject: Re: [OE-core] [PATCH 1/3] python3-pbr: change shebang to python3
+Message-ID: <fe0fde34-92fc-72b6-30f8-6f4c0d801cd9@gmail.com>
+Date: Fri, 24 Apr 2020 21:43:06 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200423194301.24424-1-joe.slater@windriver.com>
-X-Groupsio-MsgNum: 137454
+In-Reply-To: <6eb605a6c0ca7eb9a01a253da5ff1618a694da37.camel@linuxfoundation.org>
+X-Groupsio-MsgNum: 137455
 Content-Type: multipart/signed; micalg=pgp-sha1;
  protocol="application/pgp-signature";
- boundary="aBx4FTwCkjpp6AOlD3qmzxDPzNyDiUwSj"
+ boundary="NEOylzg6U9rb79Sq1FwAT0Tl5ToaW1TEo"
 
---aBx4FTwCkjpp6AOlD3qmzxDPzNyDiUwSj
-Content-Type: multipart/mixed; boundary="RTksGivY685TxvPNOyR4f48F1StOhDT4C";
+--NEOylzg6U9rb79Sq1FwAT0Tl5ToaW1TEo
+Content-Type: multipart/mixed; boundary="nrXVV8CIXCXQoIq4uZVdBDqMLExpc2ENr";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
-To: Joe Slater <joe.slater@windriver.com>,
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Changqing Li <changqing.li@windriver.com>,
  openembedded-core@lists.openembedded.org
-Cc: randy.macleod@windriver.com
-Message-ID: <5872a356-f219-9a4b-6caa-7c7d3d3b4d3e@gmail.com>
-Subject: Re: [oe-core][PATCH 1/1] re2c: advance to version 1.3
-References: <20200423194301.24424-1-joe.slater@windriver.com>
-In-Reply-To: <20200423194301.24424-1-joe.slater@windriver.com>
+Message-ID: <fe0fde34-92fc-72b6-30f8-6f4c0d801cd9@gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] python3-pbr: change shebang to python3
+References: <20200424010941.191578-1-changqing.li@windriver.com>
+ <6eb605a6c0ca7eb9a01a253da5ff1618a694da37.camel@linuxfoundation.org>
+In-Reply-To: <6eb605a6c0ca7eb9a01a253da5ff1618a694da37.camel@linuxfoundation.org>
 
---RTksGivY685TxvPNOyR4f48F1StOhDT4C
+--nrXVV8CIXCXQoIq4uZVdBDqMLExpc2ENr
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 4/23/20 12:43 PM, Joe Slater wrote:
-> The locations of release archives has changed.  We change to pulling
-> source from the git repo.
+On 4/24/20 5:40 AM, Richard Purdie wrote:
+> On Fri, 2020-04-24 at 09:09 +0800, Changqing Li wrote:
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> we have offcially dropped python2, so it is possible
+>> that our code run on python3 only host, so change
+>> shebang to python3 to avoid error like:
+>> python: command not found
 >=20
-> Fix CVE-2020-11958 which applies to versions 1.2 and 1.3.
+> I worry this is going to be the start of a huge pile or unstreamable
+> patches. We may have to provide "python" on target but that probably is
+> a policy decision we should discuss.
 >=20
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> ---
->  .../recipes-support/re2c/re2c/cve-2020-11958.patch | 48 +++++++++++++++=
-+++++++
->  meta/recipes-support/re2c/re2c_1.0.1.bb            | 14 -------
->  meta/recipes-support/re2c/re2c_git.bb              | 23 +++++++++++
->  3 files changed, 71 insertions(+), 14 deletions(-)
->  create mode 100644 meta/recipes-support/re2c/re2c/cve-2020-11958.patch
->  delete mode 100644 meta/recipes-support/re2c/re2c_1.0.1.bb
->  create mode 100644 meta/recipes-support/re2c/re2c_git.bb
+
+I think python as python3 is used by some distros, but it sets up for
+same py2->py3 problem when python4 comes out, so perhaps calling out
+version specific python is a good approach but I think such patches
+should be accepted upstream first. OE should not define its own policy
+without upstream python's decision to move forward.
+
+> Cheers,
 >=20
-> diff --git a/meta/recipes-support/re2c/re2c/cve-2020-11958.patch b/meta/=
-recipes-support/re2c/re2c/cve-2020-11958.patch
-> new file mode 100644
-> index 0000000..95a1cb9
-> --- /dev/null
-> +++ b/meta/recipes-support/re2c/re2c/cve-2020-11958.patch
-> @@ -0,0 +1,48 @@
-> +From c4603ba5ce229db83a2a4fb93e6d4b4e3ec3776a Mon Sep 17 00:00:00 2001
-> +From: Ulya Trofimovich <skvadrik@gmail.com>
-> +Date: Fri, 17 Apr 2020 22:47:14 +0100
-> +Subject: [oe-core][PATCH 1/1] Fix crash in lexer refill (reported by Ag=
-ostino
-> + Sarubbo).
-> +
-> +The crash happened in a rare case of a very long lexeme that doen't fit
-> +into the buffer, forcing buffer reallocation.
-> +
-> +The crash was caused by an incorrect calculation of the shift offset
-> +(it was smaller than necessary). As a consequence, the data from buffer
-> +start and up to the beginning of the current lexeme was not discarded
-> +(as it should have been), resulting in less free space for new data tha=
-n
-> +expected.
-> +---
-> + src/parse/scanner.cc | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +---
-> +
-> +CVE: CVE-2020-11958
-> +
-> +Upstream-Status: Backport [github.com/skvadrik/re2c.git]
-> +
-> +Signed-off-by: Joe Slater <jslater@windriver.com>
-> +
-> +diff --git a/src/parse/scanner.cc b/src/parse/scanner.cc
-> +index 1d6e9ef..bd65131 100644
-> +--- a/src/parse/scanner.cc
-> ++++ b/src/parse/scanner.cc
-> +@@ -155,13 +155,14 @@ bool Scanner::fill(size_t need)
-> +         if (!buf) fatal("out of memory");
-> +=20
-> +         memmove(buf, tok, copy);
-> +-        shift_ptrs_and_fpos(buf - bot);
-> ++        shift_ptrs_and_fpos(buf - tok);
-> +         delete [] bot;
-> +         bot =3D buf;
-> +=20
-> +         free =3D BSIZE - copy;
-> +     }
-> +=20
-> ++    DASSERT(lim + free <=3D bot + BSIZE);
-> +     if (!read(free)) {
-> +         eof =3D lim;
-> +         memset(lim, 0, YYMAXFILL);
-> +--=20
-> +2.7.4
-> +
-> diff --git a/meta/recipes-support/re2c/re2c_1.0.1.bb b/meta/recipes-supp=
-ort/re2c/re2c_1.0.1.bb
-> deleted file mode 100644
-> index 4ed8d25..0000000
-> --- a/meta/recipes-support/re2c/re2c_1.0.1.bb
-> +++ /dev/null
-> @@ -1,14 +0,0 @@
-> -SUMMARY =3D "Tool for writing very fast and very flexible scanners"
-> -HOMEPAGE =3D "http://re2c.sourceforge.net/"
-> -AUTHOR =3D "Marcus B=C3=B6rger <helly@users.sourceforge.net>"
-> -SECTION =3D "devel"
-> -LICENSE =3D "PD"
-> -LIC_FILES_CHKSUM =3D "file://README;beginline=3D146;md5=3D881056c9add17=
-f8019ccd8c382ba963a"
-> -
-> -SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
-> -SRC_URI[md5sum] =3D "e2c6cf52fc6a21595f21bc82db5324f8"
-> -SRC_URI[sha256sum] =3D "605058d18a00e01bfc32aebf83af35ed5b13180b4e9f279=
-c90843afab2c66c7c"
-> -
-> -BBCLASSEXTEND =3D "native"
-> -
-> -inherit autotools
-> diff --git a/meta/recipes-support/re2c/re2c_git.bb b/meta/recipes-suppor=
-t/re2c/re2c_git.bb
-> new file mode 100644
-> index 0000000..06242ce
-> --- /dev/null
-> +++ b/meta/recipes-support/re2c/re2c_git.bb
-> @@ -0,0 +1,23 @@
-> +SUMMARY =3D "Tool for writing very fast and very flexible scanners"
-> +HOMEPAGE =3D "http://re2c.sourceforge.net/"
-> +AUTHOR =3D "Marcus B=C3=B6rger <helly@users.sourceforge.net>"
-> +SECTION =3D "devel"
-> +LICENSE =3D "PD"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D64eca4d8a3b67f9dc7656094731a=
-2c8d"
-> +
-> +SRC_URI =3D  "git://github.com/skvadrik/re2c.git \
-> +            file://cve-2020-11958.patch \
-> +           "
-> +
-> +# rev of 1.3 tag
-> +#
-> +SRCREV =3D "e1901b71c6414c510f10f4cc30c0a05600e55ed1"
-> +PV =3D "1.3+git"
-
-if it is release tag then just set PV =3D "1.3"
-
-> +
-> +# override the default S
-> +#
-> +S =3D "${WORKDIR}/git"
-> +
-> +BBCLASSEXTEND =3D "native"
-> +
-> +inherit autotools
-
-Usually inherit should go above BBCLASSEXTEND
+> Richard
 >=20
 >=20
 >=20
 >=20
 
 
---RTksGivY685TxvPNOyR4f48F1StOhDT4C--
+--nrXVV8CIXCXQoIq4uZVdBDqMLExpc2ENr--
 
---aBx4FTwCkjpp6AOlD3qmzxDPzNyDiUwSj
+--NEOylzg6U9rb79Sq1FwAT0Tl5ToaW1TEo
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXqOX4AAKCRC7BTNVkZ0z
-FDbHAJ9t8MVEAZJ5Yy+yPMH9b4xcEXGFtwCfc15gWKeuf8DNNs5VPgmY2ZRA+mo=
-=212+
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXqO/2gAKCRC7BTNVkZ0z
+FARnAJ4tgnQD633mgxm/Xh/KBzcpKFDoYgCgjdu73NXPqn8wHEBHoavjGKRj7G4=
+=xgJ1
 -----END PGP SIGNATURE-----
 
---aBx4FTwCkjpp6AOlD3qmzxDPzNyDiUwSj--
+--NEOylzg6U9rb79Sq1FwAT0Tl5ToaW1TEo--
