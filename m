@@ -1,126 +1,78 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.347.1587835712189180995
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web12.333.1587835713072829375
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Apr 2020 10:28:32 -0700
+ Sat, 25 Apr 2020 10:28:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RT03u+8q;
- spf=pass (domain: gmail.com, ip: 209.85.221.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f50.google.com with SMTP id x17so14675836wrt.5
-        for <openembedded-core@lists.openembedded.org>; Sat, 25 Apr 2020 10:28:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q7s0GGKH;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id x17so14675869wrt.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 25 Apr 2020 10:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=qa8lnJUxW4IXUaIkICivosiif2JSEW0N3oxAmM6oPus=;
-        b=RT03u+8q3maiJRpClFRdvjXPvQHwCLnkY9AxK4+zAWuVL3ZMx3OUuEqL33StYfjwQ/
-         7AxJREEq9Yz4FFE5hcb0n0HpsZxFXa4UhMrgvig/0EuhJRYGMOk+RPYZz66GhPIYrBAD
-         9jFiagG3LPzUm/bOLkcGFdM3f0JiWg9G3G4lMB41futL+bg7uzuqyvFJi0AC5fGjrcYE
-         vV97BvzYl4bwBxMWeoYduCZbmSaz78Myu8JPbn1ZYcdgzDMQQuWjA7UGJ6Hd7VYgCIT9
-         shlmviyGWJpflTbpkam7/GJijVGaFbzzLJrYuHxOrK72BWYCG3YXWByaWSnIgZabw81j
-         Tygw==
+        bh=mGOUQ70zHoGdFFuSV9NSXfYriptx6yMYqXPdbPBAjVA=;
+        b=Q7s0GGKHArfPE2eXmo2jNfiWgXDt/WRdnNid8QOkpCKK/iHQ4lm3w1ktPcKKbL4UEA
+         fLBJ8RHQacZMgHo5/PGGaRXWhw8xjTSahAzTHnc7mZT5Ff2T0jk6D68oHKxR0KWdXsLb
+         nSO4TzuORjxxzetRw2NBoHDJ3u37W6LdvIszJrcOlm+o1sZCW/xe1kO8QOSCU35kz86q
+         k8HJIfH9M/nyk6weSSX4q2xj5qp0FMIpd8CBmRxhA8ChytxPYmg6vXeYN8hBTH7hhtzc
+         nhXs3NKviscXAg2Rz53600xZ6LTNJpbzsaVGHHO6H7q0h2duanMH/cMicp9GZlz5xgVM
+         EzOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=qa8lnJUxW4IXUaIkICivosiif2JSEW0N3oxAmM6oPus=;
-        b=fJs0aylhVwJhyJHLvGId9BhW+DX1HikiBw2IHspIxI4KJK96Tw/5g3Yw81xeuxO5p9
-         a41QOkUi5+2Ndvwf2hWE9I2yP/8fQFGq+t4mGe0s0nHGsic/laq+ZZfQ3rljMuC06NrI
-         NJa3fjf0xZGLiJ7NgIwKABVUPuHATj7d0zUC7r9mCYwdt9bHuuWpPd8LGjQggGxUfS6/
-         Ek70yZypWArlHQ1e+jCfAzlppgk+KfyzyhCQUwJsVSqu9eMOMVQnJKTvrzvYUqLZL2Yu
-         5B+7u2VxKK7BfJYpF0xmWI0hpwqaWUMhaU+qpO9HcnnYiBxl1mInJ2vRyHOlJc/OKwik
-         vnxg==
-X-Gm-Message-State: AGi0PuaEb240Xc/CG0QPN+qf3HXvORwwP9HflgRd9TnAP5FpHHeCVQ+8
-	eW9gFenaz2OYWz4OjCheQXGycmw1
-X-Google-Smtp-Source: APiQypJ2wdj//+gp0lkjrXsS0ls26NykTdywtJUkPB+pKDUB5RPN60Nvs+1O8UoO62Uj6rsYDDulYA==
-X-Received: by 2002:a5d:4ccb:: with SMTP id c11mr17918640wrt.122.1587835710433;
-        Sat, 25 Apr 2020 10:28:30 -0700 (PDT)
+        bh=mGOUQ70zHoGdFFuSV9NSXfYriptx6yMYqXPdbPBAjVA=;
+        b=T8e5XTYEe+gjO5yB/XDBdhG8rrzfQ0qd/T0gsl70k8gGP57YrqruxT7GfdmZN7KUiE
+         +q67AKbFTJ/r/JtuxfGq5J+KJ/qv24f6amMX4Rn7oH60HrYLypxvusocunfI7LlKbIg7
+         RWkzS6l1sDRWUVX7RTqEhD+fFHBKr4w5DXCrVne4n20y63IzJKmeNJdT39FL4i8T3pSw
+         BKmYwfAbWJFJaRfsl8f1mtCJ6upHj3q/EtTQb1tk93kYn+PTQaA7JR9HutGPkbhEz04m
+         4CzWfdE20QFNDuaKyxqKCCJZ/+UI8UgM+0OtNynTSKc37EZ7RqD8Lfc59VDdAdw/yhdR
+         LFmA==
+X-Gm-Message-State: AGi0PuYH5gNaAeBq0btbtl9sWkcDOSkJ2TltRBimMR1A0etv64iDvQ8B
+	PqKkVRRDcVDowUDGHnlid86/3Fei
+X-Google-Smtp-Source: APiQypKoRywnQ5K5cfRYfzoCxFa8MOjEQtnnhPa5RIpY3W0ClH47nkrE1Q/fvwQG2JqB2b6rO6cEfQ==
+X-Received: by 2002:adf:d0c5:: with SMTP id z5mr19079656wrh.410.1587835711407;
+        Sat, 25 Apr 2020 10:28:31 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id g25sm7751253wmh.24.2020.04.25.10.28.29
+        by smtp.gmail.com with ESMTPSA id g25sm7751253wmh.24.2020.04.25.10.28.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Apr 2020 10:28:29 -0700 (PDT)
+        Sat, 25 Apr 2020 10:28:30 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 04/15] dnf: upgrade 4.2.2 -> 4.2.21
-Date: Sat, 25 Apr 2020 19:28:03 +0200
-Message-Id: <20200425172814.27370-4-alex.kanavin@gmail.com>
+Subject: [PATCH 05/15] quilt: do not test patch-wrapper as it is not enabled
+Date: Sat, 25 Apr 2020 19:28:04 +0200
+Message-Id: <20200425172814.27370-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200425172814.27370-1-alex.kanavin@gmail.com>
 References: <20200425172814.27370-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop upstreamed patches.
+Upstream only enables the test if --with-patch-wrapper
+was supplied to ./configure, and so should we.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../dnf/dnf/Fix-SyntaxWarning.patch           | 34 -------------------
- .../dnf/{dnf_4.2.2.bb => dnf_4.2.21.bb}       |  3 +-
- 2 files changed, 1 insertion(+), 36 deletions(-)
- delete mode 100644 meta/recipes-devtools/dnf/dnf/Fix-SyntaxWarning.patch
- rename meta/recipes-devtools/dnf/{dnf_4.2.2.bb => dnf_4.2.21.bb} (97%)
+ meta/recipes-devtools/quilt/quilt.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-devtools/dnf/dnf/Fix-SyntaxWarning.patch b/meta/recipes-devtools/dnf/dnf/Fix-SyntaxWarning.patch
-deleted file mode 100644
-index 1bd8b09594..0000000000
---- a/meta/recipes-devtools/dnf/dnf/Fix-SyntaxWarning.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From 23c5b15efe42e5e6ee695e54798bac248532d8d6 Mon Sep 17 00:00:00 2001
--
--Date: Tue, 28 May 2019 13:14:51 +0200
--Subject: [oe-core][PATCH 1/1] Fix SyntaxWarning: "is" with a literal. Did you
-- mean "=="?
--
-----
-- dnf/cli/commands/repoquery.py | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
-----
--
--Unchanged.  Appears in version 4.2.7.
--
--Upstream-Status: Backport [git://github.com/rpm-software-management/dnf.git]
--
--Signed-off-by: Joe Slater <joe.slater@windriver.com>
--
--
--diff --git a/dnf/cli/commands/repoquery.py b/dnf/cli/commands/repoquery.py
--index 941a470..63fc668 100644
----- a/dnf/cli/commands/repoquery.py
--+++ b/dnf/cli/commands/repoquery.py
--@@ -611,7 +611,7 @@ class RepoQueryCommand(commands.Command):
-- 
--     def tree_seed(self, query, aquery, opts, level=-1, usedpkgs=None):
--         for pkg in sorted(set(query.run()), key=lambda p: p.name):
---            usedpkgs = set() if usedpkgs is None or level is -1 else usedpkgs
--+            usedpkgs = set() if usedpkgs is None or level == -1 else usedpkgs
--             if pkg.name.startswith("rpmlib") or pkg.name.startswith("solvable"):
--                 return
--             self.grow_tree(level, pkg, opts)
---- 
--2.7.4
--
-diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.21.bb
-similarity index 97%
-rename from meta/recipes-devtools/dnf/dnf_4.2.2.bb
-rename to meta/recipes-devtools/dnf/dnf_4.2.21.bb
-index a046ffc05d..8f7757b72f 100644
---- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.2.21.bb
-@@ -13,11 +13,10 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
-            file://0005-Do-not-prepend-installroot-to-logdir.patch \
-            file://0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            file://0030-Run-python-scripts-using-env.patch \
--           file://Fix-SyntaxWarning.patch \
-            file://0001-set-python-path-for-completion_helper.patch \
-            "
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index d6d06c049c..d2db079e0b 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -71,6 +71,9 @@ do_install_ptest() {
+ 	tar -c --exclude=mail.test --exclude=delete.test test/ | ( cd ${D}${PTEST_PATH} && tar -xf - && chmod 777 test)
+ 	cp ${WORKDIR}/Makefile ${D}${PTEST_PATH}
+ 	cp ${WORKDIR}/test.sh ${D}${PTEST_PATH}
++
++	# This is specifically excluded when --with-patch-wrapper is absent during ./configure
++	rm ${D}${PTEST_PATH}/test/patch-wrapper.test
+ }
  
--SRCREV = "9947306a55271b8b7c9e2b6e3b7d582885b6045d"
-+SRCREV = "864c381baabf024c299dca75abfda96139b8f583"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
- 
- S = "${WORKDIR}/git"
+ PACKAGES += "guards guards-doc"
 -- 
 2.26.1
 
