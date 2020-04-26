@@ -1,69 +1,93 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web11.10557.1587905988127275528
+Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
+ by mx.groups.io with SMTP id smtpd.web10.12358.1587913098459940497
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Apr 2020 05:59:48 -0700
+ Sun, 26 Apr 2020 07:58:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D+c7RBd9;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id j1so17230204wrt.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 05:59:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=nWgoUySiR9fjvUe9hK0cLPnViRt6Ilg2Nf0NtRYiKtg=;
-        b=D+c7RBd9KbLsL/RUtWRIMSWDzlyI1pGVWsW79LRVK9hdXOB4tuDWXy983t2AynJ9UH
-         +o4todUpQECmzwuCsP/3Qlk+40ZeIDPIuB0hu2RlmQNFSNNe5emL/NcIWnaK1/Bx4fRK
-         4st87J8f5Z2J/HzhvdBZfSjuZt6mAiWM2+Lws=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=nWgoUySiR9fjvUe9hK0cLPnViRt6Ilg2Nf0NtRYiKtg=;
-        b=J/Aq/NxAMGVAOYuYT0sng/5GaDMhTiXZJxQ6Vzzh2s9b7GANBz53q60rJ7Y01LMakm
-         7idmb2HH4r66Ic73M157N7xCHl+iQvFB6xjM2EGEkV6bKHKmRWorlNgEvZRnA73E2KgE
-         OH1+eAhuIxjUa6dII3gO2i+ha8+kqabf4LNU6AvvrVuC5wuMI6F/wHgA+VteFlFI2FsE
-         rZNjj1TsnnaCqSf1JK7cODVru78sx3JUOAIuKEPFV9Ax0HPbgLhz21MtnwM6djYnvMo5
-         kgLhYQDOUiXDIGObUlRxNRYZCtA40q8qvtE1k/VWMgb9Wv4QQpveDKejGvhVMFN4Te9n
-         8xLg==
-X-Gm-Message-State: AGi0PuZ/i6GYcPGkYnfC5F6U9eKeERjOQC7ApcOOxbtpd8CRJc9jwqEY
-	qL8kdlwEZHy/we5UL3i3NGh7cQ==
-X-Google-Smtp-Source: APiQypK3SoZuqYelqccQYITI0ZZc1QDEdGhz14vOj34h6J2E8HToyDOwncbrW78lyUTWCf8CzFuxsg==
-X-Received: by 2002:adf:dd07:: with SMTP id a7mr21604045wrm.349.1587905986538;
-        Sun, 26 Apr 2020 05:59:46 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id d133sm12730256wmc.27.2020.04.26.05.59.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2020 05:59:45 -0700 (PDT)
-Message-ID: <d3664a46f7e733018205320264a2b9f8ec7522d8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v7 07/10] wic: misc: Do not find for executables in ALREADY_PROVIDED
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Ricardo Ribalda <ricardo.ribalda@gmail.com>, openembedded-core
- <openembedded-core@lists.openembedded.org>, Paul Barker
- <pbarker@konsulko.com>
-Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date: Sun, 26 Apr 2020 13:59:44 +0100
-In-Reply-To: <20200419063539.1467641-8-ricardo@ribalda.com>
-References: <20200419063539.1467641-1-ricardo@ribalda.com>
-	 <20200419063539.1467641-8-ricardo@ribalda.com>
-User-Agent: Evolution 3.36.1-2 
+ dkim=pass header.i=@nifty.com header.s=dec2015msa header.b=jZ4vtWvK;
+ spf=softfail (domain: kernel.org, ip: 210.131.2.82, mailfrom: masahiroy@kernel.org)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
+	by conssluserg-03.nifty.com with ESMTP id 03QEw0sw027505
+	for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 23:58:01 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 03QEw0sw027505
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+	s=dec2015msa; t=1587913081;
+	bh=hmjH/6cE6RyXc8Sj8WHLdqcFq48WScCYqogARmxh1RM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=jZ4vtWvKfuIK18het5z9GeKAK1zKHG0U0ZVUXM1CSVZ2gmrYIkISGN0zNyalwfx6j
+	 qOQUa2I6Ps82Maaa7/OTuy01ES4MluSVdbjxPzxW7uDTUxW4y0C0PUM2hE+wscSKHX
+	 ooqYJQcyCdUv2uybpvz3Bd++ehr4NWgMCuS6E3VKJNbzRZlsX7b5QIcGE79G5Fuyww
+	 QWY3Uwp8HvGALIviXAjX4ShIsOVpyI6k3jpQ3Bry39/i8VTL3IP4Z1pmRNg1TxxFHs
+	 VElpmtxWcCsmrarvqYxksTm6ccSo4lFj5N4S9glasrJbJaY/2rqcVO1Pqj7lAEJRC3
+	 JbveSc/l9Om3A==
+X-Nifty-SrcIP: [209.85.222.42]
+Received: by mail-ua1-f42.google.com with SMTP id y10so14659003uao.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 07:58:01 -0700 (PDT)
+X-Gm-Message-State: AGi0PuahDljwTf3Du123QE32sLhZn+twrzDqA+IDN5egXZYzAXFxPbMX
+	c9qppqxMhV5Hxg2EDU7O0LIFGSpWfiTDZd0FZgE=
+X-Google-Smtp-Source: APiQypK2qplp3DvUywIUplQG+nxYClfh2VxcL7BdNEiLzw/kd5ytUBbAC11PDW0z2kydkEx3ivVKTPB2dqnv+XDjm1k=
+X-Received: by 2002:a67:e94d:: with SMTP id p13mr13441118vso.215.1587913080179;
+ Sun, 26 Apr 2020 07:58:00 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200425151908.1020349-1-masahiroy@kernel.org>
+ <9bccecbd0ff9ba88e9afc12a9b9475775bef03e5.camel@linuxfoundation.org>
+ <CAJ86T=XGh5y_S_K=nzA30pFY=LixQhFcO3jLcZco0cb5XCdLEw@mail.gmail.com> <16cffe54465cee6007792d6ac394987306f17f1f.camel@linuxfoundation.org>
+In-Reply-To: <16cffe54465cee6007792d6ac394987306f17f1f.camel@linuxfoundation.org>
+From: "Masahiro Yamada" <masahiroy@kernel.org>
+Date: Sun, 26 Apr 2020 23:57:24 +0900
+X-Gmail-Original-Message-ID: <CAK7LNARaBsPrUCVerHv1XV2c30R28=kcDgKVKis7q4Jo=aLOYQ@mail.gmail.com>
+Message-ID: <CAK7LNARaBsPrUCVerHv1XV2c30R28=kcDgKVKis7q4Jo=aLOYQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH RESEND] bitbake.conf: do not let DISTROOVERRIDES fall back to empty string
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Andre McCurdy <armccurdy@gmail.com>,
+        OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sun, 2020-04-19 at 08:35 +0200, Ricardo Ribalda wrote:
-> From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-> 
-> Executables like tar won't be available on the native sysroot, as
-> they
-> are part of the ALREADY_PROVIDED variable.
+On Sun, Apr 26, 2020 at 5:13 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sat, 2020-04-25 at 14:37 -0700, Andre McCurdy wrote:
+> > On Sat, Apr 25, 2020 at 8:38 AM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > On Sun, 2020-04-26 at 00:19 +0900, Masahiro Yamada wrote:
+> > > > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > > > index 4b544a22cd..eb3dd0007e 100644
+> > > > --- a/meta/conf/bitbake.conf
+> > > > +++ b/meta/conf/bitbake.conf
+> > > > @@ -739,7 +739,7 @@ DISTRO_NAME ??= "OpenEmbedded"
+> > > >  OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-
+> > > > ${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LI
+> > > > BCOV
+> > > > ERRIDE}:forcevariable"
+> > > >  LIBCOVERRIDE ?= ""
+> > > >  CLASSOVERRIDE ?= "class-target"
+> > > > -DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
+> > > > +DISTROOVERRIDES ?= "${DISTRO}"
+> > > >  MACHINEOVERRIDES ?= "${MACHINE}"
+> > >
+> > > Whilst this can't happen with our standard definitions now, the
+> > > side
+> > > effects of it not being set are nasty so I'd prefer to retain this.
+> >
+> > What exactly can go wrong? MACHINEOVERRIDES is empty every time we
+> > build a -native recipe, so just having :: in OVERRIDES or
+> > FILESOVERRIDES doesn't appear to be an issue. Is there something
+> > special about DISTROOVERRIDES ?
+>
+> native.bbclass sets MACHINEOVERRIDES = "" whereas with this change
+> DISTROOVERRIDES would be set to "${DISTRO}" instead of "" as it
+> currently is today. I think unexpanded variables were sub-optimal in
+> FILESOVERRIDES but I don't remember the details of why.
 
-ASSUME_PROVIDED :)
 
-I fixed the commit message in -next.
+Now, the same file defines this:
 
-Cheers,
+DISTRO ??= "nodistro"
 
-Richard
 
+In which case is "${DISTRO}" left unexpanded?
+
+
+
+-- 
+Best Regards
+Masahiro Yamada
