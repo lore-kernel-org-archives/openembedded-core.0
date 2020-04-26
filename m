@@ -1,72 +1,79 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.962.1587919883209299526
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web12.1755.1587922503103370170
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Apr 2020 09:51:23 -0700
+ Sun, 26 Apr 2020 10:35:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 45B6D40BAC;
-	Sun, 26 Apr 2020 16:51:22 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id cKmVpeIm4Opc; Sun, 26 Apr 2020 16:51:22 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 25F7840A13;
-	Sun, 26 Apr 2020 16:51:21 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 7CC25172A06; Sun, 26 Apr 2020 12:51:20 -0400 (EDT)
-Date: Sun, 26 Apr 2020 12:51:20 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: Michael Halstead <mhalstead@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] Brief git.openembedded.org Downtime
-Message-ID: <20200426165120.GM11927@denix.org>
-References: <1609386B276C754D.21337@lists.openembedded.org>
- <CADfgfoZVOwX_0eeRDJAB0CSoAKxJOt3c63FWJh+a85=fTUJ7PA@mail.gmail.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HLq2J88I;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f67.google.com with SMTP id g13so17755523wrb.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 10:35:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=2TaMzGQyh0Fat9acSzCNIYly8NEgPl+GWU4a4v685Jo=;
+        b=HLq2J88IDLMvS4W+XGkSxfiHdbKhR/N60O37d75yyyrwIaPbDX/eoqodxZaUJ30zt7
+         td2/T2zAJ/ppT6dh0+bXcvcIgHC8ETUOXLPbBLV4CtZUm7WSwKQpJUCpBNJw2tjEYD/W
+         oRvWltkQmxd7GCiMfcUy47iUS4yK2AEJQy0kY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=2TaMzGQyh0Fat9acSzCNIYly8NEgPl+GWU4a4v685Jo=;
+        b=F1/X5AVwrYRTMLQMjATjUKo+d01nYUlSrARK7fTc6Q+Z2BEfUtBwZzXJkbs/66U3uY
+         5nl5XW5Fa9Nka4C2jU5iF4MFQhR3c3nLmKFOQ9XizjXQqhPS0yHvT61nC3BDQtODdsXi
+         K1tHp4W9ZJ7/9OxoYfkJ5A2xDGcVKJnKX5D/vnNTuQogav5HoX/NZgalAEFTE0P37VBd
+         dgBQdAPHMb4m8ho6267q5C3eOUpGje76okNRD78a1GHr64X2xO4wpxyaGII8Nm0jFzhu
+         3yz1gDNT5AQcIdzbs/3RaFp8amGlKSgfJ3GeKU5RvMuIkmeXFAhZkfxULQmDHLwoq5Le
+         Ra1Q==
+X-Gm-Message-State: AGi0Pub8bHJrc4st9IO52xEZLQA9wr6iKZd7/rMrFlJCo81bNeIVuNLn
+	vJnmf/dY8Oh9ggUsXGn9IiEJSQ==
+X-Google-Smtp-Source: APiQypIaISIbB9nLgJDKQDZ5E6bNZ76u3FhAa40uoz30y0DEHpQlEvWD9HZ3VhkriQf3IPACYPpltw==
+X-Received: by 2002:a5d:4ecf:: with SMTP id s15mr24490978wrv.226.1587922501482;
+        Sun, 26 Apr 2020 10:35:01 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id y40sm18807773wrd.20.2020.04.26.10.35.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Apr 2020 10:35:00 -0700 (PDT)
+Message-ID: <9121b61b00747df8d326b422d2bb34258dd6665c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 01/15] rpm: upgrade to 4.15.1
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 26 Apr 2020 18:34:59 +0100
+In-Reply-To: <20200425172814.27370-1-alex.kanavin@gmail.com>
+References: <20200425172814.27370-1-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-In-Reply-To: <CADfgfoZVOwX_0eeRDJAB0CSoAKxJOt3c63FWJh+a85=fTUJ7PA@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sat, Apr 25, 2020 at 08:19:47PM -0700, Michael Halstead wrote:
-> This work is complete and all services are available. As a bonus the new
-> hardware is faster.
+On Sat, 2020-04-25 at 19:28 +0200, Alexander Kanavin wrote:
+> Drop patches that were merged upstream.
+> 
+> 0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
+> modifies a file that was removed upstream.
+> 
+> Add a 0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
+> as unfortunately the new parallel file classification feature from
+> upstream trips over somewhere in libmagic when inspected files are
+> compressed:
+> https://github.com/rpm-software-management/rpm/issues/756
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Thank you, Michael!
+Hi Alex,
 
+There were some failures from this series:
 
-> Service restored at 2020-04-25 20:14 PDT.
-> 
-> On Sat, Apr 25, 2020 at 5:52 PM Michael Halstead via lists.openembedded.org
-> <mhalstead=linuxfoundation.org@lists.openembedded.org> wrote:
-> 
-> > There is a potential issue with the physical machine hosting
-> > git.openembedded.org. I'm going to take the VM offline to move it to new
-> > hardware. The process should take less than 30 minutes.  Full backups have
-> > been taken in case of unexpected failures.
-> >
-> > The downtime will begin in about 2 hours starting at 2020-04-25 20:00 PDT.
-> > I will e-mail when the process is complete.
-> >
-> > --
-> > Michael Halstead
-> > Linux Foundation / Yocto Project
-> > Systems Operations Engineer
-> >
-> >
-> > 
-> >
-> 
-> 
-> -- 
-> 
-> -- 
-> Michael Halstead
-> Linux Foundation / Yocto Project
-> Systems Operations Engineer
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/890
 
-> 
+It may be easiest for you to have a look through that build result as I
+think all the failures are from your patches as that is the main thing
+in -next! :)
+
+Cheers,
+
+Richard
 
