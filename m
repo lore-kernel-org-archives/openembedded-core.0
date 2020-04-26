@@ -1,91 +1,81 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
- by mx.groups.io with SMTP id smtpd.web10.2883.1587925793078128287
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
+ by mx.groups.io with SMTP id smtpd.web12.3952.1587928386074775279
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Apr 2020 11:29:53 -0700
+ Sun, 26 Apr 2020 12:13:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LgXoelPU;
- spf=pass (domain: gmail.com, ip: 209.85.222.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f51.google.com with SMTP id g35so3413050uad.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 11:29:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pDxeJlnE;
+ spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: jpuhlman@gmail.com)
+Received: by mail-ot1-f50.google.com with SMTP id g19so22407321otk.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 12:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=1X0b9bJcLIlEVqFMzI/CHL7jFKZJfqNuFILz6/uaPlE=;
-        b=LgXoelPUDjQzmizF56b66q2k+VONDpQiHZdFnoac7XkLUPoxC2J+cfx0T3P39LWc3n
-         /3Wcmi0ebS+oNBhqpObsDTH5lz2MCVxggiFMAwZV5a+bk3gov75UDXwA1UbHOz9JUBq0
-         3QINMMGMLjTN8YQ5XBf5Tw/vEoDmiOtr4FN6yoJ9x75IShe9oAItTxGVRDkIolE8Hv/+
-         KV1BiYQB/pRLd86o70l6YpZaNpScG9m00XpGu/XarxNLfTP9+8g+aXd+plqxydaOZJFS
-         vTUGZp+2kAwwEmNQ5+tjbMCNPMb4iyDHL/nYkuvZTneS73gcSiFI6WI1qgbt5mQabUmf
-         8fUw==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yLCyds4IPIAvjKw2iVQQjv31WBLygYIH6H9ggCv7G7g=;
+        b=pDxeJlnEeofn1cEFLj0CLVxGp1Cqy8D1EATSQ3NiabEf0+B14b7NWczNfFhVD/Fgsq
+         Qi+m8LfDFrXk1TMdb9/EEDt5koKP7lS2KzXxP+zVNiLLA9es5/qm+Hb//5n+zlQfTQCW
+         h6G6knJ79Bds6iZ2Al7R/9521eWI57XIN2jwOQ8vsDplxDJbHvprXW0kJ2QZT0dgIGua
+         OfMcbQU+J6cfabp/VNgZodGVPMDRoOuIZybGh6smMZFdWhhf6qhmwiR2UFRD9dtjbkFF
+         lbJFhQQcIRJE6uyLhbYPtVAwPisxzQyNyjh6NIdWfn2xwjfdCqRuCLAix6+nUUm8sTfC
+         ENHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=1X0b9bJcLIlEVqFMzI/CHL7jFKZJfqNuFILz6/uaPlE=;
-        b=fnAFFXhGtS5I14ZBuRytCj8S/n2+RiZIG18yh5gztrB1B/eLmC/h7doeGK8WdUbL/4
-         1cn0IpiZNY1bJiZgIphua30Lff/Z9kfOEpgodqaOOOb6yyhPiqGVHDDLcGb/Yjzwt70i
-         RTwKOjjVgbGd9W3LAPgz+KNZxy+I6ewuq5Zjsw9RCObvjpMv39LhgfOuj0DuaXMhkDwY
-         4m7rCSXO2HOGydc6OfKVG8NVMg/TnmHFp27D4saD0ElJIYPw3UO+puVjXZPRty4XyEmO
-         jC3UtS0QMXMoxPt9GomQp6w6ckFg6S4MUU4LzLHAIOmGl1fveNjhe7O1bPeZgFWe3UrM
-         M1Ng==
-X-Gm-Message-State: AGi0PuauB889fFEVSm0J4urJCq1PHPyzHy3HKkQBx9Sg4jesaHxgzwZ9
-	lKdq+pj+pQZ/XjmhSi/N3rYsbDubJJ4cOY3VKL0=
-X-Google-Smtp-Source: APiQypJ4VsNGHHDEGG12hOG1QNh3mzUUq0S0qBMPAIgGGsnDLdfWPaKHzeqoXdSdmn7AOufp0Nw1ElgymqYQeHI7GDc=
-X-Received: by 2002:a67:fc8d:: with SMTP id x13mr14626391vsp.83.1587925792187;
- Sun, 26 Apr 2020 11:29:52 -0700 (PDT)
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=yLCyds4IPIAvjKw2iVQQjv31WBLygYIH6H9ggCv7G7g=;
+        b=rj8iJLu9uo1nbOcde82hTqDbYEAEKe0k5NwX/X3F+i/o26B/zb+IaoTNT2I75NxsbM
+         sg9bDoQrTezcMG2SpLZRAz8I1p0GfU+F/+aER22Z1EBJavy2v9E/m6cMVdlNPku76vBL
+         0BIJAQ0kT/wbwHZNb/50FMkbfQcG9K1d2FKhpZ5S90Lvs+JMEJmBbP/kWAPqOn+LFJBI
+         oLGR8Nl4oQWfc2y5wlnc333cZ7q91bg80xDCduU450mECtAmHxyOmDWcaASRNC58MkBf
+         1NwF3Zgb2qEMFewUgmqdD5zYEx1i5VvRSm8zrgrZo3uXiohXNJdFabG3h+Lw/It5+Wlu
+         8tjA==
+X-Gm-Message-State: AGi0PubUCegzhK7syHlN6Me30BX1JRp2ybJzj8TK+hGDcXUPTLRvGW7D
+	GizWscN487kc0p5KHjEJRQo=
+X-Google-Smtp-Source: APiQypKZ5IE6fMMqaeXROJ79YnWQdgggoCbJvbSdIO2UHDOewBqpykm0sRVAwWLbj+okQ8olLw9kmg==
+X-Received: by 2002:a05:6830:158b:: with SMTP id i11mr16511340otr.160.1587928385386;
+        Sun, 26 Apr 2020 12:13:05 -0700 (PDT)
+Return-Path: <jpuhlman@gmail.com>
+Received: from workhorse.localdomain (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+        by smtp.gmail.com with ESMTPSA id r6sm3418903oom.26.2020.04.26.12.13.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Apr 2020 12:13:04 -0700 (PDT)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id 483172A047F; Sun, 26 Apr 2020 12:13:03 -0700 (PDT)
+From: "Jeremy Puhlman" <jpuhlman@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jeremy Puhlman <jpuhlman@mvista.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [dunfell][PATCH 1/3] qemu-system-native: Fix commented out PACKAGECONFIG
+Date: Sun, 26 Apr 2020 12:13:00 -0700
+Message-Id: <20200426191302.25782-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200425172814.27370-1-alex.kanavin@gmail.com> <9121b61b00747df8d326b422d2bb34258dd6665c.camel@linuxfoundation.org>
-In-Reply-To: <9121b61b00747df8d326b422d2bb34258dd6665c.camel@linuxfoundation.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sun, 26 Apr 2020 20:29:40 +0200
-Message-ID: <CANNYZj-M29suvyhMuuiUcv3aSKQOKtXM50uYqvXgAb6u7AAeYg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 01/15] rpm: upgrade to 4.15.1
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000c5e96305a435c842"
+Content-Transfer-Encoding: 8bit
 
---000000000000c5e96305a435c842
-Content-Type: text/plain; charset="UTF-8"
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-On Sun, 26 Apr 2020 at 19:35, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+(From OE-Core rev: f2bcc384a6e90480b5b0f0c77530f014785b291e)
 
->
-> There were some failures from this series:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/890
->
-> It may be easiest for you to have a look through that build result as I
-> think all the failures are from your patches as that is the main thing
-> in -next! :)
->
+Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/qemu/qemu.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks Richard, I'll work through these one by one. Hopefully the amount of
-actual issues is a lot less than the amount of red in that build.
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index f17a046fca..7a1ccf2115 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -180,7 +180,7 @@ PACKAGECONFIG[snappy] = "--enable-snappy,--disable-snappy,snappy"
+ PACKAGECONFIG[glusterfs] = "--enable-glusterfs,--disable-glusterfs"
+ PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
+ PACKAGECONFIG[libudev] = "--enable-libudev,--disable-libudev,eudev"
+-#PACKAGECONFIG[libxml2] = "--enable-libxml2,--disable-libxml2,libxml2"
++PACKAGECONFIG[libxml2] = "--enable-libxml2,--disable-libxml2,libxml2"
+ 
+ INSANE_SKIP_${PN} = "arch"
+ 
+-- 
+2.20.1
 
-Alex
-
---000000000000c5e96305a435c842
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 26 Apr 2020 at 19:35, Richard Pur=
-die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
-e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex"><br>
-There were some failures from this series:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/83/build=
-s/890" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
-t.org/typhoon/#/builders/83/builds/890</a><br>
-<br>
-It may be easiest for you to have a look through that build result as I<br>
-think all the failures are from your patches as that is the main thing<br>
-in -next! :)<br></blockquote><div><br></div><div>Thanks Richard, I&#39;ll w=
-ork through these one by one. Hopefully the amount of actual issues is a lo=
-t less than the amount of red in that build.</div><div><br></div><div>Alex<=
-br></div></div></div>
-
---000000000000c5e96305a435c842--
