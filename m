@@ -1,93 +1,122 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web10.10305.1587905509639554162
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.10549.1587905953022461183
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Apr 2020 05:51:50 -0700
+ Sun, 26 Apr 2020 05:59:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C1reHDBo;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id f13so17148655wrm.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 05:51:49 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=M22Bpq4Q;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id v8so13788315wma.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 05:59:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=mZt7nV/MvLRVP1I37xIX+eL+YxfOAqrc6kQqfn2w6jo=;
-        b=C1reHDBo62fWGjdjtd0I7u6/7O0v0YgHZuaOOC6DcdyRZ+Hku2kZleEaBkKLG23nhr
-         f/AKD7hFgNpfYuUxQpiCrrKgleR4T2Gvs3agFImCCl78/1MVfIVbqmXBrRLPMC289U0g
-         ek+vShr+jiQkTd72aeeRZLHMnILnNDvMFx/CY=
+        bh=uk+l84k5VxecE2eEsTtPTG6QrVD4urKxGHvrC9m4JE8=;
+        b=M22Bpq4QQONM3odt+76YEgDJlAHRrkNjQd7TG4dD9luVPAPowFD0CT+DR+X2zdyeyp
+         haTm4nPeix3Cq8JT9W+OS7Aax/6G2b7M+IQSjt7mIn9BGCo+gN5fBhqa/7xkVYCt38+z
+         aTiXbbg3/Ft5Skuu5ndrD0IiDl5y9XPbXrKVw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=mZt7nV/MvLRVP1I37xIX+eL+YxfOAqrc6kQqfn2w6jo=;
-        b=WWRpWvd/Naar5psCgagaxHydu4+owfFLM8s2/IksmQXupqi/CyjpBKXm+13SH8Roj0
-         K4Yusz2ivraa3uJWZ/E9JMou008AmimDxBET8JaZnDYuiRxlH9me5gFSyuR0OhgsyKoH
-         SGYMqOjwK4Xk4oPN0bZkFTGdTKmav7ransuCzdtUs7CyuTdJUQYcPATds5zXZjtWuiw7
-         bx6hdcXSS8xotTjrBxCoh3Ledcz/47Q6UgFmPVESCwX7F/gFyLmyS0k09IyiB3jztJeG
-         TCjAoA2NuqSSpo1O84zZcuKZv2hYvl4UceMOcj5HK6DKQbYwRC/khCaccr0sB5mt3hUy
-         FCLA==
-X-Gm-Message-State: AGi0PuYBgs2FAVOBCO9nMUJYToWIh6UqyGiN7DgmgNnxnPH5z6at3o6+
-	J4oZimkpkpKgVEs42aV+/V0h6ZbHYnw=
-X-Google-Smtp-Source: APiQypLPYvMytYYJN760Pg7NAjpLDXTDoZY88EPsp2l5mRo+JR5BGK70XhgILkkBaYp0aygohDsmAA==
-X-Received: by 2002:a05:6000:10c2:: with SMTP id b2mr23529789wrx.118.1587905507783;
-        Sun, 26 Apr 2020 05:51:47 -0700 (PDT)
+        bh=uk+l84k5VxecE2eEsTtPTG6QrVD4urKxGHvrC9m4JE8=;
+        b=MNsdMdoefhy5tLVGqPpkbgiWPgBILE8Los8WoMtXtFOjZpOls03O6iBlrJ7NQEIGCl
+         /EW1oLDIYlZDvkGhKOQnKZHDyfZx79Se+XfMjjQAsRaqser6Og7N+dgQAGx8ZA93WjYz
+         ghUKhEqkMvRzyvvrBbYy3yCzGXN1jjen4dvjxjb8yowZVRSJ6mnsoz2NZSOjSrYH/164
+         BNHmMojYKh3Q/PMPQkRTQo1qWxxbn4FuIe7HbxM8ZgCwtOBHMxHhKi0craB66Ye7jTYV
+         by8J1lsF61URoJvnVMC4ebKTcLCs/32kMeNEtdh3X0C5hAreSyJj8SRgYkWiWDr+HDdS
+         QN6A==
+X-Gm-Message-State: AGi0Pub0mzdLpI84xz3r7gTUB5NBlzW4IHrm6bBSHZdhl9cWr9dgUhbH
+	XM3E/qJaMSoUWmBF4bGHPqNd4xJYLoQ=
+X-Google-Smtp-Source: APiQypJRuJpgN2FXZi+Iryfz7Q170nirRC97mxfs15qMoI89uzQYABcUj6bvP039tB/Xk980a0F6xA==
+X-Received: by 2002:a1c:1b58:: with SMTP id b85mr19999581wmb.112.1587905950894;
+        Sun, 26 Apr 2020 05:59:10 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id r2sm11397385wmg.2.2020.04.26.05.51.46
+        by smtp.gmail.com with ESMTPSA id g69sm11961056wmg.17.2020.04.26.05.59.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2020 05:51:47 -0700 (PDT)
+        Sun, 26 Apr 2020 05:59:10 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] targetcontrol: Fix leaking log handler
-Date: Sun, 26 Apr 2020 13:51:46 +0100
-Message-Id: <20200426125146.1110969-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] oeqa/qemurunner: Clean up failure handling
+Date: Sun, 26 Apr 2020 13:59:09 +0100
+Message-Id: <20200426125909.1111587-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We had a mystery failure on the autobuilder where runqemu appeared to
-be failing as a logfile directory no longer existed. The key to
-reproducing was running a runqemu where the image was deleted (as
-devtool does), then running another runqemu test. E.g.:
+If you fail to setup the tap devices, runqemu will error quickly
+however stdout/stderr are not shown to the user, instead a SystemExit
+traceback is shown. This could explain some long since unexplained
+failures on the autobuilder.
 
-'oe-selftest -r  devtool.DevtoolExtractTests.test_devtool_deploy_target wic.Wic2.test_qemu_efi'
-
-This then tries to write to the logfile from the first test, the
-image directory was deleted and we get strange failures.
-
-The fix is to remove the logging handler when qemu is stopped.
+Rework the error handling so SystemExit isn't used and the
+standard log failure messages can be shown. The code could
+likely ultimatley need some restructuring to work effectively.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/targetcontrol.py | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/utils/qemurunner.py | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 0b2915d5ccd..2aa548e1ad2 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -117,9 +117,9 @@ class QemuTarget(BaseTarget):
-         import oe.path
-         bb.utils.mkdirhier(self.testdir)
-         self.qemurunnerlog = os.path.join(self.testdir, 'qemurunner_log.%s' % self.datetime)
--        loggerhandler = logging.FileHandler(self.qemurunnerlog)
--        loggerhandler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
--        self.logger.addHandler(loggerhandler)
-+        self.loggerhandler = logging.FileHandler(self.qemurunnerlog)
-+        self.loggerhandler.setFormatter(logging.Formatter("%(levelname)s: %(message)s"))
-+        self.logger.addHandler(self.loggerhandler)
-         oe.path.symlink(os.path.basename(self.qemurunnerlog), os.path.join(self.testdir, 'qemurunner_log'), force=True)
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 7d9b36f8117..4b743376523 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -36,6 +36,7 @@ class QemuRunner:
  
-         if d.getVar("DISTRO") == "poky-tiny":
-@@ -183,6 +183,7 @@ class QemuTarget(BaseTarget):
+         # Popen object for runqemu
+         self.runqemu = None
++        self.runqemu_exited = False
+         # pid of the qemu process that runqemu will start
+         self.qemupid = None
+         # target ip - from the command line or runqemu output
+@@ -125,7 +126,6 @@ class QemuRunner:
+                 self.logger.error('Output from runqemu:\n%s' % self.getOutput(self.runqemu.stdout))
+                 self.stop()
+                 self._dump_host()
+-                raise SystemExit
  
-     def stop(self):
-         self.runner.stop()
-+        self.logger.removeHandler(self.loggerhandler)
-         self.connection = None
-         self.ip = None
-         self.server_ip = None
+     def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None, discard_writes=True):
+         env = os.environ.copy()
+@@ -235,6 +235,8 @@ class QemuRunner:
+         endtime = time.time() + self.runqemutime
+         while not self.is_alive() and time.time() < endtime:
+             if self.runqemu.poll():
++                if self.runqemu_exited:
++                    return False
+                 if self.runqemu.returncode:
+                     # No point waiting any longer
+                     self.logger.warning('runqemu exited with code %d' % self.runqemu.returncode)
+@@ -244,6 +246,9 @@ class QemuRunner:
+                     return False
+             time.sleep(0.5)
+ 
++        if self.runqemu_exited:
++            return False
++
+         if not self.is_alive():
+             self.logger.error("Qemu pid didn't appear in %s seconds (%s)" %
+                               (self.runqemutime, time.strftime("%D %H:%M:%S")))
+@@ -419,7 +424,7 @@ class QemuRunner:
+                 os.killpg(os.getpgid(self.runqemu.pid), signal.SIGKILL)
+             self.runqemu.stdin.close()
+             self.runqemu.stdout.close()
+-            self.runqemu = None
++            self.runqemu_exited = True
+ 
+         if hasattr(self, 'server_socket') and self.server_socket:
+             self.server_socket.close()
+@@ -460,7 +465,7 @@ class QemuRunner:
+         return False
+ 
+     def is_alive(self):
+-        if not self.runqemu or self.runqemu.poll() is not None:
++        if not self.runqemu or self.runqemu.poll() is not None or self.runqemu_exited:
+             return False
+         if os.path.isfile(self.qemu_pidfile):
+             # when handling pidfile, qemu creates the file, stat it, lock it and then write to it
 -- 
 2.25.1
 
