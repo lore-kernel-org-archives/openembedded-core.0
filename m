@@ -1,93 +1,72 @@
-Received: from conssluserg-03.nifty.com (conssluserg-03.nifty.com [210.131.2.82])
- by mx.groups.io with SMTP id smtpd.web10.12358.1587913098459940497
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web10.962.1587919883209299526
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Apr 2020 07:58:19 -0700
+ Sun, 26 Apr 2020 09:51:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nifty.com header.s=dec2015msa header.b=jZ4vtWvK;
- spf=softfail (domain: kernel.org, ip: 210.131.2.82, mailfrom: masahiroy@kernel.org)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42]) (authenticated)
-	by conssluserg-03.nifty.com with ESMTP id 03QEw0sw027505
-	for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 23:58:01 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 03QEw0sw027505
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-	s=dec2015msa; t=1587913081;
-	bh=hmjH/6cE6RyXc8Sj8WHLdqcFq48WScCYqogARmxh1RM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jZ4vtWvKfuIK18het5z9GeKAK1zKHG0U0ZVUXM1CSVZ2gmrYIkISGN0zNyalwfx6j
-	 qOQUa2I6Ps82Maaa7/OTuy01ES4MluSVdbjxPzxW7uDTUxW4y0C0PUM2hE+wscSKHX
-	 ooqYJQcyCdUv2uybpvz3Bd++ehr4NWgMCuS6E3VKJNbzRZlsX7b5QIcGE79G5Fuyww
-	 QWY3Uwp8HvGALIviXAjX4ShIsOVpyI6k3jpQ3Bry39/i8VTL3IP4Z1pmRNg1TxxFHs
-	 VElpmtxWcCsmrarvqYxksTm6ccSo4lFj5N4S9glasrJbJaY/2rqcVO1Pqj7lAEJRC3
-	 JbveSc/l9Om3A==
-X-Nifty-SrcIP: [209.85.222.42]
-Received: by mail-ua1-f42.google.com with SMTP id y10so14659003uao.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 07:58:01 -0700 (PDT)
-X-Gm-Message-State: AGi0PuahDljwTf3Du123QE32sLhZn+twrzDqA+IDN5egXZYzAXFxPbMX
-	c9qppqxMhV5Hxg2EDU7O0LIFGSpWfiTDZd0FZgE=
-X-Google-Smtp-Source: APiQypK2qplp3DvUywIUplQG+nxYClfh2VxcL7BdNEiLzw/kd5ytUBbAC11PDW0z2kydkEx3ivVKTPB2dqnv+XDjm1k=
-X-Received: by 2002:a67:e94d:: with SMTP id p13mr13441118vso.215.1587913080179;
- Sun, 26 Apr 2020 07:58:00 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 45B6D40BAC;
+	Sun, 26 Apr 2020 16:51:22 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id cKmVpeIm4Opc; Sun, 26 Apr 2020 16:51:22 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 25F7840A13;
+	Sun, 26 Apr 2020 16:51:21 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 7CC25172A06; Sun, 26 Apr 2020 12:51:20 -0400 (EDT)
+Date: Sun, 26 Apr 2020 12:51:20 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Michael Halstead <mhalstead@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] Brief git.openembedded.org Downtime
+Message-ID: <20200426165120.GM11927@denix.org>
+References: <1609386B276C754D.21337@lists.openembedded.org>
+ <CADfgfoZVOwX_0eeRDJAB0CSoAKxJOt3c63FWJh+a85=fTUJ7PA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200425151908.1020349-1-masahiroy@kernel.org>
- <9bccecbd0ff9ba88e9afc12a9b9475775bef03e5.camel@linuxfoundation.org>
- <CAJ86T=XGh5y_S_K=nzA30pFY=LixQhFcO3jLcZco0cb5XCdLEw@mail.gmail.com> <16cffe54465cee6007792d6ac394987306f17f1f.camel@linuxfoundation.org>
-In-Reply-To: <16cffe54465cee6007792d6ac394987306f17f1f.camel@linuxfoundation.org>
-From: "Masahiro Yamada" <masahiroy@kernel.org>
-Date: Sun, 26 Apr 2020 23:57:24 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARaBsPrUCVerHv1XV2c30R28=kcDgKVKis7q4Jo=aLOYQ@mail.gmail.com>
-Message-ID: <CAK7LNARaBsPrUCVerHv1XV2c30R28=kcDgKVKis7q4Jo=aLOYQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH RESEND] bitbake.conf: do not let DISTROOVERRIDES fall back to empty string
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Andre McCurdy <armccurdy@gmail.com>,
-        OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CADfgfoZVOwX_0eeRDJAB0CSoAKxJOt3c63FWJh+a85=fTUJ7PA@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Apr 26, 2020 at 5:13 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sat, 2020-04-25 at 14:37 -0700, Andre McCurdy wrote:
-> > On Sat, Apr 25, 2020 at 8:38 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > On Sun, 2020-04-26 at 00:19 +0900, Masahiro Yamada wrote:
-> > > > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > > > index 4b544a22cd..eb3dd0007e 100644
-> > > > --- a/meta/conf/bitbake.conf
-> > > > +++ b/meta/conf/bitbake.conf
-> > > > @@ -739,7 +739,7 @@ DISTRO_NAME ??= "OpenEmbedded"
-> > > >  OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-
-> > > > ${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LI
-> > > > BCOV
-> > > > ERRIDE}:forcevariable"
-> > > >  LIBCOVERRIDE ?= ""
-> > > >  CLASSOVERRIDE ?= "class-target"
-> > > > -DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
-> > > > +DISTROOVERRIDES ?= "${DISTRO}"
-> > > >  MACHINEOVERRIDES ?= "${MACHINE}"
-> > >
-> > > Whilst this can't happen with our standard definitions now, the
-> > > side
-> > > effects of it not being set are nasty so I'd prefer to retain this.
+On Sat, Apr 25, 2020 at 08:19:47PM -0700, Michael Halstead wrote:
+> This work is complete and all services are available. As a bonus the new
+> hardware is faster.
+
+Thank you, Michael!
+
+
+> Service restored at 2020-04-25 20:14 PDT.
+> 
+> On Sat, Apr 25, 2020 at 5:52 PM Michael Halstead via lists.openembedded.org
+> <mhalstead=linuxfoundation.org@lists.openembedded.org> wrote:
+> 
+> > There is a potential issue with the physical machine hosting
+> > git.openembedded.org. I'm going to take the VM offline to move it to new
+> > hardware. The process should take less than 30 minutes.  Full backups have
+> > been taken in case of unexpected failures.
 > >
-> > What exactly can go wrong? MACHINEOVERRIDES is empty every time we
-> > build a -native recipe, so just having :: in OVERRIDES or
-> > FILESOVERRIDES doesn't appear to be an issue. Is there something
-> > special about DISTROOVERRIDES ?
->
-> native.bbclass sets MACHINEOVERRIDES = "" whereas with this change
-> DISTROOVERRIDES would be set to "${DISTRO}" instead of "" as it
-> currently is today. I think unexpanded variables were sub-optimal in
-> FILESOVERRIDES but I don't remember the details of why.
+> > The downtime will begin in about 2 hours starting at 2020-04-25 20:00 PDT.
+> > I will e-mail when the process is complete.
+> >
+> > --
+> > Michael Halstead
+> > Linux Foundation / Yocto Project
+> > Systems Operations Engineer
+> >
+> >
+> > 
+> >
+> 
+> 
+> -- 
+> 
+> -- 
+> Michael Halstead
+> Linux Foundation / Yocto Project
+> Systems Operations Engineer
 
+> 
 
-Now, the same file defines this:
-
-DISTRO ??= "nodistro"
-
-
-In which case is "${DISTRO}" left unexpanded?
-
-
-
--- 
-Best Regards
-Masahiro Yamada
