@@ -1,80 +1,82 @@
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
- by mx.groups.io with SMTP id smtpd.web12.3952.1587928386074775279
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
+ by mx.groups.io with SMTP id smtpd.web12.3954.1587928386902330354
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Apr 2020 12:13:06 -0700
+ Sun, 26 Apr 2020 12:13:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pDxeJlnE;
- spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: jpuhlman@gmail.com)
-Received: by mail-ot1-f50.google.com with SMTP id g19so22407321otk.5
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IQPQBhs9;
+ spf=pass (domain: gmail.com, ip: 209.85.210.65, mailfrom: jpuhlman@gmail.com)
+Received: by mail-ot1-f65.google.com with SMTP id e26so22479209otr.2
         for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 12:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=yLCyds4IPIAvjKw2iVQQjv31WBLygYIH6H9ggCv7G7g=;
-        b=pDxeJlnEeofn1cEFLj0CLVxGp1Cqy8D1EATSQ3NiabEf0+B14b7NWczNfFhVD/Fgsq
-         Qi+m8LfDFrXk1TMdb9/EEDt5koKP7lS2KzXxP+zVNiLLA9es5/qm+Hb//5n+zlQfTQCW
-         h6G6knJ79Bds6iZ2Al7R/9521eWI57XIN2jwOQ8vsDplxDJbHvprXW0kJ2QZT0dgIGua
-         OfMcbQU+J6cfabp/VNgZodGVPMDRoOuIZybGh6smMZFdWhhf6qhmwiR2UFRD9dtjbkFF
-         lbJFhQQcIRJE6uyLhbYPtVAwPisxzQyNyjh6NIdWfn2xwjfdCqRuCLAix6+nUUm8sTfC
-         ENHQ==
+        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=zIzNjk8l/e/Qox++Cj6EEdeE9Mkep5iA9AZcDQBmzaQ=;
+        b=IQPQBhs9dEOikRqP/Fmb0siEE53qcndrrA76H+kXAi22tI71eF9l4X+kfUnrGy20sj
+         LgNR5MnfLfyWdwWrh2I0Tupsl5RLHqhpKlbOGAOfbmGwyLhImDxFnwR5JdxvcghXp5B7
+         b4Xw12B/cP2IwlY8/ZdsYGGeFJ1oZI2smbKQBRvh0apWrciHbAs3lLX+PaXSi7iFTT42
+         1y5M95pSJL0p+DlFQO/wh0zNBBSO2fNB6uXbfS3zXt0rwDdfJ9oK6gwoQTv8zOjhHR8f
+         mUOqDqpSwCydQq6CzGo7YNxLW1JIPeVb5if2dfMO9eFgt0uQ8qdn2FuFFb0eFua5Ycua
+         Fy9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=yLCyds4IPIAvjKw2iVQQjv31WBLygYIH6H9ggCv7G7g=;
-        b=rj8iJLu9uo1nbOcde82hTqDbYEAEKe0k5NwX/X3F+i/o26B/zb+IaoTNT2I75NxsbM
-         sg9bDoQrTezcMG2SpLZRAz8I1p0GfU+F/+aER22Z1EBJavy2v9E/m6cMVdlNPku76vBL
-         0BIJAQ0kT/wbwHZNb/50FMkbfQcG9K1d2FKhpZ5S90Lvs+JMEJmBbP/kWAPqOn+LFJBI
-         oLGR8Nl4oQWfc2y5wlnc333cZ7q91bg80xDCduU450mECtAmHxyOmDWcaASRNC58MkBf
-         1NwF3Zgb2qEMFewUgmqdD5zYEx1i5VvRSm8zrgrZo3uXiohXNJdFabG3h+Lw/It5+Wlu
-         8tjA==
-X-Gm-Message-State: AGi0PubUCegzhK7syHlN6Me30BX1JRp2ybJzj8TK+hGDcXUPTLRvGW7D
-	GizWscN487kc0p5KHjEJRQo=
-X-Google-Smtp-Source: APiQypKZ5IE6fMMqaeXROJ79YnWQdgggoCbJvbSdIO2UHDOewBqpykm0sRVAwWLbj+okQ8olLw9kmg==
-X-Received: by 2002:a05:6830:158b:: with SMTP id i11mr16511340otr.160.1587928385386;
-        Sun, 26 Apr 2020 12:13:05 -0700 (PDT)
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=zIzNjk8l/e/Qox++Cj6EEdeE9Mkep5iA9AZcDQBmzaQ=;
+        b=s0JnUDWoR6BDY1AQzDStv+MNpACg2orRjug29Vrl3VXp+Ln7OTihsABka1Wammfgg1
+         kEDUFi5YOdc9HlNA5fWKjI7OFw7yKw+nZlvOQRbTVJW4hSuHyIWy3sUhD1L1NsXX/tLu
+         /V5CfRMT7SKqU0gYenn3pO7I7TGY2KQrVGq/963AEHctup0ZRbrrlQx46o0PSmxhZU2O
+         cjCkNCRQshTU4XD671UFKc2UVpqTwTGgRxHZQJPaH8Xrrqy9yQjdZJoL/zHjBxFrCthY
+         3cVCZg0arnsDLCo9qiLEnlvdDgjuNARS35wQFZlINEWHiJPMZofmYiDX1hhxvKMytmUD
+         Bkqg==
+X-Gm-Message-State: AGi0Puaz7hh7NknfnlevhaQsieR0K7dw5oHN97PwxYimsnbAWS8ssljE
+	FNt0vfqbV/lQ4mmbjCjkn8c=
+X-Google-Smtp-Source: APiQypJMAg8vH1BhuCJsD0abIM5vV425zDfjXuXSDacez1DOgUGjOJCEcejLK9u0qeBYTBgNxX7qhw==
+X-Received: by 2002:aca:c43:: with SMTP id i3mr13743639oiy.91.1587928386237;
+        Sun, 26 Apr 2020 12:13:06 -0700 (PDT)
 Return-Path: <jpuhlman@gmail.com>
 Received: from workhorse.localdomain (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
-        by smtp.gmail.com with ESMTPSA id r6sm3418903oom.26.2020.04.26.12.13.04
+        by smtp.gmail.com with ESMTPSA id c81sm3383431oib.35.2020.04.26.12.13.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2020 12:13:04 -0700 (PDT)
+        Sun, 26 Apr 2020 12:13:05 -0700 (PDT)
 Sender: Jeremy Puhlman <jpuhlman@gmail.com>
 Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 483172A047F; Sun, 26 Apr 2020 12:13:03 -0700 (PDT)
+	id 91F6E2A0923; Sun, 26 Apr 2020 12:13:04 -0700 (PDT)
 From: "Jeremy Puhlman" <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Jeremy Puhlman <jpuhlman@mvista.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][PATCH 1/3] qemu-system-native: Fix commented out PACKAGECONFIG
-Date: Sun, 26 Apr 2020 12:13:00 -0700
-Message-Id: <20200426191302.25782-1-jpuhlman@mvista.com>
+Subject: [dunfell][PATCH 2/3] nativesdk-gcc-runtime: enable building libstdc++.a
+Date: Sun, 26 Apr 2020 12:13:01 -0700
+Message-Id: <20200426191302.25782-2-jpuhlman@mvista.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200426191302.25782-1-jpuhlman@mvista.com>
+References: <20200426191302.25782-1-jpuhlman@mvista.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-(From OE-Core rev: f2bcc384a6e90480b5b0f0c77530f014785b291e)
+(From OE-Core rev: ef5cff3db22e911b7a6ecf3dac212903757b4df1)
 
-Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index f17a046fca..7a1ccf2115 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -180,7 +180,7 @@ PACKAGECONFIG[snappy] = "--enable-snappy,--disable-snappy,snappy"
- PACKAGECONFIG[glusterfs] = "--enable-glusterfs,--disable-glusterfs"
- PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
- PACKAGECONFIG[libudev] = "--enable-libudev,--disable-libudev,eudev"
--#PACKAGECONFIG[libxml2] = "--enable-libxml2,--disable-libxml2,libxml2"
-+PACKAGECONFIG[libxml2] = "--enable-libxml2,--disable-libxml2,libxml2"
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index 771f344ac0..ace706dbf4 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -22,6 +22,8 @@ EXTRA_OECONF_append_libc-newlib = " --with-newlib"
+ EXTRA_OECONF_append_arm = " libat_cv_have_ifunc=no "
+ EXTRA_OECONF_append_armeb = " libat_cv_have_ifunc=no "
  
- INSANE_SKIP_${PN} = "arch"
++DISABLE_STATIC_class-nativesdk ?= ""
++
+ # Newlib does not support symbol versioning on libsdtcc++
+ SYMVERS_CONF_libc-newlib = ""
  
 -- 
 2.20.1
