@@ -1,79 +1,91 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web12.1755.1587922503103370170
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+ by mx.groups.io with SMTP id smtpd.web10.2883.1587925793078128287
  for <openembedded-core@lists.openembedded.org>;
- Sun, 26 Apr 2020 10:35:03 -0700
+ Sun, 26 Apr 2020 11:29:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HLq2J88I;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f67.google.com with SMTP id g13so17755523wrb.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 10:35:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LgXoelPU;
+ spf=pass (domain: gmail.com, ip: 209.85.222.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f51.google.com with SMTP id g35so3413050uad.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 11:29:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=2TaMzGQyh0Fat9acSzCNIYly8NEgPl+GWU4a4v685Jo=;
-        b=HLq2J88IDLMvS4W+XGkSxfiHdbKhR/N60O37d75yyyrwIaPbDX/eoqodxZaUJ30zt7
-         td2/T2zAJ/ppT6dh0+bXcvcIgHC8ETUOXLPbBLV4CtZUm7WSwKQpJUCpBNJw2tjEYD/W
-         oRvWltkQmxd7GCiMfcUy47iUS4yK2AEJQy0kY=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1X0b9bJcLIlEVqFMzI/CHL7jFKZJfqNuFILz6/uaPlE=;
+        b=LgXoelPUDjQzmizF56b66q2k+VONDpQiHZdFnoac7XkLUPoxC2J+cfx0T3P39LWc3n
+         /3Wcmi0ebS+oNBhqpObsDTH5lz2MCVxggiFMAwZV5a+bk3gov75UDXwA1UbHOz9JUBq0
+         3QINMMGMLjTN8YQ5XBf5Tw/vEoDmiOtr4FN6yoJ9x75IShe9oAItTxGVRDkIolE8Hv/+
+         KV1BiYQB/pRLd86o70l6YpZaNpScG9m00XpGu/XarxNLfTP9+8g+aXd+plqxydaOZJFS
+         vTUGZp+2kAwwEmNQ5+tjbMCNPMb4iyDHL/nYkuvZTneS73gcSiFI6WI1qgbt5mQabUmf
+         8fUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=2TaMzGQyh0Fat9acSzCNIYly8NEgPl+GWU4a4v685Jo=;
-        b=F1/X5AVwrYRTMLQMjATjUKo+d01nYUlSrARK7fTc6Q+Z2BEfUtBwZzXJkbs/66U3uY
-         5nl5XW5Fa9Nka4C2jU5iF4MFQhR3c3nLmKFOQ9XizjXQqhPS0yHvT61nC3BDQtODdsXi
-         K1tHp4W9ZJ7/9OxoYfkJ5A2xDGcVKJnKX5D/vnNTuQogav5HoX/NZgalAEFTE0P37VBd
-         dgBQdAPHMb4m8ho6267q5C3eOUpGje76okNRD78a1GHr64X2xO4wpxyaGII8Nm0jFzhu
-         3yz1gDNT5AQcIdzbs/3RaFp8amGlKSgfJ3GeKU5RvMuIkmeXFAhZkfxULQmDHLwoq5Le
-         Ra1Q==
-X-Gm-Message-State: AGi0Pub8bHJrc4st9IO52xEZLQA9wr6iKZd7/rMrFlJCo81bNeIVuNLn
-	vJnmf/dY8Oh9ggUsXGn9IiEJSQ==
-X-Google-Smtp-Source: APiQypIaISIbB9nLgJDKQDZ5E6bNZ76u3FhAa40uoz30y0DEHpQlEvWD9HZ3VhkriQf3IPACYPpltw==
-X-Received: by 2002:a5d:4ecf:: with SMTP id s15mr24490978wrv.226.1587922501482;
-        Sun, 26 Apr 2020 10:35:01 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id y40sm18807773wrd.20.2020.04.26.10.35.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2020 10:35:00 -0700 (PDT)
-Message-ID: <9121b61b00747df8d326b422d2bb34258dd6665c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 01/15] rpm: upgrade to 4.15.1
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 26 Apr 2020 18:34:59 +0100
-In-Reply-To: <20200425172814.27370-1-alex.kanavin@gmail.com>
-References: <20200425172814.27370-1-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.36.1-2 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1X0b9bJcLIlEVqFMzI/CHL7jFKZJfqNuFILz6/uaPlE=;
+        b=fnAFFXhGtS5I14ZBuRytCj8S/n2+RiZIG18yh5gztrB1B/eLmC/h7doeGK8WdUbL/4
+         1cn0IpiZNY1bJiZgIphua30Lff/Z9kfOEpgodqaOOOb6yyhPiqGVHDDLcGb/Yjzwt70i
+         RTwKOjjVgbGd9W3LAPgz+KNZxy+I6ewuq5Zjsw9RCObvjpMv39LhgfOuj0DuaXMhkDwY
+         4m7rCSXO2HOGydc6OfKVG8NVMg/TnmHFp27D4saD0ElJIYPw3UO+puVjXZPRty4XyEmO
+         jC3UtS0QMXMoxPt9GomQp6w6ckFg6S4MUU4LzLHAIOmGl1fveNjhe7O1bPeZgFWe3UrM
+         M1Ng==
+X-Gm-Message-State: AGi0PuauB889fFEVSm0J4urJCq1PHPyzHy3HKkQBx9Sg4jesaHxgzwZ9
+	lKdq+pj+pQZ/XjmhSi/N3rYsbDubJJ4cOY3VKL0=
+X-Google-Smtp-Source: APiQypJ4VsNGHHDEGG12hOG1QNh3mzUUq0S0qBMPAIgGGsnDLdfWPaKHzeqoXdSdmn7AOufp0Nw1ElgymqYQeHI7GDc=
+X-Received: by 2002:a67:fc8d:: with SMTP id x13mr14626391vsp.83.1587925792187;
+ Sun, 26 Apr 2020 11:29:52 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200425172814.27370-1-alex.kanavin@gmail.com> <9121b61b00747df8d326b422d2bb34258dd6665c.camel@linuxfoundation.org>
+In-Reply-To: <9121b61b00747df8d326b422d2bb34258dd6665c.camel@linuxfoundation.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Sun, 26 Apr 2020 20:29:40 +0200
+Message-ID: <CANNYZj-M29suvyhMuuiUcv3aSKQOKtXM50uYqvXgAb6u7AAeYg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 01/15] rpm: upgrade to 4.15.1
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000c5e96305a435c842"
+
+--000000000000c5e96305a435c842
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sat, 2020-04-25 at 19:28 +0200, Alexander Kanavin wrote:
-> Drop patches that were merged upstream.
-> 
-> 0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
-> modifies a file that was removed upstream.
-> 
-> Add a 0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
-> as unfortunately the new parallel file classification feature from
-> upstream trips over somewhere in libmagic when inspected files are
-> compressed:
-> https://github.com/rpm-software-management/rpm/issues/756
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+On Sun, 26 Apr 2020 at 19:35, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Hi Alex,
+>
+> There were some failures from this series:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/890
+>
+> It may be easiest for you to have a look through that build result as I
+> think all the failures are from your patches as that is the main thing
+> in -next! :)
+>
 
-There were some failures from this series:
+Thanks Richard, I'll work through these one by one. Hopefully the amount of
+actual issues is a lot less than the amount of red in that build.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/890
+Alex
 
-It may be easiest for you to have a look through that build result as I
-think all the failures are from your patches as that is the main thing
-in -next! :)
+--000000000000c5e96305a435c842
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 26 Apr 2020 at 19:35, Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><br>
+There were some failures from this series:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/83/build=
+s/890" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
+t.org/typhoon/#/builders/83/builds/890</a><br>
+<br>
+It may be easiest for you to have a look through that build result as I<br>
+think all the failures are from your patches as that is the main thing<br>
+in -next! :)<br></blockquote><div><br></div><div>Thanks Richard, I&#39;ll w=
+ork through these one by one. Hopefully the amount of actual issues is a lo=
+t less than the amount of red in that build.</div><div><br></div><div>Alex<=
+br></div></div></div>
 
-Richard
-
+--000000000000c5e96305a435c842--
