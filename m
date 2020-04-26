@@ -1,79 +1,92 @@
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
- by mx.groups.io with SMTP id smtpd.web11.6161.1587875040607708874
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web12.7776.1587888779865312100
  for <openembedded-core@lists.openembedded.org>;
- Sat, 25 Apr 2020 21:24:00 -0700
+ Sun, 26 Apr 2020 01:13:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.151, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: abS7zAFsskVnZMOfcENYfS+xapeyQNfsS3Z0p9Ahh9mhoxVIpF92uInu0xK3CTdFqV3pw1qzE9
- Gi6Ph/kWLp0g==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2020 21:24:00 -0700
-IronPort-SDR: 3D/gu0D1byNI6scdAnSM2604D9pC+hTwubyqezRos6aZzD6KAIE3vivJmD+j7L92Kv0LaHkxl5
- Gi8RFqH93+YQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,318,1583222400"; 
-   d="scan'208";a="458402887"
-Received: from kmsmsx151.gar.corp.intel.com ([172.21.73.86])
-  by fmsmga006.fm.intel.com with ESMTP; 25 Apr 2020 21:23:59 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.234]) by
- KMSMSX151.gar.corp.intel.com ([169.254.10.192]) with mapi id 14.03.0439.000;
- Sun, 26 Apr 2020 12:23:58 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"bartlomiej.burdukiewicz@gmail.com" <bartlomiej.burdukiewicz@gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH] libva: Removed virtual/mesa dependency
-Thread-Topic: [OE-core] [meta-oe][PATCH] libva: Removed virtual/mesa
- dependency
-Thread-Index: AQHWGkls20apd9+qPk68Tnfx8zSjZqiIvjqAgAD5ZwCAAJKvAA==
-Date: Sun, 26 Apr 2020 04:23:57 +0000
-Message-ID: <e5e73ac7edc8c2695ca5dd0d31e9d800480a4e8c.camel@intel.com>
-References: <7de2a86b-e32c-35ae-716d-505845a837b2@gmail.com>
-	 <28192.1587843536617759309@lists.openembedded.org>
-In-Reply-To: <28192.1587843536617759309@lists.openembedded.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.149.228]
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FvO6Bu/3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id d15so15102413wrx.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 26 Apr 2020 01:12:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=n4mYvn2MHimWUpvgMcnZzPx0yBhrQL8CtaBjOf8PXSE=;
+        b=FvO6Bu/3ekjwJuvLUSNe/BpQjv23qPGk3AEWXL4nN3IZwlt5Jv6c+rFyBPpd9TyCqy
+         dL94V80QMdZA8gnOLeADW/BKyyiVjtFpPUJpyH5g6gYFVUsdRmlQmVntPZzKefuqnf/3
+         i5ykeR9i33+mN7Jida0F/ey70QvSzHNXqSEEk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=n4mYvn2MHimWUpvgMcnZzPx0yBhrQL8CtaBjOf8PXSE=;
+        b=FEjy+SvfUWeD2uNLKKHH17d1DEDdeoGQYiMtjZ9HVkxqEbrPn+6r5dSbfwam7YD6Pe
+         P9WdVl7Fi302Tz4t2Z5j/FFLG1ZaO34BsuFLdnsZXa4vKN+UdEt2kD8o/5yd+fQKsHfj
+         BpvPn7iiCYPdw8timTMvdqdzopIxFO0CDCLTvWZtAlrlIjTK+/Y2bk30TVi3kYST1hCP
+         46/bjTFwyFW6fBSyvU4GdywwYurmr2jC9eiX32pZSimzKEB1ulRkUIOOOWicsL1LPvHZ
+         g8cri8VS/44nxTlwb9nUlL/paOQYLgX/cWXeOCJmzQuCt2dpn+Xsqhnx/vNFzyT6uOCC
+         lrfw==
+X-Gm-Message-State: AGi0PuaGR856KoDQWR/xj6fBdSOyy5ImXBHMB4KEw5DVO8xy8rtHOBl7
+	p9yEVXDcfBM7lrsEybV6H97pSQ==
+X-Google-Smtp-Source: APiQypIA3WcvXr5cpwOXGXi8w1M6rEZXcEjA9dIXyo1gZ5m6os+OgaMtZ/9GlxWGdzVyhOhQz5IQfA==
+X-Received: by 2002:adf:cd8c:: with SMTP id q12mr22373990wrj.419.1587888778188;
+        Sun, 26 Apr 2020 01:12:58 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id 91sm16790345wra.37.2020.04.26.01.12.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Apr 2020 01:12:57 -0700 (PDT)
+Message-ID: <16cffe54465cee6007792d6ac394987306f17f1f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH RESEND] bitbake.conf: do not let DISTROOVERRIDES fall back to empty string
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Masahiro Yamada <masahiroy@kernel.org>, OE Core mailing list
+	 <openembedded-core@lists.openembedded.org>
+Date: Sun, 26 Apr 2020 09:12:55 +0100
+In-Reply-To: <CAJ86T=XGh5y_S_K=nzA30pFY=LixQhFcO3jLcZco0cb5XCdLEw@mail.gmail.com>
+References: <20200425151908.1020349-1-masahiroy@kernel.org>
+	 <9bccecbd0ff9ba88e9afc12a9b9475775bef03e5.camel@linuxfoundation.org>
+	 <CAJ86T=XGh5y_S_K=nzA30pFY=LixQhFcO3jLcZco0cb5XCdLEw@mail.gmail.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A62485CCC2E7A04BAEF20C7915F9157F@intel.com>
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-T24gU2F0LCAyMDIwLTA0LTI1IGF0IDEyOjM4IC0wNzAwLCBCYXJ0xYJvbWllaiBCdXJkdWtpZXdp
-Y3ogd3JvdGU6DQo+IE9uIFNhdCwgQXByIDI1LCAyMDIwIGF0IDA2OjQ2IEFNLCBLaGVtIFJhaiB3
-cm90ZToNCj4gDQo+ID4gT24gNC8yNC8yMCA4OjAxIEFNLCBCYXJ0xYJvbWllaiBCdXJkdWtpZXdp
-Y3ogd3JvdGU6ID4gTWVzYSBjYW4gYmUNCj4gPiBjb21waWxlZCB3aXRoIGxpYnZhIHN1cHBvcnQs
-IGluIG9yZGVyIHRvIGF2b2lkIHJlY3Vyc2l2ZSA+DQo+ID4gZGVwZW5kZW5jeSBiZXR3ZWVuIG1l
-c2EgYW5kIGxpYnZhLCB2aXJ0dWFsL21lc2EgbXVzdCBiZSByZW1vdmVkID4NCj4gPiBmcm9tIGxp
-YnZhIHJlY2lwZS4gPiA+IFNpZ25lZC1vZmYtYnk6IEJhcnTFgm9taWVqIEJ1cmR1a2lld2ljeg0K
-PiA+IGJhcnRsb21pZWouYnVyZHVraWV3aWN6QGdtYWlsLmNvbSA+IC0tLSA+IG1ldGEvcmVjaXBl
-cy0NCj4gPiBncmFwaGljcy9saWJ2YS9saWJ2YV8yLjYuMS5iYiB8IDIgKy0gPiAxIGZpbGUgY2hh
-bmdlZCwgMQ0KPiA+IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKSA+ID4gZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy0NCj4gPiBncmFwaGljcy9saWJ2YS9saWJ2YV8yLjYuMS5iYiBiL21ldGEv
-cmVjaXBlcy0NCj4gPiBncmFwaGljcy9saWJ2YS9saWJ2YV8yLjYuMS5iYiA+IGluZGV4IDkyY2Vh
-ODNiYzEuLmMxYTQ0MWExOGIgMTAwNjQ0DQo+ID4gPiAtLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvbGlidmEvbGlidmFfMi42LjEuYmIgPiArKysNCj4gPiBiL21ldGEvcmVjaXBlcy1ncmFwaGlj
-cy9saWJ2YS9saWJ2YV8yLjYuMS5iYiA+IEBAIC0yMyw3ICsyMyw3IEBADQo+ID4gU1JDX1VSSVtz
-aGEyNTZzdW1dID0NCj4gPiAiNmM1N2ViNjQyZDgyOGFmMjQxMWFhMzhmNTVkYzEwMTExZThjOTg5
-NzZkYmFiOGZkNjJlNDg2Mjk0MCA+ID4NCj4gPiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6
-Ly9naXRodWIuY29tL2ludGVsL2xpYnZhL3JlbGVhc2VzIiA+ID4NCj4gPiAtREVQRU5EUyA9ICJs
-aWJkcm0gdmlydHVhbC9tZXNhIiA+ICtERVBFTkRTID0gImxpYmRybSINCj4gPiANCj4gPiBJIGFt
-IG5vdCBzdXJlIGhvdyBpdCB3aWxsIHdvcmsgd2l0aCBub24tbWVzYSBncmFwaGljcyBzdGFja3Mu
-IE9yIGlzDQo+ID4gaXQgbm9uLWlzc3VlID8NCj4gPiANCj4gDQo+IEl0IGxvb2tzIGxpa2UgbGli
-dmEgaXMgZGVzaWduZWQgdG8gd29yayB3aXRob3V0IG1lc2EgKG9yIG90aGVyDQo+IGdyYXBoaWNh
-bCBzdGFja3MpLCBzaW5jZSBpdCdzIHVzaW5nIGxpYmRybSB0byBkaXNwYXRjaCBrZXJuZWwgY2Fs
-bHMuIA0KPiBodHRwczovL2VuLndpa2lwZWRpYS5vcmcvd2lraS9EaXJlY3RfUmVuZGVyaW5nX01h
-bmFnZXIjL21lZGlhL0ZpbGU6RFJNX2FyY2hpdGVjdHVyZS5zdmcNCj4gDQo+IFRoZXJlIGlzIGFs
-c28gZWJ1aWxkIGluIEdlbnRvbyBmb3IgbGlidmEgZG8gbm90IGRlcGVuZCBvbiBtZXNhICgNCj4g
-aHR0cHM6Ly9kYXRhLmdwby56dWdhaW5hLm9yZy9nZW50b28veDExLWxpYnMvbGlidmEvbGlidmEt
-Mi42LjEuZWJ1aWxkDQo+ICkgb3Igb3RoZXIgZ3JhcGhpY2FsIHN0YWNrcyAobGlrZSBudmlkaWEt
-ZHJpdmVycyBvciBldGMuKS4NCg0KSSBzZWUgYSBERVBFTkQgb24gb3BlbmdsIHRoZXJlIHdoaWNo
-IGlzIHdoYXQgZ2x4IGJhY2tlbmQgaW4gbGlidmENCmV4cGVjdHM6DQoNCmh0dHBzOi8vZ2l0aHVi
-LmNvbS9pbnRlbC9saWJ2YS9ibG9iL21hc3Rlci9tZXNvbi5idWlsZCNMOTUNCg0KSnVzdCByZW1v
-dmluZyB0aGUgZGVwZW5kZW5jeSB3aWxsIGZvcmNlIGdseCBiYWNrZW5kIHRvIG5vdCBiZSBidWls
-dC4gSXMNCnRoZXJlIHNvZnR3YXJlIG91dCB0aGVyZSB0aGF0IGV4cGVjdHMgbGlidmEtZ2x4IHRv
-IGJlIHByZXNlbnQ/DQoNClRoYW5rcywNCg0KQW51ag0K
+On Sat, 2020-04-25 at 14:37 -0700, Andre McCurdy wrote:
+> On Sat, Apr 25, 2020 at 8:38 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Sun, 2020-04-26 at 00:19 +0900, Masahiro Yamada wrote:
+> > > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > > index 4b544a22cd..eb3dd0007e 100644
+> > > --- a/meta/conf/bitbake.conf
+> > > +++ b/meta/conf/bitbake.conf
+> > > @@ -739,7 +739,7 @@ DISTRO_NAME ??= "OpenEmbedded"
+> > >  OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-
+> > > ${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LI
+> > > BCOV
+> > > ERRIDE}:forcevariable"
+> > >  LIBCOVERRIDE ?= ""
+> > >  CLASSOVERRIDE ?= "class-target"
+> > > -DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
+> > > +DISTROOVERRIDES ?= "${DISTRO}"
+> > >  MACHINEOVERRIDES ?= "${MACHINE}"
+> > 
+> > Whilst this can't happen with our standard definitions now, the
+> > side
+> > effects of it not being set are nasty so I'd prefer to retain this.
+> 
+> What exactly can go wrong? MACHINEOVERRIDES is empty every time we
+> build a -native recipe, so just having :: in OVERRIDES or
+> FILESOVERRIDES doesn't appear to be an issue. Is there something
+> special about DISTROOVERRIDES ?
+
+native.bbclass sets MACHINEOVERRIDES = "" whereas with this change
+DISTROOVERRIDES would be set to "${DISTRO}" instead of "" as it
+currently is today. I think unexpanded variables were sub-optimal in
+FILESOVERRIDES but I don't remember the details of why. 
+
+Cheers,
+
+Richard
+
+
