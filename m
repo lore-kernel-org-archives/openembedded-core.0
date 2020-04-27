@@ -1,148 +1,144 @@
-Received: from mail-oo1-f68.google.com (mail-oo1-f68.google.com [209.85.161.68])
- by mx.groups.io with SMTP id smtpd.web10.1520.1588012852459502127
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.1865.1588013675929284421
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2020 11:40:52 -0700
+ Mon, 27 Apr 2020 11:54:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZvQJEqYW;
- spf=pass (domain: gmail.com, ip: 209.85.161.68, mailfrom: geissonator@gmail.com)
-Received: by mail-oo1-f68.google.com with SMTP id r1so4089316oog.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 11:40:52 -0700 (PDT)
+ dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=kBEdf4v2;
+ spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.128.45, mailfrom: rahulk@mvista.com)
+Received: by mail-wm1-f45.google.com with SMTP id e26so50931wmk.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 11:54:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=visreqx+QntjtY2zZokqrNHVqWpM71+esZ/dfliXH9A=;
-        b=ZvQJEqYW7efUlUllscBewHdMeTgkU2PKt0eDQWloTLrODme05ePjrPMXOTiMMFGpme
-         JXbtYR5QZ3KcbSITq8cQHjqtU0d4w1y9VlZtF/HL5RHenP7lKsrb9QlO8sA7epKEJquJ
-         MY1IonGYUPW7FJzk1rXn0AOCLL4X465UF6bunm6Ks8k+oWqSRlc4Y2LwIj9IsXrEDQTo
-         yuQFFsVmqRsKhJ8Pj5yTMoWl/0PEDWfi1cPX/s9cy21j7UrE4PEJTLh3uSdFEvCq5Dyh
-         6IDhXiCT4Y9DBZ1UBgUH3mWUTIUV435HWBtft1/mHZbgQDmF+/NreS9Yx+BDsSfSR9Kc
-         8DJQ==
+        d=mvista-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=HTNcbThxgBRC1bwRvUAxsPRhlTqUQzT6b9TpWFLqBTg=;
+        b=kBEdf4v2BGfFEnj8zMuyI+9sO5omrdHHv7fF0S+eOemGFcSqZn2GH1dJ3+HhBNZ743
+         t5M65FUDrZthEKba3etPJVpnKNwOqk8bZpvZRCp8lScx6jemu8MuavN64hN8NuhloYhN
+         HEMPjh+uOwo7yBjdITbbFh6TQWPZar3MyZPnGeSSsFfnp+hkHq6Rsd+8sWJURfVPZesZ
+         zrK1IlB9XICuYLxPsy8ZrCxo9UsdEe1BTD+JElX6a1SYladWAycr6j8zPnMmHWjj4oqd
+         WbR6w0v1XZtjUoCGty5A9crfYg4QzsCscZ6M13yJPMZYcJujK7GS4hXL9draJg/vJwO9
+         VuUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=visreqx+QntjtY2zZokqrNHVqWpM71+esZ/dfliXH9A=;
-        b=N+epqjrLKm0K9B0r1brSSOs3PYjAPMTPHl4+zBbzbX+pwxKNrwdqK4ZekhMLDxtzKW
-         jFYUXQjuokQ/ptueIB7sC3r012TU2Z+r0jtNvlB13sllP3V/ioVoz57liU+rgu5mvCKK
-         4Sbjhon64AJvQItvM4q5bh7uIxnY7t2nePe/LJHnd560Rqo5eliA3VzKYHXoSAO1W5U1
-         sE/KswpSvFpGyd5fskNhYKAT6X1EMTt8kdtf9ir8sS/sXDIH6gGM7Az446r/2/u/NBNz
-         /lPTO2af7k8nwG1ckZY4dzwtS8cSXpEPuldR+mXVszp3S/2Ah194Lz+hXRJdRIZEhC52
-         orLw==
-X-Gm-Message-State: AGi0Pua6e58ko6G+0YV1dfctpAOPJOctnWhkpSUpy076DNty+5BzVtt9
-	Gyr2cL9ydr1gJ1so3NiHwyxeOp1Y950=
-X-Google-Smtp-Source: APiQypJRnngF+gAk2wqwnNhtLiQ35V2RypvdEm8wdyEDJU2mqUg1ECT+D5ZZS/mfwWIQvCU+Cgyk8A==
-X-Received: by 2002:a4a:7346:: with SMTP id e6mr19877698oof.89.1588012851548;
-        Mon, 27 Apr 2020 11:40:51 -0700 (PDT)
-Return-Path: <geissonator@gmail.com>
-Received: from Andrews-MBP-2.attlocal.net (45-18-127-186.lightspeed.austtx.sbcglobal.net. [45.18.127.186])
-        by smtp.gmail.com with ESMTPSA id y92sm4227191ota.33.2020.04.27.11.40.50
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 27 Apr 2020 11:40:51 -0700 (PDT)
-From: "Andrew Geissler" <geissonator@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Andrew Geissler <geissonator@gmail.com>
-Subject: [PATCH] libffi: fix v3.3 compile on ppc64le
-Date: Mon, 27 Apr 2020 13:40:28 -0500
-Message-Id: <20200427184028.13675-1-geissonator@gmail.com>
-X-Mailer: git-send-email 2.21.0 (Apple Git-122)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=HTNcbThxgBRC1bwRvUAxsPRhlTqUQzT6b9TpWFLqBTg=;
+        b=B1ho8U1BXvUMBWJzNegQZoYIlgBkCJzVa96vo1lhohFM1va9TeU3uP+oFtdgH9vc2F
+         Crw75vmmM7QHo1FnvgZOsXMsHAzNIEJ8qaQ42nNsFl/dDd5VzlygA4uP7vpFFHPcROdA
+         cH/a3MM0AU8hi8PBLG68SD90a5DJClVh7fqfXSHVQF6z6lkgPu36W7ztz7aCgLMCZEKS
+         mw3fLBhbznYZEPMrGVvEtbKeRYBFTOH2vGFK1IUviG2HJhKxv5sCmJYkDNcc3l1eC0UA
+         yJ3AxvJrjmvFYoITHPKM8hwCISh2Oi6THkAliEbQHZPBg3n8xLGVbQ51KUXXlrekh6kM
+         insA==
+X-Gm-Message-State: AGi0PuY+BX/weNRJGJIJKMV64htXoaRfrdShNUZFdngjIrlkMRFGigr6
+	waYltULIHryxWKJY9VqgfvpwbnNcDRH2l4GxL5aR2g==
+X-Google-Smtp-Source: APiQypKSFQJlnSkW7wMMcMd16M5UtaKqlc4Z6kba+m5b6BagxwcmqYscLB8X6h0RcFvZuxNMLokVOVetgsfGfHgzNDk=
+X-Received: by 2002:a1c:9e51:: with SMTP id h78mr58915wme.177.1588013674457;
+ Mon, 27 Apr 2020 11:54:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <1587667187-14130-1-git-send-email-rahulk@mvista.com>
+ <e4d2de1d300677bf61ec737d8847dd7dea967840.camel@linuxfoundation.org>
+ <CANv91vNTDMES=ZCWUsEDWycsBW1kyy_dWNc62+93GozCMz1kUw@mail.gmail.com>
+ <CANNYZj_61NP5ZSVHA5UWJN_s86esbc-1nEu2gDdmvMn6AGqRAg@mail.gmail.com> <543d70c2321008a46e4f21bf84fd3963624e655b.camel@linuxfoundation.org>
+In-Reply-To: <543d70c2321008a46e4f21bf84fd3963624e655b.camel@linuxfoundation.org>
+From: "Rahul Kumar" <rahulk@mvista.com>
+Date: Tue, 28 Apr 2020 00:24:22 +0530
+Message-ID: <CANv91vOeLhAdf5RVzQ6Ftc+Y4eQH963BYcEVfmMJaKcYg_GFTw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Alexander Kanavin <alex.kanavin@gmail.com>, OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000f6ff7e05a44a3ebb"
 
-The latest released version of libffi no longer compiles on ppc64le
-based machines. Some searching found a patch that fixed our issue but
-had not been submitted upstream to libffi.
+--000000000000f6ff7e05a44a3ebb
+Content-Type: text/plain; charset="UTF-8"
 
-It has now been submitted upstream with this PR:
-https://github.com/libffi/libffi/pull/561
+Hi Richard/Alexander,
 
-Signed-off-by: Andrew Geissler <geissonator@gmail.com>
----
- ...pc.h-fix-build-failure-with-powerpc7.patch | 62 +++++++++++++++++++
- meta/recipes-support/libffi/libffi_3.3.bb     |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-support/libffi/libffi/0001-ffi_powerpc.h-fix-build-failure-with-powerpc7.patch
+I am not able to understand how I can use the below file.
+http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json
 
-diff --git a/meta/recipes-support/libffi/libffi/0001-ffi_powerpc.h-fix-build-failure-with-powerpc7.patch b/meta/recipes-support/libffi/libffi/0001-ffi_powerpc.h-fix-build-failure-with-powerpc7.patch
-new file mode 100644
-index 0000000000..52e6e4536b
---- /dev/null
-+++ b/meta/recipes-support/libffi/libffi/0001-ffi_powerpc.h-fix-build-failure-with-powerpc7.patch
-@@ -0,0 +1,62 @@
-+From de93adfb6f48100946bba2c3abad2a77a0cfde0b Mon Sep 17 00:00:00 2001
-+From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-+Date: Sun, 24 Nov 2019 09:52:01 +0100
-+Subject: [PATCH] ffi_powerpc.h: fix build failure with powerpc7
-+
-+This is a patch pulled down from the following:
-+https://github.com/buildroot/buildroot/blob/78926f610b1411b03464152472fd430012deb9ac/package/libffi/0004-ffi_powerpc.h-fix-build-failure-with-powerpc7.patch
-+
-+This issue is being hit on OpenBMC code when pulling the latest
-+libffi tag and building on a P8 ppc64le machine. I verified this
-+patch fixes the issue we are seeing.
-+
-+Below is the original commit message:
-+
-+Sicne commit 73dd43afc8a447ba98ea02e9aad4c6898dc77fb0, build on powerpc7
-+fails on:
-+
-+In file included from ../src/powerpc/ffi.c:33:0:
-+../src/powerpc/ffi_powerpc.h:61:9: error: '_Float128' is not supported on this target
-+ typedef _Float128 float128;
-+         ^~~~~~~~~
-+
-+Fix this build failure by checking for __HAVE_FLOAT128 before using
-+_Float128, as _Float128 is enabled only on specific conditions, see
-+output/host/powerpc64-buildroot-linux-gnu/sysroot/usr/include/bits/floatn.h:
-+
-+ /* Defined to 1 if the current compiler invocation provides a
-+    floating-point type with the IEEE 754 binary128 format, and this glibc
-+    includes corresponding *f128 interfaces for it.  */
-+ #if defined _ARCH_PWR8 && defined __LITTLE_ENDIAN__ && (_CALL_ELF == 2) \
-+     && defined __FLOAT128__ && !defined __NO_LONG_DOUBLE_MATH
-+ # define __HAVE_FLOAT128 1
-+ #else
-+ # define __HAVE_FLOAT128 0
-+ #endif
-+
-+Fixes:
-+ - http://autobuild.buildroot.org/results/5c9dd8fb3b6a128882b6250f197c80232d8a3b53
-+
-+Upstream-Status: Submitted [https://github.com/libffi/libffi/pull/561]
-+Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
-+Signed-off-by: Andrew Geissler <geissonator@yahoo.com>
-+---
-+ src/powerpc/ffi_powerpc.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/powerpc/ffi_powerpc.h b/src/powerpc/ffi_powerpc.h
-+index 8e2f2f0..960a5c4 100644
-+--- a/src/powerpc/ffi_powerpc.h
-++++ b/src/powerpc/ffi_powerpc.h
-+@@ -57,7 +57,7 @@ typedef union
-+   double d;
-+ } ffi_dblfl;
-+
-+-#if defined(__FLOAT128_TYPE__)
-++#if defined(__FLOAT128_TYPE__) && defined(__HAVE_FLOAT128)
-+ typedef _Float128 float128;
-+ #elif defined(__FLOAT128__)
-+ typedef __float128 float128;
-+--
-+2.21.0 (Apple Git-122)
-+
-diff --git a/meta/recipes-support/libffi/libffi_3.3.bb b/meta/recipes-support/libffi/libffi_3.3.bb
-index 803a25fa35..e5beb985c6 100644
---- a/meta/recipes-support/libffi/libffi_3.3.bb
-+++ b/meta/recipes-support/libffi/libffi_3.3.bb
-@@ -16,6 +16,7 @@ SRC_URI = "https://github.com/libffi/libffi/releases/download/v${PV}/${BPN}-${PV
-            file://0001-powerpc-fix-build-failure-on-power7-and-older-532.patch \
-            file://0001-Address-platforms-with-no-__int128.patch \
-            file://0001-Address-platforms-with-no-__int128-part2.patch \
-+           file://0001-ffi_powerpc.h-fix-build-failure-with-powerpc7.patch \
-            "
- SRC_URI[md5sum] = "6313289e32f1d38a9df4770b014a2ca7"
- SRC_URI[sha256sum] = "72fba7922703ddfa7a028d513ac15a85c8d54c8d67f55fa5a4802885dc652056"
--- 
-2.21.0 (Apple Git-122)
+did you mean to say that i have to set MACRO in local.conf based on this
+file.
 
+*Thanks & Regards,*
+Rahul Kumar
+Software Engineer,Linux Solutions Engineering
+Group,Montavista Software LLC
+Email Id: rahulk@mvista.com
+<https://plus.google.com/+CodeTwoSoftware>
+
+
+On Mon, Apr 27, 2020 at 11:46 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Mon, 2020-04-27 at 18:30 +0200, Alexander Kanavin wrote:
+> > You need to look at configurations defined here:
+> >
+> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json
+> > and replicate them locally. Then you can reproduce the failures that
+> > the AB gets in those configurations.
+>
+> That start of the failing logs on the autobuilder also list out the
+> configuration options for that build.
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+--000000000000f6ff7e05a44a3ebb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
+sans-serif;color:#0b5394">Hi Richard/Alexander,<br><br>I am not able to und=
+erstand how I can use the below file.<br><a href=3D"http://git.yoctoproject=
+.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json">http://git.yo=
+ctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json</a><=
+br><br>did you mean to say that i have to set MACRO in local.conf based on =
+this file.<br clear=3D"all"></div><div class=3D"gmail_default" style=3D"fon=
+t-family:verdana,sans-serif;color:#0b5394"><br></div><div><div dir=3D"ltr" =
+class=3D"gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"lt=
+r"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><=
+div dir=3D"ltr"><div><div dir=3D"ltr"><div><span style=3D"color:rgb(111,168=
+,220)">	=09
+  =09
+ =20
+   <b><span style=3D"color:rgb(11,83,148)">Thanks &amp; Regards,</span></b>=
+</span></div><div><span style=3D"color:rgb(111,168,220)"><span style=3D"col=
+or:rgb(11,83,148)"></span></span><span style=3D"color:rgb(111,168,220)"><sp=
+an style=3D"color:rgb(11,83,148)"></span></span></div><div><span style=3D"c=
+olor:rgb(111,168,220)"><span style=3D"color:rgb(11,83,148)">Rahul Kumar</sp=
+an></span></div><div><span style=3D"color:rgb(11,83,148)">Software Engineer=
+,Linux Solutions Engineering</span></div><div><span style=3D"color:rgb(11,8=
+3,148)"> Group,Montavista Software LLC</span></div><div><span style=3D"colo=
+r:rgb(11,83,148)">Email Id: <span style=3D"font-size:10pt"><a href=3D"mailt=
+o:rahulk@mvista.com" target=3D"_blank">rahulk@mvista.com</a></span></span><=
+span><a href=3D"https://plus.google.com/+CodeTwoSoftware" rel=3D"noopener" =
+target=3D"_blank"><span style=3D"font-family:Verdana,sans-serif;font-size:1=
+0pt;color:rgb(42,42,42)"><br></span></a></span></div></div></div></div></di=
+v></div></div></div></div></div></div></div></div></div><br></div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Apr 27,=
+ 2020 at 11:46 PM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linux=
+foundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">On Mon, 2020-04-27 at 18:=
+30 +0200, Alexander Kanavin wrote:<br>
+&gt; You need to look at configurations defined here:<br>
+&gt; <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder=
+-helper/tree/config.json" rel=3D"noreferrer" target=3D"_blank">http://git.y=
+octoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json</a>=
+<br>
+&gt; and replicate them locally. Then you can reproduce the failures that<b=
+r>
+&gt; the AB gets in those configurations.<br>
+<br>
+That start of the failing logs on the autobuilder also list out the<br>
+configuration options for that build.<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div>
+
+--000000000000f6ff7e05a44a3ebb--
