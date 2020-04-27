@@ -1,199 +1,292 @@
-Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com [209.85.221.195])
- by mx.groups.io with SMTP id smtpd.web12.852.1588016373804910449
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+ by mx.groups.io with SMTP id smtpd.web10.1716.1588018823153205979
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2020 12:39:34 -0700
+ Mon, 27 Apr 2020 13:20:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jaquJ9xn;
- spf=pass (domain: gmail.com, ip: 209.85.221.195, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f195.google.com with SMTP id n207so5201835vkf.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 12:39:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ms88ARF7;
+ spf=pass (domain: gmail.com, ip: 209.85.210.48, mailfrom: jpewhacker@gmail.com)
+Received: by mail-ot1-f48.google.com with SMTP id e26so28660200otr.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 13:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=loy1thNTbsHCdhWzKsThEbdsRjj0Rw4OGu4DXfwbBBY=;
-        b=jaquJ9xn5VuriIb8O8FiHUqs1ml5TiFOp7AArWyB8B2PZenoY/f356jdJKks8NL2IT
-         dvUXDs/9GQtzjYGYXyCzdxBq4Tt5rKpwxVj9Kc7px+li2PQ4bUX318uU4UXzO42re0iJ
-         7Sai8twU/07vBJhyVjISI0ABGiwusWkXV2KOEpD9JDFDTqPckIrv0m/OFG13kiToRzRP
-         I71tvOExyDVF1Y4Rbv610YYMdgAB+dNDX/kHUGGaepGTVxOI/lGUupYhbbWJvlrb55fG
-         esrIi2LSzK+3ZP4iocapkrattCdvgeEQ4WnFWZqS9r3hOcOeCRCXsGMOFqeEklgq/1LN
-         z3iQ==
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language;
+        bh=MVvmoJLsjM//H33PYVr7mrkyhl73ouQD12omMbhyqok=;
+        b=ms88ARF7ebnoerXuFAvcbNoF3b3+p8FEFKFigCLz49+XkW4IZkoWkwnGBeyAWducxB
+         BPNbXj8mWAl4/OBLOH/10dh23MiDsp1tiH2j2SeSEUm3l3xE0cZC/b+O+SxagWuojgS9
+         0sKqRW/XLAtvSi+gWHEqNYPuIQ0VZzxmojVq1iB2OiUDVwU5JnMgUZv5aKIJd1ZqOPhK
+         Bg24nyFhjI8pTcJaIZJ2SV1SzcrJw9PYdq9O9S7/fEalr1yiZEHGB3+jE+Ccie0Q8EhJ
+         qnB5KuaFrAbSnb9odOWwyCsDZJSRmgYtnW6FvdN23azNgErdszt/1LJzyHuA5w+6OLMJ
+         2Llg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=loy1thNTbsHCdhWzKsThEbdsRjj0Rw4OGu4DXfwbBBY=;
-        b=EQVhlySUDWp2VuHyiIOP5hqu3/8WRW8X7m5EeeTJT8cAjYzaf9OjBVAxcomYxhze1p
-         tVMWNXVywjRumURhTodZzhYQC+MHVWQ8NoW126Oq00Eu+dJBioPL1T94txtzpODbXP8t
-         aulRIgub+hVGjycjmlqLF7zr6HzrBjsv97zePJGxyeedWcYSRURjJRuqkI4uTbpHxS3X
-         8jvrN6eGTNcXaymqpUKJ5mxYdpqJr3P0WmFltVY3W8OFI9l2ouuQXIZ2Hj96PP6reYcb
-         GKzMl06IMVPZT4wQhNvv0LiTB9n3mxieOhwFo0fyvJBEfSZVH0Mx1jd8HJlPzdrlcXzW
-         nDOQ==
-X-Gm-Message-State: AGi0Pub/O5jlNL0g1i7T96B+TGl+ngSZYdB8YoEDy1WhOOmyts7ZgRXv
-	xgMQT8AYrOo1LxnPXOVwlq8Cowv3cS+7oVBlIqA=
-X-Google-Smtp-Source: APiQypLtrVrFVQvXmzBaxJL+JlqhDP91wEiaDqXZsLUqLwdJqkwgy3Q/408WbV1Rp61EkbirZOKJY6eVY12h6oYsFxM=
-X-Received: by 2002:a1f:908c:: with SMTP id s134mr17723336vkd.1.1588016372867;
- Mon, 27 Apr 2020 12:39:32 -0700 (PDT)
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language;
+        bh=MVvmoJLsjM//H33PYVr7mrkyhl73ouQD12omMbhyqok=;
+        b=GS25+QiB+0C9mJaKBAwjRiqRCH3H/yKAbyJryo7RG54LPGtBp5LF/qOn1y24A4avgz
+         5sqq8fXTJrSJQLVtMqGm4wmrJKsEWUm0owGYq2+hocmsx5m+j0KFj7w0e3p+05NjAJJU
+         /mffSbd2OvTZPguUT9H8naFalVrMq5VnO/p8OC67M7aHLlyUk7xHTiWaoxdNfz4f9Rrr
+         5wrJcVX1mpELfKKvVSVU+JyGF8oMZKshCg5oYiqlhvUXYGiLzYCAqTFvMJ3v2GW3cTPp
+         8a2tCE6XxhVUN7L4wPZETVZ6/TLAxg8is6Hh/i4Oi4lBuIsgrV1a0ecOo9S86zS7Dfkw
+         IWEA==
+X-Gm-Message-State: AGi0PuZTyUWwYfIK+HwjTzwnRgRkPF9Jgfc1rTgjD26xJIVgV4YHhQcB
+	mZo16VMvJeKhZiUukM2ncH0dXIzl
+X-Google-Smtp-Source: APiQypImk6P0OmCrQDZzLT9rXfb/ctW2IeXCFOO4pzkWQ2btXnjaV9UU+kq0osRfjB4szihqd306+w==
+X-Received: by 2002:aca:d410:: with SMTP id l16mr343186oig.50.1588018822139;
+        Mon, 27 Apr 2020 13:20:22 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from ?IPv6:2605:a601:ac3d:c100:5a:78db:f520:4bc? ([2605:a601:ac3d:c100:5a:78db:f520:4bc])
+        by smtp.gmail.com with ESMTPSA id u197sm4266323oie.7.2020.04.27.13.20.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Apr 2020 13:20:21 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc: make sure mingw builds use mingw32-w64 configs
+To: Samuli Piippo <samuli.piippo@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Samuli Piippo <samuli.piippo@qt.io>,
+ openembedded-core@lists.openembedded.org
+References: <20200427131328.12044-1-samuli.piippo@qt.io>
+ <ef0f940014c41b2cd66e4e74c85fea6389f66fe1.camel@linuxfoundation.org>
+ <CABXoSoX--qaiLGJM0MJ2Uo=jZDd+Srav+-xaXb60PqtyVOm=Uw@mail.gmail.com>
+Message-ID: <a7b33d1d-49ef-c20d-c8e8-32e9d155ec1b@gmail.com>
+Date: Mon, 27 Apr 2020 15:20:20 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <1587667187-14130-1-git-send-email-rahulk@mvista.com>
- <e4d2de1d300677bf61ec737d8847dd7dea967840.camel@linuxfoundation.org>
- <CANv91vNTDMES=ZCWUsEDWycsBW1kyy_dWNc62+93GozCMz1kUw@mail.gmail.com>
- <CANNYZj_61NP5ZSVHA5UWJN_s86esbc-1nEu2gDdmvMn6AGqRAg@mail.gmail.com>
- <543d70c2321008a46e4f21bf84fd3963624e655b.camel@linuxfoundation.org> <CANv91vOeLhAdf5RVzQ6Ftc+Y4eQH963BYcEVfmMJaKcYg_GFTw@mail.gmail.com>
-In-Reply-To: <CANv91vOeLhAdf5RVzQ6Ftc+Y4eQH963BYcEVfmMJaKcYg_GFTw@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Mon, 27 Apr 2020 21:39:21 +0200
-Message-ID: <CANNYZj801ksp6hFqRzkU3A8qXptrHdm-GBZLPespsoir59Tx9w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
-To: Rahul Kumar <rahulk@mvista.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000cd6a6705a44adf3d"
+In-Reply-To: <CABXoSoX--qaiLGJM0MJ2Uo=jZDd+Srav+-xaXb60PqtyVOm=Uw@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------4B4A0B0755966B149B5E86E3"
+Content-Language: en-US
 
---000000000000cd6a6705a44adf3d
-Content-Type: text/plain; charset="UTF-8"
-
-You need to first see from the failure page which configuration is failing,
-for example non-gpl3 is one such.
-
-Then you find that configuration in config.json. The below should hopefully
-be self-explanatory in how you should set up the build?
-
-        "non-gpl3" : {
-            "NEEDREPOS" : ["poky", "meta-gplv2"],
-            "MACHINE" : "qemux86",
-            "BBTARGETS" : "core-image-minimal core-image-full-cmdline",
-            "extravars" : [
-                "INCOMPATIBLE_LICENSE = '*GPLv3'",
-                "WARN_QA_remove = 'incompatible-license'"
-            ],
-            "EXTRACMDS" : [
-                "../../yocto-autobuilder-helper/scripts/check-gplv3"
-            ]
-        },
+--------------4B4A0B0755966B149B5E86E3
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-Alex
+On 4/27/20 12:35 PM, Samuli Piippo wrote:
+> On Mon, 27 Apr 2020 at 17:51, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>> On Mon, 2020-04-27 at 16:13 +0300, Samuli Piippo wrote:
+>>> meta-mingw is using Mingw-w64 but the host triplet does not match
+>>> the expected pattern. config/os/mingw32-w64 enables more features
+>>> that were not working with mingw32.
+>>>
+>>> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+>>> ---
+>>>   meta/recipes-devtools/gcc/gcc-9.3.inc         |  1 +
+>>>   ...nfig-os-mingw32-w64-for-mingw-builds.patch | 36 +++++++++++++++++++
+>>>   2 files changed, 37 insertions(+)
+>>>   create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch
+>>>
+>>> diff --git a/meta/recipes-devtools/gcc/gcc-9.3.inc b/meta/recipes-devtools/gcc/gcc-9.3.inc
+>>> index b0411078d3..4c8275bf2a 100644
+>>> --- a/meta/recipes-devtools/gcc/gcc-9.3.inc
+>>> +++ b/meta/recipes-devtools/gcc/gcc-9.3.inc
+>>> @@ -67,6 +67,7 @@ SRC_URI = "\
+>>>              file://0037-CVE-2019-14250-Check-zero-value-in-simple_object_elf.patch \
+>>>              file://0038-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch \
+>>>              file://0039-process_alt_operands-Don-t-match-user-defined-regs-o.patch \
+>>> +           file://0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch \
+>>>   "
+>>>   S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+>>>   SRC_URI[sha256sum] = "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
+>>> diff --git a/meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch b/meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch
+>>> new file mode 100644
+>>> index 0000000000..5a167f252c
+>>> --- /dev/null
+>>> +++ b/meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch
+>>> @@ -0,0 +1,36 @@
+>>> +From 052f7e5db0d793155015530b639c4e42d37eb7eb Mon Sep 17 00:00:00 2001
+>>> +From: Samuli Piippo <samuli.piippo@qt.io>
+>>> +Date: Fri, 23 Aug 2019 10:10:43 +0300
+>>> +Subject: [PATCH] Always use config/os/mingw32-w64 for mingw builds
+>>> +
+>>> +Make sure we use the w64 version of the configs, since that's what
+>>> +meta-mingw is using.
+>>> +
+>>> +Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+>>> +---
+>>> + libstdc++-v3/configure.host | 12 ++----------
+>>> + 1 file changed, 2 insertions(+), 10 deletions(-)
+>>> +
+>>> +diff --git a/libstdc++-v3/configure.host b/libstdc++-v3/configure.host
+>>> +index 155a3cdea..adbda8784 100644
+>>> +--- a/libstdc++-v3/configure.host
+>>> ++++ b/libstdc++-v3/configure.host
+>>> +@@ -277,16 +277,8 @@ case "${host_os}" in
+>>> +     os_include_dir="os/hpux"
+>>> +     ;;
+>>> +   mingw32*)
+>>> +-    case "$host" in
+>>> +-      *-w64-*)
+>>> +-        os_include_dir="os/mingw32-w64"
+>>> +-        error_constants_dir="os/mingw32-w64"
+>>> +-        ;;
+>>> +-      *)
+>>> +-        os_include_dir="os/mingw32"
+>>> +-        error_constants_dir="os/mingw32"
+>>> +-        ;;
+>>> +-    esac
+>>> ++    os_include_dir="os/mingw32-w64"
+>>> ++    error_constants_dir="os/mingw32-w64"
+>>> +     OPT_LDFLAGS="${OPT_LDFLAGS} \$(lt_host_flags)"
+>> It might make things a bit more obvious and upstreamable to just change
+>>        *-w64-*)
+>> to
+>>        *-w64*)
+>> if I understand correct?
+> With meta-mingw, the host triplet is actually either
+> i686-pokysdk-mingw32 or x86_64-pokysdk-mingw32, depending on bitness
+> in the SDKMACHINE value.
+
+Hmm, it does indeed look like we are not correctly setting the host in a 
+way it can be detected by GCC. It's a little surprising this hasn't 
+caused any actual problems (at least up to this point)... is this 
+something new to gcc 9.3, and do we have any idea why the AB MinGW tests 
+aren't seeing any problems?
+
+Either way, it would probably be better to figure out a way to make the 
+host look correct in meta-mingw if at all possible.
+
+Your commit message is also a little confusing because the first few 
+times I read it, I thought we were configuring for 64-bit when 32-bit is 
+desired, but based on the current GCC code being replaced and the value 
+of the host-triplets, it would seem to be the opposite (we are getting 
+32-bit when 64-bit is desired).
 
 
-On Mon, 27 Apr 2020 at 20:54, Rahul Kumar <rahulk@mvista.com> wrote:
-
-> Hi Richard/Alexander,
 >
-> I am not able to understand how I can use the below file.
->
-> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json
->
-> did you mean to say that i have to set MACRO in local.conf based on this
-> file.
->
-> *Thanks & Regards,*
-> Rahul Kumar
-> Software Engineer,Linux Solutions Engineering
-> Group,Montavista Software LLC
-> Email Id: rahulk@mvista.com
-> <https://plus.google.com/+CodeTwoSoftware>
->
->
-> On Mon, Apr 27, 2020 at 11:46 PM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->
->> On Mon, 2020-04-27 at 18:30 +0200, Alexander Kanavin wrote:
->> > You need to look at configurations defined here:
->> >
->> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json
->> > and replicate them locally. Then you can reproduce the failures that
->> > the AB gets in those configurations.
->>
->> That start of the failing logs on the autobuilder also list out the
->> configuration options for that build.
->>
->> Cheers,
->>
->> Richard
->>
->>
+> 
 
---000000000000cd6a6705a44adf3d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--------------4B4A0B0755966B149B5E86E3
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-<div dir=3D"ltr"><div>You need to first see from the failure page which con=
-figuration is failing, for example non-gpl3 is one such.</div><div><br></di=
-v><div>Then you find that configuration in config.json. The below should ho=
-pefully be self-explanatory in how you should set up the build?<br></div><d=
-iv><br></div><div><pre><code>        &quot;non-gpl3&quot; : {
-            &quot;NEEDREPOS&quot; : [&quot;poky&quot;, &quot;meta-gplv2&quo=
-t;],
-            &quot;MACHINE&quot; : &quot;qemux86&quot;,
-            &quot;BBTARGETS&quot; : &quot;core-image-minimal core-image-ful=
-l-cmdline&quot;,
-            &quot;extravars&quot; : [
-                &quot;INCOMPATIBLE_LICENSE =3D &#39;*GPLv3&#39;&quot;,
-                &quot;WARN_QA_remove =3D &#39;incompatible-license&#39;&quo=
-t;
-            ],
-            &quot;EXTRACMDS&quot; : [
-                &quot;../../yocto-autobuilder-helper/scripts/check-gplv3&qu=
-ot;
-            ]
-        },<br><br></code></pre><pre><code><br></code></pre><pre><code><span=
- style=3D"font-family:arial,sans-serif">Alex</span><br></code></pre></div><=
-/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">O=
-n Mon, 27 Apr 2020 at 20:54, Rahul Kumar &lt;<a href=3D"mailto:rahulk@mvist=
-a.com">rahulk@mvista.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_default" style=
-=3D"font-family:verdana,sans-serif;color:rgb(11,83,148)">Hi Richard/Alexand=
-er,<br><br>I am not able to understand how I can use the below file.<br><a =
-href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/=
-tree/config.json" target=3D"_blank">http://git.yoctoproject.org/cgit/cgit.c=
-gi/yocto-autobuilder-helper/tree/config.json</a><br><br>did you mean to say=
- that i have to set MACRO in local.conf based on this file.<br clear=3D"all=
-"></div><div class=3D"gmail_default" style=3D"font-family:verdana,sans-seri=
-f;color:rgb(11,83,148)"><br></div><div><div dir=3D"ltr"><div dir=3D"ltr"><d=
-iv><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div d=
-ir=3D"ltr"><div><div dir=3D"ltr"><div><span style=3D"color:rgb(111,168,220)=
-">	=09
-  =09
- =20
-   <b><span style=3D"color:rgb(11,83,148)">Thanks &amp; Regards,</span></b>=
-</span></div><div><span style=3D"color:rgb(111,168,220)"><span style=3D"col=
-or:rgb(11,83,148)"></span></span><span style=3D"color:rgb(111,168,220)"><sp=
-an style=3D"color:rgb(11,83,148)"></span></span></div><div><span style=3D"c=
-olor:rgb(111,168,220)"><span style=3D"color:rgb(11,83,148)">Rahul Kumar</sp=
-an></span></div><div><span style=3D"color:rgb(11,83,148)">Software Engineer=
-,Linux Solutions Engineering</span></div><div><span style=3D"color:rgb(11,8=
-3,148)"> Group,Montavista Software LLC</span></div><div><span style=3D"colo=
-r:rgb(11,83,148)">Email Id: <span style=3D"font-size:10pt"><a href=3D"mailt=
-o:rahulk@mvista.com" target=3D"_blank">rahulk@mvista.com</a></span></span><=
-span><a href=3D"https://plus.google.com/+CodeTwoSoftware" rel=3D"noopener" =
-target=3D"_blank"><span style=3D"font-family:Verdana,sans-serif;font-size:1=
-0pt;color:rgb(42,42,42)"><br></span></a></span></div></div></div></div></di=
-v></div></div></div></div></div></div></div></div></div><br></div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Apr 27,=
- 2020 at 11:46 PM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linux=
-foundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon,=
- 2020-04-27 at 18:30 +0200, Alexander Kanavin wrote:<br>
-&gt; You need to look at configurations defined here:<br>
-&gt; <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder=
--helper/tree/config.json" rel=3D"noreferrer" target=3D"_blank">http://git.y=
-octoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json</a>=
-<br>
-&gt; and replicate them locally. Then you can reproduce the failures that<b=
-r>
-&gt; the AB gets in those configurations.<br>
-<br>
-That start of the failing logs on the autobuilder also list out the<br>
-configuration options for that build.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
-</blockquote></div>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 4/27/20 12:35 PM, Samuli Piippo
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CABXoSoX--qaiLGJM0MJ2Uo=jZDd+Srav+-xaXb60PqtyVOm=Uw@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">On Mon, 27 Apr 2020 at 17:51, Richard Purdie
+<a class="moz-txt-link-rfc2396E" href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a> wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">
+On Mon, 2020-04-27 at 16:13 +0300, Samuli Piippo wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">meta-mingw is using Mingw-w64 but the host triplet does not match
+the expected pattern. config/os/mingw32-w64 enables more features
+that were not working with mingw32.
 
---000000000000cd6a6705a44adf3d--
+Signed-off-by: Samuli Piippo <a class="moz-txt-link-rfc2396E" href="mailto:samuli.piippo@qt.io">&lt;samuli.piippo@qt.io&gt;</a>
+---
+ meta/recipes-devtools/gcc/gcc-9.3.inc         |  1 +
+ ...nfig-os-mingw32-w64-for-mingw-builds.patch | 36 +++++++++++++++++++
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch
+
+diff --git a/meta/recipes-devtools/gcc/gcc-9.3.inc b/meta/recipes-devtools/gcc/gcc-9.3.inc
+index b0411078d3..4c8275bf2a 100644
+--- a/meta/recipes-devtools/gcc/gcc-9.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-9.3.inc
+@@ -67,6 +67,7 @@ SRC_URI = "\
+            <a class="moz-txt-link-freetext" href="file://0037-CVE-2019-14250-Check-zero-value-in-simple_object_elf.patch">file://0037-CVE-2019-14250-Check-zero-value-in-simple_object_elf.patch</a> \
+            <a class="moz-txt-link-freetext" href="file://0038-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch">file://0038-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch</a> \
+            <a class="moz-txt-link-freetext" href="file://0039-process_alt_operands-Don-t-match-user-defined-regs-o.patch">file://0039-process_alt_operands-Don-t-match-user-defined-regs-o.patch</a> \
++           <a class="moz-txt-link-freetext" href="file://0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch">file://0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch</a> \
+ "
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+ SRC_URI[sha256sum] = "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
+diff --git a/meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch b/meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch
+new file mode 100644
+index 0000000000..5a167f252c
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch
+@@ -0,0 +1,36 @@
++From 052f7e5db0d793155015530b639c4e42d37eb7eb Mon Sep 17 00:00:00 2001
++From: Samuli Piippo <a class="moz-txt-link-rfc2396E" href="mailto:samuli.piippo@qt.io">&lt;samuli.piippo@qt.io&gt;</a>
++Date: Fri, 23 Aug 2019 10:10:43 +0300
++Subject: [PATCH] Always use config/os/mingw32-w64 for mingw builds
++
++Make sure we use the w64 version of the configs, since that's what
++meta-mingw is using.
++
++Signed-off-by: Samuli Piippo <a class="moz-txt-link-rfc2396E" href="mailto:samuli.piippo@qt.io">&lt;samuli.piippo@qt.io&gt;</a>
++---
++ libstdc++-v3/configure.host | 12 ++----------
++ 1 file changed, 2 insertions(+), 10 deletions(-)
++
++diff --git a/libstdc++-v3/configure.host b/libstdc++-v3/configure.host
++index 155a3cdea..adbda8784 100644
++--- a/libstdc++-v3/configure.host
+++++ b/libstdc++-v3/configure.host
++@@ -277,16 +277,8 @@ case "${host_os}" in
++     os_include_dir="os/hpux"
++     ;;
++   mingw32*)
++-    case "$host" in
++-      *-w64-*)
++-        os_include_dir="os/mingw32-w64"
++-        error_constants_dir="os/mingw32-w64"
++-        ;;
++-      *)
++-        os_include_dir="os/mingw32"
++-        error_constants_dir="os/mingw32"
++-        ;;
++-    esac
+++    os_include_dir="os/mingw32-w64"
+++    error_constants_dir="os/mingw32-w64"
++     OPT_LDFLAGS="${OPT_LDFLAGS} \$(lt_host_flags)"
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+It might make things a bit more obvious and upstreamable to just change
+      *-w64-*)
+to
+      *-w64*)
+if I understand correct?
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+With meta-mingw, the host triplet is actually either
+i686-pokysdk-mingw32 or x86_64-pokysdk-mingw32, depending on bitness
+in the SDKMACHINE value.</pre>
+    </blockquote>
+    <p>Hmm, it does indeed look like we are not correctly setting the
+      host in a way it can be detected by GCC. It's a little surprising
+      this hasn't caused any actual problems (at least up to this
+      point)... is this something new to gcc 9.3, and do we have any
+      idea why the AB MinGW tests aren't seeing any problems?<br>
+    </p>
+    <p>Either way, it would probably be better to figure out a way to
+      make the host look correct in meta-mingw if at all possible.</p>
+    <p>Your commit message is also a little confusing because the first
+      few times I read it, I thought we were configuring for 64-bit when
+      32-bit is desired, but based on the current GCC code being
+      replaced and the value of the host-triplets, it would seem to be
+      the opposite (we are getting 32-bit when 64-bit is desired).<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CABXoSoX--qaiLGJM0MJ2Uo=jZDd+Srav+-xaXb60PqtyVOm=Uw@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------4B4A0B0755966B149B5E86E3--
