@@ -1,54 +1,44 @@
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.web10.17.1588026217654890278
+ by mx.groups.io with SMTP id smtpd.web11.62.1588026812904752205
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2020 15:23:37 -0700
+ Mon, 27 Apr 2020 15:33:33 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: enedino.org, ip: 13.77.154.182, mailfrom: alejandro@enedino.org)
 Received: from ALSAMON-X.corp.microsoft.com (unknown [131.107.159.250])
-	by linux.microsoft.com (Postfix) with ESMTPSA id EA03E201E7E5
-	for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 15:23:36 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EA03E201E7E5
+	by linux.microsoft.com (Postfix) with ESMTPSA id 23FDD20B4737
+	for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 15:33:32 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 23FDD20B4737
 From: "Alejandro Hernandez" <alejandro@enedino.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] newlib: Upgrade to latest yearly release 3.3.0
-Date: Mon, 27 Apr 2020 15:23:32 -0700
-Message-Id: <20200427222332.38540-1-alejandro@enedino.org>
+Subject: [PATCH] baremetal-helloworld: Fix IMGDEPLOYDIR expansion
+Date: Mon, 27 Apr 2020 15:33:28 -0700
+Message-Id: <20200427223328.38984-1-alejandro@enedino.org>
 X-Mailer: git-send-email 2.17.1
 
-Upgrade to the latest snapshot, also drop md5sum while were at it.
+IMGDEPLOYDIR is not being expanded anymore, this causes
+do_rootfs to fail because it can't create the manifest file,
+we can set it to the default being set on image.bbclass since
+this is only a decoy function anyway to satisfy testimage,
+this makes do_rootfs happy and allows it to continue.
 
-Signed-off-by: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
 Signed-off-by: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+Signed-off-by: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
 ---
- .../newlib/{libgloss_3.2.0.bb => libgloss_3.3.0.bb}            | 0
- meta/recipes-core/newlib/newlib.inc                            | 3 +--
- meta/recipes-core/newlib/{newlib_3.2.0.bb => newlib_3.3.0.bb}  | 0
- 3 files changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-core/newlib/{libgloss_3.2.0.bb => libgloss_3.3.0.bb} (100%)
- rename meta/recipes-core/newlib/{newlib_3.2.0.bb => newlib_3.3.0.bb} (100%)
+ .../baremetal-examples/baremetal-helloworld_git.bb               | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/newlib/libgloss_3.2.0.bb b/meta/recipes-core/newlib/libgloss_3.3.0.bb
-similarity index 100%
-rename from meta/recipes-core/newlib/libgloss_3.2.0.bb
-rename to meta/recipes-core/newlib/libgloss_3.3.0.bb
-diff --git a/meta/recipes-core/newlib/newlib.inc b/meta/recipes-core/newlib/newlib.inc
-index 5edea8aba1..96e230f985 100644
---- a/meta/recipes-core/newlib/newlib.inc
-+++ b/meta/recipes-core/newlib/newlib.inc
-@@ -16,8 +16,7 @@ LIC_FILES_CHKSUM = " \
- 		"
- 
- SRC_URI = "https://sourceware.org/pub/newlib/newlib-${PV}.tar.gz"
--SRC_URI[md5sum] = "afb3a01c8c82b6717ea55659a4de30ec"
--SRC_URI[sha256sum] = "f7b2322964a1e3b37bec0768da20f50dfb62247d729110974dd95756a53bb6d4"
-+SRC_URI[sha256sum] = "58dd9e3eaedf519360d92d84205c3deef0b3fc286685d1c562e245914ef72c66"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- DEPENDS = "virtual/${TARGET_PREFIX}gcc"
-diff --git a/meta/recipes-core/newlib/newlib_3.2.0.bb b/meta/recipes-core/newlib/newlib_3.3.0.bb
-similarity index 100%
-rename from meta/recipes-core/newlib/newlib_3.2.0.bb
-rename to meta/recipes-core/newlib/newlib_3.3.0.bb
+diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+index d8633702fc..e84a90f28c 100644
+--- a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
++++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+@@ -37,6 +37,7 @@ do_install(){
+ # Borrowed from meta-freertos
+ inherit rootfs-postcommands
+ inherit deploy
++IMGDEPLOYDIR ?= "${WORKDIR}/deploy-${PN}-image-complete"
+ do_deploy[dirs] = "${DEPLOYDIR} ${DEPLOY_DIR_IMAGE}"
+ do_rootfs[dirs] = "${DEPLOYDIR} ${DEPLOY_DIR_IMAGE}"
+ DEPLOYDIR = "${IMGDEPLOYDIR}"
 -- 
 2.17.1
 
