@@ -1,270 +1,124 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web12.26.1588005566667236015
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com [209.85.166.67])
+ by mx.groups.io with SMTP id smtpd.web12.58.1588008914365736960
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2020 09:39:26 -0700
+ Mon, 27 Apr 2020 10:35:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hPTbxH+W;
- spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pl1-f171.google.com with SMTP id s10so7201929plr.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 09:39:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=d3YBwW8Z;
+ spf=pass (domain: gmail.com, ip: 209.85.166.67, mailfrom: samuli.piippo@gmail.com)
+Received: by mail-io1-f67.google.com with SMTP id 19so19717572ioz.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 10:35:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=gX0gmhSnG31iQSLaRwBD9MOb3BBY9HUqCgbHizgwJQI=;
-        b=hPTbxH+W/5XfgzeZERfvCe2QaOmQaZOUmAA3g2INqqD/NON7kmKpSz5khu1WDQ4qy9
-         Iou/ayDBcVhoPggOQueLK7/doW5i+LvLOtXogGf4esfAlKVYhAMai2t3HcBWiGd76GCY
-         UjLxGhag7lngH/VXFBDp6sPrhw4ixjEwGvO4FQK/yvfqHjtYB8jTUt13mgsgtnauBsHE
-         hnaBiXhU6969uN6tZ1kBDDD5ErlVHGO14V6Qgt4RNalJ033eeDz4lQhNkpoeACTcAGSU
-         bWsJZp641xMGRXvUuGTEWodvTKgQvvI1zTRtBeRcRYHI8/d+kWxi8SB35RBnCML3ttJy
-         T/2Q==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qzF9Xr0CTyH1xBLVF74w1wGeJMWRhpMsW7NKBTpUkkQ=;
+        b=d3YBwW8Z3V5ZmOMNhlnA24PGwR7x0K9UdE7h3d5xmvgaDp/ZZZZixhdm9dKxIzt4ba
+         rbRQ0ViSKY/vZPCoyCRxYayrVLHimvAE3LDxjPMjQjjylhTCT2ZbqYG5w31dBbZPC/hv
+         3jsyE8CtDKfGJ/zCl5GEqgTy8nv4pVf7pbZ0xfEk01gurbmKoUfQZwrxGNZRMsomnEYg
+         LGCvBXsBnCWRPy8rYYj9cTVhuCB5aOYsCPhTziu8eV70+rPU3SplGWUFhOg+lymx7lDf
+         qWCT9mvDoBouADoWIQRD2W6GDZaTXY+kHApiy8MYJsMrOvRraUHg3bIrXaM9ZwfcWY8t
+         aVfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=gX0gmhSnG31iQSLaRwBD9MOb3BBY9HUqCgbHizgwJQI=;
-        b=obWmk7e8WSE4dHXDsTEuBTWDIC4L/BO4K/dwLQAaoicSCdVI34HLR0NDMCXkLRPEhW
-         q6LrjViBpkMQzcjAiPvcD7xZi9jBkOoTnG52gbTgA6xGqJ0NpKpk8e9Udm0Z7VkE2VJc
-         EHYj1rSC7Gvh18SS6l33YBSt2QarQwzh/u2raqdjwOIuy6+rO+RjPxN0kyswaQSW45K0
-         3nXFWKS41Tqr2o4BBnqK6zxgabep89/uquGU6beVlTVIIFPhqfchA9ILjmlZ0zeBV9DO
-         sauhGCsVGmIJXn3746RXPb45E7m3YXC0kYB2RazSyeCKOZXBC7RmE9I0WDqyPfIifPhc
-         0d4w==
-X-Gm-Message-State: AGi0PuZ62Db7iDxcNMRIf+ZB3dgH8edPX1GeLntACyzCYwR0rQisd9oJ
-	VuepsU/CgZvssvBakDjcA1tv05hM
-X-Google-Smtp-Source: APiQypLUZ+J5uAUV00LnexdY4YyKLj4QHCYJFBAhK9oQguqpGYWl9CQm2YfZV30DngIkHW9rkVnNbw==
-X-Received: by 2002:a17:90a:6343:: with SMTP id v3mr24061329pjs.127.1588005565921;
-        Mon, 27 Apr 2020 09:39:25 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-        by smtp.gmail.com with ESMTPSA id w11sm12738136pfq.100.2020.04.27.09.39.25
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 27 Apr 2020 09:39:25 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 27 Apr 2020 09:39:25 -0700
-Message-ID: <0a8301d61cb2$69d4d2c0$3d7e7840$@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qzF9Xr0CTyH1xBLVF74w1wGeJMWRhpMsW7NKBTpUkkQ=;
+        b=seuhP9nufxVcp3j0J16GILVzxsuj0/aqoT2nB9j9TxjMoyniwwkU4qe+jfUAvlIT/j
+         casUjw/ONCbhY44pM44Tv5uOwVFodYyWvw9gtCwpS16X2x0G+JckLsS2beksUnEoW9Vv
+         /MXQOpQApa4+cgQQwew62QvBd+i2x9KwSN8Aa22RJtyaP08PnYrcA7O690KNlS6t0fv7
+         jw/kZDRfespoi6itR4H1D5udnujTKwJQhnqZj+B6cjLe5XrBE6hvVtJFE4sAeAR+HFo2
+         EXpvD97zzemIo/UrraDdDw2ehGfRGEh6pqiExWpb0/7wiJI2pbvMdhJfPSn9iLvb+VUV
+         ry+w==
+X-Gm-Message-State: AGi0Pua6IglB6yMcgjV4TAqYNh8Nky2Ft+Jn6SZE7Av08wZFU1R9ynMu
+	zeHDMhhK5wyx/1lumTvGEqGRerD9NueWyHRZmSg=
+X-Google-Smtp-Source: APiQypIKH7nudwLYXqZCfZQLCcFVOk9UGhgxyWxSAGsL+numRVjeQzqAZErpaq91+Yt7e/MudV1p2uV4UgDTKW0dosg=
+X-Received: by 2002:a02:a004:: with SMTP id a4mr21149709jah.18.1588008913638;
+ Mon, 27 Apr 2020 10:35:13 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGsPGE+JrsCQ1nJfvQcB9QqFv642w==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0A84_01D61C77.BD75FAC0"
-Content-Language: en-us
+References: <20200427131328.12044-1-samuli.piippo@qt.io> <ef0f940014c41b2cd66e4e74c85fea6389f66fe1.camel@linuxfoundation.org>
+In-Reply-To: <ef0f940014c41b2cd66e4e74c85fea6389f66fe1.camel@linuxfoundation.org>
+From: "Samuli Piippo" <samuli.piippo@gmail.com>
+Date: Mon, 27 Apr 2020 20:35:02 +0300
+Message-ID: <CABXoSoX--qaiLGJM0MJ2Uo=jZDd+Srav+-xaXb60PqtyVOm=Uw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] gcc: make sure mingw builds use mingw32-w64 configs
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Samuli Piippo <samuli.piippo@qt.io>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 
-------=_NextPart_000_0A84_01D61C77.BD75FAC0
-Content-Type: text/plain;
-	charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+On Mon, 27 Apr 2020 at 17:51, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2020-04-27 at 16:13 +0300, Samuli Piippo wrote:
+> > meta-mingw is using Mingw-w64 but the host triplet does not match
+> > the expected pattern. config/os/mingw32-w64 enables more features
+> > that were not working with mingw32.
+> >
+> > Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+> > ---
+> >  meta/recipes-devtools/gcc/gcc-9.3.inc         |  1 +
+> >  ...nfig-os-mingw32-w64-for-mingw-builds.patch | 36 +++++++++++++++++++
+> >  2 files changed, 37 insertions(+)
+> >  create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch
+> >
+> > diff --git a/meta/recipes-devtools/gcc/gcc-9.3.inc b/meta/recipes-devtools/gcc/gcc-9.3.inc
+> > index b0411078d3..4c8275bf2a 100644
+> > --- a/meta/recipes-devtools/gcc/gcc-9.3.inc
+> > +++ b/meta/recipes-devtools/gcc/gcc-9.3.inc
+> > @@ -67,6 +67,7 @@ SRC_URI = "\
+> >             file://0037-CVE-2019-14250-Check-zero-value-in-simple_object_elf.patch \
+> >             file://0038-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch \
+> >             file://0039-process_alt_operands-Don-t-match-user-defined-regs-o.patch \
+> > +           file://0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch \
+> >  "
+> >  S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+> >  SRC_URI[sha256sum] = "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
+> > diff --git a/meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch b/meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch
+> > new file mode 100644
+> > index 0000000000..5a167f252c
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32-w64-for-mingw-builds.patch
+> > @@ -0,0 +1,36 @@
+> > +From 052f7e5db0d793155015530b639c4e42d37eb7eb Mon Sep 17 00:00:00 2001
+> > +From: Samuli Piippo <samuli.piippo@qt.io>
+> > +Date: Fri, 23 Aug 2019 10:10:43 +0300
+> > +Subject: [PATCH] Always use config/os/mingw32-w64 for mingw builds
+> > +
+> > +Make sure we use the w64 version of the configs, since that's what
+> > +meta-mingw is using.
+> > +
+> > +Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
+> > +---
+> > + libstdc++-v3/configure.host | 12 ++----------
+> > + 1 file changed, 2 insertions(+), 10 deletions(-)
+> > +
+> > +diff --git a/libstdc++-v3/configure.host b/libstdc++-v3/configure.host
+> > +index 155a3cdea..adbda8784 100644
+> > +--- a/libstdc++-v3/configure.host
+> > ++++ b/libstdc++-v3/configure.host
+> > +@@ -277,16 +277,8 @@ case "${host_os}" in
+> > +     os_include_dir="os/hpux"
+> > +     ;;
+> > +   mingw32*)
+> > +-    case "$host" in
+> > +-      *-w64-*)
+> > +-        os_include_dir="os/mingw32-w64"
+> > +-        error_constants_dir="os/mingw32-w64"
+> > +-        ;;
+> > +-      *)
+> > +-        os_include_dir="os/mingw32"
+> > +-        error_constants_dir="os/mingw32"
+> > +-        ;;
+> > +-    esac
+> > ++    os_include_dir="os/mingw32-w64"
+> > ++    error_constants_dir="os/mingw32-w64"
+> > +     OPT_LDFLAGS="${OPT_LDFLAGS} \$(lt_host_flags)"
+>
+> It might make things a bit more obvious and upstreamable to just change
+>       *-w64-*)
+> to
+>       *-w64*)
+> if I understand correct?
 
-All,
-
- 
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
- 
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
-
- 
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 337
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
-being in "3.1" and then "3.2".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_0A84_01D61C77.BD75FAC0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_3093_01D6117B.2A27CF70";
-	charset="US-ASCII"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
-starting to try and collect up and classify bugs which a newcomer to the =
-project would be able to work on in a way which means people can find =
-them. They're being listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
-><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 337 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_0A84_01D61C77.BD75FAC0--
+With meta-mingw, the host triplet is actually either
+i686-pokysdk-mingw32 or x86_64-pokysdk-mingw32, depending on bitness
+in the SDKMACHINE value.
