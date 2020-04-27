@@ -1,105 +1,104 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web12.4626.1587990644841470901
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+ by mx.groups.io with SMTP id smtpd.web10.4466.1587990836877391714
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2020 05:30:45 -0700
+ Mon, 27 Apr 2020 05:33:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JRpctI6p;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id v8so15862952wma.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 05:30:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mbu5N9G2;
+ spf=pass (domain: gmail.com, ip: 209.85.221.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f172.google.com with SMTP id g129so4740745vkh.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 05:33:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=IiW3qOlpfh7kG1DEAnB3zQKKyZw8KvnfOC0dB9ptc28=;
-        b=JRpctI6pZW1HMyykwPVEmQf1ee223PMuoTmWaHUOMjWGICIQC73zJSsOf2SGuTc2/6
-         aLtFAtpoAhaV5YV8URdTi+g9YDEnLpIO4D/LYXHh2dFQlwAoLLSdr6IL0IB8P7rmc/J6
-         txKlXpXYy8RhoTIe42JewlIiZrwtExWn+ZuIs=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=F1ssKmGb4GtoitvDM9SgtgpJXq1/pqxC+58kMIxVZrE=;
+        b=mbu5N9G2E98MdYSM4RdXBI7Rdc1TYqha7pF/o3W9DrDU1tdNHnSuSTYf/k90d6gGWq
+         ghuCzPJxIYUljvrXITRxPk30vsIcbOGsdTK5MOkMB61FW/E/A1b8BA33eflXre4i8GYR
+         JegZFXdfUIjSGbn/s10elVT/aUsK84iPmy3osA0EujRWMndTlewK4GIMjt68i0JGQ6wh
+         7Ru2urAwtpxjrkPOBB2I8BTdr8wP4VAGOFcEPWteJjNCIPd4EmZl53PvfuF18zV3w7KL
+         WREHdQOgKpWFSSnDPjdq+gMGkRTmZ9+/lf2MwWtreapLmY4f3roypTJ8S1Y6yGQXlV/p
+         gVxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=IiW3qOlpfh7kG1DEAnB3zQKKyZw8KvnfOC0dB9ptc28=;
-        b=uHI6yrJqMqmjUXjoa7kJqNEiUG33VWCm0Q/8Y236OkQV1kjYOflOrq4rMBOOVovllR
-         v2zhCfmahy/aLsqVoW7B/ZqdP+McJKPkgyLWWYjiflC3pk4LFpzA8jiVGZip6Shemnw0
-         CFRcxT5On9x9OGVL24zCcJtzHFoQxhPrLrsLQ3DsR/uoKF34Jzj33XfgzsSetnr66HvQ
-         +w+gvZnx4CYxnnXBefWPb2H7VV3YfODEubk7ZCJzcQIvKncYev2YaxEjwERwWB1ScqUX
-         OZ7XmyYn6moIs4kJjUSIYBRI28d8u/VhkonjH2nn6dCZ/xSusRpaqhuUk1WuvQFQTovb
-         gz1w==
-X-Gm-Message-State: AGi0PuYq2dZXOUW616xE8gUJaCZ7IdSizYEtn9g3YoyrCz5/+bCNbnLP
-	1T+4JXaPKvNhUbZcFVS7qtZ0HA==
-X-Google-Smtp-Source: APiQypK7JB/+cBcgdkDqMv0jZNPN6hlSFrBHuVkh9bDbVfnX/tYwb1YfOc3TW0qJxcpr/YWKLP1QoA==
-X-Received: by 2002:a1c:6545:: with SMTP id z66mr25153901wmb.81.1587990643302;
-        Mon, 27 Apr 2020 05:30:43 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id j13sm20732822wro.51.2020.04.27.05.30.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2020 05:30:42 -0700 (PDT)
-Message-ID: <39285fa7c28870730f023b1b93399dbb54854a67.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 01/15] rpm: upgrade to 4.15.1
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Adrian Bunk <bunk@stusta.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Apr 2020 13:30:41 +0100
-In-Reply-To: <CANNYZj-_Z_Kd5=6UbvMg5c-2T1QCrCuvexy+7RqzhWOZfRtArA@mail.gmail.com>
-References: <20200425172814.27370-1-alex.kanavin@gmail.com>
-	 <9121b61b00747df8d326b422d2bb34258dd6665c.camel@linuxfoundation.org>
-	 <160972188EAFC253.2907@lists.openembedded.org>
-	 <CANNYZj9MJiBPZE+-MYLVAe2nfR5rwCsE9fONwXM5omfT4Y1sWQ@mail.gmail.com>
-	 <a2ee87b585ad797813c6985218ae0e3ea360597e.camel@linuxfoundation.org>
-	 <20200427090911.GA19242@localhost>
-	 <CANNYZj-=p9Ov7JJrDOAHZcFKu4m-aiYURQ4_mYLbBNT_R1T=AQ@mail.gmail.com>
-	 <20200427100816.GA27417@localhost>
-	 <CANNYZj-_Z_Kd5=6UbvMg5c-2T1QCrCuvexy+7RqzhWOZfRtArA@mail.gmail.com>
-User-Agent: Evolution 3.36.1-2 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=F1ssKmGb4GtoitvDM9SgtgpJXq1/pqxC+58kMIxVZrE=;
+        b=BL4/G+5rnyMWo3lrLv/fBEvmAs7PCom9XiCEYysFYLOuducQ9Mf59lcTJZxJQZYUTe
+         S/RORMpWAnNbbSsZITrv1r8mDdyBYBGHwVMKUoOspzN7VsLgfOS6C2bj5oflIgT7I7CU
+         dR4gVKqjHSUKz8oY6VPWNhTTuiNvTdZYVxc5cT/vWhL+AsZdhIKOdNV1iHfewmxU710d
+         AgBej9guvg5igRFbR8y/HL6toTTuVsw/B8d1NAGsK/Yqj5ejzF3EBXQ0YE+3WzDyrMht
+         yXYPG3CcNrYiDeOFzFG+qnYNE8M4B6h1s+/fg4xeVrYOhVki6cg7/evCQ/1iVLePoChb
+         m7HA==
+X-Gm-Message-State: AGi0Pub6lVYHo3geqVIHI3kQDQzKVO223cjX4PwuaWr/CZXUkPeXcjZY
+	NAja5xlaBKfzsd+fJQRVX445X8PekiFgt2YiBDM=
+X-Google-Smtp-Source: APiQypICtJ6cp3alQPdgGrvn578+Jq3rSWtG9KbkORcv4KuIVQ087+O/Srt2jZSzAFf8wL5wUicD3yODCHTOhoXt6h8=
+X-Received: by 2002:a1f:2154:: with SMTP id h81mr17119220vkh.9.1587990836051;
+ Mon, 27 Apr 2020 05:33:56 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200425172814.27370-1-alex.kanavin@gmail.com>
+ <9121b61b00747df8d326b422d2bb34258dd6665c.camel@linuxfoundation.org>
+ <160972188EAFC253.2907@lists.openembedded.org> <CANNYZj9MJiBPZE+-MYLVAe2nfR5rwCsE9fONwXM5omfT4Y1sWQ@mail.gmail.com>
+ <a2ee87b585ad797813c6985218ae0e3ea360597e.camel@linuxfoundation.org>
+ <20200427090911.GA19242@localhost> <CANNYZj-=p9Ov7JJrDOAHZcFKu4m-aiYURQ4_mYLbBNT_R1T=AQ@mail.gmail.com>
+ <20200427100816.GA27417@localhost> <CANNYZj-_Z_Kd5=6UbvMg5c-2T1QCrCuvexy+7RqzhWOZfRtArA@mail.gmail.com>
+ <39285fa7c28870730f023b1b93399dbb54854a67.camel@linuxfoundation.org>
+In-Reply-To: <39285fa7c28870730f023b1b93399dbb54854a67.camel@linuxfoundation.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 27 Apr 2020 14:33:44 +0200
+Message-ID: <CANNYZj-XKoLUSwT0tNKj7i0DMYYHi249SFERFrP-g+Yz74CFHw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 01/15] rpm: upgrade to 4.15.1
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Adrian Bunk <bunk@stusta.de>, OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000b0845e05a444ed94"
+
+--000000000000b0845e05a444ed94
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-04-27 at 14:24 +0200, Alexander Kanavin wrote:
-> On Mon, 27 Apr 2020 at 12:08, Adrian Bunk <bunk@stusta.de> wrote:
-> > > Yes, I thought of sending a patch that adds libgomp-dev to the
-> > extended
-> > > tarball, but... the mysterious problem is, in some cases, rpm-
-> > native will
-> > > compile on the same worker machines without any failure (and
-> > maybe it then
-> > > gets linked against 'wrong' gomp, hence failures)  - see links
-> > above. I'd
-> > > like to try to ssh in and see how this could happen.
-> > 
-> > Richard had a possible explanation for that:
-> > 
-> > On Sun, Apr 26, 2020 at 10:07:30PM +0100, Richard Purdie wrote:
-> > > I think what may happen is that sstate may become populated and
-> > then
-> > > builds proceed further than they did previously.
-> 
-> I still don't understand this. In both cases, rpm-native is compiled
-> (not taken from sstate). In one case, it fails due to missing omp.h,
-> but in another, do_compile completes without error. How does sstate
-> influence this?
+On Mon, 27 Apr 2020 at 14:30, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Have you a pointer to a build where this succeeds and one where it
-fails?
+> > I still don't understand this. In both cases, rpm-native is compiled
+> > (not taken from sstate). In one case, it fails due to missing omp.h,
+> > but in another, do_compile completes without error. How does sstate
+> > influence this?
+>
+> Have you a pointer to a build where this succeeds and one where it
+> fails?
+>
 
-> I think the build should be run again, then particularly the build
-> directory of debian/centos where rpm-native was able to complete
-> should be preserved. I suspect it succeeds because,
-> somehow, the old gcc from the host is used, which might be a serious
-> issue :(
-> 
-> After that we can look into the (most likely different) issue of
-> providing the header via buildtools-tarball.
+Yes, from a few emails back:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/1812
+https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/2073
 
-The infrastructure doesn't make it very easy to do that unfortunately.
-I can do it but it will involve shutting down all the cleanup
-processes, stopping all other builds, monitoring and manually coercing
-things back to the "right" state for you to look at. I can do that but
-it will take me several hours.
+I can't ssh into that worker for some reason.
 
-Cheers,
+Alex
 
-Richard
+--000000000000b0845e05a444ed94
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 27 Apr 2020 at 14:30, Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">&gt; I still don&#39;t unde=
+rstand this. In both cases, rpm-native is compiled<br>
+&gt; (not taken from sstate). In one case, it fails due to missing omp.h,<b=
+r>
+&gt; but in another, do_compile completes without error. How does sstate<br=
+>
+&gt; influence this?<br>
+<br>
+Have you a pointer to a build where this succeeds and one where it<br>
+fails?<br></blockquote><div><br></div><div>Yes, from a few emails back:</di=
+v><div><span class=3D"gmail-im"><div><a href=3D"https://autobuilder.yoctopr=
+oject.org/typhoon/#/builders/75/builds/1812" target=3D"_blank">https://auto=
+builder.yoctoproject.org/typhoon/#/builders/75/builds/1812</a></div><div><a=
+ href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/=
+2073" target=3D"_blank">https://autobuilder.yoctoproject.org/typhoon/#/buil=
+ders/15/builds/2073</a></div><div><br></div><div>I can&#39;t ssh into that =
+worker for some reason.</div><div><br></div><div>Alex<br></div></span></div=
+><div> <br></div></div></div>
+
+--000000000000b0845e05a444ed94--
