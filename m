@@ -1,162 +1,134 @@
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
- by mx.groups.io with SMTP id smtpd.web12.768.1588028983633866922
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web10.930.1588029655443984079
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2020 16:09:44 -0700
+ Mon, 27 Apr 2020 16:20:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EEi/s5Ov;
- spf=pass (domain: gmail.com, ip: 209.85.167.67, mailfrom: bartlomiej.burdukiewicz@gmail.com)
-Received: by mail-lf1-f67.google.com with SMTP id f8so15314225lfe.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 16:09:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FXXM4wPp;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: sakoman@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id f13so22458221wrm.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 16:20:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version;
-        bh=U/emtkkAKQ+zUDymGbez//BGO32IVremUYDU//9SO1M=;
-        b=EEi/s5OvJ6jL2aNtW6VX6W7X3LkmYCQkkDifFt0ISJNbDoEWaZUWG8VO4HVRB7QXL1
-         DRu+/REtJoW15nyx0T6GEwkXetLTrRcpzEbsyQw+FJ/XaQAaejwKZCv5laBEbwtgJK51
-         pJLGH7fV4lQu8XKThtT+l7BryUsRQB1KNjoxu2kmsz8zVYmNuSYfVbjXg7F3wraYC0hI
-         /5cTVJqpeArXZrvI46WnBtZ+KvkVCTfD38/8jT9jPQFrq5KqrBtjQINBGsfronGWX5rC
-         0z+6ulKzv4o4cpkkB2RiG/DRFnaTHDh3bBQB+yb9S5GMOy/Pflni8uxfB5REoLyoXeUQ
-         zqvQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jhFJ7NZNk+YgXWQSQoXXkHYZKpKq6kgL5/fcQcP+1vU=;
+        b=FXXM4wPpMApXogZxrwx6JsX7segdxk6fYuiCVZvCJyY9X2FkNx2LBreGmXSkD6QYBv
+         PO9ddGtowjQh/MSilj+//4lWJaR4uP7Jn0gxn7oTsOCyKU3ns9Dqro67yR9gl+fd3xoZ
+         0jvu0QLNcE6g4GY/PLkFUYBQBDAaRewA0SVaYwBe5GpK3f0rzFv8EgS4+I94z1fvC9po
+         IVnsMPHyApnrbt8sOAqBD59h5XD9eaYSTYwy+PycShfwJxtCBgSLyV7DelCBHXgjN02/
+         OsIOOPmuIowSpWFNsAozP2huOeFt5LpJnYwEcB9V0HibqhAgT9ED718sJx/ADUoFittM
+         H39w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version;
-        bh=U/emtkkAKQ+zUDymGbez//BGO32IVremUYDU//9SO1M=;
-        b=UXSwgpg3M2ZCsyJwhSwEwGiqLKxetj7npaEAqvhV18CrvcMjXrJXWtBXWu3OXrMduH
-         VZ7hrTdWPqmP9eWG4rv3i1RVZkOt3KpCHS3FtX96EuSYUluSslIeY6yAXy9+4ajtvaZ4
-         FveeYQ4aK+HrZuxnveRRDuGCvQl8VyIqtAhMIPT42rNYnXWr/MMovS6hKRecdtiTBxQz
-         ON3L1jF3S8IU9usNnpztKtf/JQhMP0a8gBklOkCdE1ady1rDoFVwt+K7XWWpFMKofu77
-         r+Tr6tAtywXNaTDr5/aHZbaX9QrB9hAKpJs5ymoVXH7OzaKBf+LOokQbe8D2ZggQ0Kdf
-         SreA==
-X-Gm-Message-State: AGi0PuYptvndmhN1IB/XgPxHKq4umrcsIqFhGtwXzGKG9ZgMrxulu2it
-	cyKrlA5R3ZvITPon+W4G5W7WaTn/mEI=
-X-Google-Smtp-Source: APiQypKEA14XQ0P2hUHQ5vI13TpaemY7Pjhnr3LJMZMG7ikp7AypQCMIyFufNycaWd1zCwttQkl/1A==
-X-Received: by 2002:ac2:53a6:: with SMTP id j6mr16939431lfh.153.1588028981270;
-        Mon, 27 Apr 2020 16:09:41 -0700 (PDT)
-Return-Path: <bartlomiej.burdukiewicz@gmail.com>
-Received: from navi.localnet (dynamic-78-8-50-212.ssp.dialog.net.pl. [78.8.50.212])
-        by smtp.gmail.com with ESMTPSA id a19sm12316203lff.11.2020.04.27.16.09.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2020 16:09:39 -0700 (PDT)
-From: =?UTF-8?B?QmFydMWCb21pZWogQnVyZHVraWV3aWN6?= <bartlomiej.burdukiewicz@gmail.com>
-To: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Cc: Anuj Mittal <anuj.mittal@intel.com>
-Subject: Re: [OE-core] [meta-oe][PATCH] libva: Removed virtual/mesa dependency
-Date: Tue, 28 Apr 2020 01:09:33 +0200
-Message-ID: <2255490.NgBsaNRSFp@navi>
-In-Reply-To: <e5e73ac7edc8c2695ca5dd0d31e9d800480a4e8c.camel@intel.com>
-References: <7de2a86b-e32c-35ae-716d-505845a837b2@gmail.com> <28192.1587843536617759309@lists.openembedded.org> <e5e73ac7edc8c2695ca5dd0d31e9d800480a4e8c.camel@intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jhFJ7NZNk+YgXWQSQoXXkHYZKpKq6kgL5/fcQcP+1vU=;
+        b=m8c/43LGDNoGpnnMK0DxE0fCqrHeYnbgnhJ3Dy8E+gcfbqGcMvRuwL4+y72SId5NkV
+         15IgmZ0TZ2L4gbDmYeEGYC9BwnCqXSxDta+drVh0zquaHOMkp1qhKFhR/AcNcw6tVgvK
+         0rwkEqpV/yLmJgqRgqIkSdARnkUQDP0GIiJP6s7fQoqEuRZ+6caR2ZVl6c+jWl+psaE7
+         wrk3wzePoAkZ0Rk0zr22fMWzkVBu/Y4cdrrTXxqWDnu26J/mBQwaCQyyMnmMpN7ZQ+mb
+         iDY3/c8WTd59ICyem2HJY9nfiJtOFgJrag/08ExOTKDv9A83uRcXIoaH+wfERwFlOHp6
+         5RJQ==
+X-Gm-Message-State: AGi0PuayxAoJYpL/dp9JPSfBZxMbHqnQMKvQ9dF7/SdBBSmrOLth1tTP
+	5JeMruwIPIcBoqvdzMkJZfjS6k4KEvlcSqc/0RQ=
+X-Google-Smtp-Source: APiQypITv0OTDmv0Ca4bg2FG9e2Zr9/BdI80BeLtU70uqtYIURkjaRIvcTmLejkMYq2t8ve5G/iCcJtviPQEN96yuio=
+X-Received: by 2002:a5d:4748:: with SMTP id o8mr29328611wrs.422.1588029653842;
+ Mon, 27 Apr 2020 16:20:53 -0700 (PDT)
 MIME-Version: 1.0
-X-Groupsio-MsgNum: 137542
-Content-Type: multipart/signed; boundary="nextPart2803879.BEx9A2HvPv"; micalg="pgp-sha256"; protocol="application/pgp-signature"
-
---nextPart2803879.BEx9A2HvPv
-Content-Transfer-Encoding: quoted-printable
+References: <20200415231829.4090244-1-raj.khem@gmail.com>
+In-Reply-To: <20200415231829.4090244-1-raj.khem@gmail.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Mon, 27 Apr 2020 13:20:42 -1000
+Message-ID: <CAGDS+n=FfuBzJcrvbb8i=32+9JXd-0C+MskoxLuUDiz0p_RZyg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] gcc: Configure all gccs with --disable-install-libiberty
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, 26 Apr 2020 06:23:57 CEST Anuj Mittal wrote:
-> On Sat, 2020-04-25 at 12:38 -0700, Bart=C5=82omiej Burdukiewicz wrote:
->=20
-> > On Sat, Apr 25, 2020 at 06:46 AM, Khem Raj wrote:
-> >=20
-> >=20
-> > > On 4/24/20 8:01 AM, Bart=C5=82omiej Burdukiewicz wrote: > Mesa can be
-> > > compiled with libva support, in order to avoid recursive >
-> > > dependency between mesa and libva, virtual/mesa must be removed >
-> > > from libva recipe. > > Signed-off-by: Bart=C5=82omiej Burdukiewicz
-> > > bartlomiej.burdukiewicz@gmail.com > --- > meta/recipes-
-> > > graphics/libva/libva_2.6.1.bb | 2 +- > 1 file changed, 1
-> > > insertion(+), 1 deletion(-) > > diff --git a/meta/recipes-
-> > > graphics/libva/libva_2.6.1.bb b/meta/recipes-
-> > > graphics/libva/libva_2.6.1.bb > index 92cea83bc1..c1a441a18b 100644
-> > >=20
-> > > > --- a/meta/recipes-graphics/libva/libva_2.6.1.bb > +++
-> > >=20
-> > > b/meta/recipes-graphics/libva/libva_2.6.1.bb > @@ -23,7 +23,7 @@
-> > > SRC_URI[sha256sum] =3D
-> > > "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e4862940 > >
-> > > UPSTREAM_CHECK_URI =3D "https://github.com/intel/libva/releases" > >
-> > > -DEPENDS =3D "libdrm virtual/mesa" > +DEPENDS =3D "libdrm"
-> > >=20
-> > > I am not sure how it will work with non-mesa graphics stacks. Or is
-> > > it non-issue ?
-> > >=20
-> >=20
-> >=20
-> > It looks like libva is designed to work without mesa (or other
-> > graphical stacks), since it's using libdrm to dispatch kernel calls.=20
-> > https://en.wikipedia.org/wiki/Direct_Rendering_Manager#/media/File:DRM_=
-arc
-> > hitecture.svg
-=20
-> > There is also ebuild in Gentoo for libva do not depend on mesa (
-> > https://data.gpo.zugaina.org/gentoo/x11-libs/libva/libva-2.6.1.ebuild
-> > ) or other graphical stacks (like nvidia-drivers or etc.).
->=20
->=20
-> I see a DEPEND on opengl there which is what glx backend in libva
-> expects:
->=20
-> https://github.com/intel/libva/blob/master/meson.build#L95
->=20
-> Just removing the dependency will force glx backend to not be built. Is
-> there software out there that expects libva-glx to be present?
->=20
-> Thanks,
->=20
-> Anuj
+Hi Khem,
 
-Sorry I was incorrect on Gentoo ebuild it's pulling virtual/opengl which is=
-=20
-mesa (this is also for building libva-glx). I check what is pulling libva g=
-lx=20
-for Gentoo:
+Is this series something I should consider for dunfell LTS?
 
-https://pastebin.com/bzppfKSz
+Steve
 
-=46or short:=20
-
-xine-lib - which is outdated,
-qmplay2 - https://github.com/zaps166/QMPlay2#va-api--opengl-information
-kodi - libva (with glx) is required for every display backed (wayland/gbm/X=
-11)=20
-which is strange to me, this is probably lazy approach. I was able to run=20
-libva with kodi in gbm context without glx, not sure about X11 sessions.
-mythtv - https://www.mythtv.org/wiki/VAAPI unclear
-
-Other media player don't have strong requirements for GLX.
-
-I'm now totally unsure. Probably adding PACKAGECONFIG with glx flag (disabl=
-ed=20
-by default) will be better approach with conditional virtual/mesa dependenc=
-y.=20
-This will fix recursive dependency problem for common cases. There is also =
-ton=20
-of articles that GLX is deprecated, so softly going away should be a proper=
-=20
-way.
-
-Or just those bbappends should stay where they are. Another thing is that=20
-meta-intel layer introduced libva-intel package which also need separate=20
-bbappend to remove virtual/mesa, this made me to post that patch in first=20
-place.
-
---nextPart2803879.BEx9A2HvPv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part.
-Content-Transfer-Encoding: 7Bit
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCAAdFiEEhZwkVUCmwRFjZfunQ+DhhJwr0RgFAl6nZi0ACgkQQ+DhhJwr
-0RifbAf/bSp4De2OW51r6XdWopo7KgGz7EVHDJgCmYiROme5Urj1ahzhPI60AYi0
-60oUMqq8W1Xye1wlHddcoQWC8NJUJCwHpbdXbZYlvapbvwJPmadPBHnodVq76PGq
-8reF2Vkl1IBca01r7198USgqkymWoSZNByCegvAR/RyP1KftIx60kljmJFfYSFuY
-h9j/35pLGFDUXWAslrblETBaFfZ3nDSxGC0dEbxff3r5Jd8WbixFgIbNY2j3JUyZ
-kP+ZmRURNmGXVImYxsDB+c8Kzo2fIDAFNc8afVdYjl9rOlZGFPFcfUp2e3jpsR01
-YNmNzMG2/y8/hFOrV37b5sl82bbx2w==
-=hup4
------END PGP SIGNATURE-----
-
---nextPart2803879.BEx9A2HvPv--
+On Wed, Apr 15, 2020 at 1:19 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> OE uses libiberty from binutils, since its properly compiled as pic
+> archive and applications and other libraries needing libiberty can
+> properly link with it.
+>
+> With this option applied, explicit delete of libiberty headers and
+> libraries is not required in install step, since they wont get installed
+> in first place.
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-devtools/gcc/gcc-configure-common.inc | 1 +
+>  meta/recipes-devtools/gcc/gcc-cross-canadian.inc   | 6 ------
+>  meta/recipes-devtools/gcc/gcc-cross.inc            | 4 ----
+>  meta/recipes-devtools/gcc/gcc-target.inc           | 4 ----
+>  4 files changed, 1 insertion(+), 14 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> index bb4f6923f2..a64c4caf00 100644
+> --- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
+> @@ -33,6 +33,7 @@ EXTRA_OECONF = "\
+>      --enable-libstdcxx-pch \
+>      --program-prefix=${TARGET_PREFIX} \
+>      --without-local-prefix \
+> +    --disable-install-libiberty \
+>      ${EXTRA_OECONF_BASE} \
+>      ${EXTRA_OECONF_GCC_FLOAT} \
+>      ${EXTRA_OECONF_PATHS} \
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> index 4aac345bec..553ef7fe62 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
+> @@ -108,12 +108,6 @@ do_install () {
+>         # We don't care about the gcc-<version> copies
+>         rm -f ${D}${bindir}/*gcc-?.?*
+>
+> -       # We use libiberty from binutils
+> -       rm -f ${D}${prefix}/${TARGET_SYS}/lib/libiberty.a
+> -       # Not sure where the strange paths come from
+> -       rm -f ${D}${libdir}/../lib/libiberty.a
+> -       rm -f ${D}${libdir}/libiberty.a
+> -
+>         # Cleanup empty directories which are not shipped
+>         # we use rmdir instead of 'rm -f' to ensure the non empty directories are not deleted
+>         # ${D}${libdir}/../lib only seems to appear with SDKMACHINE=i686
+> diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
+> index c68cdd5dc4..6fa8c274cd 100644
+> --- a/meta/recipes-devtools/gcc/gcc-cross.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
+> @@ -117,10 +117,6 @@ do_install () {
+>         cp ${S}/libquadmath/quadmath.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
+>         cp ${S}/libquadmath/quadmath_weak.h ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include/
+>
+> -       # We use libiberty from binutils
+> -       find ${D}${exec_prefix}/lib -name libiberty.a | xargs rm -f
+> -       find ${D}${exec_prefix}/lib -name libiberty.h | xargs rm -f
+> -
+>         find ${D}${libdir}/gcc/${TARGET_SYS}/${BINV}/include-fixed -type f -not -name "README" -not -name limits.h -not -name syslimits.h | xargs rm -f
+>  }
+>
+> diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+> index 34c1b2263b..8cb432780f 100644
+> --- a/meta/recipes-devtools/gcc/gcc-target.inc
+> +++ b/meta/recipes-devtools/gcc/gcc-target.inc
+> @@ -192,10 +192,6 @@ do_install () {
+>         # We don't care about the gcc-<version> ones for this
+>         rm -f *gcc-?.?*
+>
+> -       # We use libiberty from binutils
+> -       find ${D}${libdir} -name libiberty.a | xargs rm -f
+> -       find ${D}${libdir} -name libiberty.h | xargs rm -f
+> -
+>         # Not sure why we end up with these but we don't want them...
+>         rm -f ${TARGET_PREFIX}${TARGET_PREFIX}*
+>
+> --
+> 2.26.1
+>
+> 
