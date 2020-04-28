@@ -1,44 +1,44 @@
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com [209.85.210.67])
- by mx.groups.io with SMTP id smtpd.web10.1320.1588108689582967019
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com [209.85.210.68])
+ by mx.groups.io with SMTP id smtpd.web11.1335.1588108693555723488
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2020 14:18:09 -0700
+ Tue, 28 Apr 2020 14:18:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=EHoj3j1w;
- spf=pass (domain: linaro.org, ip: 209.85.210.67, mailfrom: anibal.limon@linaro.org)
-Received: by mail-ot1-f67.google.com with SMTP id z25so35335404otq.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 14:18:09 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=fWbMWpVH;
+ spf=pass (domain: linaro.org, ip: 209.85.210.68, mailfrom: anibal.limon@linaro.org)
+Received: by mail-ot1-f68.google.com with SMTP id e26so35454521otr.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 14:18:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QiWJGZIRGd1HOzB6jPuf7dv/+hpH9cfJFovMy+bWh/k=;
-        b=EHoj3j1wdFA5/63wvUqBUAMcVosl7omTQJds3f2C4KSZvEi827eP3g1dSrYZb0HLOA
-         /ep7Zcb9bcr6J4bZ9RlvXtRbmaV69fHoIGyoVrvHt8wZd2vrFK+2nLjpxXVvgc19R8Pz
-         jQ2X2zK+X869rM/T+evFG+/l6wLYjzBAhQ10CcVIwPmNJjfiWOiJwJRGA9BHA3mQtwSK
-         XBV6PwoW6vn3HVb7uGbklX7dbKSVpXcj5zDFe16Jof6f8Z3lmclqy6q7BBojkDQxJv0z
-         Gv9dqeQ3o+fdYwk1XUh9Ql6bCehxiRixBzRJ8vpj5jtCu94BhEC9VFj/yZRkpcn7N2B6
-         PUcQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=X7CLRgi3kEUN9bDv3Mn4gxPTptqw8dcC8PQM4FcputE=;
+        b=fWbMWpVHR2llGj9tPqz/MXIp7kqPrhjVGjv96a1qHDEdhFDPxa41X+szfkfF/qgo/E
+         nKi3l2jUfuOOQxFkTgVUE79xeHUEeTuNQFOuuTjcswhwW4nV/+YHLa4iS7dJFnULp3+O
+         7rfPnbR5bVchx0kIr7nhZbDDB8njwxNomOHxFxqVb0QczM02v+yJ48NkldRQEaZts6nf
+         9Dk1IWT/VA+dK0eCpmWASELHLCHnM8hNTGx0sBcRTQ95hPbKB8TaTVglhofMHw8zkta/
+         bSPKfRVNP/ZEHBDHVZ8/0cTnmR0XBQf6f6kkgbA7oqqUqaPpuWRJxgSdnI3dgs7H3njR
+         dZzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=QiWJGZIRGd1HOzB6jPuf7dv/+hpH9cfJFovMy+bWh/k=;
-        b=dQbfr7Zw4kPQkjen+hl18YOhfVkCRhxcQ4h85CWLCRR/LMeQughYcoGu2dIbd8RRHh
-         rxVMhbN7HDx2DmOGehuvHjoopB0/o4sPQeumXEi1Q3AjHFqsetSWYdq9iQ+yZD/FH6Fk
-         klinyUdTVkNYuICqXITvf2nlWtK+aBKhqWgAuCu4Sk9OsXUDyNBQfGrcuafh/Th+TI9d
-         LKy2whdvY+ktswmkmS3/KYfAit4GBqO/OZwsnKzBhE740Xk3Xf8IujeBoiGGUXMYBf6N
-         2Y8vXZZgMFmF6jOpmI6su4VSspKiD/A4qO2oQhDjZfU7oZNv8UkMzKsLQrwo9TDNOg/n
-         YV0g==
-X-Gm-Message-State: AGi0PuYYyJKHbDWTd0tvooARrHaRgUjuzpUnmMMf3gNuWBXH2BjONkXM
-	uUBCXrx8RWBndIWpTL/oug6LQV4jOGs=
-X-Google-Smtp-Source: APiQypJTSgNgrioTV65ZxHVnrsTgLmzq3WOlBllA2/Nt5hMX8X3p6ZZmjk6lvrPs75a3BsXd5h/DHw==
-X-Received: by 2002:a05:6830:138c:: with SMTP id d12mr24910877otq.310.1588108688637;
-        Tue, 28 Apr 2020 14:18:08 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=X7CLRgi3kEUN9bDv3Mn4gxPTptqw8dcC8PQM4FcputE=;
+        b=N6rCrun+wnJKchqdwc/ZskJuL6UNzII900e7emB5MWsfTjqg2OGmDMg0SdpmTT4DKK
+         807dWu7lCK0EhICjxy1rStGp4/ffygDwHfmVPXvFh86/3itzQ8ho5eZIFuXKqxvVW3+/
+         wCrQGkwkout1uNzm5s1x4V75Z4iWHqGvNLniIQe40fIYDKYvmv+dBGLkaEeQZm8HT1Jm
+         LMf3KcnSiI/ahqP7vYaMvH7e7ogmjbGoE9bFJVzpufuzWRYdzgIE8ABOMXmmkTCZmsLi
+         +rhYu5Ou05DYwgbmnybfwWlWZj3DDdDvhPajyufjC5sluX9TMVG9sMvqptdsFTLbhPDI
+         x/Kg==
+X-Gm-Message-State: AGi0Puacj7H1ayVLABpOkRzXiP6vDpSezpJ6JyHy5lFd6Ul6BD/BtWf0
+	R6c0SR9dGkEfhn4wTL84LKBECuiJTYo=
+X-Google-Smtp-Source: APiQypLkRYaLgk222AJhwOvOTMcuWlmt7Eu9+6SI+F4zHWmeyMUGwGRVxL8c08FmGQ1OzQyP5XETlg==
+X-Received: by 2002:aca:5651:: with SMTP id k78mr4337025oib.32.1588108689993;
+        Tue, 28 Apr 2020 14:18:09 -0700 (PDT)
 Return-Path: <anibal.limon@linaro.org>
 Received: from blackbox.rga.ip ([2806:109f:4:3295:908a:c7ff:fe6a:e9f5])
-        by smtp.gmail.com with ESMTPSA id 76sm5123987otg.68.2020.04.28.14.18.07
+        by smtp.gmail.com with ESMTPSA id 76sm5123987otg.68.2020.04.28.14.18.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2020 14:18:08 -0700 (PDT)
+        Tue, 28 Apr 2020 14:18:09 -0700 (PDT)
 From: "Anibal Limon" <anibal.limon@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: bkylerussell@gmail.com,
@@ -46,48 +46,44 @@ Cc: bkylerussell@gmail.com,
 	ross@burtonini.com,
 	randy.macleod@windriver.com,
 	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
-Subject: [PATCH 1/2] ptest-runner: Bump to 2.4.0
-Date: Tue, 28 Apr 2020 16:18:04 -0500
-Message-Id: <20200428211805.233163-1-anibal.limon@linaro.org>
+Subject: [PATCH 2/2] oeqa/runtime: Use libdir to run ptest-runner
+Date: Tue, 28 Apr 2020 16:18:05 -0500
+Message-Id: <20200428211805.233163-2-anibal.limon@linaro.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200428211805.233163-1-anibal.limon@linaro.org>
+References: <20200428211805.233163-1-anibal.limon@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add support for un ptests in multiple directories, useful in multilib
-builds.
-
-Changes,
-
-1e9a845 Add support to specify multiple folder for ptest-runner
-287ba30 Makefile: Fix TEST_LDFLAGS gcc cmdline position
+In multilib build configs libs can be installed in /usr/lib{32,64,x32}
+so use libdir to specify the correct ptest directory along with default
+/usr/lib.
 
 [YOCTO #12604]
 
 Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
- .../{ptest-runner_2.3.2.bb => ptest-runner_2.4.0.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/ptest-runner/{ptest-runner_2.3.2.bb => ptest-runner_2.4.0.bb} (90%)
+ meta/lib/oeqa/runtime/cases/ptest.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
-similarity index 90%
-rename from meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb
-rename to meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
-index 187f22df04..09fabdeebc 100644
---- a/meta/recipes-support/ptest-runner/ptest-runner_2.3.2.bb
-+++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.0.bb
-@@ -7,8 +7,8 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+index 99a44f0767..1b1474adcf 100644
+--- a/meta/lib/oeqa/runtime/cases/ptest.py
++++ b/meta/lib/oeqa/runtime/cases/ptest.py
+@@ -49,7 +49,11 @@ class PtestRunnerTest(OERuntimeTestCase):
+         ptest_log_dir = '%s.%s' % (ptest_log_dir_link, timestamp)
+         ptest_runner_log = os.path.join(ptest_log_dir, 'ptest-runner.log')
  
--SRCREV = "7015e9199ce748c0717addeebe7a8c47448bab03"
--PV = "2.3.2+git${SRCPV}"
-+SRCREV = "1e9a84585909b970cc8850d3ea02a7215dcfa5a3"
-+PV = "2.4.0+git${SRCPV}"
- 
- SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
- "
+-        status, output = self.target.run('ptest-runner', 0)
++        libdir = self.td.get('libdir', '')
++        ptest_dirs = [ '/usr/lib' ]
++        if not libdir in ptest_dirs:
++            ptest_dirs.append(libdir)
++        status, output = self.target.run('ptest-runner -d \"{}\"'.format(' '.join(ptest_dirs)), 0)
+         os.makedirs(ptest_log_dir)
+         with open(ptest_runner_log, 'w') as f:
+             f.write(output)
 -- 
 2.26.2
 
