@@ -1,92 +1,76 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web10.191.1588040164090680093
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.210.1588040165059174314
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2020 19:16:04 -0700
+ Mon, 27 Apr 2020 19:16:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OK8kwT4a;
- spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id n16so9569005pgb.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 19:16:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gIxK/8FF;
+ spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: akuster808@gmail.com)
+Received: by mail-pl1-f176.google.com with SMTP id w3so7739670plz.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 19:16:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=kIjKkEiA3JBXuG9GbYXTlPSmVBwLA7Tuq5mHJTlrjxs=;
-        b=OK8kwT4aZ7dLUF+HTd8b+6kRy4SehVGZxkzGvex/nlUHFdSMn1P0zls3D6Jh8LPS3C
-         dCefh8r5MjxmmU0X7JFbeUR5SqfdHolhdVkEddFUJ/qxiLCP+t2dF/IgJYq4K5GTRRXa
-         dD0cgXDsCYyXNzS5SreHzr3k0HDCXER9XsCZ3x5ycpEaRIDeZ203whDaQwALC4Y+II3N
-         aoKLcku6QItx96GJKdIhquVtiannZgHcAiv5akr5zpG85PJOkX2fZh3ShjLwKkr82udZ
-         DLYlc+MmvkRoItCkIuBuetqtaFwb5MjlyTLxyVmUK75ZxSuDyQiN/GpYsa9pl2Na604i
-         EExQ==
+        bh=q9cAZdnPu2+vLNb1JL4r36swkS9wS5IdhuISfx9DnUU=;
+        b=gIxK/8FFPLwilfwLT47OBI9MCL9yNocKJOYnFhKvbGlLxjWOQDL2IhFsve7c9nDJOY
+         uDie3oROOKSdz1M7r2aar6Y9hplAP0EbVeeIsHEBOYBcxJ+yraDdDEfD6+PYKAmaRV3W
+         4AJKEf5/UQKpMYg4EoX04X5Kz0n+lbXCesGSO6VJZWnDK+3ByRtmLOMd/vbF18Jb08is
+         6OoS7jNr3GWir+AjyZIguN4T4siUuUmCGOnFXP0Zws96m2SRFT2BQVuCWJwwdQG9chgs
+         4lvehTGyJMoWRfBGSR15J99J+txfRrQfpcnfpy9C8UFDMky3vIAgnFQUfrdE/Y2x6GES
+         /KTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=kIjKkEiA3JBXuG9GbYXTlPSmVBwLA7Tuq5mHJTlrjxs=;
-        b=UG4Faz4EXih/gWtzcFZP/TLcTXh15KYha/+VNGfTO5iIjnzYEkCW/mW8RnB7fZ0tTG
-         Q1I84BonYZeU5Y8JYFf6Dw0hk+ABYSfxqvVxs5g2ArSRISpVTAd3wJEyJsX5TkgKz2Pg
-         L1HgfAC2jCWFDrkoMFHd3cC/WSDAAx39+VbtZ4GOeMfTftjJqOSdr8IzO4vWAib2pKGP
-         me+zg1jHs1ZkpmkXdd9yqcG3CiEmXkkFZk7aw5LlPHOzfowQkgHtxmCdVvohitpWDmbG
-         QPrxrTzkz6VbsA6UZjlGjqcWc1hJ26ny3aCVeGs7eqQSb/mP2X/7XreIhy+0uKWDDlFj
-         q4nQ==
-X-Gm-Message-State: AGi0Pub+MUQWTbxIRzVm5/lPF/Y771vkR72es7UkzPrhXW+DL2RuqG3p
-	sOO0EWYnrw/ZZoDD51t1y0H521YD
-X-Google-Smtp-Source: APiQypIpqtBrkZRNNDQlo9iOL7ib8oG6Tm5ktZNRPJhlXKmcb0rWodY+6LsY0Hi3JC25e7AsdkuD9A==
-X-Received: by 2002:a63:ed50:: with SMTP id m16mr18894710pgk.271.1588040163369;
-        Mon, 27 Apr 2020 19:16:03 -0700 (PDT)
+        bh=q9cAZdnPu2+vLNb1JL4r36swkS9wS5IdhuISfx9DnUU=;
+        b=iuw1I0L11NJTD5h5y7yfg9RzJLiQ4lpQtes0aS2hNUcNL5qHCPn+pOrIv8zq4hdJVP
+         WTUjajB3ir/s2zjWGzJOcd8UoKwPPfleu4W0x3o+9YbjMG6BRrD2sfQ4vM+7F0SFd7h2
+         oSUpDlmEz5xckizECpPhNIo6hglaohxH2IyEhX55pAcL7OD4LwLZnK0hx/X3HaUnsYmu
+         F8RRa+tq4c3+dYgTuIEBJFA9L8oI0iCEf1q3gGGlv8IcAnlq3hlaVs1xws7cZjFfU2AQ
+         Qm/WO0nHMSc988ITFakl9c1+coeaqOkjIgnu7tgEcbJZu1LJO5RHBHJRqAPnQhf+E//N
+         gtfw==
+X-Gm-Message-State: AGi0PubSLxhPM6Ar4Glqb350/tx2GhcNrHSmYre1Ao+r45ySvVD/4ETf
+	vqwXawrI+XmgMQlmZgNeOaY5hOEH
+X-Google-Smtp-Source: APiQypKPegu8bq7sWWWPyhOoo7jCC0F1LSu4ub4T5dgo4nYa5yqNIvHQq6r2ws7p+QSDNnphnX7H5w==
+X-Received: by 2002:a17:90a:17ed:: with SMTP id q100mr2205672pja.80.1588040164356;
+        Mon, 27 Apr 2020 19:16:04 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:f1bf:759e:e8cd:49cd])
-        by smtp.gmail.com with ESMTPSA id 6sm12328390pgz.0.2020.04.27.19.16.02
+        by smtp.gmail.com with ESMTPSA id 6sm12328390pgz.0.2020.04.27.19.16.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2020 19:16:02 -0700 (PDT)
+        Mon, 27 Apr 2020 19:16:03 -0700 (PDT)
 From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus 4/7] inetutils: Use alternatives to avoid manpage conflict
-Date: Mon, 27 Apr 2020 19:15:53 -0700
-Message-Id: <1c2a1f29aa720d376bc7f88edfcb1ccecc35f6c2.1587931177.git.akuster808@gmail.com>
+Subject: [zeus 5/7] openssl: recommend cryptodev-module for corresponding PACKAGECONFIG
+Date: Mon, 27 Apr 2020 19:15:54 -0700
+Message-Id: <285957cba45a15c90ceb062a55c957e81486a031.1587931177.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1587931177.git.akuster808@gmail.com>
 References: <cover.1587931177.git.akuster808@gmail.com>
 
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
+From: Denys Dmytriyenko <denys@ti.com>
 
-Fix the following manpage conflicts:
- * check_data_file_clashes: Package inetutils-doc wants to install file /usr/share/man/man1/tftp.1
-	But that file is already provided by package  * tftp-hpa-doc
- * check_data_file_clashes: Package inetutils-doc wants to install file /usr/share/man/man8/tftpd.8
-	But that file is already provided by package  * tftp-hpa-doc
- * check_data_file_clashes: Package netkit-telnet-doc wants to install file /usr/share/man/man8/telnetd.8
-	But that file is already provided by package  * inetutils-doc
-
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fc14bfd60ad86094f65ebefbd10dbddc112d2698)
+(cherry picked from commit 57fcf9b517fe95e871122946cb99fe7fa9fd2e26)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-index 684fbe09e1c..cc9410b94e0 100644
---- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-+++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-@@ -143,11 +143,15 @@ ALTERNATIVE_${PN}-traceroute = "traceroute"
- ALTERNATIVE_${PN}-hostname = "hostname"
- ALTERNATIVE_LINK_NAME[hostname]  = "${base_bindir}/hostname"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+index 169824a8bef..a8ca7163090 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+@@ -34,7 +34,7 @@ PACKAGECONFIG ?= ""
+ PACKAGECONFIG_class-native = ""
+ PACKAGECONFIG_class-nativesdk = ""
  
--ALTERNATIVE_${PN}-doc = "hostname.1 dnsdomainname.1 logger.1 syslogd.8"
-+ALTERNATIVE_${PN}-doc = "hostname.1 dnsdomainname.1 logger.1 syslogd.8 \
-+                         tftpd.8 tftp.1 telnetd.8"
- ALTERNATIVE_LINK_NAME[hostname.1] = "${mandir}/man1/hostname.1"
- ALTERNATIVE_LINK_NAME[dnsdomainname.1] = "${mandir}/man1/dnsdomainname.1"
- ALTERNATIVE_LINK_NAME[logger.1] = "${mandir}/man1/logger.1"
- ALTERNATIVE_LINK_NAME[syslogd.8] = "${mandir}/man8/syslogd.8"
-+ALTERNATIVE_LINK_NAME[telnetd.8] = "${mandir}/man8/telnetd.8"
-+ALTERNATIVE_LINK_NAME[tftpd.8] = "${mandir}/man8/tftpd.8"
-+ALTERNATIVE_LINK_NAME[tftp.1] = "${mandir}/man1/tftp.1"
+-PACKAGECONFIG[cryptodev-linux] = "enable-devcryptoeng,disable-devcryptoeng,cryptodev-linux"
++PACKAGECONFIG[cryptodev-linux] = "enable-devcryptoeng,disable-devcryptoeng,cryptodev-linux,,cryptodev-module"
  
- ALTERNATIVE_${PN}-ifconfig = "ifconfig"
- ALTERNATIVE_LINK_NAME[ifconfig]  = "${base_sbindir}/ifconfig"
+ B = "${WORKDIR}/build"
+ do_configure[cleandirs] = "${B}"
 -- 
 2.17.1
 
