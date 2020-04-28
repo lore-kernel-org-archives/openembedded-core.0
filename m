@@ -1,124 +1,201 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
- by mx.groups.io with SMTP id smtpd.web12.725.1588093758762761178
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web12.887.1588097262462658439
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2020 10:09:18 -0700
+ Tue, 28 Apr 2020 11:07:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VFfy9lzp;
- spf=pass (domain: gmail.com, ip: 209.85.210.194, mailfrom: akuster808@gmail.com)
-Received: by mail-pf1-f194.google.com with SMTP id r14so10982702pfg.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 10:09:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cjVtCcF6;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id k8so18004508ejv.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 11:07:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=JYc7sxkM9qM4fCNsvpUU+j/Qlha/Sqd1uGwx6fMVqr0=;
-        b=VFfy9lzpzjOW7+aCKqf0ugMnvKQ01oTMNEc1Qau+HwQFOYdqDIpqQl9cvAA8we9bc+
-         75Ir/agX2CXq8uPJ2of9BspPexns9iA+jhGd6NWuYQ0hDzVQw4fqmkrWhXgAOXgC6Eez
-         b9bpuF9o/Wfi6pk/NMt6Kp/3r9ZX2yAcApsNhm/NYZcbtUxCFh3HjyyT8IS4hFAk5T3R
-         4BfNNRNdXj6eBUN5U8uJEW5o2YyJ3EeW5Jlljwe1TXdvA6l/PF0Zvf49rCsTg4cS4fhW
-         fi9GpuPK8c109pS43kdif03VQPmr/dQj1rrsXHqj4uskINLV3QD3URuFJF+rrhISggCQ
-         RpTQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xZgnWi3GucAbg6fJEgv1aZlgOvvavorPzMAOaw2+QYs=;
+        b=cjVtCcF604O1VCPulEqGq4WC+Bj5mUGI/+SwVgU2VWeZpQD3p5s46dy+/NkJDHmTZW
+         +WehmtoY6XlbTBNvCQN0lmDwTbYGdE7j32Rb6tPU3hoIkOdiu6/BGTJ6CVGAwksoxWT6
+         PWgi5Dfgn6z2d3p6E9YBTBuyWlkhACi9PSYzeABl+zZ6AlP6OLP+mtQ6BSdrEEN2e6u0
+         vZCF4j3D07sgRk4I7G9EDEiQtMmxUDlOxJ6RsUp+I8tkm+J8bw/fSLAJabwyNQqBy3Fc
+         vwFZGbRBFVtSF+DobDuZlihuamlhZrAoADKxalcYf2uU4OvGTNvJtwUhGdnjBjn8f7wf
+         9lzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=JYc7sxkM9qM4fCNsvpUU+j/Qlha/Sqd1uGwx6fMVqr0=;
-        b=fFuGM+zSdOt4UaRwcx3WIbaqyUNJJyDHt3Zw5xl6I3v3ciAB+mw0Ag+0AXt5hqElMT
-         SItYLZL+RAjdhN07vGb6ea1mYqrYsvPNZ45YjT0qiuG3IrhlOkFkCtt7SYZK6s54nIsM
-         GmbPKhu1POVrK2Ufl03XmzjD6vkyxfCG9j3RfMWM+gQi297MlBu0DSajQgJWjBnd9q7y
-         tt+4rbNtSFvMdeRWqJzIdQSE+sleC75DB/x123GOTBvjjzeTG9mCuAQJpkepo7PHdmrn
-         M5B2O1SIU4LzVGCWU1pnadHO1b3q7iLEodeJXPiAM1ueBEGC+RSpWGkBhJEKfLkBf7rw
-         4B2A==
-X-Gm-Message-State: AGi0PuYLNH4cUwcQHvYUNwnYYQ8FCWnDzrVNaEgdWlU49I6mzTIr9vND
-	A2zv7X05tE0m9o0FalHD8IS00yXw
-X-Google-Smtp-Source: APiQypIpBxfEB/FaO146hjMDOBP7dyTnXS48rkEmIUEv+Am6DAFW01splejlZfmTJLX58eOzCtNHdw==
-X-Received: by 2002:a63:5359:: with SMTP id t25mr20046989pgl.349.1588093757787;
-        Tue, 28 Apr 2020 10:09:17 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:3c5d:7c09:562a:defe? ([2601:202:4180:a5c0:3c5d:7c09:562a:defe])
-        by smtp.gmail.com with ESMTPSA id p16sm2600750pjz.2.2020.04.28.10.09.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Apr 2020 10:09:17 -0700 (PDT)
-Subject: Re: [OE-core] [zeus 0/7] Merge request
-To: =?UTF-8?Q?Jan_L=c3=bcbbe?= <jlu@pengutronix.de>,
- openembedded-core@lists.openembedded.org
-References: <cover.1587931177.git.akuster808@gmail.com>
- <1ef6f737d5b44b11b409ed459438666b611b7fa9.camel@pengutronix.de>
-From: "akuster" <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- 8CS2NxU=
-Message-ID: <1339637a-51fc-d092-1c71-903feca9d6c9@gmail.com>
-Date: Tue, 28 Apr 2020 10:09:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xZgnWi3GucAbg6fJEgv1aZlgOvvavorPzMAOaw2+QYs=;
+        b=YjxovQDzWl8a86YQPPtqmHZWtFYoGDZgg2JaYx1UNUpenvrWqleUy5d40NMbWwyJ33
+         rl3jU/PBEcWNtevuNHMcO7V/gZAdHb3GKTo00TSaA7IGdT6oNSmyNWdlRO5+znQQ+/bM
+         4y1vgKry7KEB3seMo4aBmL6DN+f58EcQfB+cHs/CsclHlKcTfhJjcyHVcwincjojiaNO
+         LZy97dklSvUe6J9r2XeDj9V9neTsRJKmnarmAeUmOWNMxnZwsnL+ajkE7/CBfanRcDJv
+         mOajCA4K9+Qa6rIgUX91V0hL7a8d3sgSe2FVWYWC4kRYgnt2UoOM+GuTYbBHdlHJmzJx
+         wqPg==
+X-Gm-Message-State: AGi0PuaF3RAcbdsg5ImmDGw/Yt9rmtWEcMflIafgwriK8aOtNWu59A8Y
+	4otM/sPIxeCW/POxrHf8j2TAtWBKj47qIM7oA3o=
+X-Google-Smtp-Source: APiQypJZOrPBh5ezzbisHjOhQmuUwQ1S7gH1gS+AJwFsgyDeayFuS+/Cx2r3GvsJcX1if1EVxY1knZqyCpQ5M6f7rIo=
+X-Received: by 2002:a17:906:1199:: with SMTP id n25mr26870651eja.30.1588097260801;
+ Tue, 28 Apr 2020 11:07:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1ef6f737d5b44b11b409ed459438666b611b7fa9.camel@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <cover.1587931177.git.akuster808@gmail.com>
+In-Reply-To: <cover.1587931177.git.akuster808@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Tue, 28 Apr 2020 20:07:29 +0200
+Message-ID: <CA+chaQfuCTZYou7qcUagwBpMHS51KW2VT6yt2L1ugySLuQ7a_w@mail.gmail.com>
+Subject: Re: [OE-core] [zeus 0/7] Merge request
+To: akuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000019518905a45db573"
 
+--00000000000019518905a45db573
+Content-Type: text/plain; charset="UTF-8"
 
+Hi,
 
-On 4/28/20 9:13 AM, Jan Lübbe wrote:
-> On Mon, 2020-04-27 at 19:15 -0700, akuster wrote:
->> Adrian Bunk (1):
->>   openssl: Upgrade 1.1.1d -> 1.1.1e
->>
->> Alexander Kanavin (1):
->>   openssl: update to 1.1.1f
-> As 1.1.1g has been released to fix CVE-2020-1967
-> https://www.openssl.org/news/secadv/20200421.txt
-> maybe we should just update instead of picking Zhang Xiao's "openssl:
-> fix CVE-2020-1967" (which would conflict with this PR).
-Thanks for the information.
+can you please include:
+https://lists.openembedded.org/g/openembedded-core/topic/zeus_patch_qemu_replace/73197049?p=,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,80,73197049
 
-Once Master and then Dunfell have this update then Zeus can take it.
+or did I misunderstood your last reply in that thread?
 
-- armin
+On Tue, Apr 28, 2020 at 4:16 AM akuster <akuster808@gmail.com> wrote:
+
+> Please consider these changes for zeus
+> The following changes since commit
+> 5ac98c776f9b77804a0ee812f47f3ecf593e432f:
 >
-> Regards,
-> Jan
+>   kernelsrc.bbclass: Fix externalsrc support (2020-04-06 15:17:05 +0800)
+>
+> are available in the Git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib stable/zeus-next
+>
+> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/zeus-next
+>
+> Adrian Bunk (1):
+>   openssl: Upgrade 1.1.1d -> 1.1.1e
+>
+> Alexander Kanavin (1):
+>   openssl: update to 1.1.1f
+>
+> Denys Dmytriyenko (1):
+>   openssl: recommend cryptodev-module for corresponding PACKAGECONFIG
+>
+> Lee Chee Yang (2):
+>   cve-check: CPE version '-' as all version
+>   wic: align layer plugin path
+>
+> Ovidiu Panait (1):
+>   inetutils: Use alternatives to avoid manpage conflict
+>
+> Richard Purdie (1):
+>   pseudo: Ensure we use our own libsqlite
+>
+>  meta/classes/cve-check.bbclass                |   2 +-
+>  .../inetutils/inetutils_1.9.4.bb              |   6 +-
+>  .../openssl/openssl/CVE-2019-1551.patch       | 758 ------------------
+>  .../{openssl_1.1.1d.bb => openssl_1.1.1f.bb}  |   6 +-
+>  .../recipes-core/meta/cve-update-db-native.bb |   2 +-
+>  meta/recipes-devtools/pseudo/pseudo.inc       |   2 +
+>  scripts/lib/wic/help.py                       |   3 +-
+>  scripts/lib/wic/pluginbase.py                 |  11 +-
+>  8 files changed, 19 insertions(+), 771 deletions(-)
+>  delete mode 100644
+> meta/recipes-connectivity/openssl/openssl/CVE-2019-1551.patch
+>  rename meta/recipes-connectivity/openssl/{openssl_1.1.1d.bb =>
+> openssl_1.1.1f.bb} (97%)
+>
+> --
+> 2.17.1
+>
+> 
 >
 
+--00000000000019518905a45db573
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,<div><br></div><div>can you please include:</div><div><=
+a href=3D"https://lists.openembedded.org/g/openembedded-core/topic/zeus_pat=
+ch_qemu_replace/73197049?p=3D,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,80=
+,73197049">https://lists.openembedded.org/g/openembedded-core/topic/zeus_pa=
+tch_qemu_replace/73197049?p=3D,,,20,0,0,0::recentpostdate%2Fsticky,,,20,2,8=
+0,73197049</a><br></div><div><br></div><div>or did I misunderstood your las=
+t reply in that thread?</div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Tue, Apr 28, 2020 at 4:16 AM akuster &lt;=
+<a href=3D"mailto:akuster808@gmail.com">akuster808@gmail.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Please consider=
+ these changes for zeus<br>
+The following changes since commit 5ac98c776f9b77804a0ee812f47f3ecf593e432=
+f:<br>
+<br>
+=C2=A0 kernelsrc.bbclass: Fix externalsrc support (2020-04-06 15:17:05 +08=
+00)<br>
+<br>
+are available in the Git repository at:<br>
+<br>
+=C2=A0 git://<a href=3D"http://git.openembedded.org/openembedded-core-cont=
+rib" rel=3D"noreferrer" target=3D"_blank">git.openembedded.org/openembedded=
+-core-contrib</a> stable/zeus-next<br>
+=C2=A0 <a href=3D"http://cgit.openembedded.org/openembedded-core-contrib/l=
+og/?h=3Dstable/zeus-next" rel=3D"noreferrer" target=3D"_blank">http://cgit.=
+openembedded.org/openembedded-core-contrib/log/?h=3Dstable/zeus-next</a><br=
+>
+<br>
+Adrian Bunk (1):<br>
+=C2=A0 openssl: Upgrade 1.1.1d -&gt; 1.1.1e<br>
+<br>
+Alexander Kanavin (1):<br>
+=C2=A0 openssl: update to 1.1.1f<br>
+<br>
+Denys Dmytriyenko (1):<br>
+=C2=A0 openssl: recommend cryptodev-module for corresponding PACKAGECONFIG=
+<br>
+<br>
+Lee Chee Yang (2):<br>
+=C2=A0 cve-check: CPE version &#39;-&#39; as all version<br>
+=C2=A0 wic: align layer plugin path<br>
+<br>
+Ovidiu Panait (1):<br>
+=C2=A0 inetutils: Use alternatives to avoid manpage conflict<br>
+<br>
+Richard Purdie (1):<br>
+=C2=A0 pseudo: Ensure we use our own libsqlite<br>
+<br>
+=C2=A0meta/classes/cve-check.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A02 +-<br>
+=C2=A0.../inetutils/<a href=3D"http://inetutils_1.9.4.bb" rel=3D"noreferre=
+r" target=3D"_blank">inetutils_1.9.4.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A06 +-<br>
+=C2=A0.../openssl/openssl/CVE-2019-1551.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0| =
+758 ------------------<br>
+=C2=A0.../{<a href=3D"http://openssl_1.1.1d.bb" rel=3D"noreferrer" target=
+=3D"_blank">openssl_1.1.1d.bb</a> =3D&gt; <a href=3D"http://openssl_1.1.1f=
+.bb" rel=3D"noreferrer" target=3D"_blank">openssl_1.1.1f.bb</a>}=C2=A0 |=C2=
+=
+=A0 =C2=A06 +-<br>
+=C2=A0.../recipes-core/meta/<a href=3D"http://cve-update-db-native.bb" rel=
+=
+=3D"noreferrer" target=3D"_blank">cve-update-db-native.bb</a> |=C2=A0 =C2=
+=A02 +-<br>
+=C2=A0meta/recipes-devtools/pseudo/pseudo.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A02 +<br>
+=C2=A0scripts/lib/wic/help.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A03 +-<br>
+=C2=A0scripts/lib/wic/pluginbase.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 11 +-<br>
+=C2=A08 files changed, 19 insertions(+), 771 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-201=
+9-1551.patch<br>
+=C2=A0rename meta/recipes-connectivity/openssl/{<a href=3D"http://openssl_=
+1.1.1d.bb" rel=3D"noreferrer" target=3D"_blank">openssl_1.1.1d.bb</a> =3D&g=
+t; <a href=3D"http://openssl_1.1.1f.bb" rel=3D"noreferrer" target=3D"_blank=
+">openssl_1.1.1f.bb</a>} (97%)<br>
+<br>
+-- <br>
+2.17.1<br>
+<br>
+<br>
+</blockquote></div>
+
+--00000000000019518905a45db573--
