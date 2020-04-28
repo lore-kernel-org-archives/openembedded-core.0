@@ -1,177 +1,155 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web10.1002.1588097458183365273
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.1166.1588097903081714155
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2020 11:10:58 -0700
+ Tue, 28 Apr 2020 11:18:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oYlQ+Z41;
- spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f66.google.com with SMTP id s10so17140988edy.9;
-        Tue, 28 Apr 2020 11:10:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vQwzqE5uHcbqN5g1WDAzwZ97LhNcUaMpIQFIdJ7CPp0=;
-        b=oYlQ+Z41QbjuAVuSbdSqcK5vJ1bv92pLbr2Ws7P6WpNydKAsF5FKNvS6WiyRRNrnI8
-         6wJTPebjauvD9ry6gbOhWZIwXQXJm3OR5QD8sv5EHpnXbKsfwnzmI/OSbIsvc3eyl4PM
-         TNYTC4jKoKJxHvWDWYbH5VX+RFm9kjXfWsKg6XCiNhfrFCVkTfcMvwRYNTKbYqUkMdLV
-         FH9iT//Q8DMn6sD8ojQCLphWYOlosoQ4DMEc6V3gDg+FkIu1/qGV5Rm4/gnhGkX6Ya6r
-         /nx3danscbejHi10CztWuI7w/EOs1bZN/I5mOXbPzp9s2gotPhf7IftueN0mYJIRjoBY
-         hYmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vQwzqE5uHcbqN5g1WDAzwZ97LhNcUaMpIQFIdJ7CPp0=;
-        b=YBY9XAc5JUr+Kx0lZlCZ2/y7+3nxkhxIKpdA7+yCTYt7HJGpBbBw0o+laKT7zYZshN
-         YZxONQ1z/gj2nXSsPkYgO5s6psdKt52jcjpVzP0Jqgea3+d9ab5QtyBTkOrP9MAm2u0c
-         HHWoJRiOhDNvcej8jDE1vY7C2db4zfmHVdwk5T3RQpqm7EJ6GXCHYijz4Dp9Lpm17+A+
-         2fv1z1UShGrposBE+ul4ZzYIOCPrhDjhKfkWgce3+6nrKFswjpAPvRZsJlEQquwTK2AT
-         eSo5bdncJeegumk5puu2UUAIgQlPDg5siqc/XqZ8+/l4n2zIxyKUXnDF8VSF9jqGXOrN
-         3MWg==
-X-Gm-Message-State: AGi0Pua/oQTUpH/bZIZk/HSI4gZ/XH7ypctVfnW/47Ot+s/v0V0dbS5F
-	z7LQ9Cqbuonzlt0j+QLlvy2KHhBjKYoTfpiJ+jI=
-X-Google-Smtp-Source: APiQypJLcCXUblnqEMxMfaBnr3W8a+U5ePcMwm/i/9jID76QSEBbbrV9/nTlh6B3QoYugrNBCba81mQRfxK/m32xqGE=
-X-Received: by 2002:aa7:cdcb:: with SMTP id h11mr22696080edw.264.1588097456579;
- Tue, 28 Apr 2020 11:10:56 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: joe.slater@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 03SIILSg026354
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 11:18:21 -0700 (PDT)
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Tue, 28 Apr 2020
+ 11:18:02 -0700
+From: "Joe Slater" <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
+Subject: [oe-core][PATCH 1/1][v2] re2c: advance to version 1.3
+Date: Tue, 28 Apr 2020 11:18:02 -0700
+Message-ID: <20200428181802.37502-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <15FBEF1FC40D189D.8114@lists.yoctoproject.org> <81fb73b4-f683-5356-ff07-1ac909afb97d@gmail.com>
-In-Reply-To: <81fb73b4-f683-5356-ff07-1ac909afb97d@gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Tue, 28 Apr 2020 20:10:45 +0200
-Message-ID: <CA+chaQc8q4Nb4p76WPr=R7ocpDJ8CY3VnJ-k9W8bWW8nwMtYTw@mail.gmail.com>
-Subject: Re: [poky] Thud community support
-To: akuster <akuster808@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>, "poky@yoctoproject.org" <poky@yoctoproject.org>, 
-	"bitbake-devel@lists.openembedded.org" <bitbake-devel@lists.openembedded.org>, poky@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000c4aa0c05a45dc080"
-
---000000000000c4aa0c05a45dc080
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id 03SIILSg026354
 Content-Type: text/plain; charset="UTF-8"
-
-Is Thud EOL now?
-
-Or did someone volunteer off-list and now it waits for Maintainer selection
-process to be defined?
-
-https://wiki.yoctoproject.org/wiki/Releases still says Community support.
-
-Thanks
-
-On Tue, Mar 17, 2020 at 10:13 PM akuster <akuster808@gmail.com> wrote:
-
->
->
-> On 3/13/20 11:03 AM, akuster via Lists.Yoctoproject.Org wrote:
->
-> The Poky thud branch is now under 'Community support' and is seeking a
-> maintainer to continue supporting the following repos for the thud release:
->
-> bitbake, core, meta-yocto and yocto-docs.
->
->
-> There will be no more point releases.
->
-> seehttps://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Maintainer_Procedures
-> to get an idea on what is expected.
->
-> The one thing we (YP) don't know is if there will be AutoBuilder
-> resources available.  Please contact me or Richard regarding that statement.
->
-> If no one steps up by April 24th (six weeks -ish from now), Thud will be
-> moved to EOL status.
->
->
-> It was pointed out to me that there is no Maintainer selection process or
-> criteria defined.  This  will have to be sorted out before we move forward
-> on this transition.
->
->
-> - armin
->
-> - Armin
->
->
->
->
->
->
-> 
->
-
---000000000000c4aa0c05a45dc080
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Is Thud EOL now?<div><br></div><div>Or did someone volunte=
-er off-list and now it waits for Maintainer selection process to be defined=
-?</div><div><br></div><div><a href=3D"https://wiki.yoctoproject.org/wiki/Re=
-leases">https://wiki.yoctoproject.org/wiki/Releases</a>=C2=A0still says Com=
-munity support.<br></div><div><br></div><div>Thanks</div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Mar 17, 20=
-20 at 10:13 PM akuster &lt;<a href=3D"mailto:akuster808@gmail.com">akuster8=
-08@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">
-  
-    
-  
-  <div>
-    <br>
-    <br>
-    <div>On 3/13/20 11:03 AM, akuster via
-      <a href=3D"http://Lists.Yoctoproject.Org" target=3D"_blank">Lists.Yo=
-ctoproject.Org</a> wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-      <pre>The Poky thud branch is now under &#39;Community support&#39; a=
-nd is seeking a
-maintainer to continue supporting the following repos for the thud release=
-:
+The locations of release archives have changed.  We change to pulling
+source from the git repo.  Remove PV from the recipe name.
 
-bitbake, core, meta-yocto and yocto-docs.
+Fix CVE-2020-11958 which applies to versions 1.2 and 1.3.
 
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ .../recipes-support/re2c/re2c/cve-2020-11958.patch | 48 ++++++++++++++++=
+++++++
+ meta/recipes-support/re2c/re2c_1.0.1.bb            | 14 -------
+ meta/recipes-support/re2c/re2c_git.bb              | 24 +++++++++++
+ 3 files changed, 72 insertions(+), 14 deletions(-)
+ create mode 100644 meta/recipes-support/re2c/re2c/cve-2020-11958.patch
+ delete mode 100644 meta/recipes-support/re2c/re2c_1.0.1.bb
+ create mode 100644 meta/recipes-support/re2c/re2c_git.bb
 
-There will be no more point releases.
+diff --git a/meta/recipes-support/re2c/re2c/cve-2020-11958.patch b/meta/r=
+ecipes-support/re2c/re2c/cve-2020-11958.patch
+new file mode 100644
+index 0000000..95a1cb9
+--- /dev/null
++++ b/meta/recipes-support/re2c/re2c/cve-2020-11958.patch
+@@ -0,0 +1,48 @@
++From c4603ba5ce229db83a2a4fb93e6d4b4e3ec3776a Mon Sep 17 00:00:00 2001
++From: Ulya Trofimovich <skvadrik@gmail.com>
++Date: Fri, 17 Apr 2020 22:47:14 +0100
++Subject: [oe-core][PATCH 1/1] Fix crash in lexer refill (reported by Ago=
+stino
++ Sarubbo).
++
++The crash happened in a rare case of a very long lexeme that doen't fit
++into the buffer, forcing buffer reallocation.
++
++The crash was caused by an incorrect calculation of the shift offset
++(it was smaller than necessary). As a consequence, the data from buffer
++start and up to the beginning of the current lexeme was not discarded
++(as it should have been), resulting in less free space for new data than
++expected.
++---
++ src/parse/scanner.cc | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++---
++
++CVE: CVE-2020-11958
++
++Upstream-Status: Backport [github.com/skvadrik/re2c.git]
++
++Signed-off-by: Joe Slater <jslater@windriver.com>
++
++diff --git a/src/parse/scanner.cc b/src/parse/scanner.cc
++index 1d6e9ef..bd65131 100644
++--- a/src/parse/scanner.cc
+++++ b/src/parse/scanner.cc
++@@ -155,13 +155,14 @@ bool Scanner::fill(size_t need)
++         if (!buf) fatal("out of memory");
++=20
++         memmove(buf, tok, copy);
++-        shift_ptrs_and_fpos(buf - bot);
+++        shift_ptrs_and_fpos(buf - tok);
++         delete [] bot;
++         bot =3D buf;
++=20
++         free =3D BSIZE - copy;
++     }
++=20
+++    DASSERT(lim + free <=3D bot + BSIZE);
++     if (!read(free)) {
++         eof =3D lim;
++         memset(lim, 0, YYMAXFILL);
++--=20
++2.7.4
++
+diff --git a/meta/recipes-support/re2c/re2c_1.0.1.bb b/meta/recipes-suppo=
+rt/re2c/re2c_1.0.1.bb
+deleted file mode 100644
+index 4ed8d25..0000000
+--- a/meta/recipes-support/re2c/re2c_1.0.1.bb
++++ /dev/null
+@@ -1,14 +0,0 @@
+-SUMMARY =3D "Tool for writing very fast and very flexible scanners"
+-HOMEPAGE =3D "http://re2c.sourceforge.net/"
+-AUTHOR =3D "Marcus B=C3=B6rger <helly@users.sourceforge.net>"
+-SECTION =3D "devel"
+-LICENSE =3D "PD"
+-LIC_FILES_CHKSUM =3D "file://README;beginline=3D146;md5=3D881056c9add17f=
+8019ccd8c382ba963a"
+-
+-SRC_URI =3D "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
+-SRC_URI[md5sum] =3D "e2c6cf52fc6a21595f21bc82db5324f8"
+-SRC_URI[sha256sum] =3D "605058d18a00e01bfc32aebf83af35ed5b13180b4e9f279c=
+90843afab2c66c7c"
+-
+-BBCLASSEXTEND =3D "native"
+-
+-inherit autotools
+diff --git a/meta/recipes-support/re2c/re2c_git.bb b/meta/recipes-support=
+/re2c/re2c_git.bb
+new file mode 100644
+index 0000000..1922d49
+--- /dev/null
++++ b/meta/recipes-support/re2c/re2c_git.bb
+@@ -0,0 +1,24 @@
++SUMMARY =3D "Tool for writing very fast and very flexible scanners"
++HOMEPAGE =3D "http://re2c.sourceforge.net/"
++AUTHOR =3D "Marcus B=C3=B6rger <helly@users.sourceforge.net>"
++SECTION =3D "devel"
++LICENSE =3D "PD"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D64eca4d8a3b67f9dc7656094731a2=
+c8d"
++
++SRC_URI =3D  "git://github.com/skvadrik/re2c.git \
++            file://cve-2020-11958.patch \
++           "
++
++# rev of 1.3 tag
++#
++SRCREV =3D "e1901b71c6414c510f10f4cc30c0a05600e55ed1"
++PV =3D "1.3"
++
++inherit autotools
++
++# override the default S
++#
++S =3D "${WORKDIR}/git"
++
++BBCLASSEXTEND =3D "native"
++
+--=20
+2.7.4
 
-see
-<a href=3D"https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Maint=
-ainer_Procedures" target=3D"_blank">https://wiki.yoctoproject.org/wiki/Stab=
-le_Release_and_LTS#Maintainer_Procedures</a>=C2=A0
-to get an idea on what is expected.
-
-The one thing we (YP) don&#39;t know is if there will be AutoBuilder
-resources available.=C2=A0 Please contact me or Richard regarding that sta=
-tement.
-
-If no one steps up by April 24th (six weeks -ish from now), Thud will be
-moved to EOL status.
-</pre>
-    </blockquote>
-    <br>
-    It was pointed out to me that there is no Maintainer selection
-    process or criteria defined.=C2=A0 This=C2=A0 will have to be sorted o=
-ut
-    before we move forward on this transition.<br>
-    <br>
-    <br>
-    - armin<br>
-    <br>
-    <blockquote type=3D"cite">
-      <pre>- Armin
-
-
-
-</pre>
-      <br>
-      <fieldset></fieldset>
-      <pre></pre>
-    </blockquote>
-    <br>
-  </div>
-
-<br>
-</blockquote></div>
-
---000000000000c4aa0c05a45dc080--
