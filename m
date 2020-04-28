@@ -1,56 +1,49 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web11.2427.1588035826653262028
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+ by mx.groups.io with SMTP id smtpd.web11.2654.1588036754918742526
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2020 18:03:46 -0700
+ Mon, 27 Apr 2020 18:19:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YESE/+o8;
- spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f196.google.com with SMTP id o135so7806312qke.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 18:03:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rEFYJpQI;
+ spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f195.google.com with SMTP id h124so3083325qke.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 18:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=81ulxVeSvnEeiw9x88dILRiD7Fz7stV37E8AGv5Uwh8=;
-        b=YESE/+o8LdqSevO9FHcYLm8zEnSqyCjq/z9lhVJ9rxCdGkJwqwmljfiMbLbbNwe7l3
-         9ovVg2SqL3+EUeE1fRF1c3hufbpaK/Z0zTQ9lvumz0bpxvOc0OavDb/HLgVxsYAxLxPR
-         bId2txN6CMZiBrALwy8+wdiY5v0mdwa4MtkyUA42MiC5t0i2RigETkZ+LZgdVZ2FEdes
-         ga9gOnP7sHA5v7IL/JpWwWeUyH7EMo6wKRn/di+5cBSUAu2b9ia6AN193ceevypHF+fg
-         IL6Efoqwd/LukXdSFVXLYZGAhubX5vc9wnsu12DfiYgqPEX6tFMFGLG8nMtcwf0JUnkf
-         xeLA==
+        bh=QPLj+/2S9+RarX2jYUZN2DfESHWW9Psq0nfpZuSbhcE=;
+        b=rEFYJpQI+V+xlBULrxxmTozSeV0LVV0yKHuAUQh96D+zZhdnA9zqu+AiQ1y40EWVZo
+         zBLI/RGYC0m4OxFubS/UIabZ0ztzRcRz4Jg8/gEWuv7VnEdUx+N866yHVALQpvy3THnZ
+         bMl7UVJaOMHc/5w3LIGc/XMikmTEoqxtwrykT2PGOWIGZqMJ3/V+kGNozO7jv5Y2wk89
+         UDa4JmRnXVJvuIpeif8M/1nmniNNEFjW4Q3SjhClwg8sGychxBhHIUGnUwEsVp5NLXcn
+         3zKGa+lltBZzoOQQqXFQUicRHE0pT6EAPX74QMNyDyLuPiegBBNAjtVkoF0EupWKTJSF
+         8RvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=81ulxVeSvnEeiw9x88dILRiD7Fz7stV37E8AGv5Uwh8=;
-        b=gN2xhdTSUJgQMppii90q4nfGxAFpvJ66CC+fprBTDV5RBPiZ08/oweZQJy93t4PiED
-         8a8nVCNoIwX9PmM8y5Bb9qUKi7bp04UiUhSSJuGOPO7nrxTLJknWg/u2PyaRJrDuv8Dl
-         qPijSYepO327uWyh1L9M7pI7wmjdfcmPPLEI3gesezFodFD0/CDHscdA7DvTaJ/h+vIn
-         U3MetaOOmHOPRIAaq8/dxjFncmTBlwH9okwuE7qAR80qbZ1YqSCbXulniu8Vt7gf6tKm
-         IhZQS9v4vDJHeVsp979O2xztDFYMZv1gAWJ4l9Q/lY9Wxzyo5IVkmqFg0R4BE44LECNF
-         BFzA==
-X-Gm-Message-State: AGi0PuZdN3inX5K38J3pF6dTYrdpklmgJhyYZg2bpqVRKUzLZKx31qbd
-	jx2dlACJe5CM8pO3aqfxCOdWBVdLhP0Irx8l+UM=
-X-Google-Smtp-Source: APiQypKHo/BFBDnLJHgAeQRgsgtAhMHZeBusXyg/Ic74KmuElSsiL2nnBkjdQHlIdX/n5z9eiwRDeHE6TTFUNOw5LjA=
-X-Received: by 2002:a05:620a:4f0:: with SMTP id b16mr13435998qkh.165.1588035825612;
- Mon, 27 Apr 2020 18:03:45 -0700 (PDT)
+        bh=QPLj+/2S9+RarX2jYUZN2DfESHWW9Psq0nfpZuSbhcE=;
+        b=mvhhCvT94am9bnYQOSLogc+pkNe1guPh2EqiL/apkeH57xrYr7aSaimWMkrgJAzk4M
+         j4tH0ndPvQF9foy/gJFincSlbr3OSKlbNkRfUTlQFLFr+9rspI408vbkNx8e/i/uWJAV
+         iYJf2q5GuLIK9Au+20xYLZz+FIOSII8fiVrLQSUInzKl7JnjiMKY6VcfU6a4DkQO6uHv
+         OFJH3OmdLBpZTQd61vlPvT+09V5bMTKF/OOpJPBdHZRZ8B/RfMzLXCNzS6rMR6VEz3/6
+         esEXk3fC5LcIuXQAm7pCVdCGnzDRGOTRrXAAyGbaUAWQw/9xBRy9xG7E0/ahBSCeMxwG
+         PHcw==
+X-Gm-Message-State: AGi0Pua8hvmaqUTMACM7oG9FHYYDAlKu/+M0cGGUegr1nz0hDldB6ZPb
+	QOaLyPwjwS55Q8kIUrLRWNqZfkC5RK2n1S9ClqM=
+X-Google-Smtp-Source: APiQypIHpvEFLfWXjzH1+eF5XYqsQlPXC6O5VbdOaiA+VW2i0DsCnIvl4V5zFU0qHn+X2/KdpGW+9R88NbnF0fzcy3Y=
+X-Received: by 2002:a05:620a:4f0:: with SMTP id b16mr13491437qkh.165.1588036753805;
+ Mon, 27 Apr 2020 18:19:13 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1587841042.git.alex.kanavin@gmail.com> <05d961392eb30920f441731f662ba0dd6a6bd5db.1587841042.git.alex.kanavin@gmail.com>
 In-Reply-To: <05d961392eb30920f441731f662ba0dd6a6bd5db.1587841042.git.alex.kanavin@gmail.com>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 27 Apr 2020 18:03:19 -0700
-Message-ID: <CAMKF1sqcE5Q=NiXaK+ZE1MnR3BwhCzfaFo3f-neLWQK9fT_Kkg@mail.gmail.com>
+Date: Mon, 27 Apr 2020 18:18:47 -0700
+Message-ID: <CAMKF1sopu5jZ_obZ7Qkt6vzCvaHyvbnSKEdLioTzmo87D7bZYw@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH 1/3] bitbake.conf: propagate 'opengl' DISTRO_FEATURE to native/nativesdk from target
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-
-This causes
-
-https://errors.yoctoproject.org/Errors/Details/409117/
-https://errors.yoctoproject.org/Errors/Details/409060/
-
-for most of qemu machines.
 
 On Sat, Apr 25, 2020 at 12:00 PM Alexander Kanavin
 <alex.kanavin@gmail.com> wrote:
@@ -86,6 +79,16 @@ On Sat, Apr 25, 2020 at 12:00 PM Alexander Kanavin
 > +DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation opengl"
 > +DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation opengl"
 >
+
+This change will indicate that a distro that enables openGL for target
+needs to have a build machine also with OpenGL support,
+this does not sound right to me, If you want to have openGL support on
+build host for some testing bits then lets deal with that separately
+by
+adding a new feature to control it and perhaps it should be machine
+specific since I dont see any use of it besides qemu machines.
+
+
 >  DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit gobject-introspection-data ldconfig"
 >  MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
 > diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
