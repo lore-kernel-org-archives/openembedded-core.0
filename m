@@ -1,170 +1,573 @@
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com [209.85.166.194])
- by mx.groups.io with SMTP id smtpd.web10.1619.1588048426856922916
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.3494.1588063009846624443
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2020 21:33:46 -0700
+ Tue, 28 Apr 2020 01:36:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lLaPJ0VK;
- spf=pass (domain: gmail.com, ip: 209.85.166.194, mailfrom: samuli.piippo@gmail.com)
-Received: by mail-il1-f194.google.com with SMTP id b18so18996804ilf.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 21:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=9qzQtbQPy7mmhzCzr9MwWLkBPUQtTTndCKaIz6ExEXw=;
-        b=lLaPJ0VKjw+xg0+csOWo9vXT2/qfY1rSrPQIh+UUd1xm0vpiFvVy/F6ED6kc/K6yWm
-         bCm1B8fIq/AQeRUOKONk0s4G63XgQLwidHsrjmljWnmbgNBTKqe4xAGjJ363oqMQ0MOF
-         zb3UUfcUi/j78MLdhNduLWoqT2K8Ahz4BlSf8Ot+7oPQ3GchVJ3c8n696Lz7uurJavIA
-         qqsb5tUVC9tmwm+kzhcDSS5gy3Wq0zsN8XdKOoaYEj9YYMSbN0kGKaJO67KPu8aOdzoj
-         Q2X72UhAqc6u7Uh5UGD4cM+lG2fyuGW1kNrUr++DrRNs0mt5uYVVEZhxDdfqJJF0T0eg
-         X+vQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=9qzQtbQPy7mmhzCzr9MwWLkBPUQtTTndCKaIz6ExEXw=;
-        b=WLfuoo9XzXC1Wtpg2FTrl7H4HaiYWzFFW5ibzGcfu9d/tH9sOZxSkNcxoRUXtOWtTK
-         705gDIPOUf9vs71q+tlObtddrjTwJudGqEoO2xCTfuVKtaIVZGlQ9s9BR64QXO+XHxLJ
-         7nVApE/qn9BXG5foOvJdkCrfH2xMqTlX/hM6zz8QSbBX6+UsbIqk6QlFc5vzCJ7CZ4SH
-         Wfui+TSoFfBP6CzI9lUCKPiEMa4Gib80grQF101jz5PCVcPoG6VLA+ZwtGGw9QyZ2rNR
-         DQJwV0HQV9L0aXLfq53TxK0Mms7KqKc+Ma4uqEb17VkKJoL5WCjeZT9NUZpPlGC7YDY0
-         8CZA==
-X-Gm-Message-State: AGi0PuYXSy9p06AFudFbl9XlJxw1iJkLkUj5RDnme+HmNvPfXQmzAuU1
-	Y6VE/Dw3Yt0CYf9ZCRz2o/BDFvWrVfGkkkeTeeU=
-X-Google-Smtp-Source: APiQypLreCxXA9u5iZA5ckpJYehmNOmqKcjIdzEGH/XjLjnG7vz9uc8H+O3a3JDqKW0NTxJVcd28ItvF2JCq05sKkNQ=
-X-Received: by 2002:a92:d18f:: with SMTP id z15mr25632756ilz.226.1588048426207;
- Mon, 27 Apr 2020 21:33:46 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: wenlin.kang@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 03S8aHnL009711
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 01:36:38 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 28 Apr 2020
+ 01:36:26 -0700
+From: "wenlin.kang@windriver.com" <wenlin.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][zeus][PATCH] systemd: Fix CVE-2020-1712
+Date: Tue, 28 Apr 2020 01:36:26 -0700
+Message-ID: <20200428083626.58382-1-wenlin.kang@windriver.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20200427131328.12044-1-samuli.piippo@qt.io> <ef0f940014c41b2cd66e4e74c85fea6389f66fe1.camel@linuxfoundation.org>
- <CABXoSoX--qaiLGJM0MJ2Uo=jZDd+Srav+-xaXb60PqtyVOm=Uw@mail.gmail.com> <a7b33d1d-49ef-c20d-c8e8-32e9d155ec1b@gmail.com>
-In-Reply-To: <a7b33d1d-49ef-c20d-c8e8-32e9d155ec1b@gmail.com>
-From: "Samuli Piippo" <samuli.piippo@gmail.com>
-Date: Tue, 28 Apr 2020 07:33:34 +0300
-Message-ID: <CABXoSoXSoaY5dg9p=CNaSmnMWNSOJHzG+PpXjZjqzpEPXrrA9Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gcc: make sure mingw builds use mingw32-w64 configs
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Samuli Piippo <samuli.piippo@qt.io>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Mon, 27 Apr 2020 at 23:20, Joshua Watt <jpewhacker@gmail.com> wrote:
->
->
-> On 4/27/20 12:35 PM, Samuli Piippo wrote:
->
-> On Mon, 27 Apr 2020 at 17:51, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2020-04-27 at 16:13 +0300, Samuli Piippo wrote:
->
-> meta-mingw is using Mingw-w64 but the host triplet does not match
-> the expected pattern. config/os/mingw32-w64 enables more features
-> that were not working with mingw32.
->
-> Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
-> ---
->  meta/recipes-devtools/gcc/gcc-9.3.inc         |  1 +
->  ...nfig-os-mingw32-w64-for-mingw-builds.patch | 36 +++++++++++++++++++
->  2 files changed, 37 insertions(+)
->  create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-con=
-fig-os-mingw32-w64-for-mingw-builds.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-9.3.inc b/meta/recipes-devtool=
-s/gcc/gcc-9.3.inc
-> index b0411078d3..4c8275bf2a 100644
-> --- a/meta/recipes-devtools/gcc/gcc-9.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-9.3.inc
-> @@ -67,6 +67,7 @@ SRC_URI =3D "\
->             file://0037-CVE-2019-14250-Check-zero-value-in-simple_object_=
-elf.patch \
->             file://0038-gentypes-genmodes-Do-not-use-__LINE__-for-maintai=
-nin.patch \
->             file://0039-process_alt_operands-Don-t-match-user-defined-reg=
-s-o.patch \
-> +           file://0040-Always-use-config-os-mingw32-w64-for-mingw-builds=
-.patch \
->  "
->  S =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
->  SRC_URI[sha256sum] =3D "71e197867611f6054aa1119b13a0c0abac12834765fe2d81=
-f35ac57f84f742d1"
-> diff --git a/meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-=
-mingw32-w64-for-mingw-builds.patch b/meta/recipes-devtools/gcc/gcc-9.3/0040=
--Always-use-config-os-mingw32-w64-for-mingw-builds.patch
-> new file mode 100644
-> index 0000000000..5a167f252c
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-9.3/0040-Always-use-config-os-mingw32=
--w64-for-mingw-builds.patch
-> @@ -0,0 +1,36 @@
-> +From 052f7e5db0d793155015530b639c4e42d37eb7eb Mon Sep 17 00:00:00 2001
-> +From: Samuli Piippo <samuli.piippo@qt.io>
-> +Date: Fri, 23 Aug 2019 10:10:43 +0300
-> +Subject: [PATCH] Always use config/os/mingw32-w64 for mingw builds
-> +
-> +Make sure we use the w64 version of the configs, since that's what
-> +meta-mingw is using.
-> +
-> +Signed-off-by: Samuli Piippo <samuli.piippo@qt.io>
-> +---
-> + libstdc++-v3/configure.host | 12 ++----------
-> + 1 file changed, 2 insertions(+), 10 deletions(-)
-> +
-> +diff --git a/libstdc++-v3/configure.host b/libstdc++-v3/configure.host
-> +index 155a3cdea..adbda8784 100644
-> +--- a/libstdc++-v3/configure.host
-> ++++ b/libstdc++-v3/configure.host
-> +@@ -277,16 +277,8 @@ case "${host_os}" in
-> +     os_include_dir=3D"os/hpux"
-> +     ;;
-> +   mingw32*)
-> +-    case "$host" in
-> +-      *-w64-*)
-> +-        os_include_dir=3D"os/mingw32-w64"
-> +-        error_constants_dir=3D"os/mingw32-w64"
-> +-        ;;
-> +-      *)
-> +-        os_include_dir=3D"os/mingw32"
-> +-        error_constants_dir=3D"os/mingw32"
-> +-        ;;
-> +-    esac
-> ++    os_include_dir=3D"os/mingw32-w64"
-> ++    error_constants_dir=3D"os/mingw32-w64"
-> +     OPT_LDFLAGS=3D"${OPT_LDFLAGS} \$(lt_host_flags)"
->
-> It might make things a bit more obvious and upstreamable to just change
->       *-w64-*)
-> to
->       *-w64*)
-> if I understand correct?
->
-> With meta-mingw, the host triplet is actually either
-> i686-pokysdk-mingw32 or x86_64-pokysdk-mingw32, depending on bitness
-> in the SDKMACHINE value.
->
-> Hmm, it does indeed look like we are not correctly setting the host in a =
-way it can be detected by GCC. It's a little surprising this hasn't caused =
-any actual problems (at least up to this point)... is this something new to=
- gcc 9.3, and do we have any idea why the AB MinGW tests aren't seeing any =
-problems?
->
-> Either way, it would probably be better to figure out a way to make the h=
-ost look correct in meta-mingw if at all possible.
->
-> Your commit message is also a little confusing because the first few time=
-s I read it, I thought we were configuring for 64-bit when 32-bit is desire=
-d, but based on the current GCC code being replaced and the value of the ho=
-st-triplets, it would seem to be the opposite (we are getting 32-bit when 6=
-4-bit is desired).
+Fix CVE-2020-1712
 
-It's not actually the bitness that GCC is looking for here but the
-version of the MinGW. The MingGW-w64 is a fork of the original MinGW
-and can be used for both 32- and 64-bit builds. With the os/mingw32
-config, GCC is using subset of the features that are available in
-os/mingw32-w64, so builds still work although perhaps not always
-optimally.
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+---
+ .../0001-Merge-branch-polkit-ref-count.patch  | 520 ++++++++++++++++++
+ meta/recipes-core/systemd/systemd_243.2.bb    |   1 +
+ 2 files changed, 521 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-Merge-branch-polkit-ref-count.patch
 
-I don't see clear way to change the host value in meta-mingw without
-breaking other layers and recipes. Only part that could be changed is
-the -mingw32 part (HOST_OS), but recipes that do mingw specific things
-already rely on that for the overrides.
+diff --git a/meta/recipes-core/systemd/systemd/0001-Merge-branch-polkit-ref-count.patch b/meta/recipes-core/systemd/systemd/0001-Merge-branch-polkit-ref-count.patch
+new file mode 100644
+index 0000000000..e684ab8755
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-Merge-branch-polkit-ref-count.patch
+@@ -0,0 +1,520 @@
++From 0062d795bf29301ae054e1826a7189198a2565c4 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
++Date: Tue, 14 Apr 2020 09:06:53 +0000
++Subject: [PATCH] Merge branch 'polkit-ref-count'
++
++Upsteam-Status: Backport [https://github.com/systemd/systemd/commit/ea0d0ede03c6f18dbc5036c5e9cccf97e415ccc2]
++CVE: CVE-2020-1712
++
++Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
++---
++ TODO                            |   2 +-
++ man/rules/meson.build           |   1 +
++ man/sd_bus_enqueue_for_read.xml |  88 ++++++++++++++++
++ src/libsystemd/libsystemd.sym   |   1 +
++ src/libsystemd/sd-bus/sd-bus.c  |  24 +++++
++ src/shared/bus-util.c           | 179 +++++++++++++++++++++-----------
++ src/systemd/sd-bus.h            |   1 +
++ 7 files changed, 235 insertions(+), 61 deletions(-)
++ create mode 100644 man/sd_bus_enqueue_for_read.xml
++
++diff --git a/TODO b/TODO
++index c5b5b86057..5c5ea1f568 100644
++--- a/TODO
+++++ b/TODO
++@@ -184,7 +184,7 @@ Features:
++ 
++ * the a-posteriori stopping of units bound to units that disappeared logic
++   should be reworked: there should be a queue of units, and we should only
++-  enqeue stop jobs from a defer event that processes queue instead of
+++  enqueue stop jobs from a defer event that processes queue instead of
++   right-away when we find a unit that is bound to one that doesn't exist
++   anymore. (similar to how the stop-unneeded queue has been reworked the same
++   way)
++diff --git a/man/rules/meson.build b/man/rules/meson.build
++index 3b63311d7b..e80ed98c34 100644
++--- a/man/rules/meson.build
+++++ b/man/rules/meson.build
++@@ -192,6 +192,7 @@ manpages = [
++    'sd_bus_open_user_with_description',
++    'sd_bus_open_with_description'],
++   ''],
+++ ['sd_bus_enqueue_for_read', '3', [], ''],
++  ['sd_bus_error',
++   '3',
++   ['SD_BUS_ERROR_MAKE_CONST',
++diff --git a/man/sd_bus_enqueue_for_read.xml b/man/sd_bus_enqueue_for_read.xml
++new file mode 100644
++index 0000000000..3318a3031b
++--- /dev/null
+++++ b/man/sd_bus_enqueue_for_read.xml
++@@ -0,0 +1,88 @@
+++<?xml version='1.0'?>
+++<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+++  "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+++<!-- SPDX-License-Identifier: LGPL-2.1+ -->
+++
+++<refentry id="sd_bus_enqueue_for_read"
+++          xmlns:xi="http://www.w3.org/2001/XInclude">
+++
+++  <refentryinfo>
+++    <title>sd_bus_enqueue_for_read</title>
+++    <productname>systemd</productname>
+++  </refentryinfo>
+++
+++  <refmeta>
+++    <refentrytitle>sd_bus_enqueue_for_read</refentrytitle>
+++    <manvolnum>3</manvolnum>
+++  </refmeta>
+++
+++  <refnamediv>
+++    <refname>sd_bus_enqueue_for_read</refname>
+++
+++    <refpurpose>Re-enqueue a bus message on a bus connection, for reading.</refpurpose>
+++  </refnamediv>
+++
+++  <refsynopsisdiv>
+++    <funcsynopsis>
+++      <funcsynopsisinfo>#include &lt;systemd/sd-bus.h&gt;</funcsynopsisinfo>
+++
+++      <funcprototype>
+++        <funcdef>int <function>sd_bus_enqueue_for_read</function></funcdef>
+++        <paramdef>sd_bus *<parameter>bus</parameter></paramdef>
+++        <paramdef>sd_bus_message *<parameter>message</parameter></paramdef>
+++      </funcprototype>
+++
+++    </funcsynopsis>
+++  </refsynopsisdiv>
+++
+++  <refsect1>
+++    <title>Description</title>
+++
+++    <para><function>sd_bus_enqueue_for_read()</function> may be used to re-enqueue an incoming bus message on
+++    the local read queue, so that it is processed and dispatched locally again, similar to how an incoming
+++    message from the peer is processed. Takes a bus connection object and the message to enqueue. A reference
+++    is taken of the message and the caller's reference thus remains in possession of the caller. The message
+++    is enqueued at the end of the queue, thus will be dispatched after all other already queued messages are
+++    dispatched.</para>
+++
+++    <para>This call is primarily useful for dealing with incoming method calls that may be processed only
+++    after an additional asynchronous operation completes. One example are PolicyKit authorization requests
+++    that are determined to be necessary to authorize a newly incoming method call: when the PolicyKit response
+++    is received the original method call may be re-enqueued to process it again, this time with the
+++    authorization result known.</para>
+++  </refsect1>
+++
+++  <refsect1>
+++    <title>Return Value</title>
+++
+++    <para>On success, this function return 0 or a positive integer. On failure, it returns a negative errno-style
+++    error code.</para>
+++
+++    <refsect2>
+++      <title>Errors</title>
+++
+++      <para>Returned errors may indicate the following problems:</para>
+++
+++      <variablelist>
+++        <varlistentry>
+++          <term><constant>-ECHILD</constant></term>
+++
+++          <listitem><para>The bus connection has been created in a different process.</para></listitem>
+++        </varlistentry>
+++      </variablelist>
+++    </refsect2>
+++  </refsect1>
+++
+++  <xi:include href="libsystemd-pkgconfig.xml" />
+++
+++  <refsect1>
+++    <title>See Also</title>
+++
+++    <para>
+++      <citerefentry><refentrytitle>systemd</refentrytitle><manvolnum>1</manvolnum></citerefentry>,
+++      <citerefentry><refentrytitle>sd-bus</refentrytitle><manvolnum>3</manvolnum></citerefentry>,
+++      <citerefentry><refentrytitle>sd_bus_send</refentrytitle><manvolnum>3</manvolnum></citerefentry>,
+++    </para>
+++  </refsect1>
+++
+++</refentry>
++diff --git a/src/libsystemd/libsystemd.sym b/src/libsystemd/libsystemd.sym
++index 5ec42e0f1f..c40f1b7d1a 100644
++--- a/src/libsystemd/libsystemd.sym
+++++ b/src/libsystemd/libsystemd.sym
++@@ -679,6 +679,7 @@ global:
++ 
++ LIBSYSTEMD_243 {
++ global:
+++        sd_bus_enqueue_for_read;
++         sd_bus_object_vtable_format;
++         sd_event_source_disable_unref;
++ } LIBSYSTEMD_241;
++diff --git a/src/libsystemd/sd-bus/sd-bus.c b/src/libsystemd/sd-bus/sd-bus.c
++index 026ac8cb94..07bc145f37 100644
++--- a/src/libsystemd/sd-bus/sd-bus.c
+++++ b/src/libsystemd/sd-bus/sd-bus.c
++@@ -4194,3 +4194,27 @@ _public_ int sd_bus_get_close_on_exit(sd_bus *bus) {
++ 
++         return bus->close_on_exit;
++ }
+++
+++_public_ int sd_bus_enqueue_for_read(sd_bus *bus, sd_bus_message *m) {
+++        int r;
+++
+++        assert_return(bus, -EINVAL);
+++        assert_return(bus = bus_resolve(bus), -ENOPKG);
+++        assert_return(m, -EINVAL);
+++        assert_return(m->sealed, -EINVAL);
+++        assert_return(!bus_pid_changed(bus), -ECHILD);
+++
+++        if (!BUS_IS_OPEN(bus->state))
+++                return -ENOTCONN;
+++
+++        /* Re-enqueue a message for reading. This is primarily useful for PolicyKit-style authentication,
+++         * where we accept a message, then determine we need to interactively authenticate the user, and then
+++         * we want to process the message again. */
+++
+++        r = bus_rqueue_make_room(bus);
+++        if (r < 0)
+++                return r;
+++
+++        bus->rqueue[bus->rqueue_size++] = bus_message_ref_queued(m, bus);
+++        return 0;
+++}
++diff --git a/src/shared/bus-util.c b/src/shared/bus-util.c
++index e9b0b8a99d..88cad9cd0a 100644
++--- a/src/shared/bus-util.c
+++++ b/src/shared/bus-util.c
++@@ -212,6 +212,34 @@ static int check_good_user(sd_bus_message *m, uid_t good_user) {
++         return sender_uid == good_user;
++ }
++ 
+++#if ENABLE_POLKIT
+++static int bus_message_append_strv_key_value(
+++                sd_bus_message *m,
+++                const char **l) {
+++
+++        const char **k, **v;
+++        int r;
+++
+++        assert(m);
+++
+++        r = sd_bus_message_open_container(m, 'a', "{ss}");
+++        if (r < 0)
+++                return r;
+++
+++        STRV_FOREACH_PAIR(k, v, l) {
+++                r = sd_bus_message_append(m, "{ss}", *k, *v);
+++                if (r < 0)
+++                        return r;
+++        }
+++
+++        r = sd_bus_message_close_container(m);
+++        if (r < 0)
+++                return r;
+++
+++        return r;
+++}
+++#endif
+++
++ int bus_test_polkit(
++                 sd_bus_message *call,
++                 int capability,
++@@ -219,7 +247,7 @@ int bus_test_polkit(
++                 const char **details,
++                 uid_t good_user,
++                 bool *_challenge,
++-                sd_bus_error *e) {
+++                sd_bus_error *ret_error) {
++ 
++         int r;
++ 
++@@ -242,7 +270,7 @@ int bus_test_polkit(
++                 _cleanup_(sd_bus_message_unrefp) sd_bus_message *request = NULL;
++                 _cleanup_(sd_bus_message_unrefp) sd_bus_message *reply = NULL;
++                 int authorized = false, challenge = false;
++-                const char *sender, **k, **v;
+++                const char *sender;
++ 
++                 sender = sd_bus_message_get_sender(call);
++                 if (!sender)
++@@ -266,17 +294,7 @@ int bus_test_polkit(
++                 if (r < 0)
++                         return r;
++ 
++-                r = sd_bus_message_open_container(request, 'a', "{ss}");
++-                if (r < 0)
++-                        return r;
++-
++-                STRV_FOREACH_PAIR(k, v, details) {
++-                        r = sd_bus_message_append(request, "{ss}", *k, *v);
++-                        if (r < 0)
++-                                return r;
++-                }
++-
++-                r = sd_bus_message_close_container(request);
+++                r = bus_message_append_strv_key_value(request, details);
++                 if (r < 0)
++                         return r;
++ 
++@@ -284,11 +302,11 @@ int bus_test_polkit(
++                 if (r < 0)
++                         return r;
++ 
++-                r = sd_bus_call(call->bus, request, 0, e, &reply);
+++                r = sd_bus_call(call->bus, request, 0, ret_error, &reply);
++                 if (r < 0) {
++                         /* Treat no PK available as access denied */
++-                        if (sd_bus_error_has_name(e, SD_BUS_ERROR_SERVICE_UNKNOWN)) {
++-                                sd_bus_error_free(e);
+++                        if (sd_bus_error_has_name(ret_error, SD_BUS_ERROR_SERVICE_UNKNOWN)) {
+++                                sd_bus_error_free(ret_error);
++                                 return -EACCES;
++                         }
++ 
++@@ -319,15 +337,17 @@ int bus_test_polkit(
++ #if ENABLE_POLKIT
++ 
++ typedef struct AsyncPolkitQuery {
+++        char *action;
+++        char **details;
+++
++         sd_bus_message *request, *reply;
++-        sd_bus_message_handler_t callback;
++-        void *userdata;
++         sd_bus_slot *slot;
+++
++         Hashmap *registry;
+++        sd_event_source *defer_event_source;
++ } AsyncPolkitQuery;
++ 
++ static void async_polkit_query_free(AsyncPolkitQuery *q) {
++-
++         if (!q)
++                 return;
++ 
++@@ -339,9 +359,25 @@ static void async_polkit_query_free(AsyncPolkitQuery *q) {
++         sd_bus_message_unref(q->request);
++         sd_bus_message_unref(q->reply);
++ 
+++        free(q->action);
+++        strv_free(q->details);
+++
+++        sd_event_source_disable_unref(q->defer_event_source);
++         free(q);
++ }
++ 
+++static int async_polkit_defer(sd_event_source *s, void *userdata) {
+++        AsyncPolkitQuery *q = userdata;
+++
+++        assert(s);
+++
+++        /* This is called as idle event source after we processed the async polkit reply, hopefully after the
+++         * method call we re-enqueued has been properly processed. */
+++
+++        async_polkit_query_free(q);
+++        return 0;
+++}
+++
++ static int async_polkit_callback(sd_bus_message *reply, void *userdata, sd_bus_error *error) {
++         _cleanup_(sd_bus_error_free) sd_bus_error error_buffer = SD_BUS_ERROR_NULL;
++         AsyncPolkitQuery *q = userdata;
++@@ -350,21 +386,46 @@ static int async_polkit_callback(sd_bus_message *reply, void *userdata, sd_bus_e
++         assert(reply);
++         assert(q);
++ 
+++        assert(q->slot);
++         q->slot = sd_bus_slot_unref(q->slot);
+++
+++        assert(!q->reply);
++         q->reply = sd_bus_message_ref(reply);
++ 
+++        /* Now, let's dispatch the original message a second time be re-enqueing. This will then traverse the
+++         * whole message processing again, and thus re-validating and re-retrieving the "userdata" field
+++         * again.
+++         *
+++         * We install an idle event loop event to clean-up the PolicyKit request data when we are idle again,
+++         * i.e. after the second time the message is processed is complete. */
+++
+++        assert(!q->defer_event_source);
+++        r = sd_event_add_defer(sd_bus_get_event(sd_bus_message_get_bus(reply)), &q->defer_event_source, async_polkit_defer, q);
+++        if (r < 0)
+++                goto fail;
+++
+++        r = sd_event_source_set_priority(q->defer_event_source, SD_EVENT_PRIORITY_IDLE);
+++        if (r < 0)
+++                goto fail;
+++
+++        r = sd_event_source_set_enabled(q->defer_event_source, SD_EVENT_ONESHOT);
+++        if (r < 0)
+++                goto fail;
+++
++         r = sd_bus_message_rewind(q->request, true);
++-        if (r < 0) {
++-                r = sd_bus_reply_method_errno(q->request, r, NULL);
++-                goto finish;
++-        }
+++        if (r < 0)
+++                goto fail;
++ 
++-        r = q->callback(q->request, q->userdata, &error_buffer);
++-        r = bus_maybe_reply_error(q->request, r, &error_buffer);
+++        r = sd_bus_enqueue_for_read(sd_bus_message_get_bus(q->request), q->request);
+++        if (r < 0)
+++                goto fail;
++ 
++-finish:
++-        async_polkit_query_free(q);
+++        return 1;
++ 
+++fail:
+++        log_debug_errno(r, "Processing asynchronous PolicyKit reply failed, ignoring: %m");
+++        (void) sd_bus_reply_method_errno(q->request, r, NULL);
+++        async_polkit_query_free(q);
++         return r;
++ }
++ 
++@@ -378,16 +439,14 @@ int bus_verify_polkit_async(
++                 bool interactive,
++                 uid_t good_user,
++                 Hashmap **registry,
++-                sd_bus_error *error) {
+++                sd_bus_error *ret_error) {
++ 
++ #if ENABLE_POLKIT
++         _cleanup_(sd_bus_message_unrefp) sd_bus_message *pk = NULL;
++         AsyncPolkitQuery *q;
++-        const char *sender, **k, **v;
++-        sd_bus_message_handler_t callback;
++-        void *userdata;
++         int c;
++ #endif
+++        const char *sender;
++         int r;
++ 
++         assert(call);
++@@ -403,11 +462,17 @@ int bus_verify_polkit_async(
++         if (q) {
++                 int authorized, challenge;
++ 
++-                /* This is the second invocation of this function, and
++-                 * there's already a response from polkit, let's
++-                 * process it */
+++                /* This is the second invocation of this function, and there's already a response from
+++                 * polkit, let's process it */
++                 assert(q->reply);
++ 
+++                /* If the operation we want to authenticate changed between the first and the second time,
+++                 * let's not use this authentication, it might be out of date as the object and context we
+++                 * operate on might have changed. */
+++                if (!streq(q->action, action) ||
+++                    !strv_equal(q->details, (char**) details))
+++                        return -ESTALE;
+++
++                 if (sd_bus_message_is_method_error(q->reply, NULL)) {
++                         const sd_bus_error *e;
++ 
++@@ -418,7 +483,7 @@ int bus_verify_polkit_async(
++                                 return -EACCES;
++ 
++                         /* Copy error from polkit reply */
++-                        sd_bus_error_copy(error, e);
+++                        sd_bus_error_copy(ret_error, e);
++                         return -sd_bus_error_get_errno(e);
++                 }
++ 
++@@ -433,7 +498,7 @@ int bus_verify_polkit_async(
++                         return 1;
++ 
++                 if (challenge)
++-                        return sd_bus_error_set(error, SD_BUS_ERROR_INTERACTIVE_AUTHORIZATION_REQUIRED, "Interactive authentication required.");
+++                        return sd_bus_error_set(ret_error, SD_BUS_ERROR_INTERACTIVE_AUTHORIZATION_REQUIRED, "Interactive authentication required.");
++ 
++                 return -EACCES;
++         }
++@@ -445,20 +510,12 @@ int bus_verify_polkit_async(
++         else if (r > 0)
++                 return 1;
++ 
++-#if ENABLE_POLKIT
++-        if (sd_bus_get_current_message(call->bus) != call)
++-                return -EINVAL;
++-
++-        callback = sd_bus_get_current_handler(call->bus);
++-        if (!callback)
++-                return -EINVAL;
++-
++-        userdata = sd_bus_get_current_userdata(call->bus);
++ 
++         sender = sd_bus_message_get_sender(call);
++         if (!sender)
++                 return -EBADMSG;
++ 
+++#if ENABLE_POLKIT
++         c = sd_bus_message_get_allow_interactive_authorization(call);
++         if (c < 0)
++                 return c;
++@@ -487,17 +544,7 @@ int bus_verify_polkit_async(
++         if (r < 0)
++                 return r;
++ 
++-        r = sd_bus_message_open_container(pk, 'a', "{ss}");
++-        if (r < 0)
++-                return r;
++-
++-        STRV_FOREACH_PAIR(k, v, details) {
++-                r = sd_bus_message_append(pk, "{ss}", *k, *v);
++-                if (r < 0)
++-                        return r;
++-        }
++-
++-        r = sd_bus_message_close_container(pk);
+++        r = bus_message_append_strv_key_value(pk, details);
++         if (r < 0)
++                 return r;
++ 
++@@ -505,13 +552,25 @@ int bus_verify_polkit_async(
++         if (r < 0)
++                 return r;
++ 
++-        q = new0(AsyncPolkitQuery, 1);
+++        q = new(AsyncPolkitQuery, 1);
++         if (!q)
++                 return -ENOMEM;
++ 
++-        q->request = sd_bus_message_ref(call);
++-        q->callback = callback;
++-        q->userdata = userdata;
+++        *q = (AsyncPolkitQuery) {
+++                .request = sd_bus_message_ref(call),
+++        };
+++
+++        q->action = strdup(action);
+++        if (!q->action) {
+++                async_polkit_query_free(q);
+++                return -ENOMEM;
+++        }
+++
+++        q->details = strv_copy((char**) details);
+++        if (!q->details) {
+++                async_polkit_query_free(q);
+++                return -ENOMEM;
+++        }
++ 
++         r = hashmap_put(*registry, call, q);
++         if (r < 0) {
++diff --git a/src/systemd/sd-bus.h b/src/systemd/sd-bus.h
++index 84ceb62dc7..0e5c761f83 100644
++--- a/src/systemd/sd-bus.h
+++++ b/src/systemd/sd-bus.h
++@@ -201,6 +201,7 @@ int sd_bus_process(sd_bus *bus, sd_bus_message **r);
++ int sd_bus_process_priority(sd_bus *bus, int64_t max_priority, sd_bus_message **r);
++ int sd_bus_wait(sd_bus *bus, uint64_t timeout_usec);
++ int sd_bus_flush(sd_bus *bus);
+++int sd_bus_enqueue_for_read(sd_bus *bus, sd_bus_message *m);
++ 
++ sd_bus_slot* sd_bus_get_current_slot(sd_bus *bus);
++ sd_bus_message* sd_bus_get_current_message(sd_bus *bus);
++-- 
++2.23.0
++
+diff --git a/meta/recipes-core/systemd/systemd_243.2.bb b/meta/recipes-core/systemd/systemd_243.2.bb
+index 6e7f95693b..082eb4c384 100644
+--- a/meta/recipes-core/systemd/systemd_243.2.bb
++++ b/meta/recipes-core/systemd/systemd_243.2.bb
+@@ -24,6 +24,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
+            file://0001-unit-file.c-consider-symlink-on-filesystems-like-NFS.patch \
+            file://99-default.preset \
++           file://0001-Merge-branch-polkit-ref-count.patch \
+            "
+ 
+ # patches needed by musl
+-- 
+2.23.0
+
