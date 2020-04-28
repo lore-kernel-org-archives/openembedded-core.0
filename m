@@ -1,76 +1,858 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.210.1588040165059174314
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web12.195.1588040166944199991
  for <openembedded-core@lists.openembedded.org>;
- Mon, 27 Apr 2020 19:16:05 -0700
+ Mon, 27 Apr 2020 19:16:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gIxK/8FF;
- spf=pass (domain: gmail.com, ip: 209.85.214.176, mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f176.google.com with SMTP id w3so7739670plz.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 19:16:05 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cKbyl16t;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: akuster808@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id v63so9933727pfb.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 27 Apr 2020 19:16:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=q9cAZdnPu2+vLNb1JL4r36swkS9wS5IdhuISfx9DnUU=;
-        b=gIxK/8FFPLwilfwLT47OBI9MCL9yNocKJOYnFhKvbGlLxjWOQDL2IhFsve7c9nDJOY
-         uDie3oROOKSdz1M7r2aar6Y9hplAP0EbVeeIsHEBOYBcxJ+yraDdDEfD6+PYKAmaRV3W
-         4AJKEf5/UQKpMYg4EoX04X5Kz0n+lbXCesGSO6VJZWnDK+3ByRtmLOMd/vbF18Jb08is
-         6OoS7jNr3GWir+AjyZIguN4T4siUuUmCGOnFXP0Zws96m2SRFT2BQVuCWJwwdQG9chgs
-         4lvehTGyJMoWRfBGSR15J99J+txfRrQfpcnfpy9C8UFDMky3vIAgnFQUfrdE/Y2x6GES
-         /KTw==
+        bh=7AWwPBIViCs6bOdyMDBO0u39Gf4yMsIQdXuiWU7Q6GE=;
+        b=cKbyl16t5zJfA3gnkPxY14MGeYJFqr2LzSEZt54+jUCjdCsRtZ7viJ+Q1oZbBGOiCd
+         6+yg3uwXmdrvbEVGcFByzkCNl/XKg7lnBi+t7s5TFZ7pYmQBrs79TBdmOQhx3yatGFab
+         OlLSEtlJBRnH1kYQKPEgDlGyJg4OlrWn79ADDJj3XGkKzFdDaDznh0wwzDXwtCN9OmdU
+         JauvgpbCpYAmfvtQlZmwmJ5I8uAy93dmAQCQDNAJV4pxnZTUzgcBfb2Mhj0SnJNqx9IJ
+         DqRBAkpSvx1csWr69Tw0Gxx6ghqyRLXJ69jFRP2blN7UkxRhFvONHEuJ67vM9jb2Tghy
+         ulpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=q9cAZdnPu2+vLNb1JL4r36swkS9wS5IdhuISfx9DnUU=;
-        b=iuw1I0L11NJTD5h5y7yfg9RzJLiQ4lpQtes0aS2hNUcNL5qHCPn+pOrIv8zq4hdJVP
-         WTUjajB3ir/s2zjWGzJOcd8UoKwPPfleu4W0x3o+9YbjMG6BRrD2sfQ4vM+7F0SFd7h2
-         oSUpDlmEz5xckizECpPhNIo6hglaohxH2IyEhX55pAcL7OD4LwLZnK0hx/X3HaUnsYmu
-         F8RRa+tq4c3+dYgTuIEBJFA9L8oI0iCEf1q3gGGlv8IcAnlq3hlaVs1xws7cZjFfU2AQ
-         Qm/WO0nHMSc988ITFakl9c1+coeaqOkjIgnu7tgEcbJZu1LJO5RHBHJRqAPnQhf+E//N
-         gtfw==
-X-Gm-Message-State: AGi0PubSLxhPM6Ar4Glqb350/tx2GhcNrHSmYre1Ao+r45ySvVD/4ETf
-	vqwXawrI+XmgMQlmZgNeOaY5hOEH
-X-Google-Smtp-Source: APiQypKPegu8bq7sWWWPyhOoo7jCC0F1LSu4ub4T5dgo4nYa5yqNIvHQq6r2ws7p+QSDNnphnX7H5w==
-X-Received: by 2002:a17:90a:17ed:: with SMTP id q100mr2205672pja.80.1588040164356;
-        Mon, 27 Apr 2020 19:16:04 -0700 (PDT)
+        bh=7AWwPBIViCs6bOdyMDBO0u39Gf4yMsIQdXuiWU7Q6GE=;
+        b=sKFwloVFP1CZpQzISxHT1Pst2EKmm+dAem4fed+WxH7q78tQJYZ4dX5glzQxhQR9jf
+         ZG8vx3vrJsHKhTP8TdJannjAePZRVoYmdV7Ogg9YUdGVxAREjDFYDCGJl0fwzYRlPEid
+         DewgQZYOSosZB4jCoaQm5sJIc/YRP/2eJ8+LZA6qopBdhpB0zwp8DGvUz8qLFoQhRt2p
+         3XNBISU9yNj2U2l0eEg7q/Z8emEMsXJYIj6Ll2WCpNNJHaB8vewmkC07wqzUiVnzscQ5
+         +Se3f+jDwm1EPOAKyViuQ5clPuN4fV2Bd5vszzysaeBre374xv88Nz17VRcGZEbvYFgY
+         ydUA==
+X-Gm-Message-State: AGi0PuZm09Iwfyok1fu8wVb9YanS4wKWp/w5WBju1/WjbgdwDzQmmiuo
+	Hxqm6ZS3lxp8neWEcSCvvYhfwNbc
+X-Google-Smtp-Source: APiQypJ2a94YfQg2QmmBlqDOO5qpTgj/HqCxfRcK2Z0N3SN31rhsyWe/8dfvA+Q/ihlUIu3pnvA9wg==
+X-Received: by 2002:a65:6403:: with SMTP id a3mr26918177pgv.222.1588040165623;
+        Mon, 27 Apr 2020 19:16:05 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:f1bf:759e:e8cd:49cd])
-        by smtp.gmail.com with ESMTPSA id 6sm12328390pgz.0.2020.04.27.19.16.03
+        by smtp.gmail.com with ESMTPSA id 6sm12328390pgz.0.2020.04.27.19.16.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2020 19:16:03 -0700 (PDT)
+        Mon, 27 Apr 2020 19:16:05 -0700 (PDT)
 From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus 5/7] openssl: recommend cryptodev-module for corresponding PACKAGECONFIG
-Date: Mon, 27 Apr 2020 19:15:54 -0700
-Message-Id: <285957cba45a15c90ceb062a55c957e81486a031.1587931177.git.akuster808@gmail.com>
+Subject: [zeus 6/7] openssl: Upgrade 1.1.1d -> 1.1.1e
+Date: Mon, 27 Apr 2020 19:15:55 -0700
+Message-Id: <683818289ced6cd3c70860b5c97de2e89169096b.1587931177.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1587931177.git.akuster808@gmail.com>
 References: <cover.1587931177.git.akuster808@gmail.com>
 
-From: Denys Dmytriyenko <denys@ti.com>
+From: Adrian Bunk <bunk@stusta.de>
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Backported patch removed.
+
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 57fcf9b517fe95e871122946cb99fe7fa9fd2e26)
+(cherry picked from commit 710bc0f8544f54750c8fb7b8affa243932927a24)
+[AK: bug fix only update]
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../openssl/openssl/CVE-2019-1551.patch       | 758 ------------------
+ .../{openssl_1.1.1d.bb => openssl_1.1.1e.bb}  |   4 +-
+ 2 files changed, 1 insertion(+), 761 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2019-1551.patch
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1d.bb => openssl_1.1.1e.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-index 169824a8bef..a8ca7163090 100644
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2019-1551.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2019-1551.patch
+deleted file mode 100644
+index 0cc19cb5f45..00000000000
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2019-1551.patch
++++ /dev/null
+@@ -1,758 +0,0 @@
+-From 419102400a2811582a7a3d4a4e317d72e5ce0a8f Mon Sep 17 00:00:00 2001
+-From: Andy Polyakov <appro@openssl.org>
+-Date: Wed, 4 Dec 2019 12:48:21 +0100
+-Subject: [PATCH] Fix an overflow bug in rsaz_512_sqr
+-
+-There is an overflow bug in the x64_64 Montgomery squaring procedure used in
+-exponentiation with 512-bit moduli. No EC algorithms are affected. Analysis
+-suggests that attacks against 2-prime RSA1024, 3-prime RSA1536, and DSA1024 as a
+-result of this defect would be very difficult to perform and are not believed
+-likely. Attacks against DH512 are considered just feasible. However, for an
+-attack the target would have to re-use the DH512 private key, which is not
+-recommended anyway. Also applications directly using the low level API
+-BN_mod_exp may be affected if they use BN_FLG_CONSTTIME.
+-
+-CVE-2019-1551
+-
+-Reviewed-by: Paul Dale <paul.dale@oracle.com>
+-Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
+-(Merged from https://github.com/openssl/openssl/pull/10575)
+-
+-CVE: CVE-2019-1551
+-Upstream-Status: Backport
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- crypto/bn/asm/rsaz-x86_64.pl | 381 ++++++++++++++++++-----------------
+- 1 file changed, 197 insertions(+), 184 deletions(-)
+-
+-diff --git a/crypto/bn/asm/rsaz-x86_64.pl b/crypto/bn/asm/rsaz-x86_64.pl
+-index b1797b649f0..7534d5cd03e 100755
+---- a/crypto/bn/asm/rsaz-x86_64.pl
+-+++ b/crypto/bn/asm/rsaz-x86_64.pl
+-@@ -116,7 +116,7 @@
+- 	subq	\$128+24, %rsp
+- .cfi_adjust_cfa_offset	128+24
+- .Lsqr_body:
+--	movq	$mod, %rbp		# common argument
+-+	movq	$mod, %xmm1		# common off-load
+- 	movq	($inp), %rdx
+- 	movq	8($inp), %rax
+- 	movq	$n0, 128(%rsp)
+-@@ -134,7 +134,8 @@
+- .Loop_sqr:
+- 	movl	$times,128+8(%rsp)
+- #first iteration
+--	movq	%rdx, %rbx
+-+	movq	%rdx, %rbx		# 0($inp)
+-+	mov	%rax, %rbp		# 8($inp)
+- 	mulq	%rdx
+- 	movq	%rax, %r8
+- 	movq	16($inp), %rax
+-@@ -173,31 +174,29 @@
+- 	mulq	%rbx
+- 	addq	%rax, %r14
+- 	movq	%rbx, %rax
+--	movq	%rdx, %r15
+--	adcq	\$0, %r15
+-+	adcq	\$0, %rdx
+- 
+--	addq	%r8, %r8		#shlq	\$1, %r8
+--	movq	%r9, %rcx
+--	adcq	%r9, %r9		#shld	\$1, %r8, %r9
+-+	xorq	%rcx,%rcx		# rcx:r8 = r8 << 1
+-+	addq	%r8, %r8
+-+	 movq	%rdx, %r15
+-+	adcq	\$0, %rcx
+- 
+- 	mulq	%rax
+--	movq	%rax, (%rsp)
+--	addq	%rdx, %r8
+--	adcq	\$0, %r9
+-+	addq	%r8, %rdx
+-+	adcq	\$0, %rcx
+- 
+--	movq	%r8, 8(%rsp)
+--	shrq	\$63, %rcx
+-+	movq	%rax, (%rsp)
+-+	movq	%rdx, 8(%rsp)
+- 
+- #second iteration
+--	movq	8($inp), %r8
+- 	movq	16($inp), %rax
+--	mulq	%r8
+-+	mulq	%rbp
+- 	addq	%rax, %r10
+- 	movq	24($inp), %rax
+- 	movq	%rdx, %rbx
+- 	adcq	\$0, %rbx
+- 
+--	mulq	%r8
+-+	mulq	%rbp
+- 	addq	%rax, %r11
+- 	movq	32($inp), %rax
+- 	adcq	\$0, %rdx
+-@@ -205,7 +204,7 @@
+- 	movq	%rdx, %rbx
+- 	adcq	\$0, %rbx
+- 
+--	mulq	%r8
+-+	mulq	%rbp
+- 	addq	%rax, %r12
+- 	movq	40($inp), %rax
+- 	adcq	\$0, %rdx
+-@@ -213,7 +212,7 @@
+- 	movq	%rdx, %rbx
+- 	adcq	\$0, %rbx
+- 
+--	mulq	%r8
+-+	mulq	%rbp
+- 	addq	%rax, %r13
+- 	movq	48($inp), %rax
+- 	adcq	\$0, %rdx
+-@@ -221,7 +220,7 @@
+- 	movq	%rdx, %rbx
+- 	adcq	\$0, %rbx
+- 
+--	mulq	%r8
+-+	mulq	%rbp
+- 	addq	%rax, %r14
+- 	movq	56($inp), %rax
+- 	adcq	\$0, %rdx
+-@@ -229,39 +228,39 @@
+- 	movq	%rdx, %rbx
+- 	adcq	\$0, %rbx
+- 
+--	mulq	%r8
+-+	mulq	%rbp
+- 	addq	%rax, %r15
+--	movq	%r8, %rax
+-+	movq	%rbp, %rax
+- 	adcq	\$0, %rdx
+- 	addq	%rbx, %r15
+--	movq	%rdx, %r8
+--	movq	%r10, %rdx
+--	adcq	\$0, %r8
+-+	adcq	\$0, %rdx
+- 
+--	add	%rdx, %rdx
+--	lea	(%rcx,%r10,2), %r10	#shld	\$1, %rcx, %r10
+--	movq	%r11, %rbx
+--	adcq	%r11, %r11		#shld	\$1, %r10, %r11
+-+	xorq	%rbx, %rbx		# rbx:r10:r9 = r10:r9 << 1
+-+	addq	%r9, %r9
+-+	 movq	%rdx, %r8
+-+	adcq	%r10, %r10
+-+	adcq	\$0, %rbx
+- 
+- 	mulq	%rax
+-+	addq	%rcx, %rax
+-+	 movq	16($inp), %rbp
+-+	adcq	\$0, %rdx
+- 	addq	%rax, %r9
+-+	 movq	24($inp), %rax
+- 	adcq	%rdx, %r10
+--	adcq	\$0, %r11
+-+	adcq	\$0, %rbx
+- 
+- 	movq	%r9, 16(%rsp)
+- 	movq	%r10, 24(%rsp)
+--	shrq	\$63, %rbx
+- 
+- #third iteration
+--	movq	16($inp), %r9
+--	movq	24($inp), %rax
+--	mulq	%r9
+-+	mulq	%rbp
+- 	addq	%rax, %r12
+- 	movq	32($inp), %rax
+- 	movq	%rdx, %rcx
+- 	adcq	\$0, %rcx
+- 
+--	mulq	%r9
+-+	mulq	%rbp
+- 	addq	%rax, %r13
+- 	movq	40($inp), %rax
+- 	adcq	\$0, %rdx
+-@@ -269,7 +268,7 @@
+- 	movq	%rdx, %rcx
+- 	adcq	\$0, %rcx
+- 
+--	mulq	%r9
+-+	mulq	%rbp
+- 	addq	%rax, %r14
+- 	movq	48($inp), %rax
+- 	adcq	\$0, %rdx
+-@@ -277,9 +276,7 @@
+- 	movq	%rdx, %rcx
+- 	adcq	\$0, %rcx
+- 
+--	mulq	%r9
+--	 movq	%r12, %r10
+--	 lea	(%rbx,%r12,2), %r12	#shld	\$1, %rbx, %r12
+-+	mulq	%rbp
+- 	addq	%rax, %r15
+- 	movq	56($inp), %rax
+- 	adcq	\$0, %rdx
+-@@ -287,36 +284,40 @@
+- 	movq	%rdx, %rcx
+- 	adcq	\$0, %rcx
+- 
+--	mulq	%r9
+--	 shrq	\$63, %r10
+-+	mulq	%rbp
+- 	addq	%rax, %r8
+--	movq	%r9, %rax
+-+	movq	%rbp, %rax
+- 	adcq	\$0, %rdx
+- 	addq	%rcx, %r8
+--	movq	%rdx, %r9
+--	adcq	\$0, %r9
+-+	adcq	\$0, %rdx
+- 
+--	movq	%r13, %rcx
+--	leaq	(%r10,%r13,2), %r13	#shld	\$1, %r12, %r13
+-+	xorq	%rcx, %rcx		# rcx:r12:r11 = r12:r11 << 1
+-+	addq	%r11, %r11
+-+	 movq	%rdx, %r9
+-+	adcq	%r12, %r12
+-+	adcq	\$0, %rcx
+- 
+- 	mulq	%rax
+-+	addq	%rbx, %rax
+-+	 movq	24($inp), %r10
+-+	adcq	\$0, %rdx
+- 	addq	%rax, %r11
+-+	 movq	32($inp), %rax
+- 	adcq	%rdx, %r12
+--	adcq	\$0, %r13
+-+	adcq	\$0, %rcx
+- 
+- 	movq	%r11, 32(%rsp)
+- 	movq	%r12, 40(%rsp)
+--	shrq	\$63, %rcx
+- 
+- #fourth iteration
+--	movq	24($inp), %r10
+--	movq	32($inp), %rax
+-+	mov	%rax, %r11		# 32($inp)
+- 	mulq	%r10
+- 	addq	%rax, %r14
+- 	movq	40($inp), %rax
+- 	movq	%rdx, %rbx
+- 	adcq	\$0, %rbx
+- 
+-+	mov	%rax, %r12		# 40($inp)
+- 	mulq	%r10
+- 	addq	%rax, %r15
+- 	movq	48($inp), %rax
+-@@ -325,9 +326,8 @@
+- 	movq	%rdx, %rbx
+- 	adcq	\$0, %rbx
+- 
+-+	mov	%rax, %rbp		# 48($inp)
+- 	mulq	%r10
+--	 movq	%r14, %r12
+--	 leaq	(%rcx,%r14,2), %r14	#shld	\$1, %rcx, %r14
+- 	addq	%rax, %r8
+- 	movq	56($inp), %rax
+- 	adcq	\$0, %rdx
+-@@ -336,32 +336,33 @@
+- 	adcq	\$0, %rbx
+- 
+- 	mulq	%r10
+--	 shrq	\$63, %r12
+- 	addq	%rax, %r9
+- 	movq	%r10, %rax
+- 	adcq	\$0, %rdx
+- 	addq	%rbx, %r9
+--	movq	%rdx, %r10
+--	adcq	\$0, %r10
+-+	adcq	\$0, %rdx
+- 
+--	movq	%r15, %rbx
+--	leaq	(%r12,%r15,2),%r15	#shld	\$1, %r14, %r15
+-+	xorq	%rbx, %rbx		# rbx:r13:r14 = r13:r14 << 1
+-+	addq	%r13, %r13
+-+	 movq	%rdx, %r10
+-+	adcq	%r14, %r14
+-+	adcq	\$0, %rbx
+- 
+- 	mulq	%rax
+-+	addq	%rcx, %rax
+-+	adcq	\$0, %rdx
+- 	addq	%rax, %r13
+-+	 movq	%r12, %rax		# 40($inp)
+- 	adcq	%rdx, %r14
+--	adcq	\$0, %r15
+-+	adcq	\$0, %rbx
+- 
+- 	movq	%r13, 48(%rsp)
+- 	movq	%r14, 56(%rsp)
+--	shrq	\$63, %rbx
+- 
+- #fifth iteration
+--	movq	32($inp), %r11
+--	movq	40($inp), %rax
+- 	mulq	%r11
+- 	addq	%rax, %r8
+--	movq	48($inp), %rax
+-+	movq	%rbp, %rax		# 48($inp)
+- 	movq	%rdx, %rcx
+- 	adcq	\$0, %rcx
+- 
+-@@ -369,97 +370,99 @@
+- 	addq	%rax, %r9
+- 	movq	56($inp), %rax
+- 	adcq	\$0, %rdx
+--	 movq	%r8, %r12
+--	 leaq	(%rbx,%r8,2), %r8	#shld	\$1, %rbx, %r8
+- 	addq	%rcx, %r9
+- 	movq	%rdx, %rcx
+- 	adcq	\$0, %rcx
+- 
+-+	mov	%rax, %r14		# 56($inp)
+- 	mulq	%r11
+--	 shrq	\$63, %r12
+- 	addq	%rax, %r10
+- 	movq	%r11, %rax
+- 	adcq	\$0, %rdx
+- 	addq	%rcx, %r10
+--	movq	%rdx, %r11
+--	adcq	\$0, %r11
+-+	adcq	\$0, %rdx
+- 
+--	movq	%r9, %rcx
+--	leaq	(%r12,%r9,2), %r9	#shld	\$1, %r8, %r9
+-+	xorq	%rcx, %rcx		# rcx:r8:r15 = r8:r15 << 1
+-+	addq	%r15, %r15
+-+	 movq	%rdx, %r11
+-+	adcq	%r8, %r8
+-+	adcq	\$0, %rcx
+- 
+- 	mulq	%rax
+-+	addq	%rbx, %rax
+-+	adcq	\$0, %rdx
+- 	addq	%rax, %r15
+-+	 movq	%rbp, %rax		# 48($inp)
+- 	adcq	%rdx, %r8
+--	adcq	\$0, %r9
+-+	adcq	\$0, %rcx
+- 
+- 	movq	%r15, 64(%rsp)
+- 	movq	%r8, 72(%rsp)
+--	shrq	\$63, %rcx
+- 
+- #sixth iteration
+--	movq	40($inp), %r12
+--	movq	48($inp), %rax
+- 	mulq	%r12
+- 	addq	%rax, %r10
+--	movq	56($inp), %rax
+-+	movq	%r14, %rax		# 56($inp)
+- 	movq	%rdx, %rbx
+- 	adcq	\$0, %rbx
+- 
+- 	mulq	%r12
+- 	addq	%rax, %r11
+- 	movq	%r12, %rax
+--	 movq	%r10, %r15
+--	 leaq	(%rcx,%r10,2), %r10	#shld	\$1, %rcx, %r10
+- 	adcq	\$0, %rdx
+--	 shrq	\$63, %r15
+- 	addq	%rbx, %r11
+--	movq	%rdx, %r12
+--	adcq	\$0, %r12
+-+	adcq	\$0, %rdx
+- 
+--	movq	%r11, %rbx
+--	leaq	(%r15,%r11,2), %r11	#shld	\$1, %r10, %r11
+-+	xorq	%rbx, %rbx		# rbx:r10:r9 = r10:r9 << 1
+-+	addq	%r9, %r9
+-+	 movq	%rdx, %r12
+-+	adcq	%r10, %r10
+-+	adcq	\$0, %rbx
+- 
+- 	mulq	%rax
+-+	addq	%rcx, %rax
+-+	adcq	\$0, %rdx
+- 	addq	%rax, %r9
+-+	 movq	%r14, %rax		# 56($inp)
+- 	adcq	%rdx, %r10
+--	adcq	\$0, %r11
+-+	adcq	\$0, %rbx
+- 
+- 	movq	%r9, 80(%rsp)
+- 	movq	%r10, 88(%rsp)
+- 
+- #seventh iteration
+--	movq	48($inp), %r13
+--	movq	56($inp), %rax
+--	mulq	%r13
+-+	mulq	%rbp
+- 	addq	%rax, %r12
+--	movq	%r13, %rax
+--	movq	%rdx, %r13
+--	adcq	\$0, %r13
+-+	movq	%rbp, %rax
+-+	adcq	\$0, %rdx
+- 
+--	xorq	%r14, %r14
+--	shlq	\$1, %rbx
+--	adcq	%r12, %r12		#shld	\$1, %rbx, %r12
+--	adcq	%r13, %r13		#shld	\$1, %r12, %r13
+--	adcq	%r14, %r14		#shld	\$1, %r13, %r14
+-+	xorq	%rcx, %rcx		# rcx:r12:r11 = r12:r11 << 1
+-+	addq	%r11, %r11
+-+	 movq	%rdx, %r13
+-+	adcq	%r12, %r12
+-+	adcq	\$0, %rcx
+- 
+- 	mulq	%rax
+-+	addq	%rbx, %rax
+-+	adcq	\$0, %rdx
+- 	addq	%rax, %r11
+-+	 movq	%r14, %rax		# 56($inp)
+- 	adcq	%rdx, %r12
+--	adcq	\$0, %r13
+-+	adcq	\$0, %rcx
+- 
+- 	movq	%r11, 96(%rsp)
+- 	movq	%r12, 104(%rsp)
+- 
+- #eighth iteration
+--	movq	56($inp), %rax
+-+	xorq	%rbx, %rbx		# rbx:r13 = r13 << 1
+-+	addq	%r13, %r13
+-+	adcq	\$0, %rbx
+-+
+- 	mulq	%rax
+--	addq	%rax, %r13
+-+	addq	%rcx, %rax
+- 	adcq	\$0, %rdx
+--
+--	addq	%rdx, %r14
+--
+--	movq	%r13, 112(%rsp)
+--	movq	%r14, 120(%rsp)
+-+	addq	%r13, %rax
+-+	adcq	%rbx, %rdx
+- 
+- 	movq	(%rsp), %r8
+- 	movq	8(%rsp), %r9
+-@@ -469,6 +472,10 @@
+- 	movq	40(%rsp), %r13
+- 	movq	48(%rsp), %r14
+- 	movq	56(%rsp), %r15
+-+	movq	%xmm1, %rbp
+-+
+-+	movq	%rax, 112(%rsp)
+-+	movq	%rdx, 120(%rsp)
+- 
+- 	call	__rsaz_512_reduce
+- 
+-@@ -500,9 +507,9 @@
+- .Loop_sqrx:
+- 	movl	$times,128+8(%rsp)
+- 	movq	$out, %xmm0		# off-load
+--	movq	%rbp, %xmm1		# off-load
+- #first iteration
+- 	mulx	%rax, %r8, %r9
+-+	mov	%rax, %rbx
+- 
+- 	mulx	16($inp), %rcx, %r10
+- 	xor	%rbp, %rbp		# cf=0, of=0
+-@@ -510,40 +517,39 @@
+- 	mulx	24($inp), %rax, %r11
+- 	adcx	%rcx, %r9
+- 
+--	mulx	32($inp), %rcx, %r12
+-+	.byte	0xc4,0x62,0xf3,0xf6,0xa6,0x20,0x00,0x00,0x00	# mulx	32($inp), %rcx, %r12
+- 	adcx	%rax, %r10
+- 
+--	mulx	40($inp), %rax, %r13
+-+	.byte	0xc4,0x62,0xfb,0xf6,0xae,0x28,0x00,0x00,0x00	# mulx	40($inp), %rax, %r13
+- 	adcx	%rcx, %r11
+- 
+--	.byte	0xc4,0x62,0xf3,0xf6,0xb6,0x30,0x00,0x00,0x00	# mulx	48($inp), %rcx, %r14
+-+	mulx	48($inp), %rcx, %r14
+- 	adcx	%rax, %r12
+- 	adcx	%rcx, %r13
+- 
+--	.byte	0xc4,0x62,0xfb,0xf6,0xbe,0x38,0x00,0x00,0x00	# mulx	56($inp), %rax, %r15
+-+	mulx	56($inp), %rax, %r15
+- 	adcx	%rax, %r14
+- 	adcx	%rbp, %r15		# %rbp is 0
+- 
+--	mov	%r9, %rcx
+--	shld	\$1, %r8, %r9
+--	shl	\$1, %r8
+--
+--	xor	%ebp, %ebp
+--	mulx	%rdx, %rax, %rdx
+--	adcx	%rdx, %r8
+--	 mov	8($inp), %rdx
+--	adcx	%rbp, %r9
+-+	mulx	%rdx, %rax, $out
+-+	 mov	%rbx, %rdx		# 8($inp)
+-+	xor	%rcx, %rcx
+-+	adox	%r8, %r8
+-+	adcx	$out, %r8
+-+	adox	%rbp, %rcx
+-+	adcx	%rbp, %rcx
+- 
+- 	mov	%rax, (%rsp)
+- 	mov	%r8, 8(%rsp)
+- 
+- #second iteration
+--	mulx	16($inp), %rax, %rbx
+-+	.byte	0xc4,0xe2,0xfb,0xf6,0x9e,0x10,0x00,0x00,0x00	# mulx	16($inp), %rax, %rbx
+- 	adox	%rax, %r10
+- 	adcx	%rbx, %r11
+- 
+--	.byte	0xc4,0x62,0xc3,0xf6,0x86,0x18,0x00,0x00,0x00	# mulx	24($inp), $out, %r8
+-+	mulx	24($inp), $out, %r8
+- 	adox	$out, %r11
+-+	.byte	0x66
+- 	adcx	%r8, %r12
+- 
+- 	mulx	32($inp), %rax, %rbx
+-@@ -561,24 +567,25 @@
+- 	.byte	0xc4,0x62,0xc3,0xf6,0x86,0x38,0x00,0x00,0x00	# mulx	56($inp), $out, %r8
+- 	adox	$out, %r15
+- 	adcx	%rbp, %r8
+-+	 mulx	%rdx, %rax, $out
+- 	adox	%rbp, %r8
+-+	 .byte	0x48,0x8b,0x96,0x10,0x00,0x00,0x00		# mov	16($inp), %rdx
+- 
+--	mov	%r11, %rbx
+--	shld	\$1, %r10, %r11
+--	shld	\$1, %rcx, %r10
+--
+--	xor	%ebp,%ebp
+--	mulx	%rdx, %rax, %rcx
+--	 mov	16($inp), %rdx
+-+	xor	%rbx, %rbx
+-+	adcx	%rcx, %rax
+-+	adox	%r9, %r9
+-+	adcx	%rbp, $out
+-+	adox	%r10, %r10
+- 	adcx	%rax, %r9
+--	adcx	%rcx, %r10
+--	adcx	%rbp, %r11
+-+	adox	%rbp, %rbx
+-+	adcx	$out, %r10
+-+	adcx	%rbp, %rbx
+- 
+- 	mov	%r9, 16(%rsp)
+- 	.byte	0x4c,0x89,0x94,0x24,0x18,0x00,0x00,0x00		# mov	%r10, 24(%rsp)
+- 
+- #third iteration
+--	.byte	0xc4,0x62,0xc3,0xf6,0x8e,0x18,0x00,0x00,0x00	# mulx	24($inp), $out, %r9
+-+	mulx	24($inp), $out, %r9
+- 	adox	$out, %r12
+- 	adcx	%r9, %r13
+- 
+-@@ -586,7 +593,7 @@
+- 	adox	%rax, %r13
+- 	adcx	%rcx, %r14
+- 
+--	mulx	40($inp), $out, %r9
+-+	.byte	0xc4,0x62,0xc3,0xf6,0x8e,0x28,0x00,0x00,0x00	# mulx	40($inp), $out, %r9
+- 	adox	$out, %r14
+- 	adcx	%r9, %r15
+- 
+-@@ -594,27 +601,28 @@
+- 	adox	%rax, %r15
+- 	adcx	%rcx, %r8
+- 
+--	.byte	0xc4,0x62,0xc3,0xf6,0x8e,0x38,0x00,0x00,0x00	# mulx	56($inp), $out, %r9
+-+	mulx	56($inp), $out, %r9
+- 	adox	$out, %r8
+- 	adcx	%rbp, %r9
+-+	 mulx	%rdx, %rax, $out
+- 	adox	%rbp, %r9
+-+	 mov	24($inp), %rdx
+- 
+--	mov	%r13, %rcx
+--	shld	\$1, %r12, %r13
+--	shld	\$1, %rbx, %r12
+--
+--	xor	%ebp, %ebp
+--	mulx	%rdx, %rax, %rdx
+-+	xor	%rcx, %rcx
+-+	adcx	%rbx, %rax
+-+	adox	%r11, %r11
+-+	adcx	%rbp, $out
+-+	adox	%r12, %r12
+- 	adcx	%rax, %r11
+--	adcx	%rdx, %r12
+--	 mov	24($inp), %rdx
+--	adcx	%rbp, %r13
+-+	adox	%rbp, %rcx
+-+	adcx	$out, %r12
+-+	adcx	%rbp, %rcx
+- 
+- 	mov	%r11, 32(%rsp)
+--	.byte	0x4c,0x89,0xa4,0x24,0x28,0x00,0x00,0x00		# mov	%r12, 40(%rsp)
+-+	mov	%r12, 40(%rsp)
+- 
+- #fourth iteration
+--	.byte	0xc4,0xe2,0xfb,0xf6,0x9e,0x20,0x00,0x00,0x00	# mulx	32($inp), %rax, %rbx
+-+	mulx	32($inp), %rax, %rbx
+- 	adox	%rax, %r14
+- 	adcx	%rbx, %r15
+- 
+-@@ -629,25 +637,25 @@
+- 	mulx	56($inp), $out, %r10
+- 	adox	$out, %r9
+- 	adcx	%rbp, %r10
+-+	 mulx	%rdx, %rax, $out
+- 	adox	%rbp, %r10
+-+	 mov	32($inp), %rdx
+- 
+--	.byte	0x66
+--	mov	%r15, %rbx
+--	shld	\$1, %r14, %r15
+--	shld	\$1, %rcx, %r14
+--
+--	xor	%ebp, %ebp
+--	mulx	%rdx, %rax, %rdx
+-+	xor	%rbx, %rbx
+-+	adcx	%rcx, %rax
+-+	adox	%r13, %r13
+-+	adcx	%rbp, $out
+-+	adox	%r14, %r14
+- 	adcx	%rax, %r13
+--	adcx	%rdx, %r14
+--	 mov	32($inp), %rdx
+--	adcx	%rbp, %r15
+-+	adox	%rbp, %rbx
+-+	adcx	$out, %r14
+-+	adcx	%rbp, %rbx
+- 
+- 	mov	%r13, 48(%rsp)
+- 	mov	%r14, 56(%rsp)
+- 
+- #fifth iteration
+--	.byte	0xc4,0x62,0xc3,0xf6,0x9e,0x28,0x00,0x00,0x00	# mulx	40($inp), $out, %r11
+-+	mulx	40($inp), $out, %r11
+- 	adox	$out, %r8
+- 	adcx	%r11, %r9
+- 
+-@@ -658,18 +666,19 @@
+- 	mulx	56($inp), $out, %r11
+- 	adox	$out, %r10
+- 	adcx	%rbp, %r11
+-+	 mulx	%rdx, %rax, $out
+-+	 mov	40($inp), %rdx
+- 	adox	%rbp, %r11
+- 
+--	mov	%r9, %rcx
+--	shld	\$1, %r8, %r9
+--	shld	\$1, %rbx, %r8
+--
+--	xor	%ebp, %ebp
+--	mulx	%rdx, %rax, %rdx
+-+	xor	%rcx, %rcx
+-+	adcx	%rbx, %rax
+-+	adox	%r15, %r15
+-+	adcx	%rbp, $out
+-+	adox	%r8, %r8
+- 	adcx	%rax, %r15
+--	adcx	%rdx, %r8
+--	 mov	40($inp), %rdx
+--	adcx	%rbp, %r9
+-+	adox	%rbp, %rcx
+-+	adcx	$out, %r8
+-+	adcx	%rbp, %rcx
+- 
+- 	mov	%r15, 64(%rsp)
+- 	mov	%r8, 72(%rsp)
+-@@ -682,18 +691,19 @@
+- 	.byte	0xc4,0x62,0xc3,0xf6,0xa6,0x38,0x00,0x00,0x00	# mulx	56($inp), $out, %r12
+- 	adox	$out, %r11
+- 	adcx	%rbp, %r12
+-+	 mulx	%rdx, %rax, $out
+- 	adox	%rbp, %r12
+-+	 mov	48($inp), %rdx
+- 
+--	mov	%r11, %rbx
+--	shld	\$1, %r10, %r11
+--	shld	\$1, %rcx, %r10
+--
+--	xor	%ebp, %ebp
+--	mulx	%rdx, %rax, %rdx
+-+	xor	%rbx, %rbx
+-+	adcx	%rcx, %rax
+-+	adox	%r9, %r9
+-+	adcx	%rbp, $out
+-+	adox	%r10, %r10
+- 	adcx	%rax, %r9
+--	adcx	%rdx, %r10
+--	 mov	48($inp), %rdx
+--	adcx	%rbp, %r11
+-+	adcx	$out, %r10
+-+	adox	%rbp, %rbx
+-+	adcx	%rbp, %rbx
+- 
+- 	mov	%r9, 80(%rsp)
+- 	mov	%r10, 88(%rsp)
+-@@ -703,31 +713,31 @@
+- 	adox	%rax, %r12
+- 	adox	%rbp, %r13
+- 
+--	xor	%r14, %r14
+--	shld	\$1, %r13, %r14
+--	shld	\$1, %r12, %r13
+--	shld	\$1, %rbx, %r12
+--
+--	xor	%ebp, %ebp
+--	mulx	%rdx, %rax, %rdx
+--	adcx	%rax, %r11
+--	adcx	%rdx, %r12
+-+	mulx	%rdx, %rax, $out
+-+	xor	%rcx, %rcx
+- 	 mov	56($inp), %rdx
+--	adcx	%rbp, %r13
+-+	adcx	%rbx, %rax
+-+	adox	%r11, %r11
+-+	adcx	%rbp, $out
+-+	adox	%r12, %r12
+-+	adcx	%rax, %r11
+-+	adox	%rbp, %rcx
+-+	adcx	$out, %r12
+-+	adcx	%rbp, %rcx
+- 
+- 	.byte	0x4c,0x89,0x9c,0x24,0x60,0x00,0x00,0x00		# mov	%r11, 96(%rsp)
+- 	.byte	0x4c,0x89,0xa4,0x24,0x68,0x00,0x00,0x00		# mov	%r12, 104(%rsp)
+- 
+- #eighth iteration
+- 	mulx	%rdx, %rax, %rdx
+--	adox	%rax, %r13
+--	adox	%rbp, %rdx
+-+	xor	%rbx, %rbx
+-+	adcx	%rcx, %rax
+-+	adox	%r13, %r13
+-+	adcx	%rbp, %rdx
+-+	adox	%rbp, %rbx
+-+	adcx	%r13, %rax
+-+	adcx	%rdx, %rbx
+- 
+--	.byte	0x66
+--	add	%rdx, %r14
+--
+--	movq	%r13, 112(%rsp)
+--	movq	%r14, 120(%rsp)
+- 	movq	%xmm0, $out
+- 	movq	%xmm1, %rbp
+- 
+-@@ -741,6 +751,9 @@
+- 	movq	48(%rsp), %r14
+- 	movq	56(%rsp), %r15
+- 
+-+	movq	%rax, 112(%rsp)
+-+	movq	%rbx, 120(%rsp)
+-+
+- 	call	__rsaz_512_reducex
+- 
+- 	addq	64(%rsp), %r8
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1e.bb
+similarity index 97%
+rename from meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.1.1e.bb
+index a8ca7163090..e5c62cc9bf2 100644
 --- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-@@ -34,7 +34,7 @@ PACKAGECONFIG ?= ""
- PACKAGECONFIG_class-native = ""
- PACKAGECONFIG_class-nativesdk = ""
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1e.bb
+@@ -16,7 +16,6 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-skip-test_symbol_presence.patch \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+-           file://CVE-2019-1551.patch \
+            file://reproducible.patch \
+            "
  
--PACKAGECONFIG[cryptodev-linux] = "enable-devcryptoeng,disable-devcryptoeng,cryptodev-linux"
-+PACKAGECONFIG[cryptodev-linux] = "enable-devcryptoeng,disable-devcryptoeng,cryptodev-linux,,cryptodev-module"
+@@ -24,8 +23,7 @@ SRC_URI_append_class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
  
- B = "${WORKDIR}/build"
- do_configure[cleandirs] = "${B}"
+-SRC_URI[md5sum] = "3be209000dbc7e1b95bcdf47980a3baa"
+-SRC_URI[sha256sum] = "1e3a91bc1f9dfce01af26026f856e064eab4c8ee0a8f457b5ae30b40b8b711f2"
++SRC_URI[sha256sum] = "694f61ac11cb51c9bf73f54e771ff6022b0327a43bbdfa1b2f19de1662a6dcbe"
+ 
+ inherit lib_package multilib_header multilib_script ptest
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.17.1
 
