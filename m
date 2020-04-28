@@ -1,107 +1,111 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web12.220.1588082732231068638
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.472.1588083421541559257
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2020 07:05:32 -0700
+ Tue, 28 Apr 2020 07:17:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=B4+Tawmk;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id r26so3032423wmh.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 07:05:32 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cBvV5Vaz;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f46.google.com with SMTP id v8so2485805wma.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 07:17:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=TyGAKd1xIf+iinLtcxivC5Vfd/b6nhKu5O+sWRA7fx8=;
-        b=B4+TawmkeVoRxdCmhZJjlMdoIG+Zqnh+yN2ic7uF8n2BjMSwGbtj+YfninKvucpeq3
-         QQCJ0uM7w9eMa51RVqz1zJk0hw6zwISybVxmQcfjlnC0szcf0knucl+MC5ETBFzDDQNs
-         gjwoyXslWGlfeZgy1V5cdbmVqCHC8DIpLKcVd+EeJX8MYn2ln8PRXrE9aI3ORCFfUSLH
-         YN425o0YDZA/lkJetNKl1bc2Ni43fpxynIM4alPX8rW3mhWB+8Sss4vYiIdcymA9AO7E
-         JBrxdUI7XtTa6c2wSh09W7rqwqwgaOEs4Uz8PUfEzSgOFNAP6v8plzfU+scp0kGwFUAu
-         uCDA==
+        bh=4Sz5yyKVf8gUEy+Q6kfZ4nSs6Q/1wdBbmIfaJg2vquU=;
+        b=cBvV5VazLDAlRFG9sJ0Mq6Mr62YIV+pvDKKr9CsHZGoCHGOOr4egmdFQSNvDmNoBXm
+         ZCGeFZNgf9OeyXzCbNZ4l1ZJ+hSzL5tLLxfD28A6k8BJJDmBycgPYqazhr1hWyqr5tRn
+         DbviZfdMRUCP+utCuqC37oPhuOEKy08GUmsmE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=TyGAKd1xIf+iinLtcxivC5Vfd/b6nhKu5O+sWRA7fx8=;
-        b=eH8x2LWDFh5WfvC1r908kOhiUxUvDXBr4fFkER57erM3AtNzVeROGL+0gudWJaMn52
-         9llKhwkDEZjZ95ePgNL88foA8Gtci16eEmY0nelPFuz22xS5XP02zlUqAG0fo4TGr+Wr
-         s2vaUlh11NUo86P/RrcvEDmIzdmt/vISUbyBPGkmmbLTrAvw3rGZAkVoZ0SeRXja3uF8
-         54C0+iU+OwjlvlCnlGjpX0fiTXEEhw3KlvrIiA6+uWuqJYzmUc2svDib7rl1vbd8ErWG
-         b6HYjioFP2onSsuRiaHnYa6Y/FENEb0b7RldkurWLy6xg2HhzryocLUEN9nXdKDoQlb5
-         M6nA==
-X-Gm-Message-State: AGi0Pub0cik10zMgXF4O2jnwUDMVEaKqISubCIl38MEidRgxe9XY2Sj/
-	iwIpdHtcyQmDyORv3K21WqRCYez5
-X-Google-Smtp-Source: APiQypIDHQ47DXTQyFPa1uIkXzMiB+MkJ0gXihLmj4dacBMKHxBytfGE65J9K+THw6hTdsonpLiMCw==
-X-Received: by 2002:a7b:c4d0:: with SMTP id g16mr5185338wmk.154.1588082730395;
-        Tue, 28 Apr 2020 07:05:30 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id l4sm25104857wrw.25.2020.04.28.07.05.29
+        bh=4Sz5yyKVf8gUEy+Q6kfZ4nSs6Q/1wdBbmIfaJg2vquU=;
+        b=GxUibYfP5X9T3bYtnyxX7u6Fwi2e1mv7FpMG4NObYKeheSjNM9ryAf3LBZbm2a3ws6
+         CSkkj/jrabjtm1G20E70PxsLkSdsaAMLsdiPLnl3Pc00UfJD1jMy2B6yxXe10yOoTWHn
+         wy4bMnZqhY/zYDetwCrTpTqhOXi7xF1Uh/2duXK/NPvohVGKHFhSmL1EYF5SfdxYNolt
+         XWOS3PU4WV7ae7PGFOhsctNqm7E4NR359BHsXaKQgGdOdtaVGOvOFX8j1fkRVom0PGFS
+         IZBRx5HtSYnRWCpULa4WJNQPkjaE6L6kxoby/t0oSTeoKUpTvaTOE9BD78mT0oXwH+iW
+         HNAQ==
+X-Gm-Message-State: AGi0PubIhCivMb4xIOOERDfF0M6Eb9O+7VneKIzOl6kq8PuaFqlxyDwt
+	7uB5gzFuG54kXw8rKPUrVWjQjU5HQSo=
+X-Google-Smtp-Source: APiQypIlt4TIwAGaAZPUX/QcQVOGMQu3c0mrjZZHqsOn67fTMotn13UI+6GGAqmmq4SYjbTS3k8dYA==
+X-Received: by 2002:a7b:c931:: with SMTP id h17mr5154761wml.105.1588083419516;
+        Tue, 28 Apr 2020 07:16:59 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id y18sm3734258wmc.45.2020.04.28.07.16.57
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2020 07:05:29 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+        Tue, 28 Apr 2020 07:16:58 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] dnf: add a patch for base-files installation failures
-Date: Tue, 28 Apr 2020 16:04:59 +0200
-Message-Id: <20200428140459.28337-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.1
+Subject: [PATCH] image/packagegroup: Remove PACKAGE_GROUP_*, long since deprecated
+Date: Tue, 28 Apr 2020 15:16:51 +0100
+Message-Id: <20200428141651.1222469-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- .../0001-dnf-write-the-log-lock-to-root.patch | 28 +++++++++++++++++++
- meta/recipes-devtools/dnf/dnf_4.2.21.bb       |  1 +
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
+This was deprecated in 2014 so we can safely remove the old code now.
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch b/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
-new file mode 100644
-index 0000000000..5d2869122b
---- /dev/null
-+++ b/meta/recipes-devtools/dnf/dnf/0001-dnf-write-the-log-lock-to-root.patch
-@@ -0,0 +1,28 @@
-+From 5e07c16a506b19cbb107d5e99fca41d679b23b9a Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 28 Apr 2020 15:55:00 +0200
-+Subject: [PATCH] dnf: write the log lock to root
-+
-+Writing it to /var/log appears to be racing with installation
-+of base-files, and if lock is created first, base-files
-+will refuse to install (due to the target directory
-+already existing, and base-files creating it as a symlink).
-+
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ dnf/logging.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/dnf/logging.py b/dnf/logging.py
-+index bd660470..a9d808b1 100644
-+--- a/dnf/logging.py
-++++ b/dnf/logging.py
-+@@ -94,7 +94,7 @@ class MultiprocessRotatingFileHandler(logging.handlers.RotatingFileHandler):
-+     def __init__(self, filename, mode='a', maxBytes=0, backupCount=0, encoding=None, delay=False):
-+         super(MultiprocessRotatingFileHandler, self).__init__(
-+             filename, mode, maxBytes, backupCount, encoding, delay)
-+-        self.rotate_lock = dnf.lock.build_log_lock("/var/log/", True)
-++        self.rotate_lock = dnf.lock.build_log_lock("/", True)
-+ 
-+     def emit(self, record):
-+         while True:
-diff --git a/meta/recipes-devtools/dnf/dnf_4.2.21.bb b/meta/recipes-devtools/dnf/dnf_4.2.21.bb
-index 8f7757b72f..44dab1d8a6 100644
---- a/meta/recipes-devtools/dnf/dnf_4.2.21.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.2.21.bb
-@@ -14,6 +14,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
-            file://0029-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            file://0030-Run-python-scripts-using-env.patch \
-            file://0001-set-python-path-for-completion_helper.patch \
-+           file://0001-dnf-write-the-log-lock-to-root.patch \
-            "
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/image.bbclass   | 5 +----
+ meta/conf/documentation.conf | 1 -
+ meta/lib/oe/packagegroup.py  | 8 +-------
+ 3 files changed, 2 insertions(+), 12 deletions(-)
+
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index 07aa1f1fa5b..694b58fc9f4 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -62,10 +62,7 @@ def check_image_features(d):
+     valid_features = (d.getVarFlag('IMAGE_FEATURES', 'validitems') or "").split()
+     valid_features += d.getVarFlags('COMPLEMENTARY_GLOB').keys()
+     for var in d:
+-       if var.startswith("PACKAGE_GROUP_"):
+-           bb.warn("PACKAGE_GROUP is deprecated, please use FEATURE_PACKAGES instead")
+-           valid_features.append(var[14:])
+-       elif var.startswith("FEATURE_PACKAGES_"):
++       if var.startswith("FEATURE_PACKAGES_"):
+            valid_features.append(var[17:])
+     valid_features.sort()
  
- SRCREV = "864c381baabf024c299dca75abfda96139b8f583"
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 44d69197bf2..c6544b96981 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -306,7 +306,6 @@ PACKAGE_BEFORE_PN[doc] = "Enables easily adding packages to PACKAGES before ${PN
+ PACKAGE_CLASSES[doc] = "This variable specifies the package manager to use when packaging data. It is set in the conf/local.conf file in the Build Directory."
+ PACKAGE_EXCLUDE[doc] = "Packages to exclude from the installation. If a listed package is required, an error is generated."
+ PACKAGE_EXTRA_ARCHS[doc] = "Specifies the list of architectures compatible with the device CPU. This variable is useful when you build for several different devices that use miscellaneous processors."
+-PACKAGE_GROUP[doc] = "Defines one or more packages to include in an image when a specific item is included in IMAGE_FEATURES."
+ PACKAGE_INSTALL[doc] = "List of the packages to be installed into the image. The variable is generally not user-defined and uses IMAGE_INSTALL as part of the list."
+ PACKAGE_INSTALL_ATTEMPTONLY[doc] = "List of packages attempted to be installed. If a listed package fails to install, the build system does not generate an error. This variable is generally not user-defined."
+ PACKAGECONFIG[doc] = "This variable provides a means of enabling or disabling features of a recipe on a per-recipe basis."
+diff --git a/meta/lib/oe/packagegroup.py b/meta/lib/oe/packagegroup.py
+index 2419cbb6d34..8fcaecde822 100644
+--- a/meta/lib/oe/packagegroup.py
++++ b/meta/lib/oe/packagegroup.py
+@@ -5,17 +5,11 @@
+ import itertools
+ 
+ def is_optional(feature, d):
+-    packages = d.getVar("FEATURE_PACKAGES_%s" % feature)
+-    if packages:
+-        return bool(d.getVarFlag("FEATURE_PACKAGES_%s" % feature, "optional"))
+-    else:
+-        return bool(d.getVarFlag("PACKAGE_GROUP_%s" % feature, "optional"))
++    return bool(d.getVarFlag("FEATURE_PACKAGES_%s" % feature, "optional"))
+ 
+ def packages(features, d):
+     for feature in features:
+         packages = d.getVar("FEATURE_PACKAGES_%s" % feature)
+-        if not packages:
+-            packages = d.getVar("PACKAGE_GROUP_%s" % feature)
+         for pkg in (packages or "").split():
+             yield pkg
+ 
 -- 
-2.26.1
+2.25.1
 
