@@ -1,87 +1,90 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web12.3591.1588063666104140973
+Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com [209.85.222.65])
+ by mx.groups.io with SMTP id smtpd.web10.3673.1588063963701131521
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2020 01:47:46 -0700
+ Tue, 28 Apr 2020 01:52:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UNwwWQ1U;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id x4so1792989wmj.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 01:47:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QAgqMaWe;
+ spf=pass (domain: gmail.com, ip: 209.85.222.65, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f65.google.com with SMTP id a10so20548858uad.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 01:52:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=ME/TDm3ZDRXcIEtjuO6k5EGsk1lbBsJiTR+hggwKe3Q=;
-        b=UNwwWQ1UU6CEzbwUBeD5lSI7mIDS4vY4L+XUj/E4dz//TxeKSu0ggEs0U233tcVyob
-         QsH+4eM0ztDbCSphLYtgSxG8L0auEdtDSLQN3HjEV/YYDlDQzxUynzDZYk9NOMYS6NFB
-         sd4pUN3i5Yfd6bOoyR84CkPml7R88Pw3Vnfgo=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=j/jsaBRTtIZe3tOCop5UxXYsel3K4oXSLH+KjpcKH7c=;
+        b=QAgqMaWeVS6hZxjGuNRrpRmNfSqjLQ9RIPdIbYxOoJWdaYzrjrFfCnQt7OdkLmowKj
+         Nfm1W7mdyGBVpZC+OAiu/pJ/IfGu1AoLN2HfLCx4ndqLhHIDk4RvM0oFmGJwQA7D9/NR
+         OiZ0yuzmK7VCApfT84+nWj2eIqk+iiPmmJikGORad/jntIy93X0/Sm0vcpfzUpOjZJnZ
+         WZTQ08ioJnnfpLTDzC1Dj5ojdsdalhoKCi4woGoMivZ8XYf4tf+fPqFUgmOZacEgijRy
+         EMCdT1bDqrGyyIZcp5PkMXnAuI6s7bvJMgTsP4FjQpNaliR9d0o2uPMn8JYq8KyxIxAu
+         jx2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ME/TDm3ZDRXcIEtjuO6k5EGsk1lbBsJiTR+hggwKe3Q=;
-        b=rZtAne7lGisjg6jK/hnXS+lxAju3Ni8qggVotBhBAzqU46JEP15DcfzEiSteH5p/ly
-         hZXlfdY/UcY4r3vQfDrqBl9etTOV4h9yYxi6HFx6aFAqMxTIvyTGFiwha+UQSIOSUps6
-         9fdKKM1LyC0aSpABrfG6a1Wl9R6OdTFtm+g5R6XL5vnAYkQEKPKWI74FHuP5diPFqg6R
-         6OtVemA76cAOBDBtPfFQ7wDH8AcLmcwkKw/TBcpf1T8wx5DQVl1HB1s4tOiVXDKFRJsz
-         nkHk/dDsbYydt2+TQ5tC8VL9zzqmF6eBhMOLOdEfsN5OcM+qzjDqmq71YIKdfhRg2hp6
-         +kow==
-X-Gm-Message-State: AGi0Pua7teJ02ICmkYpOl9/z142MAABFb13SdkJyLr9FvPG+Qvcqx+GO
-	ULOggfEr+8tUuoM4xrJNl+pQEQ==
-X-Google-Smtp-Source: APiQypK4NDI7XxQZ4A5hhJ+R5+LLTIyOPlityxrE9pY/cxfFCJttBpR3c9oT/WsTWjmlHTP91PyLNg==
-X-Received: by 2002:a1c:9e51:: with SMTP id h78mr3594311wme.177.1588063664140;
-        Tue, 28 Apr 2020 01:47:44 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id s6sm2356630wmh.17.2020.04.28.01.47.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2020 01:47:43 -0700 (PDT)
-Message-ID: <376f53f97f8eed5797ddb21d52fe8e0b5b9fc87f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [meta-oe][PATCH] libva: Removed virtual/mesa dependency
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: =?UTF-8?Q?Bart=C5=82omiej?= Burdukiewicz
-	 <bartlomiej.burdukiewicz@gmail.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: Anuj Mittal <anuj.mittal@intel.com>
-Date: Tue, 28 Apr 2020 09:47:42 +0100
-In-Reply-To: <2255490.NgBsaNRSFp@navi>
-References: <7de2a86b-e32c-35ae-716d-505845a837b2@gmail.com>
-	 <28192.1587843536617759309@lists.openembedded.org>
-	 <e5e73ac7edc8c2695ca5dd0d31e9d800480a4e8c.camel@intel.com>
-	 <2255490.NgBsaNRSFp@navi>
-User-Agent: Evolution 3.36.1-2 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=j/jsaBRTtIZe3tOCop5UxXYsel3K4oXSLH+KjpcKH7c=;
+        b=RuPXVbu4V9eG/bPNLPBhi4oTw4M2kJU1M6dkD/zPIfuQoPsQS5oUJE8H4G3r6Zrscf
+         AU9kf6SZL4O1JlkgEeFcxo1IGRTwYJtbG7y71a3ZieerN5rmBl/V6mHPajjwKe4wsJIb
+         Vpv5bHMl7wgGVRw+jrJJW8k6+cR5M7cSApxCy02J+Cq4V0eSwQQV+JMpvnZMA1b1AS33
+         0NcU5hfTUeKyQ1V2/BAVMJ1496RxuF0JqkNamMVL9rKSz28e/TbHXwm+m9uyJFb8HBkC
+         7rEz+Qn1ImjK5//oLchtN7KacIEZZ43wKdsnrmtHQx2Op99jBcPOiTKezPCNz0tw/tpf
+         kD9Q==
+X-Gm-Message-State: AGi0PuaBIbw0FHtYsJmlMS0RJp1ma72qE0IdxvtPfm8yfskMF6dpBJlr
+	t1QScaFzRliCizNcoAkFNHQGvofvM5BLANhkWAQ=
+X-Google-Smtp-Source: APiQypJv1MZRn2tNpx6fD2WoBXd8T5BIJ2LfXGpXiqIv5V8tXeUbU9E/cLjpOV5J5gX1gWUgVVa9dfp1StDfZa5mDvg=
+X-Received: by 2002:ab0:650f:: with SMTP id w15mr18614741uam.93.1588063962780;
+ Tue, 28 Apr 2020 01:52:42 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1587841042.git.alex.kanavin@gmail.com> <05d961392eb30920f441731f662ba0dd6a6bd5db.1587841042.git.alex.kanavin@gmail.com>
+ <CAMKF1sopu5jZ_obZ7Qkt6vzCvaHyvbnSKEdLioTzmo87D7bZYw@mail.gmail.com>
+In-Reply-To: <CAMKF1sopu5jZ_obZ7Qkt6vzCvaHyvbnSKEdLioTzmo87D7bZYw@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 28 Apr 2020 10:52:31 +0200
+Message-ID: <CANNYZj-5dGKXV45-SfbxopMUy51URsujoyNzQkK_kSyMKD14cA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/3] bitbake.conf: propagate 'opengl' DISTRO_FEATURE to native/nativesdk from target
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000061d88205a455f43f"
+
+--00000000000061d88205a455f43f
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Tue, 2020-04-28 at 01:09 +0200, Bartłomiej Burdukiewicz wrote:
-> Other media player don't have strong requirements for GLX.
-> 
-> I'm now totally unsure. Probably adding PACKAGECONFIG with glx flag
-> (disabled 
-> by default) will be better approach with conditional virtual/mesa
-> dependency. 
-> This will fix recursive dependency problem for common cases. There is
-> also ton 
-> of articles that GLX is deprecated, so softly going away should be a
-> proper 
-> way.
-> 
-> Or just those bbappends should stay where they are. Another thing is
-> that 
-> meta-intel layer introduced libva-intel package which also need
-> separate 
-> bbappend to remove virtual/mesa, this made me to post that patch in
-> first 
-> place.
+On Tue, 28 Apr 2020 at 03:19, Khem Raj <raj.khem@gmail.com> wrote:
 
-Turning it into a PACKAGECONFIG is definitely a good idea and I'm happy
-to have a patch to do that. What the defaults should be I'm less sure
-about, initially leaving as it is today, maybe discuss changing the
-default in a follow up second patch?
+> This change will indicate that a distro that enables openGL for target
+> needs to have a build machine also with OpenGL support,
+> this does not sound right to me, If you want to have openGL support on
+> build host for some testing bits then lets deal with that separately
+> by
+> adding a new feature to control it and perhaps it should be machine
+> specific since I dont see any use of it besides qemu machines.
+>
 
-Cheers,
+Good point. I will rework the patches to use 'virgl' DISTRO_FEATURE
+instead. Making it machine specific isn't feasible, because the recipes
+affected are all native ones.
 
-Richard
+Alex
 
+--00000000000061d88205a455f43f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 28 Apr 2020 at 03:19, Khem Raj &l=
+t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
+r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+This change will indicate that a distro that enables openGL for target<br>
+needs to have a build machine also with OpenGL support,<br>
+this does not sound right to me, If you want to have openGL support on<br>
+build host for some testing bits then lets deal with that separately<br>
+by<br>
+adding a new feature to control it and perhaps it should be machine<br>
+specific since I dont see any use of it besides qemu machines.<br></blockqu=
+ote><div><br></div><div>Good point. I will rework the patches to use &#39;v=
+irgl&#39; DISTRO_FEATURE instead. Making it machine specific isn&#39;t feas=
+ible, because the recipes affected are all native ones.</div><div><br></div=
+><div>Alex<br></div></div></div>
+
+--00000000000061d88205a455f43f--
