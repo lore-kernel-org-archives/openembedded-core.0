@@ -1,112 +1,199 @@
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com [209.85.217.65])
- by mx.groups.io with SMTP id smtpd.web11.1742.1588120269601316779
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web11.65.1588130056750187135
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2020 17:31:09 -0700
+ Tue, 28 Apr 2020 20:14:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WQf0mveL;
- spf=pass (domain: gmail.com, ip: 209.85.217.65, mailfrom: armccurdy@gmail.com)
-Received: by mail-vs1-f65.google.com with SMTP id x136so210031vsx.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 17:31:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TauEddASoU/2PGbfEf/vmDVe8G7TrZDpFRTRBWSwvyQ=;
-        b=WQf0mveLL7qVVyTY40qFfy7Xw7A46Lx8XYOKlucEK47VsY/6pz2Ky+P8gLuQG9kw23
-         w7MMt1i85MaAyiVwsbuEJUBa2+6WRdOwR5S3jLvqYUVbfpmVB+i4KWIDkI1EHHtkG+yW
-         AMj7m4YSx1qiLmJ6x89JQFUO06ydbXx+Nmhdl85L12Y8kr2Gqvwk7l3PDsYMKNKx+LlP
-         nwl2Pmew+gtfQfK5m9dZ/CBdl/J5C5Yk7ZouhGHgVNA2bMixUuuGbsYzKgG9rMVaIc/a
-         n68nXh93N0pBMWJhgRxAlSXx5WzvoomoeYyYzFPkI/d3TmxjEycQPp3KDFnslxrIUzES
-         0gGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TauEddASoU/2PGbfEf/vmDVe8G7TrZDpFRTRBWSwvyQ=;
-        b=GQtsI/BsFeLnr/9gCjB+X6PUH8KEoYoXVMfWAwNVtrVQ5PyI8J3r96tod4IEQLN17S
-         5ArJfmvkn02jt/dTlLhBkn7ikb+8RwpJ8x6Ea941LAZu4XoaSXb+QyDw7vvmCKa+XnHA
-         DkXPYZkN5Q+YYwavuyALHbOy7YLwm/Je1hn2uXORajjMORBWHLwp5CwXM2x1KHSAG0ZM
-         8n5i9KfZw1omlRF/ZhPUne/Zgp52Adon8f0WjCdHLOjLTie7djvzwoMUsjXx/eCmB9VY
-         Zt6IOF8r5ztW97EOehnjjaUdxPeZ75pU2BbEEkPUP6oO3AjWZtYomj0xjEsH4UFtIAnA
-         PisQ==
-X-Gm-Message-State: AGi0PubM5P6QigKp1RwedS571kAQ8m1pl+t5Nw9Uk+SuS3B4cZGaYgoR
-	JH2v6HiptWp9YL7lxWZg2MeJt5krbMyO0Z6ap84=
-X-Google-Smtp-Source: APiQypJsrYlMexI+tCZVJYKCQHedVT5En1ql8ifVsjDNrJzmJBsYfr4oqjLSV12Ph2HONeR1uJ4JcmJPt8p5hEjorNY=
-X-Received: by 2002:a67:342:: with SMTP id 63mr10243391vsd.11.1588120268469;
- Tue, 28 Apr 2020 17:31:08 -0700 (PDT)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.73,329,1583164800"; 
+   d="scan'208";a="90727503"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 29 Apr 2020 11:14:11 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id DDBDF4CE1CB4
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 11:14:07 +0800 (CST)
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 29 Apr 2020 11:14:08 +0800
+Received: from localhost.localdomain (10.167.225.33) by
+ G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
+ (TLS) id 14.3.439.0; Wed, 29 Apr 2020 11:14:15 +0800
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Wang Mingyu <wangmy@cn.fujitsu.com>
+Subject: [OE-core] [PATCH] icu: CVE-2020-10531
+Date: Wed, 29 Apr 2020 04:13:55 -0700
+Message-ID: <20200429111356.34973-1-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200315042947.3257882-1-raj.khem@gmail.com> <cc5e7bc5640347ac632c65f9f2ebf1f6a2693a0c.camel@linuxfoundation.org>
- <CAMKF1spW8XY4q2rbo8on6AiVjsrF+xmLCSgJ9-Yza31=18VWEg@mail.gmail.com>
- <3d626d46a2cf1cb10d0ae41444db96a65e65e201.camel@linuxfoundation.org> <CAMKF1sozrcG05rufCSBG0TPLhY6MJUy2dOL8Mh7DDUqSqfRzPA@mail.gmail.com>
-In-Reply-To: <CAMKF1sozrcG05rufCSBG0TPLhY6MJUy2dOL8Mh7DDUqSqfRzPA@mail.gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Tue, 28 Apr 2020 17:30:59 -0700
-Message-ID: <CAJ86T=V_ag5ksRkFo60by3qa4+RaZGrMWXSY+zycc0iCDPdtLQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bison: Reset load average settings if specified in environment
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: DDBDF4CE1CB4.A8AD4
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-On Sun, Mar 15, 2020 at 3:40 PM Khem Raj <raj.khem@gmail.com> wrote:
-> On Sun, Mar 15, 2020 at 3:25 PM Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
->> On Sun, 2020-03-15 at 15:23 -0700, Khem Raj wrote:
->> > On Sun, Mar 15, 2020 at 3:14 PM Richard Purdie
->> > <richard.purdie@linuxfoundation.org> wrote:
->> > > On Sat, 2020-03-14 at 21:29 -0700, Khem Raj wrote:
->> > > > In some cases, we run into parallel build failures where
->> > > > BUILT_SOURCES
->> > > > is skipped, as a result required header files are not generated and
->> > > > the
->> > > > build fails with missing header errors like
->> > > >
->> > > > ../bison-3.5.2/lib/uniwidth/width.c:21:10: fatal error: uniwidth.h:
->> > > > No such file or directory
->> > > >  #include "uniwidth.h"
->> > > >           ^~~~~~~~~~~~
->> > > > compilation terminated.
->> > > >
->> > > > BUILT_SOURCES should be built automatically with `make all` [1]
->> > > > therefore
->> > > > ensure that make is invoked with `all` target
->> > > >
->> > > > bison-native parallel build fails when -l<n> is passed globally from
->> > > > build environment, errors like below due to race starts to show up
->> > > >
->> > > > Therefore removes a previous load limit if set
->> > > >
->> > > > [1]
->> > > > https://www.gnu.org/software/automake/manual/html_node/Built-Sources-Example.html#Built-Sources-Example
->> > >
->> > > I'm not sure I understand this. We've seen a failure on our ubuntu1604
->> > > performance tester which I think is the same bug as this. The
->> > > environment on that machine doesn't change, so how/where is this -l
->> > > option coming from?
->> >
->> > From custom distro global settings for EXTRA_OEMAKE
->> >
->> > > I suspect there is some issue we're not quite getting to still :(
->> > >
->> >  its well reproducible now with -j and -l together on our builders, From what
->> > I see in makefiles bison is doing right thing in using BUILT_SOURCES so
->> > I suspect it could be make acting in a certain way when those options
->> > are present.
->> >
->> > our custom settings use -l options globally in EXTRA_OEMAKE
->> > this is to let machines with certain configurations build when machines are
->> > shared, we don't want a given build to use all resources on box. Yes one
->> > could say why not do something else to limit the resources build uses but
->> > this is a global setting that works well
->> >
->> > This patch just ensures that any -l setting passed from environment is
->> > cleaned up and reset. So for general case it will be a noop.
->>
->> Ok, that explains your failure but not the one on our performance
->> testing worker :/.
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
 
-I've heard reports of this still being an issue with latest OE 3.1
-when -j is set high enough, without any -l options in EXTRA_OEMAKE (so
-Khem's workaround to over-ride -l doesn't help).
+security Advisory
 
-Disabling PARALLEL_MAKE completely might be the best workaround for
-now until we understand the real root cause.
+References:
+https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-10531
+
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ .../icu/icu/CVE-2020-10531.patch              | 128 ++++++++++++++++++
+ meta/recipes-support/icu/icu_66.1.bb          |   1 +
+ 2 files changed, 129 insertions(+)
+ create mode 100644 meta/recipes-support/icu/icu/CVE-2020-10531.patch
+
+diff --git a/meta/recipes-support/icu/icu/CVE-2020-10531.patch b/meta/recipes-support/icu/icu/CVE-2020-10531.patch
+new file mode 100644
+index 0000000000..6697b27dc8
+--- /dev/null
++++ b/meta/recipes-support/icu/icu/CVE-2020-10531.patch
+@@ -0,0 +1,128 @@
++From b7d08bc04a4296982fcef8b6b8a354a9e4e7afca Mon Sep 17 00:00:00 2001
++From: Frank Tang <ftang@chromium.org>
++Date: Sat, 1 Feb 2020 02:39:04 +0000
++Subject: [PATCH] ICU-20958 Prevent SEGV_MAPERR in append
++
++See #971
++
++Upstream-Status: Accepted
++CVE: CVE-2020-10531
++
++Reference to upstream patch:
++https://github.com/unicode-org/icu/commit/b7d08bc04a4296982fcef8b6b8a354a9e4e7afca
++
++---
++ common/unistr.cpp          |  6 ++-
++ test/intltest/ustrtest.cpp | 62 +++++++++++++++++++++++++++++++
++ test/intltest/ustrtest.h   |  1 +
++ 3 files changed, 68 insertions(+), 1 deletion(-)
++
++diff --git a/common/unistr.cpp b/common/unistr.cpp
++index 901bb33..6ea0915 100644
++--- a/common/unistr.cpp
+++++ b/common/unistr.cpp
++@@ -1563,7 +1563,11 @@ UnicodeString::doAppend(const UChar *srcChars, int32_t srcStart, int32_t srcLeng
++   }
++ 
++   int32_t oldLength = length();
++-  int32_t newLength = oldLength + srcLength;
+++  int32_t newLength; 
+++  if (uprv_add32_overflow(oldLength, srcLength, &newLength)) { 
+++     setToBogus(); 
+++     return *this; 
+++  }
++ 
++   // Check for append onto ourself
++   const UChar* oldArray = getArrayStart();
++diff --git a/test/intltest/ustrtest.cpp b/test/intltest/ustrtest.cpp
++index b6515ea..ad38bdf 100644
++--- a/test/intltest/ustrtest.cpp
+++++ b/test/intltest/ustrtest.cpp
++@@ -67,6 +67,7 @@ void UnicodeStringTest::runIndexedTest( int32_t index, UBool exec, const char* &
++     TESTCASE_AUTO(TestWCharPointers);
++     TESTCASE_AUTO(TestNullPointers);
++     TESTCASE_AUTO(TestUnicodeStringInsertAppendToSelf);
+++    TESTCASE_AUTO(TestLargeAppend);
++     TESTCASE_AUTO_END;
++ }
++ 
++@@ -2310,3 +2311,64 @@ void UnicodeStringTest::TestUnicodeStringInsertAppendToSelf() {
++     str.insert(2, sub);
++     assertEquals("", u"abbcdcde", str);
++ }
+++
+++void UnicodeStringTest::TestLargeAppend() {
+++    if(quick) return;
+++
+++    IcuTestErrorCode status(*this, "TestLargeAppend");
+++    // Make a large UnicodeString
+++    int32_t len = 0xAFFFFFF;
+++    UnicodeString str;
+++    char16_t *buf = str.getBuffer(len);
+++    // A fast way to set buffer to valid Unicode.
+++    // 4E4E is a valid unicode character
+++    uprv_memset(buf, 0x4e, len * 2);
+++    str.releaseBuffer(len);
+++    UnicodeString dest;
+++    // Append it 16 times
+++    // 0xAFFFFFF times 16 is 0xA4FFFFF1,
+++    // which is greater than INT32_MAX, which is 0x7FFFFFFF.
+++    int64_t total = 0;
+++    for (int32_t i = 0; i < 16; i++) {
+++        dest.append(str);
+++        total += len;
+++        if (total <= INT32_MAX) {
+++            assertFalse("dest is not bogus", dest.isBogus());
+++        } else {
+++            assertTrue("dest should be bogus", dest.isBogus());
+++        }
+++    }
+++    dest.remove();
+++    total = 0;
+++    for (int32_t i = 0; i < 16; i++) {
+++        dest.append(str);
+++        total += len;
+++        if (total + len <= INT32_MAX) {
+++            assertFalse("dest is not bogus", dest.isBogus());
+++        } else if (total <= INT32_MAX) {
+++            // Check that a string of exactly the maximum size works
+++            UnicodeString str2;
+++            int32_t remain = INT32_MAX - total;
+++            char16_t *buf2 = str2.getBuffer(remain);
+++            if (buf2 == nullptr) {
+++                // if somehow memory allocation fail, return the test
+++                return;
+++            }
+++            uprv_memset(buf2, 0x4e, remain * 2);
+++            str2.releaseBuffer(remain);
+++            dest.append(str2);
+++            total += remain;
+++            assertEquals("When a string of exactly the maximum size works", (int64_t)INT32_MAX, total);
+++            assertEquals("When a string of exactly the maximum size works", INT32_MAX, dest.length());
+++            assertFalse("dest is not bogus", dest.isBogus());
+++
+++            // Check that a string size+1 goes bogus
+++            str2.truncate(1);
+++            dest.append(str2);
+++            total++;
+++            assertTrue("dest should be bogus", dest.isBogus());
+++        } else {
+++            assertTrue("dest should be bogus", dest.isBogus());
+++        }
+++    }
+++}
++diff --git a/test/intltest/ustrtest.h b/test/intltest/ustrtest.h
++index 218befd..4a356a9 100644
++--- a/test/intltest/ustrtest.h
+++++ b/test/intltest/ustrtest.h
++@@ -97,6 +97,7 @@ public:
++     void TestWCharPointers();
++     void TestNullPointers();
++     void TestUnicodeStringInsertAppendToSelf();
+++    void TestLargeAppend();
++ };
++ 
++ #endif
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/icu/icu_66.1.bb b/meta/recipes-support/icu/icu_66.1.bb
+index f2bb344e33..a8096c1840 100644
+--- a/meta/recipes-support/icu/icu_66.1.bb
++++ b/meta/recipes-support/icu/icu_66.1.bb
+@@ -26,6 +26,7 @@ SRC_URI = "${BASE_SRC_URI};name=code \
+            file://fix-install-manx.patch \
+            file://0001-Fix-big-endian-build.patch;apply=no \
+            file://0001-icu-Added-armeb-support.patch \
++           file://CVE-2020-10531.patch \
+            "
+ 
+ SRC_URI_append_class-target = "\
+-- 
+2.17.1
+
+
+
