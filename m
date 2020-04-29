@@ -1,143 +1,138 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
- by mx.groups.io with SMTP id smtpd.web12.4525.1588176680084704520
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.4534.1588176694541885306
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 09:11:20 -0700
+ Wed, 29 Apr 2020 09:11:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EuufDzAP;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.194, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f194.google.com with SMTP id z1so1290697pfn.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 09:11:20 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=eLY7INYd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id e6so933893pjt.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 09:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ekC6Mx6zhTBiIL9UdOO9JgFxRT6J9kru8hcrOfx50Ro=;
-        b=EuufDzAPcIG343SmO5nSagfe0LFz0eQl2Cl/WJiF95n49fxtmrX1KjQ6fkUcQ+ME9z
-         aulHqH8wVQ6h+A6/ecAMmt0IDAcxLVOV9luLTBW9Rs8ioScu7v8ZisWhGSMWmr7rQ2m2
-         G5jEpmHD2WHK5Ku65L64adzgRqEbrKrE6T7UlA+D6LDCtrJAVaBvc19617GExi9Sz7YB
-         z+c3kAReter4SYwXkj8itpkPHHtFWuKoo1vZQKjc0YY8i1gTLLVKaXhLSNzYxOuqxczy
-         50mfTrFYRkiLd5UYMYD/2o21Y0uDbDI6duBZdNZBSvXZhY5Gxm8jpasOkqxxeFgCeo2R
-         PkqQ==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=XaNQX/5Ej4jXkbHwdnPxWuFLXTpSJqIUZMMYOirQr7g=;
+        b=eLY7INYdQ6WeWesSkzUzzR2ZgHUEk9poXpaRBku44WXllpmihUXN5IGZTwTQyOovaq
+         bImB8xwMrUv3lwMmzSL5al6etmn7LE9hnYnk7c/5nJU3xRav7NY5PY/jM04V2SzW92wA
+         cHFm5nvKYxRhDCnRpUqdf9YXXgz7q8H/SUF0Jl66egfnPPbqDUBlgNFuX54G4yk0PP+c
+         5JA0iaANVLAgP6R6F8gn+TfznaCodepqhB4feHnhZikCZCMua8bd5XcbgtQ2tRPCQifu
+         HiMUyo7wdAZMNUElKay0wvCllWds6ARV/sTlet0e2Fc4d1cX6hYHwbETk7rg+s5Df/93
+         /lTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=ekC6Mx6zhTBiIL9UdOO9JgFxRT6J9kru8hcrOfx50Ro=;
-        b=npIvB3uD2KlSzAaQINwq7C6ChCfxc5fYj9U9Ug7vN9Pg1o523fiVbLiBmqWhC/uiF6
-         7zb0p2VHozblyYA3XjASHf2WjhyDmUYEM5CmYOlrrKjXp8BME5Ga9rsoAEwypH1ewp/V
-         Rr7opbFwfMAECZ40tqtf+01oSYPdJjEdgubyNMadEWuLeR83Lf1NckJLYipms4vkrQLM
-         r/ktXGgfd8eufSlVjkL/+i3cRH8ZrHlIK8YesOKpT+Tqzo0PoEagJhAqTxx9GKrNxhU/
-         iqHGDSfxdkR0c1oyMD96Knz0ya1LTZpWFpTpr4/Yu3GqDJV0VnsQqgbivPHcFpeRW4sL
-         bkTA==
-X-Gm-Message-State: AGi0PuYFxNJAoHbireyFIZqq41GqPbxrLgiLkyIyuOml0Y57cGSrOEXa
-	nLtKLluSdttHja5vVEyA3COCxMWWP5Fb7g==
-X-Google-Smtp-Source: APiQypKdlLT8TvRyZfcmD9QJRrARfMoljembR9124QLg7yqCIeXB1zVGLz+6U1d195TzJha1KCItYA==
-X-Received: by 2002:a63:1b18:: with SMTP id b24mr8490228pgb.90.1588176678628;
-        Wed, 29 Apr 2020 09:11:18 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references;
+        bh=XaNQX/5Ej4jXkbHwdnPxWuFLXTpSJqIUZMMYOirQr7g=;
+        b=FQL/Px/9YOTCIpYJAJnC9Jbe0mjqH/vuzt2yqfxvdzPVeidOBKT9agg+vOE68sL29A
+         3pbfmocwqHtwvi9D5r2J9RkNSrmH+ac76ed5yng9yAJvMDoxXNBmA1LPWF69t/6La9nj
+         U8nOb9YZJoy8a+1uJcPA+6/gVDgXZP64BYogLFamYgX6r9SGWILeZI4711O2XH+UBirF
+         AAcqzRTd8qR0v5aLcrHWd8aa+W81lfypbpI+ybdAGdpm/gPw/rsWz9PerLNuWa1FBbdX
+         S3J0RAm3FeWEXi83xN4zVqNLcAxRlgOsZMuwk/FlNYSTxwflZF5RJaE24BCoSiF7xA7B
+         ZkTw==
+X-Gm-Message-State: AGi0PuaFG1i4GEeBiHN3JQUMZ8mlQ6Hsjeo+F8nOtrwgra6iWr9I82l7
+	W3j7GHr4iKnE2uGVQW5IWbqhHu96/Dufjg==
+X-Google-Smtp-Source: APiQypIIfsfH+y8MNWaz1upr0xJeiJDFPrkbRXpwZEWkNKp+z2wO52QxtepS/6r/DI5FYG9il+Ku8w==
+X-Received: by 2002:a17:90a:d709:: with SMTP id y9mr4140065pju.50.1588176693364;
+        Wed, 29 Apr 2020 09:11:33 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id o1sm4833062pjs.39.2020.04.29.09.11.17
+        by smtp.gmail.com with ESMTPSA id o1sm4833062pjs.39.2020.04.29.09.11.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 09:11:18 -0700 (PDT)
+        Wed, 29 Apr 2020 09:11:32 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/16] Patch review
-Date: Wed, 29 Apr 2020 06:10:45 -1000
-Message-Id: <cover.1588175775.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 01/16] u-boot.inc: install u-boot-initial-env as ${PN}-initial-env in $D and $DEPLOYDIR
+Date: Wed, 29 Apr 2020 06:10:46 -1000
+Message-Id: <78c55eac69dc4b6ae28d7e7911adb59430376b23.1588175775.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1588175775.git.steve@sakoman.com>
+References: <cover.1588175775.git.steve@sakoman.com>
 
-Please review this first set of changes for dunfell and have comments back
-by end of day Friday.
+From: Denys Dmytriyenko <denys@ti.com>
 
-Clean a-full build on autobuilder (other than tickling a Send QA Email bug):
+The common u-boot.inc can be used by multiple recipes in the same build for
+different cores and/or multiple stages of the bootloader. Naming initial-env
+with ${PN} prefix avoids clashes in deploy and rootfs between those recipes.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/898
+This fixes 69b3b093079c2ca2744d6c02747c5d1b5d3e7ecf that unconditionally
+builds, installs and deploys u-boot-initial-env in the common u-boot.inc.
 
-The following changes since commit 1795f30d8ab73d35710ca99064c51190dc84853e:
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-bsp/u-boot/u-boot.inc | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-  build-appliance-image: Update to master head revision (2020-04-07 22:15:32 +0100)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Bartosz Golaszewski (1):
-  qemuboot.bbclass: don't redefine IMGDEPLOYDIR
-
-Changqing Li (1):
-  parselogs.py: ignore pulseaudio startup warning messages
-
-Denys Dmytriyenko (1):
-  u-boot.inc: install u-boot-initial-env as ${PN}-initial-env in $D and
-    $DEPLOYDIR
-
-Jeremy Puhlman (3):
-  qemu-system-native: Fix commented out PACKAGECONFIG
-  nativesdk-gcc-runtime: enable building libstdc++.a
-  buildtools-extended-tarball: Add libstc++.a
-
-Khem Raj (2):
-  libucontext: Bring in mips/mips64 support
-  ruby: Link with libucontext on musl
-
-Maxime Roussin-B?langer (1):
-  tzdata: remove exit 0 from pkg_postinst
-
-Paul Barker (1):
-  kernel-yocto.bbclass: Fix deps when externalsrc is used
-
-Pierre-Jean Texier (1):
-  ell: upgrade 0.30 -> 0.31
-
-Richard Purdie (1):
-  bzip2/pbzip2: Correct license information
-
-Tim Orling (1):
-  python3-manifest.json: add pathlib to core
-
-Wang Mingyu (1):
-  gnutls: upgrade 3.6.12 -> 3.6.13
-
-Yi Zhao (1):
-  alsa-state: ignore 'No soundcards found' error in pkg_postinst
-
-hongxu (1):
-  buildtools-tarball: add nativesdk-mtools for `wic ls'
-
- meta/classes/kernel-yocto.bbclass             |  6 +++
- meta/classes/qemuboot.bbclass                 |  1 -
- .../common-licenses/{bzip2 => bzip2-1.0.6}    |  0
- meta/lib/oeqa/runtime/cases/parselogs.py      |  4 +-
- meta/recipes-bsp/alsa-state/alsa-state.bb     |  2 +-
- meta/recipes-bsp/u-boot/u-boot.inc            | 28 +++++------
- .../ell/{ell_0.30.bb => ell_0.31.bb}          |  4 +-
- .../meta/buildtools-extended-tarball.bb       |  1 +
- meta/recipes-core/meta/buildtools-tarball.bb  |  1 +
- ...move-using-.end-directive-with-clang.patch | 36 ++++++++++++++
- .../0001-Makefile-Add-LIBDIR-variable.patch   | 46 ------------------
- .../0001-pass-LDFLAGS-to-link-step.patch      | 31 ------------
- meta/recipes-core/musl/libucontext_git.bb     | 48 +++++++++----------
- meta/recipes-devtools/gcc/gcc-runtime.inc     |  2 +
- .../python/python3/python3-manifest.json      |  2 +
- meta/recipes-devtools/qemu/qemu.inc           |  2 +-
- meta/recipes-devtools/ruby/ruby_2.7.0.bb      |  9 +++-
- meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |  2 +-
- meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb |  2 +-
- meta/recipes-extended/timezone/tzdata.bb      |  8 +---
- .../{gnutls_3.6.12.bb => gnutls_3.6.13.bb}    |  4 +-
- 21 files changed, 106 insertions(+), 133 deletions(-)
- rename meta/files/common-licenses/{bzip2 => bzip2-1.0.6} (100%)
- rename meta/recipes-core/ell/{ell_0.30.bb => ell_0.31.bb} (83%)
- create mode 100644 meta/recipes-core/musl/0001-Remove-using-.end-directive-with-clang.patch
- delete mode 100644 meta/recipes-core/musl/libucontext/0001-Makefile-Add-LIBDIR-variable.patch
- delete mode 100644 meta/recipes-core/musl/libucontext/0001-pass-LDFLAGS-to-link-step.patch
- rename meta/recipes-support/gnutls/{gnutls_3.6.12.bb => gnutls_3.6.13.bb} (93%)
-
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 188e5295cf..80f828df52 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -156,10 +156,10 @@ do_install () {
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
+ 
+                     # Install the uboot-initial-env
+-                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR}
+-                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${type}
+-                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${type}
+-                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env
++                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
++                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}
++                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${type}
++                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
+                 fi
+             done
+             unset  j
+@@ -170,9 +170,9 @@ do_install () {
+         ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+ 
+         # Install the uboot-initial-env
+-        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${PV}-${PR}
+-        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}
+-        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env
++        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
++        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}
++        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
+     fi
+ 
+     if [ -n "${UBOOT_ELF}" ]
+@@ -245,7 +245,7 @@ PACKAGE_BEFORE_PN += "${PN}-env"
+ 
+ RPROVIDES_${PN}-env += "u-boot-default-env"
+ FILES_${PN}-env = " \
+-    ${sysconfdir}/u-boot-initial-env* \
++    ${sysconfdir}/${PN}-initial-env* \
+     ${sysconfdir}/fw_env.config \
+ "
+ 
+@@ -269,10 +269,10 @@ do_deploy () {
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
+ 
+                     # Deploy the uboot-initial-env
+-                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR}
++                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+                     cd ${DEPLOYDIR}
+-                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} u-boot-initial-env-${MACHINE}-${type}
+-                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} u-boot-initial-env-${type}
++                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${MACHINE}-${type}
++                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${type}
+                 fi
+             done
+             unset  j
+@@ -287,10 +287,10 @@ do_deploy () {
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
+ 
+         # Deploy the uboot-initial-env
+-        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/u-boot-initial-env-${MACHINE}-${PV}-${PR}
++        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
+         cd ${DEPLOYDIR}
+-        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} u-boot-initial-env-${MACHINE}
+-        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} u-boot-initial-env
++        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${PN}-initial-env-${MACHINE}
++        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${PN}-initial-env
+     fi
+ 
+     if [ -e ${WORKDIR}/fw_env.config ] ; then
 -- 
 2.17.1
 
