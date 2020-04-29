@@ -1,269 +1,288 @@
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.2475.1588171615551143522
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.2618.1588172003734716868
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 07:46:55 -0700
+ Wed, 29 Apr 2020 07:53:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@globallogic.com header.s=google header.b=EfixUqcS;
- spf=pass (domain: globallogic.com, ip: 209.85.167.43, mailfrom: oleksandr.s.popovych@globallogic.com)
-Received: by mail-lf1-f43.google.com with SMTP id l11so1900408lfc.5
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 07:46:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LPk1r2W+;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: akuster808@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id f8so924615plt.2;
+        Wed, 29 Apr 2020 07:53:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=globallogic.com; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=j0UVAYGHufnTKe+4Gz1ZRPn1XN6Dl+YMNQzW4VDZdyk=;
-        b=EfixUqcSOwcyQMdp9lmO3UtnSxad3dZ90EdISx+hri3ywts++D1GJzueJFTsttUimA
-         kaKjxWEBuiAcITliKVVkPJ0fo0DN8m4tgGIrU6/G/V1XhIAPaaMBmxDZtifrHIvegV8a
-         QGwX9KJCeiUaq80PStZHsBUBVTInuuH0Orvd7Zswk88GyuRgC7U5RTTdBMM0iV8iVfwX
-         1FQ725+dzx4cIdEzsg2DPlHQZWZLnQil14l5xyail2deZOukJL6QzuMxHe83MFmfAVjC
-         Tsc/8ckWE/P8TH3v26KlwwvNpRGAr5MsU80tejFQHNjtpET40leVKlYE2SKJbp478BTq
-         cz3A==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language;
+        bh=2RuV1L/3XvCiRbtORxc8zZvktnSaBZ0CgHrnyIimmNM=;
+        b=LPk1r2W+uCWybVrXd/dSkJGKaLbOdeukURnrVaahRyOp+cd6fpY2MojHHuYbrg+cgk
+         CDRDWaVe7CbTXa6FLeeVje/w/GICqAaI5Jul/5U7spe3T1zjd9lnpBUmJs2MCxa2M68W
+         ZzvkELaRiLgw8sp0g+tLnfGW6iWVIQeZla8zwxVpoLg6VNDd76c/0Xh4oN+BpYu3fX6H
+         iL3T35nTkI5toQeCrt6YexrYqxKMNvKPJ7nELSNDlY7RmFqNK13uQTLVXhxV6LI/N4mJ
+         I16KaLjLMk5V66KAsx7KddjOgshiGZO067q12M/ipTUVIiS6mGU8p6wqUTFK9EKq4h4q
+         posg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=j0UVAYGHufnTKe+4Gz1ZRPn1XN6Dl+YMNQzW4VDZdyk=;
-        b=oyFz+UVWBf5SAHho3hZO4q6arrzik9dHq56rvMqQ1t3fh29LAjhn5xop7/imMi6IxQ
-         VPfH4QZb9oPHuDCzOqiPVtjIVOGeBbidkhrUoson5r3vrGsU2/ll9Q0SWgf7GZEw/nlt
-         gpHOypbnriR3cz67aIpQ/ip0e+xiVCjqHaL1V9ZUaRpu0s1HJtl1dhDFnEmATgG2sw29
-         10CECdV9XX52wA+mj4Bm62zciN3551Kcb+d/NWm/n++7Fle4dpsexBpqHbQeWXX/q4fv
-         wT8KoTaxqrTD/I4Ah0z0KODbISyKuE8Sb69+uPNnF+i7j4VEjZCYfRC6bP3RsaB/y/zi
-         wytQ==
-X-Gm-Message-State: AGi0PuZuf4n+CjpqGng3XMOZleumhRvsR45QsEbgokaSIogLgzs08pz8
-	EGphhec8i8noAQWVXXhISTgIWe5x2Wc=
-X-Google-Smtp-Source: APiQypLv1EMBNuG9MWFMY1bYq0asNTz9foknzMDgMcJkqV1/DMOi07sbg2LWpPDYQk48BBDy4KUU7Q==
-X-Received: by 2002:a05:6512:1095:: with SMTP id j21mr23101784lfg.118.1588171613121;
-        Wed, 29 Apr 2020 07:46:53 -0700 (PDT)
-Return-Path: <oleksandr.s.popovych@globallogic.com>
-Received: from localhost.localdomain ([31.172.136.39])
-        by smtp.gmail.com with ESMTPSA id j15sm2586851lji.18.2020.04.29.07.46.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 07:46:52 -0700 (PDT)
-From: "Oleksandr" <oleksandr.s.popovych@globallogic.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
-Subject: [OE-core][PATCH] expat: Added ptest
-Date: Wed, 29 Apr 2020 17:33:53 +0300
-Message-Id: <20200429143353.11360-1-oleksandr.s.popovych@globallogic.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language;
+        bh=2RuV1L/3XvCiRbtORxc8zZvktnSaBZ0CgHrnyIimmNM=;
+        b=SSGwo/Otn9P5di1C/gTXkQAbGaaPqty4kLu00DrFi7JUhkEbmChPdEG2VD8a0VIz6c
+         bjXLOkI+AmZYaCfEFyLbain43lFRrqwkXFW1c2mIiT+gwca/L6eWvT3id2CowyvDDvKo
+         x5GZig01lisQH4i1U96HBf2dfep5cwRGYa0cJH4JTBBKE64r1412Enf/93hGtFAprmId
+         zKRzGX9gtFHfosLDRApvFPIJVujMAzdJyWd7Mbi2BpuVataVLtfjGqk4UvbzLOs6JeQC
+         OIfBDceXR5tMGesfRhdi3OL9RMQU9mCKEWdRBfmQXax//9oBLQVRY1jqLRCQtRFeWC6H
+         dQPw==
+X-Gm-Message-State: AGi0PuYu7tATrX16FOb3OaJjdi3Fldz5shg+6OrzSqtuQa9kMNvS8T3Y
+	+wmuAjEWEuvmWSPgjk84izI=
+X-Google-Smtp-Source: APiQypI+8W1KlGvH+VxRbdG7E/r/9PdQJ+YoQ5lFauYpV1OkmAuuUIj6Lci3XeC8BsdxcUZ1sMqEpg==
+X-Received: by 2002:a17:90a:77c6:: with SMTP id e6mr3794392pjs.84.1588172002940;
+        Wed, 29 Apr 2020 07:53:22 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from ?IPv6:2601:202:4180:a5c0:3c5d:7c09:562a:defe? ([2601:202:4180:a5c0:3c5d:7c09:562a:defe])
+        by smtp.gmail.com with ESMTPSA id j13sm4973706pje.1.2020.04.29.07.53.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2020 07:53:22 -0700 (PDT)
+Subject: Re: [bitbake-devel] [poky] Thud community support
+To: Martin Jansa <Martin.Jansa@gmail.com>, akuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+ "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+ "poky@yoctoproject.org" <poky@yoctoproject.org>,
+ "bitbake-devel@lists.openembedded.org"
+ <bitbake-devel@lists.openembedded.org>, poky@lists.yoctoproject.org
+References: <15FBEF1FC40D189D.8114@lists.yoctoproject.org>
+ <81fb73b4-f683-5356-ff07-1ac909afb97d@gmail.com>
+ <CA+chaQc8q4Nb4p76WPr=R7ocpDJ8CY3VnJ-k9W8bWW8nwMtYTw@mail.gmail.com>
+From: "akuster" <akuster808@gmail.com>
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+ 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
+ 8CS2NxU=
+Message-ID: <dc37c701-80de-6719-8d8b-6d8dcd1771f4@gmail.com>
+Date: Wed, 29 Apr 2020 07:53:21 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <CA+chaQc8q4Nb4p76WPr=R7ocpDJ8CY3VnJ-k9W8bWW8nwMtYTw@mail.gmail.com>
+Content-Type: multipart/alternative;
+ boundary="------------C2905E87FB9E46D7559EF363"
+Content-Language: en-US
 
-For ptest support for expat package:
+--------------C2905E87FB9E46D7559EF363
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
- - expat_2.2.9.bb recipe was switched on cmake-based building system to
-avoid cahnges in autotools build system  which considered in upstream as
-potentially deprecated (https://github.com/libexpat/libexpat/issues/330).
 
- - expat_2.2.9.bb recipe was divided into expat_2.2.9.bb recipe which is
-switched on cmake-based build system and expat-native_2.2.9.bb recipe
-which is left with autotools build system. This solves problem with
-dependency loop between cmake-native and expat-native packages. Without
-this split, because expat-native package is listed in DEPENDS for
-cmake-native package, next dependency loop appears:
 
-        Dependency loop #1 found:
-          Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_compile (dependent Tasks ['cmake-native_3.16.1.bb:do_configure'])
-          Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_install (dependent Tasks ['cmake-native_3.16.1.bb:do_compile'])
-          Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_populate_sysroot (dependent Tasks ['cmake-native_3.16.1.bb:do_install'])
-          Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_prepare_recipe_sysroot (dependent Tasks ['ninja_1.10.0.bb:do_populate_sysroot', 'cmake-native_3.16.1.bb:do_populate_sysroot', 'expat_2.2.9.bb:do_fetch'])
-          Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_configure (dependent Tasks ['expat_2.2.9.bb:do_prepare_recipe_sysroot', 'expat_2.2.9.bb:do_deploy_source_date_epoch', 'expat_2.2.9.bb:do_generate_toolchain_file', 'expat_2.2.9.bb:do_patch'])
-          Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_compile (dependent Tasks ['expat_2.2.9.bb:do_configure'])
-          Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_install (dependent Tasks ['expat_2.2.9.bb:do_compile'])
-          Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_populate_sysroot (dependent Tasks ['expat_2.2.9.bb:do_install'])
-          Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_prepare_recipe_sysroot (dependent Tasks ['expat_2.2.9.bb:do_populate_sysroot', 'zlib_1.2.11.bb:do_populate_sysroot', 'bzip2_1.0.8.bb:do_populate_sysroot', 'xz_5.2.4.bb:do_populate_sysroot', 'ncurses_6.2.bb:do_populate_sysroot', 'curl_7.69.0.bb:do_populate_sysroot', 'cmake-native_3.16.1.bb:do_fetch'])
-          Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_configure (dependent Tasks ['cmake-native_3.16.1.bb:do_deploy_source_date_epoch', 'cmake-native_3.16.1.bb:do_patch', 'cmake-native_3.16.1.bb:do_prepare_recipe_sysroot'])
+On 4/28/20 11:10 AM, Martin Jansa wrote:
+> Is Thud EOL now?
+Go question.
 
- - run-ptest script that initalizes testing, copies testing
-executables' output to log file and measures execution time of each testing
-executable was added.
+>
+> Or did someone volunteer off-list and now it waits for Maintainer
+> selection process to be defined?
+I received two inquires privately and forwarded them to Richard. I have
+not had time to document the community maintainer selection process. The
+ultimate decision will always be on the Repo maintainer which in this
+case is Richard.
 
- - patch that implements output of each testcase result in testing exectutable
-was added.
+- armin
 
-Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
----
- meta/recipes-core/expat/expat-native_2.2.9.bb | 20 +++++
- .../0001-Add-output-of-tests-result.patch     | 84 +++++++++++++++++++
- meta/recipes-core/expat/expat/run-ptest       | 24 ++++++
- meta/recipes-core/expat/expat_2.2.9.bb        | 14 +++-
- 4 files changed, 138 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-core/expat/expat-native_2.2.9.bb
- create mode 100644 meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
- create mode 100644 meta/recipes-core/expat/expat/run-ptest
+> https://wiki.yoctoproject.org/wiki/Releases still says Community support.
+>
+> Thanks
+>
+> On Tue, Mar 17, 2020 at 10:13 PM akuster <akuster808@gmail.com
+> <mailto:akuster808@gmail.com>> wrote:
+>
+>
+>
+>     On 3/13/20 11:03 AM, akuster via Lists.Yoctoproject.Org
+>     <http://Lists.Yoctoproject.Org> wrote:
+>>     The Poky thud branch is now under 'Community support' and is seeking a
+>>     maintainer to continue supporting the following repos for the thud release:
+>>
+>>     bitbake, core, meta-yocto and yocto-docs.
+>>
+>>
+>>     There will be no more point releases.
+>>
+>>     see
+>>     https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Maintainer_Procedures 
+>>     to get an idea on what is expected.
+>>
+>>     The one thing we (YP) don't know is if there will be AutoBuilder
+>>     resources available.  Please contact me or Richard regarding that statement.
+>>
+>>     If no one steps up by April 24th (six weeks -ish from now), Thud will be
+>>     moved to EOL status.
+>
+>     It was pointed out to me that there is no Maintainer selection
+>     process or criteria defined.  This  will have to be sorted out
+>     before we move forward on this transition.
+>
+>
+>     - armin
+>
+>>     - Armin
+>>
+>>
+>>
+>>
+>
+>
+>
+> 
 
-diff --git a/meta/recipes-core/expat/expat-native_2.2.9.bb b/meta/recipes-core/expat/expat-native_2.2.9.bb
-new file mode 100644
-index 0000000000..c5dbb09ee2
---- /dev/null
-+++ b/meta/recipes-core/expat/expat-native_2.2.9.bb
-@@ -0,0 +1,20 @@
-+SUMMARY = "A stream-oriented XML parser library"
-+DESCRIPTION = "Expat is an XML parser library written in C. It is a stream-oriented parser in which an application registers handlers for things the parser might find in the XML document (like start tags)"
-+HOMEPAGE = "http://expat.sourceforge.net/"
-+SECTION = "libs"
-+LICENSE = "MIT"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
-+
-+SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
-+           file://libtool-tag.patch \
-+	  "
-+
-+SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
-+SRC_URI[sha256sum] = "f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
-+
-+inherit autotools lib_package native
-+
-+do_configure_prepend () {
-+	rm -f ${S}/conftools/libtool.m4
-+}
-diff --git a/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch b/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
-new file mode 100644
-index 0000000000..c78fd2bbef
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
-@@ -0,0 +1,84 @@
-+From aa84835a00bfd65e784d58411e76f60658e939dc Mon Sep 17 00:00:00 2001
-+From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
-+Date: Tue, 18 Feb 2020 19:04:55 +0200
-+Subject: [PATCH] Add output of tests result
-+
-+Added console output of testing results in form 'RESULT: TEST_NAME'.
-+
-+Changed verbose mode of test application set by '-v' ('--verbose')
-+argument to CK_NORMAL.
-+Added new supported argument '-vv' ('--extra-verbose') that changes
-+verbose mode of test application to CK_VERBOSE. Results of each test
-+are shown in output only if this mode is set.
-+
-+Upstream-Status: Denied
-+
-+This patch changes potentially deprecated feature that shoud be changed
-+in upstream. [https://github.com/libexpat/libexpat/issues/382]
-+
-+Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
-+---
-+ tests/minicheck.c | 10 +++++++++-
-+ tests/runtests.c  |  4 +++-
-+ 2 files changed, 12 insertions(+), 2 deletions(-)
-+
-+diff --git a/expat/tests/minicheck.c b/expat/tests/minicheck.c
-+index a5a1efb..94fa412 100644
-+--- a/tests/minicheck.c
-++++ b/tests/minicheck.c
-+@@ -164,6 +164,8 @@ srunner_run_all(SRunner *runner, int verbosity) {
-+       if (tc->setup != NULL) {
-+         /* setup */
-+         if (setjmp(env)) {
-++          if (verbosity >= CK_VERBOSE)
-++            printf("SKIP: %s\n", _check_current_function);
-+           add_failure(runner, verbosity);
-+           continue;
-+         }
-+@@ -171,6 +173,8 @@ srunner_run_all(SRunner *runner, int verbosity) {
-+       }
-+       /* test */
-+       if (setjmp(env)) {
-++        if (verbosity >= CK_VERBOSE)
-++          printf("FAIL: %s\n", _check_current_function);
-+         add_failure(runner, verbosity);
-+         continue;
-+       }
-+@@ -178,12 +182,16 @@ srunner_run_all(SRunner *runner, int verbosity) {
-+ 
-+       /* teardown */
-+       if (tc->teardown != NULL) {
-+-        if (setjmp(env)) {
-++        if (setjmp(env)) { 
-++          if (verbosity >= CK_VERBOSE)
-++           printf("PASS: %s\n", _check_current_function);
-+           add_failure(runner, verbosity);
-+           continue;
-+         }
-+         tc->teardown();
-+       }
-++      if (verbosity >= CK_VERBOSE)
-++        printf("PASS: %s\n", _check_current_function);
-+     }
-+     tc = tc->next_tcase;
-+   }
-+diff --git a/tests/runtests.c b/expat/tests/runtests.c
-+index 7791fe0..75724e5 100644
-+--- a/tests/runtests.c
-++++ b/tests/runtests.c
-+@@ -11619,9 +11619,11 @@ main(int argc, char *argv[]) {
-+   for (i = 1; i < argc; ++i) {
-+     char *opt = argv[i];
-+     if (strcmp(opt, "-v") == 0 || strcmp(opt, "--verbose") == 0)
-+-      verbosity = CK_VERBOSE;
-++      verbosity = CK_NORMAL;
-+     else if (strcmp(opt, "-q") == 0 || strcmp(opt, "--quiet") == 0)
-+       verbosity = CK_SILENT;
-++    else if (strcmp(opt, "-vv") == 0 || strcmp(opt, "--extra-verbose") == 0)
-++	verbosity = CK_VERBOSE;
-+     else {
-+       fprintf(stderr, "runtests: unknown option '%s'\n", opt);
-+       return 2;
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/expat/expat/run-ptest b/meta/recipes-core/expat/expat/run-ptest
-new file mode 100644
-index 0000000000..7bc81eba8a
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/run-ptest
-@@ -0,0 +1,24 @@
-+#!/bin/bash
-+
-+output=${1:-"expat_tests.log"} # default log file 
-+
-+# logging function
-+function testCheck() {
-+	testExec="$1"
-+	shift
-+	echo && echo ${testExec} && ./${testExec} "$@"
-+	error=$?
-+	result=$([[ ${error} -eq 0 ]] && echo "PASS" || echo "FAIL")
-+	echo "${result}: ${testExec}" && echo "============================"
-+}
-+
-+export output
-+export -f testCheck
-+TIME=$(which time)
-+
-+echo "Architecture: $(uname -m)" > ${output}
-+echo "Image: $(uname -sr)" >> ${output}
-+${TIME} -f 'Execution time: %e s' bash -c "testCheck runtests -vv" |& tee -a ${output}
-+${TIME} -f 'Execution time: %e s' bash -c "testCheck runtestspp -vv" |& tee -a ${output}
-+echo
-+
-diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
-index 8f3db41352..a0224c627e 100644
---- a/meta/recipes-core/expat/expat_2.2.9.bb
-+++ b/meta/recipes-core/expat/expat_2.2.9.bb
-@@ -8,15 +8,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
-            file://libtool-tag.patch \
-+	   file://run-ptest \
-+	   file://0001-Add-output-of-tests-result.patch \
- 	  "
- 
- SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
- SRC_URI[sha256sum] = "f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
- 
--inherit autotools lib_package
-+RDEPENDS_${PN}-ptest += "bash"
- 
--do_configure_prepend () {
--	rm -f ${S}/conftools/libtool.m4
-+#S = "${WORKDIR}"
-+
-+inherit cmake lib_package ptest
-+
-+do_install_ptest_class-target() {
-+	install -m 755 ${B}/tests/* ${D}${PTEST_PATH}
- }
- 
--BBCLASSEXTEND = "native nativesdk"
-+BBCLASSEXTEND += "nativesdk"
--- 
-2.17.1
 
+--------------C2905E87FB9E46D7559EF363
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 4/28/20 11:10 AM, Martin Jansa
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CA+chaQc8q4Nb4p76WPr=R7ocpDJ8CY3VnJ-k9W8bWW8nwMtYTw@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">Is Thud EOL now?</div>
+    </blockquote>
+    Go question.<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CA+chaQc8q4Nb4p76WPr=R7ocpDJ8CY3VnJ-k9W8bWW8nwMtYTw@mail.gmail.com">
+      <div dir="ltr">
+        <div><br>
+        </div>
+        <div>Or did someone volunteer off-list and now it waits for
+          Maintainer selection process to be defined?</div>
+      </div>
+    </blockquote>
+    I received two inquires privately and forwarded them to Richard. I
+    have not had time to document the community maintainer selection
+    process. The ultimate decision will always be on the Repo maintainer
+    which in this case is Richard.<br>
+    <br>
+    - armin<br>
+    <br>
+    <blockquote type="cite"
+cite="mid:CA+chaQc8q4Nb4p76WPr=R7ocpDJ8CY3VnJ-k9W8bWW8nwMtYTw@mail.gmail.com">
+      <div dir="ltr">
+        <div><a href="https://wiki.yoctoproject.org/wiki/Releases"
+            moz-do-not-send="true">https://wiki.yoctoproject.org/wiki/Releases</a> still
+          says Community support.<br>
+        </div>
+        <div><br>
+        </div>
+        <div>Thanks</div>
+      </div>
+      <br>
+      <div class="gmail_quote">
+        <div dir="ltr" class="gmail_attr">On Tue, Mar 17, 2020 at 10:13
+          PM akuster &lt;<a href="mailto:akuster808@gmail.com"
+            moz-do-not-send="true">akuster808@gmail.com</a>&gt; wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+          <div> <br>
+            <br>
+            <div>On 3/13/20 11:03 AM, akuster via <a
+                href="http://Lists.Yoctoproject.Org" target="_blank"
+                moz-do-not-send="true">Lists.Yoctoproject.Org</a> wrote:<br>
+            </div>
+            <blockquote type="cite">
+              <pre>The Poky thud branch is now under 'Community support' and is seeking a
+maintainer to continue supporting the following repos for the thud release:
+
+bitbake, core, meta-yocto and yocto-docs.
+
+
+There will be no more point releases.
+
+see
+<a href="https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Maintainer_Procedures" target="_blank" moz-do-not-send="true">https://wiki.yoctoproject.org/wiki/Stable_Release_and_LTS#Maintainer_Procedures</a> 
+to get an idea on what is expected.
+
+The one thing we (YP) don't know is if there will be AutoBuilder
+resources available.  Please contact me or Richard regarding that statement.
+
+If no one steps up by April 24th (six weeks -ish from now), Thud will be
+moved to EOL status.
+</pre>
+            </blockquote>
+            <br>
+            It was pointed out to me that there is no Maintainer
+            selection process or criteria defined.  This  will have to
+            be sorted out before we move forward on this transition.<br>
+            <br>
+            <br>
+            - armin<br>
+            <br>
+            <blockquote type="cite">
+              <pre>- Armin
+
+
+
+</pre>
+              <br>
+              <fieldset></fieldset>
+            </blockquote>
+            <br>
+          </div>
+          <br>
+        </blockquote>
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------C2905E87FB9E46D7559EF363--
