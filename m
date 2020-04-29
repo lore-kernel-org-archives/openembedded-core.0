@@ -1,136 +1,86 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
- by mx.groups.io with SMTP id smtpd.web11.65.1588130056750187135
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+ by mx.groups.io with SMTP id smtpd.web11.831.1588134932962120254
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2020 20:14:23 -0700
+ Tue, 28 Apr 2020 21:35:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: <nil>, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.73,329,1583164800"; 
-   d="scan'208";a="90727567"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 29 Apr 2020 11:14:18 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 876914BCC88B
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 11:14:12 +0800 (CST)
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 29 Apr 2020 11:14:11 +0800
-Received: from localhost.localdomain (10.167.225.33) by
- G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Wed, 29 Apr 2020 11:14:19 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [OE-core] [PATCH v2] json-c: upgrade 0.13.1 -> 0.14
-Date: Wed, 29 Apr 2020 04:13:56 -0700
-Message-ID: <20200429111356.34973-2-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200429111356.34973-1-wangmy@cn.fujitsu.com>
-References: <20200429111356.34973-1-wangmy@cn.fujitsu.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.65, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: RiFJ0Hw3XkPaNRLbhrTaO5ZDNEKsGXhWe0laCZ3oKnT6NvKzMt04t9Oi9eUHCXvVq3iqJE2TnR
+ 4hsfp2aURs6g==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2020 21:35:31 -0700
+IronPort-SDR: kvNbHsFvyYmkkWOYFWRmBx0kOlpd7wAqIcfGKfaDsxBKbW69emza8BHFMpK7f7PHn50rmZt5e1
+ elOQpskjKBFg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,330,1583222400"; 
+   d="scan'208";a="282380139"
+Received: from pgsmsx107.gar.corp.intel.com ([10.221.44.105])
+  by fmsmga004.fm.intel.com with ESMTP; 28 Apr 2020 21:35:30 -0700
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.234]) by
+ PGSMSX107.gar.corp.intel.com ([169.254.7.2]) with mapi id 14.03.0439.000;
+ Wed, 29 Apr 2020 12:35:29 +0800
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: "Martin.Jansa@gmail.com" <Martin.Jansa@gmail.com>, "akuster808@gmail.com"
+	<akuster808@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [zeus 0/7] Merge request
+Thread-Topic: [OE-core] [zeus 0/7] Merge request
+Thread-Index: AQHWHQL7am2YpXFxeEmwn1xJ+uf5VKiOT6CAgACvc4A=
+Date: Wed, 29 Apr 2020 04:35:28 +0000
+Message-ID: <989e478d2c7a6a7be60eb805e664bd5dcf678424.camel@intel.com>
+References: <cover.1587931177.git.akuster808@gmail.com>
+	 <CA+chaQfuCTZYou7qcUagwBpMHS51KW2VT6yt2L1ugySLuQ7a_w@mail.gmail.com>
+In-Reply-To: <CA+chaQfuCTZYou7qcUagwBpMHS51KW2VT6yt2L1ugySLuQ7a_w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.165.134]
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 876914BCC88B.A216C
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <09D56C5C1E244F4390DCF165F65A855A@intel.com>
+Content-Transfer-Encoding: base64
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
-
-add-disable-werror-option-to-configure.patch
-removed since it is included in 0.14
-
-Make mode changes from autotools to cmake.
-
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- ...d-disable-werror-option-to-configure.patch | 45 -------------------
- .../{json-c_0.13.1.bb => json-c_0.14.bb}      |  9 ++--
- 2 files changed, 3 insertions(+), 51 deletions(-)
- delete mode 100644 meta/recipes-devtools/json-c/json-c/add-disable-werror-option-to-configure.patch
- rename meta/recipes-devtools/json-c/{json-c_0.13.1.bb => json-c_0.14.bb} (70%)
-
-diff --git a/meta/recipes-devtools/json-c/json-c/add-disable-werror-option-to-configure.patch b/meta/recipes-devtools/json-c/json-c/add-disable-werror-option-to-configure.patch
-deleted file mode 100644
-index 0c20c8458a..0000000000
---- a/meta/recipes-devtools/json-c/json-c/add-disable-werror-option-to-configure.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--json-c: Backport --disable-werror patch to allow compilation under icecc
--
--icecc preprocesses source files locally before shipping them off to be compiled
--on remote hosts. This preprocessing removes comments, including /* fallthough */
--comments in switch statements that normally prevent an implicit-fallthrough
--warning, see https://github.com/icecc/icecream/issues/419
--
--Rather than turning off -Werror, the upstream project has implemented a
--configure option, --disable-werror, in response to Ross's
--https://github.com/json-c/json-c/issues/489
--
--This patch from
--https://github.com/json-c/json-c/commit/21c886534f8927fdc0fb5f8647394f3e0e0874b8
--
--Upstream-Status: Backport [Not yet released]
--Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
--
--From 21c886534f8927fdc0fb5f8647394f3e0e0874b8 Mon Sep 17 00:00:00 2001
--From: Pierce Lopez <pierce.lopez@gmail.com>
--Date: Sun, 9 Jun 2019 10:52:08 -0400
--Subject: [PATCH] build: add --disable-werror option to configure
--
--to omit -Werror compiler option
-----
-- configure.ac | 7 ++++++-
-- 1 file changed, 6 insertions(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index 272ea6af9c..798fd5b747 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -165,7 +165,12 @@ AS_IF([test "x$enable_Bsymbolic" = "xcheck"],
-- AS_IF([test "x$enable_Bsymbolic" = "xyes"], [JSON_BSYMBOLIC_LDFLAGS=-Wl[,]-Bsymbolic-functions])
-- AC_SUBST(JSON_BSYMBOLIC_LDFLAGS)
-- 
---AX_APPEND_COMPILE_FLAGS([-Wall -Werror -Wcast-qual -Wno-error=deprecated-declarations])
--+AC_ARG_ENABLE([werror],
--+    AS_HELP_STRING([--disable-werror], [avoid treating compiler warnings as fatal errors]))
--+
--+AS_IF([test "x$enable_werror" != "xno"], [AX_APPEND_COMPILE_FLAGS([-Werror])])
--+
--+AX_APPEND_COMPILE_FLAGS([-Wall -Wcast-qual -Wno-error=deprecated-declarations])
-- AX_APPEND_COMPILE_FLAGS([-Wextra -Wwrite-string -Wno-unused-parameter])
-- AX_APPEND_COMPILE_FLAGS([-D_GNU_SOURCE])
-- 
-diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb b/meta/recipes-devtools/json-c/json-c_0.14.bb
-similarity index 70%
-rename from meta/recipes-devtools/json-c/json-c_0.13.1.bb
-rename to meta/recipes-devtools/json-c/json-c_0.14.bb
-index 522879f21f..15226d2a3f 100644
---- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.14.bb
-@@ -5,18 +5,15 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
- 
- SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
--           file://add-disable-werror-option-to-configure.patch \
-            "
--SRC_URI[md5sum] = "04969ad59cc37bddd83741a08b98f350"
--SRC_URI[sha256sum] = "b87e608d4d3f7bfdd36ef78d56d53c74e66ab278d318b71e6002a369d36f4873"
-+SRC_URI[md5sum] = "72cbb065b43376d825cd521d115ae1f6"
-+SRC_URI[sha256sum] = "b377de08c9b23ca3b37d9a9828107dff1de5ce208ff4ebb35005a794f30c6870"
- 
- UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
- UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
- 
- RPROVIDES_${PN} = "libjson"
- 
--inherit autotools
--
--EXTRA_OECONF = "--disable-werror"
-+inherit cmake
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.17.1
-
-
-
+T24gVHVlLCAyMDIwLTA0LTI4IGF0IDIwOjA3ICswMjAwLCBNYXJ0aW4gSmFuc2Egd3JvdGU6DQo+
+IEhpLA0KPiANCj4gY2FuIHlvdSBwbGVhc2UgaW5jbHVkZToNCj4gaHR0cHM6Ly9saXN0cy5vcGVu
+ZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvdG9waWMvemV1c19wYXRjaF9xZW11X3Jl
+cGxhY2UvNzMxOTcwNDk/cD0sLCwyMCwwLDAsMDo6cmVjZW50cG9zdGRhdGUlMkZzdGlja3ksLCwy
+MCwyLDgwLDczMTk3MDQ5DQo+IA0KPiBvciBkaWQgSSBtaXN1bmRlcnN0b29kIHlvdXIgbGFzdCBy
+ZXBseSBpbiB0aGF0IHRocmVhZD8NCg0KSSBoYXZlIGluY2x1ZGVkIGl0IGFsb25nIHdpdGggc29t
+ZSBvdGhlciBwYXRjaGVzIGFuZCBpdCdkIGJlIGluIHRoZQ0KbmV4dCBtZXJnZSByZXF1ZXN0Og0K
+DQpodHRwczovL2dpdC5vcGVuZW1iZWRkZWQub3JnL29wZW5lbWJlZGRlZC1jb3JlLWNvbnRyaWIv
+bG9nLz9oPWFudWptL3pldXMNCg0KVGhhbmtzLA0KDQpBbnVqDQoNCj4gDQo+IE9uIFR1ZSwgQXBy
+IDI4LCAyMDIwIGF0IDQ6MTYgQU0gYWt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+IHdyb3Rl
+Og0KPiA+IFBsZWFzZSBjb25zaWRlciB0aGVzZSBjaGFuZ2VzIGZvciB6ZXVzDQo+ID4gVGhlIGZv
+bGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdA0KPiA+IDVhYzk4Yzc3NmY5Yjc3ODA0YTBlZTgx
+MmY0N2YzZWNmNTkzZTQzMmY6DQo+ID4gDQo+ID4gICBrZXJuZWxzcmMuYmJjbGFzczogRml4IGV4
+dGVybmFsc3JjIHN1cHBvcnQgKDIwMjAtMDQtMDYgMTU6MTc6MDUNCj4gPiArMDgwMCkNCj4gPiAN
+Cj4gPiBhcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoNCj4gPiANCj4gPiAg
+IGdpdDovL2dpdC5vcGVuZW1iZWRkZWQub3JnL29wZW5lbWJlZGRlZC1jb3JlLWNvbnRyaWIgc3Rh
+YmxlL3pldXMtDQo+ID4gbmV4dA0KPiA+ICAgDQo+ID4gaHR0cDovL2NnaXQub3BlbmVtYmVkZGVk
+Lm9yZy9vcGVuZW1iZWRkZWQtY29yZS1jb250cmliL2xvZy8/aD1zdGFibGUvemV1cy1uZXh0DQo+
+ID4gDQo+ID4gQWRyaWFuIEJ1bmsgKDEpOg0KPiA+ICAgb3BlbnNzbDogVXBncmFkZSAxLjEuMWQg
+LT4gMS4xLjFlDQo+ID4gDQo+ID4gQWxleGFuZGVyIEthbmF2aW4gKDEpOg0KPiA+ICAgb3BlbnNz
+bDogdXBkYXRlIHRvIDEuMS4xZg0KPiA+IA0KPiA+IERlbnlzIERteXRyaXllbmtvICgxKToNCj4g
+PiAgIG9wZW5zc2w6IHJlY29tbWVuZCBjcnlwdG9kZXYtbW9kdWxlIGZvciBjb3JyZXNwb25kaW5n
+DQo+ID4gUEFDS0FHRUNPTkZJRw0KPiA+IA0KPiA+IExlZSBDaGVlIFlhbmcgKDIpOg0KPiA+ICAg
+Y3ZlLWNoZWNrOiBDUEUgdmVyc2lvbiAnLScgYXMgYWxsIHZlcnNpb24NCj4gPiAgIHdpYzogYWxp
+Z24gbGF5ZXIgcGx1Z2luIHBhdGgNCj4gPiANCj4gPiBPdmlkaXUgUGFuYWl0ICgxKToNCj4gPiAg
+IGluZXR1dGlsczogVXNlIGFsdGVybmF0aXZlcyB0byBhdm9pZCBtYW5wYWdlIGNvbmZsaWN0DQo+
+ID4gDQo+ID4gUmljaGFyZCBQdXJkaWUgKDEpOg0KPiA+ICAgcHNldWRvOiBFbnN1cmUgd2UgdXNl
+IG91ciBvd24gbGlic3FsaXRlDQo+ID4gDQo+ID4gIG1ldGEvY2xhc3Nlcy9jdmUtY2hlY2suYmJj
+bGFzcyAgICAgICAgICAgICAgICB8ICAgMiArLQ0KPiA+ICAuLi4vaW5ldHV0aWxzL2luZXR1dGls
+c18xLjkuNC5iYiAgICAgICAgICAgICAgfCAgIDYgKy0NCj4gPiAgLi4uL29wZW5zc2wvb3BlbnNz
+bC9DVkUtMjAxOS0xNTUxLnBhdGNoICAgICAgIHwgNzU4IC0tLS0tLS0tLS0tLS0tDQo+ID4gLS0t
+LQ0KPiA+ICAuLi4ve29wZW5zc2xfMS4xLjFkLmJiID0+IG9wZW5zc2xfMS4xLjFmLmJifSAgfCAg
+IDYgKy0NCj4gPiAgLi4uL3JlY2lwZXMtY29yZS9tZXRhL2N2ZS11cGRhdGUtZGItbmF0aXZlLmJi
+IHwgICAyICstDQo+ID4gIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9wc2V1ZG8vcHNldWRvLmluYyAg
+ICAgICB8ICAgMiArDQo+ID4gIHNjcmlwdHMvbGliL3dpYy9oZWxwLnB5ICAgICAgICAgICAgICAg
+ICAgICAgICB8ICAgMyArLQ0KPiA+ICBzY3JpcHRzL2xpYi93aWMvcGx1Z2luYmFzZS5weSAgICAg
+ICAgICAgICAgICAgfCAgMTEgKy0NCj4gPiAgOCBmaWxlcyBjaGFuZ2VkLCAxOSBpbnNlcnRpb25z
+KCspLCA3NzEgZGVsZXRpb25zKC0pDQo+ID4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbC9DVkUtDQo+ID4gMjAxOS0xNTUxLnBhdGNo
+DQo+ID4gIHJlbmFtZSBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wve29wZW5zc2xf
+MS4xLjFkLmJiID0+DQo+ID4gb3BlbnNzbF8xLjEuMWYuYmJ9ICg5NyUpDQo+ID4gDQo+ID4gDQo=
