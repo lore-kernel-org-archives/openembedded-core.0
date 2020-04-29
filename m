@@ -1,91 +1,269 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web11.276.1588165271092949605
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web11.2475.1588171615551143522
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 06:01:11 -0700
+ Wed, 29 Apr 2020 07:46:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=D5ORdA8a;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id b11so2412763wrs.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 06:01:10 -0700 (PDT)
+ dkim=pass header.i=@globallogic.com header.s=google header.b=EfixUqcS;
+ spf=pass (domain: globallogic.com, ip: 209.85.167.43, mailfrom: oleksandr.s.popovych@globallogic.com)
+Received: by mail-lf1-f43.google.com with SMTP id l11so1900408lfc.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 07:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=AoHEikErWLcGsSuo8nDs6U8OyWufpM9U6XxBGPofv0c=;
-        b=D5ORdA8a3mtYsQiAmTZnf4l2Uz6+NV9clfrQvGlfHdcMH1AGHzDHP7O8U8kStTzOAe
-         q8iPP9KNz8Abqoa6iakJrZuTnXVlumtGQ02XtTLhs1MlzvFe8aPN6ljRG+3mU6nW/itY
-         b+ISPVXBjYJgz/8VJnwce4D3we8FLBWq8gDko=
+        d=globallogic.com; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=j0UVAYGHufnTKe+4Gz1ZRPn1XN6Dl+YMNQzW4VDZdyk=;
+        b=EfixUqcSOwcyQMdp9lmO3UtnSxad3dZ90EdISx+hri3ywts++D1GJzueJFTsttUimA
+         kaKjxWEBuiAcITliKVVkPJ0fo0DN8m4tgGIrU6/G/V1XhIAPaaMBmxDZtifrHIvegV8a
+         QGwX9KJCeiUaq80PStZHsBUBVTInuuH0Orvd7Zswk88GyuRgC7U5RTTdBMM0iV8iVfwX
+         1FQ725+dzx4cIdEzsg2DPlHQZWZLnQil14l5xyail2deZOukJL6QzuMxHe83MFmfAVjC
+         Tsc/8ckWE/P8TH3v26KlwwvNpRGAr5MsU80tejFQHNjtpET40leVKlYE2SKJbp478BTq
+         cz3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=AoHEikErWLcGsSuo8nDs6U8OyWufpM9U6XxBGPofv0c=;
-        b=eNQKU8ds1bq+XeSmY4T1G29j5f2LqsLw4oSG6tcpNYTZqt8i6/q9pTvoGCwACsWria
-         RFAYu7aLZn6Gx5CBkf6OG1N5EjwKPmEsUfEouuRy1oyWtKtEW6S4xY9vJhJvBFtArbI2
-         DA+lD4CIS1gnXuiZLSgQuknWWKo/2Bjnm/pwvGtju1e89xbktSYGP42z+FQITLMwWJcr
-         5CJCZ3FmkLDp18SawCR5Elf60eG8maQGRbPzr1j6G5ZuD//8Xl0tbHgwiaHS5PZ6LJCY
-         cEme1m8ox8pRaUXPhCsIC90tLb17UnVTT7LVicu0a00UhNPGz4D8s3qr2EajkXkLXREJ
-         9vSQ==
-X-Gm-Message-State: AGi0PubjcLMjp6sZ4Woi22e6Fd6Ik/3SBXZUqLi1/+v8uUnimYdPrSa1
-	zbCaGS8kfBrm9lAqvKtSmBxN5kJHPcA=
-X-Google-Smtp-Source: APiQypJSFPD6sd8VYv5RbjBwsPDwaXjgVdzdk/NpLGKKhS2gO6QOvSttWwieq2bRLD60VrfRWUNgJg==
-X-Received: by 2002:a5d:498b:: with SMTP id r11mr38921215wrq.368.1588165269047;
-        Wed, 29 Apr 2020 06:01:09 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id l16sm29720320wrp.91.2020.04.29.06.01.08
-        for <openembedded-core@lists.openembedded.org>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=j0UVAYGHufnTKe+4Gz1ZRPn1XN6Dl+YMNQzW4VDZdyk=;
+        b=oyFz+UVWBf5SAHho3hZO4q6arrzik9dHq56rvMqQ1t3fh29LAjhn5xop7/imMi6IxQ
+         VPfH4QZb9oPHuDCzOqiPVtjIVOGeBbidkhrUoson5r3vrGsU2/ll9Q0SWgf7GZEw/nlt
+         gpHOypbnriR3cz67aIpQ/ip0e+xiVCjqHaL1V9ZUaRpu0s1HJtl1dhDFnEmATgG2sw29
+         10CECdV9XX52wA+mj4Bm62zciN3551Kcb+d/NWm/n++7Fle4dpsexBpqHbQeWXX/q4fv
+         wT8KoTaxqrTD/I4Ah0z0KODbISyKuE8Sb69+uPNnF+i7j4VEjZCYfRC6bP3RsaB/y/zi
+         wytQ==
+X-Gm-Message-State: AGi0PuZuf4n+CjpqGng3XMOZleumhRvsR45QsEbgokaSIogLgzs08pz8
+	EGphhec8i8noAQWVXXhISTgIWe5x2Wc=
+X-Google-Smtp-Source: APiQypLv1EMBNuG9MWFMY1bYq0asNTz9foknzMDgMcJkqV1/DMOi07sbg2LWpPDYQk48BBDy4KUU7Q==
+X-Received: by 2002:a05:6512:1095:: with SMTP id j21mr23101784lfg.118.1588171613121;
+        Wed, 29 Apr 2020 07:46:53 -0700 (PDT)
+Return-Path: <oleksandr.s.popovych@globallogic.com>
+Received: from localhost.localdomain ([31.172.136.39])
+        by smtp.gmail.com with ESMTPSA id j15sm2586851lji.18.2020.04.29.07.46.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 06:01:08 -0700 (PDT)
-Message-ID: <73d18db72183f0654ff8f8849590f1539b641cf6.camel@linuxfoundation.org>
-Subject: Re: [OE-core] coding style question about obsoleted packages
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Wed, 29 Apr 2020 07:46:52 -0700 (PDT)
+From: "Oleksandr" <oleksandr.s.popovych@globallogic.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Apr 2020 14:01:07 +0100
-In-Reply-To: <alpine.LFD.2.21.2004290518370.6773@localhost.localdomain>
-References: <alpine.LFD.2.21.2004290518370.6773@localhost.localdomain>
-User-Agent: Evolution 3.36.1-2 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Cc: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+Subject: [OE-core][PATCH] expat: Added ptest
+Date: Wed, 29 Apr 2020 17:33:53 +0300
+Message-Id: <20200429143353.11360-1-oleksandr.s.popovych@globallogic.com>
+X-Mailer: git-send-email 2.17.1
 
-On Wed, 2020-04-29 at 05:28 -0400, Robert P. J. Day wrote:
->   just noticed that, in master branch, kbd recipe quite reasonably
-> distinguishes itself from the much, much older console-tools package
-> thusly:
-> 
->   RREPLACES_${PN} = "console-tools"
->   RPROVIDES_${PN} = "console-tools"
->   RCONFLICTS_${PN} = "console-tools"
-> 
-> all perfectly reasonable as long as console-tools actually existed as
-> a recipe, but it was deleted some months ago:
-> 
->   commit 320319f24dd1be300bc89c52b97d1703eab83029
->   Author: Alexander Kanavin <alex.kanavin@gmail.com>
->   Date:   Wed Nov 20 14:44:51 2019 +0100
-> 
->     console-tools: remove the recipe
-> 
->     The last release of this was in 2002(!), kbd is the modern,
->     supported alternative.
-> 
-> and as best i can tell, there are no references to console-tools in
-> the numerous layers i have checked out. under the circumstances,
-> then,
-> while it doesn't hurt to have that info above in the kbd recipe, is
-> there any value?
-> 
->   more generally, when a recipe is truly removed and obsoleted,
-> should
-> it be part of the removal process to get rid of such references to it
-> to avoid slowly-accumulating cruft in the code base?
+For ptest support for expat package:
 
-It in theory has implications for anyone doing on device upgrades so is
-needed for that. We need to let this sit for at least a release or two
-so people can transition, then it can be removed.
+ - expat_2.2.9.bb recipe was switched on cmake-based building system to
+avoid cahnges in autotools build system  which considered in upstream as
+potentially deprecated (https://github.com/libexpat/libexpat/issues/330).
 
-Cheers,
+ - expat_2.2.9.bb recipe was divided into expat_2.2.9.bb recipe which is
+switched on cmake-based build system and expat-native_2.2.9.bb recipe
+which is left with autotools build system. This solves problem with
+dependency loop between cmake-native and expat-native packages. Without
+this split, because expat-native package is listed in DEPENDS for
+cmake-native package, next dependency loop appears:
 
-Richard
+        Dependency loop #1 found:
+          Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_compile (dependent Tasks ['cmake-native_3.16.1.bb:do_configure'])
+          Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_install (dependent Tasks ['cmake-native_3.16.1.bb:do_compile'])
+          Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_populate_sysroot (dependent Tasks ['cmake-native_3.16.1.bb:do_install'])
+          Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_prepare_recipe_sysroot (dependent Tasks ['ninja_1.10.0.bb:do_populate_sysroot', 'cmake-native_3.16.1.bb:do_populate_sysroot', 'expat_2.2.9.bb:do_fetch'])
+          Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_configure (dependent Tasks ['expat_2.2.9.bb:do_prepare_recipe_sysroot', 'expat_2.2.9.bb:do_deploy_source_date_epoch', 'expat_2.2.9.bb:do_generate_toolchain_file', 'expat_2.2.9.bb:do_patch'])
+          Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_compile (dependent Tasks ['expat_2.2.9.bb:do_configure'])
+          Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_install (dependent Tasks ['expat_2.2.9.bb:do_compile'])
+          Task virtual:native:.../meta/recipes-core/expat/expat_2.2.9.bb:do_populate_sysroot (dependent Tasks ['expat_2.2.9.bb:do_install'])
+          Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_prepare_recipe_sysroot (dependent Tasks ['expat_2.2.9.bb:do_populate_sysroot', 'zlib_1.2.11.bb:do_populate_sysroot', 'bzip2_1.0.8.bb:do_populate_sysroot', 'xz_5.2.4.bb:do_populate_sysroot', 'ncurses_6.2.bb:do_populate_sysroot', 'curl_7.69.0.bb:do_populate_sysroot', 'cmake-native_3.16.1.bb:do_fetch'])
+          Task .../meta/recipes-devtools/cmake/cmake-native_3.16.1.bb:do_configure (dependent Tasks ['cmake-native_3.16.1.bb:do_deploy_source_date_epoch', 'cmake-native_3.16.1.bb:do_patch', 'cmake-native_3.16.1.bb:do_prepare_recipe_sysroot'])
+
+ - run-ptest script that initalizes testing, copies testing
+executables' output to log file and measures execution time of each testing
+executable was added.
+
+ - patch that implements output of each testcase result in testing exectutable
+was added.
+
+Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+---
+ meta/recipes-core/expat/expat-native_2.2.9.bb | 20 +++++
+ .../0001-Add-output-of-tests-result.patch     | 84 +++++++++++++++++++
+ meta/recipes-core/expat/expat/run-ptest       | 24 ++++++
+ meta/recipes-core/expat/expat_2.2.9.bb        | 14 +++-
+ 4 files changed, 138 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-core/expat/expat-native_2.2.9.bb
+ create mode 100644 meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
+ create mode 100644 meta/recipes-core/expat/expat/run-ptest
+
+diff --git a/meta/recipes-core/expat/expat-native_2.2.9.bb b/meta/recipes-core/expat/expat-native_2.2.9.bb
+new file mode 100644
+index 0000000000..c5dbb09ee2
+--- /dev/null
++++ b/meta/recipes-core/expat/expat-native_2.2.9.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "A stream-oriented XML parser library"
++DESCRIPTION = "Expat is an XML parser library written in C. It is a stream-oriented parser in which an application registers handlers for things the parser might find in the XML document (like start tags)"
++HOMEPAGE = "http://expat.sourceforge.net/"
++SECTION = "libs"
++LICENSE = "MIT"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
++
++SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
++           file://libtool-tag.patch \
++	  "
++
++SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
++SRC_URI[sha256sum] = "f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
++
++inherit autotools lib_package native
++
++do_configure_prepend () {
++	rm -f ${S}/conftools/libtool.m4
++}
+diff --git a/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch b/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
+new file mode 100644
+index 0000000000..c78fd2bbef
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/0001-Add-output-of-tests-result.patch
+@@ -0,0 +1,84 @@
++From aa84835a00bfd65e784d58411e76f60658e939dc Mon Sep 17 00:00:00 2001
++From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++Date: Tue, 18 Feb 2020 19:04:55 +0200
++Subject: [PATCH] Add output of tests result
++
++Added console output of testing results in form 'RESULT: TEST_NAME'.
++
++Changed verbose mode of test application set by '-v' ('--verbose')
++argument to CK_NORMAL.
++Added new supported argument '-vv' ('--extra-verbose') that changes
++verbose mode of test application to CK_VERBOSE. Results of each test
++are shown in output only if this mode is set.
++
++Upstream-Status: Denied
++
++This patch changes potentially deprecated feature that shoud be changed
++in upstream. [https://github.com/libexpat/libexpat/issues/382]
++
++Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++---
++ tests/minicheck.c | 10 +++++++++-
++ tests/runtests.c  |  4 +++-
++ 2 files changed, 12 insertions(+), 2 deletions(-)
++
++diff --git a/expat/tests/minicheck.c b/expat/tests/minicheck.c
++index a5a1efb..94fa412 100644
++--- a/tests/minicheck.c
+++++ b/tests/minicheck.c
++@@ -164,6 +164,8 @@ srunner_run_all(SRunner *runner, int verbosity) {
++       if (tc->setup != NULL) {
++         /* setup */
++         if (setjmp(env)) {
+++          if (verbosity >= CK_VERBOSE)
+++            printf("SKIP: %s\n", _check_current_function);
++           add_failure(runner, verbosity);
++           continue;
++         }
++@@ -171,6 +173,8 @@ srunner_run_all(SRunner *runner, int verbosity) {
++       }
++       /* test */
++       if (setjmp(env)) {
+++        if (verbosity >= CK_VERBOSE)
+++          printf("FAIL: %s\n", _check_current_function);
++         add_failure(runner, verbosity);
++         continue;
++       }
++@@ -178,12 +182,16 @@ srunner_run_all(SRunner *runner, int verbosity) {
++ 
++       /* teardown */
++       if (tc->teardown != NULL) {
++-        if (setjmp(env)) {
+++        if (setjmp(env)) { 
+++          if (verbosity >= CK_VERBOSE)
+++           printf("PASS: %s\n", _check_current_function);
++           add_failure(runner, verbosity);
++           continue;
++         }
++         tc->teardown();
++       }
+++      if (verbosity >= CK_VERBOSE)
+++        printf("PASS: %s\n", _check_current_function);
++     }
++     tc = tc->next_tcase;
++   }
++diff --git a/tests/runtests.c b/expat/tests/runtests.c
++index 7791fe0..75724e5 100644
++--- a/tests/runtests.c
+++++ b/tests/runtests.c
++@@ -11619,9 +11619,11 @@ main(int argc, char *argv[]) {
++   for (i = 1; i < argc; ++i) {
++     char *opt = argv[i];
++     if (strcmp(opt, "-v") == 0 || strcmp(opt, "--verbose") == 0)
++-      verbosity = CK_VERBOSE;
+++      verbosity = CK_NORMAL;
++     else if (strcmp(opt, "-q") == 0 || strcmp(opt, "--quiet") == 0)
++       verbosity = CK_SILENT;
+++    else if (strcmp(opt, "-vv") == 0 || strcmp(opt, "--extra-verbose") == 0)
+++	verbosity = CK_VERBOSE;
++     else {
++       fprintf(stderr, "runtests: unknown option '%s'\n", opt);
++       return 2;
++-- 
++2.17.1
++
+diff --git a/meta/recipes-core/expat/expat/run-ptest b/meta/recipes-core/expat/expat/run-ptest
+new file mode 100644
+index 0000000000..7bc81eba8a
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/run-ptest
+@@ -0,0 +1,24 @@
++#!/bin/bash
++
++output=${1:-"expat_tests.log"} # default log file 
++
++# logging function
++function testCheck() {
++	testExec="$1"
++	shift
++	echo && echo ${testExec} && ./${testExec} "$@"
++	error=$?
++	result=$([[ ${error} -eq 0 ]] && echo "PASS" || echo "FAIL")
++	echo "${result}: ${testExec}" && echo "============================"
++}
++
++export output
++export -f testCheck
++TIME=$(which time)
++
++echo "Architecture: $(uname -m)" > ${output}
++echo "Image: $(uname -sr)" >> ${output}
++${TIME} -f 'Execution time: %e s' bash -c "testCheck runtests -vv" |& tee -a ${output}
++${TIME} -f 'Execution time: %e s' bash -c "testCheck runtestspp -vv" |& tee -a ${output}
++echo
++
+diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
+index 8f3db41352..a0224c627e 100644
+--- a/meta/recipes-core/expat/expat_2.2.9.bb
++++ b/meta/recipes-core/expat/expat_2.2.9.bb
+@@ -8,15 +8,21 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+            file://libtool-tag.patch \
++	   file://run-ptest \
++	   file://0001-Add-output-of-tests-result.patch \
+ 	  "
+ 
+ SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
+ SRC_URI[sha256sum] = "f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
+ 
+-inherit autotools lib_package
++RDEPENDS_${PN}-ptest += "bash"
+ 
+-do_configure_prepend () {
+-	rm -f ${S}/conftools/libtool.m4
++#S = "${WORKDIR}"
++
++inherit cmake lib_package ptest
++
++do_install_ptest_class-target() {
++	install -m 755 ${B}/tests/* ${D}${PTEST_PATH}
+ }
+ 
+-BBCLASSEXTEND = "native nativesdk"
++BBCLASSEXTEND += "nativesdk"
+-- 
+2.17.1
 
