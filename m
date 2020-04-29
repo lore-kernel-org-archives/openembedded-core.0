@@ -1,79 +1,83 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.1881.1588192113091079943
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web11.1439.1588197720195738703
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 13:28:33 -0700
+ Wed, 29 Apr 2020 15:02:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TeYUKCTQ;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: bartlomiej.burdukiewicz@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id u6so4066493ljl.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 13:28:32 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eyzxtXaO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id i10so4394598wrv.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 15:01:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CiDMUmWnzJZwB16wwoDoGJMz1he7g4888Y4JoaN3O7E=;
-        b=TeYUKCTQR0UpCk9r4AZOIhwQS+FCwAzrHIyYYrArpJ0XgY79a5jbb9xgz7hsjED+57
-         /alWv9eV7M5xsEW3CYz/mU78nkPNdjuIz7p3rXYRIlK5fSR82GNmLSAnWhWKkbK++BgI
-         eyEHwrWeeBK2Oo2B89ZRCvpdKKZ/2qQW5KuVQzv1EsU8sTnmFf7Amwl5/ifLcvsGiRPL
-         Lis7jQ8uspgzPDifUSl5E5Dw0zzZdvgJGg/pAoUqMsDtVdSD7huXGR8kOnPCtI2Gkrwq
-         bYYGW4oghJoznFrTCn7UBdsPt1XPeR1xlCgEUhBn7eNdbpN3UelicgbEW/Mf2UhrZETQ
-         e1Rg==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6p+E/ltIPxdT1uxmPjtYOOaKjPkFkx+zSUBdDYS5UI4=;
+        b=eyzxtXaOzfQmnKbtbLHc4tTsS01OJr6YpeRmL1MVc8Uv0uVlsBJ9clLZ0dm5nnLchm
+         EuTV6pakR8J0YFs+EHWT/3zUfJlXdbPdJwQDDtT7Rev5siZHLwrngr3DN0gwUkqQ9wkg
+         4Ta2fj+bUmjbw7JdNsXePmj40nJ6OySO0Z+oU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CiDMUmWnzJZwB16wwoDoGJMz1he7g4888Y4JoaN3O7E=;
-        b=h2whkKgZ5LvtUw2AimeG0mXa25zNy0pxygE8yMpN8ktcacsitgaxjruUX4kV4a5m6A
-         3im/CutWRtdu9pkL3XGiNXiAjB8Ighc0IPMph8lLbXxYqbavpBo0aCYRe/zagQilO0bW
-         MX3PNjzogJF9ukZbUt4m7XPqh4+gCbB0IfwGC4fpJMT5Oqzp0Ej0YJDRas8Y7SS21Txy
-         UDgk9E3tKU2WZoAZFsfb05mQi6FG/NiXo/+qVm4y5BlGyHcSisAtWkc02R8UHusEzV5I
-         u06PqihxnfITP27OQzbuhuji4FeEL6zOm6zpq8XxZhckT1PJJ1b8kdp7N7TQk/Kr0rNL
-         2OGA==
-X-Gm-Message-State: AGi0PuYyOCmO7QrEuktG3WfAs+pVEkuGgPd6yr0C5BqgdfRN6XpSS8mi
-	NMtXWHhCU/NDr0Xxj60WdlMQMqhBbydFgw==
-X-Google-Smtp-Source: APiQypIwaC2D4cCNA+B7usGEdAnp229sGPwjj2jD3N6Zvhpg1YH6LED3kWSHMT2FjfbmYVwZt9qmMQ==
-X-Received: by 2002:a2e:8087:: with SMTP id i7mr20363491ljg.99.1588192110920;
-        Wed, 29 Apr 2020 13:28:30 -0700 (PDT)
-Return-Path: <bartlomiej.burdukiewicz@gmail.com>
-Received: from localhost.localdomain (dynamic-78-8-50-212.ssp.dialog.net.pl. [78.8.50.212])
-        by smtp.gmail.com with ESMTPSA id a6sm2941933ljk.22.2020.04.29.13.28.29
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6p+E/ltIPxdT1uxmPjtYOOaKjPkFkx+zSUBdDYS5UI4=;
+        b=DkG3G9fBXTe6BUlCQcldQT2I5PiJj+reaRWwosuEevrjUkT5LObww4SL17zwl5cNYS
+         0zb8mgB0un75EQB05bO34rvAHRkLizn6d+cnTy00qc7LNDczCgsmSZQAn7b6bCIccgEB
+         WK45ndT3YKGZQRZpFNnQNtMKLvX9oHxH6e+/gaErjU8eyEVuOIKTV5UYg4gVTem6Zy0b
+         LORHPQc036eno2cLJxdWTI1gqpkze9lTTeqN1BnSzb9N+SqgA6bWcWJdDr0U3xo80eDX
+         XETleoaFgBNDv/Zc4+wO3zn5NICepMEfMqWI/ktJ568Df/pBlfn0FBroe/Ce2z+3N9Hu
+         sjgw==
+X-Gm-Message-State: AGi0PuZk4nJt7vNWO3ml96Z/fYCl31K53HiKVM/sQybziP2Ve9ol63Be
+	RZTd8LNdiNwQB/l9Y+gUJNeoFT77ga4=
+X-Google-Smtp-Source: APiQypJH6Cbdl13oGy1MgZj/7B5bZxevxGUu0h43homUL12ryedskIVXehdmZ7hmRbWImkl3q7SO0Q==
+X-Received: by 2002:adf:ca0e:: with SMTP id o14mr59419wrh.254.1588197717964;
+        Wed, 29 Apr 2020 15:01:57 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id q10sm907073wrv.95.2020.04.29.15.01.56
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 13:28:30 -0700 (PDT)
-From: =?UTF-8?B?QmFydMWCb21pZWogQnVyZHVraWV3aWN6?= <bartlomiej.burdukiewicz@gmail.com>
+        Wed, 29 Apr 2020 15:01:57 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Bart=C5=82omiej=20Burdukiewicz?= <bartlomiej.burdukiewicz@gmail.com>
-Subject: [OE-core][PATCH 2/2] libva: removed opengl from REQUIRED_DISTRO_FEATURES.
-Date: Wed, 29 Apr 2020 22:27:45 +0200
-Message-Id: <20200429202745.3891440-2-bartlomiej.burdukiewicz@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200429202745.3891440-1-bartlomiej.burdukiewicz@gmail.com>
-References: <20200429202745.3891440-1-bartlomiej.burdukiewicz@gmail.com>
+Subject: [PATCH] sanity: Require gcc 6 or later
+Date: Wed, 29 Apr 2020 23:01:56 +0100
+Message-Id: <20200429220156.1300336-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Since libva can be built without virtual/mesa, opengl
-requirement is only true for glx backend and it's
-incorrect for wayland and x11 backends.
+New versions of rpm have issues with the libgomp support in gcc 5.x
+so raise the minimum to 6 or later. This mainly affects Ubuntu 16.04.
 
-Signed-off-by: Bartłomiej Burdukiewicz <bartlomiej.burdukiewicz@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/libva/libva_2.6.1.bb | 2 --
- 1 file changed, 2 deletions(-)
+ meta/classes/sanity.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-graphics/libva/libva_2.6.1.bb b/meta/recipes-graphics/libva/libva_2.6.1.bb
-index 8c495bad70..071be345d2 100644
---- a/meta/recipes-graphics/libva/libva_2.6.1.bb
-+++ b/meta/recipes-graphics/libva/libva_2.6.1.bb
-@@ -27,8 +27,6 @@ DEPENDS = "libdrm"
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 9e871017389..292c5591dd3 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -527,7 +527,7 @@ def check_wsl(d):
+             bb.warn("You are running bitbake under WSLv2, this works properly but you should optimize your VHDX file eventually to avoid running out of storage space")
+     return None
  
- inherit meson pkgconfig features_check
+-# Require at least gcc version 5.0.
++# Require at least gcc version 6.0.
+ #
+ # This can be fixed on CentOS-7 with devtoolset-6+
+ # https://www.softwarecollections.org/en/scls/rhscl/devtoolset-6/
+@@ -541,8 +541,8 @@ def check_gcc_version(sanity_data):
+     
+     build_cc, version = oe.utils.get_host_compiler_version(sanity_data)
+     if build_cc.strip() == "gcc":
+-        if LooseVersion(version) < LooseVersion("5.0"):
+-            return "Your version of gcc is older than 5.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
++        if LooseVersion(version) < LooseVersion("6.0"):
++            return "Your version of gcc is older than 6.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
+     return None
  
--REQUIRED_DISTRO_FEATURES = "opengl"
--
- PACKAGECONFIG ??= " \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'glx', '', d)} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)} \
+ # Tar version 1.24 and onwards handle overwriting symlinks correctly
 -- 
-2.26.2
+2.25.1
 
