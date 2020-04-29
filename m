@@ -1,127 +1,85 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web10.1722.1588142208208004535
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.330.1588150840396978512
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2020 23:36:48 -0700
+ Wed, 29 Apr 2020 02:00:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mingli.yu@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: qi.chen@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 03T6akgX011740
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 03T90cbl006935
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 23:36:47 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 02:00:39 -0700 (PDT)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
  ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 28 Apr 2020 23:36:45 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
+ 14.3.487.0; Wed, 29 Apr 2020 02:00:38 -0700
+From: "Chen Qi" <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] iputils: Initialize libgcrypt
-Date: Wed, 29 Apr 2020 14:36:44 +0800
-Message-ID: <20200429063644.46588-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.24.1
+Subject: [OE-core][PATCH] nfs-utils: fix configure error on some hosts
+Date: Wed, 29 Apr 2020 17:00:36 +0800
+Message-ID: <20200429090036.13169-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-From: Mingli Yu <mingli.yu@windriver.com>
+nfs-utils' configure.ac hardcodes the rpcgen's searching path. However,
+on some hosts, rpcgen is missing but SDK provides one. We should avoid
+the hardcoding so that nfs-utils could be built correctly under SDK.
 
-Initialize libgcrypt on first use otherwise
-there comes below warning when check the status
-of the ninfod.service.
- # systemctl status ninfod.service
- * ninfod.service - Respond to IPv6 Node Information Queries
- Loaded: loaded (/lib/systemd/system/ninfod.service; enabled; vendor preset: enabled)
- Active: active (running) since Wed 2020-04-29 05:18:21 UTC; 36s ago
- Docs: man:ninfod(8)
- Main PID: 347 (ninfod)
- Tasks: 1 (limit: 9382)
- Memory: 1.2M
- CGroup: /system.slice/ninfod.service
- `-347 /sbin/ninfod -d
-
- Apr 29 05:18:21 intel-x86-64 systemd[1]: Started Respond to IPv6 Node Information Queries.
- Apr 29 05:18:24 intel-x86-64 ninfod[347]: Libgcrypt warning: missing initialization - please fix the application
-
-Reference: https://salsa.debian.org/apt-team/apt/-/commit/4f489a8c7954cbbc9613e6b671c8efe87b9ced8c
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../0001-iputils-Initialize-libgcrypt.patch   | 55 +++++++++++++++++++
- .../iputils/iputils_s20190709.bb              |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt.patch
+ ...gure.ac-avoid-hardcoding-rpcgen-path.patch | 31 +++++++++++++++++++
+ .../nfs-utils/nfs-utils_2.4.3.bb              |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-avoid-hardcoding-rpcgen-path.patch
 
-diff --git a/meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt.patch b/meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-avoid-hardcoding-rpcgen-path.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-avoid-hardcoding-rpcgen-path.patch
 new file mode 100644
-index 0000000000..b56804cebe
+index 0000000000..5602e5be57
 --- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt.patch
-@@ -0,0 +1,55 @@
-+From 8576e0c218634e6f7ed1b6ff02fa164fb0c75f86 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Wed, 29 Apr 2020 03:50:32 +0000
-+Subject: [PATCH] iputils_md5dig.h: Initialize libgcrypt
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-avoid-hardcoding-rpcgen-path.patch
+@@ -0,0 +1,31 @@
++From b9049fbf051e559941298afd57ec43d6f6a5490d Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Wed, 29 Apr 2020 08:56:05 +0000
++Subject: [PATCH] configure.ac: avoid hardcoding rpcgen path
 +
-+Initialize libgcrypt on first use otherwise
-+there comes below warning when check the status
-+of the ninfod.service.
-+ # systemctl status ninfod.service
-+ * ninfod.service - Respond to IPv6 Node Information Queries
-+ Loaded: loaded (/lib/systemd/system/ninfod.service; enabled; vendor preset: enabled)
-+ Active: active (running) since Wed 2020-04-29 05:18:21 UTC; 36s ago
-+ Docs: man:ninfod(8)
-+ Main PID: 347 (ninfod)
-+ Tasks: 1 (limit: 9382)
-+ Memory: 1.2M
-+ CGroup: /system.slice/ninfod.service
-+ `-347 /sbin/ninfod -d
++Upstream-Status: Pending
 +
-+ Apr 29 05:18:21 intel-x86-64 systemd[1]: Started Respond to IPv6 Node Information Queries.
-+ Apr 29 05:18:24 intel-x86-64 ninfod[347]: Libgcrypt warning: missing initialization - please fix the application
-+
-+Upstream-Status: Inappropriate [the upstream avoids linking to crypto libraries in
-+                   commit 214ed83 common: copy md5 implementation to iputils project]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 +---
-+ iputils_md5dig.h | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
++ configure.ac | 5 +++--
++ 1 file changed, 3 insertions(+), 2 deletions(-)
 +
-+diff --git a/iputils_md5dig.h b/iputils_md5dig.h
-+index bfa7f02..3cc3fbf 100644
-+--- a/iputils_md5dig.h
-++++ b/iputils_md5dig.h
-+@@ -24,8 +24,17 @@ typedef struct {
-+ 	gcry_md_hd_t dig;
-+ } iputils_md5dig_ctx;
-+ 
-++void maybeInit()
-++{
-++	if (!gcry_control(GCRYCTL_INITIALIZATION_FINISHED_P))
-++	{
-++		gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
-++	}
-++}
-++
-+ static void iputils_md5dig_init(iputils_md5dig_ctx *ctx)
-+ {
-++	maybeInit();
-+ 	if (gcry_md_open(&ctx->dig, GCRY_MD_MD5, 0) != GPG_ERR_NO_ERROR)
-+ 		abort();
-+ 	return;
++diff --git a/configure.ac b/configure.ac
++index f9efdb7..8e8aeaa 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -152,8 +152,9 @@ AC_ARG_WITH(rpcgen,
++ 	rpcgen_cflags=-Werror=strict-prototypes
++ 	RPCGEN_PATH=
++ 	if test "$rpcgen_path" = "yes"; then
++-	    for p in /usr/local/bin/rpcgen /usr/bin/rpcgen /bin/rpcgen
++-	    do if test -f $p ; then RPCGEN_PATH=$p ; break; fi ; done
+++	    #for p in /usr/local/bin/rpcgen /usr/bin/rpcgen /bin/rpcgen
+++	    #do if test -f $p ; then RPCGEN_PATH=$p ; break; fi ; done
+++	    RPCGEN_PATH=`which rpcgen`
++ 		if test -z "$RPCGEN_PATH"; then
++ 			AC_MSG_ERROR([Please install rpcgen or use --with-rpcgen])
++ 		fi
 +-- 
 +2.24.1
 +
-diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb b/meta/recipes-extended/iputils/iputils_s20190709.bb
-index 2aed6b56ca..545f3d5e87 100644
---- a/meta/recipes-extended/iputils/iputils_s20190709.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
-@@ -14,6 +14,7 @@ SRC_URI = "git://github.com/iputils/iputils \
-            file://0001-ninfod-change-variable-name-to-avoid-colliding-with-.patch \
-            file://0001-ninfod-fix-systemd-Documentation-url-error.patch \
-            file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
-+           file://0001-iputils-Initialize-libgcrypt.patch \
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
+index 9bdb6f4ae4..05877d57f1 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
+@@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://0001-cacheio-use-intmax_t-for-formatted-IO.patch \
+            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
+            file://clang-warnings.patch \
++           file://0001-configure.ac-avoid-hardcoding-rpcgen-path.patch \
             "
- SRCREV = "13e00847176aa23683d68fce1d17ffb523510946"
- 
+ SRC_URI[md5sum] = "06020c76f531ed97f3145514901e0e7c"
+ SRC_URI[sha256sum] = "af65fce5dd8370cff9ead67baac5a6cd69c376dcadfef264dc2c78c904f26599"
 -- 
-2.24.1
+2.17.1
 
