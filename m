@@ -1,93 +1,81 @@
 Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
- by mx.groups.io with SMTP id smtpd.web12.4539.1588176712216402708
+ by mx.groups.io with SMTP id smtpd.web12.4541.1588176713769113030
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 09:11:52 -0700
+ Wed, 29 Apr 2020 09:11:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=JDkVDu4w;
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mPPvxLCD;
  spf=softfail (domain: sakoman.com, ip: 209.85.210.195, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f195.google.com with SMTP id z1so1291380pfn.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 09:11:52 -0700 (PDT)
+Received: by mail-pf1-f195.google.com with SMTP id x2so1279558pfx.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 09:11:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=LjNsXSi7jv5/pA/pTGrnFmxISMtsdHhqWclotDAPc4U=;
-        b=JDkVDu4w8AYJJb5gSruUwT82zk9Qxn9hnuutS2Y3zparYvmQWNJxU7M0Cry/W2/oC8
-         KYaYmiWc7EvQMoactVDySVjQNjEWG/NtRIef2ziHWnM9GRKjBNIoRZcEMQmlfD/1Sb/V
-         xVKCZKbXD3cxeoI8e2DCHPs32cs+HVb1koo29oAELF7b2Lux4aI3gL79kgl2KCv58KDL
-         ahjgvHIOHyEVjkQH9A7u9nBHmJZtpamFBDIfElHlL7H9Md2CD9PZPcRtn41t71BygsOX
-         QADOafj+uztaxyQFoMDt9Ibi1BBmQKj+DVfpawcK+uWNDOcQdgCN/+INT+HQ3xZPDuXG
-         425w==
+        h=from:to:subject:date:message-id:in-reply-to:references;
+        bh=wmXVlW37v+iA0Nc2t0PM/jQf7hCHMTvPIv4v7Mhg8bI=;
+        b=mPPvxLCDPvhqmR2A2Ig5soXFgZXahjhOlA/Wu+CzGIWEJP8wFKbBfm140k2mfAvcxx
+         plbPs5gZJ/61ejnxjTSRa5p/+kd926iS5wiLd1fC2tvvgQQqUZSF/BXJ68JQALLoWCxl
+         EBP9VJhY3u7zbr6Qw8srbumYS4flO0eEnt8NSdqvYWHg3WnW/qTFb1NSL8i5bEvHBPGu
+         tO4MPbv38BfN2QETNOayPszcgacVfCpz9usk4xcLQFh1N0zzmccKoAGpSRtCb9BG5Xlf
+         lPMSeAOzKSI5NFmDU1Uj8ioeJ0aQrGzxNQLE80lxpYjRC536Np0JqPwjpMhvu708meay
+         Hdqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LjNsXSi7jv5/pA/pTGrnFmxISMtsdHhqWclotDAPc4U=;
-        b=csGQBVw16e92MyMmvM9YfKqzLPdVbQNdXNby474KImfGBktxnqn6R+EUynX3aJtynv
-         Za0ONvoVUbot2lQVdIsYEX1Z8YRLV1EZ8RqviP+Bsq8zqxUJ6zUwHTWDu4+Ow8KZnZaE
-         50ANWWpb0ltkPdy1e6td/iAsrrzzYjUXyYFyp8lUsGlzqZGwdnV7amsiph28+IB93IAO
-         z97qQf2NOWklu9VUkX+obkwtdv7qJJmgAYJpmteplwZ9RjF/sUUieo2rjmv85RQKHrHf
-         6LFWQvLrQx5NveRfa9Yih2apdP/3crSYAFdP7MSp2r2NCmN1WQYpXmBjPKPlkyXSWcOD
-         4ZPw==
-X-Gm-Message-State: AGi0PuaUM+EwjydlyWKltxs7q4W08PaHUhu74MwiJisy6zxnU0ONlukP
-	7KJyK5aTPTRBAuoImPZltgikPcUpccZ7aQ==
-X-Google-Smtp-Source: APiQypKXItIKPk/qKw3ci5cIhhVM2I1mZbszpi5I5+K84P3EzzuScTiJe9vuAVLB2FKNe+CBnJQePA==
-X-Received: by 2002:a63:5009:: with SMTP id e9mr32220564pgb.381.1588176711315;
-        Wed, 29 Apr 2020 09:11:51 -0700 (PDT)
+         :references;
+        bh=wmXVlW37v+iA0Nc2t0PM/jQf7hCHMTvPIv4v7Mhg8bI=;
+        b=fi6ouf+CsSQTLPFcgiH89xMxZLdCSNVvCCGaxlzEDwwXOPqecUVODLreznjFlFDn21
+         MCsh+wAX+lGGiuFzwlymAf2XxYgf/2SRxsxvFAKfMvHZUocwIXQI5Cg0IPY8EsGYarPv
+         q+OMNHORrEoO+UWpSWD6MF/8SScSJKCkjUy65JkdnBav3aquguBcBmJOcNMaKlP9oGih
+         ppUkXzBQQ4RCLqmRg4qtXozHSFnp4EN8WXbtXLHKqtgyyN90ft52TfDfMM2cEI+i4fkR
+         g+geExzd35uOBKQI/E7/pfq3hhrw7Ya9/MRiswa/JGUUkR/9mUoiqj7gkBH4i1kxNAsP
+         a5Vw==
+X-Gm-Message-State: AGi0PuYbobY5LGHnA5ksrIMaDZ5puQEM2hxM2dJEO0+MJ3fG7WfKwde7
+	e9P0oyxJMfhUTSyuIG3xeBN93SL+W9mNHg==
+X-Google-Smtp-Source: APiQypIivIb4t9W3tAOsPXK/0pMBCj3y5lQMuc4T9BlCabB3oRnNYqBG28r0iC3zzmwdXL+CvxyX6g==
+X-Received: by 2002:a65:68d2:: with SMTP id k18mr32809254pgt.359.1588176712867;
+        Wed, 29 Apr 2020 09:11:52 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id o1sm4833062pjs.39.2020.04.29.09.11.49
+        by smtp.gmail.com with ESMTPSA id o1sm4833062pjs.39.2020.04.29.09.11.51
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 09:11:50 -0700 (PDT)
+        Wed, 29 Apr 2020 09:11:52 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/16] tzdata: remove exit 0 from pkg_postinst
-Date: Wed, 29 Apr 2020 06:10:54 -1000
-Message-Id: <3108827db413b942e28c6075dab2eec184d54eb9.1588175775.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/16] gnutls: upgrade 3.6.12 -> 3.6.13
+Date: Wed, 29 Apr 2020 06:10:55 -1000
+Message-Id: <4739fbcfdb5024184c9cdb40ab6f569c4d8db6ee.1588175775.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1588175775.git.steve@sakoman.com>
 References: <cover.1588175775.git.steve@sakoman.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-From: Maxime Roussin-B?langer <maxime.roussinbelanger@gmail.com>
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
 
-Documentation says that if you exit 0 in a pkg_postinst it will marked as
-installed.
-If you exit 0, before running postinst-intercepts defer_to_first_boot, the
-pkg_postinst_ontarget script will not be present on target.
-
-The "exit 0" in tzdata makes it difficult to have a bbappend with a
-pkg_postinst_target step when you have `INSTALL_TIMEZONE_FILE = 0`
-
-Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/timezone/tzdata.bb | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ .../gnutls/{gnutls_3.6.12.bb => gnutls_3.6.13.bb}             | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/gnutls/{gnutls_3.6.12.bb => gnutls_3.6.13.bb} (93%)
 
-diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
-index 1e2d9bd1b9..1e2b440fb0 100644
---- a/meta/recipes-extended/timezone/tzdata.bb
-+++ b/meta/recipes-extended/timezone/tzdata.bb
-@@ -60,12 +60,8 @@ pkg_postinst_${PN} () {
- 	if [ -e ${src} ] ; then
- 		tz=$(sed -e 's:#.*::' -e 's:[[:space:]]*::g' -e '/^$/d' "${src}")
- 	fi
--	
--	if [ -z "${tz}" ] ; then
--		exit 0
--	fi
--	
--	if [ ! -e "$D${datadir}/zoneinfo/${tz}" ] ; then
-+
-+	if [ ! -z "${tz}" -a ! -e "$D${datadir}/zoneinfo/${tz}" ] ; then
- 		echo "You have an invalid TIMEZONE setting in ${src}"
- 		echo "Your ${etc_lt} has been reset to Universal; enjoy!"
- 		tz="Universal"
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.12.bb b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
+similarity index 93%
+rename from meta/recipes-support/gnutls/gnutls_3.6.12.bb
+rename to meta/recipes-support/gnutls/gnutls_3.6.13.bb
+index f1eeebc807..f56d42a613 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.12.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
+@@ -21,8 +21,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://arm_eabi.patch \
+ "
+ 
+-SRC_URI[md5sum] = "a23900f14980a467bdce3a0fd31dfa18"
+-SRC_URI[sha256sum] = "bfacf16e342949ffd977a9232556092c47164bd26e166736cf3459a870506c4b"
++SRC_URI[md5sum] = "bb1fe696a11543433785b4fc70ca225f"
++SRC_URI[sha256sum] = "32041df447d9f4644570cf573c9f60358e865637d69b7e59d1159b7240b52f38"
+ 
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
+ 
 -- 
 2.17.1
 
