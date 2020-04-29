@@ -1,128 +1,66 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web12.2887.1588172642670798090
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web11.3163.1588173328563113146
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 08:04:02 -0700
+ Wed, 29 Apr 2020 08:15:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YuKNHbnw;
- spf=pass (domain: gmail.com, ip: 209.85.215.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f193.google.com with SMTP id n16so1132915pgb.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 08:04:02 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U1ezGkTF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id b11so2992332wrs.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 08:15:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=EuRPgFM66UTTRkJOqh/LEHdB1NqP5iMagKVoydKqgh4=;
-        b=YuKNHbnw1U/P+ZjDLu/LseZ4BE//K/rhRSqqUoRBeBO+bPxZYzMlPtaGN8Etwk4ITz
-         LHInpQw2u9yd9KSLCxvtNvvRz5nu5eX1Gaxj2jzNT10v2hV3r4s8SyPhMR01mZT1M4EW
-         HmiqAUdf6MmOz/Y6ztXFdwySWurm1xc8c82TSvn+PXbwwK5Qkr4Hn0LqJtYjHMHP24pM
-         ZhIMOH4moXC/COQw4lkD0E0WPLVNUzeXmWqF7qbtgcF1S9ySD4EG42n5LuSUwMvRqCM8
-         5Lwqi3hJWgwruIpFcUiRVBPrJwv9H8DpXGjzWfeIoSojcC+tgWGrAC+jV4wtpvh4cwTS
-         RnrA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=ce5P+SVLqtcpUKj7KtciB6eNUUf0OSEN7nRNXaoO/WY=;
+        b=U1ezGkTFbxiknHhUFfpTOwWMI/86sipieRsYsXrg/skJYs+poiL0kN3bXld93NSnQ4
+         7CDFmIH+I1CNV3k9svnyPhiIHoNmt1ASRxch+M1gPpLkdApsJpFvYDmR60EhNuLi7pFw
+         VUlvJ9nJV39zpfA6mCmskwUmMnGvsm+HrLgwM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=EuRPgFM66UTTRkJOqh/LEHdB1NqP5iMagKVoydKqgh4=;
-        b=gjBW4ND1SpW5rM25gF2wuDI+45E7KSvxFi+mUrtqJFarcnxzIBLBoJHN6eCKk9+j+0
-         rWuoVoFao3EjVYwdGpQ1Eor94TDNHHxSLI3TAICAWm0T4RlE3lq3E9chAmq6M9jHCsSG
-         qp6lx/2I8Cn2Z7eKamumRgbA4Or6QpF/042ESst/jB8OmCc5iDvKaWUlORf2yjVyahmx
-         kESrYwDkvdqJE6oLCfFdSXF7ncVmZmV5HkNThHrZvxCq79C77eO7pVbP53l5CNY9KR6z
-         iCYApEilPE3cdNetkNofpleeI2d0MYj80Yap6BQk59mW4hBBz94t2jOi11GHqrj2azYa
-         wxYQ==
-X-Gm-Message-State: AGi0PubtEi5nekBt6yTsx4SYfkMI+C12NB7vdtz8PIxSeK9tPKVVdp52
-	FUIMb1lGbdkTyKIWbBxNfmcEcPUCsgI=
-X-Google-Smtp-Source: APiQypLQR1OP6qCvouTonGJcmc+XG4DljxyGvee1CUcha2nY2I5Sd5i0J2un7KRwX66b2Vn52zCXIQ==
-X-Received: by 2002:a63:6d4a:: with SMTP id i71mr33640240pgc.445.1588172641188;
-        Wed, 29 Apr 2020 08:04:01 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0:68fb:d75c:9385:c0c? ([2601:646:9200:4e0:68fb:d75c:9385:c0c])
-        by smtp.gmail.com with ESMTPSA id 1sm1300213pff.180.2020.04.29.08.04.00
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Apr 2020 08:04:00 -0700 (PDT)
-Subject: Re: [OE-core][PATCH] nfs-utils: fix configure error on some hosts
-To: openembedded-core@lists.openembedded.org
-References: <20200429090036.13169-1-Qi.Chen@windriver.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <e5d91d81-16bc-dff1-301f-fabc8921a5e9@gmail.com>
-Date: Wed, 29 Apr 2020 08:03:59 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.7.0
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ce5P+SVLqtcpUKj7KtciB6eNUUf0OSEN7nRNXaoO/WY=;
+        b=iFIBUbkxDsZf6RGKfGlc1TOc0BI8VUyyPOvPDeuzSt4EvlnrTx0VbRm6VH7bIBmCgQ
+         fc5BAjCmzUt7wYickngbnmLkeEEzOgdeJAJbHeit93hjG6XssEOZndH/9ETswLltN4iR
+         v4zt45TtuEZDKRFRHXEs2PGP/p7HIcFnfPsW7fXie4+A7IN42ns9ksOaSmpN72YsCyLh
+         DNIMR+IEY19jlzSXh7WGaAEO8Ea/V1XzA3HrtH2rfiO3vSATz5zH2qL4a0CcRvSAVYXN
+         lJyaD294dB9migNrxwuVxRm/FGlSGVPltLlvqn08RXRKxtnRAOAp7JkizarcTrRmYHfN
+         BYjw==
+X-Gm-Message-State: AGi0PubK7bnteQvV2kFmXwy3/3PFSNBPBB0aGdXakkek6uQz28FF/PHy
+	mMLXmRKlD7WcIvVJU4MEYR7X3vtCyoU=
+X-Google-Smtp-Source: APiQypITBl8yHsGqvjsFd4jsaEspnehed6aI0DQS83OlFDSDjQuycdkA8fmhXhNhEn2flyt61ui/Cg==
+X-Received: by 2002:adf:f5ce:: with SMTP id k14mr43009728wrp.39.1588173326796;
+        Wed, 29 Apr 2020 08:15:26 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id e21sm31884878wrc.1.2020.04.29.08.15.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2020 08:15:26 -0700 (PDT)
+Message-ID: <c50011f9175ac1a7fa09bf6b60494defcaef1f92.camel@linuxfoundation.org>
+Subject: Re: [OE-core][zeus][PATCH] systemd: Fix CVE-2020-1712
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org, "wenlin.kang@windriver.com"
+	 <wenlin.kang@windriver.com>
+Date: Wed, 29 Apr 2020 16:15:25 +0100
+In-Reply-To: <efdbc65e2ec15290bf434e671cdb7bc3c16b6dde.camel@intel.com>
+References: <20200428083626.58382-1-wenlin.kang@windriver.com>
+	 <efdbc65e2ec15290bf434e671cdb7bc3c16b6dde.camel@intel.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-In-Reply-To: <20200429090036.13169-1-Qi.Chen@windriver.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+On Wed, 2020-04-29 at 04:47 +0000, Anuj Mittal wrote:
+> I wonder if it'd be better to upgrade to latest stable release for
+> v243
+> instead which has this fix.
+> 
+> Does the stable branch policy allow that in case of systemd?
 
+Yes, we allow updating along upstream stable branches for our stable
+releases.
 
-On 4/29/20 2:00 AM, Chen Qi wrote:
-> nfs-utils' configure.ac hardcodes the rpcgen's searching path. However,
-> on some hosts, rpcgen is missing but SDK provides one. We should avoid
-> the hardcoding so that nfs-utils could be built correctly under SDK.
-> 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->   ...gure.ac-avoid-hardcoding-rpcgen-path.patch | 31 +++++++++++++++++++
->   .../nfs-utils/nfs-utils_2.4.3.bb              |  1 +
->   2 files changed, 32 insertions(+)
->   create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-avoid-hardcoding-rpcgen-path.patch
-> 
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-avoid-hardcoding-rpcgen-path.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-avoid-hardcoding-rpcgen-path.patch
-> new file mode 100644
-> index 0000000000..5602e5be57
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-avoid-hardcoding-rpcgen-path.patch
-> @@ -0,0 +1,31 @@
-> +From b9049fbf051e559941298afd57ec43d6f6a5490d Mon Sep 17 00:00:00 2001
-> +From: Chen Qi <Qi.Chen@windriver.com>
-> +Date: Wed, 29 Apr 2020 08:56:05 +0000
-> +Subject: [PATCH] configure.ac: avoid hardcoding rpcgen path
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> +---
-> + configure.ac | 5 +++--
-> + 1 file changed, 3 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/configure.ac b/configure.ac
-> +index f9efdb7..8e8aeaa 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -152,8 +152,9 @@ AC_ARG_WITH(rpcgen,
-> + 	rpcgen_cflags=-Werror=strict-prototypes
-> + 	RPCGEN_PATH=
-> + 	if test "$rpcgen_path" = "yes"; then
-> +-	    for p in /usr/local/bin/rpcgen /usr/bin/rpcgen /bin/rpcgen
-> +-	    do if test -f $p ; then RPCGEN_PATH=$p ; break; fi ; done
-> ++	    #for p in /usr/local/bin/rpcgen /usr/bin/rpcgen /bin/rpcgen
-> ++	    #do if test -f $p ; then RPCGEN_PATH=$p ; break; fi ; done
-> ++	    RPCGEN_PATH=`which rpcgen`
+Cheers,
 
-Perhaps pass it via configure argument, since which can find random 
-version too.
+Richard
 
-> + 		if test -z "$RPCGEN_PATH"; then
-> + 			AC_MSG_ERROR([Please install rpcgen or use --with-rpcgen])
-> + 		fi
-> +--
-> +2.24.1
-> +
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
-> index 9bdb6f4ae4..05877d57f1 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.3.bb
-> @@ -31,6 +31,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
->              file://0001-cacheio-use-intmax_t-for-formatted-IO.patch \
->              file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
->              file://clang-warnings.patch \
-> +           file://0001-configure.ac-avoid-hardcoding-rpcgen-path.patch \
->              "
->   SRC_URI[md5sum] = "06020c76f531ed97f3145514901e0e7c"
->   SRC_URI[sha256sum] = "af65fce5dd8370cff9ead67baac5a6cd69c376dcadfef264dc2c78c904f26599"
-> 
-> 
-> 
-> 
