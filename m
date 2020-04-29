@@ -1,83 +1,85 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web11.1439.1588197720195738703
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.1632.1588198349556918183
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 15:02:00 -0700
+ Wed, 29 Apr 2020 15:12:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eyzxtXaO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id i10so4394598wrv.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 15:01:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VmhHU4XM;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: sakoman@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id x17so4435404wrt.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 15:12:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6p+E/ltIPxdT1uxmPjtYOOaKjPkFkx+zSUBdDYS5UI4=;
-        b=eyzxtXaOzfQmnKbtbLHc4tTsS01OJr6YpeRmL1MVc8Uv0uVlsBJ9clLZ0dm5nnLchm
-         EuTV6pakR8J0YFs+EHWT/3zUfJlXdbPdJwQDDtT7Rev5siZHLwrngr3DN0gwUkqQ9wkg
-         4Ta2fj+bUmjbw7JdNsXePmj40nJ6OySO0Z+oU=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=3asLvWdef/wop+jM8X/GJhjEspyYA28ZwRU2QkZsRb0=;
+        b=VmhHU4XMQR5ACbiTXd5EJIa+av42naMNjesbhqVZlEh4JC5FlqfUX5uB8rGe9Xw5bO
+         pRgdxANaXYbn++42gNNZTWOgozzY8ChdmYNvQbTb3SwXz5HyNpFdljsr2BrPB2PHa4WC
+         dhMxIA0jZ+URQwaxNLSbTOlXNdCARhvF4sDjIGL6VtfjNFEh0orfAOpPAOMY4SnM8kOe
+         Dyu15BDSlij2vSx9oVCLIQm9huq7u/+iR3MLJrkSEvLPBf7BHDW8bSCeEmpBeldpX9ry
+         WPyFwezdDAkCUbpA2Ux8mEP9opJBC1ttOUklwlrmRi0JoMJNIBq5dJemtKt0DUxz2pj7
+         Vlag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6p+E/ltIPxdT1uxmPjtYOOaKjPkFkx+zSUBdDYS5UI4=;
-        b=DkG3G9fBXTe6BUlCQcldQT2I5PiJj+reaRWwosuEevrjUkT5LObww4SL17zwl5cNYS
-         0zb8mgB0un75EQB05bO34rvAHRkLizn6d+cnTy00qc7LNDczCgsmSZQAn7b6bCIccgEB
-         WK45ndT3YKGZQRZpFNnQNtMKLvX9oHxH6e+/gaErjU8eyEVuOIKTV5UYg4gVTem6Zy0b
-         LORHPQc036eno2cLJxdWTI1gqpkze9lTTeqN1BnSzb9N+SqgA6bWcWJdDr0U3xo80eDX
-         XETleoaFgBNDv/Zc4+wO3zn5NICepMEfMqWI/ktJ568Df/pBlfn0FBroe/Ce2z+3N9Hu
-         sjgw==
-X-Gm-Message-State: AGi0PuZk4nJt7vNWO3ml96Z/fYCl31K53HiKVM/sQybziP2Ve9ol63Be
-	RZTd8LNdiNwQB/l9Y+gUJNeoFT77ga4=
-X-Google-Smtp-Source: APiQypJH6Cbdl13oGy1MgZj/7B5bZxevxGUu0h43homUL12ryedskIVXehdmZ7hmRbWImkl3q7SO0Q==
-X-Received: by 2002:adf:ca0e:: with SMTP id o14mr59419wrh.254.1588197717964;
-        Wed, 29 Apr 2020 15:01:57 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id q10sm907073wrv.95.2020.04.29.15.01.56
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 15:01:57 -0700 (PDT)
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sanity: Require gcc 6 or later
-Date: Wed, 29 Apr 2020 23:01:56 +0100
-Message-Id: <20200429220156.1300336-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=3asLvWdef/wop+jM8X/GJhjEspyYA28ZwRU2QkZsRb0=;
+        b=ce5Easwtz4qoH123B//XqqdevJ0svedKPdCBKxKRc7XD3VKYdSrTzypv4ISuCG6FEg
+         j9Fz6oceqYhxOOvQtkMHHHlPXGIEHBMwv1BhNX3kVcA822XQdVNeEpf+sN3QBn+x/emQ
+         3bGrbVYSTpLMq8uGzNV24jsUgQKUgRXjzl1+O1P5/HePVnB7SFfhliW4BRq6OHpkhKZv
+         6jpGely/Bla9sQlwMiEchvHySqO2swDN7FnX6Lh+9kwRq4KfQiKcDrLiUT05aK2QPXLn
+         N4JyOLqUP6nCMXESudS3EYaI9Z+5f0WGEL+MxGSj2ndHAl/5hPgcfcl8unz6/E8E4exV
+         t2jQ==
+X-Gm-Message-State: AGi0PuZ+q48luUrxhjh/f+C51FT3Nf3Do08VAj/GnGMfbEQzlkkmyB6U
+	KUSPLXTk4SUt/Ybq9yj9VtZk/LodwTqpjkkkl3Q1Rg==
+X-Google-Smtp-Source: APiQypJVQceBjKHuodidqYOvODwGoYGlGIuG65qsniGA4j+RgYSgn+oNug8yezlAM+JlTxthQThdNnj+7/HyMZFxKdY=
+X-Received: by 2002:adf:f651:: with SMTP id x17mr106431wrp.230.1588198347674;
+ Wed, 29 Apr 2020 15:12:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1588175775.git.steve@sakoman.com> <f03ee1a2a697394f3c4168350089526ef6b87de6.1588175775.git.steve@sakoman.com>
+ <CAJ86T=WRV+Uny9-4J--0sS2cr5CAtA=D4gFXHgm=-pXsX=BjKg@mail.gmail.com>
+In-Reply-To: <CAJ86T=WRV+Uny9-4J--0sS2cr5CAtA=D4gFXHgm=-pXsX=BjKg@mail.gmail.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Wed, 29 Apr 2020 12:12:16 -1000
+Message-ID: <CAGDS+nmnOc5HcpL-JM_PGUug56W53RvwK_+OgAea8AbzU10w+g@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 02/16] bzip2/pbzip2: Correct license information
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-New versions of rpm have issues with the libgomp support in gcc 5.x
-so raise the minimum to 6 or later. This mainly affects Ubuntu 16.04.
+On Wed, Apr 29, 2020 at 9:13 AM Andre McCurdy <armccurdy@gmail.com> wrote:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/sanity.bbclass | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+> The corresponding update to the busybox recipe should be merged too.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 9e871017389..292c5591dd3 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -527,7 +527,7 @@ def check_wsl(d):
-             bb.warn("You are running bitbake under WSLv2, this works properly but you should optimize your VHDX file eventually to avoid running out of storage space")
-     return None
- 
--# Require at least gcc version 5.0.
-+# Require at least gcc version 6.0.
- #
- # This can be fixed on CentOS-7 with devtoolset-6+
- # https://www.softwarecollections.org/en/scls/rhscl/devtoolset-6/
-@@ -541,8 +541,8 @@ def check_gcc_version(sanity_data):
-     
-     build_cc, version = oe.utils.get_host_compiler_version(sanity_data)
-     if build_cc.strip() == "gcc":
--        if LooseVersion(version) < LooseVersion("5.0"):
--            return "Your version of gcc is older than 5.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
-+        if LooseVersion(version) < LooseVersion("6.0"):
-+            return "Your version of gcc is older than 6.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
-     return None
- 
- # Tar version 1.24 and onwards handle overwriting symlinks correctly
--- 
-2.25.1
+Thanks, I'm picking that one up in the next batch.
 
+Steve
+
+> > diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> > index 8e9b779e67..d58f553a49 100644
+> > --- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> > +++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> > @@ -4,7 +4,7 @@ Huffman coding. Compression is generally considerably better than that achieved
+> >  LZ77/LZ78-based compressors, and approaches the performance of the PPM family of statistical compressors."
+> >  HOMEPAGE = "https://sourceware.org/bzip2/"
+> >  SECTION = "console/utils"
+> > -LICENSE = "bzip2"
+> > +LICENSE = "bzip2-1.0.6"
+> >  LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664"
+> >
+> >  SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+> > diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+> > index 1275cc0097..d7450c73c1 100644
+> > --- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+> > +++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+> > @@ -5,7 +5,7 @@ machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
+> >  newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
+> >  HOMEPAGE = "http://compression.ca/pbzip2/"
+> >  SECTION = "console/utils"
+> > -LICENSE = "BSD-4-Clause"
+> > +LICENSE = "bzip-1.0.6"
+> >  LIC_FILES_CHKSUM = "file://COPYING;md5=398b8832c6f840cfebd20ab2be6a3743"
+> >
+> >  DEPENDS = "bzip2"
+> > --
+> > 2.17.1
+> >
+> >
+> 
