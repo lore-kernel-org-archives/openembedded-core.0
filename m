@@ -1,83 +1,86 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
- by mx.groups.io with SMTP id smtpd.web10.4534.1588176718749210005
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+ by mx.groups.io with SMTP id smtpd.web10.4535.1588176720411492638
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 09:11:58 -0700
+ Wed, 29 Apr 2020 09:12:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=jujnCyXI;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.195, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f195.google.com with SMTP id x77so1300265pfc.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 09:11:58 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EJ/Z30I8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.195, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f195.google.com with SMTP id d3so1226611pgj.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 09:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=hhvwThaXn+iMoCnrzQm+xAMZIh29CRSCnGDSkNn2NoU=;
-        b=jujnCyXI+RDIDRekHRE4RwWEhnTHrpMBBwqgzlFalRpBJkULetE36zj5vGTHWTnEtg
-         OIkC8DLaihZZvtMIUkCye2TKRihRsyzd7p3AzVEt3t7K5i64hXUukeD7VGajXm2f4zSb
-         BkUWP40a2FpVPzt0+MWcTnulFSZR04HtgBpkGFzA0grBXwdhwvmqp+ExasGaJ1V7XZps
-         J2SfHAYH9ydzuoqF/1AMsCE5Fn/1SHI36dQxqTRSmEVM7WFm48Zk7oSZpmeq0ozOJ32q
-         jq0oTu1t/7vozK2Zbz14FAGpW87h/tMU9FWOnyC+GfOuk1j6ZiuVoIGxFkhGHAfgseqZ
-         70Fg==
+        bh=nqDf93I6jPrrYGJ/r60E3vJ/rvS0CBgEMJWPdI1Lkwc=;
+        b=EJ/Z30I8Qs3rfrGCJ18HdRBK2vkPLFJPwX0rE3Lz2fo7QLk8sqOa4TlZ3p043sX2FV
+         NZGVqOmMbyzH9zoNkY1fcST9jjOhIm3oK13kcBsBB2EEFXqBg3wuDjZKnY7R3Q0oOZwf
+         eI55Fkltu8J8ui/h21wOs//n7tgqSyHT1fLVegEBXVDOiT8RrMOLD1cFolKo9ws0PD74
+         l96sTUP0LY+PXqdAiJwq5gDN4Bdu4VYVCIP02Q9IAmxvXBBW3nhY387hM/xiisDCWkWT
+         Ch4amP2zNAFsErl+OgeCj1hBa2G1I8COHhIRh92FmVBTW3jUIwAjB9L+8sHrLHpulG77
+         gWLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=hhvwThaXn+iMoCnrzQm+xAMZIh29CRSCnGDSkNn2NoU=;
-        b=GWRPduF4G8Bk/jfykw5SKVLqe9ptEmbxac9TUZtMSSoeo6scXHBnTGISLmqkTrQWFc
-         kh2axni0fOmB5/HTKoPLLZ91+7hLyak2848F/t7K29ewqlqudYpsZj0n5VhAUbNX2xLP
-         MmoCPduxMCsYDZbvHKG5eZJU+hV8xoGc1vowdxl8Q4jtwo2uKMhUVi40dzor+knSWguQ
-         1XYCMwSyaEArdbhx4HVNv93EwDXajVm05SYYp86Au7XdutlcYVWLVTeEa5COfOfzo2TT
-         WNfUzc0TE425rGWJss5WEDcHMk+pqoF/8+Jgult4jnlnF7m8thexnLI2Zt/2tLjxDqyR
-         ElqA==
-X-Gm-Message-State: AGi0PuaDUOZP0LO6GAZU8wi8ZPW6iq16Iv8kkHJXVzFVzgV1rsmg0gpJ
-	7giwB9zvMphNUf8d92vgUhrUsbEmGLo0ug==
-X-Google-Smtp-Source: APiQypL99V/3w7JnNZ+nTJsJpAmRCuhgsBYMjI6XMFfB0373PlBv0j7Bt75h+Up7+wb0+JC8QS9Azg==
-X-Received: by 2002:a63:3d05:: with SMTP id k5mr21266567pga.302.1588176717770;
-        Wed, 29 Apr 2020 09:11:57 -0700 (PDT)
+        bh=nqDf93I6jPrrYGJ/r60E3vJ/rvS0CBgEMJWPdI1Lkwc=;
+        b=nF4++ytXMYDpWZWBVx6aqW8A04RAq1UVCS+E673KVIUibKNuFxx0Ajd3XrbwOOxBQq
+         d7MHbaLQFuaZZMk0p0zKTOehIMUGpoNxN/SF0bHDe2p9f5Qg91q5HX8Fmfa0lv2J0602
+         vKuTyQsy0/qRLyDMKlxVHh5kqDv75dQrIalGsAY6ZWi8dlofdckM6NUtJzlGjABWJeBq
+         2rF5J+o50qWoilosSkUypn3E8/nsjB3V8nU+FvyauNHRL5M9AXGJoLrXcOxgYFYPBIZk
+         ZwMIXs2fxtXS+R4l4Xz64tA8tON0qfFCrh7mUn9m60EGWUL2ROEMFEOu+5rGqK/zmSu5
+         D57A==
+X-Gm-Message-State: AGi0Puai/O630vwDsz/NH8p2SneVdmB6cjiHqbK73blfuxCoWEkWAhXA
+	qmWbHbxy7p9V5wwqH/RgpNYvnRRngCoZfw==
+X-Google-Smtp-Source: APiQypJi8uTW2N6apjUJgOuC/DzRjQjZN9FXIOfOT7aNke7A3rKfiB029/R8LNjh7NTP2ayS9IYB4A==
+X-Received: by 2002:a63:ea4f:: with SMTP id l15mr32477906pgk.58.1588176719475;
+        Wed, 29 Apr 2020 09:11:59 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id o1sm4833062pjs.39.2020.04.29.09.11.56
+        by smtp.gmail.com with ESMTPSA id o1sm4833062pjs.39.2020.04.29.09.11.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 09:11:57 -0700 (PDT)
+        Wed, 29 Apr 2020 09:11:58 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/16] alsa-state: ignore 'No soundcards found' error in pkg_postinst
-Date: Wed, 29 Apr 2020 06:10:58 -1000
-Message-Id: <aab681c263357b3e832e72b8910599bf3b51b3b6.1588175775.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/16] buildtools-tarball: add nativesdk-mtools for `wic ls'
+Date: Wed, 29 Apr 2020 06:10:59 -1000
+Message-Id: <3ad1f7742105cbbc1468b0d71e796d10770db189.1588175775.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1588175775.git.steve@sakoman.com>
 References: <cover.1588175775.git.steve@sakoman.com>
 
-From: Yi Zhao <yi.zhao@windriver.com>
+From: hongxu <hongxu.jia@windriver.com>
 
-If there is no soundcards on the target (e.g. qemu), the pkp_postinst
-function will report an error:
-  alsactl: load_state:1735: No soundcards found...
-  pkg_run_script: package "alsa-state" postinst script returned status 19.
-  opkg_configure: alsa-state.postinst returned 19.
+On ubuntu 18.04.1, it does not provides `mdir' by default
+which caused `wic ls **.wic' failed on fat partition
 
-Pass '-g' option to alsactl to ignore this error.
+...
+$ wic ls build/tmp-glibc/deploy/images/xilinx-zynqmp/wrlinux-image-std-xilinx-zynqmp.wic
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+ERROR: Can't find executable 'mdir'
+...
+
+Add nativesdk-mtools to buildtools-tarball and use buildtools
+to provide mdir
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-bsp/alsa-state/alsa-state.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-bsp/alsa-state/alsa-state.bb b/meta/recipes-bsp/alsa-state/alsa-state.bb
-index 0670556999..cec2272c80 100644
---- a/meta/recipes-bsp/alsa-state/alsa-state.bb
-+++ b/meta/recipes-bsp/alsa-state/alsa-state.bb
-@@ -62,7 +62,7 @@ pkg_postinst_${PN}() {
- 	then
- 		if test -x ${sbindir}/alsactl
- 		then
--			${sbindir}/alsactl -f ${localstatedir}/lib/alsa/asound.state restore
-+			${sbindir}/alsactl -g -f ${localstatedir}/lib/alsa/asound.state restore
- 		fi
- 	fi
- }
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index aa55cde84a..977b6a5e1d 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -26,6 +26,7 @@ TOOLCHAIN_HOST_TASK ?= "\
+     nativesdk-libnss-nis \
+     nativesdk-rpcsvc-proto \
+     nativesdk-patch \
++    nativesdk-mtools \
+     "
+ 
+ MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
 -- 
 2.17.1
 
