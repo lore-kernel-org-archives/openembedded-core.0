@@ -1,89 +1,112 @@
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com [209.85.210.68])
- by mx.groups.io with SMTP id smtpd.web11.1335.1588108693555723488
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com [209.85.217.65])
+ by mx.groups.io with SMTP id smtpd.web11.1742.1588120269601316779
  for <openembedded-core@lists.openembedded.org>;
- Tue, 28 Apr 2020 14:18:13 -0700
+ Tue, 28 Apr 2020 17:31:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=fWbMWpVH;
- spf=pass (domain: linaro.org, ip: 209.85.210.68, mailfrom: anibal.limon@linaro.org)
-Received: by mail-ot1-f68.google.com with SMTP id e26so35454521otr.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 14:18:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WQf0mveL;
+ spf=pass (domain: gmail.com, ip: 209.85.217.65, mailfrom: armccurdy@gmail.com)
+Received: by mail-vs1-f65.google.com with SMTP id x136so210031vsx.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 28 Apr 2020 17:31:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=X7CLRgi3kEUN9bDv3Mn4gxPTptqw8dcC8PQM4FcputE=;
-        b=fWbMWpVHR2llGj9tPqz/MXIp7kqPrhjVGjv96a1qHDEdhFDPxa41X+szfkfF/qgo/E
-         nKi3l2jUfuOOQxFkTgVUE79xeHUEeTuNQFOuuTjcswhwW4nV/+YHLa4iS7dJFnULp3+O
-         7rfPnbR5bVchx0kIr7nhZbDDB8njwxNomOHxFxqVb0QczM02v+yJ48NkldRQEaZts6nf
-         9Dk1IWT/VA+dK0eCpmWASELHLCHnM8hNTGx0sBcRTQ95hPbKB8TaTVglhofMHw8zkta/
-         bSPKfRVNP/ZEHBDHVZ8/0cTnmR0XBQf6f6kkgbA7oqqUqaPpuWRJxgSdnI3dgs7H3njR
-         dZzw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TauEddASoU/2PGbfEf/vmDVe8G7TrZDpFRTRBWSwvyQ=;
+        b=WQf0mveLL7qVVyTY40qFfy7Xw7A46Lx8XYOKlucEK47VsY/6pz2Ky+P8gLuQG9kw23
+         w7MMt1i85MaAyiVwsbuEJUBa2+6WRdOwR5S3jLvqYUVbfpmVB+i4KWIDkI1EHHtkG+yW
+         AMj7m4YSx1qiLmJ6x89JQFUO06ydbXx+Nmhdl85L12Y8kr2Gqvwk7l3PDsYMKNKx+LlP
+         nwl2Pmew+gtfQfK5m9dZ/CBdl/J5C5Yk7ZouhGHgVNA2bMixUuuGbsYzKgG9rMVaIc/a
+         n68nXh93N0pBMWJhgRxAlSXx5WzvoomoeYyYzFPkI/d3TmxjEycQPp3KDFnslxrIUzES
+         0gGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=X7CLRgi3kEUN9bDv3Mn4gxPTptqw8dcC8PQM4FcputE=;
-        b=N6rCrun+wnJKchqdwc/ZskJuL6UNzII900e7emB5MWsfTjqg2OGmDMg0SdpmTT4DKK
-         807dWu7lCK0EhICjxy1rStGp4/ffygDwHfmVPXvFh86/3itzQ8ho5eZIFuXKqxvVW3+/
-         wCrQGkwkout1uNzm5s1x4V75Z4iWHqGvNLniIQe40fIYDKYvmv+dBGLkaEeQZm8HT1Jm
-         LMf3KcnSiI/ahqP7vYaMvH7e7ogmjbGoE9bFJVzpufuzWRYdzgIE8ABOMXmmkTCZmsLi
-         +rhYu5Ou05DYwgbmnybfwWlWZj3DDdDvhPajyufjC5sluX9TMVG9sMvqptdsFTLbhPDI
-         x/Kg==
-X-Gm-Message-State: AGi0Puacj7H1ayVLABpOkRzXiP6vDpSezpJ6JyHy5lFd6Ul6BD/BtWf0
-	R6c0SR9dGkEfhn4wTL84LKBECuiJTYo=
-X-Google-Smtp-Source: APiQypLkRYaLgk222AJhwOvOTMcuWlmt7Eu9+6SI+F4zHWmeyMUGwGRVxL8c08FmGQ1OzQyP5XETlg==
-X-Received: by 2002:aca:5651:: with SMTP id k78mr4337025oib.32.1588108689993;
-        Tue, 28 Apr 2020 14:18:09 -0700 (PDT)
-Return-Path: <anibal.limon@linaro.org>
-Received: from blackbox.rga.ip ([2806:109f:4:3295:908a:c7ff:fe6a:e9f5])
-        by smtp.gmail.com with ESMTPSA id 76sm5123987otg.68.2020.04.28.14.18.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2020 14:18:09 -0700 (PDT)
-From: "Anibal Limon" <anibal.limon@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: bkylerussell@gmail.com,
-	nicolas.dechesne@linaro.org,
-	ross@burtonini.com,
-	randy.macleod@windriver.com,
-	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
-Subject: [PATCH 2/2] oeqa/runtime: Use libdir to run ptest-runner
-Date: Tue, 28 Apr 2020 16:18:05 -0500
-Message-Id: <20200428211805.233163-2-anibal.limon@linaro.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200428211805.233163-1-anibal.limon@linaro.org>
-References: <20200428211805.233163-1-anibal.limon@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TauEddASoU/2PGbfEf/vmDVe8G7TrZDpFRTRBWSwvyQ=;
+        b=GQtsI/BsFeLnr/9gCjB+X6PUH8KEoYoXVMfWAwNVtrVQ5PyI8J3r96tod4IEQLN17S
+         5ArJfmvkn02jt/dTlLhBkn7ikb+8RwpJ8x6Ea941LAZu4XoaSXb+QyDw7vvmCKa+XnHA
+         DkXPYZkN5Q+YYwavuyALHbOy7YLwm/Je1hn2uXORajjMORBWHLwp5CwXM2x1KHSAG0ZM
+         8n5i9KfZw1omlRF/ZhPUne/Zgp52Adon8f0WjCdHLOjLTie7djvzwoMUsjXx/eCmB9VY
+         Zt6IOF8r5ztW97EOehnjjaUdxPeZ75pU2BbEEkPUP6oO3AjWZtYomj0xjEsH4UFtIAnA
+         PisQ==
+X-Gm-Message-State: AGi0PubM5P6QigKp1RwedS571kAQ8m1pl+t5Nw9Uk+SuS3B4cZGaYgoR
+	JH2v6HiptWp9YL7lxWZg2MeJt5krbMyO0Z6ap84=
+X-Google-Smtp-Source: APiQypJsrYlMexI+tCZVJYKCQHedVT5En1ql8ifVsjDNrJzmJBsYfr4oqjLSV12Ph2HONeR1uJ4JcmJPt8p5hEjorNY=
+X-Received: by 2002:a67:342:: with SMTP id 63mr10243391vsd.11.1588120268469;
+ Tue, 28 Apr 2020 17:31:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200315042947.3257882-1-raj.khem@gmail.com> <cc5e7bc5640347ac632c65f9f2ebf1f6a2693a0c.camel@linuxfoundation.org>
+ <CAMKF1spW8XY4q2rbo8on6AiVjsrF+xmLCSgJ9-Yza31=18VWEg@mail.gmail.com>
+ <3d626d46a2cf1cb10d0ae41444db96a65e65e201.camel@linuxfoundation.org> <CAMKF1sozrcG05rufCSBG0TPLhY6MJUy2dOL8Mh7DDUqSqfRzPA@mail.gmail.com>
+In-Reply-To: <CAMKF1sozrcG05rufCSBG0TPLhY6MJUy2dOL8Mh7DDUqSqfRzPA@mail.gmail.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Tue, 28 Apr 2020 17:30:59 -0700
+Message-ID: <CAJ86T=V_ag5ksRkFo60by3qa4+RaZGrMWXSY+zycc0iCDPdtLQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bison: Reset load average settings if specified in environment
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-In multilib build configs libs can be installed in /usr/lib{32,64,x32}
-so use libdir to specify the correct ptest directory along with default
-/usr/lib.
+On Sun, Mar 15, 2020 at 3:40 PM Khem Raj <raj.khem@gmail.com> wrote:
+> On Sun, Mar 15, 2020 at 3:25 PM Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+>> On Sun, 2020-03-15 at 15:23 -0700, Khem Raj wrote:
+>> > On Sun, Mar 15, 2020 at 3:14 PM Richard Purdie
+>> > <richard.purdie@linuxfoundation.org> wrote:
+>> > > On Sat, 2020-03-14 at 21:29 -0700, Khem Raj wrote:
+>> > > > In some cases, we run into parallel build failures where
+>> > > > BUILT_SOURCES
+>> > > > is skipped, as a result required header files are not generated and
+>> > > > the
+>> > > > build fails with missing header errors like
+>> > > >
+>> > > > ../bison-3.5.2/lib/uniwidth/width.c:21:10: fatal error: uniwidth.h:
+>> > > > No such file or directory
+>> > > >  #include "uniwidth.h"
+>> > > >           ^~~~~~~~~~~~
+>> > > > compilation terminated.
+>> > > >
+>> > > > BUILT_SOURCES should be built automatically with `make all` [1]
+>> > > > therefore
+>> > > > ensure that make is invoked with `all` target
+>> > > >
+>> > > > bison-native parallel build fails when -l<n> is passed globally from
+>> > > > build environment, errors like below due to race starts to show up
+>> > > >
+>> > > > Therefore removes a previous load limit if set
+>> > > >
+>> > > > [1]
+>> > > > https://www.gnu.org/software/automake/manual/html_node/Built-Sources-Example.html#Built-Sources-Example
+>> > >
+>> > > I'm not sure I understand this. We've seen a failure on our ubuntu1604
+>> > > performance tester which I think is the same bug as this. The
+>> > > environment on that machine doesn't change, so how/where is this -l
+>> > > option coming from?
+>> >
+>> > From custom distro global settings for EXTRA_OEMAKE
+>> >
+>> > > I suspect there is some issue we're not quite getting to still :(
+>> > >
+>> >  its well reproducible now with -j and -l together on our builders, From what
+>> > I see in makefiles bison is doing right thing in using BUILT_SOURCES so
+>> > I suspect it could be make acting in a certain way when those options
+>> > are present.
+>> >
+>> > our custom settings use -l options globally in EXTRA_OEMAKE
+>> > this is to let machines with certain configurations build when machines are
+>> > shared, we don't want a given build to use all resources on box. Yes one
+>> > could say why not do something else to limit the resources build uses but
+>> > this is a global setting that works well
+>> >
+>> > This patch just ensures that any -l setting passed from environment is
+>> > cleaned up and reset. So for general case it will be a noop.
+>>
+>> Ok, that explains your failure but not the one on our performance
+>> testing worker :/.
 
-[YOCTO #12604]
+I've heard reports of this still being an issue with latest OE 3.1
+when -j is set high enough, without any -l options in EXTRA_OEMAKE (so
+Khem's workaround to over-ride -l doesn't help).
 
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
----
- meta/lib/oeqa/runtime/cases/ptest.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-index 99a44f0767..1b1474adcf 100644
---- a/meta/lib/oeqa/runtime/cases/ptest.py
-+++ b/meta/lib/oeqa/runtime/cases/ptest.py
-@@ -49,7 +49,11 @@ class PtestRunnerTest(OERuntimeTestCase):
-         ptest_log_dir = '%s.%s' % (ptest_log_dir_link, timestamp)
-         ptest_runner_log = os.path.join(ptest_log_dir, 'ptest-runner.log')
- 
--        status, output = self.target.run('ptest-runner', 0)
-+        libdir = self.td.get('libdir', '')
-+        ptest_dirs = [ '/usr/lib' ]
-+        if not libdir in ptest_dirs:
-+            ptest_dirs.append(libdir)
-+        status, output = self.target.run('ptest-runner -d \"{}\"'.format(' '.join(ptest_dirs)), 0)
-         os.makedirs(ptest_log_dir)
-         with open(ptest_runner_log, 'w') as f:
-             f.write(output)
--- 
-2.26.2
-
+Disabling PARALLEL_MAKE completely might be the best workaround for
+now until we understand the real root cause.
