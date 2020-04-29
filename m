@@ -1,68 +1,55 @@
-Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
- by mx.groups.io with SMTP id smtpd.web10.568.1588152506842368761
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web11.1076.1588155715120489104
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 02:28:27 -0700
+ Wed, 29 Apr 2020 03:21:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
-Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:45696 helo=localhost.localdomain)
-	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.93)
-	(envelope-from <rpjday@crashcourse.ca>)
-	id 1jTj0y-004fyU-Gi
-	for openembedded-core@lists.openembedded.org; Wed, 29 Apr 2020 05:28:25 -0400
-Date: Wed, 29 Apr 2020 05:28:21 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: coding style question about obsoleted packages
-Message-ID: <alpine.LFD.2.21.2004290518370.6773@localhost.localdomain>
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: jlu@pengutronix.de)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1jTjqi-0006Fg-0b; Wed, 29 Apr 2020 12:21:52 +0200
+Received: from jlu by dude.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1jTjqh-0006o9-4G; Wed, 29 Apr 2020 12:21:51 +0200
+From: "Jan Luebbe" <jlu@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Jan Luebbe <jlu@pengutronix.de>
+Subject: [OE-core][PATCH] openssl: upgrade 1.1.1f -> 1.1.1g
+Date: Wed, 29 Apr 2020 12:21:45 +0200
+Message-Id: <20200429102145.24242-1-jlu@pengutronix.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-1.0
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
-X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: jlu@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Transfer-Encoding: 8bit
 
+This also fixes CVE-2020-1967.
 
-  just noticed that, in master branch, kbd recipe quite reasonably
-distinguishes itself from the much, much older console-tools package
-thusly:
+Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
+---
+ .../openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb} (98%)
 
-  RREPLACES_${PN} = "console-tools"
-  RPROVIDES_${PN} = "console-tools"
-  RCONFLICTS_${PN} = "console-tools"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
+similarity index 98%
+rename from meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
+index 3fa2b41fb929..66fa8f7d0a0a 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
+@@ -23,7 +23,7 @@ SRC_URI_append_class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35"
++SRC_URI[sha256sum] = "ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46"
+ 
+ inherit lib_package multilib_header multilib_script ptest
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+-- 
+2.26.2
 
-all perfectly reasonable as long as console-tools actually existed as
-a recipe, but it was deleted some months ago:
-
-  commit 320319f24dd1be300bc89c52b97d1703eab83029
-  Author: Alexander Kanavin <alex.kanavin@gmail.com>
-  Date:   Wed Nov 20 14:44:51 2019 +0100
-
-    console-tools: remove the recipe
-
-    The last release of this was in 2002(!), kbd is the modern,
-    supported alternative.
-
-and as best i can tell, there are no references to console-tools in
-the numerous layers i have checked out. under the circumstances, then,
-while it doesn't hurt to have that info above in the kbd recipe, is
-there any value?
-
-  more generally, when a recipe is truly removed and obsoleted, should
-it be part of the removal process to get rid of such references to it
-to avoid slowly-accumulating cruft in the code base?
-
-rday
-
-p.s. YP reference maual, "migration to 3.1" section, does indeed
-mention that console-tools is deleted, but neglects to mention its
-replacement with kbd ... i've made a note of that and will add that
-along with other changes to the ref manual at some point for clarity.
