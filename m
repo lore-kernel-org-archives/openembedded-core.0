@@ -1,66 +1,143 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.3163.1588173328563113146
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+ by mx.groups.io with SMTP id smtpd.web12.4525.1588176680084704520
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 08:15:28 -0700
+ Wed, 29 Apr 2020 09:11:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=U1ezGkTF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id b11so2992332wrs.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 08:15:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EuufDzAP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.194, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f194.google.com with SMTP id z1so1290697pfn.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 09:11:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=ce5P+SVLqtcpUKj7KtciB6eNUUf0OSEN7nRNXaoO/WY=;
-        b=U1ezGkTFbxiknHhUFfpTOwWMI/86sipieRsYsXrg/skJYs+poiL0kN3bXld93NSnQ4
-         7CDFmIH+I1CNV3k9svnyPhiIHoNmt1ASRxch+M1gPpLkdApsJpFvYDmR60EhNuLi7pFw
-         VUlvJ9nJV39zpfA6mCmskwUmMnGvsm+HrLgwM=
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ekC6Mx6zhTBiIL9UdOO9JgFxRT6J9kru8hcrOfx50Ro=;
+        b=EuufDzAPcIG343SmO5nSagfe0LFz0eQl2Cl/WJiF95n49fxtmrX1KjQ6fkUcQ+ME9z
+         aulHqH8wVQ6h+A6/ecAMmt0IDAcxLVOV9luLTBW9Rs8ioScu7v8ZisWhGSMWmr7rQ2m2
+         G5jEpmHD2WHK5Ku65L64adzgRqEbrKrE6T7UlA+D6LDCtrJAVaBvc19617GExi9Sz7YB
+         z+c3kAReter4SYwXkj8itpkPHHtFWuKoo1vZQKjc0YY8i1gTLLVKaXhLSNzYxOuqxczy
+         50mfTrFYRkiLd5UYMYD/2o21Y0uDbDI6duBZdNZBSvXZhY5Gxm8jpasOkqxxeFgCeo2R
+         PkqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=ce5P+SVLqtcpUKj7KtciB6eNUUf0OSEN7nRNXaoO/WY=;
-        b=iFIBUbkxDsZf6RGKfGlc1TOc0BI8VUyyPOvPDeuzSt4EvlnrTx0VbRm6VH7bIBmCgQ
-         fc5BAjCmzUt7wYickngbnmLkeEEzOgdeJAJbHeit93hjG6XssEOZndH/9ETswLltN4iR
-         v4zt45TtuEZDKRFRHXEs2PGP/p7HIcFnfPsW7fXie4+A7IN42ns9ksOaSmpN72YsCyLh
-         DNIMR+IEY19jlzSXh7WGaAEO8Ea/V1XzA3HrtH2rfiO3vSATz5zH2qL4a0CcRvSAVYXN
-         lJyaD294dB9migNrxwuVxRm/FGlSGVPltLlvqn08RXRKxtnRAOAp7JkizarcTrRmYHfN
-         BYjw==
-X-Gm-Message-State: AGi0PubK7bnteQvV2kFmXwy3/3PFSNBPBB0aGdXakkek6uQz28FF/PHy
-	mMLXmRKlD7WcIvVJU4MEYR7X3vtCyoU=
-X-Google-Smtp-Source: APiQypITBl8yHsGqvjsFd4jsaEspnehed6aI0DQS83OlFDSDjQuycdkA8fmhXhNhEn2flyt61ui/Cg==
-X-Received: by 2002:adf:f5ce:: with SMTP id k14mr43009728wrp.39.1588173326796;
-        Wed, 29 Apr 2020 08:15:26 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id e21sm31884878wrc.1.2020.04.29.08.15.25
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ekC6Mx6zhTBiIL9UdOO9JgFxRT6J9kru8hcrOfx50Ro=;
+        b=npIvB3uD2KlSzAaQINwq7C6ChCfxc5fYj9U9Ug7vN9Pg1o523fiVbLiBmqWhC/uiF6
+         7zb0p2VHozblyYA3XjASHf2WjhyDmUYEM5CmYOlrrKjXp8BME5Ga9rsoAEwypH1ewp/V
+         Rr7opbFwfMAECZ40tqtf+01oSYPdJjEdgubyNMadEWuLeR83Lf1NckJLYipms4vkrQLM
+         r/ktXGgfd8eufSlVjkL/+i3cRH8ZrHlIK8YesOKpT+Tqzo0PoEagJhAqTxx9GKrNxhU/
+         iqHGDSfxdkR0c1oyMD96Knz0ya1LTZpWFpTpr4/Yu3GqDJV0VnsQqgbivPHcFpeRW4sL
+         bkTA==
+X-Gm-Message-State: AGi0PuYFxNJAoHbireyFIZqq41GqPbxrLgiLkyIyuOml0Y57cGSrOEXa
+	nLtKLluSdttHja5vVEyA3COCxMWWP5Fb7g==
+X-Google-Smtp-Source: APiQypKdlLT8TvRyZfcmD9QJRrARfMoljembR9124QLg7yqCIeXB1zVGLz+6U1d195TzJha1KCItYA==
+X-Received: by 2002:a63:1b18:: with SMTP id b24mr8490228pgb.90.1588176678628;
+        Wed, 29 Apr 2020 09:11:18 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id o1sm4833062pjs.39.2020.04.29.09.11.17
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 08:15:26 -0700 (PDT)
-Message-ID: <c50011f9175ac1a7fa09bf6b60494defcaef1f92.camel@linuxfoundation.org>
-Subject: Re: [OE-core][zeus][PATCH] systemd: Fix CVE-2020-1712
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org, "wenlin.kang@windriver.com"
-	 <wenlin.kang@windriver.com>
-Date: Wed, 29 Apr 2020 16:15:25 +0100
-In-Reply-To: <efdbc65e2ec15290bf434e671cdb7bc3c16b6dde.camel@intel.com>
-References: <20200428083626.58382-1-wenlin.kang@windriver.com>
-	 <efdbc65e2ec15290bf434e671cdb7bc3c16b6dde.camel@intel.com>
-User-Agent: Evolution 3.36.1-2 
+        Wed, 29 Apr 2020 09:11:18 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/16] Patch review
+Date: Wed, 29 Apr 2020 06:10:45 -1000
+Message-Id: <cover.1588175775.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2020-04-29 at 04:47 +0000, Anuj Mittal wrote:
-> I wonder if it'd be better to upgrade to latest stable release for
-> v243
-> instead which has this fix.
-> 
-> Does the stable branch policy allow that in case of systemd?
+Please review this first set of changes for dunfell and have comments back
+by end of day Friday.
 
-Yes, we allow updating along upstream stable branches for our stable
-releases.
+Clean a-full build on autobuilder (other than tickling a Send QA Email bug):
 
-Cheers,
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/898
 
-Richard
+The following changes since commit 1795f30d8ab73d35710ca99064c51190dc84853e:
+
+  build-appliance-image: Update to master head revision (2020-04-07 22:15:32 +0100)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
+
+Bartosz Golaszewski (1):
+  qemuboot.bbclass: don't redefine IMGDEPLOYDIR
+
+Changqing Li (1):
+  parselogs.py: ignore pulseaudio startup warning messages
+
+Denys Dmytriyenko (1):
+  u-boot.inc: install u-boot-initial-env as ${PN}-initial-env in $D and
+    $DEPLOYDIR
+
+Jeremy Puhlman (3):
+  qemu-system-native: Fix commented out PACKAGECONFIG
+  nativesdk-gcc-runtime: enable building libstdc++.a
+  buildtools-extended-tarball: Add libstc++.a
+
+Khem Raj (2):
+  libucontext: Bring in mips/mips64 support
+  ruby: Link with libucontext on musl
+
+Maxime Roussin-B?langer (1):
+  tzdata: remove exit 0 from pkg_postinst
+
+Paul Barker (1):
+  kernel-yocto.bbclass: Fix deps when externalsrc is used
+
+Pierre-Jean Texier (1):
+  ell: upgrade 0.30 -> 0.31
+
+Richard Purdie (1):
+  bzip2/pbzip2: Correct license information
+
+Tim Orling (1):
+  python3-manifest.json: add pathlib to core
+
+Wang Mingyu (1):
+  gnutls: upgrade 3.6.12 -> 3.6.13
+
+Yi Zhao (1):
+  alsa-state: ignore 'No soundcards found' error in pkg_postinst
+
+hongxu (1):
+  buildtools-tarball: add nativesdk-mtools for `wic ls'
+
+ meta/classes/kernel-yocto.bbclass             |  6 +++
+ meta/classes/qemuboot.bbclass                 |  1 -
+ .../common-licenses/{bzip2 => bzip2-1.0.6}    |  0
+ meta/lib/oeqa/runtime/cases/parselogs.py      |  4 +-
+ meta/recipes-bsp/alsa-state/alsa-state.bb     |  2 +-
+ meta/recipes-bsp/u-boot/u-boot.inc            | 28 +++++------
+ .../ell/{ell_0.30.bb => ell_0.31.bb}          |  4 +-
+ .../meta/buildtools-extended-tarball.bb       |  1 +
+ meta/recipes-core/meta/buildtools-tarball.bb  |  1 +
+ ...move-using-.end-directive-with-clang.patch | 36 ++++++++++++++
+ .../0001-Makefile-Add-LIBDIR-variable.patch   | 46 ------------------
+ .../0001-pass-LDFLAGS-to-link-step.patch      | 31 ------------
+ meta/recipes-core/musl/libucontext_git.bb     | 48 +++++++++----------
+ meta/recipes-devtools/gcc/gcc-runtime.inc     |  2 +
+ .../python/python3/python3-manifest.json      |  2 +
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +-
+ meta/recipes-devtools/ruby/ruby_2.7.0.bb      |  9 +++-
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |  2 +-
+ meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb |  2 +-
+ meta/recipes-extended/timezone/tzdata.bb      |  8 +---
+ .../{gnutls_3.6.12.bb => gnutls_3.6.13.bb}    |  4 +-
+ 21 files changed, 106 insertions(+), 133 deletions(-)
+ rename meta/files/common-licenses/{bzip2 => bzip2-1.0.6} (100%)
+ rename meta/recipes-core/ell/{ell_0.30.bb => ell_0.31.bb} (83%)
+ create mode 100644 meta/recipes-core/musl/0001-Remove-using-.end-directive-with-clang.patch
+ delete mode 100644 meta/recipes-core/musl/libucontext/0001-Makefile-Add-LIBDIR-variable.patch
+ delete mode 100644 meta/recipes-core/musl/libucontext/0001-pass-LDFLAGS-to-link-step.patch
+ rename meta/recipes-support/gnutls/{gnutls_3.6.12.bb => gnutls_3.6.13.bb} (93%)
+
+-- 
+2.17.1
 
