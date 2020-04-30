@@ -1,67 +1,100 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.web12.1790.1588284431032705590
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web12.2064.1588285421652345017
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 15:07:11 -0700
+ Thu, 30 Apr 2020 15:23:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Mv4oEHYt;
- spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: sakoman@gmail.com)
-Received: by mail-wr1-f41.google.com with SMTP id o27so3936930wra.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 15:07:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=EjIIBzyVXQQJhwfEoMZbEP1ecW64J40mFMfilgfkr/s=;
-        b=Mv4oEHYtJ6YNH2HxE1oDMdmnD2f6jHMKjCDGYOfiO+5DzNYA54XxU4eRAA8QECMnh2
-         gqMaT1ZtzT1J9WtgvcFhnK8naFYHHO813Oyt8IXGf8mW4QUkhvKRMlGYqSGu1+gsbnab
-         jfe8OrehJdsPpkcHhOjbfk+Xp5SVlsjcmiRsJVvTC8HUgp90lnqvjpHTBK09JVZ7sAQz
-         42kX7MpN1wl2GYXmkqsuvSoP+stdR5uWEIFYAIvIvgmx4925N0djWk4JaUOo9XnGlDu9
-         UBtNIb7pyOmvDjeZB3nrZIWoLCvPZGyFlTIgFaBdq+Fvw/s7O6ApshcoodiEgVU4DNBx
-         IzwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=EjIIBzyVXQQJhwfEoMZbEP1ecW64J40mFMfilgfkr/s=;
-        b=RPriQKVTY0XpZHDRsxwAws95d4CcidUXflO3qcqEDcfJEZP4Hx0rb06Ugj9TY2O8EY
-         IZZ5RruayMLS2vnT4JCvNtQ0UAsLTB8gzpQpTMD7o2tSkcEts+JNw+hWZb5woCvBjrfa
-         CF+KQiPnoozKQIL6jpY0tzJNQWZtWgmGKPiRUJWKWHy+9PwRO6VznUuW+fUOMFYpyBhv
-         J0Gc34Eu7FVIK6/QqYz/YW8A5nTjH3dCVxxMwdzBYM+hMsb5Cjl5bU9QD9Ra3kyOzE8w
-         DvvGU0JahAd3SYMBShgcZbf03r8wUSGBncopgnpCDEWMnYnhGaqYG7R/CK+1lSPxYX2a
-         EZFg==
-X-Gm-Message-State: AGi0PuYgxKLx4MKcWtjf0oTJ2Z/6tktXNdYWKaDjXDDBWl1IWlWqMNG3
-	bugyN7tLV9GOSPrJzkHVvKsJgH1W/QjpsxSEvDC36Q==
-X-Google-Smtp-Source: APiQypJuZdT3lh2xq2A6x74uiWXJDeq2O+Ak3Ssr03QpjzOApJfFrjWW1bGMDNufa6NGVfYEAlRSVRdabzK2TjJDa4c=
-X-Received: by 2002:adf:df04:: with SMTP id y4mr677600wrl.413.1588284429176;
- Thu, 30 Apr 2020 15:07:09 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 060FD40C0F;
+	Thu, 30 Apr 2020 22:23:38 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id jFc4fU9KqSOP; Thu, 30 Apr 2020 22:23:37 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id DC80D400E7;
+	Thu, 30 Apr 2020 22:23:36 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 70E41172D02; Thu, 30 Apr 2020 18:23:36 -0400 (EDT)
+Date: Thu, 30 Apr 2020 18:23:36 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Cc: =?utf-8?Q?Bart=C5=82omiej?= Burdukiewicz <bartlomiej.burdukiewicz@gmail.com>
+Subject: Re: [OE-core][PATCH 1/2] libva: add PACKAGECONFIG and additonal rules for glx.
+Message-ID: <20200430222336.GX11927@denix.org>
+References: <20200429202745.3891440-1-bartlomiej.burdukiewicz@gmail.com>
 MIME-Version: 1.0
-References: <cover.1588175775.git.steve@sakoman.com> <f03ee1a2a697394f3c4168350089526ef6b87de6.1588175775.git.steve@sakoman.com>
- <CAJ86T=WRV+Uny9-4J--0sS2cr5CAtA=D4gFXHgm=-pXsX=BjKg@mail.gmail.com> <20200430194458.GU11927@denix.org>
-In-Reply-To: <20200430194458.GU11927@denix.org>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Thu, 30 Apr 2020 12:06:57 -1000
-Message-ID: <CAGDS+n=-NEWm=EdA15=ZkQ4Gu609FshvXNrudC+HFp65G2ugPg@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 02/16] bzip2/pbzip2: Correct license information
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200429202745.3891440-1-bartlomiej.burdukiewicz@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 30, 2020 at 9:45 AM Denys Dmytriyenko <denis@denix.org> wrote:
+On Wed, Apr 29, 2020 at 10:27:44PM +0200, Bart=C5=82omiej Burdukiewicz wrot=
+e:
+> * glx PACKAGECONFIG by default is selected when x11 and opengl
+> flag is present in DISTRO_FEATURES.
+>=20
+> * virtual/mesa is only required when glx driver is selected to
+> build.
 
-> And this is also incorrect - should be bzip2-1.0.6. There's a patch on the
-> list for this...
+Thank you so much!
 
-Yes, that's why I'm going to omit this patch for now and pull in all
-the related patches in one go in the next round.
+It was very unfortunate that hard dependency on mesa and=20
+REQUIRED_DISTRO_FEATURES=3D"opengl" was slapped all over oe-core=20
+(not just this recipe) - rather one-sided approach... :)
 
-Steve
+Very glad to see overall situation improving here. Thanks again!
 
-> > >  LIC_FILES_CHKSUM = "file://COPYING;md5=398b8832c6f840cfebd20ab2be6a3743"
-> > >
-> > >  DEPENDS = "bzip2"
-> > > --
-> > > 2.17.1
-> > >
-> > >
->
-> >
->
-> 
+
+> Signed-off-by: Bart=C5=82omiej Burdukiewicz <bartlomiej.burdukiewicz@gma=
+il.com>
+> ---
+>  meta/recipes-graphics/libva/libva_2.6.1.bb | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-graphics/libva/libva_2.6.1.bb b/meta/recipes-g=
+raphics/libva/libva_2.6.1.bb
+> index 92cea83bc1..8c495bad70 100644
+> --- a/meta/recipes-graphics/libva/libva_2.6.1.bb
+> +++ b/meta/recipes-graphics/libva/libva_2.6.1.bb
+> @@ -23,15 +23,21 @@ SRC_URI[sha256sum] =3D "6c57eb642d828af2411aa38f55dc=
+10111e8c98976dbab8fd62e4862940
+>  
+>  UPSTREAM_CHECK_URI =3D "https://github.com/intel/libva/releases"
+>  
+> -DEPENDS =3D "libdrm virtual/mesa"
+> +DEPENDS =3D "libdrm"
+>  
+>  inherit meson pkgconfig features_check
+>  
+>  REQUIRED_DISTRO_FEATURES =3D "opengl"
+>  
+> -PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11=
+', d)}"
+> -PACKAGECONFIG[x11] =3D "-Dwith_x11=3Dyes, -Dwith_x11=3Dno,virtual/libx1=
+1 libxext libxfixes"
+> -PACKAGECONFIG[wayland] =3D "-Dwith_wayland=3Dyes, -Dwith_wayland=3Dno,w=
+ayland-native wayland"
+> +PACKAGECONFIG ??=3D " \
+> +    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'glx', '', d)=
+} \
+> +    ${@bb.utils.filter('DISTRO_FEATURES', 'x11 wayland', d)} \
+> +"
+> +
+> +PACKAGECONFIG[x11] =3D "-Dwith_x11=3Dyes,-Dwith_x11=3Dno,virtual/libx11=
+ libxext libxfixes"
+> +PACKAGECONFIG[glx] =3D "-Dwith_glx=3Dyes,-Dwith_glx=3Dno,virtual/mesa"
+> +
+> +PACKAGECONFIG[wayland] =3D "-Dwith_wayland=3Dyes,-Dwith_wayland=3Dno,wa=
+yland-native wayland"
+>  
+>  PACKAGES =3D+ "${PN}-x11 ${PN}-glx ${PN}-wayland"
+>  
+> --=20
+> 2.26.2
+>=20
+
+>=20
+
