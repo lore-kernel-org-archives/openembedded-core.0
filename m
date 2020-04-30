@@ -1,88 +1,93 @@
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49])
- by mx.groups.io with SMTP id smtpd.web12.2381.1588286276390428554
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com [209.85.166.194])
+ by mx.groups.io with SMTP id smtpd.web11.484.1588286294605188755
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 15:37:56 -0700
+ Thu, 30 Apr 2020 15:38:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=fb65MVUb;
- spf=softfail (domain: sakoman.com, ip: 209.85.217.49, mailfrom: steve@sakoman.com)
-Received: by mail-vs1-f49.google.com with SMTP id 1so5287115vsl.9
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 15:37:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ONHtUgli;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.194, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f194.google.com with SMTP id c16so2967758ilr.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 15:38:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=Hro4A217StppwiM0tY4n33RQEiywDHQ/hXvWTMzF3wQ=;
-        b=fb65MVUbMqakeCxKuu629LDN8gkYqMnI2C+PmRIcv4YrjEHEQMDaEP15Q4vPtmBA5G
-         bQpB8uSImGJioet9iL90iq9e18eNXEAuHrtC4BGf6da8akLZEwaOnn0vR+LV94wU5zQi
-         liqrfcQEZTq6lB0NcoG7JfILGxD7so/FJlr6pOjxKDLsl7GUGJGQRl0gpqiQgbJstWY6
-         aU660D20COeJECEH++LRU1EbO+wXzHnxmUd7/F1BAVPWbNTmOl3zGrhmCvWzsHGigXlm
-         d+adW97v2E9hwpTslDfXmRzHCrs2Ad6sXyoH8qFrZa+B3MF9sgWs+C1AILeyBAL+OPA2
-         f7YQ==
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=LjNsXSi7jv5/pA/pTGrnFmxISMtsdHhqWclotDAPc4U=;
+        b=ONHtUgliokpSHeyimfFatl9KvNkmPPVx4hemf5mL6g6sih5p2drHl0iLSpBjtCA4ox
+         /klhlrurURgu9kIifB5f8lTwatzw2RMVjudvaup/yFzQuO0UggCTxqvyWiljrPlnnzmX
+         wxdhQHTj93+nUnOVZ2vLjzcuCXHXNSi260RIT9SYO6MepwBVTJ+odV4Drwu5CdGR73T0
+         x0aB6uIEQwmh0RaNuSCd3SRjk+shulDifr4RJhRlVQ2f/TGDsyIrL1dfFAUm22pxrd/q
+         1fzK1pbsvm1hT3FUJevzwHKjrh20ChnktMrRpV/30hgMp74CFhrjWoxqakbgHEu/yrah
+         AClw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=Hro4A217StppwiM0tY4n33RQEiywDHQ/hXvWTMzF3wQ=;
-        b=tN8/f98hNizTYMtWhc7Xva7tF/5qVOl9AtH7i9dycJnZj+5Is/y19f10wx4G6uNcti
-         pjX9jiqw47FMtBhsnRvv8Bs31b3LRhzyYNGyK8IX6jXHP1xW8XKLhb6GYSV1GNsqlS5Z
-         h87iqKehQfUHXrdxNyBwPCyq39ac4lxD9gQdcji/vcEslRMDh9jBLuMIKPQ/+Sg20I93
-         6yO68lAjurtni7Rg8evIOEyVFM3aGq7SZ3GojPHD1gaU4sJD01ZbYIsNlsvQfvTv941o
-         sJPqmrTG5LTRbUBTzyy5kCc/p7dTqApoQUlfAWKjYgVTwjJBKJ1xdqYhk8j15qSa5yae
-         867A==
-X-Gm-Message-State: AGi0Pubuh7JlAQ7/Sy757y8pbYM3Cdl2vvc1l1WIXZoLuy83z6752ng1
-	EOjmcKptV4o56+pevJG4GIpyQ5b5P8oy9g==
-X-Google-Smtp-Source: APiQypI9LRA5KiukvNDLSG6ZR2g0n+gQc1UJKb5LDwBJidqPwLeBixsU+AzVPSGGBOnFguEx4FUS1A==
-X-Received: by 2002:a17:902:ac97:: with SMTP id h23mr1254358plr.89.1588285859449;
-        Thu, 30 Apr 2020 15:30:59 -0700 (PDT)
+         :references:mime-version:content-transfer-encoding;
+        bh=LjNsXSi7jv5/pA/pTGrnFmxISMtsdHhqWclotDAPc4U=;
+        b=iaQ+1DPhL2b11QEO217Ftzy0G1GNOx5kQ1Hn+7gB3sDAWzcCL1x15mUKTF32UjTtla
+         PG3rRVN740covYB07tCDzb/XGJ6ECeezKkWRm7BWHn802e1CwELOnCioUGzm0Qzik20h
+         EEaQx79Kn0BKJeLKZRSJ1hEw9oNKaMShy6Bp60z/Y2DJO5bOgGtF/5joDoBWY7Xouda0
+         Rx/t44i0akKEA+Ty0sGWvVADOKL5ApccYWM0yNsokB9x4RkXXa055zYBJzUW8THlXr6J
+         vczfpetDTDg8ZcPCUv4Jig0ahdEumahvDdQNjRv5ZPHgSOehZwYTFBsc79gpzNubC/hB
+         d2XA==
+X-Gm-Message-State: AGi0PuaA00p8s3uIG+p4tjeKUi38dhAjS0D2NXPcHKijVoUqfxDdJZ33
+	IVPtsn9Poa2TeWdvT098mDvV3I7xS661Pw==
+X-Google-Smtp-Source: APiQypI9s+39ZfKu0Q/0EsmFvVizbC0oteU3O7bX/ZpMZVaQRyYzVk3u/yjmmpN3fV8G3OrxCDYQWQ==
+X-Received: by 2002:a63:5907:: with SMTP id n7mr1149415pgb.439.1588285869688;
+        Thu, 30 Apr 2020 15:31:09 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d124sm646011pfa.98.2020.04.30.15.30.58
+        by smtp.gmail.com with ESMTPSA id d124sm646011pfa.98.2020.04.30.15.31.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 15:30:58 -0700 (PDT)
+        Thu, 30 Apr 2020 15:31:08 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell v2 02/14] kernel-yocto.bbclass: Fix deps when externalsrc is used
-Date: Thu, 30 Apr 2020 12:30:07 -1000
-Message-Id: <75b47388fb18aaf58db311e570c009350d64084f.1588285073.git.steve@sakoman.com>
+Subject: [OE-core][dunfell v2 08/14] tzdata: remove exit 0 from pkg_postinst
+Date: Thu, 30 Apr 2020 12:30:13 -1000
+Message-Id: <ebf675abd0a077bc9aa71acf62b0477a84e1f536.1588285073.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1588285073.git.steve@sakoman.com>
 References: <cover.1588285073.git.steve@sakoman.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Paul Barker <pbarker@konsulko.com>
+From: Maxime Roussin-B?langer <maxime.roussinbelanger@gmail.com>
 
-do_kernel_configme was recently removed from SRCTREECOVEREDTASKS so this
-task still runs when externalsrc is used. This task normally runs after
-do_patch but when externalsrc is used, do_patch is removed and this ordering
-restriction does nothing. This allows bitbake to execute do_kernel_configme
-too early, causing races with do_unpack.
+Documentation says that if you exit 0 in a pkg_postinst it will marked as
+installed.
+If you exit 0, before running postinst-intercepts defer_to_first_boot, the
+pkg_postinst_ontarget script will not be present on target.
 
-This is fixed by adding in a dependency on do_unpack when externalsrc is
-used.
+The "exit 0" in tzdata makes it difficult to have a bbappend with a
+pkg_postinst_target step when you have `INSTALL_TIMEZONE_FILE = 0`
 
-Signed-off-by: Paul Barker <pbarker@konsulko.com>
+Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/kernel-yocto.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/recipes-extended/timezone/tzdata.bb | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 6792c9a233..5bc627066e 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -489,6 +489,12 @@ python () {
-     # If diffconfig is available, ensure it runs after kernel_configme
-     if 'do_diffconfig' in d:
-         bb.build.addtask('do_diffconfig', None, 'do_kernel_configme', d)
+diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
+index 1e2d9bd1b9..1e2b440fb0 100644
+--- a/meta/recipes-extended/timezone/tzdata.bb
++++ b/meta/recipes-extended/timezone/tzdata.bb
+@@ -60,12 +60,8 @@ pkg_postinst_${PN} () {
+ 	if [ -e ${src} ] ; then
+ 		tz=$(sed -e 's:#.*::' -e 's:[[:space:]]*::g' -e '/^$/d' "${src}")
+ 	fi
+-	
+-	if [ -z "${tz}" ] ; then
+-		exit 0
+-	fi
+-	
+-	if [ ! -e "$D${datadir}/zoneinfo/${tz}" ] ; then
 +
-+    externalsrc = d.getVar('EXTERNALSRC')
-+    if externalsrc:
-+        # If we deltask do_patch, do_kernel_configme is left without
-+        # dependencies and runs too early
-+        d.setVarFlag('do_kernel_configme', 'deps', (d.getVarFlag('do_kernel_configme', 'deps', False) or []) + ['do_unpack'])
- }
- 
- # extra tasks
++	if [ ! -z "${tz}" -a ! -e "$D${datadir}/zoneinfo/${tz}" ] ; then
+ 		echo "You have an invalid TIMEZONE setting in ${src}"
+ 		echo "Your ${etc_lt} has been reset to Universal; enjoy!"
+ 		tz="Universal"
 -- 
 2.17.1
 
