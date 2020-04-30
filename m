@@ -1,80 +1,122 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web12.3981.1588240715584279901
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.3982.1588240717157349364
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 02:58:35 -0700
+ Thu, 30 Apr 2020 02:58:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bsYzdcQo;
- spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f68.google.com with SMTP id e26so1134878wmk.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 02:58:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Wmrl0gEd;
+ spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f66.google.com with SMTP id g12so1178227wmh.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 02:58:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6o9yBOtcEFVyZZee5VV7uLkwhwKniVt1nqDJgPHWSss=;
-        b=bsYzdcQotKiu5SOuhaLAciuCVTaaMEKLPcfX/qm/9O+/Hp1SObgYLc5XoU4xzPoj/8
-         cYnbj6CS1SMDyEECTGul/w+/FL0QnXfcYVvkjc2oS4pCU29C0ko1QV6ZzD7LSJ13f94w
-         rDuRC357gdg8y+cKkYRzKvihBe3Tq4HKacInl8s2cQdvlnj7tfwM/TNLKELoqfAVWG9a
-         v3mbjJMbyITSgDEowi8IMxBXppYPIeE3/kiFPXuT9xxshp7GstjIc/q5BgXJPWhTbwyi
-         2iKgkc2ls3czyFGbNt+GTxrgC6XG+A98GwN+8R3FTROExFstb9JwfsGjONS03McdtI76
-         EOgg==
+        bh=e3H8/QyOVFRy2fqlTLlPnsF8bqIYEzYdvR9UFAwBDjc=;
+        b=Wmrl0gEddf6lbQQgqB5QmxitHXDH20LCtAgRnwbuni/NlI22Vi37Y1z/ovdoFcWlBD
+         GSDlVQezFlf8Wwdlk89D+icyCzCyEiiGPdWC5he9yiMGHSNQ/pizA2+L/c8eP5o7B5CB
+         eLp6EhtFhiKR4CN3/BfACUkxLtlIIXmwE430xq7YV5kEFSzHRVDL++yo7JRjwxIU8Wbl
+         CzkW0Jiq8wQ7Zf+rB5IOK4a5uYwytr8oSkCn2CFmBZbuVQ4jqJK73mr01zVQ2ZRP9haH
+         Dh1FVhnRAQKVWO4oV8weoRedLYjEqN/Y10aIRGBS6hgxIOKhvpnkTmVYTPGaxt9Tuvu4
+         CrBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6o9yBOtcEFVyZZee5VV7uLkwhwKniVt1nqDJgPHWSss=;
-        b=jIchAlB7ymsBdyvYe3qWgUU7AZ1pYJgd8feq40OP2EOs8GHclfcAOjejmS0V3WBe1V
-         +G00OBVmBb4WsQdrVWEFQBntIssM0TYpXgsiLwOseB1wkFm5ux8/tOz6WCoLlFOzSsxX
-         KdjFC7hOBFsoIWZVGHQz0KYJw+eJ8OI6UEmFaqv4fJCay5uTlyVguG8K6MtV346/V/UZ
-         wxrEsiL38hGDbSMwxaRPJlaSEjOLttZuvjvFGpNiMC6exOr/8Uua/Fk9ixD5Gsboptxo
-         gQJJveLmvvCV5NfQp+t3hONB2crUM4hZhzyDR6q1Em/pdJ7Txrfu7ZBIULxxBci2V6mt
-         SNlw==
-X-Gm-Message-State: AGi0PuaKIJaNmyoN/fi/8HPAYCjZ1Nv15qCjsA/39gJjoXcg+FAAJHwt
-	8JClyOh5UHKe96DLn9Kr1kS8d4I+
-X-Google-Smtp-Source: APiQypJCTEtzRb61/LYXSTRmdo8YZ1XQEirRs2VE4bezXBEL//XNc4pt1daiaPgSeIew+3r68y2hhA==
-X-Received: by 2002:a7b:c417:: with SMTP id k23mr2116514wmi.147.1588240713928;
-        Thu, 30 Apr 2020 02:58:33 -0700 (PDT)
+        bh=e3H8/QyOVFRy2fqlTLlPnsF8bqIYEzYdvR9UFAwBDjc=;
+        b=MY3JigrBzyVJQtmUqmzGyKeXSuA3JOPpe/HoEn4cLmk6+lDQIVL9tdi8FggyZov0sa
+         vRwFd61nhBLZ+7/rYK/jDb1QF8WTANny3ejp6oH1AQZwy1rYSok5zImSSvatUTE7Iwwm
+         vyqC+vRCvvOGgNd0+C6psClJu8RrxxAYTIAmIBQHycmXUi7HVJlAWctVVzGFA/Vfokmz
+         nwHS1PcQOeLmUhPeWGxXP5O/rb7w6QJ9+byvn1lTRRd/fznvdJ4ANDwWt0ZDw2tB0SGP
+         yqEcvikDT2BVpboTqGsj8Zh1Mci3E3rzM9ntSYGkJ1RCcCZDLta8Q+UC7lCjOh6XrhCK
+         u0jg==
+X-Gm-Message-State: AGi0PuYyM5YHOC7OIfNUkPOYdVVT+HQEoGcdBDypQ7eMo0T8sNNGvFRU
+	qWovle5MRzjlbD0SZnqYMAdQPthE
+X-Google-Smtp-Source: APiQypJRAAWtJAp27pIEDuH9jom1Jcoa2+pGw5p0ezopuJigEmkm9aROYF5Bnr3xl26esrrqnH5NWw==
+X-Received: by 2002:a7b:c931:: with SMTP id h17mr2201303wml.105.1588240715114;
+        Thu, 30 Apr 2020 02:58:35 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id b82sm12380682wmh.1.2020.04.30.02.58.32
+        by smtp.gmail.com with ESMTPSA id b82sm12380682wmh.1.2020.04.30.02.58.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 02:58:33 -0700 (PDT)
+        Thu, 30 Apr 2020 02:58:34 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 06/17] xcb-proto: update to 1.14
-Date: Thu, 30 Apr 2020 11:58:04 +0200
-Message-Id: <20200430095815.2824-6-alex.kanavin@gmail.com>
+Subject: [PATCH 07/17] libxcb: update to 1.14
+Date: Thu, 30 Apr 2020 11:58:05 +0200
+Message-Id: <20200430095815.2824-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200430095815.2824-1-alex.kanavin@gmail.com>
 References: <20200430095815.2824-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Drop a patch as the problem is fixed upstream.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../xorg-proto/{xcb-proto_1.13.bb => xcb-proto_1.14.bb}      | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-proto/{xcb-proto_1.13.bb => xcb-proto_1.14.bb} (82%)
+ .../xorg-lib/libxcb/xcbincludedir.patch       | 28 -------------------
+ .../{libxcb_1.13.1.bb => libxcb_1.14.bb}      |  6 ++--
+ 2 files changed, 2 insertions(+), 32 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-lib/libxcb/xcbincludedir.patch
+ rename meta/recipes-graphics/xorg-lib/{libxcb_1.13.1.bb => libxcb_1.14.bb} (80%)
 
-diff --git a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
-similarity index 82%
-rename from meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-rename to meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
-index 7467090920..6de30098d6 100644
---- a/meta/recipes-graphics/xorg-proto/xcb-proto_1.13.bb
-+++ b/meta/recipes-graphics/xorg-proto/xcb-proto_1.14.bb
-@@ -11,9 +11,8 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7 \
-                     file://src/dri2.xml;beginline=2;endline=28;md5=f8763b13ff432e8597e0d610cf598e65"
+diff --git a/meta/recipes-graphics/xorg-lib/libxcb/xcbincludedir.patch b/meta/recipes-graphics/xorg-lib/libxcb/xcbincludedir.patch
+deleted file mode 100644
+index 46297c33c3..0000000000
+--- a/meta/recipes-graphics/xorg-lib/libxcb/xcbincludedir.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-As pkg-config --variable doesn't respect the sysroot, add the pkg-config sysroot
+-to the beginning of variables that are used later on the host.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/configure.ac b/configure.ac
+-index 94da4f7..d29cd6a 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -64,7 +64,7 @@ AC_SUBST(NEEDED)
+- 
+- # Find the xcb-proto protocol descriptions
+- AC_MSG_CHECKING(XCBPROTO_XCBINCLUDEDIR)
+--XCBPROTO_XCBINCLUDEDIR=`$PKG_CONFIG --variable=xcbincludedir xcb-proto`
+-+XCBPROTO_XCBINCLUDEDIR=$PKG_CONFIG_SYSROOT_DIR/`$PKG_CONFIG --variable=xcbincludedir xcb-proto`
+- AC_MSG_RESULT($XCBPROTO_XCBINCLUDEDIR)
+- AC_SUBST(XCBPROTO_XCBINCLUDEDIR)
+- 
+-@@ -74,7 +74,7 @@ AC_SUBST(XCBPROTO_VERSION)
+- 
+- # Find the xcbgen Python package
+- AC_MSG_CHECKING(XCBPROTO_XCBPYTHONDIR)
+--XCBPROTO_XCBPYTHONDIR=`$PKG_CONFIG --variable=pythondir xcb-proto`
+-+XCBPROTO_XCBPYTHONDIR=$PKG_CONFIG_SYSROOT_DIR/`$PKG_CONFIG --variable=pythondir xcb-proto`
+- AC_MSG_RESULT($XCBPROTO_XCBPYTHONDIR)
+- AC_SUBST(XCBPROTO_XCBPYTHONDIR)
+- 
+diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.13.1.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
+similarity index 80%
+rename from meta/recipes-graphics/xorg-lib/libxcb_1.13.1.bb
+rename to meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
+index 9befc51b50..f27c5daa61 100644
+--- a/meta/recipes-graphics/xorg-lib/libxcb_1.13.1.bb
++++ b/meta/recipes-graphics/xorg-lib/libxcb_1.14.bb
+@@ -9,13 +9,11 @@ SECTION = "x11/libs"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d763b081cb10c223435b01e00dc0aba7"
  
--SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.bz2"
--SRC_URI[md5sum] = "abe9aa4886138150bbc04ae4f29b90e3"
--SRC_URI[sha256sum] = "7b98721e669be80284e9bbfeab02d2d0d54cd11172b72271e47a2fe875e2bde1"
-+SRC_URI = "http://xcb.freedesktop.org/dist/${BP}.tar.xz"
-+SRC_URI[sha256sum] = "186a3ceb26f9b4a015f5a44dcc814c93033a5fc39684f36f1ecc79834416a605"
+-SRC_URI = "http://xcb.freedesktop.org/dist/libxcb-${PV}.tar.bz2 \
+-           file://xcbincludedir.patch \
++SRC_URI = "http://xcb.freedesktop.org/dist/libxcb-${PV}.tar.xz \
+            file://disable-check.patch \
+           "
  
- inherit autotools pkgconfig python3native
+-SRC_URI[md5sum] = "f33cdfc67346f7217a9326c0d8679975"
+-SRC_URI[sha256sum] = "a89fb7af7a11f43d2ce84a844a4b38df688c092bf4b67683aef179cdf2a647c4"
++SRC_URI[sha256sum] = "a55ed6db98d43469801262d81dc2572ed124edc3db31059d4e9916eb9f844c34"
+ 
+ BBCLASSEXTEND = "native nativesdk"
  
 -- 
 2.26.1
