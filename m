@@ -1,87 +1,45 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.6037.1588249847163369391
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+ by mx.groups.io with SMTP id smtpd.web10.7366.1588254576139440000
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 05:30:47 -0700
+ Thu, 30 Apr 2020 06:49:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ECZInaOf;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id k1so6682225wrx.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 05:30:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1C0qRRFrCu/baAKXDYpClmkqBZ+CmCguvzyEqTSvJnk=;
-        b=ECZInaOfVlT28qUPdTdZtC3bDRNHPfJG2VqYCwF8OJyupqNmp3uPBClWue+AGf05vv
-         JJHl7nEuq6ArXPLto4NoDArl/WSzqgpoBDGssGtg3qFKQSeZejpRRWeUsA5nG3vXYvMB
-         PEejYqo8sklACb2Mcv93NL1Zm8pjmzGt/7laAOF28ovkyV1k14Z6+dz4JgNlYZDJNw41
-         PNm8PwG9mGtlgbsh1ev/5aDRMvw8IGB3L7El9+YOYlDx7ZyyHYpYUEMX7E0pFCh5QGWp
-         +nM4uxD/z/BSBsfPCloULikcHC0Y5p0tqaiLSFlTWpjQYuWZTDPFCH72nPSfuntdEOsF
-         I6ow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1C0qRRFrCu/baAKXDYpClmkqBZ+CmCguvzyEqTSvJnk=;
-        b=aWpzZivvUUAdJxulWLAMgY8pXGx0PiHuOkU2feKK/VlhpkrojKChMnJ8caVcIZe9CD
-         h4axUs8NcZMOyLM3aSXWfqHgqBFL7M9zUp2zd6sBfsir9yyTl1K0Qo94t28FUua4W+pH
-         genPbafL/VOapPgvnBn590/FGmdiftXYV1aG9b63CyM6Xp5s9sspy2D8OLHeyXfaydI4
-         tb+mYnTYsN+qcXhg5Pc5YPUePQY9Ot8raXaXa2rNVBCc/LiNaBpCfp9ezwDBZV944yTo
-         MZckv0xidbCsOXbl+NJFlrBJ9OW4phQlwHMki9CXtx8ltE+q51h6p0rguq36ipLNQ//z
-         gIUQ==
-X-Gm-Message-State: AGi0PuYt0oC1XSJ71vZCWMDGYYUTkE4MLztiaYM0DHJRD4ZK+9pj9A1T
-	lmUstulqrPtXxLfinZUOjLhS42EV
-X-Google-Smtp-Source: APiQypKndKviP61Kull7866p+SuiOv8nIpescUVDV7tQkkn+t15vUsfCgj0B+dFDs0OAfahqSt1jBw==
-X-Received: by 2002:adf:aad4:: with SMTP id i20mr3493219wrc.47.1588249845448;
-        Thu, 30 Apr 2020 05:30:45 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id k3sm4102585wru.90.2020.04.30.05.30.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 05:30:45 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] testresults.json: add duration of the tests as well
-Date: Thu, 30 Apr 2020 14:30:33 +0200
-Message-Id: <20200430123033.6931-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.1
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:59030 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jU9ZG-001HyJ-Dk
+	for openembedded-core@lists.openembedded.org; Thu, 30 Apr 2020 09:49:34 -0400
+Date: Thu, 30 Apr 2020 09:49:32 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: can i blacklist a particular .bbclass file when there are more than one?
+Message-ID: <alpine.LFD.2.21.2004300945580.19276@localhost.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-This is printed by testimage, but isn't actually saved.
-It's a useful metric for tracking execution times.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/lib/oeqa/core/runner.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+  given an odd collection of layers wherein there are multiple
+instances of a particular .bbclass file, it turns out that all of the
+recipes i'm interested in build with an older version of the class
+file, and all but one build consulting the newer form of the file
+contained in another layer, so is there any way to blacklist a
+particular class file, either globally or even on a per-recipe basis?
 
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index 1284295c34..00b7d0bb12 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -182,8 +182,10 @@ class OETestResult(_TestResult):
-             (status, log) = self._getTestResultDetails(case)
- 
-             t = ""
-+            duration = 0
-             if case.id() in self.starttime and case.id() in self.endtime:
--                t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
-+                duration = self.endtime[case.id()] - self.starttime[case.id()]
-+                t = " (" + "{0:.2f}".format(duration) + "s)"
- 
-             if status not in logs:
-                 logs[status] = []
-@@ -191,6 +193,8 @@ class OETestResult(_TestResult):
-             report = {'status': status}
-             if log:
-                 report['log'] = log
-+            if duration:
-+                report['duration'] = duration
-             if dump_streams and case.id() in self.logged_output:
-                 (stdout, stderr) = self.logged_output[case.id()]
-                 report['stdout'] = stdout
--- 
-2.26.1
+  i realize this is really, really bad design style, but it will give
+me the chance to use the proper class file for most of the recipes
+while i debug the problematic recipe.
 
+rday
