@@ -1,80 +1,53 @@
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
- by mx.groups.io with SMTP id smtpd.web11.4106.1588240726353807183
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.5354.1588246953872442289
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 02:58:46 -0700
+ Thu, 30 Apr 2020 04:42:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YPWnqfjA;
- spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f67.google.com with SMTP id d15so6121929wrx.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 02:58:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=kR0lBFMYlXv6uxBopZJ4/htJy5N6Uc8Zys6757OsU/Y=;
-        b=YPWnqfjAea7P2/2McKB5lQGkhlcBmB6CJtuemohFAIaG0PNfIHl7T3KGQZp6r3mpIh
-         MaTEiaWwx9GUgY+7Upj+8vq7qaF4yG61i292Nil3Q4u/TA+tUmqk3UDPVuuhd6z2zydN
-         7FtR1JqO/eBdMH6roeWcGOUAGgg51et6G/XUtqJOdKbhopMm4a/lbxQdYf3hALwanFWq
-         LSc+HpCj7KoVipiQfASPb+MILT9QbAAEn0slOu5V9zHv2BmlEp6ERPtcj6BNFTBEdOOV
-         anOti5w2IfGd2gYNROaShqV4JiF1Y+4izliFYVQPNhNEozcWOVsykkYRFNCc0YH8Jm8R
-         jRMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kR0lBFMYlXv6uxBopZJ4/htJy5N6Uc8Zys6757OsU/Y=;
-        b=a+15934DdwKzwSU6JgUFYOrYC4Z+6AML7cNWtATcN/2kyyy49M1ivDeRvVg106nHV+
-         AeYRo1AueyXcBDU2aob4B8zexg+jXEWT9ctrHu3EycxVkcqdHjBR3FJF11zjjZLmxcGD
-         SsqQZehfstAhJJzkYgkhR3yAJhuQyMXwNxRgt1oYisfM6WViBjxfwb+GtAJXTT+E0IU/
-         yLb0lYylr+5vgdf7rsNlr9xo7YK2yQs6CLIiDWU60Ce6Rk+/acSet38F+SE4dUpPRrAY
-         gZzCmPLDX8GGWRKzuH+qXpA36RxDqSR+Z2Mo6R5Q2e0f7Zwjh9v2ztnAf4bQKN6ZdNIF
-         8WZA==
-X-Gm-Message-State: AGi0PuYvd5CqxXevHY8u+MNHvL1NmDR+0SHOxYqMS57S8rawXvm//+E/
-	hLnlgl/aLd+sEDPchTaXubwGBt7J
-X-Google-Smtp-Source: APiQypJo1mUQ7SFqkPTW3mg1CQs0PNZPI87umfVxT7gQOuZOv5Eb90KheKjomMyTdTWAK5osEIuSbQ==
-X-Received: by 2002:a5d:554a:: with SMTP id g10mr3235185wrw.204.1588240724774;
-        Thu, 30 Apr 2020 02:58:44 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id b82sm12380682wmh.1.2020.04.30.02.58.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 02:58:44 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 17/17] glib-networking: update to 2.64.2
-Date: Thu, 30 Apr 2020 11:58:15 +0200
-Message-Id: <20200430095815.2824-17-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200430095815.2824-1-alex.kanavin@gmail.com>
-References: <20200430095815.2824-1-alex.kanavin@gmail.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 03UBg0hR018342
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 04:42:22 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 30 Apr 2020 04:42:10 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] pbzip2: Fix license warning
+Date: Thu, 30 Apr 2020 19:42:09 +0800
+Message-ID: <1588246929-345428-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Mingli Yu <mingli.yu@windriver.com>
+
+After below commit introduced, the LICENSE
+field changed from BSD-4-Clause to bzip-1.0.6.
+669600ef9b bzip2/pbzip2: Correct license information
+
+But actually it should be bzip2-1.0.6,
+update it to fix the below license warning:
+WARNING: pbzip2-native-1.1.13-r0 do_populate_lic: pbzip2-native: No generic license file exists for: bzip-1.0.6 in any provider
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- .../{glib-networking_2.62.3.bb => glib-networking_2.64.2.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/glib-networking/{glib-networking_2.62.3.bb => glib-networking_2.64.2.bb} (88%)
+ meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.62.3.bb b/meta/recipes-core/glib-networking/glib-networking_2.64.2.bb
-similarity index 88%
-rename from meta/recipes-core/glib-networking/glib-networking_2.62.3.bb
-rename to meta/recipes-core/glib-networking/glib-networking_2.64.2.bb
-index e9596ce1a4..8300d20e0c 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.62.3.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.64.2.bb
-@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
- SECTION = "libs"
- DEPENDS = "glib-2.0"
+diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+index d7450c7..e321cd2 100644
+--- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
++++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
+@@ -5,7 +5,7 @@ machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
+ newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
+ HOMEPAGE = "http://compression.ca/pbzip2/"
+ SECTION = "console/utils"
+-LICENSE = "bzip-1.0.6"
++LICENSE = "bzip2-1.0.6"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=398b8832c6f840cfebd20ab2be6a3743"
  
--SRC_URI[archive.md5sum] = "a758ca62bd54982a798b39c744cbf783"
--SRC_URI[archive.sha256sum] = "8ca1f86f23a76b5c7640624f7d5490705c78e81375e1741c9a1c41ce7f8f7ff7"
-+SRC_URI[archive.md5sum] = "7f8c7ffe2616be4ef4232f2574353dab"
-+SRC_URI[archive.sha256sum] = "45def0715c551f9b0b41a4e4f730ac95f3d5d4f3de8162260fbf9421cff695a7"
- 
- PACKAGECONFIG ??= "gnutls"
- 
+ DEPENDS = "bzip2"
 -- 
-2.26.1
+2.7.4
 
