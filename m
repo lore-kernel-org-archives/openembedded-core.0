@@ -1,80 +1,83 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.358.1588203663649507956
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+ by mx.groups.io with SMTP id smtpd.web10.702.1588204927544373133
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 16:41:04 -0700
+ Wed, 29 Apr 2020 17:02:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 8A09B40BDF
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 23:41:02 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id zAHSyGs9t_Mg
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Apr 2020 23:41:02 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 79B6640AB5
-	for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 23:41:02 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id E63DD172C5F; Wed, 29 Apr 2020 19:41:01 -0400 (EDT)
-Date: Wed, 29 Apr 2020 19:41:01 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uHQFDao6;
+ spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: bkylerussell@gmail.com)
+Received: by mail-qk1-f195.google.com with SMTP id 20so3996726qkl.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 17:02:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=WldSJEZJoy1v/p09ULQcN0acUogc1OF6BDmBlePsfCY=;
+        b=uHQFDao6yfbkuJEHDSEDCLJdGt5m6lvpmw8Xq6BVeAJhS9yhupZTwqxAd1pmYkNviC
+         3igYr429vD9FPkdlR88C5+mr4bDXhSdfQ8JfHidtoPEr9fCjTS5b+UEgZufY0iY0MICd
+         +WIKL6UHupFq+NxlbOOZo6voRaDOnLNodHN4xrp9kpirixhKBYzkYV0qSm0nL9160t72
+         xeo5WYGlmpc9EKsu8AkeabVEY0TCtoQjv9VdGEjQmbER0YwrUMNvY6BmAndvtqrNY4pn
+         8nZHzveSnTpvKnN1HhfMIFl9JTY2dlBxKtca4CNV83QelgSaS1Tkk0UoyaLF2xikeTOm
+         6Nqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=WldSJEZJoy1v/p09ULQcN0acUogc1OF6BDmBlePsfCY=;
+        b=tjvXfbr5dvZwtVMxVqLhiUYAK8yoyCYXeG9eQOLMDazvQRJaWfFQiT+vmXsGMOSCv3
+         bgL6e7jnazMptZGbYAfaI+MpfcJFrpslj3mhP6Me3ktRZV0avn6XjhOLmNX/HP0Zq2Ly
+         r3Eic7AGfBk+PATrpeQqlimiDV01nxNA6zZwqtIQyxhvH6N34xcSE90XN7zzb3L7ggxy
+         +m4zcvZJOKJ1XFT1OAgxgkDpDHKxJXpy05zudyz8jxnoChG7lmOmWSPENCmdrKKeY0O8
+         A713Byb5UhmajEO0kue0e3ZTa+l9MirQVEF1FWKPdVRjkEo/mAAQ+rBa7EZw1oVFEhkM
+         Sx2Q==
+X-Gm-Message-State: AGi0PuYSwmPeYQlz6KujI3YbVT6KC55YXnuGFE3YKjAun7lk7YDOPjsT
+	wQ5JBtc52pgtsg4uoLv+1FQf19EN
+X-Google-Smtp-Source: APiQypIoifK00sw4tmaktsuqGIMLHhT1U4ITnuTSL/NatFKvsxn7q3/zym0vnf2OE4H+aYqgL4/Rlg==
+X-Received: by 2002:a05:620a:103b:: with SMTP id a27mr1047777qkk.16.1588204926138;
+        Wed, 29 Apr 2020 17:02:06 -0700 (PDT)
+Return-Path: <bkylerussell@gmail.com>
+Received: from poirot.lexmark.ds ([2605:a000:160c:874b:7138:3470:3455:502])
+        by smtp.gmail.com with ESMTPSA id 190sm535330qkj.87.2020.04.29.17.02.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2020 17:02:05 -0700 (PDT)
+From: bkylerussell@gmail.com
 To: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] sanity: Require gcc 6 or later
-Message-ID: <20200429234101.GS11927@denix.org>
-References: <20200429220156.1300336-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <20200429220156.1300336-1-richard.purdie@linuxfoundation.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Cc: wesley.lindauer@gmail.com,
+	richard.purdie@linuxfoundation.org,
+	Kyle Russell <bkylerussell@gmail.com>
+Subject: [PATCH v2 0/1] patch.py: don't apply striplevel to git am command
+Date: Wed, 29 Apr 2020 20:01:44 -0400
+Message-Id: <20200430000145.8359-1-bkylerussell@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAFrQVPMFCxHN4hzp2ktmP0wEH1Bp571z1KkSL5pfbHdWcuaFQg@mail.gmail.com>
+References: <CAFrQVPMFCxHN4hzp2ktmP0wEH1Bp571z1KkSL5pfbHdWcuaFQg@mail.gmail.com>
 
-On Wed, Apr 29, 2020 at 11:01:56PM +0100, Richard Purdie wrote:
-> New versions of rpm have issues with the libgomp support in gcc 5.x
-> so raise the minimum to 6 or later. This mainly affects Ubuntu 16.04.
+Here's an updated patch that I hope will be a little more clear.  I've dropped
+the change to git apply since that wasn't behaving as I expected, then added
+a selftest on llvm that demonstrates the issue I'm trying to resolve.  Without
+the change in patch.py included here, the selftest that I'm proposing will fail.
 
-So, this is for master, rigth? No plans to backport it to dunfell (hence, no 
-rpm backport either), correct? Trying to make sure Yocto LTS will still work  
-on Ubuntu 16.04 LTS...
+One might argue, "Well, if you change the default PATCHTOOL, you could also
+just change your patch SRC_URIs and drop the striplevel parameter."  While
+that may be true, the same failure can also be demonstrated using devtool on
+llvm without modifying PATCHTOOL at all, since by default devtool also uses
+GitApplyTree.  So if you don't consider "modifying a recipe's PATCHTOOL without
+also modify its SRC_URI patches" to be a valid workflow, devtool is another
+common workflow where this behavior could be encountered.
+
+Hope that helps,
+
+Kyle
+
+Kyle Russell (1):
+  patch.py: don't apply striplevel to git am command
+
+ .../llvm/files/0001-Test-new-file.patch        | 17 +++++++++++++++++
+ .../recipes-test/llvm/llvm_%.bbappend          |  2 ++
+ meta/lib/oe/patch.py                           |  2 +-
+ meta/lib/oeqa/selftest/cases/bbtests.py        | 18 ++++++++++++++++++
+ 4 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta-selftest/recipes-test/llvm/files/0001-Test-new-file.patch
+ create mode 100644 meta-selftest/recipes-test/llvm/llvm_%.bbappend
 
 -- 
-Denys
-
-
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/sanity.bbclass | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-> index 9e871017389..292c5591dd3 100644
-> --- a/meta/classes/sanity.bbclass
-> +++ b/meta/classes/sanity.bbclass
-> @@ -527,7 +527,7 @@ def check_wsl(d):
->              bb.warn("You are running bitbake under WSLv2, this works properly but you should optimize your VHDX file eventually to avoid running out of storage space")
->      return None
->  
-> -# Require at least gcc version 5.0.
-> +# Require at least gcc version 6.0.
->  #
->  # This can be fixed on CentOS-7 with devtoolset-6+
->  # https://www.softwarecollections.org/en/scls/rhscl/devtoolset-6/
-> @@ -541,8 +541,8 @@ def check_gcc_version(sanity_data):
->      
->      build_cc, version = oe.utils.get_host_compiler_version(sanity_data)
->      if build_cc.strip() == "gcc":
-> -        if LooseVersion(version) < LooseVersion("5.0"):
-> -            return "Your version of gcc is older than 5.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
-> +        if LooseVersion(version) < LooseVersion("6.0"):
-> +            return "Your version of gcc is older than 6.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
->      return None
->  
->  # Tar version 1.24 and onwards handle overwriting symlinks correctly
-> -- 
-> 2.25.1
-> 
-
-> 
+2.17.1
 
