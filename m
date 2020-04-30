@@ -1,79 +1,75 @@
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com [209.85.167.195])
- by mx.groups.io with SMTP id smtpd.web12.2340.1588286195577467370
+Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com [209.85.217.45])
+ by mx.groups.io with SMTP id smtpd.web11.439.1588286201813365616
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 15:36:35 -0700
+ Thu, 30 Apr 2020 15:36:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ZCzIHjN2;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.195, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f195.google.com with SMTP id o7so1202719oif.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 15:36:35 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=CayPVw+t;
+ spf=softfail (domain: sakoman.com, ip: 209.85.217.45, mailfrom: steve@sakoman.com)
+Received: by mail-vs1-f45.google.com with SMTP id a5so5286669vsm.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 15:36:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=KOJUE5tEJKQtYV0LmBPVvlCXUEYPkozYIbRnXLr61u8=;
-        b=ZCzIHjN25E/ndkzn0O7JG7ypgqSiYNZFk+Gs0Lhz0Z0Zn8wOrJVAAIrzm5Y40RvXxd
-         5P/TYrijySxaOuq+L62MaMiPbWGFzzOYk52r4hC/UZ6FclvzmM7m5i++HLsWxOgTxLW/
-         d4RD+NA6C9G6cpLROh+6Ynecm6QaSmDgVUJBAYhjCY6ode7JQ5oIQQs47ALbgqCr9NQu
-         j86WpK3j5lUqhICDQQM3QBt0BfKZjapwOZ9OwBiiKsTpthNFz4c8dGAf5ePMRKq489Af
-         vSFJVnIj+6vCFVmyUHybQRbUB5Mf10CPoSSdNIdwNaJS6eKKAH55kK0JWBJU1Kp6cX8h
-         v/HA==
+        bh=VlaiKTqWZarQPlOmRHm3HOtgUMpsOGoEg2E8xSWT1ck=;
+        b=CayPVw+tS/LL7hxydPcCBLFF+Ig2dFfh8loZYd0WQaVMeQo4BdMYIwXH+YRyat6csP
+         ryOwmmn0tSez+pzInsAtu4uD5cQ7Q4SC6iNJuIFBt3fZ+HhwuyBS1YKBw9VZ1YyBNeTO
+         XDe/7cqs5mfY/cz/xjPz0XBQuhRQrFEKF2q8qoJCwj4tCRxniJKzAAqfWHfc0J8tSHEf
+         xS9W+9v9KQ44Q/qfRftJQW4lW4pj6k3+Hm27TUIccpyMJCAi70ecGuPlyZlyfflqjd7G
+         mNZDat2kIrPOP97zYv3RYCHXcp/q4rpLeY4BDf0w53/6pEQdgXYMuAtSXCdlPpojEoP3
+         aZgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=KOJUE5tEJKQtYV0LmBPVvlCXUEYPkozYIbRnXLr61u8=;
-        b=t8P0kiN5Hb+9FNAsvNOofQBBdPpL9TlqSP/36gS0wJC7X9B0z3DTk53TxNLg33FHri
-         zTnTD1AnF1TCW6nRlOnxk9x248Wlz4wYRgQaBb8Ir0i2esH5OyVHsF2TuVROTkjcnhen
-         MugQ+Ch3BByPplf7YZapZHkiyc+NZ9hX6uX4UrrjGo9jvV7ao6+GATTNUlckLZbCNWfQ
-         MAF1iG44Qgq9KB7zqAJv4ru1qMUj4lNXnVTGL5uK2WTHL61lIQf8eq+zp8K+2l7eDuMe
-         5z94dtTDSjch+EQHWDIqNQW+plYQZLonYzwL2/+/djcvhWfF5KsXQS7nRbKth/L2ACwB
-         MH0Q==
-X-Gm-Message-State: AGi0PuaYLgOWeLC6DfYRLPeB0qubw6I/I+W+seekLrLzB8DWr6xt/OQf
-	m71oOr36IqvezDAhnpd8dsFyptyMqe0CwQ==
-X-Google-Smtp-Source: APiQypLboeOA5mHPH1KnC1WHoaRb3jLHtBx123Zp+UELAXvUafU8zL4lprpU8gHjfKKKpkDXAAAYfg==
-X-Received: by 2002:a17:90a:1b0c:: with SMTP id q12mr1222732pjq.116.1588285864475;
-        Thu, 30 Apr 2020 15:31:04 -0700 (PDT)
+        bh=VlaiKTqWZarQPlOmRHm3HOtgUMpsOGoEg2E8xSWT1ck=;
+        b=BtHzp3AgnunEoO1gI2/NkrD8oj/CZrMEILL1UOQdkj1bdizS4Szmj+T4EQoZ6XK8Mc
+         HV1789xOmSqCIDET+1YIA6Prk4/YQBuHz6/Ifv7C6lI/YqLvA+ZRc9L7YVeH+LdrFBQ2
+         zvgEuNhRmFJJyKaOM4YgQTM0hVXxKA0QHuVr5RjGvzg6CwweJrW03k/ONAXx7VrcVR1A
+         szKagvr0HhqaXmjSUqXNV70drShbie6B7e/p0a6FwMTxiC2TkX2PZd81sXoA7XjjlLcf
+         AZNpqfr0ItWqiNCceH/kgbE/uOA9ULAhWWQl9Vzizy2oLkK8zGeXFWcy19qG5jKvEjNz
+         4ezw==
+X-Gm-Message-State: AGi0PubnC+OJ4uDxZwc2+91xc33/cmcsKXCrjk/lVTCyC2XisgPn/gVJ
+	xX/qVYFGbReF5FWfbk+xt/kecCBuVQoI+Q==
+X-Google-Smtp-Source: APiQypLWfghhYOaCBPJAZzTZIWIe0B32z1rXfL8m0F+z/GBhtwePmxPv+HDOnYRtJu8tDWkRoQxkJA==
+X-Received: by 2002:a17:902:c38b:: with SMTP id g11mr1286742plg.295.1588285861163;
+        Thu, 30 Apr 2020 15:31:01 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d124sm646011pfa.98.2020.04.30.15.31.03
+        by smtp.gmail.com with ESMTPSA id d124sm646011pfa.98.2020.04.30.15.30.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 15:31:03 -0700 (PDT)
+        Thu, 30 Apr 2020 15:31:00 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell v2 05/14] buildtools-extended-tarball: Add libstc++.a
-Date: Thu, 30 Apr 2020 12:30:10 -1000
-Message-Id: <dfeca4d1e2442192aa40c420648cae2914c30be5.1588285073.git.steve@sakoman.com>
+Subject: [OE-core][dunfell v2 03/14] qemu-system-native: Fix commented out PACKAGECONFIG
+Date: Thu, 30 Apr 2020 12:30:08 -1000
+Message-Id: <2797779cb8b821d8bec8df999c6ebb86384c9686.1588285073.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1588285073.git.steve@sakoman.com>
 References: <cover.1588285073.git.steve@sakoman.com>
 
 From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-Builds like native-openjdk, really wants a to link
-some tools against the static version. Since when
-using the extended tarball, its the only place to
-get it, add the library.
-
-Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/buildtools-extended-tarball.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-devtools/qemu/qemu.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/buildtools-extended-tarball.bb b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-index dd780c5d57..e38967af3f 100644
---- a/meta/recipes-core/meta/buildtools-extended-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-extended-tarball.bb
-@@ -23,6 +23,7 @@ TOOLCHAIN_HOST_TASK += "\
-     nativesdk-libgcc \
-     nativesdk-libstdc++ \
-     nativesdk-libstdc++-dev \
-+    nativesdk-libstdc++-staticdev \
-     nativesdk-libtool \
-     nativesdk-pkgconfig \
-     nativesdk-glibc-utils \
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index f17a046fca..7a1ccf2115 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -180,7 +180,7 @@ PACKAGECONFIG[snappy] = "--enable-snappy,--disable-snappy,snappy"
+ PACKAGECONFIG[glusterfs] = "--enable-glusterfs,--disable-glusterfs"
+ PACKAGECONFIG[xkbcommon] = "--enable-xkbcommon,--disable-xkbcommon,libxkbcommon"
+ PACKAGECONFIG[libudev] = "--enable-libudev,--disable-libudev,eudev"
+-#PACKAGECONFIG[libxml2] = "--enable-libxml2,--disable-libxml2,libxml2"
++PACKAGECONFIG[libxml2] = "--enable-libxml2,--disable-libxml2,libxml2"
+ 
+ INSANE_SKIP_${PN} = "arch"
+ 
 -- 
 2.17.1
 
