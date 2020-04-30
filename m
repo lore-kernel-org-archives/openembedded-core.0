@@ -1,91 +1,90 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web12.9906.1588262014941740721
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com [209.85.221.195])
+ by mx.groups.io with SMTP id smtpd.web12.10845.1588264392927975945
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 08:53:35 -0700
+ Thu, 30 Apr 2020 09:33:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qXhJasGr;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: sakoman@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id b11so7561895wrs.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 08:53:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=H7/D4M9o;
+ spf=pass (domain: gmail.com, ip: 209.85.221.195, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f195.google.com with SMTP id i185so1932100vki.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 09:33:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=pFQgMOPOZ0cf4pYbyDTduAVBuGs1/5wVywuS5maBZ/M=;
-        b=qXhJasGrS+Qc6qyJy70g+9YDZFr7kiXvvUpsQwvt45D5w2LSCi7/Wp/5UOyT1mfHM2
-         N722PqzwCiO4aRFW9qY+WVgNvvFoaSOUMTowuzlXTskQET+juf7B2fc0EFi2WdYW5UEo
-         Wg0h5+bn1XJaFfOgULX38imqRyimwhqFhQ8HsJgTrX7b/L4K7z7idnFnCh6rsIJDlXiS
-         rwX7BqKvsthP2NlxvDMqKNlDCCw4XtFShor/0K9gKI/ltG3TZN3JaN4MuR2OzeEPOelO
-         IbhHrDWP0ogFDvPQ7W4hgVVO3wZkBwUWUfMVQutonR8iDgoXJRyFVuonKE2a3vFgrRpN
-         ARcw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mDni+MvnmZDQT8GCyxNNfqWEza/Gsa/Zbmg8zSnrLQM=;
+        b=H7/D4M9oSvvZ5kxrRSPhIVPyo98MYfzKvsg4/a8/WH5SM+xbFyMqoitJ/qcNE2x4ep
+         I4t9a4IsvLRHqX/tas8nQJQ60C9BntovfYBjIBqTe4TExdUmt0SNjQGwp6B9AAWc/E75
+         wtchcKiWLn9XgD64kbIbL19xK7bmFaNeYte8kJEYpfTr+aCpUpcDrnkBS4tazOyKLbC1
+         01Zad9zf1xuw2XKaH2BVa4sQsqgDliB0uEpa3zBzkLBsc1igtbpTQi7FJugPlzpyrzQo
+         FpviQ2ETNu1wpasL35GUKbbA2RgPoHuLUOQXuy8omxrDraasLGD8apWBJ/VmwZ9yvjqx
+         ExPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=pFQgMOPOZ0cf4pYbyDTduAVBuGs1/5wVywuS5maBZ/M=;
-        b=lOgPmiU0ZkaHGJJnIBWO70ZJ/dqajJqLJlH7P8zxeoQ1fto+6g4HFGGZtv4FxgtR9v
-         4vng4gFzkrUapaHShRJTGyKvm3ZeOrxWzk4wGpI8KVK/C3A1462hkcR497HVX3yUE73g
-         nTftNVvH4BF8V9g4+rQR/YuyWBBl5mxCAX49dXAxA6j7gshRGfqUxPRQqwbDTCmst8tH
-         tLXTjEzYRKErI5+/weQOXT0JNXgYEJvuf14BogG0sH6POd1gsLtMHCXWbhwjSLyrnPYQ
-         IfwrB+rghZFyll20Zmri4kMET4U8hNaMLy9kDqQqHJ0Z8iMLU4Ci/qV57OUx66qSb+O/
-         FgvQ==
-X-Gm-Message-State: AGi0PuZ13x088e9pqvoK89C5FjkuHAEHCismXSokcshsuRyw6P4Ypwaa
-	fxlklk3vt9xstIXu2+R9EMxvoa9Ky1rcrshHX/oPrQ==
-X-Google-Smtp-Source: APiQypLq1AouEjdTn8fJXJX1lVqZ5y00ELYBdcun4fpA57WLoTan30SBbxS2FUDRaFeX8NKWhUBDkktAgGCrEZ5W2IY=
-X-Received: by 2002:adf:fcc8:: with SMTP id f8mr3650617wrs.230.1588262013050;
- Thu, 30 Apr 2020 08:53:33 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=mDni+MvnmZDQT8GCyxNNfqWEza/Gsa/Zbmg8zSnrLQM=;
+        b=RDkX8xTEE15cA1IKpsgalbE1O9Hf+Ue90JQIuQ8WysoisqctNerT4B3xDybYnhJZTU
+         WMLSvZGkgYr/Qn1CeCVfsWvZf3e6/GsChHdnG5DfuYqeAU/c69vXBGLAOjV9cOHFJ+VY
+         mXVmfGRB5q6NZ/+umNTkbnQuNaGe84cOXdt9RNnLRCmwJ4PLVn0eN7fSxrRqOidWAcuE
+         130iJ0ZInAHM8yR7s5FC8WzbzJT04MJf8MxNbCgdFptPqslGkskgaDWIAYKrQ4OMNkdC
+         G++1M73FfwQ1ldatSbLICkM4IdpA4q6MNQacCxTqHi7WLphxzYuwRl3OIqL5aVcb9dnT
+         RczA==
+X-Gm-Message-State: AGi0PuYwduEIzFf05c0/CxZWCMyAkEvCyN3GSk6CR1mRiuW6KpCJsE+7
+	umDOMfiYDdZTA7HV0RNLOBas5Ruors6dId6Jg/Y=
+X-Google-Smtp-Source: APiQypK88LeMwMOJEjtc/OFexzaA+zhmYJQmlHwZEG3ZGJeD9ddvfDUL3ihYS+4DMdfcXlfud43fhONCbRKL4h59KOw=
+X-Received: by 2002:a1f:c643:: with SMTP id w64mr3682879vkf.0.1588264392102;
+ Thu, 30 Apr 2020 09:33:12 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1588175775.git.steve@sakoman.com> <f03ee1a2a697394f3c4168350089526ef6b87de6.1588175775.git.steve@sakoman.com>
- <CAJ86T=WRV+Uny9-4J--0sS2cr5CAtA=D4gFXHgm=-pXsX=BjKg@mail.gmail.com> <160A69FC1635E57D.20868@lists.openembedded.org>
-In-Reply-To: <160A69FC1635E57D.20868@lists.openembedded.org>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Thu, 30 Apr 2020 05:53:21 -1000
-Message-ID: <CAGDS+nn9dTG9hG2p3v_J7Pf55pD-1vxx6xUOGTBTeeK2s+bQbw@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 02/16] bzip2/pbzip2: Correct license information
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <20200430095815.2824-1-alex.kanavin@gmail.com> <20200430095815.2824-5-alex.kanavin@gmail.com>
+ <3bf99c3f-7ab1-d4ad-e8e1-c462222c34a8@gmail.com>
+In-Reply-To: <3bf99c3f-7ab1-d4ad-e8e1-c462222c34a8@gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 30 Apr 2020 18:33:00 +0200
+Message-ID: <CANNYZj90=e_zRbAcUT5zNZ-S5StHgPTJg_EJwp_4jdQ15ykWuA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/17] kmscube: update to latest commit
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000e6957805a4849ea6"
+
+--000000000000e6957805a4849ea6
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 29, 2020 at 12:12 PM Steve Sakoman via
-lists.openembedded.org <sakoman=gmail.com@lists.openembedded.org>
-wrote:
+On Thu, 30 Apr 2020 at 17:46, Khem Raj <raj.khem@gmail.com> wrote:
 
-> > The corresponding update to the busybox recipe should be merged too.
+> Does this mean it wont work with systems with mali gpu drivers any more?
 >
-> Thanks, I'm picking that one up in the next batch.
+> if so, then its a regression, we should not drop patches just like that
+> perhaps.
+>
 
-In fact, I'm going to move this patch to my next set and group all the
-bzip license changes and fixes together.
+The patch is unmaintained, hasn't worked since kmscube was switched to
+meson, and there is no way for me to test it or even understand it. Anyone
+with an interest in mali should do the work of getting it upstream, just
+tossing custom things into oe-core does not mean they will be kept there
+forever.
 
-Steve
+Alex
 
-> > > diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> > > index 8e9b779e67..d58f553a49 100644
-> > > --- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> > > +++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> > > @@ -4,7 +4,7 @@ Huffman coding. Compression is generally considerably better than that achieved
-> > >  LZ77/LZ78-based compressors, and approaches the performance of the PPM family of statistical compressors."
-> > >  HOMEPAGE = "https://sourceware.org/bzip2/"
-> > >  SECTION = "console/utils"
-> > > -LICENSE = "bzip2"
-> > > +LICENSE = "bzip2-1.0.6"
-> > >  LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664"
-> > >
-> > >  SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
-> > > diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-> > > index 1275cc0097..d7450c73c1 100644
-> > > --- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-> > > +++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-> > > @@ -5,7 +5,7 @@ machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
-> > >  newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
-> > >  HOMEPAGE = "http://compression.ca/pbzip2/"
-> > >  SECTION = "console/utils"
-> > > -LICENSE = "BSD-4-Clause"
-> > > +LICENSE = "bzip-1.0.6"
-> > >  LIC_FILES_CHKSUM = "file://COPYING;md5=398b8832c6f840cfebd20ab2be6a3743"
-> > >
-> > >  DEPENDS = "bzip2"
-> > > --
-> > > 2.17.1
-> > >
-> > >
-> >
-> 
+--000000000000e6957805a4849ea6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 30 Apr 2020 at 17:46, Khem Raj &l=
+t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
+r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+
+Does this mean it wont work with systems with mali gpu drivers any more?<br=
+>
+<br>
+if so, then its a regression, we should not drop patches just like that <br=
+>
+perhaps.<br></blockquote><div><br></div><div>The patch is unmaintained, has=
+n&#39;t worked since kmscube was switched to meson, and there is no way for=
+ me to test it or even understand it. Anyone with an interest in mali shoul=
+d do the work of getting it upstream, just tossing custom things into oe-co=
+re does not mean they will be kept there forever.<br></div><div><br></div><=
+div>Alex<br></div></div></div>
+
+--000000000000e6957805a4849ea6--
