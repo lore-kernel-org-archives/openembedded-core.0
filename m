@@ -1,183 +1,101 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
- by mx.groups.io with SMTP id smtpd.web10.704.1588204930862637935
+Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com [209.85.219.68])
+ by mx.groups.io with SMTP id smtpd.web10.712.1588204959159116015
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 17:02:11 -0700
+ Wed, 29 Apr 2020 17:02:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NTMfFIJa;
- spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: bkylerussell@gmail.com)
-Received: by mail-qt1-f169.google.com with SMTP id b1so3586213qtt.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 17:02:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sfk9s50G;
+ spf=pass (domain: gmail.com, ip: 209.85.219.68, mailfrom: raj.khem@gmail.com)
+Received: by mail-qv1-f68.google.com with SMTP id v10so2149411qvr.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 17:02:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=iMXVdfJDdVaonbBpzhxSXcHPsyPKRE9K2TpecaPh448=;
-        b=NTMfFIJaAxdBOZUYpnzCL4A8N3V16lonuSBOom2BbwCyCznVNYQBjR24FaTgV7ZJ8s
-         EI5CPIyOHPbcYSicNEXSPLWHqimiI0IaL31V8OX2GTY4xhXs+aUIQ8dLcYt8c3x8Vknl
-         zwIcUDZLVxnYwYGmZHcj+2GHfoLlTRdFUKXBHnycgCWKSBTdV/wDG0pHbCmuG1A4vozq
-         yrEAoRBYyuR8urm1pPHWBcKaWtpv1i7Qgy08qiZNKXQURgbHokWxCFwKeGnmkL8kGXZr
-         7kiU2iuSJiKk0kSCJNdksLoFKXkUwoNOyuZ3ORBf8RK2qo03Oexye7WOGAurjF4mxOS2
-         PDhw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+        bh=Bd7W3AX2CV7B2coToJIHK1SeXkZMJMdELH/cxEJz3Oc=;
+        b=sfk9s50Gy0eTHRcLXMFSanEBZTxoRuX9TiwIUYBsOHXYaOiokm6VarzQXgBKoVoFnm
+         pdTLsqNBWx/xZ5yGEbZUhrDYylaDwbhfU1B3HhBRRk772Obhmte6zUTIjl4A2Ciu5dPt
+         Z6m9DCnzFUzyHTRx8vcyYVXnr0EgzLH54rTDnh4nMyCjeC1FlXzg/7Djokh3r2pAdhXd
+         UjGrNIydZWTFlG0ay2hu9B2oXbR5pOD/1ui1HeN9FBNMpmAY2YW69sGS8iYEKSziyVZT
+         n0trKtNSfQ0OeOydE5xJYSs+tGdUkiCc+KrU6VG+5yx222L5ZjRyt6nGUxSCJtqDr6y8
+         D4sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=iMXVdfJDdVaonbBpzhxSXcHPsyPKRE9K2TpecaPh448=;
-        b=KfayM6FNLAm9ntuc3q/QtczN4EIaVgd87yK1OAnS1yB6Wsu3c2hGvjY1CUCDXmJI4J
-         97eSJ0V+yZdpmIYp5EynpsBqZuvlZ+VekErXz+aaftm/5QpVKY9dIp7ajgZEN3475YQI
-         CrKA3AQT++UJhn9Oz5Hmb0Sv8cQv36e7OAQao5WJhWS180grktvcQf9pkjcTg0NTJF2f
-         xIUgkV044H5XtL4ixQ7ZEf7edz79uOy5Mlyr6h5ZIBLzJZSL3+fBV0tPqwm+5vrOWXtJ
-         nQ6m6y4ue//0g4ijv476X8Z5Kbk1Z+wQXhqQxwD7xyz3quHDo+CXiBYiZLk6xEOQYoYP
-         B6TQ==
-X-Gm-Message-State: AGi0PuY/MI9b0+0ToZePZFt28xzptdhlaHQ1arlbS5k398dkCZ8EwKXn
-	bpQh+JQjDtJl49gu+lvU4EuGAawU
-X-Google-Smtp-Source: APiQypIGPEfU0I35RK8HClUSOcROUWKGRX1mQorymA5uWy1KzhJUjbLEZte7BfZ0OQ9MrKYniE900g==
-X-Received: by 2002:ac8:468b:: with SMTP id g11mr922071qto.141.1588204929714;
-        Wed, 29 Apr 2020 17:02:09 -0700 (PDT)
-Return-Path: <bkylerussell@gmail.com>
-Received: from poirot.lexmark.ds ([2605:a000:160c:874b:7138:3470:3455:502])
-        by smtp.gmail.com with ESMTPSA id 190sm535330qkj.87.2020.04.29.17.02.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 17:02:09 -0700 (PDT)
-From: bkylerussell@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: wesley.lindauer@gmail.com,
-	richard.purdie@linuxfoundation.org,
-	Kyle Russell <bkylerussell@gmail.com>
-Subject: [PATCH v2 1/1] patch.py: don't apply striplevel to git am command
-Date: Wed, 29 Apr 2020 20:01:45 -0400
-Message-Id: <20200430000145.8359-2-bkylerussell@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200430000145.8359-1-bkylerussell@gmail.com>
-References: <CAFrQVPMFCxHN4hzp2ktmP0wEH1Bp571z1KkSL5pfbHdWcuaFQg@mail.gmail.com>
- <20200430000145.8359-1-bkylerussell@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to;
+        bh=Bd7W3AX2CV7B2coToJIHK1SeXkZMJMdELH/cxEJz3Oc=;
+        b=TTGLIFUBhz2kfAf8+inhKBWEHhdl5Y2TNCO5Rkpa00n27kq47ry5Qz4FhKtgXEEF7D
+         gI7psj7uht9kFFaOG25SfXcZ1mFcM46uYlgetCApXmfKHXytcL3ZQ9RV2VTosgRuuwxy
+         zdN2pTjBATPNV3i5trAQRnfZLfzzBeh4J0aTKuuifDQTE6h7avNSvZMNSmGma+Ivr8/B
+         X1j8Iv3fmAlaN4ChqoPiQZFc4pGS3r2FIM8FXKq6J4xx1DoJvCRov8vIfiFHt2/4nGa0
+         1MEqXnfTN+FmUGxkBqWltkYk06cDQvTSp0Am7sMoU6kV0RlgzcMy9Zeqgg1COY/XCtfu
+         Kj7w==
+X-Gm-Message-State: AGi0PuYG8LrijT/w7mMYplZXJWlShnixmNP/m/s3Bsg0/N8o9HZQKQvD
+	+jItQc/7TpSw7odmatvvv+QC/kaL1mg+iG9V8dqvn97Mg04=
+X-Google-Smtp-Source: APiQypJ20QQiB8oEv8yumK0QX7ChHiXVO8VzM6Igpwt8nsqPd6afR3uzJhKPwOwl+xj/Nc2DsSwykqpPFAV7GWyIl/Q=
+X-Received: by 2002:ad4:4182:: with SMTP id e2mr448001qvp.61.1588204957518;
+ Wed, 29 Apr 2020 17:02:37 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200429220156.1300336-1-richard.purdie@linuxfoundation.org> <20200429234101.GS11927@denix.org>
+In-Reply-To: <20200429234101.GS11927@denix.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 29 Apr 2020 17:02:10 -0700
+Message-ID: <CAMKF1sr7ZUtGMn2hCFoGHmt4Tk4DXJm_KaC5C1ntLqCzL_ihwg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sanity: Require gcc 6 or later
+To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Don't pass a path removal parameter to git am since it always applies
-patches from the root of the git repo, not from each individual patchdir
-(like quilt).
+On Wed, Apr 29, 2020 at 4:41 PM Denys Dmytriyenko <denis@denix.org> wrote:
+>
+> On Wed, Apr 29, 2020 at 11:01:56PM +0100, Richard Purdie wrote:
+> > New versions of rpm have issues with the libgomp support in gcc 5.x
+> > so raise the minimum to 6 or later. This mainly affects Ubuntu 16.04.
+>
+> So, this is for master, rigth? No plans to backport it to dunfell (hence, no
+> rpm backport either), correct? Trying to make sure Yocto LTS will still work
+> on Ubuntu 16.04 LTS...
 
-GitApplyTree uses `git rev-parse --show-toplevel` to find the root of
-the repo no matter which patchdir is passed into the GitApplyTree instance.
-But for recipes who set S to a subdirectory within their repo, patches
-may be added to SRC_URI using a striplevel parameter to match the depth of S.
+I think yes, its not coming to dunfell, ubuntu 16.04 is still in
+maintenance and will be for next year too
+see https://ubuntu.com/about/release-cycle
 
-Currently when these patches are applied with git am in GitApplyTree instead
-of quilt, the striplevel still takes effect even though git applies the
-patch itself from the repo root, not from within S.
 
-In most cases when a patch modifies existing files within a repo, git am
-works fine and the desired outcome is still achieved because the three-way
-merge figures out which file the patch was intended to modify based on the
-repo history.
-
-An exception to this occurs if the patch adds a new file to the repo.
-
-For example, consider a patch that adds a new file src/foo to a repo.
-Additionally, assume the recipe for this repo sets S = "${WORKDIR}/git/src",
-and the patch is added to SRC_URI using "striplevel=2" since the default
-patch tool, quilt, applies each patch at its patchdir, ${S}.
-
-  --- /dev/null
-  +++ b/src/foo
-  @@ -0,0 +1 @@
-  +new file test
-
-When the GitApplyTree patch class is used (through either devtool or
-PATCHTOOL = "git"), the root of the repo is passed to git as the work tree,
-in addition to the path removal paramter.  In the case above, GitApplyTree
-creates ${WORKDIR}/git/foo instead of ${WORKDIR}/git/src/foo.
-
-This is demonstrated with the included selftest.  By not passing the striplevel
-parameter to git am, the patch creates the new file at the intended depth in
-the repo.
----
- .../llvm/files/0001-Test-new-file.patch        | 17 +++++++++++++++++
- .../recipes-test/llvm/llvm_%.bbappend          |  2 ++
- meta/lib/oe/patch.py                           |  2 +-
- meta/lib/oeqa/selftest/cases/bbtests.py        | 18 ++++++++++++++++++
- 4 files changed, 38 insertions(+), 1 deletion(-)
- create mode 100644 meta-selftest/recipes-test/llvm/files/0001-Test-new-file.patch
- create mode 100644 meta-selftest/recipes-test/llvm/llvm_%.bbappend
-
-diff --git a/meta-selftest/recipes-test/llvm/files/0001-Test-new-file.patch b/meta-selftest/recipes-test/llvm/files/0001-Test-new-file.patch
-new file mode 100644
-index 0000000000..8af0afeb12
---- /dev/null
-+++ b/meta-selftest/recipes-test/llvm/files/0001-Test-new-file.patch
-@@ -0,0 +1,17 @@
-+From 057c3da44affb47c154ec1ef67bd11646a6429fa Mon Sep 17 00:00:00 2001
-+From: Kyle Russell <bkylerussell@gmail.com>
-+Date: Tue, 28 Apr 2020 15:18:43 -0400
-+Subject: [PATCH] Test new file
-+
-+---
-+ llvm/README.new | 1 +
-+ 1 file changed, 1 insertion(+)
-+ create mode 100644 llvm/README.new
-+
-+diff --git a/llvm/README.new b/llvm/README.new
-+new file mode 100644
-+index 00000000000..0527e6bd2d7
-+--- /dev/null
-++++ b/llvm/README.new
-+@@ -0,0 +1 @@
-++This is a test
-diff --git a/meta-selftest/recipes-test/llvm/llvm_%.bbappend b/meta-selftest/recipes-test/llvm/llvm_%.bbappend
-new file mode 100644
-index 0000000000..205720982c
---- /dev/null
-+++ b/meta-selftest/recipes-test/llvm/llvm_%.bbappend
-@@ -0,0 +1,2 @@
-+# This bbappend is used to alter the recipe using the test_recipe.inc file created by tests.
-+include test_recipe.inc
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 2b1eee1003..7b9fd67194 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -517,7 +517,7 @@ class GitApplyTree(PatchTree):
-             try:
-                 shellcmd = [patchfilevar, "git", "--work-tree=%s" % reporoot]
-                 self.gitCommandUserOptions(shellcmd, self.commituser, self.commitemail)
--                shellcmd += ["am", "-3", "--keep-cr", "-p%s" % patch['strippath']]
-+                shellcmd += ["am", "-3", "--keep-cr"]
-                 return _applypatchhelper(shellcmd, patch, force, reverse, run)
-             except CmdError:
-                 # Need to abort the git am, or we'll still be within it at the end
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
-index dc423ec439..6d863b425a 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -4,6 +4,7 @@
- 
- import os
- import re
-+import tempfile
- 
- import oeqa.utils.ftools as ftools
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars
-@@ -81,6 +82,23 @@ class BitbakeTests(OESelftestTestCase):
-                 found = l
-         self.assertTrue(found and found.startswith("ERROR:"), msg = "Incorrectly formed patch application didn't fail. bitbake output: %s" % result.output)
- 
-+    def test_patchtool_git(self):
-+        test_recipe = 'llvm'
-+        tmpdir = tempfile.mkdtemp(prefix='bitbakeqa')
-+        bb_vars = get_bb_vars(['S'], test_recipe)
-+        src_dir = bb_vars['S']
-+
-+        self.write_recipeinc('llvm', 'FILESEXTRAPATHS_prepend := "${THISDIR}/files:"\nSRC_URI += "file://0001-Test-new-file.patch;striplevel=2"')
-+        bitbake('llvm -c patch')
-+        self.assertExists('%s/README.new' % src_dir)
-+
-+        bitbake('%s -c clean' % test_recipe)
-+        self.append_recipeinc('llvm', 'PATCHTOOL = "git"')
-+        bitbake('llvm -c patch')
-+        self.assertExists('%s/README.new' % src_dir)
-+
-+        self.delete_recipeinc('llvm')
-+
-     def test_force_task_1(self):
-         # test 1 from bug 5875
-         test_recipe = 'zlib'
--- 
-2.17.1
-
+>
+> --
+> Denys
+>
+>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >  meta/classes/sanity.bbclass | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+> > index 9e871017389..292c5591dd3 100644
+> > --- a/meta/classes/sanity.bbclass
+> > +++ b/meta/classes/sanity.bbclass
+> > @@ -527,7 +527,7 @@ def check_wsl(d):
+> >              bb.warn("You are running bitbake under WSLv2, this works properly but you should optimize your VHDX file eventually to avoid running out of storage space")
+> >      return None
+> >
+> > -# Require at least gcc version 5.0.
+> > +# Require at least gcc version 6.0.
+> >  #
+> >  # This can be fixed on CentOS-7 with devtoolset-6+
+> >  # https://www.softwarecollections.org/en/scls/rhscl/devtoolset-6/
+> > @@ -541,8 +541,8 @@ def check_gcc_version(sanity_data):
+> >
+> >      build_cc, version = oe.utils.get_host_compiler_version(sanity_data)
+> >      if build_cc.strip() == "gcc":
+> > -        if LooseVersion(version) < LooseVersion("5.0"):
+> > -            return "Your version of gcc is older than 5.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
+> > +        if LooseVersion(version) < LooseVersion("6.0"):
+> > +            return "Your version of gcc is older than 6.0 and will break builds. Please install a newer version of gcc (you could use the project's buildtools-extended-tarball or use scripts/install-buildtools).\n"
+> >      return None
+> >
+> >  # Tar version 1.24 and onwards handle overwriting symlinks correctly
+> > --
+> > 2.25.1
+> >
+>
+> >
+>
+> 
