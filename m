@@ -1,102 +1,101 @@
-Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com [209.85.221.195])
- by mx.groups.io with SMTP id smtpd.web12.467.1588280514936579691
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.1222.1588282935175696886
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 14:01:55 -0700
+ Thu, 30 Apr 2020 14:42:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bxiXYQpE;
- spf=pass (domain: gmail.com, ip: 209.85.221.195, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f195.google.com with SMTP id 10so2213082vkr.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 14:01:54 -0700 (PDT)
+ dkim=fail reason="key unavailable" header.i=@gmail.com header.s=20161025 header.b=PBLQeqsx;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id c12so4011507wrp.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 14:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LKZlZtnHYrDq3/UWyOeium/sVpBlQqHTpz1B9DHWO/8=;
-        b=bxiXYQpE3AjBkpx5K9gppqfMQxEGGDzr6NNmnWiUbvWAnSXmKZn9Wa9vrvHqFFxMPR
-         rB7gjZySDu2op1vGU8uv/NuGMWGihhGxJf7JPB8jaVMkxpCTE56Xe5j0wYuF2gU/T9JF
-         MkGlo5+wFEeXfqyM6GeeEIHwP/X3EcOO82GUvCsdP5kNVQu8KLTzw+dVDh+zrrZmQKgC
-         mwX5Me4n/brXubLMEIKa2kj1QxST8Fk5rdyDlPNo3X+M4nE8bQPjq8LGKFy4KNH+lDJ8
-         xDN+m7ZRLqURbzrj6LI9OSeVte5mYI0pzSAt+ZRy9b/tFm7z9RfNTKHOp2yArbQ0Ed9P
-         tOtw==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aWzXpaggsosls/GZmdgU6k962Vlt+YFyHfNgOAXmQEM=;
+        b=PBLQeqsxaaWVP8nxwlKXdc7dgZ40+zp7b+JQLqc9HWDFsPotZnQiLD2XpsrTV6lgKd
+         mM6jTAeQbigAUGsDXi/Gk6Mli1NttsdQu5PIuW7+mkzjohXV0G8GNAEtZjUpj4jAe9Vf
+         ZWRZj0d5d+wbFg9WtZRdob+3vrSDyNQeeujsV6pPoRsM/9mefNp4t55euDIa8ulNNE+s
+         zd3j0n7fKAOo0jBXq6F+r08r2RnB8tFsAcPdgud4g2C+NTzDnsuq3NlzfdIJDYcAZGJZ
+         uqZqMC0z7+Fjjc0BpX3SklBqQgHbYt3B6blC/6yMuzr1PDA6MBjgJxZw7+sMvhpc2Qj5
+         OBCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LKZlZtnHYrDq3/UWyOeium/sVpBlQqHTpz1B9DHWO/8=;
-        b=g63Ux1MdFj8cXcYXw22kmf7q8vX4iOwO6FneUGlXNcN+sArOPtOngOUprvp46GSPcp
-         7wvtalyKbh98Q4/dqRNQceoa1ItK6ejr5I22/Fye/qosGcithSQ1yq9O43ZRf2QX/wD/
-         5trQtmg6mE7s3GK8QcF77pqD4YavicbBVhPUOA+NcY2yZbXw0qJNxZmKvegzftY02CJA
-         /EYgdtESH/XZMi8CtQMA4fdPQJfavUeQQWmfUCp/z+GHGBCBRR7fvCSPzl3l20HgnzEN
-         WOdVrPM2UiHTypuWjpb6l/VgBuTuGGyMYayBRCtIkotA6W06MHtLoTAkn4Aeb6V758Ee
-         hDDg==
-X-Gm-Message-State: AGi0Pub9rrr7eNMECYtikWzEJQMBAMgBvP2JJ3n1hMu81yW+Bd6Osw48
-	zitXWOI3VfKfG/J4NZHko5bCPPUz4uVj0u438rc=
-X-Google-Smtp-Source: APiQypJTtk67E7uFFkjfetc3ZjCqEA+u2rwMqhyCtxskRBAmDdmTdESFMHOVV8XLrPtqdEJ1vX7YnZPU/dLmMONNrRo=
-X-Received: by 2002:ac5:c810:: with SMTP id y16mr447384vkl.49.1588280514123;
- Thu, 30 Apr 2020 14:01:54 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=aWzXpaggsosls/GZmdgU6k962Vlt+YFyHfNgOAXmQEM=;
+        b=DWLBRJJaK4EXTbK8T7RD05kk3DzVqsfHfwESbYReWyADc2Z2zcKpKM+F5KWi/fFU+8
+         JUQTvQfSesbMuV42ViYuBn/2mrifEYonNLChh4Ki9oIENP2qUOznrL51MLYZ1xePcHc3
+         4PK58hXzXiEzuBMnFCWwTRVWr9ggcQLWO/BfM+EPDTjp0LIO7ELpA/PwGI6g7djWOI7c
+         CWrzQj8UQQw+Adcl+KQ5/pF4+1JAhesPf7cWVj/bORU1xYA+tZIZoHfeAT8WT4fZW13e
+         n7ZF7TMIVW89KWo8M/lmXq30qJSls82CCVZ7yR61u+C5IuRfSrPVzKpdlQovSyfNAsFp
+         pDNQ==
+X-Gm-Message-State: AGi0PuZ6tF91SQqsbVixyK0h5N9XOKGt1bbFzfNhj5hOTOBavP73x4Zy
+	8QoUanDMfM3chnk2JenRXKoWX6Bk
+X-Google-Smtp-Source: APiQypIVAz4ZR8GoZY72MoezqYALPW6BZSAlkroTsYVgxOMvM7eM8VVKTai8xW7sKRSqWhaHGVo3Rg==
+X-Received: by 2002:a05:6000:10c2:: with SMTP id b2mr720024wrx.118.1588282933176;
+        Thu, 30 Apr 2020 14:42:13 -0700 (PDT)
+Return-Path: <schnitzeltony@gmail.com>
+Received: from superandy.speedport.ip (p200300F07F0ED4889B49C017C853F8D3.dip0.t-ipconnect.de. [2003:f0:7f0e:d488:9b49:c017:c853:f8d3])
+        by smtp.gmail.com with ESMTPSA id q10sm1421069wrv.95.2020.04.30.14.42.12
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2020 14:42:12 -0700 (PDT)
+From: "Andreas M?ller" <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] libnotify: upgrade 0.7.8 -> 0.7.9 / port to meson
+Date: Thu, 30 Apr 2020 23:42:02 +0200
+Message-Id: <20200430214203.26595-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-References: <20200430095815.2824-1-alex.kanavin@gmail.com> <20200430095815.2824-5-alex.kanavin@gmail.com>
- <3bf99c3f-7ab1-d4ad-e8e1-c462222c34a8@gmail.com> <CANNYZj90=e_zRbAcUT5zNZ-S5StHgPTJg_EJwp_4jdQ15ykWuA@mail.gmail.com>
- <6a314323-ec76-5375-c37e-dfb5f32cfb71@gmail.com> <CAJ86T=XR+CWD8T=HLXUrfwUoiOjcwf2sifb1B4OWT=76OzKjQA@mail.gmail.com>
- <CANNYZj-TcGD6QJ1Vnjme4fpZ4uwQB-LAZ-coaSm+jXsjiPHe4g@mail.gmail.com> <CAJ86T=XEgKFR8=Aw9Qjv6KAG1C64ei8cMueS4SFFSP3yTaUTFQ@mail.gmail.com>
-In-Reply-To: <CAJ86T=XEgKFR8=Aw9Qjv6KAG1C64ei8cMueS4SFFSP3yTaUTFQ@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Thu, 30 Apr 2020 23:01:42 +0200
-Message-ID: <CANNYZj8bEssDO0D56boqmTHt+G=nSf9-ziOarnHoR7zqsg3JzA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 05/17] kmscube: update to latest commit
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d91ac705a4885f83"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---000000000000d91ac705a4885f83
-Content-Type: text/plain; charset="UTF-8"
+From [1]:
+New in 0.7.9
+============
+* Fixed linking in darwin [Iain, Marco; !5]
+* Added man page for notify-send [Jan; !6]
+* Dropped autotools [Jan; !11]
 
-On Thu, 30 Apr 2020 at 22:46, Andre McCurdy <armccurdy@gmail.com> wrote:
+[1] http://ftp.gnome.org/pub/gnome/sources/libnotify/0.7/libnotify-0.7.9.news
 
-> AUH is a great tool but it does seem to create a division between
-> those in the exclusive little club of recipe maintainers and the rest
-> of us. If you want to reduce your workload then maybe you could remove
-> yourself as maintainer for some of your recipes? If that leaves
-> recipes without a maintainer then maybe they should default to
-> "community support" with AUH emails being sent to the mailing list
-> instead of the named individual?
->
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ .../{libnotify_0.7.8.bb => libnotify_0.7.9.bb}     | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+ rename meta/recipes-gnome/libnotify/{libnotify_0.7.8.bb => libnotify_0.7.9.bb} (59%)
 
-Actually that may not be a bad idea. Listing maintainers explicitly and
-sending them private email just doesn't seem to work out: many of the
-currently listed ones just silently ignore AUH mails, and don't bother to
-unlist themselves, and those who do act are an exception. So those many can
-be replaced with the oe-core mailing list email, so the patches (or
-information about why smth couldn't be updated) end up here, where
-interested parties could pick it up. There'll be a monthly avalanche of
-proposed patches. Thoughts?
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
+similarity index 59%
+rename from meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
+rename to meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
+index 0306b04f4e..38da41639b 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.7.9.bb
+@@ -7,12 +7,20 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+ 
+ DEPENDS = "dbus gtk+3 glib-2.0"
+ 
+-inherit gnomebase gtk-doc features_check gobject-introspection
++GNOMEBASEBUILDCLASS = "meson"
++
++inherit gnomebase gtk-doc features_check gobject-introspection manpages
+ # depends on gtk+3
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
+-SRC_URI[archive.md5sum] = "babb4b07b5f21bef42a386d3d7019599"
+-SRC_URI[archive.sha256sum] = "69209e0b663776a00c7b6c0e560302a8dbf66b2551d55616304f240bba66e18c"
++SRC_URI[archive.md5sum] = "ccd9c53364174cc8d13e18a1988faa76"
++SRC_URI[archive.sha256sum] = "66c0517ed16df7af258e83208faaf5069727dfd66995c4bbc51c16954d674761"
++
++GIR_MESON_ENABLE_FLAG = 'enabled'
++GIR_MESON_DISABLE_FLAG = 'disabled'
++GTKDOC_MESON_OPTION = 'gtk_doc'
++
++PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native xmlto-native"
+ 
+ # there were times, we had two versions of libnotify (oe-core libnotify:0.6.x /
+ # meta-gnome libnotify3: 0.7.x)
+-- 
+2.21.1
 
-Alex
-
---000000000000d91ac705a4885f83
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 30 Apr 2020 at 22:46, Andre McCur=
-dy &lt;<a href=3D"mailto:armccurdy@gmail.com">armccurdy@gmail.com</a>&gt; w=
-rote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
-AUH is a great tool but it does seem to create a division between<br>
-those in the exclusive little club of recipe maintainers and the rest<br>
-of us. If you want to reduce your workload then maybe you could remove<br>
-yourself as maintainer for some of your recipes? If that leaves<br>
-recipes without a maintainer then maybe they should default to<br>
-&quot;community support&quot; with AUH emails being sent to the mailing lis=
-t<br>
-instead of the named individual?<br></blockquote><div><br></div><div>Actual=
-ly that may not be a bad idea. Listing maintainers explicitly and sending t=
-hem private email just doesn&#39;t seem to work out: many of the currently =
-listed ones just silently ignore AUH mails, and don&#39;t bother to unlist =
-themselves, and those who do act are an exception. So those many can be rep=
-laced with the oe-core mailing list email, so the patches (or information a=
-bout why smth couldn&#39;t be updated) end up here, where interested partie=
-s could pick it up. There&#39;ll be a monthly avalanche of proposed patches=
-. Thoughts?<br></div><div><br></div><div>Alex<br></div></div></div>
-
---000000000000d91ac705a4885f83--
