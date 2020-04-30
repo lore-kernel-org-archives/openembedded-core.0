@@ -1,75 +1,97 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.256.1588285863794752739
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+ by mx.groups.io with SMTP id smtpd.web12.2175.1588285868864910425
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 15:31:05 -0700
+ Thu, 30 Apr 2020 15:31:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=V/IotUDX;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d24so2895337pll.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 15:31:03 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=fdMA4IQT;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.195, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f195.google.com with SMTP id u22so2889862plq.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 15:31:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=Wtecnff2d4gEVHe3SJsvuWq472bRT3jS/LiLVFwh5O8=;
-        b=V/IotUDXTWqtVRUSC7PAm7W43KyacT8LFUtlKwiYuDktxOFQ0EnD/L4bHmcv+2ePWa
-         RoaaoE1JnS4S7LCP14E+/qvVW39bcoOQm11+sST+M/GgHHiwcqSImxzHjGFFdOS5ZwUz
-         VPvSvZHZXXF0FIQUK57GOwrpNH7XDqv6R/dfYLA9NinCQ7y8OucpLZMvQzKdi3I1p3Vl
-         5+lDyrUj4r88j59mIslINxXcJBUuQk9ycMe0PQ3dlH/UDRLfFkCmhK1HZ0KgqlLq6v0T
-         RYABDA0ZcxO0pMlrwjGY4bNpYUJ4ioXK+stuWqsqN2K752RlpVMUyFC8Z+CVqOvnvoBX
-         amyA==
+        bh=mO+pGm7Uy+tSWKdlku1YrzZIPkRqFMgcwNpaafVIX3A=;
+        b=fdMA4IQTUmJWnbodb9jbTJ8R1kfNfDUwEOFd0iunmuQlmSNYEVdqZjigmxvWWAR+bg
+         IUqvzi0zJmsmpumsibu4QvZQ7NMqQMFDhRD9JkosK8XGry+4G2D+JNnSgTa5/vArCUOq
+         lEU1M0i1kW1GUEpX4tnXh7d1bzpDtIDubpCdNRV+skXE5OlX/kFbB685OSJFSskExiwT
+         KZjRVPTf5Fx0KEtdWYD/H8zuuY6JrOmmjLewTr9yRYOgvaMrmXAiLHeqb523dQx72pXj
+         gVZ//e3woPgUOop5qYXR06/L5k4vW5q1SOfzenW+G1jdyPr0c2x2IOSywKmoTZyFAyBR
+         VTcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=Wtecnff2d4gEVHe3SJsvuWq472bRT3jS/LiLVFwh5O8=;
-        b=SEHeC6BpCag5vbblVo+aSsay4LifpPzjlwotu26qxM/hm+vnXZKzKGow9fgA5eSxFT
-         dU5Elg+notVBOEVhC6iKzy+Zq62GlPdTsnqdgTZS+WfWeVHnSARkj+XuPKBOguhCQYpv
-         H2r+TsZF2F/afgzaQ2XoqQcAJZDkEz9dl4rhSF8rvhtfnr0Gv6e6Dgmx2xBd3AIHV2vI
-         OCG+ZEJbW7Z/JJ/tXWtRAA007yCaD4nYN9oLRgXW659e5zS16lUQGa8ttDQHLMsJbyMI
-         ORR1YMkoLyOcQEz4ZFHhPmDm0A2p8FbEzonoeIfcgn9t1E9DG5TJqp7Kf1KOFB6d8ThJ
-         bEAQ==
-X-Gm-Message-State: AGi0Puae7sxZrEpnGvJQzJVRiLMvMyg4lNWQ+8Ywl8RWxl2VTRYCQUmD
-	6GFu5nDlbuHaYvINOQp1S4vTs7HoXcsiew==
-X-Google-Smtp-Source: APiQypIIABprw2N13/SH85ch2u6Zlv1YUJ6YrvMC2cbA4Vl5h4SU3hl0wjrs37o6NCW7WI6nkPN90Q==
-X-Received: by 2002:a17:902:9306:: with SMTP id bc6mr1254926plb.255.1588285862853;
-        Thu, 30 Apr 2020 15:31:02 -0700 (PDT)
+        bh=mO+pGm7Uy+tSWKdlku1YrzZIPkRqFMgcwNpaafVIX3A=;
+        b=B1vfoQXhzwY6ftatDENW3+aR+h4L9mGTIUrQRuqtJ8k4MnBF9pTn6n07/S14F0uwTR
+         7q3mvJpOeyDkPnyG024MxqvyPgw9byzPfajBt1PMvsUSQg35/dNSyAGUsmiKP32T1hVL
+         kC0bX4hWlJihc24FNxGnLKWZZ+qVgnYC8i5XD3cLKKUEg8n0eujKHBAkDglaQ10u1XvR
+         vuh4W8VPXc1gfGnAnBZWHZseFbitaiaafnknjDMbkHmzMtOUcWLLGGGTZ6XuAubXr6Lj
+         2+kIbGIE9085YRQCH1cDo/rfSOjVbTfcut5jJVmD6JMckRevtDN/zV4Mn8+cNkExCXpj
+         fKOA==
+X-Gm-Message-State: AGi0PuaRZA83UBm+AbDec/S0zjmsquQ7UUggj8fKvNPMY+TOl41XmkmL
+	33rQfA812Y2HsXEoQfN+qDtG9vRhM5F9Zw==
+X-Google-Smtp-Source: APiQypLSwPA6j4bA1LZ6vo1Wvr1B5UhGgKYev/aLimozefAGpV0WNp+7FJ3kNwUqxXIiwNlEhWGiJw==
+X-Received: by 2002:a17:902:8647:: with SMTP id y7mr1294889plt.87.1588285867871;
+        Thu, 30 Apr 2020 15:31:07 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d124sm646011pfa.98.2020.04.30.15.31.01
+        by smtp.gmail.com with ESMTPSA id d124sm646011pfa.98.2020.04.30.15.31.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 15:31:02 -0700 (PDT)
+        Thu, 30 Apr 2020 15:31:07 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell v2 04/14] nativesdk-gcc-runtime: enable building libstdc++.a
-Date: Thu, 30 Apr 2020 12:30:09 -1000
-Message-Id: <217e8f587792b2fe25aead085ddc533d4100cd7a.1588285073.git.steve@sakoman.com>
+Subject: [OE-core][dunfell v2 07/14] ruby: Link with libucontext on musl
+Date: Thu, 30 Apr 2020 12:30:12 -1000
+Message-Id: <a2b1af47316a9f5c522db0c9feff1fbe0d39e022.1588285073.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1588285073.git.steve@sakoman.com>
 References: <cover.1588285073.git.steve@sakoman.com>
 
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+coroutines in ruby 2.7+ needs ucontext APIs which are not available in
+musl but an external library is available to provide them so use it
+
+Use cached values for ac_cv_func_isnan and ac_cv_func_isinf this is not
+detected correctly by configure on musl
+
+on ARM drop using old arm32 implementation of coroutine which is slow and
+inefficient
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gcc/gcc-runtime.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/ruby/ruby_2.7.0.bb | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index 771f344ac0..ace706dbf4 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -22,6 +22,8 @@ EXTRA_OECONF_append_libc-newlib = " --with-newlib"
- EXTRA_OECONF_append_arm = " libat_cv_have_ifunc=no "
- EXTRA_OECONF_append_armeb = " libat_cv_have_ifunc=no "
+diff --git a/meta/recipes-devtools/ruby/ruby_2.7.0.bb b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
+index 44c76161d5..7f07080497 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.7.0.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
+@@ -1,5 +1,7 @@
+ require ruby.inc
  
-+DISABLE_STATIC_class-nativesdk ?= ""
++DEPENDS_append_libc-musl = " libucontext"
 +
- # Newlib does not support symbol versioning on libsdtcc++
- SYMVERS_CONF_libc-newlib = ""
+ SRC_URI += " \
+            file://remove_has_include_macros.patch \
+            file://run-ptest \
+@@ -25,8 +27,11 @@ EXTRA_OECONF = "\
+     --with-pkg-config=pkg-config \
+ "
  
+-EXTRA_OECONF_append_libc-musl_arm = " --with-coroutine=arm32"
+-EXTRA_OECONF_append_libc-musl_armeb = " --with-coroutine=arm32"
++EXTRA_OECONF_append_libc-musl = "\
++    LIBS='-lucontext' \
++    ac_cv_func_isnan=yes \
++    ac_cv_func_isinf=yes \
++"
+ 
+ do_install() {
+     oe_runmake 'DESTDIR=${D}' install
 -- 
 2.17.1
 
