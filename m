@@ -1,75 +1,95 @@
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
- by mx.groups.io with SMTP id smtpd.web10.702.1588204927544373133
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+ by mx.groups.io with SMTP id smtpd.web10.704.1588204930862637935
  for <openembedded-core@lists.openembedded.org>;
- Wed, 29 Apr 2020 17:02:07 -0700
+ Wed, 29 Apr 2020 17:02:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uHQFDao6;
- spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: bkylerussell@gmail.com)
-Received: by mail-qk1-f195.google.com with SMTP id 20so3996726qkl.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 17:02:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NTMfFIJa;
+ spf=pass (domain: gmail.com, ip: 209.85.160.169, mailfrom: bkylerussell@gmail.com)
+Received: by mail-qt1-f169.google.com with SMTP id b1so3586213qtt.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 29 Apr 2020 17:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=WldSJEZJoy1v/p09ULQcN0acUogc1OF6BDmBlePsfCY=;
-        b=uHQFDao6yfbkuJEHDSEDCLJdGt5m6lvpmw8Xq6BVeAJhS9yhupZTwqxAd1pmYkNviC
-         3igYr429vD9FPkdlR88C5+mr4bDXhSdfQ8JfHidtoPEr9fCjTS5b+UEgZufY0iY0MICd
-         +WIKL6UHupFq+NxlbOOZo6voRaDOnLNodHN4xrp9kpirixhKBYzkYV0qSm0nL9160t72
-         xeo5WYGlmpc9EKsu8AkeabVEY0TCtoQjv9VdGEjQmbER0YwrUMNvY6BmAndvtqrNY4pn
-         8nZHzveSnTpvKnN1HhfMIFl9JTY2dlBxKtca4CNV83QelgSaS1Tkk0UoyaLF2xikeTOm
-         6Nqg==
+        bh=iMXVdfJDdVaonbBpzhxSXcHPsyPKRE9K2TpecaPh448=;
+        b=NTMfFIJaAxdBOZUYpnzCL4A8N3V16lonuSBOom2BbwCyCznVNYQBjR24FaTgV7ZJ8s
+         EI5CPIyOHPbcYSicNEXSPLWHqimiI0IaL31V8OX2GTY4xhXs+aUIQ8dLcYt8c3x8Vknl
+         zwIcUDZLVxnYwYGmZHcj+2GHfoLlTRdFUKXBHnycgCWKSBTdV/wDG0pHbCmuG1A4vozq
+         yrEAoRBYyuR8urm1pPHWBcKaWtpv1i7Qgy08qiZNKXQURgbHokWxCFwKeGnmkL8kGXZr
+         7kiU2iuSJiKk0kSCJNdksLoFKXkUwoNOyuZ3ORBf8RK2qo03Oexye7WOGAurjF4mxOS2
+         PDhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=WldSJEZJoy1v/p09ULQcN0acUogc1OF6BDmBlePsfCY=;
-        b=tjvXfbr5dvZwtVMxVqLhiUYAK8yoyCYXeG9eQOLMDazvQRJaWfFQiT+vmXsGMOSCv3
-         bgL6e7jnazMptZGbYAfaI+MpfcJFrpslj3mhP6Me3ktRZV0avn6XjhOLmNX/HP0Zq2Ly
-         r3Eic7AGfBk+PATrpeQqlimiDV01nxNA6zZwqtIQyxhvH6N34xcSE90XN7zzb3L7ggxy
-         +m4zcvZJOKJ1XFT1OAgxgkDpDHKxJXpy05zudyz8jxnoChG7lmOmWSPENCmdrKKeY0O8
-         A713Byb5UhmajEO0kue0e3ZTa+l9MirQVEF1FWKPdVRjkEo/mAAQ+rBa7EZw1oVFEhkM
-         Sx2Q==
-X-Gm-Message-State: AGi0PuYSwmPeYQlz6KujI3YbVT6KC55YXnuGFE3YKjAun7lk7YDOPjsT
-	wQ5JBtc52pgtsg4uoLv+1FQf19EN
-X-Google-Smtp-Source: APiQypIoifK00sw4tmaktsuqGIMLHhT1U4ITnuTSL/NatFKvsxn7q3/zym0vnf2OE4H+aYqgL4/Rlg==
-X-Received: by 2002:a05:620a:103b:: with SMTP id a27mr1047777qkk.16.1588204926138;
-        Wed, 29 Apr 2020 17:02:06 -0700 (PDT)
+        bh=iMXVdfJDdVaonbBpzhxSXcHPsyPKRE9K2TpecaPh448=;
+        b=KfayM6FNLAm9ntuc3q/QtczN4EIaVgd87yK1OAnS1yB6Wsu3c2hGvjY1CUCDXmJI4J
+         97eSJ0V+yZdpmIYp5EynpsBqZuvlZ+VekErXz+aaftm/5QpVKY9dIp7ajgZEN3475YQI
+         CrKA3AQT++UJhn9Oz5Hmb0Sv8cQv36e7OAQao5WJhWS180grktvcQf9pkjcTg0NTJF2f
+         xIUgkV044H5XtL4ixQ7ZEf7edz79uOy5Mlyr6h5ZIBLzJZSL3+fBV0tPqwm+5vrOWXtJ
+         nQ6m6y4ue//0g4ijv476X8Z5Kbk1Z+wQXhqQxwD7xyz3quHDo+CXiBYiZLk6xEOQYoYP
+         B6TQ==
+X-Gm-Message-State: AGi0PuY/MI9b0+0ToZePZFt28xzptdhlaHQ1arlbS5k398dkCZ8EwKXn
+	bpQh+JQjDtJl49gu+lvU4EuGAawU
+X-Google-Smtp-Source: APiQypIGPEfU0I35RK8HClUSOcROUWKGRX1mQorymA5uWy1KzhJUjbLEZte7BfZ0OQ9MrKYniE900g==
+X-Received: by 2002:ac8:468b:: with SMTP id g11mr922071qto.141.1588204929714;
+        Wed, 29 Apr 2020 17:02:09 -0700 (PDT)
 Return-Path: <bkylerussell@gmail.com>
 Received: from poirot.lexmark.ds ([2605:a000:160c:874b:7138:3470:3455:502])
-        by smtp.gmail.com with ESMTPSA id 190sm535330qkj.87.2020.04.29.17.02.04
+        by smtp.gmail.com with ESMTPSA id 190sm535330qkj.87.2020.04.29.17.02.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 17:02:05 -0700 (PDT)
+        Wed, 29 Apr 2020 17:02:09 -0700 (PDT)
 From: bkylerussell@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: wesley.lindauer@gmail.com,
 	richard.purdie@linuxfoundation.org,
 	Kyle Russell <bkylerussell@gmail.com>
-Subject: [PATCH v2 0/1] patch.py: don't apply striplevel to git am command
-Date: Wed, 29 Apr 2020 20:01:44 -0400
-Message-Id: <20200430000145.8359-1-bkylerussell@gmail.com>
+Subject: [PATCH v2 1/1] patch.py: don't apply striplevel to git am command
+Date: Wed, 29 Apr 2020 20:01:45 -0400
+Message-Id: <20200430000145.8359-2-bkylerussell@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CAFrQVPMFCxHN4hzp2ktmP0wEH1Bp571z1KkSL5pfbHdWcuaFQg@mail.gmail.com>
+In-Reply-To: <20200430000145.8359-1-bkylerussell@gmail.com>
 References: <CAFrQVPMFCxHN4hzp2ktmP0wEH1Bp571z1KkSL5pfbHdWcuaFQg@mail.gmail.com>
+ <20200430000145.8359-1-bkylerussell@gmail.com>
 
-Here's an updated patch that I hope will be a little more clear.  I've dropped
-the change to git apply since that wasn't behaving as I expected, then added
-a selftest on llvm that demonstrates the issue I'm trying to resolve.  Without
-the change in patch.py included here, the selftest that I'm proposing will fail.
+Don't pass a path removal parameter to git am since it always applies
+patches from the root of the git repo, not from each individual patchdir
+(like quilt).
 
-One might argue, "Well, if you change the default PATCHTOOL, you could also
-just change your patch SRC_URIs and drop the striplevel parameter."  While
-that may be true, the same failure can also be demonstrated using devtool on
-llvm without modifying PATCHTOOL at all, since by default devtool also uses
-GitApplyTree.  So if you don't consider "modifying a recipe's PATCHTOOL without
-also modify its SRC_URI patches" to be a valid workflow, devtool is another
-common workflow where this behavior could be encountered.
+GitApplyTree uses `git rev-parse --show-toplevel` to find the root of
+the repo no matter which patchdir is passed into the GitApplyTree instance.
+But for recipes who set S to a subdirectory within their repo, patches
+may be added to SRC_URI using a striplevel parameter to match the depth of S.
 
-Hope that helps,
+Currently when these patches are applied with git am in GitApplyTree instead
+of quilt, the striplevel still takes effect even though git applies the
+patch itself from the repo root, not from within S.
 
-Kyle
+In most cases when a patch modifies existing files within a repo, git am
+works fine and the desired outcome is still achieved because the three-way
+merge figures out which file the patch was intended to modify based on the
+repo history.
 
-Kyle Russell (1):
-  patch.py: don't apply striplevel to git am command
+An exception to this occurs if the patch adds a new file to the repo.
 
+For example, consider a patch that adds a new file src/foo to a repo.
+Additionally, assume the recipe for this repo sets S = "${WORKDIR}/git/src",
+and the patch is added to SRC_URI using "striplevel=2" since the default
+patch tool, quilt, applies each patch at its patchdir, ${S}.
+
+  --- /dev/null
+  +++ b/src/foo
+  @@ -0,0 +1 @@
+  +new file test
+
+When the GitApplyTree patch class is used (through either devtool or
+PATCHTOOL = "git"), the root of the repo is passed to git as the work tree,
+in addition to the path removal paramter.  In the case above, GitApplyTree
+creates ${WORKDIR}/git/foo instead of ${WORKDIR}/git/src/foo.
+
+This is demonstrated with the included selftest.  By not passing the striplevel
+parameter to git am, the patch creates the new file at the intended depth in
+the repo.
+---
  .../llvm/files/0001-Test-new-file.patch        | 17 +++++++++++++++++
  .../recipes-test/llvm/llvm_%.bbappend          |  2 ++
  meta/lib/oe/patch.py                           |  2 +-
@@ -78,6 +98,86 @@ Kyle Russell (1):
  create mode 100644 meta-selftest/recipes-test/llvm/files/0001-Test-new-file.patch
  create mode 100644 meta-selftest/recipes-test/llvm/llvm_%.bbappend
 
+diff --git a/meta-selftest/recipes-test/llvm/files/0001-Test-new-file.patch b/meta-selftest/recipes-test/llvm/files/0001-Test-new-file.patch
+new file mode 100644
+index 0000000000..8af0afeb12
+--- /dev/null
++++ b/meta-selftest/recipes-test/llvm/files/0001-Test-new-file.patch
+@@ -0,0 +1,17 @@
++From 057c3da44affb47c154ec1ef67bd11646a6429fa Mon Sep 17 00:00:00 2001
++From: Kyle Russell <bkylerussell@gmail.com>
++Date: Tue, 28 Apr 2020 15:18:43 -0400
++Subject: [PATCH] Test new file
++
++---
++ llvm/README.new | 1 +
++ 1 file changed, 1 insertion(+)
++ create mode 100644 llvm/README.new
++
++diff --git a/llvm/README.new b/llvm/README.new
++new file mode 100644
++index 00000000000..0527e6bd2d7
++--- /dev/null
+++++ b/llvm/README.new
++@@ -0,0 +1 @@
+++This is a test
+diff --git a/meta-selftest/recipes-test/llvm/llvm_%.bbappend b/meta-selftest/recipes-test/llvm/llvm_%.bbappend
+new file mode 100644
+index 0000000000..205720982c
+--- /dev/null
++++ b/meta-selftest/recipes-test/llvm/llvm_%.bbappend
+@@ -0,0 +1,2 @@
++# This bbappend is used to alter the recipe using the test_recipe.inc file created by tests.
++include test_recipe.inc
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 2b1eee1003..7b9fd67194 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -517,7 +517,7 @@ class GitApplyTree(PatchTree):
+             try:
+                 shellcmd = [patchfilevar, "git", "--work-tree=%s" % reporoot]
+                 self.gitCommandUserOptions(shellcmd, self.commituser, self.commitemail)
+-                shellcmd += ["am", "-3", "--keep-cr", "-p%s" % patch['strippath']]
++                shellcmd += ["am", "-3", "--keep-cr"]
+                 return _applypatchhelper(shellcmd, patch, force, reverse, run)
+             except CmdError:
+                 # Need to abort the git am, or we'll still be within it at the end
+diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
+index dc423ec439..6d863b425a 100644
+--- a/meta/lib/oeqa/selftest/cases/bbtests.py
++++ b/meta/lib/oeqa/selftest/cases/bbtests.py
+@@ -4,6 +4,7 @@
+ 
+ import os
+ import re
++import tempfile
+ 
+ import oeqa.utils.ftools as ftools
+ from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars
+@@ -81,6 +82,23 @@ class BitbakeTests(OESelftestTestCase):
+                 found = l
+         self.assertTrue(found and found.startswith("ERROR:"), msg = "Incorrectly formed patch application didn't fail. bitbake output: %s" % result.output)
+ 
++    def test_patchtool_git(self):
++        test_recipe = 'llvm'
++        tmpdir = tempfile.mkdtemp(prefix='bitbakeqa')
++        bb_vars = get_bb_vars(['S'], test_recipe)
++        src_dir = bb_vars['S']
++
++        self.write_recipeinc('llvm', 'FILESEXTRAPATHS_prepend := "${THISDIR}/files:"\nSRC_URI += "file://0001-Test-new-file.patch;striplevel=2"')
++        bitbake('llvm -c patch')
++        self.assertExists('%s/README.new' % src_dir)
++
++        bitbake('%s -c clean' % test_recipe)
++        self.append_recipeinc('llvm', 'PATCHTOOL = "git"')
++        bitbake('llvm -c patch')
++        self.assertExists('%s/README.new' % src_dir)
++
++        self.delete_recipeinc('llvm')
++
+     def test_force_task_1(self):
+         # test 1 from bug 5875
+         test_recipe = 'zlib'
 -- 
 2.17.1
 
