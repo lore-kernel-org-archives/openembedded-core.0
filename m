@@ -1,90 +1,90 @@
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
- by mx.groups.io with SMTP id smtpd.web12.2180.1588285880474919715
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+ by mx.groups.io with SMTP id smtpd.web11.430.1588286190820332698
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 15:31:21 -0700
+ Thu, 30 Apr 2020 15:36:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=iymIleFd;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.194, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f194.google.com with SMTP id r4so3626572pgg.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 15:31:20 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ALhbYe6r;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.176, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f176.google.com with SMTP id i16so2944844ils.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 15:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=tPgjDJvAzoPYtUCVG7afMENFTM9/1VBBLPFOoY72kSQ=;
-        b=iymIleFdffbKtot7FncioXj1MgjOl+LMuwkWdJXw1ZhDX5CfUZuZGVOcadr9AIqvrb
-         0xtgiNSoxmqigCJJET+ezc+bQy8VNswwj5sa86lEpqffCpGp6dmawHjirBYlIp3gBH5n
-         NS79TQnljZY0OHRn63OPbL74UXI0V0DcjjDZiR1rTFaVgcFLOLi4Tfn3Wb9pxrgEwftS
-         H/2idu3vJ1IUtkPY6mmCimU0yFqCXe4DdX8Z+7O96KlOP6jKLf+eUrSYI/1bvrmcFM7A
-         /H2SEqgYfWffeJG12iN4fU/VjVrHq2rWFAHfJiVmgMCl7wuN3+3BLNyL6XADwGx2gstl
-         daog==
+        bh=T8LeKPiMrkr9M1rHA7WvJ702Jg7RnigwJY1zigD4rrw=;
+        b=ALhbYe6raZUDwQzfGpGjtjSfVHTbN+heWr+DqJVZYNOj6ij5JvSVaZWGPHxmKR8IrC
+         KLiugRH1cwhpyWKcvkoX+CyefK9Uh1C5uatj6IrPlQnnMOYoMxPvsj2Q8dqQegyoRHg/
+         wysuWPjoeG5m41XAA7chxpQRzfeg0APIFRc/HPRhJQrILXSYRZA+CyEt2sH8ghfI+GHl
+         cWE6AHUNGIDrwKVbDMHt4Q8LHlt1B6nNJKVRAWwwzsW9Ah/YsSEgC1qOlMSl2Edr9nfq
+         fWTXEBy0AyLo3kBstYPSGm8l+h+Pkn+gFLC8Dfo6LEWXYvHw7ylyyXwWaGNKHypuZlv+
+         C40Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=tPgjDJvAzoPYtUCVG7afMENFTM9/1VBBLPFOoY72kSQ=;
-        b=UqWSYcZfePZ/qP341wEGGD/AASj+lIieCJx/v/BpHlK/sJYhZHvt0DkwDmxDcryJOu
-         ohnyZ5FLq9Tfup9XtU5vR8sOngOJqT7pkIJiUMRsz0ymqAJs+HtuG6p8BMmhFqyCONg1
-         ixhQgSgMAU9rj7k72qoN/2z3HqQFpwiGsm8vTW/ufrKIi7vDBR7gHE/UDbbG8GIksNLm
-         UIQegLA+BJ4ZVZ5Hys2suOBcHCBnYdBJHvBrOmeU6a4F15xqxiTn8ZUf2Egpia65tPPj
-         qIrP0neQaz8hJzT8pzlj3dGCcAZ4+AZmRY8AoVaKmLJ05G9ZmKFj5yhB6T5zFC36Xn/T
-         5uVQ==
-X-Gm-Message-State: AGi0PuaGFXbPHnzwKpthZRSkQSW1Js+HkEmAORaE2+rrx76BvfGKhp2r
-	BCmQL3h/7m5UtzRXCa1cwXoEDXetWpHqFg==
-X-Google-Smtp-Source: APiQypITJqH9TYwGH1Np3kZodkkHBSN+buorZDm7w4FKSKPQGp4oDWJZB8jsrwVoVt5DOwNTmxYZOw==
-X-Received: by 2002:a63:65c1:: with SMTP id z184mr1243962pgb.316.1588285879441;
-        Thu, 30 Apr 2020 15:31:19 -0700 (PDT)
+        bh=T8LeKPiMrkr9M1rHA7WvJ702Jg7RnigwJY1zigD4rrw=;
+        b=TpH8K28Q00+i9p/5y8oX5Fq9AWsA7NIJQxHdllAoFHUIlFepNHlHNdShe/EcoVfXrL
+         6ZEjEH6vEymkscrqvdpz6jtQoO/3ViGFgtLiZXffEswVYPwHBRaKkZf7Ib4MEsqp7fcm
+         q6qmPRciNiWYLKtagS3Wl5tm20dqBM9nCmCnXeBBolmHKcDNoMUrFM+FkXNH4SE9c3S5
+         CjQ2JMbfcZTLoDwQnockK0j9df6/GnPBsxIRefUqJzRAnJkZOE12zNTFL6a8ZJi8ZxUA
+         Evmz1MaedUzmefUU0USx8y+7liIcdrIJazLOo13kmY2Zz9xhFNLOyCDMfBHfrCxHGpt4
+         ST1g==
+X-Gm-Message-State: AGi0PuYS1GNzDGprE5t3kgyWIWYkvHlSPhE7cImF/WnuiFAvH0dBCd2J
+	SRXS0aQuC47JOuCFpWzJAXVcdQoPq6wshg==
+X-Google-Smtp-Source: APiQypKbCQuOznnjc9+HQiTJZkKZIc+QdgVjQLgXkYUHI6xokYwLOgWI4YjE8/V39ZCeVowys8vg9Q==
+X-Received: by 2002:a63:f30a:: with SMTP id l10mr1215518pgh.372.1588285874533;
+        Thu, 30 Apr 2020 15:31:14 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d124sm646011pfa.98.2020.04.30.15.31.18
+        by smtp.gmail.com with ESMTPSA id d124sm646011pfa.98.2020.04.30.15.31.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 15:31:18 -0700 (PDT)
+        Thu, 30 Apr 2020 15:31:13 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell v2 14/14] parselogs.py: ignore pulseaudio startup warning messages
-Date: Thu, 30 Apr 2020 12:30:19 -1000
-Message-Id: <2cc3fac9cd1a0d77931c9e49dbe2941fa8619c51.1588285073.git.steve@sakoman.com>
+Subject: [OE-core][dunfell v2 11/14] python3-manifest.json: add pathlib to core
+Date: Thu, 30 Apr 2020 12:30:16 -1000
+Message-Id: <81bec2f08229723b550a0cc33d1c77f82432814d.1588285073.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1588285073.git.steve@sakoman.com>
 References: <cover.1588285073.git.steve@sakoman.com>
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-If set default syslog to rsyslog, we can see below messages
-in user.log,
+The pathlib module is for Object-oriented filesystem paths
 
-[pulseaudio] authkey.c: Failed to open cookie file
-[pulseaudio] authkey.c: Failed to load authentication key
+It also provides a lot of handy utilities for checking on
+paths. This seems to justify adding it to the core package
+along side os, sys, and the other *path libraries.
 
-They are only warnings when cookie file is not found. And
-PulseAudio will create it if it doesn't exist.
+[YOCTO #13670]
 
-refer:
-https://wiki.archlinux.org/index.php/PulseAudio/Configuration
-https://lists.freedesktop.org/archives/pulseaudio-discuss/2014-December/022719.html
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/runtime/cases/parselogs.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/python/python3/python3-manifest.json | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index f94387c8bc..a1791b5cca 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -58,7 +58,9 @@ common_errors = [
-     "Failed to rename network interface",
-     "Failed to process device, ignoring: Device or resource busy",
-     "Cannot find a map file",
--    "[rdrand]: Initialization Failed"
-+    "[rdrand]: Initialization Failed",
-+    "[pulseaudio] authkey.c: Failed to open cookie file",
-+    "[pulseaudio] authkey.c: Failed to load authentication key",
-     ]
- 
- video_related = [
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 251271cb84..3bcc9b8662 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -285,6 +285,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/operator.py",
+             "${libdir}/python${PYTHON_MAJMIN}/optparse.py",
+             "${libdir}/python${PYTHON_MAJMIN}/os.py",
++	    "${libdir}/python${PYTHON_MAJMIN}/pathlib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/pkgutil.py",
+             "${libdir}/python${PYTHON_MAJMIN}/platform.py",
+             "${libdir}/python${PYTHON_MAJMIN}/posixpath.py",
+@@ -358,6 +359,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/operator.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/optparse.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/os.*.pyc",
++	    "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pathlib.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*.pyc",
 -- 
 2.17.1
 
