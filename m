@@ -1,86 +1,150 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.4118.1588240721759289398
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web12.3986.1588240722977614477
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 02:58:42 -0700
+ Thu, 30 Apr 2020 02:58:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ipqB5/1A;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id x17so6097838wrt.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 02:58:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ksiJ1Kxu;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id i10so6080638wrv.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 02:58:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=/KkoOqrS06rNfxPT8mLjvq2hEOOD8kpSTpOX0alFSrQ=;
-        b=ipqB5/1AtUG8cPgdnfhOPfL9thcPcNT7gu94DbRvnwmJf9Nvldzfh275ihs6GCuV+8
-         qcgYB57//aceUdeRcfosrxJzSc05a0hysOUMbCVyr3wu2iAcOmqfV5CcIutsM9rHbh31
-         6qlbRXDJhlUTSvfd5H5hb900TBjhLOloI9UtqyCfp3aZT0RAB/q6q9Lcd7BDACuv/fTe
-         W8Cb1IF40Y5J8vsVZ7totDEQOP3yt6eeittzP25w11I8fs8nvtghPBoQKaNLIa35irCQ
-         AkMQ7vNl4B5gAyaLHTJdEveTDGReCficKAv42v+54tIMxTwbbwXDT076JCJxXFLml1EO
-         6ruA==
+        bh=cPHeNxSeGru8rvRLwH5DWcw3qPf1D4gbfWrvRq06NPM=;
+        b=ksiJ1KxuwxlhAjI9nRnLHLuKDk2XlSJgEzEx/Cdfn1mNB2OM9NnGtiIXEiLeL4z87y
+         Ddg3NTKUStvJeVnNV0JllXO4QckcIaBHuAOQQhNU4XkSSJ5Q1NYaedqwOyFsa9fVUql7
+         i1Tz6BLpe+sZuhpZAIVvPyIOJwmtMT22YtSbOpNNssxLNjsGJHsm6O/RVWvlTrWww/Ab
+         YuosDKi5y+y9dhIBgWDa5il90jad95a8T5XuqqQJYKzslNqEkSVUFbmR+7gQVlJpoTZw
+         yuYDtMIV0uRLd6Za/bnshgJrW0nfgh3TtkgmnaNYEjLq3YPc61MccDdAfKYit6j/FpxF
+         xXpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=/KkoOqrS06rNfxPT8mLjvq2hEOOD8kpSTpOX0alFSrQ=;
-        b=bcnBbtsPYkUFXXHGLr95ng8vKIqQMfr8b1AG7g9ZsCqmfrAZv/BtvIKKCClIsL3F+5
-         xKBK1rOTyipTIFqT9AaVvwYw03zdbn6TI8FNm6y0/cLiq3GXgxI1A9/+rp2tXcsWOHyu
-         kiaxOTrtoMniHMbpBd3hn6vcFhC5FZYjgIkxth1k7WId5F3i6tvkNuz4j8GMidCd4YkY
-         E+2H2Tq1gibj2GfXu2+lq2Paog/AwVbpxgBGyj2lm0YxRyjIltH0csd60T5swsKKlUiK
-         O9Vtr9A3n70dW/qjY6StnHfCIW3n89YC4tn5rpEaGr7lq+NRlvviZCyYUDrm3ani1nH9
-         mKTg==
-X-Gm-Message-State: AGi0Pubdonqgdc6ygcbPJPJR/XwSiyk82ZwqFTFXap+xES/CE5nEqjDR
-	ZDqYzVj+xWv01HwX/wx+YfZOrMyq
-X-Google-Smtp-Source: APiQypJnTN1Ua1EjMoMuQkyYTb6OqF5LXoZPKOOYbSc/IZfovMkhxpQo0a0aKKUC5RPeDPrd+eqlYg==
-X-Received: by 2002:adf:bb94:: with SMTP id q20mr3203897wrg.105.1588240720202;
-        Thu, 30 Apr 2020 02:58:40 -0700 (PDT)
+        bh=cPHeNxSeGru8rvRLwH5DWcw3qPf1D4gbfWrvRq06NPM=;
+        b=rvvHoY9Q2nh4qUIWLg1IfZ9KPuNnaQQJ97yjYzJCfOVh/cnqUl7xLk/01/PkMjQJH9
+         vt0elxKpaxIs3yPCchU3sTcKVPYK6dnO97Qj3Ob9w1WFwDtctxgzCTLxtmRn0MkI09LD
+         eDyGAYYOPc0ALmvW+j83uEDK1zj1mZqFz7mFo8tFuNqFcexZ3H/M8NZr4cHqQVekVKOL
+         B+6NKvaAHnHr83bLy5AvNMeRIR1uHWPgm26mJRE7rVIJ0hAgpjNFkrozp4qX5IJAQClH
+         PaoP4uPTsAvNWzDs5m3tOwrZt16H1XEDYUzcJXzpUUlK1c+34b6MrqpxT5DBu9dFALN5
+         sSTg==
+X-Gm-Message-State: AGi0PuZhy3evSVjQnsX0tZAORxrA2fNspaN+Uxdnf69k1C8gsocYmbpS
+	zERfm+Lea/nDSJaVUs/2w7XjhBuz
+X-Google-Smtp-Source: APiQypL8MfrDI0noJagKyGvM3SyWe0l1vrldpjbQl0Tv4yArShsil7HPKS5YzDuhCrsdf4f/IUA7iQ==
+X-Received: by 2002:adf:fd46:: with SMTP id h6mr3307676wrs.90.1588240721220;
+        Thu, 30 Apr 2020 02:58:41 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id b82sm12380682wmh.1.2020.04.30.02.58.39
+        by smtp.gmail.com with ESMTPSA id b82sm12380682wmh.1.2020.04.30.02.58.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 02:58:39 -0700 (PDT)
+        Thu, 30 Apr 2020 02:58:40 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 12/17] python3-gitdb: update to 4.0.4
-Date: Thu, 30 Apr 2020 11:58:10 +0200
-Message-Id: <20200430095815.2824-12-alex.kanavin@gmail.com>
+Subject: [PATCH 13/17] libevdev: update to 1.9.0
+Date: Thu, 30 Apr 2020 11:58:11 +0200
+Message-Id: <20200430095815.2824-13-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200430095815.2824-1-alex.kanavin@gmail.com>
 References: <20200430095815.2824-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-License-Update: text reformatting
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/python/python-gitdb.inc                | 5 ++---
- .../{python3-gitdb_2.0.6.bb => python3-gitdb_4.0.4.bb}       | 0
- 2 files changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-gitdb_2.0.6.bb => python3-gitdb_4.0.4.bb} (100%)
+ .../libevdev/libevdev/determinism.patch       | 53 +++++++++++--------
+ .../{libevdev_1.8.0.bb => libevdev_1.9.0.bb}  |  4 +-
+ 2 files changed, 33 insertions(+), 24 deletions(-)
+ rename meta/recipes-support/libevdev/{libevdev_1.8.0.bb => libevdev_1.9.0.bb} (78%)
 
-diff --git a/meta/recipes-devtools/python/python-gitdb.inc b/meta/recipes-devtools/python/python-gitdb.inc
-index 23ec2986b1..a91bb32c3b 100644
---- a/meta/recipes-devtools/python/python-gitdb.inc
-+++ b/meta/recipes-devtools/python/python-gitdb.inc
-@@ -6,10 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=59e5ecb13339a936eedf83282eaf4528"
+diff --git a/meta/recipes-support/libevdev/libevdev/determinism.patch b/meta/recipes-support/libevdev/libevdev/determinism.patch
+index 33a6076b78..f6b7fc82d3 100644
+--- a/meta/recipes-support/libevdev/libevdev/determinism.patch
++++ b/meta/recipes-support/libevdev/libevdev/determinism.patch
+@@ -1,3 +1,8 @@
++From 4f196323aba5b0f49979826533c65633b8a9b6a2 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Fri, 7 Feb 2020 12:29:56 +0000
++Subject: [PATCH] libevdev: Fix determinism issue
++
+ The order of dict values is not deterministic leading to differing header file generation.
+ Sort to remove this inconsistency.
  
- inherit pypi
+@@ -6,29 +11,33 @@ RP 2020/2/7
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Upstream-Status: Pending
  
--PYPI_PACKAGE = "gitdb2"
-+PYPI_PACKAGE = "gitdb"
+-Index: a/libevdev/make-event-names.py
+-===================================================================
++---
++ libevdev/make-event-names.py | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/libevdev/make-event-names.py b/libevdev/make-event-names.py
++index 88addd7..c973e2a 100755
+ --- a/libevdev/make-event-names.py
+ +++ b/libevdev/make-event-names.py
+-@@ -67,10 +67,10 @@ def print_bits(bits, prefix):
+- 	if  not hasattr(bits, prefix):
+- 		return
+- 	print("static const char * const %s_map[%s_MAX + 1] = {" % (prefix, prefix.upper()))
+--	for val, name in list(getattr(bits, prefix).items()):
+-+	for val, name in sorted(list(getattr(bits, prefix).items())):
+- 		print("	[%s] = \"%s\"," % (name, name))
+- 	if prefix == "key":
+--		for val, name in list(getattr(bits, "btn").items()):
+-+		for val, name in sorted(list(getattr(bits, "btn").items())):
+- 			print("	[%s] = \"%s\"," % (name, name))
+- 	print("};")
+- 	print("")
+-@@ -111,7 +111,7 @@ def print_lookup(bits, prefix):
+- 	if not hasattr(bits, prefix):
+- 		return
++@@ -70,10 +70,10 @@ def print_bits(bits, prefix):
++     if not hasattr(bits, prefix):
++         return
++     print("static const char * const %s_map[%s_MAX + 1] = {" % (prefix, prefix.upper()))
++-    for val, name in list(getattr(bits, prefix).items()):
+++    for val, name in sorted(list(getattr(bits, prefix).items())):
++         print("    [%s] = \"%s\"," % (name, name))
++     if prefix == "key":
++-        for val, name in list(getattr(bits, "btn").items()):
+++        for val, name in sorted(list(getattr(bits, "btn").items())):
++             print("    [%s] = \"%s\"," % (name, name))
++     print("};")
++     print("")
++@@ -118,7 +118,7 @@ def print_lookup(bits, prefix):
++     if not hasattr(bits, prefix):
++         return
+  
+--	names = list(getattr(bits, prefix).items())
+-+	names = sorted(list(getattr(bits, prefix).items()))
+- 	if prefix == "btn":
+- 		names = names + btn_additional;
++-    names = list(getattr(bits, prefix).items())
+++    names = sorted(list(getattr(bits, prefix).items()))
++     if prefix == "btn":
++         names = names + btn_additional
+  
+diff --git a/meta/recipes-support/libevdev/libevdev_1.8.0.bb b/meta/recipes-support/libevdev/libevdev_1.9.0.bb
+similarity index 78%
+rename from meta/recipes-support/libevdev/libevdev_1.8.0.bb
+rename to meta/recipes-support/libevdev/libevdev_1.9.0.bb
+index 3523dc0968..a2116a492f 100644
+--- a/meta/recipes-support/libevdev/libevdev_1.8.0.bb
++++ b/meta/recipes-support/libevdev/libevdev_1.9.0.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=75aae0d38feea6fda97ca381cb9132eb \
  
--SRC_URI[md5sum] = "1a7ea3362e405f8a5634f7ee53636094"
--SRC_URI[sha256sum] = "1b6df1433567a51a4a9c1a5a0de977aa351a405cc56d7d35f3388bad1f630350"
-+SRC_URI[sha256sum] = "6f0ecd46f99bb4874e5678d628c3a198e2b4ef38daea2756a2bfd8df7dd5c1a5"
+ SRC_URI = "http://www.freedesktop.org/software/libevdev/${BP}.tar.xz \
+            file://determinism.patch"
+-SRC_URI[md5sum] = "879631080be18526737e33b63d848039"
+-SRC_URI[sha256sum] = "20d3cae4efd277f485abdf8f2a7c46588e539998b5a08c2c4d368218379d4211"
++SRC_URI[md5sum] = "13c3f0911f9326d4b9fa103365f84421"
++SRC_URI[sha256sum] = "e7e18a64264f2dea19b6c50a481f8c062529d42919ccda0bc861495bce28eb9e"
  
- DEPENDS = "${PYTHON_PN}-async ${PYTHON_PN}-setuptools-native ${PYTHON_PN}-smmap"
+ inherit autotools pkgconfig
  
-diff --git a/meta/recipes-devtools/python/python3-gitdb_2.0.6.bb b/meta/recipes-devtools/python/python3-gitdb_4.0.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-gitdb_2.0.6.bb
-rename to meta/recipes-devtools/python/python3-gitdb_4.0.4.bb
 -- 
 2.26.1
 
