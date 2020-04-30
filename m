@@ -1,53 +1,87 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.5354.1588246953872442289
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web10.6037.1588249847163369391
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 04:42:34 -0700
+ Thu, 30 Apr 2020 05:30:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 03UBg0hR018342
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 04:42:22 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 30 Apr 2020 04:42:10 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] pbzip2: Fix license warning
-Date: Thu, 30 Apr 2020 19:42:09 +0800
-Message-ID: <1588246929-345428-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ECZInaOf;
+ spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f49.google.com with SMTP id k1so6682225wrx.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 05:30:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1C0qRRFrCu/baAKXDYpClmkqBZ+CmCguvzyEqTSvJnk=;
+        b=ECZInaOfVlT28qUPdTdZtC3bDRNHPfJG2VqYCwF8OJyupqNmp3uPBClWue+AGf05vv
+         JJHl7nEuq6ArXPLto4NoDArl/WSzqgpoBDGssGtg3qFKQSeZejpRRWeUsA5nG3vXYvMB
+         PEejYqo8sklACb2Mcv93NL1Zm8pjmzGt/7laAOF28ovkyV1k14Z6+dz4JgNlYZDJNw41
+         PNm8PwG9mGtlgbsh1ev/5aDRMvw8IGB3L7El9+YOYlDx7ZyyHYpYUEMX7E0pFCh5QGWp
+         +nM4uxD/z/BSBsfPCloULikcHC0Y5p0tqaiLSFlTWpjQYuWZTDPFCH72nPSfuntdEOsF
+         I6ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1C0qRRFrCu/baAKXDYpClmkqBZ+CmCguvzyEqTSvJnk=;
+        b=aWpzZivvUUAdJxulWLAMgY8pXGx0PiHuOkU2feKK/VlhpkrojKChMnJ8caVcIZe9CD
+         h4axUs8NcZMOyLM3aSXWfqHgqBFL7M9zUp2zd6sBfsir9yyTl1K0Qo94t28FUua4W+pH
+         genPbafL/VOapPgvnBn590/FGmdiftXYV1aG9b63CyM6Xp5s9sspy2D8OLHeyXfaydI4
+         tb+mYnTYsN+qcXhg5Pc5YPUePQY9Ot8raXaXa2rNVBCc/LiNaBpCfp9ezwDBZV944yTo
+         MZckv0xidbCsOXbl+NJFlrBJ9OW4phQlwHMki9CXtx8ltE+q51h6p0rguq36ipLNQ//z
+         gIUQ==
+X-Gm-Message-State: AGi0PuYt0oC1XSJ71vZCWMDGYYUTkE4MLztiaYM0DHJRD4ZK+9pj9A1T
+	lmUstulqrPtXxLfinZUOjLhS42EV
+X-Google-Smtp-Source: APiQypKndKviP61Kull7866p+SuiOv8nIpescUVDV7tQkkn+t15vUsfCgj0B+dFDs0OAfahqSt1jBw==
+X-Received: by 2002:adf:aad4:: with SMTP id i20mr3493219wrc.47.1588249845448;
+        Thu, 30 Apr 2020 05:30:45 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.box ([5.28.69.65])
+        by smtp.gmail.com with ESMTPSA id k3sm4102585wru.90.2020.04.30.05.30.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2020 05:30:45 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] testresults.json: add duration of the tests as well
+Date: Thu, 30 Apr 2020 14:30:33 +0200
+Message-Id: <20200430123033.6931-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+This is printed by testimage, but isn't actually saved.
+It's a useful metric for tracking execution times.
 
-After below commit introduced, the LICENSE
-field changed from BSD-4-Clause to bzip-1.0.6.
-669600ef9b bzip2/pbzip2: Correct license information
-
-But actually it should be bzip2-1.0.6,
-update it to fix the below license warning:
-WARNING: pbzip2-native-1.1.13-r0 do_populate_lic: pbzip2-native: No generic license file exists for: bzip-1.0.6 in any provider
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/core/runner.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-index d7450c7..e321cd2 100644
---- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-+++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-@@ -5,7 +5,7 @@ machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
- newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
- HOMEPAGE = "http://compression.ca/pbzip2/"
- SECTION = "console/utils"
--LICENSE = "bzip-1.0.6"
-+LICENSE = "bzip2-1.0.6"
- LIC_FILES_CHKSUM = "file://COPYING;md5=398b8832c6f840cfebd20ab2be6a3743"
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index 1284295c34..00b7d0bb12 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -182,8 +182,10 @@ class OETestResult(_TestResult):
+             (status, log) = self._getTestResultDetails(case)
  
- DEPENDS = "bzip2"
+             t = ""
++            duration = 0
+             if case.id() in self.starttime and case.id() in self.endtime:
+-                t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
++                duration = self.endtime[case.id()] - self.starttime[case.id()]
++                t = " (" + "{0:.2f}".format(duration) + "s)"
+ 
+             if status not in logs:
+                 logs[status] = []
+@@ -191,6 +193,8 @@ class OETestResult(_TestResult):
+             report = {'status': status}
+             if log:
+                 report['log'] = log
++            if duration:
++                report['duration'] = duration
+             if dump_streams and case.id() in self.logged_output:
+                 (stdout, stderr) = self.logged_output[case.id()]
+                 report['stdout'] = stdout
 -- 
-2.7.4
+2.26.1
 
