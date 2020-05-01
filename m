@@ -1,83 +1,57 @@
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
- by mx.groups.io with SMTP id smtpd.web12.6128.1588321844381139375
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web11.6356.1588321947149238650
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2020 01:30:44 -0700
+ Fri, 01 May 2020 01:32:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: ee.peng.yeoh@intel.com)
-IronPort-SDR: K68pDfZd5554+Ie09B4JbkN73VJIRDUpKpaObIdgm3MiqkSQBM9m3d4kHHfFzyAwt9HZu5slBT
- wcakV+WhV+dA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2020 01:30:43 -0700
-IronPort-SDR: X3uc4g5Bsmmysd/7yf1dq1bhosrw/f8CgbZSnJgruO8rineZNY3jUXZRThNPdcUqvhrvgixkSv
- oj0nmn5Xz2kw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,339,1583222400"; 
-   d="scan'208";a="249977793"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga008.fm.intel.com with ESMTP; 01 May 2020 01:30:42 -0700
-From: "Yeoh Ee Peng" <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Yeoh Ee Peng <ee.peng.yeoh@intel.com>,
-	Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-Subject: [PATCH v02] selftest/imagefeatures: Enable sanity test for IMAGE_GEN_DEBUGFS
-Date: Fri,  1 May 2020 16:30:39 +0800
-Message-Id: <1588321839-30067-1-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id F174C60C18;
+	Fri,  1 May 2020 08:32:24 +0000 (UTC)
+MIME-Version: 1.0
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgaWN1OiB1cGdyYWRlIDY2LjEgLT4gNjcuMQ==?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Andrej Valek <andrej.valek@siemens.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 01 May 2020 08:32:26 -0000
+Message-ID: <20200501083226.2277.54725@do>
+References: <20200501082616.11296-1-andrej.valek@siemens.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200501082616.11296-1-andrej.valek@siemens.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Add new testcase to check IMAGE_GEN_DEBUGFS. Test makes
-sure that debug filesystem is created accordingly. Test also check
-for debug symbols for some packages as suggested by Ross Burton.
+== Series Details ==
 
-[YOCTO #10906]
+Series: icu: upgrade 66.1 -> 67.1
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/23894/
+State : failure
 
-Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at ecca4b97b3)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/selftest/cases/imagefeatures.py | 32 +++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-index 5c519ac..2b9c499 100644
---- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
-+++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
-@@ -262,3 +262,35 @@ PNBLACKLIST[busybox] = "Don't build this"
-         self.write_config(config)
- 
-         bitbake("--graphviz core-image-sato")
-+
-+    def test_image_gen_debugfs(self):
-+        """
-+        Summary:     Check debugfs generation
-+        Expected:    1. core-image-minimal can be build with IMAGE_GEN_DEBUGFS variable set
-+                     2. debug filesystem is created when variable set
-+                     3. debug symbols available
-+        Product:     oe-core
-+        Author:      Humberto Ibarra <humberto.ibarra.lopez@intel.com>
-+                     Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-+        """
-+        import glob
-+        image_name = 'core-image-minimal'
-+        features = 'IMAGE_GEN_DEBUGFS = "1"\n'
-+        features += 'IMAGE_FSTYPES_DEBUGFS = "tar.bz2"\n'
-+        features += 'MACHINE = "genericx86-64"\n'
-+        self.write_config(features)
-+
-+        bitbake(image_name)
-+        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
-+        dbg_tar_file = os.path.join(deploy_dir_image, "*-dbg.rootfs.tar.bz2")
-+        debug_files = glob.glob(dbg_tar_file)
-+        self.assertNotEqual(len(debug_files), 0, 'debug filesystem not generated at %s' % dbg_tar_file)
-+        result = runCmd('cd %s; tar xvf %s' % (deploy_dir_image, dbg_tar_file))
-+        self.assertEqual(result.status, 0, msg='Failed to extract %s: %s' % (dbg_tar_file, result.output))
-+        result = runCmd('find %s -name %s' % (deploy_dir_image, "udevadm"))
-+        self.assertTrue("udevadm" in result.output, msg='Failed to find udevadm: %s' % result.output)
-+        dbg_symbols_targets = result.output.splitlines()
-+        self.assertTrue(dbg_symbols_targets, msg='Failed to split udevadm: %s' % dbg_symbols_targets)
-+        for t in dbg_symbols_targets:
-+            result = runCmd('objdump --syms %s | grep debug' % t)
-+            self.assertTrue("debug" in result.output, msg='Failed to find debug symbol: %s' % result.output)
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
