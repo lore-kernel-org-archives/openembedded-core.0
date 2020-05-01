@@ -1,59 +1,82 @@
-Received: from koncepto.io (koncepto.io [195.154.119.111])
- by mx.groups.io with SMTP id smtpd.web11.8790.1588335698745677047
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+ by mx.groups.io with SMTP id smtpd.web11.9612.1588338448726892623
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2020 05:21:39 -0700
+ Fri, 01 May 2020 06:07:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@koncepto.io header.s=default header.b=sHzwRnKs;
- spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
-Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr [193.250.66.88])
-	by koncepto.io (Postfix) with ESMTPSA id 55C8260357;
-	Fri,  1 May 2020 14:21:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
-	s=default; t=1588335697;
-	bh=QIPTTSUcSKGSUzmiBxKMOsXKlLmxSV6k1vWnjTs1r3s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sHzwRnKsm2RFpcGWdMjdfKuTIJRJZaijhr/JmdtJSWoHIrYHmd6Y91VgkAuSkbikz
-	 kZmPepWksO6JUjYt/75O8o1xpPRFK9armkbJwug+HFJuPBrxaGr5LwTSLTmrnnOBFc
-	 0wSMMEulsEg4lM5L7GByosWRCDu5mFlvhyVjgVYXYUvmh3vH57p6aNtyxdJ0g4lauS
-	 +EoglBwjO2FkLc0iKCUam/sUjAD2w1jENN1eJYzFUUs1G+2z/uBgaa2XJm+1E0NojM
-	 mBLn35UcyWL/yHe8xJKk23JJYXWWUubcx6iU8gbCp6gD5bjh3r/RrQDadEba1DDZsu
-	 QFFhI1QBxpKoA==
-From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
+ dkim=pass header.i=@gmx.net header.s=badeba3b8450 header.b=a9RrA2GD;
+ spf=pass (domain: gmx.de, ip: 212.227.17.20, mailfrom: dominic.sacre@gmx.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1588338446;
+	bh=cUVyoyPGfpqnlmwSzxkyjW0kR1Bdb2Ga1bJlpddFR3U=;
+	h=X-UI-Sender-Class:From:Subject:To:Date;
+	b=a9RrA2GD02hzyRkn0FU22LfMd/su2H4dG4wcMqFS5RMnhvqnXuoXPmj0BHcpV42c9
+	 AqbTQM04a2yOxW1GgiRjnWBxlByTmkVqfCthn+oIfbfbSYePaxfpkiKr3dAp2Vuiri
+	 LIbVvmY2pMh/7IjVYBl41ZZZ0NXvIsObMYJL1VLI=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.42.23] ([90.186.109.32]) by mail.gmx.com (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N7zFj-1j9YKr3GJn-014zP7 for
+ <openembedded-core@lists.openembedded.org>; Fri, 01 May 2020 15:07:26 +0200
+From: dominic.sacre@gmx.de
+Subject: Incorrect environment-setup script in SDK using musl
 To: openembedded-core@lists.openembedded.org
-Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
-Subject: [PATCH 2/2] curl: support mqtt in PACKAGECONFIG
-Date: Fri,  1 May 2020 14:19:28 +0200
-Message-Id: <1588335568-12407-2-git-send-email-pjtexier@koncepto.io>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1588335568-12407-1-git-send-email-pjtexier@koncepto.io>
-References: <1588335568-12407-1-git-send-email-pjtexier@koncepto.io>
+Message-ID: <608debd1-f655-21ac-9e77-1ffbaf70d49a@gmx.de>
+Date: Fri, 1 May 2020 15:05:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.1
+MIME-Version: 1.0
+X-Provags-ID: V03:K1:EaASTGR2xC1Ie3GLPzuXDnlUqizJhRLMZfcXQaQNURQJ73qAVdl
+ 8VXUeCffC4yMjQqjPtoGNWaIIcWGn8S/6a1hEpd0/xOKs06eIi7H3a8l2WMvVEzXrnPPHSG
+ aNDIItzTpCBasDVOTQCdKcoOuOQ9WsuNCqh4vyzXTcHJhQQ7AR8LJpk8Totumxk4aZjeOU5
+ oPCVrELbQCht7ZihcKA9g==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:X1SYD4wzJt0=:KwRKynLIGzdRGzc/BL2boS
+ 8frwKgJZHAYqBR76ij95BDrANizOyGIRWddD40g1/VmjR0KosW+gHdQINfsU5JN1V41bZ7U4D
+ i+i5iNw45tdW77Uylb+sYQwqDcN2WnKN9DYus3VYRTI8JcY4FaFt6vpNlaUcLj2DKIwX8bQfz
+ 5OtWzJiIeWhU9wdpPoctJdWGCBzBkh3qIXdLL8dOkiHsP08LT14KsOP0Lr1N0Ocw39gVL5Kk2
+ 4x5p6WLp7Zf58dnfm+Euxn20TCDainCqqN0fHxpaR1eSphT4x35iIeVlKPJq56niSHK8pK1ej
+ Ch0RwDiS8yfTFqL3zzWqXE/S/TYcKY9TQYlpOAMW4d7W3SFmAAl7GFyMM0pKYVeHWO0uomuq5
+ rKVEjLxpnPpDrbQYqjb9js5LXjhGsp71rh292fN8zOHpkTQJTC1aV5eOnsvklPdgSbD1HRvld
+ /xwpIoc3oDWA9wrMN8Xq498+Jrhfv2riXiaACbGZBDxu5ri5PBihlyJedXkZI41StZEdkLIW2
+ qiueQJQwZS4tE7jB+MdfsFXHTTWPS+QvwMh20FT+f0B/uCHIqVwGwhZkX1CChOSR0ItpAdYFH
+ GAzcRKXvgD5HtV7dwHOig29O8Hku/39O5tD4AquN1OU+60xUvGIN9idA1YWmf6wZ1rf9K0M7W
+ R27tLHcZ+mQEbsVYFl7m2iyUNBpMtiBZVxQ0+/6FYzXGdN59k8D+pbLReZgHS8AQt0OomV+0n
+ V5egzpst6aMC5Mzsx3Gcbzybu5glrMKe9YRNRHomOOQhcEe8QZ7XwJ8nApYORiekGJBQRFKSx
+ rKJXlhcdOvcB/rPYBBYXNzYwteq//8km+dBwdwN+hfP0kywaQCbpNhfyXyCURQF/Mj+RWvem5
+ uGfYsCSfqVsBi/S0dJdtTmgzfBwNcYJT6cVldgf2w8sM2xJEbzKJULMPFkFC0/Mn4CK6CSP3p
+ acBxTQZEEq5ZRmlX3LUH/NbxO4l9cl5G1F9q22yqHhTxa4MaRHKCNlID9e4y6PjUi8qa84WVM
+ A5eaavPypxhIrZ0I3dSe3B0ABZdElkocZrkJrxecJziFXHAGqvylhAh+qw7ZmBipvj/CtLhFB
+ 2fGlH0erkJcj0zlky6fgBsO/m7kG0CW0ATwINHaOZKLgoQQJyHJWF6l9r+NOX+cr/3nQ+lJmX
+ bjrCcGZGGNWvSOiz+edkCJ90o1iDFyziWB5mxSdnSd6RbWImSpCUsrFGX/cHq7wtUy5CpNjBM
+ JPl+2F3s1DTXghmVj
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-The version 7.70.0 of curl add experimental support for this
-protocol.
+Hi,
 
-So, add PACKAGECONFIG for mqtt.
+I'm trying to build an SDK for an image that uses musl. The problem is
+that the environment-setup script in the SDK lacks the -mmusl compiler
+flag, so binaries produced by sourcing the environment and running $CC
+will not run on the image.
 
-See [1] for more informations.
+As far as I can see, the flag should have been added by this line in
+toolchain-scripts.bbclass:
 
-[1] - https://github.com/curl/curl/blob/master/docs/MQTT.md
+TARGET_CC_ARCH_append_libc-musl =3D " -mmusl"
 
-Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
----
- meta/recipes-support/curl/curl_7.70.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+However, the libc-musl override is not set when building
+meta-environment, which I've tracked down to this snippet from
+cross-canadian.bbclass:
 
-diff --git a/meta/recipes-support/curl/curl_7.70.0.bb b/meta/recipes-support/curl/curl_7.70.0.bb
-index d3d8d2c..baf72f8 100644
---- a/meta/recipes-support/curl/curl_7.70.0.bb
-+++ b/meta/recipes-support/curl/curl_7.70.0.bb
-@@ -34,6 +34,7 @@ PACKAGECONFIG[ldaps] = "--enable-ldaps,--disable-ldaps,"
- PACKAGECONFIG[libidn] = "--with-libidn2,--without-libidn2,libidn2"
- PACKAGECONFIG[libssh2] = "--with-libssh2,--without-libssh2,libssh2"
- PACKAGECONFIG[mbedtls] = "--with-mbedtls=${STAGING_DIR_TARGET},--without-mbedtls,mbedtls"
-+PACKAGECONFIG[mqtt] = "--enable-mqtt,--disable-mqtt,"
- PACKAGECONFIG[nghttp2] = "--with-nghttp2,--without-nghttp2,nghttp2"
- PACKAGECONFIG[pop3] = "--enable-pop3,--disable-pop3,"
- PACKAGECONFIG[proxy] = "--enable-proxy,--disable-proxy,"
--- 
-2.7.4
+NATIVESDKLIBC ?=3D "libc-glibc"
+LIBCOVERRIDE =3D ":${NATIVESDKLIBC}"
 
+I had successfully been using a similar setup based on thud, which was
+before those two lines were added.
+
+What's the correct fix here? What's the purpose of changing LIBCOVERRIDE
+in cross-canadian.bbclass?
+
+
+Thanks
+Dominic
