@@ -1,67 +1,75 @@
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web12.5128.1588369921393499350
+ by mx.groups.io with SMTP id smtpd.web10.5000.1588369921000218368
  for <openembedded-core@lists.openembedded.org>;
  Fri, 01 May 2020 14:52:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=PBIMFL1X;
+ dkim=pass header.i=@stusta.de header.s=default header.b=HehokmER;
  spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=4yvm=6p=stusta.de=bunk@stusta.mhn.de)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49DQvM3kn5z4y
-	for <openembedded-core@lists.openembedded.org>; Fri,  1 May 2020 23:51:59 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49DQvM0nzwz4Q
+	for <openembedded-core@lists.openembedded.org>; Fri,  1 May 2020 23:51:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
 	s=default; t=1588369919;
-	bh=CWY9yQG/HWAIkx1ZkdSEKLVgTcP9ZFQ1bZL6sko4Bt0=;
+	bh=ixuwCQvLtZUjP6Bd6+nq1TF0moVfo59Ank5rHvGKOIg=;
 	h=From:To:Subject:Date:From;
-	b=PBIMFL1X+hJrFeDRcsK2pBS77fdS1RESfXaJQTAncgEuAxzt/TDmUwTM/gkW1viqR
-	 2qcRwfaGsukkemWWW2BKBvrBP1qsN3deLvxhzNxi5MeKqZudilFGxYyA8tvP+6feoQ
-	 0NwDeW/f5XhwIomkeVsYQZUzzRk/ZpHJaWnZIFNdsi0Z8S07nLqJGvf8X0UlOnHT0X
-	 y80NuMHCtT7llqIwwibaKcdUsdYQ/kzWRvIHv3QXdMtSgWWRvQBRICt+32SMPnSYLu
-	 UPY/QUf0IA0/eTOMTs0gcoqkQvREAKa657kBbgxEJpdKrJFk/TIn/VgLU1VeVguR9p
-	 l/867v2jxp+0JhjXiluqA/1Ryd6SeDy69IU9BbZwt6XLB2vzEh5PkC71QEJ6qf6j9i
-	 SWfzHOv82fRtyAJhvRDt9cyLbe/0/hmENp6c3FIk+WafX1ugadF19YCIuQNySIu9qz
-	 LrRLUXc9Ryv35I0s2WJWZJk0eTDLtMjxcJDTaGnN4WFUXGv3RqFqBJ2liw8PsYq4S/
-	 aHtda8IzlmGUHj7dPWeNQXv8vJ3UETPfKy0wVxijUx4QOfwTT6mgT1LExJNYLnrgmH
-	 vXf/VGc5Ab8ek9/yRqLf6f7jzCKYwnPXCeIYO4BBPamZscwxfqJxS6WZLHpzZibD2u
-	 +UgsmPP74bMnPdzPgory8NmA=
+	b=HehokmERFAOKAz5imbPDavP55ECY8DavZWS3aTSXbQ5E3I0ydmrSDCD5eps4BTE6N
+	 CmI6eGU/+fzw1iU5/gwMKwst9m3fBTFyHEzfCJV2we6IW6vAlW4Z4yyeHV5Q1LgsqB
+	 gla6t+Je6JE4tlRrBiOh7ydHI59GREQkXfGAsUQpbBDlcSsTST9QfjG+XgD7IR+Zr/
+	 hI8XoXnKVIPgsRCEZAS3z/WKT0KQoDqKObRQWRAmW1rHyStelEsnBkI3vol33V+LLh
+	 GMXBi4AXShBgX+rfVBQtK5jE2TpcbrdKVD1gjDEslMGQk9lxfMbHaFO7sjVnsfe8Fm
+	 AUVBUiyMhWgOkzcq7XSJTk/SoEjmEBUksaJ90RNr2VTiXMMeJoT+zXqkl7aAIEh5cD
+	 uy1uIMv5PU5vNoofRpUEMDsZ4m7CYsA7EbxmsPWjK6tQVrwYGal55AXGljBMNyOGpW
+	 UcArDC7fWY2qbSEk7j8dX4ra6jQvFDzPOCDeqffjMgUEM7rCXGkHkr5oB2QhpqURIn
+	 eTFS4YSv7CuG6Y4LC/B0C5gTZdQcjhHOdjc4sCwUDD4FLs33SIqUq3vpJQKogI+gEg
+	 BXZg7ku7aprMHsz2fQM2xYaYZRPJVkJba9mEZV/tfUyjMiuqVoh0tcFylpCZGpTSia
+	 jnpBOUyUrKhB2HAH9pvU8wMk=
 From: "Adrian Bunk" <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][zeus][PATCH] gnupg: upgrade 2.2.17 -> 2.2.19
-Date: Sat,  2 May 2020 00:51:58 +0300
-Message-Id: <20200501215158.9149-2-bunk@stusta.de>
+Subject: [OE-core][zeus][PATCH] python: Upgrade 2.7.17 -> 2.17.18
+Date: Sat,  2 May 2020 00:51:57 +0300
+Message-Id: <20200501215158.9149-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
+LICENSE checksum changed due to 2019 -> 2020 update.
 
-(From OE-Core rev: 287de363f80a2f9919b942a1349f58575e8b91d8)
-
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[ includes the fix for CVE-2019-14855 ]
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../gnupg/{gnupg_2.2.17.bb => gnupg_2.2.19.bb}                | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.2.17.bb => gnupg_2.2.19.bb} (93%)
+ .../{python-native_2.7.17.bb => python-native_2.7.18.bb}    | 0
+ meta/recipes-devtools/python/python.inc                     | 6 +++---
+ .../python/{python_2.7.17.bb => python_2.7.18.bb}           | 0
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python-native_2.7.17.bb => python-native_2.7.18.bb} (100%)
+ rename meta/recipes-devtools/python/{python_2.7.17.bb => python_2.7.18.bb} (100%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.2.17.bb b/meta/recipes-support/gnupg/gnupg_2.2.19.bb
-similarity index 93%
-rename from meta/recipes-support/gnupg/gnupg_2.2.17.bb
-rename to meta/recipes-support/gnupg/gnupg_2.2.19.bb
-index 689cf8a75e..a0577d61d3 100644
---- a/meta/recipes-support/gnupg/gnupg_2.2.17.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.2.19.bb
-@@ -19,8 +19,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
- SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
-                                 file://relocate.patch"
+diff --git a/meta/recipes-devtools/python/python-native_2.7.17.bb b/meta/recipes-devtools/python/python-native_2.7.18.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-native_2.7.17.bb
+rename to meta/recipes-devtools/python/python-native_2.7.18.bb
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 19a2f3e743..fe281586fc 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -5,13 +5,13 @@ SECTION = "devel/python"
+ # bump this on every change in contrib/python/generate-manifest-2.7.py
+ INC_PR = "r1"
  
--SRC_URI[md5sum] = "1ba2d9b70c377f8e967742064c27a19c"
--SRC_URI[sha256sum] = "afa262868e39b651a2db4c071fba90415154243e83a830ca00516f9a807fd514"
-+SRC_URI[md5sum] = "cb3b373d08ba078c325299945a7f2818"
-+SRC_URI[sha256sum] = "242554c0e06f3a83c420b052f750b65ead711cc3fddddb5e7274fcdbb4e9dec0"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=e466242989bd33c1bd2b6a526a742498"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=203a6dbc802ee896020a47161e759642"
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            "
+ 
+-SRC_URI[md5sum] = "b3b6d2c92f42a60667814358ab9f0cfd"
+-SRC_URI[sha256sum] = "4d43f033cdbd0aa7b7023c81b0e986fd11e653b5248dac9144d508f11812ba41"
++SRC_URI[md5sum] = "fd6cc8ec0a78c44036f825e739f36e5a"
++SRC_URI[sha256sum] = "b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43"
+ 
+ # python recipe is actually python 2.x
+ # also, exclude pre-releases for both python 2.x and 3.x
+diff --git a/meta/recipes-devtools/python/python_2.7.17.bb b/meta/recipes-devtools/python/python_2.7.18.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python_2.7.17.bb
+rename to meta/recipes-devtools/python/python_2.7.18.bb
 -- 
 2.17.1
 
