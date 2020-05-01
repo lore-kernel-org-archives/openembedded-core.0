@@ -1,120 +1,119 @@
-Received: from mga11.intel.com (mga11.intel.com [])
- by mx.groups.io with SMTP id smtpd.web12.3110.1588363526824318250
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web10.4781.1588369277814969501
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2020 13:05:29 -0700
+ Fri, 01 May 2020 14:41:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: <nil>, mailfrom: timothy.t.orling@linux.intel.com)
-IronPort-SDR: wPL78DKmSo6h/aKDaA76TSqt/Tldm5DVdhzg/vLIddRaNLIPghcyriLLDFkYKldb8/1W8J/F2q
- Dp4swOpP+wFA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2020 13:05:29 -0700
-IronPort-SDR: p9o06esVmxa8Z4vq5kRTJfOno3foTtonOV4O69FOxx4NXtJf7hGKshKiAuShjrZd5iE2P1Ac4J
- y/S2qWGOgWSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,340,1583222400"; 
-   d="scan'208";a="248626976"
-Received: from wrath.jf.intel.com ([10.54.31.24])
-  by fmsmga007.fm.intel.com with ESMTP; 01 May 2020 13:05:29 -0700
-From: "Tim Orling" <timothy.t.orling@linux.intel.com>
+ dkim=pass header.i=@stusta.de header.s=default header.b=DNXlIQQB;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=4yvm=6p=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49DQfy4H71z4y
+	for <openembedded-core@lists.openembedded.org>; Fri,  1 May 2020 23:41:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1588369274;
+	bh=nztgOG/LYLOARM5EuzdPh+oCNtiKdCIPbvLwzCYAzrk=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=DNXlIQQBbB6lbMoeY40LTKQTdhr8OCOCh4KOdkig59EHIp42Vgud0///039qtIJnH
+	 9/6HnH8zn8uFsYkm6uTozI9+5TB9xbnAdqyOtmcBdTxZ/XqUsbjPQdGE7ac2scmTfa
+	 kbNyfKLFJ63jkktaOeRyhg5lGs9sAX6OMt5s/VK7CvdJxDcgGCTqpJvJa338P9FysO
+	 IAgv+gpyFnBcSRRaeDwM7e5UmfhLbevZswxY4sT9xZlu/5L/A9O21rfd1VoxeuoFgc
+	 J27uBnDeC1J18teuQCBl4voctuX+Q7nIVlsN6CKKULtU3P4m63zfWA+XFVUA9XBl4H
+	 Khio9W5dd4Z4AHK1nfnQfTdOV1vlfDXBLGD/ItvKxB+4gKc4zvgaF1LdGugiMF7+R1
+	 zYl8xLGZj4WhtLJjB7lbpPeygnRmKptPhI8UKdphYTR1yivPDGTxaJZQ+rLhI1IoGO
+	 K/3Dv44Z6HAgjkbLjpazfQCIyQjYLgpzsqbBGJ0fq4Gy6xflAWXnv37y2LzpTiE/85
+	 PjGaHIR7zqmRaNMf6KJucZ7BABAIgn5IfYVYm4jlr97wxV2WwOu46bujHdlr8R9rl0
+	 XUFnpXyfREnq3IzZuH8fsB80+X5/k6kuDn41YVbKf86112CIIOEuigml2cRI0R7tSL
+	 i2lYFsYbJeuWokKdjn/qCmZQ=
+From: "Adrian Bunk" <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <timothy.t.orling@linux.intel.com>
-Subject: [PATCH 2/2] at-spi2-core: upgrade 2.34.0 -> 2.36.0
-Date: Fri,  1 May 2020 13:05:16 -0700
-Message-Id: <20200501200516.4061-2-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20200501200516.4061-1-timothy.t.orling@linux.intel.com>
-References: <20200501200516.4061-1-timothy.t.orling@linux.intel.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: [OE-core][zeus][PATCH] qemu/slirp: fix CVE-2020-7211
+Date: Sat,  2 May 2020 00:41:13 +0300
+Message-Id: <20200501214113.23843-2-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200501214113.23843-1-bunk@stusta.de>
+References: <20200501214113.23843-1-bunk@stusta.de>
 
-Fix source reproducibility patch merged upstream.
-https://gitlab.gnome.org/GNOME/at-spi2-core/-/merge_requests/25.
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-Upstream release notes:
-"""
-What's new in at-spi2-core 2.35.92:
+fix CVE-2020-7211 for qemu slirp submodule
+see :
+https://www.openwall.com/lists/oss-security/2020/01/17/2
+https://gitlab.freedesktop.org/slirp/libslirp/commit/14ec36e107a8c9af7d0a80c3571fe39b291ff1d4
 
-* bus-launcher: make session management more robust.
+(From OE-Core rev: 31362d739834377ac4ab880029c3e3dda0cd7698)
 
-What's new in at-spi2-core 2.35.1:
-
-* Fix source reproducibility (!25).
-
-* Avoid depending on Meson 0.50 (#20).
-
-* Add ATSPI_ROLE_MARK and ATSPI_ROLE_SUGGESTION (!27).
-"""
-
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../0001-Fix-source-reproducibility.patch     | 32 -------------------
- ...-core_2.34.0.bb => at-spi2-core_2.36.0.bb} |  7 ++--
- 2 files changed, 3 insertions(+), 36 deletions(-)
- delete mode 100644 meta/recipes-support/atk/at-spi2-core/0001-Fix-source-reproducibility.patch
- rename meta/recipes-support/atk/{at-spi2-core_2.34.0.bb => at-spi2-core_2.36.0.bb} (86%)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2020-7211.patch             | 46 +++++++++++++++++++
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch
 
-diff --git a/meta/recipes-support/atk/at-spi2-core/0001-Fix-source-reproducibility.patch b/meta/recipes-support/atk/at-spi2-core/0001-Fix-source-reproducibility.patch
-deleted file mode 100644
-index 7631969cd62..00000000000
---- a/meta/recipes-support/atk/at-spi2-core/0001-Fix-source-reproducibility.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From b7fa0aa00b07e03e338dd02af564431bf2f2b185 Mon Sep 17 00:00:00 2001
--From: Joshua Watt <Joshua.Watt@garmin.com>
--Date: Wed, 20 Nov 2019 15:24:02 -0600
--Subject: [PATCH] Fix source reproducibility
--
--The generated enum type files can be included in source packages meant
--for debugging, and thus need to be reproducible. Replace the absolute
--include of the header with the basename. This is sufficient because the
--target include files are always in the include path anyway.
--
--Upstream-Status: Accepted [https://gitlab.gnome.org/GNOME/at-spi2-core/merge_requests/25]
--Signed-off-by: Joshua Watt <Joshua.Watt@garmin.com>
-----
-- atspi/atspi-enum-types.c.template | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/atspi/atspi-enum-types.c.template b/atspi/atspi-enum-types.c.template
--index 385d0ee..92e4937 100644
----- a/atspi/atspi-enum-types.c.template
--+++ b/atspi/atspi-enum-types.c.template
--@@ -5,7 +5,7 @@
-- 
-- /*** BEGIN file-production ***/
-- /* enumerations from "@basename@" */
---#include "@filename@"
--+#include "@basename@"
-- 
-- /*** END file-production ***/
-- 
---- 
--2.23.0
--
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.34.0.bb b/meta/recipes-support/atk/at-spi2-core_2.36.0.bb
-similarity index 86%
-rename from meta/recipes-support/atk/at-spi2-core_2.34.0.bb
-rename to meta/recipes-support/atk/at-spi2-core_2.36.0.bb
-index 84e05e77fc7..c5d01c9294b 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.34.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.36.0.bb
-@@ -5,11 +5,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 119530f7e6..e18eaa0962 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -34,6 +34,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-7039-1.patch \
+            file://CVE-2020-7039-2.patch \
+            file://CVE-2020-7039-3.patch \
++	   file://CVE-2020-7211.patch \
+ 	   "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
--SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
--           file://0001-Fix-source-reproducibility.patch"
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "53c21565507105fb68031cd9c21a559b"
--SRC_URI[sha256sum] = "d629cdbd674e539f8912028512af583990938c7b49e25184c126b00121ef11c6"
-+SRC_URI[md5sum] = "f101d111b06293d15738afc904c1d931"
-+SRC_URI[sha256sum] = "88da57de0a7e3c60bc341a974a80fdba091612db3547c410d6deab039ca5c05a"
- 
- X11DEPENDS = "virtual/libx11 libxi libxtst"
- 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch
+new file mode 100644
+index 0000000000..11be4c92e7
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch
+@@ -0,0 +1,46 @@
++From 14ec36e107a8c9af7d0a80c3571fe39b291ff1d4 Mon Sep 17 00:00:00 2001
++From: Prasad J Pandit <pjp@fedoraproject.org>
++Date: Mon, 13 Jan 2020 17:44:31 +0530
++Subject: [PATCH] slirp: tftp: restrict relative path access
++
++tftp restricts relative or directory path access on Linux systems.
++Apply same restrictions on Windows systems too. It helps to avoid
++directory traversal issue.
++
++Fixes: https://bugs.launchpad.net/qemu/+bug/1812451
++Reported-by: Peter Maydell <peter.maydell@linaro.org>
++Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
++Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
++Message-Id: <20200113121431.156708-1-ppandit@redhat.com>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/slirp/libslirp/-/commit/14ec36e107a8c9af7d0a80c3571fe39b291ff1d4.patch]
++CVE: CVE-2020-7211
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ slirp/src/tftp.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/slirp/src/tftp.c b/slirp/src/tftp.c
++index 093c2e0..e52e71b 100644
++--- a/slirp/src/tftp.c
+++++ b/slirp/src/tftp.c
++@@ -344,8 +344,13 @@ static void tftp_handle_rrq(Slirp *slirp, struct sockaddr_storage *srcsas,
++     k += 6; /* skipping octet */
++ 
++     /* do sanity checks on the filename */
++-    if (!strncmp(req_fname, "../", 3) ||
++-        req_fname[strlen(req_fname) - 1] == '/' || strstr(req_fname, "/../")) {
+++    if (
+++#ifdef G_OS_WIN32
+++        strstr(req_fname, "..\\") ||
+++        req_fname[strlen(req_fname) - 1] == '\\' ||
+++#endif
+++        strstr(req_fname, "../") ||
+++        req_fname[strlen(req_fname) - 1] == '/') {
++         tftp_send_error(spt, 2, "Access violation", tp);
++         return;
++     }
++-- 
++2.24.1
++
 -- 
-2.24.0
+2.17.1
 
