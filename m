@@ -1,31 +1,31 @@
 Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web11.37.1588370630814761440
+ by mx.groups.io with SMTP id smtpd.web10.36.1588370632398523202
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2020 15:03:50 -0700
+ Fri, 01 May 2020 15:03:52 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 1237160FF1;
-	Fri,  1 May 2020 22:03:49 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id A5D386104E;
+	Fri,  1 May 2020 22:03:50 +0000 (UTC)
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ251dGxzOiB1cGdyYWRlIDMuNi44IC0+IDMuNi4xMS4xIChyZXY0KQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcWVtdTogZml4IENWRS0yMDIwLTcwMzkgKHJldjMp?=
 From: "Patchwork" <patchwork@patchwork.openembedded.org>
 To: Adrian Bunk <bunk@stusta.de>
 Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 01 May 2020 22:03:50 -0000
-Message-ID: <20200501220350.2275.96242@do>
-References: <20200501215628.9472-1-bunk@stusta.de>
+Date: Fri, 01 May 2020 22:03:52 -0000
+Message-ID: <20200501220352.2277.9451@do>
+References: <20200501214113.23843-1-bunk@stusta.de>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20200501215628.9472-1-bunk@stusta.de>
+In-Reply-To: <20200501214113.23843-1-bunk@stusta.de>
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: gnutls: upgrade 3.6.8 -> 3.6.11.1 (rev4)
-Revision: 4
-URL   : https://patchwork.openembedded.org/series/21646/
+Series: qemu: fix CVE-2020-7039 (rev3)
+Revision: 3
+URL   : https://patchwork.openembedded.org/series/22977/
 State : failure
 
 == Summary ==
