@@ -1,57 +1,57 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.8546.1588334565679486319
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+ by mx.groups.io with SMTP id smtpd.web12.8564.1588335698061933827
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2020 05:02:45 -0700
+ Fri, 01 May 2020 05:21:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8049760CB1;
-	Fri,  1 May 2020 12:02:43 +0000 (UTC)
-MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgaWN1OiB1cGdyYWRlIDY2LjEgLT4gNjcuMSAocmV2Myk=?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Andrej Valek <andrej.valek@siemens.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 01 May 2020 12:02:44 -0000
-Message-ID: <20200501120244.2275.99119@do>
-References: <20200501082616.11296-1-andrej.valek@siemens.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200501082616.11296-1-andrej.valek@siemens.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@koncepto.io header.s=default header.b=g1t5ADOk;
+ spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
+Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr [193.250.66.88])
+	by koncepto.io (Postfix) with ESMTPSA id EA59060218;
+	Fri,  1 May 2020 14:21:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1588335696;
+	bh=i55boJsXbJFMopcMmt78ay/o6ylFn8n3F8Hl5UmN8tw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=g1t5ADOkqHRpZAmCVYUwDPfZ38yjmCFhvXbaqd+yCkMiIEglZz9MkzvZfi/K5x8PC
+	 O8zSuFTGRte7cElhSvA/JtpSSwG2gzBpQXn/x2OFJE2IucTrdM87dq6baveXgCr0ZY
+	 eKbtWpvKW/rd5mLwhGSB5vABtTziLUc6ometx8JW05Nwh+SR3bn/mhIVf+bungVbZL
+	 5ccn72rNdzQGC8KYpfY8UEjRiEeQ5JTM+gWhggCFzgpWG32GTw/VtPt7VUTrUXacRm
+	 aJmWwy9w7Fw/EwejFFXdi4EbLRtnUIb1rVIp/bj6jRcqO3FRuwDwfTQc2t5kxVuAB8
+	 BWHy8oWVISWcw==
+From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
+Subject: [PATCH 1/2] curl: upgrade 7.69.1 -> 7.70.0
+Date: Fri,  1 May 2020 14:19:27 +0200
+Message-Id: <1588335568-12407-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
 
-== Series Details ==
+See full changelog https://curl.haxx.se/changes.html#7_70_0
 
-Series: icu: upgrade 66.1 -> 67.1 (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/23894/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at ecca4b97b3)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-support/curl/{curl_7.69.1.bb => curl_7.70.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.69.1.bb => curl_7.70.0.bb} (95%)
+
+diff --git a/meta/recipes-support/curl/curl_7.69.1.bb b/meta/recipes-support/curl/curl_7.70.0.bb
+similarity index 95%
+rename from meta/recipes-support/curl/curl_7.69.1.bb
+rename to meta/recipes-support/curl/curl_7.70.0.bb
+index e854e8d..d3d8d2c 100644
+--- a/meta/recipes-support/curl/curl_7.69.1.bb
++++ b/meta/recipes-support/curl/curl_7.70.0.bb
+@@ -9,8 +9,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+ "
+ 
+-SRC_URI[md5sum] = "ec5fc263f898a3dfef08e805f1ecca42"
+-SRC_URI[sha256sum] = "2ff5e5bd507adf6aa88ff4bbafd4c7af464867ffb688be93b9930717a56c4de8"
++SRC_URI[md5sum] = "db69aa37476dfdf9abaa2fb01b8bbf1a"
++SRC_URI[sha256sum] = "a50bfe62ad67a24f8b12dd7fd655ac43a0f0299f86ec45b11354f25fbb5829d0"
+ 
+ CVE_PRODUCT = "curl libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
+-- 
+2.7.4
 
