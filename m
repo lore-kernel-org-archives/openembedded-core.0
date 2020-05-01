@@ -1,192 +1,83 @@
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
- by mx.groups.io with SMTP id smtpd.web11.6319.1588321629340942178
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web12.6128.1588321844381139375
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2020 01:27:10 -0700
+ Fri, 01 May 2020 01:30:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.28, mailfrom: andrej.valek@siemens.com)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 0418R6vL003855
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>; Fri, 1 May 2020 10:27:07 +0200
-Received: from dev.vm6.ccp.siemens.com ([158.226.192.212])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id 0418R6ce017476;
-	Fri, 1 May 2020 10:27:06 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 9376998021E;
-	Fri,  1 May 2020 10:27:04 +0200 (CEST)
-From: "Andrej Valek" <andrej.valek@siemens.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: ee.peng.yeoh@intel.com)
+IronPort-SDR: K68pDfZd5554+Ie09B4JbkN73VJIRDUpKpaObIdgm3MiqkSQBM9m3d4kHHfFzyAwt9HZu5slBT
+ wcakV+WhV+dA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2020 01:30:43 -0700
+IronPort-SDR: X3uc4g5Bsmmysd/7yf1dq1bhosrw/f8CgbZSnJgruO8rineZNY3jUXZRThNPdcUqvhrvgixkSv
+ oj0nmn5Xz2kw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,339,1583222400"; 
+   d="scan'208";a="249977793"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga008.fm.intel.com with ESMTP; 01 May 2020 01:30:42 -0700
+From: "Yeoh Ee Peng" <ee.peng.yeoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Andrej Valek <andrej.valek@siemens.com>
-Subject: [OE-core][PATCH] icu: upgrade 66.1 -> 67.1
-Date: Fri,  1 May 2020 10:26:16 +0200
-Message-Id: <20200501082616.11296-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
+Cc: Yeoh Ee Peng <ee.peng.yeoh@intel.com>,
+	Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+Subject: [PATCH v02] selftest/imagefeatures: Enable sanity test for IMAGE_GEN_DEBUGFS
+Date: Fri,  1 May 2020 16:30:39 +0800
+Message-Id: <1588321839-30067-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-- 0001-icu-Added-armeb-support.patch - rebased
-- 0001-Fix-big-endian-build.patch - removed, already included in new version
-- icu-pkgdata-large-cmd.patch - removed, implemented correct size
+Add new testcase to check IMAGE_GEN_DEBUGFS. Test makes
+sure that debug filesystem is created accordingly. Test also check
+for debug symbols for some packages as suggested by Ross Burton.
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+[YOCTO #10906]
+
+Signed-off-by: Humberto Ibarra <humberto.ibarra.lopez@intel.com>
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- .../icu/icu/0001-Fix-big-endian-build.patch        | 28 -------------
- .../icu/icu/0001-icu-Added-armeb-support.patch     |  6 +--
- .../icu/icu/icu-pkgdata-large-cmd.patch            | 49 ----------------------
- .../icu/{icu_66.1.bb => icu_67.1.bb}               |  7 +---
- 4 files changed, 5 insertions(+), 85 deletions(-)
- delete mode 100644 meta/recipes-support/icu/icu/0001-Fix-big-endian-build.patch
- delete mode 100644 meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch
- rename meta/recipes-support/icu/{icu_66.1.bb => icu_67.1.bb} (84%)
+ meta/lib/oeqa/selftest/cases/imagefeatures.py | 32 +++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
 
-diff --git a/meta/recipes-support/icu/icu/0001-Fix-big-endian-build.patch b/meta/recipes-support/icu/icu/0001-Fix-big-endian-build.patch
-deleted file mode 100644
-index 91d68848c7..0000000000
---- a/meta/recipes-support/icu/icu/0001-Fix-big-endian-build.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 9be0b489a94b57419202c552022f25cb95bfac51 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 17 Apr 2019 16:41:58 +0200
--Subject: [PATCH] Fix big-endian build
--
--Bug-report: https://unicode-org.atlassian.net/browse/ICU-20533
--Patch taken from: https://bugs.gentoo.org/682170
--
--it is applied upstream and will be in version 67+
--
--Upstream-Status: Backport [https://github.com/unicode-org/icu/commit/4a3a457b38cd828b7b3fa4fdbc6e2504a57275e9]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- data/Makefile.in | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
----- a/data/Makefile.in
--+++ b/data/Makefile.in
--@@ -148,7 +148,8 @@ ICUDATA_ARCHIVE = $(firstword $(wildcard
-- # and convert it to the current type.
-- ifneq ($(ICUDATA_ARCHIVE),)
-- ICUDATA_SOURCE_ARCHIVE = $(OUTDIR)/$(ICUDATA_PLATFORM_NAME).dat
---$(ICUDATA_SOURCE_ARCHIVE): $(ICUDATA_ARCHIVE) $(OUTDIR)
--+$(ICUDATA_SOURCE_ARCHIVE): $(ICUDATA_ARCHIVE)
--+	$(MKINSTALLDIRS) $(OUTDIR)
-- 	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $(ICUDATA_ARCHIVE) $(ICUDATA_SOURCE_ARCHIVE)
-- endif
-- else
-diff --git a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
-index 299689d95c..145efc0e01 100644
---- a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
-+++ b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
-@@ -13,10 +13,10 @@ Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/lib/oeqa/selftest/cases/imagefeatures.py b/meta/lib/oeqa/selftest/cases/imagefeatures.py
+index 5c519ac..2b9c499 100644
+--- a/meta/lib/oeqa/selftest/cases/imagefeatures.py
++++ b/meta/lib/oeqa/selftest/cases/imagefeatures.py
+@@ -262,3 +262,35 @@ PNBLACKLIST[busybox] = "Don't build this"
+         self.write_config(config)
  
- diff --git a/i18n/double-conversion-utils.h b/i18n/double-conversion-utils.h
--index 1e44fca..e4f2a8b 100644
-+index 8c6a0e1..cf89907 100644
- --- a/i18n/double-conversion-utils.h
- +++ b/i18n/double-conversion-utils.h
--@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
-+@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
-  //
-  // If it prints "correct" then the architecture should be here, in the "correct" section.
-  #if defined(_M_X64) || defined(__x86_64__) || \
-@@ -24,7 +24,7 @@ index 1e44fca..e4f2a8b 100644
- +    defined(__arm__) || defined(__avr32__) || defined(_M_ARM) || defined(_M_ARM64) || \
-      defined(__hppa__) || defined(__ia64__) || \
-      defined(__mips__) || \
--     defined(__powerpc__) || defined(__ppc__) || defined(__ppc64__) || \
-+     defined(__nios2__) || \
- -- 
- 2.7.4
- 
-diff --git a/meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch b/meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch
-deleted file mode 100644
-index e758a623ef..0000000000
---- a/meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--pkgdata.cpp: use LARGE_BUFFER_MAX_SIZE for cmd
--
--Use LARGE_BUFFER_MAX_SIZE for cmd rather than SMALL_BUFFER_MAX_SIZE,
--otherwise there was a Segmentation fault error when the command line is
--long, this should be a misplay since other cmd uses
--LARGE_BUFFER_MAX_SIZE.
--
--Upstream-Status: Pending
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
--Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
-----
-- tools/pkgdata/pkgdata.cpp | 6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/tools/pkgdata/pkgdata.cpp b/tools/pkgdata/pkgdata.cpp
--index 60167dd..506dd32 100644
----- a/tools/pkgdata/pkgdata.cpp
--+++ b/tools/pkgdata/pkgdata.cpp
--@@ -1084,7 +1084,7 @@ normal_symlink_mode:
-- 
-- static int32_t pkg_installLibrary(const char *installDir, const char *targetDir, UBool noVersion) {
--     int32_t result = 0;
---    char cmd[SMALL_BUFFER_MAX_SIZE];
--+    char cmd[LARGE_BUFFER_MAX_SIZE];
-- 
--     sprintf(cmd, "cd %s && %s %s %s%s%s",
--             targetDir,
--@@ -1152,7 +1152,7 @@ static int32_t pkg_installLibrary(const char *installDir, const char *targetDir,
-- 
-- static int32_t pkg_installCommonMode(const char *installDir, const char *fileName) {
--     int32_t result = 0;
---    char cmd[SMALL_BUFFER_MAX_SIZE] = "";
--+    char cmd[LARGE_BUFFER_MAX_SIZE] = "";
-- 
--     if (!T_FileStream_file_exists(installDir)) {
--         UErrorCode status = U_ZERO_ERROR;
--@@ -1184,7 +1184,7 @@ static int32_t pkg_installCommonMode(const char *installDir, const char *fileNam
-- #endif
-- static int32_t pkg_installFileMode(const char *installDir, const char *srcDir, const char *fileListName) {
--     int32_t result = 0;
---    char cmd[SMALL_BUFFER_MAX_SIZE] = "";
--+    char cmd[LARGE_BUFFER_MAX_SIZE] = "";
-- 
--     if (!T_FileStream_file_exists(installDir)) {
--         UErrorCode status = U_ZERO_ERROR;
---- 
--1.9.1
--
-diff --git a/meta/recipes-support/icu/icu_66.1.bb b/meta/recipes-support/icu/icu_67.1.bb
-similarity index 84%
-rename from meta/recipes-support/icu/icu_66.1.bb
-rename to meta/recipes-support/icu/icu_67.1.bb
-index f2bb344e33..58638507c9 100644
---- a/meta/recipes-support/icu/icu_66.1.bb
-+++ b/meta/recipes-support/icu/icu_67.1.bb
-@@ -22,17 +22,15 @@ DATA_SRC_URI = "https://github.com/unicode-org/icu/releases/download/release-${I
- SRC_URI = "${BASE_SRC_URI};name=code \
-            ${DATA_SRC_URI};name=data \
-            file://filter.json \
--           file://icu-pkgdata-large-cmd.patch \
-            file://fix-install-manx.patch \
--           file://0001-Fix-big-endian-build.patch;apply=no \
-            file://0001-icu-Added-armeb-support.patch \
-            "
- 
- SRC_URI_append_class-target = "\
-            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
-           "
--SRC_URI[code.sha256sum] = "52a3f2209ab95559c1cf0a14f24338001f389615bf00e2585ef3dbc43ecf0a2e"
--SRC_URI[data.sha256sum] = "8be647f738891d2beb79d48f99077b3499948430eae6f1be112553b15ab0243e"
-+SRC_URI[code.sha256sum] = "94a80cd6f251a53bd2a997f6f1b5ac6653fe791dfab66e1eb0227740fb86d5dc"
-+SRC_URI[data.sha256sum] = "7c16a59cc8c06128b7ecc1dc4fc056b36b17349312829b17408b9e67b05c4a7e"
- 
- UPSTREAM_CHECK_REGEX = "icu4c-(?P<pver>\d+(_\d+)+)-src"
- UPSTREAM_CHECK_URI = "https://github.com/unicode-org/icu/releases"
-@@ -43,7 +41,6 @@ do_make_icudata_class-target () {
-     cd ${S}
-     rm -rf data
-     cp -a ${WORKDIR}/data .
--    patch -p1 < ${WORKDIR}/0001-Fix-big-endian-build.patch
-     AR='${BUILD_AR}' \
-     CC='${BUILD_CC}' \
-     CPP='${BUILD_CPP}' \
+         bitbake("--graphviz core-image-sato")
++
++    def test_image_gen_debugfs(self):
++        """
++        Summary:     Check debugfs generation
++        Expected:    1. core-image-minimal can be build with IMAGE_GEN_DEBUGFS variable set
++                     2. debug filesystem is created when variable set
++                     3. debug symbols available
++        Product:     oe-core
++        Author:      Humberto Ibarra <humberto.ibarra.lopez@intel.com>
++                     Yeoh Ee Peng <ee.peng.yeoh@intel.com>
++        """
++        import glob
++        image_name = 'core-image-minimal'
++        features = 'IMAGE_GEN_DEBUGFS = "1"\n'
++        features += 'IMAGE_FSTYPES_DEBUGFS = "tar.bz2"\n'
++        features += 'MACHINE = "genericx86-64"\n'
++        self.write_config(features)
++
++        bitbake(image_name)
++        deploy_dir_image = get_bb_var('DEPLOY_DIR_IMAGE')
++        dbg_tar_file = os.path.join(deploy_dir_image, "*-dbg.rootfs.tar.bz2")
++        debug_files = glob.glob(dbg_tar_file)
++        self.assertNotEqual(len(debug_files), 0, 'debug filesystem not generated at %s' % dbg_tar_file)
++        result = runCmd('cd %s; tar xvf %s' % (deploy_dir_image, dbg_tar_file))
++        self.assertEqual(result.status, 0, msg='Failed to extract %s: %s' % (dbg_tar_file, result.output))
++        result = runCmd('find %s -name %s' % (deploy_dir_image, "udevadm"))
++        self.assertTrue("udevadm" in result.output, msg='Failed to find udevadm: %s' % result.output)
++        dbg_symbols_targets = result.output.splitlines()
++        self.assertTrue(dbg_symbols_targets, msg='Failed to split udevadm: %s' % dbg_symbols_targets)
++        for t in dbg_symbols_targets:
++            result = runCmd('objdump --syms %s | grep debug' % t)
++            self.assertTrue("debug" in result.output, msg='Failed to find debug symbol: %s' % result.output)
 -- 
-2.11.0
+2.7.4
 
