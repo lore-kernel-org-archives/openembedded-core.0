@@ -1,126 +1,196 @@
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.111])
- by mx.groups.io with SMTP id smtpd.web12.7669.1588331546752700402
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+ by mx.groups.io with SMTP id smtpd.web12.8090.1588333511685319828
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 May 2020 04:12:30 -0700
+ Fri, 01 May 2020 04:45:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@prevas.dk header.s=selector1 header.b=H7tR4WBJ;
- spf=pass (domain: prevas.dk, ip: 40.107.8.111, mailfrom: rasmus.villemoes@prevas.dk)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Jt2e0Aj98Iu6uOQo+7p0kSqqay+imTidbZSmKwTzooN8Jal6bHaLpiUZ5O1k90P0vTQA0a/3aBf3aR8ToxB6Q675uwkN3PkGiwAjFAnLX9P5rlnHMxpZORb1Ztg9j+d1cMMVh9FSmaMlMMpcC7/lKG/Dw11cjrgsHx/v6D/a96Oso4pZZ4muFIpygU9g6FTroHDWpxCSV6wFwLxz7cIeH9x0LoXE5LTReGJyi/mBijGNdM7K8uIelcLdfsOEhKp0YncOlO0p/EFXDzVBTqrArGJw4LJNPny+pqsb7ChyaVERtf2SZF6eSVYzqxO9W0eBaZ6Xq79oTHz4pXtjsN9WAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dKC9WuuyepcZzQvZQtE/FauVpFJrvutTNagZR5gVcyg=;
- b=ZZyzw1NBfg2qvuTsDcazz4yEYeLjiaFqt4Z0l1Ye/3caRBkygo3t4ffNOTfh/nM/frFmc7PqWuPf7U4CZpxDaGs2sIhNwUnnqvbnvu1edMvQoV6UFGK8kkT59zwHirWxphj9VtkHcsYi6SMHqtYFsYQ1wygxXjoo15AQu8hxWAqroao2/hVn54hEafDzRmimUhh9h/KI/yOHVfJR/mfwgtVg9iHvfKcjNCFmn1lKubbsYpB3y6WsLBjYyFgkGCCy907rkwoieorviYBWRrNtlsdiO0BxeWBV5c7sC7wvkbxFNZbHG+UmwztHytb/+BjCDD7rjVOje8W8RTZUh3O6fQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
- dkim=pass header.d=prevas.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dKC9WuuyepcZzQvZQtE/FauVpFJrvutTNagZR5gVcyg=;
- b=H7tR4WBJOHwmupijlY8GzUC3bEeo2v8IePKYFjDPJrlPS3x0R6b0GHpEx3ZQNp7b7J8RkpftM5qoDoufcdwlcQ/Orhu6N+6udbygwGyOlOJfRDx5EA7Dxcne3MxLS592xTkUqXtKRyQ102OVYZ6441LLy8ydL5whkow6NJqIpjY=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=prevas.dk;
-Received: from VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:e1::21)
- by VI1PR10MB3535.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:13e::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.21; Fri, 1 May
- 2020 11:12:24 +0000
-Received: from VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::f0ac:4e97:2536:faa]) by VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::f0ac:4e97:2536:faa%7]) with mapi id 15.20.2958.020; Fri, 1 May 2020
- 11:12:24 +0000
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
-Subject: Hard-linking to u-boot source files considered harmful
-Message-ID: <048dae33-f047-7672-5ef4-9bf32f027568@prevas.dk>
-Date: Fri, 1 May 2020 13:12:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-X-ClientProxiedBy: AM6PR01CA0071.eurprd01.prod.exchangelabs.com
- (2603:10a6:20b:e0::48) To VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:803:e1::21)
-Return-Path: rasmus.villemoes@prevas.dk
+ dkim=missing; spf=pass (domain: siemens.com, ip: 192.35.17.28, mailfrom: andrej.valek@siemens.com)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 041Bj9i6032060
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>; Fri, 1 May 2020 13:45:09 +0200
+Received: from dev.vm6.ccp.siemens.com ([158.226.192.212])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id 041Bj8dg018936;
+	Fri, 1 May 2020 13:45:09 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 78D2698021E;
+	Fri,  1 May 2020 13:45:08 +0200 (CEST)
+From: "Andrej Valek" <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Andrej Valek <andrej.valek@siemens.com>
+Subject: [OE-core][PATCH v3] icu: upgrade 66.1 -> 67.1
+Date: Fri,  1 May 2020 13:39:52 +0200
+Message-Id: <20200501113952.15847-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.149] (5.186.116.45) by AM6PR01CA0071.eurprd01.prod.exchangelabs.com (2603:10a6:20b:e0::48) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.20 via Frontend Transport; Fri, 1 May 2020 11:12:23 +0000
-X-Originating-IP: [5.186.116.45]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 0fa2f3e3-a878-4484-b3d6-08d7edc08668
-X-MS-TrafficTypeDiagnostic: VI1PR10MB3535:
-X-Microsoft-Antispam-PRVS: 
-	<VI1PR10MB3535110DF36B48431CBC3B0C93AB0@VI1PR10MB3535.EURPRD10.PROD.OUTLOOK.COM>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0390DB4BDA
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	ZwB5IzuaX6y+2ZVrW2OLQDQ+kizun+aanbDpLa897EkO2D7tm6MVJRuxKrRvpHnJTgdn+X4VT8SFEStOFZVTW/CXbiCDsgZ5RmRFQXqWIQwCG8HWf9bFgbW7zobIoCsmawccJV8pBEE2NAtns9RM4h9JN9zAEhXFuvGgZJ/6yMKveC1XH7PL5g5q6WojvXcXB19UOzeZsC10I5Gul5cUl7FqUNv48+1+T93WCNhkKiEsf3uDBv67Y/D+XgWlteUiW2NzfF+XWdCabj9sM3GN594U9cETuK3ekVjoGPtx+puSB8vrbXsM/KDWoPUQj2jKrBeIYvhX05CaBARsxJTaxJsAnWfPYQskKBxiopbdbMzQbHtIdRBTdxMNQ//UZhY9Mb6BsmJAZVUtjBW2gOvLmax8E7ggg5uLrxsia8h4xCrmqfEWE9RIuNR0HR9Up2Pc
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(396003)(366004)(39840400004)(346002)(376002)(136003)(6486002)(52116002)(31686004)(8936002)(6916009)(86362001)(26005)(8976002)(5660300002)(8676002)(2616005)(956004)(36756003)(186003)(66476007)(66946007)(66556008)(2906002)(478600001)(316002)(44832011)(16576012)(16526019)(31696002);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData: 
-	V4cc60YFQpHYjqQfFuEyyz/US5aob6iS0VTkeh8x7peHz4o7FGiURDAU3rV1NVnwz48hFGLD8xhO3RJaVWZ+Gebb5W7JGyyIlfOd703B18mq/Abnf5v1NZFSEvc5J+d3nsVWT21eWeiLTbnyGr7SblcJXlo+32y2ZzqDCVR/pDxAQfpY6XpQ4CJUjeq6q97P+iIHA65TrZMC2cNETc2Lk2Sp3/MKsRtTS/nSK/g48XTwBRfw8stHCCEtYcORCUWHdz5C3maDQ/kjgER4mmes2e6MGErkfRiu8VCf/OZJKNyYWH5LVt8+wQUk4k6pReaDx1tXOgyrnmHxy/arHaC/iijex6tKgbI3kIgfi36NxgWzf80c5ob2Oc92BTE+NoKgikiBHX55uVtqsDMwnFV0DPbBbMi2aY9rZug6qYjje246C03FuWgF3ccXATwikJzDNEHyU79tKX8kfgp6YzAfVt8nY3LA+Vm4VmxWAefNZv752RO2o4QJAiTvXMO9yjjgng25tzAQzMX5ufZHGYo0Nw95qynbwDwfmrRKrh39OWaf16vJNvMXlAgJE25hTL49tP+SWHMgB/062dF5tWwjy09UMk1r8gWHaAmV7VUZ2ighzNHUsthZrmEzm1+/J0NI5/QHXD0linVQlOyXxE1sicoURi2Ht0UIsZRAshm7CNz4kUnKmsny/SY+ieHImb9B7ELRnAfv48A7lqeYr8WsePTiBMnYJClrHYezTem9SUXYU0oh8Sa10CrqvZk8+bFT3S4aEhsgP0cwT9/rlFHOHj1ul21TAX/PbXA1K/vi8hA=
-X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0fa2f3e3-a878-4484-b3d6-08d7edc08668
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2020 11:12:24.2935
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IF1h7OXuWWlfoJqsnz5WG1FcoOBFsPQ5gtqfHeN9V3dpBNp0PrwIHpxnK4srbdnZ35YAcr/3/pLTIAf5ES1PWXXMLcgXi1zolgI22W7fyGc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3535
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+In-Reply-To: <20200501082616.11296-1-andrej.valek@siemens.com>
+References: <20200501082616.11296-1-andrej.valek@siemens.com>
 Content-Transfer-Encoding: 7bit
 
-I was wondering why my U-Boot build would always report as coming from a
--dirty directory. The /git source directory was completely clean and
-matched the desired commit.
+- 0001-icu-Added-armeb-support.patch - rebased
+- 0001-Fix-big-endian-build.patch - removed, already included in new version
+- icu-pkgdata-large-cmd.patch - removed, implemented correct size
 
-But the -dirty is appended by the scripts/setlocalversion (linux uses
-the same script) if
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+---
+ .../icu/icu/0001-Fix-big-endian-build.patch        | 28 -------------
+ .../icu/icu/0001-icu-Added-armeb-support.patch     |  6 +--
+ .../icu/icu/icu-pkgdata-large-cmd.patch            | 49 ----------------------
+ .../icu/{icu_66.1.bb => icu_67.1.bb}               |  7 +---
+ 4 files changed, 5 insertions(+), 85 deletions(-)
+ delete mode 100644 meta/recipes-support/icu/icu/0001-Fix-big-endian-build.patch
+ delete mode 100644 meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch
+ rename meta/recipes-support/icu/{icu_66.1.bb => icu_67.1.bb} (84%)
 
-  git diff-index --name-only HEAD
+diff --git a/meta/recipes-support/icu/icu/0001-Fix-big-endian-build.patch b/meta/recipes-support/icu/icu/0001-Fix-big-endian-build.patch
+deleted file mode 100644
+index 91d68848c7..0000000000
+--- a/meta/recipes-support/icu/icu/0001-Fix-big-endian-build.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 9be0b489a94b57419202c552022f25cb95bfac51 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Wed, 17 Apr 2019 16:41:58 +0200
+-Subject: [PATCH] Fix big-endian build
+-
+-Bug-report: https://unicode-org.atlassian.net/browse/ICU-20533
+-Patch taken from: https://bugs.gentoo.org/682170
+-
+-it is applied upstream and will be in version 67+
+-
+-Upstream-Status: Backport [https://github.com/unicode-org/icu/commit/4a3a457b38cd828b7b3fa4fdbc6e2504a57275e9]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- data/Makefile.in | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+---- a/data/Makefile.in
+-+++ b/data/Makefile.in
+-@@ -148,7 +148,8 @@ ICUDATA_ARCHIVE = $(firstword $(wildcard
+- # and convert it to the current type.
+- ifneq ($(ICUDATA_ARCHIVE),)
+- ICUDATA_SOURCE_ARCHIVE = $(OUTDIR)/$(ICUDATA_PLATFORM_NAME).dat
+--$(ICUDATA_SOURCE_ARCHIVE): $(ICUDATA_ARCHIVE) $(OUTDIR)
+-+$(ICUDATA_SOURCE_ARCHIVE): $(ICUDATA_ARCHIVE)
+-+	$(MKINSTALLDIRS) $(OUTDIR)
+- 	$(INVOKE) $(TOOLBINDIR)/icupkg -t$(ICUDATA_CHAR) $(ICUDATA_ARCHIVE) $(ICUDATA_SOURCE_ARCHIVE)
+- endif
+- else
+diff --git a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+index 299689d95c..145efc0e01 100644
+--- a/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
++++ b/meta/recipes-support/icu/icu/0001-icu-Added-armeb-support.patch
+@@ -13,10 +13,10 @@ Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/i18n/double-conversion-utils.h b/i18n/double-conversion-utils.h
+-index 1e44fca..e4f2a8b 100644
++index 8c6a0e1..cf89907 100644
+ --- a/i18n/double-conversion-utils.h
+ +++ b/i18n/double-conversion-utils.h
+-@@ -92,7 +92,7 @@ int main(int argc, char** argv) {
++@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
+  //
+  // If it prints "correct" then the architecture should be here, in the "correct" section.
+  #if defined(_M_X64) || defined(__x86_64__) || \
+@@ -24,7 +24,7 @@ index 1e44fca..e4f2a8b 100644
+ +    defined(__arm__) || defined(__avr32__) || defined(_M_ARM) || defined(_M_ARM64) || \
+      defined(__hppa__) || defined(__ia64__) || \
+      defined(__mips__) || \
+-     defined(__powerpc__) || defined(__ppc__) || defined(__ppc64__) || \
++     defined(__nios2__) || \
+ -- 
+ 2.7.4
+ 
+diff --git a/meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch b/meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch
+deleted file mode 100644
+index e758a623ef..0000000000
+--- a/meta/recipes-support/icu/icu/icu-pkgdata-large-cmd.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-pkgdata.cpp: use LARGE_BUFFER_MAX_SIZE for cmd
+-
+-Use LARGE_BUFFER_MAX_SIZE for cmd rather than SMALL_BUFFER_MAX_SIZE,
+-otherwise there was a Segmentation fault error when the command line is
+-long, this should be a misplay since other cmd uses
+-LARGE_BUFFER_MAX_SIZE.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+----
+- tools/pkgdata/pkgdata.cpp | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/tools/pkgdata/pkgdata.cpp b/tools/pkgdata/pkgdata.cpp
+-index 60167dd..506dd32 100644
+---- a/tools/pkgdata/pkgdata.cpp
+-+++ b/tools/pkgdata/pkgdata.cpp
+-@@ -1084,7 +1084,7 @@ normal_symlink_mode:
+- 
+- static int32_t pkg_installLibrary(const char *installDir, const char *targetDir, UBool noVersion) {
+-     int32_t result = 0;
+--    char cmd[SMALL_BUFFER_MAX_SIZE];
+-+    char cmd[LARGE_BUFFER_MAX_SIZE];
+- 
+-     sprintf(cmd, "cd %s && %s %s %s%s%s",
+-             targetDir,
+-@@ -1152,7 +1152,7 @@ static int32_t pkg_installLibrary(const char *installDir, const char *targetDir,
+- 
+- static int32_t pkg_installCommonMode(const char *installDir, const char *fileName) {
+-     int32_t result = 0;
+--    char cmd[SMALL_BUFFER_MAX_SIZE] = "";
+-+    char cmd[LARGE_BUFFER_MAX_SIZE] = "";
+- 
+-     if (!T_FileStream_file_exists(installDir)) {
+-         UErrorCode status = U_ZERO_ERROR;
+-@@ -1184,7 +1184,7 @@ static int32_t pkg_installCommonMode(const char *installDir, const char *fileNam
+- #endif
+- static int32_t pkg_installFileMode(const char *installDir, const char *srcDir, const char *fileListName) {
+-     int32_t result = 0;
+--    char cmd[SMALL_BUFFER_MAX_SIZE] = "";
+-+    char cmd[LARGE_BUFFER_MAX_SIZE] = "";
+- 
+-     if (!T_FileStream_file_exists(installDir)) {
+-         UErrorCode status = U_ZERO_ERROR;
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-support/icu/icu_66.1.bb b/meta/recipes-support/icu/icu_67.1.bb
+similarity index 84%
+rename from meta/recipes-support/icu/icu_66.1.bb
+rename to meta/recipes-support/icu/icu_67.1.bb
+index f2bb344e33..58638507c9 100644
+--- a/meta/recipes-support/icu/icu_66.1.bb
++++ b/meta/recipes-support/icu/icu_67.1.bb
+@@ -22,17 +22,15 @@ DATA_SRC_URI = "https://github.com/unicode-org/icu/releases/download/release-${I
+ SRC_URI = "${BASE_SRC_URI};name=code \
+            ${DATA_SRC_URI};name=data \
+            file://filter.json \
+-           file://icu-pkgdata-large-cmd.patch \
+            file://fix-install-manx.patch \
+-           file://0001-Fix-big-endian-build.patch;apply=no \
+            file://0001-icu-Added-armeb-support.patch \
+            "
+ 
+ SRC_URI_append_class-target = "\
+            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+           "
+-SRC_URI[code.sha256sum] = "52a3f2209ab95559c1cf0a14f24338001f389615bf00e2585ef3dbc43ecf0a2e"
+-SRC_URI[data.sha256sum] = "8be647f738891d2beb79d48f99077b3499948430eae6f1be112553b15ab0243e"
++SRC_URI[code.sha256sum] = "94a80cd6f251a53bd2a997f6f1b5ac6653fe791dfab66e1eb0227740fb86d5dc"
++SRC_URI[data.sha256sum] = "7c16a59cc8c06128b7ecc1dc4fc056b36b17349312829b17408b9e67b05c4a7e"
+ 
+ UPSTREAM_CHECK_REGEX = "icu4c-(?P<pver>\d+(_\d+)+)-src"
+ UPSTREAM_CHECK_URI = "https://github.com/unicode-org/icu/releases"
+@@ -43,7 +41,6 @@ do_make_icudata_class-target () {
+     cd ${S}
+     rm -rf data
+     cp -a ${WORKDIR}/data .
+-    patch -p1 < ${WORKDIR}/0001-Fix-big-endian-build.patch
+     AR='${BUILD_AR}' \
+     CC='${BUILD_CC}' \
+     CPP='${BUILD_CPP}' \
+-- 
+2.11.0
 
-reports anything (mind you, you have to run that command before running
-"git status" - the latter will update git's index so the diff-index may
-no longer print anything). Indeed, that prints
-
-  Licenses/gpl-2.0.txt
-
-The reason diff-index thinks that might be changed is that, since the
-git checkout, that file has had its nlinks (and consequently ctime)
-modified:
-
-  File: Licenses/gpl-2.0.txt
-  Size: 18092           Blocks: 40         IO Block: 4096   regular file
-Device: 811h/2065d      Inode: 41445215    Links: 3
-Access: (0644/-rw-r--r--)  Uid: ( 1000/    ravi)   Gid: ( 1001/  abcdef)
-Access: 2020-05-01 12:04:47.708081401 +0200
-Modify: 2020-05-01 12:04:45.756078017 +0200
-Change: 2020-05-01 12:04:48.032081963 +0200
- Birth: -
-
-And who creates those extra links? do_populate_lic (and perhaps some
-other task later yet). Since that is just "after patch before build", it
-is almost certain to get run before the compile task gets around to
-invoking setlocalversion and thus create the
-include/config/uboot.release file. A crude hack that just forces
-do_populate_lic after do_install indeed makes the -dirty go away. Or, an
-even cruder hack, prepending a "git status" done in ${S} to do_compile
-causes git to refresh its index.
-
-I have tons of ways of working around this, but the question is, is the
-optimization of using hard links really worth it? If it is, can we at
-least have a "do not ever create hard links to stuff under ${S}"
-per-recipe variable, defaulting to 1 if the "primary" SRC_URI (yeah,
-that concept probably doesn't exist) is a git:// one?
-
-do_populate_lic is not the only offender, btw., there's apparently also
-some create-debug-package-with-sources that will do the same thing, but
-I think that will by its nature always run after any configure/compile
-step that uses git to create some version.
-
-Rasmus
