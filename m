@@ -1,87 +1,157 @@
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com [209.85.166.194])
- by mx.groups.io with SMTP id smtpd.web11.513.1588286366602535396
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.2591.1588296375327785705
  for <openembedded-core@lists.openembedded.org>;
- Thu, 30 Apr 2020 15:39:26 -0700
+ Thu, 30 Apr 2020 18:26:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=kdO8Tl3t;
- spf=softfail (domain: sakoman.com, ip: 209.85.166.194, mailfrom: steve@sakoman.com)
-Received: by mail-il1-f194.google.com with SMTP id f82so2952954ilh.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 30 Apr 2020 15:39:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=VPD4iKUdAbsSnAiw3g5q3RFdrLDXFk0gmUyj97qekmE=;
-        b=kdO8Tl3t7RgEoo3XQhtX0G0BAM/XxZsbwgw5ZS1hgXPCV4nEugjLUBjMGEvIJPWa8P
-         lv5Dx63+VGOZLww5sPvuGQvHyhTw9THhU/D955YIAilc6FbSp/o3b6TfWunhb1rElw4P
-         qWEJv7msj3scOxPvjh1et+uTA9jS26W1g34fByoflsRd6Q10DLNfEhLpXqkbrhCMbUdz
-         ZcXXfV085hSKMM8E00wYXPp1LwEO5LTJiSJbmdPmG9KlUpgd6BbAByAaF2BHsMJH3Ji4
-         9cTzGph5umewZMeS3nkinatN+VoE0FhpWNL6/J3TXN+ee7Aa5+LWzJBSwqmqe75C3dSm
-         N1EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=VPD4iKUdAbsSnAiw3g5q3RFdrLDXFk0gmUyj97qekmE=;
-        b=P3v/hZX95f/boFhasP/j7Ch+WSCEiZFt9D4b6SSoYomO5s6m0IjymaRVSfgD0Gg1P9
-         BZ6NYn3scxoMOtbgSdpbuOba0ofxjN20bIoGK7p45gfDJouKSx/EfxSdi1gpG5zFCIfS
-         rAb5d67KmoxsdYw/E319P7Ew6Mi4hIVfH63QBB4NbHaM8ubCa84WSKUigkYlElIekyHo
-         usbxgdbK+Y/MgDrXc2kR5J/YMB8UOGPFF44QjT+LtPVAuYjpqd5dxCcbawFUEzx1Jv7K
-         Ege6mpFq0icxsrnpEpg9hu/xNuTJgmj5p84Yj2oiQQSj5Q0LTjDtFMh9Eyzy9ej2PVSF
-         eE+A==
-X-Gm-Message-State: AGi0Puarl4jUhQ/3mrMh1VY5nRWaX4Yph145acbHCzzQ5XF/7LR7+0uL
-	oSX3b3AnijK2leYNkJqjqs+oey5NhehMeg==
-X-Google-Smtp-Source: APiQypJXFSdgl62OD7Y9VwoxqAe1rzPOT1gY9jVRCdx2KF3FnOH9WkcdSOtp83IJmEmtzQS1y6XhrQ==
-X-Received: by 2002:a63:b51b:: with SMTP id y27mr1115134pge.400.1588285872882;
-        Thu, 30 Apr 2020 15:31:12 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id d124sm646011pfa.98.2020.04.30.15.31.11
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2020 15:31:12 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell v2 10/14] ell: upgrade 0.30 -> 0.31
-Date: Thu, 30 Apr 2020 12:30:15 -1000
-Message-Id: <c1892a1074560e27671975f4b9fb92468d9874da.1588285073.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1588285073.git.steve@sakoman.com>
-References: <cover.1588285073.git.steve@sakoman.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: randy.macleod@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0411P7sH013825
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Thu, 30 Apr 2020 18:25:18 -0700
+Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 30 Apr
+ 2020 18:24:56 -0700
+Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+        Rahul Kumar
+	<rahulk@mvista.com>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+        OE-core
+	<openembedded-core@lists.openembedded.org>,
+        Trevor Gamblin
+	<trevor.gamblin@windriver.com>
+References: <1587667187-14130-1-git-send-email-rahulk@mvista.com>
+ <e4d2de1d300677bf61ec737d8847dd7dea967840.camel@linuxfoundation.org>
+ <CANv91vNTDMES=ZCWUsEDWycsBW1kyy_dWNc62+93GozCMz1kUw@mail.gmail.com>
+ <CANNYZj_61NP5ZSVHA5UWJN_s86esbc-1nEu2gDdmvMn6AGqRAg@mail.gmail.com>
+ <543d70c2321008a46e4f21bf84fd3963624e655b.camel@linuxfoundation.org>
+ <CANv91vOeLhAdf5RVzQ6Ftc+Y4eQH963BYcEVfmMJaKcYg_GFTw@mail.gmail.com>
+ <CANNYZj801ksp6hFqRzkU3A8qXptrHdm-GBZLPespsoir59Tx9w@mail.gmail.com>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <57f47042-407c-7fe6-008c-adc509331f6e@windriver.com>
+Date: Thu, 30 Apr 2020 21:24:53 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj801ksp6hFqRzkU3A8qXptrHdm-GBZLPespsoir59Tx9w@mail.gmail.com>
+X-Originating-IP: [172.25.44.3]
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
-From: Pierre-Jean Texier <pjtexier@koncepto.io>
+On 2020-04-27 3:39 p.m., Alexander Kanavin wrote:
+> You need to first see from the failure page which configuration is 
+> failing, for example non-gpl3 is one such.
+> 
+> Then you find that configuration in config.json. The below should 
+> hopefully be self-explanatory in how you should set up the build?
+> 
+> |"non-gpl3" : { "NEEDREPOS" : ["poky", "meta-gplv2"], "MACHINE" : 
+> "qemux86", "BBTARGETS" : "core-image-minimal core-image-full-cmdline", 
+> "extravars" : [ "INCOMPATIBLE_LICENSE = '*GPLv3'", "WARN_QA_remove = 
+> 'incompatible-license'" ], "EXTRACMDS" : [ 
+> "../../yocto-autobuilder-helper/scripts/check-gplv3" ] },
+> 
+> |
+> 
+> |
+> |
+> 
+> |Alex
 
-This is a bugfix release:
+Hi Rahul,
 
-ver 0.31:
-	Fix issue with verification of the second certificate in chain.
-	Fix issue with handling trusted CA matching in verification.
+Sorry for my late reply.
 
-Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-core/ell/{ell_0.30.bb => ell_0.31.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/ell/{ell_0.30.bb => ell_0.31.bb} (83%)
+The commit log for v2 is very good now!
+Thanks for incorporating my --pedantic suggestions. ;-)
 
-diff --git a/meta/recipes-core/ell/ell_0.30.bb b/meta/recipes-core/ell/ell_0.31.bb
-similarity index 83%
-rename from meta/recipes-core/ell/ell_0.30.bb
-rename to meta/recipes-core/ell/ell_0.31.bb
-index 17045b3ae5..1db7131ab0 100644
---- a/meta/recipes-core/ell/ell_0.30.bb
-+++ b/meta/recipes-core/ell/ell_0.31.bb
-@@ -14,8 +14,8 @@ DEPENDS = "dbus"
- inherit autotools pkgconfig
- 
- SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "79c757858688cc6c36087605234d87a8"
--SRC_URI[sha256sum] = "51cf8cc66a9d1038e41f7d619ea5660aa4476904496562b2d45ca79370ca4a5e"
-+SRC_URI[md5sum] = "3f670230be4d89d621b0508c70b1d36b"
-+SRC_URI[sha256sum] = "ae88617275452f9f5840b2365e33e6c7fb6fa3405d42cbf9367de642ee8b6701"
- 
- do_configure_prepend () {
-     mkdir -p ${S}/build-aux
+It seems that you need a perl dependency for something (docs?
+    $ cd .../bzip2.git
+    $ grep -r "perl " *
+    format.pl:#!/usr/bin/perl -w
+    README.XML.STUFF:It uses format.pl, a perl script...
+
+Then we need to figure out how to deal with the GPLv3 issue.
+
+The buildbot output can be tedious to figure out. I haven't really
+spent enough time plugging away at it to be proficient yet either.
+Have you been able to reproduce the problems that Richard reported?
+If not, and you've tried for a bit, then just say so and I'll try to
+help tomorrow or early next week.
+
+It looks like you are packaging the test code/data with the main package 
+not in bzip2-ptest. Have a look at:
+    meta/recipes-support/libpcre/libpcre_8.44.bb
+for an example. There are many more.
+Also, if you look at oe-core.git:
+    $ rgrep LICENSE_ *  | grep PN
+you can see many examples of sub-packages with different licenses
+than the main package. One example is:
+    meta/recipes-support/gnutls/gnutls_3.6.13.bb
+I hope that can address the buildbot problem but I haven't tried it
+myself yet.
+
+BTW, Trevor has gotten the YP autobuilder going at Wind River and
+he'll be sending a few documentation updates next week or so.
+That may help in case you want to reproduce the YP AB test
+infrastructure. I expect that you don't _have_ to do so but
+I think it would be good if more contributing organizations did
+have an instance with only limited builders of the YP AB so that
+we can do more testing before Richard runs our changes through
+the main system. Richard has cautioned that the YP AB has lots of
+builders each of which has many cores but I hope that we can at least
+do some AB checking ourselves.
+
+../Randy
+
+
+> |
+> 
+> 
+> On Mon, 27 Apr 2020 at 20:54, Rahul Kumar <rahulk@mvista.com 
+> <mailto:rahulk@mvista.com>> wrote:
+> 
+>     Hi Richard/Alexander,
+> 
+>     I am not able to understand how I can use the below file.
+>     http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json
+> 
+>     did you mean to say that i have to set MACRO in local.conf based on
+>     this file.
+> 
+>     *Thanks & Regards,*
+>     Rahul Kumar
+>     Software Engineer,Linux Solutions Engineering
+>     Group,Montavista Software LLC
+>     Email Id: rahulk@mvista.com <mailto:rahulk@mvista.com>
+>     <https://plus.google.com/+CodeTwoSoftware>
+> 
+> 
+>     On Mon, Apr 27, 2020 at 11:46 PM Richard Purdie
+>     <richard.purdie@linuxfoundation.org
+>     <mailto:richard.purdie@linuxfoundation.org>> wrote:
+> 
+>         On Mon, 2020-04-27 at 18:30 +0200, Alexander Kanavin wrote:
+>          > You need to look at configurations defined here:
+>          >
+>         http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json
+>          > and replicate them locally. Then you can reproduce the
+>         failures that
+>          > the AB gets in those configurations.
+> 
+>         That start of the failing logs on the autobuilder also list out the
+>         configuration options for that build.
+> 
+>         Cheers,
+> 
+>         Richard
+> 
+> 
+> 
+> 
+
+
 -- 
-2.17.1
-
+# Randy MacLeod
+# Wind River Linux
