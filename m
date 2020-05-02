@@ -1,119 +1,102 @@
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com [209.85.222.68])
- by mx.groups.io with SMTP id smtpd.web12.11918.1588449343577061518
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
+ by mx.groups.io with SMTP id smtpd.web10.12740.1588452992144308170
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2020 12:55:43 -0700
+ Sat, 02 May 2020 13:56:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=h2JstaIe;
- spf=pass (domain: gmail.com, ip: 209.85.222.68, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f68.google.com with SMTP id z16so5007690uae.11
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2020 12:55:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=j+LP676E;
+ spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f196.google.com with SMTP id o18so1233814pgg.8
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2020 13:56:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+Q+gRTcBtEoGKMMhK+kWtG5wv6f0B6VLI4OSQfwXdx8=;
-        b=h2JstaIepkAFVmC6n665HnOyafNd43RKrifzv2WEMBZa4zGsGUAmDg7SGFNDup1kkK
-         +i8TDdYiAAVinn94la+5UVVWmLJCQAYhioC3XgXSL93oM4lXjpvGV0XzWVMnoRDJw5z6
-         Bs8paa6UOJK1ESj7S2AK9BrFdr7p4F8iPWWsQMjFaKQJoUaEn3O7FFV8bODMShwCpJZs
-         F7vVahVptDRxNB5MpFcdybMWU17j6nKunDFVtWWRvz+EWtQWW14oJB/ZaepdaVVT01/a
-         wWiV8HHdMlza5SrQZ+zDX1n1dIUF+b1WDET+wouthr7HngSM81SH36Q+vI8wyIP24VsR
-         kHIw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XmRZMkjx25lbdH2B1CVwrx/WrGLmfSnAM8uv6dnUO/Y=;
+        b=j+LP676EcrB2ytMJhNZpjDmR0UW9C/EVeIEuC2nPN3MJozyWcZCWCIu0kg2sLpok+u
+         Q+gKnFVz2vkYO/j8NWyMxmhqGD30WJRQLTRteWJPQ70gtayFQIznrYXIpxKaMEvsP6Sg
+         snXG9Ghx1kS5gEdzqowSMXAmoUYZh+EyPIgi/NrI0zljEg0XjrvI+HnjZ1eXL5GktCYS
+         J7+SXvJoXhpKJM4RoZQg7UUP+sz9tULkiFqxJ7guBhjGvxvGB6yL80Kbsc07pbXjPzSH
+         N6meZ2pzqdyO6E4Bamyo/1a5Fe7ZxnnWQmA9PxuOr7peZBy5EV3hQbGwsRFWV8Jz/s70
+         fqZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+Q+gRTcBtEoGKMMhK+kWtG5wv6f0B6VLI4OSQfwXdx8=;
-        b=l1WUl81X8Q0/lxP5ksZswH/IcTOcxFl6kOgdlj7B0x6lGaHfMoWCvxz9nzYo9MILnD
-         yQ5MihYnXvGt5UIo2e0tXwPoV3WquJGlOMFAYuEmc1/gW5de/702Ayjhv89D4bZgGj/D
-         oDFw93MRNLs95kYIhCVNd4ugg2+BtJIRs4JJDEp/F8S+N3nUvwVCgqafMqMAdxLHv3cK
-         pIx5bQY4Byqvv/lQHADYrxu2WHMqg0f+Nc55875kNlqYQ09eauOXaM4/yT2yzksYKGQW
-         oVZkpS0/zDR7nPcjq410YWf/lztFcAkg8wTjotWxX/gdjUsyLvPrDxC4Nl8T8tDd8XNH
-         xXrA==
-X-Gm-Message-State: AGi0PuZvBbt03ebrmLN+UM0X+z7Eu+wPPuvJ7BBnh+FG1YpWIe4HVBwd
-	7V/ki2ar2FSfxAuleT0eoP6MpZsmUEjiOFIJxOA=
-X-Google-Smtp-Source: APiQypKB+4KCvDMp1V4kqZYNgcN5pTSHksiUAdbo1zh5/CNJPUb6PXd3srohl/F4U8AFuwvql5ppaFgffz5y00+ihKs=
-X-Received: by 2002:ab0:6313:: with SMTP id a19mr1370606uap.71.1588449342698;
- Sat, 02 May 2020 12:55:42 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XmRZMkjx25lbdH2B1CVwrx/WrGLmfSnAM8uv6dnUO/Y=;
+        b=o/DsBjJ8GXv28qTy5ELCSM1og/UIbqffcqWDXBaOQNQtQ7XtPFGNGS6PfixDMxmPDY
+         nv6EHvLb8AUbDajjGwjdQTlE2bihCoux/AkQD9TsugPRCtelc8zhlId0tw8N/Vos+hjh
+         heSYCp9GEY9AqE1P7T37eRCD/LlN6NH0qsH5wLPhfJwSkDNozhQWFa7jCPJdGz3XW4R6
+         0l/QJ2D809BWVX6dd5jxLjLtXj2ImCeMDqOFV9VqDiofZXvBohp8eCpGvPQG7SVKDJh1
+         igkhlmvASHrAzeWxMgZovLfTAy7KphNYKT/RI6IcC4bplL+zuYs0f8J6h3MI7TOXfmNY
+         IOUw==
+X-Gm-Message-State: AGi0PuYndwrvBW7kpfCdInhIVG5Bi6dHkK0WYV7JqdsLttq3nBjMM1bc
+	B48V7d3LjR36oMmxTmKorXM8afTjVcQ=
+X-Google-Smtp-Source: APiQypLeGPKNPLU0n+CIhCt4xA+JsClxcSo0cyAJPJfwTcZOvN3t9jSKnr6Q7toRfEez+1RYztdQMA==
+X-Received: by 2002:a63:b20f:: with SMTP id x15mr9607928pge.298.1588452991137;
+        Sat, 02 May 2020 13:56:31 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::b3aa])
+        by smtp.gmail.com with ESMTPSA id h31sm2928656pjb.33.2020.05.02.13.56.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 02 May 2020 13:56:30 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] musl: Remove spurious unused patch
+Date: Sat,  2 May 2020 13:56:28 -0700
+Message-Id: <20200502205628.3894716-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200430095815.2824-1-alex.kanavin@gmail.com> <20200430095815.2824-16-alex.kanavin@gmail.com>
- <2e66b913ad106592755b0a53e2440dd46c21eb4c.camel@linuxfoundation.org> <CANNYZj_ofd+w6ERJJHQSeu=H15k9mq3Q0K20GfTXbz0+Pz8G_A@mail.gmail.com>
-In-Reply-To: <CANNYZj_ofd+w6ERJJHQSeu=H15k9mq3Q0K20GfTXbz0+Pz8G_A@mail.gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sat, 2 May 2020 21:55:31 +0200
-Message-ID: <CANNYZj9R6D5SVg39bAOGPUXg-o408TxB0VOZHQgG0jRuxYAp0g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 16/17] glib-2.0: update 2.62.4 -> 2.64.2
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d0b8e205a4afaef7"
+Content-Transfer-Encoding: 8bit
 
---000000000000d0b8e205a4afaef7
-Content-Type: text/plain; charset="UTF-8"
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...move-using-.end-directive-with-clang.patch | 36 -------------------
+ 1 file changed, 36 deletions(-)
+ delete mode 100644 meta/recipes-core/musl/0001-Remove-using-.end-directive-with-clang.patch
 
-Other than the non-gpl3 issue, I have corrected the issues, and just sent
-the updated patches.
+diff --git a/meta/recipes-core/musl/0001-Remove-using-.end-directive-with-clang.patch b/meta/recipes-core/musl/0001-Remove-using-.end-directive-with-clang.patch
+deleted file mode 100644
+index be79cb53f1..0000000000
+--- a/meta/recipes-core/musl/0001-Remove-using-.end-directive-with-clang.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From b6732f68848ecc8ff01054bf7aea70a241c37116 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 10 Apr 2020 11:23:39 -0700
+-Subject: [PATCH] Remove using .end directive with clang
+-
+-Clang does not support this asm directive
+-Fixes Issue #19
+-
+-Upstream-Status: Submitted [https://github.com/kaniini/libucontext/pull/20]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- arch/common/common-defs.h | 5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-diff --git a/arch/common/common-defs.h b/arch/common/common-defs.h
+-index bf2fb8c..618116b 100644
+---- a/arch/common/common-defs.h
+-+++ b/arch/common/common-defs.h
+-@@ -28,10 +28,13 @@
+- 	ENT(__proc)					\
+- __proc:							\
+- 	SETUP_FRAME(__proc)
+--
+-+#ifdef __clang__
+-+#define END(__proc)
+-+#else
+- #define END(__proc)					\
+- 	.end	__proc;					\
+- 	.size	__proc,.-__proc;
+-+#endif
+- 
+- #define ALIAS(__alias, __real)				\
+- 	.weak	__alias;				\
+--- 
+-2.26.0
+-
+-- 
+2.26.2
 
-Alex
-
-On Sat, 2 May 2020 at 20:16, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> On Sat, 2 May 2020 at 17:00, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->
->> On Thu, 2020-04-30 at 11:58 +0200, Alexander Kanavin wrote:
->> > Add a couple of missing ptest dependencies.
->>
->> That causes problems for non-gplv3:
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/1848
->>
->
-> "Missing or unbuildable dependency chain was: ['core-image-minimal',
-> 'packagegroup-core-boot', 'udev', 'glib-2.0', 'python3-dbusmock']"
-> The offending package is pulled in via ptests RDEPENDS.
->
-> This can be addressed either via
-> DISTRO_FEATURES_remove = "ptest"
->
-> or setting license restrictions per-image:
-> INCOMPATIBLE_LICENSE_pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
->
-> I prefer the latter - thoughts?
->
-> Alex
->
-
---000000000000d0b8e205a4afaef7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Other than the non-gpl3 issue, I have corrected the i=
-ssues, and just sent the updated patches.</div><div><br></div><div>Alex<br>=
-</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
-attr">On Sat, 2 May 2020 at 20:16, Alexander Kanavin &lt;<a href=3D"mailto:=
-alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left=
-:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"=
-ltr">On Sat, 2 May 2020 at 17:00, Richard Purdie &lt;<a href=3D"mailto:rich=
-ard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfound=
-ation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">On Thu, 2020-04-30 at 11:58 +0200, Alex=
-ander Kanavin wrote:<br>
-&gt; Add a couple of missing ptest dependencies.<br>
-<br>
-That causes problems for non-gplv3:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/75/build=
-s/1848" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/75/builds/1848</a><br></blockquote><div><br></div=
-><div><div>&quot;Missing or unbuildable dependency chain was: [&#39;core-im=
-age-minimal&#39;, &#39;packagegroup-core-boot&#39;, &#39;udev&#39;, &#39;gl=
-ib-2.0&#39;, &#39;python3-dbusmock&#39;]&quot;</div></div><div>The offendin=
-g package is pulled in via ptests RDEPENDS.<br></div><div><br></div><div>Th=
-is can be addressed either via</div><div>DISTRO_FEATURES_remove =3D &quot;p=
-test&quot; </div><div><br></div><div>or setting license restrictions per-im=
-age:</div><div>INCOMPATIBLE_LICENSE_pn-core-image-minimal =3D &quot;GPL-3.0=
- LGPL-3.0&quot;</div><div><br></div><div>I prefer the latter - thoughts?<br=
-></div><div>=C2=A0</div><div>Alex<br></div></div></div>
-</blockquote></div>
-
---000000000000d0b8e205a4afaef7--
