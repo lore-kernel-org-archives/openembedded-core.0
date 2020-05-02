@@ -1,102 +1,194 @@
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
- by mx.groups.io with SMTP id smtpd.web12.10321.1588443394153830857
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web12.10721.1588444832982645533
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2020 11:16:34 -0700
+ Sat, 02 May 2020 11:40:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Vwq6pMWp;
- spf=pass (domain: gmail.com, ip: 209.85.217.68, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f68.google.com with SMTP id u12so5389874vsq.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2020 11:16:34 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=S/p1HmJt;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kc73ZaGGMfHWlnNoc5YLwqWan2HwjNXpdyyQYF4GXZE=;
-        b=Vwq6pMWpJlXxn2SsOpuyjN3mgeYQvrR+528pbQLsMXNhz0PZjXBlyndVlyfkM5Au1q
-         7gD2x1dMlaFO/taO1+O2pxdGeshCPaeoevG1Gj5K3vuHL/20/+BDZl/R8WGaTu3Jx0/U
-         ZElsICr3Pyhsxe7uxjQFpYcUjcfiVFOgEcGagcc22TuGo3k87NNIjXuKL/rUwfmzPAtB
-         mKSkIn/y3nkp/9zYsq+65exJvYRR+rgDBG5YYEjeEimBLbv088ic7yRonLWFOcRVky6X
-         Wx6KjqMrmoZEUNxJaIb8lGWb0R2aqzMVasWVPv2JADvltPeyuTEPfV9KlHzuWd0gH6wu
-         jVRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kc73ZaGGMfHWlnNoc5YLwqWan2HwjNXpdyyQYF4GXZE=;
-        b=MaCINLteUyDSx/XcHaM4CiUy+XxMHTXtpu5rOvPQM4wqZ9JXiwXqFuDrarMLxhB9Ax
-         yM6AT86sxOsbId7fns519GkuhSTHfcBhnFfELygvZUnvcYnCH7JZtjNOaVV+OXeJ1ClW
-         dJYei198ug3U4hqTm0mOZmUlVEXb+Eq8QdG/8Abqgod+i4BjPKoOwewJK2t/HAv3yarl
-         Bvn/Mevoes/K2X1cYu6bN03yELsHUgtuju0w9inU363+gTKdba+2jlYimI/SRGgPmlI9
-         N8Z/WVJFlTmtgy8WObEgIWdLyPR0IzDnIho59bqBzUjzR/wC3UxDebfEPa7km6dU4SHH
-         isTQ==
-X-Gm-Message-State: AGi0PubUddMpIw2/boEFatErsC85dpjmjv8BOOhSFarwwEOjWxwurmpY
-	MiAHw+uTn43lfO2cZRBNj7uQv0eNUNvbqCaOR2Q=
-X-Google-Smtp-Source: APiQypJ70xpHzqSy5OlUbXqKNVEm2guZCnUxls25CbNzO9q+5sjeqDGGhbOO46ZvTGkICB4anfOHLtUv5YO73NDX8tg=
-X-Received: by 2002:a67:6889:: with SMTP id d131mr7161967vsc.25.1588443393241;
- Sat, 02 May 2020 11:16:33 -0700 (PDT)
+  d=axis.com; l=10686; q=dns/txt; s=axis-central1;
+  t=1588444833; x=1619980833;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=K54ovpfRbsQXCx3VC4Vzl9p1QAnPbUabMocsHTERsrs=;
+  b=S/p1HmJtfuXUEaRmWCRGQQWY0rpfyfcNVTilG/Kva45cQMmIgv4LdIFP
+   td5uXoO78KwR3F7aLUSXBZhNbL+H5fCbtaWqD015QzN/+B7xBR+qt+cSe
+   WVblsLALSB/cvZFz7nAM4NgNI6xhhErtRLHVsgckneOofB2pnyXjgBjCv
+   sTyXO+LwA4ZsXHOtd2w6yEvH7/SWHk09C+gqYn8EwSZhoUzW9MRsJWWmX
+   pqYsQKRnwQramevlZK5XjOJlzKZ45MLHJq4ji+/R+k/WD+M6M+PyjB26Z
+   /vwgHDAf+BkKUZVaGpYwqwFlSgD64N8OFrbWmDow3gDfX6GgymWSRACMm
+   w==;
+IronPort-SDR: LzoNQj7N0naWq6+QZcMhw9AeG2F+QVx75nVkWgKZ9EUikMHOeaMrwK6Xn4tVzaQ+UIMJ2vb/xf
+ 9wonRFi2NdP9jFoYmFedxrgW4ov75b8Rr+OIrZjITGCPHVsOyUL5BnmBKXvBq3tKWlK189QZj2
+ LDycJNeC+AJSNvxqxfL1CUdJh2mqGw7BJximg/TlT1BqXDJuUNFjsCrd8L2QOlyRuK7XyE+11f
+ XsXDyowh0YM3jvWxYqUJA77NNrvXABNLt/7sp7sRc6pYJN489B7T9VFWJkcpC8NH8i60ln0dRG
+ f7U=
+X-IronPort-AV: E=Sophos;i="5.73,345,1583190000"; 
+   d="scan'208,217";a="8320876"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "OE Core (openembedded-core@lists.openembedded.org)"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Failure when generating image with latest OE-Core
+Thread-Topic: Failure when generating image with latest OE-Core
+Thread-Index: AdYgnokoBlYXr3hfQ7m1x9gIEqBGdP//4PWA///ITFA=
+Date: Sat, 2 May 2020 18:40:27 +0000
+Message-ID: <e1f2f45a034e4f709d399322159d86ea@XBOX03.axis.com>
+References: <0a65790cfa0f43659d0cec942d729b1a@XBOX03.axis.com>
+ <CANNYZj82SMaMu2rWRHnaVWegjWhjZTLMLQeX31HEqCG3j7H9UA@mail.gmail.com>
+In-Reply-To: <CANNYZj82SMaMu2rWRHnaVWegjWhjZTLMLQeX31HEqCG3j7H9UA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <20200430095815.2824-1-alex.kanavin@gmail.com> <20200430095815.2824-16-alex.kanavin@gmail.com>
- <2e66b913ad106592755b0a53e2440dd46c21eb4c.camel@linuxfoundation.org>
-In-Reply-To: <2e66b913ad106592755b0a53e2440dd46c21eb4c.camel@linuxfoundation.org>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sat, 2 May 2020 20:16:21 +0200
-Message-ID: <CANNYZj_ofd+w6ERJJHQSeu=H15k9mq3Q0K20GfTXbz0+Pz8G_A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 16/17] glib-2.0: update 2.62.4 -> 2.64.2
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000333b7305a4ae4c2d"
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_e1f2f45a034e4f709d399322159d86eaXBOX03axiscom_"
 
---000000000000333b7305a4ae4c2d
-Content-Type: text/plain; charset="UTF-8"
+--_000_e1f2f45a034e4f709d399322159d86eaXBOX03axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Sat, 2 May 2020 at 17:00, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+VGhlcmUgaXMgbm90aGluZyBzcGVjaWFsIGFib3V0IHRoYXQgcGFja2FnZSwgYXBhcnQgZnJvbSB0
+aGF0IGl0IGlzIG5vcm1hbGx5IHRoZSBmaXJzdCBvbmUgbGlzdGVkIHRvIGJlIGluc3RhbGxlZCBh
+ZnRlciB0aGUg4oCcLS0+IFN0YXJ0aW5nIGRlcGVuZGVuY3kgcmVzb2x1dGlvbuKAnSBtZXNzYWdl
+Lg0KSSB0cmllZCB0byBzZWUgaWYgSSBjb3VsZCBzZWUgYW55dGhpbmcgdXNpbmcgYHN0cmFjZSAt
+ZiBkbmYg4oCmYCwgYnV0IGFsbCBJIGNhbiBzZWUgcmVsYXRlZCB0byBoaXN0b3J5LnNxbGl0ZSBh
+cmUgdHdvIGZhaWxlZCBjYWxscyB0byBsc3RhdCgpLiBJdCBuZXZlciB0cmllcyB0byBvcGVuIGl0
+IGJlZm9yZSBpdCBmYWlsc+KApg0KDQovL1BldGVyDQoNCkZyb206IEFsZXhhbmRlciBLYW5hdmlu
+IDxhbGV4LmthbmF2aW5AZ21haWwuY29tPg0KU2VudDogZGVuIDIgbWFqIDIwMjAgMTg6MzYNClRv
+OiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCkNjOiBP
+RSBDb3JlIChvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnKSA8b3BlbmVt
+YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBGYWlsdXJl
+IHdoZW4gZ2VuZXJhdGluZyBpbWFnZSB3aXRoIGxhdGVzdCBPRS1Db3JlDQoNCkkgaGF2ZW4ndCBz
+ZWVuIHRoaXMsIGFuZCBuZWl0aGVyIGhhcyB0aGUgYXV0b2J1aWxkZXIuIENvdWxkIHRoaXMgYmUg
+Y2F1c2VkIGJ5IHNvbWV0aGluZyBpbiAnaW50ZXJuYWwgcGFja2FnZSc/DQoNCkFsZXgNCg0KT24g
+U2F0LCAyIE1heSAyMDIwIGF0IDE4OjI3LCBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxs
+ZXJzdGVkdEBheGlzLmNvbTxtYWlsdG86cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPj4gd3Jv
+dGU6DQpBZnRlciB1cGdyYWRpbmcgdG8gdGhlIGxhdGVzdCBtYXN0ZXIgb2YgT0UtQ29yZSwgSSBn
+ZXQgdGhlIGZvbGxvd2luZw0KZXJyb3Igd2hlbiBidWlsZGluZyBhbiBpbWFnZToNCg0KRE5GIHZl
+cnNpb246IDQuMi4yMQ0KY2FjaGVkaXI6IDxpbWFnZSB3b3JrZGlyPi9yb290ZnMvdmFyL2NhY2hl
+L2RuZg0KQWRkZWQgb2UtcmVwbyByZXBvIGZyb20gPGltYWdlIHdvcmtkaXI+L29lLXJvb3Rmcy1y
+ZXBvDQpVc2VyLUFnZW50OiBmYWxsaW5nIGJhY2sgdG8gJ2xpYmRuZic6IGNvdWxkIG5vdCBkZXRl
+Y3QgT1Mgb3IgYmFzZWFyY2gNCnJlcG86IHVzaW5nIGNhY2hlIGZvcjogb2UtcmVwbw0Kb2UtcmVw
+bzogdXNpbmcgbWV0YWRhdGEgZnJvbSBTYXQgMDIgTWF5IDIwMjAgMDQ6MDQ6MDEgUE0gVVRDLg0K
+RXhjbHVkZXMgaW4gZG5mLmNvbmY6IHJuZy10b29scywgc2hhcmVkLW1pbWUtaW5mbywgdWRldi1o
+d2RiDQotLT4gU3RhcnRpbmcgZGVwZW5kZW5jeSByZXNvbHV0aW9uDQpIaXN0b3J5IGRhdGFiYXNl
+IGNhbm5vdCBiZSBjcmVhdGVkOiA8aW1hZ2Ugd29ya2Rpcj4vcm9vdGZzL3Zhci9saWIvZG5mL2hp
+c3Rvcnkuc3FsaXRlLiBFcnJvcjogU1FMaXRlIGVycm9yIG9uICI6bWVtb3J5OiI6IEV4ZWN1dGlu
+ZyBhbiBTUUwgc3RhdGVtZW50IGZhaWxlZDogbm8gc3VjaCBjb2x1bW46IDEuMg0KLS0tPiBQYWNr
+YWdlIDxpbnRlcm5hbCBwYWNrYWdlPiA8dmVyc2lvbj4gd2lsbCBiZSBpbnN0YWxsZWQNCkhpc3Rv
+cnkgZGF0YWJhc2UgY2Fubm90IGJlIGNyZWF0ZWQ6IDxpbWFnZSB3b3JrZGlyPi9yb290ZnMvdmFy
+L2xpYi9kbmYvaGlzdG9yeS5zcWxpdGUuIEVycm9yOiBTUUxpdGUgZXJyb3Igb24gIjptZW1vcnk6
+IjogRXhlY3V0aW5nIGFuIFNRTCBzdGF0ZW1lbnQgZmFpbGVkOiBubyBzdWNoIGNvbHVtbjogMS4y
+DQpFcnJvcjogU1FMaXRlIGVycm9yIG9uICI6bWVtb3J5OiI6IEV4ZWN1dGluZyBhbiBTUUwgc3Rh
+dGVtZW50IGZhaWxlZDogbm8gc3VjaCBjb2x1bW46IDEuMg0KDQpJIGFzc3VtZSBpdCBpcyByZWxh
+dGVkIHRvIHRoZSByZWNlbnQgcnBtL2RuZiB1cGRhdGUuDQpBbnkgaWRlYXMgb24gd2hhdCdzIGdv
+aW5nIG9uPw0KDQovL1BldGVyDQo=
 
-> On Thu, 2020-04-30 at 11:58 +0200, Alexander Kanavin wrote:
-> > Add a couple of missing ptest dependencies.
->
-> That causes problems for non-gplv3:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/1848
->
+--_000_e1f2f45a034e4f709d399322159d86eaXBOX03axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-"Missing or unbuildable dependency chain was: ['core-image-minimal',
-'packagegroup-core-boot', 'udev', 'glib-2.0', 'python3-dbusmock']"
-The offending package is pulled in via ptests RDEPENDS.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjExLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQph
+OmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xv
+cjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1z
+b0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpwdXJw
+bGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1zb25v
+cm1hbDAsIGRpdi5tc29ub3JtYWwwDQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCgltc28t
+bWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJnaW4tcmlnaHQ6MGNtOw0KCW1zby1tYXJnaW4tYm90
+dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0OjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZv
+bnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21z
+by1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
+LXNlcmlmOw0KCWNvbG9yOiM5NDM2MzQ7DQoJZm9udC13ZWlnaHQ6bm9ybWFsOw0KCWZvbnQtc3R5
+bGU6bm9ybWFsO30NCi5Nc29DaHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5
+Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmOw0KCW1zby1mYXJlYXN0LWxhbmd1
+YWdlOkVOLVVTO30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYxMi4wcHQgNzkyLjBwdDsN
+CgltYXJnaW46NzAuODVwdCA3MC44NXB0IDcwLjg1cHQgNzAuODVwdDt9DQpkaXYuV29yZFNlY3Rp
+b24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEtLVtpZiBndGUgbXNvIDld
+Pjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0K
+PC94bWw+PCFbZW5kaWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91
+dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4NCjwvbzpz
+aGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4NCjxib2R5IGxhbmc9IlNWIiBs
+aW5rPSJibHVlIiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2
+MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPlRoZXJlIGlzIG5vdGhpbmcgc3BlY2lhbCBh
+Ym91dCB0aGF0IHBhY2thZ2UsIGFwYXJ0IGZyb20gdGhhdCBpdCBpcyBub3JtYWxseSB0aGUgZmly
+c3Qgb25lIGxpc3RlZCB0byBiZSBpbnN0YWxsZWQgYWZ0ZXIgdGhlIOKAnC0tJmd0OyBTdGFydGlu
+ZyBkZXBlbmRlbmN5IHJlc29sdXRpb27igJ0gbWVzc2FnZS48bzpwPjwvbzpwPjwvc3Bhbj48L3A+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5
+NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPkkgdHJpZWQgdG8gc2VlIGlmIEkgY291
+bGQgc2VlIGFueXRoaW5nIHVzaW5nIGBzdHJhY2UgLWYgZG5mIOKApmAsIGJ1dCBhbGwgSSBjYW4g
+c2VlIHJlbGF0ZWQgdG8gaGlzdG9yeS5zcWxpdGUgYXJlIHR3byBmYWlsZWQgY2FsbHMgdG8gbHN0
+YXQoKS4gSXQgbmV2ZXIgdHJpZXMgdG8gb3BlbiBpdCBiZWZvcmUNCiBpdCBmYWlsc+KApjxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVT
+IiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+PG86cD4m
+bmJzcDs8L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
+RU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj4v
+L1BldGVyPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4g
+bGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVO
+LVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6bm9u
+ZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4wcHQi
+Pg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0UxRTFF
+MSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+PjxiPjxzcGFuIGxhbmc9IkVOLVVTIj5Gcm9tOjwvc3Bhbj48L2I+PHNwYW4gbGFuZz0iRU4tVVMi
+PiBBbGV4YW5kZXIgS2FuYXZpbiAmbHQ7YWxleC5rYW5hdmluQGdtYWlsLmNvbSZndDsNCjxicj4N
+CjxiPlNlbnQ6PC9iPiBkZW4gMiBtYWogMjAyMCAxODozNjxicj4NCjxiPlRvOjwvYj4gUGV0ZXIg
+S2plbGxlcnN0ZWR0ICZsdDtwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20mZ3Q7PGJyPg0KPGI+
+Q2M6PC9iPiBPRSBDb3JlIChvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+KSAmbHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyZndDs8YnI+DQo8
+Yj5TdWJqZWN0OjwvYj4gUmU6IEZhaWx1cmUgd2hlbiBnZW5lcmF0aW5nIGltYWdlIHdpdGggbGF0
+ZXN0IE9FLUNvcmU8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjwvZGl2Pg0KPHAgY2xh
+c3M9Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPkkgaGF2ZW4ndCBzZWVuIHRoaXMsIGFuZCBuZWl0aGVyIGhhcyB0aGUg
+YXV0b2J1aWxkZXIuIENvdWxkIHRoaXMgYmUgY2F1c2VkIGJ5IHNvbWV0aGluZyBpbiAnaW50ZXJu
+YWwgcGFja2FnZSc/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNv
+Tm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPkFsZXg8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+T24gU2F0LCAyIE1heSAyMDIwIGF0IDE4OjI3LCBQZXRlciBLamVsbGVyc3Rl
+ZHQgJmx0OzxhIGhyZWY9Im1haWx0bzpwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20iPnBldGVy
+LmtqZWxsZXJzdGVkdEBheGlzLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9k
+aXY+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgI0ND
+Q0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQuOHB0O21h
+cmdpbi1yaWdodDowY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1ib3R0
+b206MTIuMHB0Ij5BZnRlciB1cGdyYWRpbmcgdG8gdGhlIGxhdGVzdCBtYXN0ZXIgb2YgT0UtQ29y
+ZSwgSSBnZXQgdGhlIGZvbGxvd2luZw0KPGJyPg0KZXJyb3Igd2hlbiBidWlsZGluZyBhbiBpbWFn
+ZTo8YnI+DQo8YnI+DQpETkYgdmVyc2lvbjogNC4yLjIxPGJyPg0KY2FjaGVkaXI6ICZsdDtpbWFn
+ZSB3b3JrZGlyJmd0Oy9yb290ZnMvdmFyL2NhY2hlL2RuZjxicj4NCkFkZGVkIG9lLXJlcG8gcmVw
+byBmcm9tICZsdDtpbWFnZSB3b3JrZGlyJmd0Oy9vZS1yb290ZnMtcmVwbzxicj4NClVzZXItQWdl
+bnQ6IGZhbGxpbmcgYmFjayB0byAnbGliZG5mJzogY291bGQgbm90IGRldGVjdCBPUyBvciBiYXNl
+YXJjaDxicj4NCnJlcG86IHVzaW5nIGNhY2hlIGZvcjogb2UtcmVwbzxicj4NCm9lLXJlcG86IHVz
+aW5nIG1ldGFkYXRhIGZyb20gU2F0IDAyIE1heSAyMDIwIDA0OjA0OjAxIFBNIFVUQy48YnI+DQpF
+eGNsdWRlcyBpbiBkbmYuY29uZjogcm5nLXRvb2xzLCBzaGFyZWQtbWltZS1pbmZvLCB1ZGV2LWh3
+ZGI8YnI+DQotLSZndDsgU3RhcnRpbmcgZGVwZW5kZW5jeSByZXNvbHV0aW9uPGJyPg0KSGlzdG9y
+eSBkYXRhYmFzZSBjYW5ub3QgYmUgY3JlYXRlZDogJmx0O2ltYWdlIHdvcmtkaXImZ3Q7L3Jvb3Rm
+cy92YXIvbGliL2RuZi9oaXN0b3J5LnNxbGl0ZS4gRXJyb3I6IFNRTGl0ZSBlcnJvciBvbiAmcXVv
+dDs6bWVtb3J5OiZxdW90OzogRXhlY3V0aW5nIGFuIFNRTCBzdGF0ZW1lbnQgZmFpbGVkOiBubyBz
+dWNoIGNvbHVtbjogMS4yPGJyPg0KLS0tJmd0OyBQYWNrYWdlICZsdDtpbnRlcm5hbCBwYWNrYWdl
+Jmd0OyAmbHQ7dmVyc2lvbiZndDsgd2lsbCBiZSBpbnN0YWxsZWQ8YnI+DQpIaXN0b3J5IGRhdGFi
+YXNlIGNhbm5vdCBiZSBjcmVhdGVkOiAmbHQ7aW1hZ2Ugd29ya2RpciZndDsvcm9vdGZzL3Zhci9s
+aWIvZG5mL2hpc3Rvcnkuc3FsaXRlLiBFcnJvcjogU1FMaXRlIGVycm9yIG9uICZxdW90OzptZW1v
+cnk6JnF1b3Q7OiBFeGVjdXRpbmcgYW4gU1FMIHN0YXRlbWVudCBmYWlsZWQ6IG5vIHN1Y2ggY29s
+dW1uOiAxLjI8YnI+DQpFcnJvcjogU1FMaXRlIGVycm9yIG9uICZxdW90OzptZW1vcnk6JnF1b3Q7
+OiBFeGVjdXRpbmcgYW4gU1FMIHN0YXRlbWVudCBmYWlsZWQ6IG5vIHN1Y2ggY29sdW1uOiAxLjI8
+YnI+DQo8YnI+DQpJIGFzc3VtZSBpdCBpcyByZWxhdGVkIHRvIHRoZSByZWNlbnQgcnBtL2RuZiB1
+cGRhdGUuIDxicj4NCkFueSBpZGVhcyBvbiB3aGF0J3MgZ29pbmcgb24/PGJyPg0KPGJyPg0KLy9Q
+ZXRlcjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2
+Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-This can be addressed either via
-DISTRO_FEATURES_remove = "ptest"
-
-or setting license restrictions per-image:
-INCOMPATIBLE_LICENSE_pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
-
-I prefer the latter - thoughts?
-
-Alex
-
---000000000000333b7305a4ae4c2d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Sat, 2 May 2020 at 17:00, Richard Purd=
-ie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_bla=
-nk">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, =
-2020-04-30 at 11:58 +0200, Alexander Kanavin wrote:<br>
-&gt; Add a couple of missing ptest dependencies.<br>
-<br>
-That causes problems for non-gplv3:<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/75/build=
-s/1848" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/75/builds/1848</a><br></blockquote><div><br></div=
-><div><div>&quot;Missing or unbuildable dependency chain was: [&#39;core-im=
-age-minimal&#39;, &#39;packagegroup-core-boot&#39;, &#39;udev&#39;, &#39;gl=
-ib-2.0&#39;, &#39;python3-dbusmock&#39;]&quot;</div></div><div>The offendin=
-g package is pulled in via ptests RDEPENDS.<br></div><div><br></div><div>Th=
-is can be addressed either via</div><div>DISTRO_FEATURES_remove =3D &quot;p=
-test&quot; </div><div><br></div><div>or setting license restrictions per-im=
-age:</div><div>INCOMPATIBLE_LICENSE_pn-core-image-minimal =3D &quot;GPL-3.0=
- LGPL-3.0&quot;</div><div><br></div><div>I prefer the latter - thoughts?<br=
-></div><div>=C2=A0</div><div>Alex<br></div></div></div>
-
---000000000000333b7305a4ae4c2d--
+--_000_e1f2f45a034e4f709d399322159d86eaXBOX03axiscom_--
