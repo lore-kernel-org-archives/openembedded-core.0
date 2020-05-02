@@ -1,89 +1,70 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
- by mx.groups.io with SMTP id smtpd.web11.3302.1588419348807767379
+Received: from relay.dream-property.net (relay.dream-property.net [178.19.67.222])
+ by mx.groups.io with SMTP id smtpd.web12.4359.1588423932600667631
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2020 04:35:49 -0700
+ Sat, 02 May 2020 05:52:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=if3AXTts;
- spf=pass (domain: gmail.com, ip: 209.85.222.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f51.google.com with SMTP id r2so2878560uam.7;
-        Sat, 02 May 2020 04:35:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=nue8UkFstTpNUOEySNV9K1UgtVZADmSIkYOdZAyXLyc=;
-        b=if3AXTtsc1QFJ9A8OBSnyql74GHrRtlVm+4HJCDG73lHfiELE9e856ygle5uRRYfhy
-         XhG8TGKjQ3GZy3j8jpmPhA6MkrGVHL2fIApBO18z3HPhqmbj7pLMOo/ASK4YtoUuqBG+
-         RGqzvIQe5u0g5bYFGM4aAyvWeTUgriTFWI9ckdkQ1CxQ/wqJWrM5GKVG/xcB/EtcCLbY
-         PnFoiEXoe7Q8ga1EeTh8RErhHhjf339Cn9Uy5vLl8lSDAOlvBU6NMA5cfbVwrofyWDqd
-         hlABI2JkfN4HA0k1zR5o5p6hiJBfXe58rZedW4PI20MSHk+FJ7+6LF51MfFsCkukV5wf
-         Hxaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=nue8UkFstTpNUOEySNV9K1UgtVZADmSIkYOdZAyXLyc=;
-        b=quoIo2MQoGPo72ur+J1fAIs7KjA2+ZnnK4WS1FVGbrbZISJfNqakeMwIxJX79GUBI2
-         fa6sgawoSgKOZNMH4AY4CUeqvHQ2DbKTgsUk+BkkAQvhGR1tRLc5CdxDO0q1Yzf2GbID
-         1npBPbY7U7I9nFt5HpdWbM8D07nh1Qda2OfEFVzPf5teJi/5R7pH6N7h/sJJkNiO8S3O
-         R+2rY5+4XG4NLktfjApWvEaXbR4TRgRN8v5mbxnF+UyxkeNwketXCqfKtL7V9+6rMzP4
-         bao0sPcNb9NTpLoVs3pom7MeniaCgxS5TGVofKCrZZpJIDEKMvy7Wrdz9L6+u8mPI4UC
-         fkHw==
-X-Gm-Message-State: AGi0PuZoDzhUhKXCZ+h3wEPtMru01FIoC9s7smpSTra7MqmfDvnsdCaY
-	rw507g5pqqQp02ZysXDLtXoHmdhPb/ZCAWNe7MmLEQ==
-X-Google-Smtp-Source: APiQypImfiiJ+H3MtzppG0P61Err2IV+Jrc1BfCOCwndywJkfCinejwZOERRLGTfw+ArG4r/ciexZBn2blK29rr7eWQ=
-X-Received: by 2002:ab0:6313:: with SMTP id a19mr401065uap.71.1588419347690;
- Sat, 02 May 2020 04:35:47 -0700 (PDT)
+ dkim=fail, err=bad algorithm. Only rsa-sha1 or rsa-sha256 are permitted;
+ spf=pass (domain: opendreambox.org, ip: 178.19.67.222, mailfrom: obi@opendreambox.org)
+Received: from mail.dream-property.net (mail.dream-property.net [82.149.226.172])
+	by relay.dream-property.net (Postfix) with ESMTPS id 83C2410095A1E;
+	Sat,  2 May 2020 14:52:09 +0200 (CEST)
+Received: from localhost (ip-176-199-141-47.hsi06.unitymediagroup.de [176.199.141.47])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.dream-property.net (Postfix) with ESMTPSA id 0B7B43142B10;
+	Sat,  2 May 2020 14:52:07 +0200 (CEST)
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=opendreambox.org;
+	s=dkim; t=1588423928;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KqTeUMIdyRAX4Uwz/xSlsEWP1VkWIEV2zZ1OGoG9RV4=;
+	b=r+lH6GCQS7Ern33fXI347jl05bRvdI0Z0gL4Wf1+31Ts9NP/tA9Jwck+uKk6eXNTlDhFpw
+	ZnlK/se3grL5dsCA==
+Date: Sat, 2 May 2020 14:52:05 +0200
+From: "Andreas Oberritter" <obi@opendreambox.org>
+To: "Konrad Weihmann" <kweihmann@outlook.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [meta-oe][PATCH 1/2] php: fix zip package config
+Message-ID: <20200502145205.24892acd@opendreambox.org>
+In-Reply-To: <AM7PR05MB68811C880CDB744B1B3C6835A8AB0@AM7PR05MB6881.eurprd05.prod.outlook.com>
+References: <AM7PR05MB68811C880CDB744B1B3C6835A8AB0@AM7PR05MB6881.eurprd05.prod.outlook.com>
 MIME-Version: 1.0
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Sat, 2 May 2020 13:35:36 +0200
-Message-ID: <CANNYZj_R3LO5nZs77j_2HBYQx44rf=9pMz=oABvXzDAxSvzBWQ@mail.gmail.com>
-Subject: Proposal: community maintained recipes in oe-core
-To: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f9391a05a4a8b2bd"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
---000000000000f9391a05a4a8b2bd
-Content-Type: text/plain; charset="UTF-8"
+Hello Konrad,
 
-Hello all,
+On Fri,  1 May 2020 13:56:40 +0200
+"Konrad Weihmann" <kweihmann@outlook.com> wrote:
 
-the current maintenance model in openembedded-core is problematic due to
-lack of well-working process of finding maintainers, and replacing them
-when they're no longer able to contribute. This becomes especially
-frustrating when maintainers silently disappear, and perfectly fine patches
-produced by Auto Upgrade Helper and sent to them via private mail go wasted.
+> --enable-zip and --with-libzip were removed in PHP 7.x.
+> These are replaced by --enable-zip --with-libzip.
 
-I'm proposing that some of the recipes in oe-core - those that are known to
-lack an active maintainer - would be transitioned to 'community
-maintenance'. What this means is that the maintainer's email becomes the
-oe-core mailing list email, and accordingly monthly upgrade patches will be
-sent to the list. Then anyone with an interest in those components can pick
-up the patches, polish/test them as needed and send them to oe-core for
-inclusion into master/release branches. This opens up an easy path for
-people to become maintainers, and also highlights what recipes suffer from
-lack of attention.
+you meant --with-zip --with-zlib-dir.
 
-Let me know,
-Alex
+Best regards,
+Andreas
 
---000000000000f9391a05a4a8b2bd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hello all,</div><div><br></div><div>the current maint=
-enance model in openembedded-core is problematic due to lack of well-workin=
-g process of finding maintainers, and replacing them when they&#39;re no lo=
-nger able to contribute. This becomes especially frustrating when maintaine=
-rs silently disappear, and perfectly fine patches produced by Auto Upgrade =
-Helper and sent to them via private mail go wasted.</div><div><br></div><di=
-v>I&#39;m proposing that some of the recipes in oe-core - those that are kn=
-own to lack an active maintainer - would be transitioned to &#39;community =
-maintenance&#39;. What this means is that the maintainer&#39;s email become=
-s the oe-core mailing list email, and accordingly monthly upgrade patches w=
-ill be sent to the list. Then anyone with an interest in those components c=
-an pick up the patches, polish/test them as needed and send them to oe-core=
- for inclusion into master/release branches. This opens up an easy path for=
- people to become maintainers, and also highlights what recipes suffer from=
- lack of attention.</div><div><br></div><div>Let me know,</div><div>Alex<br=
-></div></div>
+> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+> ---
+>  meta-oe/recipes-devtools/php/php_7.4.4.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta-oe/recipes-devtools/php/php_7.4.4.bb b/meta-oe/recipes-devtools/php/php_7.4.4.bb
+> index ff4c28e13..c1784a78d 100644
+> --- a/meta-oe/recipes-devtools/php/php_7.4.4.bb
+> +++ b/meta-oe/recipes-devtools/php/php_7.4.4.bb
+> @@ -81,7 +81,7 @@ PACKAGECONFIG ??= "mysql sqlite3 imap opcache openssl \
+>  "
+>  PACKAGECONFIG_class-native = ""
+>  
+> -PACKAGECONFIG[zip] = "--enable-zip --with-libzip=${STAGING_EXECPREFIXDIR},,libzip"
+> +PACKAGECONFIG[zip] = "--with-zip --with-zlib-dir=${STAGING_EXECPREFIXDIR},,libzip"
+>  
+>  PACKAGECONFIG[mysql] = "--with-mysqli=mysqlnd \
+>                          --with-pdo-mysql=mysqlnd \
 
---000000000000f9391a05a4a8b2bd--
