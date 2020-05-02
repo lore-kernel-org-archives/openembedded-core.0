@@ -1,123 +1,89 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web12.1874.1588407715785493580
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+ by mx.groups.io with SMTP id smtpd.web11.3302.1588419348807767379
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2020 01:21:56 -0700
+ Sat, 02 May 2020 04:35:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=inTSuDjN;
- spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: jupiter.hce@gmail.com)
-Received: by mail-ed1-f66.google.com with SMTP id p16so9065343edm.10
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2020 01:21:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=if3AXTts;
+ spf=pass (domain: gmail.com, ip: 209.85.222.51, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f51.google.com with SMTP id r2so2878560uam.7;
+        Sat, 02 May 2020 04:35:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :cc;
-        bh=ksTDw+TuwKJszTt1W52BkCjaBpKvOgjVxbGlI98anqk=;
-        b=inTSuDjNrm+DmJKobMi5les7ss2FO/f55C2oiS7J2BFx2mQ+QvIGJj45N4TfirTX7T
-         lQ0BL38OGe4SRIesUTG0gpsZ3Pzj2JRklxfn2cYjbW9xIcXSy1k/W8R9KbGtfXgJOLt6
-         oVc8T/FXG2bNByzdiXrFfkGm4fM9F6l7SGXCCjmhrLgQsne7/eiLDXhdHvN0xO/vZg5U
-         qWDu3UW2gHO6gFCBY0he0tRz6vBDaO7WGUyztgQB1S3ru0OUofikd/dyj8g0meTlPSe6
-         ErHE/6AlI6uk2aNXUXDd9LvOjHKNJl6uNSuiWonH2U55IFiqVH4WG0m+Rd2RItefWG6f
-         6y3Q==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=nue8UkFstTpNUOEySNV9K1UgtVZADmSIkYOdZAyXLyc=;
+        b=if3AXTtsc1QFJ9A8OBSnyql74GHrRtlVm+4HJCDG73lHfiELE9e856ygle5uRRYfhy
+         XhG8TGKjQ3GZy3j8jpmPhA6MkrGVHL2fIApBO18z3HPhqmbj7pLMOo/ASK4YtoUuqBG+
+         RGqzvIQe5u0g5bYFGM4aAyvWeTUgriTFWI9ckdkQ1CxQ/wqJWrM5GKVG/xcB/EtcCLbY
+         PnFoiEXoe7Q8ga1EeTh8RErhHhjf339Cn9Uy5vLl8lSDAOlvBU6NMA5cfbVwrofyWDqd
+         hlABI2JkfN4HA0k1zR5o5p6hiJBfXe58rZedW4PI20MSHk+FJ7+6LF51MfFsCkukV5wf
+         Hxaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:cc;
-        bh=ksTDw+TuwKJszTt1W52BkCjaBpKvOgjVxbGlI98anqk=;
-        b=A9SVLjifbiH8Sq84l9xMjT4v5A+KlUJPAjdrsAd6zADRW664Y9vgX5La1VnLZqle0x
-         CHGC53l9/pUtr7+xxiDj3+MGxKzswOdbh5Hc5kv2uQMMSZIr/pQvDxa+2aaIjVmFiStE
-         v/bZRNIUpwICGsohryzfKHCdJCIwEy09YmpCH5zTfkhU3ZSat9pZth0FJ/C7bioajqci
-         mCwbWnybEHz0LzBqDmRPRUzVV2eXY7ix0187M2tGPKWnVSqdvNuNlvSZ2AJDAXGGphbF
-         fs/9r1krrz/zdicCxkMUuRv9/U5fdkU04FlS61ZCpOY/SfIkCPRbt4LmIHooGGUrpbo5
-         rw5g==
-X-Gm-Message-State: AGi0PuYyhFutTmAUTqFlilW0hERQcK7LePhqAfCr+gTiHA+Xr/yu+Acd
-	+vDV2TDQXEO2nWWxNWlXxXkzLtAGJBgV41jSEBI=
-X-Google-Smtp-Source: APiQypJKQXQhq33Bxq+Brk2vPRUTHLr4x4kShd4PTcbMoNWxxcgP+dCeXKEpGIIaAdNg8vEoDM6/QBxjRbZtKsuQirA=
-X-Received: by 2002:aa7:d894:: with SMTP id u20mr6276978edq.205.1588407714217;
- Sat, 02 May 2020 01:21:54 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=nue8UkFstTpNUOEySNV9K1UgtVZADmSIkYOdZAyXLyc=;
+        b=quoIo2MQoGPo72ur+J1fAIs7KjA2+ZnnK4WS1FVGbrbZISJfNqakeMwIxJX79GUBI2
+         fa6sgawoSgKOZNMH4AY4CUeqvHQ2DbKTgsUk+BkkAQvhGR1tRLc5CdxDO0q1Yzf2GbID
+         1npBPbY7U7I9nFt5HpdWbM8D07nh1Qda2OfEFVzPf5teJi/5R7pH6N7h/sJJkNiO8S3O
+         R+2rY5+4XG4NLktfjApWvEaXbR4TRgRN8v5mbxnF+UyxkeNwketXCqfKtL7V9+6rMzP4
+         bao0sPcNb9NTpLoVs3pom7MeniaCgxS5TGVofKCrZZpJIDEKMvy7Wrdz9L6+u8mPI4UC
+         fkHw==
+X-Gm-Message-State: AGi0PuZoDzhUhKXCZ+h3wEPtMru01FIoC9s7smpSTra7MqmfDvnsdCaY
+	rw507g5pqqQp02ZysXDLtXoHmdhPb/ZCAWNe7MmLEQ==
+X-Google-Smtp-Source: APiQypImfiiJ+H3MtzppG0P61Err2IV+Jrc1BfCOCwndywJkfCinejwZOERRLGTfw+ArG4r/ciexZBn2blK29rr7eWQ=
+X-Received: by 2002:ab0:6313:: with SMTP id a19mr401065uap.71.1588419347690;
+ Sat, 02 May 2020 04:35:47 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ab4:a881:0:0:0:0:0 with HTTP; Sat, 2 May 2020 01:21:53 -0700 (PDT)
-In-Reply-To: <160AC4C4A9F833DA.21614@lists.yoctoproject.org>
-References: <CAA=hcWSKre4hC8m=tdiavFSO1GbetceQy-jbWg0kzrMFK7QBSg@mail.gmail.com>
- <CA+4=imaKgPkYgm-ks8jh0LnTmqovRrMuesXV0RsEmtWs4fmPHQ@mail.gmail.com>
- <CAA=hcWSFY+hWiHQxx9q8eqcaaFZYJaQ1ZfzZx9cTfFjW2XO5fA@mail.gmail.com>
- <CAA=hcWSXzf7SOc4d3tg97O3aORLdFrrD3q1D4y=z2WtqPvfdCQ@mail.gmail.com>
- <2823ea3424755ef149b90d28c835f64fcb3afdc4.camel@delisys.ch> <160AC4C4A9F833DA.21614@lists.yoctoproject.org>
-From: "JH" <jupiter.hce@gmail.com>
-Date: Sat, 2 May 2020 18:21:53 +1000
-Message-ID: <CAA=hcWRvgi5xDsrQt+7pz_xP=CsUoPFwZFiF_3agxUr3CMq+oA@mail.gmail.com>
-Subject: Re: [yocto] Which recipe for Linux tools to run u-boot command inside Linux?
-To: yocto@lists.yoctoproject.org
-Cc: OE <openembedded-core@lists.openembedded.org>, u-boot@lists.denx.de
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Sat, 2 May 2020 13:35:36 +0200
+Message-ID: <CANNYZj_R3LO5nZs77j_2HBYQx44rf=9pMz=oABvXzDAxSvzBWQ@mail.gmail.com>
+Subject: Proposal: community maintained recipes in oe-core
+To: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000f9391a05a4a8b2bd"
+
+--000000000000f9391a05a4a8b2bd
 Content-Type: text/plain; charset="UTF-8"
 
-OK, finally built the u-boot-fw-utils and run it on iMX6ULL:
+Hello all,
 
-# fw_printenv -v
-Compiled with U-Boot 2019.07-dirty
+the current maintenance model in openembedded-core is problematic due to
+lack of well-working process of finding maintainers, and replacing them
+when they're no longer able to contribute. This becomes especially
+frustrating when maintainers silently disappear, and perfectly fine patches
+produced by Auto Upgrade Helper and sent to them via private mail go wasted.
 
-But it could not run:
+I'm proposing that some of the recipes in oe-core - those that are known to
+lack an active maintainer - would be transitioned to 'community
+maintenance'. What this means is that the maintainer's email becomes the
+oe-core mailing list email, and accordingly monthly upgrade patches will be
+sent to the list. Then anyone with an interest in those components can pick
+up the patches, polish/test them as needed and send them to oe-core for
+inclusion into master/release branches. This opens up an easy path for
+people to become maintainers, and also highlights what recipes suffer from
+lack of attention.
 
-# fw_printenv
-Cannot read bad block mark: Invalid argument
+Let me know,
+Alex
 
-Here is the configure file:
+--000000000000f9391a05a4a8b2bd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-# cat /etc/fw_env.config
+<div dir=3D"ltr"><div>Hello all,</div><div><br></div><div>the current maint=
+enance model in openembedded-core is problematic due to lack of well-workin=
+g process of finding maintainers, and replacing them when they&#39;re no lo=
+nger able to contribute. This becomes especially frustrating when maintaine=
+rs silently disappear, and perfectly fine patches produced by Auto Upgrade =
+Helper and sent to them via private mail go wasted.</div><div><br></div><di=
+v>I&#39;m proposing that some of the recipes in oe-core - those that are kn=
+own to lack an active maintainer - would be transitioned to &#39;community =
+maintenance&#39;. What this means is that the maintainer&#39;s email become=
+s the oe-core mailing list email, and accordingly monthly upgrade patches w=
+ill be sent to the list. Then anyone with an interest in those components c=
+an pick up the patches, polish/test them as needed and send them to oe-core=
+ for inclusion into master/release branches. This opens up an easy path for=
+ people to become maintainers, and also highlights what recipes suffer from=
+ lack of attention.</div><div><br></div><div>Let me know,</div><div>Alex<br=
+></div></div>
 
-# NAND
-/dev/mtd1              0x400000        0x100000        0x20000                8
-
-
-I think values in configure file are correct:
-
-# cat /proc/mtd
-dev:    size   erasesize  name
-mtd0: 00400000 00020000 "boot"
-mtd1: 00100000 00020000 "ubootenv"
-mtd2: 0fb00000 00020000 "storage"
-
-=> nand info
-
-Device 0: nand0, sector size 128 KiB
-  Page size       2048 b
-  OOB size          64 b
-  Erase size    131072 b
-  subpagesize     2048 b
-  options     0x40004200
-  bbt options 0x00000000
-
-Any advice what I could be missing?
-
-Thank you.
-
-Kind regards,
-
-- jh
-
-On 5/1/20, JH via lists.yoctoproject.org
-<jupiter.hce=gmail.com@lists.yoctoproject.org> wrote:
-> On 4/30/20, Nicolas Jeker <n.jeker@delisys.ch> wrote:
->
->> on Zeus it's very likely _not_ libubootenv that you need, you should
->> try to install u-boot-fw-utils. As Yann wrote, the tools are in
->> libubootenv since Dunfell, which is newer than Zeus.
->
-> Thanks Nicolas, I have following error, what I could be missing here?
->
-> ERROR: Task
-> (/build/oe-core/meta/recipes-bsp/u-boot/u-boot-fw-utils_2019.07.bb:do_compile)
-> failed with exit code '137'
->
->
->
-> --
-> "A man can fail many times, but he isn't a failure until he begins to
-> blame somebody else."
-> -- John Burroughs
->
-
-
--- 
-"A man can fail many times, but he isn't a failure until he begins to
-blame somebody else."
--- John Burroughs
+--000000000000f9391a05a4a8b2bd--
