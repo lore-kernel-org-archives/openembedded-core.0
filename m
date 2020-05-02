@@ -1,377 +1,359 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web10.11712.1588449249800830461
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web10.11713.1588449250756665166
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2020 12:54:10 -0700
+ Sat, 02 May 2020 12:54:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cQaqTB05;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id u127so4116740wmg.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2020 12:54:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dW98fnJY;
+ spf=pass (domain: gmail.com, ip: 209.85.221.67, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f67.google.com with SMTP id g13so16020923wrb.8
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2020 12:54:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0q8sjOka/8JVE0d1+i6D+fsXpYiyssGnLrz+7WuW9P8=;
-        b=cQaqTB05CZDrcJ9sozpjWwv5MBpw8MA3aIBnd2QiUNuDSY2qjND3JtNb85buZiZ4Zf
-         tE4m1HEmb/xDiewvhnpenuOu4QGqP6z7Au1vTNlMZ+2jVcvgwG9f7239aqVYA3TsQOU9
-         OY9rCcCnM/vpLu8gKDQiRHo841AbcRzBHt3+rNMKGyywKz8O3Wpia4TwVnIXwDeB6GGo
-         T8dPEpXIpy+x7/VKRqMzJuf9pPlAzEcq1SXArBIhebIjOAjHvpV/gjY94ht2t5nH6z4y
-         naGCAZovUuPOUFvwZj9gvff61cIQGwrt7/2R4Xsi8zWZcf+WnY+XBlp05bPiPA6Jw09T
-         uFmA==
+        bh=aKL//NNJUSobaf1OE18CBuVzmzr1E3Gr6CjYsCBCToM=;
+        b=dW98fnJYBymVvQ0HHvFPJUB9u8moO2C7vuSHB7Pk8drcv10mZxEN76JXOLC75NjWEa
+         7Z94Wa7lq+aOOgQbNDqU8pIg2W1pnImtmTaXJaKXe6gxrgI1StFQ9dCJ2rHMvMCAo6EV
+         zCljJi1wxRi5XW/IK9auTSI4y5ilKarp9A5XIQJNpmBrlJ9J4sN8mAMIdjCpPGIb2M8q
+         WyOTUyLqC9kxw/hJtcFi7l+gozcoH9x8CvNV54RfI9RWTVbPFGdBbHGjOTIO1cK46H7F
+         CQBjVRGqs3bMsh/RxUowgywY7uhFe+PgM9kaiYfJUV7wHapkl2nVvUILepwcRRLOAxjm
+         wKvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0q8sjOka/8JVE0d1+i6D+fsXpYiyssGnLrz+7WuW9P8=;
-        b=e8KZQJmxojekSPIBo1S5vmBtqOOGTSNR0Xa68GUTdKqb/r7M5hDIVypPNcAxPpj2wO
-         nrkX7GTHOH2lkI0wGeGUMIeZ7D4+UHUFBcm6fl7xjlBy9k8Jl0E5D8FbJK3JS/Hmqzsp
-         RUatm1rjbSneJt5aBqSOp/BhI9VJUYhtR/Tp5fa/pSABjbRDWdmU+vvmyxj9vdUjer4H
-         /rpYGRDpj+Sr7JGD/rz8SJfMU7WssS+vM7CN2S8P4Z0TXaj7UFhkV4epAJHCjyHv/11Z
-         njHPt0WkAsXwvzti4X6fdCEZeT+9+XqW/kL3hOIK/chzUj8ZgfrwOXLeq+1xKbU8euCw
-         yQng==
-X-Gm-Message-State: AGi0PuY9vfJz6HEMfqoOAFEosQ9qaAmgjd64Q8U8P1IEZn6X/+yt2FQY
-	XCvhrTcRK4TsP4EYvYXGhl8ztEgK
-X-Google-Smtp-Source: APiQypLkRtbFXm8xMcNYd3MkDJ33B35GtbPpd4ORbFiQcFqiBEulImEAPuo9GFyAT4HKAlW6WN0SJA==
-X-Received: by 2002:a7b:c459:: with SMTP id l25mr5840254wmi.52.1588449247764;
-        Sat, 02 May 2020 12:54:07 -0700 (PDT)
+        bh=aKL//NNJUSobaf1OE18CBuVzmzr1E3Gr6CjYsCBCToM=;
+        b=VbwopXs7RNNwerLW6O79aCaNJCY5D9s2WMrACcgmz0j9p+X/1VI38gXGIP/TcVDGwq
+         UFMugjaZQGIx7pWXnegO3coOsUxPqZ893kT9dx8BVADSpmQqIQRluOWv9XSjgM3wMlfm
+         MGQxqPFr6h4W3RfcSp6pKcT/eXO1Oif815YqeSdK7GEAN8/vRNnAfFspTwAcNS24LANK
+         xy7NWi/IOssJ4GKcH2dvYKHFxLpuT8cO5xcyTNsb2YrNbltBVPMEXvmuRZWGJQZD2Dgt
+         rafCSZtZ3LKkeZKpkLIsdE5yxfwIblEhX27WyhKD8JpxobLg4X304hfWrZI9Bck+2u81
+         KqHw==
+X-Gm-Message-State: AGi0PuZP048/iH+7kK4ofDrHUO8elO0tVXmMSkHbHtTwsqSN0VTt9Kiw
+	wPiY/z/c8Qe7eGT4NuXX+SCRsstE
+X-Google-Smtp-Source: APiQypJRPrQUGm7HkNDfCqPXt7Y+c9L4v2Bn2Prj/wHyKXEvamj0MbysnYnj+XnNbkayTURFbSskQg==
+X-Received: by 2002:a5d:4704:: with SMTP id y4mr2905557wrq.96.1588449248579;
+        Sat, 02 May 2020 12:54:08 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.69.65])
         by smtp.gmail.com with ESMTPSA id h6sm5276149wmf.31.2020.05.02.12.54.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 May 2020 12:54:07 -0700 (PDT)
+        Sat, 02 May 2020 12:54:08 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 3/4] mc: update to 4.8.24
-Date: Sat,  2 May 2020 21:53:51 +0200
-Message-Id: <20200502195352.17279-3-alex.kanavin@gmail.com>
+Subject: [PATCH 4/4] coreutils: update to 8.32
+Date: Sat,  2 May 2020 21:53:52 +0200
+Message-Id: <20200502195352.17279-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200502195352.17279-1-alex.kanavin@gmail.com>
 References: <20200502195352.17279-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+License-Update: copyright years, http changed to https
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...Add-option-to-control-configure-args.patch |  99 ----------------
- ...29-configure.ac-drop-bundled-gettext.patch | 110 ------------------
- ...-Makefile.am-install-mc.lib-only-onc.patch |  59 ++++++++++
- .../mc/{mc_4.8.23.bb => mc_4.8.24.bb}         |   7 +-
- 4 files changed, 62 insertions(+), 213 deletions(-)
- delete mode 100644 meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
- delete mode 100644 meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
- create mode 100644 meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
- rename meta/recipes-extended/mc/{mc_4.8.23.bb => mc_4.8.24.bb} (88%)
+ ...8.31-behavior-on-removed-directories.patch | 99 +++++++++++++++++++
+ .../coreutils/fix-selinux-flask.patch         | 13 +--
+ .../remove-usr-local-lib-from-m4.patch        | 23 +++--
+ .../strtod_fix_clash_with_strtold.patch       | 56 -----------
+ .../{coreutils_8.31.bb => coreutils_8.32.bb}  | 14 +--
+ 5 files changed, 128 insertions(+), 77 deletions(-)
+ create mode 100644 meta/recipes-core/coreutils/coreutils/0001-ls-restore-8.31-behavior-on-removed-directories.patch
+ delete mode 100644 meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
+ rename meta/recipes-core/coreutils/{coreutils_8.31.bb => coreutils_8.32.bb} (94%)
 
-diff --git a/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch b/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
-deleted file mode 100644
-index e76aac8161..0000000000
---- a/meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
-+++ /dev/null
-@@ -1,99 +0,0 @@
--From a54501d3c9541bc8600225aa2d42531f93c6def7 Mon Sep 17 00:00:00 2001
--From: Joshua Watt <JPEWhacker@gmail.com>
--Date: Sat, 9 Nov 2019 20:01:48 -0600
--Subject: [PATCH] Add option to control configure args
--
--Embedding the configure time options into the executable can lead to
--non-reproducible builds, since configure options often have embedded
--paths. Add a configure time option to control if the configure args are
--embedded so this can be disabled.
--
--Upstream-Status: Submitted [https://midnight-commander.org/ticket/4031]
--Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-----
-- configure.ac   | 6 ++++++
-- src/args.c     | 6 ++++++
-- src/textconf.c | 2 ++
-- 3 files changed, 14 insertions(+)
--
--diff --git a/configure.ac b/configure.ac
--index 19d1a76be..a1948f6b9 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -544,6 +544,12 @@ dnl Clarify do we really need GModule
-- AM_CONDITIONAL([HAVE_GMODULE], [test -n "$g_module_supported" && \
--                                 test x"$textmode_x11_support" = x"yes" -o x"$enable_aspell" = x"yes"])
-- 
--+AC_ARG_ENABLE([configure-args],
--+    AS_HELP_STRING([--enable-configure-args], [Handle all compiler warnings as errors]))
--+if test "x$enable_configure_args" != xno; then
--+    AC_DEFINE([ENABLE_CONFIGURE_ARGS], 1, [Define to enable showing configure arguments in help])
--+fi
--+
-- AC_DEFINE_UNQUOTED([MC_CONFIGURE_ARGS], ["$ac_configure_args"], [MC configure arguments])
-- 
-- AC_CONFIG_FILES(
--diff --git a/src/args.c b/src/args.c
--index baef1a1c8..f8dc24020 100644
----- a/src/args.c
--+++ b/src/args.c
--@@ -95,7 +95,9 @@ static gboolean mc_args__nouse_subshell = FALSE;
-- #endif /* ENABLE_SUBSHELL */
-- static gboolean mc_args__show_datadirs = FALSE;
-- static gboolean mc_args__show_datadirs_extended = FALSE;
--+#ifdef ENABLE_CONFIGURE_ARGS
-- static gboolean mc_args__show_configure_opts = FALSE;
--+#endif
-- 
-- static GOptionGroup *main_group;
-- 
--@@ -125,6 +127,7 @@ static const GOptionEntry argument_main_table[] = {
--      NULL
--     },
-- 
--+#ifdef ENABLE_CONFIGURE_ARGS
--     /* show configure options */
--     {
--      "configure-options", '\0', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_NONE,
--@@ -132,6 +135,7 @@ static const GOptionEntry argument_main_table[] = {
--      N_("Print configure options"),
--      NULL
--     },
--+#endif
-- 
--     {
--      "printwd", 'P', G_OPTION_FLAG_IN_MAIN, G_OPTION_ARG_STRING,
--@@ -758,11 +762,13 @@ mc_args_show_info (void)
--         return FALSE;
--     }
-- 
--+#ifdef ENABLE_CONFIGURE_ARGS
--     if (mc_args__show_configure_opts)
--     {
--         show_configure_options ();
--         return FALSE;
--     }
--+#endif
-- 
--     return TRUE;
-- }
--diff --git a/src/textconf.c b/src/textconf.c
--index 1e0613e58..f39b9e028 100644
----- a/src/textconf.c
--+++ b/src/textconf.c
--@@ -232,10 +232,12 @@ show_datadirs_extended (void)
-- 
-- /* --------------------------------------------------------------------------------------------- */
-- 
--+#ifdef ENABLE_CONFIGURE_ARGS
-- void
-- show_configure_options (void)
-- {
--     (void) printf ("%s\n", MC_CONFIGURE_ARGS);
-- }
--+#endif
-- 
-- /* --------------------------------------------------------------------------------------------- */
---- 
--2.23.0
--
-diff --git a/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch b/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
-deleted file mode 100644
-index 8f357378d0..0000000000
---- a/meta/recipes-extended/mc/files/0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch
-+++ /dev/null
-@@ -1,110 +0,0 @@
--From 0d677a014a87b968d79eea2353ac4e342b0fd4ca Mon Sep 17 00:00:00 2001
--From: Sergei Trofimovich <slyfox@gentoo.org>
--Date: Wed, 11 Sep 2019 22:58:18 +0100
--Subject: [PATCH] Ticket #3629: configure.ac: drop bundled gettext
--
--Bundled libintl did not support linking to internal static
--libraries (libmc in our case): directly specified static
--libraries are not pulled by libtool and are not usable for
--dynamic libraries as PIC-related flags are not passed for
--compilation.
--
--This renders bundled libintl library unusable.
--
--The change drops libintl bundling support and always relies
--on external libintl (or falls back to disabled NLS).
--
--On a related note gettext-0.20 drops support for bundling
--or libintl and this change will ease migration to newer version.
--
--The change is tested on x86_64-gentoo-linux-musl: mc builds
--and links all tests successfully. A few tests fail for lack
--of NLS support.
--
--Upstream-Status: Backport [https://github.com/MidnightCommander/mc/commit/f30e6ff283f4bc86177e4360de94dad794678395]
--Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
--Signed-off-by: Andrew Borodin <aborodin@vmail.ru>
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- Makefile.am           | 2 +-
-- configure.ac          | 5 +++--
-- doc/doxygen.cfg       | 2 +-
-- lib/Makefile.am       | 2 +-
-- m4.include/mc-i18n.m4 | 5 -----
-- 5 files changed, 6 insertions(+), 10 deletions(-)
--
--diff --git a/Makefile.am b/Makefile.am
--index ac05a83..f86f6ed 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -1,7 +1,7 @@
-- ## Process this file with automake to create Makefile.in.
-- AUTOMAKE_OPTIONS = 1.5
-- 
---SUBDIRS = intl po lib src doc contrib misc
--+SUBDIRS = po lib src doc contrib misc
-- 
-- if HAVE_TESTS
--     SUBDIRS += tests
--diff --git a/configure.ac b/configure.ac
--index a1948f6..bbc9e71 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -272,7 +272,9 @@ dnl ############################################################################
-- dnl Internationalization
-- dnl ############################################################################
-- 
---AM_GNU_GETTEXT([no-libtool], [need-ngettext])
--+AC_CHECK_FUNCS([setlocale])
--+
--+AM_GNU_GETTEXT([external], [need-ngettext])
-- AM_GNU_GETTEXT_VERSION([0.18.1])
-- 
-- mc_I18N
--@@ -680,7 +682,6 @@ doc/hlp/pl/Makefile
-- doc/hlp/ru/Makefile
-- doc/hlp/sr/Makefile
-- 
---intl/Makefile
-- po/Makefile.in
-- ])
-- 
--diff --git a/doc/doxygen.cfg b/doc/doxygen.cfg
--index 07bc973..1118062 100644
----- a/doc/doxygen.cfg
--+++ b/doc/doxygen.cfg
--@@ -91,7 +91,7 @@ FILE_PATTERNS          = *.c \
-- RECURSIVE              = YES
-- EXCLUDE                =
-- EXCLUDE_SYMLINKS       = NO
---EXCLUDE_PATTERNS       = */intl/* */tests/* */.git/*
--+EXCLUDE_PATTERNS       = */tests/* */.git/*
-- EXCLUDE_SYMBOLS        =
-- EXAMPLE_PATH           = $(SRCDIR)
-- EXAMPLE_PATTERNS       =
--diff --git a/lib/Makefile.am b/lib/Makefile.am
--index c448e2d..455f9dd 100644
----- a/lib/Makefile.am
--+++ b/lib/Makefile.am
--@@ -74,4 +74,4 @@ else
--     libmc_la_LIBADD += $(GLIB_LIBS)
-- endif
-- 
---libmc_la_LIBADD += $(PCRE_LIBS) $(LIBICONV) $(LIBINTL)
--+libmc_la_LIBADD += $(PCRE_LIBS)
--diff --git a/m4.include/mc-i18n.m4 b/m4.include/mc-i18n.m4
--index dd10d00..ec08324 100644
----- a/m4.include/mc-i18n.m4
--+++ b/m4.include/mc-i18n.m4
--@@ -8,11 +8,6 @@ dnl @license GPL
-- dnl @copyright Free Software Foundation, Inc.
-- 
-- AC_DEFUN([mc_I18N],[
---
---    if test "x$USE_INCLUDED_LIBINTL" = xyes; then
---        CPPFLAGS="$CPPFLAGS -I\$(top_builddir)/intl -I\$(top_srcdir)/intl"
---    fi
---
--     dnl User visible support for charset conversion.
--     AC_ARG_ENABLE([charset],
--         AS_HELP_STRING([--enable-charset], [Support for charset selection and conversion @<:@yes@:>@]))
-diff --git a/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch b/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
+diff --git a/meta/recipes-core/coreutils/coreutils/0001-ls-restore-8.31-behavior-on-removed-directories.patch b/meta/recipes-core/coreutils/coreutils/0001-ls-restore-8.31-behavior-on-removed-directories.patch
 new file mode 100644
-index 0000000000..824c12f8d2
+index 0000000000..fa900e3a76
 --- /dev/null
-+++ b/meta/recipes-extended/mc/files/0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch
-@@ -0,0 +1,59 @@
-+From 58dd59637ac5c6340ddfe96ad8b76883e4da20ef Mon Sep 17 00:00:00 2001
-+From: Sergei Trofimovich <slyfox@gentoo.org>
-+Date: Tue, 3 Mar 2020 09:26:12 +0000
-+Subject: [PATCH] Ticket #4070: misc/Makefile.am: install mc.lib only once.
++++ b/meta/recipes-core/coreutils/coreutils/0001-ls-restore-8.31-behavior-on-removed-directories.patch
+@@ -0,0 +1,99 @@
++From 7c273e5c6041f8c70f73f5b280fbb8f27d9b5a36 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Thu, 5 Mar 2020 17:25:29 -0800
++Subject: [PATCH] ls: restore 8.31 behavior on removed directories
 +
-+Before the change mc.lib was installed twice due to being
-+in two _DATA variables:
++* NEWS: Mention this.
++* src/ls.c: Do not include <sys/sycall.h>
++(print_dir): Don't worry about whether the directory is removed.
++* tests/ls/removed-directory.sh: Adjust to match new (i.e., old)
++behavior.
 +
-+dist_pkgdata_DATA = \
-+        mc.lib
-+
-+pkgdata_DATA = \
-+        $(dist_pkgdata_DATA) \
-+        $(PKGDATA_OUT)
-+
-+This causes occasional install failures when two parallel
-+`/usr/bin/install` calls race in installing the file:
-+
-+$ make -j20 DESTDIR=/var/tmp/portage/app-misc/mc-4.8.24/image install
-+...
-+ /usr/lib/portage/python3.6/ebuild-helpers/xattr/install \
-+    -c -m 644 mc.lib '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc'
-+ /usr/lib/portage/python3.6/ebuild-helpers/xattr/install \
-+    -c -m 644 mc.lib mc.charsets '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc'
-+...
-+ /usr/bin/install: cannot create regular file
-+   '/var/tmp/portage/app-misc/mc-4.8.24/image/usr/share/mc/mc.lib': File exists
-+
-+After the change mc.lib is present only in dist_pkgdata_DATA.
-+
-+Upstream-Status: Backport [https://github.com/MidnightCommander/mc/commit/afb09f7cd7024484845ade25e15b8b93d6cf2d2c]
-+
-+Signed-off-by: Sergei Trofimovich <slyfox@gentoo.org>
-+Signed-off-by: Andrew Borodin <aborodin@vmail.ru>
++Upstream-Status: Backport [https://github.com/coreutils/coreutils/commit/10fcb97bd728f09d4a027eddf8ad2900f0819b0a]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ misc/Makefile.am | 2 --
-+ 1 file changed, 2 deletions(-)
++ src/ls.c                      | 22 ----------------------
++ tests/ls/removed-directory.sh | 10 ++--------
++ 2 files changed, 2 insertions(+), 30 deletions(-)
 +
-+diff --git a/misc/Makefile.am b/misc/Makefile.am
-+index 8ed1826..24f4a0e 100644
-+--- a/misc/Makefile.am
-++++ b/misc/Makefile.am
-+@@ -17,7 +17,6 @@ dist_pkgdata_DATA = \
-+ 	mc.lib
++diff --git a/src/ls.c b/src/ls.c
++index 637fe7a..0111f49 100644
++--- a/src/ls.c
+++++ b/src/ls.c
++@@ -49,10 +49,6 @@
++ # include <sys/ptem.h>
++ #endif
 + 
-+ pkgdata_DATA = \
-+-	$(dist_pkgdata_DATA) \
-+ 	$(PKGDATA_OUT)
++-#ifdef __linux__
++-# include <sys/syscall.h>
++-#endif
++-
++ #include <stdio.h>
++ #include <assert.h>
++ #include <setjmp.h>
++@@ -2895,7 +2891,6 @@ print_dir (char const *name, char const *realname, bool command_line_arg)
++   struct dirent *next;
++   uintmax_t total_blocks = 0;
++   static bool first = true;
++-  bool found_any_entries = false;
 + 
-+ SCRIPTS_IN = \
-+@@ -54,7 +53,6 @@ EXTRA_DIST = \
-+ 	$(LIBFILES_SCRIPT) \
-+ 	$(SCRIPTS_IN) \
-+ 	$(noinst_DATA) \
-+-	$(dist_pkgdata_DATA) \
-+ 	$(PKGDATA_IN)
++   errno = 0;
++   dirp = opendir (name);
++@@ -2971,7 +2966,6 @@ print_dir (char const *name, char const *realname, bool command_line_arg)
++       next = readdir (dirp);
++       if (next)
++         {
++-          found_any_entries = true;
++           if (! file_ignored (next->d_name))
++             {
++               enum filetype type = unknown;
++@@ -3017,22 +3011,6 @@ print_dir (char const *name, char const *realname, bool command_line_arg)
++           if (errno != EOVERFLOW)
++             break;
++         }
++-#ifdef __linux__
++-      else if (! found_any_entries)
++-        {
++-          /* If readdir finds no directory entries at all, not even "." or
++-             "..", then double check that the directory exists.  */
++-          if (syscall (SYS_getdents, dirfd (dirp), NULL, 0) == -1
++-              && errno != EINVAL)
++-            {
++-              /* We exclude EINVAL as that pertains to buffer handling,
++-                 and we've passed NULL as the buffer for simplicity.
++-                 ENOENT is returned if appropriate before buffer handling.  */
++-              file_failure (command_line_arg, _("reading directory %s"), name);
++-            }
++-          break;
++-        }
++-#endif
++       else
++         break;
 + 
-+ install-data-hook:
-diff --git a/meta/recipes-extended/mc/mc_4.8.23.bb b/meta/recipes-extended/mc/mc_4.8.24.bb
-similarity index 88%
-rename from meta/recipes-extended/mc/mc_4.8.23.bb
-rename to meta/recipes-extended/mc/mc_4.8.24.bb
-index ead348b92e..034df2a422 100644
---- a/meta/recipes-extended/mc/mc_4.8.23.bb
-+++ b/meta/recipes-extended/mc/mc_4.8.24.bb
-@@ -9,12 +9,11 @@ RRECOMMENDS_${PN} = "ncurses-terminfo"
++diff --git a/tests/ls/removed-directory.sh b/tests/ls/removed-directory.sh
++index e8c835d..fe8f929 100755
++--- a/tests/ls/removed-directory.sh
+++++ b/tests/ls/removed-directory.sh
++@@ -26,20 +26,14 @@ case $host_triplet in
++   *) skip_ 'non linux kernel' ;;
++ esac
++ 
++-LS_FAILURE=2
++-
++-cat <<\EOF >exp-err || framework_failure_
++-ls: reading directory '.': No such file or directory
++-EOF
++-
++ cwd=$(pwd)
++ mkdir d || framework_failure_
++ cd d || framework_failure_
++ rmdir ../d || framework_failure_
++ 
++-returns_ $LS_FAILURE ls >../out 2>../err || fail=1
+++ls >../out 2>../err || fail=1
++ cd "$cwd" || framework_failure_
++ compare /dev/null out || fail=1
++-compare exp-err err || fail=1
+++compare /dev/null err || fail=1
++ 
++ Exit $fail
+diff --git a/meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch b/meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch
+index 9d1ae55d47..173a57925b 100644
+--- a/meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch
++++ b/meta/recipes-core/coreutils/coreutils/fix-selinux-flask.patch
+@@ -1,4 +1,4 @@
+-From a1d360509fa3a4aff57eedcd528cc0347a87531d Mon Sep 17 00:00:00 2001
++From 7e20a7242ba2657f73311bbf5278093da67f0721 Mon Sep 17 00:00:00 2001
+ From: Robert Yang <liezhi.yang@windriver.com>
+ Date: Tue, 16 Sep 2014 01:59:08 -0700
+ Subject: [PATCH] gnulib-comp.m4: selinux/flask.h should respect to
+@@ -13,20 +13,20 @@ compilation terminated.
+ Upstream-Status: Pending
  
- SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
-            file://0001-mc-replace-perl-w-with-use-warnings.patch \
--           file://0001-Add-option-to-control-configure-args.patch \
--           file://0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch \
-            file://nomandate.patch \
-+           file://0001-Ticket-4070-misc-Makefile.am-install-mc.lib-only-onc.patch \
-            "
--SRC_URI[md5sum] = "152927ac29cf0e61d7d019f261bb7d89"
--SRC_URI[sha256sum] = "238c4552545dcf3065359bd50753abbb150c1b22ec5a36eaa02c82808293267d"
-+SRC_URI[md5sum] = "2621de1fa9058a9c41a4248becc969f9"
-+SRC_URI[sha256sum] = "cfcc4d0546d0c3a88645a8bf71612ed36647ea3264d973b1f28183a0c84bae34"
+ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++
+ ---
+- m4/gnulib-comp.m4 |    2 +-
++ m4/gnulib-comp.m4 | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- inherit autotools gettext pkgconfig
+ diff --git a/m4/gnulib-comp.m4 b/m4/gnulib-comp.m4
+-index 472d3a0..5f09734 100644
++index dead90e..0abf0bd 100644
+ --- a/m4/gnulib-comp.m4
+ +++ b/m4/gnulib-comp.m4
+-@@ -1730,11 +1730,11 @@ AC_DEFUN([gl_INIT],
++@@ -1860,10 +1860,10 @@ AC_DEFUN([gl_INIT],
+      AC_LIBOBJ([select])
+    fi
+    gl_SYS_SELECT_MODULE_INDICATOR([select])
+ -  AC_CHECK_HEADERS([selinux/flask.h])
+-   AC_LIBOBJ([selinux-at])
+    gl_HEADERS_SELINUX_SELINUX_H
+    gl_HEADERS_SELINUX_CONTEXT_H
+    if test "$with_selinux" != no && test "$ac_cv_header_selinux_selinux_h" = yes; then
+@@ -34,6 +34,3 @@ index 472d3a0..5f09734 100644
+      AC_LIBOBJ([getfilecon])
+    fi
+    gl_SERVENT
+--- 
+-1.7.9.5
+-
+diff --git a/meta/recipes-core/coreutils/coreutils/remove-usr-local-lib-from-m4.patch b/meta/recipes-core/coreutils/coreutils/remove-usr-local-lib-from-m4.patch
+index 2ef8a548ac..1a8a9b9983 100644
+--- a/meta/recipes-core/coreutils/coreutils/remove-usr-local-lib-from-m4.patch
++++ b/meta/recipes-core/coreutils/coreutils/remove-usr-local-lib-from-m4.patch
+@@ -1,3 +1,8 @@
++From a26530083a29eeee910bfd606ecc621acecd547a Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 3 Aug 2011 14:12:30 -0700
++Subject: [PATCH] coreutils: Fix build on uclibc
++
+ We have problem using hardcoded directories like /usr/local here
+ which will be checked for cross builds. This is a special case which
+ is valid for AIX only. We do not have AIX as one of our supported
+@@ -8,11 +13,15 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
  
+ Upstream-Status: Inappropriate [Upstream does care for AIX while we may not]
+ 
+-Index: coreutils-8.14/m4/getloadavg.m4
+-===================================================================
+---- coreutils-8.14.orig/m4/getloadavg.m4	2011-09-19 08:09:24.000000000 -0700
+-+++ coreutils-8.14/m4/getloadavg.m4	2011-10-19 21:42:00.385533357 -0700
+-@@ -41,16 +41,6 @@
++---
++ m4/getloadavg.m4 | 12 ------------
++ 1 file changed, 12 deletions(-)
++
++diff --git a/m4/getloadavg.m4 b/m4/getloadavg.m4
++index 8e96965..63782a2 100644
++--- a/m4/getloadavg.m4
+++++ b/m4/getloadavg.m4
++@@ -41,18 +41,6 @@ AC_CHECK_FUNC([getloadavg], [],
+         [LIBS="-lutil $LIBS" gl_func_getloadavg_done=yes])
+     fi
+  
+@@ -20,7 +29,9 @@ Index: coreutils-8.14/m4/getloadavg.m4
+ -     # There is a commonly available library for RS/6000 AIX.
+ -     # Since it is not a standard part of AIX, it might be installed locally.
+ -     gl_getloadavg_LIBS=$LIBS
+--     LIBS="-L/usr/local/lib $LIBS"
++-     if test $cross_compiling != yes; then
++-       LIBS="-L/usr/local/lib $LIBS"
++-     fi
+ -     AC_CHECK_LIB([getloadavg], [getloadavg],
+ -                  [LIBS="-lgetloadavg $LIBS" gl_func_getloadavg_done=yes],
+ -                  [LIBS=$gl_getloadavg_LIBS])
+diff --git a/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch b/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
+deleted file mode 100644
+index 77770093cd..0000000000
+--- a/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From 0562b040fa17f1722ba2b3096067b45d0582ca53 Mon Sep 17 00:00:00 2001
+-From: Paul Eggert <eggert@cs.ucla.edu>
+-Date: Mon, 11 Mar 2019 16:40:29 -0700
+-Subject: [PATCH] strtod: fix clash with strtold
+-
+-Problem reported for RHEL 5 by Jesse Caldwell (Bug#34817).
+-* lib/strtod.c (compute_minus_zero, minus_zero):
+-Simplify by remving the macro / external variable,
+-and having just a function.  User changed.  This avoids
+-the need for an external variable that might clash.
+-
+-Upstream-Status: Backport [rhel5]
+-
+-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+-
+----
+- ChangeLog    |  9 +++++++++
+- lib/strtod.c | 11 +++++------
+- 2 files changed, 14 insertions(+), 6 deletions(-)
+-
+-diff --git a/lib/strtod.c b/lib/strtod.c
+-index b9eaa51b4..69b1564e1 100644
+---- a/lib/strtod.c
+-+++ b/lib/strtod.c
+-@@ -294,16 +294,15 @@ parse_number (const char *nptr,
+-    ICC 10.0 has a bug when optimizing the expression -zero.
+-    The expression -MIN * MIN does not work when cross-compiling
+-    to PowerPC on Mac OS X 10.5.  */
+--#if defined __hpux || defined __sgi || defined __ICC
+- static DOUBLE
+--compute_minus_zero (void)
+-+minus_zero (void)
+- {
+-+#if defined __hpux || defined __sgi || defined __ICC
+-   return -MIN * MIN;
+--}
+--# define minus_zero compute_minus_zero ()
+- #else
+--DOUBLE minus_zero = -0.0;
+-+  return -0.0;
+- #endif
+-+}
+- 
+- /* Convert NPTR to a DOUBLE.  If ENDPTR is not NULL, a pointer to the
+-    character after the last one used in the number is put in *ENDPTR.  */
+-@@ -479,6 +478,6 @@ STRTOD (const char *nptr, char **endptr)
+-   /* Special case -0.0, since at least ICC miscompiles negation.  We
+-      can't use copysign(), as that drags in -lm on some platforms.  */
+-   if (!num && negative)
+--    return minus_zero;
+-+    return minus_zero ();
+-   return negative ? -num : num;
+- }
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.32.bb
+similarity index 94%
+rename from meta/recipes-core/coreutils/coreutils_8.31.bb
+rename to meta/recipes-core/coreutils/coreutils_8.32.bb
+index 2b196b7512..2422f8634e 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.31.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.32.bb
+@@ -5,8 +5,9 @@ every system."
+ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv3+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+-                    file://src/ls.c;beginline=1;endline=15;md5=c456f9896277a0543e3866777ccc0255"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464 \
++                    file://src/ls.c;beginline=1;endline=15;md5=b7d80abf5b279320fb0e4b1007ed108b \
++                    "
+ DEPENDS = "gmp libcap"
+ DEPENDS_class-native = ""
+ 
+@@ -19,12 +20,11 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://disable-ls-output-quoting.patch \
+            file://0001-local.mk-fix-cross-compiling-problem.patch \
+            file://run-ptest \
+-          "
++           file://0001-ls-restore-8.31-behavior-on-removed-directories.patch \
++           "
+ 
+-SRC_URI_append_libc-musl = "file://strtod_fix_clash_with_strtold.patch"
+-
+-SRC_URI[md5sum] = "0009a224d8e288e8ec406ef0161f9293"
+-SRC_URI[sha256sum] = "ff7a9c918edce6b4f4b2725e3f9b37b0c4d193531cac49a48b56c4d0d3a9e9fd"
++SRC_URI[md5sum] = "022042695b7d5bcf1a93559a9735e668"
++SRC_URI[sha256sum] = "4458d8de7849df44ccab15e16b1548b285224dbba5f08fac070c1c0e0bcc4cfa"
+ 
+ EXTRA_OECONF_class-native = "--without-gmp"
+ EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
 -- 
 2.26.1
 
