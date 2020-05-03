@@ -1,50 +1,50 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web10.25845.1588523201462768088
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.25493.1588523201872706886
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 May 2020 09:26:41 -0700
+ Sun, 03 May 2020 09:26:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=H4bSNsuj;
- spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id d17so17955109wrg.11
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LKaH7/rx;
+ spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f54.google.com with SMTP id s8so7681383wrt.9
         for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 09:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Vmb3pasfuNXrAyweWlKUSnaw/+AJw9ehkhd6DVN45p8=;
-        b=H4bSNsuj7TU4jFFg+p7ImQYZAg0k+0fC6b1dUdaXcrXvStN0XFOzl+8Gf8YT+JC5Rc
-         eL2TphK+gxRHD56BCNX3E+ZG8z4mwCWxBZcVApjx6eRKlnQI4AQVEqBtMCgzgexmzLgv
-         BhMYJLnrrlAwJImMz/zWoKrRrr3kwGI68JbtLzasa1S80/g0Ia2Xeh+4R16+n76gM0AA
-         KKft8fADrjaPX/slFswxxmQiYkWLd4wWbnWj13JLt6dhQ7Ye3GBjjejDXtX31v9i4Ep5
-         ZmTghNJ0vIgkfzWDH6xVG2PRuYd4S0EI3J1O0INnCwGfkBq7FCVESslLXh73Srw59xiB
-         K/sw==
+        bh=f4c8CbBf+rmGrrSpoCtGXfWPqbSM9Vd45l+E0Zzhw04=;
+        b=LKaH7/rxK6MXCAJDTgCczFLTGqgzQDITewAhw8p7HwCfeCvn21Fqgo26ih6pgwl32X
+         gb1WuV3S405NGyQ4lAjnv6j/EfkOKKkKeQTUmBJa3zo3wNd/FPmap/aAOT2SIFE0oXJi
+         0UdccTItoz1W5LcIR5h1m1WaOOf2bPApqlRojJDguaIKG+wfp/Dj3ansZWLfqv41YWj7
+         3QKH2RQRy6cQzmeoc4Jm13ErArWE8ZJCSZ6VnG7lcO9X00KZHHBV0qhBV1zo78mhAZWo
+         ddSHQp1JRwRXRW6Yzz4T0YozEWYzkE8FMk5MHX1572lwkkXNLssj58LlCSePdJetJc3v
+         O9Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Vmb3pasfuNXrAyweWlKUSnaw/+AJw9ehkhd6DVN45p8=;
-        b=HCspMzOSkVeLXkGOs9OeJ5bFBWVGkPg0FqBXiklOi5AKHZK+yz5hizILQvlb7bJ296
-         lIDwGkejFNCUkgJfvSpvXNcvjgzIrN+79YxzgpkBdLe6HbaNa6tznAfahGsxxqp6Qitf
-         vKeo3HKN+o7MbKU8BnHIabvJoHICYzIEBbHhb/4Rp9GxRB5mT0nqJT2HkQJJkjZxIHow
-         eMw2u1qMqjA+gUgpnjAlfl4Z7L7SyQGTc0AtA5og4WXzBIFyOx5EcZ8Q7+fOzeReLhI3
-         BxIVNW80BhRX5+0sM1lR4ZBnAGMbx+7dqFHX7ZYt89AfG+KrKCXyXSz+rZogBrXtxvDA
-         APqw==
-X-Gm-Message-State: AGi0PuZdaFlVV7ekpj2dI6eqssLWeFvgZ5Je2n3Bj1PJUhwFZtmPnbmO
-	OKctC3hm7SzL8OCDVVrCGfG3RU6w
-X-Google-Smtp-Source: APiQypKVi/P/jH94vGLSjuuKKSvpDnZKx7C2WCjppUyHObgnKUqFopWuxzkbx+B1vVvdJ1aAaZ68JQ==
-X-Received: by 2002:a5d:6144:: with SMTP id y4mr11242286wrt.233.1588523199333;
-        Sun, 03 May 2020 09:26:39 -0700 (PDT)
+        bh=f4c8CbBf+rmGrrSpoCtGXfWPqbSM9Vd45l+E0Zzhw04=;
+        b=a02FpjQ7hT95UZgRwGRHSISr+pxnJLEW4mjs8GTZahvWWu9nGG6ZKDwJ/McICW2cHj
+         8n+EKBl8Bgj3vE8sYUSJnAUTPDEZ164ogd6NDSW9Gosf1ON9g2o+MfLxfvpoF4uaks2s
+         tCAY52YAytvFX/VFvuk8CBmls09EaQo4AoJUfojLqGABNYbLTAt75xT2V1ocY+nQ5tbc
+         KG3oU8SsAcVORtkfpKSmhhXfKo7ZgzdIgi+/CHw88KZxKlysVdJ1GVNuQEbAhgbGSN4Y
+         LPgmSN30iarbt3/zC/KWjwR614GdrNu6IWqOTIyNxgrv4slyIdGLqzYuPMwO1h+qAnyg
+         Ni6A==
+X-Gm-Message-State: AGi0PuZqwXYYUekTZr2PmrN9GHbOnEZ5kVNp9f0dcDnzyzuA8OO63IkJ
+	3pEj2kUwPczl4BiIGhNXnrytunHV
+X-Google-Smtp-Source: APiQypJ/DFs58bgLrHYjL2NJXDKyGT21qOSVtovM5am9pUu3HaW8FEJ49NPZpZwLJcuJlRqOYNelxg==
+X-Received: by 2002:a5d:5309:: with SMTP id e9mr1661318wrv.311.1588523200169;
+        Sun, 03 May 2020 09:26:40 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id q18sm9079532wmj.11.2020.05.03.09.26.38
+        by smtp.gmail.com with ESMTPSA id q18sm9079532wmj.11.2020.05.03.09.26.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2020 09:26:38 -0700 (PDT)
+        Sun, 03 May 2020 09:26:39 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 11/17] wpe: update to 1.6.0
-Date: Sun,  3 May 2020 18:25:53 +0200
-Message-Id: <20200503162559.946-11-alex.kanavin@gmail.com>
+Subject: [PATCH 12/17] vte: update to 0.60.2
+Date: Sun,  3 May 2020 18:25:54 +0200
+Message-Id: <20200503162559.946-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200503162559.946-1-alex.kanavin@gmail.com>
 References: <20200503162559.946-1-alex.kanavin@gmail.com>
@@ -53,42 +53,35 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../recipes-sato/webkit/{libwpe_1.4.0.1.bb => libwpe_1.6.0.bb} | 3 ++-
- .../{wpebackend-fdo_1.4.1.bb => wpebackend-fdo_1.6.0.bb}       | 3 ++-
- 2 files changed, 4 insertions(+), 2 deletions(-)
- rename meta/recipes-sato/webkit/{libwpe_1.4.0.1.bb => libwpe_1.6.0.bb} (82%)
- rename meta/recipes-sato/webkit/{wpebackend-fdo_1.4.1.bb => wpebackend-fdo_1.6.0.bb} (78%)
+ meta/recipes-support/vte/{vte_0.58.3.bb => vte_0.60.2.bb} | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/vte/{vte_0.58.3.bb => vte_0.60.2.bb} (89%)
 
-diff --git a/meta/recipes-sato/webkit/libwpe_1.4.0.1.bb b/meta/recipes-sato/webkit/libwpe_1.6.0.bb
-similarity index 82%
-rename from meta/recipes-sato/webkit/libwpe_1.4.0.1.bb
-rename to meta/recipes-sato/webkit/libwpe_1.6.0.bb
-index 12499ff281..09c74089c9 100644
---- a/meta/recipes-sato/webkit/libwpe_1.4.0.1.bb
-+++ b/meta/recipes-sato/webkit/libwpe_1.6.0.bb
-@@ -13,5 +13,6 @@ inherit cmake features_check
+diff --git a/meta/recipes-support/vte/vte_0.58.3.bb b/meta/recipes-support/vte/vte_0.60.2.bb
+similarity index 89%
+rename from meta/recipes-support/vte/vte_0.58.3.bb
+rename to meta/recipes-support/vte/vte_0.60.2.bb
+index 41dc2e77c9..3891ff8165 100644
+--- a/meta/recipes-support/vte/vte_0.58.3.bb
++++ b/meta/recipes-support/vte/vte_0.60.2.bb
+@@ -20,8 +20,8 @@ inherit gnomebase gtk-doc features_check upstream-version-is-even gobject-intros
+ SRC_URI += "file://0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch \
+             file://0002-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
+            "
+-SRC_URI[archive.md5sum] = "f59eb0784a361c0939c03d4566255916"
+-SRC_URI[archive.sha256sum] = "22dcb54ac2ad1a56ab0a745e16ccfeb383f0b5860b5bfa1784561216f98d4975"
++SRC_URI[archive.md5sum] = "1a0b5395915d2f3c88484511b38cc584"
++SRC_URI[archive.sha256sum] = "35a0280e3f12feeb3096da05699191373c47a4a20c55cb7081e828e6015f8ca5"
  
- REQUIRED_DISTRO_FEATURES = "opengl"
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
  
-+SRC_URI[md5sum] = "6e8a2c279dcc3617db5ec7ac4c03d628"
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "09849dfb34877354f34f318e138971cf22e677b2179e1f0a8ea00ab0b7bd8e9b"
-+SRC_URI[sha256sum] = "3587c6b8a807f4bb76b268ba74ca82c6b395b90235db41ad8252224456193c90"
-diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.6.0.bb
-similarity index 78%
-rename from meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
-rename to meta/recipes-sato/webkit/wpebackend-fdo_1.6.0.bb
-index cd2f7fabda..3b1dbf1e09 100644
---- a/meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
-+++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.6.0.bb
-@@ -12,6 +12,7 @@ inherit cmake features_check
- 
- REQUIRED_DISTRO_FEATURES = "opengl"
- 
-+SRC_URI[md5sum] = "456afeed22f6749f7b2a97c11660835d"
- SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "6249a0b7cbfa662206a8d2fa24e2c574e75c681ad0e93468091f1dc68ddb299d"
-+SRC_URI[sha256sum] = "7f5bd7b9d8f97b1655f4dcd39fad92719d0fb3985b251da5802df13aaa09f567"
+@@ -44,6 +44,7 @@ FILES_${PN}-dev += "${datadir}/vala/vapi/*"
+ PACKAGECONFIG ??= "gnutls"
+ PACKAGECONFIG[vala] = "-Dvapi=true,-Dvapi=false,vala-native vala"
+ PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
++PACKAGECONFIG[systemd] = "-D_systemd=true,-D_systemd=false,systemd"
+ # vala requires gir
+ PACKAGECONFIG_remove_class-native = "vala"
  
 -- 
 2.26.1
