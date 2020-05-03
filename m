@@ -1,50 +1,50 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web11.25496.1588523204906121440
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web12.26079.1588523205842462225
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 May 2020 09:26:45 -0700
+ Sun, 03 May 2020 09:26:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=j189T7Mr;
- spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f66.google.com with SMTP id z6so6028868wml.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 09:26:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lBJeAbQQ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id l18so7253031wrn.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 09:26:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5hkNoHwWyechwL84slCxd9cNAWuDKfaQwev7LpU9R2w=;
-        b=j189T7MrJyxHp+M3ZfnlrceOVUT8LBlYStz3LaAioZ086CPJxChR3ct+YMRJkrZBlV
-         SCUQWA2uhjp+GpyMQldM6VMrR5MfgXfBGLRLNLp4VCwZvRpopZeQwp4aIOE8aiavdq/6
-         u0/6me+YCWqMZRpq2bYTN9eiVm4wHKOHwdGbWsWQ4TNeuuRhBjSsg1EcKNyFSeKs7RhX
-         G0L94Ku6Wqy7N0sZ3zneoRzhw44uBvUd2+OHNp7gnsRJ9u8mSqZy7+DmQdTaMuIJb8lf
-         Hhri3ws4m/LtxOs+PwGLdQoA/J/U2Q/Xp67GHjerQyzMzjkUgEoVu2sUiG677Zev7hZH
-         A6UA==
+        bh=mG8fT8wLygW4JbFzqtq3ne//savLoCLPwdddZwLWUyg=;
+        b=lBJeAbQQNF7J60U9gHbQBWAGoS/8m6gWpBEeG87RJP8Pw7Yu/oV0erHp5x0ExLA0Vy
+         zYyOiCbuDV0p/tcQcnFnCPoqPwh5lWLuz00mO+sWsGZjSxImZGvfJU+8Daogz8eCxioR
+         Q1srWmSkXTinADsHJF4HGaqLwBkt0QhSNCtm0jQem4FVzJXLQUB/EGq+5QrQQyMKx/f6
+         JbSc3exL62QakTqWmubZa+K9nQfGJ8Bm0HtnGoIUObgkqiPBTIs4yMlv60Bze72NgQyf
+         EletvlQBXJgK0NHRs1fnkaMTnxxp0n21subs5Is3Y6/YWeZin4QBYIHQtOAiHjdZrUvR
+         eOUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5hkNoHwWyechwL84slCxd9cNAWuDKfaQwev7LpU9R2w=;
-        b=hmlvHl4dO9mp9eCBIliV/l2m2g1WHLb4NErtVCpHMQYdzUo7Ts1GpXy5E0aDB903Y8
-         +Eo18OL8j/5vXuKgrVbmp4K/6x6xEHz7pkCM0KLhiCqAniHz9SXRR3v9W2NnSRxKZXAT
-         LUlBzKAaKMJ2OgZAfhTH6oIu69VGiKjJ41th+7trp7rHoGn7jqyThcUyOy+Q94B1Acrs
-         LWn8oEI5anyvXa12MqHDAISPxDknAD/iS2wK1SxKIDrHLfRxqQl3Ib3ZPG2bbHXsmtky
-         gtiZj90QIpZfAU2vmVoGaeRDgkTfb8Q707gG1u4/EBEThylbXv80Fo1KJadsUAptFxlM
-         iE9w==
-X-Gm-Message-State: AGi0Pub9Hgewy6o5JZCaOVBBL0XeKtmF/yb0rwhvGUq/9oN+Yq3y1knI
-	VxvFRjW+tjq6LfpuCFaCoROsKipd
-X-Google-Smtp-Source: APiQypLzyE4deh6VUNJipeboy+ZHWB6ZtppndwyZBC951CoHv5MzmOVhaJ+2vCLDWvHXePcvBTYpyQ==
-X-Received: by 2002:a1c:1983:: with SMTP id 125mr9855989wmz.43.1588523202781;
-        Sun, 03 May 2020 09:26:42 -0700 (PDT)
+        bh=mG8fT8wLygW4JbFzqtq3ne//savLoCLPwdddZwLWUyg=;
+        b=WlUDVhmQm2dxFtfTeUPJtJUi+vUDuL3PpAoiKrVUbFKwgeJHqK2tHnw3Z2OUVK5gFk
+         X7wmKg76YUHnPV0i3H5UjG7e6qwlZNeMkDMHcGggT0uLWPlogLI87fvrkWyg8i15GIB9
+         PhNcqM8CO/esXUDg2ZsxRu3Kqm1eNFJq3zZxCptFGrLES+L+oSlZAo9K7eudbjDVBxgD
+         K48sVRpHPT5APtUJOJgLLuyKwc/wLrNGQbMVA8Tp6Vb39rPYcNzlbirvuwnGsXFMH2kE
+         Uc9bK6jlIn2psQkH6BbSUBVf6DqTI2aIzsbF8J8XB1PN5z7PWflfIHPlZ6IyMb11icMv
+         TgGA==
+X-Gm-Message-State: AGi0PuY8cSxXU1oN24erQ4Nur8rXJJC6oThFJdqyRj/q0BtLrbgCWqrX
+	c/lEbP/Y9Y4EPuQfTXTUmPJkOlVd
+X-Google-Smtp-Source: APiQypJn89Wvxqny1CnydLq7A7U4lv52L4EFwOrk6cLvmdJbdcyfxpiBZnQTIFbTZyw9qzjPJgnhBg==
+X-Received: by 2002:adf:f343:: with SMTP id e3mr14153410wrp.51.1588523204116;
+        Sun, 03 May 2020 09:26:44 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id q18sm9079532wmj.11.2020.05.03.09.26.41
+        by smtp.gmail.com with ESMTPSA id q18sm9079532wmj.11.2020.05.03.09.26.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2020 09:26:42 -0700 (PDT)
+        Sun, 03 May 2020 09:26:43 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 15/17] libcap: update to 2.33
-Date: Sun,  3 May 2020 18:25:57 +0200
-Message-Id: <20200503162559.946-15-alex.kanavin@gmail.com>
+Subject: [PATCH 16/17] xkeyboard-config: update to 2.29
+Date: Sun,  3 May 2020 18:25:58 +0200
+Message-Id: <20200503162559.946-16-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200503162559.946-1-alex.kanavin@gmail.com>
 References: <20200503162559.946-1-alex.kanavin@gmail.com>
@@ -53,96 +53,74 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-tests-do-not-statically-link-a-test.patch |  9 +++----
- ...hread_yield-with-standard-sched_yiel.patch | 24 +++++++++++++++++++
- .../libcap/{libcap_2.32.bb => libcap_2.33.bb} |  5 ++--
- 3 files changed, 32 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-support/libcap/files/0004-psx.c-replace-pthread_yield-with-standard-sched_yiel.patch
- rename meta/recipes-support/libcap/{libcap_2.32.bb => libcap_2.33.bb} (90%)
+ .../0001-fix-python3-support.patch            | 34 +++++++++++++++++++
+ ...onfig_2.28.bb => xkeyboard-config_2.29.bb} |  8 +++--
+ 2 files changed, 39 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-graphics/xorg-lib/xkeyboard-config/0001-fix-python3-support.patch
+ rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.28.bb => xkeyboard-config_2.29.bb} (81%)
 
-diff --git a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-index e568cc47c5..5a0b25758c 100644
---- a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-+++ b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-@@ -1,4 +1,4 @@
--From 1179b423cce8d119b42cebfb3daa77c540fdca43 Mon Sep 17 00:00:00 2001
-+From 99ff8da92cc1bdf150fecd1ecd0fa50794be0259 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 15 Jan 2020 17:16:28 +0100
- Subject: [PATCH] tests: do not statically link a test
-@@ -7,12 +7,13 @@ This fails on e.g. centos 7
- 
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-  tests/Makefile | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/tests/Makefile b/tests/Makefile
--index 7162cf0..6af47af 100644
-+index f9cec56..dcd654f 100644
- --- a/tests/Makefile
- +++ b/tests/Makefile
- @@ -29,7 +29,7 @@ psx_test_wrap: psx_test.c $(DEPS)
-@@ -22,5 +23,5 @@ index 7162cf0..6af47af 100644
- -	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create --static
- +	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create
-  
-- clean:
-- 	rm -f psx_test psx_test_wrap libcap_psx_test
-+ run_libcap_launch_test: libcap_launch_test libcap_psx_launch_test noop
-+ 	sudo ./libcap_launch_test
-diff --git a/meta/recipes-support/libcap/files/0004-psx.c-replace-pthread_yield-with-standard-sched_yiel.patch b/meta/recipes-support/libcap/files/0004-psx.c-replace-pthread_yield-with-standard-sched_yiel.patch
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config/0001-fix-python3-support.patch b/meta/recipes-graphics/xorg-lib/xkeyboard-config/0001-fix-python3-support.patch
 new file mode 100644
-index 0000000000..848ceb2c0c
+index 0000000000..f723f70332
 --- /dev/null
-+++ b/meta/recipes-support/libcap/files/0004-psx.c-replace-pthread_yield-with-standard-sched_yiel.patch
-@@ -0,0 +1,24 @@
-+From a2c4cdb05d0e382101b13944c09c4375e8d7de5f Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 31 Mar 2020 13:39:28 +0200
-+Subject: [PATCH] psx.c: replace pthread_yield() with standard sched_yield()
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config/0001-fix-python3-support.patch
+@@ -0,0 +1,34 @@
++From 168ac446cdd9a1b59d6b708360a9556515ba56b9 Mon Sep 17 00:00:00 2001
++From: MilhouseVH <milhouseVH.github@nmacleod.com>
++Date: Sun, 16 Feb 2020 09:41:43 +0000
++Subject: [PATCH] fix python3 support
 +
-+This was causing failures when building with musl C library in
-+particular.
++https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/issues/197
 +
-+Upstream-Status: Pending
++Upstream-Status: Backport
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+diff --git a/libcap/psx.c b/libcap/psx.c
-+index 04d250f..7e4ac10 100644
-+--- a/libcap/psx.c
-++++ b/libcap/psx.c
-+@@ -533,7 +533,7 @@ long int __psx_syscall(long int syscall_nr, ...) {
-+ 	if (!waiting) {
-+ 	    break;
-+ 	}
-+-	pthread_yield();
-++	sched_yield();
-+     }
++ rules/compat/map-variants.py | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/rules/compat/map-variants.py b/rules/compat/map-variants.py
++index ebbfec9..979ba43 100755
++--- a/rules/compat/map-variants.py
+++++ b/rules/compat/map-variants.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/python3
+++#!/usr/bin/env python3
 + 
-+     errno = restore_errno;
-diff --git a/meta/recipes-support/libcap/libcap_2.32.bb b/meta/recipes-support/libcap/libcap_2.33.bb
-similarity index 90%
-rename from meta/recipes-support/libcap/libcap_2.32.bb
-rename to meta/recipes-support/libcap/libcap_2.33.bb
-index d78a58f7d2..bec492ca5f 100644
---- a/meta/recipes-support/libcap/libcap_2.32.bb
-+++ b/meta/recipes-support/libcap/libcap_2.33.bb
-@@ -11,9 +11,10 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
-            file://0002-tests-do-not-run-target-executables.patch \
-            file://0001-tests-do-not-statically-link-a-test.patch \
-+           file://0004-psx.c-replace-pthread_yield-with-standard-sched_yiel.patch \
-            "
--SRC_URI[md5sum] = "7416119c9fdcfd0e8dd190a432c668e9"
--SRC_URI[sha256sum] = "1005e3d227f2340ad1e3360ef8b69d15e3c72a29c09f4894d7aac038bd26e2be"
-+SRC_URI[md5sum] = "dcc6220b4a9bf260050b20c07edcddf4"
-+SRC_URI[sha256sum] = "08edeaba2757021aeec45c4eeec52566675e0e0f5d4f057284d729e04f2643d6"
++ import argparse
++ import re
++@@ -12,8 +12,8 @@ class Layout(object):
++             assert variant is None
++             # parse a layout(variant) string
++             match = re.match(r'([^(]+)\(([^)]+)\)', layout)
++-            self.layout = match[1]
++-            self.variant = match[2]
+++            self.layout = match.groups()[0]
+++            self.variant = match.groups()[1]
++ 
++     def __str__(self):
++         if self.variant:
+diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.28.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.29.bb
+similarity index 81%
+rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.28.bb
+rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.29.bb
+index 7a3d694bd6..598b584787 100644
+--- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.28.bb
++++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.29.bb
+@@ -12,9 +12,11 @@ BUGTRACKER = "https://bugs.freedesktop.org/enter_bug.cgi?product=xkeyboard-confi
+ LICENSE = "MIT & MIT-style"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
+-SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
+-SRC_URI[md5sum] = "5a968ab77846ff85a04242410b2a61de"
+-SRC_URI[sha256sum] = "69adb25b0fc64e4075f8ec0eab8d869892419f474f91fb69db1713de2062bdce"
++SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2 \
++           file://0001-fix-python3-support.patch \
++           "
++SRC_URI[md5sum] = "b5980bdc6c7d79f6dcccba8c76bb6c5d"
++SRC_URI[sha256sum] = "1d4175278bf06000683656763a8b1d3282c61a314b6db41260c8efe92d621802"
  
+ SECTION = "x11/libs"
+ DEPENDS = "util-macros libxslt-native"
 -- 
 2.26.1
 
