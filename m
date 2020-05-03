@@ -1,132 +1,57 @@
-Received: from imap2.colo.codethink.co.uk (imap2.colo.codethink.co.uk [78.40.148.184])
- by mx.groups.io with SMTP id smtpd.web12.26507.1588524408592436704
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web11.26179.1588525375458702130
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 May 2020 09:46:49 -0700
+ Sun, 03 May 2020 10:02:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: codethink.co.uk, ip: 78.40.148.184, mailfrom: frazer.clews@codethink.co.uk)
-Received: from host86-177-45-246.range86-177.btcentralplus.com ([86.177.45.246] helo=localhost.co.uk)
-	by imap2.colo.codethink.co.uk with esmtpsa  (Exim 4.92 #3 (Debian))
-	id 1jVHlN-0003ir-0J; Sun, 03 May 2020 17:46:45 +0100
-From: "Frazer Clews" <frazer.clews@codethink.co.uk>
-To: openembedded-core@lists.openembedded.org
-Cc: Frazer Clews <frazer.clews@codethink.co.uk>
-Subject: [PATCH] lib/toaster: fixup codebase so pydocstyle can parse
-Date: Sun,  3 May 2020 17:46:14 +0100
-Message-Id: <20200503164614.24261-1-frazer.clews@codethink.co.uk>
-X-Mailer: git-send-email 2.26.2
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B92F60B47;
+	Sun,  3 May 2020 17:02:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbGliL3RvYXN0ZXI6IGZpeHVwIGNvZGViYXNlIHNvIHB5ZG9jc3R5bGUgY2FuIHBhcnNl?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Frazer Leslie Clews <frazer.clews@codethink.co.uk>
+Cc: openembedded-core@lists.openembedded.org
+Date: Sun, 03 May 2020 17:02:54 -0000
+Message-ID: <20200503170254.2273.86649@do>
+References: <20200503164614.24261-1-frazer.clews@codethink.co.uk>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200503164614.24261-1-frazer.clews@codethink.co.uk>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Frazer Clews <frazer.clews@codethink.co.uk>
+== Series Details ==
 
-fixed literal comparison in lsupdates so the
-integer isn't treated as a singleton, also fix
-indentation in perf
+Series: lib/toaster: fixup codebase so pydocstyle can parse
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/23925/
+State : failure
 
-Signed-off-by: Frazer Clews <frazer.clews@codethink.co.uk>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 26eb22191f)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../orm/management/commands/lsupdates.py      |  2 +-
- .../toastermain/management/commands/perf.py   | 68 +++++++++----------
- 2 files changed, 35 insertions(+), 35 deletions(-)
-
-diff --git a/lib/toaster/orm/management/commands/lsupdates.py b/lib/toaster/orm/management/commands/lsupdates.py
-index a4dbcaa7..2fbd7be3 100644
---- a/lib/toaster/orm/management/commands/lsupdates.py
-+++ b/lib/toaster/orm/management/commands/lsupdates.py
-@@ -68,7 +68,7 @@ class Command(BaseCommand):
-                          (what,
-                           pec))
-         sys.stdout.flush()
--        if int(pec) is 100:
-+        if int(pec) == 100:
-             sys.stdout.write("\n")
-             sys.stdout.flush()
- 
-diff --git a/lib/toaster/toastermain/management/commands/perf.py b/lib/toaster/toastermain/management/commands/perf.py
-index 7d629fb3..5c41c5b2 100644
---- a/lib/toaster/toastermain/management/commands/perf.py
-+++ b/lib/toaster/toastermain/management/commands/perf.py
-@@ -17,46 +17,46 @@ class Command(BaseCommand):
-     help    = "Test the response time for all toaster urls"
- 
-     def handle(self, *args, **options):
--	root_urlconf = __import__(settings.ROOT_URLCONF)
--	patterns = root_urlconf.urls.urlpatterns
--	global full_url
--	for pat in patterns:
--	    if pat.__class__.__name__ == 'RegexURLResolver':
--		url_root_res = str(pat).split('^')[1].replace('>', '')
--		if 'gui' in url_root_res:
--		    for url_patt in pat.url_patterns:
--			full_url = self.get_full_url(url_patt, url_root_res)
--			info = self.url_info(full_url)
--			status_code = info[0]
--			load_time = info[1]
--			print('Trying \'' + full_url + '\', ' + str(status_code) + ', ' + str(load_time))
-+        root_urlconf = __import__(settings.ROOT_URLCONF)
-+        patterns = root_urlconf.urls.urlpatterns
-+        global full_url
-+        for pat in patterns:
-+            if pat.__class__.__name__ == 'RegexURLResolver':
-+                url_root_res = str(pat).split('^')[1].replace('>', '')
-+            if 'gui' in url_root_res:
-+                for url_patt in pat.url_patterns:
-+                    full_url = self.get_full_url(url_patt, url_root_res)
-+                    info = self.url_info(full_url)
-+                    status_code = info[0]
-+                    load_time = info[1]
-+                    print('Trying \'' + full_url + '\', ' + str(status_code) + ', ' + str(load_time))
- 
-     def get_full_url(self, url_patt, url_root_res):
--	full_url = str(url_patt).split('^')[1].replace('$>', '').replace('(?P<file_path>(?:/[', '/bin/busybox').replace('.*', '')
--	full_url = str(url_root_res + full_url)
--	full_url = re.sub('\(\?P<.*?>\\\d\+\)', '1', full_url)
--	full_url = 'http://localhost:8000/' + full_url
--	return full_url
-+        full_url = str(url_patt).split('^')[1].replace('$>', '').replace('(?P<file_path>(?:/[', '/bin/busybox').replace('.*', '')
-+        full_url = str(url_root_res + full_url)
-+        full_url = re.sub('\(\?P<.*?>\\\d\+\)', '1', full_url)
-+        full_url = 'http://localhost:8000/' + full_url
-+        return full_url
- 
-     def url_info(self, full_url):
--	client = Client()
--	info = []
--	try:
--	    resp = client.get(full_url, follow = True)
--	except Exception as e_status_code:
-+        client = Client()
-+        info = []
-+        try:
-+            resp = client.get(full_url, follow = True)
-+        except Exception as e_status_code:
-             self.error('Url: %s, error: %s' % (full_url, e_status_code))
-             resp = type('object', (), {'status_code':0, 'content': str(e_status_code)})
--	status_code = resp.status_code
--	info.append(status_code)
--	try:
--	    req = requests.get(full_url)
--	except Exception as e_load_time:
-+        status_code = resp.status_code
-+        info.append(status_code)
-+        try:
-+            req = requests.get(full_url)
-+        except Exception as e_load_time:
-             self.error('Url: %s, error: %s' % (full_url, e_load_time))
--	load_time = req.elapsed
--	info.append(load_time)
--	return info
-+        load_time = req.elapsed
-+        info.append(load_time)
-+        return info
- 
-     def error(self, *args):
--	for arg in args:
--	    print(arg, end=' ', file=sys.stderr)
--	print(file=sys.stderr)
-+        for arg in args:
-+            print(arg, end=' ', file=sys.stderr)
-+        print(file=sys.stderr)
--- 
-2.26.2
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
