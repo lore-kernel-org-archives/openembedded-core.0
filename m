@@ -1,122 +1,91 @@
-Received: from koncepto.io (koncepto.io [195.154.119.111])
- by mx.groups.io with SMTP id smtpd.web12.23920.1588516847015260209
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web10.25042.1588520673975235186
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 May 2020 07:40:48 -0700
+ Sun, 03 May 2020 08:44:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@koncepto.io header.s=default header.b=VspOzegk;
- spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
-Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr [193.250.66.88])
-	by koncepto.io (Postfix) with ESMTPSA id B9C1860133;
-	Sun,  3 May 2020 16:40:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
-	s=default; t=1588516843;
-	bh=PU0zYaoKAB34eZgDDrzJ721SCp5hvYir7c8prpQA4R4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=VspOzegkh/fC83zUlEP2BTNrWakn695V1nzr7FLA6EW+H0Y2KRpBDhFRJNPzZ2he/
-	 6lHubZkSk54TtgS1FEMASDqIY1tDNf9AbCCLLwoG1WcuKgCTl221WSlvDJn1SPJS3N
-	 jEX+tVSYtXeF7MFVkr8wZLcojT8XLHVvbJlUX5r6vyzevV5B5mmC7OFIn7dBknmbfd
-	 KTrD+0wXP/DD+tFPMwAmbSao+P64ZHxnTwY/dVEpnjsdjVYtIdoRpccmG/YNTizcgV
-	 Gzexou+N+UH5xDAjF4viWJZQtYzPpPkh++8/jcInX9YrrwaWGC/SaQ/C9LYuCYuojT
-	 N2AFf4+wDnlPw==
-From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
-Subject: [PATCH] sysklogd: upgrade 2.1.1 -> 2.1.2
-Date: Sun,  3 May 2020 16:40:41 +0200
-Message-Id: <1588516841-10104-1-git-send-email-pjtexier@koncepto.io>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NRo5HD4p;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id k81so11426920qke.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 08:44:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mJCQCnfDVOPEDWxJx1xhaPzCnYS3ZRh33r8LA370P1U=;
+        b=NRo5HD4peZ+q2OsqZEA5q9thmAf7flTOvuvYEW3K5O3Llyf4jZtgs+AJoLcpshecNU
+         VZhIvbkSLHHt1Mk4hNUh+9KCA523E3cIXqb/C6SOheJjscyfvBLQG5eCGYhcb0jMSu4b
+         1Xm/U01Obs6QLCUdD9t5La46DhlRoCxlFzeSDzuVgeBDtU/X1rCDF5bveK4ji5w1nCW4
+         tuT0pW9Srl7Mfd5SFwL63R1Ne5a09BVRnAGJDe49VjTgWV9ku58OjqECJQk1TwksD2OD
+         lLSijJSaTC0tx1ysJeqIyWYBTRrsme4edEspIs2Wt2kuc9ScIs6ktDhq1P+eB8Vz2EYB
+         R6Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=mJCQCnfDVOPEDWxJx1xhaPzCnYS3ZRh33r8LA370P1U=;
+        b=KJEQ5gEv59IpHyX3dwyhTFWseatV2YmA2wQXXDV5TDE9OHGOoa97pRi3gaaudrktmJ
+         OAheI861IdW6ylJ/dqafOEjLz9mh0PzqGrsw3x5FaohHUGLojTLaDDNn9l9V2+8Keil+
+         T1wsXpLDtW92YJo46/kYfbXQbLhuUgxvgyZBNDvvyimsZKGtWAvleGrn0DR1/RLPHJl7
+         SR1goNAGGS+SCz9HWk84sOCGgzMMFvkxivHYZig+hiBDLS3Nn4PNPc4kWyETwBVRiDPz
+         ZwNq1mRHBok0Ia1VrCnY7lrr2SvF6V/iDXy6FqeS1f1AvfAlygwpkjnK2W+Wx73JzUMp
+         mzHw==
+X-Gm-Message-State: AGi0PuaxUTI+RIaWH3HcC+KYax5OdM/4ZqDo63sxeWqJ032W+gsYpUyP
+	ihTP8VDZcwbgPsew4ieuVdE=
+X-Google-Smtp-Source: APiQypJcCtfcSWM918CKF7tvxsHyvONZjnO0QnudF3fpMfeseMZeD9mQ3L0Ci/c+bPC+mf1O5B9WWA==
+X-Received: by 2002:a37:7ac2:: with SMTP id v185mr11724133qkc.386.1588520673059;
+        Sun, 03 May 2020 08:44:33 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id p4sm7771506qkg.48.2020.05.03.08.44.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2020 08:44:32 -0700 (PDT)
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org,
+	steve@sakoman.com
+Subject: [PATCH 0/5] linux-yocto: consolidated pull request
+Date: Sun,  3 May 2020 11:44:25 -0400
+Message-Id: <cover.1588520452.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-See https://github.com/troglobit/sysklogd/releases/tag/v2.1.2
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Also remove patch applied upstream.
+Hi all,
 
-Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
----
- ...-rarely-reproduced-parallel-build-problem.patch | 40 ----------------------
- meta/recipes-extended/sysklogd/sysklogd.inc        |  1 -
- meta/recipes-extended/sysklogd/sysklogd_2.1.1.bb   |  3 --
- meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb   |  3 ++
- 4 files changed, 3 insertions(+), 44 deletions(-)
- delete mode 100644 meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch
- delete mode 100644 meta/recipes-extended/sysklogd/sysklogd_2.1.1.bb
- create mode 100644 meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb
+Here are the -stable updates I've collected since m3 of dunfell. I ran
+things through the autobuilder, and no new kernel issues were picked up.
 
-diff --git a/meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch b/meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch
-deleted file mode 100644
-index 97bf6ae..0000000
---- a/meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From dcaa75391ff267c38e776d48c579cdb734b91af3 Mon Sep 17 00:00:00 2001
--From: Changqing Li <changqing.li@windriver.com>
--Date: Mon, 23 Mar 2020 15:52:32 +0800
--Subject: [PATCH] fix one rarely reproduced parallel build problem
--
--fix for this issue:
--https://github.com/troglobit/sysklogd/issues/17
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
--
--Upstream-Status: Backport
--[https://github.com/troglobit/sysklogd/commit/b88e21d1770a262f0e5d0f6b84f0abd4a5de55b7]
--
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- src/Makefile.am | 10 ++++++++++
-- 1 file changed, 10 insertions(+)
--
--diff --git a/src/Makefile.am b/src/Makefile.am
--index 993dbfd..06b706d 100644
----- a/src/Makefile.am
--+++ b/src/Makefile.am
--@@ -56,3 +56,13 @@ libsyslog_la_SOURCES  = syslog.c syslog.h compat.h
-- libsyslog_la_CPPFLAGS = $(AM_CPPFLAGS) -D_XOPEN_SOURCE=600
-- libsyslog_la_LDFLAGS  = $(AM_LDFLAGS) -version-info 0:0:0
-- libsyslog_la_LIBADD   = $(LTLIBOBJS)
--+
--+# Both libsyslog_la and syslogd/logger requires objects like lib/pidfile.o, for
--+# libsyslog_la, the objects should be compiled with -fPIC, but for
--+# syslogd/logger, it doesn't need -fPIC, so there is a race issue when the two
--+# different lib/pidfile.o are compiled at the same time, which would cause errors like:
--+# ld: syslogd-syslogd.o: in function `main':
--+# syslogd.c:417: undefined reference to `__pidfile'
--+#
--+# Make LIBOBJS depend on LTLIBOBJS to fix the problem.
--+$(LIBOBJS): $(LTLIBOBJS)
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
-index 8899daa..2e3d983 100644
---- a/meta/recipes-extended/sysklogd/sysklogd.inc
-+++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-@@ -12,7 +12,6 @@ inherit update-rc.d update-alternatives systemd autotools
- 
- SRC_URI = "git://github.com/troglobit/sysklogd.git;nobranch=1 \
-            file://sysklogd \
--           file://0001-fix-one-rarely-reproduced-parallel-build-problem.patch \
-            "
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-extended/sysklogd/sysklogd_2.1.1.bb b/meta/recipes-extended/sysklogd/sysklogd_2.1.1.bb
-deleted file mode 100644
-index eb6b4ef..0000000
---- a/meta/recipes-extended/sysklogd/sysklogd_2.1.1.bb
-+++ /dev/null
-@@ -1,3 +0,0 @@
--require sysklogd.inc
--
--SRCREV = "24dafe9a27ac959ebeb89acd3ebd3d62cca4b755"
-diff --git a/meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb b/meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb
-new file mode 100644
-index 0000000..2917c2a
---- /dev/null
-+++ b/meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb
-@@ -0,0 +1,3 @@
-+require sysklogd.inc
-+
-+SRCREV = "6d6010add698370fc7d9828f0aaa18613dd2397f"
+The -dev bump is good for master, while all of the 5.4-stable bumps are
+good for both master and dunfell.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 2e11d97b6c95e89aa1f9d3603a966c94c442469e:
+
+  oeqa/qemurunner: Clean up failure handling (2020-04-26 14:00:51 +0100)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib zedd/kernel
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (5):
+  linux-yocto/5.4: update to v5.4.28
+  linux-yocto/5.4: update to v5.4.32
+  linux-yocto/5.4: update to v5.4.34
+  linux-yocto/5.4: update to v5.4.38
+  linux-yocto-dev: bump to v5.7-rc
+
+ meta/recipes-kernel/linux/linux-yocto-dev.bb  |  2 +-
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 4 files changed, 19 insertions(+), 19 deletions(-)
+
 -- 
-2.7.4
+2.19.1
 
