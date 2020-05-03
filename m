@@ -1,77 +1,78 @@
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web10.25046.1588520680763851650
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
+ by mx.groups.io with SMTP id smtpd.web10.25135.1588520952821256379
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 May 2020 08:44:40 -0700
+ Sun, 03 May 2020 08:49:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gHIzaBxI;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id v10so7158259qvr.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 08:44:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=C3tqAgSV;
+ spf=pass (domain: gmail.com, ip: 209.85.208.195, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lj1-f195.google.com with SMTP id g4so7263337ljl.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 08:49:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=dJW/3/Q8j7a1WiLjVOF1ivnc87eDIFWBomxEXCyMMKg=;
-        b=gHIzaBxIwWJiH4qSemSDxPnv1nWN7XEvypAbdKyBl8sC+I6w7fExgbXyU9Ng0KP+nb
-         PV4DZV77UUJpke2PIMOJwLDSIcXi1S6pCH6v+1fqzb9CNcg61QY6QXf6Pl0ZKhDwTGu9
-         gvdcF6KJJ5fvwyKDr5w2JF9tEKokSPtoIkv6a6Bm/y5WERqph/27WEOOSt2hpdKhsOUE
-         W9sgbX7w5rok7Mjh4tSMkBSkqLeAf9/Gs1jHthzZyCmmc+YOwDfAm9WniKVjoB2IXpRe
-         GGROYoZFcMYMWnArAdAalkGM/aJYoWizaB+tcHP1qFJoyKUYCvRGkWlXXu6Acfsd+Y4O
-         NlIA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=9QoyKPVK9nGYkxpxxEvW/DRgf+YW2N2KdVehslEZ+Ts=;
+        b=C3tqAgSVUvji8hmazPFpizfcq/L3WC7q4SifPUppwDpY/0KkGulRlO/hv8Q7C/l0xz
+         8vBkdeYbYFKDsaHTXm/ZeV2P5FnNavT0opg8ID6+CPRcE+u6wf2KO+tztrJJec+GkdNg
+         uoj451Faec50a0pxX+YIoJYll4Voys6qR1pu8azvQdmDXRSqdfsNurQ4b9d04IW2K7x6
+         NaKjVtblD1pfrs9xIk1S6g/0uFyFjzBUuyBLoeMwGshtztXiGNS7W9CnKyoph98MQHBH
+         DuhRmFbNXgakb0mqxJzXWOcRGx0MhSiIVALC5DEiENrgrBfW+0c/bOu8ZLuq5BMFdxJi
+         t44g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=dJW/3/Q8j7a1WiLjVOF1ivnc87eDIFWBomxEXCyMMKg=;
-        b=Gg3QBxwhVKNN5QaBO2RJInK6zgCpcc3tCPKqi0cCReVK19VEhqPcorRR+gD6pzTZJC
-         odMzZrLsyEFUiFe3y3lLtQ90U0trAebMcGSapkIRIY1S4CkH2WOTTU8258dyMINoIaHe
-         fVVIyTAJ3R9f8YKa0M4H+ZUFq4W9a0QGcwMGMQG15uO0qGDRqr3uscAdVoVD6cW2709S
-         t0gycceu6P6+7O7cwc9WOBDYWELICKXC22j+6/Bi8AZjjfvbNkJgpnca2KoUslRFh8t0
-         9kMGVmN7ydXJ1pFgal8sSf1y4Rdr3CnmHE5riEM9f+sYikTUiQQGrTRjFbhN023TsLbj
-         UZSQ==
-X-Gm-Message-State: AGi0PuYxnV24LFsmHVeOevedePMxFXIbEmqF+w38UYYEThgPfRRaGnLu
-	jTr+y1k3m9prX5GVvxfcG1088YLMdEk=
-X-Google-Smtp-Source: APiQypKnImlC2uEI4W7HMNagMOxBvpgWlg2ORG7Q1CRA8C1hllgRUF0D8dH/s1xgmX8qpG83yUG+1w==
-X-Received: by 2002:a05:6214:3ad:: with SMTP id m13mr12705280qvy.57.1588520679929;
-        Sun, 03 May 2020 08:44:39 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id p4sm7771506qkg.48.2020.05.03.08.44.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2020 08:44:39 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org,
-	steve@sakoman.com
-Subject: [PATCH 5/5] linux-yocto-dev: bump to v5.7-rc
-Date: Sun,  3 May 2020 11:44:30 -0400
-Message-Id: <4cd3bac95c10b1195728dfc8d17614ed95c87639.1588520452.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1588520452.git.bruce.ashfield@gmail.com>
-References: <cover.1588520452.git.bruce.ashfield@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=9QoyKPVK9nGYkxpxxEvW/DRgf+YW2N2KdVehslEZ+Ts=;
+        b=U/6aExTTNH+6fK+nNWLQyAEaZ7o087yDHB2Bv24Vp0PxlSpduA4T3nLh3N6tx9Mlic
+         pEgzHLO6oqOt0Yp9Nrq+ruI2XQ4/goaqoWLnbBOb4M5vR458oZuHO83r8lyO5SUCRngd
+         V+urUzG+zEO4pk3PjrUVE8XdxVmV0zr14fA5MdQrsOX3k+u7zJtuTXL/HcvcwZmHXyrk
+         01shH2/G8r7dUayyK0YD11cmZKP5iPt5yFJbHIKqYDPHNrWWCMxshMBJEdYT2hO62yyP
+         Q3i1YjOcyky5WF8hGzhd5hQz+EnAogJ7DE4ARGVTSmlVSfCaz+5HM5/m9D+mWyPryhwY
+         1Dzw==
+X-Gm-Message-State: AGi0Pua0xNMyKsivKM/wJg6GrVX2V4BsBGWr/5Zt/Uqm0yI60rjI+ijq
+	Zoet6j3U1wgjcBALwHSwU2vWGb0P
+X-Google-Smtp-Source: APiQypK2ET/pHZCrrh9bVT1i9f+MFO7kfMhWFdJJGUVwnk8PwWkuIMDiPtvBq9Qk4lTi5rWz4tSi2g==
+X-Received: by 2002:a2e:8912:: with SMTP id d18mr8228078lji.123.1588520950583;
+        Sun, 03 May 2020 08:49:10 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se. [37.247.29.68])
+        by smtp.gmail.com with ESMTPSA id q7sm6125740ljp.20.2020.05.03.08.49.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 03 May 2020 08:49:10 -0700 (PDT)
+Subject: Re: [OE-core] [pseudo][PATCH] pseudo_ipc.h: Fix enum typedef
+To: Seebs <seebs@seebs.net>
+Cc: openembedded-core@lists.openembedded.org
+References: <20200503042712.1878496-1-jacob.kroon@gmail.com>
+ <20200503002852.1273f3a1@seebsdell>
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+Message-ID: <e8a9982b-1412-087f-b8ac-283b657106aa@gmail.com>
+Date: Sun, 3 May 2020 17:49:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200503002852.1273f3a1@seebsdell>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On 5/3/20 7:28 AM, Seebs wrote:
+> On Sun,  3 May 2020 06:27:12 +0200
+> "Jacob Kroon" <jacob.kroon@gmail.com> wrote:
+> 
+>> 'pseudo_access_t' is a type, so use typedef.
+>>
+>> Fixes building pseudo with gcc 10 where -fno-common is the default.
+> 
+> Wow! That's amazing, and yes, that's a bug, and the fix looks right to
+> me. I don't know how that got missed all these years. (But don't rely
+> on this evaluation too heavily just yet, I haven't actually looked at
+> the code more carefully, but this seems obvious.)
+> 
+> -s
+> 
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The type has never been used, so an alternative fix would be to get rid 
+of it altogether, and just keep the enum identifiers.
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-index 06a9108fab..8a61b22761 100644
---- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
- SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- 
--LINUX_VERSION ?= "5.6-rc+"
-+LINUX_VERSION ?= "5.7-rc+"
- LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
--- 
-2.19.1
-
+/Jacob
