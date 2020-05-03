@@ -1,71 +1,76 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web11.13907.1588458040265374408
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
+ by mx.groups.io with SMTP id smtpd.web12.18367.1588480054190092626
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 May 2020 15:20:40 -0700
+ Sat, 02 May 2020 21:27:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CPjl+jNl;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id x4so4126361wmj.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2020 15:20:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ncaj0M+/;
+ spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lj1-f193.google.com with SMTP id w20so6393232ljj.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 May 2020 21:27:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=izxjfRRYWg+UhmJe5+cGN19VQV+We60hBJdSHvcRztI=;
-        b=CPjl+jNl80RP+EUys+TXKGNc9DEnfWmlqcTKZwBlwm6wo1IhrZbw4KA8rLZFUMq6Vr
-         o9cBzs0Se+Oe1hAzTu1d+BVjl+ZX6fyBvUltk1bYslG6MzyxdbYsNBU/2DaW5F73Q55N
-         fFE8/7HMV4PZa/Bk+KkK6HhRC2ITBmYNLRYkc=
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k5Ckd3TqwjQ3SOOFXn3EI3q4MX4q7Okazgb4InhItkg=;
+        b=Ncaj0M+/yj4hM3LPFS0ueoZG99a0U+IBT0pwMypDT0a7n4YcPqQHOY6xQiGOnR5l5/
+         1DuzxsKAZ0gfpt0DtgU5Z7qBxtCdXunR5UOSs8hfJiFsdLpQhxYLguVIT4HiNcFxpDzD
+         kE3bQW16jIqQPEjmqYgu/YPRBWl/205wTbvL+cE7460anm8sgcAL3zLagPfHFVMmyCjy
+         6i0FxZeA44a78MiuFMdV3uWcl6bF+MbwRb7cy1Z594l1v1fVI6a368yN5z+iWy2JlS/u
+         LqnK6U6BteUK4diIuikKk/F9ALh2arLWQQIFyZivv/RM44bRkRX00aD1+OTn1NzmNYlk
+         YvQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=izxjfRRYWg+UhmJe5+cGN19VQV+We60hBJdSHvcRztI=;
-        b=Jv8qwKAKmzz6x9dWCZ37sih5JkkNHBNHnnVVfGJOQuKABnxxneA1+vr42+WDNFAhUp
-         ucevQ3zJX+AM1wrjOSioOLRpvLWVrFxvlDSDtD1zmHCwAGNEM372XDO2S4PE9KDcag2O
-         aJqWwTDP4Y4zmJazO4olZiXS1V5hedaFjvVA6o59VOHCVZzYcUpgU9Hq62ch4nCzBA7+
-         FhXY4h7lv//IO8KOaPptDBm9GObtTbfAEr5sAHjhnwYwjQmWe7kC/UFseB5BkxgrohzO
-         hu9INXoOaNWkgBec/lCyrsF+aNkivR1Otryh3t5ok0XmeCFkV4FRadF4wiI0Bf5UadfX
-         K0OQ==
-X-Gm-Message-State: AGi0PubcLmbz1l5HwVEotgW8S+3EP3dRe2YoKPLC2tMkSnzQT6YcnI6E
-	29ltGl16yJ6YURISh1wPQvSp7Jmbvb0=
-X-Google-Smtp-Source: APiQypI/9G07umZj6WVKp4B9SfUk0aBSXG/LOGQ8Xnw/zR4GElvo6+pLBkl6ck84Q92cRhVUNW/m3A==
-X-Received: by 2002:a7b:c156:: with SMTP id z22mr6872980wmi.51.1588458038348;
-        Sat, 02 May 2020 15:20:38 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id d13sm5909170wmb.39.2020.05.02.15.20.37
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k5Ckd3TqwjQ3SOOFXn3EI3q4MX4q7Okazgb4InhItkg=;
+        b=Y/U9qdVP/z6CKkIrz6HgacicnvYBGwosgG1sdIF88LcWKmy06kf+QqNUVexWJjR5Fn
+         4TAjET2dWg2CJqpP6uQGgJLG3LbN6oPeqhfInUv9jV89y03ud4Fwy964bgABTBGfLskY
+         Ze3f2caPgKhjpSxCzoUM0EtENXV6W/sjZ184P0nKa3I5A7Pl0SCrQjR3MGGOqPmabR6S
+         RQdn7mVc7pN9qd1rGDMDuUei1lM3Diqv09MdjSscLN5ql/mR4SVxiu/dVJ+gnH68vSGG
+         osFARz+dpxr35idwqSZlPI7DGPQq3IJGZtCFSqd7U4gGY6RFwjU3AgJxI2OQuLKhES3G
+         pKvA==
+X-Gm-Message-State: AGi0PuZP3jMEFW7fCM+D947X9VfgpOhtSvuSBoTIfLGAH+JH8YQFVz+H
+	bo3bQ2bkuGo+R7D0kWliKE3bWLl7
+X-Google-Smtp-Source: APiQypL2js/xTFMzDvwSf+RofItAGKf9JG2tL6uQHl0sepbYngYwLXre98yH8ppbGfOyLV87p0MQeg==
+X-Received: by 2002:a2e:9a4a:: with SMTP id k10mr6760692ljj.115.1588480051781;
+        Sat, 02 May 2020 21:27:31 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se. [37.247.29.68])
+        by smtp.gmail.com with ESMTPSA id s11sm5767959lfo.86.2020.05.02.21.27.30
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 May 2020 15:20:37 -0700 (PDT)
-Message-ID: <ada377a3b9425b11bdd3d95dbf825b29f390f7f4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 01/17] libinput: add ptest
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Sat, 02 May 2020 21:27:30 -0700 (PDT)
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 02 May 2020 23:20:36 +0100
-In-Reply-To: <20200430095815.2824-1-alex.kanavin@gmail.com>
-References: <20200430095815.2824-1-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.36.1-2 
+Subject: [pseudo][PATCH] pseudo_ipc.h: Fix enum typedef
+Date: Sun,  3 May 2020 06:27:12 +0200
+Message-Id: <20200503042712.1878496-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2020-04-30 at 11:57 +0200, Alexander Kanavin wrote:
-> The test takes about 17 minutes, and fully passes.
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/conf/distro/include/ptest-packagelists.inc  | 1 +
->  meta/recipes-graphics/wayland/libinput/run-ptest | 9 +++++++++
->  meta/recipes-graphics/wayland/libinput_1.15.2.bb | 8 +++++---
->  3 files changed, 15 insertions(+), 3 deletions(-)
->  create mode 100644 meta/recipes-graphics/wayland/libinput/run-ptest
+'pseudo_access_t' is a type, so use typedef.
 
-Still has a reproducibility issue:
+Fixes building pseudo with gcc 10 where -fno-common is the default.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/900
-(and the other selftests in the build)
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+---
+ pseudo_ipc.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/pseudo_ipc.h b/pseudo_ipc.h
+index caeae5c..d945257 100644
+--- a/pseudo_ipc.h
++++ b/pseudo_ipc.h
+@@ -29,7 +29,7 @@ typedef struct {
+ 	char path[];
+ } pseudo_msg_t;
+ 
+-enum {
++typedef enum {
+ 	PSA_EXEC = 1,
+ 	PSA_WRITE = (PSA_EXEC << 1),
+ 	PSA_READ = (PSA_WRITE << 1),
+-- 
+2.26.2
 
