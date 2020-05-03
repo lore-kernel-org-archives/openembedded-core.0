@@ -1,83 +1,74 @@
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com [209.85.166.68])
- by mx.groups.io with SMTP id smtpd.web10.29310.1588533743103533796
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web12.30273.1588536009824088855
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 May 2020 12:22:23 -0700
+ Sun, 03 May 2020 13:00:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=FDAft16o;
- spf=pass (domain: gmail.com, ip: 209.85.166.68, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-io1-f68.google.com with SMTP id b12so10112407ion.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 12:22:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=I7FQCQ4W1dLlf9PoFM8ms1bdtGa09Ibi3UHjfknxv7c=;
-        b=FDAft16opG0NjZuwGvzrZD8mGxuggqKemLZ+d+zhoNoapGVw1BfjVMLFyUizPaT5h9
-         at+hUXaS7MVlETHSicWfeSrKbdEHlpkEVlkgsHXRFWZN8FIP23yt5Sr2nGqzMNKP6QV2
-         byWRAwe/vWArzmS9lj3DqIkLgPHNhsNZ1XSo7RMersRX3F0XnvV8+nzjagvDN0xJmcqq
-         TyALupsa/n9qEKiKvkQQYP1tUmNdxskx90CioASJulwCaMDdLR8y3diUyeS5DXOcfOqi
-         W4eO2mGE08XsYD6laDnEssyhfG/7uzxR/ysCrQWhX0KomjMTKgCncTfKTT4W0BOKDAha
-         8Slg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=I7FQCQ4W1dLlf9PoFM8ms1bdtGa09Ibi3UHjfknxv7c=;
-        b=g72MqPwbsJz//5rvZGOWQfotgITQ37oFznhB5CD9Xa54K18VRcUwnPpZkq/o2SO+CU
-         Jl4K7wDHq09wX7mzatBcgn199rlh/06QJ3Cx55x09nK6taz+SMlPqizxAqvfqle3dEUf
-         VtdBbPjdfTCk2m8i9I+sNdWC1a+2nivP7i2SxPTGcTt2leLBV8515a5wAlJF71tY5wxP
-         cZnjZjf2tlGhp77BC1iTTD0DYtUyArZfcckiwugMAO+mLgGqoo7qCWWEMECIGj4jcael
-         tfAXDvTaNIYxnKrTB5ug1jJENB6DVG86RkICesJ6kqEusAofDYoGoEvbAIDsZ8fIV6cC
-         WnbA==
-X-Gm-Message-State: AGi0PuY+/+hpXAiU5y3G9viDjz1W0azLhq0RUpYQlc5WwzLHKftTrxQa
-	6Rz0I38JZTx7i91mREgPvx0kl93gx8dZxTWpQsLaQRqG
-X-Google-Smtp-Source: APiQypLQcO91f14F0USmPazUtBIKilH/zqHKrUDTcsSlwV9pSxLwWltknn2cdVJY13M3X2aprBKmGAwNtHrBZlVfK3Y=
-X-Received: by 2002:a5d:9c02:: with SMTP id 2mr12622847ioe.67.1588533742357;
- Sun, 03 May 2020 12:22:22 -0700 (PDT)
+ dkim=pass header.i=@stusta.de header.s=default header.b=MLwJZZED;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=pmcc=6r=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49FcKK3M9Mz3t;
+	Sun,  3 May 2020 22:00:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1588536006;
+	bh=YR7OMLonkzA5macNQAI2P8z103A1muFP8jau0QptLNk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MLwJZZEDptEQ430TssOvKU2QKXhwdHtv8pZeWP5SzPFe53CL9DCh8u5UPV4LXtRBm
+	 93rRR2fka5BMS0FvOT1+EPUBPBZj+Xd8qGHNgDHbaJvuraG9BwI2KtnnZh+11u3Wjc
+	 QW7WlH+DIJIgC2dDQA3zHof39YvYuswoYhhxYpg3QM0E8Afa67qL53eana3XRvF3lD
+	 hplwi4YbfpEtLZJ6EycZxKck5s42PQQkDMmuFOdlAgAMVOXdFEJfERPDtjysvsY9au
+	 cnB8alQ304Oa2BSRlJZqoV2fiJD2wT42SDZYjndTYWfsVHayV9/MUdrCE+4jE6RcuD
+	 WXl4gl3LbcvzLfWsLXBzNdRYP9cH4VJ9twKd8mAv1E6znvsrNmjHyZGz11WpVpuC2q
+	 tOcLixvLsKSjcxXl7WgzEaovHK0mhLoWwH2XjlpioQjjyhu3aueAqmfSz3Vh0yOxf6
+	 5dlXntRje/YUTClhmv1sSJgUZZBR4nxThoVitXEvorH333+2gJuchilPCO8H5KSzUE
+	 maV2QcSME6UBOa+vNG/2WNNlEiNlfjA45eJ4uypnkUC72FYxkCeagOcanzuRWg+5Zu
+	 2linay1QiwbEoNQTieAQf913jCVAOlZZ1mHs9Pbj7JGhwBEplWKRH30o9TEyhT6GN9
+	 lo7w+AEs9UW1DKyoED7+1yeM=
+Date: Sun, 3 May 2020 23:00:00 +0300
+From: "Adrian Bunk" <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Daniel Mack <daniel@zonque.org>
+Subject: Re: [OE-core] [PATCH] Add -fcommon to BUILD_CFLAGS to a number of recipes
+Message-ID: <20200503200000.GC25055@localhost>
+References: <20200503082640.3686916-1-daniel@zonque.org>
 MIME-Version: 1.0
-References: <20200430214203.26595-1-schnitzeltony@gmail.com> <f2661a61f4e661f58e4873bbe5efee4ef40e68cd.camel@linuxfoundation.org>
-In-Reply-To: <f2661a61f4e661f58e4873bbe5efee4ef40e68cd.camel@linuxfoundation.org>
-From: "Andreas M?ller" <schnitzeltony@gmail.com>
-Date: Sun, 3 May 2020 21:22:10 +0200
-Message-ID: <CALbNGRQ92Nc7sV9SjWbSDJ6LHZsUWMNvGso3YU=m=DmyErMapQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] libnotify: upgrade 0.7.8 -> 0.7.9 / port to meson
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200503082640.3686916-1-daniel@zonque.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Sun, May 3, 2020 at 10:22 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2020-04-30 at 23:42 +0200, Andreas M?ller wrote:
-> > From [1]:
-> > New in 0.7.9
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > * Fixed linking in darwin [Iain, Marco; !5]
-> > * Added man page for notify-send [Jan; !6]
-> > * Dropped autotools [Jan; !11]
-> >
-> > [1]
-> > http://ftp.gnome.org/pub/gnome/sources/libnotify/0.7/libnotify-0.7.9.ne=
-ws
-> >
-> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> > ---
-> >  .../{libnotify_0.7.8.bb =3D> libnotify_0.7.9.bb}     | 14 +++++++++++-
-> > --
-> >  1 file changed, 11 insertions(+), 3 deletions(-)
-> >  rename meta/recipes-gnome/libnotify/{libnotify_0.7.8.bb =3D>
-> > libnotify_0.7.9.bb} (59%)
->
-> Looks like there is something that needs tweaking when api-documention
-> is enabled as a DISTRO_FEATURE:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/470
->
-> Cheers,
->
-> Richard
-Alex has just sent similar patch that seems to address this. I suggest
-to take that one
+On Sun, May 03, 2020 at 10:26:40AM +0200, Daniel Mack wrote:
+> When building on a gcc 10 enabled host distribution (such as Fedora 32),
+> a number of recipies need explicit treatment to enable '-fcommon' in
+> BUILD_CFLAGS. There might be more of those fixes needed.
+>...
 
-Andreas
+These are not fixes, just workarounds.
+Adding upstream fixes would be preferable to adding workarounds. 
+
+> --- a/meta/recipes-devtools/pseudo/pseudo.inc
+> +++ b/meta/recipes-devtools/pseudo/pseudo.inc
+> @@ -15,6 +15,8 @@ INSANE_SKIP_${PN}-dbg += "libdir"
+>  
+>  PROVIDES += "virtual/fakeroot"
+>  
+> +BUILD_CFLAGS += "-fcommon"
+> +
+>...
+
+Yocto is upstream for pseudo, is there anything non-trivial required
+for a proper fix?
+
+> --- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+> +++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
+> @@ -12,6 +12,7 @@ SRC_URI = "git://github.com/plougher/squashfs-tools.git;protocol=https \
+>  
+>  S = "${WORKDIR}/git/squashfs-tools"
+>  
+> +BUILD_CFLAGS += "-fcommon"
+>...
+
+The upstream fix is a trivial one-liner that should be backported instead:
+https://github.com/plougher/squashfs-tools/commit/fe2f5da4b0f8994169c53e84b7cb8a0feefc97b5
+
+cu
+Adrian
