@@ -1,113 +1,95 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web10.25842.1588523200246159515
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.web10.25845.1588523201462768088
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 May 2020 09:26:40 -0700
+ Sun, 03 May 2020 09:26:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DFyK/4D1;
- spf=pass (domain: gmail.com, ip: 209.85.221.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f53.google.com with SMTP id l18so7252825wrn.6
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 09:26:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=H4bSNsuj;
+ spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f52.google.com with SMTP id d17so17955109wrg.11
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 09:26:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=psuG6cQRxDYFwdRU8kYSmRSST8TvLK8hg/cy4RlRmh8=;
-        b=DFyK/4D1VOchkgrTtZDmpzH1JgMkLrWycSJl93ObUP7f/hT2j+QtRV7rD06CxLhmPF
-         R2ZLOj/WZiWE+XlqOnzQRPErTE24SR68ZidxYIIgauyJkYjwVzq8Zg4Pkwa1zY61mYrD
-         vumVXaiQIb+QvVBmN7TB7MyHuT0wPZgJRwOIMR+94MD+6bYCk4qx9eKyl6KfgbobMYdx
-         97w2hHd4wmqBlzOGkieU0QkuNa9aprr/FnAvOIqoJiaf701aYrgMq4iE4nRV6Uw77uz8
-         ITbJsZHZFQ2+vJXzSPSQZ4TqIGHXz8ultI3CbDu5aigPChhBcZYY5gupgmis/hgvV1Df
-         e7DA==
+        bh=Vmb3pasfuNXrAyweWlKUSnaw/+AJw9ehkhd6DVN45p8=;
+        b=H4bSNsuj7TU4jFFg+p7ImQYZAg0k+0fC6b1dUdaXcrXvStN0XFOzl+8Gf8YT+JC5Rc
+         eL2TphK+gxRHD56BCNX3E+ZG8z4mwCWxBZcVApjx6eRKlnQI4AQVEqBtMCgzgexmzLgv
+         BhMYJLnrrlAwJImMz/zWoKrRrr3kwGI68JbtLzasa1S80/g0Ia2Xeh+4R16+n76gM0AA
+         KKft8fADrjaPX/slFswxxmQiYkWLd4wWbnWj13JLt6dhQ7Ye3GBjjejDXtX31v9i4Ep5
+         ZmTghNJ0vIgkfzWDH6xVG2PRuYd4S0EI3J1O0INnCwGfkBq7FCVESslLXh73Srw59xiB
+         K/sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=psuG6cQRxDYFwdRU8kYSmRSST8TvLK8hg/cy4RlRmh8=;
-        b=DkmOGuD50CvDdRjOYNDMOH0NUGdOYspiGjRinh+pThrv4rRPbxg+8pGXyFKitM9Fav
-         312QI29kecth+7znMK8mubBs5bMPn9gxyH2bhF1QLYDYPTjVx5ZSVLT+2mYlIEmXj4b7
-         qerMuvjcMdp+ojoXojSdmaTN6CSAnQ3jsXIL2QneBYwoF4GDNYHn0x7dDhQTsSuG45bO
-         KlETGqpWSYMRtCLq0WpouchKmCLQwAU+XqkGyKOibK4Scz+NXMd6/Rxc+U9N/MbxbQYc
-         rvpM7V0asX2Ita/9xpHq4KGQVPTKqKHTJV6JEnEnjjWqqfdJ5AXs6oAI8ONlb8d9CLsZ
-         sG/w==
-X-Gm-Message-State: AGi0PuZJBkrgp2jINAQaGQZOP91EUg89GJuNaY8tZ0T0zF0Vcl67sOzJ
-	MjDOpEB6VouokDoKwBqUIaD2HB9Q
-X-Google-Smtp-Source: APiQypKkEe2+7qVHDo6tVWAwe7pR7jv6vYTf95A25V9y2/G2vzeqGRBKAgrLencoCJ2DDiKDAr0gAw==
-X-Received: by 2002:adf:fd0a:: with SMTP id e10mr14428230wrr.160.1588523198632;
-        Sun, 03 May 2020 09:26:38 -0700 (PDT)
+        bh=Vmb3pasfuNXrAyweWlKUSnaw/+AJw9ehkhd6DVN45p8=;
+        b=HCspMzOSkVeLXkGOs9OeJ5bFBWVGkPg0FqBXiklOi5AKHZK+yz5hizILQvlb7bJ296
+         lIDwGkejFNCUkgJfvSpvXNcvjgzIrN+79YxzgpkBdLe6HbaNa6tznAfahGsxxqp6Qitf
+         vKeo3HKN+o7MbKU8BnHIabvJoHICYzIEBbHhb/4Rp9GxRB5mT0nqJT2HkQJJkjZxIHow
+         eMw2u1qMqjA+gUgpnjAlfl4Z7L7SyQGTc0AtA5og4WXzBIFyOx5EcZ8Q7+fOzeReLhI3
+         BxIVNW80BhRX5+0sM1lR4ZBnAGMbx+7dqFHX7ZYt89AfG+KrKCXyXSz+rZogBrXtxvDA
+         APqw==
+X-Gm-Message-State: AGi0PuZdaFlVV7ekpj2dI6eqssLWeFvgZ5Je2n3Bj1PJUhwFZtmPnbmO
+	OKctC3hm7SzL8OCDVVrCGfG3RU6w
+X-Google-Smtp-Source: APiQypKVi/P/jH94vGLSjuuKKSvpDnZKx7C2WCjppUyHObgnKUqFopWuxzkbx+B1vVvdJ1aAaZ68JQ==
+X-Received: by 2002:a5d:6144:: with SMTP id y4mr11242286wrt.233.1588523199333;
+        Sun, 03 May 2020 09:26:39 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id q18sm9079532wmj.11.2020.05.03.09.26.36
+        by smtp.gmail.com with ESMTPSA id q18sm9079532wmj.11.2020.05.03.09.26.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2020 09:26:37 -0700 (PDT)
+        Sun, 03 May 2020 09:26:38 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 10/17] git: update to 2.26.2
-Date: Sun,  3 May 2020 18:25:52 +0200
-Message-Id: <20200503162559.946-10-alex.kanavin@gmail.com>
+Subject: [PATCH 11/17] wpe: update to 1.6.0
+Date: Sun,  3 May 2020 18:25:53 +0200
+Message-Id: <20200503162559.946-11-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200503162559.946-1-alex.kanavin@gmail.com>
 References: <20200503162559.946-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Disable iconv, as configure.ac attempts to run a
-cross-compiled test program otherwise.
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/git/git.inc       |  1 +
- meta/recipes-devtools/git/git_2.24.1.bb | 11 -----------
- meta/recipes-devtools/git/git_2.26.2.bb | 10 ++++++++++
- 3 files changed, 11 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/git_2.24.1.bb
- create mode 100644 meta/recipes-devtools/git/git_2.26.2.bb
+ .../recipes-sato/webkit/{libwpe_1.4.0.1.bb => libwpe_1.6.0.bb} | 3 ++-
+ .../{wpebackend-fdo_1.4.1.bb => wpebackend-fdo_1.6.0.bb}       | 3 ++-
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+ rename meta/recipes-sato/webkit/{libwpe_1.4.0.1.bb => libwpe_1.6.0.bb} (82%)
+ rename meta/recipes-sato/webkit/{wpebackend-fdo_1.4.1.bb => wpebackend-fdo_1.6.0.bb} (78%)
 
-diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
-index 4131c98977..544e23c844 100644
---- a/meta/recipes-devtools/git/git.inc
-+++ b/meta/recipes-devtools/git/git.inc
-@@ -21,6 +21,7 @@ PACKAGECONFIG[svn] = ""
+diff --git a/meta/recipes-sato/webkit/libwpe_1.4.0.1.bb b/meta/recipes-sato/webkit/libwpe_1.6.0.bb
+similarity index 82%
+rename from meta/recipes-sato/webkit/libwpe_1.4.0.1.bb
+rename to meta/recipes-sato/webkit/libwpe_1.6.0.bb
+index 12499ff281..09c74089c9 100644
+--- a/meta/recipes-sato/webkit/libwpe_1.4.0.1.bb
++++ b/meta/recipes-sato/webkit/libwpe_1.6.0.bb
+@@ -13,5 +13,6 @@ inherit cmake features_check
  
- EXTRA_OECONF = "--with-perl=${STAGING_BINDIR_NATIVE}/perl-native/perl \
- 		--without-tcltk \
-+		--without-iconv \
- "
- EXTRA_OECONF_append_class-nativesdk = " --with-gitconfig=/etc/gitconfig "
+ REQUIRED_DISTRO_FEATURES = "opengl"
  
-diff --git a/meta/recipes-devtools/git/git_2.24.1.bb b/meta/recipes-devtools/git/git_2.24.1.bb
-deleted file mode 100644
-index daea31eab2..0000000000
---- a/meta/recipes-devtools/git/git_2.24.1.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require git.inc
--
--EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
--                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--                 "
--EXTRA_OEMAKE += "NO_GETTEXT=1"
--
--SRC_URI[tarball.md5sum] = "166bde96adbbc11c8843d4f8f4f9811b"
--SRC_URI[tarball.sha256sum] = "ad5334956301c86841eb1e5b1bb20884a6bad89a10a6762c958220c7cf64da02"
--SRC_URI[manpages.md5sum] = "31c2272a8979022497ba3d4202df145d"
--SRC_URI[manpages.sha256sum] = "9a7ae3a093bea39770eb96ca3e5b40bff7af0b9f6123f089d7821d0e5b8e1230"
-diff --git a/meta/recipes-devtools/git/git_2.26.2.bb b/meta/recipes-devtools/git/git_2.26.2.bb
-new file mode 100644
-index 0000000000..ae7aa267bf
---- /dev/null
-+++ b/meta/recipes-devtools/git/git_2.26.2.bb
-@@ -0,0 +1,10 @@
-+require git.inc
-+
-+EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-+                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-+                 "
-+EXTRA_OEMAKE += "NO_GETTEXT=1"
-+
-+SRC_URI[tarball.sha256sum] = "e1c17777528f55696815ef33587b1d20f5eec246669f3b839d15dbfffad9c121"
-+SRC_URI[manpages.sha256sum] = "b3c6cfc980f3c593d0cd0c63e0c97d6f1cafe7b72321fc3a94948758b9529c5b"
-+
++SRC_URI[md5sum] = "6e8a2c279dcc3617db5ec7ac4c03d628"
+ SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "09849dfb34877354f34f318e138971cf22e677b2179e1f0a8ea00ab0b7bd8e9b"
++SRC_URI[sha256sum] = "3587c6b8a807f4bb76b268ba74ca82c6b395b90235db41ad8252224456193c90"
+diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb b/meta/recipes-sato/webkit/wpebackend-fdo_1.6.0.bb
+similarity index 78%
+rename from meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
+rename to meta/recipes-sato/webkit/wpebackend-fdo_1.6.0.bb
+index cd2f7fabda..3b1dbf1e09 100644
+--- a/meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
++++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.6.0.bb
+@@ -12,6 +12,7 @@ inherit cmake features_check
+ 
+ REQUIRED_DISTRO_FEATURES = "opengl"
+ 
++SRC_URI[md5sum] = "456afeed22f6749f7b2a97c11660835d"
+ SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "6249a0b7cbfa662206a8d2fa24e2c574e75c681ad0e93468091f1dc68ddb299d"
++SRC_URI[sha256sum] = "7f5bd7b9d8f97b1655f4dcd39fad92719d0fb3985b251da5802df13aaa09f567"
+ 
 -- 
 2.26.1
 
