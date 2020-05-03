@@ -1,125 +1,117 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
- by mx.groups.io with SMTP id smtpd.web11.32483.1588545569230050312
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web12.33201.1588546316851846034
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 May 2020 15:39:29 -0700
+ Sun, 03 May 2020 15:51:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=gZr0Yx3p;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.195, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f195.google.com with SMTP id w3so6048736plz.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 15:39:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NEFzzHqb;
+ spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: sakoman@gmail.com)
+Received: by mail-wr1-f66.google.com with SMTP id e16so13614174wra.7
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 15:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rqkscTA+1Qr2veHLdZI4h/jVYyPyvbolMrRolpjHN7Y=;
-        b=gZr0Yx3pONxXhVUHHhbbogyXbb0H1DnH1bKcPA70ZXjrbhDnqoZu9yYem+S/9BGabD
-         7IJ2GHxPgAphXU+z9GsK2WMDc8547e7NiTrhlis4SejDiwjzougMw/NdhQTcufpeWd4n
-         2VxeIzHx2vamTwMpHTDVHrKu6OahAr425gXkUclTT6J1BV/c2FEXH8haEVW1dAZnZ6P7
-         Lst8VHC0X2QbNhMdI96hn9A7+1bPY56sIUGvbgT2CxJRS5ABPrPQZLNjhgHNRz4lvx55
-         uLOoc2Lw/9NP7nLo290U9qoCb4vDDvgLNWPmw+3Grc45cphhEfRQj2jMM+JiWF3jLVGL
-         f2cg==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ppf2Uy1TQkEsALNk2a4tIZUW3YMrHSi9Oxgj10J6Pxc=;
+        b=NEFzzHqblw7yhnACK1gyzgfPAuacOXgFy/1COO8jx6WY0nmEKRApMY3pJTMX1WL7+e
+         eHP5k0Q0Qh9VbhkwoGRUsgPZRi2O6cGjfDIc8/LdXxddzwMQ+tiykgVZvrLFVtAF4VDS
+         3H7cOeKkk8hoGHoyCj1MRPeRjrXTAQDSMVdX9ewKF3ppM60oh8ZIZKV55k0XjldgxnG/
+         +SZ8UfaS0Bgo/Zg0JDJ+hXDnvLLwgZWyNtQJmUkRIdGdR+YsUXu/FEgACx29d0g34L3u
+         1E8Z/WdiwOo+M6F5iYbZLLhxyp2Q9u0GESNqqw5KzvkNFDSBVvPd/v3ft4wDMoUTnN7v
+         wXlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rqkscTA+1Qr2veHLdZI4h/jVYyPyvbolMrRolpjHN7Y=;
-        b=VUYkVdQVN9Yfcwg8QNpVd4xrbB8BRTX3jVijVjVmw5ciFbb2SGHAHsbZNPANqyocwS
-         W40lygthrtyAUNoZcOAT38fDS38JowoJypUUX2adgB1Lf8Nicd+85bDb8rAt1lvVIABb
-         azCSlHqlNDyaB3O6JF4q+P7F9O9cIaaJ4Mp9EHA9dK2urmCzrR7KEX2mpAUnMEKmbAP1
-         azynNCemiInMjPH0qOwdG0fDTSPhIp0xnnHxIAH2Tuqmc7UOvijcPwBZ0q1+MeZcsj+k
-         a1xmAfkAdJp9NcrbF4M/IaDZKT3w9mKdw+IeE8ajWnRHmbOZT+ty5IafdNYSR9vnIfNN
-         bDTg==
-X-Gm-Message-State: AGi0PuaZcRatpQxxEyhQtU1zQ/liBdADbX017xFawV3LLWFgajoGV96S
-	u9CKZyLfpE0mZuk403AdMxbnFAxWXgp9Aw==
-X-Google-Smtp-Source: APiQypJE3F9Ufh2bnnowMorrGFjyqk/XjZfx+NDnwkjyp9ZAslpBm52VzVCp4L2n6av2TwDyiGozqg==
-X-Received: by 2002:a17:90a:270d:: with SMTP id o13mr13840427pje.34.1588545567840;
-        Sun, 03 May 2020 15:39:27 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id p64sm5147680pjp.7.2020.05.03.15.39.26
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2020 15:39:27 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/14] Pull request for dunfell (cover letter only)
-Date: Sun,  3 May 2020 12:39:11 -1000
-Message-Id: <cover.1588545160.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ppf2Uy1TQkEsALNk2a4tIZUW3YMrHSi9Oxgj10J6Pxc=;
+        b=YXLNg7COt8P0pBFdhdU9+34pLD4r6NfyKWu4inejR6U15Czh37Q/JgZb7DUxsIQSsS
+         udjrycrfuoZzRPeI3qWiV3tLTR7KjggYdR7OFne9+DkqwfdDWd6ie+RyVuUj0RQaN6SY
+         nnHLsZDJItSrELjlnV7Xj5TXFu2sZzKkepyZ7Sl8dleakmlPH8pAJvuUt3o1NNLLoJsN
+         JJxxVjUPvjgQBbHNqYfCTQCobFojJ83AyMOqmItes7JPS4w1YrZXpKgnEiPlLmPX8S52
+         CW98WJ60d2oEYige3sEvhid7hPzTtibb8U5LvvGAw7DF6fYDJUqika1FfjW5+sBgVEzD
+         9eVw==
+X-Gm-Message-State: AGi0PuaKYAqSkbApTqcYivabD4fW/QTmOWPCQR5nSeSPy6ftALrQiIWq
+	8YRQN9DEXQ45VsPWWh2+MJsWxcrHYJvuZ68xfTE=
+X-Google-Smtp-Source: APiQypJEpI6j5mtH1u8LL0w9ebWg2JC6a0dIJvDgnEP3BUUReNz4CybV8SBbEo/IB998StQ/3unA/gXa3cuI/VDt1Kk=
+X-Received: by 2002:a5d:5445:: with SMTP id w5mr3862391wrv.422.1588546315193;
+ Sun, 03 May 2020 15:51:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20200428125747.27422-1-ovidiu.panait@windriver.com>
+In-Reply-To: <20200428125747.27422-1-ovidiu.panait@windriver.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Sun, 3 May 2020 12:51:44 -1000
+Message-ID: <CAGDS+n=sk=UvThgL+VTa=L3mbbymTdPPYciRkT3Uw+ybrucLgA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] populate_sdk_base: Add ld.so.conf for nativesdk-binutils
+To: Ovidiu Panait <ovidiu.panait@windriver.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The following changes since commit 1795f30d8ab73d35710ca99064c51190dc84853e:
+Should I consider these two patches for dunfell LTS?
 
-  build-appliance-image: Update to master head revision (2020-04-07 22:15:32 +0100)
+Thanks!
 
-are available in the Git repository at:
+Steve
 
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Changqing Li (1):
-  parselogs.py: ignore pulseaudio startup warning messages
-
-Denys Dmytriyenko (1):
-  u-boot.inc: install u-boot-initial-env as ${PN}-initial-env in $D and
-    $DEPLOYDIR
-
-Jeremy Puhlman (3):
-  qemu-system-native: Fix commented out PACKAGECONFIG
-  nativesdk-gcc-runtime: enable building libstdc++.a
-  buildtools-extended-tarball: Add libstc++.a
-
-Khem Raj (2):
-  libucontext: Bring in mips/mips64 support
-  ruby: Link with libucontext on musl
-
-Maxime Roussin-B?langer (1):
-  tzdata: remove exit 0 from pkg_postinst
-
-Paul Barker (1):
-  kernel-yocto.bbclass: Fix deps when externalsrc is used
-
-Pierre-Jean Texier (1):
-  ell: upgrade 0.30 -> 0.31
-
-Tim Orling (1):
-  python3-manifest.json: add pathlib to core
-
-Wang Mingyu (1):
-  gnutls: upgrade 3.6.12 -> 3.6.13
-
-Yi Zhao (1):
-  alsa-state: ignore 'No soundcards found' error in pkg_postinst
-
-hongxu (1):
-  buildtools-tarball: add nativesdk-mtools for `wic ls'
-
- meta/classes/kernel-yocto.bbclass             |  6 +++
- meta/lib/oeqa/runtime/cases/parselogs.py      |  4 +-
- meta/recipes-bsp/alsa-state/alsa-state.bb     |  2 +-
- meta/recipes-bsp/u-boot/u-boot.inc            | 28 +++++------
- .../ell/{ell_0.30.bb => ell_0.31.bb}          |  4 +-
- .../meta/buildtools-extended-tarball.bb       |  1 +
- meta/recipes-core/meta/buildtools-tarball.bb  |  1 +
- ...move-using-.end-directive-with-clang.patch | 36 ++++++++++++++
- .../0001-Makefile-Add-LIBDIR-variable.patch   | 46 ------------------
- .../0001-pass-LDFLAGS-to-link-step.patch      | 31 ------------
- meta/recipes-core/musl/libucontext_git.bb     | 48 +++++++++----------
- meta/recipes-devtools/gcc/gcc-runtime.inc     |  2 +
- .../python/python3/python3-manifest.json      |  2 +
- meta/recipes-devtools/qemu/qemu.inc           |  2 +-
- meta/recipes-devtools/ruby/ruby_2.7.0.bb      |  9 +++-
- meta/recipes-extended/timezone/tzdata.bb      |  8 +---
- .../{gnutls_3.6.12.bb => gnutls_3.6.13.bb}    |  4 +-
- 17 files changed, 104 insertions(+), 130 deletions(-)
- rename meta/recipes-core/ell/{ell_0.30.bb => ell_0.31.bb} (83%)
- create mode 100644 meta/recipes-core/musl/0001-Remove-using-.end-directive-with-clang.patch
- delete mode 100644 meta/recipes-core/musl/libucontext/0001-Makefile-Add-LIBDIR-variable.patch
- delete mode 100644 meta/recipes-core/musl/libucontext/0001-pass-LDFLAGS-to-link-step.patch
- rename meta/recipes-support/gnutls/{gnutls_3.6.12.bb => gnutls_3.6.13.bb} (93%)
-
--- 
-2.17.1
-
+On Tue, Apr 28, 2020 at 2:59 AM Ovidiu Panait
+<ovidiu.panait@windriver.com> wrote:
+>
+> Extend the functionality provided by commit [1] to the SDK as well. This way we
+> can make sure that nativesdk-binutils finds SDK libraries first rather than
+> host ones.
+>
+> This is useful for example when trying to build the linux kernel using
+> nativesdk-gcc. This scenario currently fails because it tries to link to host
+> libraries rather than SDK host ones:
+>
+> make x86_64_defconfig
+> make bzImage
+> ...
+> error: Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel
+> Makefile:1101: recipe for target 'prepare-objtool' failed
+> make: *** [prepare-objtool] Error 1
+> ....
+> /../../../../x86_64-wrlinuxsdk-linux/bin/ld: /lib/x86_64-linux-gnu/libpthread.so.0: undefined reference to `__libc_vfork@GLIBC_PRIVATE'
+> ...
+>
+> [1] 15049c610b [buildtools-tarball: Add an ld.so.conf for nativesdk-binutils]
+>
+> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> ---
+>  meta/classes/populate_sdk_base.bbclass       | 5 +++++
+>  meta/recipes-core/meta/buildtools-tarball.bb | 4 ----
+>  2 files changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+> index ef0d8bef58..6a1ebc8c02 100644
+> --- a/meta/classes/populate_sdk_base.bbclass
+> +++ b/meta/classes/populate_sdk_base.bbclass
+> @@ -185,6 +185,11 @@ fakeroot create_sdk_files() {
+>         # Escape special characters like '+' and '.' in the SDKPATH
+>         escaped_sdkpath=$(echo ${SDKPATH} |sed -e "s:[\+\.]:\\\\\\\\\0:g")
+>         sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
+> +
+> +       mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
+> +       echo '${SDKPATHNATIVE}${libdir}
+> +${SDKPATHNATIVE}${base_libdir}
+> +include /etc/ld.so.conf' > ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/ld.so.conf
+>  }
+>
+>  python check_sdk_sysroots() {
+> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+> index 977b6a5e1d..c49802eef8 100644
+> --- a/meta/recipes-core/meta/buildtools-tarball.bb
+> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
+> @@ -76,10 +76,6 @@ create_sdk_files_append () {
+>         echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+>         echo 'export OPENSSL_CONF="${SDKPATHNATIVE}${sysconfdir}/ssl/openssl.cnf"' >>$script
+>
+> -       mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
+> -       echo '${SDKPATHNATIVE}${libdir}
+> -${SDKPATHNATIVE}${base_libdir}
+> -include /etc/ld.so.conf' > ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/ld.so.conf
+>         if [ "${SDKMACHINE}" = "i686" ]; then
+>                 echo 'export NO32LIBS="0"' >>$script
+>                 echo 'echo "$BB_ENV_EXTRAWHITE" | grep -q "NO32LIBS"' >>$script
+> --
+> 2.17.1
+>
+> 
