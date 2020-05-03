@@ -1,61 +1,122 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.21762.1588509163400020125
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+ by mx.groups.io with SMTP id smtpd.web12.23920.1588516847015260209
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 May 2020 05:32:43 -0700
+ Sun, 03 May 2020 07:40:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 06E3E60220;
-	Sun,  3 May 2020 12:32:40 +0000 (UTC)
-MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGhwOiBmaXggemlwIHBhY2thZ2UgY29uZmlnIChyZXYzKQ==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Konrad Weihmann <kweihmann@outlook.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Sun, 03 May 2020 12:32:42 -0000
-Message-ID: <20200503123242.2277.50583@do>
-References: <AM7PR05MB6881470A9DF3C88D48AE21E7A8A90@AM7PR05MB6881.eurprd05.prod.outlook.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <AM7PR05MB6881470A9DF3C88D48AE21E7A8A90@AM7PR05MB6881.eurprd05.prod.outlook.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@koncepto.io header.s=default header.b=VspOzegk;
+ spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
+Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr [193.250.66.88])
+	by koncepto.io (Postfix) with ESMTPSA id B9C1860133;
+	Sun,  3 May 2020 16:40:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1588516843;
+	bh=PU0zYaoKAB34eZgDDrzJ721SCp5hvYir7c8prpQA4R4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VspOzegkh/fC83zUlEP2BTNrWakn695V1nzr7FLA6EW+H0Y2KRpBDhFRJNPzZ2he/
+	 6lHubZkSk54TtgS1FEMASDqIY1tDNf9AbCCLLwoG1WcuKgCTl221WSlvDJn1SPJS3N
+	 jEX+tVSYtXeF7MFVkr8wZLcojT8XLHVvbJlUX5r6vyzevV5B5mmC7OFIn7dBknmbfd
+	 KTrD+0wXP/DD+tFPMwAmbSao+P64ZHxnTwY/dVEpnjsdjVYtIdoRpccmG/YNTizcgV
+	 Gzexou+N+UH5xDAjF4viWJZQtYzPpPkh++8/jcInX9YrrwaWGC/SaQ/C9LYuCYuojT
+	 N2AFf4+wDnlPw==
+From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
+Subject: [PATCH] sysklogd: upgrade 2.1.1 -> 2.1.2
+Date: Sun,  3 May 2020 16:40:41 +0200
+Message-Id: <1588516841-10104-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
 
-== Series Details ==
+See https://github.com/troglobit/sysklogd/releases/tag/v2.1.2
 
-Series: php: fix zip package config (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/23910/
-State : failure
+Also remove patch applied upstream.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [meta-oe,v4] php: fix zip package config
- Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe,v4) and send the patch to the indicated list
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at e44ca998c2)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ ...-rarely-reproduced-parallel-build-problem.patch | 40 ----------------------
+ meta/recipes-extended/sysklogd/sysklogd.inc        |  1 -
+ meta/recipes-extended/sysklogd/sysklogd_2.1.1.bb   |  3 --
+ meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb   |  3 ++
+ 4 files changed, 3 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch
+ delete mode 100644 meta/recipes-extended/sysklogd/sysklogd_2.1.1.bb
+ create mode 100644 meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb
+
+diff --git a/meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch b/meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch
+deleted file mode 100644
+index 97bf6ae..0000000
+--- a/meta/recipes-extended/sysklogd/files/0001-fix-one-rarely-reproduced-parallel-build-problem.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From dcaa75391ff267c38e776d48c579cdb734b91af3 Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Mon, 23 Mar 2020 15:52:32 +0800
+-Subject: [PATCH] fix one rarely reproduced parallel build problem
+-
+-fix for this issue:
+-https://github.com/troglobit/sysklogd/issues/17
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+-
+-Upstream-Status: Backport
+-[https://github.com/troglobit/sysklogd/commit/b88e21d1770a262f0e5d0f6b84f0abd4a5de55b7]
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+----
+- src/Makefile.am | 10 ++++++++++
+- 1 file changed, 10 insertions(+)
+-
+-diff --git a/src/Makefile.am b/src/Makefile.am
+-index 993dbfd..06b706d 100644
+---- a/src/Makefile.am
+-+++ b/src/Makefile.am
+-@@ -56,3 +56,13 @@ libsyslog_la_SOURCES  = syslog.c syslog.h compat.h
+- libsyslog_la_CPPFLAGS = $(AM_CPPFLAGS) -D_XOPEN_SOURCE=600
+- libsyslog_la_LDFLAGS  = $(AM_LDFLAGS) -version-info 0:0:0
+- libsyslog_la_LIBADD   = $(LTLIBOBJS)
+-+
+-+# Both libsyslog_la and syslogd/logger requires objects like lib/pidfile.o, for
+-+# libsyslog_la, the objects should be compiled with -fPIC, but for
+-+# syslogd/logger, it doesn't need -fPIC, so there is a race issue when the two
+-+# different lib/pidfile.o are compiled at the same time, which would cause errors like:
+-+# ld: syslogd-syslogd.o: in function `main':
+-+# syslogd.c:417: undefined reference to `__pidfile'
+-+#
+-+# Make LIBOBJS depend on LTLIBOBJS to fix the problem.
+-+$(LIBOBJS): $(LTLIBOBJS)
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index 8899daa..2e3d983 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -12,7 +12,6 @@ inherit update-rc.d update-alternatives systemd autotools
+ 
+ SRC_URI = "git://github.com/troglobit/sysklogd.git;nobranch=1 \
+            file://sysklogd \
+-           file://0001-fix-one-rarely-reproduced-parallel-build-problem.patch \
+            "
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-extended/sysklogd/sysklogd_2.1.1.bb b/meta/recipes-extended/sysklogd/sysklogd_2.1.1.bb
+deleted file mode 100644
+index eb6b4ef..0000000
+--- a/meta/recipes-extended/sysklogd/sysklogd_2.1.1.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-require sysklogd.inc
+-
+-SRCREV = "24dafe9a27ac959ebeb89acd3ebd3d62cca4b755"
+diff --git a/meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb b/meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb
+new file mode 100644
+index 0000000..2917c2a
+--- /dev/null
++++ b/meta/recipes-extended/sysklogd/sysklogd_2.1.2.bb
+@@ -0,0 +1,3 @@
++require sysklogd.inc
++
++SRCREV = "6d6010add698370fc7d9828f0aaa18613dd2397f"
+-- 
+2.7.4
 
