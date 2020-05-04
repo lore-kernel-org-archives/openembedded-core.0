@@ -1,280 +1,123 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web11.9840.1588609566384400507
- for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 09:26:06 -0700
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web12.10325.1588610678547089426
+ for <Openembedded-core@lists.openembedded.org>;
+ Mon, 04 May 2020 09:44:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gSv+H0Ym;
- spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id t11so8691355pgg.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 09:26:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=e/Y6Itxy;
+ spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wm1-f68.google.com with SMTP id v4so437253wme.1
+        for <Openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 09:44:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language:importance;
-        bh=eMXL7wQ2GiiFLNspwmgQU0Y343nj5MURhJQWegbAPwo=;
-        b=gSv+H0Ym9je9EnWUqSBHlCpbMCzb4mpnqGY4wIR1oVTltpSTKxnc7oPdOTNsWacdqn
-         C3KZPZqORabTYUi24DnapJT3cl2+ollDySg0Iaquczp0Vln5bbM3fWeXy3lP2Vqnrxv2
-         z0Me+uDUF4i1na3LXMEd5FU8LzSWoI0Rosj/9vHBm+f7OqNnNJAnJu1EC7O5LBEeE50Y
-         1xb6t4epX7LkU+CduQYHJHnXrIB0913s0sE4JxmzAMar4QPo9Gi44NyknGlKR6GmlboF
-         86aw2vQK/DjBIQie4YpBbYnQUYCoQoqt34lb7KL/KInMRCAnQG3cRmreV42CZioRUbOt
-         BN9w==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6voPpv6paKOeofYmRFqDsoxDqFp4DwVBdezcvoR3Dqk=;
+        b=e/Y6ItxyE4z669DFAC1+puW2qISAkrl0kH+Mn8iRh5uswkfIADiJttIbtcH2rhsyom
+         eyWTi7euxPGSvpiHRImb+Qg9MBZrTawJSktx+KadGXbMIj+MpT6+gwwimSb0eRRIzBNl
+         q+bOWx5pKQhYKkjStiutlb3WIpsee1QdB1yA52zrUGfrFTu4DUFMFmj988+EArNuED66
+         HkLwGzzskZ2f3L2PZ1DrI0qkmZBctxK+sOyn6J+rcfzxjiBPUfVwPkD1fA5ec0bgkli/
+         QmLPpHi8m56lz2PZCd04kKEpAzc6A7gm0tOHkM9BWVShpuua2wB0YMOmBqhDPhPunR3N
+         Gp0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language:importance;
-        bh=eMXL7wQ2GiiFLNspwmgQU0Y343nj5MURhJQWegbAPwo=;
-        b=eMspTyCSftoKh10LXm5LVvlNwaObClJiekwe8kH1vu5muGd+6dYNAsUO783e9/pjus
-         ZwA1TeZlfSos5yrjF7mnBgD/imqX5sI6UVp1JcNRBssN5zGr+5Tr6qgZTnZrArizED1N
-         pbXkt1utWPfpY0BG6FEVEcJzg47a/UIw1DgW5FFHEpl+z14D4UN56GGB3iKWIgwJMQ/K
-         RLGBWz34+Lkv7xWNDJrzkxhURddOgZuAYwfvTxx4Ftu0gu9dq2gSJh6T2K6v2PI606C7
-         P79eYqLpWZkn/FbC2RXZEwJYw8cZOChvNsVXipkScJ6u79f1sdmI6v8WI2dNzBpC6i6u
-         mCQQ==
-X-Gm-Message-State: AGi0PuY6pH+7V661AvJDCaeRbjkDramRNWdmCdLcqfIy4ZgqA8DlUQ6a
-	gq//SqfV1W8gZjhyTEmsEYyWa6sO
-X-Google-Smtp-Source: APiQypIPubFpveNbRpRHIDw/Ajjja8TqQZEzQOYsVVlPc+EbOwyuMgDX/BzhFNq9W+N1bD31woKJAg==
-X-Received: by 2002:a62:6385:: with SMTP id x127mr19102856pfb.276.1588609565464;
-        Mon, 04 May 2020 09:26:05 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-        by smtp.gmail.com with ESMTPSA id m18sm18412pjl.14.2020.05.04.09.26.04
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 04 May 2020 09:26:05 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am on the first Tuesday (PDT)
-Date: Mon, 4 May 2020 09:26:05 -0700
-Message-ID: <285401d62230$b5c59dd0$2150d970$@gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6voPpv6paKOeofYmRFqDsoxDqFp4DwVBdezcvoR3Dqk=;
+        b=n+9OCX5dlf8b6/fMroTqxlh3rjut4i/GUh0GisbE1Ph0HZxkC4eQElqbUjetFTGH5z
+         GKedWoNvMPf6L/0tSiY/AFP0U2JMs0ZujJX4amwsnWQnR6XRnWb0yzSKH34TC5IxZMjM
+         z+YHvJRUbSGsxtcupWaLXiwfZKvelRE2fucPRMbqJmCSsiFv03Z6wpQeYtP6XyEm3+u5
+         dp0OnAmYMvlU6SzC8cTjIDOOCaihHKL8LYZQB/HyDqjKax2xyb2YFe2arLouf1o7tj9j
+         MBmXSQmUw3nfBE+/qb/RRacXd46QVswmSliFnEBYEy1y+rVvheDUCJzOR/FcCa2AYNPc
+         YirA==
+X-Gm-Message-State: AGi0PuZJDeioRqPVHjskvc2OvcFbSipS35IdbLyJoOiMWmjhS3dIUr+n
+	f6Cg1zHEXf8/cpKPcrxHsquGx00alns=
+X-Google-Smtp-Source: APiQypIXlxvhzUAjEXGO0GIJv3+aRBAXYRhKUJNDGTF1z4fcp3O7by4LFXMqWmRmOuQAwAnKDRORZA==
+X-Received: by 2002:a1c:bd54:: with SMTP id n81mr15159897wmf.141.1588610676810;
+        Mon, 04 May 2020 09:44:36 -0700 (PDT)
+Return-Path: <uvv.mail@gmail.com>
+Received: from localhost.localdomain (dslb-002-205-007-252.002.205.pools.vodafone-ip.de. [2.205.7.252])
+        by smtp.gmail.com with ESMTPSA id q4sm13371491wrx.9.2020.05.04.09.44.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2020 09:44:36 -0700 (PDT)
+From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Cc: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+Subject: [PATCH] bitbake: fetch2: Fix CVS fetcher clean method
+Date: Mon,  4 May 2020 18:44:16 +0200
+Message-Id: <20200504164416.687804-1-uvv.mail@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Priority: 1 (Highest)
-X-MSMail-Priority: High
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHKvB+Ej3YnlfaBPq9uyAyCADmJeg==
-Importance: High
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_2855_01D621F6.09676210"
-Content-Language: en-us
+Content-Transfer-Encoding: 8bit
 
-------=_NextPart_000_2855_01D621F6.09676210
-Content-Type: text/plain;
-	charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
+From: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
 
-All,
+Clean method assumes that download directory should be determined from
+CVSDIR variable, but this is handled differently in download method.
+Now we set download directory for the whole class in urldata_init
 
+Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+---
+ bitbake/lib/bb/fetch2/cvs.py | 20 +++++++++-----------
+ 1 file changed, 9 insertions(+), 11 deletions(-)
+
+diff --git a/bitbake/lib/bb/fetch2/cvs.py b/bitbake/lib/bb/fetch2/cvs.py
+index 29123a483c..22abdef792 100644
+--- a/bitbake/lib/bb/fetch2/cvs.py
++++ b/bitbake/lib/bb/fetch2/cvs.py
+@@ -51,6 +51,10 @@ class Cvs(FetchMethod):
  
-
-Just a reminder we will hold the monthly Yocto Project Technical Meeting at
-8am PST tomorrow. (5/5)  
-
+         ud.localfile = d.expand('%s_%s_%s_%s%s%s.tar.gz' % (ud.module.replace('/', '.'), ud.host, ud.tag, ud.date, norecurse, fullpath))
  
-
-Yocto Project Technical Team Meeting: We encourage people attending the
-meeting to logon and announce themselves on the Yocto Project IRC chancel
-during the meeting (optional):
-
-Yocto IRC: http://webchat.freenode.net/?channels=#yocto
-
++        pkg = d.getVar('PN')
++        cvsdir = d.getVar("CVSDIR") or (d.getVar("DL_DIR") + "/cvs")
++        ud.pkgdir = os.path.join(cvsdir, pkg)
++
+     def need_update(self, ud, d):
+         if (ud.date == "now"):
+             return True
+@@ -106,10 +110,7 @@ class Cvs(FetchMethod):
  
-
-Wiki: https://www.yoctoproject.org/public-virtual-meetings/
-
+         # create module directory
+         logger.debug(2, "Fetch: checking for module directory")
+-        pkg = d.getVar('PN')
+-        cvsdir = d.getVar("CVSDIR") or (d.getVar("DL_DIR") + "/cvs")
+-        pkgdir = os.path.join(cvsdir, pkg)
+-        moddir = os.path.join(pkgdir, localdir)
++        moddir = os.path.join(ud.pkgdir, localdir)
+         workdir = None
+         if os.access(os.path.join(moddir, 'CVS'), os.R_OK):
+             logger.info("Update " + ud.url)
+@@ -120,8 +121,8 @@ class Cvs(FetchMethod):
+         else:
+             logger.info("Fetch " + ud.url)
+             # check out sources there
+-            bb.utils.mkdirhier(pkgdir)
+-            workdir = pkgdir
++            bb.utils.mkdirhier(ud.pkgdir)
++            workdir = ud.pkgdir
+             logger.debug(1, "Running %s", cvscmd)
+             bb.fetch2.check_network_access(d, cvscmd, ud.url)
+             cmd = cvscmd
+@@ -140,7 +141,7 @@ class Cvs(FetchMethod):
+         # tar them up to a defined filename
+         workdir = None
+         if 'fullpath' in ud.parm:
+-            workdir = pkgdir
++            workdir = ud.pkgdir
+             cmd = "tar %s -czf %s %s" % (tar_flags, ud.localpath, localdir)
+         else:
+             workdir = os.path.dirname(os.path.realpath(moddir))
+@@ -151,9 +152,6 @@ class Cvs(FetchMethod):
+     def clean(self, ud, d):
+         """ Clean CVS Files and tarballs """
  
-
-When            Monthly from 8am to 8:30am on the first Tuesday Pacific Time
-
-Where           Zoom Meeting: https://zoom.us/j/990892712 
-
+-        pkg = d.getVar('PN')
+-        pkgdir = os.path.join(d.getVar("CVSDIR"), pkg)
+-
+-        bb.utils.remove(pkgdir, True)
++        bb.utils.remove(ud.pkgdir, True)
+         bb.utils.remove(ud.localpath)
  
+-- 
+2.25.1
 
-We are tracking the minutes at:
-https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9d
-DH4/edit?pli=1 Please request access if you want to assist in editing them.
-The world should have view access. 
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_2855_01D621F6.09676210
-Content-Type: text/html;
-	boundary="----=_NextPart_000_1BCB_01D60BFF.DF4CB2C0";
-	charset="US-ASCII"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoNormal style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>All,</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Just a =
-reminder we will hold the monthly Yocto Project Technical Meeting at 8am =
-PST tomorrow. (5/5)&nbsp; <o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Yocto =
-Project Technical Team Meeting: We encourage people attending the =
-meeting to logon and announce themselves on the Yocto Project IRC =
-chancel during the meeting (optional):</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Yocto IRC: =
-</span><a =
-href=3D"http://webchat.freenode.net/?channels=3D#yocto">http://webchat.fr=
-eenode.net/?channels=3D#yocto</a><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>Wiki: =
-</span><a =
-href=3D"https://www.yoctoproject.org/public-virtual-meetings/">https://ww=
-w.yoctoproject.org/public-virtual-meetings/</a><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>When&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; Monthly from 8am to 8:30am on the first Tuesday =
-Pacific Time</span><span style=3D'font-size:12.0pt;font-family:"Times =
-New Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>Where&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; Zoom Meeting: </span><a =
-href=3D"https://zoom.us/j/990892712">https://zoom.us/j/990892712</a><span=
- style=3D'color:#1F497D'> </span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span style=3D'color:#1F497D'>We are =
-tracking the minutes at: </span><a =
-href=3D"https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7Q=
-wKC5wWVDg9dDH4/edit?pli=3D1">https://docs.google.com/document/d/1ly8nyhO1=
-4kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit?pli=3D1</a><span =
-style=3D'color:#1F497D'> Please request access if you want to assist in =
-editing them.&nbsp; The world should have view access. </span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>&nbsp;</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><span =
-style=3D'color:#1F497D'>Thanks,</span><span =
-style=3D'font-size:12.0pt;font-family:"Times New =
-Roman",serif'><o:p></o:p></span></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif",serif'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_2855_01D621F6.09676210--
