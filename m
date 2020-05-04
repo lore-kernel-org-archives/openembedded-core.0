@@ -1,88 +1,120 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web11.2425.1588581720757976911
+Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
+ by mx.groups.io with SMTP id smtpd.web12.2541.1588582531023675964
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 01:42:01 -0700
+ Mon, 04 May 2020 01:55:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h9XVZfXB;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id r26so8061332wmh.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 01:42:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=v5MEh5WvpwOdQTF8GhI0VdpXe5BRCtaPPyHvCE4xPJU=;
-        b=h9XVZfXBVn4R8Ky+k7IgYELqqlSvdNy6i/Av7TfmXrrc1unu0tOYmvGBbDdrEQytIa
-         uA/jioC+jc30nVW6ifJt1Upp6sNefpo7dkkkpGxkBvz4PmQ5zr9TO6f9KmzUeRaMhy0e
-         i97eQYkzoW2funSP6JamyJHxl12a+LoQsfuAE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=v5MEh5WvpwOdQTF8GhI0VdpXe5BRCtaPPyHvCE4xPJU=;
-        b=mmUwMhdAvxIxnjy8oI8qRApZjG9WXq8YK22UcxbjcNOF2L+Whw+PM7p/s/K+hgAEYH
-         2HewwDfXhhOn+DunAJwLkVMNvJOiZ2M2XVWdZ5A8npqQmRpHA64UaJLGzSaa39XfQfTd
-         9aFHr6gzC09OLHtzcLi6Mmi7WXLNEanLmb9Avx7vWgBTvzruZsyEECL3uej6YNapoOsk
-         Oqa1rV1tFxxFeZU1JihNSir699evROERuOuu3bg8jEFlZ0MBKwrlUiCgJsbjNLPrwOts
-         9ZnB0eH+y41VCHMxfGfxiOh53SCjv9d4U4WO+TI2wI/fWeXCK6psI6Ud/Pfxc0w6KiP/
-         zOBg==
-X-Gm-Message-State: AGi0PuaSNH+e6adOVg0QSbQc2yQRxN+Olx/layXhzlImB7XPyWhS+Pw5
-	hwB38GlaxVlvzPziwQSCn0RzeVLGkxw=
-X-Google-Smtp-Source: APiQypKkpQrzDxruikLWS5AC2SohbyDRI4rm+eOO07uRottvAODRj09xgSoHq+V3X5r3KUSmyMo1Aw==
-X-Received: by 2002:a1c:2002:: with SMTP id g2mr12911778wmg.109.1588581718938;
-        Mon, 04 May 2020 01:41:58 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id q14sm6561238wrc.66.2020.05.04.01.41.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 01:41:58 -0700 (PDT)
-Message-ID: <48695bd63fb996907ba8d49cde07672725599177.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 15/17] libcap: update to 2.33
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.14, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp.bon.at (Postfix) with ESMTPSA id 49FxX02z4Nz5tlG;
+	Mon,  4 May 2020 10:55:27 +0200 (CEST)
+Date: Mon, 4 May 2020 10:55:26 +0200
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 04 May 2020 09:41:57 +0100
-In-Reply-To: <20200503162559.946-15-alex.kanavin@gmail.com>
-References: <20200503162559.946-1-alex.kanavin@gmail.com>
-	 <20200503162559.946-15-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.36.1-2 
+Cc: bluelightning@bluelightning.org, richard.purdie@linuxfoundation.org
+Subject: Re: [OE-core] [PATCH v2] classes: base|insane: check pkgs lics are subset of recipe lics only once
+Message-ID: <20200504085526.s7dtrhybc7rseq4f@qschulz>
+References: <1607A04B2CF7553C.19761@lists.openembedded.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1607A04B2CF7553C.19761@lists.openembedded.org>
+User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, 2020-05-03 at 18:25 +0200, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  ...-tests-do-not-statically-link-a-test.patch |  9 +++----
->  ...hread_yield-with-standard-sched_yiel.patch | 24 +++++++++++++++++++
->  .../libcap/{libcap_2.32.bb => libcap_2.33.bb} |  5 ++--
->  3 files changed, 32 insertions(+), 6 deletions(-)
->  create mode 100644 meta/recipes-support/libcap/files/0004-psx.c-replace-pthread_yield-with-standard-sched_yiel.patch
->  rename meta/recipes-support/libcap/{libcap_2.32.bb => libcap_2.33.bb} (90%)
+Hi all,
+
+Gentle ping. Don't forget the doc patch (I messed up and send it in its
+own "patchseries").
+
+Thanks,
+Quentin
+
+On Mon, Apr 20, 2020 at 10:13:29PM +0200, Quentin Schulz wrote:
+> Yocto bug: https://bugzilla.yoctoproject.org/show_bug.cgi?id=10130
 > 
-> diff --git a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-> index e568cc47c5..5a0b25758c 100644
-> --- a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-> +++ b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-> @@ -1,4 +1,4 @@
-> -From 1179b423cce8d119b42cebfb3daa77c540fdca43 Mon Sep 17 00:00:00 2001
-> +From 99ff8da92cc1bdf150fecd1ecd0fa50794be0259 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Wed, 15 Jan 2020 17:16:28 +0100
->  Subject: [PATCH] tests: do not statically link a test
-> @@ -7,12 +7,13 @@ This fails on e.g. centos 7
+> Move logic checking that all packages licenses are only a subset of
+> recipe licenses from base.bbclass to the insane.bbclass so that it's
+> evaluated only once, during do_package_qa.
+> 
+> As explained in the linked bugzilla entry, if a package license is not
+> part of the recipe license, the warning message gets shown an
+> unreasonable amount of time because it's evaluated every time a recipe
+> is parsed.
+> 
+> This also makes it possible to silence this error with INSANE_SKIP.
+> 
+> Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
+> ---
+> 
+> v2:
+>  - move code from package class to insane class
+> 
+>  meta/classes/base.bbclass   | 13 -------------
+>  meta/classes/insane.bbclass | 21 ++++++++++++++++++++-
+>  2 files changed, 20 insertions(+), 14 deletions(-)
+> 
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index 45f9435fd8..7aa2e144eb 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -584,19 +584,6 @@ python () {
+>                          bb.debug(1, "Skipping recipe %s because of incompatible license(s): %s" % (pn, ' '.join(incompatible_lic)))
+>                          raise bb.parse.SkipRecipe("it has incompatible license(s): %s" % ' '.join(incompatible_lic))
 >  
->  Upstream-Status: Inappropriate [oe-core specific]
->  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> -        # Try to verify per-package (LICENSE_<pkg>) values. LICENSE should be a
+> -        # superset of all per-package licenses. We do not do advanced (pattern)
+> -        # matching of license expressions - just check that all license strings
+> -        # in LICENSE_<pkg> are found in LICENSE.
+> -        license_set = oe.license.list_licenses(license)
+> -        for pkg in d.getVar('PACKAGES').split():
+> -            pkg_license = d.getVar('LICENSE_' + pkg)
+> -            if pkg_license:
+> -                unlisted = oe.license.list_licenses(pkg_license) - license_set
+> -                if unlisted:
+> -                    bb.warn("LICENSE_%s includes licenses (%s) that are not "
+> -                            "listed in LICENSE" % (pkg, ' '.join(unlisted)))
+> -
+>      needsrcrev = False
+>      srcuri = d.getVar('SRC_URI')
+>      for uri in srcuri.split():
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 478240fa57..47c51081db 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -28,7 +28,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+>              pn-overrides infodir build-deps src-uri-bad \
+>              unknown-configure-option symlink-to-sysroot multilib \
+>              invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
+> -            mime mime-xdg \
+> +            mime mime-xdg unlisted-pkg-lics \
+>              "
+>  ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+>              perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+> @@ -874,6 +874,25 @@ def package_qa_check_expanded_d(package, d, messages):
+>                  sane = False
+>      return sane
+>  
+> +QAPKGTEST[unlisted-pkg-lics] = "package_qa_check_unlisted_pkg_lics"
+> +def package_qa_check_unlisted_pkg_lics(package, d, messages):
+> +    """
+> +    Check that all licenses for a package are among the licenses for the recipe.
+> +    """
+> +    pkg_lics = d.getVar('LICENSE_' + package)
+> +    if not pkg_lics:
+> +        return True
 > +
-
-libcap-native build failure:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/905
-
-Cheers,
-
-Richard
-
-
-
+> +    recipe_lics_set = oe.license.list_licenses(d.getVar('LICENSE'))
+> +    unlisted = oe.license.list_licenses(pkg_lics) - recipe_lics_set
+> +    if not unlisted:
+> +        return True
+> +
+> +    package_qa_add_message(messages, "unlisted-pkg-lics",
+> +                           "LICENSE_%s includes licenses (%s) that are not "
+> +                           "listed in LICENSE" % (package, ' '.join(unlisted)))
+> +    return False
+> +
+>  def package_qa_check_encoding(keys, encode, d):
+>      def check_encoding(key, enc):
+>          sane = True
+> -- 
+> 2.17.1
+> 
