@@ -1,117 +1,88 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web12.33201.1588546316851846034
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com [209.85.166.194])
+ by mx.groups.io with SMTP id smtpd.web11.34727.1588555009431788387
  for <openembedded-core@lists.openembedded.org>;
- Sun, 03 May 2020 15:51:57 -0700
+ Sun, 03 May 2020 18:16:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NEFzzHqb;
- spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: sakoman@gmail.com)
-Received: by mail-wr1-f66.google.com with SMTP id e16so13614174wra.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 15:51:56 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jYxDEyyW;
+ spf=pass (domain: gmail.com, ip: 209.85.166.194, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f194.google.com with SMTP id b18so9788582ilf.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 03 May 2020 18:16:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ppf2Uy1TQkEsALNk2a4tIZUW3YMrHSi9Oxgj10J6Pxc=;
-        b=NEFzzHqblw7yhnACK1gyzgfPAuacOXgFy/1COO8jx6WY0nmEKRApMY3pJTMX1WL7+e
-         eHP5k0Q0Qh9VbhkwoGRUsgPZRi2O6cGjfDIc8/LdXxddzwMQ+tiykgVZvrLFVtAF4VDS
-         3H7cOeKkk8hoGHoyCj1MRPeRjrXTAQDSMVdX9ewKF3ppM60oh8ZIZKV55k0XjldgxnG/
-         +SZ8UfaS0Bgo/Zg0JDJ+hXDnvLLwgZWyNtQJmUkRIdGdR+YsUXu/FEgACx29d0g34L3u
-         1E8Z/WdiwOo+M6F5iYbZLLhxyp2Q9u0GESNqqw5KzvkNFDSBVvPd/v3ft4wDMoUTnN7v
-         wXlA==
+        h=from:to:cc:subject:date:message-id;
+        bh=974ELqJcQIXm3ABimoT4rXba4WiqiXNVsHDkEQCtcaU=;
+        b=jYxDEyyWNSHm9jCxUSrSHY6bbt5pwJBK0w6YZVTSylJ4crGYcHp+KVDl0qGOQnjRAG
+         AIwXXDAoSSYClKutzmhsMtRvPt6OiY+nFvySsLix5WaRzEsCbCqrhlwh86cTNsCAKSxh
+         1IjY0C8HPBGvO8kHkEXZ+JbLCBzW62yFO+djdkj4rlyt0j4H3TCYPrEJLDDKHgOAORma
+         WJ75QHMhBs9Q1SUeVB1OF3GrHKNr9aG+jSqBHZfnPAUeb7nEhm+WhtvKR4OJ88qV1VLI
+         NSdHSEJkW1Dgafv5t7dPk8f3igPoDZCsG2PE7VIr1EFtKwyDHQwNI4c5XjatMmpwsi9J
+         qUBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ppf2Uy1TQkEsALNk2a4tIZUW3YMrHSi9Oxgj10J6Pxc=;
-        b=YXLNg7COt8P0pBFdhdU9+34pLD4r6NfyKWu4inejR6U15Czh37Q/JgZb7DUxsIQSsS
-         udjrycrfuoZzRPeI3qWiV3tLTR7KjggYdR7OFne9+DkqwfdDWd6ie+RyVuUj0RQaN6SY
-         nnHLsZDJItSrELjlnV7Xj5TXFu2sZzKkepyZ7Sl8dleakmlPH8pAJvuUt3o1NNLLoJsN
-         JJxxVjUPvjgQBbHNqYfCTQCobFojJ83AyMOqmItes7JPS4w1YrZXpKgnEiPlLmPX8S52
-         CW98WJ60d2oEYige3sEvhid7hPzTtibb8U5LvvGAw7DF6fYDJUqika1FfjW5+sBgVEzD
-         9eVw==
-X-Gm-Message-State: AGi0PuaKYAqSkbApTqcYivabD4fW/QTmOWPCQR5nSeSPy6ftALrQiIWq
-	8YRQN9DEXQ45VsPWWh2+MJsWxcrHYJvuZ68xfTE=
-X-Google-Smtp-Source: APiQypJEpI6j5mtH1u8LL0w9ebWg2JC6a0dIJvDgnEP3BUUReNz4CybV8SBbEo/IB998StQ/3unA/gXa3cuI/VDt1Kk=
-X-Received: by 2002:a5d:5445:: with SMTP id w5mr3862391wrv.422.1588546315193;
- Sun, 03 May 2020 15:51:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200428125747.27422-1-ovidiu.panait@windriver.com>
-In-Reply-To: <20200428125747.27422-1-ovidiu.panait@windriver.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Sun, 3 May 2020 12:51:44 -1000
-Message-ID: <CAGDS+n=sk=UvThgL+VTa=L3mbbymTdPPYciRkT3Uw+ybrucLgA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] populate_sdk_base: Add ld.so.conf for nativesdk-binutils
-To: Ovidiu Panait <ovidiu.panait@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=974ELqJcQIXm3ABimoT4rXba4WiqiXNVsHDkEQCtcaU=;
+        b=bAnDHa3gmmsb3HZIO1CdLowj2zX8cQHYTDPAVtxv9b9r5PghucNxeqLxYSy4gagvng
+         21el5HN+aARz6ul7sNY8q3ZuCcG9Jg1W7i3EYcv+TBgGotjZkx2UvimDdllEcDeMJP4A
+         xRLn+fRY7l+q3PmhUyd+myjkPEcLu3I8HlpRPavRfp2wlBIXwfXsnwMamGMdsoqi+VW8
+         fF8aoYjJFU7W36krWCWXYUA8IrWS8GALaMebdyl/5N7LJTfH/Ch/k0dwW8mKixpyc+tr
+         wO8tIaupGOHCGREoEwFZkhwzo4UoCn+zEXJy0nh9rnkA37zQE9oFmTV3lh3gt1sb/vwE
+         e55Q==
+X-Gm-Message-State: AGi0Pua1a7xVOkJEetKUsIGNEP01bonzB4XYYWamFlPeKqEXp1xfq58A
+	A8Cf7YjNEs9r9zGMvFQ+0hbQBu3S
+X-Google-Smtp-Source: APiQypL3Q+2RWFC6PhUiqIya/LcnHOqxq2yYb5nZ/3GRxveNY9pqqx9ZvXMbwybHoGkfJC6Zr5cHSg==
+X-Received: by 2002:a92:9f93:: with SMTP id z19mr14063249ilk.85.1588555008637;
+        Sun, 03 May 2020 18:16:48 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:ddf5:728:85e7:be75])
+        by smtp.gmail.com with ESMTPSA id w14sm4096540ilg.49.2020.05.03.18.16.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2020 18:16:48 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: matthew.zeng@windriver.com,
+	randy.macleod@windriver.com,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] jquery: Upgrade 3.4.1 -> 3.5.0
+Date: Sun,  3 May 2020 20:16:45 -0500
+Message-Id: <20200504011645.25319-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-Should I consider these two patches for dunfell LTS?
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ .../jquery/{jquery_3.4.1.bb => jquery_3.5.0.bb}           | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/jquery/{jquery_3.4.1.bb => jquery_3.5.0.bb} (73%)
 
-Thanks!
+diff --git a/meta/recipes-devtools/jquery/jquery_3.4.1.bb b/meta/recipes-devtools/jquery/jquery_3.5.0.bb
+similarity index 73%
+rename from meta/recipes-devtools/jquery/jquery_3.4.1.bb
+rename to meta/recipes-devtools/jquery/jquery_3.5.0.bb
+index 1bf6ef5c98..5c6f9cddbe 100644
+--- a/meta/recipes-devtools/jquery/jquery_3.4.1.bb
++++ b/meta/recipes-devtools/jquery/jquery_3.5.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "jQuery is a fast, small, and feature-rich JavaScript library"
+ HOMEPAGE = "https://jquery.com/"
+ LICENSE = "MIT"
+ SECTION = "devel"
+-LIC_FILES_CHKSUM = "file://${WORKDIR}/${BP}.js;startline=8;endline=10;md5=cdb86f5bda90caec023592d2e768357c"
++LIC_FILES_CHKSUM = "file://${WORKDIR}/${BP}.js;startline=8;endline=10;md5=b1e67ece919e852643f1541a54492d65"
+ 
+ SRC_URI = "\
+     https://code.jquery.com/${BP}.js;name=js \
+@@ -10,9 +10,9 @@ SRC_URI = "\
+     https://code.jquery.com/${BP}.min.map;name=map \
+     "
+ 
+-SRC_URI[js.sha256sum] = "5a93a88493aa32aab228bf4571c01207d3b42b0002409a454d404b4d8395bd55"
+-SRC_URI[min.sha256sum] = "0925e8ad7bd971391a8b1e98be8e87a6971919eb5b60c196485941c3c1df089a"
+-SRC_URI[map.sha256sum] = "8da74aec0fcdd7678a2663b3cc9bafbaf009e6d6929b28bb3dd95bced18206f6"
++SRC_URI[js.sha256sum] = "aff01a147aeccc9b70a5efad1f2362fd709f3316296ec460d94aa7d31decdb37"
++SRC_URI[min.sha256sum] = "c4dccdd9ae25b64078e0c73f273de94f8894d5c99e4741645ece29aeefc9c5a4"
++SRC_URI[map.sha256sum] = "3149351c8cbc3fb230bbf6188617c7ffda77d9e14333f4f5f0aa1aae379df892"
+ 
+ UPSTREAM_CHECK_REGEX = "jquery-(?P<pver>\d+(\.\d+)+)\.js"
+ 
+-- 
+2.17.1
 
-Steve
-
-On Tue, Apr 28, 2020 at 2:59 AM Ovidiu Panait
-<ovidiu.panait@windriver.com> wrote:
->
-> Extend the functionality provided by commit [1] to the SDK as well. This way we
-> can make sure that nativesdk-binutils finds SDK libraries first rather than
-> host ones.
->
-> This is useful for example when trying to build the linux kernel using
-> nativesdk-gcc. This scenario currently fails because it tries to link to host
-> libraries rather than SDK host ones:
->
-> make x86_64_defconfig
-> make bzImage
-> ...
-> error: Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel
-> Makefile:1101: recipe for target 'prepare-objtool' failed
-> make: *** [prepare-objtool] Error 1
-> ....
-> /../../../../x86_64-wrlinuxsdk-linux/bin/ld: /lib/x86_64-linux-gnu/libpthread.so.0: undefined reference to `__libc_vfork@GLIBC_PRIVATE'
-> ...
->
-> [1] 15049c610b [buildtools-tarball: Add an ld.so.conf for nativesdk-binutils]
->
-> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-> ---
->  meta/classes/populate_sdk_base.bbclass       | 5 +++++
->  meta/recipes-core/meta/buildtools-tarball.bb | 4 ----
->  2 files changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-> index ef0d8bef58..6a1ebc8c02 100644
-> --- a/meta/classes/populate_sdk_base.bbclass
-> +++ b/meta/classes/populate_sdk_base.bbclass
-> @@ -185,6 +185,11 @@ fakeroot create_sdk_files() {
->         # Escape special characters like '+' and '.' in the SDKPATH
->         escaped_sdkpath=$(echo ${SDKPATH} |sed -e "s:[\+\.]:\\\\\\\\\0:g")
->         sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
-> +
-> +       mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
-> +       echo '${SDKPATHNATIVE}${libdir}
-> +${SDKPATHNATIVE}${base_libdir}
-> +include /etc/ld.so.conf' > ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/ld.so.conf
->  }
->
->  python check_sdk_sysroots() {
-> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-> index 977b6a5e1d..c49802eef8 100644
-> --- a/meta/recipes-core/meta/buildtools-tarball.bb
-> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
-> @@ -76,10 +76,6 @@ create_sdk_files_append () {
->         echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
->         echo 'export OPENSSL_CONF="${SDKPATHNATIVE}${sysconfdir}/ssl/openssl.cnf"' >>$script
->
-> -       mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
-> -       echo '${SDKPATHNATIVE}${libdir}
-> -${SDKPATHNATIVE}${base_libdir}
-> -include /etc/ld.so.conf' > ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/ld.so.conf
->         if [ "${SDKMACHINE}" = "i686" ]; then
->                 echo 'export NO32LIBS="0"' >>$script
->                 echo 'echo "$BB_ENV_EXTRAWHITE" | grep -q "NO32LIBS"' >>$script
-> --
-> 2.17.1
->
-> 
