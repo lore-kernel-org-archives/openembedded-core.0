@@ -1,123 +1,62 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web12.10325.1588610678547089426
- for <Openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 09:44:38 -0700
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web12.10738.1588611753341473811
+ for <openembedded-core@lists.openembedded.org>;
+ Mon, 04 May 2020 10:02:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=e/Y6Itxy;
- spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: uvv.mail@gmail.com)
-Received: by mail-wm1-f68.google.com with SMTP id v4so437253wme.1
-        for <Openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 09:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6voPpv6paKOeofYmRFqDsoxDqFp4DwVBdezcvoR3Dqk=;
-        b=e/Y6ItxyE4z669DFAC1+puW2qISAkrl0kH+Mn8iRh5uswkfIADiJttIbtcH2rhsyom
-         eyWTi7euxPGSvpiHRImb+Qg9MBZrTawJSktx+KadGXbMIj+MpT6+gwwimSb0eRRIzBNl
-         q+bOWx5pKQhYKkjStiutlb3WIpsee1QdB1yA52zrUGfrFTu4DUFMFmj988+EArNuED66
-         HkLwGzzskZ2f3L2PZ1DrI0qkmZBctxK+sOyn6J+rcfzxjiBPUfVwPkD1fA5ec0bgkli/
-         QmLPpHi8m56lz2PZCd04kKEpAzc6A7gm0tOHkM9BWVShpuua2wB0YMOmBqhDPhPunR3N
-         Gp0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6voPpv6paKOeofYmRFqDsoxDqFp4DwVBdezcvoR3Dqk=;
-        b=n+9OCX5dlf8b6/fMroTqxlh3rjut4i/GUh0GisbE1Ph0HZxkC4eQElqbUjetFTGH5z
-         GKedWoNvMPf6L/0tSiY/AFP0U2JMs0ZujJX4amwsnWQnR6XRnWb0yzSKH34TC5IxZMjM
-         z+YHvJRUbSGsxtcupWaLXiwfZKvelRE2fucPRMbqJmCSsiFv03Z6wpQeYtP6XyEm3+u5
-         dp0OnAmYMvlU6SzC8cTjIDOOCaihHKL8LYZQB/HyDqjKax2xyb2YFe2arLouf1o7tj9j
-         MBmXSQmUw3nfBE+/qb/RRacXd46QVswmSliFnEBYEy1y+rVvheDUCJzOR/FcCa2AYNPc
-         YirA==
-X-Gm-Message-State: AGi0PuZJDeioRqPVHjskvc2OvcFbSipS35IdbLyJoOiMWmjhS3dIUr+n
-	f6Cg1zHEXf8/cpKPcrxHsquGx00alns=
-X-Google-Smtp-Source: APiQypIXlxvhzUAjEXGO0GIJv3+aRBAXYRhKUJNDGTF1z4fcp3O7by4LFXMqWmRmOuQAwAnKDRORZA==
-X-Received: by 2002:a1c:bd54:: with SMTP id n81mr15159897wmf.141.1588610676810;
-        Mon, 04 May 2020 09:44:36 -0700 (PDT)
-Return-Path: <uvv.mail@gmail.com>
-Received: from localhost.localdomain (dslb-002-205-007-252.002.205.pools.vodafone-ip.de. [2.205.7.252])
-        by smtp.gmail.com with ESMTPSA id q4sm13371491wrx.9.2020.05.04.09.44.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 09:44:36 -0700 (PDT)
-From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
-To: Openembedded-core@lists.openembedded.org
-Cc: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
-Subject: [PATCH] bitbake: fetch2: Fix CVS fetcher clean method
-Date: Mon,  4 May 2020 18:44:16 +0200
-Message-Id: <20200504164416.687804-1-uvv.mail@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 50F3C60B70;
+	Mon,  4 May 2020 17:02:31 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYml0YmFrZTogZmV0Y2gyOiBGaXggQ1ZTIGZldGNoZXIgY2xlYW4gbWV0aG9k?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 04 May 2020 17:02:32 -0000
+Message-ID: <20200504170232.2273.83901@do>
+References: <20200504164416.687804-1-uvv.mail@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200504164416.687804-1-uvv.mail@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+== Series Details ==
 
-Clean method assumes that download directory should be determined from
-CVSDIR variable, but this is handled differently in download method.
-Now we set download directory for the whole class in urldata_init
+Series: bitbake: fetch2: Fix CVS fetcher clean method
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/23941/
+State : failure
 
-Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
+  Patch's path:    bitbake/lib/bb/fetch2/cvs.py
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 26eb22191f)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- bitbake/lib/bb/fetch2/cvs.py | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
-
-diff --git a/bitbake/lib/bb/fetch2/cvs.py b/bitbake/lib/bb/fetch2/cvs.py
-index 29123a483c..22abdef792 100644
---- a/bitbake/lib/bb/fetch2/cvs.py
-+++ b/bitbake/lib/bb/fetch2/cvs.py
-@@ -51,6 +51,10 @@ class Cvs(FetchMethod):
- 
-         ud.localfile = d.expand('%s_%s_%s_%s%s%s.tar.gz' % (ud.module.replace('/', '.'), ud.host, ud.tag, ud.date, norecurse, fullpath))
- 
-+        pkg = d.getVar('PN')
-+        cvsdir = d.getVar("CVSDIR") or (d.getVar("DL_DIR") + "/cvs")
-+        ud.pkgdir = os.path.join(cvsdir, pkg)
-+
-     def need_update(self, ud, d):
-         if (ud.date == "now"):
-             return True
-@@ -106,10 +110,7 @@ class Cvs(FetchMethod):
- 
-         # create module directory
-         logger.debug(2, "Fetch: checking for module directory")
--        pkg = d.getVar('PN')
--        cvsdir = d.getVar("CVSDIR") or (d.getVar("DL_DIR") + "/cvs")
--        pkgdir = os.path.join(cvsdir, pkg)
--        moddir = os.path.join(pkgdir, localdir)
-+        moddir = os.path.join(ud.pkgdir, localdir)
-         workdir = None
-         if os.access(os.path.join(moddir, 'CVS'), os.R_OK):
-             logger.info("Update " + ud.url)
-@@ -120,8 +121,8 @@ class Cvs(FetchMethod):
-         else:
-             logger.info("Fetch " + ud.url)
-             # check out sources there
--            bb.utils.mkdirhier(pkgdir)
--            workdir = pkgdir
-+            bb.utils.mkdirhier(ud.pkgdir)
-+            workdir = ud.pkgdir
-             logger.debug(1, "Running %s", cvscmd)
-             bb.fetch2.check_network_access(d, cvscmd, ud.url)
-             cmd = cvscmd
-@@ -140,7 +141,7 @@ class Cvs(FetchMethod):
-         # tar them up to a defined filename
-         workdir = None
-         if 'fullpath' in ud.parm:
--            workdir = pkgdir
-+            workdir = ud.pkgdir
-             cmd = "tar %s -czf %s %s" % (tar_flags, ud.localpath, localdir)
-         else:
-             workdir = os.path.dirname(os.path.realpath(moddir))
-@@ -151,9 +152,6 @@ class Cvs(FetchMethod):
-     def clean(self, ud, d):
-         """ Clean CVS Files and tarballs """
- 
--        pkg = d.getVar('PN')
--        pkgdir = os.path.join(d.getVar("CVSDIR"), pkg)
--
--        bb.utils.remove(pkgdir, True)
-+        bb.utils.remove(ud.pkgdir, True)
-         bb.utils.remove(ud.localpath)
- 
--- 
-2.25.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
