@@ -1,76 +1,88 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web10.7155.1588601941606786943
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web11.7148.1588602083974704089
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 07:19:01 -0700
+ Mon, 04 May 2020 07:21:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vSQsTiyC;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: sakoman@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id l18so10409882wrn.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 07:19:01 -0700 (PDT)
+ dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=PmRwUpR5;
+ spf=pass (domain: ossystems.com.br, ip: 209.85.160.194, mailfrom: otavio.salvador@ossystems.com.br)
+Received: by mail-qt1-f194.google.com with SMTP id o10so14079740qtr.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 07:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Z+4+3G1/8OtmwEbw83mN7CGHw3TVl+sMsAcZOCwl70M=;
-        b=vSQsTiyCQPl7sfBb4f+mCmXpnDdOZbzSv7lWNNvr8Ow7rHAZGaqQxzLWkTibwD+jKo
-         wtDOyFpMIepE+ohqlSTb3Hx8IHbuJgX4rbvNRu2nner6f13MQSs2EvBZ1CUnTUG8MLsk
-         I1BssGXRazDOUtYHKQ0cetECaFM+sSIVxT3nSXoBmoQFJ1xqaKPZkSSzNnrEYKfksNju
-         g2Y5rREKIv2kqmUOysCtNXYVyMpNTSw6CaUSnG7ZeeIR+ceegBqpYPOjfuNssgnYAD+c
-         Sq1PV4WKu0duLwq8swJNbmtP2f5i8oncSiUpbOZiQkCNJV81wNNLrpyCsSQk/ccNllvt
-         JOGg==
+        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+         :cc;
+        bh=sN8D2FeK/OhPjf6t9Hz2872vpyzjgpng/+jXWUG+Q2s=;
+        b=PmRwUpR5mK2jXw5uEu3j3hmHXXV//KmaXUEn/+zAF0h+G9j6Yt+WiIXHHWyelPAKkx
+         gHfOL9I6Jvxe/+bi/W8NRmT2eJj5rbFjM0DzEUc7Qgl6ZQplsraTY7ui60HvFM3D6vUs
+         0BCHZxC/nLdiil0yPkBtA+qMDvM6tRU8hPiyC3j8Vns5VbjLcMiUgIi0Esbi+xu4mOkt
+         buP7FGKSC7nnPXH0AqyWpnG/wKpHKp1B5T+pftTIWElgvMsIXBbHjeCH3/RR4B0XAVKR
+         FnqFOPthBr/uVcgUxef4L59hlo8KuxM+zaoelhPQp/Rah0/oeNCK/6uTMXmWDsa2VaEO
+         rYmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Z+4+3G1/8OtmwEbw83mN7CGHw3TVl+sMsAcZOCwl70M=;
-        b=igWmV0LvYA59tfOteNwXaoD8l+5IoHlc/N1X32Yd1gPgM1TWWB4bcbXUrzXpl5W8QQ
-         bDc15h7wS01rahBM7kkhMUIiLt3GrNn0MPOJOLbXzwiwGNeBEooNYbJUeOSfZLPHkx+X
-         b/GrdsgkAw9Tlh6ID3gYTaaiE1hIiSeBAcasR7ha9duM0apMoVGSypz76s33xhcB1oWT
-         eBMa0cr4msMp0YiL8ekUkcEEmPkbVgiStxKARWRlNbPVKmkskjHG//Y00fxEqWeV+nzL
-         VyXkuN8AARYTo+nfp4mk9j75wUfYVAfhWKOlr1PwGLuQaoh/vkdCBB/7IuZ+/T6A063B
-         ThZQ==
-X-Gm-Message-State: AGi0Pua7/yNOsTG7OiRVvymCjVgnfsr+opUMbIqFGYwMzA8z2nT4YqgC
-	rxSE+iA6A9hKUaiNxVvCIuuDRjIX53eUMuhK7b26iQ==
-X-Google-Smtp-Source: APiQypJwIkB8dF73ZJoDKb6Xwm1dvtRWuQfWz15UpLPXYJVcD0E4up6GRzmDKbXHn5IPkhTlAcyQ2AerSwPgI9MsmGA=
-X-Received: by 2002:adf:a2d7:: with SMTP id t23mr5201720wra.402.1588601939834;
- Mon, 04 May 2020 07:18:59 -0700 (PDT)
+        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
+         :message-id:subject:to:cc;
+        bh=sN8D2FeK/OhPjf6t9Hz2872vpyzjgpng/+jXWUG+Q2s=;
+        b=aV1/JHK8YzSSpCpHiPKjGzb+e9Q6D/xbyQiZgW61WmuhajKVwumoYUCm1SoXWEHair
+         d8DE3WMD+9qEq06G2dFny5u8DOxUw9aFRfiq9T6SHbz/OAsRpR19oTMOKcsMPV6t4X8v
+         g/MLWgXB+5HrJjpUR117RN+sALhoyi9Bqvo8HUCNKIZD20PhDpAmRFHXXC1iFEbpIPXk
+         UXQeSChBNLDXj1Toc+1eGs38t5zAdZsa+bZBgTg23ar1JIAvHfzPlYB9z+/CS/R3ykMm
+         D4CKs1GOfzlDCfMlgBWo3prYKZ+J04Si7hD5XmtmHnGuvIUYf18zus6UEVsSk7ygRjD/
+         gSZA==
+X-Gm-Message-State: AGi0PuaADWcG9zzI1a2SncutpTfx5np4iYAD7qDKdFNeD4gqSMj/+YcP
+	KNhD1K/IW6SaP3krmkYqZFXQlOdhMbUAgA==
+X-Google-Smtp-Source: APiQypIUjtiWrC82wSIvyLccYd/YNy4K8ZAmOJhNUNmm8M4MN93QQSCRUMn7BiqdZVpZnlUsTWWEVw==
+X-Received: by 2002:aed:3346:: with SMTP id u64mr17366997qtd.1.1588602082812;
+        Mon, 04 May 2020 07:21:22 -0700 (PDT)
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com. [209.85.222.174])
+        by smtp.gmail.com with ESMTPSA id p31sm11502560qtf.11.2020.05.04.07.21.21
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 May 2020 07:21:22 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-qk1-f174.google.com with SMTP id i14so5495484qka.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 07:21:21 -0700 (PDT)
+X-Received: by 2002:a37:b1c6:: with SMTP id a189mr16735148qkf.26.1588602081088;
+ Mon, 04 May 2020 07:21:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1587931177.git.akuster808@gmail.com> <1ef6f737d5b44b11b409ed459438666b611b7fa9.camel@pengutronix.de>
- <1339637a-51fc-d092-1c71-903feca9d6c9@gmail.com> <4c2aebfe371152c24ee60d8201882d70172867ec.camel@pengutronix.de>
-In-Reply-To: <4c2aebfe371152c24ee60d8201882d70172867ec.camel@pengutronix.de>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Mon, 4 May 2020 04:18:48 -1000
-Message-ID: <CAGDS+n=6x6=r0Vh6ofb0RtWwCC0PtR0pCoiVAK2Aw4JFBptmdQ@mail.gmail.com>
-Subject: Re: [OE-core] [zeus 0/7] Merge request
+References: <20200504141004.9988-1-sno@netbsd.org>
+In-Reply-To: <20200504141004.9988-1-sno@netbsd.org>
+Date: Mon, 4 May 2020 11:21:09 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKqjipD3ogk7SadJP9n=sJcwE3vPZKQuqqx9AE9ktnKhPQ@mail.gmail.com>
+Message-ID: <CAP9ODKqjipD3ogk7SadJP9n=sJcwE3vPZKQuqqx9AE9ktnKhPQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v3] initscripts/init-system-helpers: fix mountnfs.sh dependency
 To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Cc: akuster <akuster808@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Jan Luebbe <jlu@pengutronix.de>
+Cc: Anuj Mittal <anuj.mittal@intel.com>, Jens Rehsack <sno@netbsd.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 4, 2020 at 3:42 AM Jan Luebbe <jlu@pengutronix.de> wrote:
+On Mon, May 4, 2020 at 11:10 AM Jens Rehsack <rehsack@gmail.com> wrote:
 >
-> On Tue, 2020-04-28 at 10:09 -0700, akuster wrote:
-> >
-> > On 4/28/20 9:13 AM, Jan L=C3=BCbbe wrote:
-> > > On Mon, 2020-04-27 at 19:15 -0700, akuster wrote:
-> > > > Adrian Bunk (1):
-> > > >   openssl: Upgrade 1.1.1d -> 1.1.1e
-> > > >
-> > > > Alexander Kanavin (1):
-> > > >   openssl: update to 1.1.1f
-> > > As 1.1.1g has been released to fix CVE-2020-1967
-> > > https://www.openssl.org/news/secadv/20200421.txt
-> > > maybe we should just update instead of picking Zhang Xiao's
-> > > "openssl:
-> > > fix CVE-2020-1967" (which would conflict with this PR).
-> > Thanks for the information.
-> >
-> > Once Master and then Dunfell have this update then Zeus can take it.
+> With commit c9fc9110be33fe0f24bc3a7c242b584a4ca33e04
+>     Author: Yue Tao <Yue.Tao@windriver.com>
+>     Date:   Fri May 25 10:48:08 2018 +0800
 >
-> It has landed in master as 8e0283e70b9977c9ac14cdab77907301405c3cee.
-> Richard: Do you want to pick this for dunfell?
+>         initscripts: Avoid starting rpcbind daemon twice
+>
+>         Check the status before start it to avoid duplicates.
+>
+> the use of a script {/usr/sbin/}service is introduced - maybe earlier
+> provided by systemd, nowadays mostly by init-system-helpers from
+> debian project.
+>
+> For the very first shot, maybe discussions and improvements based
+> on that script collection, use just the init-system-helpers-service
+> in initscripts/mountnfs.sh to avoid problems mounting NFS in later
+> boot stage.
+>
+> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+...
+> +RDEPENDS_${PN}-update-rc.d = "perl"
 
-I'll put this in my next set of dunfell patches for review.
+Can't it be replaced? using perl here is not nice.
 
-Steve
+-- 
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
