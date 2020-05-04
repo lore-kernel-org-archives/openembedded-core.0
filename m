@@ -1,57 +1,59 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web12.15897.1588626157227499037
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web12.16071.1588626678021670045
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 14:02:37 -0700
+ Mon, 04 May 2020 14:11:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id CB94F60B70;
-	Mon,  4 May 2020 21:02:34 +0000 (UTC)
-MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbmV3bGliOiBVcGdyYWRlIHRvIGxhdGVzdCB5ZWFybHkgcmVsZWFzZSAzLjMuMA==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 04 May 2020 21:02:36 -0000
-Message-ID: <20200504210236.2273.59294@do>
-References: <20200504205751.40338-1-alejandro@enedino.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200504205751.40338-1-alejandro@enedino.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ dkim=missing; spf=none, err=permanent DNS error (domain: enedino.org, ip: 13.77.154.182, mailfrom: alejandro@enedino.org)
+Received: from ALSAMON-X.corp.microsoft.com (unknown [131.107.159.250])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 243D420B717B
+	for <openembedded-core@lists.openembedded.org>; Mon,  4 May 2020 14:11:17 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 243D420B717B
+From: "Alejandro Hernandez" <alejandro@enedino.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][Dunfell][PATCH] newlib: Upgrade to latest yearly release 3.3.0
+Date: Mon,  4 May 2020 14:11:13 -0700
+Message-Id: <20200504211113.40863-1-alejandro@enedino.org>
+X-Mailer: git-send-email 2.17.1
 
-== Series Details ==
+From: Alejandro Hernandez <alejandro@enedino.org>
 
-Series: newlib: Upgrade to latest yearly release 3.3.0
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/23943/
-State : failure
+Upgrade to the latest snapshot, also drop md5sum while were at it.
 
-== Summary ==
+(From OE-Core rev: d73aa359e42e707dbc7cfa29c55a2fc8e6bb938a)
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 26eb22191f)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+Signed-off-by: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../newlib/{libgloss_3.2.0.bb => libgloss_3.3.0.bb}            | 0
+ meta/recipes-core/newlib/newlib.inc                            | 3 +--
+ meta/recipes-core/newlib/{newlib_3.2.0.bb => newlib_3.3.0.bb}  | 0
+ 3 files changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-core/newlib/{libgloss_3.2.0.bb => libgloss_3.3.0.bb} (100%)
+ rename meta/recipes-core/newlib/{newlib_3.2.0.bb => newlib_3.3.0.bb} (100%)
+
+diff --git a/meta/recipes-core/newlib/libgloss_3.2.0.bb b/meta/recipes-core/newlib/libgloss_3.3.0.bb
+similarity index 100%
+rename from meta/recipes-core/newlib/libgloss_3.2.0.bb
+rename to meta/recipes-core/newlib/libgloss_3.3.0.bb
+diff --git a/meta/recipes-core/newlib/newlib.inc b/meta/recipes-core/newlib/newlib.inc
+index 5edea8aba1..96e230f985 100644
+--- a/meta/recipes-core/newlib/newlib.inc
++++ b/meta/recipes-core/newlib/newlib.inc
+@@ -16,8 +16,7 @@ LIC_FILES_CHKSUM = " \
+ 		"
+ 
+ SRC_URI = "https://sourceware.org/pub/newlib/newlib-${PV}.tar.gz"
+-SRC_URI[md5sum] = "afb3a01c8c82b6717ea55659a4de30ec"
+-SRC_URI[sha256sum] = "f7b2322964a1e3b37bec0768da20f50dfb62247d729110974dd95756a53bb6d4"
++SRC_URI[sha256sum] = "58dd9e3eaedf519360d92d84205c3deef0b3fc286685d1c562e245914ef72c66"
+ 
+ INHIBIT_DEFAULT_DEPS = "1"
+ DEPENDS = "virtual/${TARGET_PREFIX}gcc"
+diff --git a/meta/recipes-core/newlib/newlib_3.2.0.bb b/meta/recipes-core/newlib/newlib_3.3.0.bb
+similarity index 100%
+rename from meta/recipes-core/newlib/newlib_3.2.0.bb
+rename to meta/recipes-core/newlib/newlib_3.3.0.bb
+-- 
+2.17.1
 
