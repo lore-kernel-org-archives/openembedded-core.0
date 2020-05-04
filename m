@@ -1,57 +1,102 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.9377.1588608171258272650
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.9398.1588608242325188490
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 09:02:51 -0700
+ Mon, 04 May 2020 09:04:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 1087360B70;
-	Mon,  4 May 2020 16:02:49 +0000 (UTC)
-MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdXRpbHM6IERyb3AgaXNfbWFjaGluZV9zcGVjaWZpYygpL21hY2hpbmVfcGF0aCgp?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 04 May 2020 16:02:50 -0000
-Message-ID: <20200504160250.2273.9691@do>
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=O8nmoJ04;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; l=1703; q=dns/txt; s=axis-central1;
+  t=1588608242; x=1620144242;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=sGCsFpi1TolHyJhUppfruk7swhMxbP4aYLCt6mWDLAk=;
+  b=O8nmoJ04Rk4Fz/bLJy3p049Xq0q3kmjhe1/CSboVyXJs8lpV75W5/3KZ
+   kpQXLh6Bacqt9Io2ymGANwrXV2ohi+WF+ZvdXRDNJHBiLEEai0R/gDQEH
+   m6hlbn1C6hIo+LG2tHxjq7GtVm4obu3g5IN3ZD7juIVEla4IzzYy11m97
+   2d5lTrbpDd6cHGVeJnHTfEvWPzp61GXLaMZw4Ud8XPRpzcuL+Ij5Hd9vh
+   dAQ5tqUMhHr2BKF4Mr/n0IsbAYNHJFhM+lsy3wDybLB6DC74uG8zKy1eS
+   /6/iQ7ZZrxxITFyElXfVMhW5gjxTmOaruSrZO2mETnKmJ/WhNbJpApWsu
+   w==;
+IronPort-SDR: nHOXwnO4pK1h8UDsdTNGdYwspjY019zUIzJW+qwRmHgzIAwoQ+XD4NnPiKt7yqNP7gPizOIFYU
+ WtvyZ1fxjh+Kwl9cPJXH7RSCTnGoHvzo/TkhjgIOxODEJSB2h7LcT745F4lZi6IEQ+5549Mu97
+ pUFi3Evu4UDdWYEcK2lKy+flnwfoWPOQqm0Y7tp6jEvnmmR83HiLgqH0nztJsSgclVLUB+rWck
+ wYNr48f3AlM51+WxelloBhRcAlWg9IEbGwJmwl2DmO3+ySM7OXEBARBz7CRZ3JUU+S3pvUtlXX
+ +DY=
+X-IronPort-AV: E=Sophos;i="5.73,352,1583190000"; 
+   d="scan'208";a="8132821"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] utils: Drop is_machine_specific()/machine_path()
+Thread-Topic: [OE-core] [PATCH] utils: Drop
+ is_machine_specific()/machine_path()
+Thread-Index: AQHWIiwcOdRA/7Qu9Ey3uJFKVq61bqiYFfog
+Date: Mon, 4 May 2020 16:03:45 +0000
+Message-ID: <c2c7a009fcbf4e92bdd93d1b700d934f@XBOX03.axis.com>
 References: <20200504155258.3231675-1-richard.purdie@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
 In-Reply-To: <20200504155258.3231675-1-richard.purdie@linuxfoundation.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.20.13.13]
+MIME-Version: 1.0
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-== Series Details ==
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Richard Purdie
+> Sent: den 4 maj 2020 17:53
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] utils: Drop is_machine_specific()/machine_path=
+()
 
-Series: utils: Drop is_machine_specific()/machine_path()
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/23939/
-State : failure
+machine_paths()
 
-== Summary ==
+> There appear to be no users of these in OE-Core and their functionality
+> is questionable at best too. Probably safest to remove that entirely
 
+that -> them
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+> at this point.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
+//Peter
 
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 26eb22191f)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+> ---
+>  meta/classes/utils.bbclass | 17 -----------------
+>  1 file changed, 17 deletions(-)
+>=20
+> diff --git a/meta/classes/utils.bbclass b/meta/classes/utils.bbclass
+> index c32b868aa88..120bcc64a64 100644
+> --- a/meta/classes/utils.bbclass
+> +++ b/meta/classes/utils.bbclass
+> @@ -1,20 +1,3 @@
+> -def machine_paths(d):
+> -    """List any existing machine specific filespath directories"""
+> -    machine =3D d.getVar("MACHINE")
+> -    for basepath in d.getVar("FILESPATHBASE").split(":"):
+> -        machinepath =3D os.path.join(basepath, machine)
+> -        if os.path.isdir(machinepath):
+> -            yield machinepath
+> -
+> -def is_machine_specific(d):
+> -    """Determine whether the current recipe is machine specific"""
+> -    machinepaths =3D set(machine_paths(d))
+> -    srcuri =3D d.getVar("SRC_URI").split()
+> -    for url in srcuri:
+> -        fetcher =3D bb.fetch2.Fetch([srcuri], d)
+> -        if url.startswith("file://"):
+> -            if any(fetcher.localpath(url).startswith(mp + "/") for mp in=
+ machinepaths):
+> -                return True
+>=20
+>  oe_soinstall() {
+>  	# Purpose: Install shared library file and
+> --
+> 2.25.1
 
