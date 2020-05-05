@@ -1,67 +1,62 @@
-Received: from mail1.skidata.com (mail1.skidata.com [91.230.2.99])
- by mx.groups.io with SMTP id smtpd.web10.7574.1588715738910991796
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web12.7860.1588716163330165100
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2020 14:55:39 -0700
+ Tue, 05 May 2020 15:02:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@skidata.com header.s=selector1 header.b=OEt/P7e4;
- spf=pass (domain: skidata.com, ip: 91.230.2.99, mailfrom: prvs=3877ea1dc=richard.leitner@skidata.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
-  t=1588715739; x=1620251739;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=6Jr3V8Kv5PF1RqdCkuKx+0nPfSkhW/Y79xs7NWvz3AU=;
-  b=OEt/P7e49Snyjjc93iwM0v+OiCk5118KGuIJT/PLO46vEU8N0Ii6hrx+
-   8otWDe2W/bXtnLDR07sK2lCrqwFndyM1uBZnihlVKW6TU2NxvWXoqy8MP
-   Dn3PV1MHDoTKnRg6GE2enFRVtAsYmwUZv4Wu9dUFRdc1dEejmNLi9XZj6
-   vT+wUW/O4NNnWKUf6GATeaUpnuGVGM6BvGjx9BtTolLjcbmGfEkQOXim9
-   1/JZirUafspRYmcLlXTvhvhfnGjh3xcR6XgiioEHB11RH1pLcS7Sz2gDo
-   +WnIJpdd3X2pFnmjTwc6ri2tSolPO+8gRavUwlR/IAo5l0NWCOqBwkOEx
-   Q==;
-IronPort-SDR: YZSZnb4XvRdhiYzbL+vDBlbXO/Lzc4l2FliSpkFyBWsp/ROF5Jlm0uBo0tWWGW8Zua54Cl7Nsr
- SPz644upGg01LrD81GoSbKibQ8jx4mMjQitNcUJTzMISl3TYAurMxG9ycSstPX+zlAr1AWwOqQ
- A7J3Rrn2jeC28o5Ip4EilGA6yqU6T+myZdBzpvxvyb1UjcxHUOrGlmQeYDTCDoZcD44LF48pV/
- j/qLte0ChbdHGI34CBpJxT85Y54QDis7HeT9+vl/oo5+wk3NU2yjDNNPh0mS8sQtHE6HnrNTI3
- iqM=
-X-IronPort-AV: E=Sophos;i="5.73,356,1583190000"; 
-   d="scan'208";a="24176979"
-From: "Richard Leitner" <richard.leitner@skidata.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Richard Leitner <richard.leitner@skidata.com>
-Subject: [PATCH 1/2] libtirpc: remove extra "-fcommon" from CFLAGS
-Date: Tue, 5 May 2020 23:55:20 +0200
-Message-ID: <20200505215521.238753-1-richard.leitner@skidata.com>
-X-Mailer: git-send-email 2.26.2
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id DEEBF60C6B;
+	Tue,  5 May 2020 22:02:40 +0000 (UTC)
 MIME-Version: 1.0
-Return-Path: richard.leitner@skidata.com
-X-Originating-IP: [192.168.111.252]
-X-ClientProxiedBy: sdex3srv.skidata.net (192.168.111.81) To
- sdex5srv.skidata.net (192.168.111.83)
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcmVmLW1hbnVhbDogSU1BR0VfRkVBVFVSRSwgYWRkIGFsbG93LXJvb3QtbG9naW4=?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Adrian <adrian.freihofer@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 05 May 2020 22:02:42 -0000
+Message-ID: <20200505220242.2274.13438@do>
+References: <20200505213013.1529300-1-adrian.freihofer@siemens.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200505213013.1529300-1-adrian.freihofer@siemens.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-commit daed7eedba ("Avoid multiple-definiton with gcc -fno-common") of
-libtirpc fixed the -fno-common issues. Therefore it should be save to
-remove the extra "-fcommon" in CFLAGS.
+== Series Details ==
 
-Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+Series: ref-manual: IMAGE_FEATURE, add allow-root-login
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/23965/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     yocto@yoctoproject.org [http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/]
+  Patch's path:    documentation/ref-manual/ref-features.xml
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a1353cc923)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-extended/libtirpc/libtirpc_1.2.6.bb | 2 --
- 1 file changed, 2 deletions(-)
-
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.2.6.bb b/meta/recipes-extended/libtirpc/libtirpc_1.2.6.bb
-index 6100d157e5..10a324c3b6 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.2.6.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.2.6.bb
-@@ -19,8 +19,6 @@ inherit autotools pkgconfig
- 
- EXTRA_OECONF = "--disable-gssapi"
- 
--CFLAGS += "-fcommon"
--
- do_install_append() {
- 	chown root:root ${D}${sysconfdir}/netconfig
- }
--- 
-2.26.2
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
