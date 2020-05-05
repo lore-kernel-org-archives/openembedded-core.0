@@ -1,141 +1,139 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
- by mx.groups.io with SMTP id smtpd.web10.1508.1588648831479776616
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+ by mx.groups.io with SMTP id smtpd.web12.1482.1588648834783183816
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 20:20:31 -0700
+ Mon, 04 May 2020 20:20:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=I7csNQYl;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.194, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f194.google.com with SMTP id 18so215109pfx.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:20:31 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=s7cdy09z;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.195, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f195.google.com with SMTP id u22so217837plq.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:20:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=EqlXrX5TRYbpCPV9C3J4WMj4c6CObJNDKwze8ZTnIlA=;
-        b=I7csNQYlL8sJqdEsxzCTRpLLzkiqjaa7gHfzQsWHfw8YG0kiJfwCFl1AOmSmO97y7o
-         qe10+oFFybmJGoqtFdHlrNxOJhkd8rXZzt7+MOXWaIr1bUUDdBao+BP0k/igsRD/1D+E
-         SnGLz1dhn2NWQHAqVvww+lpyJrJU++YW3Wr2QQOf5X0KS6+35mlZo1X3gc+Kp0T4BEsz
-         UXLmPMpGU1UXJRqQHS0WHZhRLUdfgFQDN+z5wvvfH7XjAzq7qyzXlAOZZJqqLEZNlvnl
-         /mBGJrsUZNQnHAFtSg2sxv8acMgxvfQfzGLWOCXGsLjyArJJNaMQSZFzwPvk4Sf8n/77
-         MbFw==
+        bh=bN4L5vz35gFkPIUE9cSEbOnIYHd1u74ZQqkLUotnKN8=;
+        b=s7cdy09zr2prdOaQrEkxPJxokL2RhNAa6khAV/9eYbYNH4NeGP+quCJABhFZTw18ZQ
+         G1whe5sLHCVbdufM2xzRdnEOZjc/8W0+Ly6Vnbl4Z84OlzR1yaDvmTUTUPvByA3D5qM0
+         NYbuofBG7H34nINK1h2bDe3yXbmRbmrSeTvjuQdFHpAvMZ81+FqIxeuEDQvNQNNQ6RJn
+         /hYm33aEpmjI0RPEkK7ggxHqk3v/U3A/YXkk7jrOS6SQ2C/0Vads/l1z52PFHFc2xFeS
+         917NQ47lCjjiBqxgVStc85RiCTarCelS5ZCmgQJZutARUxtAHV5t8uEXjV6CtkDKFFSs
+         DC4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=EqlXrX5TRYbpCPV9C3J4WMj4c6CObJNDKwze8ZTnIlA=;
-        b=Sy/iGe2UTeHu6xh+q86XtTl6bw32eoFUYoSY7cH7h6h8z13n9sB2+cn5foDmyjp0Yn
-         iszzxmuPgIczXL1NOaK98rVeIJX5xn286MtV8NjxRBLabsaxLG6jtFxNZAJ0tEGCADHb
-         gXwjS32v6Y+MzlwLYQlmoVEYlUS4kgL5bCJLxhbkas7YSmyVjGlKcDp1PbN/cIjoy9Pa
-         fm4Ij7PnwxrNX1Q+6QQbI2sm4Pes4A7y3+E1Rkpc/VjsWs+PQ2NfuQFU2v8b/LALH4d9
-         OuMqkL6u81JKR8Of9Yxmjm9fgAMDMoVkt2VkuUiUWud1aF5wz79V7MqZ8yuIRhD1uxu8
-         pM3g==
-X-Gm-Message-State: AGi0PuZwWM1aU7917pApEJdLEm/CPUtAMJTqZW/59s4AjxZrjcRHVhHT
-	yflk47txHdcJfDQz+vYqX8Lf6v/o4sSY7w==
-X-Google-Smtp-Source: APiQypIVUfplpeBSmrcOJw9S6r1dIm0VRdCz76ogAqnxFSfN+BYf02IKkboBnAkdtyYyExF4h2qDpQ==
-X-Received: by 2002:a63:e542:: with SMTP id z2mr1189554pgj.165.1588648830413;
-        Mon, 04 May 2020 20:20:30 -0700 (PDT)
+        bh=bN4L5vz35gFkPIUE9cSEbOnIYHd1u74ZQqkLUotnKN8=;
+        b=fkagMf1ZsKMC8goPIlW6nLjisoMZ6Ze+365e6+Wb8s3X5TwLScIvIMBASrFNcEAafV
+         eC/s+sxXumUp6ZpN3gNPqMaje5YHcaCMjq7N0iaF3krbQUOw+rOdOWGk7cs8AMAiZVq3
+         P34Wyod+vlpUhKqZT6fCXmc2JazoI71lyCLGETcLoRtbKXU78Z9l8sHpMZq91y+F3xnQ
+         4Kx0eE3sA1SQRZ9qzeqK9d/K+JfecZeH56SZUSId+ruNPfdT/mhlNj5XKBuNx495l8uF
+         r1y/22L987kkxXyLDQ5MwnwvSPpOEi1znkHn3PD+go/hZAn6tuA0bPrGrhRkH38VRLsf
+         kJ5g==
+X-Gm-Message-State: AGi0PuYHR6qqmVKp16Vifw2fPRWygbb8rY+WMPpi2JSKeICu0P7b7zFi
+	E8H3dFs8X8/a/HkmXDibdt1WpaqwIgwvqA==
+X-Google-Smtp-Source: APiQypL8R7tAjU4cSIAlrwdIUHrriTw/JpFlSB+5gP2qsjLdmwCfUu5T1DgbigJgnKZa3K6ptmN6+A==
+X-Received: by 2002:a17:90a:a608:: with SMTP id c8mr401903pjq.90.1588648833707;
+        Mon, 04 May 2020 20:20:33 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.20.29
+        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.20.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 20:20:29 -0700 (PDT)
+        Mon, 04 May 2020 20:20:33 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 11/28] vim: do not adjust script paths building for target
-Date: Mon,  4 May 2020 17:19:06 -1000
-Message-Id: <9a96733e29daf84cca9212538f3fc5bd7bb144f4.1588638879.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 12/28] boost: revert 1.72.0 regression
+Date: Mon,  4 May 2020 17:19:07 -1000
+Message-Id: <b9998aa98052cc1c05f59d070677f74bd64c5a10.1588638879.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1588638879.git.steve@sakoman.com>
 References: <cover.1588638879.git.steve@sakoman.com>
 
-From: Joe Slater <joe.slater@windriver.com>
+From: Andrew Geissler <geissonator@gmail.com>
 
-When cross-compiling, do not change scripts to use host
-versions of perl and gawk.
+https://www.boost.org/users/history/version_1_72_0.html documents a
+"Known Issue" and has a revert patch for an issue that causes code to
+fail to compile that includes the coroutine function. Without this
+patch, code which includes the asymmetric_coroutine.hpp will fail to
+compile.
 
-Also, use INSANE_SKIP to suppress QA complaints if perl
-or gawk are not on the target.
-
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Andrew Geissler <geissonator@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../vim/files/no-path-adjust.patch            | 27 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              | 12 ++++-----
- 2 files changed, 33 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-support/vim/files/no-path-adjust.patch
+ meta/recipes-support/boost/boost_1.72.0.bb    |  1 +
+ ...001-revert-cease-dependence-on-range.patch | 53 +++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch
 
-diff --git a/meta/recipes-support/vim/files/no-path-adjust.patch b/meta/recipes-support/vim/files/no-path-adjust.patch
+diff --git a/meta/recipes-support/boost/boost_1.72.0.bb b/meta/recipes-support/boost/boost_1.72.0.bb
+index 5e9e0d87d7..0b7badbc76 100644
+--- a/meta/recipes-support/boost/boost_1.72.0.bb
++++ b/meta/recipes-support/boost/boost_1.72.0.bb
+@@ -7,4 +7,5 @@ SRC_URI += "file://arm-intrinsics.patch \
+            file://0001-Apply-boost-1.62.0-no-forced-flags.patch.patch \
+            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
+            file://0001-dont-setup-compiler-flags-m32-m64.patch \
++           file://0001-revert-cease-dependence-on-range.patch \
+            "
+diff --git a/meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch b/meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch
 new file mode 100644
-index 0000000000..05c2d803f6
+index 0000000000..d6d09a23a5
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/no-path-adjust.patch
-@@ -0,0 +1,27 @@
-+vim: do not adjust script pathnames
++++ b/meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch
+@@ -0,0 +1,53 @@
++From 436e1dbe6fcd31523d261d18ad011392f1d6fbbc Mon Sep 17 00:00:00 2001
++From: Oliver Kowalke <oliver.kowalke@gmail.com>
++Date: Sun, 1 Dec 2019 20:40:28 +0100
++Subject: [PATCH] Revert "Cease dependence on Range"
 +
-+When cross-compiling, we do not want to reference the host versions of
-+things like perl and awk.
++This reverts commit 0c556bb59241e682bbcd3f572815149c5a9b17db.
 +
-+Upstream-Status: Pending
++see #44 (One test fails to compile after boostorg/coroutine submodule updated)
 +
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
++Upstream-Status: Backport [https://github.com/boostorg/coroutine/commit/9c73b2f7c1759a9508ba8780b38dc15f07f1a447]
 +
-+--- a/src/Makefile
-++++ b/src/Makefile
-+@@ -2507,11 +2507,14 @@ installtools: $(TOOLS) $(DESTDIR)$(exec_
-+ 		 rm -rf $$cvs; \
-+ 	      fi
-+ 	-chmod $(FILEMOD) $(DEST_TOOLS)/*
-+-# replace the path in some tools
-++
-++# replace the path in some tools, but not when cross-compiling
-++ifneq ($(CROSS_COMPILING),1)
-+ 	perlpath=`./which.sh perl` && sed -e "s+/usr/bin/perl+$$perlpath+" $(TOOLSSOURCE)/efm_perl.pl >$(DEST_TOOLS)/efm_perl.pl
-+ 	awkpath=`./which.sh nawk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; if test -z "$$awkpath"; then \
-+ 		awkpath=`./which.sh gawk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; if test -z "$$awkpath"; then \
-+ 		awkpath=`./which.sh awk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; fi; fi
-++endif
-+ 	-chmod $(SCRIPTMOD) `grep -l "^#!" $(DEST_TOOLS)/*`
-+ 
-+ # install the language specific files for tools, if they were unpacked
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 78e3f9528d..9f3dc08027 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -11,6 +11,7 @@ SRC_URI = "git://github.com/vim/vim.git \
-            file://disable_acl_header_check.patch \
-            file://vim-add-knob-whether-elf.h-are-checked.patch \
-            file://0001-src-Makefile-improve-reproducibility.patch \
-+           file://no-path-adjust.patch \
- "
- SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
- 
-@@ -82,12 +83,6 @@ EXTRA_OECONF = " \
- do_install() {
-     autotools_do_install
- 
--    # Work around file-rdeps picking up csh, awk, perl or python as a dep
--    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/vim132
--    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/mve.awk
--    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.pl
--    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.py
--
-     # Install example vimrc from runtime files
-     install -m 0644 runtime/vimrc_example.vim ${D}/${datadir}/${BPN}/vimrc
- 
-@@ -110,7 +105,12 @@ FILES_${PN}-help = "${datadir}/${BPN}/${VIMDIR}/doc"
- FILES_${PN}-tutor = "${datadir}/${BPN}/${VIMDIR}/tutor ${bindir}/${BPN}tutor"
- FILES_${PN}-vimrc = "${datadir}/${BPN}/vimrc"
- FILES_${PN}-data = "${datadir}/${BPN}"
++Signed-off-by: Andrew Geissler <geissonator@gmail.com>
++---
++ boost/coroutine/asymmetric_coroutine.hpp | 12 +++---------
++ 1 file changed, 3 insertions(+), 9 deletions(-)
 +
-+# We do not want to complain if perl or gawk are not on the target.
-+#
- FILES_${PN}-tools = "${datadir}/${BPN}/${VIMDIR}/tools"
-+INSANE_SKIP_${PN}-tools = "file-rdeps"
++diff --git a/boost/coroutine/asymmetric_coroutine.hpp b/boost/coroutine/asymmetric_coroutine.hpp
++index ea96981..640896f 100644
++--- a/boost/coroutine/asymmetric_coroutine.hpp
+++++ b/boost/coroutine/asymmetric_coroutine.hpp
++@@ -14,6 +14,7 @@
++ #include <boost/assert.hpp>
++ #include <boost/config.hpp>
++ #include <boost/move/move.hpp>
+++#include <boost/range.hpp>
++ #include <boost/throw_exception.hpp>
++ #include <boost/utility/explicit_operator_bool.hpp>
 +
- FILES_${PN}-common = " \
-     ${datadir}/${BPN}/${VIMDIR}/*.vim \
-     ${datadir}/${BPN}/${VIMDIR}/autoload \
++@@ -2354,19 +2355,12 @@ end( push_coroutine< R > & c)
++
++ }
++
++-// forward declaration of Boost.Range traits to break dependency on it
++-template<typename C, typename Enabler>
++-struct range_mutable_iterator;
++-
++-template<typename C, typename Enabler>
++-struct range_const_iterator;
++-
++ template< typename Arg >
++-struct range_mutable_iterator< coroutines::push_coroutine< Arg >, void >
+++struct range_mutable_iterator< coroutines::push_coroutine< Arg > >
++ { typedef typename coroutines::push_coroutine< Arg >::iterator type; };
++
++ template< typename R >
++-struct range_mutable_iterator< coroutines::pull_coroutine< R >, void >
+++struct range_mutable_iterator< coroutines::pull_coroutine< R > >
++ { typedef typename coroutines::pull_coroutine< R >::iterator type; };
++
++ }
++--
++2.24.1
++
 -- 
 2.17.1
 
