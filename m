@@ -1,59 +1,62 @@
-Received: from mga18.intel.com (mga18.intel.com [])
- by mx.groups.io with SMTP id smtpd.web11.3143.1588661927892415054
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web11.3168.1588662161159637138
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 23:58:51 -0700
+ Tue, 05 May 2020 00:02:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: Npgo3ZAEzGElagyxUquPDJfritKorklBgplc8lK8aTHCrCLpFZJLeQqmVnAe7wvHWCGxbACF0g
- iphnQ0J1MkfA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:58:51 -0700
-IronPort-SDR: VoUcrICZ7t2FoQS4eEY7Mwc5Mf6zS00Bsk/jSYN4+UJ7OYcCtFuTWA+EvVYbioOhUjSCEteGAf
- 4kaNK681N22g==
-X-IronPort-AV: E=Sophos;i="5.73,354,1583222400"; 
-   d="scan'208";a="284144908"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.72.16])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:58:47 -0700
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][zeus 18/18] openssl: upgrade 1.1.1f -> 1.1.1g
-Date: Tue,  5 May 2020 14:56:53 +0800
-Message-Id: <26b13f59385c1ed871aee7653c3ee7241affca38.1588661196.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <cover.1588661196.git.anuj.mittal@intel.com>
-References: <cover.1588661196.git.anuj.mittal@intel.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id C01BB60B40;
+	Tue,  5 May 2020 07:02:38 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgemV1cyBwYXRjaCByZXZpZXc=?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 05 May 2020 07:02:40 -0000
+Message-ID: <20200505070240.2275.69717@do>
+References: <cover.1588661196.git.anuj.mittal@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1588661196.git.anuj.mittal@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Jan Luebbe <jlu@pengutronix.de>
+== Series Details ==
 
-This also fixes CVE-2020-1967.
+Series: zeus patch review
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/23949/
+State : failure
 
-Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [zeus,18/18] openssl: upgrade 1.1.1f -> 1.1.1g
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-core/systemd/systemd/0001-Merge-branch-polkit-ref-count.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb} (98%)
-
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-index aa4ef6f48a..c514fcd82a 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-@@ -23,7 +23,7 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
- 
--SRC_URI[sha256sum] = "186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35"
-+SRC_URI[sha256sum] = "ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46"
- 
- inherit lib_package multilib_header multilib_script ptest
- MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
--- 
-2.25.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
