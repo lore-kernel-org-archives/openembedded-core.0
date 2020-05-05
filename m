@@ -1,215 +1,157 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
- by mx.groups.io with SMTP id smtpd.web10.1529.1588648888659805761
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+ by mx.groups.io with SMTP id smtpd.web11.3116.1588661861460384618
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 20:21:28 -0700
+ Mon, 04 May 2020 23:57:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=FcjhlosG;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.196, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f196.google.com with SMTP id b6so217291plz.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:21:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=Hq7hQnu4svXBtusIvAAzsKorQNUiGV+95t41RbLYvUs=;
-        b=FcjhlosGWZzvxfQWJrNq/VcbLBbBAsXUNoiwlnRUhA+5t3sDeEs8K1azlCe9zXyjvs
-         VQM/F1s9XOyVKtUj3ty7QdOShHXGc5lkSUckVJm1JUi9k17ezCguHMcDN/ZRDWWNZNiI
-         Z2cpXDAQ5kyAsmBZykES0KXs7TcxL71ZZs7N7Fh3pAmsRKcp1aIytTF2ZX6s80fJCVoP
-         eyXDzMaHx8RloAX7QrPJJ3c83dne7UM1DmrRMuPetsYTm5Hgm5d1YgIL1I2kIj3EnmGU
-         lkxSMcD2qdoEpncEIBnM1ExyeCnlQu1UbYgX/5lk1Zc6B6ZoONzjbAlC/+lSxCxYTlng
-         4LDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=Hq7hQnu4svXBtusIvAAzsKorQNUiGV+95t41RbLYvUs=;
-        b=XLvbcAxe/3sc2cq5p6GXqoNSp8HbQnudXh13e2Ro3NNbUKin4cr9BbffWSxwNLO1Bz
-         4/JQtiRSBdq7fzjeyoO3ymXaT/Gu3t8BSSCpCqeuuHAtWOmzQ2wZY6NLSRZoS22EgZ6q
-         Lc1ZF7pQNJLx4t8TL4bW5R6pXY3gPC41OLfqcOAtmFAdkDT6IcxSg+Caup63TYi6n5H9
-         kEimJRhxj+DaxTEeVxuEqylPwkvRZ30t3DGzR2R4urN8ZDA1842CehmF3Mjm3OyNFRfg
-         Yb2WB22/TiCaECIi+9NKekNUkEm9PIbOwrzp0TZmJP+Blt7YjN6+V+K4WCwsYT01mO7L
-         zuzw==
-X-Gm-Message-State: AGi0PuZRH95LssHHoLXbrwPKs4xwVuvxu+LsoAPcSAwC44MU9Gifbz7I
-	ZYZbCw9i669QJmkf9OzFoQPip5ls/uiEww==
-X-Google-Smtp-Source: APiQypLOXWOQ/+TgtOdCs0/vmJxuJ3xprKSOjBrvOuHNe5CKZfnsnCltn7j1ZikDEwvp8N/SffsK3Q==
-X-Received: by 2002:a17:90a:a608:: with SMTP id c8mr404932pjq.90.1588648887625;
-        Mon, 04 May 2020 20:21:27 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.21.26
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 20:21:27 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: jyNGvPNPS9+NfZAjd/tY3GMpKQLeht5WMgmZ4vFzz/TkvyMjJx+tXvjP+dmejcLXvxKGuJVJU4
+ WgOm7nhCx9Qg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:57:41 -0700
+IronPort-SDR: +F5EmxgCz2DH1AId8KxVQFS0i6gSMEf6znc4V7m/Nq81nZn0HGCg0IyblKI0PsKh/fk+bXOJri
+ TBbuDQfrt7lQ==
+X-IronPort-AV: E=Sophos;i="5.73,354,1583222400"; 
+   d="scan'208";a="284144600"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.72.16])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:57:36 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 28/28] icu: CVE-2020-10531
-Date: Mon,  4 May 2020 17:19:23 -1000
-Message-Id: <12f0cbf348d5acb0a7913bb5dc98e7fccc5ec34f.1588638879.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1588638879.git.steve@sakoman.com>
-References: <cover.1588638879.git.steve@sakoman.com>
+Subject: [PATCH][zeus 00/18] zeus patch review
+Date: Tue,  5 May 2020 14:56:35 +0800
+Message-Id: <cover.1588661196.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.25.4
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
+Next set of changes for zeus. Please review.
 
-security Advisory
+Thanks,
 
-References:
-https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-10531
+Anuj
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../icu/icu/CVE-2020-10531.patch              | 128 ++++++++++++++++++
- meta/recipes-support/icu/icu_66.1.bb          |   1 +
- 2 files changed, 129 insertions(+)
- create mode 100644 meta/recipes-support/icu/icu/CVE-2020-10531.patch
+The following changes since commit bd3e0d724004a346921a25defa6d812d48d6108a:
 
-diff --git a/meta/recipes-support/icu/icu/CVE-2020-10531.patch b/meta/recipes-support/icu/icu/CVE-2020-10531.patch
-new file mode 100644
-index 0000000000..6697b27dc8
---- /dev/null
-+++ b/meta/recipes-support/icu/icu/CVE-2020-10531.patch
-@@ -0,0 +1,128 @@
-+From b7d08bc04a4296982fcef8b6b8a354a9e4e7afca Mon Sep 17 00:00:00 2001
-+From: Frank Tang <ftang@chromium.org>
-+Date: Sat, 1 Feb 2020 02:39:04 +0000
-+Subject: [PATCH] ICU-20958 Prevent SEGV_MAPERR in append
-+
-+See #971
-+
-+Upstream-Status: Accepted
-+CVE: CVE-2020-10531
-+
-+Reference to upstream patch:
-+https://github.com/unicode-org/icu/commit/b7d08bc04a4296982fcef8b6b8a354a9e4e7afca
-+
-+---
-+ common/unistr.cpp          |  6 ++-
-+ test/intltest/ustrtest.cpp | 62 +++++++++++++++++++++++++++++++
-+ test/intltest/ustrtest.h   |  1 +
-+ 3 files changed, 68 insertions(+), 1 deletion(-)
-+
-+diff --git a/common/unistr.cpp b/common/unistr.cpp
-+index 901bb33..6ea0915 100644
-+--- a/common/unistr.cpp
-++++ b/common/unistr.cpp
-+@@ -1563,7 +1563,11 @@ UnicodeString::doAppend(const UChar *srcChars, int32_t srcStart, int32_t srcLeng
-+   }
-+ 
-+   int32_t oldLength = length();
-+-  int32_t newLength = oldLength + srcLength;
-++  int32_t newLength; 
-++  if (uprv_add32_overflow(oldLength, srcLength, &newLength)) { 
-++     setToBogus(); 
-++     return *this; 
-++  }
-+ 
-+   // Check for append onto ourself
-+   const UChar* oldArray = getArrayStart();
-+diff --git a/test/intltest/ustrtest.cpp b/test/intltest/ustrtest.cpp
-+index b6515ea..ad38bdf 100644
-+--- a/test/intltest/ustrtest.cpp
-++++ b/test/intltest/ustrtest.cpp
-+@@ -67,6 +67,7 @@ void UnicodeStringTest::runIndexedTest( int32_t index, UBool exec, const char* &
-+     TESTCASE_AUTO(TestWCharPointers);
-+     TESTCASE_AUTO(TestNullPointers);
-+     TESTCASE_AUTO(TestUnicodeStringInsertAppendToSelf);
-++    TESTCASE_AUTO(TestLargeAppend);
-+     TESTCASE_AUTO_END;
-+ }
-+ 
-+@@ -2310,3 +2311,64 @@ void UnicodeStringTest::TestUnicodeStringInsertAppendToSelf() {
-+     str.insert(2, sub);
-+     assertEquals("", u"abbcdcde", str);
-+ }
-++
-++void UnicodeStringTest::TestLargeAppend() {
-++    if(quick) return;
-++
-++    IcuTestErrorCode status(*this, "TestLargeAppend");
-++    // Make a large UnicodeString
-++    int32_t len = 0xAFFFFFF;
-++    UnicodeString str;
-++    char16_t *buf = str.getBuffer(len);
-++    // A fast way to set buffer to valid Unicode.
-++    // 4E4E is a valid unicode character
-++    uprv_memset(buf, 0x4e, len * 2);
-++    str.releaseBuffer(len);
-++    UnicodeString dest;
-++    // Append it 16 times
-++    // 0xAFFFFFF times 16 is 0xA4FFFFF1,
-++    // which is greater than INT32_MAX, which is 0x7FFFFFFF.
-++    int64_t total = 0;
-++    for (int32_t i = 0; i < 16; i++) {
-++        dest.append(str);
-++        total += len;
-++        if (total <= INT32_MAX) {
-++            assertFalse("dest is not bogus", dest.isBogus());
-++        } else {
-++            assertTrue("dest should be bogus", dest.isBogus());
-++        }
-++    }
-++    dest.remove();
-++    total = 0;
-++    for (int32_t i = 0; i < 16; i++) {
-++        dest.append(str);
-++        total += len;
-++        if (total + len <= INT32_MAX) {
-++            assertFalse("dest is not bogus", dest.isBogus());
-++        } else if (total <= INT32_MAX) {
-++            // Check that a string of exactly the maximum size works
-++            UnicodeString str2;
-++            int32_t remain = INT32_MAX - total;
-++            char16_t *buf2 = str2.getBuffer(remain);
-++            if (buf2 == nullptr) {
-++                // if somehow memory allocation fail, return the test
-++                return;
-++            }
-++            uprv_memset(buf2, 0x4e, remain * 2);
-++            str2.releaseBuffer(remain);
-++            dest.append(str2);
-++            total += remain;
-++            assertEquals("When a string of exactly the maximum size works", (int64_t)INT32_MAX, total);
-++            assertEquals("When a string of exactly the maximum size works", INT32_MAX, dest.length());
-++            assertFalse("dest is not bogus", dest.isBogus());
-++
-++            // Check that a string size+1 goes bogus
-++            str2.truncate(1);
-++            dest.append(str2);
-++            total++;
-++            assertTrue("dest should be bogus", dest.isBogus());
-++        } else {
-++            assertTrue("dest should be bogus", dest.isBogus());
-++        }
-++    }
-++}
-+diff --git a/test/intltest/ustrtest.h b/test/intltest/ustrtest.h
-+index 218befd..4a356a9 100644
-+--- a/test/intltest/ustrtest.h
-++++ b/test/intltest/ustrtest.h
-+@@ -97,6 +97,7 @@ public:
-+     void TestWCharPointers();
-+     void TestNullPointers();
-+     void TestUnicodeStringInsertAppendToSelf();
-++    void TestLargeAppend();
-+ };
-+ 
-+ #endif
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/icu/icu_66.1.bb b/meta/recipes-support/icu/icu_66.1.bb
-index f2bb344e33..a8096c1840 100644
---- a/meta/recipes-support/icu/icu_66.1.bb
-+++ b/meta/recipes-support/icu/icu_66.1.bb
-@@ -26,6 +26,7 @@ SRC_URI = "${BASE_SRC_URI};name=code \
-            file://fix-install-manx.patch \
-            file://0001-Fix-big-endian-build.patch;apply=no \
-            file://0001-icu-Added-armeb-support.patch \
-+           file://CVE-2020-10531.patch \
-            "
- 
- SRC_URI_append_class-target = "\
+  openssl: update to 1.1.1f (2020-04-20 19:26:57 -0700)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib anujm/zeus
+
+Adrian Bunk (1):
+  python: Upgrade 2.7.17 -> 2.17.18
+
+Alex Kiernan (1):
+  gnutls: upgrade 3.6.8 -> 3.6.11.1
+
+Alexander Kanavin (1):
+  gnutls: upgrade 3.6.11.1 -> 3.6.12
+
+Changqing Li (1):
+  qemu: fix CVE-2020-7039
+
+Chee Yang Lee (1):
+  qemu/slirp: fix CVE-2020-7211
+
+Jan Luebbe (2):
+  apt-native: don't let dpkg overwrite files by default
+  openssl: upgrade 1.1.1f -> 1.1.1g
+
+Jeremy Puhlman (1):
+  python3-native: Should not search the system for headers/libraries.
+
+Khem Raj (1):
+  qemu: Replace stime() API with clock_settime
+
+Lee Chee Yang (1):
+  cve-update-db-native: clean DB if temporary file exist
+
+Li Zhou (2):
+  git: Security Advisory - git - CVE-2020-5260
+  git: Security Advisory - git - CVE-2020-11008
+
+Martin Jansa (1):
+  prservice.py: fix do_package with newer Python in Ubuntu 20.04
+
+Wang Mingyu (2):
+  gnupg: upgrade 2.2.17 -> 2.2.19
+  gnutls: upgrade 3.6.12 -> 3.6.13
+
+Zhixiong Chi (1):
+  glibc: CVE-2020-1751
+
+haiqing (1):
+  qemu: Add PACKAGECONFIG for glusterfs
+
+wenlin.kang@windriver.com (1):
+  systemd: Fix CVE-2020-1712
+
+ meta/lib/oe/prservice.py                      |   4 +
+ .../{openssl_1.1.1f.bb => openssl_1.1.1g.bb}  |   2 +-
+ .../glibc/glibc/CVE-2020-1751.patch           |  70 +++
+ meta/recipes-core/glibc/glibc_2.30.bb         |   1 +
+ .../recipes-core/meta/cve-update-db-native.bb |   9 +-
+ .../0001-Merge-branch-polkit-ref-count.patch  | 520 ++++++++++++++++++
+ meta/recipes-core/systemd/systemd_243.2.bb    |   1 +
+ meta/recipes-devtools/apt/files/apt.conf      |   2 +-
+ meta/recipes-devtools/git/git.inc             |  16 +-
+ ...ial-use-test_i18ncmp-to-check-stderr.patch |  35 ++
+ ...t-unrepresentable-values-when-parsin.patch | 156 ++++++
+ ...tmodules-URLs-with-embedded-newlines.patch | 103 ++++
+ .../git/git/CVE-2020-11008-1.patch            |  70 +++
+ .../git/git/CVE-2020-11008-2.patch            | 292 ++++++++++
+ .../git/git/CVE-2020-11008-3.patch            |  97 ++++
+ .../git/git/CVE-2020-11008-4.patch            | 173 ++++++
+ .../git/git/CVE-2020-11008-5.patch            | 211 +++++++
+ .../git/git/CVE-2020-11008-6.patch            |  84 +++
+ .../git/git/CVE-2020-11008-7.patch            | 206 +++++++
+ .../git/git/CVE-2020-11008-8.patch            | 114 ++++
+ .../git/git/CVE-2020-11008-9.patch            | 114 ++++
+ .../git/git/CVE-2020-5260.patch               |  65 +++
+ ...tive_2.7.17.bb => python-native_2.7.18.bb} |   0
+ meta/recipes-devtools/python/python.inc       |   6 +-
+ ...-search-system-for-headers-libraries.patch |  29 +
+ meta/recipes-devtools/python/python3_3.7.7.bb |   1 +
+ .../{python_2.7.17.bb => python_2.7.18.bb}    |   0
+ meta/recipes-devtools/qemu/qemu.inc           |   6 +
+ ...linux-user-remove-host-stime-syscall.patch |  61 ++
+ .../qemu/qemu/CVE-2020-7039-1.patch           |  44 ++
+ .../qemu/qemu/CVE-2020-7039-2.patch           |  59 ++
+ .../qemu/qemu/CVE-2020-7039-3.patch           |  64 +++
+ .../qemu/qemu/CVE-2020-7211.patch             |  46 ++
+ .../{gnupg_2.2.17.bb => gnupg_2.2.19.bb}      |   4 +-
+ .../gnutls/gnutls/posix-shell.patch           |  39 --
+ .../{gnutls_3.6.8.bb => gnutls_3.6.13.bb}     |   5 +-
+ 36 files changed, 2658 insertions(+), 51 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb} (98%)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-1751.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-Merge-branch-polkit-ref-count.patch
+ create mode 100644 meta/recipes-devtools/git/git/0001-t-lib-credential-use-test_i18ncmp-to-check-stderr.patch
+ create mode 100644 meta/recipes-devtools/git/git/0002-credential-detect-unrepresentable-values-when-parsin.patch
+ create mode 100644 meta/recipes-devtools/git/git/0003-fsck-detect-gitmodules-URLs-with-embedded-newlines.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-1.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-2.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-3.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-4.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-5.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-6.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-7.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-8.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-9.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2020-5260.patch
+ rename meta/recipes-devtools/python/{python-native_2.7.17.bb => python-native_2.7.18.bb} (100%)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
+ rename meta/recipes-devtools/python/{python_2.7.17.bb => python_2.7.18.bb} (100%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0011-linux-user-remove-host-stime-syscall.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-2.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-3.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch
+ rename meta/recipes-support/gnupg/{gnupg_2.2.17.bb => gnupg_2.2.19.bb} (93%)
+ delete mode 100644 meta/recipes-support/gnutls/gnutls/posix-shell.patch
+ rename meta/recipes-support/gnutls/{gnutls_3.6.8.bb => gnutls_3.6.13.bb} (92%)
+
 -- 
-2.17.1
+2.25.4
 
