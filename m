@@ -1,73 +1,89 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.7072.1588683743400680534
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.7074.1588683744860082493
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2020 06:02:23 -0700
+ Tue, 05 May 2020 06:02:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bBMK5Afq;
- spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id k1so2661249wrx.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 06:02:23 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XEB/mrWx;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id u16so2228818wmc.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 06:02:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=AE/2OZWPQEsWc4/ipw+xMJ17ev2xEUsKwKIRUCbKTtU=;
-        b=bBMK5Afqjf2itOJZOkVllqEdRD779/XMUQfsw/lHeclyt7lHtzP5YUkaLkYZJw6Z3W
-         1NF0FethNXUk852czB8oY6E79GYxNkH0ch6LfVIrPDMYNQjKn7wzxn/87MmpOYvcXvYP
-         R1FmsTbYCagvCndzzEnfwxmgBnodp0JL2+1cAJDZrJkgTQe6VQqpjd3ROdGouOTIgJGP
-         RO8psX2OL6/Cnxe818bU1xBS4gucc4YuQsHHYXesOJalUyHDXbo3NDfl5D0i+fIhscla
-         tnBTkx5SS+tOBTgSykfiD5ofvW97GHzAa+AHAjxm09kpQVYoKXYIb1EueKpgU8puARip
-         1EwA==
+        bh=1C0qRRFrCu/baAKXDYpClmkqBZ+CmCguvzyEqTSvJnk=;
+        b=XEB/mrWxSp/A3uALoovzglMrsJxAv3EQm8l/XSiTTzsA6TTh+bTWVaZy/r3++B8XY1
+         UiHqWxaPJah6SRcdTB27D3Ho7NhPcj55Q1Zi7qe/dECNPO1bvUnJnHROA2RhXpLmo/RS
+         FlRyFJTsWJqkeansYdORKLuVHIuzVKsnIn4tihHbUCeu/Ak6F3RPk7Oi5sqUFZGAG/Ym
+         7qr2WhUkzW3hT36f4G4QLMRgnwC+XbIV9NkI1+TJgGWwvvck4manlei7pCAbXucs2h06
+         qkUo8fpcwGLny87RzKNBF00lD68xwL+WGttI0q4/gF1MCh3oL9hn8+eyGm4iMQGSdsFE
+         ArHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=AE/2OZWPQEsWc4/ipw+xMJ17ev2xEUsKwKIRUCbKTtU=;
-        b=T8xHmaK99yv/+3K7QJWO1FFM8sLBrfdInKNliGCnyTO1wQW+ZuUG8PoYt5vPSzjVoK
-         rGRDkd+5dmigOoFx1OMTq7W6w/r5PqTL15OQ8dSWfV4vg0tZ9Ky4R3mx1egR1JETor58
-         s0CJRidv7P/1QwnyY8t8T0goLLGEn8uuR879Em2XEFJrgXVhBEene6OEGKlWufbpWcnH
-         NQwWZi3su1CSTt7oRK9q/z+a5vq7NGO30WkafofbhP9fLQLZtkHteiMZi4rf6Ya61g3F
-         elrlMPzRDmXpYOQEj9njTkrKeFmhrSXbtel24PplCFPeUD54o2batkjoavhI8iQQWUDp
-         1iLQ==
-X-Gm-Message-State: AGi0PubjsX1Rcn4zIC3xXr8FHeBwggq45+K/BX2zdMdXY+u6z6rBu5/K
-	J0HshKNZ0aCeM6CaHJP61tscrfv8
-X-Google-Smtp-Source: APiQypIpBzFpbYMYaPu/CpR5+BuhEfYtJBkYi6Yv2UcuUUUkegqQWtZVYLR5RZwkOkR6Zukge6g4Ew==
-X-Received: by 2002:a5d:6a85:: with SMTP id s5mr3608103wru.122.1588683741846;
-        Tue, 05 May 2020 06:02:21 -0700 (PDT)
+        bh=1C0qRRFrCu/baAKXDYpClmkqBZ+CmCguvzyEqTSvJnk=;
+        b=f3fzfHW6hZS0Q4SlWFDz/7G8WRkIlqKGGx1nuQN2QxLB4lfukRN6xZUxQUbna1+qpl
+         hf0aheW18fV80HkaWoya8/5TCIwvOzUK7VAemL3+xBmXlmZ4ZEZRNWeorJhGtXuRm55A
+         51rijOO9xV91oGmD+TSqLm74qt6nyzbEvkbtZc3la1RmnECCEVBrzxlVaeHsnzYXk0aK
+         RWndV2zQlSlkUbqxQbg9sq689EQT+kwJNIJmHnmRR9fnGkQ82lXdqLLleRA6UqcOwMR1
+         Dto2XrcFM6CRSb9FdMMrJAFExhkLbiIKkPRzb5UYBWMuTJxTTA2e0tQbNoEHXcJ0MGgE
+         43DA==
+X-Gm-Message-State: AGi0PubMm3TW+N+JsX5glcDpUMOAygoJ2//lfZWYqCVW/4ywRyzzUqD9
+	ZUnUyknhhvh9VxK1sKiL9JXRsmos
+X-Google-Smtp-Source: APiQypKKyp7uWhDWXJEk1hgCYxosazhUvk/xsNISDeILZCjQ5Wfk2I8slKsbhYWR6h8iwKpKak3dRw==
+X-Received: by 2002:a7b:c772:: with SMTP id x18mr3426153wmk.39.1588683742761;
+        Tue, 05 May 2020 06:02:22 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.69.65])
         by smtp.gmail.com with ESMTPSA id h16sm3388113wrw.36.2020.05.05.06.02.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 06:02:21 -0700 (PDT)
+        Tue, 05 May 2020 06:02:22 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 22/24] cdrtools-native: fix upstream version check
-Date: Tue,  5 May 2020 15:01:31 +0200
-Message-Id: <20200505130133.24930-22-alex.kanavin@gmail.com>
+Subject: [PATCH 23/24] testresults.json: add duration of the tests as well
+Date: Tue,  5 May 2020 15:01:32 +0200
+Message-Id: <20200505130133.24930-23-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200505130133.24930-1-alex.kanavin@gmail.com>
 References: <20200505130133.24930-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+This is printed by testimage, but isn't actually saved.
+It's a useful metric for tracking execution times.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb | 1 -
- 1 file changed, 1 deletion(-)
+ meta/lib/oeqa/core/runner.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-index b568bb39f6..c08da6cdca 100644
---- a/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-+++ b/meta/recipes-devtools/cdrtools/cdrtools-native_3.01.bb
-@@ -11,7 +11,6 @@ SRC_URI = " \
- 	${SOURCEFORGE_MIRROR}/project/cdrtools/cdrtools-${PV}.tar.bz2 \
- 	file://0001-Don-t-set-uid-gid-during-install.patch \
- 	"
--UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index 1284295c34..00b7d0bb12 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -182,8 +182,10 @@ class OETestResult(_TestResult):
+             (status, log) = self._getTestResultDetails(case)
  
- SRC_URI[md5sum] = "7d45c5b7e1f78d85d1583b361aee6e8b"
- SRC_URI[sha256sum] = "ed282eb6276c4154ce6a0b5dee0bdb81940d0cbbfc7d03f769c4735ef5f5860f"
+             t = ""
++            duration = 0
+             if case.id() in self.starttime and case.id() in self.endtime:
+-                t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
++                duration = self.endtime[case.id()] - self.starttime[case.id()]
++                t = " (" + "{0:.2f}".format(duration) + "s)"
+ 
+             if status not in logs:
+                 logs[status] = []
+@@ -191,6 +193,8 @@ class OETestResult(_TestResult):
+             report = {'status': status}
+             if log:
+                 report['log'] = log
++            if duration:
++                report['duration'] = duration
+             if dump_streams and case.id() in self.logged_output:
+                 (stdout, stderr) = self.logged_output[case.id()]
+                 report['stdout'] = stdout
 -- 
 2.26.1
 
