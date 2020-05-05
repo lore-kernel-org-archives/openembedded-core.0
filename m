@@ -1,254 +1,180 @@
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
- by mx.groups.io with SMTP id smtpd.web10.66.1588641719749271762
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+ by mx.groups.io with SMTP id smtpd.web11.1487.1588648786151303753
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 18:22:00 -0700
+ Mon, 04 May 2020 20:19:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: aehs29@gmail.com)
-Received: by mail-lf1-f52.google.com with SMTP id 188so40977lfa.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 18:21:59 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=mcnSNHzd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.194, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f194.google.com with SMTP id s20so251644plp.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:19:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1Z3yG5KnxI0DEIjHDjDeAot5Ri1icU+RBUfdZ5YDBJk=;
+        b=mcnSNHzdrzBDw/7D+EAo/1fEbX9sVtzVlYAg9eeM+Dl+2neZUejq6ZNMlLp0R795HB
+         wAL30+dTthVWxzqMCvFQUWwhIxwQaPfQo1TTuQQu0Xa0KFEq5i8kCKuGvR5FdRDZAY/m
+         +T0KfQR/5CWpPC+138j7K3pkxJllFYfXBhYiE8FqJTsOrTokksue6HcFFG/VWTLL/spY
+         Jt4FDzajl4Mz4FNed1tFZUa5DVOlFKv8YRKwhpFp9HDXYubVPYfafSL2o80z2o8GWNMR
+         PMyFRHMyB/0paIXDwpaqPjQ01iw1dhMAJKabJ600iBGC1StB8+EuV8julElzF76XoGqS
+         yCHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DlhTWuaSNaj1QESSQj5bG/iH2LFCp+xIhIoo95tSUKM=;
-        b=rB+Hi+VPqSS76FJhEuW/aQT6BCEfwV2XFAYt4H95yOBUBu4ODEX+WNyiqpii1pG+y1
-         MzgMnlqQzOBTpLWh4BH1wSkXWmXVRs3Xrxz3VasJaYDPNJMs4o7vnbFJwHTtU1ufGCOx
-         g2mKzRnt1WK25DTKbVX7GCQhdRikn8UmZhrY3xzY2C+PKpR1GGFH0mGmWYtt5Jlxg+2y
-         b7lqbowYwJQAhVtruFNIEvQ/tkuAn1+4fYadeSmkdvO6C4mqXMLZjkR0zAZL2UnVwgR/
-         jP2j0ACdFus9K0sLOD1eKUutsy/oY9XzRaJmwaoC8JGudi0H2Y0jo2zCjTzZD5ed0Um9
-         InbA==
-X-Gm-Message-State: AGi0PuYXyZpO4yGRYh0ZMcz/BP0AFPPh3DVk9ZNfu05AQ3sDrHGZ6IWK
-	ZhM1a7/fqTG+U3jl6sj69X4bZqWI
-X-Google-Smtp-Source: APiQypKQ2ls0c2GEkjY2ZWfo1F1PtxXY+pI3xlSkjEZwjfQJnGqD/z39vZm2zDZ9SlT1Cjn/J1bdEQ==
-X-Received: by 2002:ac2:4248:: with SMTP id m8mr140663lfl.211.1588641717739;
-        Mon, 04 May 2020 18:21:57 -0700 (PDT)
-Return-Path: <aehs29@gmail.com>
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
-        by smtp.gmail.com with ESMTPSA id c10sm516043lfc.7.2020.05.04.18.21.57
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1Z3yG5KnxI0DEIjHDjDeAot5Ri1icU+RBUfdZ5YDBJk=;
+        b=l7MDb8EMKJjEZvpKVnnPNCUT80aw8l3wRoXkdjPjxn5nNqj9y/OzQVxgk1xqbuXjNV
+         xuKoGD+RJz5ZwJUPTQbontR/31uldsNkepOyG8/wX9SBA2JrjanvMICRqdY2F1Zln+Ih
+         nA+GjOlhx9UmuO/iFYanQz5VRH1WkI3XYxvfYPz4+JlElXSZzk4dEifi3/JP2dhe8X3F
+         nFqNkqFz6/SkPGxPJPLcIJ/7jVW8mhFDPKySNc7BJ2b1frhsj9Oun1CNOMdutki2zZ0Y
+         Eu6q1UoIVwS3fD0mVhMbZD1hZpWwD+oLdYboXo8wC+TYVIwy8X4QSZutI/dn6vpL1XKG
+         FK/A==
+X-Gm-Message-State: AGi0PuZ3UlTMQpN4O8H6BbNkAvk2cK3hc+vjX4hfbwrSdckpNwoi/JG6
+	n6/sTZDOu7l2QeIDEbe4roSuezyvQveCdA==
+X-Google-Smtp-Source: APiQypI+xcnWCTiXPvM76qr+Ab9Ue2/8Vk0Sds4xv27jvc7gtwozuaWpsMoQPVVZLS8estguAF5Yog==
+X-Received: by 2002:a17:902:82c1:: with SMTP id u1mr1167905plz.10.1588648784761;
+        Mon, 04 May 2020 20:19:44 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.19.43
         for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 May 2020 18:21:57 -0700 (PDT)
-Received: by mail-lj1-f173.google.com with SMTP id g4so44794ljl.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 18:21:57 -0700 (PDT)
-X-Received: by 2002:a2e:3e15:: with SMTP id l21mr265675lja.251.1588641717036;
- Mon, 04 May 2020 18:21:57 -0700 (PDT)
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2020 20:19:43 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/28] Patch review
+Date: Mon,  4 May 2020 17:18:55 -1000
+Message-Id: <cover.1588638879.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200504205751.40338-1-alejandro@enedino.org> <20200504210236.2273.59294@do>
- <f242e19e-c275-f0b0-b7f1-63f7c056c611@linux.microsoft.com> <CAGDS+nm9n-VBw2Hf-Yk93K2-xLSSrZUuR8TTCZuSXpZ-oTmPJQ@mail.gmail.com>
-In-Reply-To: <CAGDS+nm9n-VBw2Hf-Yk93K2-xLSSrZUuR8TTCZuSXpZ-oTmPJQ@mail.gmail.com>
-From: "Alejandro Hernandez" <alejandro@enedino.org>
-Date: Mon, 4 May 2020 19:21:44 -0600
-X-Gmail-Original-Message-ID: <CAHMutrbT5vFOhmZSK6N5SuoceSf65jGaw2iqepE1_kReVXGeLg@mail.gmail.com>
-Message-ID: <CAHMutrbT5vFOhmZSK6N5SuoceSf65jGaw2iqepE1_kReVXGeLg@mail.gmail.com>
-Subject: =?UTF-8?B?UmU6IFtPRS1jb3JlXSDinJcgcGF0Y2h0ZXN0OiBmYWlsdXJlIGZvciBuZXdsaWI6IFVwZ3JhZGUgdG8gbGF0ZXN0IHllYXJseSByZWxlYXNlIDMuMy4w?=
-To: Steve Sakoman <sakoman@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000382ba005a4dc79ec"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---000000000000382ba005a4dc79ec
-Content-Type: text/plain; charset="UTF-8"
+Please review this next set of patches for dunfell and have comments back
+by end of day Wednesday.
 
-On Mon, May 4, 2020, 7:17 PM Steve Sakoman <sakoman@gmail.com> wrote:
+The following changes since commit 2cc3fac9cd1a0d77931c9e49dbe2941fa8619c51:
 
-> On Mon, May 4, 2020 at 11:12 AM Alejandro Hernandez
-> <alhe@linux.microsoft.com> wrote:
-> >
-> > My bad, this meant to be a patch for Dunfell since its been merged on
-> master already, please disregard this failure
->
-> If you'd like me to consider a patch for dunfell, I'll need a little
-> more info than just that it is a version upgrade.
->
-> For dunfell patches to be considered they should be in one of the
-> following categories:
->
-> Acceptable:
->
-> Security and CVE fixes
-> Fixes for bugs
-> Changes to follow an upstream stable series or LTS that aligns with
-> the original release (based on compatibility)
->
-> Potentially Acceptable:
->
-> Fixes so codebase works with newly released distros (only in the first
-> six months after a given release series first releases)
-> Bug fix only version upgrades for upstreams with a good stable process
->
-> So if you could tag any patches for dunfell LTS with [dunfell] in the
-> subject and let me know which of the above categories the patch falls
-> into I will be a happy maintainer ;-)
->
-> Steve
->
+  parselogs.py: ignore pulseaudio startup warning messages (2020-04-30 11:59:59 -1000)
 
-Understood, I don't think it fits any of those, so lets keep this one off
-Dunfell for now.
+are available in the Git repository at:
 
-Thanks Steve
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
 
-Cheers,
+Alex Kiernan (1):
+  run-postinsts: Set RemainAfterExit on systemd unit
 
-Alejandro
+Alexander Kanavin (2):
+  testimage.bbclass: correctly process SIGTERM
+  buildtools-extended-tarball: add libgomp-dev
 
+Andrew Geissler (2):
+  boost: revert 1.72.0 regression
+  libffi: fix v3.3 compile on ppc64le
 
-> > On 5/4/20 2:02 PM, Patchwork wrote:
-> >
-> > == Series Details ==
-> >
-> > Series: newlib: Upgrade to latest yearly release 3.3.0
-> > Revision: 1
-> > URL   : https://patchwork.openembedded.org/series/23943/
-> > State : failure
-> >
-> > == Summary ==
-> >
-> >
-> > Thank you for submitting this patch series to OpenEmbedded Core. This is
-> > an automated response. Several tests have been executed on the proposed
-> > series by patchtest resulting in the following failures:
-> >
-> >
-> >
-> > * Issue             Series does not apply on top of target branch
-> [test_series_merge_on_head]
-> >   Suggested fix    Rebase your series on top of targeted branch
-> >   Targeted branch  master (currently at 26eb22191f)
-> >
-> >
-> >
-> > If you believe any of these test results are incorrect, please reply to
-> the
-> > mailing list (openembedded-core@lists.openembedded.org) raising your
-> concerns.
-> > Otherwise we would appreciate you correcting the issues and submitting a
-> new
-> > version of the patchset if applicable. Please ensure you add/increment
-> the
-> > version number when sending the new version (i.e. [PATCH] -> [PATCH v2]
-> ->
-> > [PATCH v3] -> ...).
-> >
-> > ---
-> > Guidelines:
-> https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> > Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> > Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> >
-> >
-> > 
->
+Domarys Correa (1):
+  insane.bbclass: Add test for shebang line length
 
---000000000000382ba005a4dc79ec
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Drew Moseley (1):
+  perl: Add missing dependency for tie-hash on carp.
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Mon, May 4, 2020, 7:17 PM Steve Sakoman &lt;<a href=
-=
-=3D"mailto:sakoman@gmail.com">sakoman@gmail.com</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex">On Mon, May 4, 2020 at 11:12 AM Alejandro Hern=
-andez<br>
-&lt;<a href=3D"mailto:alhe@linux.microsoft.com" target=3D"_blank" rel=3D"n=
-oreferrer">alhe@linux.microsoft.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; My bad, this meant to be a patch for Dunfell since its been merged on=
- master already, please disregard this failure<br>
-<br>
-If you&#39;d like me to consider a patch for dunfell, I&#39;ll need a litt=
-le<br>
-more info than just that it is a version upgrade.<br>
-<br>
-For dunfell patches to be considered they should be in one of the<br>
-following categories:<br>
-<br>
-Acceptable:<br>
-<br>
-Security and CVE fixes<br>
-Fixes for bugs<br>
-Changes to follow an upstream stable series or LTS that aligns with<br>
-the original release (based on compatibility)<br>
-<br>
-Potentially Acceptable:<br>
-<br>
-Fixes so codebase works with newly released distros (only in the first<br>
-six months after a given release series first releases)<br>
-Bug fix only version upgrades for upstreams with a good stable process<br>
-<br>
-So if you could tag any patches for dunfell LTS with [dunfell] in the<br>
-subject and let me know which of the above categories the patch falls<br>
-into I will be a happy maintainer ;-)<br>
-<br>
-Steve<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"=
-auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"></blockquot=
-e></div></div><div dir=3D"auto">Understood, I don&#39;t think it fits any o=
-f those, so lets keep this one off Dunfell for now.</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto">Thanks Steve</div><div dir=3D"auto"><br></div><=
-div dir=3D"auto">Cheers,</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
->Alejandro</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D=
-"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">
-<br>
-&gt; On 5/4/20 2:02 PM, Patchwork wrote:<br>
-&gt;<br>
-&gt; =3D=3D Series Details =3D=3D<br>
-&gt;<br>
-&gt; Series: newlib: Upgrade to latest yearly release 3.3.0<br>
-&gt; Revision: 1<br>
-&gt; URL=C2=A0 =C2=A0: <a href=3D"https://patchwork.openembedded.org/serie=
-s/23943/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://patchwork=
-.openembedded.org/series/23943/</a><br>
-&gt; State : failure<br>
-&gt;<br>
-&gt; =3D=3D Summary =3D=3D<br>
-&gt;<br>
-&gt;<br>
-&gt; Thank you for submitting this patch series to OpenEmbedded Core. This=
- is<br>
-&gt; an automated response. Several tests have been executed on the propos=
-ed<br>
-&gt; series by patchtest resulting in the following failures:<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; * Issue=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Series does no=
-t apply on top of target branch [test_series_merge_on_head]<br>
-&gt;=C2=A0 =C2=A0Suggested fix=C2=A0 =C2=A0 Rebase your series on top of t=
-argeted branch<br>
-&gt;=C2=A0 =C2=A0Targeted branch=C2=A0 master (currently at 26eb22191f)<br=
->
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; If you believe any of these test results are incorrect, please reply =
-to the<br>
-&gt; mailing list (<a href=3D"mailto:openembedded-core@lists.openembedded.=
-org" target=3D"_blank" rel=3D"noreferrer">openembedded-core@lists.openembed=
-ded.org</a>) raising your concerns.<br>
-&gt; Otherwise we would appreciate you correcting the issues and submittin=
-g a new<br>
-&gt; version of the patchset if applicable. Please ensure you add/incremen=
-t the<br>
-&gt; version number when sending the new version (i.e. [PATCH] -&gt; [PATC=
-H v2] -&gt;<br>
-&gt; [PATCH v3] -&gt; ...).<br>
-&gt;<br>
-&gt; ---<br>
-&gt; Guidelines:=C2=A0 =C2=A0 =C2=A0<a href=3D"https://www.openembedded.or=
-g/wiki/Commit_Patch_Message_Guidelines" rel=3D"noreferrer noreferrer" targe=
-t=3D"_blank">https://www.openembedded.org/wiki/Commit_Patch_Message_Guideli=
-nes</a><br>
-&gt; Test framework: <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/=
-patchtest" rel=3D"noreferrer noreferrer" target=3D"_blank">http://git.yocto=
-project.org/cgit/cgit.cgi/patchtest</a><br>
-&gt; Test suite:=C2=A0 =C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.org=
-/cgit/cgit.cgi/patchtest-oe" rel=3D"noreferrer noreferrer" target=3D"_blank=
-">http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe</a><br>
-&gt;<br>
-&gt;<br>
-&gt; <br>
-</blockquote></div></div></div>
+Jan Luebbe (1):
+  openssl: upgrade 1.1.1f -> 1.1.1g
 
---000000000000382ba005a4dc79ec--
+Joe Slater (1):
+  vim: do not adjust script paths building for target
+
+Kai Kang (1):
+  pseudo: add macro guard for seccomp
+
+Khem Raj (6):
+  packagegroup-go-sdk-target: Enable on rv64
+  go: Rely on go-runtime to provide needed modules
+  packagegroup-go-sdk-target: Add go to packagegroup
+  gcc: Configure all gccs with --disable-install-libiberty
+  binutils: Detect proper static-libstdc++ support when using clang
+  binutils: Install PIC version of libiberty.a
+
+Mingli Yu (2):
+  pbzip2: Fix license warning
+  iputils: Initialize libgcrypt
+
+Peter Kjellerstedt (1):
+  busybox: Correct the name of the bzip2 license
+
+Richard Purdie (6):
+  bzip2/pbzip2: Correct license information
+  oeqa/selftest: Add test for conflicting sysroot provider
+  staging: Fix overlapping file failures
+  targetcontrol: Fix leaking log handler
+  oeqa/qemurunner: Clean up failure handling
+  gcc-target: Ensure buildtools-extended-tarball doesn't use arch=native
+
+Tim Orling (1):
+  scripts/install-buildtools: bump to 3.1 release by default
+
+Trevor Gamblin (1):
+  python3: fix CVE-2020-8492
+
+Wang Mingyu (1):
+  icu: CVE-2020-10531
+
+ .../sysroot-test/sysroot-test-arch1_1.0.bb    |  14 +
+ .../sysroot-test/sysroot-test-arch2_1.0.bb    |  14 +
+ .../sysroot-test/sysroot-test_1.0.bb          |   6 +
+ meta/classes/insane.bbclass                   |  25 +-
+ meta/classes/staging.bbclass                  |  12 +-
+ meta/classes/testimage.bbclass                |   8 +-
+ .../common-licenses/{bzip2 => bzip2-1.0.6}    |   0
+ meta/lib/oeqa/selftest/cases/sysroot.py       |  37 +++
+ meta/lib/oeqa/targetcontrol.py                |   7 +-
+ meta/lib/oeqa/utils/qemurunner.py             |  11 +-
+ .../{openssl_1.1.1f.bb => openssl_1.1.1g.bb}  |   2 +-
+ meta/recipes-core/busybox/busybox.inc         |   2 +-
+ .../meta/buildtools-extended-tarball.bb       |   1 +
+ .../packagegroup-go-sdk-target.bb             |   3 +-
+ .../binutils/binutils-2.34.inc                |   1 +
+ meta/recipes-devtools/binutils/binutils.inc   |   5 +
+ ...or-clang-before-checking-gcc-version.patch |  48 ++++
+ .../gcc/gcc-configure-common.inc              |   1 +
+ .../gcc/gcc-cross-canadian.inc                |   6 -
+ meta/recipes-devtools/gcc/gcc-cross.inc       |   4 -
+ meta/recipes-devtools/gcc/gcc-target.inc      |  14 +-
+ meta/recipes-devtools/go/go-target.inc        |   4 +-
+ .../perl/files/perl-rdepends.txt              |   1 +
+ .../pseudo/files/seccomp.patch                |  15 +-
+ ...20-8492-Fix-AbstractBasicAuthHandler.patch | 248 ++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
+ .../run-postinsts/run-postinsts.service       |   2 +-
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |   2 +-
+ .../0001-iputils-Initialize-libgcrypt.patch   |  55 ++++
+ .../iputils/iputils_s20190709.bb              |   1 +
+ meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb |   2 +-
+ meta/recipes-support/boost/boost_1.72.0.bb    |   1 +
+ ...001-revert-cease-dependence-on-range.patch |  53 ++++
+ .../icu/icu/CVE-2020-10531.patch              | 128 +++++++++
+ meta/recipes-support/icu/icu_66.1.bb          |   1 +
+ ...pc.h-fix-build-failure-with-powerpc7.patch |  62 +++++
+ meta/recipes-support/libffi/libffi_3.3.bb     |   1 +
+ .../vim/files/no-path-adjust.patch            |  27 ++
+ meta/recipes-support/vim/vim.inc              |  12 +-
+ scripts/install-buildtools                    |   6 +-
+ 40 files changed, 793 insertions(+), 50 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-test-arch1_1.0.bb
+ create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-test-arch2_1.0.bb
+ create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-test_1.0.bb
+ rename meta/files/common-licenses/{bzip2 => bzip2-1.0.6} (100%)
+ create mode 100644 meta/lib/oeqa/selftest/cases/sysroot.py
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb} (98%)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0016-Check-for-clang-before-checking-gcc-version.patch
+ create mode 100644 meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
+ create mode 100644 meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt.patch
+ create mode 100644 meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch
+ create mode 100644 meta/recipes-support/icu/icu/CVE-2020-10531.patch
+ create mode 100644 meta/recipes-support/libffi/libffi/0001-ffi_powerpc.h-fix-build-failure-with-powerpc7.patch
+ create mode 100644 meta/recipes-support/vim/files/no-path-adjust.patch
+
+-- 
+2.17.1
+
