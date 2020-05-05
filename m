@@ -1,36 +1,36 @@
-Received: from mail2.skidata.com (mail2.skidata.com [91.230.2.91])
- by mx.groups.io with SMTP id smtpd.web10.5107.1588675041637917557
+Received: from mail1.skidata.com (mail1.skidata.com [91.230.2.99])
+ by mx.groups.io with SMTP id smtpd.web10.5120.1588675100039194121
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2020 03:37:22 -0700
+ Tue, 05 May 2020 03:38:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@skidata.com header.s=selector1 header.b=s+AenBQy;
- spf=pass (domain: skidata.com, ip: 91.230.2.91, mailfrom: prvs=3877ea1dc=richard.leitner@skidata.com)
+ dkim=pass header.i=@skidata.com header.s=selector1 header.b=pX42F5m8;
+ spf=pass (domain: skidata.com, ip: 91.230.2.99, mailfrom: prvs=3877ea1dc=richard.leitner@skidata.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
-  t=1588675041; x=1620211041;
+  t=1588675100; x=1620211100;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=pj0zcNLtp/bpbG/8Yt7w7yqyxGti5mCw+J1lEoOSrqI=;
-  b=s+AenBQy0xjaXWdcFOL5BdLYTHX2d8qJsCjfN2y+4LPwppwciCZ2QRQb
-   Fyvb89tZXSUtclJytm1upwgdL733srecB2kOiXJWSPvIdaUfmCEari3ZQ
-   3YBkOHTV6VH5tZcqV6DLgAFHCIg43qe18eQlfKQqTQicF8M6URLc8K2Xj
-   0KZvtlQJKFShL1Vt6CIePfv1PK1dxnCi1gT5IRy18how+bZZFqSUBDBt1
-   EBDf0Am2yFr0/T83ueyuza/boHDjV7AA9t25eh8x3fonzLUfJyMG06hIL
-   1EH0xMWfBKd+uzNj7W5ay94O/Qoir/et/g8sI430wTHsg2FITTa1If2Gi
-   g==;
-IronPort-SDR: JHBVdJs4oK8P77mvsDEgBUHJYzDHaEFk2CC3ILrvambAGVpcdWp7Vq1grqFLx2PzGeYWEdUZCQ
- hxHeyyEfOZP6k3116BkWI20qUa+H6phXoHEg+0o0aK+S9E41OSyEL80s6VMgejIozV66QUBYMQ
- AizEJzTmpb4AdNrKEEcxevPr2TlKRdjxQk6JzK1/K10TI8jt9czf3EMIzUBlnPLDK3zaMFGKFm
- TTFG9HMjSAR3QZL8aRo+28vnPgKAR/wRj8ed4EiMkXkg0h9vluXmZkfUowWHwZvBhajDpQAERc
- baA=
+  bh=N/0dV/p6zuQ3rHKnNldb4SmH4al7z/NcigkaKyvc44Q=;
+  b=pX42F5m8g5DrMSl5FKPmaqLFBlsIiv/MMHgpz0Q7VOswhf51jYjj8F/B
+   qZ7xPEqWq5o0ZjiuodDNwC2YaJ2FfoCwF89xUn0ezgoEswl2MH83Z/oHa
+   PHgKlSH3wzx2QQQGqRDLsUO1GRxS7xww62JkB+9AzIgsHpBSjthOTBMMw
+   RAQfc7yG/x7QOY2gT+C/N177kn3evSP/kIr0elfECCI57Asd8UGImUqXQ
+   CwvdXeJJGInMTFttzHHTB5yyr8SqM70yqoag0Sb5GTRRmcKMg9mz3XCN+
+   op8t0VGLPblnlt6M+BGdmrTBnKFadQoBK+TEDClyoscyKTNe4oPXFZhBf
+   Q==;
+IronPort-SDR: JgAZtTJNzXUbBPYFtmPrtOqaYvc8cp3pS0Q8GDRgoWtqQuU+h7VivDZfzbFkQTQCYD3We91SWo
+ e8lDc/hOgAHyTq6tEx4UrbpSP0myoI0o2nv1C4QOvU/seqzO7FSlVFUgltnhLnbKJkEvC57Z4b
+ HrrjbUVLa1bkIj+g1awcd75K5HgZaMbNcyAChJl3/9+YuRwuuLhbCgpbzam8ilXBRW6gTnb04s
+ QO0GmCmdxpMg5Cq8zCZjETFXsEUWqxn+lWJPFJ+eGxHYKPvB9boKAzWySfI8imtPdbuhripsfW
+ 84c=
 X-IronPort-AV: E=Sophos;i="5.73,354,1583190000"; 
-   d="scan'208";a="2574955"
+   d="scan'208";a="24164727"
 From: "Richard Leitner" <richard.leitner@skidata.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Richard Leitner <richard.leitner@skidata.com>
-Subject: [PATCH v2] gdbm: add patch to fix link failure against gcc 10
-Date: Tue, 5 May 2020 12:37:04 +0200
-Message-ID: <20200505103704.138478-1-richard.leitner@skidata.com>
+Subject: [PATCH v3] gdbm: add patch to fix link failure against gcc 10
+Date: Tue, 5 May 2020 12:38:05 +0200
+Message-ID: <20200505103805.138651-1-richard.leitner@skidata.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Return-Path: richard.leitner@skidata.com
@@ -45,17 +45,17 @@ native builds with a host gcc v10.
 
 Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
 ---
- ...gdbm-fix-link-failure-against-gcc-10.patch | 46 +++++++++++++++++++
+ ...gdbm-fix-link-failure-against-gcc-10.patch | 47 +++++++++++++++++++
  meta/recipes-support/gdbm/gdbm_1.18.1.bb      |  3 +-
- 2 files changed, 47 insertions(+), 2 deletions(-)
+ 2 files changed, 48 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-support/gdbm/files/gdbm-fix-link-failure-against-gcc-10.patch
 
 diff --git a/meta/recipes-support/gdbm/files/gdbm-fix-link-failure-against-gcc-10.patch b/meta/recipes-support/gdbm/files/gdbm-fix-link-failure-against-gcc-10.patch
 new file mode 100644
-index 0000000000..8ecb16f97e
+index 0000000000..c1580418dc
 --- /dev/null
 +++ b/meta/recipes-support/gdbm/files/gdbm-fix-link-failure-against-gcc-10.patch
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,47 @@
 +From f993697af81c37df9c55e0ebedeb1b8b880506ae Mon Sep 17 00:00:00 2001
 +From: Richard Leitner <richard.leitner@skidata.com>
 +Date: Tue, 5 May 2020 11:59:42 +0200
@@ -81,6 +81,7 @@ index 0000000000..8ecb16f97e
 +The fix is to avoid multiple definition and rely on
 +declarations only.
 +
++Upstream-Status: Pending
 +Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
 +---
 + src/parseopt.c | 2 --
