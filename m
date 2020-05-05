@@ -1,110 +1,69 @@
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
- by mx.groups.io with SMTP id smtpd.web10.9459.1588690607593193336
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.9649.1588690811381783292
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2020 07:56:48 -0700
+ Tue, 05 May 2020 08:00:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=tA7lGePB;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.194, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f194.google.com with SMTP id b1so2166317qtt.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 07:56:47 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CIb1f4CF;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id h4so2658604wmb.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 08:00:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=V1Xb+3MOJf3r13XxOl3/LzRp6Tlu8tEX6uvdm/jiR7c=;
-        b=tA7lGePB7wk2vg9yH1r3bsvx071ILCxiGsWo5hALTsLtvzdL5nzpbCATJSqgK+8hgd
-         LVGZERB7jPJTsepfI7LkkRnC9aop9Ef5NL+093gxbJRT5JcLDRyXnQzKexi6kZohM78V
-         HpkiSL60NBicgNx//djs+NkGhvBwzmI9Q+Z/qdSlIECqEDIMRWjUWHWH3fDKxYAHLOnR
-         6Irti/TEzWfbZ6L4ZYCMJrFRMGL1rnFVzfD1GpmFjhlpLwdxoCDrIlSQNUP1I7la4Z2O
-         ePWWGXy82m/70zDKu+7Y8wH50A6E36a9mWw+A3uR1jyu1EfJLJrpVoI5f7A4aZOqPVYT
-         /elA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=HqwzJk9JP9mp5V3aWW3Mf/Sl34C2yhkXCtt4ZjkEkpI=;
+        b=CIb1f4CFefwBSWYJPt5DmCtBhDYD6aiBHov+X6zvVvOPPJM+GYSMMnbWHxJ6hF6A6P
+         DU+JSuC8qroI4RzLa7eBh1VASHQyJD2noSaToAlEgBJuUAb8I10QbDP6tYX7MRoyxGFK
+         w/lRbWxnuoCym1A3UAJ6v27P5It4v6lupe3dA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=V1Xb+3MOJf3r13XxOl3/LzRp6Tlu8tEX6uvdm/jiR7c=;
-        b=X30xlYjArEYw8b6bSvJTuSeegHTbSCbBBCDzIXGVvUS8gLHJUkK6746kvXvUGUB0rd
-         k+4Qp+RicuPXUcdaIdNcROim2nu8kvG9EZk3YBmff4qKasefXJwVuxMeZALJbNVPNpcB
-         4INZaL/IQfVAiF+tRs88zDzKKfu0T9fwHGtUbWzAuIDZYQ2an2Ru5UHP3c4+AsqSZQqZ
-         dNHPVpHDoJ9yweVRFj06Cx8BZwu2nb+/g3vz9NhBOwW21CgnAjh8+qMauOItR8abpYZW
-         IJMfEbi+pj0e9RWCDFpzFt9rs9qHfcPTinYFkHB8utSLbGi4idBhV4IkNsR2cYVVkwND
-         SmBQ==
-X-Gm-Message-State: AGi0PuZQyPCLkOgF3kI70HmVOvUmMEJs3Nl8p4duZaMjvnW2/E1qDnaP
-	pnsyGtqp9o8fhfIrRwD4nEZxE21ohE5hxA==
-X-Google-Smtp-Source: APiQypKC2KAnnUg7wQMxLf0AP2bGL4LbDs5OVk8dDp8c0YtJRilr2n5MUbe6A+HAXIeabPEf71Bygw==
-X-Received: by 2002:ac8:690c:: with SMTP id e12mr3181426qtr.357.1588690606413;
-        Tue, 05 May 2020 07:56:46 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com. [209.85.160.180])
-        by smtp.gmail.com with ESMTPSA id n206sm1323552qke.20.2020.05.05.07.56.45
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 May 2020 07:56:45 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f180.google.com with SMTP id g26so2105136qtv.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 07:56:45 -0700 (PDT)
-X-Received: by 2002:ac8:34b2:: with SMTP id w47mr3069137qtb.271.1588690604917;
- Tue, 05 May 2020 07:56:44 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=HqwzJk9JP9mp5V3aWW3Mf/Sl34C2yhkXCtt4ZjkEkpI=;
+        b=ABSjUM3/rkMrmX4WhnSOuhXLVTemXG0+Y3w9Je+JCrgKyeiWny6USxLeLUry5AqFrI
+         eoUyrPfNyUY70NdIVRoYjzK8FNhLRZoRwDnNMrBlTizvjv2KMdWV/Rx/wpfIANt97Jum
+         P3iNdAyz5I4FN7uY0iVeC6X720ZrjU5EouR8eYcEbfRUrCG0bogeEnv9J9Ny+/7AooPv
+         jkF3qqAlXRVQ4F8ebH5rA5rTap/PeE8mNBsgS/IMCYwpzcx8MFBeYiEMogMXevAWsJr8
+         lGYQAhCGqAEqXX/QSJIbrDuwxuJizyxukKBCV+wYHskmz2mwQm5vSfuGwGW30KHxfk/n
+         xnjg==
+X-Gm-Message-State: AGi0PubnWALUqQmy5mP2yXsIBLqoBDBevwqzY+il4NF0d5VKACtcHply
+	Ubo+/J9+u2it6IxUZTQkLhD3THB6dLQ=
+X-Google-Smtp-Source: APiQypKYQf8W3wJ8p89pVdkIpw9WFjNUHYvPZ7Cd5HEcBfUKHgqmtcRrOsBPj8nxzPmVy/8NyuPACQ==
+X-Received: by 2002:a1c:80c3:: with SMTP id b186mr4074814wmd.117.1588690809607;
+        Tue, 05 May 2020 08:00:09 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id n12sm3801754wrj.95.2020.05.05.08.00.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2020 08:00:08 -0700 (PDT)
+Message-ID: <c87e24dbc0db75e91726ecb3a09c77de63dc4509.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v3] icu: upgrade 66.1 -> 67.1
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Andrej Valek <andrej.valek@siemens.com>
+Date: Tue, 05 May 2020 16:00:07 +0100
+In-Reply-To: <20200501113952.15847-1-andrej.valek@siemens.com>
+References: <20200501082616.11296-1-andrej.valek@siemens.com>
+	 <20200501113952.15847-1-andrej.valek@siemens.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-References: <20200504141004.9988-1-sno@netbsd.org> <CAP9ODKqjipD3ogk7SadJP9n=sJcwE3vPZKQuqqx9AE9ktnKhPQ@mail.gmail.com>
- <F3B50FBD-30B5-4A2E-8EB0-624B5BF304B6@netbsd.org>
-In-Reply-To: <F3B50FBD-30B5-4A2E-8EB0-624B5BF304B6@netbsd.org>
-Date: Tue, 5 May 2020 11:56:33 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqkU3YNumNOLbknsFKucMbf1Xsc=niR4MFFk1dQt23-PA@mail.gmail.com>
-Message-ID: <CAP9ODKqkU3YNumNOLbknsFKucMbf1Xsc=niR4MFFk1dQt23-PA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v3] initscripts/init-system-helpers: fix mountnfs.sh dependency
-To: Jens Rehsack <rehsack@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Anuj Mittal <anuj.mittal@intel.com>, Khem Raj <raj.khem@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 5, 2020 at 10:43 AM Jens Rehsack <rehsack@gmail.com> wrote:
-> > Am 04.05.2020 um 16:21 schrieb Otavio Salvador <otavio.salvador@ossystems.com.br>:
-> >
-> > On Mon, May 4, 2020 at 11:10 AM Jens Rehsack <rehsack@gmail.com> wrote:
-> >>
-> >> With commit c9fc9110be33fe0f24bc3a7c242b584a4ca33e04
-> >>    Author: Yue Tao <Yue.Tao@windriver.com>
-> >>    Date:   Fri May 25 10:48:08 2018 +0800
-> >>
-> >>        initscripts: Avoid starting rpcbind daemon twice
-> >>
-> >>        Check the status before start it to avoid duplicates.
-> >>
-> >> the use of a script {/usr/sbin/}service is introduced - maybe earlier
-> >> provided by systemd, nowadays mostly by init-system-helpers from
-> >> debian project.
-> >>
-> >> For the very first shot, maybe discussions and improvements based
-> >> on that script collection, use just the init-system-helpers-service
-> >> in initscripts/mountnfs.sh to avoid problems mounting NFS in later
-> >> boot stage.
-> >>
-> >> Signed-off-by: Jens Rehsack <sno@netbsd.org>
-> > ...
-> >> +RDEPENDS_${PN}-update-rc.d = "perl"
-> >
-> > Can't it be replaced? using perl here is not nice.
->
-> Be careful :P
+On Fri, 2020-05-01 at 13:39 +0200, Andrej Valek wrote:
+> - 0001-icu-Added-armeb-support.patch - rebased
+> - 0001-Fix-big-endian-build.patch - removed, already included in new
+> version
+> - icu-pkgdata-large-cmd.patch - removed, implemented correct size
+> 
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
 
-Everyone has the right to do bad choices in life ;-P
+This is failing to build on arm native machines:
 
-> Seriously - it uses perl only for it's update-rc.d (which I didn't ripped off
-> to give community a chance to discuss it). Generally - especially with the
-> runit, s6, openrc ... in mind - we have to grow from there anyway and I like
-> our current update-rc.d implementation anyway.
->
-> But I would like then to have a 2nd commit (for documentation purposes) to
-> kill it or we just provide it and let people choose to use this one over
-> meta/recipes-core/update-rc.d
+https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/1187
+(and other arm native builds)
 
-Generally, I'd prefer to not give the option as it causes more
-troubles for supporting it in future. I am totally fine with it being
-dropped on a second commit for sure.
+Cheers,
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Richard
+
