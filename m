@@ -1,86 +1,163 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
- by mx.groups.io with SMTP id smtpd.web10.1039.1588696766279326913
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web10.1983.1588699260633655194
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2020 09:39:26 -0700
+ Tue, 05 May 2020 10:21:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=s8Lynctf;
- spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: jpewhacker@gmail.com)
-Received: by mail-io1-f48.google.com with SMTP id w4so2634427ioc.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 09:39:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=M+eRKyqd;
+ spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: rehsack@gmail.com)
+Received: by mail-wr1-f66.google.com with SMTP id l18so3671214wrn.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 10:21:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=+RJw18MznXg7csZXREsxs9aWz0ypsMalbc3YWLAc9W4=;
-        b=s8Lynctfhu0e9sytHU+BQywtjxoPJZK6JeGZxfc2pjMV/gPBPRS6imwEJXL+ijs4PR
-         kgyDfs682Aj6n40dvXxpPMKkf4DTH86i3Cu17N6Erj66iRrfKj8RH82OWQd/UPvX6hj+
-         UFAQqL3xGFz6RWRw4XfWxrHiSWhhWBCAd4U3tAUlb91fkCUJ57TUH78IZVcLx9MNdjPZ
-         3gtYgW8gwMaahRpBkC+uq4RxHnw9SWgKIhZMlduTufSKMpBnRXyztrFuUdabafE56EW7
-         6RHo7MbYJNqtESi/G9S4Lf9GiYypkJLOD4FYKkkqSzyBoStQB5h23wlbI5Imz8hzUeK0
-         pTZA==
+        h=from:message-id:mime-version:subject:date:in-reply-to:cc:to
+         :references;
+        bh=05AXUgG8B6yGrFrHdMUeszbrGnDtH7byi+aigpjwUfw=;
+        b=M+eRKyqd2+93VRkIlMjWd/q0l0koUGCj5mZc6cNZ3NSfPd70HGX6VqDg5O9uofwqh9
+         xCm3kHGyM908B4nJCDOkFsCtwlEMTYKJBOmgC5ihlpSEjdYaXTICqVYA2zKes4COi8De
+         v4hhrh/7c7ayMC1nO3kjvg2Ioy0CUdMAAW4LEXbjlmx14DXc0obUbklA6Cz/cTVI9sfS
+         zMSk+gLxqB3+Fi8Yq/oOE3LrMXBtryG82Ns9xgBLqjOLgSlzXwD9rC8pZKFGO05rbNG4
+         BDWioOBIIjf4tabUtusfPPwKS6jQJFEGoQMHkAUhFIYducMl36g214jhc6rwaCPtVedU
+         gHvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=+RJw18MznXg7csZXREsxs9aWz0ypsMalbc3YWLAc9W4=;
-        b=eC7YwN9eicb1CsXaYuH/hysuzPa/00C/2I+Iy3AQRJapLUfAUHn4p9jfJAqSXHvIwy
-         YiaUwlx9WhPSmwAaYcl1Vbf+ilvZvvsT5+dOoAjxxUEJ7FFbPn8IeK41hPb777oe/uVX
-         xslCxSWHdtzh3dilceeGyPQuCCgmq6Uv7EEo5z8yI6faLRGu9MgOaywtbVogr4LJkjB3
-         H+VyqHBZZAT+5/tWBKXTG9I17lbFnnAqFnlIqY/RwYzAjD/PNFH1M2KtjOJYKgbqS0pO
-         +0OLNctbS03XswkuWGM+GjYRCt+lrc9fiauAQW3mgfxl/GO7OrRGxVrLjh1teHAPOr4A
-         mgfQ==
-X-Gm-Message-State: AGi0PuYMSz1QqPjan1ivuMFBsFhWBXEhfO13oC3NHyxSWrYbhmYdmoc0
-	eH1FeT430t/9G1mFKDM2xLz/NK1h
-X-Google-Smtp-Source: APiQypJwBZtPSUr0xV11KSShVCW/zYq1yFidpq7771aSu2tj0+FCm+KBtIsogRN13H+I5nolL0c3Yg==
-X-Received: by 2002:a6b:7d4a:: with SMTP id d10mr4322758ioq.70.1588696765380;
-        Tue, 05 May 2020 09:39:25 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:3d8f:d2ff:4011:cd1a])
-        by smtp.gmail.com with ESMTPSA id u4sm1727293iop.1.2020.05.05.09.39.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 09:39:24 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] bitbake.conf: Prevent git from detecting parent repo in recipe
-Date: Tue,  5 May 2020 11:39:10 -0500
-Message-Id: <20200505163910.8822-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:from:message-id:mime-version:subject:date
+         :in-reply-to:cc:to:references;
+        bh=05AXUgG8B6yGrFrHdMUeszbrGnDtH7byi+aigpjwUfw=;
+        b=Atr3OLJANQ1MK2DFMeCwNmuheIQys71bYMZlMRKFMUfBET6BY7hVu6NhUCAb7jnuHf
+         D7QYANM+6Hmc5oJwDQ39C1aY6zmBc8fytLOFRDIDciYBNvRKI2vKqrJyXlIhHNqpvtr4
+         sSE70LOj9iKroroZcW+GeQYMaTBbas/G6FLigK+RqyezisVf97xUICzyqm8LPm4n2Yu6
+         9swSXKopgYF6GHSmPSS3d4MA2R7idcg0ROzbE3kenlmUDnNYRpIe6Oxc0NBdp3UnpooU
+         KsPQllnIZUT7Mvx6HfGhU7co8JuUD8n8nH7CgUi6JwdVbrVDu2qi0tCsBlI4H+lh9G/Y
+         NFfQ==
+X-Gm-Message-State: AGi0PuaOrgSW+Q65Zfp/1ddhvsoeWKTPUXo/StkvH+c076hJTTdDeN20
+	RUGBYyX9tV7Ea3A1L1gxrX4=
+X-Google-Smtp-Source: APiQypKtQCEcgZPUh8HcWsWxVGoydpcMP+OAkvneOsJvqtw5hS0J0OGalB/xOLm4yYRG5S3bY/EFbQ==
+X-Received: by 2002:a5d:6305:: with SMTP id i5mr5407764wru.60.1588699259153;
+        Tue, 05 May 2020 10:20:59 -0700 (PDT)
+Return-Path: <rehsack@gmail.com>
+Received: from [10.42.8.217] (p4FE931FC.dip0.t-ipconnect.de. [79.233.49.252])
+        by smtp.gmail.com with ESMTPSA id d9sm4268861wrg.60.2020.05.05.10.20.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 05 May 2020 10:20:58 -0700 (PDT)
+From: "Jens Rehsack" <rehsack@gmail.com>
+Message-Id: <0D58E413-393E-4696-903D-991F32FBFFC7@gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [OE-core][PATCH v3] initscripts/init-system-helpers: fix mountnfs.sh dependency
+Date: Tue, 5 May 2020 19:20:57 +0200
+In-Reply-To: <CAP9ODKqkU3YNumNOLbknsFKucMbf1Xsc=niR4MFFk1dQt23-PA@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>,
+ Anuj Mittal <anuj.mittal@intel.com>,
+ Khem Raj <raj.khem@gmail.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+References: <20200504141004.9988-1-sno@netbsd.org>
+ <CAP9ODKqjipD3ogk7SadJP9n=sJcwE3vPZKQuqqx9AE9ktnKhPQ@mail.gmail.com>
+ <F3B50FBD-30B5-4A2E-8EB0-624B5BF304B6@netbsd.org>
+ <CAP9ODKqkU3YNumNOLbknsFKucMbf1Xsc=niR4MFFk1dQt23-PA@mail.gmail.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
+X-Groupsio-MsgNum: 137947
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_E21BDB3B-539D-4BE6-86DA-53E59EC9B94E";
+	protocol="application/pgp-signature";
+	micalg=pgp-sha512
 
-Prevents git commands run in a recipe from moving up past ${WORKDIR}
-when searching for a .git directory, and thus prevents them from
-detecting the parent OE-core .git directory. Fixes several
-reproducibility issues where recipes would use the OE-core version as
-the recipe version due to git walking up the tree.
+--Apple-Mail=_E21BDB3B-539D-4BE6-86DA-53E59EC9B94E
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/conf/bitbake.conf | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 4b544a22cd..bdade79abe 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -718,6 +718,10 @@ export PKG_CONFIG_DISABLE_UNINSTALLED = "yes"
- export PKG_CONFIG_SYSTEM_LIBRARY_PATH = "${base_libdir}:${libdir}"
- export PKG_CONFIG_SYSTEM_INCLUDE_PATH = "${includedir}"
- 
-+# Don't allow git to chdir up past WORKDIR so that it doesn't detect the OE
-+# repository when building a recipe
-+export GIT_CEILING_DIRECTORIES = "${WORKDIR}"
-+
- ###
- ### Config file processing
- ###
-@@ -878,7 +882,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
-     WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR BUILD_ARCH SSTATE_PKGARCH \
-     BB_WORKERCONTEXT BB_LIMITEDDEPS BB_UNIHASH extend_recipe_sysroot DEPLOY_DIR \
-     SSTATE_HASHEQUIV_METHOD SSTATE_HASHEQUIV_REPORT_TASKDATA \
--    SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE"
-+    SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE GIT_CEILING_DIRECTORIES"
- BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
-     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
--- 
-2.17.1
 
+> Am 05.05.2020 um 16:56 schrieb Otavio Salvador =
+<otavio.salvador@ossystems.com.br>:
+>=20
+> On Tue, May 5, 2020 at 10:43 AM Jens Rehsack <rehsack@gmail.com> =
+wrote:
+>>> Am 04.05.2020 um 16:21 schrieb Otavio Salvador =
+<otavio.salvador@ossystems.com.br>:
+>>>=20
+>>> On Mon, May 4, 2020 at 11:10 AM Jens Rehsack <rehsack@gmail.com> =
+wrote:
+>>>>=20
+>>>> With commit c9fc9110be33fe0f24bc3a7c242b584a4ca33e04
+>>>>   Author: Yue Tao <Yue.Tao@windriver.com>
+>>>>   Date:   Fri May 25 10:48:08 2018 +0800
+>>>>=20
+>>>>       initscripts: Avoid starting rpcbind daemon twice
+>>>>=20
+>>>>       Check the status before start it to avoid duplicates.
+>>>>=20
+>>>> the use of a script {/usr/sbin/}service is introduced - maybe =
+earlier
+>>>> provided by systemd, nowadays mostly by init-system-helpers from
+>>>> debian project.
+>>>>=20
+>>>> For the very first shot, maybe discussions and improvements based
+>>>> on that script collection, use just the init-system-helpers-service
+>>>> in initscripts/mountnfs.sh to avoid problems mounting NFS in later
+>>>> boot stage.
+>>>>=20
+>>>> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+>>> ...
+>>>> +RDEPENDS_${PN}-update-rc.d =3D "perl"
+>>>=20
+>>> Can't it be replaced? using perl here is not nice.
+>>=20
+>> Be careful :P
+>=20
+> Everyone has the right to do bad choices in life ;-P
+
+/me nods
+But comparing to up-river alternatives, there isn't much better :)
+
+>> Seriously - it uses perl only for it's update-rc.d (which I didn't =
+ripped off
+>> to give community a chance to discuss it). Generally - especially =
+with the
+>> runit, s6, openrc ... in mind - we have to grow from there anyway and =
+I like
+>> our current update-rc.d implementation anyway.
+>>=20
+>> But I would like then to have a 2nd commit (for documentation =
+purposes) to
+>> kill it or we just provide it and let people choose to use this one =
+over
+>> meta/recipes-core/update-rc.d
+>=20
+> Generally, I'd prefer to not give the option as it causes more
+> troubles for supporting it in future. I am totally fine with it being
+> dropped on a second commit for sure.
+
+What do others (Richard, Anuj, Khem) say?
+And - making a patch series from that or let someone else kicking it?
+
+Cheers
+--
+Jens Rehsack - rehsack@gmail.com
+
+
+--Apple-Mail=_E21BDB3B-539D-4BE6-86DA-53E59EC9B94E
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAl6xoHkACgkQRJmWrtzl
+Cp2T5A//e4aP720aj9U5BDeGtRyrrkP48HMuXzGCnFpTA511+1UNpXwyMitUuMq0
+JHWWxr3KI9G6uUvVvBu7oToerjQ2RT/it9uGo/TZK9weTgtwOEKfOz5urzouQMRU
+CDqGo93ccybpKtf+s8vQPlga+EpZTxvEqp1IVujDQXXr90cpzOyzUqASH2DJdelv
+rGN8rt7MSJPJdAq7/e8Z0h3AH2MfYH9NPb58N3tNYolpl24ibE7UtYG95fgY0IZQ
+zo+02nCVO3oI5BXWUz1L3cvYwcCuE/6noHkZjpcdSpzSjYWThNFf+nbeK8Vx8MXw
+SHtDd+4186rrgNz4QHDAenFs5/Ly3AZMwEuILimYXOsF1ai1LV2qTY1WWr52iy1/
+Zx20T6hHpj7zoIIEGAL+R/y9RMJ9SLdoSbqWnp+39FTVFovEUeP0e8MPXmWpbKEw
+705WlRpbPS7QNvmX4fTB3HspPSJsKQHRRGgPDU4fme9sePkdQ8g3xecSQ619ZncU
+W9rAKfOkY0lfF6tlSljCky9oX3SqZ1s0L8t1XmsaYuxaF65CRgmLil5QxLtKzoEu
+eqe7zrAyBpT5/oSsnqQeCtwEAnaZ5vfZgFb6cTE4OuLgblxFXWo3Om/PkDWhvoam
+OUNcO1s/Ke7gmDIfywLGmTzk1+tr4swHXSUaU6piCMYDGMKECTQ=
+=XaIY
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_E21BDB3B-539D-4BE6-86DA-53E59EC9B94E--
