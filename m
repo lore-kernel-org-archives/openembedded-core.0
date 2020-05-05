@@ -1,102 +1,78 @@
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
- by mx.groups.io with SMTP id smtpd.web11.1488.1588648792253461925
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.1489.1588648796824791347
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 20:19:52 -0700
+ Mon, 04 May 2020 20:19:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=iBjDmMRg;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.196, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f196.google.com with SMTP id f7so209032pfa.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:19:52 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=GxxGK8Fu;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f170.google.com with SMTP id s20so251790plp.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:19:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=Jke2eAVl4bVo8Bo1iaACvD80slVBmNiRfN/mmSZzfCY=;
-        b=iBjDmMRgI71dYyjoJp7GEae4sNCdvGDnm1A+wnC6oNaYxtSXo5nZMqs8iWjGnjOtFB
-         ZNxJFeIaStPZNPOyhMK7bRy45g5sypbltRcFSoUiGysuhqFuW2rttOGuJUifI7On/szJ
-         nDlnKDAbTCVX2seN2ITWtJpigIsTpzaqp99reVIY7G6Nt4a8P9Ke0tqFgTHMnizMDXJd
-         JkRa2Fbd6nUQfPtFud7b8VdBL5z9pAH733yv1UNBwqIFYY3MBXNCaOtnPultaxG8YQdl
-         5JiCmpIxrWrglj13eFWz/KpMMRzrl5BIouEuIsaKhdzFGE3xyeiCl+gnMkrfVKzTvjor
-         8ykw==
+        bh=WhI+g0Bct4h543eCNB3s9wPh98+uRZv2zfSlgPYXnig=;
+        b=GxxGK8Fui11o2TyUewH2eVRVU5paqpbLpziJGWA9mT64g1Cfa2jADD5JVy/Rx1l/EB
+         28gh+aTPL7OJ4pB2RD04S9j8SMuy/as44GdrhwnO2FJ9IFkaKeOhQ2cAP0Sc6TSptOOy
+         4pp48EPM5AueFz9cEh7LEsyKzA2IojwWguqY4MvyGyyy8Cy9irKsyftnUx5VtZID8z37
+         Ov84uOVMbmzr80scKOToICgU7PPZVQva/x3hIu9PkWJV5iqgFOKnKECkcOwjC24Re734
+         v2ail8aJNQjbIyCEDSMCYDzOrsqX9ZEfLLlENiNy8QuwWvtkQhLYXOq7PPMEZ8TP7kf6
+         jupQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=Jke2eAVl4bVo8Bo1iaACvD80slVBmNiRfN/mmSZzfCY=;
-        b=kPVGSje+wDRuwqpKQIJSrAHGf54P+YzJMLbRDZ7U9BmDCBFRRBIY5Na1KRJIQ+/Fhn
-         vqKBxdKTRHQjVHYTvALS8P2etvgoQ9Td5pPWi3mOouvHgWIo1qOJJ3aqzPGU3pk6/zQ9
-         +cegxnpTTa9B7M5ZuChKEIpADXgzWQeG//ROGKzwJwsJL9ZeUzp3GDd08yfx4vKrORHP
-         z23gf2fhRNIQrMCxWzC/DsL+HMxLta25HiGuzalAgLHDKgbstfGlflv80CBvwe+JxnER
-         gUburGc9Iu4L/TVDr+U5lVNyhh75SJLV8svYBcYIB/cSk3t1jKT1kDXllD6ZxDVWKX/3
-         5h8w==
-X-Gm-Message-State: AGi0PubKQSeeOZV1eOjsPEVkeIhd3oFjf6dHDCgJoKcNJSUueJsUaW7/
-	kocdyEyWDXwoiiMdtxA3lvM5jWVfaQgFMg==
-X-Google-Smtp-Source: APiQypIWs2SeRI0EsLzYASSvNWpHlMKXhAWdq5eWAppiLFPeY3DknLs3Enz2Gc1pk9WFwDlOqmJ75w==
-X-Received: by 2002:a63:a36f:: with SMTP id v47mr1221763pgn.242.1588648791175;
-        Mon, 04 May 2020 20:19:51 -0700 (PDT)
+        bh=WhI+g0Bct4h543eCNB3s9wPh98+uRZv2zfSlgPYXnig=;
+        b=l/dJmFEoKAoW2qG3S4FTR+Kwg4fxh34og/1UFlhNMmweAvFld4Udr2V7d5uNGi3Jfq
+         sd2VI+aeQYPmiCc/Lbzkgcoqx5tnRFrYteylzgV9pDAt9+fHi63uJVC/HkYs+o7iLP80
+         /Bz38apmSGKl0IsOJgWmN6j4hwlsm0G7W8M8nOHpts+ap165cxKQOnzFu1rvnHfnku2P
+         S7tGNCS2rEcY6gYu8ki4hqXKUI0jhnJpIMieh5qaFR/GKX12gMFMJr/6ektaRqrvuMp9
+         kKTBFKB/Fe8yHNwsh/to8rnk6ovM7fcP+jLOTWQQDa+4Jp/0XtWjhnxKKo+ibNvyOxvz
+         1i6Q==
+X-Gm-Message-State: AGi0PuZrAYz6uFozwFPbXYw47RhgquUcF/rewP9hzQnsz4UdUEOj/8Jo
+	/I6KdhSyuK9YRp/2AjjL9X8S0MM3Ci41HA==
+X-Google-Smtp-Source: APiQypIX5dtZNOL4IGEPIdKkloZsmW92QmvAGzWFJjvlbMfo+bIOtonDiWqTk9EoOlYc1p5gTDcSlQ==
+X-Received: by 2002:a17:90a:208f:: with SMTP id f15mr421891pjg.60.1588648795913;
+        Mon, 04 May 2020 20:19:55 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.19.49
+        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.19.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 20:19:50 -0700 (PDT)
+        Mon, 04 May 2020 20:19:55 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 01/28] bzip2/pbzip2: Correct license information
-Date: Mon,  4 May 2020 17:18:56 -1000
-Message-Id: <05fdae7687d22e9f3476c807a15906a1f80e4daa.1588638879.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 02/28] busybox: Correct the name of the bzip2 license
+Date: Mon,  4 May 2020 17:18:57 -1000
+Message-Id: <be67faad412c47fb739059bd401322271f2cd7c8.1588638879.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1588638879.git.steve@sakoman.com>
 References: <cover.1588638879.git.steve@sakoman.com>
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-The license of pbzip2 looks slightly BSD like but is in fact the bzip2
-license. The SPDX identifier for this is "bzip-1.0.6" since there is
-another version of the bzip license out there.
+The common bzip2 license was renamed from "bzip2" to "bzip2-1.0.6" in
+commit 669600ef to match the official SPDX identifier.
 
-To clear up all the confusion, use the SPDX license name and update
-both recipes to refer to it. The copyright information is slightly
-different between the codebases but the license looks the same.
-
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/files/common-licenses/{bzip2 => bzip2-1.0.6} | 0
- meta/recipes-extended/bzip2/bzip2_1.0.8.bb        | 2 +-
- meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb     | 2 +-
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/files/common-licenses/{bzip2 => bzip2-1.0.6} (100%)
+ meta/recipes-core/busybox/busybox.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/files/common-licenses/bzip2 b/meta/files/common-licenses/bzip2-1.0.6
-similarity index 100%
-rename from meta/files/common-licenses/bzip2
-rename to meta/files/common-licenses/bzip2-1.0.6
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-index 8e9b779e67..d58f553a49 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-@@ -4,7 +4,7 @@ Huffman coding. Compression is generally considerably better than that achieved
- LZ77/LZ78-based compressors, and approaches the performance of the PPM family of statistical compressors."
- HOMEPAGE = "https://sourceware.org/bzip2/"
- SECTION = "console/utils"
--LICENSE = "bzip2"
-+LICENSE = "bzip2-1.0.6"
- LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;endline=37;md5=600af43c50f1fcb82e32f19b32df4664"
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 344e891f7a..6cfdcd7344 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -7,7 +7,7 @@ DEPENDS += "kern-tools-native virtual/crypt"
  
- SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
-diff --git a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-index 1275cc0097..d7450c73c1 100644
---- a/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-+++ b/meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb
-@@ -5,7 +5,7 @@ machines. The output of this version is fully compatible with bzip2 v1.0.2 or \
- newer (ie: anything compressed with pbzip2 can be decompressed with bzip2)."
- HOMEPAGE = "http://compression.ca/pbzip2/"
- SECTION = "console/utils"
--LICENSE = "BSD-4-Clause"
-+LICENSE = "bzip-1.0.6"
- LIC_FILES_CHKSUM = "file://COPYING;md5=398b8832c6f840cfebd20ab2be6a3743"
+ # bzip2 applet in busybox is based on lightly-modified bzip2 source
+ # the GPL is version 2 only
+-LICENSE = "GPLv2 & bzip2"
++LICENSE = "GPLv2 & bzip2-1.0.6"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=de10de48642ab74318e893a61105afbb"
  
- DEPENDS = "bzip2"
+ SECTION = "base"
 -- 
 2.17.1
 
