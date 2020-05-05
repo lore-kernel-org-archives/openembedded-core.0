@@ -1,156 +1,81 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
- by mx.groups.io with SMTP id smtpd.web11.1526.1588648881405400327
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
+ by mx.groups.io with SMTP id smtpd.web12.1500.1588648884239416653
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 20:21:21 -0700
+ Mon, 04 May 2020 20:21:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=xUjTkUzG;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.194, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f194.google.com with SMTP id 18so215982pfx.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:21:21 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=rsUgN0Od;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.196, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f196.google.com with SMTP id d22so417279pgk.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=ve4XCnFuLXkNHXlw/1SzaQASWarJaSabNwGq0ElhW3E=;
-        b=xUjTkUzGSKNDHth4pqkyRYPVWOL+V28Kk7knjaDZ3rASoYDoSYgdkofeIEcaQTwjr3
-         d6jm1dv2vpjoWm7Qzrm5FAgiWqCIiZqa/pf+Blk8ZigwFXp1JxpWPa54hld0elzdvtZ/
-         0Boaxipej72fKg3ZSS8O6G0D5bFowNb7PQEFBwvAARC1fM2zEiZV9WuRWMz1PcY7yXWA
-         vrM/IUJ6tYAm5g1tgJI2FsmfBqrmMXu/VdhUnaCp581uJ3GdQiHAxJYefSBGvxSqkGVQ
-         ikobQOwRvfePyDec75xR7tczgQ+KY13N38ir3TAR+jWW5QYFw0ErbDQ3jryJ6FLQOtc4
-         /qpw==
+        bh=vsP3UXIKCZofcIoFZnopJGS29Uk9z1wNQlgUbAu78s8=;
+        b=rsUgN0OdtxDJ0mOkcENjD0I/+cpVYfL2B6Mkk1BPy1R+pNrPt0nvUTz4aW+X34k96r
+         1qtntHPsMX2JvvXxbG71pRzIwNQ/EW+dTW+Fnnnda9gYrn6VpjKjqEPLbqkh41HvX+kU
+         Eh/0jxNMF9rNI1Rr71nZW13bGZKxylcfBxo0DMutdWuisnH+iLNX4JWlEtNDA1Jm/Siu
+         GduLb1JVV1B6IWYxbqbHReddEMdfY6zpHokEraGKRbFLudZhuBPVsrbnl7gXf9rYd8bB
+         KCmveoggE/ZpcXR79HhGZJIV+nSHcMxUlH9Hc78bE7vjJRSfjuvcmeiFtttJUF7eZuoc
+         gFig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=ve4XCnFuLXkNHXlw/1SzaQASWarJaSabNwGq0ElhW3E=;
-        b=BtHIXIkgVVBrMByQm2bqIIJqi8b+o2QL7FTKYo6PLDN0IXu1YXMKGG9pAKrbzYbXIQ
-         3E7ztQe2OCm5reLzgBz5YTFaQmiwfNbe6PQqsOFi1V4bDzKfRnAhSxjSHhvhz4KwwnMa
-         7bWT4Azeva0Qtj28H1hlqpetsqItImwQsFU7JHVubURxmmi5fZtChWiYf8XyzLcIkSAZ
-         869IyvlWGfJ2hqFG59BVIuaSOVaw16HRuKjZUJ4xwLYkoStXmjrRqc+C71e2Kg9hlvjI
-         gAgWJx4oQprKxQMvlwNNnTbyS/Q7A7KA4aHHP4lBOSJHDy0BTfSnUXpqFQraTZZa0YA1
-         lJsA==
-X-Gm-Message-State: AGi0Pubu4HG31bHi2lmS3nsMgLw7KQOZOf/LDfwR4bY3kNI0FZ+cM0SC
-	IJ2t19YkG3p/pnkUi4FUYOpocd2wR6cz3A==
-X-Google-Smtp-Source: APiQypLHupOth5PRIcxkmnkVOryY+snWmVNlIl3g573osOshPyjSd4c436v4JS/1fyvaCvTuu/dk6w==
-X-Received: by 2002:a63:e542:: with SMTP id z2mr1191544pgj.165.1588648879870;
-        Mon, 04 May 2020 20:21:19 -0700 (PDT)
+        bh=vsP3UXIKCZofcIoFZnopJGS29Uk9z1wNQlgUbAu78s8=;
+        b=PgZQK7BJJRmNbF2B1WvOshUTNrLp6wSW7lmO1J/6Wepz+JDneF0iqlz7A43KIIH5aT
+         raQ1mct5NKzMvBsWil9a/jdzSGFnn+3vSaBADLCvKC24JvpZm/OCpnYXk8uMo7/rLeQ0
+         VVEvOjgETwNMK48ygYsZFQfO5mPvjfGfY5FCUZZwDeo7cBK10b6zUvUWEet1wiGJ7Oq8
+         zulqxl416qXmIaL7AYDlkUBqhF2JDS+MQEmCxo0rLCQ3yy1ynZ6Pae5ZL9A6qaRnnXwe
+         97+OQvwKD8Xo3WOI8nHqsJnI3kUXv6xIoeLHNyFzxN/qxbuSnks0D208COszXF0SZlDY
+         YxCg==
+X-Gm-Message-State: AGi0PuaeSNTu0qZVd7RU618QyjS1BIjvQ6dkAP/l1ThidL7rHTTjxjW8
+	Jg5pfXYQtIej4/xZ6APf8MxnZExDZuSwIg==
+X-Google-Smtp-Source: APiQypIjenJ5LNEWNAk4OQQkF3DrEtGRZliYf32c8n67N0GznmiErZZym79v1CUPzZHnAc+D1VAE+g==
+X-Received: by 2002:aa7:96cc:: with SMTP id h12mr1137193pfq.298.1588648883279;
+        Mon, 04 May 2020 20:21:23 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.21.18
+        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.21.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 20:21:19 -0700 (PDT)
+        Mon, 04 May 2020 20:21:22 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 26/28] iputils: Initialize libgcrypt
-Date: Mon,  4 May 2020 17:19:21 -1000
-Message-Id: <8648c6497d1904b988059cbd72d1592caa8708d0.1588638879.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 27/28] openssl: upgrade 1.1.1f -> 1.1.1g
+Date: Mon,  4 May 2020 17:19:22 -1000
+Message-Id: <f0bd52e5b50a1742b767eefe0d9d67facbb6c53a.1588638879.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1588638879.git.steve@sakoman.com>
 References: <cover.1588638879.git.steve@sakoman.com>
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Jan Luebbe <jlu@pengutronix.de>
 
-Initialize libgcrypt on first use otherwise
-there comes below warning when check the status
-of the ninfod.service.
- # systemctl status ninfod.service
- * ninfod.service - Respond to IPv6 Node Information Queries
- Loaded: loaded (/lib/systemd/system/ninfod.service; enabled; vendor preset: enabled)
- Active: active (running) since Wed 2020-04-29 05:18:21 UTC; 36s ago
- Docs: man:ninfod(8)
- Main PID: 347 (ninfod)
- Tasks: 1 (limit: 9382)
- Memory: 1.2M
- CGroup: /system.slice/ninfod.service
- `-347 /sbin/ninfod -d
+This also fixes CVE-2020-1967.
 
- Apr 29 05:18:21 intel-x86-64 systemd[1]: Started Respond to IPv6 Node Information Queries.
- Apr 29 05:18:24 intel-x86-64 ninfod[347]: Libgcrypt warning: missing initialization - please fix the application
-
-Reference: https://salsa.debian.org/apt-team/apt/-/commit/4f489a8c7954cbbc9613e6b671c8efe87b9ced8c
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../0001-iputils-Initialize-libgcrypt.patch   | 55 +++++++++++++++++++
- .../iputils/iputils_s20190709.bb              |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt.patch
+ .../openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb} (98%)
 
-diff --git a/meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt.patch b/meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt.patch
-new file mode 100644
-index 0000000000..b56804cebe
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt.patch
-@@ -0,0 +1,55 @@
-+From 8576e0c218634e6f7ed1b6ff02fa164fb0c75f86 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Wed, 29 Apr 2020 03:50:32 +0000
-+Subject: [PATCH] iputils_md5dig.h: Initialize libgcrypt
-+
-+Initialize libgcrypt on first use otherwise
-+there comes below warning when check the status
-+of the ninfod.service.
-+ # systemctl status ninfod.service
-+ * ninfod.service - Respond to IPv6 Node Information Queries
-+ Loaded: loaded (/lib/systemd/system/ninfod.service; enabled; vendor preset: enabled)
-+ Active: active (running) since Wed 2020-04-29 05:18:21 UTC; 36s ago
-+ Docs: man:ninfod(8)
-+ Main PID: 347 (ninfod)
-+ Tasks: 1 (limit: 9382)
-+ Memory: 1.2M
-+ CGroup: /system.slice/ninfod.service
-+ `-347 /sbin/ninfod -d
-+
-+ Apr 29 05:18:21 intel-x86-64 systemd[1]: Started Respond to IPv6 Node Information Queries.
-+ Apr 29 05:18:24 intel-x86-64 ninfod[347]: Libgcrypt warning: missing initialization - please fix the application
-+
-+Upstream-Status: Inappropriate [the upstream avoids linking to crypto libraries in
-+                   commit 214ed83 common: copy md5 implementation to iputils project]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ iputils_md5dig.h | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
-+
-+diff --git a/iputils_md5dig.h b/iputils_md5dig.h
-+index bfa7f02..3cc3fbf 100644
-+--- a/iputils_md5dig.h
-++++ b/iputils_md5dig.h
-+@@ -24,8 +24,17 @@ typedef struct {
-+ 	gcry_md_hd_t dig;
-+ } iputils_md5dig_ctx;
-+ 
-++void maybeInit()
-++{
-++	if (!gcry_control(GCRYCTL_INITIALIZATION_FINISHED_P))
-++	{
-++		gcry_control(GCRYCTL_INITIALIZATION_FINISHED, 0);
-++	}
-++}
-++
-+ static void iputils_md5dig_init(iputils_md5dig_ctx *ctx)
-+ {
-++	maybeInit();
-+ 	if (gcry_md_open(&ctx->dig, GCRY_MD_MD5, 0) != GPG_ERR_NO_ERROR)
-+ 		abort();
-+ 	return;
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb b/meta/recipes-extended/iputils/iputils_s20190709.bb
-index 2aed6b56ca..545f3d5e87 100644
---- a/meta/recipes-extended/iputils/iputils_s20190709.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
-@@ -14,6 +14,7 @@ SRC_URI = "git://github.com/iputils/iputils \
-            file://0001-ninfod-change-variable-name-to-avoid-colliding-with-.patch \
-            file://0001-ninfod-fix-systemd-Documentation-url-error.patch \
-            file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
-+           file://0001-iputils-Initialize-libgcrypt.patch \
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
+similarity index 98%
+rename from meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
+index 3fa2b41fb9..66fa8f7d0a 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
+@@ -23,7 +23,7 @@ SRC_URI_append_class-nativesdk = " \
+            file://environment.d-openssl.sh \
             "
- SRCREV = "13e00847176aa23683d68fce1d17ffb523510946"
  
+-SRC_URI[sha256sum] = "186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35"
++SRC_URI[sha256sum] = "ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46"
+ 
+ inherit lib_package multilib_header multilib_script ptest
+ MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
 -- 
 2.17.1
 
