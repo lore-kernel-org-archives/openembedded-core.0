@@ -1,69 +1,86 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web12.9649.1588690811381783292
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+ by mx.groups.io with SMTP id smtpd.web10.1039.1588696766279326913
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2020 08:00:11 -0700
+ Tue, 05 May 2020 09:39:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CIb1f4CF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id h4so2658604wmb.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 08:00:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=s8Lynctf;
+ spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f48.google.com with SMTP id w4so2634427ioc.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 09:39:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=HqwzJk9JP9mp5V3aWW3Mf/Sl34C2yhkXCtt4ZjkEkpI=;
-        b=CIb1f4CFefwBSWYJPt5DmCtBhDYD6aiBHov+X6zvVvOPPJM+GYSMMnbWHxJ6hF6A6P
-         DU+JSuC8qroI4RzLa7eBh1VASHQyJD2noSaToAlEgBJuUAb8I10QbDP6tYX7MRoyxGFK
-         w/lRbWxnuoCym1A3UAJ6v27P5It4v6lupe3dA=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=+RJw18MznXg7csZXREsxs9aWz0ypsMalbc3YWLAc9W4=;
+        b=s8Lynctfhu0e9sytHU+BQywtjxoPJZK6JeGZxfc2pjMV/gPBPRS6imwEJXL+ijs4PR
+         kgyDfs682Aj6n40dvXxpPMKkf4DTH86i3Cu17N6Erj66iRrfKj8RH82OWQd/UPvX6hj+
+         UFAQqL3xGFz6RWRw4XfWxrHiSWhhWBCAd4U3tAUlb91fkCUJ57TUH78IZVcLx9MNdjPZ
+         3gtYgW8gwMaahRpBkC+uq4RxHnw9SWgKIhZMlduTufSKMpBnRXyztrFuUdabafE56EW7
+         6RHo7MbYJNqtESi/G9S4Lf9GiYypkJLOD4FYKkkqSzyBoStQB5h23wlbI5Imz8hzUeK0
+         pTZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=HqwzJk9JP9mp5V3aWW3Mf/Sl34C2yhkXCtt4ZjkEkpI=;
-        b=ABSjUM3/rkMrmX4WhnSOuhXLVTemXG0+Y3w9Je+JCrgKyeiWny6USxLeLUry5AqFrI
-         eoUyrPfNyUY70NdIVRoYjzK8FNhLRZoRwDnNMrBlTizvjv2KMdWV/Rx/wpfIANt97Jum
-         P3iNdAyz5I4FN7uY0iVeC6X720ZrjU5EouR8eYcEbfRUrCG0bogeEnv9J9Ny+/7AooPv
-         jkF3qqAlXRVQ4F8ebH5rA5rTap/PeE8mNBsgS/IMCYwpzcx8MFBeYiEMogMXevAWsJr8
-         lGYQAhCGqAEqXX/QSJIbrDuwxuJizyxukKBCV+wYHskmz2mwQm5vSfuGwGW30KHxfk/n
-         xnjg==
-X-Gm-Message-State: AGi0PubnWALUqQmy5mP2yXsIBLqoBDBevwqzY+il4NF0d5VKACtcHply
-	Ubo+/J9+u2it6IxUZTQkLhD3THB6dLQ=
-X-Google-Smtp-Source: APiQypKYQf8W3wJ8p89pVdkIpw9WFjNUHYvPZ7Cd5HEcBfUKHgqmtcRrOsBPj8nxzPmVy/8NyuPACQ==
-X-Received: by 2002:a1c:80c3:: with SMTP id b186mr4074814wmd.117.1588690809607;
-        Tue, 05 May 2020 08:00:09 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id n12sm3801754wrj.95.2020.05.05.08.00.08
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=+RJw18MznXg7csZXREsxs9aWz0ypsMalbc3YWLAc9W4=;
+        b=eC7YwN9eicb1CsXaYuH/hysuzPa/00C/2I+Iy3AQRJapLUfAUHn4p9jfJAqSXHvIwy
+         YiaUwlx9WhPSmwAaYcl1Vbf+ilvZvvsT5+dOoAjxxUEJ7FFbPn8IeK41hPb777oe/uVX
+         xslCxSWHdtzh3dilceeGyPQuCCgmq6Uv7EEo5z8yI6faLRGu9MgOaywtbVogr4LJkjB3
+         H+VyqHBZZAT+5/tWBKXTG9I17lbFnnAqFnlIqY/RwYzAjD/PNFH1M2KtjOJYKgbqS0pO
+         +0OLNctbS03XswkuWGM+GjYRCt+lrc9fiauAQW3mgfxl/GO7OrRGxVrLjh1teHAPOr4A
+         mgfQ==
+X-Gm-Message-State: AGi0PuYMSz1QqPjan1ivuMFBsFhWBXEhfO13oC3NHyxSWrYbhmYdmoc0
+	eH1FeT430t/9G1mFKDM2xLz/NK1h
+X-Google-Smtp-Source: APiQypJwBZtPSUr0xV11KSShVCW/zYq1yFidpq7771aSu2tj0+FCm+KBtIsogRN13H+I5nolL0c3Yg==
+X-Received: by 2002:a6b:7d4a:: with SMTP id d10mr4322758ioq.70.1588696765380;
+        Tue, 05 May 2020 09:39:25 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:3d8f:d2ff:4011:cd1a])
+        by smtp.gmail.com with ESMTPSA id u4sm1727293iop.1.2020.05.05.09.39.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 08:00:08 -0700 (PDT)
-Message-ID: <c87e24dbc0db75e91726ecb3a09c77de63dc4509.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v3] icu: upgrade 66.1 -> 67.1
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+        Tue, 05 May 2020 09:39:24 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Andrej Valek <andrej.valek@siemens.com>
-Date: Tue, 05 May 2020 16:00:07 +0100
-In-Reply-To: <20200501113952.15847-1-andrej.valek@siemens.com>
-References: <20200501082616.11296-1-andrej.valek@siemens.com>
-	 <20200501113952.15847-1-andrej.valek@siemens.com>
-User-Agent: Evolution 3.36.1-2 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] bitbake.conf: Prevent git from detecting parent repo in recipe
+Date: Tue,  5 May 2020 11:39:10 -0500
+Message-Id: <20200505163910.8822-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Fri, 2020-05-01 at 13:39 +0200, Andrej Valek wrote:
-> - 0001-icu-Added-armeb-support.patch - rebased
-> - 0001-Fix-big-endian-build.patch - removed, already included in new
-> version
-> - icu-pkgdata-large-cmd.patch - removed, implemented correct size
-> 
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Prevents git commands run in a recipe from moving up past ${WORKDIR}
+when searching for a .git directory, and thus prevents them from
+detecting the parent OE-core .git directory. Fixes several
+reproducibility issues where recipes would use the OE-core version as
+the recipe version due to git walking up the tree.
 
-This is failing to build on arm native machines:
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/conf/bitbake.conf | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/1187
-(and other arm native builds)
-
-Cheers,
-
-Richard
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 4b544a22cd..bdade79abe 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -718,6 +718,10 @@ export PKG_CONFIG_DISABLE_UNINSTALLED = "yes"
+ export PKG_CONFIG_SYSTEM_LIBRARY_PATH = "${base_libdir}:${libdir}"
+ export PKG_CONFIG_SYSTEM_INCLUDE_PATH = "${includedir}"
+ 
++# Don't allow git to chdir up past WORKDIR so that it doesn't detect the OE
++# repository when building a recipe
++export GIT_CEILING_DIRECTORIES = "${WORKDIR}"
++
+ ###
+ ### Config file processing
+ ###
+@@ -878,7 +882,7 @@ BB_HASHBASE_WHITELIST ?= "TMPDIR FILE PATH PWD BB_TASKHASH BBPATH BBSERVER DL_DI
+     WARN_QA ERROR_QA WORKDIR STAMPCLEAN PKGDATA_DIR BUILD_ARCH SSTATE_PKGARCH \
+     BB_WORKERCONTEXT BB_LIMITEDDEPS BB_UNIHASH extend_recipe_sysroot DEPLOY_DIR \
+     SSTATE_HASHEQUIV_METHOD SSTATE_HASHEQUIV_REPORT_TASKDATA \
+-    SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE"
++    SSTATE_HASHEQUIV_OWNER CCACHE_TOP_DIR BB_HASHSERVE GIT_CEILING_DIRECTORIES"
+ BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
+     SSH_AUTH_SOCK PSEUDO_BUILD BB_ENV_EXTRAWHITE DISABLE_SANITY_CHECKS \
+     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
+-- 
+2.17.1
 
