@@ -1,73 +1,88 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.4622.1588672686611538518
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web11.4740.1588673369651998143
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2020 02:58:06 -0700
+ Tue, 05 May 2020 03:09:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O+6WIRpF;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id u16so1606809wmc.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 02:58:06 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZpjE49Eh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id e16so2016788wra.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 03:09:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=Vmd0y7iAMfkBrVwSC79UL0hQ77EeZOK2jEB/+yRSx1w=;
-        b=O+6WIRpFlYjZpc6gSVAOnPFtJDXbIh9DFxpNAr2tDn1lbwqhX2h92PlvML3MiqKQs0
-         3s92yujIumvytr09B7J5E2gdAJq+XvTT3OQ6+B/eKqRoP1g93W7SkJnnBQn2ndbk2Vfd
-         c97PXRpIF+X1ssBo1BlcEaKFtUk8hESUZfmSw=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=zfikT2UwbbguNO1ljXjpad5z9yNAAgoWvq2iDCPFBXk=;
+        b=ZpjE49Ehs+SJQYjpxemQpAEvCuAwk9dIXmL63/E0E/nG8hSQ3CStX/eC3a8d9zd2ad
+         5x4wlpMfCiB11foO+9VOhsLbpkJXWShKN9wGn7GlzEpenrU9ZY6crsXUlYfwBZsJ0LLC
+         JN0N2FTrIiaVSHKdy8w75kliD480PYE54seyY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Vmd0y7iAMfkBrVwSC79UL0hQ77EeZOK2jEB/+yRSx1w=;
-        b=gKB3pIIDUxnW7sN0WoGII9FbFZyMohv1TkusGvkSW3fV7iSSLTdl7S+Db5/9oKKgCN
-         m3ZK26C5kVJNS7xmn9n1leXzTD39jS5izSUEEwrnTUPxheIUR1jYahfCsOAygUlD0NKG
-         MPk85ySNYJ956HoSGpTBSgll8MUs3Nby6jX85UBTEUx9HdSjZPI8jpHJedcG5Ox9VV9x
-         CBAVieAVzdA9I0IwcdkZhMFKDNdjhh8iUv2Et46luvYJdevM6uv814XIIK3kwG0C+LWR
-         222FrSlq+W0uDHH3Xn3y8QNHMh4vKbnxtU/4cndvC8NZgx0PQzmms3MRiQAOUphV7l81
-         eGJg==
-X-Gm-Message-State: AGi0PuYfGQObimSwCKPeIgGUbnsnTSLihhq4cCfBhBlWff/kYyP/NiU1
-	b/W+gpTu8TTHWQxHZpMAmYKthFKLYes=
-X-Google-Smtp-Source: APiQypLdLSNnz81uHfJOzPWey06fdd6Qk+evfQGNnylr5oHBH0V/nGXRaHSbiXQHKQi35paxwveJVg==
-X-Received: by 2002:a7b:c931:: with SMTP id h17mr2757296wml.105.1588672684693;
-        Tue, 05 May 2020 02:58:04 -0700 (PDT)
+        bh=zfikT2UwbbguNO1ljXjpad5z9yNAAgoWvq2iDCPFBXk=;
+        b=BX1SH5PSJMQO7EV5/FjM99b1sNFW29RxRuCjmLxS6/J15uuR45n47ghA7GYDeWQAy4
+         xgoSWQYmrPCTYKqoUhOZtqAKpfW6iVGV4uzOfCdTdPfI57ibMxzafAZj+UZEYHX48z6Q
+         rdBOFigeDKBrtdFXiNNAMwUeqLP+ym4mqpIxMt9uiPzM7snyIfHLQGxBvjZGxGPyDqn+
+         3O0fGWLu+Wt4Vuv86WgsUxGMJxqNQ8FErZ0o7RdQuqr8KTU7E+3hGhcH4PqDMaiG/IYx
+         2UzvVlKKcDEPMQvaamkgf4n6WFy57UiK29cAmLxay+CpHyyRGo7s7fEY9Xy0+kOBQLXT
+         6PmA==
+X-Gm-Message-State: AGi0Puakcag6dZ3WxIVmjTyDjvwDrZdNjo8m3wbLhYtP3lKUYcqArwBi
+	+OWu4/3RtuzaNjl50uKGj4S5HA==
+X-Google-Smtp-Source: APiQypKcFacCIVoV5zGBOrhs/FXgXDxAdPlDeV5TkVpDzi0wT5dxMLNr5iMYSyRyAroRjTuCEXFVAA==
+X-Received: by 2002:adf:e941:: with SMTP id m1mr2688526wrn.385.1588673368034;
+        Tue, 05 May 2020 03:09:28 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id u74sm3084170wmu.13.2020.05.05.02.58.03
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id n2sm2324019wrt.33.2020.05.05.03.09.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 02:58:04 -0700 (PDT)
-Message-ID: <0f91729190f8b3c6ad5f07eea053635450a2197b.camel@linuxfoundation.org>
-Subject: Re: [OE-core] superfluous usage of "INC_PR" in oe-core?
+        Tue, 05 May 2020 03:09:27 -0700 (PDT)
+Message-ID: <5dca9bf84a4bd0265beead352beac6af9c0d4919.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] icu: upgrade 66.1 -> 67.1
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 05 May 2020 10:58:03 +0100
-In-Reply-To: <alpine.LFD.2.21.2005031305110.653691@localhost.localdomain>
-References: <alpine.LFD.2.21.2005031305110.653691@localhost.localdomain>
+To: "Valek, Andrej" <andrej.valek@siemens.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 05 May 2020 11:09:26 +0100
+In-Reply-To: <AM6PR10MB3000B53772612F2BF2E835DB92A70@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
+References: <20200501082616.11296-1-andrej.valek@siemens.com>
+	 <AM6PR10MB3000A0A64DB428E5ED6F33D292AB0@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
+	 <CANNYZj-0k=gL0K6b5r5U4SJpRo-cnUNO7zymt4J43uzapH6JKA@mail.gmail.com>
+	 <AM6PR10MB3000922C3F644E6916BDE3C092AB0@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
+	 <CANNYZj8OcGr5911zfRXpKaEYY-3o_WJCoLZoybE+=863==L2tw@mail.gmail.com>
+	 <AM6PR10MB3000E49EE4C38CFA9947DDA492A80@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
+	 <AM6PR10MB30002791F30A5942D6CB496592A70@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
+	 <abf15032d9b14a18031f0c017ab422365d386930.camel@linuxfoundation.org>
+	 <AM6PR10MB3000B53772612F2BF2E835DB92A70@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
 User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2020-05-03 at 13:07 -0400, Robert P. J. Day wrote:
->   given my understanding of the rationale for INC_PR, it would seem
-> as
-> if at least *some* of these assignments are superfluous:
+On Tue, 2020-05-05 at 08:13 +0000, Valek, Andrej wrote:
+> I know, why the patch is failing, because of mixed line endings.
 > 
->   recipes-connectivity/connman/connman.inc:INC_PR = "r20"
->   recipes-graphics/xorg-driver/xorg-driver-common.inc:INC_PR = "r21"
->   recipes-graphics/xorg-xserver/xserver-xorg.inc:INC_PR = "r8"
->   recipes-graphics/xorg-font/font-alias_1.0.3.bb:PR = "${INC_PR}.3"
->   recipes-graphics/xorg-font/xorg-font-common.inc:INC_PR = "r2"
->   recipes-graphics/xorg-font/encodings_1.0.5.bb:PR = "${INC_PR}.1"
->   recipes-graphics/xorg-app/xorg-app-common.inc:INC_PR = "r8"
->   recipes-kernel/linux/linux-yocto.inc:INC_PR = "r4"
+> I have already created a PR, where all patches fit as well. So you
+> can take the patches from there instead of mailing list.
 
-This is a bit of a historical relic, I've sent a patch to clean it up.
+To be clear, I mean that I have a lot of requests from other people
+about failing patches. There is a kernel reproducible builds issue, a
+glib in meta-gplv2 issue, libinput, libacl-native and so on.
+
+With yours I understand it needs to come from a git repo. You're using
+github rather than poky-contrib so its not part of my normal workflow
+and I personally hate the github UI to review a patch.
+
+My point being I'll get to it but I'm struggling to keep up with the
+problems with the patches already in master-next and that having
+something outside "normal" just makes things harder and much as I wish
+otherwise, lower down the queue.
+
+Anyhow, I've added it locally so it will make the next round of testing
+as its easier to "sort this" than discuss it.
 
 Cheers,
 
 Richard
-
 
 
