@@ -1,157 +1,108 @@
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
- by mx.groups.io with SMTP id smtpd.web11.3116.1588661861460384618
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web12.3174.1588661869626251864
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 23:57:41 -0700
+ Mon, 04 May 2020 23:57:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.43, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: jyNGvPNPS9+NfZAjd/tY3GMpKQLeht5WMgmZ4vFzz/TkvyMjJx+tXvjP+dmejcLXvxKGuJVJU4
- WgOm7nhCx9Qg==
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: iDbrWqB785RA3v47vL72UNZNdOOXWAFz71uoACn90P61qpPHiLpPp99/5waKaRS/FzrIB+Rxn5
+ uAdXZE5w+uLw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:57:41 -0700
-IronPort-SDR: +F5EmxgCz2DH1AId8KxVQFS0i6gSMEf6znc4V7m/Nq81nZn0HGCg0IyblKI0PsKh/fk+bXOJri
- TBbuDQfrt7lQ==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:57:48 -0700
+IronPort-SDR: 2rVUAuUhJ+msFenPMMhhWIFZBd/t9T7ouvuXGWGod3SReN3o2q+eV6pYWAlbFZ9iH65uBfP9Gm
+ B14aV8OgYp2A==
 X-IronPort-AV: E=Sophos;i="5.73,354,1583222400"; 
-   d="scan'208";a="284144600"
+   d="scan'208";a="284144630"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.72.16])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:57:36 -0700
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:57:41 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][zeus 00/18] zeus patch review
-Date: Tue,  5 May 2020 14:56:35 +0800
-Message-Id: <cover.1588661196.git.anuj.mittal@intel.com>
+Subject: [PATCH][zeus 01/18] python3-native: Should not search the system for headers/libraries.
+Date: Tue,  5 May 2020 14:56:36 +0800
+Message-Id: <db8bef336849570dd99900b173c44cc47b208058.1588661196.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.4
+In-Reply-To: <cover.1588661196.git.anuj.mittal@intel.com>
+References: <cover.1588661196.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Next set of changes for zeus. Please review.
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 
-Thanks,
+The specific issue here is rpc/rpc.h, but its likely more general.
+/usr/include is searched for rpc/rpc.h and if it exists on the
+system, it changes behavior. If you are using the extended buildtools
+tarball on a machine that has /usr/include/rpc/rpc.h, it will decide
+that is good enough and not continue to search. nis fails to build
+because /usr/include and /usr/lib are not part of the include/link
+paths for the buildtools tarball compiler(nor should they be).
 
-Anuj
+This makes it so python3-native will not build if you are using the
+extended buildtools tarball, but from a larger issue perspective it
+is building in likely different ways depending on what machine it
+is building on.
 
-The following changes since commit bd3e0d724004a346921a25defa6d812d48d6108a:
+libtirpc is already a depend so we shouldn't need the hosts rpc/rcp.h.
 
-  openssl: update to 1.1.1f (2020-04-20 19:26:57 -0700)
+(From OE-Core rev: f37dfc7907ae7bac08d40468ddde2e5b8bba030c)
 
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/zeus
-
-Adrian Bunk (1):
-  python: Upgrade 2.7.17 -> 2.17.18
-
-Alex Kiernan (1):
-  gnutls: upgrade 3.6.8 -> 3.6.11.1
-
-Alexander Kanavin (1):
-  gnutls: upgrade 3.6.11.1 -> 3.6.12
-
-Changqing Li (1):
-  qemu: fix CVE-2020-7039
-
-Chee Yang Lee (1):
-  qemu/slirp: fix CVE-2020-7211
-
-Jan Luebbe (2):
-  apt-native: don't let dpkg overwrite files by default
-  openssl: upgrade 1.1.1f -> 1.1.1g
-
-Jeremy Puhlman (1):
-  python3-native: Should not search the system for headers/libraries.
-
-Khem Raj (1):
-  qemu: Replace stime() API with clock_settime
-
-Lee Chee Yang (1):
-  cve-update-db-native: clean DB if temporary file exist
-
-Li Zhou (2):
-  git: Security Advisory - git - CVE-2020-5260
-  git: Security Advisory - git - CVE-2020-11008
-
-Martin Jansa (1):
-  prservice.py: fix do_package with newer Python in Ubuntu 20.04
-
-Wang Mingyu (2):
-  gnupg: upgrade 2.2.17 -> 2.2.19
-  gnutls: upgrade 3.6.12 -> 3.6.13
-
-Zhixiong Chi (1):
-  glibc: CVE-2020-1751
-
-haiqing (1):
-  qemu: Add PACKAGECONFIG for glusterfs
-
-wenlin.kang@windriver.com (1):
-  systemd: Fix CVE-2020-1712
-
- meta/lib/oe/prservice.py                      |   4 +
- .../{openssl_1.1.1f.bb => openssl_1.1.1g.bb}  |   2 +-
- .../glibc/glibc/CVE-2020-1751.patch           |  70 +++
- meta/recipes-core/glibc/glibc_2.30.bb         |   1 +
- .../recipes-core/meta/cve-update-db-native.bb |   9 +-
- .../0001-Merge-branch-polkit-ref-count.patch  | 520 ++++++++++++++++++
- meta/recipes-core/systemd/systemd_243.2.bb    |   1 +
- meta/recipes-devtools/apt/files/apt.conf      |   2 +-
- meta/recipes-devtools/git/git.inc             |  16 +-
- ...ial-use-test_i18ncmp-to-check-stderr.patch |  35 ++
- ...t-unrepresentable-values-when-parsin.patch | 156 ++++++
- ...tmodules-URLs-with-embedded-newlines.patch | 103 ++++
- .../git/git/CVE-2020-11008-1.patch            |  70 +++
- .../git/git/CVE-2020-11008-2.patch            | 292 ++++++++++
- .../git/git/CVE-2020-11008-3.patch            |  97 ++++
- .../git/git/CVE-2020-11008-4.patch            | 173 ++++++
- .../git/git/CVE-2020-11008-5.patch            | 211 +++++++
- .../git/git/CVE-2020-11008-6.patch            |  84 +++
- .../git/git/CVE-2020-11008-7.patch            | 206 +++++++
- .../git/git/CVE-2020-11008-8.patch            | 114 ++++
- .../git/git/CVE-2020-11008-9.patch            | 114 ++++
- .../git/git/CVE-2020-5260.patch               |  65 +++
- ...tive_2.7.17.bb => python-native_2.7.18.bb} |   0
- meta/recipes-devtools/python/python.inc       |   6 +-
- ...-search-system-for-headers-libraries.patch |  29 +
- meta/recipes-devtools/python/python3_3.7.7.bb |   1 +
- .../{python_2.7.17.bb => python_2.7.18.bb}    |   0
- meta/recipes-devtools/qemu/qemu.inc           |   6 +
- ...linux-user-remove-host-stime-syscall.patch |  61 ++
- .../qemu/qemu/CVE-2020-7039-1.patch           |  44 ++
- .../qemu/qemu/CVE-2020-7039-2.patch           |  59 ++
- .../qemu/qemu/CVE-2020-7039-3.patch           |  64 +++
- .../qemu/qemu/CVE-2020-7211.patch             |  46 ++
- .../{gnupg_2.2.17.bb => gnupg_2.2.19.bb}      |   4 +-
- .../gnutls/gnutls/posix-shell.patch           |  39 --
- .../{gnutls_3.6.8.bb => gnutls_3.6.13.bb}     |   5 +-
- 36 files changed, 2658 insertions(+), 51 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb} (98%)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-1751.patch
- create mode 100644 meta/recipes-core/systemd/systemd/0001-Merge-branch-polkit-ref-count.patch
- create mode 100644 meta/recipes-devtools/git/git/0001-t-lib-credential-use-test_i18ncmp-to-check-stderr.patch
- create mode 100644 meta/recipes-devtools/git/git/0002-credential-detect-unrepresentable-values-when-parsin.patch
- create mode 100644 meta/recipes-devtools/git/git/0003-fsck-detect-gitmodules-URLs-with-embedded-newlines.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-1.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-2.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-3.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-4.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-5.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-6.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-7.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-8.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2020-11008-9.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2020-5260.patch
- rename meta/recipes-devtools/python/{python-native_2.7.17.bb => python-native_2.7.18.bb} (100%)
+Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 400743867de587579dee85388c30190f353f80c8)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ ...-search-system-for-headers-libraries.patch | 29 +++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.7.7.bb |  1 +
+ 2 files changed, 30 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
- rename meta/recipes-devtools/python/{python_2.7.17.bb => python_2.7.18.bb} (100%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0011-linux-user-remove-host-stime-syscall.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-1.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-2.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7039-3.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch
- rename meta/recipes-support/gnupg/{gnupg_2.2.17.bb => gnupg_2.2.19.bb} (93%)
- delete mode 100644 meta/recipes-support/gnutls/gnutls/posix-shell.patch
- rename meta/recipes-support/gnutls/{gnutls_3.6.8.bb => gnutls_3.6.13.bb} (92%)
 
+diff --git a/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch b/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
+new file mode 100644
+index 0000000000..acf8e1e9b5
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-Don-t-search-system-for-headers-libraries.patch
+@@ -0,0 +1,29 @@
++From 85e8f86ad2b7dec0848cd55b8e810a5e2722b20a Mon Sep 17 00:00:00 2001
++From: Jeremy Puhlman <jpuhlman@mvista.com>
++Date: Wed, 4 Mar 2020 00:06:42 +0000
++Subject: [PATCH] Don't search system for headers/libraries
++
++Upstream-Status: Inappropriate [oe-core specific]
++Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
++---
++ setup.py | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/setup.py b/setup.py
++index 9da1b3a..59782c0 100644
++--- a/setup.py
+++++ b/setup.py
++@@ -674,8 +674,8 @@ class PyBuildExt(build_ext):
++             add_dir_to_list(self.compiler.include_dirs,
++                             sysconfig.get_config_var("INCLUDEDIR"))
++ 
++-        system_lib_dirs = ['/lib64', '/usr/lib64', '/lib', '/usr/lib']
++-        system_include_dirs = ['/usr/include']
+++        system_lib_dirs = []
+++        system_include_dirs = []
++         # lib_dirs and inc_dirs are used to search for files;
++         # if a file is found in one of those directories, it can
++         # be assumed that no additional -I,-L directives are needed.
++-- 
++2.24.1
++
+diff --git a/meta/recipes-devtools/python/python3_3.7.7.bb b/meta/recipes-devtools/python/python3_3.7.7.bb
+index 823eb2f8fd..0a78cdab44 100644
+--- a/meta/recipes-devtools/python/python3_3.7.7.bb
++++ b/meta/recipes-devtools/python/python3_3.7.7.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+ SRC_URI_append_class-native = " \
+            file://0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch \
+            file://12-distutils-prefix-is-inside-staging-area.patch \
++           file://0001-Don-t-search-system-for-headers-libraries.patch \
+            "
+ SRC_URI_append_class-nativesdk = " \
+            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
 -- 
 2.25.4
 
