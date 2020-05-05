@@ -1,175 +1,122 @@
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
- by mx.groups.io with SMTP id smtpd.web11.1511.1588648850085055500
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.1514.1588648853171284071
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 20:20:50 -0700
+ Mon, 04 May 2020 20:20:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=FLS2GtFn;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.194, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f194.google.com with SMTP id t16so249549plo.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:20:50 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=wAfWpHBX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.50, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f50.google.com with SMTP id ms17so402884pjb.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:20:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=M9xkv5PJNukQ94LWZzdYhzVRSyzNSZoA1p6MCRlN02U=;
-        b=FLS2GtFn6G7/VEqM3trrRa2uMWBTZTR1IyfBrw3UNWJHvNPIUZ7zgWSOoiaFkrnWVl
-         WtvCQ627+W4vKEB7XU0ndV1CCGIEdYpvjZFHhkemfsPzhQ2ixGpge55vAYT8rQA+qjB8
-         /MP+qkTIQl97zczlYY4OQbJPRqCP7/Ti+lhXPR/IpeMjq+YSxIZmyGOLxY+Nyoi8wUZI
-         RF2kjUpsWPPMjvemJgcj4Ze+gBNlycOt3JL48LZu2/WjRamjcT28lG+AnF2rFUEgA2yk
-         i0ne6p95zEt1xouI1Nxdh2ufZ2NgXgHE0zaYxALGJVgjoyIY0x4P7z6g9g+whcfXERPe
-         Mndw==
+        bh=zS2NzNQ7DZzgdJXcc0hFivdufXydMmA+AxDklIUKpv0=;
+        b=wAfWpHBXZUW748Jk/DRsSGPWbSHh5R1z/siqXBjgdKngugxlaFEofoTqKqQEK7w0oi
+         N9OdsPuh7eVHjvuhL6fus6PAINmYl+CvOUmu2gmU9RRZq7O/qnu83IdWT3YlkB3Ql0OC
+         e+DSPZF45T/iRVmStr3LChAbwTIsfxpUj7gfi+HTS/MQMTybCxNn6OuxFfpzd4xJnw2n
+         POBqJshzlxkQQ8gM8N7rynsy4JO3VX2GOk3w8XI+Y2+zsK2uU5WiOGOjNp34eZhG5gyy
+         WF55tUwabC6YcrItHF+Yt8OXraBRx+CQm0+GLQdELdDXdpCaVAp3rVAmKjNumYTIhido
+         8xWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=M9xkv5PJNukQ94LWZzdYhzVRSyzNSZoA1p6MCRlN02U=;
-        b=SkwTlrkAeRORDdoilLi6mr586rNve4PgFEk8bJ7Rb9En5YOzjQbN0GdLKJpbinVIPW
-         BEx1aR/R9pQh7JjDw3a8FSnUGBpaFscLtRX70Pf6S+EG1TCo99dxG0RSMhmBN1eVa+zw
-         5AYdcrm4uPWOyw9U1JbwIsMv26wIAyrbQI5/FpnW95Uznf1CaNIu2hSu3zeuveF7a4a6
-         qBqAnRMaQZiIjnSSjK8mb90bOQ0nrS+j5OfHF8yA5MIJ/ujpezMJ7hrDOSbobI48vVr+
-         zv+MnKj/m0WpVLFY5vxzhfwtgTsoMHnbGsoZTfyUMrtSNGg0CY3CHEsLuH+ay17jJaKW
-         80Og==
-X-Gm-Message-State: AGi0PubKglIpM74tEW9LG8GwdPFvJ40Z1oi4G491kRe+tSmSqGcR8tHE
-	tsOb6fuZBTUKajXRzz0mNZolcSL64KRTuQ==
-X-Google-Smtp-Source: APiQypJAWHs6BPBPNEWifYIG1l6LLV2ThgofbGg68X8Q5+6DMgu1qXno+zgWaLJetzEyEFtNKabLwQ==
-X-Received: by 2002:a17:90a:ac02:: with SMTP id o2mr329065pjq.140.1588648848963;
-        Mon, 04 May 2020 20:20:48 -0700 (PDT)
+        bh=zS2NzNQ7DZzgdJXcc0hFivdufXydMmA+AxDklIUKpv0=;
+        b=fO2uy3WSSvSSGD6Pyza19LJQXLBuoGYC0CREiG+JTTomAwdvCeElwa6GuuqDcOfb6R
+         2nXpLv2Xb0tVffTTj4JKIiaESir5enl/dEVUMlrm3Qu5FZFo0ZL9sG4NAxhiPEwtwjbY
+         DC/P16PU4zNInxydYa1fw8o+PZ7HI08NyjdW9kkVd3pJA5tosjm6UKnt4v+LK2AzeOsf
+         S+Qw4hImYDUxkZfAw2v3sBd1AfnaeosqueWUDeibwzvDPS2TCm9KrTKlYwzn0p4x//yJ
+         3Rh0d74qAevpEg3x4+vfx6kerWNsO4+U2/BgV2d2GmzLOhz5bby8r8+lIAnTsteVz5ay
+         NYFA==
+X-Gm-Message-State: AGi0PubTeXlbrrx6sOCG4f3lKD24TEDx1aYenljiuQ7SypkFiM/oWVqa
+	fFGY+plgSBepjlFN0l1Gc56cbf3yj4TKLQ==
+X-Google-Smtp-Source: APiQypKOV6cmyhWLVisYBNuEWNFrL9Yy1228laL4ZUQ4kSBzrfYwxSO44BfT0qHcttM9Ddxw5L7GpQ==
+X-Received: by 2002:a17:90a:db46:: with SMTP id u6mr323524pjx.15.1588648852077;
+        Mon, 04 May 2020 20:20:52 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.20.47
+        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.20.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 20:20:48 -0700 (PDT)
+        Mon, 04 May 2020 20:20:51 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 17/28] oeqa/selftest: Add test for conflicting sysroot provider
-Date: Mon,  4 May 2020 17:19:12 -1000
-Message-Id: <31a8b4935e673aba8a1147c4a2fb510b1a8bc3ce.1588638879.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 18/28] staging: Fix overlapping file failures
+Date: Mon,  4 May 2020 17:19:13 -1000
+Message-Id: <86f36e3f93cdb2f5882b72e736a770aa6f46100d.1588638879.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1588638879.git.steve@sakoman.com>
 References: <cover.1588638879.git.steve@sakoman.com>
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-sysroot-test depends on virtual/sysroot-test which we build for one machine,
-switch machine, switch provider of virtual/sysroot-test and check that the
-sysroot is correctly cleaned up. The files in the two providers overlap
-so can cause errors if the sysroot code doesn't function correctly.
+If there are different providers of a file and they are swiched when the
+recipe isn't machine specific, we can get tracebacks due to the overlapping
+files. The issue is that the previous provider isn't uninstalled since
+the system can't tell whether some later task needs them.
 
-Yes, sysroot-test should be machine specific really to avoid this, however
-the sysroot cleanup should also work.
+By tracking which tasks we depend upon, the code can now choose to
+uninstall more things since a later task can reinstall if/as needed.
 
-This adds a test for bug:
+The code here was to protect against code with two different tasks
+running in parallel which is still protected agaisnt.
 
 [YOCTO #13702]
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../sysroot-test/sysroot-test-arch1_1.0.bb    | 14 +++++++
- .../sysroot-test/sysroot-test-arch2_1.0.bb    | 14 +++++++
- .../sysroot-test/sysroot-test_1.0.bb          |  6 +++
- meta/lib/oeqa/selftest/cases/sysroot.py       | 37 +++++++++++++++++++
- 4 files changed, 71 insertions(+)
- create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-test-arch1_1.0.bb
- create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-test-arch2_1.0.bb
- create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-test_1.0.bb
- create mode 100644 meta/lib/oeqa/selftest/cases/sysroot.py
+ meta/classes/staging.bbclass | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/sysroot-test/sysroot-test-arch1_1.0.bb b/meta-selftest/recipes-test/sysroot-test/sysroot-test-arch1_1.0.bb
-new file mode 100644
-index 0000000000..36a682c53d
---- /dev/null
-+++ b/meta-selftest/recipes-test/sysroot-test/sysroot-test-arch1_1.0.bb
-@@ -0,0 +1,14 @@
-+LICENSE = "CLOSED"
-+
-+PROVIDES = "virtual/sysroot-test"
-+INHIBIT_DEFAULT_DEPS = "1"
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+TESTSTRING ?= "1"
-+
-+do_install() {
-+	install -d ${D}${includedir}
-+	echo "# test ${TESTSTRING}" > ${D}${includedir}/sysroot-test.h
-+}
-+
-+EXCLUDE_FROM_WORLD = "1"
-diff --git a/meta-selftest/recipes-test/sysroot-test/sysroot-test-arch2_1.0.bb b/meta-selftest/recipes-test/sysroot-test/sysroot-test-arch2_1.0.bb
-new file mode 100644
-index 0000000000..67172f3cab
---- /dev/null
-+++ b/meta-selftest/recipes-test/sysroot-test/sysroot-test-arch2_1.0.bb
-@@ -0,0 +1,14 @@
-+LICENSE = "CLOSED"
-+
-+PROVIDES = "virtual/sysroot-test"
-+INHIBIT_DEFAULT_DEPS = "1"
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
-+TESTSTRING ?= "2"
-+
-+do_install() {
-+	install -d ${D}${includedir}
-+	echo "# test ${TESTSTRING}" > ${D}${includedir}/sysroot-test.h
-+}
-+
-+EXCLUDE_FROM_WORLD = "1"
-diff --git a/meta-selftest/recipes-test/sysroot-test/sysroot-test_1.0.bb b/meta-selftest/recipes-test/sysroot-test/sysroot-test_1.0.bb
-new file mode 100644
-index 0000000000..560487c159
---- /dev/null
-+++ b/meta-selftest/recipes-test/sysroot-test/sysroot-test_1.0.bb
-@@ -0,0 +1,6 @@
-+SUMMARY = "Virtual provider sysroot test"
-+LICENSE = "CLOSED"
-+INHIBIT_DEFAULT_DEPS = "1"
-+DEPENDS = "virtual/sysroot-test"
-+
-+EXCLUDE_FROM_WORLD = "1"
-diff --git a/meta/lib/oeqa/selftest/cases/sysroot.py b/meta/lib/oeqa/selftest/cases/sysroot.py
-new file mode 100644
-index 0000000000..6e34927c90
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/sysroot.py
-@@ -0,0 +1,37 @@
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+import uuid
-+
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import  bitbake
-+
-+class SysrootTests(OESelftestTestCase):
-+    def test_sysroot_cleanup(self):
-+        """
-+        Build sysroot test which depends on virtual/sysroot-test for one machine,
-+        switch machine, switch provider of virtual/sysroot-test and check that the
-+        sysroot is correctly cleaned up. The files in the two providers overlap
-+        so can cause errors if the sysroot code doesn't function correctly.
-+        Yes, sysroot-test should be machine specific really to avoid this, however
-+        the sysroot cleanup should also work [YOCTO #13702]. 
-+        """
-+
-+        uuid1 = uuid.uuid4()
-+        uuid2 = uuid.uuid4()
-+
-+        self.write_config("""
-+PREFERRED_PROVIDER_virtual/sysroot-test = "sysroot-test-arch1"
-+MACHINE = "qemux86"
-+TESTSTRING_pn-sysroot-test-arch1 = "%s"
-+TESTSTRING_pn-sysroot-test-arch2 = "%s"
-+""" % (uuid1, uuid2))
-+        bitbake("sysroot-test")
-+        self.write_config("""
-+PREFERRED_PROVIDER_virtual/sysroot-test = "sysroot-test-arch2"
-+MACHINE = "qemux86copy"
-+TESTSTRING_pn-sysroot-test-arch1 = "%s"
-+TESTSTRING_pn-sysroot-test-arch2 = "%s"
-+""" % (uuid1, uuid2))
-+        bitbake("sysroot-test")
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 5dab42745f..5b04f88b2d 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -277,11 +277,13 @@ python extend_recipe_sysroot() {
+ 
+     start = None
+     configuredeps = []
++    owntaskdeps = []
+     for dep in taskdepdata:
+         data = taskdepdata[dep]
+         if data[1] == mytaskname and data[0] == pn:
+             start = dep
+-            break
++        elif data[0] == pn:
++            owntaskdeps.append(data[1])
+     if start is None:
+         bb.fatal("Couldn't find ourself in BB_TASKDEPDATA?")
+ 
+@@ -427,7 +429,7 @@ python extend_recipe_sysroot() {
+                         # Was likely already uninstalled
+                         continue
+                     potential.append(l)
+-        # We need to ensure not other task needs this dependency. We hold the sysroot
++        # We need to ensure no other task needs this dependency. We hold the sysroot
+         # lock so we ca search the indexes to check
+         if potential:
+             for i in glob.glob(depdir + "/index.*"):
+@@ -435,6 +437,11 @@ python extend_recipe_sysroot() {
+                     continue
+                 with open(i, "r") as f:
+                     for l in f:
++                        if l.startswith("TaskDeps:"):
++                            prevtasks = l.split()[1:]
++                            if mytaskname in prevtasks:
++                                # We're a dependency of this task so we can clear items out the sysroot
++                                break
+                         l = l.strip()
+                         if l in potential:
+                             potential.remove(l)
+@@ -588,6 +595,7 @@ python extend_recipe_sysroot() {
+         os.symlink(manifests[dep], depdir + "/" + c + ".complete")
+ 
+     with open(taskindex, "w") as f:
++        f.write("TaskDeps: " + " ".join(owntaskdeps) + "\n")
+         for l in sorted(installed):
+             f.write(l + "\n")
+ 
 -- 
 2.17.1
 
