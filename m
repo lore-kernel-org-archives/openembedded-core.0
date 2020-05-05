@@ -1,83 +1,112 @@
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web10.1504.1588648825272141451
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.1505.1588648828241795886
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 20:20:25 -0700
+ Mon, 04 May 2020 20:20:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=r8xrQCCf;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id q124so389036pgq.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:20:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=zfO+Uxkw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id 145so195333pfw.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 May 2020 20:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=6A3ZNSUqX/MSiDyteDiqEvjFgdITxMavIyie0vx+va4=;
-        b=r8xrQCCffCaWQW5RvnmnlrBBgL0agl+IxPJMNTHby18z1LZJa2YU5IExd4HtYElzGt
-         0BVpffPY9e+r85jz19EsWf8G/sImzXUy7TYQimXLyZ9d6+Ercik8Cb2A8aNYh90wMDrP
-         sC9ms569Q1+zVly/C/dX+yc873Ux9xVBTJEwTyX6mjbAIBdUcTlJU2aG65/F9KO6civ/
-         kRFtyxTIUHRTpQ/KBzJMCGANcGTOfyYgSErQOacckSEHfWWoO1MfLqnFcECGfYJhIoEd
-         cn1LQAdCVvN1iQ3MAoC6So7Kzrr7We1EqN1DwTVTPt/+sReCETIs6SKQBXt4tFxK3JgC
-         WVHA==
+        bh=El4KXtogO5bUlBYbLzguW7g5G0Ueciz0LK5eNvv+xg8=;
+        b=zfO+UxkwfHlA/dM//4zgKVhxdvUB5DGBsRr0jgmZbYs66Xl323wbwE9KxrACw+eKNb
+         TB/3vyA9NqxarkIRtFtBZnD078aQt1FIkZJZjxdjyaHySF1xdi2t+1MOkEnRC+qFUNN/
+         803pZ5HVNuJc3n/BUoxr3EvbaPguxuDCRTohXQT+MFvPeYEOISkmKENYQLhAieVhHBq/
+         66ej3QGZ5O/mJw3/B77q4VAgscZ2VdFggBpOxsHmm+ZkztOK1bcMw4i21F1ieR4j3A5q
+         ZRYNQ0qAItDo9evXtSp0zZEGdkz5Yg/2touLK0kaOodVx1ZNOCDu5+Vh11wV2btKoLGk
+         wduw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=6A3ZNSUqX/MSiDyteDiqEvjFgdITxMavIyie0vx+va4=;
-        b=rx59BlHJv+CaYPp3tWr4BbldVcl44nHKpEkj7TYZMjs9J5ssExJuTL1Nqzc+CqBh/q
-         y7GEFxo5ehG7TPpMREv5/3+17LRgmL/O69i3qNkBfweCT013/C/SBboe3DbE5UOI+GdQ
-         UEfk48lIeM+oXXY+MeTA0Wtpwmdk5YK+qfpFaZOFVm6PkwDueEH+UL8XBCg9vPfPaeIX
-         wj0jovTgNTUkJlS6LTAnByuiVV2xBDrtfTNVaOATJdLBT0jqi12V1XY1zKFsLlsYiwXi
-         MtS8D5R3qUpZXAxuFzZIOca7KFKJ84ne8HjeIfGYvOR4I99s9Jg0dhgii0WCSpcuTTBx
-         c6Iw==
-X-Gm-Message-State: AGi0PuZ3vZYhYvoxKUVynShnjqZDuU47E0OcfpvR3gj9orWBMeNvnwpJ
-	u/bc5e5pKFl3ZqaKonp72jzccMSP6cfu9Q==
-X-Google-Smtp-Source: APiQypJcHgO/7oT3u0NZcPbqkxG1PknhEwa+B2+ias0xIbAteENTM0fpFVwqqn6qhzqVkznYuI/PSQ==
-X-Received: by 2002:a63:2b58:: with SMTP id r85mr1204690pgr.107.1588648824331;
-        Mon, 04 May 2020 20:20:24 -0700 (PDT)
+        bh=El4KXtogO5bUlBYbLzguW7g5G0Ueciz0LK5eNvv+xg8=;
+        b=fREvQpJti+DflbIpByk1rYKBSJW7tjxoX/o68dbaaZ6jZeT7d2GIg5kQw0TZwBrfYR
+         yKydIAolGK7x1VHxk0eiWY1Ow9L2T+EjJA9b+VcFPB1C78KKwQk/wMvPx96fec28TlHV
+         6oHWxw5BRBJnuKPos0LRlYx+OHcRA49FkF3z8AsT805gwjmWavbJH2ROAv/QcgM6YXyA
+         GsTLfaQaTQxlkgGQ88jiYvRSucqdQ1aqgROGSt/dha4kDSM0UMz7Ty7YF8vls3LvdSmr
+         ppmyqRiL0jf2H0hCXEKLsav5G0gjeSVli+i10UTxqj3YpSWDBhjC+DT+UMfntYNAy4zf
+         UIjg==
+X-Gm-Message-State: AGi0PuaSj9sq71wRbJHeAXPkjZHcWUb29/srA6xZ2cuHYCtreJVKp9g1
+	/Gy/JydaqAfL10T86D5Xd3LS2DSrLZOIWA==
+X-Google-Smtp-Source: APiQypL4tSyZDFPHxkYUhjxLGy8Zbb5k35PTuvBCj0ihtaRMDa19Qy1TsG1cYXwPoyCgQ1eBAE0QmQ==
+X-Received: by 2002:a63:6747:: with SMTP id b68mr1274969pgc.142.1588648827304;
+        Mon, 04 May 2020 20:20:27 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.20.23
+        by smtp.gmail.com with ESMTPSA id 20sm503379pfx.116.2020.05.04.20.20.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 20:20:23 -0700 (PDT)
+        Mon, 04 May 2020 20:20:26 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/28] binutils: Install PIC version of libiberty.a
-Date: Mon,  4 May 2020 17:19:04 -1000
-Message-Id: <4e64f0bc62fd81f91d75a1f46230fff7c71650e2.1588638879.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/28] insane.bbclass: Add test for shebang line length
+Date: Mon,  4 May 2020 17:19:05 -1000
+Message-Id: <9ed54437b00aed1d41993f7658820d8adfb09282.1588638879.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1588638879.git.steve@sakoman.com>
 References: <cover.1588638879.git.steve@sakoman.com>
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Domarys Correa <domarys.correa@ossystems.com.br>
 
-some architectures e.g. mips complain in linking apps which have shared
-libs that are linking with libiberty.a fixes errors like below
+Shebang lines longer than 128 characters can give an error
+depending on the operating system.
+This implements a test that signals an error when locating a
+faulty shebang.
 
-libiberty/../../libiberty/hashtab.c:285:(.text+0xf8): relocation R_MIPS_26 against `htab_create_typed_alloc' cannot be used when making a shared object; recompile with -fPIC
+YOCTO: #11053
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Domarys Correa <domarys.correa@ossystems.com.br>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/binutils/binutils.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/classes/insane.bbclass | 25 ++++++++++++++++++++++++-
+ 1 file changed, 24 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 4119960c63..e93cd50b20 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -152,6 +152,11 @@ do_install () {
- 	install -m 644 ${S}/include/ansidecl.h ${D}${includedir}
- 	install -m 644 ${S}/include/libiberty.h ${D}${includedir}
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 478240fa57..7fc8f33a98 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -35,7 +35,7 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             split-strip packages-list pkgv-undefined var-undefined \
+             version-going-backwards expanded-d invalid-chars \
+             license-checksum dev-elf file-rdeps configure-unsafe \
+-            configure-gettext perllocalpod \
++            configure-gettext perllocalpod shebang-size \
+             "
+ # Add usrmerge QA check based on distro feature
+ ERROR_QA_append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
+@@ -83,6 +83,29 @@ def package_qa_add_message(messages, section, new_msg):
+     else:
+         messages[section] = messages[section] + "\n" + new_msg
  
-+	# insall pic version of libiberty if available
-+        if [ -e ${B}/libiberty/pic/libiberty.a ]; then
-+		install -Dm 0644 ${B}/libiberty/pic/libiberty.a ${D}${libdir}/libiberty.a
-+	fi
++QAPATHTEST[shebang-size] = "package_qa_check_shebang_size"
++def package_qa_check_shebang_size(path, name, d, elf, messages):
++    if os.path.islink(path) or elf:
++        return
 +
- 	cd ${D}${bindir}
++    try:
++        with open(path, 'rb') as f:
++            stanza = f.readline(130)
++    except IOError:
++        return
++
++    if stanza.startswith(b'#!'):
++        #Shebang not found
++        try:
++            stanza = stanza.decode("utf-8")
++        except UnicodeDecodeError:
++            #If it is not a text file, it is not a script
++            return
++
++        if len(stanza) > 129:
++            package_qa_add_message(messages, "shebang-size", "%s: %s maximum shebang size exceeded, the maximum size is 128." % (name, package_qa_clean_path(path, d)))
++            return
++
+ QAPATHTEST[libexec] = "package_qa_check_libexec"
+ def package_qa_check_libexec(path,name, d, elf, messages):
  
- 	# Symlinks for ease of running these on the native target
 -- 
 2.17.1
 
