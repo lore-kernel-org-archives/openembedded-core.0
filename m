@@ -1,115 +1,118 @@
 Received: from mga14.intel.com (mga14.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.3193.1588661906694787605
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 May 2020 23:58:36 -0700
+ Mon, 04 May 2020 23:58:37 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: bbi/ZdlRYSirT0mgTxTDHpIXfyQY0F7wZjSG8YUW0npEPNCy6aqDJhW7Fh7WIKBbWEOPuxtTin
- C2hYSzY2F+JA==
+IronPort-SDR: ekCxWYdX6NWK0N8iOAm+qBPofKcSdALe1Jeni2erTijvPVQO0Q0uniCkBmmmmNvPIl/IRyVLNt
+ M7AFE5E4/DDw==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:58:36 -0700
-IronPort-SDR: 4bsGny6mOaAp7UfwCtyVP7eR0FypQszDVoXl/s7Hr+cJ3Kieb4CqiMY1jj1XACesOJFhPM2ML3
- GoKy2iJC1RwQ==
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:58:37 -0700
+IronPort-SDR: IhZde9LSBfxBKGSPaT0fM9FN2zQQfbmR76KyyMt5Eid3YME4e8DfTev42/ZfhMo2J4rDq1nC/3
+ meQIAWyo4f7w==
 X-IronPort-AV: E=Sophos;i="5.73,354,1583222400"; 
-   d="scan'208";a="284144822"
+   d="scan'208";a="284144834"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.72.16])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:58:34 -0700
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2020 23:58:36 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH][zeus 13/18] qemu/slirp: fix CVE-2020-7211
-Date: Tue,  5 May 2020 14:56:48 +0800
-Message-Id: <c68323151b9bafb5f52dda6a4bd11712feff2e83.1588661196.git.anuj.mittal@intel.com>
+Subject: [PATCH][zeus 14/18] gnutls: upgrade 3.6.8 -> 3.6.11.1
+Date: Tue,  5 May 2020 14:56:49 +0800
+Message-Id: <f4f933297a77f99783f9a5fb571503e1f45ad259.1588661196.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1588661196.git.anuj.mittal@intel.com>
 References: <cover.1588661196.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
 
-fix CVE-2020-7211 for qemu slirp submodule
-see :
-https://www.openwall.com/lists/oss-security/2020/01/17/2
-https://gitlab.freedesktop.org/slirp/libslirp/commit/14ec36e107a8c9af7d0a80c3571fe39b291ff1d4
+Drop patch from 81485be19b18 ("gnutls: don't use HOSTTOOLS_DIR/bash as a
+shell on target") as upstream now honours POSIX_SHELL when set as the
+primary target shell.
 
-(From OE-Core rev: 31362d739834377ac4ab880029c3e3dda0cd7698)
+(From OE-Core rev: bc487ced3be40569157fb40c99bfa68871f74744)
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2020-7211.patch             | 46 +++++++++++++++++++
- 2 files changed, 47 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch
+ .../gnutls/gnutls/posix-shell.patch           | 39 -------------------
+ .../{gnutls_3.6.8.bb => gnutls_3.6.11.1.bb}   |  5 +--
+ 2 files changed, 2 insertions(+), 42 deletions(-)
+ delete mode 100644 meta/recipes-support/gnutls/gnutls/posix-shell.patch
+ rename meta/recipes-support/gnutls/{gnutls_3.6.8.bb => gnutls_3.6.11.1.bb} (92%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 22cb10b1c2..ba31c3ba60 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -35,6 +35,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2020-7039-1.patch \
-            file://CVE-2020-7039-2.patch \
-            file://CVE-2020-7039-3.patch \
-+	   file://CVE-2020-7211.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-support/gnutls/gnutls/posix-shell.patch b/meta/recipes-support/gnutls/gnutls/posix-shell.patch
+deleted file mode 100644
+index 938e2d1e18..0000000000
+--- a/meta/recipes-support/gnutls/gnutls/posix-shell.patch
++++ /dev/null
+@@ -1,39 +0,0 @@
+-Don't embed the path to the build-time POSIX shell as this will be
+-$TMPDIR/hosttools/bash, which is no good on the target.
+-
+-Instead default to /bin/sh but allow it to be set in the environment.
+-
+-This isn't really upstreamable but I filed a bug at
+-https://gitlab.com/gnutls/gnutls/issues/807 and hope a proper fix will be
+-integrated.
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/src/libopts/m4/libopts.m4 b/src/libopts/m4/libopts.m4
+-index c6ad738..a62faca 100644
+---- a/src/libopts/m4/libopts.m4
+-+++ b/src/libopts/m4/libopts.m4
+-@@ -112,21 +112,7 @@ AC_DEFUN([INVOKE_LIBOPTS_MACROS_FIRST],[
+-   AC_CHECK_FUNCS([mmap canonicalize_file_name snprintf strdup strchr \
+-                  strrchr strsignal fchmod fstat chmod])
+-   AC_PROG_SED
+--  [while :
+--  do
+--      POSIX_SHELL=`which bash`
+--      test -x "$POSIX_SHELL" && break
+--      POSIX_SHELL=`which dash`
+--      test -x "$POSIX_SHELL" && break
+--      POSIX_SHELL=/usr/xpg4/bin/sh
+--      test -x "$POSIX_SHELL" && break
+--      POSIX_SHELL=`/bin/sh -c '
+--          exec 2>/dev/null
+--          if ! true ; then exit 1 ; fi
+--          echo /bin/sh'`
+--      test -x "$POSIX_SHELL" && break
+--      ]AC_MSG_ERROR([cannot locate a working POSIX shell])[
+--  done]
+-+  POSIX_SHELL="${POSIX_SHELL:-/bin/sh}"
+-   AC_DEFINE_UNQUOTED([POSIX_SHELL], ["${POSIX_SHELL}"],
+-            [define to a working POSIX compliant shell])
+-   AC_SUBST([POSIX_SHELL])
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.8.bb b/meta/recipes-support/gnutls/gnutls_3.6.11.1.bb
+similarity index 92%
+rename from meta/recipes-support/gnutls/gnutls_3.6.8.bb
+rename to meta/recipes-support/gnutls/gnutls_3.6.11.1.bb
+index c927063f0a..5b05364c25 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.8.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.11.1.bb
+@@ -19,11 +19,10 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch
-new file mode 100644
-index 0000000000..11be4c92e7
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-7211.patch
-@@ -0,0 +1,46 @@
-+From 14ec36e107a8c9af7d0a80c3571fe39b291ff1d4 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Mon, 13 Jan 2020 17:44:31 +0530
-+Subject: [PATCH] slirp: tftp: restrict relative path access
-+
-+tftp restricts relative or directory path access on Linux systems.
-+Apply same restrictions on Windows systems too. It helps to avoid
-+directory traversal issue.
-+
-+Fixes: https://bugs.launchpad.net/qemu/+bug/1812451
-+Reported-by: Peter Maydell <peter.maydell@linaro.org>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-+Message-Id: <20200113121431.156708-1-ppandit@redhat.com>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/slirp/libslirp/-/commit/14ec36e107a8c9af7d0a80c3571fe39b291ff1d4.patch]
-+CVE: CVE-2020-7211
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+
-+---
-+ slirp/src/tftp.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/slirp/src/tftp.c b/slirp/src/tftp.c
-+index 093c2e0..e52e71b 100644
-+--- a/slirp/src/tftp.c
-++++ b/slirp/src/tftp.c
-+@@ -344,8 +344,13 @@ static void tftp_handle_rrq(Slirp *slirp, struct sockaddr_storage *srcsas,
-+     k += 6; /* skipping octet */
-+ 
-+     /* do sanity checks on the filename */
-+-    if (!strncmp(req_fname, "../", 3) ||
-+-        req_fname[strlen(req_fname) - 1] == '/' || strstr(req_fname, "/../")) {
-++    if (
-++#ifdef G_OS_WIN32
-++        strstr(req_fname, "..\\") ||
-++        req_fname[strlen(req_fname) - 1] == '\\' ||
-++#endif
-++        strstr(req_fname, "../") ||
-++        req_fname[strlen(req_fname) - 1] == '/') {
-+         tftp_send_error(spt, 2, "Access violation", tp);
-+         return;
-+     }
-+-- 
-+2.24.1
-+
+ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz \
+            file://arm_eabi.patch \
+-           file://posix-shell.patch \
+ "
+ 
+-SRC_URI[md5sum] = "9dcf0aa45d1a42e1b3ca5d39ec7c61a8"
+-SRC_URI[sha256sum] = "aa81944e5635de981171772857e72be231a7e0f559ae0292d2737de475383e83"
++SRC_URI[md5sum] = "3670ee0b0d95b3dee185eff2dc910ee7"
++SRC_URI[sha256sum] = "fbba12f3db9a55dbf027e14111755817ec44b57eabec3e8089aac8ac6f533cf8"
+ 
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
+ 
 -- 
 2.25.4
 
