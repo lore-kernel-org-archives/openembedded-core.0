@@ -1,89 +1,77 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.7074.1588683744860082493
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web12.7180.1588683745023279983
  for <openembedded-core@lists.openembedded.org>;
  Tue, 05 May 2020 06:02:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XEB/mrWx;
- spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f54.google.com with SMTP id u16so2228818wmc.5
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YuHPwYGM;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id g12so2230424wmh.3
         for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 06:02:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=1C0qRRFrCu/baAKXDYpClmkqBZ+CmCguvzyEqTSvJnk=;
-        b=XEB/mrWxSp/A3uALoovzglMrsJxAv3EQm8l/XSiTTzsA6TTh+bTWVaZy/r3++B8XY1
-         UiHqWxaPJah6SRcdTB27D3Ho7NhPcj55Q1Zi7qe/dECNPO1bvUnJnHROA2RhXpLmo/RS
-         FlRyFJTsWJqkeansYdORKLuVHIuzVKsnIn4tihHbUCeu/Ak6F3RPk7Oi5sqUFZGAG/Ym
-         7qr2WhUkzW3hT36f4G4QLMRgnwC+XbIV9NkI1+TJgGWwvvck4manlei7pCAbXucs2h06
-         qkUo8fpcwGLny87RzKNBF00lD68xwL+WGttI0q4/gF1MCh3oL9hn8+eyGm4iMQGSdsFE
-         ArHg==
+        bh=A+GU9CHHLS5VY26mdBdj4DGD/zK0rlEcVMmMfCWJZHE=;
+        b=YuHPwYGMf9xJq3Eh9yx+Zmzxb/8MnK4ea/g5zKIfE3/xIqlXcBGjXnLLdEcAm5wu/4
+         UpK0YsIHsBt7OxIMnn0jPX7yBrgXNs2sJ42HZkEfZQA1Tsx08TTzZbfHXM04bzt+lfhh
+         RSqFx3NQUmB9O0gvXYeU3SNeew7am8cKkKxQb0AKAasGAFqemkKNK1N2+vhl8WU4FlBN
+         Dkc7VcfNyNdfto+2zmn3qsixPN4ARxrZsihKhNQ5sS0AbxG8ZqIURTQrS3MuFdk6qUpM
+         vDSlq0PUqliRdhMogh3zTvR0/8wPgNbDDY9wNMrDwNBv4zMZSRnlEjUSC4y3oGwsD4tI
+         eYAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=1C0qRRFrCu/baAKXDYpClmkqBZ+CmCguvzyEqTSvJnk=;
-        b=f3fzfHW6hZS0Q4SlWFDz/7G8WRkIlqKGGx1nuQN2QxLB4lfukRN6xZUxQUbna1+qpl
-         hf0aheW18fV80HkaWoya8/5TCIwvOzUK7VAemL3+xBmXlmZ4ZEZRNWeorJhGtXuRm55A
-         51rijOO9xV91oGmD+TSqLm74qt6nyzbEvkbtZc3la1RmnECCEVBrzxlVaeHsnzYXk0aK
-         RWndV2zQlSlkUbqxQbg9sq689EQT+kwJNIJmHnmRR9fnGkQ82lXdqLLleRA6UqcOwMR1
-         Dto2XrcFM6CRSb9FdMMrJAFExhkLbiIKkPRzb5UYBWMuTJxTTA2e0tQbNoEHXcJ0MGgE
-         43DA==
-X-Gm-Message-State: AGi0PubMm3TW+N+JsX5glcDpUMOAygoJ2//lfZWYqCVW/4ywRyzzUqD9
-	ZUnUyknhhvh9VxK1sKiL9JXRsmos
-X-Google-Smtp-Source: APiQypKKyp7uWhDWXJEk1hgCYxosazhUvk/xsNISDeILZCjQ5Wfk2I8slKsbhYWR6h8iwKpKak3dRw==
-X-Received: by 2002:a7b:c772:: with SMTP id x18mr3426153wmk.39.1588683742761;
-        Tue, 05 May 2020 06:02:22 -0700 (PDT)
+        bh=A+GU9CHHLS5VY26mdBdj4DGD/zK0rlEcVMmMfCWJZHE=;
+        b=S7Kcjf7LqIAeHVn+yo7XD89gEyefiN/aKwn896lja/zqGmlH8Vm2c4m9bQxv1ROWiC
+         Zbpt60oHP5h9Pq61tjjCKyKusvrjmVBhggk0aQD1SzWl/NIX+QBeCxPo5dTJTqudU7Nk
+         U/6jx1BaIpixzICFMXO1Uljf8XenNxN/7F82n2VIb7LwZLF3nIwakAABpS7rtsWz9hJ/
+         2uq7O8cNfKrLQSN1AL2yblcS9R+kszjPxskvtuHpQ1O1OiI4pbN6QSHmHK8gku/Y+FZE
+         g58dGaXeNDkccCXF5Abs2qnqex1o41XNtNP+G+1w3XPsFmmduUMlsrzD9k/iD9YMU2LW
+         PxWQ==
+X-Gm-Message-State: AGi0Puao68n36/xN+VbQ1rOZLAd9vtO4gPY7IXnpKtKg1CSHS/He05rB
+	859OOX7R0IbGiXuzdwOFbGpijnmr
+X-Google-Smtp-Source: APiQypIqd4Iy/rd9IGfYgnHSAuYi3jlEKDpy8CBLGmZtBgB45M+LHqSg0gg08SbDqMgmXHgJXo4pfA==
+X-Received: by 2002:a1c:48c:: with SMTP id 134mr3159079wme.47.1588683743446;
+        Tue, 05 May 2020 06:02:23 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id h16sm3388113wrw.36.2020.05.05.06.02.21
+        by smtp.gmail.com with ESMTPSA id h16sm3388113wrw.36.2020.05.05.06.02.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 06:02:22 -0700 (PDT)
+        Tue, 05 May 2020 06:02:23 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 23/24] testresults.json: add duration of the tests as well
-Date: Tue,  5 May 2020 15:01:32 +0200
-Message-Id: <20200505130133.24930-23-alex.kanavin@gmail.com>
+Subject: [PATCH 24/24] re2c: correct upstream location
+Date: Tue,  5 May 2020 15:01:33 +0200
+Message-Id: <20200505130133.24930-24-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200505130133.24930-1-alex.kanavin@gmail.com>
 References: <20200505130133.24930-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is printed by testimage, but isn't actually saved.
-It's a useful metric for tracking execution times.
-
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/lib/oeqa/core/runner.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/recipes-support/re2c/re2c_1.0.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index 1284295c34..00b7d0bb12 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -182,8 +182,10 @@ class OETestResult(_TestResult):
-             (status, log) = self._getTestResultDetails(case)
+diff --git a/meta/recipes-support/re2c/re2c_1.0.1.bb b/meta/recipes-support/re2c/re2c_1.0.1.bb
+index 4ed8d257ac..35200ecde8 100644
+--- a/meta/recipes-support/re2c/re2c_1.0.1.bb
++++ b/meta/recipes-support/re2c/re2c_1.0.1.bb
+@@ -5,9 +5,10 @@ SECTION = "devel"
+ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://README;beginline=146;md5=881056c9add17f8019ccd8c382ba963a"
  
-             t = ""
-+            duration = 0
-             if case.id() in self.starttime and case.id() in self.endtime:
--                t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
-+                duration = self.endtime[case.id()] - self.starttime[case.id()]
-+                t = " (" + "{0:.2f}".format(duration) + "s)"
+-SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}-${PV}.tar.gz"
++SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.gz"
+ SRC_URI[md5sum] = "e2c6cf52fc6a21595f21bc82db5324f8"
+ SRC_URI[sha256sum] = "605058d18a00e01bfc32aebf83af35ed5b13180b4e9f279c90843afab2c66c7c"
++UPSTREAM_CHECK_URI = "https://github.com/skvadrik/re2c/releases"
  
-             if status not in logs:
-                 logs[status] = []
-@@ -191,6 +193,8 @@ class OETestResult(_TestResult):
-             report = {'status': status}
-             if log:
-                 report['log'] = log
-+            if duration:
-+                report['duration'] = duration
-             if dump_streams and case.id() in self.logged_output:
-                 (stdout, stderr) = self.logged_output[case.id()]
-                 report['stdout'] = stdout
+ BBCLASSEXTEND = "native"
+ 
 -- 
 2.26.1
 
