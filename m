@@ -1,109 +1,135 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.74])
- by mx.groups.io with SMTP id smtpd.web10.3770.1588666401161195658
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web10.4570.1588671783942426990
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2020 01:13:21 -0700
+ Tue, 05 May 2020 02:43:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.onmicrosoft.com header.s=selector1-siemens-onmicrosoft-com header.b=D6antpNs;
- spf=pass (domain: siemens.com, ip: 40.107.22.74, mailfrom: andrej.valek@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YeV4ezlej2xRIMiXfRKlGExiyfA32s0Wxsr4yVMsb6QvAYvhOL/35iIvWAvnOn1VlNXYKHneDW0YfzwD//QCjqUGpk1uspgDlxdJEHcd1Scjj6XWYlRvMdVUjDljSR257Nr+yCofkcC/6dWW1RJnN+h+2sOJJpgezb6uYJ6unsorRJaqq/0sEAOdwM735jw9LmX7yRtWHAq4T+sCMoAOPvXFI5HGRMRH1wnsnNMKETvINjgeqDjvhPwY9mpeatmnzdpg0SJZUT9OGiWdgYLcREuc1PDaD9B3bfQmFXDfGyvtomTqX3fiNuKR7JZkxE3oW3NRRO2HCK6S+MdfBKgLhA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2YbIYvLaYOqpsQKhtvWH4pOhhf9/71G6KR0mVmDjmDo=;
- b=Do6xonvoaqzgYz3zITsf090GpJzctOE2DUmjGtNpy0cUvhCLV30wFvFP74NaeZK7fEsGa4HJjsYwfRPG3pEEtk3hskomY7hG0rGM4qmMmZi972K2WkhoCEft9L8b0ZLy+kU7dkUGWfc7HxeCK9aEf4GgpL045EUSeWQhYx6B66cb51t7jgMfCBqJTL0A229NMh5CIa6+eRoFwhmWHWcnM1tDZYd19y+8jOS3eEMSWti4T0qw4Ci7GuclexdInEpoNpKZgfuKgU9w2IUGyLOghcN3fLUL7EiWH7I5Hz7x6ZJ1dBmdWwUy2qBJgxX8SyU/kHaffab+kawRa+15+LFH2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FhfJmgyA;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id k12so1523204wmj.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 May 2020 02:43:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=siemens.onmicrosoft.com; s=selector1-siemens-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2YbIYvLaYOqpsQKhtvWH4pOhhf9/71G6KR0mVmDjmDo=;
- b=D6antpNsPKNldGCYNhEtPeABFTGlcgZWrNM8/ID9a67/yBxCVgM/YdNgjMA1P2Sq+ZSifGZBzVnqNn8KDv8H1KvAYVelqkw/UjAswghXX9I0MzXArFkA/Yac0WmOW6y6vbyZPOrZXSiNUorh0qnWzw04WBovLjn9waknuSM5pZI=
-Received: from AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:e6::28)
- by AM6PR10MB2696.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:ad::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Tue, 5 May
- 2020 08:13:18 +0000
-Received: from AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::808a:ad03:40a9:baec]) by AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::808a:ad03:40a9:baec%6]) with mapi id 15.20.2958.030; Tue, 5 May 2020
- 08:13:18 +0000
-From: "Andrej Valek" <andrej.valek@siemens.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: Re: [OE-core][PATCH] icu: upgrade 66.1 -> 67.1
-Thread-Topic: [OE-core][PATCH] icu: upgrade 66.1 -> 67.1
-Thread-Index: 
- AQHWH5JNIZU6aOc5VUeHm/83tk0OiKiTPWRQgAAEBwCAADCeMIAAWw+AgAFBVRCABBeBkIAABHEAgAAAMxA=
-Date: Tue, 5 May 2020 08:13:18 +0000
-Message-ID: 
- <AM6PR10MB3000B53772612F2BF2E835DB92A70@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
-References: <20200501082616.11296-1-andrej.valek@siemens.com>
-	 <AM6PR10MB3000A0A64DB428E5ED6F33D292AB0@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
-	 <CANNYZj-0k=gL0K6b5r5U4SJpRo-cnUNO7zymt4J43uzapH6JKA@mail.gmail.com>
-	 <AM6PR10MB3000922C3F644E6916BDE3C092AB0@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
-	 <CANNYZj8OcGr5911zfRXpKaEYY-3o_WJCoLZoybE+=863==L2tw@mail.gmail.com>
-	 <AM6PR10MB3000E49EE4C38CFA9947DDA492A80@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
-	 <AM6PR10MB30002791F30A5942D6CB496592A70@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
- <abf15032d9b14a18031f0c017ab422365d386930.camel@linuxfoundation.org>
-In-Reply-To: 
- <abf15032d9b14a18031f0c017ab422365d386930.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-document-confidentiality: NotClassified
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=siemens.com;
-x-originating-ip: [165.225.200.172]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: c38bfdde-d975-43d4-f2e7-08d7f0cc2b6e
-x-ms-traffictypediagnostic: AM6PR10MB2696:
-x-microsoft-antispam-prvs: 
- <AM6PR10MB269675C0071AB5EFE46F159B92A70@AM6PR10MB2696.EURPRD10.PROD.OUTLOOK.COM>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0394259C80
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- nHmp1XIaBXr1KqFZEBCgC+lIwM9di++uh4EUd8OlBy+QX743fjY3bkNz1U3rwSpz9FeWmHks6RWe1XMFfZlTv32Zqkr9l2PK4bwIx/zLg16kvGCld8SHF+YFTMXgMHJoXWSX0yH50/EvEKTl/IeG5Yi242K/gttvHce61Y6Jc+Zo5i8Ii6vRq+sg7ZlEKn4gQ31e3l4WlBt61WzeRmwhRj0SmRksX26j4GBlm4SVzn7eXQNogn/V/8k81fdFwzlwZlcU3MsQ7OI2kJ/K2c7OgKLpfzsddWWiQdNcqpIrTGD3Se1ZNIG7qvJKvnELMEIExCARq3yy9bqPFX7iVx09zSR6DrFv+YifrwxHWOBuUd6n5+rY39NIUoZdERqDHdN1yWalfE0u5N20eQXCGBfydIrR3yCbbK8na0KBZBNTKApgRwW4iMS5x2BjpSkyClCBfJ1qDdrRANGM6BZ8sn43ZMRw6JAb6QYs0l1NJpt3RU3ZOk36EEdEVB6TQBd0T9qcy4NdupsK45Wb86soQMwSFw==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(346002)(396003)(376002)(136003)(366004)(33430700001)(86362001)(52536014)(55016002)(33656002)(6506007)(478600001)(2906002)(4326008)(9686003)(316002)(66556008)(66476007)(8676002)(66446008)(64756008)(8936002)(66946007)(4744005)(76116006)(55236004)(71200400001)(5660300002)(186003)(53546011)(110136005)(26005)(7696005)(33440700001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- xlvtJVndghwFa238MoLwMTxcPqqMdi2EB1BtCjhr9lbW0HZA6uUpS6fXRFounxEaFazR1MwVrTJrce7qrDEY1RsbetAi0fr27pdplRNHe8EABWAwpZZla/4oWAdDNxQIrV3AhSCnkH6iljxurofwx8gy9BJ6gh6kCCTv/sw+fuNwDX7Jv15ijs1F+q07pe+MjfiKw6e8SfCWO4iqwF7eL4oVbNewxlRqTSJy+wPoTK3KQRze+H9MJ/CEDhn8EHDBsFTMzAdHIHRzRwGASy9kqxpFIKYARtf9DH72r/iFLshvgIOJySq7od47nvZSM+FU+wkcZSJSLS2PNYm++6jbhJIOG7TUlc3IL2BpMoaiZq7Rk2qZEwrAwfKA5k337X5/32dTSxxZ+fNPy9KS//YrQzPgE/rt1yyJwlnXwBaBWfTy4RUWKp2Fuw4hpmQEyM3SCwVH/t4SKsbNIN7pIe5cTMmNMkihd9P8Z5mFy0ZHLhg85JFrVlX8EPMiADMycdTOsKThpyMYS0JfFf/F6G528xr2nPARDFrtDnP/Nu5/FTR+wTANVOaBUiB/BGLBicwGVTiSqgAJzeDjs62cUi8b3wF7TD2OjOH5kSvBrzEAfwAs3nROY+hRSk1zXkcALCkzuLweTQ+eX8fZLkSC7nZuiwI4Lts54z3cEfoDkqZgYi+1L8eeShPzJjwPYx+//hyJFMAuB8D/ypiIlXepIKvLJte/D0ZirLFXfTWXwOCVtEfg9u1E55QuSkTyn2IbXGVHJjXfMOaeIIjVzZHl7u0ehnN2bJmGbgPH/KHnYhzQOw2Nrlcits+Mqu7NajcFPLBn
-x-ms-exchange-transport-forked: True
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=7qSbmqtPFW5vDie3VOl/XQxg8Fi1OUuB3wV1wg0Me+k=;
+        b=FhfJmgyAcwHOu4hnbKCyEK9ehcjDwgQF8jZJgI6+89+/zgtlotm00AAeygg+SZvIA6
+         m5YDxNC4O1KmpYpBexcg+F4MF53eyG80XDnCRhmPCXBYWL2pXxBgLpNeVbX2set03umq
+         azbDpaccs10lkD+cQiWHkiyq/gWz2AYalwr1Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=7qSbmqtPFW5vDie3VOl/XQxg8Fi1OUuB3wV1wg0Me+k=;
+        b=GPxcWC/0lJVNjkR/I1QJQbgv25YVoiEB7Zj6wpbNLNIIPdT86+KTR23XZjCV3o54Ps
+         Pca6V3vYIzMw1s8rd4tYoGISRR0pSNZlVfj7kO9pIe0CexynV/LR5bK7NyX1RdDTGxO2
+         H/KOXfTflnNk3Rlt0fgkolJ3XSSQtU9Fyr36tyQau+ZAJtBYwOEKp3cxRlWQzZsjnN6t
+         5BxOILkMXH1Lac9sYPnYdj2tqzMH64ZxnW5MugvNEYVOAbBeSrqNDi6d3xFVOmOFgwzb
+         JkBOcby1hAw6NasSulyWwCt9zbn9ZNVzkx5D1ihK7P5Sw29qkjRjNoysWYNQymxA2+yG
+         zdOg==
+X-Gm-Message-State: AGi0PuY9us2Gs12t0Q/kmB8BUaUjipY/pCd1RmfBHEU2+5ayQCg9rGFJ
+	lyEf7GjKqQ3cYM9xZMf47u130E5fqkg=
+X-Google-Smtp-Source: APiQypJ7HoODiOUFEligT9IeS+f3fEqSeHTQRyKmCD3QXmMxhNgiJRC9gAs+QsSRPMiKoM1N3hsomQ==
+X-Received: by 2002:a1c:e288:: with SMTP id z130mr432234wmg.0.1588671781962;
+        Tue, 05 May 2020 02:43:01 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id s17sm2824251wmc.48.2020.05.05.02.43.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2020 02:43:01 -0700 (PDT)
+Message-ID: <86cf328e4c36050eb971f350babe3fc1a7a8c602.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 01/17] libinput: add ptest
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 05 May 2020 10:42:50 +0100
+In-Reply-To: <20200503162559.946-1-alex.kanavin@gmail.com>
+References: <20200503162559.946-1-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c38bfdde-d975-43d4-f2e7-08d7f0cc2b6e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2020 08:13:18.8230
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Io0q+QkfCNCMNzFoWvTKz732QzgB+ObxVBj2oXAH2im7majbXVAZCVx3frlPE4LweOrwidQ0OsSp6ELwvbBG7i9toIxU9BzMb9Mw+Dh3zcc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR10MB2696
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-SSBrbm93LCB3aHkgdGhlIHBhdGNoIGlzIGZhaWxpbmcsIGJlY2F1c2Ugb2YgbWl4ZWQgbGluZSBl
-bmRpbmdzLg0KDQpJIGhhdmUgYWxyZWFkeSBjcmVhdGVkIGEgUFIsIHdoZXJlIGFsbCBwYXRjaGVz
-IGZpdCBhcyB3ZWxsLiBTbyB5b3UgY2FuIHRha2UgdGhlIHBhdGNoZXMgZnJvbSB0aGVyZSBpbnN0
-ZWFkIG9mIG1haWxpbmcgbGlzdC4NCg0KUmVnYXJkcywNCkFuZHJlag0KDQotLS0tLU9yaWdpbmFs
-IE1lc3NhZ2UtLS0tLQ0KRnJvbTogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4
-Zm91bmRhdGlvbi5vcmc+IA0KU2VudDogVHVlc2RheSwgTWF5IDUsIDIwMjAgMTA6MTEgQU0NClRv
-OiBWYWxlaywgQW5kcmVqIChJT1QgRFMgRVUgU0sgU0ktQlAxKSA8YW5kcmVqLnZhbGVrQHNpZW1l
-bnMuY29tPjsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KQ2M6IEFs
-ZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPg0KU3ViamVjdDogUmU6IFtP
-RS1jb3JlXVtQQVRDSF0gaWN1OiB1cGdyYWRlIDY2LjEgLT4gNjcuMQ0KDQpPbiBUdWUsIDIwMjAt
-MDUtMDUgYXQgMDc6NTYgKzAwMDAsIFZhbGVrLCBBbmRyZWogd3JvdGU6DQo+IEhlbGxvIFJpY2hh
-cmQsDQo+ICANCj4gQ291bGQgeW91IHBsZWFzZSB0YWtlIGEgbG9vayBvbiBpdD8NCg0KSSB3aWxs
-LiBLZWVwIGluIG1pbmQgdGhhdCBJJ3ZlIG11bHRpcGxlIHBlb3BsZSBhc2tpbmcgbWUgdG8gaGVs
-cCB1bmRlcnN0YW5kIHdoeSB0aGVpciBwYXRjaGVzIGZhaWwgaW4gdGVzdGluZyBhbmQgSSBjYW4g
-b25seSBkZWFsIHdpdGggc28gbWFueSBhdCBvbmNlLiBBcyBzb29uIGFzIHNvbWV0aGluZyBuZWVk
-cyBleHRyYSB3b3JrIGxpa2UgdGhpcyBkb2VzLCBpdCBtYWtlcyBpdCBoYXJkZXIgdG8gZ2V0IGFy
-b3VuZCB0by4NCg0KQ2hlZXJzLA0KDQpSaWNoYXJkDQoNCg0KDQo=
+On Sun, 2020-05-03 at 18:25 +0200, Alexander Kanavin wrote:
+> The test takes about 17 minutes, and fully passes.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/conf/distro/include/ptest-packagelists.inc  |  1 +
+>  meta/recipes-graphics/wayland/libinput/run-ptest |  9 +++++++++
+>  meta/recipes-graphics/wayland/libinput_1.15.2.bb | 14 +++++++++++---
+>  3 files changed, 21 insertions(+), 3 deletions(-)
+>  create mode 100644 meta/recipes-graphics/wayland/libinput/run-ptest
+> 
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc
+> b/meta/conf/distro/include/ptest-packagelists.inc
+> index c13ff724b1..ab44757a11 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -72,6 +72,7 @@ PTESTS_SLOW = "\
+>      glib-2.0-ptest \
+>      gstreamer1.0-ptest \
+>      libevent-ptest \
+> +    libinput-ptest \
+>      lttng-tools-ptest \
+>      openssh-ptest \
+>      openssl-ptest \
+> diff --git a/meta/recipes-graphics/wayland/libinput/run-ptest
+> b/meta/recipes-graphics/wayland/libinput/run-ptest
+> new file mode 100644
+> index 0000000000..5a84c568b9
+> --- /dev/null
+> +++ b/meta/recipes-graphics/wayland/libinput/run-ptest
+> @@ -0,0 +1,9 @@
+> +#!/bin/sh
+> +
+> +/usr/libexec/libinput/libinput-test-suite
+> +if [ $? -eq 0 ]; then
+> +  echo 'PASS: libinput-test-suite'
+> +else
+> +  echo 'FAIL: libinput-test-suite'
+> +fi
+> +
+> diff --git a/meta/recipes-graphics/wayland/libinput_1.15.2.bb
+> b/meta/recipes-graphics/wayland/libinput_1.15.2.bb
+> index 810532774e..31652cc342 100644
+> --- a/meta/recipes-graphics/wayland/libinput_1.15.2.bb
+> +++ b/meta/recipes-graphics/wayland/libinput_1.15.2.bb
+> @@ -10,9 +10,10 @@ SECTION = "libs"
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM =
+> "file://COPYING;md5=1f2ea9ebff3a2c6d458faf58492efb63"
+>  
+> -DEPENDS = "libevdev udev mtdev"
+> +DEPENDS = "libevdev udev mtdev libcheck"
+>  
+>  SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz \
+> +           file://run-ptest \
+>             file://determinism.patch \
+>             "
+>  SRC_URI[md5sum] = "eb6bd2907ad33d53954d70dfb881a643"
+> @@ -20,7 +21,13 @@ SRC_URI[sha256sum] =
+> "971c3fbfb624f95c911adeb2803c372e4e3647d1b98f278f660051f834
+>  
+>  UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+>  
+> -inherit meson pkgconfig lib_package
+> +inherit meson pkgconfig lib_package ptest
+> +
+> +# Patch out build directory, otherwise it leaks into ptest binary
+> +do_configure_append() {
+> +    sed -i -e "s,${WORKDIR},,g" config.h
+> +    sed -i -e "s,${WORKDIR},,g" litest-config.h
+> +}
+> 
+
+Nearly :)
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/1869
+
+(I think its failing when ptests aren't enabled)
+
+Cheers,
+
+Richard
+
+
