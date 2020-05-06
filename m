@@ -1,194 +1,125 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (NAM12-MW2-obe.outbound.protection.outlook.com [40.107.244.81])
- by mx.groups.io with SMTP id smtpd.web10.2453.1588732748804981074
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com (EUR03-VE1-obe.outbound.protection.outlook.com [40.107.5.84])
+ by mx.groups.io with SMTP id smtpd.web10.1534.1588746229679812022
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 May 2020 19:39:09 -0700
+ Tue, 05 May 2020 23:23:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=SUTaBRwL;
- spf=pass (domain: windriver.com, ip: 40.107.244.81, mailfrom: changqing.li@windriver.com)
+ dkim=pass header.i=@siemens.onmicrosoft.com header.s=selector1-siemens-onmicrosoft-com header.b=iKRmaTZ4;
+ spf=pass (domain: siemens.com, ip: 40.107.5.84, mailfrom: andrej.valek@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=bIBc8SQK+lfOSn3eYBOF2hxnuqz7T9MgvwAR7vU+TuxoIGdE3/8jtu25+fPKgBCMeu04lLJJ/iYf3gX5tjoHDWnMK/43JNe01F8NX6rGq7kOeyY0AEuRnIevz+1XoYCvxiEzN//4WXGG6xsXGVIUI1CqU3detNYmSLHlzELEPmvSNVol6rBkBG0P4NXLqlKskj0fzjP0j8k1A1/35lAm83FII4oI41kYOee6k5rypKeRSID3uxfyNJw7Tl5YVS5p0ou8RDrXNhPRJVCduK46ZgcNiCF8NvokCbS3cwjqAU19U+LCJwinE7AusztBFYyLVxRIeLDjv3R4b4Hnx3fixg==
+ b=oHHx7ENUt2RNppPVVqE9xt8TaccFl1OeQh9zx6xfJKgcyrsIGYKU6DD+ozPYNl9xKSViz5SpBzTwz66q2pkccDEz8mUL0jAa2SP1iUe6HetxEr9jDL04PSAm5AEYjTMVu0AZHw+LONj5/j40OgtCAvtj9SJJk4iYQ3OZA2+QFBWCGTBcS2GDpnOfHJFbJ2sZtLLM7kTonzu9bNbwXAgWjACRM/k2zXcbZSbvWAxPJ8XKybKB9mfu4bOJ3vdGDUV7Q86EJxM29MWUrK23Vz6HnYHuf5FEeBL//k3dERiT6MuMZ/9lr3v1+QVfp1MVIVlRgA1yusw9Chiil37pi2pCBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ND1izVrIpheOXeObYQ07uprx/NS39Is2S6phIEkN2xQ=;
- b=mBwnC2sCeeitK7PNPALAsXUKlb5OvoVat1mTjKhjR91a5S8P5cCm+uio0G7mPtyU2VEo5JpXNbVrCoavOGo5s80FgQhp4cDW5JMaB0gi1eMKiDA0TS2JV9IYBhPNOBUK4TEtKFjwD9WG9kwexZky2f3jtqO8/rU5O7/4lk4prH8gQXWuqrDteyTG/ruzfZKvt3nUAKABvnqac05zlMrxXEx5jkujzW+bGuk9TPLXhMgj09QldBOFzCRdTHvXjTVvOmzMw6hRbhbIfgQBLIolgw3DtaAGbLXeBBK8Tlbj+gE05FQCUxKi/mNOJytggfZGNixIg1usfLXTlLOFQUhs4w==
+ bh=f7AEgLgQiDusvgNeMicuUd8kui+4lSnJKOzHgG0qrSE=;
+ b=CH69mm4G/Ohsk0U/1V6frGwSbCDgNqC8C4Sq8+aflRGdMi6DYRaInJCZWoQwvcdNbT7Aey79zdO6mauHA8pygmg00iyX+DPWbNwTk22LlKC00NhS5jpGEx9friWDYkafWPNhXugQQ4MPalaw2OEpoJb7NgroUCfuSs7+IGa0kWAvuEYJSbnn8PVMQUcuPsXnb6q8wBUUdSfEgbXixVgGuiuTcSw4S6SJ1ICa4OCvdkO/tpCN2TP3rpGyhEAS7ev9s1P3ZPWwcexmYutf5rbEXYYZ5di4xhe0Thso0UE9WPH8MvOSRQ4WADcC+nKUa7VMGKnbI+dhLEHiTnWjZyknMQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ d=siemens.onmicrosoft.com; s=selector1-siemens-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ND1izVrIpheOXeObYQ07uprx/NS39Is2S6phIEkN2xQ=;
- b=SUTaBRwLRdnwKN0gkEfE7p+WzdftDT4T/SoJ6UrCmId8AhF7rk4esF23sMuTDKPOy1PCgxciiubsgZ8unpEkKbyuNQHBg3v6LpsfkGhhFmVE/ormmJ9qlrXq2WCKunoI/nbq7iEJJ8FK217bDFGTj05zU0Trz8mVdArM28I8ElA=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SN6PR11MB2557.namprd11.prod.outlook.com (2603:10b6:805:56::33)
- by SN6PR11MB3167.namprd11.prod.outlook.com (2603:10b6:805:c6::10) with
+ bh=f7AEgLgQiDusvgNeMicuUd8kui+4lSnJKOzHgG0qrSE=;
+ b=iKRmaTZ4Y0UN+PDP2IObOGEZQZDV1j4HbDzE1ET1inOwsd4khQIF41Jt+C9vmETbJh+yQv46jRO/hR4Z0A0vl/WuunLxKd2m9Np5AL/YTPhwOo8PR1LBrSuD0sY9ldfRULZCQfzPfuX/3h/TqgiwkQ7RS/10b0SHhbyXu81LTkc=
+Received: from AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:e6::28)
+ by AM6PR10MB3016.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:d5::10) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.27; Wed, 6 May
- 2020 02:39:07 +0000
-Received: from SN6PR11MB2557.namprd11.prod.outlook.com
- ([fe80::3ce1:6359:35f0:ec2d]) by SN6PR11MB2557.namprd11.prod.outlook.com
- ([fe80::3ce1:6359:35f0:ec2d%6]) with mapi id 15.20.2958.030; Wed, 6 May 2020
- 02:39:07 +0000
-Subject: Re: [OE-core] [PATCH] lib/oe/package_manager: update default rpm config %_prefer_color
-To: openembedded-core@lists.openembedded.org
-References: <160A7D8AF7F6BE8C.17748@lists.openembedded.org>
-From: "Changqing Li" <changqing.li@windriver.com>
-Message-ID: <c3e5a4dc-c4a7-d398-4821-085777710c74@windriver.com>
-Date: Wed, 6 May 2020 10:39:00 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
-In-Reply-To: <160A7D8AF7F6BE8C.17748@lists.openembedded.org>
-X-ClientProxiedBy: HK2PR02CA0131.apcprd02.prod.outlook.com
- (2603:1096:202:16::15) To SN6PR11MB2557.namprd11.prod.outlook.com
- (2603:10b6:805:56::33)
-Return-Path: changqing.li@windriver.com
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.29; Wed, 6 May
+ 2020 06:23:47 +0000
+Received: from AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::808a:ad03:40a9:baec]) by AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::808a:ad03:40a9:baec%6]) with mapi id 15.20.2958.030; Wed, 6 May 2020
+ 06:23:47 +0000
+From: "Andrej Valek" <andrej.valek@siemens.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] vte: add icu dependency
+Thread-Topic: [OE-core] [PATCH] vte: add icu dependency
+Thread-Index: AQHWIyHNAdp/OwGPaUi4MMBkYnaYkaialtLw
+Date: Wed, 6 May 2020 06:23:47 +0000
+Message-ID: 
+ <AM6PR10MB30006B2E2AD20BE11908060892A40@AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM>
+References: <20200505211114.2519-1-alex.kanavin@gmail.com>
+In-Reply-To: <20200505211114.2519-1-alex.kanavin@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-document-confidentiality: NotClassified
+authentication-results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=siemens.com;
+x-originating-ip: [165.225.72.209]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 70d2685d-056c-4808-0929-08d7f186091d
+x-ms-traffictypediagnostic: AM6PR10MB3016:
+x-microsoft-antispam-prvs: 
+ <AM6PR10MB3016F3C83CC31513D3B3449892A40@AM6PR10MB3016.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:1417;
+x-forefront-prvs: 03950F25EC
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ 1ltwW4/5rlgkQ9Tuie0QeHK4TJMZNJLEtF/WmdbmI/6VGgHyAc2PdaSkFfPgdTrMiEwNmhevPsrEGZtm6plM9yuHmS4Q2+diR2Lz74h+4nh1mIIwtvqiAhO8G6+7bO8uV/NMdXt1npBEPt4vIdjvxgefUe/P6XxjL0214Z5s3wa78/rDC1BCuf/Z8Ccyo5pDmAdphqjT/zXvpOQnh3xGKykqlcriiO55gAi+Vw2Q7jkDVKkFndIhFI3sw4bPp/DA1+tS0jUNG9USchUm77xkwt84clfqfe5fZfQ3LFgrNuf4EVoDwjKoWoB+NzySe+e8y5rKiptQyiILeImHsiMXU4xnPq+wTQsLjbx1Ac6SuQKuTOcneQb78MrDiSmWJEHQ0bpUs1qjRlodLUa7QhFnr9U6/OpAAzapPuqiqRAiIwfKo1rpyE3PDWlCr4OzHa87Yk55/u5DbJ/u2Z+1xgtFxfdraJ4aizLJlk14qLEhCaLtxH4CxzBHI2eLMWQsWeo0igPLkIBl0D+ICrA7Ta5ZBBCs00FXCMcZWefXr5YEUGCkuXhMaMlRFHJkGPITYesMuyiYoNZcUcq6/5w/xDeatb6viBh2ddqmW6GDSlpFKjA=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR10MB3000.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(136003)(346002)(396003)(39860400002)(366004)(376002)(33430700001)(66556008)(8936002)(66446008)(52536014)(8676002)(76116006)(4326008)(66476007)(66946007)(5660300002)(55236004)(6506007)(53546011)(110136005)(33440700001)(316002)(7696005)(64756008)(2906002)(71200400001)(9686003)(55016002)(966005)(478600001)(86362001)(33656002)(26005)(186003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ njd4r+DrOjnF2HhkHqJhaB0YscZRxbRpGqB8bL4oILo4w/fLquKpVqU46oBO+1EdDqr4TkfeyXjH1KZjueIhHeHyZg2fL03IgeCs2qXBl7JtKPBeCq/kpUcU+lwdobfY/LAuwT3QcT38LrO6UuvBvNzo9+f02yYRd0eIKrM2pnu2mgvjgAVzzl1jq7wBxtkvzYCqAwkAfZnuys8aum9jdnBaTCfHZYtm90ENoJLDaZncVxaYh6y3+gQimqdkdgADASF8NK7TLtGHcrZzn+y6F+AimHHDpWLuE09UiSZUEX2R78yK/jG0NzlfUpy/YklhbwTHzfqT91UzY/dQ9nLkClg9jA1r8K0tHHx5sFu7EXKkMXIrYKk2JPMgHTXrQIkPqAN2TdIygKeZnPeWmZToK84jKYuSXb3JhCipfzsGIAo2ZUGpKzhaYd2juqOcgFMzbB78805M2yZbeooapboTQ2vwkHVd7bR6i7Cs9paesoCOnUrcy37Qk2arVFnoQyDJqqjoN8UHZOXWJ1boPARcHWDNIHVq//EqpE8JMmopp9vlr6IKCaY123nkpfSEixoHxeoGehs180tvHHaWSo5h53+ooaXxXAUfhVBztZhkcVafLqNAW0IOhUApWo+ON3gmtIZ4epqNqVWx+3v7mRr/RzW1enP+fC2+sA+IEjT3AXXMYVZ7HLfFJyi291RKydwPbPkZRfj/t1jlevPicLl6LcFUh3l0TqCRGW6LA30SdMXyfC43PCQ1jY/9fRzy8hQzs6tFSguBkK/cuwwnws/CHdEOIbclXjGdlwIx8n8uhAM=
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.189] (60.247.85.82) by HK2PR02CA0131.apcprd02.prod.outlook.com (2603:1096:202:16::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.26 via Frontend Transport; Wed, 6 May 2020 02:39:06 +0000
-X-Originating-IP: [60.247.85.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d9f72e85-2001-4884-6ba2-08d7f166a5de
-X-MS-TrafficTypeDiagnostic: SN6PR11MB3167:
-X-Microsoft-Antispam-PRVS: 
-	<SN6PR11MB31676ADCAAC21E593E578EFC82A40@SN6PR11MB3167.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2331;
-X-Forefront-PRVS: 03950F25EC
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	oec5UFuTplm2vxwmaiT1/QK0cYHgsudrYZl/gtzpkPmo4bDRldbKYjmAZ2YtvpY29l6EkJ+gtu8oVzKYVa+X0DLe6LAiINQsjE5jeaute5I6hJ6XiDkDOZQjZuQTlpwbCTw+VS+ddbt8LP03N4Ykw20Op7UIcq6yDLm45cFAComSQpmqzcXE/ja+3TSsAavjt0zNsLxgBaqoxDfN29odF+gBYshNeS5bizMKOzgfz4Sc3qQTrgjLIVLlLnRYnq5Qjle6+LE5DqnZ6nzNam3KhVHeLfZnMhtR0jTstEuALDrN0B8L9krCnXa+YDu5dmZLCvUzengM3lSr8G/Qe4wpmFtTX3rwKbCf5uUYtBgU7ij9KCQ3HZ3YrrujJSTRxJUwv3T456eSxtFEG60hQdw4jKixbs1lckDQyTB6Zpqr+a8U6B8AWJRx3h79lrty95vVPiAI+1wSy9ifdu1yB1H/qXWk8ep1gTl2ZNgnoqK/MhCIybMVQITwmFTUAYeChMIkJfTThGIWmQiNeYl3DWSh89hXOjENzvlbit1lRGXh1TsuFjwnDJqgTKyNZQ1Lqyd7DFehxHv5UkVOgzvZrcDGPKaZW86Zbe4bJNBcy6TLQ1o9O0KSuUvCzhPZn+YfSbC32Xmj7zw/JlkGTrGjEZN3lF9EEfkRHC1jaO+0MicxSKBieI2h+AVjDROy6Y6rSNCJ+CtOwr9iTWvmpZJX5UAZ+g==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2557.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(396003)(39850400004)(136003)(376002)(346002)(366004)(33430700001)(66946007)(66476007)(6486002)(166002)(6916009)(316002)(6706004)(44832011)(956004)(8936002)(2616005)(8676002)(52116002)(86362001)(478600001)(26005)(36756003)(966005)(16526019)(66556008)(31686004)(16576012)(33964004)(186003)(53546011)(15650500001)(2906002)(31696002)(5660300002)(6666004)(33440700001)(78286006)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	C8pZOcHRx02B1ZJqbYd0yPPhpwq9KvC2P06GUR+sj6FpX7nP7mftQERzz+MAbHc1PTpTSaJ3pAhIDg7d9qPIuKdfRSyl21Xep3+tsC7Hhmz1dRb//py4aKWVEN0z9lBKd+TNEdZIfP20BrdN6r14X3jE5DrMGpFCA/S8zVA3v6shboZ/pHe9EAxL0q3WKGMNfXAGvq3y0CKrHEOnYtAjiZMDvakUXDDZB499domTjhlXlfsLcUWRO0+uAT03ExQwWGIa72ToLCKANVQZnhm4KCfTh0k1dUg7yhQoxfe0suXS7/zBTCXR2+NqorIvC2TCAj4UJCCAR4LZsK4u/P/BfwUvW3L7gTgz7nIJPhB4BIwZ7db2/3dMLTVtyffn6xPkLmNdQh3i+IE0IUfV+S+LtbmxmO8rURRb7SKkh6FXPo3cTSyUOGU7lv59vtexDupw0KM/qafnzdzJmz1gX3bFUmP41q+FyR3HW8VT3ecpnOdNWL+lv3lOtZfAmNugzIlB93RfKwMrnW9jt7pm9HT0x+SdTN9uedN7ECBy2s/+2oJfZPBpSrHmXkI2hjHlnvmRzN+kNs5MHaf7mnpjoDvAPUhMcWIZlZx1v1/cROlHyxCGHYvI+R3DV2nkKPaZSo8JIuHe5nfffqrmoz/iCRvaXKYBzr35J8y+2npi91pfiHI57NY4UImo9Ef5ahN8YWVfvWqRGUqkbnNUVY9o6LqaJoCBzFshO2sx2SwKEZFZ/ybrpWgDI6AUgpg23BPwt2RfbW1cyVJxVS/NYnbI77HG6eOB4pjXZzk6gbqqjNlUbNw=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d9f72e85-2001-4884-6ba2-08d7f166a5de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2020 02:39:06.9409
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70d2685d-056c-4808-0929-08d7f186091d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2020 06:23:47.6144
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FSB5BW2vB/JOgVFoNHLh+FlFIlAj7KecYmCu1dmORCPzEGoQ8x7HXKNtltI9QNNqMnLJD9xZ+Txu+QLJpewQ1M8mIuPVY03tv0VWZO3+okw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR11MB3167
-Content-Type: multipart/alternative;
- boundary="------------F1D4D037C88A8884DD6B59ED"
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CQhcFN0aSCBDfpeBOxa2uuRdpi5vpEFTN+InKe5u92sVxvnVEtEcpWWzI5+VWtsHAUqZrXEp4pTYsrJLum7XsXKvHaPue7jb16VGKWfuOwI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR10MB3016
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
---------------F1D4D037C88A8884DD6B59ED
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+There was a problem, that libvte was searching for non existing symbols in =
+ICU library after upgrading to version 67. But this is little bit funny, th=
+at vte could be build without ICU support https://github.com/GNOME/vte/comm=
+it/3ecbb90577582b93f43b184aab1cedd61a9ad86b . So looks like, internal ICU i=
+s not full matching with external library, even if the external shouldn't b=
+e used.
 
-ping
+Cheers,
+Andrej
+=20
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Alexander Kanavin
+Sent: Tuesday, May 5, 2020 11:11 PM
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [OE-core] [PATCH] vte: add icu dependency
 
-On 4/30/20 12:10 PM, Changqing Li wrote:
-> From: Changqing Li <changqing.li@windriver.com>
->
-> * %_prefer_color is used by rpm to determine which color's ELF file
-> is preferred to be installed.
->
-> Here are file colors:
-> 0 is unknown or other
-> 1 is Elf32
-> 2 is Elf64
-> 3 is (contains) both
->
-> if default value set to 7, both 32 and 64 bits's ELF will be installed,
-> in this condition, when we have 64bits python3 installed first,
-> then install lib32-python3 later, 64bits python3 will be overwrited,
->
-> file /usr/bin/python3 will be 32bits ELF
-> and sys.path will point to /usr/lib, not /usr/lib64, this may cause
-> some python3 modules not work. so fixed by remove setting of default
-> value 7, and use default value 2 of rpm.
->
-> * other distro like fedora also use the default %_prefer_color 2
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->   meta/lib/oe/package_manager.py | 2 --
->   1 file changed, 2 deletions(-)
->
-> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-> index b066041..c055d2b 100644
-> --- a/meta/lib/oe/package_manager.py
-> +++ b/meta/lib/oe/package_manager.py
-> @@ -805,8 +805,6 @@ class RpmPM(PackageManager):
->           open(platformconfdir + "macros", 'w').write("%_transaction_color 7\n")
->           if self.d.getVar('RPM_PREFER_ELF_ARCH'):
->               open(platformconfdir + "macros", 'a').write("%%_prefer_color %s" % (self.d.getVar('RPM_PREFER_ELF_ARCH')))
-> -        else:
-> -            open(platformconfdir + "macros", 'a').write("%_prefer_color 7")
->   
->           if self.d.getVar('RPM_SIGN_PACKAGES') == '1':
->               signer = get_signer(self.d, self.d.getVar('RPM_GPG_BACKEND'))
->
-> 
+This is new in 0.60, and needs to be added explicitly to cause vte to rebui=
+ld properly against icu changes (there will be a QA check to catch such sit=
+uations).
 
---------------F1D4D037C88A8884DD6B59ED
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>ping<br>
-    </p>
-    <div class="moz-cite-prefix">On 4/30/20 12:10 PM, Changqing Li
-      wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:160A7D8AF7F6BE8C.17748@lists.openembedded.org">
-      <pre class="moz-quote-pre" wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
-
-* %_prefer_color is used by rpm to determine which color's ELF file
-is preferred to be installed.
-
-Here are file colors:
-0 is unknown or other
-1 is Elf32
-2 is Elf64
-3 is (contains) both
-
-if default value set to 7, both 32 and 64 bits's ELF will be installed,
-in this condition, when we have 64bits python3 installed first,
-then install lib32-python3 later, 64bits python3 will be overwrited,
-
-file /usr/bin/python3 will be 32bits ELF
-and sys.path will point to /usr/lib, not /usr/lib64, this may cause
-some python3 modules not work. so fixed by remove setting of default
-value 7, and use default value 2 of rpm.
-
-* other distro like fedora also use the default %_prefer_color 2
-
-Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com">&lt;changqing.li@windriver.com&gt;</a>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/lib/oe/package_manager.py | 2 --
- 1 file changed, 2 deletions(-)
+ meta/recipes-support/vte/vte_0.60.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index b066041..c055d2b 100644
---- a/meta/lib/oe/package_manager.py
-&#43;&#43;&#43; b/meta/lib/oe/package_manager.py
-@@ -805,8 &#43;805,6 @@ class RpmPM(PackageManager):
-         open(platformconfdir &#43; &quot;macros&quot;, 'w').write(&quot;%_transaction_color 7\n&quot;)
-         if self.d.getVar('RPM_PREFER_ELF_ARCH'):
-             open(platformconfdir &#43; &quot;macros&quot;, 'a').write(&quot;%%_prefer_color %s&quot; % (self.d.getVar('RPM_PREFER_ELF_ARCH')))
--        else:
--            open(platformconfdir &#43; &quot;macros&quot;, 'a').write(&quot;%_prefer_color 7&quot;)
- 
-         if self.d.getVar('RPM_SIGN_PACKAGES') == '1':
-             signer = get_signer(self.d, self.d.getVar('RPM_GPG_BACKEND'))
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-    </blockquote>
-  </body>
-</html>
+diff --git a/meta/recipes-support/vte/vte_0.60.2.bb b/meta/recipes-support/=
+vte/vte_0.60.2.bb
+index 3891ff8165..a722e152a4 100644
+--- a/meta/recipes-support/vte/vte_0.60.2.bb
++++ b/meta/recipes-support/vte/vte_0.60.2.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM =3D " \
+     file://COPYING.LGPL3;md5=3Db52f2d57d10c4f7ee67a7eb9615d5d24 \  "
+=20
+-DEPENDS =3D "glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native"
++DEPENDS =3D "glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native icu"
+=20
+ GNOMEBASEBUILDCLASS =3D "meson"
+ GIR_MESON_OPTION =3D 'gir'
+--
+2.26.1
 
---------------F1D4D037C88A8884DD6B59ED--
