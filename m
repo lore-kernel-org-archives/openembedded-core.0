@@ -1,54 +1,136 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.2575.1588754817426307873
+Received: from mail1.skidata.com (mail1.skidata.com [91.230.2.99])
+ by mx.groups.io with SMTP id smtpd.web12.2655.1588755397569873819
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 May 2020 01:46:57 -0700
+ Wed, 06 May 2020 01:56:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: wenlin.kang@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0468kPoe011004
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 6 May 2020 01:46:45 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Wed, 6 May 2020
- 01:46:29 -0700
-From: "wenlin.kang@windriver.com" <wenlin.kang@windriver.com>
+ dkim=fail reason="signature has expired" header.i=@skidata.com header.s=selector1 header.b=ZK/xwjGh;
+ spf=pass (domain: skidata.com, ip: 91.230.2.99, mailfrom: prvs=388eec6a1=richard.leitner@skidata.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
+  t=1588755397; x=1620291397;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zOUF19jCI3+COyVBBvG1FbGGP2kDCfZP9Q90btfLVMo=;
+  b=ZK/xwjGhHdhnMfXv9w3cr8QpbVHAFTDTorSzkDSJYoNxFeCaXt1G60xr
+   zhEF1xuFf3Ck2VpkCRLvaOiDqajHyuV4MmPefMzzwMkhU+sh052kbyp45
+   2P6aOaAiPqYPnbgdJ5q4TNU7+g/xprzecLJOa9JdKBzDLGoLNKp7fOQ4q
+   2ehj92CSVSYyr8/12Wo9VymbN/XWgSobqYyP9GunyUiqOEEOeri9iq3XM
+   qx8utXXH2zuRC/JZ/iWIxQRjqXOmxq0O+PMqTFc7iwiuCFSM+9irV3epH
+   QPrk2mithnE7zo/q9/D6CE/+2bxPYqnD87jh0gnT1Zoc86EmRysebIMta
+   g==;
+IronPort-SDR: GZPXd+9nIhgUF9gsRV3HZzGdreItLsM6zZJFhjNALaIlwGKG5fruNLcvqzAj5bPnZEMlVGaWiT
+ /DwwHLJj7vxNCGmY6Fe9YQf0fqTGDDbiwcrN/QA3jmkQdXOgtnApJ398a0BfMGF31SC5LjGMMb
+ uGLlkZ4mrF2x6xQs6Jns7iKSe6buPyYWiD9fv3A1luL8gGI5qDS1u6FfV/U8OkdV235to05GcI
+ bHnyh9FoLM5n3SfCTL4X1iRxnBugQwfF9SN0+2dw5Pm04n1IWnDqhJ8S2dyle7Lm/sqdAbZPjw
+ 2FE=
+X-IronPort-AV: E=Sophos;i="5.73,358,1583190000"; 
+   d="scan'208";a="24186520"
+From: "Richard Leitner" <richard.leitner@skidata.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][zeus][PATCH] populate_sdk_base.bbclass: fix warning: name not matched
-Date: Wed, 6 May 2020 01:46:29 -0700
-Message-ID: <20200506084629.120567-1-wenlin.kang@windriver.com>
-X-Mailer: git-send-email 2.23.0
+CC: Richard Leitner <richard.leitner@skidata.com>
+Subject: [PATCH 1/2] binutils: add patch to fix issues with gcc 10
+Date: Wed, 6 May 2020 10:56:18 +0200
+Message-ID: <20200506085619.2110220-1-richard.leitner@skidata.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Return-Path: richard.leitner@skidata.com
+X-Originating-IP: [192.168.111.252]
+X-ClientProxiedBy: sdex3srv.skidata.net (192.168.111.81) To
+ sdex5srv.skidata.net (192.168.111.83)
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Fix below warning:
-zip warning: name not matched: sysroots/aarch64-wrs-linux/etc/udev/rules.d/80-net-setup-link.rules
-zip warning: name not matched: sysroots/aarch64-wrs-linux/etc/tmpfiles.d/etc.conf
-zip warning: name not matched: sysroots/aarch64-wrs-linux/etc/tmpfiles.d/home.conf
-zip warning: name not matched: sysroots/aarch64-wrs-linux/etc/systemd/network/80-wired.network
-zip warning: name not matched: sysroots/aarch64-wrs-linux/etc/resolv.conf
-zip warning: name not matched: sysroots/aarch64-wrs-linux/etc/mtab
-zip warning: name not matched: sysroots/aarch64-wrs-linux/etc/resolv-conf.systemd
-zip warning: name not matched: sysroots/aarch64-wrs-linux/var/lock
+gcc 10 introduced "-fno-common" as default. Therefore backport the
+according binutils patch to fix this issue.
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
 ---
- meta/classes/populate_sdk_base.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../binutils/binutils-2.34.inc                |  1 +
+ ...dundant-program_name-definition-fno-.patch | 63 +++++++++++++++++++
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/0017-binutils-drop-redundant-program_name-definition-fno-.patch
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index d03465b6fc..b5c004d832 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -55,7 +55,7 @@ python () {
-        d.setVar('SDK_ARCHIVE_DEPENDS', 'zip-native')
-        # SDK_ARCHIVE_CMD used to generate archived sdk ${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} from input dir ${SDK_OUTPUT}/${SDKPATH} to output dir ${SDKDEPLOYDIR}
-        # recommand to cd into input dir first to avoid archive with buildpath
--       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip -r ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
-+       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip -r -y ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
-     else:
-        d.setVar('SDK_ARCHIVE_DEPENDS', 'xz-native')
-        d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz -T 0 -9 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
+diff --git a/meta/recipes-devtools/binutils/binutils-2.34.inc b/meta/recipes-devtools/binutils/binutils-2.34.inc
+index 66a3850ef2..f65fdb7328 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.34.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.34.inc
+@@ -41,6 +41,7 @@ SRC_URI = "\
+      file://0014-Detect-64-bit-MIPS-targets.patch \
+      file://0015-sync-with-OE-libtool-changes.patch \
+      file://0016-Check-for-clang-before-checking-gcc-version.patch \
++     file://0017-binutils-drop-redundant-program_name-definition-fno-.patch \
+      file://CVE-2020-0551.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/0017-binutils-drop-redundant-program_name-definition-fno-.patch b/meta/recipes-devtools/binutils/binutils/0017-binutils-drop-redundant-program_name-definition-fno-.patch
+new file mode 100644
+index 0000000000..76d24eec6e
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/0017-binutils-drop-redundant-program_name-definition-fno-.patch
+@@ -0,0 +1,63 @@
++From 57a3e055605b28a9449b1b27eda7125737c42b00 Mon Sep 17 00:00:00 2001
++From: Sergei Trofimovich <siarheit@google.com>
++Date: Sat, 1 Feb 2020 23:16:11 +0000
++Subject: [PATCH] binutils: drop redundant 'program_name' definition
++ (-fno-common)
++
++	* coffdump.c (program_name): Drop redundant definition.
++	* srconv.c (program_name): Likewise
++	* sysdump.c (program_name): Likewise
++
++This is binutils upstream commit 0b398d69ac (binutils: drop redundant
++'program_name' definition (-fno-common), 2020-02-01)
++
++Signed-off-by: Sergei Trofimovich <siarheit@google.com>
++Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
++---
++ binutils/coffdump.c | 2 --
++ binutils/srconv.c   | 2 --
++ binutils/sysdump.c  | 2 --
++ 3 files changed, 6 deletions(-)
++
++diff --git a/binutils/coffdump.c b/binutils/coffdump.c
++index 531a4e46c3..336da57ca2 100644
++--- a/binutils/coffdump.c
+++++ b/binutils/coffdump.c
++@@ -456,8 +456,6 @@ coff_dump (struct coff_ofile *ptr)
++     dump_coff_section (ptr->sections + i);
++ }
++ 
++-char * program_name;
++-
++ static void
++ show_usage (FILE *file, int status)
++ {
++diff --git a/binutils/srconv.c b/binutils/srconv.c
++index 5742b16759..f071794f0a 100644
++--- a/binutils/srconv.c
+++++ b/binutils/srconv.c
++@@ -1687,8 +1687,6 @@ prescan (struct coff_ofile *otree)
++     }
++ }
++ 
++-char *program_name;
++-
++ ATTRIBUTE_NORETURN static void
++ show_usage (FILE *ffile, int status)
++ {
++diff --git a/binutils/sysdump.c b/binutils/sysdump.c
++index d433e71ed9..7eebbd61d3 100644
++--- a/binutils/sysdump.c
+++++ b/binutils/sysdump.c
++@@ -633,8 +633,6 @@ module (void)
++     }
++ }
++ 
++-char *program_name;
++-
++ ATTRIBUTE_NORETURN static void
++ show_usage (FILE *ffile, int status)
++ {
++-- 
++2.26.2
++
 -- 
-2.23.0
+2.26.2
 
