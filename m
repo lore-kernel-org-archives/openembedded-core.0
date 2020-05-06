@@ -1,99 +1,94 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web12.5574.1588769910071179590
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web12.522.1588772406019614176
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 May 2020 05:58:30 -0700
+ Wed, 06 May 2020 06:40:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CP7+WO1T;
- spf=pass (domain: gmail.com, ip: 209.85.128.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f67.google.com with SMTP id z6so2554793wml.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2020 05:58:29 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hLkDuKBW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id y4so2232676wrm.11
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2020 06:40:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=bd17MM0um02cbbjvHCXHaEOSgdVllK+YEEqgaJGP3M8=;
-        b=CP7+WO1TOoDKdefOADyGs96joiCONLiTEJXSyMUjk8fHq5gU2P1WXeyXBm/qCKXGeX
-         DNcbq0RBB4RLhmnM5EW9viqetip59AS+w2eQyzECIpxFsakxm7tLNfvq6XBugCEEiuaP
-         rMYNey1Pdw+rHfYgBB/tnp2egTEHpY93He9TbzNa9MoqupoOB/EUPUEwdwXKfVigktGN
-         wt4p/n0E3cQqk+EdBBTbF057VKqv+EWEWs2z/OQb6DsVVEa4wRNje/ca33izUedam/tq
-         3JY+NEXlnprvtNihXLkFZnjATbwZoY/MoWxrmx5/Sw+b1vZQEihnajoGQAFuKI8z/RLT
-         fy7g==
+        bh=zP/UvFL/ozIuHttF7vrR2dr2kbQgtakVpWBBVIHgbAU=;
+        b=hLkDuKBW5ffk18LbxgB5Jc6FIR5NaxfHzGBalNNddzwmwwJAManuxPOUaPhsWS5htC
+         +IwDOsaU/AamPxbncKpRQ8TTOg+CCfRh/uTF09ZjfO1b8EjPo5UNKrvaZfs/P1Ym0HyD
+         LTOPtarP8sQHc7tg3S/plIsmGx/K+8FgKoo4M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=bd17MM0um02cbbjvHCXHaEOSgdVllK+YEEqgaJGP3M8=;
-        b=QQhgSyXzBnjHNNbNYJ+hEIIioDsVObbh5ZsT4Kx2ut1tb+qcUUSqLyT1cvykux81/h
-         B5Exox3oTnyZmpXy0UEdXkhBA78cXLdRb9Lu++0M9dOCoC6qrp7/QB7T1S43a4YoXzr8
-         h/M+axHhWwP3FfqOe9sU/Zk5EAkTMbThTlcFaMYY2X7ZRKaUDk+EVUQgp7vzUyYdCQGn
-         FIR9oAxYsOKTC/FUzoFNmwap+1MQberjiff4UbR6GT13sMGvEQhYOjWkFIog764XddP4
-         GnqHRDHK5LQioa9DksQZxicDweMIHcAKHAFELNWzRuh32AhdRkgCHN6PWFpVaBKgk5Dv
-         xK2A==
-X-Gm-Message-State: AGi0Pua6H0jH4K1gu2ReOtIIapbZQo70c8+oOww2sHaj2u0JutyK+fv2
-	WR7Ipzv4EjIq79lwI3vMPAtQCN9D
-X-Google-Smtp-Source: APiQypJKykfq61oHLshJaepwfwOYRu/LSQodRjFXZp5AoNk8fJxwA0Lb8Wy+t4PWMSYkBTWJJMGqxQ==
-X-Received: by 2002:a1c:b684:: with SMTP id g126mr4085160wmf.163.1588769908136;
-        Wed, 06 May 2020 05:58:28 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id d13sm3049826wmb.39.2020.05.06.05.58.27
+        bh=zP/UvFL/ozIuHttF7vrR2dr2kbQgtakVpWBBVIHgbAU=;
+        b=LrWaaEnJm5Imtpj+Y/sG8lorEYK53gio+2FbKF/6woCZEh0e9tP05U4G4JEsuJgYuf
+         ogBDYYeT7e8xmidRBxnsIpUjgK3knuF2U8YbfE8dU1SNsznBcK07EuWvr5oz6rxBOMlP
+         UsaDK9GgUg/yJR+h2fNt6a+aqfIToCf2cb/+R1OZQjWeToMwkfOjHZiB0l00GTxEKl5r
+         3hcY+rAGKUlvxhVy1cooNNZ6w/+9rWYOelIYqWO0ed0Ahy6kb1IpveknShTjn1NS5aDW
+         m3yTZ0yeRiiG+a2dKQbAKhLSn14zbfF8YfGEMLgW50J20n6dAxdAyj5e6miubVgn/KTC
+         Y9nA==
+X-Gm-Message-State: AGi0PuYIPc51hkZQMFiLLE3ofKk4+Vp/abbJ87/IbwoAG9ZNKIV/8sG+
+	tIgd9KpZ5+BfGARVkRLoe1ErxnhRrDY=
+X-Google-Smtp-Source: APiQypKkzrNbRYLU2c3HtFMrCQXDwtwJuSp9BE0+2aOWTvt87p3SNiXXtI99JsLJ3SfLdffda4QTXg==
+X-Received: by 2002:adf:e802:: with SMTP id o2mr7911173wrm.110.1588772403977;
+        Wed, 06 May 2020 06:40:03 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id 60sm3059691wrr.7.2020.05.06.06.40.03
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2020 05:58:27 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+        Wed, 06 May 2020 06:40:03 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] mesa: enable x11 for native/nativesdk
-Date: Wed,  6 May 2020 14:58:15 +0200
-Message-Id: <20200506125815.20563-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.1
+Subject: [PATCH] insane: Promote warnings into errors
+Date: Wed,  6 May 2020 14:40:02 +0100
+Message-Id: <20200506134002.155500-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This was found to be necessary for libsdl-native to enable opengl, as otherwise
-the opengl check would fall through to the host with unpredictable outcome.
+There are several warnings the build can emit which show real problems
+in the way recipes are being built. Some distros like poky and the Yocto
+Project autobuilder have been fixing the issues these show for some time.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+OE-Core has therefore been clean of these errors and warnings for some time.
+Promote warnings into errors to match the defaults in poky to encourage
+people to fix these real issue and reduce confusion when people switch
+distros or customise.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/mesa/mesa.inc                | 4 ++--
- meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb     | 2 ++
- meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb | 2 ++
- 3 files changed, 6 insertions(+), 2 deletions(-)
+ meta/classes/insane.bbclass | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index b7ef496fdc..f59503bf14 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -72,8 +72,8 @@ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland v
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
-                    elf-tls \
- 		   "
--PACKAGECONFIG_class-native ?= "gbm dri egl opengl elf-tls"
--PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl elf-tls"
-+PACKAGECONFIG_class-native ?= "gbm dri egl opengl elf-tls x11"
-+PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl elf-tls x11"
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 7fc8f33a982..8b19f445f9b 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -22,11 +22,9 @@ QA_SANE = "True"
  
- PACKAGECONFIG_remove_libc-musl = "elf-tls"
- 
-diff --git a/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb b/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
-index 6583ea2371..57b43ff28c 100644
---- a/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
-+++ b/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
-@@ -15,3 +15,5 @@ SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz"
- 
- SRC_URI[md5sum] = "fe40f7a4fd39dd3a02248d3e0b1972e4"
- SRC_URI[sha256sum] = "7bc76daf9d72f8aff885efad04ce06b90488a1a169d118dea8a2b661832e8762"
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
-index 95fc0b642c..1612a50f19 100644
---- a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
-@@ -18,3 +18,5 @@ XORG_PN = "libXxf86vm"
- 
- SRC_URI[md5sum] = "298b8fff82df17304dfdb5fe4066fe3a"
- SRC_URI[sha256sum] = "afee27f93c5f31c0ad582852c0fb36d50e4de7cd585fcf655e278a633d85cd57"
-+
-+BBCLASSEXTEND = "native nativesdk"
+ # Elect whether a given type of error is a warning or error, they may
+ # have been set by other files.
+-WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+-            textrel already-stripped incompatible-license files-invalid \
+-            installed-vs-shipped compile-host-path install-host-path \
+-            pn-overrides infodir build-deps src-uri-bad \
+-            unknown-configure-option symlink-to-sysroot multilib \
++WARN_QA ?= " libdir xorg-driver-abi \
++            textrel incompatible-license files-invalid \
++            infodir build-deps src-uri-bad symlink-to-sysroot multilib \
+             invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
+             mime mime-xdg \
+             "
+@@ -36,6 +34,9 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             version-going-backwards expanded-d invalid-chars \
+             license-checksum dev-elf file-rdeps configure-unsafe \
+             configure-gettext perllocalpod shebang-size \
++            already-stripped installed-vs-shipped ldflags compile-host-path \
++            install-host-path pn-overrides unknown-configure-option \
++            useless-rpaths rpaths staticdev \
+             "
+ # Add usrmerge QA check based on distro feature
+ ERROR_QA_append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
 -- 
-2.26.1
+2.25.1
 
