@@ -1,163 +1,99 @@
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com [209.85.166.68])
- by mx.groups.io with SMTP id smtpd.web10.5526.1588769824596012224
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web12.5574.1588769910071179590
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 May 2020 05:57:04 -0700
+ Wed, 06 May 2020 05:58:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WWMMPZ3T;
- spf=pass (domain: gmail.com, ip: 209.85.166.68, mailfrom: jpewhacker@gmail.com)
-Received: by mail-io1-f68.google.com with SMTP id j8so1934532iog.13
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2020 05:57:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=CP7+WO1T;
+ spf=pass (domain: gmail.com, ip: 209.85.128.67, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f67.google.com with SMTP id z6so2554793wml.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2020 05:58:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=aJ1D+/AU99X2/aDK8+e/xo0l15tn38UmnzmKkdPcejo=;
-        b=WWMMPZ3Tij8OfJtklc9YRVMJ4aEKAmMBFieKrC5Mq/EOMa4OX2lsd7mCvrJBLwURNO
-         sAYQhvHkcNSV1WgoKzcGQpaehLBAmYanFJAKRvkyjehX6XK0eOOrFBEPO+rf3v62TsKp
-         WazShVHhlHgc5R0C5t2z7ViqpUUxkmS8WqiG7JOvZpsn++RS8tpn71Q72nop8Q3j8HiB
-         w5kEwA5kw0YWzUEwE9ORFUUQlPAXQHlXqqbGW+tmCMflZOe1y7SpY+yXEGJA3CeZjkHT
-         DDILcFLY3q/moBNG3D4z9llzA0SWSJnfHBuOk2XvbXrfr38MH6ozGZUxR1OfTyIhv9OZ
-         VQaQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bd17MM0um02cbbjvHCXHaEOSgdVllK+YEEqgaJGP3M8=;
+        b=CP7+WO1TOoDKdefOADyGs96joiCONLiTEJXSyMUjk8fHq5gU2P1WXeyXBm/qCKXGeX
+         DNcbq0RBB4RLhmnM5EW9viqetip59AS+w2eQyzECIpxFsakxm7tLNfvq6XBugCEEiuaP
+         rMYNey1Pdw+rHfYgBB/tnp2egTEHpY93He9TbzNa9MoqupoOB/EUPUEwdwXKfVigktGN
+         wt4p/n0E3cQqk+EdBBTbF057VKqv+EWEWs2z/OQb6DsVVEa4wRNje/ca33izUedam/tq
+         3JY+NEXlnprvtNihXLkFZnjATbwZoY/MoWxrmx5/Sw+b1vZQEihnajoGQAFuKI8z/RLT
+         fy7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=aJ1D+/AU99X2/aDK8+e/xo0l15tn38UmnzmKkdPcejo=;
-        b=WwY5Uub5a4JFkb6sLUJ0kfcjixJHlgMkeW70mW0UFhyiiX/3K25QUn+pTDmY1OKTaA
-         lud93CivYoBy7Ue2ngFhoAr2ur+/z3dHaRAswGuvfiY2V2JqUesNdtjPYKx+Se5gxUx5
-         cQvxNzP65SA5JrglT68BmRtVLBQ61dixQoMkhZUmoWh305CSI//O9s/8jX6CPfhlwu4k
-         k/K8yPuiIhN3ZVfB6qjLEZWR59zfzB0OQAkTXcR84EHFppBUjiq7HGnP15EVPl3qHc4p
-         GX+ORkYXT/5zoN3rSloIuV9vrcY+uUetVFEAS2c+z9+givxzJ9PaEGkOU9TtU30vCzFl
-         NL7A==
-X-Gm-Message-State: AGi0PuaRuVS/tPQlCC/hXnPkh0VpVACegxYV+8UZs3EupCkfhWN4E/fd
-	RW1tUMnE024wARCNoQPOIOaBeGwK
-X-Google-Smtp-Source: APiQypLJ2VDAcaq+534Zj2MyqxTenTNZPwcHwtbrG/7EQqPA65uYo+5MPfujGu3diNkLSiywjI9MCQ==
-X-Received: by 2002:a05:6638:258:: with SMTP id w24mr134904jaq.53.1588769823488;
-        Wed, 06 May 2020 05:57:03 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:9443:9da0:9552:f43])
-        by smtp.gmail.com with ESMTPSA id u203sm1020775iod.54.2020.05.06.05.57.02
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=bd17MM0um02cbbjvHCXHaEOSgdVllK+YEEqgaJGP3M8=;
+        b=QQhgSyXzBnjHNNbNYJ+hEIIioDsVObbh5ZsT4Kx2ut1tb+qcUUSqLyT1cvykux81/h
+         B5Exox3oTnyZmpXy0UEdXkhBA78cXLdRb9Lu++0M9dOCoC6qrp7/QB7T1S43a4YoXzr8
+         h/M+axHhWwP3FfqOe9sU/Zk5EAkTMbThTlcFaMYY2X7ZRKaUDk+EVUQgp7vzUyYdCQGn
+         FIR9oAxYsOKTC/FUzoFNmwap+1MQberjiff4UbR6GT13sMGvEQhYOjWkFIog764XddP4
+         GnqHRDHK5LQioa9DksQZxicDweMIHcAKHAFELNWzRuh32AhdRkgCHN6PWFpVaBKgk5Dv
+         xK2A==
+X-Gm-Message-State: AGi0Pua6H0jH4K1gu2ReOtIIapbZQo70c8+oOww2sHaj2u0JutyK+fv2
+	WR7Ipzv4EjIq79lwI3vMPAtQCN9D
+X-Google-Smtp-Source: APiQypJKykfq61oHLshJaepwfwOYRu/LSQodRjFXZp5AoNk8fJxwA0Lb8Wy+t4PWMSYkBTWJJMGqxQ==
+X-Received: by 2002:a1c:b684:: with SMTP id g126mr4085160wmf.163.1588769908136;
+        Wed, 06 May 2020 05:58:28 -0700 (PDT)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from linux-f9zs.box ([5.28.69.65])
+        by smtp.gmail.com with ESMTPSA id d13sm3049826wmb.39.2020.05.06.05.58.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2020 05:57:02 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+        Wed, 06 May 2020 05:58:27 -0700 (PDT)
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] libnewt: Backport patch to fix reproducibility
-Date: Wed,  6 May 2020 07:56:57 -0500
-Message-Id: <20200506125657.3371-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
+Subject: [PATCH] mesa: enable x11 for native/nativesdk
+Date: Wed,  6 May 2020 14:58:15 +0200
+Message-Id: <20200506125815.20563-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.26.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Backports a patch from upstream to fix a reproducibility problem where
-paths would be encoded in the binary.
+This was found to be necessary for libsdl-native to enable opengl, as otherwise
+the opengl check would fall through to the host with unpredictable outcome.
 
-Drops an obsolete patch that conflicted with the backport
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-t-ignore-CFLAGS-when-building-snack.patch | 29 +++++++++++++
- .../newt/files/pie-flags.patch                | 41 -------------------
- meta/recipes-extended/newt/libnewt_0.52.21.bb |  4 +-
- 3 files changed, 31 insertions(+), 43 deletions(-)
- create mode 100644 meta/recipes-extended/newt/files/0002-don-t-ignore-CFLAGS-when-building-snack.patch
- delete mode 100644 meta/recipes-extended/newt/files/pie-flags.patch
+ meta/recipes-graphics/mesa/mesa.inc                | 4 ++--
+ meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb     | 2 ++
+ meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb | 2 ++
+ 3 files changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/newt/files/0002-don-t-ignore-CFLAGS-when-building-snack.patch b/meta/recipes-extended/newt/files/0002-don-t-ignore-CFLAGS-when-building-snack.patch
-new file mode 100644
-index 0000000000..ca235d5108
---- /dev/null
-+++ b/meta/recipes-extended/newt/files/0002-don-t-ignore-CFLAGS-when-building-snack.patch
-@@ -0,0 +1,29 @@
-+From f60dc1063607ca1f201ba4cbda467d8af3f78f64 Mon Sep 17 00:00:00 2001
-+From: Miroslav Lichvar <mlichvar@redhat.com>
-+Date: Tue, 1 Oct 2019 16:37:55 +0200
-+Subject: [PATCH] don't ignore CFLAGS when building snack
-+
-+In addition to the flags returned by python-config --cflags, use the
-+user-specified CFLAGS when building the snack object.
-+
-+Upstream-Status: Backport from master
-+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-+---
-+ Makefile.in | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/Makefile.in b/Makefile.in
-+index be5f87b..6facd5e 100644
-+--- a/Makefile.in
-++++ b/Makefile.in
-+@@ -96,8 +96,8 @@ _snack.$(SOEXT):   snack.c $(LIBNEWTSH)
-+ 		PIFLAGS=`$$pyconfig --includes`; \
-+ 		PLDFLAGS=`$$pyconfig --ldflags`; \
-+ 		PLFLAGS=`$$pyconfig --libs`; \
-+-		echo $(CC) $(SHCFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
-+-		$(CC) $(SHCFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
-++		echo $(CC) $(SHCFLAGS) $(CFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
-++		$(CC) $(SHCFLAGS) $(CFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
-+ 		echo $(CC) --shared $$PLDFLAGS $$PLFLAGS $(LDFLAGS) -o $$ver/_snack.$(SOEXT) $$ver/snack.o -L.  -lnewt $(LIBS); \
-+ 		$(CC) --shared $$PLDFLAGS $$PLFLAGS $(LDFLAGS) -o $$ver/_snack.$(SOEXT) $$ver/snack.o -L.  -lnewt $(LIBS); \
-+ 	done || :
-diff --git a/meta/recipes-extended/newt/files/pie-flags.patch b/meta/recipes-extended/newt/files/pie-flags.patch
-deleted file mode 100644
-index 92f5b2503b..0000000000
---- a/meta/recipes-extended/newt/files/pie-flags.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--specify -fPIC after CFLAGS so it can override the CFLAGS containing -pie and -fpie this makes sure the objects that go into shared objects are compiled with -fPIC and not with -fpie. We can not use -fpie on objects which will go into .so files Fixes errors like
--
--| /mnt/oe/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/5.3.0/ld: shared/newt.o: relocation R_X86_64_PC32 against undefined symbol `SLtt_Screen_Rows@@SLANG2' can not be used when making a shared object; recompile with -fPIC
--| /mnt/oe/build/tmp-glibc/sysroots/x86_64-linux/usr/libexec/x86_64-oe-linux/gcc/x86_64-oe-linux/5.3.0/ld: final link failed: Bad value
--| collect2: error: ld returned 1 exit status
--| make: *** [libnewt.so.0.52.18] Error 1
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Upstream-Status: Pending
--
-----
-- Makefile.in | 6 +++---
-- 1 file changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/Makefile.in b/Makefile.in
--index be5f87b..88ee0b7 100644
----- a/Makefile.in
--+++ b/Makefile.in
--@@ -96,8 +96,8 @@ _snack.$(SOEXT):   snack.c $(LIBNEWTSH)
-- 		PIFLAGS=`$$pyconfig --includes`; \
-- 		PLDFLAGS=`$$pyconfig --ldflags`; \
-- 		PLFLAGS=`$$pyconfig --libs`; \
---		echo $(CC) $(SHCFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
---		$(CC) $(SHCFLAGS) $(CPPFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
--+		echo $(CC) $(CPPFLAGS) $(SHCFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
--+		$(CC) $(CPPFLAGS) $(SHCFLAGS) $$PIFLAGS $$PCFLAGS -c -o $$ver/snack.o snack.c; \
-- 		echo $(CC) --shared $$PLDFLAGS $$PLFLAGS $(LDFLAGS) -o $$ver/_snack.$(SOEXT) $$ver/snack.o -L.  -lnewt $(LIBS); \
-- 		$(CC) --shared $$PLDFLAGS $$PLFLAGS $(LDFLAGS) -o $$ver/_snack.$(SOEXT) $$ver/snack.o -L.  -lnewt $(LIBS); \
-- 	done || :
--@@ -133,7 +133,7 @@ $(LIBNEWTSH): $(SHAREDOBJS)
-- 
-- $(SHAREDDIR)/%.o : %.c
-- 	@mkdir -p $(SHAREDDIR)
---	$(CC) $(SHCFLAGS) -c $(CFLAGS) $(CPPFLAGS) -o $@ $<
--+	$(CC) -c $(CFLAGS) $(CPPFLAGS) $(SHCFLAGS) -o $@ $<
-- 
-- install: $(LIBNEWT) install-sh whiptail
-- 	[ -d $(instroot)/$(bindir) ] || install -m 755 -d $(instroot)/$(bindir)
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/newt/libnewt_0.52.21.bb b/meta/recipes-extended/newt/libnewt_0.52.21.bb
-index 09b61be61d..88b4cf4a03 100644
---- a/meta/recipes-extended/newt/libnewt_0.52.21.bb
-+++ b/meta/recipes-extended/newt/libnewt_0.52.21.bb
-@@ -20,9 +20,9 @@ DEPENDS = "slang popt python3"
- SRC_URI = "https://releases.pagure.org/newt/newt-${PV}.tar.gz \
-            file://cross_ar.patch \
-            file://Makefile.in-Add-tinfo-library-to-the-linking-librari.patch \
--           file://pie-flags.patch \
-            file://0001-detect-gold-as-GNU-linker-too.patch \
--"
-+           file://0002-don-t-ignore-CFLAGS-when-building-snack.patch \
-+           "
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index b7ef496fdc..f59503bf14 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -72,8 +72,8 @@ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland v
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
+                    elf-tls \
+ 		   "
+-PACKAGECONFIG_class-native ?= "gbm dri egl opengl elf-tls"
+-PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl elf-tls"
++PACKAGECONFIG_class-native ?= "gbm dri egl opengl elf-tls x11"
++PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl elf-tls x11"
  
- SRC_URI[md5sum] = "a0a5fd6b53bb167a65e15996b249ebb5"
- SRC_URI[sha256sum] = "265eb46b55d7eaeb887fca7a1d51fe115658882dfe148164b6c49fccac5abb31"
+ PACKAGECONFIG_remove_libc-musl = "elf-tls"
+ 
+diff --git a/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb b/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
+index 6583ea2371..57b43ff28c 100644
+--- a/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
++++ b/meta/recipes-graphics/xorg-app/xrandr_1.5.1.bb
+@@ -15,3 +15,5 @@ SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.xz"
+ 
+ SRC_URI[md5sum] = "fe40f7a4fd39dd3a02248d3e0b1972e4"
+ SRC_URI[sha256sum] = "7bc76daf9d72f8aff885efad04ce06b90488a1a169d118dea8a2b661832e8762"
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
+index 95fc0b642c..1612a50f19 100644
+--- a/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.4.bb
+@@ -18,3 +18,5 @@ XORG_PN = "libXxf86vm"
+ 
+ SRC_URI[md5sum] = "298b8fff82df17304dfdb5fe4066fe3a"
+ SRC_URI[sha256sum] = "afee27f93c5f31c0ad582852c0fb36d50e4de7cd585fcf655e278a633d85cd57"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-2.17.1
+2.26.1
 
