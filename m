@@ -1,91 +1,78 @@
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
- by mx.groups.io with SMTP id smtpd.web10.4262.1588798705008073198
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+ by mx.groups.io with SMTP id smtpd.web12.137.1588802799105784067
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 May 2020 13:58:25 -0700
+ Wed, 06 May 2020 15:06:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=JsnuVNFK;
- spf=pass (domain: ossystems.com.br, ip: 209.85.160.195, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qt1-f195.google.com with SMTP id w29so2850147qtv.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2020 13:58:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=6tMyquHNiHfZOo4AkdQKkXeF1eUkihyjVB5ZQqW40Tg=;
-        b=JsnuVNFKk0e0gQYCzUWDndO50epd3NHEMopjrPKRYREyLDuse/eZ7LX4z98u6+6Yzt
-         MkTD/d3BhsXztbwVbiPdXIqk58OKRuk8/PsklN9S6bZvCcXeSwZJvpk+liDT5EoLkCbI
-         XX9ckODK29nX7+gS/fOdHgKNIwcltVK7ILEu49EPVbFe0EYMKJ3AK5q7NywKbiniOOMA
-         NC3sSYuf2DO0gCXGkxd44vW8OHFige3NBWSAmMboxj1H44mR/tV7yAHg2bgC8mNxNv5t
-         4fKQlsaxV+yBOQolQobqfOsnfHeEY1ULJsb6gShFZi/2jz7j+dsCwVTmy1mlq+8u/zEF
-         zZcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=6tMyquHNiHfZOo4AkdQKkXeF1eUkihyjVB5ZQqW40Tg=;
-        b=m4mHOP8ytD2C6dstM3WdtXicqR5tFJLJ3XvEkfjfXf4RAnGK6bOihIUwpkMaSh5zM4
-         iHTAAlXsHeYhFRsVYV5nJzPCc+A/wtpRRhSPXPvoVx3cqjYZBtqaP+rQdhYwxARQAEgG
-         g95Hm73CGPf2i539vQN6Yv7MBR6n58USjCXJZY7eIsP5C8u88lUsQ7zqmZZtyJwpE/w8
-         bvZKXKcGbyXbuGRQMWlaCA9j+gcnkECiCxuNoTJbR1N39oJ87cbNj5Uu6E+tZN5MnlgM
-         KGBq3p/Uz6gi4XVfi9Wda320NZ4iSxOLssrt1sPNDxsc9rwbg1HrdOdlC5TrNFIgvDW+
-         0XVA==
-X-Gm-Message-State: AGi0PuatVYQRP491xBYCzkXryOrsDS2Md631cWgD5hivIUbyHQd0ncXi
-	4zTO7irmfK6GBpocPJ2oTL4GBuDFRrRWLA==
-X-Google-Smtp-Source: APiQypLQ2IFs1ywwwSTC3q6Z9OIt6HPc9rjJQVgRu++e9sj6mpYfundgPBaY0A+72BEi/5K1AjgKTA==
-X-Received: by 2002:ac8:2965:: with SMTP id z34mr8131349qtz.44.1588798703793;
-        Wed, 06 May 2020 13:58:23 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
-        by smtp.gmail.com with ESMTPSA id p22sm2554553qtb.91.2020.05.06.13.58.22
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2020 13:58:23 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f172.google.com with SMTP id n14so3701541qke.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2020 13:58:22 -0700 (PDT)
-X-Received: by 2002:a05:620a:9c6:: with SMTP id y6mr7045019qky.82.1588798702445;
- Wed, 06 May 2020 13:58:22 -0700 (PDT)
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com ([174.114.57.56]:58224 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jWSBZ-003PEp-4r
+	for openembedded-core@lists.openembedded.org; Wed, 06 May 2020 18:06:38 -0400
+Date: Wed, 6 May 2020 18:06:34 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] doc: add variables supported by features_check.bbclass
+Message-ID: <alpine.LFD.2.21.2005061801110.14436@localhost.localdomain>
 MIME-Version: 1.0
-References: <VE1PR04MB6621CBC0F321F39DAFEBE548E2A40@VE1PR04MB6621.eurprd04.prod.outlook.com>
- <CAHtQpK43_Ytsw6JnOoPx6xTd9zhQZY6A1OzDhNFXFW57Ttmohg@mail.gmail.com>
-In-Reply-To: <CAHtQpK43_Ytsw6JnOoPx6xTd9zhQZY6A1OzDhNFXFW57Ttmohg@mail.gmail.com>
-Date: Wed, 6 May 2020 17:58:11 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKpsh=K=-LzUS9O2zsDH3MQt=z6RWjGCJyEZC-AZ8ZNe7g@mail.gmail.com>
-Message-ID: <CAP9ODKpsh=K=-LzUS9O2zsDH3MQt=z6RWjGCJyEZC-AZ8ZNe7g@mail.gmail.com>
-Subject: Re: [OE-core] Cannot disable weston
-To: Andrey Zhizhikin <andrey.z@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Cc: Tom Hochstein <tom.hochstein@nxp.com>, 
-	"Patches and discussions about the oe-core layer (openembedded-core@lists.openembedded.org)" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-Hello all,
+Add to documentation.conf all the new variables supported by
+features_check.bbclass.
 
-Adding Khem on Cc.
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-On Wed, May 6, 2020 at 5:42 PM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
-> On Wed, May 6, 2020 at 10:29 PM Tom Hochstein <tom.hochstein@nxp.com> wrote:
-> >
-> > We are no longer able to disable weston service with standard `systemctl disable weston@root.service`.
->
-> I've faced similar issues a while back, and also found out that weston
-> has been actually started twice: once from udev, and once from
-> systemd. At that time, I removed the udev locally on the EVK and
-> didn't look further into it.
->
-> > On boot the service is started again. It seems likely this started with the introduction of a starting udev rule:
-> >
-> > https://github.com/openembedded/openembedded-core/commit/aa3bced2e1de2f4ba507aa014835b06edccc138a#diff-d92aa97566c1bd0dd1eb817bb4511cda
-> >
-> > Is this behaving correctly? Can the rule be made to honor the service disablement?
->
-> Or the other way around: can the systemd service be disabled? Or in
-> general: is it possible to leave only one of those mechanisms, and
-> which one is the correct one?
+---
 
-Why the udev support was added and why this cannot be done in the service?
+  in preparation for adding all this info to the YP reference manual,
+might as well add them all here first.
 
--- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index c6544b9698..eee3c43ff2 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -64,6 +64,9 @@ ALTERNATIVE[doc] = "Lists commands in a package that need an alternative binary
+ ALTERNATIVE_LINK_NAME[doc] = "Used by the alternatives system to map duplicated commands to actual locations."
+ ALTERNATIVE_PRIORITY[doc] = "Used by the alternatives system to create default priorities for duplicated commands."
+ ALTERNATIVE_TARGET[doc] = "Used by the alternatives system to create default link locations for duplicated commands."
++ANY_OF_COMBINED_FEATURES[doc] = "When a recipe inherits the features_check class, at least one item in this variable must be included in COMBINED_FEATURES."
++ANY_OF_DISTRO_FEATURES[doc] = "When a recipe inherits the features_check class, at least one item in this variable must be included in DISTRO_FEATURES."
++ANY_OF_MACHINE_FEATURES[doc] = "When a recipe inherits the features_check class, at least one item in this variable must be included in MACHINE_FEATURES."
+ ASSUME_PROVIDED[doc] = "List of packages (recipes actually) that are assumed to be implicitly available. BitBake does not build these packages."
+ ASSUME_SHLIBS[doc] = "List of shlib:package[_version] mappings. Useful for lib packages in ASSUME_PROVIDED, for which automatic shlib dependency tracking does not work."
+ AUTHOR[doc] = "Email address used to contact the original author(s) in order to send patches and forward bugs."
+@@ -114,7 +117,9 @@ COMPATIBLE_MACHINE[doc] = "A regular expression that resolves to one or more tar
+ COMPLEMENTARY_GLOB[doc] = "Defines wildcards to match when installing a list of complementary packages for all the packages installed in an image."
+ CONFFILES[doc] = "Identifies editable or configurable files that are part of a package."
+ CONFIG_SITE[doc] = "A list of files that contains autoconf test results relevant to the current build. This variable is used by the Autotools utilities when running configure."
+-CONFLICT_DISTRO_FEATURES[doc] = "When a recipe inherits the features_check class, this variable identifies distribution features that would be in conflict should the recipe be built."
++CONFLICT_COMBINED_FEATURES[doc] = "When a recipe inherits the features_check class, no item in this variable can be included in COMBINED_FEATURES."
++CONFLICT_DISTRO_FEATURES[doc] = "When a recipe inherits the features_check class, no item in this variable can be included in DISTRO_FEATURES."
++CONFLICT_MACHINE_FEATURES[doc] = "When a recipe inherits the features_check class, no item in this variable can be included in MACHINE_FEATURES."
+ CORE_IMAGE_EXTRA_INSTALL[doc] = "Specifies the list of packages to be added to the image. You should only set this variable in the conf/local.conf file in the Build Directory."
+ COREBASE[doc] = "Specifies the parent directory of the OpenEmbedded Core Metadata layer (i.e. meta)."
+ CONF_VERSION[doc] = "Tracks the version of local.conf.  Increased each time build/conf/ changes incompatibly."
+@@ -344,7 +349,9 @@ QMAKE_PROFILES[doc] = "Specifies your own subset of .pro files to be built for u
+
+ RCONFLICTS[doc] = "The list of packages that conflict with another package. Note that the package will not be installed if the conflicting packages are not first removed."
+ RDEPENDS[doc] = "Lists a package's runtime dependencies (i.e. other packages) that must be installed for the package to be built. They must be the names of other packages as listed in the PACKAGES variable, not recipe names (PN)."
+-REQUIRED_DISTRO_FEATURES[doc] = "When a recipe inherits the features_check class, this variable identifies distribution features that must exist in the current configuration in order for the OpenEmbedded build system to build the recipe."
++REQUIRED_COMBINED_FEATURES[doc] = "When a recipe inherits the features_check class, all items in this variable must be included in COMBINED_FEATURES."
++REQUIRED_DISTRO_FEATURES[doc] = "When a recipe inherits the features_check class, all items in this variable must be included in DISTRO_FEATURES."
++REQUIRED_MACHINE_FEATURES[doc] = "When a recipe inherits the features_check class, all items in this variable must be included in MACHINE_FEATURES."
+ RM_WORK_EXCLUDE[doc] = "With rm_work enabled, this variable specifies a list of packages whose work directories should not be removed."
+ ROOTFS[doc] = "Indicates a filesystem image to include as the root filesystem."
+ ROOTFS_POSTPROCESS_COMMAND[doc] = "Added by classes to run post processing commands once the OpenEmbedded build system has created the root filesystem."
