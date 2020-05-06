@@ -1,140 +1,102 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web12.1869.1588791694395300732
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.3688.1588796824090080271
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 May 2020 12:01:34 -0700
+ Wed, 06 May 2020 13:27:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eoIv9AdD;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id v4so5641367wme.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2020 12:01:34 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cBy5HUGn;
+ spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: jan.vermaete@gmail.com)
+Received: by mail-wm1-f66.google.com with SMTP id u16so4205748wmc.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2020 13:27:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=P6OrpuAchVkaG6yfX84bYOBesnJQHupwCvePaTg8gWc=;
-        b=eoIv9AdDkg/0bRl0ggjSJbWKY7YBXKijFUCt1woBLy0wscIqTOIo5n+ilwlt9+p9bE
-         jgoMCRSrD6bsMmGk1wpeR6EGZwBu+F2il7mrizK5Z9/szuPsHv2ncFoOq1vSzYO3csZj
-         6T3zAfWH85GtgQLxTykD4jxegoio4geY7VcQB5tn5NuOumlwH69HCus91FFnFkm7W8qW
-         eErr4pZ01ecFl9Y3w4+CozRtByIb8VHmO0YxtmP7pkMdrJiCYhPKWNE0/JWKxEYmS/P4
-         TXnPzyFpcv8qTb1/StTesIpMPM50mz6sgSUiiRi7+b4m5EAhmzyf4jx1czwpCZEoukCm
-         jJuw==
+        h=from:to:cc:subject:date:message-id;
+        bh=GFMgLtmRWVpq6aFqzTOosvK+Nc6y6L1Xivw5bojTa5c=;
+        b=cBy5HUGnkdyLbZcZHkPrf+BvMzw5z+MG17GFdEUVNEBIRmzpO7QhzU9vhTlccXm+tm
+         9g7ZMjMvsIiPbr0SBrlBiXAMO6b7KIXdKsxPqhgdxBqomwvv+L2rPnMJTlD4z6CiGUi2
+         LWc3ypSk05TkwGveNb27CT60lL6fr86V4eoaIvPm6XSMfKiIisGHq7Tx13vqlQJwJXzR
+         c2XuSabrTq0C/2BlaowDEW9nJPLOTm8UiQRHhFAgf+z/STMlR9IjtvHJZKXAi4ZxwM+t
+         sLgVZ4qph68I6YcegNIk0ZLrwmi5/QPIoUpaVd4ifnk9fjQjOxZgiBGvn/nYpyBHxz++
+         fiUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=P6OrpuAchVkaG6yfX84bYOBesnJQHupwCvePaTg8gWc=;
-        b=K5HUUDRxgl5M9VDnLqWSl7Z0JCI0ZLPgj3ato2ZhWfCmTBWYQrt0JxzQM0EcQlPZ9W
-         qji8DebTDjRtriR5xWZeppHk4gNlaY8qXYMqZ4xHwu3a5O8mM8nM8sJJQSKg3fC6OrVB
-         tFOmloNDvSr+0E9NmmOhpCYTwoo7mX93fEc+ui4CNHsZvqz5+FwTjbUIxJctsroAzjWQ
-         3zBBhnDZ+8/ByvBgH290JqZ0CKdqElKIfcUCHoSp2Gcdzx1kq7acDRrhZYmapb/GY/fj
-         gC3qpbyhu+lK7eKWrnqUpLST+a6OIVtTTWZvTkIvyR3GtXMJeTu+1ZXU7RBaOCMvWpvm
-         M1mQ==
-X-Gm-Message-State: AGi0PuZdIWRB0YWD6nVjC3WhKJnnaE8Z4PMjqbCfpUuIqWZNbq2wYA98
-	EPw7l8TFrWZ76PXfbhF9N+aACgOc
-X-Google-Smtp-Source: APiQypKuRmsKHNfyZY2pRXXwIZ4tlM60cIIfOxBg6vdqBlmgpJnoZJ0GkpVtPAeNfcI+zzW3Tc0YDA==
-X-Received: by 2002:a7b:c1d4:: with SMTP id a20mr6191999wmj.111.1588791691932;
-        Wed, 06 May 2020 12:01:31 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id n131sm4197061wmf.35.2020.05.06.12.01.30
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=GFMgLtmRWVpq6aFqzTOosvK+Nc6y6L1Xivw5bojTa5c=;
+        b=Uvtn7EmPMPVNEa7XTrDEkREqSEKYH1eh0wbMF+uITkUhf7y4hM5zu8bnKjSGZ83Q7k
+         Y++Va8pXeiEpe89JQRxT0LZ0MEdXLYzTbHEQuHgYH3wCQiVc+qfVzvrWIZdzmlc9aEs6
+         mzD1EDQqQqEJsgrUY8CXNHcd59xBo3eMg1z0IRQNUchhtAscEmmpWYRjCoiDirDm+wxz
+         KcAcqJHmSXMltIysgz2XOmAlbqs8nXlNbD9IDNzFZ+WqMoIch0a47XHmGzL/HlYJjRZq
+         gdY8/m7RcMPQFK0vreE5IxeY75iq2mXT29gUZAkukQ6oh5+2YNFHiBCKutkVpijBgyOv
+         8wHw==
+X-Gm-Message-State: AGi0PubJ54L6ouKMUZk2fdMckxlh6BEMYHg/api+lyFt9EiAnVRXpQus
+	tZ1s9db7Y3Yd9guIfHff4cuYLY7+QQE=
+X-Google-Smtp-Source: APiQypII+f4yfA9kWzbzSjhwvgtQFEVoZuJ5ezPgghi8r21LwR9rzJXjb09iXYFwAKA9FNz87S4cQg==
+X-Received: by 2002:a7b:c927:: with SMTP id h7mr6190736wml.122.1588796822350;
+        Wed, 06 May 2020 13:27:02 -0700 (PDT)
+Return-Path: <jan.vermaete@gmail.com>
+Received: from localhost.localdomain (78-20-166-56.access.telenet.be. [78.20.166.56])
+        by smtp.gmail.com with ESMTPSA id s18sm5015326wra.94.2020.05.06.13.27.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2020 12:01:31 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+        Wed, 06 May 2020 13:27:01 -0700 (PDT)
+From: "jan" <jan.vermaete@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 1/2] runqemu: set host DRI driver path for all instances of virgl usage
-Date: Wed,  6 May 2020 21:01:02 +0200
-Message-Id: <20200506190103.6304-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Jan Vermaete <jan.vermaete@gmail.com>
+Subject: [scripts][PATCH] Newer Linux kernels are producing built-in.a files.
+Date: Wed,  6 May 2020 22:26:49 +0200
+Message-Id: <20200506202649.23638-1-jan.vermaete@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-Falling through to host GL stack via epoxy chrpath hack was
-found to be problematic in case of SDL particularly (because it does
-not actually use epoxy, and does its own dlopen()).
+In the past the file was named 'built-in.o'.
+Nowadays it is 'built-in.a'.
 
-So let's just use the mesa-native libraries everywhere, but instruct
-them to load DRI drivers from the host.
+The script is modified to work with both.  I expect
+it will not happen that there are built-in.a and built-in.o
+files in the same kernel.
 
-NVidia's proprietary blob users have to take care of themselves, I'm afraid.
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
 ---
- scripts/runqemu | 37 ++++++++++++++++++++++---------------
- 1 file changed, 22 insertions(+), 15 deletions(-)
+ scripts/tiny/ksize.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 310d79fdc5..7eb7a9c7b4 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -420,6 +420,23 @@ class BaseConfig(object):
-             logger.error("%s not a directory valid DEPLOY_DIR_IMAGE" % deploy_dir_image)
-             self.set("MACHINE", arg)
+diff --git a/scripts/tiny/ksize.py b/scripts/tiny/ksize.py
+index 8316b85cb1..63c5495c91 100755
+--- a/scripts/tiny/ksize.py
++++ b/scripts/tiny/ksize.py
+@@ -4,7 +4,7 @@
+ #
+ # SPDX-License-Identifier: GPL-2.0-or-later
+ #
+-# Display details of the kernel build size, broken up by built-in.o. Sort
++# Display details of the kernel build size, broken up by built-in.[o,a]. Sort
+ # the objects by size. Run from the top level kernel build directory.
+ #
+ # Author: Darren Hart <dvhart@linux.intel.com>
+@@ -48,7 +48,7 @@ class Report:
+         r = Report(filename, title)
+         path = os.path.dirname(filename)
  
-+    def set_dri_path(self):
-+        # As runqemu can be run within bitbake (when using testimage, for example),
-+        # we need to ensure that we run host pkg-config, and that it does not
-+        # get mis-directed to native build paths set by bitbake.
-+        try:
-+            del os.environ['PKG_CONFIG_PATH']
-+            del os.environ['PKG_CONFIG_DIR']
-+            del os.environ['PKG_CONFIG_LIBDIR']
-+            del os.environ['PKG_CONFIG_SYSROOT_DIR']
-+        except KeyError:
-+            pass
-+        try:
-+            dripath = subprocess.check_output("PATH=/bin:/usr/bin:$PATH pkg-config --variable=dridriverdir dri", shell=True)
-+        except subprocess.CalledProcessError as e:
-+            raise RunQemuError("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
-+        os.environ['LIBGL_DRIVERS_PATH'] = dripath.decode('utf-8').strip()
-+
-     def check_args(self):
-         for debug in ("-d", "--debug"):
-             if debug in sys.argv:
-@@ -440,15 +457,19 @@ class BaseConfig(object):
-                 self.kernel_cmdline_script += ' console=ttyS0'
-             elif arg == 'sdl':
-                 if 'gl' in sys.argv[1:]:
-+                    self.set_dri_path()
-                     self.qemu_opt_script += ' -vga virtio -display sdl,gl=on'
-                 elif 'gl-es' in sys.argv[1:]:
-+                    self.set_dri_path()
-                     self.qemu_opt_script += ' -vga virtio -display sdl,gl=es'
-                 else:
-                     self.qemu_opt_script += ' -display sdl'
-             elif arg == 'gtk':
-                 if 'gl' in sys.argv[1:]:
-+                    self.set_dri_path()
-                     self.qemu_opt_script += ' -vga virtio -display gtk,gl=on'
-                 elif 'gl-es' in sys.argv[1:]:
-+                    self.set_dri_path()
-                     self.qemu_opt_script += ' -vga virtio -display gtk,gl=es'
-                 else:
-                     self.qemu_opt_script += ' -display gtk'
-@@ -456,22 +477,8 @@ class BaseConfig(object):
-                 # These args are handled inside sdl or gtk blocks above
-                 pass
-             elif arg == 'egl-headless':
-+                self.set_dri_path()
-                 self.qemu_opt_script += ' -vga virtio -display egl-headless'
--                # As runqemu can be run within bitbake (when using testimage, for example),
--                # we need to ensure that we run host pkg-config, and that it does not
--                # get mis-directed to native build paths set by bitbake.
--                try:
--                    del os.environ['PKG_CONFIG_PATH']
--                    del os.environ['PKG_CONFIG_DIR']
--                    del os.environ['PKG_CONFIG_LIBDIR']
--                    del os.environ['PKG_CONFIG_SYSROOT_DIR']
--                except KeyError:
--                    pass
--                try:
--                    dripath = subprocess.check_output("PATH=/bin:/usr/bin:$PATH pkg-config --variable=dridriverdir dri", shell=True)
--                except subprocess.CalledProcessError as e:
--                    raise RunQemuError("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
--                os.environ['LIBGL_DRIVERS_PATH'] = dripath.decode('utf-8').strip()
-             elif arg == 'serial':
-                 self.kernel_cmdline_script += ' console=ttyS0'
-                 self.serialconsole = True
+-        p = Popen("ls " + str(path) + "/*.o | grep -v built-in.o",
++        p = Popen("ls " + str(path) + "/*.o | grep -v built-in.o | grep -v built-in.a",
+                   shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+         glob = ' '.join(p.communicate()[0].splitlines())
+         oreport = Report(glob, str(path) + "/*.o")
+@@ -59,7 +59,7 @@ class Report:
+             p = Popen("ls " + subglob, shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+             for f in p.communicate()[0].splitlines():
+                 path = os.path.dirname(f)
+-                r.parts.append(Report.create(f, path, str(path) + "/*/built-in.o"))
++                r.parts.append(Report.create(f, path, str(path) + "/*/built-in.[o,a]"))
+             r.parts.sort(reverse=True)
+ 
+         for b in r.parts:
+@@ -139,7 +139,7 @@ def main():
+         else:
+             assert False, "unhandled option"
+ 
+-    glob = "arch/*/built-in.o */built-in.o"
++    glob = "arch/*/built-in.[o,a] */built-in.[o,a]"
+     vmlinux = Report.create("vmlinux",  "Linux Kernel", glob)
+ 
+     vmlinux.show()
 -- 
-2.26.1
+2.17.1
 
