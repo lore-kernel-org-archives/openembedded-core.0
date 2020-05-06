@@ -1,67 +1,76 @@
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web10.3011.1588757652443420884
+ by mx.groups.io with SMTP id smtpd.web10.3457.1588760306593160845
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 May 2020 02:34:15 -0700
+ Wed, 06 May 2020 03:18:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=FBFhQNwC;
+ dkim=pass header.i=@stusta.de header.s=default header.b=qA2y5mx8;
  spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=fjce=6u=stusta.de=bunk@stusta.mhn.de)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49HBHh5vVsz52
-	for <openembedded-core@lists.openembedded.org>; Wed,  6 May 2020 11:34:07 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49HCGj5hMVz2J;
+	Wed,  6 May 2020 12:18:21 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1588757648;
-	bh=micd+Zc2P/r6xFvBSIWJ1ydQnIP5QYfTmJSSFxIVdEE=;
-	h=Resent-From:Resent-Date:Resent-To:Date:From:To:Subject:References:
-	 In-Reply-To:From;
-	b=FBFhQNwCcmg5gfJ9LsgzLtGQhcM1fBQz3CS07Vwi1wYNEsxjnZi5nj5lZdonS5bey
-	 GL7FJIgb3CyRlwbhnnqVV7G9T+4jtUGt/mec14M2XwYJkQDPVFaAVZfxhb8FuPZvjf
-	 aqd0f56LE3EPHFpOtY24GycAeaPSUYKOPTuj3rm2tYCdrlTQcSztDyxLOW9jaChGHj
-	 KB6d2FG9bzxPAMGRsKdGUF5bpol47DNxATCu5pmNxMv7S3BQZeUdOpBU4O12V+Nrqt
-	 Gczb6MUhUxn/MELYeiqutIEP60yo2cYX6fOB1V1nQj70SWmEU27DG/s/eDBqeOeEsf
-	 Xc6LrXJlwflJpUzs7HdumDijD6MFkl1PmH/c7Dqm/jUZ7ZKkYpBBz8vkxVGpmllwOA
-	 cm9MsU8rtnuytqNZzwwAg29pNFe24gB9ICcladtkAf9551MD7Sz8Ft+TfuhQUXZY5R
-	 KN4LB6WT47v6ReqBtwGKO/S7FNo3VQE8aFOq53CSOESZSb6Z6L0Hj8I5iE/d+Y9KPp
-	 U0GN463BNx05p3Z9UVhD1lsX9b33jxE6T46pFPug+Lr7bYsrzvkhm2EDqZbgYki5SM
-	 8IQaTMh0kJ6Y+xhAzgZnkgc/eXY4eO6Kf13zh7Q+9XlFqrDmhcpXIQpBMGA3iGhVEq
-	 /hqUNCj2tXt9TUBSuFgkroak=
-Resent-From: Adrian Bunk <bunk@stusta.de>
-Resent-Date: Wed, 6 May 2020 12:34:05 +0300
-Resent-Message-ID: <20200506093405.GA28447@localhost>
-Resent-To: openembedded-core@lists.openembedded.org
-Date: Wed, 6 May 2020 10:22:40 +0300
+	s=default; t=1588760302;
+	bh=8yILpvi5LM96JeCj2dZG7QG1R9wCrUUmqK5Fjx/gsjA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qA2y5mx80alnwRjhUWpUwY+27M6t7g54Me9DBp7+2PMtgpb0CqC3z/dm/fBkBKapV
+	 5swvyAgEtwI/3EYgRD8yBp5TKMka4Bp7oDUeiqkTdCOVbMGfqzksIFV1u9jzdZsHmN
+	 mMBfRSEVVSgT+Djcj0m1jtyPItIja492jmT4y71xQsSnAgBTPjPV0IBs5/Qa7uZMi5
+	 9G4sWAAbZo/yvHn3viLuuMoXUXDYXumjC6ZI9Ii5t0AENCgva6QH4uAfRc59Lu4E6W
+	 Lc7CIDU/+74Wuj9HF9GGmJPmEThU033py+vVjPom8Gp4udacv1E4+lP927YuMKCMqO
+	 IdD8CIwNb/UxSDn2p7Ti/GtDKlCxq2ljIgyGmYAg27lmM04NWESet9FfslgRrS+TeA
+	 taSOkk8r0UVODxL9XUdvQ7Vyv9YFhxkfwnwACtpQ9K07iudwrG0rvf4vwl+Mhe2ulC
+	 zL8tNryVS1OvNwuAkDJbUDu32HfLjmG5p4tvGCVS+b/bPNegJ2l4DlNvhHLNKU6GvJ
+	 mMOVPf+vKw7NPrUJUSfvO634tM33ArQlK9eCZddByvMi2UUCxelC+2Y5Mft8qj27iv
+	 lfQzyOc/5A2BOrLBCqQEjTD+oJLMajQsxv8he7sHPj8gxMroN5SCb0uu8cSbOa7DVR
+	 +ugeXDZApX1EbKzURyd9j1Y0=
+Date: Wed, 6 May 2020 13:18:19 +0300
 From: "Adrian Bunk" <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] Add -fcommon to BUILD_CFLAGS to a number of recipes
-Message-ID: <20200506072240.GB31672@localhost>
-References: <20200503080730.3686063-1-daniel@zonque.org>
- <CAMKF1sqCb8JhGcuyJaTwC2=AsHRGvHsQ7BXJguOVg3VTOENiNA@mail.gmail.com>
- <CAJ86T=XKmHH2geeKudRLuTox2TOz3njdic5hiBSeX8hDRxUbDA@mail.gmail.com>
+To: Richard Leitner <richard.leitner@skidata.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH] dtc: update to 1.6.0
+Message-ID: <20200506101819.GA31658@localhost>
+References: <20200505115535.141557-1-richard.leitner@skidata.com>
+ <20200506071016.GA31672@localhost>
+ <20200506071919.GC250994@pcleri>
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=XKmHH2geeKudRLuTox2TOz3njdic5hiBSeX8hDRxUbDA@mail.gmail.com>
+In-Reply-To: <20200506071919.GC250994@pcleri>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-On Sun, May 03, 2020 at 12:21:38PM -0700, Andre McCurdy wrote:
-> On Sun, May 3, 2020 at 10:39 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > I think add it globally to BUILD_CFLAGS perhaps is
-> > Right thing to do once we upgrade to gcc10 cross compiler I have a patch to add it to gcc defaults
+On Wed, May 06, 2020 at 09:19:19AM +0200, Richard Leitner wrote:
+> On Wed, May 06, 2020 at 10:10:16AM +0300, Adrian Bunk wrote:
+> > On Tue, May 05, 2020 at 01:55:35PM +0200, Richard Leitner wrote:
+> > >...
+> > > --- a/meta/recipes-kernel/dtc/dtc_1.5.1.bb
+> > > +++ b/meta/recipes-kernel/dtc/dtc_1.6.0.bb
+> > > @@ -3,7 +3,7 @@ require dtc.inc
+> > >  LIC_FILES_CHKSUM = "file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+> > >  		    file://libfdt/libfdt.h;beginline=4;endline=7;md5=05bb357cfb75cae7d2b01d2ee8d76407"
+> > >  
+> > > -SRCREV = "60e0db3d65a1218b0d5a29474e769f28a18e3ca6"
+> > > +SRCREV = "v${PV}"
+> > >...
+> > 
+> > It is tempting to use tags, but it is a bad idea.
+> > Upstream might move a tag to a different commit.
+> > Someone might do a man-in-the-middle attack on a specific user,
+> > and there is no other verification of the sources apart from
+> > the commit hash.
 > 
-> Adding -fcommon to CFLAGS or BUILD_CFLAGS globally could interact
-> badly with components which are already setting -fno-common via their
-> own internal CFLAGS. It's safer to fix selectively on a per-recipe
-> basis.
+> Thanks for the info. Is this documented somewhere?
+
+Good question.
+
+> How should I proceed on this patch as it was already applied to
+> master-next? Should I send a v2 or a "fix patch"?
+
+v2
+
+A -next branch does break git history, so patches can get removed.
+
 >...
-
-For master per-recipe solutions would be the best option.
-And for the target side this is all that is needed.
-
-The problematic part is the host side when building older Yocto releases 
-on latest Linux distributions.
-
-Per-recipe changes for dunfell oe-core and gazillion 3rd party 
-dunfell layers are not a desirable solution.
+> regards;rl
 
 cu
 Adrian
