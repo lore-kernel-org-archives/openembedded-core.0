@@ -1,240 +1,168 @@
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
- by mx.groups.io with SMTP id smtpd.web11.2026.1588879105333003721
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web11.2588.1588880658331343394
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2020 12:18:25 -0700
+ Thu, 07 May 2020 12:44:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tEyyonNL;
- spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f53.google.com with SMTP id g16so6528619eds.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2020 12:18:25 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LtLHqGPg;
+ spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f194.google.com with SMTP id l25so3271398pgc.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2020 12:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=kVO1jpN1XmApfKPh2mEp5/NGgquM2XIB8JGNnJZJWhE=;
-        b=tEyyonNLHsGJiuibrcunifhPNV1xK4HY02AG6UcqwIgP3hVwFQn/GDu8D5cyXXds+U
-         wbN8kr1E1mcths6jY0nhSJMoUyjRbxMiOm9Cx2axwmkIoWLIXYNJWanXmPOL/iknVPol
-         AtBbtiwdoDfZGlbOLrUMEdYiqob9rruqmreY3SB8AYJGObEnYlcncxDvAIxH39+ZnUHu
-         1M7ggBiM90L5OeIH/vC47/AfPlihcAqFFIvApOcX60ry2vlpM64w19bQp+i+Yt3ZbhmW
-         oDh67dWnrVZIFAQaVOTTaafz98nvLwUeEkxLW6RyEsYLOL1jaWwq2b9GsC3eHIgPrxPX
-         GuyA==
+        h=subject:to:references:from:autocrypt:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=4Q1pX4eVTwjtGKQQYrlr0NpK39dEe7Z1xtECzomImbc=;
+        b=LtLHqGPgO37xgnrFoOT0A+O+LCL5Tu1XFpZWqw93a7uAVsuliNBaAY3jsiGqpEHUBf
+         C45ePw93Q6Gn4Egx1H1A+A7EYS7g1BU/FYKJxs3LLNhC65LHcVAA7Q7dGorwc64CThcS
+         2N8R3qvRtPX9hjO5HK1MN85hI65LPEkL2XTlFzbaISW50HzHBahW4fjTwMCxqTV/HA6t
+         n/Jb7PF4e6GpWVUpfQ9ro9cbk1yoUDMcm/vzeDixcnIubY25/OjhUp5gKDbch9xocNhk
+         2QZbmGw/B4Qh5vi5YNy/quXGDMdJIV+cW801qlL2bBiwfTNHF3+G99kYtf/700w3dLH2
+         SLYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=kVO1jpN1XmApfKPh2mEp5/NGgquM2XIB8JGNnJZJWhE=;
-        b=XxZgy3feCHqeA+ELrCczTJ+bYOKZxfWwVvcwbBpnRgRp08mhjj1qWE/hP94bG3AhOQ
-         sEkJq/s4PstmAiGPv3GihFi+PQ1180A9F6zJK+KMMA2INK+agj7/LwtD0yyx05/T8yYw
-         /Nn/gnguoOiYnOVS9O8SZXsRyPTj3fJK9OUn+/Ha+p7GQHuFmCIXIrUjRXIQ1S+8r530
-         ZBOCOCttvZImqcCRya+WP60ZkzQpxg/mmMEGVIVr81cFfHIeN1TaRhBrQ9MvhH+kzfQ7
-         5SYT0dFPDvaXKNLvMm9yauOFNE10aaUncUgMjMN30XRbw5aswZ0W3FNA6JwfGr2yvRt0
-         HzKA==
-X-Gm-Message-State: AGi0PuZdI8bGRuGS26VdxyYnonYYwULbzpYz+43SQ3IKa3w86V9ynW/J
-	abFSK9TOmnEQ3vfxigKY0WyIFMwZYBeVYD/1SEc=
-X-Google-Smtp-Source: APiQypLJsiGy8QzwOFmpJjtzS8FHrqa+nAGCPFmVp2OkI4SmOz0F4SRnaWFXGxLibIMB6e69GoP94FDqsM+064EB5Y8=
-X-Received: by 2002:a05:6402:558:: with SMTP id i24mr12919820edx.347.1588879103637;
- Thu, 07 May 2020 12:18:23 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=4Q1pX4eVTwjtGKQQYrlr0NpK39dEe7Z1xtECzomImbc=;
+        b=VGZOvmqfKXWkxKTMEsRj+ped0kC7bEQ2XS3bBHcLOZNnFdYmLq4k0YncTqKxphCnjZ
+         IaRSVzMi28eOS6viuqwFhhtbBqvikBmnY7mRQcG+sQhrS5ynNEaogRiomC5Rja2ZMx8V
+         0PZWWQkmYTopGrzrrT4AvV8YHVvCh3cpO4yzOLkQ5r/Wai1sYOrO0tR2aMAHmhcXufXW
+         jLmuZ2rBsT50bORtHgeKR56rzaxYxTbPiNYbOEN/P5K0SElwT+jvuIXM/bYGmyyauIgn
+         bno56Cr2PryPBhKK0qYqhQRLhxDtxc5XHYYSvQPN2yMhaZgvOxqXgazbRNITDZm+Woo5
+         /TVw==
+X-Gm-Message-State: AGi0PuYyLMdACTJjfKdLPhMPLIW/SOc3O4E1T+7Ad9Q14QOtVISZt4qu
+	wFQUJSor8oL3u0ctG6YKS9o=
+X-Google-Smtp-Source: APiQypJmvF1NPeaflWtxd2lecMYR/wmljpdS2w0m4ntRGLP3ZZXrOSTGRq2oV6ZWmfxuSo4e/W9L5w==
+X-Received: by 2002:a63:a351:: with SMTP id v17mr12442741pgn.343.1588880657608;
+        Thu, 07 May 2020 12:44:17 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0::2691? ([2601:646:9200:4e0::2691])
+        by smtp.gmail.com with ESMTPSA id y2sm5702947pfq.16.2020.05.07.12.44.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 May 2020 12:44:17 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH 1/2] populate_sdk_base: Add ld.so.conf for nativesdk-binutils
+To: openembedded-core@lists.openembedded.org,
+ Ovidiu Panait <ovidiu.panait@windriver.com>
+References: <20200428125747.27422-1-ovidiu.panait@windriver.com>
+ <CAGDS+n=sk=UvThgL+VTa=L3mbbymTdPPYciRkT3Uw+ybrucLgA@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Autocrypt: addr=raj.khem@gmail.com; keydata=
+ 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
+Message-ID: <01ab6569-2e2e-1569-d3be-930f4a6037d7@gmail.com>
+Date: Thu, 7 May 2020 12:44:15 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <cover.1588520452.git.bruce.ashfield@gmail.com>
- <70c6d988d291d1e2953d4b57cc9e88c146785d14.camel@linuxfoundation.org>
- <160BD489BF65999D.29536@lists.openembedded.org> <CADkTA4PjNUb8BcP3oS9Ey8atrvuP1YAhJzfoUES0Ya8eunddng@mail.gmail.com>
- <ded31e364a1c6c5bcc5bd791b9bf49d9b8747b4b.camel@linuxfoundation.org>
- <CADkTA4NST80Bx=6KCBiaU5wxR6LxS3QXUN7SJ3g1cJcY6dnpmQ@mail.gmail.com> <CAGDS+nmRH8t8cYSrqd9nFcSLPxxBH8JTD-uYvzHRrDJcvKPuqw@mail.gmail.com>
-In-Reply-To: <CAGDS+nmRH8t8cYSrqd9nFcSLPxxBH8JTD-uYvzHRrDJcvKPuqw@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 7 May 2020 15:18:12 -0400
-Message-ID: <CADkTA4OTX_rE0PoEzWZW6Paie5inzWRUsYu0S3EEhTz-WsKe=Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 0/5] linux-yocto: consolidated pull request
-To: Steve Sakoman <sakoman@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <CAGDS+n=sk=UvThgL+VTa=L3mbbymTdPPYciRkT3Uw+ybrucLgA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 7, 2020 at 2:15 PM Steve Sakoman <sakoman@gmail.com> wrote:
->
-> From the discussion to this point it seems that these patches aren't
-> quite ready for dunfell.  Let me know if/when that changes, or if I'm
-> mistaken in that assumption!
 
-Richard merged 3 of the 4 kernel updates (up to v5.4.34), so they are
-ok for dunfell.
 
-There's just a reproducible issue that we have to look into more
-(there's no runtime issues with any of them).
+On 5/3/20 3:51 PM, Steve Sakoman wrote:
+> Should I consider these two patches for dunfell LTS?
+> 
 
-Bruce
+Yes I think they are fixing a problem and are safe.
 
->
+> Thanks!
+> 
 > Steve
->
-> On Mon, May 4, 2020 at 3:34 AM Bruce Ashfield <bruce.ashfield@gmail.com>=
- wrote:
-> >
-> > On Mon, May 4, 2020 at 9:24 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Mon, 2020-05-04 at 09:06 -0400, Bruce Ashfield wrote:
-> > > > On Mon, May 4, 2020 at 8:56 AM Bruce Ashfield via
-> > > > lists.openembedded.org
-> > > > <bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
-> > > > > On Mon, May 4, 2020 at 4:31 AM Richard Purdie
-> > > > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > > > Hi Bruce,
-> > > > > >
-> > > > > > On Sun, 2020-05-03 at 11:44 -0400, bruce.ashfield@gmail.com wr=
-ote:
-> > > > > > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > > > > >
-> > > > > > > Hi all,
-> > > > > > >
-> > > > > > > Here are the -stable updates I've collected since m3 of dunf=
-ell. I
-> > > > > > > ran things through the autobuilder, and no new kernel issues=
- were
-> > > > > > > picked up.
-> > > > > > >
-> > > > > > > The -dev bump is good for master, while all of the 5.4-stabl=
-e bumps
-> > > > > > > are good for both master and dunfell.
-> > > > > >
-> > > > > > I pulled these into master-next and saw reproducibility issues=
-. I
-> > > > > > wondered why your test build didn't show it, turns out it also=
- did:
-> > > > > >
-> > > > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/56/bui=
-lds/1024
-> > > > > >
-> > > > > > 2020-05-04 05:18:46,863 - oe-selftest - INFO - =3D=3D=3D=3D=3D=
-=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > > > > > 2020-05-04 05:18:46,863 - oe-selftest - INFO - FAIL: reproduci=
-ble.ReproducibleTests.test_reproducible_builds (subunit.RemotedTestCase)
-> > > > > > 2020-05-04 05:18:46,863 - oe-selftest - INFO - ---------------=
--------------------------------------------------------
-> > > > > > 2020-05-04 05:18:46,864 - oe-selftest - INFO - testtools.testr=
-esult.real._StringException:
-> > > > > >
-> > > > > > AssertionError: The following deb packages are missing or diff=
-erent: /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-36044=
-/reproducibleB/tmp/deploy/deb/./qemux86_64/kernel-module-kheaders-5.4.38-yo=
-cto-standard_5.4.38+git0+f405543442_6cb5b11e83-r0_amd64.deb
-> > > > > > The following ipk packages are missing or different: /home/pok=
-ybuild/yocto-worker/oe-selftest-centos/build/build-st-36044/reproducibleB/t=
-mp/deploy/ipk/./qemux86_64/kernel-module-kheaders-5.4.38-yocto-standard_5.4=
-.38+git0+f405543442_6cb5b11e83-r0_qemux86_64.ipk
-> > > > > >
-> > > > >
-> > > > > I don't see any changes in the kernels that would have triggered=
- it,
-> > > > > but they never are obvious.
-> > > >
-> > > > I am working on some kernel reproducibility changes that were
-> > > > discussed about three weeks ago.
-> > > >
-> > > > Is the default for reproducible builds in master-next different fr=
-om
-> > > > what it was before dunfell was releases ? If so, that might explai=
-n
-> > > > why I'm not seeing a change that would have triggered it (i.e. thi=
-s is
-> > > > unrelated to my -stable changes).
-> > >
-> > > There are no reproducibility changes between master-next and dunfell=
-.
-> >
-> > interesting. I'll take a closer look at the changes again and see what
-> > might pop up as a culprit.
-> >
-> > >
-> > > > Like I was mentioning before, if there's a document or pastebin of
-> > > > steps I can follow, I can run the tests against my pending changes=
- and
-> > > > finish them for master. They of course would not necessarily be
-> > > > suitable for dunfell.
-> > >
-> > > The good news is the autobuilder has some debugging built in for thi=
-s
-> > > kind of problem. You can see the diffoscope output here:
-> > >
-> > > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200504=
--vhr0o_t9/packages/diff-html/
-> > >
-> > > which tells us its kheaders.ko in .rodata by the looks of it. Some
-> > > changes are cause, some are effect, e.g. the build ID is different a=
-s
-> > > the sections are different so that isn't the issue but an effect of =
-it.
-> > > It looks like diffoscope doesn't know how to decode the .rodata whic=
-h
-> > > could be compressed?
-> > >
-> > > The raw data is also there (the packages that differ), e.g.:
-> > >
-> > > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200504=
--vhr0o_t9/packages/reproducibleA/tmp/deploy/deb/qemux86_64/kernel-module-kh=
-eaders-5.4.38-yocto-standard_5.4.38%2Bgit0%2Bf405543442_6cb5b11e83-r0_amd64=
-.deb
-> > >
-> > > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200504=
--vhr0o_t9/packages/reproducibleB/tmp/deploy/deb/qemux86_64/kernel-module-kh=
-eaders-5.4.38-yocto-standard_5.4.38%2Bgit0%2Bf405543442_6cb5b11e83-r0_amd64=
-.debe
-> > >
-> >
-> > cool. That's definitely useful, I'll have a look.
-> >
-> > At the same time, I'll try and clean up the documented kernel
-> > reproducible changes and trigger another run to see if they help.
-> >
-> > > which would allow you to look further at them by hand.
-> > >
-> > > You can manually run this test locally with:
-> > >
-> > > oe-selftest -r reproducible.ReproducibleTests.test_reproducible_buil=
-ds
-> > >
-> > > but it will take a while to run as it has to run two builds and comp=
-are
-> > > them and only uses sstate for one of them. To make it faster since y=
-ou
-> > > know where the issue is, edit
-> > > meta/lib/oeqa/selftest/cases/reproducible.py to change images (core-
-> > > image-sato, core-image-minimal and friends to simply "virtual/kernel=
-".
-> >
-> > I'll do that cut down of the tests and see if I can trigger it here ..
-> > With those full builds, I'd be at about an 8 hour cycle to see the
-> > results!
-> >
-> > Bruce
-> >
-> > >
-> > > Cheers,
-> > >
-> > > Richard
-> > >
-> > >
-> > >
-> > >
-> > >
-> > >
-> > >
-> > >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> >=20
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> 
+> On Tue, Apr 28, 2020 at 2:59 AM Ovidiu Panait
+> <ovidiu.panait@windriver.com> wrote:
+>>
+>> Extend the functionality provided by commit [1] to the SDK as well. This way we
+>> can make sure that nativesdk-binutils finds SDK libraries first rather than
+>> host ones.
+>>
+>> This is useful for example when trying to build the linux kernel using
+>> nativesdk-gcc. This scenario currently fails because it tries to link to host
+>> libraries rather than SDK host ones:
+>>
+>> make x86_64_defconfig
+>> make bzImage
+>> ...
+>> error: Cannot generate ORC metadata for CONFIG_UNWINDER_ORC=y, please install libelf-dev, libelf-devel or elfutils-libelf-devel
+>> Makefile:1101: recipe for target 'prepare-objtool' failed
+>> make: *** [prepare-objtool] Error 1
+>> ....
+>> /../../../../x86_64-wrlinuxsdk-linux/bin/ld: /lib/x86_64-linux-gnu/libpthread.so.0: undefined reference to `__libc_vfork@GLIBC_PRIVATE'
+>> ...
+>>
+>> [1] 15049c610b [buildtools-tarball: Add an ld.so.conf for nativesdk-binutils]
+>>
+>> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+>> ---
+>>  meta/classes/populate_sdk_base.bbclass       | 5 +++++
+>>  meta/recipes-core/meta/buildtools-tarball.bb | 4 ----
+>>  2 files changed, 5 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+>> index ef0d8bef58..6a1ebc8c02 100644
+>> --- a/meta/classes/populate_sdk_base.bbclass
+>> +++ b/meta/classes/populate_sdk_base.bbclass
+>> @@ -185,6 +185,11 @@ fakeroot create_sdk_files() {
+>>         # Escape special characters like '+' and '.' in the SDKPATH
+>>         escaped_sdkpath=$(echo ${SDKPATH} |sed -e "s:[\+\.]:\\\\\\\\\0:g")
+>>         sed -i -e "s:##DEFAULT_INSTALL_DIR##:$escaped_sdkpath:" ${SDK_OUTPUT}/${SDKPATH}/relocate_sdk.py
+>> +
+>> +       mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
+>> +       echo '${SDKPATHNATIVE}${libdir}
+>> +${SDKPATHNATIVE}${base_libdir}
+>> +include /etc/ld.so.conf' > ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/ld.so.conf
+>>  }
+>>
+>>  python check_sdk_sysroots() {
+>> diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+>> index 977b6a5e1d..c49802eef8 100644
+>> --- a/meta/recipes-core/meta/buildtools-tarball.bb
+>> +++ b/meta/recipes-core/meta/buildtools-tarball.bb
+>> @@ -76,10 +76,6 @@ create_sdk_files_append () {
+>>         echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+>>         echo 'export OPENSSL_CONF="${SDKPATHNATIVE}${sysconfdir}/ssl/openssl.cnf"' >>$script
+>>
+>> -       mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
+>> -       echo '${SDKPATHNATIVE}${libdir}
+>> -${SDKPATHNATIVE}${base_libdir}
+>> -include /etc/ld.so.conf' > ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/ld.so.conf
+>>         if [ "${SDKMACHINE}" = "i686" ]; then
+>>                 echo 'export NO32LIBS="0"' >>$script
+>>                 echo 'echo "$BB_ENV_EXTRAWHITE" | grep -q "NO32LIBS"' >>$script
+>> --
+>> 2.17.1
+>>
+>>
+>>
+>> 
