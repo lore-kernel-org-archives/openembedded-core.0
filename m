@@ -1,94 +1,101 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web10.3520.1588848190431099346
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+ by mx.groups.io with SMTP id smtpd.web11.3851.1588850727598696685
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2020 03:43:10 -0700
+ Thu, 07 May 2020 04:25:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IlLwcmj2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id g12so6241853wmh.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2020 03:43:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=A+U9Fp2U;
+ spf=pass (domain: gmail.com, ip: 209.85.167.67, mailfrom: bartlomiej.burdukiewicz@gmail.com)
+Received: by mail-lf1-f67.google.com with SMTP id b26so4161358lfa.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2020 04:25:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=LY8nN1UBVTIRdxW0NHtIwfT4ZlQRaOQzISRbm8cffyg=;
-        b=IlLwcmj2yQxf0ZNirlZ4G22cwmGmrE00bajXDuJnw3AHG92KJ3AhoaD6ZBDZyS/Xqx
-         l2fbSvrfVRlnqipTBevcJYZhaDQirCj1nsZQx3QDA5DHosDJki8yJxn9ko07baPDTpan
-         83J25DG6TmFp5vZPJwmweF4GUrP/IOOiK0zXA=
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version;
+        bh=y1cHNQQlPISMxq3a8uQ8V7Z/9XZKspYkh/iN/fjt99Y=;
+        b=A+U9Fp2UjrYbNxShBEYIKK6uW4dSQWdos9+MKqYLjwnPf88Hf9BLI2GGs1x8EGIIIr
+         LxLDqBZ796TyXxHqrdEmLwiXcXIID7eh49+xGQr+DA1zlkISd6ZUf4NBomLHabkXvPLW
+         u5BKijRTDQAHcyqvpuHxMCwrmpp5bl++sv7+tYcisilD9sq0iK5hB48cd7IgHyZgFNXR
+         VFviVQqFtzCBS/UVfDCfdF2FQhnKVMKpFYZYERKveRvG8Wanfs19dA44EJHLDEXQkpV3
+         ji2nWtVd7sYuniHomwormHYjYMKVnvfxVjG9kHxdYyGc3UiI/7M9qtulir4dPK5rF0eF
+         3M6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=LY8nN1UBVTIRdxW0NHtIwfT4ZlQRaOQzISRbm8cffyg=;
-        b=QAc7Kxh9S/cmGQBrEGw331dVfmz9mpBU4X6jcjXq6XBaV9nJBKGCBDCg1D+20N2Pli
-         06qb4JDNOMoZ2lKc7L0SEZbVepObAzZe0j6k2AQ2Zyyk5KMUXyXTJNbJCoNpk2/o8HhI
-         h1H0oNrQGMeqj/PqKl9RRAo1b2L7kNNcYkc//73z2I6M2LiPeEsxVYEHOtZMuvdXRgSv
-         Qb9Vcc8IYxaKgTpUl+yABmCIbJqxEJJTwVKz1K9tlPCv32I4b1E77zrcU1l4A71Pn+RT
-         MkW5Ey+5kbjlbaWEltnko62MJ6dk4eC6tt+YZ1hVLQrZ42H0WNiR4pEZWCwkyY2l3qiF
-         UDtA==
-X-Gm-Message-State: AGi0PuZOBLS69EQgLVuAqnuYXgUiKDzKHxtzua2jsCNSdqgzuRQBVXwQ
-	34UmW5zOYtI3q1zcKxOaUC5oTg==
-X-Google-Smtp-Source: APiQypKwTP0MoaSsXmlcJAUXdSDzAxsqsOm3/77IiixIwBmMMFqGUyko1FM/fH32BrBJJ11hXAgcxA==
-X-Received: by 2002:a7b:ce89:: with SMTP id q9mr10301801wmj.185.1588848188840;
-        Thu, 07 May 2020 03:43:08 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id s14sm7014293wmh.18.2020.05.07.03.43.07
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version;
+        bh=y1cHNQQlPISMxq3a8uQ8V7Z/9XZKspYkh/iN/fjt99Y=;
+        b=WBmlHnbJacicvih59oeKOoMD2nhi/SVRt0rDcxOHx1pKpI2dfXXGR+xSPA1PRf+0wy
+         AjPICd3Ger+nmi8znqlDGJiwv6AeoHBoTsqulY3+jjWV6DCqV1O77hcnuzadl0UBjZer
+         C6HGq1+2shFhJwV+FnkhAXVVtAcKXgtH6Ou074CuvSL4+bx+p3Z9Q5d43416n6YX0Cea
+         frgMWln7TORr89fYbuQ1s/OR/iRXEGd/FhTq8Ixk/iM4As/Tl7A1HSvXru5ImZ0AtjqQ
+         dfp6ZqpiMSFrGacj4qubX0fw02XTfePErSDqCV7xntX17IF4nlayeL37u5VZnhoBXTAk
+         QhJg==
+X-Gm-Message-State: AGi0PuZF0xyMEl0fOVGANjanIhgakxWVqFHveNdtc9eYobgXS8FobKVn
+	pWvBXhjWxTEP8mwF2FxouMZo6Pym
+X-Google-Smtp-Source: APiQypJ6pBurc8mGA+B1fGlXtELQG+nS3xwWYwrEMdsP8LTdaQFgL30tcJyGutzxbWGu5h36Wql9Fg==
+X-Received: by 2002:a05:6512:310d:: with SMTP id n13mr8701382lfb.205.1588850725331;
+        Thu, 07 May 2020 04:25:25 -0700 (PDT)
+Return-Path: <bartlomiej.burdukiewicz@gmail.com>
+Received: from navi.localnet (dynamic-78-8-70-40.ssp.dialog.net.pl. [78.8.70.40])
+        by smtp.gmail.com with ESMTPSA id y16sm2903374lfe.17.2020.05.07.04.25.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 03:43:08 -0700 (PDT)
-Message-ID: <ed0808536320e40836ab5c90b842e32d97a0199f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] encodings: RDEPEND on mkfontdir mkfontscale
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Yi Zhao <yi.zhao@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 07 May 2020 11:43:07 +0100
-In-Reply-To: <20200507074536.10631-2-yi.zhao@windriver.com>
-References: <20200507074536.10631-1-yi.zhao@windriver.com>
-	 <20200507074536.10631-2-yi.zhao@windriver.com>
-User-Agent: Evolution 3.36.1-2 
+        Thu, 07 May 2020 04:25:24 -0700 (PDT)
+From: =?UTF-8?B?QmFydMWCb21pZWogQnVyZHVraWV3aWN6?= <bartlomiej.burdukiewicz@gmail.com>
+To: =?ISO-8859-1?Q?openembedded=2Dcore=40lists=2Eopenembedded=2Eorg=2CB=F6sz=F6rm=E9nyi_Zolt=E1n?= <zboszor@pr.hu>
+Subject: Re: [OE-core] [meta-oe][PATCH] libva: Removed virtual/mesa dependency
+Date: Thu, 07 May 2020 13:25:17 +0200
+Message-ID: <4268468.LvFx2qVVIh@navi>
+In-Reply-To: <44fb22eb-a3ea-15cb-f93e-c0ff4503705b@pr.hu>
+References: <20200424150143.374520-1-bartlomiej.burdukiewicz@gmail.com> <44fb22eb-a3ea-15cb-f93e-c0ff4503705b@pr.hu>
 MIME-Version: 1.0
+X-Groupsio-MsgNum: 138013
+Content-Type: multipart/signed; boundary="nextPart2192802.ElGaqSPkdT"; micalg="pgp-sha256"; protocol="application/pgp-signature"
+
+--nextPart2192802.ElGaqSPkdT
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2020-05-07 at 15:45 +0800, Yi Zhao wrote:
-> Fix pkg_postinst error when install encodings via online repo:
-> 
-> $ opkg install encodings
-> Installing encodings (1.0.5) on root
-> Configuring encodings.
-> /var/lib/opkg/info/encodings.postinst: line 7: mkfontdir: not found
-> Collected errors:
-> * pkg_run_script: package "encodings" postinst script returned status 127.
-> * opkg_configure: encodings.postinst returned 127.
-> 
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->  meta/recipes-graphics/xorg-font/encodings_1.0.5.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb b/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
-> index a39609b5da..b161a46982 100644
-> --- a/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
-> +++ b/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
-> @@ -10,7 +10,7 @@ PE = "1"
->  PR = "${INC_PR}.1"
->  
->  DEPENDS = "mkfontscale-native mkfontdir-native font-util-native"
-> -RDEPENDS_${PN} = ""
-> +RDEPENDS_${PN} = "mkfontdir mkfontscale"
->  
->  SRC_URI += "file://nocompiler.patch"
->  SRC_URI[md5sum] = "bbae4f247b88ccde0e85ed6a403da22a"
+On Wednesday, 6 May 2020 14:41:25 CEST B=C3=B6sz=C3=B6rm=C3=A9nyi Zolt=C3=
+=A1n wrote:
+> 2020. 04. 24. 17:01 keltez=C3=A9ssel, Bart=C5=82omiej Burdukiewicz =C3=AD=
+rta:
+> > Mesa can be compiled with libva support, in order to avoid recursive
+> > dependency between mesa and libva, virtual/mesa must be removed
+> > from libva recipe.
+>=20
+> This is why this patch series was created, to break the
+> circular dependency in a clean way:
+> https://patchwork.openembedded.org/series/22976/#
+>=20
+> The libva-initial recipe was introduced that doesn't need
+> mesa, then mesa can be built with vaapi state tracker enabled,
+> finally libva can be built with dependency on mesa so its
+> GLX support is enabled.
+>=20
+> What happened to it?
+>=20
+> Best regards,
+> Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi
 
-I don't think these two patches are correct. encodings doesn't install
-these things so perhaps it shouldn't be running these postinst at all?
-
-I thought I remembered something about this change:
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=b8f089512f65a4a131c8096c281c4f3d9cf23718
-
-from 2013! Sadly the commit log is a bit sparse.
+Was those patches merged upstream?
+Never seen them before.
 
 Cheers,
+Bart=C5=82omiej Burdukiewicz
 
-Richard
+--nextPart2192802.ElGaqSPkdT
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEEhZwkVUCmwRFjZfunQ+DhhJwr0RgFAl6z8B0ACgkQQ+DhhJwr
+0RjAgAgA07HaFTmiaedUuBuEhWsxHa5nqC2tZdCM3/3IL4cOJdZzm5TDy0fvdHpD
+xN7jMZtwVNOrN+McCWq/2wbB4DG6v5PJet5N5LashitBIajKIMf/yQanhJZJwQgl
+QUERD7Ubz3/fQVRL4r5TRa6huvjml/IZHq8ts0M54vocudLlDXSZKCAr8a6bjqo9
+HcxE4xpWsTxDG3SOyR+XUA5ch53kZnlP7UNJDm1tzKW9zbbUInRSf+/XxD/VRvJr
+naNoiPUQeMALPHJG4vS9id7jZ6D3Pjk+wnaM/9pxQARvNZZ3+JoaqLxQ+crN6Dgp
+gS/NYo4tzhOhziFL7unUG46TyjT6cg==
+=NA1N
+-----END PGP SIGNATURE-----
+
+--nextPart2192802.ElGaqSPkdT--
