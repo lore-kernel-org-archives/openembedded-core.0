@@ -1,51 +1,49 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
- by mx.groups.io with SMTP id smtpd.web12.3000.1588881773816243091
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+ by mx.groups.io with SMTP id smtpd.web11.3088.1588882046965281629
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2020 13:02:53 -0700
+ Thu, 07 May 2020 13:07:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hzuGb6CJ;
- spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f196.google.com with SMTP id l12so2965843pgr.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2020 13:02:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UHX9ZyXN;
+ spf=pass (domain: gmail.com, ip: 209.85.215.195, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f195.google.com with SMTP id q124so2974291pgq.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2020 13:07:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
+        h=subject:to:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=kpuc+VfV9iK6pqBSxDiYqGEfiDX+4J38YNj/3LxtqeY=;
-        b=hzuGb6CJGE9+Jbv9yeJ2jqtyfit+rRj+q1UAfvRsdvRyIIRzdP2pzI/pmEs6QI9mP+
-         pS5TbxYSB3DTMeABiEgE7hCw3zEjsqmY4tKxHg2ilYI/LkuPZLZwbkqOE1nPKMIFC/er
-         U9IyDRExc1DiBQWAIdBt5HLiW3QmicnuxvTPc4AkBHckwKTYmxWeFfPdW6LertMIe1Jx
-         mZ9GRasY2KF9xKUs+kx/OPVPtf4aTHC91RVq1XrG/deaSt1DgEwzRui5phJ5/YkRvy/F
-         ozfO+8hqMDSCv93wmzmIaJZZU1KtvO5vxCw+QhvQMpsL3ZHAYM1je8E2k5QxV0c1obtl
-         JQzA==
+        bh=uPD/LfKwymYsD8MIu6UjDVPdiJdciUYgFtCrQsOVoYc=;
+        b=UHX9ZyXNYjT6ePAd578OyX+52Iy9c6vh5ADRGDoz+Yxx6RgjVVoV1gWLs+pawM8IVn
+         +eXU7qHlxDkkYi5t2XFl5tbV5J+LtcVQHuo0UJUZja0NVmDYr3X+wbBYVLkLd6E193Um
+         rgKwpfhHw288b5IU0jEdoNVU8Co6n7yM1IBB0F/+2xd+mIA90rhMPQbER2dSXV1LtZmS
+         S9OvgvXHGLd+xv90HlAlHKFqVeWMTSDaw1wZHsKTTytOdTiU9uU98eHYFMi01oSVT2Gr
+         45woqs/A1M0FvGOnKRc/D/LAOQxrcevxPnygGwbeU0/ysMY4SifMmGw49FDlrAAiUlYi
+         wh7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=kpuc+VfV9iK6pqBSxDiYqGEfiDX+4J38YNj/3LxtqeY=;
-        b=sG4LsMB015jW4agXmKq+z8yNJ7ZWwqwi8E6DCxk8QTyVklcIJvTm9Y40S38sCNyBDp
-         rts4ieAKQKZoYzdDJoRs/2dKy+8iQ1YBAMulegMBsvWj8sC08BVfoPrbusy2s9PavCHP
-         5ovmRq4d613H0ZJAnolLR381lAX7qDX3tQxxtzdhc+3A08DjZaLYeqB89oORd7CTljuH
-         GQkQNWWFlJTjrhJ9nuDoFTAK2O3PgAgY2MYnlj19heG+hUkkgRdQmxVQmVlIdx5ZYUcD
-         bqt/RB1VebWGQ3oK5QNNgOP3gkG1Kbguy1/pnq7X0S8nVHw1DLfDuPHlZYnxnpBqkK0T
-         DT/w==
-X-Gm-Message-State: AGi0PuZ5lFJk9YedURb4AC7XCP248fOHL07xxz7ygEtaFUpZOe2dq6JP
-	zlf+gPkduE6ILo4k6sAF72DUXeNSD24=
-X-Google-Smtp-Source: APiQypKz1vx7qp2AZEoVk/GLYlPiFVa3RWURn7avT1+lSJqqgxNFLSwEN2Fv3eap53AD1Gl6mr6a5w==
-X-Received: by 2002:a63:6747:: with SMTP id b68mr12939708pgc.142.1588881772859;
-        Thu, 07 May 2020 13:02:52 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=uPD/LfKwymYsD8MIu6UjDVPdiJdciUYgFtCrQsOVoYc=;
+        b=iz1L1eJJ/dxPrIuxDWahWYiQ/tCt8WabNff6+4I7KRJ3VAonhnx7UREMamQzWCuIBP
+         lOcfBwdJ3/ZfRKwJPlNWtkMPtl/7afZ6WwrZcJ/acisRrp6+Hdq2Z8kZuWpKy62+SZke
+         3eMeYhosKMzHW4hFfYdVJdTzsxv8o9ZjwZnaCJXnj9nSZc015rsygrLimPzoQEj6WEKt
+         pKmgUmChCMpSgP+YyCTIJWTE27fDjd0TvWGZP+cYB7cUNSvXj04EvzP0bSvdOP6B98uK
+         oqVmGSOB6V+W+G45EFH6zNtM7viO8w0xb4oAaqLQ4564rtftPP/LZ/+KMpxgiwB5RXM9
+         Mzhg==
+X-Gm-Message-State: AGi0PuaCXFxam8dCxGgzDZbJXZX7RJ3EZ3MH385k9x25VkxEQfCloeOy
+	498n88/8L4rmhrPSGscfVMpqn1T23eA=
+X-Google-Smtp-Source: APiQypKUezlLYZmHLr0TJOYxb9NRbsqSnWurQx2Z1DprAzLaCRe9WLIu/HTQduPmXBEIpBfkvSuqyw==
+X-Received: by 2002:a63:b50b:: with SMTP id y11mr12560350pge.55.1588882045946;
+        Thu, 07 May 2020 13:07:25 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::2691? ([2601:646:9200:4e0::2691])
-        by smtp.gmail.com with ESMTPSA id m7sm5854607pfb.48.2020.05.07.13.02.51
+        by smtp.gmail.com with ESMTPSA id x19sm5702467pfq.137.2020.05.07.13.07.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 May 2020 13:02:52 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] dtc: update to 1.6.0
-To: Adrian Bunk <bunk@stusta.de>,
- Richard Leitner <richard.leitner@skidata.com>
-Cc: openembedded-core@lists.openembedded.org
-References: <20200505115535.141557-1-richard.leitner@skidata.com>
- <20200506071016.GA31672@localhost>
+        Thu, 07 May 2020 13:07:25 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] insane: Promote warnings into errors
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20200506134002.155500-1-richard.purdie@linuxfoundation.org>
 From: "Khem Raj" <raj.khem@gmail.com>
 Autocrypt: addr=raj.khem@gmail.com; keydata=
  mQGiBEqXaJERBACUvFofpD3FsxD9675wcPv+rzguIfsRWilrrpSZ61JHjLHwkUnmDLpLSdfv
@@ -79,47 +77,66 @@ Autocrypt: addr=raj.khem@gmail.com; keydata=
  suq7Hnb7vszlFYdbzeqjY81LSyxA0kcpgJxdLv9o7UuCEnHDZLPbHdQ83PmyyBKSI31AKe7R
  XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiiEkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
  VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
-Message-ID: <cef57e74-44cf-549c-8d9f-c793dd5875bc@gmail.com>
-Date: Thu, 7 May 2020 13:02:51 -0700
+Message-ID: <66e0d1d5-2b72-ce26-4b5b-709fbcfc7274@gmail.com>
+Date: Thu, 7 May 2020 13:07:24 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200506071016.GA31672@localhost>
+In-Reply-To: <20200506134002.155500-1-richard.purdie@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/6/20 12:10 AM, Adrian Bunk wrote:
-> On Tue, May 05, 2020 at 01:55:35PM +0200, Richard Leitner wrote:
->> ...
->> --- a/meta/recipes-kernel/dtc/dtc_1.5.1.bb
->> +++ b/meta/recipes-kernel/dtc/dtc_1.6.0.bb
->> @@ -3,7 +3,7 @@ require dtc.inc
->>  LIC_FILES_CHKSUM = "file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
->>  		    file://libfdt/libfdt.h;beginline=4;endline=7;md5=05bb357cfb75cae7d2b01d2ee8d76407"
->>  
->> -SRCREV = "60e0db3d65a1218b0d5a29474e769f28a18e3ca6"
->> +SRCREV = "v${PV}"
->> ...
+On 5/6/20 6:40 AM, Richard Purdie wrote:
+> There are several warnings the build can emit which show real problems
+> in the way recipes are being built. Some distros like poky and the Yocto
+> Project autobuilder have been fixing the issues these show for some time.
 > 
-> It is tempting to use tags, but it is a bad idea.
-> Upstream might move a tag to a different commit.
-> Someone might do a man-in-the-middle attack on a specific user,
-> and there is no other verification of the sources apart from
-> the commit hash.
+> OE-Core has therefore been clean of these errors and warnings for some time.
+> Promote warnings into errors to match the defaults in poky to encourage
+> people to fix these real issue and reduce confusion when people switch
+> distros or customise.
+
+This is a good change, and I think all settings used in poky in this
+regard are worth for OE-core.
+
 > 
-
-moreover bitbake will still need to enquire the repository since tags
-are floating revisions. and this might fail to work if network does not
-allow access to internet etc. This is a good document describing the problem
-
-https://pelux.io/software-factory/PELUX-3.0/swf-blueprint/docs/articles/baseplatform/reproducible-yocto-builds.html
-
-
-> cu
-> Adrian
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/insane.bbclass | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 7fc8f33a982..8b19f445f9b 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -22,11 +22,9 @@ QA_SANE = "True"
+>  
+>  # Elect whether a given type of error is a warning or error, they may
+>  # have been set by other files.
+> -WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+> -            textrel already-stripped incompatible-license files-invalid \
+> -            installed-vs-shipped compile-host-path install-host-path \
+> -            pn-overrides infodir build-deps src-uri-bad \
+> -            unknown-configure-option symlink-to-sysroot multilib \
+> +WARN_QA ?= " libdir xorg-driver-abi \
+> +            textrel incompatible-license files-invalid \
+> +            infodir build-deps src-uri-bad symlink-to-sysroot multilib \
+>              invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
+>              mime mime-xdg \
+>              "
+> @@ -36,6 +34,9 @@ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+>              version-going-backwards expanded-d invalid-chars \
+>              license-checksum dev-elf file-rdeps configure-unsafe \
+>              configure-gettext perllocalpod shebang-size \
+> +            already-stripped installed-vs-shipped ldflags compile-host-path \
+> +            install-host-path pn-overrides unknown-configure-option \
+> +            useless-rpaths rpaths staticdev \
+>              "
+>  # Add usrmerge QA check based on distro feature
+>  ERROR_QA_append = "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', ' usrmerge', '', d)}"
 > 
 > 
 > 
