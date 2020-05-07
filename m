@@ -1,61 +1,56 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web12.1690.1588836780611181231
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.1802.1588837571024050180
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2020 00:33:00 -0700
+ Thu, 07 May 2020 00:46:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 594E560C18;
-	Thu,  7 May 2020 07:32:58 +0000 (UTC)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: yi.zhao@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0477jmux027478
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 7 May 2020 00:45:59 -0700
+Received: from localhost (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 7 May
+ 2020 00:45:38 -0700
+From: "Yi Zhao" <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 1/2] xorg-font-common: redirect stderr to /dev/null in pkg_postinst
+Date: Thu, 7 May 2020 15:45:35 +0800
+Message-ID: <20200507074536.10631-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3ZlLWNoZWNrOiBhZGQgb3B0aW9uIHRvIGZvcm1hdCByZXBvcnRzIGFzIGNvbW1hIHNlcGVyYXRlZCB2YWx1ZXM=?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Timon Ulrich <t.ulrich@anapur.de>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 07 May 2020 07:32:59 -0000
-Message-ID: <20200507073259.2274.37433@do>
-References: <7DAEF4FFB8C5EB45824E60252FB85E291F78D2AF@AN04.anapur.local>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <7DAEF4FFB8C5EB45824E60252FB85E291F78D2AF@AN04.anapur.local>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-Originating-IP: [128.224.162.174]
+Content-Type: text/plain
 
-== Series Details ==
+Redirect stderr to /dev/null to avoid the error:
 
-Series: cve-check: add option to format reports as comma seperated values
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/24000/
-State : failure
+$ opkg install encodings
+Installing encodings (1.0.5) on root
+Configuring encodings.
+find: /usr/lib/X11/fonts: No such file or directory
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
-  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
-  Diff line        Hunk is longer than expected
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at a1353cc923)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-graphics/xorg-font/xorg-font-common.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-graphics/xorg-font/xorg-font-common.inc b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
+index f18c8aefc2..85bc0f72a8 100644
+--- a/meta/recipes-graphics/xorg-font/xorg-font-common.inc
++++ b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
+@@ -32,11 +32,11 @@ FILES_${PN} += " ${libdir}/X11/fonts ${datadir}"
+ 
+ PACKAGE_WRITE_DEPS += "mkfontdir-native mkfontscale-native"
+ pkg_postinst_${PN} () {
+-        for fontdir in `find $D/usr/lib/X11/fonts -type d`; do
++        for fontdir in `find $D/usr/lib/X11/fonts -type d 2>/dev/null`; do
+                 mkfontdir $fontdir
+                 mkfontscale $fontdir
+         done
+-        for fontdir in `find $D/usr/share/fonts/X11 -type d`; do
++        for fontdir in `find $D/usr/share/fonts/X11 -type d 2>/dev/null`; do
+                 mkfontdir $fontdir
+                 mkfontscale $fontdir
+         done
+-- 
+2.17.1
 
