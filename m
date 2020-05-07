@@ -1,85 +1,94 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web10.2934.1588845024441941228
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web10.3520.1588848190431099346
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2020 02:50:24 -0700
+ Thu, 07 May 2020 03:43:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bmWpgTvy;
- spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f66.google.com with SMTP id j5so5578620wrq.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2020 02:50:24 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IlLwcmj2;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f67.google.com with SMTP id g12so6241853wmh.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 May 2020 03:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BLeKXAJw/i7KxnXZXMnUhmKseV8fGljVsNDwS7PyHTw=;
-        b=bmWpgTvy2THqs3yAbT9GDGU9msPzpWDmyql1XtvqbIfmfaIO6vGWp+UP/B3FLFonmK
-         o5lLccZ6pqwT9HpiKPFNwBj4OEGoo5N1c+0UW7Fa3kg+r9A9Rc3QnxZ/7TSl8kqnq4wt
-         q982y2HqJitvBi2Ach65lL/WyI5ezVjwWa2pQX8Wy+NLwVma2q0X9aQs5tXiR+WA6Uo2
-         bB4SN9rXqkzhtK4GuQhSomhZyEt6FlahN0FDtb6T//99KtHlHe3X8re8DU8Ezg+yu225
-         ypnKWo+79pge7rTI0VzJs5p+gwybzzEXUFEpFbfyvo+hh1NDDJg00xIFagHkFXr1WnWa
-         kEyQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=LY8nN1UBVTIRdxW0NHtIwfT4ZlQRaOQzISRbm8cffyg=;
+        b=IlLwcmj2yQxf0ZNirlZ4G22cwmGmrE00bajXDuJnw3AHG92KJ3AhoaD6ZBDZyS/Xqx
+         l2fbSvrfVRlnqipTBevcJYZhaDQirCj1nsZQx3QDA5DHosDJki8yJxn9ko07baPDTpan
+         83J25DG6TmFp5vZPJwmweF4GUrP/IOOiK0zXA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BLeKXAJw/i7KxnXZXMnUhmKseV8fGljVsNDwS7PyHTw=;
-        b=ZipuVZv07uoqZtcV+c/J6rKvIali/xW99Z3PnJry8pp/0OYwX6YvjYVLZsYo3kUiFn
-         MGtBbwj1ZQR57pbZgBPnMu3N5pBpTZaFzT766vrBMnvs1aMwUG+qM2jIzWK63cbPc9+x
-         1i36Iq9k80QTRW45acOztl4uvTvCKLFLsTQXDdU4FONtoCwn1XZCnzIq5JErqtp60TIK
-         MMVkyAEjzD3PA5gY6n8/LuX2t6LtZQQemCcJAEvb5APBkwGVRBuJJyUxDX68lLGOR3aM
-         f6dibXIuDpwiUBUV1V0aQITdr7LCmjaHgZVuqncRSsKTeL1dFJvm2DOLae4hNsVdt0DA
-         PVfQ==
-X-Gm-Message-State: AGi0PuZQ8/A6EuF/xaftH1uFCUs5S2ST5X20+L84ZbdDXUnoBeTCfxd+
-	q2GRiKoisc153nE05fNl44wlTzt4
-X-Google-Smtp-Source: APiQypKGuF97i3bJGZLWLpzomAAXFDck2aHVV95Q9aJ+1c7G+CJIn8wOtX9odCQmR2CD7G43oMHoRw==
-X-Received: by 2002:adf:9545:: with SMTP id 63mr15736783wrs.57.1588845022765;
-        Thu, 07 May 2020 02:50:22 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id x24sm7698166wrd.51.2020.05.07.02.50.21
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=LY8nN1UBVTIRdxW0NHtIwfT4ZlQRaOQzISRbm8cffyg=;
+        b=QAc7Kxh9S/cmGQBrEGw331dVfmz9mpBU4X6jcjXq6XBaV9nJBKGCBDCg1D+20N2Pli
+         06qb4JDNOMoZ2lKc7L0SEZbVepObAzZe0j6k2AQ2Zyyk5KMUXyXTJNbJCoNpk2/o8HhI
+         h1H0oNrQGMeqj/PqKl9RRAo1b2L7kNNcYkc//73z2I6M2LiPeEsxVYEHOtZMuvdXRgSv
+         Qb9Vcc8IYxaKgTpUl+yABmCIbJqxEJJTwVKz1K9tlPCv32I4b1E77zrcU1l4A71Pn+RT
+         MkW5Ey+5kbjlbaWEltnko62MJ6dk4eC6tt+YZ1hVLQrZ42H0WNiR4pEZWCwkyY2l3qiF
+         UDtA==
+X-Gm-Message-State: AGi0PuZOBLS69EQgLVuAqnuYXgUiKDzKHxtzua2jsCNSdqgzuRQBVXwQ
+	34UmW5zOYtI3q1zcKxOaUC5oTg==
+X-Google-Smtp-Source: APiQypKwTP0MoaSsXmlcJAUXdSDzAxsqsOm3/77IiixIwBmMMFqGUyko1FM/fH32BrBJJ11hXAgcxA==
+X-Received: by 2002:a7b:ce89:: with SMTP id q9mr10301801wmj.185.1588848188840;
+        Thu, 07 May 2020 03:43:08 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id s14sm7014293wmh.18.2020.05.07.03.43.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 May 2020 02:50:21 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] virgl: skip test on Debian 9
-Date: Thu,  7 May 2020 11:49:47 +0200
-Message-Id: <20200507094947.27047-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.1
+        Thu, 07 May 2020 03:43:08 -0700 (PDT)
+Message-ID: <ed0808536320e40836ab5c90b842e32d97a0199f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 2/2] encodings: RDEPEND on mkfontdir mkfontscale
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Yi Zhao <yi.zhao@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 07 May 2020 11:43:07 +0100
+In-Reply-To: <20200507074536.10631-2-yi.zhao@windriver.com>
+References: <20200507074536.10631-1-yi.zhao@windriver.com>
+	 <20200507074536.10631-2-yi.zhao@windriver.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Debian 9 has an older version of mesa, where dri drivers do not link
-against glapi explicitly, which causes problems when they are loaded
-by newer mesa-native:
+On Thu, 2020-05-07 at 15:45 +0800, Yi Zhao wrote:
+> Fix pkg_postinst error when install encodings via online repo:
+> 
+> $ opkg install encodings
+> Installing encodings (1.0.5) on root
+> Configuring encodings.
+> /var/lib/opkg/info/encodings.postinst: line 7: mkfontdir: not found
+> Collected errors:
+> * pkg_run_script: package "encodings" postinst script returned status 127.
+> * opkg_configure: encodings.postinst returned 127.
+> 
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
+>  meta/recipes-graphics/xorg-font/encodings_1.0.5.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb b/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
+> index a39609b5da..b161a46982 100644
+> --- a/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
+> +++ b/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
+> @@ -10,7 +10,7 @@ PE = "1"
+>  PR = "${INC_PR}.1"
+>  
+>  DEPENDS = "mkfontscale-native mkfontdir-native font-util-native"
+> -RDEPENDS_${PN} = ""
+> +RDEPENDS_${PN} = "mkfontdir mkfontscale"
+>  
+>  SRC_URI += "file://nocompiler.patch"
+>  SRC_URI[md5sum] = "bbae4f247b88ccde0e85ed6a403da22a"
 
-pokybuild@debian9-ty-2:~$ ldd -d /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so |grep undefined
-undefined symbol: _glapi_tls_Dispatch   (/usr/lib/x86_64-linux-gnu/dri/swrast_dri.so)
-undefined symbol: _glapi_tls_Context    (/usr/lib/x86_64-linux-gnu/dri/swrast_dri.so)
+I don't think these two patches are correct. encodings doesn't install
+these things so perhaps it shouldn't be running these postinst at all?
 
-compared to Debian 10:
+I thought I remembered something about this change:
 
-pokybuild@debian10-ty-2:~$ ldd -d /usr/lib/x86_64-linux-gnu/dri/swrast_dri.so|grep undefined
-pokybuild@debian10-ty-2:~$
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=b8f089512f65a4a131c8096c281c4f3d9cf23718
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/lib/oeqa/selftest/cases/runtime_test.py | 2 ++
- 1 file changed, 2 insertions(+)
+from 2013! Sadly the commit log is a bit sparse.
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 60cb2e01a6..09d3de7aea 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -180,6 +180,8 @@ class TestImage(OESelftestTestCase):
-         distro = oe.lsb.distro_identifier()
-         if distro and distro == 'debian-8':
-             self.skipTest('virgl isn\'t working with Debian 8')
-+        if distro and distro == 'debian-9':
-+            self.skipTest('virgl isn\'t working with Debian 9')
-         if distro and distro == 'centos-7':
-             self.skipTest('virgl isn\'t working with Centos 7')
-         if distro and distro == 'opensuseleap-15.0':
--- 
-2.26.1
+Cheers,
+
+Richard
 
