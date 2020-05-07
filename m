@@ -1,92 +1,101 @@
-Received: from mail9.pr.hu (mail9.pr.hu [87.242.0.9])
- by mx.groups.io with SMTP id smtpd.web11.4974.1588855645092463241
+Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
+ by mx.groups.io with SMTP id smtpd.web11.5722.1588857909972802556
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 May 2020 05:47:26 -0700
+ Thu, 07 May 2020 06:25:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pr.hu header.s=pr20170203 header.b=RVqFT/Bi;
- spf=pass (domain: pr.hu, ip: 87.242.0.9, mailfrom: zboszor@pr.hu)
-Received: from [2a02:808:3:101::5] (helo=mail.pr.hu)
-	by frontdoor.pr.hu with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1jWfvv-0003TF-L5; Thu, 07 May 2020 14:47:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=pr.hu;
-	s=pr20170203; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:
-	MIME-Version:Date:Message-ID:From:References:To:Subject:Sender:Reply-To:Cc:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=/r1wtl53TIFifk7Fj6IwH+His2D+aKcKPPd6msX9U7E=; b=RVqFT/BiMHAfkrrZLKp4kwZXl1
-	jW7TBTax/0sj22jm5ebTm9IvTRuE6vP5stmLR99DDjEx6lHrSxysVVIM4gRs7BHaObheLopZUeZHX
-	PG+4A+djysoLLvP+HcTRMAxGLRI/DEp2ETUMkcJw9Ybe6KylMzzUhqz/AmvEGOHDZbQX+qEv90ZIW
-	sLEWqzxacKX+liJ8zEL6E/Oo3IDxD/apPddafdNx8UmVAniU/QR4T2vajfnOInN3agXxeH/wLmNlH
-	goEdreGcR/hyQ3Sxb7vQbyc4/TQ9wJbWhlJI9vJbvkuJo+g0j9fEbCMVdZTH3I/XngA3a6K62Bwc6
-	lH1hAqzg==;
-Received: from host-87-242-33-197.prtelecom.hu ([87.242.33.197] helo=[192.168.1.2])
-	by mail.pr.hu with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89)
-	(envelope-from <zboszor@pr.hu>)
-	id 1jWfvr-0006yJ-DT; Thu, 07 May 2020 14:47:21 +0200
-Subject: Re: [OE-core] [meta-oe][PATCH] libva: Removed virtual/mesa dependency
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- =?UTF-8?Q?Bart=c5=82omiej_Burdukiewicz?=
- <bartlomiej.burdukiewicz@gmail.com>, openembedded-core@lists.openembedded.org
-References: <20200424150143.374520-1-bartlomiej.burdukiewicz@gmail.com>
- <44fb22eb-a3ea-15cb-f93e-c0ff4503705b@pr.hu>
- <610a380ebc8ef2638a8d13c8d3a84b3059bcf8aa.camel@linuxfoundation.org>
-From: "Zoltan Boszormenyi" <zboszor@pr.hu>
-Message-ID: <0e58e708-dcc0-d355-79f8-9681a4898b0b@pr.hu>
-Date: Thu, 7 May 2020 14:47:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=A9uN4w1D;
+ spf=pass (domain: gmail.com, ip: 209.85.222.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ua1-f54.google.com with SMTP id i5so1834143uaq.1;
+        Thu, 07 May 2020 06:25:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zjA6IYqMA3L+IbGE+23DE3r2eMzX5VQ04dxaUzFdT8w=;
+        b=A9uN4w1D4Hixxc4Y2JmXiyTc7daxEsn1gqKNQcQchmhKAJWv7WB1ZY/wTBRmEecH1s
+         grwGVuGnGRa8NpXalAkT30DvM9ni3ofmXxOYQgnxbwEQkOmMY0z72h8bLAAH3c8UF+Uf
+         cN0rKU0KZQDhkTpPL2+WUmAXILbrDvn6enuEE/xGIEOHWTxiN5raeYzS6pVvnY3/6YT0
+         tcgGgorhmtBgx8CxGdo3sadAIhal2cSX/Xh0fmsuExErLsRe4JTMBe4oa7wJ5I9IzmIe
+         bBMO+qqNLenohDlI3zrp0VENpuyI8WET3xuvJfhz8ypK/8yEeioGzTGFLdAK78WS9aPB
+         nuPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zjA6IYqMA3L+IbGE+23DE3r2eMzX5VQ04dxaUzFdT8w=;
+        b=NLOGOs1Uur6ksT9tu5DUaoZjPQnsIR2NBuoJEZjr7l3oE65whgR8tEvPL94vou6rX2
+         PaQ85OWjgSAu0dCBT9xpBBqq0usmQR7uXMoL6p36SfulOPE1aTiUoJI/zHcS2tFPj7c/
+         QesL3BaxypGxCK6vsYnyL74hOWnFPNqHUMHIIt7WExQRlHhWQr5O8Pk0jOgUb4ndVdVc
+         WWpNJiEEZPMrNPH7ndXEyx0KCsUaoN57FrNwldVfq72wQWa1N1MEc6rtZOK0Ajp+xaNc
+         UQby8TkukFGZ9rqoWHSlB2spVlzx8ZmQpN7/e4K0nRS4TmScHdpIWawyYnn13iQNzEIi
+         6jXQ==
+X-Gm-Message-State: AGi0PubxaHqYfTjV3FEsvr+GX3h7TZaqWVixzAKHJ0MGbxfqrAmVMEGG
+	sCKBtTFembF9fnvEfoqYIw9FHUdgvtDROL7yRrE=
+X-Google-Smtp-Source: APiQypJ/lJhRI+fjFVDcOpNqSdTxKfY5tuzv1bTctQEmg5iqI3Mlc2r6zyJr0ZiaNUJU0Tq7tOP21Iht02QdEKF2TDY=
+X-Received: by 2002:ab0:6313:: with SMTP id a19mr11127803uap.71.1588857909107;
+ Thu, 07 May 2020 06:25:09 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <610a380ebc8ef2638a8d13c8d3a84b3059bcf8aa.camel@linuxfoundation.org>
-X-Spam-Score: -1.0 (-)
-X-Scan-Signature: b6eb8dd8d4e483f7ae84ef827401bc57
-X-Spam-Tracer: backend.mail.pr.hu -1.0 20200507124721Z
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <CANNYZj_R3LO5nZs77j_2HBYQx44rf=9pMz=oABvXzDAxSvzBWQ@mail.gmail.com>
+ <53530eac-ce1c-db1a-f489-1d5a4a910870@gmail.com> <CANNYZj90z3JYhajCF9fEDeUXgsYJary9PKk0GbihAHp_FH3_cQ@mail.gmail.com>
+ <1AEA4CE9-1C08-4336-9634-B546476F92C4@gmail.com>
+In-Reply-To: <1AEA4CE9-1C08-4336-9634-B546476F92C4@gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 7 May 2020 15:24:57 +0200
+Message-ID: <CANNYZj8K_3=pQQrLZD1D+vFhSxLsRTDxTsYB1r8wMZw7f4whKg@mail.gmail.com>
+Subject: Re: [OE-core] [Openembedded-architecture] Proposal: community maintained recipes in oe-core
+To: Jens Rehsack <rehsack@gmail.com>
+Cc: openembedded-architecture <openembedded-architecture@lists.openembedded.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000455ec105a50ecf3f"
 
-2020. 05. 07. 13:48 keltezéssel, Richard Purdie írta:
-> On Wed, 2020-05-06 at 14:41 +0200, Zoltan Boszormenyi via
-> lists.openembedded.org wrote:
->> 2020. 04. 24. 17:01 keltezéssel, Bartłomiej Burdukiewicz írta:
->>> Mesa can be compiled with libva support, in order to avoid
->>> recursive
->>> dependency between mesa and libva, virtual/mesa must be removed
->>> from libva recipe.
->>
->> This is why this patch series was created, to break the
->> circular dependency in a clean way:
->> https://patchwork.openembedded.org/series/22976/#
->>
->> The libva-initial recipe was introduced that doesn't need
->> mesa, then mesa can be built with vaapi state tracker enabled,
->> finally libva can be built with dependency on mesa so its
->> GLX support is enabled.
->>
->> What happened to it?
-> 
-> I think it came in late during the release and was a bit too risky to
-> be taken at the time.
+--000000000000455ec105a50ecf3f
+Content-Type: text/plain; charset="UTF-8"
 
-I didn't get that impression after the response from Khem Raj:
- >> OK, I guess, we should give it a test.
+On Thu, 7 May 2020 at 14:38, Jens Rehsack <rehsack@gmail.com> wrote:
 
-> It think it is a good solution to the problem,
-> would you be able to rebase the patches and we can queue them for
-> testing? Its a much better time now to merge a change like that.
+> > I agree there should be a way to update maintainers e-main once we
+> determine they are not longer willing to take part in that program or
+> absent. I believe this an issue in general for OpenSource has had to
+> address over the years.
+> >
+> > My plan is to experiment with this for the python3* recipes in oe-core
+> for a start: they've been bouncing between various people over the past
+> couple of years, but no active maintainer has emerged.
+>
+> I'd like to see 'non-systemd init' in, either :)
+>
 
-I will rebase them, thanks.
-Does it have a chance to be backported to 3.1?
+On a technical level this means updating maintainers.inc entries to list
+oe-core list as the email address; the next AUH round (in a week or so)
+will go as usual (because it's the first post-release one), and depending
+on how maintainers react, and who hasn't sent anything at all for a long
+time, I will propose something specific.
 
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-> 
+Alex
 
+--000000000000455ec105a50ecf3f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 7 May 2020 at 14:38, Jens Rehsack=
+ &lt;<a href=3D"mailto:rehsack@gmail.com">rehsack@gmail.com</a>&gt; wrote:<=
+br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">&gt; I agree there should be a way to update maintainers e-main =
+once we determine they are not longer willing to take part in that program =
+or absent. I believe this an issue in general for OpenSource has had to add=
+ress over the years.<br>
+&gt; <br>
+&gt; My plan is to experiment with this for the python3* recipes in oe-core=
+ for a start: they&#39;ve been bouncing between various people over the pas=
+t couple of years, but no active maintainer has emerged.<br>
+<br>
+I&#39;d like to see &#39;non-systemd init&#39; in, either :)<br></blockquot=
+e><div><br></div><div>On a technical level this means updating maintainers.=
+inc entries to list oe-core list as the email address; the next AUH round (=
+in a week or so) will go as usual (because it&#39;s the first post-release =
+one), and depending on how maintainers react, and who hasn&#39;t sent anyth=
+ing at all for a long time, I will propose something specific.</div><div><b=
+r></div><div>Alex<br></div></div></div>
+
+--000000000000455ec105a50ecf3f--
