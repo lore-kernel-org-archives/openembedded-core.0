@@ -1,74 +1,118 @@
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.web11.561.1588827982983453723
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
+ by mx.groups.io with SMTP id smtpd.web10.1012.1588830754879908817
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 May 2020 22:06:23 -0700
+ Wed, 06 May 2020 22:52:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VdlYQy66;
- spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f196.google.com with SMTP id h26so3701488qtu.8
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2020 22:06:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XwhznnNz;
+ spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lj1-f193.google.com with SMTP id y4so4937352ljn.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2020 22:52:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6m/cNEdwdhrGsoogYt1hdUqguU+P79eycmtk3OebSgA=;
-        b=VdlYQy66Q0ndTSmoFUsAIInkVRGZkJl2YdQmaL/kMfw8zYpspEvRF92sgfNjVotB8B
-         pJpn20DLUhseLmocIETzafiNnQFRzG/Ph121TYNweYRAsmgeAh958A8hzqm4KDWWkn11
-         mxO294UQLtJDT1wiq53qlsSOWVXq4Yt9D2kj77Ue8hqd63cbP6yoooYFQuiaeBRG9GK2
-         2eU5/W0gK686q7jCf69TqRAOVbddH/ckersCa+dOuHOIsVrKT4dtSRTUsCgW6gFxAPw0
-         iEIioYciYj99MyNJpLLPGXD+9Np1Lb5tVOJ9J8cQZ1lQA699oTmMcsiKDYEOcbPDEard
-         1BpA==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=Fj4aCAJhDDb4rCfXdFUsy1iEeYtv3vo5nCfkfY+g2pI=;
+        b=XwhznnNzdneT18DQmht7Cx8kylGTeJBgFhhPdNfgc7fvGZcUupedOYi6eLgYJEucr/
+         R5wFe02bCD8kqDjV/L9vHss+Z4k6VN/66zmSX4WFu8B0xRlXG21eSK9/MltjiWPDcZLD
+         lfKl5tDlUPjm06WIS6X911j3NHVuUu3FQCGl4pxvQgC++xtTOJZgEJyIzxqjcoUpNCmh
+         7ziV41ArjY5rI5SNTSReuyfAqX7Gu+fKh2zJ/fFfp68m1OtvDIKRq5gp4rn53z0PISNO
+         J6FkXZwhBayYmdLGk8dklURmxu4e2N8MTCh8PwI3Y2HAn4ZkFqxlhGItywUqOtmJ9D06
+         g9HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6m/cNEdwdhrGsoogYt1hdUqguU+P79eycmtk3OebSgA=;
-        b=Ros4EUXhclxC+2a+gIkR0FEZUuD6rmK+5LF7cFKM7DSedLHbsEZrSTdqrAYTvP4JON
-         cS0gVJtnF/Sv8qyOsHR/54MPVIrWCjkrrDwP48e1WyncI5uS4Dj9inE20MDJVcQvvDRl
-         JJhpjkbPDuPefAu8xdWGzpky+VxLUVxSRb5ZD3Om+Ax0cNBGVEb19Cac22WlCD0CCChK
-         mcZZ7HRdyroRgUqV3iKrhR1n5GecC+sZMEDX9Xvwt0Fl7EzVkLhXI0rH0hZLVCgk6PUC
-         +QJnYOyol4VzHfvT2cUYqLo5yGVKFmcU98pA9qZtVqeaR1rM0/mXqEcsMbR39Kd6av09
-         vj6g==
-X-Gm-Message-State: AGi0Pua05NWU9Kdzq5PgbJeE1IXAEEHRZgFCX8kKZD/SaBweA7xkO4Np
-	aWzcxTBSORax7drrDNH+3DdhDKDo5XdX1of655M=
-X-Google-Smtp-Source: APiQypJ1inA3KIhVPAf+Pw1US1q7GLX0HO2+tTm6MHo6N/2xvugfLmaAsLlcBKD7cLFZ5C66XlnTeLgs49zX8B69u+k=
-X-Received: by 2002:ac8:31aa:: with SMTP id h39mr12070150qte.190.1588827981949;
- Wed, 06 May 2020 22:06:21 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Fj4aCAJhDDb4rCfXdFUsy1iEeYtv3vo5nCfkfY+g2pI=;
+        b=JLiXWHCe0UYnUkqZYwhu/8QiKwILlbvcbC3rpDf6RYNq078LxdRn/F/OGL5/hwl71I
+         WuLETTcQaZkkxFQl27/MIzHHNARgM7K/EqUQ9RvGnx8c2PfsM7baeAi7UVBxBODbqBZt
+         XprM5sS+Vey+qJLtnRpq3T1MvYXrpbI18LZL9DRAnHOinW8eHYKcOiA4ghLpPEFrOTCp
+         mRrlXOqcKpTAesSxMJKG1rmFZWQQ/GvbRvuKS4LIk5mtT7rxmtZ0BWRw7IBX+V0fhZsK
+         egYzB9yETj09yUQARgomgJKHeJQxG6gjep7ZDHPEOrK/5uTVXanjUTTcdKRPcF2+zF6K
+         Al5g==
+X-Gm-Message-State: AGi0Pua89jmas9qcZPgD09jh+6nQ7afUVGe4AQsJl5q3YkbW3EIxtxQy
+	504t4DQj5vZUrwajD8nVdeXBxTltYmc=
+X-Google-Smtp-Source: APiQypI5MMrPiuklfiWCpmXfyG2cNwwDgIPYNI+ry3rBXA4vlpOt68D6knvF3Cg3w4tB+cV6pW8qEQ==
+X-Received: by 2002:a2e:9843:: with SMTP id e3mr7244152ljj.249.1588830752408;
+        Wed, 06 May 2020 22:52:32 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain ([213.185.29.22])
+        by smtp.gmail.com with ESMTPSA id v26sm2589836lji.43.2020.05.06.22.52.31
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 May 2020 22:52:31 -0700 (PDT)
+Subject: Re: [OE-core] [scripts][PATCH] Newer Linux kernels are producing built-in.a files.
+To: openembedded-core@lists.openembedded.org
+References: <20200506202649.23638-1-jan.vermaete@gmail.com>
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+Message-ID: <ee93c1f1-f653-ce1e-2a36-19a78be4ca3e@gmail.com>
+Date: Thu, 7 May 2020 07:52:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200501082616.11296-1-andrej.valek@siemens.com>
- <20200501113952.15847-1-andrej.valek@siemens.com> <c87e24dbc0db75e91726ecb3a09c77de63dc4509.camel@linuxfoundation.org>
-In-Reply-To: <c87e24dbc0db75e91726ecb3a09c77de63dc4509.camel@linuxfoundation.org>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 6 May 2020 22:05:55 -0700
-Message-ID: <CAMKF1sraogR4OuBmOo-Zwm5vuo1a9E0WvruO_T2S8-=sSrVc5g@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v3] icu: upgrade 66.1 -> 67.1
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Andrej Valek <andrej.valek@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200506202649.23638-1-jan.vermaete@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-also fails to build nodejs-native see
+On 5/6/20 10:26 PM, jan wrote:
+> In the past the file was named 'built-in.o'.
+> Nowadays it is 'built-in.a'.
+> 
+> The script is modified to work with both.  I expect
+> it will not happen that there are built-in.a and built-in.o
+> files in the same kernel.
+> 
+> Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
+> ---
+>   scripts/tiny/ksize.py | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/scripts/tiny/ksize.py b/scripts/tiny/ksize.py
+> index 8316b85cb1..63c5495c91 100755
+> --- a/scripts/tiny/ksize.py
+> +++ b/scripts/tiny/ksize.py
+> @@ -4,7 +4,7 @@
+>   #
+>   # SPDX-License-Identifier: GPL-2.0-or-later
+>   #
+> -# Display details of the kernel build size, broken up by built-in.o. Sort
+> +# Display details of the kernel build size, broken up by built-in.[o,a]. Sort
+>   # the objects by size. Run from the top level kernel build directory.
+>   #
+>   # Author: Darren Hart <dvhart@linux.intel.com>
+> @@ -48,7 +48,7 @@ class Report:
+>           r = Report(filename, title)
+>           path = os.path.dirname(filename)
+>   
+> -        p = Popen("ls " + str(path) + "/*.o | grep -v built-in.o",
+> +        p = Popen("ls " + str(path) + "/*.o | grep -v built-in.o | grep -v built-in.a",
 
-https://errors.yoctoproject.org/Errors/Details/410591/
+Looks to me like you don't need to add the last grep; you're only 
+listing *.o to begin with, no ?
 
-On Tue, May 5, 2020 at 8:00 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2020-05-01 at 13:39 +0200, Andrej Valek wrote:
-> > - 0001-icu-Added-armeb-support.patch - rebased
-> > - 0001-Fix-big-endian-build.patch - removed, already included in new
-> > version
-> > - icu-pkgdata-large-cmd.patch - removed, implemented correct size
-> >
-> > Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
->
-> This is failing to build on arm native machines:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/1187
-> (and other arm native builds)
->
-> Cheers,
->
-> Richard
->
+>                     shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+>           glob = ' '.join(p.communicate()[0].splitlines())
+>           oreport = Report(glob, str(path) + "/*.o")
+> @@ -59,7 +59,7 @@ class Report:
+>               p = Popen("ls " + subglob, shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+>               for f in p.communicate()[0].splitlines():
+>                   path = os.path.dirname(f)
+> -                r.parts.append(Report.create(f, path, str(path) + "/*/built-in.o"))
+> +                r.parts.append(Report.create(f, path, str(path) + "/*/built-in.[o,a]"))
+>               r.parts.sort(reverse=True)
+>   
+>           for b in r.parts:
+> @@ -139,7 +139,7 @@ def main():
+>           else:
+>               assert False, "unhandled option"
+>   
+> -    glob = "arch/*/built-in.o */built-in.o"
+> +    glob = "arch/*/built-in.[o,a] */built-in.[o,a]"
+>       vmlinux = Report.create("vmlinux",  "Linux Kernel", glob)
+>   
+>       vmlinux.show()
+> 
+> 
+> 
 > 
