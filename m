@@ -1,178 +1,81 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
- by mx.groups.io with SMTP id smtpd.web12.3985.1588822370019308513
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.107.243.73])
+ by mx.groups.io with SMTP id smtpd.web11.330.1588826152951247540
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 May 2020 20:32:50 -0700
+ Wed, 06 May 2020 21:35:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=KumD1CHD;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.195, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f195.google.com with SMTP id f15so1506205plr.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 May 2020 20:32:49 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=gbdJ+yxx;
+ spf=pass (domain: windriver.com, ip: 40.107.243.73, mailfrom: qi.chen@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=CajKB249dot0Ws3k1dVD3IHKk6nDghmuOojunBuBz04UTTKAfznntRRIKANYAiumSeSsP4X3BnOOk+gsBOYWORo6tz4ueLMXnSAzvFGujxZ3purMFv550wcJJl+rOkgXV3ua6kvODHgZbuUb/Ia9KliQJ9TJH2Q2eBFOHrGHsh02MgPprM86lnkQG3YAp499kWszSBxFk7uQEiFigNuw6oDjj4lzLxuffMR/CkBnT6yEkUPBXl+gK/Rk+a6cFyKchx8x/KSXcWkuN4eO8REoR7ApmT/8g/DH7JNlaQlUx1rot+7k9SPV9WhF5hdpswcazXTkqr5MFy+RKF0RHXrkLA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g3zLYH4xKxcPrHOD18z9YfpQcnk/GaJedfustWU5uGs=;
+ b=i9iBkJ2QG+ZJmwB3A7sb4Eowf4o7L+SWe0wVO5bYDuuPTPF8RkrzDbpFAbhh8SDckR8nigd95eFeDA6epHiOoWq+oWmnF42dz3G7aTG2qXTCJQTtoSC74Jr/9HjbT9SOd2+Y2bW7yPXFj4l6L9zfjuhgdYIj52PkXRZwu4JglrzVoghe8AdVfquGJI2qp/cIPdkq0eFzOAX6WnMD/5MCw5S7oomu7Nr5XqKRr/eaesL1g+DW4zrApEa0tVE8yFcSf+wymJAoft7ESVbVMdMErtlXGxWqbuvjzmj3FDayNFYhwY7kS0DytGMj9lB/m5nf8aLaLbKAA6DsdS2UVY4e8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nQLMck6bhh2Vbtz63+ZcZ6VRd7ASJiKb2UecOuQrj6o=;
-        b=KumD1CHDMUSN9ChvToic3FOPIGsxtOJCzdummHehT8kNnP6aeMAcPuYHXZlLp/65rD
-         zOKfLPt30eDj+L8Cgslb3Ir9xWunl/cwCiUJmzwpioG8HaudRgDYjUjEOkdHgIGeEA7V
-         YgAUHd4T/bEBD46emzwoYjk3yXQQg393hGP1CJsUvdBfim1zKpz4Lcjh2Sqz82B0Z/0H
-         4Rv2pbB5oXtorrLIZP9+HYEvOPKiscFTCwYcyWd8BUvhgbohLUrAIeAzxACHIP/14w5n
-         rEh6BZC8wy+t7FxSLUnO9+VCtSX7oFbZ9nBdgxsty66IENM1TfrXl9S5fSMGeQhC24US
-         jIcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nQLMck6bhh2Vbtz63+ZcZ6VRd7ASJiKb2UecOuQrj6o=;
-        b=UiHIgPNGx6nGRcW5JGQDxMhGnTmyib654FlLjVIS0S3LKvsixkim0aNYheCgznpTSo
-         Vgv3pVLMdC61DgGC+4fMVv0ld6dd6Xpj/wNzWzXNXP5Iy1mIOeqy4/uYdlujqKewNW8u
-         i4IQtFP4aI6VAkVZelZiJOHbxBj9KG4gK2+Jr0z8eCCmuu0HsKpEl5zjiFOgRdxB4OTO
-         2cKC0Gfuy7WmvNlKPU1mv1rysrDlZUE1Yq90AlgpL0gS8YEC7rQDs/fpfRWq8Wb9f0Jo
-         DvlxP+gI8TNfVWFxIn6c/by2uU2pPBy1raUpOrnABBrRbgqZol6XyVruNsy66YIVWXVF
-         4UtA==
-X-Gm-Message-State: AGi0PuaSQnSOkhP/SspUa6fOokdj4aeHlyhobU77iss4KTg4Mn2bjd7L
-	xYcsA51L4tUEWM0we9rc27dYLMvoGcV9jQ==
-X-Google-Smtp-Source: APiQypIkcm+2KGKfNNygyE8vBnSpOYQ2lwZ96Z04+bb16rdINNVRj7Nb5UicnoqbOypt3sDi3ci7Ag==
-X-Received: by 2002:a17:90a:3327:: with SMTP id m36mr13393662pjb.116.1588822368701;
-        Wed, 06 May 2020 20:32:48 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id mn1sm5864641pjb.24.2020.05.06.20.32.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2020 20:32:47 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 00/28] Pull request (cover letter only)
-Date: Wed,  6 May 2020 17:31:46 -1000
-Message-Id: <cover.1588813043.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=g3zLYH4xKxcPrHOD18z9YfpQcnk/GaJedfustWU5uGs=;
+ b=gbdJ+yxxvlwBX6e3+8En8XFMvSWVruALce6pmw2FC6NepO8t/eodyMw6K9DF2fZBdoqBvzgbAsEDI/Y/AZ9AqqagKuCw1hFxBTK15+RK1RKywi9mP6xc0DInyqC+w5k8uFte8OJ8ZzG9Rk9P/Eqelpja/iMpinMRjl6/9tuDpEk=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BYAPR11MB3589.namprd11.prod.outlook.com (2603:10b6:a03:b3::22)
+ by BYAPR11MB2709.namprd11.prod.outlook.com (2603:10b6:a02:be::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.19; Thu, 7 May
+ 2020 04:35:51 +0000
+Received: from BYAPR11MB3589.namprd11.prod.outlook.com
+ ([fe80::d58f:306c:6ca5:221c]) by BYAPR11MB3589.namprd11.prod.outlook.com
+ ([fe80::d58f:306c:6ca5:221c%4]) with mapi id 15.20.2958.030; Thu, 7 May 2020
+ 04:35:51 +0000
+To: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>, Yi Zhao <yi.zhao@windriver.com>,
+ ChenQi <Qi.Chen@windriver.com>
+From: "Chen Qi" <Qi.Chen@windriver.com>
+Subject: [JUNK] [Please ignore] test mailing list
+Message-ID: <bb27b92c-e4d5-282e-352b-80329f37bce7@windriver.com>
+Date: Thu, 7 May 2020 12:37:56 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HK2PR02CA0184.apcprd02.prod.outlook.com
+ (2603:1096:201:21::20) To BYAPR11MB3589.namprd11.prod.outlook.com
+ (2603:10b6:a03:b3::22)
+Return-Path: Qi.Chen@windriver.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 38f02da1-02c7-418c-f85a-08d7f2401eee
+X-MS-TrafficTypeDiagnostic: BYAPR11MB2709:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<BYAPR11MB2709D4DBBC92B7B5C1984F15EDA50@BYAPR11MB2709.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1728;
+X-Forefront-PRVS: 03965EFC76
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Th3HNF1NgOyyzAV3OTNTlpkLy1vE0OxlWVAYAGdjxGbKBoABbZMM2WZI/oPOWd4CN399PX0R3qVN2+Z3Zr7IY0RIYSclwcrFKdpo4vXaBdOKHnua9/eZF3mO8zDQGL5tyumwG1NcSUmgMyO332UkyqcFa+0XlrBn0PRxsADXUzvh8cSv6kW6Xmwwqj/MExIHscw+guKNns70i8jjRpDahHWokkNz+Upb5SaWFK3e2t4fcXqCyslbytBJw2/iuuBItIKxWqmGRjKy4Tg9kV4zEaaTimOuoc/TZ3nuhiLjiVYeFQEw3fuldW0omoGrTtZqvrLS/q8XjNeVNgJgOiBKA0xNiqPdPgUVtjzykQXKVtjRf9OQlV/SOnRNu3KWGS3kuqRA8MKlk6j0yKjpeWEB5CSjqaoM/lf/CySne+hnoKbBbuk8RAjpixwfaGf52bqxbHaLudyNctCMrmJzVih2HlyNogJdXbnZWi9lvn0iJCaHXl+nXOt7zTcmnAiazRMkJ7PyjXA7UTuIdJYMWLg/ZFpoGOu1FtUdDwS44tsfk8TS49bh4Lyjnr8+mqT0vLfu6A3yqnWJ0pqB3vHuAmU9lw==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3589.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(39850400004)(376002)(136003)(366004)(396003)(346002)(33430700001)(66556008)(66476007)(52116002)(558084003)(31686004)(66946007)(478600001)(31696002)(6506007)(8936002)(110136005)(186003)(8676002)(19618925003)(2616005)(316002)(86362001)(36756003)(26005)(6486002)(33440700001)(6512007)(2906002)(83300400001)(83320400001)(83280400001)(83290400001)(83310400001)(223123001)(130980200001)(43740500002)(558944008)(19559445001)(15288005002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	98jvdtL7V7hrFGvAO9t6zAveMFUSKLzxQb5ujye6bp7roG6AN3FhZNqD5ECvrJ72o6z2gb8H618Pgpifm3trqKORDypyj8YB0r+TLTE4epMTSiwKN+be+uA7hENfT5GU19tacKNSEbnOymFO65tyi7DY4g5BOXEXDwplyueRuliQPb98IJ5ejkGe5M14V1/iT47Gt+OZU1YocM2RpO4u7niL+eJA1TwzR9lsDjO0WaMrsjQV7wlIbnWP8sbbKv+O5SEFzgZtAQj0OAVtHn+oLnqE0PE7MZ+mycxT5UTYbEV6/NPReVR444LEATHRxHzbUbDAya2Gm2h0atlpMGY9OF1BvFDRGINVxHEPnJzMGBlAliOFwLd9mFtadekZVuviCIU2EbH/jkFPsbtB+bF7fNlFIflf67tOE2SnGlogzId+3LaOSHMxEtrG0LjNkDNt6ShTgqK5JKR+8Gtk2CGzlklKJa1FSuzT2JgsBkjUK6yt0d07GRWG6yNzptbgLluFA7w8GcfOZAuKwQtDTfebgGHKVAIJHVDOXokOHiB8QEv8tl85UKfXbBbbSLv6l5IDWsjhpI8A1l2PrzE9dirsav75OHa+Y4F+xS1Vty2adR4bhukPuSJ9e0+Xn8BelhC9pfhTDKtzTYvOJgz6oklYebti8D1ReCyur0fxM+NelVhb+PpuUTLoD/Oe4/oTAe10q6aZ0JL8MdBjJ/BQ5Zq3x5SbLCa2hZ1Z8fafrUjb4gWauCOxVhQVZVPduSw5UrDxg+Y/iBjDdEVmra7U1p3mpZtqvLxs4Glx4PUQtNN8/aY=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 38f02da1-02c7-418c-f85a-08d7f2401eee
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2020 04:35:51.1158
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xSCzPr19iMVmIuYxh199qQohkoSFR9ZSPJsXWSw3E3auXcYbc42jozQ5X0ZREOXRCIBgOxtQRzX6E9tEsqU57A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2709
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-The following changes since commit 2cc3fac9cd1a0d77931c9e49dbe2941fa8619c51:
-
-  parselogs.py: ignore pulseaudio startup warning messages (2020-04-30 11:59:59 -1000)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
-
-Alex Kiernan (1):
-  run-postinsts: Set RemainAfterExit on systemd unit
-
-Alexander Kanavin (2):
-  testimage.bbclass: correctly process SIGTERM
-  buildtools-extended-tarball: add libgomp-dev
-
-Andrew Geissler (2):
-  boost: revert 1.72.0 regression
-  libffi: fix v3.3 compile on ppc64le
-
-Domarys Correa (1):
-  insane.bbclass: Add test for shebang line length
-
-Drew Moseley (1):
-  perl: Add missing dependency for tie-hash on carp.
-
-Jan Luebbe (1):
-  openssl: upgrade 1.1.1f -> 1.1.1g
-
-Joe Slater (1):
-  vim: do not adjust script paths building for target
-
-Kai Kang (1):
-  pseudo: add macro guard for seccomp
-
-Khem Raj (6):
-  packagegroup-go-sdk-target: Enable on rv64
-  go: Rely on go-runtime to provide needed modules
-  packagegroup-go-sdk-target: Add go to packagegroup
-  gcc: Configure all gccs with --disable-install-libiberty
-  binutils: Detect proper static-libstdc++ support when using clang
-  binutils: Install PIC version of libiberty.a
-
-Mingli Yu (2):
-  pbzip2: Fix license warning
-  iputils: Initialize libgcrypt
-
-Peter Kjellerstedt (1):
-  busybox: Correct the name of the bzip2 license
-
-Richard Purdie (6):
-  bzip2/pbzip2: Correct license information
-  oeqa/selftest: Add test for conflicting sysroot provider
-  staging: Fix overlapping file failures
-  targetcontrol: Fix leaking log handler
-  oeqa/qemurunner: Clean up failure handling
-  gcc-target: Ensure buildtools-extended-tarball doesn't use arch=native
-
-Tim Orling (1):
-  scripts/install-buildtools: bump to 3.1 release by default
-
-Trevor Gamblin (1):
-  python3: fix CVE-2020-8492
-
-Wang Mingyu (1):
-  icu: CVE-2020-10531
-
- .../sysroot-test/sysroot-test-arch1_1.0.bb    |  14 +
- .../sysroot-test/sysroot-test-arch2_1.0.bb    |  14 +
- .../sysroot-test/sysroot-test_1.0.bb          |   6 +
- meta/classes/insane.bbclass                   |  25 +-
- meta/classes/staging.bbclass                  |  12 +-
- meta/classes/testimage.bbclass                |   8 +-
- .../common-licenses/{bzip2 => bzip2-1.0.6}    |   0
- meta/lib/oeqa/selftest/cases/sysroot.py       |  37 +++
- meta/lib/oeqa/targetcontrol.py                |   7 +-
- meta/lib/oeqa/utils/qemurunner.py             |  11 +-
- .../{openssl_1.1.1f.bb => openssl_1.1.1g.bb}  |   2 +-
- meta/recipes-core/busybox/busybox.inc         |   2 +-
- .../meta/buildtools-extended-tarball.bb       |   1 +
- .../packagegroup-go-sdk-target.bb             |   3 +-
- .../binutils/binutils-2.34.inc                |   1 +
- meta/recipes-devtools/binutils/binutils.inc   |   5 +
- ...or-clang-before-checking-gcc-version.patch |  48 ++++
- .../gcc/gcc-configure-common.inc              |   1 +
- .../gcc/gcc-cross-canadian.inc                |   6 -
- meta/recipes-devtools/gcc/gcc-cross.inc       |   4 -
- meta/recipes-devtools/gcc/gcc-target.inc      |  14 +-
- meta/recipes-devtools/go/go-target.inc        |   4 +-
- .../perl/files/perl-rdepends.txt              |   1 +
- .../pseudo/files/seccomp.patch                |  15 +-
- ...20-8492-Fix-AbstractBasicAuthHandler.patch | 248 ++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.2.bb |   1 +
- .../run-postinsts/run-postinsts.service       |   2 +-
- meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |   2 +-
- .../0001-iputils-Initialize-libgcrypt.patch   |  55 ++++
- .../iputils/iputils_s20190709.bb              |   1 +
- meta/recipes-extended/pbzip2/pbzip2_1.1.13.bb |   2 +-
- meta/recipes-support/boost/boost_1.72.0.bb    |   1 +
- ...001-revert-cease-dependence-on-range.patch |  53 ++++
- .../icu/icu/CVE-2020-10531.patch              | 128 +++++++++
- meta/recipes-support/icu/icu_66.1.bb          |   1 +
- ...pc.h-fix-build-failure-with-powerpc7.patch |  62 +++++
- meta/recipes-support/libffi/libffi_3.3.bb     |   1 +
- .../vim/files/no-path-adjust.patch            |  27 ++
- meta/recipes-support/vim/vim.inc              |  12 +-
- scripts/install-buildtools                    |   6 +-
- 40 files changed, 793 insertions(+), 50 deletions(-)
- create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-test-arch1_1.0.bb
- create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-test-arch2_1.0.bb
- create mode 100644 meta-selftest/recipes-test/sysroot-test/sysroot-test_1.0.bb
- rename meta/files/common-licenses/{bzip2 => bzip2-1.0.6} (100%)
- create mode 100644 meta/lib/oeqa/selftest/cases/sysroot.py
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb} (98%)
- create mode 100644 meta/recipes-devtools/binutils/binutils/0016-Check-for-clang-before-checking-gcc-version.patch
- create mode 100644 meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0001-iputils-Initialize-libgcrypt.patch
- create mode 100644 meta/recipes-support/boost/files/0001-revert-cease-dependence-on-range.patch
- create mode 100644 meta/recipes-support/icu/icu/CVE-2020-10531.patch
- create mode 100644 meta/recipes-support/libffi/libffi/0001-ffi_powerpc.h-fix-build-failure-with-powerpc7.patch
- create mode 100644 meta/recipes-support/vim/files/no-path-adjust.patch
-
--- 
-2.17.1
+test
 
