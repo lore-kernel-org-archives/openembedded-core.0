@@ -1,105 +1,75 @@
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
- by mx.groups.io with SMTP id smtpd.web12.6927.1588927562895388156
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+ by mx.groups.io with SMTP id smtpd.web10.8266.1588935408768524625
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2020 01:46:03 -0700
+ Fri, 08 May 2020 03:56:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AQCJaVNZ;
- spf=pass (domain: gmail.com, ip: 209.85.167.66, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f66.google.com with SMTP id u4so795636lfm.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2020 01:46:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=gKQZUwi3FWI3md9IZqrw+43kzb/wSXqKNwdt+yuwF8E=;
-        b=AQCJaVNZdUyyWg/vv8JCHprTD7xnqR0DqNQ7YUjofux2jbSaegKgzf0wr6upT3a33r
-         i3U/SclqFS2GmC0H43JW7mi9SSwhsHRfHGmnwKbRgAoExhS1CBxZ+FFmPcriz4XrlXSe
-         P8237yC44MNuoXu1BMU1V0OqIv+4zlmhpVQcSN01bfrg6enqvoompWnv1CnaAZbsClsS
-         DC1G0MeSV70bF25ARAmpeBDJz/faQRH4CXd3NBg7CVG8xYi9tySNJE7+k1oMQoAvdhk+
-         nZS1n8quZrKNZ+xNDzq4PA4EIoUqsenOlLKH0dDg3LTU56WV47CwwVBPUpE3Wg1UQ8fp
-         tJhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=gKQZUwi3FWI3md9IZqrw+43kzb/wSXqKNwdt+yuwF8E=;
-        b=gesc0NXavcOD+afhFNAtsXP+AtthdGNc5v/jOyBbn2i+DsuBXNY/WRD4JOssfRITur
-         sZXAfYfkSAvXjohrW+59daQFNTJn0vkKht74+O77RgN0EbBc2SzABxssAejWzPCP8aGR
-         QyfvqIh+gLdbGv5Ssyde3eEq3eqOI8mcXvAqYFGgPmAst42lE3Jwbwv7Wk0TQpy2s7CO
-         DQAekLo6v/iOvZDV0mlhwwfy/cq2KnjHcjr+TOD8Ubo9t4sSNN7y6gttljTcMMNnIeqL
-         84B67WPTLO3OYVa4ocjRxTGg6O6qY20StNXDMqw2lijfrIpOoCtSrTHVdSEj8AVLZh73
-         V2UA==
-X-Gm-Message-State: AOAM531pGBNkY2Rn59T+P/CGKqdX+b3E2imL06D3IvYvru0HMLRtZSP8
-	ErsO7UDkIPzfm/J8mwhw/ouKny/eNAs=
-X-Google-Smtp-Source: ABdhPJx/+i30beFivv+mJJj37rpo0Hr4UhgumfbJ4XGwG+ndDxuBvb1JxxVsaPuECx0f+ThEzzOCrQ==
-X-Received: by 2002:a19:cb57:: with SMTP id b84mr1164898lfg.112.1588927560431;
-        Fri, 08 May 2020 01:46:00 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain ([213.185.29.22])
-        by smtp.gmail.com with ESMTPSA id m20sm685581ljj.94.2020.05.08.01.45.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 08 May 2020 01:45:59 -0700 (PDT)
-Subject: Re: [OE-core] [scripts][PATCH v2] In the past the file was named 'built-in.o'. Nowadays it is 'built-in.a'.
-To: jan <jan.vermaete@gmail.com>, openembedded-core@lists.openembedded.org
-References: <20200507132536.25613-1-jan.vermaete@gmail.com>
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-Message-ID: <6ff338a2-dad7-1634-36a3-b174ee67accc@gmail.com>
-Date: Fri, 8 May 2020 10:45:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <20200507132536.25613-1-jan.vermaete@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.88, mailfrom: naveen.kumar.saini@intel.com)
+IronPort-SDR: t8n+QN/evpqdMHQ+qM+Vwvv5iWjd46aIPY875WwzTOCUGVmbZMXDheNw19E0qP93nF4H4NbTxg
+ HTkcKtMwRNyA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 May 2020 03:56:48 -0700
+IronPort-SDR: DYIeMP9UpRVDW0csN1Zy0VlEdpjp3uI0a3V5279cT5HN/9fR2qAvhowBQjb71Xta7aLu+Moglx
+ bHb5oQxTt5XQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,367,1583222400"; 
+   d="scan'208";a="251821583"
+Received: from saininav-desk1.png.intel.com ([172.30.199.23])
+  by fmsmga008.fm.intel.com with ESMTP; 08 May 2020 03:56:47 -0700
+From: "Naveen Saini" <naveen.kumar.saini@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] libva: upgrade 2.6.1 -> 2.7.1
+Date: Fri,  8 May 2020 19:03:09 +0800
+Message-Id: <20200508110310.29937-1-naveen.kumar.saini@intel.com>
+X-Mailer: git-send-email 2.17.1
 
-On 5/7/20 3:25 PM, jan wrote:
-> The script is modified to work with both.  I expect
-> it will not happen that there are built-in.a and built-in.o
-> files in the same kernel.
-> 
-> Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
-> ---
->   scripts/tiny/ksize.py | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/scripts/tiny/ksize.py b/scripts/tiny/ksize.py
-> index 8316b85cb1..db2b9ec39f 100755
-> --- a/scripts/tiny/ksize.py
-> +++ b/scripts/tiny/ksize.py
-> @@ -4,7 +4,7 @@
->   #
->   # SPDX-License-Identifier: GPL-2.0-or-later
->   #
-> -# Display details of the kernel build size, broken up by built-in.o. Sort
-> +# Display details of the kernel build size, broken up by built-in.[o,a]. Sort
->   # the objects by size. Run from the top level kernel build directory.
->   #
->   # Author: Darren Hart <dvhart@linux.intel.com>
-> @@ -59,7 +59,7 @@ class Report:
->               p = Popen("ls " + subglob, shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True)
->               for f in p.communicate()[0].splitlines():
->                   path = os.path.dirname(f)
-> -                r.parts.append(Report.create(f, path, str(path) + "/*/built-in.o"))
-> +                r.parts.append(Report.create(f, path, str(path) + "/*/built-in.[o,a]"))
+For release details:
+https://github.com/intel/libva/releases/tag/2.7.1
+https://github.com/intel/libva/releases/tag/2.7.0
 
-Is that "," really part of the glob syntax ? I'd expect "[oa]" to work 
-just fine.
+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+---
+ .../libva/{libva-initial_2.6.1.bb => libva-initial_2.7.1.bb}   | 3 +--
+ meta/recipes-graphics/libva/{libva_2.6.1.bb => libva_2.7.1.bb} | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+ rename meta/recipes-graphics/libva/{libva-initial_2.6.1.bb => libva-initial_2.7.1.bb} (50%)
+ rename meta/recipes-graphics/libva/{libva_2.6.1.bb => libva_2.7.1.bb} (84%)
 
->               r.parts.sort(reverse=True)
->   
->           for b in r.parts:
-> @@ -139,7 +139,7 @@ def main():
->           else:
->               assert False, "unhandled option"
->   
-> -    glob = "arch/*/built-in.o */built-in.o"
-> +    glob = "arch/*/built-in.[o,a] */built-in.[o,a]"
->       vmlinux = Report.create("vmlinux",  "Linux Kernel", glob)
->   
->       vmlinux.show()
-> 
-> 
-> 
-> 
+diff --git a/meta/recipes-graphics/libva/libva-initial_2.6.1.bb b/meta/recipes-graphics/libva/libva-initial_2.7.1.bb
+similarity index 50%
+rename from meta/recipes-graphics/libva/libva-initial_2.6.1.bb
+rename to meta/recipes-graphics/libva/libva-initial_2.7.1.bb
+index 2c845238da..3e2b806c6d 100644
+--- a/meta/recipes-graphics/libva/libva-initial_2.6.1.bb
++++ b/meta/recipes-graphics/libva/libva-initial_2.7.1.bb
+@@ -1,8 +1,7 @@
+ require libva.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+-SRC_URI[md5sum] = "aef13eb48e01a47d1416d97462a22a11"
+-SRC_URI[sha256sum] = "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e48629401eaea5"
++SRC_URI[sha256sum] = "a00ff19d9f969259b9784172adad7788dbf3de827d985c5d27c230efd5d98a04"
+ 
+ do_install_append () {
+ 	rm -f ${D}${libdir}/*.so*
+diff --git a/meta/recipes-graphics/libva/libva_2.6.1.bb b/meta/recipes-graphics/libva/libva_2.7.1.bb
+similarity index 84%
+rename from meta/recipes-graphics/libva/libva_2.6.1.bb
+rename to meta/recipes-graphics/libva/libva_2.7.1.bb
+index e8cb8678bc..b2deb017ac 100644
+--- a/meta/recipes-graphics/libva/libva_2.6.1.bb
++++ b/meta/recipes-graphics/libva/libva_2.7.1.bb
+@@ -1,8 +1,7 @@
+ require libva.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
+-SRC_URI[md5sum] = "aef13eb48e01a47d1416d97462a22a11"
+-SRC_URI[sha256sum] = "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e48629401eaea5"
++SRC_URI[sha256sum] = "a00ff19d9f969259b9784172adad7788dbf3de827d985c5d27c230efd5d98a04"
+ 
+ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'glx', '', d)} \
+-- 
+2.17.1
+
