@@ -1,114 +1,100 @@
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
- by mx.groups.io with SMTP id smtpd.web10.11596.1588948026358511338
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web10.186.1588958440398907435
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2020 07:27:06 -0700
+ Fri, 08 May 2020 10:20:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OBafRQGr;
- spf=pass (domain: gmail.com, ip: 209.85.208.196, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lj1-f196.google.com with SMTP id a21so1866010ljb.9
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2020 07:27:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jSlrJWJ9;
+ spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: sakoman@gmail.com)
+Received: by mail-wm1-f66.google.com with SMTP id k12so10929630wmj.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2020 10:20:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dCAHDvRDQthVxKD5bFDobSfUbMeaI1cgiyRbGvr9q9k=;
-        b=OBafRQGrzI0QB5BFuHz+6tTDxMmri/uD1AtZl8DsOdsviv7uQ1k1aeqeZMa9uNVbD5
-         CQXQ1lxFcvrq59DozxyL9o9p+e9txLKAg9NlRj5KlhDZ8k1t2/3vvmr+8Z4AuPxcqfX7
-         keWooGLUhcKlMm2jVtPf0nxiDyH79V5dZiLijHMKI20il8VGdbYl5fKtyKPBBjJLJ7/y
-         UwLcjKHICbdhdJE0mcu6PEnm28aKDUuFOE9YEg1x7dBw7nRefKdxRgRTOhnXCkKGh5sE
-         5Gzy2w/Xq3SdGyO0t6ZaeM5qxq0cBz2WmApoRemJx1qGFDeTK6ffLcwPaX/muyqqWxyp
-         2kfA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZGYgSjK099Bti6HE/vEtBPgfkPF/KJrBQvEwsy95a+w=;
+        b=jSlrJWJ9AbeXQZ6zc7BZinp/YzFIGDF+dX7j0CFRZrg7qDNKP4Ho1v22xiutXO6zOs
+         ryM6iG+/n7eZoU6aKaX8W7iWwgdavM0Iljx8BnlmfZ3mYxMHqtfvkWa2q5OX4N0ykUAP
+         smRUSXgW2qV2S7yXTlZhK6Sa8It2j/s+PTTJcZrMN/RnDk3wSnaZPMsFV8RM8j1m4iXS
+         uyQiHyQTX9ls8lmO8j6JHLzipFO+dhjAcH1nDxAZp9sZcHQKRm8CNfuCej84lJ7i5nUY
+         MGh4K85GZaOz4UpQmre4xVASybCHMtaAHG1UWbVWsNeRAjnvCMuLrl3Fvaz2z7uqM4yF
+         M3Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=dCAHDvRDQthVxKD5bFDobSfUbMeaI1cgiyRbGvr9q9k=;
-        b=dVNzkSF0RnP5Wv01Pdfj8BJfgGNhJMHzUJCbb1T/yGH7Sfjz62/aCcBiOjk+Pf/eF1
-         RDuCrjPPBN8/L66n45E42Baivgm+F8nCSQt4n/8vsF56Eze36fJlcEHkEdia8KZLmYFl
-         YMmaODQ9XpctuMw0/Rk4+W4mrZ8/Ib8vubHx4857SuVPAFFqeowPE+cIL4BmwKa/6qv7
-         Ev8ySFD9rW85OhDSmUxuE+Nhh4lHrYFGCEWhZ6yO4Nupn56foXK91Cei4Wx8s2Y75iEN
-         RjsaDWyazOdARaTthnQrpCQGkHK4HKcOOtIzSm9p00oUzfGALS7IWBtJtOTe4zKxHaaw
-         ZPdg==
-X-Gm-Message-State: AOAM532VWCSC4uFfq4VabVXdIC6gr/wuwkKXH3SxsM5ygZ6NjtbLdY7c
-	Ah/jUiMS60Dxiq9xcUVKiPeaiBM58Ak=
-X-Google-Smtp-Source: ABdhPJw0ywgnx+Qk6TtTfijA6w6+7MAe589vodQul2DhTVgvAAG3MjHFY1nG4Jm4L+SQ4EOwcHuBag==
-X-Received: by 2002:a05:651c:28c:: with SMTP id b12mr1949456ljo.167.1588948023805;
-        Fri, 08 May 2020 07:27:03 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain ([213.185.29.22])
-        by smtp.gmail.com with ESMTPSA id a12sm1314158ljj.64.2020.05.08.07.27.02
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 May 2020 07:27:03 -0700 (PDT)
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] pseudo: Fix enum typedef
-Date: Fri,  8 May 2020 16:26:39 +0200
-Message-Id: <20200508142639.2471013-1-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZGYgSjK099Bti6HE/vEtBPgfkPF/KJrBQvEwsy95a+w=;
+        b=lC4uC3rX9e/pIcRFZ+9F1EMMNKUJnJOn5Mth0TFeE2gqn6RTdjP/GAIHxI4cT4P5yh
+         C9kV7J/Jo8w4fXEFZwl9Mu8F9EoXPHjbC9PyUxnbAK9b3hVS+rFTFjpToJkvRmc+vqdf
+         QBtLpUq/kmAR7L+Betg7j+ZKDXy4gao5s6nfrE5FzVllNe5c+CziWnXdqC8dYBOnoLac
+         umngydzaIAr3OAKmvYi2+V8CMkK3b4uEPqymw8O0Ubft3C3qG61RQz4TKMrgjCiZVBT+
+         YNleXjCbT8WGqesgyR32K3UlFbLR+lPckdFxcoWbVWvmub1SQQ53swlYAYTNPsKIz16C
+         wJ1w==
+X-Gm-Message-State: AGi0PuYkgQIn7OVAlOc/u76KOo5ju+wOoilhiP+5AMkMe+XDgh1GHM8B
+	T2Eo7dFmgCN6Y4DAXLxpFHF5i1HnyCFRAXTwhe0=
+X-Google-Smtp-Source: APiQypI53osjxyWG4uyq9Ot6TF7XRdRXJFr35GOg8LuyHt5SeBVhNTDqpR8ANo6gaMUpHX3xGATd0OzKdtGOVbEy/H4=
+X-Received: by 2002:a1c:5446:: with SMTP id p6mr16869310wmi.172.1588958438851;
+ Fri, 08 May 2020 10:20:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200505130133.24930-1-alex.kanavin@gmail.com> <20200505130133.24930-5-alex.kanavin@gmail.com>
+In-Reply-To: <20200505130133.24930-5-alex.kanavin@gmail.com>
+From: "Steve Sakoman" <sakoman@gmail.com>
+Date: Fri, 8 May 2020 07:20:27 -1000
+Message-ID: <CAGDS+nmZzgcVLdhxSo-+V4SAvjmoq_fsDurw6M4JUjwi+9AjAQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 05/24] testsdkext/devtool: initialize the test component's git repo
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-'pseudo_access_t' is a type, so use typedef.
+Is this patch suitable for dunfell?
 
-Fixes building pseudo with gcc 10 where -fno-common is the default.
+Thanks,
 
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
----
- .../0001-pseudo_ipc.h-Fix-enum-typedef.patch  | 31 +++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
+Steve
 
-diff --git a/meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch b/meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
-new file mode 100644
-index 0000000000..33d4ef3b2f
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
-@@ -0,0 +1,31 @@
-+From a491aececfedf7313d29b80d626e0964fb533548 Mon Sep 17 00:00:00 2001
-+From: Jacob Kroon <jacob.kroon@gmail.com>
-+Date: Sun, 3 May 2020 06:24:03 +0200
-+Subject: [PATCH] pseudo_ipc.h: Fix enum typedef
-+
-+'pseudo_access_t' is a type, so use typedef.
-+
-+Fixes building pseudo with gcc 10 where -fno-common is the default.
-+
-+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-+Upstream-Status: Submitted [https://lists.openembedded.org/g/openembedded-core/message/137758]
-+---
-+ pseudo_ipc.h | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/pseudo_ipc.h b/pseudo_ipc.h
-+index caeae5c..d945257 100644
-+--- a/pseudo_ipc.h
-++++ b/pseudo_ipc.h
-+@@ -29,7 +29,7 @@ typedef struct {
-+ 	char path[];
-+ } pseudo_msg_t;
-+ 
-+-enum {
-++typedef enum {
-+ 	PSA_EXEC = 1,
-+ 	PSA_WRITE = (PSA_EXEC << 1),
-+ 	PSA_READ = (PSA_WRITE << 1),
-+-- 
-+2.26.2
-+
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index a3049c5e6c..324ae9071f 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -12,6 +12,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
-            file://0006-xattr-adjust-for-attr-2.4.48-release.patch \
-            file://seccomp.patch \
-            file://0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch \
-+           file://0001-pseudo_ipc.h-Fix-enum-typedef.patch \
-            "
- 
- SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
--- 
-2.26.2
-
+On Tue, May 5, 2020 at 3:02 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> Devtool is relying on externalsrc class, which, in order to determine
+> if a rebuild is needed, relies on git to checksum files (if the
+> component tree is a git repo), or sets a flag to always rebuild if
+> the component tree is not a git repo.
+>
+> This is problematic in testsdkext scenario, where the test component
+> is inside a build directory, which itself is inside the poky repo
+> checkout, and listed in .gitignore. What happens is that git walks
+> up the tree and uses the index of the poky repo. This works okay
+> with older versions of git, but git 2.26 complains that we're inside
+> a directory that is ignored, and returns an error.
+>
+> To fix the issue, the git repository is initialized directly in the
+> component directory, just prior to running the tests.
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/lib/oeqa/sdkext/cases/devtool.py | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/meta/lib/oeqa/sdkext/cases/devtool.py b/meta/lib/oeqa/sdkext/cases/devtool.py
+> index 8e92bf8064..a5c6a76e02 100644
+> --- a/meta/lib/oeqa/sdkext/cases/devtool.py
+> +++ b/meta/lib/oeqa/sdkext/cases/devtool.py
+> @@ -20,10 +20,16 @@ class DevtoolTest(OESDKExtTestCase):
+>          myapp_src = os.path.join(cls.tc.esdk_files_dir, "myapp")
+>          cls.myapp_dst = os.path.join(cls.tc.sdk_dir, "myapp")
+>          shutil.copytree(myapp_src, cls.myapp_dst)
+> +        subprocess.check_output(['git', 'init', '.'], cwd=cls.myapp_dst)
+> +        subprocess.check_output(['git', 'add', '.'], cwd=cls.myapp_dst)
+> +        subprocess.check_output(['git', 'commit', '-m', "'test commit'"], cwd=cls.myapp_dst)
+>
+>          myapp_cmake_src = os.path.join(cls.tc.esdk_files_dir, "myapp_cmake")
+>          cls.myapp_cmake_dst = os.path.join(cls.tc.sdk_dir, "myapp_cmake")
+>          shutil.copytree(myapp_cmake_src, cls.myapp_cmake_dst)
+> +        subprocess.check_output(['git', 'init', '.'], cwd=cls.myapp_cmake_dst)
+> +        subprocess.check_output(['git', 'add', '.'], cwd=cls.myapp_cmake_dst)
+> +        subprocess.check_output(['git', 'commit', '-m', "'test commit'"], cwd=cls.myapp_cmake_dst)
+>
+>      @classmethod
+>      def tearDownClass(cls):
+> --
+> 2.26.1
+>
+> 
