@@ -1,68 +1,114 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web11.10872.1588946831604573425
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
+ by mx.groups.io with SMTP id smtpd.web10.11596.1588948026358511338
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2020 07:07:12 -0700
+ Fri, 08 May 2020 07:27:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=K9WT73kt;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: anton.eliasson@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OBafRQGr;
+ spf=pass (domain: gmail.com, ip: 209.85.208.196, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lj1-f196.google.com with SMTP id a21so1866010ljb.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 May 2020 07:27:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=1255; q=dns/txt; s=axis-central1;
-  t=1588946832; x=1620482832;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=Ac9kS1598BJ7W03zo4SrA6/dqj13XHPoCQEA5HaNGDo=;
-  b=K9WT73kt41N0NkvguqO2xgl5DfrQfEVFKO/crfzPDkZt4CWEsGutgy8P
-   tkrVWYWEtCMODG3iPgQL7GZMuIjWCwoxuwF5rzsg5YdOt6nh1FKpQtrCZ
-   NiRMP/LPN3jCEkrkUEwiUyxZsuU2w//JhV/yWEx8jl4bGis69IXpYu5zw
-   7j0uL5/7BB7gnGdhG6bjWZuqMXHKbLUCG3/46rbVJs4EqqbLC9Jtr4LB9
-   U3+3ran/LjBIsEsJJKiELayg80Bv4QjNGsOOZmSQvG4ZH177RTKivn3zO
-   YLxxMO45YlZhLI6ryMKGiBwkZJgK9DjO0b/6eydqWjjuxXkybqJ69Fsgi
-   w==;
-IronPort-SDR: Eb/iWZnvNgAFQWwkiFcY+ti0yw2J/lFQWYPbsyCpqfaPvArIvbuJ+HWeqN/VwmQV94SFVkqqO0
- fs2IHFG2dbKWBeXCzQK4gf1Kklh9+XJwpJCN6Yn2Gm++YBPw5XXGgV9A0MFmJtrN8r2nXRUKW/
- 98BTEH9RLcPF0oxSkWkzJzmaDgQKW+0CJMExVhwRfek/RrUJwQ6sJ52+p4EwLzjcVO0N5JFfLD
- Ih4UyU3zGFJ4N77uvYWJvgzBxF1FZZqseplyoVKRqHnhhO/d2Nf6ADzS7z2ubaOrwMiYp/BsTU
- EOE=
-X-IronPort-AV: E=Sophos;i="5.73,367,1583190000"; 
-   d="scan'208";a="8534403"
-From: anton.eliasson@axis.com
-To: <openembedded-core@lists.openembedded.org>
-CC: Anton Eliasson <anton.eliasson@axis.com>
-Subject: [PATCH] meson.bbclass: Close the log file after reading
-Date: Fri, 8 May 2020 16:07:04 +0200
-Message-ID: <20200508140704.14505-1-anton.eliasson@axis.com>
-X-Mailer: git-send-email 2.11.0
-Return-Path: antone@axis.com
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dCAHDvRDQthVxKD5bFDobSfUbMeaI1cgiyRbGvr9q9k=;
+        b=OBafRQGrzI0QB5BFuHz+6tTDxMmri/uD1AtZl8DsOdsviv7uQ1k1aeqeZMa9uNVbD5
+         CQXQ1lxFcvrq59DozxyL9o9p+e9txLKAg9NlRj5KlhDZ8k1t2/3vvmr+8Z4AuPxcqfX7
+         keWooGLUhcKlMm2jVtPf0nxiDyH79V5dZiLijHMKI20il8VGdbYl5fKtyKPBBjJLJ7/y
+         UwLcjKHICbdhdJE0mcu6PEnm28aKDUuFOE9YEg1x7dBw7nRefKdxRgRTOhnXCkKGh5sE
+         5Gzy2w/Xq3SdGyO0t6ZaeM5qxq0cBz2WmApoRemJx1qGFDeTK6ffLcwPaX/muyqqWxyp
+         2kfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=dCAHDvRDQthVxKD5bFDobSfUbMeaI1cgiyRbGvr9q9k=;
+        b=dVNzkSF0RnP5Wv01Pdfj8BJfgGNhJMHzUJCbb1T/yGH7Sfjz62/aCcBiOjk+Pf/eF1
+         RDuCrjPPBN8/L66n45E42Baivgm+F8nCSQt4n/8vsF56Eze36fJlcEHkEdia8KZLmYFl
+         YMmaODQ9XpctuMw0/Rk4+W4mrZ8/Ib8vubHx4857SuVPAFFqeowPE+cIL4BmwKa/6qv7
+         Ev8ySFD9rW85OhDSmUxuE+Nhh4lHrYFGCEWhZ6yO4Nupn56foXK91Cei4Wx8s2Y75iEN
+         RjsaDWyazOdARaTthnQrpCQGkHK4HKcOOtIzSm9p00oUzfGALS7IWBtJtOTe4zKxHaaw
+         ZPdg==
+X-Gm-Message-State: AOAM532VWCSC4uFfq4VabVXdIC6gr/wuwkKXH3SxsM5ygZ6NjtbLdY7c
+	Ah/jUiMS60Dxiq9xcUVKiPeaiBM58Ak=
+X-Google-Smtp-Source: ABdhPJw0ywgnx+Qk6TtTfijA6w6+7MAe589vodQul2DhTVgvAAG3MjHFY1nG4Jm4L+SQ4EOwcHuBag==
+X-Received: by 2002:a05:651c:28c:: with SMTP id b12mr1949456ljo.167.1588948023805;
+        Fri, 08 May 2020 07:27:03 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain ([213.185.29.22])
+        by smtp.gmail.com with ESMTPSA id a12sm1314158ljj.64.2020.05.08.07.27.02
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 May 2020 07:27:03 -0700 (PDT)
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] pseudo: Fix enum typedef
+Date: Fri,  8 May 2020 16:26:39 +0200
+Message-Id: <20200508142639.2471013-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-This fixes warnings like:
+'pseudo_access_t' is a type, so use typedef.
 
-    WARNING: package-name-0.0.1-r0 do_configure: <string>:164: ResourceWarning:
-    unclosed file <_io.TextIOWrapper
-    name='/source_directory/build/tmp/work/arch/package-name/0.0.1-r0/package-name-0.0.1//meson-logs/meson-log.txt'
-    mode='r' encoding='UTF-8'>
+Fixes building pseudo with gcc 10 where -fno-common is the default.
 
-Signed-off-by: Anton Eliasson <anton.eliasson@axis.com>
-Reviewed-by: Ola x Nilsson <ola.x.nilsson@axis.com>
-Signed-off-by: Anton Eliasson <anton.eliasson@axis.com>
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
 ---
- meta/classes/meson.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../0001-pseudo_ipc.h-Fix-enum-typedef.patch  | 31 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+ 2 files changed, 32 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
 
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index 06034e8b47..e9628033c6 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -164,7 +164,8 @@ meson_do_configure_prepend_class-native() {
- python meson_do_qa_configure() {
-     import re
-     warn_re = re.compile(r"^WARNING: Cross property (.+) is using default value (.+)$", re.MULTILINE)
--    log = open(d.expand("${B}/meson-logs/meson-log.txt")).read()
-+    with open(d.expand("${B}/meson-logs/meson-log.txt")) as logfile:
-+        log = logfile.read()
-     for (prop, value) in warn_re.findall(log):
-         bb.warn("Meson cross property %s used without explicit assignment, defaulting to %s" % (prop, value))
- }
+diff --git a/meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch b/meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
+new file mode 100644
+index 0000000000..33d4ef3b2f
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0001-pseudo_ipc.h-Fix-enum-typedef.patch
+@@ -0,0 +1,31 @@
++From a491aececfedf7313d29b80d626e0964fb533548 Mon Sep 17 00:00:00 2001
++From: Jacob Kroon <jacob.kroon@gmail.com>
++Date: Sun, 3 May 2020 06:24:03 +0200
++Subject: [PATCH] pseudo_ipc.h: Fix enum typedef
++
++'pseudo_access_t' is a type, so use typedef.
++
++Fixes building pseudo with gcc 10 where -fno-common is the default.
++
++Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
++Upstream-Status: Submitted [https://lists.openembedded.org/g/openembedded-core/message/137758]
++---
++ pseudo_ipc.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/pseudo_ipc.h b/pseudo_ipc.h
++index caeae5c..d945257 100644
++--- a/pseudo_ipc.h
+++++ b/pseudo_ipc.h
++@@ -29,7 +29,7 @@ typedef struct {
++ 	char path[];
++ } pseudo_msg_t;
++ 
++-enum {
+++typedef enum {
++ 	PSA_EXEC = 1,
++ 	PSA_WRITE = (PSA_EXEC << 1),
++ 	PSA_READ = (PSA_WRITE << 1),
++-- 
++2.26.2
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index a3049c5e6c..324ae9071f 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -12,6 +12,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
+            file://0006-xattr-adjust-for-attr-2.4.48-release.patch \
+            file://seccomp.patch \
+            file://0001-pseudo-On-a-DB-fixup-remove-files-that-do-not-exist-.patch \
++           file://0001-pseudo_ipc.h-Fix-enum-typedef.patch \
+            "
+ 
+ SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
 -- 
-2.11.0
+2.26.2
 
