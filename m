@@ -1,55 +1,68 @@
-Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
- by mx.groups.io with SMTP id smtpd.web10.11137.1588946674488181548
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web11.10872.1588946831604573425
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2020 07:04:34 -0700
+ Fri, 08 May 2020 07:07:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: seebs.net, ip: 162.213.38.76, mailfrom: seebs@seebs.net)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id 1AE0E2E892B;
-	Fri,  8 May 2020 09:04:32 -0500 (CDT)
-Date: Fri, 8 May 2020 09:04:30 -0500
-From: "Seebs" <seebs@seebs.net>
-To: Jacob Kroon <jacob.kroon@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [pseudo][PATCH] pseudo_ipc.h: Fix enum typedef
-Message-ID: <20200508090430.686c8f88@seebsdell>
-In-Reply-To: <b554cabf-b8dd-5cf2-40ca-9aa5ffc53834@gmail.com>
-References: <20200503042712.1878496-1-jacob.kroon@gmail.com>
-	<20200503002852.1273f3a1@seebsdell>
-	<e8a9982b-1412-087f-b8ac-283b657106aa@gmail.com>
-	<20200503112621.32e1e1ed@seebsdell>
-	<b554cabf-b8dd-5cf2-40ca-9aa5ffc53834@gmail.com>
-X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=K9WT73kt;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: anton.eliasson@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; l=1255; q=dns/txt; s=axis-central1;
+  t=1588946832; x=1620482832;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=Ac9kS1598BJ7W03zo4SrA6/dqj13XHPoCQEA5HaNGDo=;
+  b=K9WT73kt41N0NkvguqO2xgl5DfrQfEVFKO/crfzPDkZt4CWEsGutgy8P
+   tkrVWYWEtCMODG3iPgQL7GZMuIjWCwoxuwF5rzsg5YdOt6nh1FKpQtrCZ
+   NiRMP/LPN3jCEkrkUEwiUyxZsuU2w//JhV/yWEx8jl4bGis69IXpYu5zw
+   7j0uL5/7BB7gnGdhG6bjWZuqMXHKbLUCG3/46rbVJs4EqqbLC9Jtr4LB9
+   U3+3ran/LjBIsEsJJKiELayg80Bv4QjNGsOOZmSQvG4ZH177RTKivn3zO
+   YLxxMO45YlZhLI6ryMKGiBwkZJgK9DjO0b/6eydqWjjuxXkybqJ69Fsgi
+   w==;
+IronPort-SDR: Eb/iWZnvNgAFQWwkiFcY+ti0yw2J/lFQWYPbsyCpqfaPvArIvbuJ+HWeqN/VwmQV94SFVkqqO0
+ fs2IHFG2dbKWBeXCzQK4gf1Kklh9+XJwpJCN6Yn2Gm++YBPw5XXGgV9A0MFmJtrN8r2nXRUKW/
+ 98BTEH9RLcPF0oxSkWkzJzmaDgQKW+0CJMExVhwRfek/RrUJwQ6sJ52+p4EwLzjcVO0N5JFfLD
+ Ih4UyU3zGFJ4N77uvYWJvgzBxF1FZZqseplyoVKRqHnhhO/d2Nf6ADzS7z2ubaOrwMiYp/BsTU
+ EOE=
+X-IronPort-AV: E=Sophos;i="5.73,367,1583190000"; 
+   d="scan'208";a="8534403"
+From: anton.eliasson@axis.com
+To: <openembedded-core@lists.openembedded.org>
+CC: Anton Eliasson <anton.eliasson@axis.com>
+Subject: [PATCH] meson.bbclass: Close the log file after reading
+Date: Fri, 8 May 2020 16:07:04 +0200
+Message-ID: <20200508140704.14505-1-anton.eliasson@axis.com>
+X-Mailer: git-send-email 2.11.0
+Return-Path: antone@axis.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Fri, 8 May 2020 08:09:58 +0200
-Jacob Kroon <jacob.kroon@gmail.com> wrote:
+This fixes warnings like:
 
-> Hi Peter,
-> 
-> On 5/3/20 6:26 PM, Seebs wrote:
-> > On Sun, 3 May 2020 17:49:09 +0200
-> > "Jacob Kroon" <jacob.kroon@gmail.com> wrote:
-> > 
-> >> The type has never been used, so an alternative fix would be to get
-> >> rid of it altogether, and just keep the enum identifiers.
-> > 
-> > I think I anticipated the type being used for something but it did
-> > indeed not happen. It could also just be changed to 'enum [type]
-> > { ... }', I guess.
-> > 
-> > But I think your fix is the simplest and closest to what I probably
-> > thought I was doing at the time.
-> > 
-> 
-> Do you have any plans on merging this, and also the pending patches
-> in oe-core, anytime soon ? Then we could bump the pseudo git rev in
-> oe-core and remove those patches, if not then I can add the patch to
-> the pseudo recipe. Any way you'd prefer ?
+    WARNING: package-name-0.0.1-r0 do_configure: <string>:164: ResourceWarning:
+    unclosed file <_io.TextIOWrapper
+    name='/source_directory/build/tmp/work/arch/package-name/0.0.1-r0/package-name-0.0.1//meson-logs/meson-log.txt'
+    mode='r' encoding='UTF-8'>
 
-It probably makes sense to add things to the pseudo recipe for now, I'm
-still trying to catch up on my task backlog from March.
+Signed-off-by: Anton Eliasson <anton.eliasson@axis.com>
+Reviewed-by: Ola x Nilsson <ola.x.nilsson@axis.com>
+Signed-off-by: Anton Eliasson <anton.eliasson@axis.com>
+---
+ meta/classes/meson.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
--s
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 06034e8b47..e9628033c6 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -164,7 +164,8 @@ meson_do_configure_prepend_class-native() {
+ python meson_do_qa_configure() {
+     import re
+     warn_re = re.compile(r"^WARNING: Cross property (.+) is using default value (.+)$", re.MULTILINE)
+-    log = open(d.expand("${B}/meson-logs/meson-log.txt")).read()
++    with open(d.expand("${B}/meson-logs/meson-log.txt")) as logfile:
++        log = logfile.read()
+     for (prop, value) in warn_re.findall(log):
+         bb.warn("Meson cross property %s used without explicit assignment, defaulting to %s" % (prop, value))
+ }
+-- 
+2.11.0
+
