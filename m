@@ -1,169 +1,81 @@
-Received: from mail-io1-f51.google.com (mail-io1-f51.google.com [209.85.166.51])
- by mx.groups.io with SMTP id smtpd.web12.5472.1589060086988975026
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web12.6085.1589062664176585975
  for <openembedded-core@lists.openembedded.org>;
- Sat, 09 May 2020 14:34:47 -0700
+ Sat, 09 May 2020 15:17:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=agw73LrW;
- spf=pass (domain: gmail.com, ip: 209.85.166.51, mailfrom: ticotimo@gmail.com)
-Received: by mail-io1-f51.google.com with SMTP id k18so5561090ion.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 09 May 2020 14:34:46 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=dTKSx2GL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.68, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f68.google.com with SMTP id a2so4549979ejx.5
+        for <openembedded-core@lists.openembedded.org>; Sat, 09 May 2020 15:17:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=cyBdYdWv8TLvleEPPLqD/pTNMq574x9HulU4IPrlKEU=;
-        b=agw73LrWPFw42DjNBNzoZbK1qEIDPJZUE1pvcHlfbCcv78hb36we9JLige8+hIEVQz
-         g/3MoV/p6kVyycTnhPHqkIBv7PKwIf+kt5WNi2i339Pz+fTVUQqb3WDdqDgUqa8urayR
-         XYwfUv2HnXuwerX7IveiBgwo0INJwBCgxXpc5DulWozF26YZ2myviG1vjKtLxHnw4XJS
-         kir5YJW44PE6HcMmq22DIIuPtZCQQRIrtgZRaM1mbcxzUEDtxRj8M6WeDXc0UOgpelyJ
-         hb7hZiE4wXb/4e2qpAAI7jNGXBSRDzbTd/c2CWIUqMIMm09pxPJ966+nPjOyLE0qeva8
-         DwpA==
+        bh=3u0eNi5FMWQo6dbH80wbdXl2xsZ44vWPdFJWGfcC1kY=;
+        b=dTKSx2GLtsc15NMcsEZV2xPSMSoSL7uihzaSrIvrQkOHePW7dtR8xLLpbWCmEpQeHQ
+         EkPeTATQaF1S1bgmuS1Y9fWVuKekUKNSnkjE6Ckrn0gwEZEgvGgxbyNMZyJyld5B9POl
+         cZdhKfIFTOMCSwZRCaUha5yF7jgoA67oXjJpNnHstUWL1WH1q/wscDfjCBMnkaZHFdkn
+         +IFcXzshTyq22DqKGRqSP8INXpItY5W+AhCc90fJyQD11HBP28v5eDZGugS2iXbtMtLP
+         X3ZAUHUOEVclzYuh/GwRQicDIKxvuKERPHfKgBpXFcJMacE803bHuVgTUo3EYWrSVBAI
+         NIfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=cyBdYdWv8TLvleEPPLqD/pTNMq574x9HulU4IPrlKEU=;
-        b=d8VjpVwZjWVeZr1niRCcNunougIc28Mz/JY3NXzgHHL57AXiyybr1yqF6g6ewYCIYX
-         K+Dzkn15/iCAcXY52plIKPOfeoSjt/QfIwVCzYmdhoyCTIGJVl6Yl1A9vIG4c+3mzkNL
-         FJ7heOk3uYpVToIR47Obdaf2Lvvg9jrardQpo2pucyDYzsT5lOpLC7lc4j66I4qNtKsZ
-         sv4qAVxmajq2ssdCCycdotDLNa47KC3AYmL8f1SMABCvHaLeH2r68b3JT6PQBxPHzR7Q
-         6+tQNBhfIHqA7tWhYfmlx2Eda0Zsw3tZqF2Y5N5f0MPyjSuHqPSR5wEzSaQCz6f8bkDJ
-         QW8Q==
-X-Gm-Message-State: AGi0PuZWQghdf/FQ4LmTpmXR4LbrMp1TXxpDKhChB3QodcExqaWrKMkS
-	ly0t+o+Hv+1VFG/bcgqSAD8OZPYuV0PVbL5FXBJgGBYl
-X-Google-Smtp-Source: APiQypIt54t5BJ6qBp/Eiqln3ez4osU5zTGbYchbLdtf7wrP5HkzXNv8EsV0uI9Z1NTN9dTRV77WdlDdVOm6xIWe22g=
-X-Received: by 2002:a05:6602:2d95:: with SMTP id k21mr852218iow.146.1589060086271;
- Sat, 09 May 2020 14:34:46 -0700 (PDT)
+        bh=3u0eNi5FMWQo6dbH80wbdXl2xsZ44vWPdFJWGfcC1kY=;
+        b=Xj8WRzdxsE+TTKc9BCjvre7zRr0BgUksdjKLTkXquBxSzzmf6kOr2ouovaZ2OfkAvD
+         UmsD8S+xrSgqNhnjo1nmwK9V7ha0JM87OJ5rjbH9dYIrmPuIryIQXP3W83IAr6BhH/5u
+         Tl2ssbJkGwMF8NoEJ0z5GWT2pJjCIjodYiH47l3iS6IjDHz+6AWUazffgFUa2lEgyRJd
+         mZuu4P8ZYCpK4J/hSUwSNgCXQzcBdEFAf2rIykkiJa4TKBLwPS0O4kbRyBUzEViHPwK4
+         dNWPZVllrj5JiaRgV3Kt76Nz5CNXeJIEfCSjhhhPEIhcPDNJwEkTVclZZmjS4G8e05Ys
+         4S0g==
+X-Gm-Message-State: AGi0PuatPKLTNVvtlqA1Y+Y3UAvuc1gXFEvMreqoBVf1yt3H9TeEe3n7
+	RIu2wYjS0twmOuMZE3XEswXs0qxSoBa9HTIQXjHxJA==
+X-Google-Smtp-Source: APiQypLjOUkdQ0J6LoZqaXj+X9+MHsNlWcECFWYrFhQPHAFFOkAFrA8t0IPaKtFZ4pyJrsY/y89dinhRrHktDTKHOZU=
+X-Received: by 2002:a17:906:7750:: with SMTP id o16mr7633957ejn.12.1589062662587;
+ Sat, 09 May 2020 15:17:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200509212312.8023-1-timothy.t.orling@linux.intel.com> <20200509213254.2277.14643@do>
-In-Reply-To: <20200509213254.2277.14643@do>
-From: "Tim Orling" <ticotimo@gmail.com>
-Date: Sat, 9 May 2020 14:34:35 -0700
-Message-ID: <CANx9H-CxdWjoHVqkoPf8P4aEFZsS5-mHMQkKsdEE_BWG=0FDzw@mail.gmail.com>
-Subject: =?UTF-8?B?UmU6IFtPRS1jb3JlXSDinJcgcGF0Y2h0ZXN0OiBmYWlsdXJlIGZvciBweXBpLmJiY2xhc3M6IHVzZSBuZXcgcHlwaSBVUFNUUkVBTV9DSEVDS19VUkk=?=
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <timothy.t.orling@linux.intel.com>
-Content-Type: multipart/alternative; boundary="000000000000f8135a05a53de153"
-
---000000000000f8135a05a53de153
+References: <20200509212312.8023-1-timothy.t.orling@linux.intel.com> <CANx9H-CXmR4iKEDimUD33aWgOzMfOATH_21duXLFwQdOjkXBNw@mail.gmail.com>
+In-Reply-To: <CANx9H-CXmR4iKEDimUD33aWgOzMfOATH_21duXLFwQdOjkXBNw@mail.gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Sat, 9 May 2020 12:17:30 -1000
+Message-ID: <CAOSpxdaw613aVsO4NCKwnXyzMGTBT8K+4z3VyMqeKq1-MpqFkQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] pypi.bbclass: use new pypi UPSTREAM_CHECK_URI
+To: Tim Orling <ticotimo@gmail.com>
+Cc: Armin Kuster <akuster808@gmail.com>, "Mittal, Anuj" <anuj.mittal@intel.com>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-As stated in comment to this patch, it applies on top of Konrad=E2=80=99s r=
-egex
-patch. So of course it fails patchtest.
+Thanks TIm, I'll keep an eye out for when both patches hit master.
 
-On Sat, May 9, 2020 at 2:32 PM Patchwork <
-patchwork@patchwork.openembedded.org> wrote:
+Steve
 
-> =3D=3D Series Details =3D=3D
+On Sat, May 9, 2020 at 11:30 AM Tim Orling <ticotimo@gmail.com> wrote:
 >
-> Series: pypi.bbclass: use new pypi UPSTREAM_CHECK_URI
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/24047/
-> State : failure
+> This is a candidate for backport to stable once it lands in master.
 >
-> =3D=3D Summary =3D=3D
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             Series does not apply on top of target branch
-> [test_series_merge_on_head]
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  master (currently at e496605ea1)
->
->
->
-> If you believe any of these test results are incorrect, please reply to =
-the
-> mailing list (openembedded-core@lists.openembedded.org) raising your
-> concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a
-> new
-> version of the patchset if applicable. Please ensure you add/increment t=
-he
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] =
-->
-> [PATCH v3] -> ...).
->
-> ---
-> Guidelines:
-> https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
->=20
->
-
---000000000000f8135a05a53de153
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><div dir=3D"auto">As stated in comment to this patch, it applies on to=
-p of Konrad=E2=80=99s regex patch. So of course it fails patchtest.</div></=
-div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Sat, May 9, 2020 at 2:32 PM Patchwork &lt;<a href=3D"mailto:patchwork=
-@patchwork.openembedded.org">patchwork@patchwork.openembedded.org</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex">=3D=3D Series Details =3D=3D<=
-br>
-<br>
-Series: pypi.bbclass: use new pypi UPSTREAM_CHECK_URI<br>
-Revision: 1<br>
-URL=C2=A0 =C2=A0: <a href=3D"https://patchwork.openembedded.org/series/240=
-47/" rel=3D"noreferrer" target=3D"_blank">https://patchwork.openembedded.or=
-g/series/24047/</a><br>
-State : failure<br>
-<br>
-=3D=3D Summary =3D=3D<br>
-<br>
-<br>
-Thank you for submitting this patch series to OpenEmbedded Core. This is<b=
-r>
-an automated response. Several tests have been executed on the proposed<br=
->
-series by patchtest resulting in the following failures:<br>
-<br>
-<br>
-<br>
-* Issue=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Series does not app=
-ly on top of target branch [test_series_merge_on_head] <br>
-=C2=A0 Suggested fix=C2=A0 =C2=A0 Rebase your series on top of targeted br=
-anch<br>
-=C2=A0 Targeted branch=C2=A0 master (currently at e496605ea1)<br>
-<br>
-<br>
-<br>
-If you believe any of these test results are incorrect, please reply to th=
-e<br>
-mailing list (<a href=3D"mailto:openembedded-core@lists.openembedded.org" =
-target=3D"_blank">openembedded-core@lists.openembedded.org</a>) raising you=
-r concerns.<br>
-Otherwise we would appreciate you correcting the issues and submitting a n=
-ew<br>
-version of the patchset if applicable. Please ensure you add/increment the=
-<br>
-version number when sending the new version (i.e. [PATCH] -&gt; [PATCH v2]=
- -&gt;<br>
-[PATCH v3] -&gt; ...).<br>
-<br>
----<br>
-Guidelines:=C2=A0 =C2=A0 =C2=A0<a href=3D"https://www.openembedded.org/wik=
-i/Commit_Patch_Message_Guidelines" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines</a><br>
-Test framework: <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/patch=
-test" rel=3D"noreferrer" target=3D"_blank">http://git.yoctoproject.org/cgit=
-/cgit.cgi/patchtest</a><br>
-Test suite:=C2=A0 =C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.org/cgit=
-/cgit.cgi/patchtest-oe" rel=3D"noreferrer" target=3D"_blank">http://git.yoc=
-toproject.org/cgit/cgit.cgi/patchtest-oe</a><br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000f8135a05a53de153--
+> On Sat, May 9, 2020 at 2:23 PM Tim Orling <timothy.t.orling@linux.intel.com> wrote:
+>>
+>> Upstream https://pypi.python.org/pypi/${PYPI_PACKAGE}/
+>> redirects to https://pypi.org/project/${PYPI_PACKAGE}/
+>>
+>> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+>> ---
+>>  meta/classes/pypi.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
+>> index ffa8aa3ff44..87b4c85fc09 100644
+>> --- a/meta/classes/pypi.bbclass
+>> +++ b/meta/classes/pypi.bbclass
+>> @@ -22,5 +22,5 @@ SECTION = "devel/python"
+>>  SRC_URI += "${PYPI_SRC_URI}"
+>>  S = "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
+>>
+>> -UPSTREAM_CHECK_URI ?= "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
+>> +UPSTREAM_CHECK_URI ?= "https://pypi.org/project/${PYPI_PACKAGE}/"
+>>  UPSTREAM_CHECK_REGEX ?= "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)/"
+>> --
+>> 2.24.0
+>>
+>> 
