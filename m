@@ -1,42 +1,57 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web10.5494.1589004788002827027
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web12.5783.1589005958474235982
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 May 2020 23:13:08 -0700
+ Fri, 08 May 2020 23:32:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: haiqing.bai@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0496D7HD026389
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 8 May 2020 23:13:07 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
- (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Fri, 8 May 2020
- 23:13:00 -0700
-From: "haiqing" <haiqing.bai@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <haiqing.bai@windriver.com>
-Subject: [OE-core][zeus][PATCH] qemu: Add PACKAGECONFIG for glusterfs
-Date: Sat, 9 May 2020 14:12:25 +0800
-Message-ID: <1589004746-8232-1-git-send-email-Haiqing.Bai@windriver.com>
-X-Mailer: git-send-email 1.9.1
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C0C160C6B;
+	Sat,  9 May 2020 06:32:35 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcWVtdTogQWRkIFBBQ0tBR0VDT05GSUcgZm9yIGdsdXN0ZXJmcyAocmV2NCk=?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: shohei.maruyama@cybertrust.co.jp
+Cc: openembedded-core@lists.openembedded.org
+Date: Sat, 09 May 2020 06:32:37 -0000
+Message-ID: <20200509063237.2274.4394@do>
+References: <1589004746-8232-1-git-send-email-Haiqing.Bai@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1589004746-8232-1-git-send-email-Haiqing.Bai@windriver.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+== Series Details ==
+
+Series: qemu: Add PACKAGECONFIG for glusterfs (rev4)
+Revision: 4
+URL   : https://patchwork.openembedded.org/series/21683/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  zeus (currently at 26b13f5938)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-devtools/qemu/qemu.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index f451017..a53dea1 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -166,6 +166,7 @@ PACKAGECONFIG[spice] = "--enable-spice,--disable-spice,spice"
- # usbredir will be in meta-networking layer
- PACKAGECONFIG[usb-redir] = "--enable-usb-redir,--disable-usb-redir,usbredir"
- PACKAGECONFIG[snappy] = "--enable-snappy,--disable-snappy,snappy"
-+PACKAGECONFIG[glusterfs] = "--enable-glusterfs,--disable-glusterfs,glusterfs"
- 
- INSANE_SKIP_${PN} = "arch"
- 
--- 
-1.9.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
