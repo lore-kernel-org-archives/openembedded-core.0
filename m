@@ -1,89 +1,87 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web10.14729.1589118059456997861
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.20188.1589136061445646033
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 May 2020 06:40:59 -0700
+ Sun, 10 May 2020 11:41:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WgtoZM/H;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id j5so7491281wrq.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 10 May 2020 06:40:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=WDC9gfiSsTrMxpkGrOTk4LtRyLMhNZ5i3EVsyVmfS48=;
-        b=WgtoZM/HpzIHb9M9ZnSo511AfLn8H+oy4RgxMO2plheL8R1Yq1FZ985dzGAeSEA4KX
-         xVqIAakEvz7fOLbcEJZvpg/NeznDqdiLEJyQCa1M3RQm48tmhJLQ84xKO5lpuuXXjFLl
-         oeZXtjVQGFuy0EKDkz2n3unXYFNY9dqapPqFs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=WDC9gfiSsTrMxpkGrOTk4LtRyLMhNZ5i3EVsyVmfS48=;
-        b=Zno437AMP9y1WA5a9vsDqrNmT52/wj7DL4n7xitdx00tff+cAxzjKu3MeK1ev9zZ4z
-         mqzLmSNSTHMnCqSMnN1Iyq5R8bZafQT/YQN5LS1irrpN6vMF/LpS3KCljQHCHNsLDAya
-         widTUjMB8qbqhwFmlpJFB41fViVYnCMbxU6GCxnFLSlH+SW6v353Qp5Yg0DJ+ZGUZ5EI
-         dODdN1xUfz3mec5oDxLfkSgDHh+rE9o6MXS/470wC7S4gWOL3Uhh5CMRUd1GWaUwFS/R
-         tEUAP/MceKPwzv8DsZslO6d652XyjPZng1L3nyrnPnEfKgnd4Iybd/elO34Z7BuI1HWG
-         LfrA==
-X-Gm-Message-State: AGi0PuZ+KkUU3XUp8JZ4PjKEhlKjEWO8w0/yAeE73hu9WZ5PCPoUZ7OF
-	rv9pPgkdUa5wWv55KuiO1ZsNbg==
-X-Google-Smtp-Source: APiQypIFOCQUwjedO+WKc5453km7hlLkhQRzA1bdits1Fjapq/Tv7MfrjB48Agd6rH5joKDQecUGIw==
-X-Received: by 2002:adf:e483:: with SMTP id i3mr12964464wrm.88.1589118057808;
-        Sun, 10 May 2020 06:40:57 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id u12sm23375186wmu.25.2020.05.10.06.40.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 May 2020 06:40:56 -0700 (PDT)
-Message-ID: <080c0849554edd5710f68f6283a020f578968de9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] buildtools-extended-tarball: add nativesdk-glibc
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: kai <kai.kang@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Sun, 10 May 2020 14:40:55 +0100
-In-Reply-To: <20200506015447.13003-1-kai.kang@windriver.com>
-References: <20200506015447.13003-1-kai.kang@windriver.com>
-User-Agent: Evolution 3.36.1-2 
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 6D09740C14;
+	Sun, 10 May 2020 18:41:00 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id t9MyymeM7hDm; Sun, 10 May 2020 18:41:00 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 3016B40A13;
+	Sun, 10 May 2020 18:40:56 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 6C31F1730FC; Sun, 10 May 2020 14:40:55 -0400 (EDT)
+Date: Sun, 10 May 2020 14:40:55 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Tim Orling <ticotimo@gmail.com>
+Cc: Steve Sakoman <steve@sakoman.com>, Armin Kuster <akuster808@gmail.com>,
+	"Mittal, Anuj" <anuj.mittal@intel.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v2] pypi.bbclass: mind package suffix on version check
+Message-ID: <20200510184055.GF11927@denix.org>
+References: <AM7PR05MB68810C07AC538B986CE47C92A8A30@AM7PR05MB6881.eurprd05.prod.outlook.com>
+ <160D7887899C970D.32017@lists.openembedded.org>
+ <CANx9H-CiaTE9ahgRUZO3dU43RBn4AmOKoJ_0Nwk6ph=Be3J0kw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CANx9H-CiaTE9ahgRUZO3dU43RBn4AmOKoJ_0Nwk6ph=Be3J0kw@mail.gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2020-05-06 at 09:54 +0800, kai wrote:
-> From: Kai Kang <kai.kang@windriver.com>
-> 
-> It requires gcc 5.0 via OE-Core rev abc741a. On centos 7, the gcc
-> version is too low then it has to build with buildtools-extended-
-> tarball
-> which provides nativesdk-gcc.
-> 
-> But it fails to build nspr-native:
-> 
-> > gcc   abstract.o -Xlinker -L../../dist/lib -lplc4 -L../../dist/lib
-> > -lnspr4 -lpthread -o abstract
-> > /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
-> > undefined reference to `__clock_getcpuclockid@GLIBC_PRIVATE'
-> > /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
-> > undefined reference to `__clock_nanosleep@GLIBC_PRIVATE'
-> > /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
-> > undefined reference to `__clock_settime@GLIBC_PRIVATE'
-> > /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
-> > undefined reference to `__clock_getres@GLIBC_PRIVATE'
-> > collect2: error: ld returned 1 exit status
-> > make: *** [Makefile:379: abstract] Error 1
-> 
-> Add nativesdk-glibc to buildtools-extended-tarball. And it increases
-> size of buildtools-extended-tarball about 3K from 48356989 to
-> 48360329.
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/recipes-core/meta/buildtools-extended-tarball.bb | 1 +
->  1 file changed, 1 insertion(+)
+On Sat, May 09, 2020 at 02:29:09PM -0700, Tim Orling wrote:
+> This is a candidate for backport to stable once it lands in master.
 
-This doesn't make sense. Does it mean we need a new uninative version
-instead?
+How so?
 
-Cheers,
 
-Richard
+> On Sat, May 9, 2020 at 2:12 PM Tim Orling via lists.openembedded.org
+> <ticotimo=gmail.com@lists.openembedded.org> wrote:
+> 
+> > This version looks good.
+> >
+> > On Sat, May 9, 2020 at 1:33 PM Konrad Weihmann <kweihmann@outlook.com>
+> > wrote:
+> >
+> >> Some pypi packages do have suffixes like dev, or a0 or b1.
+> >> When doing a version check on these, the version will get falsely
+> >> identified as major release versions.
+> >> Add a terminating slash to rule out those false positives
+> >>
+> >> Changes v2:
+> >>
+> >> - ignore suffix versions instead of reporting them
+> >>
+> >> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+> >>
+> >
+> > Reviewed-by: Tim Orling <ticotimo@gmail.com>
+> >
+> > ---
+> >>  meta/classes/pypi.bbclass | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
+> >> index e5d7ab3ce1..ffa8aa3ff4 100644
+> >> --- a/meta/classes/pypi.bbclass
+> >> +++ b/meta/classes/pypi.bbclass
+> >> @@ -23,4 +23,4 @@ SRC_URI += "${PYPI_SRC_URI}"
+> >>  S = "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
+> >>
+> >>  UPSTREAM_CHECK_URI ?= "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
+> >> -UPSTREAM_CHECK_REGEX ?= "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)"
+> >> +UPSTREAM_CHECK_REGEX ?= "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)/"
+> >> --
+> >> 2.20.1
+> >>
+> >>
+> >> 
+> >
+
+> 
 
