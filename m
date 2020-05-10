@@ -1,48 +1,48 @@
 Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web12.12379.1589107213367930388
+ by mx.groups.io with SMTP id smtpd.web11.12598.1589107258481060467
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 May 2020 03:40:14 -0700
+ Sun, 10 May 2020 03:40:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=ih/8E2dk;
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=kDGu06FW;
  spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=1475; q=dns/txt; s=axis-central1;
-  t=1589107213; x=1620643213;
+  d=axis.com; l=2253; q=dns/txt; s=axis-central1;
+  t=1589107258; x=1620643258;
   h=from:to:subject:date:message-id:references:in-reply-to:
    content-transfer-encoding:mime-version;
-  bh=I+d9nEN1KU7EPDHwFtt8to+Buh0ylnJJ6VJm/q7ieGk=;
-  b=ih/8E2dkZGVSMyHXu4BTgRnchs9vdXas+SWW6XEaBBOSwUXqA52ZjXOU
-   DrjQNcV3HlhsQ5wUqY4BqWyP2AhK4qhjLGSAoSX2PjQKbZnBL+lEU2D2h
-   PmDalc8+M6Twj/YI9R1iNx4Wh/I+ZFsbvvSn2qdkmIcJGozAFmL5pLbw7
-   3c9sEbGQylx6KoItsyj9zSQV+Y/fX8ExO1YuXiv8lqI2U7KpmF6VArGlT
-   KhIpzSg/NHicafWKcg9FYgo3a6/bApFx5DvqyTK5W9H/AQSS6QatTBsJe
-   DugoRteOlTnLmbVvrQXTO8aegZUIpMEmdIb7W2qeUWi0vt3macHGwuoCD
-   w==;
-IronPort-SDR: +59XdqiMgfiDv9dbhFek3z48sl8Vv8+wp4xkFnNx2OBIAlGmgWgnGWnRzqPsd0+l3sTDoXcq8y
- B4cXeoBqtXdnIbdnUc+9DyCbS238XU3OgIZK53qzuyQrH9WR/QT3t2tzmHk1+N+M6j3SafxhcC
- O14CdZeaeBBHnqz4xSCY7oLHTINu6qb+GcRI9kqsKzEqpVlxwNAia2k2tXYrNlrYQYzHI4E231
- cUFqU46lXA8mHsfDNT4dlLJ4+K/qEVFCHqwJE9bUsiXE5LxRNUXnCqniEOFWZG4zvpBTR1Mg6W
- 8uI=
+  bh=it9ApE38n0yu8DPYxAeElWFaPrm/U2xpYPMkk2QGsLk=;
+  b=kDGu06FW/z1cCO0IBUsoHvz1DOO7QyHu20rO2AcWq9W3T5E5bf1LIAg8
+   RlaC/RyOHTKq6zocaXP9dv5C/3tJbw/KokwcIRb2reLI61Bj4vzQq2OzE
+   dliYjZcG+/xGt4V+2sQofhSPczORLn+WL1d8DvtgZgQTxxgx0A5yPvu3N
+   ihy2Jid6BNnu9Zhsm05MYpp1z68kpKyskllWnmu5g08Ju9gQBIBGyZMJq
+   WXa2hfDxJS+cHnrLPazW/v8eMDhV31/N1Aj27tG5EOIFNaPkdWwxKPs1F
+   HJLUpJyQwBM/rEljl//eUwDcJ4Nk7lm7nL/tTbPMEzyobS/v7+WjTqqPR
+   Q==;
+IronPort-SDR: 81Pc4HBgL8g5A8797EKvli3VERJeYM3kT40p5IfN827HCJLJbdswiniIOnMqT7MgPim/XWrK8J
+ MyyGB+kZUI98I3koflcRvJ8r4IXNMvgbGkpCh5izX26sK6QUXxUY7zQYDIilVpK4Vj2NrIjinb
+ C112gABVDf25A7NmddVnP5L93RH7ZMgFHQu9nsUVvB9wdZG6QChrELQbfRNACDbKA3+OOuYzBh
+ j9Rvf7QDv9CSeOMutFxFDgarEFkqYQgVSg6Z1Reh7oEruQwKUEAQXVHHBNOINDLWxhWvStyI0A
+ daw=
 X-IronPort-AV: E=Sophos;i="5.73,375,1583190000"; 
-   d="scan'208";a="8334021"
+   d="scan'208";a="8334037"
 From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
 To: Konrad Weihmann <kweihmann@outlook.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2] pypi.bbclass: mind package suffix on version check
-Thread-Topic: [OE-core] [PATCH v2] pypi.bbclass: mind package suffix on
- version check
-Thread-Index: AQHWJkEa9lweV+hiU0GG6zSz58oFAaihIZ9w
-Date: Sun, 10 May 2020 10:40:05 +0000
-Message-ID: <56e3d2f297e64b14b8f7e8373312cffe@XBOX03.axis.com>
-References: <AM7PR05MB68810C07AC538B986CE47C92A8A30@AM7PR05MB6881.eurprd05.prod.outlook.com>
-In-Reply-To: <AM7PR05MB68810C07AC538B986CE47C92A8A30@AM7PR05MB6881.eurprd05.prod.outlook.com>
+Subject: Re: [OE-core] [PATCH v2] file: add PACKAGECONFIG for auto options
+Thread-Topic: [OE-core] [PATCH v2] file: add PACKAGECONFIG for auto options
+Thread-Index: AQHWJkYLMekwmZaEik+fOdpRLlAhQqihIjTg
+Date: Sun, 10 May 2020 10:40:56 +0000
+Message-ID: <5b9cc2a2161f4842a2f2ab91ceff3efd@XBOX03.axis.com>
+References: <AM7PR05MB68811EB3A3AFB3B8C6876C4EA8A30@AM7PR05MB6881.eurprd05.prod.outlook.com>
+In-Reply-To: <AM7PR05MB68811EB3A3AFB3B8C6876C4EA8A30@AM7PR05MB6881.eurprd05.prod.outlook.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
+Return-Path: peter.kjellerstedt@axis.com
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -50,20 +50,24 @@ Content-Transfer-Encoding: quoted-printable
 > -----Original Message-----
 > From: openembedded-core@lists.openembedded.org <openembedded-
 > core@lists.openembedded.org> On Behalf Of Konrad Weihmann
-> Sent: den 9 maj 2020 22:33
+> Sent: den 9 maj 2020 23:08
 > To: openembedded-core@lists.openembedded.org
 > Cc: Konrad Weihmann <kweihmann@outlook.com>
-> Subject: [OE-core] [PATCH v2] pypi.bbclass: mind package suffix on
-> version check
+> Subject: [OE-core] [PATCH v2] file: add PACKAGECONFIG for auto options
 >=20
-> Some pypi packages do have suffixes like dev, or a0 or b1.
-> When doing a version check on these, the version will get falsely
-> identified as major release versions.
-> Add a terminating slash to rule out those false positives
+> A few options of file configure are set to auto, which can lead to
+> unpredictable effect when something in the sysroot does provide
+> things that satisfy the autotools checks.
+> In the worst case this will lead to package-qa failure as libraries are
+> not set in RDEPENDS but configured for the tool.
 >=20
-> Changes v2:
+> To mitigate changes of accidental configure set explicit options via
+> newly introduced PACKAGECONFIG variables for bzip, lzma and zlib
+> support, where the default is just zlib, as it was before
 >=20
-> - ignore suffix versions instead of reporting them
+> changes v2:
+>=20
+> - add explicit enable options
 
 The v2 information belongs after the --- below as it relates to the=20
 review process.
@@ -73,19 +77,36 @@ review process.
 >=20
 > Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
 > ---
->  meta/classes/pypi.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta/recipes-devtools/file/file_5.38.bb | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/meta/classes/pypi.bbclass b/meta/classes/pypi.bbclass
-> index e5d7ab3ce1..ffa8aa3ff4 100644
-> --- a/meta/classes/pypi.bbclass
-> +++ b/meta/classes/pypi.bbclass
-> @@ -23,4 +23,4 @@ SRC_URI +=3D "${PYPI_SRC_URI}"
->  S =3D "${WORKDIR}/${PYPI_PACKAGE}-${PV}"
+> diff --git a/meta/recipes-devtools/file/file_5.38.bb b/meta/recipes-
+> devtools/file/file_5.38.bb
+> index b8f09107e8..e528d84cdd 100644
+> --- a/meta/recipes-devtools/file/file_5.38.bb
+> +++ b/meta/recipes-devtools/file/file_5.38.bb
+> @@ -8,7 +8,7 @@ SECTION =3D "console/utils"
+>  LICENSE =3D "BSD-2-Clause"
+>  LIC_FILES_CHKSUM =3D
+> "file://COPYING;beginline=3D2;md5=3D0251eaec1188b20d9a72c502ecfdda1b"
 >=20
->  UPSTREAM_CHECK_URI ?=3D "https://pypi.python.org/pypi/${PYPI_PACKAGE}/"
-> -UPSTREAM_CHECK_REGEX ?=3D "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)"
-> +UPSTREAM_CHECK_REGEX ?=3D "/${PYPI_PACKAGE}/(?P<pver>(\d+[\.\-_]*)+)/"
+> -DEPENDS =3D "zlib file-replacement-native"
+> +DEPENDS =3D "file-replacement-native"
+>  DEPENDS_class-native =3D "zlib-native"
+>=20
+>  SRC_URI =3D "git://github.com/file/file.git"
+> @@ -18,6 +18,11 @@ S =3D "${WORKDIR}/git"
+>=20
+>  inherit autotools update-alternatives
+>=20
+> +PACKAGECONFIG ??=3D "zlib"
+> +PACKAGECONFIG[bz2] =3D "--enable-bzlib,--disable-bzlib,bzip2"
+> +PACKAGECONFIG[lzma] =3D "--enable-xzlib,--disable-xzlib,xz"
+> +PACKAGECONFIG[zlib] =3D "--enable-zlib,--disable-zlib,zlib"
+> +
+>  EXTRA_OECONF +=3D "--disable-libseccomp"
+>=20
+>  ALTERNATIVE_${PN} =3D "file"
 > --
 > 2.20.1
 
