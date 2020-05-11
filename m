@@ -1,131 +1,127 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.92.90.107])
- by mx.groups.io with SMTP id smtpd.web10.367.1589142591654842274
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
+ by mx.groups.io with SMTP id smtpd.web10.6968.1589177658675364349
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 May 2020 13:29:52 -0700
+ Sun, 10 May 2020 23:14:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=BVuK3XdH;
- spf=pass (domain: outlook.com, ip: 40.92.90.107, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EqYZ3YU7uOSP2n3strGtzTj00RamGAYatwH78iPjTHXGoRcNiHzXpI9+tg0A+1mU2XAq1Xj8LvrQcYuxyiV/0l/dpn5Pjv7v+4lA+zaqkfcd5BiUOMLo79gYsefkLCIMaGkZhHsqQb82zisPw7wz+Xp/dnkiNR6IcKAkVpglJpu4B0c8LL18InRqd7ygf+ILJqXsaLnQZK+++pKM6aA4nsTOTmB5YRkrmATjHh5Pg+kKj6k8/1CCzJ9hL3xop/fTlP/SRshQjJrUnRC16gtKBoX6sUlRODc0bvPJSP8tLTrC4cx+abVLEqREYqqnvKGRYeffw78OCfQ4qETfy5Wx4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yYSzboqh+fZyUl80y8sZBVtveGYa8uKhWjkSssNODwk=;
- b=QBAbFz0L0iFKdKjW0iHk/vvwMhhwlqWd9FzblGuzFsgT0r1aWnK0fUFLc2VFePnBbpiLfVRefENmqB8RS3H2AVyU1qMUbRPtor6lHqBYADJvdgwRhXHbz7caI8wHEKut3Ln5HDhb/ozm5A/RN+7uljOQ4HqvnF7kzvOofSFJBWnpEdgKJb9Y+u/GW60Zp6PjgsHQu+v9uHs4rSnG01ESNxyLBKTh6OJfyKhTAQCUj0GlA14kFMSXYwrZQovcLWrIPGiYRYzambugYU5BCNZNWUSATg7kiun3FNrADLl6gQOVE/ILrcZf4Lv4jgUYfdh3LeAaqKZLrKKD95ObQ0+Ang==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=outlook.com; dmarc=pass action=none header.from=outlook.com;
- dkim=pass header.d=outlook.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yYSzboqh+fZyUl80y8sZBVtveGYa8uKhWjkSssNODwk=;
- b=BVuK3XdHlmykQRQrcl7deDE8sxw5DUIeEld6F/1lZTrIYS8/TGcukodsMVpw+gPkyP6mBbF3vL3xR0zhJpV8GmCCwSuMGE7OKlfzDh/SS31DGW1nIt6daXiIh1nX5+sZFY8LR0o7AXi0uHAwKVWPgkPwOe3pPGC0E1wtExaM17s6PafjhdVu0ueaNwJHA8ax135U5CPGbe4lYQGbXgNITuyMMSL1sr71mQGKiGnQKpoyw6+k0GQ19GkhzdLrdbYnv44HdxDfhbctIAQEymz1TABo4fjuMLhrg4T86OWArQHEAChmDHKlhaGqLcXYJMSE4VWUqxlfI/2/34bh7a24gA==
-Received: from AM6EUR05FT044.eop-eur05.prod.protection.outlook.com
- (2a01:111:e400:fc11::4f) by
- AM6EUR05HT230.eop-eur05.prod.protection.outlook.com (2a01:111:e400:fc11::154)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27; Sun, 10 May
- 2020 20:29:49 +0000
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- (2a01:111:e400:fc11::49) by AM6EUR05FT044.mail.protection.outlook.com
- (2a01:111:e400:fc11::425) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27 via Frontend
- Transport; Sun, 10 May 2020 20:29:49 +0000
-X-IncomingTopHeaderMarker: OriginalChecksum:18D1C6548185BE23D70D6C7A463F4E854906A9E18CDC37D41FD8DB269F911A4A;UpperCasedChecksum:B917ABA788DFF23C2DB56B10A85917906806533256A2221AC5AEE9A1131FC4A9;SizeAsReceived:7468;Count:48
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::f5f1:b5e3:66d7:e590]) by AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::f5f1:b5e3:66d7:e590%6]) with mapi id 15.20.2979.033; Sun, 10 May 2020
- 20:29:49 +0000
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-To: openembedded-core@lists.openembedded.org
-CC: Konrad Weihmann <kweihmann@outlook.com>
-Subject: [PATCH v3] file: add PACKAGECONFIG for auto options
-Date: Sun, 10 May 2020 22:29:36 +0200
-Message-ID: <AM7PR05MB6881E5C621ACD529E1BB4F4CA8A00@AM7PR05MB6881.eurprd05.prod.outlook.com>
-X-Mailer: git-send-email 2.20.1
-X-ClientProxiedBy: AM6PR0502CA0069.eurprd05.prod.outlook.com
- (2603:10a6:20b:56::46) To AM7PR05MB6881.eurprd05.prod.outlook.com
- (2603:10a6:20b:1a9::19)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: <20200510202936.9317-1-kweihmann@outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oKRNSyG9;
+ spf=pass (domain: gmail.com, ip: 209.85.167.68, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lf1-f68.google.com with SMTP id r17so3385657lff.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 10 May 2020 23:14:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=0qOE9B5ENhuP5VHSVCJMG3t7f2hEAoN5H0h9iKVKxvA=;
+        b=oKRNSyG9tcJLO74Yinf1JCskzqYAaxxsq84b4mAUAsufNOFZmVJGReCHTZBZIC9gJK
+         zyG//IhO92xQsUWWmP9hxEiu+/ogYBikm4cvLFGZh/XkSjHgTpArpEZMsnPsNLgN9T+R
+         w2ctBazPDhkBKZnqnoUmDogs93NNKSvLVKxPYSm9wHTOhY/9P18UF64Q+u2jDp7ybKM1
+         ncEOn0Tsr/1+E8nRb28nfzb6EQIfvRsUXfuMm39tVKljsdU+cEaJGBEiWpMl6Ucf6nwE
+         2CoeNVNtAiDncmpGufLJCOUJt0s/5nYoChEeL9pkuq5ZdNvGoMDL4FPHaXMgyWYD1egq
+         xaVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=0qOE9B5ENhuP5VHSVCJMG3t7f2hEAoN5H0h9iKVKxvA=;
+        b=Wcywg6gm/rDF2x3jKGuf6pQxuGvp73SAprqYVVHdb6yI0p8JxZsMKZM6pUx3fwdSiT
+         oNuVXyWWwVLQJRB7qFMM3SmdvR6g0IQXBJO+gl1RL1k7ddUSjyCC3tpNiEza2g5NBzCB
+         uuFWcRUsikti9HeXBPjD9VJzbnkyIimx8BCZWQYJxqEJHNxnfVv6IZN9HNowU29pzege
+         ivmxjpIsWrWCTKye9XaXZkQbsPmrif4SmzbdREq6py1sg2g8RibtRL9thTXNgqGlTrAX
+         kg6Yb0FG1LYJfrpKuyOUYWfI9aaSpIHFMa/sD2XTPPhek3i1N8EN9/gGSSWNP9ax2RpR
+         vEpg==
+X-Gm-Message-State: AOAM532PEq0NPMD3YUm+e03L+H+RXW86aWNI9uh/+QtD7fqm+CC+Lhnh
+	zTE6af3USzJ0vPLuKQ0IpZLKlJZ5kyM=
+X-Google-Smtp-Source: ABdhPJwsoFjyNHVPJQ759jIIh8qLcZf1llguuF/dB7dfyMxDZgqiYRFv2rCqw5tRAXPy6gAqOerA4g==
+X-Received: by 2002:ac2:5a11:: with SMTP id q17mr9604192lfn.44.1589177656277;
+        Sun, 10 May 2020 23:14:16 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain ([213.185.29.22])
+        by smtp.gmail.com with ESMTPSA id w15sm8828928ljd.35.2020.05.10.23.14.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 10 May 2020 23:14:15 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH V2 1/2] gcc10: Update to GCC 10.1 Release
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+References: <20200510195050.3470835-1-raj.khem@gmail.com>
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+Message-ID: <5703cd73-8de1-68ed-a165-164f3a7fc734@gmail.com>
+Date: Mon, 11 May 2020 08:14:14 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ICKE-EDGE.fritz.box (79.215.12.161) by AM6PR0502CA0069.eurprd05.prod.outlook.com (2603:10a6:20b:56::46) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.29 via Frontend Transport; Sun, 10 May 2020 20:29:49 +0000
-X-Mailer: git-send-email 2.20.1
-X-Microsoft-Original-Message-ID: <20200510202936.9317-1-kweihmann@outlook.com>
-X-TMN: [/4Nu+P2QqLNWd4oYu/WZw88z9ipAKfvb]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 48
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 6cb62fd9-fd5a-453f-6775-08d7f520e303
-X-MS-Exchange-SLBlob-MailProps: 
-	NS9Gj58uCj1Qpq0GWH60n8yJPkaKBx6MTBhty7oH8337hixglasNAcPPjB0W+DJJsbF1hGcvlJsOzS/9eY2zoAVRtLoxo+ixJb9YIKRDzt+J4rmuObPEDtsbvbkY5tkpHwMJLhJhk6Mo14nz+sdw8nWW4rDJiXiNz+pn86m0iIKD37EjbywI708Q2GtcJF49XcuLMOXmSTBqlJpckrfGqw5j2lfqrJOofNAc7e6FwUrWrMsWELRqdrH5HhtwYdXfDOJxex/lFBU7XUHZ21HXNHQZf/z1rGByuP8KfGWOEE6Gc0t+0z0Yeurwq/bmRy7V8BkQYqh/lZHkqbsjggaEBrEN5Xz26JqV2xrnBI1ZDphC29+WY0FP5FynR3mELK6AAJz+6bS0rLC0Z3BdMJNMOW9Ttohj53EM05p2FDPF2vKsaiqXNQZjfYuVl0e8c2ww6zbnHJeX3vMd+1Q0sn9sDIf1fwehqPREbj7WzuyYrJkA21H9YrOV2IY5mgI/z6HgEYID9khl5NVVFEAu9yiCJoTgrJQKoAbcdqQ2e88gsDd6/Bs9QkrNjKUkOKII5wmgRSkq1L9d4YmP65ZspJxOZrMYH9ZLRVtee9ayUJl+Ho3fdFWYjAVYJ4juwoFYXJ9Zn0Vjpw1/lGlbUsSevmsrDWxnvHmb3UTY0fGxPKER63lajNnX3aKmi3ltGCgn9p+C9quzU7Vg+puMt5B2wCVRbA==
-X-MS-TrafficTypeDiagnostic: AM6EUR05HT230:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	8X0TxWXUGEHR5yxx+iDOgoghvcO40AkrMEKX2kVOOn/z6Cp3LflylnoZzsEw+gHkq0MxGGDn54n+nU/ELxMbSLpBZfIdirjcw9ut3g9X5nBlFumjVBK8kvIWtAQWuLrd/6FfHmz9hYQD7AhZNhJ0equXE1+W1uIJrK6OnApdd549zwcbdZHbaKjgnhB2E0Uu3aXXoCWtBOeavTvg9KvoHA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
-X-MS-Exchange-AntiSpam-MessageData: 
-	n2bZta0wNPxRY5X3WI/2EcfDLbCdSGnZRD0wiWZLfgcoFUoTVIrzkh52KTB7IByn32wVTn8Yw6HiJCcRUHXuRdelow8qjPndCEtUwe9Q3rLvMzercYZHqjhZsTXQCrumn3OelS81BuoKAPqhnqEL0A==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6cb62fd9-fd5a-453f-6775-08d7f520e303
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 May 2020 20:29:49.5441
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6EUR05HT230
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+In-Reply-To: <20200510195050.3470835-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-A few options of file configure are set to auto, which can lead to
-unpredictable effects when something in the sysroot does provide
-things that satisfy the autotools checks.
-In the worst case this will lead to package-qa failures as libraries are
-not set in RDEPENDS but configured for the tool.
+On 5/10/20 9:50 PM, Khem Raj wrote:
+> * Package new gomp header acc_prof.h
+> * Package lto-dump which is a new tool in gcc10
+> * All Changes are here [1]
+> * Porting apps to gcc 10 help is here [2]
+> 
+> [1] https://gcc.gnu.org/gcc-10/changes.html
+> [2] https://gcc.gnu.org/gcc-10/porting_to.html
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> v2: Correct SRC_URI checksums
+> 
+>   meta/conf/distro/include/maintainers.inc      |   2 +-
+>   meta/conf/distro/include/tcmode-default.inc   |   2 +-
+>   .../gcc/{gcc-9.3.inc => gcc-10.1.inc}         |  51 ++++----
+>   ...0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch |  15 +--
+>   .../0002-gcc-poison-system-directories.patch  |  47 ++++----
+>   ...-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch |  11 +-
+>   .../0004-64-bit-multilib-hack.patch           |  15 +--
+>   .../0005-optional-libstdc.patch               |  29 ++---
+>   .../0006-COLLECT_GCC_OPTIONS.patch            |  11 +-
+>   ...ts.h-in-B-instead-of-S-and-t-oe-in-B.patch |  20 ++--
+>   .../0008-fortran-cross-compile-hack.patch     |  15 +--
+>   .../0009-cpp-honor-sysroot.patch              |  13 +-
+>   .../0010-MIPS64-Default-to-N64-ABI.patch      |  11 +-
+>   ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch |  33 +++---
+>   ...gcc-Fix-argument-list-too-long-error.patch |  11 +-
+>   .../0013-Disable-sdt.patch                    |  23 ++--
+>   .../{gcc-9.3 => gcc-10.1}/0014-libtool.patch  |   9 +-
+>   ...s-fix-v4bx-to-linker-to-support-EABI.patch |  11 +-
+>   ...-config-files-from-B-instead-of-usin.patch |  25 ++--
+>   ...ir-from-.la-which-usually-points-to-.patch |  11 +-
+>   .../0018-export-CPP.patch                     |   9 +-
+>   ...e-target-gcc-headers-can-be-included.patch |  13 +-
+>   ...-directory-during-relink-if-inst_pr.patch} |  11 +-
+>   ...R-replacement-instead-of-hardcoding.patch} |   9 +-
+>   ...2-aarch64-Add-support-for-musl-ldso.patch} |   9 +-
+>   ...fix-libcc1-s-install-path-and-rpath.patch} |   9 +-
+>   ...e-sysroot-support-for-nativesdk-gcc.patch} | 112 +++++++++---------
+>   ...root-gcc-version-specific-dirs-with.patch} |  13 +-
+>   ...us-_FOR_BUILD-and-related-variables.patch} |  27 ++---
+>   ...27-nios2-Define-MUSL_DYNAMIC_LINKER.patch} |   9 +-
+>   ...-to-link-commandline-for-musl-targe.patch} |  15 +--
+>   ...sing-LDFLAGS-not-just-SHLIB_LDFLAGS.patch} |   9 +-
+>   .../0030-sync-gcc-stddef.h-with-musl.patch}   |   9 +-
+>   ...fault-in-precompiled-header-generat.patch} |  11 +-
+>   .../0032-Fix-for-testsuite-failure.patch}     |   9 +-
+>   ...e-introduce-spe-commandline-options.patch} |  11 +-
+>   ...s-for-__cpu_indicator_init-instead-.patch} |  29 ++---
+>   ...-Do-not-use-__LINE__-for-maintainin.patch} |  55 ++++-----
+>   ...ild-with-disable-dependency-tracking.patch |  54 ---------
+>   .../gcc/gcc-9.3/0030-ldbl128-config.patch     |  79 ------------
+>   ...heck-zero-value-in-simple_object_elf.patch |  48 --------
+>   ...ands-Don-t-match-user-defined-regs-o.patch | 100 ----------------
+>   ...dian_9.3.bb => gcc-cross-canadian_10.1.bb} |   0
+>   .../{gcc-cross_9.3.bb => gcc-cross_10.1.bb}   |   0
+>   ...c-crosssdk_9.3.bb => gcc-crosssdk_10.1.bb} |   0
+>   meta/recipes-devtools/gcc/gcc-runtime.inc     |   1 +
+>   ...gcc-runtime_9.3.bb => gcc-runtime_10.1.bb} |   0
+>   ...nitizers_9.3.bb => gcc-sanitizers_10.1.bb} |   0
+>   .../{gcc-source_9.3.bb => gcc-source_10.1.bb} |   0
+>   meta/recipes-devtools/gcc/gcc-target.inc      |   1 +
+>   .../gcc/{gcc_9.3.bb => gcc_10.1.bb}           |   0
+>   ...-initial_9.3.bb => libgcc-initial_10.1.bb} |   0
+>   .../gcc/{libgcc_9.3.bb => libgcc_10.1.bb}     |   0
+>   ...libgfortran_9.3.bb => libgfortran_10.1.bb} |   0
+>   meta/recipes-support/icu/icu/filter.json      |   6 +
+>   55 files changed, 322 insertions(+), 701 deletions(-)
 
-To mitigate changes of accidental configure set explicit options via
-newly introduced PACKAGECONFIG variables for bzip, lzma and zlib
-support, where the default is just zlib, as it was before
-
-Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
----
- meta/recipes-devtools/file/file_5.38.bb | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/file/file_5.38.bb b/meta/recipes-devtool=
-s/file/file_5.38.bb
-index b8f09107e8..f5ad568936 100644
---- a/meta/recipes-devtools/file/file_5.38.bb
-+++ b/meta/recipes-devtools/file/file_5.38.bb
-@@ -8,8 +8,8 @@ SECTION =3D "console/utils"
- LICENSE =3D "BSD-2-Clause"
- LIC_FILES_CHKSUM =3D "file://COPYING;beginline=3D2;md5=3D0251eaec1188b20d9=
-a72c502ecfdda1b"
-=20
--DEPENDS =3D "zlib file-replacement-native"
--DEPENDS_class-native =3D "zlib-native"
-+DEPENDS =3D "file-replacement-native"
-+DEPENDS_class-native =3D ""
-=20
- SRC_URI =3D "git://github.com/file/file.git"
-=20
-@@ -18,6 +18,12 @@ S =3D "${WORKDIR}/git"
-=20
- inherit autotools update-alternatives
-=20
-+PACKAGECONFIG ??=3D "zlib"
-+PACKAGECONFIG_class-native ??=3D "zlib"
-+PACKAGECONFIG[bz2] =3D "--enable-bzlib, --disable-bzlib, bzip2"
-+PACKAGECONFIG[lzma] =3D "--enable-xzlib, --disable-xzlib, xz"
-+PACKAGECONFIG[zlib] =3D "--enable-zlib, --disable-zlib, zlib"
-+
- EXTRA_OECONF +=3D "--disable-libseccomp"
-=20
- ALTERNATIVE_${PN} =3D "file"
---=20
-2.20.1
-
+The changes in icu/ seem unrelated to the gcc update ?
