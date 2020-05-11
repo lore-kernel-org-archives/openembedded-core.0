@@ -1,77 +1,127 @@
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by mx.groups.io with SMTP id smtpd.web12.1236.1589222277114522020
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.1797.1589223760005578225
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 11:37:57 -0700
+ Mon, 11 May 2020 12:02:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
-	(authenticated bits=0)
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 04BIbhBg032378
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
-	Mon, 11 May 2020 13:37:52 -0500
-Subject: Re: [oe][yocto][bitbake] Fetching source using different protocols
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>,
-        Dawod <mhm.dawod@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, yocto@yoctoproject.org
-References: <CAGCTLNQW1WWHmy1zaE+LF-AKBQa-UpY8sfOy=HH3tt0rJLJFLg@mail.gmail.com>
- <20200511091703.l53b4t74xc36vgdo@qschulz>
-From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
-Message-ID: <e183edd5-cea8-8870-eef3-2d3b7ecbc05a@kernel.crashing.org>
-Date: Mon, 11 May 2020 13:37:43 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.8.0
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=YV/uv3ar;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; l=6626; q=dns/txt; s=axis-central1;
+  t=1589223760; x=1620759760;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Ujzf7jIMGyPQ56gE4EqFAap5C7tL/bS2wK2/uTbd1bg=;
+  b=YV/uv3aregG36JxzD9Nw7nz3QOq09RMDR+P1v0k2KqQZnZ0k14tIqXIG
+   nUXxdnEXHBXnKqDh/tRxtfDKNK9WlzWPZXyG3r0378sZXGf541cWZG2Cz
+   oXeel96iWLmiI0HMWTg5KNkDX5FTl9TvPJXed5hcxeITfgpO6j2ZrF4W2
+   SHADtutV4+ZgluT1UNV1y2BW8gC28/BSwAzkjrmiJmpUY5lufHyRjf00e
+   uetxJajmpzexsljWAR3+hRxbNveA82vmozbA0WKPs9f1Z45aLcqv6hKh2
+   dEoWVKfIEEVzRGhgaLX+2YI8bWb43m2+4qA59gfHyKO72fy7OrO02Rdh3
+   w==;
+IronPort-SDR: qBY015emdAlSnEAv9eAi1xCI851qDgyhrm1uHhpWjoBEYt96jAE5XJziAkV5qTLJy/uDcHVLpt
+ ozEaCYGkuxsnZkOrGNx5Z60MLxZVdvOQ2vvmKMpCwflpzXDQqW8ihsXk/67EaNoJza1+LwOAYF
+ rdq7FyKO4PqAxuqFLO64G/KvC8tHJjdJKACnHaXxCUSipFaH5mT3chuF0H0Z8EL5/jIA8uAk96
+ rT+PZcenTdm/jY5w5voGoxTGPI/gAJkcqgq/3g8XlS3gOxNxQso1ZNiaDjivHqKR+NZne9OZpE
+ oMU=
+X-IronPort-AV: E=Sophos;i="5.73,381,1583190000"; 
+   d="scan'208";a="8374314"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Steve Sakoman <sakoman@gmail.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [meta-oe][PATCH v2] libdnf: Use single-quotes around string literals used in SQL statements
+Thread-Topic: [OE-core] [meta-oe][PATCH v2] libdnf: Use single-quotes around
+ string literals used in SQL statements
+Thread-Index: AQHWJ591fbLQ++fF3ESAiCCh2ugtqqijPaqQ
+Date: Mon, 11 May 2020 19:02:35 +0000
+Message-ID: <341d7c4755da4be0b8b7bb6212f3a790@XBOX03.axis.com>
+References: <20200504162043.1137-1-pkj@axis.com>
+ <CAGDS+nmJAJ4cU_P4YgyHpkj4sXsfwzudJQWxHqpHk0CO1B_zfA@mail.gmail.com>
+In-Reply-To: <CAGDS+nmJAJ4cU_P4YgyHpkj4sXsfwzudJQWxHqpHk0CO1B_zfA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.20.13.13]
 MIME-Version: 1.0
-In-Reply-To: <20200511091703.l53b4t74xc36vgdo@qschulz>
-Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-
-
-On 5/11/20 4:17 AM, Quentin Schulz wrote:
-> Hi Mohamed,
-> 
-> On Mon, May 11, 2020 at 11:03:26AM +0200, Dawod wrote:
->> Hello,
->>
->> I need to fetch a git repo using 2 different protocols ( ssh & https )
->> So that when I run bitbake, It will fetch using ssh protocol first and if
->> it fails to fetch, It will try to fetch using https protocol.
->>
-> 
-> Why? What's the exact use case?
-> 
->> can I do some thing like that or I will have to change it manually every
->> time ?
->>
-> 
-> Maybe you could play with PREMIRROS? (I've never explicitly used that
-> variable though):
-> https://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#var-PREMIRRORS
-
-This is what I would suggest.  Have the recipe itself set the fallback URI as
-the main URL.
-
-
-SRC_URI = "git://example.com/my/repository/uri;proto=https"
-
-PREMIRRORS_prepend = "git://example.com/my/repository/uri;proto=https
-git://example.com/my/otherrepo/uri;proto=ssh \n"
-
-(the \n is literally '\' and 'n')
-
-The above should, when it sees the SRC_URI, try the ssh protocol first.. if that
-doesn't work it will fall back to SRC_URI.
-
---Mark
-
-> I guess the asterisk parts could be removed and the path to more or less your
-> source could be used (ssh first, to http path in your SRC_URI)?
-> 
-> That's a shot in the dark for me but something to test I'd say :)
-> 
-> Quentin
-> 
-> 
-> 
-> 
+WWVzLCBJIGJlbGlldmUgaXQgaXMuIElmIHlvdSBjaGVycnktcGljayBpdCBmcm9tIG1hc3Rlciwg
+dGhlbiB5b3Ugc2hvdWxkIA0KY2hhbmdlIHRoZSBVcHN0cmVhbS1TdGF0dXMgYXMgcGVyIGJlbG93
+IHRvIEFjY2VwdGVkLg0KDQovL1BldGVyDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
+Cj4gRnJvbTogU3RldmUgU2Frb21hbiA8c2Frb21hbkBnbWFpbC5jb20+DQo+IFNlbnQ6IGRlbiAx
+MSBtYWogMjAyMCAxNjoyMQ0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVy
+c3RlZHRAYXhpcy5jb20+DQo+IENjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUg
+b2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW21ldGEtb2VdW1BBVENIIHYyXSBsaWJkbmY6
+IFVzZSBzaW5nbGUtcXVvdGVzDQo+IGFyb3VuZCBzdHJpbmcgbGl0ZXJhbHMgdXNlZCBpbiBTUUwg
+c3RhdGVtZW50cw0KPiANCj4gSGkgUGV0ZXIsDQo+IA0KPiBJcyB0aGlzIHBhdGNoIHN1aXRhYmxl
+IGZvciBpbmNsdXNpb24gaW4gZHVuZmVsbCBsdHM/DQo+IA0KPiBUaGFua3MsDQo+IA0KPiBTdGV2
+ZQ0KPiANCj4gT24gTW9uLCBNYXkgNCwgMjAyMCBhdCA2OjIwIEFNIFBldGVyIEtqZWxsZXJzdGVk
+dA0KPiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPg0KPiA+IElmIHNx
+bGl0ZSBpcyBidWlsdCB3aXRoIC1EU1FMSVRFX0RRUz0wIGluIGFjY29yZGFuY2Ugd2l0aA0KPiA+
+IGh0dHBzOi8vc3FsaXRlLm9yZy9xdWlya3MuaHRtbCNkYmxxdW90ZSwgbWlncmF0aW9uIHRvIHZl
+cnNpb24gMS4yIG9mDQo+IHRoZQ0KPiA+IGhpc3RvcnkgZGF0YWJhc2Ugd291bGQgZmFpbCB3aXRo
+Og0KPiA+DQo+ID4gICBIaXN0b3J5IGRhdGFiYXNlIGNhbm5vdCBiZSBjcmVhdGVkOiAuLi4vdmFy
+L2xpYi9kbmYvaGlzdG9yeS5zcWxpdGUuDQo+ID4gICBFcnJvcjogU1FMaXRlIGVycm9yIG9uICI6
+bWVtb3J5OiI6IEV4ZWN1dGluZyBhbiBTUUwgc3RhdGVtZW50IGZhaWxlZDoNCj4gPiAgIG5vIHN1
+Y2ggY29sdW1uOiAxLjINCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVk
+dCA8cGtqQGF4aXMuY29tPg0KPiA+IC0tLQ0KPiA+DQo+ID4gUEFUQ0ggdjI6IFVwZGF0ZWQgdGhl
+IFVwc3RyZWFtLVN0YXR1cyB0byBBY2NlcHRlZC4NCj4gPg0KPiA+ICAuLi5zLWFyb3VuZC1zdHJp
+bmctbGl0ZXJhbHMtdXNlZC1pbi1TUUwucGF0Y2ggfCAzNiArKysrKysrKysrKysrKysrKysrDQo+
+ID4gIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mXzAuNDcuMC5iYiB8ICAxICsN
+Cj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAzNyBpbnNlcnRpb25zKCspDQo+ID4gIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAxLVVzZS0NCj4g
+c2luZ2xlLXF1b3Rlcy1hcm91bmQtc3RyaW5nLWxpdGVyYWxzLXVzZWQtaW4tU1FMLnBhdGNoDQo+
+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmYv
+MDAwMS1Vc2Utc2luZ2xlLQ0KPiBxdW90ZXMtYXJvdW5kLXN0cmluZy1saXRlcmFscy11c2VkLWlu
+LVNRTC5wYXRjaCBiL21ldGEvcmVjaXBlcy0NCj4gZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAx
+LVVzZS1zaW5nbGUtcXVvdGVzLWFyb3VuZC1zdHJpbmctbGl0ZXJhbHMtDQo+IHVzZWQtaW4tU1FM
+LnBhdGNoDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwLi4y
+OTNiZGNkZDI0DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9saWJkbmYvbGliZG5mLzAwMDEtVXNlLXNpbmdsZS1xdW90ZXMtDQo+IGFyb3VuZC1zdHJp
+bmctbGl0ZXJhbHMtdXNlZC1pbi1TUUwucGF0Y2gNCj4gPiBAQCAtMCwwICsxLDM2IEBADQo+ID4g
+K0Zyb20gOTZjYTdkMDA0OTQ2MWRmMjI5M2RkMDAwMGVkY2JjNjliNjQyNTVlMCBNb24gU2VwIDE3
+IDAwOjAwOjAwIDIwMDENCj4gPiArRnJvbTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwa2pAYXhpcy5j
+b20+DQo+ID4gK0RhdGU6IFN1biwgMyBNYXkgMjAyMCAyMjo0MDozOSArMDIwMA0KPiA+ICtTdWJq
+ZWN0OiBbUEFUQ0hdIFVzZSBzaW5nbGUtcXVvdGVzIGFyb3VuZCBzdHJpbmcgbGl0ZXJhbHMgdXNl
+ZCBpbiBTUUwNCj4gPiArIHN0YXRlbWVudHMNCj4gPiArDQo+ID4gK0lmIHNxbGl0ZSBpcyBidWls
+dCB3aXRoIC1EU1FMSVRFX0RRUz0wIGluIGFjY29yZGFuY2Ugd2l0aA0KPiA+ICtodHRwczovL3Nx
+bGl0ZS5vcmcvcXVpcmtzLmh0bWwjZGJscXVvdGUsIG1pZ3JhdGlvbiB0byB2ZXJzaW9uIDEuMiBv
+Zg0KPiB0aGUNCj4gPiAraGlzdG9yeSBkYXRhYmFzZSB3b3VsZCBmYWlsIHdpdGg6DQo+ID4gKw0K
+PiA+ICsgIEhpc3RvcnkgZGF0YWJhc2UgY2Fubm90IGJlIGNyZWF0ZWQ6IC92YXIvbGliL2RuZi9o
+aXN0b3J5LnNxbGl0ZS4NCj4gPiArICBFcnJvcjogU1FMaXRlIGVycm9yIG9uICI6bWVtb3J5OiI6
+IEV4ZWN1dGluZyBhbiBTUUwgc3RhdGVtZW50DQo+IGZhaWxlZDoNCj4gPiArICBubyBzdWNoIGNv
+bHVtbjogMS4yDQo+ID4gKw0KPiA+ICtVcHN0cmVhbS1TdGF0dXM6IEFjY2VwdGVkIFtodHRwczov
+L2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLQ0KPiBtYW5hZ2VtZW50L2xpYmRuZi9wdWxsLzk1MV0N
+Cj4gPiArU2lnbmVkLW9mZi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwa2pAYXhpcy5jb20+DQo+
+ID4gKy0tLQ0KPiA+ICsgbGliZG5mL3RyYW5zYWN0aW9uL3NxbC9taWdyYXRlX3RhYmxlc18xXzIu
+c3FsIHwgNCArKy0tDQo+ID4gKyAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRl
+bGV0aW9ucygtKQ0KPiA+ICsNCj4gPiArZGlmZiAtLWdpdCBhL2xpYmRuZi90cmFuc2FjdGlvbi9z
+cWwvbWlncmF0ZV90YWJsZXNfMV8yLnNxbA0KPiBiL2xpYmRuZi90cmFuc2FjdGlvbi9zcWwvbWln
+cmF0ZV90YWJsZXNfMV8yLnNxbA0KPiA+ICtpbmRleCA0OWI3NTMxNS4uZjgwYWQxYzQgMTAwNjQ0
+DQo+ID4gKy0tLSBhL2xpYmRuZi90cmFuc2FjdGlvbi9zcWwvbWlncmF0ZV90YWJsZXNfMV8yLnNx
+bA0KPiA+ICsrKysgYi9saWJkbmYvdHJhbnNhY3Rpb24vc3FsL21pZ3JhdGVfdGFibGVzXzFfMi5z
+cWwNCj4gPiArQEAgLTEsOSArMSw5IEBADQo+ID4gKyBSIioqKA0KPiA+ICsgQkVHSU4gVFJBTlNB
+Q1RJT047DQo+ID4gKyAgICAgQUxURVIgVEFCTEUgdHJhbnMNCj4gPiArLSAgICAgICAgQUREIGNv
+bW1lbnQgVEVYVCBERUZBVUxUICIiOw0KPiA+ICsrICAgICAgICBBREQgY29tbWVudCBURVhUIERF
+RkFVTFQgJyc7DQo+ID4gKyAgICAgVVBEQVRFIGNvbmZpZw0KPiA+ICstICAgICAgICBTRVQgdmFs
+dWUgPSAiMS4yIg0KPiA+ICsrICAgICAgICBTRVQgdmFsdWUgPSAnMS4yJw0KPiA+ICsgICAgICAg
+ICBXSEVSRSBrZXkgPSAndmVyc2lvbic7DQo+ID4gKyBDT01NSVQ7DQo+ID4gKyApKioiDQo+ID4g
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mXzAuNDcuMC5i
+Yg0KPiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mXzAuNDcuMC5iYg0KPiA+
+IGluZGV4IDFiNGI3ZTQyMzMuLjFiMDZkNjZiMTkgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmZfMC40Ny4wLmJiDQo+ID4gKysrIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmZfMC40Ny4wLmJiDQo+ID4gQEAgLTgsNiArOCw3IEBA
+IFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9ycG0tc29mdHdhcmUtDQo+IG1hbmFnZW1lbnQv
+bGliZG5mO2JyYW5jaD1kbmYtNC1tYXN0ZXIgXA0KPiA+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAx
+LUdldC1wYXJhbWV0ZXJzLWZvci1ib3RoLWxpYnNvbHYtYW5kLWxpYnNvbHZleHQtDQo+IGxpYmRu
+LnBhdGNoIFwNCj4gPiAgICAgICAgICAgICBmaWxlOi8vMDAwMS1BZGQtV0lUSF9URVNUUy1vcHRp
+b24ucGF0Y2ggXA0KPiA+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLUxvb2stZm8tc3BoaW54LW9u
+bHktaWYtZG9jdW1lbnRhdGlvbi1pcy0NCj4gYWN0dWFsbHktZW5hLnBhdGNoIFwNCj4gPiArICAg
+ICAgICAgICBmaWxlOi8vMDAwMS1Vc2Utc2luZ2xlLXF1b3Rlcy1hcm91bmQtc3RyaW5nLWxpdGVy
+YWxzLXVzZWQtDQo+IGluLVNRTC5wYXRjaCBcDQo+ID4gICAgICAgICAgICAgIg0KPiA+DQo+ID4g
+IFNSQ1JFViA9ICI4MzMwZWVhNjk4NWM0ZTRiNTM3OTZmODU4ZGU1YjZiMzhiMWRkZjVjIg0KPiA+
+IC0tDQo+ID4gMi4yMS4xDQo+ID4NCj4gPiANCg==
