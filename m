@@ -1,51 +1,81 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.8808.1589189106965334718
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web10.9366.1589192610222550757
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 02:25:07 -0700
+ Mon, 11 May 2020 03:23:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: kai.kang@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 04B9OiLn001369
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 02:24:55 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 11 May 2020 02:24:15 -0700
-From: "kai" <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] gcr: depends on gnupg-native
-Date: Mon, 11 May 2020 17:23:42 +0800
-Message-ID: <20200511092342.29197-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HTCCriyO;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f67.google.com with SMTP id v12so10194493wrp.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 03:23:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=5lqvde7NJFe9JamP2zvugLsXW5mBZUYkPTCoScAKEsI=;
+        b=HTCCriyOCjs2u51C1kbHNyHt9wbBWkwvI73Oay0H9/evniCNGl7HU305P67ZR8OFU2
+         yjMtjR4w0Kb9bBY/FXLi4gwG9aGl7DcGsNZnD5ZkAXFyj1UvTDeQMRnbC6doIj415ffC
+         FWOdO5TG5fH8LWzClgdRqY67fSC3hGAHSiWE4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=5lqvde7NJFe9JamP2zvugLsXW5mBZUYkPTCoScAKEsI=;
+        b=VBNyphfCRejGQMujPK7kC6hA7THJpMNjPld9m/E+KJUt3RJlImooIRKulb9aveCbX+
+         ubpRFNaPP9pCURIh/ruemCL8Tu2Va2zeRnit4/lgjPB5ld9fF/4GSC6qIGNAUj35R4wG
+         zqt8B3Dxla/Ajq3HTnfTHYmTIWP/Vg6gZX7HsivGxSR6B92Wl1y9eE9V+QaTb0pw6dpx
+         jzLugIW9crtnqGbyIyCvEdQ3UPjrPLw6T+gsGt9TGXk8hl2p9lxI/z07h/1XdupXtGpP
+         ftrI4sVedgfimryzx4+WWetKU0y6+f6Q5RaeBqoC5Txwcg8Ct5tJ22bU6g1OBXutnJer
+         Ey/A==
+X-Gm-Message-State: AGi0PubIZRFmnfMEG1NZvfYpJkvvob9B1NUCKv/nBY/tOBU1hTGHUT3n
+	jNQmayoJnWOaP5QtgZ4XaMShNw==
+X-Google-Smtp-Source: APiQypIdJXLBnq4NMQPBIQLB5q1RV0RFBdQKu2E9HNcYpu87iZYc7yf2tLKJEy1DrMBq6eSXvJXj8w==
+X-Received: by 2002:a5d:5047:: with SMTP id h7mr17933154wrt.7.1589192608543;
+        Mon, 11 May 2020 03:23:28 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id a8sm17322458wrg.85.2020.05.11.03.23.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 03:23:27 -0700 (PDT)
+Message-ID: <ba4d2d890257106339088d2e2227af5785af5928.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH V2 1/2] gcc10: Update to GCC 10.1 Release
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 11 May 2020 11:23:26 +0100
+In-Reply-To: <20200510195050.3470835-1-raj.khem@gmail.com>
+References: <20200510195050.3470835-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Kai Kang <kai.kang@windriver.com>
+On Sun, 2020-05-10 at 12:50 -0700, Khem Raj wrote:
+> * Package new gomp header acc_prof.h
+> * Package lto-dump which is a new tool in gcc10
+> * All Changes are here [1]
+> * Porting apps to gcc 10 help is here [2]
+> 
+> [1] https://gcc.gnu.org/gcc-10/changes.html
+> [2] https://gcc.gnu.org/gcc-10/porting_to.html
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> v2: Correct SRC_URI checksums
 
-It fails to build gcr if no commmand gpg on build host:
+Fails, in gcc, nativesdk-gcc and gcc-cross-canadian.
 
-| meson.build:44:0: ERROR: Program(s) ['gpg2', 'gpg'] not found or not executable
+e.g.
 
-Add dependency gnupg-native to fix the error.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/1885
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-gnome/gcr/gcr_3.36.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+(but many more)
 
-diff --git a/meta/recipes-gnome/gcr/gcr_3.36.0.bb b/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-index 4fe3b2fff3..458dc8e6c4 100644
---- a/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-@@ -8,7 +8,7 @@ BUGTRACKER = "https://gitlab.gnome.org/GNOME/gcr/issues"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
- 
--DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt \
-+DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt gnupg-native \
-            ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'libxslt-native', '', d)}"
- 
- GNOMEBASEBUILDCLASS = "meson"
--- 
-2.17.1
+I think we may need something like:
+
+https://patchwork.ozlabs.org/project/gcc/patch/20200508131105.170077-1-hjl.tools@gmail.com/
+
+Cheers,
+
+Richard
+
+
 
