@@ -1,127 +1,209 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.1797.1589223760005578225
+Received: from mail-oo1-f65.google.com (mail-oo1-f65.google.com [209.85.161.65])
+ by mx.groups.io with SMTP id smtpd.web10.63.1589224920233553435
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 12:02:41 -0700
+ Mon, 11 May 2020 12:22:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=YV/uv3ar;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=G+Hh6Dst;
+ spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.161.65, mailfrom: jpuhlman@mvista.com)
+Received: by mail-oo1-f65.google.com with SMTP id x16so2191341oop.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 12:22:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=6626; q=dns/txt; s=axis-central1;
-  t=1589223760; x=1620759760;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=Ujzf7jIMGyPQ56gE4EqFAap5C7tL/bS2wK2/uTbd1bg=;
-  b=YV/uv3aregG36JxzD9Nw7nz3QOq09RMDR+P1v0k2KqQZnZ0k14tIqXIG
-   nUXxdnEXHBXnKqDh/tRxtfDKNK9WlzWPZXyG3r0378sZXGf541cWZG2Cz
-   oXeel96iWLmiI0HMWTg5KNkDX5FTl9TvPJXed5hcxeITfgpO6j2ZrF4W2
-   SHADtutV4+ZgluT1UNV1y2BW8gC28/BSwAzkjrmiJmpUY5lufHyRjf00e
-   uetxJajmpzexsljWAR3+hRxbNveA82vmozbA0WKPs9f1Z45aLcqv6hKh2
-   dEoWVKfIEEVzRGhgaLX+2YI8bWb43m2+4qA59gfHyKO72fy7OrO02Rdh3
-   w==;
-IronPort-SDR: qBY015emdAlSnEAv9eAi1xCI851qDgyhrm1uHhpWjoBEYt96jAE5XJziAkV5qTLJy/uDcHVLpt
- ozEaCYGkuxsnZkOrGNx5Z60MLxZVdvOQ2vvmKMpCwflpzXDQqW8ihsXk/67EaNoJza1+LwOAYF
- rdq7FyKO4PqAxuqFLO64G/KvC8tHJjdJKACnHaXxCUSipFaH5mT3chuF0H0Z8EL5/jIA8uAk96
- rT+PZcenTdm/jY5w5voGoxTGPI/gAJkcqgq/3g8XlS3gOxNxQso1ZNiaDjivHqKR+NZne9OZpE
- oMU=
-X-IronPort-AV: E=Sophos;i="5.73,381,1583190000"; 
-   d="scan'208";a="8374314"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Steve Sakoman <sakoman@gmail.com>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [meta-oe][PATCH v2] libdnf: Use single-quotes around string literals used in SQL statements
-Thread-Topic: [OE-core] [meta-oe][PATCH v2] libdnf: Use single-quotes around
- string literals used in SQL statements
-Thread-Index: AQHWJ591fbLQ++fF3ESAiCCh2ugtqqijPaqQ
-Date: Mon, 11 May 2020 19:02:35 +0000
-Message-ID: <341d7c4755da4be0b8b7bb6212f3a790@XBOX03.axis.com>
-References: <20200504162043.1137-1-pkj@axis.com>
- <CAGDS+nmJAJ4cU_P4YgyHpkj4sXsfwzudJQWxHqpHk0CO1B_zfA@mail.gmail.com>
-In-Reply-To: <CAGDS+nmJAJ4cU_P4YgyHpkj4sXsfwzudJQWxHqpHk0CO1B_zfA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.20.13.13]
+        d=mvista-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language;
+        bh=cfcO08DNomTiG6WO/cy27miI3Je1egE388+pYVt206A=;
+        b=G+Hh6Dst9/K4nDNW+amRcrEVYQAS/syJZQ2UMcpVFDYN9BOlXm5ie4ggDPzmeIDMjj
+         FjdZjv7zgta5MM7j8HxDnvQopx/s2WOJa5NFkmCrikJPqRdT/b66WYg6plDs2o6WsUIp
+         oxyGTt0UXIeIkLwcXE8Tr0IDOOsmG/R9ZDvVwAzqhxzCV5WRqia9jiv6W5IW9/FbfWaf
+         uDx9C7Eu6DmxFCWRg7jEo0Qc4ZPEvyR17c/XYJzfYfImsshAA3Lq1QCZTbiwCa9liDNk
+         ZBE5hy0i4qOr0BDzY6TAQVr5eVZ2Sa27h1tNJa31M3GgI5aUdJFoXKcwCgJh8zZ7Txnj
+         4/Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language;
+        bh=cfcO08DNomTiG6WO/cy27miI3Je1egE388+pYVt206A=;
+        b=WH8DBznz1/CEoA4ImWCpU8CO5q5cuAlvL73GZSIfpmjhmRxi6dH+g8soJDLjZw9x5X
+         na3nYkgECE+d2IbWO/Z4DcXg+n/1Jz8ROQgXWhFIsDokXbSYr2Pvgpj7PZJJkjnQnIci
+         dAf6z3H5ot8JzjJDXDp+DSkJr6Hlmr5uCkjbtjvCZLZfcG4AX1OFsF1lpovx/UDHrlTo
+         16uUtgcG5nI6ZcnKGB4uwsutTO4ji2X5EHhz1gMGlY6emmN6BUiWFXAh6nGpCJtviOgR
+         Nmso9tUGnvXRYzXsL3vGJhxnqSBXy2xnohhzfnw8jDITVFSoEtGVxJlMtpmMqDlLmEer
+         ZFyw==
+X-Gm-Message-State: AGi0Pub2dpCPQjNlUCsRiPPto/VW1LC5ahViJNsThKpB/j/lKoil5HNp
+	qL61RE+HGU0EsFeZfCUifYpPZ6uA2iQ=
+X-Google-Smtp-Source: APiQypIqmORWVLqm6tUC1n0sMt/r3CWhIqK7EzkeLnslQ9EBi0ogwa+aAP0FqEgrbS+Oa4nPGMV5bw==
+X-Received: by 2002:a4a:e704:: with SMTP id y4mr13573820oou.64.1589224919189;
+        Mon, 11 May 2020 12:21:59 -0700 (PDT)
+Return-Path: <jpuhlman@mvista.com>
+Received: from ?IPv6:2600:1700:4c90:60a0:60de:efe0:93f3:c162? ([2600:1700:4c90:60a0:60de:efe0:93f3:c162])
+        by smtp.gmail.com with ESMTPSA id f9sm2882449ote.30.2020.05.11.12.21.58
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2020 12:21:58 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] buildtools-extended-tarball: add nativesdk-glibc
+To: openembedded-core@lists.openembedded.org
+References: <20200506015447.13003-1-kai.kang@windriver.com>
+ <080c0849554edd5710f68f6283a020f578968de9.camel@linuxfoundation.org>
+From: "Jeremy Puhlman" <jpuhlman@mvista.com>
+Message-ID: <05a97ff4-f8c8-369e-7623-d460017ccfdb@mvista.com>
+Date: Mon, 11 May 2020 12:21:55 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <080c0849554edd5710f68f6283a020f578968de9.camel@linuxfoundation.org>
+Content-Type: multipart/alternative;
+ boundary="------------A20283C259450084BF3C963F"
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-WWVzLCBJIGJlbGlldmUgaXQgaXMuIElmIHlvdSBjaGVycnktcGljayBpdCBmcm9tIG1hc3Rlciwg
-dGhlbiB5b3Ugc2hvdWxkIA0KY2hhbmdlIHRoZSBVcHN0cmVhbS1TdGF0dXMgYXMgcGVyIGJlbG93
-IHRvIEFjY2VwdGVkLg0KDQovL1BldGVyDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0N
-Cj4gRnJvbTogU3RldmUgU2Frb21hbiA8c2Frb21hbkBnbWFpbC5jb20+DQo+IFNlbnQ6IGRlbiAx
-MSBtYWogMjAyMCAxNjoyMQ0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVy
-c3RlZHRAYXhpcy5jb20+DQo+IENjOiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUg
-b2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW21ldGEtb2VdW1BBVENIIHYyXSBsaWJkbmY6
-IFVzZSBzaW5nbGUtcXVvdGVzDQo+IGFyb3VuZCBzdHJpbmcgbGl0ZXJhbHMgdXNlZCBpbiBTUUwg
-c3RhdGVtZW50cw0KPiANCj4gSGkgUGV0ZXIsDQo+IA0KPiBJcyB0aGlzIHBhdGNoIHN1aXRhYmxl
-IGZvciBpbmNsdXNpb24gaW4gZHVuZmVsbCBsdHM/DQo+IA0KPiBUaGFua3MsDQo+IA0KPiBTdGV2
-ZQ0KPiANCj4gT24gTW9uLCBNYXkgNCwgMjAyMCBhdCA2OjIwIEFNIFBldGVyIEtqZWxsZXJzdGVk
-dA0KPiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPg0KPiA+IElmIHNx
-bGl0ZSBpcyBidWlsdCB3aXRoIC1EU1FMSVRFX0RRUz0wIGluIGFjY29yZGFuY2Ugd2l0aA0KPiA+
-IGh0dHBzOi8vc3FsaXRlLm9yZy9xdWlya3MuaHRtbCNkYmxxdW90ZSwgbWlncmF0aW9uIHRvIHZl
-cnNpb24gMS4yIG9mDQo+IHRoZQ0KPiA+IGhpc3RvcnkgZGF0YWJhc2Ugd291bGQgZmFpbCB3aXRo
-Og0KPiA+DQo+ID4gICBIaXN0b3J5IGRhdGFiYXNlIGNhbm5vdCBiZSBjcmVhdGVkOiAuLi4vdmFy
-L2xpYi9kbmYvaGlzdG9yeS5zcWxpdGUuDQo+ID4gICBFcnJvcjogU1FMaXRlIGVycm9yIG9uICI6
-bWVtb3J5OiI6IEV4ZWN1dGluZyBhbiBTUUwgc3RhdGVtZW50IGZhaWxlZDoNCj4gPiAgIG5vIHN1
-Y2ggY29sdW1uOiAxLjINCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVk
-dCA8cGtqQGF4aXMuY29tPg0KPiA+IC0tLQ0KPiA+DQo+ID4gUEFUQ0ggdjI6IFVwZGF0ZWQgdGhl
-IFVwc3RyZWFtLVN0YXR1cyB0byBBY2NlcHRlZC4NCj4gPg0KPiA+ICAuLi5zLWFyb3VuZC1zdHJp
-bmctbGl0ZXJhbHMtdXNlZC1pbi1TUUwucGF0Y2ggfCAzNiArKysrKysrKysrKysrKysrKysrDQo+
-ID4gIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mXzAuNDcuMC5iYiB8ICAxICsN
-Cj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAzNyBpbnNlcnRpb25zKCspDQo+ID4gIGNyZWF0ZSBtb2Rl
-IDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAxLVVzZS0NCj4g
-c2luZ2xlLXF1b3Rlcy1hcm91bmQtc3RyaW5nLWxpdGVyYWxzLXVzZWQtaW4tU1FMLnBhdGNoDQo+
-ID4NCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmYv
-MDAwMS1Vc2Utc2luZ2xlLQ0KPiBxdW90ZXMtYXJvdW5kLXN0cmluZy1saXRlcmFscy11c2VkLWlu
-LVNRTC5wYXRjaCBiL21ldGEvcmVjaXBlcy0NCj4gZGV2dG9vbHMvbGliZG5mL2xpYmRuZi8wMDAx
-LVVzZS1zaW5nbGUtcXVvdGVzLWFyb3VuZC1zdHJpbmctbGl0ZXJhbHMtDQo+IHVzZWQtaW4tU1FM
-LnBhdGNoDQo+ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiBpbmRleCAwMDAwMDAwMDAwLi4y
-OTNiZGNkZDI0DQo+ID4gLS0tIC9kZXYvbnVsbA0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9saWJkbmYvbGliZG5mLzAwMDEtVXNlLXNpbmdsZS1xdW90ZXMtDQo+IGFyb3VuZC1zdHJp
-bmctbGl0ZXJhbHMtdXNlZC1pbi1TUUwucGF0Y2gNCj4gPiBAQCAtMCwwICsxLDM2IEBADQo+ID4g
-K0Zyb20gOTZjYTdkMDA0OTQ2MWRmMjI5M2RkMDAwMGVkY2JjNjliNjQyNTVlMCBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDENCj4gPiArRnJvbTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwa2pAYXhpcy5j
-b20+DQo+ID4gK0RhdGU6IFN1biwgMyBNYXkgMjAyMCAyMjo0MDozOSArMDIwMA0KPiA+ICtTdWJq
-ZWN0OiBbUEFUQ0hdIFVzZSBzaW5nbGUtcXVvdGVzIGFyb3VuZCBzdHJpbmcgbGl0ZXJhbHMgdXNl
-ZCBpbiBTUUwNCj4gPiArIHN0YXRlbWVudHMNCj4gPiArDQo+ID4gK0lmIHNxbGl0ZSBpcyBidWls
-dCB3aXRoIC1EU1FMSVRFX0RRUz0wIGluIGFjY29yZGFuY2Ugd2l0aA0KPiA+ICtodHRwczovL3Nx
-bGl0ZS5vcmcvcXVpcmtzLmh0bWwjZGJscXVvdGUsIG1pZ3JhdGlvbiB0byB2ZXJzaW9uIDEuMiBv
-Zg0KPiB0aGUNCj4gPiAraGlzdG9yeSBkYXRhYmFzZSB3b3VsZCBmYWlsIHdpdGg6DQo+ID4gKw0K
-PiA+ICsgIEhpc3RvcnkgZGF0YWJhc2UgY2Fubm90IGJlIGNyZWF0ZWQ6IC92YXIvbGliL2RuZi9o
-aXN0b3J5LnNxbGl0ZS4NCj4gPiArICBFcnJvcjogU1FMaXRlIGVycm9yIG9uICI6bWVtb3J5OiI6
-IEV4ZWN1dGluZyBhbiBTUUwgc3RhdGVtZW50DQo+IGZhaWxlZDoNCj4gPiArICBubyBzdWNoIGNv
-bHVtbjogMS4yDQo+ID4gKw0KPiA+ICtVcHN0cmVhbS1TdGF0dXM6IEFjY2VwdGVkIFtodHRwczov
-L2dpdGh1Yi5jb20vcnBtLXNvZnR3YXJlLQ0KPiBtYW5hZ2VtZW50L2xpYmRuZi9wdWxsLzk1MV0N
-Cj4gPiArU2lnbmVkLW9mZi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwa2pAYXhpcy5jb20+DQo+
-ID4gKy0tLQ0KPiA+ICsgbGliZG5mL3RyYW5zYWN0aW9uL3NxbC9taWdyYXRlX3RhYmxlc18xXzIu
-c3FsIHwgNCArKy0tDQo+ID4gKyAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRl
-bGV0aW9ucygtKQ0KPiA+ICsNCj4gPiArZGlmZiAtLWdpdCBhL2xpYmRuZi90cmFuc2FjdGlvbi9z
-cWwvbWlncmF0ZV90YWJsZXNfMV8yLnNxbA0KPiBiL2xpYmRuZi90cmFuc2FjdGlvbi9zcWwvbWln
-cmF0ZV90YWJsZXNfMV8yLnNxbA0KPiA+ICtpbmRleCA0OWI3NTMxNS4uZjgwYWQxYzQgMTAwNjQ0
-DQo+ID4gKy0tLSBhL2xpYmRuZi90cmFuc2FjdGlvbi9zcWwvbWlncmF0ZV90YWJsZXNfMV8yLnNx
-bA0KPiA+ICsrKysgYi9saWJkbmYvdHJhbnNhY3Rpb24vc3FsL21pZ3JhdGVfdGFibGVzXzFfMi5z
-cWwNCj4gPiArQEAgLTEsOSArMSw5IEBADQo+ID4gKyBSIioqKA0KPiA+ICsgQkVHSU4gVFJBTlNB
-Q1RJT047DQo+ID4gKyAgICAgQUxURVIgVEFCTEUgdHJhbnMNCj4gPiArLSAgICAgICAgQUREIGNv
-bW1lbnQgVEVYVCBERUZBVUxUICIiOw0KPiA+ICsrICAgICAgICBBREQgY29tbWVudCBURVhUIERF
-RkFVTFQgJyc7DQo+ID4gKyAgICAgVVBEQVRFIGNvbmZpZw0KPiA+ICstICAgICAgICBTRVQgdmFs
-dWUgPSAiMS4yIg0KPiA+ICsrICAgICAgICBTRVQgdmFsdWUgPSAnMS4yJw0KPiA+ICsgICAgICAg
-ICBXSEVSRSBrZXkgPSAndmVyc2lvbic7DQo+ID4gKyBDT01NSVQ7DQo+ID4gKyApKioiDQo+ID4g
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mXzAuNDcuMC5i
-Yg0KPiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9saWJkbmYvbGliZG5mXzAuNDcuMC5iYg0KPiA+
-IGluZGV4IDFiNGI3ZTQyMzMuLjFiMDZkNjZiMTkgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmZfMC40Ny4wLmJiDQo+ID4gKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2xpYmRuZi9saWJkbmZfMC40Ny4wLmJiDQo+ID4gQEAgLTgsNiArOCw3IEBA
-IFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9ycG0tc29mdHdhcmUtDQo+IG1hbmFnZW1lbnQv
-bGliZG5mO2JyYW5jaD1kbmYtNC1tYXN0ZXIgXA0KPiA+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAx
-LUdldC1wYXJhbWV0ZXJzLWZvci1ib3RoLWxpYnNvbHYtYW5kLWxpYnNvbHZleHQtDQo+IGxpYmRu
-LnBhdGNoIFwNCj4gPiAgICAgICAgICAgICBmaWxlOi8vMDAwMS1BZGQtV0lUSF9URVNUUy1vcHRp
-b24ucGF0Y2ggXA0KPiA+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLUxvb2stZm8tc3BoaW54LW9u
-bHktaWYtZG9jdW1lbnRhdGlvbi1pcy0NCj4gYWN0dWFsbHktZW5hLnBhdGNoIFwNCj4gPiArICAg
-ICAgICAgICBmaWxlOi8vMDAwMS1Vc2Utc2luZ2xlLXF1b3Rlcy1hcm91bmQtc3RyaW5nLWxpdGVy
-YWxzLXVzZWQtDQo+IGluLVNRTC5wYXRjaCBcDQo+ID4gICAgICAgICAgICAgIg0KPiA+DQo+ID4g
-IFNSQ1JFViA9ICI4MzMwZWVhNjk4NWM0ZTRiNTM3OTZmODU4ZGU1YjZiMzhiMWRkZjVjIg0KPiA+
-IC0tDQo+ID4gMi4yMS4xDQo+ID4NCj4gPiANCg==
+--------------A20283C259450084BF3C963F
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+
+
+On 5/10/2020 6:40 AM, Richard Purdie wrote:
+> On Wed, 2020-05-06 at 09:54 +0800, kai wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> It requires gcc 5.0 via OE-Core rev abc741a. On centos 7, the gcc
+>> version is too low then it has to build with buildtools-extended-
+>> tarball
+>> which provides nativesdk-gcc.
+>>
+>> But it fails to build nspr-native:
+>>
+>>> gcc   abstract.o -Xlinker -L../../dist/lib -lplc4 -L../../dist/lib
+>>> -lnspr4 -lpthread -o abstract
+>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+>>> undefined reference to `__clock_getcpuclockid@GLIBC_PRIVATE'
+>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+>>> undefined reference to `__clock_nanosleep@GLIBC_PRIVATE'
+>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+>>> undefined reference to `__clock_settime@GLIBC_PRIVATE'
+>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+>>> undefined reference to `__clock_getres@GLIBC_PRIVATE'
+>>> collect2: error: ld returned 1 exit status
+>>> make: *** [Makefile:379: abstract] Error 1
+>> Add nativesdk-glibc to buildtools-extended-tarball. And it increases
+>> size of buildtools-extended-tarball about 3K from 48356989 to
+>> 48360329.
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   meta/recipes-core/meta/buildtools-extended-tarball.bb | 1 +
+>>   1 file changed, 1 insertion(+)
+> This doesn't make sense. Does it mean we need a new uninative version
+> instead?
+
+This works in dunfell, as of right now. This should have been fixed with:
+
+https://patchwork.openembedded.org/patch/171584/
+
+
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+> 
+
+-- 
+Jeremy A. Puhlman
+jpuhlman@mvista.com
+
+
+--------------A20283C259450084BF3C963F
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <br>
+    <br>
+    <div class="moz-cite-prefix">On 5/10/2020 6:40 AM, Richard Purdie
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:080c0849554edd5710f68f6283a020f578968de9.camel@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">On Wed, 2020-05-06 at 09:54 +0800, kai wrote:
+</pre>
+      <blockquote type="cite">
+        <pre class="moz-quote-pre" wrap="">From: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+
+It requires gcc 5.0 via OE-Core rev abc741a. On centos 7, the gcc
+version is too low then it has to build with buildtools-extended-
+tarball
+which provides nativesdk-gcc.
+
+But it fails to build nspr-native:
+
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">gcc   abstract.o -Xlinker -L../../dist/lib -lplc4 -L../../dist/lib
+-lnspr4 -lpthread -o abstract
+/PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+undefined reference to `__clock_getcpuclockid@GLIBC_PRIVATE'
+/PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+undefined reference to `__clock_nanosleep@GLIBC_PRIVATE'
+/PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+undefined reference to `__clock_settime@GLIBC_PRIVATE'
+/PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+undefined reference to `__clock_getres@GLIBC_PRIVATE'
+collect2: error: ld returned 1 exit status
+make: *** [Makefile:379: abstract] Error 1
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">
+Add nativesdk-glibc to buildtools-extended-tarball. And it increases
+size of buildtools-extended-tarball about 3K from 48356989 to
+48360329.
+
+Signed-off-by: Kai Kang <a class="moz-txt-link-rfc2396E" href="mailto:kai.kang@windriver.com">&lt;kai.kang@windriver.com&gt;</a>
+---
+ meta/recipes-core/meta/buildtools-extended-tarball.bb | 1 +
+ 1 file changed, 1 insertion(+)
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">
+This doesn't make sense. Does it mean we need a new uninative version
+instead?</pre>
+    </blockquote>
+    <br>
+    This works in dunfell, as of right now. This should have been fixed
+    with:<br>
+    <br>
+    <a href="https://patchwork.openembedded.org/patch/171584/">https://patchwork.openembedded.org/patch/171584/</a><br>
+    <br>
+    <br>
+    <br>
+    <blockquote type="cite"
+cite="mid:080c0849554edd5710f68f6283a020f578968de9.camel@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">
+
+Cheers,
+
+Richard
+
+
+
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Jeremy A. Puhlman
+<a class="moz-txt-link-abbreviated" href="mailto:jpuhlman@mvista.com">jpuhlman@mvista.com</a></pre>
+  </body>
+</html>
+
+--------------A20283C259450084BF3C963F--
