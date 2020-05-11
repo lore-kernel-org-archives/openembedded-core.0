@@ -1,77 +1,75 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web10.11041.1589201118214469910
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.12225.1589204723422528731
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 05:45:18 -0700
+ Mon, 11 May 2020 06:45:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DMkbt0QU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id y16so3604486wrs.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 05:45:18 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FAzdRsR6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id m12so13199617wmc.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 06:45:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:cc:date:in-reply-to:references
          :user-agent:mime-version:content-transfer-encoding;
-        bh=4C0OzP6mhMwKb2mPLyPbhoM+umJWKHmwknwEWmjQaRQ=;
-        b=DMkbt0QUMG40oit8a7DodWPvUl2tDGX+cZLTAq6JnYabde07tEWo7iWAikXHAwcj4C
-         KtN+rAvnIaChrUkHehwPyV0z2jfuHa0Xit8Z+7GkRg7Q7TnuqrGdSsqEcBF/aACt/fwi
-         zqAxZCUc1JIWk+RTHFEmSVs+CNuXUKAH8mqmI=
+        bh=IiH2N1zggF8AIi2wlv8t5qC4ZCRg6Za8To/v6KXiLPU=;
+        b=FAzdRsR6ilQAZU/rylxAwApdi5gmuf9ivGhANrrFi+z6Y/duwQTCJKhmvX6HR7JFy7
+         5smcu3Wwcm7Ani/4CEWAG+AiEsCaWH7OW4QRSyumUY1emV6uH1OK+f6T0NpWFMxerKnh
+         0nHQ4DRsXP884NIlqHmVZPYy6NGZUq4K7LefU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=4C0OzP6mhMwKb2mPLyPbhoM+umJWKHmwknwEWmjQaRQ=;
-        b=K1i1s9aPO+Do++F2uaDF+FpYV2LKKzvjqMmOvx1WqWphEi+1D8aHiwoNedEKwhGWiM
-         QxHXEp/a/0WPSXsxP4NwFtoat0kPMVOiAKcTmHJsc8gbBm+ftMPg4c2W2WWrplTGrTpa
-         u3SDZj8OkWuBPsBmqH567EHBUw3GbILAW6EQAn+UEf5f+HJMB2qkGLcDHX/uKR1VOOrY
-         +I0/qcnoy7ziwImw213uZma6Lwo2C70MT75l9bchdFQhQlsOKkC32B+4WrLb3GIvYuqn
-         V3has2p68P3hMXk+SKCSS4RIuEkv8GTtRSZtVPqPtYsSkkKlco1oEFB7wpaNclxClJ5k
-         75pA==
-X-Gm-Message-State: AGi0PubAEHK2l9coU8Da0VEO5uWU8BhysZQucA3wK48BwA1v4AGUJc91
-	NEYFuV5FowPPdKN1hKOnOEiQL6QWb+o=
-X-Google-Smtp-Source: APiQypINCfFIEHUAuiMVKZMz5Omh1wB2YOwX9iBMhJtF8lLT/6kB0fuwY+ZP6+HMphJsYnPuqlifnw==
-X-Received: by 2002:a5d:65ce:: with SMTP id e14mr18650132wrw.314.1589201116346;
-        Mon, 11 May 2020 05:45:16 -0700 (PDT)
+        bh=IiH2N1zggF8AIi2wlv8t5qC4ZCRg6Za8To/v6KXiLPU=;
+        b=APnz3uey9E5l8mbKR1XhAZAfbQxLdIO4xx/PLQ7noaUF7NPDOuRXJsGXCrwMYUrplx
+         WvuUOT/2RcCvb6LfnKO+QVVh1ZWxeFLLXxsBStiWVrVSZ3upj9HtHBuXhEWNg1v5ADhB
+         LH5qBw6M4iJnh5pmNRjnA/hIZ8PfpNF1nYv2aY47eg2Ns24LN6TT5962CuO7MFG2cJ6E
+         Ipa2CDXjVDRhrgR/yvC3xfzBsgvsyQzdQnG2WGwW/RWpKxjICX+9iz9tbIVJUxDDJLso
+         hnMOAE12zVIFx+TtNzc3sVCiPI2CszI25St5zOr17BojszwJ70vAzjOp/edbyqB8piWs
+         11Xw==
+X-Gm-Message-State: AGi0PubtaUemTJo4tV0+pI+6hT1tmn25zyduag/iywCu1uiEefNkN94g
+	AsIbY0gJS7jqsovAf+hJ0gnJCQ==
+X-Google-Smtp-Source: APiQypKnNNQ9c/Vaov/AyIeYI1VQUM8kQK1S3TtVxsm12aj4qraCz5j+n8il5uGPDnwWcrdPa/UBFw==
+X-Received: by 2002:a05:600c:22d6:: with SMTP id 22mr31569890wmg.121.1589204721991;
+        Mon, 11 May 2020 06:45:21 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id s12sm25839298wmc.7.2020.05.11.05.45.14
+        by smtp.gmail.com with ESMTPSA id i74sm17890260wri.49.2020.05.11.06.45.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 05:45:15 -0700 (PDT)
-Message-ID: <9c6bfc2b37121a36c866bffff3f72efe91e847aa.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v8] expat: Added ptest
+        Mon, 11 May 2020 06:45:21 -0700 (PDT)
+Message-ID: <3af1478455588f44639685593b92752ddf784c8e.camel@linuxfoundation.org>
+Subject: Re: Pending GCC 10 -fno-common fixes
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org, Joshua Watt
-	 <JPEW.hacker@gmail.com>
-Cc: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
-Date: Mon, 11 May 2020 13:45:14 +0100
-In-Reply-To: <20200430165529.23657-1-oleksandr.s.popovych@globallogic.com>
-References: <20200430165529.23657-1-oleksandr.s.popovych@globallogic.com>
+To: Richard Leitner <dev+oe@g0hl1n.net>, 
+	openembedded-core@lists.openembedded.org
+Cc: richard.leitner@skidata.com, bunk@stusta.de
+Date: Mon, 11 May 2020 14:45:19 +0100
+In-Reply-To: <20200510093148.GA3697@brokenbit>
+References: <20200510093148.GA3697@brokenbit>
 User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2020-04-30 at 19:55 +0300, Oleksandr via lists.openembedded.org
-wrote:
-> For ptest support of expat package:
+On Sun, 2020-05-10 at 11:31 +0200, Richard Leitner wrote:
+> Hi,
+> just a friendly reminder for my pending GCC 10 support patches:
 > 
->  - expat_2.2.9.bb recipe was switched on cmake-based building system
-> to
-> avoid cahnges in autotools build system  which considered in upstream
-> as
-> potentially deprecated (
-> https://github.com/libexpat/libexpat/issues/330).
+> https://patchwork.openembedded.org/patch/172350/
+> https://patchwork.openembedded.org/patch/172351/
+> https://patchwork.openembedded.org/patch/172357/
+> https://patchwork.openembedded.org/patch/172358/
 > 
+> With these patches applied building on my Fedora 32 hosts works again.
+> 
+> If there are any open issues or things which needs to be discussed on the
+> proposed patches please come back to me!
+> 
+> Thanks & regards
 
-Thanks, this is definitely getting there. There was only one test
-failure this time, with meta-mingw:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/1884
-
-I've cc'd Joshua in case he has any insights on this.
+Thanks, we've had some fun sorting the last round of patches but got
+there eventually. These are in the next batch and seem ok so far.
 
 Cheers,
 
 Richard
-
-
 
