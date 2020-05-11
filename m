@@ -1,72 +1,77 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web12.1193.1589222138259221848
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web12.1236.1589222277114522020
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 11:35:38 -0700
+ Mon, 11 May 2020 11:37:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aQ6TcO04;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id j5so12265519wrq.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 11:35:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=k1PRLjo2u9M6UWCXPvi/BkZUZRFynhIWL/glN2pPqhU=;
-        b=aQ6TcO045jN+VXX5+fH60MWO1zHeJFlFSqx0O1QYU2zWPYcxfgyFRwBpHeOYqILyhJ
-         dpRTmUgRhdIrtXWsWLzo1AzTXMcr1LeQkaN3VD+KO3c+Dg3is4TmA/2W3Xbf1veU6q2Z
-         K7P7S3+YXpzwVzH4g9N/kpGV6cbR8tMogHQnw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=k1PRLjo2u9M6UWCXPvi/BkZUZRFynhIWL/glN2pPqhU=;
-        b=CWmYPm6k1KS/AHUGEKPD1N7v8brT83b4awgu5d8li70t872iTOfQ4vK4yGAm3WQAiG
-         dPdt3YTGxPX1AKaFt5aaijlzfkXA8dreP7wbKZh00cVNRoiVIfkl8Zgh4GBSK6rCNOdm
-         qOwadUvsxp9OrmO50RFgFfrp5tWpgvUg9XAmLCXaSmU1vb58/YML8Ht7A346IHs4s2IE
-         fSNx+evan7rvrN0C0WQdSvmLbA7vpRNSB+gUJ6nUG8CvMrpBZMmdww0PQ9sSPSVmWocS
-         YeG+Ezc5bGVPZLrJ4Ydeurp/87CD1+29nlpJbnfZGy8P2eSqNZEej03w1njvF6vU6R4+
-         1srQ==
-X-Gm-Message-State: AGi0PuYkT/wvlrsb9b1YNVfFGEJ0/ZdbTb8x+au8QAvmQT4w6csNGWjA
-	jP0MB6dC71gLvT3fhm16UU8zGo4M5Ow=
-X-Google-Smtp-Source: APiQypLmktyyBBnkpZ9M8gNIE6+2jp+jZP7X9bBA/mOwb5te9QhGWsHJe/RDz9wfWylCcW0QCTuFtw==
-X-Received: by 2002:a05:6000:4:: with SMTP id h4mr8835113wrx.36.1589222136492;
-        Mon, 11 May 2020 11:35:36 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id u74sm28269255wmu.13.2020.05.11.11.35.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 11:35:35 -0700 (PDT)
-Message-ID: <fd392f76b502df31e9a99cfde714487c55d13d13.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 17/17] gcr: update to 3.36.0
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 11 May 2020 19:35:34 +0100
-In-Reply-To: <20200503162559.946-17-alex.kanavin@gmail.com>
-References: <20200503162559.946-1-alex.kanavin@gmail.com>
-	 <20200503162559.946-17-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.36.1-2 
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
+	(authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 04BIbhBg032378
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+	Mon, 11 May 2020 13:37:52 -0500
+Subject: Re: [oe][yocto][bitbake] Fetching source using different protocols
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>,
+        Dawod <mhm.dawod@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, yocto@yoctoproject.org
+References: <CAGCTLNQW1WWHmy1zaE+LF-AKBQa-UpY8sfOy=HH3tt0rJLJFLg@mail.gmail.com>
+ <20200511091703.l53b4t74xc36vgdo@qschulz>
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+Message-ID: <e183edd5-cea8-8870-eef3-2d3b7ecbc05a@kernel.crashing.org>
+Date: Mon, 11 May 2020 13:37:43 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200511091703.l53b4t74xc36vgdo@qschulz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2020-05-03 at 18:25 +0200, Alexander Kanavin wrote:
-> Convert to meson build.
+
+
+On 5/11/20 4:17 AM, Quentin Schulz wrote:
+> Hi Mohamed,
 > 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  .../gcr/{gcr_3.34.0.bb => gcr_3.36.0.bb}             | 12 ++++----
-> ----
->  1 file changed, 4 insertions(+), 8 deletions(-)
->  rename meta/recipes-gnome/gcr/{gcr_3.34.0.bb => gcr_3.36.0.bb} (75%)
+> On Mon, May 11, 2020 at 11:03:26AM +0200, Dawod wrote:
+>> Hello,
+>>
+>> I need to fetch a git repo using 2 different protocols ( ssh & https )
+>> So that when I run bitbake, It will fetch using ssh protocol first and if
+>> it fails to fetch, It will try to fetch using https protocol.
+>>
+> 
+> Why? What's the exact use case?
+> 
+>> can I do some thing like that or I will have to change it manually every
+>> time ?
+>>
+> 
+> Maybe you could play with PREMIRROS? (I've never explicitly used that
+> variable though):
+> https://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#var-PREMIRRORS
 
-Seems there is some kind of race issue in here:
+This is what I would suggest.  Have the recipe itself set the fallback URI as
+the main URL.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1881
 
-?
+SRC_URI = "git://example.com/my/repository/uri;proto=https"
 
-Cheers,
+PREMIRRORS_prepend = "git://example.com/my/repository/uri;proto=https
+git://example.com/my/otherrepo/uri;proto=ssh \n"
 
-Richard
+(the \n is literally '\' and 'n')
 
+The above should, when it sees the SRC_URI, try the ssh protocol first.. if that
+doesn't work it will fall back to SRC_URI.
+
+--Mark
+
+> I guess the asterisk parts could be removed and the path to more or less your
+> source could be used (ssh first, to http path in your SRC_URI)?
+> 
+> That's a shot in the dark for me but something to test I'd say :)
+> 
+> Quentin
+> 
+> 
+> 
+> 
