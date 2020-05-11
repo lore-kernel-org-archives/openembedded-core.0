@@ -1,122 +1,119 @@
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com [209.85.166.67])
- by mx.groups.io with SMTP id smtpd.web12.13467.1589208418687328765
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web10.14210.1589210589290117765
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 07:46:58 -0700
+ Mon, 11 May 2020 08:23:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EC42LF42;
- spf=pass (domain: gmail.com, ip: 209.85.166.67, mailfrom: raj.khem@gmail.com)
-Received: by mail-io1-f67.google.com with SMTP id f3so9932936ioj.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 07:46:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XzXzhWNk;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id x8so8143270qtr.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 08:23:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C7FIprjSpcs3soun844IP9GhUVuJ7QQ0BHxviolWnt4=;
-        b=EC42LF42cqGZRX3fJuTWrKY45k8KDFZhuweJuTNJUSSa/7/UgSvrueuySqAnfmyMXe
-         h6SK67kl2xwNp72CnDouhFh1nQXyItKnEPBcHH/ROATEF06jafMHoddRZvtOjQqyl7tv
-         fUIECRsu8PQbleIq2lefFiQWpY1+r7zcgiihrJEH9VqdZvlFjyvM4OOnDxc+xkTLTxlS
-         EpYJtk0VZOzrAgeozcYNl/aBsgf56kZn/DAZhusV5iGzhMXqIo920D8UnZzRJYUjYSm+
-         YjI4XfAkWaW2zEeI5rO+TiMNzbTNbg2IeuEtCU9j7of7zB3nne482hbgv0FT/NV3U1vx
-         wKAA==
+         :cc:content-transfer-encoding;
+        bh=1SGdDtltM4BjoEqmaBAVnt6OG/s9cAKnLE2bNpQ4H4M=;
+        b=XzXzhWNkj7Lgk0j/7K776FUBFMw8j3Tq06P2BABPd2bzKRVchyO6KPGvMQyIB6QtDi
+         VWJO4pzUqcKb365L+jPVd67WHUMyor+xTkpPt10TD54FcZa1Hi8Gyj/Oq3vJnZjtKROR
+         Y2a0K6YSv5di6x9jPTuEqqwZad1yRrmDRZH830sLdn99dyk8BbQO1iV6cRQNC0iVBOKE
+         rH/9+flQlK/ilfo9GKrt+QajbzWCTEGoFaIAPqR9s1lxJO8JPLU/ol36wjDq4HOgvkAT
+         N4JtxT5/6pclllwWg7vxYNC39Vrc7jGrV3YjAo0vKfeuQw3rxbvblI1uNja7Bgl7PXVK
+         ER1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C7FIprjSpcs3soun844IP9GhUVuJ7QQ0BHxviolWnt4=;
-        b=LyFGLfySF9ZRTIUzsIwAHj85JLJZWmlOHAKnuvpdUxtE7f+SieFba9jl6WPGFRQr7C
-         jUYaeUguI6wb6cF1Y2NUcJXJ8SJPF0LzqHtFqLMv3ue/Cso9rvyjbdHei7f14SoyPgGm
-         Gp5whQXL0wCIvfcpkMqXG+NiWRUOOZ8xOKVPqstlmsORrHUAhu0YKq5PjAgu/LpsBfpP
-         X7UgVjNxTSgsY+rQYI+K8nLXOTj92Wwn57Pl+i2xJE12No7RUsya8Bp2hJd4QA272tHu
-         jayfcf3hdQUEc4TFc6fE1Yl2KSq5Ge1SWgBrmklVA3gtYHRWHSkMk80SFMJl5rBhU9Y+
-         OSOA==
-X-Gm-Message-State: AGi0PuaPHL1OxJOUNMYffy/xpm+2dO2jyQIoRBs/Rw9OLXCDWr3WGh+o
-	dyKlh6pURDLoF4IWpbQ3nz33VtvaBxy4fw7LFAs=
-X-Google-Smtp-Source: APiQypJFQgCLAuIsUZ/YOQD2NinzlEVR6gHpJ85C0+oSUVkmOvfANrExXqXmcB23oHTvxil/biLlHAP56XRVez1abTA=
-X-Received: by 2002:a6b:b486:: with SMTP id d128mr13811581iof.79.1589208417928;
- Mon, 11 May 2020 07:46:57 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=1SGdDtltM4BjoEqmaBAVnt6OG/s9cAKnLE2bNpQ4H4M=;
+        b=OwVUJiUk8njVlGFFdJzTi27RbvGpBEedGSr54jcP87OGA5BJQoSIZfqzAHyokl2wbk
+         n2EFp53xhwDUECv9oxeB1NU2kcauWtfTAC+XsI1EK6sFiq4ZxMZBAUIeDe+c/zy8I1Fv
+         aDs4LEYfdRyldusHYcqWhf83wshXYBwIzuiRsCOllmNY5+btRd1F7GbH44a0SjjfV2cj
+         TpVU76wqAiL11QgcgKcllKV5kGDeUs0Y14CEFVCEUPACu6VGnpOhcUuPsoxMfErOs1Ke
+         SjetxU0myjW3JrJkCdYPrH2SrTOo+omNj9i6Fn68s1paDDcf9uSB9UrTdmKa2J6Ob2OF
+         J9BQ==
+X-Gm-Message-State: AGi0PuZa6m05GNuSSIlXNRwdesk6WDidwiTyejrYZRce2jNzbKNj3WTM
+	PqeR/+QVp0oM39OGBHwGd2vZ4ZgTHZjAy05gPys=
+X-Google-Smtp-Source: APiQypITXjLjMCNstKyKdBcuHQbYKbaGE1YcmkV7hDSqiRaZ5AeUo/njjpKn4vQk5rDyaqn7W5HxOW+r+E7b6nX8GZA=
+X-Received: by 2002:ac8:4e8d:: with SMTP id 13mr17093704qtp.293.1589210588029;
+ Mon, 11 May 2020 08:23:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200510195050.3470835-1-raj.khem@gmail.com> <5703cd73-8de1-68ed-a165-164f3a7fc734@gmail.com>
-In-Reply-To: <5703cd73-8de1-68ed-a165-164f3a7fc734@gmail.com>
+References: <20200510195050.3470835-1-raj.khem@gmail.com> <160DF24277C7EAFD.21511@lists.openembedded.org>
+ <77ef2a6d2521c5bc7cab1ba109dc0ad03a17bae0.camel@linuxfoundation.org>
+In-Reply-To: <77ef2a6d2521c5bc7cab1ba109dc0ad03a17bae0.camel@linuxfoundation.org>
 From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 11 May 2020 07:46:31 -0700
-Message-ID: <CAMKF1sod4rbKYKhwCnqgPub4ZdgvxAc=RFtBhqp9h2FuiTDeFw@mail.gmail.com>
+Date: Mon, 11 May 2020 08:22:41 -0700
+Message-ID: <CAMKF1sr3y6zrgJma3971Qc=oQOhigVMFUBHrebbbx1zJSkeBZA@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH V2 1/2] gcc10: Update to GCC 10.1 Release
-To: Jacob Kroon <jacob.kroon@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 10, 2020 at 11:14 PM Jacob Kroon <jacob.kroon@gmail.com> wrote:
+On Mon, May 11, 2020 at 7:22 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> On 5/10/20 9:50 PM, Khem Raj wrote:
-> > * Package new gomp header acc_prof.h
-> > * Package lto-dump which is a new tool in gcc10
-> > * All Changes are here [1]
-> > * Porting apps to gcc 10 help is here [2]
+> On Mon, 2020-05-11 at 11:23 +0100, Richard Purdie via lists.openembedded.=
+org wrote:
+> > On Sun, 2020-05-10 at 12:50 -0700, Khem Raj wrote:
+> > > * Package new gomp header acc_prof.h
+> > > * Package lto-dump which is a new tool in gcc10
+> > > * All Changes are here [1]
+> > > * Porting apps to gcc 10 help is here [2]
+> > >
+> > > [1] https://gcc.gnu.org/gcc-10/changes.html
+> > > [2] https://gcc.gnu.org/gcc-10/porting_to.html
+> > >
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > ---
+> > > v2: Correct SRC_URI checksums
 > >
-> > [1] https://gcc.gnu.org/gcc-10/changes.html
-> > [2] https://gcc.gnu.org/gcc-10/porting_to.html
+> > Fails, in gcc, nativesdk-gcc and gcc-cross-canadian.
 > >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> > v2: Correct SRC_URI checksums
+> > e.g.
 > >
-> >   meta/conf/distro/include/maintainers.inc      |   2 +-
-> >   meta/conf/distro/include/tcmode-default.inc   |   2 +-
-> >   .../gcc/{gcc-9.3.inc => gcc-10.1.inc}         |  51 ++++----
-> >   ...0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch |  15 +--
-> >   .../0002-gcc-poison-system-directories.patch  |  47 ++++----
-> >   ...-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch |  11 +-
-> >   .../0004-64-bit-multilib-hack.patch           |  15 +--
-> >   .../0005-optional-libstdc.patch               |  29 ++---
-> >   .../0006-COLLECT_GCC_OPTIONS.patch            |  11 +-
-> >   ...ts.h-in-B-instead-of-S-and-t-oe-in-B.patch |  20 ++--
-> >   .../0008-fortran-cross-compile-hack.patch     |  15 +--
-> >   .../0009-cpp-honor-sysroot.patch              |  13 +-
-> >   .../0010-MIPS64-Default-to-N64-ABI.patch      |  11 +-
-> >   ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch |  33 +++---
-> >   ...gcc-Fix-argument-list-too-long-error.patch |  11 +-
-> >   .../0013-Disable-sdt.patch                    |  23 ++--
-> >   .../{gcc-9.3 => gcc-10.1}/0014-libtool.patch  |   9 +-
-> >   ...s-fix-v4bx-to-linker-to-support-EABI.patch |  11 +-
-> >   ...-config-files-from-B-instead-of-usin.patch |  25 ++--
-> >   ...ir-from-.la-which-usually-points-to-.patch |  11 +-
-> >   .../0018-export-CPP.patch                     |   9 +-
-> >   ...e-target-gcc-headers-can-be-included.patch |  13 +-
-> >   ...-directory-during-relink-if-inst_pr.patch} |  11 +-
-> >   ...R-replacement-instead-of-hardcoding.patch} |   9 +-
-> >   ...2-aarch64-Add-support-for-musl-ldso.patch} |   9 +-
-> >   ...fix-libcc1-s-install-path-and-rpath.patch} |   9 +-
-> >   ...e-sysroot-support-for-nativesdk-gcc.patch} | 112 +++++++++---------
-> >   ...root-gcc-version-specific-dirs-with.patch} |  13 +-
-> >   ...us-_FOR_BUILD-and-related-variables.patch} |  27 ++---
-> >   ...27-nios2-Define-MUSL_DYNAMIC_LINKER.patch} |   9 +-
-> >   ...-to-link-commandline-for-musl-targe.patch} |  15 +--
-> >   ...sing-LDFLAGS-not-just-SHLIB_LDFLAGS.patch} |   9 +-
-> >   .../0030-sync-gcc-stddef.h-with-musl.patch}   |   9 +-
-> >   ...fault-in-precompiled-header-generat.patch} |  11 +-
-> >   .../0032-Fix-for-testsuite-failure.patch}     |   9 +-
-> >   ...e-introduce-spe-commandline-options.patch} |  11 +-
-> >   ...s-for-__cpu_indicator_init-instead-.patch} |  29 ++---
-> >   ...-Do-not-use-__LINE__-for-maintainin.patch} |  55 ++++-----
-> >   ...ild-with-disable-dependency-tracking.patch |  54 ---------
-> >   .../gcc/gcc-9.3/0030-ldbl128-config.patch     |  79 ------------
-> >   ...heck-zero-value-in-simple_object_elf.patch |  48 --------
-> >   ...ands-Don-t-match-user-defined-regs-o.patch | 100 ----------------
-> >   ...dian_9.3.bb => gcc-cross-canadian_10.1.bb} |   0
-> >   .../{gcc-cross_9.3.bb => gcc-cross_10.1.bb}   |   0
-> >   ...c-crosssdk_9.3.bb => gcc-crosssdk_10.1.bb} |   0
-> >   meta/recipes-devtools/gcc/gcc-runtime.inc     |   1 +
-> >   ...gcc-runtime_9.3.bb => gcc-runtime_10.1.bb} |   0
-> >   ...nitizers_9.3.bb => gcc-sanitizers_10.1.bb} |   0
-> >   .../{gcc-source_9.3.bb => gcc-source_10.1.bb} |   0
-> >   meta/recipes-devtools/gcc/gcc-target.inc      |   1 +
-> >   .../gcc/{gcc_9.3.bb => gcc_10.1.bb}           |   0
-> >   ...-initial_9.3.bb => libgcc-initial_10.1.bb} |   0
-> >   .../gcc/{libgcc_9.3.bb => libgcc_10.1.bb}     |   0
-> >   ...libgfortran_9.3.bb => libgfortran_10.1.bb} |   0
-> >   meta/recipes-support/icu/icu/filter.json      |   6 +
-> >   55 files changed, 322 insertions(+), 701 deletions(-)
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/1885
+> >
+> > (but many more)
+> >
+> > I think we may need something like:
+> >
+> > https://patchwork.ozlabs.org/project/gcc/patch/20200508131105.170077-1-=
+hjl.tools@gmail.com/
 >
-> The changes in icu/ seem unrelated to the gcc update ?
+> I added that in master-next and things do look better.
+>
 
-its unrelated to gcc update, Thanks for pointing out.
+OK, I will include it in v3
+
+> meta-mingw fails in gcc-runtime:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/1888
+
+I have a local fix for this.
+
+>
+> also valgrind failed for qemuarm64 on arm64
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/690
+>
+> 10.1.0/ld: /home/pokybuild/yocto-worker/qemuarm64-ptest/build/build/tmp/w=
+ork/aarch64-poky-linux/valgrind/3.15.0-r0/recipe-sysroot/usr/lib/aarch64-po=
+ky-linux/10.1.0/libgcc.a(lse-init.o): in function `init_have_lse_atomics':
+> | /usr/src/debug/libgcc/10.1.0-r0/gcc-10.1.0/build.aarch64-poky-linux.aar=
+ch64-poky-linux/libgcc/../../../../../../../work-shared/gcc-10.1.0-r0/gcc-1=
+0.1.0/libgcc/config/aarch64/lse-init.c:44: undefined reference to `__getaux=
+val'
+> | /usr/src/debug/libgcc/10.1.0-r0/gcc-10.1.0/build.aarch64-poky-linux.aar=
+ch64-poky-linux/libgcc/../../../../../../../work-shared/gcc-10.1.0-r0/gcc-1=
+0.1.0/libgcc/config/aarch64/lse-init.c:44:(.text.startup+0xc): relocation t=
+runcated to fit: R_AARCH64_CALL26 against undefined symbol `__getauxval'
+
+This seems interesting, I am trying to reproduce here. Should be
+straight forward perhaps there is an assumption about glibc
+version somewhere
+
+>
+> The build is still running so there may be other issues...
+>
+> Cheers,
+>
+> Richard
+>
