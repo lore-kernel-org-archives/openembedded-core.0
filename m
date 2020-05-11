@@ -1,246 +1,131 @@
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com [209.85.166.67])
- by mx.groups.io with SMTP id smtpd.web12.197.1589225216021979486
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com (EUR03-AM5-obe.outbound.protection.outlook.com [40.92.70.92])
+ by mx.groups.io with SMTP id smtpd.web11.224.1589225309352565062
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 12:26:56 -0700
+ Mon, 11 May 2020 12:28:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pBswrWuH;
- spf=pass (domain: gmail.com, ip: 209.85.166.67, mailfrom: jpewhacker@gmail.com)
-Received: by mail-io1-f67.google.com with SMTP id k18so2090668ion.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 12:26:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=2eRm3zKkrZc4sGMwmB9hR0MwxPKS/McnxK7YEgDvxF0=;
-        b=pBswrWuHFTzBmG2bXO+MprKoC4BYMgeff1eBYMUK1pPeBkiVdtxgvvP54Wa3x7U8nv
-         YZ2zRps2XG787Ei/7YcRKxLqtYglPF4OtVETZG/MpUDZDOPDADHG9+mBxh7lYJLdKXK4
-         dlhkM4LGSEFO4E7ZHQ04RPyFW9RiDEvWxfo3SD5fRuPh6Ef7YB0HYc4mqBBTIxb4hrj0
-         Gh1aFT6hUYUPQKnAerOYrnMrWEzJ30cL6+84ZSxS11+68tneQHb92pMI1OoTHNteWeMJ
-         zwhQt1iWp4Zk/BqR6h2Cbd7RvPYfCWLl/VRy8904YgG62jTG8qwkiozS00XIMRWIRln1
-         OpAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=2eRm3zKkrZc4sGMwmB9hR0MwxPKS/McnxK7YEgDvxF0=;
-        b=l6WiYx7CZN3TFRzR109PXfP+D0p0DPjE+RtK+c43Nip/KcEu+llG/b2Ul9ZiSZRWME
-         2Xa2mqGwiTI2e82e+wWd2K4cD5vy3Xj6YmDuRFABwnP1qVWBTQukcInb+wZ49XjRjjOT
-         5yCausPxLqzclISS68A1DIvWM3JB0yP/9NG5Ed+Su0+mcnbCBpUz86luQi0Yr0f62FYA
-         ozoJT49kCOpSTIe62BrIEEcKc9+mSVJKpfsPSCNORSZVcemdgxzJnvGSUs00ZQDwpJBT
-         4CowlpQfatyB+1gG7t4Z4JQKwWbY0TiupJUJ+MaN+cMtwOIjFfiFjmT4InsvSESyK+UY
-         8pbw==
-X-Gm-Message-State: AGi0PuYBLIJpdBk3X42AcdaL7wQSjKSX2YMvXfJoTyw81nILixtIZtgK
-	J3r5Dlp9boGt+OJZ8RKGfhY2ZTtR//4=
-X-Google-Smtp-Source: APiQypLtXA5nIc9BTreQGxtlusPeKR6t+MGfgv2mH0oa4okHyqTqYaFgdavho8nqhBPeV0mMsyABKg==
-X-Received: by 2002:a5e:9816:: with SMTP id s22mr16011084ioj.8.1589225212207;
-        Mon, 11 May 2020 12:26:52 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:ac13:ea07:8c16:df2d])
-        by smtp.gmail.com with ESMTPSA id d8sm1090558iob.41.2020.05.11.12.26.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 12:26:51 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=Hvj5BSVW;
+ spf=pass (domain: outlook.com, ip: 40.92.70.92, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DrDhXwF13Sjmu8bnq9IZl4s8fSO7sM90VrhhgX5LHqF9RwPma1cXcgjmLHT9jUQLa4L+OfcJ/xe4JKX+nLflmuXcDWyKTtm967oQJFUcjbtwzZeCgIPDtxamJsl8kyvcsHjFhUVW95g26FoTPXNQTPpQPj/uhBkShWvfDVnyPWCQ8Tjjswr6HGm4ukeVf0L04YDEwL0RPOVwzCB16R6tjKsQF+C77UjGBn8GTmnQIQpxknw6xfa3mPgWZ6l+AkhOCyMRvGlSImmUIAYq5nSY7c0p+BXZ8239PbB9RrPKXa9d8ubJZJV7wUH3IPQRP0zyGAOwZdDTNkE41sWWifnqKg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yYSzboqh+fZyUl80y8sZBVtveGYa8uKhWjkSssNODwk=;
+ b=RNTVPGdO+cXem/wLeDM4j0QjGwlTuFRCrEdSO9XAW4wrbM5ZlbKsQFkdhPWUHV9hOsDv21junNMkUSiw0HqvjDgBpHdLyG5aRrhToFSSK4Xr9fuRbFZgNrZjeEBc0/26xhlgZ3/1EzMggC+4hKMmWzBnq0ylWi498t0tGK6q0dnFTJe4pEPrj87qvYoG/7WCdobQjYyq87q5kIvXaNDQwYOHm3UwkOWVw4RHSVP4lUDn2cglyGAsIs03F9OadJgOQjfwgybfO3OMsYjVYmO3+uYZQ8uHF8BtqiiHv/ThJtKYD5vRvtFl2MGTlsY8V20EKITbt3B/rKFkrf2yqdk48g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=outlook.com; dmarc=pass action=none header.from=outlook.com;
+ dkim=pass header.d=outlook.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yYSzboqh+fZyUl80y8sZBVtveGYa8uKhWjkSssNODwk=;
+ b=Hvj5BSVWB9u7ltPO68UDDszBhBe6ijtPLoEBtDG9ap0xa+jJCJzuBB5djWOCZ9gdqh1ssWVuoS1OPYSPNLL3JlQT+S3H2R/Esg7xvaD61uf7hXj6vs/zZNPXOwLlmcrNmtw6+qfyKuoQoNqnZFQE7gq6WPJQb8qZ/wFlbfU2sFSJ8wngqyb8Lw5FWZn79MDOoseYzLmnNYNp8wxVYzj82fIsJq+/UcAU4CDuGrR+VzCymtkqh0paydV3KVfLbd9N4Wo7JoCuK76jGvtp9GmJdBlDGjSfI2VkIklGAwGuuOaspNO8vG32cCSadadY4kHnjHIy3DRNfw5ZkXYQlE5e8g==
+Received: from DB5EUR03FT038.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:e400:7e0a::4d) by
+ DB5EUR03HT011.eop-EUR03.prod.protection.outlook.com (2a01:111:e400:7e0a::110)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27; Mon, 11 May
+ 2020 19:28:27 +0000
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ (2a01:111:e400:7e0a::4a) by DB5EUR03FT038.mail.protection.outlook.com
+ (2a01:111:e400:7e0a::340) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27 via Frontend
+ Transport; Mon, 11 May 2020 19:28:27 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:66B6A890881F49D0F55D61A20FD8BCCE00E1D59CDC3293B5E492F2FA96A61F94;UpperCasedChecksum:8B62A80DC96246A1E397E7B9ADF946757BD4AC581906068084D9AA6BFEA78B6D;SizeAsReceived:7448;Count:48
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::f5f1:b5e3:66d7:e590]) by AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::f5f1:b5e3:66d7:e590%6]) with mapi id 15.20.2979.033; Mon, 11 May 2020
+ 19:28:27 +0000
+From: "Konrad Weihmann" <kweihmann@outlook.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] wic: Add --offset argument for partitions
-Date: Mon, 11 May 2020 14:26:46 -0500
-Message-Id: <20200511192646.16901-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH v4] file: add PACKAGECONFIG for auto options
+Date: Mon, 11 May 2020 21:28:06 +0200
+Message-ID: <AM7PR05MB6881B011F8D1E181BF2DDD22A8A10@AM7PR05MB6881.eurprd05.prod.outlook.com>
+X-Mailer: git-send-email 2.20.1
+X-ClientProxiedBy: AM5P194CA0010.EURP194.PROD.OUTLOOK.COM
+ (2603:10a6:203:8f::20) To AM7PR05MB6881.eurprd05.prod.outlook.com
+ (2603:10a6:20b:1a9::19)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: <20200511192806.5135-1-kweihmann@outlook.com>
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ICKE-EDGE.fritz.box (79.215.3.100) by AM5P194CA0010.EURP194.PROD.OUTLOOK.COM (2603:10a6:203:8f::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.28 via Frontend Transport; Mon, 11 May 2020 19:28:26 +0000
+X-Mailer: git-send-email 2.20.1
+X-Microsoft-Original-Message-ID: <20200511192806.5135-1-kweihmann@outlook.com>
+X-TMN: [bEZhbNm5SoOjXE6YViOY2Bb2tH66GXZU]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 48
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 53ef20e7-588c-4488-87f0-08d7f5e17a73
+X-MS-Exchange-SLBlob-MailProps: 
+	7MJMDUNTCtwJ7JhG6//8QNmWQabGotoPBB4awsRNqVwmcQHVjPLnlOxH4sLEWrz/1/TqO7Hj6EgccqV07A3KUKz4ZzYLAmeQ8Hf+tDejykJf5mCLYMIXNgbWd4GFk8kTAJnjckL5+o+x9D4wtY7HW3glC29Dxgv08yYuxyIZIhtT3sOrMU3TFMRGISTrb8Coqg7wVpn4c4m/0Ei6MYP+GllLGbTRHbsZApDPxJlPejRQABH2NQ1rQ3vVZiCd0yQSFeQuLNV22XGX/pwAXMvttSYiTYqA86JcT+39knYxErB95U+7uzSUX1YrGrsUhmr9TlATB/jZHjS0iFD7Ss3gfylth32YVICbwEvcYf9WUM5mHjVWqVZLd+IgsmNdiN5vyvVviGQDlTOJeyG3UJSYDGwO6RBxpyFj9xvGSWMmY1snC/jHhwcd0PZ5XfdfkPp3k8Km3F/nhVgLOqG3Kd+JQrhoX7IhKSjahRN2wajpeP40JzVBGAx3plRON93kEIQNZbYYDpjDUBWRlPEbqYI+XmlVr70de2OIGv8h/TcqceSJMInf49z+3whvfuIb89t3cWXIaKSXxA8oCH5txHDHNOOqQMhI5QF9irsAW5JoBzamc0ZWU5LSyHTzNmFlvpiCJ0OmJE1Eb1YovmMsKVxtVCZJ/dicF2LocZrtAU4+NFjUcq6l58OQ0DiQNgM9MwdDpfWwhWIQgFExZ+0Nc+5mZMCUVdjI2/htv805Vxs6/sW5ScjxgSCs1w==
+X-MS-TrafficTypeDiagnostic: DB5EUR03HT011:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	e/w6iGZ1Q/8T5rZlaVIeJERhwapOevEjoqA6fyzPY+eM21iGGxAYFcbiLQjuiU5SADRvc6/k+wsyu7qbvGejUh0zqh/O6PiCtgiZDeWmZKwlDn8AnV0kXy+n+6JG0hTRRY4iEuuj9kPGyJaITPL1AkumQh/kXj+DK/w6mw4SFppogP50nzeqbZryu2YDEtfa3hWmFNQVygdQjAXcKU4+eQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
+X-MS-Exchange-AntiSpam-MessageData: 
+	py10tw7i7ZVojpOdY+vTvYRIium7GBCXVXXSF58hJkEPuCJXvRw+RbQLww6aRuUK7N33gZsh3jkCnCA52YcvSkO8baxUCNlHAeVcJnjQeBP64b70FQV53FKcjq8BLyHxAGNcUX0LiId5YBE2Me8XXg==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 53ef20e7-588c-4488-87f0-08d7f5e17a73
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 May 2020 19:28:27.0438
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR03HT011
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Add support for an --offset argument when defining a partition. Many
-SoCs require that boot partitions be located at specific offsets. Prior
-to this argument, most WKS files were using the --align attribute to
-specify the location of these fixed partitions but this is not ideal
-because in the event that the partition couldn't be placed in the
-specified location, wic would move it to the next sector with that
-alignment, often preventing the device from booting. Unlike the --align
-argument, wic will fail if a partition cannot be placed at the exact
-offset specified with --offset.
+A few options of file configure are set to auto, which can lead to
+unpredictable effects when something in the sysroot does provide
+things that satisfy the autotools checks.
+In the worst case this will lead to package-qa failures as libraries are
+not set in RDEPENDS but configured for the tool.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+To mitigate changes of accidental configure set explicit options via
+newly introduced PACKAGECONFIG variables for bzip, lzma and zlib
+support, where the default is just zlib, as it was before
+
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py      | 92 +++++++++++++++++-------
- scripts/lib/wic/ksparser.py              |  1 +
- scripts/lib/wic/partition.py             |  1 +
- scripts/lib/wic/plugins/imager/direct.py | 15 ++++
- 4 files changed, 84 insertions(+), 25 deletions(-)
+ meta/recipes-devtools/file/file_5.38.bb | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index c8765e5330..602e95aa60 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -790,41 +790,50 @@ class Wic2(WicTestCase):
-             tempf.write("part " \
-                      "--source rootfs --ondisk hda --align 4 --fixed-size %d "
-                      "--fstype=ext4\n" % size)
--        wksname = os.path.splitext(os.path.basename(wkspath))[0]
- 
--        return wkspath, wksname
-+        return wkspath
- 
--    def test_fixed_size(self):
--        """
--        Test creation of a simple image with partition size controlled through
--        --fixed-size flag
--        """
--        wkspath, wksname = Wic2._make_fixed_size_wks(200)
-+    def _get_wic_partitions(self, wkspath, native_sysroot=None, ignore_status=False):
-+        p = runCmd("wic create %s -e core-image-minimal -o %s" % (wkspath, self.resultdir),
-+                   ignore_status=ignore_status)
+diff --git a/meta/recipes-devtools/file/file_5.38.bb b/meta/recipes-devtool=
+s/file/file_5.38.bb
+index b8f09107e8..f5ad568936 100644
+--- a/meta/recipes-devtools/file/file_5.38.bb
++++ b/meta/recipes-devtools/file/file_5.38.bb
+@@ -8,8 +8,8 @@ SECTION =3D "console/utils"
+ LICENSE =3D "BSD-2-Clause"
+ LIC_FILES_CHKSUM =3D "file://COPYING;beginline=3D2;md5=3D0251eaec1188b20d9=
+a72c502ecfdda1b"
+=20
+-DEPENDS =3D "zlib file-replacement-native"
+-DEPENDS_class-native =3D "zlib-native"
++DEPENDS =3D "file-replacement-native"
++DEPENDS_class-native =3D ""
+=20
+ SRC_URI =3D "git://github.com/file/file.git"
+=20
+@@ -18,6 +18,12 @@ S =3D "${WORKDIR}/git"
+=20
+ inherit autotools update-alternatives
+=20
++PACKAGECONFIG ??=3D "zlib"
++PACKAGECONFIG_class-native ??=3D "zlib"
++PACKAGECONFIG[bz2] =3D "--enable-bzlib, --disable-bzlib, bzip2"
++PACKAGECONFIG[lzma] =3D "--enable-xzlib, --disable-xzlib, xz"
++PACKAGECONFIG[zlib] =3D "--enable-zlib, --disable-zlib, zlib"
 +
-+        if p.status:
-+            return (p, None)
-+
-+        wksname = os.path.splitext(os.path.basename(wkspath))[0]
- 
--        runCmd("wic create %s -e core-image-minimal -o %s" \
--                                   % (wkspath, self.resultdir))
--        os.remove(wkspath)
-         wicout = glob(self.resultdir + "%s-*direct" % wksname)
--        self.assertEqual(1, len(wicout))
-+
-+        if not wicout:
-+            return (p, None)
- 
-         wicimg = wicout[0]
- 
--        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
-+        if not native_sysroot:
-+            native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
- 
-         # verify partition size with wic
--        res = runCmd("parted -m %s unit mib p 2>/dev/null" % wicimg,
-+        res = runCmd("parted -m %s unit kib p 2>/dev/null" % wicimg,
-                      native_sysroot=native_sysroot)
- 
-         # parse parted output which looks like this:
-         # BYT;\n
-         # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
-         # 1:0.00MiB:200MiB:200MiB:ext4::;\n
--        partlns = res.output.splitlines()[2:]
-+        return (p, res.output.splitlines()[2:])
- 
--        self.assertEqual(1, len(partlns),
--                         msg="Partition list '%s'" % res.output)
--        self.assertEqual("1:0.00MiB:200MiB:200MiB:ext4::;", partlns[0],
--                         msg="Partition list '%s'" % res.output)
-+    def test_fixed_size(self):
-+        """
-+        Test creation of a simple image with partition size controlled through
-+        --fixed-size flag
-+        """
-+        wkspath = Wic2._make_fixed_size_wks(200)
-+        _, partlns = self._get_wic_partitions(wkspath)
-+        os.remove(wkspath)
-+
-+        self.assertEqual(partlns, [
-+                        "1:4.00kiB:204804kiB:204800kiB:ext4::;",
-+                        ])
- 
-     def test_fixed_size_error(self):
-         """
-@@ -832,13 +841,46 @@ class Wic2(WicTestCase):
-         --fixed-size flag. The size of partition is intentionally set to 1MiB
-         in order to trigger an error in wic.
-         """
--        wkspath, wksname = Wic2._make_fixed_size_wks(1)
--
--        self.assertEqual(1, runCmd("wic create %s -e core-image-minimal -o %s" \
--                                   % (wkspath, self.resultdir), ignore_status=True).status)
-+        wkspath = Wic2._make_fixed_size_wks(1)
-+        p, _ = self._get_wic_partitions(wkspath, ignore_stats=True)
-         os.remove(wkspath)
--        wicout = glob(self.resultdir + "%s-*direct" % wksname)
--        self.assertEqual(0, len(wicout))
-+
-+        self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
-+
-+    def test_offset(self):
-+        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
-+
-+        with NamedTemporaryFile("w", suffix=".wks") as tempf:
-+            # Test that partitions are placed at the correct offsets
-+            tempf.write("bootloader --ptable gpt\n" \
-+                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n" \
-+                        "part /bar                 --ondisk hda --offset 102432 --fixed-size 100M --fstype=ext4\n")
-+            tempf.flush()
-+
-+            _, partlns = self._get_wic_partitions(tempf.name, native_sysroot)
-+            self.assertEqual(partlns, [
-+                "1:32.0kiB:102432kiB:102400kiB:ext4::;",
-+                "2:102432kiB:204832kiB:102400kiB:ext4::;",
-+                ])
-+
-+        with NamedTemporaryFile("w", suffix=".wks") as tempf:
-+            # Test that image creation fails if the partitions would overlap
-+            tempf.write("bootloader --ptable gpt\n" \
-+                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n" \
-+                        "part /bar                 --ondisk hda --offset 102431 --fixed-size 100M --fstype=ext4\n")
-+            tempf.flush()
-+
-+            p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
-+            self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
-+
-+        with NamedTemporaryFile("w", suffix=".wks") as tempf:
-+            # Test that partitions are not allowed to overlap with the booloader
-+            tempf.write("bootloader --ptable gpt\n" \
-+                        "part /    --source rootfs --ondisk hda --offset 8 --fixed-size 100M --fstype=ext4\n")
-+            tempf.flush()
-+
-+            p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
-+            self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
- 
-     @only_for_arch(['i586', 'i686', 'x86_64'])
-     def test_rawcopy_plugin_qemu(self):
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index b8befe78e3..1eaa447460 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -136,6 +136,7 @@ class KickStart():
-         part.add_argument('mountpoint', nargs='?')
-         part.add_argument('--active', action='store_true')
-         part.add_argument('--align', type=int)
-+        part.add_argument('--offset', type=int)
-         part.add_argument('--exclude-path', nargs='+')
-         part.add_argument('--include-path', nargs='+', action='append')
-         part.add_argument('--change-directory')
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 7d9dd616a6..85eb15c8b8 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -40,6 +40,7 @@ class Partition():
-         self.mountpoint = args.mountpoint
-         self.no_table = args.no_table
-         self.num = None
-+        self.offset = args.offset
-         self.overhead_factor = args.overhead_factor
-         self.part_name = args.part_name
-         self.part_type = args.part_type
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 2d06c242b6..1f65a7afe5 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -428,6 +428,21 @@ class PartitionedImage():
-                     # increase the offset so we actually start the partition on right alignment
-                     self.offset += align_sectors
- 
-+            if part.offset is not None:
-+                offset = (part.offset * 1024) // self.sector_size
-+
-+                if offset * self.sector_size != part.offset * 1024:
-+                    raise WicError("Could not place %s%s at offset %dK with sector size %d" % (part.disk, self.numpart, part.offset, self.sector_size))
-+
-+                delta = offset - self.offset
-+                if delta < 0:
-+                    raise WicError("Could not place %s%s at offset %dK: next free sector is %d (delta: %d)" % (part.disk, self.numpart, part.offset, offset, delta))
-+
-+                logger.debug("Skipping %d sectors to place %s%s at offset %dK",
-+                             delta, part.disk, self.numpart, part.offset)
-+
-+                self.offset = offset
-+
-             part.start = self.offset
-             self.offset += part.size_sec
- 
--- 
-2.17.1
+ EXTRA_OECONF +=3D "--disable-libseccomp"
+=20
+ ALTERNATIVE_${PN} =3D "file"
+--=20
+2.20.1
 
