@@ -1,252 +1,133 @@
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com [209.85.166.68])
- by mx.groups.io with SMTP id smtpd.web11.211.1589226521310186899
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
+ by mx.groups.io with SMTP id smtpd.web11.1317.1589229728150496280
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 12:48:41 -0700
+ Mon, 11 May 2020 13:42:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Xv4HHMuL;
- spf=pass (domain: gmail.com, ip: 209.85.166.68, mailfrom: jpewhacker@gmail.com)
-Received: by mail-io1-f68.google.com with SMTP id f3so11208572ioj.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 12:48:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=i70cN0N3;
+ spf=pass (domain: gmail.com, ip: 209.85.166.193, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f193.google.com with SMTP id w6so10076875ilg.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 13:42:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=PQ/e9yx1i47Z9VdycwRTsdIesTUGRyDlVeiElFrwTGs=;
-        b=Xv4HHMuL66urx85/6CzVdsKXydEC+x1wy6vgE6pDiK54XAMo+ocT915EMp51YPdRCU
-         VH4X2/j3Eeetdb8I50hDyCnb6gEXds5EOXCNZrjjzu426nx2yFXBZRqhE4QTYce6hANS
-         kf00d7Vip2TFItJrdave2ySP3wApLsGKd4NL7iOGU56zHg0TxbaEC0PeqjYAf4d8wtx7
-         7VdVDbZIu3AvpTaPrjGStHOyhmKirTL3/J5cnr0F+3IKdZqA43HsURWWgsMgLt1Zt5dO
-         kft8mltYDVic78WwAqpD8+t1wVHqHuNrsoClfQlMh4BN6sde1HK9otlxYLnPpa4O5xKR
-         dUEA==
+        h=from:subject:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=7kRcdcIEyZJUebh4QImxtIfKh82XjFhy0/fLxBZ7K60=;
+        b=i70cN0N3n/NGq4Q0x1xTBLjSoXBFNvJ1P8kJRyv+0tJMIL/BhhgRbcHYYYPVYSHTOC
+         lsjEAXkRuRJ1mL0+KlDAqQ+M7os76pCDxVuuDkfzwCpkQuorbSyHvICRZTTaFK3ZiQtE
+         v2crBO+2CB+NWN4UeKaIy95UvwsqajqRno954LvMYkoFrSGLHGts1tZYJ59VwTu8VpYk
+         CxEmi0Idma9gpicc1w+hw6H1kGvMGWMSpuMyocxhkI4fi8TiYI/8sR4UQQxHI4H0M+cw
+         qsFsuI0KyZEMfW7W5v6CXANe5o2bd/nkoR+rRkXFBfWz7rMkkAvl9ofNCPtyiQ7TiRmF
+         eOOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=PQ/e9yx1i47Z9VdycwRTsdIesTUGRyDlVeiElFrwTGs=;
-        b=FlCl84093SFfejxS8n1ENGvzWdjzmHJAwUjWtaVZGj5DsrdAwUj+9G5dVFzQSfgPR2
-         m+BI4EG/RYwhHYomiCe7z8WCh/5XmSY8WjnMU1OF5SyoxI26w24KFsx3O4ZaWe6zowrE
-         AQGyWpb2gfp0p1it5ao6gt2yw0mU8puItz0IZd3Q19p7ijH2fMYwJYXzQwv7SuVfIwT+
-         ofYQUxXQ6vA/X624uqCtSkvTJOvwiES6cnhAGRvoJDZJJLyeMq0D+qrc42IsODV050RT
-         WORtIQirXDjOFPuPFqxz7pktVD5k/NidEFgTSbh+XCQVRKqfiJCwy8JJKf9vG8op+8wi
-         +T9w==
-X-Gm-Message-State: AGi0PubftdBjHnPCzdoJ3cixb1GsdVyMgQp0+JRSc7SiupFeUybc2jfr
-	qqBEo807lLY1WzUd2VgcTvfN1QrhsUE=
-X-Google-Smtp-Source: APiQypITVjBd8D6VryoyOm7MBam/7D8LEJ7P+3qEKiUtkQ8nF3oOY79YMfghc8OSLvAyByi+v2EPGQ==
-X-Received: by 2002:a02:c615:: with SMTP id i21mr7039422jan.30.1589226519798;
-        Mon, 11 May 2020 12:48:39 -0700 (PDT)
+        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=7kRcdcIEyZJUebh4QImxtIfKh82XjFhy0/fLxBZ7K60=;
+        b=NIrjJdI1aGGRIYisPZgVYLbYgHFrEiu94qQ7VXF7eQHNmy9MOtu35m1dtZfktuATZQ
+         W89uA+yEIkcoAcP7STetWC11Q+VdjqaQcbsqGOnEkosshKvqAHwA+Xca3XJuskJtTh0v
+         VSsQaUazv1401Vq1whQ+0mvzD1AlWI3jPPutTE3y4uiKTFD6o2ugpr6uB/CCAh8bTXgA
+         +XtjGGb5XEjMw7YV3HIC32xCdIzmVI9GxIBrtx+PzDhH5g42jzVSLtya9KPfTuCcT0Ai
+         4lcvQ3THRiWokUT7pnYGSNJhr69/VvhdnoNr044WlN/ReoCdDm1U1wPRqOFxJXgE9b/J
+         sl5A==
+X-Gm-Message-State: AGi0Pua3dFrgnnjaoI5lVMmJiqbocbmw/Gli84NX1cgDdHMpsWKOCYVU
+	pbevz1cqUPjvmMYY8uHyoJ9QnjTrrxc=
+X-Google-Smtp-Source: APiQypJbZ98WRFPhnCe9p40nnly8SJzPoEhzmuevrS7AsWqnsRoZDuLTDJ/Ra64+M6KiWvVNrn1S9Q==
+X-Received: by 2002:a92:bb55:: with SMTP id w82mr4413846ili.211.1589229727204;
+        Mon, 11 May 2020 13:42:07 -0700 (PDT)
 Return-Path: <jpewhacker@gmail.com>
-Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:ac13:ea07:8c16:df2d])
-        by smtp.gmail.com with ESMTPSA id e11sm4957251ios.55.2020.05.11.12.48.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 12:48:39 -0700 (PDT)
+Received: from ?IPv6:2605:a601:ac3d:c100:ac13:ea07:8c16:df2d? ([2605:a601:ac3d:c100:ac13:ea07:8c16:df2d])
+        by smtp.gmail.com with ESMTPSA id c11sm2929110ilg.20.2020.05.11.13.42.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 May 2020 13:42:06 -0700 (PDT)
 From: "Joshua Watt" <JPEWhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v2] wic: Add --offset argument for partitions
-Date: Mon, 11 May 2020 14:48:35 -0500
-Message-Id: <20200511194835.20890-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200511192646.16901-1-JPEWhacker@gmail.com>
-References: <20200511192646.16901-1-JPEWhacker@gmail.com>
+Subject: Re: [meta-arm] Sharing TF-A with multiple BSP
+To: Khem Raj <raj.khem@gmail.com>, Denys Dmytriyenko <denis@denix.org>
+Cc: meta-arm@lists.yoctoproject.org, openembedded-core@lists.openembedded.org
+References: <2fb20adc-6d54-fefc-dfe7-007ee02fc01d@gmail.com>
+ <160E09F2270E9334.31760@lists.yoctoproject.org>
+ <20200511174807.GL11927@denix.org>
+ <CAMKF1sp+ywOQF0YbBC3H7Jv=1J-Vw+5U8Q36spFk4cf7VKi_8Q@mail.gmail.com>
+Message-ID: <472db5aa-2441-c213-d86b-f19db77304dc@gmail.com>
+Date: Mon, 11 May 2020 15:42:05 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1sp+ywOQF0YbBC3H7Jv=1J-Vw+5U8Q36spFk4cf7VKi_8Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Add support for an --offset argument when defining a partition. Many
-SoCs require that boot partitions be located at specific offsets. Prior
-to this argument, most WKS files were using the --align attribute to
-specify the location of these fixed partitions but this is not ideal
-because in the event that the partition couldn't be placed in the
-specified location, wic would move it to the next sector with that
-alignment, often preventing the device from booting. Unlike the --align
-argument, wic will fail if a partition cannot be placed at the exact
-offset specified with --offset.
+Looping in OE-core. Specifically, would there be any push back to adding 
+pycryptodomex and pyelftools to oe-core?
 
-Changes in V2:
-* Fixed a small typo that prevented test_fixed_size_error from passing
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/lib/oeqa/selftest/cases/wic.py      | 92 +++++++++++++++++-------
- scripts/lib/wic/ksparser.py              |  1 +
- scripts/lib/wic/partition.py             |  1 +
- scripts/lib/wic/plugins/imager/direct.py | 15 ++++
- 4 files changed, 84 insertions(+), 25 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index c8765e5330..41b4f49a42 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -790,41 +790,50 @@ class Wic2(WicTestCase):
-             tempf.write("part " \
-                      "--source rootfs --ondisk hda --align 4 --fixed-size %d "
-                      "--fstype=ext4\n" % size)
--        wksname = os.path.splitext(os.path.basename(wkspath))[0]
- 
--        return wkspath, wksname
-+        return wkspath
- 
--    def test_fixed_size(self):
--        """
--        Test creation of a simple image with partition size controlled through
--        --fixed-size flag
--        """
--        wkspath, wksname = Wic2._make_fixed_size_wks(200)
-+    def _get_wic_partitions(self, wkspath, native_sysroot=None, ignore_status=False):
-+        p = runCmd("wic create %s -e core-image-minimal -o %s" % (wkspath, self.resultdir),
-+                   ignore_status=ignore_status)
-+
-+        if p.status:
-+            return (p, None)
-+
-+        wksname = os.path.splitext(os.path.basename(wkspath))[0]
- 
--        runCmd("wic create %s -e core-image-minimal -o %s" \
--                                   % (wkspath, self.resultdir))
--        os.remove(wkspath)
-         wicout = glob(self.resultdir + "%s-*direct" % wksname)
--        self.assertEqual(1, len(wicout))
-+
-+        if not wicout:
-+            return (p, None)
- 
-         wicimg = wicout[0]
- 
--        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
-+        if not native_sysroot:
-+            native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
- 
-         # verify partition size with wic
--        res = runCmd("parted -m %s unit mib p 2>/dev/null" % wicimg,
-+        res = runCmd("parted -m %s unit kib p 2>/dev/null" % wicimg,
-                      native_sysroot=native_sysroot)
- 
-         # parse parted output which looks like this:
-         # BYT;\n
-         # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
-         # 1:0.00MiB:200MiB:200MiB:ext4::;\n
--        partlns = res.output.splitlines()[2:]
-+        return (p, res.output.splitlines()[2:])
- 
--        self.assertEqual(1, len(partlns),
--                         msg="Partition list '%s'" % res.output)
--        self.assertEqual("1:0.00MiB:200MiB:200MiB:ext4::;", partlns[0],
--                         msg="Partition list '%s'" % res.output)
-+    def test_fixed_size(self):
-+        """
-+        Test creation of a simple image with partition size controlled through
-+        --fixed-size flag
-+        """
-+        wkspath = Wic2._make_fixed_size_wks(200)
-+        _, partlns = self._get_wic_partitions(wkspath)
-+        os.remove(wkspath)
-+
-+        self.assertEqual(partlns, [
-+                        "1:4.00kiB:204804kiB:204800kiB:ext4::;",
-+                        ])
- 
-     def test_fixed_size_error(self):
-         """
-@@ -832,13 +841,46 @@ class Wic2(WicTestCase):
-         --fixed-size flag. The size of partition is intentionally set to 1MiB
-         in order to trigger an error in wic.
-         """
--        wkspath, wksname = Wic2._make_fixed_size_wks(1)
--
--        self.assertEqual(1, runCmd("wic create %s -e core-image-minimal -o %s" \
--                                   % (wkspath, self.resultdir), ignore_status=True).status)
-+        wkspath = Wic2._make_fixed_size_wks(1)
-+        p, _ = self._get_wic_partitions(wkspath, ignore_status=True)
-         os.remove(wkspath)
--        wicout = glob(self.resultdir + "%s-*direct" % wksname)
--        self.assertEqual(0, len(wicout))
-+
-+        self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
-+
-+    def test_offset(self):
-+        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
-+
-+        with NamedTemporaryFile("w", suffix=".wks") as tempf:
-+            # Test that partitions are placed at the correct offsets
-+            tempf.write("bootloader --ptable gpt\n" \
-+                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n" \
-+                        "part /bar                 --ondisk hda --offset 102432 --fixed-size 100M --fstype=ext4\n")
-+            tempf.flush()
-+
-+            _, partlns = self._get_wic_partitions(tempf.name, native_sysroot)
-+            self.assertEqual(partlns, [
-+                "1:32.0kiB:102432kiB:102400kiB:ext4::;",
-+                "2:102432kiB:204832kiB:102400kiB:ext4::;",
-+                ])
-+
-+        with NamedTemporaryFile("w", suffix=".wks") as tempf:
-+            # Test that image creation fails if the partitions would overlap
-+            tempf.write("bootloader --ptable gpt\n" \
-+                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n" \
-+                        "part /bar                 --ondisk hda --offset 102431 --fixed-size 100M --fstype=ext4\n")
-+            tempf.flush()
-+
-+            p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
-+            self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
-+
-+        with NamedTemporaryFile("w", suffix=".wks") as tempf:
-+            # Test that partitions are not allowed to overlap with the booloader
-+            tempf.write("bootloader --ptable gpt\n" \
-+                        "part /    --source rootfs --ondisk hda --offset 8 --fixed-size 100M --fstype=ext4\n")
-+            tempf.flush()
-+
-+            p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
-+            self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
- 
-     @only_for_arch(['i586', 'i686', 'x86_64'])
-     def test_rawcopy_plugin_qemu(self):
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index b8befe78e3..1eaa447460 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -136,6 +136,7 @@ class KickStart():
-         part.add_argument('mountpoint', nargs='?')
-         part.add_argument('--active', action='store_true')
-         part.add_argument('--align', type=int)
-+        part.add_argument('--offset', type=int)
-         part.add_argument('--exclude-path', nargs='+')
-         part.add_argument('--include-path', nargs='+', action='append')
-         part.add_argument('--change-directory')
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index 7d9dd616a6..85eb15c8b8 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -40,6 +40,7 @@ class Partition():
-         self.mountpoint = args.mountpoint
-         self.no_table = args.no_table
-         self.num = None
-+        self.offset = args.offset
-         self.overhead_factor = args.overhead_factor
-         self.part_name = args.part_name
-         self.part_type = args.part_type
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 2d06c242b6..1f65a7afe5 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -428,6 +428,21 @@ class PartitionedImage():
-                     # increase the offset so we actually start the partition on right alignment
-                     self.offset += align_sectors
- 
-+            if part.offset is not None:
-+                offset = (part.offset * 1024) // self.sector_size
-+
-+                if offset * self.sector_size != part.offset * 1024:
-+                    raise WicError("Could not place %s%s at offset %dK with sector size %d" % (part.disk, self.numpart, part.offset, self.sector_size))
-+
-+                delta = offset - self.offset
-+                if delta < 0:
-+                    raise WicError("Could not place %s%s at offset %dK: next free sector is %d (delta: %d)" % (part.disk, self.numpart, part.offset, offset, delta))
-+
-+                logger.debug("Skipping %d sectors to place %s%s at offset %dK",
-+                             delta, part.disk, self.numpart, part.offset)
-+
-+                self.offset = offset
-+
-             part.start = self.offset
-             self.offset += part.size_sec
- 
--- 
-2.17.1
-
+On 5/11/20 1:00 PM, Khem Raj wrote:
+> On Mon, May 11, 2020 at 10:48 AM Denys Dmytriyenko <denis@denix.org> wrote:
+>> + Khem
+>>
+>> [apparently, nobody follows the list, so need to round up everyone interested] :)
+>>
+> Admittedly I don't follow and this layer shows up because I need
+> meta-ti just for beaglebone
+> which does not use optee, so not that interesting but I am on
+> receiving end of this.  I agree
+> option 5 is best and if, we could also move the recipe to meta-oe at
+> least that can be a lesser
+> common place if not core.
+>
+>> Please see below for possible discussed options. IMHO, #5 would be ideal.
+>>
+>>
+>> On Mon, May 11, 2020 at 01:37:30PM -0400, Denys Dmytriyenko wrote:
+>>> On Mon, May 11, 2020 at 09:47:49AM -0500, Joshua Watt wrote:
+>>>> Continuing the outcome from a discussion that was on the OE-core
+>>>> mailing list, I've started converting some of the BSP layers I work
+>>>> on to use the trusted-firmware-a recipe from meta-arm as the
+>>>> canonical source of ATF instead of each of the implementing their
+>>>> own recipe. So far this has gone well except for one annoyance I've
+>>>> found: meta-arm has a layer dependency on meta-python, specifically
+>>>> for the optee recipe. Normally, this wouldn't be such a big deal,
+>>>> but in a ideal world there will now be a lot of BSP layers that
+>>>> depend on meta-arm to provide ATF, and it seems annoying to have to
+>>>> make all of those layers (transitively) depend on meta-python.
+>>> Yeah, I raised this issue over a month ago - unfortunately, nobody replied
+>>> or acknowledged...
+>>>
+>>>
+>>>> I can think of a few possible options:
+>>>>
+>>>> 1) Do nothing because no one other than me thinks this is a problem :)
+>>> Don't flatter yourself... :) :D J/k
+>>>
+>>>
+>>>> 2) Use BBFILES_DYNAMIC to make optee optional based on the presence
+>>>> of meta-python
+>>>>
+>>>> 3) Use PACKAGECONFIG to remove the python parts of optee (if that's
+>>>> even possible). They can be automatically added back if meta-python
+>>>> is present via BBFILES_DYNAMIC.
+>>> I don't think those are optional - they are used during the build to
+>>> sign some parts. And also for ELF manipulations.
+>>>
+>>>
+>>>> 4) Remove the hard requirement of meta-python from meta-arm; it's
+>>>> only needed to build optee so the users can figure it out?
+>>>>
+>>>>
+>>>> Anyone else have any ideas or thoughts?
+>>> I can think of couple more options:
+>>>
+>>> 5) there are only 3 python modules needed - pycrypto, pycryptodomex (actually
+>>> a replacement for pycrypto, so upstream can drop first one) and pyelftools.
+>>> Could probably try to make a case of moving them to OE-Core?
+>>>
+>>> 6) Like optee was inside own sub-layer meta-optee within meta-linaro, can look
+>>> into separating it into meta-optee within meta-arm.
+>>>
+>>>
+>>>> Thanks,
+>>>> Joshua Watt
+>>>>
+>>> 
