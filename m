@@ -1,173 +1,246 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web12.137.1589225061194767805
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com [209.85.166.67])
+ by mx.groups.io with SMTP id smtpd.web12.197.1589225216021979486
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 12:24:21 -0700
+ Mon, 11 May 2020 12:26:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hVni3LR1;
- spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: sakoman@gmail.com)
-Received: by mail-wr1-f68.google.com with SMTP id h17so3542102wrc.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 12:24:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pBswrWuH;
+ spf=pass (domain: gmail.com, ip: 209.85.166.67, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f67.google.com with SMTP id k18so2090668ion.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 12:26:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dpihJ4pBB/2cJ8Yhwgg9FztFFXoZ8e4j23QU35eJoJE=;
-        b=hVni3LR1ssMzYYMXNUoXPmDLpRhiyrSFMOmz5ZusdJoRMGHgj2tRrN80e7KWEmJt99
-         /Nb3KhxqHNB0H/fdmqYp1wHmD2l+Eg0VNliqIsmK58R94VdQ/DnbKHrBwkFrEJp8oHOH
-         zatVyodwEznLXgZYhX8zbQ6w+Mer870wENVDfyBBg6FllQgJG27m8HOcOl5IICvPETgB
-         qbUGVp4qle/8Jc9w0MQ1klbjQTaJR/kzUBVbcRayRPH0Ht2iRuk//0H+1D8QxinWzQm4
-         kyd6WJsjLaQvFHp453GDWHK1lGWJLTZMoDpiv2oP3E+66IhhILfpkwQbqzRlkuoHyhzt
-         ZzhA==
+        h=from:to:cc:subject:date:message-id;
+        bh=2eRm3zKkrZc4sGMwmB9hR0MwxPKS/McnxK7YEgDvxF0=;
+        b=pBswrWuHFTzBmG2bXO+MprKoC4BYMgeff1eBYMUK1pPeBkiVdtxgvvP54Wa3x7U8nv
+         YZ2zRps2XG787Ei/7YcRKxLqtYglPF4OtVETZG/MpUDZDOPDADHG9+mBxh7lYJLdKXK4
+         dlhkM4LGSEFO4E7ZHQ04RPyFW9RiDEvWxfo3SD5fRuPh6Ef7YB0HYc4mqBBTIxb4hrj0
+         Gh1aFT6hUYUPQKnAerOYrnMrWEzJ30cL6+84ZSxS11+68tneQHb92pMI1OoTHNteWeMJ
+         zwhQt1iWp4Zk/BqR6h2Cbd7RvPYfCWLl/VRy8904YgG62jTG8qwkiozS00XIMRWIRln1
+         OpAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dpihJ4pBB/2cJ8Yhwgg9FztFFXoZ8e4j23QU35eJoJE=;
-        b=nJz0NMOStgjxi/AMRbSSlGzW2ABrVvCJQfKCbga85ktl2HwaeNn4K/4SLJ4Y/M2tuv
-         X7qGRlyv4HYsvp+3I+OKTKnXEPT3vgjTIWmi7dHk0D7J1vdf54Xx4/Iaa/TAfc5iLLMh
-         2JaJYhqb793JMhr1qjSMKug7gcNpvfwPTAT05JCgpfUk7wE9ITHzuRKLD+mN9rEEh2tI
-         SJKkjsXolhx/pbMZgLPrNy35CnSH/OJYBXuYndRbHww8HCDMWRifV7xZRBr1gthwCF+e
-         gn3S84NSrS89otfOOmYj50DpQeLRuEzPvA/br7JN9WqYZorO7W7QtnSpNKkYH750H+ib
-         mw2g==
-X-Gm-Message-State: AGi0PubZVj+5P1Y1BAog6Hwg5JKjdC0fd39PmllJyRbH0CRLtAienEbW
-	C72SL+xdXvUcH7ti6qu49KH8hdWFoRyGhDpDOHM=
-X-Google-Smtp-Source: APiQypIAZDjP+Up83zPFLg42oul4pxTBnOLUkmNeBezm85K0EAYF4XCC6ThFMRKVl26UE3CzacqRtSYfz3uAVYibzLY=
-X-Received: by 2002:a5d:5445:: with SMTP id w5mr20236246wrv.422.1589225059715;
- Mon, 11 May 2020 12:24:19 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200504162043.1137-1-pkj@axis.com> <CAGDS+nmJAJ4cU_P4YgyHpkj4sXsfwzudJQWxHqpHk0CO1B_zfA@mail.gmail.com>
- <341d7c4755da4be0b8b7bb6212f3a790@XBOX03.axis.com>
-In-Reply-To: <341d7c4755da4be0b8b7bb6212f3a790@XBOX03.axis.com>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Mon, 11 May 2020 09:24:07 -1000
-Message-ID: <CAGDS+nm+spMQ19nPN_6jG4q0WQpYqrg+TSzC5tUHUE3moV1p0g@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH v2] libdnf: Use single-quotes around string literals used in SQL statements
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=2eRm3zKkrZc4sGMwmB9hR0MwxPKS/McnxK7YEgDvxF0=;
+        b=l6WiYx7CZN3TFRzR109PXfP+D0p0DPjE+RtK+c43Nip/KcEu+llG/b2Ul9ZiSZRWME
+         2Xa2mqGwiTI2e82e+wWd2K4cD5vy3Xj6YmDuRFABwnP1qVWBTQukcInb+wZ49XjRjjOT
+         5yCausPxLqzclISS68A1DIvWM3JB0yP/9NG5Ed+Su0+mcnbCBpUz86luQi0Yr0f62FYA
+         ozoJT49kCOpSTIe62BrIEEcKc9+mSVJKpfsPSCNORSZVcemdgxzJnvGSUs00ZQDwpJBT
+         4CowlpQfatyB+1gG7t4Z4JQKwWbY0TiupJUJ+MaN+cMtwOIjFfiFjmT4InsvSESyK+UY
+         8pbw==
+X-Gm-Message-State: AGi0PuYBLIJpdBk3X42AcdaL7wQSjKSX2YMvXfJoTyw81nILixtIZtgK
+	J3r5Dlp9boGt+OJZ8RKGfhY2ZTtR//4=
+X-Google-Smtp-Source: APiQypLtXA5nIc9BTreQGxtlusPeKR6t+MGfgv2mH0oa4okHyqTqYaFgdavho8nqhBPeV0mMsyABKg==
+X-Received: by 2002:a5e:9816:: with SMTP id s22mr16011084ioj.8.1589225212207;
+        Mon, 11 May 2020 12:26:52 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:ac13:ea07:8c16:df2d])
+        by smtp.gmail.com with ESMTPSA id d8sm1090558iob.41.2020.05.11.12.26.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 12:26:51 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] wic: Add --offset argument for partitions
+Date: Mon, 11 May 2020 14:26:46 -0500
+Message-Id: <20200511192646.16901-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Mon, May 11, 2020 at 9:02 AM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> Yes, I believe it is. If you cherry-pick it from master, then you should
-> change the Upstream-Status as per below to Accepted.
+Add support for an --offset argument when defining a partition. Many
+SoCs require that boot partitions be located at specific offsets. Prior
+to this argument, most WKS files were using the --align attribute to
+specify the location of these fixed partitions but this is not ideal
+because in the event that the partition couldn't be placed in the
+specified location, wic would move it to the next sector with that
+alignment, often preventing the device from booting. Unlike the --align
+argument, wic will fail if a partition cannot be placed at the exact
+offset specified with --offset.
 
-I just noticed the version of libdnf on the patch!  Dunfell is still
-at 0.28.1 and I'm not going to do a version bump to 0.47.0 without a
-really good reason.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/wic.py      | 92 +++++++++++++++++-------
+ scripts/lib/wic/ksparser.py              |  1 +
+ scripts/lib/wic/partition.py             |  1 +
+ scripts/lib/wic/plugins/imager/direct.py | 15 ++++
+ 4 files changed, 84 insertions(+), 25 deletions(-)
 
-Sorry I didn't notice that on my first review.
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index c8765e5330..602e95aa60 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -790,41 +790,50 @@ class Wic2(WicTestCase):
+             tempf.write("part " \
+                      "--source rootfs --ondisk hda --align 4 --fixed-size %d "
+                      "--fstype=ext4\n" % size)
+-        wksname = os.path.splitext(os.path.basename(wkspath))[0]
+ 
+-        return wkspath, wksname
++        return wkspath
+ 
+-    def test_fixed_size(self):
+-        """
+-        Test creation of a simple image with partition size controlled through
+-        --fixed-size flag
+-        """
+-        wkspath, wksname = Wic2._make_fixed_size_wks(200)
++    def _get_wic_partitions(self, wkspath, native_sysroot=None, ignore_status=False):
++        p = runCmd("wic create %s -e core-image-minimal -o %s" % (wkspath, self.resultdir),
++                   ignore_status=ignore_status)
++
++        if p.status:
++            return (p, None)
++
++        wksname = os.path.splitext(os.path.basename(wkspath))[0]
+ 
+-        runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                   % (wkspath, self.resultdir))
+-        os.remove(wkspath)
+         wicout = glob(self.resultdir + "%s-*direct" % wksname)
+-        self.assertEqual(1, len(wicout))
++
++        if not wicout:
++            return (p, None)
+ 
+         wicimg = wicout[0]
+ 
+-        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
++        if not native_sysroot:
++            native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
+ 
+         # verify partition size with wic
+-        res = runCmd("parted -m %s unit mib p 2>/dev/null" % wicimg,
++        res = runCmd("parted -m %s unit kib p 2>/dev/null" % wicimg,
+                      native_sysroot=native_sysroot)
+ 
+         # parse parted output which looks like this:
+         # BYT;\n
+         # /var/tmp/wic/build/tmpfwvjjkf_-201611101222-hda.direct:200MiB:file:512:512:msdos::;\n
+         # 1:0.00MiB:200MiB:200MiB:ext4::;\n
+-        partlns = res.output.splitlines()[2:]
++        return (p, res.output.splitlines()[2:])
+ 
+-        self.assertEqual(1, len(partlns),
+-                         msg="Partition list '%s'" % res.output)
+-        self.assertEqual("1:0.00MiB:200MiB:200MiB:ext4::;", partlns[0],
+-                         msg="Partition list '%s'" % res.output)
++    def test_fixed_size(self):
++        """
++        Test creation of a simple image with partition size controlled through
++        --fixed-size flag
++        """
++        wkspath = Wic2._make_fixed_size_wks(200)
++        _, partlns = self._get_wic_partitions(wkspath)
++        os.remove(wkspath)
++
++        self.assertEqual(partlns, [
++                        "1:4.00kiB:204804kiB:204800kiB:ext4::;",
++                        ])
+ 
+     def test_fixed_size_error(self):
+         """
+@@ -832,13 +841,46 @@ class Wic2(WicTestCase):
+         --fixed-size flag. The size of partition is intentionally set to 1MiB
+         in order to trigger an error in wic.
+         """
+-        wkspath, wksname = Wic2._make_fixed_size_wks(1)
+-
+-        self.assertEqual(1, runCmd("wic create %s -e core-image-minimal -o %s" \
+-                                   % (wkspath, self.resultdir), ignore_status=True).status)
++        wkspath = Wic2._make_fixed_size_wks(1)
++        p, _ = self._get_wic_partitions(wkspath, ignore_stats=True)
+         os.remove(wkspath)
+-        wicout = glob(self.resultdir + "%s-*direct" % wksname)
+-        self.assertEqual(0, len(wicout))
++
++        self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
++
++    def test_offset(self):
++        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
++
++        with NamedTemporaryFile("w", suffix=".wks") as tempf:
++            # Test that partitions are placed at the correct offsets
++            tempf.write("bootloader --ptable gpt\n" \
++                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n" \
++                        "part /bar                 --ondisk hda --offset 102432 --fixed-size 100M --fstype=ext4\n")
++            tempf.flush()
++
++            _, partlns = self._get_wic_partitions(tempf.name, native_sysroot)
++            self.assertEqual(partlns, [
++                "1:32.0kiB:102432kiB:102400kiB:ext4::;",
++                "2:102432kiB:204832kiB:102400kiB:ext4::;",
++                ])
++
++        with NamedTemporaryFile("w", suffix=".wks") as tempf:
++            # Test that image creation fails if the partitions would overlap
++            tempf.write("bootloader --ptable gpt\n" \
++                        "part /    --source rootfs --ondisk hda --offset 32     --fixed-size 100M --fstype=ext4\n" \
++                        "part /bar                 --ondisk hda --offset 102431 --fixed-size 100M --fstype=ext4\n")
++            tempf.flush()
++
++            p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
++            self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
++
++        with NamedTemporaryFile("w", suffix=".wks") as tempf:
++            # Test that partitions are not allowed to overlap with the booloader
++            tempf.write("bootloader --ptable gpt\n" \
++                        "part /    --source rootfs --ondisk hda --offset 8 --fixed-size 100M --fstype=ext4\n")
++            tempf.flush()
++
++            p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
++            self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
+ 
+     @only_for_arch(['i586', 'i686', 'x86_64'])
+     def test_rawcopy_plugin_qemu(self):
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index b8befe78e3..1eaa447460 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -136,6 +136,7 @@ class KickStart():
+         part.add_argument('mountpoint', nargs='?')
+         part.add_argument('--active', action='store_true')
+         part.add_argument('--align', type=int)
++        part.add_argument('--offset', type=int)
+         part.add_argument('--exclude-path', nargs='+')
+         part.add_argument('--include-path', nargs='+', action='append')
+         part.add_argument('--change-directory')
+diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
+index 7d9dd616a6..85eb15c8b8 100644
+--- a/scripts/lib/wic/partition.py
++++ b/scripts/lib/wic/partition.py
+@@ -40,6 +40,7 @@ class Partition():
+         self.mountpoint = args.mountpoint
+         self.no_table = args.no_table
+         self.num = None
++        self.offset = args.offset
+         self.overhead_factor = args.overhead_factor
+         self.part_name = args.part_name
+         self.part_type = args.part_type
+diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
+index 2d06c242b6..1f65a7afe5 100644
+--- a/scripts/lib/wic/plugins/imager/direct.py
++++ b/scripts/lib/wic/plugins/imager/direct.py
+@@ -428,6 +428,21 @@ class PartitionedImage():
+                     # increase the offset so we actually start the partition on right alignment
+                     self.offset += align_sectors
+ 
++            if part.offset is not None:
++                offset = (part.offset * 1024) // self.sector_size
++
++                if offset * self.sector_size != part.offset * 1024:
++                    raise WicError("Could not place %s%s at offset %dK with sector size %d" % (part.disk, self.numpart, part.offset, self.sector_size))
++
++                delta = offset - self.offset
++                if delta < 0:
++                    raise WicError("Could not place %s%s at offset %dK: next free sector is %d (delta: %d)" % (part.disk, self.numpart, part.offset, offset, delta))
++
++                logger.debug("Skipping %d sectors to place %s%s at offset %dK",
++                             delta, part.disk, self.numpart, part.offset)
++
++                self.offset = offset
++
+             part.start = self.offset
+             self.offset += part.size_sec
+ 
+-- 
+2.17.1
 
-Steve
-
-> > -----Original Message-----
-> > From: Steve Sakoman <sakoman@gmail.com>
-> > Sent: den 11 maj 2020 16:21
-> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > Cc: Patches and discussions about the oe-core layer <openembedded-
-> > core@lists.openembedded.org>
-> > Subject: Re: [OE-core] [meta-oe][PATCH v2] libdnf: Use single-quotes
-> > around string literals used in SQL statements
-> >
-> > Hi Peter,
-> >
-> > Is this patch suitable for inclusion in dunfell lts?
-> >
-> > Thanks,
-> >
-> > Steve
-> >
-> > On Mon, May 4, 2020 at 6:20 AM Peter Kjellerstedt
-> > <peter.kjellerstedt@axis.com> wrote:
-> > >
-> > > If sqlite is built with -DSQLITE_DQS=0 in accordance with
-> > > https://sqlite.org/quirks.html#dblquote, migration to version 1.2 of
-> > the
-> > > history database would fail with:
-> > >
-> > >   History database cannot be created: .../var/lib/dnf/history.sqlite.
-> > >   Error: SQLite error on ":memory:": Executing an SQL statement failed:
-> > >   no such column: 1.2
-> > >
-> > > Signed-off-by: Peter Kjellerstedt <pkj@axis.com>
-> > > ---
-> > >
-> > > PATCH v2: Updated the Upstream-Status to Accepted.
-> > >
-> > >  ...s-around-string-literals-used-in-SQL.patch | 36 +++++++++++++++++++
-> > >  meta/recipes-devtools/libdnf/libdnf_0.47.0.bb |  1 +
-> > >  2 files changed, 37 insertions(+)
-> > >  create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-Use-
-> > single-quotes-around-string-literals-used-in-SQL.patch
-> > >
-> > > diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Use-single-
-> > quotes-around-string-literals-used-in-SQL.patch b/meta/recipes-
-> > devtools/libdnf/libdnf/0001-Use-single-quotes-around-string-literals-
-> > used-in-SQL.patch
-> > > new file mode 100644
-> > > index 0000000000..293bdcdd24
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/libdnf/libdnf/0001-Use-single-quotes-
-> > around-string-literals-used-in-SQL.patch
-> > > @@ -0,0 +1,36 @@
-> > > +From 96ca7d0049461df2293dd0000edcbc69b64255e0 Mon Sep 17 00:00:00 2001
-> > > +From: Peter Kjellerstedt <pkj@axis.com>
-> > > +Date: Sun, 3 May 2020 22:40:39 +0200
-> > > +Subject: [PATCH] Use single-quotes around string literals used in SQL
-> > > + statements
-> > > +
-> > > +If sqlite is built with -DSQLITE_DQS=0 in accordance with
-> > > +https://sqlite.org/quirks.html#dblquote, migration to version 1.2 of
-> > the
-> > > +history database would fail with:
-> > > +
-> > > +  History database cannot be created: /var/lib/dnf/history.sqlite.
-> > > +  Error: SQLite error on ":memory:": Executing an SQL statement
-> > failed:
-> > > +  no such column: 1.2
-> > > +
-> > > +Upstream-Status: Accepted [https://github.com/rpm-software-
-> > management/libdnf/pull/951]
-> > > +Signed-off-by: Peter Kjellerstedt <pkj@axis.com>
-> > > +---
-> > > + libdnf/transaction/sql/migrate_tables_1_2.sql | 4 ++--
-> > > + 1 file changed, 2 insertions(+), 2 deletions(-)
-> > > +
-> > > +diff --git a/libdnf/transaction/sql/migrate_tables_1_2.sql
-> > b/libdnf/transaction/sql/migrate_tables_1_2.sql
-> > > +index 49b75315..f80ad1c4 100644
-> > > +--- a/libdnf/transaction/sql/migrate_tables_1_2.sql
-> > > ++++ b/libdnf/transaction/sql/migrate_tables_1_2.sql
-> > > +@@ -1,9 +1,9 @@
-> > > + R"**(
-> > > + BEGIN TRANSACTION;
-> > > +     ALTER TABLE trans
-> > > +-        ADD comment TEXT DEFAULT "";
-> > > ++        ADD comment TEXT DEFAULT '';
-> > > +     UPDATE config
-> > > +-        SET value = "1.2"
-> > > ++        SET value = '1.2'
-> > > +         WHERE key = 'version';
-> > > + COMMIT;
-> > > + )**"
-> > > diff --git a/meta/recipes-devtools/libdnf/libdnf_0.47.0.bb
-> > b/meta/recipes-devtools/libdnf/libdnf_0.47.0.bb
-> > > index 1b4b7e4233..1b06d66b19 100644
-> > > --- a/meta/recipes-devtools/libdnf/libdnf_0.47.0.bb
-> > > +++ b/meta/recipes-devtools/libdnf/libdnf_0.47.0.bb
-> > > @@ -8,6 +8,7 @@ SRC_URI = "git://github.com/rpm-software-
-> > management/libdnf;branch=dnf-4-master \
-> > >             file://0001-Get-parameters-for-both-libsolv-and-libsolvext-
-> > libdn.patch \
-> > >             file://0001-Add-WITH_TESTS-option.patch \
-> > >             file://0001-Look-fo-sphinx-only-if-documentation-is-
-> > actually-ena.patch \
-> > > +           file://0001-Use-single-quotes-around-string-literals-used-
-> > in-SQL.patch \
-> > >             "
-> > >
-> > >  SRCREV = "8330eea6985c4e4b53796f858de5b6b38b1ddf5c"
-> > > --
-> > > 2.21.1
-> > >
-> > > 
