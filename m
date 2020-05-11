@@ -1,108 +1,105 @@
 Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
- by mx.groups.io with SMTP id smtpd.web12.13336.1589207974439936830
+ by mx.groups.io with SMTP id smtpd.web10.13314.1589207976920887102
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 07:39:34 -0700
+ Mon, 11 May 2020 07:39:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=qlemWQ2H;
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=CCPkTM4v;
  spf=softfail (domain: sakoman.com, ip: 209.85.216.68, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f68.google.com with SMTP id y6so7984630pjc.4
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 07:39:34 -0700 (PDT)
+Received: by mail-pj1-f68.google.com with SMTP id e6so7884139pjt.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 07:39:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=jV2gJMW9N1tnXccId2Rhip5a4cgAZ9Gyg4QE+AGLcxc=;
-        b=qlemWQ2Hneg/LMLjVCzSmFJj6fr6Ay2gRoKyNI38fIVM+Nq6+aPfrRqrJ9JTQNlZj8
-         P9PHs2SQdsq8fxXcRXTC3iZ3DjFMvvm9mVGqGWPQNKDWV31/DRqTUN1+A2Ohy9GIP42M
-         FOU1RoDtIu7xzjK+Ok4PdSZllbhddwn1A+IbxWeYVZt0VPepbPeAIPmS5pf2Giydaf5d
-         GcoV7CQI77e5EQTxahwEEFtbwl/0RHt1cwOQEa35XXtSF1uX7qwpnJn4ZIa+omeA92Id
-         eTACK8Osjb6XKDOS6uL5FYn/5mem8Pi6by2er9Q5GBKUiexn1ESPSI7c4FyfCxJETYz9
-         ydcA==
+        bh=8x6V9vDXrWhWPbiHxwihwMuVuESP57jsEc9tvJmhIsY=;
+        b=CCPkTM4vuRG0hK31IDZSOeNOJI/CXmrbWg/zAQzCLgEX6md/8T0RNMj4zk6OEyYI4+
+         l5vOGlkjSnpX26EH8/oEv+VZUrjsvSK/1Ewy7B+nqDcTATJ0/TjD9M34+vto52ovs3Ux
+         aA4vP8K18+MNgOTH75Lwj4o6WXrXY7fEBXtswGq4V4j9U+Zgh0Xk/qWf7mg1WK9988+4
+         b2R/PMoST8bq0fRD170pUefPBYKoKa+5RNLtLteU/hy+WCXUKfABu7wN3GpK9OQdnRMF
+         RZ+s0TJ8gNRe+X3hPw1fhLEaHgi2g+3T2+uiclUfU5NCHWP6o9OUCYgOhgRsY6xgVy+r
+         xmnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=jV2gJMW9N1tnXccId2Rhip5a4cgAZ9Gyg4QE+AGLcxc=;
-        b=bFk4zYRasW4DZC/HVp1kzNeSNuc35EO0RZ92iDajlV13SeexQYaLWRbGUqzkLwsJ5X
-         s6rsplstJgySmaYG8ypwLFj3xlmhXGvrZGncj5t8ZVAyzHKSP/ZBxbijGbmgyMg+fQhw
-         0Ya++7VbMpikPbpXgjY8XrCzJ8IA4hOte7ZGAeyRETz55UjmC5w85mSMkX4Lcf+pUCfK
-         0idZDilhRswwfWvheLaVGtvjurenk6/nepXahWyAtGVf2VZUeLdJY0LKRKIs8DryAA1K
-         KmnBPztYp1pRFOsro+OG0wfrkmhMXRIRlv1BqtsqlYmQ5SxPrjdk8UPdsC0Pltevscte
-         PHJg==
-X-Gm-Message-State: AGi0Pub3iqAunO7PsYqTFc5XBGIOtCGuZQjgrxrBiEZe+ShY6lCopiVk
-	buZ9jLJYtzUcdqg90ZQNS2Osxa6JGASyHQ==
-X-Google-Smtp-Source: APiQypJ0+qRRAV0DRAvoeT5wdLLTv2vq4A8xpEb4LiyfKJCj1d+hTttDEEcWJpo93UsGlfMepdu0cA==
-X-Received: by 2002:a17:902:c111:: with SMTP id 17mr15532880pli.301.1589207973340;
-        Mon, 11 May 2020 07:39:33 -0700 (PDT)
+        bh=8x6V9vDXrWhWPbiHxwihwMuVuESP57jsEc9tvJmhIsY=;
+        b=plPJuzxP+qXHkxhD8Rbcd/8OgFgfeex0nRL2oHRgHIR44pYCb6C57wJpf6zv4Fy0s3
+         A2Zkij43Erlv3cDeqbEaPBf/hRJC+x/NR3PAg6F3Kw3vDHXsn4rtDUub5+0Q/Yrn3pHO
+         iziHdDkkMuIBQ50rDimzCtmXCUhsaiVIDfZyXv5X4PYW5SYUwcy9Ku2ikaiVMVAJjygr
+         1Y3unR3SQoVxP5IXRu2EM48jDQi4IPyiSPXAJrNAtsIBLv3vNogM/k7CAqstgOn/ZzwV
+         UYvgnoNvD/CF6PgGG1ReWyoTMqQC+L2a/mjVFcX3Z5nIcRlBlhNwq1xhbIzkKxByZzJw
+         tZxA==
+X-Gm-Message-State: AGi0PubpWz2LjmDN6bjMeGE2f80C85U9iLTsC9MZ5Aw2erLmSKcrS9wM
+	L/ntwK9kGSQu0OEbVTmxige86DqqBzxpcg==
+X-Google-Smtp-Source: APiQypKQ7KTOQhtB1LWFvI241xLNgETKZqaxXqkbGBMgXaGNzLjGr9UpYULj5asiw6PDBuh8lnV74g==
+X-Received: by 2002:a17:90a:1aae:: with SMTP id p43mr22517327pjp.236.1589207975883;
+        Mon, 11 May 2020 07:39:35 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id 6sm9337202pfj.123.2020.05.11.07.39.31
+        by smtp.gmail.com with ESMTPSA id 6sm9337202pfj.123.2020.05.11.07.39.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 07:39:32 -0700 (PDT)
+        Mon, 11 May 2020 07:39:35 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 4/8] os-release: sanitize required fields
-Date: Mon, 11 May 2020 04:38:47 -1000
-Message-Id: <ea39b2edecc00cc2340328893cdfbefed5d3b981.1589207495.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 5/8] musl: Remove spurious unused patch
+Date: Mon, 11 May 2020 04:38:48 -1000
+Message-Id: <2bd345826e23802ff3b9fcc77cdab88aee21d3ca.1589207495.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1589207495.git.steve@sakoman.com>
 References: <cover.1589207495.git.steve@sakoman.com>
 
-From: Vyacheslav Yurkov <uvv.mail@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-Currently only VERSION_ID field is sanitized, but os-release (5) has
-more fields with the same requirement. Moreover, those fields come
-unquoted in most distributions, because quotes are not needed for a
-values without whitespaces.
-
-Signed-off-by: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/os-release/os-release.bb | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ ...move-using-.end-directive-with-clang.patch | 36 -------------------
+ 1 file changed, 36 deletions(-)
+ delete mode 100644 meta/recipes-core/musl/0001-Remove-using-.end-directive-with-clang.patch
 
-diff --git a/meta/recipes-core/os-release/os-release.bb b/meta/recipes-core/os-release/os-release.bb
-index d5793c6fed..a29d678125 100644
---- a/meta/recipes-core/os-release/os-release.bb
-+++ b/meta/recipes-core/os-release/os-release.bb
-@@ -13,6 +13,7 @@ do_configure[noexec] = "1"
- # Other valid fields: BUILD_ID ID_LIKE ANSI_COLOR CPE_NAME
- #                     HOME_URL SUPPORT_URL BUG_REPORT_URL
- OS_RELEASE_FIELDS = "ID ID_LIKE NAME VERSION VERSION_ID PRETTY_NAME"
-+OS_RELEASE_UNQUOTED_FIELDS = "ID VERSION_ID VARIANT_ID"
- 
- ID = "${DISTRO}"
- NAME = "${DISTRO_NAME}"
-@@ -22,8 +23,8 @@ PRETTY_NAME = "${DISTRO_NAME} ${VERSION}"
- BUILD_ID ?= "${DATETIME}"
- BUILD_ID[vardepsexclude] = "DATETIME"
- 
--def sanitise_version(ver):
--    # VERSION_ID should be (from os-release(5)):
-+def sanitise_value(ver):
-+    # unquoted fields like VERSION_ID should be (from os-release(5)):
-     #    lower-case string (mostly numeric, no spaces or other characters
-     #    outside of 0-9, a-z, ".", "_" and "-")
-     ret = ver.replace('+', '-').replace(' ','_')
-@@ -32,11 +33,14 @@ def sanitise_version(ver):
- python do_compile () {
-     with open(d.expand('${B}/os-release'), 'w') as f:
-         for field in d.getVar('OS_RELEASE_FIELDS').split():
-+            unquotedFields = d.getVar('OS_RELEASE_UNQUOTED_FIELDS').split()
-             value = d.getVar(field)
--            if value and field == 'VERSION_ID':
--                value = sanitise_version(value)
-             if value:
--                f.write('{0}="{1}"\n'.format(field, value))
-+                if field in unquotedFields:
-+                    value = sanitise_value(value)
-+                    f.write('{0}={1}\n'.format(field, value))
-+                else:
-+                    f.write('{0}="{1}"\n'.format(field, value))
- }
- do_compile[vardeps] += "${OS_RELEASE_FIELDS}"
- 
+diff --git a/meta/recipes-core/musl/0001-Remove-using-.end-directive-with-clang.patch b/meta/recipes-core/musl/0001-Remove-using-.end-directive-with-clang.patch
+deleted file mode 100644
+index be79cb53f1..0000000000
+--- a/meta/recipes-core/musl/0001-Remove-using-.end-directive-with-clang.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From b6732f68848ecc8ff01054bf7aea70a241c37116 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 10 Apr 2020 11:23:39 -0700
+-Subject: [PATCH] Remove using .end directive with clang
+-
+-Clang does not support this asm directive
+-Fixes Issue #19
+-
+-Upstream-Status: Submitted [https://github.com/kaniini/libucontext/pull/20]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- arch/common/common-defs.h | 5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-diff --git a/arch/common/common-defs.h b/arch/common/common-defs.h
+-index bf2fb8c..618116b 100644
+---- a/arch/common/common-defs.h
+-+++ b/arch/common/common-defs.h
+-@@ -28,10 +28,13 @@
+- 	ENT(__proc)					\
+- __proc:							\
+- 	SETUP_FRAME(__proc)
+--
+-+#ifdef __clang__
+-+#define END(__proc)
+-+#else
+- #define END(__proc)					\
+- 	.end	__proc;					\
+- 	.size	__proc,.-__proc;
+-+#endif
+- 
+- #define ALIAS(__alias, __real)				\
+- 	.weak	__alias;				\
+--- 
+-2.26.0
+-
 -- 
 2.17.1
 
