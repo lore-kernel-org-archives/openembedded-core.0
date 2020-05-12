@@ -1,83 +1,85 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web11.4899.1589287567668788617
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com [209.85.166.65])
+ by mx.groups.io with SMTP id smtpd.web12.5935.1589290819648558254
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 05:46:08 -0700
+ Tue, 12 May 2020 06:40:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YSmIQUA1;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id z72so13501034wmc.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 05:46:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=j+gBaF1y;
+ spf=pass (domain: gmail.com, ip: 209.85.166.65, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f65.google.com with SMTP id u11so13946416iow.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 06:40:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=RL4s58D5oZMJWfuWrUDNygt48lnVemyXbxGdRCShAYY=;
-        b=YSmIQUA11AslXzdx2oAhjj5h4o1OK2UkNHFlpWcQNroDh0jtrpILbKT//g6YAyty7N
-         XqtPPT52QmcXPEXTBLXDKgEBk9LacyRfdtAlScCOLe9+mpOa34kA+MYrFf1QZ1rJHyAC
-         KdSR3Dk0oawSfSVCG1nxEH0lC753bQS8HpaEs=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=SwVm4Hr2WxtnymtjKn2li4PBeIcKgz9WFW0tYw4/ykk=;
+        b=j+gBaF1yqX355kVH57j1HkTj9L6eH0obwTpdKXdfn3ug+K2MnsrNOwGVkTtppuy/wg
+         IhRnW2z9OfE2z8k99xCUG0amcaJ3MaYYObusGJP5w8ffc3EGLhQGAJbvDIQShCsYi/zF
+         loO2cSnadlluiajINkp/7NxU9M/BaFX4KYUGykucHFU/DHzLQpYXA76908CX5r4eWPe4
+         82P9CHim2R3PUx60PlzZFL9D3LzZHMnS19RvYgvh7TuDowVi72agbFtjGUlizoG2ySdh
+         8o22hSbA2xGK91GjgjWoqLYaO0s+B1psFRGoJiUeBaMEYAvHMNif+YZPWoNzIYnn4uYh
+         bUbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=RL4s58D5oZMJWfuWrUDNygt48lnVemyXbxGdRCShAYY=;
-        b=Ar3dfpgsBsh+/x/vymV9WKW9TobrFeY58085cL9Fqra0vKOUtKNXpw7rGD3PfWCHbZ
-         exD7CnFDvKZe8G5usPjCf2FlEsDC4FsYkZvhqGw4yizdQYhTrI9zRjjPW88oV0r6bTMS
-         qQXOvg+v8PM0RlqgdmUC4RHh/f9lnNs4QJO0SbAeg30cYVudherPdrfIL1d2EX6C2CM/
-         XZAKsMgJRZ2a8Dm0YU6/iFVJHDZbDDh+5I2J0LlkxZDQ2pcZvR3SmrAjxbZcH5i+qVWL
-         WK6okaIn5tSQknhuHklufIyd7ilIC28SK0LuK8Yz6mis+ATkFpAd78Av+G1H91hDak/D
-         OT5A==
-X-Gm-Message-State: AGi0PubEgWOVIbf2cE1qubAmS2RZFLp+1IYqOXV9nQDTqiTj9asCFwTO
-	p+Wr2Tw8cmPLDz+OaSXt3iQW0g==
-X-Google-Smtp-Source: APiQypKKK8NK/BM5L8CRefctXV2uaYMk24CKQS5uIDSx4lr6ckXD+RbFjtlQa0I8RhOKnK2u+bahKw==
-X-Received: by 2002:a1c:384:: with SMTP id 126mr37589198wmd.58.1589287565943;
-        Tue, 12 May 2020 05:46:05 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id c193sm4880218wme.37.2020.05.12.05.46.04
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=SwVm4Hr2WxtnymtjKn2li4PBeIcKgz9WFW0tYw4/ykk=;
+        b=XAf4PXx+wY7usrDXSi5cZJ7MjFAGbUStElac4BD0463sS/yn9WVHbUBXpZOGpfkjSG
+         C2webYwksDEXMomjsyeyT1kVH2pyL+dGdIiw8vXQTez28Q8BVhOM7GQIcufUwlLziw3R
+         fe2oSVOOb7zggAHj7E10JXWv4H0jcdh3gUA93Um7dfaA7Qi78hA1SDaFZFSLSShW3NYk
+         bpEqgA3+9mCndrk4rtLLi6Zo1quewOQKsB5WuH4nxN0inG7jr+HRObsdEbw+TjIR0reo
+         5jDaTuw2/81bvkPBCXJbPzyIz13ODdnuC5zAVuOi/UfG0efQs9k3MeJvOHKOco0TVr4D
+         zM+g==
+X-Gm-Message-State: AGi0PuYKncDRvqw6xlPtJdkv8lpqKI757Dh0sqrMAbri+pEXoFnGrHhU
+	Qq1oUgh7Szxer/cJvqxtnqv1iCFO2Ig=
+X-Google-Smtp-Source: APiQypJJaI1FVyXD/MN5iCrTr0sKj1U0vEdBH+2iIwCVZTRRtTGx1Z+qXsRrG3irs4LtStS6hTImDg==
+X-Received: by 2002:a02:b10d:: with SMTP id r13mr9097409jah.27.1589290818807;
+        Tue, 12 May 2020 06:40:18 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:48c7:8e3e:3527:79a])
+        by smtp.gmail.com with ESMTPSA id q8sm5696170iob.13.2020.05.12.06.40.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 05:46:05 -0700 (PDT)
-Message-ID: <421093a7d57d548c1dcbb4dfc070bebaa0ac203b.camel@linuxfoundation.org>
-Subject: Re: [PATCH V4] gcc10: Update to GCC 10.1 Release
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 12 May 2020 13:46:04 +0100
-In-Reply-To: <20200512070546.255409-1-raj.khem@gmail.com>
-References: <20200512070546.255409-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.36.1-2 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+        Tue, 12 May 2020 06:40:18 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] classes/kernel: Generate reproducible kernel module tarball
+Date: Tue, 12 May 2020 08:40:13 -0500
+Message-Id: <20200512134013.25080-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Tue, 2020-05-12 at 00:05 -0700, Khem Raj wrote:
-> * Package new gomp header acc_prof.h
-> * Package lto-dump which is a new tool in gcc10
-> * All Changes are here [1]
-> * Porting apps to gcc 10 help is here [2]
-> * Backport a patch to fix CET errors on cross builds
-> * Add patch to fix mingw libstdc++
-> 
-> [1] https://gcc.gnu.org/gcc-10/changes.html
-> [2] https://gcc.gnu.org/gcc-10/porting_to.html
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> v2: Correct SRC_URI checksums
-> v3: Drop icu change
->     Backport a patch for CET cross compile
-> v4: Do not delete icu config but restore original one
+If reproducible binaries are requested, generate the kernel modules
+tarball in a reproducible way. Namely, sort the tarball contents, clamp
+the mtime to the source date epoch, compress the archive with a
+consistent compression level (9), and don't include the name and
+timestamp in the compressed file.
 
-There is a new meta-mingw issue:
+[YOCTO #12719]
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/1892
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/kernel.bbclass | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-also a typo fix in maintainers.inc needs squashing in:
-
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=47de13d4d208aa6a5ca89e4e0ce566990e208e96
-
-to avoid selftest failures.
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index a724645466..c124645643 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -691,7 +691,15 @@ kernel_do_deploy() {
+ 
+ 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+ 		mkdir -p ${D}${root_prefix}/lib
+-		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D}${root_prefix} lib
++		if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
++			TAR_ARGS="--sort=name --clamp-mtime --mtime=@${SOURCE_DATE_EPOCH}"
++			GZIP_ARGS="-9n"
++		else
++			TAR_ARGS=""
++			GZIP_ARGS=""
++		fi
++		tar $TAR_ARGS -cv -C ${D}${root_prefix} lib | gzip $GZIP_ARGS > $deployDir/modules-${MODULE_TARBALL_NAME}.tgz
++
+ 		ln -sf modules-${MODULE_TARBALL_NAME}.tgz $deployDir/modules-${MODULE_TARBALL_LINK_NAME}.tgz
+ 	fi
+ 
+-- 
+2.17.1
 
