@@ -1,85 +1,52 @@
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com [209.85.166.65])
- by mx.groups.io with SMTP id smtpd.web12.5935.1589290819648558254
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web10.5864.1589291088558621506
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 06:40:19 -0700
+ Tue, 12 May 2020 06:44:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=j+gBaF1y;
- spf=pass (domain: gmail.com, ip: 209.85.166.65, mailfrom: jpewhacker@gmail.com)
-Received: by mail-io1-f65.google.com with SMTP id u11so13946416iow.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 06:40:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=SwVm4Hr2WxtnymtjKn2li4PBeIcKgz9WFW0tYw4/ykk=;
-        b=j+gBaF1yqX355kVH57j1HkTj9L6eH0obwTpdKXdfn3ug+K2MnsrNOwGVkTtppuy/wg
-         IhRnW2z9OfE2z8k99xCUG0amcaJ3MaYYObusGJP5w8ffc3EGLhQGAJbvDIQShCsYi/zF
-         loO2cSnadlluiajINkp/7NxU9M/BaFX4KYUGykucHFU/DHzLQpYXA76908CX5r4eWPe4
-         82P9CHim2R3PUx60PlzZFL9D3LzZHMnS19RvYgvh7TuDowVi72agbFtjGUlizoG2ySdh
-         8o22hSbA2xGK91GjgjWoqLYaO0s+B1psFRGoJiUeBaMEYAvHMNif+YZPWoNzIYnn4uYh
-         bUbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=SwVm4Hr2WxtnymtjKn2li4PBeIcKgz9WFW0tYw4/ykk=;
-        b=XAf4PXx+wY7usrDXSi5cZJ7MjFAGbUStElac4BD0463sS/yn9WVHbUBXpZOGpfkjSG
-         C2webYwksDEXMomjsyeyT1kVH2pyL+dGdIiw8vXQTez28Q8BVhOM7GQIcufUwlLziw3R
-         fe2oSVOOb7zggAHj7E10JXWv4H0jcdh3gUA93Um7dfaA7Qi78hA1SDaFZFSLSShW3NYk
-         bpEqgA3+9mCndrk4rtLLi6Zo1quewOQKsB5WuH4nxN0inG7jr+HRObsdEbw+TjIR0reo
-         5jDaTuw2/81bvkPBCXJbPzyIz13ODdnuC5zAVuOi/UfG0efQs9k3MeJvOHKOco0TVr4D
-         zM+g==
-X-Gm-Message-State: AGi0PuYKncDRvqw6xlPtJdkv8lpqKI757Dh0sqrMAbri+pEXoFnGrHhU
-	Qq1oUgh7Szxer/cJvqxtnqv1iCFO2Ig=
-X-Google-Smtp-Source: APiQypJJaI1FVyXD/MN5iCrTr0sKj1U0vEdBH+2iIwCVZTRRtTGx1Z+qXsRrG3irs4LtStS6hTImDg==
-X-Received: by 2002:a02:b10d:: with SMTP id r13mr9097409jah.27.1589290818807;
-        Tue, 12 May 2020 06:40:18 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:48c7:8e3e:3527:79a])
-        by smtp.gmail.com with ESMTPSA id q8sm5696170iob.13.2020.05.12.06.40.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 06:40:18 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] classes/kernel: Generate reproducible kernel module tarball
-Date: Tue, 12 May 2020 08:40:13 -0500
-Message-Id: <20200512134013.25080-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@stusta.de header.s=default header.b=hgxWH7Rg;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=h6oi=62=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49LzZ41zp9z4y;
+	Tue, 12 May 2020 15:44:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1589291084;
+	bh=wG3kuwyjgRSrqT+qYmkVSeEQ2vuzqLYfQQdT4RsbIzM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hgxWH7Rg9XJrZ5/fYQtEruISgorZvujN5RA696HzBViEKvULgk9nn+CU5h7Q5JDm6
+	 lsbgQh6h5d05NXVuouBHpid+fVp4hWJdMAi32Vr0ze1zzwAwwE5NPOXDYME48IkZHN
+	 xqOAAR/8ZWbYCkwVL9iWBSO1Zo6BKC5KeTfi2dCiDYd1vyUyJfefswDf2/zOpQS6dA
+	 tfYP10Vn9nlDE6ebYnJx3t1PXL8Dw/0vwBex1/lTu+1XESHwtUcz0s2WjyUTGVpzKq
+	 o+7RUcElMfIrh1i6hSUbwC0KA/kjvciL3l/6o4xKqk6L1ucErhSsivKXe4FP/aDK6+
+	 L3ZBQQNPUYzrfDcmcL1ZHkSbekL5L00eKO81jIpVTSI93z3K5DysNILvDzkLqy89Y2
+	 4iuyoNIdmxxc3g6ZQP80R5jEPjOhA+cCjzOO48O6kurtKFsrM21BR416Wk/mJ17ZTK
+	 d2LS1dcvSiuQFaRzpPgFSj19K0lzHMPm9CXD6Vbx2+ecMRjc523AiZaYatCCkvmyRv
+	 nbvyUupnbnl3jxL+QP5pmsGObIDOMwWta5+K5W5tny6v5/5/gQONDOtGl/6WBUB116
+	 GI/6LDD0zxvECyoqRStPLyTovh7E5Ll5HMcm2n5T2Ss3lu932d/do0dFHILvXOH7XJ
+	 WeHyp8WALCFcxZfVTmi107sw=
+Date: Tue, 12 May 2020 16:44:42 +0300
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH V3 2/3] gcc10: Default back to -fcommon
+Message-ID: <20200512134442.GA11943@localhost>
+References: <20200511182812.441561-1-raj.khem@gmail.com>
+ <20200511182812.441561-2-raj.khem@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20200511182812.441561-2-raj.khem@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-If reproducible binaries are requested, generate the kernel modules
-tarball in a reproducible way. Namely, sort the tarball contents, clamp
-the mtime to the source date epoch, compress the archive with a
-consistent compression level (9), and don't include the name and
-timestamp in the compressed file.
-
-[YOCTO #12719]
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/kernel.bbclass | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index a724645466..c124645643 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -691,7 +691,15 @@ kernel_do_deploy() {
+On Mon, May 11, 2020 at 11:28:11AM -0700, Khem Raj wrote:
+> For time being change back to -fcommon as default, helps us iron
+> out other issues, eventually this should be removed as we fix the
+> packages to work with -fno-common
+>...
  
- 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
- 		mkdir -p ${D}${root_prefix}/lib
--		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D}${root_prefix} lib
-+		if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
-+			TAR_ARGS="--sort=name --clamp-mtime --mtime=@${SOURCE_DATE_EPOCH}"
-+			GZIP_ARGS="-9n"
-+		else
-+			TAR_ARGS=""
-+			GZIP_ARGS=""
-+		fi
-+		tar $TAR_ARGS -cv -C ${D}${root_prefix} lib | gzip $GZIP_ARGS > $deployDir/modules-${MODULE_TARBALL_NAME}.tgz
-+
- 		ln -sf modules-${MODULE_TARBALL_NAME}.tgz $deployDir/modules-${MODULE_TARBALL_LINK_NAME}.tgz
- 	fi
- 
--- 
-2.17.1
+What packages are still unfixed?
 
+AFAIK the only remaining big issue is the host gcc in stable series,
+but that cannot be fixed this way.
+
+cu
+Adrian
