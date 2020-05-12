@@ -1,52 +1,79 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web10.716.1589315874922161349
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web11.1079.1589316990011615211
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 13:37:56 -0700
+ Tue, 12 May 2020 13:56:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=OzpF2Lvi;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=h6oi=62=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49M8kl5JBbzJm
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 22:37:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1589315871;
-	bh=/fiWOnL0k/myJnwFlye/oJJ7SN+mZKpBvgFEfJKNIUE=;
-	h=From:To:Subject:Date:From;
-	b=OzpF2LviW9MKaf4xC/j+PMR6DzJaHAAJJ9KFGCQ5nxFdB/GTlk7nPDn86UxnHyYLg
-	 /rEKXRXh+8ZBA8tbHq7S2JybEZxNwXMQ2QZTq4iVBC7wb2pWm0QkQd2oxsZsCKM2/L
-	 rRLdLIykVusvir6hDFk0TvJdfVfklAgscLq6QleAttvBDKZNNegmPYvAVWRDiEKwBb
-	 yn1Cg8Q9l6x31W4/W6UkAopihhX4yGOyQ46fKvXGHmI8EmPeeqrn9k3NTf/Y27MamW
-	 9eUuijwTAiqlOIwk20V4GTgWXB6N7HBqekshE+4BF6iIMKuJGPdThmhg/8K9nRb3vH
-	 lR2gpY9IhvJys81XN0ls51zvcQNzOxzCi+ih86oC4w1Z3GtrgM2/PyrAR0tWprbyhk
-	 ci3+833Lw1sZ1pjS0N6R8ncjX+cbbVcsZWM5BNeVIXjqgQwSF9RyHkcC+ZIUJESsro
-	 5WLFxCssjLpxxSnzfJ5rQKTLTAs59fh6mnWl+18M9EBCf0u7w1yGf9E/ugvxXeffqY
-	 lqT0nUW3E2k9tLQPjovaNlFsyAicUAvaKjZIrzvUGna4+Mge2ajIedDdk+ICky9stn
-	 HqzSnajk2qENECNVEyfrsIfPcDuy43EeRUyi69765viMh0N9NkBBKuwEkVqozCdifr
-	 jCreedYKjai7mO1lN2AFTtew=
-From: "Adrian Bunk" <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] nettle: Remove workaround for gcc < 5
-Date: Tue, 12 May 2020 23:37:48 +0300
-Message-Id: <20200512203748.8779-5-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ghgFUOvk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id h4so23786526wmb.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 13:56:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=ucicMcrThlhU+9JsvysTKW5sT+7TK1TZxxbi81687Gw=;
+        b=ghgFUOvkcrKcNHUAtzs2SB9qlQpLzPI3krRZE/SqI5hYm6bKnkxH3Z8hD9TXHyL5ZA
+         FH+zILR6x31f6tm5QdX2bJJNAKWsX4+ZK7S2gJOtAIraIH2eySFrbDlbMZSVyGsOBfb/
+         Ut/a++snkTB8UTJBIts76POsTDZSeZV7IJly0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ucicMcrThlhU+9JsvysTKW5sT+7TK1TZxxbi81687Gw=;
+        b=NQSjz0x0JjHbPIpWwm4d4KrSedCzV+0ciC+SnQDe1xo2RPET0shJ8U/OHD2nca7Kju
+         HE6L5OiecnR8wKHPwz2MfohtrbESyF7fb4whkxmjCL5US2Q3IYgOF0IHydvNLbmhMxYa
+         YgB2bq6+40KOM1pOqUuzthR42pdLPFqj4x/fUkc6Dd9fNN1efuzXRS3gfpbS+DwZKqxh
+         gGb1rBe8Ny/BVjS/51PDDrjnqUyaGilxRx+/mWzOZbtc3yq8EhFFBoT8+t1y8KtllBgi
+         7wAb0grYB1q/K4HhoO+zoCXQimS3OB17oDk8kp91eAXhtOAwtSvgFwRH5UsIpxtVKVtJ
+         +LNw==
+X-Gm-Message-State: AGi0PubxmfXfpzsmi3GHMCvA5s6WzcZ3uia7DEadj4uvgARJrbOqg3t9
+	tt1BYFMmLnEV9jveReVY+wzQqw==
+X-Google-Smtp-Source: APiQypIZHM6WNdR8202xxZZ9+1xoGJZkhUxpqWhX+aFLpGVMcdFbo23E5vs/1kgMrg9mbxhIvSMDlw==
+X-Received: by 2002:a1c:1dd8:: with SMTP id d207mr20400228wmd.125.1589316988315;
+        Tue, 12 May 2020 13:56:28 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id 77sm25078681wrc.6.2020.05.12.13.56.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 13:56:27 -0700 (PDT)
+Message-ID: <58167e91dd84c91305dd55ef7ced973aa3dee6a8.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] matchbox-wm: Replace -fcommon with fix
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
+Date: Tue, 12 May 2020 21:56:26 +0100
+In-Reply-To: <20200512141416.5327-7-bunk@stusta.de>
+References: <20200512141416.5327-7-bunk@stusta.de>
+User-Agent: Evolution 3.36.1-2 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-support/nettle/nettle_3.6.bb | 1 -
- 1 file changed, 1 deletion(-)
+On Tue, 2020-05-12 at 17:14 +0300, Adrian Bunk wrote:
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> ---
+>  .../0001-Fix-build-with-gcc-10.patch          | 41 +++++++++++++++++++
+>  .../matchbox-wm/matchbox-wm_1.2.2.bb          |  3 +-
+>  2 files changed, 42 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-graphics/matchbox-wm/matchbox-wm/0001-Fix-build-with-gcc-10.patch
+> 
+> diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm/0001-Fix-build-with-gcc-10.patch b/meta/recipes-graphics/matchbox-wm/matchbox-wm/0001-Fix-build-with-gcc-10.patch
+> new file mode 100644
+> index 0000000000..541b5c9c84
+> --- /dev/null
+> +++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm/0001-Fix-build-with-gcc-10.patch
+> @@ -0,0 +1,41 @@
+> +From 8a8f8446e803cad04d7bbceaab78ee45d9778c3c Mon Sep 17 00:00:00 2001
+> +From: Adrian Bunk <bunk@stusta.de>
+> +Date: Tue, 12 May 2020 09:44:05 +0300
+> +Subject: Fix build with gcc 10
+> +
+> +Upstream-Status: Pending
 
-diff --git a/meta/recipes-support/nettle/nettle_3.6.bb b/meta/recipes-support/nettle/nettle_3.6.bb
-index b71f56d83d..90f8625ae5 100644
---- a/meta/recipes-support/nettle/nettle_3.6.bb
-+++ b/meta/recipes-support/nettle/nettle_3.6.bb
-@@ -30,7 +30,6 @@ inherit autotools ptest multilib_header
- EXTRA_AUTORECONF += "--exclude=aclocal"
- 
- EXTRA_OECONF = "--disable-openssl"
--CFLAGS_append = " -std=gnu99"
- 
- do_compile_ptest() {
-         oe_runmake buildtest
--- 
-2.17.1
+Its now merged ;-)
+
+Cheers,
+
+Richard
+
+
 
