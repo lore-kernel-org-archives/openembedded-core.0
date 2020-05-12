@@ -1,124 +1,172 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web12.3448.1589236262919577830
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web12.6873.1589245862189171171
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 15:31:03 -0700
+ Mon, 11 May 2020 18:11:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XNO4vFko;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id j5so12992320wrq.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 15:31:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/33R9xEMhbd8kYCJqoo6azSgJwJ19Qq16yO4V1hCXco=;
-        b=XNO4vFkoHR5xXBcfdgs74qk7fKvS7rQpqXvPcsypuYiNrDY6VMTck4I+MM4am1bzIz
-         hDzoMKR2PRdQjYLXXbqqxQUc2kekN5aAfjqzwtCLFxClTgQ1orKUqAeiOZHBjbYdxAmr
-         7Y6HhBJav666qZN8YEBHCVHsvndgXTddC4F2gkMkmMNZZSgDCPbWwfEnooADThg7+LxH
-         6LEVy8tvdDm5gPJ3gBf0S5W61kO1KaBwXxSsES4nnmuehyAentNp8JFIVOm2+Qr/C8sU
-         iw9LGPWC2WyODVM+rdm1bCAyotw4ni4XllsSyHqjqH1YEU5lkd1zT6w2nDObYnRy63b5
-         2oFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=/33R9xEMhbd8kYCJqoo6azSgJwJ19Qq16yO4V1hCXco=;
-        b=WAD+egBj+ZzmihSpIjRsGAMtiHasofah1rbORd/b2kGW30IGAKMsw0umtcEgOZk1Ev
-         3QfrUfvqasn7Vt/JuCMFXaFrQZOLRu7qw1D5UHs+ALP1D/Xi+gRKy1PXnVpeGIaFr5kL
-         AlP9Un/GXCO4WX/RBp4Qn+HKMoQob8L1qlo3m0Sp1RciC/OKpDta5AgoFlxsk0sup8KQ
-         +zOrdx6/S5YPnadYbs/kTJuvpr4qiIWKZbm7yHtLeoBt4yF/Fs+tAUNXLHyKyEJewGme
-         2bYE6M+G6LGRplX9I84jlXxAdEg91lt/QGeHXzlQTd542Y64GaPQEqdtVbmEnxa4WT+u
-         lRrQ==
-X-Gm-Message-State: AGi0PuaR4vLW32ExXQTaOknmIBIB3v+aO8dnqCVZsxvKCfwwEWIsXUko
-	HSYaQ/cL+i/GaobS85VZ694J7b/k
-X-Google-Smtp-Source: APiQypKZv5W2k6e388duOrVGRYPAPJmWPdXi69eovWjZLUGeDJJueWowVzmLo4aoc69K1IAN97cL6w==
-X-Received: by 2002:adf:f487:: with SMTP id l7mr20013662wro.381.1589236261018;
-        Mon, 11 May 2020 15:31:01 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id l5sm27682380wmi.22.2020.05.11.15.31.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 15:31:00 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] gcr: correct a build race between vapi files
-Date: Tue, 12 May 2020 00:30:14 +0200
-Message-Id: <20200511223014.17540-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.1
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.73,381,1583164800"; 
+   d="scan'208";a="91928562"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 12 May 2020 09:10:51 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id 833E54BCC8A2
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 09:10:45 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 12 May 2020 09:10:44 +0800
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] nettle: upgrade 3.5.1 -> 3.6
+Date: Tue, 12 May 2020 18:10:34 +0800
+Message-ID: <1589278234-92831-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
+X-yoursite-MailScanner-ID: 833E54BCC8A2.A4FBE
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+refresh the following patches:
+Add-target-to-only-build-tests-not-run-them.patch
+dlopen-test.patch
+
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- ...ectly-set-internal-vapi-dependencies.patch | 45 +++++++++++++++++++
- meta/recipes-gnome/gcr/gcr_3.36.0.bb          |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-set-internal-vapi-dependencies.patch
+ ...get-to-only-build-tests-not-run-them.patch | 31 ++++++++++++-------
+ ...der-files-of-openssl-only-if-enable_.patch |  0
+ .../dlopen-test.patch                         | 16 +++++++---
+ .../{nettle-3.5.1 => nettle-3.6}/run-ptest    |  0
+ .../nettle/{nettle_3.5.1.bb => nettle_3.6.bb} |  4 +--
+ 5 files changed, 33 insertions(+), 18 deletions(-)
+ rename meta/recipes-support/nettle/{nettle-3.5.1 => nettle-3.6}/Add-target-to-only-build-tests-not-run-them.patch (53%)
+ rename meta/recipes-support/nettle/{nettle-3.5.1 => nettle-3.6}/check-header-files-of-openssl-only-if-enable_.patch (100%)
+ rename meta/recipes-support/nettle/{nettle-3.5.1 => nettle-3.6}/dlopen-test.patch (61%)
+ rename meta/recipes-support/nettle/{nettle-3.5.1 => nettle-3.6}/run-ptest (100%)
+ rename meta/recipes-support/nettle/{nettle_3.5.1.bb => nettle_3.6.bb} (92%)
 
-diff --git a/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-set-internal-vapi-dependencies.patch b/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-set-internal-vapi-dependencies.patch
-new file mode 100644
-index 0000000000..b484a1b222
---- /dev/null
-+++ b/meta/recipes-gnome/gcr/gcr/0001-meson.build-correctly-set-internal-vapi-dependencies.patch
-@@ -0,0 +1,45 @@
-+From ebb77dad4563b882b449cbc5e882f36ac8c2de71 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 11 May 2020 22:19:16 +0000
-+Subject: [PATCH] meson.build: correctly set internal vapi dependencies
-+
-+If they are set as strings, meson will supply the right
-+arguments to vapigen, but will not set the ninja dependencies
-+to ensure they get built first, and so races will occur:
-+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1881/steps/8/logs/step1b
-+
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/gcr/-/merge_requests/55]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+diff --git a/meta/recipes-support/nettle/nettle-3.5.1/Add-target-to-only-build-tests-not-run-them.patch b/meta/recipes-support/nettle/nettle-3.6/Add-target-to-only-build-tests-not-run-them.patch
+similarity index 53%
+rename from meta/recipes-support/nettle/nettle-3.5.1/Add-target-to-only-build-tests-not-run-them.patch
+rename to meta/recipes-support/nettle/nettle-3.6/Add-target-to-only-build-tests-not-run-them.patch
+index c007060ee6..e3f5c6de7d 100644
+--- a/meta/recipes-support/nettle/nettle-3.5.1/Add-target-to-only-build-tests-not-run-them.patch
++++ b/meta/recipes-support/nettle/nettle-3.6/Add-target-to-only-build-tests-not-run-them.patch
+@@ -8,12 +8,16 @@ Upstream-Status: Inappropriate [not a complete solution]
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Refactored for 3.4
+ Signed-off-by: Armin Kuster <akuster@mvista.com>
 +---
-+ gcr/meson.build | 2 +-
-+ ui/meson.build  | 4 ++--
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/gcr/meson.build b/gcr/meson.build
-+index 254a933..199452f 100644
-+--- a/gcr/meson.build
-++++ b/gcr/meson.build
-+@@ -203,7 +203,7 @@ if get_option('introspection')
-+ 
-+   gcr_vapi = gnome.generate_vapi('gcr-@0@'.format(gcr_major_version),
-+     sources: gcr_gir[0],
-+-    packages: [ 'glib-2.0', 'gio-2.0', 'gck-@0@'.format(gck_major_version) ],
-++    packages: [ 'glib-2.0', 'gio-2.0', gck_vapi ],
-+     metadata_dirs: meson.current_source_dir(),
-+     vapi_dirs: [
-+       build_root / 'gck',
-+diff --git a/ui/meson.build b/ui/meson.build
-+index 5ca3753..477412d 100644
-+--- a/ui/meson.build
-++++ b/ui/meson.build
-+@@ -174,8 +174,8 @@ if get_option('introspection')
-+     packages: [
-+       'glib-2.0',
-+       'gio-2.0',
-+-      'gck-@0@'.format(gck_major_version),
-+-      'gcr-@0@'.format(gcr_major_version),
-++      gck_vapi,
-++      gcr_vapi,
-+       'gtk+-3.0'
-+     ],
-+     metadata_dirs: meson.current_source_dir(),
-diff --git a/meta/recipes-gnome/gcr/gcr_3.36.0.bb b/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-index 4fe3b2fff3..a3325b50b1 100644
---- a/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-+++ b/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-@@ -17,6 +17,7 @@ inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even
- # depends on gtk+3, but also x11 through gtk+-x11
- REQUIRED_DISTRO_FEATURES = "x11"
++ Makefile.in           | 3 +++
++ testsuite/Makefile.in | 2 ++
++ 2 files changed, 5 insertions(+)
  
-+SRC_URI += " file://0001-meson.build-correctly-set-internal-vapi-dependencies.patch"
- SRC_URI[archive.md5sum] = "adc65563b6b458507b9a578a8b68fb61"
- SRC_URI[archive.sha256sum] = "aaf9bed017a2263c6145c89a1a84178f9f40f238426463e4ae486694ef5f6601"
+-Index: nettle-3.4/Makefile.in
+-===================================================================
+---- nettle-3.4.orig/Makefile.in
+-+++ nettle-3.4/Makefile.in
+-@@ -55,6 +55,9 @@ clean distclean mostlyclean maintainer-c
++diff --git a/Makefile.in b/Makefile.in
++index e5ccfc7..15c9275 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -52,6 +52,9 @@ clean distclean mostlyclean maintainer-clean tags:
+  	  echo "Making $@ in $$d" ; (cd $$d && $(MAKE) $@); done
+  	$(MAKE) $@-here
+  
+@@ -23,16 +27,19 @@ Index: nettle-3.4/Makefile.in
+  check-here:
+  	true
+  
+-Index: nettle-3.4/testsuite/Makefile.in
+-===================================================================
+---- nettle-3.4.orig/testsuite/Makefile.in
+-+++ nettle-3.4/testsuite/Makefile.in
+-@@ -131,6 +131,8 @@ $(TARGETS) $(EXTRA_TARGETS): testutils.$
++diff --git a/testsuite/Makefile.in b/testsuite/Makefile.in
++index 3f5e5f6..8fd68a3 100644
++--- a/testsuite/Makefile.in
+++++ b/testsuite/Makefile.in
++@@ -122,6 +122,8 @@ $(TARGETS) $(EXTRA_TARGETS): testutils.$(OBJEXT) ../nettle-internal.$(OBJEXT) \
+  # data.
+  VALGRIND = valgrind --error-exitcode=1 --leak-check=full --show-reachable=yes @IF_ASM@ --partial-loads-ok=yes
+  
+ +buildtest: $(TS_ALL)
+ +
+- # The PATH update is for windows dlls, DYLD_LIBRARY_PATH is for OSX.
+  check: $(TS_ALL)
+- 	LD_LIBRARY_PATH=../.lib PATH="../.lib:$$PATH" DYLD_LIBRARY_PATH=../.lib \
++ 	TEST_SHLIB_DIR="$(TEST_SHLIB_DIR)" \
++ 	  srcdir="$(srcdir)" \
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/nettle/nettle-3.5.1/check-header-files-of-openssl-only-if-enable_.patch b/meta/recipes-support/nettle/nettle-3.6/check-header-files-of-openssl-only-if-enable_.patch
+similarity index 100%
+rename from meta/recipes-support/nettle/nettle-3.5.1/check-header-files-of-openssl-only-if-enable_.patch
+rename to meta/recipes-support/nettle/nettle-3.6/check-header-files-of-openssl-only-if-enable_.patch
+diff --git a/meta/recipes-support/nettle/nettle-3.5.1/dlopen-test.patch b/meta/recipes-support/nettle/nettle-3.6/dlopen-test.patch
+similarity index 61%
+rename from meta/recipes-support/nettle/nettle-3.5.1/dlopen-test.patch
+rename to meta/recipes-support/nettle/nettle-3.6/dlopen-test.patch
+index fea5774206..ab9b91f88b 100644
+--- a/meta/recipes-support/nettle/nettle-3.5.1/dlopen-test.patch
++++ b/meta/recipes-support/nettle/nettle-3.6/dlopen-test.patch
+@@ -7,15 +7,23 @@ Upstream-Status: Inappropriate [embedded specific]
+ 
+ Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ testsuite/dlopen-test.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+---- a/testsuite/dlopen-test.c	2016-10-01 00:28:38.000000000 -0700
+-+++ b/testsuite/dlopen-test.c	2017-10-13 11:08:57.227572860 -0700
+-@@ -9,7 +9,7 @@
++diff --git a/testsuite/dlopen-test.c b/testsuite/dlopen-test.c
++index 4265bf7..1a25d17 100644
++--- a/testsuite/dlopen-test.c
+++++ b/testsuite/dlopen-test.c
++@@ -15,7 +15,7 @@ int
+  main (int argc UNUSED, char **argv UNUSED)
+  {
+  #if HAVE_LIBDL
+--  void *handle = dlopen ("../libnettle.so", RTLD_NOW);
++-  void *handle = dlopen ("../libnettle." SO_EXT, RTLD_NOW);
+ +  void *handle = dlopen ("libnettle.so", RTLD_NOW);
+    int (*get_version)(void);
+    if (!handle)
+      {
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/nettle/nettle-3.5.1/run-ptest b/meta/recipes-support/nettle/nettle-3.6/run-ptest
+similarity index 100%
+rename from meta/recipes-support/nettle/nettle-3.5.1/run-ptest
+rename to meta/recipes-support/nettle/nettle-3.6/run-ptest
+diff --git a/meta/recipes-support/nettle/nettle_3.5.1.bb b/meta/recipes-support/nettle/nettle_3.6.bb
+similarity index 92%
+rename from meta/recipes-support/nettle/nettle_3.5.1.bb
+rename to meta/recipes-support/nettle/nettle_3.6.bb
+index d92db0ef95..b71f56d83d 100644
+--- a/meta/recipes-support/nettle/nettle_3.5.1.bb
++++ b/meta/recipes-support/nettle/nettle_3.6.bb
+@@ -20,8 +20,8 @@ SRC_URI_append_class-target = "\
+             file://dlopen-test.patch \
+             "
+ 
+-SRC_URI[md5sum] = "0e5707b418c3826768d41130fbe4ee86"
+-SRC_URI[sha256sum] = "75cca1998761b02e16f2db56da52992aef622bf55a3b45ec538bc2eedadc9419"
++SRC_URI[md5sum] = "c45ee24ed7361dcda152a035d396fe8a"
++SRC_URI[sha256sum] = "d24c0d0f2abffbc8f4f34dcf114b0f131ec3774895f3555922fe2f40f3d5e3f1"
+ 
+ UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
  
 -- 
-2.26.1
+2.17.1
+
+
 
