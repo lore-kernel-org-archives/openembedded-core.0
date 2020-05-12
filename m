@@ -1,106 +1,60 @@
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com [209.85.166.67])
- by mx.groups.io with SMTP id smtpd.web11.6847.1589293631144660862
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web12.7162.1589294388860577431
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 07:27:11 -0700
+ Tue, 12 May 2020 07:39:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hy/BoULG;
- spf=pass (domain: gmail.com, ip: 209.85.166.67, mailfrom: jpewhacker@gmail.com)
-Received: by mail-io1-f67.google.com with SMTP id i19so14067563ioh.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 07:27:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:references:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=EAncCvAYYQK2Zl5q3QoMEwnSfFXu1uYOPnDtsbXcNYw=;
-        b=hy/BoULGyjGNE/P1Q1L4ixrXWRFBhdfIBW5i4AhuBNKluG7XA8sxGPAvpH465cp89S
-         0wgwgYTOKHSFqTz6Wfuzol+p293pIQYVo7RWtdJJV94ccPTGc9PWfyRa4mP4saEC+KmA
-         7oBp9UjYFC2vup4F1JccE8YQZ5hZYi6vOkTEp9Hao620YZv5VthoArzRdZ2eQ92dgIOC
-         bS2xwQ2Ax0UNua4otV6b0dvQCHf6ilJZFhJFPyW0gC4MdYzswX+04jM9adgrQqaExFLq
-         d3Iq+j4k3Q/LlKBhI0q+VvhrqvoOXOCXIzKZHRavWsLtd6a6vLhDIAuFUHcPM40DLM8N
-         xkKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=EAncCvAYYQK2Zl5q3QoMEwnSfFXu1uYOPnDtsbXcNYw=;
-        b=ifCNOBwN4JjZksdpvU0CTb+WKZ7+8lbV0wB/2VE6tqXfEyokZo07gWGWCHOuiYRU4o
-         sea6oVw1KUpEr1Itqgp6g+uYnY6saAYcMN5iQehWZtLfJFdsuXNkNeSlYkG6kKTFn5ZR
-         x+wyQ4MrJzyfpB01Ka3mzaT3LUVRkZ2rQbkx0yxWAKsHjm1tDtS+IBu2bgC+8usFmBLz
-         ma4+bJnf/iEoRoWzIl1Yi+4JNvUL9qL10jKGfqgo0DXuEi+ARiZvGBk0uXjLPWyQotzp
-         qjgwo4WqUhorEsABZQ8zCLDdpJoWgqIZ0kHoQWGPAWedm6jsbCp5qEXLg8yrw6/0LbE6
-         t+dg==
-X-Gm-Message-State: AGi0PuaDTxaVKMh13l890bY5jeMNJW2t2BwDXnPS76g/Yoi6ghNmQRnT
-	bRuhAhg4ArZ6Xsn42K3YSs0R3NM1UCE=
-X-Google-Smtp-Source: APiQypJWTq4i6FaM3TwWbc8DDlEcT7PipCblUqOWVJR+7shdYk2Ndew4wdbzKeFdYC1Escb2xOdMKA==
-X-Received: by 2002:a02:8666:: with SMTP id e93mr9741125jai.0.1589293629980;
-        Tue, 12 May 2020 07:27:09 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from ?IPv6:2605:a601:ac3d:c100:48c7:8e3e:3527:79a? ([2605:a601:ac3d:c100:48c7:8e3e:3527:79a])
-        by smtp.gmail.com with ESMTPSA id d13sm3395439ios.11.2020.05.12.07.27.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 12 May 2020 07:27:09 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Subject: Re: [OE-core][PATCH] classes/kernel: Generate reproducible kernel module tarball
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20200512134013.25080-1-JPEWhacker@gmail.com>
- <3f5f200c47a92bc0a417300d0d0efa73d423d9ba.camel@linuxfoundation.org>
-Message-ID: <4c850dcd-5049-55fd-279e-ad1a858ffce0@gmail.com>
-Date: Tue, 12 May 2020 09:27:08 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <3f5f200c47a92bc0a417300d0d0efa73d423d9ba.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+ dkim=pass header.i=@stusta.de header.s=default header.b=VXJ5SOmM;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=h6oi=62=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49M0nb0fBwz4y
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 16:39:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1589294387;
+	bh=FQXrmMsQc9yGo9L/W+dzHUUGjpTqrbfDjwta7u8iRO4=;
+	h=From:To:Subject:Date:From;
+	b=VXJ5SOmMVQ2VcVg0csZRONCfASTh1Wp1iAGrNc65qQKyLyfx/XwplA9pmNGvwE40t
+	 58oDaLy3Z2c2Y5KQlS7vLA8CyFWp3qEJgOZDc1T8Lkxv25mXAc82t+chAX3uTTQGvq
+	 gA7p3jNBhBDwumWa+Rx9q98kbh/GpmkFGf3RA3d0zMfZO+x7sdVLyzN7prB4S1HkDs
+	 FgMiEn1VYBYsU1pru19JrRonSH6x6ZTfcby/LzQS2MSruk9DayPumqDhxh4bnCDfR1
+	 +enUdyI6mk6lFbhtOtam0U8m13C0ld+bqj3lCCDeWI5ZcrDv9rU14PBSMrT3uNF5p2
+	 vr4zM35ertghNcSh0cvfRf7LwB0WyAPMsmDZix8O4Km1rutVtnATwrMC03hZ/YyTUR
+	 bRf2QVhDGyhxRAIEPnQnVefBdqJsARwoXImF81yvifAB0wpzaKfSIZAWMnxE+oL6/U
+	 mij7O5Urs2ppcFSCZfHvPEvSskTzWF5tLHhfI+R4jcnOIMGWI6eLq9iGRNswns8aPn
+	 U17de5uUQfTOsxYqP0hrtWsOslcc5koSh1HqB85C0+Ri1kqrdBeHuOIKtvcWVoxo/5
+	 eZCDiZgzxMg+O/8Qdc05UlK5Ljvk7JEmZKN1X2W9/IU0vSxXaxpvfa2HajZvF6iojO
+	 t9Xkl2IO+A693v6+IbOpywfM=
+From: "Adrian Bunk" <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] wireless-regdb: Upgrade 2019.06.03 -> 2020.04.29
+Date: Tue, 12 May 2020 17:39:45 +0300
+Message-Id: <20200512143945.4483-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
 
+From: Adrian Bunk <bunk@kernel.org>
 
-On 5/12/20 9:22 AM, Richard Purdie wrote:
-> On Tue, 2020-05-12 at 08:40 -0500, Joshua Watt wrote:
->> If reproducible binaries are requested, generate the kernel modules
->> tarball in a reproducible way. Namely, sort the tarball contents, clamp
->> the mtime to the source date epoch, compress the archive with a
->> consistent compression level (9), and don't include the name and
->> timestamp in the compressed file.
->>
->> [YOCTO #12719]
->>
->> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
->> ---
->>   meta/classes/kernel.bbclass | 10 +++++++++-
->>   1 file changed, 9 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
->> index a724645466..c124645643 100644
->> --- a/meta/classes/kernel.bbclass
->> +++ b/meta/classes/kernel.bbclass
->> @@ -691,7 +691,15 @@ kernel_do_deploy() {
->>   
->>   	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
->>   		mkdir -p ${D}${root_prefix}/lib
->> -		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D}${root_prefix} lib
->> +		if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
->> +			TAR_ARGS="--sort=name --clamp-mtime --mtime=@${SOURCE_DATE_EPOCH}"
->> +			GZIP_ARGS="-9n"
->> +		else
->> +			TAR_ARGS=""
->> +			GZIP_ARGS=""
->> +		fi
->> +		tar $TAR_ARGS -cv -C ${D}${root_prefix} lib | gzip $GZIP_ARGS > $deployDir/modules-${MODULE_TARBALL_NAME}.tgz
->> +
->>   		ln -sf modules-${MODULE_TARBALL_NAME}.tgz $deployDir/modules-${MODULE_TARBALL_LINK_NAME}.tgz
->>   	fi
-> Do we need to make this conditional or could we just do it by default?
+Signed-off-by: Adrian Bunk <bunk@kernel.org>
+---
+ ...reless-regdb_2019.06.03.bb => wireless-regdb_2020.04.29.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2019.06.03.bb => wireless-regdb_2020.04.29.bb} (91%)
 
-I don't know if we can rely on SOURCE_DATE_EPOCH being set unless 
-reproducible_build.bbclass is inherited, but at a minimum we can always 
-use the gzip args.
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.04.29.bb
+similarity index 91%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.04.29.bb
+index 9076d94601..a5827b9ef0 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2020.04.29.bb
+@@ -5,8 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+ 
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[md5sum] = "4b5ba3f089db7fdb7b9daae6a7c1f2cb"
+-SRC_URI[sha256sum] = "cd917ed86b63ce8d93947979f1f18948f03a4ac0ad89ec25227b36ac00dc54bf"
++SRC_URI[sha256sum] = "89fd031aed5977c219a71501e144375a10e7c90d1005d5d086ea7972886a2c7a"
+ 
+ inherit bin_package allarch
+ 
+-- 
+2.17.1
 
->
-> Cheers,
->
-> Richard
->
