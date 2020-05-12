@@ -1,148 +1,52 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web12.6436.1589292347721308069
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web12.6635.1589292859220751497
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 07:05:48 -0700
+ Tue, 12 May 2020 07:14:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bgdev-pl.20150623.gappssmtp.com header.s=20150623 header.b=jdC+HeqL;
- spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.128.51, mailfrom: brgl@bgdev.pl)
-Received: by mail-wm1-f51.google.com with SMTP id u16so23452548wmc.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 07:05:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=a9VyeXn7xYNYh71tyfxs8Gh8QguTCHjHqQxpSfISYaM=;
-        b=jdC+HeqLMdGlwlCW5e2HkjDnSYbMrrc3hq5/DD1MXqPf1cSL8UJBASDGwgnmj6ygST
-         u927m6GX44DqU8QbH7HecngzUzK0YTrla+bk/FJKF0O/+fqdkqbKS1OrDCasna5VHLpr
-         4UIO4qzMLgYI8gS1G+VFsk3DSUkzKNQ7n7Vdebxi20x13gDnQaj1jzsNnqXGTyaauPGD
-         ZC7vl21b9vs29EXCaPXh0KMjuTZQjikTy6YET2FGdFQ6tB75znewjDv2KdAC/Ic1c/xT
-         KitLGWDzFxHiofvUgBM2sIFUdojjojRXwaw0GgMgbcHdG5lL2WdLra+6V36AoA/ck+tQ
-         tjIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=a9VyeXn7xYNYh71tyfxs8Gh8QguTCHjHqQxpSfISYaM=;
-        b=P161I3woSnvHV43Jpztcd6zV5o9djV6EC7CywuRNcQR6ImWTZ1idjKJkcep/nIWJ1j
-         6qBEX2mzb2QsJV7ECqoFaRymEFay3m4+VbaQfcEoEeNfPw1F2VV5TQOOXWE/QG+nQN+5
-         ym2thwxqX7kDIfgxJinJLv08PwippT2UevRaEbCTUdGzB0nUijfLCcm3NTvRaEipt7Z4
-         IJ+P372l4tGVDYGD8VkWGaRe0qsS9pIh9KnWGISp0bis8LLEt6kTYRDJkoDuqV+crQjb
-         +61uur3HoD++8NJFoOdANaDYnNOnF4sedRfFEzv4ZmohlT/uYY91C6OA1Y01HlaTQrzL
-         nqTQ==
-X-Gm-Message-State: AOAM533TTmm8od8iWVTRxe/U+KbAymHwN+yspVxmmvHSCv2OfdtYaDJg
-	8M21rhZ27MSMbxnYobvUHxfJvw==
-X-Google-Smtp-Source: ABdhPJxlXpw5cqfI53AicFSxd3obY+G0smmAd409wUGK0ESePYYKVYx25OjK/8y6L6jYS64c7YVRNQ==
-X-Received: by 2002:a1c:4088:: with SMTP id n130mr2612524wma.43.1589292346165;
-        Tue, 12 May 2020 07:05:46 -0700 (PDT)
-Return-Path: <brgl@bgdev.pl>
-Received: from localhost.localdomain (lfbn-nic-1-65-232.w2-15.abo.wanadoo.fr. [2.15.156.232])
-        by smtp.gmail.com with ESMTPSA id h74sm23878024wrh.76.2020.05.12.07.05.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 07:05:45 -0700 (PDT)
-From: "Bartosz Golaszewski" <brgl@bgdev.pl>
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Armin Kuster <akuster808@gmail.com>,
-	Jerome Neanne <jneanne@baylibre.com>,
-	Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [meta-OE][PATCH v3] image.bbclass: deploy image artifacts in stages
-Date: Tue, 12 May 2020 16:05:29 +0200
-Message-Id: <20200512140529.27606-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.25.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@stusta.de header.s=default header.b=paeQR2mu;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=h6oi=62=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49M0D939Qcz4y
+	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 16:14:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1589292857;
+	bh=9LPgK/xiqwIrOyQufjKyIRCa3EZWj6r4VtQ0Eo7n/lM=;
+	h=From:To:Subject:Date:From;
+	b=paeQR2muQj0+G2ffYVUNDIEWmPwdtVjHTTpTa4qts63BAhQIObi3pint6W6aSBO6f
+	 v171iBvYzRcyL8Q3Gy54nO78/bXlPPEk0zxF3MzQWlYB8Eh5DxaTjXN3DEYQUOgP7E
+	 bsHDmlJDta/dz616c2u0WWmCwDIHM61A78f2K5Zw5cYRkBViKAiKzuj7N5wcYEOXCj
+	 cNBFtogOxEEyOe5ynX242mgnphcVaODbJ7RnIX/194SBDlcipLUFDaWbP/oGyYrsmT
+	 NdHMKWree/t/aCNV9syCcRw5r9GAEFUYbXTmGOsJlxCjeljV331SNX5pYqm391Cq0Z
+	 nibDSpbsIVLV1Un4efGxRoiTkJDXsb+nAQUHV8YhkkX2pAeBjC35sMg4iBS//TaFLL
+	 6whZtfGdBmQIGYiZ2szrS+8/PHi43pDljBJfNmcyiuWUd6NDLJqFf8+ghFrmSi9imE
+	 i2jp5YlmGlTiSN1UzJRMMyxhm1d4OmIzJb5WLUAQe1p0/hSERXFNqLpirPuYqgvmG+
+	 SYXSZLFJGbYgSI12TU2K8uYa9RVTTxrXpx33sDwv4v4TbgBbtSJd0PHOI7+Ywd6zDq
+	 BypDOjgDOLU94UVCQWidmYEe8Hs6v7dR58wccdBEJlbsA6LRTtRSBIFrftyHsERmXg
+	 1xodhHHFrjwUQm9juDLu/bbs=
+From: "Adrian Bunk" <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] iproute2: Remove -fcommon
+Date: Tue, 12 May 2020 17:14:09 +0300
+Message-Id: <20200512141416.5327-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+This was fixed in upstream version 5.5.0.
 
-Make each IMAGE_CMD task an sstate task with its own IMGDEPLOYDIR
-override. This way each generated set of artifacts is deployed as soon
-as it's ready instead of the do_image_complete task handling the entire
-deployement. This allows us to better fine-tune dependencies e.g. we
-can make do_image_wic depend on fitImage task which can in turn depend
-on do_image_ext4.
-
-We need delete the IMGDEPLOYDIR variable from the data object passed
-to each image task so that it gets expanded with the correct override.
-
-In order to make sure that tasks added to SSTATETASKS in anonymous python
-functions are correctly setup, move the code that assigns pre- and
-postfuncs to an event handler invoked on bb.event.RecipeTaskPreProcess
-in sstate.bbclass. This event is fired right after the anonymous
-functions.
-
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
-Changes since v2:
-- dropped the qemuboot patch (already upstream)
-- switched to % string formatting instead of using .format() for consistency
+ meta/recipes-connectivity/iproute2/iproute2_5.5.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- meta/classes/image.bbclass  | 17 +++++++++++++++++
- meta/classes/sstate.bbclass |  4 ++++
- 2 files changed, 21 insertions(+)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index 694b58fc9f..3cf8ceb2d6 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -425,10 +425,12 @@ python () {
-         # date/time values. It will get expanded at execution time.
-         # Similarly TMPDIR since otherwise we see QA stamp comparision problems
-         # Expand PV else it can trigger get_srcrev which can fail due to these variables being unset
-+        # Delete IMGDEPLOYDIR so that each task gets its own, overriden value
-         localdata.setVar('PV', d.getVar('PV'))
-         localdata.delVar('DATETIME')
-         localdata.delVar('DATE')
-         localdata.delVar('TMPDIR')
-+        localdata.delVar('IMGDEPLOYDIR')
-         vardepsexclude = (d.getVarFlag('IMAGE_CMD_' + realt, 'vardepsexclude', True) or '').split()
-         for dep in vardepsexclude:
-             localdata.delVar(dep)
-@@ -499,6 +501,21 @@ python () {
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.5.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.5.0.bb
+index ad0ab13c9a..7ad4b8eee6 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_5.5.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_5.5.0.bb
+@@ -9,4 +9,4 @@ SRC_URI[sha256sum] = "bac543435cac208a11db44c9cc8e35aa902befef8750594654ee71941c
  
-         bb.debug(2, "Adding task %s before %s, after %s" % (task, 'do_image_complete', after))
-         bb.build.addtask(task, 'do_image_complete', after, d)
-+
-+        imgdeploydir = d.getVar('IMGDEPLOYDIR')
-+        task_override = task[3:].replace('_', '-') # 'do_image_ext4' becomes 'image-ext4'
-+        taskdeploydir = '%s/deploy-%s-%s' % (os.path.dirname(imgdeploydir),
-+                                             d.getVar('PN'), task_override)
-+
-+        # Each image task gets its own IMGDEPLOYDIR directory and is added to
-+        # SSTATETASKS. This way every set of artifacts gets deployed right after
-+        # the do_image_foo task completes.
-+        d.setVar('IMGDEPLOYDIR_task-%s' % task_override, taskdeploydir)
-+        d.appendVar('SSTATETASKS', ' %s' % task)
-+        d.setVarFlag(task, 'sstate-inputdirs', taskdeploydir)
-+        d.setVarFlag(task, 'sstate-outputdirs', d.getVar('DEPLOY_DIR_IMAGE'))
-+        d.setVarFlag(task, 'cleandirs', taskdeploydir)
-+        d.setVar('SSTATE_SKIP_CREATION_task-%s' % task_override, '1')
- }
- 
+ # CFLAGS are computed in Makefile and reference CCOPTS
  #
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index aa9c30b4e1..5bdada673f 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -138,13 +138,17 @@ python () {
-         d.setVar('SSTATE_EXTRAPATH', "${NATIVELSBSTRING}/")
-         d.setVar('BB_HASHFILENAME', "True ${SSTATE_PKGSPEC} ${SSTATE_SWSPEC}")
-         d.setVar('SSTATE_EXTRAPATHWILDCARD', "${NATIVELSBSTRING}/")
-+}
- 
-+python sstate_setup_tasks() {
-     unique_tasks = sorted(set((d.getVar('SSTATETASKS') or "").split()))
-     d.setVar('SSTATETASKS', " ".join(unique_tasks))
-     for task in unique_tasks:
-         d.prependVarFlag(task, 'prefuncs', "sstate_task_prefunc ")
-         d.appendVarFlag(task, 'postfuncs', " sstate_task_postfunc")
- }
-+addhandler sstate_setup_tasks
-+sstate_setup_tasks[eventmask] = "bb.event.RecipeTaskPreProcess"
- 
- def sstate_init(task, d):
-     ss = {}
+-EXTRA_OEMAKE_append = " CCOPTS='${CFLAGS} -fcommon'"
++EXTRA_OEMAKE_append = " CCOPTS='${CFLAGS}'"
 -- 
-2.25.0
+2.17.1
 
