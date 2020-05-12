@@ -1,107 +1,74 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web11.7265.1589294837390150567
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
+ by mx.groups.io with SMTP id smtpd.web11.7513.1589295429116566471
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 07:47:17 -0700
+ Tue, 12 May 2020 07:57:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fmYPcVR9;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id e26so22067018wmk.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 07:47:17 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=ypWFt4rh;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.196, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f196.google.com with SMTP id j3so13982313ljg.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 07:57:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=S4jXOqNOBvAWfCttZa3XdmPO7CyoVp2LFaveE/W5xVo=;
-        b=fmYPcVR9h6MMWtN5Q5Hfdr3iCq+j94NtmyKllRtI16UaYPqaFQEWcD9mIP5RTO0sTN
-         3cSofp/IktUqjyO0NFibqa/15VntBtx3pCQebn5IX5NjmDdW2gqvI6TGj/xMHun181K0
-         Jk4vxnivjSBHzq1QcDQ7m6VhkpVtwmse9R2t8=
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1LryLi3u/x7IZ3BFokXTYdKEp7n7IenZLw2TLMwWvCs=;
+        b=ypWFt4rhP39N4EmPbIy4QL73v0XNCB13RzAw3ujB07ZgSfkQz1f+JA8IWUU5lE8LP5
+         AXj8EuUbyZwR+eUVo5q1YGcYhhRMeAbKHkP4TFtG/zlZyJG/tXw7FIhqbxAnpaV7F8ne
+         duLi0PmO2xDM/8aDy2xJ4ob+deVMsA5O+kbRzVoV6Px2W4juGVHpoYex1Rg9z0z/HCgg
+         ybF2m410oHdOQe7bhW1HiqPrmKyxygfc4PWHZN1q3XKUoBKOiWhAtLahRH64OWd4mjzC
+         lXgxCGj/Yk0YFhsIsbdBB2DTs6NS3mxf4+qq6DR7MppOqLfSN5QE2C9njpOUYTru2k6h
+         eKsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=S4jXOqNOBvAWfCttZa3XdmPO7CyoVp2LFaveE/W5xVo=;
-        b=RLOwzXrURsDYThipXJWVsoL4+aJKMIb+YwOOqJ1D5r7P+JNgmvQ9l33yEoAuYnhyu9
-         7y/tb1Cz8t+Yps+D+qHRA3ZULZk+1ToK6qKqVKww4SpK7qMi3RTP1WGqQ0tDubTiNMko
-         kSxl/rAZeicweyoOSDB52VVqzbBbwnU3vNblq4k+vxP8g2GOLAlZgP0pVL25nNYf/OLq
-         UJndxvbWYb3kpWkhBpNpQSahiK5QgYujT/m49FQvsEnPxG+PhHRuv+Cr7iMQ2Q7O/EcH
-         imWapT4i4rxDGpmcq3U9PhQr/WtilE9QclZjCf1mkDoCODmLsOctdydJzqk9yDky+Hrr
-         rutQ==
-X-Gm-Message-State: AGi0PuZn/jy48NhfqsVpjCw+2ZFQD/HHnXBSA0/ga2j6xssRuGpYrrvc
-	SUIDK04oM0sKu2L9HI33N/JO9w==
-X-Google-Smtp-Source: APiQypKIA3VoV255wASn4Ajkz499DCOiqOHTSZZiUttscT+2LVGysgv2hK17UXiuFeN7hXoNudeewA==
-X-Received: by 2002:a05:600c:224a:: with SMTP id a10mr39306077wmm.174.1589294835904;
-        Tue, 12 May 2020 07:47:15 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id e5sm20497353wro.3.2020.05.12.07.47.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 07:47:15 -0700 (PDT)
-Message-ID: <5277aa09b9b424951d0ee22025ff7f605f793847.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] classes/kernel: Generate reproducible kernel module tarball
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 12 May 2020 15:47:13 +0100
-In-Reply-To: <4c850dcd-5049-55fd-279e-ad1a858ffce0@gmail.com>
-References: <20200512134013.25080-1-JPEWhacker@gmail.com>
-	 <3f5f200c47a92bc0a417300d0d0efa73d423d9ba.camel@linuxfoundation.org>
-	 <4c850dcd-5049-55fd-279e-ad1a858ffce0@gmail.com>
-User-Agent: Evolution 3.36.1-2 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1LryLi3u/x7IZ3BFokXTYdKEp7n7IenZLw2TLMwWvCs=;
+        b=e4edDeE1riBWXGaKAudl3Vf7blotZ+C36FyMMSHhdaN6Xc2tzmcz46V2M9wel1ZWt6
+         8ulsFlrjVyTBa+5dEO6moRP45U9+ENbvB/QvDXVARQLmbRo2pC8WuuuL5nT+cFYMmmzX
+         e8UeBuLi7JhiWSkqPAP+sYAxYEwWAHH37jNgRPkABfia4X3ZLwQb6JeROc1J58UHM6V0
+         aHscyk+XqMcjeUXGzZXcVFi7ozIUDT/dFcj6+sAfQifG1TFbrzW3gOyQumVZMLr5qYJ5
+         SWZ7X1FYoucw+fhZVtFAed+F5OUhyp3RCQEpbHJfFJ77mP671eVWTHl+8Biy7pjjSGBA
+         x1VA==
+X-Gm-Message-State: AOAM5313t3f87qtdLYdy0DB3fLO3wfx0aXxlwb7JQlwLbnWhhkNwJ5EX
+	QC4KAvK+Yr2tmJU0+7RvuNP9bICqZPiUgTKBTM14xw==
+X-Google-Smtp-Source: ABdhPJwLxIg+8t09H9DpwHWDp3OYPG36/4oNwf/vWn/AxllmxY6VMJjWhBJy187uFj75C3GXGho36jlymbgFdnSIeMo=
+X-Received: by 2002:a2e:b248:: with SMTP id n8mr13730090ljm.207.1589295427172;
+ Tue, 12 May 2020 07:57:07 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200512081709.3914-1-timon.ulrich@kabelmail.de>
+In-Reply-To: <20200512081709.3914-1-timon.ulrich@kabelmail.de>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Tue, 12 May 2020 15:56:55 +0100
+Message-ID: <CAAnfSTvj=6nhjoz-QvsTBRTEn9mUBNnyUzAxJgNKEtR4YHmmYQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] cve-check: add option to format reports as comma seperated values
+To: timon.ulrich@kabelmail.de
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Timon Ulrich <t.ulrich@anapur.de>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-05-12 at 09:27 -0500, Joshua Watt wrote:
-> On 5/12/20 9:22 AM, Richard Purdie wrote:
-> > On Tue, 2020-05-12 at 08:40 -0500, Joshua Watt wrote:
-> > > If reproducible binaries are requested, generate the kernel modules
-> > > tarball in a reproducible way. Namely, sort the tarball contents, clamp
-> > > the mtime to the source date epoch, compress the archive with a
-> > > consistent compression level (9), and don't include the name and
-> > > timestamp in the compressed file.
-> > > 
-> > > [YOCTO #12719]
-> > > 
-> > > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > > ---
-> > >   meta/classes/kernel.bbclass | 10 +++++++++-
-> > >   1 file changed, 9 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> > > index a724645466..c124645643 100644
-> > > --- a/meta/classes/kernel.bbclass
-> > > +++ b/meta/classes/kernel.bbclass
-> > > @@ -691,7 +691,15 @@ kernel_do_deploy() {
-> > >   
-> > >   	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
-> > >   		mkdir -p ${D}${root_prefix}/lib
-> > > -		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D}${root_prefix} lib
-> > > +		if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
-> > > +			TAR_ARGS="--sort=name --clamp-mtime --mtime=@${SOURCE_DATE_EPOCH}"
-> > > +			GZIP_ARGS="-9n"
-> > > +		else
-> > > +			TAR_ARGS=""
-> > > +			GZIP_ARGS=""
-> > > +		fi
-> > > +		tar $TAR_ARGS -cv -C ${D}${root_prefix} lib | gzip $GZIP_ARGS > $deployDir/modules-${MODULE_TARBALL_NAME}.tgz
-> > > +
-> > >   		ln -sf modules-${MODULE_TARBALL_NAME}.tgz $deployDir/modules-${MODULE_TARBALL_LINK_NAME}.tgz
-> > >   	fi
-> > Do we need to make this conditional or could we just do it by default?
-> 
-> I don't know if we can rely on SOURCE_DATE_EPOCH being set unless 
-> reproducible_build.bbclass is inherited, but at a minimum we can always 
-> use the gzip args.
+On Tue, 12 May 2020 at 09:17, <timon.ulrich@kabelmail.de> wrote:
+> +        if d.getVar("CVE_CHECK_FORMAT_CSV") == "1":
+> +            manifest_name += ".csv"
+> +
+> +            with open(cve_tmp_file, "r") as f:
+> +                db_update_timestamp = f.readline()
+> +                orig_tmp_file = f.readlines()[1:]
+> +            with open(cve_tmp_file, "w") as f:
+> +                f.write(db_update_timestamp+'\n')
+> +                f.write("PACKAGE NAME;PACKAGE VERSION;CVE;CVE STATUS;"
+> +                       "CVE SUMMARY;CVSS v2 BASE SCORE;CVSS v3 BASE SCORE;"
+> +                       "VECTOR;MORE INFORMATION\n")
 
-Good point, I assumed we had a default for some reason.
+If writing a CSV file, it's really best to use the built-in csv writer
+classes as they handle quoting and so on for you.
 
-I think the patch will be more obvious if its conditional on
-SOURCE_DATE_EPOCH and we just use the other options unconditionally.
+> +        write_string += "%s%s%c" % ("PACKAGE NAME: " if d.getVar("CVE_CHECK_FORMAT_CSV") != "1" else "", d.getVar("PN"), eol_char)
+> +        write_string += "%s%s%c" % ("PACKAGE VERSION: " if d.getVar("CVE_CHECK_FORMAT_CSV") != "1" else "", d.getVar("PV"), eol_char)
+> +        write_string += "%s%s%c" % ("CVE: " if d.getVar("CVE_CHECK_FORMAT_CSV") != "1" else "", cve, eol_char)
 
-I wonder if we should just move build_reproducibility_simple.bbclass
-into bitbake.conf?
+This is getting unreadable.
 
-Cheers,
+How about having a report class and separate implementations for each
+type, instead of trying to support both forms in the same code path?
 
-Richard
-
+Ross
