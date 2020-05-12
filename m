@@ -1,87 +1,134 @@
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com [209.85.222.65])
- by mx.groups.io with SMTP id smtpd.web11.465.1589321999169284686
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web10.469.1589325621696055564
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 15:19:59 -0700
+ Tue, 12 May 2020 16:20:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Pk2FT0wn;
- spf=pass (domain: gmail.com, ip: 209.85.222.65, mailfrom: armccurdy@gmail.com)
-Received: by mail-ua1-f65.google.com with SMTP id a7so5343896uak.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 15:19:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EfLlwdUT;
+ spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f177.google.com with SMTP id b190so1374929pfg.6
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 16:20:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TSZ+9O41AEaTYsxbs+XXrI04xYqhsPIR2WNxdFUdHJc=;
-        b=Pk2FT0wnEG8JRY3yj5xG0D2Cfqhv+/SXD9lOEITdtYsanJvMV4kW8ZSfjLijT5y9hr
-         xZf+oFWG9T9DVFrzK6q/3HS9/Z+u4FqV5H28ik3HYAZYzPLT6M9kDVPL47JN68FxdzKv
-         4cAzHeYGTr2dJJInimLc8A63JyYhXj4T7K3jkv96UuuavjBH7Zfp2SN06bM4cOr05lyW
-         wOVk57As1MzPs6RspJV+N7JJCHWLuxr05Z1wRbLCuOYZ8DUXzS3bXivH64Eb9S9TJe9U
-         t5qssJ9MMc4E9J/hSSMj0L0CA/ZsH8pk512p8B6LOCIJJ9lD0oqOZg74W/3W78Y/+K6l
-         zNMw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JkQ50q9ZLHxTVDdyNB49Msdwl+kVZ+BQvongiLMgPHc=;
+        b=EfLlwdUTiPbH5+L6yE/RB6/cQM+LLEL97A/DWNF8g+OoRgzhPBg5eX6rbZXknVLzAa
+         Imp9zM2xs4TlWZq9Ex74XcIJdPf5YZZKLx2Fq3UrOGzPXD1ptCZ2zKNUj0a5yZd6ZOcN
+         xV7A8XHKOvmC0vWY8uzeW1mz4oGgSZ3chuWKvgqHMVHl8NEEnp/zCa9K4V1+Hvmhf3Yv
+         ThKL69NnfQ7k55mdQPnezwyG6A/YxONE6zOwGV0mq7wm8q2hC7DsP7pZpPylqClYnPDE
+         FVgfhg8/v4ukM0UnkYMmb+jfd0Cxvoq8egCxD/Pzc+4U6vuRdb4WKHm953xPsE2Mohcc
+         79yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TSZ+9O41AEaTYsxbs+XXrI04xYqhsPIR2WNxdFUdHJc=;
-        b=YFLVtHR3IVpI9gBqEAvc3Vrg/JbQAeBOE/oEt1g8VWMu25TBdwbnLP9uAehaln1JLx
-         YTS+62ymqMnNa1yvjyg2gL6aH6R+vVkdJ1wS7k1Z2VFUvX9ZFsb6O01jhdwp7Xpcm7jU
-         o3OFii4Fo2vjokjoj8jB7elidE6LRFHvlhpJfNm0K8GC+H33yUVeLfHfr39mHFxIDuN1
-         HREgeuokCOBP7h3XCzT7Hy2Zjwve44ZNj11HsLYs9wvrQfaO1CFRviTdbKqGRXB8p2WJ
-         ZJOGO6p9Kae0JgtChvhM4PMjs/71EERTxh8bfC8sjxQ9xIVEzQBuScjcEVRZTOAQApX6
-         lTDw==
-X-Gm-Message-State: AGi0PubTKcms0UiAMda81Vqq0C5p9jHRY58ZIYtPt2f5BAuJ7vlzAbtr
-	D+NHEXYAm54QEcS+GfmEhJw8hn6z7Lr/Sc8aYYyXRLhK
-X-Google-Smtp-Source: APiQypLRmPiu0FmlUD9vl2nkWyhA26qd5JtbV3BaxIQhAmBSLNPdqXbMMan0ArIGcQQ7glE4L+nvwn+H106KlVMrHRk=
-X-Received: by 2002:ab0:1ea:: with SMTP id 97mr18355752ual.106.1589321998221;
- Tue, 12 May 2020 15:19:58 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=JkQ50q9ZLHxTVDdyNB49Msdwl+kVZ+BQvongiLMgPHc=;
+        b=WmXvTikcgd1H0e+Mcud6Ew0w2vyVZlFzUerKIge3ExVHoG/d5nLauT8z1HeAZMOl/O
+         lqxpL3PTdmXBCN1Fr7f4bBQQlBAS02kIWAS1eGcquigiwYTM8FADE017jrHYXyNO9Yd1
+         XJlDyBp9B0kTFZ1HRW/cc+8fcEo2HQ6eicri6/BLrxQhsq3TWg9IU1ZX4iTqLFvxCTVj
+         8Eu7yMfcE+KnDCvKVaIETbILmw2ZSaeb9ZntE3YBSpxm39BUb2PArki73wAODI7a3Ml9
+         Ytg86cAuZ6HI+pghfDqElWcVVwPA+XcnTxGgxlN7654NwmzLAM8y8HYz35q7z8I4b2yZ
+         5cTw==
+X-Gm-Message-State: AGi0PuYT9nT5OGAyeOKz6FpSZLuoXhYUQRXgQzbWMHhkUX4ohAHDUPmn
+	5UaHa19cJMU/M+6bZCNcE+JnyCr/64c=
+X-Google-Smtp-Source: APiQypJnPB3fEJ8aj3cZtSvokSl1RDPviQAs1Chp6RzW7xaoo09VHbkmuE5XLg2p1p9+EltmpNEiTg==
+X-Received: by 2002:a63:2b43:: with SMTP id r64mr21226219pgr.266.1589325620716;
+        Tue, 12 May 2020 16:20:20 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::8caf])
+        by smtp.gmail.com with ESMTPSA id m19sm13679341pjv.30.2020.05.12.16.20.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 16:20:20 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] glib-2.0: Fix stpcpy detection for mingw
+Date: Tue, 12 May 2020 16:20:12 -0700
+Message-Id: <20200512232012.2010078-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200512214255.20678-1-pkj@axis.com>
-In-Reply-To: <20200512214255.20678-1-pkj@axis.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Tue, 12 May 2020 15:19:46 -0700
-Message-ID: <CAJ86T=U-0v06iC5wm8opzJSO5a7k8a_a_NncF4N5ep6BwnBGTw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] file: Remove unneccessary override of PACKAGECONFIG for native
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 12, 2020 at 2:43 PM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> There is no reason to set PACKAGECONFIG_class-native to the same value
-> as the default PACKAGECONFIG.
+Backport an upstream patch to fix it
 
-End users often don't know how to safely change PACKAGECONFIG from a
-.bbappend and might try PACKAGECONFIG += "foo" or PACKAGECONFIG_append
-= " foo" without realising that it could affect more than just the
-target build.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...etect-stpcpy-on-windows-platforms-on.patch | 53 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.64.2.bb |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Don-t-misdetect-stpcpy-on-windows-platforms-on.patch
 
-Have an explicit PACKAGECONFIG_class-native keeps the native config
-stable for users who haven't yet learning through experience that the
-safe way to change PACKAGECONFIG is PACKAGECONFIG_append_class-target
-= " foo".
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Don-t-misdetect-stpcpy-on-windows-platforms-on.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Don-t-misdetect-stpcpy-on-windows-platforms-on.patch
+new file mode 100644
+index 0000000000..855bdfc0d9
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-meson-Don-t-misdetect-stpcpy-on-windows-platforms-on.patch
+@@ -0,0 +1,53 @@
++From d4b1fd9cdb7ae07fa6be941ac95f97ece175fe55 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Martin=20Storsj=C3=B6?= <martin@martin.st>
++Date: Tue, 31 Mar 2020 23:54:17 +0300
++Subject: [PATCH] meson: Don't misdetect stpcpy on windows platforms on clang
++
++See https://github.com/mesonbuild/meson/issues/3672 and
++https://github.com/mesonbuild/meson/issues/5628 for explanations
++of cases where meson misdetects functions due to clang builtins (that
++always are available, regardless of whether the platform actually
++provides them).
++
++The same also happens on GCC 10, which added support for __has_builtin.
++
++Upstream-Status: Backport [https://github.com/GNOME/glib/commit/1b94bfbd72dbbfb696fa68f3742f40998096b438]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ meson.build | 16 +++++++++++++---
++ 1 file changed, 13 insertions(+), 3 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index 72ca194..bbdac1c 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -533,13 +533,23 @@ foreach f : functions
++   endif
++ endforeach
++ 
++-# Check that stpcpy() is usable; must use header
++-if cc.has_function('stpcpy', prefix : '#include <string.h>')
+++# Check that stpcpy() is usable; must use header.
+++# cc.has_function() in some cases (clang, gcc 10+) assumes that if the
+++# compiler provides a builtin of the same name that the function exists, while
+++# it's in fact not provided by any header or library. This is true for
+++# stpcpy() on Windows using clang and gcc as well as posix_memalign() using
+++# gcc on Windows. Skip these checks on Windows for now to avoid false
+++# positives. See https://github.com/mesonbuild/meson/pull/7116,
+++# https://github.com/mesonbuild/meson/issues/3672 and
+++# https://github.com/mesonbuild/meson/issues/5628.
+++# FIXME: Once meson no longer returns success for stpcpy() and
+++# posix_memalign() on Windows using GCC and clang we can remove this.
+++if host_system != 'windows' and cc.has_function('stpcpy', prefix : '#include <string.h>')
++   glib_conf.set('HAVE_STPCPY', 1)
++ endif
++ 
++ # Check that posix_memalign() is usable; must use header
++-if cc.has_function('posix_memalign', prefix : '#include <stdlib.h>')
+++if host_system != 'windows' and cc.has_function('posix_memalign', prefix : '#include <stdlib.h>')
++   glib_conf.set('HAVE_POSIX_MEMALIGN', 1)
++ endif
++ 
++-- 
++2.26.2
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.64.2.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.64.2.bb
+index 1a8e9d659e..d6207b5b1a 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.64.2.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.64.2.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+            file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
++           file://0001-meson-Don-t-misdetect-stpcpy-on-windows-platforms-on.patch \
+            "
+ 
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
+-- 
+2.26.2
 
-So although this PACKAGECONFIG_class-native may seem redundant to the
-experts, it helps make OE more robust for regular users.
-
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/recipes-devtools/file/file_5.38.bb | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/file/file_5.38.bb b/meta/recipes-devtools/file/file_5.38.bb
-> index f5ad568936..007db4790d 100644
-> --- a/meta/recipes-devtools/file/file_5.38.bb
-> +++ b/meta/recipes-devtools/file/file_5.38.bb
-> @@ -19,7 +19,6 @@ S = "${WORKDIR}/git"
->  inherit autotools update-alternatives
->
->  PACKAGECONFIG ??= "zlib"
-> -PACKAGECONFIG_class-native ??= "zlib"
->  PACKAGECONFIG[bz2] = "--enable-bzlib, --disable-bzlib, bzip2"
->  PACKAGECONFIG[lzma] = "--enable-xzlib, --disable-xzlib, xz"
->  PACKAGECONFIG[zlib] = "--enable-zlib, --disable-zlib, zlib"
-> --
-> 2.21.3
->
-> 
