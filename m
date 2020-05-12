@@ -1,55 +1,92 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web11.6562.1589292862383198552
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web11.6739.1589293351250464648
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 07:14:22 -0700
+ Tue, 12 May 2020 07:22:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=dI/OI5Cr;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=h6oi=62=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49M0DD4cTtz5R
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 16:14:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1589292860;
-	bh=7dXEm4J5++YGKTw0oqsWLIRGwPyTnUlL0g7wQ6OSeAY=;
-	h=From:To:Subject:Date:From;
-	b=dI/OI5CryYq5PmN3CIdpTiqNis0zYPdBODjG1gZuov4Afh+8QNhcAXU12I8DyT4m/
-	 woUr+H7FTaPUHsIbh5EpEnTE2On6uaFyUCPeRgZQa4usk7UlHKTZRr+FG8zPW5hkYr
-	 NMzDXPq0sCFu3ESpiJ6R5dUQ02m8TrH4hOBogGrvjjkikgCXNAPHa89PjktYS5u3qf
-	 INCmmzWvcSIKD3GvAoJp5Q6v33xmtgyZQYJJumh46XHucyCp+eg+uXHrpJ5gMvT8bY
-	 DGJLCwer2MKlOlHc83dtl8A9zXdz1cccUv/iLyq8xpXR0o61r4x2uAG1Wbt1bxR5xQ
-	 khLDMiL+lqrmuQhrqVuJWCJxyqaGtQ2B/z2sZ1A9acBeo7xlcWmyu8BFOI2IDxAFyj
-	 6bBsB+Tea3LI1U+NSV6kYLf5xFcUZyLTLv/xDZDwmnI2rT10XJF1gpW+XBFgn3mb1s
-	 8rteZzFaFrp2V6B6GckBUXE9sWMSJezMJeVHSnJpi8sGefZORSpsJazeo+ybY66Bf0
-	 bYV0/+O1G9q3nPllCXU19wfXtVWX3fEjg6ntMJffeenFqCDsNIjq/eY2IOWsn5hiCq
-	 en2oAw+GOffPTHWXrBR4BtG7LRpT02bQ41JoaSOWC8vqyUsWsGsY1SVsYImZ+FSuVl
-	 SqUx2ffeE4tcgrMiaqD39FDk=
-From: "Adrian Bunk" <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] llvm: Remove -fcommon
-Date: Tue, 12 May 2020 17:14:16 +0300
-Message-Id: <20200512141416.5327-8-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=girdtlt/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id e16so15651918wra.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 07:22:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=S8uTfynuwnUOQwMn9wJU+Xj+JSiSptow6fY3tIqr0f0=;
+        b=girdtlt/L8bHttVQokKBdtZ9dt4tlzbDMx9xvUkzpvuNXSW6Yq2/m+mT9tnrtBZQfT
+         aAyDGDaWhVZZcCezrw77y7tHuMXaqSm6nlVta75YrGCEXH5VdGpj3H2rQVtMqZuKOEFL
+         6bINNlPnZoqxoFo4Ka6nB61qn1mX35Oq3/M/M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=S8uTfynuwnUOQwMn9wJU+Xj+JSiSptow6fY3tIqr0f0=;
+        b=aijoG5R9RAtGsQKzLcRZ0we4L2CSrL1wJBlQNn9eteuPD2TvpRpEIuhTOsxBZXjaFZ
+         AqTTC840Ug2ojg5cBsxf/yw1+sgljPQOjGLs1Bq+dHl9CgWZt9j0Z/Tj/IFR0+FJLGgr
+         dBkP7hABiL4M06Y40cmO8LknipwrOlV1J4CIHpBA9/M+nejB6t2MEXNybiWBoUpzFzqr
+         YPiZx3Qnl/Zdw4jpN0GoeF3I9HhcziYpa58I8TccmF1N1yE/n9dnSt9v4GYTX6O1lWoL
+         uBCIPNU2LRHYhK0uPz6lMeiEbkWIzlNbc7wz1IUzYCYkKnwek+5GwE/gPHGocA0X+3JA
+         UMdA==
+X-Gm-Message-State: AOAM532AU9CRPekKXTdhXyXOB2GsZX1ZSkPfBpIIX/nNoNGwsbk+gAus
+	myViZ+i75bxtTldn4+r+vE2Qog==
+X-Google-Smtp-Source: ABdhPJy2vljW7xcJXIDtt/Do1xudnu5yLkSueYcpRsXUviFvCKVNHRpefjfNB/s7ChaptgIUEd5KZg==
+X-Received: by 2002:a5d:5011:: with SMTP id e17mr2388126wrt.347.1589293349707;
+        Tue, 12 May 2020 07:22:29 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id s17sm30832126wmc.48.2020.05.12.07.22.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 07:22:29 -0700 (PDT)
+Message-ID: <3f5f200c47a92bc0a417300d0d0efa73d423d9ba.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] classes/kernel: Generate reproducible kernel module tarball
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <JPEWhacker@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 12 May 2020 15:22:28 +0100
+In-Reply-To: <20200512134013.25080-1-JPEWhacker@gmail.com>
+References: <20200512134013.25080-1-JPEWhacker@gmail.com>
+User-Agent: Evolution 3.36.1-2 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I cannot reproduce the problem.
+On Tue, 2020-05-12 at 08:40 -0500, Joshua Watt wrote:
+> If reproducible binaries are requested, generate the kernel modules
+> tarball in a reproducible way. Namely, sort the tarball contents, clamp
+> the mtime to the source date epoch, compress the archive with a
+> consistent compression level (9), and don't include the name and
+> timestamp in the compressed file.
+> 
+> [YOCTO #12719]
+> 
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/classes/kernel.bbclass | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index a724645466..c124645643 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -691,7 +691,15 @@ kernel_do_deploy() {
+>  
+>  	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
+>  		mkdir -p ${D}${root_prefix}/lib
+> -		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D}${root_prefix} lib
+> +		if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+> +			TAR_ARGS="--sort=name --clamp-mtime --mtime=@${SOURCE_DATE_EPOCH}"
+> +			GZIP_ARGS="-9n"
+> +		else
+> +			TAR_ARGS=""
+> +			GZIP_ARGS=""
+> +		fi
+> +		tar $TAR_ARGS -cv -C ${D}${root_prefix} lib | gzip $GZIP_ARGS > $deployDir/modules-${MODULE_TARBALL_NAME}.tgz
+> +
+>  		ln -sf modules-${MODULE_TARBALL_NAME}.tgz $deployDir/modules-${MODULE_TARBALL_LINK_NAME}.tgz
+>  	fi
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-devtools/llvm/llvm_git.bb | 2 --
- 1 file changed, 2 deletions(-)
+Do we need to make this conditional or could we just do it by default?
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index a8607f5008..d24ed761bf 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -92,8 +92,6 @@ EXTRA_OECMAKE_append_class-nativesdk = "\
-                   -DLLVM_CONFIG_PATH=${STAGING_BINDIR_NATIVE}/llvm-config${PV} \
-                  "
- 
--CFLAGS += "-fcommon"
--
- do_configure_prepend() {
- # Fix paths in llvm-config
- 	sed -i "s|sys::path::parent_path(CurrentPath))\.str()|sys::path::parent_path(sys::path::parent_path(CurrentPath))).str()|g" ${S}/tools/llvm-config/llvm-config.cpp
--- 
-2.17.1
+Cheers,
+
+Richard
 
