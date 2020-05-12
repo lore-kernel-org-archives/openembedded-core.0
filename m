@@ -1,203 +1,445 @@
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
- by mx.groups.io with SMTP id smtpd.web11.741.1589262347446717045
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.1254.1589266426907391521
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 May 2020 22:45:47 -0700
+ Mon, 11 May 2020 23:53:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eFyiWUtq;
- spf=pass (domain: gmail.com, ip: 209.85.167.68, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f68.google.com with SMTP id v5so5387956lfp.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 May 2020 22:45:47 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=TPjlwnCx;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=XPhaSBXJOqLyXveZHOAA2xnGLpyJ/2QPCuwbA89/rtU=;
-        b=eFyiWUtq8r/XllwtwKBBO4zG3A0vhthFUomdQW/77ogO0Ur4Resz+1RgpuTDagNg/1
-         VSmjB2iL73/DjxnqWHlyHJSSbW2OuUz1mJJeqmiL9cKrqWKKjKxQN4i7bOE3eC2+ZlC6
-         ZDZ2z35DWLc2ASGeOnTQz2GV7BqJvyF85jbzGtrWIDXLVo4SMF2aR5ZqixAsg+UmSMeJ
-         6CGyldi2DOjCcjFYBvjAONkjse85fMsFsnQq3/njZQCoP1TVvYOorg6LxQ0F7p6us72s
-         n/Ag+5zRLLYiFhriJhZevkyP4shNGY6Bx6gcbEST7BshuMZJS/hNEhlWP28Lww1VaQ7W
-         ZXYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=XPhaSBXJOqLyXveZHOAA2xnGLpyJ/2QPCuwbA89/rtU=;
-        b=DNzuAs8Uz3G8KprbX/Gvbzm2u6GuY2P/Nvn9cl/2CDzrf3R9wqUbCh/tJsQ2Wd6W0E
-         AcQz9ZW72vWUIaeacR42pfiaYnlPWEsLL7WLA1txiXuRxjD4AVFbsW/kRwyCz7iLqa7T
-         l0USjCeuaiSl+WV6gWMQp4qyItJKDLe8AHIrxucMwb4iqgy/n2KTUHOQEdZ9ag9CCdlq
-         ZsxhIY1ZcIabGUcvOr+PNUFMDTOx/VOtXx7bPB5ZnK9Fu5iQD2I1gGgbm8O0Yr44tIJ+
-         Az3S2RBWc+Qmn3poFfHjG2N0trWOYD++rJga8ND6S0mMvRqKJDmNp/6jaddcolo6vN/X
-         1Mnw==
-X-Gm-Message-State: AOAM531CS4rw2BWWuA/C27wX51p7JVVwoN6JfO495Lm2p9fcTuBH6+hQ
-	be5UMWpYAkvtkLkudmauu90k5MTD2sg=
-X-Google-Smtp-Source: ABdhPJzGSf45Q2Km42qq1Uz6G4v5Fw8XOZbbx66KMvSItK9bmuhuBxUxBPRVv2R9eeMTqkmewsGG3g==
-X-Received: by 2002:ac2:5384:: with SMTP id g4mr13397544lfh.1.1589262345227;
-        Mon, 11 May 2020 22:45:45 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain ([213.185.29.22])
-        by smtp.gmail.com with ESMTPSA id l5sm12970890lfk.16.2020.05.11.22.45.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 May 2020 22:45:44 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH V3 1/3] gcc10: Update to GCC 10.1 Release
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-References: <20200511182812.441561-1-raj.khem@gmail.com>
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-Message-ID: <008159f3-8bea-deb2-5228-3984bae2ff36@gmail.com>
-Date: Tue, 12 May 2020 07:45:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+  d=axis.com; l=15384; q=dns/txt; s=axis-central1;
+  t=1589266427; x=1620802427;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=zpSi+Yn4YsB5hsmDMg6d69digPIbj7OpOuNLsACis30=;
+  b=TPjlwnCxJmHWS5SUwPSiJfLYGgYr6AvjFgdlkzaheGlfg30EmjP6sZ18
+   MwW5iC719emMq/E90fhWXGrlAhGkGVzZW4R0jOeQuJYCQ4K/PkUkvnMzI
+   vZwdSLj4KgTTjBJTea9m6feyMMGeTrHeh/DswIZ8CI+0O5C65K9tEBTPA
+   SIz9MtTu0oyQoSCOLlCqDR0IieDBxp7MP4lxoiOAYIktgMNM9d6Kii1aj
+   Tz9apPoyrHOEB5Qnt8WYlGfRExJ7IEb5LzvUi5mmB/E3G2LP14z8KaayB
+   WSoGe5LIMIaQUE/V9X4UyVLwttoD/HCl0M9amu680IFkF305d5L6YvR57
+   g==;
+IronPort-SDR: DadwFlkrk4KRVhQbjLztP5C5P+zTll1nrXmAtir3tM1qt8IrXKwDO2+gwIpYdCC6ko/hPZ7qKt
+ 6vjW2qhSBGNR+xy472RoTHtr4hyMW1s4JUzcLS+5Mc8gQcNwTx8Vu+NsgZR6M44rGMgnYU/Hfs
+ qm8yQfeLq69IU1D+H6CWH5ihVmO3gLL6vds0fMBe2QmPKE3LfDOs1rwCkEyuUxD60FH6cIBRSI
+ o12j/DyFNT8w0QwT4Wo2qYO+HOS5+98x8cnlIN7qN/4HqElyVzUeiWLQwLFh+npIKsejebtBwR
+ j3g=
+X-IronPort-AV: E=Sophos;i="5.73,382,1583190000"; 
+   d="scan'208";a="8389198"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Rahul Kumar <rahulk@mvista.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
+Thread-Topic: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
+Thread-Index: AQHWGZ6l1q18DkmsOU+pORMl94H+FKikGwjQ
+Date: Tue, 12 May 2020 06:53:41 +0000
+Message-ID: <8a37d1b4b7784a48ac57074af3eca982@XBOX03.axis.com>
+References: <1587667187-14130-1-git-send-email-rahulk@mvista.com>
+In-Reply-To: <1587667187-14130-1-git-send-email-rahulk@mvista.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.20.13.13]
 MIME-Version: 1.0
-In-Reply-To: <20200511182812.441561-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/11/20 8:28 PM, Khem Raj wrote:
-> * Package new gomp header acc_prof.h
-> * Package lto-dump which is a new tool in gcc10
-> * All Changes are here [1]
-> * Porting apps to gcc 10 help is here [2]
-> * Backport a patch to fix CET errors on cross builds
-> * Add patch to fix mingw libstdc++
-> 
-> [1] https://gcc.gnu.org/gcc-10/changes.html
-> [2] https://gcc.gnu.org/gcc-10/porting_to.html
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-
+> core@lists.openembedded.org> On Behalf Of Rahul Kumar
+> Sent: den 23 april 2020 20:40
+> To: openembedded-core@lists.openembedded.org
+> Cc: Rahul Kumar <rahulk@mvista.com>
+> Subject: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
+>=20
+> Source: git://sourceware.org/git/bzip2-tests.git
+> Type: Enhancement
+> Description:
+> bzip2 now has a test suite available at git://sourceware.org/git/bzip2-
+> tests.git.
+>=20
+> This is a collection of "interesting" .bz2 files that can be used to
+> test bzip2 works correctly. They come from different projects.
+>=20
+> Some files are deliberately bad, and are use to see how bzip2 handles
+> corrupt files. They are explicitly not intended to decompress correctly,
+> but to catch errors in bzip2 trying to deal with deliberately bad data.
+> All such files have a name ending in .bz2.bad.
+>=20
+> All non-bad files end in bz2. And should come with a .md5 file for
+> the original input file. The .md5 file is used to check that bzip2
+> could correctly decompress the file. The original (non-compressed)
+> files are deliberately not checked in.
+>=20
+> It will by default test with the command 'bzip2', running under
+> valgrind (if installed on the system).
+>=20
+> For each .bz2 file found it is decompressed, recompressed and
+> decompressed again. Once with the default bzip2 settings and
+> once in --small (-s) mode.
+>=20
+> For each .bz2.bad file decompression is tried twice also. In
+> default mode and small mode. The bzip2 binary is expected to
+> return either 1 or 2 as exit status. Any other exit code is
+> interpreted as failure.
+>=20
+> License:
+>    In bzip2-tests source code Each directory should contain a README
+>    file explaining where the .bz2 files originally came from.
+>    Plus a reference to the (Free Software) license that the project
+>    files were distributed under.
+>=20
+>    Adding GPLv3+ License to the bzip2 recipe. Since we modify the
+>    bzip2-tests.git/run-tests.sh script and we can redistribute it and/or
+>    modify it under the terms of the GNU General Public License (GPL);
+>    either version 3, or (at your option) any later version.
+>=20
+>    since all other files and directories are unchanged and We are simply
+>    using the compressed files as data so we are ignoring the license info=
+ for
+>    these files and directories in bzip2-tests.git
+
+This is not how licenses work. They typically relate to distribution.=20
+I.e., it is the act of distributing the code that is covered in the=20
+license. It does not matter if what is distributed is later used as=20
+source or as a binary blob, it is still being distributed.
+
+Since the code that is covered by, e.g., GPL-3.0 is only distributed in=20
+the ptest package, you will have to set individual package licenses. I.e.,=
+=20
+LICENSE should contain all licenses used by any package. Then for each=20
+package that should have a different license, you need to define it=20
+explicitly. E.g.:
+
+LICENSE_${PN} =3D "bzip2-1.0.6"
+LICENSE_${PN}-dev =3D "bzip2-1.0.6"
+LICENSE_${PN}-dbg =3D "bzip2-1.0.6"
+LICENSE_${PN}-doc =3D "bzip2-1.0.6"
+LICENSE_${PN}-src =3D "bzip2-1.0.6"
+LICENSE_libbz2 =3D "bzip2-1.0.6"
+
+The above assumes that what is covered by the GPL-3.0 license only ends=20
+up in ${PN}-ptest. If any of it ends up in any of the other packages=20
+above, then obviously they need to be removed from the list too.
+
+//Peter
+
+> Test Summery:
+>    On qemux86-64/kvm the ptest results with extra filesystem space
+> (atleast 114688) are:
+>=20
+> TOTAL: 	396
+> PASS: 	396
+> SKIP: 	0
+> XFAIL: 	0
+> FAIL: 	0
+> XPASS: 	0
+> ERROR: 	0
+>=20
+> All tests passed
+> DURATION: 517
+>=20
+> [YOCTO #13444]
+>=20
+> Signed-off-by: Rahul Kumar <rahulk@mvista.com>
 > ---
-> v2: Correct SRC_URI checksums
-> v3: Drop icu change
->      Backport a patch for CET cross compile
-> 
->   meta/conf/distro/include/maintainers.inc      |   2 +-
->   meta/conf/distro/include/tcmode-default.inc   |   2 +-
->   .../gcc/{gcc-9.3.inc => gcc-10.1.inc}         |  53 +++----
->   ...0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch |  15 +-
->   .../0002-gcc-poison-system-directories.patch  |  47 +++---
->   ...-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch |  11 +-
->   .../0004-64-bit-multilib-hack.patch           |  15 +-
->   .../0005-optional-libstdc.patch               |  29 ++--
->   .../0006-COLLECT_GCC_OPTIONS.patch            |  11 +-
->   ...ts.h-in-B-instead-of-S-and-t-oe-in-B.patch |  20 +--
->   .../0008-fortran-cross-compile-hack.patch     |  15 +-
->   .../0009-cpp-honor-sysroot.patch              |  13 +-
->   .../0010-MIPS64-Default-to-N64-ABI.patch      |  11 +-
->   ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch |  33 ++--
->   ...gcc-Fix-argument-list-too-long-error.patch |  11 +-
->   .../0013-Disable-sdt.patch                    |  23 ++-
->   .../{gcc-9.3 => gcc-10.1}/0014-libtool.patch  |   9 +-
->   ...s-fix-v4bx-to-linker-to-support-EABI.patch |  11 +-
->   ...-config-files-from-B-instead-of-usin.patch |  25 ++-
->   ...ir-from-.la-which-usually-points-to-.patch |  11 +-
->   .../0018-export-CPP.patch                     |   9 +-
->   ...e-target-gcc-headers-can-be-included.patch |  13 +-
->   ...-directory-during-relink-if-inst_pr.patch} |  11 +-
->   ...R-replacement-instead-of-hardcoding.patch} |   9 +-
->   ...2-aarch64-Add-support-for-musl-ldso.patch} |   9 +-
->   ...fix-libcc1-s-install-path-and-rpath.patch} |   9 +-
->   ...e-sysroot-support-for-nativesdk-gcc.patch} | 112 ++++++-------
->   ...root-gcc-version-specific-dirs-with.patch} |  13 +-
->   ...us-_FOR_BUILD-and-related-variables.patch} |  27 ++--
->   ...27-nios2-Define-MUSL_DYNAMIC_LINKER.patch} |   9 +-
->   ...-to-link-commandline-for-musl-targe.patch} |  15 +-
->   ...sing-LDFLAGS-not-just-SHLIB_LDFLAGS.patch} |   9 +-
->   .../0030-sync-gcc-stddef.h-with-musl.patch}   |   9 +-
->   ...fault-in-precompiled-header-generat.patch} |  11 +-
->   .../0032-Fix-for-testsuite-failure.patch}     |   9 +-
->   ...e-introduce-spe-commandline-options.patch} |  11 +-
->   ...s-for-__cpu_indicator_init-instead-.patch} |  29 ++--
->   ...-Do-not-use-__LINE__-for-maintainin.patch} |  55 +++----
->   ...le-CET-in-cross-compiler-if-possible.patch | 150 ++++++++++++++++++
->   ...v3-Include-system_error-for-std-errc.patch |  23 +++
->   ...ild-with-disable-dependency-tracking.patch |  54 -------
->   .../gcc/gcc-9.3/0030-ldbl128-config.patch     |  79 ---------
->   ...heck-zero-value-in-simple_object_elf.patch |  48 ------
->   ...ands-Don-t-match-user-defined-regs-o.patch | 100 ------------
->   ...dian_9.3.bb => gcc-cross-canadian_10.1.bb} |   0
->   .../{gcc-cross_9.3.bb => gcc-cross_10.1.bb}   |   0
->   ...c-crosssdk_9.3.bb => gcc-crosssdk_10.1.bb} |   0
->   meta/recipes-devtools/gcc/gcc-runtime.inc     |   1 +
->   ...gcc-runtime_9.3.bb => gcc-runtime_10.1.bb} |   0
->   ...nitizers_9.3.bb => gcc-sanitizers_10.1.bb} |   0
->   .../{gcc-source_9.3.bb => gcc-source_10.1.bb} |   0
->   meta/recipes-devtools/gcc/gcc-target.inc      |   1 +
->   .../gcc/{gcc_9.3.bb => gcc_10.1.bb}           |   0
->   ...-initial_9.3.bb => libgcc-initial_10.1.bb} |   0
->   .../gcc/{libgcc_9.3.bb => libgcc_10.1.bb}     |   0
->   ...libgfortran_9.3.bb => libgfortran_10.1.bb} |   0
->   meta/recipes-support/icu/icu/filter.json      |   2 -
->   57 files changed, 491 insertions(+), 703 deletions(-)
->   rename meta/recipes-devtools/gcc/{gcc-9.3.inc => gcc-10.1.inc} (65%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0001-gcc-4.3.1-ARCH_FLAGS_FOR_TARGET.patch (79%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0002-gcc-poison-system-directories.patch (85%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0003-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch (92%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0004-64-bit-multilib-hack.patch (95%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0005-optional-libstdc.patch (86%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0006-COLLECT_GCC_OPTIONS.patch (80%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0007-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch (87%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0008-fortran-cross-compile-hack.patch (81%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0009-cpp-honor-sysroot.patch (87%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0010-MIPS64-Default-to-N64-ABI.patch (85%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0011-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch (93%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0012-gcc-Fix-argument-list-too-long-error.patch (85%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0013-Disable-sdt.patch (88%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0014-libtool.patch (87%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0015-gcc-armv4-pass-fix-v4bx-to-linker-to-support-EABI.patch (87%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0016-Use-the-multilib-config-files-from-B-instead-of-usin.patch (81%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0017-Avoid-using-libdir-from-.la-which-usually-points-to-.patch (76%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0018-export-CPP.patch (93%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3 => gcc-10.1}/0019-Ensure-target-gcc-headers-can-be-included.patch (88%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0021-Don-t-search-host-directory-during-relink-if-inst_pr.patch => gcc-10.1/0020-Don-t-search-host-directory-during-relink-if-inst_pr.patch} (80%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0022-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch => gcc-10.1/0021-Use-SYSTEMLIBS_DIR-replacement-instead-of-hardcoding.patch} (81%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0023-aarch64-Add-support-for-musl-ldso.patch => gcc-10.1/0022-aarch64-Add-support-for-musl-ldso.patch} (83%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0024-libcc1-fix-libcc1-s-install-path-and-rpath.patch => gcc-10.1/0023-libcc1-fix-libcc1-s-install-path-and-rpath.patch} (91%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0025-handle-sysroot-support-for-nativesdk-gcc.patch => gcc-10.1/0024-handle-sysroot-support-for-nativesdk-gcc.patch} (84%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0026-Search-target-sysroot-gcc-version-specific-dirs-with.patch => gcc-10.1/0025-Search-target-sysroot-gcc-version-specific-dirs-with.patch} (90%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0027-Fix-various-_FOR_BUILD-and-related-variables.patch => gcc-10.1/0026-Fix-various-_FOR_BUILD-and-related-variables.patch} (89%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0028-nios2-Define-MUSL_DYNAMIC_LINKER.patch => gcc-10.1/0027-nios2-Define-MUSL_DYNAMIC_LINKER.patch} (79%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0029-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch => gcc-10.1/0028-Add-ssp_nonshared-to-link-commandline-for-musl-targe.patch} (89%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0031-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch => gcc-10.1/0029-Link-libgcc-using-LDFLAGS-not-just-SHLIB_LDFLAGS.patch} (80%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0033-sync-gcc-stddef.h-with-musl.patch => gcc-10.1/0030-sync-gcc-stddef.h-with-musl.patch} (93%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0034-fix-segmentation-fault-in-precompiled-header-generat.patch => gcc-10.1/0031-fix-segmentation-fault-in-precompiled-header-generat.patch} (86%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0035-Fix-for-testsuite-failure.patch => gcc-10.1/0032-Fix-for-testsuite-failure.patch} (98%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0036-Re-introduce-spe-commandline-options.patch => gcc-10.1/0033-Re-introduce-spe-commandline-options.patch} (81%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0032-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch => gcc-10.1/0034-libgcc_s-Use-alias-for-__cpu_indicator_init-instead-.patch} (77%)
->   rename meta/recipes-devtools/gcc/{gcc-9.3/0038-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch => gcc-10.1/0035-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch} (80%)
->   create mode 100644 meta/recipes-devtools/gcc/gcc-10.1/0036-Enable-CET-in-cross-compiler-if-possible.patch
->   create mode 100644 meta/recipes-devtools/gcc/gcc-10.1/0037-libstdc-v3-Include-system_error-for-std-errc.patch
->   delete mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0020-gcc-4.8-won-t-build-with-disable-dependency-tracking.patch
->   delete mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0030-ldbl128-config.patch
->   delete mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0037-CVE-2019-14250-Check-zero-value-in-simple_object_elf.patch
->   delete mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0039-process_alt_operands-Don-t-match-user-defined-regs-o.patch
->   rename meta/recipes-devtools/gcc/{gcc-cross-canadian_9.3.bb => gcc-cross-canadian_10.1.bb} (100%)
->   rename meta/recipes-devtools/gcc/{gcc-cross_9.3.bb => gcc-cross_10.1.bb} (100%)
->   rename meta/recipes-devtools/gcc/{gcc-crosssdk_9.3.bb => gcc-crosssdk_10.1.bb} (100%)
->   rename meta/recipes-devtools/gcc/{gcc-runtime_9.3.bb => gcc-runtime_10.1.bb} (100%)
->   rename meta/recipes-devtools/gcc/{gcc-sanitizers_9.3.bb => gcc-sanitizers_10.1.bb} (100%)
->   rename meta/recipes-devtools/gcc/{gcc-source_9.3.bb => gcc-source_10.1.bb} (100%)
->   rename meta/recipes-devtools/gcc/{gcc_9.3.bb => gcc_10.1.bb} (100%)
->   rename meta/recipes-devtools/gcc/{libgcc-initial_9.3.bb => libgcc-initial_10.1.bb} (100%)
->   rename meta/recipes-devtools/gcc/{libgcc_9.3.bb => libgcc_10.1.bb} (100%)
->   rename meta/recipes-devtools/gcc/{libgfortran_9.3.bb => libgfortran_10.1.bb} (100%)
->   delete mode 100644 meta/recipes-support/icu/icu/filter.json
-> 
+>  .../bzip2/0001-bzip2-modify-run-tests-script.patch | 188
+> +++++++++++++++++++++
+>  meta/recipes-extended/bzip2/bzip2/Makefile.am      |   2 +
+>  meta/recipes-extended/bzip2/bzip2_1.0.8.bb         |   9 +-
+>  3 files changed, 197 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-
+> run-tests-script.patch
+>=20
+> diff --git a/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-
+> tests-script.patch b/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-
+> run-tests-script.patch
+> new file mode 100644
+> index 0000000..900a9aa
+> --- /dev/null
+> +++ b/meta/recipes-extended/bzip2/bzip2/0001-bzip2-modify-run-tests-
+> script.patch
+> @@ -0,0 +1,188 @@
+> +From 8e704bc7bf25f892968eac8bcb40a205248ff5b2 Mon Sep 17 00:00:00 2001
+> +From: Rahul Kumar <rahulk@mvista.com>
+> +Date: Mon, 30 Mar 2020 12:17:00 +0530
+> +Subject: [PATCH] bzip2: modify run-tests script
+> +
+> +1) modify run-tests script to write PASS/FAIL as expected by the ptest
+> infrastructure
+> +
+> +2) Since the discrete md5sum does not have a short form of --status.And
+> minimal base
+> +   images does not support commands with long form arguments so dropping
+> this
+> +   argument
+> +
+> +Upstream-Status: Submitted [bzip2-devel@sourceware.org]
+> +- Submitted to bzip2 mailing list and waiting approval
+> +
+> +Signed-off-by: Rahul Kumar <rahulk@mvista.com>
+> +---
+> + run-tests.sh | 62 ++++++++++++++++++++++++++++++++---------------------
+> -------
+> + 1 file changed, 33 insertions(+), 29 deletions(-)
+> +
+> +diff --git a/run-tests.sh b/run-tests.sh
+> +index 1ba8c27..771584d 100755
+> +--- a/run-tests.sh
+> ++++ b/run-tests.sh
+> +@@ -40,21 +40,21 @@ case $i in
+> + esac
+> + done
+> +
+> +-if ! type "valgrind" > /dev/null; then
+> ++if ! type "valgrind" > /dev/null 2>&1; then
+> +   VALGRIND=3D""
+> +   VALGRIND_ARGS=3D""
+> + fi
+> +
+> + echo "Testing ${BZIP2} in directory ${TESTS_DIR}"
+> + if [ "$VALGRIND" !=3D "" ]; then
+> +-  echo "  using valgrind"
+> ++  echo "Using valgrind: Yes"
+> + else
+> +-  echo "  NOT using valgrind"
+> ++  echo "Using valgrind: No"
+> + fi
+> + if [[ ${IGNORE_MD5} -eq 0 ]]; then
+> +-  echo "  checking md5 sums"
+> ++  echo "Checking md5 sums: Yes"
+> + else
+> +-  echo "  NOT checking md5 sums"
+> ++  echo "Checking md5 sums: No"
+> + fi
+> +
+> + # Remove any left over tesfilecopies from previous runs first.
+> +@@ -78,14 +78,14 @@ while IFS=3D read -r -d '' bzfile; do
+> +   # Decompress it.
+> +   echo "  Decompress..."
+> +   rm -f "${file}"
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${bzfile} \
+> +-    || { echo "!!! bad decompress result $?";
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q ${bzfile} && { echo
+> "PASS: ${bzfile} Decompress"; } \
+> ++    || { echo "FAIL: ${bzfile} Decompress";
+> +          badtests=3D("${badtests[@]}" $"${bzfile} bad decompress result=
+")
+> +          nogood=3D$[${nogood}+1]; continue; }
+> +
+> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
+> +-    md5sum --check --status ${md5file} < ${file} \
+> +-      || { echo "!!! md5sum doesn't match decompressed file";
+> ++    md5sum -c ${md5file} < ${file} && { echo "PASS: ${bzfile} md5sum
+> Matched"; } \
+> ++      || { echo "FAIL: ${bzfile} md5sum Matched";
+> +            badtests=3D("${badtests[@]}" $"${file} md5sum doesn't match"=
+)
+> +            nogood=3D$[${nogood}+1]; continue; }
+> +   fi
+> +@@ -94,19 +94,19 @@ while IFS=3D read -r -d '' bzfile; do
+> +   mv "${file}" "${copy}"
+> +   rm -f "${bzcopy}"
+> +   echo "  Recompress..."
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} \
+> +-    || { echo "!!! bad compress result $?";
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} && { echo
+> "PASS: ${bzfile} Recompress "; } \
+> ++    || { echo "FAIL: ${bzfile} Recompress";
+> +          badtests=3D("${badtests[@]}" $"${copy} bad result")
+> +          nogood=3D$[${nogood}+1]; continue; }
+> +   echo "  Redecompress..."
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} \
+> +-    || { echo "!!! bad (re)decompress result $?";
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} && { echo
+> "PASS: ${bzfile} Redecompress"; } \
+> ++    || { echo "FAIL: ${bzfile} Redecompress";
+> +          badtests=3D("${badtests[@]}" $"${bzcopy} bad result")
+> +          nogood=3D$[${nogood}+1]; continue; }
+> +
+> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
+> +-    md5sum --check --status ${md5file} < ${copy} \
+> +-      || { echo "!!! md5sum doesn't match (re)decompressed file";
+> ++    md5sum -c ${md5file} < ${copy} && { echo "PASS: ${bzfile} md5sum
+> Matched"; } \
+> ++      || { echo "FAIL: ${bzfile} md5sum Matched";
+> +            badtests=3D("${badtests[@]}" $"${copy} md5sum doesn't match"=
+)
+> +            nogood=3D$[${nogood}+1]; continue; }
+> +   fi
+> +@@ -116,14 +116,14 @@ while IFS=3D read -r -d '' bzfile; do
+> +   # Now do it all again in "small" mode.
+> +   echo "  Decompress (small)..."
+> +   rm -f "${file}"
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${bzfile} \
+> +-    || { echo "!!! bad decompress result $?";
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -k -d -q -s ${bzfile} &&{ echo
+> "PASS: ${bzfile} Decompress (small)"; } \
+> ++    || { echo "FAIL: ${bzfile} Decompress (small)";
+> +          badtests=3D("${badtests[@]}" $"${bzfile} bad decompress result=
+")
+> +          nogood=3D$[${nogood}+1]; continue; }
+> +
+> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
+> +-    md5sum --check --status ${md5file} < ${file} \
+> +-      || { echo "!!! md5sum doesn't match decompressed file";
+> ++    md5sum -c ${md5file} < ${file} && { echo "PASS: ${bzfile} Md5sum
+> Matched"; } \
+> ++      || { echo "FAIL: ${bzfile} Md5sum Matched";
+> +            badtests=3D("${badtests[@]}" $"${file} md5sum doesn't match"=
+)
+> +            nogood=3D$[${nogood}+1]; continue; }
+> +   fi
+> +@@ -132,19 +132,19 @@ while IFS=3D read -r -d '' bzfile; do
+> +   mv "${file}" "${copy}"
+> +   rm -f "${bzcopy}"
+> +   echo "  Recompress (small)..."
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} \
+> +-    || { echo "!!! bad compress result $?";
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -z -q -s ${copy} && { echo
+> "PASS: ${bzfile} Recompress (small)"; } \
+> ++    || { echo "FAIL: ${bzfile} Recompress (small)";
+> +          badtests=3D("${badtests[@]}" $"${copy} bad result")
+> +          nogood=3D$[${nogood}+1]; continue; }
+> +   echo "  Redecompress (small)..."
+> +-  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} \
+> +-    || { echo "!!! bad (re)decompress result $?";
+> ++  ${VALGRIND} ${VALGRIND_ARGS} ${BZIP2} -d -q -s ${bzcopy} && { echo
+> "PASS: ${bzfile} Redecompress (small)"; } \
+> ++    || { echo "FAIL: ${bzfile} Redecompress (small)";
+> +          badtests=3D("${badtests[@]}" $"${bzcopy} bad result")
+> +          nogood=3D$[${nogood}+1]; continue; }
+> +
+> +   if [[ ${IGNORE_MD5} -ne 1 ]]; then
+> +-    md5sum --check --status ${md5file} < ${copy} \
+> +-      || { echo "!!! md5sum doesn't match (re)decompressed file";
+> ++    md5sum -c ${md5file} < ${copy} && { echo "PASS: ${bzfile} md5sum
+> Matched"; } \
+> ++      || { echo "FAIL: ${bzfile} md5sum : Miss Matched";
+> +            badtests=3D("${badtests[@]}" $"${copy} md5sum doesn't match"=
+)
+> +            nogood=3D$[${nogood}+1]; continue; }
+> +   fi
+> +@@ -176,7 +176,7 @@ while IFS=3D read -r -d '' badfile; do
+> +   ret=3D$?
+> +
+> +   if [[ ${ret} -eq 0 ]]; then
+> +-    echo "!!! badness not detected"
+> ++    echo "FAIL: badness not detected"
+> +     nobad=3D$[${nobad}+1]
+> +     badtests=3D("${badtests[@]}" $"${badfile} badness not detected")
+> +     continue
+> +@@ -185,10 +185,12 @@ while IFS=3D read -r -d '' badfile; do
+> +   # Assumes "normal" badness is detected by exit code 1 or 2.
+> +   # A crash or valgrind issue will be reported with something else.
+> +   if [[ ${ret} !=3D 1 ]] && [[ ${ret} !=3D 2 ]]; then
+> +-    echo "!!! baddness caused baddness in ${BZIP2}"
+> ++    echo "FAIL: baddness caused baddness in ${BZIP2}"
+> +     badbad=3D$[${badbad}+1]
+> +     badtests=3D("${badtests[@]}" $"${badfile} badness caused baddness")
+> +     continue
+> ++  else
+> ++    echo "PASS: Correctly found data integrity errors in ${badfile}
+> during decompress."
+> +   fi
+> +
+> +   echo "  Trying to decompress (small)..."
+> +@@ -196,7 +198,7 @@ while IFS=3D read -r -d '' badfile; do
+> +   ret=3D$?
+> +
+> +   if [[ ${ret} -eq 0 ]]; then
+> +-    echo "!!! badness not detected"
+> ++    echo "FAIL: badness not detected "
+> +     nobad=3D$[${nobad}+1]
+> +     badtests=3D("${badtests[@]}" $"${badfile} badness not detected")
+> +     continue
+> +@@ -205,10 +207,12 @@ while IFS=3D read -r -d '' badfile; do
+> +   # Assumes "normal" badness is detected by exit code 1 or 2.
+> +   # A crash or valgrind issue will be reported with something else.
+> +   if [[ ${ret} !=3D 1 ]] && [[ ${ret} !=3D 2 ]]; then
+> +-    echo "!!! baddness caused baddness in ${BZIP2}"
+> ++    echo "FAIL: baddness caused baddness in ${BZIP2}"
+> +     badbad=3D$[${badbad}+1]
+> +     badtests=3D("${badtests[@]}" $"${badfile} badness caused baddness")
+> +     continue
+> ++  else
+> ++    echo "PASS: Correctly found data integrity errors in ${badfile}
+> during decompress (small)"
+> +   fi
+> +
+> + done < <(find ${TESTS_DIR} -type f -name \*\.bz2.bad -print0)
+> +--
+> +2.7.4
+> diff --git a/meta/recipes-extended/bzip2/bzip2/Makefile.am
+> b/meta/recipes-extended/bzip2/bzip2/Makefile.am
+> index dcf6458..aab6558 100644
+> --- a/meta/recipes-extended/bzip2/bzip2/Makefile.am
+> +++ b/meta/recipes-extended/bzip2/bzip2/Makefile.am
+> @@ -46,6 +46,7 @@ runtest:
+>  	else echo "FAIL: sample2 decompress"; fi
+>  	@if cmp sample3.tst sample3.ref; then echo "PASS: sample3
+> decompress";\
+>  	else echo "FAIL: sample3 decompress"; fi
+> +	./bzip2-tests/run-tests.sh --tests-dir=3D"$(PWD)/bzip2-tests"
+>=20
+>  install-ptest:
+>  	sed  -n '/^runtest:/,/^install-ptest:/{/^install-ptest:/!p}' \
+> @@ -56,6 +57,7 @@ install-ptest:
+>  	cp $(srcdir)/sample1.bz2	$(DESTDIR)/
+>  	cp $(srcdir)/sample2.bz2	$(DESTDIR)/
+>  	cp $(srcdir)/sample3.bz2	$(DESTDIR)/
+> +	cp -rf $(srcdir)/../git		$(DESTDIR)/bzip2-
+> tests
+>  	ln -s $(bindir)/bzip2		$(DESTDIR)/bzip2
+>=20
+>  install-exec-hook:
+> diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-
+> extended/bzip2/bzip2_1.0.8.bb
+> index 8e9b779..983fabd 100644
+> --- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> +++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+> @@ -4,17 +4,22 @@ Huffman coding. Compression is generally considerably
+> better than that achieved
+>  LZ77/LZ78-based compressors, and approaches the performance of the PPM
+> family of statistical compressors."
+>  HOMEPAGE =3D "https://sourceware.org/bzip2/"
+>  SECTION =3D "console/utils"
+> -LICENSE =3D "bzip2"
+> +LICENSE =3D "bzip2 & GPLv3+"
+>  LIC_FILES_CHKSUM =3D
+> "file://LICENSE;beginline=3D4;endline=3D37;md5=3D600af43c50f1fcb82e32f19b=
+32df46
+> 64"
+>=20
+>  SRC_URI =3D "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+> +           git://sourceware.org/git/bzip2-tests.git;name=3Dbzip2-tests \
+>             file://configure.ac;subdir=3D${BP} \
+>             file://Makefile.am;subdir=3D${BP} \
+>             file://run-ptest \
+> +           file://0001-bzip2-modify-run-tests-
+> script.patch;patchdir=3D${WORKDIR}/git \
+>             "
+> +
+>  SRC_URI[md5sum] =3D "67e051268d0c475ea773822f7500d0e5"
+>  SRC_URI[sha256sum] =3D
+> "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
+>=20
+> +SRCREV_bzip2-tests =3D "8b0198efda1603cf81fa2c7a9bb673dd22ae1661"
+> +
+>  UPSTREAM_CHECK_URI =3D "https://www.sourceware.org/pub/bzip2/"
+>=20
+>  PACKAGES =3D+ "libbz2"
+> @@ -39,7 +44,7 @@ do_install_ptest () {
+>=20
+>  FILES_libbz2 =3D "${libdir}/lib*${SOLIBS}"
+>=20
+> -RDEPENDS_${PN}-ptest +=3D "make"
+> +RDEPENDS_${PN}-ptest +=3D "make bash"
+>=20
+>  PROVIDES_append_class-native =3D " bzip2-replacement-native"
+>  BBCLASSEXTEND =3D "native nativesdk"
+> --
+> 2.7.4
 
-[cut]
-
-> diff --git a/meta/recipes-support/icu/icu/filter.json b/meta/recipes-support/icu/icu/filter.json
-> deleted file mode 100644
-> index 2c63c08510..0000000000
-> --- a/meta/recipes-support/icu/icu/filter.json
-> +++ /dev/null
-> @@ -1,2 +0,0 @@
-> -{
-> -}
-> 
-
-Sorry for repeating myself, but this version also touches icu by 
-deleting icu/filter.json. Just mentioning it in case this wasn't the 
-intention.
-
-/Jacob
