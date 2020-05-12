@@ -1,145 +1,331 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.web12.7879.1589296331590390574
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+ by mx.groups.io with SMTP id smtpd.web11.7931.1589296577584522637
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 08:12:11 -0700
+ Tue, 12 May 2020 08:16:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uN2kKD37;
- spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f48.google.com with SMTP id y16so8721386wrs.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 08:12:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qNbkiJKF;
+ spf=pass (domain: gmail.com, ip: 209.85.214.193, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f193.google.com with SMTP id u22so5493625plq.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 08:16:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=uNNZrFZ+tO9vLV9nkYgOhH4N0A8b104ozlMKWCIaZ6w=;
-        b=uN2kKD37xbQmR4bU7S4VVJSnDAlHnKqhBSSwE0BD5TdE9PFD74oilKp4o6Iu+1CbA3
-         KxFl8rxpBswlwB/mFHjNzLFV/QYroED45pqg02cesppd79IrZWPQ2+Hys4K3sUCnqYeb
-         07i3bEGkkQGR07fjwxGyFNPtChOakT26ufwQ6nADCFc0NUANqRwQuOKXBDKg1aWoi3U1
-         tgfVhBTypTPdkDKRrRCHAuwacUkENcUARc2PXtJyOaLMRchPogWrELuxSWkXkCD+stUq
-         4jGY/mWwfTJGJGU+d/CGZLI31ykWyhW9nH0ayWNJC6ub/we7euf6c8nRTzbpRTgB9/qa
-         2uyQ==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=WzvWh2+Xq3DI1wNSEJAYv1+OZKql2Rta/2Sj1u1opR8=;
+        b=qNbkiJKFwN6NL/zSRS8gvdI/bDDGyRGygu2yTVELPLAGwu63QI6WxeFwIwdUE+ayBp
+         BVWjKv8d8TdKNfr4j07cZpIOwmNoSU6WVEdSBrEMweQwRRYaLIH35CEyN/uHkc2f4XV0
+         ozeFNyA2BNTTY2pJRPXwKrYNthmwpYXy5aOLfe3AZenoCKgJfEWXFzV2ZTUHz38aYeF6
+         QuRf6e+v774NvMnpkEpv2EgGlZUhbcs910lIwjwpsWkdiebF7209Y/mNrGH3LskK3DmX
+         qK2dyeyiUspbtFs5KQrk3dOjZZ1TOBnrLaFozmdCNhwjF+u/JVBFEnVB34aCqLuxJ4+l
+         NdkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=uNNZrFZ+tO9vLV9nkYgOhH4N0A8b104ozlMKWCIaZ6w=;
-        b=mCjXNceucg2qGzub9LZ3yhwBfc1TucpyF3VZ3SO9FUh/+FJk5N2WQAoXTsZQ25GgTh
-         mf5T8PiZrei5aN/IVsGPobkhmYlisApySNj667FtVyNFdzbkUeHW4PLkQVfWKHPoBhD3
-         GlAK2TonGSFMt0PIVvBx+l/624eS1Hr+TdXl9L13quck6I6vJlKk3W0CzO5PSBmuiG0E
-         3Jz3mZwMmEFuz0EBaem/cSquRFL2XIDNLQ0BVH0+6mrH3Udsiz0gWApIK2bM7qQ9EAHv
-         BN5IjSAYdODBvDkP1fQvFXn6hTwbgQn5e8c/2gzUNgBE4X1nHTUi08dKV3q+Qu9I2iOu
-         i8rw==
-X-Gm-Message-State: AGi0PuZba8NCdLMVWjRA8hdYompJdHwQD2cjyfduqBuC2HY6ofNuhR+H
-	KBFZbhJ+P+yzuTHMTwiRghvczzS1
-X-Google-Smtp-Source: APiQypKFa3w2S2E13uw85GcZ12KQtIsj+BEv2cObelOxok3kVEeGqqGVKkqG4IQOs/4e0kZ3JLG9Ww==
-X-Received: by 2002:a5d:6702:: with SMTP id o2mr19122047wru.231.1589296329691;
-        Tue, 12 May 2020 08:12:09 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.site ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id y10sm20520193wrd.95.2020.05.12.08.12.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 08:12:09 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 3/3] qemu: enable virglrenderer and glx options subject to 'opengl' DISTRO_FEATURE
-Date: Tue, 12 May 2020 17:11:25 +0200
-Message-Id: <20200512151125.30472-3-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200512151125.30472-1-alex.kanavin@gmail.com>
-References: <20200512151125.30472-1-alex.kanavin@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=WzvWh2+Xq3DI1wNSEJAYv1+OZKql2Rta/2Sj1u1opR8=;
+        b=hVzdKH5cMlIPKhSg0SDLMn+zw8v1Fd/YGcAGJZ3EdpnWFhwFGx0GZ3G2GscsdPfYoa
+         ytEK/zjH31sw9BsLPSULygJwyLXwBQrCrRwbRYvJexk3cNsDxUq0xk4agPPQq3HMLFb6
+         8E+Jh5WsmmfP/zpQS5Ozot/JvsgcXLgVpWyLzBRRfJVAlf3RLgvahHUvqv+uCfqDoxLQ
+         7WjkOaSrvlERvLmpS6ylreXDMd0f0lvkBA/IuaVRnH56Tyo6wya39z5ORNsyYoMYwi+c
+         vlfigIU0ABIIECjrIvxRDno3rOnEKLCwgEfJ9tlek/xeSUXITvocSptaMCnXaiz8fUoK
+         X+HA==
+X-Gm-Message-State: AGi0PuYg6CQl/bYNA0TakLZIINjQGeyUV72rQ5oLv+JOsg6Kvlu2aumQ
+	sSVg9MjO5hJpyOrEVlYptfHC6iUZX3A=
+X-Google-Smtp-Source: APiQypLezxgCtYph+po/jZBlGqCoOl1ktAAEvS/Yi6DYFIizm51LZD4Yyqkx8W9ldZdQz7hh0Ir8Lw==
+X-Received: by 2002:a17:90a:be09:: with SMTP id a9mr24119019pjs.28.1589296575985;
+        Tue, 12 May 2020 08:16:15 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0:e967:869:15dc:c2fd? ([2601:646:9200:4e0:e967:869:15dc:c2fd])
+        by smtp.gmail.com with ESMTPSA id z15sm13132525pjt.20.2020.05.12.08.16.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 May 2020 08:16:15 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH V3 2/3] gcc10: Default back to -fcommon
+To: Adrian Bunk <bunk@stusta.de>
+Cc: openembedded-core@lists.openembedded.org
+References: <20200511182812.441561-1-raj.khem@gmail.com>
+ <20200511182812.441561-2-raj.khem@gmail.com>
+ <20200512134442.GA11943@localhost>
+From: "Khem Raj" <raj.khem@gmail.com>
+Message-ID: <cd4b38c5-391f-5915-1246-4f04897f7341@gmail.com>
+Date: Tue, 12 May 2020 08:16:14 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200512134442.GA11943@localhost>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Note that to actually use accelerated GL passthrough, there are two options
 
-1) a suitable frontend need to be also enabled - gtk+ and SDL both seem to work well.
-Previously I struggled to make SDL work, but now it seems fine.
 
-2) it is also possible to render off-screen with -display egl-headless option,
-and see the output with a VNC viewer (for which, qemu needs to be started
-with a VNC server):
+On 5/12/20 6:44 AM, Adrian Bunk wrote:
+> On Mon, May 11, 2020 at 11:28:11AM -0700, Khem Raj wrote:
+>> For time being change back to -fcommon as default, helps us iron
+>> out other issues, eventually this should be removed as we fix the
+>> packages to work with -fno-common
+>> ...
+>   
+> What packages are still unfixed?
+> 
 
-$ runqemu kvm egl-headless publicvnc
+There were ateast 100 failures when meta-openembedded is considered too
+errors server has unfortunately dropped the build where it was reported 
+but here is list if you are interested
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/lib/oeqa/selftest/cases/runtime_test.py   | 18 ++++++------------
- .../qemu/qemu-system-native_4.2.0.bb           |  4 +++-
- meta/recipes-devtools/qemu/qemu_4.2.0.bb       |  5 ++++-
- 3 files changed, 13 insertions(+), 14 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 09d3de7aea..793c98a335 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -188,18 +188,14 @@ class TestImage(OESelftestTestCase):
-             self.skipTest('virgl isn\'t working with Opensuse 15.0')
+Summary: 125 tasks failed:
  
-         qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
--        sdl_packageconfig = get_bb_var('PACKAGECONFIG', 'libsdl2-native')
-+        qemu_distrofeatures = get_bb_var('DISTRO_FEATURES', 'qemu-system-native')
-         features = 'INHERIT += "testimage"\n'
-         if 'gtk+' not in qemu_packageconfig:
-             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"\n'
-         if 'sdl' not in qemu_packageconfig:
-             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " sdl"\n'
--        if 'virglrenderer' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"\n'
--        if 'glx' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " glx"\n'
--        if 'opengl' not in sdl_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-libsdl2-native = " opengl"\n'
-+        if 'opengl' not in qemu_distrofeatures:
-+            features += 'DISTRO_FEATURES_append = " opengl"\n'
-         features += 'TEST_SUITES = "ping ssh virgl"\n'
-         features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-         features += 'IMAGE_INSTALL_append = " kmscube"\n'
-@@ -231,12 +227,10 @@ class TestImage(OESelftestTestCase):
-             dripath = subprocess.check_output("pkg-config --variable=dridriverdir dri", shell=True)
-         except subprocess.CalledProcessError as e:
-             self.skipTest("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
--        qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
-+        qemu_distrofeatures = get_bb_var('DISTRO_FEATURES', 'qemu-system-native')
-         features = 'INHERIT += "testimage"\n'
--        if 'virglrenderer' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"\n'
--        if 'glx' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " glx"\n'
-+        if 'opengl' not in qemu_distrofeatures:
-+            features += 'DISTRO_FEATURES_append = " opengl"\n'
-         features += 'TEST_SUITES = "ping ssh virgl"\n'
-         features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-         features += 'IMAGE_INSTALL_append = " kmscube"\n'
-diff --git a/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-index d83ee59375..7394385d30 100644
---- a/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-@@ -9,7 +9,9 @@ DEPENDS = "glib-2.0-native zlib-native pixman-native qemu-native bison-native"
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-support/multipath-tools/multipath-tools_0.8.3.bb:do_compile
  
- EXTRA_OECONF_append = " --target-list=${@get_qemu_system_target_list(d)}"
+/mnt/b/yoe/sources/meta-atmel/recipes-kernel/dtc/dtc_1.4.6_84e414b0.bb:do_compile
  
--PACKAGECONFIG ??= "fdt alsa kvm"
-+PACKAGECONFIG ??= "fdt alsa kvm \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer glx', '' ,d)} \
-+"
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-devtools/libcomps/libcomps_git.bb:do_compile
  
- # Handle distros such as CentOS 5 32-bit that do not have kvm support
- PACKAGECONFIG_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
-diff --git a/meta/recipes-devtools/qemu/qemu_4.2.0.bb b/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-index f0c1daabe1..a4018cc448 100644
---- a/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-@@ -21,5 +21,8 @@ do_install_append_class-nativesdk() {
- PACKAGECONFIG ??= " \
-     fdt sdl kvm \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer glx', '' ,d)} \
-+"
-+PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer glx', '' ,d)} \
- "
--PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
--- 
-2.26.1
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-support/libunwind/libunwind_1.3.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-extended/mraa/mraa_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-devtools/libubox/libubox_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-core/opencl-icd-loader/opencl-icd-loader_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-core/ndctl/ndctl_v65.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-extended/logrotate/logrotate_3.15.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-graphics/waffle/waffle_1.6.0.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-graphics/freeglut/freeglut_3.0.0.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-initramfs/recipes-devtools/klibc/klibc_2.0.7.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-kernel/lttng/lttng-ust_2.10.5.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-connectivity/wvdial/wvstreams_4.6.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-support/gpm/gpm_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-python/recipes-extended/python-pyparted/python3-pyparted_3.11.3.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-support/htop/htop_2.2.0.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-benchmark/fio/fio_3.16.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-multimedia/v4l2apps/v4l-utils_1.18.0.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-core/systemd/systemd-boot_243.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-support/gnupg/gnupg_2.2.17.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-extended/cpio/cpio_2.13.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-filesystems/recipes-utils/xfsprogs/xfsprogs_5.2.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-multimedia/libomxil/libomxil_0.9.3.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-support/libnih/libnih_1.0.3.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-extended/sblim-sfcb/sblim-sfcb_1.4.9.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-extended/pam/pam-plugin-ldapdb_1.3.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-benchmark/memtester/memtester_4.3.0.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-devtools/ltrace/ltrace_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-graphics/xorg-lib/liblbxutil_1.1.0.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-graphics/fbida/fbida_2.10.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-extended/lcdproc/lcdproc_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-benchmark/iozone3/iozone3_487.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-support/sharutils/sharutils_4.15.2.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-extended/byacc/byacc_20191103.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-extended/minicom/minicom_2.7.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-support/read-edid/read-edid_3.0.2.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-extended/ltp/ltp_20190517.bb:do_compile
+qemux86-64_yoe-glibc-systemd-wayland_world.log
 
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-devtools/distcc/distcc_3.3.3.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-multimedia/cdrkit/cdrkit_1.1.11.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-connectivity/smstools3/smstools3_3.1.21.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-bsp/flashrom/flashrom_1.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-support/mg/mg_20170401.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-extended/lprng/lprng_3.8.C.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-extended/mc/mc_4.8.23.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-kernel/ipmitool/ipmitool_1.8.18.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-bsp/grub/grub_2.04.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb:do_install
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-support/gsoap/gsoap_2.8.95.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-graphics/kmscube/kmscube_git.bb:do_compile
+   /mnt/b/yoe/sources/meta-yoe/recipes-core/canboat/canboat.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-initramfs/recipes-bsp/kexecboot/kexecboot_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-python/recipes-extended/python-pyparted/python-pyparted_3.11.3.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-qt5/recipes-qt/qt5/qtremoteobjects_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-connectivity/ifplugd/ifplugd_0.28.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-connectivity/wifi-test-suite/wifi-test-suite_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-daemons/tftp-hpa/tftp-hpa_5.2.bb:do_compile
+   /mnt/b/yoe/sources/meta-ti/recipes-bsp/rwmem/rwmem_1.2.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-devtools/llvm/llvm_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-webserver/recipes-httpd/monkey/monkey_1.5.6.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-support/fping/fping_4.2.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-protocols/quagga/quagga_1.2.4.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-freescale/recipes-kernel/dtc/dtc-145_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-atmel/recipes-utils/mxt-app/mxt-app_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-graphics/xorg-driver/xf86-video-ati_19.0.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-connectivity/netplan/netplan_0.98.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-support/tcpreplay/tcpreplay_4.3.2.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-connectivity/cannelloni/cannelloni_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-initramfs/recipes-devtools/klibc/klibc-static-utils_2.0.7.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-freescale/recipes-devtools/cst/cst_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-connectivity/networkmanager/networkmanager_1.18.4.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-ti/recipes-connectivity/wl18xx-calibrator/wl18xx-calibrator_8.7.3.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-extended/foomatic/foomatic-filters_4.0.17.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-support/memcached/memcached_1.5.10.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-support/iftop/iftop_1.0pre4.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-support/drbd/drbd-utils_9.11.0.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-bsp/libacpi/libacpi_0.2.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-riscv/recipes-devtools/openocd/openocd_riscv.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-support/netperf/netperf_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-support/open-vm-tools/open-vm-tools_11.0.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-shells/tcsh/tcsh_6.21.00.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-support/uftp/uftp_4.10.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-daemons/vblade/vblade_22.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-daemons/iscsi-initiator-utils/iscsi-initiator-utils_2.0.878.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-extended/acpica/acpica_20191018.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-graphics/libforms/libforms_1.2.3.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-webserver/recipes-webadmin/netdata/netdata_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-daemons/ncftp/ncftp_3.2.6.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-kernel/makedumpfile/makedumpfile_1.6.6.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-connectivity/iwd/iwd_1.0.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-extended/fluentbit/fluentbit_0.12.19.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-support/fwknop/fwknop_2.6.10.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-multimedia/recipes-multimedia/mimic/mimic_1.2.0.2.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-filesystems/recipes-filesystems/owfs/owfs_3.2p3.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-daemons/postfix/postfix_3.4.7.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-multimedia/recipes-dvb/tvheadend/tvheadend_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-graphics/xorg-driver/xf86-video-intel_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-multimedia/recipes-multimedia/openal/openal-soft_1.19.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-connectivity/snort/snort_2.9.15.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-extended/rsyslog/rsyslog_8.1910.0.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-multimedia/recipes-multimedia/musicpd/mpd_0.20.22.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-connectivity/dibbler/dibbler_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-kernel/crash/crash_7.2.7.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-networking/recipes-daemons/opensaf/opensaf_5.19.07.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-graphics/gtkwave/gtkwave_3.3.102.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-graphics/spir/spirv-tools_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-support/vim/vim-tiny_8.1.1518.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-gnome/recipes-gnome/file-roller/file-roller_3.32.2.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-support/uim/uim_1.8.8.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-xfce/recipes-extended/imsettings/imsettings_1.8.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-support/vim/vim_8.1.1518.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-xfce/recipes-panel-plugins/cpufreq/xfce4-cpufreq-plugin_1.2.1.bb:do_compile
+ 
+/mnt/b/yoe/sources/meta-openembedded/meta-oe/recipes-kernel/cpupower/cpupower.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-devtools/gcc/gcc_10.0.bb:do_package
+   /mnt/b/yoe/sources/meta-qt5/recipes-qt/qt5/qtwebengine_git.bb:do_compile
+ 
+/mnt/b/yoe/sources/openembedded-core/meta/recipes-sato/webkit/webkitgtk_2.26.2.bb:do_compile
+   /mnt/b/yoe/sources/meta-qt5/recipes-qt/qt5/qt5-creator_git.bb:do_compile
+
+> AFAIK the only remaining big issue is the host gcc in stable series,
+> but that cannot be fixed this way.
+> 
+> cu
+> Adrian
+> 
