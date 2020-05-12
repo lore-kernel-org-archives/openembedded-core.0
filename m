@@ -1,57 +1,83 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web10.8552.1589298552971168576
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
+ by mx.groups.io with SMTP id smtpd.web11.8759.1589298892265507052
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 08:49:13 -0700
+ Tue, 12 May 2020 08:54:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=hmdpcdkm;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=h6oi=62=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49M2Kg1Yndz4y
-	for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 17:49:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1589298551;
-	bh=OMJuFH/sothy7l+FwS3X/9TjN0YcJttbbR/Fp0PIGeA=;
-	h=Resent-From:Resent-Date:Resent-To:Date:From:To:Cc:Subject:
-	 References:In-Reply-To:From;
-	b=hmdpcdkmlHQ4UJ6Nha3NdkTNuXpNtb/m0TEEbnG/aDFcIv6PZqREWjivepHEdm4WB
-	 CwBDG53fb9cjKhJn0uQ7KBwzror4z1wbwyo+XMOgUcZODisDD2csWU0PjswlFnxjiT
-	 Kfp0cWsx7m6+XCQjInuApU8H/bZ8fqovrm5alyi+GNRtYAUxf5ckkTWd559NPvVUcX
-	 U9+2twBYKVyE2igVNVw/y5BrJ3SAn1Hf7uEizkh+m8tw1N3EziIx29/KfA+OGPSF1i
-	 Jd8JwqQfDqp6TC/kPCLdq6qC2a0WSRqnOxoL4OOIkaBt47ul4NLdOqiIk7/wbsVmJ4
-	 HelF2S9JQKgyhoLOZ4QLw9MTgFSmoGF5LmJq9mPTINdaXgQSgMxP+dqYTIPmuUcXC3
-	 SEI+u6Alt0HZOqJzQ4CTud/Xfp+8yULQGiKxIF6vuupMZi+DRgKcDhMW7oeA2vg+WZ
-	 YRqEycN8B0Lsk6+jsyZ9C15/FVlxDcobYZVCB61C3frL0EEBn1opbYrhWj44LrD0Oa
-	 nvNO9tOIih1z5d8Ln74z8Gcjy+cByY3ISpZctMBJxFxzL3SsL5EVya6R9MkJUiKeRe
-	 mba/eazeqItw1MW2I6uJPZjfBxvW8ByRBV/cSzCQnBWTnDDBy5bwlOOv56UIPGOQSy
-	 xr3jRKF79oHF/JxGdAZU4U3E=
-Resent-From: Adrian Bunk <bunk@stusta.de>
-Resent-Date: Tue, 12 May 2020 18:49:09 +0300
-Resent-Message-ID: <20200512154909.GE11943@localhost>
-Resent-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 May 2020 18:33:08 +0300
-From: "Adrian Bunk" <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH] llvm: Remove -fcommon
-Message-ID: <20200512153308.GC11943@localhost>
-References: <20200512141416.5327-8-bunk@stusta.de>
- <68c654c4-9a33-d06c-eba0-13e507d25606@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OsFovxdJ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f193.google.com with SMTP id n14so14088721qke.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 08:54:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=N8cHbEfmnP6zAUctYDb5JhruSsyOAvyrQM1t1ZHpsq4=;
+        b=OsFovxdJRcpMaYEBmM65XeXGwnb0ioq2Y3ojRpbjmVxkY507SQaCoBL7Ravg/cQtsz
+         4qPp+i156vS0k66C1Rx0bcAtokAauMaX5u1Rg6F599c0gqjgjFx5jKWnhWYpnHgpcvxT
+         ahKsRFf3HKAgPv36lJo27UCDXjZLGmj+lxP9Z2VNoNtEF8ywrD+VaywcAJTJETSDHXMM
+         svZeWPMX6GBB7JQCpERfQQQ6Ybi8hnTvLPcTYfK8FJUTu+0VaPBnzU6MCuag58RI+2vG
+         vhrdnASIDJqFMGP63dse/A9A8g9PAiqafX8F7p/4s4u4guc0nbfmX7h5QE6/IZ5XKZvq
+         LHXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N8cHbEfmnP6zAUctYDb5JhruSsyOAvyrQM1t1ZHpsq4=;
+        b=JFSbmBO4gwZuVEiWoYmhC4VT/Cls3xB2m85GenesJMm8DsnMEHyV6hbSE98AyKZMV6
+         WJpuivIuNUYhyqLGC37hVs4G4Iq+q3aAcIPDKEoERiwZdDF2au2LCYSR/7llal5bCaul
+         KmqZKKrGiMD1H4k5kE5eD9lAvYdm+jAE51uUDaAZGjhvj6zXI6MvouHmFmaU6WTsmCDe
+         QMEoffzuoYZ8h4fg2pYUsvVNM4ny9HGqvHkT71fq1Ol/wAoJvKay8IOezQSyIXfrarbN
+         UsMT92YZ6fPmlqhNktNmkaeMUnK+fI9ItKnU0+SIiS3apwJ9zed9CoJGrMDddBK6gvyu
+         Sx5A==
+X-Gm-Message-State: AGi0PuZTGDHpG25zemac0FfxrjqA4QzLccyPGDokgfNyJP5Z/8hC1iKw
+	dyWCPh1nFmAw3R8kVAQojky79IdzpsawTweDLyiMH8uM
+X-Google-Smtp-Source: APiQypKv5+rcmp8KBHF52nGw4udWVPZxSMcuSkLikEzFfxn+ZaylcFDOcMSy4lVePtqTexxQqWq/fva3Mmgk87HTIkA=
+X-Received: by 2002:a37:7143:: with SMTP id m64mr22992329qkc.215.1589298890922;
+ Tue, 12 May 2020 08:54:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <68c654c4-9a33-d06c-eba0-13e507d25606@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+References: <20200511182812.441561-1-raj.khem@gmail.com> <20200511182812.441561-2-raj.khem@gmail.com>
+ <20200512134442.GA11943@localhost> <cd4b38c5-391f-5915-1246-4f04897f7341@gmail.com>
+ <20200512154007.GD11943@localhost>
+In-Reply-To: <20200512154007.GD11943@localhost>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Tue, 12 May 2020 08:54:24 -0700
+Message-ID: <CAMKF1sruCDpd7A6Zix3QzYBp4rw5C6LkpYYoeEVk6erXtx6yuA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V3 2/3] gcc10: Default back to -fcommon
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 12, 2020 at 08:17:15AM -0700, Khem Raj wrote:
-> On 5/12/20 7:14 AM, Adrian Bunk wrote:
-> > I cannot reproduce the problem.
-> 
-> have you built the target recipe with gcc10 with -fno-common default ?
+On Tue, May 12, 2020 at 8:40 AM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> On Tue, May 12, 2020 at 08:16:14AM -0700, Khem Raj wrote:
+> >
+> >
+> > On 5/12/20 6:44 AM, Adrian Bunk wrote:
+> > > On Mon, May 11, 2020 at 11:28:11AM -0700, Khem Raj wrote:
+> > > > For time being change back to -fcommon as default, helps us iron
+> > > > out other issues, eventually this should be removed as we fix the
+> > > > packages to work with -fno-common
+> > > > ...
+> > > What packages are still unfixed?
+> >
+> > There were ateast 100 failures when meta-openembedded
+>
+> Ah, you want that for other layers.
+>
+> > is considered too
+> > errors server has unfortunately dropped the build where it was reported but
+> > here is list if you are interested
+> >...
+>
+> That's from a testbuild last year?
+>
+> Some of these were already fixed in master by upgrading to the latest
+> upstream (e.g. flashrom or mc).
 
-Yes.
+right, so the idea is to get gcc 10 working without shaking the boat
+first and then switch to -fno-common
 
-For menu-cache and matchbox-wm I got failures without the patches,
-but not for llvm.
 
-cu
-Adrian
+>
+> cu
+> Adrian
