@@ -1,136 +1,78 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.7862.1589296329498934721
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web10.7713.1589296330385301068
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 08:12:09 -0700
+ Tue, 12 May 2020 08:12:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PchBdEMJ;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id e1so1955157wrt.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 08:12:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WnRxUqDc;
+ spf=pass (domain: gmail.com, ip: 209.85.128.67, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f67.google.com with SMTP id z72so14176367wmc.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 08:12:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jyT46kGfXRqYBzpJImXsf531oySaQUW+vbeNVE/BP4Y=;
-        b=PchBdEMJZ9IS5CYBOs/SZNGPXfqTnmijL2nrdBJqm8A5vqGJ7mh54rwqFSEwDRUOG8
-         mcPvR8e+8LP2ftq1EVDHWd5k5GuJqaZV95xvdj2hfyWT0cLmEivqkm1pEy9EBJkXLALy
-         WEzvLB/6U8ybt9whHSsDtLNuIRJ7fFblWBrcyJd9+p+ptzzchvYsvg9zCbJqmR7Ne05Z
-         X0jyN6GUl04ClsINXHKeg+cVajrdOzlMokkMc6ttvmTdqX4CW+mB96qC6xYkzq+P6LHM
-         Pm6MtQ4tiVp5ueDBR2LewgJVzcrwdPsCvCKRDBaimUGBhMGf3XcIriDmMk7B7+zTF2uv
-         Eg9Q==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=z6wzbHLl0guFStdLsKIR8zbzySuTcFVVggYNMzR176I=;
+        b=WnRxUqDco3wQ7zukXx817/QiD3MC31YRUJbthhx967jSZe7Ls7AJtevTj2t3oK7d6D
+         NL9ub9YWx4MQuI7D49Gq1babJp4fzWY1+1f4jjmPYKFsuXQPh5Ke4LAwnrp0n2uE41WC
+         di1zTt3jlfpkw+AqywXMBBfaW7K4RK0sWIAd4QlDaCCCLZej08dDZ0GxSip1dMqglUd2
+         +XOMwc8xqmZ3rusp7f0LzWkc/igezfEUYyXDMJerZMBbEf2fj/nwfpgiB3SHqgxgL1iZ
+         J6z714D/P/TDoMrrzKooaYKWaWM3yIhtB3CLco/fF3ueMcfmwYlFnS9QQC7dIjb57JTo
+         ouMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=jyT46kGfXRqYBzpJImXsf531oySaQUW+vbeNVE/BP4Y=;
-        b=aDh+tcYuudB7M2nKtJbumO2zCAQ5K+4HiTIpynKcVY/k/sSrLdrHhWiA6aIc/r1vxu
-         RhIooH46JUfixTEvULkptDHNRpKJsnXQke3ASjPAeC/2+LvICfctjR+PqxYQI0ZaTY1V
-         GUXZcydO/uv9fzQI4MenygCGXVu5GlZmwDOyzVPFWK2PIedRwk8WXsX7wztCbVQ64Gye
-         sSNQLDXhmcy1i1gSwUatY8bdpenHf9NGx3h4xhqJHXKbJrDk3IAuGMTBSLKcwmbrk62j
-         BkP51zLVfDVpzZrTH000rZovKvOeJ/hjfyxPxYCZZJfGEeKnXXu6as4YWXA2N/BPmWAh
-         qlhw==
-X-Gm-Message-State: AGi0PuZAxlTtQcB5aD4gtCg9+Px3rkMFShZtHBmncPX5vacgAWOyLGDn
-	bIkaN7ilwHLN7TQPhNgq4zXSC7E3
-X-Google-Smtp-Source: APiQypIrHrhtEvGFb/xn4lqiXgNK4XyqvOIu0yTWk+/lcCq0DNWbfhH0wpGyN2/ohW/X2phvxtL1fw==
-X-Received: by 2002:adf:e751:: with SMTP id c17mr27006552wrn.351.1589296327700;
-        Tue, 12 May 2020 08:12:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=z6wzbHLl0guFStdLsKIR8zbzySuTcFVVggYNMzR176I=;
+        b=s6KjX8ua8iPsk+/sQr3Ht+VdSGOCoeTqte3Q3mv4fOZ9u1f0Cj3hhUf0N3+ICaSIO7
+         kH8bGmwqeFUFqZyD9s9Kfcc63evVxycxITladPhUzZt3CwXIVxMvy9GRxj3scFlFvWxT
+         HZqmQzkiNipQZMcOCECZuVV4+GHzZybIsmaB/jz5IQmo1FgcXqsWu543QlD/18m99mPL
+         +1tc6A6ambDZdFi4YKRMN7m8EfWTjpqCIqqUETjSpZOVdTX7YB5BvrhrP+oPFB9IGL8S
+         Es/QkFmF4rD/Fap9Liue6Hg/1eyCMWXQOuMFCAJCwLWhQp1YWndksXsMDhKjbVyYd450
+         K0tg==
+X-Gm-Message-State: AGi0PuZZZIXM3qaBX7Fc26zHEqpxdL4phnyOlY+oUhVUNtkwpYBzCbti
+	NqHU1fFWyulxeM8R4Ow0mb/loT7i
+X-Google-Smtp-Source: APiQypIM9iM5g//wJuVZ7QVtWDWHLPCBv3+1M4xghFPGHtPRNy5LeIWZwNfDc6I5lFV1SRiv5sXS5Q==
+X-Received: by 2002:a1c:4d18:: with SMTP id o24mr35699234wmh.141.1589296328763;
+        Tue, 12 May 2020 08:12:08 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id y10sm20520193wrd.95.2020.05.12.08.12.06
+        by smtp.gmail.com with ESMTPSA id y10sm20520193wrd.95.2020.05.12.08.12.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 08:12:07 -0700 (PDT)
+        Tue, 12 May 2020 08:12:08 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 1/3] bitbake.conf: propagate 'opengl' DISTRO_FEATURE to native/nativesdk from target
-Date: Tue, 12 May 2020 17:11:23 +0200
-Message-Id: <20200512151125.30472-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/3] libsdl2: enable opengl option for native/nativesdk, subject to 'opengl' in DISTRO_FEATURES
+Date: Tue, 12 May 2020 17:11:24 +0200
+Message-Id: <20200512151125.30472-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.1
+In-Reply-To: <20200512151125.30472-1-alex.kanavin@gmail.com>
+References: <20200512151125.30472-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This will allow better control over native virgl/qemu configurations.
-
-Adjust gtk+3/cairo native configurations to actually ignore opengl
-when building for -native: we do not need it, and it would cause build
-failures as only a limited subset of mesa-native is currently built.
-
-Drop native/nativesdk overrides from virglrenderer/libepoxy recipes
-as opengl feature is now correctly set for those variants.
+This allows virgl support in qemu with the SDL frontend
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/conf/bitbake.conf                                     | 4 ++--
- meta/recipes-gnome/gtk+/gtk+3.inc                          | 2 ++
- meta/recipes-graphics/cairo/cairo_1.16.0.bb                | 2 ++
- meta/recipes-graphics/libepoxy/libepoxy_1.5.4.bb           | 2 --
- meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb | 2 --
- 5 files changed, 6 insertions(+), 6 deletions(-)
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index bdade79abe..f7700f1191 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -833,8 +833,8 @@ DISTRO_FEATURES_NATIVESDK ?= "x11"
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
+index c1c941e452..83dce86801 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.12.bb
+@@ -45,8 +45,8 @@ EXTRA_OECONF = "--disable-oss --disable-esd --disable-arts \
+ # and BSP layers to pick either (desktop) opengl, gles2, or no GL
+ PACKAGECONFIG_GL ?= "${@bb.utils.filter('DISTRO_FEATURES', 'opengl', d)}"
  
- # Normally target distro features will not be applied to native builds:
- # Native distro features on this list will use the target feature value
--DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation"
--DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation"
-+DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation opengl"
-+DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation opengl"
- 
- DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit gobject-introspection-data ldconfig"
- MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
-diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-index 5d1f59ea1a..6154154004 100644
---- a/meta/recipes-gnome/gtk+/gtk+3.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-@@ -46,6 +46,8 @@ do_compile_prepend() {
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'opengl wayland x11', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl x11', 'glx', '', d)}"
-+PACKAGECONFIG_class-native = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
-+PACKAGECONFIG_class-nativesdk = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
- 
- PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libxrender libxcomposite libxfixes"
- # this is provided by oe-core patch that removes epoxy/gl dependency from a X11 build
-diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-index b772c2ece2..092c77b826 100644
---- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-@@ -42,6 +42,8 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
-                    trace"
-+PACKAGECONFIG_class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
-+PACKAGECONFIG_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
- 
- PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
- PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
-diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.4.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.4.bb
-index 0782c6ce35..6646ef79fe 100644
---- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.4.bb
-+++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.4.bb
-@@ -19,8 +19,6 @@ UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
- inherit meson pkgconfig features_check
- 
- REQUIRED_DISTRO_FEATURES = "opengl"
--REQUIRED_DISTRO_FEATURES_class-native = ""
--REQUIRED_DISTRO_FEATURES_class-nativesdk = ""
- 
- PACKAGECONFIG[egl] = "-Degl=yes, -Degl=no, virtual/egl"
- PACKAGECONFIG[x11] = "-Dglx=yes, -Dglx=no -Dx11=false, virtual/libx11 virtual/libgl"
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
-index 1046b8504f..29b12628d0 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
-@@ -22,5 +22,3 @@ inherit meson pkgconfig features_check
- BBCLASSEXTEND = "native nativesdk"
- 
- REQUIRED_DISTRO_FEATURES = "opengl"
--REQUIRED_DISTRO_FEATURES_class-native = ""
--REQUIRED_DISTRO_FEATURES_class-nativesdk = ""
+-PACKAGECONFIG_class-native = "x11"
+-PACKAGECONFIG_class-nativesdk = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
++PACKAGECONFIG_class-native = "x11 ${PACKAGECONFIG_GL}"
++PACKAGECONFIG_class-nativesdk = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)} ${PACKAGECONFIG_GL}"
+ PACKAGECONFIG ??= " \
+     ${PACKAGECONFIG_GL} \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa directfb pulseaudio x11', d)} \
 -- 
 2.26.1
 
