@@ -1,86 +1,61 @@
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com [209.85.166.194])
- by mx.groups.io with SMTP id smtpd.web12.1492.1589318370888238306
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.1990.1589319783953974492
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 14:19:31 -0700
+ Tue, 12 May 2020 14:43:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=BG1FGTSv;
- spf=pass (domain: gmail.com, ip: 209.85.166.194, mailfrom: jpewhacker@gmail.com)
-Received: by mail-il1-f194.google.com with SMTP id j2so3135773ilr.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 14:19:30 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=TDtnLSVZ;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=0dxKPPuI31b3f/WhTnJUrK1OQxNXy0BKno1ZxGeX3wE=;
-        b=BG1FGTSv+e8mxqOm1cRXlWgLcw5LX76PASQS5x1I36x5sMsTkIz2fG9nePsBP37EJ2
-         DJpVuAqNcj8b9Z7vmR30pb/FnJu0PEpScXufcX2tZmtWKpFLxVAwpIKOyutEYHhoNZda
-         du/9yPE/Gci6WDlMSwMNQodXZ5CyRMb8zfAkUlAVFisMA7+ov56EobCvzlmstwNazzDd
-         XYhq9RffkKGmjv3AOG0rRNLfusNDd4CKMmYYp8c35AzPz+h7bASq+BGWBWvY1BadOtJX
-         H+RYmMSKvIk6anJTwQvZl1ZH0/2/vkU4IIAVZAkbHRYQJFFKxCPj3HFPaVs6BCL2n+ID
-         D/lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=0dxKPPuI31b3f/WhTnJUrK1OQxNXy0BKno1ZxGeX3wE=;
-        b=iTJ2C/JhXOXUH05pxIxAUgd7cjUg0ZIPCtBbNpqGK+ueWGSEXR9r7KzcaZRq//VxS6
-         YnT8P9AEhpPodaO0vezjcqnrQlCkJS17cCo1//6JLkh/St5R9bcaf7ccO10TyNR1XwGM
-         F/IcQhkkSYmunmxm95nst31OTX6AcK+8yjmxQVhyIHCCOkraEopybjjxBFhtqLfvPSHs
-         6S5eubmZVVSlcl/SDmByNrzH8EpQsmf8v7ZAME6AmCepmJIHLEIBITHekBqAioUZWsVL
-         F4WpTBTMAMkPvNwkG6I9UkOVpdBqkdyAdH2ayYTtnW3YzDAmcb/weg8XE7ixG7sNZcnf
-         48HA==
-X-Gm-Message-State: AGi0PuaEbaTVoTmqkxCJy1i+VLmEZjyi43TQqAe9T4n7aFQJbGmAKL6H
-	SMpw9xSGQJlKPpb35DR544bMOTfbHjA=
-X-Google-Smtp-Source: APiQypIEpkOERxpTo1YbU4psnAyI2LrCBO46L17Efo2dZODqLtfvFK3Y/fV7s4qd5Rm0RVbecLcWiw==
-X-Received: by 2002:a92:d744:: with SMTP id e4mr23598610ilq.174.1589318370131;
-        Tue, 12 May 2020 14:19:30 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:48c7:8e3e:3527:79a])
-        by smtp.gmail.com with ESMTPSA id r25sm2168177ioj.51.2020.05.12.14.19.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 14:19:29 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v2] classes/kernel: Generate reproducible kernel module tarball
-Date: Tue, 12 May 2020 16:19:24 -0500
-Message-Id: <20200512211924.15062-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200512134013.25080-1-JPEWhacker@gmail.com>
-References: <20200512134013.25080-1-JPEWhacker@gmail.com>
+  d=axis.com; l=833; q=dns/txt; s=axis-central1;
+  t=1589319784; x=1620855784;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uNpXD87C5h61OK5TTLw/55oJX85eG6TQ+vBNiTLhLJU=;
+  b=TDtnLSVZ51oQDL50JWzczD7a5QjHJQQvlXLQfkrxT9LShIxLf0OEKVpu
+   897t/XCOTNe9C2mjgbsA4Ie6s5YqMUc7jlcQ3xmh/5DeDeqU3b+wDA+ey
+   c7x4zXAMBciot6A8hqPNwSG/mx2WNQAzCNRTD02moB6VVsGv3VbCzWxk4
+   7uysyqfdaNvypBCISoQFtJdTdzSZnrrkg0Vid8meUVPsuKraw46/KChsD
+   C8CFHCN1yvjC9gHl5oVeAi2octjI2g8uMRiQMv1fBon9yflZR4fu3n0HF
+   Lunjb2yVolqJWefEfvFBBE2egAi2D4sjGNKGLSfMEwBgRqzJZFIAUgH7A
+   g==;
+IronPort-SDR: 4SFAPJeQYzlDF2hif5R8m4VTcBLvx3DMRuToE5yyzqJhVrBmjo2NGf0F/B+xw3/pz+GxXRsA1C
+ mEFoumwLh5ic9Jg2JsnJac6JS64xK5uydgSXK12T7KNPPEzbxq+bjSZQyvYBGUiT6AWSETdotb
+ 1vyJl2FiPhnR44pOA7KgVrs81h8JGA94EGKlD5sgEvX5wUtavTEfG+9Ub/yREjJNw52k3efZxi
+ 49BjNh/nYshxKU+kD3fXZ+qSgP4Ecivy5+987BNkYlTyWXCZS+YaRKhtDfKvyWV5fsBtqXTt0c
+ 8/I=
+X-IronPort-AV: E=Sophos;i="5.73,385,1583190000"; 
+   d="scan'208";a="8660070"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] file: Remove unneccessary override of PACKAGECONFIG for native
+Date: Tue, 12 May 2020 23:42:55 +0200
+Message-ID: <20200512214255.20678-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
+MIME-Version: 1.0
+Return-Path: pkj@axis.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-If reproducible binaries are requested, generate the kernel modules
-tarball in a reproducible way. Namely, sort the tarball contents, clamp
-the mtime to the source date epoch, compress the archive with a
-consistent compression level (9), and don't include the name and
-timestamp in the compressed file.
+There is no reason to set PACKAGECONFIG_class-native to the same value
+as the default PACKAGECONFIG.
 
-[YOCTO #12719]
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/kernel.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/file/file_5.38.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index a724645466..6846d6040d 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -691,7 +691,13 @@ kernel_do_deploy() {
+diff --git a/meta/recipes-devtools/file/file_5.38.bb b/meta/recipes-devtools/file/file_5.38.bb
+index f5ad568936..007db4790d 100644
+--- a/meta/recipes-devtools/file/file_5.38.bb
++++ b/meta/recipes-devtools/file/file_5.38.bb
+@@ -19,7 +19,6 @@ S = "${WORKDIR}/git"
+ inherit autotools update-alternatives
  
- 	if [ ${MODULE_TARBALL_DEPLOY} = "1" ] && (grep -q -i -e '^CONFIG_MODULES=y$' .config); then
- 		mkdir -p ${D}${root_prefix}/lib
--		tar -cvzf $deployDir/modules-${MODULE_TARBALL_NAME}.tgz -C ${D}${root_prefix} lib
-+		if [ -n "${SOURCE_DATE_EPOCH}" ]; then
-+			TAR_ARGS="--sort=name --clamp-mtime --mtime=@${SOURCE_DATE_EPOCH}"
-+		else
-+			TAR_ARGS=""
-+		fi
-+		tar $TAR_ARGS -cv -C ${D}${root_prefix} lib | gzip -9n > $deployDir/modules-${MODULE_TARBALL_NAME}.tgz
-+
- 		ln -sf modules-${MODULE_TARBALL_NAME}.tgz $deployDir/modules-${MODULE_TARBALL_LINK_NAME}.tgz
- 	fi
- 
+ PACKAGECONFIG ??= "zlib"
+-PACKAGECONFIG_class-native ??= "zlib"
+ PACKAGECONFIG[bz2] = "--enable-bzlib, --disable-bzlib, bzip2"
+ PACKAGECONFIG[lzma] = "--enable-xzlib, --disable-xzlib, xz"
+ PACKAGECONFIG[zlib] = "--enable-zlib, --disable-zlib, zlib"
 -- 
-2.17.1
+2.21.3
 
