@@ -1,21 +1,21 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web11.2701.1589363366104074693
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.2702.1589363370843858291
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 02:49:26 -0700
+ Wed, 13 May 2020 02:49:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: changqing.li@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: changqing.li@windriver.com)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 04D9nPfi003234
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 04D9nQoI016514
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 02:49:25 -0700 (PDT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 02:49:27 -0700 (PDT)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
  ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 13 May 2020 02:49:24 -0700
+ 14.3.487.0; Wed, 13 May 2020 02:49:26 -0700
 From: "Changqing Li" <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/6] fs-perms-persistent.txt: renamed from fs-perms-persistent-log.txt
-Date: Wed, 13 May 2020 17:48:43 +0800
-Message-ID: <20200513094847.14326-3-changqing.li@windriver.com>
+Subject: [PATCH 3/6] base-files: respect VOLATILE_DIR
+Date: Wed, 13 May 2020 17:48:44 +0800
+Message-ID: <20200513094847.14326-4-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200513094847.14326-1-changqing.li@windriver.com>
 References: <20200513094847.14326-1-changqing.li@windriver.com>
@@ -24,38 +24,45 @@ Content-Type: text/plain
 
 From: Changqing Li <changqing.li@windriver.com>
 
-since we use one variable VOLATILE_DIR to control the volatile,
-rename the filename to make it common
+respect VOLATILE_DIR to support persistent /var/tmp too
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../{fs-perms-persistent-log.txt => fs-perms-persistent.txt}    | 2 --
- 1 file changed, 2 deletions(-)
- rename meta/files/{fs-perms-persistent-log.txt => fs-perms-persistent.txt} (95%)
+ meta/recipes-core/base-files/base-files_3.0.14.bb | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/files/fs-perms-persistent-log.txt b/meta/files/fs-perms-persistent.txt
-similarity index 95%
-rename from meta/files/fs-perms-persistent-log.txt
-rename to meta/files/fs-perms-persistent.txt
-index 3a7cf3ab94..9ca9571e6e 100644
---- a/meta/files/fs-perms-persistent-log.txt
-+++ b/meta/files/fs-perms-persistent.txt
-@@ -47,7 +47,6 @@ ${oldincludedir}	0755	root	root	true	0644	root	root
- # Links
- ${localstatedir}/run	link	/run
- ${localstatedir}/lock	link	/run/lock
--${localstatedir}/tmp	link	volatile/tmp
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index 94299431f6..0e06629bbd 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -29,7 +29,7 @@ S = "${WORKDIR}"
+ INHIBIT_DEFAULT_DEPS = "1"
  
- /home				0755	root	root	false - - -
- /srv				0755	root	root	false - - -
-@@ -57,7 +56,6 @@ ${localstatedir}/local		0755	root	root	false - - -
- # Special permissions from base-files
- # Set 1777
- /tmp				01777	root	root	false - - -
--${localstatedir}/volatile/tmp	01777	root	root	false - - -
+ docdir_append = "/${P}"
+-dirs1777 = "/tmp ${localstatedir}/volatile/tmp"
++dirs1777 = "/tmp ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_DIR}') else ''}tmp"
+ dirs2775 = ""
+ dirs555 = "/sys /proc"
+ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
+@@ -42,7 +42,7 @@ dirs755 = "/boot /dev ${base_bindir} ${base_sbindir} ${base_libdir} \
+            ${localstatedir}/backups ${localstatedir}/lib \
+            ${localstatedir}/lib/misc ${localstatedir}/spool \
+            ${localstatedir}/volatile \
+-           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''}log \
++           ${localstatedir}/${@'volatile/' if oe.types.boolean('${VOLATILE_DIR}') else ''}log \
+            /home ${prefix}/src ${localstatedir}/local \
+            /media"
  
- # Set 0700
- ${ROOT_HOME}			0700	root	root	false - - -
+@@ -53,7 +53,8 @@ dirs755-lsb = "/srv  \
+                ${prefix}/lib/locale"
+ dirs2775-lsb = "/var/mail"
+ 
+-volatiles = "${@'log' if oe.types.boolean('${VOLATILE_LOG_DIR}') else ''} tmp"
++volatiles = "${@'log' if oe.types.boolean('${VOLATILE_DIR}') else ''} \
++             ${@'tmp' if oe.types.boolean('${VOLATILE_DIR}') else ''}"
+ conffiles = "${sysconfdir}/debian_version ${sysconfdir}/host.conf \
+              ${sysconfdir}/issue /${sysconfdir}/issue.net \
+              ${sysconfdir}/nsswitch.conf ${sysconfdir}/profile \
 -- 
 2.17.1
 
