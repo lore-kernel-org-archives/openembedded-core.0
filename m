@@ -1,142 +1,77 @@
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
- by mx.groups.io with SMTP id smtpd.web10.7087.1589379884142289657
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web12.7181.1589379988010471610
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 07:24:44 -0700
+ Wed, 13 May 2020 07:26:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=r6sc4Zgq;
- spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f193.google.com with SMTP id 190so11912431qki.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 07:24:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ReQkynPCrsBgnWXHJ8+F2NGa9lOoj8t3GTTZYxP0vJc=;
-        b=r6sc4ZgqsFs62hJPIh59bdNqLnlAYiroQWByVGPHdOTe4yO5R6/vqTViJTnb4lmjmc
-         03BVAaI2lqFFyEEco84HFNsCf5V/TzLx9a6f023F7u8jTnAFNvy5OuZFXESwyX1NNiEp
-         DewNFVVzHNxJoza4Ysx4+i1uRnvg3/pJjhxKwoG3iAblyAnllblPvIMqoOqwR3jzW/Ho
-         p1FaqmM1KlwCByGX439oiXFk4BtYVkwIIjPMcpl16gO2N2HpqI1sxzFC0TApsWUUAtup
-         uKedpac441Z7HRw0RMAdR0zgV9aDRGx6v9QwWM9QRdXzDuPtjn4iOrWm9Zzs/WHlj2F3
-         MELg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ReQkynPCrsBgnWXHJ8+F2NGa9lOoj8t3GTTZYxP0vJc=;
-        b=XAmK64VBFMm8dg/JrTFkivxEHJHDfzW/nPxNjHRjMo+uVp88vdIvtHDssNFYizeIEQ
-         M2imZOXLezgPqKyCk+KGjfkVuoWztbdnI4FIOyzpkI9AwEiv4Znvm4r3k52YTO/bnCXw
-         p9YRE8vgUazGE7nw3HlnVJ3Y574+DDwmUq4Ddyua5SK+exgLLXd5mTjXJ7CFGkhU+1C5
-         NbHsZhx5Ju7p2Ido/fgIGxoGrAKXgEV32wGkQbyMwIbPqxiw0u/G+tmGvkzDhrlBuSOe
-         0wenzj7gsPE4AOIM+nnBVDBqehIOPoXCHLGhuiPwQMVdglno6SSgPcMb/Bao+Y6kNdVU
-         ngyA==
-X-Gm-Message-State: AGi0PuZcePTePUFfJAwJs7xVFO1RQff1oNXxtdQUYbA9HVNmJAEuuW7n
-	Yjb1O3bMbC+sFa21LCGDISI=
-X-Google-Smtp-Source: APiQypLR1pcogMrHD2sWQJhfjLjXPhGyHb24nDVLAPGaPjILeEqzJzUXSVVq3HnMTwysMSaNnaiRyg==
-X-Received: by 2002:a37:af47:: with SMTP id y68mr26517634qke.4.1589379883291;
-        Wed, 13 May 2020 07:24:43 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id 5sm10138445qkl.101.2020.05.13.07.24.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2020 07:24:42 -0700 (PDT)
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org,
-	steve@sakoman.com
-Subject: [PATCH 4/4] kernel/reproducibility: factor kernel source epoch for common use
-Date: Wed, 13 May 2020 10:24:36 -0400
-Message-Id: <d09f4c9abf8c9e0ff342c4b5d6323eb371391c63.1589378829.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1589378829.git.bruce.ashfield@gmail.com>
-References: <cover.1589378829.git.bruce.ashfield@gmail.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@stusta.de header.s=default header.b=e6D9o2ma;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=ce53=63=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49McRh3X3Fz4c
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 16:26:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1589379984;
+	bh=zAehnIaEIYpOeyJ5TinWgQzQwpJ6PimFzjJKFJ7qy6U=;
+	h=From:To:Subject:Date:From;
+	b=e6D9o2maegzOcmP677a2P3kJpVe+gSbPJuI+QsYWhUlZZTVmV331mto5QjzFmJ++7
+	 r1BLduiWprJr40s0HJBYF7DbKYjO0FMlNr2MG1qh4UCfCMfNeUld6vOKO/5WLveyry
+	 Jsh4hA15Ew64YEFujUPT3SlI07dS0MbwVMvdkt+q0K9eCdSPuMqe3feMZAGsTg6cRK
+	 HTIldHCcA4PdKYorQBzcqp2cy//uzpauwMkx9Xwur1tUyiQZl3j5r7tL7iZFPBH7xD
+	 dawxI9vdUFASfli9Io4Pc20yR1ylMehZv8fS1yCe+GzXf7hvS+DYPjdLeayqPGKcGH
+	 nOkMiSPzna+7tg2FGKWkzPpKLK3ynuvVXwJ+WhrHtXMRlzcTMVadfDmKEieAVmcqGw
+	 9VIrrZS2/JUvOtSqW5k1df/4CkfNs27d6Us885bKTwSbtM/w4NtMyhRm5/i/d+5gaJ
+	 9wLUMFTnN+jTcE8+k1hoDQw7Bt4wgElaNazaEHdxBHlI4mfYduFD8u5MiXAlM3ic6g
+	 iu9/phw1yYHXurBP26jVxmxQuFTXMxC+q7Zj1O4t4Zlhbi5+tCb2PJZooGvn9b01up
+	 0o4FHzkkzfomsVoVj6HwRjzUnoYb8upppB9prJ8VF0R2dTrAPKOXar9ftPnLhMiSDg
+	 ft393CYY5hEvXk/bBE8cHaxM=
+From: "Adrian Bunk" <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell][PATCH] git: Upgrade 2.24.1 -> 2.24.3
+Date: Wed, 13 May 2020 17:26:23 +0300
+Message-Id: <20200513142623.26201-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+This includes the fixes for CVE-2020-5260 and CVE-2020-11008.
 
-Rather than duplicating the code to generate the kbuild environment
-variable: KBUILD_BUILD_TIMESTAMP, we can factor the checks into a
-python function and call it from the main image and kernel module
-do_compile routines.
-
-All paths have been checked and the timestamp is identical to the
-previous shell variant.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Adrian Bunk <bunk@kernel.org>
 ---
- meta/classes/kernel.bbclass | 43 ++++++++++++++++---------------------
- 1 file changed, 19 insertions(+), 24 deletions(-)
+ meta/recipes-devtools/git/git_2.24.1.bb | 11 -----------
+ meta/recipes-devtools/git/git_2.24.3.bb |  9 +++++++++
+ 2 files changed, 9 insertions(+), 11 deletions(-)
+ delete mode 100644 meta/recipes-devtools/git/git_2.24.1.bb
+ create mode 100644 meta/recipes-devtools/git/git_2.24.3.bb
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index a3990aaf59..de63e1c0f6 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -153,6 +153,21 @@ python do_symlink_kernsrc () {
- }
- addtask symlink_kernsrc before do_configure after do_unpack
- 
-+def get_kernel_source_date_epoch(d):
-+    import subprocess
-+
-+    s_d_e = d.getVar("SOURCE_DATE_EPOCH")
-+    if not s_d_e:
-+        s_d_e = subprocess.check_output(['git', '--git-dir=%s/.git' % d.getVar('S'), 'log', '-1', '--pretty=%ct']).decode('utf-8')
-+        if not s_d_e:
-+            s_d_e = d.getVar("REPRODUCIBLE_TIMESTAMP_ROOTFS")
-+
-+    env = os.environ.copy()
-+    env['LC_ALL'] = 'C'
-+    ts = subprocess.check_output(['date', '-d @%s' % s_d_e]).decode('utf-8')
-+
-+    return ts
-+
- inherit kernel-arch deploy
- 
- PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-module-.*"
-@@ -291,19 +306,9 @@ get_cc_option () {
- kernel_do_compile() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
- 	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
--		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
--		# be set....
--		if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
--			# The source directory is not necessarily a git repository, so we
--			# specify the git-dir to ensure that git does not query a
--			# repository in any parent directory.
--			SOURCE_DATE_EPOCH=`git --git-dir="${S}/.git" log -1 --pretty=%ct 2>/dev/null || echo "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"`
--		fi
+diff --git a/meta/recipes-devtools/git/git_2.24.1.bb b/meta/recipes-devtools/git/git_2.24.1.bb
+deleted file mode 100644
+index daea31eab2..0000000000
+--- a/meta/recipes-devtools/git/git_2.24.1.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-require git.inc
 -
--		ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
--		export KBUILD_BUILD_TIMESTAMP="$ts"
-+		export KBUILD_BUILD_TIMESTAMP="${@ get_kernel_source_date_epoch(d)}"
- 		export KCONFIG_NOTIMESTAMP=1
--		bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
-+		bbnote "KBUILD_BUILD_TIMESTAMP: $KBUILD_BUILD_TIMESTAMP"
- 	fi
- 	# The $use_alternate_initrd is only set from
- 	# do_bundle_initramfs() This variable is specifically for the
-@@ -332,19 +337,9 @@ kernel_do_compile() {
- do_compile_kernelmodules() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
- 	if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
--		# kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
--		# be set....
--		if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
--			# The source directory is not necessarily a git repository, so we
--			# specify the git-dir to ensure that git does not query a
--			# repository in any parent directory.
--			SOURCE_DATE_EPOCH=`git --git-dir="${S}/.git" log -1 --pretty=%ct 2>/dev/null || echo "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"`
--		fi
+-EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+-                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+-                 "
+-EXTRA_OEMAKE += "NO_GETTEXT=1"
 -
--		ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
--		export KBUILD_BUILD_TIMESTAMP="$ts"
-+		export KBUILD_BUILD_TIMESTAMP="${@ get_kernel_source_date_epoch(d)}"
- 		export KCONFIG_NOTIMESTAMP=1
--		bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
-+		bbnote "KBUILD_BUILD_TIMESTAMP: $KBUILD_BUILD_TIMESTAMP"
- 	fi
- 	if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
- 		cc_extra=$(get_cc_option)
+-SRC_URI[tarball.md5sum] = "166bde96adbbc11c8843d4f8f4f9811b"
+-SRC_URI[tarball.sha256sum] = "ad5334956301c86841eb1e5b1bb20884a6bad89a10a6762c958220c7cf64da02"
+-SRC_URI[manpages.md5sum] = "31c2272a8979022497ba3d4202df145d"
+-SRC_URI[manpages.sha256sum] = "9a7ae3a093bea39770eb96ca3e5b40bff7af0b9f6123f089d7821d0e5b8e1230"
+diff --git a/meta/recipes-devtools/git/git_2.24.3.bb b/meta/recipes-devtools/git/git_2.24.3.bb
+new file mode 100644
+index 0000000000..ddd875f07b
+--- /dev/null
++++ b/meta/recipes-devtools/git/git_2.24.3.bb
+@@ -0,0 +1,9 @@
++require git.inc
++
++EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
++                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
++                 "
++EXTRA_OEMAKE += "NO_GETTEXT=1"
++
++SRC_URI[tarball.sha256sum] = "ef6d1d1de1d7921a54d23d07479bd2766f050d6435cea5d3b5322aa4897cb3d7"
++SRC_URI[manpages.sha256sum] = "325795ba33c0be02370de79636f32ad3b447665c1f2b5b4de65181fa804bed31"
 -- 
-2.19.1
+2.17.1
 
