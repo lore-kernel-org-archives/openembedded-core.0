@@ -1,78 +1,77 @@
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by mx.groups.io with SMTP id smtpd.web11.200.1589386371092786940
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web10.428.1589386944873308025
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 09:12:51 -0700
+ Wed, 13 May 2020 09:22:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
-Received: from lons-builder.int.hatle.net ([192.40.192.88])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 04DGCmk9025805
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 11:12:49 -0500
-From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] sstate.bbclass: When siginfo or sig files are missing, stop fetcher errors
-Date: Wed, 13 May 2020 11:12:48 -0500
-Message-Id: <20200513161248.168871-1-mark.hatle@kernel.crashing.org>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Fh2h3ioh;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id l11so187610wru.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 09:22:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=/Uk+T5fpfaAzNI1gUP/mTREhuUs6+2t5u52NlEtWbN8=;
+        b=Fh2h3ioh04mMoL+9k2XJwwUfspkcn27XBslteyajZFJKOLdXg7hkl092LjQd/RyLZW
+         zYPipz9Da5FTQX/ZqyGuUbGQHHSijgow5eF24LE8JMReEnFqfK6WzmXTkTCnWGqG2R97
+         Qv/aygheFcd2Femkwa9UuXm1Q2qCp37nN/kQ4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=/Uk+T5fpfaAzNI1gUP/mTREhuUs6+2t5u52NlEtWbN8=;
+        b=JPLys65cXgtmupHh1Xi9PpyJ6l4rxjpAAbdTeajD6gvOgSEnFadhywU44bnAbN+yCR
+         FnEXPfMy5k3leuBTqTW0ELsmWrLWQ/m6+E9dsgAtep25kPiH1GmNSqe4L8IIsnUNAmi9
+         b16RSPPmSMvRCC96SN3ONbHNbaRx99jlzoAlaF3rmGQ4tPDd5jDnYNz0/FhhUkK+BccJ
+         vaVUlOjo+ybbD4j6y3e6VG439BsmUYUO1qTjqCwimekRJ/6GuY6xVgmxjVK9d5ctgyd3
+         86mtNJeMPM/Ep4i3ZdCah5g13gmcDvT6VePghAox+GEuwclLHFMl/QB8SBon4QhTgp/M
+         Kmbg==
+X-Gm-Message-State: AOAM533aXWPH2BSAMucHQ80ypeSob/Gxwy3Y10jyxpljyRGzJlCrc8HN
+	JlN66nOZJ00hkzFHOSJ2lrSIIg==
+X-Google-Smtp-Source: ABdhPJwVyhcDTLWtQ7g3WS/69kcgSFzqxU0ioWHO3hcxFTi8fCSzg9zzIsVhQ0j3YRxn1BVQ6xKzIA==
+X-Received: by 2002:adf:c651:: with SMTP id u17mr137453wrg.416.1589386943393;
+        Wed, 13 May 2020 09:22:23 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id e5sm16868wro.3.2020.05.13.09.22.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2020 09:22:22 -0700 (PDT)
+Message-ID: <df250cd28d9a02cb8cf4645d167f5d7a91041f49.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v2] wic: Add --offset argument for partitions
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <JPEWhacker@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 13 May 2020 17:22:21 +0100
+In-Reply-To: <20200511194835.20890-1-JPEWhacker@gmail.com>
+References: <20200511192646.16901-1-JPEWhacker@gmail.com>
+	 <20200511194835.20890-1-JPEWhacker@gmail.com>
+User-Agent: Evolution 3.36.1-2 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Mark Hatle <mark.hatle@xilinx.com>
+On Mon, 2020-05-11 at 14:48 -0500, Joshua Watt wrote:
+> Add support for an --offset argument when defining a partition. Many
+> SoCs require that boot partitions be located at specific offsets.
+> Prior
+> to this argument, most WKS files were using the --align attribute to
+> specify the location of these fixed partitions but this is not ideal
+> because in the event that the partition couldn't be placed in the
+> specified location, wic would move it to the next sector with that
+> alignment, often preventing the device from booting. Unlike the --
+> align
+> argument, wic will fail if a partition cannot be placed at the exact
+> offset specified with --offset.
+> 
+> Changes in V2:
+> * Fixed a small typo that prevented test_fixed_size_error from
+> passing
 
-Prior to fetching, the system checks if the sstate file is present
-either locally or on the mirror.  If it is, then it goes to the fetch
-stage.  Up to three files can be fetched, sstate, sstate.siginfo and
-sstate.sig (if signature validation is enabled).
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/934
 
-The previous pstaging_fetch function would iterate over these, and if
-a download error occurred would spew forth a great amount of fetcher
-failure messages as well as stop fetching the next item in the set.
+(and the other selftests failed too)
 
-This was resolved by adding a fetcher.checkstatus() call prior to
-the download.  If the file isn't present, then the exception will
-be triggered, and no fetcher failure messages will reach the user.
+Cheers,
 
-The exception handler is then modified to be a pass so that it will
-loop and pull the rest of the files that that are requested.
-
-Additionally, a check for the existance of the .sig file was added
-to the sstate_installpkg to avoid an error trying to load the .sig
-if it wasn't downloaded.
-
-Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
----
-
-v2 - fix a typo in the error message about signature not being
-     present.
-
- meta/classes/sstate.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index aa9c30b4e1..375196ef21 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -355,6 +355,9 @@ def sstate_installpkg(ss, d):
-     d.setVar('SSTATE_INSTDIR', sstateinst)
- 
-     if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False):
-+        if not os.path.isfile(sstatepkg + '.sig'):
-+            bb.warn("No signature file for sstate package %s, skipping acceleration..." % sstatepkg)
-+            return False
-         signer = get_signer(d, 'local')
-         if not signer.verify(sstatepkg + '.sig'):
-             bb.warn("Cannot verify signature on sstate package %s, skipping acceleration..." % sstatepkg)
-@@ -733,10 +736,11 @@ def pstaging_fetch(sstatefetch, d):
-         localdata.setVar('SRC_URI', srcuri)
-         try:
-             fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
-+            fetcher.checkstatus()
-             fetcher.download()
- 
-         except bb.fetch2.BBFetchException:
--            break
-+            pass
- 
- def sstate_setscene(d):
-     shared_state = sstate_state_fromvars(d)
--- 
-2.17.1
+Richard
 
