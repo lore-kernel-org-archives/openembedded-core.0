@@ -1,87 +1,100 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web10.631.1589387416830318183
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.481.1589390047133990107
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 09:30:17 -0700
+ Wed, 13 May 2020 10:14:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f7g3VEpf;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id z72so19622435wmc.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 09:30:16 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=bGaEeZMk;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=kyQH2NMSUO4ie1TAk3j0ismD7WWdMKDD7kthRsjTOOU=;
-        b=f7g3VEpfYkutaRRvGZhapg7pC8Y2RDaMmiY1zuOaqd0+ZOej7Hm1KZcD/SzjV8EbhU
-         0SXVvJYCs6M72Se3h9AfX+f3WTurzPmzp0HOkQFYXPbJXhCgzHgErcEKXFshE660B6D2
-         TUcfrsKqFqw3rWVPl3g9ZCVhItijxFKP3+tWI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=kyQH2NMSUO4ie1TAk3j0ismD7WWdMKDD7kthRsjTOOU=;
-        b=TeId5Cz2xJirMSWqXOBZmkSq7EiNEkEFIN+eteWwWXXLEoFXazJ6Ozi2ZQQ+MHCAR8
-         3402+cjqlP5KF6IlFosRGFp4s74PIN7VG9MhIb0M5Tcmvqy7jeWg5u1UJKU5uFL/W3it
-         O+TPBIiXl3MwIos9xfJM9hA9Lthh+SiC9qCIzL7+Xcziz0mxkEgg7S6uQOmbOMmZqbG+
-         kUpCzlLQaDRoS9cs/dWv7QO1NISsgpuwIIqsXGg2ir8/MXDEIptcGmrhBinJEChURGDS
-         IfPkSnSiakWPSfwW/fZhQjO52Chj0OsI+ggrIjKFG42yHSw4L2mLFWHXUoHGhwy4qBBu
-         qoCw==
-X-Gm-Message-State: AGi0PuaQKhVINxbqGtZZIsQ9zZ6KqT/t8m20W/ALmCeOydQ9FbfZ351z
-	VVbIchU+54rFTjDVrJCNSen7+w==
-X-Google-Smtp-Source: APiQypLr4CYAouWI+qaIP8ETiD/jJ436dsZqZdw0A8l7kFgyWZ1yqQrDYb/k/mUXkDA6CEUF4KOgDQ==
-X-Received: by 2002:a7b:cc0f:: with SMTP id f15mr46021804wmh.78.1589387415316;
-        Wed, 13 May 2020 09:30:15 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id z11sm22694wrr.32.2020.05.13.09.30.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2020 09:30:14 -0700 (PDT)
-Message-ID: <04996e180d1529bd6600396f20a38f53db2f6ffe.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] apt: Remove workarounds for host gcc < 5
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
-Date: Wed, 13 May 2020 17:30:13 +0100
-In-Reply-To: <20200512203748.8779-2-bunk@stusta.de>
-References: <20200512203748.8779-2-bunk@stusta.de>
-User-Agent: Evolution 3.36.1-2 
+  d=axis.com; l=4476; q=dns/txt; s=axis-central1;
+  t=1589390047; x=1620926047;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=dkYUg6tYpSne2wltvPH9l36ShM9nGomhF1rsT+WfyEc=;
+  b=bGaEeZMkUZGtTNafERWMHhcqO32hTC8zwT/f6Xpya8vZbYDwStYXfH/O
+   Mqxuu9EPUj44N3DSDGrvbsP/We0z696kF15WXu561QR7L20ao+2tWzhGP
+   kxb2Q34TE4HXp7viXuxr8liErsnyQTfDacFXHmLrRhvdCYM9Vd9vXy82U
+   Q/yFOe7929CwYRLyExMYlOkplB8NDWFN4PWUh35BWhs1KoFngtTXsTwtA
+   4n4KRba6gw6wwQgjbGGU1jaAa1aKWZhw6vNJTpH0uv/cu0tXGnLtSTnTq
+   OBCznCU9cGbDi4rRVhjEJ+3f5zLWLblARBhsz2UfC2k++urZ81hq7xIfM
+   w==;
+IronPort-SDR: CLtw9sqWOFjGIOWb27zvJyYc7k6RNuNL4a5ARpLAl50sBekjJW/DNgYGjDk36EEkMjnwzlDY9V
+ kGJ85I4v/TQaOlUNzA8dStiaJHtjtiCP22POXC+PgfrAn/yP5R8CIpG6JGODmPrnhHgEpUyz3l
+ 0l3uVgFkshHvs3MpX4Gw0gtkThEP0FwjvCXkUd3OVa8muI8dMdeZQ3hq+MnB7nL5PMaSwsf27+
+ GL2UeRlgAWb7ysZDDV3t4vXR3PX+oyJeokDxNFM4pfkjKsTJfhV9+znxkpKadCsRfvSSWCHt5a
+ ajk=
+X-IronPort-AV: E=Sophos;i="5.73,388,1583190000"; 
+   d="scan'208";a="8455253"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+CC: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] file: Remove unneccessary override of PACKAGECONFIG for native
+Thread-Topic: [OE-core] [PATCH] file: Remove unneccessary override of
+ PACKAGECONFIG for native
+Thread-Index: AQHWKKtxTrrfi65m7k6lINv3+4+rbaimOU5w
+Date: Wed, 13 May 2020 17:14:02 +0000
+Message-ID: <12d3b34c48784a218feef04fbc1463e4@XBOX03.axis.com>
+References: <20200512214255.20678-1-pkj@axis.com>
+ <CAJ86T=U-0v06iC5wm8opzJSO5a7k8a_a_NncF4N5ep6BwnBGTw@mail.gmail.com>
+In-Reply-To: <CAJ86T=U-0v06iC5wm8opzJSO5a7k8a_a_NncF4N5ep6BwnBGTw@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Return-Path: peter.kjellerstedt@axis.com
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, 2020-05-12 at 23:37 +0300, Adrian Bunk wrote:
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> ---
->  .../recipes-devtools/apt/apt-native_1.2.31.bb |  4 +-
->  ...nging-the-global-LC_TIME-for-Release.patch | 80 -------------------
->  ...caled-std-put_time-instead-rolling-o.patch | 46 -----------
->  ...ntrib-strutl.cc-Include-array-header.patch | 33 --------
->  4 files changed, 1 insertion(+), 162 deletions(-)
->  delete mode 100644 meta/recipes-devtools/apt/apt/gcc_4.x_Revert-avoid-changing-the-global-LC_TIME-for-Release.patch
->  delete mode 100644 meta/recipes-devtools/apt/apt/gcc_4.x_Revert-use-de-localed-std-put_time-instead-rolling-o.patch
->  delete mode 100644 meta/recipes-devtools/apt/apt/gcc_4.x_apt-pkg-contrib-strutl.cc-Include-array-header.patch
-> 
-> diff --git a/meta/recipes-devtools/apt/apt-native_1.2.31.bb b/meta/recipes-devtools/apt/apt-native_1.2.31.bb
-> index 5b16b503d5..2952c21017 100644
-> --- a/meta/recipes-devtools/apt/apt-native_1.2.31.bb
-> +++ b/meta/recipes-devtools/apt/apt-native_1.2.31.bb
-> @@ -2,6 +2,4 @@ require apt-native.inc
->  
->  SRC_URI += "file://noconfigure.patch \
->              file://no-curl.patch \
-> -            file://gcc_4.x_apt-pkg-contrib-strutl.cc-Include-array-header.patch \
-> -            file://gcc_4.x_Revert-avoid-changing-the-global-LC_TIME-for-Release.patch \
-> -            file://gcc_4.x_Revert-use-de-localed-std-put_time-instead-rolling-o.patch"
-> +"
-
-I think part of this is causing:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1892
-
-?
-
-(the selftests in that build run also saw it)
-
-Cheers,
-
-Richard
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBbmRyZSBNY0N1cmR5IDxhcm1j
+Y3VyZHlAZ21haWwuY29tPg0KPiBTZW50OiBkZW4gMTMgbWFqIDIwMjAgMDA6MjANCj4gVG86IFBl
+dGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiBDYzogT0Ug
+Q29yZSBtYWlsaW5nIGxpc3QgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmc+DQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBmaWxlOiBSZW1vdmUgdW5uZWNj
+ZXNzYXJ5IG92ZXJyaWRlIG9mDQo+IFBBQ0tBR0VDT05GSUcgZm9yIG5hdGl2ZQ0KPiANCj4gT24g
+VHVlLCBNYXkgMTIsIDIwMjAgYXQgMjo0MyBQTSBQZXRlciBLamVsbGVyc3RlZHQNCj4gPHBldGVy
+LmtqZWxsZXJzdGVkdEBheGlzLmNvbT4gd3JvdGU6DQo+ID4NCj4gPiBUaGVyZSBpcyBubyByZWFz
+b24gdG8gc2V0IFBBQ0tBR0VDT05GSUdfY2xhc3MtbmF0aXZlIHRvIHRoZSBzYW1lIHZhbHVlDQo+
+ID4gYXMgdGhlIGRlZmF1bHQgUEFDS0FHRUNPTkZJRy4NCj4gDQo+IEVuZCB1c2VycyBvZnRlbiBk
+b24ndCBrbm93IGhvdyB0byBzYWZlbHkgY2hhbmdlIFBBQ0tBR0VDT05GSUcgZnJvbSBhDQo+IC5i
+YmFwcGVuZCBhbmQgbWlnaHQgdHJ5IFBBQ0tBR0VDT05GSUcgKz0gImZvbyIgb3IgUEFDS0FHRUNP
+TkZJR19hcHBlbmQNCj4gPSAiIGZvbyIgd2l0aG91dCByZWFsaXNpbmcgdGhhdCBpdCBjb3VsZCBh
+ZmZlY3QgbW9yZSB0aGFuIGp1c3QgdGhlDQo+IHRhcmdldCBidWlsZC4NCj4gDQo+IEhhdmUgYW4g
+ZXhwbGljaXQgUEFDS0FHRUNPTkZJR19jbGFzcy1uYXRpdmUga2VlcHMgdGhlIG5hdGl2ZSBjb25m
+aWcNCj4gc3RhYmxlIGZvciB1c2VycyB3aG8gaGF2ZW4ndCB5ZXQgbGVhcm5pbmcgdGhyb3VnaCBl
+eHBlcmllbmNlIHRoYXQgdGhlDQo+IHNhZmUgd2F5IHRvIGNoYW5nZSBQQUNLQUdFQ09ORklHIGlz
+IFBBQ0tBR0VDT05GSUdfYXBwZW5kX2NsYXNzLXRhcmdldA0KPiA9ICIgZm9vIi4NCj4gDQo+IFNv
+IGFsdGhvdWdoIHRoaXMgUEFDS0FHRUNPTkZJR19jbGFzcy1uYXRpdmUgbWF5IHNlZW0gcmVkdW5k
+YW50IHRvIHRoZQ0KPiBleHBlcnRzLCBpdCBoZWxwcyBtYWtlIE9FIG1vcmUgcm9idXN0IGZvciBy
+ZWd1bGFyIHVzZXJzLg0KDQpJIGhhdmUgdG8gZGlzYWdyZWUgd2l0aCB0aGlzLiBIYXZpbmcganVz
+dCBQQUNLQUdFQ09ORklHID8/PSAiemxpYiIgDQptYWtlcyBmb3IgYSBtb3JlIGNvbnNpc3RlbnQg
+YmVoYXZpb3IgYmV0d2VlbiB0aGUgZGlmZmVyZW50IGNsYXNzZXMuIA0KRS5nLiwgaWYgc29tZW9u
+ZSB3b3VsZCBhZGQgYSAuYmJhcHBlbmQgd2l0aCBQQUNLQUdFQ09ORklHID0gInpsaWIgDQpiejIi
+LCB3aXRoIHRoZSBjdXJyZW50IHJlY2lwZSB0aGUgYmVoYXZpb3Igd291bGQgYmUgZGlmZmVyZW50
+IHdoZW4gDQpidWlsZGluZyBmaWxlIGFuZCBuYXRpdmVzZGstZmlsZSBjb21wYXJlZCB0byBmaWxl
+LW5hdGl2ZSAob3IgYWN0dWFsbHkgDQpmaWxlLXJlcGxhY2VtZW50LW5hdGl2ZSBhcyBmaWxlLW5h
+dGl2ZSBpcyBpbiBBU1NVTUVfUFJPVklERUQpLiBXaXRoIA0Kb25seSB0aGUgZGVmYXVsdCBQQUNL
+QUdFQ09ORklHLCB0aGUgcmVzdWx0IHdvdWxkIGJlIHRoZSBzYW1lIGFsc28gDQpmb3IgZmlsZS1u
+YXRpdmUuIA0KDQpBIHF1aWNrIGdyZXAgdGhyb3VnaCBPRS1Db3JlIGFsc28gc2VlbXMgdG8gYWdy
+ZWUgd2l0aCBtZS4gVGhlcmUgYXJlIA0KYSBjb3VwbGUgb2Ygb3RoZXIgcmVjaXBlcyB0aGF0IHNl
+dHMgUEFDS0FHRUNPTkZJR19jbGFzcy0gZGVmYXVsdHMsIA0KYnV0IHRoZW4gaXQncyBkdWUgdG8g
+dGhlIGRlZmF1bHQgZm9yLCBlLmcuLCBuYXRpdmUgYmVpbmcgZGlmZmVyZW50IA0KZnJvbSB0YXJn
+ZXQuIFRoZSBvbmx5IG90aGVyIHJlY2lwZSBJIGNvdWxkIGZpbmQgdGhhdCBzZXRzIG11bHRpcGxl
+IA0KaWRlbnRpY2FsIFBBQ0tBR0VDT05GSUcgZGVmYXVsdHMgaXMgb3BlbnNzbC4NCg0KLy9QZXRl
+cg0KDQo+ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVy
+c3RlZHRAYXhpcy5jb20+DQo+ID4gLS0tDQo+ID4gIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9maWxl
+L2ZpbGVfNS4zOC5iYiB8IDEgLQ0KPiA+ICAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQ0K
+PiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9maWxlL2ZpbGVfNS4z
+OC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9maWxlL2ZpbGVfNS4zOC5iYg0KPiA+IGluZGV4
+IGY1YWQ1Njg5MzYuLjAwN2RiNDc5MGQgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2ZpbGUvZmlsZV81LjM4LmJiDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2ZpbGUvZmlsZV81LjM4LmJiDQo+ID4gQEAgLTE5LDcgKzE5LDYgQEAgUyA9ICIke1dPUktESVJ9
+L2dpdCINCj4gPiAgaW5oZXJpdCBhdXRvdG9vbHMgdXBkYXRlLWFsdGVybmF0aXZlcw0KPiA+DQo+
+ID4gIFBBQ0tBR0VDT05GSUcgPz89ICJ6bGliIg0KPiA+IC1QQUNLQUdFQ09ORklHX2NsYXNzLW5h
+dGl2ZSA/Pz0gInpsaWIiDQo+ID4gIFBBQ0tBR0VDT05GSUdbYnoyXSA9ICItLWVuYWJsZS1iemxp
+YiwgLS1kaXNhYmxlLWJ6bGliLCBiemlwMiINCj4gPiAgUEFDS0FHRUNPTkZJR1tsem1hXSA9ICIt
+LWVuYWJsZS14emxpYiwgLS1kaXNhYmxlLXh6bGliLCB4eiINCj4gPiAgUEFDS0FHRUNPTkZJR1t6
+bGliXSA9ICItLWVuYWJsZS16bGliLCAtLWRpc2FibGUtemxpYiwgemxpYiINCj4gPiAtLQ0KPiA+
+IDIuMjEuMw0KPiA+DQo+ID4gDQo=
