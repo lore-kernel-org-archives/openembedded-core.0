@@ -1,73 +1,77 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.2663.1589363399478292999
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+ by mx.groups.io with SMTP id smtpd.web12.3876.1589369226218751876
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 02:49:59 -0700
+ Wed, 13 May 2020 04:27:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: changqing.li@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 04D9ncXm003757
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 02:49:48 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 13 May 2020 02:49:27 -0700
-From: "Changqing Li" <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 4/6] initscripts: respect VOLATILE_DIR
-Date: Wed, 13 May 2020 17:48:45 +0800
-Message-ID: <20200513094847.14326-5-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200513094847.14326-1-changqing.li@windriver.com>
-References: <20200513094847.14326-1-changqing.li@windriver.com>
+ dkim=missing; spf=pass (domain: crashcourse.ca, ip: 199.212.143.8, mailfrom: rpjday@crashcourse.ca)
+Received: from cpeac202e043973-cmac202e043970.sdns.net.rogers.com ([174.114.100.179]:50412 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <rpjday@crashcourse.ca>)
+	id 1jYpXU-0075Be-EM
+	for openembedded-core@lists.openembedded.org; Wed, 13 May 2020 07:27:05 -0400
+Date: Wed, 13 May 2020 07:27:02 -0400 (EDT)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] common-licenses: add "Unlicense" license file
+Message-ID: <alpine.LFD.2.21.2005130726240.10796@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-OutGoing-Spam-Status: No, score=-0.2
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id: rpjday+crashcourse.ca/only user confirmed/virtual account not confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Content-Type: text/plain; charset=US-ASCII
 
-From: Changqing Li <changqing.li@windriver.com>
 
-respect VOLATILE_DIR to support persistent /var/tmp too
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/recipes-core/initscripts/initscripts-1.0/volatiles | 3 ---
- meta/recipes-core/initscripts/initscripts_1.0.bb        | 8 +++++++-
- 2 files changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/initscripts/initscripts-1.0/volatiles b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-index cd8a4be05f..eeeb8905da 100644
---- a/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-+++ b/meta/recipes-core/initscripts/initscripts-1.0/volatiles
-@@ -24,11 +24,8 @@
- # a link will be created at /var/test pointing to /tmp/testfile and due to this
- # link the file defined as /var/test will actually be created as /tmp/testfile.
- d root root 1777 /run/lock none
--d root root 0755 /var/volatile/log none
--d root root 1777 /var/volatile/tmp none
- l root root 1777 /var/lock /run/lock
- l root root 0755 /var/run /run
--l root root 1777 /var/tmp /var/volatile/tmp
- l root root 1777 /tmp /var/tmp
- d root root 0755 /var/lock/subsys none
- f root root 0664 /var/log/wtmp none
-diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-index 1a59b82fbf..ba6dc068c9 100644
---- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-+++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-@@ -104,8 +104,14 @@ do_install () {
- 	install -m 0755    ${WORKDIR}/read-only-rootfs-hook.sh ${D}${sysconfdir}/init.d
- 	install -m 0755    ${WORKDIR}/save-rtc.sh	${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/volatiles		${D}${sysconfdir}/default/volatiles/00_core
--	if [ ${@ oe.types.boolean('${VOLATILE_LOG_DIR}') } = True ]; then
-+	if [ ${@ oe.types.boolean('${VOLATILE_DIR}') } = True ]; then
-+		echo "d root root 0755 /var/volatile/log none" >> ${D}${sysconfdir}/default/volatiles/00_core
-+		echo "d root root 1777 /var/volatile/tmp none" >> ${D}${sysconfdir}/default/volatiles/00_core
- 		echo "l root root 0755 /var/log /var/volatile/log" >> ${D}${sysconfdir}/default/volatiles/00_core
-+		echo "l root root 0755 /var/tmp /var/volatile/tmp" >> ${D}${sysconfdir}/default/volatiles/00_core
-+	else
-+		sed -i -e 's;TMPROOT="${ROOT_DIR}/var/volatile/tmp";TMPROOT="${ROOT_DIR}/var/tmp";g' \
-+                    ${D}${sysconfdir}/init.d/populate-volatile.sh
- 	fi
- 	install -m 0755    ${WORKDIR}/dmesg.sh		${D}${sysconfdir}/init.d
- 	install -m 0644    ${WORKDIR}/logrotate-dmesg.conf ${D}${sysconfdir}/
+diff --git a/meta/files/common-licenses/Unlicense b/meta/files/common-licenses/Unlicense
+new file mode 100644
+index 0000000000..68a49daad8
+--- /dev/null
++++ b/meta/files/common-licenses/Unlicense
+@@ -0,0 +1,24 @@
++This is free and unencumbered software released into the public domain.
++
++Anyone is free to copy, modify, publish, use, compile, sell, or
++distribute this software, either in source code form or as a compiled
++binary, for any purpose, commercial or non-commercial, and by any
++means.
++
++In jurisdictions that recognize copyright laws, the author or authors
++of this software dedicate any and all copyright interest in the
++software to the public domain. We make this dedication for the benefit
++of the public at large and to the detriment of our heirs and
++successors. We intend this dedication to be an overt act of
++relinquishment in perpetuity of all present and future rights to this
++software under copyright law.
++
++THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
++IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
++OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
++OTHER DEALINGS IN THE SOFTWARE.
++
++For more information, please refer to <http://unlicense.org/>
+
 -- 
-2.17.1
 
+========================================================================
+Robert P. J. Day                                 Ottawa, Ontario, CANADA
+                         http://crashcourse.ca
+
+Twitter:                                       http://twitter.com/rpjday
+LinkedIn:                               http://ca.linkedin.com/in/rpjday
+========================================================================
