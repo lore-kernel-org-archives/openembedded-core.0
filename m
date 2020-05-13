@@ -1,63 +1,87 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.493.1589405706162691160
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web12.501.1589405737487299085
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 14:35:06 -0700
+ Wed, 13 May 2020 14:35:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OkVwfOJM;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id y16so1318493wrs.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 14:35:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=dPXkmSm6SFbrEgPqM5sdqCDeoh1DlvfISHizTZMOCgQ=;
-        b=OkVwfOJMjXb+MpiN71EJQhxv3N8/sFe9Mjz0R016m7oczHyoGMlXt7wQyNpwWoRYuc
-         asRHK4U2BwH9NYu34H6d+GFYrgu2nnWSLlad4y7MincZpPveRa2WoPqeQC93fDNFvATn
-         QWBOQd6Hk1+9J35f4Spph+3d2eOA/8oe3kI3U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=dPXkmSm6SFbrEgPqM5sdqCDeoh1DlvfISHizTZMOCgQ=;
-        b=Op+ECY1ngrpoYYPfhv6inkp+G4/H9ljN9elDobkMoyIgmemAom5IKRI7O76FmRD1Ha
-         WICa3X4gFcP4+sAsuTev1Cuqq2ZxSPrzih+58ojLzB0807RU/OH5H4IEFSFmu5Fh0tuK
-         68+6eABRBsVQkPzQpSzNoqb2rM7ATVZ4Td2NGHkk90Sle9atn2YGyiV/DzaWZLDCmQ2E
-         pb/6CAbJ9tZGSJjQRhuyTV4854xwKMm4FxBBsJKlJ9M9JYJLkYf4DemFSN60VGHO9N6t
-         Enm4/9SbCww7r60P5gP5PEAAXWszM2afqelm0SsigJCc3uAksxaVk3kUSwRq9+9ACkyd
-         c3fw==
-X-Gm-Message-State: AOAM531KNejmUQBQKIHjYFyW9sW9NwrnTu5ibJgnP2l7aUcCWmzoccSm
-	8c8X7x0VmsUBNBsC8d1FWsgtegBWSA8=
-X-Google-Smtp-Source: ABdhPJykOEsIPudhW08xBRBobIUtDjYmahJNX6pVEfpRE8Ekymah4USblTPftSVGAd0zAuq6rJ4IiQ==
-X-Received: by 2002:a5d:6541:: with SMTP id z1mr1513048wrv.264.1589405704585;
-        Wed, 13 May 2020 14:35:04 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id t4sm1237323wri.54.2020.05.13.14.35.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 May 2020 14:35:03 -0700 (PDT)
-Message-ID: <969caea61a7b4e9ab83b527655e94e589ae74d78.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/2] libva: upgrade 2.6.1 -> 2.7.1
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Naveen Saini <naveen.kumar.saini@intel.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 May 2020 22:35:01 +0100
-In-Reply-To: <C996A1173CD66043A3AEC0C7B2C3906904DB50FE@PGSMSX102.gar.corp.intel.com>
-References: <160D08561718B7AF.8752@lists.openembedded.org>
-	 <C996A1173CD66043A3AEC0C7B2C3906904DB50FE@PGSMSX102.gar.corp.intel.com>
-User-Agent: Evolution 3.36.1-2 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@stusta.de header.s=default header.b=koshGVai;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=ce53=63=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49Mnyt2BzbzJD
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 23:35:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1589405734;
+	bh=Gthv4eDD2eVL8EwdFo/W8ux7q8lEXMu2s0scvxWbvSs=;
+	h=From:To:Subject:Date:From;
+	b=koshGVaiRbS3ePyrB2oPu5o+J4vj9N5WmYKHWyA8fCvJBfvnGITxncx9zUXdY93P+
+	 0hj5decQtgYk7Ma7QmQS9XxPa5CAUhWrS6pfr2magYVx33VDltXEBxgm/uWWYPdaPy
+	 Vui6eKgtpFSQGsELvmg5VthpLlnhfMHF/Xway/j4kFdCINmY8+QPI8PbG0we8vcxwD
+	 eJXhuAGAqM24SiRhwgT2w1Vcy6SHIrIGgQDmPKH1deMlQ+64qOyz6/2oHqra0ScdlD
+	 84HBYSJWe8FDv4hI3bM40OUQBxkNP2dyvqJCrznaBjHfm3xMNNPnbixoOYbIX7YVZl
+	 1k4YDm6wkTWyW6Wu5rVSYDhA2CvLqxLPK7LEz1uLBiVxojApYb1gnKhR3fJWg03jVZ
+	 dGekStCjMma0A73ajn2wPl/G2uiyzVg98xOBn+eZQLdH+8Knch4LYcaHdbVTjraudN
+	 8aEjSzk/P23Q7GikEWn9+5KicFLbijI57RG4r4powJ8v0OzU0nUGK4tijggSmBRHBe
+	 9v56m4TeQouEpnt9sVK6/aPueqx7cCTEJ/1ytiRNVZmgDdtvzqd2ZyPPMrsbhgF7kH
+	 U4nvr5LKY6mDn4auGU9ajUpMPAYu7QlwwaLSLhD4aNx96yWLEjsWaWrTqAMtHCqXjn
+	 SZtqbynbzWCRSgdTbVgqUTM0=
+From: "Adrian Bunk" <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] apt: The C.UTF-8 locale is not portable
+Date: Thu, 14 May 2020 00:35:32 +0300
+Message-Id: <20200513213532.28078-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
 
-On Wed, 2020-05-13 at 01:14 +0000, Naveen Saini wrote:
-> Ping
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-devtools/apt/apt.inc             |  1 +
+ ...le-is-not-portable-use-std-locale-cl.patch | 27 +++++++++++++++++++
+ 2 files changed, 28 insertions(+)
+ create mode 100644 meta/recipes-devtools/apt/apt/0001-The-C.UTF-8-locale-is-not-portable-use-std-locale-cl.patch
 
-Needs rebasing against master please as there were other libva changes
-recently.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
+index 13f5969f86..87d533782f 100644
+--- a/meta/recipes-devtools/apt/apt.inc
++++ b/meta/recipes-devtools/apt/apt.inc
+@@ -17,6 +17,7 @@ SRC_URI = "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/${BPN}/${P
+            file://0001-environment.mak-musl-based-systems-can-generate-shar.patch \
+            file://0001-apt-1.2.12-Fix-musl-build.patch \
+            file://0001-Include-array.h-for-std-array.patch \
++           file://0001-The-C.UTF-8-locale-is-not-portable-use-std-locale-cl.patch \
+            "
+ SRC_URI[md5sum] = "d30eed9304e82ea8238c854b5c5a34d9"
+ SRC_URI[sha256sum] = "03ded4f5e9b8d43ecec083704b2dcabf20c182ed382db9ac7251da0b0b038059"
+diff --git a/meta/recipes-devtools/apt/apt/0001-The-C.UTF-8-locale-is-not-portable-use-std-locale-cl.patch b/meta/recipes-devtools/apt/apt/0001-The-C.UTF-8-locale-is-not-portable-use-std-locale-cl.patch
+new file mode 100644
+index 0000000000..ce5c005086
+--- /dev/null
++++ b/meta/recipes-devtools/apt/apt/0001-The-C.UTF-8-locale-is-not-portable-use-std-locale-cl.patch
+@@ -0,0 +1,27 @@
++From 7e8839731ae3fdf7502b91643aa6b252f6c5eaa6 Mon Sep 17 00:00:00 2001
++From: Adrian Bunk <bunk@stusta.de>
++Date: Thu, 14 May 2020 00:08:21 +0300
++Subject: The C.UTF-8 locale is not portable, use std::locale::classic()
++
++Upstream-Status: Inappropriate [Similar fix already in apt >= 1.3]
++Signed-off-by: Adrian Bunk <bunk@stusta.de>
++---
++ ftparchive/writer.cc | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/ftparchive/writer.cc b/ftparchive/writer.cc
++index 25963820a..6ad571d2a 100644
++--- a/ftparchive/writer.cc
+++++ b/ftparchive/writer.cc
++@@ -984,7 +984,7 @@ ReleaseWriter::ReleaseWriter(FileFd * const GivenOutput, string const &/*DB*/) :
++    AddPatterns(_config->FindVector("APT::FTPArchive::Release::Patterns"));
++ 
++    time_t const now = time(NULL);
++-   auto const posix = std::locale("C.UTF-8");
+++   auto const posix = std::locale::classic();
++ 
++    // FIXME: use TimeRFC1123 here? But that uses GMT to satisfy HTTP/1.1
++    std::ostringstream datestr;
++-- 
++2.20.1
++
+-- 
+2.17.1
 
