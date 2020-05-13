@@ -1,41 +1,76 @@
 Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
- by mx.groups.io with SMTP id smtpd.web11.8593.1589383494533759531
+ by mx.groups.io with SMTP id smtpd.web12.8460.1589383494816448396
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 08:24:54 -0700
+ Wed, 13 May 2020 08:24:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
 Received: from lons-builder.int.hatle.net ([192.40.192.88])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 04DFOp1i025420
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 04DFOp1j025420
 	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 10:24:53 -0500
 From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][ 0/2] Fix for two issues related to sstate-cache
-Date: Wed, 13 May 2020 10:24:49 -0500
-Message-Id: <20200513152451.162042-1-mark.hatle@kernel.crashing.org>
+Subject: [zeus][ 1/2] sstatesig: Optimise get_taskhash for hashequiv
+Date: Wed, 13 May 2020 10:24:50 -0500
+Message-Id: <20200513152451.162042-2-mark.hatle@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200513152451.162042-1-mark.hatle@kernel.crashing.org>
+References: <20200513152451.162042-1-mark.hatle@kernel.crashing.org>
 
-Patch 1 is a backport from master (it's already in Dunfell).  If you have a
-locked-sigs file, and the sstate for that item isn't available the .siginfo and
-sigdata files were not being written.  Patch 1/2 resolved that with the
-fragment in "dump_sigtask".
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Patch 2 was sent for master as well, and this is just to get it applied to
-Zeus.  Due to problem #1, we were generating sstate-cache that did not have
-siginfo files.  Due to this we were getting failures later on using that
-sstate-cache in a subsequent build.  This patch ensures if this happens
-again (of if someone intentionally strips those) it won't fail.
+With hashequiv the get_taskhash function is called much more regularly
+and contains expensive operations. This these don't change based upon
+hash in a given build, improve the caching within the function to
+reduce overhead.
 
-Mark Hatle (1):
-  sstate.bbclass: When siginfo or sig files are missing, stop fetcher
-    errors
+(From OE-Core rev: de98cfe3cde4b8d5f4b163b5fba3f129651ef06a)
 
-Richard Purdie (1):
-  sstatesig: Optimise get_taskhash for hashequiv
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+---
+ meta/lib/oe/sstatesig.py | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
- meta/classes/sstate.bbclass |  6 +++++-
- meta/lib/oe/sstatesig.py    | 13 +++++++++++--
- 2 files changed, 16 insertions(+), 3 deletions(-)
-
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index b2316b12b8..f1abff0c45 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -151,6 +151,13 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+ 
+     def get_taskhash(self, tid, deps, dataCache):
+         h = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskhash(tid, deps, dataCache)
++        if tid in self.lockedhashes:
++            if self.lockedhashes[tid]:
++                return self.lockedhashes[tid]
++            else:
++                return h
++
++        h = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskhash(tid, deps, dataCache)
+ 
+         (mc, _, task, fn) = bb.runqueue.split_tid_mcfn(tid)
+ 
+@@ -187,17 +194,19 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+                                           % (recipename, task, h, h_locked, var))
+ 
+                 return h_locked
++
++        self.lockedhashes[tid] = False
+         #bb.warn("%s %s %s" % (recipename, task, h))
+         return h
+ 
+     def get_unihash(self, tid):
+-        if tid in self.lockedhashes:
++        if tid in self.lockedhashes and self.lockedhashes[tid]:
+             return self.lockedhashes[tid]
+         return super().get_unihash(tid)
+ 
+     def dump_sigtask(self, fn, task, stampbase, runtime):
+         tid = fn + ":" + task
+-        if tid in self.lockedhashes:
++        if tid in self.lockedhashes and self.lockedhashes[tid]:
+             return
+         super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigtask(fn, task, stampbase, runtime)
+ 
 -- 
 2.17.1
 
