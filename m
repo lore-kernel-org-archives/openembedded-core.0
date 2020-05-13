@@ -1,81 +1,79 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web12.282.1589403916212097869
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.442.1589405507485671015
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 14:05:18 -0700
+ Wed, 13 May 2020 14:31:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=AD4/Ttdp;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=ce53=63=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49MnHr1W43z4c;
-	Wed, 13 May 2020 23:05:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1589403912;
-	bh=nughyohtVG5WtEmbX1xGWBtrZivX1iNXLh4ysgAOT78=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AD4/TtdpWPwwkVJ9it0a7eAUW4ZZ3KQoDPAZvaB3eKB/ktEsK00aroSq0w8k7kcD+
-	 xuzfwGjz/T/AgtH99gBF34mtLHbnH8pFRsVxGiGTjF8gpj3D17kl6J2Ms2DZ/IAVMA
-	 oEFbt7NaKPpvaWNRefzdYeVWXoK8R3tWtE9eqfNMkCoAdyQrDB74bqb9dqVbGbvbCq
-	 oTo1cwqHgUzAR7Oj/0fw50auR0vKicI0xUjH3FOS6zqRmCu0RUdZlAhW/03haiJSy1
-	 XziwXovx5++sjiy8XQJU2Plk8904rzt718dO2yyro8lCSt4rXvMHD5PiBlhx0HZW7O
-	 wQtrVJfySsPgv6b5C+8J8i5BPnikW29wlhVyv1Y4fNRAmjlzdS4gHDZ+TU81BkGJNq
-	 nkelvpL/g0ww2QPMYkpaq1Uqo1tEHf5ki6/rRA4ISlHKAMvVzARcz2yHmOFiWc9ZvI
-	 zpEQW4z45cve9DDj4KhfsE2TknhgYJucFnPI+gGKssiUoWJkstTxYI4/2uKgwXI8Gr
-	 bjFzqXhyPhiInTnhzuMRHja7r+/aCdlY/ca57tlYebk4EvrvuDZgzXqETF03M5461m
-	 JFVrepwNq6gsR0gqWIgs36nEUgtyHowysW6RyFtQ1pjWdR6PzsGVofYar4qbgsYtJQ
-	 fKHH1yzR1RPVOu5g6D7Y7XLc=
-Date: Thu, 14 May 2020 00:05:09 +0300
-From: "Adrian Bunk" <bunk@stusta.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH] apt: Remove workarounds for host gcc < 5
-Message-ID: <20200513210509.GA30394@localhost>
-References: <20200512203748.8779-2-bunk@stusta.de>
- <04996e180d1529bd6600396f20a38f53db2f6ffe.camel@linuxfoundation.org>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y0gdSqJp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id k12so28052331wmj.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 14:31:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=iupeLZ+d4exD1pyUf/B2aN/zl1GSGZTO5AyR5uS6rwg=;
+        b=Y0gdSqJps/Zy/leRNtAUoO3uG3OVEy6hkO5BXnJvIkB7uGPD/zbhs3RfttusF4WCHz
+         drYrt0K+7WC8yhAoh/Morc3qQl9sgtJ5ilgteFfZb/58OdqAjT/b0z1a1N88AB+RGYnr
+         bYvLIRQb2YTKqxcqfp57TUrFF0rkHQiHdIT2k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=iupeLZ+d4exD1pyUf/B2aN/zl1GSGZTO5AyR5uS6rwg=;
+        b=ayxNI35u4CGREx0GH7rUAHcCUdFb3YvnrTw2c4bOjjbRuBwDx4PNEsH0w/SxZJYnBk
+         dUf1QED0GVMTFL9bF09la63u+ljd49aRv8OoBjMecakHl7P8DeTBRq2ZHbvkwk8TUbDx
+         dKVdXk81mM6uOyB9+frrXr9/CUA4mQ95AF6f7PRzL5ynvEvG5eQUjASwgXpvoP2fTkbV
+         oP6uoOuat+SpT8Ker3S33/7ciOTQPmPjJy/0CigumGsZNyzXM6v2i5PvDhHc3VIuMDF6
+         AEEcED7vrC6qDv7h+NQ7K7KYGjNOAS2rN+MrmLVwQl8HC4F5drhH3Tams4gPLmb7LwI1
+         XVig==
+X-Gm-Message-State: AGi0PuZ0bSW4MQKSzEvFxS7diCx1kEHnxlMNCXpD2C4x7VmBUmtxIAbJ
+	2L45AW9Juw+Zv6XKn9PCwdA9cA==
+X-Google-Smtp-Source: APiQypKmtlBHTBnQjdf5eVE/mkMNIDxuwTxNntcHEk/BL1gfgCmP0icwWM/1LxxotqsL4UHXXehZoA==
+X-Received: by 2002:a7b:c399:: with SMTP id s25mr43458931wmj.169.1589405505969;
+        Wed, 13 May 2020 14:31:45 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id p4sm1173530wrq.31.2020.05.13.14.31.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 May 2020 14:31:45 -0700 (PDT)
+Message-ID: <764c9a365a510d22a5df20e4e510c4e9e4ab633b.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] file: Remove unneccessary override of PACKAGECONFIG for native
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>, Peter Kjellerstedt
+	 <peter.kjellerstedt@axis.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Date: Wed, 13 May 2020 22:31:44 +0100
+In-Reply-To: <CAJ86T=Wf5n_PqiB9X8fYjdyYMwh=WakmVHjMfCVETKec4peZbA@mail.gmail.com>
+References: <20200512214255.20678-1-pkj@axis.com>
+	 <CAJ86T=U-0v06iC5wm8opzJSO5a7k8a_a_NncF4N5ep6BwnBGTw@mail.gmail.com>
+	 <12d3b34c48784a218feef04fbc1463e4@XBOX03.axis.com>
+	 <CAJ86T=Wf5n_PqiB9X8fYjdyYMwh=WakmVHjMfCVETKec4peZbA@mail.gmail.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-In-Reply-To: <04996e180d1529bd6600396f20a38f53db2f6ffe.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 13, 2020 at 05:30:13PM +0100, Richard Purdie wrote:
-> On Tue, 2020-05-12 at 23:37 +0300, Adrian Bunk wrote:
-> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> > ---
-> >  .../recipes-devtools/apt/apt-native_1.2.31.bb |  4 +-
-> >  ...nging-the-global-LC_TIME-for-Release.patch | 80 -------------------
-> >  ...caled-std-put_time-instead-rolling-o.patch | 46 -----------
-> >  ...ntrib-strutl.cc-Include-array-header.patch | 33 --------
-> >  4 files changed, 1 insertion(+), 162 deletions(-)
-> >  delete mode 100644 meta/recipes-devtools/apt/apt/gcc_4.x_Revert-avoid-changing-the-global-LC_TIME-for-Release.patch
-> >  delete mode 100644 meta/recipes-devtools/apt/apt/gcc_4.x_Revert-use-de-localed-std-put_time-instead-rolling-o.patch
-> >  delete mode 100644 meta/recipes-devtools/apt/apt/gcc_4.x_apt-pkg-contrib-strutl.cc-Include-array-header.patch
-> > 
-> > diff --git a/meta/recipes-devtools/apt/apt-native_1.2.31.bb b/meta/recipes-devtools/apt/apt-native_1.2.31.bb
-> > index 5b16b503d5..2952c21017 100644
-> > --- a/meta/recipes-devtools/apt/apt-native_1.2.31.bb
-> > +++ b/meta/recipes-devtools/apt/apt-native_1.2.31.bb
-> > @@ -2,6 +2,4 @@ require apt-native.inc
-> >  
-> >  SRC_URI += "file://noconfigure.patch \
-> >              file://no-curl.patch \
-> > -            file://gcc_4.x_apt-pkg-contrib-strutl.cc-Include-array-header.patch \
-> > -            file://gcc_4.x_Revert-avoid-changing-the-global-LC_TIME-for-Release.patch \
-> > -            file://gcc_4.x_Revert-use-de-localed-std-put_time-instead-rolling-o.patch"
-> > +"
-> 
-> I think part of this is causing:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1892
-> 
-> ?
->...
+On Wed, 2020-05-13 at 12:30 -0700, Andre McCurdy wrote:
+> Yes. Unfortunately making recipes robust for users who want to change
+> PACKAGECONFIG values doesn't seem to be a high priority for oe-core.
+> Why else would default PACKAGECONFIG values be assigned with ??=
+> instead of ?= other than as a trap for new users?
 
-I cannot reproduce it, but I can see what is likely causing it.
-Patch will come in a few minutes.
+I'm not sure I understand that, equally I'm tired so I'll assume I'm
+just missing something.
 
-> Cheers,
-> 
-> Richard
+I will say that there is no intention to make OE-Core hard to use or
+not robust, its only as good a the people contributing make it. In this
+case I'm not sure I understand/see the problem.
 
-cu
-Adrian
+If we should be using ?= instead of ??= then I'm open to an explanation
+why and patches to improve things.
+
+Unfortunately we do have quite some legacy and ??= vs ?= has been
+troublesome in the many different contexts we have (recipe, class,
+conf, inc and so on).
+
+Cheers,
+
+Richard
+
