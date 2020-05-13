@@ -1,79 +1,151 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web10.7135.1589379993704930069
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+ by mx.groups.io with SMTP id smtpd.web12.7184.1589379994025386545
  for <openembedded-core@lists.openembedded.org>;
  Wed, 13 May 2020 07:26:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=bt0yovHp;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=ce53=63=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49McRq6wjrz4c
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 16:26:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1589379992;
-	bh=JFvUX4DP5bFdiE6TmBK2i5Nbwa4FTTKHmhpPXg8z2tM=;
-	h=From:To:Subject:Date:From;
-	b=bt0yovHpDT4WzvUU3QaILcjef+Gl9QPjEwVxVChi9G5NzAK5PHZFFBkuEsMo1VIL5
-	 e/SraOUEnFutmSINE7h8Tg3IToWq/z8udBEcEr9NZYQge3kNwIiQev7GdL5nvg4mGj
-	 zPDXMrm+SClr7DVxGFB78SmRtdleknWQtnK0YkMsHSRqlTfmS76d3JGOuvOUkaKw3K
-	 lJuU9JPnGElCEvNEPsqRu94xdsVENxy0oghzFlQA0EfuLg3VpCZacMpoY8z8aDoTWZ
-	 QTgsPVwHwBkgkp5RO1M7j5xWbM2TIdhb0UKlewLBBHeIp/umUNnPDQ0F2Rjcmz+lyw
-	 54hJjveOhHN040W6L6Q8g0wN/JMytx1ph4mD6ANCsdtKpswTzzxHJkSoIeGTM1Kgj0
-	 pRJupStUz+pmDhiDf7v4Ep6hObrZrcoB7u61MeXD4eOpnHGMk/CR0o7BnCFtMArNzq
-	 CR5wUqTYzKeO2e3Yv+lou1RLxTAcW9Jp+Wl8h34/rQx3tyIkr7LAQCd1zFpxNiXwvp
-	 8WXN6cHBNyykOai9mWEohBiyBEI5fpfhH1NjDwr000NBqshFOQKLz10t/Z3BTSYqGx
-	 AAjsEcy+vqt0PZul6Aoh1mtl+S8zrwStAvi64uHfconClGbavZpy3N2ZR3QqRtP/m9
-	 JH9M6ikr2QFeZVaCXlJ52stQ=
-From: "Adrian Bunk" <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][warrior][PATCH] git: Upgrade 2.20.1 -> 2.20.4
-Date: Wed, 13 May 2020 17:26:31 +0300
-Message-Id: <20200513142631.26247-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rl3RKHEt;
+ spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f67.google.com with SMTP id o10so14369531ejn.10
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 07:26:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=84kfK6sIOAllIK8M0+ya0LPOkmwEdahjUOJWSgleLiM=;
+        b=rl3RKHEtvlir1Ypabu2vi/6hcehAUocDMcEeE1Z9QJBwArCAE1akGaFKpzaoIA4Mb1
+         AupmQhkJ6lOtDioS99TgI2pfHy+oqcavl0HxDRP1qIw7WmRGF+JsgEAdeCQVti74pjmP
+         QlA0mcTHVifDg4XUpIfFiyPN1bSn1hQSjGTSiNZ5ZZrgRhbi3mNH6esRYcBkSe2y07y6
+         MizbqnEPNtAJCe2DFMlIZxLHGy0UOXIYabzrIdPN1F4+jnErWGz95fsrKN5D+PFvekIY
+         D5s/DvDQrFZ06eyREIuWasHfW8ZqZ1LCpCPiDuP9lSbuaMGe1TBgIhw1NsRW/SowpvZw
+         D2VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=84kfK6sIOAllIK8M0+ya0LPOkmwEdahjUOJWSgleLiM=;
+        b=k/dy+pwblqK5Sif63d9RBY+KZEpKGE/N++hcPOnKfQ0ujSz0aiiB3Og4z9hy+c7iNs
+         /IAtMA5UCJHMSvr1BRFnpGOWxGNHRgGbP6m9rs7/oJPEzBFr5PD80U8C8Aooeygi2FQc
+         SVoLqd4thUK/bqECa2TkpzhMoT9p3LJHVMdXBO6BweT19ju8ie255o8ru48Zr0axSoGj
+         V3J01PnwrKv90IRRrfiB1hYg10F8fYV36eVMVidUYAhV3p0T5O5grHWmalHNPUxdQ6/R
+         i5hJwBhsGwqIruuw8Fn7bFzMloQujcTunN01DI/Ixgp0bhE4pARgqtfjWj+CPNl8pMT7
+         9N7g==
+X-Gm-Message-State: AGi0PuZQZFM6vrkSpqHfuJhw5qApOTI/4KxhJat5SdB7a74ql3tDrnSc
+	sZzU7Ja2HV9f5IcwDVHvjhfgsm1egFbryZuIixM=
+X-Google-Smtp-Source: APiQypKAlz4xEVJ0LhVViDEuSp03mwN1xhWdwMRD9eBm9u8DdBSokUqkl+EC6KxSK+nAIvCJM8QT79P+wwjRMHvjaRY=
+X-Received: by 2002:a17:906:25cb:: with SMTP id n11mr23505914ejb.37.1589379992195;
+ Wed, 13 May 2020 07:26:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1589378829.git.bruce.ashfield@gmail.com> <d09f4c9abf8c9e0ff342c4b5d6323eb371391c63.1589378829.git.bruce.ashfield@gmail.com>
+In-Reply-To: <d09f4c9abf8c9e0ff342c4b5d6323eb371391c63.1589378829.git.bruce.ashfield@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Wed, 13 May 2020 10:26:21 -0400
+Message-ID: <CADkTA4Ps-3NAyLoUgMtsaPmP+mZ7P16tVmOAkzCSVoB-2SvT9A@mail.gmail.com>
+Subject: Re: [PATCH 4/4] kernel/reproducibility: factor kernel source epoch for common use
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, steve@sakoman.com
+Content-Type: text/plain; charset="UTF-8"
 
-This includes the fixes for CVE-2020-5260 and CVE-2020-11008.
+On Wed, May 13, 2020 at 10:24 AM <bruce.ashfield@gmail.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> Rather than duplicating the code to generate the kbuild environment
+> variable: KBUILD_BUILD_TIMESTAMP, we can factor the checks into a
+> python function and call it from the main image and kernel module
+> do_compile routines.
+>
+> All paths have been checked and the timestamp is identical to the
+> previous shell variant.
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  meta/classes/kernel.bbclass | 43 ++++++++++++++++---------------------
+>  1 file changed, 19 insertions(+), 24 deletions(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index a3990aaf59..de63e1c0f6 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -153,6 +153,21 @@ python do_symlink_kernsrc () {
+>  }
+>  addtask symlink_kernsrc before do_configure after do_unpack
+>
+> +def get_kernel_source_date_epoch(d):
+> +    import subprocess
+> +
+> +    s_d_e = d.getVar("SOURCE_DATE_EPOCH")
+> +    if not s_d_e:
+> +        s_d_e = subprocess.check_output(['git', '--git-dir=%s/.git' % d.getVar('S'), 'log', '-1', '--pretty=%ct']).decode('utf-8')
+> +        if not s_d_e:
+> +            s_d_e = d.getVar("REPRODUCIBLE_TIMESTAMP_ROOTFS")
+> +
+> +    env = os.environ.copy()
+> +    env['LC_ALL'] = 'C'
 
-Signed-off-by: Adrian Bunk <bunk@kernel.org>
----
- meta/recipes-devtools/git/git_2.20.1.bb | 11 -----------
- meta/recipes-devtools/git/git_2.20.4.bb | 11 +++++++++++
- 2 files changed, 11 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/git_2.20.1.bb
- create mode 100644 meta/recipes-devtools/git/git_2.20.4.bb
+Hah.
 
-diff --git a/meta/recipes-devtools/git/git_2.20.1.bb b/meta/recipes-devtools/git/git_2.20.1.bb
-deleted file mode 100644
-index 877fb05e58..0000000000
---- a/meta/recipes-devtools/git/git_2.20.1.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require git.inc
--
--EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
--                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--                 "
--EXTRA_OEMAKE += "NO_GETTEXT=1"
--
--SRC_URI[tarball.md5sum] = "7a7769e5c957364ed0aed89e6e67c254"
--SRC_URI[tarball.sha256sum] = "edc3bc1495b69179ba4e272e97eff93334a20decb1d8db6ec3c19c16417738fd"
--SRC_URI[manpages.md5sum] = "78c6e54a61a167dab5e8ae07036293ab"
--SRC_URI[manpages.sha256sum] = "e9c123463abd05e142defe44a8060ce6e9853dfd8c83b2542e38b7deac4e6d4c"
-diff --git a/meta/recipes-devtools/git/git_2.20.4.bb b/meta/recipes-devtools/git/git_2.20.4.bb
-new file mode 100644
-index 0000000000..e44da452ad
---- /dev/null
-+++ b/meta/recipes-devtools/git/git_2.20.4.bb
-@@ -0,0 +1,11 @@
-+require git.inc
-+
-+EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-+                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-+                 "
-+EXTRA_OEMAKE += "NO_GETTEXT=1"
-+
-+SRC_URI[tarball.md5sum] = "6f524e37186a79848a716e2a91330868"
-+SRC_URI[tarball.sha256sum] = "92719084d7648b69038ea617a3bc45ec74f60ed7eef753ae2ad84b6f0b268e9a"
-+SRC_URI[manpages.md5sum] = "dceabcda244042a06ed4cabd754627a5"
-+SRC_URI[manpages.sha256sum] = "72fdd1799756b1240921d10eb5c67de9a651b44d429ba7293929c9d5344ad3e0"
+Of course after my send, I see that I'm not actually *using* the env.
+I'll do an incremental patch to use env while this sits on the list.
+
+Bruce
+
+> +    ts = subprocess.check_output(['date', '-d @%s' % s_d_e]).decode('utf-8')
+> +
+> +    return ts
+> +
+>  inherit kernel-arch deploy
+>
+>  PACKAGES_DYNAMIC += "^${KERNEL_PACKAGE_NAME}-module-.*"
+> @@ -291,19 +306,9 @@ get_cc_option () {
+>  kernel_do_compile() {
+>         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+>         if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+> -               # kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
+> -               # be set....
+> -               if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
+> -                       # The source directory is not necessarily a git repository, so we
+> -                       # specify the git-dir to ensure that git does not query a
+> -                       # repository in any parent directory.
+> -                       SOURCE_DATE_EPOCH=`git --git-dir="${S}/.git" log -1 --pretty=%ct 2>/dev/null || echo "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"`
+> -               fi
+> -
+> -               ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
+> -               export KBUILD_BUILD_TIMESTAMP="$ts"
+> +               export KBUILD_BUILD_TIMESTAMP="${@ get_kernel_source_date_epoch(d)}"
+>                 export KCONFIG_NOTIMESTAMP=1
+> -               bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
+> +               bbnote "KBUILD_BUILD_TIMESTAMP: $KBUILD_BUILD_TIMESTAMP"
+>         fi
+>         # The $use_alternate_initrd is only set from
+>         # do_bundle_initramfs() This variable is specifically for the
+> @@ -332,19 +337,9 @@ kernel_do_compile() {
+>  do_compile_kernelmodules() {
+>         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
+>         if [ "${BUILD_REPRODUCIBLE_BINARIES}" = "1" ]; then
+> -               # kernel sources do not use do_unpack, so SOURCE_DATE_EPOCH may not
+> -               # be set....
+> -               if [ "${SOURCE_DATE_EPOCH}" = "" -o "${SOURCE_DATE_EPOCH}" = "0" ]; then
+> -                       # The source directory is not necessarily a git repository, so we
+> -                       # specify the git-dir to ensure that git does not query a
+> -                       # repository in any parent directory.
+> -                       SOURCE_DATE_EPOCH=`git --git-dir="${S}/.git" log -1 --pretty=%ct 2>/dev/null || echo "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"`
+> -               fi
+> -
+> -               ts=`LC_ALL=C date -d @$SOURCE_DATE_EPOCH`
+> -               export KBUILD_BUILD_TIMESTAMP="$ts"
+> +               export KBUILD_BUILD_TIMESTAMP="${@ get_kernel_source_date_epoch(d)}"
+>                 export KCONFIG_NOTIMESTAMP=1
+> -               bbnote "KBUILD_BUILD_TIMESTAMP: $ts"
+> +               bbnote "KBUILD_BUILD_TIMESTAMP: $KBUILD_BUILD_TIMESTAMP"
+>         fi
+>         if (grep -q -i -e '^CONFIG_MODULES=y$' ${B}/.config); then
+>                 cc_extra=$(get_cc_option)
+> --
+> 2.19.1
+>
+
+
 -- 
-2.17.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
