@@ -1,86 +1,111 @@
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
- by mx.groups.io with SMTP id smtpd.web10.327.1589327196822558672
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web10.1656.1589332456715586670
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 May 2020 16:46:36 -0700
+ Tue, 12 May 2020 18:14:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=AZ3rkkaS;
- spf=pass (domain: gmail.com, ip: 209.85.216.66, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f66.google.com with SMTP id s69so2006428pjb.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 May 2020 16:46:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fSXrn6t2oTIEUyccMvVvRNvs7Kmq8bDYdkj04LCif7o=;
-        b=AZ3rkkaS3GYWwr1ijyGavALoSOocQN/xZ9TS8ranIuNC2V55veAAb27SCAaNaRtViZ
-         lTtP01EV9JK4BHQ9a97vDOgEhZVid3kD6w3ygs7t+aGIq9yeJPexZQjAE332JAwiLkJw
-         leEgy/0Y0JgkmF9fzfwd5USe1+UBMJGqKqAUm1HTojg7Tss2KrAhAYqITLxK4wgBNxfQ
-         kuItrz8+1tRPUhYUBW077YazEXNWQZQIQ60W5kfbR7T25hbf+sn2VZ6hXRvTaz+I+E3c
-         Hn1+PmD26SLDIn3fiFXffFXBLuy8VbiR0PpZuHaIjOJwyofu78AL/wOcu+Kvpojeq/RM
-         tmCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=fSXrn6t2oTIEUyccMvVvRNvs7Kmq8bDYdkj04LCif7o=;
-        b=UGN+9ge8jhOCZ2qcHjZEVgsVo9a45MFcKlqVX12vxRrnCdSJElnUBNpBWbplx6uOyb
-         A0wjKE9/hjybYTkoubaVwEnt6W7NOgXhM7b4Aj17pQB4UTe7Jr0dK53ymrgkpP6rcyqp
-         7C4WhL4l/OmLYDHkhCld73e7KXgfp9v0NB8W4YcWXzjI53aSNVy6pRQ0KRxRvaduv9d9
-         lAifNUc17wE+IFHZQan7n/N6XDpumQj3TMRG1TyDO7YxphdB+oCsDQewtshsawaxQkmw
-         wDl7Nhb3oK9g5dcrfLVQ6WRIv/QRDru8z1wAtyndn/5Xwfw3NRkzro9WEC7Cf4Watedt
-         a6Jw==
-X-Gm-Message-State: AGi0Pubk4a9Z1X+pPGGqX/oGoZTUmDnpWDusSsjTjqswMB2XaFLZtQ3a
-	XXS7yQRbM7OLdZLQ9ExLxjHGgogdIuo=
-X-Google-Smtp-Source: APiQypKUZfpWTErNcTDckcAoiA2oDWRGv1vTkp6wVdBzEEx+0sk57pfDjdAWZoTjqvOrOP2mJ48OVw==
-X-Received: by 2002:a17:90a:df8b:: with SMTP id p11mr31007386pjv.137.1589327195767;
-        Tue, 12 May 2020 16:46:35 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::8caf])
-        by smtp.gmail.com with ESMTPSA id 127sm13175244pfw.72.2020.05.12.16.46.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 16:46:34 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] wayland: fix condition for strndup detection
-Date: Tue, 12 May 2020 16:46:31 -0700
-Message-Id: <20200512234631.2029050-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.2
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: naveen.kumar.saini@intel.com)
+IronPort-SDR: YL3aIOJONpRpSwz048FjIOkH0enjnWtmxsJIJk9De073tUXuGk72xrvOoMZyFzROxCsfMtAZs3
+ xJQlAXIw93pg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2020 18:14:16 -0700
+IronPort-SDR: XbXSMEy5t4NUnXEetFOshxvI7IU8Y0W7HgHyXUzOkQ9CDwjauZvveuB60Zl/3dykqoMYSxjZWz
+ lbsB3Xb0jlBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,385,1583222400"; 
+   d="scan'208";a="463955228"
+Received: from kmsmsx154.gar.corp.intel.com ([172.21.73.14])
+  by fmsmga006.fm.intel.com with ESMTP; 12 May 2020 18:14:15 -0700
+Received: from pgsmsx102.gar.corp.intel.com ([169.254.6.12]) by
+ KMSMSX154.gar.corp.intel.com ([169.254.12.226]) with mapi id 14.03.0439.000;
+ Wed, 13 May 2020 09:14:14 +0800
+From: "Naveen Saini" <naveen.kumar.saini@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/2] libva: upgrade 2.6.1 -> 2.7.1
+Thread-Topic: [OE-core] [PATCH 1/2] libva: upgrade 2.6.1 -> 2.7.1
+Thread-Index: AQHWJSdm87v6OsnbU0acsnIJfZJzkqilPStg
+Date: Wed, 13 May 2020 01:14:13 +0000
+Message-ID: <C996A1173CD66043A3AEC0C7B2C3906904DB50FE@PGSMSX102.gar.corp.intel.com>
+References: <160D08561718B7AF.8752@lists.openembedded.org>
+In-Reply-To: <160D08561718B7AF.8752@lists.openembedded.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+dlp-product: dlpe-windows
+x-originating-ip: [172.30.20.205]
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-current check does not work with gcc10
+Ping
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+
+-----Original Message-----
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> On Behalf Of Naveen Saini
+Sent: Friday, May 8, 2020 7:03 PM
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [PATCH 1/2] libva: upgrade 2.6.1 -> 2.7.1
+
+For release details:
+https://github.com/intel/libva/releases/tag/2.7.1
+https://github.com/intel/libva/releases/tag/2.7.0
+
+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
 ---
- .../0001-build-Fix-strndup-detection-on-MinGW.patch        | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+ .../libva/{libva-initial_2.6.1.bb =3D> libva-initial_2.7.1.bb}   | 3 +--
+ meta/recipes-graphics/libva/{libva_2.6.1.bb =3D> libva_2.7.1.bb} | 3 +--
+ 2 files changed, 2 insertions(+), 4 deletions(-)  rename meta/recipes-grap=
+hics/libva/{libva-initial_2.6.1.bb =3D> libva-initial_2.7.1.bb} (50%)  rena=
+me meta/recipes-graphics/libva/{libva_2.6.1.bb =3D> libva_2.7.1.bb} (84%)
 
-diff --git a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
-index e445838750..c2ceae4a47 100644
---- a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
-+++ b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
-@@ -17,8 +17,6 @@ Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/wayland/merge
-  meson.build | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/meson.build b/meson.build
--index 26b084f..c05d019 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -36,11 +36,11 @@ have_funcs = [
-@@ -30,10 +28,7 @@ index 26b084f..c05d019 100644
-  foreach f: have_funcs
-  	config_h.set('HAVE_' + f.underscorify().to_upper(), cc.has_function(f))
-  endforeach
--+config_h.set('HAVE_STRNDUP', cc.has_function('strndup', prefix:'#include <string.h>'))
-++config_h.set('HAVE_STRNDUP', cc.has_function('strndup') and cc.has_header_symbol('string.h', 'strndup'))
-  
-  if get_option('libraries')
-  	ffi_dep = dependency('libffi')
---- 
--2.17.1
--
--- 
-2.26.2
+diff --git a/meta/recipes-graphics/libva/libva-initial_2.6.1.bb b/meta/reci=
+pes-graphics/libva/libva-initial_2.7.1.bb
+similarity index 50%
+rename from meta/recipes-graphics/libva/libva-initial_2.6.1.bb
+rename to meta/recipes-graphics/libva/libva-initial_2.7.1.bb
+index 2c845238da..3e2b806c6d 100644
+--- a/meta/recipes-graphics/libva/libva-initial_2.6.1.bb
++++ b/meta/recipes-graphics/libva/libva-initial_2.7.1.bb
+@@ -1,8 +1,7 @@
+ require libva.inc
+=20
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D2e48940f94acb0af582e5ef03537800=
+f"
+-SRC_URI[md5sum] =3D "aef13eb48e01a47d1416d97462a22a11"
+-SRC_URI[sha256sum] =3D "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62=
+e48629401eaea5"
++SRC_URI[sha256sum] =3D "a00ff19d9f969259b9784172adad7788dbf3de827d985c5d27=
+c230efd5d98a04"
+=20
+ do_install_append () {
+ 	rm -f ${D}${libdir}/*.so*
+diff --git a/meta/recipes-graphics/libva/libva_2.6.1.bb b/meta/recipes-grap=
+hics/libva/libva_2.7.1.bb
+similarity index 84%
+rename from meta/recipes-graphics/libva/libva_2.6.1.bb
+rename to meta/recipes-graphics/libva/libva_2.7.1.bb
+index e8cb8678bc..b2deb017ac 100644
+--- a/meta/recipes-graphics/libva/libva_2.6.1.bb
++++ b/meta/recipes-graphics/libva/libva_2.7.1.bb
+@@ -1,8 +1,7 @@
+ require libva.inc
+=20
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D2e48940f94acb0af582e5ef03537800=
+f"
+-SRC_URI[md5sum] =3D "aef13eb48e01a47d1416d97462a22a11"
+-SRC_URI[sha256sum] =3D "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62=
+e48629401eaea5"
++SRC_URI[sha256sum] =3D "a00ff19d9f969259b9784172adad7788dbf3de827d985c5d27=
+c230efd5d98a04"
+=20
+ PACKAGECONFIG ??=3D " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'glx', '', d)} \
+--
+2.17.1
 
