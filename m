@@ -1,57 +1,74 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.7919.1589382141771288283
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+ by mx.groups.io with SMTP id smtpd.web10.8242.1589383067038028008
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 08:02:21 -0700
+ Wed, 13 May 2020 08:17:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5657A60108;
-	Wed, 13 May 2020 15:02:19 +0000 (UTC)
-MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsL3JlcHJvZHVjaWJpbGl0eTogdXNlIHNwZWNpZmllZCBlbnZpcm9ubWVudCBzZXR0aW5ncw==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 13 May 2020 15:02:20 -0000
-Message-ID: <20200513150220.20801.1569@do>
-References: <20200513143618.53411-1-bruce.ashfield@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200513143618.53411-1-bruce.ashfield@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+ dkim=missing; spf=permerror, err=syntax error for token:  (domain: kernel.crashing.org, ip: 76.164.61.194, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from lons-builder.int.hatle.net ([192.40.192.88])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 04DFHheM025378
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 10:17:44 -0500
+From: "Mark Hatle" <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] sstate.bbclass: When siginfo or sig files are missing, stop fetcher errors
+Date: Wed, 13 May 2020 10:17:43 -0500
+Message-Id: <20200513151743.160971-1-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
 
-== Series Details ==
+From: Mark Hatle <mark.hatle@xilinx.com>
 
-Series: kernel/reproducibility: use specified environment settings
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/24133/
-State : failure
+Prior to fetching, the system checks if the sstate file is present
+either locally or on the mirror.  If it is, then it goes to the fetch
+stage.  Up to three files can be fetched, sstate, sstate.siginfo and
+sstate.sig (if signature validation is enabled).
 
-== Summary ==
+The previous pstaging_fetch function would iterate over these, and if
+a download error occurred would spew forth a great amount of fetcher
+failure messages as well as stop fetching the next item in the set.
 
+This was resolved by adding a fetcher.checkstatus() call prior to
+the download.  If the file isn't present, then the exception will
+be triggered, and no fetcher failure messages will reach the user.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+The exception handler is then modified to be a pass so that it will
+loop and pull the rest of the files that that are requested.
 
+Additionally, a check for the existance of the .sig file was added
+to the sstate_installpkg to avoid an error trying to load the .sig
+if it wasn't downloaded.
 
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at a223691739)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/sstate.bbclass | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index aa9c30b4e1..da8d5e78f4 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -355,6 +355,9 @@ def sstate_installpkg(ss, d):
+     d.setVar('SSTATE_INSTDIR', sstateinst)
+ 
+     if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False):
++        if not os.path.isfile(sstatepkg + '.sig'):
++            bb.warn("Not signature file for sstate package %s, skipping acceleration..." % sstatepkg)
++            return False
+         signer = get_signer(d, 'local')
+         if not signer.verify(sstatepkg + '.sig'):
+             bb.warn("Cannot verify signature on sstate package %s, skipping acceleration..." % sstatepkg)
+@@ -733,10 +736,11 @@ def pstaging_fetch(sstatefetch, d):
+         localdata.setVar('SRC_URI', srcuri)
+         try:
+             fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
++            fetcher.checkstatus()
+             fetcher.download()
+ 
+         except bb.fetch2.BBFetchException:
+-            break
++            pass
+ 
+ def sstate_setscene(d):
+     shared_state = sstate_state_fromvars(d)
+-- 
+2.17.1
 
