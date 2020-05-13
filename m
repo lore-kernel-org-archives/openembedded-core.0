@@ -1,87 +1,84 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web12.501.1589405737487299085
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
+ by mx.groups.io with SMTP id smtpd.web12.1906.1589410131354744479
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 14:35:39 -0700
+ Wed, 13 May 2020 15:48:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=koshGVai;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=ce53=63=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49Mnyt2BzbzJD
-	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 23:35:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1589405734;
-	bh=Gthv4eDD2eVL8EwdFo/W8ux7q8lEXMu2s0scvxWbvSs=;
-	h=From:To:Subject:Date:From;
-	b=koshGVaiRbS3ePyrB2oPu5o+J4vj9N5WmYKHWyA8fCvJBfvnGITxncx9zUXdY93P+
-	 0hj5decQtgYk7Ma7QmQS9XxPa5CAUhWrS6pfr2magYVx33VDltXEBxgm/uWWYPdaPy
-	 Vui6eKgtpFSQGsELvmg5VthpLlnhfMHF/Xway/j4kFdCINmY8+QPI8PbG0we8vcxwD
-	 eJXhuAGAqM24SiRhwgT2w1Vcy6SHIrIGgQDmPKH1deMlQ+64qOyz6/2oHqra0ScdlD
-	 84HBYSJWe8FDv4hI3bM40OUQBxkNP2dyvqJCrznaBjHfm3xMNNPnbixoOYbIX7YVZl
-	 1k4YDm6wkTWyW6Wu5rVSYDhA2CvLqxLPK7LEz1uLBiVxojApYb1gnKhR3fJWg03jVZ
-	 dGekStCjMma0A73ajn2wPl/G2uiyzVg98xOBn+eZQLdH+8Knch4LYcaHdbVTjraudN
-	 8aEjSzk/P23Q7GikEWn9+5KicFLbijI57RG4r4powJ8v0OzU0nUGK4tijggSmBRHBe
-	 9v56m4TeQouEpnt9sVK6/aPueqx7cCTEJ/1ytiRNVZmgDdtvzqd2ZyPPMrsbhgF7kH
-	 U4nvr5LKY6mDn4auGU9ajUpMPAYu7QlwwaLSLhD4aNx96yWLEjsWaWrTqAMtHCqXjn
-	 SZtqbynbzWCRSgdTbVgqUTM0=
-From: "Adrian Bunk" <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] apt: The C.UTF-8 locale is not portable
-Date: Thu, 14 May 2020 00:35:32 +0300
-Message-Id: <20200513213532.28078-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XzutnDgq;
+ spf=pass (domain: gmail.com, ip: 209.85.217.68, mailfrom: armccurdy@gmail.com)
+Received: by mail-vs1-f68.google.com with SMTP id l25so835985vso.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 15:48:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=GgOygIHmfnUNkTFOqhiueRnBO4Dk8nICiPmMg2jyvyM=;
+        b=XzutnDgqWXckxS0RGjT5aJLURxXqs42CPHkJpcPDfuPaSo7TC72TJqTZDowzN5ajF2
+         0PUBjuaor3dA3w4m3OFjk0ocF+0DW7LUur9Q/5A2BH3ishDgYvxbx0htYFMGzAsKXndb
+         T2gsoChuGkHn/2Ur52sIGftKILby26TxVG0Z4P8uuvsZJQq3yMs7EpwkqvnCsJNXU517
+         kzO2BWY6f2Zrq4oKhZadlbL3ZVawzRSoFXqAKhKWGXIPv+0Hji8qAjN6bX2jjYtEDugV
+         RjTtZmyJ16AsjxloNx6fdc8S+NHKZ19erqArCmL9dzsPYyFNx3yRzPQyrjH/CbcXswna
+         AZ+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=GgOygIHmfnUNkTFOqhiueRnBO4Dk8nICiPmMg2jyvyM=;
+        b=SH+shnweZLYSxvfbNegAWoFe2EF7fPFO4q5tMsXRYAD3/k3hTXVWQDlRKPySXnr5AB
+         8TtH8MSMMT9ehlFje7GXHy6B3EVnmF5vtoEVKBY0yWhPzBbj8Mcsy3d6nyc/CDeiXW/f
+         p3M5xRKehBQXX/TQiY6iRrjDryuntqGegjtfpmkeIAjYnJwdm1YCoGiAjckzQgvOJSW/
+         jZdcj2PMbJsTfWEF9JVwwLQLPrnUi0ANUPVCb8wp8oiF/We8sqo58TT1QZWLkVk9Nd8T
+         L6NN/2IV/X0n9RcziE3s+aiS1x5TI363EVx4ruGUlgh9gmrxt2pubbQp8rTuOHqtcBXq
+         8Dsg==
+X-Gm-Message-State: AOAM533NBVWdjoskGGjL1uDCIovesQZuYwBw3qApcd0ylzvYGeZAsFE1
+	ee5GjkJrXXQTaVOpvG3Y7zcdPfhT5UuSPj9mqjs=
+X-Google-Smtp-Source: ABdhPJw/wSkS8nZQWbAXUsgnf6fXL3QNZV888idLtfvW3s7oXVSioxfa3DyqhoQtMdAYP5zvvO6/7APJdwdLSm9+OXI=
+X-Received: by 2002:a67:fd42:: with SMTP id g2mr1355463vsr.130.1589410130023;
+ Wed, 13 May 2020 15:48:50 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200512214255.20678-1-pkj@axis.com> <CAJ86T=U-0v06iC5wm8opzJSO5a7k8a_a_NncF4N5ep6BwnBGTw@mail.gmail.com>
+ <12d3b34c48784a218feef04fbc1463e4@XBOX03.axis.com> <CAJ86T=Wf5n_PqiB9X8fYjdyYMwh=WakmVHjMfCVETKec4peZbA@mail.gmail.com>
+ <764c9a365a510d22a5df20e4e510c4e9e4ab633b.camel@linuxfoundation.org>
+In-Reply-To: <764c9a365a510d22a5df20e4e510c4e9e4ab633b.camel@linuxfoundation.org>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Wed, 13 May 2020 15:48:38 -0700
+Message-ID: <CAJ86T=X5=DGSw30e3os8bm=T5V6UXHMhLGPjB=xykyqjY-ijog@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] file: Remove unneccessary override of PACKAGECONFIG for native
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-devtools/apt/apt.inc             |  1 +
- ...le-is-not-portable-use-std-locale-cl.patch | 27 +++++++++++++++++++
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-devtools/apt/apt/0001-The-C.UTF-8-locale-is-not-portable-use-std-locale-cl.patch
+On Wed, May 13, 2020 at 2:31 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2020-05-13 at 12:30 -0700, Andre McCurdy wrote:
+> > Yes. Unfortunately making recipes robust for users who want to change
+> > PACKAGECONFIG values doesn't seem to be a high priority for oe-core.
+> > Why else would default PACKAGECONFIG values be assigned with ??=
+> > instead of ?= other than as a trap for new users?
+>
+> I'm not sure I understand that, equally I'm tired so I'll assume I'm
+> just missing something.
+>
+> I will say that there is no intention to make OE-Core hard to use or
+> not robust, its only as good a the people contributing make it. In this
+> case I'm not sure I understand/see the problem.
+>
+> If we should be using ?= instead of ??= then I'm open to an explanation
+> why and patches to improve things.
 
-diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
-index 13f5969f86..87d533782f 100644
---- a/meta/recipes-devtools/apt/apt.inc
-+++ b/meta/recipes-devtools/apt/apt.inc
-@@ -17,6 +17,7 @@ SRC_URI = "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/${BPN}/${P
-            file://0001-environment.mak-musl-based-systems-can-generate-shar.patch \
-            file://0001-apt-1.2.12-Fix-musl-build.patch \
-            file://0001-Include-array.h-for-std-array.patch \
-+           file://0001-The-C.UTF-8-locale-is-not-portable-use-std-locale-cl.patch \
-            "
- SRC_URI[md5sum] = "d30eed9304e82ea8238c854b5c5a34d9"
- SRC_URI[sha256sum] = "03ded4f5e9b8d43ecec083704b2dcabf20c182ed382db9ac7251da0b0b038059"
-diff --git a/meta/recipes-devtools/apt/apt/0001-The-C.UTF-8-locale-is-not-portable-use-std-locale-cl.patch b/meta/recipes-devtools/apt/apt/0001-The-C.UTF-8-locale-is-not-portable-use-std-locale-cl.patch
-new file mode 100644
-index 0000000000..ce5c005086
---- /dev/null
-+++ b/meta/recipes-devtools/apt/apt/0001-The-C.UTF-8-locale-is-not-portable-use-std-locale-cl.patch
-@@ -0,0 +1,27 @@
-+From 7e8839731ae3fdf7502b91643aa6b252f6c5eaa6 Mon Sep 17 00:00:00 2001
-+From: Adrian Bunk <bunk@stusta.de>
-+Date: Thu, 14 May 2020 00:08:21 +0300
-+Subject: The C.UTF-8 locale is not portable, use std::locale::classic()
-+
-+Upstream-Status: Inappropriate [Similar fix already in apt >= 1.3]
-+Signed-off-by: Adrian Bunk <bunk@stusta.de>
-+---
-+ ftparchive/writer.cc | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/ftparchive/writer.cc b/ftparchive/writer.cc
-+index 25963820a..6ad571d2a 100644
-+--- a/ftparchive/writer.cc
-++++ b/ftparchive/writer.cc
-+@@ -984,7 +984,7 @@ ReleaseWriter::ReleaseWriter(FileFd * const GivenOutput, string const &/*DB*/) :
-+    AddPatterns(_config->FindVector("APT::FTPArchive::Release::Patterns"));
-+ 
-+    time_t const now = time(NULL);
-+-   auto const posix = std::locale("C.UTF-8");
-++   auto const posix = std::locale::classic();
-+ 
-+    // FIXME: use TimeRFC1123 here? But that uses GMT to satisfy HTTP/1.1
-+    std::ostringstream datestr;
-+-- 
-+2.20.1
-+
--- 
-2.17.1
+If the default is assigned with ??= then trying to add to it with +=
+results in the default value being lost. If the default is assigned
+with ?= then adding to it with += works as expected.
 
+To robustly enable a new PACKAGECONFIG option, users need to learn to
+use PACKAGECONFIG_append (and obviously learn about the leading space
+requirement there too) and not to try PACKAGECONFIG +=.
+
+The reference manual does at least have an example which uses _append.
+However it doesn't mention that += isn't safe or that _append will
+affect native(sdk) and therefore _append_class-target is the safest
+approach.
+
+> Unfortunately we do have quite some legacy and ??= vs ?= has been
+> troublesome in the many different contexts we have (recipe, class,
+> conf, inc and so on).
