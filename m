@@ -1,84 +1,67 @@
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
- by mx.groups.io with SMTP id smtpd.web12.1906.1589410131354744479
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.4908.1589421628782093443
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 15:48:51 -0700
+ Wed, 13 May 2020 19:00:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XzutnDgq;
- spf=pass (domain: gmail.com, ip: 209.85.217.68, mailfrom: armccurdy@gmail.com)
-Received: by mail-vs1-f68.google.com with SMTP id l25so835985vso.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 15:48:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GgOygIHmfnUNkTFOqhiueRnBO4Dk8nICiPmMg2jyvyM=;
-        b=XzutnDgqWXckxS0RGjT5aJLURxXqs42CPHkJpcPDfuPaSo7TC72TJqTZDowzN5ajF2
-         0PUBjuaor3dA3w4m3OFjk0ocF+0DW7LUur9Q/5A2BH3ishDgYvxbx0htYFMGzAsKXndb
-         T2gsoChuGkHn/2Ur52sIGftKILby26TxVG0Z4P8uuvsZJQq3yMs7EpwkqvnCsJNXU517
-         kzO2BWY6f2Zrq4oKhZadlbL3ZVawzRSoFXqAKhKWGXIPv+0Hji8qAjN6bX2jjYtEDugV
-         RjTtZmyJ16AsjxloNx6fdc8S+NHKZ19erqArCmL9dzsPYyFNx3yRzPQyrjH/CbcXswna
-         AZ+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GgOygIHmfnUNkTFOqhiueRnBO4Dk8nICiPmMg2jyvyM=;
-        b=SH+shnweZLYSxvfbNegAWoFe2EF7fPFO4q5tMsXRYAD3/k3hTXVWQDlRKPySXnr5AB
-         8TtH8MSMMT9ehlFje7GXHy6B3EVnmF5vtoEVKBY0yWhPzBbj8Mcsy3d6nyc/CDeiXW/f
-         p3M5xRKehBQXX/TQiY6iRrjDryuntqGegjtfpmkeIAjYnJwdm1YCoGiAjckzQgvOJSW/
-         jZdcj2PMbJsTfWEF9JVwwLQLPrnUi0ANUPVCb8wp8oiF/We8sqo58TT1QZWLkVk9Nd8T
-         L6NN/2IV/X0n9RcziE3s+aiS1x5TI363EVx4ruGUlgh9gmrxt2pubbQp8rTuOHqtcBXq
-         8Dsg==
-X-Gm-Message-State: AOAM533NBVWdjoskGGjL1uDCIovesQZuYwBw3qApcd0ylzvYGeZAsFE1
-	ee5GjkJrXXQTaVOpvG3Y7zcdPfhT5UuSPj9mqjs=
-X-Google-Smtp-Source: ABdhPJw/wSkS8nZQWbAXUsgnf6fXL3QNZV888idLtfvW3s7oXVSioxfa3DyqhoQtMdAYP5zvvO6/7APJdwdLSm9+OXI=
-X-Received: by 2002:a67:fd42:: with SMTP id g2mr1355463vsr.130.1589410130023;
- Wed, 13 May 2020 15:48:50 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: kai.kang@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 04E1xoYB005678
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 May 2020 19:00:17 -0700
+Received: from [128.224.162.131] (128.224.162.131) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Wed, 13 May 2020
+ 19:00:04 -0700
+Subject: Re: [PATCH] gcr: depends on gnupg-native
+To: <openembedded-core@lists.openembedded.org>
+References: <20200511092342.29197-1-kai.kang@windriver.com>
+From: "kai" <kai.kang@windriver.com>
+Message-ID: <f00e9d2b-8ada-a259-337d-9c1fa37862ab@windriver.com>
+Date: Thu, 14 May 2020 09:59:01 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200512214255.20678-1-pkj@axis.com> <CAJ86T=U-0v06iC5wm8opzJSO5a7k8a_a_NncF4N5ep6BwnBGTw@mail.gmail.com>
- <12d3b34c48784a218feef04fbc1463e4@XBOX03.axis.com> <CAJ86T=Wf5n_PqiB9X8fYjdyYMwh=WakmVHjMfCVETKec4peZbA@mail.gmail.com>
- <764c9a365a510d22a5df20e4e510c4e9e4ab633b.camel@linuxfoundation.org>
-In-Reply-To: <764c9a365a510d22a5df20e4e510c4e9e4ab633b.camel@linuxfoundation.org>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Wed, 13 May 2020 15:48:38 -0700
-Message-ID: <CAJ86T=X5=DGSw30e3os8bm=T5V6UXHMhLGPjB=xykyqjY-ijog@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] file: Remove unneccessary override of PACKAGECONFIG for native
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200511092342.29197-1-kai.kang@windriver.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 04E1xoYB005678
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 13, 2020 at 2:31 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2020-05-13 at 12:30 -0700, Andre McCurdy wrote:
-> > Yes. Unfortunately making recipes robust for users who want to change
-> > PACKAGECONFIG values doesn't seem to be a high priority for oe-core.
-> > Why else would default PACKAGECONFIG values be assigned with ??=
-> > instead of ?= other than as a trap for new users?
+On 2020/5/11 =E4=B8=8B=E5=8D=885:23, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
 >
-> I'm not sure I understand that, equally I'm tired so I'll assume I'm
-> just missing something.
+> It fails to build gcr if no commmand gpg on build host:
 >
-> I will say that there is no intention to make OE-Core hard to use or
-> not robust, its only as good a the people contributing make it. In this
-> case I'm not sure I understand/see the problem.
+> | meson.build:44:0: ERROR: Program(s) ['gpg2', 'gpg'] not found or not =
+executable
 >
-> If we should be using ?= instead of ??= then I'm open to an explanation
-> why and patches to improve things.
+> Add dependency gnupg-native to fix the error.
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/recipes-gnome/gcr/gcr_3.36.0.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-gnome/gcr/gcr_3.36.0.bb b/meta/recipes-gnome/=
+gcr/gcr_3.36.0.bb
+> index 4fe3b2fff3..458dc8e6c4 100644
+> --- a/meta/recipes-gnome/gcr/gcr_3.36.0.bb
+> +++ b/meta/recipes-gnome/gcr/gcr_3.36.0.bb
+> @@ -8,7 +8,7 @@ BUGTRACKER =3D "https://gitlab.gnome.org/GNOME/gcr/issu=
+es"
+>   LICENSE =3D "GPLv2"
+>   LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D55ca817ccb7d5b5b66355690e9=
+abc605"
+>  =20
+> -DEPENDS =3D "gtk+3 p11-kit glib-2.0 libgcrypt \
+> +DEPENDS =3D "gtk+3 p11-kit glib-2.0 libgcrypt gnupg-native \
+>              ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'libxslt-n=
+ative', '', d)}"
+>  =20
+>   GNOMEBASEBUILDCLASS =3D "meson"
 
-If the default is assigned with ??= then trying to add to it with +=
-results in the default value being lost. If the default is assigned
-with ?= then adding to it with += works as expected.
+Any comment, please?
 
-To robustly enable a new PACKAGECONFIG option, users need to learn to
-use PACKAGECONFIG_append (and obviously learn about the leading space
-requirement there too) and not to try PACKAGECONFIG +=.
+--=20
+Kai Kang
+Wind River Linux
 
-The reference manual does at least have an example which uses _append.
-However it doesn't mention that += isn't safe or that _append will
-affect native(sdk) and therefore _append_class-target is the safest
-approach.
-
-> Unfortunately we do have quite some legacy and ??= vs ?= has been
-> troublesome in the many different contexts we have (recipe, class,
-> conf, inc and so on).
