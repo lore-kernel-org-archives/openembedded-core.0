@@ -1,85 +1,76 @@
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com [209.85.166.68])
- by mx.groups.io with SMTP id smtpd.web12.267.1589480557436888879
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web12.423.1589480903598840736
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2020 11:22:37 -0700
+ Thu, 14 May 2020 11:28:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WiTkJ6RN;
- spf=pass (domain: gmail.com, ip: 209.85.166.68, mailfrom: raj.khem@gmail.com)
-Received: by mail-io1-f68.google.com with SMTP id o5so2285671iow.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 11:22:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=O5d4bFaE;
+ spf=pass (domain: gmail.com, ip: 209.85.215.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f194.google.com with SMTP id u5so1606751pgn.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 11:28:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=SSc6SnEFsHnCojDq4x1h06uKKRReXG324s6IRcIvVTs=;
-        b=WiTkJ6RN0GOCIHD8iqXh5vP28ohSEuYHf1ZH2STL0snAoOmTsHQs+aM6Akvx+1mOdf
-         q+XbwLdOXCYSM/L2qXjEJuroBf+JMCuF9woVgVYq80ZympDx31NkoEGL1+1XIDJTMTcw
-         seIAzdBGBntVwgH332hpzS9klsEUyuyDTpo5JskMAK5QXKtRqRfvTTMzVHOysc5jK0nY
-         gk4/IwQY109KTO31pGiYVf5Nknm58qwfeF4ETFFRLddW8Ms4qZdgKPFCasbnJGmj6B+U
-         nY8lOoHPaP6w1WMOZFHi0jdP/q3tf+hBPk9jnOGwZGCB9E092JGl9X+U58XhIIMXt8Zr
-         ackQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8Px3fKY3osx2Le23oGm51A2ldzBaryAvzAuVpYUnqCM=;
+        b=O5d4bFaE3nfSEDbWw9YCNt994GSekLvbMebJ4Vvs9E7CybJ+7/A/SLV+2UXcQ59VVw
+         2XcJN70sbX/1A1syBN7J9/jDh+LhkCQSgJAFAl1XItTibGo4ZVmdHkkSAXY66s+WsGlL
+         Q96k6bbCBW8UnC9BUZnzY+t/diRvpGfeX1pIJV3lKOt1wuDdxtjud3OV5iLke3kX01ZA
+         z4z0wejEWHZ/MtYXiCUVAK8eiiLsNbxb392IRqtj1HeMGwxDqhyFVC1xj7HlA7iegZoX
+         ilO5viP5X/H9zhBLRYFyD+9QK5vVtWeLS3FeYmO73dSUq1hUVzo1ja7UdsPgl0kW+g5k
+         ULQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=SSc6SnEFsHnCojDq4x1h06uKKRReXG324s6IRcIvVTs=;
-        b=NTlQs9FIiMwQg97x/BWQ3wOzI9kcoFbuVPa3eCWSXaton1WCK4zMrhpzZmWPlhICLS
-         5WYGTjxECguknQ9Jj0ZiN/7TwFYCSdgccW6Opms3VBO31/CjYVtzMbIVmvl05l0WQbIC
-         zgc9lss9sJ0O/2BNSdTDT8Fot9MekG/RUoqxwZ7zu7V3KeDQqQLEa0sMr/vyMOJGeqwf
-         HMvBtdLi1L+w61aAywFhP/k3z80BBvsTrzwNLtdRUzkoUypOAOgNMRMhWPM5c7rgFGqG
-         YMRwVbLhQ10pxXOxgkQOC9xi+wWjfiOYMbO5g11uhQkq8T8fPa8umWfsx4hOD9HrKcVn
-         FWDQ==
-X-Gm-Message-State: AOAM530gZvXxwVtievb8J0RzDvRYOen+wqM+0BKqT1w3/2uEnvdM1Vjw
-	q67TEXZrjELldxwW6V/8YQhGLoXuec4=
-X-Google-Smtp-Source: ABdhPJwLYKznNf2rI2PIo89pF9JuIT4hAKHhLxHEXwMW1zwZNFV0O+GVquk3BsIC5cxtguY5QTIkEg==
-X-Received: by 2002:a6b:3805:: with SMTP id f5mr5454649ioa.156.1589480556452;
-        Thu, 14 May 2020 11:22:36 -0700 (PDT)
+        bh=8Px3fKY3osx2Le23oGm51A2ldzBaryAvzAuVpYUnqCM=;
+        b=pXFl/fKpPFio/MBQCpPYs0dD4AE4+wPIBkbxJs3aHq7+wAEXxGJVI+z6JRp6y48qqa
+         xkwGZRFqm2Vvx6uiRoSL2JUhgxMrGFdyMMx53GDl9e0nS5clXDpkUJ1vI0x/1COEFNOl
+         qfuSrdvvF/m/OYMpDuTAlFNKMwxC6bAHvfNKD9BS3GPZYU2nDU2I1VRQ86as5nqFV8zo
+         68WrmT2tkV+7DBD31Tv6+7K45nh+v1G7XZySLmmO/NUph4BfYCB/1Q3h9y21nDCDDgAs
+         aFv9NRdxFTZENB507ZbDAw3Sc2X8kQimBvDsMPPHJDLIsJmRwcd58M9O+lBgrt3jZZYC
+         +A2g==
+X-Gm-Message-State: AOAM530fea0NTInv+R3l0mEhoCHpv/oqVWeJ3hX7bGnwzbfmZXopIrvt
+	rGrbpVAH9PRa4tSFLK1al1dSP5y5jeI=
+X-Google-Smtp-Source: ABdhPJytLiPp2NtlZBUXu9NTyxgPCOjcI6Nln1R0gGSHAmvNjozDpUflkvG0NGknE3mEUonRjUiVTA==
+X-Received: by 2002:a63:2216:: with SMTP id i22mr4974573pgi.359.1589480902766;
+        Thu, 14 May 2020 11:28:22 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0:c5b6:5bca:e472:ded4? ([2601:646:9200:4e0:c5b6:5bca:e472:ded4])
-        by smtp.gmail.com with ESMTPSA id m14sm1403530ilq.68.2020.05.14.11.22.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 May 2020 11:22:35 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH V3 3/3] gcc10: Revert using __getauxval in libgcc
-To: Adrian Bunk <bunk@stusta.de>
-Cc: openembedded-core@lists.openembedded.org
-References: <20200511182812.441561-1-raj.khem@gmail.com>
- <20200511182812.441561-3-raj.khem@gmail.com>
- <20200514152934.GC21399@localhost>
- <7111a5b8-12b5-d683-eb39-6661223697ad@gmail.com>
- <20200514181917.GA28774@localhost>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::3cf8])
+        by smtp.gmail.com with ESMTPSA id q100sm2568035pjc.11.2020.05.14.11.28.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2020 11:28:22 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <5f87e63e-d827-c615-44b7-0071b1e80694@gmail.com>
-Date: Thu, 14 May 2020 11:22:33 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.8.0
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v3] qemuarm64.conf: Use cortext-a57 as default tune
+Date: Thu, 14 May 2020 11:28:20 -0700
+Message-Id: <20200514182820.753611-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200514181917.GA28774@localhost>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+This is more appropriate for the machine we are emulating
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Fix typo its not cortexa55 but cortexa57 what we need here
+v3: Fix wrong search path for cortexa57.inc ( merge conflicts )
+ meta/conf/machine/qemuarm64.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 5/14/20 11:19 AM, Adrian Bunk wrote:
-> On Thu, May 14, 2020 at 10:18:53AM -0700, Khem Raj wrote:
->> On 5/14/20 8:29 AM, Adrian Bunk wrote:
->>> Disabling -moutline-atomics would also workaround this issue.
->>
->> I think this is a good suggestion and I do not like to revert gcc patches if
->> we can avoid doing that. I will propose a fix to disable outline-atomics for
->> valgrind on aarch64
->> ...
-> 
-> Not just for valgrind, globally.
-> 
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index 1e2d4f018d..7965fac71e 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -2,7 +2,7 @@
+ #@NAME: QEMU ARMv8 machine
+ #@DESCRIPTION: Machine configuration for running an ARMv8 system on QEMU
+ 
+-require conf/machine/include/arm/arch-armv8a.inc
++require conf/machine/include/tune-cortexa57.inc
+ require conf/machine/include/qemu.inc
+ 
+ KERNEL_IMAGETYPE = "Image"
+-- 
+2.26.2
 
-so far just doing for valgrind is enough. I am not averse to enabling it 
-globally but perhaps we need to do some pre-work to decide that, maybe 
-some benchmark numbers.
-
-> The main effect in Yocto distributions is (slightly) slower and larger code.
-> 
-> cu
-> Adrian
-> 
