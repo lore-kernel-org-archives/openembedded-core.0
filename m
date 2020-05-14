@@ -1,133 +1,49 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web12.7961.1589441885962671766
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web12.7968.1589441909764979247
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2020 00:38:06 -0700
+ Thu, 14 May 2020 00:38:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: kai.kang@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 04E7c3sG011696
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Thu, 14 May 2020 00:38:04 -0700 (PDT)
-Received: from [128.224.162.131] (128.224.162.131) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Thu, 14 May 2020
- 00:38:03 -0700
-Subject: Re: [OE-core] [PATCH] buildtools-extended-tarball: add nativesdk-glibc
-From: "kai" <kai.kang@windriver.com>
-To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>,
-        Richard Purdie
-	<richard.purdie@linuxfoundation.org>,
-        <openembedded-core@lists.openembedded.org>
-References: <20200506015447.13003-1-kai.kang@windriver.com>
- <080c0849554edd5710f68f6283a020f578968de9.camel@linuxfoundation.org>
- <f35dd49c-f52b-6d35-9d1b-56775e065bbd@windriver.com>
- <38eed4f8-2fb6-0853-19f7-845e988b2fe2@mvista.com>
- <d8911cb6-0337-11c9-5bd9-950939299379@windriver.com>
-Message-ID: <4746673e-2ca8-379b-c02f-df3f90739fef@windriver.com>
-Date: Thu, 14 May 2020 15:36:58 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ dkim=pass header.i=@stusta.de header.s=default header.b=Bin6/Jj7;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=glre=64=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49N3LQ5Qsxz5l;
+	Thu, 14 May 2020 09:38:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1589441906;
+	bh=tD6hPYuhAfxCI2xlrWVV33OI6onoTcDWXp3Xg3cncc0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Bin6/Jj7ZsCZg66ta5iscm3KCfq2YJJEQ+x2kSI9apVqgi8vs5Ila8ZEly0frw9RZ
+	 DbMWbjlo20TA3vWwK9m4TbiLuBc6Tu1atvveOEjbFm0yo/1XXL41Z+k2AwBzOyaNaA
+	 u2zBnhauVuLOM2/Qds7ThvAzj+9F0yiyvUpKImXyXMaxOufj0g1ws+2AD65P7Np16u
+	 /EKiWAAqNbquCpcwBw1x8b8n/5NRK4FQOxoBw516zSV/Mh8Exh7GXmbII2jjF/fd1v
+	 AuDxZ+XJxmlZQwfc0XfIg9P72lktQBAWbPwD1Me5cGcGVXC+ioMTh7j4wp1wE7oR5L
+	 sDVNRpZEva0p47y/4NA3jdWbT8ZwUFAWim+KvL2H29hPxKiqseYs7jW5Rf8P1ePKLB
+	 PROYCMGW4Z3D0ydRamgyAvoDMUpzwnH3fHbgkMXw92fCNHpHY845naXX2zULa+zjns
+	 LWKWqZMl8nUo/O2stt3fNxw95HDMc5w4JIPirYEGaX+TKTxrTFOPhaWmI3iImUtCBn
+	 siRxYk6UajLPRFqtRijNyC8eDconJBG6ff2gZgPdLOfJ9tcFqYqGkqfnGOg8Et0OED
+	 p0FUgIv7S4bEG0F70pTzLRRJUxzFffSH/LVPdUN1PGiJqEArNloytTSB6gUHw1bzAW
+	 8/7EIHQw3Qv6Hn+ZF8tjX6LQ=
+Date: Thu, 14 May 2020 10:38:21 +0300
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH V3 3/3] gcc10: Revert using __getauxval in libgcc
+Message-ID: <20200514073821.GA16323@localhost>
+References: <20200511182812.441561-1-raj.khem@gmail.com>
+ <20200511182812.441561-3-raj.khem@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <d8911cb6-0337-11c9-5bd9-950939299379@windriver.com>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id 04E7c3sG011696
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200511182812.441561-3-raj.khem@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 2020/5/12 =E4=B8=8A=E5=8D=8810:49, Kang Kai wrote:
-> On 2020/5/12 =E4=B8=8A=E5=8D=8810:47, Jeremy A. Puhlman wrote:
->>
->>
->> On 5/11/2020 7:30 PM, Kang Kai wrote:
->>> On 2020/5/10 =E4=B8=8B=E5=8D=889:40, Richard Purdie wrote:
->>>> On Wed, 2020-05-06 at 09:54 +0800, kai wrote:
->>>>> From: Kai Kang <kai.kang@windriver.com>
->>>>>
->>>>> It requires gcc 5.0 via OE-Core rev abc741a. On centos 7, the gcc
->>>>> version is too low then it has to build with buildtools-extended-
->>>>> tarball
->>>>> which provides nativesdk-gcc.
->>>>>
->>>>> But it fails to build nspr-native:
->>>>>
->>>>>> gcc=C2=A0=C2=A0 abstract.o -Xlinker -L../../dist/lib -lplc4 -L../.=
-./dist/lib
->>>>>> -lnspr4 -lpthread -o abstract
->>>>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
->>>>>> undefined reference to `__clock_getcpuclockid@GLIBC_PRIVATE'
->>>>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
->>>>>> undefined reference to `__clock_nanosleep@GLIBC_PRIVATE'
->>>>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
->>>>>> undefined reference to `__clock_settime@GLIBC_PRIVATE'
->>>>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
->>>>>> undefined reference to `__clock_getres@GLIBC_PRIVATE'
->>>>>> collect2: error: ld returned 1 exit status
->>>>>> make: *** [Makefile:379: abstract] Error 1
->>>>> Add nativesdk-glibc to buildtools-extended-tarball. And it increase=
-s
->>>>> size of buildtools-extended-tarball about 3K from 48356989 to
->>>>> 48360329.
->>>>>
->>>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>>>> ---
->>>>> =C2=A0 meta/recipes-core/meta/buildtools-extended-tarball.bb | 1 +
->>>>> =C2=A0 1 file changed, 1 insertion(+)
->>>> This doesn't make sense. Does it mean we need a new uninative versio=
-n
->>>> instead?
->>>>
->>>> Cheers,
->>>>
->>>> Richard
->>>>
->>> ```This works in dunfell, as of right now. This should have been=20
->>> fixed with:
->>>
->>> ```https://patchwork.openembedded.org/patch/171584/
->>>
->>> Hi Jeremy,
->>>
->>> I can't receive mails from maillist for now. So reply here.
->>>
->>> I suppose when I build oe-core master on ubunu 16.04, it already=20
->>> contains the commit. I'll double=C2=A0 check it.
->> Yeah it is in master right now. I am not entirely sure why you would=20
->> be seeing it. There was some discussion on
->> the list about twiddling with the location of /etc/ld.so.conf and=20
->> relocating it in the generation of sdks in general, but
->> I have not been able to poke at it today. If that went in, it might=20
->> have caused the issue. Basically what I saw when I was
->> looking in to it, was the sdk ld.so.conf was not getting loaded(in=20
->> the case of the patch because it was looking for etc/etc), but
->> if it got moved or something similar, it might cause a similar issue.
->>
->> If you are still seeing the issue on master, strace the link of the=20
->> file with -f and look at what is going on with the load of ld.so.conf=20
->> and
->> that might explain what is going on. Also make sure that ld.so.conf=20
->> is still there and has reasonable content.
->
->
-> Thank you very much for your detailed comment. I'll try it.
+On Mon, May 11, 2020 at 11:28:12AM -0700, Khem Raj wrote:
+> This was added recently, but it seems be chewing more than what it
+> should and causes non glibc packages also depend on it.
+>...
 
-Hi Richard & Jeremy,
+Is this only valgrind (there is a upstream bug open for that),
+or were there more recipes with a problem?
 
-I tried buildtools-extended-tarball with latest oe-core repo, and it=20
-could build nspr-native on both ubuntu 16.04 and centos 7.7. Maybe it is=20
-fixed along with recent update of buildtools-extend.
-
-Thanks a lot for your replies.
-
-Regards,
-Kai
-
-
->
->
->>
->>
->
-
---=20
-Kai Kang
-Wind River Linux
-
+cu
+Adrian
