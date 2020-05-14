@@ -1,57 +1,61 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web12.6994.1589434355405388789
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web11.7272.1589437720043615178
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 22:32:35 -0700
+ Wed, 13 May 2020 23:28:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5214D60AF5;
-	Thu, 14 May 2020 05:32:33 +0000 (UTC)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.73,390,1583164800"; 
+   d="scan'208";a="92042791"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 14 May 2020 14:28:34 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id 564544BCC89B
+	for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 14:28:29 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Thu, 14 May 2020 14:28:29 +0800
+From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] freetype: upgrade 2.10.1 -> 2.10.2
+Date: Thu, 14 May 2020 23:28:51 +0800
+Message-ID: <1589470131-4303-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInR1bmUtY29ydGV4YTU1LmluYzogY3JjIGFuZCBjci4uLiIgYW5kIDUgbW9yZQ==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 14 May 2020 05:32:34 -0000
-Message-ID: <20200514053234.20810.92364@do>
-References: <20200514050321.1292228-1-raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200514050321.1292228-1-raj.khem@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
+X-yoursite-MailScanner-ID: 564544BCC89B.A4696
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-== Series Details ==
-
-Series: "tune-cortexa55.inc: crc and cr..." and 5 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/24139/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at a223691739)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../freetype/{freetype_2.10.1.bb => freetype_2.10.2.bb}       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/freetype/{freetype_2.10.1.bb => freetype_2.10.2.bb} (92%)
+
+diff --git a/meta/recipes-graphics/freetype/freetype_2.10.1.bb b/meta/recipes-graphics/freetype/freetype_2.10.2.bb
+similarity index 92%
+rename from meta/recipes-graphics/freetype/freetype_2.10.1.bb
+rename to meta/recipes-graphics/freetype/freetype_2.10.2.bb
+index d1c093054b..1034ddc0d7 100644
+--- a/meta/recipes-graphics/freetype/freetype_2.10.1.bb
++++ b/meta/recipes-graphics/freetype/freetype_2.10.2.bb
+@@ -15,8 +15,8 @@ LIC_FILES_CHKSUM = "file://docs/LICENSE.TXT;md5=4af6221506f202774ef74f64932878a1
+ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/${BPN}/${BP}.tar.xz \
+            file://use-right-libtool.patch \
+           "
+-SRC_URI[md5sum] = "bd42e75127f8431923679480efb5ba8f"
+-SRC_URI[sha256sum] = "16dbfa488a21fe827dc27eaf708f42f7aa3bb997d745d31a19781628c36ba26f"
++SRC_URI[md5sum] = "7c0d5a39f232d7eb9f9d7da76bf08074"
++SRC_URI[sha256sum] = "1543d61025d2e6312e0a1c563652555f17378a204a61e99928c9fcef030a2d8b"
+ 
+ UPSTREAM_CHECK_REGEX = "freetype-(?P<pver>\d+(\.\d+)+)"
+ 
+-- 
+2.17.1
+
+
 
