@@ -1,80 +1,132 @@
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com [209.85.166.173])
- by mx.groups.io with SMTP id smtpd.web10.1023.1589490317463433183
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com [209.85.217.66])
+ by mx.groups.io with SMTP id smtpd.web10.1324.1589491174796383449
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2020 14:05:17 -0700
+ Thu, 14 May 2020 14:19:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vbdn21jp;
- spf=pass (domain: gmail.com, ip: 209.85.166.173, mailfrom: jpewhacker@gmail.com)
-Received: by mail-il1-f173.google.com with SMTP id e8so249507ilm.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 14:05:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WYY4q2TV;
+ spf=pass (domain: gmail.com, ip: 209.85.217.66, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f66.google.com with SMTP id 1so2887837vsl.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 14:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=+Cip4PLOQTCqs10TtzuwbUdUOaUOF4IrKm4XJKAiG5s=;
-        b=vbdn21jpoJrmxc83opdT1+cNKQcnp8BJqmD5ibmp5hbhb3fxGnZgoQeDpjSsWnnbRd
-         IH4J3VM3Xkn8gwQhmQjCibsKkC6XJka8tMVgPt6UtQanGwevyChRuAordYtTZjvTJOp5
-         hjOai6LUNE506M+OuEh0l+95Lol9RUkVR+TMN/iZO1+DAn17SrIYOaVd95M3bpQtCBm5
-         7JbKcOVeF5FZGcxXz4tUmhB62yq2lOLwR073ruMesw7YT5wWbl3uBk3zgjfiaNfFJocv
-         A3Gu6dNiCCpr5QtMco/MoLgXO9bGci7PI1qUR6gvvbdNmWdtaIXuUGjZAPRsHaazXjPQ
-         ++sA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vgkx7FCe/760Vs/XzqKIzZPcVQ1QZMabtIK+ud4gLJE=;
+        b=WYY4q2TVIPwzwjbRmvr+dUdDN+FjMBLyZLMW+ZknVUCS9BJIpK+UnpV0cwuNkHQuLN
+         /RKHbtz+aL0z1312/gmU6rQOAje0eeEvErJlktaVkXN128F+BVI495GRYI8jGCQo4d5d
+         Cg9aJVezAZ9hyqzHwfajwcZ+K/f4DvXbtbg0rnLfSyqfu6u08aqLm+JWd33g9fehgSQd
+         vMlwyVMPtFYHAN/QAGUBBJqdBNzFtY9Thp4DnGxrvptd2C23ibRquAVwenL5QsDUeUa7
+         bilHrSmWJ7F44+OaQIsdR/NZgs/BMDaLfAUw7QH8MfrqUUM3Q2eltrk6n56wgRSjQfqi
+         n7sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=+Cip4PLOQTCqs10TtzuwbUdUOaUOF4IrKm4XJKAiG5s=;
-        b=ei3/+qdU3YuwXe3S4xOA1dhWY6S3LNqQtKMeuDLHaoEGsKpMqYqdKonlIaA6tNKmjm
-         zojDWf2yqcznDSks2RUr9cEIhtoyuyGTcyghFyPJf+oSRWn9m/ak7kwQwolUJzweMppV
-         N4PoJtcwAmI8Tqqi72DrXTn1/wiGVchmEp0jCiTzoAevdWuqUr599Xvmjg0UnVm/5y9f
-         I8hp2ct1LQ2tInMM1OkTbaVUOHdoPynR4rGbx4ugHGIAkSkxdlW+8I8avpW78+iiqG5Y
-         YWQ8bJlA5+jkVzdPHvsHMUrCLxxTVbb55g5ArRoWB+bAuwWLTr1XvozptrzUQzyMcSVP
-         BMeA==
-X-Gm-Message-State: AOAM532Mt0LUw/s6p/lytSzGSohfux5YnJ7FFpi6d9bYjcLDQ4yHTAVk
-	hVcreEwjghKJG8NvrsztFg7Puc2z9lA=
-X-Google-Smtp-Source: ABdhPJwvv/kq+ofGg+cPQJlqnqHRlLsl72ASrLbnQokd/yTPCre2CITap7HZvYL9rDtpGKkiI5xdkA==
-X-Received: by 2002:a92:c401:: with SMTP id e1mr120127ilp.134.1589490316666;
-        Thu, 14 May 2020 14:05:16 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:1041:f567:5747:59e9])
-        by smtp.gmail.com with ESMTPSA id t20sm52356iob.27.2020.05.14.14.05.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2020 14:05:16 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: jdmason@kudzu.us,
-	denis@denix.org,
-	Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 4/4] python3-pyelftools: Upgrade 0.25 -> 0.26
-Date: Thu, 14 May 2020 16:04:58 -0500
-Message-Id: <20200514210458.33543-5-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200514210458.33543-1-JPEWhacker@gmail.com>
-References: <20200514210458.33543-1-JPEWhacker@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vgkx7FCe/760Vs/XzqKIzZPcVQ1QZMabtIK+ud4gLJE=;
+        b=Pp+g3d8txREB+KIsNMie3m6SbU57Uy2hlr/dAOiRrkfcrMkXQX8YpICmVvdUMI8FZo
+         L1XQqREV+5+ZUrRQcFXAxzprV+Mdgx2Dgk9kvGilYbeNq7T7ZY6V3dygV46btjSxfjkY
+         NFlRT7lJ641Yc8u0+74cVBeaLWG0mGWACQH6oXlfHxsLG9dw7o6tUTO2D5rF+iPkpItp
+         yvhQ/XL9cCTxyoNsykPBxqyjWYA2Ly+r1/gaVqI4uClPvZ25RVJo2z9+6MGpkOobtYE2
+         7yYuZNa9wheFimMNV94V+8IOWnvyXrMpalEKHkztAEcOkt7SA8lSF48lv3LJlmkcH52S
+         /0+A==
+X-Gm-Message-State: AOAM530/ZMEK2PeLV6vGm+tgXHzXoX2P00+pp0/CsLWRzF8ZtzU9/15x
+	H0OcbbQoRatoZodU8DHUiVJ6jVMuLgliMOoMK4k=
+X-Google-Smtp-Source: ABdhPJzJS0bijhJTMvUo04ekyjQ/vOc4CyTcyxKNYsQ4DHGpy6wR5is7g5+zqbiCVHrQMrIMjBr6K0rL3qwrLygYKcg=
+X-Received: by 2002:a67:df86:: with SMTP id x6mr287362vsk.94.1589491173831;
+ Thu, 14 May 2020 14:19:33 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200514142107.20702-1-diego.rondini@kynetics.com>
+ <CANNYZj8_gXYNTewvCX3TFp5nj9LP6+cZfKYgdBEF9Y_F_U2S_A@mail.gmail.com> <CAMfw5YofhKNfDTmSAKf+Xa=jU49F4FedfZsyYBdJKWv3c4wgwA@mail.gmail.com>
+In-Reply-To: <CAMfw5YofhKNfDTmSAKf+Xa=jU49F4FedfZsyYBdJKWv3c4wgwA@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 14 May 2020 23:19:22 +0200
+Message-ID: <CANNYZj_Z1ipdudKMFhwwqJ29_9wKCRRyyg3JF2d1aUVzOwy=ew@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bmap-tools: update to latest git master
+To: Diego Rondini <diego.rondini@kynetics.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000ca395f05a5a240a8"
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- ...{python3-pyelftools_0.25.bb => python3-pyelftools_0.26.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pyelftools_0.25.bb => python3-pyelftools_0.26.bb} (72%)
+--000000000000ca395f05a5a240a8
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-devtools/python/python3-pyelftools_0.25.bb b/meta/recipes-devtools/python/python3-pyelftools_0.26.bb
-similarity index 72%
-rename from meta/recipes-devtools/python/python3-pyelftools_0.25.bb
-rename to meta/recipes-devtools/python/python3-pyelftools_0.26.bb
-index 03d96db3c2..575dfc4dc9 100644
---- a/meta/recipes-devtools/python/python3-pyelftools_0.25.bb
-+++ b/meta/recipes-devtools/python/python3-pyelftools_0.26.bb
-@@ -4,8 +4,8 @@ SECTION = "devel/python"
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5ce2a2b07fca326bc7c146d10105ccfc"
- 
--SRC_URI[md5sum] = "c5629b9a5d19c82107a946cce52eeec2"
--SRC_URI[sha256sum] = "89c6da6f56280c37a5ff33468591ba9a124e17d71fe42de971818cbff46c1b24"
-+SRC_URI[md5sum] = "0ba0de4b47127249c4d632ae299cb0e8"
-+SRC_URI[sha256sum] = "86ac6cee19f6c945e8dedf78c6ee74f1112bd14da5a658d8c9d4103aed5756a2"
- 
- PYPI_PACKAGE = "pyelftools"
- 
--- 
-2.17.1
+On Thu, 14 May 2020 at 22:59, Diego Rondini <diego.rondini@kynetics.com>
+wrote:
 
+> Hi Alexander,
+>
+> On Thu, May 14, 2020 at 7:31 PM Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
+>
+>> You can't generally update to a random development commit, especially if
+>> PV stays the same. Please ask upstream to make a new release.
+>>
+>>
+> Thank you for your feedback, I understand your point.
+> The odd thing is that the situation is already broken, as what's in
+> oe-core master right now is not bmap-tools release 3.5, but some "random
+> development commit" in between 3.5 and current master:
+>
+> http://git.openembedded.org/openembedded-core/commit/meta/recipes-support/bmap-tools?id=3fbee26af2f3263180f75652b5dd6e50adb1d8fe
+>
+> https://github.com/intel/bmap-tools/commits/master
+> Release 3.5:
+>
+> https://github.com/intel/bmap-tools/commit/14b411a65c371e273fe599bee9e52bd9f9b751e1
+> Commit in oe-core:
+>
+> https://github.com/intel/bmap-tools/commit/db7087b883bf52cbff063ad17a41cc1cbb85104d
+>
+> What do you suggest?
+>
+
+Right - generally we need to trust that version updates don't do this, and
+there's no easy way to detect this. The recipe already does:
+PV .= "+git${SRCPV}"
+which is the standard way to mark "random development commits", so I'd say
+resubmit your patch with an explanation in the commit log
+that you're merely bumping one development snapshot to a newer development
+snapshot.
+
+--000000000000ca395f05a5a240a8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 14 May 2020 at 22:59, Diego Rondi=
+ni &lt;<a href=3D"mailto:diego.rondini@kynetics.com">diego.rondini@kynetics=
+.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi Alexa=
+nder,<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gma=
+il_attr">On Thu, May 14, 2020 at 7:31 PM Alexander Kanavin &lt;<a href=3D"m=
+ailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div =
+dir=3D"ltr"><div>You can&#39;t generally update to a random development com=
+mit, especially if PV stays the same. Please ask upstream to make a new rel=
+ease.</div><div><br></div></div></blockquote><div><br></div><div>Thank you =
+for your feedback, I understand your point.</div><div>The odd thing is that=
+ the situation is already broken, as what&#39;s in oe-core master right now=
+ is not bmap-tools release 3.5, but some &quot;random development commit&qu=
+ot; in between 3.5 and current master:</div><div><a href=3D"http://git.open=
+embedded.org/openembedded-core/commit/meta/recipes-support/bmap-tools?id=3D=
+3fbee26af2f3263180f75652b5dd6e50adb1d8fe" target=3D"_blank">http://git.open=
+embedded.org/openembedded-core/commit/meta/recipes-support/bmap-tools?id=3D=
+3fbee26af2f3263180f75652b5dd6e50adb1d8fe</a></div><div><br></div><div><a hr=
+ef=3D"https://github.com/intel/bmap-tools/commits/master" target=3D"_blank"=
+>https://github.com/intel/bmap-tools/commits/master</a></div><div>Release 3=
+.5:<br><a href=3D"https://github.com/intel/bmap-tools/commit/14b411a65c371e=
+273fe599bee9e52bd9f9b751e1" target=3D"_blank">https://github.com/intel/bmap=
+-tools/commit/14b411a65c371e273fe599bee9e52bd9f9b751e1</a></div><div>Commit=
+ in oe-core:</div><div><a href=3D"https://github.com/intel/bmap-tools/commi=
+t/db7087b883bf52cbff063ad17a41cc1cbb85104d" target=3D"_blank">https://githu=
+b.com/intel/bmap-tools/commit/db7087b883bf52cbff063ad17a41cc1cbb85104d</a><=
+/div><div><br></div><div>What do you suggest?</div></div></div></blockquote=
+><div><br></div><div>Right - generally we need to trust that version update=
+s don&#39;t do this, and there&#39;s no easy way to detect this. The recipe=
+ already does:</div><div>PV .=3D &quot;+git${SRCPV}&quot;</div><div>which i=
+s the standard way to mark &quot;random development commits&quot;, so I&#39=
+;d say resubmit your patch with an explanation in the commit log</div><div>=
+that you&#39;re merely bumping one development snapshot to a newer developm=
+ent snapshot.<br></div><div> <br></div></div></div>
+
+--000000000000ca395f05a5a240a8--
