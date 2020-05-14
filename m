@@ -1,190 +1,154 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web12.949.1589490000041207333
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com [209.85.166.67])
+ by mx.groups.io with SMTP id smtpd.web11.1056.1589490314112520358
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2020 14:00:00 -0700
+ Thu, 14 May 2020 14:05:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kynetics-com.20150623.gappssmtp.com header.s=20150623 header.b=gGT50dtU;
- spf=neutral (domain: kynetics.com, ip: 209.85.218.65, mailfrom: diego.rondini@kynetics.com)
-Received: by mail-ej1-f65.google.com with SMTP id n17so126606ejh.7
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 13:59:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZLbE2+6Z;
+ spf=pass (domain: gmail.com, ip: 209.85.166.67, mailfrom: jpewhacker@gmail.com)
+Received: by mail-io1-f67.google.com with SMTP id f4so235172iov.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 14:05:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kynetics-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=anQC8gDm1ylLzJK7/aqxOnqlDnflratHKFtslcWfIkg=;
-        b=gGT50dtUyxr9j2alxWQWbYB52/t+pfl8vTQsMqnbKJAHc6HR79M64FBqGroncdO6zu
-         LuVe715ZY5kDPQAZP3xQB4HXqtdH2sCS3P4Uk4gL53SzJqfew8SKkSm4tDjSmDAfXJSg
-         KY3arooQsbiPLMBGL86toAUVfXF3wFyFQlp4kxymfmmnVGN4/vkquKeosDyy6lUOaYhz
-         h6lP5Fvn0xLyBvVWwZRmNRW+F8IDk6OqW9+MUfDP8/WzeZCG4Ne332Sdjy82rVtlCp2S
-         qzzdKqQAtk5H6IfIKRVsRkQ0IBOgO4YeYvuvBESB7LZ+XNk4rWJBVpwoTIt+u0g7+MH9
-         UqiQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=NnjxMz/+GKb8f324Dlig/jqC9U6xu3PRVt46cnDzTq0=;
+        b=ZLbE2+6Za55fNhyg37uO1680/Ylcn8DFzcQn5jYRaAy5ONChAo0Z1sVkZ94z4acGLL
+         7P+32Yf39K8/HFpy5r5hO3SQsgOuFNjr+OmznM9sSrljQZkvTM8mAy+XywjWGlph+gYB
+         daLNmiQy4UYasVFrtRFo8fTZ1NoDwoMdvCYQIMwVzoeC3OCutNL6y0kll1J4dEasB2+s
+         OwxDK3JSqh2RZjIrCgN3MpGnjpVs7MMxUo0nnMszeItZ0zZNbIhuyI3hIyawxBEj0F8h
+         AAERFzGn23dXBY8i4dY1HPXHGp4dNvPcAa/K90Opez3BPdJh8e/SZeP0U6Fu/m46oOQ3
+         SGAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=anQC8gDm1ylLzJK7/aqxOnqlDnflratHKFtslcWfIkg=;
-        b=pvtvuO7n1dXdvVsHk5nHfg7wLATVXS8orPdXzPbZwWr0cfXzKY9VM/c4ZAvukAHXqX
-         7S0kKpgF32bQell7Gkft7bK4iIs17jtskSrXQZFzxaVA5fxuhe+v3oXhtAqPVV/Q6SyG
-         PL50L4OFXwJF02Njf9joorcijjSapuolbMxAxbFWv3f7ERn2Hu4i99UR+aiS6XTWEq7q
-         EwANrLTZBH7uy48eg0pObtLw07l1VclBLJddSB3s7mhQsimp7cYpZ9tgG5jj3q5xN8Af
-         WEx4KkDAKOPnt/Sa8/Yxzer45uXTxj+vg6whyBpEDd+Zm1ivorwu9qUgzwoLeBLj947o
-         LCGQ==
-X-Gm-Message-State: AOAM532gEyfKKNFiWZuRl+IFQY8f0T8iTeGBfleCVN7xvQybq/HgaCya
-	fOaQSrHBwqSleU7WNcUx6+beqthkfNO2Htp/2uhCEQ==
-X-Google-Smtp-Source: ABdhPJzZjCt4SODPZ2TjG46VsiUhE8I7ur1UQPsgBM34WpwK26JlR5LgatsRvwPnoEgT+1vu5TMOJViyrH6SYDH0X88=
-X-Received: by 2002:a17:906:c155:: with SMTP id dp21mr5993301ejc.92.1589489998508;
- Thu, 14 May 2020 13:59:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200514142107.20702-1-diego.rondini@kynetics.com> <CANNYZj8_gXYNTewvCX3TFp5nj9LP6+cZfKYgdBEF9Y_F_U2S_A@mail.gmail.com>
-In-Reply-To: <CANNYZj8_gXYNTewvCX3TFp5nj9LP6+cZfKYgdBEF9Y_F_U2S_A@mail.gmail.com>
-From: "Diego" <diego.rondini@kynetics.com>
-Date: Thu, 14 May 2020 22:59:47 +0200
-Message-ID: <CAMfw5YofhKNfDTmSAKf+Xa=jU49F4FedfZsyYBdJKWv3c4wgwA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bmap-tools: update to latest git master
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000bc58f805a5a1fa2c"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=NnjxMz/+GKb8f324Dlig/jqC9U6xu3PRVt46cnDzTq0=;
+        b=a70kc1nCBJMyBnnHGM0EC7uTnQemKI4g0bn65l6nlm68sPOSrZmxz053KI8Ii74YTs
+         ZZjmJbAWud5TWkcDAxEPPKexKED8/uXCNPDor+9cYgjUzS3+ylnOGIGuMltArz8u0Y1T
+         p36fvzSK0cVEakDARdfdQm9pHL2EJkEBJVmhU8be67ow/q5PKjPM0uREj1TlLdVYYXdG
+         Gjs7v8I4GsQNPL7QRIRk5Ku706ZcS/vb14rh2byOWobSt+5U88FkB03d4VK/E1lwTy6O
+         MowQGM/eq82rpOoy7TeKvHwmbdLVbcNuLKmuP94yFuXBwq9t4EiNBuvlcEbruWOBcOmU
+         eSVw==
+X-Gm-Message-State: AOAM533LthVFIeJBgJa+afs0H/fww/s1BqW5WQwJnS+U0KxEKcQk3x3+
+	7wFiDghdiWx8a8iq9tIeYgYPKl0e/N8=
+X-Google-Smtp-Source: ABdhPJzda7YTn+rO/cHPr12MlIJUMP+0ymmuXKRSbR4PXnov5j4Z/Tg6ojidk623kWwej1Q5L0nHaw==
+X-Received: by 2002:a02:85ec:: with SMTP id d99mr166327jai.144.1589490313175;
+        Thu, 14 May 2020 14:05:13 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:1041:f567:5747:59e9])
+        by smtp.gmail.com with ESMTPSA id t20sm52356iob.27.2020.05.14.14.05.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2020 14:05:12 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: jdmason@kudzu.us,
+	denis@denix.org,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 1/4] pycryptodome: Import from meta-python
+Date: Thu, 14 May 2020 16:04:55 -0500
+Message-Id: <20200514210458.33543-2-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200514210458.33543-1-JPEWhacker@gmail.com>
+References: <20200514210458.33543-1-JPEWhacker@gmail.com>
 
---000000000000bc58f805a5a1fa2c
-Content-Type: text/plain; charset="UTF-8"
+Imports the pycryptodome recipes from meta-python, as of 7c02c7d41
+("gnome-themes-extra: correct the recipe name").
 
-Hi Alexander,
+These recipes are commonly used by other layers, so moving them into
+OE-core helps to cut down on layer dependencies.
 
-On Thu, May 14, 2020 at 7:31 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/conf/distro/include/maintainers.inc      |  4 ++-
+ .../python/python-pycryptodome.inc            | 29 +++++++++++++++++++
+ .../python/python3-pycryptodome_3.9.4.bb      |  2 ++
+ .../python/python3-pycryptodomex_3.9.4.bb     | 10 +++++++
+ 4 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/python/python-pycryptodome.inc
+ create mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.9.4.bb
+ create mode 100644 meta/recipes-devtools/python/python3-pycryptodomex_3.9.4.bb
 
-> You can't generally update to a random development commit, especially if
-> PV stays the same. Please ask upstream to make a new release.
->
->
-Thank you for your feedback, I understand your point.
-The odd thing is that the situation is already broken, as what's in oe-core
-master right now is not bmap-tools release 3.5, but some "random
-development commit" in between 3.5 and current master:
-http://git.openembedded.org/openembedded-core/commit/meta/recipes-support/bmap-tools?id=3fbee26af2f3263180f75652b5dd6e50adb1d8fe
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 256666c0ec..b87790e0e9 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -2,7 +2,7 @@
+ #
+ # This file contains a list of recipe maintainers.
+ #
+-# Please submit any patches against recipes in meta to the 
++# Please submit any patches against recipes in meta to the
+ # OE-Core mail list (openembedded-core@lists.openembedded.org)
+ # For recipes in meta-yocto please use the Poky list (poky@yoctoproject.org)
+ #
+@@ -579,6 +579,8 @@ RECIPE_MAINTAINER_pn-python3-cython = "Oleksandr Kravchuk <open.source@oleksandr
+ RECIPE_MAINTAINER_pn-python3-dbus = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-dbusmock = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-docutils = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
++RECIPE_MAINTAINER_pn-python3-pycryptodome = "Joshua Watt <JPEWhacker@gmail.com>"
++RECIPE_MAINTAINER_pn-python3-pycryptodomex = "Joshua Watt <JPEWhacker@gmail.com>"
+ RECIPE_MAINTAINER_pn-python3-extras = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-git = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-gitdb = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+diff --git a/meta/recipes-devtools/python/python-pycryptodome.inc b/meta/recipes-devtools/python/python-pycryptodome.inc
+new file mode 100644
+index 0000000000..63b4a4abb4
+--- /dev/null
++++ b/meta/recipes-devtools/python/python-pycryptodome.inc
+@@ -0,0 +1,29 @@
++SUMMARY = "Cryptographic library for Python"
++DESCRIPTION = "PyCryptodome is a self-contained Python package of low-level\
++ cryptographic primitives."
++HOMEPAGE = "http://www.pycryptodome.org"
++LICENSE = "PD & BSD-2-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE.rst;md5=6dc0e2a13d2f25d6f123c434b761faba"
++
++SRC_URI[md5sum] = "f990716b49add7b14ea8b8a961fb3746"
++SRC_URI[sha256sum] = "a168e73879619b467072509a223282a02c8047d932a48b74fbd498f27224aa04"
++
++inherit pypi
++
++RDEPENDS_${PN} += " \
++    ${PYTHON_PN}-io \
++    ${PYTHON_PN}-math \
++"
++
++RDEPENDS_${PN}-tests += " \
++    ${PYTHON_PN}-unittest \
++"
++
++PACKAGES =+ "${PN}-tests"
++
++FILES_${PN}-tests = " \
++    ${PYTHON_SITEPACKAGES_DIR}/Crypto/SelfTest/ \
++    ${PYTHON_SITEPACKAGES_DIR}/Crypto/SelfTest/__pycache__/ \
++"
++
++BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.9.4.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.9.4.bb
+new file mode 100644
+index 0000000000..0c062dddf8
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pycryptodome_3.9.4.bb
+@@ -0,0 +1,2 @@
++require python-pycryptodome.inc
++inherit setuptools3
+diff --git a/meta/recipes-devtools/python/python3-pycryptodomex_3.9.4.bb b/meta/recipes-devtools/python/python3-pycryptodomex_3.9.4.bb
+new file mode 100644
+index 0000000000..e41c14b142
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pycryptodomex_3.9.4.bb
+@@ -0,0 +1,10 @@
++require python-pycryptodome.inc
++inherit setuptools3
++
++SRC_URI[md5sum] = "46ba513d95b6e323734074d960a7d57b"
++SRC_URI[sha256sum] = "22d970cee5c096b9123415e183ae03702b2cd4d3ba3f0ced25c4e1aba3967167"
++
++FILES_${PN}-tests = " \
++    ${PYTHON_SITEPACKAGES_DIR}/Cryptodome/SelfTest/ \
++    ${PYTHON_SITEPACKAGES_DIR}/Cryptodome/SelfTest/__pycache__/ \
++"
+-- 
+2.17.1
 
-https://github.com/intel/bmap-tools/commits/master
-Release 3.5:
-https://github.com/intel/bmap-tools/commit/14b411a65c371e273fe599bee9e52bd9f9b751e1
-Commit in oe-core:
-https://github.com/intel/bmap-tools/commit/db7087b883bf52cbff063ad17a41cc1cbb85104d
-
-What do you suggest?
-
-Thanks
-Diego Rondini
-
-
-> Alex
->
-> On Thu, 14 May 2020 at 16:22, Diego <diego.rondini@kynetics.com> wrote:
->
->> Update to latest revision of git master to include, among other
->> improvements, support for zstd compression format.
->>
->> Signed-off-by: Diego Rondini <diego.rondini@kynetics.com>
->> ---
->>  meta/recipes-support/bmap-tools/bmap-tools_3.5.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
->> b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
->> index 7c4db85b32..694c5f09be 100644
->> --- a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
->> +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
->> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =
->> "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->>
->>  SRC_URI = "git://github.com/intel/${BPN}
->> <http://github.com/intel/$%7BBPN%7D>"
->>
->> -SRCREV = "db7087b883bf52cbff063ad17a41cc1cbb85104d"
->> +SRCREV = "a17f0e3ff8669dd3b1c44a741ae4f8162155faed"
->>  S = "${WORKDIR}/git"
->>  PV .= "+git${SRCPV}"
->>
->> --
->> 2.21.3
->>
->> 
->>
->
-
---000000000000bc58f805a5a1fa2c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi Alexander,<br></div><br><div class=3D"=
-gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 14, 2020 at =
-7:31 PM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">ale=
-x.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex"><div dir=3D"ltr"><div>You can&#39;t generally update to =
-a random development commit, especially if PV stays the same. Please ask up=
-stream to make a new release.</div><div><br></div></div></blockquote><div><=
-br></div><div>Thank you for your feedback, I understand your point.</div><d=
-iv>The odd thing is that the situation is already broken, as what&#39;s in =
-oe-core master right now is not bmap-tools release 3.5, but some &quot;rand=
-om development commit&quot; in between 3.5 and current master:</div><div><a=
- href=3D"http://git.openembedded.org/openembedded-core/commit/meta/recipes-=
-support/bmap-tools?id=3D3fbee26af2f3263180f75652b5dd6e50adb1d8fe">http://gi=
-t.openembedded.org/openembedded-core/commit/meta/recipes-support/bmap-tools=
-?id=3D3fbee26af2f3263180f75652b5dd6e50adb1d8fe</a></div><div><br></div><div=
-><a href=3D"https://github.com/intel/bmap-tools/commits/master">https://git=
-hub.com/intel/bmap-tools/commits/master</a></div><div>Release 3.5:<br><a hr=
-ef=3D"https://github.com/intel/bmap-tools/commit/14b411a65c371e273fe599bee9=
-e52bd9f9b751e1">https://github.com/intel/bmap-tools/commit/14b411a65c371e27=
-3fe599bee9e52bd9f9b751e1</a></div><div>Commit in oe-core:</div><div><a href=
-=
-=3D"https://github.com/intel/bmap-tools/commit/db7087b883bf52cbff063ad17a4=
-1cc1cbb85104d">https://github.com/intel/bmap-tools/commit/db7087b883bf52cbf=
-f063ad17a41cc1cbb85104d</a></div><div><br></div><div>What do you suggest?</=
-div><div><br></div><div>Thanks<br></div><div>Diego Rondini</div><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><d=
-iv></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Thu, 14 May 2020 at 16:22, Diego &lt;<a h=
-ref=3D"mailto:diego.rondini@kynetics.com" target=3D"_blank">diego.rondini@k=
-ynetics.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">Update to latest revision of git master to include, among other=
-<br>
-improvements, support for zstd compression format.<br>
-<br>
-Signed-off-by: Diego Rondini &lt;<a href=3D"mailto:diego.rondini@kynetics.=
-com" target=3D"_blank">diego.rondini@kynetics.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-support/bmap-tools/<a href=3D"http://bmap-tools_3.5.bb"=
- rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-support/bmap-tools/<a href=3D"http://bmap-tools_=
-3.5.bb" rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a> b/meta/r=
-ecipes-support/bmap-tools/<a href=3D"http://bmap-tools_3.5.bb" rel=3D"noref=
-errer" target=3D"_blank">bmap-tools_3.5.bb</a><br>
-index 7c4db85b32..694c5f09be 100644<br>
---- a/meta/recipes-support/bmap-tools/<a href=3D"http://bmap-tools_3.5.bb"=
- rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a><br>
-+++ b/meta/recipes-support/bmap-tools/<a href=3D"http://bmap-tools_3.5.bb"=
- rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a><br>
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Db234ee4d=
-69f5fce4486a80fdaf4a4263&quot;<br>
-<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/intel/$%7BBPN%7=
-D" rel=3D"noreferrer" target=3D"_blank">github.com/intel/${BPN}</a>&quot;<b=
-r>
-<br>
--SRCREV =3D &quot;db7087b883bf52cbff063ad17a41cc1cbb85104d&quot;<br>
-+SRCREV =3D &quot;a17f0e3ff8669dd3b1c44a741ae4f8162155faed&quot;<br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
-=C2=A0PV .=3D &quot;+git${SRCPV}&quot;<br>
-<br>
--- <br>
-2.21.3<br>
-<br>
-<br>
-</blockquote></div>
-</blockquote></div><br clear=3D"all"><br></div>
-
---000000000000bc58f805a5a1fa2c--
