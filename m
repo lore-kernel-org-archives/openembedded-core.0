@@ -1,147 +1,137 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web10.1745.1589477414449422500
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com [209.85.221.195])
+ by mx.groups.io with SMTP id smtpd.web11.1741.1589477474774458503
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2020 10:30:14 -0700
+ Thu, 14 May 2020 10:31:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gqIpln+G;
- spf=pass (domain: gmail.com, ip: 209.85.215.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f193.google.com with SMTP id f6so1534072pgm.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 10:30:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=f+BwW7+f;
+ spf=pass (domain: gmail.com, ip: 209.85.221.195, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vk1-f195.google.com with SMTP id 21so548577vkq.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 10:31:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=84wJTmHipKBumV9pzB6i1hKN5a5an2wJ+OwBYrbN9r0=;
-        b=gqIpln+G8WSLXAE719aKcQmD7b/PNHopuFn+Jr1a5PD++qXemyHshYPAmBXvXwbD9B
-         PO4oK7XMU/DGP4n8RNC+TUg2ZkJUmeZ9e6DxdaEG39AcZo6BVlIw3W19BdlSKQdzpIEg
-         KXOIJ1d81v/daiu3yhaGdCviQMmNztjn/xsZuLLZJLokicOk2kcylnGU7qjzaaLCR6RL
-         LH1r0AGUSPtmNIXykp+CIhYw7RjNKfFZQWC1BWa2qU6bSy4JNwknAIdU8SLvQGtlEMc4
-         K6wnehVB5m4QZ+liFf8eiR7/wgdVYp0qxBljt2AaQgbRpVrBVdzX/8ER4j3lrWiPmBTp
-         9uUA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=WciFod1abp6Ii3BpCabue7ij7mx7tJnAPxTreYUmXzY=;
+        b=f+BwW7+f4t/CHd+GPAnR3tmlts6l7pDiFR/Zz1/4Uzbc5ziPunURtfuvYRaaTqappi
+         0/c9ZM4eVWE9u4ELVyKEv0ZRW2T8Adag0x1G0vzOd2KTsb3pXM8XwunXxBNl1Ge8AqE9
+         nhybfDZNdwkY9/Av9BO23kBO9wpD3LusZoFvVuCI1Pmc0r3aTEihgosSE+yIf0J1mGt8
+         Uv2bp53NKR/tXd/unLFlOXbAvtmmYOt4+HbC3FySYX2FvuIqVIrSm2PAgkOqKo4qs0Iz
+         LHjP/hbbwa5rm7SWqVgwmTpBWgLvKKbZe9Q9DEuX15A/HGaQ77aL1ivAUfNZtNu/goPZ
+         Ft3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=84wJTmHipKBumV9pzB6i1hKN5a5an2wJ+OwBYrbN9r0=;
-        b=YYYEK0FninOqy2TA2fBjm9IhKfLpBWTGECORls2rZH6h0cb6l8455mUd7q/L+5X1y5
-         2w/JdX0b5Nv2oKSwKjY6R9s9iw5cls9xks5QjUc3ugRM30cTVG0csbVYW/VXfoNedeBa
-         bAsyZH5z2+8ZpmQAWTWD8FcMX2otqFHPAOzWaNNHfkMIYK24w66Wy1A8Nf+NIFQZnHQU
-         MwYZcjCe8H1eJidHNmIn5vTycgaCF3GSN2ORTBwzjUHbJap9oaG3qps4uxAI0fKAfGTK
-         kgYBQY3BdTEBLPivywTVefesy2+6/vJITkXGRD7xQAYz4UFokQccuwh3qhvZ6Q9zg7c+
-         cJSQ==
-X-Gm-Message-State: AOAM530xMXmBGDVAfGOUWthLfI2whJ6faKjLSTADJmeB/pHbhGAuJ0cg
-	xYXnX1W+PGbGkMRHP5SP93rPZ7Caj9M=
-X-Google-Smtp-Source: ABdhPJzT2sVPUyv75DB1o195EHyAW9lCdbtKcv8BJO3kjMhqVfsui89bx9ByPifaH69yHeSU8NHGkw==
-X-Received: by 2002:a65:6094:: with SMTP id t20mr5122523pgu.220.1589477413580;
-        Thu, 14 May 2020 10:30:13 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::3cf8])
-        by smtp.gmail.com with ESMTPSA id a21sm1977460pfk.32.2020.05.14.10.30.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2020 10:30:13 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] gcc: Drop reverting __getauxval patch
-Date: Thu, 14 May 2020 10:30:10 -0700
-Message-Id: <20200514173010.3407-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200514173010.3407-1-raj.khem@gmail.com>
-References: <20200514173010.3407-1-raj.khem@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WciFod1abp6Ii3BpCabue7ij7mx7tJnAPxTreYUmXzY=;
+        b=OuWdcHd5cAvuQnUOUY3NAA1vlHnx7D6/IcAWDF5tVzTynMREQ2of5VwBJGyPyYYfch
+         CIINwkmwGNUnE7QmPg0nBYJ1w8zA/w/t+7eb0Uh5uZuZBXaphDk3WVFY3+wJHbeV40v8
+         A19INLVPskg1Z0yJINqZ/bPWCivToC+rR3JbAKj1lzc7aw2WwqsW53dSgACU5qK/MZKV
+         4fXbtoAwOo2t18zJ3yoKiLHdrA0rxfwzuPscXojzl7kTglQ2zFMCaT2rUjEOYg3Mw0e+
+         Uzhf8NQeJCTw1Lwz69iGToz96/XTTyCwLLh+jQjiM674tcXIIWfW4FPwTaR/bodFKTwR
+         LTdQ==
+X-Gm-Message-State: AOAM531WUr6tgagoMg9+qoVcWDXK+5uQc7x+WjFKVZELWvsgpn+51TaB
+	zL0nB84qsyPbiamy5y+lEN9SRcQ/M3v9kUZFXQQ=
+X-Google-Smtp-Source: ABdhPJwmUkqKtfberBwTcwUJW1BFJINs7i2hoedju6U5s8H5P6vES78BZ0p3D4q//VeEhwx4ftiiG7/A2uKFKy6qMQk=
+X-Received: by 2002:a1f:b209:: with SMTP id b9mr4845257vkf.9.1589477473939;
+ Thu, 14 May 2020 10:31:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200514142107.20702-1-diego.rondini@kynetics.com>
+In-Reply-To: <20200514142107.20702-1-diego.rondini@kynetics.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Thu, 14 May 2020 19:31:02 +0200
+Message-ID: <CANNYZj8_gXYNTewvCX3TFp5nj9LP6+cZfKYgdBEF9Y_F_U2S_A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] bmap-tools: update to latest git master
+To: Diego <diego.rondini@kynetics.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000003672cf05a59f1073"
 
-Issue has been fixed in valgrind itself
+--0000000000003672cf05a59f1073
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-10.1.inc        |  3 +-
- ...se-__getauxval-instead-of-getauxval-.patch | 47 -------------------
- ...mic-Do-not-enforce-march-on-aarch64.patch} |  2 +-
- 3 files changed, 2 insertions(+), 50 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-10.1/0038-Revert-AArch64-Use-__getauxval-instead-of-getauxval-.patch
- rename meta/recipes-devtools/gcc/gcc-10.1/{0039-libatomic-Do-not-enforce-march-on-aarch64.patch => 0038-libatomic-Do-not-enforce-march-on-aarch64.patch} (96%)
+You can't generally update to a random development commit, especially if PV
+stays the same. Please ask upstream to make a new release.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-10.1.inc b/meta/recipes-devtools/gcc/gcc-10.1.inc
-index 82b5a20a42..041d426187 100644
---- a/meta/recipes-devtools/gcc/gcc-10.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-10.1.inc
-@@ -65,8 +65,7 @@ SRC_URI = "\
-            file://0035-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch \
-            file://0036-Enable-CET-in-cross-compiler-if-possible.patch \
-            file://0037-mingw32-Enable-operation_not_supported.patch \
--           file://0038-Revert-AArch64-Use-__getauxval-instead-of-getauxval-.patch \
--           file://0039-libatomic-Do-not-enforce-march-on-aarch64.patch \
-+           file://0038-libatomic-Do-not-enforce-march-on-aarch64.patch \
- "
- SRC_URI[sha256sum] = "b6898a23844b656f1b68691c5c012036c2e694ac4b53a8918d4712ad876e7ea2"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc-10.1/0038-Revert-AArch64-Use-__getauxval-instead-of-getauxval-.patch b/meta/recipes-devtools/gcc/gcc-10.1/0038-Revert-AArch64-Use-__getauxval-instead-of-getauxval-.patch
-deleted file mode 100644
-index fc9228277a..0000000000
---- a/meta/recipes-devtools/gcc/gcc-10.1/0038-Revert-AArch64-Use-__getauxval-instead-of-getauxval-.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From 2101fb718935c7cf1cc2ad201bdeb1e635b54b0a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 11 May 2020 11:03:41 -0700
--Subject: [PATCH] Revert "[AArch64] Use __getauxval instead of getauxval in LSE
-- detection code in libgcc"
--
--This reverts commit 5a57016dd2758cc63a544f191f77635342397a72.
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- libgcc/config/aarch64/lse-init.c | 17 ++++++++---------
-- 1 file changed, 8 insertions(+), 9 deletions(-)
--
--diff --git a/libgcc/config/aarch64/lse-init.c b/libgcc/config/aarch64/lse-init.c
--index 00e9ab8cd1c..74acef25cce 100644
----- a/libgcc/config/aarch64/lse-init.c
--+++ b/libgcc/config/aarch64/lse-init.c
--@@ -29,20 +29,19 @@ see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
-- _Bool __aarch64_have_lse_atomics
--   __attribute__((visibility("hidden"), nocommon));
-- 
---/* Gate availability of __getauxval on glibc.  All AArch64-supporting glibc
---   versions support it.  */
---#ifdef __gnu_linux__
--+/* Disable initialization of __aarch64_have_lse_atomics during bootstrap.  */
--+#if !defined(inhibit_libc) && defined(HAVE_SYS_AUXV_H)
--+# include <sys/auxv.h>
-- 
---# define AT_HWCAP	16
---# define HWCAP_ATOMICS	(1 << 8)
---
---unsigned long int __getauxval (unsigned long int);
--+/* Disable initialization if the system headers are too old.  */
--+# if defined(AT_HWCAP) && defined(HWCAP_ATOMICS)
-- 
-- static void __attribute__((constructor))
-- init_have_lse_atomics (void)
-- {
---  unsigned long hwcap = __getauxval (AT_HWCAP);
--+  unsigned long hwcap = getauxval (AT_HWCAP);
--   __aarch64_have_lse_atomics = (hwcap & HWCAP_ATOMICS) != 0;
-- }
-- 
---#endif /* __gnu_linux__  */
--+# endif /* HWCAP */
--+#endif /* inhibit_libc */
-diff --git a/meta/recipes-devtools/gcc/gcc-10.1/0039-libatomic-Do-not-enforce-march-on-aarch64.patch b/meta/recipes-devtools/gcc/gcc-10.1/0038-libatomic-Do-not-enforce-march-on-aarch64.patch
-similarity index 96%
-rename from meta/recipes-devtools/gcc/gcc-10.1/0039-libatomic-Do-not-enforce-march-on-aarch64.patch
-rename to meta/recipes-devtools/gcc/gcc-10.1/0038-libatomic-Do-not-enforce-march-on-aarch64.patch
-index fecb562f51..3946acea11 100644
---- a/meta/recipes-devtools/gcc/gcc-10.1/0039-libatomic-Do-not-enforce-march-on-aarch64.patch
-+++ b/meta/recipes-devtools/gcc/gcc-10.1/0038-libatomic-Do-not-enforce-march-on-aarch64.patch
-@@ -1,4 +1,4 @@
--From 411fc85c14bb14b07c0db807c55d25ce3f3e507f Mon Sep 17 00:00:00 2001
-+From 38d262bfe7c0c894c364dc6e4dc7971e78a73974 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Wed, 13 May 2020 15:10:38 -0700
- Subject: [PATCH] libatomic: Do not enforce march on aarch64
--- 
-2.26.2
+Alex
 
+On Thu, 14 May 2020 at 16:22, Diego <diego.rondini@kynetics.com> wrote:
+
+> Update to latest revision of git master to include, among other
+> improvements, support for zstd compression format.
+>
+> Signed-off-by: Diego Rondini <diego.rondini@kynetics.com>
+> ---
+>  meta/recipes-support/bmap-tools/bmap-tools_3.5.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> index 7c4db85b32..694c5f09be 100644
+> --- a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> +++ b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =
+> "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>
+>  SRC_URI = "git://github.com/intel/${BPN}
+> <http://github.com/intel/$%7BBPN%7D>"
+>
+> -SRCREV = "db7087b883bf52cbff063ad17a41cc1cbb85104d"
+> +SRCREV = "a17f0e3ff8669dd3b1c44a741ae4f8162155faed"
+>  S = "${WORKDIR}/git"
+>  PV .= "+git${SRCPV}"
+>
+> --
+> 2.21.3
+>
+> 
+>
+
+--0000000000003672cf05a59f1073
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>You can&#39;t generally update to a random developmen=
+t commit, especially if PV stays the same. Please ask upstream to make a ne=
+w release.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 14 May 2020 at 16=
+:22, Diego &lt;<a href=3D"mailto:diego.rondini@kynetics.com">diego.rondini@=
+kynetics.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">Update to latest revision of git master to include, among other=
+<br>
+improvements, support for zstd compression format.<br>
+<br>
+Signed-off-by: Diego Rondini &lt;<a href=3D"mailto:diego.rondini@kynetics.=
+com" target=3D"_blank">diego.rondini@kynetics.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-support/bmap-tools/<a href=3D"http://bmap-tools_3.5.bb"=
+ rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/recipes-support/bmap-tools/<a href=3D"http://bmap-tools_=
+3.5.bb" rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a> b/meta/r=
+ecipes-support/bmap-tools/<a href=3D"http://bmap-tools_3.5.bb" rel=3D"noref=
+errer" target=3D"_blank">bmap-tools_3.5.bb</a><br>
+index 7c4db85b32..694c5f09be 100644<br>
+--- a/meta/recipes-support/bmap-tools/<a href=3D"http://bmap-tools_3.5.bb"=
+ rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a><br>
++++ b/meta/recipes-support/bmap-tools/<a href=3D"http://bmap-tools_3.5.bb"=
+ rel=3D"noreferrer" target=3D"_blank">bmap-tools_3.5.bb</a><br>
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Db234ee4d=
+69f5fce4486a80fdaf4a4263&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/intel/$%7BBPN%7=
+D" rel=3D"noreferrer" target=3D"_blank">github.com/intel/${BPN}</a>&quot;<b=
+r>
+<br>
+-SRCREV =3D &quot;db7087b883bf52cbff063ad17a41cc1cbb85104d&quot;<br>
++SRCREV =3D &quot;a17f0e3ff8669dd3b1c44a741ae4f8162155faed&quot;<br>
+=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
+=C2=A0PV .=3D &quot;+git${SRCPV}&quot;<br>
+<br>
+-- <br>
+2.21.3<br>
+<br>
+<br>
+</blockquote></div>
+
+--0000000000003672cf05a59f1073--
