@@ -1,78 +1,57 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
- by mx.groups.io with SMTP id smtpd.web12.421.1589478696821029650
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web11.650.1589479375689113372
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2020 10:51:36 -0700
+ Thu, 14 May 2020 11:02:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pwLmrCRu;
- spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f196.google.com with SMTP id f4so1540034pgi.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 10:51:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6tMu4gy1HiSu0WthXd2ZCc6BicZIJekcvI25ZUJ52Bs=;
-        b=pwLmrCRuhEF3bUUAnmHZpdgz+lP5g3zYj9uEutpHxxIxpA2FV2FCDlP3LmKIEFkkv2
-         IAw+HiCjyGhI0RzfpqxqEcMTBrf8KA/KX/sa6a0NE+ijJlYEJc+Xj1FLcw5bf0AbdTuo
-         75uPzuNr0SYR0jggSQjGZ29tQWA9G7DgIQj1ZVrE0N9OiGCLEv7X6wD95DFfJW1L7/Uf
-         gLyeaW0s+qlvezntil9SKVXPBZbQnYwpTNc4ObXGhnbJUXIEiy9ZeBxFUn1uo7R47RaN
-         JCH31JbL5KcIK4c6lDJYsQjh+WUS5SKRGhkeRnva/X5HHw59myjAWstuw4jkf334oFbk
-         ghWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=6tMu4gy1HiSu0WthXd2ZCc6BicZIJekcvI25ZUJ52Bs=;
-        b=octJOvDugkBjfKgFdb1juiAYhqs/SMOWyDSf36ylPUIo8S4j/Pna7bPY8PdxImZsMm
-         UnssLh4VIPgJCLlazUMx2cpj9iE3A7gdGX3Eq2PbwGYs09wBMdIoTvLL+L6vqunUza3E
-         fNoA2r9Z1wUHH+2D+2pQoVoA2yp/SzQzo/kgXdDamhNTVTHgAlmwMVMgd8GlCfPqKf+w
-         bvyiNsT1xRAvLiF8HMbNm4OVUX//qF58nQsx5kxuEaocFCilKgps7KAVrL6xtyJhPoy3
-         tqZ5NaZOL5Y+MZ9UQ35B2bapF1pAixNzWWSaHMOF+lMInDmssW0j53eIeJo2IeC9IVJq
-         zsGg==
-X-Gm-Message-State: AOAM533ggn4uoIQQqi7Ofwpkopj6EtUg3CnB8x0zEbwLGiT7q+hup48I
-	zho8h4JAmYORgeXBGXIdhc6dhgB+jWY=
-X-Google-Smtp-Source: ABdhPJxef1LHAA/uFUwQVsDG8B/xv7ck45CoYeI34AuWficutJ4RCLd4L7ZF+YIfL0JOSuikJOeZHw==
-X-Received: by 2002:a62:e419:: with SMTP id r25mr5577076pfh.82.1589478695768;
-        Thu, 14 May 2020 10:51:35 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::3cf8])
-        by smtp.gmail.com with ESMTPSA id h11sm2785448pfo.120.2020.05.14.10.51.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2020 10:51:35 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCH V2] qemuarm64.conf: Use cortext-a57 as default tune
-Date: Thu, 14 May 2020 10:51:33 -0700
-Message-Id: <20200514175133.5381-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.2
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 615C960AF5;
+	Thu, 14 May 2020 18:02:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInZhbGdyaW5kOiBEbyBub3QgdXNlIG91dGxpbmUtYS4uLiIgYW5kIDEgbW9yZQ==?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 14 May 2020 18:02:54 -0000
+Message-ID: <20200514180254.20810.37627@do>
+References: <20200514173010.3407-1-raj.khem@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200514173010.3407-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-This is more appropriate for the machine we are emulating
+== Series Details ==
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Series: "valgrind: Do not use outline-a..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/24151/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at ce6c50ea68)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
-v2: Fix typo its not cortexa55 but cortexa57 what we need here
-
- meta/conf/machine/qemuarm64.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
-index 1e2d4f018d..97b4516b68 100644
---- a/meta/conf/machine/qemuarm64.conf
-+++ b/meta/conf/machine/qemuarm64.conf
-@@ -2,7 +2,7 @@
- #@NAME: QEMU ARMv8 machine
- #@DESCRIPTION: Machine configuration for running an ARMv8 system on QEMU
- 
--require conf/machine/include/arm/arch-armv8a.inc
-+require conf/machine/include/arm/tune-cortexa57.inc
- require conf/machine/include/qemu.inc
- 
- KERNEL_IMAGETYPE = "Image"
--- 
-2.26.2
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
