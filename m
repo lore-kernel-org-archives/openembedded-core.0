@@ -1,81 +1,101 @@
-Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
- by mx.groups.io with SMTP id smtpd.web12.139.1589472989689600833
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web11.896.1589474920004388109
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2020 09:16:30 -0700
+ Thu, 14 May 2020 09:48:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bgdev-pl.20150623.gappssmtp.com header.s=20150623 header.b=aHH5wbUa;
- spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.166.196, mailfrom: brgl@bgdev.pl)
-Received: by mail-il1-f196.google.com with SMTP id j3so3841388ilk.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 09:16:29 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SKGeS0Xp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id w64so1362050wmg.4
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 09:48:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=VO/zxt/0sqxq6bhZCXDRb/tTEUQcH3AQmyMI5F6syeg=;
-        b=aHH5wbUaDgWbIMen/CV/XBerE3faM3/aEqa16tmkFHU2qN5W+NjxasEuN85+0lijS1
-         fltzWOQ8oQ97+x+zDAA30g/pgf44qlBBXfzpBaLbAHhP6RwVizt1Qkc0p9yvDUaRUbUX
-         73h1PCFFRrIvqMP2DV/eeW/F2wM1YcoEjiOWW5ENbQ8S2BJvXQxxwg85s1nAJZ3S8JWA
-         Qvbg3DKxd8eKzW9WXQ6SK90kSdDNjqmaKbAUB/kmRuprPBOgQ+j/xtnQa6gswY32lpgi
-         MCdKiNLcqHmN+pQYs7ewpbYt3s5H+sjZKvmCC4TLnka8vgl/VLfbP1X/Z/lJChGaElk6
-         g3bQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=02eoMNqCB1X0l+l0KQZXPdLWulapYu8DktFhXLE1rzE=;
+        b=SKGeS0Xpmp/OKZDzb9FCfDNGQVb5Scxnd1+0zuSu/c9Ip4MO9PvgpjcKgT2uXunJJ1
+         zlrL5MNFzSntb+6SazuuJErsSOE6X26aiR/UkN/We2YABB/Xx5nQFFloYQw6eswLqc1p
+         vQA2Qo7Slqtwl67jiqRrYSksV/D6Mitavwf0I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=VO/zxt/0sqxq6bhZCXDRb/tTEUQcH3AQmyMI5F6syeg=;
-        b=Ku6ISHG+wodHYiqvHp4D+70C1/LyrdV6fkphnjVGUKos/5J0aKDj/XJ69wH87EazGm
-         hP5BMOcOj/pI5iGcgMPA6JX7E6Lgw21KntR3/rgsYLvxxXek9saTtXVCFAauCkHqz5Au
-         CHwPs2AMJ3ID1GHXiizp0fKN5SKeNen68HzqKONlzBgdruWj1tviurjJ8TzUDp3YqoAt
-         6LHph/pQbpMvYkPLd8+Qm3vFFytc890MhZWwOV2QYYyRcG3+C3cGU7w0o0xLn5J+1d6Z
-         y/Y4cPtjPx6NIJbnkhhwGBX0dWlsiY3V+ylro6pLJ6Rek98ALtKcM27U2x7GPyDot97i
-         fcIg==
-X-Gm-Message-State: AOAM5314pwgpjk8ylCg5PIPVDbHMOdwAPzkfRtKdD9XfeLzXk7UCtSdX
-	3Cajm3R5URm+cWFpgzz8eVSHMW4bxmDJ8nd0+Qixjw==
-X-Google-Smtp-Source: ABdhPJyvVoRIMcKlaSuTFzieBF2jrThCCYPOp9TPgvquWxtVKyUjefHeS7GOOrB8Df+3u2K8tlcxJ1npeZqxipdf3LU=
-X-Received: by 2002:a92:d946:: with SMTP id l6mr5800184ilq.6.1589472989151;
- Thu, 14 May 2020 09:16:29 -0700 (PDT)
-MIME-Version: 1.0
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=02eoMNqCB1X0l+l0KQZXPdLWulapYu8DktFhXLE1rzE=;
+        b=EmDnoJP7TLTbH1Wpxz2BeSnw1vIUkK0g1C4k2HneQErAV979r7QSnOzwu9O1Lq00Jw
+         mroMeAZ2WZvnfcR3zTiDnoVKnTpu6fcJAFQafQ/Fw0LW9UgykAB+a7mtgTkvK2w4t/s1
+         uS2h56jM/rxW/K3VWHB+tjNNRohZi6wRwyFY/NsR7z+x8ANSkFk8U1DK2txJdgslH3t9
+         CxyqvKENwnW/Qtdz1c3+KvxmOji72i+SVXJyogkNt4u2au2RVepGU8cTqxYqqGUMRxYi
+         ZVAGRhnSBw56ZH81pG4UxNE2zfC3EQLh/i3jaClJNlFiwiogO2UqyaEEMEQSR+Ib6eA+
+         YRVg==
+X-Gm-Message-State: AGi0Puay+FVSUoIGDgaipeTOyxQq1hWvaapS8NW1s7Jvc5RpGneY+j0O
+	6qxbcu2hj42qCIP1+EfEaLibuQ==
+X-Google-Smtp-Source: APiQypLiSO6ezfIHsQUQm4KgqjpWBSyUXxuhNhVwV2ssgORpu3B0MvA8eR+utjoh5+K4uEVLaGu6FQ==
+X-Received: by 2002:a7b:ce89:: with SMTP id q9mr52770861wmj.185.1589474918518;
+        Thu, 14 May 2020 09:48:38 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id b14sm29696000wmb.18.2020.05.14.09.48.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2020 09:48:37 -0700 (PDT)
+Message-ID: <1aed1c0bb5cd4f685cadba893415208da91cf7fd.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [meta-OE][PATCH v3] image.bbclass: deploy image artifacts in stages
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Bartosz Golaszewski <brgl@bgdev.pl>, Khem Raj <raj.khem@gmail.com>, 
+ Armin Kuster <akuster808@gmail.com>, Jerome Neanne <jneanne@baylibre.com>,
+ Quentin Schulz <quentin.schulz@streamunlimited.com>
+Cc: Patches and discussions about the oe-core layer
+	 <openembedded-core@lists.openembedded.org>, Bartosz Golaszewski
+	 <bgolaszewski@baylibre.com>
+Date: Thu, 14 May 2020 17:48:36 +0100
+In-Reply-To: <CAMRc=Me-Ek8d181vzfhi44cMmRsu=Qw1HiErCpjiWZGxkc5LCw@mail.gmail.com>
 References: <20200512140529.27606-1-brgl@bgdev.pl>
-In-Reply-To: <20200512140529.27606-1-brgl@bgdev.pl>
-From: "Bartosz Golaszewski" <brgl@bgdev.pl>
-Date: Thu, 14 May 2020 18:16:18 +0200
-Message-ID: <CAMRc=Me-Ek8d181vzfhi44cMmRsu=Qw1HiErCpjiWZGxkc5LCw@mail.gmail.com>
-Subject: Re: [meta-OE][PATCH v3] image.bbclass: deploy image artifacts in stages
-To: Khem Raj <raj.khem@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Armin Kuster <akuster808@gmail.com>, Jerome Neanne <jneanne@baylibre.com>, 
-	Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Bartosz Golaszewski <bgolaszewski@baylibre.com>
+	 <CAMRc=Me-Ek8d181vzfhi44cMmRsu=Qw1HiErCpjiWZGxkc5LCw@mail.gmail.com>
+User-Agent: Evolution 3.36.1-2 
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-wt., 12 maj 2020 o 16:05 Bartosz Golaszewski <brgl@bgdev.pl> napisa=C5=82(a=
-):
->
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
->
-> Make each IMAGE_CMD task an sstate task with its own IMGDEPLOYDIR
-> override. This way each generated set of artifacts is deployed as soon
-> as it's ready instead of the do_image_complete task handling the entire
-> deployement. This allows us to better fine-tune dependencies e.g. we
-> can make do_image_wic depend on fitImage task which can in turn depend
-> on do_image_ext4.
->
-> We need delete the IMGDEPLOYDIR variable from the data object passed
-> to each image task so that it gets expanded with the correct override.
->
-> In order to make sure that tasks added to SSTATETASKS in anonymous python
-> functions are correctly setup, move the code that assigns pre- and
-> postfuncs to an event handler invoked on bb.event.RecipeTaskPreProcess
-> in sstate.bbclass. This event is fired right after the anonymous
-> functions.
->
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
+On Thu, 2020-05-14 at 18:16 +0200, Bartosz Golaszewski wrote:
+> wt., 12 maj 2020 o 16:05 Bartosz Golaszewski <brgl@bgdev.pl>
+> napisał(a):
+> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > 
+> > Make each IMAGE_CMD task an sstate task with its own IMGDEPLOYDIR
+> > override. This way each generated set of artifacts is deployed as
+> > soon
+> > as it's ready instead of the do_image_complete task handling the
+> > entire
+> > deployement. This allows us to better fine-tune dependencies e.g.
+> > we
+> > can make do_image_wic depend on fitImage task which can in turn
+> > depend
+> > on do_image_ext4.
+> > 
+> > We need delete the IMGDEPLOYDIR variable from the data object
+> > passed
+> > to each image task so that it gets expanded with the correct
+> > override.
+> > 
+> > In order to make sure that tasks added to SSTATETASKS in anonymous
+> > python
+> > functions are correctly setup, move the code that assigns pre- and
+> > postfuncs to an event handler invoked on
+> > bb.event.RecipeTaskPreProcess
+> > in sstate.bbclass. This event is fired right after the anonymous
+> > functions.
+> > 
+> > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> > ---
+> 
+> Hi all!
+> 
+> I just noticed I tagged this patch as [meta-OE] instead of [OE-core]
+> -
+> hope it's not an issue? Should I resend it with a correct tag?
 
-Hi all!
+I did notice but no need to resend. I was planning to queue the patches
+for testing.
 
-I just noticed I tagged this patch as [meta-OE] instead of [OE-core] -
-hope it's not an issue? Should I resend it with a correct tag?
+Cheers,
 
-Bartosz
+Richard
+
