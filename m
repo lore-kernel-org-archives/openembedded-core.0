@@ -1,95 +1,131 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web12.12139.1589462814275448713
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+ by mx.groups.io with SMTP id smtpd.web11.12590.1589464579117715876
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2020 06:26:54 -0700
+ Thu, 14 May 2020 06:56:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=djsPCqam;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id n5so17757486wmd.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 06:26:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hLN2iVAz;
+ spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f196.google.com with SMTP id c24so2869151qtw.7
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 06:56:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=BBeM0tACVVZknoW8dmbismtyGLyCQP6w39oCsHPMXEw=;
-        b=djsPCqam1prJi4Iqn/gBIIGyCMXRu5cjDN+BpVVM49iMNr/HWWQGmAOIZyk9MI1FC5
-         M4Fzyjq2S4Z9tfXlv05/DKBAX4uBWY6XLQbFTgOzsNypPVKTB3SstWrs+SeuC35oOYx7
-         cth/5ullpgNwaY3KQfEUBqQX8cQ5O5F1L1QF4=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cwtVw1qOO2gm3DnUz0UHpLTtqXIrOYsECR5ytXkqZwo=;
+        b=hLN2iVAzhqRq5S6dxIiz5Ji6/gQEr5zxz9qVO5/M+39PT5HSJHc7K4iE5LzXvOaRm0
+         2YdQP2sMuYVN0GKPfX3S7TdcvVPq0I0l4wJFtpNCAuNY19WydkgmEhViRTAL0T/alJut
+         6N2Gr8HVxPnmB3u254JVDNFbFCPQ8EwtSzu2FqMljANK2XovkDdDeQ0t9Qd75QBwVmQM
+         ZQy9INbRyA7rGo5QlGC8m67kdEgMRyGvqhaMFpw7YmaPEt6GubQ1Aq/A4N9hc0dsjJpO
+         TBZ96qTkkfvLCnEcflBdEy6MyJWV5c384xr+zeH7VVPWRkgMToegGgmwaqrjFnlUaKAi
+         XcgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=BBeM0tACVVZknoW8dmbismtyGLyCQP6w39oCsHPMXEw=;
-        b=DoyLxn9j6DbGi9uJJHXn5ACGHXNFCuIrRFvOssUns+alKxr6hlDGQAWBsIt9VOcRNz
-         Zw8P6VAGZFShA+bsc27lnybOFiQ9731F0nrrcDVb/adlCKn3pPAZlX4th5eA4vS43beq
-         bPmsX/LBWK0NDRZHAwuOCAjvIc1UrAbp4fkYrav+XoQGajU+d+qpwitW0GCY+MWfV3Hj
-         KPqViiYOIswaC/yhfFC2O98gFOLy06/EJookWvIf/zHzrQUD8sVmDzlUBtEU5H8nREdT
-         GGDaEo7u2gTrK1yXL0Msuv6RECBt611FtJju+QV0UqkFh1mFqN8MqUrMcaICIupPtX58
-         J7rA==
-X-Gm-Message-State: AOAM530Eb+UsOahyDEr50SH/6oL0daESuGepzlHMpiXzrt3WRfjnCJmf
-	9v1iMoBzRuBjfw/0kroyEONCCDpUxN8=
-X-Google-Smtp-Source: ABdhPJxcSyeamTlvgNtOL9JSUbtazJw0P6doNYmLl4WoHuht9qfC5HJjNhGEwkeykLDopQtL+gt9KQ==
-X-Received: by 2002:a7b:cf22:: with SMTP id m2mr8420104wmg.82.1589462812222;
-        Thu, 14 May 2020 06:26:52 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id w10sm4273015wrg.52.2020.05.14.06.26.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2020 06:26:51 -0700 (PDT)
-Message-ID: <9c5dcfc03d2670a447cc08565cb74e407211906a.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] gcr: depends on gnupg-native
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: kai <kai.kang@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 14 May 2020 14:26:50 +0100
-In-Reply-To: <f00e9d2b-8ada-a259-337d-9c1fa37862ab@windriver.com>
-References: <20200511092342.29197-1-kai.kang@windriver.com>
-	 <f00e9d2b-8ada-a259-337d-9c1fa37862ab@windriver.com>
-User-Agent: Evolution 3.36.1-2 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cwtVw1qOO2gm3DnUz0UHpLTtqXIrOYsECR5ytXkqZwo=;
+        b=gwSWz660higBx1pkP1gFC4orlyOk2ZP8F7BWAfoLtpd2ub5djGKjnRS1mQH6Ct9XlL
+         46XofMbfjUC1rYem7LwJLSJdf6bs5PnG7Oli1hiJS2xqfWFG1+GTn1D5btc+ruHwd5lF
+         muGtCYv5098cwEe3lLZh2zu29PGc+QML0D+OObnzbX6fMJ4ApzM9R1ngvlGvf1R4gwHi
+         rYpYCYGcdMD0J0eJb/q7qAarYtEdYGm1sWD+Ysd5toFY8GXcCVuf1jNeFQEZ6MKCyO+Z
+         C5NbEUgxjb48eRQGgudG3NL3ULZXg0ew4D+4ZvduOcKoI+GVvQBrBa6+IzuCo+j84Rth
+         9ZOA==
+X-Gm-Message-State: AOAM532LKMsaptCI2I8wZItnqC9kTZTpr57lJnFKRymeDkegpBeU+T4N
+	9AlfLc8Egad1gJUDgh6dRdmz2d83Kb3xKWstQOWsxOaC
+X-Google-Smtp-Source: ABdhPJzZGeVa5s4XdAix/t79871O5hawn9o9L+nptSmQV8D6HYgNiWjIfrFXXsPJioyvLZ6fOqR2VLOWxGam9mWg/8Q=
+X-Received: by 2002:aed:308e:: with SMTP id 14mr4612664qtf.146.1589464578025;
+ Thu, 14 May 2020 06:56:18 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200511182812.441561-1-raj.khem@gmail.com> <20200511182812.441561-3-raj.khem@gmail.com>
+ <20200514073821.GA16323@localhost> <CAMKF1sp0G_fz0Jjf5z4=qR5rTVK-miTABZjdkQn2FK2Ypm4v2g@mail.gmail.com>
+ <20200514131606.GA17383@localhost>
+In-Reply-To: <20200514131606.GA17383@localhost>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 14 May 2020 06:56:07 -0700
+Message-ID: <CAMKF1sp_XsD7FSSogPWbYVNTV7uzOr9Ci15g3KgA7dbi7dkb_g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V3 3/3] gcc10: Revert using __getauxval in libgcc
+To: Adrian Bunk <bunk@stusta.de>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000008e6c1d05a59c0f5e"
+
+--0000000000008e6c1d05a59c0f5e
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2020-05-14 at 09:59 +0800, kai wrote:
-> On 2020/5/11 下午5:23, kai.kang@windriver.com wrote:
-> > From: Kai Kang <kai.kang@windriver.com>
-> > 
-> > It fails to build gcr if no commmand gpg on build host:
-> > 
-> > > meson.build:44:0: ERROR: Program(s) ['gpg2', 'gpg'] not found or
-> > > not executable
-> > 
-> > Add dependency gnupg-native to fix the error.
-> > 
-> > Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> > ---
-> >   meta/recipes-gnome/gcr/gcr_3.36.0.bb | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/recipes-gnome/gcr/gcr_3.36.0.bb b/meta/recipes-
-> > gnome/gcr/gcr_3.36.0.bb
-> > index 4fe3b2fff3..458dc8e6c4 100644
-> > --- a/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-> > +++ b/meta/recipes-gnome/gcr/gcr_3.36.0.bb
-> > @@ -8,7 +8,7 @@ BUGTRACKER = "
-> > https://gitlab.gnome.org/GNOME/gcr/issues"
-> >   LICENSE = "GPLv2"
-> >   LIC_FILES_CHKSUM =
-> > "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
-> >   
-> > -DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt \
-> > +DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt gnupg-native \
-> >              ${@bb.utils.contains('GI_DATA_ENABLED', 'True',
-> > 'libxslt-native', '', d)}"
-> >   
-> >   GNOMEBASEBUILDCLASS = "meson"
-> 
-> Any comment, please?
+On Thu, May 14, 2020 at 6:16 AM Adrian Bunk <bunk@stusta.de> wrote:
 
-Why did this happen? Was this as a result of the move to meson? Is it
-really needed and can we avoid it? native dependencies like this are a
-pain from a build performance perspective...
+> On Thu, May 14, 2020 at 05:47:48AM -0700, Khem Raj wrote:
+> > On Thu, May 14, 2020 at 12:38 AM Adrian Bunk <bunk@stusta.de> wrote:
+> > > On Mon, May 11, 2020 at 11:28:12AM -0700, Khem Raj wrote:
+> > > > This was added recently, but it seems be chewing more than what it
+> > > > should and causes non glibc packages also depend on it.
+> > > >...
+> > >
+> > > Is this only valgrind (there is a upstream bug open for that),
+> > > or were there more recipes with a problem?
+> >
+> > Just valgrind but problem can happen with static linking with no defaul=
+t
+> > libs in general
+>
+> No, it cannot.
+> The relevant part of "no default libs" is not linking with libc.
+>
+> Linking statically with libgcc and then providing own implementations
+> of all libc functions used by libgcc instead of linking with libc is
+> not a common situation.
 
-Cheers,
 
-Richard
+Take a look At what=E2=80=99s going on in valgrind memcheck build if you ar=
+e
+interested perhaps you will find something which is not yet understood
 
+
+>
+> cu
+> Adrian
+>
+
+--0000000000008e6c1d05a59c0f5e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, May 14, 2020 at 6:16 AM Adrian Bunk &lt;<a href=3D"=
+mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
+padding-left:1ex">On Thu, May 14, 2020 at 05:47:48AM -0700, Khem Raj wrote:=
+<br>
+&gt; On Thu, May 14, 2020 at 12:38 AM Adrian Bunk &lt;<a href=3D"mailto:bun=
+k@stusta.de" target=3D"_blank">bunk@stusta.de</a>&gt; wrote:<br>
+&gt; &gt; On Mon, May 11, 2020 at 11:28:12AM -0700, Khem Raj wrote:<br>
+&gt; &gt; &gt; This was added recently, but it seems be chewing more than w=
+hat it<br>
+&gt; &gt; &gt; should and causes non glibc packages also depend on it.<br>
+&gt; &gt; &gt;...<br>
+&gt; &gt;<br>
+&gt; &gt; Is this only valgrind (there is a upstream bug open for that),<br=
+>
+&gt; &gt; or were there more recipes with a problem?<br>
+&gt; <br>
+&gt; Just valgrind but problem can happen with static linking with no defau=
+lt<br>
+&gt; libs in general<br>
+<br>
+No, it cannot.<br>
+The relevant part of &quot;no default libs&quot; is not linking with libc.<=
+br>
+<br>
+Linking statically with libgcc and then providing own implementations<br>
+of all libc functions used by libgcc instead of linking with libc is<br>
+not a common situation.</blockquote><div dir=3D"auto"><br></div><div dir=3D=
+"auto">Take a look At what=E2=80=99s going on in valgrind memcheck build if=
+ you are interested perhaps you will find something which is not yet unders=
+tood=C2=A0</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+<br>
+<br>
+cu<br>
+Adrian<br>
+</blockquote></div></div>
+
+--0000000000008e6c1d05a59c0f5e--
