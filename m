@@ -1,68 +1,133 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web11.7279.1589437754848450938
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web12.7961.1589441885962671766
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 May 2020 23:29:17 -0700
+ Thu, 14 May 2020 00:38:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.73,390,1583164800"; 
-   d="scan'208";a="92042824"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 14 May 2020 14:29:11 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 60D9D4BCC8A1
-	for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 14:29:10 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 14 May 2020 14:29:10 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] gnu-efi: upgrade 3.0.11 -> 3.0.12
-Date: Thu, 14 May 2020 23:29:19 +0800
-Message-ID: <1589470159-4407-1-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: kai.kang@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 04E7c3sG011696
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Thu, 14 May 2020 00:38:04 -0700 (PDT)
+Received: from [128.224.162.131] (128.224.162.131) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Thu, 14 May 2020
+ 00:38:03 -0700
+Subject: Re: [OE-core] [PATCH] buildtools-extended-tarball: add nativesdk-glibc
+From: "kai" <kai.kang@windriver.com>
+To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>,
+        Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+        <openembedded-core@lists.openembedded.org>
+References: <20200506015447.13003-1-kai.kang@windriver.com>
+ <080c0849554edd5710f68f6283a020f578968de9.camel@linuxfoundation.org>
+ <f35dd49c-f52b-6d35-9d1b-56775e065bbd@windriver.com>
+ <38eed4f8-2fb6-0853-19f7-845e988b2fe2@mvista.com>
+ <d8911cb6-0337-11c9-5bd9-950939299379@windriver.com>
+Message-ID: <4746673e-2ca8-379b-c02f-df3f90739fef@windriver.com>
+Date: Thu, 14 May 2020 15:36:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
-X-yoursite-MailScanner-ID: 60D9D4BCC8A1.A4CA9
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+In-Reply-To: <d8911cb6-0337-11c9-5bd9-950939299379@windriver.com>
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id 04E7c3sG011696
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- .../gnu-efi/{gnu-efi_3.0.11.bb => gnu-efi_3.0.12.bb}        | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-bsp/gnu-efi/{gnu-efi_3.0.11.bb => gnu-efi_3.0.12.bb} (92%)
+On 2020/5/12 =E4=B8=8A=E5=8D=8810:49, Kang Kai wrote:
+> On 2020/5/12 =E4=B8=8A=E5=8D=8810:47, Jeremy A. Puhlman wrote:
+>>
+>>
+>> On 5/11/2020 7:30 PM, Kang Kai wrote:
+>>> On 2020/5/10 =E4=B8=8B=E5=8D=889:40, Richard Purdie wrote:
+>>>> On Wed, 2020-05-06 at 09:54 +0800, kai wrote:
+>>>>> From: Kai Kang <kai.kang@windriver.com>
+>>>>>
+>>>>> It requires gcc 5.0 via OE-Core rev abc741a. On centos 7, the gcc
+>>>>> version is too low then it has to build with buildtools-extended-
+>>>>> tarball
+>>>>> which provides nativesdk-gcc.
+>>>>>
+>>>>> But it fails to build nspr-native:
+>>>>>
+>>>>>> gcc=C2=A0=C2=A0 abstract.o -Xlinker -L../../dist/lib -lplc4 -L../.=
+./dist/lib
+>>>>>> -lnspr4 -lpthread -o abstract
+>>>>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+>>>>>> undefined reference to `__clock_getcpuclockid@GLIBC_PRIVATE'
+>>>>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+>>>>>> undefined reference to `__clock_nanosleep@GLIBC_PRIVATE'
+>>>>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+>>>>>> undefined reference to `__clock_settime@GLIBC_PRIVATE'
+>>>>>> /PATH/TO/x86_64-wrlinuxsdk-linux/bin/ld: /lib64/librt.so.1:
+>>>>>> undefined reference to `__clock_getres@GLIBC_PRIVATE'
+>>>>>> collect2: error: ld returned 1 exit status
+>>>>>> make: *** [Makefile:379: abstract] Error 1
+>>>>> Add nativesdk-glibc to buildtools-extended-tarball. And it increase=
+s
+>>>>> size of buildtools-extended-tarball about 3K from 48356989 to
+>>>>> 48360329.
+>>>>>
+>>>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>>>>> ---
+>>>>> =C2=A0 meta/recipes-core/meta/buildtools-extended-tarball.bb | 1 +
+>>>>> =C2=A0 1 file changed, 1 insertion(+)
+>>>> This doesn't make sense. Does it mean we need a new uninative versio=
+n
+>>>> instead?
+>>>>
+>>>> Cheers,
+>>>>
+>>>> Richard
+>>>>
+>>> ```This works in dunfell, as of right now. This should have been=20
+>>> fixed with:
+>>>
+>>> ```https://patchwork.openembedded.org/patch/171584/
+>>>
+>>> Hi Jeremy,
+>>>
+>>> I can't receive mails from maillist for now. So reply here.
+>>>
+>>> I suppose when I build oe-core master on ubunu 16.04, it already=20
+>>> contains the commit. I'll double=C2=A0 check it.
+>> Yeah it is in master right now. I am not entirely sure why you would=20
+>> be seeing it. There was some discussion on
+>> the list about twiddling with the location of /etc/ld.so.conf and=20
+>> relocating it in the generation of sdks in general, but
+>> I have not been able to poke at it today. If that went in, it might=20
+>> have caused the issue. Basically what I saw when I was
+>> looking in to it, was the sdk ld.so.conf was not getting loaded(in=20
+>> the case of the patch because it was looking for etc/etc), but
+>> if it got moved or something similar, it might cause a similar issue.
+>>
+>> If you are still seeing the issue on master, strace the link of the=20
+>> file with -f and look at what is going on with the load of ld.so.conf=20
+>> and
+>> that might explain what is going on. Also make sure that ld.so.conf=20
+>> is still there and has reasonable content.
+>
+>
+> Thank you very much for your detailed comment. I'll try it.
 
-diff --git a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.11.bb b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.12.bb
-similarity index 92%
-rename from meta/recipes-bsp/gnu-efi/gnu-efi_3.0.11.bb
-rename to meta/recipes-bsp/gnu-efi/gnu-efi_3.0.12.bb
-index 9954d7f57a..7888aba0fb 100644
---- a/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.11.bb
-+++ b/meta/recipes-bsp/gnu-efi/gnu-efi_3.0.12.bb
-@@ -12,14 +12,14 @@ LIC_FILES_CHKSUM = "file://gnuefi/crt0-efi-arm.S;beginline=4;endline=16;md5=e582
-                     file://lib/aarch64/initplat.c;beginline=2;endline=15;md5=8ed772501da77b2b3345aa6df8744c9e \
-                    "
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/files/${BP}.tar.bz2 \
-            file://parallel-make-archives.patch \
-            file://lib-Makefile-fix-parallel-issue.patch \
-            file://gnu-efi-3.0.9-fix-clang-build.patch \
-            "
- 
--SRC_URI[md5sum] = "21148bbcccec385a9bfdf5f678959577"
--SRC_URI[sha256sum] = "f28da792a2532e91e18e0101468811739a22cde9eee5eacfd0efb9bf3a61d6b9"
-+SRC_URI[md5sum] = "926763ff37bc9db3a9035cec41eb2f45"
-+SRC_URI[sha256sum] = "0196f2e1fd3c334b66e610a608a0e59233474c7a01bec7bc53989639aa327669"
- 
- COMPATIBLE_HOST = "(x86_64.*|i.86.*|aarch64.*|arm.*)-linux"
- COMPATIBLE_HOST_armv4 = 'null'
--- 
-2.17.1
+Hi Richard & Jeremy,
+
+I tried buildtools-extended-tarball with latest oe-core repo, and it=20
+could build nspr-native on both ubuntu 16.04 and centos 7.7. Maybe it is=20
+fixed along with recent update of buildtools-extend.
+
+Thanks a lot for your replies.
+
+Regards,
+Kai
 
 
+>
+>
+>>
+>>
+>
+
+--=20
+Kai Kang
+Wind River Linux
 
