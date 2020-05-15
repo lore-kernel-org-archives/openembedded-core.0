@@ -1,140 +1,272 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.5859.1589507563488042773
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.5860.1589507577614840794
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 May 2020 18:52:43 -0700
+ Thu, 14 May 2020 18:52:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 04F1qBME023166
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Thu, 14 May 2020 18:52:32 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Thu, 14 May 2020 18:52:22 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH v2] bison: fix the parallel build
-Date: Fri, 15 May 2020 09:52:15 +0800
-Message-ID: <20200515015215.39152-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.24.1
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 04F1qmm5023912
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Thu, 14 May 2020 18:52:48 -0700 (PDT)
+Received: from [128.224.162.131] (128.224.162.131) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Thu, 14 May 2020
+ 18:52:47 -0700
+Subject: Re: [OE-core] [PATCH] gcr: depends on gnupg-native
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+        Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+CC: OE-core <openembedded-core@lists.openembedded.org>
+References: <20200511092342.29197-1-kai.kang@windriver.com>
+ <f00e9d2b-8ada-a259-337d-9c1fa37862ab@windriver.com>
+ <9c5dcfc03d2670a447cc08565cb74e407211906a.camel@linuxfoundation.org>
+ <CANNYZj-mE1Dw7yFom3oZ6U8-odD7UXsBhZjhbofy-1O2UYrZDQ@mail.gmail.com>
+From: "kai" <kai.kang@windriver.com>
+Message-ID: <7b812b26-39fd-71ab-e84b-fb733659b485@windriver.com>
+Date: Fri, 15 May 2020 09:51:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+In-Reply-To: <CANNYZj-mE1Dw7yFom3oZ6U8-odD7UXsBhZjhbofy-1O2UYrZDQ@mail.gmail.com>
+Content-Type: multipart/alternative;
+	boundary="------------CD311F2F45ED17E05EE15B50"
+Content-Language: en-US
 
-From: Mingli Yu <mingli.yu@windriver.com>
+--------------CD311F2F45ED17E05EE15B50
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id 04F1qmm5023912
 
-Explicitly make the BUILT_SOURCES which
-are the generated headers such as stdio.h,
-fcntl.h and etc to be the dependencies of
-the gl_LIBOBJS such as libbison_a-sprintf.o,
-libbison_a-printf.o and etc to guarantee the
-BUILT_SOURCES is generated before begin to
-compile EXTRA_lib_libbison_a_SOURCES such as
-fprintf.c in parallel builid, otherwise there
-may come below error:
- | muscle-tab.c:(.text+0x77a): undefined reference to `rpl_sprintf'
+On 2020/5/15 =E4=B8=8A=E5=8D=881:29, Alexander Kanavin wrote:
+> Looking gcr's autotools and meson build files, gpg executable is=20
+> required in both. Gcr is needed only by epiphany, so I don't think=20
+> build performance will suffer much.
 
-It does the same for src_bison_OBJECTS and
-lib_libbison_a_OBJECTS to make sure BUILT_SOURCES
-generated before begin to compile src_bison_SOURCES
-which contains AnnotationList.c and etc.
+It seems gcr requires command gpg long long time ago(about 8 years). But=
+=20
+I don't know why just exposed recently.
 
-BTW, the MOSTLYCLEANFILES also contains the
-generated header needs to be created early
-in the build process, so add it also in to
-avoid below error:
- | ./lib/uniwidth/width.c:21:10: fatal error: uniwidth.h: No such file or directory
+https://gitlab.gnome.org/GNOME/gcr/-/commit/c6691faa0348ab087e99ab9bd9914e=
+1d5e81fa14
 
-[YOCTO #13825]
+Regards,
+Kai
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- .../0001-bison-fix-the-parallel-build.patch   | 63 +++++++++++++++++++
- meta/recipes-devtools/bison/bison_3.5.4.bb    |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
+>
+> Alex
+>
+> On Thu, 14 May 2020 at 15:26, Richard Purdie=20
+> <richard.purdie@linuxfoundation.org=20
+> <mailto:richard.purdie@linuxfoundation.org>> wrote:
+>
+>     On Thu, 2020-05-14 at 09:59 +0800, kai wrote:
+>     > On 2020/5/11 =E4=B8=8B=E5=8D=885:23, kai.kang@windriver.com
+>     <mailto:kai.kang@windriver.com> wrote:
+>     > > From: Kai Kang <kai.kang@windriver.com
+>     <mailto:kai.kang@windriver.com>>
+>     > >
+>     > > It fails to build gcr if no commmand gpg on build host:
+>     > >
+>     > > > meson.build:44:0: ERROR: Program(s) ['gpg2', 'gpg'] not found =
+or
+>     > > > not executable
+>     > >
+>     > > Add dependency gnupg-native to fix the error.
+>     > >
+>     > > Signed-off-by: Kai Kang <kai.kang@windriver.com
+>     <mailto:kai.kang@windriver.com>>
+>     > > ---
+>     > >=C2=A0 =C2=A0meta/recipes-gnome/gcr/gcr_3.36.0.bb <http://gcr_3.3=
+6.0.bb>
+>     | 2 +-
+>     > >=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>     > >
+>     > > diff --git a/meta/recipes-gnome/gcr/gcr_3.36.0.bb
+>     <http://gcr_3.36.0.bb> b/meta/recipes-
+>     > > gnome/gcr/gcr_3.36.0.bb <http://gcr_3.36.0.bb>
+>     > > index 4fe3b2fff3..458dc8e6c4 100644
+>     > > --- a/meta/recipes-gnome/gcr/gcr_3.36.0.bb <http://gcr_3.36.0.bb=
+>
+>     > > +++ b/meta/recipes-gnome/gcr/gcr_3.36.0.bb <http://gcr_3.36.0.bb=
+>
+>     > > @@ -8,7 +8,7 @@ BUGTRACKER =3D "
+>     > > https://gitlab.gnome.org/GNOME/gcr/issues"
+>     > >=C2=A0 =C2=A0LICENSE =3D "GPLv2"
+>     > >=C2=A0 =C2=A0LIC_FILES_CHKSUM =3D
+>     > > "file://COPYING;md5=3D55ca817ccb7d5b5b66355690e9abc605"
+>     > >
+>     > > -DEPENDS =3D "gtk+3 p11-kit glib-2.0 libgcrypt \
+>     > > +DEPENDS =3D "gtk+3 p11-kit glib-2.0 libgcrypt gnupg-native \
+>     > >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.utils.cont=
+ains('GI_DATA_ENABLED', 'True',
+>     > > 'libxslt-native', '', d)}"
+>     > >
+>     > >=C2=A0 =C2=A0GNOMEBASEBUILDCLASS =3D "meson"
+>     >
+>     > Any comment, please?
+>
+>     Why did this happen? Was this as a result of the move to meson? Is i=
+t
+>     really needed and can we avoid it? native dependencies like this are=
+ a
+>     pain from a build performance perspective...
+>
+>     Cheers,
+>
+>     Richard
+>
+>    =20
+>
 
-diff --git a/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch b/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
-new file mode 100644
-index 0000000000..cfe6e60f96
---- /dev/null
-+++ b/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
-@@ -0,0 +1,63 @@
-+From e0dbcee6e25b3c0cb11a627bbfe3af45ef67ec30 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <mingli.yu@windriver.com>
-+Date: Thu, 14 May 2020 15:23:16 +0800
-+Subject: [PATCH] bison: fix the parallel build
-+
-+Explicitly make the BUILT_SOURCES which
-+are the generated headers such as stdio.h,
-+fcntl.h and etc to be the dependencies of
-+the gl_LIBOBJS such as libbison_a-sprintf.o,
-+libbison_a-printf.o and etc to guarantee the
-+BUILT_SOURCES is generated before begin to
-+compile EXTRA_lib_libbison_a_SOURCES such as
-+fprintf.c in parallel builid, otherwise there
-+may come below error:
-+ | muscle-tab.c:(.text+0x77a): undefined reference to `rpl_sprintf'
-+
-+It does the same for src_bison_OBJECTS and
-+lib_libbison_a_OBJECTS to make sure BUILT_SOURCES
-+generated before begin to compile src_bison_SOURCES
-+which contains AnnotationList.c and etc.
-+
-+BTW, the MOSTLYCLEANFILES also contains the
-+generated header needs to be created early
-+in the build process, so add it also in to
-+avoid below error:
-+ | ./lib/uniwidth/width.c:21:10: fatal error: uniwidth.h: No such file or directory
-+
-+Upstream-Status: Submitted [https://lists.gnu.org/archive/html/bison-patches/2020-05/msg00055.html]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ lib/gnulib.mk | 2 ++
-+ src/local.mk  | 1 +
-+ 2 files changed, 3 insertions(+)
-+
-+diff --git a/lib/gnulib.mk b/lib/gnulib.mk
-+index c21c656..27fb3dc 100644
-+--- a/lib/gnulib.mk
-++++ b/lib/gnulib.mk
-+@@ -120,6 +120,8 @@ lib_libbison_a_SOURCES =
-+ lib_libbison_a_LIBADD = $(gl_LIBOBJS)
-+ lib_libbison_a_DEPENDENCIES = $(gl_LIBOBJS)
-+ EXTRA_lib_libbison_a_SOURCES =
-++$(lib_libbison_a_OBJECTS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
-++$(gl_LIBOBJS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
-+ 
-+ lib_libbison_a_CPPFLAGS = $(AM_CPPFLAGS) -DDEFAULT_TEXT_DOMAIN=\"bison-gnulib\"
-+ 
-+diff --git a/src/local.mk b/src/local.mk
-+index 61dc573..b5b9079 100644
-+--- a/src/local.mk
-++++ b/src/local.mk
-+@@ -24,6 +24,7 @@ if RELOCATABLE_VIA_LD
-+   src_bison_LDFLAGS = `$(RELOCATABLE_LDFLAGS) $(bindir)`
-+ endif
-+ 
-++$(src_bison_OBJECTS): $(BUILT_SOURCES) $(MOSTLYCLEANFILES:%.h)
-+ src_bison_CFLAGS = $(AM_CFLAGS) $(WERROR_CFLAGS)
-+ src_bison_SOURCES =                             \
-+   src/AnnotationList.c                          \
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/bison/bison_3.5.4.bb b/meta/recipes-devtools/bison/bison_3.5.4.bb
-index 59c34f7297..124bc41d3e 100644
---- a/meta/recipes-devtools/bison/bison_3.5.4.bb
-+++ b/meta/recipes-devtools/bison/bison_3.5.4.bb
-@@ -12,6 +12,7 @@ DEPENDS = "bison-native flex-native"
- SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
-            file://dont-depend-on-help2man.patch.patch \
-            file://add-with-bisonlocaledir.patch \
-+           file://0001-bison-fix-the-parallel-build.patch \
- "
- SRC_URI[sha256sum] = "4c17e99881978fa32c05933c5262457fa5b2b611668454f8dc2a695cd6b3720c"
- 
--- 
-2.24.1
+--=20
+Kai Kang
+Wind River Linux
 
+
+--------------CD311F2F45ED17E05EE15B50
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id 04F1qmm5023912
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-=
+8">
+  </head>
+  <body>
+    <div class=3D"moz-cite-prefix">On 2020/5/15 =E4=B8=8A=E5=8D=881:29, Al=
+exander Kanavin
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite"
+cite=3D"mid:CANNYZj-mE1Dw7yFom3oZ6U8-odD7UXsBhZjhbofy-1O2UYrZDQ@mail.gmail=
+.com">
+      <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUT=
+F-8">
+      <div dir=3D"ltr">
+        <div>Looking gcr's autotools and meson build files, gpg
+          executable is required in both. Gcr is needed only by
+          epiphany, so I don't think build performance will suffer much.</=
+div>
+      </div>
+    </blockquote>
+    <p>It seems gcr requires command gpg long long time ago(about 8
+      years). But I don't know why just exposed recently.</p>
+    <p><a
+href=3D"https://gitlab.gnome.org/GNOME/gcr/-/commit/c6691faa0348ab087e99ab=
+9bd9914e1d5e81fa14">https://gitlab.gnome.org/GNOME/gcr/-/commit/c6691faa034=
+8ab087e99ab9bd9914e1d5e81fa14</a></p>
+    <p>Regards,<br>
+      Kai<br>
+    </p>
+    <blockquote type=3D"cite"
+cite=3D"mid:CANNYZj-mE1Dw7yFom3oZ6U8-odD7UXsBhZjhbofy-1O2UYrZDQ@mail.gmail=
+.com">
+      <div dir=3D"ltr">
+        <div><br>
+        </div>
+        <div>Alex<br>
+        </div>
+      </div>
+      <br>
+      <div class=3D"gmail_quote">
+        <div dir=3D"ltr" class=3D"gmail_attr">On Thu, 14 May 2020 at 15:26=
+,
+          Richard Purdie &lt;<a
+            href=3D"mailto:richard.purdie@linuxfoundation.org"
+            moz-do-not-send=3D"true">richard.purdie@linuxfoundation.org</a=
+>&gt;
+          wrote:<br>
+        </div>
+        <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">O=
+n
+          Thu, 2020-05-14 at 09:59 +0800, kai wrote:<br>
+          &gt; On 2020/5/11 =E4=B8=8B=E5=8D=885:23, <a
+            href=3D"mailto:kai.kang@windriver.com" target=3D"_blank"
+            moz-do-not-send=3D"true">kai.kang@windriver.com</a> wrote:<br>
+          &gt; &gt; From: Kai Kang &lt;<a
+            href=3D"mailto:kai.kang@windriver.com" target=3D"_blank"
+            moz-do-not-send=3D"true">kai.kang@windriver.com</a>&gt;<br>
+          &gt; &gt; <br>
+          &gt; &gt; It fails to build gcr if no commmand gpg on build
+          host:<br>
+          &gt; &gt; <br>
+          &gt; &gt; &gt; meson.build:44:0: ERROR: Program(s) ['gpg2',
+          'gpg'] not found or<br>
+          &gt; &gt; &gt; not executable<br>
+          &gt; &gt; <br>
+          &gt; &gt; Add dependency gnupg-native to fix the error.<br>
+          &gt; &gt; <br>
+          &gt; &gt; Signed-off-by: Kai Kang &lt;<a
+            href=3D"mailto:kai.kang@windriver.com" target=3D"_blank"
+            moz-do-not-send=3D"true">kai.kang@windriver.com</a>&gt;<br>
+          &gt; &gt; ---<br>
+          &gt; &gt;=C2=A0 =C2=A0meta/recipes-gnome/gcr/<a
+            href=3D"http://gcr_3.36.0.bb" rel=3D"noreferrer" target=3D"_bl=
+ank"
+            moz-do-not-send=3D"true">gcr_3.36.0.bb</a> | 2 +-<br>
+          &gt; &gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion=
+(-)<br>
+          &gt; &gt; <br>
+          &gt; &gt; diff --git a/meta/recipes-gnome/gcr/<a
+            href=3D"http://gcr_3.36.0.bb" rel=3D"noreferrer" target=3D"_bl=
+ank"
+            moz-do-not-send=3D"true">gcr_3.36.0.bb</a> b/meta/recipes-<br>
+          &gt; &gt; gnome/gcr/<a href=3D"http://gcr_3.36.0.bb"
+            rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true">=
+gcr_3.36.0.bb</a><br>
+          &gt; &gt; index 4fe3b2fff3..458dc8e6c4 100644<br>
+          &gt; &gt; --- a/meta/recipes-gnome/gcr/<a
+            href=3D"http://gcr_3.36.0.bb" rel=3D"noreferrer" target=3D"_bl=
+ank"
+            moz-do-not-send=3D"true">gcr_3.36.0.bb</a><br>
+          &gt; &gt; +++ b/meta/recipes-gnome/gcr/<a
+            href=3D"http://gcr_3.36.0.bb" rel=3D"noreferrer" target=3D"_bl=
+ank"
+            moz-do-not-send=3D"true">gcr_3.36.0.bb</a><br>
+          &gt; &gt; @@ -8,7 +8,7 @@ BUGTRACKER =3D "<br>
+          &gt; &gt; <a href=3D"https://gitlab.gnome.org/GNOME/gcr/issues"
+            rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true">=
+https://gitlab.gnome.org/GNOME/gcr/issues</a>"<br>
+          &gt; &gt;=C2=A0 =C2=A0LICENSE =3D "GPLv2"<br>
+          &gt; &gt;=C2=A0 =C2=A0LIC_FILES_CHKSUM =3D<br>
+          &gt; &gt;
+          <a class=3D"moz-txt-link-rfc2396E" href=3D"file://COPYING;md5=3D=
+55ca817ccb7d5b5b66355690e9abc605">"file://COPYING;md5=3D55ca817ccb7d5b5b663=
+55690e9abc605"</a><br>
+          &gt; &gt;=C2=A0 =C2=A0<br>
+          &gt; &gt; -DEPENDS =3D "gtk+3 p11-kit glib-2.0 libgcrypt \<br>
+          &gt; &gt; +DEPENDS =3D "gtk+3 p11-kit glib-2.0 libgcrypt
+          gnupg-native \<br>
+          &gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${@bb.=
+utils.contains('GI_DATA_ENABLED',
+          'True',<br>
+          &gt; &gt; 'libxslt-native', '', d)}"<br>
+          &gt; &gt;=C2=A0 =C2=A0<br>
+          &gt; &gt;=C2=A0 =C2=A0GNOMEBASEBUILDCLASS =3D "meson"<br>
+          &gt; <br>
+          &gt; Any comment, please?<br>
+          <br>
+          Why did this happen? Was this as a result of the move to
+          meson? Is it<br>
+          really needed and can we avoid it? native dependencies like
+          this are a<br>
+          pain from a build performance perspective...<br>
+          <br>
+          Cheers,<br>
+          <br>
+          Richard<br>
+          <br>
+          <br>
+        </blockquote>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+Kai Kang
+Wind River Linux</pre>
+  </body>
+</html>
+
+--------------CD311F2F45ED17E05EE15B50--
