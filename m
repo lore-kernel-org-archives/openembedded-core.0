@@ -1,87 +1,66 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web11.10435.1589537701668107963
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com [209.85.167.193])
+ by mx.groups.io with SMTP id smtpd.web11.10452.1589537781744668492
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 May 2020 03:15:01 -0700
+ Fri, 15 May 2020 03:16:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: liezhi.yang@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 04FAExc7008187
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Fri, 15 May 2020 03:15:00 -0700 (PDT)
-Received: from [128.224.162.181] (128.224.162.181) by ALA-HCB.corp.ad.wrs.com
- (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Fri, 15 May 2020
- 03:14:40 -0700
-Subject: Re: [OE-core] [PATCH 1/1] archiver.bbclass: Fix for do_populate_sdk
-To: Paul Barker <pbarker@konsulko.com>
-CC: openembedded-core <openembedded-core@lists.openembedded.org>
-References: <cover.1589535009.git.liezhi.yang@windriver.com>
- <ab5e6c612d362589fa88a49fd36c4a0b1ecc1a37.1589535009.git.liezhi.yang@windriver.com>
- <CAM9ZRVtq0OLUR0GUjVPpTYqJ49PcxqoFjRcX2TpHrtsgk8CMVg@mail.gmail.com>
-From: "Robert Yang" <liezhi.yang@windriver.com>
-Message-ID: <2c00aa7d-c4f1-a978-186b-18329f73a639@windriver.com>
-Date: Fri, 15 May 2020 18:13:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+ dkim=pass header.i=@konsulko.com header.s=google header.b=Tqj1E6Hb;
+ spf=pass (domain: konsulko.com, ip: 209.85.167.193, mailfrom: paul.barker@konsulko.com)
+Received: by mail-oi1-f193.google.com with SMTP id p127so1701279oia.13
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 May 2020 03:16:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bqxhyE4oEDJWDVD73jxIY/Oq0CCPITxQGVm1z3KS73E=;
+        b=Tqj1E6HbI+Qubo/pWQGz2MlXZoQYRblWfma3HNk9bFRLX6VCltcqMXYxmKBRm/ctVa
+         XRie27bVB6TlnetUnCKMF5yo89E9s6X73LroG0aZEABmbCdUWmBinyt3gWZZiGwxHiCs
+         CQcfh/7KMZ3HpBKQYQKT/aqThdIPf2foKcmTo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bqxhyE4oEDJWDVD73jxIY/Oq0CCPITxQGVm1z3KS73E=;
+        b=FTmgG73uq4edm2FyMN2PyUvljB0NHwbz5munyy6LyqpB4sKTafYyz+NRA8kOr0aPPP
+         GUK4EKFunVTrHgWIxtcCYEpCyUsu6zsdE+09CwWP33gSM/XjJs2jyWw4FYApNFVqRh94
+         T7L6siLxwJ1LHBE9InSDaw3uPLzVwhUfPFvb50GFO52QY/dceEYL5aWmQa+dgnjRm756
+         xAMTG08Xjyd34eBs5jZLiQPF9qsMbMbN9oF/RL86zCkgcPqk2wMjEEzzNnTqYHEYS5vi
+         VuGtXxOEvT1oqmkwUAs8z6/tb9SDLgtGszGFJS/EFcgbwmih5W+gqzHVA3lPrEVwJjyq
+         Vlwg==
+X-Gm-Message-State: AOAM533fGOMkN/NkoF1x5IH3i7MfqV0WOFvGoKyaSXVAQ6gQmdKj3CE2
+	YSOf4HVx5sX7TliXy9xNg6r+LQCgI9/htHwydc5puQ==
+X-Google-Smtp-Source: ABdhPJxcjJqVcYyj9lmE6lIgdnO1qCzfA8kK87P5hDj4+ifSObeQuNYX/JprqN7a0llGePDnPqEh4CMsWSSIoXZVews=
+X-Received: by 2002:aca:ea46:: with SMTP id i67mr1456875oih.152.1589537781129;
+ Fri, 15 May 2020 03:16:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAM9ZRVtq0OLUR0GUjVPpTYqJ49PcxqoFjRcX2TpHrtsgk8CMVg@mail.gmail.com>
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id 04FAExc7008187
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+References: <cover.1589536566.git.liezhi.yang@windriver.com> <38eda2606c19cf817d09b35f1eb49d50170a52ae.1589536566.git.liezhi.yang@windriver.com>
+In-Reply-To: <38eda2606c19cf817d09b35f1eb49d50170a52ae.1589536566.git.liezhi.yang@windriver.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Fri, 15 May 2020 11:16:10 +0100
+Message-ID: <CAM9ZRVuv+aL55apdEvFeqrHx_Nq=CKA1EAk=QkfhC92+9UrSMw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] archiver.bbclass: Add ENABLE_COPYLEFT_FILTER to enable/disable copyleft_filter.bbclass
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, 15 May 2020 at 10:57, Robert Yang <liezhi.yang@windriver.com> wrote:
+>
+> Set it to 0 can make it archive all the used sources during the build, nothing
+> will be filtered out, this is useful when we want to archive all the sources.
+>
+> This equals to:
+> COPYLEFT_LICENSE_INCLUDE = "*"
+> COPYLEFT_LICENSE_EXCLUDE = ""
+>
+> But there are a lot of settings in copyleft_filter.bbclass, so it may not work
+> when its default settings are changed, add the var ENABLE_COPYLEFT_FILTER will
+> make it more reliable.
 
+Why would copyleft_filter.bbclass not work when the settings are
+changed? They're intended to be configurable.
 
-On 5/15/20 6:00 PM, Paul Barker wrote:
-> Robert,
->=20
-> I recommend we use the following patch instead as it's simpler:=20
-> https://lists.openembedded.org/g/openembedded-core/message/136168
+I've been using `COPYLEFT_LICENSE_INCLUDE = "*"` in several projects
+for years now. I'm not sure that we need another overlapping variable
+which could confuse users further.
 
-Yes, that looks better, then please ignore my patch.
-
-// Robert
-
->=20
-> Thanks,
-> Paul
->=20
-> On Fri, 15 May 2020 at 10:31, Robert Yang <liezhi.yang@windriver.com=20
-> <mailto:liezhi.yang@windriver.com>> wrote:
->=20
->     Fixed:
->     $ bitbake core-image-minimal -cpopulate_sdk
->=20
->     Check tmp-glibc/deploy/sources, no source is archived, this patch fi=
-xes the
->     problem.
->=20
->     Signed-off-by: Robert Yang <liezhi.yang@windriver.com
->     <mailto:liezhi.yang@windriver.com>>
->     ---
->      =C2=A0meta/classes/archiver.bbclass | 4 ++++
->      =C2=A01 file changed, 4 insertions(+)
->=20
->     diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.b=
-bclass
->     index 48b4913a9f..49f96bdce6 100644
->     --- a/meta/classes/archiver.bbclass
->     +++ b/meta/classes/archiver.bbclass
->     @@ -592,4 +592,8 @@ python () {
->      =C2=A0 =C2=A0 =C2=A0# gets added or removed (by adding or removing =
-archiver.bbclass).
->      =C2=A0 =C2=A0 =C2=A0if bb.data.inherits_class('kernel-yocto', d):
->      =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.build.addtask('do_kernel_confi=
-gme', 'do_configure',
->     'do_unpack_and_patch', d)
->     +
->     +=C2=A0 =C2=A0 # For populate_sdk
->     +=C2=A0 =C2=A0 if bb.data.inherits_class('image', d):
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.appendVarFlag('do_populate_sdk', 'rec=
-rdeptask', '
->     do_deploy_archives')
->      =C2=A0}
->     --=20
->     2.21.0
->=20
->    =20
->=20
+Thanks,
+Paul
