@@ -1,65 +1,72 @@
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.16726.1589558749691527269
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web10.20504.1589568838784859012
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 May 2020 09:05:50 -0700
+ Fri, 15 May 2020 11:53:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=i3fe2osW;
- spf=pass (domain: linaro.org, ip: 209.85.208.169, mailfrom: daniel.diaz@linaro.org)
-Received: by mail-lj1-f169.google.com with SMTP id l19so2800134lje.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 May 2020 09:05:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=uPAUg1hqRcRY5R6N+giZ/EdWLpEifRyjheSZH9bmjT8=;
-        b=i3fe2osWMy51Q58EjaC3CSaoBXxXn3+wH3c4jhJcdFbb0EQAjYibVs4CnCn0X0gSjj
-         COBQjig99lPsI6hSL82K+VpCvxnVmqd4AmYNTsS4A2iWYFYXUaiaGyN2Pk9RtDMikoP8
-         ZZfMT2bn1S8vW/mPQkmMLdH6KYKN+QJ0bA+K5IOJJmLn2FlMqV5oiQ66MmlIX/51WrL9
-         m73zrRiAKY1w+skmlGkTfR9LrHGgBKJnbO66RU2H5j3leVeR2+CoeX4PJcpa9UhCnaRk
-         tVIs6B1wkyaI2P35ZeDsFgbz/rO5z5gHo/Crc37xBdjqgySb1yUhH3jvwnCyxCrbDkJo
-         DYuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=uPAUg1hqRcRY5R6N+giZ/EdWLpEifRyjheSZH9bmjT8=;
-        b=AkspCjuKhsz5UNhTJp8nmF0Es5Mfi+S0NEd3B129Y+R4yN9T701f79Jgv4U2BO5m50
-         2xtYVIijELeJ/d94h3qKdvq6djN3kXeZFOwfe1XB3YS35Cz1BozwgcdXdjESMZaDuhVZ
-         8+s4OYGyvA9ugryyDVZMBfqQ2vCOjRANlACe7sMe1SJx9k0VqxqZiamMuZfH1PzaSjaU
-         T/n/tHZdUqE/YYhzbzmgXqwbw38d8LDak+Duv9rpR5x6x5TMoE4JOkR9eRjkTN1oRZb1
-         XqgHF2czcA+eQNeHpdXF7ioIcjTnJQxZWJecW+oDzbwthFBAZ+vlvXwdu1Q7f2veHMFr
-         MXrg==
-X-Gm-Message-State: AOAM531FagiDswS6pZdGtLIbrf7y8ErwFN//PlU/Tf3bZC32kQf4ZhO9
-	jDGbzpZXl8ckhTLdLgRB+Fqq6hExsrTExBxmT/Ifog==
-X-Google-Smtp-Source: ABdhPJyCFW8wuyPVAAtPpR6XFyr23wRHYDs/NEkcGl4iJ5cn6VgAH9xG0UuRa6EGtMD6wCEtCtrxq0klLp4e2dX2lkk=
-X-Received: by 2002:a2e:6c08:: with SMTP id h8mr2656036ljc.48.1589558747511;
- Fri, 15 May 2020 09:05:47 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 3152140AB5;
+	Fri, 15 May 2020 18:53:58 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id IUlpFQZeU_PH; Fri, 15 May 2020 18:53:58 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id EB33D40A9E;
+	Fri, 15 May 2020 18:53:54 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id B7CD417314B; Fri, 15 May 2020 14:53:54 -0400 (EDT)
+Date: Fri, 15 May 2020 14:53:54 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, jdmason@kudzu.us,
+	Khem Raj <raj.khem@gmail.com>
+Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
+Message-ID: <20200515185354.GE11927@denix.org>
+References: <20200514210458.33543-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-References: <f756b087-c3e3-3a47-171e-bc72421ff48a@balister.org>
-In-Reply-To: <f756b087-c3e3-3a47-171e-bc72421ff48a@balister.org>
-From: "Daniel D?az" <daniel.diaz@linaro.org>
-Date: Fri, 15 May 2020 11:05:36 -0500
-Message-ID: <CAEUSe783rDYWD6we-OLpU2=eM1HTJ0=zars+RJOBYW0c8NFveQ@mail.gmail.com>
-Subject: Re: [OE-core] OpenEmbedded Happy Hour
-To: Philip Balister <philip@balister.org>
-Cc: "openembedded-devel@lists.openembedded.org" <openembedded-devel@lists.openembedded.org>, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	"openembedded-members@lists.openembedded.org" <openembedded-members@lists.openembedded.org>, 
-	Yocto Project <yocto@yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200514210458.33543-1-JPEWhacker@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hello!
+I see Richard has merged these to master-next, thanks!
+And thanks Joshua for volunteering to maintain these recipes :)
+I submitted removal patches to meta-python.
 
-On Fri, 15 May 2020 at 10:56, Philip Balister <philip@balister.org> wrote:
-> I've made a wiki page to track these:
-> https://www.openembedded.org/wiki/Happy_Hours
-> Then next one is scheduled for 2100 UTC on May 27.
+So, it is good we are getting this extra dependency resolved in master. The 
+question is - can we get these backported to dunfell, does it qualify?
 
-Ah, just in time to watch live SpaceX's launch:
-https://blogs.nasa.gov/commercialcrew/
+Otherwise Jon wanted to finally branch off meta-arm into dunfell today and 
+we'll have to live with it until gatesgarth.
 
-Greetings!
+-- 
+Denys
 
-Daniel D=C3=ADaz
-daniel.diaz@linaro.org
+
+On Thu, May 14, 2020 at 04:04:54PM -0500, Joshua Watt wrote:
+> Imports and upgrades pycryptodome, pycryptodomex, and pyelftools from
+> meta-python.  These recipes are commonly used by other layers (e.g.
+> meta-arm) so putting them in oe-core reduces layer dependencies.
+> 
+> Joshua Watt (4):
+>   pycryptodome: Import from meta-python
+>   pyelftools: Import from meta-python
+>   python3-pycryptodome(x): Upgrade 3.9.4 -> 3.9.7
+>   python3-pyelftools: Upgrade 0.25 -> 0.26
+> 
+>  meta/conf/distro/include/maintainers.inc      |  5 +++-
+>  .../python/python-pycryptodome.inc            | 26 +++++++++++++++++++
+>  .../python/python3-pycryptodome_3.9.7.bb      |  5 ++++
+>  .../python/python3-pycryptodomex_3.9.7.bb     |  9 +++++++
+>  .../python/python3-pyelftools_0.26.bb         | 14 ++++++++++
+>  5 files changed, 58 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-devtools/python/python-pycryptodome.inc
+>  create mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.9.7.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-pycryptodomex_3.9.7.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-pyelftools_0.26.bb
+> 
+> -- 
+> 2.17.1
+> 
