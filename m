@@ -1,89 +1,56 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web12.4618.1589592130500732102
+Received: from mail.koansoftware.com (mail.koansoftware.com [178.79.174.16])
+ by mx.groups.io with SMTP id smtpd.web11.5804.1589639243793322124
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 May 2020 18:22:10 -0700
+ Sat, 16 May 2020 07:27:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=A0417UNf;
- spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: sakoman@gmail.com)
-Received: by mail-wr1-f66.google.com with SMTP id e16so5457798wra.7
-        for <openembedded-core@lists.openembedded.org>; Fri, 15 May 2020 18:22:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=TNAB6vJg7ImiyF97zXfnzvqwQUZdW3YJTfNKYsQjKkA=;
-        b=A0417UNfpGschD9l3QPHPpl1cOFErDiSCV0imM/Jt8900OykJFQvhyNxAZYUjgQ2Jt
-         i6EoX6AEd1rDT50QiCnpBcN0Fr0ge4uwQ343hwlSTZvPeEbIWKGcrmhzQ1GmJSK54DbO
-         pwQsPmh4OHtPuI5tJkgWtyR/N6LYeTY/7tRewMw6xRPSj7KYvfIpoBg3TxLdJYXyzUYG
-         s27778ng7211NjNS0kXPSjTjxnDPWXelwwOTkHvn+P5rirBHdihA+cxh7bfUWCnkrV/Q
-         WywNOwsRXsaKxY1TqMtNfdTHMTAjr7f/tdNexeZjsjaLgZhOQp9s0VJYeWvsm/CTCBCs
-         gKgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=TNAB6vJg7ImiyF97zXfnzvqwQUZdW3YJTfNKYsQjKkA=;
-        b=poPvw1hIjE+0p0xEB8X3+m2w4ibzVl3fC2w8njBelZjNV8MD6Og1C0BNQ56m1SDBMg
-         +FxdsJ21+hV7AyN+3qKAVMYmkY4lVin6mwTGccS6MTZ8cqbeSbg4KQ80zwsqmA0SnHFN
-         YhB/sx5wiZxElWXHc1+278BdFQl0OuY50tRWH2PE4aX6Fql+ego3Z0o5oyIRjxB30bex
-         m6CLZB1NX19F+YV45bzGj6EhUqMqz6G9RswQD575NVkh07kaxWfuQ4CsQ/2f0rOkIF1y
-         goo/y/OJPyCZuAyjdCioGe0S8qSpigh2kQB3iaext1cyWqBiV2oi14/fKu8z5E/5iyhl
-         +WhA==
-X-Gm-Message-State: AOAM530Y99PQ9fSy8a3VLb1lK2FT4+OPdtfUadgsu+6W9hzv98QDECdy
-	yYSxBFe8eWZCbINCQJfZMqknKMmMWueMWhVIc+Q=
-X-Google-Smtp-Source: ABdhPJxHU8QdWEM6vPMQbPzxgQgp+4GW+KvnZc0l562u2I+jjvfIt+XJPSQR/5YQ5ZcKN3Xv5AowVql9JsMXWMs/Gno=
-X-Received: by 2002:a05:6000:1ca:: with SMTP id t10mr7030535wrx.230.1589592128647;
- Fri, 15 May 2020 18:22:08 -0700 (PDT)
+ dkim=missing; spf=pass (domain: koansoftware.com, ip: 178.79.174.16, mailfrom: m.cavallini@koansoftware.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.koansoftware.com (Postfix) with ESMTP id 18BE43F71B;
+	Sat, 16 May 2020 16:27:22 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at mail
+Received: from mail.koansoftware.com ([127.0.0.1])
+	by localhost (mail.koansoftware.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id sNaNg1MtrCIt; Sat, 16 May 2020 16:27:20 +0200 (CEST)
+Reply-To: m.cavallini@koansoftware.com
+Subject: Re: OpenEmbedded Happy Hour
+To: Philip Balister <philip@balister.org>,
+ "openembedded-devel@lists.openembedded.org"
+ <openembedded-devel@lists.openembedded.org>,
+ openembedded-core <openembedded-core@lists.openembedded.org>,
+ "openembedded-members@lists.openembedded.org"
+ <openembedded-members@lists.openembedded.org>,
+ Yocto Project <yocto@yoctoproject.org>
+References: <f756b087-c3e3-3a47-171e-bc72421ff48a@balister.org>
+From: "Marco Cavallini [KOAN]" <m.cavallini@koansoftware.com>
+Organization: Koan sas - Bergamo - Italia
+Message-ID: <3eaeb926-20f3-d032-c0fa-25c1af92a235@koansoftware.com>
+Date: Sat, 16 May 2020 16:27:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200514210458.33543-1-JPEWhacker@gmail.com> <20200515185354.GE11927@denix.org>
- <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
-In-Reply-To: <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
-From: "Steve Sakoman" <sakoman@gmail.com>
-Date: Fri, 15 May 2020 15:21:57 -1000
-Message-ID: <CAGDS+n=_mqZeLFusTNV6s7EKNBDVdM589wAmcJ5qQH2BMn=MLw@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Denys Dmytriyenko <denis@denix.org>, Joshua Watt <jpewhacker@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, jdmason@kudzu.us, 
-	Khem Raj <raj.khem@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <f756b087-c3e3-3a47-171e-bc72421ff48a@balister.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: it-IT
 
-On Fri, May 15, 2020 at 9:06 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On 15/05/20 17:56, Philip Balister wrote:
+> I've made a wiki page to track these:
 >
-> On Fri, 2020-05-15 at 14:53 -0400, Denys Dmytriyenko wrote:
-> > I see Richard has merged these to master-next, thanks!
-> > And thanks Joshua for volunteering to maintain these recipes :)
-> > I submitted removal patches to meta-python.
-> >
-> > So, it is good we are getting this extra dependency resolved in master. The
-> > question is - can we get these backported to dunfell, does it qualify?
-> >
-> > Otherwise Jon wanted to finally branch off meta-arm into dunfell today and
-> > we'll have to live with it until gatesgarth.
+> https://www.openembedded.org/wiki/Happy_Hours
 >
-> I put them into -next so we could test them, see if the autobuilder had
-> any surprises. Good news is there weren't any.
+> Then next one is scheduled for 2100 UTC on May 27. This is late evening
+> for Europe and morning for New Zealand, so hopefully we see some
+> different faces. The meeting info is on the wiki page.
 >
-> The question still remains whether this is the best approach or not and
-> some people I talked to were not convinced that a consensus had been
-> reached.
+> There is no set agenda, so bring some projects to talk about with the
+> community.
 >
-> The question I guess is how widely used is optee and does it warrant
-> adding this? Its a little ironic the thing people want is trusted-
-> firmware...
+>
+> Philip
+>
 
-I'm seeing a few votes of "yes for dunfell" and no opposition as yet
-(at least here on the list).
+https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+May+27&iso=20200527T21&p1=%3A&ah=1
 
-I support the desire to get rid of a meta-python dependency in bsp
-layers so I'm also a yes vote unless someone comes up with a good
-reason why we shouldn't.
+--
+Marco
 
-Steve
-
-> Cheers,
->
-> Richard
->
-> 
