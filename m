@@ -1,148 +1,84 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
- by mx.groups.io with SMTP id smtpd.web11.7491.1589644727348081837
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com [209.85.216.66])
+ by mx.groups.io with SMTP id smtpd.web10.7370.1589644727882253577
  for <openembedded-core@lists.openembedded.org>;
  Sat, 16 May 2020 08:58:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pkFRF45+;
- spf=pass (domain: gmail.com, ip: 209.85.214.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f195.google.com with SMTP id t16so2209409plo.7
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=gl4+JVeY;
+ spf=pass (domain: gmail.com, ip: 209.85.216.66, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f66.google.com with SMTP id ms17so2472793pjb.0
         for <openembedded-core@lists.openembedded.org>; Sat, 16 May 2020 08:58:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=atK1G4oe5U6ZKD+IeyIlrS5zq8kch7ONmkGS/2x1iW4=;
-        b=pkFRF45+CLIpnqBii2xTqtTwj7S1TgBD8sGD847NqYnivm1T36TE8vMxdyjxMX+RGm
-         nwsq6l5B4Y48nD7WKi7IaMHCAk0d8Ufp9U3jPTm6abScb9XaYwIq08fOLL1/ojwInRP/
-         2LWxIoUzTJNZyJJmtX6JQ6/J1g2mYm87PgspnIN7qu/X9SinVqUxiGpGGwubgzOLWXKZ
-         HhS8edHuqwl4/THun8WpbVmCDUDHh8LspDYX1og4QmyThC61W7ybydCwcgEzhPD1Q2P+
-         rfwzvAPjZ/Y8ZL9X/GLg5fq0z+XiU0kjNLV4QxIba2toI1TeCykjGjD4yO36S33egNxw
-         Y4Aw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=4bZd4eKvv9O8TiL0Ku/zEB4K3mQbYSd0zvrt7UAuSp4=;
+        b=gl4+JVeYbvErR2XLtlhqUp9RUUsGrYwvQdzYDOrs7QWsKrbflrQd/Pao5Krpwr+h0Y
+         Aqlnn2ObDjcimV3QKAV29A6Tf7sr+O3KKgvnG+GVmPH6b3iQQyWZopYt5kqQ9VeJ8Tpd
+         keYC8pEDLqEjthtd9mFQ1hOVZq3H1wFZzewvyiV0n93IeiG4SUJRB0IGmQy9HfVY/3yF
+         2PhFU05Ew6+wVHh4WSauv65P2HJpQNEVOQpl0BzK/NfIY1LbtN0+fTU3WB9bYK38wFub
+         SZ37JQGjyF97ynYvp/M0/9B0yHVLcFZf8lbRJzLNftf/eSRdUL3+7yQDHpnmO+Ged3vR
+         5MyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=atK1G4oe5U6ZKD+IeyIlrS5zq8kch7ONmkGS/2x1iW4=;
-        b=nu2OQdYXsrHHBluvWSC7F+ctgImBHoxezHjybXnMZUtb5r2RGd+V+/0N4AxYofJmXI
-         rDKa2zra3MwNRu6zu9lx8fd3Z8R7z9QAe0DBufZ6v8Zx2GQxO1GMiQ7EYYwhn9qJOG1V
-         9o8x/wMS6f2QuHUXNa2poSh03VRDe/35xnUI0RSayJ3UG9p3P9gFdij1HFQYoXSsnBUE
-         u1/wCYKMiF7rZf/tcepJ5P5aLe3qfm79QS92+BI2N2t95jvHZCbJQzB5bLFF9RQMLmMn
-         RGu7eEEYuv7lUDntKMvZJdttlyQRP+0a905DOskMzvBft2uzA6lDkbV18AH/loISB1Rl
-         8rkg==
-X-Gm-Message-State: AOAM533nZVpZjqmPW/VJAO6gGz5k0ceTjZ0OSwEG+9s/yPzX3R6adfW7
-	+5g0nrQWlRptbG6sRnI8yEA7HFzC1kI=
-X-Google-Smtp-Source: ABdhPJzm7BYfTIpn1jEWk3nB/UbnlyWgDD57qLREOTtBC+6VNBlCZ3QPIHw6vLdZo/8RyX7doHl0fw==
-X-Received: by 2002:a17:902:e78c:: with SMTP id cp12mr6316095plb.135.1589644726405;
-        Sat, 16 May 2020 08:58:46 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=4bZd4eKvv9O8TiL0Ku/zEB4K3mQbYSd0zvrt7UAuSp4=;
+        b=rdpegLCGoxm4XLsYTwrAKjnkCxoQ5I23bog/NuXWVgtBb/6U+88J/1qlAVIoHnZFeN
+         OtmxTzWGC2TFqFoxM5aZ2Yhz0NGDB1vosb4OmUQvkrgltd8723dre6MUvIm6T4O+KywF
+         W+R2o9T/ehDIqErLmufEGwF8Twh6Opj9RxSS9BgdgrSbLH8uGO6ey+8+NDu4P1ZInXp7
+         5WV6ARajjWoEMjQQICKHjIeiwzcaHAgN5D91renkryYquXh+P2qwq45Xk+4GzXqBxqCI
+         iSPSXqtHM+2FILgBXU71Zu4demwX9S2SUk4TT4+Re+7LG8uGJAAg/wItFJfQkzfp9TU5
+         iFgQ==
+X-Gm-Message-State: AOAM530MAWErVC8giJI6QtWFJmNmi+rxX7GgoFN6cnPqT/FoyDErrNmP
+	JhczeDdMQYvAgKtYhwyzV2iYUvjPdTg=
+X-Google-Smtp-Source: ABdhPJzZS5+E/Xeu+dq4cHDLWH0eOGa0DdglNT/lr7pYLWQae7LUnwzHQ9SfhwOQMyYOlG+uekeILg==
+X-Received: by 2002:a17:90a:1b67:: with SMTP id q94mr9625598pjq.84.1589644727140;
+        Sat, 16 May 2020 08:58:47 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e62a])
-        by smtp.gmail.com with ESMTPSA id jz3sm4202003pjb.40.2020.05.16.08.58.45
+        by smtp.gmail.com with ESMTPSA id jz3sm4202003pjb.40.2020.05.16.08.58.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 May 2020 08:58:45 -0700 (PDT)
+        Sat, 16 May 2020 08:58:46 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/6] glibc: Unify wordsize.h for arm and aarch64
-Date: Sat, 16 May 2020 08:58:38 -0700
-Message-Id: <20200516155843.1811017-1-raj.khem@gmail.com>
+Subject: [PATCH 2/6] glibc: Do not synthesize wordsize.h for arm multilibs
+Date: Sat, 16 May 2020 08:58:39 -0700
+Message-Id: <20200516155843.1811017-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200516155843.1811017-1-raj.khem@gmail.com>
+References: <20200516155843.1811017-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Should help simplify multilib in arm world
+This has been constant source of trouble, because it is fundamental file
+which sets machine word length and everything else builts on top of that
+so when it is sythesized like this, where the sythesize template itself
+needs wordsize.h to determine machine word length, it creates the
+catch-22 problem, which is seen when building things like bpf, or
+running clang-tidy etc. where compiler internal defines may not be used
+this ends up in all sorts of problems. Now that glibc provides exact
+same header for arm and aarch64, its no longer needed to be multilibbed
+here
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...y-the-header-between-arm-and-aarch64.patch | 67 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.31.bb         |  1 +
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0030-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
+ meta/recipes-core/glibc/glibc-package.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glibc/glibc/0030-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch b/meta/recipes-core/glibc/glibc/0030-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
-new file mode 100644
-index 0000000000..cbef2f2830
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0030-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch
-@@ -0,0 +1,67 @@
-+From 9cb0a756b017f5961b70ac781d3eaec6c82513cb Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 15 May 2020 17:05:45 -0700
-+Subject: [PATCH] wordsize.h: Unify the header between arm and aarch64
-+
-+This helps OE multilibs to not sythesize this header which causes all
-+kind of recursions and other issues since wordsize is fundamental header
-+and ends up including itself in many case e.g. clang tidy, bpf etc.
-+
-+Upstream-Status: Inappropriate [ OE-Specific ]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ sysdeps/aarch64/bits/wordsize.h          | 8 ++++++--
-+ sysdeps/{aarch64 => arm}/bits/wordsize.h | 8 ++++++--
-+ 2 files changed, 12 insertions(+), 4 deletions(-)
-+ copy sysdeps/{aarch64 => arm}/bits/wordsize.h (85%)
-+
-+diff --git a/sysdeps/aarch64/bits/wordsize.h b/sysdeps/aarch64/bits/wordsize.h
-+index ee01841773..34fcdef1f1 100644
-+--- a/sysdeps/aarch64/bits/wordsize.h
-++++ b/sysdeps/aarch64/bits/wordsize.h
-+@@ -17,12 +17,16 @@
-+    License along with the GNU C Library; if not, see
-+    <https://www.gnu.org/licenses/>.  */
-+ 
-+-#ifdef __LP64__
-++#if defined (__aarch64__) && defined (__LP64__)
-+ # define __WORDSIZE			64
-+-#else
-++#elif defined (__aarch64__)
-+ # define __WORDSIZE			32
-+ # define __WORDSIZE32_SIZE_ULONG	1
-+ # define __WORDSIZE32_PTRDIFF_LONG	1
-++#else
-++# define __WORDSIZE			32
-++# define __WORDSIZE32_SIZE_ULONG	0
-++# define __WORDSIZE32_PTRDIFF_LONG	0
-+ #endif
-+ 
-+ #define __WORDSIZE_TIME64_COMPAT32	0
-+diff --git a/sysdeps/aarch64/bits/wordsize.h b/sysdeps/arm/bits/wordsize.h
-+similarity index 85%
-+copy from sysdeps/aarch64/bits/wordsize.h
-+copy to sysdeps/arm/bits/wordsize.h
-+index ee01841773..34fcdef1f1 100644
-+--- a/sysdeps/aarch64/bits/wordsize.h
-++++ b/sysdeps/arm/bits/wordsize.h
-+@@ -17,12 +17,16 @@
-+    License along with the GNU C Library; if not, see
-+    <https://www.gnu.org/licenses/>.  */
-+ 
-+-#ifdef __LP64__
-++#if defined (__aarch64__) && defined (__LP64__)
-+ # define __WORDSIZE			64
-+-#else
-++#elif defined (__aarch64__)
-+ # define __WORDSIZE			32
-+ # define __WORDSIZE32_SIZE_ULONG	1
-+ # define __WORDSIZE32_PTRDIFF_LONG	1
-++#else
-++# define __WORDSIZE			32
-++# define __WORDSIZE32_SIZE_ULONG	0
-++# define __WORDSIZE32_PTRDIFF_LONG	0
-+ #endif
-+ 
-+ #define __WORDSIZE_TIME64_COMPAT32	0
-diff --git a/meta/recipes-core/glibc/glibc_2.31.bb b/meta/recipes-core/glibc/glibc_2.31.bb
-index 2032311b27..61679e2c1c 100644
---- a/meta/recipes-core/glibc/glibc_2.31.bb
-+++ b/meta/recipes-core/glibc/glibc_2.31.bb
-@@ -40,6 +40,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0027-intl-Emit-no-lines-in-bison-generated-files.patch \
-            file://0028-inject-file-assembly-directives.patch \
-            file://0029-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
-+           file://0030-wordsize.h-Unify-the-header-between-arm-and-aarch64.patch \
-            "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 3e92ce0629..ff25fd4187 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -152,7 +152,7 @@ do_install_append_armeb () {
+ }
+ 
+ do_install_armmultilib () {
+-	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h bits/wordsize.h
++	oe_multilib_header bits/endian.h bits/fcntl.h bits/fenv.h bits/fp-fast.h bits/hwcap.h bits/ipc.h bits/link.h
+ 	oe_multilib_header bits/local_lim.h bits/mman.h bits/msq.h bits/pthreadtypes.h bits/pthreadtypes-arch.h  bits/sem.h  bits/semaphore.h bits/setjmp.h
+ 	oe_multilib_header bits/shm.h bits/sigstack.h bits/stat.h bits/statfs.h bits/typesizes.h
+ 	oe_multilib_header bits/procfs-id.h bits/procfs.h bits/shmlba.h
 -- 
 2.26.2
 
