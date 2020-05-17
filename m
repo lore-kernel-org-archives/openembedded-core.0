@@ -1,102 +1,122 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web12.21806.1589721558043929924
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web11.22377.1589721772133291877
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 May 2020 06:19:18 -0700
+ Sun, 17 May 2020 06:22:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YIIgA4n+;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f68.google.com with SMTP id y3so8693223wrt.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 06:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=LyJM06FoUM7/JZYwTpkpuiLcA6L287sLBcZwuXOIZYg=;
-        b=YIIgA4n+jw38HUp2ZDCoYq7Au3q9jl7c2to+eP2dwLVMe0Izzz1WhOpp8T7pj7vlTm
-         evGvcVtoV5JS3fID+/XFdSKB9og7hkdUeTOy3hOMiPe4Lkd44Xf4tkAtSRatis64hlFv
-         UtNT5PWw79k0bduhZyoHb2O8ADkqJwuoP0Few=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=LyJM06FoUM7/JZYwTpkpuiLcA6L287sLBcZwuXOIZYg=;
-        b=i0pgCYthyOghANOBlbXYS4fwIj/xcpr62rYiuLhHIp9avzj2VLDgJP7/y8NkwKe+Rm
-         h+/QAG6wLs2WyLQLqGQbjmRNrHj9CHf7amBtAcOp1Nx80HSvF8D4k58luUxMNJtI8NVg
-         LF19iQT3mCiwVsajq5xQZcGC7uEYLvJGSGbRCuhh3Z3oai00ObpVyOItFfB60zSZiq4+
-         gmkdhqGdA3OUUm4STr5l70zGXBgS3vxDY+grVsV7h0c5bvkird8bMg2nq3BiaEp/rB03
-         DuBZzqLrIAxjKuYfpyS99wcEtZsw0spZ5PbmcZM1pBlWCMye74FkQ0v3Co7xxFWw5mfa
-         4N6A==
-X-Gm-Message-State: AOAM531sA6cahrkSZIkdvBe5tUgHDD1EhtZtDs5fF0zUOfdzWiYzOMAi
-	tcCOG5OKMP/RW9E5W1X/PZPJ7g==
-X-Google-Smtp-Source: ABdhPJzKFIXLIDhUruSAZY0yiS1rdyf6jkM4caJzcIV/L8oRqna57w1HBdEi58w36AJZb2Q59nXhtQ==
-X-Received: by 2002:adf:f783:: with SMTP id q3mr14227564wrp.348.1589721556391;
-        Sun, 17 May 2020 06:19:16 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id b18sm11751939wrn.82.2020.05.17.06.19.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 17 May 2020 06:19:15 -0700 (PDT)
-Message-ID: <40db772827bd9b923d3604a76413a159dba61575.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/4] lttng-tools: upgrade to 2.12.0
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Ovidiu Panait <ovidiu.panait@windriver.com>, 
-	openembedded-core@lists.openembedded.org, Jonathan Rajotte
-	 <jonathan.rajotte-julien@efficios.com>
-Date: Sun, 17 May 2020 14:19:14 +0100
-In-Reply-To: <160FD1B38339CE5B.23434@lists.openembedded.org>
-References: <20200515121106.27860-1-ovidiu.panait@windriver.com>
-	 <20200515121106.27860-3-ovidiu.panait@windriver.com>
-	 <160FD1B38339CE5B.23434@lists.openembedded.org>
-User-Agent: Evolution 3.36.1-2 
+ dkim=pass header.i=@stusta.de header.s=default header.b=hOEnIgbd;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=5ztw=67=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49Q2rR0qLJz1n;
+	Sun, 17 May 2020 15:22:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1589721770;
+	bh=TVSNjdIrrxSwbLQwjecm+LElQ2hhHc2COx3biFD3L4o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hOEnIgbdKfAKpwkPH3Af14/KMGa17L/RJvPn9f0jNTII/tC4DeqgkmqMIjwp3BFmC
+	 Tc9iMRYmlMLcu215ST1wIW0UJp+HChZKhWpbdY3wIzdmPWLMoWc//Uorp0DqQrZTbu
+	 +CTxApfjtlYvwXzGJvkUkrAP/41PsN8zC+4sIHfXtfizPAknILsQOCHV5JCWQPShGw
+	 AxBaJD71n4EmkSRag++SkfUhgtNw3iolf3+ZsjfZI4b9YtpAPMcM7KU2Xkxh6MYnvp
+	 xWSTyOl3+abvGmZSaMFAuxJDz4ysXbnKbovvyLXGhIvH6l3fi1AW6h9++v15ENqbiW
+	 SSZbsDArFfrRDOQlwk0Vn97+Ss6P8hzfqz5wabzeAgXjWTpKr27dA4o1kllmleihPF
+	 YVwQ/nwu4SIGXcmj6Y/rVAgrbs+Kh3jZSMXHjGrZGW2XXX4QMczn0rluL45QVvB3zD
+	 b+JGbsNj/IrOGYWmUfMNGyND5UUNWfX8QJB8qY/88GQo0rakQLFWQZ1Tv0rmLs7O4U
+	 OiZlfmnI3namADzDLisSDCPUfK5DoRYamuXQdDmjC1qy9xG5caYoKpnfqID8FC3vck
+	 Tapnrx3I5ztMCTjzpD1Xr87coLr4qKdR0iKE47pTzkRhIRH68rqr0cxpYGVEGhyr2+
+	 PYi+3JTrQleJAyXBBD4czsm4=
+Date: Sun, 17 May 2020 16:22:45 +0300
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	Steve Sakoman <sakoman@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Denys Dmytriyenko <denis@denix.org>,
+	Joshua Watt <jpewhacker@gmail.com>,
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>,
+	"jdmason@kudzu.us" <jdmason@kudzu.us>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
+Message-ID: <20200517132245.GA9940@localhost>
+References: <20200514210458.33543-1-JPEWhacker@gmail.com>
+ <20200515185354.GE11927@denix.org>
+ <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
+ <CAGDS+n=_mqZeLFusTNV6s7EKNBDVdM589wAmcJ5qQH2BMn=MLw@mail.gmail.com>
+ <20200516174702.GA22042@localhost>
+ <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
+ <20200516200957.GA8056@localhost>
+ <CAHtQpK4AH08zQ6dx1OWjCR6WwAmrLHNZuz0O1O9WqUnBHNk2Pg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <CAHtQpK4AH08zQ6dx1OWjCR6WwAmrLHNZuz0O1O9WqUnBHNk2Pg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Sun, 2020-05-17 at 13:49 +0100, Richard Purdie via lists.openembedded.org wrote:
-> On Fri, 2020-05-15 at 15:11 +0300, Ovidiu Panait wrote:
-> > Upgrade lttng-tools 2.11.2 -> 2.12.0:
-> > * drop x32 patch, as it was merged upstream
-> > * License-Update: licenses were moved under LICENSES directory and changed in
-> >   upstream commit [1]
-> > 
-> > [1] https://github.com/lttng/lttng-tools/commit/ab5be9fa2eb5ba9600a82cd18fd3cfcbac69169a
-> > 
-> > Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-> > ---
-> >  .../lttng/lttng-tools/x32.patch               | 36 -------------------
-> >  ...-tools_2.11.2.bb => lttng-tools_2.12.0.bb} | 11 +++---
-> >  2 files changed, 5 insertions(+), 42 deletions(-)
-> >  delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/x32.patch
-> >  rename meta/recipes-kernel/lttng/{lttng-tools_2.11.2.bb => lttng-tools_2.12.0.bb} (94%)
+On Sat, May 16, 2020 at 10:24:04PM +0200, Andrey Zhizhikin wrote:
+> On Sat, May 16, 2020 at 10:10 PM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > On Sat, May 16, 2020 at 07:54:32PM +0000, Peter Kjellerstedt wrote:
+> > > >
+> > > > meta-openembedded/meta-python has a higher layer priority than OE-core.
+> > > >
+> > > > Adding higher upstream versions of these recipes to a lower-priority
+> > > > layer in a stable series is a potential source for weird problems.
+> > >
+> > > I would assume they'd be removed from meta-python at the same time
+> > > they are added to meta.
+> >
+> > "at the same time" is complicated since OE-core has releases,
+> > but meta-openembedded is just a branch.
+> >
+> > I would also assume that not all users of stable series are updating
+> > meta-openembedded to the latest on the dunfell branch at the same
+> > time as OE-core, some users might end up updating one but never
+> > updating the other one.
 > 
-> Fails on musl:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1913
-> 
-> In file included from ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:14,
->                  from ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.c:10:
-> ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:17:10: error: unknown type name 'ino_t'; did you mean 'int8_t'?
->    17 |  TP_ARGS(ino_t, ns_ino),
->       |          ^~~~~
-> ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:17:10: error: unknown type name 'ino_t'; did you mean 'int8_t'?
->    17 |  TP_ARGS(ino_t, ns_ino),
->       |          ^~~~~
-> ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/./tp.h:17:2: error: unknown type name 'ino_t'; did you mean 'int8_t'?
->    17 |  TP_ARGS(ino_t, ns_ino),
->       |  ^~~~~~~
-> ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/./tp.h:17:2: error: unknown type name 'ino_t'; did you mean 'int8_t'?
->    17 |  TP_ARGS(ino_t, ns_ino),
->       |  ^~~~~~~
+> That I believe would be a terrible mistake when people opt-in to take
+> a layer, but never care about updating it... :(
 
-and:
+The typical Yocto user starts with whatever prehistoric Yocto release 
+came with the BSP distribution for the reference hardware, and then 
+develops a new product on top of that.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/938
-https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/1907
+I would not be surprised if someone will have the initial Yocto 2.7
+release, but uses the latest from the corresponding  meta-openembedded 
+branch on top.
 
-will abort the build as this is going to appear everywhere.
+> On the contrary, a quick run of "bitbake-layers show-overlayed"
+> exhibits the following on the [master] of both OE-Core and
 
-Cheers,
+Thanks a lot for this.
 
-Richard
+> meta-openembedded:
+> =================
+> python3-cython:
+>   meta-python          0.29.14
+>   meta                 0.29.16
+> python3-dbusmock:
+>   meta-python          0.16.7
+>   meta                 0.19
+> python3-docutils:
+>   meta-python          0.15.2
+>   meta                 0.16
+> python3-pyparsing:
+>   meta-python          2.4.6
+>   meta                 2.4.7
+> =================
 
+I'll take care of getting these removed from meta-openembedded.
 
+> Judging be versions, it looks like OE-Core recipes are maintained, but
+> in meta-openembedded they are left on the side...
+
+python3-docutils is ouch, since this problem is also in dunfell.
+
+On a more positive note 0.16 is already in OE-core in the initial
+Yocto 3.1 release, so removing it from meta-openembedded will only
+be like a 0.15.2 -> 0.16 upgrade for some users but cannot result
+in losing the recipe in weird layer combinations.
+
+> Regards,
+> Andrey.
+
+cu
+Adrian
