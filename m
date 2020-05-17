@@ -1,129 +1,225 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.15290.1589673639881289252
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
+ by mx.groups.io with SMTP id smtpd.web10.16187.1589677556083143667
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 May 2020 17:00:40 -0700
+ Sat, 16 May 2020 18:05:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TXqjkjOS;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id e10so5385961edq.0;
-        Sat, 16 May 2020 17:00:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cykApckb;
+ spf=pass (domain: gmail.com, ip: 209.85.167.65, mailfrom: aehs29@gmail.com)
+Received: by mail-lf1-f65.google.com with SMTP id a9so4944441lfb.8
+        for <openembedded-core@lists.openembedded.org>; Sat, 16 May 2020 18:05:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=KxUwGa3D4o/62A1PwPjTHf36XwpbPEpimqfDiiJt+LM=;
-        b=TXqjkjOSDjWbe7jF2DVnIAG2zA7AMiy4y+wUhwiri4TTHgD/PCV/MmVhk8I3ELAGkI
-         Lg/vB1YsFZ4dOp96rSv6a5zTs9ks8FkimWFeGYEX4m7PvakRcEcK9E3h4/Go9kMVGpnG
-         uAbmZpTa3LOV5uWu9+1Kg6SrCvm/QGXMDqVhJ/DpyomiYe+rlaZwCVt5TkDGkUYGxg/4
-         Ov7gHLLEH8fC+IA+X/S7GNl63bONJi5cU/sjlY/4EiDiqjz4wdCoEtFSxWMSdoSm/RoA
-         7r9SbFtAbxcZj8/PeuAQccU8stB9uomByc2FgyTZdFWIJ9mYe0vqc1ySGdZ8pj/jxtzT
-         URZA==
+        bh=vrMjrMwFyWRug7XSrH/Ba+Rohh8X6s+LFWMykcK3SnA=;
+        b=cykApckbFOXDPw4UR10zcy9wdLJlK0A+0RFi84dHUxhvyoV463pSkT5GvimjMLsCDV
+         55rogKAU1p0L06FmPu2HnT5QzLJhoA3b1U3aXU9IldUuTa6K3rWdl9nMjKJRGYngDz/4
+         biyr0eKurDLM+fpyE0Q2maQmLOHzE4by2nuRaBVNLxhMCAC8ndsMg3oIRCAfZ8Ue5GIa
+         EM/lv4GYzhWOgsC4Pi/GURRX0JnO3PUmWByYW0nwKveduTpmjeysZ+F2qOaUueDXGKlC
+         ZROeOJ9fT67ZQ2F1rhxYlv8y3Gw0hs7in0ZP9U93pKKKq6ECwoHrM62iUJOjJX1kn+Tn
+         kX1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=KxUwGa3D4o/62A1PwPjTHf36XwpbPEpimqfDiiJt+LM=;
-        b=oyz+xDHgz1OxBWfsOTvgdLCHR9IXY55XKTgr61GaP6j4pL3cGh32X7kW3zD9cteVg8
-         CMujDDfF75MYobA3du6u3EVmbPu+zzysWi/aCRsuf+9hxC1BM6wQC0U5kjRCiTJadj+p
-         306IxqTWS0pWFMIUcXx+JqETLYQ1eH+ARqcJdgL3UAgRb4+HZtwfincqhGFN7ak6fOed
-         OslwCHLto+/SsIm8mez6Rk8NpE3RXYIW30g+sRwT09SR+IGm4Tqk4NBN1z1/Ypau0XMT
-         YvnZltlo4S/ABK1eQ0wDwncgA8b1L4l9/Eh1W/IETh5luNXl4J6bNu++tf9H0aKKNcHV
-         zPeQ==
-X-Gm-Message-State: AOAM5303LUudfao/JOBvTeXgfwWS71hBWbcJIWPdmbuUOQGDXZ0FalE2
-	g8hZ4AJ4eMNBkmBCOwU5hQkUpI7W31xWGe5rjDo=
-X-Google-Smtp-Source: ABdhPJz/gg80aUypPLjngQ2650IyWutc6PNawDOFwnmqOo1OdWBUG63n0P/0r2yVELypsXJg4LJ515LPvgR9oD/2mnY=
-X-Received: by 2002:aa7:c312:: with SMTP id l18mr191412edq.161.1589673638381;
- Sat, 16 May 2020 17:00:38 -0700 (PDT)
+        bh=vrMjrMwFyWRug7XSrH/Ba+Rohh8X6s+LFWMykcK3SnA=;
+        b=YBbALR0tWS+PLWqv821eX+avxUR/fpHL3/5KA7jEpyxsVpKCaMjZ5jagICgkKWD5xh
+         ntAh7hUyFUvHRz5JprwMKuskUiUPh+Viodpy23l0PrYU+/tXH2gjgir1rxX+ifWQMGed
+         Qbuge+EJZfDtpSDJltS++/G/0zd8EWFgxkJUd6kVvVVldVRXIBo+NSgm4Cvk3hYBWO3e
+         /0Ftnw1thgjFGsyHh7x7fs/t553JY6qEhIlDLtp/3b4AUnXRqcEaJg5YBx7a8rdc6z/D
+         nqtdK6kjy7b9jBVrcC7u+06IQweXR7Cf68E8rtsVixvP8pUm289qt4xUVpqBWq5FkR5i
+         E3qQ==
+X-Gm-Message-State: AOAM530kI8dDjWuPdjwP43cju+BDI4ecZkoP4alosK7I+PoWrKFX2Flq
+	TB6a4YEWI5qAO6bwG5tUlC7gNHQ4rGgFN4miHNI=
+X-Google-Smtp-Source: ABdhPJxCeH+8G+cVOGEXzRDN1Q+pLP5tydYICEQGqQtP+2zGX3m4+qAu99xvfA3T9kX+VQsFpwndCCf/6vPK3gygYGU=
+X-Received: by 2002:a19:2358:: with SMTP id j85mr6408213lfj.182.1589677554214;
+ Sat, 16 May 2020 18:05:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <f756b087-c3e3-3a47-171e-bc72421ff48a@balister.org> <3eaeb926-20f3-d032-c0fa-25c1af92a235@koansoftware.com>
-In-Reply-To: <3eaeb926-20f3-d032-c0fa-25c1af92a235@koansoftware.com>
-From: "Ankur Tyagi" <ankur.tyagi85@gmail.com>
-Date: Sun, 17 May 2020 12:02:26 +1200
-Message-ID: <CADySD0HZEAHjQZcfXJYL0L+33VTj9HOiATJwOT2ysiBy8Th=4w@mail.gmail.com>
-Subject: Re: [oe] OpenEmbedded Happy Hour
-To: m.cavallini@koansoftware.com
-Cc: Philip Balister <philip@balister.org>, openembedded-devel@lists.openembedded.org, 
-	openembedded-core <openembedded-core@lists.openembedded.org>, 
-	"openembedded-members@lists.openembedded.org" <openembedded-members@lists.openembedded.org>, 
-	Yocto Project <yocto@yoctoproject.org>
-Content-Type: multipart/alternative; boundary="000000000000864e0805a5ccbc59"
+References: <20200514210458.33543-1-JPEWhacker@gmail.com> <20200515185354.GE11927@denix.org>
+ <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
+ <faff3240-ecfa-2f3a-4601-a7ad41952b99@gmail.com> <d8d2af4f-9fa6-d27c-41fd-6d214012736d@gmail.com>
+In-Reply-To: <d8d2af4f-9fa6-d27c-41fd-6d214012736d@gmail.com>
+From: "Alejandro Hernandez" <alejandro@enedino.org>
+Date: Sat, 16 May 2020 19:05:41 -0600
+Message-ID: <CAHMutrarBehDLv_L1qB9emm7YRw8Wt6VsXEgP3YKJACBy9RzsA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Joshua Watt <jpewhacker@gmail.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Denys Dmytriyenko <denis@denix.org>, 
+	openembedded-core@lists.openembedded.org, jdmason@kudzu.us
+Content-Type: multipart/alternative; boundary="000000000000ed2b4c05a5cda520"
 
---000000000000864e0805a5ccbc59
+--000000000000ed2b4c05a5cda520
 Content-Type: text/plain; charset="UTF-8"
 
-See you all from down under !
+On Fri, May 15, 2020, 1:32 PM Khem Raj <raj.khem@gmail.com> wrote:
 
-Cheers
-Ankur
+>
+>
+> On 5/15/20 12:12 PM, Joshua Watt wrote:
+> >
+> > On 5/15/20 2:05 PM, Richard Purdie wrote:
+> >> On Fri, 2020-05-15 at 14:53 -0400, Denys Dmytriyenko wrote:
+> >>> I see Richard has merged these to master-next, thanks!
+> >>> And thanks Joshua for volunteering to maintain these recipes :)
+> >>> I submitted removal patches to meta-python.
+> >>>
+> >>> So, it is good we are getting this extra dependency resolved in
+> >>> master. The
+> >>> question is - can we get these backported to dunfell, does it qualify?
+> >>>
+> >>> Otherwise Jon wanted to finally branch off meta-arm into dunfell
+> >>> today and
+> >>> we'll have to live with it until gatesgarth.
+> >> I put them into -next so we could test them, see if the autobuilder had
+> >> any surprises. Good news is there weren't any.
+> >>
+> >> The question still remains whether this is the best approach or not and
+> >> some people I talked to were not convinced that a consensus had been
+> >> reached.
+> >>
+> >> The question I guess is how widely used is optee and does it warrant
+> >> adding this? Its a little ironic the thing people want is trusted-
+> >> firmware...
+> >
+> > FWIW, after having gone through the exercise of pulling in TF-A into
+> > qemuarm64, I think I've been convinced that op-tee and TF-A belong
+> > together since they are sometimes tightly integrated together (something
+> > I didn't realize before). As such, having both in the same layer makes
+> > sense. Even if TF-A was in oe-core, you'd probably want op-tee also,
+> > which means the python modules would have to be there anyway. I think we
+> > can still have the discussion about moving the whole lot over there, but
+> > we don't need to do that now, and moving the python recipes at least
+> > cuts out the meta-python dependency.
+> >
+> > My last concern was testing of optee, since there was no platform that
+> > could build it by default, but I fixed that by implemented support for a
+> > qemuarm64-based machine that's defined in meta-arm which uses TF-A +
+> > optee + u-boot and can successful boot using TF-A and passes the op-tee
+> > unit tests, so I don't have any concern about that anymore.
+> >
+>
+> I think getting oe-core qemuarm64 boot with uboot+TF-A as an option
+> sounds good, and if thats more common solution that armv8 devices are
+> following then perhaps would make sense to have this tested in core too.
+> But I guess that can be ironed out. As such python deps I think are good
+> for dunfell too, we have to ensure meta-python removal happens in
+> dunfell as well.
+>
 
-On Sun, May 17, 2020, 2:27 AM Marco Cavallini [KOAN] <
-m.cavallini@koansoftware.com> wrote:
++1 on keeping testing this in core as the end goal, I also agree that this
+would qualify for the Dunfell changes in both oe-core and meta-python since
+its the first step in that direction
 
-> On 15/05/20 17:56, Philip Balister wrote:
-> > I've made a wiki page to track these:
-> >
-> > https://www.openembedded.org/wiki/Happy_Hours
-> >
-> > Then next one is scheduled for 2100 UTC on May 27. This is late evening
-> > for Europe and morning for New Zealand, so hopefully we see some
-> > different faces. The meeting info is on the wiki page.
-> >
-> > There is no set agenda, so bring some projects to talk about with the
-> > community.
-> >
-> >
-> > Philip
-> >
->
->
-> https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+May+27&iso=20200527T21&p1=%3A&ah=1
->
-> --
-> Marco
->
+Alejandro
+
+
+> >>
+> >> Cheers,
+> >>
+> >> Richard
+> >>
 > 
 >
 
---000000000000864e0805a5ccbc59
+--000000000000ed2b4c05a5cda520
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">See you all from down under !<div dir=3D"auto"><br></div>=
-<div dir=3D"auto">Cheers</div><div dir=3D"auto">Ankur</div></div><br><div c=
-lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, May 17, =
-2020, 2:27 AM Marco Cavallini [KOAN] &lt;<a href=3D"mailto:m.cavallini@koan=
-software.com">m.cavallini@koansoftware.com</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">On 15/05/20 17:56, Philip Balister wrote:<br>
-&gt; I&#39;ve made a wiki page to track these:<br>
-&gt;<br>
-&gt; <a href=3D"https://www.openembedded.org/wiki/Happy_Hours" rel=3D"nore=
-ferrer noreferrer" target=3D"_blank">https://www.openembedded.org/wiki/Happ=
-y_Hours</a><br>
-&gt;<br>
-&gt; Then next one is scheduled for 2100 UTC on May 27. This is late eveni=
-ng<br>
-&gt; for Europe and morning for New Zealand, so hopefully we see some<br>
-&gt; different faces. The meeting info is on the wiki page.<br>
-&gt;<br>
-&gt; There is no set agenda, so bring some projects to talk about with the=
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Fri, May 15, 2020, 1:32 PM Khem Raj &lt;<a href=3D"=
+mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex"><br>
 <br>
-&gt; community.<br>
-&gt;<br>
-&gt;<br>
-&gt; Philip<br>
-&gt;<br>
+On 5/15/20 12:12 PM, Joshua Watt wrote:<br>
+&gt; <br>
+&gt; On 5/15/20 2:05 PM, Richard Purdie wrote:<br>
+&gt;&gt; On Fri, 2020-05-15 at 14:53 -0400, Denys Dmytriyenko wrote:<br>
+&gt;&gt;&gt; I see Richard has merged these to master-next, thanks!<br>
+&gt;&gt;&gt; And thanks Joshua for volunteering to maintain these recipes =
+:)<br>
+&gt;&gt;&gt; I submitted removal patches to meta-python.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; So, it is good we are getting this extra dependency resolved =
+in <br>
+&gt;&gt;&gt; master. The<br>
+&gt;&gt;&gt; question is - can we get these backported to dunfell, does it=
+ qualify?<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Otherwise Jon wanted to finally branch off meta-arm into dunf=
+ell <br>
+&gt;&gt;&gt; today and<br>
+&gt;&gt;&gt; we&#39;ll have to live with it until gatesgarth.<br>
+&gt;&gt; I put them into -next so we could test them, see if the autobuild=
+er had<br>
+&gt;&gt; any surprises. Good news is there weren&#39;t any.<br>
+&gt;&gt;<br>
+&gt;&gt; The question still remains whether this is the best approach or n=
+ot and<br>
+&gt;&gt; some people I talked to were not convinced that a consensus had b=
+een<br>
+&gt;&gt; reached.<br>
+&gt;&gt;<br>
+&gt;&gt; The question I guess is how widely used is optee and does it warr=
+ant<br>
+&gt;&gt; adding this? Its a little ironic the thing people want is trusted=
+-<br>
+&gt;&gt; firmware...<br>
+&gt; <br>
+&gt; FWIW, after having gone through the exercise of pulling in TF-A into =
 <br>
-<a href=3D"https://www.timeanddate.com/worldclock/fixedtime.html?msg=3DOpe=
-nEmbedded+Happy+Hour+May+27&amp;iso=3D20200527T21&amp;p1=3D%3A&amp;ah=3D1" =
-rel=3D"noreferrer noreferrer" target=3D"_blank">https://www.timeanddate.com=
-/worldclock/fixedtime.html?msg=3DOpenEmbedded+Happy+Hour+May+27&amp;iso=3D2=
-0200527T21&amp;p1=3D%3A&amp;ah=3D1</a><br>
+&gt; qemuarm64, I think I&#39;ve been convinced that op-tee and TF-A belon=
+g <br>
+&gt; together since they are sometimes tightly integrated together (someth=
+ing <br>
+&gt; I didn&#39;t realize before). As such, having both in the same layer =
+makes <br>
+&gt; sense. Even if TF-A was in oe-core, you&#39;d probably want op-tee al=
+so, <br>
+&gt; which means the python modules would have to be there anyway. I think=
+ we <br>
+&gt; can still have the discussion about moving the whole lot over there, =
+but <br>
+&gt; we don&#39;t need to do that now, and moving the python recipes at le=
+ast <br>
+&gt; cuts out the meta-python dependency.<br>
+&gt; <br>
+&gt; My last concern was testing of optee, since there was no platform tha=
+t <br>
+&gt; could build it by default, but I fixed that by implemented support fo=
+r a <br>
+&gt; qemuarm64-based machine that&#39;s defined in meta-arm which uses TF-=
+A + <br>
+&gt; optee + u-boot and can successful boot using TF-A and passes the op-t=
+ee <br>
+&gt; unit tests, so I don&#39;t have any concern about that anymore.<br>
+&gt; <br>
 <br>
---<br>
-Marco<br>
+I think getting oe-core qemuarm64 boot with uboot+TF-A as an option <br>
+sounds good, and if thats more common solution that armv8 devices are <br>
+following then perhaps would make sense to have this tested in core too. <=
+br>
+But I guess that can be ironed out. As such python deps I think are good <=
+br>
+for dunfell too, we have to ensure meta-python removal happens in <br>
+dunfell as well.<br></blockquote></div></div><div dir=3D"auto"><br></div><=
+div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+</blockquote></div></div><div dir=3D"auto">+1 on keeping testing this in co=
+re as the end goal, I also agree that this would qualify for the Dunfell ch=
+anges in both oe-core and meta-python since its the first step in that dire=
+ction</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alejandro</div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">
 <br>
+&gt;&gt;<br>
+&gt;&gt; Cheers,<br>
+&gt;&gt;<br>
+&gt;&gt; Richard<br>
+&gt;&gt;<br>
 <br>
-</blockquote></div>
+</blockquote></div></div></div>
 
---000000000000864e0805a5ccbc59--
+--000000000000ed2b4c05a5cda520--
