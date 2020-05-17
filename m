@@ -1,48 +1,59 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
- by mx.groups.io with SMTP id smtpd.web10.32810.1589758140012460779
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
+ by mx.groups.io with SMTP id smtpd.web11.32950.1589758740932012715
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 May 2020 16:29:00 -0700
+ Sun, 17 May 2020 16:39:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VVzOZ3Pu;
- spf=pass (domain: gmail.com, ip: 209.85.214.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f195.google.com with SMTP id m7so3457024plt.5
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 16:28:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=X10ImzkH;
+ spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f196.google.com with SMTP id f4so3952936pgi.10
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 16:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:organization:message-id:date
-         :user-agent:mime-version:in-reply-to;
-        bh=U287simCWue5MYtH/Vx0QwNi62DtY/KbLqJR8cfQuA0=;
-        b=VVzOZ3PufdmU/lQvmBA6mHeRnU18PCIKw7kWyigOlMW/WZuboo6JXv2u6NfB6IQg9N
-         xjTpO+OQPgbqt+igooNkzm3qkXrrX8rO5N15FRPsE5HNGrVUly6vhesBYsMY9RiNvXvs
-         MpgFMkZEMRQ4UlXek7Iy48VU9eCYS7pF5jn5XaFe0ZP4Ks2BDT4mHmy4oZSsPaDP7tKN
-         XefI36hSipFkA5AsL3pZeDF4AuKmvYu9QqmT6v7dphMQoaj5ccckaXqdil/Trb95cSfz
-         h8q5puuIZv1bTFcMQ3jWcTom7eKgolsnM3xg3RBokMGlfCYUlMnNu8QY4ljzgl2s8GYH
-         /Ktw==
+        h=to:cc:references:from:autocrypt:organization:subject:message-id
+         :date:user-agent:mime-version:in-reply-to;
+        bh=6KU7qC1+paaHwTsu5yX/xybG/gkGzA5jA0yL+cIkkIw=;
+        b=X10ImzkHkH7x2ewqn1Ypi1E1F0ZUVy91TaVoYQU9lzxf7FyVdS7gD7Go+KqITAeDe6
+         0Pm4IHJ5vQz950HCg1IQfXUvODpKNITaBlqm2uMZ9Rq7NY0qfVYuV0Oxz709Swtr3A3N
+         6pWY9JmhX4netWqgSCfO0pK0XIXooBa9e1k1RKTYCY/1kbxl0IFlEPTxG+Ve0YS9bjnD
+         4sdZlAj0U9Hjcr4NGa8g/tirSme3i/sPMeE7T63pmG/HkViUPI/2wA8V5SstKd0gStVW
+         jrhFmRtzwP3693vtCCX/B8wfMei9ItUFgw7TNIA6HhQ0iagi+lLzDaR7S8fQ6cHiRvg3
+         3vVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt
-         :organization:message-id:date:user-agent:mime-version:in-reply-to;
-        bh=U287simCWue5MYtH/Vx0QwNi62DtY/KbLqJR8cfQuA0=;
-        b=BEo+edKMAl5KXc8/uc6UqDbTsKAASiLwtlR4FJZmklHV51fdXrU1i8KmExo2iZEPdq
-         jE9C5hNu07tRHwCAaurRIuKWtaCm2CisuxbgHCa/q4Erg9hDvy/I9HwyVqRCU60sG0oa
-         wLvgfp9ea+Jw9r4ANiPNk9fdT826GjTqU40Qw4BdPraARp+CGIKw30e3psKIyXXOZVxb
-         VpDPzB9xYvIsr13K22iVNcf58ODlHTrMguvQOGF2VEvAr5VmDOX0O0tU/AqxVX8qIIqB
-         q1uq2N2iRUgQKJzJ0pYUZW/tohdj0ytkOXc4xelQiEFIkJQVskhEtscozgz1S1FAV5S1
-         fAPA==
-X-Gm-Message-State: AOAM531OWv0MdmfdMvOvRTVBoNkJ7jPNm9a0jfwlyzhqlmfd0AWDk98P
-	ts4AaprfApH2nK8BiqT6dcBBFeRcx0k=
-X-Google-Smtp-Source: ABdhPJwlx90mTkUG6x7a14AAAR4I4WAWvoT+phKuUy3uCfvghxSwk+ZsbmkplM2Tbh1WnASByuWnYg==
-X-Received: by 2002:a17:902:ab98:: with SMTP id f24mr6864845plr.6.1589758138718;
-        Sun, 17 May 2020 16:28:58 -0700 (PDT)
+        h=x-gm-message-state:to:cc:references:from:autocrypt:organization
+         :subject:message-id:date:user-agent:mime-version:in-reply-to;
+        bh=6KU7qC1+paaHwTsu5yX/xybG/gkGzA5jA0yL+cIkkIw=;
+        b=B+SaYF7D6Q+VWmz+uInogb06JphS6jc+kfXjLFOoQJXvDK4trNhF+gZ7EjZm6QUQzO
+         QK5aF7s8o9/9rtSqWSdkqzME5VvP8i08KvGBMskFQ/So1QoR5++4lA0EbOHMVFX85yGd
+         ErogwvdqiLxixYryJKDJV2oExsfm6Tt8BBDNgiX84yeVhOtKlSBrxdpf5P0PtpbkiFbI
+         3J8JLc9MlGro+q9BuzqylEmFCDgSCKU7/NMd0S+I58NLW7ynDco2KIenv56eoNyoar7C
+         Gs646lENv56U4PeJF1FDSKGenu85+FOIOiaEyuAMhxmqpzjyAFT/w/t1wSzwLCyM+1ZB
+         DPpg==
+X-Gm-Message-State: AOAM533GADadvWSr2KphG1AoKBfnzZWXT5o8pD3BM7Z7SmNZCSRUHUXj
+	LeBzbz5BMKp5yz2dFbrkO2k=
+X-Google-Smtp-Source: ABdhPJzaRGqkw8imMx+nTfCJABrj3/CUW4KfInFqpW3WnEVfLP7BqcbMLZTq0ghIS3qr4a1yu2fs/g==
+X-Received: by 2002:a63:d650:: with SMTP id d16mr12453435pgj.90.1589758740353;
+        Sun, 17 May 2020 16:39:00 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::2264? ([2601:646:9200:4e0::2264])
-        by smtp.gmail.com with ESMTPSA id m188sm7095303pfd.67.2020.05.17.16.28.57
-        for <openembedded-core@lists.openembedded.org>
+        by smtp.gmail.com with ESMTPSA id x13sm1570217pjr.20.2020.05.17.16.38.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 May 2020 16:28:58 -0700 (PDT)
-Subject: Re: [OE-core][PATCH] gcc: Remove mudflap remnants
-To: openembedded-core@lists.openembedded.org
-References: <20200517125952.25245-1-bunk@stusta.de>
+        Sun, 17 May 2020 16:38:59 -0700 (PDT)
+To: Adrian Bunk <bunk@stusta.de>,
+ Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Steve Sakoman <sakoman@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Denys Dmytriyenko <denis@denix.org>, Joshua Watt <jpewhacker@gmail.com>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+ "jdmason@kudzu.us" <jdmason@kudzu.us>
+References: <20200514210458.33543-1-JPEWhacker@gmail.com>
+ <20200515185354.GE11927@denix.org>
+ <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
+ <CAGDS+n=_mqZeLFusTNV6s7EKNBDVdM589wAmcJ5qQH2BMn=MLw@mail.gmail.com>
+ <20200516174702.GA22042@localhost>
+ <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
+ <20200516200957.GA8056@localhost>
 From: "Khem Raj" <raj.khem@gmail.com>
 Autocrypt: addr=raj.khem@gmail.com; keydata=
  mQGiBEqXaJERBACUvFofpD3FsxD9675wcPv+rzguIfsRWilrrpSZ61JHjLHwkUnmDLpLSdfv
@@ -77,133 +88,107 @@ Autocrypt: addr=raj.khem@gmail.com; keydata=
  XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiiEkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
  VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
 Organization: HIMVIS LLC
-Message-ID: <e2be2ff5-3cbb-303f-74b6-c84b5edcba32@gmail.com>
-Date: Sun, 17 May 2020 16:28:46 -0700
+Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
+Message-ID: <37d4502f-bd17-38cd-6abc-c327fe295def@gmail.com>
+Date: Sun, 17 May 2020 16:38:51 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200517125952.25245-1-bunk@stusta.de>
-X-Groupsio-MsgNum: 138386
+In-Reply-To: <20200516200957.GA8056@localhost>
+X-Groupsio-MsgNum: 138387
 Content-Type: multipart/signed; micalg=pgp-sha1;
  protocol="application/pgp-signature";
- boundary="9FJp5yuSnybZKdIdwmhCQSIazfihdlBuy"
+ boundary="4P8h4yTBgODdZvLZfxtbYikTOzKuMNq1k"
 
---9FJp5yuSnybZKdIdwmhCQSIazfihdlBuy
-Content-Type: multipart/mixed; boundary="wsjwBh44pMufdVfJTwvUjs5LEMFSkODAx";
+--4P8h4yTBgODdZvLZfxtbYikTOzKuMNq1k
+Content-Type: multipart/mixed; boundary="LoQvwJHpVScQIICxRGvJ8rSGuW8Mqjkdh";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <e2be2ff5-3cbb-303f-74b6-c84b5edcba32@gmail.com>
-Subject: Re: [OE-core][PATCH] gcc: Remove mudflap remnants
-References: <20200517125952.25245-1-bunk@stusta.de>
-In-Reply-To: <20200517125952.25245-1-bunk@stusta.de>
+To: Adrian Bunk <bunk@stusta.de>,
+ Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: Steve Sakoman <sakoman@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Denys Dmytriyenko <denis@denix.org>, Joshua Watt <jpewhacker@gmail.com>,
+ Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+ "jdmason@kudzu.us" <jdmason@kudzu.us>
+Message-ID: <37d4502f-bd17-38cd-6abc-c327fe295def@gmail.com>
+Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
+References: <20200514210458.33543-1-JPEWhacker@gmail.com>
+ <20200515185354.GE11927@denix.org>
+ <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
+ <CAGDS+n=_mqZeLFusTNV6s7EKNBDVdM589wAmcJ5qQH2BMn=MLw@mail.gmail.com>
+ <20200516174702.GA22042@localhost>
+ <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
+ <20200516200957.GA8056@localhost>
+In-Reply-To: <20200516200957.GA8056@localhost>
 
---wsjwBh44pMufdVfJTwvUjs5LEMFSkODAx
+--LoQvwJHpVScQIICxRGvJ8rSGuW8Mqjkdh
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 5/17/20 5:59 AM, Adrian Bunk wrote:
-> mudflap was removed in gcc 4.9.
+On 5/16/20 1:09 PM, Adrian Bunk wrote:
+> On Sat, May 16, 2020 at 07:54:32PM +0000, Peter Kjellerstedt wrote:
+>>>
+>>> meta-openembedded/meta-python has a higher layer priority than OE-cor=
+e.
+>>>
+>>> Adding higher upstream versions of these recipes to a lower-priority
+>>> layer in a stable series is a potential source for weird problems.
+>>
+>> I would assume they'd be removed from meta-python at the same time=20
+>> they are added to meta.
+>=20
+> "at the same time" is complicated since OE-core has releases,
+> but meta-openembedded is just a branch.
 >=20
 
-This looks ok.
+You bring an interesting point. while the oe-core release tags are
+driven by Yocto release cadence which has point release schedules,
+OE-Core in itself does not have its release mechanism besides creating
+and maintaining the branch. because oe-core independently is just a repo
+you will need bitbake repo atleast to build something and bitbake has
+its own release cadence.
 
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> ---
->  meta/recipes-devtools/gcc/gcc-10.1.inc    |  2 --
->  meta/recipes-devtools/gcc/gcc-runtime.inc | 15 ---------------
->  2 files changed, 17 deletions(-)
+> I would also assume that not all users of stable series are updating
+> meta-openembedded to the latest on the dunfell branch at the same
+> time as OE-core, some users might end up updating one but never
+> updating the other one.
+
+Thats very likely, although not preferred, most of products just freeze
+these layers and do tweaking in their own layers because they have
+control over them, where as they dont have much control over the
+upstream layers. Its common with all third party and OSS projects.
+
+So, if someone is basing their distro on oe-core + bitbake + meta-oe and
+more then I would think they should be aware of these kind of changes
+but I also think this could create some unexpected behaviour. Ideally
+these recipes should be updated in meta-python to latest and same moved
+to oe-core, then the move does not have to be atomic.
+
 >=20
-> diff --git a/meta/recipes-devtools/gcc/gcc-10.1.inc b/meta/recipes-devto=
-ols/gcc/gcc-10.1.inc
-> index 041d426187..a3de91a2c6 100644
-> --- a/meta/recipes-devtools/gcc/gcc-10.1.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-10.1.inc
-> @@ -87,7 +87,6 @@ EXTRA_OECONF_BASE =3D "\
->      ${SSP} \
->      --enable-libitm \
->      --disable-bootstrap \
-> -    --disable-libmudflap \
->      --with-system-zlib \
->      ${@'--with-linker-hash-style=3D${LINKER_HASH_STYLE}' if '${LINKER_H=
-ASH_STYLE}' else ''} \
->      --enable-linker-build-id \
-> @@ -99,7 +98,6 @@ EXTRA_OECONF_BASE =3D "\
->  "
->  
->  EXTRA_OECONF_INITIAL =3D "\
-> -    --disable-libmudflap \
->      --disable-libgomp \
->      --disable-libitm \
->      --disable-libquadmath \
-> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-de=
-vtools/gcc/gcc-runtime.inc
-> index e12c74613f..df1432e68d 100644
-> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-> @@ -47,7 +47,6 @@ RUNTIMETARGET =3D "${RUNTIMELIBSSP} libstdc++-v3 libgo=
-mp libatomic ${RUNTIMELIBITM
->  RUNTIMETARGET_libc-newlib =3D "libstdc++-v3"
->  
->  # libiberty
-> -# libmudflap
->  # libgfortran needs separate recipe due to libquadmath dependency
->  
->  SLIB =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
-> @@ -167,9 +166,6 @@ PACKAGES =3D "\
->      libssp \
->      libssp-dev \
->      libssp-staticdev \
-> -    libmudflap \
-> -    libmudflap-dev \
-> -    libmudflap-staticdev \
->      libquadmath \
->      libquadmath-dev \
->      libquadmath-staticdev \
-> @@ -242,17 +238,6 @@ SUMMARY_libquadmath-dev =3D "GNU quad-precision mat=
-h library - development files"
->  FILES_libquadmath-staticdev =3D "${libdir}/libquadmath.a"
->  SUMMARY_libquadmath-staticdev =3D "GNU quad-precision math library - st=
-atic development files"
->  
-> -# NOTE: mudflap has been removed as of gcc 4.9 and has been superseded =
-by the address sanitiser
-> -FILES_libmudflap =3D "${libdir}/libmudflap*.so.*"
-> -SUMMARY_libmudflap =3D "Pointer debugging library for gcc"
-> -FILES_libmudflap-dev =3D "\
-> -    ${libdir}/libmudflap*.so \
-> -    ${libdir}/libmudflap.la \
-> -"
-> -SUMMARY_libmudflap-dev =3D "Pointer debugging library for gcc - develop=
-ment files"
-> -FILES_libmudflap-staticdev =3D "${libdir}/libmudflap.a"
-> -SUMMARY_libmudflap-staticdev =3D "Pointer debugging library for gcc - s=
-tatic development files"
-> -
->  FILES_libgomp =3D "${libdir}/libgomp*${SOLIBS}"
->  SUMMARY_libgomp =3D "GNU OpenMP parallel programming library"
->  FILES_libgomp-dev =3D "\
+>> //Peter
 >=20
->=20
->=20
+> cu
+> Adrian
 >=20
 
 
---wsjwBh44pMufdVfJTwvUjs5LEMFSkODAx--
+--LoQvwJHpVScQIICxRGvJ8rSGuW8Mqjkdh--
 
---9FJp5yuSnybZKdIdwmhCQSIazfihdlBuy
+--4P8h4yTBgODdZvLZfxtbYikTOzKuMNq1k
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXsHIswAKCRC7BTNVkZ0z
-FAX0AJsGDD27dVFwAS06UrQz+JQvRjBa6QCgh+3HFqyhCEfAN3RFZwxHg5+6Bgk=
-=Tn3I
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXsHLCwAKCRC7BTNVkZ0z
+FKUPAKCPU/0qf+lK3sqRHgGK7beK1VI24wCfXZOjF77K0ccU3jqsLSHI8kQzx+o=
+=FX8i
 -----END PGP SIGNATURE-----
 
---9FJp5yuSnybZKdIdwmhCQSIazfihdlBuy--
+--4P8h4yTBgODdZvLZfxtbYikTOzKuMNq1k--
