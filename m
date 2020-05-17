@@ -1,106 +1,129 @@
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
- by mx.groups.io with SMTP id smtpd.web12.14466.1589670917667526935
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.web11.15290.1589673639881289252
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 May 2020 16:15:17 -0700
+ Sat, 16 May 2020 17:00:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Djynrr7Q;
- spf=pass (domain: gmail.com, ip: 209.85.217.68, mailfrom: armccurdy@gmail.com)
-Received: by mail-vs1-f68.google.com with SMTP id l15so1549878vsr.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 16 May 2020 16:15:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TXqjkjOS;
+ spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-ed1-f49.google.com with SMTP id e10so5385961edq.0;
+        Sat, 16 May 2020 17:00:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=SavTU1S7/xkJerFdqfGDzZdoMdTBnnXP20hdJ30zcCU=;
-        b=Djynrr7QfS3v5KmsHgap7+1B30NMUZt6GTKAtKNvLFpzQff9tN1zYfCO6H/ffJjpEK
-         r3/8aL6fMav9Co5vj8C4fre9PfSoJRrjuO8/aLL21sLoD+B+zYG1eWXTsszXgNqAIanW
-         DKpNe6tyZeE0iLF2x3KGozwDZf1OOpKjRxaMSgHLer8ZGSzYIPHGsO/JlM6X9t/QF/wO
-         09WuG/7ntY64BISqz8SgDkLuphLeCLzXxTHdgkZWgTkUmTp3rbAtY11d3Os0bPzvMK98
-         y+yZ4qVclCdLrHjrraXjLSozDEVPltqfyTAg3H5F1VU2wst3B3yGa0LKuIkPA4r/5/+P
-         4eQg==
+        bh=KxUwGa3D4o/62A1PwPjTHf36XwpbPEpimqfDiiJt+LM=;
+        b=TXqjkjOSDjWbe7jF2DVnIAG2zA7AMiy4y+wUhwiri4TTHgD/PCV/MmVhk8I3ELAGkI
+         Lg/vB1YsFZ4dOp96rSv6a5zTs9ks8FkimWFeGYEX4m7PvakRcEcK9E3h4/Go9kMVGpnG
+         uAbmZpTa3LOV5uWu9+1Kg6SrCvm/QGXMDqVhJ/DpyomiYe+rlaZwCVt5TkDGkUYGxg/4
+         Ov7gHLLEH8fC+IA+X/S7GNl63bONJi5cU/sjlY/4EiDiqjz4wdCoEtFSxWMSdoSm/RoA
+         7r9SbFtAbxcZj8/PeuAQccU8stB9uomByc2FgyTZdFWIJ9mYe0vqc1ySGdZ8pj/jxtzT
+         URZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=SavTU1S7/xkJerFdqfGDzZdoMdTBnnXP20hdJ30zcCU=;
-        b=Dy8qtVUiyMThcQM+UxKvYLTS++na0fFwaGnweM8LwXUCA2GxuaqUd1quI/Ec39TQ/3
-         1rWD9n3d4T6jWseTO/PlFw5afsEP9dNX9U7WS11DGLI0PMIwyn8gWmGuDchKZkNCwLVJ
-         D9tDC5qjiohbLTy7hKg93N9c9DJZYSmn/Fgkp9xbKpVw6UwQVCRuj6XbnyIHLrhiPX7p
-         IiqHlPkEkaQl9ONwAoueU12KLfWbXe1AneLvByufg1W+JG6d79VmBGxlxE/FUV2Ewr2I
-         FeRxjVOFPM6WkgpVnOYifsqDeJRtWoJRdHxY8D5HGje2nufZg+Rexlg8DQeRjvx5q0y3
-         b12g==
-X-Gm-Message-State: AOAM531thBaja0KQApj4jdcQbfljB2uHTbgmfG4S1JaY8EsC8lWw3Rno
-	7tlBLFyOVxaw4etCHgcBgO6RwS6/lKbJ5/vM2y0=
-X-Google-Smtp-Source: ABdhPJxwh++lOCAxOMjzTYxnED930puiknqhP9ToBdCcCdeNynyCrLmJ4nlYaV9GwQes/laBVvEKionRlV3zKUvNdBU=
-X-Received: by 2002:a67:f356:: with SMTP id p22mr3000031vsm.130.1589670916765;
- Sat, 16 May 2020 16:15:16 -0700 (PDT)
+        bh=KxUwGa3D4o/62A1PwPjTHf36XwpbPEpimqfDiiJt+LM=;
+        b=oyz+xDHgz1OxBWfsOTvgdLCHR9IXY55XKTgr61GaP6j4pL3cGh32X7kW3zD9cteVg8
+         CMujDDfF75MYobA3du6u3EVmbPu+zzysWi/aCRsuf+9hxC1BM6wQC0U5kjRCiTJadj+p
+         306IxqTWS0pWFMIUcXx+JqETLYQ1eH+ARqcJdgL3UAgRb4+HZtwfincqhGFN7ak6fOed
+         OslwCHLto+/SsIm8mez6Rk8NpE3RXYIW30g+sRwT09SR+IGm4Tqk4NBN1z1/Ypau0XMT
+         YvnZltlo4S/ABK1eQ0wDwncgA8b1L4l9/Eh1W/IETh5luNXl4J6bNu++tf9H0aKKNcHV
+         zPeQ==
+X-Gm-Message-State: AOAM5303LUudfao/JOBvTeXgfwWS71hBWbcJIWPdmbuUOQGDXZ0FalE2
+	g8hZ4AJ4eMNBkmBCOwU5hQkUpI7W31xWGe5rjDo=
+X-Google-Smtp-Source: ABdhPJz/gg80aUypPLjngQ2650IyWutc6PNawDOFwnmqOo1OdWBUG63n0P/0r2yVELypsXJg4LJ515LPvgR9oD/2mnY=
+X-Received: by 2002:aa7:c312:: with SMTP id l18mr191412edq.161.1589673638381;
+ Sat, 16 May 2020 17:00:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200514210458.33543-1-JPEWhacker@gmail.com> <20200515185354.GE11927@denix.org>
- <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
- <CAGDS+n=_mqZeLFusTNV6s7EKNBDVdM589wAmcJ5qQH2BMn=MLw@mail.gmail.com>
- <20200516174702.GA22042@localhost> <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
- <20200516200957.GA8056@localhost> <CAHtQpK4AH08zQ6dx1OWjCR6WwAmrLHNZuz0O1O9WqUnBHNk2Pg@mail.gmail.com>
-In-Reply-To: <CAHtQpK4AH08zQ6dx1OWjCR6WwAmrLHNZuz0O1O9WqUnBHNk2Pg@mail.gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Sat, 16 May 2020 16:15:07 -0700
-Message-ID: <CAJ86T=XTdV+n+1g5TA43QeOwOkDSG_=Pjx6yBJFmWKPXQpCf6w@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
-To: Andrey Zhizhikin <andrey.z@gmail.com>
-Cc: Adrian Bunk <bunk@stusta.de>, Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	Steve Sakoman <sakoman@gmail.com>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Denys Dmytriyenko <denis@denix.org>, Joshua Watt <jpewhacker@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	"jdmason@kudzu.us" <jdmason@kudzu.us>, Khem Raj <raj.khem@gmail.com>
+References: <f756b087-c3e3-3a47-171e-bc72421ff48a@balister.org> <3eaeb926-20f3-d032-c0fa-25c1af92a235@koansoftware.com>
+In-Reply-To: <3eaeb926-20f3-d032-c0fa-25c1af92a235@koansoftware.com>
+From: "Ankur Tyagi" <ankur.tyagi85@gmail.com>
+Date: Sun, 17 May 2020 12:02:26 +1200
+Message-ID: <CADySD0HZEAHjQZcfXJYL0L+33VTj9HOiATJwOT2ysiBy8Th=4w@mail.gmail.com>
+Subject: Re: [oe] OpenEmbedded Happy Hour
+To: m.cavallini@koansoftware.com
+Cc: Philip Balister <philip@balister.org>, openembedded-devel@lists.openembedded.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	"openembedded-members@lists.openembedded.org" <openembedded-members@lists.openembedded.org>, 
+	Yocto Project <yocto@yoctoproject.org>
+Content-Type: multipart/alternative; boundary="000000000000864e0805a5ccbc59"
+
+--000000000000864e0805a5ccbc59
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, May 16, 2020 at 1:24 PM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
-> On Sat, May 16, 2020 at 10:10 PM Adrian Bunk <bunk@stusta.de> wrote:
-> > On Sat, May 16, 2020 at 07:54:32PM +0000, Peter Kjellerstedt wrote:
-> > > >
-> > > > meta-openembedded/meta-python has a higher layer priority than OE-core.
-> > > >
-> > > > Adding higher upstream versions of these recipes to a lower-priority
-> > > > layer in a stable series is a potential source for weird problems.
-> > >
-> > > I would assume they'd be removed from meta-python at the same time
-> > > they are added to meta.
-> >
-> > "at the same time" is complicated since OE-core has releases,
-> > but meta-openembedded is just a branch.
-> >
-> > I would also assume that not all users of stable series are updating
-> > meta-openembedded to the latest on the dunfell branch at the same
-> > time as OE-core, some users might end up updating one but never
-> > updating the other one.
->
-> That I believe would be a terrible mistake when people opt-in to take
-> a layer, but never care about updating it... :(
->
-> On the contrary, a quick run of "bitbake-layers show-overlayed"
-> exhibits the following on the [master] of both OE-Core and
-> meta-openembedded:
-> =================
-> python3-cython:
->   meta-python          0.29.14
->   meta                 0.29.16
-> python3-dbusmock:
->   meta-python          0.16.7
->   meta                 0.19
-> python3-docutils:
->   meta-python          0.15.2
->   meta                 0.16
-> python3-pyparsing:
->   meta-python          2.4.6
->   meta                 2.4.7
-> =================
->
-> Judging be versions, it looks like OE-Core recipes are maintained, but
-> in meta-openembedded they are left on the side...
+See you all from down under !
 
-Right, and that's the problem. Anyone using meta-python will continue
-to use the older recipes and not see the updates (since meta-python is
-a higher priority layer than oe-core).
+Cheers
+Ankur
 
-The right way to have done this would have been to update the recipes
-in meta-python before merging to oe-core, not merging to oe-core and
-then immediately updating them there.
+On Sun, May 17, 2020, 2:27 AM Marco Cavallini [KOAN] <
+m.cavallini@koansoftware.com> wrote:
+
+> On 15/05/20 17:56, Philip Balister wrote:
+> > I've made a wiki page to track these:
+> >
+> > https://www.openembedded.org/wiki/Happy_Hours
+> >
+> > Then next one is scheduled for 2100 UTC on May 27. This is late evening
+> > for Europe and morning for New Zealand, so hopefully we see some
+> > different faces. The meeting info is on the wiki page.
+> >
+> > There is no set agenda, so bring some projects to talk about with the
+> > community.
+> >
+> >
+> > Philip
+> >
+>
+>
+> https://www.timeanddate.com/worldclock/fixedtime.html?msg=OpenEmbedded+Happy+Hour+May+27&iso=20200527T21&p1=%3A&ah=1
+>
+> --
+> Marco
+>
+> 
+>
+
+--000000000000864e0805a5ccbc59
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">See you all from down under !<div dir=3D"auto"><br></div>=
+<div dir=3D"auto">Cheers</div><div dir=3D"auto">Ankur</div></div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, May 17, =
+2020, 2:27 AM Marco Cavallini [KOAN] &lt;<a href=3D"mailto:m.cavallini@koan=
+software.com">m.cavallini@koansoftware.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">On 15/05/20 17:56, Philip Balister wrote:<br>
+&gt; I&#39;ve made a wiki page to track these:<br>
+&gt;<br>
+&gt; <a href=3D"https://www.openembedded.org/wiki/Happy_Hours" rel=3D"nore=
+ferrer noreferrer" target=3D"_blank">https://www.openembedded.org/wiki/Happ=
+y_Hours</a><br>
+&gt;<br>
+&gt; Then next one is scheduled for 2100 UTC on May 27. This is late eveni=
+ng<br>
+&gt; for Europe and morning for New Zealand, so hopefully we see some<br>
+&gt; different faces. The meeting info is on the wiki page.<br>
+&gt;<br>
+&gt; There is no set agenda, so bring some projects to talk about with the=
+<br>
+&gt; community.<br>
+&gt;<br>
+&gt;<br>
+&gt; Philip<br>
+&gt;<br>
+<br>
+<a href=3D"https://www.timeanddate.com/worldclock/fixedtime.html?msg=3DOpe=
+nEmbedded+Happy+Hour+May+27&amp;iso=3D20200527T21&amp;p1=3D%3A&amp;ah=3D1" =
+rel=3D"noreferrer noreferrer" target=3D"_blank">https://www.timeanddate.com=
+/worldclock/fixedtime.html?msg=3DOpenEmbedded+Happy+Hour+May+27&amp;iso=3D2=
+0200527T21&amp;p1=3D%3A&amp;ah=3D1</a><br>
+<br>
+--<br>
+Marco<br>
+<br>
+<br>
+</blockquote></div>
+
+--000000000000864e0805a5ccbc59--
