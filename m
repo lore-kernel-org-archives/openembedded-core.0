@@ -1,225 +1,92 @@
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com [209.85.167.65])
- by mx.groups.io with SMTP id smtpd.web10.16187.1589677556083143667
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web10.21717.1589719761901101382
  for <openembedded-core@lists.openembedded.org>;
- Sat, 16 May 2020 18:05:56 -0700
+ Sun, 17 May 2020 05:49:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cykApckb;
- spf=pass (domain: gmail.com, ip: 209.85.167.65, mailfrom: aehs29@gmail.com)
-Received: by mail-lf1-f65.google.com with SMTP id a9so4944441lfb.8
-        for <openembedded-core@lists.openembedded.org>; Sat, 16 May 2020 18:05:55 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=fRP6sz4r;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id f13so6554851wmc.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 05:49:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vrMjrMwFyWRug7XSrH/Ba+Rohh8X6s+LFWMykcK3SnA=;
-        b=cykApckbFOXDPw4UR10zcy9wdLJlK0A+0RFi84dHUxhvyoV463pSkT5GvimjMLsCDV
-         55rogKAU1p0L06FmPu2HnT5QzLJhoA3b1U3aXU9IldUuTa6K3rWdl9nMjKJRGYngDz/4
-         biyr0eKurDLM+fpyE0Q2maQmLOHzE4by2nuRaBVNLxhMCAC8ndsMg3oIRCAfZ8Ue5GIa
-         EM/lv4GYzhWOgsC4Pi/GURRX0JnO3PUmWByYW0nwKveduTpmjeysZ+F2qOaUueDXGKlC
-         ZROeOJ9fT67ZQ2F1rhxYlv8y3Gw0hs7in0ZP9U93pKKKq6ECwoHrM62iUJOjJX1kn+Tn
-         kX1A==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=BRF4HitqMrE/wDIVa7xlbJYKP627AQSVrtj1O3A51rQ=;
+        b=fRP6sz4r+wcjZvh2yrwyuNuWIvHfh+sTlNyJ57DAhkWolOGePD8SVD6SSv4FxFV0XS
+         g62G7s/hSJB+aBspC4WJQzkYRCPUUuQ6dPh6zImu/B1dYjFuQ8qz3CczdNKf0VgsPE0O
+         g5Lqsj1N63AllNwat/vc7GBup+0yqyQ0TIxZg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vrMjrMwFyWRug7XSrH/Ba+Rohh8X6s+LFWMykcK3SnA=;
-        b=YBbALR0tWS+PLWqv821eX+avxUR/fpHL3/5KA7jEpyxsVpKCaMjZ5jagICgkKWD5xh
-         ntAh7hUyFUvHRz5JprwMKuskUiUPh+Viodpy23l0PrYU+/tXH2gjgir1rxX+ifWQMGed
-         Qbuge+EJZfDtpSDJltS++/G/0zd8EWFgxkJUd6kVvVVldVRXIBo+NSgm4Cvk3hYBWO3e
-         /0Ftnw1thgjFGsyHh7x7fs/t553JY6qEhIlDLtp/3b4AUnXRqcEaJg5YBx7a8rdc6z/D
-         nqtdK6kjy7b9jBVrcC7u+06IQweXR7Cf68E8rtsVixvP8pUm289qt4xUVpqBWq5FkR5i
-         E3qQ==
-X-Gm-Message-State: AOAM530kI8dDjWuPdjwP43cju+BDI4ecZkoP4alosK7I+PoWrKFX2Flq
-	TB6a4YEWI5qAO6bwG5tUlC7gNHQ4rGgFN4miHNI=
-X-Google-Smtp-Source: ABdhPJxCeH+8G+cVOGEXzRDN1Q+pLP5tydYICEQGqQtP+2zGX3m4+qAu99xvfA3T9kX+VQsFpwndCCf/6vPK3gygYGU=
-X-Received: by 2002:a19:2358:: with SMTP id j85mr6408213lfj.182.1589677554214;
- Sat, 16 May 2020 18:05:54 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=BRF4HitqMrE/wDIVa7xlbJYKP627AQSVrtj1O3A51rQ=;
+        b=qtVI8oNpT1h8IIqacq8kJBrwfVQ3Gq6XBisA9KKfNCeFjGtNU1DE0q4SSfR2axFTQw
+         ACzLKab0ccrLR2Bax48UWC+Moa0utJXa/LmJM9NmXxxchZxw69eMVpLivyucFZFCVHlS
+         xooFKJeROPzI6eZ0UM9LPm4wWORU+2pckvz4vouPz7w74tF7+JwfmyTVdbkfWsAMcGFb
+         kT0xbdxMobu/pn/AwPv4/rMlQPMVC+YGhO3x2+J3cuQWpRM2kgRz6xz9b0ccRe6S7VY7
+         ecDFzqGORtE2MZ//xgD6snmEBRayRtsfmo3CEfIl+tNvCZ4R5C5UkcRjc5lUHOhxRQmT
+         1ZoA==
+X-Gm-Message-State: AOAM5305KKHMsAY98qyJwVN3Kf0mGgo+g7cd7NG08mOZLAF/VGEjRVhp
+	1CxgvVSLLTEQlGkFdLmfIXTcTQ==
+X-Google-Smtp-Source: ABdhPJwXU6p7agnqvsOWWCEONwz6nce+B1hu3qqovxTIjRQcX6yEBOGOS6M/0Y+pVP5ABBnnGmpSNQ==
+X-Received: by 2002:a1c:7c0b:: with SMTP id x11mr14399887wmc.149.1589719760369;
+        Sun, 17 May 2020 05:49:20 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id n7sm11916168wro.94.2020.05.17.05.49.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2020 05:49:19 -0700 (PDT)
+Message-ID: <15e68da0ebb3284ab7b21ddc5f893a22e7216882.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 3/4] lttng-tools: upgrade to 2.12.0
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Ovidiu Panait <ovidiu.panait@windriver.com>, 
+	openembedded-core@lists.openembedded.org, Jonathan Rajotte
+	 <jonathan.rajotte-julien@efficios.com>
+Date: Sun, 17 May 2020 13:49:18 +0100
+In-Reply-To: <20200515121106.27860-3-ovidiu.panait@windriver.com>
+References: <20200515121106.27860-1-ovidiu.panait@windriver.com>
+	 <20200515121106.27860-3-ovidiu.panait@windriver.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-References: <20200514210458.33543-1-JPEWhacker@gmail.com> <20200515185354.GE11927@denix.org>
- <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
- <faff3240-ecfa-2f3a-4601-a7ad41952b99@gmail.com> <d8d2af4f-9fa6-d27c-41fd-6d214012736d@gmail.com>
-In-Reply-To: <d8d2af4f-9fa6-d27c-41fd-6d214012736d@gmail.com>
-From: "Alejandro Hernandez" <alejandro@enedino.org>
-Date: Sat, 16 May 2020 19:05:41 -0600
-Message-ID: <CAHMutrarBehDLv_L1qB9emm7YRw8Wt6VsXEgP3YKJACBy9RzsA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Joshua Watt <jpewhacker@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Denys Dmytriyenko <denis@denix.org>, 
-	openembedded-core@lists.openembedded.org, jdmason@kudzu.us
-Content-Type: multipart/alternative; boundary="000000000000ed2b4c05a5cda520"
-
---000000000000ed2b4c05a5cda520
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 15, 2020, 1:32 PM Khem Raj <raj.khem@gmail.com> wrote:
-
->
->
-> On 5/15/20 12:12 PM, Joshua Watt wrote:
-> >
-> > On 5/15/20 2:05 PM, Richard Purdie wrote:
-> >> On Fri, 2020-05-15 at 14:53 -0400, Denys Dmytriyenko wrote:
-> >>> I see Richard has merged these to master-next, thanks!
-> >>> And thanks Joshua for volunteering to maintain these recipes :)
-> >>> I submitted removal patches to meta-python.
-> >>>
-> >>> So, it is good we are getting this extra dependency resolved in
-> >>> master. The
-> >>> question is - can we get these backported to dunfell, does it qualify?
-> >>>
-> >>> Otherwise Jon wanted to finally branch off meta-arm into dunfell
-> >>> today and
-> >>> we'll have to live with it until gatesgarth.
-> >> I put them into -next so we could test them, see if the autobuilder had
-> >> any surprises. Good news is there weren't any.
-> >>
-> >> The question still remains whether this is the best approach or not and
-> >> some people I talked to were not convinced that a consensus had been
-> >> reached.
-> >>
-> >> The question I guess is how widely used is optee and does it warrant
-> >> adding this? Its a little ironic the thing people want is trusted-
-> >> firmware...
-> >
-> > FWIW, after having gone through the exercise of pulling in TF-A into
-> > qemuarm64, I think I've been convinced that op-tee and TF-A belong
-> > together since they are sometimes tightly integrated together (something
-> > I didn't realize before). As such, having both in the same layer makes
-> > sense. Even if TF-A was in oe-core, you'd probably want op-tee also,
-> > which means the python modules would have to be there anyway. I think we
-> > can still have the discussion about moving the whole lot over there, but
-> > we don't need to do that now, and moving the python recipes at least
-> > cuts out the meta-python dependency.
-> >
-> > My last concern was testing of optee, since there was no platform that
-> > could build it by default, but I fixed that by implemented support for a
-> > qemuarm64-based machine that's defined in meta-arm which uses TF-A +
-> > optee + u-boot and can successful boot using TF-A and passes the op-tee
-> > unit tests, so I don't have any concern about that anymore.
-> >
->
-> I think getting oe-core qemuarm64 boot with uboot+TF-A as an option
-> sounds good, and if thats more common solution that armv8 devices are
-> following then perhaps would make sense to have this tested in core too.
-> But I guess that can be ironed out. As such python deps I think are good
-> for dunfell too, we have to ensure meta-python removal happens in
-> dunfell as well.
->
-
-+1 on keeping testing this in core as the end goal, I also agree that this
-would qualify for the Dunfell changes in both oe-core and meta-python since
-its the first step in that direction
-
-Alejandro
-
-
-> >>
-> >> Cheers,
-> >>
-> >> Richard
-> >>
+On Fri, 2020-05-15 at 15:11 +0300, Ovidiu Panait wrote:
+> Upgrade lttng-tools 2.11.2 -> 2.12.0:
+> * drop x32 patch, as it was merged upstream
+> * License-Update: licenses were moved under LICENSES directory and changed in
+>   upstream commit [1]
 > 
->
+> [1] https://github.com/lttng/lttng-tools/commit/ab5be9fa2eb5ba9600a82cd18fd3cfcbac69169a
+> 
+> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> ---
+>  .../lttng/lttng-tools/x32.patch               | 36 -------------------
+>  ...-tools_2.11.2.bb => lttng-tools_2.12.0.bb} | 11 +++---
+>  2 files changed, 5 insertions(+), 42 deletions(-)
+>  delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/x32.patch
+>  rename meta/recipes-kernel/lttng/{lttng-tools_2.11.2.bb => lttng-tools_2.12.0.bb} (94%)
 
---000000000000ed2b4c05a5cda520
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Fails on musl:
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, May 15, 2020, 1:32 PM Khem Raj &lt;<a href=3D"=
-mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex"><br>
-<br>
-On 5/15/20 12:12 PM, Joshua Watt wrote:<br>
-&gt; <br>
-&gt; On 5/15/20 2:05 PM, Richard Purdie wrote:<br>
-&gt;&gt; On Fri, 2020-05-15 at 14:53 -0400, Denys Dmytriyenko wrote:<br>
-&gt;&gt;&gt; I see Richard has merged these to master-next, thanks!<br>
-&gt;&gt;&gt; And thanks Joshua for volunteering to maintain these recipes =
-:)<br>
-&gt;&gt;&gt; I submitted removal patches to meta-python.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; So, it is good we are getting this extra dependency resolved =
-in <br>
-&gt;&gt;&gt; master. The<br>
-&gt;&gt;&gt; question is - can we get these backported to dunfell, does it=
- qualify?<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Otherwise Jon wanted to finally branch off meta-arm into dunf=
-ell <br>
-&gt;&gt;&gt; today and<br>
-&gt;&gt;&gt; we&#39;ll have to live with it until gatesgarth.<br>
-&gt;&gt; I put them into -next so we could test them, see if the autobuild=
-er had<br>
-&gt;&gt; any surprises. Good news is there weren&#39;t any.<br>
-&gt;&gt;<br>
-&gt;&gt; The question still remains whether this is the best approach or n=
-ot and<br>
-&gt;&gt; some people I talked to were not convinced that a consensus had b=
-een<br>
-&gt;&gt; reached.<br>
-&gt;&gt;<br>
-&gt;&gt; The question I guess is how widely used is optee and does it warr=
-ant<br>
-&gt;&gt; adding this? Its a little ironic the thing people want is trusted=
--<br>
-&gt;&gt; firmware...<br>
-&gt; <br>
-&gt; FWIW, after having gone through the exercise of pulling in TF-A into =
-<br>
-&gt; qemuarm64, I think I&#39;ve been convinced that op-tee and TF-A belon=
-g <br>
-&gt; together since they are sometimes tightly integrated together (someth=
-ing <br>
-&gt; I didn&#39;t realize before). As such, having both in the same layer =
-makes <br>
-&gt; sense. Even if TF-A was in oe-core, you&#39;d probably want op-tee al=
-so, <br>
-&gt; which means the python modules would have to be there anyway. I think=
- we <br>
-&gt; can still have the discussion about moving the whole lot over there, =
-but <br>
-&gt; we don&#39;t need to do that now, and moving the python recipes at le=
-ast <br>
-&gt; cuts out the meta-python dependency.<br>
-&gt; <br>
-&gt; My last concern was testing of optee, since there was no platform tha=
-t <br>
-&gt; could build it by default, but I fixed that by implemented support fo=
-r a <br>
-&gt; qemuarm64-based machine that&#39;s defined in meta-arm which uses TF-=
-A + <br>
-&gt; optee + u-boot and can successful boot using TF-A and passes the op-t=
-ee <br>
-&gt; unit tests, so I don&#39;t have any concern about that anymore.<br>
-&gt; <br>
-<br>
-I think getting oe-core qemuarm64 boot with uboot+TF-A as an option <br>
-sounds good, and if thats more common solution that armv8 devices are <br>
-following then perhaps would make sense to have this tested in core too. <=
-br>
-But I guess that can be ironed out. As such python deps I think are good <=
-br>
-for dunfell too, we have to ensure meta-python removal happens in <br>
-dunfell as well.<br></blockquote></div></div><div dir=3D"auto"><br></div><=
-div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-</blockquote></div></div><div dir=3D"auto">+1 on keeping testing this in co=
-re as the end goal, I also agree that this would qualify for the Dunfell ch=
-anges in both oe-core and meta-python since its the first step in that dire=
-ction</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alejandro</div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote"><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
-c solid;padding-left:1ex">
-<br>
-&gt;&gt;<br>
-&gt;&gt; Cheers,<br>
-&gt;&gt;<br>
-&gt;&gt; Richard<br>
-&gt;&gt;<br>
-<br>
-</blockquote></div></div></div>
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1913
 
---000000000000ed2b4c05a5cda520--
+In file included from ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:14,
+                 from ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.c:10:
+../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:17:10: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+   17 |  TP_ARGS(ino_t, ns_ino),
+      |          ^~~~~
+../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:17:10: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+   17 |  TP_ARGS(ino_t, ns_ino),
+      |          ^~~~~
+../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/./tp.h:17:2: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+   17 |  TP_ARGS(ino_t, ns_ino),
+      |  ^~~~~~~
+../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/./tp.h:17:2: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+   17 |  TP_ARGS(ino_t, ns_ino),
+      |  ^~~~~~~
+
+Cheers,
+
+Richard
+
