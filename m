@@ -1,47 +1,48 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
- by mx.groups.io with SMTP id smtpd.web11.32950.1589758740932012715
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
+ by mx.groups.io with SMTP id smtpd.web10.32965.1589758879555050531
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 May 2020 16:39:01 -0700
+ Sun, 17 May 2020 16:41:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=X10ImzkH;
- spf=pass (domain: gmail.com, ip: 209.85.215.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f196.google.com with SMTP id f4so3952936pgi.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 16:39:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AUHqYoC5;
+ spf=pass (domain: gmail.com, ip: 209.85.216.67, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f67.google.com with SMTP id nu7so1654146pjb.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 16:41:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=to:cc:references:from:autocrypt:organization:subject:message-id
+        h=subject:to:cc:references:from:autocrypt:organization:message-id
          :date:user-agent:mime-version:in-reply-to;
-        bh=6KU7qC1+paaHwTsu5yX/xybG/gkGzA5jA0yL+cIkkIw=;
-        b=X10ImzkHkH7x2ewqn1Ypi1E1F0ZUVy91TaVoYQU9lzxf7FyVdS7gD7Go+KqITAeDe6
-         0Pm4IHJ5vQz950HCg1IQfXUvODpKNITaBlqm2uMZ9Rq7NY0qfVYuV0Oxz709Swtr3A3N
-         6pWY9JmhX4netWqgSCfO0pK0XIXooBa9e1k1RKTYCY/1kbxl0IFlEPTxG+Ve0YS9bjnD
-         4sdZlAj0U9Hjcr4NGa8g/tirSme3i/sPMeE7T63pmG/HkViUPI/2wA8V5SstKd0gStVW
-         jrhFmRtzwP3693vtCCX/B8wfMei9ItUFgw7TNIA6HhQ0iagi+lLzDaR7S8fQ6cHiRvg3
-         3vVQ==
+        bh=kmPO/gprGS4vTgYd7Z0L+RnN1Bx3OkD5zdk/QSE93rU=;
+        b=AUHqYoC57wrqphoG1kem7MWVvGR2SemM1h6SLccUQlr6xF4OFAPieHSxgAM/xbj18Z
+         nMtlHSXjRfwJ0OelwPLF+X/O9WWhpUQCqflaLmAbcmMUPwFprV3OK/7KtyfSezFOxxoL
+         NZJ72CvFEWSAyTM/+dfonMIdtOe0vS4pI/X3614ta+6V+J6C69AfGQyDTq1VouRS3ws5
+         cgGowul7l8oxMz1e9GZKqlqa5bIY5Sb4OvdJOOYvZjJhe1ZPp2m4I+z93ybXqXeB6cOS
+         V1CVJxXdn1UZon+9hsyCRCpnT4oLBHxAwxQYVgV7i8cvoRwrrftTk/kQulsPSjKsHMH4
+         L1hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:from:autocrypt:organization
-         :subject:message-id:date:user-agent:mime-version:in-reply-to;
-        bh=6KU7qC1+paaHwTsu5yX/xybG/gkGzA5jA0yL+cIkkIw=;
-        b=B+SaYF7D6Q+VWmz+uInogb06JphS6jc+kfXjLFOoQJXvDK4trNhF+gZ7EjZm6QUQzO
-         QK5aF7s8o9/9rtSqWSdkqzME5VvP8i08KvGBMskFQ/So1QoR5++4lA0EbOHMVFX85yGd
-         ErogwvdqiLxixYryJKDJV2oExsfm6Tt8BBDNgiX84yeVhOtKlSBrxdpf5P0PtpbkiFbI
-         3J8JLc9MlGro+q9BuzqylEmFCDgSCKU7/NMd0S+I58NLW7ynDco2KIenv56eoNyoar7C
-         Gs646lENv56U4PeJF1FDSKGenu85+FOIOiaEyuAMhxmqpzjyAFT/w/t1wSzwLCyM+1ZB
-         DPpg==
-X-Gm-Message-State: AOAM533GADadvWSr2KphG1AoKBfnzZWXT5o8pD3BM7Z7SmNZCSRUHUXj
-	LeBzbz5BMKp5yz2dFbrkO2k=
-X-Google-Smtp-Source: ABdhPJzaRGqkw8imMx+nTfCJABrj3/CUW4KfInFqpW3WnEVfLP7BqcbMLZTq0ghIS3qr4a1yu2fs/g==
-X-Received: by 2002:a63:d650:: with SMTP id d16mr12453435pgj.90.1589758740353;
-        Sun, 17 May 2020 16:39:00 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to;
+        bh=kmPO/gprGS4vTgYd7Z0L+RnN1Bx3OkD5zdk/QSE93rU=;
+        b=PgPh77fG5TdDIZJGFKZ+Qzw7dY9TJltw371JNH0pDjwsmRi5G3nlzIemJpN2wSuM/L
+         dYUZudXYrSBsYjZcM2cDySuGB/+Yy3cwRcKvRDVOsxEpl2IGoYKoI3AdtPk+bhEO2bEN
+         XFTX7V9Qx8ux+3dst+JoxkimkLYYpqEYetn008Wk4FN1S6kj5C/Ywa2sszRvmQ3ED/7W
+         hQJ4UtMIsvKILjuwIHAGlmZb9hBlg1F/FLVuPOwgYiL7HOhhbjEJUhOu4IyjLphHXPhd
+         YKu7yXQJpUdTA4nB07cC4WkA+S8XkwQWcuyk1M8kt4QM3mRZvoL/9gLYOsfT67+0kme5
+         4HdA==
+X-Gm-Message-State: AOAM53357RaLDyQFCpDNFkMeiErP4Dw2rAWliqqV5UDWJ8wc7dtABbtT
+	SvEbTNrg5T0A9lN3KmmjACY=
+X-Google-Smtp-Source: ABdhPJzLer8OsYJuYojZZ3bIKLmmlA1jgqFlesuLWtL3XnZmluDRS8G1ns2/NwfJHTRAlXqOoX05ig==
+X-Received: by 2002:a17:90a:9f95:: with SMTP id o21mr4137884pjp.91.1589758878922;
+        Sun, 17 May 2020 16:41:18 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::2264? ([2601:646:9200:4e0::2264])
-        by smtp.gmail.com with ESMTPSA id x13sm1570217pjr.20.2020.05.17.16.38.58
+        by smtp.gmail.com with ESMTPSA id mw10sm7043135pjb.47.2020.05.17.16.41.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 May 2020 16:38:59 -0700 (PDT)
-To: Adrian Bunk <bunk@stusta.de>,
- Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Steve Sakoman <sakoman@gmail.com>,
+        Sun, 17 May 2020 16:41:18 -0700 (PDT)
+Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
+To: Adrian Bunk <bunk@stusta.de>, Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+ Steve Sakoman <sakoman@gmail.com>,
  Richard Purdie <richard.purdie@linuxfoundation.org>,
  Denys Dmytriyenko <denis@denix.org>, Joshua Watt <jpewhacker@gmail.com>,
  Patches and discussions about the oe-core layer
@@ -54,6 +55,8 @@ References: <20200514210458.33543-1-JPEWhacker@gmail.com>
  <20200516174702.GA22042@localhost>
  <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
  <20200516200957.GA8056@localhost>
+ <CAHtQpK4AH08zQ6dx1OWjCR6WwAmrLHNZuz0O1O9WqUnBHNk2Pg@mail.gmail.com>
+ <20200517132245.GA9940@localhost>
 From: "Khem Raj" <raj.khem@gmail.com>
 Autocrypt: addr=raj.khem@gmail.com; keydata=
  mQGiBEqXaJERBACUvFofpD3FsxD9675wcPv+rzguIfsRWilrrpSZ61JHjLHwkUnmDLpLSdfv
@@ -88,31 +91,30 @@ Autocrypt: addr=raj.khem@gmail.com; keydata=
  XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiiEkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
  VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
 Organization: HIMVIS LLC
-Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
-Message-ID: <37d4502f-bd17-38cd-6abc-c327fe295def@gmail.com>
-Date: Sun, 17 May 2020 16:38:51 -0700
+Message-ID: <f528668e-4273-2070-3ff9-9fa0b1030ee9@gmail.com>
+Date: Sun, 17 May 2020 16:41:10 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200516200957.GA8056@localhost>
-X-Groupsio-MsgNum: 138387
+In-Reply-To: <20200517132245.GA9940@localhost>
+X-Groupsio-MsgNum: 138388
 Content-Type: multipart/signed; micalg=pgp-sha1;
  protocol="application/pgp-signature";
- boundary="4P8h4yTBgODdZvLZfxtbYikTOzKuMNq1k"
+ boundary="8Q9rmxkgpqnJwQWNVh2MWO5reKDHRc8xL"
 
---4P8h4yTBgODdZvLZfxtbYikTOzKuMNq1k
-Content-Type: multipart/mixed; boundary="LoQvwJHpVScQIICxRGvJ8rSGuW8Mqjkdh";
+--8Q9rmxkgpqnJwQWNVh2MWO5reKDHRc8xL
+Content-Type: multipart/mixed; boundary="dKvmYHstWPKLaI2tRJyPLZMdLSNNC7yN7";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
-To: Adrian Bunk <bunk@stusta.de>,
- Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Steve Sakoman <sakoman@gmail.com>,
+To: Adrian Bunk <bunk@stusta.de>, Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+ Steve Sakoman <sakoman@gmail.com>,
  Richard Purdie <richard.purdie@linuxfoundation.org>,
  Denys Dmytriyenko <denis@denix.org>, Joshua Watt <jpewhacker@gmail.com>,
  Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>,
  "jdmason@kudzu.us" <jdmason@kudzu.us>
-Message-ID: <37d4502f-bd17-38cd-6abc-c327fe295def@gmail.com>
+Message-ID: <f528668e-4273-2070-3ff9-9fa0b1030ee9@gmail.com>
 Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
 References: <20200514210458.33543-1-JPEWhacker@gmail.com>
  <20200515185354.GE11927@denix.org>
@@ -121,74 +123,113 @@ References: <20200514210458.33543-1-JPEWhacker@gmail.com>
  <20200516174702.GA22042@localhost>
  <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
  <20200516200957.GA8056@localhost>
-In-Reply-To: <20200516200957.GA8056@localhost>
+ <CAHtQpK4AH08zQ6dx1OWjCR6WwAmrLHNZuz0O1O9WqUnBHNk2Pg@mail.gmail.com>
+ <20200517132245.GA9940@localhost>
+In-Reply-To: <20200517132245.GA9940@localhost>
 
---LoQvwJHpVScQIICxRGvJ8rSGuW8Mqjkdh
+--dKvmYHstWPKLaI2tRJyPLZMdLSNNC7yN7
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 5/16/20 1:09 PM, Adrian Bunk wrote:
-> On Sat, May 16, 2020 at 07:54:32PM +0000, Peter Kjellerstedt wrote:
+On 5/17/20 6:22 AM, Adrian Bunk wrote:
+> On Sat, May 16, 2020 at 10:24:04PM +0200, Andrey Zhizhikin wrote:
+>> On Sat, May 16, 2020 at 10:10 PM Adrian Bunk <bunk@stusta.de> wrote:
 >>>
->>> meta-openembedded/meta-python has a higher layer priority than OE-cor=
-e.
+>>> On Sat, May 16, 2020 at 07:54:32PM +0000, Peter Kjellerstedt wrote:
+>>>>>
+>>>>> meta-openembedded/meta-python has a higher layer priority than OE-c=
+ore.
+>>>>>
+>>>>> Adding higher upstream versions of these recipes to a lower-priorit=
+y
+>>>>> layer in a stable series is a potential source for weird problems.
+>>>>
+>>>> I would assume they'd be removed from meta-python at the same time
+>>>> they are added to meta.
 >>>
->>> Adding higher upstream versions of these recipes to a lower-priority
->>> layer in a stable series is a potential source for weird problems.
+>>> "at the same time" is complicated since OE-core has releases,
+>>> but meta-openembedded is just a branch.
+>>>
+>>> I would also assume that not all users of stable series are updating
+>>> meta-openembedded to the latest on the dunfell branch at the same
+>>> time as OE-core, some users might end up updating one but never
+>>> updating the other one.
 >>
->> I would assume they'd be removed from meta-python at the same time=20
->> they are added to meta.
+>> That I believe would be a terrible mistake when people opt-in to take
+>> a layer, but never care about updating it... :(
 >=20
-> "at the same time" is complicated since OE-core has releases,
-> but meta-openembedded is just a branch.
+> The typical Yocto user starts with whatever prehistoric Yocto release=20
+> came with the BSP distribution for the reference hardware, and then=20
+> develops a new product on top of that.
 >=20
+> I would not be surprised if someone will have the initial Yocto 2.7
+> release, but uses the latest from the corresponding  meta-openembedded =
 
-You bring an interesting point. while the oe-core release tags are
-driven by Yocto release cadence which has point release schedules,
-OE-Core in itself does not have its release mechanism besides creating
-and maintaining the branch. because oe-core independently is just a repo
-you will need bitbake repo atleast to build something and bitbake has
-its own release cadence.
+> branch on top
 
-> I would also assume that not all users of stable series are updating
-> meta-openembedded to the latest on the dunfell branch at the same
-> time as OE-core, some users might end up updating one but never
-> updating the other one.
+To be honest, we should not consider supporting such usecases IMO,
+somewhere we have to draw a line, mixing layer releases is not something
+upstream can even test those combos.
 
-Thats very likely, although not preferred, most of products just freeze
-these layers and do tweaking in their own layers because they have
-control over them, where as they dont have much control over the
-upstream layers. Its common with all third party and OSS projects.
-
-So, if someone is basing their distro on oe-core + bitbake + meta-oe and
-more then I would think they should be aware of these kind of changes
-but I also think this could create some unexpected behaviour. Ideally
-these recipes should be updated in meta-python to latest and same moved
-to oe-core, then the move does not have to be atomic.
 
 >=20
->> //Peter
+>> On the contrary, a quick run of "bitbake-layers show-overlayed"
+>> exhibits the following on the [master] of both OE-Core and
+>=20
+> Thanks a lot for this.
+>=20
+>> meta-openembedded:
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> python3-cython:
+>>   meta-python          0.29.14
+>>   meta                 0.29.16
+>> python3-dbusmock:
+>>   meta-python          0.16.7
+>>   meta                 0.19
+>> python3-docutils:
+>>   meta-python          0.15.2
+>>   meta                 0.16
+>> python3-pyparsing:
+>>   meta-python          2.4.6
+>>   meta                 2.4.7
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> I'll take care of getting these removed from meta-openembedded.
+>=20
+>> Judging be versions, it looks like OE-Core recipes are maintained, but=
+
+>> in meta-openembedded they are left on the side...
+>=20
+> python3-docutils is ouch, since this problem is also in dunfell.
+>=20
+> On a more positive note 0.16 is already in OE-core in the initial
+> Yocto 3.1 release, so removing it from meta-openembedded will only
+> be like a 0.15.2 -> 0.16 upgrade for some users but cannot result
+> in losing the recipe in weird layer combinations.
+>=20
+>> Regards,
+>> Andrey.
 >=20
 > cu
 > Adrian
 >=20
 
 
---LoQvwJHpVScQIICxRGvJ8rSGuW8Mqjkdh--
+--dKvmYHstWPKLaI2tRJyPLZMdLSNNC7yN7--
 
---4P8h4yTBgODdZvLZfxtbYikTOzKuMNq1k
+--8Q9rmxkgpqnJwQWNVh2MWO5reKDHRc8xL
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXsHLCwAKCRC7BTNVkZ0z
-FKUPAKCPU/0qf+lK3sqRHgGK7beK1VI24wCfXZOjF77K0ccU3jqsLSHI8kQzx+o=
-=FX8i
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXsHLlgAKCRC7BTNVkZ0z
+FJg/AJ99hnyaqICIvvTjE1zPoMEEcqxEgQCfQtl1YGOu5Iz+UCCdJudTo2sagrE=
+=0z4u
 -----END PGP SIGNATURE-----
 
---4P8h4yTBgODdZvLZfxtbYikTOzKuMNq1k--
+--8Q9rmxkgpqnJwQWNVh2MWO5reKDHRc8xL--
