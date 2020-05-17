@@ -1,44 +1,44 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web11.33047.1589759137552997483
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
+ by mx.groups.io with SMTP id smtpd.web12.32608.1589759241771882057
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 May 2020 16:45:37 -0700
+ Sun, 17 May 2020 16:47:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LQVEWsRE;
- spf=pass (domain: gmail.com, ip: 209.85.215.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f193.google.com with SMTP id j21so3959798pgb.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 16:45:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=clGdnUOW;
+ spf=pass (domain: gmail.com, ip: 209.85.210.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f194.google.com with SMTP id v63so4086207pfb.10
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 16:47:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:autocrypt:organization:message-id
          :date:user-agent:mime-version:in-reply-to;
-        bh=88Tj7AasrYIA9A0w1t0I0/HdmkQqEiLna+YMxstwLmI=;
-        b=LQVEWsREv1Zze2y8QiaWiPKBbY/slSaPOMOujctVejv4Gw31o+bo/Atni8xqNzX3DT
-         94pr19oLfe51dJbsB9LsaJExM+pjeM9swxpPD2K4PlKFztxP/Lapqt1EsvKUMZuDObBs
-         lI8po5uz277ZFXjg5llHLCuFDF5fD6zo8Ug/BSkQRecC3b4Wu0MITDjEcj9GUCNDpFfU
-         LSDnMPKE8zFr+y15oNtdjQ8DcUgzIugz2KiMO3IO2ac9QDXoPEV5RthAkSPobPghtpQY
-         jQG+6zRpAkaoGUVExHFyI4loXuY7P2BXZPdaLyTivUveKJPoGCRDrzh+eMOpuxjziDGD
-         h6Lw==
+        bh=rPScP2tbljcXMm8Fn6jPrdNSTYouYRKEMlZHz7s0wk4=;
+        b=clGdnUOW6ign0bX+PxY7ZiF9sYRL2BLdVmiGVpbgPt2bRDyl8A3VQIlqE7hC0fZ6fV
+         wr8JWOUIImTyHdokTDilTKOO6lHZPwlC7vz1ZCUgcuJL79iDlCpBHbB87NByBK8lauiY
+         NNEiAtEVmuODdyIH7qJJ1exF/NVf59JRAL1YSqV7VcnM3Z30QpRVwlarSX2Znsr8PdRl
+         1DW9dgrHNvIZOvjhmrRIW+UUDLaYPYvKGG0GfUohpgo8RKR0ZZzJUUDBLUdK5h3M1rqe
+         W+0UEvdVIOxmMgjbviT/AKtU23FC4raalJGkNT2KA1KTz5APJ3Ya5LNfBNako17tY8eF
+         KcdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :organization:message-id:date:user-agent:mime-version:in-reply-to;
-        bh=88Tj7AasrYIA9A0w1t0I0/HdmkQqEiLna+YMxstwLmI=;
-        b=mLgQoXmo6Gl/X4cUgPbH+E0SENIejg7vNq2Z+l5nFdTFYLRg4avFMZaAIueVNxnthZ
-         p1WTVSzwPLB7Q+5CWq3uZD7TspH7+s+JiGHHspMg2lP31t6mJNfMdwSUr07dwhl1xF86
-         CZVNcLFt+WP4dZ3PCHbyQtUhNf1/fLgqKcqLEJG1umS9au4d0LduA9PhsFq8Y50pUCys
-         u8Zc4vF2X9gCeRBXrKyilaUmtirjYZ84H5jcpdpR+xnFCbgCtghyZ4f6cUaa7If6JtFw
-         8waBd3ltlb8hDkr/5P3ziRYPTZXJenjPvQteztpBInO/g2Eukin6AZwLhYBltMQc0TTF
-         pjKw==
-X-Gm-Message-State: AOAM531Wn3Dv1JcdZwZtYwdSYC5BgZaoXihDLGQkrr857uc4yeMRW3dF
-	BXM+Tb0xvOi8gRpTENA2PWE=
-X-Google-Smtp-Source: ABdhPJxBFQWaIq/TGnzrMV/u8kvtFJvAMMHiehPFWGHH+Q1oDbYphHkFjFXdIng6j+7bnG7+v5hY7g==
-X-Received: by 2002:a63:1a11:: with SMTP id a17mr9384267pga.227.1589759136969;
-        Sun, 17 May 2020 16:45:36 -0700 (PDT)
+        bh=rPScP2tbljcXMm8Fn6jPrdNSTYouYRKEMlZHz7s0wk4=;
+        b=GWJ6KOHq/T9aTmV+f+kxygTDkaS5fWpBfAlk7YcWvHXc73BwuAJp7R/CKRh+oHGpCb
+         9RcbM5IH0+aVqT0DcCZxOg4EbEVp2Q/aQhgNs+7ILYS1eNn6M+cOjCSf8bjPQxXUwsJc
+         oDv1tX61epm4UN2Gv455kj2gNKVqTkq6QMfitG0H57wgWw4K4UyKtV/rJYfJFQESF/nY
+         sXxA5M/mdiPzDds3AdC812A1BQoS/OkDNnZSLAvsUQgXRVzJpsOq8NyB+Iw1NpF8VN5g
+         prhYCvloZW49rw9Ts+uDFriQICmyuVqoziJnd33BoKZiOmnpPv6+dsbhPejrmMOjIXRr
+         Alqg==
+X-Gm-Message-State: AOAM533uRko0e1SH199OsAow2O2EHwjbhx9C1bNRbIXv0oGntYK847bK
+	eYHZi1+WTZD5NTJBXdyxiHU=
+X-Google-Smtp-Source: ABdhPJwZuHmId3ox0GokT2q2Nu7g6dByOaezRaDFBkpy9mJiE88S+x+nWyGYHQn/kvz7MqSzLXFTAw==
+X-Received: by 2002:a63:2485:: with SMTP id k127mr12671397pgk.159.1589759240971;
+        Sun, 17 May 2020 16:47:20 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::2264? ([2601:646:9200:4e0::2264])
-        by smtp.gmail.com with ESMTPSA id l1sm6079298pgj.48.2020.05.17.16.45.35
+        by smtp.gmail.com with ESMTPSA id y3sm7060232pjb.41.2020.05.17.16.47.19
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 May 2020 16:45:36 -0700 (PDT)
+        Sun, 17 May 2020 16:47:20 -0700 (PDT)
 Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
 To: Adrian Bunk <bunk@stusta.de>, Martin Jansa <martin.jansa@gmail.com>
 Cc: Andrey Zhizhikin <andrey.z@gmail.com>,
@@ -49,9 +49,7 @@ Cc: Andrey Zhizhikin <andrey.z@gmail.com>,
  Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>,
  "jdmason@kudzu.us" <jdmason@kudzu.us>
-References: <20200514210458.33543-1-JPEWhacker@gmail.com>
- <20200515185354.GE11927@denix.org>
- <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
+References: <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
  <CAGDS+n=_mqZeLFusTNV6s7EKNBDVdM589wAmcJ5qQH2BMn=MLw@mail.gmail.com>
  <20200516174702.GA22042@localhost>
  <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
@@ -60,6 +58,8 @@ References: <20200514210458.33543-1-JPEWhacker@gmail.com>
  <20200517132245.GA9940@localhost>
  <CA+chaQeoVSY1HqivTCVkDixgJZOzxYchZ83FvRhgKuADwKJcFg@mail.gmail.com>
  <20200517154525.GA16162@localhost>
+ <CA+chaQdKYt1ZMGxEnb6nQ2B3KitWXcNBsecgzfZ-htEVH=ySnA@mail.gmail.com>
+ <20200517161441.GB16162@localhost>
 From: "Khem Raj" <raj.khem@gmail.com>
 Autocrypt: addr=raj.khem@gmail.com; keydata=
  mQGiBEqXaJERBACUvFofpD3FsxD9675wcPv+rzguIfsRWilrrpSZ61JHjLHwkUnmDLpLSdfv
@@ -94,19 +94,19 @@ Autocrypt: addr=raj.khem@gmail.com; keydata=
  XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiiEkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
  VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
 Organization: HIMVIS LLC
-Message-ID: <1f6b0b65-8510-c16f-7cdc-15d32d135f9e@gmail.com>
-Date: Sun, 17 May 2020 16:45:29 -0700
+Message-ID: <5731941e-fe0c-e242-bea5-cd0d3c2ef772@gmail.com>
+Date: Sun, 17 May 2020 16:47:13 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200517154525.GA16162@localhost>
-X-Groupsio-MsgNum: 138389
+In-Reply-To: <20200517161441.GB16162@localhost>
+X-Groupsio-MsgNum: 138390
 Content-Type: multipart/signed; micalg=pgp-sha1;
  protocol="application/pgp-signature";
- boundary="E08EjZ4vVtDjL5jJLjV3E9UA3J5mMr3k6"
+ boundary="tEmOY0m2ozWFSlFEYdtDCpZMt9UZ1c2mO"
 
---E08EjZ4vVtDjL5jJLjV3E9UA3J5mMr3k6
-Content-Type: multipart/mixed; boundary="TKmvE2hdDi1SftyOBYYB6hkOahP4LGaIJ";
+--tEmOY0m2ozWFSlFEYdtDCpZMt9UZ1c2mO
+Content-Type: multipart/mixed; boundary="QGL0zpEOl7KC8TuFXit12b36YrwNBQk2A";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
 To: Adrian Bunk <bunk@stusta.de>, Martin Jansa <martin.jansa@gmail.com>
@@ -118,11 +118,9 @@ Cc: Andrey Zhizhikin <andrey.z@gmail.com>,
  Patches and discussions about the oe-core layer
  <openembedded-core@lists.openembedded.org>,
  "jdmason@kudzu.us" <jdmason@kudzu.us>
-Message-ID: <1f6b0b65-8510-c16f-7cdc-15d32d135f9e@gmail.com>
+Message-ID: <5731941e-fe0c-e242-bea5-cd0d3c2ef772@gmail.com>
 Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
-References: <20200514210458.33543-1-JPEWhacker@gmail.com>
- <20200515185354.GE11927@denix.org>
- <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
+References: <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
  <CAGDS+n=_mqZeLFusTNV6s7EKNBDVdM589wAmcJ5qQH2BMn=MLw@mail.gmail.com>
  <20200516174702.GA22042@localhost>
  <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
@@ -131,67 +129,53 @@ References: <20200514210458.33543-1-JPEWhacker@gmail.com>
  <20200517132245.GA9940@localhost>
  <CA+chaQeoVSY1HqivTCVkDixgJZOzxYchZ83FvRhgKuADwKJcFg@mail.gmail.com>
  <20200517154525.GA16162@localhost>
-In-Reply-To: <20200517154525.GA16162@localhost>
+ <CA+chaQdKYt1ZMGxEnb6nQ2B3KitWXcNBsecgzfZ-htEVH=ySnA@mail.gmail.com>
+ <20200517161441.GB16162@localhost>
+In-Reply-To: <20200517161441.GB16162@localhost>
 
---TKmvE2hdDi1SftyOBYYB6hkOahP4LGaIJ
+--QGL0zpEOl7KC8TuFXit12b36YrwNBQk2A
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 5/17/20 8:45 AM, Adrian Bunk wrote:
-> On Sun, May 17, 2020 at 03:56:20PM +0200, Martin Jansa wrote:
+On 5/17/20 9:14 AM, Adrian Bunk wrote:
+> On Sun, May 17, 2020 at 06:00:58PM +0200, Martin Jansa wrote:
 >> ...
->> so upgrading
->> from e.g. initial release revision of dunfell to latest in oe-core tog=
-ether
->> with all other layers,
+>> But IMHO carrying duplicate recipes in oe-core and meta-oe, just becau=
+se
+>> some users aren't updating meta-oe, only adds more confusion.
 >> ...
 >=20
-> Your "together" is an assumption that is not always true in my experien=
-ce.
->=20
->> Point releases are nice, but people should really use whatever is late=
-st
->> revisions in the branches they use and that's IMHO the recommendation =
-from
->> Yocto Project itself as well (IIRC we discussed it in OE TSC when talk=
-ing
->> about tags for point releases).
->=20
-> What often strikes me about OE/Yocto is how far apart what developer=20
-> think how things should be done is from what users are actually doing.
+> IMHO moving recipes from meta-openembedded (or other layers) to oe-core=
+=20
+> in a released stable series is not a good idea.
 
-This intrigues me and I think we should pay attention to usecases and
-try to address them as much as we can, so it would help in perhaps
-creating a wiki document or some such on how end users are instrumenting
-their distro policies and challenges. How good is layered structure
-helping them and how far can it be taken etc.
+I think in current form in this situation it certainly seems a bit
+complex sadly, however, we also need to explore if there is some "good"
+way of doing such changes without breaking distro builders.
 
 >=20
-> Yocto lacks novice level documentation how users should maintain
-> a distribution they got from somewhere for building a product.
->=20
->> Regards,
+>> Cheers,
 >=20
 > cu
 > Adrian
 >=20
 
 
---TKmvE2hdDi1SftyOBYYB6hkOahP4LGaIJ--
+--QGL0zpEOl7KC8TuFXit12b36YrwNBQk2A--
 
---E08EjZ4vVtDjL5jJLjV3E9UA3J5mMr3k6
+--tEmOY0m2ozWFSlFEYdtDCpZMt9UZ1c2mO
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXsHMmQAKCRC7BTNVkZ0z
-FBBJAKCPQfZRJEeGsKnyV34j/k4mt0/zjQCglCitQRHRSQV24VvllXTjfG3mCT4=
-=g5Cu
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXsHNAQAKCRC7BTNVkZ0z
+FNpkAJ9bJAhrvU5CqAjUVcYggalnFxed3QCfRtSSJfCKBRhiii2JjbCthToOwCs=
+=6q7J
 -----END PGP SIGNATURE-----
 
---E08EjZ4vVtDjL5jJLjV3E9UA3J5mMr3k6--
+--tEmOY0m2ozWFSlFEYdtDCpZMt9UZ1c2mO--
