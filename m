@@ -1,65 +1,49 @@
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com [209.85.210.194])
- by mx.groups.io with SMTP id smtpd.web12.32608.1589759241771882057
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web12.32725.1589759667211324534
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 May 2020 16:47:21 -0700
+ Sun, 17 May 2020 16:54:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=clGdnUOW;
- spf=pass (domain: gmail.com, ip: 209.85.210.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f194.google.com with SMTP id v63so4086207pfb.10
-        for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 16:47:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=g/0LM4dU;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id b190so4099199pfg.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 16:54:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:autocrypt:organization:message-id
-         :date:user-agent:mime-version:in-reply-to;
-        bh=rPScP2tbljcXMm8Fn6jPrdNSTYouYRKEMlZHz7s0wk4=;
-        b=clGdnUOW6ign0bX+PxY7ZiF9sYRL2BLdVmiGVpbgPt2bRDyl8A3VQIlqE7hC0fZ6fV
-         wr8JWOUIImTyHdokTDilTKOO6lHZPwlC7vz1ZCUgcuJL79iDlCpBHbB87NByBK8lauiY
-         NNEiAtEVmuODdyIH7qJJ1exF/NVf59JRAL1YSqV7VcnM3Z30QpRVwlarSX2Znsr8PdRl
-         1DW9dgrHNvIZOvjhmrRIW+UUDLaYPYvKGG0GfUohpgo8RKR0ZZzJUUDBLUdK5h3M1rqe
-         W+0UEvdVIOxmMgjbviT/AKtU23FC4raalJGkNT2KA1KTz5APJ3Ya5LNfBNako17tY8eF
-         KcdA==
+        h=subject:to:references:from:autocrypt:organization:message-id:date
+         :user-agent:mime-version:in-reply-to;
+        bh=9BU72afbup3tLPEqhuXNp1OxjQqf3BjQsiY0mrUzrro=;
+        b=g/0LM4dU0yVtC07bsCdMvM7hmTO1aLJEEVT9d3BI0SHvJrz4fa6+fCar0NL9dkWpJ+
+         oJG7Pv8eq4yKh1Ok495ucxHa/1Iy5JXXNmtadYT64s4aqtwFsa5yKDmF6TSpXl2V8qAx
+         mPDOyzrnCAtX3Ah+oLSCUBYadJS+9A5WN01GkaK40kPEaUJ1w7t1c8eVGWHc65WzHkvv
+         ZJ70F7E6uYOvcSw0VWvcyMXVR3BcX8wzyzT1VylPJ6mhXAU4tGUy6CUJcSUcO7T403JI
+         ULCkTwSWVyi2BlSLWTsLwHnh+NAn/2SV0vStdtu22INULY1Oy+cBx7wFJ2jPE4mQSKog
+         309Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+        h=x-gm-message-state:subject:to:references:from:autocrypt
          :organization:message-id:date:user-agent:mime-version:in-reply-to;
-        bh=rPScP2tbljcXMm8Fn6jPrdNSTYouYRKEMlZHz7s0wk4=;
-        b=GWJ6KOHq/T9aTmV+f+kxygTDkaS5fWpBfAlk7YcWvHXc73BwuAJp7R/CKRh+oHGpCb
-         9RcbM5IH0+aVqT0DcCZxOg4EbEVp2Q/aQhgNs+7ILYS1eNn6M+cOjCSf8bjPQxXUwsJc
-         oDv1tX61epm4UN2Gv455kj2gNKVqTkq6QMfitG0H57wgWw4K4UyKtV/rJYfJFQESF/nY
-         sXxA5M/mdiPzDds3AdC812A1BQoS/OkDNnZSLAvsUQgXRVzJpsOq8NyB+Iw1NpF8VN5g
-         prhYCvloZW49rw9Ts+uDFriQICmyuVqoziJnd33BoKZiOmnpPv6+dsbhPejrmMOjIXRr
-         Alqg==
-X-Gm-Message-State: AOAM533uRko0e1SH199OsAow2O2EHwjbhx9C1bNRbIXv0oGntYK847bK
-	eYHZi1+WTZD5NTJBXdyxiHU=
-X-Google-Smtp-Source: ABdhPJwZuHmId3ox0GokT2q2Nu7g6dByOaezRaDFBkpy9mJiE88S+x+nWyGYHQn/kvz7MqSzLXFTAw==
-X-Received: by 2002:a63:2485:: with SMTP id k127mr12671397pgk.159.1589759240971;
-        Sun, 17 May 2020 16:47:20 -0700 (PDT)
+        bh=9BU72afbup3tLPEqhuXNp1OxjQqf3BjQsiY0mrUzrro=;
+        b=PRwh5DOGViSAVoKNqnaN1e3zSGlaJPr4fV1eR43cReg5Q8QvnJpPY9gAG9sd85XcBd
+         MIUnGtGdWm0x7DICMizMPqP/2MIalpoYdnNJ1xks8JX0Loh4ccaJlfEfxDBisPrB436k
+         SeqBLn9Cxk0QohqixL1n/wLHf1hBij3aBvcEmz5tXhowO2tp+ZwJuzJQulLMX0TDfbJE
+         gOWhPmd7g12Gvi5NWOagLlH0rDU+bKLhKj9udjuY2qbVkBxzeYjhrMnKZhXY154/uZL7
+         s2jVdMywW43UDLr6Id/6++1f/MAReNzuXJCESeY9xHslzpB+dPgnoF9F/V/6RN/GWEM1
+         J2bQ==
+X-Gm-Message-State: AOAM532lQ99zg7orjeuqpIfbjkmpoReN2L6dUX1Q+bmXsWQik6TAT/TC
+	KY3dWFMqgtbL2P3cD9Z6j9dx8JSAv1A=
+X-Google-Smtp-Source: ABdhPJwnCz6uq72fzHvIIz2W3mHhJ0Ol4Z9f7atB12r0L2EObTI6zVTvN83E6xtMoczyF//GBn9ZrA==
+X-Received: by 2002:a63:f64d:: with SMTP id u13mr12441494pgj.151.1589759666248;
+        Sun, 17 May 2020 16:54:26 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from ?IPv6:2601:646:9200:4e0::2264? ([2601:646:9200:4e0::2264])
-        by smtp.gmail.com with ESMTPSA id y3sm7060232pjb.41.2020.05.17.16.47.19
+        by smtp.gmail.com with ESMTPSA id h14sm6781632pjc.46.2020.05.17.16.54.25
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 17 May 2020 16:47:20 -0700 (PDT)
-Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
-To: Adrian Bunk <bunk@stusta.de>, Martin Jansa <martin.jansa@gmail.com>
-Cc: Andrey Zhizhikin <andrey.z@gmail.com>,
- Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- Steve Sakoman <sakoman@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Denys Dmytriyenko <denis@denix.org>, Joshua Watt <jpewhacker@gmail.com>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
- "jdmason@kudzu.us" <jdmason@kudzu.us>
-References: <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
- <CAGDS+n=_mqZeLFusTNV6s7EKNBDVdM589wAmcJ5qQH2BMn=MLw@mail.gmail.com>
- <20200516174702.GA22042@localhost>
- <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
- <20200516200957.GA8056@localhost>
- <CAHtQpK4AH08zQ6dx1OWjCR6WwAmrLHNZuz0O1O9WqUnBHNk2Pg@mail.gmail.com>
- <20200517132245.GA9940@localhost>
- <CA+chaQeoVSY1HqivTCVkDixgJZOzxYchZ83FvRhgKuADwKJcFg@mail.gmail.com>
- <20200517154525.GA16162@localhost>
- <CA+chaQdKYt1ZMGxEnb6nQ2B3KitWXcNBsecgzfZ-htEVH=ySnA@mail.gmail.com>
- <20200517161441.GB16162@localhost>
+        Sun, 17 May 2020 16:54:25 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
+To: openembedded-core@lists.openembedded.org
+References: <1587667187-14130-1-git-send-email-rahulk@mvista.com>
+ <8a37d1b4b7784a48ac57074af3eca982@XBOX03.axis.com>
 From: "Khem Raj" <raj.khem@gmail.com>
 Autocrypt: addr=raj.khem@gmail.com; keydata=
  mQGiBEqXaJERBACUvFofpD3FsxD9675wcPv+rzguIfsRWilrrpSZ61JHjLHwkUnmDLpLSdfv
@@ -94,88 +78,139 @@ Autocrypt: addr=raj.khem@gmail.com; keydata=
  XlQNlB5grwH9o6uNtPbV7q/uRqmKq5EiiEkEGBECAAkFAkqXaJECGwwACgkQuwUzVZGdMxR1
  VACcCkdaO3rb8/gRprldmAH6eR49eo4AnjD3h3aTwv/1bl+BAz1twmZmz8ul
 Organization: HIMVIS LLC
-Message-ID: <5731941e-fe0c-e242-bea5-cd0d3c2ef772@gmail.com>
-Date: Sun, 17 May 2020 16:47:13 -0700
+Message-ID: <01f08d40-baf2-ee11-5bae-ff63896866d0@gmail.com>
+Date: Sun, 17 May 2020 16:54:18 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200517161441.GB16162@localhost>
-X-Groupsio-MsgNum: 138390
+In-Reply-To: <8a37d1b4b7784a48ac57074af3eca982@XBOX03.axis.com>
+X-Groupsio-MsgNum: 138391
 Content-Type: multipart/signed; micalg=pgp-sha1;
  protocol="application/pgp-signature";
- boundary="tEmOY0m2ozWFSlFEYdtDCpZMt9UZ1c2mO"
+ boundary="CqNOI9qkYCYFXwr0TaDJjsrfhDvHcefUo"
 
---tEmOY0m2ozWFSlFEYdtDCpZMt9UZ1c2mO
-Content-Type: multipart/mixed; boundary="QGL0zpEOl7KC8TuFXit12b36YrwNBQk2A";
+--CqNOI9qkYCYFXwr0TaDJjsrfhDvHcefUo
+Content-Type: multipart/mixed; boundary="IrUSfUamZW54cB3Oec0MkskLjVMz48qoj";
  protected-headers="v1"
 From: Khem Raj <raj.khem@gmail.com>
-To: Adrian Bunk <bunk@stusta.de>, Martin Jansa <martin.jansa@gmail.com>
-Cc: Andrey Zhizhikin <andrey.z@gmail.com>,
- Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- Steve Sakoman <sakoman@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- Denys Dmytriyenko <denis@denix.org>, Joshua Watt <jpewhacker@gmail.com>,
- Patches and discussions about the oe-core layer
- <openembedded-core@lists.openembedded.org>,
- "jdmason@kudzu.us" <jdmason@kudzu.us>
-Message-ID: <5731941e-fe0c-e242-bea5-cd0d3c2ef772@gmail.com>
-Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
-References: <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
- <CAGDS+n=_mqZeLFusTNV6s7EKNBDVdM589wAmcJ5qQH2BMn=MLw@mail.gmail.com>
- <20200516174702.GA22042@localhost>
- <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
- <20200516200957.GA8056@localhost>
- <CAHtQpK4AH08zQ6dx1OWjCR6WwAmrLHNZuz0O1O9WqUnBHNk2Pg@mail.gmail.com>
- <20200517132245.GA9940@localhost>
- <CA+chaQeoVSY1HqivTCVkDixgJZOzxYchZ83FvRhgKuADwKJcFg@mail.gmail.com>
- <20200517154525.GA16162@localhost>
- <CA+chaQdKYt1ZMGxEnb6nQ2B3KitWXcNBsecgzfZ-htEVH=ySnA@mail.gmail.com>
- <20200517161441.GB16162@localhost>
-In-Reply-To: <20200517161441.GB16162@localhost>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <01f08d40-baf2-ee11-5bae-ff63896866d0@gmail.com>
+Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
+References: <1587667187-14130-1-git-send-email-rahulk@mvista.com>
+ <8a37d1b4b7784a48ac57074af3eca982@XBOX03.axis.com>
+In-Reply-To: <8a37d1b4b7784a48ac57074af3eca982@XBOX03.axis.com>
 
---QGL0zpEOl7KC8TuFXit12b36YrwNBQk2A
-Content-Type: text/plain; charset=utf-8
+--IrUSfUamZW54cB3Oec0MkskLjVMz48qoj
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 
 
-On 5/17/20 9:14 AM, Adrian Bunk wrote:
-> On Sun, May 17, 2020 at 06:00:58PM +0200, Martin Jansa wrote:
->> ...
->> But IMHO carrying duplicate recipes in oe-core and meta-oe, just becau=
-se
->> some users aren't updating meta-oe, only adds more confusion.
->> ...
+On 5/11/20 11:53 PM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: openembedded-core@lists.openembedded.org <openembedded-
+>> core@lists.openembedded.org> On Behalf Of Rahul Kumar
+>> Sent: den 23 april 2020 20:40
+>> To: openembedded-core@lists.openembedded.org
+>> Cc: Rahul Kumar <rahulk@mvista.com>
+>> Subject: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
+>>
+>> Source: git://sourceware.org/git/bzip2-tests.git
+>> Type: Enhancement
+>> Description:
+>> bzip2 now has a test suite available at git://sourceware.org/git/bzip2=
+-
+>> tests.git.
+>>
+>> This is a collection of "interesting" .bz2 files that can be used to
+>> test bzip2 works correctly. They come from different projects.
+>>
+>> Some files are deliberately bad, and are use to see how bzip2 handles
+>> corrupt files. They are explicitly not intended to decompress correctl=
+y,
+>> but to catch errors in bzip2 trying to deal with deliberately bad data=
+=2E
+>> All such files have a name ending in .bz2.bad.
+>>
+>> All non-bad files end in bz2. And should come with a .md5 file for
+>> the original input file. The .md5 file is used to check that bzip2
+>> could correctly decompress the file. The original (non-compressed)
+>> files are deliberately not checked in.
+>>
+>> It will by default test with the command 'bzip2', running under
+>> valgrind (if installed on the system).
+>>
+>> For each .bz2 file found it is decompressed, recompressed and
+>> decompressed again. Once with the default bzip2 settings and
+>> once in --small (-s) mode.
+>>
+>> For each .bz2.bad file decompression is tried twice also. In
+>> default mode and small mode. The bzip2 binary is expected to
+>> return either 1 or 2 as exit status. Any other exit code is
+>> interpreted as failure.
+>>
+>> License:
+>>    In bzip2-tests source code Each directory should contain a README
+>>    file explaining where the .bz2 files originally came from.
+>>    Plus a reference to the (Free Software) license that the project
+>>    files were distributed under.
+>>
+>>    Adding GPLv3+ License to the bzip2 recipe. Since we modify the
+>>    bzip2-tests.git/run-tests.sh script and we can redistribute it and/=
+or
+>>    modify it under the terms of the GNU General Public License (GPL);
+>>    either version 3, or (at your option) any later version.
+>>
+>>    since all other files and directories are unchanged and We are simp=
+ly
+>>    using the compressed files as data so we are ignoring the license i=
+nfo for
+>>    these files and directories in bzip2-tests.git
 >=20
-> IMHO moving recipes from meta-openembedded (or other layers) to oe-core=
+> This is not how licenses work. They typically relate to distribution.=20
+> I.e., it is the act of distributing the code that is covered in the=20
+> license. It does not matter if what is distributed is later used as=20
+> source or as a binary blob, it is still being distributed.
+>=20
+> Since the code that is covered by, e.g., GPL-3.0 is only distributed in=
 =20
-> in a released stable series is not a good idea.
+> the ptest package, you will have to set individual package licenses. I.=
+e.,=20
+> LICENSE should contain all licenses used by any package. Then for each =
 
-I think in current form in this situation it certainly seems a bit
-complex sadly, however, we also need to explore if there is some "good"
-way of doing such changes without breaking distro builders.
-
+> package that should have a different license, you need to define it=20
+> explicitly. E.g.:
 >=20
->> Cheers,
+> LICENSE_${PN} =3D "bzip2-1.0.6"
+> LICENSE_${PN}-dev =3D "bzip2-1.0.6"
+> LICENSE_${PN}-dbg =3D "bzip2-1.0.6"
+> LICENSE_${PN}-doc =3D "bzip2-1.0.6"
+> LICENSE_${PN}-src =3D "bzip2-1.0.6"
+> LICENSE_libbz2 =3D "bzip2-1.0.6"
 >=20
-> cu
-> Adrian
->=20
+> The above assumes that what is covered by the GPL-3.0 license only ends=
+=20
+> up in ${PN}-ptest. If any of it ends up in any of the other packages=20
+> above, then obviously they need to be removed from the list too.
+
+right, as such this patch will mean bzip2 has to be skipped for distros
+which have no GPL3 policy. Its better to have per-package licenses
+expressed here.
 
 
---QGL0zpEOl7KC8TuFXit12b36YrwNBQk2A--
+--IrUSfUamZW54cB3Oec0MkskLjVMz48qoj--
 
---tEmOY0m2ozWFSlFEYdtDCpZMt9UZ1c2mO
+--CqNOI9qkYCYFXwr0TaDJjsrfhDvHcefUo
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXsHNAQAKCRC7BTNVkZ0z
-FNpkAJ9bJAhrvU5CqAjUVcYggalnFxed3QCfRtSSJfCKBRhiii2JjbCthToOwCs=
-=6q7J
+iF0EARECAB0WIQSPpVvapDR0rgZCCc27BTNVkZ0zFAUCXsHOqgAKCRC7BTNVkZ0z
+FCT6AJ9CGQJx57twwz1z5doSQwhVvHtP6wCfbjpFgOqvZDCtBBYcBdnEerBxkn0=
+=tdab
 -----END PGP SIGNATURE-----
 
---tEmOY0m2ozWFSlFEYdtDCpZMt9UZ1c2mO--
+--CqNOI9qkYCYFXwr0TaDJjsrfhDvHcefUo--
