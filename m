@@ -1,103 +1,102 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web12.21540.1589720398536773977
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web12.21806.1589721558043929924
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 May 2020 06:00:00 -0700
+ Sun, 17 May 2020 06:19:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=d6KzLqFB;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=5ztw=67=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49Q2L23fGGz3p
-	for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 14:59:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1589720395;
-	bh=AFDCX2xRTnK1XhLYbAvR0RR+2QhLHRoSugj6CL7QhzQ=;
-	h=From:To:Subject:Date:From;
-	b=d6KzLqFBkCFyh6Up9BVwye0OSA1e7AUSxCjkOIpK5mZ54vV11mkFcD0JRlLJ4wtdY
-	 xepfUlITKJHFGe+F6MHBdkurhYvVbOrHvCKGUCvp2yVSrQ4kn+P1vjzfm7lDTRbFcL
-	 ht/q12/eEMt9PtubjY0huQY7KdHGnffCLjC0h6JxTXZlDBN61E32LhQWyMrZQL8kqO
-	 Yn0VE6p+k0VTQDvcG0st2DFT+VcYPiT+XctAoPwhbOic/q1a8yiWk6RMFCtpB28LU7
-	 YVYIrsGFkrGGFAJRBl66w0zBA5KY7VuM0S2WSgMhEswkWNM698K5WU0ELgu0dG5h39
-	 2l+v4UsL15oimx3aJJQi/2Vj6ChfLHARy19Yt0mkHrC4JVlAvMXpAJCh6y2q3FBLGs
-	 l0AzuA/GyOKFkxURLoYxKn9Bt7rwJ5OF1Ky6EV4jQnHCTPDdAgTvQKW3Pshf+kIWPu
-	 gBm3rphlyzUtFjRvEHE816nVfV1xBzB4eqMNnhdl5CZ1YRrR3wPhLusIhkIvXynmdQ
-	 eoyYu6m1wz664Drd8RkvbX7FFYpw4UpxDlKaeJzCcJtIohwAMkiJevdbbzwlKi7ofK
-	 wZlMnDygL5Jsptm/n7i0UM7wKeDMQmu4V2VgrA3nIksu9u20orAKvrNCElQWAXufjw
-	 5KXlrxnU/ZENHoxkim/PCHR0=
-From: "Adrian Bunk" <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] gcc: Remove mudflap remnants
-Date: Sun, 17 May 2020 15:59:52 +0300
-Message-Id: <20200517125952.25245-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YIIgA4n+;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f68.google.com with SMTP id y3so8693223wrt.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 17 May 2020 06:19:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=LyJM06FoUM7/JZYwTpkpuiLcA6L287sLBcZwuXOIZYg=;
+        b=YIIgA4n+jw38HUp2ZDCoYq7Au3q9jl7c2to+eP2dwLVMe0Izzz1WhOpp8T7pj7vlTm
+         evGvcVtoV5JS3fID+/XFdSKB9og7hkdUeTOy3hOMiPe4Lkd44Xf4tkAtSRatis64hlFv
+         UtNT5PWw79k0bduhZyoHb2O8ADkqJwuoP0Few=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=LyJM06FoUM7/JZYwTpkpuiLcA6L287sLBcZwuXOIZYg=;
+        b=i0pgCYthyOghANOBlbXYS4fwIj/xcpr62rYiuLhHIp9avzj2VLDgJP7/y8NkwKe+Rm
+         h+/QAG6wLs2WyLQLqGQbjmRNrHj9CHf7amBtAcOp1Nx80HSvF8D4k58luUxMNJtI8NVg
+         LF19iQT3mCiwVsajq5xQZcGC7uEYLvJGSGbRCuhh3Z3oai00ObpVyOItFfB60zSZiq4+
+         gmkdhqGdA3OUUm4STr5l70zGXBgS3vxDY+grVsV7h0c5bvkird8bMg2nq3BiaEp/rB03
+         DuBZzqLrIAxjKuYfpyS99wcEtZsw0spZ5PbmcZM1pBlWCMye74FkQ0v3Co7xxFWw5mfa
+         4N6A==
+X-Gm-Message-State: AOAM531sA6cahrkSZIkdvBe5tUgHDD1EhtZtDs5fF0zUOfdzWiYzOMAi
+	tcCOG5OKMP/RW9E5W1X/PZPJ7g==
+X-Google-Smtp-Source: ABdhPJzKFIXLIDhUruSAZY0yiS1rdyf6jkM4caJzcIV/L8oRqna57w1HBdEi58w36AJZb2Q59nXhtQ==
+X-Received: by 2002:adf:f783:: with SMTP id q3mr14227564wrp.348.1589721556391;
+        Sun, 17 May 2020 06:19:16 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id b18sm11751939wrn.82.2020.05.17.06.19.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 May 2020 06:19:15 -0700 (PDT)
+Message-ID: <40db772827bd9b923d3604a76413a159dba61575.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 3/4] lttng-tools: upgrade to 2.12.0
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Ovidiu Panait <ovidiu.panait@windriver.com>, 
+	openembedded-core@lists.openembedded.org, Jonathan Rajotte
+	 <jonathan.rajotte-julien@efficios.com>
+Date: Sun, 17 May 2020 14:19:14 +0100
+In-Reply-To: <160FD1B38339CE5B.23434@lists.openembedded.org>
+References: <20200515121106.27860-1-ovidiu.panait@windriver.com>
+	 <20200515121106.27860-3-ovidiu.panait@windriver.com>
+	 <160FD1B38339CE5B.23434@lists.openembedded.org>
+User-Agent: Evolution 3.36.1-2 
+MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-mudflap was removed in gcc 4.9.
+On Sun, 2020-05-17 at 13:49 +0100, Richard Purdie via lists.openembedded.org wrote:
+> On Fri, 2020-05-15 at 15:11 +0300, Ovidiu Panait wrote:
+> > Upgrade lttng-tools 2.11.2 -> 2.12.0:
+> > * drop x32 patch, as it was merged upstream
+> > * License-Update: licenses were moved under LICENSES directory and changed in
+> >   upstream commit [1]
+> > 
+> > [1] https://github.com/lttng/lttng-tools/commit/ab5be9fa2eb5ba9600a82cd18fd3cfcbac69169a
+> > 
+> > Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> > ---
+> >  .../lttng/lttng-tools/x32.patch               | 36 -------------------
+> >  ...-tools_2.11.2.bb => lttng-tools_2.12.0.bb} | 11 +++---
+> >  2 files changed, 5 insertions(+), 42 deletions(-)
+> >  delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/x32.patch
+> >  rename meta/recipes-kernel/lttng/{lttng-tools_2.11.2.bb => lttng-tools_2.12.0.bb} (94%)
+> 
+> Fails on musl:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1913
+> 
+> In file included from ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:14,
+>                  from ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.c:10:
+> ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:17:10: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+>    17 |  TP_ARGS(ino_t, ns_ino),
+>       |          ^~~~~
+> ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/tp.h:17:10: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+>    17 |  TP_ARGS(ino_t, ns_ino),
+>       |          ^~~~~
+> ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/./tp.h:17:2: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+>    17 |  TP_ARGS(ino_t, ns_ino),
+>       |  ^~~~~~~
+> ../../../../../lttng-tools-2.12.0/tests/utils/testapp/gen-ust-events-ns/./tp.h:17:2: error: unknown type name 'ino_t'; did you mean 'int8_t'?
+>    17 |  TP_ARGS(ino_t, ns_ino),
+>       |  ^~~~~~~
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-devtools/gcc/gcc-10.1.inc    |  2 --
- meta/recipes-devtools/gcc/gcc-runtime.inc | 15 ---------------
- 2 files changed, 17 deletions(-)
+and:
 
-diff --git a/meta/recipes-devtools/gcc/gcc-10.1.inc b/meta/recipes-devtools/gcc/gcc-10.1.inc
-index 041d426187..a3de91a2c6 100644
---- a/meta/recipes-devtools/gcc/gcc-10.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-10.1.inc
-@@ -87,7 +87,6 @@ EXTRA_OECONF_BASE = "\
-     ${SSP} \
-     --enable-libitm \
-     --disable-bootstrap \
--    --disable-libmudflap \
-     --with-system-zlib \
-     ${@'--with-linker-hash-style=${LINKER_HASH_STYLE}' if '${LINKER_HASH_STYLE}' else ''} \
-     --enable-linker-build-id \
-@@ -99,7 +98,6 @@ EXTRA_OECONF_BASE = "\
- "
- 
- EXTRA_OECONF_INITIAL = "\
--    --disable-libmudflap \
-     --disable-libgomp \
-     --disable-libitm \
-     --disable-libquadmath \
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index e12c74613f..df1432e68d 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -47,7 +47,6 @@ RUNTIMETARGET = "${RUNTIMELIBSSP} libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM
- RUNTIMETARGET_libc-newlib = "libstdc++-v3"
- 
- # libiberty
--# libmudflap
- # libgfortran needs separate recipe due to libquadmath dependency
- 
- SLIB = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
-@@ -167,9 +166,6 @@ PACKAGES = "\
-     libssp \
-     libssp-dev \
-     libssp-staticdev \
--    libmudflap \
--    libmudflap-dev \
--    libmudflap-staticdev \
-     libquadmath \
-     libquadmath-dev \
-     libquadmath-staticdev \
-@@ -242,17 +238,6 @@ SUMMARY_libquadmath-dev = "GNU quad-precision math library - development files"
- FILES_libquadmath-staticdev = "${libdir}/libquadmath.a"
- SUMMARY_libquadmath-staticdev = "GNU quad-precision math library - static development files"
- 
--# NOTE: mudflap has been removed as of gcc 4.9 and has been superseded by the address sanitiser
--FILES_libmudflap = "${libdir}/libmudflap*.so.*"
--SUMMARY_libmudflap = "Pointer debugging library for gcc"
--FILES_libmudflap-dev = "\
--    ${libdir}/libmudflap*.so \
--    ${libdir}/libmudflap.la \
--"
--SUMMARY_libmudflap-dev = "Pointer debugging library for gcc - development files"
--FILES_libmudflap-staticdev = "${libdir}/libmudflap.a"
--SUMMARY_libmudflap-staticdev = "Pointer debugging library for gcc - static development files"
--
- FILES_libgomp = "${libdir}/libgomp*${SOLIBS}"
- SUMMARY_libgomp = "GNU OpenMP parallel programming library"
- FILES_libgomp-dev = "\
--- 
-2.17.1
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/938
+https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/1907
+
+will abort the build as this is going to appear everywhere.
+
+Cheers,
+
+Richard
+
 
