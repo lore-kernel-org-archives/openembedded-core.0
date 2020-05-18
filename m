@@ -1,108 +1,60 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web12.369.1589836871685177845
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web12.1494.1589840516458810213
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2020 14:21:12 -0700
+ Mon, 18 May 2020 15:21:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KXU/tlxX;
- spf=pass (domain: gmail.com, ip: 209.85.221.65, mailfrom: andrey.z@gmail.com)
-Received: by mail-wr1-f65.google.com with SMTP id v12so13444657wrp.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2020 14:21:11 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=q6WhgRUu;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f175.google.com with SMTP id i68so9567482qtb.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2020 15:21:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0E46g3qX4r2NO20ZlCjWsnhKlZe/LLQwNVFZhS6mSSQ=;
-        b=KXU/tlxXjhZiG06i8S/KjW4ObDwMJSa9fLebWRExpb6NYCNgAbPZAM8OX6vqNP1ePd
-         4zSEC0JViy7kM3jF2ge+waWlV8L/xKiDH+TV5xwoqSZUvDlhOo/L9GCWsIE49C82Nwx+
-         zKXPH7+36TP0jpvApZvwIBjPNRl3DEApRV0iPu/dyhrXJAHegkNN29gOc3xfJO/ud/xH
-         0Vh53T025RJDMJooQ9J0cNXgeG6JnXU/s2t0BXObxSdIQamHkGcewjHU+pzTKlxhMtK8
-         XyrnwD5ISxeVqKUNgq8XeVLVaKoTRVnU/uQLW60jWXr+iSyM7e6VijJXvReFDfVN07NS
-         EYwA==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=C2LIXcpwG+TYGqUsdwEVOC23uyPziNTyeSBwUAc7Thk=;
+        b=q6WhgRUut7RiPtC+e0rFQf6t2ZzbiN2ZQy0ZJ7lb3jRxJYxpAjoDnDY1yZwnD79RjC
+         nmuQpQvxJbn1UyyJzijEfGDekH4fP33QIV8rBlqhFnF/3CTWEpQCt3R2kp0RNGmahKlH
+         qiw88QIIhaysCfMk1KkjSw+2iEDk+ZTgRSBJPvey7nJ4K0VD5CwC9yQWSzzv3Y1Z4uZD
+         /KvpE4yvSytNyIYEmDxIs6YL5FKX3ufzXvV1dfq0rE46MjxUAqj3SZPM3AOXoU0wDe+I
+         CBwb2Vkdze/nXyeTnQR54eAjyqfkmPCKBzmo9Ikb4jADhN3Zf8O+YilJhdltN29FnnxJ
+         vgzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0E46g3qX4r2NO20ZlCjWsnhKlZe/LLQwNVFZhS6mSSQ=;
-        b=iQmHbmYNAiBp5TaaDdrLk3wmQPEh2O0wEfsGr9HXzx0lk8Airl1WuidJmOdw6yYlZz
-         A3014sFb2zi8ozWc8XqqjXznGuUISS4w5vqpoSxxyLfGfvw6PiAFw/h/Q3Pryj9XvuST
-         zzueEZeQhp1zBue91NfDySrfJYK5WBUAZdoxKC8RqWTDlOWZfzpvGwoaJhWDMR9xLW4l
-         3V+ebRHLpcCpThGYcwiLNGEPfVi9isDexdWOvpICU7oHrnsZBuLmCyCfvdDEls+V/5ls
-         kSCNut0v9xpft6ZqkW0HFRvtJ1pud0zCP9sMfGrbkkxMiReR6jX55VfuRdPpia49Bquw
-         5hCA==
-X-Gm-Message-State: AOAM533QJGcwf2E3v9mesDGOrdgDXIE6gLfv8SH6DLzEJr5WKgeMdN0F
-	JC3p/sX/367aWllp2m0GQ8FIV+2VuQ4hB4L2PQU=
-X-Google-Smtp-Source: ABdhPJxyB1X+r/M072IkGYwycNvVCl9KQfWF2SWjI2FGBfFR1uj/C1jjDyhQRXIpqCqve1UZo77X9hElB2lQFzjSjmg=
-X-Received: by 2002:a05:6000:1241:: with SMTP id j1mr21879289wrx.42.1589836870149;
- Mon, 18 May 2020 14:21:10 -0700 (PDT)
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=C2LIXcpwG+TYGqUsdwEVOC23uyPziNTyeSBwUAc7Thk=;
+        b=JW6cMJE4HJ7cszDiblHmT8kcA0LHZSPkNjPhPfGQyqN87w8NeaRoqfHdt783BtigSC
+         xmzzAWCQY/pCsUxXfjuNhSqx0pSUpdP8+rfbRag/tgafGeb7CSS4ANpnoMIaVxP+Hd45
+         SAnD6iUKPhAI7b3UlypNtcDp0KWAe+nezMYeQMA3kKYcfhmjFo1eN5PxqO12UewyV8co
+         jXo1Wj1ph//hNnPmxiAPBaJHYLk8jWczCuXBnsTw1i/m66R/gSaZsipMlGh0rsdKg6/S
+         Uv56joeFAwP404BpZWp7+yC31BFCNL9nzQMv828f7ZXKe5mYNZv8JnQNlbeHVWqeCaww
+         8uhA==
+X-Gm-Message-State: AOAM533t/KxR08pyPnHDSLGMlGLrPPcf37mU6ev2ct4fmcpcRB3Jm+qe
+	mg3wUa/z9vXfnH2WvnHlhr4B5tR8yTLgtXK5LnE=
+X-Google-Smtp-Source: ABdhPJyRPbsIbvP3LIwahRU5oJ93DO2a/b9bjZDim7HFAPyH6D9GsFD6JH98Bw1CEJ4V+wLMqNZf+2mv6X1KtnRPdRQ=
+X-Received: by 2002:ac8:478f:: with SMTP id k15mr4169054qtq.285.1589840515406;
+ Mon, 18 May 2020 15:21:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200511182812.441561-1-raj.khem@gmail.com> <20200511182812.441561-3-raj.khem@gmail.com>
- <20200514152934.GC21399@localhost> <7111a5b8-12b5-d683-eb39-6661223697ad@gmail.com>
- <20200514181917.GA28774@localhost> <5f87e63e-d827-c615-44b7-0071b1e80694@gmail.com>
- <16103797E38CE61D.31744@lists.openembedded.org>
-In-Reply-To: <16103797E38CE61D.31744@lists.openembedded.org>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Mon, 18 May 2020 23:20:59 +0200
-Message-ID: <CAHtQpK5xXm2PxB5_aDAEpdkf4JLo99xddvZxivOicqoJx0UygA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH V3 3/3] gcc10: Revert using __getauxval in libgcc
-To: Andrey Zhizhikin <andrey.z@gmail.com>
-Cc: Khem Raj <raj.khem@gmail.com>, Adrian Bunk <bunk@stusta.de>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Mon, 18 May 2020 15:21:29 -0700
+Message-ID: <CAMKF1sqLxWZD6U1YHrr3Ngb1Vh8JpjCvUXRD7ybarit9wz5KfA@mail.gmail.com>
+Subject: Dunfell backport request
+To: Steve Sakoman <sakoman@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, May 18, 2020 at 9:56 PM Andrey Zhizhikin via
-lists.openembedded.org <andrey.z=gmail.com@lists.openembedded.org>
-wrote:
->
-> On Thu, May 14, 2020 at 8:22 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> >
-> >
-> > On 5/14/20 11:19 AM, Adrian Bunk wrote:
-> > > On Thu, May 14, 2020 at 10:18:53AM -0700, Khem Raj wrote:
-> > >> On 5/14/20 8:29 AM, Adrian Bunk wrote:
-> > >>> Disabling -moutline-atomics would also workaround this issue.
-> > >>
-> > >> I think this is a good suggestion and I do not like to revert gcc patches if
-> > >> we can avoid doing that. I will propose a fix to disable outline-atomics for
-> > >> valgrind on aarch64
-> > >> ...
-> > >
-> > > Not just for valgrind, globally.
-> > >
-> >
-> > so far just doing for valgrind is enough. I am not averse to enabling it
-> > globally but perhaps we need to do some pre-work to decide that, maybe
-> > some benchmark numbers.
->
-> FYI: I've just seen this issue on the [optee-os] as well, build fails
-> with the same "undefined reference to `__getauxval'". Looks like it is
-> not only about valgrind...
->
-> Any chance anyone had the same problem and proposed fix?
+Hi Steve
 
-Actually, setting [-mno-outline-atomics] seems to help here, as Adrian
-suggested.
+I would like to request backporting following master commits into dunfell
 
-I'll see if this could be used further as a fix. Sorry for the noise.
+https://git.openembedded.org/openembedded-core/commit/?id=fd4a454b5a357c7a26792bf486212957c698839c
+https://git.openembedded.org/openembedded-core/commit/?id=882df891e13ce5c64718c364efb9ef2bf189eabf
+https://git.openembedded.org/openembedded-core/commit/?id=2c7e0e0bf32eb1ed0b7d8acddb16c0d1e93f2aa1
+https://git.openembedded.org/openembedded-core/commit/?id=48b6f7e31ff042a4900307e830f9ed9375a8041a
+https://git.openembedded.org/openembedded-core/commit/?id=ce6c50ea68c34e02b487d54fdd9288e04833cdef
+https://git.openembedded.org/openembedded-core/commit/?id=886333c5d1c336da99300d24fb3c15ab0b37d1cb
+https://git.openembedded.org/openembedded-core/commit/?id=03b04fcfa5549a54fe6f335df14433934a7d5128
+https://git.openembedded.org/openembedded-core/commit/?id=e114c670d1e670397c1c04292688b7550f54027c
+https://git.openembedded.org/openembedded-core/commit/?id=030cd9021ef50d71482f6acf0e05fe425038c822
+https://git.openembedded.org/openembedded-core/commit/?id=a5331c5a8bbe63c6c2e56ebec496b28968d4663d
 
->
-> >
-> > > The main effect in Yocto distributions is (slightly) slower and larger code.
-> > >
-> > > cu
-> > > Adrian
-> > >
-> >
->
->
->
-> --
-> Regards,
-> Andrey.
-> 
-
-
-
--- 
-Regards,
-Andrey.
+Thanks
+-Khem
