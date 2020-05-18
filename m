@@ -1,82 +1,177 @@
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
- by mx.groups.io with SMTP id smtpd.web11.39191.1589797328735344518
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web10.40144.1589801643685036983
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2020 03:22:09 -0700
+ Mon, 18 May 2020 04:34:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QUL/5apg;
- spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-lj1-f193.google.com with SMTP id g1so9220299ljk.7
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2020 03:22:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VGPi1k4s3Ik7YA81EbdDJIWIuMvICmPvMybJloiKGV8=;
-        b=QUL/5apgPvNABc1uTBl6I50VHHHotP2rQ7bpyNFKWMaC+pr0mgejjrITJJdHfYthXO
-         q3nLv4suMqpNLe1ad1doa6qZbAUDNa/xNzRgxMH+WKdbQq4DJs78kbxWJkqPQLazKpix
-         yu84k8gAs4U8M7tBWVEPrb1JXusurtr6CWdSXwfP7MQfn+98rWx0rDGPlmnQM+iLJzF0
-         IEgQccGx0IOg/gfrCJushpuiuqoM5c5RNjfdLEZepDihjdDDITHnOdAZmJvAeHetraxc
-         CdWDb631ueOLtyhdnBif3DIrLPvJq9q4b8jIrjL2Owg38sNgIFmeL61/HRqtHlBywMRm
-         BQNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :mime-version:content-transfer-encoding;
-        bh=VGPi1k4s3Ik7YA81EbdDJIWIuMvICmPvMybJloiKGV8=;
-        b=szsoMkSwH3d4UcZFDR2T8/llbq0oCejMyKq+XXhu+ftz/E+7I18zEOzuJ2ey0+FJsM
-         o9EtEf7ZEqTmp7pz9QelyBprLbpqwuGKr8+b5Nj0Llvko3bzsRC+Zoi6FE4iK8hL3GSS
-         yZ/1f/k+5V47YN/fWvTMOZ2F7K4+DOVGzbyteJA9lbAdAAjZK9q81IWIL3dooak41nl0
-         hnfsT09T69ktQ7vpSQNlzPTMrMFHOC7Aa5KS/L1zgZ6hAVuSW5vQ2E4Jssi3x5fN0UwO
-         hZ3HWSY3NK3FGVQoU0GMjETQR+Cc2GZTqd7D2OErdnfRkVPpB6FRpSGccjxEL6apiv6i
-         kGwg==
-X-Gm-Message-State: AOAM5309Js+Sidjnc2tzrPVTiHJvdKGAPDK5TPGocarymkgAQjj59BCs
-	RyJHGcntyOiRZxxMXGUovIgT8kTtie/XlA==
-X-Google-Smtp-Source: ABdhPJxO6xSVBUUAItSBIi7SBYeb4pcjQID8xfNCxfJODloLzTkToXGpo8guC2X0e9j6hG1uDlo4Ug==
-X-Received: by 2002:a2e:87d3:: with SMTP id v19mr9476451ljj.176.1589797326516;
-        Mon, 18 May 2020 03:22:06 -0700 (PDT)
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from neopili.qtec.com (cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-        by smtp.gmail.com with ESMTPSA id m4sm3615046ljb.46.2020.05.18.03.22.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2020 03:22:05 -0700 (PDT)
-Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	dggonz@gmail.com
-Cc: Ricardo Ribalda <ricardo@ribalda.com>
-Subject: [PATCH] classes/image_types_wic: Reorder do_flush_pseudodb
-Date: Mon, 18 May 2020 12:22:04 +0200
-Message-Id: <20200518102204.2676702-1-ricardo@ribalda.com>
-X-Mailer: git-send-email 2.26.2
+ dkim=missing; spf=none, err=permanent DNS error (domain: auh.yoctoproject.org, ip: 140.211.169.56, mailfrom: auh@auh.yoctoproject.org)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 67E75E01B89; Mon, 18 May 2020 04:34:03 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,MISSING_DATE,
+	MISSING_MID,RDNS_NONE autolearn=no version=3.3.1
+X-Spam-HAM-Report: 
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.5 MISSING_MID Missing Message-Id: header
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+	*  1.4 MISSING_DATE Missing Date: header
+Received: from [172.29.10.115] (unknown [198.145.29.2])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D8C24E01BC9
+	for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2020 04:33:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@auh.yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] Upgrade status: 2020-05-18
+Message-Id: <20200518113403.67E75E01B89@yocto-www.yoctoproject.org>
+Date: Mon, 18 May 2020 04:34:03 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="===============2350330816673490870=="
 
-When IMAGE_FSTYPES contains more types than wic, it can happen than the
-pseudo database is not flushed properly.
+--===============2350330816673490870==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 
-This can be solved by changing the order of when do_flush_pseudodb is
-launched.
+UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6
+IDI2CiAgICAgICAgYmluZCwgOS4xNi4yLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwu
+Y29tPgogICAgICAgIHBwcCwgMi40LjgsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVy
+LmNvbT4KICAgICAgICBnZXR0ZXh0LCAwLjIwLjIsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3
+aW5kcml2ZXIuY29tPgogICAgICAgIGFwdCwgMS44LjIuMSwgQW7DrWJhbCBMaW3Ds24gPGxpbW9u
+LmFuaWJhbEBnbWFpbC5jb20+CiAgICAgICAgYXV0b21ha2UsIDEuMTYuMiwgUm9iZXJ0IFlhbmcg
+PGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgYmlzb24sIDMuNi4yLCBDaGVuIFFp
+IDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgY21ha2UsIDMuMTcuMiwgUGFzY2FsIEJh
+Y2ggPHBhc2NhbC5iYWNoQHNpZW1lbnMuY29tPgogICAgICAgIGdudS1jb25maWcsIDIwMjAwMTE3
+LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZl
+ci5jb20+CiAgICAgICAganF1ZXJ5LCAzLjUuMSwgSm9zaHVhIFdhdHQgPEpQRVdoYWNrZXJAZ21h
+aWwuY29tPgogICAgICAgIGpzb24tYywgMC4xNCwgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIu
+Y29tPgogICAgICAgIGxpYm1vZHVsZW1kLCAyLjkuMywgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgu
+a2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgbGx2bSwgMTAuMC4wLCBLaGVtIFJhaiA8cmFqLmto
+ZW1AZ21haWwuY29tPgogICAgICAgIG1lc29uLCAwLjU0LjIsIEFsZXhhbmRlciBLYW5hdmluIDxh
+bGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIHB5dGhvbjMtc2V0dXB0b29scywgNDYuNC4w
+LCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+
+CiAgICAgICAgcWVtdSwgNS4wLjAsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51
+eGZvdW5kYXRpb24ub3JnPgogICAgICAgIGV0aHRvb2wsIDUuNiwgQ2hhbmdoeWVvayBCYWUgPGNo
+YW5naHllb2suYmFlQGdtYWlsLmNvbT4KICAgICAgICBsdHAsIDIwMjAwNTE1LCBZaSBaaGFvIDx5
+aS56aGFvQHdpbmRyaXZlci5jb20+CiAgICAgICAgbHR0bmctdG9vbHMsIDIuMTIuMSwgUmljaGFy
+ZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAgICAgICAgYWxz
+YS1saWIsIDEuMi4yLCBUYW51IEthc2tpbmVuIDx0YW51a0Bpa2kuZmk+CiAgICAgICAgYWxzYS10
+b3BvbG9neS1jb25mLCAxLjIuMiwgVGFudSBLYXNraW5lbiA8dGFudWtAaWtpLmZpPgogICAgICAg
+IGFsc2EtdWNtLWNvbmYsIDEuMi4yLCBUYW51IEthc2tpbmVuIDx0YW51a0Bpa2kuZmk+CiAgICAg
+ICAgbXBnMTIzLCAxLjI2cmMzLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWls
+LmNvbT4KICAgICAgICBib29zdCwgMS43My4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5h
+dmluQGdtYWlsLmNvbT4KICAgICAgICBsaWJwY3JlMiwgMTAuMzUsIEFybWluIEt1c3RlciA8YWt1
+c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgbGlieWFtbCwgMC4yLjQsIEFsZXhhbmRlciBLYW5h
+dmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIHJlMmMsIDEuMywgS2hlbSBSYWog
+PHJhai5raGVtQGdtYWlsLmNvbT4KICAgICogU3VjY2VlZGVkOiA1MQogICAgICAgIGlwcm91dGUy
+LCA1LjYuMCwgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlQGdtYWlsLmNvbT4KICAgICAg
+ICBsaWJ4Y3J5cHQtY29tcGF0LCA0LjQuMTYsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+
+CiAgICAgICAgYnRyZnMtdG9vbHMsIDUuNi4xLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5h
+dmluQGdtYWlsLmNvbT4KICAgICAgICBidWlsZC1jb21wYXJlLCAyMDIwLjAzLjMxLW5ldy1jb21t
+aXRzLWF2YWlsYWJsZSwgUGF1bCBFZ2dsZXRvbiA8cGF1bC5lZ2dsZXRvbkBsaW51eC5pbnRlbC5j
+b20+CiAgICAgICAgY2NhY2hlLCAzLjcuOSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRy
+aXZlci5jb20+CiAgICAgICAgY3JlYXRlcmVwby1jLCAwLjE1LjEwLCBBbGV4YW5kZXIgS2FuYXZp
+biA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBkcGtnLCAxLjIwLjAsIEFuw61iYWwg
+TGltw7NuIDxsaW1vbi5hbmliYWxAZ21haWwuY29tPgogICAgICAgIGxpYnJlcG8sIDEuMTEuMywg
+QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgbXRvb2xz
+LCA0LjAuMjQsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgcHl0
+aG9uMy1udW1weSwgMS4xOC40LCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291cmNlQG9sZWtz
+YW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgcHl0aG9uMy1jeXRob24sIDAuMjkuMTcsIE9sZWtz
+YW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAg
+ICBweXRob24zLWdpdGRiLCA0LjAuNSwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBv
+bGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIHB5dGhvbjMtbWFnaWMsIDAuNC4xOCwgSm9z
+aHVhIFdhdHQgPEpQRVdoYWNrZXJAZ21haWwuY29tPgogICAgICAgIHB5dGhvbjMtbWFrbywgMS4x
+LjIsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNv
+bT4KICAgICAgICBweXRob24zLXB5Y2Fpcm8sIDEuMTkuMSwgT2xla3NhbmRyIEtyYXZjaHVrIDxv
+cGVuLnNvdXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIHB5dGhvbjMtcHlnbWVu
+dHMsIDIuNi4xLCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291cmNlQG9sZWtzYW5kci1rcmF2
+Y2h1ay5jb20+CiAgICAgICAgcHl0aG9uMy1weWdvYmplY3QsIDMuMzYuMSwgT2xla3NhbmRyIEty
+YXZjaHVrIDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIHB5dGhv
+bjMtc21tYXAsIDMuMC4xLCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291cmNlQG9sZWtzYW5k
+ci1rcmF2Y2h1ay5jb20+CiAgICAgICAgcHl0aG9uMy1zdWJ1bml0LCAxLjQuMCwgT2xla3NhbmRy
+IEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIHB5
+dGhvbjMtdGVzdHRvb2xzLCAyLjQuMCwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBv
+bGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIHB5dGhvbjMsIDMuOC4zLCBPbGVrc2FuZHIg
+S3JhdmNodWsgPG9wZW4uc291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgcnVi
+eSwgMi43LjEsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgdmFs
+YSwgMC40OC41LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAg
+ICAgICBhY3BpY2EsIDIwMjAwNDMwLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29t
+PgogICAgICAgIGFzY2lpZG9jLCA4LjYuMTAsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNv
+bT4KICAgICAgICBjdXBzLCAyLjMuMywgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
+ICAgICAgIGdhd2ssIDUuMS4wLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAg
+ICAgbGVzcywgNTYxLCBZaSBaaGFvIDx5aS56aGFvQHdpbmRyaXZlci5jb20+CiAgICAgICAgbGli
+c29sdiwgMC43LjEzLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAg
+IG1hbi1wYWdlcywgNS4wNiwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgog
+ICAgICAgIG1zbXRwLCAxLjguMTAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21h
+aWwuY29tPgogICAgICAgIHN1ZG8sIDEuOS4wLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5j
+b20+CiAgICAgICAgc3lzc3RhdCwgMTIuMi4yLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5j
+b20+CiAgICAgICAgeHosIDUuMi41LCBEZW55cyBEbXl0cml5ZW5rbyA8ZGVueXNAdGkuY29tPgog
+ICAgICAgIGFkd2FpdGEtaWNvbi10aGVtZSwgMy4zNi4xLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0
+b25AaW50ZWwuY29tPgogICAgICAgIGdzZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXMsIDMuMzYuMSwg
+QW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBjb2dsLTEuMCwgMS4y
+Mi42LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIHBpZ2xpdCwg
+MS4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVs
+LmNvbT4KICAgICAgICB3YWZmbGUsIDEuNi4xLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50
+ZWwuY29tPgogICAgICAgIHBpeG1hbiwgMC40MC4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
+aW50ZWwuY29tPgogICAgICAgIGttb2QsIDI3LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5j
+b20+CiAgICAgICAgbGludXgtZmlybXdhcmUsIDIwMjAwNDIxLCBPdGF2aW8gU2FsdmFkb3IgPG90
+YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyPgogICAgICAgIGx0dG5nLW1vZHVsZXMsIDIu
+MTIuMCwgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+
+CiAgICAgICAgYWxzYS1wbHVnaW5zLCAxLjIuMiwgVGFudSBLYXNraW5lbiA8dGFudWtAaWtpLmZp
+PgogICAgICAgIGFsc2EtdG9vbHMsIDEuMi4yLCBUYW51IEthc2tpbmVuIDx0YW51a0Bpa2kuZmk+
+CiAgICAgICAgeDI2NCwgcjI5OTEtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBBbnVqIE1pdHRhbCA8
+YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHB1enpsZXMsIDAuMC1uZXctY29tbWl0cy1h
+dmFpbGFibGUsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgZGlm
+Zm9zY29wZSwgMTQ0LCBKb3NodWEgV2F0dCA8SlBFV2hhY2tlckBnbWFpbC5jb20+CiAgICAgICAg
+bGliaWNhbCwgMy4wLjgsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAg
+ICAgbGlic291cC0yLjQsIDIuNzAuMCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNv
+bT4KICAgICAgICBsaWJ1cmN1LCAwLjEyLjEsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2
+aW5AZ21haWwuY29tPgogICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6IDEyCiAgICAgICAgbGlieGNy
+eXB0LCA0LjQuMTYsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAgZ28tcnVu
+dGltZSwgMS4xNC4zLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIGdvLCAx
+LjE0LjMsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAgc3RyYWNlLCA1LjYs
+IFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIHN0cmVzcy1u
+ZywgMC4xMS4xMCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBn
+dGsrMywgMy4yNC4yMCwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAg
+ICBtZXNhLCAyMC4wLjcsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVt
+cy5jb20uYnI+CiAgICAgICAgcG93ZXJ0b3AsIDIuMTIsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
+LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGFsc2EtdXRpbHMsIDEuMi4yLCBUYW51IEthc2tp
+bmVuIDx0YW51a0Bpa2kuZmk+CiAgICAgICAgbGliY2FwLCAyLjM0LCBZaSBaaGFvIDx5aS56aGFv
+QHdpbmRyaXZlci5jb20+CiAgICAgICAgbGlidW53aW5kLCAxLjQuMCwgQnJ1Y2UgQXNoZmllbGQg
+PGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4KICAgICAgICBybmctdG9vbHMsIDYuMTAsIEFudWog
+TWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAqIEZhaWxlZChvdGhlciBlcnJvcnMp
+OiAyCiAgICAgICAgbHR0bmctdXN0LCAyLjEyLjAsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1
+cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgogICAgICAgIHB1bHNlYXVkaW8sIDEzLjk5LjEsIFRh
+bnUgS2Fza2luZW4gPHRhbnVrQGlraS5maT4KCiAgICBUT1RBTDogYXR0ZW1wdGVkPTkxIHN1Y2Nl
+ZWRlZD01MSg1Ni4wNCUpIGZhaWxlZD00MCg0My45NiUpCgpSZWNpcGUgdXBncmFkZSBzdGF0aXN0
+aWNzIHBlciBNYWludGFpbmVyOgoKICAgIFBhdWwgRWdnbGV0b24gPHBhdWwuZWdnbGV0b246IGF0
+dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgQW7DrWJh
+bCBMaW3Ds24gPGxpbW9uLmFuaWJhbDogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTEoNTAuMDAlKSBm
+YWlsZWQ9MSg1MC4wMCUpCiAgICBKb3NodWEgV2F0dCA8SlBFV2hhY2tlcjogYXR0ZW1wdGVkPTMg
+c3VjY2VlZGVkPTIoNjYuNjclKSBmYWlsZWQ9MSgzMy4zMyUpCiAgICBBbnVqIE1pdHRhbCA8YW51
+ai5taXR0YWw6IGF0dGVtcHRlZD05IHN1Y2NlZWRlZD03KDc3Ljc4JSkgZmFpbGVkPTIoMjIuMjIl
+KQogICAgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4OiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MCgw
+LjAwJSkgZmFpbGVkPTIoMTAwLjAwJSkKICAgIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWE6IGF0dGVt
+cHRlZD0yIHN1Y2NlZWRlZD0xKDUwLjAwJSkgZmFpbGVkPTEoNTAuMDAlKQogICAgQWxleGFuZGVy
+IEthbmF2aW4gPGFsZXgua2FuYXZpbjogYXR0ZW1wdGVkPTEyIHN1Y2NlZWRlZD02KDUwLjAwJSkg
+ZmFpbGVkPTYoNTAuMDAlKQogICAgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3I6IGF0
+dGVtcHRlZD0yIHN1Y2NlZWRlZD0xKDUwLjAwJSkgZmFpbGVkPTEoNTAuMDAlKQogICAgUm9iZXJ0
+IFlhbmcgPGxpZXpoaS55YW5nOiBhdHRlbXB0ZWQ9NSBzdWNjZWVkZWQ9MSgyMC4wMCUpIGZhaWxl
+ZD00KDgwLjAwJSkKICAgIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbjogYXR0ZW1wdGVkPTggc3Vj
+Y2VlZGVkPTcoODcuNTAlKSBmYWlsZWQ9MSgxMi41MCUpCiAgICBUYW51IEthc2tpbmVuIDx0YW51
+azogYXR0ZW1wdGVkPTcgc3VjY2VlZGVkPTIoMjguNTclKSBmYWlsZWQ9NSg3MS40MyUpCiAgICBS
+aWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWU6IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD0xKDI1
+LjAwJSkgZmFpbGVkPTMoNzUuMDAlKQogICAgRGVueXMgRG15dHJpeWVua28gPGRlbnlzOiBhdHRl
+bXB0ZWQ9MSBzdWNjZWVkZWQ9MSgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIEtoZW0gUmFq
+IDxyYWoua2hlbTogYXR0ZW1wdGVkPTYgc3VjY2VlZGVkPTEoMTYuNjclKSBmYWlsZWQ9NSg4My4z
+MyUpCiAgICBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGQ6IGF0dGVtcHRlZD0xIHN1Y2Nl
+ZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgWWkgWmhhbyA8eWkuemhhbzogYXR0
+ZW1wdGVkPTUgc3VjY2VlZGVkPTIoNDAuMDAlKSBmYWlsZWQ9Myg2MC4wMCUpCiAgICBQYXNjYWwg
+QmFjaCA8cGFzY2FsLmJhY2g6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9
+MSgxMDAuMDAlKQogICAgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlOiBhdHRlbXB0ZWQ9
+MiBzdWNjZWVkZWQ9MSg1MC4wMCUpIGZhaWxlZD0xKDUwLjAwJSkKICAgIENoZW4gUWkgPFFpLkNo
+ZW46IGF0dGVtcHRlZD02IHN1Y2NlZWRlZD01KDgzLjMzJSkgZmFpbGVkPTEoMTYuNjclKQogICAg
+T2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZTogYXR0ZW1wdGVkPTEyIHN1Y2NlZWRlZD0x
+MSg5MS42NyUpIGZhaWxlZD0xKDguMzMlKQo=
 
-Yocto Bug: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13898
-Fixes: dde90a5dd2b2 ("wic: Fix multi images .wks with bitbake")
-Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
----
- meta/classes/image_types_wic.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
-index 96ed0473ee..7b1db50a28 100644
---- a/meta/classes/image_types_wic.bbclass
-+++ b/meta/classes/image_types_wic.bbclass
-@@ -142,7 +142,7 @@ python do_rootfs_wicenv () {
-     depdir = d.getVar('IMGDEPLOYDIR')
-     bb.utils.copyfile(os.path.join(outdir, basename) + '.env', os.path.join(depdir, basename) + '.env')
- }
--addtask do_flush_pseudodb after do_image before do_image_wic
-+addtask do_flush_pseudodb after do_rootfs before do_image do_image_qa
- addtask do_rootfs_wicenv after do_image before do_image_wic
- do_rootfs_wicenv[vardeps] += "${WICVARS}"
- do_rootfs_wicenv[prefuncs] = 'set_image_size'
--- 
-2.26.2
-
+--===============2350330816673490870==--
