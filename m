@@ -1,254 +1,116 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web12.40020.1589802952590816568
+Received: from EUR04-VI1-obe.outbound.protection.outlook.com (EUR04-VI1-obe.outbound.protection.outlook.com [40.107.8.110])
+ by mx.groups.io with SMTP id smtpd.web12.40234.1589803968051864429
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2020 04:55:52 -0700
+ Mon, 18 May 2020 05:12:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Eh9d3YvM;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id j21so3891684ejy.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2020 04:55:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C06Hl86xhTYlB5wkybb82Mvo2PFxwFN7WGBANyuTq4Y=;
-        b=Eh9d3YvMobsWmrZDwt3psCSGq+D4qjlP8lM7LHziTTmHpQOHapphtQCUFZFKYaXm8G
-         abo4a/arUNX73f6AEUFHckIBB+gV4BNjuir3Os9YaspzKD4EplH5nB4L2U8njvAM3UgU
-         pDkt7vQA+uEUA6CkDMJI110GNAGlu+O8q49zfXVVGkYq1XKYj24KCfKp7o8qf7XSviVN
-         TV9TMx6Ekq40LX5Dnrbjg/erPjbxErt0GIGf/jxjfgdbuj6hI+alKUnYuxGBvy68x8FC
-         L3cRteMSSTAh8igr3d1fzGCiV1XtWpuKVXg7vwuSXv5m4DNhJFi/a79PC52UfCSGeFbK
-         iouw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C06Hl86xhTYlB5wkybb82Mvo2PFxwFN7WGBANyuTq4Y=;
-        b=LiaV5omg9QQFsJIMagozMzJU29QyxjWuLV+BqTUmdEHERU4tsuhUFFBStwYV58wWoy
-         Y5ocwtOowt/XPsxvxA4qmHpeo3Jiu7Nz8kVUCNLAocWDLKnKr8BTfkZsfyvor7r4oHvR
-         iklU/ZUMyINxyBPU6cRDGh9NneQPHUySP14IijILRF1jB2x65FHn8O/fEhTDymHxg/bE
-         vncUyFo+nFg+Jct+V8vXxzbIh0BVH0qNDNfZTcJqMrweI4S2LSwGzRuft20MdiBaJrtP
-         qxlBvU7s6Pd3r+3FjHTOAVdfKfBWW+ewaUmS9DKJAKiX6VhoC9z68BAVCVidSMbguygR
-         txyw==
-X-Gm-Message-State: AOAM531wSqDxhfox6psOg0RgNDmUwIvUU2lSxyMBwyoILZJDMb7PdPHd
-	00xncDlCvdfNIBlqC987nJxjk1trsBiLXO97TRM=
-X-Google-Smtp-Source: ABdhPJxc3ydFwyjCiCGk4YRKyKh+1B+Tijup/j10dmpYbbKxpx9aygyKL2LXbaOxpl0Vzo16Z5Ijg4PML4HUEWYYGSQ=
-X-Received: by 2002:a17:907:420e:: with SMTP id oh22mr14578969ejb.320.1589802950901;
- Mon, 18 May 2020 04:55:50 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200518113617.31831-1-rasmus.villemoes@prevas.dk>
-In-Reply-To: <20200518113617.31831-1-rasmus.villemoes@prevas.dk>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Mon, 18 May 2020 13:55:39 +0200
-Message-ID: <CA+chaQdZQRYMwbaAdE-TE9SNuJpwO=0Z6Qy7SR6kZxN7kpJ3qA@mail.gmail.com>
+ dkim=pass header.i=@prevas.dk header.s=selector1 header.b=AYufCIXR;
+ spf=pass (domain: prevas.dk, ip: 40.107.8.110, mailfrom: rasmus.villemoes@prevas.dk)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c4hSpBjnGQnDggUg34zksv0flbbjJRQXnTHG1MbThGEwKHhXpbh4R0Kxnu+4aN5VM+9csquHPZK61hWHf6L/PEAn9pmu610r1qz9OPYLv/SMC7Pw/TsGn/lAyB9D5lOYSOXRKXlK8V9r3qLvD8RTJrnS55196EhCMw0Ys6r9vmuTobRgS9/SvKshsrBWlkl0lZMwHgNh1U4QVg/wt/3CuUUAb3qgdT8HsSHlzwd3PDLu0WynKIIuGos9DjziY77pImItbt1P9QOj2vE1MLRlpRzQC6PCTw/5+XCDnYjls9RGmOv75NZ31f8WbNnPTFAQUusVud2/4p3pkKFOSj5Q/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XI2UGpmpYpv3lwxW4/pIgGl4pa5e38oUnkoo2kcW/Sg=;
+ b=YbC72lOlgXozMTr30Yvn/aUx/j/ZSckOB7i7P4YZxPhu2LRPYVPFr4ScnLRopKmWhB9KwJx7nm1LObMrSEz7FoDDrOqnFEvugNkKVIyMoVqUBNblSgdkfKUPwli9h2UI+adpssD03G1/sNESML1Z0jciyGuJNlT4AM5Hn0/ggaC+UIWUjRjJxSAe6QRZYTs9G/regHCR75vQyw/CaKgJxotQ5yBnZ9/D3j7JBI9Io4myVLcZMigMd6346nNMdOuUYi+OlO+cZJ6oEnt3Bmpm0N5eeZ5rpiSXjubx+AfibA1XHMZlJbIJFwWd5mu5fctH8XMpamCLgOLf0CLtn/on7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XI2UGpmpYpv3lwxW4/pIgGl4pa5e38oUnkoo2kcW/Sg=;
+ b=AYufCIXRXY58es6JQ3PgrSFOvrJEhxr8NcTD1Z+DEet8Ogs5SRkdoyhkuRG86PfVyeRHEp7R+JmFcl37ORU3v3YIS7J7G4b+nnPglf6ykAB7yhW7LncVw4BVMV0LqG3cRo6xyMkYL0ga/rjsjf6mHpeVDETbAyDfmpp30vu/JpE=
+Authentication-Results: opendreambox.org; dkim=none (message not signed)
+ header.d=none;opendreambox.org; dmarc=none action=none header.from=prevas.dk;
+Received: from VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:e1::21)
+ by VI1PR10MB3743.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:13a::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.25; Mon, 18 May
+ 2020 12:12:45 +0000
+Received: from VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f0ac:4e97:2536:faa]) by VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f0ac:4e97:2536:faa%7]) with mapi id 15.20.3000.022; Mon, 18 May 2020
+ 12:12:45 +0000
 Subject: Re: [PATCH] glibc: move ld.so.conf back to main package
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Khem Raj <raj.khem@gmail.com>, 
-	Andreas Oberritter <obi@opendreambox.org>
-Content-Type: multipart/alternative; boundary="00000000000026c51d05a5ead8aa"
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+ <openembedded-core@lists.openembedded.org>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Khem Raj <raj.khem@gmail.com>, Andreas Oberritter <obi@opendreambox.org>
+References: <20200518113617.31831-1-rasmus.villemoes@prevas.dk>
+ <CA+chaQdZQRYMwbaAdE-TE9SNuJpwO=0Z6Qy7SR6kZxN7kpJ3qA@mail.gmail.com>
+From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
+Message-ID: <0397befe-9f5d-a704-be07-00926fd3fffa@prevas.dk>
+Date: Mon, 18 May 2020 14:12:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+In-Reply-To: <CA+chaQdZQRYMwbaAdE-TE9SNuJpwO=0Z6Qy7SR6kZxN7kpJ3qA@mail.gmail.com>
+X-ClientProxiedBy: AM5PR0601CA0053.eurprd06.prod.outlook.com
+ (2603:10a6:206::18) To VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:803:e1::21)
+Return-Path: rasmus.villemoes@prevas.dk
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.149] (5.186.116.45) by AM5PR0601CA0053.eurprd06.prod.outlook.com (2603:10a6:206::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.24 via Frontend Transport; Mon, 18 May 2020 12:12:44 +0000
+X-Originating-IP: [5.186.116.45]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4ab1fbf6-dbae-4223-f404-08d7fb24c5a0
+X-MS-TrafficTypeDiagnostic: VI1PR10MB3743:
+X-Microsoft-Antispam-PRVS: 
+	<VI1PR10MB3743D61772A43B23A9B426E893B80@VI1PR10MB3743.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-Forefront-PRVS: 04073E895A
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	bWRsEfmGY4Cw5h7FxTRc0+dl83THPzb0IrP5VUrx4XBB76/rM/OiJJpgmkAkyUU2ZgXHNjHcgUxFLHFqu/vXUtGDcnz3+8Tofp+HedipILDwfHdy9tQrSw8gbniq2WllOP3JqEFtSS8xzzhDuz9huGVJeXvJcVDxDeb36L6k3ZXhl0yaO/McMQeTxEHRP5/wAiP8gRG05bEElek4yjc9zt2Fvc74lDEIBgn9fy68Y9svjS1SuC74V/38KkwDpdhqnZhptyXkJGhkSviucF0jtMJuxD+I/LPVIL/bLJ3elA6JuyDB9wbSARqvpWb0qipJ20qDEu6QBw9HYo2rFskQdut+D2guibg/VQFdu0dyzzCs0jpMS3p+o87riTwLQOXrCdw0OZSGGan4CjV74ZnJt06ASBZDla898JqpDa4WYssIzIKMWc7OTH/CFIDDFipeo98S0ax39c0USMPZ9iZyKZD6hd2WWmduth9VfV4t8JTpHcmvUe3S/TyzlcXE42gh
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(376002)(346002)(366004)(136003)(39850400004)(396003)(8676002)(5660300002)(54906003)(86362001)(36756003)(66946007)(316002)(6486002)(4326008)(2616005)(956004)(2906002)(31686004)(52116002)(16576012)(478600001)(31696002)(16526019)(186003)(6916009)(8976002)(26005)(66476007)(44832011)(66556008)(8936002)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: 
+	pTtO6B1BQvJ+Z1cKLwnGK92d6RcYgUiUydgCeM/MnEQBh09ZkllXA95lr5GjIKm+bBV+we19e9gPoR18w8q4uRRJ7DvyglKne51+xyANTZqaLxKX3VB6lxX+4jatJxB9vg3UuPPy1Jwv79IFqlYx//hgkhYqew9XWTPnBkC8J/tIya83OvxN9K49pMkayBfGcxdNJ5pGumu8Yb8J55SoGwMFeoa5MXPv5jb5ZqTCCJriqq+BJTdJVkhmTEZW8R7oYzTOYCEHDERTWXpG4LKwlxJ8xw4vByre51qWpDul7YNZwTJ+J8uyvJhJzhy/8wVtIwmx9fGywwcR63HLlXzhZbHrP50skKt3OKTayo559Rkx6Bh1u1t7PR5QhJcV2nPyYBbHmwWLjOD4IpnK/momJ4Apv6zdO0i/c/V3dZ9IhzzGDV6Y8Vzi8GKtdkZ5h5vjUlJ6sxH0oHYfL0eLrEosPlNkDebj+K/ovDjL9F+klgw=
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ab1fbf6-dbae-4223-f404-08d7fb24c5a0
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 May 2020 12:12:45.0298
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vhn6qVHmalWJVxrmN0ZYyEjOnh5GKa2YzVdS4kh7kwH4MSYYM32V+EPhXWqW9asxrbKRmkZb4SWVdP3FIespCEQPvMyDtCPakLRAl8z15ZU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3743
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---00000000000026c51d05a5ead8aa
-Content-Type: text/plain; charset="UTF-8"
+On 18/05/2020 13.55, Martin Jansa wrote:
+> This won't work, because as soon as glibc is upgraded with package
+> management, the ldconfig files will be restored and there won't be any
+> do_rootfs hook to remove it.
+> 
+> Why isn't ldconfig installed in your setup in first place? RRECOMMENDS
+> should be enough to pull it into every image by default.
 
-This won't work, because as soon as glibc is upgraded with package
-management, the ldconfig files will be restored and there won't be any
-do_rootfs hook to remove it.
+[At the risk of sounding like the lady in the Monty Python spam sketch:]
+I don't _want_ it in my setup - it's a gigantic 700K binary that is
+useless on a squashfs rootfs where for obvious reasons no new libraries
+(or new versions) will ever appear. So no, I don't have ldconfig in my
+distro features (so it's not even rrecommended), and I also don't
+install recommended packages.
 
-Why isn't ldconfig installed in your setup in first place? RRECOMMENDS
-should be enough to pull it into every image by default.
+I just need a ld.so.cache built at image build time. Which works just
+fine, except that the drop-in dir gets ignored due to lack of
+ld.so.conf. After ld.so.cache has been built, the configuration files
+are welcome to go the way of the dodo.
 
-On Mon, May 18, 2020 at 1:36 PM Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-wrote:
+And I'm not removing the ldconfig files if ldconfig is in distro
+features (or if someone has explicitly RDEPEND'ed on the ldconfig
+package), so there's no issue of those files getting "restored" - if you
+have ldconfig on target, they never disappear, so them getting replaced
+during a package upgrade is not a problem.
 
-> There are cases where one doesn't want ldconfig on target (e.g. for
-> read-only root filesystems, it's rather pointless), yet one still
-> needs ld.so.conf to be present at image build time:
->
-> When some recipe installs libraries to a non-standard location, and
-> dutifully drops in a file in /etc/ld.so.conf.d/foo.conf, we need the
-> ld.so.conf containing the
->
->   include /etc/ld.so.conf.d/*.conf
->
-> stanza to get those other locations picked up.
->
-> So change the packaging logic so that there's always an ld.so.conf
-> present when the build-time ldconfig runs, then delete it (and the .d
-> directory) when they would serve no purpose at run-time.
->
-> While here, fix a typo in the bb.note so one can just copy-paste the
-> line from the log-file and redo the command.
->
-> Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-> ---
->  meta/lib/oe/rootfs.py                     | 11 ++++++++++-
->  meta/recipes-core/glibc/glibc-package.inc |  4 ++--
->  2 files changed, 12 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-> index cd65e62030..0ff4278d15 100644
-> --- a/meta/lib/oe/rootfs.py
-> +++ b/meta/lib/oe/rootfs.py
-> @@ -297,9 +297,18 @@ class Rootfs(object, metaclass=ABCMeta):
->
->      def _run_ldconfig(self):
->          if self.d.getVar('LDCONFIGDEPEND'):
-> -            bb.note("Executing: ldconfig -r" + self.image_rootfs + "-c
-> new -v")
-> +            bb.note("Executing: ldconfig -r " + self.image_rootfs + " -c
-> new -v")
->              self._exec_shell_cmd(['ldconfig', '-r', self.image_rootfs,
-> '-c',
->                                    'new', '-v'])
-> +        # If DISTRO_FEATURES doesn't contain ldconfig, and the
-> +        # ldconfig binary hasn't been pulled in explicitly, remove the
-> +        # configuration file(s) from the image.
-> +        keep_conf = bb.utils.contains("DISTRO_FEATURES", "ldconfig",
-> True, False, self.d)
-> +        keep_conf = keep_conf or
-> os.path.exists(os.path.join(self.image_rootfs,
-> self.d.getVar('base_sbindir'), 'ldconfig'))
-> +        if not keep_conf:
-> +            sysconfdir = os.path.join(self.image_rootfs,
-> self.d.getVar('sysconfdir'))
-> +            bb.utils.remove(os.path.join(sysconfdir, 'ld.so.conf'))
-> +            bb.utils.remove(os.path.join(sysconfdir, 'ld.so.conf.d'),
-> recurse=True)
->
->      def _check_for_kernel_modules(self, modules_dir):
->          for root, dirs, files in os.walk(modules_dir, topdown=True):
-> diff --git a/meta/recipes-core/glibc/glibc-package.inc
-> b/meta/recipes-core/glibc/glibc-package.inc
-> index aa8e059216..387e90a0ab 100644
-> --- a/meta/recipes-core/glibc/glibc-package.inc
-> +++ b/meta/recipes-core/glibc/glibc-package.inc
-> @@ -23,9 +23,9 @@ ARCH_DYNAMIC_LOADER_aarch64 =
-> "ld-linux-${TARGET_ARCH}.so.1"
->  libc_baselibs_append = " ${@oe.utils.conditional('ARCH_DYNAMIC_LOADER',
-> '', '', '${root_prefix}/lib/${ARCH_DYNAMIC_LOADER}', d)}"
->  INSANE_SKIP_${PN}_append_aarch64 = " libdir"
->
-> -FILES_${PN} = "${libc_baselibs} ${libexecdir}/*"
-> +FILES_${PN} = "${libc_baselibs} ${libexecdir}/* ${sysconfdir}/ld.so.conf"
->  RRECOMMENDS_${PN} = "${@bb.utils.filter('DISTRO_FEATURES', 'ldconfig',
-> d)}"
-> -FILES_ldconfig = "${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
-> +FILES_ldconfig = "${base_sbindir}/ldconfig"
->  FILES_ldd = "${bindir}/ldd"
->  FILES_libsegfault = "${base_libdir}/libSegFault*"
->  FILES_libcidn = "${base_libdir}/libcidn-*.so ${base_libdir}/libcidn.so.*"
-> --
-> 2.23.0
->
->
+I'm certainly open to other ways of solving this. But can we agree that
+it is a bug that the ldconfig done at build-time does not take
+/etc/ld.so.conf.d/* into account, and that that should not depend on
+whether one has ldconfig-the-binary on target?
 
---00000000000026c51d05a5ead8aa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Rasmus
 
-<div dir=3D"ltr">This won&#39;t work, because as soon as glibc is upgraded =
-with package management, the ldconfig files will be restored and there won&=
-#39;t be any do_rootfs hook to remove it.<div><br></div><div>Why isn&#39;t =
-ldconfig installed in your setup in first place? RRECOMMENDS should be enou=
-gh to pull it into every image by default.</div></div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 18, 2020 at 1:3=
-6 PM Rasmus Villemoes &lt;<a href=3D"mailto:rasmus.villemoes@prevas.dk">ras=
-mus.villemoes@prevas.dk</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">There are cases where one doesn&#39;t want ldconfig =
-on target (e.g. for<br>
-read-only root filesystems, it&#39;s rather pointless), yet one still<br>
-needs ld.so.conf to be present at image build time:<br>
-<br>
-When some recipe installs libraries to a non-standard location, and<br>
-dutifully drops in a file in /etc/ld.so.conf.d/foo.conf, we need the<br>
-ld.so.conf containing the<br>
-<br>
-=C2=A0 include /etc/ld.so.conf.d/*.conf<br>
-<br>
-stanza to get those other locations picked up.<br>
-<br>
-So change the packaging logic so that there&#39;s always an ld.so.conf<br>
-present when the build-time ldconfig runs, then delete it (and the .d<br>
-directory) when they would serve no purpose at run-time.<br>
-<br>
-While here, fix a typo in the bb.note so one can just copy-paste the<br>
-line from the log-file and redo the command.<br>
-<br>
-Signed-off-by: Rasmus Villemoes &lt;<a href=3D"mailto:rasmus.villemoes@prev=
-as.dk" target=3D"_blank">rasmus.villemoes@prevas.dk</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oe/rootfs.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0| 11 ++++++++++-<br>
-=C2=A0meta/recipes-core/glibc/glibc-package.inc |=C2=A0 4 ++--<br>
-=C2=A02 files changed, 12 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py<br>
-index cd65e62030..0ff4278d15 100644<br>
---- a/meta/lib/oe/rootfs.py<br>
-+++ b/meta/lib/oe/rootfs.py<br>
-@@ -297,9 +297,18 @@ class Rootfs(object, metaclass=3DABCMeta):<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def _run_ldconfig(self):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if self.d.getVar(&#39;LDCONFIGDEPEND&#39;=
-):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;Executing: ldconfi=
-g -r&quot; + self.image_rootfs + &quot;-c new -v&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;Executing: ldconfi=
-g -r &quot; + self.image_rootfs + &quot; -c new -v&quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self._exec_shell_cmd([&#39;=
-ldconfig&#39;, &#39;-r&#39;, self.image_rootfs, &#39;-c&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;new&#39;, &#39;-v&=
-#39;])<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # If DISTRO_FEATURES doesn&#39;t contain ldcon=
-fig, and the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # ldconfig binary hasn&#39;t been pulled in ex=
-plicitly, remove the<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # configuration file(s) from the image.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 keep_conf =3D bb.utils.contains(&quot;DISTRO_F=
-EATURES&quot;, &quot;ldconfig&quot;, True, False, self.d)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 keep_conf =3D keep_conf or os.path.exists(os.p=
-ath.join(self.image_rootfs, self.d.getVar(&#39;base_sbindir&#39;), &#39;ldc=
-onfig&#39;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if not keep_conf:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sysconfdir =3D os.path.join(self=
-.image_rootfs, self.d.getVar(&#39;sysconfdir&#39;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.remove(os.path.join(sys=
-confdir, &#39;ld.so.conf&#39;))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.utils.remove(os.path.join(sys=
-confdir, &#39;ld.so.conf.d&#39;), recurse=3DTrue)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def _check_for_kernel_modules(self, modules_dir):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for root, dirs, files in os.walk(modules_=
-dir, topdown=3DTrue):<br>
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/=
-glibc/glibc-package.inc<br>
-index aa8e059216..387e90a0ab 100644<br>
---- a/meta/recipes-core/glibc/glibc-package.inc<br>
-+++ b/meta/recipes-core/glibc/glibc-package.inc<br>
-@@ -23,9 +23,9 @@ ARCH_DYNAMIC_LOADER_aarch64 =3D &quot;ld-linux-${TARGET_A=
-RCH}.so.1&quot;<br>
-=C2=A0libc_baselibs_append =3D &quot; ${@oe.utils.conditional(&#39;ARCH_DYN=
-AMIC_LOADER&#39;, &#39;&#39;, &#39;&#39;, &#39;${root_prefix}/lib/${ARCH_DY=
-NAMIC_LOADER}&#39;, d)}&quot;<br>
-=C2=A0INSANE_SKIP_${PN}_append_aarch64 =3D &quot; libdir&quot;<br>
-<br>
--FILES_${PN} =3D &quot;${libc_baselibs} ${libexecdir}/*&quot;<br>
-+FILES_${PN} =3D &quot;${libc_baselibs} ${libexecdir}/* ${sysconfdir}/ld.so=
-.conf&quot;<br>
-=C2=A0RRECOMMENDS_${PN} =3D &quot;${@bb.utils.filter(&#39;DISTRO_FEATURES&#=
-39;, &#39;ldconfig&#39;, d)}&quot;<br>
--FILES_ldconfig =3D &quot;${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf=
-&quot;<br>
-+FILES_ldconfig =3D &quot;${base_sbindir}/ldconfig&quot;<br>
-=C2=A0FILES_ldd =3D &quot;${bindir}/ldd&quot;<br>
-=C2=A0FILES_libsegfault =3D &quot;${base_libdir}/libSegFault*&quot;<br>
-=C2=A0FILES_libcidn =3D &quot;${base_libdir}/libcidn-*.so ${base_libdir}/li=
-bcidn.so.*&quot;<br>
--- <br>
-2.23.0<br>
-<br>
-</blockquote></div>
-
---00000000000026c51d05a5ead8aa--
