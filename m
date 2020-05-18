@@ -1,98 +1,100 @@
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
- by mx.groups.io with SMTP id smtpd.web11.800.1589820565958221566
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com [209.85.215.194])
+ by mx.groups.io with SMTP id smtpd.web11.803.1589820568818688139
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2020 09:49:26 -0700
+ Mon, 18 May 2020 09:49:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=CZMIwh0B;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.193, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f193.google.com with SMTP id f4so5087270pgi.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2020 09:49:25 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=07lHoRzP;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.194, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f194.google.com with SMTP id t11so5099046pgg.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2020 09:49:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=cojsNC1avtNzCbYiMPUXMhwvfrx/LQunKhVYrt+mE7g=;
-        b=CZMIwh0BqszVKKRevF96qNbc08RrL0vetOc8zZ0RsNGAeGq/J/uPX9Yduy/FexnGP2
-         bLj8Q3Qv+PLQo1qPMMGXEXkPMIzjBtry6uvNNlvkKTInZ/FHXDWDVWwQcr20hYHSmRbA
-         hHlnNAyl61XrI7ensZH03mALuPDF+JE0dfgCghBFIcjHhFyp6yXUbhQHhv/5gOfLlbAQ
-         nwnOQI7o9zStFup/DeMb0yLmv15Z4KB4oMGr5pAku8iM/dailo+1PsVhpx1UU5cNgRkK
-         reDBRvCrieGNBYrUy6WdbumyW+1DfCqftDLBat98tStMW0dgIHtpnsfSSzHa7udUqf/A
-         0qUg==
+        bh=3MGtoQyb0mK5r/8OFMiLPS7Y447Fjxt6m/grJwHLsZk=;
+        b=07lHoRzPgz5a8jphh7o55H2MBim6ne/qO3AlvjMyW0DVga1+/MGzY+uuUErG5+CNh/
+         yEgkZMTNZT+ZRxJFFOmXB0zs0fR2XdT27wjbpeu39jG6juXF6Rx/QA6hvQHsFdI/A9af
+         xC13O+0tTfo61ZwNrq50ta+ZFNDzDFkzfdwO/Dbde7EcJ+az8fEZzQsIOQ+pwNYwzVEj
+         Ya2As58MjX9CHI4+j8UBJNOTNwunqq9B2bgddzjCWLoBo1u8RzDlvqnT8Vs2w01v1PPB
+         U3dYN07fmW5yVCioDyJEEsMsRTmvvEQ52ALzDGGQC69B3/OVDF7r0XMbf2TWRt7geZ0p
+         tUoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=cojsNC1avtNzCbYiMPUXMhwvfrx/LQunKhVYrt+mE7g=;
-        b=eljhPOCRThATDDjqOfcp9SJ67bskHV+Acw5Fibs/qlhQn+wEwR2WdQ39CIc4krjMy0
-         BN3P6u+0y/usf1lHDzQb0LkuMwRQCQ0+ULZQBf36HtkiVLuq79VGzpqMgG69gvsbgyad
-         LUM5lKPK+hhCs2XhLL2gNVir/pXG2sSCsIcNQ3KIUAXD8epTM6XQiqm0WCOqlVz8zeue
-         9qeYFNY1DnLwMP2wyX8YgLtK3vfM9c/DFdmccygqHGF8wr3l0tXCox9LM8c90M6ZVR9t
-         MhuanWTf2VtsuME4lf6lUUrYp+Hk4KWBoC59AoaVqdlDicm2GewMCzePX1kvsfoc8iXS
-         s7oA==
-X-Gm-Message-State: AOAM531H7bmUxoMekGRfRyplYt1nudKSXulY41O67iDLuRDN48pH6ivF
-	yPVDhnoqOIwFnWOBXZhOYWsfPZB+k00sjg==
-X-Google-Smtp-Source: ABdhPJw2frs7Kq6M5zE0kfXLNqsoH1TI+cSo7Bi+ooXgpzYsiAjfJe7NAbcN1VsDjrxPlf4j59bnVg==
-X-Received: by 2002:a63:5f41:: with SMTP id t62mr16024325pgb.252.1589820565008;
-        Mon, 18 May 2020 09:49:25 -0700 (PDT)
+        bh=3MGtoQyb0mK5r/8OFMiLPS7Y447Fjxt6m/grJwHLsZk=;
+        b=JgelJT/uB2frZUIh2Pt2xb3uVQt+tAhF+SsFdIikQRiG7nW4+bKKeBXBYVHRJz4oMp
+         WXSot9k1pzsUSgXEgk+TXpm9nhvP9uKQlyAo4vphp6QLPgvAk/vTCDtLhYRjBG8WEkac
+         WhTl+7PfOTlxsJHnmmfEPA8AVE3gxGnVgtZbPlaNo1UszjvD7eFy/Bu1q/33bVf7pyUO
+         YCRn6kulUuD8upTMmcKSKUHHxMUCgpX2ecSHUsk5egoZ8fSw/SQ0zvF12v5ZQ1cxvmvL
+         XN6tAU+F9FdfN+ExjsD7gOCmJby23lfpOJ3t1G6XdFa8+Bh4b9rIUw4z7xQtjecWGWpD
+         g9Mw==
+X-Gm-Message-State: AOAM531JFSfz9MvTYPUDkytA+DCt4Poso7oRhsurI1fpSFFbCvtxkvZc
+	YTmXsVjyXWuXd7lMFCtDvnXxNUaOZHvFcg==
+X-Google-Smtp-Source: ABdhPJzBJl4ZFPOUlVnTJs4Dqf7E9VltjcvOe+mSez1xE/D+J+ROK0jLsQLq4yBrNPhpvLdPGP7j/w==
+X-Received: by 2002:a63:2f41:: with SMTP id v62mr15740435pgv.178.1589820567855;
+        Mon, 18 May 2020 09:49:27 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id g6sm62869pjx.48.2020.05.18.09.49.23
+        by smtp.gmail.com with ESMTPSA id g6sm62869pjx.48.2020.05.18.09.49.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2020 09:49:24 -0700 (PDT)
+        Mon, 18 May 2020 09:49:27 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 09/19] wget: improve reproducible build
-Date: Mon, 18 May 2020 06:48:28 -1000
-Message-Id: <fcd6c105bee1c689f06b46659779bddfad07d9c9.1589820011.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 10/19] scripts/tiny/ksize: Fix for more recent kernels
+Date: Mon, 18 May 2020 06:48:29 -1000
+Message-Id: <8a883c3b0773960908491c03c46e7ed320e41dc5.1589820011.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1589820010.git.steve@sakoman.com>
 References: <cover.1589820010.git.steve@sakoman.com>
 
-From: Joe Slater <joe.slater@windriver.com>
+From: jan <jan.vermaete@gmail.com>
 
-Modify DEBUG_PREFIX_MAP as used by sed to handle
-whitespace correctly.
+In the past kernel built object files were named 'built-in.o'.
+Nowadays it is 'built-in.a'.
 
-This modifies an existing patch.
+The script is modified to work with both.  I expect
+it will not happen that there are built-in.a and built-in.o
+files in the same kernel.
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Jan Vermaete <jan.vermaete@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../wget/wget/0002-improve-reproducibility.patch         | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ scripts/tiny/ksize.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/wget/wget/0002-improve-reproducibility.patch b/meta/recipes-extended/wget/wget/0002-improve-reproducibility.patch
-index 8781df21c0..050fc2c7e1 100644
---- a/meta/recipes-extended/wget/wget/0002-improve-reproducibility.patch
-+++ b/meta/recipes-extended/wget/wget/0002-improve-reproducibility.patch
-@@ -34,6 +34,11 @@ Link: gcc -O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions
- Upstream-Status: Inappropriate [oe-core specific]
+diff --git a/scripts/tiny/ksize.py b/scripts/tiny/ksize.py
+index 8316b85cb1..db2b9ec39f 100755
+--- a/scripts/tiny/ksize.py
++++ b/scripts/tiny/ksize.py
+@@ -4,7 +4,7 @@
+ #
+ # SPDX-License-Identifier: GPL-2.0-or-later
+ #
+-# Display details of the kernel build size, broken up by built-in.o. Sort
++# Display details of the kernel build size, broken up by built-in.[o,a]. Sort
+ # the objects by size. Run from the top level kernel build directory.
+ #
+ # Author: Darren Hart <dvhart@linux.intel.com>
+@@ -59,7 +59,7 @@ class Report:
+             p = Popen("ls " + subglob, shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+             for f in p.communicate()[0].splitlines():
+                 path = os.path.dirname(f)
+-                r.parts.append(Report.create(f, path, str(path) + "/*/built-in.o"))
++                r.parts.append(Report.create(f, path, str(path) + "/*/built-in.[o,a]"))
+             r.parts.sort(reverse=True)
  
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+
-+sed use of DEBUG_PREFIX_MAP must treat whitespace the same as the
-+echo command building version.c or the expression match will fail.
-+
-+Signed-off-by: Joe Slater <jslater@windriver.com>
- ---
-  src/Makefile.am | 4 ++++
-  1 file changed, 4 insertions(+)
-@@ -47,12 +52,12 @@ index 28c0be2..44084a3 100644
-  	echo 'const char *version_string = "@VERSION@";' >> $@
-  	echo 'const char *compilation_string = "'$(COMPILE)'";' \
- +	    | sed -e "s,$(TOOLCHAIN_OPTIONS),,g" \
--+	          -e "s,$(DEBUG_PREFIX_MAP),,g" \
-++	          -e "s,$$(echo $(DEBUG_PREFIX_MAP)),,g" \
-  	    | $(ESCAPEQUOTE) >> $@
-  	echo 'const char *link_string = "'$(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-  	$(AM_LDFLAGS) $(LDFLAGS) $(LIBS) $(wget_LDADD)'";' \
- +	    | sed -e "s,$(TOOLCHAIN_OPTIONS),,g" \
--+	          -e "s,$(DEBUG_PREFIX_MAP),,g" \
-++	          -e "s,$$(echo $(DEBUG_PREFIX_MAP)),,g" \
-  	    | $(ESCAPEQUOTE) >> $@
-  
-  css.c: $(srcdir)/css.l
+         for b in r.parts:
+@@ -139,7 +139,7 @@ def main():
+         else:
+             assert False, "unhandled option"
+ 
+-    glob = "arch/*/built-in.o */built-in.o"
++    glob = "arch/*/built-in.[o,a] */built-in.[o,a]"
+     vmlinux = Report.create("vmlinux",  "Linux Kernel", glob)
+ 
+     vmlinux.show()
 -- 
 2.17.1
 
