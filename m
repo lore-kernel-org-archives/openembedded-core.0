@@ -1,92 +1,323 @@
-Received: from relay.dream-property.net (relay.dream-property.net [178.19.67.222])
- by mx.groups.io with SMTP id smtpd.web11.43531.1589812602453959962
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web12.44524.1589816173679886611
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2020 07:36:43 -0700
+ Mon, 18 May 2020 08:36:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail, err=bad algorithm. Only rsa-sha1 or rsa-sha256 are permitted;
- spf=pass (domain: opendreambox.org, ip: 178.19.67.222, mailfrom: obi@opendreambox.org)
-Received: from mail.dream-property.net (mail.dream-property.net [82.149.226.172])
-	by relay.dream-property.net (Postfix) with ESMTPS id 64721100A09C4;
-	Mon, 18 May 2020 14:36:39 +0000 (UTC)
-Received: from localhost (ip-176-199-141-47.hsi06.unitymediagroup.de [176.199.141.47])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 8FCCD314212B;
-	Mon, 18 May 2020 16:36:35 +0200 (CEST)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=opendreambox.org;
-	s=dkim; t=1589812596;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OqFyM+1m0xlG4E/zIZsZIyk39THu2RanBQF7V67ZJcw=;
-	b=IpVj03JVlLH9uu/uTJ1j2UKe7d0wnO/+4rT4QQp8zsyt2+pEGG9TAGkd6jHC7SM49HnYch
-	cstWxuWEpA60xiCg==
-Date: Mon, 18 May 2020 16:36:28 +0200
-From: "Andreas Oberritter" <obi@opendreambox.org>
-To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc: Martin Jansa <martin.jansa@gmail.com>, Patches and discussions about the
- oe-core layer <openembedded-core@lists.openembedded.org>, Richard Purdie
- <richard.purdie@linuxfoundation.org>, Khem Raj <raj.khem@gmail.com>
-Subject: Re: [PATCH] glibc: move ld.so.conf back to main package
-Message-ID: <20200518163628.7984eb9d@opendreambox.org>
-In-Reply-To: <3c2fa255-4f8b-1f4f-df79-32fd1ac72d62@prevas.dk>
-References: <20200518113617.31831-1-rasmus.villemoes@prevas.dk>
-	<CA+chaQdZQRYMwbaAdE-TE9SNuJpwO=0Z6Qy7SR6kZxN7kpJ3qA@mail.gmail.com>
-	<0397befe-9f5d-a704-be07-00926fd3fffa@prevas.dk>
-	<20200518142959.57fda0cc@opendreambox.org>
-	<3c2fa255-4f8b-1f4f-df79-32fd1ac72d62@prevas.dk>
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=l6O86R14;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
+Received: from [192.168.1.135] (cpe-173-172-201-6.elp.res.rr.com [173.172.201.6])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 93E8020B717B;
+	Mon, 18 May 2020 08:36:12 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 93E8020B717B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1589816172;
+	bh=V9tZup18N1uexb1BsDEdNCc5KYU04FwLLG81oyZJjcE=;
+	h=Subject:To:References:From:Date:In-Reply-To:From;
+	b=l6O86R14rAHgcQ2uoRV44rRl2LzsImv9osA4UysRJ3nHtb2Cf5RDDBM0z2Vqkzu/A
+	 SMwgV3mooU/9VrLPtb/3TIy5X5I1o+QiHODCO1MNGBPwMogF523jxGyItVutsuHUaM
+	 MXTk+LJKn4ksE2Dh3IOxBsPBn7HakhBQRPFPTKlI=
+Subject: Re: [OE-core] [PATCH] python3: add pydoc and urllib to core
+To: "Yu, Mingli" <mingli.yu@windriver.com>,
+ openembedded-core@lists.openembedded.org
+References: <20200518073201.23647-1-mingli.yu@windriver.com>
+From: "Alejandro Hernandez" <alhe@linux.microsoft.com>
+Message-ID: <777387e3-f259-c635-77f1-1edb9b1704ff@linux.microsoft.com>
+Date: Mon, 18 May 2020 08:36:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200518073201.23647-1-mingli.yu@windriver.com>
+Content-Type: multipart/alternative;
+ boundary="------------B371D26F8FD4A74C7B1E4BD9"
+Content-Language: en-US
+
+--------------B371D26F8FD4A74C7B1E4BD9
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Mon, 18 May 2020 15:25:19 +0200
-Rasmus Villemoes <rasmus.villemoes@prevas.dk> wrote:
+Hello Mingli,
 
-> On 18/05/2020 14.29, Andreas Oberritter wrote:
-> > Hello Rasmus,
-> > 
-> > On Mon, 18 May 2020 14:12:43 +0200
-> > Rasmus Villemoes <rasmus.villemoes@prevas.dk> wrote:
-> > 
-> >> I'm certainly open to other ways of solving this. But can we agree that
-> >> it is a bug that the ldconfig done at build-time does not take
-> >> /etc/ld.so.conf.d/* into account, and that that should not depend on
-> >> whether one has ldconfig-the-binary on target?
-> > 
-> > have you tried installing ldconfig and adding it to ROOTFS_RO_UNNEEDED? It might be an improvement to include it in ROOTFS_RO_UNNEEDED by default.
-> 
-> Thanks, but I don't think that will work:
-> 
->         self._uninstall_unneeded()
-> 
->         if self.progress_reporter:
->             self.progress_reporter.next_stage()
-> 
->         self._insert_feed_uris()
-> 
->         self._run_ldconfig()
-> 
-> so if the ldconfig package (including the ld.so.conf file) is just added
-> to ROOTFS_RO_UNNEEDED, it will be gone by the time we get to doing the
-> build-time ld.so.cache generation. And I think it has to be done in this
-> order - if some of the packages removed by _uninstall_unneeded remove
-> shared libraries, one doesn't want stale entries in ld.so.cache
-> referring to those.
+Did you happen to run the create_manifest task after modifying the 
+manifest to make sure that runtime dependencies are still valid?
 
-That's not ideal, but we could special-case ldconfig and uninstall it after this step.
 
-> > Please consider use-cases where writable filesystems ship without ldconfig, but a user installs it from a package feed when needed.
+Thanks
+
+Alejandro
+
+On 5/18/20 12:32 AM, Yu, Mingli wrote:
+> From: Mingli Yu <mingli.yu@windriver.com>
+>
+> Add pydoc and urllib to core to fix below error:
+>   # python3
+>   >>> help()
+>   Traceback (most recent call last):
+>   File "<stdin>", line 1, in <module>
+>   File "/usr/lib64/python3.8/sitebuiltins.py", line 102, in __call_
+>   import pydoc
+>   ModuleNotFoundError: No module named 'pydoc'
+>   File "/usr/lib64/python3.8/pydoc.py", line 72, in <module>
+>   import urllib.parse
+>   ModuleNotFoundError: No module named 'urllib'
+>
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>   .../python/python3/python3-manifest.json      | 24 +++++--------------
+>   meta/recipes-devtools/python/python3_3.8.2.bb |  3 +--
+>   2 files changed, 7 insertions(+), 20 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+> index 3bcc9b8662..808eadb8f6 100644
+> --- a/meta/recipes-devtools/python/python3/python3-manifest.json
+> +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+> @@ -203,6 +203,7 @@
+>               "${bindir}/python${PYTHON_MAJMIN}",
+>               "${bindir}/python${PYTHON_MAJMIN}.real",
+>               "${bindir}/python3",
+> +            "${bindir}/pydoc*",
+>               "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h",
+>               "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
+>               "${libdir}/python${PYTHON_MAJMIN}/UserList.py",
+> @@ -289,6 +290,7 @@
+>               "${libdir}/python${PYTHON_MAJMIN}/pkgutil.py",
+>               "${libdir}/python${PYTHON_MAJMIN}/platform.py",
+>               "${libdir}/python${PYTHON_MAJMIN}/posixpath.py",
+> +            "${libdir}/python${PYTHON_MAJMIN}/pydoc.py",
+>               "${libdir}/python${PYTHON_MAJMIN}/re.py",
+>               "${libdir}/python${PYTHON_MAJMIN}/reprlib.py",
+>               "${libdir}/python${PYTHON_MAJMIN}/rlcompleter.py",
+> @@ -313,8 +315,11 @@
+>               "${libdir}/python${PYTHON_MAJMIN}/tokenize.py",
+>               "${libdir}/python${PYTHON_MAJMIN}/traceback.py",
+>               "${libdir}/python${PYTHON_MAJMIN}/types.py",
+> +            "${libdir}/python${PYTHON_MAJMIN}/urllib",
+> +            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__",
+>               "${libdir}/python${PYTHON_MAJMIN}/warnings.py",
+>               "${libdir}/python${PYTHON_MAJMIN}/weakref.py",
+> +            "${libdir}/python${PYTHON_MAJMIN}/pydoc_data",
+>               "${prefix}/lib/python${PYTHON_MAJMIN}/config*/*[!.a]"
+>           ],
+>           "cached": [
+> @@ -363,6 +368,7 @@
+>               "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.pyc",
+>               "${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.pyc",
+>               "${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*.pyc",
+> +            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pydoc.*.pyc",
+>               "${libdir}/python${PYTHON_MAJMIN}/__pycache__/re.*.pyc",
+>               "${libdir}/python${PYTHON_MAJMIN}/__pycache__/reprlib.*.pyc",
+>               "${libdir}/python${PYTHON_MAJMIN}/__pycache__/rlcompleter.*.pyc",
+> @@ -798,7 +804,6 @@
+>               "plistlib",
+>               "pprint",
+>               "profile",
+> -            "pydoc",
+>               "resource",
+>               "shell",
+>               "smtpd",
+> @@ -857,8 +862,6 @@
+>               "${libdir}/python${PYTHON_MAJMIN}/poplib.py",
+>               "${libdir}/python${PYTHON_MAJMIN}/smtplib.py",
+>               "${libdir}/python${PYTHON_MAJMIN}/telnetlib.py",
+> -            "${libdir}/python${PYTHON_MAJMIN}/urllib",
+> -            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__",
+>               "${libdir}/python${PYTHON_MAJMIN}/uuid.py"
+>           ],
+>           "cached": [
+> @@ -989,21 +992,6 @@
+>               "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pstats.*.pyc"
+>           ]
+>       },
+> -    "pydoc": {
+> -        "summary": "Python interactive help support",
+> -        "rdepends": [
+> -            "core",
+> -            "netclient"
+> -        ],
+> -        "files": [
+> -            "${bindir}/pydoc*",
+> -            "${libdir}/python${PYTHON_MAJMIN}/pydoc.py",
+> -            "${libdir}/python${PYTHON_MAJMIN}/pydoc_data"
+> -        ],
+> -        "cached": [
+> -            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pydoc.*.pyc"
+> -        ]
+> -    },
+>       "resource": {
+>           "summary": "Python resource control interface",
+>           "rdepends": [
+> diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+> index a4a16fd495..36aa54ba6c 100644
+> --- a/meta/recipes-devtools/python/python3_3.8.2.bb
+> +++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+> @@ -318,7 +318,6 @@ RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " openssl ca-certificates"
+>   FILES_${PN} = ""
+>   RPROVIDES_${PN}-modules = "${PN}"
+>   
+> -FILES_${PN}-pydoc += "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3"
+>   FILES_${PN}-idle += "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
+>   
+>   # provide python-pyvenv from python3-venv
+> @@ -332,7 +331,7 @@ INSANE_SKIP_${PN}-dev += "dev-elf"
+>   
+>   # catch all the rest (unsorted)
+>   PACKAGES += "${PN}-misc"
+> -RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pydoc python3-pickle python3-audio"
+> +RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pickle python3-audio"
+>   RDEPENDS_${PN}-modules_append_class-target = " python3-misc"
+>   RDEPENDS_${PN}-modules_append_class-nativesdk = " python3-misc"
+>   FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MAJMIN}/lib-dynload"
+>
 > 
-> Do you mean I should leave /etc/ld.so.conf.d/ alone? I can do that. But
-> I'd say that also in that case the current behaviour is buggy - if any
-> package in the rootfs ships with an /etc/ld.so.conf.d/ entry, that entry
-> should be taken into account at image build time, regardless of whether
-> ldconfig is there at image build time or can usefully be added later via
-> a package installer.
 
-What I meant to say is that, in general, we can't remove files from rootfs manually if they are managed by a package manager (without causing difficulties like having to reinstall glibc in this case to restore these files when needed by someone installing ldconfig from a feed). So you'd have to leave both ld.so.conf and ld.so.conf.d alone.
+--------------B371D26F8FD4A74C7B1E4BD9
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-Best regards,
-Andreas
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hello Mingli,</p>
+    <p>Did you happen to run the create_manifest task after modifying
+      the manifest to make sure that runtime dependencies are still
+      valid?</p>
+    <p><br>
+    </p>
+    <p>Thanks</p>
+    <p>Alejandro<br>
+    </p>
+    <div class="moz-cite-prefix">On 5/18/20 12:32 AM, Yu, Mingli wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20200518073201.23647-1-mingli.yu@windriver.com">
+      <pre class="moz-quote-pre" wrap="">From: Mingli Yu <a class="moz-txt-link-rfc2396E" href="mailto:mingli.yu@windriver.com">&lt;mingli.yu@windriver.com&gt;</a>
+
+Add pydoc and urllib to core to fix below error:
+ # python3
+ &gt;&gt;&gt; help()
+ Traceback (most recent call last):
+ File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ File "/usr/lib64/python3.8/sitebuiltins.py", line 102, in __call_
+ import pydoc
+ ModuleNotFoundError: No module named 'pydoc'
+ File "/usr/lib64/python3.8/pydoc.py", line 72, in &lt;module&gt;
+ import urllib.parse
+ ModuleNotFoundError: No module named 'urllib'
+
+Signed-off-by: Mingli Yu <a class="moz-txt-link-rfc2396E" href="mailto:mingli.yu@windriver.com">&lt;mingli.yu@windriver.com&gt;</a>
+---
+ .../python/python3/python3-manifest.json      | 24 +++++--------------
+ meta/recipes-devtools/python/python3_3.8.2.bb |  3 +--
+ 2 files changed, 7 insertions(+), 20 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 3bcc9b8662..808eadb8f6 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -203,6 +203,7 @@
+             "${bindir}/python${PYTHON_MAJMIN}",
+             "${bindir}/python${PYTHON_MAJMIN}.real",
+             "${bindir}/python3",
++            "${bindir}/pydoc*",
+             "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h",
+             "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
+             "${libdir}/python${PYTHON_MAJMIN}/UserList.py",
+@@ -289,6 +290,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/pkgutil.py",
+             "${libdir}/python${PYTHON_MAJMIN}/platform.py",
+             "${libdir}/python${PYTHON_MAJMIN}/posixpath.py",
++            "${libdir}/python${PYTHON_MAJMIN}/pydoc.py",
+             "${libdir}/python${PYTHON_MAJMIN}/re.py",
+             "${libdir}/python${PYTHON_MAJMIN}/reprlib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/rlcompleter.py",
+@@ -313,8 +315,11 @@
+             "${libdir}/python${PYTHON_MAJMIN}/tokenize.py",
+             "${libdir}/python${PYTHON_MAJMIN}/traceback.py",
+             "${libdir}/python${PYTHON_MAJMIN}/types.py",
++            "${libdir}/python${PYTHON_MAJMIN}/urllib",
++            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__",
+             "${libdir}/python${PYTHON_MAJMIN}/warnings.py",
+             "${libdir}/python${PYTHON_MAJMIN}/weakref.py",
++            "${libdir}/python${PYTHON_MAJMIN}/pydoc_data",
+             "${prefix}/lib/python${PYTHON_MAJMIN}/config*/*[!.a]"
+         ],
+         "cached": [
+@@ -363,6 +368,7 @@
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*.pyc",
++            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pydoc.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/re.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/reprlib.*.pyc",
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/rlcompleter.*.pyc",
+@@ -798,7 +804,6 @@
+             "plistlib",
+             "pprint",
+             "profile",
+-            "pydoc",
+             "resource",
+             "shell",
+             "smtpd",
+@@ -857,8 +862,6 @@
+             "${libdir}/python${PYTHON_MAJMIN}/poplib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/smtplib.py",
+             "${libdir}/python${PYTHON_MAJMIN}/telnetlib.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/urllib",
+-            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__",
+             "${libdir}/python${PYTHON_MAJMIN}/uuid.py"
+         ],
+         "cached": [
+@@ -989,21 +992,6 @@
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pstats.*.pyc"
+         ]
+     },
+-    "pydoc": {
+-        "summary": "Python interactive help support",
+-        "rdepends": [
+-            "core",
+-            "netclient"
+-        ],
+-        "files": [
+-            "${bindir}/pydoc*",
+-            "${libdir}/python${PYTHON_MAJMIN}/pydoc.py",
+-            "${libdir}/python${PYTHON_MAJMIN}/pydoc_data"
+-        ],
+-        "cached": [
+-            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pydoc.*.pyc"
+-        ]
+-    },
+     "resource": {
+         "summary": "Python resource control interface",
+         "rdepends": [
+diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+index a4a16fd495..36aa54ba6c 100644
+--- a/meta/recipes-devtools/python/python3_3.8.2.bb
++++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+@@ -318,7 +318,6 @@ RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " openssl ca-certificates"
+ FILES_${PN} = ""
+ RPROVIDES_${PN}-modules = "${PN}"
+ 
+-FILES_${PN}-pydoc += "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3"
+ FILES_${PN}-idle += "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
+ 
+ # provide python-pyvenv from python3-venv
+@@ -332,7 +331,7 @@ INSANE_SKIP_${PN}-dev += "dev-elf"
+ 
+ # catch all the rest (unsorted)
+ PACKAGES += "${PN}-misc"
+-RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pydoc python3-pickle python3-audio"
++RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pickle python3-audio"
+ RDEPENDS_${PN}-modules_append_class-target = " python3-misc"
+ RDEPENDS_${PN}-modules_append_class-nativesdk = " python3-misc"
+ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MAJMIN}/lib-dynload"
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+  </body>
+</html>
+
+--------------B371D26F8FD4A74C7B1E4BD9--
