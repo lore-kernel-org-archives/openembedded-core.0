@@ -1,57 +1,108 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.527.1589835719080742426
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web12.369.1589836871685177845
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2020 14:01:59 -0700
+ Mon, 18 May 2020 14:21:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 7FFE540AF3;
-	Mon, 18 May 2020 21:01:58 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id NqLRlybzZqzs; Mon, 18 May 2020 21:01:58 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 60E1840A9E;
-	Mon, 18 May 2020 21:01:57 +0000 (UTC)
-Received: from gimli.denix (unknown [192.168.30.6])
-	by mail.denix.org (Postfix) with ESMTP id 2449C16F347;
-	Mon, 18 May 2020 17:01:57 -0400 (EDT)
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH] xz: upgrade 5.2.4 -> 5.2.5
-Date: Mon, 18 May 2020 17:01:55 -0400
-Message-Id: <1589835715-23069-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KXU/tlxX;
+ spf=pass (domain: gmail.com, ip: 209.85.221.65, mailfrom: andrey.z@gmail.com)
+Received: by mail-wr1-f65.google.com with SMTP id v12so13444657wrp.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2020 14:21:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=0E46g3qX4r2NO20ZlCjWsnhKlZe/LLQwNVFZhS6mSSQ=;
+        b=KXU/tlxXjhZiG06i8S/KjW4ObDwMJSa9fLebWRExpb6NYCNgAbPZAM8OX6vqNP1ePd
+         4zSEC0JViy7kM3jF2ge+waWlV8L/xKiDH+TV5xwoqSZUvDlhOo/L9GCWsIE49C82Nwx+
+         zKXPH7+36TP0jpvApZvwIBjPNRl3DEApRV0iPu/dyhrXJAHegkNN29gOc3xfJO/ud/xH
+         0Vh53T025RJDMJooQ9J0cNXgeG6JnXU/s2t0BXObxSdIQamHkGcewjHU+pzTKlxhMtK8
+         XyrnwD5ISxeVqKUNgq8XeVLVaKoTRVnU/uQLW60jWXr+iSyM7e6VijJXvReFDfVN07NS
+         EYwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0E46g3qX4r2NO20ZlCjWsnhKlZe/LLQwNVFZhS6mSSQ=;
+        b=iQmHbmYNAiBp5TaaDdrLk3wmQPEh2O0wEfsGr9HXzx0lk8Airl1WuidJmOdw6yYlZz
+         A3014sFb2zi8ozWc8XqqjXznGuUISS4w5vqpoSxxyLfGfvw6PiAFw/h/Q3Pryj9XvuST
+         zzueEZeQhp1zBue91NfDySrfJYK5WBUAZdoxKC8RqWTDlOWZfzpvGwoaJhWDMR9xLW4l
+         3V+ebRHLpcCpThGYcwiLNGEPfVi9isDexdWOvpICU7oHrnsZBuLmCyCfvdDEls+V/5ls
+         kSCNut0v9xpft6ZqkW0HFRvtJ1pud0zCP9sMfGrbkkxMiReR6jX55VfuRdPpia49Bquw
+         5hCA==
+X-Gm-Message-State: AOAM533QJGcwf2E3v9mesDGOrdgDXIE6gLfv8SH6DLzEJr5WKgeMdN0F
+	JC3p/sX/367aWllp2m0GQ8FIV+2VuQ4hB4L2PQU=
+X-Google-Smtp-Source: ABdhPJxyB1X+r/M072IkGYwycNvVCl9KQfWF2SWjI2FGBfFR1uj/C1jjDyhQRXIpqCqve1UZo77X9hElB2lQFzjSjmg=
+X-Received: by 2002:a05:6000:1241:: with SMTP id j1mr21879289wrx.42.1589836870149;
+ Mon, 18 May 2020 14:21:10 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200511182812.441561-1-raj.khem@gmail.com> <20200511182812.441561-3-raj.khem@gmail.com>
+ <20200514152934.GC21399@localhost> <7111a5b8-12b5-d683-eb39-6661223697ad@gmail.com>
+ <20200514181917.GA28774@localhost> <5f87e63e-d827-c615-44b7-0071b1e80694@gmail.com>
+ <16103797E38CE61D.31744@lists.openembedded.org>
+In-Reply-To: <16103797E38CE61D.31744@lists.openembedded.org>
+From: "Andrey Zhizhikin" <andrey.z@gmail.com>
+Date: Mon, 18 May 2020 23:20:59 +0200
+Message-ID: <CAHtQpK5xXm2PxB5_aDAEpdkf4JLo99xddvZxivOicqoJx0UygA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V3 3/3] gcc10: Revert using __getauxval in libgcc
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, Adrian Bunk <bunk@stusta.de>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Denys Dmytriyenko <denys@ti.com>
+On Mon, May 18, 2020 at 9:56 PM Andrey Zhizhikin via
+lists.openembedded.org <andrey.z=gmail.com@lists.openembedded.org>
+wrote:
+>
+> On Thu, May 14, 2020 at 8:22 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> >
+> >
+> > On 5/14/20 11:19 AM, Adrian Bunk wrote:
+> > > On Thu, May 14, 2020 at 10:18:53AM -0700, Khem Raj wrote:
+> > >> On 5/14/20 8:29 AM, Adrian Bunk wrote:
+> > >>> Disabling -moutline-atomics would also workaround this issue.
+> > >>
+> > >> I think this is a good suggestion and I do not like to revert gcc patches if
+> > >> we can avoid doing that. I will propose a fix to disable outline-atomics for
+> > >> valgrind on aarch64
+> > >> ...
+> > >
+> > > Not just for valgrind, globally.
+> > >
+> >
+> > so far just doing for valgrind is enough. I am not averse to enabling it
+> > globally but perhaps we need to do some pre-work to decide that, maybe
+> > some benchmark numbers.
+>
+> FYI: I've just seen this issue on the [optee-os] as well, build fails
+> with the same "undefined reference to `__getauxval'". Looks like it is
+> not only about valgrind...
+>
+> Any chance anyone had the same problem and proposed fix?
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
----
- meta/recipes-extended/xz/{xz_5.2.4.bb => xz_5.2.5.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/xz/{xz_5.2.4.bb => xz_5.2.5.bb} (91%)
+Actually, setting [-mno-outline-atomics] seems to help here, as Adrian
+suggested.
 
-diff --git a/meta/recipes-extended/xz/xz_5.2.4.bb b/meta/recipes-extended/xz/xz_5.2.5.bb
-similarity index 91%
-rename from meta/recipes-extended/xz/xz_5.2.4.bb
-rename to meta/recipes-extended/xz/xz_5.2.5.bb
-index 1c4450a..af21b60 100644
---- a/meta/recipes-extended/xz/xz_5.2.4.bb
-+++ b/meta/recipes-extended/xz/xz_5.2.5.bb
-@@ -23,8 +23,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=97d554a32881fee0aa283d96e47cb24a \
-                     "
- 
- SRC_URI = "https://tukaani.org/xz/xz-${PV}.tar.gz"
--SRC_URI[md5sum] = "5ace3264bdd00c65eeec2891346f65e6"
--SRC_URI[sha256sum] = "b512f3b726d3b37b6dc4c8570e137b9311e7552e8ccbab4d39d47ce5f4177145"
-+SRC_URI[md5sum] = "0d270c997aff29708c74d53f599ef717"
-+SRC_URI[sha256sum] = "f6f4910fd033078738bd82bfba4f49219d03b17eb0794eb91efbae419f4aba10"
- UPSTREAM_CHECK_REGEX = "xz-(?P<pver>\d+(\.\d+)+)\.tar"
- 
- CACHED_CONFIGUREVARS += "gl_cv_posix_shell=/bin/sh"
+I'll see if this could be used further as a fix. Sorry for the noise.
+
+>
+> >
+> > > The main effect in Yocto distributions is (slightly) slower and larger code.
+> > >
+> > > cu
+> > > Adrian
+> > >
+> >
+>
+>
+>
+> --
+> Regards,
+> Andrey.
+> 
+
+
+
 -- 
-2.7.4
-
+Regards,
+Andrey.
