@@ -1,111 +1,57 @@
-Received: from mga11.intel.com (mga11.intel.com [])
- by mx.groups.io with SMTP id smtpd.web10.37949.1589790028568988613
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+ by mx.groups.io with SMTP id smtpd.web12.37546.1589790507319855012
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2020 01:20:28 -0700
+ Mon, 18 May 2020 01:28:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: 8SeySjugET48WwnoNrHoY1YxcXneO5YaZ7GesmMyloW4+Q9CHvJKuEG+zUKJqyrzri9dN+Tstm
- qdW0jxKNOqAw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2020 01:20:27 -0700
-IronPort-SDR: nZaiC6Re6ZKI3T+vuFh86750Uyu5u+lwWzAOFMCbMRGkukV4bHs8Atu93eGwd0fcajLjvWdITK
- Wq7FezlrbIew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,406,1583222400"; 
-   d="scan'208";a="373316761"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga001.fm.intel.com with ESMTP; 18 May 2020 01:20:26 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: denx.de, ip: 212.18.0.9, mailfrom: marex@denx.de)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 49QXGJ2r8gz1rQHv;
+	Mon, 18 May 2020 10:28:24 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 49QXGJ2YZkz1qrKW;
+	Mon, 18 May 2020 10:28:24 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
+	with ESMTP id w7Oea_jCFH8m; Mon, 18 May 2020 10:28:23 +0200 (CEST)
+X-Auth-Info: esEae6HXd8EFyxiZSS2npY/RlQAVyHe/8Q/dLO0aC8c=
+Received: from desktop.lan (ip-86-49-35-8.net.upcbroadband.cz [86.49.35.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon, 18 May 2020 10:28:23 +0200 (CEST)
+From: "Marek Vasut" <marex@denx.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [Patch][zeus 2/2] ghostscript : fix CVE-2019-10216
-Date: Mon, 18 May 2020 16:20:24 +0800
-Message-Id: <1589790024-75655-2-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1589790024-75655-1-git-send-email-chee.yang.lee@intel.com>
-References: <1589790024-75655-1-git-send-email-chee.yang.lee@intel.com>
+Cc: Marek Vasut <marex@denx.de>,
+	Stefano Babic <sbabic@denx.de>
+Subject: [PATCH] libubootenv: Depend on zlib
+Date: Mon, 18 May 2020 10:27:55 +0200
+Message-Id: <20200518082755.4198-1-marex@denx.de>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+The libubootenv depends on zlib as it calls at least crc32() from
+there and links against it. Add the DEPENDS entry.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Stefano Babic <sbabic@denx.de>
 ---
- .../ghostscript/ghostscript/CVE-2019-10216.patch   | 53 ++++++++++++++++++++++
- .../ghostscript/ghostscript_9.27.bb                |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-10216.patch
+ meta/recipes-bsp/u-boot/libubootenv_0.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-10216.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-10216.patch
-new file mode 100644
-index 0000000..9bec734
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-10216.patch
-@@ -0,0 +1,53 @@
-+From 5b85ddd19a8420a1bd2d5529325be35d78e94234 Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Fri, 2 Aug 2019 15:18:26 +0100
-+Subject: [PATCH] Bug 701394: protect use of .forceput with executeonly
-+
-+Upstream-Status: Backport [http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=5b85ddd19] 
-+CVE: CVE-2019-10216
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+
-+---
-+ Resource/Init/gs_type1.ps | 14 +++++++-------
-+ 1 file changed, 7 insertions(+), 7 deletions(-)
-+
-+diff --git a/Resource/Init/gs_type1.ps b/Resource/Init/gs_type1.ps
-+index 6c7735bc0..a039ccee3 100644
-+--- a/Resource/Init/gs_type1.ps
-++++ b/Resource/Init/gs_type1.ps
-+@@ -118,25 +118,25 @@
-+                          ( to be the same as glyph: ) print 1 index //== exec } if
-+                    3 index exch 3 index .forceput
-+                                                                  % scratch(string) RAGL(dict) AGL(dict) CharStrings(dict) cstring gname
-+-                 }
-++                 }executeonly
-+                  {pop} ifelse
-+-               } forall
-++               } executeonly forall
-+                pop pop
-+-             }
-++             } executeonly
-+              {
-+                pop pop pop
-+              } ifelse
-+-           }
-++           } executeonly
-+            {
-+                                                                % scratch(string) RAGL(dict) AGL(dict) CharStrings(dict) cstring gname
-+              pop pop
-+            } ifelse
-+-         } forall
-++         } executeonly forall
-+          3 1 roll pop pop
-+-     } if
-++     } executeonly if
-+      pop
-+      dup /.AGLprocessed~GS //true .forceput
-+-   } if
-++   } executeonly if
-+ 
-+    %% We need to excute the C .buildfont1 in a stopped context so that, if there
-+    %% are errors we can put the stack back sanely and exit. Otherwise callers won't
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.27.bb b/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-index 32f938f..bbd1710 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-@@ -29,6 +29,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://CVE-2019-14817-0001.patch \
-                 file://CVE-2019-14817-0002.patch \
-                 file://CVE-2019-14869-0001.patch \
-+                file://CVE-2019-10216.patch \
- "
- 
- SRC_URI = "${SRC_URI_BASE} \
--- 
-2.7.4
+diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb b/meta/recipes-bs=
+p/u-boot/libubootenv_0.2.bb
+index 3251d0f05b..fa90a12bf8 100644
+--- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
++++ b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+@@ -1,5 +1,5 @@
+ SUMMARY =3D "U-Boot libraries and tools to access environment"
+-DEPENDS +=3D "mtd-utils"
++DEPENDS +=3D "mtd-utils zlib"
+=20
+ DESCRIPTION =3D "This package contains tools and libraries to read \
+ and modify U-Boot environment. \
+--=20
+2.25.1
 
