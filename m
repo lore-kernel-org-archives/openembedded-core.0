@@ -1,146 +1,153 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.37584.1589787164123088862
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+ by mx.groups.io with SMTP id smtpd.web10.37949.1589790028568988613
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2020 00:32:44 -0700
+ Mon, 18 May 2020 01:20:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 04I7WCZw014805
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2020 00:32:33 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 18 May 2020 00:32:18 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] python3: add pydoc and urllib to core
-Date: Mon, 18 May 2020 15:32:01 +0800
-Message-ID: <20200518073201.23647-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.24.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.93, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: ZKOqgRWq9vgcEk3kQ3k94ojKhh/58zkvv/W7JvD7kAeBIfVA/4CQlV0S4NT6h+xy6+VDv1O4Al
+ DHnGJS0jjCew==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2020 01:20:26 -0700
+IronPort-SDR: RScsW6huM1G5fUXcRTMLIy+Ikxsvmdc02Q4tARH3g4VZN23XL8E5JNwuxvdlJrcvMlxFVMkoqB
+ F1OzvtlMHLaQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,406,1583222400"; 
+   d="scan'208";a="373316758"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+  by fmsmga001.fm.intel.com with ESMTP; 18 May 2020 01:20:25 -0700
+From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [Patch][zeus 1/2] qemu: fix CVE-2020-11869
+Date: Mon, 18 May 2020 16:20:23 +0800
+Message-Id: <1589790024-75655-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
 
-From: Mingli Yu <mingli.yu@windriver.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Add pydoc and urllib to core to fix below error:
- # python3
- >>> help()
- Traceback (most recent call last):
- File "<stdin>", line 1, in <module>
- File "/usr/lib64/python3.8/sitebuiltins.py", line 102, in __call_
- import pydoc
- ModuleNotFoundError: No module named 'pydoc'
- File "/usr/lib64/python3.8/pydoc.py", line 72, in <module>
- import urllib.parse
- ModuleNotFoundError: No module named 'urllib'
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../python/python3/python3-manifest.json      | 24 +++++--------------
- meta/recipes-devtools/python/python3_3.8.2.bb |  3 +--
- 2 files changed, 7 insertions(+), 20 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc                |  1 +
+ .../qemu/qemu/CVE-2020-11869.patch                 | 97 ++++++++++++++++++++++
+ 2 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-11869.patch
 
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index 3bcc9b8662..808eadb8f6 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -203,6 +203,7 @@
-             "${bindir}/python${PYTHON_MAJMIN}",
-             "${bindir}/python${PYTHON_MAJMIN}.real",
-             "${bindir}/python3",
-+            "${bindir}/pydoc*",
-             "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h",
-             "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
-             "${libdir}/python${PYTHON_MAJMIN}/UserList.py",
-@@ -289,6 +290,7 @@
-             "${libdir}/python${PYTHON_MAJMIN}/pkgutil.py",
-             "${libdir}/python${PYTHON_MAJMIN}/platform.py",
-             "${libdir}/python${PYTHON_MAJMIN}/posixpath.py",
-+            "${libdir}/python${PYTHON_MAJMIN}/pydoc.py",
-             "${libdir}/python${PYTHON_MAJMIN}/re.py",
-             "${libdir}/python${PYTHON_MAJMIN}/reprlib.py",
-             "${libdir}/python${PYTHON_MAJMIN}/rlcompleter.py",
-@@ -313,8 +315,11 @@
-             "${libdir}/python${PYTHON_MAJMIN}/tokenize.py",
-             "${libdir}/python${PYTHON_MAJMIN}/traceback.py",
-             "${libdir}/python${PYTHON_MAJMIN}/types.py",
-+            "${libdir}/python${PYTHON_MAJMIN}/urllib",
-+            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__",
-             "${libdir}/python${PYTHON_MAJMIN}/warnings.py",
-             "${libdir}/python${PYTHON_MAJMIN}/weakref.py",
-+            "${libdir}/python${PYTHON_MAJMIN}/pydoc_data",
-             "${prefix}/lib/python${PYTHON_MAJMIN}/config*/*[!.a]"
-         ],
-         "cached": [
-@@ -363,6 +368,7 @@
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pkgutil.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/platform.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/posixpath.*.pyc",
-+            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pydoc.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/re.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/reprlib.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/rlcompleter.*.pyc",
-@@ -798,7 +804,6 @@
-             "plistlib",
-             "pprint",
-             "profile",
--            "pydoc",
-             "resource",
-             "shell",
-             "smtpd",
-@@ -857,8 +862,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/poplib.py",
-             "${libdir}/python${PYTHON_MAJMIN}/smtplib.py",
-             "${libdir}/python${PYTHON_MAJMIN}/telnetlib.py",
--            "${libdir}/python${PYTHON_MAJMIN}/urllib",
--            "${libdir}/python${PYTHON_MAJMIN}/urllib/__pycache__",
-             "${libdir}/python${PYTHON_MAJMIN}/uuid.py"
-         ],
-         "cached": [
-@@ -989,21 +992,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pstats.*.pyc"
-         ]
-     },
--    "pydoc": {
--        "summary": "Python interactive help support",
--        "rdepends": [
--            "core",
--            "netclient"
--        ],
--        "files": [
--            "${bindir}/pydoc*",
--            "${libdir}/python${PYTHON_MAJMIN}/pydoc.py",
--            "${libdir}/python${PYTHON_MAJMIN}/pydoc_data"
--        ],
--        "cached": [
--            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/pydoc.*.pyc"
--        ]
--    },
-     "resource": {
-         "summary": "Python resource control interface",
-         "rdepends": [
-diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
-index a4a16fd495..36aa54ba6c 100644
---- a/meta/recipes-devtools/python/python3_3.8.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.2.bb
-@@ -318,7 +318,6 @@ RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " openssl ca-certificates"
- FILES_${PN} = ""
- RPROVIDES_${PN}-modules = "${PN}"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index ba31c3b..4e5ea17 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -36,6 +36,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2020-7039-2.patch \
+            file://CVE-2020-7039-3.patch \
+ 	   file://CVE-2020-7211.patch \
++	   file://CVE-2020-11869.patch \
+ 	   "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
--FILES_${PN}-pydoc += "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3"
- FILES_${PN}-idle += "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
- 
- # provide python-pyvenv from python3-venv
-@@ -332,7 +331,7 @@ INSANE_SKIP_${PN}-dev += "dev-elf"
- 
- # catch all the rest (unsorted)
- PACKAGES += "${PN}-misc"
--RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pydoc python3-pickle python3-audio"
-+RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pickle python3-audio"
- RDEPENDS_${PN}-modules_append_class-target = " python3-misc"
- RDEPENDS_${PN}-modules_append_class-nativesdk = " python3-misc"
- FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MAJMIN}/lib-dynload"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-11869.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-11869.patch
+new file mode 100644
+index 0000000..ca7ffed
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-11869.patch
+@@ -0,0 +1,97 @@
++From ac2071c3791b67fc7af78b8ceb320c01ca1b5df7 Mon Sep 17 00:00:00 2001
++From: BALATON Zoltan <balaton@eik.bme.hu>
++Date: Mon, 6 Apr 2020 22:34:26 +0200
++Subject: [PATCH] ati-vga: Fix checks in ati_2d_blt() to avoid crash
++
++In some corner cases (that never happen during normal operation but a
++malicious guest could program wrong values) pixman functions were
++called with parameters that result in a crash. Fix this and add more
++checks to disallow such cases.
++
++Reported-by: Ziming Zhang <ezrakiez@gmail.com>
++Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
++Message-id: 20200406204029.19559747D5D@zero.eik.bme.hu
++Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++
++Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=ac2071c3791b67fc7af78b8ceb320c01ca1b5df7]
++CVE: CVE-2020-11869
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++---
++ hw/display/ati_2d.c | 37 ++++++++++++++++++++++++++-----------
++ 1 file changed, 26 insertions(+), 11 deletions(-)
++
++diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
++index 42e8231..23a8ae0 100644
++--- a/hw/display/ati_2d.c
+++++ b/hw/display/ati_2d.c
++@@ -53,12 +53,20 @@ void ati_2d_blt(ATIVGAState *s)
++             s->vga.vbe_start_addr, surface_data(ds), surface_stride(ds),
++             surface_bits_per_pixel(ds),
++             (s->regs.dp_mix & GMC_ROP3_MASK) >> 16);
++-    int dst_x = (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
++-                 s->regs.dst_x : s->regs.dst_x + 1 - s->regs.dst_width);
++-    int dst_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
++-                 s->regs.dst_y : s->regs.dst_y + 1 - s->regs.dst_height);
+++    unsigned dst_x = (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
+++                      s->regs.dst_x : s->regs.dst_x + 1 - s->regs.dst_width);
+++    unsigned dst_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
+++                      s->regs.dst_y : s->regs.dst_y + 1 - s->regs.dst_height);
++     int bpp = ati_bpp_from_datatype(s);
+++    if (!bpp) {
+++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid bpp\n");
+++        return;
+++    }
++     int dst_stride = DEFAULT_CNTL ? s->regs.dst_pitch : s->regs.default_pitch;
+++    if (!dst_stride) {
+++        qemu_log_mask(LOG_GUEST_ERROR, "Zero dest pitch\n");
+++        return;
+++    }
++     uint8_t *dst_bits = s->vga.vram_ptr + (DEFAULT_CNTL ?
++                         s->regs.dst_offset : s->regs.default_offset);
++ 
++@@ -82,12 +90,16 @@ void ati_2d_blt(ATIVGAState *s)
++     switch (s->regs.dp_mix & GMC_ROP3_MASK) {
++     case ROP3_SRCCOPY:
++     {
++-        int src_x = (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
++-                     s->regs.src_x : s->regs.src_x + 1 - s->regs.dst_width);
++-        int src_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
++-                     s->regs.src_y : s->regs.src_y + 1 - s->regs.dst_height);
+++        unsigned src_x = (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
+++                       s->regs.src_x : s->regs.src_x + 1 - s->regs.dst_width);
+++        unsigned src_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
+++                       s->regs.src_y : s->regs.src_y + 1 - s->regs.dst_height);
++         int src_stride = DEFAULT_CNTL ?
++                          s->regs.src_pitch : s->regs.default_pitch;
+++        if (!src_stride) {
+++            qemu_log_mask(LOG_GUEST_ERROR, "Zero source pitch\n");
+++            return;
+++        }
++         uint8_t *src_bits = s->vga.vram_ptr + (DEFAULT_CNTL ?
++                             s->regs.src_offset : s->regs.default_offset);
++ 
++@@ -137,8 +149,10 @@ void ati_2d_blt(ATIVGAState *s)
++                                     dst_y * surface_stride(ds),
++                                     s->regs.dst_height * surface_stride(ds));
++         }
++-        s->regs.dst_x += s->regs.dst_width;
++-        s->regs.dst_y += s->regs.dst_height;
+++        s->regs.dst_x = (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
+++                         dst_x + s->regs.dst_width : dst_x);
+++        s->regs.dst_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
+++                         dst_y + s->regs.dst_height : dst_y);
++         break;
++     }
++     case ROP3_PATCOPY:
++@@ -179,7 +193,8 @@ void ati_2d_blt(ATIVGAState *s)
++                                     dst_y * surface_stride(ds),
++                                     s->regs.dst_height * surface_stride(ds));
++         }
++-        s->regs.dst_y += s->regs.dst_height;
+++        s->regs.dst_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
+++                         dst_y + s->regs.dst_height : dst_y);
++         break;
++     }
++     default:
++-- 
++1.8.3.1
 -- 
-2.24.1
+2.7.4
 
