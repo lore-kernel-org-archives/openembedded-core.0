@@ -1,100 +1,97 @@
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
- by mx.groups.io with SMTP id smtpd.web11.13124.1589899881768908193
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.13125.1589899883006209454
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2020 07:51:21 -0700
+ Tue, 19 May 2020 07:51:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=F8h7qpej;
- spf=pass (domain: gmail.com, ip: 209.85.214.195, mailfrom: akuster808@gmail.com)
-Received: by mail-pl1-f195.google.com with SMTP id x10so5726303plr.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 07:51:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=i+wRQdQY;
+ spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f175.google.com with SMTP id p21so6505932pgm.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 07:51:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=04Iz1+Q3OfmeI+bjvWJqsf3Y1hZM+xwauTiOjYesWKQ=;
-        b=F8h7qpejv6kSU5Fraq8AS3C98krs7/rzirgGZf8yFg5ek/ZkEZ3p86Xajx2m6Ja0aT
-         xN1wO5jERXjxkgfFC/95FXG9wO3pwODw6nLCwQJ/9Ci9HKAR4hids3fe34tvqYWGNZKQ
-         xNkOm4YM0+fhR4zJhFKG4jph26PF/TXhCc7U2e0p6uOuuTC3+Mad1Ars0qNlu0VjevpO
-         eATlAqb4RqKg2jP5yJi2Nt02VNuNK7B7ChEH31XdtPnN3GST5JlgwE5VePiKmZAgZMUE
-         v4EDPorJlYd95OPl++DY71U+Y2FUIydszj4oE7ZJRCMYKQA5Z89+uoc72R3iiE+p6pkd
-         4X5A==
+        bh=SedP2y4TrLSmdRSBuF+eOoNj3gAK/VvhFGqvwqYNlN4=;
+        b=i+wRQdQY99hmxKMIDATbO13XAKhahSaGwbtkd2Nvk3k0tOualaeD96G/kLFe8jPU9O
+         Jm4qY2SJYacQ2UEwMlh66e64p+hkK+Fl65AQ2YKoYqenO6BBJRBF33f/xoe0VOpA/Ww4
+         2lj4spmD6ipNHNIXV1UTt6Ws1EaQqDU8nXSXnNbO95arIkIWX6iVm3n4BOEcvnGmwmkO
+         5HACd5+EFA4X9MWDQwKUe6nDuOGiY+iocEkCna+97C/Y3CHGCw+cFazWDKxlSAuAoGe4
+         EK9MOZ0RjWj2sitj8QiBHuQV83Q8xltIph1hhjjwuv2dfDUezh+Uod67f35C8oyX9LjH
+         UnPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=04Iz1+Q3OfmeI+bjvWJqsf3Y1hZM+xwauTiOjYesWKQ=;
-        b=TGy+lgov1igcSXsWEEasPG0hsTNJWAVuHIKAM9IwyeYiMpvvi6dw3UJEcWiCjz97Ks
-         gMPuypp6HnxIt/XvDSBQcPlyV4Mvktiqh7w2lg2M3gnMFNMQGvXLoRvMUhhRLv5f3WAS
-         zWo92JcZatdqvhWlU9/Mf/MIk41VAb2MsXrlvydsUUPZrJyp/HMYyPbb6jejdqV0/lK6
-         IGjQqCa2jJNiZdIcybDWBOjq5Mke367lai2pMXZPRO3byMnlWswtt5vRTvrPAobmSGkA
-         QGT/TIjWSqDtjpEoaLGVpI8piVAgaEi4pJmHEaos3Hvza+vK+7/zZYFcjPX/NVbmQHjK
-         tFxQ==
-X-Gm-Message-State: AOAM531x6SIZIjr76PE9jlk7DXEvaq6dbI1gFR1OR9EsI8vaMTJKJ8pT
-	VZk5aUB2bO4JTZNl3gdpVcXUsmAJ
-X-Google-Smtp-Source: ABdhPJyH/L7MkdmouPxmX5A9hLPKaQ1LJ3o5BvXwMqqGSPuors21JtdiHlxCgby8a/lAYPc/dvmLxw==
-X-Received: by 2002:a17:902:848a:: with SMTP id c10mr21369573plo.124.1589899880939;
-        Tue, 19 May 2020 07:51:20 -0700 (PDT)
+        bh=SedP2y4TrLSmdRSBuF+eOoNj3gAK/VvhFGqvwqYNlN4=;
+        b=kuFBvZxthHTqCG3V39PxMrFCaPPowsjiQpUDTe8ErmhBvGhMPBcT5CrvJvvqx+a8r0
+         ym/8mePss6tSVRn/4FdjHHyUIV2t0AIQzi4lcPrj268g9rVJ4XQ8n2ZYbMi/U7+jFEDo
+         46OjMSA8+m+syT1mnxnlL8ai3DuBZv5KwhPKcQMZ0LVf28jzLQLoLN0vBC1rrRYrDF22
+         CkXGseeqGL/jyduMZEYOOkHqdJNeB5glk+R4bG6vMaH04MicMRwJEeCWeTx82lwV4Csz
+         oTQDDV5Oey7BnnsbYUEBy1EVbUoSlLTfMMowUDIYAcKzo247+qakDqIxp1Y7a1KxSnn2
+         xebA==
+X-Gm-Message-State: AOAM530RVaIdDVtOQf6UyA4I8bPFLY4EXH1PWjBItNhu+MRN+5Ijze7N
+	gfHc21Ey/+XDn6WStHxBLh8Spue+
+X-Google-Smtp-Source: ABdhPJxe9d/b/FMYE3DuM5h4kaMEwQBvgGANdxz0x14LBL1x19nNbLC6UPNkA86cgJqw/zDd18Rh5g==
+X-Received: by 2002:a63:3609:: with SMTP id d9mr19815764pga.354.1589899882319;
+        Tue, 19 May 2020 07:51:22 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:9de6:6921:ec78:716d])
-        by smtp.gmail.com with ESMTPSA id b63sm4551196pfg.86.2020.05.19.07.51.18
+        by smtp.gmail.com with ESMTPSA id b63sm4551196pfg.86.2020.05.19.07.51.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 07:51:20 -0700 (PDT)
+        Tue, 19 May 2020 07:51:21 -0700 (PDT)
 From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [warrior 1/8] git: Upgrade 2.20.1 -> 2.20.4
-Date: Tue, 19 May 2020 07:51:08 -0700
-Message-Id: <fe5aee43db25f622f4cbacc69765f94eca51395c.1589899663.git.akuster808@gmail.com>
+Subject: [warrior 2/8] python: Upgrade 2.7.17 -> 2.17.18
+Date: Tue, 19 May 2020 07:51:09 -0700
+Message-Id: <65ab890bbdd5b104867d80b721be117a9d269aff.1589899663.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1589899663.git.akuster808@gmail.com>
 References: <cover.1589899663.git.akuster808@gmail.com>
 
 From: Adrian Bunk <bunk@stusta.de>
 
-This includes the fixes for CVE-2020-5260 and CVE-2020-11008.
+LICENSE checksum changed due to 2019 -> 2020 update.
 
-Signed-off-by: Adrian Bunk <bunk@kernel.org>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/git/git_2.20.1.bb | 11 -----------
- meta/recipes-devtools/git/git_2.20.4.bb | 11 +++++++++++
- 2 files changed, 11 insertions(+), 11 deletions(-)
- delete mode 100644 meta/recipes-devtools/git/git_2.20.1.bb
- create mode 100644 meta/recipes-devtools/git/git_2.20.4.bb
+ .../{python-native_2.7.17.bb => python-native_2.7.18.bb}    | 0
+ meta/recipes-devtools/python/python.inc                     | 6 +++---
+ .../python/{python_2.7.17.bb => python_2.7.18.bb}           | 0
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python-native_2.7.17.bb => python-native_2.7.18.bb} (100%)
+ rename meta/recipes-devtools/python/{python_2.7.17.bb => python_2.7.18.bb} (100%)
 
-diff --git a/meta/recipes-devtools/git/git_2.20.1.bb b/meta/recipes-devtools/git/git_2.20.1.bb
-deleted file mode 100644
-index 877fb05e58..0000000000
---- a/meta/recipes-devtools/git/git_2.20.1.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require git.inc
--
--EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
--                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
--                 "
--EXTRA_OEMAKE += "NO_GETTEXT=1"
--
--SRC_URI[tarball.md5sum] = "7a7769e5c957364ed0aed89e6e67c254"
--SRC_URI[tarball.sha256sum] = "edc3bc1495b69179ba4e272e97eff93334a20decb1d8db6ec3c19c16417738fd"
--SRC_URI[manpages.md5sum] = "78c6e54a61a167dab5e8ae07036293ab"
--SRC_URI[manpages.sha256sum] = "e9c123463abd05e142defe44a8060ce6e9853dfd8c83b2542e38b7deac4e6d4c"
-diff --git a/meta/recipes-devtools/git/git_2.20.4.bb b/meta/recipes-devtools/git/git_2.20.4.bb
-new file mode 100644
-index 0000000000..e44da452ad
---- /dev/null
-+++ b/meta/recipes-devtools/git/git_2.20.4.bb
-@@ -0,0 +1,11 @@
-+require git.inc
-+
-+EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-+                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
-+                 "
-+EXTRA_OEMAKE += "NO_GETTEXT=1"
-+
-+SRC_URI[tarball.md5sum] = "6f524e37186a79848a716e2a91330868"
-+SRC_URI[tarball.sha256sum] = "92719084d7648b69038ea617a3bc45ec74f60ed7eef753ae2ad84b6f0b268e9a"
-+SRC_URI[manpages.md5sum] = "dceabcda244042a06ed4cabd754627a5"
-+SRC_URI[manpages.sha256sum] = "72fdd1799756b1240921d10eb5c67de9a651b44d429ba7293929c9d5344ad3e0"
+diff --git a/meta/recipes-devtools/python/python-native_2.7.17.bb b/meta/recipes-devtools/python/python-native_2.7.18.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-native_2.7.17.bb
+rename to meta/recipes-devtools/python/python-native_2.7.18.bb
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index a2424a67bf..bd214e8f8b 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -5,13 +5,13 @@ SECTION = "devel/python"
+ # bump this on every change in contrib/python/generate-manifest-2.7.py
+ INC_PR = "r1"
+ 
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=e466242989bd33c1bd2b6a526a742498"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=203a6dbc802ee896020a47161e759642"
+ 
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            "
+ 
+-SRC_URI[md5sum] = "b3b6d2c92f42a60667814358ab9f0cfd"
+-SRC_URI[sha256sum] = "4d43f033cdbd0aa7b7023c81b0e986fd11e653b5248dac9144d508f11812ba41"
++SRC_URI[md5sum] = "fd6cc8ec0a78c44036f825e739f36e5a"
++SRC_URI[sha256sum] = "b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43"
+ 
+ # python recipe is actually python 2.x
+ # also, exclude pre-releases for both python 2.x and 3.x
+diff --git a/meta/recipes-devtools/python/python_2.7.17.bb b/meta/recipes-devtools/python/python_2.7.18.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python_2.7.17.bb
+rename to meta/recipes-devtools/python/python_2.7.18.bb
 -- 
 2.17.1
 
