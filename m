@@ -1,97 +1,122 @@
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web11.13125.1589899883006209454
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web12.13441.1589899884258437539
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2020 07:51:23 -0700
+ Tue, 19 May 2020 07:51:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=i+wRQdQY;
- spf=pass (domain: gmail.com, ip: 209.85.215.175, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f175.google.com with SMTP id p21so6505932pgm.13
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 07:51:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZEUvRsxc;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id n11so6508205pgl.9
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 07:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=SedP2y4TrLSmdRSBuF+eOoNj3gAK/VvhFGqvwqYNlN4=;
-        b=i+wRQdQY99hmxKMIDATbO13XAKhahSaGwbtkd2Nvk3k0tOualaeD96G/kLFe8jPU9O
-         Jm4qY2SJYacQ2UEwMlh66e64p+hkK+Fl65AQ2YKoYqenO6BBJRBF33f/xoe0VOpA/Ww4
-         2lj4spmD6ipNHNIXV1UTt6Ws1EaQqDU8nXSXnNbO95arIkIWX6iVm3n4BOEcvnGmwmkO
-         5HACd5+EFA4X9MWDQwKUe6nDuOGiY+iocEkCna+97C/Y3CHGCw+cFazWDKxlSAuAoGe4
-         EK9MOZ0RjWj2sitj8QiBHuQV83Q8xltIph1hhjjwuv2dfDUezh+Uod67f35C8oyX9LjH
-         UnPg==
+        bh=8irEoStYwVHeec+sRyqjBZiEXiqh1kECNu7xavtAVl8=;
+        b=ZEUvRsxcbvAVYtFniEwP9/59eKAXxDu5Fa/d/Q4BRxsXqlcKaE2Hp8Ue1OhXJzDmU0
+         ojh1CEndqJxe8dKEayYXIVS9BQW2DXoWf9Z/DdDtarcuJ1F8mHhDnaJcJ1tQYWJvjFpd
+         CTNHo4bVZJkUp6iVKfa/HawR7zc6gXJj53DpRmi9fpE4rIbKOASSt9/VE5ZycdxiWtTC
+         5I/u8P2Yxfr4xhf8Y5VOpv1wnbj7hJKDsSFATESpU2souYDl2o/V82X/9vFFcmsNLLcW
+         QeUjoTNGDkZWhEmqfPgHdD91e+ygxUw8yYGLubr52FSsmqdHLfySHUY7GT3AbqQegfES
+         afYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=SedP2y4TrLSmdRSBuF+eOoNj3gAK/VvhFGqvwqYNlN4=;
-        b=kuFBvZxthHTqCG3V39PxMrFCaPPowsjiQpUDTe8ErmhBvGhMPBcT5CrvJvvqx+a8r0
-         ym/8mePss6tSVRn/4FdjHHyUIV2t0AIQzi4lcPrj268g9rVJ4XQ8n2ZYbMi/U7+jFEDo
-         46OjMSA8+m+syT1mnxnlL8ai3DuBZv5KwhPKcQMZ0LVf28jzLQLoLN0vBC1rrRYrDF22
-         CkXGseeqGL/jyduMZEYOOkHqdJNeB5glk+R4bG6vMaH04MicMRwJEeCWeTx82lwV4Csz
-         oTQDDV5Oey7BnnsbYUEBy1EVbUoSlLTfMMowUDIYAcKzo247+qakDqIxp1Y7a1KxSnn2
-         xebA==
-X-Gm-Message-State: AOAM530RVaIdDVtOQf6UyA4I8bPFLY4EXH1PWjBItNhu+MRN+5Ijze7N
-	gfHc21Ey/+XDn6WStHxBLh8Spue+
-X-Google-Smtp-Source: ABdhPJxe9d/b/FMYE3DuM5h4kaMEwQBvgGANdxz0x14LBL1x19nNbLC6UPNkA86cgJqw/zDd18Rh5g==
-X-Received: by 2002:a63:3609:: with SMTP id d9mr19815764pga.354.1589899882319;
-        Tue, 19 May 2020 07:51:22 -0700 (PDT)
+        bh=8irEoStYwVHeec+sRyqjBZiEXiqh1kECNu7xavtAVl8=;
+        b=B8+NM8uP3dndZghkk15TXB11eOYQ67UXU9NB5JLWag6IDJzGYwBXYPBaFNDSFaWbs4
+         eGvceNc1K/Xukw4hpB3uvoG28uKseL/szNsUggl2uwIDifjqQkPxteU2R3y6yJYfPJJV
+         /xzxVgABqQmXhGdnFucYCkHtzZWMDJkBeyAvUZnHDJBND045vgsvzbBDjGspcIbvvmLG
+         yS3hXPBZJndnXF1vDfpkc3M/QmlRUGc/B3QHW1+5G1jhBGDSWTbGnccyjZdCK/Fq9slf
+         9nVb+ikNuHjVyLH+qkIeWicfB6vozNyubxRvaD/6P3k45dd0X5qN8Inf9tJZ1BSujPTB
+         KCIw==
+X-Gm-Message-State: AOAM530OohWFhX+1s2hcD+ODlkFbwCrZCuD1jH0iSX6gyQQ+xNTyVaDP
+	0ZP2bKpMbkPp7JVoNoZGLTy/s6L0
+X-Google-Smtp-Source: ABdhPJxpbkoLhD6CcSJLYZtsFLN9tFJ59VCQGuW9rXreFtvT4Um3aLljGDEKolBZuq8+G9ZLU/1mBQ==
+X-Received: by 2002:a63:4c1f:: with SMTP id z31mr19722869pga.143.1589899883502;
+        Tue, 19 May 2020 07:51:23 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:9de6:6921:ec78:716d])
-        by smtp.gmail.com with ESMTPSA id b63sm4551196pfg.86.2020.05.19.07.51.21
+        by smtp.gmail.com with ESMTPSA id b63sm4551196pfg.86.2020.05.19.07.51.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 07:51:21 -0700 (PDT)
+        Tue, 19 May 2020 07:51:22 -0700 (PDT)
 From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [warrior 2/8] python: Upgrade 2.7.17 -> 2.17.18
-Date: Tue, 19 May 2020 07:51:09 -0700
-Message-Id: <65ab890bbdd5b104867d80b721be117a9d269aff.1589899663.git.akuster808@gmail.com>
+Subject: [warrior 3/8] openssl: Fix reproducibility issue
+Date: Tue, 19 May 2020 07:51:10 -0700
+Message-Id: <4a8d927dc3ef569830c417d46e5d0a0318a69cde.1589899663.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1589899663.git.akuster808@gmail.com>
 References: <cover.1589899663.git.akuster808@gmail.com>
 
-From: Adrian Bunk <bunk@stusta.de>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-LICENSE checksum changed due to 2019 -> 2020 update.
+There was a build architecture leaking into the target ptest which
+could vary depending upon host. Remove it as its cosmetic.
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+[YOCTO #13770]
+
+(From OE-Core rev: 37db519eedb7eb5cd4f14d05f30f5d580aa7458d)
+
+(From OE-Core rev: c31c676319812e6fc036741db2ab8e16eccff723)
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../{python-native_2.7.17.bb => python-native_2.7.18.bb}    | 0
- meta/recipes-devtools/python/python.inc                     | 6 +++---
- .../python/{python_2.7.17.bb => python_2.7.18.bb}           | 0
- 3 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python-native_2.7.17.bb => python-native_2.7.18.bb} (100%)
- rename meta/recipes-devtools/python/{python_2.7.17.bb => python_2.7.18.bb} (100%)
+ .../openssl/openssl/reproducible.patch        | 32 +++++++++++++++++++
+ .../openssl/openssl_1.1.1d.bb                 |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/reproducible.patch
 
-diff --git a/meta/recipes-devtools/python/python-native_2.7.17.bb b/meta/recipes-devtools/python/python-native_2.7.18.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-native_2.7.17.bb
-rename to meta/recipes-devtools/python/python-native_2.7.18.bb
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index a2424a67bf..bd214e8f8b 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -5,13 +5,13 @@ SECTION = "devel/python"
- # bump this on every change in contrib/python/generate-manifest-2.7.py
- INC_PR = "r1"
- 
--LIC_FILES_CHKSUM = "file://LICENSE;md5=e466242989bd33c1bd2b6a526a742498"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=203a6dbc802ee896020a47161e759642"
- 
- SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+diff --git a/meta/recipes-connectivity/openssl/openssl/reproducible.patch b/meta/recipes-connectivity/openssl/openssl/reproducible.patch
+new file mode 100644
+index 0000000000..a24260c95d
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/reproducible.patch
+@@ -0,0 +1,32 @@
++The value for perl_archname can vary depending on the host, e.g. 
++x86_64-linux-gnu-thread-multi or x86_64-linux-thread-multi which
++makes the ptest package non-reproducible. Its unused other than 
++these references so drop it.
++
++RP 2020/2/6
++
++Upstream-Status: Pending
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Index: openssl-1.1.1d/Configure
++===================================================================
++--- openssl-1.1.1d.orig/Configure
+++++ openssl-1.1.1d/Configure
++@@ -286,7 +286,7 @@ if (defined env($local_config_envname))
++ # Save away perl command information
++ $config{perl_cmd} = $^X;
++ $config{perl_version} = $Config{version};
++-$config{perl_archname} = $Config{archname};
+++#$config{perl_archname} = $Config{archname};
++ 
++ $config{prefix}="";
++ $config{openssldir}="";
++@@ -2517,7 +2517,7 @@ _____
++                           @{$config{perlargv}}), "\n";
++         print "\nPerl information:\n\n";
++         print '    ',$config{perl_cmd},"\n";
++-        print '    ',$config{perl_version},' for ',$config{perl_archname},"\n";
+++        print '    ',$config{perl_version},"\n";
++     }
++     if ($dump || $options) {
++         my $longest = 0;
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+index d256646934..67eea6592e 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+@@ -17,6 +17,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://CVE-2019-1551.patch \
++           file://reproducible.patch \
             "
  
--SRC_URI[md5sum] = "b3b6d2c92f42a60667814358ab9f0cfd"
--SRC_URI[sha256sum] = "4d43f033cdbd0aa7b7023c81b0e986fd11e653b5248dac9144d508f11812ba41"
-+SRC_URI[md5sum] = "fd6cc8ec0a78c44036f825e739f36e5a"
-+SRC_URI[sha256sum] = "b62c0e7937551d0cc02b8fd5cb0f544f9405bafc9a54d3808ed4594812edef43"
- 
- # python recipe is actually python 2.x
- # also, exclude pre-releases for both python 2.x and 3.x
-diff --git a/meta/recipes-devtools/python/python_2.7.17.bb b/meta/recipes-devtools/python/python_2.7.18.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python_2.7.17.bb
-rename to meta/recipes-devtools/python/python_2.7.18.bb
+ SRC_URI_append_class-nativesdk = " \
 -- 
 2.17.1
 
