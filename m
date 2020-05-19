@@ -1,86 +1,75 @@
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.5561.1589858123577073980
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web10.5783.1589859310633758500
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 May 2020 20:15:23 -0700
+ Mon, 18 May 2020 20:35:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DV3eoIIo;
- spf=pass (domain: gmail.com, ip: 209.85.215.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f182.google.com with SMTP id c75so4748945pga.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2020 20:15:23 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=jnMPbkM9;
+ spf=pass (domain: linaro.org, ip: 209.85.210.53, mailfrom: anibal.limon@linaro.org)
+Received: by mail-ot1-f53.google.com with SMTP id z3so8366681otp.9
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 May 2020 20:35:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PrW6BrqanR7IK8ld5fQpW4bfWj6Tvtui29Mah8wZfoU=;
-        b=DV3eoIIoVv83uVg0zRQG5XfFH+kAT6CZr6eMC49qWxGCYQDkcs2yF8HJXX3KG8Xoav
-         NQVhkInEHw1rnfaoTJUXD94i5UAFFKzzMzdFfCx+z1hGzvp4McyH8FfarydQVmRsa76A
-         QXrJ7eehYZu9gE+l1BFjx1tvmB/6SB+qybhVS9TLEKdjBgdl6xpd5gL7s/IQZ+Vye3TW
-         uHvy/8Amxq8llbuDrTtDkp8choPg6ixEhpEvJz02EPgEHxEcrvcsaHDpe3qOwJGFgQiP
-         oFejF1WPcqZ7vz2NY2eCbccbY3yjFK6Hxrl0LyjcPJZkCYkIizSdbu+oB5oNMgtR2yXT
-         cNtA==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+AeHRdr+p0ZGt1PrxqY9NC9jhYiYx1X+35z24j2ws1s=;
+        b=jnMPbkM9UWXnmnYODB1TRbzJtMO7wyu4ibnGAA5Fgn24mGVRg38avYuehrzlZpBfbn
+         TBZ5585nYU0iqO3gW6FWcJxVxOtctIIPqWSFlnVkxwZ2smYznJXBnvYLa623UUYd8Aqc
+         IZI1tTvUqqPqipXNdhoTBUQlzQaLEnj2LnzeP0FFf/0dIiY12dYIxv8e8ZBqviiPMW1i
+         XnSSNrfLMwqO/qlOqY+k+AhDOkqUlIBWGI6of0hmm016ke2YGSDSas0B7A73qznAGFTW
+         DTeGEsngmavuexK7ekF+iLsX5P3dHqwc/sqfHcMfkEVheC+uHvqrEqJwS33nqTl+dlpz
+         UHDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PrW6BrqanR7IK8ld5fQpW4bfWj6Tvtui29Mah8wZfoU=;
-        b=eC7LSPkJdGa3mhLeC9XzZQB31fonMrf1Py2aaCgkLS00mfLt8u/giXHrwVaNTY43XI
-         77oj3CnRR4Z6yEwi8A3S33pCm0a7WfOQv1JwiF2w5UvPL0NbvLG97JRCUcqENcwg3TdM
-         yx4ATWGBCmRkDptG5bSAeRgVKhCGaAvuPmIMt9owcTgetURsnVUfMqLbezeTOji9K+Nm
-         TAcMkZcmaocWc561qu+DFXcJ+/c4rb6Dpg4+AdC6JADhNyRLZ5nlyg5jt562cp534Cul
-         sL7DoOj588xBqu/TJGMFOend7SZ4CyxicTNQpSaV8WVCrCChhLx7cqfWHma+1MkSJGLv
-         DURQ==
-X-Gm-Message-State: AOAM531OJkd3bq0SWIdnHu4fRgIINBkoCeLzD3No+dGg23WPABoDkrg4
-	qyJSgHtFyeyCw/zk4UXcebwFsGPpzLU=
-X-Google-Smtp-Source: ABdhPJzP1G9FjtGzv6gMnvbaFrlJ0LJAmeb2EdODovlIe3MY6NQA+8Hl1yLkCOoSWpFjFCcLAlPUoQ==
-X-Received: by 2002:a62:2ad2:: with SMTP id q201mr19729998pfq.323.1589858122799;
-        Mon, 18 May 2020 20:15:22 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e62a])
-        by smtp.gmail.com with ESMTPSA id a5sm4545706pfk.210.2020.05.18.20.15.21
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=+AeHRdr+p0ZGt1PrxqY9NC9jhYiYx1X+35z24j2ws1s=;
+        b=Ct+HQdjbzNQEmI7aMPiSGZKkxXKqWxmaR2rHpKSLrJvHQ9PNYYB42c7aYhnrVGATnT
+         sBZvEJKcbq/PezLgkvv48N8j8RV+MVfQ9FrBYhzm8FOSiuxidqT73/TL6IY9HvMPqrmP
+         dW1olS/KIdBzZnAL/uv8nJWPd4GNREI8n7wt2si42diX4n95+j2rRX2ABYun3Y2Jc8l8
+         cGEG9U2788iZchhQT57dQpmhU8gSkBrA3IEJmUofr/3rDbfyUGXN93hv5X0H33DINaYw
+         I1pHcJURE8WQdyrnBGOcuAOXSo4O131NLWazQvoqTEfyVcI0IgYRw1g5IF5r40iR41f/
+         klWw==
+X-Gm-Message-State: AOAM533jywvw/1v+XMdEHPQ6jNBKWbAOeJXal15Lcv4TBe99EkOEUaNt
+	kDg+oqflJuQXlB7dGCI6TpsHW7ugGAs=
+X-Google-Smtp-Source: ABdhPJxQ0pO7yPUp2sQXLECv3b+Mxt0+nO6LP5cUQMVGpxtuiYSzO3LSkF1wRh/91/SOZcffdB7jEw==
+X-Received: by 2002:a9d:a4c:: with SMTP id 70mr15465738otg.334.1589859309694;
+        Mon, 18 May 2020 20:35:09 -0700 (PDT)
+Return-Path: <anibal.limon@linaro.org>
+Received: from blackbox.rga.ip ([2806:109f:4:9c4c:908a:c7ff:fe6a:e9f5])
+        by smtp.gmail.com with ESMTPSA id 33sm3481866otx.31.2020.05.18.20.35.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2020 20:15:22 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+        Mon, 18 May 2020 20:35:08 -0700 (PDT)
+From: "Anibal Limon" <anibal.limon@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 2/2] libxcrypt: Upgrade to 4.4.16
-Date: Mon, 18 May 2020 20:15:19 -0700
-Message-Id: <20200519031519.401004-2-raj.khem@gmail.com>
+Cc: richard.purdie@linuxfoundation.org,
+	nicolas.dechesne@linaro.org,
+	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
+Subject: [PATCH 1/3] recipes-kernel/linux-firmware: Add wlanmdsp.mbn to qcom-modem package
+Date: Mon, 18 May 2020 22:35:03 -0500
+Message-Id: <20200519033505.357681-1-anibal.limon@linaro.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200519031519.401004-1-raj.khem@gmail.com>
-References: <20200519031519.401004-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
- .../{libxcrypt-compat_4.4.15.bb => libxcrypt-compat_4.4.16.bb}  | 0
- meta/recipes-core/libxcrypt/libxcrypt.inc                       | 2 +-
- .../libxcrypt/{libxcrypt_4.4.15.bb => libxcrypt_4.4.16.bb}      | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.15.bb => libxcrypt-compat_4.4.16.bb} (100%)
- rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.15.bb => libxcrypt_4.4.16.bb} (100%)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.15.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.16.bb
-similarity index 100%
-rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.15.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.16.bb
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index 2d2a0b03e3..da7607aef3 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM ?= "file://LICENSING;md5=3bb6614cf5880cbf1b9dbd9e3d145e2c \
- inherit autotools pkgconfig
- 
- SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
--SRCREV = "823437d015cd4ab4d100ed205f218681b03ae45c"
-+SRCREV = "4ffa4d38396c334a1e002427c22281b047a3d6a6"
- SRCBRANCH ?= "develop"
- 
- PROVIDES = "virtual/crypt"
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.15.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.16.bb
-similarity index 100%
-rename from meta/recipes-core/libxcrypt/libxcrypt_4.4.15.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.16.bb
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
+index 7173409e05..139307cda3 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
+@@ -851,7 +851,7 @@ FILES_${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw $
+ FILES_${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
+ FILES_${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
+ FILES_${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
+-FILES_${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.*"
++FILES_${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
+ RDEPENDS_${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
+ RDEPENDS_${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
 -- 
 2.26.2
 
