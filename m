@@ -1,122 +1,76 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web12.13441.1589899884258437539
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.web10.13193.1589899885289378574
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2020 07:51:24 -0700
+ Tue, 19 May 2020 07:51:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZEUvRsxc;
- spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f172.google.com with SMTP id n11so6508205pgl.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 07:51:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hnKWiWEJ;
+ spf=pass (domain: gmail.com, ip: 209.85.216.48, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f48.google.com with SMTP id t40so1544426pjb.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 07:51:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=8irEoStYwVHeec+sRyqjBZiEXiqh1kECNu7xavtAVl8=;
-        b=ZEUvRsxcbvAVYtFniEwP9/59eKAXxDu5Fa/d/Q4BRxsXqlcKaE2Hp8Ue1OhXJzDmU0
-         ojh1CEndqJxe8dKEayYXIVS9BQW2DXoWf9Z/DdDtarcuJ1F8mHhDnaJcJ1tQYWJvjFpd
-         CTNHo4bVZJkUp6iVKfa/HawR7zc6gXJj53DpRmi9fpE4rIbKOASSt9/VE5ZycdxiWtTC
-         5I/u8P2Yxfr4xhf8Y5VOpv1wnbj7hJKDsSFATESpU2souYDl2o/V82X/9vFFcmsNLLcW
-         QeUjoTNGDkZWhEmqfPgHdD91e+ygxUw8yYGLubr52FSsmqdHLfySHUY7GT3AbqQegfES
-         afYg==
+        bh=A+ZrlNCt7McHeW/DxQXWouspnVsdXfcs0LP2BXihKwY=;
+        b=hnKWiWEJ+7CdXQjr50udUI9Kvki0l0pnYIhm4RY2Iw6ABv4o1vulYtqfdXpsDjf9gt
+         JezB6IZkVNwUaNePtz5MUUEyK7gI8aO1G+jc2fPt7pyRCW2/13I6jhXmL1PhUoF/KJDc
+         I8Jsz/sWrf3p+9eZq3TJni7n1uiVPettj1tyr0C5rXewjl5XQdoCpDmlgaJwx8nkakrh
+         Uxolu/if2+6Il9zt8vTeu276Mb6BpCEgcpmMnJodL8GuxdgX0NIezJJLGaHAIOVF+Rmx
+         V9Mym5fBtlON5D8+xvO1NcKLTChxOACCSjuSQALP9WdL/1DwZ+Gmnj0RiqqzeVaIiBBp
+         BKnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=8irEoStYwVHeec+sRyqjBZiEXiqh1kECNu7xavtAVl8=;
-        b=B8+NM8uP3dndZghkk15TXB11eOYQ67UXU9NB5JLWag6IDJzGYwBXYPBaFNDSFaWbs4
-         eGvceNc1K/Xukw4hpB3uvoG28uKseL/szNsUggl2uwIDifjqQkPxteU2R3y6yJYfPJJV
-         /xzxVgABqQmXhGdnFucYCkHtzZWMDJkBeyAvUZnHDJBND045vgsvzbBDjGspcIbvvmLG
-         yS3hXPBZJndnXF1vDfpkc3M/QmlRUGc/B3QHW1+5G1jhBGDSWTbGnccyjZdCK/Fq9slf
-         9nVb+ikNuHjVyLH+qkIeWicfB6vozNyubxRvaD/6P3k45dd0X5qN8Inf9tJZ1BSujPTB
-         KCIw==
-X-Gm-Message-State: AOAM530OohWFhX+1s2hcD+ODlkFbwCrZCuD1jH0iSX6gyQQ+xNTyVaDP
-	0ZP2bKpMbkPp7JVoNoZGLTy/s6L0
-X-Google-Smtp-Source: ABdhPJxpbkoLhD6CcSJLYZtsFLN9tFJ59VCQGuW9rXreFtvT4Um3aLljGDEKolBZuq8+G9ZLU/1mBQ==
-X-Received: by 2002:a63:4c1f:: with SMTP id z31mr19722869pga.143.1589899883502;
-        Tue, 19 May 2020 07:51:23 -0700 (PDT)
+        bh=A+ZrlNCt7McHeW/DxQXWouspnVsdXfcs0LP2BXihKwY=;
+        b=FzpBRT9BetJnlaFwEjhRvfpxy4FTmqQm2EHLp3cdvTabC5rzXMx8HmqKIiXC3itQqb
+         182G8ByxMbbC18ZGFknqBTu9X2vOtZV4DLWwTd2P2n5orSpgdgschyMku/tB+8ojXMZs
+         /Y1S21k0bAbieldhROKu/iTgb5yMle8aDEjgpkV3JE/NhlOFBW6odCJfv0FJwB5fggc5
+         vKygN24VJYKXbw2cx5zWcV0iZtOcAO9xw7ZyVnmPs/hV4Ne2zmYw5SS4UFaQg/TaGEqd
+         a42Q/Wl5ucdniKM0IttffhiGFZOUF1VryIlhnrxdY5K4F8En+/O+fEC/ZPLHFguyWwIp
+         ksjQ==
+X-Gm-Message-State: AOAM530BCUiaMj0HusXe/t6dkcdPXotZh8uqsiRVZHKwhtdrnjYvnrme
+	DTePMbywi2/nzJPsSgjULdRoLwgU
+X-Google-Smtp-Source: ABdhPJyO0bGNqUTMh6Xl2rBIuA0Allf6bJkhpXIsxBRTU3fF3inY/8GFlAawyBkSLGh6nf+labW0ig==
+X-Received: by 2002:a17:902:7088:: with SMTP id z8mr13580243plk.71.1589899884624;
+        Tue, 19 May 2020 07:51:24 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:9de6:6921:ec78:716d])
-        by smtp.gmail.com with ESMTPSA id b63sm4551196pfg.86.2020.05.19.07.51.22
+        by smtp.gmail.com with ESMTPSA id b63sm4551196pfg.86.2020.05.19.07.51.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 07:51:22 -0700 (PDT)
+        Tue, 19 May 2020 07:51:24 -0700 (PDT)
 From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [warrior 3/8] openssl: Fix reproducibility issue
-Date: Tue, 19 May 2020 07:51:10 -0700
-Message-Id: <4a8d927dc3ef569830c417d46e5d0a0318a69cde.1589899663.git.akuster808@gmail.com>
+Subject: [warrior 4/8] openssl: recommend cryptodev-module for corresponding PACKAGECONFIG
+Date: Tue, 19 May 2020 07:51:11 -0700
+Message-Id: <5de53272951bfc3c8c73bd09fd0b296e2ffff322.1589899663.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1589899663.git.akuster808@gmail.com>
 References: <cover.1589899663.git.akuster808@gmail.com>
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Denys Dmytriyenko <denys@ti.com>
 
-There was a build architecture leaking into the target ptest which
-could vary depending upon host. Remove it as its cosmetic.
-
-[YOCTO #13770]
-
-(From OE-Core rev: 37db519eedb7eb5cd4f14d05f30f5d580aa7458d)
-
-(From OE-Core rev: c31c676319812e6fc036741db2ab8e16eccff723)
-
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 57fcf9b517fe95e871122946cb99fe7fa9fd2e26)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../openssl/openssl/reproducible.patch        | 32 +++++++++++++++++++
- .../openssl/openssl_1.1.1d.bb                 |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/reproducible.patch
+ meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/reproducible.patch b/meta/recipes-connectivity/openssl/openssl/reproducible.patch
-new file mode 100644
-index 0000000000..a24260c95d
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/reproducible.patch
-@@ -0,0 +1,32 @@
-+The value for perl_archname can vary depending on the host, e.g. 
-+x86_64-linux-gnu-thread-multi or x86_64-linux-thread-multi which
-+makes the ptest package non-reproducible. Its unused other than 
-+these references so drop it.
-+
-+RP 2020/2/6
-+
-+Upstream-Status: Pending
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: openssl-1.1.1d/Configure
-+===================================================================
-+--- openssl-1.1.1d.orig/Configure
-++++ openssl-1.1.1d/Configure
-+@@ -286,7 +286,7 @@ if (defined env($local_config_envname))
-+ # Save away perl command information
-+ $config{perl_cmd} = $^X;
-+ $config{perl_version} = $Config{version};
-+-$config{perl_archname} = $Config{archname};
-++#$config{perl_archname} = $Config{archname};
-+ 
-+ $config{prefix}="";
-+ $config{openssldir}="";
-+@@ -2517,7 +2517,7 @@ _____
-+                           @{$config{perlargv}}), "\n";
-+         print "\nPerl information:\n\n";
-+         print '    ',$config{perl_cmd},"\n";
-+-        print '    ',$config{perl_version},' for ',$config{perl_archname},"\n";
-++        print '    ',$config{perl_version},"\n";
-+     }
-+     if ($dump || $options) {
-+         my $longest = 0;
 diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-index d256646934..67eea6592e 100644
+index 67eea6592e..d656cb3cfa 100644
 --- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-@@ -17,6 +17,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
-            file://CVE-2019-1551.patch \
-+           file://reproducible.patch \
-            "
+@@ -33,7 +33,7 @@ PACKAGECONFIG ?= ""
+ PACKAGECONFIG_class-native = ""
+ PACKAGECONFIG_class-nativesdk = ""
  
- SRC_URI_append_class-nativesdk = " \
+-PACKAGECONFIG[cryptodev-linux] = "enable-devcryptoeng,disable-devcryptoeng,cryptodev-linux"
++PACKAGECONFIG[cryptodev-linux] = "enable-devcryptoeng,disable-devcryptoeng,cryptodev-linux,,cryptodev-module"
+ 
+ B = "${WORKDIR}/build"
+ do_configure[cleandirs] = "${B}"
 -- 
 2.17.1
 
