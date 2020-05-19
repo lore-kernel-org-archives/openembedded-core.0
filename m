@@ -1,81 +1,101 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web10.13197.1589899888939721869
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.13199.1589899890149913566
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2020 07:51:29 -0700
+ Tue, 19 May 2020 07:51:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WZ7Ae/Uk;
- spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: akuster808@gmail.com)
-Received: by mail-pj1-f43.google.com with SMTP id q9so1548179pjm.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 07:51:28 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fXgPMbyE;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id q24so1548122pjd.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 07:51:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=PlmiWkLysb4r+D6yjQ0ZeFIVpfZiZ5nnjkaDY6DCpAs=;
-        b=WZ7Ae/UkhRAMK3yyXDV45VuHV//bK+f7BD3bXSLh2qCySflfqJBMf3H9iRYg9IM6R7
-         /+s+WuLpxWPBegXGXxbmUtOFTTAw7+cG5E+TLVZkph5m7yVsNKn1+u5qVHnyxjef+oBu
-         azjUTkqHSBMq2KMjfMHF1oJ0jxQTc/jphfeDA5/5+WaPVFV/YAV/MHblWxnye7E2yB+q
-         +5ikU7KXDOmKVkPt/gf8sIJzNHWnXRqxYY2STSqby/5uaKiNyydRJ5VwGyrDO358EUjw
-         wk/b4z/MEvG29osMvf7Xnf1t3CeIQvQ7mBBSEy/gvDuc7EpvrB3aNETQ1OufMi99uIgB
-         jAMw==
+        bh=GaskdhDaNFtO2N1Fv7GQqVvi8wK16yPEY9xOJxELvQc=;
+        b=fXgPMbyECRrtwFJzhL6dSSpH1sVVLlgyc/f9JY5FlgBqo/h2KhWoqqj34rzJFhOmSc
+         d2uUZDwD8JvCaBVNmQJvymeUmWGvyAkY9lZv6lXeWHuDWWnW0TPWhG53wXHnRUglITT8
+         GREIa/f9xy+NDE9SzVxwa/yQB/KBL6AoZ8qAJM6pP27MWUpAI7/j4yexl5b7IsXLFANI
+         XeCJl6ufofO+FDEC4x3EjuDDhfvnn/z6eXLNmbN3o3mIayqax+5fG6Hs0f6oGxHT1O5d
+         3sOsKs0BMenbau+iOyCQ2he3VpOeTQIo2uyZDRtfA6v0f58u6TI0svwtHrVHxrDYhGji
+         eHlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=PlmiWkLysb4r+D6yjQ0ZeFIVpfZiZ5nnjkaDY6DCpAs=;
-        b=T+m9XfUCkIhR037dHvJ002VfVJQUKz0Zx4QxI3MBYCeIqBtlY5tR+yDWXJABkrSpYl
-         nONSehQFEtb2TrAh7D2OQo3UpaZ0L/cK4h/tq/DhwHjuFYFLmAoryTdXXoFmsSqjZ1V3
-         3ysq70kXgcqNVyRPOk/ao5SnSAW6+/9+lW/jLCswLalJYYRkE0isLhSG/6gmH9FrJ/R2
-         kRsETaU98J8SMpx6wO8mCTuzYsNUPCLClOSrBsjO0nUwr89fDSwNT3a9/r1do+hhDLmh
-         IwjBYktxyyv/fXJ8TN/o1MN+CJTJROPvKLgSuJjQXHj+lpVOtEi4riSb9lyr6A7eYoxd
-         g8Ag==
-X-Gm-Message-State: AOAM5303HlPO+h30Oh3RMC/CpylWWvlsPV6lUjyZyVTzzqWsECs6+zcS
-	FZHAAbZiTTMFn9XqkvfS5mOybcRM
-X-Google-Smtp-Source: ABdhPJzyIQgHpC/MqTHDh3wbes8SK+ivYGIwpwvKfmQXApsEX5i+1fKKVT2W5fr44ODf0+mqNr3uXQ==
-X-Received: by 2002:a17:90a:ee4f:: with SMTP id bu15mr2904081pjb.16.1589899888148;
-        Tue, 19 May 2020 07:51:28 -0700 (PDT)
+        bh=GaskdhDaNFtO2N1Fv7GQqVvi8wK16yPEY9xOJxELvQc=;
+        b=R/fIGRCGl+BUi4Pssp61vdiVzc6mFf6jJpuKRMd9h6uRbUayXi1q699jShoO3pzHYv
+         3bm4M0hu4JLbvRFakFOt5nV6Zz1zhDCLjwlnrVUA0dZEWj5sAIgepa5NF8NfSOVOASmw
+         nRo3qqxAXCcTVzN/k+0KS6ZkCr8G360kIAy8qMVrPgejRpswmvDebSkYthDTf1ffzpk+
+         k3RRDxRMpMqbg3Z/WUhMLFP+nK5sznP9pN6W3lPjoxHUp+rxT7rzGJJOIbYlEnF0CjA2
+         4juYFON+v2J8ET1/oXASYprElMDdc/1isSpUIns1BJ/ZfKcNcViJS72CCOaiBaj65E6P
+         R5MQ==
+X-Gm-Message-State: AOAM530Cq18o7ShgPbN916GFlwG1sPGV/x3HT7QIEyyckZu1FbFKttdL
+	tTCEucaHje7u4NVSfW5YzloTm3gp
+X-Google-Smtp-Source: ABdhPJydcXJU4tErBNVx+FgKcLvtxYvT6iRmd1hNdDKhof8JNTBSqs9DGUihpVn4JUVcJCSVmnXlMQ==
+X-Received: by 2002:a17:90a:d307:: with SMTP id p7mr5619033pju.207.1589899889440;
+        Tue, 19 May 2020 07:51:29 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:9de6:6921:ec78:716d])
-        by smtp.gmail.com with ESMTPSA id b63sm4551196pfg.86.2020.05.19.07.51.27
+        by smtp.gmail.com with ESMTPSA id b63sm4551196pfg.86.2020.05.19.07.51.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 07:51:27 -0700 (PDT)
+        Tue, 19 May 2020 07:51:28 -0700 (PDT)
 From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [warrior 7/8] openssl: upgrade 1.1.1f -> 1.1.1g
-Date: Tue, 19 May 2020 07:51:14 -0700
-Message-Id: <620d69e7ad0d0c40ecd135e48f96aaf368c7f242.1589899663.git.akuster808@gmail.com>
+Subject: [warrior 8/8] cve-check: CPE version '-' as all version
+Date: Tue, 19 May 2020 07:51:15 -0700
+Message-Id: <1d06fedf46c8f67fccde7a00d7199d7052c33b30.1589899663.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1589899663.git.akuster808@gmail.com>
 References: <cover.1589899663.git.akuster808@gmail.com>
 
-From: Jan Luebbe <jlu@pengutronix.de>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-This also fixes CVE-2020-1967.
+CPE version could be '-' to mean no version info.
+Current cve_check treat it as not valid and does not report these
+CVE but some of these could be a valid vulnerabilities.
 
-Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Since non-valid CVE can be whitelisted, so treat '-' as all version
+and report all these CVE to capture possible vulnerabilities.
+
+Non-valid CVE to be whitelisted separately.
+
+[YOCTO #13617]
+
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c69ee3594079589d27c10db32bc288566ebde9ef)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb} (98%)
+ meta/classes/cve-check.bbclass                 | 2 +-
+ meta/recipes-core/meta/cve-update-db-native.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-index 204dc7c6fe..a57e09c802 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
-@@ -23,7 +23,7 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 01b3637469..0ab022b135 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -214,7 +214,7 @@ def check_cves(d, patched_cves):
+                 (_, _, _, version_start, operator_start, version_end, operator_end) = row
+                 #bb.debug(2, "Evaluating row " + str(row))
  
--SRC_URI[sha256sum] = "186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35"
-+SRC_URI[sha256sum] = "ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46"
+-                if (operator_start == '=' and pv == version_start):
++                if (operator_start == '=' and pv == version_start) or version_start == '-':
+                     vulnerable = True
+                 else:
+                     if operator_start:
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 575254af40..1b4f31692b 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -122,7 +122,7 @@ def parse_node_and_insert(c, node, cveId):
+             product = cpe23[4]
+             version = cpe23[5]
  
- inherit lib_package multilib_header ptest
- 
+-            if version != '*':
++            if version != '*' and version != '-':
+                 # Version is defined, this is a '=' match
+                 yield [cveId, vendor, product, version, '=', '', '']
+             else:
 -- 
 2.17.1
 
