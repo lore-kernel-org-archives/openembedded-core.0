@@ -1,81 +1,78 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.13127.1589899887975790784
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web10.13197.1589899888939721869
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2020 07:51:28 -0700
+ Tue, 19 May 2020 07:51:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZMXaWVLL;
- spf=pass (domain: gmail.com, ip: 209.85.215.174, mailfrom: akuster808@gmail.com)
-Received: by mail-pg1-f174.google.com with SMTP id f6so6529648pgm.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 07:51:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WZ7Ae/Uk;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: akuster808@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id q9so1548179pjm.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 07:51:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=thxnS9Zeqa747Rl+ILaAzc+2QXun4oQODwkO3gWaHgY=;
-        b=ZMXaWVLLGcBAvZrUYug+xi8Xihqf1ZOHwkdAoNYWlzjTTlGFj39EqWyMrfVLs8U8fn
-         5MDBUxGe+qHCkNOjSQb5z8oBTXF34z9ky5buGCa2wb8C/HrysdbGyltnZPK28a4UWkTY
-         M6IwrxhUBPRkMr8ChIjNXtrgCnPL9/ty0cZXQ5TWtKEQ6bEuQbP7YgbhykJyBPofI8lQ
-         fOYiCEuUic58YUCjZb+FhZVAM/QAfaYIxBBBJ9MBmueWTzcQYlIqUhozR9v0/4j2YWe2
-         PDAhfOn85v4MF8bVETUqI4pQuuNRluREni7sRLMyZSv0aPapS4KMF4WhTtQRuAI5RC8O
-         MCTw==
+        bh=PlmiWkLysb4r+D6yjQ0ZeFIVpfZiZ5nnjkaDY6DCpAs=;
+        b=WZ7Ae/UkhRAMK3yyXDV45VuHV//bK+f7BD3bXSLh2qCySflfqJBMf3H9iRYg9IM6R7
+         /+s+WuLpxWPBegXGXxbmUtOFTTAw7+cG5E+TLVZkph5m7yVsNKn1+u5qVHnyxjef+oBu
+         azjUTkqHSBMq2KMjfMHF1oJ0jxQTc/jphfeDA5/5+WaPVFV/YAV/MHblWxnye7E2yB+q
+         +5ikU7KXDOmKVkPt/gf8sIJzNHWnXRqxYY2STSqby/5uaKiNyydRJ5VwGyrDO358EUjw
+         wk/b4z/MEvG29osMvf7Xnf1t3CeIQvQ7mBBSEy/gvDuc7EpvrB3aNETQ1OufMi99uIgB
+         jAMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=thxnS9Zeqa747Rl+ILaAzc+2QXun4oQODwkO3gWaHgY=;
-        b=S/KO120O9B4U59kqEhFGiLyDmVUDGRoHgSrVQVpi94d8yYSuIwU3j+TQV8rennGcSl
-         TBb7nlSM23EVgYnJRYExvUY6UOqGbtc69/tW42SG+VMPfdHjHiLh45lUrSuun7o8kS4v
-         uDpbVmzQhTNtboI2fcApvbw0XcrcIrowgsyYlPByeOX9kMyYAIYQ62zvaX/xE6GWt7f/
-         4Yd4orX5Mb4VugJqwTh2+cD2/or9gc8Kt/8xVcOv8cCEk0tlwwXkl+5zZe6oZSpJeWeh
-         rzk/b9dDbD3NpfDvrHLQh/R1tqCWJ1DBu7W9ux/9m5O4ZSdBf/vLAZYtOpNag4pSdz99
-         vBtA==
-X-Gm-Message-State: AOAM532ZydZkXzxsZtp5xH8aDY/xQSWGMZ7a03/6Nxun6olSqOd3lDkc
-	NtvStQCoc1YwwOhFuc5Dut4rKbBU
-X-Google-Smtp-Source: ABdhPJxkx1IefVc2MyGoNS9gJ/vs9sQTNKGNkHZULWzdFIIH/cOfKMqjaGH6kYlkZGxRCbFKkepKlw==
-X-Received: by 2002:a62:1b53:: with SMTP id b80mr2947951pfb.145.1589899887308;
-        Tue, 19 May 2020 07:51:27 -0700 (PDT)
+        bh=PlmiWkLysb4r+D6yjQ0ZeFIVpfZiZ5nnjkaDY6DCpAs=;
+        b=T+m9XfUCkIhR037dHvJ002VfVJQUKz0Zx4QxI3MBYCeIqBtlY5tR+yDWXJABkrSpYl
+         nONSehQFEtb2TrAh7D2OQo3UpaZ0L/cK4h/tq/DhwHjuFYFLmAoryTdXXoFmsSqjZ1V3
+         3ysq70kXgcqNVyRPOk/ao5SnSAW6+/9+lW/jLCswLalJYYRkE0isLhSG/6gmH9FrJ/R2
+         kRsETaU98J8SMpx6wO8mCTuzYsNUPCLClOSrBsjO0nUwr89fDSwNT3a9/r1do+hhDLmh
+         IwjBYktxyyv/fXJ8TN/o1MN+CJTJROPvKLgSuJjQXHj+lpVOtEi4riSb9lyr6A7eYoxd
+         g8Ag==
+X-Gm-Message-State: AOAM5303HlPO+h30Oh3RMC/CpylWWvlsPV6lUjyZyVTzzqWsECs6+zcS
+	FZHAAbZiTTMFn9XqkvfS5mOybcRM
+X-Google-Smtp-Source: ABdhPJzyIQgHpC/MqTHDh3wbes8SK+ivYGIwpwvKfmQXApsEX5i+1fKKVT2W5fr44ODf0+mqNr3uXQ==
+X-Received: by 2002:a17:90a:ee4f:: with SMTP id bu15mr2904081pjb.16.1589899888148;
+        Tue, 19 May 2020 07:51:28 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from akuster-ThinkPad-T460s.mvista.com ([2601:202:4180:a5c0:9de6:6921:ec78:716d])
-        by smtp.gmail.com with ESMTPSA id b63sm4551196pfg.86.2020.05.19.07.51.26
+        by smtp.gmail.com with ESMTPSA id b63sm4551196pfg.86.2020.05.19.07.51.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 07:51:26 -0700 (PDT)
+        Tue, 19 May 2020 07:51:27 -0700 (PDT)
 From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [warrior 6/8] openssl: update to 1.1.1f
-Date: Tue, 19 May 2020 07:51:13 -0700
-Message-Id: <c74958fe05db584289ee560584190b3a0b25155d.1589899663.git.akuster808@gmail.com>
+Subject: [warrior 7/8] openssl: upgrade 1.1.1f -> 1.1.1g
+Date: Tue, 19 May 2020 07:51:14 -0700
+Message-Id: <620d69e7ad0d0c40ecd135e48f96aaf368c7f242.1589899663.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1589899663.git.akuster808@gmail.com>
 References: <cover.1589899663.git.akuster808@gmail.com>
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Jan Luebbe <jlu@pengutronix.de>
 
-This also un-breaks python3 ptest which got broken
-with 1.1.1e update.
+This also fixes CVE-2020-1967.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b4ddf5b9d8cd769b7026663f93c8bc69b55d8cbf)
-[AK: bugfix only update]
+Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../openssl/{openssl_1.1.1e.bb => openssl_1.1.1f.bb}            | 2 +-
+ .../openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb}            | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1e.bb => openssl_1.1.1f.bb} (98%)
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1f.bb => openssl_1.1.1g.bb} (98%)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1e.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
 similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1e.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
-index d016bb67e7..204dc7c6fe 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1e.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
+rename from meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
+index 204dc7c6fe..a57e09c802 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1f.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1g.bb
 @@ -23,7 +23,7 @@ SRC_URI_append_class-nativesdk = " \
             file://environment.d-openssl.sh \
             "
  
--SRC_URI[sha256sum] = "694f61ac11cb51c9bf73f54e771ff6022b0327a43bbdfa1b2f19de1662a6dcbe"
-+SRC_URI[sha256sum] = "186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35"
+-SRC_URI[sha256sum] = "186c6bfe6ecfba7a5b48c47f8a1673d0f3b0e5ba2e25602dd23b629975da3f35"
++SRC_URI[sha256sum] = "ddb04774f1e32f0c49751e21b67216ac87852ceb056b75209af2443400636d46"
  
  inherit lib_package multilib_header ptest
  
