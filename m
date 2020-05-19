@@ -1,910 +1,1240 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.10027.1589889504694240130
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web10.13179.1589899858920307728
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2020 04:58:25 -0700
+ Tue, 19 May 2020 07:50:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=Lv1WWcSY;
- spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.128.42, mailfrom: rahulk@mvista.com)
-Received: by mail-wm1-f42.google.com with SMTP id z4so2761933wmi.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 04:58:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qfdTxGD0;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: sjolley.yp.pm@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id m7so5732352plt.5
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 07:50:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=S2OKehc6mp3v3M2GOo1M+eiZtL36dLCFjNMcNFKzFvw=;
-        b=Lv1WWcSYKkhd0cngIDt73b7oo6d94AHPJH4GesHQPRb2lFn9VDh1fVsX5nCCAB8LVM
-         /9IPrIPsybgDm7U2bPb6nLxlv6/O4N3jB2uz05N+8NgWb+jYBkL+hnCw5JWx34vBmcP4
-         TO+vblehPr9Smf/8uX5kC2OYFRSjq/2iTcg26me79a9znbXh/ilIysDs7UwbT3NTsgiQ
-         UAymOFOp6tY59a6pxhfpXflsF1MRrgW2pT2bXvFwrgAXK+YnppAOjvJAlvaELMsfIunC
-         FpN5zt5TIzqc2HkUsv+BMNjyW7AnKfVShAVLhBAhdewMyAaQ/yvPFcibdTU8S8NVlBmw
-         9X8g==
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version:thread-index
+         :content-language;
+        bh=At9ffFNToSNpUcXTWd6HRu9gGaqhtXXO3LfvM/pJbNY=;
+        b=qfdTxGD0kBcCRNooMyDWztySknKzS76jTmrO4NwbHjh8AwEe0JvxkgpXGywv2h9yff
+         38Dsj7y5ejC5JaoNxCDTSpNsDdVjubTZaTIWe84mLIqvhLihYDkrXkRJJu+DI1h2BeTE
+         OE18gloq+WIAaXiNY14yD0s5/Xa2I4+A4lHRYBIwkM40J8Ip/lLtv96PQVxCM+lSOz34
+         BALqEKJm7xqvWOhdSSUilZsnqr8t75Ve282WxOHOzcw/gIXe0o4i/Kvy9D7HaDSbNmDn
+         eRpkEfmSKAhqDlHYtso8vHyS6PU0cgxJTs3HlU1HQuaNu9vVO/xARG+t8kVeZmBA/u9c
+         J+Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=S2OKehc6mp3v3M2GOo1M+eiZtL36dLCFjNMcNFKzFvw=;
-        b=BatL/uoFZyBcY7LQecp9gZ0P3hT1qmc3iDKwmMeD3u7fVr63WbQ7RwZNAESRLYqtPP
-         Gr1dzubM85NVoCY48OdIeH9RHwvQhKHD5HnZsLyeykafJHzMwwf8Slw4HFx9RhQJJFAT
-         7bdJfEiVqYUhs6mL1tXPDwuQkiaXa3rAIc0aCQq5hwOqO5tklGu4f6rOfUDcGX73WbTa
-         bniLHGPhNtXYa71c+FmV60fkwy0nzDv+XVq04AjEzJMCse4ijyvTEpCmftUIGIqViN1n
-         kY2JFN7tJaXu6oghRn0lpVDCMPLD6mNb1GhLWkegy117bi4AWCsjDOjhslZnZ60LI0rc
-         YyFg==
-X-Gm-Message-State: AOAM531kFmvNtw2PiGVZYrF4UXOl2Jta9KUR6h2m30VzDgvt6sJ6EMGq
-	47YRxqtK6b4MK5a/UQEKn4MipCbApPjdAN5TgAmJEQ==
-X-Google-Smtp-Source: ABdhPJzWePrySuRGiLz4DNDJDf83HGWtomi+6vSwcexgvZmCMwh3s9IDxKfvkjqyAhj4XWSjZWIShCG/VBOvRxTRno4=
-X-Received: by 2002:a1c:8148:: with SMTP id c69mr5288456wmd.144.1589889503148;
- Tue, 19 May 2020 04:58:23 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :thread-index:content-language;
+        bh=At9ffFNToSNpUcXTWd6HRu9gGaqhtXXO3LfvM/pJbNY=;
+        b=RalRZAIHsUgF6vMiX4gby/AEb42muMl2a52y+BS8tQdVaK5ACds9l+7l7dmPpft+n+
+         BTnXJjjpwPvSrrTl/2PT/EiHGkwYy9PV0cWjnyYlMOZ7USo1RlqoYQp6D3lU3JSG7+JG
+         sWTTH1mDj73ygkuQA3fq9Xcm+7KhZhjnNLhMLEzVQik3WbvZSpdWNQjNeND88IaFrKfr
+         oBeGug7DOL5mPjHTLbWhM4GZseOn6ejhRf8ffDWcVfeJbNLOduzJNuC934RJ5vtouukL
+         IL1kuzk5drFHrgMRJuSAQ60hIhpAsadkZSyRmfksosaem0ER9XT6GHTPycahiBl5Ydhp
+         7thw==
+X-Gm-Message-State: AOAM530YLqizKNGhG3V/Ubf0ZQUigWTN0Z6MoFhyPZqPU+buSEnuk1Ua
+	/fTig+V2b+2+rVs0ds0DHPU=
+X-Google-Smtp-Source: ABdhPJyA7agS6YmMslA7/NUwJE6H2p9kQFb0UbeeJG3+Vm7FOH2TkrKCzHHoFOELPwR53wbWlXwpNg==
+X-Received: by 2002:a17:90a:b10e:: with SMTP id z14mr5715924pjq.57.1589899858401;
+        Tue, 19 May 2020 07:50:58 -0700 (PDT)
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+        by smtp.gmail.com with ESMTPSA id d124sm11476235pfa.98.2020.05.19.07.50.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 19 May 2020 07:50:57 -0700 (PDT)
+From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Subject: Yocto Project Status WW20'20
+Date: Tue, 19 May 2020 07:50:57 -0700
+Message-ID: <179e01d62dec$e8206fe0$b8614fa0$@gmail.com>
 MIME-Version: 1.0
-References: <1587667187-14130-1-git-send-email-rahulk@mvista.com>
- <e4d2de1d300677bf61ec737d8847dd7dea967840.camel@linuxfoundation.org>
- <CANv91vNTDMES=ZCWUsEDWycsBW1kyy_dWNc62+93GozCMz1kUw@mail.gmail.com>
- <CANNYZj_61NP5ZSVHA5UWJN_s86esbc-1nEu2gDdmvMn6AGqRAg@mail.gmail.com>
- <543d70c2321008a46e4f21bf84fd3963624e655b.camel@linuxfoundation.org>
- <CANv91vOeLhAdf5RVzQ6Ftc+Y4eQH963BYcEVfmMJaKcYg_GFTw@mail.gmail.com>
- <CANNYZj801ksp6hFqRzkU3A8qXptrHdm-GBZLPespsoir59Tx9w@mail.gmail.com>
- <57f47042-407c-7fe6-008c-adc509331f6e@windriver.com> <CANv91vM-SuevnLi--bKzyON3z6YuXUMHUjCc70PKa41woypmTg@mail.gmail.com>
- <9c444c01c7b64ff99ebd3b22516dc052@XBOX03.axis.com>
-In-Reply-To: <9c444c01c7b64ff99ebd3b22516dc052@XBOX03.axis.com>
-From: "Rahul Kumar" <rahulk@mvista.com>
-Date: Tue, 19 May 2020 17:28:11 +0530
-Message-ID: <CANv91vPLcNY+58xx_ZyOOwAviyiH6vD_hPU_KmreXeUj1cikXg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: Randy MacLeod <randy.macleod@windriver.com>, Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	Trevor Gamblin <trevor.gamblin@windriver.com>
-Content-Type: multipart/alternative; boundary="00000000000011832305a5feff9d"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AdYt7OeGg+ECThfDQleRIJBKiFHjxw==
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_179F_01D62DB2.3BC6EF10"
+Content-Language: en-us
 
---00000000000011832305a5feff9d
-Content-Type: text/plain; charset="UTF-8"
+------=_NextPart_000_179F_01D62DB2.3BC6EF10
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+Current Dev Position: YP 3.2 M1
+
+Next Deadline: YP 3.2 M1 build date 2020/6/16
+
+ 
+
+Next Team Meetings:
+
+*	Bug Triage meeting Thursday May 21st at 7:30am PDT (
+<https://zoom.us/j/454367603> https://zoom.us/j/454367603)
+*	Monthly Project Meeting Tuesday June 2nd at 8am PDT (
+<https://zoom.us/j/990892712> https://zoom.us/j/990892712)
+*	Weekly Engineering Sync Tuesday May 19th  at 8am PDT (
+<https://zoom.us/j/990892712> https://zoom.us/j/990892712)
+*	Twitch -  See http://www.twitch.tv/letoatreidesthe2nd
+
+ 
+
+Key Status/Updates:
+
+*	YP 3.0.3 is in QA and due out on 21st May
+*	Gcc 10 merged to master, with the 'no-common' default change
+disabled for now whilst we address the other gcc 10 issues first, then we'll
+loop back to that.
+*	We are struggling with autobuilder infrastructure problems, in
+particular with NFS locking but also with cancelled builds not terminating
+correctly. These are having a significant negative impact on master and all
+stable builds and are a significant concern as there is no clear path
+forward to any resolution.
+*	Patches continue to merge into master but at a slower rate than
+normal. The patch submission rate has dropped slightly which has helped
+ensure there isn't a huge backlog.
+*	We're moving the AUH job functionality to the autobuilder and
+integrating it there which should mean it's easier to reproduce its
+functionality and allows more people to see what it's doing and work on/with
+it. This should also reduce hosting costs.
+
+ 
+
+YP 3.2 Milestone Dates:
+
+*	YP 3.2 M1 build date 2020/6/16
+*	YP 3.2 M1 Release date 2020/6/26
+*	YP 3.2 M2 build date 2020/7/27
+*	YP 3.2 M2 Release date 2020/8/7
+*	YP 3.2 M3 build date 2020/8/31
+*	YP 3.2 M3 Release date 2020/9/11
+*	YP 3.2 M4 build date 2020/10/5
+*	YP 3.2 M4 Release date 2020/10/30
+
+ 
+
+Planned upcoming dot releases:
+
+*	YP 3.0.3 is In QA
+*	YP 3.0.3 release date 2020/5/15
+*	YP 2.7.4 build date 2020/5/18
+*	YP 2.7.4 release date 2020/5/29
+*	YP 3.1.1 build date 2020/6/29
+*	YP 3.1.1 release date 2020/7/10
+*	YP 3.0.4 build date 2020/8/10
+*	YP 3.0.4 release date 2020/8/21
+*	YP 3.1.2 build date 2020/9/14
+*	YP 3.1.2 release date 2020/9/25
+
+ 
+
+Tracking Metrics:
+
+*	WDD 2577 (last week 2577) (
+<https://wiki.yoctoproject.org/charts/combo.html>
+https://wiki.yoctoproject.org/charts/combo.html)
+*	Poky Patch Metrics  
+
+*	Total patches found: 1352 (last week 1345)
+*	Patches in the Pending State: 537 (40%) [last week 536 (40%)]
+
+ 
+
+The Yocto Project's technical governance is through its Technical Steering
+Committee, more information is available at:
+
+ <https://wiki.yoctoproject.org/wiki/TSC>
+https://wiki.yoctoproject.org/wiki/TSC
+
+ 
+
+The Status reports are now stored on the wiki at:
+<https://wiki.yoctoproject.org/wiki/Weekly_Status>
+https://wiki.yoctoproject.org/wiki/Weekly_Status
+
+ 
+
+[If anyone has suggestions for other information you'd like to see on this
+weekly status update, let us know!]
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_179F_01D62DB2.3BC6EF10
+Content-Type: text/html;
+	boundary="----=_NextPart_000_45D2_01D62831.6C4973F0";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Peter,
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Consolas;
+	panose-1:2 11 6 9 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+/* List Definitions */
+@list l0
+	{mso-list-id:10186566;
+	mso-list-template-ids:489987956;}
+@list l0:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l0:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l0:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l0:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1
+	{mso-list-id:213348072;
+	mso-list-template-ids:380298322;}
+@list l1:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l1:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l1:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2
+	{mso-list-id:420757302;
+	mso-list-template-ids:1717855148;}
+@list l2:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l2:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l2:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l2:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3
+	{mso-list-id:472723361;
+	mso-list-template-ids:-209166442;}
+@list l3:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l3:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l3:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l3:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4
+	{mso-list-id:1217859227;
+	mso-list-template-ids:586588340;}
+@list l4:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l4:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l4:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l4:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5
+	{mso-list-id:1329284056;
+	mso-list-template-ids:219334596;}
+@list l5:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l5:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l5:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l5:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6
+	{mso-list-id:1333531507;
+	mso-list-template-ids:-1580185378;}
+@list l6:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l6:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l6:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l6:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7
+	{mso-list-id:1652253047;
+	mso-list-template-ids:-815631050;}
+@list l7:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l7:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l7:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l7:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8
+	{mso-list-id:1942492866;
+	mso-list-template-ids:1849456106;}
+@list l8:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l8:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l8:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l8:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9
+	{mso-list-id:2065133180;
+	mso-list-template-ids:-660441370;}
+@list l9:level1
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0B7;
+	mso-level-tab-stop:.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Symbol;}
+@list l9:level2
+	{mso-level-number-format:bullet;
+	mso-level-text:o;
+	mso-level-tab-stop:1.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:"Courier New";
+	mso-bidi-font-family:"Times New Roman";}
+@list l9:level3
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:1.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level4
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level5
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:2.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level6
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level7
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:3.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level8
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.0in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+@list l9:level9
+	{mso-level-number-format:bullet;
+	mso-level-text:\F0A7;
+	mso-level-tab-stop:4.5in;
+	mso-level-number-position:left;
+	text-indent:-.25in;
+	mso-ansi-font-size:10.0pt;
+	font-family:Wingdings;}
+ol
+	{margin-bottom:0in;}
+ul
+	{margin-bottom:0in;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Current Dev =
+Position: YP 3.2 M1</span><o:p></o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Deadline: YP =
+3.2 M1 build date 2020/6/16</span><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Next Team =
+Meetings:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l0 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Bug Triage meeting Thursday May =
+21st at 7:30am PDT (<a href=3D"https://zoom.us/j/454367603"><span =
+style=3D'font-size:10.0pt;color:#1155CC'>https://zoom.us/j/454367603</spa=
+n></a>)<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l0 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Monthly Project Meeting Tuesday =
+June 2nd at 8am PDT (<a href=3D"https://zoom.us/j/990892712"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/990892712)</span></a><o:p></o:p=
+></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l0 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Weekly Engineering Sync Tuesday =
+May 19th&nbsp; at 8am PDT (<a href=3D"https://zoom.us/j/990892712"><span =
+style=3D'color:#1155CC'>https://zoom.us/j/990892712)</span></a><o:p></o:p=
+></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l0 level1 lfo6;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Twitch -&nbsp; See =
+http://www.twitch.tv/letoatreidesthe2nd<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Key =
+Status/Updates:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l5 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.0.3 is in QA and due out =
+on 21st May<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l5 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Gcc 10 merged to master, with =
+the &#8216;no-common&#8217; default change disabled for now whilst we =
+address the other gcc 10 issues first, then we&#8217;ll loop back to =
+that.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l5 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We are struggling with =
+autobuilder infrastructure problems, in particular with NFS locking but =
+also with cancelled builds not terminating correctly. These are having a =
+significant negative impact on master and all stable builds and are a =
+significant concern as there is no clear path forward to any =
+resolution.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l5 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Patches continue to merge into =
+master but at a slower rate than normal. The patch submission rate has =
+dropped slightly which has helped ensure there isn&#8217;t a huge =
+backlog.<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l5 level1 lfo7;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>We&#8217;re moving the AUH job =
+functionality to the autobuilder and integrating it there which should =
+mean it's easier to reproduce its functionality and allows more people =
+to see what it's doing and work on/with it. This should also reduce =
+hosting costs.<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>YP 3.2 Milestone =
+Dates:</span><o:p></o:p></p><ul style=3D'margin-top:0in' type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l2 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2 M1 build date =
+2020/6/16<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l2 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2 M1 Release date =
+2020/6/26<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l2 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2 M2 build date =
+2020/7/27<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l2 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2 M2 Release date =
+2020/8/7<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l2 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2 M3 build date =
+2020/8/31<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l2 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2 M3 Release date =
+2020/9/11<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l2 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2 M4 build date =
+2020/10/5<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l2 level1 lfo8;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.2 M4 Release date =
+2020/10/30<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Planned upcoming =
+dot releases:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l3 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.0.3 is In =
+QA<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l3 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.0.3 release date =
+2020/5/15<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l3 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7.4 build date =
+2020/5/18<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l3 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 2.7.4 release date =
+2020/5/29<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l3 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.1 build date =
+2020/6/29<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l3 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.1 release date =
+2020/7/10<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l3 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.0.4 build date =
+2020/8/10<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l3 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.0.4 release date =
+2020/8/21<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l3 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.2 build date =
+2020/9/14<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l3 level1 lfo9;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>YP 3.1.2 release date =
+2020/9/25<o:p></o:p></span></li></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>Tracking =
+Metrics:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
+type=3Ddisc><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l4 level1 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>WDD 2577 (last week =
+2577)</span><span style=3D'font-family:Consolas'> (</span><span =
+style=3D'font-family:"Arial",sans-serif'><a =
+href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span =
+style=3D'color:#1155CC'>https://wiki.yoctoproject.org/charts/combo.html</=
+span></a></span><span style=3D'font-family:Consolas'>)</span><span =
+style=3D'font-family:"Arial",sans-serif'><o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l4 level1 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Poky Patch =
+Metrics&nbsp;&nbsp;</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li><ul =
+style=3D'margin-top:0in' type=3Dcircle><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l4 level2 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Total patches found: 1352 (last =
+week 1345)<o:p></o:p></span></li><li =
+style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
+pt;mso-list:l4 level2 lfo10;vertical-align:baseline'><span =
+style=3D'font-family:"Arial",sans-serif'>Patches in the Pending State: =
+537 (40%) [last week 536 (40%)]</span><span =
+style=3D'font-family:Consolas'><o:p></o:p></span></li></ul></ul><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Yocto =
+Project&#8217;s technical governance is through its Technical Steering =
+Committee, more information is available at:</span><o:p></o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/TSC"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/TSC</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>The Status reports =
+are now stored on the wiki at: </span><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status"><span =
+style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
+project.org/wiki/Weekly_Status</span></a><o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
+style=3D'margin:0in;margin-bottom:.0001pt'><span =
+style=3D'font-family:"Arial",sans-serif;color:black'>[If anyone has =
+suggestions for other information you&#8217;d like to see on this weekly =
+status update, let us know!]</span><o:p></o:p></p><p =
+class=3DMsoNormal><span =
+style=3D'font-family:"Arial",sans-serif;color:black'><o:p>&nbsp;</o:p></s=
+pan></p><p class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-I am sharing a few information related to bzip2-test source and licensing
-information.
-As per your suggestion and as per my understanding I added License to the
-bzip2 recipe file.
-
-bzip2-tests.git source tree structure is given below
-(here showing licence related fle, removed other file names )
-
-bzip2-tests.git/
-=E2=94=9C=E2=94=80=E2=94=80 commons-compress
-=E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 LICENSE.txt
-=E2=94=82
-=E2=94=9C=E2=94=80=E2=94=80 dotnetzip
-=E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 License.txt
-=E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 License.zlib.txt
-|
-=E2=94=9C=E2=94=80=E2=94=80 go
-=E2=94=82   =E2=94=9C=E2=94=80=E2=94=80 LICENSE
-=E2=94=82
-=E2=94=9C=E2=94=80=E2=94=80 lbzip2
-=E2=94=9C=E2=94=80=E2=94=80 pyflate
-=E2=94=9C=E2=94=80=E2=94=80 README
-=E2=94=94=E2=94=80=E2=94=80 run-tests.sh
-
-source code link:
-https://sourceware.org/git/bzip2-tests.git
-
-bzip2-tests.git source contains
-1) comman-commpress: which is Originally distributed under the Apache
-License Version 2.0.
-See LICENSE.txt
-
-2) dotnetzip:
-(i)  The DotNetZip Library is distributed under the MicroSoft Public Licens=
-e
-    (Ms-PL) see the License.txt file.
-(ii) The BZ2 related resources are distributed under the licenses in
-License.zlib.txt.
-
-3) go:
- Go is distributed under a BSD-style license.
- See the LICENSE file.
-
-4) lbzip2:
-lbzip2 is free software: you can redistribute it and/or modify it under the
-terms of the GNU General Public License as published by the Free Software
-Foundation, either version 3 of the License, or (at your option) any later
-version
-
-5) pyflate: You may use and distribute this code and documentation under an=
-y
-            DFSG-compatible license (eg. BSD, GNU GPLv2).
-
-6) run-tests.sh: you can redistribute it and/or modify it under the terms
-of the GNU General Public License (GPL); either
-                 version 3, or (at your option) any later version.
-
-
-SO in recipe I added the License like below
-LICENSE =3D "bzip2-1.0.6 & GPLv3+ & Apache-2.0 & MS-PL & BSD "
-LICENSE_${PN}-ptest =3D "GPLv3+ & Apache-2.0 & MS-PL & BSD"
-LIC_FILES_CHKSUM =3D
-"file://LICENSE;beginline=3D4;endline=3D37;md5=3D600af43c50f1fcb82e32f19b32=
-df4664
-\
-
-file://${WORKDIR}/git/commons-compress/LICENSE.txt;md5=3D86d3f3a95c324c9479=
-bd8986968f4327
-\ # For comman-commpress (Apache-2.0)
-
-file://${WORKDIR}/git/dotnetzip/License.txt;md5=3D9cb56871eed4e748c3bc7e8ff=
-352a54f
-\      # For dotnetzip (Ms-PL)
-
-file://${WORKDIR}/git/dotnetzip/License.zlib.txt;md5=3Dcc421ccd22eeb2e5db6b=
-79e6de0a029f
-\   # For dotnetzip  (jzlib +zlib)
-
-file://${WORKDIR}/git/go/LICENSE;md5=3D5d4950ecb7b26d2c5e4e7b4e0dd74707 \
- # For go (BSD-style license)
-
-here I need few suggestion:
-
-1) I added the BSD and GPLv3+ license in LICENSE and LICENSE_${PN}-ptest.
-   but not added LIC_FILES_CHKSUM for GPLv3 and BSD because bzip2-tests.git
-source code doesn't have GPLv3 and BSD License text file like other
-   directories.
-
-2) License.zlib.txt: This is a combination of two licence jzlib and zlib.
-In meta/files/common-licenses Zlib license is available but not jzlib.
-   In this case how can I proceed?
-
-Kindly comment on this and feel free to point out if i am wrong at any
-place.
-
-*Thanks & Regards,*
-Rahul Kumar
-Software Engineer,Linux Solutions Engineering
-Group,Montavista Software LLC
-Email Id: rahulk@mvista.com
-<https://plus.google.com/+CodeTwoSoftware>
-
-
-On Mon, May 18, 2020 at 1:18 AM Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
-
-> As I wrote in my previous mail, when it comes to licenses, it is the
-> distribution that is important. So if you build a package (bzip2-ptest)
-> that includes code that is GPL-3.0, it does not matter if that code is on=
-ly
-> used as a binary blob, it is still distributed in the package, and thus t=
-he
-> package needs to be covered by the GPL-3.0 license.
->
->
->
-> //Peter
->
->
->
-> *From:* openembedded-core@lists.openembedded.org <
-> openembedded-core@lists.openembedded.org> *On Behalf Of *Rahul Kumar
-> *Sent:* den 17 maj 2020 21:18
-> *To:* Randy MacLeod <randy.macleod@windriver.com>
-> *Cc:* Alexander Kanavin <alex.kanavin@gmail.com>; Richard Purdie <
-> richard.purdie@linuxfoundation.org>; OE-core <
-> openembedded-core@lists.openembedded.org>; Trevor Gamblin <
-> trevor.gamblin@windriver.com>
-> *Subject:* Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
->
->
->
-> Hi Randy,
->
-> patch has been accepted by bzip2 community with additional changes.
->
-> https://sourceware.org/git/?p=3Dbzip2-tests.git;a=3Dcommit;h=3Df9061c030a=
-25de5b6829e1abf373057309c734c0
->
->
-> So I need your suggestion with respect to Yocto.
->
-> Since required changes for ptest infrastructure is integrated to the
-> bzip2-tests.git source code.
-> So now we can just change the SRCREV with the latest commit instead of
-> applying the patch to the bzip2-tests.git source code.
->
-> And since we are just integrating the bzip2-tests source to the bzip2
-> recipe and not modifying any file so i think no need to add any License f=
-or
-> it.
->
->
-> Now patch will look like
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> --- a/meta/recipes-extended/bzip2/bzip2/Makefile.am
-> +++ b/meta/recipes-extended/bzip2/bzip2/Makefile.am
-> @@ -46,6 +46,7 @@ runtest:
->         else echo "FAIL: sample2 decompress"; fi
->         @if cmp sample3.tst sample3.ref; then echo "PASS: sample3
-> decompress";\
->         else echo "FAIL: sample3 decompress"; fi
-> +       ./bzip2-tests/run-tests.sh --tests-dir=3D"$(PWD)/bzip2-tests"
->
->  install-ptest:
->         sed  -n '/^runtest:/,/^install-ptest:/{/^install-ptest:/!p}' \
-> @@ -56,6 +57,7 @@ install-ptest:
->         cp $(srcdir)/sample1.bz2        $(DESTDIR)/
->         cp $(srcdir)/sample2.bz2        $(DESTDIR)/
->         cp $(srcdir)/sample3.bz2        $(DESTDIR)/
-> +       cp -rf $(srcdir)/../git         $(DESTDIR)/bzip2-tests
->         ln -s $(bindir)/bzip2           $(DESTDIR)/bzip2
->
->  install-exec-hook:
-> diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> index d58f553..c5aa690 100644
-> --- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> +++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
-> @@ -8,13 +8,17 @@ LICENSE =3D "bzip2-1.0.6"
->  LIC_FILES_CHKSUM =3D "
-> file://LICENSE;beginline=3D4;endline=3D37;md5=3D600af43c50f1fcb82e32f19b3=
-2df4664
-> "
->
->  SRC_URI =3D "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
-> +           git://sourceware.org/git/bzip2-tests.git;name=3Dbzip2-tests \
->             file://configure.ac;subdir=3D${BP} \
->             file://Makefile.am;subdir=3D${BP} \
->             file://run-ptest \
->             "
-> +
->  SRC_URI[md5sum] =3D "67e051268d0c475ea773822f7500d0e5"
->  SRC_URI[sha256sum] =3D
-> "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
->
-> +SRCREV_bzip2-tests =3D "f9061c030a25de5b6829e1abf373057309c734c0"  *<<
-> this commit Id includes latest charges for ptest infrastruct.*
-> +
->  UPSTREAM_CHECK_URI =3D "https://www.sourceware.org/pub/bzip2/"
->
->  PACKAGES =3D+ "libbz2"
-> @@ -39,7 +43,7 @@ do_install_ptest () {
->
->  FILES_libbz2 =3D "${libdir}/lib*${SOLIBS}"
->
-> -RDEPENDS_${PN}-ptest +=3D "make"
-> +RDEPENDS_${PN}-ptest +=3D "make bash"
->
->  PROVIDES_append_class-native =3D " bzip2-replacement-native"
->  BBCLASSEXTEND =3D "native nativesdk"
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D
->
-> Kindly comment on it and feel free to point out, if i am wrong at any
-> place.
->
->
->
-> *Thanks & Regards,*
->
-> Rahul Kumar
->
-> Software Engineer,Linux Solutions Engineering
->
-> Group,Montavista Software LLC
->
-> Email Id: rahulk@mvista.com
-> <https://plus.google.com/+CodeTwoSoftware>
->
->
->
->
->
-> On Fri, May 1, 2020 at 6:56 AM Randy MacLeod <randy.macleod@windriver.com=
->
-> wrote:
->
-> On 2020-04-27 3:39 p.m., Alexander Kanavin wrote:
-> > You need to first see from the failure page which configuration is
-> > failing, for example non-gpl3 is one such.
-> >
-> > Then you find that configuration in config.json. The below should
-> > hopefully be self-explanatory in how you should set up the build?
-> >
-> > |"non-gpl3" : { "NEEDREPOS" : ["poky", "meta-gplv2"], "MACHINE" :
-> > "qemux86", "BBTARGETS" : "core-image-minimal core-image-full-cmdline",
-> > "extravars" : [ "INCOMPATIBLE_LICENSE =3D '*GPLv3'", "WARN_QA_remove =
-=3D
-> > 'incompatible-license'" ], "EXTRACMDS" : [
-> > "../../yocto-autobuilder-helper/scripts/check-gplv3" ] },
-> >
-> > |
-> >
-> > |
-> > |
-> >
-> > |Alex
->
-> Hi Rahul,
->
-> Sorry for my late reply.
->
-> The commit log for v2 is very good now!
-> Thanks for incorporating my --pedantic suggestions. ;-)
->
-> It seems that you need a perl dependency for something (docs?
->     $ cd .../bzip2.git
->     $ grep -r "perl " *
->     format.pl:#!/usr/bin/perl -w
->     README.XML.STUFF:It uses format.pl, a perl script...
->
-> Then we need to figure out how to deal with the GPLv3 issue.
->
-> The buildbot output can be tedious to figure out. I haven't really
-> spent enough time plugging away at it to be proficient yet either.
-> Have you been able to reproduce the problems that Richard reported?
-> If not, and you've tried for a bit, then just say so and I'll try to
-> help tomorrow or early next week.
->
-> It looks like you are packaging the test code/data with the main package
-> not in bzip2-ptest. Have a look at:
->     meta/recipes-support/libpcre/libpcre_8.44.bb
-> for an example. There are many more.
-> Also, if you look at oe-core.git:
->     $ rgrep LICENSE_ *  | grep PN
-> you can see many examples of sub-packages with different licenses
-> than the main package. One example is:
->     meta/recipes-support/gnutls/gnutls_3.6.13.bb
-> I hope that can address the buildbot problem but I haven't tried it
-> myself yet.
->
-> BTW, Trevor has gotten the YP autobuilder going at Wind River and
-> he'll be sending a few documentation updates next week or so.
-> That may help in case you want to reproduce the YP AB test
-> infrastructure. I expect that you don't _have_ to do so but
-> I think it would be good if more contributing organizations did
-> have an instance with only limited builders of the YP AB so that
-> we can do more testing before Richard runs our changes through
-> the main system. Richard has cautioned that the YP AB has lots of
-> builders each of which has many cores but I hope that we can at least
-> do some AB checking ourselves.
->
-> ../Randy
->
->
-> > |
-> >
-> >
-> > On Mon, 27 Apr 2020 at 20:54, Rahul Kumar <rahulk@mvista.com
-> > <mailto:rahulk@mvista.com>> wrote:
-> >
-> >     Hi Richard/Alexander,
-> >
-> >     I am not able to understand how I can use the below file.
-> >
-> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/c=
-onfig.json
-> >
-> >     did you mean to say that i have to set MACRO in local.conf based on
-> >     this file.
-> >
-> >     *Thanks & Regards,*
-> >     Rahul Kumar
-> >     Software Engineer,Linux Solutions Engineering
-> >     Group,Montavista Software LLC
-> >     Email Id: rahulk@mvista.com <mailto:rahulk@mvista.com>
-> >     <https://plus.google.com/+CodeTwoSoftware>
-> >
-> >
-> >     On Mon, Apr 27, 2020 at 11:46 PM Richard Purdie
-> >     <richard.purdie@linuxfoundation.org
-> >     <mailto:richard.purdie@linuxfoundation.org>> wrote:
-> >
-> >         On Mon, 2020-04-27 at 18:30 +0200, Alexander Kanavin wrote:
-> >          > You need to look at configurations defined here:
-> >          >
-> >
-> http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/c=
-onfig.json
-> >          > and replicate them locally. Then you can reproduce the
-> >         failures that
-> >          > the AB gets in those configurations.
-> >
-> >         That start of the failing logs on the autobuilder also list out
-> the
-> >         configuration options for that build.
-> >
-> >         Cheers,
-> >
-> >         Richard
-> >
-> >
-> >
-> >
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
->
-
---00000000000011832305a5feff9d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
-sans-serif;color:#0b5394">Hi Peter,<br><br>I am sharing a few information r=
-elated to bzip2-test source and licensing information.<br>As per your sugge=
-stion and as per my understanding I added License to the bzip2 recipe file.=
-<br><br></div><div class=3D"gmail_default" style=3D"font-family:verdana,san=
-s-serif;color:#0b5394">bzip2-tests.git source tree structure is given below=
- <br>(here showing licence related fle, removed other file names )<br><br><=
-/div><div class=3D"gmail_default" style=3D"font-family:verdana,sans-serif;c=
-olor:#0b5394">bzip2-tests.git/<br>=E2=94=9C=E2=94=80=E2=94=80 commons-compr=
-ess<br>=E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 LICENSE.txt<br>=E2=
-=94=82<br>=E2=94=9C=E2=94=80=E2=94=80 dotnetzip<br>=E2=94=82=C2=A0=C2=A0 =
-=E2=94=9C=E2=94=80=E2=94=80 License.txt<br>=E2=94=82=C2=A0=C2=A0 =E2=94=9C=
-=E2=94=80=E2=94=80 License.zlib.txt<br>|<br>=E2=94=9C=E2=94=80=E2=94=80 go<=
-br>=E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 LICENSE<br>=E2=94=82=
-=C2=A0=C2=A0 <br>=E2=94=9C=E2=94=80=E2=94=80 lbzip2<br>=E2=94=9C=E2=94=80=
-=E2=94=80 pyflate<br>=E2=94=9C=E2=94=80=E2=94=80 README<br>=E2=94=94=E2=94=
-=80=E2=94=80 run-tests.sh<br><br>source code link:<br><a href=3D"https://so=
-urceware.org/git/bzip2-tests.git">https://sourceware.org/git/bzip2-tests.gi=
-t</a><br><br>bzip2-tests.git source contains <br>1) comman-commpress: which=
- is Originally distributed under the Apache License Version 2.0.</div><div =
-class=3D"gmail_default" style=3D"font-family:verdana,sans-serif;color:#0b53=
-94">See LICENSE.txt</div><div class=3D"gmail_default" style=3D"font-family:=
-verdana,sans-serif;color:#0b5394"><br>2) dotnetzip: <br>	(i) =C2=A0The DotN=
-etZip Library is distributed under the MicroSoft Public License<br>	 =C2=A0=
- =C2=A0 (Ms-PL) see the License.txt file.<br>	(ii) The BZ2 related resource=
-s are distributed under the licenses in License.zlib.txt.<br><br>3) go:</di=
-v><div class=3D"gmail_default" style=3D"font-family:verdana,sans-serif;colo=
-r:#0b5394">=C2=A0Go is distributed under a BSD-style license. <br>=C2=A0See=
- the LICENSE file.<br><br>4) lbzip2: <br>	lbzip2 is free software: you can =
-redistribute it and/or modify it under the<br>terms of the GNU General Publ=
-ic License as published by the Free Software<br>Foundation, either version =
-3 of the License, or (at your option) any later<br>version<br><br>5) pyflat=
-e: You may use and distribute this code and documentation under any<br>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DFSG-compatible license (eg. BSD, GN=
-U GPLv2).<br><br>6) run-tests.sh: you can redistribute it and/or modify it =
-under the terms of the GNU General Public License (GPL); either<br>=C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0version 3, or (at yo=
-ur option) any later version.<br><br><br>SO in recipe I added the License l=
-ike below<br>LICENSE =3D &quot;bzip2-1.0.6 &amp; GPLv3+ &amp; Apache-2.0 &a=
-mp; MS-PL &amp; BSD &quot;<br>LICENSE_${PN}-ptest =3D &quot;GPLv3+ &amp; Ap=
-ache-2.0 &amp; MS-PL &amp; BSD&quot;<br>LIC_FILES_CHKSUM =3D &quot;file://L=
-ICENSE;beginline=3D4;endline=3D37;md5=3D600af43c50f1fcb82e32f19b32df4664 \<=
-br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi=
-le://${WORKDIR}/git/commons-compress/LICENSE.txt;md5=3D86d3f3a95c324c9479bd=
-8986968f4327 \ # For comman-commpress (Apache-2.0)<br>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://${WORKDIR}/git/dotn=
-etzip/License.txt;md5=3D9cb56871eed4e748c3bc7e8ff352a54f \	 =C2=A0 =C2=A0 =
-=C2=A0# For dotnetzip (Ms-PL)	<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://${WORKDIR}/git/dotnetzip/License.zlib.t=
-xt;md5=3Dcc421ccd22eeb2e5db6b79e6de0a029f \ =C2=A0 # For dotnetzip =C2=A0(j=
-zlib +zlib)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 file://${WORKDIR}/git/go/LICENSE;md5=3D5d4950ecb7b26d2c5e4e7b4e0=
-dd74707 \		 =C2=A0 =C2=A0 =C2=A0# For go (BSD-style license)<br><br>here I =
-need few suggestion:<br><br>1) I added the BSD and GPLv3+ license in LICENS=
-E and LICENSE_${PN}-ptest.<br>=C2=A0 =C2=A0but not added LIC_FILES_CHKSUM f=
-or GPLv3 and BSD because bzip2-tests.git source code doesn&#39;t have GPLv3=
- and BSD License text file like other =C2=A0<br>=C2=A0 =C2=A0directories.<b=
-r><br>2) License.zlib.txt: This is a combination of two licence jzlib and z=
-lib. In meta/files/common-licenses Zlib license is available but not jzlib.=
-<br>=C2=A0 =C2=A0In this case how can I proceed?<br><br>Kindly comment on t=
-his and feel free to point out if i am wrong at any place.<br clear=3D"all"=
-></div><div class=3D"gmail_default" style=3D"font-family:verdana,sans-serif=
-;color:#0b5394"><br></div><div><div dir=3D"ltr" class=3D"gmail_signature" d=
-ata-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><d=
-iv><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div d=
-ir=3D"ltr"><div><span style=3D"color:rgb(111,168,220)">	=09
-  =09
- =20
-   <b><span style=3D"color:rgb(11,83,148)">Thanks &amp; Regards,</span></b>=
-</span></div><div><span style=3D"color:rgb(111,168,220)"><span style=3D"col=
-or:rgb(11,83,148)"></span></span><span style=3D"color:rgb(111,168,220)"><sp=
-an style=3D"color:rgb(11,83,148)"></span></span></div><div><span style=3D"c=
-olor:rgb(111,168,220)"><span style=3D"color:rgb(11,83,148)">Rahul Kumar</sp=
-an></span></div><div><span style=3D"color:rgb(11,83,148)">Software Engineer=
-,Linux Solutions Engineering</span></div><div><span style=3D"color:rgb(11,8=
-3,148)"> Group,Montavista Software LLC</span></div><div><span style=3D"colo=
-r:rgb(11,83,148)">Email Id: <span style=3D"font-size:10pt"><a href=3D"mailt=
-o:rahulk@mvista.com" target=3D"_blank">rahulk@mvista.com</a></span></span><=
-span><a href=3D"https://plus.google.com/+CodeTwoSoftware" rel=3D"noopener" =
-target=3D"_blank"><span style=3D"font-family:Verdana,sans-serif;font-size:1=
-0pt;color:rgb(42,42,42)"><br></span></a></span></div></div></div></div></di=
-v></div></div></div></div></div></div></div></div></div><br></div><br><div =
-class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 18,=
- 2020 at 1:18 AM Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellersted=
-t@axis.com">peter.kjellerstedt@axis.com</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-
-
-
-
-
-<div lang=3D"SV">
-<div class=3D"gmail-m_7562713933880528653WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-As I wrote in my previous mail, when it comes to licenses, it is the distri=
-bution that is important. So if you build a package (bzip2-ptest) that incl=
-udes code that is
- GPL-3.0, it does not matter if that code is only used as a binary blob, it=
- is still distributed in the package, and thus the package needs to be cove=
-red by the GPL-3.0 license.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-<u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-//Peter<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:rgb(148,54,52)">=
-<u></u>=C2=A0<u></u></span></p>
-<div style=3D"border-top:none;border-right:none;border-bottom:none;border-l=
-eft:1.5pt solid blue;padding:0cm 0cm 0cm 4pt">
-<div>
-<div style=3D"border-right:none;border-bottom:none;border-left:none;border-=
-top:1pt solid rgb(225,225,225);padding:3pt 0cm 0cm">
-<p class=3D"MsoNormal"><b><span lang=3D"EN-US">From:</span></b><span lang=
-=3D"EN-US"> <a href=3D"mailto:openembedded-core@lists.openembedded.org" tar=
-get=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"=
-mailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembe=
-dded-core@lists.openembedded.org</a>&gt;
-<b>On Behalf Of </b>Rahul Kumar<br>
-<b>Sent:</b> den 17 maj 2020 21:18<br>
-<b>To:</b> Randy MacLeod &lt;<a href=3D"mailto:randy.macleod@windriver.com"=
- target=3D"_blank">randy.macleod@windriver.com</a>&gt;<br>
-<b>Cc:</b> Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" =
-target=3D"_blank">alex.kanavin@gmail.com</a>&gt;; Richard Purdie &lt;<a hre=
-f=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.p=
-urdie@linuxfoundation.org</a>&gt;; OE-core &lt;<a href=3D"mailto:openembedd=
-ed-core@lists.openembedded.org" target=3D"_blank">openembedded-core@lists.o=
-penembedded.org</a>&gt;; Trevor Gamblin &lt;<a href=3D"mailto:trevor.gambli=
-n@windriver.com" target=3D"_blank">trevor.gamblin@windriver.com</a>&gt;<br>
-<b>Subject:</b> Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2<u>=
-</u><u></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-family:Verdana,sans-serif;color:=
-rgb(11,83,148)">Hi Randy,<br>
-<br>
-patch has been accepted by bzip2 community with additional changes.<br>
-<a href=3D"https://sourceware.org/git/?p=3Dbzip2-tests.git;a=3Dcommit;h=3Df=
-9061c030a25de5b6829e1abf373057309c734c0" target=3D"_blank">https://sourcewa=
-re.org/git/?p=3Dbzip2-tests.git;a=3Dcommit;h=3Df9061c030a25de5b6829e1abf373=
-057309c734c0</a><u></u><u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-family:Verdana,sans-serif;color:=
-rgb(11,83,148)"><br>
-So I need your suggestion with respect to Yocto.<br>
-<br>
-Since required changes for ptest infrastructure is integrated to the bzip2-=
-tests.git source code.<br>
-So now we can just change the SRCREV with the latest commit instead of appl=
-ying the patch to the bzip2-tests.git source code.<br>
-<br>
-And since we are just integrating the bzip2-tests source to the bzip2 recip=
-e and not modifying any file so i think no need to add any License for it.<=
-br>
-<br>
-<br>
-Now patch will look like <br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
---- a/meta/recipes-extended/bzip2/bzip2/Makefile.am<br>
-+++ b/meta/recipes-extended/bzip2/bzip2/Makefile.am<br>
-@@ -46,6 +46,7 @@ runtest:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 else echo &quot;FAIL: sample2 decompress&quot;;=
- fi<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 @if cmp sample3.tst sample3.ref; then echo &quo=
-t;PASS: sample3 decompress&quot;;\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 else echo &quot;FAIL: sample3 decompress&quot;;=
- fi<br>
-+ =C2=A0 =C2=A0 =C2=A0 ./bzip2-tests/run-tests.sh --tests-dir=3D&quot;$(PWD=
-)/bzip2-tests&quot;<br>
-=C2=A0<br>
-=C2=A0install-ptest:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 sed =C2=A0-n &#39;/^runtest:/,/^install-ptest:/=
-{/^install-ptest:/!p}&#39; \<br>
-@@ -56,6 +57,7 @@ install-ptest:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp $(srcdir)/sample1.bz2 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0$(DESTDIR)/<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp $(srcdir)/sample2.bz2 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0$(DESTDIR)/<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp $(srcdir)/sample3.bz2 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0$(DESTDIR)/<br>
-+ =C2=A0 =C2=A0 =C2=A0 cp -rf $(srcdir)/../git =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-$(DESTDIR)/bzip2-tests<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -s $(bindir)/bzip2 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 $(DESTDIR)/bzip2<br>
-=C2=A0<br>
-=C2=A0install-exec-hook:<br>
-diff --git a/meta/recipes-extended/bzip2/<a href=3D"http://bzip2_1.0.8.bb" =
-target=3D"_blank">bzip2_1.0.8.bb</a> b/meta/recipes-extended/bzip2/<a href=
-=3D"http://bzip2_1.0.8.bb" target=3D"_blank">bzip2_1.0.8.bb</a><br>
-index d58f553..c5aa690 100644<br>
---- a/meta/recipes-extended/bzip2/<a href=3D"http://bzip2_1.0.8.bb" target=
-=3D"_blank">bzip2_1.0.8.bb</a><br>
-+++ b/meta/recipes-extended/bzip2/<a href=3D"http://bzip2_1.0.8.bb" target=
-=3D"_blank">bzip2_1.0.8.bb</a><br>
-@@ -8,13 +8,17 @@ LICENSE =3D &quot;bzip2-1.0.6&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;<a>file://LICENSE;beginline=3D4;endline=3D=
-37;md5=3D600af43c50f1fcb82e32f19b32df4664</a>&quot;<br>
-=C2=A0<br>
-=C2=A0SRC_URI =3D &quot;<a href=3D"https://sourceware.org/pub/$%7bBPN%7d/$%=
-7bBPN%7d-$%7bPV%7d.tar.gz" target=3D"_blank">https://sourceware.org/pub/${B=
-PN}/${BPN}-${PV}.tar.gz</a> \<br>
-+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://sourceware.org=
-/git/bzip2-tests.git;name=3Dbzip2-tests" target=3D"_blank">sourceware.org/g=
-it/bzip2-tests.git;name=3Dbzip2-tests</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://<a href=3D"http://configur=
-e.ac" target=3D"_blank">configure.ac</a>;subdir=3D${BP} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://Makefile.am;subdir=3D${BP}=
- \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-+<br>
-=C2=A0SRC_URI[md5sum] =3D &quot;67e051268d0c475ea773822f7500d0e5&quot;<br>
-=C2=A0SRC_URI[sha256sum] =3D &quot;ab5a03176ee106d3f0fa90e381da478ddae40591=
-8153cca248e682cd0c4a2269&quot;<br>
-=C2=A0<br>
-+SRCREV_bzip2-tests =3D &quot;f9061c030a25de5b6829e1abf373057309c734c0&quot=
-; =C2=A0<b>&lt;&lt; this commit Id includes latest charges for ptest infras=
-truct.</b><br>
-+<br>
-=C2=A0UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://www.sourceware.org/pu=
-b/bzip2/" target=3D"_blank">https://www.sourceware.org/pub/bzip2/</a>&quot;=
-<br>
-=C2=A0<br>
-=C2=A0PACKAGES =3D+ &quot;libbz2&quot;<br>
-@@ -39,7 +43,7 @@ do_install_ptest () {<br>
-=C2=A0<br>
-=C2=A0FILES_libbz2 =3D &quot;${libdir}/lib*${SOLIBS}&quot;<br>
-=C2=A0<br>
--RDEPENDS_${PN}-ptest +=3D &quot;make&quot;<br>
-+RDEPENDS_${PN}-ptest +=3D &quot;make bash&quot;<br>
-=C2=A0<br>
-=C2=A0PROVIDES_append_class-native =3D &quot; bzip2-replacement-native&quot=
-;<br>
-=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D<br>
-<br>
-Kindly comment on it and feel free to point out, if i am wrong at any place=
-.<br clear=3D"all">
-<u></u><u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-family:Verdana,sans-serif;color:=
-rgb(11,83,148)"><u></u>=C2=A0<u></u></span></p>
-</div>
-<div>
-<div>
-<div>
-<div>
-<div>
-<div>
-<div>
-<div>
-<div>
-<div>
-<div>
-<div>
-<div>
-<div>
-<p class=3D"MsoNormal"><b><span style=3D"color:rgb(11,83,148)">Thanks &amp;=
- Regards,</span></b><u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(11,83,148)">Rahul Kumar</sp=
-an><u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(11,83,148)">Software Engine=
-er,Linux Solutions Engineering</span><u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(11,83,148)">Group,Montavist=
-a Software LLC</span><u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"color:rgb(11,83,148)">Email Id: </spa=
-n><span style=3D"font-size:10pt;color:rgb(11,83,148)"><a href=3D"mailto:rah=
-ulk@mvista.com" target=3D"_blank">rahulk@mvista.com</a></span><a href=3D"ht=
-tps://plus.google.com/+CodeTwoSoftware" target=3D"_blank"><span style=3D"fo=
-nt-size:10pt;font-family:Verdana,sans-serif;color:rgb(42,42,42)"><br>
-</span></a><u></u><u></u></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">On Fri, May 1, 2020 at 6:56 AM Randy MacLeod &lt;<a =
-href=3D"mailto:randy.macleod@windriver.com" target=3D"_blank">randy.macleod=
-@windriver.com</a>&gt; wrote:<u></u><u></u></p>
-</div>
-<blockquote style=3D"border-top:none;border-right:none;border-bottom:none;b=
-order-left:1pt solid rgb(204,204,204);padding:0cm 0cm 0cm 6pt;margin-left:4=
-.8pt;margin-right:0cm">
-<p class=3D"MsoNormal">On 2020-04-27 3:39 p.m., Alexander Kanavin wrote:<br=
->
-&gt; You need to first see from the failure page which configuration is <br=
->
-&gt; failing, for example non-gpl3 is one such.<br>
-&gt; <br>
-&gt; Then you find that configuration in config.json. The below should <br>
-&gt; hopefully be self-explanatory in how you should set up the build?<br>
-&gt; <br>
-&gt; |&quot;non-gpl3&quot; : { &quot;NEEDREPOS&quot; : [&quot;poky&quot;, &=
-quot;meta-gplv2&quot;], &quot;MACHINE&quot; : <br>
-&gt; &quot;qemux86&quot;, &quot;BBTARGETS&quot; : &quot;core-image-minimal =
-core-image-full-cmdline&quot;, <br>
-&gt; &quot;extravars&quot; : [ &quot;INCOMPATIBLE_LICENSE =3D &#39;*GPLv3&#=
-39;&quot;, &quot;WARN_QA_remove =3D <br>
-&gt; &#39;incompatible-license&#39;&quot; ], &quot;EXTRACMDS&quot; : [ <br>
-&gt; &quot;../../yocto-autobuilder-helper/scripts/check-gplv3&quot; ] },<br=
->
-&gt; <br>
-&gt; |<br>
-&gt; <br>
-&gt; |<br>
-&gt; |<br>
-&gt; <br>
-&gt; |Alex<br>
-<br>
-Hi Rahul,<br>
-<br>
-Sorry for my late reply.<br>
-<br>
-The commit log for v2 is very good now!<br>
-Thanks for incorporating my --pedantic suggestions. ;-)<br>
-<br>
-It seems that you need a perl dependency for something (docs?<br>
-=C2=A0 =C2=A0 $ cd .../bzip2.git<br>
-=C2=A0 =C2=A0 $ grep -r &quot;perl &quot; *<br>
-=C2=A0 =C2=A0 format.pl:#!/usr/bin/perl -w<br>
-=C2=A0 =C2=A0 README.XML.STUFF:It uses <a href=3D"http://format.pl" target=
-=3D"_blank">format.pl</a>, a perl script...<br>
-<br>
-Then we need to figure out how to deal with the GPLv3 issue.<br>
-<br>
-The buildbot output can be tedious to figure out. I haven&#39;t really<br>
-spent enough time plugging away at it to be proficient yet either.<br>
-Have you been able to reproduce the problems that Richard reported?<br>
-If not, and you&#39;ve tried for a bit, then just say so and I&#39;ll try t=
-o<br>
-help tomorrow or early next week.<br>
-<br>
-It looks like you are packaging the test code/data with the main package <b=
-r>
-not in bzip2-ptest. Have a look at:<br>
-=C2=A0 =C2=A0 meta/recipes-support/libpcre/<a href=3D"http://libpcre_8.44.b=
-b" target=3D"_blank">libpcre_8.44.bb</a><br>
-for an example. There are many more.<br>
-Also, if you look at oe-core.git:<br>
-=C2=A0 =C2=A0 $ rgrep LICENSE_ *=C2=A0 | grep PN<br>
-you can see many examples of sub-packages with different licenses<br>
-than the main package. One example is:<br>
-=C2=A0 =C2=A0 meta/recipes-support/gnutls/<a href=3D"http://gnutls_3.6.13.b=
-b" target=3D"_blank">gnutls_3.6.13.bb</a><br>
-I hope that can address the buildbot problem but I haven&#39;t tried it<br>
-myself yet.<br>
-<br>
-BTW, Trevor has gotten the YP autobuilder going at Wind River and<br>
-he&#39;ll be sending a few documentation updates next week or so.<br>
-That may help in case you want to reproduce the YP AB test<br>
-infrastructure. I expect that you don&#39;t _have_ to do so but<br>
-I think it would be good if more contributing organizations did<br>
-have an instance with only limited builders of the YP AB so that<br>
-we can do more testing before Richard runs our changes through<br>
-the main system. Richard has cautioned that the YP AB has lots of<br>
-builders each of which has many cores but I hope that we can at least<br>
-do some AB checking ourselves.<br>
-<br>
-../Randy<br>
-<br>
-<br>
-&gt; |<br>
-&gt; <br>
-&gt; <br>
-&gt; On Mon, 27 Apr 2020 at 20:54, Rahul Kumar &lt;<a href=3D"mailto:rahulk=
-@mvista.com" target=3D"_blank">rahulk@mvista.com</a>
-<br>
-&gt; &lt;mailto:<a href=3D"mailto:rahulk@mvista.com" target=3D"_blank">rahu=
-lk@mvista.com</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Hi Richard/Alexander,<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0I am not able to understand how I can use the below=
- file.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.org/cgit/cgit.cg=
-i/yocto-autobuilder-helper/tree/config.json" target=3D"_blank">http://git.y=
-octoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json</a>=
-<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0did you mean to say that i have to set MACRO in loc=
-al.conf based on<br>
-&gt;=C2=A0 =C2=A0 =C2=A0this file.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0*Thanks &amp; Regards,*<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Rahul Kumar<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Software Engineer,Linux Solutions Engineering<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Group,Montavista Software LLC<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Email Id: <a href=3D"mailto:rahulk@mvista.com" targ=
-et=3D"_blank">rahulk@mvista.com</a> &lt;mailto:<a href=3D"mailto:rahulk@mvi=
-sta.com" target=3D"_blank">rahulk@mvista.com</a>&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"https://plus.google.com/+CodeTwoSoft=
-ware" target=3D"_blank">https://plus.google.com/+CodeTwoSoftware</a>&gt;<br=
->
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On Mon, Apr 27, 2020 at 11:46 PM Richard Purdie<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"mailto:richard.purdie@linuxfoundatio=
-n.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;mailto:<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;&=
-gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0On Mon, 2020-04-27 at 18:30 +0200, Al=
-exander Kanavin wrote:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; You need to look at configurati=
-ons defined here:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://git.yoctoproject.or=
-g/cgit/cgit.cgi/yocto-autobuilder-helper/tree/config.json" target=3D"_blank=
-">http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-helper/tree/c=
-onfig.json</a><br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; and replicate them locally. The=
-n you can reproduce the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0failures that<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &gt; the AB gets in those configurat=
-ions.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0That start of the failing logs on the=
- autobuilder also list out the<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0configuration options for that build.=
-<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Cheers,<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Richard<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-<br>
-<br>
--- <br>
-# Randy MacLeod<br>
-# Wind River Linux<u></u><u></u></p>
-</blockquote>
-</div>
-</div>
-</div>
-</div>
-
-</blockquote></div>
-
---00000000000011832305a5feff9d--
+------=_NextPart_000_179F_01D62DB2.3BC6EF10--
