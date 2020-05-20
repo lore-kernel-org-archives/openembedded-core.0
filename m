@@ -1,146 +1,806 @@
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.92.64.51])
- by mx.groups.io with SMTP id smtpd.web12.858.1590005856225829762
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.145.1590008346426739447
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 May 2020 13:17:36 -0700
+ Wed, 20 May 2020 13:59:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=hUcQ2umu;
- spf=pass (domain: outlook.com, ip: 40.92.64.51, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WD+QIIkikME6n7SEks6Ifo0ykScgsi+KPEFNVeWWeTQt12r/GAhuiA9o+yjq/iCqCjEVuCK+tT5Nr73FZ++q+qXM5UZC0xOfyRI9ownJm5yUk5ENTFxpX1izfG991+IUCycrcqjowIcCkquYTY6HSyWD3XnBHIKNwrbodS/taaQG/2OHAV2XyIKO7r4Y5gmmKw6jYm1sgQRmzyr9bfYQqch1HD8Vu7uGyqQKGeLsyKKkvPixxiV0nBHwZNiu5XQRVGbVqUr+XWhloYyWVvYChY588BzGuwZC5XDr/zZRpqFRSN/w/c61fIPBbwZVgn59PIxyXmpFVI9puF63Xu4+HQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l3KURhe7JfSyAglhbPpFMdojYsk2A29C3xa4JZDrJHM=;
- b=Cr4ZAnmUip5ne0rzUbvyeqQ9v4wrDrOZv4BjzAic6Q32dzKSpzbc4bauC0buJry6USz1zokS7OSqvuonPj5X77J0GE8/JU2elKkYacbsjoL7Ouul9zHJtLQBpoL5jgKgRW6S3c4BjoJYDSZ96+sr4wB/u1B7aV8E7QFGrJIRl5UxrKIkDIyO7TzBlb9jTZXo4HCIzspy8BhQANDApdIbjvmEsSW5wXfkkwEfOU5SFmItPe9ThI6/3xoPJS4OnaoXxHY6zZ0NSg5Luyc1vJDmn6Wg3IVu0OwSGaVkdzI4h4YGAIwtzFKIA6kI70un3lPlWxlFJ+TlfDwoDRjTnKRF7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=outlook.com; dmarc=pass action=none header.from=outlook.com;
- dkim=pass header.d=outlook.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l3KURhe7JfSyAglhbPpFMdojYsk2A29C3xa4JZDrJHM=;
- b=hUcQ2umuD+XglFAsYTl6tkAnRwPE5IKqAckK7uXzPiUh2Nzx93R7OLtaNoVNV68NZZf24FjKhN1M1jM97Tw+q4E6Qy7Sgjx/Ec44lqBD5DvCAa0PSg055SGAno/GS86P622ubrWK7v697IvsTYK3BqWgKGZzs3MdgskNFuwNOjew+SeVC04D03rk8jv4+2Zw/oPrzBxBLLlSIBgjCdHAjcLlP4wAyf35HKfN6lFzLesxg+h5ab+eGZZGdgEAE30cVYbedh3tCvOv7BgTuQZmYv8YLAP/L/qQSvY04DF4DV4sV2CNBEzFcFHck0EQM4vYs3yveDE4zBAk2vcJu0A6EA==
-Received: from VE1EUR01FT063.eop-EUR01.prod.protection.outlook.com
- (2a01:111:e400:7e19::44) by
- VE1EUR01HT047.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e19::363)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23; Wed, 20 May
- 2020 20:17:34 +0000
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- (2a01:111:e400:7e19::40) by VE1EUR01FT063.mail.protection.outlook.com
- (2a01:111:e400:7e19::179) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23 via Frontend
- Transport; Wed, 20 May 2020 20:17:34 +0000
-X-IncomingTopHeaderMarker: 
- OriginalChecksum:BDB0F4DB1E68111E5A970CAD0BD0CC686E6C2D9F4652DC59ACAE09BD7FFEEDFB;UpperCasedChecksum:7BF0CEB12F8DED04D6DD4E8FD91BD9F928E6ED8CD017522C3A9C8177CB18D85B;SizeAsReceived:8955;Count:49
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::f5f1:b5e3:66d7:e590]) by AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::f5f1:b5e3:66d7:e590%5]) with mapi id 15.20.3000.034; Wed, 20 May 2020
- 20:17:34 +0000
-Subject: Re: [OE-core] [PATCH] package_ipk.bbclass: print opkg output on error
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <AM7PR05MB68813C6F4A99F236D682914CA8B90@AM7PR05MB6881.eurprd05.prod.outlook.com>
- <4c0bdb8031119a16004ecf9aa5d1a19dc0ec397d.camel@linuxfoundation.org>
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Message-ID: 
- <AM7PR05MB68818CD461CF14303C8BCA71A8B60@AM7PR05MB6881.eurprd05.prod.outlook.com>
-Date: Wed, 20 May 2020 22:17:32 +0200
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: randy.macleod@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 04KKus6X021843
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Wed, 20 May 2020 13:57:21 -0700
+Received: from [172.25.44.3] (172.25.44.3) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 20 May
+ 2020 13:56:48 -0700
+Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+        Rahul Kumar
+	<rahulk@mvista.com>
+CC: Alexander Kanavin <alex.kanavin@gmail.com>,
+        Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+        OE-core
+	<openembedded-core@lists.openembedded.org>,
+        Trevor Gamblin
+	<trevor.gamblin@windriver.com>
+References: <1587667187-14130-1-git-send-email-rahulk@mvista.com>
+ <e4d2de1d300677bf61ec737d8847dd7dea967840.camel@linuxfoundation.org>
+ <CANv91vNTDMES=ZCWUsEDWycsBW1kyy_dWNc62+93GozCMz1kUw@mail.gmail.com>
+ <CANNYZj_61NP5ZSVHA5UWJN_s86esbc-1nEu2gDdmvMn6AGqRAg@mail.gmail.com>
+ <543d70c2321008a46e4f21bf84fd3963624e655b.camel@linuxfoundation.org>
+ <CANv91vOeLhAdf5RVzQ6Ftc+Y4eQH963BYcEVfmMJaKcYg_GFTw@mail.gmail.com>
+ <CANNYZj801ksp6hFqRzkU3A8qXptrHdm-GBZLPespsoir59Tx9w@mail.gmail.com>
+ <57f47042-407c-7fe6-008c-adc509331f6e@windriver.com>
+ <CANv91vM-SuevnLi--bKzyON3z6YuXUMHUjCc70PKa41woypmTg@mail.gmail.com>
+ <9c444c01c7b64ff99ebd3b22516dc052@XBOX03.axis.com>
+ <CANv91vPLcNY+58xx_ZyOOwAviyiH6vD_hPU_KmreXeUj1cikXg@mail.gmail.com>
+ <a7804056e3204ee7b986f9fdc02e80cf@XBOX03.axis.com>
+ <1a0e97f9-886f-40f1-3b53-d0ac59ebc8c8@windriver.com>
+ <172ff49855e74f94b5247f2b482e0f94@XBOX03.axis.com>
+From: "Randy MacLeod" <randy.macleod@windriver.com>
+Message-ID: <9e09c278-741a-3cc1-ef60-9dcacb3b7658@windriver.com>
+Date: Wed, 20 May 2020 16:56:45 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
-In-Reply-To: <4c0bdb8031119a16004ecf9aa5d1a19dc0ec397d.camel@linuxfoundation.org>
-X-ClientProxiedBy: AM6P195CA0003.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:209:81::16) To AM7PR05MB6881.eurprd05.prod.outlook.com
- (2603:10a6:20b:1a9::19)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: 
- <d91cc95f-6695-a0eb-d75e-57c18a98913a@outlook.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.20] (87.141.92.26) by AM6P195CA0003.EURP195.PROD.OUTLOOK.COM (2603:10a6:209:81::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23 via Frontend Transport; Wed, 20 May 2020 20:17:33 +0000
-X-Microsoft-Original-Message-ID: 
- <d91cc95f-6695-a0eb-d75e-57c18a98913a@outlook.com>
-X-TMN: [OXYo9pUGE6qtFUhuJ1SbK4qK0BvxOLtH]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 49
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 4fefb7c1-a7d4-4419-3e80-08d7fcfad4aa
-X-MS-TrafficTypeDiagnostic: VE1EUR01HT047:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	ZEBhlgHH23PZQQ4e8SRmI110H/jBq5PKr2aW9SCA1Xo+rrTPDXGB1ygD8wqDehuNhDIb5Ssp/MLR3iOVUIbc0wfVNITRCbjfH3hgSci+psAoS9rxuz8yqnEwZImStWSMnM94Z5toyYIfUWdYAvfhn9FpHVf/i6yJUBvk3eQGvLZPQ0jIuoHJbLfBCPCdTngkPEZMHkwu966Gah+0jj1FTQ4dPpNBHMUAMVssbaWlfDMNKiVAeOfpttvKJOKex9f+
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
-X-MS-Exchange-AntiSpam-MessageData: 
-	GyBA1YQ4CXGPq0LG1ONIa1DDZNEc+3bDplO8oC/VW/eifoD2DNs676Dqdejb0YI3SRFkFOQbhu0SToKVZwZC37S+Vj1eltENZRRpFH3JJ2z1MKtCyvVPi3cDQYPjhR98Myvu1Yu2WMgrrsX98b9NXw==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4fefb7c1-a7d4-4419-3e80-08d7fcfad4aa
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2020 20:17:34.3592
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR01HT047
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <172ff49855e74f94b5247f2b482e0f94@XBOX03.axis.com>
+X-Originating-IP: [172.25.44.3]
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 04KKus6X021843
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: quoted-printable
 
-On a second thought it should be bb.error not bb.fatal - are all okay 
-with fixing just this one for now?
+On 2020-05-19 8:06 p.m., Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: Randy MacLeod <randy.macleod@windriver.com>
+>> Sent: den 19 maj 2020 23:45
+>> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; Rahul Kumar
+>> <rahulk@mvista.com>
+>> Cc: Alexander Kanavin <alex.kanavin@gmail.com>; Richard Purdie
+>> <richard.purdie@linuxfoundation.org>; OE-core <openembedded-
+>> core@lists.openembedded.org>; Trevor Gamblin
+>> <trevor.gamblin@windriver.com>
+>> Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
+>>
+>> On 2020-05-19 12:29 p.m., Peter Kjellerstedt wrote:
+>>> The jzlib license is a three clause BSD license, and so is the
+>>> go/LICENSE, so you should be able to set LICENSE as:
+>>>
+>>> LICENSE =3D "bzip2-1.0.6 & GPLv3+ & Apache-2.0 & MS-PL & BSD-3-Clause=
+ & Zlib"
+>>
+>> Peter,
+>>
+>> I respectfully disagree.
+>>
+>> The only source that is _executed_ in normal use by bzip2-test is
+>> the run-tests.sh script that is licensed as GPLv3+
+>=20
+> Well, I am definitely not a lawyer either,=20
 
-On 20.05.20 00:02, Richard Purdie wrote:
-> On Tue, 2020-05-19 at 20:36 +0200, Konrad Weihmann wrote:
->> in case the opkg command fails in before no output of the tool
->> itself was printed to assist the user with debugging the issue.
->> Print all output of the tool by using CalledProcessError wrapper around
->> the call
+Phew! :)
+
+> but I am pretty sure that
+> whether something that is distributed under a certain license is
+> executed or not is irrelevant (unless of course the license covers
+> execution of the code).
+
+There's a difference between a legal report and the Yocto LICENSE tag.
+The Yocto tag is meant to be an over-all/community acknowledged license
+for the _code_ in the package that ends up as executable / script on
+the target. We should probably document this in greater detail, perhaps
+in:
+=20
+https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#va=
+r-LICENSE
+
+A more comprehensive analysis usually includes a file by file
+IP report often accompanied by a summary generated by an IP expert.
+
+>=20
+>> The other files, although they came from source packages,
+>> are *only* used as  test data. The source code has been completely
+>> stripped out, hasn't it?
+>=20
+> Given that they were originally distributed in an archive together
+> with a LICENSE/COPYING/similar file covering the entire archive,
+> those files are still covered by that license even if they are not
+> source files per se.
+
+
+Licenses describe the terms that apply to items that are covered
+under copyright. Data generally can not be copyrighted.
+
+ From my IP contact:
+
+---
+
+In order for something to be copyrightable three requirements
+must be satisfied:
+
+  1. The work represents a creative form of expression
+     (basic facts do not represent a creative form of expression)
+
+  2. The work is original (novel) =E2=80=93 not copied from someone else.
+     Two different people could come up with similar creative forms
+     of expression. They just can=E2=80=99t copy from someone else.
+
+  3. It must be put in tangible form (e.g., written, digital, =E2=80=A6).
+     Someone can=E2=80=99t just claim it resides inside their head.
+
+
+
+Data as a general is not copyrightable because it fails number 1.=20
+However if someone can argue that a certain compilation of data=20
+represents some form of creative expression, they might have a case.=20
+This is discussed in the first two paragraphs here:
+
+    https://libguides.library.kent.edu/data-management/copyright
+
+
+Data can be protected under patent or trade secret law but different=20
+requirements apply and a different license would need to be created.=20
+Open Source licenses are largely copyright licenses. Although sometimes=20
+they include patent terms, they are generally not considered patent=20
+licenses.
+
+---
+
+
+Most of the files here are clearly just data and
+are therefore neither subject to copyright nor governed by
+typical open source licenses.
+
+Some possible exceptions are:
+
+dotnetzip/dancing-color.ps.bz2
+   - This could be considered as software since that's what a PostScript
+     file is. In fact it's the 'Dancing links" paper by Donald Knuth:
+     https://www-cs-faculty.stanford.edu/~knuth/preprints.html
+     Copyright is not asserted but is of course implied for such works.
+     No licensing terms are declared.
+
+go/compress/Isaac.Newton-Opticks.txt.bz2
+   - out of copyright since unfortunately the author died long ago :-/
+     It seems that the people who prepared this document:
+       "Produced by Suzanne Lybarger, steve harris, Josephine
+       Paolucci and the Online Distributed Proofreading Team at
+       http://www.pgdp.net. "
+     are interested in:
+        "...dedicated to the preservation of written works
+         that are in the Public Domain ..."
+=20
+https://www.pgdp.net/wiki/DP_Official_Documentation:General/Distributed_P=
+roofreaders_Mission_Statement
+
+
+
+It seems that the README/COPYING/LICENSE.txt/... files
+were left in the repo by people who while well intentioned,
+were misguided. We could try to fix that error upstream.
+
+
+>=20
+>> If, instead of compressed data,
+>> someone were to give me an image file covered by a creative common's
+>> license and the image had a watermark that when extracted produced
+>> file with source code with a FOO license, would you change the
+>> package license to include FOO? In fact, we don't even look at
+>> image file licensing let alone at embedded watermarks.
+>=20
+> Well, if there is a file distributed in the picture (not using the
+> word "image" here to avoid confusing the discussion any more) in the
+> form of a watermark, then that is no different from distributing it
+> as part of a tar.gz file (albeit a bit unusual). Whatever license
+> that file is covered by still applies in both cases.
+
+
+To me, this is the crux of the matter, i.e.:
+   "Whatever license that file is covered by
+    still applies in both cases."
+
+I agree with you but I think that the LICENSE can not and should
+not and was not meant to apply to the data files.
+
+>=20
+> Actually, here is something to think about. I recently read an
+> article published by the Linux Foundation called "Docker Containers
+> for Legal Professionals". [1] There they discussed the distribution
+> of Docker images. Consider this, you take an existing Docker image,
+> e.g., fedora:32, and remove everything that is covered by GPL-3.0
+> (not sure how to actually accomplish that, but anyway) and then you
+> distribute this new Docker image to someone. Does this mean that
+> GPL-3.0 covered code is being distributed? The answer is yes.
+> Because of the way Docker images are made up from layers, you need
+> to adhere to the licenses covering everything in all layers, not
+> just the final result. And somewhere down the stack of layers
+> making up your Docker image is still all of that GPL-3.0 code
+> that you removed in a higher layer.
+
+Yes, that's an interesting case that makes sense due to the layered
+nature of the docker images.
+
+>=20
+>> I'm not a lawyer so this is simply my opinion on the matter.
+>> How do we come to an agreement?
+>> I'd be happy to add a comment in the recipe explaining our position:
 >>
->> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
->> ---
->>   meta/classes/package_ipk.bbclass | 11 +++++++----
->>   1 file changed, 7 insertions(+), 4 deletions(-)
+>> # This package contains a script and test data this is derived from
+>> # other software packages as explained in the top level README.
+>> # Although there are COPYING files explaining the license terms
+>> # for each sub-directory, the files in each directory are only used
+>> # as test data so the LICENSING terms do not appear to apply to
+>> # the recipe as we ship it and have therefore NOT been incorporated
+>> # into the bzip2-ptests recipe licensing tags.
+>=20
+> I would be very worried seeing such a statement, and I believe any
+> lawyer would too.
+
+As written I agree but if I change it to:
+
+ >> # This package contains a script and test data this is derived from
+ >> # other software packages as explained in the top level README.
+ >> # Although there are COPYING files explaining the license terms
+ >> # for each sub-directory, the files in each directory are only used
+# for each sub-directory, the files in each directory are only
+
+ >> # as test data so the LICENSING terms do not appear to apply to
+# test data so the LICENSING terms do not appear to apply to
+
+ >> # the recipe as we ship it and have therefore NOT been incorporated
+ >> # into the bzip2-ptests recipe licensing tags.
+
+
+would that make more sense?
+
+
+So this email chain is all about deciding between:
+1) LICENSE =3D \
+   "bzip2-1.0.6 & GPLv3+ & Apache-2.0 & MS-PL & BSD-3-Clause & Zlib"
+
+and
+
+2) LICENSE =3D "GPLv3+"
+
+
+My vote is still for 2). Yours?
+
+../Randy
+
+
+ >
+>=20
+>> I can consult with some intellectual property experts that I know
+>> about this particular case if you like.
+>=20
+> If you have the possibility to do so, I think it may be a good idea.
+>=20
+>> ../Randy
+>=20
+> //Peter
+>=20
+> [1] https://www.linuxfoundation.org/wp-content/uploads/2020/04/Docker-C=
+ontainers-for-Legal-Professionals-Whitepaper_v4.ac_-3.pdf
+>=20
+>>> You also need to add:
+>>>
+>>> LICENSE_${PN} =3D "bzip2-1.0.6"
+>>>
+>>> LICENSE_${PN}-dev =3D "bzip2-1.0.6"
+>>>
+>>> LICENSE_${PN}-dbg =3D "bzip2-1.0.6"
+>>>
+>>> LICENSE_${PN}-doc =3D "bzip2-1.0.6"
+>>>
+>>> LICENSE_${PN}-src =3D "bzip2-1.0.6"
+>>>
+>>> LICENSE_libbz2 =3D "bzip2-1.0.6"
+>>>
+>>> so the non-ptest packages are not affected by the licenses for the
+>> ptest
+>>> package.
+>>>
+>>> //Peter
+>>>
+>>> *From:*Rahul Kumar <rahulk@mvista.com>
+>>> *Sent:* den 19 maj 2020 13:58
+>>> *To:* Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+>>> *Cc:* Randy MacLeod <randy.macleod@windriver.com>; Alexander Kanavin
+>>> <alex.kanavin@gmail.com>; Richard Purdie
+>>> <richard.purdie@linuxfoundation.org>; OE-core
+>>> <openembedded-core@lists.openembedded.org>; Trevor Gamblin
+>>> <trevor.gamblin@windriver.com>
+>>> *Subject:* Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
+>>>
+>>> Hi Peter,
+>>>
+>>> I am sharing a few information related to bzip2-test source and
+>>> licensing information.
+>>> As per your suggestion and as per my understanding I added License to
+>>> the bzip2 recipe file.
+>>>
+>>> bzip2-tests.git source tree structure is given below
+>>> (here showing licence related fle, removed other file names )
+>>>
+>>> bzip2-tests.git/
+>>> =E2=94=9C=E2=94=80=E2=94=80commons-compress
+>>> =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80LICENSE.txt
+>>> =E2=94=82
+>>> =E2=94=9C=E2=94=80=E2=94=80dotnetzip
+>>> =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80License.txt
+>>> =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80License.zlib.txt
+>>> |
+>>> =E2=94=9C=E2=94=80=E2=94=80go
+>>> =E2=94=82 =E2=94=9C=E2=94=80=E2=94=80LICENSE
+>>> =E2=94=82
+>>> =E2=94=9C=E2=94=80=E2=94=80lbzip2
+>>> =E2=94=9C=E2=94=80=E2=94=80pyflate
+>>> =E2=94=9C=E2=94=80=E2=94=80README
+>>> =E2=94=94=E2=94=80=E2=94=80 run-tests.sh
+>>>
+>>> source code link:
+>>> https://sourceware.org/git/bzip2-tests.git
+>>>
+>>> bzip2-tests.git source contains
+>>> 1) comman-commpress: which is Originally distributed under the Apache
+>>> License Version 2.0.
+>>>
+>>> See LICENSE.txt
+>>>
+>>>
+>>> 2) dotnetzip:
+>>> (i) =C2=A0The DotNetZip Library is distributed under the MicroSoft Pu=
+blic
+>> License
+>>>   =C2=A0 =C2=A0 (Ms-PL) see the License.txt file.
+>>> (ii) The BZ2 related resources are distributed under the licenses in
+>>> License.zlib.txt.
+>>>
+>>> 3) go:
+>>>
+>>>   =C2=A0Go is distributed under a BSD-style license.
+>>>   =C2=A0See the LICENSE file.
+>>>
+>>> 4) lbzip2:
+>>> lbzip2 is free software: you can redistribute it and/or modify it und=
+er
+>> the
+>>> terms of the GNU General Public License as published by the Free
+>> Software
+>>> Foundation, either version 3 of the License, or (at your option) any
+>> later
+>>> version
+>>>
+>>> 5) pyflate: You may use and distribute this code and documentation
+>> under any
+>>>   =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 DFSG-compatible license (=
+eg. BSD, GNU GPLv2).
+>>>
+>>> 6) run-tests.sh: you can redistribute it and/or modify it under the
+>>> terms of the GNU General Public License (GPL); either
+>>>   =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0versi=
+on 3, or (at your option) any later version.
+>>>
+>>>
+>>> SO in recipe I added the License like below
+>>> LICENSE =3D "bzip2-1.0.6 & GPLv3+ & Apache-2.0 & MS-PL & BSD "
+>>> LICENSE_${PN}-ptest =3D "GPLv3+ & Apache-2.0 & MS-PL & BSD"
+>>> LIC_FILES_CHKSUM =3D
+>>>
+>> "file://LICENSE;beginline=3D4;endline=3D37;md5=3D600af43c50f1fcb82e32f=
+19b32df46
+>> 64
+>>> \
+>>>
+>>> file://${WORKDIR}/git/commons-
+>> compress/LICENSE.txt;md5=3D86d3f3a95c324c9479bd8986968f4327
+>>> \ # For comman-commpress (Apache-2.0)
+>>>
+>>>
+>> file://${WORKDIR}/git/dotnetzip/License.txt;md5=3D9cb56871eed4e748c3bc=
+7e8ff
+>> 352a54f
+>>> \ =C2=A0 =C2=A0 =C2=A0# For dotnetzip (Ms-PL)
+>>>
+>>>
+>> file://${WORKDIR}/git/dotnetzip/License.zlib.txt;md5=3Dcc421ccd22eeb2e=
+5db6b
+>> 79e6de0a029f
+>>> \ =C2=A0 # For dotnetzip =C2=A0(jzlib +zlib)
+>>>
+>>> file://${WORKDIR}/git/go/LICENSE;md5=3D5d4950ecb7b26d2c5e4e7b4e0dd747=
+07 \
+>>>   =C2=A0 =C2=A0 =C2=A0# For go (BSD-style license)
+>>>
+>>> here I need few suggestion:
+>>>
+>>> 1) I added the BSD and GPLv3+ license in LICENSE and LICENSE_${PN}-
+>> ptest.
+>>>   =C2=A0 =C2=A0but not added LIC_FILES_CHKSUM for GPLv3 and BSD becau=
+se
+>>> bzip2-tests.git source code doesn't have GPLv3 and BSD License text
+>> file
+>>> like other
+>>>   =C2=A0 =C2=A0directories.
+>>>
+>>> 2) License.zlib.txt: This is a combination of two licence jzlib and
+>>> zlib. In meta/files/common-licenses Zlib license is available but not
+>> jzlib.
+>>>   =C2=A0 =C2=A0In this case how can I proceed?
+>>>
+>>> Kindly comment on this and feel free to point out if i am wrong at an=
+y
+>>> place.
+>>>
+>>> *Thanks & Regards,*
+>>>
+>>> Rahul Kumar
+>>>
+>>> Software Engineer,Linux Solutions Engineering
+>>>
+>>> Group,Montavista Software LLC
+>>>
+>>> Email Id: rahulk@mvista.com <mailto:rahulk@mvista.com>
+>>> <https://plus.google.com/+CodeTwoSoftware>
+>>>
+>>> On Mon, May 18, 2020 at 1:18 AM Peter Kjellerstedt
+>>> <peter.kjellerstedt@axis.com <mailto:peter.kjellerstedt@axis.com>>
+>> wrote:
+>>>
+>>>      As I wrote in my previous mail, when it comes to licenses, it is
+>> the
+>>>      distribution that is important. So if you build a package
+>>>      (bzip2-ptest) that includes code that is GPL-3.0, it does not
+>> matter
+>>>      if that code is only used as a binary blob, it is still distribu=
+ted
+>>>      in the package, and thus the package needs to be covered by the
+>>>      GPL-3.0 license.
+>>>
+>>>      //Peter
+>>>
+>>>      *From:*openembedded-core@lists.openembedded.org
+>>>      <mailto:openembedded-core@lists.openembedded.org>
+>>>      <openembedded-core@lists.openembedded.org
+>>>      <mailto:openembedded-core@lists.openembedded.org>> *On Behalf Of
+>>>      *Rahul Kumar
+>>>      *Sent:* den 17 maj 2020 21:18
+>>>      *To:* Randy MacLeod <randy.macleod@windriver.com
+>>>      <mailto:randy.macleod@windriver.com>>
+>>>      *Cc:* Alexander Kanavin <alex.kanavin@gmail.com
+>>>      <mailto:alex.kanavin@gmail.com>>; Richard Purdie
+>>>      <richard.purdie@linuxfoundation.org
+>>>      <mailto:richard.purdie@linuxfoundation.org>>; OE-core
+>>>      <openembedded-core@lists.openembedded.org
+>>>      <mailto:openembedded-core@lists.openembedded.org>>; Trevor Gambl=
+in
+>>>      <trevor.gamblin@windriver.com
+>> <mailto:trevor.gamblin@windriver.com>>
+>>>      *Subject:* Re: [OE-core] [PATCH v2] bzip2: Add test suite for bz=
+ip2
+>>>
+>>>      Hi Randy,
+>>>
+>>>      patch has been accepted by bzip2 community with additional chang=
+es.
+>>>      https://sourceware.org/git/?p=3Dbzip2-
+>> tests.git;a=3Dcommit;h=3Df9061c030a25de5b6829e1abf373057309c734c0
+>>>
+>>>
+>>>      So I need your suggestion with respect to Yocto.
+>>>
+>>>      Since required changes for ptest infrastructure is integrated to
+>> the
+>>>      bzip2-tests.git source code.
+>>>      So now we can just change the SRCREV with the latest commit inst=
+ead
+>>>      of applying the patch to the bzip2-tests.git source code.
+>>>
+>>>      And since we are just integrating the bzip2-tests source to the
+>>>      bzip2 recipe and not modifying any file so i think no need to ad=
+d
+>>>      any License for it.
+>>>
+>>>
+>>>      Now patch will look like
+>>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>>      --- a/meta/recipes-extended/bzip2/bzip2/Makefile.am
+>>>      +++ b/meta/recipes-extended/bzip2/bzip2/Makefile.am
+>>>      @@ -46,6 +46,7 @@ runtest:
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 else echo "FAIL: sample2 decompress=
+"; fi
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 @if cmp sample3.tst sample3.ref; th=
+en echo "PASS: sample3
+>>>      decompress";\
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 else echo "FAIL: sample3 decompress=
+"; fi
+>>>      + =C2=A0 =C2=A0 =C2=A0 ./bzip2-tests/run-tests.sh --tests-dir=3D=
+"$(PWD)/bzip2-tests"
+>>>
+>>>       =C2=A0install-ptest:
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 sed =C2=A0-n '/^runtest:/,/^install=
+-ptest:/{/^install-
+>> ptest:/!p}' \
+>>>      @@ -56,6 +57,7 @@ install-ptest:
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp $(srcdir)/sample1.bz2 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0$(DESTDIR)/
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp $(srcdir)/sample2.bz2 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0$(DESTDIR)/
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 cp $(srcdir)/sample3.bz2 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0$(DESTDIR)/
+>>>      + =C2=A0 =C2=A0 =C2=A0 cp -rf $(srcdir)/../git =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 $(DESTDIR)/bzip2-tests
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -s $(bindir)/bzip2 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 $(DESTDIR)/bzip2
+>>>
+>>>       =C2=A0install-exec-hook:
+>>>      diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+>>>      <http://bzip2_1.0.8.bb> b/meta/recipes-
+>> extended/bzip2/bzip2_1.0.8.bb
+>>>      <http://bzip2_1.0.8.bb>
+>>>      index d58f553..c5aa690 100644
+>>>      --- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+>> <http://bzip2_1.0.8.bb>
+>>>      +++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+>> <http://bzip2_1.0.8.bb>
+>>>      @@ -8,13 +8,17 @@ LICENSE =3D "bzip2-1.0.6"
+>>>       =C2=A0LIC_FILES_CHKSUM =3D
+>>>
+>> "file://LICENSE;beginline=3D4;endline=3D37;md5=3D600af43c50f1fcb82e32f=
+19b32df46
+>> 64"
+>>>
+>>>       =C2=A0SRC_URI =3D "https://sourceware.org/pub/${BPN}/${BPN}-${P=
+V}.tar.gz
+>>>      <https://sourceware.org/pub/$%7bBPN%7d/$%7bBPN%7d-$%7bPV%7d.tar.=
+gz>
+>> \
+>>>      +
+>>>      git://sourceware.org/git/bzip2-tests.git;name=3Dbzip2-tests
+>>>      <http://sourceware.org/git/bzip2-tests.git;name=3Dbzip2-tests> \
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://configure.ac <=
+http://configure.ac>;subdir=3D${BP}
+>> \
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://Makefile.am;su=
+bdir=3D${BP} \
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \
+>>>       =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 "
+>>>      +
+>>>       =C2=A0SRC_URI[md5sum] =3D "67e051268d0c475ea773822f7500d0e5"
+>>>       =C2=A0SRC_URI[sha256sum] =3D
+>>>      "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a226=
+9"
+>>>
+>>>      +SRCREV_bzip2-tests =3D "f9061c030a25de5b6829e1abf373057309c734c=
+0"
+>> *<<
+>>>      this commit Id includes latest charges for ptest infrastruct.*
+>>>      +
+>>>       =C2=A0UPSTREAM_CHECK_URI =3D "https://www.sourceware.org/pub/bz=
+ip2/"
+>>>
+>>>       =C2=A0PACKAGES =3D+ "libbz2"
+>>>      @@ -39,7 +43,7 @@ do_install_ptest () {
+>>>
+>>>       =C2=A0FILES_libbz2 =3D "${libdir}/lib*${SOLIBS}"
+>>>
+>>>      -RDEPENDS_${PN}-ptest +=3D "make"
+>>>      +RDEPENDS_${PN}-ptest +=3D "make bash"
+>>>
+>>>       =C2=A0PROVIDES_append_class-native =3D " bzip2-replacement-nati=
+ve"
+>>>       =C2=A0BBCLASSEXTEND =3D "native nativesdk"
+>>>
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> =3D=3D=3D=3D=3D=3D=3D=3D
+>>>
+>>>      Kindly comment on it and feel free to point out, if i am wrong a=
+t
+>>>      any place.
+>>>
+>>>      *Thanks & Regards,*
+>>>
+>>>      Rahul Kumar
+>>>
+>>>      Software Engineer,Linux Solutions Engineering
+>>>
+>>>      Group,Montavista Software LLC
+>>>
+>>>      Email Id: rahulk@mvista.com <mailto:rahulk@mvista.com>
+>>>      <https://plus.google.com/+CodeTwoSoftware>
+>>>
+>>>      On Fri, May 1, 2020 at 6:56 AM Randy MacLeod
+>>>      <randy.macleod@windriver.com <mailto:randy.macleod@windriver.com=
 >>
->> diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
->> index c008559e4a..5e7d552cc5 100644
->> --- a/meta/classes/package_ipk.bbclass
->> +++ b/meta/classes/package_ipk.bbclass
->> @@ -223,10 +223,13 @@ def ipk_write_pkg(pkg, d):
->>               conffiles.close()
->>   
->>           os.chdir(basedir)
->> -        subprocess.check_output("PATH=\"%s\" %s %s %s" % (localdata.getVar("PATH"),
->> -                                                          d.getVar("OPKGBUILDCMD"), pkg, pkgoutdir),
->> -                                stderr=subprocess.STDOUT,
->> -                                shell=True)
->> +        try:
->> +            subprocess.check_output("PATH=\"%s\" %s %s %s" % (localdata.getVar("PATH"),
->> +                                                            d.getVar("OPKGBUILDCMD"), pkg, pkgoutdir),
->> +                                    stderr=subprocess.STDOUT,
->> +                                    shell=True)
->> +        except subprocess.CalledProcessError as exp:
->> +            bb.fatal("{} failed with {}: {}".format(exp.cmd, exp.returncode, exp.output.decode("utf-8")))
->>   
->>           if d.getVar('IPK_SIGN_PACKAGES') == '1':
->>               ipkver = "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
-> 
-> I get the feeling we have a problem with our subprocess calls and
-> debugging but its hard to know what to do about it. We can patch each
-> call site like this but it starts to make we wonder whether we need a
-> general wrapper, or we're missing something in bitbake or elsewhere to
-> help with things.
-> 
-> There is this code:
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky/tree/bitbake/lib/bb/utils.py#n378
-> 
-> which is meant to help but it clearly isn't helping/catching all cases.
-> 
-> I think we are going to need to look at a wider/more general solution
-> or at least have a plan for one.
-> 
-> Cheers,
-> 
-> Richard
-> 
+>>>      wrote:
+>>>
+>>>          On 2020-04-27 3:39 p.m., Alexander Kanavin wrote:
+>>>           > You need to first see from the failure page which
+>>>          configuration is
+>>>           > failing, for example non-gpl3 is one such.
+>>>           >
+>>>           > Then you find that configuration in config.json. The belo=
+w
+>>>          should
+>>>           > hopefully be self-explanatory in how you should set up th=
+e
+>> build?
+>>>           >
+>>>           > |"non-gpl3" : { "NEEDREPOS" : ["poky", "meta-gplv2"],
+>>>          "MACHINE" :
+>>>           > "qemux86", "BBTARGETS" : "core-image-minimal
+>>>          core-image-full-cmdline",
+>>>           > "extravars" : [ "INCOMPATIBLE_LICENSE =3D '*GPLv3'",
+>>>          "WARN_QA_remove =3D
+>>>           > 'incompatible-license'" ], "EXTRACMDS" : [
+>>>           > "../../yocto-autobuilder-helper/scripts/check-gplv3" ] },
+>>>           >
+>>>           > |
+>>>           >
+>>>           > |
+>>>           > |
+>>>           >
+>>>           > |Alex
+>>>
+>>>          Hi Rahul,
+>>>
+>>>          Sorry for my late reply.
+>>>
+>>>          The commit log for v2 is very good now!
+>>>          Thanks for incorporating my --pedantic suggestions. ;-)
+>>>
+>>>          It seems that you need a perl dependency for something (docs=
+?
+>>>           =C2=A0 =C2=A0 $ cd .../bzip2.git
+>>>           =C2=A0 =C2=A0 $ grep -r "perl " *
+>>>           =C2=A0 =C2=A0 format.pl:#!/usr/bin/perl -w
+>>>           =C2=A0 =C2=A0 README.XML.STUFF:It uses format.pl <http://fo=
+rmat.pl>, a
+>>>          perl script...
+>>>
+>>>          Then we need to figure out how to deal with the GPLv3 issue.
+>>>
+>>>          The buildbot output can be tedious to figure out. I haven't
+>> really
+>>>          spent enough time plugging away at it to be proficient yet
+>> either.
+>>>          Have you been able to reproduce the problems that Richard
+>> reported?
+>>>          If not, and you've tried for a bit, then just say so and I'l=
+l
+>> try to
+>>>          help tomorrow or early next week.
+>>>
+>>>          It looks like you are packaging the test code/data with the
+>> main
+>>>          package
+>>>          not in bzip2-ptest. Have a look at:
+>>>           =C2=A0 =C2=A0 meta/recipes-support/libpcre/libpcre_8.44.bb
+>>>          <http://libpcre_8.44.bb>
+>>>          for an example. There are many more.
+>>>          Also, if you look at oe-core.git:
+>>>           =C2=A0 =C2=A0 $ rgrep LICENSE_ *=C2=A0 | grep PN
+>>>          you can see many examples of sub-packages with different
+>> licenses
+>>>          than the main package. One example is:
+>>>           =C2=A0 =C2=A0 meta/recipes-support/gnutls/gnutls_3.6.13.bb
+>>>          <http://gnutls_3.6.13.bb>
+>>>          I hope that can address the buildbot problem but I haven't
+>> tried it
+>>>          myself yet.
+>>>
+>>>          BTW, Trevor has gotten the YP autobuilder going at Wind Rive=
+r
+>> and
+>>>          he'll be sending a few documentation updates next week or so.
+>>>          That may help in case you want to reproduce the YP AB test
+>>>          infrastructure. I expect that you don't _have_ to do so but
+>>>          I think it would be good if more contributing organizations =
+did
+>>>          have an instance with only limited builders of the YP AB so
+>> that
+>>>          we can do more testing before Richard runs our changes throu=
+gh
+>>>          the main system. Richard has cautioned that the YP AB has lo=
+ts
+>> of
+>>>          builders each of which has many cores but I hope that we can=
+ at
+>>>          least
+>>>          do some AB checking ourselves.
+>>>
+>>>          ../Randy
+>>>
+>>>
+>>>           > |
+>>>           >
+>>>           >
+>>>           > On Mon, 27 Apr 2020 at 20:54, Rahul Kumar <rahulk@mvista.=
+com
+>>>          <mailto:rahulk@mvista.com>
+>>>           > <mailto:rahulk@mvista.com <mailto:rahulk@mvista.com>>>
+>> wrote:
+>>>           >
+>>>           >=C2=A0 =C2=A0 =C2=A0Hi Richard/Alexander,
+>>>           >
+>>>           >=C2=A0 =C2=A0 =C2=A0I am not able to understand how I can =
+use the below
+>> file.
+>>>           >
+>>>          http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-
+>> helper/tree/config.json
+>>>           >
+>>>           >=C2=A0 =C2=A0 =C2=A0did you mean to say that i have to set=
+ MACRO in
+>>>          local.conf based on
+>>>           >=C2=A0 =C2=A0 =C2=A0this file.
+>>>           >
+>>>           >=C2=A0 =C2=A0 =C2=A0*Thanks & Regards,*
+>>>           >=C2=A0 =C2=A0 =C2=A0Rahul Kumar
+>>>           >=C2=A0 =C2=A0 =C2=A0Software Engineer,Linux Solutions Engi=
+neering
+>>>           >=C2=A0 =C2=A0 =C2=A0Group,Montavista Software LLC
+>>>           >=C2=A0 =C2=A0 =C2=A0Email Id: rahulk@mvista.com <mailto:ra=
+hulk@mvista.com>
+>>>          <mailto:rahulk@mvista.com <mailto:rahulk@mvista.com>>
+>>>           >=C2=A0 =C2=A0 =C2=A0<https://plus.google.com/+CodeTwoSoftw=
+are>
+>>>           >
+>>>           >
+>>>           >=C2=A0 =C2=A0 =C2=A0On Mon, Apr 27, 2020 at 11:46 PM Richa=
+rd Purdie
+>>>           >=C2=A0 =C2=A0 =C2=A0<richard.purdie@linuxfoundation.org
+>>>          <mailto:richard.purdie@linuxfoundation.org>
+>>>           >=C2=A0 =C2=A0 =C2=A0<mailto:richard.purdie@linuxfoundation=
+.org
+>>>          <mailto:richard.purdie@linuxfoundation.org>>> wrote:
+>>>           >
+>>>           >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0On Mon, 2020-04-27 at 18=
+:30 +0200, Alexander Kanavin
+>>>          wrote:
+>>>           >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 > You need to look at c=
+onfigurations defined here:
+>>>           >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 >
+>>>           >
+>>>          http://git.yoctoproject.org/cgit/cgit.cgi/yocto-autobuilder-
+>> helper/tree/config.json
+>>>           >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 > and replicate them lo=
+cally. Then you can
+>> reproduce the
+>>>           >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0failures that
+>>>           >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 > the AB gets in those =
+configurations.
+>>>           >
+>>>           >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0That start of the failin=
+g logs on the autobuilder
+>>>          also list out the
+>>>           >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0configuration options fo=
+r that build.
+>>>           >
+>>>           >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Cheers,
+>>>           >
+>>>           >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Richard
+>>>           >
+>>>           >
+>>>           >
+>>>           >
+>>>
+>>>
+>>>          --
+>>>          # Randy MacLeod
+>>>          # Wind River Linux
+>>>
+>>
+>>
+>> --
+>> # Randy MacLeod
+>> # Wind River Linux
+
+
+--=20
+# Randy MacLeod
+# Wind River Linux
