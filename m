@@ -1,53 +1,53 @@
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
- by mx.groups.io with SMTP id smtpd.web11.3149.1589998854488773795
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
+ by mx.groups.io with SMTP id smtpd.web12.3209.1589998856781262757
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 May 2020 11:20:54 -0700
+ Wed, 20 May 2020 11:20:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=Xu/RJ8wu;
- spf=pass (domain: linaro.org, ip: 209.85.210.65, mailfrom: anibal.limon@linaro.org)
-Received: by mail-ot1-f65.google.com with SMTP id v17so3344566ote.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2020 11:20:54 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=I48QE8DA;
+ spf=pass (domain: linaro.org, ip: 209.85.167.194, mailfrom: anibal.limon@linaro.org)
+Received: by mail-oi1-f194.google.com with SMTP id r25so3825861oij.4
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2020 11:20:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=3Cps8cxW/hSpCv/Qhl+LlP5piwErEtgwNCQthI2qnV0=;
-        b=Xu/RJ8wu7LDWTkf041ZOZqjABDJH2/lfW1l2gk7w07znraFp6bju5EEOOjktDS4fxi
-         x/5o9xDol7FPKRFRej8ip3RxG8S8hbvddlLgeXyhHh6H+0QYwif8aI5Ruh+r6Bnl31JK
-         GusEEgUiWsNKUan8fWb3WxWOQrDRxSsmAKUpWGFVwnRu7mNiCTENpvzQZDJfxTL48f4J
-         Xgw5wJIyv7yl6t/CTQsHlEWJLpqIyUIPw/IlN4sWtceUaYnXuMbvN72ZW2wcYX8wXJIn
-         ZKXEiOONZ5DMZVYdH7l9q0c80g+RaueMeS1aAmMwDlZPerH6eghbihz6zo2MAp9/g18d
-         yeFQ==
+        bh=smv/e+EIb4mVyfGtNir0FcKHVnkOKbeejb4POOTYDr0=;
+        b=I48QE8DAOOpFRzr5/KdSxUNbIFeF9SPrVemgT/gVLti1e0xsNO28sYrnnWmpn9IeLi
+         1BtPMEFV1Prhqu4N2eVPHmouOaagJ5Ky6eSGN6K4+frc9gCulKUo/QImUMk02NuiN6hv
+         zUsMa5Wv3+ihR++FYdHJXYfAIrun4hCMjrNx0/lHp2/l6PdDG31rZvs5CBgLmXOCwlBG
+         QLzgEr64n/2GeZLtcYB3iWST8/ICvmji+B/dtp8HybVClw7UH0xxO0CVoBO7otRm6nbz
+         MN++j+qGyVsBJvQzCU2nbFB0BjwouZuYhJWSCghSgL0H3JNc6F6HoT67blRKmc0nsse/
+         9gqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=3Cps8cxW/hSpCv/Qhl+LlP5piwErEtgwNCQthI2qnV0=;
-        b=nY6YRejFpsjdT7gqDlWGOkm9TuFl4lyVCtb2hk7RlMhAtz6HnfYUnJAXNviFrRWLAF
-         WaZ4fd28LsVq/UWNZ/rBW80p8huibYn6aiTOLdKXj1YQXgvJQRRbYLBG+YdDPavMJ+fe
-         tJaUr6Yty9ckgPjg1IzoYLTl808Dk9hvjDuszdMgo7htcGueZK58SDtoHfdHsXuznuZf
-         h5WF7op0QVy8A3mYRJpVcSSrN9MW4y+AedZYO42kV7p6x5djSFwVrwgffpKrbWjDCn6G
-         jesC4M1Pv9PHGT5i+NZeC6p52hkKjL6pqXaEsp2fWzChgZcsyS5dSbnS1o4Eo7aEeBQo
-         DDcw==
-X-Gm-Message-State: AOAM532Be6OF9WoISJcgKm2SY+zUnUiS/1qAZf1jEXhpzJXMLhdLh/Ki
-	n0je8yMzp9u/xgKqR5GPyMPrHS1jVLg=
-X-Google-Smtp-Source: ABdhPJyV1hutlczDv+i108hZCZOyAwikhltzwHtQNctr5KeXJ84crh4Vgzb0fW2XVKf5HHzcDcpuyg==
-X-Received: by 2002:a9d:68d5:: with SMTP id i21mr4525310oto.280.1589998853545;
-        Wed, 20 May 2020 11:20:53 -0700 (PDT)
+        bh=smv/e+EIb4mVyfGtNir0FcKHVnkOKbeejb4POOTYDr0=;
+        b=kF3CzwVjXJoILDdVEi8l+P7UIKsryAxj6TthRFumRPSy8+bMxyrPKXYbXGE7pN90pN
+         yaI3VdesgttIUiY6il6IpHBx85gP6mwU9JD+Lyi44DvgmePlMV/Nn0bBVDkoTe82lDfy
+         uVFDhb2FK/ZIJiYMQvkT5pQO3jE5xJGtuXt8igGUZ0ygs6KRGewUER3UZXFqdnySCF4V
+         /dF63P31tF9tH1ySUsT7x6PXH84zMfR6Wa1koHVvOsxJwCu0Yjs7Fw9DFCSns5zuqHPC
+         ScqKDp4uzzEUJJlEzcm6WQQsT2TMd5dXSDV+MjhiVDW0Qo1iBXivoyRH45wyEETaJn6l
+         AM1Q==
+X-Gm-Message-State: AOAM533lbn6i0hXgRlDuTsE2DQcPv38fYS9/3E2wLAQn2wSBkJrS88J5
+	kCGbi3rJmTEonMK5iPK7ZxBdYdmP2xI=
+X-Google-Smtp-Source: ABdhPJwNlbkTuPKVmWBMrGrtP5M/705I45435g03+s3nozehNE6KmHAq3oNSnTzlGz/keTqNmt7BnQ==
+X-Received: by 2002:aca:ed44:: with SMTP id l65mr4090421oih.127.1589998855875;
+        Wed, 20 May 2020 11:20:55 -0700 (PDT)
 Return-Path: <anibal.limon@linaro.org>
 Received: from blackbox.rga.ip ([200.68.141.41])
-        by smtp.gmail.com with ESMTPSA id b19sm986589oii.1.2020.05.20.11.20.52
+        by smtp.gmail.com with ESMTPSA id b19sm986589oii.1.2020.05.20.11.20.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2020 11:20:52 -0700 (PDT)
+        Wed, 20 May 2020 11:20:55 -0700 (PDT)
 From: "Anibal Limon" <anibal.limon@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
 	nicolas.dechesne@linaro.org,
 	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCHv2][dunfell 2/3] recipes-kernel/linux-firmware: Add adreno-a630 firmware package
-Date: Wed, 20 May 2020 13:20:45 -0500
-Message-Id: <20200520182046.2031954-2-anibal.limon@linaro.org>
+Subject: [PATCHv2][dunfell 3/3] linux-firmware: Update to 20200122 -> 20200421
+Date: Wed, 20 May 2020 13:20:46 -0500
+Message-Id: <20200520182046.2031954-3-anibal.limon@linaro.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200520182046.2031954-1-anibal.limon@linaro.org>
 References: <20200520182046.2031954-1-anibal.limon@linaro.org>
@@ -57,41 +57,40 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit dd5f6de4995fbfad881567137fdefc1a8a3903b4)
+(cherry picked from commit ed9da2d9dc42c437650d539c4d14b8b786f82059)
 Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ ...inux-firmware_20200122.bb => linux-firmware_20200421.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200122.bb => linux-firmware_20200421.bb} (99%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-index 139307cda3..ac7d6ec431 100644
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb
+index ac7d6ec431..fa0507a88c 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-@@ -288,7 +288,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-qat ${PN}-qat-license \
-              ${PN}-qcom-license \
-              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 \
--             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 \
-+             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
-              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
-              ${PN}-whence-license \
-              ${PN}-license \
-@@ -849,6 +849,7 @@ FILES_${PN}-qcom-venus-1.8 = "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
- FILES_${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
- FILES_${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
- FILES_${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
-+FILES_${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
- FILES_${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
- FILES_${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
- FILES_${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
-@@ -856,6 +857,7 @@ RDEPENDS_${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb
+@@ -125,7 +125,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=c27d0c06cd5d376d8ab55860e65ba4e4 \
++                    file://WHENCE;md5=cb9a66eff0464b55335d3a7374fbc51c \
+                     "
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -196,8 +196,8 @@ PE = "1"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "ac291b21f366ae2a37193ec8f14c39d2"
+-SRC_URI[sha256sum] = "a30e811b3736a72b874ac27e10662f5e5409b1cadf8aab7ba88e8f8bc8083986"
++SRC_URI[md5sum] = "229a93395f4033da68429f165a62b952"
++SRC_URI[sha256sum] = "6dd7cba25d694c031f65529b9027cc8faaffaddfae70a4e3b58c2e4a0af3bfa8"
+ 
+ inherit allarch
+ 
 -- 
 2.26.2
 
