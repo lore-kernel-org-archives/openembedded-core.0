@@ -1,428 +1,621 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.3307.1589933165067236397
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web12.3684.1589934532902356918
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 May 2020 17:06:06 -0700
+ Tue, 19 May 2020 17:28:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=QEO5XVlw;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rE4bI17a;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id f83so1861882qke.13
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 May 2020 17:28:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=28332; q=dns/txt; s=axis-central1;
-  t=1589933165; x=1621469165;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=igmy32AbatXZvpe18bxQhWNMi4MR7BDoCS2sXKOs1aQ=;
-  b=QEO5XVlwH9mhmZotrYkr3tDVBXLWNtiSohJNFYopYvC2jRP/bFcnIxu4
-   ry20WYiPTFIHLrvr8d/y56wfGPot53biz/SmXXA1YNoqHaSnmBI/YwB2X
-   NjHtmHnY6b9V5fhzzBsAsd1zAQ/gN0Gbz0lQOsffPhjSeJZLhaULlY56x
-   uNeB2Ii4E0zp/JcnKoQA28KZlcOh8jvRAltzageIgExaUyNmTKi9aV2A3
-   nI+STyiXkLKntzVOWmsmeMuTpJ++ReyvHm0muU1Whujp9GiFf9ua46vqr
-   AA6Qi/onpLhj9Asem6hgA2RuidX1rwZa4vLriA/ad4/TGecFfcFsRiniK
-   w==;
-IronPort-SDR: H6QYpu61hh7URB4rtdPdxobvZasxRtyUsCHuPu3c3uBvWorAHSQ6msk44dVrm9JSROBq6LL3Nv
- ebxO260qO66T4fBk/H8GWWTbmCQnjkk6LkPl3XuqBBP1kVq5XyJt7tZwgx+vsD7pfbg4oJLw2F
- O2psfK0EBelecuL15Jw6g0DeZUeyDbRE2zaiEXHrs4frCPN1YUjnNhn9FJQtBjdjeoQS1ndm8C
- 9rKPJrdOQTnq9gT50/aLwIkjPve3IEchxjzVqjxBUi/IFmN/nIxQu7+oT9FHxafr0YvDCATNDJ
- tlE=
-X-IronPort-AV: E=Sophos;i="5.73,411,1583190000"; 
-   d="scan'208";a="8900267"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Randy MacLeod <randy.macleod@windriver.com>, Rahul Kumar
-	<rahulk@mvista.com>
-CC: Alexander Kanavin <alex.kanavin@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, OE-core
-	<openembedded-core@lists.openembedded.org>, Trevor Gamblin
-	<trevor.gamblin@windriver.com>
-Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
-Thread-Topic: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
-Thread-Index: AQHWGZ6l1q18DkmsOU+pORMl94H+FKiM9wyAgAAVFoCAAAFLgIAAHcUAgAAKkACAAAySgIAFF4iAgBpRHwCAACgPUIACgbqAgABpHtCAADreAIAALAjQ
-Date: Wed, 20 May 2020 00:06:00 +0000
-Message-ID: <172ff49855e74f94b5247f2b482e0f94@XBOX03.axis.com>
-References: <1587667187-14130-1-git-send-email-rahulk@mvista.com>
- <e4d2de1d300677bf61ec737d8847dd7dea967840.camel@linuxfoundation.org>
- <CANv91vNTDMES=ZCWUsEDWycsBW1kyy_dWNc62+93GozCMz1kUw@mail.gmail.com>
- <CANNYZj_61NP5ZSVHA5UWJN_s86esbc-1nEu2gDdmvMn6AGqRAg@mail.gmail.com>
- <543d70c2321008a46e4f21bf84fd3963624e655b.camel@linuxfoundation.org>
- <CANv91vOeLhAdf5RVzQ6Ftc+Y4eQH963BYcEVfmMJaKcYg_GFTw@mail.gmail.com>
- <CANNYZj801ksp6hFqRzkU3A8qXptrHdm-GBZLPespsoir59Tx9w@mail.gmail.com>
- <57f47042-407c-7fe6-008c-adc509331f6e@windriver.com>
- <CANv91vM-SuevnLi--bKzyON3z6YuXUMHUjCc70PKa41woypmTg@mail.gmail.com>
- <9c444c01c7b64ff99ebd3b22516dc052@XBOX03.axis.com>
- <CANv91vPLcNY+58xx_ZyOOwAviyiH6vD_hPU_KmreXeUj1cikXg@mail.gmail.com>
- <a7804056e3204ee7b986f9fdc02e80cf@XBOX03.axis.com>
- <1a0e97f9-886f-40f1-3b53-d0ac59ebc8c8@windriver.com>
-In-Reply-To: <1a0e97f9-886f-40f1-3b53-d0ac59ebc8c8@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=/afA8JwJmxSBrXLv6jGLLKj7us797PdkG4838HDNzlQ=;
+        b=rE4bI17aIg7UmvHGl+uYCx5pYJHhSPPSak7Pvlt7ZI4fOVVwSnSJW0JHP2HFT+fsx8
+         k+7ZN2cSOsTTPH1LYGoBWxfZ1nhhGZUXazYzOQdpNgORR7hfnsZxhdMly2+RpCG6ktSG
+         lF1rMsmi5xp2WCg00TnV8L+2y8E6W3v+Ir/vuD/4QtccsV58uN0rorVm31Ftz9LcUymX
+         HW7qOPhijyCKbV62ZBMkKayrFqHPkryNOvyqHqJA/9nTJc9OSQ3Hxd8hOpGRLxDtJm2I
+         lEaW/mTnMiLQ5/tZqnnrVJCkx2ZRLe3ann7TdwWLm9EjnZ/5CQ/NPCropvBccSHAIyjy
+         4Nlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=/afA8JwJmxSBrXLv6jGLLKj7us797PdkG4838HDNzlQ=;
+        b=NN/YNhZi3/2HGd8p6nDmGJO8g5IvwnKYm0F2wb4P7PhNb5RpBa9xzsNA3+Hi1mnkdY
+         A0+H1YAa9ecfb+f+jza2PFPcMKd/xJgHtzZu2/N0GNdwMnz08ADy6vNcHBpWbtnJK8GE
+         1oU55U2WXN3xfvkWvffZ/4alnab2qb3u1w4zgs2MfeQ4nFRpi44Dx+X22Y/6SUn/5B8y
+         tvc9eGgpHxapFhf8me2ZtmQiyAnRUR00y+VSHaCCQ1PxsXw6y3fsBr8tzHUFCQgXZjxj
+         3fpS2RDoY1yVKCHnKodHhE81IHTtOFyc3LNTMwYpp9DvbsWcJsIPuNgbwXnSKoVSuYV0
+         9VFw==
+X-Gm-Message-State: AOAM531iGgqJgXXOZDwGL+6iNDgrovpieNun+LnIuavVBFJcNm2woIht
+	9r88smt51g6ZCRcTNcyMVC2Mad9oObcy2GCkBsU=
+X-Google-Smtp-Source: ABdhPJwGVWOINbG//EbW9phHluuG4R6Pxv49H23d9TnwcBb/c+xvakDpT2S7wjAR5zaUS5RzP3/u/bakWI9UHzmjVuQ=
+X-Received: by 2002:a37:a694:: with SMTP id p142mr2155926qke.165.1589934531595;
+ Tue, 19 May 2020 17:28:51 -0700 (PDT)
 MIME-Version: 1.0
-Return-Path: peter.kjellerstedt@axis.com
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+References: <20200518203644.15991-1-petr.vorel@gmail.com>
+In-Reply-To: <20200518203644.15991-1-petr.vorel@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Tue, 19 May 2020 17:28:25 -0700
+Message-ID: <CAMKF1srsbwSLkcXsfro4B01aWWmp45p7vzA+HR9M-VQLxcr1EA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] ltp: Update to 20200515
+To: Petr Vorel <petr.vorel@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Anuj Mittal <anuj.mittal@intel.com>, He Zhe <zhe.he@windriver.com>, 
+	Anders Roxell <anders.roxell@linaro.org>, Yi Zhao <yi.zhao@windriver.com>, 
+	=?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSYW5keSBNYWNMZW9kIDxyYW5k
-eS5tYWNsZW9kQHdpbmRyaXZlci5jb20+DQo+IFNlbnQ6IGRlbiAxOSBtYWogMjAyMCAyMzo0NQ0K
-PiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+OyBS
-YWh1bCBLdW1hcg0KPiA8cmFodWxrQG12aXN0YS5jb20+DQo+IENjOiBBbGV4YW5kZXIgS2FuYXZp
-biA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT47IFJpY2hhcmQgUHVyZGllDQo+IDxyaWNoYXJkLnB1
-cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPjsgT0UtY29yZSA8b3BlbmVtYmVkZGVkLQ0KPiBjb3Jl
-QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+OyBUcmV2b3IgR2FtYmxpbg0KPiA8dHJldm9yLmdhbWJs
-aW5Ad2luZHJpdmVyLmNvbT4NCj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjJdIGJ6
-aXAyOiBBZGQgdGVzdCBzdWl0ZSBmb3IgYnppcDINCj4gDQo+IE9uIDIwMjAtMDUtMTkgMTI6Mjkg
-cC5tLiwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+IFRoZSBqemxpYiBsaWNlbnNlIGlz
-IGEgdGhyZWUgY2xhdXNlIEJTRCBsaWNlbnNlLCBhbmQgc28gaXMgdGhlDQo+ID4gZ28vTElDRU5T
-RSwgc28geW91IHNob3VsZCBiZSBhYmxlIHRvIHNldCBMSUNFTlNFIGFzOg0KPiA+DQo+ID4gTElD
-RU5TRSA9ICJiemlwMi0xLjAuNiAmIEdQTHYzKyAmIEFwYWNoZS0yLjAgJiBNUy1QTCAmIEJTRC0z
-LUNsYXVzZSAmIFpsaWIiDQo+IA0KPiBQZXRlciwNCj4gDQo+IEkgcmVzcGVjdGZ1bGx5IGRpc2Fn
-cmVlLg0KPiANCj4gVGhlIG9ubHkgc291cmNlIHRoYXQgaXMgX2V4ZWN1dGVkXyBpbiBub3JtYWwg
-dXNlIGJ5IGJ6aXAyLXRlc3QgaXMNCj4gdGhlIHJ1bi10ZXN0cy5zaCBzY3JpcHQgdGhhdCBpcyBs
-aWNlbnNlZCBhcyBHUEx2MysNCg0KV2VsbCwgSSBhbSBkZWZpbml0ZWx5IG5vdCBhIGxhd3llciBl
-aXRoZXIsIGJ1dCBJIGFtIHByZXR0eSBzdXJlIHRoYXQgDQp3aGV0aGVyIHNvbWV0aGluZyB0aGF0
-IGlzIGRpc3RyaWJ1dGVkIHVuZGVyIGEgY2VydGFpbiBsaWNlbnNlIGlzIA0KZXhlY3V0ZWQgb3Ig
-bm90IGlzIGlycmVsZXZhbnQgKHVubGVzcyBvZiBjb3Vyc2UgdGhlIGxpY2Vuc2UgY292ZXJzIA0K
-ZXhlY3V0aW9uIG9mIHRoZSBjb2RlKS4NCg0KPiBUaGUgb3RoZXIgZmlsZXMsIGFsdGhvdWdoIHRo
-ZXkgY2FtZSBmcm9tIHNvdXJjZSBwYWNrYWdlcywNCj4gYXJlICpvbmx5KiB1c2VkIGFzICB0ZXN0
-IGRhdGEuIFRoZSBzb3VyY2UgY29kZSBoYXMgYmVlbiBjb21wbGV0ZWx5DQo+IHN0cmlwcGVkIG91
-dCwgaGFzbid0IGl0Pw0KDQpHaXZlbiB0aGF0IHRoZXkgd2VyZSBvcmlnaW5hbGx5IGRpc3RyaWJ1
-dGVkIGluIGFuIGFyY2hpdmUgdG9nZXRoZXIgDQp3aXRoIGEgTElDRU5TRS9DT1BZSU5HL3NpbWls
-YXIgZmlsZSBjb3ZlcmluZyB0aGUgZW50aXJlIGFyY2hpdmUsIA0KdGhvc2UgZmlsZXMgYXJlIHN0
-aWxsIGNvdmVyZWQgYnkgdGhhdCBsaWNlbnNlIGV2ZW4gaWYgdGhleSBhcmUgbm90IA0Kc291cmNl
-IGZpbGVzIHBlciBzZS4NCg0KPiBJZiwgaW5zdGVhZCBvZiBjb21wcmVzc2VkIGRhdGEsDQo+IHNv
-bWVvbmUgd2VyZSB0byBnaXZlIG1lIGFuIGltYWdlIGZpbGUgY292ZXJlZCBieSBhIGNyZWF0aXZl
-IGNvbW1vbidzDQo+IGxpY2Vuc2UgYW5kIHRoZSBpbWFnZSBoYWQgYSB3YXRlcm1hcmsgdGhhdCB3
-aGVuIGV4dHJhY3RlZCBwcm9kdWNlZA0KPiBmaWxlIHdpdGggc291cmNlIGNvZGUgd2l0aCBhIEZP
-TyBsaWNlbnNlLCB3b3VsZCB5b3UgY2hhbmdlIHRoZQ0KPiBwYWNrYWdlIGxpY2Vuc2UgdG8gaW5j
-bHVkZSBGT08/IEluIGZhY3QsIHdlIGRvbid0IGV2ZW4gbG9vayBhdA0KPiBpbWFnZSBmaWxlIGxp
-Y2Vuc2luZyBsZXQgYWxvbmUgYXQgZW1iZWRkZWQgd2F0ZXJtYXJrcy4NCg0KV2VsbCwgaWYgdGhl
-cmUgaXMgYSBmaWxlIGRpc3RyaWJ1dGVkIGluIHRoZSBwaWN0dXJlIChub3QgdXNpbmcgdGhlIA0K
-d29yZCAiaW1hZ2UiIGhlcmUgdG8gYXZvaWQgY29uZnVzaW5nIHRoZSBkaXNjdXNzaW9uIGFueSBt
-b3JlKSBpbiB0aGUgDQpmb3JtIG9mIGEgd2F0ZXJtYXJrLCB0aGVuIHRoYXQgaXMgbm8gZGlmZmVy
-ZW50IGZyb20gZGlzdHJpYnV0aW5nIGl0IA0KYXMgcGFydCBvZiBhIHRhci5neiBmaWxlIChhbGJl
-aXQgYSBiaXQgdW51c3VhbCkuIFdoYXRldmVyIGxpY2Vuc2UgDQp0aGF0IGZpbGUgaXMgY292ZXJl
-ZCBieSBzdGlsbCBhcHBsaWVzIGluIGJvdGggY2FzZXMuDQoNCkFjdHVhbGx5LCBoZXJlIGlzIHNv
-bWV0aGluZyB0byB0aGluayBhYm91dC4gSSByZWNlbnRseSByZWFkIGFuIA0KYXJ0aWNsZSBwdWJs
-aXNoZWQgYnkgdGhlIExpbnV4IEZvdW5kYXRpb24gY2FsbGVkICJEb2NrZXIgQ29udGFpbmVycyAN
-CmZvciBMZWdhbCBQcm9mZXNzaW9uYWxzIi4gWzFdIFRoZXJlIHRoZXkgZGlzY3Vzc2VkIHRoZSBk
-aXN0cmlidXRpb24gDQpvZiBEb2NrZXIgaW1hZ2VzLiBDb25zaWRlciB0aGlzLCB5b3UgdGFrZSBh
-biBleGlzdGluZyBEb2NrZXIgaW1hZ2UsIA0KZS5nLiwgZmVkb3JhOjMyLCBhbmQgcmVtb3ZlIGV2
-ZXJ5dGhpbmcgdGhhdCBpcyBjb3ZlcmVkIGJ5IEdQTC0zLjAgDQoobm90IHN1cmUgaG93IHRvIGFj
-dHVhbGx5IGFjY29tcGxpc2ggdGhhdCwgYnV0IGFueXdheSkgYW5kIHRoZW4geW91IA0KZGlzdHJp
-YnV0ZSB0aGlzIG5ldyBEb2NrZXIgaW1hZ2UgdG8gc29tZW9uZS4gRG9lcyB0aGlzIG1lYW4gdGhh
-dCANCkdQTC0zLjAgY292ZXJlZCBjb2RlIGlzIGJlaW5nIGRpc3RyaWJ1dGVkPyBUaGUgYW5zd2Vy
-IGlzIHllcy4gDQpCZWNhdXNlIG9mIHRoZSB3YXkgRG9ja2VyIGltYWdlcyBhcmUgbWFkZSB1cCBm
-cm9tIGxheWVycywgeW91IG5lZWQgDQp0byBhZGhlcmUgdG8gdGhlIGxpY2Vuc2VzIGNvdmVyaW5n
-IGV2ZXJ5dGhpbmcgaW4gYWxsIGxheWVycywgbm90IA0KanVzdCB0aGUgZmluYWwgcmVzdWx0LiBB
-bmQgc29tZXdoZXJlIGRvd24gdGhlIHN0YWNrIG9mIGxheWVycyANCm1ha2luZyB1cCB5b3VyIERv
-Y2tlciBpbWFnZSBpcyBzdGlsbCBhbGwgb2YgdGhhdCBHUEwtMy4wIGNvZGUgDQp0aGF0IHlvdSBy
-ZW1vdmVkIGluIGEgaGlnaGVyIGxheWVyLg0KDQo+IEknbSBub3QgYSBsYXd5ZXIgc28gdGhpcyBp
-cyBzaW1wbHkgbXkgb3BpbmlvbiBvbiB0aGUgbWF0dGVyLg0KPiBIb3cgZG8gd2UgY29tZSB0byBh
-biBhZ3JlZW1lbnQ/DQo+IEknZCBiZSBoYXBweSB0byBhZGQgYSBjb21tZW50IGluIHRoZSByZWNp
-cGUgZXhwbGFpbmluZyBvdXIgcG9zaXRpb246DQo+IA0KPiAjIFRoaXMgcGFja2FnZSBjb250YWlu
-cyBhIHNjcmlwdCBhbmQgdGVzdCBkYXRhIHRoaXMgaXMgZGVyaXZlZCBmcm9tDQo+ICMgb3RoZXIg
-c29mdHdhcmUgcGFja2FnZXMgYXMgZXhwbGFpbmVkIGluIHRoZSB0b3AgbGV2ZWwgUkVBRE1FLg0K
-PiAjIEFsdGhvdWdoIHRoZXJlIGFyZSBDT1BZSU5HIGZpbGVzIGV4cGxhaW5pbmcgdGhlIGxpY2Vu
-c2UgdGVybXMNCj4gIyBmb3IgZWFjaCBzdWItZGlyZWN0b3J5LCB0aGUgZmlsZXMgaW4gZWFjaCBk
-aXJlY3RvcnkgYXJlIG9ubHkgdXNlZA0KPiAjIGFzIHRlc3QgZGF0YSBzbyB0aGUgTElDRU5TSU5H
-IHRlcm1zIGRvIG5vdCBhcHBlYXIgdG8gYXBwbHkgdG8NCj4gIyB0aGUgcmVjaXBlIGFzIHdlIHNo
-aXAgaXQgYW5kIGhhdmUgdGhlcmVmb3JlIE5PVCBiZWVuIGluY29ycG9yYXRlZA0KPiAjIGludG8g
-dGhlIGJ6aXAyLXB0ZXN0cyByZWNpcGUgbGljZW5zaW5nIHRhZ3MuDQoNCkkgd291bGQgYmUgdmVy
-eSB3b3JyaWVkIHNlZWluZyBzdWNoIGEgc3RhdGVtZW50LCBhbmQgSSBiZWxpZXZlIGFueSANCmxh
-d3llciB3b3VsZCB0b28uDQoNCj4gSSBjYW4gY29uc3VsdCB3aXRoIHNvbWUgaW50ZWxsZWN0dWFs
-IHByb3BlcnR5IGV4cGVydHMgdGhhdCBJIGtub3cNCj4gYWJvdXQgdGhpcyBwYXJ0aWN1bGFyIGNh
-c2UgaWYgeW91IGxpa2UuDQoNCklmIHlvdSBoYXZlIHRoZSBwb3NzaWJpbGl0eSB0byBkbyBzbywg
-SSB0aGluayBpdCBtYXkgYmUgYSBnb29kIGlkZWEuDQoNCj4gLi4vUmFuZHkNCg0KLy9QZXRlcg0K
-DQpbMV0gaHR0cHM6Ly93d3cubGludXhmb3VuZGF0aW9uLm9yZy93cC1jb250ZW50L3VwbG9hZHMv
-MjAyMC8wNC9Eb2NrZXItQ29udGFpbmVycy1mb3ItTGVnYWwtUHJvZmVzc2lvbmFscy1XaGl0ZXBh
-cGVyX3Y0LmFjXy0zLnBkZg0KDQo+ID4gWW91IGFsc28gbmVlZCB0byBhZGQ6DQo+ID4NCj4gPiBM
-SUNFTlNFXyR7UE59ID0gImJ6aXAyLTEuMC42Ig0KPiA+DQo+ID4gTElDRU5TRV8ke1BOfS1kZXYg
-PSAiYnppcDItMS4wLjYiDQo+ID4NCj4gPiBMSUNFTlNFXyR7UE59LWRiZyA9ICJiemlwMi0xLjAu
-NiINCj4gPg0KPiA+IExJQ0VOU0VfJHtQTn0tZG9jID0gImJ6aXAyLTEuMC42Ig0KPiA+DQo+ID4g
-TElDRU5TRV8ke1BOfS1zcmMgPSAiYnppcDItMS4wLjYiDQo+ID4NCj4gPiBMSUNFTlNFX2xpYmJ6
-MiA9ICJiemlwMi0xLjAuNiINCj4gPg0KPiA+IHNvIHRoZSBub24tcHRlc3QgcGFja2FnZXMgYXJl
-IG5vdCBhZmZlY3RlZCBieSB0aGUgbGljZW5zZXMgZm9yIHRoZQ0KPiBwdGVzdA0KPiA+IHBhY2th
-Z2UuDQo+ID4NCj4gPiAvL1BldGVyDQo+ID4NCj4gPiAqRnJvbToqUmFodWwgS3VtYXIgPHJhaHVs
-a0BtdmlzdGEuY29tPg0KPiA+ICpTZW50OiogZGVuIDE5IG1haiAyMDIwIDEzOjU4DQo+ID4gKlRv
-OiogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+DQo+ID4g
-KkNjOiogUmFuZHkgTWFjTGVvZCA8cmFuZHkubWFjbGVvZEB3aW5kcml2ZXIuY29tPjsgQWxleGFu
-ZGVyIEthbmF2aW4NCj4gPiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT47IFJpY2hhcmQgUHVyZGll
-DQo+ID4gPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+OyBPRS1jb3JlDQo+ID4g
-PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+OyBUcmV2b3IgR2FtYmxp
-bg0KPiA+IDx0cmV2b3IuZ2FtYmxpbkB3aW5kcml2ZXIuY29tPg0KPiA+ICpTdWJqZWN0OiogUmU6
-IFtPRS1jb3JlXSBbUEFUQ0ggdjJdIGJ6aXAyOiBBZGQgdGVzdCBzdWl0ZSBmb3IgYnppcDINCj4g
-Pg0KPiA+IEhpIFBldGVyLA0KPiA+DQo+ID4gSSBhbSBzaGFyaW5nIGEgZmV3IGluZm9ybWF0aW9u
-IHJlbGF0ZWQgdG8gYnppcDItdGVzdCBzb3VyY2UgYW5kDQo+ID4gbGljZW5zaW5nIGluZm9ybWF0
-aW9uLg0KPiA+IEFzIHBlciB5b3VyIHN1Z2dlc3Rpb24gYW5kIGFzIHBlciBteSB1bmRlcnN0YW5k
-aW5nIEkgYWRkZWQgTGljZW5zZSB0bw0KPiA+IHRoZSBiemlwMiByZWNpcGUgZmlsZS4NCj4gPg0K
-PiA+IGJ6aXAyLXRlc3RzLmdpdCBzb3VyY2UgdHJlZSBzdHJ1Y3R1cmUgaXMgZ2l2ZW4gYmVsb3cN
-Cj4gPiAoaGVyZSBzaG93aW5nIGxpY2VuY2UgcmVsYXRlZCBmbGUsIHJlbW92ZWQgb3RoZXIgZmls
-ZSBuYW1lcyApDQo+ID4NCj4gPiBiemlwMi10ZXN0cy5naXQvDQo+ID4g4pSc4pSA4pSAY29tbW9u
-cy1jb21wcmVzcw0KPiA+IOKUgiDilJzilIDilIBMSUNFTlNFLnR4dA0KPiA+IOKUgg0KPiA+IOKU
-nOKUgOKUgGRvdG5ldHppcA0KPiA+IOKUgiDilJzilIDilIBMaWNlbnNlLnR4dA0KPiA+IOKUgiDi
-lJzilIDilIBMaWNlbnNlLnpsaWIudHh0DQo+ID4gfA0KPiA+IOKUnOKUgOKUgGdvDQo+ID4g4pSC
-IOKUnOKUgOKUgExJQ0VOU0UNCj4gPiDilIINCj4gPiDilJzilIDilIBsYnppcDINCj4gPiDilJzi
-lIDilIBweWZsYXRlDQo+ID4g4pSc4pSA4pSAUkVBRE1FDQo+ID4g4pSU4pSA4pSAIHJ1bi10ZXN0
-cy5zaA0KPiA+DQo+ID4gc291cmNlIGNvZGUgbGluazoNCj4gPiBodHRwczovL3NvdXJjZXdhcmUu
-b3JnL2dpdC9iemlwMi10ZXN0cy5naXQNCj4gPg0KPiA+IGJ6aXAyLXRlc3RzLmdpdCBzb3VyY2Ug
-Y29udGFpbnMNCj4gPiAxKSBjb21tYW4tY29tbXByZXNzOiB3aGljaCBpcyBPcmlnaW5hbGx5IGRp
-c3RyaWJ1dGVkIHVuZGVyIHRoZSBBcGFjaGUNCj4gPiBMaWNlbnNlIFZlcnNpb24gMi4wLg0KPiA+
-DQo+ID4gU2VlIExJQ0VOU0UudHh0DQo+ID4NCj4gPg0KPiA+IDIpIGRvdG5ldHppcDoNCj4gPiAo
-aSkgwqBUaGUgRG90TmV0WmlwIExpYnJhcnkgaXMgZGlzdHJpYnV0ZWQgdW5kZXIgdGhlIE1pY3Jv
-U29mdCBQdWJsaWMNCj4gTGljZW5zZQ0KPiA+ICDCoCDCoCAoTXMtUEwpIHNlZSB0aGUgTGljZW5z
-ZS50eHQgZmlsZS4NCj4gPiAoaWkpIFRoZSBCWjIgcmVsYXRlZCByZXNvdXJjZXMgYXJlIGRpc3Ry
-aWJ1dGVkIHVuZGVyIHRoZSBsaWNlbnNlcyBpbg0KPiA+IExpY2Vuc2UuemxpYi50eHQuDQo+ID4N
-Cj4gPiAzKSBnbzoNCj4gPg0KPiA+ICDCoEdvIGlzIGRpc3RyaWJ1dGVkIHVuZGVyIGEgQlNELXN0
-eWxlIGxpY2Vuc2UuDQo+ID4gIMKgU2VlIHRoZSBMSUNFTlNFIGZpbGUuDQo+ID4NCj4gPiA0KSBs
-YnppcDI6DQo+ID4gbGJ6aXAyIGlzIGZyZWUgc29mdHdhcmU6IHlvdSBjYW4gcmVkaXN0cmlidXRl
-IGl0IGFuZC9vciBtb2RpZnkgaXQgdW5kZXINCj4gdGhlDQo+ID4gdGVybXMgb2YgdGhlIEdOVSBH
-ZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGFzIHB1Ymxpc2hlZCBieSB0aGUgRnJlZQ0KPiBTb2Z0d2Fy
-ZQ0KPiA+IEZvdW5kYXRpb24sIGVpdGhlciB2ZXJzaW9uIDMgb2YgdGhlIExpY2Vuc2UsIG9yIChh
-dCB5b3VyIG9wdGlvbikgYW55DQo+IGxhdGVyDQo+ID4gdmVyc2lvbg0KPiA+DQo+ID4gNSkgcHlm
-bGF0ZTogWW91IG1heSB1c2UgYW5kIGRpc3RyaWJ1dGUgdGhpcyBjb2RlIGFuZCBkb2N1bWVudGF0
-aW9uDQo+IHVuZGVyIGFueQ0KPiA+ICDCoCDCoCDCoCDCoCDCoCDCoCBERlNHLWNvbXBhdGlibGUg
-bGljZW5zZSAoZWcuIEJTRCwgR05VIEdQTHYyKS4NCj4gPg0KPiA+IDYpIHJ1bi10ZXN0cy5zaDog
-eW91IGNhbiByZWRpc3RyaWJ1dGUgaXQgYW5kL29yIG1vZGlmeSBpdCB1bmRlciB0aGUNCj4gPiB0
-ZXJtcyBvZiB0aGUgR05VIEdlbmVyYWwgUHVibGljIExpY2Vuc2UgKEdQTCk7IGVpdGhlcg0KPiA+
-ICDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoHZlcnNpb24gMywgb3IgKGF0IHlvdXIgb3B0aW9u
-KSBhbnkgbGF0ZXIgdmVyc2lvbi4NCj4gPg0KPiA+DQo+ID4gU08gaW4gcmVjaXBlIEkgYWRkZWQg
-dGhlIExpY2Vuc2UgbGlrZSBiZWxvdw0KPiA+IExJQ0VOU0UgPSAiYnppcDItMS4wLjYgJiBHUEx2
-MysgJiBBcGFjaGUtMi4wICYgTVMtUEwgJiBCU0QgIg0KPiA+IExJQ0VOU0VfJHtQTn0tcHRlc3Qg
-PSAiR1BMdjMrICYgQXBhY2hlLTIuMCAmIE1TLVBMICYgQlNEIg0KPiA+IExJQ19GSUxFU19DSEtT
-VU0gPQ0KPiA+DQo+ICJmaWxlOi8vTElDRU5TRTtiZWdpbmxpbmU9NDtlbmRsaW5lPTM3O21kNT02
-MDBhZjQzYzUwZjFmY2I4MmUzMmYxOWIzMmRmNDYNCj4gNjQNCj4gPiBcDQo+ID4NCj4gPiBmaWxl
-Oi8vJHtXT1JLRElSfS9naXQvY29tbW9ucy0NCj4gY29tcHJlc3MvTElDRU5TRS50eHQ7bWQ1PTg2
-ZDNmM2E5NWMzMjRjOTQ3OWJkODk4Njk2OGY0MzI3DQo+ID4gXCAjIEZvciBjb21tYW4tY29tbXBy
-ZXNzIChBcGFjaGUtMi4wKQ0KPiA+DQo+ID4NCj4gZmlsZTovLyR7V09SS0RJUn0vZ2l0L2RvdG5l
-dHppcC9MaWNlbnNlLnR4dDttZDU9OWNiNTY4NzFlZWQ0ZTc0OGMzYmM3ZThmZg0KPiAzNTJhNTRm
-DQo+ID4gXCDCoCDCoCDCoCMgRm9yIGRvdG5ldHppcCAoTXMtUEwpDQo+ID4NCj4gPg0KPiBmaWxl
-Oi8vJHtXT1JLRElSfS9naXQvZG90bmV0emlwL0xpY2Vuc2UuemxpYi50eHQ7bWQ1PWNjNDIxY2Nk
-MjJlZWIyZTVkYjZiDQo+IDc5ZTZkZTBhMDI5Zg0KPiA+IFwgwqAgIyBGb3IgZG90bmV0emlwIMKg
-KGp6bGliICt6bGliKQ0KPiA+DQo+ID4gZmlsZTovLyR7V09SS0RJUn0vZ2l0L2dvL0xJQ0VOU0U7
-bWQ1PTVkNDk1MGVjYjdiMjZkMmM1ZTRlN2I0ZTBkZDc0NzA3IFwNCj4gPiAgwqAgwqAgwqAjIEZv
-ciBnbyAoQlNELXN0eWxlIGxpY2Vuc2UpDQo+ID4NCj4gPiBoZXJlIEkgbmVlZCBmZXcgc3VnZ2Vz
-dGlvbjoNCj4gPg0KPiA+IDEpIEkgYWRkZWQgdGhlIEJTRCBhbmQgR1BMdjMrIGxpY2Vuc2UgaW4g
-TElDRU5TRSBhbmQgTElDRU5TRV8ke1BOfS0NCj4gcHRlc3QuDQo+ID4gIMKgIMKgYnV0IG5vdCBh
-ZGRlZCBMSUNfRklMRVNfQ0hLU1VNIGZvciBHUEx2MyBhbmQgQlNEIGJlY2F1c2UNCj4gPiBiemlw
-Mi10ZXN0cy5naXQgc291cmNlIGNvZGUgZG9lc24ndCBoYXZlIEdQTHYzIGFuZCBCU0QgTGljZW5z
-ZSB0ZXh0DQo+IGZpbGUNCj4gPiBsaWtlIG90aGVyDQo+ID4gIMKgIMKgZGlyZWN0b3JpZXMuDQo+
-ID4NCj4gPiAyKSBMaWNlbnNlLnpsaWIudHh0OiBUaGlzIGlzIGEgY29tYmluYXRpb24gb2YgdHdv
-IGxpY2VuY2UganpsaWIgYW5kDQo+ID4gemxpYi4gSW4gbWV0YS9maWxlcy9jb21tb24tbGljZW5z
-ZXMgWmxpYiBsaWNlbnNlIGlzIGF2YWlsYWJsZSBidXQgbm90DQo+IGp6bGliLg0KPiA+ICDCoCDC
-oEluIHRoaXMgY2FzZSBob3cgY2FuIEkgcHJvY2VlZD8NCj4gPg0KPiA+IEtpbmRseSBjb21tZW50
-IG9uIHRoaXMgYW5kIGZlZWwgZnJlZSB0byBwb2ludCBvdXQgaWYgaSBhbSB3cm9uZyBhdCBhbnkN
-Cj4gPiBwbGFjZS4NCj4gPg0KPiA+ICpUaGFua3MgJiBSZWdhcmRzLCoNCj4gPg0KPiA+IFJhaHVs
-IEt1bWFyDQo+ID4NCj4gPiBTb2Z0d2FyZSBFbmdpbmVlcixMaW51eCBTb2x1dGlvbnMgRW5naW5l
-ZXJpbmcNCj4gPg0KPiA+IEdyb3VwLE1vbnRhdmlzdGEgU29mdHdhcmUgTExDDQo+ID4NCj4gPiBF
-bWFpbCBJZDogcmFodWxrQG12aXN0YS5jb20gPG1haWx0bzpyYWh1bGtAbXZpc3RhLmNvbT4NCj4g
-PiA8aHR0cHM6Ly9wbHVzLmdvb2dsZS5jb20vK0NvZGVUd29Tb2Z0d2FyZT4NCj4gPg0KPiA+IE9u
-IE1vbiwgTWF5IDE4LCAyMDIwIGF0IDE6MTggQU0gUGV0ZXIgS2plbGxlcnN0ZWR0DQo+ID4gPHBl
-dGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbSA8bWFpbHRvOnBldGVyLmtqZWxsZXJzdGVkdEBheGlz
-LmNvbT4+DQo+IHdyb3RlOg0KPiA+DQo+ID4gICAgIEFzIEkgd3JvdGUgaW4gbXkgcHJldmlvdXMg
-bWFpbCwgd2hlbiBpdCBjb21lcyB0byBsaWNlbnNlcywgaXQgaXMNCj4gdGhlDQo+ID4gICAgIGRp
-c3RyaWJ1dGlvbiB0aGF0IGlzIGltcG9ydGFudC4gU28gaWYgeW91IGJ1aWxkIGEgcGFja2FnZQ0K
-PiA+ICAgICAoYnppcDItcHRlc3QpIHRoYXQgaW5jbHVkZXMgY29kZSB0aGF0IGlzIEdQTC0zLjAs
-IGl0IGRvZXMgbm90DQo+IG1hdHRlcg0KPiA+ICAgICBpZiB0aGF0IGNvZGUgaXMgb25seSB1c2Vk
-IGFzIGEgYmluYXJ5IGJsb2IsIGl0IGlzIHN0aWxsIGRpc3RyaWJ1dGVkDQo+ID4gICAgIGluIHRo
-ZSBwYWNrYWdlLCBhbmQgdGh1cyB0aGUgcGFja2FnZSBuZWVkcyB0byBiZSBjb3ZlcmVkIGJ5IHRo
-ZQ0KPiA+ICAgICBHUEwtMy4wIGxpY2Vuc2UuDQo+ID4NCj4gPiAgICAgLy9QZXRlcg0KPiA+DQo+
-ID4gICAgICpGcm9tOipvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+
-ID4gICAgIDxtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4N
-Cj4gPiAgICAgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiAg
-ICAgPG1haWx0bzpvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPj4gKk9u
-IEJlaGFsZiBPZg0KPiA+ICAgICAqUmFodWwgS3VtYXINCj4gPiAgICAgKlNlbnQ6KiBkZW4gMTcg
-bWFqIDIwMjAgMjE6MTgNCj4gPiAgICAgKlRvOiogUmFuZHkgTWFjTGVvZCA8cmFuZHkubWFjbGVv
-ZEB3aW5kcml2ZXIuY29tDQo+ID4gICAgIDxtYWlsdG86cmFuZHkubWFjbGVvZEB3aW5kcml2ZXIu
-Y29tPj4NCj4gPiAgICAgKkNjOiogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFp
-bC5jb20NCj4gPiAgICAgPG1haWx0bzphbGV4LmthbmF2aW5AZ21haWwuY29tPj47IFJpY2hhcmQg
-UHVyZGllDQo+ID4gICAgIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnDQo+ID4g
-ICAgIDxtYWlsdG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4+OyBPRS1jb3Jl
-DQo+ID4gICAgIDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4g
-ICAgIDxtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4+OyBU
-cmV2b3IgR2FtYmxpbg0KPiA+ICAgICA8dHJldm9yLmdhbWJsaW5Ad2luZHJpdmVyLmNvbQ0KPiA8
-bWFpbHRvOnRyZXZvci5nYW1ibGluQHdpbmRyaXZlci5jb20+Pg0KPiA+ICAgICAqU3ViamVjdDoq
-IFJlOiBbT0UtY29yZV0gW1BBVENIIHYyXSBiemlwMjogQWRkIHRlc3Qgc3VpdGUgZm9yIGJ6aXAy
-DQo+ID4NCj4gPiAgICAgSGkgUmFuZHksDQo+ID4NCj4gPiAgICAgcGF0Y2ggaGFzIGJlZW4gYWNj
-ZXB0ZWQgYnkgYnppcDIgY29tbXVuaXR5IHdpdGggYWRkaXRpb25hbCBjaGFuZ2VzLg0KPiA+ICAg
-ICBodHRwczovL3NvdXJjZXdhcmUub3JnL2dpdC8/cD1iemlwMi0NCj4gdGVzdHMuZ2l0O2E9Y29t
-bWl0O2g9ZjkwNjFjMDMwYTI1ZGU1YjY4MjllMWFiZjM3MzA1NzMwOWM3MzRjMA0KPiA+DQo+ID4N
-Cj4gPiAgICAgU28gSSBuZWVkIHlvdXIgc3VnZ2VzdGlvbiB3aXRoIHJlc3BlY3QgdG8gWW9jdG8u
-DQo+ID4NCj4gPiAgICAgU2luY2UgcmVxdWlyZWQgY2hhbmdlcyBmb3IgcHRlc3QgaW5mcmFzdHJ1
-Y3R1cmUgaXMgaW50ZWdyYXRlZCB0bw0KPiB0aGUNCj4gPiAgICAgYnppcDItdGVzdHMuZ2l0IHNv
-dXJjZSBjb2RlLg0KPiA+ICAgICBTbyBub3cgd2UgY2FuIGp1c3QgY2hhbmdlIHRoZSBTUkNSRVYg
-d2l0aCB0aGUgbGF0ZXN0IGNvbW1pdCBpbnN0ZWFkDQo+ID4gICAgIG9mIGFwcGx5aW5nIHRoZSBw
-YXRjaCB0byB0aGUgYnppcDItdGVzdHMuZ2l0IHNvdXJjZSBjb2RlLg0KPiA+DQo+ID4gICAgIEFu
-ZCBzaW5jZSB3ZSBhcmUganVzdCBpbnRlZ3JhdGluZyB0aGUgYnppcDItdGVzdHMgc291cmNlIHRv
-IHRoZQ0KPiA+ICAgICBiemlwMiByZWNpcGUgYW5kIG5vdCBtb2RpZnlpbmcgYW55IGZpbGUgc28g
-aSB0aGluayBubyBuZWVkIHRvIGFkZA0KPiA+ICAgICBhbnkgTGljZW5zZSBmb3IgaXQuDQo+ID4N
-Cj4gPg0KPiA+ICAgICBOb3cgcGF0Y2ggd2lsbCBsb29rIGxpa2UNCj4gPg0KPiA9PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT0NCj4gPiAgICAgLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2J6aXAyL2J6aXAyL01ha2Vm
-aWxlLmFtDQo+ID4gICAgICsrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9iemlwMi9iemlwMi9N
-YWtlZmlsZS5hbQ0KPiA+ICAgICBAQCAtNDYsNiArNDYsNyBAQCBydW50ZXN0Og0KPiA+ICAgICAg
-wqAgwqAgwqAgwqAgZWxzZSBlY2hvICJGQUlMOiBzYW1wbGUyIGRlY29tcHJlc3MiOyBmaQ0KPiA+
-ICAgICAgwqAgwqAgwqAgwqAgQGlmIGNtcCBzYW1wbGUzLnRzdCBzYW1wbGUzLnJlZjsgdGhlbiBl
-Y2hvICJQQVNTOiBzYW1wbGUzDQo+ID4gICAgIGRlY29tcHJlc3MiO1wNCj4gPiAgICAgIMKgIMKg
-IMKgIMKgIGVsc2UgZWNobyAiRkFJTDogc2FtcGxlMyBkZWNvbXByZXNzIjsgZmkNCj4gPiAgICAg
-KyDCoCDCoCDCoCAuL2J6aXAyLXRlc3RzL3J1bi10ZXN0cy5zaCAtLXRlc3RzLWRpcj0iJChQV0Qp
-L2J6aXAyLXRlc3RzIg0KPiA+DQo+ID4gICAgICDCoGluc3RhbGwtcHRlc3Q6DQo+ID4gICAgICDC
-oCDCoCDCoCDCoCBzZWQgwqAtbiAnL15ydW50ZXN0Oi8sL15pbnN0YWxsLXB0ZXN0Oi97L15pbnN0
-YWxsLQ0KPiBwdGVzdDovIXB9JyBcDQo+ID4gICAgIEBAIC01Niw2ICs1Nyw3IEBAIGluc3RhbGwt
-cHRlc3Q6DQo+ID4gICAgICDCoCDCoCDCoCDCoCBjcCAkKHNyY2Rpcikvc2FtcGxlMS5iejIgwqAg
-wqAgwqAgwqAkKERFU1RESVIpLw0KPiA+ICAgICAgwqAgwqAgwqAgwqAgY3AgJChzcmNkaXIpL3Nh
-bXBsZTIuYnoyIMKgIMKgIMKgIMKgJChERVNURElSKS8NCj4gPiAgICAgIMKgIMKgIMKgIMKgIGNw
-ICQoc3JjZGlyKS9zYW1wbGUzLmJ6MiDCoCDCoCDCoCDCoCQoREVTVERJUikvDQo+ID4gICAgICsg
-wqAgwqAgwqAgY3AgLXJmICQoc3JjZGlyKS8uLi9naXQgwqAgwqAgwqAgwqAgJChERVNURElSKS9i
-emlwMi10ZXN0cw0KPiA+ICAgICAgwqAgwqAgwqAgwqAgbG4gLXMgJChiaW5kaXIpL2J6aXAyIMKg
-IMKgIMKgIMKgIMKgICQoREVTVERJUikvYnppcDINCj4gPg0KPiA+ICAgICAgwqBpbnN0YWxsLWV4
-ZWMtaG9vazoNCj4gPiAgICAgZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9iemlw
-Mi9iemlwMl8xLjAuOC5iYg0KPiA+ICAgICA8aHR0cDovL2J6aXAyXzEuMC44LmJiPiBiL21ldGEv
-cmVjaXBlcy0NCj4gZXh0ZW5kZWQvYnppcDIvYnppcDJfMS4wLjguYmINCj4gPiAgICAgPGh0dHA6
-Ly9iemlwMl8xLjAuOC5iYj4NCj4gPiAgICAgaW5kZXggZDU4ZjU1My4uYzVhYTY5MCAxMDA2NDQN
-Cj4gPiAgICAgLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2J6aXAyL2J6aXAyXzEuMC44LmJi
-DQo+IDxodHRwOi8vYnppcDJfMS4wLjguYmI+DQo+ID4gICAgICsrKyBiL21ldGEvcmVjaXBlcy1l
-eHRlbmRlZC9iemlwMi9iemlwMl8xLjAuOC5iYg0KPiA8aHR0cDovL2J6aXAyXzEuMC44LmJiPg0K
-PiA+ICAgICBAQCAtOCwxMyArOCwxNyBAQCBMSUNFTlNFID0gImJ6aXAyLTEuMC42Ig0KPiA+ICAg
-ICAgwqBMSUNfRklMRVNfQ0hLU1VNID0NCj4gPg0KPiAiZmlsZTovL0xJQ0VOU0U7YmVnaW5saW5l
-PTQ7ZW5kbGluZT0zNzttZDU9NjAwYWY0M2M1MGYxZmNiODJlMzJmMTliMzJkZjQ2DQo+IDY0Ig0K
-PiA+DQo+ID4gICAgICDCoFNSQ19VUkkgPSAiaHR0cHM6Ly9zb3VyY2V3YXJlLm9yZy9wdWIvJHtC
-UE59LyR7QlBOfS0ke1BWfS50YXIuZ3oNCj4gPiAgICAgPGh0dHBzOi8vc291cmNld2FyZS5vcmcv
-cHViLyQlN2JCUE4lN2QvJCU3YkJQTiU3ZC0kJTdiUFYlN2QudGFyLmd6Pg0KPiBcDQo+ID4gICAg
-ICsNCj4gPiAgICAgZ2l0Oi8vc291cmNld2FyZS5vcmcvZ2l0L2J6aXAyLXRlc3RzLmdpdDtuYW1l
-PWJ6aXAyLXRlc3RzDQo+ID4gICAgIDxodHRwOi8vc291cmNld2FyZS5vcmcvZ2l0L2J6aXAyLXRl
-c3RzLmdpdDtuYW1lPWJ6aXAyLXRlc3RzPiBcDQo+ID4gICAgICDCoCDCoCDCoCDCoCDCoCDCoCBm
-aWxlOi8vY29uZmlndXJlLmFjIDxodHRwOi8vY29uZmlndXJlLmFjPjtzdWJkaXI9JHtCUH0NCj4g
-XA0KPiA+ICAgICAgwqAgwqAgwqAgwqAgwqAgwqAgZmlsZTovL01ha2VmaWxlLmFtO3N1YmRpcj0k
-e0JQfSBcDQo+ID4gICAgICDCoCDCoCDCoCDCoCDCoCDCoCBmaWxlOi8vcnVuLXB0ZXN0IFwNCj4g
-PiAgICAgIMKgIMKgIMKgIMKgIMKgIMKgICINCj4gPiAgICAgKw0KPiA+ICAgICAgwqBTUkNfVVJJ
-W21kNXN1bV0gPSAiNjdlMDUxMjY4ZDBjNDc1ZWE3NzM4MjJmNzUwMGQwZTUiDQo+ID4gICAgICDC
-oFNSQ19VUklbc2hhMjU2c3VtXSA9DQo+ID4gICAgICJhYjVhMDMxNzZlZTEwNmQzZjBmYTkwZTM4
-MWRhNDc4ZGRhZTQwNTkxODE1M2NjYTI0OGU2ODJjZDBjNGEyMjY5Ig0KPiA+DQo+ID4gICAgICtT
-UkNSRVZfYnppcDItdGVzdHMgPSAiZjkwNjFjMDMwYTI1ZGU1YjY4MjllMWFiZjM3MzA1NzMwOWM3
-MzRjMCINCj4gKjw8DQo+ID4gICAgIHRoaXMgY29tbWl0IElkIGluY2x1ZGVzIGxhdGVzdCBjaGFy
-Z2VzIGZvciBwdGVzdCBpbmZyYXN0cnVjdC4qDQo+ID4gICAgICsNCj4gPiAgICAgIMKgVVBTVFJF
-QU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vd3d3LnNvdXJjZXdhcmUub3JnL3B1Yi9iemlwMi8iDQo+
-ID4NCj4gPiAgICAgIMKgUEFDS0FHRVMgPSsgImxpYmJ6MiINCj4gPiAgICAgQEAgLTM5LDcgKzQz
-LDcgQEAgZG9faW5zdGFsbF9wdGVzdCAoKSB7DQo+ID4NCj4gPiAgICAgIMKgRklMRVNfbGliYnoy
-ID0gIiR7bGliZGlyfS9saWIqJHtTT0xJQlN9Ig0KPiA+DQo+ID4gICAgIC1SREVQRU5EU18ke1BO
-fS1wdGVzdCArPSAibWFrZSINCj4gPiAgICAgK1JERVBFTkRTXyR7UE59LXB0ZXN0ICs9ICJtYWtl
-IGJhc2giDQo+ID4NCj4gPiAgICAgIMKgUFJPVklERVNfYXBwZW5kX2NsYXNzLW5hdGl2ZSA9ICIg
-YnppcDItcmVwbGFjZW1lbnQtbmF0aXZlIg0KPiA+ICAgICAgwqBCQkNMQVNTRVhURU5EID0gIm5h
-dGl2ZSBuYXRpdmVzZGsiDQo+ID4NCj4gPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQ0KPiA9PT09PT09PQ0KPiA+
-DQo+ID4gICAgIEtpbmRseSBjb21tZW50IG9uIGl0IGFuZCBmZWVsIGZyZWUgdG8gcG9pbnQgb3V0
-LCBpZiBpIGFtIHdyb25nIGF0DQo+ID4gICAgIGFueSBwbGFjZS4NCj4gPg0KPiA+ICAgICAqVGhh
-bmtzICYgUmVnYXJkcywqDQo+ID4NCj4gPiAgICAgUmFodWwgS3VtYXINCj4gPg0KPiA+ICAgICBT
-b2Z0d2FyZSBFbmdpbmVlcixMaW51eCBTb2x1dGlvbnMgRW5naW5lZXJpbmcNCj4gPg0KPiA+ICAg
-ICBHcm91cCxNb250YXZpc3RhIFNvZnR3YXJlIExMQw0KPiA+DQo+ID4gICAgIEVtYWlsIElkOiBy
-YWh1bGtAbXZpc3RhLmNvbSA8bWFpbHRvOnJhaHVsa0BtdmlzdGEuY29tPg0KPiA+ICAgICA8aHR0
-cHM6Ly9wbHVzLmdvb2dsZS5jb20vK0NvZGVUd29Tb2Z0d2FyZT4NCj4gPg0KPiA+ICAgICBPbiBG
-cmksIE1heSAxLCAyMDIwIGF0IDY6NTYgQU0gUmFuZHkgTWFjTGVvZA0KPiA+ICAgICA8cmFuZHku
-bWFjbGVvZEB3aW5kcml2ZXIuY29tIDxtYWlsdG86cmFuZHkubWFjbGVvZEB3aW5kcml2ZXIuY29t
-Pj4NCj4gPiAgICAgd3JvdGU6DQo+ID4NCj4gPiAgICAgICAgIE9uIDIwMjAtMDQtMjcgMzozOSBw
-Lm0uLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90ZToNCj4gPiAgICAgICAgICA+IFlvdSBuZWVkIHRv
-IGZpcnN0IHNlZSBmcm9tIHRoZSBmYWlsdXJlIHBhZ2Ugd2hpY2gNCj4gPiAgICAgICAgIGNvbmZp
-Z3VyYXRpb24gaXMNCj4gPiAgICAgICAgICA+IGZhaWxpbmcsIGZvciBleGFtcGxlIG5vbi1ncGwz
-IGlzIG9uZSBzdWNoLg0KPiA+ICAgICAgICAgID4NCj4gPiAgICAgICAgICA+IFRoZW4geW91IGZp
-bmQgdGhhdCBjb25maWd1cmF0aW9uIGluIGNvbmZpZy5qc29uLiBUaGUgYmVsb3cNCj4gPiAgICAg
-ICAgIHNob3VsZA0KPiA+ICAgICAgICAgID4gaG9wZWZ1bGx5IGJlIHNlbGYtZXhwbGFuYXRvcnkg
-aW4gaG93IHlvdSBzaG91bGQgc2V0IHVwIHRoZQ0KPiBidWlsZD8NCj4gPiAgICAgICAgICA+DQo+
-ID4gICAgICAgICAgPiB8Im5vbi1ncGwzIiA6IHsgIk5FRURSRVBPUyIgOiBbInBva3kiLCAibWV0
-YS1ncGx2MiJdLA0KPiA+ICAgICAgICAgIk1BQ0hJTkUiIDoNCj4gPiAgICAgICAgICA+ICJxZW11
-eDg2IiwgIkJCVEFSR0VUUyIgOiAiY29yZS1pbWFnZS1taW5pbWFsDQo+ID4gICAgICAgICBjb3Jl
-LWltYWdlLWZ1bGwtY21kbGluZSIsDQo+ID4gICAgICAgICAgPiAiZXh0cmF2YXJzIiA6IFsgIklO
-Q09NUEFUSUJMRV9MSUNFTlNFID0gJypHUEx2MyciLA0KPiA+ICAgICAgICAgIldBUk5fUUFfcmVt
-b3ZlID0NCj4gPiAgICAgICAgICA+ICdpbmNvbXBhdGlibGUtbGljZW5zZSciIF0sICJFWFRSQUNN
-RFMiIDogWw0KPiA+ICAgICAgICAgID4gIi4uLy4uL3lvY3RvLWF1dG9idWlsZGVyLWhlbHBlci9z
-Y3JpcHRzL2NoZWNrLWdwbHYzIiBdIH0sDQo+ID4gICAgICAgICAgPg0KPiA+ICAgICAgICAgID4g
-fA0KPiA+ICAgICAgICAgID4NCj4gPiAgICAgICAgICA+IHwNCj4gPiAgICAgICAgICA+IHwNCj4g
-PiAgICAgICAgICA+DQo+ID4gICAgICAgICAgPiB8QWxleA0KPiA+DQo+ID4gICAgICAgICBIaSBS
-YWh1bCwNCj4gPg0KPiA+ICAgICAgICAgU29ycnkgZm9yIG15IGxhdGUgcmVwbHkuDQo+ID4NCj4g
-PiAgICAgICAgIFRoZSBjb21taXQgbG9nIGZvciB2MiBpcyB2ZXJ5IGdvb2Qgbm93IQ0KPiA+ICAg
-ICAgICAgVGhhbmtzIGZvciBpbmNvcnBvcmF0aW5nIG15IC0tcGVkYW50aWMgc3VnZ2VzdGlvbnMu
-IDstKQ0KPiA+DQo+ID4gICAgICAgICBJdCBzZWVtcyB0aGF0IHlvdSBuZWVkIGEgcGVybCBkZXBl
-bmRlbmN5IGZvciBzb21ldGhpbmcgKGRvY3M/DQo+ID4gICAgICAgICAgwqAgwqAgJCBjZCAuLi4v
-YnppcDIuZ2l0DQo+ID4gICAgICAgICAgwqAgwqAgJCBncmVwIC1yICJwZXJsICIgKg0KPiA+ICAg
-ICAgICAgIMKgIMKgIGZvcm1hdC5wbDojIS91c3IvYmluL3BlcmwgLXcNCj4gPiAgICAgICAgICDC
-oCDCoCBSRUFETUUuWE1MLlNUVUZGOkl0IHVzZXMgZm9ybWF0LnBsIDxodHRwOi8vZm9ybWF0LnBs
-PiwgYQ0KPiA+ICAgICAgICAgcGVybCBzY3JpcHQuLi4NCj4gPg0KPiA+ICAgICAgICAgVGhlbiB3
-ZSBuZWVkIHRvIGZpZ3VyZSBvdXQgaG93IHRvIGRlYWwgd2l0aCB0aGUgR1BMdjMgaXNzdWUuDQo+
-ID4NCj4gPiAgICAgICAgIFRoZSBidWlsZGJvdCBvdXRwdXQgY2FuIGJlIHRlZGlvdXMgdG8gZmln
-dXJlIG91dC4gSSBoYXZlbid0DQo+IHJlYWxseQ0KPiA+ICAgICAgICAgc3BlbnQgZW5vdWdoIHRp
-bWUgcGx1Z2dpbmcgYXdheSBhdCBpdCB0byBiZSBwcm9maWNpZW50IHlldA0KPiBlaXRoZXIuDQo+
-ID4gICAgICAgICBIYXZlIHlvdSBiZWVuIGFibGUgdG8gcmVwcm9kdWNlIHRoZSBwcm9ibGVtcyB0
-aGF0IFJpY2hhcmQNCj4gcmVwb3J0ZWQ/DQo+ID4gICAgICAgICBJZiBub3QsIGFuZCB5b3UndmUg
-dHJpZWQgZm9yIGEgYml0LCB0aGVuIGp1c3Qgc2F5IHNvIGFuZCBJJ2xsDQo+IHRyeSB0bw0KPiA+
-ICAgICAgICAgaGVscCB0b21vcnJvdyBvciBlYXJseSBuZXh0IHdlZWsuDQo+ID4NCj4gPiAgICAg
-ICAgIEl0IGxvb2tzIGxpa2UgeW91IGFyZSBwYWNrYWdpbmcgdGhlIHRlc3QgY29kZS9kYXRhIHdp
-dGggdGhlDQo+IG1haW4NCj4gPiAgICAgICAgIHBhY2thZ2UNCj4gPiAgICAgICAgIG5vdCBpbiBi
-emlwMi1wdGVzdC4gSGF2ZSBhIGxvb2sgYXQ6DQo+ID4gICAgICAgICAgwqAgwqAgbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlXzguNDQuYmINCj4gPiAgICAgICAgIDxodHRwOi8v
-bGlicGNyZV84LjQ0LmJiPg0KPiA+ICAgICAgICAgZm9yIGFuIGV4YW1wbGUuIFRoZXJlIGFyZSBt
-YW55IG1vcmUuDQo+ID4gICAgICAgICBBbHNvLCBpZiB5b3UgbG9vayBhdCBvZS1jb3JlLmdpdDoN
-Cj4gPiAgICAgICAgICDCoCDCoCAkIHJncmVwIExJQ0VOU0VfICrCoCB8IGdyZXAgUE4NCj4gPiAg
-ICAgICAgIHlvdSBjYW4gc2VlIG1hbnkgZXhhbXBsZXMgb2Ygc3ViLXBhY2thZ2VzIHdpdGggZGlm
-ZmVyZW50DQo+IGxpY2Vuc2VzDQo+ID4gICAgICAgICB0aGFuIHRoZSBtYWluIHBhY2thZ2UuIE9u
-ZSBleGFtcGxlIGlzOg0KPiA+ICAgICAgICAgIMKgIMKgIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2du
-dXRscy9nbnV0bHNfMy42LjEzLmJiDQo+ID4gICAgICAgICA8aHR0cDovL2dudXRsc18zLjYuMTMu
-YmI+DQo+ID4gICAgICAgICBJIGhvcGUgdGhhdCBjYW4gYWRkcmVzcyB0aGUgYnVpbGRib3QgcHJv
-YmxlbSBidXQgSSBoYXZlbid0DQo+IHRyaWVkIGl0DQo+ID4gICAgICAgICBteXNlbGYgeWV0Lg0K
-PiA+DQo+ID4gICAgICAgICBCVFcsIFRyZXZvciBoYXMgZ290dGVuIHRoZSBZUCBhdXRvYnVpbGRl
-ciBnb2luZyBhdCBXaW5kIFJpdmVyDQo+IGFuZA0KPiA+ICAgICAgICAgaGUnbGwgYmUgc2VuZGlu
-ZyBhIGZldyBkb2N1bWVudGF0aW9uIHVwZGF0ZXMgbmV4dCB3ZWVrIG9yIHNvLg0KPiA+ICAgICAg
-ICAgVGhhdCBtYXkgaGVscCBpbiBjYXNlIHlvdSB3YW50IHRvIHJlcHJvZHVjZSB0aGUgWVAgQUIg
-dGVzdA0KPiA+ICAgICAgICAgaW5mcmFzdHJ1Y3R1cmUuIEkgZXhwZWN0IHRoYXQgeW91IGRvbid0
-IF9oYXZlXyB0byBkbyBzbyBidXQNCj4gPiAgICAgICAgIEkgdGhpbmsgaXQgd291bGQgYmUgZ29v
-ZCBpZiBtb3JlIGNvbnRyaWJ1dGluZyBvcmdhbml6YXRpb25zIGRpZA0KPiA+ICAgICAgICAgaGF2
-ZSBhbiBpbnN0YW5jZSB3aXRoIG9ubHkgbGltaXRlZCBidWlsZGVycyBvZiB0aGUgWVAgQUIgc28N
-Cj4gdGhhdA0KPiA+ICAgICAgICAgd2UgY2FuIGRvIG1vcmUgdGVzdGluZyBiZWZvcmUgUmljaGFy
-ZCBydW5zIG91ciBjaGFuZ2VzIHRocm91Z2gNCj4gPiAgICAgICAgIHRoZSBtYWluIHN5c3RlbS4g
-UmljaGFyZCBoYXMgY2F1dGlvbmVkIHRoYXQgdGhlIFlQIEFCIGhhcyBsb3RzDQo+IG9mDQo+ID4g
-ICAgICAgICBidWlsZGVycyBlYWNoIG9mIHdoaWNoIGhhcyBtYW55IGNvcmVzIGJ1dCBJIGhvcGUg
-dGhhdCB3ZSBjYW4gYXQNCj4gPiAgICAgICAgIGxlYXN0DQo+ID4gICAgICAgICBkbyBzb21lIEFC
-IGNoZWNraW5nIG91cnNlbHZlcy4NCj4gPg0KPiA+ICAgICAgICAgLi4vUmFuZHkNCj4gPg0KPiA+
-DQo+ID4gICAgICAgICAgPiB8DQo+ID4gICAgICAgICAgPg0KPiA+ICAgICAgICAgID4NCj4gPiAg
-ICAgICAgICA+IE9uIE1vbiwgMjcgQXByIDIwMjAgYXQgMjA6NTQsIFJhaHVsIEt1bWFyIDxyYWh1
-bGtAbXZpc3RhLmNvbQ0KPiA+ICAgICAgICAgPG1haWx0bzpyYWh1bGtAbXZpc3RhLmNvbT4NCj4g
-PiAgICAgICAgICA+IDxtYWlsdG86cmFodWxrQG12aXN0YS5jb20gPG1haWx0bzpyYWh1bGtAbXZp
-c3RhLmNvbT4+Pg0KPiB3cm90ZToNCj4gPiAgICAgICAgICA+DQo+ID4gICAgICAgICAgPsKgIMKg
-IMKgSGkgUmljaGFyZC9BbGV4YW5kZXIsDQo+ID4gICAgICAgICAgPg0KPiA+ICAgICAgICAgID7C
-oCDCoCDCoEkgYW0gbm90IGFibGUgdG8gdW5kZXJzdGFuZCBob3cgSSBjYW4gdXNlIHRoZSBiZWxv
-dw0KPiBmaWxlLg0KPiA+ICAgICAgICAgID4NCj4gPiAgICAgICAgIGh0dHA6Ly9naXQueW9jdG9w
-cm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL3lvY3RvLWF1dG9idWlsZGVyLQ0KPiBoZWxwZXIvdHJl
-ZS9jb25maWcuanNvbg0KPiA+ICAgICAgICAgID4NCj4gPiAgICAgICAgICA+wqAgwqAgwqBkaWQg
-eW91IG1lYW4gdG8gc2F5IHRoYXQgaSBoYXZlIHRvIHNldCBNQUNSTyBpbg0KPiA+ICAgICAgICAg
-bG9jYWwuY29uZiBiYXNlZCBvbg0KPiA+ICAgICAgICAgID7CoCDCoCDCoHRoaXMgZmlsZS4NCj4g
-PiAgICAgICAgICA+DQo+ID4gICAgICAgICAgPsKgIMKgIMKgKlRoYW5rcyAmIFJlZ2FyZHMsKg0K
-PiA+ICAgICAgICAgID7CoCDCoCDCoFJhaHVsIEt1bWFyDQo+ID4gICAgICAgICAgPsKgIMKgIMKg
-U29mdHdhcmUgRW5naW5lZXIsTGludXggU29sdXRpb25zIEVuZ2luZWVyaW5nDQo+ID4gICAgICAg
-ICAgPsKgIMKgIMKgR3JvdXAsTW9udGF2aXN0YSBTb2Z0d2FyZSBMTEMNCj4gPiAgICAgICAgICA+
-wqAgwqAgwqBFbWFpbCBJZDogcmFodWxrQG12aXN0YS5jb20gPG1haWx0bzpyYWh1bGtAbXZpc3Rh
-LmNvbT4NCj4gPiAgICAgICAgIDxtYWlsdG86cmFodWxrQG12aXN0YS5jb20gPG1haWx0bzpyYWh1
-bGtAbXZpc3RhLmNvbT4+DQo+ID4gICAgICAgICAgPsKgIMKgIMKgPGh0dHBzOi8vcGx1cy5nb29n
-bGUuY29tLytDb2RlVHdvU29mdHdhcmU+DQo+ID4gICAgICAgICAgPg0KPiA+ICAgICAgICAgID4N
-Cj4gPiAgICAgICAgICA+wqAgwqAgwqBPbiBNb24sIEFwciAyNywgMjAyMCBhdCAxMTo0NiBQTSBS
-aWNoYXJkIFB1cmRpZQ0KPiA+ICAgICAgICAgID7CoCDCoCDCoDxyaWNoYXJkLnB1cmRpZUBsaW51
-eGZvdW5kYXRpb24ub3JnDQo+ID4gICAgICAgICA8bWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4
-Zm91bmRhdGlvbi5vcmc+DQo+ID4gICAgICAgICAgPsKgIMKgIMKgPG1haWx0bzpyaWNoYXJkLnB1
-cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnDQo+ID4gICAgICAgICA8bWFpbHRvOnJpY2hhcmQucHVy
-ZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+Pj4gd3JvdGU6DQo+ID4gICAgICAgICAgPg0KPiA+ICAg
-ICAgICAgID7CoCDCoCDCoCDCoCDCoE9uIE1vbiwgMjAyMC0wNC0yNyBhdCAxODozMCArMDIwMCwg
-QWxleGFuZGVyIEthbmF2aW4NCj4gPiAgICAgICAgIHdyb3RlOg0KPiA+ICAgICAgICAgID7CoCDC
-oCDCoCDCoCDCoCA+IFlvdSBuZWVkIHRvIGxvb2sgYXQgY29uZmlndXJhdGlvbnMgZGVmaW5lZCBo
-ZXJlOg0KPiA+ICAgICAgICAgID7CoCDCoCDCoCDCoCDCoCA+DQo+ID4gICAgICAgICAgPg0KPiA+
-ICAgICAgICAgaHR0cDovL2dpdC55b2N0b3Byb2plY3Qub3JnL2NnaXQvY2dpdC5jZ2kveW9jdG8t
-YXV0b2J1aWxkZXItDQo+IGhlbHBlci90cmVlL2NvbmZpZy5qc29uDQo+ID4gICAgICAgICAgPsKg
-IMKgIMKgIMKgIMKgID4gYW5kIHJlcGxpY2F0ZSB0aGVtIGxvY2FsbHkuIFRoZW4geW91IGNhbg0K
-PiByZXByb2R1Y2UgdGhlDQo+ID4gICAgICAgICAgPsKgIMKgIMKgIMKgIMKgZmFpbHVyZXMgdGhh
-dA0KPiA+ICAgICAgICAgID7CoCDCoCDCoCDCoCDCoCA+IHRoZSBBQiBnZXRzIGluIHRob3NlIGNv
-bmZpZ3VyYXRpb25zLg0KPiA+ICAgICAgICAgID4NCj4gPiAgICAgICAgICA+wqAgwqAgwqAgwqAg
-wqBUaGF0IHN0YXJ0IG9mIHRoZSBmYWlsaW5nIGxvZ3Mgb24gdGhlIGF1dG9idWlsZGVyDQo+ID4g
-ICAgICAgICBhbHNvIGxpc3Qgb3V0IHRoZQ0KPiA+ICAgICAgICAgID7CoCDCoCDCoCDCoCDCoGNv
-bmZpZ3VyYXRpb24gb3B0aW9ucyBmb3IgdGhhdCBidWlsZC4NCj4gPiAgICAgICAgICA+DQo+ID4g
-ICAgICAgICAgPsKgIMKgIMKgIMKgIMKgQ2hlZXJzLA0KPiA+ICAgICAgICAgID4NCj4gPiAgICAg
-ICAgICA+wqAgwqAgwqAgwqAgwqBSaWNoYXJkDQo+ID4gICAgICAgICAgPg0KPiA+ICAgICAgICAg
-ID4NCj4gPiAgICAgICAgICA+DQo+ID4gICAgICAgICAgPg0KPiA+DQo+ID4NCj4gPiAgICAgICAg
-IC0tDQo+ID4gICAgICAgICAjIFJhbmR5IE1hY0xlb2QNCj4gPiAgICAgICAgICMgV2luZCBSaXZl
-ciBMaW51eA0KPiA+DQo+IA0KPiANCj4gLS0NCj4gIyBSYW5keSBNYWNMZW9kDQo+ICMgV2luZCBS
-aXZlciBMaW51eA0K
+Fails on musl
+
+https://errors.yoctoproject.org/Errors/Details/412683/
+
+On Mon, May 18, 2020 at 1:36 PM Petr Vorel <petr.vorel@gmail.com> wrote:
+>
+> Inherit also pkgconfig (required for TI-RPC and Netlink based route
+> tests), to fix:
+> configure:6045: error: possibly undefined macro: AC_DEFINE
+>
+> Refreshed patches (some tests have been fixed for musl)
+> * 0001-build-Add-option-to-select-libc-implementation.patch
+> (add a note here)
+> * 0001-Add-more-musl-exclusions.patch
+>
+> Removed patches (different fix in upstream)
+> * 0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
+>
+> Removed patches (accepted upstream)
+> * 0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
+> * 0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch
+>
+> Update upstream status
+> * 0004-guard-mallocopt-with-__GLIBC__.patch
+>
+> Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+> ---
+> Hi,
+>
+> tested:
+>
+> $ bitbake ltp
+> Build Configuration:
+> BB_VERSION           =3D "1.44.0"
+> BUILD_SYS            =3D "x86_64-linux"
+> NATIVELSBSTRING      =3D "opensusetumbleweed-20200516"
+> TARGET_SYS           =3D "x86_64-oe-linux"
+> MACHINE              =3D "qemux86-64"
+> DISTRO               =3D "nodistro"
+> DISTRO_VERSION       =3D "nodistro.0"
+> TUNE_FEATURES        =3D "m64 core2"
+> TARGET_FPU           =3D ""
+> meta                 =3D "ltp/20200515.v1:31cb32ae7321027b25080c9f7be56ca=
+140f1eb35"
+>
+> $ MACHINE=3Dqemuarm TCLIBC=3Dmusl bitbake ltp
+> Build Configuration:
+> BB_VERSION           =3D "1.44.0"
+> BUILD_SYS            =3D "x86_64-linux"
+> NATIVELSBSTRING      =3D "opensusetumbleweed-20200516"
+> TARGET_SYS           =3D "arm-oe-linux-musleabi"
+> MACHINE              =3D "qemuarm"
+> DISTRO               =3D "nodistro"
+> DISTRO_VERSION       =3D "nodistro.0"
+> TUNE_FEATURES        =3D "arm armv7ve vfp thumb neon callconvention-hard"
+> TARGET_FPU           =3D "hard"
+> meta                 =3D "ltp/20200515.v1:b66ebb768a2b53f38d62d98249b377c=
+73d5e0b9c"
+>
+> Kind regards,
+> Petr
+>
+>  .../ltp/0001-Add-more-musl-exclusions.patch   |  28 ++--
+>  ...option-to-select-libc-implementation.patch |  47 ++-----
+>  ...or-time64-unsafe-syscalls-before-usi.patch | 122 ------------------
+>  ...BC_PREREQ-is-defined-before-using-it.patch |  55 --------
+>  .../0004-guard-mallocopt-with-__GLIBC__.patch |   4 +-
+>  ...k-nfsv4-acl-acl1.c-Security-fix-on-s.patch |  42 ------
+>  .../ltp/{ltp_20200120.bb =3D> ltp_20200515.bb}  |   7 +-
+>  7 files changed, 25 insertions(+), 280 deletions(-)
+>  delete mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-Check-for=
+-time64-unsafe-syscalls-before-usi.patch
+>  delete mode 100644 meta/recipes-extended/ltp/ltp/0003-Check-if-__GLIBC_P=
+REREQ-is-defined-before-using-it.patch
+>  delete mode 100644 meta/recipes-extended/ltp/ltp/0008-testcases-network-=
+nfsv4-acl-acl1.c-Security-fix-on-s.patch
+>  rename meta/recipes-extended/ltp/{ltp_20200120.bb =3D> ltp_20200515.bb} =
+(93%)
+>
+> diff --git a/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.=
+patch b/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
+> index 02c2fef55b..f2fc8ee958 100644
+> --- a/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
+> +++ b/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
+> @@ -1,35 +1,22 @@
+> -From 788c47ceef7f115ab7f7aa17f918e58795f4e6c7 Mon Sep 17 00:00:00 2001
+> +From ad8e73306cb8293f7d32841e1599fd9048801f1f Mon Sep 17 00:00:00 2001
+>  From: Alexander Kanavin <alex.kanavin@gmail.com>
+>  Date: Fri, 20 Dec 2019 13:06:05 +0100
+>  Subject: [PATCH] Add more musl exclusions
+>
+>  Upstream-Status: Pending
+>  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> +[ pvorel: rebase for 20200515: enable accept4_01 ]
+>  [ pvorel: rebase for 20200120: enable fanotify13, fanotify15, setxattr03=
+ ]
+>  Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+>  ---
+> - testcases/kernel/syscalls/accept4/Makefile      | 4 ++++
+>   testcases/kernel/syscalls/timer_create/Makefile | 4 ++++
+> - 2 files changed, 8 insertions(+)
+> + 1 file changed, 4 insertions(+)
+>
+> -diff --git a/testcases/kernel/syscalls/accept4/Makefile b/testcases/kern=
+el/syscalls/accept4/Makefile
+> -index 504042e11..94db06266 100644
+> ---- a/testcases/kernel/syscalls/accept4/Makefile
+> -+++ b/testcases/kernel/syscalls/accept4/Makefile
+> -@@ -20,4 +20,8 @@ top_srcdir           ?=3D ../../../..
+> -
+> - include $(top_srcdir)/include/mk/testcases.mk
+> -
+> -+ifeq ($(LIBC),musl)
+> -+FILTER_OUT_MAKE_TARGETS        :=3D accept4_01
+> -+endif
+> -+
+> - include $(top_srcdir)/include/mk/generic_leaf_target.mk
+>  diff --git a/testcases/kernel/syscalls/timer_create/Makefile b/testcases=
+/kernel/syscalls/timer_create/Makefile
+> -index 8de247075..eb240f432 100644
+> +index ada241fe1..d454b01e7 100644
+>  --- a/testcases/kernel/syscalls/timer_create/Makefile
+>  +++ b/testcases/kernel/syscalls/timer_create/Makefile
+> -@@ -20,6 +20,10 @@ top_srcdir          ?=3D ../../../..
+> +@@ -5,6 +5,10 @@ top_srcdir            ?=3D ../../../..
+>
+>   include $(top_srcdir)/include/mk/testcases.mk
+>
+> @@ -40,5 +27,6 @@ index 8de247075..eb240f432 100644
+>   CPPFLAGS              +=3D -D_GNU_SOURCE -I$(abs_srcdir)/../include
+>
+>   LDLIBS                        +=3D -lpthread -lrt
+> ---
+> -2.25.1
+> +--
+> +2.26.2
+> +
+> diff --git a/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-selec=
+t-libc-implementation.patch b/meta/recipes-extended/ltp/ltp/0001-build-Add-=
+option-to-select-libc-implementation.patch
+> index b1a99959d3..29b2bf7e41 100644
+> --- a/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-=
+implementation.patch
+> +++ b/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-=
+implementation.patch
+> @@ -1,15 +1,16 @@
+> -From be453d1be826b862d47e08663fd69eea9dd62730 Mon Sep 17 00:00:00 2001
+> +From 74958c3e341de713b596c8cfd35b2391d6c7bc09 Mon Sep 17 00:00:00 2001
+>  From: Khem Raj <raj.khem@gmail.com>
+>  Date: Thu, 7 Jan 2016 18:19:03 +0000
+> -Subject: [PATCH 1/6] build: Add option to select libc implementation
+> +Subject: [PATCH] build: Add option to select libc implementation
+>
+>  There are more than glibc for C library implementation available on
+>  linux now a days, uclibc cloaked like glibc but musl e.g. is very
+> -different and does not implement all GNU extentions
+> +different and does not implement all GNU extensions.
+>
+>  Disable tests specifically not building _yet_ on musl based systems
+>
+> -Upstream-Status: Pending
+> +Upstream-Status: Pending (pvorel: this is not going to be fixed, instead
+> +each test needs to be fixed)
+>
+>  rt_tgsigqueueinfo fails with:
+>  rt_tgsigqueueinfo01.c: In function 'sigusr1_handler':
+> @@ -19,18 +20,17 @@ rt_tgsigqueueinfo01.c:42:22: error: 'siginfo_t' {aka =
+'struct <anonymous>'} has n
+>        |                      __si_fields
+>
+>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +[ pvorel: rebase for 20200515: enable pty, ioctl ]
+>  [ pvorel: rebase for 20200120: enable mallopt, profil, rpc016,
+>  rt_sigsuspend, sbrk_mutex, setdomainname, sethostname, sigsuspend,
+>  testpi-3, testpi-5, testpi-6, ustat; move rt_tgsigqueueinfo
+>  from 0006-rt_tgsigqueueinfo-disable-test-on-musl.patch ]
+>  Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+> -Signed-off-by: Petr Vorel <pvorel@suse.cz>
+>  ---
+>   Makefile                           | 5 +++++
+> - testcases/kernel/Makefile          | 5 ++++-
+>   testcases/kernel/sched/Makefile    | 4 +++-
+>   testcases/kernel/syscalls/Makefile | 4 ++++
+> - 4 files changed, 16 insertions(+), 2 deletions(-)
+> + 3 files changed, 12 insertions(+), 1 deletion(-)
+>
+>  diff --git a/Makefile b/Makefile
+>  index 768ca4606..e9d679a71 100644
+> @@ -48,28 +48,6 @@ index 768ca4606..e9d679a71 100644
+>   # CLEAN_TARGETS:      Targets which exist solely in clean.
+>   # COMMON_TARGETS:     Targets which exist in all, clean, and install.
+>   # INSTALL_TARGETS:    Targets which exist in clean and install (contain=
+s
+> -diff --git a/testcases/kernel/Makefile b/testcases/kernel/Makefile
+> -index 3319b3163..94ea362c8 100644
+> ---- a/testcases/kernel/Makefile
+> -+++ b/testcases/kernel/Makefile
+> -@@ -49,13 +49,16 @@ SUBDIRS                    +=3D connectors \
+> -                          logging \
+> -                          mem \
+> -                          numa \
+> --                         pty \
+> -                          sched \
+> -                          security \
+> -                          sound \
+> -                          tracing \
+> -                          uevents \
+> -
+> -+ifneq ($(LIBC),musl)
+> -+SUBDIRS                       +=3D pty
+> -+endif
+> -+
+> - ifeq ($(WITH_POWER_MANAGEMENT_TESTSUITE),yes)
+> - SUBDIRS                       +=3D power_management
+> - endif
+>  diff --git a/testcases/kernel/sched/Makefile b/testcases/kernel/sched/Ma=
+kefile
+>  index 6a57d79ee..74bb93370 100644
+>  --- a/testcases/kernel/sched/Makefile
+> @@ -84,19 +62,20 @@ index 6a57d79ee..74bb93370 100644
+>  +endif
+>   include $(top_srcdir)/include/mk/generic_trunk_target.mk
+>  diff --git a/testcases/kernel/syscalls/Makefile b/testcases/kernel/sysca=
+lls/Makefile
+> -index 45a00cf7d..af5a591a0 100644
+> +index c6dc8d9e7..aa50761ea 100644
+>  --- a/testcases/kernel/syscalls/Makefile
+>  +++ b/testcases/kernel/syscalls/Makefile
+> -@@ -29,6 +29,10 @@ FILTER_OUT_DIRS     +=3D capget capset chmod chown cl=
+one fork getcontext llseek \
+> +@@ -15,6 +15,10 @@ FILTER_OUT_DIRS     +=3D capget capset chmod chown cl=
+one fork getcontext llseek \
+>                    mincore mprotect nftw profil remap_file_pages sbrk
+>   endif
+>
+>  +ifeq ($(LIBC),musl)
+> -+FILTER_OUT_DIRS       +=3D confstr fmtmsg getcontext ioctl rt_tgsigqueu=
+einfo
+> ++FILTER_OUT_DIRS       +=3D confstr fmtmsg getcontext rt_tgsigqueueinfo
+>  +endif
+>  +
+>   ifeq ($(UCLIBC),1)
+>   FILTER_OUT_DIRS       +=3D profil
+>   endif
+> ---
+> -2.25.1
+> +--
+> +2.26.2
+> +
+> diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-Check-for-time64=
+-unsafe-syscalls-before-usi.patch b/meta/recipes-extended/ltp/ltp/0001-sysc=
+alls-Check-for-time64-unsafe-syscalls-before-usi.patch
+> deleted file mode 100644
+> index ac8f08ef5a..0000000000
+> --- a/meta/recipes-extended/ltp/ltp/0001-syscalls-Check-for-time64-unsafe=
+-syscalls-before-usi.patch
+> +++ /dev/null
+> @@ -1,122 +0,0 @@
+> -From 89c5841bd148a7ae70c65f4a1ca5996b7f0cddfa Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Wed, 19 Feb 2020 22:52:04 -0800
+> -Subject: [PATCH] syscalls: Check for time64 unsafe syscalls before using=
+ them
+> -
+> -musl is using 64bit time_t now on 32bit architectures and these syscalls
+> -no longer exist, therefore its better to check for them being available
+> -before using them
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -Reviewed-by: Yang Xu <xuyang2018.jy@cn.fujitsu.com>
+> -Reviewed-by: Petr Vorel <pvorel@suse.cz>
+> -Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> -Upstream-Status: accepted as 5b57ae2913e2d2d167cbd3822784b4c4ba336812
+> ----
+> - lib/tst_clocks.c                                 | 16 ++++++----------
+> - .../syscalls/gettimeofday/gettimeofday01.c       |  6 ++----
+> - .../syscalls/gettimeofday/gettimeofday02.c       |  8 +++-----
+> - 3 files changed, 11 insertions(+), 19 deletions(-)
+> -
+> -diff --git a/lib/tst_clocks.c b/lib/tst_clocks.c
+> -index 5195da38f..fa2f1cb84 100644
+> ---- a/lib/tst_clocks.c
+> -+++ b/lib/tst_clocks.c
+> -@@ -3,28 +3,24 @@
+> -  * Copyright (c) 2017 Cyril Hrubis <chrubis@suse.cz>
+> -  */
+> -
+> --/*
+> -- * clock_gettime() and clock_getres() functions
+> -- */
+> --
+> --#define _GNU_SOURCE
+> --#include <unistd.h>
+> - #include <time.h>
+> --#include <sys/syscall.h>
+> -
+> -+#define TST_NO_DEFAULT_MAIN
+> -+#include "tst_test.h"
+> - #include "tst_clocks.h"
+> -+#include "lapi/syscalls.h"
+> -
+> - int tst_clock_getres(clockid_t clk_id, struct timespec *res)
+> - {
+> --      return syscall(SYS_clock_getres, clk_id, res);
+> -+      return tst_syscall(__NR_clock_getres, clk_id, res);
+> - }
+> -
+> - int tst_clock_gettime(clockid_t clk_id, struct timespec *ts)
+> - {
+> --      return syscall(SYS_clock_gettime, clk_id, ts);
+> -+      return tst_syscall(__NR_clock_gettime, clk_id, ts);
+> - }
+> -
+> - int tst_clock_settime(clockid_t clk_id, struct timespec *ts)
+> - {
+> --      return syscall(SYS_clock_settime, clk_id, ts);
+> -+      return tst_syscall(__NR_clock_settime, clk_id, ts);
+> - }
+> -diff --git a/testcases/kernel/syscalls/gettimeofday/gettimeofday01.c b/t=
+estcases/kernel/syscalls/gettimeofday/gettimeofday01.c
+> -index 583d8f7b9..08ea1673a 100644
+> ---- a/testcases/kernel/syscalls/gettimeofday/gettimeofday01.c
+> -+++ b/testcases/kernel/syscalls/gettimeofday/gettimeofday01.c
+> -@@ -38,10 +38,8 @@
+> - #include <sys/time.h>
+> - #include <errno.h>
+> - #include "test.h"
+> --#include <sys/syscall.h>
+> - #include <unistd.h>
+> --
+> --#define gettimeofday(a,b)  syscall(__NR_gettimeofday,a,b)
+> -+#include "lapi/syscalls.h"
+> -
+> - char *TCID =3D "gettimeofday01";
+> - int TST_TOTAL =3D 1;
+> -@@ -63,7 +61,7 @@ int main(int ac, char **av)
+> -       for (lc =3D 0; TEST_LOOPING(lc); lc++) {
+> -               tst_count =3D 0;
+> -
+> --              TEST(gettimeofday((void *)-1, (void *)-1));
+> -+              TEST(ltp_syscall(__NR_gettimeofday, (void *)-1, (void *)-=
+1));
+> -
+> -               /* gettimeofday returns an int, so we need to turn the lo=
+ng
+> -                * TEST_RETURN into an int to test with */
+> -diff --git a/testcases/kernel/syscalls/gettimeofday/gettimeofday02.c b/t=
+estcases/kernel/syscalls/gettimeofday/gettimeofday02.c
+> -index 1d60f448e..5170ad2f7 100644
+> ---- a/testcases/kernel/syscalls/gettimeofday/gettimeofday02.c
+> -+++ b/testcases/kernel/syscalls/gettimeofday/gettimeofday02.c
+> -@@ -16,14 +16,12 @@
+> - #include <stdint.h>
+> - #include <sys/time.h>
+> - #include <stdlib.h>
+> --#include <sys/syscall.h>
+> - #include <unistd.h>
+> - #include <time.h>
+> - #include <errno.h>
+> -
+> - #include "tst_test.h"
+> --
+> --#define gettimeofday(a,b)  syscall(__NR_gettimeofday,a,b)
+> -+#include "lapi/syscalls.h"
+> -
+> - static volatile sig_atomic_t done;
+> - static char *str_rtime;
+> -@@ -48,13 +46,13 @@ static void verify_gettimeofday(void)
+> -
+> -       alarm(rtime);
+> -
+> --      if (gettimeofday(&tv1, NULL)) {
+> -+      if (tst_syscall(__NR_gettimeofday, &tv1, NULL)) {
+> -               tst_res(TBROK | TERRNO, "gettimeofday() failed");
+> -               return;
+> -       }
+> -
+> -       while (!done) {
+> --              if (gettimeofday(&tv2, NULL)) {
+> -+              if (tst_syscall(__NR_gettimeofday, &tv2, NULL)) {
+> -                       tst_res(TBROK | TERRNO, "gettimeofday() failed");
+> -                       return;
+> -               }
+> ---
+> -2.25.1
+> diff --git a/meta/recipes-extended/ltp/ltp/0003-Check-if-__GLIBC_PREREQ-i=
+s-defined-before-using-it.patch b/meta/recipes-extended/ltp/ltp/0003-Check-=
+if-__GLIBC_PREREQ-is-defined-before-using-it.patch
+> deleted file mode 100644
+> index df3e8831f5..0000000000
+> --- a/meta/recipes-extended/ltp/ltp/0003-Check-if-__GLIBC_PREREQ-is-defin=
+ed-before-using-it.patch
+> +++ /dev/null
+> @@ -1,55 +0,0 @@
+> -From 1ce47a6ed811fd78ed04ea2f82e6321c6bca57b6 Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Thu, 7 Jan 2016 19:40:08 +0000
+> -Subject: [PATCH] Check if __GLIBC_PREREQ is defined before using it
+> -
+> -__GLIBC_PREREQ is specific to glibc so it should be checked if it is
+> -defined or not.
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> -
+> ----
+> - testcases/kernel/syscalls/accept4/accept4_01.c | 7 +++++++
+> - 1 file changed, 7 insertions(+)
+> -
+> -diff --git a/testcases/kernel/syscalls/accept4/accept4_01.c b/testcases/=
+kernel/syscalls/accept4/accept4_01.c
+> -index 29e18f27d..07444a46f 100644
+> ---- a/testcases/kernel/syscalls/accept4/accept4_01.c
+> -+++ b/testcases/kernel/syscalls/accept4/accept4_01.c
+> -@@ -38,6 +38,7 @@
+> - static struct sockaddr_in *conn_addr, *accept_addr;
+> - static int listening_fd;
+> -
+> -+#if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+> - #if !(__GLIBC_PREREQ(2, 10))
+> - static int
+> - accept4_01(int fd, struct sockaddr *sockaddr, socklen_t *addrlen, int f=
+lags)
+> -@@ -56,6 +57,7 @@ accept4_01(int fd, struct sockaddr *sockaddr, socklen_=
+t *addrlen, int flags)
+> - #endif
+> - }
+> - #endif
+> -+#endif
+> -
+> - static int create_listening_socket(void)
+> - {
+> -@@ -114,12 +116,17 @@ static void verify_accept4(unsigned int nr)
+> -       SAFE_CONNECT(connfd, (struct sockaddr *)conn_addr, sizeof(*conn_a=
+ddr));
+> -       addrlen =3D sizeof(*accept_addr);
+> -
+> -+#if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+> - #if !(__GLIBC_PREREQ(2, 10))
+> -       TEST(accept4_01(listening_fd, (struct sockaddr *)accept_addr, &ad=
+drlen,
+> -                               tcase->cloexec | tcase->nonblock));
+> - #else
+> -       TEST(accept4(listening_fd, (struct sockaddr *)accept_addr, &addrl=
+en,
+> -                               tcase->cloexec | tcase->nonblock));
+> -+#endif
+> -+#else
+> -+      TEST(accept4(listening_fd, (struct sockaddr *)&claddr, &addrlen,
+> -+                              tcase->cloexec | tcase->nonblock));
+> - #endif
+> -       if (TST_RET =3D=3D -1) {
+> -               if (TST_ERR =3D=3D ENOSYS)
+> diff --git a/meta/recipes-extended/ltp/ltp/0004-guard-mallocopt-with-__GL=
+IBC__.patch b/meta/recipes-extended/ltp/ltp/0004-guard-mallocopt-with-__GLI=
+BC__.patch
+> index 5622a64d43..e93886c9cd 100644
+> --- a/meta/recipes-extended/ltp/ltp/0004-guard-mallocopt-with-__GLIBC__.p=
+atch
+> +++ b/meta/recipes-extended/ltp/ltp/0004-guard-mallocopt-with-__GLIBC__.p=
+atch
+> @@ -5,9 +5,9 @@ Subject: [PATCH] guard mallocopt() with __GLIBC__
+>
+>  mallocopt is not available on non glibc implementations
+>
+> -Upstream-Status: Pending
+> -
+>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +Reviewed-by: Petr Vorel <petr.vorel@gmail.com>
+> +[ Upstream-Status: accepted in 967612c454aea66770b64f69287671037fe895b3 =
+]
+>  ---
+>   utils/benchmark/ebizzy-0.3/ebizzy.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> diff --git a/meta/recipes-extended/ltp/ltp/0008-testcases-network-nfsv4-a=
+cl-acl1.c-Security-fix-on-s.patch b/meta/recipes-extended/ltp/ltp/0008-test=
+cases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch
+> deleted file mode 100644
+> index 350091a70c..0000000000
+> --- a/meta/recipes-extended/ltp/ltp/0008-testcases-network-nfsv4-acl-acl1=
+.c-Security-fix-on-s.patch
+> +++ /dev/null
+> @@ -1,42 +0,0 @@
+> -From 4b7db094d6fc5659001ae8dc17078bb65d46b9c9 Mon Sep 17 00:00:00 2001
+> -From: =3D?UTF-8?q?An=3DC3=3DADbal=3D20Lim=3DC3=3DB3n?=3D <anibal.limon@l=
+inux.intel.com>
+> -Date: Fri, 13 May 2016 11:11:28 -0500
+> -Subject: [PATCH] acl: Security fix on string printf
+> -MIME-Version: 1.0
+> -Content-Type: text/plain; charset=3DUTF-8
+> -Content-Transfer-Encoding: 8bit
+> -
+> -Fixes build error when compiled with -Werror=3Dformat-security:
+> -
+> -acl1.c: In function =E2=80=98test_acl_default=E2=80=99:
+> -acl1.c:305:2: error: format not a string literal and no format arguments=
+ [-Werror=3Dformat-security]
+> -  305 |  printf(cmd);
+> -
+> -Patch taken from openembedded-core,
+> -original bug report: https://bugzilla.yoctoproject.org/9548
+> -
+> -[YOCTO #9548]
+> -
+> -Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linux.intel.com>
+> -Signed-off-by: Petr Vorel <pvorel@suse.cz>
+> -Upstream-Status: accepted in 4b7db094d6fc5659001ae8dc17078bb65d46b9c9
+> ----
+> - testcases/network/nfsv4/acl/acl1.c | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -diff --git a/testcases/network/nfsv4/acl/acl1.c b/testcases/network/nfsv=
+4/acl/acl1.c
+> -index aae9484e5..ad778cd33 100644
+> ---- a/testcases/network/nfsv4/acl/acl1.c
+> -+++ b/testcases/network/nfsv4/acl/acl1.c
+> -@@ -302,7 +302,7 @@ void test_acl_default(char *dir, acl_t acl)
+> -       char *cmd =3D malloc(256);
+> -
+> -       strcpy(cmd, "chmod 7777 ");
+> --      printf(cmd);
+> -+      printf(cmd, NULL);
+> -       strcat(cmd, dir);
+> -       system(cmd);
+> -       acl2 =3D acl_get_file(path, ACL_TYPE_ACCESS);
+> ---
+> -2.25.1
+> -
+> diff --git a/meta/recipes-extended/ltp/ltp_20200120.bb b/meta/recipes-ext=
+ended/ltp/ltp_20200515.bb
+> similarity index 93%
+> rename from meta/recipes-extended/ltp/ltp_20200120.bb
+> rename to meta/recipes-extended/ltp/ltp_20200515.bb
+> index deac3917d7..37bad53766 100644
+> --- a/meta/recipes-extended/ltp/ltp_20200120.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20200515.bb
+> @@ -27,21 +27,18 @@ CFLAGS_append_x86-64 =3D " -fomit-frame-pointer"
+>
+>  CFLAGS_append_powerpc64 =3D " -D__SANE_USERSPACE_TYPES__"
+>  CFLAGS_append_mipsarchn64 =3D " -D__SANE_USERSPACE_TYPES__"
+> -SRCREV =3D "4079aaf264d0e9ead042b59d1c5f4e643620d0d5"
+> +SRCREV =3D "0d79a93e6ca44d9bc95973faea6bcd7b0c6d1f43"
+>
+>  SRC_URI =3D "git://github.com/linux-test-project/ltp.git \
+>             file://0001-build-Add-option-to-select-libc-implementation.pa=
+tch \
+> -           file://0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-i=
+t.patch \
+>             file://0004-guard-mallocopt-with-__GLIBC__.patch \
+>             file://0007-Fix-test_proc_kill-hanging.patch \
+> -           file://0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-o=
+n-s.patch \
+>             file://0001-Add-more-musl-exclusions.patch \
+> -           file://0001-syscalls-Check-for-time64-unsafe-syscalls-before-=
+usi.patch \
+>             "
+>
+>  S =3D "${WORKDIR}/git"
+>
+> -inherit autotools-brokensep
+> +inherit autotools-brokensep pkgconfig
+>
+>  TARGET_CC_ARCH +=3D "${LDFLAGS}"
+>
+> --
+> 2.26.2
+>
