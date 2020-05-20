@@ -1,96 +1,146 @@
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
- by mx.groups.io with SMTP id smtpd.web12.3209.1589998856781262757
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.92.64.51])
+ by mx.groups.io with SMTP id smtpd.web12.858.1590005856225829762
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 May 2020 11:20:56 -0700
+ Wed, 20 May 2020 13:17:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=I48QE8DA;
- spf=pass (domain: linaro.org, ip: 209.85.167.194, mailfrom: anibal.limon@linaro.org)
-Received: by mail-oi1-f194.google.com with SMTP id r25so3825861oij.4
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 May 2020 11:20:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=smv/e+EIb4mVyfGtNir0FcKHVnkOKbeejb4POOTYDr0=;
-        b=I48QE8DAOOpFRzr5/KdSxUNbIFeF9SPrVemgT/gVLti1e0xsNO28sYrnnWmpn9IeLi
-         1BtPMEFV1Prhqu4N2eVPHmouOaagJ5Ky6eSGN6K4+frc9gCulKUo/QImUMk02NuiN6hv
-         zUsMa5Wv3+ihR++FYdHJXYfAIrun4hCMjrNx0/lHp2/l6PdDG31rZvs5CBgLmXOCwlBG
-         QLzgEr64n/2GeZLtcYB3iWST8/ICvmji+B/dtp8HybVClw7UH0xxO0CVoBO7otRm6nbz
-         MN++j+qGyVsBJvQzCU2nbFB0BjwouZuYhJWSCghSgL0H3JNc6F6HoT67blRKmc0nsse/
-         9gqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=smv/e+EIb4mVyfGtNir0FcKHVnkOKbeejb4POOTYDr0=;
-        b=kF3CzwVjXJoILDdVEi8l+P7UIKsryAxj6TthRFumRPSy8+bMxyrPKXYbXGE7pN90pN
-         yaI3VdesgttIUiY6il6IpHBx85gP6mwU9JD+Lyi44DvgmePlMV/Nn0bBVDkoTe82lDfy
-         uVFDhb2FK/ZIJiYMQvkT5pQO3jE5xJGtuXt8igGUZ0ygs6KRGewUER3UZXFqdnySCF4V
-         /dF63P31tF9tH1ySUsT7x6PXH84zMfR6Wa1koHVvOsxJwCu0Yjs7Fw9DFCSns5zuqHPC
-         ScqKDp4uzzEUJJlEzcm6WQQsT2TMd5dXSDV+MjhiVDW0Qo1iBXivoyRH45wyEETaJn6l
-         AM1Q==
-X-Gm-Message-State: AOAM533lbn6i0hXgRlDuTsE2DQcPv38fYS9/3E2wLAQn2wSBkJrS88J5
-	kCGbi3rJmTEonMK5iPK7ZxBdYdmP2xI=
-X-Google-Smtp-Source: ABdhPJwNlbkTuPKVmWBMrGrtP5M/705I45435g03+s3nozehNE6KmHAq3oNSnTzlGz/keTqNmt7BnQ==
-X-Received: by 2002:aca:ed44:: with SMTP id l65mr4090421oih.127.1589998855875;
-        Wed, 20 May 2020 11:20:55 -0700 (PDT)
-Return-Path: <anibal.limon@linaro.org>
-Received: from blackbox.rga.ip ([200.68.141.41])
-        by smtp.gmail.com with ESMTPSA id b19sm986589oii.1.2020.05.20.11.20.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2020 11:20:55 -0700 (PDT)
-From: "Anibal Limon" <anibal.limon@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	nicolas.dechesne@linaro.org,
-	=?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [PATCHv2][dunfell 3/3] linux-firmware: Update to 20200122 -> 20200421
-Date: Wed, 20 May 2020 13:20:46 -0500
-Message-Id: <20200520182046.2031954-3-anibal.limon@linaro.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200520182046.2031954-1-anibal.limon@linaro.org>
-References: <20200520182046.2031954-1-anibal.limon@linaro.org>
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=hUcQ2umu;
+ spf=pass (domain: outlook.com, ip: 40.92.64.51, mailfrom: kweihmann@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WD+QIIkikME6n7SEks6Ifo0ykScgsi+KPEFNVeWWeTQt12r/GAhuiA9o+yjq/iCqCjEVuCK+tT5Nr73FZ++q+qXM5UZC0xOfyRI9ownJm5yUk5ENTFxpX1izfG991+IUCycrcqjowIcCkquYTY6HSyWD3XnBHIKNwrbodS/taaQG/2OHAV2XyIKO7r4Y5gmmKw6jYm1sgQRmzyr9bfYQqch1HD8Vu7uGyqQKGeLsyKKkvPixxiV0nBHwZNiu5XQRVGbVqUr+XWhloYyWVvYChY588BzGuwZC5XDr/zZRpqFRSN/w/c61fIPBbwZVgn59PIxyXmpFVI9puF63Xu4+HQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l3KURhe7JfSyAglhbPpFMdojYsk2A29C3xa4JZDrJHM=;
+ b=Cr4ZAnmUip5ne0rzUbvyeqQ9v4wrDrOZv4BjzAic6Q32dzKSpzbc4bauC0buJry6USz1zokS7OSqvuonPj5X77J0GE8/JU2elKkYacbsjoL7Ouul9zHJtLQBpoL5jgKgRW6S3c4BjoJYDSZ96+sr4wB/u1B7aV8E7QFGrJIRl5UxrKIkDIyO7TzBlb9jTZXo4HCIzspy8BhQANDApdIbjvmEsSW5wXfkkwEfOU5SFmItPe9ThI6/3xoPJS4OnaoXxHY6zZ0NSg5Luyc1vJDmn6Wg3IVu0OwSGaVkdzI4h4YGAIwtzFKIA6kI70un3lPlWxlFJ+TlfDwoDRjTnKRF7g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=outlook.com; dmarc=pass action=none header.from=outlook.com;
+ dkim=pass header.d=outlook.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=l3KURhe7JfSyAglhbPpFMdojYsk2A29C3xa4JZDrJHM=;
+ b=hUcQ2umuD+XglFAsYTl6tkAnRwPE5IKqAckK7uXzPiUh2Nzx93R7OLtaNoVNV68NZZf24FjKhN1M1jM97Tw+q4E6Qy7Sgjx/Ec44lqBD5DvCAa0PSg055SGAno/GS86P622ubrWK7v697IvsTYK3BqWgKGZzs3MdgskNFuwNOjew+SeVC04D03rk8jv4+2Zw/oPrzBxBLLlSIBgjCdHAjcLlP4wAyf35HKfN6lFzLesxg+h5ab+eGZZGdgEAE30cVYbedh3tCvOv7BgTuQZmYv8YLAP/L/qQSvY04DF4DV4sV2CNBEzFcFHck0EQM4vYs3yveDE4zBAk2vcJu0A6EA==
+Received: from VE1EUR01FT063.eop-EUR01.prod.protection.outlook.com
+ (2a01:111:e400:7e19::44) by
+ VE1EUR01HT047.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e19::363)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23; Wed, 20 May
+ 2020 20:17:34 +0000
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ (2a01:111:e400:7e19::40) by VE1EUR01FT063.mail.protection.outlook.com
+ (2a01:111:e400:7e19::179) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23 via Frontend
+ Transport; Wed, 20 May 2020 20:17:34 +0000
+X-IncomingTopHeaderMarker: 
+ OriginalChecksum:BDB0F4DB1E68111E5A970CAD0BD0CC686E6C2D9F4652DC59ACAE09BD7FFEEDFB;UpperCasedChecksum:7BF0CEB12F8DED04D6DD4E8FD91BD9F928E6ED8CD017522C3A9C8177CB18D85B;SizeAsReceived:8955;Count:49
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::f5f1:b5e3:66d7:e590]) by AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::f5f1:b5e3:66d7:e590%5]) with mapi id 15.20.3000.034; Wed, 20 May 2020
+ 20:17:34 +0000
+Subject: Re: [OE-core] [PATCH] package_ipk.bbclass: print opkg output on error
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <AM7PR05MB68813C6F4A99F236D682914CA8B90@AM7PR05MB6881.eurprd05.prod.outlook.com>
+ <4c0bdb8031119a16004ecf9aa5d1a19dc0ec397d.camel@linuxfoundation.org>
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+Message-ID: 
+ <AM7PR05MB68818CD461CF14303C8BCA71A8B60@AM7PR05MB6881.eurprd05.prod.outlook.com>
+Date: Wed, 20 May 2020 22:17:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+In-Reply-To: <4c0bdb8031119a16004ecf9aa5d1a19dc0ec397d.camel@linuxfoundation.org>
+X-ClientProxiedBy: AM6P195CA0003.EURP195.PROD.OUTLOOK.COM
+ (2603:10a6:209:81::16) To AM7PR05MB6881.eurprd05.prod.outlook.com
+ (2603:10a6:20b:1a9::19)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: 
+ <d91cc95f-6695-a0eb-d75e-57c18a98913a@outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.188.20] (87.141.92.26) by AM6P195CA0003.EURP195.PROD.OUTLOOK.COM (2603:10a6:209:81::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23 via Frontend Transport; Wed, 20 May 2020 20:17:33 +0000
+X-Microsoft-Original-Message-ID: 
+ <d91cc95f-6695-a0eb-d75e-57c18a98913a@outlook.com>
+X-TMN: [OXYo9pUGE6qtFUhuJ1SbK4qK0BvxOLtH]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 49
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 4fefb7c1-a7d4-4419-3e80-08d7fcfad4aa
+X-MS-TrafficTypeDiagnostic: VE1EUR01HT047:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	ZEBhlgHH23PZQQ4e8SRmI110H/jBq5PKr2aW9SCA1Xo+rrTPDXGB1ygD8wqDehuNhDIb5Ssp/MLR3iOVUIbc0wfVNITRCbjfH3hgSci+psAoS9rxuz8yqnEwZImStWSMnM94Z5toyYIfUWdYAvfhn9FpHVf/i6yJUBvk3eQGvLZPQ0jIuoHJbLfBCPCdTngkPEZMHkwu966Gah+0jj1FTQ4dPpNBHMUAMVssbaWlfDMNKiVAeOfpttvKJOKex9f+
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
+X-MS-Exchange-AntiSpam-MessageData: 
+	GyBA1YQ4CXGPq0LG1ONIa1DDZNEc+3bDplO8oC/VW/eifoD2DNs676Dqdejb0YI3SRFkFOQbhu0SToKVZwZC37S+Vj1eltENZRRpFH3JJ2z1MKtCyvVPi3cDQYPjhR98Myvu1Yu2WMgrrsX98b9NXw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4fefb7c1-a7d4-4419-3e80-08d7fcfad4aa
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2020 20:17:34.3592
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR01HT047
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ed9da2d9dc42c437650d539c4d14b8b786f82059)
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
----
- ...inux-firmware_20200122.bb => linux-firmware_20200421.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200122.bb => linux-firmware_20200421.bb} (99%)
+On a second thought it should be bb.error not bb.fatal - are all okay 
+with fixing just this one for now?
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb
-index ac7d6ec431..fa0507a88c 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb
-@@ -125,7 +125,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
-                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
-                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
--                    file://WHENCE;md5=c27d0c06cd5d376d8ab55860e65ba4e4 \
-+                    file://WHENCE;md5=cb9a66eff0464b55335d3a7374fbc51c \
-                     "
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
-@@ -196,8 +196,8 @@ PE = "1"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "ac291b21f366ae2a37193ec8f14c39d2"
--SRC_URI[sha256sum] = "a30e811b3736a72b874ac27e10662f5e5409b1cadf8aab7ba88e8f8bc8083986"
-+SRC_URI[md5sum] = "229a93395f4033da68429f165a62b952"
-+SRC_URI[sha256sum] = "6dd7cba25d694c031f65529b9027cc8faaffaddfae70a4e3b58c2e4a0af3bfa8"
- 
- inherit allarch
- 
--- 
-2.26.2
-
+On 20.05.20 00:02, Richard Purdie wrote:
+> On Tue, 2020-05-19 at 20:36 +0200, Konrad Weihmann wrote:
+>> in case the opkg command fails in before no output of the tool
+>> itself was printed to assist the user with debugging the issue.
+>> Print all output of the tool by using CalledProcessError wrapper around
+>> the call
+>>
+>> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+>> ---
+>>   meta/classes/package_ipk.bbclass | 11 +++++++----
+>>   1 file changed, 7 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+>> index c008559e4a..5e7d552cc5 100644
+>> --- a/meta/classes/package_ipk.bbclass
+>> +++ b/meta/classes/package_ipk.bbclass
+>> @@ -223,10 +223,13 @@ def ipk_write_pkg(pkg, d):
+>>               conffiles.close()
+>>   
+>>           os.chdir(basedir)
+>> -        subprocess.check_output("PATH=\"%s\" %s %s %s" % (localdata.getVar("PATH"),
+>> -                                                          d.getVar("OPKGBUILDCMD"), pkg, pkgoutdir),
+>> -                                stderr=subprocess.STDOUT,
+>> -                                shell=True)
+>> +        try:
+>> +            subprocess.check_output("PATH=\"%s\" %s %s %s" % (localdata.getVar("PATH"),
+>> +                                                            d.getVar("OPKGBUILDCMD"), pkg, pkgoutdir),
+>> +                                    stderr=subprocess.STDOUT,
+>> +                                    shell=True)
+>> +        except subprocess.CalledProcessError as exp:
+>> +            bb.fatal("{} failed with {}: {}".format(exp.cmd, exp.returncode, exp.output.decode("utf-8")))
+>>   
+>>           if d.getVar('IPK_SIGN_PACKAGES') == '1':
+>>               ipkver = "%s-%s" % (d.getVar('PKGV'), d.getVar('PKGR'))
+> 
+> I get the feeling we have a problem with our subprocess calls and
+> debugging but its hard to know what to do about it. We can patch each
+> call site like this but it starts to make we wonder whether we need a
+> general wrapper, or we're missing something in bitbake or elsewhere to
+> help with things.
+> 
+> There is this code:
+> 
+> http://git.yoctoproject.org/cgit.cgi/poky/tree/bitbake/lib/bb/utils.py#n378
+> 
+> which is meant to help but it clearly isn't helping/catching all cases.
+> 
+> I think we are going to need to look at a wider/more general solution
+> or at least have a plan for one.
+> 
+> Cheers,
+> 
+> Richard
+> 
