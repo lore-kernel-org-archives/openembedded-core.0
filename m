@@ -1,145 +1,90 @@
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
- by mx.groups.io with SMTP id smtpd.web11.10665.1590080455359930283
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web12.572.1590082645363951374
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 10:00:55 -0700
+ Thu, 21 May 2020 10:37:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=axf+kBHC;
- spf=pass (domain: gmail.com, ip: 209.85.208.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f44.google.com with SMTP id s19so7099994edt.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 10:00:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sbWhUhaA;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id f13so6612913edr.13
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 10:37:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=34Yts0HPa3i91rW0KaWtzECrh8aU3ZyLwbUgpK6hgko=;
-        b=axf+kBHCY21gYauIipgcGgjCnYLSQyRDqFol+Dhub21J2Wu1yDsRE7BNLmEC6Z2GGB
-         XMAsfvL/jLrJa+G6i9LvjuswRqiWOXopmloKh/EWXsVYZxJtjyO0ejddKw+nhfZmGomy
-         LO7KRItwzkh1oWhg5XgXf7RkjcBLxm5ZQJCex6O+w2O6Np/dRaiRk0aEXXRtcLC+lx6F
-         rkqz1qMTgIEQjvgIkVI0EWgV9mAitKi20z8cX+pnCViMuzJkZ0OwZv3gkgMviiMs4th4
-         uylpGty9np95ZXKkacVaTV06jCf21Nx4w2aU0tlxZU1pADACwSwtbvL+tvOWIudEG28R
-         eKtw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2LK92I+L7oYEfTOdp/e+zgnSj4zk2h7Sg4blmz7/1ZQ=;
+        b=sbWhUhaAsqfT7J/ghd82/Ylgv0ZivOW3FFqTw52aXA75VIqj/sjVQqAwu0TBMPZqtA
+         fvEc2FEM1IG/0zmbIZUFUXU2OkUa1VQWBK8YV9M2PLjVi8aTraQeSG2zqwViV4d5S+b+
+         fprqnLxh5zG5He//Keaai23Kz+EZ3VSK5Je6C21C6+UQsvSCUonnqmJiDbUKnmbTmqfP
+         dekE3iTN6wJ9WrGSbH31XgjJeZS8ai9/JzuVInnfR1PABZC0+/o2DQmFAq39tNS9mpEh
+         57089y1PJFgtym8WxJJvKTeRxsYPpko6o6BBQKDERBDovVMp6RAdhnt7FFBw8VEu5tvB
+         2nDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=34Yts0HPa3i91rW0KaWtzECrh8aU3ZyLwbUgpK6hgko=;
-        b=DHyVrzWNos8AAE40lk0dv6/rakdEuq11PJYFbjUvAWTN1PstbTYbo2ap4T0Qe2CP8/
-         fKPlzQhM1BvswO2XMuoCYmoHzoMm+z77YlcN3CpNfROVA8uniudDxw/Vk4T05w0q49WQ
-         dPLzQatyy4rFlaphJcQDAHloDfBtp0QGdPwb6KKrI3dwVrTx0JfVcZUDz5IDtRTA7C/Z
-         rDpcajtkwD9HmyFQSKUrWdmF2/3Y2sPxXW2K/saXXSU4pYmGi2C8nl6XWSo17Qac77gK
-         AvtzRx5hzhKahW/0HDhV51PR/aJlwHJFDAInL4QZHG3AsAgnwns28+hfbvIA/tloBooM
-         8dvQ==
-X-Gm-Message-State: AOAM532Pl6212x7o63cTloYFaYmV+VwXiXKwHCjy3lQi+JfIyEMDOLpD
-	k6adoexfXky6z7bEJhCxJr+2v08m
-X-Google-Smtp-Source: ABdhPJzR8bBwXE7/9ck32dX1nExACezERZtB3lEFkv8FjAv1EmDabaslXHhPX4jqwngQAy/TnJ6YSQ==
-X-Received: by 2002:aa7:cb4f:: with SMTP id w15mr8407345edt.239.1590080453592;
-        Thu, 21 May 2020 10:00:53 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.69.65])
-        by smtp.gmail.com with ESMTPSA id cz9sm4960252edb.18.2020.05.21.10.00.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2020 10:00:53 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 3/3] qemu: enable virglrenderer and glx options subject to 'opengl' DISTRO_FEATURE
-Date: Thu, 21 May 2020 19:00:20 +0200
-Message-Id: <20200521170020.4123-3-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200521170020.4123-1-alex.kanavin@gmail.com>
-References: <20200521170020.4123-1-alex.kanavin@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2LK92I+L7oYEfTOdp/e+zgnSj4zk2h7Sg4blmz7/1ZQ=;
+        b=EQPNrtQUP6HAprJoJEDCs/Bg8HnzyPIC4ZVNboVAh7b+ekkFas6kbl0rOmh38x2Rjo
+         h4u7jBYiOftrOMtNWv5/P/37uyTBw95ES+NeVyZX2SbTUFjVWoVOBiYxwrSbsvu1yz5Y
+         tiJSZh8JhByDwGgENHJZfT7kDyXklGnRQ7Pt+xJQt+gy7x6mAmrMQeMIo8f0tLwDdhRC
+         cFHB29BW4frzoeHj6NmuRQcwf4+n+qVie9AFYZsDMJjWpBNoHWGIwd+E5TsHMrJYHB9c
+         AkzZr8wU8NEgQtivIKtW+IDg6V1RYrypijDx29FtBmxV/cjb4FDkOAdpc+ZMNJLubZ/h
+         Mw9g==
+X-Gm-Message-State: AOAM532UvPWO3hKWo5R47kdebGymNJ7jSF6KfpMvTP/a7sYb/JEtjCF/
+	0ldFOIiygRTh9bgNeSztE61eH7JEV5+kst3e1OU=
+X-Google-Smtp-Source: ABdhPJzKNXoDmgF8XTul1vTDtI7S0/KGP2667knrOVthptmyOljMrDlwXXdYezjUmi2xEaJ5VZ+deO7tObQbcgXOit0=
+X-Received: by 2002:a05:6402:357:: with SMTP id r23mr8467499edw.230.1590082643886;
+ Thu, 21 May 2020 10:37:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200521161543.3273063-1-raj.khem@gmail.com> <20200521161543.3273063-8-raj.khem@gmail.com>
+In-Reply-To: <20200521161543.3273063-8-raj.khem@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Thu, 21 May 2020 19:37:12 +0200
+Message-ID: <CA+chaQdLO1aLYeuFZ_a8=HC=GFyX2M9wfWE_+Uro6ob6gqHThw@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][ 08/10] armv8/tunes: Define TUNE_PKGARCH
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="00000000000027080e05a62bf713"
 
-Note that to actually use accelerated GL passthrough, there are two options
+--00000000000027080e05a62bf713
+Content-Type: text/plain; charset="UTF-8"
 
-1) a suitable frontend need to be also enabled - gtk+ and SDL both seem to work well.
-Previously I struggled to make SDL work, but now it seems fine.
+On Thu, May 21, 2020 at 6:16 PM Khem Raj <raj.khem@gmail.com> wrote:
 
-2) it is also possible to render off-screen with -display egl-headless option,
-and see the output with a VNC viewer (for which, qemu needs to be started
-with a VNC server):
+> Now that they uses -mcpu, its better to have tune specific build
+> directories, since aarch64 wont be appropriate any longer
+>
 
-$ runqemu kvm egl-headless publicvnc
+I agree with Steve that this is a bit invasive for stable branch, but on
+the other hand it's long overdue and if we don't improve it in LTS branch
+then many people will need to carry local work arounds for multi-machine
+builds. +1 from me.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/lib/oeqa/selftest/cases/runtime_test.py   | 18 ++++++------------
- .../qemu/qemu-system-native_4.2.0.bb           |  4 +++-
- meta/recipes-devtools/qemu/qemu_4.2.0.bb       |  5 ++++-
- 3 files changed, 13 insertions(+), 14 deletions(-)
+Once the LAYERVERSION_core is bumped because of those python modules, then
+BSPs will also be able to depend on newer version of oe-core when they
+start using one of new tune files.
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 09d3de7aea..793c98a335 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -188,18 +188,14 @@ class TestImage(OESelftestTestCase):
-             self.skipTest('virgl isn\'t working with Opensuse 15.0')
- 
-         qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
--        sdl_packageconfig = get_bb_var('PACKAGECONFIG', 'libsdl2-native')
-+        qemu_distrofeatures = get_bb_var('DISTRO_FEATURES', 'qemu-system-native')
-         features = 'INHERIT += "testimage"\n'
-         if 'gtk+' not in qemu_packageconfig:
-             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"\n'
-         if 'sdl' not in qemu_packageconfig:
-             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " sdl"\n'
--        if 'virglrenderer' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"\n'
--        if 'glx' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " glx"\n'
--        if 'opengl' not in sdl_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-libsdl2-native = " opengl"\n'
-+        if 'opengl' not in qemu_distrofeatures:
-+            features += 'DISTRO_FEATURES_append = " opengl"\n'
-         features += 'TEST_SUITES = "ping ssh virgl"\n'
-         features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-         features += 'IMAGE_INSTALL_append = " kmscube"\n'
-@@ -231,12 +227,10 @@ class TestImage(OESelftestTestCase):
-             dripath = subprocess.check_output("pkg-config --variable=dridriverdir dri", shell=True)
-         except subprocess.CalledProcessError as e:
-             self.skipTest("Could not determine the path to dri drivers on the host via pkg-config.\nPlease install Mesa development files (particularly, dri.pc) on the host machine.")
--        qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
-+        qemu_distrofeatures = get_bb_var('DISTRO_FEATURES', 'qemu-system-native')
-         features = 'INHERIT += "testimage"\n'
--        if 'virglrenderer' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"\n'
--        if 'glx' not in qemu_packageconfig:
--            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " glx"\n'
-+        if 'opengl' not in qemu_distrofeatures:
-+            features += 'DISTRO_FEATURES_append = " opengl"\n'
-         features += 'TEST_SUITES = "ping ssh virgl"\n'
-         features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
-         features += 'IMAGE_INSTALL_append = " kmscube"\n'
-diff --git a/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb b/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-index d83ee59375..7394385d30 100644
---- a/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu-system-native_4.2.0.bb
-@@ -9,7 +9,9 @@ DEPENDS = "glib-2.0-native zlib-native pixman-native qemu-native bison-native"
- 
- EXTRA_OECONF_append = " --target-list=${@get_qemu_system_target_list(d)}"
- 
--PACKAGECONFIG ??= "fdt alsa kvm"
-+PACKAGECONFIG ??= "fdt alsa kvm \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer glx', '' ,d)} \
-+"
- 
- # Handle distros such as CentOS 5 32-bit that do not have kvm support
- PACKAGECONFIG_remove = "${@'kvm' if not os.path.exists('/usr/include/linux/kvm.h') else ''}"
-diff --git a/meta/recipes-devtools/qemu/qemu_4.2.0.bb b/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-index f0c1daabe1..a4018cc448 100644
---- a/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_4.2.0.bb
-@@ -21,5 +21,8 @@ do_install_append_class-nativesdk() {
- PACKAGECONFIG ??= " \
-     fdt sdl kvm \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'alsa xen', d)} \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer glx', '' ,d)} \
-+"
-+PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer glx', '' ,d)} \
- "
--PACKAGECONFIG_class-nativesdk ??= "fdt sdl kvm"
--- 
-2.26.2
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
+--00000000000027080e05a62bf713
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, May 21, 2020 at 6:16 PM Khem Raj =
+&lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:=
+<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex">Now that they uses -mcpu, its better to have tune specific buil=
+d<br>
+directories, since aarch64 wont be appropriate any longer<br></blockquote><=
+div><br></div><div>I agree with Steve that this is a bit invasive for stabl=
+e branch, but on the other hand it&#39;s long overdue and if we don&#39;t i=
+mprove it in LTS branch then many people will need to carry local work arou=
+nds for multi-machine builds.=C2=A0+1 from me.</div><div><br></div><div>Onc=
+e the=C2=A0LAYERVERSION_core is bumped because of those python modules, the=
+n BSPs will also be able to depend on newer version of oe-core when they st=
+art using one of new tune files.</div><div><br></div><div>Acked-by:=C2=A0Ma=
+rtin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com">Martin.Jansa@gmail=
+.com</a>&gt;</div></div></div>
+
+--00000000000027080e05a62bf713--
