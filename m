@@ -1,81 +1,75 @@
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
- by mx.groups.io with SMTP id smtpd.web10.8130.1590074331879203839
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
+ by mx.groups.io with SMTP id smtpd.web10.8232.1590074598577779040
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 08:18:51 -0700
+ Thu, 21 May 2020 08:23:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uYzmJjV+;
- spf=pass (domain: gmail.com, ip: 209.85.214.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f196.google.com with SMTP id u22so2939280plq.12
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 08:18:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=fbwHV21P;
+ spf=pass (domain: gmail.com, ip: 209.85.166.196, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f196.google.com with SMTP id b15so7404178ilq.12
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 08:23:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bJM1rls6Hqf0tzQuhZ/9MiMur2Ry/SncNcW21YXgBiM=;
-        b=uYzmJjV++m1rj+cvaAoosoRj+2Nz7PxpO5pGdhSgczhUzoK2L3V1ywVFQhw4bwiYcE
-         8IGKKySlKRmj/29Gyd+Q4DqfyYH/zvenIre4Raqatajtc3RanWfvrAbBOquDaRQtHZ/M
-         3uIq3NF1UREBawExRzcODmnZ0GIr0wPI7UIrY3wsrRFCQYyQlhbWOHA+XUJA4KA15Y4m
-         i9hwBDe0yPUM9lyab9pHcYwczJjzguBQZVaLUF9zK9oIga28QTuecsKxeMrVf6n9n73h
-         DwIzmhJ+ECHMgmSe18tPxukcPC/v3KYs5kV+0/qC/bAuXzVZP+0FeB31bVH3wFXADvoi
-         qGXw==
+        h=from:to:cc:subject:date:message-id;
+        bh=NvyokGiOzFI77R+lzSCTsIelK4kYJ/SET7nuIfuRcOo=;
+        b=fbwHV21PRBP1a8g+UHO6VVmAhlwvIA7A6u59i9eZDMJZbyfJH40N5SsML20gcezofv
+         F7+CE2ZEWeXOdqbpU+8hybVt8nyW3mOxwBuMvav53I+4tls5DtSxey3aUvQZV5kJzTDS
+         nEVHNmk1c4rnTZosyli+aT/fgOHcElvp1Wt1yxCc5U0DxgG8e8MHLXIViAlGRugm8W5A
+         KCfP2Ixza/ZZCEJa6vM/eA2lkFVI6NgEIS+PEWCbZKWzgg/kKnDmNtKsb8gSlVAI8RmR
+         /AZeT308hF0kg0q36YY7KZ9bPqq5nVEHJ6GoUQmqCBLYfYFbEwuxAKpJLZmju7SaP+JD
+         oCjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=bJM1rls6Hqf0tzQuhZ/9MiMur2Ry/SncNcW21YXgBiM=;
-        b=lmW4Xxow8Y0FaIRAAF+3ggPaNazRnb0Fxl5pCH0fBQfh1c4LX/o/2uM3NGP9B2bTw8
-         z1Y+hm/CG06Ql0a2lRVjC6v/Mt8uAbfQlI87K6he3PZiO2KerT1hAFblOzLy27oB8eCf
-         BZCHkFaau2ytD9/NgvYx6SVLm6SJvWmkZcinKfFJ+ArkI2szzeglMPKaGR+ZxNVziLyC
-         VOXtwOIYQ6Wxr4vTK7XajiKF8gJjHMak6BodxQiy6UCig8jhAEf28WuOEOBURZk2yC5g
-         8WMkaCxxiZ6nbyVCejcnsCUCtLf2e0nl5pG8Ogr0ACVtdVnF4bHqTkDcLbg+mVNxCJry
-         Ekjw==
-X-Gm-Message-State: AOAM533JekWubTM2QozOlRZUCPEQCRyPRSgoWOnnFnzHONMhNBB6+Ese
-	PXqYsjGRWKbjzl2b7rWq4l6lFLTFkjE=
-X-Google-Smtp-Source: ABdhPJxTzYs5g6Ue6LxIgb1dvis/JWYnz05L/kDwRmSW1Wz0jOzOoRITS+P1slFdjT+3rVoS4sxQrQ==
-X-Received: by 2002:a17:90a:f087:: with SMTP id cn7mr6749589pjb.223.1590074330984;
-        Thu, 21 May 2020 08:18:50 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e62a])
-        by smtp.gmail.com with ESMTPSA id x13sm4683601pjr.20.2020.05.21.08.18.49
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=NvyokGiOzFI77R+lzSCTsIelK4kYJ/SET7nuIfuRcOo=;
+        b=nkq4k0NJ//2x50DazRkzqlBOuKVjQWtsZw+qo3kw5NwBnotHBzjDAdglehz93+bgee
+         VIiK2zz34vAHpfbJS64HGjqPv37lQ1Fzu9+LdhjT9d8Sy04+LwWwmcg+baiB5ivSvmd+
+         MAJECtmXyyDF9nkOKXsmZM8pfPViC7b5t2X4aZ+MGOSWLP/49w7Bwv6cPDPNxDbslOoQ
+         MDQL1fX4meq4SuHcWnkCGhf13TBC0BOHUET/xocU3M2bwz9KS9aBPd4rBCTs2kLC5XKn
+         pvmmJzEuCliMUEhvi7F2lcUUnH0d5WqBjG+gd/ziLTWhCoWWMikkNwR4o9GPpMipRLAa
+         TVmw==
+X-Gm-Message-State: AOAM533TZCDkIQGFzyX5Dm2/qE/jrgYE/TzlUoT06KKGKlczFUhJsHnI
+	DD9cm1fqrxyF0l2Zapj2itWP6xFHr+8=
+X-Google-Smtp-Source: ABdhPJwfFVRYwaJXMw9I3BqW+ZF/KEUssNxzuR4r6JZKvGUP1gqtC5sI4rtCq09bTyZgG2WsphG06w==
+X-Received: by 2002:a92:9e43:: with SMTP id q64mr8864396ili.136.1590074597771;
+        Thu, 21 May 2020 08:23:17 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:dd2f:75de:f1b0:dc7a])
+        by smtp.gmail.com with ESMTPSA id n27sm3150589ild.76.2020.05.21.08.23.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2020 08:18:50 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
+        Thu, 21 May 2020 08:23:16 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] cve-check: Run it after do_fetch
-Date: Thu, 21 May 2020 08:18:47 -0700
-Message-Id: <20200521151847.3256803-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] diffoscope: upgrade 143 -> 144
+Date: Thu, 21 May 2020 10:22:59 -0500
+Message-Id: <20200521152259.25069-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-Certain recipes e.g. bash readline ( from meta-gplv2 ) download patches instead of having them in
-metadata, this could fail cve_check
-
-ERROR: readline-5.2-r9 do_cve_check: File Not found: qemuarm/build/../downloads/readline52-001
-
-This patch ensures that download is done before running CVE scan, even
-though these will be external patches and may not contain CVE tags as it
-expects, but it will fix the run failures as seen above
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/cve-check.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../diffoscope/{diffoscope_143.bb => diffoscope_144.bb}       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/diffoscope/{diffoscope_143.bb => diffoscope_144.bb} (75%)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 2a530a0489..556ac6e67f 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -65,7 +65,7 @@ python do_cve_check () {
+diff --git a/meta/recipes-support/diffoscope/diffoscope_143.bb b/meta/recipes-support/diffoscope/diffoscope_144.bb
+similarity index 75%
+rename from meta/recipes-support/diffoscope/diffoscope_143.bb
+rename to meta/recipes-support/diffoscope/diffoscope_144.bb
+index 4ba3832d10..3a877cae15 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_143.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_144.bb
+@@ -7,8 +7,8 @@ PYPI_PACKAGE = "diffoscope"
  
- }
+ inherit pypi setuptools3
  
--addtask cve_check before do_build
-+addtask cve_check before do_build after do_fetch
- do_cve_check[depends] = "cve-update-db-native:do_populate_cve_db"
- do_cve_check[nostamp] = "1"
+-SRC_URI[md5sum] = "a86cf8467a5dec99832d5c082928f937"
+-SRC_URI[sha256sum] = "a1fb4dd97af92bb8ce275d1caf465971726919e28efe5f043bd3ea9afb50574a"
++SRC_URI[md5sum] = "4ee9d1a36086caa31ccbc6300ad31652"
++SRC_URI[sha256sum] = "9a45464b7b7184fa1ad2af9c52ebac8f00b3dd5dcf9e15dfc00c653c26fcc345"
+ 
+ RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
  
 -- 
-2.26.2
+2.17.1
 
