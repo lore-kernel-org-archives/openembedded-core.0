@@ -1,68 +1,98 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.1701.1590048063211596390
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web11.2106.1590050519735527341
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 01:01:03 -0700
+ Thu, 21 May 2020 01:42:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vN9C13Rc;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: jupiter.hce@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id bs4so6011053edb.6
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 01:01:03 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FOUP2CTk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id r3so3932168wrn.11
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 01:41:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=qzXOlH4mrdmte7BUdffahPu2WCldUALf2nZFREK06as=;
-        b=vN9C13RcYr2e1A1W1XTqMGgJ1o8JcIGaD/cKGQd8gFl0On31jGhyi7edQcsiGoB29e
-         2yics0vPYFX4RZG8rQMjtvP5twVoXiIL4bh8ie+6EZc71ruFTNOH03x9WWh02wgF/UO7
-         CEWuu9wW+n8MClFj9d/C3lyM6xefeaWP3iavCykqgoU1+SFAX27F6pVuFvjAd/iyZaQJ
-         pSSMByxOT003Q7JA89GHQ9wbnYPdap0w/ZfBaLoT2A6LrEmc9I6s+jgLs7NZuiOSVuUy
-         jD1VnA0J+MAGxMtOvk48px0KxKQW1sHumeTebsprVtkX8izfizITXaHpaBNJDeOUH0OE
-         Sg7w==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=05hTbamH/qO0qZgLCl+aYun7JwzGdlsYL7NWQKcTDdE=;
+        b=FOUP2CTkSjAF/J/5EVdANXzvHCWVJIkVbvIWOVG/bPYhydXbPLPdSW9rTvKANUOmsn
+         qvIHfNado09SIr0bC+PhoICNqdfRhlDw/UdgzmjRsLV98j0Flx0rNMnuLAgNKB6C4njO
+         x2kk2xrUARz5hscVVNAmpsG9EoP9TorBwvAi8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=qzXOlH4mrdmte7BUdffahPu2WCldUALf2nZFREK06as=;
-        b=gSAVt0x/I6O31KCSZivzroAGklXeyRVKeSgsKI1c+1nO4+RHiXmtVL4waABWpNFWYH
-         djtP1DJLRrUWzRomGtjD8XUMcuGbvQRpXs4Rgcss517fUV76tOEhdj8suml+kUi99unn
-         xf0gB1t8EE1/vnmfks0zqQMPc9NgRROzBaVl0390royu2l44Dbw/U+q/NrnTV2+MP6er
-         Dc2JikjnsgHyQObBGvNq+SBWWRHddEJLt8YilPeINUvvIpp2/JY47sxgmLLLSjv4abGI
-         apblrHnbkm0XICzpQ+Uj2MeghGo40wjmEscvHad2lhhMqZM2YF7ge3+C1QF14ADy4F0n
-         n12g==
-X-Gm-Message-State: AOAM530sHXDsR5ua2p64VdVrPpTpzydpHLJwmL/uHefIp/u+ZC/dCsLo
-	LI7QxS9WiG90PtPIk6/vP8LqcHJANkPqyQJokpL58k6o
-X-Google-Smtp-Source: ABdhPJwhLKfG6yO5wt0EPkTQiKs6378Icfh+7rhPYObv79ukon2Jkp0oWW2m4TP0HKQg5Rwp5f+VbBxQ5mzznS7jPdE=
-X-Received: by 2002:aa7:d44a:: with SMTP id q10mr6997130edr.386.1590048061365;
- Thu, 21 May 2020 01:01:01 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=05hTbamH/qO0qZgLCl+aYun7JwzGdlsYL7NWQKcTDdE=;
+        b=Ey2sUIk07cEVEEl2tftQQyEq1c77mhFnML/Vh3rVfSSpi4ogc4oq705tEUTxX6oeGs
+         PS6OFhpAAz7xU03kvCBJehkCHc7XrztkqdZUmmU3SEZoBRSRRxcuRjsDsQFYtiZzHJ0q
+         Z4w9IeN6tgCTi3ip3sJKNcZEgK1xeCHpniPhXsKh2WteCRroyWGfb4HueGid/fo5PXi6
+         KM/8hkr5WIb7Sp2Js/o0mRpWS99opgwTGiyrlgx2nk3bmecgvaehHragsZHcwoPdW936
+         3MydWKsOo2fBpUBYJ5T3GL/W41+jFFC1+1H5vvcaBhxbKIFVGZF7iYoghy2lmmBCWQ02
+         oHbg==
+X-Gm-Message-State: AOAM533ivPeoP9AfkuO7I5Pdv0BxDuCJyF+z230KBauB0ut1musjqDmP
+	NZxHIF7xuUXhpD6FaVojXcFG19Bpb0E=
+X-Google-Smtp-Source: ABdhPJxSsLQbZe8Jz64PLxFAndtmjUPuUXCtGDG9KPI5WG8nwmsATgoy5RO7rLJ5MhJZTFeaeyisnQ==
+X-Received: by 2002:a05:6000:1010:: with SMTP id a16mr7139818wrx.291.1590050518254;
+        Thu, 21 May 2020 01:41:58 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id l11sm6009631wmf.28.2020.05.21.01.41.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2020 01:41:57 -0700 (PDT)
+Message-ID: <c6a1e363c6265e6fc17e205422ee992a5522244f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 1/1] archiver.bbclass: Fix duplicated SRC_URIs for do_ar_original
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: pbarker@konsulko.com
+Date: Thu, 21 May 2020 09:41:56 +0100
+In-Reply-To: <990b33fc44d9449f1a3e7c9d6703a8ba225e681e.1590033901.git.liezhi.yang@windriver.com>
+References: <cover.1590033901.git.liezhi.yang@windriver.com>
+	 <990b33fc44d9449f1a3e7c9d6703a8ba225e681e.1590033901.git.liezhi.yang@windriver.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Received: by 2002:a54:3344:0:0:0:0:0 with HTTP; Thu, 21 May 2020 01:01:00
- -0700 (PDT)
-From: "JH" <jupiter.hce@gmail.com>
-Date: Thu, 21 May 2020 18:01:00 +1000
-Message-ID: <CAA=hcWRURPWfCSPoSa4PZoHSOpqBEesKGnDPT-_mjY=bRXpd0Q@mail.gmail.com>
-Subject: Does OE / Yocto support dts file remove device node /delete-node/?
-To: openembedded-core@lists.openembedded.org
-Cc: Yocto discussion list <yocto@yoctoproject.org>, meta-freescale@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Wed, 2020-05-20 at 21:05 -0700, Robert Yang wrote:
+> The argument urls of bb.fetch2.Fetch(urls, d) are duplicated to SRC_URI, which caused errors like:
+> 
+> bb.data_smart.ExpansionError: Failure expanding variable SRCPV, expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError: Fetcher failure: The SRCREV_FORMAT variable must be set when multiple SCMs are used.
+> The SCMs are:
+> git://github.com/docker/notary.git;destsuffix=git/src/github.com/docker/notary
+> git://github.com/docker/notary.git
+> 
+> The first one is from original SRC_URI, the second one is from the
+> variable 'urls', so cleanup SRC_URI before call bb.fetch2.Fetch() can fix the
+> problem.
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/classes/archiver.bbclass | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+> index 43333a7551..780c562b68 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -193,7 +193,13 @@ python do_ar_original() {
+>                  del decoded[5][param]
+>          encoded = bb.fetch2.encodeurl(decoded)
+>          urls[i] = encoded
+> -    fetch = bb.fetch2.Fetch(urls, d)
+> +
+> +    # Cleanup SRC_URI before call bb.fetch2.Fetch() since now SRC_URI is in the
+> +    # variable "urls", otherwise there might be errors like:
+> +    # The SRCREV_FORMAT variable must be set when multiple SCMs are used
+> +    ld = bb.data.createCopy(d)
+> +    ld.setVar('SRC_URI', '')
+> +    fetch = bb.fetch2.Fetch(urls, ld)
+>      tarball_suffix = {}
+>      for url in fetch.urls:
+>          local = fetch.localpath(url).rstrip("/");
 
-I have a following statement to remove a node in a DTS file:
 
-&gpmi {
-    /delete-node/ fsl,use-minimum-ecc;
-};
+Well found! I've starred at that code for a different issue and not
+spotted that!
 
-I can build it correctly in OpenWRT build, but I cannot built it
-correctly in OE / Yocto (Zeus), it did not remove the node
-fsl,use-minimum-ecc. The u-boot is appended from meta-freescale
-u-boot-imx_2018.03.bb. Any workarounds to fix that problem?
+Cheers,
 
-Thank you.
+Richard
 
-Kind regards,
-
-- jh
-
--- 
-"A man can fail many times, but he isn't a failure until he begins to
-blame somebody else."
--- John Burroughs
