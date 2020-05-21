@@ -1,156 +1,148 @@
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
- by mx.groups.io with SMTP id smtpd.web12.9568.1590077758796820149
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.9446.1590077759973982789
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 09:15:58 -0700
+ Thu, 21 May 2020 09:16:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=JmkXKIVZ;
- spf=pass (domain: gmail.com, ip: 209.85.210.195, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f195.google.com with SMTP id 23so3531114pfy.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 09:15:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=aoJ83OmC;
+ spf=pass (domain: gmail.com, ip: 209.85.210.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f176.google.com with SMTP id n18so3547194pfa.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 09:15:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=ODxMj+M+YxMFL/7oaDtQRhJI66eJGuiNMoxYg4T+sUU=;
-        b=JmkXKIVZzcvgH/rpywsDN49VKiagNp+tLhdgdeV0sx2Mbq7rFFI30IM0auFecQFtTf
-         NXXLyG2NGL0o7d0BaikhpHioI1H/oeaJriyAhzuVXYNAhhxzhTJXePuKYexYxRwWBc7B
-         8VZHOnbVuqRtoZmeFhdAKm9flpgUmaiskDevIpgpzOujCmQ+qD5jLmDGCiY85ejO9hNc
-         Y954+LckNGCPaW7DAUM0pRC7Ej0vgiqviJIK8UNv/HSSL3uJz7S7wwJVEqwDL/sgQZ0r
-         KFXYkJ0/fY5MpRzvZq5aUeZVbiJVN6CMewhF9n7zWf7bTUGDfk3wITKozP9XvWTLFCSe
-         w/+g==
+        bh=ZbfDmjGNXxWki3boPof8tGRfxuPB94PRKJs3k6WV4mY=;
+        b=aoJ83OmCc1MkDYV/JBP33OSPXww2Ls7rx2iY88sEOHJKK2hQR3CaXg/WsYGS5Tgj/e
+         8k1/82npJkSWkcYL2u04pxPI73ZuKLwxIOLdwbOvLSWvVbxCCY8ClE0ociNjDpB511Ho
+         RdjmXjjb6z4ItS1AaO/5GkAUhPaMFlfHG7LtrlsxvzY5G/JZ0dzJpS3LJAOLgpZuR0u2
+         qfCPkgBOD1gM9Sb8Rh/YPBjVjemK6f2vTtqCAxKINXyVXGrodLWKYZnOAj/LLVxcZqyH
+         XWaFLJEKowImEpR6WKIIuVW1TFMEmj9l6m8Sx2bPb27/JRjN71DtS4n62TdHSITHTsh5
+         X7ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=ODxMj+M+YxMFL/7oaDtQRhJI66eJGuiNMoxYg4T+sUU=;
-        b=qQ0cfxccJDTZlNsleI9QD1ChtE24V77BuER2a/pe55NXUx5Ms2OjhEDTB3giqKHvAS
-         pGPLHq8gtn1GSZLEUE6PfAAHNxz9WQ6BvJL4759N/CBOeNN+DtFoGkbfVYPXxqgvmtT+
-         dmJywd2623cVNsSJLdmYBjaGjisZna3hthgWbd9cvORhgobZk4W8ZYxMP2Gzs3CpYP3L
-         NJsH93tBoyH1zJuKUjEQ5rcuvpQMc5vVJgGVsHhp8/mV5EmQlmcgoKNbMDAR0wAxcxeg
-         fM8qNtdrIJX1RpYw8hW4RoT22KN1x8OYayEpAjAnp0m46sX6UUAVn+qkqC+HGBcRxaif
-         Slww==
-X-Gm-Message-State: AOAM532KQRSFSyOS199Z4x+tsWhM493P5hpxFGmgoFtAb7R3egzF3Lkz
-	E+of5cRSJe1A+FA+NsPFNaGuFyLBSuY=
-X-Google-Smtp-Source: ABdhPJxicMr5MDff2lXuD+AsatrVuxIF5tEfz4ik0J5KdYNIRCflXKC5AsDoYSeOERzxuISKKsOZXg==
-X-Received: by 2002:a63:3545:: with SMTP id c66mr9160927pga.82.1590077757919;
-        Thu, 21 May 2020 09:15:57 -0700 (PDT)
+        bh=ZbfDmjGNXxWki3boPof8tGRfxuPB94PRKJs3k6WV4mY=;
+        b=uEOE58cgQM2N3327zk5sYZ3J27LVOdBB98n1LFFG81W0spaiBJW5/qPXKf7PgpxNpu
+         w0WRqPB3/CcE0fNQjzMVs82tnI1U3GtwPY2B4qK7ES4RmF8WGOxS7K0DkKj8EdwnW/Pz
+         BleliOTfpP0pBU2dNBEP/OroPLlvb8yjhMaUR/8+JGp0+GCRe92yO+luy8UBUVdnZrxM
+         qbNc3YcEJjQbTu1Mtsdn4EWJrfSkVXSl63mc0T82pWKxqz1fjmeT8NSVSeo/PuqMavAy
+         YmLgCLqNeZ8Uqip5E8Zj/3z7bACg2SlIAPsoDBUAhnrfB0YqdXVsTHGN0DlogKSZxc3V
+         3nDw==
+X-Gm-Message-State: AOAM533HLx29B7+jUz8GnMr6Ql2d6p+r1GbO08BIACg63GPyw1R2JNMt
+	+B+FzuM2ukmiml98qjU898ciM5WehmQ=
+X-Google-Smtp-Source: ABdhPJy/nwhJKjkFsBzFvqgarNK8DYPyXwO6AShEGKyNKNPAKgDFcyUyHUcHD3Sj24Vj2Hw1X4RH/g==
+X-Received: by 2002:a62:6dc3:: with SMTP id i186mr9550898pfc.273.1590077759051;
+        Thu, 21 May 2020 09:15:59 -0700 (PDT)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e62a])
-        by smtp.gmail.com with ESMTPSA id r24sm3636427pgm.25.2020.05.21.09.15.56
+        by smtp.gmail.com with ESMTPSA id r24sm3636427pgm.25.2020.05.21.09.15.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2020 09:15:57 -0700 (PDT)
+        Thu, 21 May 2020 09:15:58 -0700 (PDT)
 From: "Khem Raj" <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell][ 08/10] armv8/tunes: Define TUNE_PKGARCH
-Date: Thu, 21 May 2020 09:15:41 -0700
-Message-Id: <20200521161543.3273063-8-raj.khem@gmail.com>
+Subject: [dunfell][ 09/10] gcc: Do not set -march for arm64 for libatomic
+Date: Thu, 21 May 2020 09:15:42 -0700
+Message-Id: <20200521161543.3273063-9-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200521161543.3273063-1-raj.khem@gmail.com>
 References: <20200521161543.3273063-1-raj.khem@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now that they uses -mcpu, its better to have tune specific build
-directories, since aarch64 wont be appropriate any longer
+libatomic has mind of its own when it comes to setting -march for arm64
+which conflicts with -mcpu option we pass from environment in some cases
+since we always pass -march/-mcpu in OE, its safe to remove this option
+
+mcpu removal from cortex-a55 is no longer needed since the option
+conflict is now removed from libatomic instead
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/machine/include/tune-cortexa53.inc           | 4 ++++
- meta/conf/machine/include/tune-cortexa55.inc           | 1 +
- meta/conf/machine/include/tune-cortexa57-cortexa53.inc | 1 +
- meta/conf/machine/include/tune-cortexa57.inc           | 2 ++
- meta/conf/machine/include/tune-cortexa72-cortexa53.inc | 2 ++
- meta/conf/machine/include/tune-cortexa72.inc           | 1 +
- meta/conf/machine/include/tune-cortexa73-cortexa53.inc | 2 ++
- 7 files changed, 13 insertions(+)
+ meta/recipes-devtools/gcc/gcc-9.3.inc         |  1 +
+ ...omic-Do-not-enforce-march-on-aarch64.patch | 42 +++++++++++++++++++
+ meta/recipes-devtools/gcc/gcc-runtime.inc     |  4 --
+ 3 files changed, 43 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-9.3/0039-libatomic-Do-not-enforce-march-on-aarch64.patch
 
-diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
-index 6c0b443eaf..b7327d00c4 100644
---- a/meta/conf/machine/include/tune-cortexa53.inc
-+++ b/meta/conf/machine/include/tune-cortexa53.inc
-@@ -13,5 +13,9 @@ TUNE_FEATURES_tune-cortexa53          = "aarch64 cortexa53 crc"
- TUNE_FEATURES_tune-cortexa53-crypto   = "aarch64 cortexa53 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa53             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa53-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto"
+diff --git a/meta/recipes-devtools/gcc/gcc-9.3.inc b/meta/recipes-devtools/gcc/gcc-9.3.inc
+index b0411078d3..c9eab911d3 100644
+--- a/meta/recipes-devtools/gcc/gcc-9.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-9.3.inc
+@@ -67,6 +67,7 @@ SRC_URI = "\
+            file://0037-CVE-2019-14250-Check-zero-value-in-simple_object_elf.patch \
+            file://0038-gentypes-genmodes-Do-not-use-__LINE__-for-maintainin.patch \
+            file://0039-process_alt_operands-Don-t-match-user-defined-regs-o.patch \
++           file://0039-libatomic-Do-not-enforce-march-on-aarch64.patch \
+ "
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+ SRC_URI[sha256sum] = "71e197867611f6054aa1119b13a0c0abac12834765fe2d81f35ac57f84f742d1"
+diff --git a/meta/recipes-devtools/gcc/gcc-9.3/0039-libatomic-Do-not-enforce-march-on-aarch64.patch b/meta/recipes-devtools/gcc/gcc-9.3/0039-libatomic-Do-not-enforce-march-on-aarch64.patch
+new file mode 100644
+index 0000000000..fecb562f51
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-9.3/0039-libatomic-Do-not-enforce-march-on-aarch64.patch
+@@ -0,0 +1,42 @@
++From 411fc85c14bb14b07c0db807c55d25ce3f3e507f Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 13 May 2020 15:10:38 -0700
++Subject: [PATCH] libatomic: Do not enforce march on aarch64
 +
-+TUNE_PKGARCH_tune-cortexa53 = "cortexa53"
-+TUNE_PKGARCH_tune-cortexa53-crypto = "cortexa53-crypto"
++OE passes the right options via gcc compiler cmdline via TUNE_CCARGS
++this can conflict between -mcpu settings and -march setting here, since
++-mcpu will translate into an appropriate -march, lets depend on that
++instead of setting it explicitly
 +
- BASE_LIB_tune-cortexa53               = "lib64"
- BASE_LIB_tune-cortexa53-crypto        = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa55.inc b/meta/conf/machine/include/tune-cortexa55.inc
-index 89032b59ec..274944819e 100644
---- a/meta/conf/machine/include/tune-cortexa55.inc
-+++ b/meta/conf/machine/include/tune-cortexa55.inc
-@@ -9,5 +9,6 @@ require conf/machine/include/arm/arch-armv8a.inc
- AVAILTUNES += "cortexa55"
- ARMPKGARCH_tune-cortexa55             = "cortexa55"
- TUNE_FEATURES_tune-cortexa55          = "aarch64 cortexa55 crc crypto"
-+TUNE_PKGARCH_tune-cortexa55           = "cortexa55"
- PACKAGE_EXTRA_ARCHS_tune-cortexa55    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa55"
- BASE_LIB_tune-cortexa55               = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
-index ba4b073852..b95d63e86b 100644
---- a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
-+++ b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
-@@ -11,5 +11,6 @@ require conf/machine/include/arm/arch-armv8a.inc
- AVAILTUNES += "cortexa57-cortexa53"
- ARMPKGARCH_tune-cortexa57-cortexa53 = "cortexa57-cortexa53"
- TUNE_FEATURES_tune-cortexa57-cortexa53 = "aarch64 cortexa57-cortexa53"
-+TUNE_PKGARCH_tune-cortexa57-cortexa53 = "cortexa57-cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa57-cortexa53 = "${PACKAGE_EXTRA_ARCHS_tune-aarch64} cortexa57-cortexa53"
- BASE_LIB_tune-cortexa57-cortexa53 = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa57.inc b/meta/conf/machine/include/tune-cortexa57.inc
-index 645a5a7ef6..e8ddeb5786 100644
---- a/meta/conf/machine/include/tune-cortexa57.inc
-+++ b/meta/conf/machine/include/tune-cortexa57.inc
-@@ -13,5 +13,7 @@ TUNE_FEATURES_tune-cortexa57          = "aarch64 cortexa57 crc"
- TUNE_FEATURES_tune-cortexa57-crypto   = "aarch64 cortexa57 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa57             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa57"
- PACKAGE_EXTRA_ARCHS_tune-cortexa57-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa57 cortexa57-crypto"
-+TUNE_PKGARCH_tune-cortexa57 = "cortexa57"
-+TUNE_PKGARCH_tune-cortexa57-crypto = "cortexa57-crypto"
- BASE_LIB_tune-cortexa57               = "lib64"
- BASE_LIB_tune-cortexa57-crypto        = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
-index 5c54aa33ea..fd1ffeb177 100644
---- a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
-+++ b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
-@@ -15,6 +15,8 @@ TUNE_FEATURES_tune-cortexa72-cortexa53               = "aarch64 crc cortexa72-co
- TUNE_FEATURES_tune-cortexa72-cortexa53-crypto        = "aarch64 crc crypto cortexa72-cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa72-cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72-cortexa53 cortexa72-cortexa53-crypto"
-+TUNE_PKGARCH_tune-cortexa72-cortexa53                = "cortexa72-cortexa53"
-+TUNE_PKGARCH_tune-cortexa72-cortexa53-crypto         = "cortexa72-cortexa53-crypto"
- BASE_LIB_tune-cortexa72-cortexa53                    = "lib64"
- BASE_LIB_tune-cortexa72-cortexa53-crypto             = "lib64"
++Upstream-Status: Inappropriate [OE-Specific]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ libatomic/Makefile.am | 1 -
++ libatomic/Makefile.in | 1 -
++ 2 files changed, 2 deletions(-)
++
++diff --git a/libatomic/Makefile.am b/libatomic/Makefile.am
++index 133fbbca77e..ac1ca645876 100644
++--- a/libatomic/Makefile.am
+++++ b/libatomic/Makefile.am
++@@ -125,7 +125,6 @@ libatomic_la_LIBADD = $(foreach s,$(SIZES),$(addsuffix _$(s)_.lo,$(SIZEOBJS)))
++ ## On a target-specific basis, include alternates to be selected by IFUNC.
++ if HAVE_IFUNC
++ if ARCH_AARCH64_LINUX
++-IFUNC_OPTIONS	     = -march=armv8-a+lse
++ libatomic_la_LIBADD += $(foreach s,$(SIZES),$(addsuffix _$(s)_1_.lo,$(SIZEOBJS)))
++ endif
++ if ARCH_ARM_LINUX
++diff --git a/libatomic/Makefile.in b/libatomic/Makefile.in
++index a51807e95c9..97df2d7ff03 100644
++--- a/libatomic/Makefile.in
+++++ b/libatomic/Makefile.in
++@@ -431,7 +431,6 @@ M_SRC = $(firstword $(filter %/$(M_FILE), $(all_c_files)))
++ libatomic_la_LIBADD = $(foreach s,$(SIZES),$(addsuffix \
++ 	_$(s)_.lo,$(SIZEOBJS))) $(am__append_1) $(am__append_2) \
++ 	$(am__append_3) $(am__append_4)
++-@ARCH_AARCH64_LINUX_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=armv8-a+lse
++ @ARCH_ARM_LINUX_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=armv7-a+fp -DHAVE_KERNEL64
++ @ARCH_I386_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -march=i586
++ @ARCH_X86_64_TRUE@@HAVE_IFUNC_TRUE@IFUNC_OPTIONS = -mcx16
+diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+index d9a4e483cc..ace706dbf4 100644
+--- a/meta/recipes-devtools/gcc/gcc-runtime.inc
++++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+@@ -18,10 +18,6 @@ EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
+ EXTRA_OECONF_append = " --cache-file=${B}/config.cache"
+ EXTRA_OECONF_append_libc-newlib = " --with-newlib"
  
-diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/tune-cortexa72.inc
-index 00f7745a22..23640d5c1f 100644
---- a/meta/conf/machine/include/tune-cortexa72.inc
-+++ b/meta/conf/machine/include/tune-cortexa72.inc
-@@ -10,4 +10,5 @@ AVAILTUNES += "cortexa72"
- ARMPKGARCH_tune-cortexa72             = "cortexa72"
- TUNE_FEATURES_tune-cortexa72          = "aarch64 cortexa72 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72"
-+TUNE_PKGARCH_tune-cortexa72           = "cortexa72"
- BASE_LIB_tune-cortexa72               = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
-index 431d244fe2..ab87c88747 100644
---- a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
-+++ b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
-@@ -15,6 +15,8 @@ TUNE_FEATURES_tune-cortexa73-cortexa53               = "aarch64 crc cortexa73-co
- TUNE_FEATURES_tune-cortexa73-cortexa53-crypto        = "aarch64 crc crypto cortexa73-cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa73-cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa73-cortexa53 cortexa73-cortexa53-crypto"
-+TUNE_PKGARCH_tune-cortexa73-cortexa53                = "cortexa73-cortexa53"
-+TUNE_PKGARCH_tune-cortexa73-cortexa53-crypto         = "cortexa73-cortexa53-crypto"
- BASE_LIB_tune-cortexa73-cortexa53                    = "lib64"
- BASE_LIB_tune-cortexa73-cortexa53-crypto             = "lib64"
- 
+-# cortex-a55 is ARMv8.2-a based but libatomic explicitly asks for -march=armv8.1-a
+-# which caused -march conflicts in gcc
+-TUNE_CCARGS_remove = "-mcpu=cortex-a55+crc -mcpu=cortex-a55 -mcpu=cortex-a55+crc+crypto"
+-
+ # Disable ifuncs for libatomic on arm conflicts -march/-mcpu
+ EXTRA_OECONF_append_arm = " libat_cv_have_ifunc=no "
+ EXTRA_OECONF_append_armeb = " libat_cv_have_ifunc=no "
 -- 
 2.26.2
 
