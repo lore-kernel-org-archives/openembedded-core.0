@@ -1,108 +1,193 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.2287.1590052305429878361
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.2503.1590052995275399197
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 02:11:45 -0700
+ Thu, 21 May 2020 02:23:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QXhkaT1X;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id n24so7955137ejd.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 02:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UNE1KhX97rIdjKn042GZYUrlV0p7vmwWsQxAKDD6aeM=;
-        b=QXhkaT1X4PPCnw7nn7ObhT/mHBcKBzvcDTmYzQctielhbDB8Ydk5QLKli4HvwkC/vv
-         Q3+Ot9JupYrawjB8lUVUE7yQZCofkj4oAMuDPoPQNVzIGxmpIieyisYOMhXgs8xeZo2D
-         3ll0mIjSdIS4eXYhwBVp7zU5uxRSU2P8eIG90n0jVmtZX8h0uWcHavQGYnoYJCKa2GZp
-         HVc9jUDhREFmlVNN/mAEZpHG9YOzFjd0KNYmI6RrHdLY3VKLnlknkphyWELgF3tQ5B0V
-         uPzmkc0tiaknF/9zhL6AvDGENIZGFme3aC4lmDNQzDc/QVtm/+1SZh+KGwpeVUS7rBeP
-         GNXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UNE1KhX97rIdjKn042GZYUrlV0p7vmwWsQxAKDD6aeM=;
-        b=QvCfwYXEsZPZ+lYjEEvp7Ql1UQCxDsSaHnZ5wk8uYplyumDZkZ0JTz7H3a8o0ccBKS
-         LcK78kJ5R891nTJ7Yp7891n3l56AO1gSjzJo8snmQ3gw7FvfSCfwFSJ3tSondyajG8r5
-         qJ8Cf4szPjFUgLMD6vIglZGmBbUDNozE4tq4sPX69Xui5cZiYl53uRMJmyBriJ/a8KjA
-         P8BI4/NNikJ7QMXJV9Z65d6gjZPj8rTAQvvRIdeTEJqn32HUjRho1BqW7oQnLMg13POu
-         /aJmK4Jim7vP7oYaQ0BeZ3Lqt4bpfUTX1jcnGYd/iFq5ef1ML9ZIUrkfCPPwvtMXrzKW
-         z5vQ==
-X-Gm-Message-State: AOAM530/Gu1ndQt0KbFdrWYHsS+XrM38+QokdEUYheZAbiS9RtuZ+yPn
-	ln4doApBmuD6OqSDZ1UpxA1oWOeAoKJ/cLdjRD0=
-X-Google-Smtp-Source: ABdhPJxluPb6Ee5kTe0XYIztT92R8F5kiwkK7nmVquz/pQ/Xi9AIoD9yo54MPlaW3vqubsZ248dwgf3EU6QRM37LSrk=
-X-Received: by 2002:a17:906:ce36:: with SMTP id sd22mr2544191ejb.94.1590052303812;
- Thu, 21 May 2020 02:11:43 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: kai.kang@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 04L9KsN6013975
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 02:23:03 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 21 May 2020 02:22:45 -0700
+From: "kai" <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] libsecret: add meson option introspection
+Date: Thu, 21 May 2020 17:22:41 +0800
+Message-ID: <20200521092241.28336-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
- <CAGDS+n=_mqZeLFusTNV6s7EKNBDVdM589wAmcJ5qQH2BMn=MLw@mail.gmail.com>
- <20200516174702.GA22042@localhost> <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
- <20200516200957.GA8056@localhost> <CAHtQpK4AH08zQ6dx1OWjCR6WwAmrLHNZuz0O1O9WqUnBHNk2Pg@mail.gmail.com>
- <20200517132245.GA9940@localhost> <CA+chaQeoVSY1HqivTCVkDixgJZOzxYchZ83FvRhgKuADwKJcFg@mail.gmail.com>
- <20200517154525.GA16162@localhost> <CA+chaQdKYt1ZMGxEnb6nQ2B3KitWXcNBsecgzfZ-htEVH=ySnA@mail.gmail.com>
- <20200517161441.GB16162@localhost> <5731941e-fe0c-e242-bea5-cd0d3c2ef772@gmail.com>
- <CAGDS+nkfNwuePOPSJ3JdRVqbzz=XTAvxMK_pjoeAX8vGnSS0HA@mail.gmail.com>
- <CA+chaQcADhU_7tzV89CsEHH8YDa3xOobwxQmri9_2EWcLGVMWg@mail.gmail.com> <CAJ86T=XCWi=1K0XmFgNjJzMBfKhnLxTKF1zZ84K-=roJVzRoqw@mail.gmail.com>
-In-Reply-To: <CAJ86T=XCWi=1K0XmFgNjJzMBfKhnLxTKF1zZ84K-=roJVzRoqw@mail.gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Thu, 21 May 2020 11:11:32 +0200
-Message-ID: <CA+chaQcooejBTxCSQn=GsE36LFyGJEJd1wHVrhsjO4uCp+aegQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
-To: Andre McCurdy <armccurdy@gmail.com>
-Cc: Steve Sakoman <sakoman@gmail.com>, Khem Raj <raj.khem@gmail.com>, Adrian Bunk <bunk@stusta.de>, 
-	Andrey Zhizhikin <andrey.z@gmail.com>, Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Denys Dmytriyenko <denis@denix.org>, 
-	Joshua Watt <jpewhacker@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	"jdmason@kudzu.us" <jdmason@kudzu.us>
-Content-Type: multipart/alternative; boundary="000000000000be3d3c05a624e6a6"
+Content-Type: text/plain
 
---000000000000be3d3c05a624e6a6
-Content-Type: text/plain; charset="UTF-8"
+From: Kai Kang <kai.kang@windriver.com>
 
-On Tue, May 19, 2020 at 9:57 PM Andre McCurdy <armccurdy@gmail.com> wrote:
+Add meson option introspection for libsecret. For bsp which doesn't
+support qemu usermode, it could disable gobject introspection build.
 
-> On Tue, May 19, 2020 at 11:25 AM Martin Jansa <Martin.Jansa@gmail.com>
-> wrote:
-> >
-> > We have discussed this in OE TSC meeting yesterday:
-> >
-> https://lists.openembedded.org/g/tsc/topic/openembedded_tsc_meeting/74313532
-> >
-> > tsc suggested to use LAYERVERSION bump in oe-core with
-> LAYERDEPENDS_meta-python update in meta-python, so that people will need to
-> update both layers (or neither if they really cannot).
->
-> OE living up to it's nickname... Over Engineered :-)
->
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ .../0001-meson-add-option-introspection.patch | 137 ++++++++++++++++++
+ .../libsecret/libsecret_0.20.3.bb             |   2 +
+ 2 files changed, 139 insertions(+)
+ create mode 100644 meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.patch
 
-Compared with some really Over Engineered stuff I've seen, this feels like
-KISS :).
+diff --git a/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.patch b/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.patch
+new file mode 100644
+index 0000000000..51ee66f42b
+--- /dev/null
++++ b/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.patch
+@@ -0,0 +1,137 @@
++meson: add option introspection
++
++Add an option 'introspection' for meson which could control whether
++build GIR files or not.
++
++Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/libsecret/-/merge_requests/53]
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++---
++ libsecret/meson.build | 86 ++++++++++++++++++++++---------------------
++ meson.build           |  1 +
++ meson_options.txt     |  1 +
++ 3 files changed, 46 insertions(+), 42 deletions(-)
++
++diff --git a/libsecret/meson.build b/libsecret/meson.build
++index 759b5ef..2ee8850 100644
++--- a/libsecret/meson.build
+++++ b/libsecret/meson.build
++@@ -104,50 +104,52 @@ libsecret_dep = declare_dependency(
++ )
++ 
++ # GObject Introspection
++-libsecret_gir_sources = [
++-  'secret-attributes.c',
++-  'secret-attributes.h',
++-  'secret-backend.c',
++-  'secret-backend.h',
++-  'secret-collection.c',
++-  'secret-collection.h',
++-  'secret-item.c',
++-  'secret-item.h',
++-  'secret-methods.c',
++-  'secret-password.c',
++-  'secret-password.h',
++-  'secret-paths.c',
++-  'secret-paths.h',
++-  'secret-prompt.c',
++-  'secret-prompt.h',
++-  'secret-retrievable.c',
++-  'secret-retrievable.h',
++-  'secret-schema.c',
++-  'secret-schema.h',
++-  'secret-schemas.c',
++-  'secret-schemas.h',
++-  'secret-service.c',
++-  'secret-service.h',
++-  'secret-types.h',
++-  'secret-value.c',
++-  'secret-value.h',
++-]
++-libsecret_gir_sources += version_h
++-libsecret_gir_sources += _enums_generated
++-
++-libsecret_gir = gnome.generate_gir(libsecret,
++-  sources: libsecret_gir_sources,
++-  namespace: 'Secret',
++-  nsversion: api_version_major,
++-  export_packages: 'libsecret-@0@'.format(api_version_major),
++-  includes: [ 'GObject-2.0', 'Gio-2.0' ],
++-  header: 'libsecret/secret.h',
++-  extra_args: [ '-D SECRET_COMPILATION'],
++-  install: true,
++-)
+++if with_gir
+++  libsecret_gir_sources = [
+++    'secret-attributes.c',
+++    'secret-attributes.h',
+++    'secret-backend.c',
+++    'secret-backend.h',
+++    'secret-collection.c',
+++    'secret-collection.h',
+++    'secret-item.c',
+++    'secret-item.h',
+++    'secret-methods.c',
+++    'secret-password.c',
+++    'secret-password.h',
+++    'secret-paths.c',
+++    'secret-paths.h',
+++    'secret-prompt.c',
+++    'secret-prompt.h',
+++    'secret-retrievable.c',
+++    'secret-retrievable.h',
+++    'secret-schema.c',
+++    'secret-schema.h',
+++    'secret-schemas.c',
+++    'secret-schemas.h',
+++    'secret-service.c',
+++    'secret-service.h',
+++    'secret-types.h',
+++    'secret-value.c',
+++    'secret-value.h',
+++  ]
+++  libsecret_gir_sources += version_h
+++  libsecret_gir_sources += _enums_generated
+++
+++  libsecret_gir = gnome.generate_gir(libsecret,
+++    sources: libsecret_gir_sources,
+++    namespace: 'Secret',
+++    nsversion: api_version_major,
+++    export_packages: 'libsecret-@0@'.format(api_version_major),
+++    includes: [ 'GObject-2.0', 'Gio-2.0' ],
+++    header: 'libsecret/secret.h',
+++    extra_args: [ '-D SECRET_COMPILATION'],
+++    install: true,
+++  )
+++endif
++ 
++ # Vapi
++-if with_vapi
+++if with_vapi and with_gir
++   libsecret_vapi = gnome.generate_vapi('libsecret-@0@'.format(api_version_major),
++     sources: libsecret_gir[0],
++     metadata_dirs: meson.source_root() / 'libsecret',
++diff --git a/meson.build b/meson.build
++index a26d046..d22e008 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -22,6 +22,7 @@ with_gcrypt = get_option('gcrypt')
++ enable_debug = get_option('debugging')
++ with_vapi = get_option('vapi')
++ with_gtkdoc = get_option('gtk_doc')
+++with_gir = get_option('introspection')
++ 
++ # Some variables
++ config_h_dir = include_directories('.')
++diff --git a/meson_options.txt b/meson_options.txt
++index c1fda5d..445aeb0 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -3,3 +3,4 @@ option('gcrypt', type: 'boolean', value: true, description: 'With gcrypt and tra
++ option('debugging', type: 'boolean', value: false, description: 'Turn debugging on/off')
++ option('vapi', type: 'boolean', value: true, description: 'Create VAPI file.')
++ option('gtk_doc', type: 'boolean', value: true, description: 'Build reference documentation using gtk-doc')
+++option('introspection', type: 'boolean', value: true, description: 'Create GIR file.')
++-- 
++2.17.1
++
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.20.3.bb b/meta/recipes-gnome/libsecret/libsecret_0.20.3.bb
+index 8d317c8efc..9830c80448 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.20.3.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.20.3.bb
+@@ -13,6 +13,8 @@ inherit gnomebase gtk-doc vala gobject-introspection manpages features_check
+ 
+ DEPENDS += "glib-2.0 libgcrypt gettext-native"
+ 
++SRC_URI += "file://0001-meson-add-option-introspection.patch"
++
+ SRC_URI[archive.md5sum] = "47c3fdfeb111a87b509ad271e4a6f496"
+ SRC_URI[archive.sha256sum] = "4fcb3c56f8ac4ab9c75b66901fb0104ec7f22aa9a012315a14c0d6dffa5290e4"
+ 
+-- 
+2.17.1
 
---000000000000be3d3c05a624e6a6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, May 19, 2020 at 9:57 PM Andre McC=
-urdy &lt;<a href=3D"mailto:armccurdy@gmail.com">armccurdy@gmail.com</a>&gt;=
- wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">On Tue, May 19, 2020 at 11:25 AM Martin Jansa &lt;<a hre=
-f=3D"mailto:Martin.Jansa@gmail.com" target=3D"_blank">Martin.Jansa@gmail.co=
-m</a>&gt; wrote:<br>
-&gt;<br>
-&gt; We have discussed this in OE TSC meeting yesterday:<br>
-&gt; <a href=3D"https://lists.openembedded.org/g/tsc/topic/openembedded_tsc=
-_meeting/74313532" rel=3D"noreferrer" target=3D"_blank">https://lists.opene=
-mbedded.org/g/tsc/topic/openembedded_tsc_meeting/74313532</a><br>
-&gt;<br>
-&gt; tsc suggested to use LAYERVERSION bump in oe-core with LAYERDEPENDS_me=
-ta-python update in meta-python, so that people will need to update both la=
-yers (or neither if they really cannot).<br>
-<br>
-OE living up to it&#39;s nickname... Over Engineered :-)<br></blockquote><d=
-iv><br></div><div>Compared with some really Over Engineered stuff I&#39;ve =
-seen, this feels like KISS :).=C2=A0</div></div></div>
-
---000000000000be3d3c05a624e6a6--
