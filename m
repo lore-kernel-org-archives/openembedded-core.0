@@ -1,90 +1,75 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
- by mx.groups.io with SMTP id smtpd.web12.6752.1590070418290775149
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com [209.85.166.65])
+ by mx.groups.io with SMTP id smtpd.web12.6791.1590070481183029388
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 07:13:38 -0700
+ Thu, 21 May 2020 07:14:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmx.net header.s=badeba3b8450 header.b=BlvMksCG;
- spf=pass (domain: gmx.de, ip: 212.227.17.20, mailfrom: dl9pf@gmx.de)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1590070416;
-	bh=XFinEMlod9FfhebACwOfWkfD5CpEvQa4vYFveBLrNL8=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
-	b=BlvMksCGw4Mazih8jXPVCnOi1RllzXcBMi/JVWQ8MErntKVQYNlNWk9xEUS6+5wUx
-	 vJ3JdrvP6dqT4PTtI55v63cPJVJ/2B5MkHmyCKTV2N2aW1QJHGUxBalPPtbpzF1KqE
-	 hZZh0fY7z0sfzwQnVI//3M9IzN3JxnVbuOvs3NVA=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from gmx.de ([95.88.56.40]) by mail.gmx.com (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1McpNy-1j1tAY1QTS-00ZyUV; Thu, 21
- May 2020 16:13:36 +0200
-From: =?UTF-8?B?SmFuLVNpbW9uIE3DtmxsZXI=?= <dl9pf@gmx.de>
-To: openembedded-core@lists.openembedded.org
-Cc: Jan-Simon Moeller <dl9pf@gmx.de>
-Subject: [dunfell][PATCH] file: add bzip2-replacement-native to DEPENDS to fix sstate issue
-Date: Thu, 21 May 2020 16:13:16 +0200
-Message-Id: <20200521141316.3974-1-dl9pf@gmx.de>
-X-Mailer: git-send-email 2.26.2
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q3pCuXZo;
+ spf=pass (domain: gmail.com, ip: 209.85.166.65, mailfrom: alex.kiernan@gmail.com)
+Received: by mail-io1-f65.google.com with SMTP id o5so7567638iow.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 07:14:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2EpNLc3Y/kzbsMpaivpviKPPTNve7bGGdqRAqaIZAvQ=;
+        b=Q3pCuXZovAZcTQ9rZjL6Bh87cmICDInJDDVHwutDFm1hpl+MMpzAJTYDLMPydn+uzQ
+         Rw2qK23N3ClnkyMo7NHy1n3qp5ZiZWsEnWgiis0IgSI0fnPHFwaEMzO6+W7p0tKFWTW8
+         4HDPUQaSvDRIQOKE5cjL4jwUOEWM45RRrHvl/MeTDGeYHoiHFFCToxYTtskvjX+bY9Lu
+         snuV+uBwaECZG8k6f8s0aZcenNPM0xy50ZqPaT/mGFjrPyVx8tCdUPJmXxo3foUxOjKs
+         oMvUJ6EEsgiLZKPiy6lEh/b45zPJJCqFNRk531sffxybfnf3kh0QD916ca0OfbBU55l+
+         eYGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2EpNLc3Y/kzbsMpaivpviKPPTNve7bGGdqRAqaIZAvQ=;
+        b=j0j/U/zYqGL4ZXRO7l2Tv6fWJbrdFk8El6Z1FUD4F9JjruSwqnOq9F5B4qazdebrDn
+         +uxtd6kmPfmCRLaQAz4saD98xdL53u7z8qxR5uGVrf/AfMJC25gq3QOEnFboqoOuWnx3
+         YC2Q5bu0COG8KboZz7QvddHJFivuxOt/KM+II/jjjNLhyzsYsxdfb0SIGOWhKiPy5cbV
+         MMrynKRK/Vmal5y4kjRAkaaJ6lju/KiUfxz4LoaLnoJyqJ/nzVJt5ux7yOiXP8JU2F+0
+         MDa/+2d9ZagpieFieXRfS1NKFNGsu5qwQnxSPiSZY60JRWiHVhEGWoXkTCjESmCFjyDa
+         LTcQ==
+X-Gm-Message-State: AOAM532glV9uc0ajByta7KhnqEtzljYFr1oakB1jHivDhHW1RblX3jph
+	BHh2L5wqh6QLK/bsW+3QArqhb1ydz9ocQflNchg=
+X-Google-Smtp-Source: ABdhPJzwNCTioLjVbOPn8bXcaz6kh4UOzAaiYWpo0SisBao3XWm0iWdOA0oMN0bxCZCKt1U2LUJg02tD4POy2jmJgrQ=
+X-Received: by 2002:a5d:8b54:: with SMTP id c20mr7766976iot.77.1590070480401;
+ Thu, 21 May 2020 07:14:40 -0700 (PDT)
 MIME-Version: 1.0
-X-Provags-ID: V03:K1:9qSKw0pL77XQVhiLJcLjHeHeuMV4OddZcRbn1cEHKDxVPJKD5SO
- RBZacmBmw1ldePRY3OyXW/x2tXfKXLsjOgLK/Z7JMlVa4dUy3/lxP2TEaHdebRfIVm2oAkJ
- oczwBzC69GpxaDsZ0K8+mynFdzH8spIPzQNSfkv9gSPo2In7f27eteU3r3GMBevvezm69wM
- sSJ3Z8tsLqdlFW8RP8TVg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Rvu/+ihhggU=:m7gakEk9teMjHJ5NW1XvH8
- iqtiUhw/CDTdrPdHGOJ0Iaf1cuceI9yE/DWWfWuIMtss7mxAj7Wj0HSURsapVjIw+MJG+Vxmz
- XR641jgXPiGfMwk2ZgHVqOKuFSMQw+xJF30XKxUGAuSjG3lQM7Db3U4f+bpn+UfSAcbEAKtq+
- 6yZkHQzfhU4taPy4SBT7s5ZS+c8AnzdSlrZfAT60QUq8DB/Dv8PBm9LnKddywFbrbGqUYR6Up
- 3sGgtvr2GDWLa7WDpebOthOnpRFWm1JRx5Zbo39pxXhrzG0OPIaekQB/mHEVeeGx7g5OP4m5k
- SGGMsJdJct0JUUKvy0dyatX9AwZwYQP4gxDGdr+q4qz3SZFQwR8OSPThOZWg6cQ1yhr/k8ciD
- z39Yw38NKOzZ+gfQ/aC/rTQ6lhADBMXm0wcXr5PXmeoJ+4lED3QaGXKz9vQ1g/l9NeV1FGwVI
- Ko6eX/OEnaTkjziAacrUwzIaQNRR2Y7k0aW1VspF8WiUeMYEg9nldoxPQnAr44JvF+ESBF4EM
- aSGwpgCPqcud0wggP4DEkPbnd3NZ3jCRf3n9rJ8rdM4lfNHD1Vb+yycQ7A7G2aWDfm8D20iKn
- a5hweS83KdjmocU3CkMHqp4ouus370fMuLKfuhJmVFtlNOu4tXKn7E5jxYlnzedpg1DIBTkp0
- /Aharh3FJlDB6QdHJMkAw9MmUi5JlbIHCwRrVhsUqxinQVHwd+gZOVxuA4rPZ3z+Vqf+B47Sy
- XPQ6lp035zc1okdil0olb6eqcOaHzTRItI+iGZb3t+xq3l4d2fYPgvq4+857n7u+eY0K/uxuV
- mAoxtC0XqgEh/lCxFZSZppLP+91swQmeN17ZhxEVNhuQ3ll4XRv0RNNgLPySO+VkpmxBZk3Ci
- IF+fG4wnk4u09zFQh4lQJOiUkqY8vVubJtmpZqTjFXyza4pHE2QURVQY23PUFoiFu9ty9MxWf
- KAESXEXMcYmRhdl0LEzj5MESr/r5tSUcntftbkBbEepjJXtMeUdpmmTXkTBfgIeOvLaLR1OnZ
- gLxJRf7tzpB3rIMKcBXFSKXJE40Hluw/A2iCURw88Nlu+1AnNMCyWfsNvsA8Gl7ZWdL+t+eSh
- SCrz15I6RmtkYqsO39tQNckSMTKdmLqKgf6LTx2cIpwXo/I7h9CKTAEymEFD1gFoB7lwlMJAE
- oH85au4HaB6lUjIpgrbQeIOh7kM2nLgaArSgpWCMOK6/0VPsLZ6e0K6eSibQu+d+JDL8zg0sp
- /jq0dpvU+IZuYCRAQ
-Content-Transfer-Encoding: quoted-printable
+References: <20191219221748.27079-1-alex.kiernan@gmail.com>
+ <20191219221748.27079-2-alex.kiernan@gmail.com> <902865ec-101f-0e0b-e17c-03c2fa555921@intel.com>
+In-Reply-To: <902865ec-101f-0e0b-e17c-03c2fa555921@intel.com>
+From: "Alex Kiernan" <alex.kiernan@gmail.com>
+Date: Thu, 21 May 2020 15:14:29 +0100
+Message-ID: <CAO5Uq5QVcdoqFBFMX8YC0XzVyFkaXFRuNitqPCznE4vzMBamEg@mail.gmail.com>
+Subject: Re: [OE-core] [OE-Core][PATCH 2/2] rootfs-postcommands: Enable rootfs_check_host_user_contaminated
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Jan-Simon Moeller <dl9pf@gmx.de>
+Hi Ross
 
-file-native when built on a Debian 10 host will embed a dependency to
-'libbz2.so.1.0' (instead of 'libbz2.so.1'). This can cause issues
-when sharing the sstate between hosts e.g.:
+On Thu, Jan 2, 2020 at 11:20 PM Ross Burton <ross.burton@intel.com> wrote:
+>
+> On 19/12/2019 22:17, Alex Kiernan wrote:
+> > Enable rootfs_check_host_user_contaminated by default
+>
+> Useful check!
+>
+> WARNING: Paths in the rootfs are owned by the same user or group as the
+> user running bitbake. See the logfile for the specific paths.
+>
+> /data/poky-tmp/master/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/rootfs/usr/share/fonts/.uuid
+>
+> /data/poky-tmp/master/work/intel_corei7_64-poky-linux/core-image-sato/1.0-r0/rootfs/usr/share/fonts/ttf/.uuid
+>
+> (patch incoming)
+>
 
- recipe-sysroot-native/usr/lib/rpm/rpmdeps:
-      error while loading shared libraries: libbz2.so.1.0: \
-        cannot open shared object file: No such file or directory
+Did you manage to get a patch for this out? I've had a couple of goes
+at reproducing it and failed, but I suspect I'm not including the
+right things. It would be good to get this check enabled early in the
+release cycle, if we can?
 
-To avoid this situation, let's add the bzip2-replacement-native to the
-file recipe's DEPENDS_class-native .
 
-Details in https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13915 .
-
-Signed-off-by: Jan-Simon Moeller <dl9pf@gmx.de>
-=2D--
- meta/recipes-devtools/file/file_5.38.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/file/file_5.38.bb b/meta/recipes-devtoo=
-ls/file/file_5.38.bb
-index b8f09107e8..bd33103b2e 100644
-=2D-- a/meta/recipes-devtools/file/file_5.38.bb
-+++ b/meta/recipes-devtools/file/file_5.38.bb
-@@ -9,7 +9,7 @@ LICENSE =3D "BSD-2-Clause"
- LIC_FILES_CHKSUM =3D "file://COPYING;beginline=3D2;md5=3D0251eaec1188b20d=
-9a72c502ecfdda1b"
-
- DEPENDS =3D "zlib file-replacement-native"
--DEPENDS_class-native =3D "zlib-native"
-+DEPENDS_class-native =3D "zlib-native bzip2-replacement-native"
-
- SRC_URI =3D "git://github.com/file/file.git"
-
-=2D-
-2.26.2
-
+-- 
+Alex Kiernan
