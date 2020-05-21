@@ -1,98 +1,108 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.2106.1590050519735527341
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.2287.1590052305429878361
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 01:42:00 -0700
+ Thu, 21 May 2020 02:11:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FOUP2CTk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id r3so3932168wrn.11
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 01:41:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QXhkaT1X;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id n24so7955137ejd.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 02:11:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=05hTbamH/qO0qZgLCl+aYun7JwzGdlsYL7NWQKcTDdE=;
-        b=FOUP2CTkSjAF/J/5EVdANXzvHCWVJIkVbvIWOVG/bPYhydXbPLPdSW9rTvKANUOmsn
-         qvIHfNado09SIr0bC+PhoICNqdfRhlDw/UdgzmjRsLV98j0Flx0rNMnuLAgNKB6C4njO
-         x2kk2xrUARz5hscVVNAmpsG9EoP9TorBwvAi8=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UNE1KhX97rIdjKn042GZYUrlV0p7vmwWsQxAKDD6aeM=;
+        b=QXhkaT1X4PPCnw7nn7ObhT/mHBcKBzvcDTmYzQctielhbDB8Ydk5QLKli4HvwkC/vv
+         Q3+Ot9JupYrawjB8lUVUE7yQZCofkj4oAMuDPoPQNVzIGxmpIieyisYOMhXgs8xeZo2D
+         3ll0mIjSdIS4eXYhwBVp7zU5uxRSU2P8eIG90n0jVmtZX8h0uWcHavQGYnoYJCKa2GZp
+         HVc9jUDhREFmlVNN/mAEZpHG9YOzFjd0KNYmI6RrHdLY3VKLnlknkphyWELgF3tQ5B0V
+         uPzmkc0tiaknF/9zhL6AvDGENIZGFme3aC4lmDNQzDc/QVtm/+1SZh+KGwpeVUS7rBeP
+         GNXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=05hTbamH/qO0qZgLCl+aYun7JwzGdlsYL7NWQKcTDdE=;
-        b=Ey2sUIk07cEVEEl2tftQQyEq1c77mhFnML/Vh3rVfSSpi4ogc4oq705tEUTxX6oeGs
-         PS6OFhpAAz7xU03kvCBJehkCHc7XrztkqdZUmmU3SEZoBRSRRxcuRjsDsQFYtiZzHJ0q
-         Z4w9IeN6tgCTi3ip3sJKNcZEgK1xeCHpniPhXsKh2WteCRroyWGfb4HueGid/fo5PXi6
-         KM/8hkr5WIb7Sp2Js/o0mRpWS99opgwTGiyrlgx2nk3bmecgvaehHragsZHcwoPdW936
-         3MydWKsOo2fBpUBYJ5T3GL/W41+jFFC1+1H5vvcaBhxbKIFVGZF7iYoghy2lmmBCWQ02
-         oHbg==
-X-Gm-Message-State: AOAM533ivPeoP9AfkuO7I5Pdv0BxDuCJyF+z230KBauB0ut1musjqDmP
-	NZxHIF7xuUXhpD6FaVojXcFG19Bpb0E=
-X-Google-Smtp-Source: ABdhPJxSsLQbZe8Jz64PLxFAndtmjUPuUXCtGDG9KPI5WG8nwmsATgoy5RO7rLJ5MhJZTFeaeyisnQ==
-X-Received: by 2002:a05:6000:1010:: with SMTP id a16mr7139818wrx.291.1590050518254;
-        Thu, 21 May 2020 01:41:58 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id l11sm6009631wmf.28.2020.05.21.01.41.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2020 01:41:57 -0700 (PDT)
-Message-ID: <c6a1e363c6265e6fc17e205422ee992a5522244f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 1/1] archiver.bbclass: Fix duplicated SRC_URIs for do_ar_original
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: pbarker@konsulko.com
-Date: Thu, 21 May 2020 09:41:56 +0100
-In-Reply-To: <990b33fc44d9449f1a3e7c9d6703a8ba225e681e.1590033901.git.liezhi.yang@windriver.com>
-References: <cover.1590033901.git.liezhi.yang@windriver.com>
-	 <990b33fc44d9449f1a3e7c9d6703a8ba225e681e.1590033901.git.liezhi.yang@windriver.com>
-User-Agent: Evolution 3.36.1-2 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UNE1KhX97rIdjKn042GZYUrlV0p7vmwWsQxAKDD6aeM=;
+        b=QvCfwYXEsZPZ+lYjEEvp7Ql1UQCxDsSaHnZ5wk8uYplyumDZkZ0JTz7H3a8o0ccBKS
+         LcK78kJ5R891nTJ7Yp7891n3l56AO1gSjzJo8snmQ3gw7FvfSCfwFSJ3tSondyajG8r5
+         qJ8Cf4szPjFUgLMD6vIglZGmBbUDNozE4tq4sPX69Xui5cZiYl53uRMJmyBriJ/a8KjA
+         P8BI4/NNikJ7QMXJV9Z65d6gjZPj8rTAQvvRIdeTEJqn32HUjRho1BqW7oQnLMg13POu
+         /aJmK4Jim7vP7oYaQ0BeZ3Lqt4bpfUTX1jcnGYd/iFq5ef1ML9ZIUrkfCPPwvtMXrzKW
+         z5vQ==
+X-Gm-Message-State: AOAM530/Gu1ndQt0KbFdrWYHsS+XrM38+QokdEUYheZAbiS9RtuZ+yPn
+	ln4doApBmuD6OqSDZ1UpxA1oWOeAoKJ/cLdjRD0=
+X-Google-Smtp-Source: ABdhPJxluPb6Ee5kTe0XYIztT92R8F5kiwkK7nmVquz/pQ/Xi9AIoD9yo54MPlaW3vqubsZ248dwgf3EU6QRM37LSrk=
+X-Received: by 2002:a17:906:ce36:: with SMTP id sd22mr2544191ejb.94.1590052303812;
+ Thu, 21 May 2020 02:11:43 -0700 (PDT)
 MIME-Version: 1.0
+References: <591d657764bbea63ad2a2fa5cd0587cc305e600a.camel@linuxfoundation.org>
+ <CAGDS+n=_mqZeLFusTNV6s7EKNBDVdM589wAmcJ5qQH2BMn=MLw@mail.gmail.com>
+ <20200516174702.GA22042@localhost> <c18319417f2146939146bfac448c258c@XBOX03.axis.com>
+ <20200516200957.GA8056@localhost> <CAHtQpK4AH08zQ6dx1OWjCR6WwAmrLHNZuz0O1O9WqUnBHNk2Pg@mail.gmail.com>
+ <20200517132245.GA9940@localhost> <CA+chaQeoVSY1HqivTCVkDixgJZOzxYchZ83FvRhgKuADwKJcFg@mail.gmail.com>
+ <20200517154525.GA16162@localhost> <CA+chaQdKYt1ZMGxEnb6nQ2B3KitWXcNBsecgzfZ-htEVH=ySnA@mail.gmail.com>
+ <20200517161441.GB16162@localhost> <5731941e-fe0c-e242-bea5-cd0d3c2ef772@gmail.com>
+ <CAGDS+nkfNwuePOPSJ3JdRVqbzz=XTAvxMK_pjoeAX8vGnSS0HA@mail.gmail.com>
+ <CA+chaQcADhU_7tzV89CsEHH8YDa3xOobwxQmri9_2EWcLGVMWg@mail.gmail.com> <CAJ86T=XCWi=1K0XmFgNjJzMBfKhnLxTKF1zZ84K-=roJVzRoqw@mail.gmail.com>
+In-Reply-To: <CAJ86T=XCWi=1K0XmFgNjJzMBfKhnLxTKF1zZ84K-=roJVzRoqw@mail.gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Thu, 21 May 2020 11:11:32 +0200
+Message-ID: <CA+chaQcooejBTxCSQn=GsE36LFyGJEJd1wHVrhsjO4uCp+aegQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 0/4] Import recipes from meta-python
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Steve Sakoman <sakoman@gmail.com>, Khem Raj <raj.khem@gmail.com>, Adrian Bunk <bunk@stusta.de>, 
+	Andrey Zhizhikin <andrey.z@gmail.com>, Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Denys Dmytriyenko <denis@denix.org>, 
+	Joshua Watt <jpewhacker@gmail.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
+	"jdmason@kudzu.us" <jdmason@kudzu.us>
+Content-Type: multipart/alternative; boundary="000000000000be3d3c05a624e6a6"
+
+--000000000000be3d3c05a624e6a6
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-05-20 at 21:05 -0700, Robert Yang wrote:
-> The argument urls of bb.fetch2.Fetch(urls, d) are duplicated to SRC_URI, which caused errors like:
-> 
-> bb.data_smart.ExpansionError: Failure expanding variable SRCPV, expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError: Fetcher failure: The SRCREV_FORMAT variable must be set when multiple SCMs are used.
-> The SCMs are:
-> git://github.com/docker/notary.git;destsuffix=git/src/github.com/docker/notary
-> git://github.com/docker/notary.git
-> 
-> The first one is from original SRC_URI, the second one is from the
-> variable 'urls', so cleanup SRC_URI before call bb.fetch2.Fetch() can fix the
-> problem.
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/classes/archiver.bbclass | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-> index 43333a7551..780c562b68 100644
-> --- a/meta/classes/archiver.bbclass
-> +++ b/meta/classes/archiver.bbclass
-> @@ -193,7 +193,13 @@ python do_ar_original() {
->                  del decoded[5][param]
->          encoded = bb.fetch2.encodeurl(decoded)
->          urls[i] = encoded
-> -    fetch = bb.fetch2.Fetch(urls, d)
-> +
-> +    # Cleanup SRC_URI before call bb.fetch2.Fetch() since now SRC_URI is in the
-> +    # variable "urls", otherwise there might be errors like:
-> +    # The SRCREV_FORMAT variable must be set when multiple SCMs are used
-> +    ld = bb.data.createCopy(d)
-> +    ld.setVar('SRC_URI', '')
-> +    fetch = bb.fetch2.Fetch(urls, ld)
->      tarball_suffix = {}
->      for url in fetch.urls:
->          local = fetch.localpath(url).rstrip("/");
+On Tue, May 19, 2020 at 9:57 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 
+> On Tue, May 19, 2020 at 11:25 AM Martin Jansa <Martin.Jansa@gmail.com>
+> wrote:
+> >
+> > We have discussed this in OE TSC meeting yesterday:
+> >
+> https://lists.openembedded.org/g/tsc/topic/openembedded_tsc_meeting/74313532
+> >
+> > tsc suggested to use LAYERVERSION bump in oe-core with
+> LAYERDEPENDS_meta-python update in meta-python, so that people will need to
+> update both layers (or neither if they really cannot).
+>
+> OE living up to it's nickname... Over Engineered :-)
+>
 
-Well found! I've starred at that code for a different issue and not
-spotted that!
+Compared with some really Over Engineered stuff I've seen, this feels like
+KISS :).
 
-Cheers,
+--000000000000be3d3c05a624e6a6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, May 19, 2020 at 9:57 PM Andre McC=
+urdy &lt;<a href=3D"mailto:armccurdy@gmail.com">armccurdy@gmail.com</a>&gt;=
+ wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">On Tue, May 19, 2020 at 11:25 AM Martin Jansa &lt;<a hre=
+f=3D"mailto:Martin.Jansa@gmail.com" target=3D"_blank">Martin.Jansa@gmail.co=
+m</a>&gt; wrote:<br>
+&gt;<br>
+&gt; We have discussed this in OE TSC meeting yesterday:<br>
+&gt; <a href=3D"https://lists.openembedded.org/g/tsc/topic/openembedded_tsc=
+_meeting/74313532" rel=3D"noreferrer" target=3D"_blank">https://lists.opene=
+mbedded.org/g/tsc/topic/openembedded_tsc_meeting/74313532</a><br>
+&gt;<br>
+&gt; tsc suggested to use LAYERVERSION bump in oe-core with LAYERDEPENDS_me=
+ta-python update in meta-python, so that people will need to update both la=
+yers (or neither if they really cannot).<br>
+<br>
+OE living up to it&#39;s nickname... Over Engineered :-)<br></blockquote><d=
+iv><br></div><div>Compared with some really Over Engineered stuff I&#39;ve =
+seen, this feels like KISS :).=C2=A0</div></div></div>
 
+--000000000000be3d3c05a624e6a6--
