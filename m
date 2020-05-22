@@ -1,113 +1,181 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.71])
- by mx.groups.io with SMTP id smtpd.web12.4778.1590107792673962027
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+ by mx.groups.io with SMTP id smtpd.web12.5543.1590111055285875731
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 17:36:33 -0700
+ Thu, 21 May 2020 18:30:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=BEmJSNmx;
- spf=pass (domain: windriver.com, ip: 40.107.223.71, mailfrom: joe.slater@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QOzpo2PoceR3akscw9jOYT+GZofKJIsNCd3zSXa409Apuw7EYGVJ3lnCVtix/5z6q+UQg1ro9N8dwrNPaGsywbZ1bSmR5i6KvkrBGYoSxAdz0FavnufGZJRyTm/2u309zzA0jPwhTtxp+jfZJrvfVe7rMsQoiJmdYGAXIM/srvVs2gisAdVxtrKLgABBfXqSFGLeLf+UevDCxbtk9Duu4XIgpyok90QmtvW9d0zzIMcBY6FID3aQwkLYrJgFcNVXsqfcrt8KbR0SDC4oAf945pCByHW9o4y4xPkFYkOZGPiFy1VZVWwt3jZ1lxe0prayHa4Ng8ABwAXjPUz1/H45Ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TfnntdhQBcmChru2SHe13aTRADNkIsRvvJcQ8RdGIXs=;
- b=IG7et6I3kQMgeRYcSGyPn2Gz905NgVW7XE2PEOAs2MkX/Nc7xhqccsQKPziYzH9ap6IR88NRaE695rd2W16lBKpufVNLptBBzLSz/1pHOr5Bzu/7JWpG6zhRdN1Pvr4wKWusUtExup9DZooWlXbYeo7fNiBibNEGwKrgALG0iecLya9vHrz9n7HVAAXUxHYoTfWXEko7pQRuWqfrmbgiJvXfvc+iC7gdRNLv3HWKqprXgSMHerkdMWGYhlTYBlgjybbKCIiDOIwkrUFUr0R918UP+UuWgF5jEvmmQ8ytRi3S2x8JuYYcmR8v/aHfFvfNHCUnqGYQGXp7gJOg/TeTpw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oeHmBUds;
+ spf=pass (domain: gmail.com, ip: 209.85.214.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f194.google.com with SMTP id m7so3759539plt.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 18:30:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TfnntdhQBcmChru2SHe13aTRADNkIsRvvJcQ8RdGIXs=;
- b=BEmJSNmxy63TEbYOKe5fk90XsqGbJSZo3Sa/DudAVMHCocP5W8Ed6UhGtNHRekWvvCeUxfqtxPwo60q2Mll+RXYT41PrVwooKayY0fwWcF1F4G31sZy2PRkIqpAQiWNvz84fih+JHt1uw8mUgXX/eX8zYckxn5P1uIz3tMYc5x4=
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com (2603:10b6:a03:188::10)
- by BY5PR11MB4071.namprd11.prod.outlook.com (2603:10b6:a03:18c::28) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.27; Fri, 22 May
- 2020 00:36:31 +0000
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::2c89:3733:2dbb:3a8d]) by BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::2c89:3733:2dbb:3a8d%4]) with mapi id 15.20.3021.020; Fri, 22 May 2020
- 00:36:31 +0000
-From: "Joe Slater" <joe.slater@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, "MacLeod, Randy"
-	<Randy.MacLeod@windriver.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-core][PATCH 1/1] terminal.py: do not stop searching for auto
-Thread-Topic: [oe-core][PATCH 1/1] terminal.py: do not stop searching for auto
-Thread-Index: AQHWL59tEIbmhl7FqEe+ujG0stItyqiy83uAgAARh4CAADyoQA==
-Date: Fri, 22 May 2020 00:36:31 +0000
-Message-ID: 
- <BY5PR11MB399207B3FA9D0E47A943970B88B40@BY5PR11MB3992.namprd11.prod.outlook.com>
-References: <20200521184107.103889-1-joe.slater@windriver.com>
-	 <b10310e2-e33e-eef9-d070-a3bbab96a8a1@windriver.com>
- <784e607801a9c3f0acfbcaeb1634872ef5ab5f80.camel@linuxfoundation.org>
-In-Reply-To: 
- <784e607801a9c3f0acfbcaeb1634872ef5ab5f80.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=windriver.com;
-x-originating-ip: [24.4.218.114]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: ccbe6f15-6da1-46a5-9d0e-08d7fde82c3b
-x-ms-traffictypediagnostic: BY5PR11MB4071:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: 
- <BY5PR11MB40716BF7FE157A40FF3A4C4688B40@BY5PR11MB4071.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 04111BAC64
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- J0BJ/wBuypy1g3mf9gP+myVyhREKeEfChbTfTdGBj9YJV0YReasg5oRUNLo1eoPJjb4qFn0FMLovL/zMbiQvpTtkYgxDFo/N5B6w63frcgzFgXedRNdrpmQBmL2PD5Z+GMCDgtmBPjRbToDbdLOjAPgt1dHrbVdNNZqIOLF2N0/XGI/bMkEYUFiuX9kkSkVyDzPoiomCCva78KITVbMbRo30mYyLFTM1UV3kfw1vFa3sZ5EAcF1XY5nJzfj98noy3gH7a/KKBDSTWzJztQ3D803BwbX7EZQnvRUppc4t7gu5s4+p1mF620xPfVw9hXFdWclpqXznvhJrfIw3lK55PLmjqvxq0L/9PeC0TldrqhZ4a7SQ9eruph5wzgRuwChV
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3992.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(346002)(376002)(396003)(136003)(39850400004)(366004)(8936002)(64756008)(66446008)(66946007)(66476007)(76116006)(186003)(8676002)(110136005)(478600001)(66556008)(52536014)(316002)(5660300002)(55016002)(7696005)(71200400001)(9686003)(26005)(86362001)(2906002)(33656002)(6506007)(53546011)(51383001);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- Ei+U4lQHdNWwZeqHC9dVTBBHD3EpYuh0afeO2WMZVyllqlcQrgFJx8mVb79cfK5Ww3gTjsKdLXcKltbkNYMG47jpw4pPOt2VmYVeuk5LWxBCGp6zr8tdXVu2h8YOxbxt3q+iIqFR3TTdhmp7PD/tWWPMA/7Y5HlHC/i9TcCEYLnREEm2T9QmeGBRaVV/ROKGTsIRB5pi8D5pGcu254cWiSNvE33FQe8IgyKgNPcgrUl8fTBCoYpMudLtB1B/fgNhVvFJTINnF0pqoUAAOxWQkaeShED3gxPFoaqU8uiSqbP2alDasZHnQDmmgnq5cZ+qY4VY3MaLKiEZUn+M1vXA4U/Kbjw7De27msEYv2sGRsaCFDbBCuCld/JF+LUEx+BpcEcqBSz4x2Hoi6J34p1ygzyptgCASFRICPhFYUYxjrq5d6EcxF/bivkx952d21KkEojHUPwVzlfbQytKGIdevg6abbl/YPobMjD8k+csKk4=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VYhfT1/ooxll0nq8buf9KucOfB63zalkMzcnfmEDggg=;
+        b=oeHmBUdsMdWUMPjIzASD33OOnbEaI9ZwhX2SWKmsHnIlvjf/q/7r+WDW1nWvgOo8Xq
+         Nw2QiZNeWV35ROxEITN3m6EdjfY/Z6eBcMi2GynlhLsv1YsdPYseRPvWECIy0d9dWtjn
+         mpdpL1KTSZzy9HPyOXL1+NaqJGuxFr6BRrAuteeU6u8uaS+M0ej3kGBog2nvUV7fpkga
+         L1/IDJNMOv6cFMMUwFIqOd2AalNROda3XYRetjtj8VgFB5Je7fsPtm0F+gGmrBFpZHif
+         HsrIruf500dFF71Q43vzzxntlFk7o/NQUo4S7PSrc7gaHs4rSf6pND3qUp1YgUOzB9Qs
+         1ukA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VYhfT1/ooxll0nq8buf9KucOfB63zalkMzcnfmEDggg=;
+        b=umbPBTIiok+CxtIwLyVcHJwzfSq4bc1doo2Oaixi7MxWM2syHemFVZZWeUvJO6t+YN
+         iwvatqZIpqmFq/wdsZo5BftKEj90xYrP+3VkCt3F5NfaxhQOC5y/4lJJ6YuqdM9RReyb
+         kCZgnHOwsa9NMSf4+NkCBfAPLE5wJZsGbjXaXp55uSsEpRs2gvkbUEz3mH/S8oh6DF4V
+         IiqTZPzcRkDxvuuDAFhAgO+U1SLM6+jrZryzaXtGHrLjuE6n7Dq2S18psoASYw61O9oq
+         /sQ5LVjpYgwUvANdFb0/dOamNH0myh1TTsxrR90Vd1aEhsRjr89WqJueYrR1ajonItUG
+         4RMQ==
+X-Gm-Message-State: AOAM531vvrcgBKJMw/aqbUu6l28D6O0YUrl29zdhxFUcFZS1kUHLf4Vf
+	Gjl+gbAS5TCxKvBd8KGJNlgu6yi16FY=
+X-Google-Smtp-Source: ABdhPJyZNCdwZGP4B5gusmQ2unhyscZRno/pAME1syGf23ms7pNQb6MTETfDJZZ6dHMRdptba0EAzA==
+X-Received: by 2002:a17:90b:315:: with SMTP id ay21mr1439213pjb.134.1590111054158;
+        Thu, 21 May 2020 18:30:54 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e62a])
+        by smtp.gmail.com with ESMTPSA id r69sm5587567pfc.209.2020.05.21.18.30.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2020 18:30:53 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] armv8/tunes: Set TUNE_PKGARCH_64 based on ARMPKGARCH
+Date: Thu, 21 May 2020 18:30:50 -0700
+Message-Id: <20200522013050.1320143-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccbe6f15-6da1-46a5-9d0e-08d7fde82c3b
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 May 2020 00:36:31.1679
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: eZR76uvxzPTjlYy7SG4ebrIvGA+O1CJ/BgwX4IdvhCna/M/6oJ1MnsTr4AEmST3tj5O6QU6enqa1sg/RvcVzQ5SoBRegs1CqhI09yYH2zTs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4071
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-WWVzLCBJIHRoaW5rIGl0IGlzIHdoYXQgUmljaGFyZCBzYXlzLiAgQnV0LCB0aGF0J3MgYSBzcGVj
-aWZpYyBjYXNlLCBhbmQgSSB0aGluayB0aGF0LCBpbiBnZW5lcmFsLCBpdCB3b3VsZCBiZSBiZXR0
-ZXIgdG8gbG9vayBmb3Igc29tZXRoaW5nIHRoYXQNCmRvZXMgd29yay4gICBMaWtlIG15IGdsb3Jp
-b3VzIGxlYWRlciBzYXlzLCAiV2hhdCBoYXZlIHlvdSBnb3QgdG8gbG9zZT8iDQoNClRoZSBjaGFu
-Z2UgZG9lcyBwcmludCBvdXQgYSB3YXJuaW5nLCBzbyB5b3UgY2FuIGNoZWNrIG91dCB3aGF0IHRo
-ZSBwcm9ibGVtIGlzLCBpZiB5b3UgY2FyZSB0by4NCg0KSm9lDQoNCi0tLS0tT3JpZ2luYWwgTWVz
-c2FnZS0tLS0tDQpGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3Vu
-ZGF0aW9uLm9yZz4gDQpTZW50OiBUaHVyc2RheSwgTWF5IDIxLCAyMDIwIDE6NTUgUE0NClRvOiBN
-YWNMZW9kLCBSYW5keSA8UmFuZHkuTWFjTGVvZEB3aW5kcml2ZXIuY29tPjsgU2xhdGVyLCBKb3Nl
-cGggPGpvZS5zbGF0ZXJAd2luZHJpdmVyLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbb2UtY29yZV1bUEFUQ0ggMS8xXSB0ZXJtaW5h
-bC5weTogZG8gbm90IHN0b3Agc2VhcmNoaW5nIGZvciBhdXRvDQoNCk9uIFRodSwgMjAyMC0wNS0y
-MSBhdCAxNTo1MiAtMDQwMCwgUmFuZHkgTWFjTGVvZCB3cm90ZToNCj4gT24gMjAyMC0wNS0yMSAy
-OjQxIHAubS4sIEpvZSBTbGF0ZXIgd3JvdGU6DQo+ID4gSWYgYSB0ZXJtaW5hbCBmYWlscyB0byBz
-cGF3bigpIHdlIHNob3VsZCBjb250aW51ZSBsb29raW5nLg0KPiA+IGdub21lLXRlcm1pbmFsLCBp
-biBwYXJ0aWN1bGFyIGNhbiBiZSBwcmVzZW50IGJ1dCBub3Qgc3RhcnQuDQo+IA0KPiBEbyB5b3Ug
-bWVhbiB0aGF0IGl0IGRvZXNuJ3Qgc3RhcnQgb24gdGhlIGZpcnN0IHRyeSBidXQgdGhhdCBpdCBt
-YXkgLyANCj4gdXN1YWxseSBkb2VzIHN0YXJ0IG9uIHN1YnNlcXVlbnQgdHJpZXM/DQo+IA0KPiBT
-aW5jZSB0aGUgdXNlciBoYXMgc2V0IHRoZSAgcHJlZmVycmVkIHRlcm1pbmFsLCB0aGlzIGNoYW5n
-ZSBjb3VsZCANCj4gY29uZnVzZSB0aGVtIGFuZCB0aGVyZWZvcmUgc2VlbXMgd3JvbmcuDQo+IElm
-IHdlIGtub3cgb2YgZmxha3kgdGVybWluYWwgaW1wbGVtZW50YXRpb25zLCB3aHkgbm90IGxvb2sg
-Zm9yIA0KPiBzcGVjaWZpYyB2ZXJzaW9ucywgaXNzdWUgYSB3YXJuaW5nIGFuZCBlaXRoZXIgcmV0
-cnkgb3IgdGVsbCB0aGUgdXNlciANCj4gdG8gdHJ5IGFnYWluPyBJbiBhIGZldyB5ZWFycywgd2Ug
-Y2FuIGRpc2NhcmQgdGhlIGNvZGUgd2hlbiB0aGUgZmxha3kgDQo+IHRlcm1pbmFsIHZlcnNpb24g
-aXMgbm8gbG9uZ2VyIHVzZWQuDQo+IA0KPiBJcyB0aGVyZSBhIGJ1ZyBvcGVuIHdpdGggZ25vbWUt
-dGVybWluYWwgdG8gdHJhY2sgdGhpcz8NCj4gV2hhdCBkaXN0cm8vZ25vbWUtdGVybWluYWwgZG8g
-eW91IHNlZSB0aGlzIHByb2JsZW0gaW4/DQoNCkkgc3VzcGVjdCB0aGUgaXNzdWUgaXMgbW9yZSBs
-aWtlIGdub21lLXRlcm1pbmFsIGlzIHByZXNlbnQgYXMgYSBiaW5hcnkgYnV0IG5vIFggZGVza3Rv
-cCBpcyBydW5uaW5nLi4uDQoNCkNoZWVycywNCg0KUmljaGFyZA0KDQo=
+The setting is to modify TUNE_PKGARCH which is filled with
+TUNE_PKGARCH_64 or TUNE_PKGARCH_32 in arm-arch64.inc
+This lets higher up tune files for arm64 SOCs override them if needed,
+this can help building multiple armv8 machines with different tunes in
+same workspace.
+
+No need to set TUNE_PKGARCH in tune files as it is synthesized from ARMPKGARCH
+
+Add ARMPKGARCH for aarch64 tunes
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/machine/include/arm/arch-arm64.inc           | 4 +++-
+ meta/conf/machine/include/tune-cortexa53.inc           | 3 ---
+ meta/conf/machine/include/tune-cortexa55.inc           | 1 -
+ meta/conf/machine/include/tune-cortexa57-cortexa53.inc | 1 -
+ meta/conf/machine/include/tune-cortexa57.inc           | 2 --
+ meta/conf/machine/include/tune-cortexa72-cortexa53.inc | 2 --
+ meta/conf/machine/include/tune-cortexa72.inc           | 1 -
+ meta/conf/machine/include/tune-cortexa73-cortexa53.inc | 2 --
+ 8 files changed, 3 insertions(+), 13 deletions(-)
+
+diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
+index 53f4566815..6d5b22fff0 100644
+--- a/meta/conf/machine/include/arm/arch-arm64.inc
++++ b/meta/conf/machine/include/arm/arch-arm64.inc
+@@ -12,6 +12,8 @@ ARMPKGARCH_tune-aarch64 ?= "aarch64"
+ ARMPKGARCH_tune-aarch64_be ?= "aarch64_be"
+ TUNE_FEATURES_tune-aarch64 = "aarch64"
+ TUNE_FEATURES_tune-aarch64_be = "${TUNE_FEATURES_tune-aarch64} bigendian"
++TUNE_PKGARCH_64_tune-aarch64 = "aarch64"
++TUNE_PKGARCH_64_tune-aarch64_be = "aarch64_be"
+ BASE_LIB_tune-aarch64 = "lib64"
+ BASE_LIB_tune-aarch64_be = "lib64"
+ 
+@@ -20,7 +22,7 @@ PACKAGE_EXTRA_ARCHS_tune-aarch64_be = "aarch64_be"
+ 
+ ARMPKGSFX_ENDIAN_64 = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '_be', '', d)}"
+ TUNE_ARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}"
+-TUNE_PKGARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}"
++TUNE_PKGARCH_64 = "${ARMPKGARCH}${ARMPKGSFX_ENDIAN_64}"
+ ABIEXTENSION_64 = ""
+ TARGET_FPU_64 = ""
+ 
+diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
+index b7327d00c4..4af6e0f628 100644
+--- a/meta/conf/machine/include/tune-cortexa53.inc
++++ b/meta/conf/machine/include/tune-cortexa53.inc
+@@ -14,8 +14,5 @@ TUNE_FEATURES_tune-cortexa53-crypto   = "aarch64 cortexa53 crc crypto"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa53             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa53"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa53-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto"
+ 
+-TUNE_PKGARCH_tune-cortexa53 = "cortexa53"
+-TUNE_PKGARCH_tune-cortexa53-crypto = "cortexa53-crypto"
+-
+ BASE_LIB_tune-cortexa53               = "lib64"
+ BASE_LIB_tune-cortexa53-crypto        = "lib64"
+diff --git a/meta/conf/machine/include/tune-cortexa55.inc b/meta/conf/machine/include/tune-cortexa55.inc
+index 274944819e..89032b59ec 100644
+--- a/meta/conf/machine/include/tune-cortexa55.inc
++++ b/meta/conf/machine/include/tune-cortexa55.inc
+@@ -9,6 +9,5 @@ require conf/machine/include/arm/arch-armv8a.inc
+ AVAILTUNES += "cortexa55"
+ ARMPKGARCH_tune-cortexa55             = "cortexa55"
+ TUNE_FEATURES_tune-cortexa55          = "aarch64 cortexa55 crc crypto"
+-TUNE_PKGARCH_tune-cortexa55           = "cortexa55"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa55    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa55"
+ BASE_LIB_tune-cortexa55               = "lib64"
+diff --git a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
+index b95d63e86b..ba4b073852 100644
+--- a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
++++ b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
+@@ -11,6 +11,5 @@ require conf/machine/include/arm/arch-armv8a.inc
+ AVAILTUNES += "cortexa57-cortexa53"
+ ARMPKGARCH_tune-cortexa57-cortexa53 = "cortexa57-cortexa53"
+ TUNE_FEATURES_tune-cortexa57-cortexa53 = "aarch64 cortexa57-cortexa53"
+-TUNE_PKGARCH_tune-cortexa57-cortexa53 = "cortexa57-cortexa53"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa57-cortexa53 = "${PACKAGE_EXTRA_ARCHS_tune-aarch64} cortexa57-cortexa53"
+ BASE_LIB_tune-cortexa57-cortexa53 = "lib64"
+diff --git a/meta/conf/machine/include/tune-cortexa57.inc b/meta/conf/machine/include/tune-cortexa57.inc
+index e8ddeb5786..645a5a7ef6 100644
+--- a/meta/conf/machine/include/tune-cortexa57.inc
++++ b/meta/conf/machine/include/tune-cortexa57.inc
+@@ -13,7 +13,5 @@ TUNE_FEATURES_tune-cortexa57          = "aarch64 cortexa57 crc"
+ TUNE_FEATURES_tune-cortexa57-crypto   = "aarch64 cortexa57 crc crypto"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa57             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa57"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa57-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa57 cortexa57-crypto"
+-TUNE_PKGARCH_tune-cortexa57 = "cortexa57"
+-TUNE_PKGARCH_tune-cortexa57-crypto = "cortexa57-crypto"
+ BASE_LIB_tune-cortexa57               = "lib64"
+ BASE_LIB_tune-cortexa57-crypto        = "lib64"
+diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+index fd1ffeb177..5c54aa33ea 100644
+--- a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
++++ b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+@@ -15,8 +15,6 @@ TUNE_FEATURES_tune-cortexa72-cortexa53               = "aarch64 crc cortexa72-co
+ TUNE_FEATURES_tune-cortexa72-cortexa53-crypto        = "aarch64 crc crypto cortexa72-cortexa53"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa72-cortexa53"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72-cortexa53 cortexa72-cortexa53-crypto"
+-TUNE_PKGARCH_tune-cortexa72-cortexa53                = "cortexa72-cortexa53"
+-TUNE_PKGARCH_tune-cortexa72-cortexa53-crypto         = "cortexa72-cortexa53-crypto"
+ BASE_LIB_tune-cortexa72-cortexa53                    = "lib64"
+ BASE_LIB_tune-cortexa72-cortexa53-crypto             = "lib64"
+ 
+diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/tune-cortexa72.inc
+index 23640d5c1f..00f7745a22 100644
+--- a/meta/conf/machine/include/tune-cortexa72.inc
++++ b/meta/conf/machine/include/tune-cortexa72.inc
+@@ -10,5 +10,4 @@ AVAILTUNES += "cortexa72"
+ ARMPKGARCH_tune-cortexa72             = "cortexa72"
+ TUNE_FEATURES_tune-cortexa72          = "aarch64 cortexa72 crc crypto"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72"
+-TUNE_PKGARCH_tune-cortexa72           = "cortexa72"
+ BASE_LIB_tune-cortexa72               = "lib64"
+diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
+index ab87c88747..431d244fe2 100644
+--- a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
++++ b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
+@@ -15,8 +15,6 @@ TUNE_FEATURES_tune-cortexa73-cortexa53               = "aarch64 crc cortexa73-co
+ TUNE_FEATURES_tune-cortexa73-cortexa53-crypto        = "aarch64 crc crypto cortexa73-cortexa53"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa73-cortexa53"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa73-cortexa53 cortexa73-cortexa53-crypto"
+-TUNE_PKGARCH_tune-cortexa73-cortexa53                = "cortexa73-cortexa53"
+-TUNE_PKGARCH_tune-cortexa73-cortexa53-crypto         = "cortexa73-cortexa53-crypto"
+ BASE_LIB_tune-cortexa73-cortexa53                    = "lib64"
+ BASE_LIB_tune-cortexa73-cortexa53-crypto             = "lib64"
+ 
+-- 
+2.26.2
+
