@@ -1,48 +1,91 @@
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
- by mx.groups.io with SMTP id smtpd.web11.7807.1590124428064839058
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web10.8566.1590130868408768906
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 22:13:48 -0700
+ Fri, 22 May 2020 00:01:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: eAViir/GY0+ef3am7ZnTFTYcaBpjENLEs0pLBYxaqq5goXxw4urLmvOy5mCltqbcJqVbis5YWF
- x0rA157ruoRg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2020 22:13:47 -0700
-IronPort-SDR: p0ng6fDDIVnX0JTUu2AWF6FDod4a0/s4Rf1La/w1Or6QJ35CWNbAoLiK65z8YzLGxCyDTfm+i8
- SQwUd1iyxfDA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,420,1583222400"; 
-   d="scan'208";a="289992125"
-Received: from pgsmsx103.gar.corp.intel.com ([10.221.44.82])
-  by fmsmga004.fm.intel.com with ESMTP; 21 May 2020 22:13:46 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.74]) by
- PGSMSX103.gar.corp.intel.com ([169.254.2.23]) with mapi id 14.03.0439.000;
- Fri, 22 May 2020 13:13:44 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "ticotimo@gmail.com" <ticotimo@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] strace: fix failing ptests
-Thread-Topic: [OE-core] [PATCH] strace: fix failing ptests
-Thread-Index: AQHWL/V2oxk0Eyn7hE2X1TmapJfc5aizCX0A
-Date: Fri, 22 May 2020 05:13:43 +0000
-Message-ID: <fea72bf8b4ced0f7364b8ddc8b2f62291732e23b.camel@intel.com>
-References: <20200522045132.2185666-1-anuj.mittal@intel.com>
-	 <CANx9H-BLekaXs1Rk19dwLNrP=3Lf7A8vO=yy677jT7-y4iZtDg@mail.gmail.com>
-In-Reply-To: <CANx9H-BLekaXs1Rk19dwLNrP=3Lf7A8vO=yy677jT7-y4iZtDg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.135.70]
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: kai.kang@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 04M715FV008267
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Fri, 22 May 2020 00:01:05 -0700 (PDT)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 22 May 2020 00:01:04 -0700
+From: "kai" <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <martin.jansa@gmail.com>
+Subject: [PATCH v2 2/2] Revert "webkitgtk, pinentry: require gobject-introspection-data in DISTRO_FEATURES when libsecret PACKAGECONFIG is enabled"
+Date: Fri, 22 May 2020 15:00:23 +0800
+Message-ID: <20200522070023.38061-3-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200522070023.38061-1-kai.kang@windriver.com>
+References: <20200522070023.38061-1-kai.kang@windriver.com>
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <ED7199513CB97048B18CC046D53CF002@intel.com>
-Content-Transfer-Encoding: base64
+Content-Type: text/plain
 
-T24gVGh1LCAyMDIwLTA1LTIxIGF0IDIxOjU3IC0wNzAwLCBUaW0gT3JsaW5nIHdyb3RlOg0KPiBJ
-cyB0aGlzIGZvciBaZXVzPw0KDQpZZXMsIEkgZm9yZ290IHRvIGluY2x1ZGUgdGhlIHByZWZpeC4g
-SGF2ZSBzZW50IGl0IGFnYWluIHdpdGggcmlnaHQNCnByZWZpeCBub3cuDQoNClRoYW5rcywNCg0K
-QW51ag0K
+From: Kai Kang <kai.kang@windriver.com>
+
+This reverts commit 91264e5e0ab40b796e214edd84c72bc88b363778.
+
+It adds meson options 'instrospection' to disable gobject introspection
+files build. So no need to check distro feature 'gobject-introspection-data'
+any longer.
+
+Keep the spaces adjustment and comment removal.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.28.2.bb    | 6 ++----
+ meta/recipes-support/pinentry/pinentry_1.1.0.bb | 5 ++---
+ 2 files changed, 4 insertions(+), 7 deletions(-)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb
+index 51596077b4..e9941c7a2c 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.28.2.bb
+@@ -26,9 +26,7 @@ SRC_URI[sha256sum] = "b9d23525cfd8d22c37b5d964a9fe9a8ce7583042a2f8d3922e71e6bbc6
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+-REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'opengl', '', d)} \
+-    ${@bb.utils.contains('PACKAGECONFIG', 'libsecret', 'gobject-introspection-data', '', d)} \
+-"
++REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'opengl', '', d)}"
+ 
+ CVE_PRODUCT = "webkitgtk webkitgtk\+"
+ 
+@@ -44,7 +42,7 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl opengl', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2', d)} \
+                    enchant \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'gobject-introspection-data', 'libsecret', '', d)} \
++                   libsecret \
+                   "
+ 
+ PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland libwpe wpebackend-fdo wayland-native"
+diff --git a/meta/recipes-support/pinentry/pinentry_1.1.0.bb b/meta/recipes-support/pinentry/pinentry_1.1.0.bb
+index dc9069b9d5..d9ca0732f7 100644
+--- a/meta/recipes-support/pinentry/pinentry_1.1.0.bb
++++ b/meta/recipes-support/pinentry/pinentry_1.1.0.bb
+@@ -19,9 +19,7 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+ SRC_URI[md5sum] = "3829315cb0a1e9cedc05ffe6def7a2c6"
+ SRC_URI[sha256sum] = "68076686fa724a290ea49cdf0d1c0c1500907d1b759a3bcbfbec0293e8f56570"
+ 
+-inherit autotools pkgconfig features_check
+-
+-REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('PACKAGECONFIG', 'libsecret', 'gobject-introspection-data', '', d)}"
++inherit autotools pkgconfig
+ 
+ PACKAGECONFIG ??= "ncurses libcap"
+ 
+@@ -29,6 +27,7 @@ PACKAGECONFIG[ncurses] = "--enable-ncurses  --with-ncurses-include-dir=${STAGING
+ PACKAGECONFIG[libcap] = "--with-libcap, --without-libcap, libcap"
+ PACKAGECONFIG[qt] = "--enable-pinentry-qt, --disable-pinentry-qt, qtbase-native qtbase"
+ PACKAGECONFIG[gtk2] = "--enable-pinentry-gtk2, --disable-pinentry-gtk2, gtk+ glib-2.0"
++
+ PACKAGECONFIG[secret] = "--enable-libsecret, --disable-libsecret, libsecret"
+ 
+ EXTRA_OECONF = " \
+-- 
+2.17.1
+
