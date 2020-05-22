@@ -1,71 +1,75 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
- by mx.groups.io with SMTP id smtpd.web10.22214.1590182979225948637
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web12.190.1590185311553148218
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 May 2020 14:29:39 -0700
+ Fri, 22 May 2020 15:08:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=JJGCBKAb;
- spf=pass (domain: ossystems.com.br, ip: 209.85.219.54, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qv1-f54.google.com with SMTP id v15so5422510qvr.8
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 May 2020 14:29:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=E66m3WNa;
+ spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: jpewhacker@gmail.com)
+Received: by mail-pj1-f41.google.com with SMTP id k7so5581816pjs.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 May 2020 15:08:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc;
-        bh=842cDc/uTtbI4fLtfAqASI5syNdydbjJ8nKyA+tOZUs=;
-        b=JJGCBKAbOZRoNHq4wa5n1L/wFKVcLVxCi/Aj1ej/fqP+JALP3GSIvdGIo++8caLtF+
-         v8xh0VxHM6Pf+j0eoYmuHNfwB+TOW3pNkeli5ji1yGW3+EwE3jPl/8WS/mda44cdg63r
-         wO2YJgSZHQxqfChau0zZXF4Hq046BkV28/IeI5ouvUAr6bGlqYI76NJDU9bSxuCS0R/Z
-         oU5a+IoAGWmKCGOtkgxhRgikm/8FT+0YwXwqmhqiMQNKp1nrU/pF/5WA4m69tnu4VCxt
-         OblRbNANhzaCTuwYPcTOcLq9oy8saR9iZI/6PS9dKanIRCIoMCUbkWmYqbpZ7o46mL+1
-         2spA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=TsJXRJBQTaf4CQLXA+AxOQOUt42Q0QUFWyayaGrywDU=;
+        b=E66m3WNaPibL/Zdpz+hirpE6rJicu1G/tU5fHHc+5exoThKKDxMd0pq08aPpsEwVFk
+         AunKxiMN/Qhy9hzxK+zn73WcdmT3VK2Amb7WoL1vi3R4nT47/di4x38FMicJcZ00iURP
+         dSTTW1QzLKUkmgaAqi0AldsdBI6JNAapy8n104CgacgAZckxXcZf2tMqi+Lcw6+8wg6X
+         Z7Ka/V4bxFDtl51SV0IfXwZ6a3HNhKyfGQZuuzWRrKPu0oXq1SWrex4PWycuPW0BC0Sl
+         jBnOKd4Mz+xP0tRYLtK6mqld28V6cHEIBdZeur5bLAJlyHsjezFZFTD+SkA5M5TB7J3Q
+         LhmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc;
-        bh=842cDc/uTtbI4fLtfAqASI5syNdydbjJ8nKyA+tOZUs=;
-        b=cn0t2k272chFqs6n+D9AszB54bPOWAn4TI6t9PyutEBm6t3ZApZf0YRnTqwCIA6MyM
-         PbMR1At7zDbNyFdhzF/VgBZXv/V3MaqL2G1AH8wrwTG8ImAZWOmEcIHRJL2gJYv2i8RX
-         6XaTv2NRmlSVUlsz1ZrSBNilDo/+kaafwMQ6LlRxsDPWoqeoEken9tRJspgJ9fqsX0x1
-         HksvuGR4HpPw7Wu782tpwALgKhfA/GxyAdumYIxP3fBxcFkpg7xNW+f0IPaQaFb+ltQG
-         K9J/4tcCM+aTL82hn+adqdR6ckfedf1PKi17zudjdgjIWNyNuj21/1hjIcT3oaUMf9B0
-         PyjQ==
-X-Gm-Message-State: AOAM531FL3nHwYmly6pctG/+aGL6T6tBsAiC/JTypEp9BZuyJzENfe+g
-	NiW1C5mc6j2O+am3R3twpH4PECAtr2nVew==
-X-Google-Smtp-Source: ABdhPJzhIiPtazFxfJH/6o1SgdX4VKZupxNv5kxViC0KxK6z0oNrs0l6JLoOr7cViYsu98zBSp3YsA==
-X-Received: by 2002:ad4:408b:: with SMTP id l11mr5854839qvp.156.1590182978100;
-        Fri, 22 May 2020 14:29:38 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com. [209.85.160.173])
-        by smtp.gmail.com with ESMTPSA id k57sm9114751qta.20.2020.05.22.14.29.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 May 2020 14:29:37 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f173.google.com with SMTP id n22so9426702qtv.12
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 May 2020 14:29:37 -0700 (PDT)
-X-Received: by 2002:ac8:2f3c:: with SMTP id j57mr17448281qta.296.1590182977058;
- Fri, 22 May 2020 14:29:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <Lixb.1590180524317566740.JvZm@lists.openembedded.org>
-In-Reply-To: <Lixb.1590180524317566740.JvZm@lists.openembedded.org>
-Date: Fri, 22 May 2020 18:29:25 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqnn7y=Mr+CTsnPyp2of3h=-r_3Rh5oeVeD_SPu7FQT5g@mail.gmail.com>
-Message-ID: <CAP9ODKqnn7y=Mr+CTsnPyp2of3h=-r_3Rh5oeVeD_SPu7FQT5g@mail.gmail.com>
-Subject: Re: [OE-core] gtest and gmock not added to SDK
-To: Tom Hochstein <tom.hochstein@nxp.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=TsJXRJBQTaf4CQLXA+AxOQOUt42Q0QUFWyayaGrywDU=;
+        b=QVguxNbn2uX6CvJnE+PetydfRFc0aeqDWSQH0wa4ZxscKnrjOl/tRWRAt9zyxdTSJ6
+         kfgq3b74HLkbgMsrxdvBOurpgngwUVVWdgTSEnT/qsJB1YK7PryiL3s2RT4WZAJec06a
+         7JnH+rVPzorinAuABEgS3yncjQufuE5QvR0Pf8YI1QLVSD6KqPsLzzpMNbbyjJ5Sh33M
+         TV9XfRZrMwUfBI+l45CDwFDtbW64vbfm/MzyO/ag7NxQKC38hhw3FPl9k/PhwUxHPP9p
+         HfMdEyvcwa+a2tS/SldQ961h9C56gPOpZ6cSTgArxULj2VOiVG1gtJYjAuDRzB2eW53J
+         GX/Q==
+X-Gm-Message-State: AOAM533+bekQItOoGXm2nPFBSEdkhrlwvxvcLIqrP2Zcjkj4cTASyJpO
+	g3GBljcCfIddeFZtwniEGhhUUrRiBRo=
+X-Google-Smtp-Source: ABdhPJwbGzDKrsNwxqFAle1nrNSBku7tD/b8u7mj6AMHU3snGspp4W7TmVqyZ/mcws4j8ix04oll7Q==
+X-Received: by 2002:a17:902:aa43:: with SMTP id c3mr17067207plr.7.1590185310743;
+        Fri, 22 May 2020 15:08:30 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:bdfd:cbde:b10d:fb32])
+        by smtp.gmail.com with ESMTPSA id p8sm7041908pgm.73.2020.05.22.15.08.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 May 2020 15:08:29 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] checklayer: Skip layers without a collection
+Date: Fri, 22 May 2020 17:08:26 -0500
+Message-Id: <20200522220826.27434-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Fri, May 22, 2020 at 5:48 PM Tom Hochstein <tom.hochstein@nxp.com> wrote:
-> The gtest and gmock packages provided by googletest are not added to the SDK by default. I assume it is because the googletest main package is empty?
->
-> I added an RDEPENDS_${PN} from the dependent package to fix it. Is there a better solution?
+As in other places in the file, skip layers that don't define a
+collection when searching for a layer to resolve a dependency. Fixes
+KeyError exceptions when attempting to access the layer collections
+later
 
-You can change the packages to have their `-dev` to rdepends on
-`gtest/gmock-dev` for example.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ scripts/lib/checklayer/__init__.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
+index 5aeec2f00f..1138000275 100644
+--- a/scripts/lib/checklayer/__init__.py
++++ b/scripts/lib/checklayer/__init__.py
+@@ -143,6 +143,9 @@ def detect_layers(layer_directories, no_auto):
+ 
+ def _find_layer_depends(depend, layers):
+     for layer in layers:
++        if 'collections' not in layer:
++            continue
++
+         for collection in layer['collections']:
+             if depend == collection:
+                 return layer
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+2.17.1
+
