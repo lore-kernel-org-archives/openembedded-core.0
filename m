@@ -1,181 +1,581 @@
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
- by mx.groups.io with SMTP id smtpd.web12.5543.1590111055285875731
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.5827.1590112381980552092
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 18:30:55 -0700
+ Thu, 21 May 2020 18:53:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oeHmBUds;
- spf=pass (domain: gmail.com, ip: 209.85.214.194, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f194.google.com with SMTP id m7so3759539plt.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 18:30:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VYhfT1/ooxll0nq8buf9KucOfB63zalkMzcnfmEDggg=;
-        b=oeHmBUdsMdWUMPjIzASD33OOnbEaI9ZwhX2SWKmsHnIlvjf/q/7r+WDW1nWvgOo8Xq
-         Nw2QiZNeWV35ROxEITN3m6EdjfY/Z6eBcMi2GynlhLsv1YsdPYseRPvWECIy0d9dWtjn
-         mpdpL1KTSZzy9HPyOXL1+NaqJGuxFr6BRrAuteeU6u8uaS+M0ej3kGBog2nvUV7fpkga
-         L1/IDJNMOv6cFMMUwFIqOd2AalNROda3XYRetjtj8VgFB5Je7fsPtm0F+gGmrBFpZHif
-         HsrIruf500dFF71Q43vzzxntlFk7o/NQUo4S7PSrc7gaHs4rSf6pND3qUp1YgUOzB9Qs
-         1ukA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VYhfT1/ooxll0nq8buf9KucOfB63zalkMzcnfmEDggg=;
-        b=umbPBTIiok+CxtIwLyVcHJwzfSq4bc1doo2Oaixi7MxWM2syHemFVZZWeUvJO6t+YN
-         iwvatqZIpqmFq/wdsZo5BftKEj90xYrP+3VkCt3F5NfaxhQOC5y/4lJJ6YuqdM9RReyb
-         kCZgnHOwsa9NMSf4+NkCBfAPLE5wJZsGbjXaXp55uSsEpRs2gvkbUEz3mH/S8oh6DF4V
-         IiqTZPzcRkDxvuuDAFhAgO+U1SLM6+jrZryzaXtGHrLjuE6n7Dq2S18psoASYw61O9oq
-         /sQ5LVjpYgwUvANdFb0/dOamNH0myh1TTsxrR90Vd1aEhsRjr89WqJueYrR1ajonItUG
-         4RMQ==
-X-Gm-Message-State: AOAM531vvrcgBKJMw/aqbUu6l28D6O0YUrl29zdhxFUcFZS1kUHLf4Vf
-	Gjl+gbAS5TCxKvBd8KGJNlgu6yi16FY=
-X-Google-Smtp-Source: ABdhPJyZNCdwZGP4B5gusmQ2unhyscZRno/pAME1syGf23ms7pNQb6MTETfDJZZ6dHMRdptba0EAzA==
-X-Received: by 2002:a17:90b:315:: with SMTP id ay21mr1439213pjb.134.1590111054158;
-        Thu, 21 May 2020 18:30:54 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e62a])
-        by smtp.gmail.com with ESMTPSA id r69sm5587567pfc.209.2020.05.21.18.30.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2020 18:30:53 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] armv8/tunes: Set TUNE_PKGARCH_64 based on ARMPKGARCH
-Date: Thu, 21 May 2020 18:30:50 -0700
-Message-Id: <20200522013050.1320143-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.26.2
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: kai.kang@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 04M1qCmp014840
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Thu, 21 May 2020 18:52:33 -0700
+Received: from [128.224.162.131] (128.224.162.131) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Thu, 21 May 2020
+ 18:52:21 -0700
+Subject: Re: [OE-core] [PATCH] libsecret: add meson option introspection
+To: Martin Jansa <martin.jansa@gmail.com>
+CC: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+References: <20200521092241.28336-1-kai.kang@windriver.com>
+ <CA+chaQf==RCLZSOE_-76sh9qhjavL_v2M=zTQfXbug1zmnNFhg@mail.gmail.com>
+From: "kai" <kai.kang@windriver.com>
+Message-ID: <e7432958-4da7-e631-8f74-728000a60871@windriver.com>
+Date: Fri, 22 May 2020 09:52:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CA+chaQf==RCLZSOE_-76sh9qhjavL_v2M=zTQfXbug1zmnNFhg@mail.gmail.com>
+Content-Type: multipart/alternative;
+	boundary="------------009CACB2FEA2E5310924B9DC"
+Content-Language: en-US
 
-The setting is to modify TUNE_PKGARCH which is filled with
-TUNE_PKGARCH_64 or TUNE_PKGARCH_32 in arm-arch64.inc
-This lets higher up tune files for arm64 SOCs override them if needed,
-this can help building multiple armv8 machines with different tunes in
-same workspace.
+--------------009CACB2FEA2E5310924B9DC
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 04M1qCmp014840
 
-No need to set TUNE_PKGARCH in tune files as it is synthesized from ARMPKGARCH
+On 2020/5/21 =E4=B8=8B=E5=8D=886:07, Martin Jansa wrote:
+> If it's no longer mandatory, then please remove:
+> https://github.com/openembedded/openembedded-core/commit/08c86406186828d=
+ce19e101adfd118ed5d9e947e
+>
+> together with:
+> # gobject-introspection is mandatory and cannot be configured
+> REQUIRED_DISTRO_FEATURES =3D "gobject-introspection-data"
+> UNKNOWN_CONFIGURE_WHITELIST_append =3D " introspection"
+>
+> and revert
+> https://github.com/openembedded/openembedded-core/commit/cab86a3196ef4fc=
+d2714591597f2503aa8138df0
+> as well
 
-Add ARMPKGARCH for aarch64 tunes
+I'll check these patches and v2 will be sent.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/machine/include/arm/arch-arm64.inc           | 4 +++-
- meta/conf/machine/include/tune-cortexa53.inc           | 3 ---
- meta/conf/machine/include/tune-cortexa55.inc           | 1 -
- meta/conf/machine/include/tune-cortexa57-cortexa53.inc | 1 -
- meta/conf/machine/include/tune-cortexa57.inc           | 2 --
- meta/conf/machine/include/tune-cortexa72-cortexa53.inc | 2 --
- meta/conf/machine/include/tune-cortexa72.inc           | 1 -
- meta/conf/machine/include/tune-cortexa73-cortexa53.inc | 2 --
- 8 files changed, 3 insertions(+), 13 deletions(-)
+Regards,
+Kai
 
-diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
-index 53f4566815..6d5b22fff0 100644
---- a/meta/conf/machine/include/arm/arch-arm64.inc
-+++ b/meta/conf/machine/include/arm/arch-arm64.inc
-@@ -12,6 +12,8 @@ ARMPKGARCH_tune-aarch64 ?= "aarch64"
- ARMPKGARCH_tune-aarch64_be ?= "aarch64_be"
- TUNE_FEATURES_tune-aarch64 = "aarch64"
- TUNE_FEATURES_tune-aarch64_be = "${TUNE_FEATURES_tune-aarch64} bigendian"
-+TUNE_PKGARCH_64_tune-aarch64 = "aarch64"
-+TUNE_PKGARCH_64_tune-aarch64_be = "aarch64_be"
- BASE_LIB_tune-aarch64 = "lib64"
- BASE_LIB_tune-aarch64_be = "lib64"
- 
-@@ -20,7 +22,7 @@ PACKAGE_EXTRA_ARCHS_tune-aarch64_be = "aarch64_be"
- 
- ARMPKGSFX_ENDIAN_64 = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '_be', '', d)}"
- TUNE_ARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}"
--TUNE_PKGARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}"
-+TUNE_PKGARCH_64 = "${ARMPKGARCH}${ARMPKGSFX_ENDIAN_64}"
- ABIEXTENSION_64 = ""
- TARGET_FPU_64 = ""
- 
-diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
-index b7327d00c4..4af6e0f628 100644
---- a/meta/conf/machine/include/tune-cortexa53.inc
-+++ b/meta/conf/machine/include/tune-cortexa53.inc
-@@ -14,8 +14,5 @@ TUNE_FEATURES_tune-cortexa53-crypto   = "aarch64 cortexa53 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa53             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa53-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto"
- 
--TUNE_PKGARCH_tune-cortexa53 = "cortexa53"
--TUNE_PKGARCH_tune-cortexa53-crypto = "cortexa53-crypto"
--
- BASE_LIB_tune-cortexa53               = "lib64"
- BASE_LIB_tune-cortexa53-crypto        = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa55.inc b/meta/conf/machine/include/tune-cortexa55.inc
-index 274944819e..89032b59ec 100644
---- a/meta/conf/machine/include/tune-cortexa55.inc
-+++ b/meta/conf/machine/include/tune-cortexa55.inc
-@@ -9,6 +9,5 @@ require conf/machine/include/arm/arch-armv8a.inc
- AVAILTUNES += "cortexa55"
- ARMPKGARCH_tune-cortexa55             = "cortexa55"
- TUNE_FEATURES_tune-cortexa55          = "aarch64 cortexa55 crc crypto"
--TUNE_PKGARCH_tune-cortexa55           = "cortexa55"
- PACKAGE_EXTRA_ARCHS_tune-cortexa55    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa55"
- BASE_LIB_tune-cortexa55               = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
-index b95d63e86b..ba4b073852 100644
---- a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
-+++ b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
-@@ -11,6 +11,5 @@ require conf/machine/include/arm/arch-armv8a.inc
- AVAILTUNES += "cortexa57-cortexa53"
- ARMPKGARCH_tune-cortexa57-cortexa53 = "cortexa57-cortexa53"
- TUNE_FEATURES_tune-cortexa57-cortexa53 = "aarch64 cortexa57-cortexa53"
--TUNE_PKGARCH_tune-cortexa57-cortexa53 = "cortexa57-cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa57-cortexa53 = "${PACKAGE_EXTRA_ARCHS_tune-aarch64} cortexa57-cortexa53"
- BASE_LIB_tune-cortexa57-cortexa53 = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa57.inc b/meta/conf/machine/include/tune-cortexa57.inc
-index e8ddeb5786..645a5a7ef6 100644
---- a/meta/conf/machine/include/tune-cortexa57.inc
-+++ b/meta/conf/machine/include/tune-cortexa57.inc
-@@ -13,7 +13,5 @@ TUNE_FEATURES_tune-cortexa57          = "aarch64 cortexa57 crc"
- TUNE_FEATURES_tune-cortexa57-crypto   = "aarch64 cortexa57 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa57             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa57"
- PACKAGE_EXTRA_ARCHS_tune-cortexa57-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa57 cortexa57-crypto"
--TUNE_PKGARCH_tune-cortexa57 = "cortexa57"
--TUNE_PKGARCH_tune-cortexa57-crypto = "cortexa57-crypto"
- BASE_LIB_tune-cortexa57               = "lib64"
- BASE_LIB_tune-cortexa57-crypto        = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
-index fd1ffeb177..5c54aa33ea 100644
---- a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
-+++ b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
-@@ -15,8 +15,6 @@ TUNE_FEATURES_tune-cortexa72-cortexa53               = "aarch64 crc cortexa72-co
- TUNE_FEATURES_tune-cortexa72-cortexa53-crypto        = "aarch64 crc crypto cortexa72-cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa72-cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72-cortexa53 cortexa72-cortexa53-crypto"
--TUNE_PKGARCH_tune-cortexa72-cortexa53                = "cortexa72-cortexa53"
--TUNE_PKGARCH_tune-cortexa72-cortexa53-crypto         = "cortexa72-cortexa53-crypto"
- BASE_LIB_tune-cortexa72-cortexa53                    = "lib64"
- BASE_LIB_tune-cortexa72-cortexa53-crypto             = "lib64"
- 
-diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/tune-cortexa72.inc
-index 23640d5c1f..00f7745a22 100644
---- a/meta/conf/machine/include/tune-cortexa72.inc
-+++ b/meta/conf/machine/include/tune-cortexa72.inc
-@@ -10,5 +10,4 @@ AVAILTUNES += "cortexa72"
- ARMPKGARCH_tune-cortexa72             = "cortexa72"
- TUNE_FEATURES_tune-cortexa72          = "aarch64 cortexa72 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72"
--TUNE_PKGARCH_tune-cortexa72           = "cortexa72"
- BASE_LIB_tune-cortexa72               = "lib64"
-diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
-index ab87c88747..431d244fe2 100644
---- a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
-+++ b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
-@@ -15,8 +15,6 @@ TUNE_FEATURES_tune-cortexa73-cortexa53               = "aarch64 crc cortexa73-co
- TUNE_FEATURES_tune-cortexa73-cortexa53-crypto        = "aarch64 crc crypto cortexa73-cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa73-cortexa53"
- PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa73-cortexa53 cortexa73-cortexa53-crypto"
--TUNE_PKGARCH_tune-cortexa73-cortexa53                = "cortexa73-cortexa53"
--TUNE_PKGARCH_tune-cortexa73-cortexa53-crypto         = "cortexa73-cortexa53-crypto"
- BASE_LIB_tune-cortexa73-cortexa53                    = "lib64"
- BASE_LIB_tune-cortexa73-cortexa53-crypto             = "lib64"
- 
--- 
-2.26.2
 
+>
+>
+> On Thu, May 21, 2020 at 11:23 AM kai <kai.kang@windriver.com=20
+> <mailto:kai.kang@windriver.com>> wrote:
+>
+>     From: Kai Kang <kai.kang@windriver.com
+>     <mailto:kai.kang@windriver.com>>
+>
+>     Add meson option introspection for libsecret. For bsp which doesn't
+>     support qemu usermode, it could disable gobject introspection build.
+>
+>     Signed-off-by: Kai Kang <kai.kang@windriver.com
+>     <mailto:kai.kang@windriver.com>>
+>     ---
+>     =C2=A0.../0001-meson-add-option-introspection.patch | 137
+>     ++++++++++++++++++
+>     =C2=A0.../libsecret/libsecret_0.20.3.bb <http://libsecret_0.20.3.bb>=
+ =C2=A0
+>     =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +
+>     =C2=A02 files changed, 139 insertions(+)
+>     =C2=A0create mode 100644
+>     meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspecti=
+on.patch
+>
+>     diff --git
+>     a/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspec=
+tion.patch
+>     b/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspec=
+tion.patch
+>     new file mode 100644
+>     index 0000000000..51ee66f42b
+>     --- /dev/null
+>     +++
+>     b/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspec=
+tion.patch
+>     @@ -0,0 +1,137 @@
+>     +meson: add option introspection
+>     +
+>     +Add an option 'introspection' for meson which could control whether
+>     +build GIR files or not.
+>     +
+>     +Upstream-Status: Submitted
+>     [https://gitlab.gnome.org/GNOME/libsecret/-/merge_requests/53]
+>     +
+>     +Signed-off-by: Kai Kang <kai.kang@windriver.com
+>     <mailto:kai.kang@windriver.com>>
+>     +---
+>     + libsecret/meson.build | 86
+>     ++++++++++++++++++++++---------------------
+>     + meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +
+>     + meson_options.txt=C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +
+>     + 3 files changed, 46 insertions(+), 42 deletions(-)
+>     +
+>     +diff --git a/libsecret/meson.build b/libsecret/meson.build
+>     +index 759b5ef..2ee8850 100644
+>     +--- a/libsecret/meson.build
+>     ++++ b/libsecret/meson.build
+>     +@@ -104,50 +104,52 @@ libsecret_dep =3D declare_dependency(
+>     + )
+>     +
+>     + # GObject Introspection
+>     +-libsecret_gir_sources =3D [
+>     +-=C2=A0 'secret-attributes.c',
+>     +-=C2=A0 'secret-attributes.h',
+>     +-=C2=A0 'secret-backend.c',
+>     +-=C2=A0 'secret-backend.h',
+>     +-=C2=A0 'secret-collection.c',
+>     +-=C2=A0 'secret-collection.h',
+>     +-=C2=A0 'secret-item.c',
+>     +-=C2=A0 'secret-item.h',
+>     +-=C2=A0 'secret-methods.c',
+>     +-=C2=A0 'secret-password.c',
+>     +-=C2=A0 'secret-password.h',
+>     +-=C2=A0 'secret-paths.c',
+>     +-=C2=A0 'secret-paths.h',
+>     +-=C2=A0 'secret-prompt.c',
+>     +-=C2=A0 'secret-prompt.h',
+>     +-=C2=A0 'secret-retrievable.c',
+>     +-=C2=A0 'secret-retrievable.h',
+>     +-=C2=A0 'secret-schema.c',
+>     +-=C2=A0 'secret-schema.h',
+>     +-=C2=A0 'secret-schemas.c',
+>     +-=C2=A0 'secret-schemas.h',
+>     +-=C2=A0 'secret-service.c',
+>     +-=C2=A0 'secret-service.h',
+>     +-=C2=A0 'secret-types.h',
+>     +-=C2=A0 'secret-value.c',
+>     +-=C2=A0 'secret-value.h',
+>     +-]
+>     +-libsecret_gir_sources +=3D version_h
+>     +-libsecret_gir_sources +=3D _enums_generated
+>     +-
+>     +-libsecret_gir =3D gnome.generate_gir(libsecret,
+>     +-=C2=A0 sources: libsecret_gir_sources,
+>     +-=C2=A0 namespace: 'Secret',
+>     +-=C2=A0 nsversion: api_version_major,
+>     +-=C2=A0 export_packages: 'libsecret-@0@'.format(api_version_major),
+>     +-=C2=A0 includes: [ 'GObject-2.0', 'Gio-2.0' ],
+>     +-=C2=A0 header: 'libsecret/secret.h',
+>     +-=C2=A0 extra_args: [ '-D SECRET_COMPILATION'],
+>     +-=C2=A0 install: true,
+>     +-)
+>     ++if with_gir
+>     ++=C2=A0 libsecret_gir_sources =3D [
+>     ++=C2=A0 =C2=A0 'secret-attributes.c',
+>     ++=C2=A0 =C2=A0 'secret-attributes.h',
+>     ++=C2=A0 =C2=A0 'secret-backend.c',
+>     ++=C2=A0 =C2=A0 'secret-backend.h',
+>     ++=C2=A0 =C2=A0 'secret-collection.c',
+>     ++=C2=A0 =C2=A0 'secret-collection.h',
+>     ++=C2=A0 =C2=A0 'secret-item.c',
+>     ++=C2=A0 =C2=A0 'secret-item.h',
+>     ++=C2=A0 =C2=A0 'secret-methods.c',
+>     ++=C2=A0 =C2=A0 'secret-password.c',
+>     ++=C2=A0 =C2=A0 'secret-password.h',
+>     ++=C2=A0 =C2=A0 'secret-paths.c',
+>     ++=C2=A0 =C2=A0 'secret-paths.h',
+>     ++=C2=A0 =C2=A0 'secret-prompt.c',
+>     ++=C2=A0 =C2=A0 'secret-prompt.h',
+>     ++=C2=A0 =C2=A0 'secret-retrievable.c',
+>     ++=C2=A0 =C2=A0 'secret-retrievable.h',
+>     ++=C2=A0 =C2=A0 'secret-schema.c',
+>     ++=C2=A0 =C2=A0 'secret-schema.h',
+>     ++=C2=A0 =C2=A0 'secret-schemas.c',
+>     ++=C2=A0 =C2=A0 'secret-schemas.h',
+>     ++=C2=A0 =C2=A0 'secret-service.c',
+>     ++=C2=A0 =C2=A0 'secret-service.h',
+>     ++=C2=A0 =C2=A0 'secret-types.h',
+>     ++=C2=A0 =C2=A0 'secret-value.c',
+>     ++=C2=A0 =C2=A0 'secret-value.h',
+>     ++=C2=A0 ]
+>     ++=C2=A0 libsecret_gir_sources +=3D version_h
+>     ++=C2=A0 libsecret_gir_sources +=3D _enums_generated
+>     ++
+>     ++=C2=A0 libsecret_gir =3D gnome.generate_gir(libsecret,
+>     ++=C2=A0 =C2=A0 sources: libsecret_gir_sources,
+>     ++=C2=A0 =C2=A0 namespace: 'Secret',
+>     ++=C2=A0 =C2=A0 nsversion: api_version_major,
+>     ++=C2=A0 =C2=A0 export_packages: 'libsecret-@0@'.format(api_version_=
+major),
+>     ++=C2=A0 =C2=A0 includes: [ 'GObject-2.0', 'Gio-2.0' ],
+>     ++=C2=A0 =C2=A0 header: 'libsecret/secret.h',
+>     ++=C2=A0 =C2=A0 extra_args: [ '-D SECRET_COMPILATION'],
+>     ++=C2=A0 =C2=A0 install: true,
+>     ++=C2=A0 )
+>     ++endif
+>     +
+>     + # Vapi
+>     +-if with_vapi
+>     ++if with_vapi and with_gir
+>     +=C2=A0 =C2=A0libsecret_vapi =3D
+>     gnome.generate_vapi('libsecret-@0@'.format(api_version_major),
+>     +=C2=A0 =C2=A0 =C2=A0sources: libsecret_gir[0],
+>     +=C2=A0 =C2=A0 =C2=A0metadata_dirs: meson.source_root() / 'libsecret=
+',
+>     +diff --git a/meson.build b/meson.build
+>     +index a26d046..d22e008 100644
+>     +--- a/meson.build
+>     ++++ b/meson.build
+>     +@@ -22,6 +22,7 @@ with_gcrypt =3D get_option('gcrypt')
+>     + enable_debug =3D get_option('debugging')
+>     + with_vapi =3D get_option('vapi')
+>     + with_gtkdoc =3D get_option('gtk_doc')
+>     ++with_gir =3D get_option('introspection')
+>     +
+>     + # Some variables
+>     + config_h_dir =3D include_directories('.')
+>     +diff --git a/meson_options.txt b/meson_options.txt
+>     +index c1fda5d..445aeb0 100644
+>     +--- a/meson_options.txt
+>     ++++ b/meson_options.txt
+>     +@@ -3,3 +3,4 @@ option('gcrypt', type: 'boolean', value: true,
+>     description: 'With gcrypt and tra
+>     + option('debugging', type: 'boolean', value: false, description:
+>     'Turn debugging on/off')
+>     + option('vapi', type: 'boolean', value: true, description:
+>     'Create VAPI file.')
+>     + option('gtk_doc', type: 'boolean', value: true, description:
+>     'Build reference documentation using gtk-doc')
+>     ++option('introspection', type: 'boolean', value: true,
+>     description: 'Create GIR file.')
+>     +--
+>     +2.17.1
+>     +
+>     diff --git a/meta/recipes-gnome/libsecret/libsecret_0.20.3.bb
+>     <http://libsecret_0.20.3.bb>
+>     b/meta/recipes-gnome/libsecret/libsecret_0.20.3.bb
+>     <http://libsecret_0.20.3.bb>
+>     index 8d317c8efc..9830c80448 100644
+>     --- a/meta/recipes-gnome/libsecret/libsecret_0.20.3.bb
+>     <http://libsecret_0.20.3.bb>
+>     +++ b/meta/recipes-gnome/libsecret/libsecret_0.20.3.bb
+>     <http://libsecret_0.20.3.bb>
+>     @@ -13,6 +13,8 @@ inherit gnomebase gtk-doc vala
+>     gobject-introspection manpages features_check
+>
+>     =C2=A0DEPENDS +=3D "glib-2.0 libgcrypt gettext-native"
+>
+>     +SRC_URI +=3D "file://0001-meson-add-option-introspection.patch"
+>     +
+>     =C2=A0SRC_URI[archive.md5sum] =3D "47c3fdfeb111a87b509ad271e4a6f496"
+>     =C2=A0SRC_URI[archive.sha256sum] =3D
+>     "4fcb3c56f8ac4ab9c75b66901fb0104ec7f22aa9a012315a14c0d6dffa5290e4"
+>
+>     --=20
+>     2.17.1
+>
+>    =20
+>
+
+--=20
+Kai Kang
+Wind River Linux
+
+
+--------------009CACB2FEA2E5310924B9DC
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail5.wrs.com id 04M1qCmp014840
+
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-=
+8">
+  </head>
+  <body>
+    <div class=3D"moz-cite-prefix">On 2020/5/21 =E4=B8=8B=E5=8D=886:07, Ma=
+rtin Jansa
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite"
+cite=3D"mid:CA+chaQf=3D=3DRCLZSOE_-76sh9qhjavL_v2M=3DzTQfXbug1zmnNFhg@mail=
+.gmail.com">
+      <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUT=
+F-8">
+      <div dir=3D"ltr">If it's no longer mandatory, then please remove:
+        <div><a
+href=3D"https://github.com/openembedded/openembedded-core/commit/08c864061=
+86828dce19e101adfd118ed5d9e947e"
+            moz-do-not-send=3D"true">https://github.com/openembedded/opene=
+mbedded-core/commit/08c86406186828dce19e101adfd118ed5d9e947e</a><br>
+        </div>
+        <div><br>
+        </div>
+        <div>together with:</div>
+        <div># gobject-introspection is mandatory and cannot be
+          configured<br>
+          REQUIRED_DISTRO_FEATURES =3D "gobject-introspection-data"<br>
+          UNKNOWN_CONFIGURE_WHITELIST_append =3D " introspection"<br>
+        </div>
+        <div><br>
+        </div>
+        <div>and revert</div>
+        <div><a
+href=3D"https://github.com/openembedded/openembedded-core/commit/cab86a319=
+6ef4fcd2714591597f2503aa8138df0"
+            moz-do-not-send=3D"true">https://github.com/openembedded/opene=
+mbedded-core/commit/cab86a3196ef4fcd2714591597f2503aa8138df0</a><br>
+        </div>
+        <div>as well</div>
+      </div>
+    </blockquote>
+    <p>I'll check these patches and v2 will be sent.</p>
+    <p>Regards,<br>
+      Kai</p>
+    <p><br>
+    </p>
+    <blockquote type=3D"cite"
+cite=3D"mid:CA+chaQf=3D=3DRCLZSOE_-76sh9qhjavL_v2M=3DzTQfXbug1zmnNFhg@mail=
+.gmail.com">
+      <div dir=3D"ltr">
+        <div><br>
+        </div>
+      </div>
+      <br>
+      <div class=3D"gmail_quote">
+        <div dir=3D"ltr" class=3D"gmail_attr">On Thu, May 21, 2020 at 11:2=
+3
+          AM kai &lt;<a href=3D"mailto:kai.kang@windriver.com"
+            moz-do-not-send=3D"true">kai.kang@windriver.com</a>&gt; wrote:=
+<br>
+        </div>
+        <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">F=
+rom:
+          Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com"
+            target=3D"_blank" moz-do-not-send=3D"true">kai.kang@windriver.=
+com</a>&gt;<br>
+          <br>
+          Add meson option introspection for libsecret. For bsp which
+          doesn't<br>
+          support qemu usermode, it could disable gobject introspection
+          build.<br>
+          <br>
+          Signed-off-by: Kai Kang &lt;<a
+            href=3D"mailto:kai.kang@windriver.com" target=3D"_blank"
+            moz-do-not-send=3D"true">kai.kang@windriver.com</a>&gt;<br>
+          ---<br>
+          =C2=A0.../0001-meson-add-option-introspection.patch | 137
+          ++++++++++++++++++<br>
+          =C2=A0.../libsecret/<a href=3D"http://libsecret_0.20.3.bb"
+            rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true">=
+libsecret_0.20.3.bb</a>=C2=A0
+          =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +<br>
+          =C2=A02 files changed, 139 insertions(+)<br>
+          =C2=A0create mode 100644
+meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.pat=
+ch<br>
+          <br>
+          diff --git
+a/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.p=
+atch
+b/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.p=
+atch<br>
+          new file mode 100644<br>
+          index 0000000000..51ee66f42b<br>
+          --- /dev/null<br>
+          +++
+b/meta/recipes-gnome/libsecret/files/0001-meson-add-option-introspection.p=
+atch<br>
+          @@ -0,0 +1,137 @@<br>
+          +meson: add option introspection<br>
+          +<br>
+          +Add an option 'introspection' for meson which could control
+          whether<br>
+          +build GIR files or not.<br>
+          +<br>
+          +Upstream-Status: Submitted [<a
+            href=3D"https://gitlab.gnome.org/GNOME/libsecret/-/merge_reque=
+sts/53"
+            rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true">=
+https://gitlab.gnome.org/GNOME/libsecret/-/merge_requests/53</a>]<br>
+          +<br>
+          +Signed-off-by: Kai Kang &lt;<a
+            href=3D"mailto:kai.kang@windriver.com" target=3D"_blank"
+            moz-do-not-send=3D"true">kai.kang@windriver.com</a>&gt;<br>
+          +---<br>
+          + libsecret/meson.build | 86
+          ++++++++++++++++++++++---------------------<br>
+          + meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 =
++<br>
+          + meson_options.txt=C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+          + 3 files changed, 46 insertions(+), 42 deletions(-)<br>
+          +<br>
+          +diff --git a/libsecret/meson.build b/libsecret/meson.build<br>
+          +index 759b5ef..2ee8850 100644<br>
+          +--- a/libsecret/meson.build<br>
+          ++++ b/libsecret/meson.build<br>
+          +@@ -104,50 +104,52 @@ libsecret_dep =3D declare_dependency(<br>
+          + )<br>
+          + <br>
+          + # GObject Introspection<br>
+          +-libsecret_gir_sources =3D [<br>
+          +-=C2=A0 'secret-attributes.c',<br>
+          +-=C2=A0 'secret-attributes.h',<br>
+          +-=C2=A0 'secret-backend.c',<br>
+          +-=C2=A0 'secret-backend.h',<br>
+          +-=C2=A0 'secret-collection.c',<br>
+          +-=C2=A0 'secret-collection.h',<br>
+          +-=C2=A0 'secret-item.c',<br>
+          +-=C2=A0 'secret-item.h',<br>
+          +-=C2=A0 'secret-methods.c',<br>
+          +-=C2=A0 'secret-password.c',<br>
+          +-=C2=A0 'secret-password.h',<br>
+          +-=C2=A0 'secret-paths.c',<br>
+          +-=C2=A0 'secret-paths.h',<br>
+          +-=C2=A0 'secret-prompt.c',<br>
+          +-=C2=A0 'secret-prompt.h',<br>
+          +-=C2=A0 'secret-retrievable.c',<br>
+          +-=C2=A0 'secret-retrievable.h',<br>
+          +-=C2=A0 'secret-schema.c',<br>
+          +-=C2=A0 'secret-schema.h',<br>
+          +-=C2=A0 'secret-schemas.c',<br>
+          +-=C2=A0 'secret-schemas.h',<br>
+          +-=C2=A0 'secret-service.c',<br>
+          +-=C2=A0 'secret-service.h',<br>
+          +-=C2=A0 'secret-types.h',<br>
+          +-=C2=A0 'secret-value.c',<br>
+          +-=C2=A0 'secret-value.h',<br>
+          +-]<br>
+          +-libsecret_gir_sources +=3D version_h<br>
+          +-libsecret_gir_sources +=3D _enums_generated<br>
+          +-<br>
+          +-libsecret_gir =3D gnome.generate_gir(libsecret,<br>
+          +-=C2=A0 sources: libsecret_gir_sources,<br>
+          +-=C2=A0 namespace: 'Secret',<br>
+          +-=C2=A0 nsversion: api_version_major,<br>
+          +-=C2=A0 export_packages:
+          'libsecret-@0@'.format(api_version_major),<br>
+          +-=C2=A0 includes: [ 'GObject-2.0', 'Gio-2.0' ],<br>
+          +-=C2=A0 header: 'libsecret/secret.h',<br>
+          +-=C2=A0 extra_args: [ '-D SECRET_COMPILATION'],<br>
+          +-=C2=A0 install: true,<br>
+          +-)<br>
+          ++if with_gir<br>
+          ++=C2=A0 libsecret_gir_sources =3D [<br>
+          ++=C2=A0 =C2=A0 'secret-attributes.c',<br>
+          ++=C2=A0 =C2=A0 'secret-attributes.h',<br>
+          ++=C2=A0 =C2=A0 'secret-backend.c',<br>
+          ++=C2=A0 =C2=A0 'secret-backend.h',<br>
+          ++=C2=A0 =C2=A0 'secret-collection.c',<br>
+          ++=C2=A0 =C2=A0 'secret-collection.h',<br>
+          ++=C2=A0 =C2=A0 'secret-item.c',<br>
+          ++=C2=A0 =C2=A0 'secret-item.h',<br>
+          ++=C2=A0 =C2=A0 'secret-methods.c',<br>
+          ++=C2=A0 =C2=A0 'secret-password.c',<br>
+          ++=C2=A0 =C2=A0 'secret-password.h',<br>
+          ++=C2=A0 =C2=A0 'secret-paths.c',<br>
+          ++=C2=A0 =C2=A0 'secret-paths.h',<br>
+          ++=C2=A0 =C2=A0 'secret-prompt.c',<br>
+          ++=C2=A0 =C2=A0 'secret-prompt.h',<br>
+          ++=C2=A0 =C2=A0 'secret-retrievable.c',<br>
+          ++=C2=A0 =C2=A0 'secret-retrievable.h',<br>
+          ++=C2=A0 =C2=A0 'secret-schema.c',<br>
+          ++=C2=A0 =C2=A0 'secret-schema.h',<br>
+          ++=C2=A0 =C2=A0 'secret-schemas.c',<br>
+          ++=C2=A0 =C2=A0 'secret-schemas.h',<br>
+          ++=C2=A0 =C2=A0 'secret-service.c',<br>
+          ++=C2=A0 =C2=A0 'secret-service.h',<br>
+          ++=C2=A0 =C2=A0 'secret-types.h',<br>
+          ++=C2=A0 =C2=A0 'secret-value.c',<br>
+          ++=C2=A0 =C2=A0 'secret-value.h',<br>
+          ++=C2=A0 ]<br>
+          ++=C2=A0 libsecret_gir_sources +=3D version_h<br>
+          ++=C2=A0 libsecret_gir_sources +=3D _enums_generated<br>
+          ++<br>
+          ++=C2=A0 libsecret_gir =3D gnome.generate_gir(libsecret,<br>
+          ++=C2=A0 =C2=A0 sources: libsecret_gir_sources,<br>
+          ++=C2=A0 =C2=A0 namespace: 'Secret',<br>
+          ++=C2=A0 =C2=A0 nsversion: api_version_major,<br>
+          ++=C2=A0 =C2=A0 export_packages:
+          'libsecret-@0@'.format(api_version_major),<br>
+          ++=C2=A0 =C2=A0 includes: [ 'GObject-2.0', 'Gio-2.0' ],<br>
+          ++=C2=A0 =C2=A0 header: 'libsecret/secret.h',<br>
+          ++=C2=A0 =C2=A0 extra_args: [ '-D SECRET_COMPILATION'],<br>
+          ++=C2=A0 =C2=A0 install: true,<br>
+          ++=C2=A0 )<br>
+          ++endif<br>
+          + <br>
+          + # Vapi<br>
+          +-if with_vapi<br>
+          ++if with_vapi and with_gir<br>
+          +=C2=A0 =C2=A0libsecret_vapi =3D
+          gnome.generate_vapi('libsecret-@0@'.format(api_version_major),<b=
+r>
+          +=C2=A0 =C2=A0 =C2=A0sources: libsecret_gir[0],<br>
+          +=C2=A0 =C2=A0 =C2=A0metadata_dirs: meson.source_root() / 'libse=
+cret',<br>
+          +diff --git a/meson.build b/meson.build<br>
+          +index a26d046..d22e008 100644<br>
+          +--- a/meson.build<br>
+          ++++ b/meson.build<br>
+          +@@ -22,6 +22,7 @@ with_gcrypt =3D get_option('gcrypt')<br>
+          + enable_debug =3D get_option('debugging')<br>
+          + with_vapi =3D get_option('vapi')<br>
+          + with_gtkdoc =3D get_option('gtk_doc')<br>
+          ++with_gir =3D get_option('introspection')<br>
+          + <br>
+          + # Some variables<br>
+          + config_h_dir =3D include_directories('.')<br>
+          +diff --git a/meson_options.txt b/meson_options.txt<br>
+          +index c1fda5d..445aeb0 100644<br>
+          +--- a/meson_options.txt<br>
+          ++++ b/meson_options.txt<br>
+          +@@ -3,3 +3,4 @@ option('gcrypt', type: 'boolean', value:
+          true, description: 'With gcrypt and tra<br>
+          + option('debugging', type: 'boolean', value: false,
+          description: 'Turn debugging on/off')<br>
+          + option('vapi', type: 'boolean', value: true, description:
+          'Create VAPI file.')<br>
+          + option('gtk_doc', type: 'boolean', value: true, description:
+          'Build reference documentation using gtk-doc')<br>
+          ++option('introspection', type: 'boolean', value: true,
+          description: 'Create GIR file.')<br>
+          +-- <br>
+          +2.17.1<br>
+          +<br>
+          diff --git a/meta/recipes-gnome/libsecret/<a
+            href=3D"http://libsecret_0.20.3.bb" rel=3D"noreferrer"
+            target=3D"_blank" moz-do-not-send=3D"true">libsecret_0.20.3.bb=
+</a>
+          b/meta/recipes-gnome/libsecret/<a
+            href=3D"http://libsecret_0.20.3.bb" rel=3D"noreferrer"
+            target=3D"_blank" moz-do-not-send=3D"true">libsecret_0.20.3.bb=
+</a><br>
+          index 8d317c8efc..9830c80448 100644<br>
+          --- a/meta/recipes-gnome/libsecret/<a
+            href=3D"http://libsecret_0.20.3.bb" rel=3D"noreferrer"
+            target=3D"_blank" moz-do-not-send=3D"true">libsecret_0.20.3.bb=
+</a><br>
+          +++ b/meta/recipes-gnome/libsecret/<a
+            href=3D"http://libsecret_0.20.3.bb" rel=3D"noreferrer"
+            target=3D"_blank" moz-do-not-send=3D"true">libsecret_0.20.3.bb=
+</a><br>
+          @@ -13,6 +13,8 @@ inherit gnomebase gtk-doc vala
+          gobject-introspection manpages features_check<br>
+          <br>
+          =C2=A0DEPENDS +=3D "glib-2.0 libgcrypt gettext-native"<br>
+          <br>
+          +SRC_URI +=3D <a class=3D"moz-txt-link-rfc2396E" href=3D"file://=
+0001-meson-add-option-introspection.patch">"file://0001-meson-add-option-in=
+trospection.patch"</a><br>
+          +<br>
+          =C2=A0SRC_URI[archive.md5sum] =3D "47c3fdfeb111a87b509ad271e4a6f=
+496"<br>
+          =C2=A0SRC_URI[archive.sha256sum] =3D
+          "4fcb3c56f8ac4ab9c75b66901fb0104ec7f22aa9a012315a14c0d6dffa5290e=
+4"<br>
+          <br>
+          -- <br>
+          2.17.1<br>
+          <br>
+          <br>
+        </blockquote>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+Kai Kang
+Wind River Linux</pre>
+  </body>
+</html>
+
+--------------009CACB2FEA2E5310924B9DC--
