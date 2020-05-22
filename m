@@ -1,156 +1,110 @@
 Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
- by mx.groups.io with SMTP id smtpd.web12.15326.1590161329472181233
+ by mx.groups.io with SMTP id smtpd.web11.17315.1590166972338877176
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 May 2020 08:28:49 -0700
+ Fri, 22 May 2020 10:02:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ENVXP14+;
- spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: ptsneves@gmail.com)
-Received: by mail-ej1-f50.google.com with SMTP id n24so13506630ejd.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 May 2020 08:28:49 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TWQLzN7m;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id h21so13817313ejq.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 May 2020 10:02:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UAu71MFLyVhfAS4OUthS5kIUsJK6LtSSwM16hgkTrjs=;
-        b=ENVXP14+6eGheZYDJlkCnqwXYgSkCjm1Yf6BGjFDwm8u1fw2DIMAYr8+wbfrHRgZ5t
-         +oCVOuU6YZmkxMLYqav7MoWs4GAEQ5CI3xgVkHrd36xvyI8CRgrnHUaAKMpzsY/tM508
-         YexJvBeahln0MInykVna09D3eNl9pzg98eqZ+PspjFfZRy3Vt7tGhdeh97f7kxbI4RDy
-         YqhuoHAjXgPVNlX6Eh3Qi/+7BB6qu+dMI/flsQrsqaubN9AyIZGw8tsZ87FTyCkb2l4f
-         R7Pk/D3aEVFhLb2FH9DWc46EQj1e7wvRqHOKW099+4SCSKe8ypMO8CuWUYq8cBKWH2Jh
-         fz9Q==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=K/2u99ANMOlNamwU1YzcJzi7ACvqOJZV3Mwhi0gCsM8=;
+        b=TWQLzN7mmVSG172sLQREZQiPj9jVQhNkr/Lo2DCwmEcPBH7HVhRgKIkdtuEOx74y7I
+         XMnfK4N7rpjbjY+xylMw7hyyg22u0uNkKVyP/ZAy3cGxdjlQ/07ayXbMIme86BwODX6V
+         2r5KGowwPHUOpJWzICuYg63ffXTromB4A7QYblk6M3HVl+1T06HT7duSbr/4kxGV1HO6
+         EU2r4WZl1fNdweFrVQvZ+r5QuMezSUDO7DurKPw4B9IlP9RQIDeGKZLO0oAHY1RDJNhQ
+         xW/4jMA9NdwAGfQzcMaC7ks2E2vwlepFu23suw+VeEE+zXvYMUefPIRMceWRD2jdQr8M
+         +kVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UAu71MFLyVhfAS4OUthS5kIUsJK6LtSSwM16hgkTrjs=;
-        b=d453k+OsqeLT2SWcegyncHHAcVACgP1NsEVBxMw4qdBrb7mSf3BdL8aJgVKQtbtuIZ
-         gy5HvypsUiGIsG7W7LRcuqGAQBccrILPlCjLu1o6GEFoPs07p7WtVos6gzHPGf3QPJYh
-         D/Lnkc0p9jkuvVOjI1R3IVKp5pJWUPLw4iLNCf11NXtV/XOuR2izDYROKD5cOIaEGrfu
-         KxS6ykD7Wv8xKS1wMriJISuEp5tAQbrYHrAF5xSXsH7j4htgy/X9d8wh4WD8zhLloDIO
-         vu4yCrHhHzE0ZZRAqrUBaiQ6Nljb8LvNTLo3UGbajEmpJ25+nCdpAhOApo/rgNwDNnZW
-         PWoA==
-X-Gm-Message-State: AOAM53306EFjj4nrIEIVtwl9AfPXdHFR+zyRoHXlJReo8iGS35EecSjQ
-	r/W15VEFlwbg6YEHo9+DsX1cZHGj/tPfK3tnTg==
-X-Google-Smtp-Source: ABdhPJyyJqbRz9SO3Caeh89gTLdCLFcNGgwCUt4/fQLHL94Z8lVmrS0AaJbMbHy7aDEq0x8Ji4fQMRdCwGPGxaNVUEg=
-X-Received: by 2002:a17:906:70c2:: with SMTP id g2mr8414088ejk.207.1590161327850;
- Fri, 22 May 2020 08:28:47 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=K/2u99ANMOlNamwU1YzcJzi7ACvqOJZV3Mwhi0gCsM8=;
+        b=ob/vYRewIPXR3BMQaFRKr8tDrXdXSabg1+m33JDcQgURJzxWe6Hp5e6E4YD/HUupx8
+         O9SvyfReV2CtvLyZ48R8O1NwEeUXhQhNWP+ddjeqy9D6CK8vmKAgECHd7WQj0+nxIN4S
+         2Xtx6Vtzg+AJGuaGF8dWhWw5WBfp8JbkqUzI1MFFSSm+cwXtR9wrL0ezAk6DxzPOddL7
+         DKYtU47KhDQ6xzkHO4E96Bqb+VCqMzkOi649mJsRLvr9odqxeQYQouIFnDuoTACW52X6
+         YIvAw/smW3yjIzuM9/xqRlBPPLu5bhZbl6rmAuHJmP2/0Lz90bn6nrArcvDabdjlmL8g
+         F6mA==
+X-Gm-Message-State: AOAM5311gBA1m2C563+CkIohhxtB6V4VGaOayloaO/Fcw64GUi0cOOCH
+	spPWWfXd3gImjsfOVzM5cz/nfgrh
+X-Google-Smtp-Source: ABdhPJwAp7qmYqu2K7VkVT+ZbtY+jEp2zrLXHn+tBZtr2VibOhBzA/Lovokr/P59tGUtJWonlKYuvw==
+X-Received: by 2002:a17:907:1002:: with SMTP id ox2mr8764528ejb.189.1590166970422;
+        Fri, 22 May 2020 10:02:50 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se. [37.247.29.68])
+        by smtp.gmail.com with ESMTPSA id n11sm8394399ejh.39.2020.05.22.10.02.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 May 2020 10:02:49 -0700 (PDT)
+Subject: Re: [OE-core] rm_work causes image tasks to re-run
+To: yocto@mac.mcrowe.com, openembedded-core@lists.openembedded.org
+References: <20200522081359.GA1428@mcrowe.com>
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+Message-ID: <b1fcf4c9-9d0a-742b-fa36-1325b09457a1@gmail.com>
+Date: Fri, 22 May 2020 19:02:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200522151335.7918-1-ptsneves@gmail.com> <20200522151335.7918-2-ptsneves@gmail.com>
- <CANNYZj9tpQRb95FX5ch47eH66f8xvr-EybMkmg1UsAxAHwqyfw@mail.gmail.com>
-In-Reply-To: <CANNYZj9tpQRb95FX5ch47eH66f8xvr-EybMkmg1UsAxAHwqyfw@mail.gmail.com>
-From: "Paulo Neve" <ptsneves@gmail.com>
-Date: Fri, 22 May 2020 17:28:36 +0200
-Message-ID: <CAJO0J4gz9zz9iZ4EbrPvs7aVjT3Ro1WXhmwsb7izst2m=GLQSg@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe][PATCH] 2/2] package_{ipk, deb, rpm}.bbclass: support per package user-defined metadata.
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200522081359.GA1428@mcrowe.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Is ./meta/lib/oeqa/selftest/cases/package.py the right place?
-If yes i can work on it. Note that this functionality is not used
-anywhere in poky and is not documented at all. It just happened to
-exist for a long time and be useful for my case.
+Hi Mike,
 
-On Fri, May 22, 2020 at 5:22 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Should there be a test for this functionality? Somewhere in oe-selftest perhaps where various package manager features are tested?
->
-> Alex
->
-> On Fri, 22 May 2020 at 17:13, Paulo Neve <ptsneves@gmail.com> wrote:
->>
->> Up to now the user defined metadata was set recipe wide,
->> meaning all the packages generated in a recipe where the
->> variable was set would get the same metadata. That is not
->> always ideal and is counter to the per package control that
->> is usually available.
->>
->> Keep support for package agnostic metadata but also add option
->> to add it to a specific option like:
->> PACKAGE_ADD_METADATA_${PN}_IPK = "mymeta: myvalue"
->>
->> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
->> ---
->>  meta/classes/package.bbclass     | 4 ++--
->>  meta/classes/package_deb.bbclass | 2 +-
->>  meta/classes/package_ipk.bbclass | 2 +-
->>  meta/classes/package_rpm.bbclass | 5 +++--
->>  4 files changed, 7 insertions(+), 6 deletions(-)
->>
->> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
->> index 0b5cf47749..1678e0d794 100644
->> --- a/meta/classes/package.bbclass
->> +++ b/meta/classes/package.bbclass
->> @@ -637,9 +637,9 @@ def get_package_mapping (pkg, basepkg, d, depversions=None):
->>
->>      return pkg
->>
->> -def get_package_additional_metadata (pkg_type, d):
->> +def get_package_additional_metadata (pkg_type, pkg_name, d):
->>      base_key = "PACKAGE_ADD_METADATA"
->> -    for key in ("%s_%s" % (base_key, pkg_type.upper()), base_key):
->> +    for key in ("%s_%s" % (base_key, pkg_type.upper()), "%s_%s_%s" % (base_key, pkg_name, pkg_type.upper()), base_key):
->>          if d.getVar(key, False) is None:
->>              continue
->>          d.setVarFlag(key, "type", "list")
->> diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
->> index 790b26aef2..6ef9c8cb3a 100644
->> --- a/meta/classes/package_deb.bbclass
->> +++ b/meta/classes/package_deb.bbclass
->> @@ -167,7 +167,7 @@ def deb_write_pkg(pkg, d):
->>
->>          # more fields
->>
->> -        custom_fields_chunk = get_package_additional_metadata("deb", localdata)
->> +        custom_fields_chunk = get_package_additional_metadata("deb", pkgname, localdata)
->>          if custom_fields_chunk:
->>              ctrlfile.write(custom_fields_chunk)
->>              ctrlfile.write("\n")
->> diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
->> index c008559e4a..f78cec7a70 100644
->> --- a/meta/classes/package_ipk.bbclass
->> +++ b/meta/classes/package_ipk.bbclass
->> @@ -155,7 +155,7 @@ def ipk_write_pkg(pkg, d):
->>              else:
->>                  ctrlfile.write(c % tuple(pullData(fs, localdata)))
->>
->> -        custom_fields_chunk = get_package_additional_metadata("ipk", localdata)
->> +        custom_fields_chunk = get_package_additional_metadata("ipk", pkgname, localdata)
->>          if custom_fields_chunk is not None:
->>              ctrlfile.write(custom_fields_chunk)
->>              ctrlfile.write("\n")
->> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
->> index 9145717f98..ab019192da 100644
->> --- a/meta/classes/package_rpm.bbclass
->> +++ b/meta/classes/package_rpm.bbclass
->> @@ -295,7 +295,6 @@ python write_specfile () {
->>      srcmaintainer  = d.getVar('MAINTAINER')
->>      srchomepage    = d.getVar('HOMEPAGE')
->>      srcdescription = d.getVar('DESCRIPTION') or "."
->> -    srccustomtagschunk = get_package_additional_metadata("rpm", d)
->>
->>      srcdepends     = d.getVar('DEPENDS')
->>      srcrdepends    = []
->> @@ -333,6 +332,8 @@ python write_specfile () {
->>          pkgname = localdata.getVar('PKG_%s' % pkg)
->>          if not pkgname:
->>              pkgname = pkg
->> +
->> +        srccustomtagschunk = get_package_additional_metadata("rpm", pkgname, d)
->>          localdata.setVar('PKG', pkgname)
->>
->>          localdata.setVar('OVERRIDES', d.getVar("OVERRIDES", False) + ":" + pkg)
->> @@ -351,7 +352,7 @@ python write_specfile () {
->>          splitlicense = (localdata.getVar('LICENSE') or "")
->>          splitsection = (localdata.getVar('SECTION') or "")
->>          splitdescription = (localdata.getVar('DESCRIPTION') or ".")
->> -        splitcustomtagschunk = get_package_additional_metadata("rpm", localdata)
->> +        splitcustomtagschunk = get_package_additional_metadata("rpm", pkgname, localdata)
->>
->>          translate_vers('RDEPENDS', localdata)
->>          translate_vers('RRECOMMENDS', localdata)
->> --
->> 2.20.1
->>
->> 
+On 5/22/20 10:13 AM, Mike Crowe via lists.openembedded.org wrote:
+> When we have rm_work enabled all image tasks are built every time. This has
+> been happening since at least warrior and is still happening as of master
+> today (8fc19639f47b959a141dae231395bbababa644e1).
+> 
+> Steps to reproduce:
+> 
+>   bitbake core-image-minimal
+>   bitbake core-image-minimal
+>   echo 'INHERIT += "rm_work"' >> conf/local.conf
+>   bitbake core-image-minimal
+>   bitbake core-image-minimal
+> 
+> The second invocation of bitbake doesn't build anything at all (as would be
+> expected.)
+> 
+> The fourth invocation of bitbake always builds:
+> 
+>   Sstate summary: Wanted 43 Found 43 Missed 0 Current 436 (100% match, 100% complete)
+>   NOTE: Executing Tasks
+>   NOTE: Setscene tasks completed
+>   NOTE: Running noexec task 1750 of 2000 (/fast2/mac/git/oe-core/meta/recipes-core/images/core-image-minimal.bb:do_rm_work_all)
+>   NOTE: Running task 1998 of 2000 (/fast2/mac/git/oe-core/meta/recipes-core/images/core-image-minimal.bb:do_populate_lic_deploy)
+>   NOTE: recipe core-image-minimal-1.0-r0: task do_populate_lic_deploy: Started
+>   NOTE: recipe core-image-minimal-1.0-r0: task do_populate_lic_deploy: Succeeded
+>   NOTE: Running task 1999 of 2000 (/fast2/mac/git/oe-core/meta/recipes-core/images/core-image-minimal.bb:do_rm_work)
+>   NOTE: recipe core-image-minimal-1.0-r0: task do_rm_work: Started
+>   NOTE: recipe core-image-minimal-1.0-r0: task do_rm_work: Succeeded
+>   NOTE: Running noexec task 2000 of 2000 (/fast2/mac/git/oe-core/meta/recipes-core/images/core-image-minimal.bb:do_build)
+>   NOTE: Tasks Summary: Attempted 2000 tasks of which 1996 didn't need to be rerun and all succeeded.
+> 
+> If I teach rm_work.bbclass to also skip files matching
+> "*do_populate_lic_deploy*" then this problem goes away. However, I have
+> form for breaking things in rm_work so I suspect that this isn't the
+> correct fix. Is there a better one?
+> 
+> Thanks.
+> 
+> Mike.
+> 
+
+Since I'm the last guy touching rm_work.bbclass ...
+
+I don't see the rebuilds in my images. Although I do see
+
+core-image-minimal.bb:do_populate_lic_deploy
+
+being run, there is no regeneration of the rootfs images.
+
+Do you have any more information about the setup so that I can reproduce ?
+
+/Jacob
