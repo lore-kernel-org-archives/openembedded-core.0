@@ -1,75 +1,71 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
- by mx.groups.io with SMTP id smtpd.web12.190.1590185311553148218
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+ by mx.groups.io with SMTP id smtpd.web11.79.1590186838543129186
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 May 2020 15:08:31 -0700
+ Fri, 22 May 2020 15:33:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=E66m3WNa;
- spf=pass (domain: gmail.com, ip: 209.85.216.41, mailfrom: jpewhacker@gmail.com)
-Received: by mail-pj1-f41.google.com with SMTP id k7so5581816pjs.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 May 2020 15:08:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YvACLyOU;
+ spf=pass (domain: gmail.com, ip: 209.85.222.51, mailfrom: armccurdy@gmail.com)
+Received: by mail-ua1-f51.google.com with SMTP id 36so4301955uaf.9
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 May 2020 15:33:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=TsJXRJBQTaf4CQLXA+AxOQOUt42Q0QUFWyayaGrywDU=;
-        b=E66m3WNaPibL/Zdpz+hirpE6rJicu1G/tU5fHHc+5exoThKKDxMd0pq08aPpsEwVFk
-         AunKxiMN/Qhy9hzxK+zn73WcdmT3VK2Amb7WoL1vi3R4nT47/di4x38FMicJcZ00iURP
-         dSTTW1QzLKUkmgaAqi0AldsdBI6JNAapy8n104CgacgAZckxXcZf2tMqi+Lcw6+8wg6X
-         Z7Ka/V4bxFDtl51SV0IfXwZ6a3HNhKyfGQZuuzWRrKPu0oXq1SWrex4PWycuPW0BC0Sl
-         jBnOKd4Mz+xP0tRYLtK6mqld28V6cHEIBdZeur5bLAJlyHsjezFZFTD+SkA5M5TB7J3Q
-         LhmQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=TpI1TOGkTefT9ZOgIqbT6Exe35xnsJpCu5DJl28q2p4=;
+        b=YvACLyOUFbHdigBGrAbl35/rMuk0ENFAPZGETxvcsy8cE3CFlB8DcJpPBdlIQYA98s
+         hq9awBOJXurh9bdbSJd3yS7p6SNiZ497dHCahTqqnWSssIGtPsnHfQF8FtadXyUs0IM1
+         qb7Zom170AYmNvASXInwu7WxiJ+WJj2C/ZivhYcdDZfoFiBA4aJq2meQGCRP6oC9Xyi4
+         BCK+z1Fzxc5EknH8nkw4TgNPu6kLRbg2NW+NCteTm9OovHDpjJTwfU1oqNJMqlkrDA/U
+         FYus11rLMAK3A0CPEoa2GMMhDiEWhY2UtzMSngoPqQpfL5WIfwot1g6u7MwnAqA7ZtmX
+         5Uvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=TsJXRJBQTaf4CQLXA+AxOQOUt42Q0QUFWyayaGrywDU=;
-        b=QVguxNbn2uX6CvJnE+PetydfRFc0aeqDWSQH0wa4ZxscKnrjOl/tRWRAt9zyxdTSJ6
-         kfgq3b74HLkbgMsrxdvBOurpgngwUVVWdgTSEnT/qsJB1YK7PryiL3s2RT4WZAJec06a
-         7JnH+rVPzorinAuABEgS3yncjQufuE5QvR0Pf8YI1QLVSD6KqPsLzzpMNbbyjJ5Sh33M
-         TV9XfRZrMwUfBI+l45CDwFDtbW64vbfm/MzyO/ag7NxQKC38hhw3FPl9k/PhwUxHPP9p
-         HfMdEyvcwa+a2tS/SldQ961h9C56gPOpZ6cSTgArxULj2VOiVG1gtJYjAuDRzB2eW53J
-         GX/Q==
-X-Gm-Message-State: AOAM533+bekQItOoGXm2nPFBSEdkhrlwvxvcLIqrP2Zcjkj4cTASyJpO
-	g3GBljcCfIddeFZtwniEGhhUUrRiBRo=
-X-Google-Smtp-Source: ABdhPJwbGzDKrsNwxqFAle1nrNSBku7tD/b8u7mj6AMHU3snGspp4W7TmVqyZ/mcws4j8ix04oll7Q==
-X-Received: by 2002:a17:902:aa43:: with SMTP id c3mr17067207plr.7.1590185310743;
-        Fri, 22 May 2020 15:08:30 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from OLA-8C37N23.garmin.com ([2605:a601:ac3d:c100:bdfd:cbde:b10d:fb32])
-        by smtp.gmail.com with ESMTPSA id p8sm7041908pgm.73.2020.05.22.15.08.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2020 15:08:29 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] checklayer: Skip layers without a collection
-Date: Fri, 22 May 2020 17:08:26 -0500
-Message-Id: <20200522220826.27434-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=TpI1TOGkTefT9ZOgIqbT6Exe35xnsJpCu5DJl28q2p4=;
+        b=Y2p88KnBeqa9FgreueX7oxEuox87sIYwWgFXFmAAOWCFZ2C6VnnJt/TGlMh3zH31Qx
+         rm0bEZuWSXcEdYTarU0iwn3x5aOtwRlmkmivHVoYwyizvorJwtPtNU8N1RVGk4eL9j5Y
+         7sxFlxToEkymmjxYawUIeeQMw2tNn+17GstPKGoILyCupGKrydNmeN8orgQ+IjDxgSg2
+         p1rqcelaqebbsMvD9FVO75scq/6IS3sjbTu7bTWPPyVopJSAab5O3TBvQV+enEvJ2Y/d
+         5XByKWl6V54Jb3RWiu5BZ3JYND4ZccGRSqL4PzOMQtsG1fRXDaELPcIs1psVYtNE7DkY
+         5CYg==
+X-Gm-Message-State: AOAM5330oizUXYl8YpNSWIhNYvI/mbHibwF8+5JWeCM0D48zZFmAoe79
+	R5BeN55s17xqqFA6pTNiCZllRdvY6E5pGbwvgBY=
+X-Google-Smtp-Source: ABdhPJzGHWX4tGi5u0GrkuEP38jA5nSui47Y/YGRbGG2GGegLq/0cm+XCbEsV1FcTlOVjLPUNMeSzOTyXOBE7/AJIZU=
+X-Received: by 2002:a9f:2823:: with SMTP id c32mr10508877uac.99.1590186837398;
+ Fri, 22 May 2020 15:33:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <Lixb.1590180524317566740.JvZm@lists.openembedded.org> <CAP9ODKqnn7y=Mr+CTsnPyp2of3h=-r_3Rh5oeVeD_SPu7FQT5g@mail.gmail.com>
+In-Reply-To: <CAP9ODKqnn7y=Mr+CTsnPyp2of3h=-r_3Rh5oeVeD_SPu7FQT5g@mail.gmail.com>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Fri, 22 May 2020 15:33:45 -0700
+Message-ID: <CAJ86T=VDtvME1EVBfVOBW5U+84dkpD03ksHJdik15CSOG84Xgg@mail.gmail.com>
+Subject: Re: [OE-core] gtest and gmock not added to SDK
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+Cc: Tom Hochstein <tom.hochstein@nxp.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-As in other places in the file, skip layers that don't define a
-collection when searching for a layer to resolve a dependency. Fixes
-KeyError exceptions when attempting to access the layer collections
-later
+On Fri, May 22, 2020 at 2:29 PM Otavio Salvador
+<otavio.salvador@ossystems.com.br> wrote:
+>
+> On Fri, May 22, 2020 at 5:48 PM Tom Hochstein <tom.hochstein@nxp.com> wrote:
+> > The gtest and gmock packages provided by googletest are not added to the SDK by default. I assume it is because the googletest main package is empty?
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- scripts/lib/checklayer/__init__.py | 3 +++
- 1 file changed, 3 insertions(+)
+Are you including googletest in the image used to create the SDK or
+gmock and gtest?
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index 5aeec2f00f..1138000275 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -143,6 +143,9 @@ def detect_layers(layer_directories, no_auto):
- 
- def _find_layer_depends(depend, layers):
-     for layer in layers:
-+        if 'collections' not in layer:
-+            continue
-+
-         for collection in layer['collections']:
-             if depend == collection:
-                 return layer
--- 
-2.17.1
+It looks like gmock and gtest are only mentioned in the googletest
+recipe as PROVIDES, so they are aliases for build time dependencies
+only. For run time dependencies you should use googletest.
 
+> > I added an RDEPENDS_${PN} from the dependent package to fix it. Is there a better solution?
+>
+> You can change the packages to have their `-dev` to rdepends on
+> `gtest/gmock-dev` for example.
+>
+> --
+> Otavio Salvador                             O.S. Systems
+> http://www.ossystems.com.br        http://code.ossystems.com.br
+> Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+> 
