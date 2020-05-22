@@ -1,67 +1,72 @@
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
- by mx.groups.io with SMTP id smtpd.web11.6228.1590114183826484797
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+ by mx.groups.io with SMTP id smtpd.web11.7637.1590123099179405551
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 19:23:04 -0700
+ Thu, 21 May 2020 21:51:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qk1-f195.google.com with SMTP id f13so9433599qkh.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 19:23:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:organization:content-transfer-encoding;
-        bh=th+00qu1gVBstHsz7Uj5/YgrPKsEyoLig6QGdP7HmGo=;
-        b=jpPeVheXsX7QQDAIGkkdSNEBh6zRHYmZuj53j90T8lXRGLre6YdHsxjwm2ij69g16J
-         jC+7qoHYvB/NUveXRd5KfmNE5KnxUtzAOgxVfbiewaKug55VeBBVGAcMMOxYez54HkXf
-         nV25PjFMlxrp1EicZ5Z44kYkeGjJgDP5zlXB6M9XQ4FBq2vgEPWfOljrH/goXRmiJNPQ
-         pRujxMQL7L48euDkBqSP2CM99unvVOuJsCL9uv+4+nJw/dSLUBk9wSgS0mt2+GC9hmOA
-         7+W8eFT2uuTLPu9ZYflHYrpZlgPPbjpT3Y1U/c7k2vL8pEri1ixJAara5B00TC1Pqd5w
-         J2ZA==
-X-Gm-Message-State: AOAM533VVl7Ziaf/4ypjX/rA5TuF2kOj0Ibhy/4kbTJls4F/UI1dQQaB
-	G5XOYkxrHGkvc5dT8Li+Doi7MhmTOvI=
-X-Google-Smtp-Source: ABdhPJzdq1ZX53s4zbe9u6Ry94DWEbRIS8um9kGqcKdTAnxW+0mqt47YJxMfCCPhz0k1yQtO7FOZBg==
-X-Received: by 2002:a37:a749:: with SMTP id q70mr12732334qke.68.1590114182769;
-        Thu, 21 May 2020 19:23:02 -0700 (PDT)
-Return-Path: <otavio.salvador@gmail.com>
-Received: from localhost ([181.220.84.90])
-        by smtp.gmail.com with ESMTPSA id z25sm6938375qtj.75.2020.05.21.19.23.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2020 19:23:02 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@gmail.com>
-To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Cc: Otavio Salvador <otavio@ossystems.com.br>
-Subject: [PATCH 4/4] go.bbclass: Add `-trimpath` to default build flags
-Date: Thu, 21 May 2020 23:22:37 -0300
-Message-Id: <20200522022237.3568393-4-otavio@ossystems.com.br>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200522022237.3568393-1-otavio@ossystems.com.br>
-References: <20200522022237.3568393-1-otavio@ossystems.com.br>
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.24, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: lbXh803eY8wkFmgabDkr/medH3IVKYZdurXh82JLYN0387FtuMghgw/ZtHAopCMUZxDz1QweAL
+ we/UhMAiR3NA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2020 21:51:38 -0700
+IronPort-SDR: +WMddxBI2s/dwl2dr3g5X3Di6Oqlt+BVFi5LsllEhp4fwPf3ykZGvPlayGq72yoL16lgkOpNgL
+ 9/wa0J1n01aQ==
+X-IronPort-AV: E=Sophos;i="5.73,420,1583222400"; 
+   d="scan'208";a="412646474"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.135.70])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2020 21:51:37 -0700
+From: "Anuj Mittal" <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] strace: fix failing ptests
+Date: Fri, 22 May 2020 12:51:32 +0800
+Message-Id: <20200522045132.2185666-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
 Content-Transfer-Encoding: 8bit
 
-The `-trimpath` option is important for reproducible builds so full
-build paths and module paths are not embedded.
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+1. They need to be run under regular user.
+2. Some tests genuinely need more time than 30 seconds
+3. The Makefile patch erroneously introduced a test-breaking change.
+
+(From OE-Core rev: 3d6bf58c7080c1cacf3ed1f270ff5acf4858c790)
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a5e90281ac211e912ec6bfd6873e56152ec8bd4e)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
+ meta/recipes-devtools/strace/strace/Makefile-ptest.patch | 2 +-
+ meta/recipes-devtools/strace/strace/run-ptest            | 7 +++++--
+ 2 files changed, 6 insertions(+), 3 deletions(-)
 
- meta/classes/go.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index c99689ac59..a9e31b50ea 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -41,7 +41,7 @@ GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${GO_RPATH_LINK} ${LDFLAGS
- GO_LINKMODE ?= ""
- GO_LINKMODE_class-nativesdk = "--linkmode=external"
- GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} -extldflags '${GO_EXTLDFLAGS}'"'
--export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS}"
-+export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -trimpath"
- export GOPATH_OMIT_IN_ACTIONID ?= "1"
- export GOPTESTBUILDFLAGS ?= "${GOBUILDFLAGS} -c"
- export GOPTESTFLAGS ?= ""
+diff --git a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
+index 08fa5c53b8..36e93a2dcf 100644
+--- a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
++++ b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
+@@ -44,6 +44,6 @@ index 825c989..4623c48 100644
+ +	done
+ +	for file in $(EXTRA_DIST); do \
+ +		install $(srcdir)/$$file $(DESTDIR)/$(TESTDIR); \
+-+		sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
+++		#sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
+ +	done
+ +	for i in net scm_rights-fd rt_sigaction; do sed -i -e 's/$$srcdir/./g' $(DESTDIR)/$(TESTDIR)/$$i.test; done
+diff --git a/meta/recipes-devtools/strace/strace/run-ptest b/meta/recipes-devtools/strace/strace/run-ptest
+index 2fed984e90..4660207220 100755
+--- a/meta/recipes-devtools/strace/strace/run-ptest
++++ b/meta/recipes-devtools/strace/strace/run-ptest
+@@ -1,3 +1,6 @@
+ #!/bin/sh
+-export TIMEOUT_DURATION=30
+-make -B -C tests -k test-suite.log
++export TIMEOUT_DURATION=120
++chown nobody tests
++chown nobody tests/*
++chown nobody ../ptest
++su nobody -c "make -B -C tests -k test-suite.log"
 -- 
-2.26.2
+2.25.4
 
