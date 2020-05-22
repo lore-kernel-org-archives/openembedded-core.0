@@ -1,62 +1,79 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web11.4138.1590104991673481119
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+ by mx.groups.io with SMTP id smtpd.web10.4346.1590105941169134920
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 May 2020 16:49:51 -0700
+ Thu, 21 May 2020 17:05:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: hvodkQUx9oe5ZJv4aPVupXnJBmL3IBX67Fsl15I//bVtNoLTDQWEsXqxopNQcbkA/JHeMyraHP
- DijO3/y5jVcA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2020 16:49:51 -0700
-IronPort-SDR: 0/gLwM5MYw6BKaTZ14EKrTOcFbQiwfbY1RiqrCJxtXJwX40GZ3rF3GW5yBaPUgj9v5MDtePMNf
- ciEBOH6JLYEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,419,1583222400"; 
-   d="scan'208";a="300493370"
-Received: from pgsmsx105.gar.corp.intel.com ([10.221.44.96])
-  by fmsmga002.fm.intel.com with ESMTP; 21 May 2020 16:49:50 -0700
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.74]) by
- PGSMSX105.gar.corp.intel.com ([169.254.4.241]) with mapi id 14.03.0439.000;
- Fri, 22 May 2020 07:49:39 +0800
-From: "Anuj Mittal" <anuj.mittal@intel.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>, "Martin.Jansa@gmail.com"
-	<Martin.Jansa@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Subject: Re: [OE-core] [dunfell][ 08/10] armv8/tunes: Define TUNE_PKGARCH
-Thread-Topic: [OE-core] [dunfell][ 08/10] armv8/tunes: Define TUNE_PKGARCH
-Thread-Index: AQHWL4shX+cMedWa00is6OQn1penj6iyR7gAgABoDoA=
-Date: Thu, 21 May 2020 23:49:38 +0000
-Message-ID: <e21304ef6fc99ca4cf33b96eb920095027ebf297.camel@intel.com>
-References: <20200521161543.3273063-1-raj.khem@gmail.com>
-	 <20200521161543.3273063-8-raj.khem@gmail.com>
-	 <CA+chaQdLO1aLYeuFZ_a8=HC=GFyX2M9wfWE_+Uro6ob6gqHThw@mail.gmail.com>
-In-Reply-To: <CA+chaQdLO1aLYeuFZ_a8=HC=GFyX2M9wfWE_+Uro6ob6gqHThw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.135.70]
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=cu6ANYOt;
+ spf=pass (domain: gmail.com, ip: 209.85.222.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f182.google.com with SMTP id 190so9214349qki.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 May 2020 17:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/RvZ2qcezSJQl6p5l/e1iCPbuL/8CpWa36ub27sExeo=;
+        b=cu6ANYOtuzta+A83oek6ZbsjsprUKAzdEGgMyaMv11qoEfRXtuB3rndRf5ytoBqzT1
+         WYgJTZGoH5lYIDqfH4PjzxBQ0h0Duq1/Ir39cl/5yCw/KiLRXpmMwtnN7SnSBN7uY4zT
+         ccoW0gahKs7tWiOgkyIWQVLxiwQ5iAwedXwdmBbLqz+H3eNXQmqX0/1L4qmK6XSGjn2Z
+         BNg5RHLxJ0B9VSTKOMbo0qHicB486tQXa01px85efXkme/1K+MM+fXs+D4CZZLT6ht1d
+         N5SxAlkcM+gX8LevUZnG/YyTxE3WooMpQNHffW6ixLrgmmPfYTKERh4Alxi6U4aC2kKE
+         /UYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/RvZ2qcezSJQl6p5l/e1iCPbuL/8CpWa36ub27sExeo=;
+        b=mh+lXdvredzCWu+UAlpZQVSDzqDJjzf6YmFTw5+4TIeVIah4f82D4H/yJNYcCrCpV0
+         Y0OxMes8GJ70iQqpH9iMQI5INlL7F1ovg4PF+LINxmeexZIcs3ns4zyxnJYtdG9y2TkQ
+         fRTtfXaqlv5XBXMDQsLI0pyStV3/ke5PA5yuJTJDRxQq3XJXDOYvB0/y8aKn6Hh0ihEk
+         brs1IqxKqjJt1HI9ATKpLu3iDew9yPaHdMLlS19yb2Jpd63+y7Za3n/6RfA/lM58EJrl
+         UXMyCWqqjj8S75+wMAJbjIxoGOBeRxBpmrdC6zFXWr6os+YQt75sHo5T6lxWuUdO2ZMG
+         nnHw==
+X-Gm-Message-State: AOAM5308Z6w0MhzCqDjffd4zommbegmb5OF5Rxhb2eNNuj1UJypysu/y
+	DlvScgZzDXSfzTrA3AfUuJ3n91xYblrxlBQV+5k=
+X-Google-Smtp-Source: ABdhPJywzLUNgH8lEt6Rxuyr82ubA6lRkdLmx7Nq72t5K+3RXsuk6n/GC9MEk2ggmlEtNvwEGWZ4Bh/REI79QtPaBX4=
+X-Received: by 2002:ae9:dc47:: with SMTP id q68mr11813454qkf.17.1590105940153;
+ Thu, 21 May 2020 17:05:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <5526AEDDA9D66A47A09EF93113B209E5@intel.com>
-Content-Transfer-Encoding: base64
+References: <20200521161543.3273063-1-raj.khem@gmail.com> <20200521161543.3273063-8-raj.khem@gmail.com>
+ <CA+chaQdLO1aLYeuFZ_a8=HC=GFyX2M9wfWE_+Uro6ob6gqHThw@mail.gmail.com> <e21304ef6fc99ca4cf33b96eb920095027ebf297.camel@intel.com>
+In-Reply-To: <e21304ef6fc99ca4cf33b96eb920095027ebf297.camel@intel.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Thu, 21 May 2020 17:05:14 -0700
+Message-ID: <CAMKF1spHodgTCgAOs30tSYE9ypGenA1JUS9U6Wc6HfMnWabKdQ@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell][ 08/10] armv8/tunes: Define TUNE_PKGARCH
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "Martin.Jansa@gmail.com" <Martin.Jansa@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-T24gVGh1LCAyMDIwLTA1LTIxIGF0IDE5OjM3ICswMjAwLCBNYXJ0aW4gSmFuc2Egd3JvdGU6DQo+
-IE9uIFRodSwgTWF5IDIxLCAyMDIwIGF0IDY6MTYgUE0gS2hlbSBSYWogPHJhai5raGVtQGdtYWls
-LmNvbT4gd3JvdGU6DQo+ID4gTm93IHRoYXQgdGhleSB1c2VzIC1tY3B1LCBpdHMgYmV0dGVyIHRv
-IGhhdmUgdHVuZSBzcGVjaWZpYyBidWlsZA0KPiA+IGRpcmVjdG9yaWVzLCBzaW5jZSBhYXJjaDY0
-IHdvbnQgYmUgYXBwcm9wcmlhdGUgYW55IGxvbmdlcg0KPiANCj4gSSBhZ3JlZSB3aXRoIFN0ZXZl
-IHRoYXQgdGhpcyBpcyBhIGJpdCBpbnZhc2l2ZSBmb3Igc3RhYmxlIGJyYW5jaCwgYnV0DQo+IG9u
-IHRoZSBvdGhlciBoYW5kIGl0J3MgbG9uZyBvdmVyZHVlIGFuZCBpZiB3ZSBkb24ndCBpbXByb3Zl
-IGl0IGluIExUUw0KPiBicmFuY2ggdGhlbiBtYW55IHBlb3BsZSB3aWxsIG5lZWQgdG8gY2Fycnkg
-bG9jYWwgd29yayBhcm91bmRzIGZvcg0KPiBtdWx0aS1tYWNoaW5lIGJ1aWxkcy4gKzEgZnJvbSBt
-ZS4NCj4gDQoNCkJ1dCB0aGlzIGlzIGFnYWluc3QgdGhlIExUUy9TdGFibGUgYnJhbmNoIHBvbGlj
-eS4gV2hhdCBpcyB0aGUgcG9pbnQgb2YNCmhhdmluZyBhIHBvbGljeSBpZiB3ZSBhcmUgZ29pbmcg
-dG8ga2VlcCBtYWtpbmcgZXhjZXB0aW9ucz8gVGhlcmUnZCBiZQ0Kb3RoZXIgY2hhbmdlcyBhcyB3
-ZWxsIGZvciB3aGljaCBwZW9wbGUgbWlnaHQgYmUgY2Fycnlpbmcgd29yay1hcm91bmRzLg0KV291
-bGQgd2UgYmUgd2lsbGluZyB0byBtYWtlIGV4Y2VwdGlvbnMgZm9yIGFsbD8NCg0KVGhhbmtzLA0K
-DQpBbnVqDQo=
+On Thu, May 21, 2020 at 4:49 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> On Thu, 2020-05-21 at 19:37 +0200, Martin Jansa wrote:
+> > On Thu, May 21, 2020 at 6:16 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > > Now that they uses -mcpu, its better to have tune specific build
+> > > directories, since aarch64 wont be appropriate any longer
+> >
+> > I agree with Steve that this is a bit invasive for stable branch, but
+> > on the other hand it's long overdue and if we don't improve it in LTS
+> > branch then many people will need to carry local work arounds for
+> > multi-machine builds. +1 from me.
+> >
+>
+> But this is against the LTS/Stable branch policy. What is the point of
+> having a policy if we are going to keep making exceptions? There'd be
+> other changes as well for which people might be carrying work-arounds.
+> Would we be willing to make exceptions for all?
+>
+
+Thanks for bringing this up. Policy exceptions are not common but they
+are not absent either
+hence context is important for such changes, I am definitely interested to hear
+about how it is going to affect arm64 users at this early stage of
+release. if someone
+is broken due to these changes that should be addressed.
+
+> Thanks,
+>
+> Anuj
