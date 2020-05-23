@@ -1,107 +1,144 @@
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.92.64.82])
- by mx.groups.io with SMTP id smtpd.web10.4370.1590223759523550893
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+ by mx.groups.io with SMTP id smtpd.web11.4829.1590228255520826919
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 May 2020 01:49:19 -0700
+ Sat, 23 May 2020 03:04:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@outlook.com header.s=selector1 header.b=bW0kQQ7O;
- spf=pass (domain: outlook.com, ip: 40.92.64.82, mailfrom: kweihmann@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UZljSQqRFFUfpAiK3ztW8ZFysUQzZ0jnGrNYKhWF/hcQ202Q0WXIiOmxq72hsJFmzVa4pNxGmNrVhIhIoRQcEGW2EOEjhWr8TSrixY9C7KrMI7p84UpCnlSx2aF+VpPArQiylCn9+coRtNhfn31CiHWv6oSWMOGfdy84CpXsc9evKy6EbQkCtHDoGLi8M0CgYdbdylnPu5p0kBzpoaqccZ/i+0ZxE/i7qIO/BGen2X4tUEC3+gxNR+i0ZVftaHVZtzUIR+of3R4ZMw4+vuaflRW3eNiy/0qZhY4V11Uxu1pShskC46xDrmL0KD/qGRWtGWKBJPDSYbGoQMCUpRT+oQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1ZtKEHOMbEicO9oawkvPfUmhDPWDv08PQCqUiOILMHo=;
- b=eSPWuFzO1FLBRdfuHw5CnVZ73Q089F5TqcHLzZBF1yhkv1X2gtKdzo/HtdrmN90sqqbPxgqVo989kr4M3YvAKYwnOljMo7ibPHpXp7Q4YsiadF2ZYik0flvnsdinkrfNo2P/wsSYoLsV9z8fInt0DdC/rx93VuQrH9NlHq8SsiFfVN04/31W90rGlGnPeC3XCzXbdGIerDbFS+/Yiry8r63MKFmpcH1y/YGo6hJBnPAGZjX517Wd8eoTKsbZDX64uhHIPO3qDgomTCfnjNsKuDS1w+br5pJCJnR7KTnt9Gv4rM7iRX7KDH/VqU5rHJ35ECpZFbiuxcTYzpknU23OCg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=outlook.com; dmarc=pass action=none header.from=outlook.com;
- dkim=pass header.d=outlook.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1ZtKEHOMbEicO9oawkvPfUmhDPWDv08PQCqUiOILMHo=;
- b=bW0kQQ7OI5YU7Jz+rDVpvWhV9KjduPgDf2/Jm9j2GcKntyYKD7brcz3dHOQaLSMteXQWH95SJaF56TbRL+n2I0yic2wU8JbUygaDd7vjlUBaeXaJZplUUkl4Jox31rBm8clCF+BDmSCmnSgjt08DZSvH3nfDo//pnvpOsrkhPSRvBRnUkdj936tQx09szz3If3Lxa43EyDclO+9czLEMuv8PymIZ9u1AFK8XELVL3GxfaUFU7/3ChZmR3BgK3h47Wo5xKC2/xIJw3UNQPH/sAGiLzElDGL1ZvvIR1Z0ExvezuxKxGEydtDgtNntc30rhpRT3xA19AHY+8OgD/sreYw==
-Received: from DB5EUR01FT060.eop-EUR01.prod.protection.outlook.com
- (2a01:111:e400:7e1a::51) by
- DB5EUR01HT021.eop-EUR01.prod.protection.outlook.com (2a01:111:e400:7e1a::382)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23; Sat, 23 May
- 2020 08:49:17 +0000
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- (2a01:111:e400:7e1a::42) by DB5EUR01FT060.mail.protection.outlook.com
- (2a01:111:e400:7e1a::488) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.23 via Frontend
- Transport; Sat, 23 May 2020 08:49:17 +0000
-X-IncomingTopHeaderMarker: 
- OriginalChecksum:5E511DD927C448EE35F66ABE4B0E6BF3869E10B6BC7297FA988E9B221262A3BC;UpperCasedChecksum:3A5630DCDD6AF2391F27A9282DA14525CA1F952EBA34E111C82EF989B2631127;SizeAsReceived:8644;Count:47
-Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::f5f1:b5e3:66d7:e590]) by AM7PR05MB6881.eurprd05.prod.outlook.com
- ([fe80::f5f1:b5e3:66d7:e590%6]) with mapi id 15.20.3021.026; Sat, 23 May 2020
- 08:49:17 +0000
-To: OE-core <openembedded-core@lists.openembedded.org>
-From: "Konrad Weihmann" <kweihmann@outlook.com>
-Subject: can't create boost_context lib for boost-native
-Message-ID: 
- <AM7PR05MB688122DB540C514C7F56E3AAA8B50@AM7PR05MB6881.eurprd05.prod.outlook.com>
-Date: Sat, 23 May 2020 10:49:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-X-ClientProxiedBy: AM6P192CA0100.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:209:8d::41) To AM7PR05MB6881.eurprd05.prod.outlook.com
- (2603:10a6:20b:1a9::19)
-Return-Path: kweihmann@outlook.com
-X-Microsoft-Original-Message-ID: 
- <d5a2f322-26e2-1694-e780-c7da4e07eee9@outlook.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MwlJ//Li;
+ spf=pass (domain: gmail.com, ip: 209.85.217.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f54.google.com with SMTP id 62so7415691vsi.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 23 May 2020 03:04:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nyJC94lt7NTsudEKfBfawqa2W2M0pL62NvwC1jK/4AM=;
+        b=MwlJ//LidSuxsnk6Q0c8RgZHcH7lfHSE3/z0eJbXpu37akgSVRlkrCmcUMa+zREe0Z
+         Mj9O6n6KNtv1kfNB6sREA63i6n6a2Rx5s6S8sNHlviicYKTiNSuMm2TIpiE/POeKmfNZ
+         tG8kssNswlMss6am8amTIl1aiwSZ8vO/LHmQYk8dOSHXcvuxtDLLMCXXGg16vHUL5y+4
+         fy/SynZy/3oHWUwMka5AnyW4AC5nleWCCuRfPZRuH5oLVmIy5JoietKwv5AbaGPyPBle
+         PgL6x2yc3qoBFRJ7czC6mXstVeN/7piZXjhkhyMPjdYwJOtIyKRYd3Kd1eDCUTEbcjeq
+         zO3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nyJC94lt7NTsudEKfBfawqa2W2M0pL62NvwC1jK/4AM=;
+        b=Yf99JMhgqdCUJFExN5jJuqLd8qQYpd1jTkprf/GdeFm6HJZ8YdvQ7cmFmBgVRyN/uJ
+         GqkCFsr6Fo5MTT3jDn6tgyuplJsb05WDOZZ0Vad96SQkOi3fzs+rbV/oj8oQHbkFtK29
+         yvIGz1X3a9TFv8+BN94pXtaubWpogjd08GeLRFm/T4xBYkST7g2F4hCEvsT60zGJZD5e
+         x5al4lB2ZRY5jD/7j7zMbh7iSp2erCMoVlplsPN91k7labZ2em63Yd1kEBn96XArTyAd
+         ijGJ7Nv5XQI4PURCHS0e8PRZWBnNjtsKzw+Pi3nZn/z+csHJ2T8BKllm/E5ZHolk+UIQ
+         lJxQ==
+X-Gm-Message-State: AOAM5339+K4S25SiDvwglpeDmKBw1e7FwzsAsWHVEDERfkfrcOBg9Jz/
+	qCobt+XWKm1pTMcuTXFVUFZKLERRBolgnN3UqnI=
+X-Google-Smtp-Source: ABdhPJzC5/rK8qLnUqHOUeB0HBKJ8riRkjckMejb9IdwMutrWtfSJzxMwjwOVbcBEAOO84dezik50uK6dfPx7Vl8muc=
+X-Received: by 2002:a67:be05:: with SMTP id x5mr12963128vsq.35.1590228254175;
+ Sat, 23 May 2020 03:04:14 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.188.20] (87.141.93.143) by AM6P192CA0100.EURP192.PROD.OUTLOOK.COM (2603:10a6:209:8d::41) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.24 via Frontend Transport; Sat, 23 May 2020 08:49:17 +0000
-X-Microsoft-Original-Message-ID: 
- <d5a2f322-26e2-1694-e780-c7da4e07eee9@outlook.com>
-X-TMN: [GinblAj3sIjBUnvOlfrA4cbifXFoqeFW]
-X-MS-PublicTrafficType: Email
-X-IncomingHeaderCount: 47
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-Correlation-Id: 08cb099c-eaa0-4834-7dac-08d7fef62d78
-X-MS-TrafficTypeDiagnostic: DB5EUR01HT021:
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	HfV0PimA2+iXtKGSkuje/HwiIpia658xtELNurq3S3qjOx0bKBsHD2N0BheyKraZ2bqLJ+w3UC9k2LvqCQRcibktS1nrmJDWUhGQfOaqfa3g8fKznDphLspdNHNP4n5a/SF971x+dJXS/WXzQI54bI00BMkXrMVg1gfO2oudbKDDgEI5TRa+meeb/7JHWMbXSAhDH9USScoxgnsR+dOwyw==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
-X-MS-Exchange-AntiSpam-MessageData: 
-	3FS66Im4EM8QskouH9Ls/oJ3q9RG4pM/eR6N7aF0ayMygfyYNwOgZaUhw2S5BkgQSIbH0ceatbY9nEVFyXCXwUNKpozuNBLaFRm7Sn1p4zCmN4FTkkQx6HFLXSnSyK+64DqzzopSNiZdfsy98ZwCQA==
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08cb099c-eaa0-4834-7dac-08d7fef62d78
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 May 2020 08:49:17.7801
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5EUR01HT021
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <AM7PR05MB688122DB540C514C7F56E3AAA8B50@AM7PR05MB6881.eurprd05.prod.outlook.com>
+In-Reply-To: <AM7PR05MB688122DB540C514C7F56E3AAA8B50@AM7PR05MB6881.eurprd05.prod.outlook.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Sat, 23 May 2020 12:04:02 +0200
+Message-ID: <CANNYZj9-2NH-fTf0xM=018_2-PtNDYcOp6_uSYr5DHpf+1yGYQ@mail.gmail.com>
+Subject: Re: [OE-core] can't create boost_context lib for boost-native
+To: Konrad Weihmann <kweihmann@outlook.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000033b77005a64ddecf"
 
-Hi all,
+--00000000000033b77005a64ddecf
+Content-Type: text/plain; charset="UTF-8"
 
-For reasons that are beyond my control I need to have boost_context 
-available from boost-native.
-Unfortunately I didn't found a way of enabling it by a bbappend, only a 
-full fork of the recipe would help.
+The problematic bit is:
 
-It seems to be caused by that single line
+# only supported by x86 and powerpc
+BOOST_LIBS_append_x86 = " context coroutine"
+BOOST_LIBS_append_x86-64 = " context coroutine"
+BOOST_LIBS_append_powerpc = " context coroutine"
+BOOST_LIBS_append_arm = " context coroutine"
+BOOST_LIBS_append_aarch64 = " context coroutine"
+# need consistent settings for native builds (x86 override not applied for
+native)
+BOOST_LIBS_remove_class-native = " context coroutine"
 
-BOOST_LIBS_remove_class-native = " context coroutine" (from boost.inc)
+I'd just drop this all, and always enable the two; if they're still not
+supported by some targets,
+then target-specific _remove can be used.
 
-as remove-operation is always the last in the chain of processing any 
-attempt to add won't work here.
+Alex
 
-Any ideas how to add it without forking the whole recipe?
 
-Also this is another example for the ongoing discussion about remove, 
-??= and ?= operators in architecture list and that there might be an 
-alternative needed
+On Sat, 23 May 2020 at 10:49, Konrad Weihmann <kweihmann@outlook.com> wrote:
 
-Regards
-Konrad
+> Hi all,
+>
+> For reasons that are beyond my control I need to have boost_context
+> available from boost-native.
+> Unfortunately I didn't found a way of enabling it by a bbappend, only a
+> full fork of the recipe would help.
+>
+> It seems to be caused by that single line
+>
+> BOOST_LIBS_remove_class-native = " context coroutine" (from boost.inc)
+>
+> as remove-operation is always the last in the chain of processing any
+> attempt to add won't work here.
+>
+> Any ideas how to add it without forking the whole recipe?
+>
+> Also this is another example for the ongoing discussion about remove,
+> ??= and ?= operators in architecture list and that there might be an
+> alternative needed
+>
+> Regards
+> Konrad
+> 
+>
+
+--00000000000033b77005a64ddecf
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>The problematic bit is:</div><div><br></div><div># on=
+ly supported by x86 and powerpc<br>BOOST_LIBS_append_x86 =3D &quot; context=
+ coroutine&quot;<br>BOOST_LIBS_append_x86-64 =3D &quot; context coroutine&q=
+uot;<br>BOOST_LIBS_append_powerpc =3D &quot; context coroutine&quot;<br>BOO=
+ST_LIBS_append_arm =3D &quot; context coroutine&quot;<br>BOOST_LIBS_append_=
+aarch64 =3D &quot; context coroutine&quot;<br># need consistent settings fo=
+r native builds (x86 override not applied for native)<br>BOOST_LIBS_remove_=
+class-native =3D &quot; context coroutine&quot;</div><div><br></div><div>I&=
+#39;d just drop this all, and always enable the two; if they&#39;re still n=
+ot supported by some targets,</div><div>then target-specific _remove can be=
+ used.</div><div><br></div><div>Alex<br></div><div><br></div></div><br><div=
+ class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, 23 May=
+ 2020 at 10:49, Konrad Weihmann &lt;<a href=3D"mailto:kweihmann@outlook.com=
+">kweihmann@outlook.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">Hi all,<br>
+<br>
+For reasons that are beyond my control I need to have boost_context <br>
+available from boost-native.<br>
+Unfortunately I didn&#39;t found a way of enabling it by a bbappend, only =
+a <br>
+full fork of the recipe would help.<br>
+<br>
+It seems to be caused by that single line<br>
+<br>
+BOOST_LIBS_remove_class-native =3D &quot; context coroutine&quot; (from bo=
+ost.inc)<br>
+<br>
+as remove-operation is always the last in the chain of processing any <br>
+attempt to add won&#39;t work here.<br>
+<br>
+Any ideas how to add it without forking the whole recipe?<br>
+<br>
+Also this is another example for the ongoing discussion about remove, <br>
+??=3D and ?=3D operators in architecture list and that there might be an <=
+br>
+alternative needed<br>
+<br>
+Regards<br>
+Konrad<br>
+<br>
+</blockquote></div>
+
+--00000000000033b77005a64ddecf--
