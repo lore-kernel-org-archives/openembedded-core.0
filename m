@@ -1,1180 +1,252 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web12.778.1590254454808015138
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+ by mx.groups.io with SMTP id smtpd.web12.1131.1590255669225796964
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 May 2020 10:20:55 -0700
+ Sat, 23 May 2020 10:41:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qSGJGUdW;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: gzatko@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id u1so11652294wmn.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 23 May 2020 10:20:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UVafW7lE;
+ spf=pass (domain: gmail.com, ip: 209.85.218.50, mailfrom: ptsneves@gmail.com)
+Received: by mail-ej1-f50.google.com with SMTP id z5so16542723ejb.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 23 May 2020 10:41:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1cLh/Vxlu9mg3Dzo4d6gxlLkl3SU1pLaWuNQZTOTE9g=;
-        b=qSGJGUdW5qS4iKRlk5OKCdBn6vAcrvIFsk2qVZ7ErTYp+qLxlnollNMdlA0RL1Vi6+
-         ELK9w5LUywLFkYanEheg5+n17Je1a4pAejielYWFEJ1WNf+Fdf9aw5sOGQ+vFAKRgPAL
-         Zye8edviAWn2mnrM3zRUcedcwX43TKXLfkZsj9B0k1D/dNMOstKZSN/B6e6/UIVPCvkk
-         N+/Mq1eKRokWMDer7bfJmFtPax5v30f/2V39stVzFboyl0l12IvF3SZwCtmAaxYCXsmv
-         F81UwtmDJuuVXlzOA3jIEol7MlrvFw+i75Q47WxY/Ih+ZmGQlM2f6M/DP7vDK2MX98t0
-         NBNg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dkw5MVUGKjDxir8O33odtmzyQGLM9PeWYZlidiMjjLo=;
+        b=UVafW7lEqIgrtDn/N3kzh5XHhGm+0hwWL6g+FBJgH7QyBHXGA+kj46oIOxMvXmgT1i
+         dwFxrTdMvkxEZPnbDES6Q3xq/3gOYzepvN42KPVidPlJAZ8J8vFawjlOKksU8yrxRGQf
+         ZBmDmYxQFQPkzmX2iAGZTGI5RbF7zD6iaJ82v5hp5KymsK+ix7W8KQjlksDiYl0OQ+qU
+         62q6EEDDrM1vLzXVKYEH5JxQKWw2lUqhuZXDFchMgDZ5kJyw14X6CSkVwaqAY4MfR1mL
+         HUFNhaLJAw+NNptnuIPOGK7iMT7j7QJzvenjKtnUdKHOIeSkuYQGYy3TZjooc2f4SY1U
+         gqVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=1cLh/Vxlu9mg3Dzo4d6gxlLkl3SU1pLaWuNQZTOTE9g=;
-        b=qoGabYFk7JFkQNpHDpirZse69EDwYiWQotB6WjfKu1gyqTm3D7psvKggL0zNOSK3TK
-         h6rHz4l4noxOIyIp5mbnxsOF9963pUJc+3FTZn+AWIqq4IjP41hfAwv9A48P5WgQPDXj
-         /sdjBuvcat1kVw6UmoT+rYp0ejJbQiN2lMP1H50xUvOejGCvs1m3ridmvD+NawCOwe6n
-         h8QKnTa01/9/daHZSY93n1tH6/fI0Eu1KhRtBfth+pavJF1nl8kGnMpbfPUsw6hE1Ukj
-         eC32fMaxndVNoNxFEh+cb0/Bc/2Y6ykuATSoAbBOWSivh8rVUbs6YTypVNTWiea2poHT
-         VskQ==
-X-Gm-Message-State: AOAM532lu6hvQcURvfNBJ2WfX/HcLeMXOt3Z9xN6C0uyA3DpR17l5goR
-	K0zVoECHmOfr3bbOUYsxpvvmahkVKf8=
-X-Google-Smtp-Source: ABdhPJzEKs/F/pFswwztCHR4Xrg7UshHN5TwtEVkNshSsRmq5D6fjye8x2MDNWMN3+hHOkC31PQY+Q==
-X-Received: by 2002:a1c:bd84:: with SMTP id n126mr3166163wmf.154.1590254452368;
-        Sat, 23 May 2020 10:20:52 -0700 (PDT)
-Return-Path: <gzatko@gmail.com>
-Received: from blizzard-1040g6.lan (93.184.67.240.host.vnet.sk. [93.184.67.240])
-        by smtp.gmail.com with ESMTPSA id c143sm13302808wmd.43.2020.05.23.10.20.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 May 2020 10:20:51 -0700 (PDT)
-From: "Gregor Zatko" <gzatko@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Gregor Zatko <gzatko@zoznam.sk>
-Subject: [PATCH] docbook-xml: update recipe to stick with the upstream
-Date: Sat, 23 May 2020 19:20:49 +0200
-Message-Id: <20200523172049.1156001-1-gzatko@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dkw5MVUGKjDxir8O33odtmzyQGLM9PeWYZlidiMjjLo=;
+        b=G14HHHkxkU032FnbxN/80BgYw6XzELmdNCWo/4nyvlkt155ZCeiBaZ/cCoZZJz4VOJ
+         tmHinrUX9FRAbEYZ3yM9x4ObBP/Ax33J7izAO+gUlionWZjlbPeXuyk5iZK/y4bNaS2o
+         1zg8WpEL0I7Oaz3zQA+57aBGg+rVfqyGu5T2NeX6SIFjgtu4gQtjGMtbKLK+leAxHkvC
+         pipBxZuhu6FGkzK6WDXgQlHvrf3an6ni/gpkjRSSK2VfgmXvcqsV3qrwZ9+elPqoyq+L
+         ZUS5ohOBv4PtA1frYgV3r7gKpe7MaUPy+jwmsvE1bGq832fXZBuEnxVBnXni6gFVnz95
+         y/eg==
+X-Gm-Message-State: AOAM532Yf+E1J1hubzEipHLrLlnXvuBBgVTIJqn055crrii7mvUZ77C7
+	BHRZ9fShK4sf20i+UmBu35wkt0FryxOxculzGQ==
+X-Google-Smtp-Source: ABdhPJzoYZhYUV98THjeYucKrpWHkWYNOEytO8YJA0TW/Ims9YlZBABzcvM9Pl1Ul7gaWhm6pMc68j1xn8Mcr4S9398=
+X-Received: by 2002:a17:906:8694:: with SMTP id g20mr13176671ejx.75.1590255667653;
+ Sat, 23 May 2020 10:41:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200522151335.7918-1-ptsneves@gmail.com> <20200522151335.7918-2-ptsneves@gmail.com>
+ <CANNYZj9tpQRb95FX5ch47eH66f8xvr-EybMkmg1UsAxAHwqyfw@mail.gmail.com>
+ <CAJO0J4gz9zz9iZ4EbrPvs7aVjT3Ro1WXhmwsb7izst2m=GLQSg@mail.gmail.com>
+ <CALpKvHoR5OvUqaDXa0OdxMgpoDKAQNG9NM9pYa=cW9cL1J86TA@mail.gmail.com>
+ <CAJO0J4hP71_27HDY7yoVR267TtppDp0jnYqQ1z61g5dBaTZX7Q@mail.gmail.com> <CALpKvHopa4WVbvJcm6ahnrn64_SZHi=dKZtZ6V05uaXq1eMMyA@mail.gmail.com>
+In-Reply-To: <CALpKvHopa4WVbvJcm6ahnrn64_SZHi=dKZtZ6V05uaXq1eMMyA@mail.gmail.com>
+From: "Paulo Neve" <ptsneves@gmail.com>
+Date: Sat, 23 May 2020 19:40:56 +0200
+Message-ID: <CAJO0J4jZ3Q4ymoSUs0oVV=mZhHOLE_tFr1HTYpgSXc5m7w+2gA@mail.gmail.com>
+Subject: Re: [OE-core] [meta-oe][PATCH] 2/2] package_{ipk, deb, rpm}.bbclass: support per package user-defined metadata.
+To: Michael Ho <michael.ho@ieee.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Gregor Zatko <gzatko@zoznam.sk>
+I was in the middle of making a test set based on Alexander suggestion
+but it seems i need to redo all my workspace every time i run the
+tests, which is terrible for iteration. Am i missing something?
 
-Until now a Debian package has been used as a source.
-This change just switches it to project's upstream.
+oe-selftest -r package.PackageTests.test_custom_metadata_is_in_package_indexcd
+../poky-selftest-st/
+2020-05-22 23:27:52,286 - oe-selftest - ERROR - Not found
+package.PackageTests.test_custom_metadata_is_in_package_indexcd in
+loaded test cases
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13270
-
-Signed-off-by: Gregor Zatko <gzatko@gmail.com>
----
- .../docbook-xml-dtd4/catalogs/catalog-4.2.xml | 115 ++++
- .../docbook-xml-dtd4/catalogs/catalog-4.3.xml | 115 ++++
- .../docbook-xml-dtd4/catalogs/catalog-4.4.xml | 124 +++++
- .../docbook-xml-dtd4/catalogs/catalog-4.5.xml | 124 +++++
- .../docbook-xml-update-catalog.xml.patch      | 515 ------------------
- .../docbook-xml/docbook-xml-dtd4_4.5.bb       |  52 +-
- 6 files changed, 502 insertions(+), 543 deletions(-)
- create mode 100644 meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.2.xml
- create mode 100644 meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.3.xml
- create mode 100644 meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.4.xml
- create mode 100644 meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.5.xml
- delete mode 100644 meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/docbook-xml-update-catalog.xml.patch
-
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.2.xml b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.2.xml
-new file mode 100644
-index 0000000000..6920c2f7e0
---- /dev/null
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.2.xml
-@@ -0,0 +1,115 @@
-+<?xml version='1.0'?>
-+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-+
-+<!-- ...................................................................... -->
-+<!-- XML Catalog data for DocBook XML V4.2 ................................ -->
-+<!-- File catalog.xml ..................................................... -->
-+
-+<!-- Please direct all questions, bug reports, or suggestions for
-+     changes to the docbook@lists.oasis-open.org mailing list. For more
-+     information, see http://www.oasis-open.org/.
-+  -->
-+
-+<!-- This is the catalog data file for DocBook V4.2. It is provided as
-+     a convenience in building your own catalog files. You need not use
-+     the filenames listed here, and need not use the filename method of
-+     identifying storage objects at all.  See the documentation for
-+     detailed information on the files associated with the DocBook DTD.
-+     See XML Catalogs at http://www.oasis-open.org/committees/entity/ for
-+     detailed information on supplying and using catalog data.
-+  -->
-+
-+<!-- ...................................................................... -->
-+<!-- DocBook driver file .................................................. -->
-+
-+<public publicId="-//OASIS//DTD DocBook XML V4.2//EN"
-+        uri="docbookx.dtd"/>
-+
-+<!-- ...................................................................... -->
-+<!-- DocBook modules ...................................................... -->
-+
-+<public publicId="-//OASIS//DTD DocBook CALS Table Model V4.2//EN"
-+        uri="calstblx.dtd"/>
-+
-+<public publicId="-//OASIS//DTD XML Exchange Table Model 19990315//EN"
-+        uri="soextblx.dtd"/>
-+
-+<public publicId="-//OASIS//ELEMENTS DocBook Information Pool V4.2//EN"
-+        uri="dbpoolx.mod"/>
-+
-+<public publicId="-//OASIS//ELEMENTS DocBook Document Hierarchy V4.2//EN"
-+        uri="dbhierx.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Additional General Entities V4.2//EN"
-+        uri="dbgenent.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Notations V4.2//EN"
-+        uri="dbnotnx.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Character Entities V4.2//EN"
-+        uri="dbcentx.mod"/>
-+
-+<!-- ...................................................................... -->
-+<!-- ISO entity sets ...................................................... -->
-+
-+<public publicId="ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
-+        uri="ent/iso-dia.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
-+        uri="ent/iso-num.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Publishing//EN//XML"
-+        uri="ent/iso-pub.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES General Technical//EN//XML"
-+        uri="ent/iso-tech.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
-+        uri="ent/iso-lat1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
-+        uri="ent/iso-lat2.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
-+        uri="ent/iso-grk1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
-+        uri="ent/iso-grk2.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
-+        uri="ent/iso-grk3.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
-+        uri="ent/iso-grk4.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
-+        uri="ent/iso-amsa.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
-+        uri="ent/iso-amsb.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
-+        uri="ent/iso-amsc.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
-+        uri="ent/iso-amsn.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
-+        uri="ent/iso-amso.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
-+        uri="ent/iso-amsr.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
-+        uri="ent/iso-box.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
-+        uri="ent/iso-cyr1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
-+        uri="ent/iso-cyr2.ent"/>
-+
-+<!-- End of catalog data for DocBook XML V4.2 ............................. -->
-+<!-- ...................................................................... -->
-+
-+</catalog>
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.3.xml b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.3.xml
-new file mode 100644
-index 0000000000..34d1afdd94
---- /dev/null
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.3.xml
-@@ -0,0 +1,115 @@
-+<?xml version='1.0'?>
-+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-+
-+<!-- ...................................................................... -->
-+<!-- XML Catalog data for DocBook XML V4.3 ................................ -->
-+<!-- File catalog.xml ..................................................... -->
-+
-+<!-- Please direct all questions, bug reports, or suggestions for
-+     changes to the docbook@lists.oasis-open.org mailing list. For more
-+     information, see http://www.oasis-open.org/.
-+  -->
-+
-+<!-- This is the catalog data file for DocBook V4.3. It is provided as
-+     a convenience in building your own catalog files. You need not use
-+     the filenames listed here, and need not use the filename method of
-+     identifying storage objects at all.  See the documentation for
-+     detailed information on the files associated with the DocBook DTD.
-+     See XML Catalogs at http://www.oasis-open.org/committees/entity/ for
-+     detailed information on supplying and using catalog data.
-+  -->
-+
-+<!-- ...................................................................... -->
-+<!-- DocBook driver file .................................................. -->
-+
-+<public publicId="-//OASIS//DTD DocBook XML V4.3//EN"
-+        uri="docbookx.dtd"/>
-+
-+<!-- ...................................................................... -->
-+<!-- DocBook modules ...................................................... -->
-+
-+<public publicId="-//OASIS//DTD DocBook CALS Table Model V4.3//EN"
-+        uri="calstblx.dtd"/>
-+
-+<public publicId="-//OASIS//DTD XML Exchange Table Model 19990315//EN"
-+        uri="soextblx.dtd"/>
-+
-+<public publicId="-//OASIS//ELEMENTS DocBook Information Pool V4.3//EN"
-+        uri="dbpoolx.mod"/>
-+
-+<public publicId="-//OASIS//ELEMENTS DocBook Document Hierarchy V4.3//EN"
-+        uri="dbhierx.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Additional General Entities V4.3//EN"
-+        uri="dbgenent.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Notations V4.3//EN"
-+        uri="dbnotnx.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Character Entities V4.3//EN"
-+        uri="dbcentx.mod"/>
-+
-+<!-- ...................................................................... -->
-+<!-- ISO entity sets ...................................................... -->
-+
-+<public publicId="ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
-+        uri="ent/iso-dia.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
-+        uri="ent/iso-num.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Publishing//EN//XML"
-+        uri="ent/iso-pub.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES General Technical//EN//XML"
-+        uri="ent/iso-tech.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
-+        uri="ent/iso-lat1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
-+        uri="ent/iso-lat2.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
-+        uri="ent/iso-grk1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
-+        uri="ent/iso-grk2.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
-+        uri="ent/iso-grk3.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
-+        uri="ent/iso-grk4.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
-+        uri="ent/iso-amsa.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
-+        uri="ent/iso-amsb.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
-+        uri="ent/iso-amsc.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
-+        uri="ent/iso-amsn.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
-+        uri="ent/iso-amso.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
-+        uri="ent/iso-amsr.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
-+        uri="ent/iso-box.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
-+        uri="ent/iso-cyr1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
-+        uri="ent/iso-cyr2.ent"/>
-+
-+<!-- End of catalog data for DocBook XML V4.3 ............................. -->
-+<!-- ...................................................................... -->
-+
-+</catalog>
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.4.xml b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.4.xml
-new file mode 100644
-index 0000000000..8d709ba102
---- /dev/null
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.4.xml
-@@ -0,0 +1,124 @@
-+<?xml version='1.0'?>
-+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
-+
-+<!-- ...................................................................... -->
-+<!-- XML Catalog data for DocBook XML V4.4 ................................ -->
-+<!-- File catalog.xml ..................................................... -->
-+
-+<!-- Please direct all questions, bug reports, or suggestions for
-+     changes to the docbook@lists.oasis-open.org mailing list. For more
-+     information, see http://www.oasis-open.org/.
-+  -->
-+
-+<!-- This is the catalog data file for DocBook V4.4. It is provided as
-+     a convenience in building your own catalog files. You need not use
-+     the filenames listed here, and need not use the filename method of
-+     identifying storage objects at all.  See the documentation for
-+     detailed information on the files associated with the DocBook DTD.
-+     See XML Catalogs at http://www.oasis-open.org/committees/entity/ for
-+     detailed information on supplying and using catalog data.
-+  -->
-+
-+<!-- ...................................................................... -->
-+<!-- DocBook driver file .................................................. -->
-+
-+<public publicId="-//OASIS//DTD DocBook XML V4.4//EN"
-+        uri="docbookx.dtd"/>
-+
-+<system systemId="http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"
-+	uri="docbookx.dtd"/>
-+
-+<system systemId="http://docbook.org/xml/4.4/docbookx.dtd"
-+	uri="docbookx.dtd"/>
-+
-+<!-- ...................................................................... -->
-+<!-- DocBook modules ...................................................... -->
-+
-+<public publicId="-//OASIS//DTD DocBook CALS Table Model V4.4//EN"
-+        uri="calstblx.dtd"/>
-+
-+<public publicId="-//OASIS//ELEMENTS DocBook XML HTML Tables V4.4//EN"
-+	uri="htmltblx.mod"/>
-+
-+<public publicId="-//OASIS//DTD XML Exchange Table Model 19990315//EN"
-+        uri="soextblx.dtd"/>
-+
-+<public publicId="-//OASIS//ELEMENTS DocBook Information Pool V4.4//EN"
-+        uri="dbpoolx.mod"/>
-+
-+<public publicId="-//OASIS//ELEMENTS DocBook Document Hierarchy V4.4//EN"
-+        uri="dbhierx.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Additional General Entities V4.4//EN"
-+        uri="dbgenent.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Notations V4.4//EN"
-+        uri="dbnotnx.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Character Entities V4.4//EN"
-+        uri="dbcentx.mod"/>
-+
-+<!-- ...................................................................... -->
-+<!-- ISO entity sets ...................................................... -->
-+
-+<public publicId="ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
-+        uri="ent/isodia.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
-+        uri="ent/isonum.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Publishing//EN//XML"
-+        uri="ent/isopub.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES General Technical//EN//XML"
-+        uri="ent/isotech.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
-+        uri="ent/isolat1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
-+        uri="ent/isolat2.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
-+        uri="ent/isogrk1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
-+        uri="ent/isogrk2.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
-+        uri="ent/isogrk3.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
-+        uri="ent/isogrk4.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
-+        uri="ent/isoamsa.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
-+        uri="ent/isoamsb.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
-+        uri="ent/isoamsc.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
-+        uri="ent/isoamsn.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
-+        uri="ent/isoamso.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
-+        uri="ent/isoamsr.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
-+        uri="ent/isobox.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
-+        uri="ent/isocyr1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
-+        uri="ent/isocyr2.ent"/>
-+
-+<!-- End of catalog data for DocBook XML V4.4 ............................. -->
-+<!-- ...................................................................... -->
-+
-+</catalog>
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.5.xml b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.5.xml
-new file mode 100644
-index 0000000000..f75c1d764d
---- /dev/null
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/catalogs/catalog-4.5.xml
-@@ -0,0 +1,124 @@
-+<?xml version='1.0'?>
-+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
-+
-+<!-- ...................................................................... -->
-+<!-- XML Catalog data for DocBook XML V4.5 ................................ -->
-+<!-- File catalog.xml ..................................................... -->
-+
-+<!-- Please direct all questions, bug reports, or suggestions for
-+     changes to the docbook@lists.oasis-open.org mailing list. For more
-+     information, see http://www.oasis-open.org/.
-+  -->
-+
-+<!-- This is the catalog data file for DocBook V4.5. It is provided as
-+     a convenience in building your own catalog files. You need not use
-+     the filenames listed here, and need not use the filename method of
-+     identifying storage objects at all.  See the documentation for
-+     detailed information on the files associated with the DocBook DTD.
-+     See XML Catalogs at http://www.oasis-open.org/committees/entity/ for
-+     detailed information on supplying and using catalog data.
-+  -->
-+
-+<!-- ...................................................................... -->
-+<!-- DocBook driver file .................................................. -->
-+
-+<public publicId="-//OASIS//DTD DocBook XML V4.5//EN"
-+        uri="docbookx.dtd"/>
-+
-+<system systemId="http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"
-+	uri="docbookx.dtd"/>
-+
-+<system systemId="http://docbook.org/xml/4.5/docbookx.dtd"
-+	uri="docbookx.dtd"/>
-+
-+<!-- ...................................................................... -->
-+<!-- DocBook modules ...................................................... -->
-+
-+<public publicId="-//OASIS//DTD DocBook CALS Table Model V4.5//EN"
-+        uri="calstblx.dtd"/>
-+
-+<public publicId="-//OASIS//ELEMENTS DocBook XML HTML Tables V4.5//EN"
-+	uri="htmltblx.mod"/>
-+
-+<public publicId="-//OASIS//DTD XML Exchange Table Model 19990315//EN"
-+        uri="soextblx.dtd"/>
-+
-+<public publicId="-//OASIS//ELEMENTS DocBook Information Pool V4.5//EN"
-+        uri="dbpoolx.mod"/>
-+
-+<public publicId="-//OASIS//ELEMENTS DocBook Document Hierarchy V4.5//EN"
-+        uri="dbhierx.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Additional General Entities V4.5//EN"
-+        uri="dbgenent.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Notations V4.5//EN"
-+        uri="dbnotnx.mod"/>
-+
-+<public publicId="-//OASIS//ENTITIES DocBook Character Entities V4.5//EN"
-+        uri="dbcentx.mod"/>
-+
-+<!-- ...................................................................... -->
-+<!-- ISO entity sets ...................................................... -->
-+
-+<public publicId="ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
-+        uri="ent/isodia.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
-+        uri="ent/isonum.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Publishing//EN//XML"
-+        uri="ent/isopub.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES General Technical//EN//XML"
-+        uri="ent/isotech.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
-+        uri="ent/isolat1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
-+        uri="ent/isolat2.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
-+        uri="ent/isogrk1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
-+        uri="ent/isogrk2.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
-+        uri="ent/isogrk3.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
-+        uri="ent/isogrk4.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
-+        uri="ent/isoamsa.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
-+        uri="ent/isoamsb.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
-+        uri="ent/isoamsc.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
-+        uri="ent/isoamsn.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
-+        uri="ent/isoamso.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
-+        uri="ent/isoamsr.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
-+        uri="ent/isobox.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
-+        uri="ent/isocyr1.ent"/>
-+
-+<public publicId="ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
-+        uri="ent/isocyr2.ent"/>
-+
-+<!-- End of catalog data for DocBook XML V4.5 ............................. -->
-+<!-- ...................................................................... -->
-+
-+</catalog>
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/docbook-xml-update-catalog.xml.patch b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/docbook-xml-update-catalog.xml.patch
-deleted file mode 100644
-index 59703609ca..0000000000
---- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/docbook-xml-update-catalog.xml.patch
-+++ /dev/null
-@@ -1,515 +0,0 @@
--docbook-xml: update catalog.xml
--
--Refer Ubuntu 13.04 to update catalog.xml
--
--Upstream-Status: Pending
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- docbook-4.0/catalog.xml   | 72 +++++++++++++++++++++++++++++++++++++++++++++++
-- docbook-4.1.2/catalog.xml | 66 +++++++++++++++++++++++++++++++++++++++++++
-- docbook-4.2/catalog.xml   | 69 ++++++---------------------------------------
-- docbook-4.3/catalog.xml   | 72 ++++++++---------------------------------------
-- docbook-4.4/catalog.xml   | 63 ++---------------------------------------
-- docbook-4.5/catalog.xml   | 63 ++---------------------------------------
-- 6 files changed, 165 insertions(+), 240 deletions(-)
-- create mode 100644 docbook-4.0/catalog.xml
-- create mode 100644 docbook-4.1.2/catalog.xml
--
--diff --git a/docbook-4.0/catalog.xml b/docbook-4.0/catalog.xml
--new file mode 100644
----- /dev/null
--+++ b/docbook-4.0/catalog.xml
--@@ -0,0 +1,72 @@
--+<?xml version='1.0'?>
--+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN" 
--+    "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
--+
--+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
--+
--+<!-- ...................................................................... -->
--+<!-- XML Catalog data for DocBook XML V4.0............................... -->
--+<!-- File catalog.xml ..................................................... -->
--+
--+<!-- Please direct all questions, bug reports, or suggestions for
--+     changes to the docbook@lists.oasis-open.org mailing list. For more
--+     information, see http://www.oasis-open.org/.
--+  -->
--+
--+<!-- This is the catalog data file for DocBook V4.0. It is provided as
--+     a convenience in building your own catalog files. You need not use
--+     the filenames listed here, and need not use the filename method of
--+     identifying storage objects at all.  See the documentation for
--+     detailed information on the files associated with the DocBook DTD.
--+     See XML Catalogs at http://www.oasis-open.org/committees/entity/ for
--+     detailed information on supplying and using catalog data.
--+  -->
--+
--+<!-- ...................................................................... -->
--+<!-- DocBook driver file .................................................. -->
--+
--+<public publicId="-//Norman Walsh//DTD DocBk XML V4.0//EN"
--+        uri="docbookx.dtd"/>
--+
--+<!-- Other ways to refer to DocBook XML v4.0............................... -->
--+<public publicId="-//Norman Walsh//DTD DocBook XML V4.0//EN"
--+        uri="docbookx.dtd"/>
--+
--+<system systemId="http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd"
--+        uri="docbookx.dtd"/>
--+
--+<!-- ...................................................................... -->
--+<!-- DocBook modules ...................................................... -->
--+
--+<public publicId="-//Norman Walsh//ENTITIES DocBook XML Notations V4.0//EN"
--+        uri="dbnotnx.mod"/>
--+
--+<public publicId="-//Norman Walsh//ENTITIES DocBook XML Character Entities V4.0//EN"
--+        uri="dbcentx.mod"/>
--+
--+<public publicId="-//Norman Walsh//ELEMENTS DocBook XML Information Pool V4.0//EN"
--+        uri="dbpoolx.mod"/>
--+
--+<public publicId="-//Norman Walsh//ELEMENTS DocBook XML Document Hierarchy V4.0//EN"
--+        uri="dbhierx.mod"/>
--+
--+<public publicId="-//Norman Walsh//ENTITIES DocBook XML Additional General Entities V4.0//EN"
--+        uri="dbgenent.mod"/>
--+
--+<public publicId="-//Norman Walsh//DTD CALS Table Model XML V4.0//EN"
--+        uri="calstblx.dtd"/>
--+
--+<!-- UNOFFICIAL conversion of the exchange table model to XML, based on the OASIS Exchange -->
--+<!--    Table Model PUBLIC "-//SGML Open//DTD Exchange Table Model 19960430//EN"           -->
--+<public publicId="-//Normal Walsh//Exchange Table Model 19960430 XML V4.0//EN"
--+        uri="soextblx.dtd"/>
--+
--+<!-- the following FPI is declared for the DTD inside the DTD, but we'll -->
--+<!-- use the version from the latest DocBook
--+<public publicId="-//OASIS//DTD XML Exchange Table Model 19990315//EN"
--+        uri="soextblx.dtd"/> -->
--+
--+<!-- End of catalog data for DocBook XML V4.0 ............................. -->
--+<!-- ...................................................................... -->
--+
--+</catalog>
--diff --git a/docbook-4.1.2/catalog.xml b/docbook-4.1.2/catalog.xml
--new file mode 100644
----- /dev/null
--+++ b/docbook-4.1.2/catalog.xml
--@@ -0,0 +1,66 @@
--+<?xml version='1.0'?>
--+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN" 
--+    "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
--+
--+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
--+
--+<!-- ...................................................................... -->
--+<!-- XML Catalog data for DocBook XML V4.1.2............................... -->
--+<!-- File catalog.xml ..................................................... -->
--+
--+<!-- Please direct all questions, bug reports, or suggestions for
--+     changes to the docbook@lists.oasis-open.org mailing list. For more
--+     information, see http://www.oasis-open.org/.
--+  -->
--+
--+<!-- This is the catalog data file for DocBook V4.1.2. It is provided as
--+     a convenience in building your own catalog files. You need not use
--+     the filenames listed here, and need not use the filename method of
--+     identifying storage objects at all.  See the documentation for
--+     detailed information on the files associated with the DocBook DTD.
--+     See XML Catalogs at http://www.oasis-open.org/committees/entity/ for
--+     detailed information on supplying and using catalog data.
--+  -->
--+
--+<!-- ...................................................................... -->
--+<!-- DocBook driver file .................................................. -->
--+
--+<public publicId="-//OASIS//DTD DocBook XML V4.1.2//EN"
--+        uri="docbookx.dtd"/>
--+
--+<system systemId="http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"
--+        uri="docbookx.dtd"/>
--+
--+<system systemId="http://docbook.org/xml/4.1.2/docbookx.dtd"
--+        uri="docbookx.dtd"/>
--+
--+<!-- ...................................................................... -->
--+<!-- DocBook modules ...................................................... -->
--+
--+<public publicId="-//OASIS//DTD DocBook CALS Table Model V4.1.2//EN"
--+        uri="calstblx.dtd"/>
--+
--+  <!-- already included in docbook 4.2
--+<public publicId="-//OASIS//DTD XML Exchange Table Model 19990315//EN"
--+        uri="soextblx.dtd"/> -->
--+
--+<public publicId="-//OASIS//ELEMENTS DocBook XML Information Pool V4.1.2//EN"
--+        uri="dbpoolx.mod"/>
--+
--+<public publicId="-//OASIS//ELEMENTS DocBook Document Hierarchy V4.1.2//EN"
--+        uri="dbhierx.mod"/>
--+
--+<public publicId="-//OASIS//ENTITIES DocBook Additional General Entities V4.1.2//EN"
--+        uri="dbgenent.mod"/>
--+
--+<public publicId="-//OASIS//ENTITIES DocBook Notations V4.1.2//EN"
--+        uri="dbnotnx.mod"/>
--+
--+<public publicId="-//OASIS//ENTITIES DocBook Character Entities V4.1.2//EN"
--+        uri="dbcentx.mod"/>
--+
--+
--+<!-- End of catalog data for DocBook XML V4.1.2 ............................. -->
--+<!-- ...................................................................... -->
--+
--+</catalog>
--diff --git a/docbook-4.2/catalog.xml b/docbook-4.2/catalog.xml
----- a/docbook-4.2/catalog.xml
--+++ b/docbook-4.2/catalog.xml
--@@ -1,4 +1,7 @@
-- <?xml version='1.0'?>
--+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
--+    "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
--+
-- <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-- 
-- <!-- ...................................................................... -->
--@@ -25,6 +28,12 @@
-- <public publicId="-//OASIS//DTD DocBook XML V4.2//EN"
--         uri="docbookx.dtd"/>
-- 
--+<system systemId="http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd"
--+        uri="docbookx.dtd"/>
--+
--+<system systemId="http://docbook.org/xml/4.2/docbookx.dtd"
--+        uri="docbookx.dtd"/>
--+
-- <!-- ...................................................................... -->
-- <!-- DocBook modules ...................................................... -->
-- 
--@@ -49,66 +58,6 @@
-- <public publicId="-//OASIS//ENTITIES DocBook Character Entities V4.2//EN"
--         uri="dbcentx.mod"/>
-- 
---<!-- ...................................................................... -->
---<!-- ISO entity sets ...................................................... -->
---
---<public publicId="ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
---        uri="ent/iso-dia.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
---        uri="ent/iso-num.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Publishing//EN//XML"
---        uri="ent/iso-pub.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES General Technical//EN//XML"
---        uri="ent/iso-tech.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
---        uri="ent/iso-lat1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
---        uri="ent/iso-lat2.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
---        uri="ent/iso-grk1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
---        uri="ent/iso-grk2.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
---        uri="ent/iso-grk3.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
---        uri="ent/iso-grk4.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
---        uri="ent/iso-amsa.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
---        uri="ent/iso-amsb.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
---        uri="ent/iso-amsc.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
---        uri="ent/iso-amsn.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
---        uri="ent/iso-amso.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
---        uri="ent/iso-amsr.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
---        uri="ent/iso-box.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
---        uri="ent/iso-cyr1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
---        uri="ent/iso-cyr2.ent"/>
---
-- <!-- End of catalog data for DocBook XML V4.2 ............................. -->
-- <!-- ...................................................................... -->
-- 
--diff --git a/docbook-4.3/catalog.xml b/docbook-4.3/catalog.xml
----- a/docbook-4.3/catalog.xml
--+++ b/docbook-4.3/catalog.xml
--@@ -1,4 +1,7 @@
-- <?xml version='1.0'?>
--+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
--+    "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
--+
-- <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-- 
-- <!-- ...................................................................... -->
--@@ -25,12 +28,21 @@
-- <public publicId="-//OASIS//DTD DocBook XML V4.3//EN"
--         uri="docbookx.dtd"/>
-- 
--+<system systemId="http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
--+        uri="docbookx.dtd"/>
--+
--+<system systemId="http://docbook.org/xml/4.3/docbookx.dtd"
--+        uri="docbookx.dtd"/>
--+
-- <!-- ...................................................................... -->
-- <!-- DocBook modules ...................................................... -->
-- 
-- <public publicId="-//OASIS//DTD DocBook CALS Table Model V4.3//EN"
--         uri="calstblx.dtd"/>
-- 
--+<public publicId="-//OASIS//ELEMENTS DocBook XML HTML Tables V4.3//EN"
--+        uri="htmltblx.mod"/>
--+
-- <public publicId="-//OASIS//DTD XML Exchange Table Model 19990315//EN"
--         uri="soextblx.dtd"/>
-- 
--@@ -49,66 +61,6 @@
-- <public publicId="-//OASIS//ENTITIES DocBook Character Entities V4.3//EN"
--         uri="dbcentx.mod"/>
-- 
---<!-- ...................................................................... -->
---<!-- ISO entity sets ...................................................... -->
---
---<public publicId="ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
---        uri="ent/iso-dia.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
---        uri="ent/iso-num.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Publishing//EN//XML"
---        uri="ent/iso-pub.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES General Technical//EN//XML"
---        uri="ent/iso-tech.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
---        uri="ent/iso-lat1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
---        uri="ent/iso-lat2.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
---        uri="ent/iso-grk1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
---        uri="ent/iso-grk2.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
---        uri="ent/iso-grk3.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
---        uri="ent/iso-grk4.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
---        uri="ent/iso-amsa.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
---        uri="ent/iso-amsb.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
---        uri="ent/iso-amsc.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
---        uri="ent/iso-amsn.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
---        uri="ent/iso-amso.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
---        uri="ent/iso-amsr.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
---        uri="ent/iso-box.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
---        uri="ent/iso-cyr1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
---        uri="ent/iso-cyr2.ent"/>
---
-- <!-- End of catalog data for DocBook XML V4.3 ............................. -->
-- <!-- ...................................................................... -->
-- 
--diff --git a/docbook-4.4/catalog.xml b/docbook-4.4/catalog.xml
----- a/docbook-4.4/catalog.xml
--+++ b/docbook-4.4/catalog.xml
--@@ -1,4 +1,7 @@
-- <?xml version='1.0'?>
--+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
--+    "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
--+
-- <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
-- 
-- <!-- ...................................................................... -->
--@@ -58,66 +61,6 @@
-- <public publicId="-//OASIS//ENTITIES DocBook Character Entities V4.4//EN"
--         uri="dbcentx.mod"/>
-- 
---<!-- ...................................................................... -->
---<!-- ISO entity sets ...................................................... -->
---
---<public publicId="ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
---        uri="ent/isodia.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
---        uri="ent/isonum.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Publishing//EN//XML"
---        uri="ent/isopub.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES General Technical//EN//XML"
---        uri="ent/isotech.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
---        uri="ent/isolat1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
---        uri="ent/isolat2.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
---        uri="ent/isogrk1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
---        uri="ent/isogrk2.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
---        uri="ent/isogrk3.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
---        uri="ent/isogrk4.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
---        uri="ent/isoamsa.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
---        uri="ent/isoamsb.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
---        uri="ent/isoamsc.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
---        uri="ent/isoamsn.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
---        uri="ent/isoamso.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
---        uri="ent/isoamsr.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
---        uri="ent/isobox.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
---        uri="ent/isocyr1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
---        uri="ent/isocyr2.ent"/>
---
-- <!-- End of catalog data for DocBook XML V4.4 ............................. -->
-- <!-- ...................................................................... -->
-- 
--diff --git a/docbook-4.5/catalog.xml b/docbook-4.5/catalog.xml
----- a/docbook-4.5/catalog.xml
--+++ b/docbook-4.5/catalog.xml
--@@ -1,4 +1,7 @@
-- <?xml version='1.0'?>
--+<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN"
--+    "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
--+
-- <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="public">
-- 
-- <!-- ...................................................................... -->
--@@ -58,66 +61,6 @@
-- <public publicId="-//OASIS//ENTITIES DocBook Character Entities V4.5//EN"
--         uri="dbcentx.mod"/>
-- 
---<!-- ...................................................................... -->
---<!-- ISO entity sets ...................................................... -->
---
---<public publicId="ISO 8879:1986//ENTITIES Diacritical Marks//EN//XML"
---        uri="ent/isodia.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Numeric and Special Graphic//EN//XML"
---        uri="ent/isonum.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Publishing//EN//XML"
---        uri="ent/isopub.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES General Technical//EN//XML"
---        uri="ent/isotech.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Latin 1//EN//XML"
---        uri="ent/isolat1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Latin 2//EN//XML"
---        uri="ent/isolat2.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Greek Letters//EN//XML"
---        uri="ent/isogrk1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Monotoniko Greek//EN//XML"
---        uri="ent/isogrk2.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Greek Symbols//EN//XML"
---        uri="ent/isogrk3.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Alternative Greek Symbols//EN//XML"
---        uri="ent/isogrk4.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Arrow Relations//EN//XML"
---        uri="ent/isoamsa.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Binary Operators//EN//XML"
---        uri="ent/isoamsb.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Delimiters//EN//XML"
---        uri="ent/isoamsc.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Negated Relations//EN//XML"
---        uri="ent/isoamsn.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Ordinary//EN//XML"
---        uri="ent/isoamso.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Added Math Symbols: Relations//EN//XML"
---        uri="ent/isoamsr.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Box and Line Drawing//EN//XML"
---        uri="ent/isobox.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Russian Cyrillic//EN//XML"
---        uri="ent/isocyr1.ent"/>
---
---<public publicId="ISO 8879:1986//ENTITIES Non-Russian Cyrillic//EN//XML"
---        uri="ent/isocyr2.ent"/>
---
-- <!-- End of catalog data for DocBook XML V4.5 ............................. -->
-- <!-- ...................................................................... -->
-- 
---- 
--1.8.1.2
--
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-index 6452c8d99f..786ca5418f 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
-@@ -1,9 +1,10 @@
- SUMMARY = "Document type definitions for verification of XML data files"
- DESCRIPTION = "Document type definitions for verification of XML data \
--files against the DocBook rule set, it ships with the latest DocBook 4.5 \
--XML DTD, as well as a selected set of legacy DTDs for use with older \
--documents, including 4.0, 4.1.2, 4.2, 4.3 and 4.4"
--HOMEPAGE = "http://www.docbook.org/xml/"
-+files against the DocBook rule set. It ships with the latest DocBook 4.5 \
-+XML DTD, together with older version 4.2, 4.3 and 4.4."
-+HOMEPAGE = "https://www.docbook.org/xml/"
-+
-+PR = "r1"
- 
- LICENSE = "OASIS"
- LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE-OASIS;md5=c608985dd5f7f215e669e7639a0b1d2e"
-@@ -11,42 +12,37 @@ LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE-OASIS;md5=c608985dd5f7f215e669e763
- # Note: the upstream sources are not distributed with a license file.
- # LICENSE-OASIS is included as a "patch" to workaround this. When
- # upgrading this recipe, please verify whether this is still needed.
--SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/d/docbook-xml/docbook-xml_${PV}.orig.tar.gz \
--           file://LICENSE-OASIS \
--           file://docbook-xml-update-catalog.xml.patch \
-+SRC_URI = "\
-+    file://LICENSE-OASIS \
-+    file://catalogs/* \
- "
- 
--SRC_URI[md5sum] = "487b4d44e15cffb1f4048af23f98208e"
--SRC_URI[sha256sum] = "b0f8edcf697f5318e63dd98c9a931f3fee167af0805ba441db372e0f17b2a44f"
--
--UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/docbook-xml/"
--
--S = "${WORKDIR}/docbook-xml-4.5.c31424"
--
--inherit allarch
-+inherit allarch xmlcatalog
- BBCLASSEXTEND = "native"
- 
--do_configure (){
--    :
--}
-+# the XMLCATALOGS variable is used in xmlcatalog BB class
-+XMLCATALOGS = "${sysconfdir}/xml/docbook-xml.xml"
- 
--do_compile (){
--    :
--}
-+S = "${WORKDIR}"
-+
-+do_configure[noexec] = "1"
-+do_compile[noexec] = "1"
- 
- do_install () {
-+
-     install -d ${D}${sysconfdir}/xml/
-     xmlcatalog --create --noout ${D}${sysconfdir}/xml/docbook-xml.xml
- 
--    for DTDVERSION in 4.0 4.1.2 4.2 4.3 4.4 4.5; do
--        DEST=${datadir}/xml/docbook/schema/dtd/$DTDVERSION
-+    for catalog in $(ls catalogs); do
-+        dtdVersion=$(echo ${catalog} | sed -rn 's/^catalog-([0-9].[0-9])\.xml/\1/p')
-+        DEST=${datadir}/xml/docbook/schema/dtd/${dtdVersion}
-         install -d -m 755 ${D}$DEST
--        cp -v -R docbook-$DTDVERSION/* ${D}$DEST
-+        cp -v -R catalogs/catalog-${dtdVersion}.xml ${D}$DEST/catalog.xml
-         xmlcatalog --verbose --noout --add nextCatalog unused file://$DEST/catalog.xml ${D}${sysconfdir}/xml/docbook-xml.xml
-     done
- }
- 
--XMLCATALOGS = "${sysconfdir}/xml/docbook-xml.xml"
--inherit xmlcatalog
--
--FILES_${PN} = "${datadir}/* ${sysconfdir}/xml/docbook-xml.xml"
-+FILES_${PN} = "\
-+    ${datadir}/* \
-+    ${XMLCATALOGS} \
-+"
--- 
-2.26.2
-
+On Fri, May 22, 2020 at 9:31 PM Michael Ho <michael.ho@ieee.org> wrote:
+>
+> Hi Paulo,
+>
+> Yes, this is handled by the bitbake data handlers automatically. You can check this by trying the following:
+>
+> python do_test() {
+>     d.setVar("HELLO", "world!")
+>     d.setVar("HELLO_space", "space!")
+>     bb.warn("HELLO: %s" % d.getVar("HELLO", True))
+>     d.setVar("OVERRIDES", "space")
+>     bb.warn("HELLO: %s" % d.getVar("HELLO", True))
+> }
+> addtask test
+>
+> Then calling this task with bitbake:
+>
+> $ bitbake zip -c test | tee
+> ...
+> WARNING: zip-3.0-r2 do_test: HELLO: world!
+> WARNING: zip-3.0-r2 do_test: HELLO: space!
+>
+> I don't know the code or tests in oe that implement this functionality off the top of my head so I can't point you to the oe.selftest coverage.
+>
+> Kind regards,
+> Michael
+>
+> On Fri, May 22, 2020 at 8:09 PM Paulo Neves <ptsneves@gmail.com> wrote:
+>>
+>> Hello Michael,
+>>
+>> The behavior you describe is indeed what i wanted. If you say this is
+>> already working then my patches are redundant. Even so i am surprised
+>> it is working. Is it done automatically by the getVar function?
+>>
+>> def get_package_additional_metadata (pkg_type, d):
+>>     base_key = "PACKAGE_ADD_METADATA"
+>>     for key in ("%s_%s" % (base_key, pkg_type.upper()), base_key):
+>>         if d.getVar(key, False) is None:
+>>             continue
+>>         d.setVarFlag(key, "type", "list")
+>>         if d.getVarFlag(key, "separator") is None:
+>>             d.setVarFlag(key, "separator", "\\n")
+>>         metadata_fields = [field.strip() for field in
+>> oe.data.typed_value(key, d)]
+>>         return "\n".join(metadata_fields).strip()
+>>
+>> From my understanding, i do not see how the per package override
+>> happens. Do you have the test for this functionality in oe-selftest?
+>>
+>> Grateful for the feedback
+>> Paulo Neves
+>>
+>> On Fri, May 22, 2020 at 8:00 PM Michael Ho <michael.ho@ieee.org> wrote:
+>> >
+>> > Hi Paulo,
+>> >
+>> > I actually have some patches in my "to send upstream list" to address the documentation and some sstate-caching bugs with these variables so it's fresh to me at the moment.
+>> > Correct me if I'm wrong but I think this is already available in the code (applying metadata specific to a certain package in a recipe, that is).
+>> >
+>> > eg. http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/package_ipk.bbclass at line 72 sets the local overrides so if PACKAGE_ADD_METADATA_IPK_xxx is set, it overrides PACKAGE_ADD_METADATA_IPK.
+>> >
+>> > For rpm, see
+>> > http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/package_rpm.bbclass#n298 where the recipe wide variable is fetched
+>> > http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/package_rpm.bbclass#n338 where the local override is also set
+>> > http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/package_rpm.bbclass#n354 where the package specific variables are fetched
+>> > http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/classes/package_rpm.bbclass#n436 where the package specific variables are applied to rpm packages
+>> >
+>> > I tested the zip recipe by applying these two lines:
+>> > PACKAGE_ADD_METADATA_RPM = "Vendor: None"
+>> > PACKAGE_ADD_METADATA_RPM_zip-dbg = "Vendor: Not you!"
+>> > and could see differing results in the two rpm files produced.
+>> >
+>> > I think this covers the use case you're showing in your patches already, what do you think?
+>> >
+>> > Kind regards,
+>> > Michael
+>> >
+>> > (sorry if this shows up as a triple email, my mail client wasn't cooperating).
+>> >
+>> > On Fri, May 22, 2020 at 5:29 PM Paulo Neve <ptsneves@gmail.com> wrote:
+>> >>
+>> >> Is ./meta/lib/oeqa/selftest/cases/package.py the right place?
+>> >> If yes i can work on it. Note that this functionality is not used
+>> >> anywhere in poky and is not documented at all. It just happened to
+>> >> exist for a long time and be useful for my case.
+>> >>
+>> >> On Fri, May 22, 2020 at 5:22 PM Alexander Kanavin
+>> >> <alex.kanavin@gmail.com> wrote:
+>> >> >
+>> >> > Should there be a test for this functionality? Somewhere in oe-selftest perhaps where various package manager features are tested?
+>> >> >
+>> >> > Alex
+>> >> >
+>> >> > On Fri, 22 May 2020 at 17:13, Paulo Neve <ptsneves@gmail.com> wrote:
+>> >> >>
+>> >> >> Up to now the user defined metadata was set recipe wide,
+>> >> >> meaning all the packages generated in a recipe where the
+>> >> >> variable was set would get the same metadata. That is not
+>> >> >> always ideal and is counter to the per package control that
+>> >> >> is usually available.
+>> >> >>
+>> >> >> Keep support for package agnostic metadata but also add option
+>> >> >> to add it to a specific option like:
+>> >> >> PACKAGE_ADD_METADATA_${PN}_IPK = "mymeta: myvalue"
+>> >> >>
+>> >> >> Signed-off-by: Paulo Neves <ptsneves@gmail.com>
+>> >> >> ---
+>> >> >>  meta/classes/package.bbclass     | 4 ++--
+>> >> >>  meta/classes/package_deb.bbclass | 2 +-
+>> >> >>  meta/classes/package_ipk.bbclass | 2 +-
+>> >> >>  meta/classes/package_rpm.bbclass | 5 +++--
+>> >> >>  4 files changed, 7 insertions(+), 6 deletions(-)
+>> >> >>
+>> >> >> diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+>> >> >> index 0b5cf47749..1678e0d794 100644
+>> >> >> --- a/meta/classes/package.bbclass
+>> >> >> +++ b/meta/classes/package.bbclass
+>> >> >> @@ -637,9 +637,9 @@ def get_package_mapping (pkg, basepkg, d, depversions=None):
+>> >> >>
+>> >> >>      return pkg
+>> >> >>
+>> >> >> -def get_package_additional_metadata (pkg_type, d):
+>> >> >> +def get_package_additional_metadata (pkg_type, pkg_name, d):
+>> >> >>      base_key = "PACKAGE_ADD_METADATA"
+>> >> >> -    for key in ("%s_%s" % (base_key, pkg_type.upper()), base_key):
+>> >> >> +    for key in ("%s_%s" % (base_key, pkg_type.upper()), "%s_%s_%s" % (base_key, pkg_name, pkg_type.upper()), base_key):
+>> >> >>          if d.getVar(key, False) is None:
+>> >> >>              continue
+>> >> >>          d.setVarFlag(key, "type", "list")
+>> >> >> diff --git a/meta/classes/package_deb.bbclass b/meta/classes/package_deb.bbclass
+>> >> >> index 790b26aef2..6ef9c8cb3a 100644
+>> >> >> --- a/meta/classes/package_deb.bbclass
+>> >> >> +++ b/meta/classes/package_deb.bbclass
+>> >> >> @@ -167,7 +167,7 @@ def deb_write_pkg(pkg, d):
+>> >> >>
+>> >> >>          # more fields
+>> >> >>
+>> >> >> -        custom_fields_chunk = get_package_additional_metadata("deb", localdata)
+>> >> >> +        custom_fields_chunk = get_package_additional_metadata("deb", pkgname, localdata)
+>> >> >>          if custom_fields_chunk:
+>> >> >>              ctrlfile.write(custom_fields_chunk)
+>> >> >>              ctrlfile.write("\n")
+>> >> >> diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+>> >> >> index c008559e4a..f78cec7a70 100644
+>> >> >> --- a/meta/classes/package_ipk.bbclass
+>> >> >> +++ b/meta/classes/package_ipk.bbclass
+>> >> >> @@ -155,7 +155,7 @@ def ipk_write_pkg(pkg, d):
+>> >> >>              else:
+>> >> >>                  ctrlfile.write(c % tuple(pullData(fs, localdata)))
+>> >> >>
+>> >> >> -        custom_fields_chunk = get_package_additional_metadata("ipk", localdata)
+>> >> >> +        custom_fields_chunk = get_package_additional_metadata("ipk", pkgname, localdata)
+>> >> >>          if custom_fields_chunk is not None:
+>> >> >>              ctrlfile.write(custom_fields_chunk)
+>> >> >>              ctrlfile.write("\n")
+>> >> >> diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+>> >> >> index 9145717f98..ab019192da 100644
+>> >> >> --- a/meta/classes/package_rpm.bbclass
+>> >> >> +++ b/meta/classes/package_rpm.bbclass
+>> >> >> @@ -295,7 +295,6 @@ python write_specfile () {
+>> >> >>      srcmaintainer  = d.getVar('MAINTAINER')
+>> >> >>      srchomepage    = d.getVar('HOMEPAGE')
+>> >> >>      srcdescription = d.getVar('DESCRIPTION') or "."
+>> >> >> -    srccustomtagschunk = get_package_additional_metadata("rpm", d)
+>> >> >>
+>> >> >>      srcdepends     = d.getVar('DEPENDS')
+>> >> >>      srcrdepends    = []
+>> >> >> @@ -333,6 +332,8 @@ python write_specfile () {
+>> >> >>          pkgname = localdata.getVar('PKG_%s' % pkg)
+>> >> >>          if not pkgname:
+>> >> >>              pkgname = pkg
+>> >> >> +
+>> >> >> +        srccustomtagschunk = get_package_additional_metadata("rpm", pkgname, d)
+>> >> >>          localdata.setVar('PKG', pkgname)
+>> >> >>
+>> >> >>          localdata.setVar('OVERRIDES', d.getVar("OVERRIDES", False) + ":" + pkg)
+>> >> >> @@ -351,7 +352,7 @@ python write_specfile () {
+>> >> >>          splitlicense = (localdata.getVar('LICENSE') or "")
+>> >> >>          splitsection = (localdata.getVar('SECTION') or "")
+>> >> >>          splitdescription = (localdata.getVar('DESCRIPTION') or ".")
+>> >> >> -        splitcustomtagschunk = get_package_additional_metadata("rpm", localdata)
+>> >> >> +        splitcustomtagschunk = get_package_additional_metadata("rpm", pkgname, localdata)
+>> >> >>
+>> >> >>          translate_vers('RDEPENDS', localdata)
+>> >> >>          translate_vers('RRECOMMENDS', localdata)
+>> >> >> --
+>> >> >> 2.20.1
+>> >> >>
+>> >> >>
+>> >> 
