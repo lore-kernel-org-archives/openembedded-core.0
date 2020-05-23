@@ -1,65 +1,61 @@
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
- by mx.groups.io with SMTP id smtpd.web10.505.1590188727808169440
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web10.1541.1590199557984621325
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 May 2020 16:05:28 -0700
+ Fri, 22 May 2020 19:05:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dor7Ipa0;
- spf=pass (domain: gmail.com, ip: 209.85.222.48, mailfrom: armccurdy@gmail.com)
-Received: by mail-ua1-f48.google.com with SMTP id z12so4344021uap.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 May 2020 16:05:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Umhe52cfn4HOxt4QhN5m1iip1vQikpFT1HAemDIYyKQ=;
-        b=dor7Ipa0YioPXEKH1R8BxJlcHhSeZ3FKxg6IDQ3r4LmjO+T/c9M07KeoOoPuy7o2T0
-         6yZL/lj4NaYbEwyySoApFomjATfTlxyXWx69Ip6X/EubZ+mGeL3KOHLawEcS+xKJGL6a
-         IeRraj84WVH8Xt7iFaSMNQx3QXmXEZkZ/SijV9+a8xOsHL5+Sdz1z6S0zFRK6rLACfvX
-         datTTuN2l+wJJovEt3xsMO8LrtxbhPN40Qx7RHs4JZXIwu+S4eH40aCLbPk6KXXBHO1m
-         pCUQtvwjlOaLY+UL5sQ4WYuXPcYkC1M8C8fE6mgbjykT0YrdMrS0v/tV7lBS0FSoV00E
-         w7CA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Umhe52cfn4HOxt4QhN5m1iip1vQikpFT1HAemDIYyKQ=;
-        b=n7oJ0r40BkriSXF04Z3UAp5drB8ZxZp9wF2SpBPOljV8SLsBtq40phrtRU62i2U4k7
-         xPTRKR44plMJ+1lGgiFjvtIyw1w3a6vCnkhsi4TcgtLm9kaE+XDexwi5Gw9UxWpk4/jv
-         7uNlumGrXnBU0ArF5fdxEg+pNyyp7EYe4OilCvtzPJSLQ/yzdt/TCfUm2rrNHnCbmm1q
-         Zxncn4pRnH7ZD9fI/wYMfno+MyaWosjSk+00gy7oykHFju+PgOkzCNYNi3Gq8LKky7HT
-         vZo6pTLIhd6IIWJ+rzIN999so2RsrBSD5iqhjrjrWBChh8Ih5RhAsuflvjtwn+kdNljX
-         vP/Q==
-X-Gm-Message-State: AOAM532I5H3MmvNN6Dn3NzRT2GTlbjMnH+ZWAZj7qKo2qRUM7EKSvt/S
-	fNTAjKA1wHrrssEAHRlS3LbwNoL6bupSRpQ2hgQ=
-X-Google-Smtp-Source: ABdhPJy3VpMu5hMIc0/Q5Tr1o9nvXxyxVuwuN9I/eWd7Xvhy8HN+w1miHeq+fc1SUxfm8L1os5aVi68P+416ypPvook=
-X-Received: by 2002:ab0:d97:: with SMTP id i23mr12891802uak.106.1590188725475;
- Fri, 22 May 2020 16:05:25 -0700 (PDT)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.73,423,1583164800"; 
+   d="scan'208";a="92848536"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 23 May 2020 10:05:53 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id 526AC46B5FAD
+	for <openembedded-core@lists.openembedded.org>; Sat, 23 May 2020 10:05:52 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Sat, 23 May 2020 10:05:53 +0800
+From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core] [PATCH] strace: upgrade 5.5 -> 5.6
+Date: Sat, 23 May 2020 19:05:36 +0800
+Message-ID: <1590231936-22488-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <CAJ86T=VDtvME1EVBfVOBW5U+84dkpD03ksHJdik15CSOG84Xgg@mail.gmail.com>
- <22249.1590187832432063263@lists.openembedded.org>
-In-Reply-To: <22249.1590187832432063263@lists.openembedded.org>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Fri, 22 May 2020 16:05:13 -0700
-Message-ID: <CAJ86T=XCcNzYqkjPxy7fe5eEyfkVHhbRa=GtAowZm_cM6RHF9Q@mail.gmail.com>
-Subject: Re: [OE-core] gtest and gmock not added to SDK
-To: Tom Hochstein <tom.hochstein@nxp.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
+X-yoursite-MailScanner-ID: 526AC46B5FAD.A9235
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-On Fri, May 22, 2020 at 3:50 PM Tom Hochstein <tom.hochstein@nxp.com> wrote:
-> On Fri, May 22, 2020 at 03:33 PM, Andre McCurdy wrote:
-> On Fri, May 22, 2020 at 5:48 PM Tom Hochstein <tom.hochstein@nxp.com> wrote:
->
-> The gtest and gmock packages provided by googletest are not added to the SDK by default. I assume it is because the googletest main package is empty?
->
-> Are you including googletest in the image used to create the SDK or
-> gmock and gtest?
->
-> It looks like gmock and gtest are only mentioned in the googletest
-> recipe as PROVIDES, so they are aliases for build time dependencies
-> only. For run time dependencies you should use googletest.
->
-> Right, I should have mentioned that. I have a DEPENDS on gtest for a package in my image. To fix the SDK, I added an RDEPENDS on googletest from the same package.
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ meta/recipes-devtools/strace/{strace_5.5.bb => strace_5.6.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/strace/{strace_5.5.bb => strace_5.6.bb} (92%)
 
-What you have done is probably the best solution. You could
-alternatively add googletest to the image.
+diff --git a/meta/recipes-devtools/strace/strace_5.5.bb b/meta/recipes-devtools/strace/strace_5.6.bb
+similarity index 92%
+rename from meta/recipes-devtools/strace/strace_5.5.bb
+rename to meta/recipes-devtools/strace/strace_5.6.bb
+index ae552da028..5015e87b22 100644
+--- a/meta/recipes-devtools/strace/strace_5.5.bb
++++ b/meta/recipes-devtools/strace/strace_5.6.bb
+@@ -15,8 +15,8 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://uintptr_t.patch \
+            file://0001-strace-fix-reproducibilty-issues.patch \
+            "
+-SRC_URI[md5sum] = "dbce2e84632b39a4ed86b9fc60447af9"
+-SRC_URI[sha256sum] = "9f58958c8e59ea62293d907d10572e352b582bd7948ed21aa28ebb47e5bf30ff"
++SRC_URI[md5sum] = "f8e0394d4e537b3faadf0a72f5d1d17e"
++SRC_URI[sha256sum] = "189968eeae06ed9e20166ec55a830943c84374676a457c9fe010edc7541f1b01"
+ 
+ inherit autotools ptest
+ 
+-- 
+2.17.1
+
+
+
