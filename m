@@ -1,74 +1,140 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web10.15111.1590333855394513560
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+ by mx.groups.io with SMTP id smtpd.web11.16141.1590337051773994209
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 May 2020 08:24:15 -0700
+ Sun, 24 May 2020 09:17:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HwmnyIU2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id j16so2482600wrb.7
-        for <openembedded-core@lists.openembedded.org>; Sun, 24 May 2020 08:24:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oNYU7j/P;
+ spf=pass (domain: gmail.com, ip: 209.85.208.194, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f194.google.com with SMTP id z18so18206005lji.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 24 May 2020 09:17:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=AjKFX9EmXXj6nzpGfzS/awxGnYqijGOS2ES4rqdRpdo=;
-        b=HwmnyIU2NgMnLFuzoqIVGrOj/f8PjujvAf8lbEc/q78nsIC3xDVWNqDPYsbAX16mVo
-         u2KxWeXG0KebJkf0JZEevtP55IQXcqfPVWuW4zjUjIi6ZI/+MXpVGWOGvwb0zzXM/BIk
-         e0PYqVZfG1rcVZlkWxRjgeUUHiMrJ1RNZ03KA=
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yITJSqBvQLC7ko0/1ZJY8d/zVjRZcbrOd/w0VkIAO1E=;
+        b=oNYU7j/Pspmho8Hk4Bz378aTSUiBseZ5qQBD6w3qZrC41+EPVFKCWLi2NaxQHGUT3a
+         TLhjfMJNRYa8hi7VcmLCwCJTpO+m9h5vCGRz13mXOtos7Kwtv6U+VKJT0rb8jSsorZEn
+         owlCyTw2xEri7vD4yuKDIR3OxDDrCSUBY73nk8I6vsUeeu29sfdM98GmCtjTTkcWrhRS
+         VYR7wh2iLMPIcIVYL3TPzc3ylGHE5nT8vtHbr3LNquAlcdGoPvlQpBlaK/pYLMOrBpkG
+         PBVxt3OViCmtcRGcxUbkFg6JGzUtGjy2g4kZeWj4iV0qKC4FOT/00VSPYbJWuyDmQfgQ
+         5TzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=AjKFX9EmXXj6nzpGfzS/awxGnYqijGOS2ES4rqdRpdo=;
-        b=MB9nL29fE0/foMfGroCBye6gnMi+nmgDwFhHUs+ScRsM00/bIhYnBXRbpkVPFuP0+O
-         NeDwWCYB3yxJk5/FVo+dWdkLo+QZryGb44EeWRLcIPZxNAyt7XMUs65krI+iUPpsOI3Q
-         4n7DuyG4z6s1XW7lPk4IADVKS+AET2MerPld3gn1NMKh8UrUkj7ySwCxD5G1TAwE5vM4
-         U+0c6LA4lOVrQZP/kL6ctkfFwOV3MjdeM6UIRzYuqlvmmb0oRPotNch/geFgPh7bHxye
-         DtB/JRzknaF060lrue25shxqMZO82/GRFl34C1veM56rwl5rPak5MbyAsXQNOWvIeAjc
-         NeEA==
-X-Gm-Message-State: AOAM532SVZBuujYehdn9YP3oFSlxabJHTsXwGTQ9iP69EIaTcQ5evOh+
-	Du9mw6RDT2oBQNek53XwvgQ8tg==
-X-Google-Smtp-Source: ABdhPJxdQm89cbLSDCaggDHko47SeSi96km+CHC0O1xLDPS/C6R373TThTfjwuUr9dNIsM355Sww2w==
-X-Received: by 2002:adf:8563:: with SMTP id 90mr11177348wrh.74.1590333853936;
-        Sun, 24 May 2020 08:24:13 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id d4sm14821777wre.22.2020.05.24.08.24.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2020 08:24:13 -0700 (PDT)
-Message-ID: <0f497fa917b7831dff5cf53553758d96c18e30a4.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] docbook-xml: update recipe to stick with the upstream
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Gregor Zatko <gzatko@gmail.com>, openembedded-core@lists.openembedded.org
-Cc: Gregor Zatko <gzatko@zoznam.sk>
-Date: Sun, 24 May 2020 16:24:12 +0100
-In-Reply-To: <20200523191238.1224501-1-gzatko@gmail.com>
-References: <20200523191238.1224501-1-gzatko@gmail.com>
-User-Agent: Evolution 3.36.1-2 
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=yITJSqBvQLC7ko0/1ZJY8d/zVjRZcbrOd/w0VkIAO1E=;
+        b=aX5I+Pghxm+/j4JeZCHJoNa8CNzhcQaPc+6gPom9YvneQ2WB//WgC4PVXmjGLbxjsQ
+         Jmn296f/cTJuuROLXVU9PEo+whCxvZCtkFxQ9X4CdAp4lx1ZgMxqonbsrhJiMFgllJKd
+         0T/75FCj0K//53INVVJHxrmZ6+xcIY5JObpkM3sPtlNkGj/Oxhz+EbvBa/5AQvY6jI9d
+         PepeZBnZw8YiqIc0SDSW9s2uosMz/q/y1CPBRAUYL7obQxb/hH0HyYkCLBHGFV5+gmfY
+         sOSPiY3fOAI0Bo6Tj4YnwcZXBHwISioFasPWHEopkpTGAbmy/cq0vZ6gjV4Eb28qaOtg
+         HM8A==
+X-Gm-Message-State: AOAM533fFKNAU82XD25F0nKgfOf/gHJGkgyfbu31f8uGKHs83rlCqqxv
+	obZyxhGnwOPSGa1jUgGMj4+iAN9E
+X-Google-Smtp-Source: ABdhPJwcmdXsSBEj/e2g/KDM4BV2wwOKMDf7LRfoc6M+61s/DJzLoeBAtroAqadafpYOiDfjS0zwvQ==
+X-Received: by 2002:a2e:150f:: with SMTP id s15mr11641756ljd.102.1590337049570;
+        Sun, 24 May 2020 09:17:29 -0700 (PDT)
+Return-Path: <liu.ming50@gmail.com>
+Received: from peterliu-Precision-7530.lan (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
+        by smtp.gmail.com with ESMTPSA id y8sm3758405ljh.83.2020.05.24.09.17.28
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 24 May 2020 09:17:29 -0700 (PDT)
+From: "Ming Liu" <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: stefan.agner@toradex.com,
+	max.krummenacher@toradex.com,
+	Ming Liu <ming.liu@toradex.com>
+Subject: [OE-core] [PATCH] u-boot: change ${PN} to u-boot when install/deploy u-boot-init-env
+Date: Sun, 24 May 2020 18:17:51 +0200
+Message-Id: <20200524161751.22577-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2020-05-23 at 21:12 +0200, Gregor Zatko wrote:
-> From: Gregor Zatko <gzatko@zoznam.sk>
-> 
-> Until now a Debian package has been used as a source.
-> This change just switches it to project's upstream.
-> 
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13270
-> 
-> Signed-off-by: Gregor Zatko <gzatko@gmail.com>
-> ---
->  .../docbook-xml-update-catalog.xml.patch      | 515 ------------------
->  .../docbook-xml/docbook-xml-dtd4_4.5.bb       |  65 ++-
->  2 files changed, 36 insertions(+), 544 deletions(-)
->  delete mode 100644 meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/docbook-xml-update-catalog.xml.patch
+From: Ming Liu <ming.liu@toradex.com>
 
-Unfortunately test builds failed:
+It's really inconvenient to have ${PN} as part of the name of
+u-boot-init-env, for instance, in BSP layers, it could be u-boot-fslc,
+u-boot-qoriq, u-boot-toradex, and so on.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/2176
+Considerring there is only one virtual/bootloader for a build, we could
+replace ${PN} with u-boot to not have to distinguish different names
+when accessing it.
 
-Cheers,
+Signed-off-by: Ming Liu <ming.liu@toradex.com>
+---
+ meta/recipes-bsp/u-boot/u-boot.inc | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-Richard
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 80f828df52..188e5295cf 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -156,10 +156,10 @@ do_install () {
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
+ 
+                     # Install the uboot-initial-env
+-                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${type}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
++                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR}
++                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${type}
++                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${type}
++                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env
+                 fi
+             done
+             unset  j
+@@ -170,9 +170,9 @@ do_install () {
+         ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+ 
+         # Install the uboot-initial-env
+-        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
++        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}-${PV}-${PR}
++        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env-${MACHINE}
++        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/u-boot-initial-env
+     fi
+ 
+     if [ -n "${UBOOT_ELF}" ]
+@@ -245,7 +245,7 @@ PACKAGE_BEFORE_PN += "${PN}-env"
+ 
+ RPROVIDES_${PN}-env += "u-boot-default-env"
+ FILES_${PN}-env = " \
+-    ${sysconfdir}/${PN}-initial-env* \
++    ${sysconfdir}/u-boot-initial-env* \
+     ${sysconfdir}/fw_env.config \
+ "
+ 
+@@ -269,10 +269,10 @@ do_deploy () {
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
+ 
+                     # Deploy the uboot-initial-env
+-                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
++                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR}
+                     cd ${DEPLOYDIR}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${MACHINE}-${type}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${type}
++                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} u-boot-initial-env-${MACHINE}-${type}
++                    ln -sf u-boot-initial-env-${MACHINE}-${type}-${PV}-${PR} u-boot-initial-env-${type}
+                 fi
+             done
+             unset  j
+@@ -287,10 +287,10 @@ do_deploy () {
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
+ 
+         # Deploy the uboot-initial-env
+-        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
++        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/u-boot-initial-env-${MACHINE}-${PV}-${PR}
+         cd ${DEPLOYDIR}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${PN}-initial-env-${MACHINE}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${PN}-initial-env
++        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} u-boot-initial-env-${MACHINE}
++        ln -sf u-boot-initial-env-${MACHINE}-${PV}-${PR} u-boot-initial-env
+     fi
+ 
+     if [ -e ${WORKDIR}/fw_env.config ] ; then
+-- 
+2.26.2
 
