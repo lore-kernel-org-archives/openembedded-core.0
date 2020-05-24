@@ -1,53 +1,57 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web12.11315.1590315683490744958
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web11.11554.1590315849560427826
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 May 2020 03:21:23 -0700
+ Sun, 24 May 2020 03:24:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Ajx9LSyN;
- spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: gzatko@gmail.com)
-Received: by mail-wm1-f50.google.com with SMTP id n5so14297001wmd.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 24 May 2020 03:21:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=LK0NBCqf;
+ spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: gzatko@gmail.com)
+Received: by mail-wm1-f66.google.com with SMTP id v19so7108083wmj.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 24 May 2020 03:24:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=RJmkA3CHHKF303Earv/Gu+K1zRBuhRFvY4+PrFR/dyU=;
-        b=Ajx9LSyNDv/o8+puLAqmOIdQ7+it4Pw7bPCyLbidJrlR6M0Ct8otI0St4YuznBaKo6
-         HFH9E0BThsD/EcPevl2J4qlmlLPRWJjNwqvmNrv5ViIzwXyRsYM8senOh9eBFBofaolC
-         NF19lRfavXRJzZI25miiROvZIXIWtHNLdVA0DWRAgJ8kJdZBrAV7jHg68AGicDeQem1u
-         HJiZzioZMwbyXJN8Xd2c3asajm3oAwl1oJ8YMzWLTrh4DWy9gjcJcleFHvVDdyzV9iaP
-         93V9G5DKpEdr3z9ktLPcSxclBYN8Rgi7tatZ2HnCwYAZep1WDQMhOLESZrRze4VKMyKL
-         SG/g==
+        bh=BQE+mRoAoRRMfALKKEQSVhGbe/54YL94HIv51g2ttmc=;
+        b=LK0NBCqfQ8uA9cn7jmmWNuxSu4paGj6mgu7S4cdrv7X2l71yK1HP6XMkvkGgROLdtc
+         dx/5e3Sym77laCWL6j8gRmemJnpftka3aOKm5MUwR4KU8k6IZATDb/Mv2CDLdq+Ef+DE
+         I1h+u6NW0yljiguYXNc3OBrKucJ2rDh+osXLFTwUY1koHjQRLWlIKgq+IdiA3EgUP077
+         +9UjqKEIwYXIybJpF9mmwMhMNZgoXD89Di61kgQUaNrg1yDRCLr38aNriLQeIKzLjAWm
+         R806TI4KqjV3YzmmgPsYC/ZV+sPXJSq/sjS7BqQDe+tPDZVCoF6VW+CnD2bhscEeplLq
+         siNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=RJmkA3CHHKF303Earv/Gu+K1zRBuhRFvY4+PrFR/dyU=;
-        b=CeTWB8YonbfXh/MOZJWjXButa1IQDbY+4Kg2olF2QLJ44ISNUGR4jMvRub18oaMknn
-         rxVntyDGwDXD3lrPsoXuKw7xYuMgBw5Apq7ew9TethQYyR01+Wb1OHBnWKxiY9VysaTv
-         Lu4EYjwR7iQl2vfzeNR8kUWS+VeMyoxay0K2mf5Y3d6e682z8aUclqqIpdN/gBXrjiMD
-         LowG9pI8qcpj0gFoHW0HQQWtj7WCmPLi+6rj6RIT4AYlLerazxc3cMMeFXkA8ZQZyHgs
-         JfXiiwp6OtPMJInb4zQYMX0wE8rPcP7ZuoqOte1q/LppALp0vvHiiahpvBCpRtoMm/5G
-         Z5ug==
-X-Gm-Message-State: AOAM530MsELU6enwMPm4dCYcLtOtCncm8zZR5TIY5dmokG00WnQasTX6
-	uVhyCMqVN5CXRs3R2miORkm3CkNAtRM=
-X-Google-Smtp-Source: ABdhPJx6VYUjCVV/nfWQWDtVwvBzP8tl73zB6ndQZm0V5wL+YHxWW7nn+qIddEUULzKhcCiLvNmhxw==
-X-Received: by 2002:a7b:cb91:: with SMTP id m17mr198379wmi.126.1590315681512;
-        Sun, 24 May 2020 03:21:21 -0700 (PDT)
+        bh=BQE+mRoAoRRMfALKKEQSVhGbe/54YL94HIv51g2ttmc=;
+        b=AwcoWmex+kOobac0c0mYF1eOaNXGcJvI52VuS2sS5gMVOtu825+Z3n4QXwN/vLo1Pu
+         cMZxPCRPIlCxuvFekyHQyX5p2Cm9brphVBcM2KB383SZ4z7OkeLGhJsgVl9g0N5nwhBg
+         RphCfV0GFgnzoobdkX0nS8rNtuQK4jwxdKMEQkpUUnBP7f2Lm6nS1g/OVROpK7vm0V8a
+         8FJ0COQY4ibDV4viEcH+UVemzuWCxlsCBXmniab3pwf6TPUFGInXpDxWVSFdvd9HZ7T4
+         eW1gKcYEA62XdMPULOsm91HDfcuPP43euNuE+PW41RKnKIXkrOnal/efHg7Ni62duNAh
+         KOkg==
+X-Gm-Message-State: AOAM531ah4qoyrAdQW7FbUNxLOQG5s1YqPVmla+Mwh3BSl1/Hd45UtYP
+	RqJtJhv7mGPnUjkQOTQeIbBpGlVoHqg=
+X-Google-Smtp-Source: ABdhPJz5iiHORsJutrgv5u1w8TFCezdsElFwhy9bfuDsG/GUXGX5tOqIkembWL8dxrEhbtJ9P8T59w==
+X-Received: by 2002:a1c:998c:: with SMTP id b134mr16076908wme.78.1590315847336;
+        Sun, 24 May 2020 03:24:07 -0700 (PDT)
 Return-Path: <gzatko@gmail.com>
 Received: from blizzard-1040g6.lan (93.184.67.240.host.vnet.sk. [93.184.67.240])
-        by smtp.gmail.com with ESMTPSA id 94sm15110531wrf.74.2020.05.24.03.21.20
+        by smtp.gmail.com with ESMTPSA id i3sm9399887wrm.83.2020.05.24.03.24.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 May 2020 03:21:21 -0700 (PDT)
+        Sun, 24 May 2020 03:24:06 -0700 (PDT)
 From: "Gregor Zatko" <gzatko@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] 'inherit' directive may not be used in conf files as it's supposed to be used for the inheritance of classes. Correct form in conf file is INHERIT.
-Date: Sun, 24 May 2020 12:21:16 +0200
-Message-Id: <20200524102116.3929380-1-gzatko@gmail.com>
+Subject: [PATCH] sanity.bbclass: Detect and fail if 'inherit' is used in conf file
+Date: Sun, 24 May 2020 12:24:04 +0200
+Message-Id: <20200524102404.3931276-1-gzatko@gmail.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+
+'inherit' directive may not be used in conf files as it's supposed
+to be used for the inheritance of classes.
+Correct form in conf file is INHERIT.
 
 This commit adds:
 - a sanity check to find whether the wrong case exists
