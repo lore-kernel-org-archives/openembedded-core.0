@@ -1,82 +1,79 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web11.40982.1590446259586526708
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+ by mx.groups.io with SMTP id smtpd.web10.41065.1590446262193781294
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2020 15:37:39 -0700
+ Mon, 25 May 2020 15:37:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=xI1Qx8JE;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f46.google.com with SMTP id 5so412034pjd.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 15:37:39 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=zwFbM30P;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.51, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f51.google.com with SMTP id l73so4154631pjb.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 15:37:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=JAhnH3fmefehTOrWJe5gaN2fDpZ3fsUZhWqRUh4xOk4=;
-        b=xI1Qx8JEMbiOGWT4oUc5BdDw0mT7b5c6WF4SmPjZ6O6RJ1fEzzMVBYmL8S5nzsQ08G
-         P+8BebHrt3LGftTf8rXuuJmyHX/823ia+xZSeFs+FTTnyNsGpZJwl8xEVajWaEIqVW+X
-         wC+5Iaz9woQ+9C9QIqolYDaU57ppu6UgW6ocI6ZifzTtrxTAXcACU1lUNQQBtS+SffVS
-         HX1XU8INa+eVkqIsHkOThzFtlegTfk4kBoGZ1cZZpT03xjYOM9pDEbwduggC9fIlQGTy
-         jJxYYx2KPp0/GbQabCir0vbNClTeROPX1o3q/uyei1lK1oJXX+Ze9B5Wk+IcIsR22iv6
-         r+KA==
+        bh=EFnO2+ilI+LdMIN2iAvisOOaiv+4TZxGGswqO1sA0Uc=;
+        b=zwFbM30PVxKn4At/X2oYYT6DEV6r/+IRfA6Ogc0SPRZpMSlxfpvLxiCuPm+qChn0Rz
+         OSPssIT2H+JJw5blkFuYRBEJvCj5hn3Q8Um04uvNEHkLed5mPbItmA9vYpi9RvWGLe8V
+         ndJ3gK2HaUaSGXljWLxwD6MALgnlgVQP7BMjroJaF9dgzwS16KZ/G3eVYw1nSv+OmOxZ
+         YGPQGNRIdXrNgjP3FXHHJR9047MEcnVB6iGBF5m50NIs1hHmFuC8FL/h+mFbs5psNG9k
+         Al7xhnZA51dBNgozRmOAbUx2mu1HqihqwvlYFtNGi/7obAFDMWFbdpqaJtl0PqWiSCSF
+         MFgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=JAhnH3fmefehTOrWJe5gaN2fDpZ3fsUZhWqRUh4xOk4=;
-        b=g0ToRFpO4+wTOw1um6HWyFUPMh7IPaCDzO99jgseSde1hVDXZsCqO7QwNGcR3eM48A
-         hklgdPukNg/zpNR+rqFsGJWSqcFvZqdPJjghnbT1QjES71btakntzx4ywLp57R3VChRp
-         nyp2JQsbmxkPlveYK9U19aWgd/J8bN9zCVdqffHIdFWV3JYBnl4CCaLIxtV28StHsCd3
-         4JjJrFF3MVzpSQg2HwDT99McsQoRA1eEXPsnuwRqg2SyCckcw6Q750IgcdrVyyr9oAfM
-         jdcOuLPPYtUqoINilWWe/UHAn0Rk0pbH91KKEs826kLxYkY6ttAft2eKM1ZxJfziorYo
-         xY7A==
-X-Gm-Message-State: AOAM531LbzSDySHMF1V1V4X14bIp4RxO9JC04GUGXhzgKJk67jsOgmpM
-	RHIXtrHojCJ+iFB1Vh3cufvTfk7x+ak=
-X-Google-Smtp-Source: ABdhPJzATGT9fbFU1F59D/NkPKv5VSUWf92lPofT/MoMotUfgnQ/pjxzUAhQmFIhSicc1/i6up+StA==
-X-Received: by 2002:a17:90a:734b:: with SMTP id j11mr15488623pjs.114.1590446258739;
-        Mon, 25 May 2020 15:37:38 -0700 (PDT)
+        bh=EFnO2+ilI+LdMIN2iAvisOOaiv+4TZxGGswqO1sA0Uc=;
+        b=iKExuEyNK7eoi3I6ZhJPP5H8qWcwgdoWJgqJk8uLh4JAjbXNEbb65En2zQv7L1E9m+
+         oLC7aFxJ+ZpLD8nEdUUlsXDtHAlvas5lKNaZA0tCQKMJupCh5eGd7SvftYAotJuRfs2K
+         GPq/40b3o0i803AU6l9RaPYMAqGLDQtgJLnBqe5LgXSVRL3oNmrwFQQgp53tv+a4EiCB
+         G2B7fSlAdfU3TuGKcR6N+oYglrsZfJIzW/U4D6O+NosgVzcwDc6dmzvI2iYKIvYSLwbY
+         1iiSwv2O0zXD+0+r86ONb65IO/EbXCr/kq6PbDLl0JhoA3rPs9adaLCz69J09Xp34rg8
+         5vzw==
+X-Gm-Message-State: AOAM531dWljcVz1vbi7+MrKBtBwY8Ck+op7j7owqaBL0szUQU+heZF0l
+	vJN2durcQPopeeFlwrI7d8Jjg5TJu9I=
+X-Google-Smtp-Source: ABdhPJxwrdpj3pWsO1zZv0+b0KiDMSgYFI/Tuz+89kUo0VhkYmpLNUjVg0hqr/T2IoRe2GTKXu0rYQ==
+X-Received: by 2002:a17:902:9d94:: with SMTP id c20mr30018332plq.224.1590446261291;
+        Mon, 25 May 2020 15:37:41 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y23sm1990432pje.3.2020.05.25.15.37.37
+        by smtp.gmail.com with ESMTPSA id y23sm1990432pje.3.2020.05.25.15.37.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2020 15:37:38 -0700 (PDT)
+        Mon, 25 May 2020 15:37:40 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 08/17] make-mod-scripts: Fix dependence error.
-Date: Mon, 25 May 2020 12:36:54 -1000
-Message-Id: <354adf441ac880fe3759af594f9669c3a7eb3308.1590445868.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 09/17] libubootenv: Depend on zlib
+Date: Mon, 25 May 2020 12:36:55 -1000
+Message-Id: <dc5babe9472ba7379edbb17b6cbac44604606b26.1590445868.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1590445868.git.steve@sakoman.com>
 References: <cover.1590445868.git.steve@sakoman.com>
 
-From: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
+From: Marek Vasut <marex@denx.de>
 
-Error:
- Problem: conflicting requests
-  - nothing provides make-mod-scripts = 1.0-r0 needed by
-make-mod-scripts-dev-1.0-r0
+The libubootenv depends on zlib as it calls at least crc32() from
+there and links against it. Add the DEPENDS entry.
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Signed-off-by: Marek Vasut <marex@denx.de>
+Cc: Stefano Babic <sbabic@denx.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 41fff377b921070f371c0aa639e37c27c113ccb9)
+(cherry picked from commit db513f9ec59b7ac526b2cdc42b0eb2573e134bc4)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-bsp/u-boot/libubootenv_0.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 460e05a445..0be1422a24 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -12,6 +12,8 @@ S = "${WORKDIR}"
- do_configure[depends] += "virtual/kernel:do_shared_workdir openssl-native:do_populate_sysroot"
- do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
+diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+index 3251d0f05b..fa90a12bf8 100644
+--- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
++++ b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+@@ -1,5 +1,5 @@
+ SUMMARY = "U-Boot libraries and tools to access environment"
+-DEPENDS += "mtd-utils"
++DEPENDS += "mtd-utils zlib"
  
-+RDEPENDS_${PN}-dev = ""
-+
- DEPENDS += "bc-native bison-native"
- 
- EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
+ DESCRIPTION = "This package contains tools and libraries to read \
+ and modify U-Boot environment. \
 -- 
 2.17.1
 
