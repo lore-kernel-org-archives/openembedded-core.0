@@ -1,88 +1,92 @@
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com [209.85.215.196])
- by mx.groups.io with SMTP id smtpd.web12.40856.1590446246530322039
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.41058.1590446249131364805
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2020 15:37:26 -0700
+ Mon, 25 May 2020 15:37:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=TesobYd9;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.196, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f196.google.com with SMTP id f21so6130679pgg.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 15:37:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=yMQzZW12;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id z64so4761152pfb.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 15:37:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=2nZJVLKm0LmOdaJgP7AfgEdF2Pli/V8un581lPVeBpE=;
-        b=TesobYd9t0eLwtvTiGN+xoM91MUKGBQtFCCYVRl1wkSbX1FYJDt5gEJ9Sr3zz3C/UX
-         nXDm80rTrGLEnd8eza3+mmY4b5MvCyGcKaLjvFQ0WZXtCvSCdcHt4/BbF2yWNkUbm1v+
-         oOnpwiwh5TMDsnXvdZhOUfFe4WFxKSBoiJbeIo3lml1y0GkBHKW4aA6FEu+KVgxV1EnI
-         Neg9mZth8JlxC8IbKKqmROxWALFRCy0W84SRICz3hvEiJZnLlFoXFqpuYKWAnjqGYyK0
-         Wzm5wwSQ0wT1Q4f9EZTLB6UnFv5PXtjScUHPWR/U8CD+/vWJtIgIeqeNwolQdJBlD9H7
-         V4DA==
+        bh=vGP5v4vX+W8zuzuwF6qkbYHpP49yKIdPQ1nzBwAdzWE=;
+        b=yMQzZW12Ymo9v/VE2OU3Eudq5UjMSsRLo74y1gUstYLNp4vDYTYWA2BUA4s//LW+b7
+         QjwSbU0Y9KGc8AjpgOdgUxtldjZdNaajZOWGg9lZ5l5alLax16SKaX7aRCPLDGh3MBHQ
+         Z9ccW6Q8SSsHfsJNDy69rmeFhFjXFyF0SQ2EcQKZGCRBaGH+ETRmIpVYW6Z4/0gZLiTx
+         rzwSBxtcQMBPdxiZCO/AvuRBylbQlCmQe+Hi27N5bTNasSc5ANeTn6pE0FDuM+N08weE
+         9M+8M+VBH6ryc7a/2tSWyVI2S4E8XflVkM4ZgQrXYuVB6YQ+tkr6IqCNqqE1nK5dykyK
+         88tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=2nZJVLKm0LmOdaJgP7AfgEdF2Pli/V8un581lPVeBpE=;
-        b=c9SzW9Ra0hkJit8jaFiaeSUjN9nG0Du4iATWdQMFZHMfjgnekG5saZ42L4T8a7mF4m
-         rtFb1n1RaCG1uhQGyaPjrnLkMJQsNSWRwECf/qL07vf65BdSPPYBEN+XcmPpIvVl10hS
-         37ed7KfrW1Aszg5o4WlAPpisfjHsw1T1VkErwJQ0OZxX3sIMkCic+GC7/xqwY/SxG+3R
-         sYBiEsB5eAFB3V5XlbBhUmQDzbMWjX1RB7NWDOAAwT0W8MDZC+wDNHfyutzy9XetDYXg
-         iuwtDz9eFv2rXggcUm0PXEm402Nuz4OpJmszfzZYJW3cAZHHKqmCnLldRSF7w3LJOXGK
-         oQVw==
-X-Gm-Message-State: AOAM531jbJ7rXXjNfx9U9F1qg+Yhat2muoYjFRIWttNywQ/nMH04JYTA
-	GM1rJmTjo7iT0zuGvoI2KCxmyaYkR7s=
-X-Google-Smtp-Source: ABdhPJzoxc+C2GY/txoP1S1FgZjUj5RUba9N88LxnUaedUIgad6SMcPYTJDvLBJHXicj8EgHC1AWyw==
-X-Received: by 2002:a62:3584:: with SMTP id c126mr19053670pfa.316.1590446245645;
-        Mon, 25 May 2020 15:37:25 -0700 (PDT)
+        bh=vGP5v4vX+W8zuzuwF6qkbYHpP49yKIdPQ1nzBwAdzWE=;
+        b=UKuFlH3lJgFKPuxowgIZJmGyUEIJ65vBrwuXKQSop9wWmL5id378PYtNk3aQJGPVwM
+         DQU6MrO2CNjcgrHJq5SQ5Umu6q9bAAVPa2MHukDfPCKbA0AaW/VJgwfjr4zFUsBRUbsx
+         ze3lEfVhchZcADPZbFhQHHhNamEQ8Lfwj5z++EbxbDFk0OjiIjMZ0rW5LsQEgfSKJ/fJ
+         JWLK6bWvrYqAnQ7d13dWvg1k/GJEj86wlZvQVNEFHlz47SKclAG5p3D+BMZvy1GXB9Xm
+         QTvr9Uw0/bHoh2vQGb4uVqi9u8AnENMqpr4WR/IXN5fD7JkrVlgnofrClTD3Raxn8NFT
+         xgvg==
+X-Gm-Message-State: AOAM5322ZV0MvMNbzrfsDmEg/kYGp+BXnf8M6M3MIn73sSEzz9dJurVf
+	9e6TtYDQodIpX/fNX0pObELEcF+L8I0=
+X-Google-Smtp-Source: ABdhPJw/CnfPYRi4NXmScMRGx4/OGGEmJCcaQXYeDi7IIjyGbAkSK1mL9vdfaoZgEUkU7f0/uMEviQ==
+X-Received: by 2002:a63:1608:: with SMTP id w8mr28546868pgl.232.1590446248196;
+        Mon, 25 May 2020 15:37:28 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y23sm1990432pje.3.2020.05.25.15.37.24
+        by smtp.gmail.com with ESMTPSA id y23sm1990432pje.3.2020.05.25.15.37.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2020 15:37:25 -0700 (PDT)
+        Mon, 25 May 2020 15:37:27 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/17] archiver.bbclass: Make do_deploy_archives a recursive dependency
-Date: Mon, 25 May 2020 12:36:49 -1000
-Message-Id: <66a2e4bcafb3f8835bb21d73a9e78e7d9d15bbd3.1590445868.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/17] python3-setuptools: add the missing rdepends
+Date: Mon, 25 May 2020 12:36:50 -1000
+Message-Id: <d19d1ccca3f86a59a72023727d3d804c2e9d18dc.1590445868.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1590445868.git.steve@sakoman.com>
 References: <cover.1590445868.git.steve@sakoman.com>
 
-From: Paul Barker <pbarker@konsulko.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-To ensure that archives are captured for all dependencies of a typical
-bitbake build we add do_deploy_archives to the list of recursive
-dependencies of do_build. Without this, archives may be missed for
-recipes such as gcc-source which do not create packages or populate a
-sysroot.
+Add the missing rdepends to fix below error:
+ # python3
+ [snip]
+ >>> import setuptools.lib2to3_ex
+ [snip]
+ ModuleNotFoundError: No module named 'lib2to3'
+ ModuleNotFoundError: No module named 'pickle'
 
-do_deploy_archives is also added to the recursive dependencies of
-do_populate_sdk so that all sources required for an SDK can be captured.
-
-Signed-off-by: Paul Barker <pbarker@konsulko.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit e1feb6030cd8e77c553ec10a366cbeb7e902bada)
+(cherry picked from commit be5c3c989d75290863cc7aef9949cf6e82d3070f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/archiver.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/python/python-setuptools.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 48b4913a9f..43333a7551 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -583,7 +583,9 @@ addtask do_ar_configured after do_unpack_and_patch
- addtask do_ar_mirror after do_fetch
- addtask do_dumpdata
- addtask do_ar_recipe
--addtask do_deploy_archives before do_build
-+addtask do_deploy_archives
-+do_build[recrdeptask] += "do_deploy_archives"
-+do_populate_sdk[recrdeptask] += "do_deploy_archives"
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 58267966ba..29be852f66 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -16,6 +16,7 @@ SRC_URI[sha256sum] = "89c6e6011ec2f6d57d43a3f9296c4ef022c2cbf49bab26b407fe67992a
+ DEPENDS += "${PYTHON_PN}"
  
- python () {
-     # Add tasks in the correct order, specifically for linux-yocto to avoid race condition.
+ RDEPENDS_${PN} = "\
++  ${PYTHON_PN}-2to3 \
+   ${PYTHON_PN}-compile \
+   ${PYTHON_PN}-compression \
+   ${PYTHON_PN}-ctypes \
+@@ -25,6 +26,7 @@ RDEPENDS_${PN} = "\
+   ${PYTHON_PN}-json \
+   ${PYTHON_PN}-netserver \
+   ${PYTHON_PN}-numbers \
++  ${PYTHON_PN}-pickle \
+   ${PYTHON_PN}-pkgutil \
+   ${PYTHON_PN}-plistlib \
+   ${PYTHON_PN}-shell \
 -- 
 2.17.1
 
