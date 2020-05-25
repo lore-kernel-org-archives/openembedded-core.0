@@ -1,80 +1,100 @@
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com [209.85.210.67])
- by mx.groups.io with SMTP id smtpd.web11.35174.1590426440173332038
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web12.38830.1590439112606082235
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2020 10:07:20 -0700
+ Mon, 25 May 2020 13:38:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=YeMWnfbK;
- spf=pass (domain: linaro.org, ip: 209.85.210.67, mailfrom: daniel.diaz@linaro.org)
-Received: by mail-ot1-f67.google.com with SMTP id d7so14258162ote.6
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 10:07:20 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AvcBWHEk;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id u13so1123470wml.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 13:38:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=R/EukZ3MDPfSKkV5S5/BO4d8+f66B5AID8I1zxQYj8s=;
-        b=YeMWnfbKWz5LXRqb7T7ctf8yxk+FpT0QV7ZFZp0RKAp1rfXvr7iIxysYFcdydswyf9
-         m8m/67FTFrGzS9AWWtqJrhoMfYONZNK0vB9AVScbH6fz+2nhjTQJq4Tyn12CcF0hIm7P
-         ENdgWSqU7LRG86CMgd2aoS+Vf0h2D3zb0+ZUt/27g2XrzFZ8XiKF7k23EyFfjzAecRw2
-         qOHK+HwbiXSRBTiHpHqpUBKyqLLhVMqJ5cIyTgaOglB16C30K72zkyFDiMZZuWQkH2Av
-         RURjy42xPmC2F3S2G/KGVUp5rEzeJEZIjB6F0H5D1wtc1BaccUHphEhNCT0sYGb6Zqe2
-         DfqA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=ZC7ycAhPtj6YjcW3GDQLkWUDxMLkLGuTlAXu2z/TEy4=;
+        b=AvcBWHEkMMhmnPso8SXyjS+0dGDb2skG9i3wwVUM+J791Mg4p2dhsQlN1rt9lJxRsx
+         W59swDYRmZNoQNwziTxXq6PY/sP1g98SgDM51qxm0kMHcK+rR7qMUlrQz4r/fvpAEnSb
+         gS6mkCcJf3ub8hnOfNZ0fdAsuGA0+GQ3sji20=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=R/EukZ3MDPfSKkV5S5/BO4d8+f66B5AID8I1zxQYj8s=;
-        b=pVxi3+kVXpKe2wh6WsJFOp8YnQ32q3pGWEiR6Xx7hVoKxntT2AnN7R3Hhqmg+NTXYY
-         VpMrmH2AjQ5bGE4trvk4y17ayPWjkRUxR2bmCAUkdkR1pbSj+0htYEEurDwECFp6mkMV
-         hcmVtugZtWHUZjeLv6HjbI5l6DQ1lG7aUmj57h2qfSTBSIP7QEIbdInYNWeQU9ZiQfl0
-         UwlNHsdueNtfZ+kgNKeO0+kj7G4TNNF3hIJV+y3U//auUqNtySrPsCNwnZi3AZz2wsue
-         uobbQ4blgSjcnG3boiW5+VwJuiDPwTNr8ZWopWdwEFH18kRDRMFwYfRWF1T1tSWvriUJ
-         05Aw==
-X-Gm-Message-State: AOAM5330/2BQ1PzNvkKPxhGm463NR8gNz7VUbqMNAkB1YIwi1IC02+W9
-	yimUAA9URE5g0ORXMKQcDVyrSizVfn4zYw==
-X-Google-Smtp-Source: ABdhPJy2EtFuERNfux3drUEX67BmWnETtLf7zAgCbXCsVZHNyaaiMdcg2sYugQ8rKo8BLhQs7Le8Ww==
-X-Received: by 2002:a05:6830:4d6:: with SMTP id s22mr13705061otd.330.1590426439105;
-        Mon, 25 May 2020 10:07:19 -0700 (PDT)
-Return-Path: <daniel.diaz@linaro.org>
-Received: from alago.cortijodelrio.net (CableLink-189-219-75-147.Hosts.InterCable.net. [189.219.75.147])
-        by smtp.googlemail.com with ESMTPSA id k18sm5239408otn.51.2020.05.25.10.07.17
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=ZC7ycAhPtj6YjcW3GDQLkWUDxMLkLGuTlAXu2z/TEy4=;
+        b=PCn+i1hn0EFOUggLFPMNVmm+gz2EhVOw90WipYAN4ISXlSNlDh0EnqhQWpwEGS5Dlw
+         m7CPnkGDOqIpoePvwZjDZgWk1232fVolaFXTdi8gr1I8zwJ6TfsZV5aaLYtH0+YHORyY
+         3Us5xyGo8ng2Uy4yO4Cf8T5iXGqjBL7qp4OEDUEUL6wAb4lOVnn4M63aEuJeWq2VKAHF
+         o8inAgHdg5YQ999fe6isnIrCirQyuwncaHoGD5Vb6Nlf+3k3yAo2B2D+HCfExlWbzo04
+         JueMXHEB/paiy25fLn46BFWhuaRvHgMOQVQBbXykwgqlMjrWA1Wtencn1T5x35nIOh4u
+         yHjw==
+X-Gm-Message-State: AOAM533xK0Uq7EgFnwqJvG5eAkzGdD1jIBN8TCNBOZBRLsW3IjrjekFY
+	+ba+GgHsmupvfuD/ZC0T7xMh7w==
+X-Google-Smtp-Source: ABdhPJwT5IgBvHhONR1/j9NQZ2weh350mHs7JmoqMIWW0dO3NfM/6T+KJrZkFFBOtVXab3widztYGg==
+X-Received: by 2002:a1c:7e43:: with SMTP id z64mr25919816wmc.72.1590439111099;
+        Mon, 25 May 2020 13:38:31 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id z25sm6045618wmf.10.2020.05.25.13.38.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2020 10:07:18 -0700 (PDT)
-From: "Daniel D?az" <daniel.diaz@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Daniel=20D=C3=ADaz?= <daniel.diaz@linaro.org>
-Subject: [PATCH] ltp: Add net-tools as rdependency
-Date: Mon, 25 May 2020 12:07:06 -0500
-Message-Id: <20200525170706.14494-1-daniel.diaz@linaro.org>
-X-Mailer: git-send-email 2.20.1
+        Mon, 25 May 2020 13:38:30 -0700 (PDT)
+Message-ID: <af89295856ed85a7c8b206db7a3ce49a7388f042.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] ltp: Add net-tools as rdependency
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Daniel D?az <daniel.diaz@linaro.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 25 May 2020 21:38:29 +0100
+In-Reply-To: <20200525170706.14494-1-daniel.diaz@linaro.org>
+References: <20200525170706.14494-1-daniel.diaz@linaro.org>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-The version of ifconfig provided by Busybox is not enough for
-some tests. Here's an example of how it fails with test
-netns_breakns_ns_exec_ipv4_ioctl:
-  ifconfig: bad address '192.168.0.2/24'
-  ifconfig: bad address 'inet6'
+On Mon, 2020-05-25 at 12:07 -0500, Daniel D?az wrote:
+> The version of ifconfig provided by Busybox is not enough for
+> some tests. Here's an example of how it fails with test
+> netns_breakns_ns_exec_ipv4_ioctl:
+>   ifconfig: bad address '192.168.0.2/24'
+>   ifconfig: bad address 'inet6'
+> 
+> This works with net-tools' ifconfig.
+> 
+> Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
+> ---
+>  meta/recipes-extended/ltp/ltp_20200515.bb | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-extended/ltp/ltp_20200515.bb
+> b/meta/recipes-extended/ltp/ltp_20200515.bb
+> index e82f6b33a1..317a4e461a 100644
+> --- a/meta/recipes-extended/ltp/ltp_20200515.bb
+> +++ b/meta/recipes-extended/ltp/ltp_20200515.bb
+> @@ -89,6 +89,7 @@ RDEPENDS_${PN} = "\
+>      ldd \
+>      libaio \
+>      logrotate \
+> +    net-tools \
+>      perl \
+>      python3-core \
+>      procps \
 
-This works with net-tools' ifconfig.
+I think there are a few more issues like this too.
 
-Signed-off-by: Daniel Díaz <daniel.diaz@linaro.org>
----
- meta/recipes-extended/ltp/ltp_20200515.bb | 1 +
- 1 file changed, 1 insertion(+)
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13802 
+has some logs which show:
 
-diff --git a/meta/recipes-extended/ltp/ltp_20200515.bb b/meta/recipes-extended/ltp/ltp_20200515.bb
-index e82f6b33a1..317a4e461a 100644
---- a/meta/recipes-extended/ltp/ltp_20200515.bb
-+++ b/meta/recipes-extended/ltp/ltp_20200515.bb
-@@ -89,6 +89,7 @@ RDEPENDS_${PN} = "\
-     ldd \
-     libaio \
-     logrotate \
-+    net-tools \
-     perl \
-     python3-core \
-     procps \
--- 
-2.20.1
+/opt/ltp/testcases/bin/run_cpuctl_stress_test.sh: line 242: nice: command not found
+/opt/ltp/testcases/bin/run_cpuctl_test_fj.sh: line 66: tac: command not found
+vma05 1 TCONF: 'gdb' not found
+memcg_failcnt 1 TCONF: 'bc' not found
+Owner=nobody; perms=-rw-------; sudo: lsattr: command not found
+sh: systemd-detect-virt: command not found
+
+(some repeated many time)
+
+I'm also worried about the memory size of the VM we run the ltp tests
+under. Is there a recommended amount of memory they need?
+
+Cheers,
+
+Richard
 
