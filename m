@@ -1,93 +1,98 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.40991.1590446276308639461
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+ by mx.groups.io with SMTP id smtpd.web12.40873.1590446278456934561
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2020 15:37:56 -0700
+ Mon, 25 May 2020 15:37:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=K2IE0A+E;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id x11so6892561plv.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 15:37:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=QDZV3/3g;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.196, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f196.google.com with SMTP id n15so9302104pfd.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 15:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=OJCveq/vWJ+Jz5gguHWnTpWagaLjn4BjUvGg7wKQKPE=;
-        b=K2IE0A+ExUH2wJFQzQq1fhU6ibM5PV5xN2dbdvlUqWCHjbPN9+SEtMX/bq4AGj+9Pj
-         xhBD1C2tzDgFdXRsTDFoNEzXlewoEB3nYWUJc2fOCUIP1SyknVJ9fqf1x31R/Mq2gOos
-         iUN/qvcNFag6f1z+7FzlemGm/koyKloM3eyFbYSzXg3EYSmoVPT4It+72DhDHV/4zr+J
-         VDj3ZCElymjxWUOItDV59Pl63aOqA1R0eivCIexlOPCVJL5By5fr03FoEp6aXwhzLsjg
-         RzrNbQWdMo/tH8XnBxCP/00FYVO1CDYqYX3aZ8cauiewus4dhELE0qeaQihiPM9nm3UA
-         8uGA==
+        bh=wt6Ez/pZXQRtlwMjuU60CYZyHYarlPDRluqEiqfruIs=;
+        b=QDZV3/3g6GHZZLvz9+uy7NFx7aZE3IbXVxS+irwvC8aSKJarxMi503rjwmqehVkvP5
+         3OMcaV34RAVE3PLWnm2kHt5/UzlfPbiA4mul0qqEW0obwKfAJF+8JQAll6KSbbUH8fBr
+         kiMAZUzTiCdfgJpJos+jOzkBjUYGRSOVog+PNLZ5NsUQEluxzLytLwse6XwjPidbYM/j
+         /x2sq6VKJXIdzddMpDBoShYwgSxxIfiTOT+uRnkz5y8+Sp41QPABdg58yMMqC9j/epWU
+         +zA/QOABLL5zMT4QE0nVxIhlkEThSVQAt9RVjtupaUUdMJ4w8NHoO46gn/lF44Z0hxMB
+         97qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=OJCveq/vWJ+Jz5gguHWnTpWagaLjn4BjUvGg7wKQKPE=;
-        b=Ek+JrS/qcYWmSSEqip6hhaZur4Zlw7+OQBe/G5SwB6KCyja0Kk4dWb/BFcUqXsyvFT
-         e7vDjEwFi18NdQOzEIh/Ykh+JVLOEOBLCm3xzCIqBxnbrqUBQ/k/HfXeVBnGpCEUCDA+
-         m8n4D1sgs6y4Ux+I6vz/r/qgZ6G6I1WcwxiP+W+r3NeZcRg6IosC0c76IpCkMnpL53I1
-         bqcjcoRqUqL3W/NDJOWYfjmwQWZVAEmwwXqukbxLEXo/Waw1iApZJlYfboTyE/5g/d0M
-         P92b1nOyObQ+UJuZ+vFnP3Vbt4f5ILT/Pm7R9E+s9QOOU6mx928qJInJjQM2ai+H+CYW
-         usww==
-X-Gm-Message-State: AOAM533yquXWFWYZpNCpqjK8Y8FgOtmU7TFtteYfEcAaMT45kSf4qt5+
-	BvFVGDwDYreeZBD9HBe592QPp03+JOk=
-X-Google-Smtp-Source: ABdhPJykNLRuVZPMaAfIDX0O2YCzX+QPQBjjzonvFV77JqsuyGkI7vwLT2z7CBDTww0q9l2WuZGQzg==
-X-Received: by 2002:a17:90a:33ad:: with SMTP id n42mr21977404pjb.168.1590446274935;
-        Mon, 25 May 2020 15:37:54 -0700 (PDT)
+        bh=wt6Ez/pZXQRtlwMjuU60CYZyHYarlPDRluqEiqfruIs=;
+        b=RC8fLZYF3ivJASS9CZ7w0cvaiLyBkupaPUV+lBAR41gs3kFIkQ5DsBeJticDG77kvA
+         yRKkt9vKI6Qk9OU4uhZHsfhdPNgLA9PaCFQVQoBf3NZTfmebJa2c6R0qM3g6zI2EvO8A
+         od5hyk0G/ObJsj5553WOouhED8dUOsJBHU59AtLrL2YavU5+LEl4Su2GmJ0Nj+evX6mI
+         ojYtJmbkYNFGm6a+gTTOWht8E9aI27zawPxZZxowdT2lc9QYbYAuuUZah39nclEH60N0
+         XKxJTQGu1o6JzZ0Lv1zr9Rp/VSXKblJNh2GaC2gkVss8rAf/COo7lulb7rSGpUNiS5DN
+         oz+g==
+X-Gm-Message-State: AOAM531AY9YT9y2cj2yiYcthmiA4NmHDfTTPYpvEEL5PlG62TUDafmPw
+	GIkA4NiM1sKM/IVknP2fUCR+XUNrAxc=
+X-Google-Smtp-Source: ABdhPJzZpyw9Mwjf1UHwvc3dxp0nofXrv1RgyQB+P+SLyt/Skki9jtDLGq7LKjKShw/vrh06w4/yqg==
+X-Received: by 2002:a63:1066:: with SMTP id 38mr28830128pgq.207.1590446277560;
+        Mon, 25 May 2020 15:37:57 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y23sm1990432pje.3.2020.05.25.15.37.53
+        by smtp.gmail.com with ESMTPSA id y23sm1990432pje.3.2020.05.25.15.37.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2020 15:37:54 -0700 (PDT)
+        Mon, 25 May 2020 15:37:57 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 14/17] newlib: Upgrade to latest yearly release 3.3.0
-Date: Mon, 25 May 2020 12:37:00 -1000
-Message-Id: <c93720849b68369f9c01c620581226dbfe200303.1590445868.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 15/17] git: Upgrade 2.24.1 -> 2.24.3
+Date: Mon, 25 May 2020 12:37:01 -1000
+Message-Id: <b88e68c8d849274df7149fee6e794d6b2549f8ca.1590445868.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1590445868.git.steve@sakoman.com>
 References: <cover.1590445868.git.steve@sakoman.com>
 
-From: Alejandro Hernandez <alejandro@enedino.org>
+From: Adrian Bunk <bunk@stusta.de>
 
-Upgrade to the latest snapshot, also drop md5sum while were at it.
+This includes the fixes for CVE-2020-5260 and CVE-2020-11008.
 
-(From OE-Core rev: d73aa359e42e707dbc7cfa29c55a2fc8e6bb938a)
-
-Signed-off-by: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
-Signed-off-by: Alejandro Hernandez Samaniego <alejandro@enedino.org>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Adrian Bunk <bunk@kernel.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../newlib/{libgloss_3.2.0.bb => libgloss_3.3.0.bb}            | 0
- meta/recipes-core/newlib/newlib.inc                            | 3 +--
- meta/recipes-core/newlib/{newlib_3.2.0.bb => newlib_3.3.0.bb}  | 0
- 3 files changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-core/newlib/{libgloss_3.2.0.bb => libgloss_3.3.0.bb} (100%)
- rename meta/recipes-core/newlib/{newlib_3.2.0.bb => newlib_3.3.0.bb} (100%)
+ meta/recipes-devtools/git/git_2.24.1.bb | 11 -----------
+ meta/recipes-devtools/git/git_2.24.3.bb |  9 +++++++++
+ 2 files changed, 9 insertions(+), 11 deletions(-)
+ delete mode 100644 meta/recipes-devtools/git/git_2.24.1.bb
+ create mode 100644 meta/recipes-devtools/git/git_2.24.3.bb
 
-diff --git a/meta/recipes-core/newlib/libgloss_3.2.0.bb b/meta/recipes-core/newlib/libgloss_3.3.0.bb
-similarity index 100%
-rename from meta/recipes-core/newlib/libgloss_3.2.0.bb
-rename to meta/recipes-core/newlib/libgloss_3.3.0.bb
-diff --git a/meta/recipes-core/newlib/newlib.inc b/meta/recipes-core/newlib/newlib.inc
-index 5edea8aba1..96e230f985 100644
---- a/meta/recipes-core/newlib/newlib.inc
-+++ b/meta/recipes-core/newlib/newlib.inc
-@@ -16,8 +16,7 @@ LIC_FILES_CHKSUM = " \
- 		"
- 
- SRC_URI = "https://sourceware.org/pub/newlib/newlib-${PV}.tar.gz"
--SRC_URI[md5sum] = "afb3a01c8c82b6717ea55659a4de30ec"
--SRC_URI[sha256sum] = "f7b2322964a1e3b37bec0768da20f50dfb62247d729110974dd95756a53bb6d4"
-+SRC_URI[sha256sum] = "58dd9e3eaedf519360d92d84205c3deef0b3fc286685d1c562e245914ef72c66"
- 
- INHIBIT_DEFAULT_DEPS = "1"
- DEPENDS = "virtual/${TARGET_PREFIX}gcc"
-diff --git a/meta/recipes-core/newlib/newlib_3.2.0.bb b/meta/recipes-core/newlib/newlib_3.3.0.bb
-similarity index 100%
-rename from meta/recipes-core/newlib/newlib_3.2.0.bb
-rename to meta/recipes-core/newlib/newlib_3.3.0.bb
+diff --git a/meta/recipes-devtools/git/git_2.24.1.bb b/meta/recipes-devtools/git/git_2.24.1.bb
+deleted file mode 100644
+index daea31eab2..0000000000
+--- a/meta/recipes-devtools/git/git_2.24.1.bb
++++ /dev/null
+@@ -1,11 +0,0 @@
+-require git.inc
+-
+-EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
+-                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
+-                 "
+-EXTRA_OEMAKE += "NO_GETTEXT=1"
+-
+-SRC_URI[tarball.md5sum] = "166bde96adbbc11c8843d4f8f4f9811b"
+-SRC_URI[tarball.sha256sum] = "ad5334956301c86841eb1e5b1bb20884a6bad89a10a6762c958220c7cf64da02"
+-SRC_URI[manpages.md5sum] = "31c2272a8979022497ba3d4202df145d"
+-SRC_URI[manpages.sha256sum] = "9a7ae3a093bea39770eb96ca3e5b40bff7af0b9f6123f089d7821d0e5b8e1230"
+diff --git a/meta/recipes-devtools/git/git_2.24.3.bb b/meta/recipes-devtools/git/git_2.24.3.bb
+new file mode 100644
+index 0000000000..ddd875f07b
+--- /dev/null
++++ b/meta/recipes-devtools/git/git_2.24.3.bb
+@@ -0,0 +1,9 @@
++require git.inc
++
++EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
++                 ac_cv_fread_reads_directories=${ac_cv_fread_reads_directories=yes} \
++                 "
++EXTRA_OEMAKE += "NO_GETTEXT=1"
++
++SRC_URI[tarball.sha256sum] = "ef6d1d1de1d7921a54d23d07479bd2766f050d6435cea5d3b5322aa4897cb3d7"
++SRC_URI[manpages.sha256sum] = "325795ba33c0be02370de79636f32ad3b447665c1f2b5b4de65181fa804bed31"
 -- 
 2.17.1
 
