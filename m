@@ -1,50 +1,50 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web12.40858.1590446254277607746
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com [209.85.215.193])
+ by mx.groups.io with SMTP id smtpd.web11.40979.1590446256935244213
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2020 15:37:34 -0700
+ Mon, 25 May 2020 15:37:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=fq68ezpw;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id z64so4761214pfb.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 15:37:34 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=IfodajoF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.193, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f193.google.com with SMTP id s10so9138957pgm.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 15:37:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=kZq0tN/8afvY6zb6FaL7Wdy3hggCLv+TMnEBqysTicc=;
-        b=fq68ezpwhCiBi9zwQXiI2nGO+i+5CIod2ikKCWGdqSqcxhl1yeK6m1Gvuee+q8BEwx
-         aXbvG/4qKp02amdRCOn7TjQhe8xebtvQgZ2Raiy+cOaE/udIOfDsG63Wp54opLc/t1ut
-         8rfzNbgFbCKSQm1suQzQpv3NXtD0CEhkQ3815eEr9t4u+gMcuUnM+vZigHMX2c3C+iZn
-         vR48VMwn7lZ0/MnbGcpYRQJWjB/UAchUYONrv4mBSMCbiJkNa5sPd+VTVkYCN7GcXkVV
-         /pyZ4YhhQzHwBaYsJDhxNDehFf77iR0iOZzfb4tIG4ikoaI/vpIeJfAJ1ozH5WEFexma
-         vTMQ==
+        bh=9tCchGlMIBAmVD0pFbNwk9nu7ST/WaHhpsryqVKENOM=;
+        b=IfodajoF+/IuW76G5q2OGgyWS3YxI9miedOp6jPJ1pc16UTAoHCIJ8Jy2f4xvaec2R
+         V+3TTWfxRmTbzDniNdV15+fTSja7M3XVFtSbGLVXpmwQukde9fD9lUk6jbgASivipkRp
+         v3xP7T7h1slKOF1JWfeoT72FpJFN9hDAURLHV7a8WiZNzB9WGhqB7nCk/GIPjVjjnMcX
+         uaCC08WoZDrHEU7GU71gIb9VE3BAJX7RMWTlmP2myXuJSwVSKMBDXEXNH5PX2EKz6z/h
+         nOBWLmlarKHHJ2axu+kkCgoqj7GlFEkthDQkzMkKXn2/X/chE+XMVgwxdwLYLDPGnby8
+         9mBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=kZq0tN/8afvY6zb6FaL7Wdy3hggCLv+TMnEBqysTicc=;
-        b=ucXioPzpaJMSfYWDtwB3rMxAJJFRbu9YOEKMypJygeSuroDmaF5XUt8HX3VwDan52p
-         q1xTeb8eqYv5awlnzkHuXnDGL28Wtcp/E6h3ywEM4mKyFQgmLWdgtjBnn9YZyj6NzY0L
-         kvjnP5N3cl5uKv2QV0danmdfEeF6CoGOGYbZY7keTD6+4QdPoxEpN7nSyNDkFNU7N+DB
-         Xhlh0SRq5DCVnAtZ4L4i/MgwOvku8nsSSqaxTAYbzscL8sv3yOAV6E01+gB8otKDaxT1
-         6gXKumqRZD/IgtGGPGEaUmGVch+mDMbmKaz0B3rEeIhUsdFezGDaGmbLh/mhBM+oVNqd
-         nwGQ==
-X-Gm-Message-State: AOAM530Xfho4lw5vJK0kDKrxBUX3VySepsjEUtINWwqmCkUOjjqZQzdp
-	jAIvWm8BgpcDZMJgB2OQm+G/EJZ5m5g=
-X-Google-Smtp-Source: ABdhPJyb5nvis8YG79TyZ3S1R2It3WW93FHrgV5puXU44YvSudv4wDMXQ4XG0aWre+Op27eV2iPhCg==
-X-Received: by 2002:a63:1149:: with SMTP id 9mr29107277pgr.236.1590446253382;
-        Mon, 25 May 2020 15:37:33 -0700 (PDT)
+        bh=9tCchGlMIBAmVD0pFbNwk9nu7ST/WaHhpsryqVKENOM=;
+        b=lYVeD+SPZPOKDT/ux1HMfxx/UsGbJJPOsHawOQ4l++NNs+gefvDgcRz+qpA3Dm0PM8
+         XGXsoXhUSJCQLJLK3kSmghVHBlu2fAFVeRTOQcM/qu41SgnpVihrWi85MxtmiXe86/eB
+         ns62gaa+PpQ/pgA9kiK+TFBPikPDjBZCjbW8QZijec7MVO1fm8BF2OcT2vSalHEwBgWO
+         E/x3VtDZaahQ0jaFZfPe36oSTk+d7vzstbcwx2j8fMQ0afOKKwG5RoJH1g7StKUrWOqD
+         PsXwPKQDcKJIFEHlTE2n6FRyBJhsmLXe1aoFE01M7nZPKtEcy5cV1ORTai0gThDVDShj
+         9Pqg==
+X-Gm-Message-State: AOAM533u6YT3UU+Ue6ojjeTIktXclru+Crg0wpfTrQt/cbam5kM98Di4
+	7fhmPYENwHdBzEnuoJj8AqKuLr1s5b4=
+X-Google-Smtp-Source: ABdhPJyTfsldPihZX2lOuH7iLVKIX7ip7AtqxSxMi5WzT9nRbrLwIRSBhgbSL1axyeorhx0XHJEyGg==
+X-Received: by 2002:a63:368c:: with SMTP id d134mr12935463pga.393.1590446256099;
+        Mon, 25 May 2020 15:37:36 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y23sm1990432pje.3.2020.05.25.15.37.32
+        by smtp.gmail.com with ESMTPSA id y23sm1990432pje.3.2020.05.25.15.37.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2020 15:37:32 -0700 (PDT)
+        Mon, 25 May 2020 15:37:35 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 06/17] recipes-kernel/linux-firmware: Add adreno-a630 firmware package
-Date: Mon, 25 May 2020 12:36:52 -1000
-Message-Id: <0e62fe015b457c18de158ba22641759a093daf45.1590445868.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 07/17] linux-firmware: Update to 20200122 -> 20200421
+Date: Mon, 25 May 2020 12:36:53 -1000
+Message-Id: <d53dd9460f17e3c1bb4e5a13d34a8977b25bf0f0.1590445868.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1590445868.git.steve@sakoman.com>
 References: <cover.1590445868.git.steve@sakoman.com>
@@ -57,41 +57,40 @@ From: Aníbal Limón <anibal.limon@linaro.org>
 Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit f3021d19eff3c9705cd91e407c042a1aa3b8e7d9)
+(cherry picked from commit 7f52475a2c84197c95928d65debf894bf59c90e7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ ...inux-firmware_20200122.bb => linux-firmware_20200421.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200122.bb => linux-firmware_20200421.bb} (99%)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-index 139307cda3..ac7d6ec431 100644
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb
+index ac7d6ec431..fa0507a88c 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200122.bb
-@@ -288,7 +288,7 @@ PACKAGES =+ "${PN}-ralink-license ${PN}-ralink \
-              ${PN}-qat ${PN}-qat-license \
-              ${PN}-qcom-license \
-              ${PN}-qcom-venus-1.8 ${PN}-qcom-venus-4.2 \
--             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 \
-+             ${PN}-qcom-adreno-a3xx ${PN}-qcom-adreno-a530 ${PN}-qcom-adreno-a630 \
-              ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute ${PN}-qcom-sdm845-modem \
-              ${PN}-whence-license \
-              ${PN}-license \
-@@ -849,6 +849,7 @@ FILES_${PN}-qcom-venus-1.8 = "${nonarch_base_libdir}/firmware/qcom/venus-1.8/*"
- FILES_${PN}-qcom-venus-4.2 = "${nonarch_base_libdir}/firmware/qcom/venus-4.2/*"
- FILES_${PN}-qcom-adreno-a3xx = "${nonarch_base_libdir}/firmware/qcom/a300_*.fw ${nonarch_base_libdir}/firmware/a300_*.fw"
- FILES_${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.*"
-+FILES_${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/a630*.*"
- FILES_${PN}-qcom-sdm845-audio = "${nonarch_base_libdir}/firmware/qcom/sdm845/adsp*.*"
- FILES_${PN}-qcom-sdm845-compute = "${nonarch_base_libdir}/firmware/qcom/sdm845/cdsp*.*"
- FILES_${PN}-qcom-sdm845-modem = "${nonarch_base_libdir}/firmware/qcom/sdm845/mba.mbn ${nonarch_base_libdir}/firmware/qcom/sdm845/modem*.* ${nonarch_base_libdir}/firmware/qcom/sdm845/wlanmdsp.mbn"
-@@ -856,6 +857,7 @@ RDEPENDS_${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a3xx = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-adreno-a530 = "${PN}-qcom-license"
-+RDEPENDS_${PN}-qcom-adreno-a630 = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
- RDEPENDS_${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20200421.bb
+@@ -125,7 +125,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.xc4000;md5=0ff51d2dc49fce04814c9155081092f0 \
+                     file://LICENCE.xc5000;md5=1e170c13175323c32c7f4d0998d53f66 \
+                     file://LICENCE.xc5000c;md5=12b02efa3049db65d524aeb418dd87ca \
+-                    file://WHENCE;md5=c27d0c06cd5d376d8ab55860e65ba4e4 \
++                    file://WHENCE;md5=cb9a66eff0464b55335d3a7374fbc51c \
+                     "
+ 
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+@@ -196,8 +196,8 @@ PE = "1"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz"
+ 
+-SRC_URI[md5sum] = "ac291b21f366ae2a37193ec8f14c39d2"
+-SRC_URI[sha256sum] = "a30e811b3736a72b874ac27e10662f5e5409b1cadf8aab7ba88e8f8bc8083986"
++SRC_URI[md5sum] = "229a93395f4033da68429f165a62b952"
++SRC_URI[sha256sum] = "6dd7cba25d694c031f65529b9027cc8faaffaddfae70a4e3b58c2e4a0af3bfa8"
+ 
+ inherit allarch
+ 
 -- 
 2.17.1
 
