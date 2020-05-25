@@ -1,75 +1,68 @@
-Received: from esa6.bmw.c3s2.iphmx.com (esa6.bmw.c3s2.iphmx.com [68.232.139.124])
- by mx.groups.io with SMTP id smtpd.web12.27766.1590395002085317930
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com [209.85.166.44])
+ by mx.groups.io with SMTP id smtpd.web11.30274.1590410205370039241
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2020 01:23:22 -0700
+ Mon, 25 May 2020 05:36:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=nqRHJyal;
- spf=pass (domain: bmw.de, ip: 68.232.139.124, mailfrom: prvs=40745be84=michael.ho@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lN8sb+22;
+ spf=pass (domain: gmail.com, ip: 209.85.166.44, mailfrom: rama.kesi@gmail.com)
+Received: by mail-io1-f44.google.com with SMTP id r2so8150372ioo.4
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 05:36:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1590395003; x=1621931003;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version;
-  bh=xUjeNsdhrL2MXWnsdVCUGINDzy0mXaEIa1ShWakUjw4=;
-  b=nqRHJyalio1nVckW0n9kU/Rr5wO1HPDxrJL3aACffqbspzpkVsTac9aC
-   lwgKxeNTMkbpgzZyDmk6Mw9NqEpoInQ10zEbNeu5qmB06HfVKX29Q6IpK
-   e13oJIdWYBkbEdQ/azLyAtkIMuRfTGNJgS+E1zQvWibOh+UCr4ZAV+Ngk
-   M=;
-Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
- esa6.bmw.c3s2.iphmx.com with ESMTP/TLS; 25 May 2020 10:23:22 +0200
-Received: from esabb4.muc ([160.50.100.33])  by esagw4.muc with ESMTP/TLS;
- 25 May 2020 10:23:21 +0200
-Received: from smucm09k.bmwgroup.net (HELO smucm09k.europe.bmw.corp) ([160.48.96.43])
- by esabb4.muc with ESMTP/TLS; 25 May 2020 10:23:21 +0200
-Received: from michael-pcx.bmw-carit.intra (192.168.221.40) by
- smucm09k.europe.bmw.corp (160.48.96.43) with Microsoft SMTP Server (TLS;
- Mon, 25 May 2020 10:23:21 +0200
-From: "Michael Ho" <Michael.Ho@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: Michael Ho <Michael.Ho@bmw.de>
-Subject: [PATCH v2 4/4] package_rpm.bbclass: add PACKAGE_ADD_METADATA_RPM to sstate variables
-Date: Mon, 25 May 2020 10:23:01 +0200
-Message-ID: <1590394981-356381-4-git-send-email-michael.ho@bmw.de>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1590394981-356381-1-git-send-email-michael.ho@bmw.de>
-References: <1590394981-356381-1-git-send-email-michael.ho@bmw.de>
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=/gzDR6/ufzOeKVgn4lKVR7+4M0/Qd5ztPjVU7GO1ILU=;
+        b=lN8sb+22z0xKy6xvMP3o36J9XimuLGlU5AwvCAH/M9T0Cn5ucn//JWXl7x12ks8rMC
+         MdU9nXIez9YgibZrBSNpYIIuXbEm6DZ1fMDdHD/XE+xkoLbDJQ0wbYNO3/aNauOupMSQ
+         ob/OkuSStuAve82fiNjVc8G5izUf0JdxhrHpPRvTJWl0nac4QZrVcPRzH2wmcCb7yWxU
+         59AE7CKN6LHp0wve/3wUT3QVEICkjcLYKKDSb2IrSzmEqxTi00DrKqb2/yE3tywBvtKo
+         xDd/84NPA0sLMJmoPjzwLf4JageoXcE5gaJepwXj/6FgmY3QRBJCYn4VkQvZI25mRyRX
+         SU+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=/gzDR6/ufzOeKVgn4lKVR7+4M0/Qd5ztPjVU7GO1ILU=;
+        b=EcNAf+umwqu9U3mlC+eIf3aYw1FdTnuF3Jg8cQxAwn4/MjQ26yWuhj+XkTC5kU6CIp
+         YSXp2hUL7zloVovS2tWH0PWwNfyxPQ1kcvlsMY6vkj0KUEQ/umpiRfEOwVm2dbEQgQOm
+         NgsBeSx0PeqjKCfPJd52Ap4lKDtZ02rQM3GqXs6ltIQ6fto1MUhq9/24fafVRC94kgvi
+         xCam8dWDDVAVvDOaUFGK3jU89cnBofbeF8BnzB31jkCDRuBBWUyU3ab61ufEWcseaO05
+         si90sTLxOiFFnBDzFierF2Dv4X+FVzVj/8xpbLLmiWXpFz4hE8fmkhLfTcxPIlg7Kjbr
+         cvIA==
+X-Gm-Message-State: AOAM533jHKUpJNJBDM/DNJH/89N6FVKuI5qPmGcbr9cwgcFH7uRmqEzs
+	G55rDmzX4m9jUrqNS/bgdFt4Tzpuqqt8lEfLHCpHrIgr6U0=
+X-Google-Smtp-Source: ABdhPJxD/ky009RFsbZ0yPQ2qqGFrN9YM2Hu6DpVhutJRUTx3Mo4g6mxGWqb8VDevBio91tM6JzcJ6C7WW6mi2LztF0=
+X-Received: by 2002:a05:6638:224d:: with SMTP id m13mr19368397jas.100.1590410204684;
+ Mon, 25 May 2020 05:36:44 -0700 (PDT)
 MIME-Version: 1.0
-Return-Path: michael.ho@bmw.de
-X-ClientProxiedBy: smucm05l.europe.bmw.corp (160.48.96.28) To
- smucm09k.europe.bmw.corp (160.48.96.43)
-Content-Type: text/plain
+From: rama.kesi@gmail.com
+Date: Mon, 25 May 2020 18:06:34 +0530
+Message-ID: <CAFi1RNj7=wqUK1ebdfKSpUs8uQkXe_=wDvPJDqPHOHBn7xr5mQ@mail.gmail.com>
+Subject: Meta Qt5 Qt 5.6.3 compatibility with Yocto 2.4(poky)
+To: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000004c241e05a6783b56"
 
-From: Michael Ho <Michael.Ho@bmw.de>
+--0000000000004c241e05a6783b56
+Content-Type: text/plain; charset="UTF-8"
 
-Refactor the addition of vardeps for this package class to use RPMEXTRAVARS
-and pass the items through gen_packagevar so package name specific overrides
-are accounted for. This matches the style used in package_ipk.bbclass. Since
-do_package_write_rpm does not have any "extra vars" that affect the rpm
-packaging yet, this commit has to add the variable.
+Hi All,
 
-This refactoring is needed to add PACKAGE_ADD_METADATA_RPM to RPMEXTRAVARS
-so it affects the sstate hash of do_package_write_rpm.
+Can anyone please  let me know if Qt 5.6.3 LTS is compatible with Yocto
+project version 2.4 ( poky ) or not to build meta-qt5 recipes of Qt 5.6.3
+LTS?
 
-Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
----
- meta/classes/package_rpm.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+If so, where to pick up the meta-15 recipes for Qt 5.6.3 LTS open source?
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 9145717..9a4be2e 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -621,6 +621,10 @@ python write_specfile () {
- # Otherwise allarch packages may change depending on override configuration
- write_specfile[vardepsexclude] = "OVERRIDES"
- 
-+# Have to list any variables referenced as X_<pkg> that aren't in pkgdata here
-+RPMEXTRAVARS = "PACKAGE_ADD_METADATA_RPM"
-+write_specfile[vardeps] += "${@gen_packagevar(d, 'RPMEXTRAVARS')}"
-+
- python do_package_rpm () {
-     workdir = d.getVar('WORKDIR')
-     tmpdir = d.getVar('TMPDIR')
--- 
-2.7.4
+Best Regards,
+Ramakanth
 
+--0000000000004c241e05a6783b56
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi All,</div><div><br></div><div dir=3D"ltr">Can anyo=
+ne please =C2=A0let me know if Qt 5.6.3 LTS is compatible with Yocto projec=
+t version 2.4 ( poky ) or not to build meta-qt5 recipes of Qt 5.6.3 LTS?</d=
+iv><div dir=3D"ltr"><br></div><div>If so, where to pick up the meta-15 reci=
+pes for Qt 5.6.3 LTS open source?</div><div><br></div><div>Best Regards,</d=
+iv><div>Ramakanth<span><span><br></span></span></div></div>
+
+--0000000000004c241e05a6783b56--
