@@ -1,35 +1,38 @@
-Received: from esa6.bmw.c3s2.iphmx.com (esa6.bmw.c3s2.iphmx.com [68.232.139.124])
- by mx.groups.io with SMTP id smtpd.web10.27830.1590392635672949474
+Received: from esa4.bmw.c3s2.iphmx.com (esa4.bmw.c3s2.iphmx.com [68.232.139.62])
+ by mx.groups.io with SMTP id smtpd.web11.27621.1590392638267639856
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2020 00:43:57 -0700
+ Mon, 25 May 2020 00:43:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=h8B5OBbd;
- spf=pass (domain: bmw.de, ip: 68.232.139.124, mailfrom: prvs=40745be84=michael.ho@bmw.de)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=faFsS5dC;
+ spf=pass (domain: bmw.de, ip: 68.232.139.62, mailfrom: prvs=40745be84=michael.ho@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1590392637; x=1621928637;
-  h=from:to:cc:subject:date:message-id:mime-version;
-  bh=OzwMXENdk5btkX1E6/lYSuXAQM55AUX6ipZk9RMSX30=;
-  b=h8B5OBbdHc75swq0mHo1tl07pi6wCV+5qFdLowDMoLsAipiOa7FqWTDn
-   HaaQBgg5otuVB/KAQmD5BjPWy78uquWazuiYDIZSBi2FutF9iIhacvAvD
-   6NZmM/dtksGn/Ec8kBowUJuDI+T9YJiQMpbT0LzMVqPcQvZZCB/sFQVRa
-   0=;
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
- esa6.bmw.c3s2.iphmx.com with ESMTP/TLS; 25 May 2020 09:43:54 +0200
-Received: from esabb6.muc ([160.50.100.50])  by esagw2.muc with ESMTP/TLS;
- 25 May 2020 09:43:53 +0200
+  t=1590392638; x=1621928638;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version;
+  bh=xdMZlRElZ6OZXCi+127ZiFgusoLKG+ZA5GUj1cmanfo=;
+  b=faFsS5dC3vC97vHZQOAhDlXUIyEi0ifC2nbSXi42ncsMhvp5OaIp1nbj
+   U/Mh8t3cOCyuftNig1T05bLQPV/bMJ/+xK2Mx1fYkulAbL8s80bF/s9u8
+   D4mErMLtDlivilLyYtRnn3TekbgicrMxIwjwnUQAYfX3auvgIykz1Wv/5
+   4=;
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+ esa4.bmw.c3s2.iphmx.com with ESMTP/TLS; 25 May 2020 09:43:55 +0200
+Received: from esabb4.muc ([160.50.100.33])  by esagw4.muc with ESMTP/TLS;
+ 25 May 2020 09:43:55 +0200
 Received: from smucm09k.bmwgroup.net (HELO smucm09k.europe.bmw.corp) ([160.48.96.43])
- by esabb6.muc with ESMTP/TLS; 25 May 2020 09:43:52 +0200
+ by esabb4.muc with ESMTP/TLS; 25 May 2020 09:43:54 +0200
 Received: from michael-pcx.bmw-carit.intra (192.168.221.35) by
  smucm09k.europe.bmw.corp (160.48.96.43) with Microsoft SMTP Server (TLS;
- Mon, 25 May 2020 09:43:52 +0200
+ Mon, 25 May 2020 09:43:54 +0200
 From: "Michael Ho" <Michael.Ho@bmw.de>
 To: <openembedded-core@lists.openembedded.org>
 CC: Michael Ho <Michael.Ho@bmw.de>
-Subject: [PATCH 1/5] package.bbclass: add PACKAGE_ADD_METADATA to sstate variables
-Date: Mon, 25 May 2020 09:43:37 +0200
-Message-ID: <1590392621-327991-1-git-send-email-michael.ho@bmw.de>
+Subject: [PATCH 2/5] package_ipk.bbclass: add PACKAGE_ADD_METADATA_IPK to sstate variables
+Date: Mon, 25 May 2020 09:43:38 +0200
+Message-ID: <1590392621-327991-2-git-send-email-michael.ho@bmw.de>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1590392621-327991-1-git-send-email-michael.ho@bmw.de>
+References: <1590392621-327991-1-git-send-email-michael.ho@bmw.de>
 MIME-Version: 1.0
 Return-Path: michael.ho@bmw.de
 X-ClientProxiedBy: smucm06j.europe.bmw.corp (160.48.96.30) To
@@ -38,42 +41,27 @@ Content-Type: text/plain
 
 From: Michael Ho <Michael.Ho@bmw.de>
 
-The PACKAGE_ADD_METADATA can be used to define additional metadata for
-packages. Changes to this variable should affect the packaging sstate hash
-so packages are re-generated when this variable changes.
-
-This variable is added to both PKGDATA_VARS and PACKAGEVARS. It is needed
-in PACKAGEVARS to ensure changes invoke do_package to re-run. It is needed
-in PKGDATA_VARS to ensure changes are written into the pkgdata so that the
-hash equiv reports a change and does not skip over the package_write tasks.
+Add PACKAGE_ADD_METADATA_IPK to IPKEXTRAVARS so it affects the sstate hash
+of do_package_write_ipk.
 
 Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
 ---
- meta/classes/package.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/package_ipk.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 0b5cf47..0af5f66 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1508,7 +1508,7 @@ EXPORT_FUNCTIONS package_name_hook
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index c008559..79cb36c 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -238,7 +238,7 @@ def ipk_write_pkg(pkg, d):
+         bb.utils.unlockfile(lf)
  
- PKGDESTWORK = "${WORKDIR}/pkgdata"
+ # Have to list any variables referenced as X_<pkg> that aren't in pkgdata here
+-IPKEXTRAVARS = "PRIORITY MAINTAINER PACKAGE_ARCH HOMEPAGE"
++IPKEXTRAVARS = "PRIORITY MAINTAINER PACKAGE_ARCH HOMEPAGE PACKAGE_ADD_METADATA_IPK"
+ ipk_write_pkg[vardeps] += "${@gen_packagevar(d, 'IPKEXTRAVARS')}"
  
--PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
-+PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO PACKAGE_ADD_METADATA pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
- 
- python emit_pkgdata() {
-     from glob import glob
-@@ -2263,7 +2263,7 @@ python package_depchains() {
- 
- # Since bitbake can't determine which variables are accessed during package
- # iteration, we need to list them here:
--PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm pkg_postinst_ontarget INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES SYSTEMD_SERVICE LICENSE SECTION pkg_preinst pkg_prerm RREPLACES GROUPMEMS_PARAM SYSTEMD_AUTO_ENABLE SKIP_FILEDEPS PRIVATE_LIBS"
-+PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm pkg_postinst_ontarget INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES SYSTEMD_SERVICE LICENSE SECTION pkg_preinst pkg_prerm RREPLACES GROUPMEMS_PARAM SYSTEMD_AUTO_ENABLE SKIP_FILEDEPS PRIVATE_LIBS PACKAGE_ADD_METADATA"
- 
- def gen_packagevar(d, pkgvars="PACKAGEVARS"):
-     ret = []
+ # Otherwise allarch packages may change depending on override configuration
 -- 
 2.7.4
 
