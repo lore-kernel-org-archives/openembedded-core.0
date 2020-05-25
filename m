@@ -1,62 +1,79 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.27976.1590393778101302870
+Received: from esa6.bmw.c3s2.iphmx.com (esa6.bmw.c3s2.iphmx.com [68.232.139.124])
+ by mx.groups.io with SMTP id smtpd.web11.27915.1590394999054732375
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2020 01:02:58 -0700
+ Mon, 25 May 2020 01:23:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C1CD260EB7;
-	Mon, 25 May 2020 08:02:55 +0000 (UTC)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=YTUjarK4;
+ spf=pass (domain: bmw.de, ip: 68.232.139.124, mailfrom: prvs=40745be84=michael.ho@bmw.de)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+  t=1590395000; x=1621931000;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=OzwMXENdk5btkX1E6/lYSuXAQM55AUX6ipZk9RMSX30=;
+  b=YTUjarK48WI8guMGCOaG5FuHGhBqGRFBvv3peItkqWgS8Ga4T0BslMxV
+   4jn0aTkSDyzIbVKIEE94QQINCC6c8EBDfPijW2IIn5SboD9u7ACgHqvy+
+   CPBrdRdmE2/SxZigTs1kxEj0eA7QY04jKWlKM8ESjgxP3KWMsozO1lwqd
+   8=;
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+ esa6.bmw.c3s2.iphmx.com with ESMTP/TLS; 25 May 2020 10:23:17 +0200
+Received: from esabb3.muc ([160.50.100.30])  by esagw4.muc with ESMTP/TLS;
+ 25 May 2020 10:23:16 +0200
+Received: from smucm09k.bmwgroup.net (HELO smucm09k.europe.bmw.corp) ([160.48.96.43])
+ by esabb3.muc with ESMTP/TLS; 25 May 2020 10:23:16 +0200
+Received: from michael-pcx.bmw-carit.intra (192.168.221.40) by
+ smucm09k.europe.bmw.corp (160.48.96.43) with Microsoft SMTP Server (TLS;
+ Mon, 25 May 2020 10:23:16 +0200
+From: "Michael Ho" <Michael.Ho@bmw.de>
+To: <openembedded-core@lists.openembedded.org>
+CC: Michael Ho <Michael.Ho@bmw.de>
+Subject: [PATCH v2 1/4] package.bbclass: add PACKAGE_ADD_METADATA to sstate variables
+Date: Mon, 25 May 2020 10:22:58 +0200
+Message-ID: <1590394981-356381-1-git-send-email-michael.ho@bmw.de>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInBhY2thZ2UuYmJjbGFzczogYWRkIFBBQ0tBR0VfQS4uLiIgYW5kIDQgbW9yZQ==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Michael Ho <Michael.Ho@bmw.de>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 25 May 2020 08:02:57 -0000
-Message-ID: <20200525080257.20804.96468@do>
-References: <1590392621-327991-1-git-send-email-michael.ho@bmw.de>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1590392621-327991-1-git-send-email-michael.ho@bmw.de>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Return-Path: michael.ho@bmw.de
+X-ClientProxiedBy: smucm05l.europe.bmw.corp (160.48.96.28) To
+ smucm09k.europe.bmw.corp (160.48.96.43)
+Content-Type: text/plain
 
-== Series Details ==
+From: Michael Ho <Michael.Ho@bmw.de>
 
-Series: "package.bbclass: add PACKAGE_A..." and 4 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/24303/
-State : failure
+The PACKAGE_ADD_METADATA can be used to define additional metadata for
+packages. Changes to this variable should affect the packaging sstate hash
+so packages are re-generated when this variable changes.
 
-== Summary ==
+This variable is added to both PKGDATA_VARS and PACKAGEVARS. It is needed
+in PACKAGEVARS to ensure changes invoke do_package to re-run. It is needed
+in PKGDATA_VARS to ensure changes are written into the pkgdata so that the
+hash equiv reports a change and does not skip over the package_write tasks.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     yocto@yoctoproject.org [http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/]
-  Patch's path:    documentation/dev-manual/dev-manual-common-tasks.xml
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at eb8ae6702a)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/classes/package.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 0b5cf47..0af5f66 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1508,7 +1508,7 @@ EXPORT_FUNCTIONS package_name_hook
+ 
+ PKGDESTWORK = "${WORKDIR}/pkgdata"
+ 
+-PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
++PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO PACKAGE_ADD_METADATA pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
+ 
+ python emit_pkgdata() {
+     from glob import glob
+@@ -2263,7 +2263,7 @@ python package_depchains() {
+ 
+ # Since bitbake can't determine which variables are accessed during package
+ # iteration, we need to list them here:
+-PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm pkg_postinst_ontarget INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES SYSTEMD_SERVICE LICENSE SECTION pkg_preinst pkg_prerm RREPLACES GROUPMEMS_PARAM SYSTEMD_AUTO_ENABLE SKIP_FILEDEPS PRIVATE_LIBS"
++PACKAGEVARS = "FILES RDEPENDS RRECOMMENDS SUMMARY DESCRIPTION RSUGGESTS RPROVIDES RCONFLICTS PKG ALLOW_EMPTY pkg_postinst pkg_postrm pkg_postinst_ontarget INITSCRIPT_NAME INITSCRIPT_PARAMS DEBIAN_NOAUTONAME ALTERNATIVE PKGE PKGV PKGR USERADD_PARAM GROUPADD_PARAM CONFFILES SYSTEMD_SERVICE LICENSE SECTION pkg_preinst pkg_prerm RREPLACES GROUPMEMS_PARAM SYSTEMD_AUTO_ENABLE SKIP_FILEDEPS PRIVATE_LIBS PACKAGE_ADD_METADATA"
+ 
+ def gen_packagevar(d, pkgvars="PACKAGEVARS"):
+     ret = []
+-- 
+2.7.4
 
