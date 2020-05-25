@@ -1,181 +1,140 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
- by mx.groups.io with SMTP id smtpd.web10.41067.1590446264817406043
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+ by mx.groups.io with SMTP id smtpd.web10.41068.1590446267737744852
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2020 15:37:44 -0700
+ Mon, 25 May 2020 15:37:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=X63X4TNv;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.178, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f178.google.com with SMTP id 124so2926520pgi.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 15:37:44 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=OcaXBdAF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.196, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f196.google.com with SMTP id k22so7884071pls.10
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 15:37:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=eeQYGZ1v2DzGcYxGEFfGpg0sxhX1cEDnHsPmDtXJqe4=;
-        b=X63X4TNvOkQC+zh60Jxdb4MPpkeq5ql7EnxUqB+HFfZF038QvQWYKfeFbwVgy+UiX8
-         wBYdsI23Vfs4uVHjFeHjnJKBd2uHoQaNZzQSK2O51L+W9Liw0qMDo21Fg3d9s7l/eXbH
-         7L6WaiZKDcA0s7RBjMpQ359COelCu14M0xTEqq0EL7ybeCKmXtpX6MQlqO55AmHKqkmx
-         vuVRXleaIGk4UUBf6lMR74Ba8mbBiS8Fpl6RweASsW/7jOPs+zxPfgnHluMVYmUetX9m
-         wcEnBvqwVlOcAU4saD2onpwJRqLledXpoIsBzObLnfVJL7oLxqlW8mDCK2mwguVmkWWG
-         C0Ug==
+        bh=oX5br0MCD8uDkzyUZUTYXYLtxg96B4/vcJ1cWOPezUQ=;
+        b=OcaXBdAF4BLTzkF3yFE07bmPvY+DAc6OUn//z97gyv3sECZ8176CoHcVB2TGgr+5tC
+         FbJGXui6/c9kMlnUTz+IqAtu4XxVd1O7cYfUwSfmGR8r+GVEAkzCc6zP7FSzVaYA9xea
+         em6mz334+q9uOLhUGlo2Rga9LRONro8ieMMSDlp4H7cSMQN86AML3wNWLfWxYXhv1vMR
+         X6V/Qauw8RSql9Q2m57uzONazLD/auV9wsaBcPC7npsFMHPGAsVzqTKS7QGMMY/GYmpZ
+         4Bq7UqtDabuC807f4TqUYKt7Y+8Wt020jIxjdSk89KtuKblWTVdu2uzkELBvYlRTo74y
+         UgWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=eeQYGZ1v2DzGcYxGEFfGpg0sxhX1cEDnHsPmDtXJqe4=;
-        b=ujSYcNSpeCspsHU71CwKzuArioA1z39yEjU/oSfxCl05dojxZY8wdIn0GgjJF4ZSJ2
-         y/AMRj33ZUfkG46dHsJFYeB8fG3U7a64mTe3yLL3yo6paH0itCu1oYqLxL2kW0U9eQzI
-         bNC1oadCCPVmC/UNa5E5jyBUdQB888WvW0ncdevyGqYWDCa/HoFrx7/Al9GordrAOR9a
-         PmiE9K3zus3Pb+E3+PlBsaLNKH+5H0Mb4JAsgyEtVgkbSCIDeCadeSUp+3Jor3DK4dGS
-         FEDXfLcWLFtJApf3Tuj2g1cU6g+meez56QVghnGzSaEDxnUd9i9d0TFVpbpNxBSXMEIN
-         DvuQ==
-X-Gm-Message-State: AOAM531uMnbjXK1lUB+CwNwU0YA4XrW3Mvhn3tNF9mhuAE85Y+ZYLiC/
-	qiQ5jeAtF3cECHTHxzO82peSdHt0GRk=
-X-Google-Smtp-Source: ABdhPJxt157KRgpyzkbv2/LmNr1dxx6qCWHdjNlXSSz0BQ83Q+WouShEsmnJbN1IK1La52gEfIPNpg==
-X-Received: by 2002:aa7:82d5:: with SMTP id f21mr7702812pfn.154.1590446263837;
-        Mon, 25 May 2020 15:37:43 -0700 (PDT)
+        bh=oX5br0MCD8uDkzyUZUTYXYLtxg96B4/vcJ1cWOPezUQ=;
+        b=Tp67aTGLBpo3snMitwKEtOiX/bfdGfAueXpTGzvQ7aJ0QgYy/Dgpq5aljq9gijZZTg
+         YffQrD5oTvdFgDAiHwzNRJyMRDpmpsk4fI1ZKePp0UOFFqGOAZzwO5HW9Er0DBftBTGB
+         HhRoGzcubGMfBejgptEoHbu9Mhw+bxd4lobH/wUFE15C2uXLW6p5cYUHqH0TQ6mXym7x
+         v7GMLhaOTbYEjpYXmS/c8oqE55cDrIMpQ53ytlutu2NQuizVve6ZUeolUozn6PthVqAX
+         ZCG+pTWJMVTTFhe6T2uvQcJeVnOl4h7bizJ/2gyJ2KPgJ0KGCOpBkQwSRI5uZoUBo9+D
+         tp8A==
+X-Gm-Message-State: AOAM533+Lgw9xj9cgiP/9kvSOaYlVAdWRIaScxFWmId1v/mwW49j6j5D
+	+1xwgmeD0b9zY0nCFoQk5KeBdb9VUSc=
+X-Google-Smtp-Source: ABdhPJyPd7tafrzhNij74YmNsBXb1ggPsXOcKEC+7CDbj4vV05kNa17yIARk5HquNhvGdR9XfT5N0A==
+X-Received: by 2002:a17:902:d312:: with SMTP id b18mr6966375plc.9.1590446266753;
+        Mon, 25 May 2020 15:37:46 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id y23sm1990432pje.3.2020.05.25.15.37.42
+        by smtp.gmail.com with ESMTPSA id y23sm1990432pje.3.2020.05.25.15.37.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 May 2020 15:37:43 -0700 (PDT)
+        Mon, 25 May 2020 15:37:46 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/17] qemu: fix CVE-2020-11869
-Date: Mon, 25 May 2020 12:36:56 -1000
-Message-Id: <1af607d9e635e7cf2f6cf3e4c6d05f1e2cb6acc9.1590445868.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/17] base/insane: Check pkgs lics are subset of recipe lics only once
+Date: Mon, 25 May 2020 12:36:57 -1000
+Message-Id: <ae404ef230882e442e9390b314e1ce023fdbbd1b.1590445868.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1590445868.git.steve@sakoman.com>
 References: <cover.1590445868.git.steve@sakoman.com>
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Quentin Schulz <quentin.schulz@streamunlimited.com>
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Move logic checking that all packages licenses are only a subset of
+recipe licenses from base.bbclass to the insane.bbclass so that it's
+evaluated only once, during do_package_qa.
+
+As explained in the linked bugzilla entry, if a package license is not
+part of the recipe license, the warning message gets shown an
+unreasonable amount of time because it's evaluated every time a recipe
+is parsed.
+
+[YOCTO #10130]
+
+This also makes it possible to silence this error with INSANE_SKIP.
+
+Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-(cherry picked from commit 5f01d45266bbc0d0f1a32d10c0841326193cc9c1)
+(cherry picked from commit 852408ed4be1f64c57e196688728b7ed223d3493)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2020-11869.patch            | 97 +++++++++++++++++++
- 2 files changed, 98 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-11869.patch
+ meta/classes/base.bbclass   | 13 -------------
+ meta/classes/insane.bbclass | 21 ++++++++++++++++++++-
+ 2 files changed, 20 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 7a1ccf2115..126e7d442c 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -37,6 +37,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://CVE-2020-7211.patch \
- 	   file://0001-qemu-Do-not-include-file-if-not-exists.patch \
-            file://CVE-2020-11102.patch \
-+	   file://CVE-2020-11869.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 45f9435fd8..7aa2e144eb 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -584,19 +584,6 @@ python () {
+                         bb.debug(1, "Skipping recipe %s because of incompatible license(s): %s" % (pn, ' '.join(incompatible_lic)))
+                         raise bb.parse.SkipRecipe("it has incompatible license(s): %s" % ' '.join(incompatible_lic))
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-11869.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-11869.patch
-new file mode 100644
-index 0000000000..ca7ffed934
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-11869.patch
-@@ -0,0 +1,97 @@
-+From ac2071c3791b67fc7af78b8ceb320c01ca1b5df7 Mon Sep 17 00:00:00 2001
-+From: BALATON Zoltan <balaton@eik.bme.hu>
-+Date: Mon, 6 Apr 2020 22:34:26 +0200
-+Subject: [PATCH] ati-vga: Fix checks in ati_2d_blt() to avoid crash
+-        # Try to verify per-package (LICENSE_<pkg>) values. LICENSE should be a
+-        # superset of all per-package licenses. We do not do advanced (pattern)
+-        # matching of license expressions - just check that all license strings
+-        # in LICENSE_<pkg> are found in LICENSE.
+-        license_set = oe.license.list_licenses(license)
+-        for pkg in d.getVar('PACKAGES').split():
+-            pkg_license = d.getVar('LICENSE_' + pkg)
+-            if pkg_license:
+-                unlisted = oe.license.list_licenses(pkg_license) - license_set
+-                if unlisted:
+-                    bb.warn("LICENSE_%s includes licenses (%s) that are not "
+-                            "listed in LICENSE" % (pkg, ' '.join(unlisted)))
+-
+     needsrcrev = False
+     srcuri = d.getVar('SRC_URI')
+     for uri in srcuri.split():
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 7fc8f33a98..3a0efa3ad6 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -28,7 +28,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             pn-overrides infodir build-deps src-uri-bad \
+             unknown-configure-option symlink-to-sysroot multilib \
+             invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
+-            mime mime-xdg \
++            mime mime-xdg unlisted-pkg-lics \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+@@ -897,6 +897,25 @@ def package_qa_check_expanded_d(package, d, messages):
+                 sane = False
+     return sane
+ 
++QAPKGTEST[unlisted-pkg-lics] = "package_qa_check_unlisted_pkg_lics"
++def package_qa_check_unlisted_pkg_lics(package, d, messages):
++    """
++    Check that all licenses for a package are among the licenses for the recipe.
++    """
++    pkg_lics = d.getVar('LICENSE_' + package)
++    if not pkg_lics:
++        return True
 +
-+In some corner cases (that never happen during normal operation but a
-+malicious guest could program wrong values) pixman functions were
-+called with parameters that result in a crash. Fix this and add more
-+checks to disallow such cases.
++    recipe_lics_set = oe.license.list_licenses(d.getVar('LICENSE'))
++    unlisted = oe.license.list_licenses(pkg_lics) - recipe_lics_set
++    if not unlisted:
++        return True
 +
-+Reported-by: Ziming Zhang <ezrakiez@gmail.com>
-+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-+Message-id: 20200406204029.19559747D5D@zero.eik.bme.hu
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
++    package_qa_add_message(messages, "unlisted-pkg-lics",
++                           "LICENSE_%s includes licenses (%s) that are not "
++                           "listed in LICENSE" % (package, ' '.join(unlisted)))
++    return False
 +
-+Upstream-Status: Backport [https://git.qemu.org/?p=qemu.git;a=commit;h=ac2071c3791b67fc7af78b8ceb320c01ca1b5df7]
-+CVE: CVE-2020-11869
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ hw/display/ati_2d.c | 37 ++++++++++++++++++++++++++-----------
-+ 1 file changed, 26 insertions(+), 11 deletions(-)
-+
-+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-+index 42e8231..23a8ae0 100644
-+--- a/hw/display/ati_2d.c
-++++ b/hw/display/ati_2d.c
-+@@ -53,12 +53,20 @@ void ati_2d_blt(ATIVGAState *s)
-+             s->vga.vbe_start_addr, surface_data(ds), surface_stride(ds),
-+             surface_bits_per_pixel(ds),
-+             (s->regs.dp_mix & GMC_ROP3_MASK) >> 16);
-+-    int dst_x = (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
-+-                 s->regs.dst_x : s->regs.dst_x + 1 - s->regs.dst_width);
-+-    int dst_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
-+-                 s->regs.dst_y : s->regs.dst_y + 1 - s->regs.dst_height);
-++    unsigned dst_x = (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
-++                      s->regs.dst_x : s->regs.dst_x + 1 - s->regs.dst_width);
-++    unsigned dst_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
-++                      s->regs.dst_y : s->regs.dst_y + 1 - s->regs.dst_height);
-+     int bpp = ati_bpp_from_datatype(s);
-++    if (!bpp) {
-++        qemu_log_mask(LOG_GUEST_ERROR, "Invalid bpp\n");
-++        return;
-++    }
-+     int dst_stride = DEFAULT_CNTL ? s->regs.dst_pitch : s->regs.default_pitch;
-++    if (!dst_stride) {
-++        qemu_log_mask(LOG_GUEST_ERROR, "Zero dest pitch\n");
-++        return;
-++    }
-+     uint8_t *dst_bits = s->vga.vram_ptr + (DEFAULT_CNTL ?
-+                         s->regs.dst_offset : s->regs.default_offset);
-+ 
-+@@ -82,12 +90,16 @@ void ati_2d_blt(ATIVGAState *s)
-+     switch (s->regs.dp_mix & GMC_ROP3_MASK) {
-+     case ROP3_SRCCOPY:
-+     {
-+-        int src_x = (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
-+-                     s->regs.src_x : s->regs.src_x + 1 - s->regs.dst_width);
-+-        int src_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
-+-                     s->regs.src_y : s->regs.src_y + 1 - s->regs.dst_height);
-++        unsigned src_x = (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
-++                       s->regs.src_x : s->regs.src_x + 1 - s->regs.dst_width);
-++        unsigned src_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
-++                       s->regs.src_y : s->regs.src_y + 1 - s->regs.dst_height);
-+         int src_stride = DEFAULT_CNTL ?
-+                          s->regs.src_pitch : s->regs.default_pitch;
-++        if (!src_stride) {
-++            qemu_log_mask(LOG_GUEST_ERROR, "Zero source pitch\n");
-++            return;
-++        }
-+         uint8_t *src_bits = s->vga.vram_ptr + (DEFAULT_CNTL ?
-+                             s->regs.src_offset : s->regs.default_offset);
-+ 
-+@@ -137,8 +149,10 @@ void ati_2d_blt(ATIVGAState *s)
-+                                     dst_y * surface_stride(ds),
-+                                     s->regs.dst_height * surface_stride(ds));
-+         }
-+-        s->regs.dst_x += s->regs.dst_width;
-+-        s->regs.dst_y += s->regs.dst_height;
-++        s->regs.dst_x = (s->regs.dp_cntl & DST_X_LEFT_TO_RIGHT ?
-++                         dst_x + s->regs.dst_width : dst_x);
-++        s->regs.dst_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
-++                         dst_y + s->regs.dst_height : dst_y);
-+         break;
-+     }
-+     case ROP3_PATCOPY:
-+@@ -179,7 +193,8 @@ void ati_2d_blt(ATIVGAState *s)
-+                                     dst_y * surface_stride(ds),
-+                                     s->regs.dst_height * surface_stride(ds));
-+         }
-+-        s->regs.dst_y += s->regs.dst_height;
-++        s->regs.dst_y = (s->regs.dp_cntl & DST_Y_TOP_TO_BOTTOM ?
-++                         dst_y + s->regs.dst_height : dst_y);
-+         break;
-+     }
-+     default:
-+-- 
-+1.8.3.1
+ def package_qa_check_encoding(keys, encode, d):
+     def check_encoding(key, enc):
+         sane = True
 -- 
 2.17.1
 
