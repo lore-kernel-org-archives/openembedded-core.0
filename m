@@ -1,103 +1,84 @@
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
- by mx.groups.io with SMTP id smtpd.web11.46730.1590481166126772685
+Received: from mail-oo1-f66.google.com (mail-oo1-f66.google.com [209.85.161.66])
+ by mx.groups.io with SMTP id smtpd.web10.46939.1590481510072480638
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 01:19:26 -0700
+ Tue, 26 May 2020 01:25:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cE65xAbk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f65.google.com with SMTP id u12so2339043wmd.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 01:19:25 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=kDfvIZ+n;
+ spf=pass (domain: konsulko.com, ip: 209.85.161.66, mailfrom: paul.barker@konsulko.com)
+Received: by mail-oo1-f66.google.com with SMTP id f39so726885ooi.7
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 01:25:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=aoem+qEQqS+YsUvlJD1bjfsdxnJg/EVUK+dQU41ycj4=;
-        b=cE65xAbkMOy5bp+pGJ2WITpvtTfiRvkJi1QcCq9uVfzVGExSNVZfpyv0x75vSE45lE
-         Rh/bshvmLuobgTdiYQsmZO6wLx+4seoRus+d9h6njYojzzWeeJjCoSZhQ5eS0vRiWTQT
-         5Nhwm93FS/CCUrwoG74afQiwHe4X136hFx57Y=
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lgkwQuZmxLa1UjAfljmAoJGANYBk8Zjs41P53O+9/Xc=;
+        b=kDfvIZ+nIuvJ611h2bBkXrB2an7kjN+BcLuQq4gYQUxgnWDsDaclQQkBHIqfnqLKcm
+         F9BByroafCn6QipG0iL3Hkh/TzJx/Xg+SZ7YKHkS7034cudR7nIjLmuFwbFnRF7+Tids
+         7W6U4eVy8DhSuBo2D4hKYr+ni85MClffz0kpY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=aoem+qEQqS+YsUvlJD1bjfsdxnJg/EVUK+dQU41ycj4=;
-        b=p6GoQe957BrcTiK2C1wKw0Y8P2vdWb+KC17/369jLUF/rkwWuhn/OphDgLtyRvfRoP
-         vXBEjPDmnrHVM3sgrftXoM8ZSHXcI8RToEv+33qGuBNqWyHTka8j4W9dbcLqhcijzNhm
-         8oHdMrnExm/BSwSErtOgd5NnRx20kTKJYcZ49PkJxBR0T9MFgKojYeiey3B5Y2yis/kH
-         L7EJwsL0H3DDgu1kMFPcl4z7ge0wsiVdcCqeokNBySCDcolNYkJPR10/sd7QA5b8Isef
-         yKak9qJFzcZ0DkzxORrnoN5caI6NruA00UrG80kLr66U0pb1DIMGsg7HMUJa+hM0Viz9
-         HtKA==
-X-Gm-Message-State: AOAM53207kkQiYU2qfDakG3a2qdMyWoK5J0Pm5Vh5YwROc60jW6nBySH
-	s681vOGujXz62XMiClS/6rXJ+w==
-X-Google-Smtp-Source: ABdhPJyuPDNTDyA8ngWnnpT4IMwvQfwWObRvUiHFIRYdj5WAEtB/Y+8I63Od/SNVDlF/rvuCS+0xOA==
-X-Received: by 2002:a1c:65c2:: with SMTP id z185mr224605wmb.125.1590481164422;
-        Tue, 26 May 2020 01:19:24 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id s15sm20616824wro.80.2020.05.26.01.19.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2020 01:19:23 -0700 (PDT)
-Message-ID: <de59b9f118c6d51c902e50dce97a7680f77e7402.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [meta-oe][PATCH 3/4] libgcrypt: made libgcrypt-lic license "GPLv2+ & LGPLv2.1+"
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: matthias.schoepfer@googlemail.com, 
-	openembedded-core@lists.openembedded.org
-Cc: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
-Date: Tue, 26 May 2020 09:19:22 +0100
-In-Reply-To: <20200526081233.62413-3-matthias.schoepfer@googlemail.com>
-References: <20200526081233.62413-1-matthias.schoepfer@googlemail.com>
-	 <20200526081233.62413-3-matthias.schoepfer@googlemail.com>
-User-Agent: Evolution 3.36.1-2 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lgkwQuZmxLa1UjAfljmAoJGANYBk8Zjs41P53O+9/Xc=;
+        b=MiCTTBy+1w5AzHG8cTbny9T+NrFI8coA++39wHAmb/vGOe1Mlou70rJieSB627/apw
+         4EoaNvrJdSAOFimL1pjShMZ/LIXzYTX86seU/GPaND2fbZoiW3h0LsAYeBJ3wRkJctOr
+         vrUTGtDv/a6hk0AqCFAWZJzuUxJmzwDQImMHuIZWfKRwsiJNm7P1dx0JvSrRIphdFtbz
+         OvkbbVBCLxszA+9HFyDU5GGHArf5qtxPNv4Zok5deJo6w14+wOoZm1tvg9v+3VPzhr3i
+         blSBBSIthPMSY4+rz/xFAYfHgT1Aq4LkwpC436SJhqRljthCg4BRkgAlE4I0/2piOioB
+         bADA==
+X-Gm-Message-State: AOAM530f9GbFJ9soBjG+dyfH5ZUn9H58zU2MjDa/i5Nx64XoekRIm3yy
+	OsY6TDcyBlJ2Uj5QeAz1Fvl6ThFKK0hapjqMKnDbDw==
+X-Google-Smtp-Source: ABdhPJy+hd8Kiawvo+N5lBBBTZ5NGp9Gx8gVONYeQgqJte86eO/vPi8BsDsDk7BB/+CBPOpojrDyHNCXv/3hmeBIg54=
+X-Received: by 2002:a4a:3388:: with SMTP id q130mr16097091ooq.5.1590481509223;
+ Tue, 26 May 2020 01:25:09 -0700 (PDT)
 MIME-Version: 1.0
+References: <cover.1590445868.git.steve@sakoman.com> <dc5babe9472ba7379edbb17b6cbac44604606b26.1590445868.git.steve@sakoman.com>
+In-Reply-To: <dc5babe9472ba7379edbb17b6cbac44604606b26.1590445868.git.steve@sakoman.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Tue, 26 May 2020 09:24:59 +0100
+Message-ID: <CAM9ZRVt4dKEefgQF8xnGVoEbm4hFiPOzc106YPai0D5-DpuWoQ@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 09/17] libubootenv: Depend on zlib
+To: Steve Sakoman <steve@sakoman.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-05-26 at 10:12 +0200, Matthias Schoepfer via
-lists.openembedded.org wrote:
-> From: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
-> 
-> With the exception of dumpsexp.c, which is GPLv3, all other parts
-> of libgcrypt are GPLv2+ & LGPLv2.1+, BSD or MIT or other "permissive"
-> licenses.
-> 
-> If libgcrypt-lic is not set to "GPLv2+ & LGPLv2.1+", image creation
-> will
-> fail with settings like
-> 
-> INCOMPATIBLE_LICENSE = "GPLv3 LGPLv3 GPLv3+ LGPLv3+ GPL-3.0 LGPL-3.0
-> AGPL-3.0"
-> COPY_LIC_MANIFEST = "1"
-> COPY_LIC_DIRS = "1"
-> LICENSE_CREATE_PACKAGE = "1"
-> 
-> Signed-off-by: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
+On Mon, 25 May 2020 at 23:37, Steve Sakoman <steve@sakoman.com> wrote:
+>
+> From: Marek Vasut <marex@denx.de>
+>
+> The libubootenv depends on zlib as it calls at least crc32() from
+> there and links against it. Add the DEPENDS entry.
+>
+> Signed-off-by: Marek Vasut <marex@denx.de>
+> Cc: Stefano Babic <sbabic@denx.de>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> (cherry picked from commit db513f9ec59b7ac526b2cdc42b0eb2573e134bc4)
+> Signed-off-by: Steve Sakoman <steve@sakoman.com>
 > ---
->  meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
-> b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
-> index 4e0eb0a169..fd40cdcf83 100644
-> --- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
-> +++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
-> @@ -7,6 +7,7 @@ SECTION = "libs"
->  LICENSE = "GPLv2+ & LGPLv2.1+ & GPLv3+"
->  LICENSE_${PN} = "LGPLv2.1+"
->  LICENSE_${PN}-dev = "GPLv2+ & LGPLv2.1+"
-> +LICENSE_${PN}-lic = "GPLv2+ & LGPLv2.1+"
->  LICENSE_dumpsexp-dev = "GPLv3+"
+>  meta/recipes-bsp/u-boot/libubootenv_0.2.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+> index 3251d0f05b..fa90a12bf8 100644
+> --- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+> @@ -1,5 +1,5 @@
+>  SUMMARY = "U-Boot libraries and tools to access environment"
+> -DEPENDS += "mtd-utils"
+> +DEPENDS += "mtd-utils zlib"
+>
+>  DESCRIPTION = "This package contains tools and libraries to read \
+>  and modify U-Boot environment. \
+> --
+> 2.17.1
 
-I don't like this approach at all. Its obviously inconvenient if your
-image uses only the non-GPLv3 pieces but this doesn't change the fact
-that the main package license does include GLPv3 and ${PN}-lic is right
-to include it. You're breaking the metadata to fit your use case for
-convenience.
+Is this actually needed for the u-boot version in dunfell? My
+understanding when I saw the original patch was that this is a new
+requirement of the latest u-boot.
 
-If you're excluding GPLv3 things from packaging, you could then (and
-only then) justifiably adjust ${PN}-lic to a different license so the
-code should be doing that, not changing the underlying metadata to suit
-you.
+Thanks,
 
-Cheers,
-
-Richard
-
+-- 
+Paul Barker
+Konsulko Group
