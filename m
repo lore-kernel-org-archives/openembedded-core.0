@@ -1,1249 +1,849 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web12.51775.1590504225115108872
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+ by mx.groups.io with SMTP id smtpd.web10.53751.1590507964533715372
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 07:43:45 -0700
+ Tue, 26 May 2020 08:46:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tvQ8zx81;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id x18so7654521pll.6
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 07:43:45 -0700 (PDT)
+ dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=qxFL21pj;
+ spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.214.180, mailfrom: jpuhlman@mvista.com)
+Received: by mail-pl1-f180.google.com with SMTP id y11so550623plt.12
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 08:46:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:content-language
-         :thread-index;
-        bh=x+7fuHj59Wh3lxQwixiC8a/XwXM/gkwtWd9xZnwv24o=;
-        b=tvQ8zx81nIjLgYLU+SH7faiRFKkfT5Zlr331fFd5nmmj1umkVE90J8t2+gB+nGkXS8
-         93VxMKtsD0MTNEMQebwWbcJkX0M86z2tp9qyoKW74LbUZWGp+0QADmiaXe4tbswVrIJg
-         p3HiBs/345SKJbRDEfNrysaIpIsHSoxFI4tIS4uoAEsaOerBnWByWPPgFajJ9Vcp/RTJ
-         9ty34SpAXJ/zuv/atTFbVZeOAWtWSJxwB13qOVGoBZ+ClI34PHUig+1J0YDkZg6IhAY/
-         dIHivtmHjE70Anz+y4NWhUtmKksiPjh/7RBC7g/tnh41SOG5IXvf6ESr1AAxCt6wbb9Q
-         3/Lw==
+        d=mvista-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language;
+        bh=hG8AoofX4zmcEj3Wpp8OuydGJBW/ZvI2QYd5+czrgJE=;
+        b=qxFL21pjnKq0nb7w4zytA5oFOltV1jPhQ/tZ5V9Rl8KjPrpSh7T5yNvyiPerNwGdM7
+         nvzDz2rYWU2iz131QTHtpH6C2LeimflmwBlRVS5t+P9R5G7NB7vBnyAFaDmoVlsA1hVF
+         w5fQNZPxyE5dT8jZIpuN34zTVLdg8cdff0ITmCDJexias7U3GMSbDRAnKd92nH+2z0Ed
+         qhdKKryMnYYnYiWzY4uWhEXSqvEBu4pAWmpbCBS9En/vdfiZhXIVen1wwdJtIDMbgNK5
+         GqWgdpLJzQeP7REpNua9tovzXbF667zHDrkZFNvFLBJAhA3ECmgYdy9pyHaDKiShi6Ay
+         LJdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-language:thread-index;
-        bh=x+7fuHj59Wh3lxQwixiC8a/XwXM/gkwtWd9xZnwv24o=;
-        b=dPcUUzWLKM2QffTk6A2MksOk20nraF9yI+3kMsYD6vp8ABx6rbZY7ATNhnHJUGbiFw
-         gHtEgxMsQU49zj6Y3xQK726TLezzPdoGeZH3efnkv5UaCAa98NTvgfS5gtV53BVCUlnp
-         qqyX1gEXAzPWKYniUqXMrFSeIKiswjq2EcptElPyo0KQ/bjVhgZtYRNEqA8SEuSe7Nib
-         0kptFDF6x93hoQ+hekYs+dsH17iRoq/vKRCse8iMTAq01O66lcBA4OVvLhrGBHtk9Gr6
-         W7Fzfi1WP63InwYBfpXyI/cFk04TQ9DOgLlaHNpxVXRRBY4OOLWEUeq05scAkQ6oufDY
-         Ey/g==
-X-Gm-Message-State: AOAM530GVRmTtj7AUYLoZyDmfJ4fyRFS0LhggxpoZLZA+U5tUxhPLVAg
-	Rdv5MA/uhZSBkd5C3VqsmGU=
-X-Google-Smtp-Source: ABdhPJw/x5vMpa3T0HqENjZyvu/m3iuKzoOPME9d/XQG3zbEef41cODLTwsTtXrRIn+p0Fs1DUav6Q==
-X-Received: by 2002:a17:90a:890b:: with SMTP id u11mr16225270pjn.233.1590504224640;
-        Tue, 26 May 2020 07:43:44 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-        by smtp.gmail.com with ESMTPSA id l11sm40605pjj.33.2020.05.26.07.43.43
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 26 May 2020 07:43:44 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Status WW20'21
-Date: Tue, 26 May 2020 07:43:43 -0700
-Message-ID: <1daf01d6336c$0e776ac0$2b664040$@gmail.com>
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language;
+        bh=hG8AoofX4zmcEj3Wpp8OuydGJBW/ZvI2QYd5+czrgJE=;
+        b=Bv4HgZak4IE/3sxcKX3F6aacqO20FPAS60kAptnTB5Z48JL4WKwztIn7FLnEmhI1C6
+         FK5Qn2atNPpbdTqOsT32HsgJgW9zz7+qkZv8X/xnpaIydoWtH3UpvmPrIDFPLJ0vORZJ
+         7JYinfD+s+uQeDu+cd3fRXQXTGKo3hOwCtGe9zENave1d6zoXrqciwQsfEonZwjlZQvq
+         7FiWzIvGQY60+FIyzPre/vnurbjl1QGu8YnLFrICMjAF71+LgzGlcH5mDODiiAeR8T2E
+         zwTNrQzE/G0J+3XX1P2dMuQL3LVVhfzuIGviOX1zgOOUxpEEvARoydOAjC+cnbPLFhXn
+         FSaw==
+X-Gm-Message-State: AOAM531a9fxpDNuAkPxyBgcID54LTFd7h71VEntPEp5uB+egRyRLHR6v
+	Hnsb7hd7CGev848IC8G9lOjNoQUNpoo=
+X-Google-Smtp-Source: ABdhPJz8vsOnDyelypV2yn0dvUppug6RkKiQmRxyaiJEyTlh0qy02dz1MxJVsQ6sfF3y1UWrSrFlDQ==
+X-Received: by 2002:a17:90a:64ce:: with SMTP id i14mr26202340pjm.48.1590507963234;
+        Tue, 26 May 2020 08:46:03 -0700 (PDT)
+Return-Path: <jpuhlman@mvista.com>
+Received: from [192.168.1.128] (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+        by smtp.gmail.com with ESMTPSA id g1sm15279513pfo.142.2020.05.26.08.46.02
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2020 08:46:02 -0700 (PDT)
+Subject: Re: [OE-core] [PATCH] multilib/recipes: Use new RecipePostKeyExpansion event
+To: openembedded-core@lists.openembedded.org
+References: <20200521110914.2202188-1-richard.purdie@linuxfoundation.org>
+From: "Jeremy Puhlman" <jpuhlman@mvista.com>
+Message-ID: <64ca506f-b276-0a4b-4f90-55433aeb2df6@mvista.com>
+Date: Tue, 26 May 2020 08:45:59 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AdYza/yVFogso0dWTeC/6hMY6/gC/g==
+In-Reply-To: <20200521110914.2202188-1-richard.purdie@linuxfoundation.org>
 Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_1DB0_01D63331.621E5F20"
-Content-Language: en-us
+ boundary="------------1C5B25BC413E09E4485149F7"
+Content-Language: en-US
 
-------=_NextPart_000_1DB0_01D63331.621E5F20
-Content-Type: text/plain;
-	charset="us-ascii"
+--------------1C5B25BC413E09E4485149F7
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Current Dev Position: YP 3.2 M1
+For master I this looks great. We have been bitten in various edge cases 
+by this in the past. You mentioned
+pushing it on to dunfell. I a little leary at this point, but if we are 
+going to its kind of now or never. My feeling
+is there will be some fallout(which is perfectly fine on master, a 
+little questionable on a stable release) in other
+layers.
 
-Next Deadline: YP 3.2 M1 build date 2020/6/16
+On 5/21/2020 4:09 AM, Richard Purdie wrote:
+> There are issues with multilib due to the ordering of events where some
+> functions see the remapped multilib dependencies and some do not. A significant
+> problem is that the multilib class needs to make some changes before key expansion
+> and some afterwards but by using existing event handlers, some code sees things
+> in a partially translated state, leading to bugs.
+>
+> This patch changes things to use a new event handler from bitbake which makes the
+> ordering of the changes explcit.
+>
+> The challenge in doing this is that it breaks some existing anonymous python and
+> dyanmic assignments. In some cases these used to be translated and no longer are,
+> meaning MLPREFIX has to be added. In some cases these are now translated and the
+> MLPREFIX can be removed.
+>
+> This change does now make it very clear when MLPREFIX is required and when it is
+> not, its just the migration path which is harder. The patch changes the small number
+> of cases where fixes are needed.
+>
+> This patch also reverts:
+> base: Revert 'base.bbclass: considering multilib when setting LICENSE_EXCLUSION'
+>
+> This reverts 6597130256a1609c3e05ec5891aceaf549c37985 as the changes
+> to multilib datastore handling mean its no longer necessary.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   meta/classes/base.bbclass                     |  3 +-
+>   meta/classes/fontcache.bbclass                |  2 +-
+>   meta/classes/multilib.bbclass                 | 28 ++++++++++++---
+>   meta/lib/oe/classextend.py                    | 35 +++++++++++++++++--
+>   meta/recipes-core/glibc/glibc-package.inc     |  2 +-
+>   meta/recipes-core/psplash/psplash_git.bb      |  6 ++--
+>   meta/recipes-devtools/perl/perl_5.30.2.bb     |  2 +-
+>   meta/recipes-devtools/python/python3_3.8.2.bb | 14 ++++----
+>   meta/recipes-graphics/mesa/mesa.inc           | 10 +++---
+>   .../alsa/alsa-plugins_1.2.1.bb                |  6 ++--
+>   meta/recipes-support/boost/boost.inc          | 10 ++++--
+>   11 files changed, 85 insertions(+), 33 deletions(-)
+>
+> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+> index 7aa2e144eb7..4c681cc870d 100644
+> --- a/meta/classes/base.bbclass
+> +++ b/meta/classes/base.bbclass
+> @@ -570,8 +570,7 @@ python () {
+>                   if unskipped_pkgs:
+>                       for pkg in skipped_pkgs:
+>                           bb.debug(1, "Skipping the package %s at do_rootfs because of incompatible license(s): %s" % (pkg, ' '.join(skipped_pkgs[pkg])))
+> -                        mlprefix = d.getVar('MLPREFIX')
+> -                        d.setVar('LICENSE_EXCLUSION-' + mlprefix + pkg, ' '.join(skipped_pkgs[pkg]))
+> +                        d.setVar('LICENSE_EXCLUSION-' + pkg, ' '.join(skipped_pkgs[pkg]))
+>                       for pkg in unskipped_pkgs:
+>                           bb.debug(1, "Including the package %s" % pkg)
+>                   else:
+> diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
+> index 97e7f17f00e..624a420a0de 100644
+> --- a/meta/classes/fontcache.bbclass
+> +++ b/meta/classes/fontcache.bbclass
+> @@ -7,7 +7,7 @@ PACKAGE_WRITE_DEPS += "qemu-native"
+>   inherit qemu
+>   
+>   FONT_PACKAGES ??= "${PN}"
+> -FONT_EXTRA_RDEPENDS ?= "fontconfig-utils"
+> +FONT_EXTRA_RDEPENDS ?= "${MLPREFIX}fontconfig-utils"
+>   FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
+>   FONTCONFIG_CACHE_PARAMS ?= "-v"
+>   # You can change this to e.g. FC_DEBUG=16 to debug fc-cache issues,
+> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+> index ee677da1e20..9f726e45371 100644
+> --- a/meta/classes/multilib.bbclass
+> +++ b/meta/classes/multilib.bbclass
+> @@ -91,13 +91,12 @@ addhandler multilib_virtclass_handler
+>   multilib_virtclass_handler[eventmask] = "bb.event.RecipePreFinalise"
+>   
+>   python __anonymous () {
+> -    variant = d.getVar("BBEXTENDVARIANT")
+> -
+> -    import oe.classextend
+> +    if bb.data.inherits_class('image', d):
+> +        variant = d.getVar("BBEXTENDVARIANT")
+> +        import oe.classextend
+>   
+> -    clsextend = oe.classextend.ClassExtender(variant, d)
+> +        clsextend = oe.classextend.ClassExtender(variant, d)
+>   
+> -    if bb.data.inherits_class('image', d):
+>           clsextend.map_depends_variable("PACKAGE_INSTALL")
+>           clsextend.map_depends_variable("LINGUAS_INSTALL")
+>           clsextend.map_depends_variable("RDEPENDS")
+> @@ -109,6 +108,22 @@ python __anonymous () {
+>           bb.build.deltask('do_populate_sdk', d)
+>           bb.build.deltask('do_populate_sdk_ext', d)
+>           return
+> +}
+> +
+> +python multilib_virtclass_handler_postkeyexp () {
+> +    cls = d.getVar("BBEXTENDCURR")
+> +    variant = d.getVar("BBEXTENDVARIANT")
+> +    if cls != "multilib" or not variant:
+> +        return
+> +
+> +    variant = d.getVar("BBEXTENDVARIANT")
+> +
+> +    import oe.classextend
+> +
+> +    clsextend = oe.classextend.ClassExtender(variant, d)
+> +
+> +    if bb.data.inherits_class('image', d):
+> +        return
+>   
+>       clsextend.map_depends_variable("DEPENDS")
+>       clsextend.map_variable("PROVIDES")
+> @@ -129,6 +144,9 @@ python __anonymous () {
+>       reset_alternative_priority(d)
+>   }
+>   
+> +addhandler multilib_virtclass_handler_postkeyexp
+> +multilib_virtclass_handler_postkeyexp[eventmask] = "bb.event.RecipePostKeyExpansion"
+> +
+>   def reset_alternative_priority(d):
+>       if not bb.data.inherits_class('update-alternatives', d):
+>           return
+> diff --git a/meta/lib/oe/classextend.py b/meta/lib/oe/classextend.py
+> index f02fbe9fbad..ff8f84c572c 100644
+> --- a/meta/lib/oe/classextend.py
+> +++ b/meta/lib/oe/classextend.py
+> @@ -4,11 +4,21 @@
+>   
+>   import collections
+>   
+> +def get_packages(d):
+> +    pkgs = d.getVar("PACKAGES_NONML")
+> +    extcls = d.getVar("EXTENDERCLASS")
+> +    return extcls.rename_packages_internal(pkgs)
+> +
+> +def get_depends(d):
+> +    extcls = d.getVar("EXTENDERCLASS")
+> +    return extcls. map_depends_variable("DEPENDS_NONML")
+> +
+>   class ClassExtender(object):
+>       def __init__(self, extname, d):
+>           self.extname = extname
+>           self.d = d
+>           self.pkgs_mapping = []
+> +        self.d.setVar("EXTENDERCLASS", self)
+>   
+>       def extend_name(self, name):
+>           if name.startswith("kernel-") or name == "virtual/kernel":
+> @@ -24,7 +34,7 @@ class ClassExtender(object):
+>               if not subs.startswith(self.extname):
+>                   return "virtual/" + self.extname + "-" + subs
+>               return name
+> -        if name.startswith("/"):
+> +        if name.startswith("/") or (name.startswith("${") and name.endswith("}")):
+>               return name
+>           if not name.startswith(self.extname):
+>               return self.extname + "-" + name
+> @@ -89,8 +99,14 @@ class ClassExtender(object):
+>           for dep in deps:
+>               newdeps[self.map_depends(dep)] = deps[dep]
+>   
+> -        self.d.setVar(varname, bb.utils.join_deps(newdeps, False).replace("EXTENDPKGV", "${EXTENDPKGV}"))
+> +        if varname == "DEPENDS":
+> +            self.d.setVar("DEPENDS_NONML", self.d.getVar("DEPENDS", False))
+> +            self.d.setVar("DEPENDS", "${@oe.classextend.get_depends(d)}")
+> +        ret = bb.utils.join_deps(newdeps, False).replace("EXTENDPKGV", "${EXTENDPKGV}")
+>           self.d.setVar("EXTENDPKGV", orig)
+> +        if varname == "DEPENDS_NONML" or varname == "DEPENDS":
+> +            return ret
+> +        self.d.setVar(varname, ret)
+>   
+>       def map_packagevars(self):
+>           for pkg in (self.d.getVar("PACKAGES").split() + [""]):
+> @@ -109,10 +125,23 @@ class ClassExtender(object):
+>                  continue
+>               self.pkgs_mapping.append([pkg, self.extend_name(pkg)])
+>   
+> -        self.d.setVar("PACKAGES", " ".join([row[1] for row in self.pkgs_mapping]))
+> +        self.d.setVar("PACKAGES_NONML", self.d.getVar("PACKAGES", False))
+> +        self.d.setVar("PACKAGES", "${@oe.classextend.get_packages(d)}")
+> +
+> +    def rename_packages_internal(self, pkgs):
+> +        self.pkgs_mapping = []
+> +        for pkg in (self.d.expand(pkgs) or "").split():
+> +            if pkg.startswith(self.extname):
+> +               self.pkgs_mapping.append([pkg.split(self.extname + "-")[1], pkg])
+> +               continue
+> +            self.pkgs_mapping.append([pkg, self.extend_name(pkg)])
+> +
+> +        return " ".join([row[1] for row in self.pkgs_mapping])
+>   
+>       def rename_package_variables(self, variables):
+>           for pkg_mapping in self.pkgs_mapping:
+> +            if pkg_mapping[0].startswith("${") and pkg_mapping[0].endswith("}"):
+> +                continue
+>               for subs in variables:
+>                   self.d.renameVar("%s_%s" % (subs, pkg_mapping[0]), "%s_%s" % (subs, pkg_mapping[1]))
+>   
+> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+> index aa8e0592169..ff25fd41875 100644
+> --- a/meta/recipes-core/glibc/glibc-package.inc
+> +++ b/meta/recipes-core/glibc/glibc-package.inc
+> @@ -24,7 +24,7 @@ libc_baselibs_append = " ${@oe.utils.conditional('ARCH_DYNAMIC_LOADER', '', '',
+>   INSANE_SKIP_${PN}_append_aarch64 = " libdir"
+>   
+>   FILES_${PN} = "${libc_baselibs} ${libexecdir}/*"
+> -RRECOMMENDS_${PN} = "${@bb.utils.filter('DISTRO_FEATURES', 'ldconfig', d)}"
+> +RRECOMMENDS_${PN} = "${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', '${MLPREFIX}ldconfig', '', d)}"
+>   FILES_ldconfig = "${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
+>   FILES_ldd = "${bindir}/ldd"
+>   FILES_libsegfault = "${base_libdir}/libSegFault*"
+> diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+> index 22c71f099b8..bcbdec5e3ed 100644
+> --- a/meta/recipes-core/psplash/psplash_git.bb
+> +++ b/meta/recipes-core/psplash/psplash_git.bb
+> @@ -22,6 +22,7 @@ SPLASH_IMAGES = "file://psplash-poky-img.h;outsuffix=default"
+>   python __anonymous() {
+>       oldpkgs = d.getVar("PACKAGES").split()
+>       splashfiles = d.getVar('SPLASH_IMAGES').split()
+> +    mlprefix = d.getVar('MLPREFIX') or ''
+>       pkgs = []
+>       localpaths = []
+>       for uri in splashfiles:
+> @@ -36,7 +37,7 @@ python __anonymous() {
+>                   outsuffix = fbase
+>               if outsuffix.endswith('-img'):
+>                   outsuffix = outsuffix[:-4]
+> -        outname = "psplash-%s" % outsuffix
+> +        outname = "%spsplash-%s" % (mlprefix, outsuffix)
+>           if outname == '' or outname in oldpkgs:
+>               bb.fatal("The output name '%s' derived from the URI %s is not valid, please specify the outsuffix parameter" % (outname, uri))
+>           else:
+> @@ -46,9 +47,8 @@ python __anonymous() {
+>       # Set these so that we have less work to do in do_compile and do_install_append
+>       d.setVar("SPLASH_INSTALL", " ".join(pkgs))
+>       d.setVar("SPLASH_LOCALPATHS", " ".join(localpaths))
+> -
+>       d.prependVar("PACKAGES", "%s " % (" ".join(pkgs)))
+> -    mlprefix = d.getVar('MLPREFIX') or ''
+> +
+>       pn = d.getVar('PN') or ''
+>       for p in pkgs:
+>           ep = '%s%s' % (mlprefix, p)
+> diff --git a/meta/recipes-devtools/perl/perl_5.30.2.bb b/meta/recipes-devtools/perl/perl_5.30.2.bb
+> index 778c420b2ee..26138ea9e55 100644
+> --- a/meta/recipes-devtools/perl/perl_5.30.2.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.30.2.bb
+> @@ -328,7 +328,7 @@ python split_perl_packages () {
+>   
+>   python() {
+>       if d.getVar('CLASSOVERRIDE') == "class-target":
+> -        d.setVar("PACKAGES_DYNAMIC", "^perl-module-.*(?<!native)$")
+> +        d.setVar("PACKAGES_DYNAMIC", "^${MLPREFIX}perl-module-.*(?<!native)$")
+>       elif d.getVar('CLASSOVERRIDE') == "class-native":
+>           d.setVar("PACKAGES_DYNAMIC", "^perl-module-.*-native$")
+>       elif d.getVar('CLASSOVERRIDE') == "class-nativesdk":
+> diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+> index a4a16fd495f..0474f07214f 100644
+> --- a/meta/recipes-devtools/python/python3_3.8.2.bb
+> +++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+> @@ -311,8 +311,8 @@ do_create_manifest[depends] += "${PN}:do_patch"
+>   
+>   # manual dependency additions
+>   RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python3-modules"
+> -RRECOMMENDS_${PN}-crypt_append_class-target = " openssl ca-certificates"
+> -RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " openssl ca-certificates"
+> +RRECOMMENDS_${PN}-crypt_append_class-target = " ${MLPREFIX}openssl ${MLPREFIX}ca-certificates"
+> +RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " ${MLPREFIX}openssl ${MLPREFIX}ca-certificates"
+>   
+>   # For historical reasons PN is empty and provided by python3-modules
+>   FILES_${PN} = ""
+> @@ -322,7 +322,7 @@ FILES_${PN}-pydoc += "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3"
+>   FILES_${PN}-idle += "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
+>   
+>   # provide python-pyvenv from python3-venv
+> -RPROVIDES_${PN}-venv += "python3-pyvenv"
+> +RPROVIDES_${PN}-venv += "${MLPREFIX}python3-pyvenv"
+>   
+>   # package libpython3
+>   PACKAGES =+ "libpython3 libpython3-staticdev"
+> @@ -333,8 +333,8 @@ INSANE_SKIP_${PN}-dev += "dev-elf"
+>   # catch all the rest (unsorted)
+>   PACKAGES += "${PN}-misc"
+>   RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pydoc python3-pickle python3-audio"
+> -RDEPENDS_${PN}-modules_append_class-target = " python3-misc"
+> -RDEPENDS_${PN}-modules_append_class-nativesdk = " python3-misc"
+> +RDEPENDS_${PN}-modules_append_class-target = " ${MLPREFIX}python3-misc"
+> +RDEPENDS_${PN}-modules_append_class-nativesdk = " ${MLPREFIX}python3-misc"
+>   FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MAJMIN}/lib-dynload"
+>   
+>   # catch manpage
+> @@ -348,5 +348,5 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
+>   RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
+>   RDEPENDS_${PN}-dev = ""
+>   
+> -RDEPENDS_${PN}-tests_append_class-target = " bash"
+> -RDEPENDS_${PN}-tests_append_class-nativesdk = " bash"
+> +RDEPENDS_${PN}-tests_append_class-target = " ${MLPREFIX}bash"
+> +RDEPENDS_${PN}-tests_append_class-nativesdk = " ${MLPREFIX}bash"
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+> index fede691d6ff..bb43a9a8b65 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -212,18 +212,20 @@ python __anonymous() {
+>                 ("gles", "libgles3",)):
+>           if not p[0] in pkgconfig:
+>               continue
+> -        fullp = p[1] + "-mesa"
+> -        pkgs = " ".join(p[1:])
+> +        mlprefix = d.getVar("MLPREFIX")
+> +        fullp = mlprefix + p[1] + "-mesa"
+> +        mlprefix = d.getVar("MLPREFIX")
+> +        pkgs = " ".join(mlprefix + x for x in p[1:])
+>           d.setVar("DEBIAN_NOAUTONAME_" + fullp, "1")
+>           d.appendVar("RREPLACES_" + fullp, pkgs)
+>           d.appendVar("RPROVIDES_" + fullp, pkgs)
+>           d.appendVar("RCONFLICTS_" + fullp, pkgs)
+>   
+> -        d.appendVar("RRECOMMENDS_" + fullp, " mesa-megadriver")
+> +        d.appendVar("RRECOMMENDS_" + fullp, " ${MLPREFIX}mesa-megadriver")
+>   
+>           # For -dev, the first element is both the Debian and original name
+>           fullp += "-dev"
+> -        pkgs = p[1] + "-dev"
+> +        pkgs = mlprefix + p[1] + "-dev"
+>           d.setVar("DEBIAN_NOAUTONAME_" + fullp, "1")
+>           d.appendVar("RREPLACES_" + fullp, pkgs)
+>           d.appendVar("RPROVIDES_" + fullp, pkgs)
+> diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.2.1.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.1.bb
+> index 9882e12763a..d092b158f26 100644
+> --- a/meta/recipes-multimedia/alsa/alsa-plugins_1.2.1.bb
+> +++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.1.bb
+> @@ -167,7 +167,7 @@ FILES_${PN}-pulseaudio-conf += "\
+>   "
+>   
+>   RDEPENDS_${PN}-pulseaudio-conf += "\
+> -        libasound-module-conf-pulse \
+> -        libasound-module-ctl-pulse \
+> -        libasound-module-pcm-pulse \
+> +        ${MLPREFIX}libasound-module-conf-pulse \
+> +        ${MLPREFIX}libasound-module-ctl-pulse \
+> +        ${MLPREFIX}libasound-module-pcm-pulse \
+>   "
+> diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+> index 8eb9494381f..ca140d595fd 100644
+> --- a/meta/recipes-support/boost/boost.inc
+> +++ b/meta/recipes-support/boost/boost.inc
+> @@ -62,12 +62,16 @@ PACKAGES = "${PN}-dbg ${BOOST_PACKAGES}"
+>   python __anonymous () {
+>       packages = []
+>       extras = []
+> +    mlprefix = d.getVar("MLPREFIX")
+>       for lib in d.getVar('BOOST_LIBS').split():
+>           extras.append("--with-%s" % lib)
+> -        pkg = "boost-%s" % lib.replace("_", "-")
+> -        packages.append(pkg)
+> +        pkg = "boost-%s" % (lib.replace("_", "-"))
+> +        packages.append(mlprefix + pkg)
+>           if not d.getVar("FILES_%s" % pkg):
+> -                d.setVar("FILES_%s" % pkg, "${libdir}/libboost_%s*.so.*" % lib)
+> +                d.setVar("FILES_%s%s" % (mlprefix, pkg), "${libdir}/libboost_%s*.so.*" % lib)
+> +        else:
+> +                d.setVar("FILES_%s%s" % (mlprefix, pkg), d.getVar("FILES_%s" % pkg))
+> +
+>       d.setVar("BOOST_PACKAGES", " ".join(packages))
+>       d.setVar("BJAM_EXTRA", " ".join(extras))
+>   }
+>
+> 
+>
+>
 
+-- 
+Jeremy A. Puhlman
+jpuhlman@mvista.com
+
+
+--------------1C5B25BC413E09E4485149F7
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    For master I this looks great. We have been bitten in various edge
+    cases by this in the past. You mentioned<br>
+    pushing it on to dunfell. I a little leary at this point, but if we
+    are going to its kind of now or never. My feeling<br>
+    is there will be some fallout(which is perfectly fine on master, a
+    little questionable on a stable release) in other<br>
+    layers.<br>
+    <br>
+    <div class="moz-cite-prefix">On 5/21/2020 4:09 AM, Richard Purdie
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20200521110914.2202188-1-richard.purdie@linuxfoundation.org">
+      <pre class="moz-quote-pre" wrap="">There are issues with multilib due to the ordering of events where some
+functions see the remapped multilib dependencies and some do not. A significant
+problem is that the multilib class needs to make some changes before key expansion
+and some afterwards but by using existing event handlers, some code sees things
+in a partially translated state, leading to bugs.
+
+This patch changes things to use a new event handler from bitbake which makes the
+ordering of the changes explcit.
+
+The challenge in doing this is that it breaks some existing anonymous python and
+dyanmic assignments. In some cases these used to be translated and no longer are,
+meaning MLPREFIX has to be added. In some cases these are now translated and the
+MLPREFIX can be removed.
+
+This change does now make it very clear when MLPREFIX is required and when it is
+not, its just the migration path which is harder. The patch changes the small number
+of cases where fixes are needed.
+
+This patch also reverts:
+base: Revert 'base.bbclass: considering multilib when setting LICENSE_EXCLUSION'
+
+This reverts 6597130256a1609c3e05ec5891aceaf549c37985 as the changes
+to multilib datastore handling mean its no longer necessary.
+
+Signed-off-by: Richard Purdie <a class="moz-txt-link-rfc2396E" href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a>
+---
+ meta/classes/base.bbclass                     |  3 +-
+ meta/classes/fontcache.bbclass                |  2 +-
+ meta/classes/multilib.bbclass                 | 28 ++++++++++++---
+ meta/lib/oe/classextend.py                    | 35 +++++++++++++++++--
+ meta/recipes-core/glibc/glibc-package.inc     |  2 +-
+ meta/recipes-core/psplash/psplash_git.bb      |  6 ++--
+ meta/recipes-devtools/perl/perl_5.30.2.bb     |  2 +-
+ meta/recipes-devtools/python/python3_3.8.2.bb | 14 ++++----
+ meta/recipes-graphics/mesa/mesa.inc           | 10 +++---
+ .../alsa/alsa-plugins_1.2.1.bb                |  6 ++--
+ meta/recipes-support/boost/boost.inc          | 10 ++++--
+ 11 files changed, 85 insertions(+), 33 deletions(-)
+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 7aa2e144eb7..4c681cc870d 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -570,8 +570,7 @@ python () {
+                 if unskipped_pkgs:
+                     for pkg in skipped_pkgs:
+                         bb.debug(1, "Skipping the package %s at do_rootfs because of incompatible license(s): %s" % (pkg, ' '.join(skipped_pkgs[pkg])))
+-                        mlprefix = d.getVar('MLPREFIX')
+-                        d.setVar('LICENSE_EXCLUSION-' + mlprefix + pkg, ' '.join(skipped_pkgs[pkg]))
++                        d.setVar('LICENSE_EXCLUSION-' + pkg, ' '.join(skipped_pkgs[pkg]))
+                     for pkg in unskipped_pkgs:
+                         bb.debug(1, "Including the package %s" % pkg)
+                 else:
+diff --git a/meta/classes/fontcache.bbclass b/meta/classes/fontcache.bbclass
+index 97e7f17f00e..624a420a0de 100644
+--- a/meta/classes/fontcache.bbclass
++++ b/meta/classes/fontcache.bbclass
+@@ -7,7 +7,7 @@ PACKAGE_WRITE_DEPS += "qemu-native"
+ inherit qemu
  
-
-Next Team Meetings:
-
-*	Bug Triage meeting Thursday May 28th at 7:30am PDT (
-<https://zoom.us/j/454367603> https://zoom.us/j/454367603)
-*	Monthly Project Meeting Tuesday June 2nd at 8am PDT (
-<https://zoom.us/j/990892712> https://zoom.us/j/990892712)
-*	Weekly Engineering Sync Tuesday May 26th  at 8am PDT (
-<https://zoom.us/j/990892712> https://zoom.us/j/990892712)
-*	Twitch -  See http://www.twitch.tv/letoatreidesthe2nd
-
+ FONT_PACKAGES ??= "${PN}"
+-FONT_EXTRA_RDEPENDS ?= "fontconfig-utils"
++FONT_EXTRA_RDEPENDS ?= "${MLPREFIX}fontconfig-utils"
+ FONTCONFIG_CACHE_DIR ?= "${localstatedir}/cache/fontconfig"
+ FONTCONFIG_CACHE_PARAMS ?= "-v"
+ # You can change this to e.g. FC_DEBUG=16 to debug fc-cache issues,
+diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+index ee677da1e20..9f726e45371 100644
+--- a/meta/classes/multilib.bbclass
++++ b/meta/classes/multilib.bbclass
+@@ -91,13 +91,12 @@ addhandler multilib_virtclass_handler
+ multilib_virtclass_handler[eventmask] = "bb.event.RecipePreFinalise"
  
-
-Key Status/Updates:
-
-*	YP 3.0.3 is in QA result review, there were ptest regressions but
-these look intermittent in nature and hence unlikely to block release
-*	YP 2.7.4 should be built this week
-*	One of the autobuilder issues where workers were hanging was tracked
-down to a NFS incompatibility between the NAS and new kernel versions. The
-NAS was upgraded to resolve this at a cost of some short notice downtime.
-*	There remain a large number of bugs that we'd ideally like to fix in
-3.2 M1 (or M2) but they are "unassigned", there is nobody to work on them.
-If anyone has time, looking at these bugs would be a great way to help us.
-See:
-<https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.2_Unassigned_Enha
-ncements.2FBugs>
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.2_Unassigned_Enhan
-cements.2FBugs
-*	There continue to be other intermittent autobuilder issues in both
-master and dunfell which we're trying to track down. These ones look related
-to the code rather than infrastructure.
-*	The AUH is now implemented as an autobuilder job and will be run
-from there in future.
-
+ python __anonymous () {
+-    variant = d.getVar("BBEXTENDVARIANT")
+-
+-    import oe.classextend
++    if bb.data.inherits_class('image', d):
++        variant = d.getVar("BBEXTENDVARIANT")
++        import oe.classextend
  
-
-YP 3.2 Milestone Dates:
-
-*	YP 3.2 M1 build date 2020/6/16
-*	YP 3.2 M1 Release date 2020/6/26
-*	YP 3.2 M2 build date 2020/7/27
-*	YP 3.2 M2 Release date 2020/8/7
-*	YP 3.2 M3 build date 2020/8/31
-*	YP 3.2 M3 Release date 2020/9/11
-*	YP 3.2 M4 build date 2020/10/5
-*	YP 3.2 M4 Release date 2020/10/30
-
+-    clsextend = oe.classextend.ClassExtender(variant, d)
++        clsextend = oe.classextend.ClassExtender(variant, d)
  
-
-Planned upcoming dot releases:
-
-*	YP 3.0.3 is out of QA and the results are being reviewed.
-*	YP 3.0.3 release date 2020/5/15
-*	YP 2.7.4 build date 2020/5/18
-*	YP 2.7.4 release date 2020/5/29
-*	YP 3.1.1 build date 2020/6/29
-*	YP 3.1.1 release date 2020/7/10
-*	YP 3.0.4 build date 2020/8/10
-*	YP 3.0.4 release date 2020/8/21
-*	YP 3.1.2 build date 2020/9/14
-*	YP 3.1.2 release date 2020/9/25
-
+-    if bb.data.inherits_class('image', d):
+         clsextend.map_depends_variable("PACKAGE_INSTALL")
+         clsextend.map_depends_variable("LINGUAS_INSTALL")
+         clsextend.map_depends_variable("RDEPENDS")
+@@ -109,6 +108,22 @@ python __anonymous () {
+         bb.build.deltask('do_populate_sdk', d)
+         bb.build.deltask('do_populate_sdk_ext', d)
+         return
++}
++
++python multilib_virtclass_handler_postkeyexp () {
++    cls = d.getVar("BBEXTENDCURR")
++    variant = d.getVar("BBEXTENDVARIANT")
++    if cls != "multilib" or not variant:
++        return
++
++    variant = d.getVar("BBEXTENDVARIANT")
++
++    import oe.classextend
++
++    clsextend = oe.classextend.ClassExtender(variant, d)
++
++    if bb.data.inherits_class('image', d):
++        return
  
-
-Tracking Metrics:
-
-*	WDD 2577 (last week 2577) (
-<https://wiki.yoctoproject.org/charts/combo.html>
-https://wiki.yoctoproject.org/charts/combo.html)
-*	Poky Patch Metrics  
-
-*	Total patches found: 1351 (last week 1352)
-*	Patches in the Pending State: 535 (40%) [last week 537 (40%)]
-
+     clsextend.map_depends_variable("DEPENDS")
+     clsextend.map_variable("PROVIDES")
+@@ -129,6 +144,9 @@ python __anonymous () {
+     reset_alternative_priority(d)
+ }
  
-
-The Yocto Project's technical governance is through its Technical Steering
-Committee, more information is available at:
-
- <https://wiki.yoctoproject.org/wiki/TSC>
-https://wiki.yoctoproject.org/wiki/TSC
-
++addhandler multilib_virtclass_handler_postkeyexp
++multilib_virtclass_handler_postkeyexp[eventmask] = "bb.event.RecipePostKeyExpansion"
++
+ def reset_alternative_priority(d):
+     if not bb.data.inherits_class('update-alternatives', d):
+         return
+diff --git a/meta/lib/oe/classextend.py b/meta/lib/oe/classextend.py
+index f02fbe9fbad..ff8f84c572c 100644
+--- a/meta/lib/oe/classextend.py
++++ b/meta/lib/oe/classextend.py
+@@ -4,11 +4,21 @@
  
-
-The Status reports are now stored on the wiki at:
-<https://wiki.yoctoproject.org/wiki/Weekly_Status>
-https://wiki.yoctoproject.org/wiki/Weekly_Status
-
+ import collections
  
-
-[If anyone has suggestions for other information you'd like to see on this
-weekly status update, let us know!]
-
++def get_packages(d):
++    pkgs = d.getVar("PACKAGES_NONML")
++    extcls = d.getVar("EXTENDERCLASS")
++    return extcls.rename_packages_internal(pkgs)
++
++def get_depends(d):
++    extcls = d.getVar("EXTENDERCLASS")
++    return extcls. map_depends_variable("DEPENDS_NONML")
++
+ class ClassExtender(object):
+     def __init__(self, extname, d):
+         self.extname = extname
+         self.d = d
+         self.pkgs_mapping = []
++        self.d.setVar("EXTENDERCLASS", self)
  
-
-Thanks,
-
+     def extend_name(self, name):
+         if name.startswith("kernel-") or name == "virtual/kernel":
+@@ -24,7 +34,7 @@ class ClassExtender(object):
+             if not subs.startswith(self.extname):
+                 return "virtual/" + self.extname + "-" + subs
+             return name
+-        if name.startswith("/"):
++        if name.startswith("/") or (name.startswith("${") and name.endswith("}")):
+             return name
+         if not name.startswith(self.extname):
+             return self.extname + "-" + name
+@@ -89,8 +99,14 @@ class ClassExtender(object):
+         for dep in deps:
+             newdeps[self.map_depends(dep)] = deps[dep]
  
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
+-        self.d.setVar(varname, bb.utils.join_deps(newdeps, False).replace("EXTENDPKGV", "${EXTENDPKGV}"))
++        if varname == "DEPENDS":
++            self.d.setVar("DEPENDS_NONML", self.d.getVar("DEPENDS", False))
++            self.d.setVar("DEPENDS", <a class="moz-txt-link-rfc2396E" href="mailto:${@oe.classextend.get_depends(d)}">"${@oe.classextend.get_depends(d)}"</a>)
++        ret = bb.utils.join_deps(newdeps, False).replace("EXTENDPKGV", "${EXTENDPKGV}")
+         self.d.setVar("EXTENDPKGV", orig)
++        if varname == "DEPENDS_NONML" or varname == "DEPENDS":
++            return ret
++        self.d.setVar(varname, ret)
  
+     def map_packagevars(self):
+         for pkg in (self.d.getVar("PACKAGES").split() + [""]):
+@@ -109,10 +125,23 @@ class ClassExtender(object):
+                continue
+             self.pkgs_mapping.append([pkg, self.extend_name(pkg)])
+ 
+-        self.d.setVar("PACKAGES", " ".join([row[1] for row in self.pkgs_mapping]))
++        self.d.setVar("PACKAGES_NONML", self.d.getVar("PACKAGES", False))
++        self.d.setVar("PACKAGES", <a class="moz-txt-link-rfc2396E" href="mailto:${@oe.classextend.get_packages(d)}">"${@oe.classextend.get_packages(d)}"</a>)
++
++    def rename_packages_internal(self, pkgs):
++        self.pkgs_mapping = []
++        for pkg in (self.d.expand(pkgs) or "").split():
++            if pkg.startswith(self.extname):
++               self.pkgs_mapping.append([pkg.split(self.extname + "-")[1], pkg])
++               continue
++            self.pkgs_mapping.append([pkg, self.extend_name(pkg)])
++
++        return " ".join([row[1] for row in self.pkgs_mapping])
+ 
+     def rename_package_variables(self, variables):
+         for pkg_mapping in self.pkgs_mapping:
++            if pkg_mapping[0].startswith("${") and pkg_mapping[0].endswith("}"):
++                continue
+             for subs in variables:
+                 self.d.renameVar("%s_%s" % (subs, pkg_mapping[0]), "%s_%s" % (subs, pkg_mapping[1]))
+ 
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index aa8e0592169..ff25fd41875 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -24,7 +24,7 @@ libc_baselibs_append = " ${@oe.utils.conditional('ARCH_DYNAMIC_LOADER', '', '',
+ INSANE_SKIP_${PN}_append_aarch64 = " libdir"
+ 
+ FILES_${PN} = "${libc_baselibs} ${libexecdir}/*"
+-RRECOMMENDS_${PN} = <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.utils.filter('DISTRO_FEATURES','ldconfig',d)}">"${@bb.utils.filter('DISTRO_FEATURES', 'ldconfig', d)}"</a>
++RRECOMMENDS_${PN} = <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.utils.contains('DISTRO_FEATURES','ldconfig','${MLPREFIX}ldconfig','',d)}">"${@bb.utils.contains('DISTRO_FEATURES', 'ldconfig', '${MLPREFIX}ldconfig', '', d)}"</a>
+ FILES_ldconfig = "${base_sbindir}/ldconfig ${sysconfdir}/ld.so.conf"
+ FILES_ldd = "${bindir}/ldd"
+ FILES_libsegfault = "${base_libdir}/libSegFault*"
+diff --git a/meta/recipes-core/psplash/psplash_git.bb b/meta/recipes-core/psplash/psplash_git.bb
+index 22c71f099b8..bcbdec5e3ed 100644
+--- a/meta/recipes-core/psplash/psplash_git.bb
++++ b/meta/recipes-core/psplash/psplash_git.bb
+@@ -22,6 +22,7 @@ SPLASH_IMAGES = <a class="moz-txt-link-rfc2396E" href="file://psplash-poky-img.h;outsuffix=default">"file://psplash-poky-img.h;outsuffix=default"</a>
+ python __anonymous() {
+     oldpkgs = d.getVar("PACKAGES").split()
+     splashfiles = d.getVar('SPLASH_IMAGES').split()
++    mlprefix = d.getVar('MLPREFIX') or ''
+     pkgs = []
+     localpaths = []
+     for uri in splashfiles:
+@@ -36,7 +37,7 @@ python __anonymous() {
+                 outsuffix = fbase
+             if outsuffix.endswith('-img'):
+                 outsuffix = outsuffix[:-4]
+-        outname = "psplash-%s" % outsuffix
++        outname = "%spsplash-%s" % (mlprefix, outsuffix)
+         if outname == '' or outname in oldpkgs:
+             bb.fatal("The output name '%s' derived from the URI %s is not valid, please specify the outsuffix parameter" % (outname, uri))
+         else:
+@@ -46,9 +47,8 @@ python __anonymous() {
+     # Set these so that we have less work to do in do_compile and do_install_append
+     d.setVar("SPLASH_INSTALL", " ".join(pkgs))
+     d.setVar("SPLASH_LOCALPATHS", " ".join(localpaths))
+-
+     d.prependVar("PACKAGES", "%s " % (" ".join(pkgs)))
+-    mlprefix = d.getVar('MLPREFIX') or ''
++
+     pn = d.getVar('PN') or ''
+     for p in pkgs:
+         ep = '%s%s' % (mlprefix, p)
+diff --git a/meta/recipes-devtools/perl/perl_5.30.2.bb b/meta/recipes-devtools/perl/perl_5.30.2.bb
+index 778c420b2ee..26138ea9e55 100644
+--- a/meta/recipes-devtools/perl/perl_5.30.2.bb
++++ b/meta/recipes-devtools/perl/perl_5.30.2.bb
+@@ -328,7 +328,7 @@ python split_perl_packages () {
+ 
+ python() {
+     if d.getVar('CLASSOVERRIDE') == "class-target":
+-        d.setVar("PACKAGES_DYNAMIC", "^perl-module-.*(?&lt;!native)$")
++        d.setVar("PACKAGES_DYNAMIC", "^${MLPREFIX}perl-module-.*(?&lt;!native)$")
+     elif d.getVar('CLASSOVERRIDE') == "class-native":
+         d.setVar("PACKAGES_DYNAMIC", "^perl-module-.*-native$")
+     elif d.getVar('CLASSOVERRIDE') == "class-nativesdk":
+diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+index a4a16fd495f..0474f07214f 100644
+--- a/meta/recipes-devtools/python/python3_3.8.2.bb
++++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+@@ -311,8 +311,8 @@ do_create_manifest[depends] += "${PN}:do_patch"
+ 
+ # manual dependency additions
+ RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python3-modules"
+-RRECOMMENDS_${PN}-crypt_append_class-target = " openssl ca-certificates"
+-RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " openssl ca-certificates"
++RRECOMMENDS_${PN}-crypt_append_class-target = " ${MLPREFIX}openssl ${MLPREFIX}ca-certificates"
++RRECOMMENDS_${PN}-crypt_append_class-nativesdk = " ${MLPREFIX}openssl ${MLPREFIX}ca-certificates"
+ 
+ # For historical reasons PN is empty and provided by python3-modules
+ FILES_${PN} = ""
+@@ -322,7 +322,7 @@ FILES_${PN}-pydoc += "${bindir}/pydoc${PYTHON_MAJMIN} ${bindir}/pydoc3"
+ FILES_${PN}-idle += "${bindir}/idle3 ${bindir}/idle${PYTHON_MAJMIN}"
+ 
+ # provide python-pyvenv from python3-venv
+-RPROVIDES_${PN}-venv += "python3-pyvenv"
++RPROVIDES_${PN}-venv += "${MLPREFIX}python3-pyvenv"
+ 
+ # package libpython3
+ PACKAGES =+ "libpython3 libpython3-staticdev"
+@@ -333,8 +333,8 @@ INSANE_SKIP_${PN}-dev += "dev-elf"
+ # catch all the rest (unsorted)
+ PACKAGES += "${PN}-misc"
+ RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pydoc python3-pickle python3-audio"
+-RDEPENDS_${PN}-modules_append_class-target = " python3-misc"
+-RDEPENDS_${PN}-modules_append_class-nativesdk = " python3-misc"
++RDEPENDS_${PN}-modules_append_class-target = " ${MLPREFIX}python3-misc"
++RDEPENDS_${PN}-modules_append_class-nativesdk = " ${MLPREFIX}python3-misc"
+ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MAJMIN}/lib-dynload"
+ 
+ # catch manpage
+@@ -348,5 +348,5 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
+ RDEPENDS_${PN}-tkinter += <a class="moz-txt-link-rfc2396E" href="mailto:${@bb.utils.contains('PACKAGECONFIG','tk','tktk-lib','',d)}">"${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"</a>
+ RDEPENDS_${PN}-dev = ""
+ 
+-RDEPENDS_${PN}-tests_append_class-target = " bash"
+-RDEPENDS_${PN}-tests_append_class-nativesdk = " bash"
++RDEPENDS_${PN}-tests_append_class-target = " ${MLPREFIX}bash"
++RDEPENDS_${PN}-tests_append_class-nativesdk = " ${MLPREFIX}bash"
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index fede691d6ff..bb43a9a8b65 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -212,18 +212,20 @@ python __anonymous() {
+               ("gles", "libgles3",)):
+         if not p[0] in pkgconfig:
+             continue
+-        fullp = p[1] + "-mesa"
+-        pkgs = " ".join(p[1:])
++        mlprefix = d.getVar("MLPREFIX")
++        fullp = mlprefix + p[1] + "-mesa"
++        mlprefix = d.getVar("MLPREFIX")
++        pkgs = " ".join(mlprefix + x for x in p[1:])
+         d.setVar("DEBIAN_NOAUTONAME_" + fullp, "1")
+         d.appendVar("RREPLACES_" + fullp, pkgs)
+         d.appendVar("RPROVIDES_" + fullp, pkgs)
+         d.appendVar("RCONFLICTS_" + fullp, pkgs)
+ 
+-        d.appendVar("RRECOMMENDS_" + fullp, " mesa-megadriver")
++        d.appendVar("RRECOMMENDS_" + fullp, " ${MLPREFIX}mesa-megadriver")
+ 
+         # For -dev, the first element is both the Debian and original name
+         fullp += "-dev"
+-        pkgs = p[1] + "-dev"
++        pkgs = mlprefix + p[1] + "-dev"
+         d.setVar("DEBIAN_NOAUTONAME_" + fullp, "1")
+         d.appendVar("RREPLACES_" + fullp, pkgs)
+         d.appendVar("RPROVIDES_" + fullp, pkgs)
+diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.2.1.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.1.bb
+index 9882e12763a..d092b158f26 100644
+--- a/meta/recipes-multimedia/alsa/alsa-plugins_1.2.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.1.bb
+@@ -167,7 +167,7 @@ FILES_${PN}-pulseaudio-conf += "\
+ "
+ 
+ RDEPENDS_${PN}-pulseaudio-conf += "\
+-        libasound-module-conf-pulse \
+-        libasound-module-ctl-pulse \
+-        libasound-module-pcm-pulse \
++        ${MLPREFIX}libasound-module-conf-pulse \
++        ${MLPREFIX}libasound-module-ctl-pulse \
++        ${MLPREFIX}libasound-module-pcm-pulse \
+ "
+diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/boost/boost.inc
+index 8eb9494381f..ca140d595fd 100644
+--- a/meta/recipes-support/boost/boost.inc
++++ b/meta/recipes-support/boost/boost.inc
+@@ -62,12 +62,16 @@ PACKAGES = "${PN}-dbg ${BOOST_PACKAGES}"
+ python __anonymous () {
+     packages = []
+     extras = []
++    mlprefix = d.getVar("MLPREFIX")
+     for lib in d.getVar('BOOST_LIBS').split():
+         extras.append("--with-%s" % lib)
+-        pkg = "boost-%s" % lib.replace("_", "-")
+-        packages.append(pkg)
++        pkg = "boost-%s" % (lib.replace("_", "-"))
++        packages.append(mlprefix + pkg)
+         if not d.getVar("FILES_%s" % pkg):
+-                d.setVar("FILES_%s" % pkg, "${libdir}/libboost_%s*.so.*" % lib)
++                d.setVar("FILES_%s%s" % (mlprefix, pkg), "${libdir}/libboost_%s*.so.*" % lib)
++        else:
++                d.setVar("FILES_%s%s" % (mlprefix, pkg), d.getVar("FILES_%s" % pkg))
++
+     d.setVar("BOOST_PACKAGES", " ".join(packages))
+     d.setVar("BJAM_EXTRA", " ".join(extras))
+ }
+</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
 
 
-------=_NextPart_000_1DB0_01D63331.621E5F20
-Content-Type: text/html;
-	boundary="----=_NextPart_000_179F_01D62DB2.3BC6EF10";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+</pre>
+    </blockquote>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Jeremy A. Puhlman
+<a class="moz-txt-link-abbreviated" href="mailto:jpuhlman@mvista.com">jpuhlman@mvista.com</a></pre>
+  </body>
+</html>
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Consolas;
-	panose-1:2 11 6 9 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
-/* List Definitions */
-@list l0
-	{mso-list-id:10186566;
-	mso-list-template-ids:489987956;}
-@list l0:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l0:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l0:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l0:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1
-	{mso-list-id:204485876;
-	mso-list-template-ids:1741072824;}
-@list l1:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l1:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l1:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l1:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2
-	{mso-list-id:420757302;
-	mso-list-template-ids:1717855148;}
-@list l2:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l2:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l2:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l2:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3
-	{mso-list-id:472723361;
-	mso-list-template-ids:-209166442;}
-@list l3:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l3:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l3:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l3:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4
-	{mso-list-id:525291566;
-	mso-list-template-ids:1477501614;}
-@list l4:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l4:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l4:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l4:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5
-	{mso-list-id:1209532851;
-	mso-list-template-ids:-1194441062;}
-@list l5:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l5:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l5:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l5:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6
-	{mso-list-id:1217859227;
-	mso-list-template-ids:586588340;}
-@list l6:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l6:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l6:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l6:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7
-	{mso-list-id:1321814607;
-	mso-list-template-ids:-556086608;}
-@list l7:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l7:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l7:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l7:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8
-	{mso-list-id:1329284056;
-	mso-list-template-ids:219334596;}
-@list l8:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l8:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l8:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l8:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9
-	{mso-list-id:1838769897;
-	mso-list-template-ids:-1577263988;}
-@list l9:level1
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0B7;
-	mso-level-tab-stop:.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Symbol;}
-@list l9:level2
-	{mso-level-number-format:bullet;
-	mso-level-text:o;
-	mso-level-tab-stop:1.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:"Courier New";
-	mso-bidi-font-family:"Times New Roman";}
-@list l9:level3
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:1.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level4
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level5
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:2.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level6
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level7
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:3.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level8
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.0in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-@list l9:level9
-	{mso-level-number-format:bullet;
-	mso-level-text:\F0A7;
-	mso-level-tab-stop:4.5in;
-	mso-level-number-position:left;
-	text-indent:-.25in;
-	mso-ansi-font-size:10.0pt;
-	font-family:Wingdings;}
-ol
-	{margin-bottom:0in;}
-ul
-	{margin-bottom:0in;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Current Dev =
-Position: YP 3.2 M1</span><o:p></o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Next Deadline: YP =
-3.2 M1 build date 2020/6/16</span><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Next Team =
-Meetings:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
-type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l1 level1 lfo6;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Bug Triage meeting Thursday May =
-28th at 7:30am PDT (<a href=3D"https://zoom.us/j/454367603"><span =
-style=3D'font-size:10.0pt;color:#1155CC'>https://zoom.us/j/454367603</spa=
-n></a>)<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l1 level1 lfo6;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Monthly Project Meeting Tuesday =
-June 2nd at 8am PDT (<a href=3D"https://zoom.us/j/990892712"><span =
-style=3D'color:#1155CC'>https://zoom.us/j/990892712)</span></a><o:p></o:p=
-></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l1 level1 lfo6;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Weekly Engineering Sync Tuesday =
-May 26th&nbsp; at 8am PDT (<a href=3D"https://zoom.us/j/990892712"><span =
-style=3D'color:#1155CC'>https://zoom.us/j/990892712)</span></a><o:p></o:p=
-></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l1 level1 lfo6;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Twitch -&nbsp; See =
-http://www.twitch.tv/letoatreidesthe2nd<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Key =
-Status/Updates:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
-type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l7 level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.0.3 is in QA result =
-review, there were ptest regressions but these look intermittent in =
-nature and hence unlikely to block release<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l7 level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.7.4 should be built this =
-week<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l7 level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>One of the autobuilder issues =
-where workers were hanging was tracked down to a NFS incompatibility =
-between the NAS and new kernel versions. The NAS was upgraded to resolve =
-this at a cost of some short notice downtime.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l7 level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>There remain a large number of =
-bugs that we&#8217;d ideally like to fix in 3.2 M1 (or M2) but they are =
-&#8220;unassigned&#8221;, there is nobody to work on them. If anyone has =
-time, looking at these bugs would be a great way to help us. See: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Medium.2B_3.2_Unass=
-igned_Enhancements.2FBugs"><span =
-style=3D'color:#1155CC'>https://wiki.yoctoproject.org/wiki/Bug_Triage#Med=
-ium.2B_3.2_Unassigned_Enhancements.2FBugs</span></a><o:p></o:p></span></l=
-i><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l7 level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>There continue to be other =
-intermittent autobuilder issues in both master and dunfell which =
-we&#8217;re trying to track down. These ones look related to the code =
-rather than infrastructure.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l7 level1 lfo7;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>The AUH is now implemented as =
-an autobuilder job and will be run from there in =
-future.<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>YP 3.2 Milestone =
-Dates:</span><o:p></o:p></p><ul style=3D'margin-top:0in' type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l4 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2 M1 build date =
-2020/6/16<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l4 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2 M1 Release date =
-2020/6/26<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l4 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2 M2 build date =
-2020/7/27<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l4 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2 M2 Release date =
-2020/8/7<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l4 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2 M3 build date =
-2020/8/31<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l4 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2 M3 Release date =
-2020/9/11<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l4 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2 M4 build date =
-2020/10/5<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l4 level1 lfo8;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.2 M4 Release date =
-2020/10/30<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Planned upcoming =
-dot releases:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
-type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.0.3 is out of QA and the =
-results are being reviewed.<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.0.3 release date =
-2020/5/15<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.7.4 build date =
-2020/5/18<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 2.7.4 release date =
-2020/5/29<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.1 build date =
-2020/6/29<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.1 release date =
-2020/7/10<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.0.4 build date =
-2020/8/10<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.0.4 release date =
-2020/8/21<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.2 build date =
-2020/9/14<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l9 level1 lfo9;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>YP 3.1.2 release date =
-2020/9/25<o:p></o:p></span></li></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>Tracking =
-Metrics:</span><o:p></o:p></p><ul style=3D'margin-top:0in' =
-type=3Ddisc><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level1 lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>WDD 2577 (last week =
-2577)</span><span style=3D'font-family:Consolas'> (</span><span =
-style=3D'font-family:"Arial",sans-serif'><a =
-href=3D"https://wiki.yoctoproject.org/charts/combo.html"><span =
-style=3D'color:#1155CC'>https://wiki.yoctoproject.org/charts/combo.html</=
-span></a></span><span style=3D'font-family:Consolas'>)</span><span =
-style=3D'font-family:"Arial",sans-serif'><o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level1 lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Poky Patch =
-Metrics&nbsp;&nbsp;</span><span =
-style=3D'font-family:Consolas'><o:p></o:p></span></li><ul =
-style=3D'margin-top:0in' type=3Dcircle><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Total patches found: 1351 (last =
-week 1352)<o:p></o:p></span></li><li =
-style=3D'color:black;margin-top:0in;margin-bottom:0in;margin-bottom:.0001=
-pt;mso-list:l5 level2 lfo10;vertical-align:baseline'><span =
-style=3D'font-family:"Arial",sans-serif'>Patches in the Pending State: =
-535 (40%) [last week 537 (40%)]</span><span =
-style=3D'font-family:Consolas'><o:p></o:p></span></li></ul></ul><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>The Yocto =
-Project&#8217;s technical governance is through its Technical Steering =
-Committee, more information is available at:</span><o:p></o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/TSC"><span =
-style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
-project.org/wiki/TSC</span></a><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>The Status reports =
-are now stored on the wiki at: </span><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status"><span =
-style=3D'font-family:"Arial",sans-serif;color:#1155CC'>https://wiki.yocto=
-project.org/wiki/Weekly_Status</span></a><o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p =
-style=3D'margin:0in;margin-bottom:.0001pt'><span =
-style=3D'font-family:"Arial",sans-serif;color:black'>[If anyone has =
-suggestions for other information you&#8217;d like to see on this weekly =
-status update, let us know!]</span><o:p></o:p></p><p =
-class=3DMsoNormal><span =
-style=3D'font-family:"Arial",sans-serif;color:black'><o:p>&nbsp;</o:p></s=
-pan></p><p class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_1DB0_01D63331.621E5F20--
+--------------1C5B25BC413E09E4485149F7--
