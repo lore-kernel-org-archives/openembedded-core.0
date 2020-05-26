@@ -1,25 +1,25 @@
 Received: from EUR02-HE1-obe.outbound.protection.outlook.com (EUR02-HE1-obe.outbound.protection.outlook.com [])
  by mx.groups.io with SMTP id smtpd.web12.823.1590515895168852608
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 10:58:18 -0700
+ Tue, 26 May 2020 10:58:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@vaisala.com header.s=selector2 header.b=tJ+CXN8P;
+ dkim=fail reason="body hash did not verify" header.i=@vaisala.com header.s=selector2 header.b=sv4NLNsU;
  spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 spf.creamailer.com}: limit exceeded (domain: vaisala.com, ip: <nil>, mailfrom: nandor.han@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hXebz/skie44a6Y9+NSjnC/MZs5a23V2yG7DBN0IMzentKnA6neVUyqJm9PUkbnNoJtCTSH4RXmBTSYLY90sEwswf6sDTVSllI8kfkk7M+AkaLK1Wzsaww1z8Sovn2KgdivRyUQySZhYr73FAiTMvMiz1D79URxpBLta0k4xVkJmEipjQGcZCowEUI0TGbwqLPKoA3mZ4gsuXgcRqJxyRSMRjDDVQgSqBoceXvs9yhxbncZm9LRig9EzGF8v5AdM6Viu7GZxwQcdHL3FPEHAQ9b62A9TGuhlBJD0uWlisP2MYOC2RixKWaTtTwxY6wW0S8HFSKO0QmsFuinlgsjrkQ==
+ b=b9rMZM5rBqk+eaAM96hzC8I5K58Ce19sTVgNRFE2hWZh5hRkkqe8XGj66nKXkivw9opxuQLLZPETG/lVZgNXDmqljH/xrTiA46j+kWwo2pvFK3Hp9UFNI8m9RXSBq2aKuxHt6E7+HFT1BKr5tNXLAcl8OrWjpkWOIPFc0LsdSly1Asu/9X01tJEjc+vNiNbvHfOjZKnkxboiCDs9KCtE4EkiTJQzuIaXy5mHDRkJY6wlI54ApFm4YEagkZbwx5OfNl9HlF5/j8sz4sffDXNhceGzzOv5fTkyywsiV+uOFDKFpQ1p7w5K5sNFrswBM/JDlww8N3IDT2ZcFPuEyJY6uA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xQXKFBRu94FYn+xTiniC/QznwxUgKYM++HeKfKqEo30=;
- b=dNduxJttdhvrWqt6cuqlvzMXulXRckXQbhHSaHModMU5B95cN6PUSw0ueOv8HnqnFg2a6bd4HG+dp85VfwUcYfPc3TSkGk7WISTAfdPV96GlQbKByaqcl5NmUcv+6QQUgwqIdQWoOsCzsRXCYZcNd3RA2H9RrJU2pQN7fOYxl+RTZ9djt27CnnuNA8djaSNsL4po8yMS7EaWJMC9VL72lyEdNEigUI/MoC+OMLq2ZlLbKs+Y8c1b98VbVFJsJGZ9of1yVXkZInRMj6Vt2hManUiIdlh4aVnPiHh8mYtk2jenBJhleJWxY/SMbf5PZDajBxToE+uJEgl8eexC4SbNXA==
+ bh=A8hKqWZO+yjBKs9P9NKDsYFC3N5pTzsQCOtQtDTtvbc=;
+ b=LNB0/E3ItGZvyINHp0zuWPmKeUW9XjDrKb1rpfEY1/sKblOqULDq49Mb2UveBwal+kyB8GAlesgYBLTeXnO8b7F5fIUdz2og6A44pmJEJzaUkcTschCJ20jTgbr5V2zT/qTVBLXXoMBzIhzAFdOMxe0zyRZKxMB/X1HI8cJ62ooeSyFM/PxP64plgPqfErdzEj6wGurlfjfrFEptfjlR4JVDatNER3LOtH0XU4+Be3lhQNlC9kbGjCOdW9p11rQnihX+cmfiPe6bH+kdPpTi/OskmenYwQ/mis+5WZzHKFnn5AbIWFOUcznA3fsziCq7Jxje/TqHtokmb7wX7+0S1w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
  dkim=pass header.d=vaisala.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xQXKFBRu94FYn+xTiniC/QznwxUgKYM++HeKfKqEo30=;
- b=tJ+CXN8PlJzSfQtKZvSgIDHxoZCe/dVclGbz940xIG9mRdE0hKLXIaZrk0ogswvgI1JoTlmU9etdraM7q7BNCCVxl7qNhS77nnE8XaWgetaSgKttJALACqyKeRIy6fNwD24Q1a8QPeTXTb+rk+27zNXOxAKTvgPPKgbmfr5yC2c=
+ bh=A8hKqWZO+yjBKs9P9NKDsYFC3N5pTzsQCOtQtDTtvbc=;
+ b=sv4NLNsU31xjd4qJ51RPemmylyaTqZP7aIij7fxOZb8xTbhUMQKT0qjtg+M+9WHudBQ8HAn+jZyO/A6/jR15PStuLcZNPiQaztTN0rqYwpEy5Mh6Z6CfC6uTxyAdpG8rCcjPFSDIHUkP1MO7ME2cB/HaLnWgr/bT7lpibEDZWk4=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=vaisala.com;
@@ -27,53 +27,53 @@ Received: from HE1PR0602MB3449.eurprd06.prod.outlook.com (2603:10a6:7:8a::22)
  by HE1PR0602MB2892.eurprd06.prod.outlook.com (2603:10a6:3:dc::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.27; Tue, 26 May
- 2020 17:58:14 +0000
+ 2020 17:58:15 +0000
 Received: from HE1PR0602MB3449.eurprd06.prod.outlook.com
  ([fe80::a972:752a:8780:fe40]) by HE1PR0602MB3449.eurprd06.prod.outlook.com
  ([fe80::a972:752a:8780:fe40%7]) with mapi id 15.20.3021.029; Tue, 26 May 2020
- 17:58:14 +0000
+ 17:58:15 +0000
 From: "Nandor Han" <nandor.han@vaisala.com>
 To: openembedded-core@lists.openembedded.org
 CC: Nandor Han <nandor.han@vaisala.com>
-Subject: [PATCH v3] classes: Add a new bbclass that abstracts the generation of FIT blobs
-Date: Tue, 26 May 2020 20:57:55 +0300
-Message-ID: <20200526175813.3130821-1-nandor.han@vaisala.com>
+Subject: [OE-core][PATCH v4 2/3] classes: Add a new bbclass that abstracts the generation of FIT blobs
+Date: Tue, 26 May 2020 20:57:56 +0300
+Message-ID: <9032889789061c38a38a6e90827a9da766f1b76d.1590515635.git.nandor.han@vaisala.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200326214308.1042374-1-nandor.han@vaisala.com>
-References: <20200326214308.1042374-1-nandor.han@vaisala.com>
+In-Reply-To: <cover.1590515635.git.nandor.han@vaisala.com>
+References: <20200326214308.1042374-1-nandor.han@vaisala.com> <cover.1590515635.git.nandor.han@vaisala.com>
 X-ClientProxiedBy: HE1PR0101CA0024.eurprd01.prod.exchangelabs.com
  (2603:10a6:3:77::34) To HE1PR0602MB3449.eurprd06.prod.outlook.com
  (2603:10a6:7:8a::22)
 Return-Path: nandor.han@vaisala.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.vaisala.com (82.181.11.213) by HE1PR0101CA0024.eurprd01.prod.exchangelabs.com (2603:10a6:3:77::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.24 via Frontend Transport; Tue, 26 May 2020 17:58:13 +0000
+Received: from localhost.vaisala.com (82.181.11.213) by HE1PR0101CA0024.eurprd01.prod.exchangelabs.com (2603:10a6:3:77::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.24 via Frontend Transport; Tue, 26 May 2020 17:58:14 +0000
 X-Mailer: git-send-email 2.24.1
 X-Originating-IP: [82.181.11.213]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3c7852fe-7015-4fba-a9ed-08d8019e5c5f
+X-MS-Office365-Filtering-Correlation-Id: a98fa62f-64b3-44b7-5b25-08d8019e5ce2
 X-MS-TrafficTypeDiagnostic: HE1PR0602MB2892:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<HE1PR0602MB2892AABECBB3D3974B20BFE485B00@HE1PR0602MB2892.eurprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1091;
+	<HE1PR0602MB28922D4B6B5B90A1B91FA84E85B00@HE1PR0602MB2892.eurprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:873;
 X-Forefront-PRVS: 041517DFAB
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	qYw4vMDXrbcc040JjV3oQw/VIBfn6urJ6ghRuDNm7b9yVPPrOHnrcbxOFV1PmQkxF6K0HEZ9Y3iMGG6d2Lpt1ZI4i7cAGVz5XCuHoTJfvphnTtY51M4DXHaUbn3D0RwHadTUG/o1nQtIqAQY5ADmmc1REDNdmezfr0s0CCwiyobjfWtSj4dkEa50unkJdrtrSCx5d459nMdY3LWO59uoGN2vmmJHUZu2VV02vM+qP/lF/C0H8yu2rFL1Ovt/MkC2gMcASlVANgcCU3M7qPiXw0abLlXmrROMjkd19xrYEuzA3cNfTPZqNnaZKCyzLaI18V81yDRVhxcwl9TR8wPo6g==
+	QIg5Ckw4q0NIq0lHKDiaslszcTloN2s+9KEa570YyvXeYZ291Sar424RGn+GhgD1dETXsf/YXxznS6q8JQILyG1ylWOrDpRb/KNjZldvRxayFlXxpu4UlIi+9lic7u2vuNt6XrxLmcWsBClAbtDx1T2NPi/7CEUiKscZg6S8V4yBdcMg3rHpeN4DgqFvl9ZvnNksYTFCh/IC8vG+0+sfRZ15JI3kHot4pK2iehc8d6MU8/hpZ3gGAJj2jHBVR8ozSdSaCWkqt8v0QcI0E/Uxz7jwdXvvfNBG9taRqZ8rE8iCNrKuyWtPeQWyKW0ucQHmlPxTfunt9y4duO9iBeR4PkDE0HNbrADQJHug4gRLqdiTD6P6Y5kqqruMK9spDxVq
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0602MB3449.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(366004)(346002)(376002)(136003)(39840400004)(396003)(316002)(5660300002)(6486002)(86362001)(8676002)(6666004)(4326008)(1076003)(8936002)(36756003)(26005)(16526019)(186003)(30864003)(66946007)(2906002)(6916009)(7696005)(2616005)(107886003)(52116002)(66556008)(44832011)(66476007)(956004)(478600001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0602MB3449.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(366004)(346002)(376002)(136003)(39840400004)(396003)(316002)(5660300002)(6486002)(86362001)(8676002)(6666004)(4326008)(8936002)(36756003)(26005)(16526019)(186003)(30864003)(66946007)(2906002)(6916009)(7696005)(2616005)(107886003)(52116002)(66556008)(44832011)(66476007)(956004)(478600001)(136400200001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	/5UkNBv1kgdmVHFrEUGkjFTl6bCJS2vNfR9Bvl1vawHXyrgA0VEXYbDCJtxHbtwMcVc1WXZFJ1MzRg3W16eqOP9KaiGV2ngoUaw31XBH0ZwpDgtwJWf2nAVLOBfS7vJTBkHABeEcWQR16VfV1jmNeQKWJ5N1IC/UA6biSUWNHTIkxrpf/1HzvjZ/KrwrKK7ScGKgf5CF98ejpJBER5vqc8X22NEzSi9hPx9hBhON+8kM7Ev99t00tfkuJY3n1vy2ZWY+uVnjofru50Ewt7ddydk/5dCwWFFQdUDy832YqBnPqcSHGZxrQCii2IKgoZz5vtlnqN7bAMdHv/GIOP32GiLoCPpMYpHODBf3IzuDSHl/sDaCf/0S84e/f0WBbTSVL/l8CLcGLstIjCBi7yveNPQwtBl8Hjes+tu+3TiQ3/qGHB61VANB+OtZgjSWp7cd89EvpcuxRbuystmvYyhrOokO+mkTlmRQZFSNRMpHN5g=
+	/HWkE8V/apG56GvBVTyzAB7GwkApNRor+KuXz2smbzkSOLt0BliKCqwcRmOIdTC5uefJDC5zP3sQ3WlEUxFIlDNZupa6T/BS3TYLDNlxSQqJEHmH7RlxCTtvj8mv03NWT2DzuZT0Q4o1VKb0RbU942yaXavC4zuqeLNKQtOHW1Ohp49EJdxJs6LNe7MpNDXuDjFtLXLl2V6HhQkW/Ym03E3SabICqi6YAPaLuuZQv43cULEsflxx41ALMG4WJ5FLStnCVksKAzUpM/R3cEIboUzLXFRyhdMQJfL+j6wjSt4im2ol9RpX2RFg6E4oS/waLSvc2z45XTj+igKmWOOUDc/Huz02dAgKd8EbyjUR1m/jipG3euk/3Yt35rja01668P236GMxsT/uwFlBtUFAn+uaVuMLzsVttkQ+fMoTToHAXL3cdRjr+gJgr2evgZQZEHaRDzD0mVD4Ot2vpyngSKzEU1wOU9FoYV6CtwLNN9s=
 X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c7852fe-7015-4fba-a9ed-08d8019e5c5f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2020 17:58:14.3546
+X-MS-Exchange-CrossTenant-Network-Message-Id: a98fa62f-64b3-44b7-5b25-08d8019e5ce2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2020 17:58:15.0012
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4gkT5n61YsJJ95++DWgKPqLfl8XQqc/WbgI+T3YCUlmmS8NdZ7FHu7aEmpKF+6ToSh6mde7QhJBihfEySuDDOg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: X6+ZVEAKduHBbP3WqUdWAX8sN5n7ZGPQZ3x1pSz+5dc1JbM94RTzyyQaajmUvaDuzP1vPujlOKRz+GD7pb9L+Q==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0602MB2892
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
@@ -93,76 +93,17 @@ the FIT format leaving the user code cleaner and more readable.
 
 Signed-off-by: Nandor Han <nandor.han@vaisala.com>
 ---
-
-Notes:
-    Testing
-    -------
-
-    1. linux-yocto_5.4.bbappend was modified to have the following configur=
-ation:
-
-    ```
-    inherit fit-image
-
-    KERNEL_IMAGE_NODE[name] =3D "kernel"
-    KERNEL_IMAGE_NODE[description] =3D "${PF}"
-    KERNEL_IMAGE_NODE[data] =3D '/incbin/("./arch/${ARCH}/boot/zImage")'
-    KERNEL_IMAGE_NODE[type] =3D "kernel"
-    KERNEL_IMAGE_NODE[arch] =3D "${ARCH}"
-    KERNEL_IMAGE_NODE[os] =3D "linux"
-    KERNEL_IMAGE_NODE[compression] =3D "none"
-    KERNEL_IMAGE_NODE[load] =3D "${UBOOT_LOADADDRESS}"
-    KERNEL_IMAGE_NODE[entry] =3D "${UBOOT_ENTRYPOINT}"
-    KERNEL_IMAGE_NODE[hash] =3D "sha256"
-
-    FDT_IMAGE_NODE[name] =3D "fdt"
-    FDT_IMAGE_NODE[description] =3D "FDT blob"
-    FDT_IMAGE_NODE[data] =3D '/incbin/("./arch/${ARCH}/boot/dts/am335x-bone=
-.dtb")'
-    FDT_IMAGE_NODE[type] =3D "flat_dt"
-    FDT_IMAGE_NODE[arch] =3D "${ARCH}"
-    FDT_IMAGE_NODE[compression] =3D "none"
-    FDT_IMAGE_NODE[hash] =3D "sha256"
-
-    CONF1_CONF_NODE[name] =3D "conf"
-    CONF1_CONF_NODE[description] =3D "Linux kernel and FDT blob"
-    CONF1_CONF_NODE[kernel] =3D "kernel"
-    CONF1_CONF_NODE[fdt] =3D "fdt"
-
-    FIT_IMAGES_NODE =3D "KERNEL_IMAGE_NODE FDT_IMAGE_NODE"
-    FIT_CONFIGURATIONS_NODE =3D "CONF1_CONF_NODE"
-    FIT_CONFIGURATIONS_NODE[default] =3D "${@d.getVarFlag('CONF1_CONF_NODE'=
-, 'name') or ""}"
-    ```
-    2. Build the kernel: `bitbake virtual/kernel`
-    3. Verify that `image-fit.itb` is present in the build directory: PASS
-    4. Disassemble the image using the command: `dtc -I dtb -O dts image-fi=
-t.itb`
-    5. Verify that the FIT source contains the expected configuration: PASS
-
-    Changes since v1:
-    ----------------
-    - Change the format of short-log to "<target>: <summary>"
-
-    Changes since v2:
-    ----------------
-    - rename the file from `fit-image` to `fit_image` to
-    successfully export the class functions.
-    - adding new sanity checks.
-    - add missing dependency.
-    - fix a variable reference in a debug log.
-
- meta/classes/fit_image.bbclass | 382 +++++++++++++++++++++++++++++++++
- 1 file changed, 382 insertions(+)
+ meta/classes/fit_image.bbclass | 387 +++++++++++++++++++++++++++++++++
+ 1 file changed, 387 insertions(+)
  create mode 100644 meta/classes/fit_image.bbclass
 
 diff --git a/meta/classes/fit_image.bbclass b/meta/classes/fit_image.bbclas=
 s
 new file mode 100644
-index 0000000000..87d92db122
+index 0000000000..2d1451020c
 --- /dev/null
 +++ b/meta/classes/fit_image.bbclass
-@@ -0,0 +1,382 @@
+@@ -0,0 +1,387 @@
 +#
 +# The class will facilitate the generation of FIT blobs.
 +#
@@ -342,8 +283,10 @@ eter content.
 +    rules =3D OrderedDict()
 +
 +    rules['description'] =3D [True, '=3D "$value"', ["value"]]
-+    rules['kernel'] =3D [True, '=3D "$value"', ["value"]]
++    rules['kernel'] =3D [False, '=3D "$value"', ["value"]]
 +    rules['ramdisk'] =3D [False, '=3D "$value"', ["value"]]
++    rules['firmware'] =3D [False, '=3D "$value"', ["value"]]
++    rules['standalone'] =3D [False, '=3D "$value"', ["value"]]
 +    rules['fdt'] =3D [False, '=3D "$value"', ["value"]]
 +    rules['loadables'] =3D [False, '=3D "$value"', ["value"]]
 +    rules['signature'] =3D [False, '{ algo =3D "$algo"; key-name-hint =3D =
@@ -454,9 +397,13 @@ cters.
 +
 +    nodes_parameters =3D get_section_properties(var, d)
 +    for parameters in nodes_parameters:
-+        name =3D parameters.pop('name')
-+        node =3D generate_node(name, parameters, rules)
-+        section +=3D node
++        try:
++            name =3D parameters.pop('name')
++            node =3D generate_node(name, parameters, rules)
++            section +=3D node
++        except KeyError:
++            bb.fatal("Missing name property for node: {node}".format(node=
+=3Dvar))
 +
 +    return section
 +
