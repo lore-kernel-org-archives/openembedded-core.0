@@ -1,311 +1,185 @@
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
- by mx.groups.io with SMTP id smtpd.web11.55473.1590512900873977698
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com (EUR02-HE1-obe.outbound.protection.outlook.com [40.107.1.71])
+ by mx.groups.io with SMTP id smtpd.web12.823.1590515895168852608
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 10:08:21 -0700
+ Tue, 26 May 2020 10:58:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=DohsbVRT;
- spf=pass (domain: konsulko.com, ip: 209.85.210.49, mailfrom: paul.barker@konsulko.com)
-Received: by mail-ot1-f49.google.com with SMTP id b18so16933053oti.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 10:08:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=UmFgLZOyHnaxfzQHvB7ib9adsSUUGSqKMem5Q+sqFK8=;
-        b=DohsbVRTBEPaqhALlHwrkl2gbREtQO6GPoBO7QedL6SFni9AmIAwL8vty3cfgwdEyG
-         7W5rDBUjsa02edLuxvumBaiVgRfPx5D+//dLDZQo5gQarlsKiTj1Ig39YqR/LR5axTRZ
-         WcAvynsE9Urm5o6Y6IWlTdTOA8DhjAZUjB3eQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=UmFgLZOyHnaxfzQHvB7ib9adsSUUGSqKMem5Q+sqFK8=;
-        b=O+LbAU0cAu3qYmadXBGKXodnf8PkB9o8OGJJbFALXATxC/IZ84qH4pxF5coiimdoDK
-         umHJ0dhcstbvnkLCyD6QXsqM6iKI2ebq1iMMtc9x1khRDvFC/Nz7UpRPha5kA9tRkpVH
-         o/Un/aoXgeYweIh2DZ7Quf3w+ze8h9HYtONRkJK00evSjIvLOsKmH8H6MZZdJ0MUqdyj
-         +OR9oh59L5TKRhXd7mjl8qGNT6GaVpYAaV7uzDrVmv+bQEVuwYt/kSqajHGNXdvXnqqv
-         Ps9yCNzE5TBhxHVxM64Wdv3aBdgZR3fnwf/oSVlF42I4MsZBwdXhFhleIrqTV6fZk6XQ
-         DFQQ==
-X-Gm-Message-State: AOAM530ECk++jHfPrvuqMY96o+R4JBIMKQARyX13DnCNt+g6Ga6lXUzC
-	Rv/YRpcCg6NpruvrP5wgux6D5UXUxkEg3rhtlzDVgw==
-X-Google-Smtp-Source: ABdhPJxE13Ycss+wC7kmVN0GqXfwDe8/sjfFeOL7U6bn7tcJc/hzrqzmYwBOcSEVYnS+hg5d9kCRDjFT8/qScy/ERKk=
-X-Received: by 2002:a9d:a6a:: with SMTP id 97mr1436019otg.305.1590512900009;
- Tue, 26 May 2020 10:08:20 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@vaisala.com header.s=selector2 header.b=TAWBu6GO;
+ spf=pass (domain: vaisala.com, ip: 40.107.1.71, mailfrom: nandor.han@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LsvzACHnrI/MTMGtJs+OAuY2huqEQcqhmhOf3eHZM1UoON7FU6EbZVt5jv2Uug2fZoQu3iWJiEaHx1gCu3ke/5drSHUqo2yJMUQqdknmMM1c3qLcAZ51XkUlbhu6w4EyCU484sD4pFH4dDt6pYSTEVvI5XKSpM7Fhbi4UqT34dIDrO6Ix+9ssGfOqqFEV1XhSfqycfk2qCXy8d+W1pO4XRyY8Qi08moMbtftLBg6QKGSeXMHrqcEQX+Dpu/f/WbpQb09plIoQQzOZSdgiyzRKsDZk8Jq7QC0BBHW/8INeb+GS5WmpWwWocJkjfZjDhYuhmpd/MiOraptEKyRa8eJYQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aex5XXf3fAnYQusDF0YrsETDADdMGwssE+6EROpZNzQ=;
+ b=Qhj7dw8WWSDIxiXbXJ6p43dM0S2AHT/S88cVjitYBbxRMdfxaTriC90GyKcwiEbNL3OiLWGk1aegGYw0MpiMZC5VLzlcmSqfchCaDkfWJoTYV+AhBjGXvGBpQ6Ow87O+QmueWohIftx661/2exmTUZfW6ylO1pyUJmS+Gku52nGdjcwo4gANAYYgZs0wE5Qb4Mf2mAf9PEn2AYRX7tII42ROsS9k8bP6NoEIh43jpgdjzPOa7OqglQrvwiZYdnfX2yjWZ9XN1HdRXvEioK2T9/UW2RVhOZhdx3Ex2H005BpXES4HfzVMMp2FnXdeOTE+fpDTL/9I2hZEefYeh51E/w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=aex5XXf3fAnYQusDF0YrsETDADdMGwssE+6EROpZNzQ=;
+ b=TAWBu6GOnJvDJWGR3w+qVtcNOzpQGEFRPjP7es4wpMNJ8Ri1FJsntVLWWykQUl2liiXjAucsHKWLEO+Nq85gyauDNfhYDABsFca3ADinhIClUpN5jEqkaVsLW9RoruKEGXOVFUjBikWhnHNMgaL0hzG9SJ93biUtVvpbtwQPMDc=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=vaisala.com;
+Received: from HE1PR0602MB3449.eurprd06.prod.outlook.com (2603:10a6:7:8a::22)
+ by HE1PR0602MB2892.eurprd06.prod.outlook.com (2603:10a6:3:dc::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.27; Tue, 26 May
+ 2020 17:58:12 +0000
+Received: from HE1PR0602MB3449.eurprd06.prod.outlook.com
+ ([fe80::a972:752a:8780:fe40]) by HE1PR0602MB3449.eurprd06.prod.outlook.com
+ ([fe80::a972:752a:8780:fe40%7]) with mapi id 15.20.3021.029; Tue, 26 May 2020
+ 17:58:12 +0000
+From: "Nandor Han" <nandor.han@vaisala.com>
+To: openembedded-core@lists.openembedded.org
+CC: Nandor Han <nandor.han@vaisala.com>
+Subject: [OE-core][PATCH v4 0/3] Add a new bbclass that abstracts the generation of FIT blobs
+Date: Tue, 26 May 2020 20:57:53 +0300
+Message-ID: <cover.1590515635.git.nandor.han@vaisala.com>
+X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200326214308.1042374-1-nandor.han@vaisala.com>
+References: <20200326214308.1042374-1-nandor.han@vaisala.com>
+X-ClientProxiedBy: HE1PR0101CA0024.eurprd01.prod.exchangelabs.com
+ (2603:10a6:3:77::34) To HE1PR0602MB3449.eurprd06.prod.outlook.com
+ (2603:10a6:7:8a::22)
+Return-Path: nandor.han@vaisala.com
 MIME-Version: 1.0
-References: <1587667187-14130-1-git-send-email-rahulk@mvista.com>
- <e4d2de1d300677bf61ec737d8847dd7dea967840.camel@linuxfoundation.org>
- <CANv91vNTDMES=ZCWUsEDWycsBW1kyy_dWNc62+93GozCMz1kUw@mail.gmail.com>
- <CANNYZj_61NP5ZSVHA5UWJN_s86esbc-1nEu2gDdmvMn6AGqRAg@mail.gmail.com>
- <543d70c2321008a46e4f21bf84fd3963624e655b.camel@linuxfoundation.org>
- <CANv91vOeLhAdf5RVzQ6Ftc+Y4eQH963BYcEVfmMJaKcYg_GFTw@mail.gmail.com>
- <CANNYZj801ksp6hFqRzkU3A8qXptrHdm-GBZLPespsoir59Tx9w@mail.gmail.com>
- <57f47042-407c-7fe6-008c-adc509331f6e@windriver.com> <CANv91vM-SuevnLi--bKzyON3z6YuXUMHUjCc70PKa41woypmTg@mail.gmail.com>
- <9c444c01c7b64ff99ebd3b22516dc052@XBOX03.axis.com> <CANv91vPLcNY+58xx_ZyOOwAviyiH6vD_hPU_KmreXeUj1cikXg@mail.gmail.com>
- <a7804056e3204ee7b986f9fdc02e80cf@XBOX03.axis.com> <1a0e97f9-886f-40f1-3b53-d0ac59ebc8c8@windriver.com>
- <172ff49855e74f94b5247f2b482e0f94@XBOX03.axis.com> <9e09c278-741a-3cc1-ef60-9dcacb3b7658@windriver.com>
-In-Reply-To: <9e09c278-741a-3cc1-ef60-9dcacb3b7658@windriver.com>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Tue, 26 May 2020 18:08:08 +0100
-Message-ID: <CAM9ZRVtJY8NZ8nnmNUZ6KNbRNYtfQzkoW929hn2wRFb2C1btDA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Rahul Kumar <rahulk@mvista.com>, 
-	Alexander Kanavin <alex.kanavin@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>, 
-	Trevor Gamblin <trevor.gamblin@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from localhost.vaisala.com (82.181.11.213) by HE1PR0101CA0024.eurprd01.prod.exchangelabs.com (2603:10a6:3:77::34) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.24 via Frontend Transport; Tue, 26 May 2020 17:58:11 +0000
+X-Mailer: git-send-email 2.24.1
+X-Originating-IP: [82.181.11.213]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5255a39c-75f8-4bcd-68c7-08d8019e5b31
+X-MS-TrafficTypeDiagnostic: HE1PR0602MB2892:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<HE1PR0602MB289272DB76473D33D6D2883785B00@HE1PR0602MB2892.eurprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-Forefront-PRVS: 041517DFAB
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	pNQVH/rQ1mZN0E9CLdRCj2h2LE2KVre1helXF6A3ozO1Exw7UltcVbrS1RA0smcVLH7rD+SqoUhPuF0QsuJcYv3caAg+OGn1zJKeXjqGgvssGChrtJJBtllzDxb6xtLnmjxcTfSszKYuuDvsAeJx6pJsIurEk9God7oE8wX3mxBtmZsWXx4hZdUoKt11p2N+ZXz77azoT70lPVmGsFH/9BU7Zg/sPNGdCFnRSMnk1t8UUFWaZlmzRq0NI/XcWwd8G25jSwsmZcPWPG8lY+Zx2bIdfGQIWBs/ILYY0NXYws/I8ntf0r7cfMLk4m6a6BFg/mXwAgiJLs436AK+Ty9yVWD+yp2w9NMgtz6FbHCl0kxOa3pAIREK33r+/o5qtbgR
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0602MB3449.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(366004)(346002)(376002)(136003)(39840400004)(396003)(316002)(5660300002)(6486002)(86362001)(8676002)(6666004)(4326008)(8936002)(36756003)(26005)(16526019)(186003)(66946007)(2906002)(6916009)(7696005)(2616005)(107886003)(52116002)(66556008)(44832011)(66476007)(956004)(478600001)(136400200001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	KvxuOAKqKE+8FCDPePBgkBRhK99vcBuTT2Ns+KeI5QyaZF0VP4fg3hVZUi8uQGkO/GDjoDhLiKxwHbKTUwCnIznUIBLgbtr4zrE2XjTAWFn/vFeLPyb5lp9QrIDgaBgAkNX5xMPOONW2X4bT2IGOtvdfhExNPq+OzfPoVOo4ATMhdghccTNqh+AxBLI+lm09N+ZtBBnU1z240NdkeDwSkdK7E1GCgsFu/5/O80ydxAi4pxkoFyHvDHo52yiQxQZipyv0aVCS9oIKh7y6G4wKntuCnCYkBf+7R93VZzdA+fwTBNI/qh84fg4IOvDjTplRSDR490Xh8UAK9cj863U5Fq8LGyGamLLlPcPXjkJltzUgaCxHDMZDKBCmawdc6WYUiHnO9VTln03JZywqBcl8LqBYcIUftfpBeHo4f4zIAgMAeAyJ7Aj85Mnn3ywMW01jnbp/6IFM51B47E44QDeGdPsuLzg1mDtbX+lcx2062Lo=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5255a39c-75f8-4bcd-68c7-08d8019e5b31
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2020 17:58:12.5826
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1OpEVSyzNfw6Yg4CpOuUN2YxIMzHtFnJg5bhuG6o3D/fNMWA9m6DlJohEh3maVgZdPsmS9tuuVA71VMV020BkQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0602MB2892
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-I'm looking at this after our chat on the call today, picked on this
-email in particular just because I needed one to reply to....
+Description
+----------
+Add a new class and unittest for generating FIT blobs.
 
-On Wed, 20 May 2020 at 21:59, Randy MacLeod <randy.macleod@windriver.com> w=
-rote:
->
-> On 2020-05-19 8:06 p.m., Peter Kjellerstedt wrote:
-> >> -----Original Message-----
-> >> From: Randy MacLeod <randy.macleod@windriver.com>
-> >> Sent: den 19 maj 2020 23:45
-> >> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; Rahul Kumar
-> >> <rahulk@mvista.com>
-> >> Cc: Alexander Kanavin <alex.kanavin@gmail.com>; Richard Purdie
-> >> <richard.purdie@linuxfoundation.org>; OE-core <openembedded-
-> >> core@lists.openembedded.org>; Trevor Gamblin
-> >> <trevor.gamblin@windriver.com>
-> >> Subject: Re: [OE-core] [PATCH v2] bzip2: Add test suite for bzip2
-> >>
-> >> On 2020-05-19 12:29 p.m., Peter Kjellerstedt wrote:
-> >>> The jzlib license is a three clause BSD license, and so is the
-> >>> go/LICENSE, so you should be able to set LICENSE as:
-> >>>
-> >>> LICENSE =3D "bzip2-1.0.6 & GPLv3+ & Apache-2.0 & MS-PL & BSD-3-Clause=
- & Zlib"
-> >>
-> >> Peter,
-> >>
-> >> I respectfully disagree.
-> >>
-> >> The only source that is _executed_ in normal use by bzip2-test is
-> >> the run-tests.sh script that is licensed as GPLv3+
-> >
-> > Well, I am definitely not a lawyer either,
->
-> Phew! :)
->
-> > but I am pretty sure that
-> > whether something that is distributed under a certain license is
-> > executed or not is irrelevant (unless of course the license covers
-> > execution of the code).
->
-> There's a difference between a legal report and the Yocto LICENSE tag.
-> The Yocto tag is meant to be an over-all/community acknowledged license
-> for the _code_ in the package that ends up as executable / script on
-> the target. We should probably document this in greater detail, perhaps
-> in:
->
-> https://www.yoctoproject.org/docs/current/mega-manual/mega-manual.html#va=
-r-LICENSE
->
-> A more comprehensive analysis usually includes a file by file
-> IP report often accompanied by a summary generated by an IP expert.
->
-> >
-> >> The other files, although they came from source packages,
-> >> are *only* used as  test data. The source code has been completely
-> >> stripped out, hasn't it?
-> >
-> > Given that they were originally distributed in an archive together
-> > with a LICENSE/COPYING/similar file covering the entire archive,
-> > those files are still covered by that license even if they are not
-> > source files per se.
->
->
-> Licenses describe the terms that apply to items that are covered
-> under copyright. Data generally can not be copyrighted.
->
->  From my IP contact:
->
-> ---
->
-> In order for something to be copyrightable three requirements
-> must be satisfied:
->
->   1. The work represents a creative form of expression
->      (basic facts do not represent a creative form of expression)
->
->   2. The work is original (novel) =E2=80=93 not copied from someone else.
->      Two different people could come up with similar creative forms
->      of expression. They just can=E2=80=99t copy from someone else.
->
->   3. It must be put in tangible form (e.g., written, digital, =E2=80=A6).
->      Someone can=E2=80=99t just claim it resides inside their head.
->
->
->
-> Data as a general is not copyrightable because it fails number 1.
-> However if someone can argue that a certain compilation of data
-> represents some form of creative expression, they might have a case.
-> This is discussed in the first two paragraphs here:
->
->     https://libguides.library.kent.edu/data-management/copyright
->
->
-> Data can be protected under patent or trade secret law but different
-> requirements apply and a different license would need to be created.
-> Open Source licenses are largely copyright licenses. Although sometimes
-> they include patent terms, they are generally not considered patent
-> licenses.
->
-> ---
->
->
-> Most of the files here are clearly just data and
-> are therefore neither subject to copyright nor governed by
-> typical open source licenses.
->
-> Some possible exceptions are:
->
-> dotnetzip/dancing-color.ps.bz2
->    - This could be considered as software since that's what a PostScript
->      file is. In fact it's the 'Dancing links" paper by Donald Knuth:
->      https://www-cs-faculty.stanford.edu/~knuth/preprints.html
->      Copyright is not asserted but is of course implied for such works.
->      No licensing terms are declared.
->
-> go/compress/Isaac.Newton-Opticks.txt.bz2
->    - out of copyright since unfortunately the author died long ago :-/
->      It seems that the people who prepared this document:
->        "Produced by Suzanne Lybarger, steve harris, Josephine
->        Paolucci and the Online Distributed Proofreading Team at
->        http://www.pgdp.net. "
->      are interested in:
->         "...dedicated to the preservation of written works
->          that are in the Public Domain ..."
->
-> https://www.pgdp.net/wiki/DP_Official_Documentation:General/Distributed_P=
-roofreaders_Mission_Statement
->
->
->
-> It seems that the README/COPYING/LICENSE.txt/... files
-> were left in the repo by people who while well intentioned,
-> were misguided. We could try to fix that error upstream.
->
->
-> >
-> >> If, instead of compressed data,
-> >> someone were to give me an image file covered by a creative common's
-> >> license and the image had a watermark that when extracted produced
-> >> file with source code with a FOO license, would you change the
-> >> package license to include FOO? In fact, we don't even look at
-> >> image file licensing let alone at embedded watermarks.
-> >
-> > Well, if there is a file distributed in the picture (not using the
-> > word "image" here to avoid confusing the discussion any more) in the
-> > form of a watermark, then that is no different from distributing it
-> > as part of a tar.gz file (albeit a bit unusual). Whatever license
-> > that file is covered by still applies in both cases.
->
->
-> To me, this is the crux of the matter, i.e.:
->    "Whatever license that file is covered by
->     still applies in both cases."
->
-> I agree with you but I think that the LICENSE can not and should
-> not and was not meant to apply to the data files.
->
-> >
-> > Actually, here is something to think about. I recently read an
-> > article published by the Linux Foundation called "Docker Containers
-> > for Legal Professionals". [1] There they discussed the distribution
-> > of Docker images. Consider this, you take an existing Docker image,
-> > e.g., fedora:32, and remove everything that is covered by GPL-3.0
-> > (not sure how to actually accomplish that, but anyway) and then you
-> > distribute this new Docker image to someone. Does this mean that
-> > GPL-3.0 covered code is being distributed? The answer is yes.
-> > Because of the way Docker images are made up from layers, you need
-> > to adhere to the licenses covering everything in all layers, not
-> > just the final result. And somewhere down the stack of layers
-> > making up your Docker image is still all of that GPL-3.0 code
-> > that you removed in a higher layer.
->
-> Yes, that's an interesting case that makes sense due to the layered
-> nature of the docker images.
->
-> >
-> >> I'm not a lawyer so this is simply my opinion on the matter.
-> >> How do we come to an agreement?
-> >> I'd be happy to add a comment in the recipe explaining our position:
-> >>
-> >> # This package contains a script and test data this is derived from
-> >> # other software packages as explained in the top level README.
-> >> # Although there are COPYING files explaining the license terms
-> >> # for each sub-directory, the files in each directory are only used
-> >> # as test data so the LICENSING terms do not appear to apply to
-> >> # the recipe as we ship it and have therefore NOT been incorporated
-> >> # into the bzip2-ptests recipe licensing tags.
-> >
-> > I would be very worried seeing such a statement, and I believe any
-> > lawyer would too.
->
-> As written I agree but if I change it to:
->
->  >> # This package contains a script and test data this is derived from
->  >> # other software packages as explained in the top level README.
->  >> # Although there are COPYING files explaining the license terms
->  >> # for each sub-directory, the files in each directory are only used
-> # for each sub-directory, the files in each directory are only
->
->  >> # as test data so the LICENSING terms do not appear to apply to
-> # test data so the LICENSING terms do not appear to apply to
->
->  >> # the recipe as we ship it and have therefore NOT been incorporated
->  >> # into the bzip2-ptests recipe licensing tags.
->
->
-> would that make more sense?
->
->
-> So this email chain is all about deciding between:
-> 1) LICENSE =3D \
->    "bzip2-1.0.6 & GPLv3+ & Apache-2.0 & MS-PL & BSD-3-Clause & Zlib"
->
-> and
->
-> 2) LICENSE =3D "GPLv3+"
->
->
-> My vote is still for 2). Yours?
 
-If the bzip2-tests repository is added to SRC_URI then it will be
-considered part of the "sources" when you collect all the sources
-using something like the archiver bbclass. So LICENSE needs to state
-the conditions which need to be followed if you then distribute all
-those sources together as an aggregate.
+Testing
+-------
 
-Therefore option (1) is the more accurate representation of the
-licenses as they're reported to us by upstream. I'd follow that unless
-you've got reason to believe that upstream (in this case,
-https://sourceware.org/git/?p=3Dbzip2-tests.git;a=3Dtree) are wrong about
-their own licenses.
+    1. linux-yocto_5.4.bbappend was modified to have the following configur=
+ation:
 
-If you have reason to believe that upstream are wrong then that should
-be discussed upstream if possible and any conclusions reached should
-go into the recipe as a comment alongside the LICENSE line.
+    ```
+    inherit fit-image
 
-I also think it's worth making clear that the job of OpenEmbedded /
-Yocto Project is not to provide legal advice on how to interpret the
-various upstream collections of license conditions and license files
-that we find. We're not qualified or resourced to do that and it's
-always nuanced by jurisdiction and other concerns in practice anyway.
-So when I say "any conclusions reached should go into the recipe as a
-comment", those conclusions should be about where those license
-conditions come from rather than justifying some interpretation of the
-conditions.
+    KERNEL_IMAGE_NODE[name] =3D "kernel"
+    KERNEL_IMAGE_NODE[description] =3D "${PF}"
+    KERNEL_IMAGE_NODE[data] =3D '/incbin/("./arch/${ARCH}/boot/zImage")'
+    KERNEL_IMAGE_NODE[type] =3D "kernel"
+    KERNEL_IMAGE_NODE[arch] =3D "${ARCH}"
+    KERNEL_IMAGE_NODE[os] =3D "linux"
+    KERNEL_IMAGE_NODE[compression] =3D "none"
+    KERNEL_IMAGE_NODE[load] =3D "${UBOOT_LOADADDRESS}"
+    KERNEL_IMAGE_NODE[entry] =3D "${UBOOT_ENTRYPOINT}"
+    KERNEL_IMAGE_NODE[hash] =3D "sha256"
 
-Thanks,
+    FDT_IMAGE_NODE[name] =3D "fdt"
+    FDT_IMAGE_NODE[description] =3D "FDT blob"
+    FDT_IMAGE_NODE[data] =3D '/incbin/("./arch/${ARCH}/boot/dts/am335x-bone=
+.dtb")'
+    FDT_IMAGE_NODE[type] =3D "flat_dt"
+    FDT_IMAGE_NODE[arch] =3D "${ARCH}"
+    FDT_IMAGE_NODE[compression] =3D "none"
+    FDT_IMAGE_NODE[hash] =3D "sha256"
+
+    CONF1_CONF_NODE[name] =3D "conf"
+    CONF1_CONF_NODE[description] =3D "Linux kernel and FDT blob"
+    CONF1_CONF_NODE[kernel] =3D "kernel"
+    CONF1_CONF_NODE[fdt] =3D "fdt"
+
+    FIT_IMAGES_NODE =3D "KERNEL_IMAGE_NODE FDT_IMAGE_NODE"
+    FIT_CONFIGURATIONS_NODE =3D "CONF1_CONF_NODE"
+    FIT_CONFIGURATIONS_NODE[default] =3D "${@d.getVarFlag('CONF1_CONF_NODE'=
+, 'name') or ""}"
+    ```
+    2. Build the kernel: `bitbake virtual/kernel`
+    3. Verify that `image-fit.itb` is present in the build directory: PASS
+    4. Disassemble the image using the command: `dtc -I dtb -O dts image-fi=
+t.itb`
+    5. Verify that the FIT source contains the expected configuration: PASS
+    6. Run the unittest using the command: `oe-selftest --run-tests fit_ima=
+ge.FitImage`
+    7. Verify that is successfully: PASS
+    ```
+    2020-05-26 16:54:34,996 - oe-selftest - INFO - SUMMARY:
+    2020-05-26 16:54:34,996 - oe-selftest - INFO - oe-selftest () - Ran 13
+    tests in 1956.639s
+    2020-05-26 16:54:34,997 - oe-selftest - INFO - oe-selftest - OK - All
+    required tests passed (successes=3D13, skipped=3D0, failures=3D0, error=
+s=3D0)
+    ```        =20
+=20
+
+    Changes since v1:
+    ----------------
+    - Change the format of short-log to "<target>: <summary>"
+
+    Changes since v2:
+    ----------------
+    - rename the file from `fit-image` to `fit_image` to successfully expor=
+t the class functions.
+    - adding new sanity checks.
+    - add missing dependency.
+    - fix a variable reference in a debug log.
+   =20
+    Changes since v3:
+    ----------------
+    - unit-test added
+    - class updated to support also properties for U-Boot image
+
+
+Nandor Han (3):
+  Add a recipe for `python3-fdt` package
+  classes: Add a new bbclass that abstracts the generation of FIT blobs
+  selftest: add a unit-test for fit-image bbclass
+
+ .../fit-image-test/files/dt-fake.dtb          |   3 +
+ .../fit-image-test/files/zImage-fake          |   3 +
+ .../fit-image-test/fit-image-test.bb          |  17 +
+ meta/classes/fit_image.bbclass                | 387 ++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/fit_image.py     | 212 ++++++++++
+ .../python/python3-fdt_0.2.0.bb               |  14 +
+ 6 files changed, 636 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/fit-image-test/files/dt-fake=
+.dtb
+ create mode 100644 meta-selftest/recipes-test/fit-image-test/files/zImage-=
+fake
+ create mode 100644 meta-selftest/recipes-test/fit-image-test/fit-image-tes=
+t.bb
+ create mode 100644 meta/classes/fit_image.bbclass
+ create mode 100644 meta/lib/oeqa/selftest/cases/fit_image.py
+ create mode 100644 meta/recipes-devtools/python/python3-fdt_0.2.0.bb
 
 --=20
-Paul Barker
-Konsulko Group
+2.24.1
+
