@@ -1,78 +1,70 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web12.1160.1590530253485080543
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web12.1304.1590530758523632343
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 14:57:33 -0700
+ Tue, 26 May 2020 15:05:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Nks/7fn2;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id i15so21985937wrx.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 14:57:33 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bV3qpuVm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f65.google.com with SMTP id n5so1162494wmd.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 15:05:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=kwP6sxBj0D6pHYSxVX8kLJZWdMKm5dclDK3FrmaX+ZE=;
-        b=Nks/7fn2xvb7KwUDRDznXZQvpYmkYVHhnkx+8rZHBDq1iMbS3RBhgB0iOrwlHv+Qmz
-         qyvkahWaQDRP0oUygbpbqDve09bfqdbEQ6/kim6g4bXPEZDM/EBAUJFvqxxRxRxGzF/b
-         lsXvKtm+1+LTkAY0zgkZNi7jamCJ0ZqFnYq6Q=
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=CDB5t71tnZdH+jJIk07iquM57c3/zbiDJJTuuL0R+U0=;
+        b=bV3qpuVm8NsG393EPlZAA4JjVVveNlFXXDVt28wiegunZDFLulqyQt8DIABGWysSW8
+         zOopFaaejyHvHFPXuM9K9x6aWokyjzohoYnv+MhCsKYYZsdkptcddEScLO2lGGdmiAGG
+         uOM0kK7M8ieeNXjMU9pwOBPte/xZZfrnUvEJA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=kwP6sxBj0D6pHYSxVX8kLJZWdMKm5dclDK3FrmaX+ZE=;
-        b=XGpfRPUyUilg1SLUZENunqn9p1VhDh3jEg/j7cVGySsktMuK7T4HdhkgWmPZwy+O0w
-         iLROOBad5UKQWZ9rDUeh6UNDd9UOmDVzueeMs2lab68rAF1W9nX4GcA7Put7OI3GSx0k
-         ZUoyuODrffZk5LvoZz+ZFl5N0IsL1YKpcLlwtsslm7d11LVzEF+2Vhi9LgL/pPIDLvnW
-         otWsrVUcZ9fFHvDb9YeZ8m4DcLiJy9aQFi48v/KFEBx2bgYHiaxzizJHc5z7LNQjFIh/
-         F3rJY3qeqWzXjsn5FkcXHPOLvPGMmPQ6PsjhrYUXVCV0Uk8nG6gP8wNL3H5lvEVNDUBW
-         bISA==
-X-Gm-Message-State: AOAM532HYsTHtmvelrY9F9Fub/Ri018VWJ9oyEtKXKl2xsbhRjxMGY1b
-	aEGiYLMvgzl7vvovtyuO3YJGy9m4Z13law==
-X-Google-Smtp-Source: ABdhPJy/RcAPPPVKj23CgcnpfXuxxUQbd5lCflrquqlvymFuTTI9beGVlW99FtV0R+upLQEDn/zCyQ==
-X-Received: by 2002:adf:92c1:: with SMTP id 59mr7304818wrn.401.1590530251841;
-        Tue, 26 May 2020 14:57:31 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=CDB5t71tnZdH+jJIk07iquM57c3/zbiDJJTuuL0R+U0=;
+        b=nJSLz9vGrvtzWYLQ8XrT4Pw61sViie39q1UZa9ZzgGJ3CY/nANqlzzgz0H5PyqGD3A
+         7JkXwwzpqAi+MzWl23fvIni2HJEJjrqT1x51e6zc7qzJ8ayUpWO2YgL4dpCOP160BTQh
+         8ap7ndENw/ZsDpa8TFMK6ZcEAjR8YW0plH/eJrqAxl6j3jzsbyXNgBDD9diZcForSIq+
+         LZponJ2VzkZD/MZ+vGZw54cQ/4Dz+N+fvrC7nwoyi7zTrRCkIk71Chlke9Fslf/HXNj0
+         TZs/o0sT8uoszNeEQL+ST3o9GI8fQh6fSBg8MFa8je5oU/V3pSkuOjW7Sr87F5BtReJV
+         lxdw==
+X-Gm-Message-State: AOAM530vNjprYN8sHkI5C39OFVRitjtalEDCVQpYOS8QU3J40J7DNiv2
+	ggkWCaHQQYOEmwGrasKMfS25pA==
+X-Google-Smtp-Source: ABdhPJxEDeF/hcSugYG/dfVCID3HYX02fwU3yI99rgD5d6ZoucnjypRERXRWSYbvLFN7h+M7aLi/dg==
+X-Received: by 2002:a05:600c:2614:: with SMTP id h20mr1204990wma.155.1590530756970;
+        Tue, 26 May 2020 15:05:56 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id z132sm901291wmc.29.2020.05.26.14.57.31
-        for <openembedded-core@lists.openembedded.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id i3sm1019269wrm.83.2020.05.26.15.05.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2020 14:57:31 -0700 (PDT)
+        Tue, 26 May 2020 15:05:56 -0700 (PDT)
+Message-ID: <d8fb73d69e2ce700fdcddf5a90ee810563a7b7be.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] multilib/recipes: Use new RecipePostKeyExpansion event
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/5] ltp: Exclude the memcg_stress tests due to timeout problems
-Date: Tue, 26 May 2020 22:57:25 +0100
-Message-Id: <20200526215725.992258-5-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200526215725.992258-1-richard.purdie@linuxfoundation.org>
-References: <20200526215725.992258-1-richard.purdie@linuxfoundation.org>
+To: Jeremy Puhlman <jpuhlman@mvista.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 26 May 2020 23:05:55 +0100
+In-Reply-To: <64ca506f-b276-0a4b-4f90-55433aeb2df6@mvista.com>
+References: <20200521110914.2202188-1-richard.purdie@linuxfoundation.org>
+	 <64ca506f-b276-0a4b-4f90-55433aeb2df6@mvista.com>
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This test runs for 900s, we often see tests killed after 300s without
-output which makes the test results unreliable and inconsistent. The
-easiest solution for now is to skip this long running test, patching
-it out wth sed.
+On Tue, 2020-05-26 at 08:45 -0700, Jeremy Puhlman wrote:
+> For master I this looks great. We have been bitten in various edge
+> cases by this in the past. You mentioned
+> pushing it on to dunfell. I a little leary at this point, but if we
+> are going to its kind of now or never. My feeling
+> is there will be some fallout(which is perfectly fine on master, a
+> little questionable on a stable release) in other
+> layers.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-extended/ltp/ltp_20200515.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+Right, I tend to agree that its probably too invasive for dunfell...
 
-diff --git a/meta/recipes-extended/ltp/ltp_20200515.bb b/meta/recipes-extended/ltp/ltp_20200515.bb
-index 0304a40185b..67c75903204 100644
---- a/meta/recipes-extended/ltp/ltp_20200515.bb
-+++ b/meta/recipes-extended/ltp/ltp_20200515.bb
-@@ -72,6 +72,10 @@ do_install(){
-          -e 's@[^ ]*-fdebug-prefix-map=[^ "]*@@g' \
-          -e 's@[^ ]*-fmacro-prefix-map=[^ "]*@@g' \
-          -e 's@[^ ]*--sysroot=[^ "]*@@g' 
-+
-+    # The controllers memcg_stree test seems to cause us hangs and takes 900s
-+    # (maybe we expect more regular output?), anyhow, skip it
-+    sed -e '/^memcg_stress/d' -i ${D}${prefix}/runtest/controllers
- }
- 
- RDEPENDS_${PN} = "\
--- 
-2.25.1
+I've posted a tweaked v2 of the patch which fixes some regressions this
+version had.
+
+Cheers,
+
+Richard
 
