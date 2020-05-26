@@ -1,25 +1,25 @@
 Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [])
  by mx.groups.io with SMTP id smtpd.web12.1325.1590517214988658965
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 11:20:17 -0700
+ Tue, 26 May 2020 11:20:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@vaisala.com header.s=selector2 header.b=sMTAQRbq;
+ dkim=fail reason="body hash did not verify" header.i=@vaisala.com header.s=selector2 header.b=XxbDK9GO;
  spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 spf.creamailer.com}: limit exceeded (domain: vaisala.com, ip: <nil>, mailfrom: nandor.han@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XVij6V/nJyfShP6iunss5+tEE9IP2V3T9MPpkMpIX6XggY4WU9zcSrU39J71D87ZN35hLbo93npdKf9ROVAfnLmuntA8CoLQEE105Tc3cUs6IBTy8yU7rQ6GhmMylaxyzRSwdzqbn/1iITR1H061QUidhohMuGKaarG6gYTt2KD8dcc46MIvn/QBBw3LkKYGVkGjXxc8Jakr+qf7o5VA4/ObFJPmjFiVUrywTg3lP4p/ygO9wP4VVI9YHnh/eyWlAeqjdMoiMzErUEEFSYH/kAJNaxuLrrV9u17yrsNR2wI3ryKN8s3bHx0CZgO+pnJYPdd+pqV1h6i2l8rifuNMaw==
+ b=IJ8YZQXgTy472sGxvzJmOj67FaCiJlFtg9tDytYGByIgBvK+cBNVA2Qh24W//m3nqMMUfSYfI/ylKJBcX98NUH3OH3x0U2eD+3+/1kRfPEGWRHIftSPnoaenFd4oCaxyrUk6xWygPk9RfUCfmxNY0mMFUFDZ1UbFiwOxHO0svj9N/ueBAF32/TPezTrXueKkH3M3606XLVPmOcJNlssXzJXoz3AT+IdEjFaG2MwUvf+NKMf6/zFlNpYYUEBu4goubhMSFSiXWvJb1sMjyIw9uP+azG2tFJCyVnmoTD4KgcgMeIF+2SqLG1v/3AHIS2zZcYR+eQHBNDbPqxKFjHVogA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A8hKqWZO+yjBKs9P9NKDsYFC3N5pTzsQCOtQtDTtvbc=;
- b=DWJL99jgT8H1c/iQ/tNGjDb/SvvCK4yIsb9+SzCezPjNrbOl81KJkxyBEc+bJhbhKYI6MF5E2r6QDBIzmxiSytpyPDpJE5JGH//zJSv5qZAKUV6FUSTiE3wYDfa/6187waWTN9cvOIqWw+5vbMQKbKOoGGyc63XC8T6+iZUVIw8v6c4G81QSHM3FxHbZkiBAEWkSSLDPKmNxPzHAXXnRoQ7Ta5BlPOzYDY9/1fkHIUtDG2hOdgA0gHtWMOWUJbTaI/wA5kyoB0Wxmpa4EsVqGNIlQwBkT60RuCB3wtxEnp+wBbpbpgNfRBmJo2YqGg4xPsQ9Z9vGkZlbXo5UboW+Xw==
+ bh=Qr+g5SLF3cTE1VG7cHjrVHzINXhYuN/pxyNC8GhX4yA=;
+ b=ThmGjYXiiiZip3959dFUjnYunIcJSVgVo68DiEfWrQ7osTHH+0zYhSdNTTZ1gxTg1hjlGGdp99BEZ0sKogKmVQGkL+4YddHbg2geZmD5lp7TBfgbQ62qkkqM1McJ0NJJgNTFVEbTynUV4n0AhY/42h5Rd/MywKEIFEg+UAio4azvFhupFnSl7iFtSCK6ZDkzMYdHS2E90PQN8wGXcs9uVtfagZaTbN7GYG0mRugMCvAI1hZmVJHOFhv95i+MsRhtlF5bl8AXhQ1F1hhZOehBbWbMDfMo/okVEKkwW0VXRlEWNGL2AU6SZd6mM4Cc3gXsUvGk5+DktZ+L3QnSCJecNw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
  dkim=pass header.d=vaisala.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A8hKqWZO+yjBKs9P9NKDsYFC3N5pTzsQCOtQtDTtvbc=;
- b=sMTAQRbqaJKmakBCgR4FbBdg3/tZ/h1A6WG4ZxpWr5mWlcftU+o0cevVBinkfJ6kb/OqpACRF/N7xqYPxkCf2BV+PoyhIow12RPI3hbg6CaqrrwZ+GphoPBY/XN1wnHnKml1yA5ja5O1S2YnJ0Uxnn3FqqcOvd6cb1/OWUwArqY=
+ bh=Qr+g5SLF3cTE1VG7cHjrVHzINXhYuN/pxyNC8GhX4yA=;
+ b=XxbDK9GO+kvc0h5fy0P5n1Ffk7NOJofI8h0x19k0PzJ0l5lAP417CA5ItYRPoHwD8VOpDLJAs9MBkej3ZFDqM7FacG00KbGdC0rAJItgu05tAeHiZxcmGHSD1GWLNAGJbd9MM3NJYGtWVzBI6ti6iy+2rpeb7bES0iOlPExxz0o=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=vaisala.com;
@@ -27,17 +27,17 @@ Received: from HE1PR0602MB3449.eurprd06.prod.outlook.com (2603:10a6:7:8a::22)
  by HE1PR0602MB3403.eurprd06.prod.outlook.com (2603:10a6:7:81::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.27; Tue, 26 May
- 2020 18:20:11 +0000
+ 2020 18:20:12 +0000
 Received: from HE1PR0602MB3449.eurprd06.prod.outlook.com
  ([fe80::a972:752a:8780:fe40]) by HE1PR0602MB3449.eurprd06.prod.outlook.com
  ([fe80::a972:752a:8780:fe40%7]) with mapi id 15.20.3021.029; Tue, 26 May 2020
- 18:20:11 +0000
+ 18:20:12 +0000
 From: "Nandor Han" <nandor.han@vaisala.com>
 To: openembedded-core@lists.openembedded.org
 CC: Nandor Han <nandor.han@vaisala.com>
-Subject: [OE-core][PATCH v6 2/3] classes: Add a new bbclass that abstracts the generation of FIT blobs
-Date: Tue, 26 May 2020 21:19:55 +0300
-Message-ID: <9032889789061c38a38a6e90827a9da766f1b76d.1590517053.git.nandor.han@vaisala.com>
+Subject: [OE-core][PATCH v6 3/3] selftest: add a unit-test for fit-image bbclass
+Date: Tue, 26 May 2020 21:19:56 +0300
+Message-ID: <17a8dcb82bcf10819d27747a6dd85f9e20380481.1590517053.git.nandor.han@vaisala.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <cover.1590517053.git.nandor.han@vaisala.com>
 References: <cover.1590517053.git.nandor.han@vaisala.com>
@@ -47,493 +47,359 @@ X-ClientProxiedBy: HE1PR05CA0160.eurprd05.prod.outlook.com
 Return-Path: nandor.han@vaisala.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from localhost.vaisala.com (82.181.11.213) by HE1PR05CA0160.eurprd05.prod.outlook.com (2603:10a6:7:28::47) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.24 via Frontend Transport; Tue, 26 May 2020 18:20:10 +0000
+Received: from localhost.vaisala.com (82.181.11.213) by HE1PR05CA0160.eurprd05.prod.outlook.com (2603:10a6:7:28::47) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.24 via Frontend Transport; Tue, 26 May 2020 18:20:11 +0000
 X-Mailer: git-send-email 2.24.1
 X-Originating-IP: [82.181.11.213]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7f4f8f15-727c-469b-0d3d-08d801a16d5c
+X-MS-Office365-Filtering-Correlation-Id: 4041bc3e-934f-41b8-158e-08d801a16d9e
 X-MS-TrafficTypeDiagnostic: HE1PR0602MB3403:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<HE1PR0602MB340303616F30F1673B4CE29685B00@HE1PR0602MB3403.eurprd06.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:873;
+	<HE1PR0602MB3403FECBF5DFEF87C188FAD585B00@HE1PR0602MB3403.eurprd06.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-Forefront-PRVS: 041517DFAB
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	y6EleSP+gBcWW3/8q+okfoKBC8jvY5HWI8eMqgkzB7ltsZXtakuVXnlka0XnHV3JrVMLZOXzkOnBqV9aEYn7U8plud4/pb4GON4fhtQt/7XDdUpKGcfdzk9Byra134gVfJikh90DwLQ8JvyAutDNr6MO5O5mP7oZb5aTt+R3TDlumyvXXsQAAauNoMpGuT1o8StJ6Tf2bDxR0TCK1OLTG7t/u9Tm+NbjKocJ7c2GiiQ5BRWLDXVyQmP1XBxyvZOs0UrW7JP3ijynDl+NfXBmwHoY2LAIbz0bjVHACxSsvr4NUB10UC0ZYU/gDaXpEJkvaK3JpcHewD870AiUYTUxdutA4bjMfYWdg2XHgBF+OwT38yggYiFVT2wx5Izeh4Km
+	icBMK6iGO5GO+7vPaXpYsovzvJw3+K+Sy0uN7AL6vGsbD9kTk5lYEOA7my9MRk63GaIxPgumDiC5Fx8Fee27mwB1ZQz+n7qHfeuJ0OKo8J7C4lHfI+wpVgm0L2x9O24oNHebmg0nedVvvMutDVXWwWcoQaGoo/LE4M03Xiuu99OKcqxp1r4Eo6KC1cf1hdeIgpbJkj1lvMMe2eNBXVCHZdpHKRWz8wTJ666W7XLcqV6YStlmSwIGDdxi+ZhXpNW5+b3NxQeHLpHLxYDk65tJXqjfYdkndkJ55TLtxNq8g5H8m4YcRkSUyLnRwofqhPpKH56bkfxytJVAB1xZF7ibnIX1clvtqy7Pp8/saTdpjvVK/EeWyt6QLrV/92dKjsc5
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0602MB3449.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(346002)(396003)(39840400004)(376002)(366004)(8676002)(4326008)(2616005)(107886003)(316002)(956004)(36756003)(8936002)(6916009)(26005)(52116002)(30864003)(7696005)(66946007)(66476007)(478600001)(66556008)(6666004)(16526019)(2906002)(186003)(6486002)(5660300002)(86362001)(44832011)(136400200001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0602MB3449.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(346002)(396003)(39840400004)(376002)(366004)(8676002)(4326008)(2616005)(107886003)(316002)(956004)(36756003)(8936002)(6916009)(26005)(52116002)(7696005)(66946007)(66476007)(478600001)(66556008)(6666004)(16526019)(2906002)(186003)(6486002)(5660300002)(86362001)(44832011)(136400200001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	uAFMgKrGy9XbvSFo7jMHUMCzgZGgeZI+4CQFP+WkbkwyfWxOu7+rJhLPaaL6n+9W0cgBD8XJvyewhU4wOQOdOWOwccdN5+lBHrNwUL6PFH6OzkypadPHXqshMNcM+ZJyoLUvBQ9Gww7p9WsuaS3dJ3A4vitZ+kSGnTuO92ix6P3Ai3KDB9ni6wc+r2xT9QPyVJ99qaBIS34jHI44XusahtJwv7EiIDoIi+fOKZHp1WkFnZjcm5XzelGOBsgsCKVNxb5T4QeKdlnDpvXEg/mpsaPjOgMgwhVVDQT+u2XDyTplwZdJ3+mUKmg2gyGEqCqquwtxU5wO8t2WCAdbkLDkGK+wHMrY7VEXr0u51tAeYGGtmght3E0KtNxHz/+UVQitvTPSAVV9E/r2t3fu02f13s3RHlqewHAxGXobwkAStMTACs3IgKUKBBVCGeePNwSqoj6r1lgYWNSatfH6JtSgzBKoNB8hM9DIp4k+dVFU25I=
+	pftlFiXi4OwL7BSJplI4jRv9CAhTJGTKVN5ShGObpINBxV/oxZ51mHt+Q+V2yjjx4v8GQ0LpUR4A0D76qHS27bN3DVjv83zE4a19BmVWH6GEub8EDabP86QfXKRk00kQmJFbFXZrbeve1ROXTHOtpdxhhNzAB2QGDfBH/V0ggyhas2e1zF5mTYj8rXXWgutxqVI6hYKHcQZLRMTJoIWA0DgZ0RFqpzFAGjOZ0o1SxdHS29sqW0xn7tTnRHRqKF77Izvtbytl3kXLIuPEygnDtmfKcV3Bpt0KdgZKwXnqyDfL/GDkR1vuhSGyPs0pH3peyHDm2yILOvm4jbzmOOwYAvis7LnSWqILPaN1ErTlr0gHpT2yAvAXNaEDLpxondSLj9BIytf8bZCdi984dVBHRHV+bsaY2GSi3PXaumX3fsQSwBYkGyhI/KV6SRk7dFFq2a7Dc8o3CQq6Ot8iHrK2CDlTMOXrYykW4M5g94PlOC4=
 X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f4f8f15-727c-469b-0d3d-08d801a16d5c
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2020 18:20:11.1145
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4041bc3e-934f-41b8-158e-08d801a16d9e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2020 18:20:11.5113
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m0pbrOXcjzzdMPghwYGizn9DFuv8W99MObPGXVKhYBpQMtHSfItpfzOJEb5gH/EiAhiNhJLvokSEZGmu8kgVOw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: UhMUN4qMLBcO7Y5lVajq+3vyAp6licIWTg9fklr41tyDTAu6QJoLOivSGvjGxQoy0wZRMcNpFiMjk/vclyDd7g==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0602MB3403
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
 
-FIT format is very versatile allowing various combination of booting
-sequences. In the same time different U-Boot boot stages can use FIT
-blobs to pack various binaries (e.g. SPL supports reading U-Boot from a
-FIT blob). Because of the allowed level of customization, the generation
-of a FIT blob using a fixed image tree source, becomes challenging and
-increase the level of complexity where different configurations and
-combinations are needed.
-
-This bbclass will know how to generate a FIT blob, leaving the mechanics
-of the process (dependencies, task order...) to be handled by the users
-of the bbclass. In the same time will allow to separate the knowledge of
-the FIT format leaving the user code cleaner and more readable.
+The unit-test will test the basic functionality of `fit-image.bbclass`.
 
 Signed-off-by: Nandor Han <nandor.han@vaisala.com>
 ---
- meta/classes/fit_image.bbclass | 387 +++++++++++++++++++++++++++++++++
- 1 file changed, 387 insertions(+)
- create mode 100644 meta/classes/fit_image.bbclass
+ .../fit-image-test/files/dt-fake.dtb          |   3 +
+ .../fit-image-test/files/zImage-fake          |   3 +
+ .../fit-image-test/fit-image-test.bb          |  17 ++
+ meta/lib/oeqa/selftest/cases/fit_image.py     | 212 ++++++++++++++++++
+ 4 files changed, 235 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/fit-image-test/files/dt-fake=
+.dtb
+ create mode 100644 meta-selftest/recipes-test/fit-image-test/files/zImage-=
+fake
+ create mode 100644 meta-selftest/recipes-test/fit-image-test/fit-image-tes=
+t.bb
+ create mode 100644 meta/lib/oeqa/selftest/cases/fit_image.py
 
-diff --git a/meta/classes/fit_image.bbclass b/meta/classes/fit_image.bbclas=
-s
+diff --git a/meta-selftest/recipes-test/fit-image-test/files/dt-fake.dtb b/=
+meta-selftest/recipes-test/fit-image-test/files/dt-fake.dtb
 new file mode 100644
-index 0000000000..2d1451020c
+index 0000000000..7fa871ff00
 --- /dev/null
-+++ b/meta/classes/fit_image.bbclass
-@@ -0,0 +1,387 @@
-+#
-+# The class will facilitate the generation of FIT blobs.
-+#
-+# Glossary
-+#    FIT - Flattened uImage Tree
-+#
-+# Requirements:
-+#
-+#    * The user need to specify the image content using the format specifi=
-ed in the "FIT Image API" section.
-+#
-+# FIT Image API
-+#
-+# The bbclass is using variable and variable flags to declare the FIT imag=
-e content.
-+#
-+#    * Sub-Images and Configuration Nodes
-+#
-+#       ** A sub-image node content is declared using the format `VAR_NODE=
-[<property-name>] =3D <value>`.
-+#         * VAR_NODE - freely selected name of the variable representing a=
- node.
-+#         * <property-name> - a sub-image property (e.g. description, type=
-...).
-+#         * <value> - the property value.
-+#             Depending of the property the value can support different fo=
-rmats.
-+#           ** Property Values Formats
-+#
-+#            string property
-+#            ---------------
-+#            format: "<text>" - in case the property expects a text.
-+#                (e.g. IMAGE_NODE_KERNEL[type] =3D "kernel")
-+#
-+#            address property
-+#            ----------------
-+#            format: "<address>" - in case the property expects an address=
-.
-+#                (e.g. IMAGE_NODE_KERNEL[entry] =3D "0xABCDABCD")
-+#
-+#            hash property
-+#            -------------
-+#            format: "<hash type>" - for hash property the hash type needs=
- to be specified.
-+#                (e.g. IMAGE_NODE_KERNEL[hash] =3D "sha256")
-+#
-+#            sub-image signature property
-+#            ----------------------------
-+#            format: "<algo>;<key-name-hint>;" - for image signature node.
-+#                Both algorithm and key name needs to be provided.
-+#                (e.g. IMAGE_NODE_KERNEL[signature] =3D "sha256,rsa2048;ke=
-rnel;"
-+#
-+#            configuration signature property
-+#            --------------------------------
-+#            format: "<algo>;<key-name-hint>;<sub-image list>" - for confi=
-guration signature properties algorithm,
-+#                key name and sub-image nodes needs to be provided.
-+#                (e.g. CONF_NODE_CONF1[signature] =3D "sha256,rsa2048;kern=
-el;"kernel","fdt";")
-+#
-+#       ** Sub-Image and Configuration Nodes Flags
-+#              See the code for supported flags.
-+#
-+#    * FIT_IMAGES_NODE - contains a list of variables used to declare the =
-sub-images nodes, separated by space.
-+#                    (e.g. FIT_IMAGES_NODE =3D "IMAGE_NODE_KERNEL IMAGE_NO=
-DE_FDT")
-+#
-+#    * FIT_CONFIGURATIONS_NODE - contains a list of variables used to decl=
-are the configuration nodes,
-+#          separated by space. (e.g. FIT_CONFIGURATIONS_NODE =3D "CONF_NOD=
-E_CONF1")
-+#        ** Flags
-+#           - "default": used to configure the default configuration node.
-+#                 (e.g. FIT_CONFIGURATIONS_NODE[default] =3D "conf@0")
-+#
-+# Example:
-+# This is part of a linux_%.bbappend recipe.
-+#
-+# KERNEL_IMAGE_NODE[name] =3D "kernel"
-+# KERNEL_IMAGE_NODE[description] =3D "${PF}"
-+# KERNEL_IMAGE_NODE[data] =3D '/incbin/("./arch/${ARCH}/boot/zImage")'
-+# KERNEL_IMAGE_NODE[type] =3D "kernel"
-+# KERNEL_IMAGE_NODE[arch] =3D "${ARCH}"
-+# KERNEL_IMAGE_NODE[os] =3D "linux"
-+# KERNEL_IMAGE_NODE[compression] =3D "none"
-+# KERNEL_IMAGE_NODE[load] =3D "${UBOOT_LOADADDRESS}"
-+# KERNEL_IMAGE_NODE[entry] =3D "${UBOOT_ENTRYPOINT}"
-+# KERNEL_IMAGE_NODE[hash] =3D "sha256"
-+#
-+# FDT_IMAGE_NODE[name] =3D "fdt"
-+# FDT_IMAGE_NODE[description] =3D "FDT blob"
-+# FDT_IMAGE_NODE[data] =3D '/incbin/("./arch/${ARCH}/boot/dts/am335x-bone.=
-dtb")'
-+# FDT_IMAGE_NODE[type] =3D "flat_dt"
-+# FDT_IMAGE_NODE[arch] =3D "${ARCH}"
-+# FDT_IMAGE_NODE[compression] =3D "none"
-+# FDT_IMAGE_NODE[hash] =3D "sha256"
-+#
-+# CONF1_CONF_NODE[name] =3D "conf"
-+# CONF1_CONF_NODE[description] =3D "Linux kernel and FDT blob"
-+# CONF1_CONF_NODE[kernel] =3D "kernel"
-+# CONF1_CONF_NODE[fdt] =3D "fdt"
-+#
-+# FIT_IMAGES_NODE =3D "KERNEL_IMAGE_NODE FDT_IMAGE_NODE"
-+# FIT_CONFIGURATIONS_NODE =3D "CONF1_CONF_NODE"
-+# FIT_CONFIGURATIONS_NODE[default] =3D "${@d.getVarFlag('CONF1_CONF_NODE',=
- 'name') or ""}"
-+#
++++ b/meta-selftest/recipes-test/fit-image-test/files/dt-fake.dtb
+@@ -0,0 +1,3 @@
++Z=EF=BF=BD=1A=EE=AC=82P=EF=BF=BDacn=0F=EF=BF=BDZWD1\=EF=BF=BD=0B!=CE=84=EF=
+=BF=BDl=EF=BF=BDV=06
++t(=EF=BF=BD=EF=BF=BDH=EF=BF=BD=15=EF=BF=BD=01=EF=BF=BD=EF=BF=BDz=EF=BF=BD=
+=EF=BF=BDjb4.=EF=BF=BD=EF=BF=BD=EF=BF=BD=DD=81=EF=BF=BD=15W;I=EF=BF=BD=C6=
+=B6=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BDb=EF=BF=BDe=EF=BF=BD=EF=BF=BD=13=EF=
+=BF=BD=C3=91=EF=BF=BD5=EF=BF=BD=03x=EF=BF=BD=1D&=16=EF=BF=BD9,=EF=BF=BD=EF=
+=BF=BDg
++=EF=BF=BD;=02=EF=BF=BD=EF=BF=BD=EF=BF=BD!c=17V
+diff --git a/meta-selftest/recipes-test/fit-image-test/files/zImage-fake b/=
+meta-selftest/recipes-test/fit-image-test/files/zImage-fake
+new file mode 100644
+index 0000000000..7fa871ff00
+--- /dev/null
++++ b/meta-selftest/recipes-test/fit-image-test/files/zImage-fake
+@@ -0,0 +1,3 @@
++Z=EF=BF=BD=1A=EE=AC=82P=EF=BF=BDacn=0F=EF=BF=BDZWD1\=EF=BF=BD=0B!=CE=84=EF=
+=BF=BDl=EF=BF=BDV=06
++t(=EF=BF=BD=EF=BF=BDH=EF=BF=BD=15=EF=BF=BD=01=EF=BF=BD=EF=BF=BDz=EF=BF=BD=
+=EF=BF=BDjb4.=EF=BF=BD=EF=BF=BD=EF=BF=BD=DD=81=EF=BF=BD=15W;I=EF=BF=BD=C6=
+=B6=EF=BF=BD=EF=BF=BD=EF=BF=BD=EF=BF=BDb=EF=BF=BDe=EF=BF=BD=EF=BF=BD=13=EF=
+=BF=BD=C3=91=EF=BF=BD5=EF=BF=BD=03x=EF=BF=BD=1D&=16=EF=BF=BD9,=EF=BF=BD=EF=
+=BF=BDg
++=EF=BF=BD;=02=EF=BF=BD=EF=BF=BD=EF=BF=BD!c=17V
+diff --git a/meta-selftest/recipes-test/fit-image-test/fit-image-test.bb b/=
+meta-selftest/recipes-test/fit-image-test/fit-image-test.bb
+new file mode 100644
+index 0000000000..c7f325ec8a
+--- /dev/null
++++ b/meta-selftest/recipes-test/fit-image-test/fit-image-test.bb
+@@ -0,0 +1,17 @@
++SUMMARY =3D "Recipe for testing the fit_image bbclass"
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbcb7=
+88c80a0384361b4de20420"
 +
 +DEPENDS +=3D "\
-+    dtc-native \
-+    u-boot-mkimage-native \
++    python3-fdt-native \
 +"
 +
-+FIT_IMAGE_DESCRIPTION ??=3D "Generic FIT image"
-+FIT_IMAGE_FILENAME ??=3D "image-fit"
-+FIT_IMAGE_UBOOT_MKIMAGE_OPTS ??=3D ""
++SRC_URI =3D "\
++    file://zImage-fake \
++    file://dt-fake.dtb \
++"
 +
-+def get_subimage_node_rules():
-+    """
-+    Defines the properties format and validation for sub-image nodes.
++inherit fit_image
 +
-+    :return: Return a dictionary with the format rules.
-+    """
++include test_recipe.inc
 +
-+    #
-+    # Rules Format: [Mandatory, Template String, Dictionary keys]
-+    # Mandatory: True, False - used to verify if this property is mandator=
-y for generating the image.
-+    #            Note: Doesn't take in consideration the conditionally man=
-datory property.
-+    #                  (see: U-Boot/doc/uImage.FIT/source_file_format.txt)
-+    # Template String: Property content format. Used to generate the param=
-eter content.
-+    # Dictionary Keys: Keys used to be replaced in the Template String.
-+    #
-+    from collections import OrderedDict
+diff --git a/meta/lib/oeqa/selftest/cases/fit_image.py b/meta/lib/oeqa/self=
+test/cases/fit_image.py
+new file mode 100644
+index 0000000000..866e48b20e
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/fit_image.py
+@@ -0,0 +1,212 @@
++import os
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import get_bb_var, bitbake, get_bb_vars
 +
-+    rules =3D OrderedDict()
++class FitImage(OESelftestTestCase):
 +
-+    rules['description'] =3D [True, '=3D "$value"', ["value"]]
-+    rules['data'] =3D [True, '=3D $value', ["value"]]
-+    rules['type'] =3D [True, '=3D "$value"', ["value"]]
-+    rules['arch'] =3D [False, '=3D "$value"', ["value"]]
-+    rules['os'] =3D [False, '=3D "$value"', ["value"]]
-+    rules['compression'] =3D [True, '=3D "$value"', ["value"]]
-+    rules['load'] =3D [False, '=3D <$value>', ["value"]]
-+    rules['entry'] =3D [False, '=3D <$value>', ["value"]]
-+    rules['hash'] =3D [False, '{ algo =3D "$algo"; }', ['algo']]
-+    rules['signature'] =3D [False, '{ algo =3D "$algo"; key-name-hint =3D =
-"$key"; }', ['algo', 'key']]
++    @classmethod
++    def setUpClass(cls):
++        super(FitImage, cls).setUpClass()
++        cls.recipe_name =3D 'fit-image-test'
++        cls.build_dir =3D get_bb_var('B', cls.recipe_name)
++        cls.fit_blob_path =3D os.path.join(cls.build_dir, 'image-fit.itb')
 +
-+    return rules
++        bitbake('python3-fdt-native')
++        fdt_sitepackage=3Dget_bb_var("S", "python3-fdt-native")
++        os.sys.path.append(fdt_sitepackage)
++        import fdt
 +
++        bitbake('{recipe_name} -c cleanall'.format(recipe_name=3Dcls.recip=
+e_name))
 +
-+def get_conf_node_rules():
-+    """
-+    Defines the properties format and validation for configuration nodes.
++    @classmethod
++    def tearDownClass(cls):
++        bitbake('{recipe_name} -c cleanall'.format(recipe_name=3Dcls.recip=
+e_name))
++        super(FitImage, cls).tearDownClass()
 +
-+    :return: Return a dictionary with the format rules.
-+    """
-+    #
-+    # Rules Format: [Mandatory, Template String, Dictionary keys]
-+    # Mandatory: True, False - used to verify if this property is mandator=
-y for generating the image.
-+    #            Note: Doesn't take in consideration the conditionally man=
-datory property.
-+    #                  (see: U-Boot/doc/uImage.FIT/source_file_format.txt)
-+    # Template String: Property content format. Used to generate the param=
-eter content.
-+    # Dictionary Keys: Keys used to be replaced in the Template String.
-+    #
-+    from collections import OrderedDict
++    def _get_fit_configuration(self):
++        configuration =3D """
++KERNEL_IMAGE_NODE[name] =3D "kernel"
++KERNEL_IMAGE_NODE[description] =3D "${PF}"
++KERNEL_IMAGE_NODE[data] =3D '/incbin/("${WORKDIR}/zImage-fake")'
++KERNEL_IMAGE_NODE[type] =3D "kernel"
++KERNEL_IMAGE_NODE[arch] =3D "arm"
++KERNEL_IMAGE_NODE[os] =3D "linux"
++KERNEL_IMAGE_NODE[compression] =3D "none"
++KERNEL_IMAGE_NODE[load] =3D "0x84000000"
++KERNEL_IMAGE_NODE[entry] =3D "0x84000000"
++KERNEL_IMAGE_NODE[hash] =3D "sha256"
 +
-+    rules =3D OrderedDict()
++FDT_IMAGE_NODE[name] =3D "fdt"
++FDT_IMAGE_NODE[description] =3D "FDT blob"
++FDT_IMAGE_NODE[data] =3D '/incbin/("${WORKDIR}/dt-fake.dtb")'
++FDT_IMAGE_NODE[type] =3D "flat_dt"
++FDT_IMAGE_NODE[arch] =3D "arm"
++FDT_IMAGE_NODE[compression] =3D "none"
++FDT_IMAGE_NODE[hash] =3D "sha256"
 +
-+    rules['description'] =3D [True, '=3D "$value"', ["value"]]
-+    rules['kernel'] =3D [False, '=3D "$value"', ["value"]]
-+    rules['ramdisk'] =3D [False, '=3D "$value"', ["value"]]
-+    rules['firmware'] =3D [False, '=3D "$value"', ["value"]]
-+    rules['standalone'] =3D [False, '=3D "$value"', ["value"]]
-+    rules['fdt'] =3D [False, '=3D "$value"', ["value"]]
-+    rules['loadables'] =3D [False, '=3D "$value"', ["value"]]
-+    rules['signature'] =3D [False, '{ algo =3D "$algo"; key-name-hint =3D =
-"$key"; sign-images =3D $images; }',
-+                          ['algo', 'key', 'images']]
++CONF1_CONF_NODE[name] =3D "conf"
++CONF1_CONF_NODE[description] =3D "Linux kernel and FDT blob"
++CONF1_CONF_NODE[kernel] =3D "kernel"
++CONF1_CONF_NODE[fdt] =3D "fdt"
 +
-+    return rules
++FIT_IMAGES_NODE =3D "KERNEL_IMAGE_NODE FDT_IMAGE_NODE"
++FIT_CONFIGURATIONS_NODE =3D "CONF1_CONF_NODE"
++FIT_CONFIGURATIONS_NODE[default] =3D "${@d.getVarFlag('CONF1_CONF_NODE', '=
+name') or ""}"
++"""
++        return configuration
 +
++    def setUp(self):
++        super(FitImage, self).setUp()
++        self.write_recipeinc(self.recipe_name, self._get_fit_configuration=
+())
 +
-+def generate_node(name, params, rules):
-+    """
-+    Generates a node.
++    def tearDown(self):
++        self.delete_recipeinc(self.recipe_name)
++        super(FitImage, self).tearDown()
 +
-+    :param name: Node name.
-+    :param params: A dictionary containing the properties values.
-+    :param rules: A dictionary containing the properties values validation=
- and format.
++    def test_fit_source_is_generated_correctly(self):
++        ret =3D bitbake("{recipe} -D -f -c generate_fit_image".format(reci=
+pe=3Dself.recipe_name)).output
++        self.logger.info('HN {log}'.format(log=3Dret))
 +
-+    :return: A string containing the node, including the new line characte=
-rs.
-+    """
-+    from string import Template
++    def test_fit_blob_is_generated_successfully(self):
++        """
++        Summary:     Able to apply a single patch to the Linux kernel sour=
+ce
++        Expected:    The README file should exist and the patch changes sh=
+ould be
++                     displayed at the end of the file.
++        Product:     Kernel Development
++        Author:      Yeoh Ee Peng <ee.peng.yeoh@intel.com>
++        AutomatedBy: Mazliana Mohamad <mazliana.mohamad@intel.com>
++        """
 +
-+    content =3D []
++        bitbake("{recipe} -c generate_fit_image".format(recipe=3Dself.reci=
+pe_name))
++        self.assertExists(self.fit_blob_path, "FIT Blob not generated")
 +
-+    for rule in rules.keys():
-+        if rule in params.keys():
-+            content.append('{param} {value}; '.format(
-+                param=3Drule,
-+                value=3DTemplate(rules[rule][1]).substitute(
-+                    dict(zip(rules[rule][2], params[rule].split(';'))))))
-+        elif rules[rule][0]:
-+            bb.fatal('Missing mandatory parameter "{param}" from "{section=
-}" section'.format(param=3Drule, section=3Dname))
++    def test_that_fit_blob_name_is_configurable(self):
++        """
++        Summary:     Able to apply a single patch to the Linux kernel sour=
+ce
++        Expected:    The README file should exist and the patch changes sh=
+ould be
++                     displayed at the end of the file.
++        """
++        fit_image_name =3D "custom-fit-blob-name"
++        fit_blob_path =3D os.path.join(self.build_dir, "{name}.itb".format=
+(name=3Dfit_image_name))
 +
-+    content =3D """
-+                     """.join(content)
-+    node =3D """   {name} {{
-+                     {content}
-+              }};
-+           """.format(name=3Dname, content=3Dcontent)
++        self.append_recipeinc(self.recipe_name, 'FIT_IMAGE_FILENAME =3D "{=
+name}"'.format(name=3Dfit_image_name))
++        bitbake("{recipe} -c generate_fit_image".format(recipe=3Dself.reci=
+pe_name))
 +
-+    return node
++        self.assertExists(fit_blob_path, "FIT Blob not generated")
 +
++    def _fail_when_property_missing(self, property):
++        self.remove_recipeinc(self.recipe_name, property)
++        with self.assertRaises(AssertionError):
++            ret =3D bitbake("{recipe} -f -c generate_fit_image".format(rec=
+ipe=3Dself.recipe_name))
 +
-+def get_section_configuration(var, d):
-+    """
-+    Generates a string build from variable's flags.
++    def test_fail_when_image_node_name_property_missing(self):
++        self._fail_when_property_missing('KERNEL_IMAGE_NODE[name] =3D "ker=
+nel"')
 +
-+    :param var: variable to extract the flags.
-+    :param d: bitbake environment.
++    def test_fail_when_image_node_description_property_missing(self):
++        self._fail_when_property_missing('KERNEL_IMAGE_NODE[description] =
+=3D "${PF}"')
 +
-+    :return: A string with the format '<flag1> =3D <value1>; <flag2> =3D <=
-value2>;...'.
-+    """
-+    flags =3D d.getVarFlags(var)
-+    if flags is not None:
-+        flags =3D dict((flag, d.expand(value))
-+                     for flag, value in list(flags.items()))
-+    else:
-+        flags =3D {}
++    def test_fail_when_image_node_data_property_missing(self):
++        self._fail_when_property_missing('KERNEL_IMAGE_NODE[data] =3D \'/i=
+ncbin/("${WORKDIR}/zImage-fake")\'')
 +
-+    configuration =3D ''.join((
-+              """{name} =3D "{value}";
-+              """.format(name=3Dname, value=3Dvalue) for name, value in fl=
-ags.items()))
++    def test_fail_when_image_node_compression_property_missing(self):
++        self._fail_when_property_missing('KERNEL_IMAGE_NODE[type] =3D "ker=
+nel"')
 +
-+    return configuration
++    def test_fail_when_conf_node_name_property_missing(self):
++        self._fail_when_property_missing('CONF1_CONF_NODE[name] =3D "conf"=
+')
 +
++    def test_fail_when_conf_node_description_property_missing(self):
++        self._fail_when_property_missing('CONF1_CONF_NODE[description] =3D=
+ "Linux kernel and FDT blob"')
 +
-+def get_section_properties(var, d):
-+    """
-+    Extract the nodes and parameters for a section.
++    def test_that_number_of_nodes_is_correct(self):
++        pass
 +
-+    :param var: variable containing the variable names of the nodes that a=
-re part of this section.
-+    :param d: bitbake environment.
++    def _extract_fit_source(self, text):
++        import re
++        mylines =3D []
++        copy =3D False
 +
-+    :return: a list containing dictionaries with section nodes parameters.
-+    """
-+    nodes =3D []
-+    parameters =3D {}
++        for myline in text:
++            if re.match('^DEBUG:.+', myline):
++                copy =3D False
 +
-+    for node in d.getVar(var).split():
-+        parameters =3D d.getVarFlags(node)
-+        if parameters is not None:
-+            parameters =3D dict((parameter, d.expand(value))
-+                              for parameter, value in list(parameters.item=
-s()))
-+            nodes.append(parameters)
++            if copy:
++                mylines.append(myline.rstrip('\r\n').strip())
 +
-+    return nodes
++            if re.match('^DEBUG:.+do_generate_fit_image: Generated FIT sou=
+rce is:$', myline):
++                copy =3D True
 +
++        sf =3D ''.join(mylines)
++        self.logger.info('LOG: {log}\nFIT SOURCE {sf}'.format(log=3Dtext, =
+sf=3Dsf))
 +
-+def generate_section(var, rules, d):
-+    """
-+    Generates a section node (configuration or sub-image).
++    def _verify_node(self, var_name, path, properties):
++        import fdt
 +
-+    :param var: Variable to extract the node names.
-+    :param rules: Rules to use for generating this section.
-+    :param d: bitbake environment.
++        # I'm creating variables in the recipe that contain the flags valu=
+e.
++        # I wasn't able to find a better way to read a flag of a variable =
+in the test.
++        for p in properties:
++            self.append_recipeinc(
++                self.recipe_name, 'FIT_IMAGE_TEST_{pu} =3D "${{@d.getVarFl=
+ag(\'{var}\', \'{p}\')}}"'.format(
++                    pu=3Dp.upper(), p=3Dp, var=3Dvar_name))
 +
-+    :return: A string containing the section, including the new line chara=
-cters.
-+    """
++        ret =3D bitbake("{recipe} -D -c generate_fit_image".format(recipe=
+=3Dself.recipe_name))
++        self._extract_fit_source(ret.output)
 +
-+    section =3D get_section_configuration(var, d)
++        with open(self.fit_blob_path, 'rb') as fb:
++            fit_blob =3D fb.read()
 +
-+    nodes_parameters =3D get_section_properties(var, d)
-+    for parameters in nodes_parameters:
++        dt =3D fdt.parse_dtb(fit_blob)
++
 +        try:
-+            name =3D parameters.pop('name')
-+            node =3D generate_node(name, parameters, rules)
-+            section +=3D node
-+        except KeyError:
-+            bb.fatal("Missing name property for node: {node}".format(node=
-=3Dvar))
++            node =3D dt.get_node(path)
++        except ValueError:
++            self.assertTrue(False, '{node} node not generated'.format(node=
+=3Dpath))
 +
-+    return section
++        node_flags =3D get_bb_vars(['FIT_IMAGE_TEST_{p}'.format(p=3Dp.uppe=
+r()) for p in properties],
++            self.recipe_name)
 +
++        for p in properties:
++            self.assertTrue(
++                node.exist_property(p),
++                'Missing property {p} from node {n}'.format(p=3Dp.upper(),=
+ n=3Dpath))
 +
-+def get_fit_image_template():
-+    """
-+    Get the FIT format.
-+
-+    :return: A Template string containing the FIT image format.
-+    """
-+    from string import Template
-+
-+    template =3D Template("""/dts-v1/;
-+        /{
-+             description =3D "$description";
-+             #address-cells =3D <1>;
-+             images {
-+                 $images_section
-+             };
-+             configurations {
-+                 $configurations_section
-+             };
-+        };""")
-+    return template
++            self.assertTrue(
++                node_flags['FIT_IMAGE_TEST_{p}'.format(p=3Dp.upper())],
++                node.get_property(p))
 +
 +
-+def generate_image_tree_source(d):
-+    """
-+    Generates a string containing the image tree source.
++    def _verify_image_node(self, var_name, name, properties):
++        self._verify_node(var_name, 'images/{name}'.format(name=3Dname), p=
+roperties)
 +
-+    :return: A string representing the image tree.
-+    """
-+    from string import Template
++    def _verify_config_node(self, var_name, name, properties):
++        self._verify_node(var_name, 'configurations/{name}'.format(name=3D=
+name), properties)
 +
-+    values =3D {}
-+    values['description'] =3D d.getVar('FIT_IMAGE_DESCRIPTION')
++    def test_that_kernel_node_is_generated_successfully(self):
++        properties =3D [
++            'description',
++            'data',
++            'type',
++            'arch',
++            'os',
++            'compression',
++            'load',
++            'entry'
++        ]
++        self._verify_image_node('KERNEL_IMAGE_NODE', 'kernel', properties)
 +
-+    image_rules =3D get_subimage_node_rules()
-+    if d.getVar('FIT_IMAGES_NODE', False) is None:
-+       bb.fatal("Please add the FIT image nodes to FIT_IMAGES_NODE variabl=
-e.")
-+    values['images_section'] =3D generate_section('FIT_IMAGES_NODE', image=
-_rules, d)
++    def test_that_fdt_node_is_generated_successfully(self):
++        properties =3D [
++            'description',
++            'data',
++            'type',
++            'arch',
++            'compression'
++        ]
++        self._verify_image_node('FDT_IMAGE_NODE', 'fdt', properties)
 +
-+    conf_rules =3D get_conf_node_rules()
-+    if d.getVar('FIT_CONFIGURATIONS_NODE', False) is None:
-+       bb.fatal("Please add the FIT configuration nodes to FIT_CONFIGURATI=
-ONS_NODE variable.")
-+    values['configurations_section'] =3D generate_section('FIT_CONFIGURATI=
-ONS_NODE', conf_rules, d)
-+
-+    image_tree_source =3D get_fit_image_template().substitute(values)
-+
-+    return image_tree_source
-+
-+
-+def generate_image_blob(file_name, image, d):
-+    """
-+    Generates a FIT blob.
-+
-+    :param file_name: FIT blob file name.
-+    :param image: String containing the image tree source.
-+    :param d: Bitbake environment.
-+    """
-+    import tempfile
-+    import subprocess
-+
-+    bb.debug(1, "Generated FIT source is:\n {image}".format(image=3Dimage)=
-)
-+
-+    builddir =3D d.getVar('B')
-+    blob_file_name =3D file_name + '.itb'
-+
-+    try:
-+        fd, faux =3D tempfile.mkstemp(dir=3Dbuilddir, prefix=3Dfile_name, =
-suffix=3D".its")
-+        with os.fdopen(fd, "w") as f:
-+            f.write(image)
-+
-+        mkimage_opts =3D d.getVar('FIT_IMAGE_UBOOT_MKIMAGE_OPTS').split() =
-or ""
-+        cmd =3D ['mkimage', '-f', faux]
-+        cmd.extend(mkimage_opts)
-+        cmd.append('{output_name}'.format(output_name=3Dblob_file_name))
-+
-+        ret =3D subprocess.run(
-+            cmd,
-+            check=3DTrue,
-+            universal_newlines=3DTrue,
-+            cwd=3Dbuilddir,
-+            stderr=3Dsubprocess.STDOUT,
-+            stdout=3Dsubprocess.PIPE)
-+
-+        bb.debug(1, "Command for generating the FIT blob is:\n {cmd}".form=
-at(cmd=3D" ".join(ret.args)))
-+
-+    except subprocess.CalledProcessError as e:
-+        bb.fatal('Failed to generate the FIT blob: {message}: {output}'.fo=
-rmat(
-+            message=3Dstr(e), output=3De.stdout))
-+    finally:
-+        os.remove(faux)
-+
-+
-+def generate_fit_image(file_name, d):
-+    """
-+    Create and generate FIT blob.
-+
-+    :param file_name: FIT blob file name.
-+    :param d: Bitbake environment.
-+    """
-+    image =3D generate_image_tree_source(d)
-+    generate_image_blob(file_name, image, d)
-+
-+
-+python fit_image_do_generate_fit_image() {
-+    generate_fit_image(d.getVar('FIT_IMAGE_FILENAME'), d)
-+}
-+
-+do_generate_fit_image[vardeps] +=3D " \
-+    ${FIT_CONFIGURATIONS_NODE} \
-+    ${FIT_IMAGES_NODE} \
-+    FIT_CONFIGURATIONS_NODE \
-+    FIT_IMAGES_NODE \
-+    FIT_IMAGE_FILENAME \
-+"
-+
-+addtask do_generate_fit_image after do_compile before do_deploy
-+
-+EXPORT_FUNCTIONS do_generate_fit_image
++    def test_that_conf_node_is_generated_successfully(self):
++        properties =3D [
++            'description',
++            'kernel',
++            'fdt'
++        ]
++        self._verify_config_node('CONF1_CONF_NODE', 'conf', properties)
 --=20
 2.24.1
 
