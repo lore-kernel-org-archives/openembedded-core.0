@@ -1,25 +1,25 @@
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.84])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [])
  by mx.groups.io with SMTP id smtpd.web12.1325.1590517214988658965
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 11:20:15 -0700
+ Tue, 26 May 2020 11:20:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@vaisala.com header.s=selector2 header.b=sxbAP0wn;
- spf=pass (domain: vaisala.com, ip: 40.107.21.84, mailfrom: nandor.han@vaisala.com)
+ dkim=fail reason="body hash did not verify" header.i=@vaisala.com header.s=selector2 header.b=bGIazkj/;
+ spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 spf.creamailer.com}: limit exceeded (domain: vaisala.com, ip: <nil>, mailfrom: nandor.han@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=V7WvMbi4D5BYoHTD/0AL73D1t9V86bglKlV79CWxgKD5zLfGCkMSAUXi8Bls2YdsCcyZ7639yq8XWA92zw5yOoardQ8sdoFB85Ph0U/QuWqPMevhiSct1l0neS7tuqYf2ze6MrvowII2gQ3uGYINN6ZsxMRFhd4Xb8y/45CrIfNSLSGc3zVxi9zkAeTmXh/k+L4ivD/iporHOX7DRlc8QuSDSYF2qscfGBXcvl0ACkNPIedwEFitKn2p0VM8GqPNLpmXCeDuOWnNjJBU+zDZIthdTiWNm5HVsh7F7RjmMRIa79WoTuBa4LOfLHidoICgjY3u2t3Hq5xeQL2l0AWw+g==
+ b=ZdXdQBdXf0iy26NYq9nnV7IHfbnksYk0lJPoXAuDBwqiCWXX0vTa8HZAGQaCLghIJ402u3LliikQnlyXd5JWDhw8uPYb7J7pPLNbbW7eqv8DCv69SLOgL4i7ZC64JgLTwtP3lklE3ysk5lLY3tU/WGHPxKdOL8mGXciFD/eydpbgAwzv9sFU+tIQO3uZ4kL2z+/9cs4Gwl6as3UER4u5IrZtHHzNkxohBqM8mv+qPX1HxMmhwAILLCA1LhEjHvzo8ac6CYXCkvjxt7Wq1RjWHyabPEccvpMbwJIG1xQrtDqgHm9zP58uG1nH3tnWLdBYhcn/dfEDDIx0NnDAuZ/r7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wicAuE1p3Llz380WOqJERjf8nsNlSP2l2X5+fkYNeUg=;
- b=g3o28PUSyd0E9uzUo74FOC1SUL6AOIfBl4yyjuXSv2ETAAkVv/rlAxu2YA6kkLGr2YWnnCKDbRGGOH6D7QxGNH9LlCNZBvLt7JMWmT+jfv1BNFLJER8frNr/ukSzdfy5YMdVbwr8hPPYRiSscPnwOooFWXgo2baUeo9htKqUS9Cf/nazcM1vC6/Z+6yeuYZ3vzpRBT1z9bzMtNysNOlMGX7fqjargXcs79jkrstchQ079kiBhvkv5S/QcOn8vdA+/lZ9H8W7/H2DTslBM0PT6ituU65hJkFYnMJhzfohIGVR0yfUoFYImXx9MQMhP5BuNRWow3pBOPEghThCizEZhQ==
+ bh=sAb8C79JEAQA9wmzhc5k4YVZgTHYnwUBrRWKvE7jAVc=;
+ b=gwlApARXJQtlqxSQHOHaZ4psIBHPlwpX7rS0umj/a9U5QTho2Xh4tg9/Kppse9AIeasycq9ueiBHItzBEqfgUXIsWyruyve41AQ8pz2Ydeqd52vaOb8p4mIWws2cojFo+fajkiB2AcwgEVvIWRvXSexAmXKWe5/233Q5fLlT2KTrE5qQx7gATDjC9Ag3/oFHt5WFCTLL/3R8WeBnXZ3nW5woRELL2/ffQC8T6LqCSWwFdEMo4km1oWHV9f3I0q1XFvITjZmVMBe9YCHBpFlBlUytbLseRHtEutCe4KqcCDwAg/YXdm7VZoohGOFLO69dJyAh476sH4RliEW+f6nCaQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
  dkim=pass header.d=vaisala.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wicAuE1p3Llz380WOqJERjf8nsNlSP2l2X5+fkYNeUg=;
- b=sxbAP0wn5Due4dyxMbVQvvhB9G7SMINBaqKPsRj6WKrJcN054E5pwuvZlkHmjkKqRO+oLPjBhjKxV7MV9C90ZZ7D+0m1mOM8VZdYYKqEpkyjKVfvx2X1QZd5KDBTUqbjVwjs4+xtp+7uA0L0LV9KCkKXEkzuf+XpeCKllz9f/7M=
+ bh=sAb8C79JEAQA9wmzhc5k4YVZgTHYnwUBrRWKvE7jAVc=;
+ b=bGIazkj/lgmQp5nQNiIK6378W0ZM+1Xq7SL7PpGGvW9duyYwW9BgpcJLPARhMBTWnu34g9OQMc5ptZkYifNRZ8lY8m5f67TcuIAxaXQZ7eDQzIk1GFZXxTWiNZXU5vhHyZpXMFEC8J6kgRoFe6Hw17TbQiLXCnqsEV6vij5Z2UI=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=vaisala.com;
@@ -27,20 +27,18 @@ Received: from HE1PR0602MB3449.eurprd06.prod.outlook.com (2603:10a6:7:8a::22)
  by HE1PR0602MB3403.eurprd06.prod.outlook.com (2603:10a6:7:81::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.27; Tue, 26 May
- 2020 18:20:11 +0000
+ 2020 18:20:10 +0000
 Received: from HE1PR0602MB3449.eurprd06.prod.outlook.com
  ([fe80::a972:752a:8780:fe40]) by HE1PR0602MB3449.eurprd06.prod.outlook.com
  ([fe80::a972:752a:8780:fe40%7]) with mapi id 15.20.3021.029; Tue, 26 May 2020
- 18:20:11 +0000
+ 18:20:10 +0000
 From: "Nandor Han" <nandor.han@vaisala.com>
 To: openembedded-core@lists.openembedded.org
 CC: Nandor Han <nandor.han@vaisala.com>
-Subject: [OE-core][PATCH v6 1/3] Add a recipe for `python3-fdt` package
-Date: Tue, 26 May 2020 21:19:54 +0300
-Message-ID: <7ef57e76e2fa950fc8630c097df8e3558c92f50e.1590517053.git.nandor.han@vaisala.com>
+Subject: [OE-core][PATCH v6 0/3] Add a new bbclass that abstracts the generation of FIT blobs
+Date: Tue, 26 May 2020 21:19:53 +0300
+Message-ID: <cover.1590517053.git.nandor.han@vaisala.com>
 X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1590517053.git.nandor.han@vaisala.com>
-References: <cover.1590517053.git.nandor.han@vaisala.com>
 X-ClientProxiedBy: HE1PR05CA0160.eurprd05.prod.outlook.com
  (2603:10a6:7:28::47) To HE1PR0602MB3449.eurprd06.prod.outlook.com
  (2603:10a6:7:8a::22)
@@ -51,64 +49,143 @@ Received: from localhost.vaisala.com (82.181.11.213) by HE1PR05CA0160.eurprd05.p
 X-Mailer: git-send-email 2.24.1
 X-Originating-IP: [82.181.11.213]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: b34a45a1-9295-4fc6-826b-08d801a16d1f
+X-MS-Office365-Filtering-Correlation-Id: 97486e8d-a51c-4477-ea17-08d801a16ce8
 X-MS-TrafficTypeDiagnostic: HE1PR0602MB3403:
 X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<HE1PR0602MB3403E80EC289666FD1D2EF1F85B00@HE1PR0602MB3403.eurprd06.prod.outlook.com>
+	<HE1PR0602MB3403E00A40C948A330CB242485B00@HE1PR0602MB3403.eurprd06.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
 X-Forefront-PRVS: 041517DFAB
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	fgH/4bdbDIpPsYz+st54GURWIENwssBp6HZSSCv0ZxcDgLA5qxhWTolJ1F9inncVerwBGKxaynkoynkemaFtcRx7jEq0qcPLlBmd2e1o5p4Xyci/ClxfkG9+XMaqw0wHm3VIBQE0l+7E3FvIMOz1ifqbeOgI7i1dRkzPV2zxFUgLdg0z2Av8CD8Z9Zp8upSMPU9ENq/g5FCAj4A1TgwNU9yLU5TeD99zYJZQzMd+9KB6s2Adrs3XubSBQBsIC85/m8O1W9V/aDZlxqn5DUPvndryh15qLg/NLfmEy5N5lUkssznuCDyI9aL7M77yP4OleWtGwNIhFi5OfuKj1+Idf1p3Hwz4Y1quMyvmoN3r+GAuhuH/htovl8wonykX8lsDUAHAMPGeLfW1q4/5HGuatEve7xrJrKZvKILOLvqv2vBLOlmhmcrFIEXOOjqIUfSUE+4PESo/ZwN83+jFI9u0tKpxqwzWzG+Q0YZ6dBgi7do=
+	F6dQOndqUbAmBuK17fQIH6aZYfZJi+bEeTsZRsSSHcCpA4htuXqHrHT+8jVUa1uH7vprtNoi+YIjjWqjoMvUtQhzktvO8y04nL5gfI9aGiUUBbewjKWJHtbGwAnauBo696NVWfTVvKqhIBs8mnQHRyPyhWAp6x8RxVguy11Wwq3dyuBwe1Ddpjy16GufPPuQjtZXbZT22qIBc17Z4IR2A1IxGHarFYw6BuBeqxG9O+u0YYwm4/Qb0TiKKZnKfoTHTElWU8u90d+99uiZyj+a1HyPgJtf7tRgfu2XLobAM+QB9yuTmsdI/YklRMkbOdsYd4b6p42k4asXcPFPjV7E4t5fuMvGXeYSBjd7JHi/PmqyrUwkslfAEbtAbNUkdLgi
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0602MB3449.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(346002)(396003)(39840400004)(376002)(366004)(8676002)(4326008)(2616005)(107886003)(316002)(956004)(36756003)(8936002)(6916009)(26005)(52116002)(7696005)(66946007)(66476007)(478600001)(66556008)(6666004)(16526019)(2906002)(186003)(6486002)(5660300002)(86362001)(44832011)(81973001)(136400200001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR0602MB3449.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(346002)(396003)(39840400004)(376002)(366004)(8676002)(4326008)(2616005)(107886003)(316002)(956004)(36756003)(8936002)(6916009)(26005)(52116002)(7696005)(66946007)(66476007)(478600001)(66556008)(6666004)(16526019)(2906002)(186003)(6486002)(5660300002)(86362001)(44832011)(136400200001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	/E7HHaVIZRZluZEzxO/ciNAuj0q3l5lPv1xsH5ce8J27MEtOwbLL7GTLtutUdMu+aJK7vs+nbuAWbQoTufN6aYWJsdnSvupruXzipu3NfzMO23GaldUOWFkTfgSuN9FjlOSgTMz/QjVnLz5LUQcbnJjJEv0CzHGAjE1nqTVDIYZLy8fHNS/2fjt1mubHEwRSEOY2C76oLy0pTMAlwkCo9iRJVAftvO/f2wZROY4EwEwu/fpse5Pl5KQiKAw9Aeu10rqVO+4aeFmiDEyLI2iSWVA46TBy88Opj6uA7BQRM0ilA/jJqdFVruHlaxycbwUGYtV1bLKoR6FfZ9q4+Gi4STKuLbGXagmCej/ebzxUCY1fJ4tuwwNieLcgmB7Md5VT1pSwv+RJu+1qTs1dKlEXJhTtSWxOnevJxMWYywAHzxEW1TAMPCiwQNsWjU2mVHpUczYo+Otr3OoFS8VGnFNq2wK/8m1jRNdLoj0o9y4KvGU=
+	1C20rfySmxcw5kn2kN5slPPu8OP7XcUeQcihwCzrcAF/T4CPS2G8ySqLHpMRy4dJurg7G719WMH0rhHH53MSx9zn0FTXyvDg9u0tYhYRpkPwSlA6H0SHpu4G2uN4335D9Nx4/YhDx4ZJ+NApcv9O8lB5es7CZsYaxboPs4BbBib0sUN1JiPXGhPfga1YI5Cl09MtNbtSZ8YPRE/PcjTd2z0dktCJVNy6HJcjC3xSOUkwBVzLFvEhmTeCfHxdN9D3thCzpC/SWME1Z+Pa2He9HLQW2bkBuPfJhWPGPfcj0anmpD2QGeRL2m8GLtnF0F8XU+rwjSujdzzChoxqqTThl8V5CsoiUDg8B8Oyqh5HO17RlqAdUlUulZ7F2yR6QjVLydJXtL/jRswjXtLdf08du5cilkoOJ4DPegI4vIs6Ou05mjk3IjOjwWDS7iu/5gzfZOmyFar1FZWGrHam9l+tdCiByrgkaSgIvtKMVmDehA0=
 X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b34a45a1-9295-4fc6-826b-08d801a16d1f
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2020 18:20:10.6938
+X-MS-Exchange-CrossTenant-Network-Message-Id: 97486e8d-a51c-4477-ea17-08d801a16ce8
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 May 2020 18:20:10.3200
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: h+zsvkIsxpp5aJ9pLV29e+gZP6WxhQctsBgw6DtJs61wlabPMU/pbQZZApZ/lJzpGATGDzGNFNloCRMziOeeVQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: sdMLV8Qjv6jmNawfyQlp8YpcODLXvnNVvuhW4aiA48ke/GcFpoy2mCyl6fMetIyUy3zOyXY5xqzPwC8SUoy7Bg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR0602MB3403
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 
-The package `python3-fdt` is used for parsing and generating DTBs.
+Description
+----------
+Add a new class and unittest for generating FIT blobs.
 
-Signed-off-by: Nandor Han <nandor.han@vaisala.com>
----
- meta/recipes-devtools/python/python3-fdt_0.2.0.bb | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+
+Testing
+-------
+
+    1. linux-yocto_5.4.bbappend was modified to have the following configur=
+ation:
+
+    ```
+    inherit fit-image
+
+    KERNEL_IMAGE_NODE[name] =3D "kernel"
+    KERNEL_IMAGE_NODE[description] =3D "${PF}"
+    KERNEL_IMAGE_NODE[data] =3D '/incbin/("./arch/${ARCH}/boot/zImage")'
+    KERNEL_IMAGE_NODE[type] =3D "kernel"
+    KERNEL_IMAGE_NODE[arch] =3D "${ARCH}"
+    KERNEL_IMAGE_NODE[os] =3D "linux"
+    KERNEL_IMAGE_NODE[compression] =3D "none"
+    KERNEL_IMAGE_NODE[load] =3D "${UBOOT_LOADADDRESS}"
+    KERNEL_IMAGE_NODE[entry] =3D "${UBOOT_ENTRYPOINT}"
+    KERNEL_IMAGE_NODE[hash] =3D "sha256"
+
+    FDT_IMAGE_NODE[name] =3D "fdt"
+    FDT_IMAGE_NODE[description] =3D "FDT blob"
+    FDT_IMAGE_NODE[data] =3D '/incbin/("./arch/${ARCH}/boot/dts/am335x-bone=
+.dtb")'
+    FDT_IMAGE_NODE[type] =3D "flat_dt"
+    FDT_IMAGE_NODE[arch] =3D "${ARCH}"
+    FDT_IMAGE_NODE[compression] =3D "none"
+    FDT_IMAGE_NODE[hash] =3D "sha256"
+
+    CONF1_CONF_NODE[name] =3D "conf"
+    CONF1_CONF_NODE[description] =3D "Linux kernel and FDT blob"
+    CONF1_CONF_NODE[kernel] =3D "kernel"
+    CONF1_CONF_NODE[fdt] =3D "fdt"
+
+    FIT_IMAGES_NODE =3D "KERNEL_IMAGE_NODE FDT_IMAGE_NODE"
+    FIT_CONFIGURATIONS_NODE =3D "CONF1_CONF_NODE"
+    FIT_CONFIGURATIONS_NODE[default] =3D "${@d.getVarFlag('CONF1_CONF_NODE'=
+, 'name') or ""}"
+    ```
+    2. Build the kernel: `bitbake virtual/kernel`
+    3. Verify that `image-fit.itb` is present in the build directory: PASS
+    4. Disassemble the image using the command: `dtc -I dtb -O dts image-fi=
+t.itb`
+    5. Verify that the FIT source contains the expected configuration: PASS
+    6. Run the unittest using the command: `oe-selftest --run-tests fit_ima=
+ge.FitImage`
+    7. Verify that is successfully: PASS
+    ```
+    2020-05-26 16:54:34,996 - oe-selftest - INFO - SUMMARY:
+    2020-05-26 16:54:34,996 - oe-selftest - INFO - oe-selftest () - Ran 13
+    tests in 1956.639s
+    2020-05-26 16:54:34,997 - oe-selftest - INFO - oe-selftest - OK - All
+    required tests passed (successes=3D13, skipped=3D0, failures=3D0, error=
+s=3D0)
+    ```        =20
+=20
+
+    Changes since v1:
+    ----------------
+    - Change the format of short-log to "<target>: <summary>"
+
+    Changes since v2:
+    ----------------
+    - rename the file from `fit-image` to `fit_image` to successfully expor=
+t the class functions.
+    - adding new sanity checks.
+    - add missing dependency.
+    - fix a variable reference in a debug log.
+   =20
+    Changes since v3:
+    ----------------
+    - unit-test added
+    - class updated to support also properties for U-Boot image
+
+    Changes since v4:
+    ----------------
+    - remove a wrong patch
+
+    Changes since v5:
+    ----------------
+    - something went wrong with generation of the patches. regenerate
+
+
+Nandor Han (3):
+  Add a recipe for `python3-fdt` package
+  classes: Add a new bbclass that abstracts the generation of FIT blobs
+  selftest: add a unit-test for fit-image bbclass
+
+ .../fit-image-test/files/dt-fake.dtb          |   3 +
+ .../fit-image-test/files/zImage-fake          |   3 +
+ .../fit-image-test/fit-image-test.bb          |  17 +
+ meta/classes/fit_image.bbclass                | 387 ++++++++++++++++++
+ meta/lib/oeqa/selftest/cases/fit_image.py     | 212 ++++++++++
+ .../python/python3-fdt_0.2.0.bb               |  14 +
+ 6 files changed, 636 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/fit-image-test/files/dt-fake=
+.dtb
+ create mode 100644 meta-selftest/recipes-test/fit-image-test/files/zImage-=
+fake
+ create mode 100644 meta-selftest/recipes-test/fit-image-test/fit-image-tes=
+t.bb
+ create mode 100644 meta/classes/fit_image.bbclass
+ create mode 100644 meta/lib/oeqa/selftest/cases/fit_image.py
  create mode 100644 meta/recipes-devtools/python/python3-fdt_0.2.0.bb
 
-diff --git a/meta/recipes-devtools/python/python3-fdt_0.2.0.bb b/meta/recip=
-es-devtools/python/python3-fdt_0.2.0.bb
-new file mode 100644
-index 0000000000..040ceba980
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-fdt_0.2.0.bb
-@@ -0,0 +1,14 @@
-+SUMMARY =3D "Library for manipulation of Device Tree Data"
-+HOMEPAGE =3D "https://github.com/molejar/pyFDT"
-+SECTION =3D "devel/python"
-+LICENSE =3D "Apache-2.0"
-+LIC_FILES_CHKSUM =3D "file://PKG-INFO;beginline=3D8;endline=3D8;md5=3D9a6e=
-a5b6c346a830f54cc95f6a2a9245"
-+
-+SRC_URI[md5sum] =3D "a91daa36b3216f54feeac74ea8e5a475"
-+SRC_URI[sha256sum] =3D "b675139346946115513e27b5eed9aa882628ab74ed500bd5e2=
-5e122ee0afa2f6"
-+
-+PYPI_PACKAGE =3D "fdt"
-+
-+inherit pypi setuptools3
-+
-+BBCLASSEXTEND =3D "native"
 --=20
 2.24.1
 
