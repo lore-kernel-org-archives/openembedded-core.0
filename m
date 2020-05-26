@@ -1,128 +1,130 @@
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
- by mx.groups.io with SMTP id smtpd.web10.48607.1590491250375150221
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
+ by mx.groups.io with SMTP id smtpd.web12.48351.1590492053175796594
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 04:07:30 -0700
+ Tue, 26 May 2020 04:20:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NYzQRxpw;
- spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: rama.kesi@gmail.com)
-Received: by mail-io1-f48.google.com with SMTP id f3so21484110ioj.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 04:07:30 -0700 (PDT)
+ dkim=pass header.i=@googlemail.com header.s=20161025 header.b=vYMJ6PR4;
+ spf=pass (domain: googlemail.com, ip: 209.85.128.65, mailfrom: matthias.schoepfer@googlemail.com)
+Received: by mail-wm1-f65.google.com with SMTP id u188so2840262wmu.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 04:20:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MSG0s2xe+C4ixwV3CfvKrsK4M/wnpGQuNOhbcctOLnY=;
-        b=NYzQRxpwFRBhb3yweOTh8v1OfEVDGumrH/6qFfbwTRCX5GhFuItKNmJ33MckDU675H
-         EdjO3SPvwKsu0C7VLBRwDFptt7P/3f29Isgn1v/7SWLJ5NZNXbWNw6DG1WfQ3xpo8SN3
-         r5HYClt+J1QEYJwhCi79M6D9VJ/j2m267oJmXTly2XxWDT3ok7XifGaU7y453IjdtmV6
-         liRniBCgw5yRWUA5aNz5XbGn8/xK/p5Tt+sFXqmpuBwE18w/3zii0pIjHZK9eD+bxDIF
-         vb2S2nvYlCAAYapRBwxRey4FuKnpS/0oUUzjsLjW1V9bEMaLlxU6tAIcfHxSM0pf3mAt
-         AW7w==
+        d=googlemail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=crVwiDSVfVfLtYevVpYoav/M7k1t4HPZbuaVps6hm44=;
+        b=vYMJ6PR4C0/4661W1FQK6xWdbcnDZ0M/lwR5KydXqt31jnhWKIh2unIaVdZRjsWYia
+         D+Dx2hRQBKc55M6UVmVLe5f/PTyLtP6C7TY2msj3GEmHd0GHlCdRIevOp4F4kvorN52r
+         cg9TszcEKSabhl/bb7+2uP0XP773X1Pw+6zMyB92+h2ZsYIfOIDulxbWfrfkNyUK37NJ
+         n1xu5oSRAOjrZltcdlJBkHBeCAt+dO1F0uf4p9dymgOsiS1cqXVWI9VUNczeolZKGfbR
+         POffpVv/uznTwoIipIF39URb4dxbjwLZ9Cm/QvCksAFlDkQQgSYGCN4lj8upbwAZw2S8
+         m7uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MSG0s2xe+C4ixwV3CfvKrsK4M/wnpGQuNOhbcctOLnY=;
-        b=bZQ9rproQxvIVv4ScpElmV8NUv5JrazODzq6lhHCtyofu5x9i1Xjm7dU6cFmejME2T
-         vVgdEBMVxC9SPe2eDsxZX2kq/CPospSKe332b7Z+kRa55pw1qWBcPn13lQbmax+VBpHs
-         F1cvoSI9fUyCVgTkCVZgokqwmfS8sqmfdpMlbn4xBbaJXuti6XP5m3WyevDNZsuECWAy
-         Xk7z5xglpj2QCEFvoyCQdbz2kfCvhRhqKCVhIztpQv41ycV7mf5OESIjrpFRMMiBajq0
-         T05Eh6SmR2Y6u3hOZpg+w6kXH1vdUN3KAtDiXylgHvj+GV1ttfdnSGlTHxDS3S5kbClN
-         iFrA==
-X-Gm-Message-State: AOAM5336MLURSrvOnTW0YRh3+KBet3n6WfTMEqrkvb8Ht8QxWEJ6TQtN
-	L6YI1WdF/5hQd0w1p9y8yIB7X2L4xy6tjOcoPXCg4SEP
-X-Google-Smtp-Source: ABdhPJxG1m7JF4SAJDktuH0QXnZziBB9/65f8FVOA6sA3AfkzjC/z7NG58e8/wJC1g0Es3IfvGKQaYDvEw+RCFKsRXw=
-X-Received: by 2002:a05:6638:b:: with SMTP id z11mr405662jao.114.1590491249535;
- Tue, 26 May 2020 04:07:29 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=crVwiDSVfVfLtYevVpYoav/M7k1t4HPZbuaVps6hm44=;
+        b=q2I2oZMsTL00NZriv2OqhzI7IfEMTcWfrArJ/RWMjMPsvUTo3UgfAzWI93PyTRL6Ji
+         xCruINFz9DSsNC8NNOrRVcj9f4EneFOib0OBwXlEMVLElkQhgpQwyA2PVoClkaPBlh3d
+         zYRO/OMIcCoinLhYNq/4Z1i+AMlN+DjMNVuROlIfxsDhQI/2m+SKpT/c+d4Ue73/kt0e
+         zf2kLlXp1sqCI+9WjRHgmSJF5kTXtSQcIMvuFePk1gcKNq7Fh5JCheDVVpKZq44zYvKx
+         JWdlhtA25F6ZeZbB4xpI2OYC9EkqSFXM7XtkFzhdjdM3dhDzeROLpx73bUcJtQeQ+2w7
+         z3yw==
+X-Gm-Message-State: AOAM532CzdQUlHpMHVEZd00OwSzuw8w1fPHB4Ji9ty4glUWD/FgA/pfe
+	fHPUli0FpAhhlCB4tpBlDEI=
+X-Google-Smtp-Source: ABdhPJxouKpa+yxbdWqtOEwGV5MNMPpovQjJIH5bBBlqz5jo4WsNklu8dBk/zPdpOMZdDjOjVpQdBw==
+X-Received: by 2002:a7b:c385:: with SMTP id s5mr995294wmj.121.1590492051643;
+        Tue, 26 May 2020 04:20:51 -0700 (PDT)
+Return-Path: <matthias.schoepfer@googlemail.com>
+Received: from [172.16.100.14] ([213.168.66.146])
+        by smtp.gmail.com with ESMTPSA id 190sm14868383wmb.23.2020.05.26.04.20.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2020 04:20:50 -0700 (PDT)
+Subject: Re: [OE-core] [meta-oe][PATCH 3/4] libgcrypt: made libgcrypt-lic license "GPLv2+ & LGPLv2.1+"
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
+References: <20200526081233.62413-1-matthias.schoepfer@googlemail.com>
+ <20200526081233.62413-3-matthias.schoepfer@googlemail.com>
+ <de59b9f118c6d51c902e50dce97a7680f77e7402.camel@linuxfoundation.org>
+From: "Matthias Schoepfer" <matthias.schoepfer@googlemail.com>
+Message-ID: <b595d584-b544-b755-d175-85fffbfd31e5@googlemail.com>
+Date: Tue, 26 May 2020 13:20:50 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <CAFi1RNj7=wqUK1ebdfKSpUs8uQkXe_=wDvPJDqPHOHBn7xr5mQ@mail.gmail.com>
- <20200525124703.qrdrgubsxpur2zvh@qschulz>
-In-Reply-To: <20200525124703.qrdrgubsxpur2zvh@qschulz>
-From: "Ramakanth Kesireddy" <rama.kesi@gmail.com>
-Date: Tue, 26 May 2020 16:39:26 +0530
-Message-ID: <CAFi1RNixUb9p+Lfp+XfDMdLw21gEv95J9xGg+=ByYcahFPBTTg@mail.gmail.com>
-Subject: Re: [OE-core] Meta Qt5 Qt 5.6.3 compatibility with Yocto 2.4(poky)
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000f26d6a05a68b195a"
+In-Reply-To: <de59b9f118c6d51c902e50dce97a7680f77e7402.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---000000000000f26d6a05a68b195a
-Content-Type: text/plain; charset="UTF-8"
+Hi Richard,
 
-Hi,
+On 5/26/20 10:19 AM, Richard Purdie wrote:
+> On Tue, 2020-05-26 at 10:12 +0200, Matthias Schoepfer via
+> lists.openembedded.org wrote:
+>> From: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
+>>
+>> With the exception of dumpsexp.c, which is GPLv3, all other parts
+>> of libgcrypt are GPLv2+ & LGPLv2.1+, BSD or MIT or other "permissive"
+>> licenses.
+>>
+>> If libgcrypt-lic is not set to "GPLv2+ & LGPLv2.1+", image creation
+>> will
+>> fail with settings like
+>>
+>> INCOMPATIBLE_LICENSE = "GPLv3 LGPLv3 GPLv3+ LGPLv3+ GPL-3.0 LGPL-3.0
+>> AGPL-3.0"
+>> COPY_LIC_MANIFEST = "1"
+>> COPY_LIC_DIRS = "1"
+>> LICENSE_CREATE_PACKAGE = "1"
+>>
+>> Signed-off-by: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
+>> ---
+>>   meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
+>> b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
+>> index 4e0eb0a169..fd40cdcf83 100644
+>> --- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
+>> +++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.5.bb
+>> @@ -7,6 +7,7 @@ SECTION = "libs"
+>>   LICENSE = "GPLv2+ & LGPLv2.1+ & GPLv3+"
+>>   LICENSE_${PN} = "LGPLv2.1+"
+>>   LICENSE_${PN}-dev = "GPLv2+ & LGPLv2.1+"
+>> +LICENSE_${PN}-lic = "GPLv2+ & LGPLv2.1+"
+>>   LICENSE_dumpsexp-dev = "GPLv3+"
+> 
+> I don't like this approach at all. Its obviously inconvenient if your
+> image uses only the non-GPLv3 pieces but this doesn't change the fact
+> that the main package license does include GLPv3 and ${PN}-lic is right
+> to include it. You're breaking the metadata to fit your use case for
+> convenience.
+> 
+> If you're excluding GPLv3 things from packaging, you could then (and
+> only then) justifiably adjust ${PN}-lic to a different license so the
+> code should be doing that, not changing the underlying metadata to suit
+> you.
 
-Thanks for your mail.
-Do we have
- Meta Qt5.6.3 recipes for Yocto 2.4 Rocko branch?
+The question here seems to be, is the GPLv3 License itself GPLv3 
+licensed. I followed the approach Khem Raj gave me on the yocto mailing 
+list. I do not like the approach either, but lack a better solution. In 
+this very specific package, only one .c file is licensed GPLv3, even the 
+COPYING file claims, everything is GPLv2 and LGPLv2.1+.
 
-Best Regards,
-Ramakanth
+dumpsexp, the only GPLv3 file, is not even in the package by default. 
+The line
+LICENSE_${PN} = "LGPLv2.1+"
+pretty much tells the tale here.
 
-On Mon, 25 May, 2020, 18:17 Quentin Schulz, <
-quentin.schulz@streamunlimited.com> wrote:
+Also, LICENSE file states, that there are other licenses also involved, 
+BSD 3 Clause, Public Domain and OCB license...
 
-> Hi Ramakanth,
->
-> On Mon, May 25, 2020 at 06:06:34PM +0530, Ramakanth Kesireddy wrote:
-> > Hi All,
-> >
-> > Can anyone please  let me know if Qt 5.6.3 LTS is compatible with Yocto
-> > project version 2.4 ( poky ) or not to build meta-qt5 recipes of Qt
-> 5.6.3 no
-> > LTS?
-> >
-> > If so, where to pick up the meta-15 recipes for Qt 5.6.3 LTS open source?
-> >
->
-> We're building meta-qt5 from krogoth branch on thud currently. This
-> branch has the latest version for qtbase (5.6.3 release).
-> We've a few bbappends but they do not seem to exist for fixing build
-> issues :)
->
-> So, try and check for yourself :)
->
-> BR,
-> Quentin
->
+Thanks and Regards,
 
---000000000000f26d6a05a68b195a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+   Matthias
 
-<div dir=3D"auto"><div>Hi,</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">Thanks=C2=A0for your mail.</div><div dir=3D"auto">Do we have</div><div d=
-ir=3D"auto">=C2=A0Meta Qt5.6.3 recipes for Yocto 2.4 Rocko branch?</div><di=
-v dir=3D"auto"><br></div><div dir=3D"auto">Best Regards,</div><div dir=3D"a=
-uto">Ramakanth<br><br><div class=3D"gmail_quote" dir=3D"auto"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Mon, 25 May, 2020, 18:17 Quentin Schulz, &lt;<a=
- href=3D"mailto:quentin.schulz@streamunlimited.com" rel=3D"noreferrer noref=
-errer" target=3D"_blank">quentin.schulz@streamunlimited.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">Hi Ramakanth,<br>
-<br>
-On Mon, May 25, 2020 at 06:06:34PM +0530, Ramakanth Kesireddy wrote:<br>
-&gt; Hi All,<br>
-&gt; <br>
-&gt; Can anyone please=C2=A0 let me know if Qt 5.6.3 LTS is compatible with=
- Yocto<br>
-&gt; project version 2.4 ( poky ) or not to build meta-qt5 recipes of Qt 5.=
-6.3 no<br>
-&gt; LTS?=C2=A0<br>
-&gt; <br>
-&gt; If so, where to pick up the meta-15 recipes for Qt 5.6.3 LTS open sour=
-ce?<br>
-&gt; <br>
-<br>
-We&#39;re building meta-qt5 from krogoth branch on thud currently. This<br>
-branch has the latest version for qtbase (5.6.3 release).<br>
-We&#39;ve a few bbappends but they do not seem to exist for fixing build<br=
->
-issues :)<br>
-<br>
-So, try and check for yourself :)<br>
-<br>
-BR,<br>
-Quentin<br>
-</blockquote></div></div></div>
-
---000000000000f26d6a05a68b195a--
+-- 
+Dr.-Ing. Matthias Schöpfer
+matthias.schoepfer@googlemail.com
