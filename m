@@ -1,47 +1,51 @@
-Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
- by mx.groups.io with SMTP id smtpd.web11.48981.1590493790047281222
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web10.49677.1590496023562895373
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 04:49:51 -0700
+ Tue, 26 May 2020 05:27:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.14, mailfrom: quentin.schulz@streamunlimited.com)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp.bon.at (Postfix) with ESMTPSA id 49WXLz4bdCz5tlC;
-	Tue, 26 May 2020 13:49:47 +0200 (CEST)
-Date: Tue, 26 May 2020 13:49:46 +0200
-From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
-To: Ramakanth Kesireddy <rama.kesi@gmail.com>
+ dkim=pass header.i=@stusta.de header.s=default header.b=XFfXNwoM;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=gx82=7i=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49WY9v60Qfz4y;
+	Tue, 26 May 2020 14:26:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1590496020;
+	bh=rjuUc1BiZah0Mn2VskSkli0IW+RykKFkuhEf86SNSUM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XFfXNwoM7lYlJyYGhSgdGyBFOqos96VGTSBNjoZAj2lP1RH3fvymKV/dBfj+Fx0s9
+	 zsAAlnrKtPq7VcDfG0AwKSV1Q+FI1WaiVDhgI48Hwkp11B44/bzwhl1zSmTkXaVSwr
+	 CIC+SW5R4SoQUlkUJXZ+fgzCC3SCZCSiKWaDiTaXE+X0iBG34Ez08oCvUUhL/J8SmT
+	 ZSldG/7iQ5+kfDio23Wdwo6LWaAgtS0iALa+bMA/HqooJfoYguya5U+57H/EW78u/0
+	 B2HowfZHvZ0Fssh0Yzaq4vVP5w71F4aRojdfpSMNarZ9gfPTfFjH8OXVk5Yx/u848i
+	 5U4GOnwG7IYMRUAtqMM6pvFov7EY3xhBZyxJOm9az75zK7QQeQ7yyqqAlL11+aUj20
+	 s4+KVMYGCUbwHZH/Nt0WKODdgsB2lj055OxppKIGtaB6kaPHzEh6kT35VdKOUYiogu
+	 w1aB5QiP1i7OWghKZRhplESrCwn2ZnlzZU6xpLyyZW+nbn9YCVIB/SmX/l+iJjxNKz
+	 jVsUcQtefD5sGkbRsmBt69zQioXKKuwV6Lz1UzUt5CXNj4EHxQz2R8x7qtmCXtNoJE
+	 wKiYJfKU5dP6/v9vsIVIhpPrZMcpBJwMmCDoODmPiOO405BucIoz+RgIbc8oSBk08n
+	 xo9dyGW+fOJw/1s4Chsj7mpw=
+Date: Tue, 26 May 2020 15:26:57 +0300
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] Meta Qt5 Qt 5.6.3 compatibility with Yocto 2.4(poky)
-Message-ID: <20200526114946.a5t6vqm53y5yj7qr@qschulz>
-References: <CAFi1RNj7=wqUK1ebdfKSpUs8uQkXe_=wDvPJDqPHOHBn7xr5mQ@mail.gmail.com>
- <20200525124703.qrdrgubsxpur2zvh@qschulz>
- <CAFi1RNixUb9p+Lfp+XfDMdLw21gEv95J9xGg+=ByYcahFPBTTg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] armv8/tunes: Set TUNE_PKGARCH_64 based on ARMPKGARCH
+Message-ID: <20200526122657.GB26509@localhost>
+References: <20200522013050.1320143-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFi1RNixUb9p+Lfp+XfDMdLw21gEv95J9xGg+=ByYcahFPBTTg@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20200522013050.1320143-1-raj.khem@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-Hi Ramakanth,
+On Thu, May 21, 2020 at 06:30:50PM -0700, Khem Raj wrote:
+>...
+> This lets higher up tune files for arm64 SOCs override them if needed,
+> this can help building multiple armv8 machines with different tunes in
+> same workspace.
+>...
 
-On Tue, May 26, 2020 at 04:39:26PM +0530, Ramakanth Kesireddy wrote:
-> Hi,
-> 
-> Thanks for your mail.
-> Do we have
->  Meta Qt5.6.3 recipes for Yocto 2.4 Rocko branch?
-> 
+I am getting code for cortexa53-crypto built in a directory
+cortexa53-tmp-linux, but the code might not run on cortexa53
+without the crypto extension.
 
-As I said, I'm using qt5.6.3 on thud with the krogoth branch of meta-qt5.
-So a meta-qt5 meant for krogoth, but used on thud (2.6.4). There aren't
-always backward/"upward" compatibility issues, so really, just try and
-if there is an issue, ask about it. It takes you less time to try that
-to discuss this on the mailing list.
-
-The only change you need is to add rocko to LAYERSERIES_COMPAT in
-meta-qt5/conf/layer.conf and a way to do that outside of meta-qt5 (when
-you'll want to distribute your layer or commit it) was discussed yesterday
-on the ML.
-
-BR,
-Quentin
+cu
+Adrian
