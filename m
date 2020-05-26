@@ -1,137 +1,128 @@
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
- by mx.groups.io with SMTP id smtpd.web11.47141.1590484027834808554
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+ by mx.groups.io with SMTP id smtpd.web10.48607.1590491250375150221
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 02:07:08 -0700
+ Tue, 26 May 2020 04:07:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denx.de, ip: 212.18.0.10, mailfrom: sbabic@denx.de)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 49WSlF3Xxcz1rvRj;
-	Tue, 26 May 2020 11:07:05 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 49WSlF2x81z1r3lD;
-	Tue, 26 May 2020 11:07:05 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new, port 10024)
-	with ESMTP id X5Uex0Fl9qix; Tue, 26 May 2020 11:07:04 +0200 (CEST)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net [88.217.136.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPS;
-	Tue, 26 May 2020 11:07:04 +0200 (CEST)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id B040E4540528;
-	Tue, 26 May 2020 11:07:03 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([127.0.0.1])
-	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id kER9nNC-NXaR; Tue, 26 May 2020 11:07:01 +0200 (CEST)
-Received: from [192.168.178.64] (paperino.fritz.box [192.168.178.64])
-	by babic.homelinux.org (Postfix) with ESMTP id 120074540515;
-	Tue, 26 May 2020 11:07:01 +0200 (CEST)
-Subject: Re: [OE-core][dunfell 09/17] libubootenv: Depend on zlib
-To: Paul Barker <pbarker@konsulko.com>, Adrian Bunk <bunk@stusta.de>
-Cc: Steve Sakoman <steve@sakoman.com>,
- openembedded-core <openembedded-core@lists.openembedded.org>,
- Marek Vasut <marex@denx.de>, Stefano Babic <sbabic@denx.de>
-References: <cover.1590445868.git.steve@sakoman.com>
- <dc5babe9472ba7379edbb17b6cbac44604606b26.1590445868.git.steve@sakoman.com>
- <CAM9ZRVt4dKEefgQF8xnGVoEbm4hFiPOzc106YPai0D5-DpuWoQ@mail.gmail.com>
- <20200526085644.GA15031@localhost>
- <CAM9ZRVsmbfB4YzFa_kOdt-+QocRGz=uMjP0iw2a-5MMVJhaFrg@mail.gmail.com>
-From: "Stefano Babic" <sbabic@denx.de>
-Autocrypt: addr=sbabic@denx.de; prefer-encrypt=mutual; keydata=
- mQGiBEfdB5IRBADkpYcnh2BoAkGD5p186ysEkWlcp5DU07m7BKzvkEMRhFjeFUOU0klKNmh0
- ZM6rKpYpAYPYBm9YahMyqvj9DmLrZ4yfJ5MssvW9SRETmHpva+h1rN+DzmEcwrqZmLG1JWGy
- LA5ruJaFSzxJHBoROoog1NDMbNDB8A9F7VKrePfkVwCgmODpW/uh2IuMYLVidzDeuvo7alED
- /iV8rwU7C+eBcKy2htuDsEmsqlkBxIDM7IO6h5XxdyqbZOYizuBP3Ksb6xK54weEaB5aQs7S
- 8N9Soi0p1Xh0LMWj6PBCzTC4LF+OCGEMBPc6bBHNzivChgztJlUMioCDSVpOXB/QpBaK302G
- yP5WdmcB1Jn6neq/YRlxHN38MV2yA/46jnzeUotL9LliVZKA/ql4GmyWg2Ae1BUiCqEJQNwl
- knGJOmIS4uABLArB5HjsfDU5hA9FORaNGCIiZlezBkZ3JXA2uQMQhfgqBXrZt4j1fcw9I7E+
- 7IZ2kSCeTPZFLd5FiGQPDOm3Z9eHrpK6pmBGMeBG0pDgUEbN9awyLNBLj7QeU3RlZmFubyBC
- YWJpYyA8c2JhYmljQGRlbnguZGU+iGMEExECACMCGwMGCwkIBwMCBBUCCAMEFgIDAQIeAQIX
- gAUCT9deSgIZAQAKCRD09WXkmmjvppF1AKCRl8d49K4yxWzdBVRTTWG55cyo/gCfRD1RAttl
- R1ofs2wGLHNtXousyL25Ag0ER90HmBAIAIFfX4bKnOmCyB3nPh+jbXZuBSMZTuyDEnguRxl5
- N8Q0ayofQwucCBjXYv65sQ9Rq6FNhEnWqUZBu8A5CwvSakOFOGNC5ta/8VxVRLh0Z0ZTgEep
- SKiPonJyacCbmgWDECdVrKowV7QB9be3Wu67uAZ74rPw2Kd7f0FKnL3djvVRMaBWFIpyQ6SE
- bGOCJjhRQ5L1pIM1Soko+reU7eO+1g6IBw6YkFJisdQE6fzTwaSqUKPPsQLz/W03invQltOb
- Eg7ZwtFs0DFonr1DMm57ksiEhW6SN1wylRO/JzRYG1Qe7u1EVln6iV3ilBvbbfkyRssk4/0e
- kicpSnQknA72YOMAAwYH+QGpAiQ4hAMHrp1bUrtyGXYdeQpYufIZAM4etOnBy/G+e1nfu6y+
- jH4SN9sVK7bwBBAbhEJqkqR5LVsFIRapThJQOWB11rQxLpwkBU9wao/pRM+o95ujGo32WUzf
- wWrzWrkTDy7vMCZuUOLVi4n1GZlUAwpG4rzb6UxPC6GWymkVWGgXp1NC58og5i3Y+rKT7+Xi
- XT2BtvC6PDepoH4JhD+9OkHQO6UfTxPSmtgNbTgtl6L6tj+bm5dOHgkPJFMkEiG8qhUZYQzb
- bYz37orRbA72M2bxK76e9QKn0mVu+d/YCd8wRcvvJbGsozpzcxPvD5Wy5RNJCES8McPtAseU
- tMeISQQYEQIACQUCR90HmAIbDAAKCRD09WXkmmjvpv+3AJ9RakBsH1j0X/Kxp6t2lf0VUfS2
- qACfZ+J6ktk8PKNuyHf0J/I0mbCrhV4=
-Message-ID: <8d101a43-0795-2d0e-2abf-1098292ecb4b@denx.de>
-Date: Tue, 26 May 2020 11:07:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NYzQRxpw;
+ spf=pass (domain: gmail.com, ip: 209.85.166.48, mailfrom: rama.kesi@gmail.com)
+Received: by mail-io1-f48.google.com with SMTP id f3so21484110ioj.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 04:07:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MSG0s2xe+C4ixwV3CfvKrsK4M/wnpGQuNOhbcctOLnY=;
+        b=NYzQRxpwFRBhb3yweOTh8v1OfEVDGumrH/6qFfbwTRCX5GhFuItKNmJ33MckDU675H
+         EdjO3SPvwKsu0C7VLBRwDFptt7P/3f29Isgn1v/7SWLJ5NZNXbWNw6DG1WfQ3xpo8SN3
+         r5HYClt+J1QEYJwhCi79M6D9VJ/j2m267oJmXTly2XxWDT3ok7XifGaU7y453IjdtmV6
+         liRniBCgw5yRWUA5aNz5XbGn8/xK/p5Tt+sFXqmpuBwE18w/3zii0pIjHZK9eD+bxDIF
+         vb2S2nvYlCAAYapRBwxRey4FuKnpS/0oUUzjsLjW1V9bEMaLlxU6tAIcfHxSM0pf3mAt
+         AW7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MSG0s2xe+C4ixwV3CfvKrsK4M/wnpGQuNOhbcctOLnY=;
+        b=bZQ9rproQxvIVv4ScpElmV8NUv5JrazODzq6lhHCtyofu5x9i1Xjm7dU6cFmejME2T
+         vVgdEBMVxC9SPe2eDsxZX2kq/CPospSKe332b7Z+kRa55pw1qWBcPn13lQbmax+VBpHs
+         F1cvoSI9fUyCVgTkCVZgokqwmfS8sqmfdpMlbn4xBbaJXuti6XP5m3WyevDNZsuECWAy
+         Xk7z5xglpj2QCEFvoyCQdbz2kfCvhRhqKCVhIztpQv41ycV7mf5OESIjrpFRMMiBajq0
+         T05Eh6SmR2Y6u3hOZpg+w6kXH1vdUN3KAtDiXylgHvj+GV1ttfdnSGlTHxDS3S5kbClN
+         iFrA==
+X-Gm-Message-State: AOAM5336MLURSrvOnTW0YRh3+KBet3n6WfTMEqrkvb8Ht8QxWEJ6TQtN
+	L6YI1WdF/5hQd0w1p9y8yIB7X2L4xy6tjOcoPXCg4SEP
+X-Google-Smtp-Source: ABdhPJxG1m7JF4SAJDktuH0QXnZziBB9/65f8FVOA6sA3AfkzjC/z7NG58e8/wJC1g0Es3IfvGKQaYDvEw+RCFKsRXw=
+X-Received: by 2002:a05:6638:b:: with SMTP id z11mr405662jao.114.1590491249535;
+ Tue, 26 May 2020 04:07:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAM9ZRVsmbfB4YzFa_kOdt-+QocRGz=uMjP0iw2a-5MMVJhaFrg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: de-DE
-Content-Transfer-Encoding: 7bit
+References: <CAFi1RNj7=wqUK1ebdfKSpUs8uQkXe_=wDvPJDqPHOHBn7xr5mQ@mail.gmail.com>
+ <20200525124703.qrdrgubsxpur2zvh@qschulz>
+In-Reply-To: <20200525124703.qrdrgubsxpur2zvh@qschulz>
+From: "Ramakanth Kesireddy" <rama.kesi@gmail.com>
+Date: Tue, 26 May 2020 16:39:26 +0530
+Message-ID: <CAFi1RNixUb9p+Lfp+XfDMdLw21gEv95J9xGg+=ByYcahFPBTTg@mail.gmail.com>
+Subject: Re: [OE-core] Meta Qt5 Qt 5.6.3 compatibility with Yocto 2.4(poky)
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000f26d6a05a68b195a"
 
-On 26.05.20 10:57, Paul Barker wrote:
-> On Tue, 26 May 2020 at 09:56, Adrian Bunk <bunk@stusta.de> wrote:
->>
->> On Tue, May 26, 2020 at 09:24:59AM +0100, Paul Barker wrote:
->>> On Mon, 25 May 2020 at 23:37, Steve Sakoman <steve@sakoman.com> wrote:
->>>>
->>>> From: Marek Vasut <marex@denx.de>
->>>>
->>>> The libubootenv depends on zlib as it calls at least crc32() from
->>>> there and links against it. Add the DEPENDS entry.
->>>>
->>>> Signed-off-by: Marek Vasut <marex@denx.de>
->>>> Cc: Stefano Babic <sbabic@denx.de>
->>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>> Signed-off-by: Steve Sakoman <steve@sakoman.com>
->>>> (cherry picked from commit db513f9ec59b7ac526b2cdc42b0eb2573e134bc4)
->>>> Signed-off-by: Steve Sakoman <steve@sakoman.com>
->>>> ---
->>>>  meta/recipes-bsp/u-boot/libubootenv_0.2.bb | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
->>>> index 3251d0f05b..fa90a12bf8 100644
->>>> --- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
->>>> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
->>>> @@ -1,5 +1,5 @@
->>>>  SUMMARY = "U-Boot libraries and tools to access environment"
->>>> -DEPENDS += "mtd-utils"
->>>> +DEPENDS += "mtd-utils zlib"
->>>>
->>>>  DESCRIPTION = "This package contains tools and libraries to read \
->>>>  and modify U-Boot environment. \
->>>> --
->>>> 2.17.1
->>>
->>> Is this actually needed for the u-boot version in dunfell? My
->>> understanding when I saw the original patch was that this is a new
->>> requirement of the latest u-boot.
->>
->> libubootenv (not u-boot) uses zlib also in dunfell,
->> and a direct dependency looks correct to me.
->>
->> I assume the breaking case involves a layer shipping an own mtd-utils
->> recipe that does not pull in zlib.
-> 
+--000000000000f26d6a05a68b195a
+Content-Type: text/plain; charset="UTF-8"
 
-Yes, it is exactly the case. dunfell builds without issues
-libubootenv-bin (fw_setenv / fw_printenv). Users of library have
-doscovered the issue because they have not zlib in their own recipe.
+Hi,
 
-> Thanks for the confirmation, I understand now. Looks good for dunfell.
-> 
+Thanks for your mail.
+Do we have
+ Meta Qt5.6.3 recipes for Yocto 2.4 Rocko branch?
 
-Regards,
-Stefano
+Best Regards,
+Ramakanth
 
--- 
-=====================================================================
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
-=====================================================================
+On Mon, 25 May, 2020, 18:17 Quentin Schulz, <
+quentin.schulz@streamunlimited.com> wrote:
+
+> Hi Ramakanth,
+>
+> On Mon, May 25, 2020 at 06:06:34PM +0530, Ramakanth Kesireddy wrote:
+> > Hi All,
+> >
+> > Can anyone please  let me know if Qt 5.6.3 LTS is compatible with Yocto
+> > project version 2.4 ( poky ) or not to build meta-qt5 recipes of Qt
+> 5.6.3 no
+> > LTS?
+> >
+> > If so, where to pick up the meta-15 recipes for Qt 5.6.3 LTS open source?
+> >
+>
+> We're building meta-qt5 from krogoth branch on thud currently. This
+> branch has the latest version for qtbase (5.6.3 release).
+> We've a few bbappends but they do not seem to exist for fixing build
+> issues :)
+>
+> So, try and check for yourself :)
+>
+> BR,
+> Quentin
+>
+
+--000000000000f26d6a05a68b195a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>Hi,</div><div dir=3D"auto"><br></div><div dir=3D"aut=
+o">Thanks=C2=A0for your mail.</div><div dir=3D"auto">Do we have</div><div d=
+ir=3D"auto">=C2=A0Meta Qt5.6.3 recipes for Yocto 2.4 Rocko branch?</div><di=
+v dir=3D"auto"><br></div><div dir=3D"auto">Best Regards,</div><div dir=3D"a=
+uto">Ramakanth<br><br><div class=3D"gmail_quote" dir=3D"auto"><div dir=3D"l=
+tr" class=3D"gmail_attr">On Mon, 25 May, 2020, 18:17 Quentin Schulz, &lt;<a=
+ href=3D"mailto:quentin.schulz@streamunlimited.com" rel=3D"noreferrer noref=
+errer" target=3D"_blank">quentin.schulz@streamunlimited.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">Hi Ramakanth,<br>
+<br>
+On Mon, May 25, 2020 at 06:06:34PM +0530, Ramakanth Kesireddy wrote:<br>
+&gt; Hi All,<br>
+&gt; <br>
+&gt; Can anyone please=C2=A0 let me know if Qt 5.6.3 LTS is compatible with=
+ Yocto<br>
+&gt; project version 2.4 ( poky ) or not to build meta-qt5 recipes of Qt 5.=
+6.3 no<br>
+&gt; LTS?=C2=A0<br>
+&gt; <br>
+&gt; If so, where to pick up the meta-15 recipes for Qt 5.6.3 LTS open sour=
+ce?<br>
+&gt; <br>
+<br>
+We&#39;re building meta-qt5 from krogoth branch on thud currently. This<br>
+branch has the latest version for qtbase (5.6.3 release).<br>
+We&#39;ve a few bbappends but they do not seem to exist for fixing build<br=
+>
+issues :)<br>
+<br>
+So, try and check for yourself :)<br>
+<br>
+BR,<br>
+Quentin<br>
+</blockquote></div></div></div>
+
+--000000000000f26d6a05a68b195a--
