@@ -1,129 +1,307 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web11.281.1590525873723942221
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
+ by mx.groups.io with SMTP id smtpd.web10.479.1590526269179612011
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 13:44:34 -0700
+ Tue, 26 May 2020 13:51:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=G/poh///;
- spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f66.google.com with SMTP id g9so18790061edw.10
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 13:44:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eSgDGPvh;
+ spf=pass (domain: gmail.com, ip: 209.85.214.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f194.google.com with SMTP id d3so9194859pln.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 13:51:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:date:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=K49h5MJkssKSUGqPsDHakiKT+yIUM24FJ0jB0A2Wv/c=;
-        b=G/poh///S2BUPe3RgNnQVYYCo5fcNkIHu04GZHRf2aIJu8kHsSGpZY9m4zUsuKdhnZ
-         dG0rBpvz+rsl3ODkBp9kY2xzsckJC8dXCNNx0v/oeKrzt2S8+cYhfE0FxirFJAika2ek
-         /mNTD+nAoKmm7t68R9VxoP7D3ePfWQrMhOfmmNtzXg7elZzeYrcNVpm96PqCLwIGDYvc
-         GvawTz1RY0pvPrxJE1OGGDB+0LawCXohOqBQfr81mrnDO0ZdNwRGzS5/lmNsDFvhmrXS
-         2vOzxw2EkFfQI01hOti3Y/PLnhFyUTILzWE40m+2eJmsuwJpG2+vtCZqS1j5G6Is+/wL
-         cZYw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ver65tQILyhlpzdtv88aIi0GmV/yiMeOPBeChmrMvTE=;
+        b=eSgDGPvhgxcFJhiB5ei/2UT5pxD7qmYLf+yRsubV2iVrHr0Bq01rUI+QrdVNrXtNNz
+         ZwwoVW4PPej3isZGIlE+q7XccmP+wE5QwtQkVZ8AZU/bGXRUCNcBnQYD/XVqpfjZZdTc
+         aQAD5aNNRkmZyBCd9COIIpBGOG/GyYTHTjajqQZwFLwRsrFxGv1GjC2bqXtRi90DVQGt
+         HJn0GuELqZFi6i4bBkVii6MfGa73evl967lSP8T+sjyeCCmC59r0XdbYkVeR0YVQq8Dz
+         YlAeASEzhWlU/t19lm6yOw2JEehR8IEj2cPNvmKwJwKbHNjAfHia43QHVT4p7wY6pHKW
+         kdsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=K49h5MJkssKSUGqPsDHakiKT+yIUM24FJ0jB0A2Wv/c=;
-        b=JeC4hLAoJJb8+Wy2CgI1gydWgI/MDc9Ws5ckcGp6B/+kyMcH9eDo6mszsnfE3VYDTA
-         zpN+oPj8YqgQtg8NgQieG4/4qNPQ/kXVf6UWBue3hCa/Dmh22B1y3qy6uMkE87Oqpp+T
-         Jyf0YLOl7Njoa1LaLlVyNpygqnBNHdc8kMKTYoDcIIc+4meLrbsLZd5JaJEe4XMz3mNy
-         Xx4fMXG+wmYjiisP96GcMZX8RvqFZal0U1/v+aQNyyZ40eOImef7ADy5w+FvXIG95GLB
-         KWm/cLxiO87YUd1uleC/ULwRMc/gXhZ8VSuA9wfcS7VJWD02+vH8lHbQV+aOdDDcrVy4
-         Cigg==
-X-Gm-Message-State: AOAM533bePv5zpGgz40P0sO8agw8oqaivYXXwdWfqBXNdSm4k0zBnfZA
-	k6oS/G0ee18W9TPo/l+Vs0k=
-X-Google-Smtp-Source: ABdhPJxch6hwEQDU/3Yt0n4sAYWRQcjOnlzDzzLiG20ZB/mtm2rhagZW2wses12DtIYO3ceCKaXcjg==
-X-Received: by 2002:a05:6402:c0f:: with SMTP id co15mr21090501edb.286.1590525872209;
-        Tue, 26 May 2020 13:44:32 -0700 (PDT)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id on20sm691668ejb.70.2020.05.26.13.44.31
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ver65tQILyhlpzdtv88aIi0GmV/yiMeOPBeChmrMvTE=;
+        b=gdcP6Uo7LA0IIVwxuhKcWZzZDcpXnmPAK3bpgi1elfsexD2wSi8Dt9MgBycUL2jp/y
+         sjPAYjh8EhiEB53by6q8q1Ic2P05fYzXsnAQxqwsiiTVUpdmYvVGYuqKBFjpjl/pN0uk
+         Gtm0ilMHhVtQV8myFw4V9Jm18teQFIRxoDYjc1fmf49V+pzewOemZwpSrLgGVTOF4HJB
+         LsCMhHFMdlHhtS2AjLMS9ii5gCf1hB1DV+OKKT4fwA/KKIN//5GE8weO7T5OnZPbW+AC
+         wQKcRjq6gPn+UNO/VBJB5n96XVd/H/qMj3p42nOys6s2a5exhOYTRsC96cqr2IgKhx0M
+         Xv/Q==
+X-Gm-Message-State: AOAM532wXjKuj5KmyQmKJZxlIMaFJp6lMv/PEtWWlpvRYQ6Bpq2fnH/q
+	jJrdPpqurOvfwTFjyvbsGSAm4CPoNek=
+X-Google-Smtp-Source: ABdhPJzZW9hBw22iOyhfMAJs3T1WzGixDz/o1/WjtOiyLcIGUKpZVNln2pRhaTO7k3oUMDxpr+1tzw==
+X-Received: by 2002:a17:90b:4c88:: with SMTP id my8mr1112462pjb.176.1590526267897;
+        Tue, 26 May 2020 13:51:07 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net (c-73-63-224-124.hsd1.ca.comcast.net. [73.63.224.124])
+        by smtp.gmail.com with ESMTPSA id a2sm437216pgh.81.2020.05.26.13.51.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 May 2020 13:44:31 -0700 (PDT)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 26 May 2020 22:44:30 +0200
-To: Andrey Zhizhikin <andrey.z@gmail.com>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 6/6] perf: drop 'include' copy
-Message-ID: <20200526203944.czx4xbpjblwnfdgf@jama>
-References: <cover.1571688520.git.bruce.ashfield@gmail.com>
- <eb27cbf9e4e86187a79967546674a0156d722c16.1571688520.git.bruce.ashfield@gmail.com>
- <20191021202444.GB1500@jama>
- <CADkTA4O1v-GZi-mkt866dpazowHsGZPrjwPuLi_Ry8vxZn8aqA@mail.gmail.com>
- <CAHtQpK7g400jDAUx+tYedCF6c654OQhCT+wZtKm7x3+_Gkr9SQ@mail.gmail.com>
- <CADkTA4PV6-Oh=s3TTnqCTMfAOytU+=rMWCAqSPpHgieZ7HcLDg@mail.gmail.com>
- <CAHtQpK5bDbibVfHytO5D2ksc-=93pHuSEdYY7+GJzdXFPwGmUw@mail.gmail.com>
+        Tue, 26 May 2020 13:51:07 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Rense Jacob <Rense_Jacob2@comcast.com>,
+	Rense <rense_jacob2@comcast.com>,
+	Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] bind: Apply CVE-2020-8616.patch for bind 9.11.13
+Date: Tue, 26 May 2020 13:51:04 -0700
+Message-Id: <20200526205104.1296720-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAHtQpK5bDbibVfHytO5D2ksc-=93pHuSEdYY7+GJzdXFPwGmUw@mail.gmail.com>
-X-Groupsio-MsgNum: 138739
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="tbdnhxdahydl7oe4"
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
---tbdnhxdahydl7oe4
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+From: Rense Jacob <Rense_Jacob2@comcast.com>
 
-On Tue, May 26, 2020 at 10:22:07PM +0200, Andrey Zhizhikin wrote:
-> Kernel 4.4 is also LTS and has (had) a very long time span, so I
-> believe there are some people out there who might still have it in
-> their Products (industrial applications are pretty conservative guys).
-> I have to admit that Yocto 3.1 + Kernel 4.4 is a rather strange
-> combination, but it also has a valid reason to exist.
->=20
-> I guess reverting this patch is not really an option, but this topic
-> deserves then a bit of documentation somewhere so people can look this
-> up and have a quick fix for themselves. The question is: where to put
-> this information?
->=20
-> Honestly, it didn't take me long to find the commit that solved the
-> build, it took me rather long to figure out why I didn't see changes
-> from it on the [dunfell]...
->=20
-> >
-> > What exactly was the build error that you saw ?
->=20
-> Exactly what JaMa had and fixed with his commit, namely a multitude of:
-> <bitops> error: #include nested too deeply
->=20
-> and some of:
->=20
-> <snip>/perf/1.0-r9/perf-1.0/tools/include/linux/list.h:5:10: fatal
-> error: ../../../include/linux/list.h: No such file or directory
+backport for nvd.nist.gov/vuln/detail/CVE-2020-8616
 
-But this isn't your only issue with perf on 4.4 kernel, right?
+Signed-off-by: Rense <rense_jacob2@comcast.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../bind/bind/CVE-2020-8616.patch             | 221 ++++++++++++++++++
+ .../recipes-connectivity/bind/bind_9.11.13.bb |   1 +
+ 2 files changed, 222 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
 
-I still carry whatever is needed in a .bbappend, for dunfell I have
-also:
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
+new file mode 100644
+index 0000000000..16ff86016b
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
+@@ -0,0 +1,221 @@
++backport for nvd.nist.gov/vuln/detail/CVE-2020-8616
++
++Upstream-Status: Backport [downloads.isc.org/isc/bind9/9.11.19/patches/CVE-2020-8616.patch]
++
++Signed-off-by: Rense <rense_jacob2@comcast.com>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++Index: bind-9.11.13/lib/dns/adb.c
++===================================================================
++--- bind-9.11.13.orig/lib/dns/adb.c
+++++ bind-9.11.13/lib/dns/adb.c
++@@ -404,16 +404,14 @@ static void log_quota(dns_adbentry_t *en
++  */
++ #define FIND_WANTEVENT(fn)      (((fn)->options & DNS_ADBFIND_WANTEVENT) != 0)
++ #define FIND_WANTEMPTYEVENT(fn) (((fn)->options & DNS_ADBFIND_EMPTYEVENT) != 0)
++-#define FIND_AVOIDFETCHES(fn)   (((fn)->options & DNS_ADBFIND_AVOIDFETCHES) \
++-				 != 0)
++-#define FIND_STARTATZONE(fn)    (((fn)->options & DNS_ADBFIND_STARTATZONE) \
++-				 != 0)
++-#define FIND_HINTOK(fn)         (((fn)->options & DNS_ADBFIND_HINTOK) != 0)
++-#define FIND_GLUEOK(fn)         (((fn)->options & DNS_ADBFIND_GLUEOK) != 0)
++-#define FIND_HAS_ADDRS(fn)      (!ISC_LIST_EMPTY((fn)->list))
++-#define FIND_RETURNLAME(fn)     (((fn)->options & DNS_ADBFIND_RETURNLAME) != 0)
++-
++-/*
+++#define FIND_AVOIDFETCHES(fn)	(((fn)->options & DNS_ADBFIND_AVOIDFETCHES) != 0)
+++#define FIND_STARTATZONE(fn)	(((fn)->options & DNS_ADBFIND_STARTATZONE) != 0)
+++#define FIND_HINTOK(fn)		(((fn)->options & DNS_ADBFIND_HINTOK) != 0)
+++#define FIND_GLUEOK(fn)		(((fn)->options & DNS_ADBFIND_GLUEOK) != 0)
+++#define FIND_HAS_ADDRS(fn)	(!ISC_LIST_EMPTY((fn)->list))
+++#define FIND_RETURNLAME(fn)	(((fn)->options & DNS_ADBFIND_RETURNLAME) != 0)
+++#define FIND_NOFETCH(fn)	(((fn)->options & DNS_ADBFIND_NOFETCH) != 0)
+++/*	
++  * These are currently used on simple unsigned ints, so they are
++  * not really associated with any particular type.
++  */
++@@ -3155,21 +3153,25 @@ dns_adb_createfind2(dns_adb_t *adb, isc_
++ 		 * Listen to negative cache hints, and don't start
++ 		 * another query.
++ 		 */
++-		if (NCACHE_RESULT(result) || AUTH_NX(result))
+++		if (NCACHE_RESULT(result) || AUTH_NX(result)) {
++ 			goto fetch;
++-
++-		if (!NAME_FETCH_V6(adbname))
+++                }
+++		if (!NAME_FETCH_V6(adbname)) {
++ 			wanted_fetches |= DNS_ADBFIND_INET6;
+++	        }
++ 	}
++ 
++  fetch:
++ 	if ((WANT_INET(wanted_addresses) && NAME_HAS_V4(adbname)) ||
++ 	    (WANT_INET6(wanted_addresses) && NAME_HAS_V6(adbname)))
+++	{	
++ 		have_address = true;
++-	else
++-		have_address = false;
++-	if (wanted_fetches != 0 &&
++-	    ! (FIND_AVOIDFETCHES(find) && have_address)) {
+++	} else {
+++	    have_address = false;
+++	}    
+++	if (wanted_fetches != 0 && !(FIND_AVOIDFETCHES(find) && have_address) &&
+++	    !FIND_NOFETCH(find))
+++	{
++ 		/*
++ 		 * We're missing at least one address family.  Either the
++ 		 * caller hasn't instructed us to avoid fetches, or we don't
++@@ -3177,8 +3179,9 @@ dns_adb_createfind2(dns_adb_t *adb, isc_
++ 		 * be acceptable so we have to launch fetches.
++ 		 */
++ 
++-		if (FIND_STARTATZONE(find))
+++		if (FIND_STARTATZONE(find)) {
++ 			start_at_zone = true;
+++		}	
++ 
++ 		/*
++ 		 * Start V4.
++Index: bind-9.11.13/lib/dns/include/dns/adb.h
++===================================================================
++--- bind-9.11.13.orig/lib/dns/include/dns/adb.h
+++++ bind-9.11.13/lib/dns/include/dns/adb.h
++@@ -209,6 +209,12 @@ struct dns_adbfind {
++ #define DNS_ADBFIND_OVERQUOTA		0x00000400
++ 
++ /*%
+++ *	Don't perform a fetch even if there are no address records available.
+++ */
+++#define DNS_ADBFIND_NOFETCH		0x00000800
+++
+++
+++/*%
++  * The answers to queries come back as a list of these.
++  */
++ struct dns_adbaddrinfo {
++Index: bind-9.11.13/lib/dns/resolver.c
++===================================================================
++--- bind-9.11.13.orig/lib/dns/resolver.c
+++++ bind-9.11.13/lib/dns/resolver.c
++@@ -172,6 +172,15 @@
++ #define DEFAULT_MAX_QUERIES 75
++ #endif
++ 
+++/*
+++ * After NS_FAIL_LIMIT attempts to fetch a name server address,
+++ * if the number of addresses in the NS RRset exceeds NS_RR_LIMIT,
+++ * stop trying to fetch, in order to avoid wasting resources.
+++ */
+++#define NS_FAIL_LIMIT 4
+++#define NS_RR_LIMIT   5
+++
+++
++ /* Number of hash buckets for zone counters */
++ #ifndef RES_DOMAIN_BUCKETS
++ #define RES_DOMAIN_BUCKETS	523
++@@ -3118,8 +3127,8 @@ sort_finds(dns_adbfindlist_t *findlist,
++ static void
++ findname(fetchctx_t *fctx, dns_name_t *name, in_port_t port,
++ 	 unsigned int options, unsigned int flags, isc_stdtime_t now,
++-	 bool *overquota, bool *need_alternate)
++-{
+++	 bool *overquota, bool *need_alternate, unsigned int *no_addresses) {
+++	 
++ 	dns_adbaddrinfo_t *ai;
++ 	dns_adbfind_t *find;
++ 	dns_resolver_t *res;
++@@ -3207,7 +3216,13 @@ findname(fetchctx_t *fctx, dns_name_t *n
++ 			      find->result_v6 != DNS_R_NXDOMAIN) ||
++ 			     (res->dispatches6 == NULL &&
++ 			      find->result_v4 != DNS_R_NXDOMAIN)))
+++			      {	
++ 				*need_alternate = true;
+++			      } 
+++		        if (no_addresses != NULL) {
+++				(*no_addresses)++;
+++			}
+++
++ 		} else {
++ 			if ((find->options & DNS_ADBFIND_OVERQUOTA) != 0) {
++ 				if (overquota != NULL)
++@@ -3258,6 +3273,7 @@ fctx_getaddresses(fetchctx_t *fctx, bool
++ 	dns_rdata_ns_t ns;
++ 	bool need_alternate = false;
++ 	bool all_spilled = true;
+++        unsigned int no_addresses = 0;
++ 
++ 	FCTXTRACE5("getaddresses", "fctx->depth=", fctx->depth);
++ 
++@@ -3425,21 +3441,28 @@ fctx_getaddresses(fetchctx_t *fctx, bool
++ 		 * Extract the name from the NS record.
++ 		 */
++ 		result = dns_rdata_tostruct(&rdata, &ns, NULL);
++-		if (result != ISC_R_SUCCESS)
+++		if (result != ISC_R_SUCCESS) {
++ 			continue;
+++	        }		
+++
+++                if (no_addresses > NS_FAIL_LIMIT &&
+++		    dns_rdataset_count(&fctx->nameservers) > NS_RR_LIMIT)
+++		{
+++			stdoptions |= DNS_ADBFIND_NOFETCH;
+++		}
+++		findname(fctx, &ns.name, 0, stdoptions, 0, now, &overquota,
+++			 &need_alternate, &no_addresses);
++ 
++-		findname(fctx, &ns.name, 0, stdoptions, 0, now,
++-			 &overquota, &need_alternate);
++ 
++-		if (!overquota)
+++		if (!overquota) {
++ 			all_spilled = false;
++-
+++                }
++ 		dns_rdata_reset(&rdata);
++ 		dns_rdata_freestruct(&ns);
++ 	}
++-	if (result != ISC_R_NOMORE)
+++	if (result != ISC_R_NOMORE) {
++ 		return (result);
++-
+++        }
++ 	/*
++ 	 * Do we need to use 6 to 4?
++ 	 */
++@@ -3453,7 +3476,7 @@ fctx_getaddresses(fetchctx_t *fctx, bool
++ 			if (!a->isaddress) {
++ 				findname(fctx, &a->_u._n.name, a->_u._n.port,
++ 					 stdoptions, FCTX_ADDRINFO_FORWARDER,
++-					 now, NULL, NULL);
+++					 now, NULL, NULL, NULL);
++ 				continue;
++ 			}
++ 			if (isc_sockaddr_pf(&a->_u.addr) != family)
++@@ -3815,16 +3838,15 @@ fctx_try(fetchctx_t *fctx, bool retrying
++ 		}
++ 	}
++ 
++-	if (dns_name_countlabels(&fctx->domain) > 2) {
++-		result = isc_counter_increment(fctx->qc);
++-		if (result != ISC_R_SUCCESS) {
++-			isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
++-				      DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
++-				      "exceeded max queries resolving '%s'",
++-				      fctx->info);
++-			fctx_done(fctx, DNS_R_SERVFAIL, __LINE__);
++-			return;
++-		}
+++
+++        result = isc_counter_increment(fctx->qc);
+++        if (result != ISC_R_SUCCESS) {
+++	      isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
+++			  DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
+++			  "exceeded max queries resolving '%s'",
+++			  fctx->info);
+++	      fctx_done(fctx, DNS_R_SERVFAIL, __LINE__);
+++	      return;
++ 	}
++ 
++ 	bucketnum = fctx->bucketnum;
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.13.bb b/meta/recipes-connectivity/bind/bind_9.11.13.bb
+index 4e64171cc1..e81678583d 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.13.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.13.bb
+@@ -18,6 +18,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
++           file://CVE-2020-8616.patch \
+            "
+ 
+ SRC_URI[md5sum] = "17de0d024ab1eac377f1c2854dc25057"
+-- 
+2.26.2
 
-# The tools/lib/api in kernels older than 4.8 don't respect WERROR env
-# variable exported by perf.bb
-EXTRA_OEMAKE +=3D "EXTRA_CFLAGS=3D'-ldw -Wno-error=3Dstringop-truncation'"
-
-# scripting PACKAGECONFIG is now using python3, but perf in kernel
-# supports python3 only with 4.17-rc1 and newer kernel (here we are
-# currently using 4.4.84), see:
-# http://lists.openembedded.org/pipermail/openembedded-core/2019-September/=
-286902.html
-PACKAGECONFIG_remove =3D "scripting"
-
-Maybe some of it got already resolved elsewhere, this bbappend just
-collects whatever tweaks are needed when it gets broken and I very
-rarely have time to go back through them to re-check if it's still
-needed (with newer oe-core revision or slightly newer 4.4 kernel).
-
-Cheers,
-
---tbdnhxdahydl7oe4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXs1/rQAKCRA3VSO3ZXaA
-HN5HAJ46EARE60SdRFHL/lKgpxRmBNWIcgCgtzPSmFF72iC1LspbUFOXPE6ZC1Q=
-=XgwW
------END PGP SIGNATURE-----
-
---tbdnhxdahydl7oe4--
