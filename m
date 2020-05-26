@@ -1,54 +1,47 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web12.48569.1590493056567585981
+Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
+ by mx.groups.io with SMTP id smtpd.web11.48981.1590493790047281222
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 04:37:37 -0700
+ Tue, 26 May 2020 04:49:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=HmLt2OoH;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=gx82=7i=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49WX4r0pKTz4y;
-	Tue, 26 May 2020 13:37:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1590493053;
-	bh=XH1CW1zaPJDiIEwp6tLOLo2ijLM4gHnR2Y0+KxD9JTw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HmLt2OoH92tIIK06GhLxT8ys4uGZH85kQWcwtmHNv+Gd5vBdgCaOW+VVasWQzyneq
-	 wDCs3rV/UGK4xAxz/Lal2T519OJIjnUpYzMWmn0M2fexF3DFdLt5Q69owL14HgByUd
-	 qXk8yNpFo1pJqy0kpPzIiIC7wT9k0fYm3uxf4k416Ek5lp9cuTTjD0vfdCWUJpzdfr
-	 uYvvOumcL2QCwWEIH1J7E3GOQXJqLbDFFFKjX9oOSwWCprfTSegH1660PuswMVlQpk
-	 KScVh93t2Ey0oPE3zFsde6s+rrD14XfAp5qrpH/60Jdj6VcsAK4jW26Oz6XwvQsfo5
-	 B7KfBr2LJfGTybkVeRgiKpmFJ4Ur8C+swHtC0yFWmChxumljO1v90DSm82zVQstMMv
-	 H97wNpAxou/7wgYMrlHfb224nLzKXRDJK/6Fgoq+L0ZmcLXAJU9iI7otKT5tsWqowo
-	 5E9qKYedaiYw6LmERh9ZbWBl5IBvAJCvUVMWKsaVWd/82oSjAoCy+Q6CaRbVR/bbeP
-	 dO5Lg60yoWx8UX2AX6qBQikBTPeXmgxajJ/IazazM0h7fkWncuSHPkN1aZEzyjC1Ag
-	 W5OY7+yUQXIc/lKaQuFlVdOLJVb8Xfsu9AVYzAXPnnTYTCT3f4JmMqu6MK0a6hdVX4
-	 w59i0k6Sa895BSnQE4VL/+SQ=
-Date: Tue, 26 May 2020 14:37:29 +0300
-From: "Adrian Bunk" <bunk@stusta.de>
-To: matthias.schoepfer@googlemail.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org,
-	Matthias Schoepfer <matthias.schoepfer@ithinx.io>
-Subject: Re: [OE-core] [meta-oe][PATCH 3/4] libgcrypt: made libgcrypt-lic license "GPLv2+ & LGPLv2.1+"
-Message-ID: <20200526113729.GA26509@localhost>
-References: <20200526081233.62413-1-matthias.schoepfer@googlemail.com>
- <20200526081233.62413-3-matthias.schoepfer@googlemail.com>
- <de59b9f118c6d51c902e50dce97a7680f77e7402.camel@linuxfoundation.org>
- <b595d584-b544-b755-d175-85fffbfd31e5@googlemail.com>
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.14, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp.bon.at (Postfix) with ESMTPSA id 49WXLz4bdCz5tlC;
+	Tue, 26 May 2020 13:49:47 +0200 (CEST)
+Date: Tue, 26 May 2020 13:49:46 +0200
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+To: Ramakanth Kesireddy <rama.kesi@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] Meta Qt5 Qt 5.6.3 compatibility with Yocto 2.4(poky)
+Message-ID: <20200526114946.a5t6vqm53y5yj7qr@qschulz>
+References: <CAFi1RNj7=wqUK1ebdfKSpUs8uQkXe_=wDvPJDqPHOHBn7xr5mQ@mail.gmail.com>
+ <20200525124703.qrdrgubsxpur2zvh@qschulz>
+ <CAFi1RNixUb9p+Lfp+XfDMdLw21gEv95J9xGg+=ByYcahFPBTTg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <b595d584-b544-b755-d175-85fffbfd31e5@googlemail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFi1RNixUb9p+Lfp+XfDMdLw21gEv95J9xGg+=ByYcahFPBTTg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-On Tue, May 26, 2020 at 01:20:50PM +0200, Matthias Schoepfer via lists.openembedded.org wrote:
->...
-> The question here seems to be, is the GPLv3 License itself GPLv3 licensed.
->...
+Hi Ramakanth,
 
-  Everyone is permitted to copy and distribute verbatim copies
-  of this license document, but changing it is not allowed.
+On Tue, May 26, 2020 at 04:39:26PM +0530, Ramakanth Kesireddy wrote:
+> Hi,
+> 
+> Thanks for your mail.
+> Do we have
+>  Meta Qt5.6.3 recipes for Yocto 2.4 Rocko branch?
+> 
 
+As I said, I'm using qt5.6.3 on thud with the krogoth branch of meta-qt5.
+So a meta-qt5 meant for krogoth, but used on thud (2.6.4). There aren't
+always backward/"upward" compatibility issues, so really, just try and
+if there is an issue, ask about it. It takes you less time to try that
+to discuss this on the mailing list.
 
-cu
-Adrian
+The only change you need is to add rocko to LAYERSERIES_COMPAT in
+meta-qt5/conf/layer.conf and a way to do that outside of meta-qt5 (when
+you'll want to distribute your layer or commit it) was discussed yesterday
+on the ML.
+
+BR,
+Quentin
