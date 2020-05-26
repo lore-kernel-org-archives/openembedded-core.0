@@ -1,153 +1,185 @@
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com [209.85.222.65])
- by mx.groups.io with SMTP id smtpd.web12.45472.1590471894242641938
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+ by mx.groups.io with SMTP id smtpd.web10.46498.1590478596873409946
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 May 2020 22:44:54 -0700
+ Tue, 26 May 2020 00:36:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EW/xMqIc;
- spf=pass (domain: gmail.com, ip: 209.85.222.65, mailfrom: andrey.z@gmail.com)
-Received: by mail-ua1-f65.google.com with SMTP id b13so6840161uav.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 May 2020 22:44:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XZNtC4E5;
+ spf=pass (domain: gmail.com, ip: 209.85.167.67, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lf1-f67.google.com with SMTP id 82so11749086lfh.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 00:36:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=bqAx1JUAFt8vDJ5PqbZqfmWg9hzVekZzuPrJb5uPsSc=;
-        b=EW/xMqIcKtOveJmEdwELWfycmxL4A9DF01ugHsprHLRSTFXSRFRMXy5Gzj+0dgkZ88
-         TDH6COsVormKignuFE/F+ZC9Jn7lGOtiFTxKY+ZDJ3mrrWp86HMPN3ItDN6d6uDbJR2h
-         SNE0PhhloktQwQOxjEw2ibgysBkUTv1QrpCP+rYmK4Cj2xRLbCQvtHq3u4hD9kb9pjOY
-         v2anmgqlwTU2YJ2K9r/GufnGxmvkPRjBA+fITJQ7+p+X+J/T0t3+1tGr5IVCBqg3M1Oq
-         vsJvsrduWdoYXD62xm/K97nke/Oj+YYZeqRrnZTXUw5T7yncU5qKcgfgFkUoFHvdsl8u
-         /7jQ==
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FEIJvjTlI0A9zBhaqMQbW0/BIawDLaGQidFJYklPNdI=;
+        b=XZNtC4E5rEiHuOK8oLgGg45MNHI6hs2tjkUYx2v4QhUF0Ze0K8uORzezkL9IpYvLGc
+         D6XmKX98avE4vEnKkUTc2dwmYdnCryt3+wRW8ZthoHiYyPXbPXC7T3PEIeb6C89O+KLa
+         GL3M0M1PVXXQA7szCVoD8+X0bfbjLCgLnN3QQtYXBEcslc6E4W4fYRbyjPCGS5ncOqI3
+         K2+uJuQ5fBIvEPk7F8+9MT8WyqNEIdZyXl6YpdQ95Ju5daEMMt/aejvjMC2RuIxbcNOD
+         38i11uMLJO0vLYz3dedxjRKTtuaOimRC931PP3ZR7PjObdNqjjQbZTt1smqboXaL4LIs
+         xSjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=bqAx1JUAFt8vDJ5PqbZqfmWg9hzVekZzuPrJb5uPsSc=;
-        b=iGxSUsDD0x9k3SJUlqoETeQfiqKnJFelyoMJ/XJl1UKEogrl/f9pyG7w8rRqkNfGmy
-         zc9mG4h0hb9V7IVJDgJeIzzcpXCUKb/XupXu+jsHPZyP3dTtnnZBFJYNsyzd5+DcqrzE
-         NEHGxocPqxtdFtrZgSIkdpKAZcf1b+D+/Rvje9l7Ybl1P2wIbQmNwp8Jmvk0Rx8YqWkT
-         WNb2RfmzvhVb5S3TK69pjb2qnmJ9kFMx+5BAFc2puwmJ41WmScLknoVWE5WVjCi2eWiW
-         hnJEYSf4rKzSGf6XGmeQACD7Fe9Prd2w3M+OvvtK1mJnpCIAOW5CESOwbxgYWYUvR/2D
-         jwag==
-X-Gm-Message-State: AOAM5310YQhZmPY6CiTeck7E9t1/pLYwcqQjffRWOMmCoCaUJT9OtuHu
-	VCsZtFikB/UvB0PUdCoujW2NPeCq7xi2OkogQ+M=
-X-Google-Smtp-Source: ABdhPJwPPiFThr09PC1NjG5RwbYJhiiMXtQzzFNcK5Hk2qhcDRrUirk8t6sRSGHAQQ0AeuhT8gXTczZ2yphQmXJEvHw=
-X-Received: by 2002:ab0:45aa:: with SMTP id u39mr746392uau.95.1590471893328;
- Mon, 25 May 2020 22:44:53 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FEIJvjTlI0A9zBhaqMQbW0/BIawDLaGQidFJYklPNdI=;
+        b=pjyH0mXD1Q4I+NS4AU9Fsra3hpbzgZ9HzlTPFXHAKoGEn+nII0GJe4mJSzNFiT2zUP
+         U7TWDnOW4D+VsHRXN9kCBggB/j1T6jKyDeuB3SVIlKBXJNVA+nwUnB/TKQVXJ45tJaa6
+         +qi/CYBr3hueNKt6nZq5NBGtq/RGURe8GOQUwEq53wMzLD1jwiy1WVp5qiZyVWzeU2Dq
+         WpnBRfYtk1jjLvGkMVLV/FsbKjIksznadxGfUvGv2r5aqvqvN59FHdrq0rCnwbcwrbST
+         JtXNPop0TRJ3h5jXLERcMngVb1g2FwG8581zRhmZANN+RIIDIgrpna9npipcd+kj9d3l
+         pQ2g==
+X-Gm-Message-State: AOAM531/IJGAtfJ2ptTtiPVwaoyYr5yNXX3h/f67rX29lnviVCtWqM3Y
+	N/jGhQH96t9AeO+MKnlkiYXc5PSbt2A=
+X-Google-Smtp-Source: ABdhPJy7C25LTP+0ggD2WoFi39/U1qurtDYP+yMTLYK5d3XVamDtw8T1CkN5O92xWyOksC+Hp2hG6A==
+X-Received: by 2002:a19:be11:: with SMTP id o17mr16202294lff.187.1590478594371;
+        Tue, 26 May 2020 00:36:34 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain ([213.185.29.22])
+        by smtp.gmail.com with ESMTPSA id i26sm5750361lfc.21.2020.05.26.00.36.32
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2020 00:36:33 -0700 (PDT)
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] features_check: Factorize code for checking features
+Date: Tue, 26 May 2020 09:36:23 +0200
+Message-Id: <20200526073623.38078-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <cover.1571688520.git.bruce.ashfield@gmail.com>
- <eb27cbf9e4e86187a79967546674a0156d722c16.1571688520.git.bruce.ashfield@gmail.com>
- <20191021202444.GB1500@jama> <CADkTA4O1v-GZi-mkt866dpazowHsGZPrjwPuLi_Ry8vxZn8aqA@mail.gmail.com>
-In-Reply-To: <CADkTA4O1v-GZi-mkt866dpazowHsGZPrjwPuLi_Ry8vxZn8aqA@mail.gmail.com>
-From: "Andrey Zhizhikin" <andrey.z@gmail.com>
-Date: Tue, 26 May 2020 07:44:42 +0200
-Message-ID: <CAHtQpK7g400jDAUx+tYedCF6c654OQhCT+wZtKm7x3+_Gkr9SQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 6/6] perf: drop 'include' copy
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Martin Jansa <martin.jansa@gmail.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 21, 2019 at 10:58 PM Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
->
-> On Mon, Oct 21, 2019 at 4:24 PM Martin Jansa <martin.jansa@gmail.com> wrote:
-> >
-> > On Mon, Oct 21, 2019 at 04:16:18PM -0400, bruce.ashfield@gmail.com wrote:
-> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > >
-> > > The copy of the kernel's top level include directory is not
-> > > required to build perf. We have both the linux-libc-headers and
-> > > perf's captured/copied headers for what it requires.
-> > >
-> > > The copy of the kernel's headers is leading us to multiple smaller
-> > > fixes to ensure that the various .h files are in sync. We can
-> > > remove the copy and all of the sync checks, and perf still builds
-> > > and executes correctly.
-> >
-> > Maybe reorder this before "[OE-core] [PATCH 3/6] perf: fix v5.4+ builds"
-> > as it removes most of what was possibly incorrectly added there (see 2nd
-> > review)
-> >
->
-> I left this here on purpose, since it is only RFC. The other patches
-> as they appear in the series are required to build against 5.4+, but
-> this is optional.
+The DISTRO/MACHINE/COMBINED features should be treated identically, so
+convert the expanded code to a loop. This fixes some of the COMBINED error
+messages which were previously referring to MACHINE features. There
+should be no functional changes.
 
-Look like this patch causes issues with building perf for 4.4.y kernel...
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+---
+ meta/classes/features_check.bbclass | 110 ++++++++--------------------
+ 1 file changed, 32 insertions(+), 78 deletions(-)
 
-I've recently started to upgrade some of BSPs from zeus to dunfell,
-and kernel 4.4.y fails to build with this patch applied. When I
-applied changes from Martin in commit
-[f3515d2d2545cae6b88fe5e86d081f4ef6133bf6] - build went through.
-
-I have now the bbappend in the layer, which sets the PERF_SRC to add
-the "include" folder back but I don't think this is a clean approach.
-
-Should this be reverted, or those who has a "dunfell+4.4.y kernel"
-setup need to use appends to override the PERF_SRC?
-
->
-> Bruce
->
-> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > ---
-> > >  meta/recipes-kernel/perf/perf.bb | 9 ---------
-> > >  1 file changed, 9 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> > > index 191305969c..5f0ba7c180 100644
-> > > --- a/meta/recipes-kernel/perf/perf.bb
-> > > +++ b/meta/recipes-kernel/perf/perf.bb
-> > > @@ -106,7 +106,6 @@ EXTRA_OEMAKE += "\
-> > >  EXTRA_OEMAKE_append_task-configure = " JOBS=1"
-> > >
-> > >  PERF_SRC ?= "Makefile \
-> > > -             include \
-> > >               tools/arch \
-> > >               tools/build \
-> > >               tools/include \
-> > > @@ -248,14 +247,6 @@ do_configure_prepend () {
-> > >      # so we copy it from the sysroot unistd.h to the perf unistd.h
-> > >      install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
-> > >      install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/include/uapi/asm-generic/unistd.h
-> > > -
-> > > -    # bits.h can have the same issue as unistd.h, so we make the tools variant take precedence
-> > > -    [ -e ${S}/tools/include/linux/bits.h ] && install -D -m0644 ${S}/tools/include/linux/bits.h ${S}/include/linux/bits.h
-> > > -
-> > > -    [ -e ${S}/tools/perf/util/include/linux/ctype.h ] && install -D -m0644 ${S}/include/linux/ctype.h ${S}/tools/perf/util/include/linux/ctype.h
-> > > -
-> > > -    [ -e ${S}/include/uapi/linux/kvm.h ] && install -D -m0644 ${S}/include/uapi/linux/kvm.h  ${S}/tools/include/uapi/linux/kvm.h
-> > > -    [ -e ${S}/include/uapi/linux/sched.h ] && install -D -m0644 ${S}/include/uapi/linux/sched.h  ${S}/tools/include/uapi/linux/sched.h
-> > >  }
-> > >
-> > >  python do_package_prepend() {
-> > > --
-> > > 2.19.1
-> > >
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> > --
-> > Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
--- 
-Regards,
-Andrey.
+diff --git a/meta/classes/features_check.bbclass b/meta/classes/features_check.bbclass
+index 876d32e315..4ba827d4ab 100644
+--- a/meta/classes/features_check.bbclass
++++ b/meta/classes/features_check.bbclass
+@@ -1,23 +1,13 @@
+-# Allow checking of required and conflicting DISTRO_FEATURES
++# Allow checking of required and conflicting features
+ #
+-# ANY_OF_DISTRO_FEATURES:     ensure at least one item on this list is included
+-#                             in DISTRO_FEATURES.
+-# REQUIRED_DISTRO_FEATURES:   ensure every item on this list is included
+-#                             in DISTRO_FEATURES.
+-# CONFLICT_DISTRO_FEATURES:   ensure no item in this list is included in
+-#                             DISTRO_FEATURES.
+-# ANY_OF_MACHINE_FEATURES:    ensure at least one item on this list is included
+-#                             in MACHINE_FEATURES.
+-# REQUIRED_MACHINE_FEATURES:  ensure every item on this list is included
+-#                             in MACHINE_FEATURES.
+-# CONFLICT_MACHINE_FEATURES:  ensure no item in this list is included in
+-#                             MACHINE_FEATURES.
+-# ANY_OF_COMBINED_FEATURES:   ensure at least one item on this list is included
+-#                             in COMBINED_FEATURES.
+-# REQUIRED_COMBINED_FEATURES: ensure every item on this list is included
+-#                             in COMBINED_FEATURES.
+-# CONFLICT_COMBINED_FEATURES: ensure no item in this list is included in
+-#                             COMBINED_FEATURES.
++# xxx = [DISTRO,MACHINE,COMBINED]
++#
++# ANY_OF_xxx_FEATURES:        ensure at least one item on this list is included
++#                             in xxx_FEATURES.
++# REQUIRED_xxx_FEATURES:      ensure every item on this list is included
++#                             in xxx_FEATURES.
++# CONFLICT_xxx_FEATURES:      ensure no item in this list is included in
++#                             xxx_FEATURES.
+ #
+ # Copyright 2019 (C) Texas Instruments Inc.
+ # Copyright 2013 (C) O.S. Systems Software LTDA.
+@@ -26,63 +16,27 @@ python () {
+     if d.getVar('PARSE_ALL_RECIPES', False):
+         return
+ 
+-    # Assume at least one var is set.
+-    distro_features = set((d.getVar('DISTRO_FEATURES') or '').split())
+-
+-    any_of_distro_features = set((d.getVar('ANY_OF_DISTRO_FEATURES') or '').split())
+-    if any_of_distro_features:
+-        if set.isdisjoint(any_of_distro_features, distro_features):
+-            raise bb.parse.SkipRecipe("one of '%s' needs to be in DISTRO_FEATURES" % ' '.join(any_of_distro_features))
+-
+-    required_distro_features = set((d.getVar('REQUIRED_DISTRO_FEATURES') or '').split())
+-    if required_distro_features:
+-        missing = set.difference(required_distro_features, distro_features)
+-        if missing:
+-            raise bb.parse.SkipRecipe("missing required distro feature%s '%s' (not in DISTRO_FEATURES)" % ('s' if len(missing) > 1 else '', ' '.join(missing)))
+-
+-    conflict_distro_features = set((d.getVar('CONFLICT_DISTRO_FEATURES') or '').split())
+-    if conflict_distro_features:
+-        conflicts = set.intersection(conflict_distro_features, distro_features)
+-        if conflicts:
+-            raise bb.parse.SkipRecipe("conflicting distro feature%s '%s' (in DISTRO_FEATURES)" % ('s' if len(conflicts) > 1 else '', ' '.join(conflicts)))
+-
+-    # Assume at least one var is set.
+-    machine_features = set((d.getVar('MACHINE_FEATURES') or '').split())
+-
+-    any_of_machine_features = set((d.getVar('ANY_OF_MACHINE_FEATURES') or '').split())
+-    if any_of_machine_features:
+-        if set.isdisjoint(any_of_machine_features, machine_features):
+-            raise bb.parse.SkipRecipe("one of '%s' needs to be in MACHINE_FEATURES" % ' '.join(any_of_machine_features))
+-
+-    required_machine_features = set((d.getVar('REQUIRED_MACHINE_FEATURES') or '').split())
+-    if required_machine_features:
+-        missing = set.difference(required_machine_features, machine_features)
+-        if missing:
+-            raise bb.parse.SkipRecipe("missing required machine feature%s '%s' (not in MACHINE_FEATURES)" % ('s' if len(missing) > 1 else '', ' '.join(missing)))
+-
+-    conflict_machine_features = set((d.getVar('CONFLICT_MACHINE_FEATURES') or '').split())
+-    if conflict_machine_features:
+-        conflicts = set.intersection(conflict_machine_features, machine_features)
+-        if conflicts:
+-            raise bb.parse.SkipRecipe("conflicting machine feature%s '%s' (in MACHINE_FEATURES)" % ('s' if len(conflicts) > 1 else '', ' '.join(conflicts)))
+-
+-    # Assume at least one var is set.
+-    combined_features = set((d.getVar('COMBINED_FEATURES') or '').split())
+-
+-    any_of_combined_features = set((d.getVar('ANY_OF_COMBINED_FEATURES') or '').split())
+-    if any_of_combined_features:
+-        if set.isdisjoint(any_of_combined_features, combined_features):
+-            raise bb.parse.SkipRecipe("one of '%s' needs to be in COMBINED_FEATURES" % ' '.join(any_of_combined_features))
+-
+-    required_combined_features = set((d.getVar('REQUIRED_COMBINED_FEATURES') or '').split())
+-    if required_combined_features:
+-        missing = set.difference(required_combined_features, combined_features)
+-        if missing:
+-            raise bb.parse.SkipRecipe("missing required machine feature%s '%s' (not in COMBINED_FEATURES)" % ('s' if len(missing) > 1 else '', ' '.join(missing)))
+-
+-    conflict_combined_features = set((d.getVar('CONFLICT_COMBINED_FEATURES') or '').split())
+-    if conflict_combined_features:
+-        conflicts = set.intersection(conflict_combined_features, combined_features)
+-        if conflicts:
+-            raise bb.parse.SkipRecipe("conflicting machine feature%s '%s' (in COMBINED_FEATURES)" % ('s' if len(conflicts) > 1 else '', ' '.join(conflicts)))
++    for kind in ['DISTRO', 'MACHINE', 'COMBINED']:
++        # Assume at least one var is set.
++        features = set((d.getVar(kind + '_FEATURES') or '').split())
++
++        any_of_features = set((d.getVar('ANY_OF_' + kind + '_FEATURES') or '').split())
++        if any_of_features:
++            if set.isdisjoint(any_of_features, features):
++                raise bb.parse.SkipRecipe("one of '%s' needs to be in %s_FEATURES"
++                    % (' '.join(any_of_features), kind))
++
++        required_features = set((d.getVar('REQUIRED_' + kind + '_FEATURES') or '').split())
++        if required_features:
++            missing = set.difference(required_features, features)
++            if missing:
++                raise bb.parse.SkipRecipe("missing required %s feature%s '%s' (not in %s_FEATURES)"
++                    % (kind.lower(), 's' if len(missing) > 1 else '', ' '.join(missing), kind))
++
++        conflict_features = set((d.getVar('CONFLICT_' + kind + '_FEATURES') or '').split())
++        if conflict_features:
++            conflicts = set.intersection(conflict_features, features)
++            if conflicts:
++                raise bb.parse.SkipRecipe("conflicting %s feature%s '%s' (in %s_FEATURES)"
++                    % (kind.lower(), 's' if len(conflicts) > 1 else '', ' '.join(conflicts), kind))
+ }
