@@ -1,84 +1,95 @@
-Received: from mail-oo1-f66.google.com (mail-oo1-f66.google.com [209.85.161.66])
- by mx.groups.io with SMTP id smtpd.web10.46939.1590481510072480638
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com [209.85.210.67])
+ by mx.groups.io with SMTP id smtpd.web11.46844.1590481909687165922
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 01:25:10 -0700
+ Tue, 26 May 2020 01:31:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=kDfvIZ+n;
- spf=pass (domain: konsulko.com, ip: 209.85.161.66, mailfrom: paul.barker@konsulko.com)
-Received: by mail-oo1-f66.google.com with SMTP id f39so726885ooi.7
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 01:25:09 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=nBah1kUD;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.67, mailfrom: paul.barker@konsulko.com)
+Received: by mail-ot1-f67.google.com with SMTP id 63so15627604oto.8
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 01:31:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=konsulko.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=lgkwQuZmxLa1UjAfljmAoJGANYBk8Zjs41P53O+9/Xc=;
-        b=kDfvIZ+nIuvJ611h2bBkXrB2an7kjN+BcLuQq4gYQUxgnWDsDaclQQkBHIqfnqLKcm
-         F9BByroafCn6QipG0iL3Hkh/TzJx/Xg+SZ7YKHkS7034cudR7nIjLmuFwbFnRF7+Tids
-         7W6U4eVy8DhSuBo2D4hKYr+ni85MClffz0kpY=
+        bh=amBBlTMM2sRB2PnH6M04Dqqid1SR334opKI6yxs1kxI=;
+        b=nBah1kUDqX2/9LAkEulbT/YfjLlBxj7BreAEpBqeCFdawW8MhS9C1gd04E6DyKfBhA
+         GsmOcboRRiJNNnaiuR6LpniXRfMGBjW7tGDy4BBBRmJQzdmgLEUIiRyWaMUdhqI9yMYl
+         CRMcLJCWFkiRimRRDq8C00GdqS4nuaNeV9ANE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=lgkwQuZmxLa1UjAfljmAoJGANYBk8Zjs41P53O+9/Xc=;
-        b=MiCTTBy+1w5AzHG8cTbny9T+NrFI8coA++39wHAmb/vGOe1Mlou70rJieSB627/apw
-         4EoaNvrJdSAOFimL1pjShMZ/LIXzYTX86seU/GPaND2fbZoiW3h0LsAYeBJ3wRkJctOr
-         vrUTGtDv/a6hk0AqCFAWZJzuUxJmzwDQImMHuIZWfKRwsiJNm7P1dx0JvSrRIphdFtbz
-         OvkbbVBCLxszA+9HFyDU5GGHArf5qtxPNv4Zok5deJo6w14+wOoZm1tvg9v+3VPzhr3i
-         blSBBSIthPMSY4+rz/xFAYfHgT1Aq4LkwpC436SJhqRljthCg4BRkgAlE4I0/2piOioB
-         bADA==
-X-Gm-Message-State: AOAM530f9GbFJ9soBjG+dyfH5ZUn9H58zU2MjDa/i5Nx64XoekRIm3yy
-	OsY6TDcyBlJ2Uj5QeAz1Fvl6ThFKK0hapjqMKnDbDw==
-X-Google-Smtp-Source: ABdhPJy+hd8Kiawvo+N5lBBBTZ5NGp9Gx8gVONYeQgqJte86eO/vPi8BsDsDk7BB/+CBPOpojrDyHNCXv/3hmeBIg54=
-X-Received: by 2002:a4a:3388:: with SMTP id q130mr16097091ooq.5.1590481509223;
- Tue, 26 May 2020 01:25:09 -0700 (PDT)
+        bh=amBBlTMM2sRB2PnH6M04Dqqid1SR334opKI6yxs1kxI=;
+        b=TTeOor1MtJ0HfESQCqWj/pqbLqsbl202S5wZHVLFXgY2S8YomV8LmP/ZL6//PGCUwb
+         6pRmsBUliNhum9L6p+JXxdtdzOLQPiawHAX4/AgoyahjzntpqJ3MgYeK/16mQwtxmPok
+         kLO7s361K+1OnR+woC3Tbs9+N80+BKKDc3ajc0HT1J59EVevwnCGWVtMlQLBejANZM2u
+         foBNmc3NcIsP1bO0/s9H8MWqItfyCCjfYv5Xby2YdmLYre4e7yw2PjhxJ2YrRqGEWVSr
+         v2det4nofE/UQIVbZld5cOXtymff20wlYAXiwziTc7E5rtHprYy4+oowxZK2tzu0kT6i
+         Ws3g==
+X-Gm-Message-State: AOAM533/hwjm9sCTnHmAnlq9kX8PZvHQ+mC6Ou37pbsPdhYyhRR0L4sv
+	RHFdeFRMgVnW2V4J+dW3RidXVtUCn16df7V85cmqGaEE
+X-Google-Smtp-Source: ABdhPJzcVvEoReaeEGaceU5hPlOc91mZvZUHpkVTxxbmOJJwfZW+PyYHmyUsPpZNm1KPHIzgD7ao6VELcC3re8SqRGw=
+X-Received: by 2002:a9d:4d07:: with SMTP id n7mr85613otf.92.1590481908881;
+ Tue, 26 May 2020 01:31:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1590445868.git.steve@sakoman.com> <dc5babe9472ba7379edbb17b6cbac44604606b26.1590445868.git.steve@sakoman.com>
-In-Reply-To: <dc5babe9472ba7379edbb17b6cbac44604606b26.1590445868.git.steve@sakoman.com>
+References: <cover.1590445868.git.steve@sakoman.com> <c93720849b68369f9c01c620581226dbfe200303.1590445868.git.steve@sakoman.com>
+In-Reply-To: <c93720849b68369f9c01c620581226dbfe200303.1590445868.git.steve@sakoman.com>
 From: "Paul Barker" <pbarker@konsulko.com>
-Date: Tue, 26 May 2020 09:24:59 +0100
-Message-ID: <CAM9ZRVt4dKEefgQF8xnGVoEbm4hFiPOzc106YPai0D5-DpuWoQ@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 09/17] libubootenv: Depend on zlib
+Date: Tue, 26 May 2020 09:31:38 +0100
+Message-ID: <CAM9ZRVuF0qqniEnBW1eCiTuwbaPEh5BdvB74Ds_1084DQ8MXZQ@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 14/17] newlib: Upgrade to latest yearly release 3.3.0
 To: Steve Sakoman <steve@sakoman.com>
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
 On Mon, 25 May 2020 at 23:37, Steve Sakoman <steve@sakoman.com> wrote:
 >
-> From: Marek Vasut <marex@denx.de>
+> From: Alejandro Hernandez <alejandro@enedino.org>
 >
-> The libubootenv depends on zlib as it calls at least crc32() from
-> there and links against it. Add the DEPENDS entry.
+> Upgrade to the latest snapshot, also drop md5sum while were at it.
 >
-> Signed-off-by: Marek Vasut <marex@denx.de>
-> Cc: Stefano Babic <sbabic@denx.de>
+> (From OE-Core rev: d73aa359e42e707dbc7cfa29c55a2fc8e6bb938a)
+>
+> Signed-off-by: Alejandro Hernandez Samaniego <alhe@linux.microsoft.com>
+> Signed-off-by: Alejandro Hernandez Samaniego <alejandro@enedino.org>
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> (cherry picked from commit db513f9ec59b7ac526b2cdc42b0eb2573e134bc4)
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
 > ---
->  meta/recipes-bsp/u-boot/libubootenv_0.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../newlib/{libgloss_3.2.0.bb => libgloss_3.3.0.bb}            | 0
+>  meta/recipes-core/newlib/newlib.inc                            | 3 +--
+>  meta/recipes-core/newlib/{newlib_3.2.0.bb => newlib_3.3.0.bb}  | 0
+>  3 files changed, 1 insertion(+), 2 deletions(-)
+>  rename meta/recipes-core/newlib/{libgloss_3.2.0.bb => libgloss_3.3.0.bb} (100%)
+>  rename meta/recipes-core/newlib/{newlib_3.2.0.bb => newlib_3.3.0.bb} (100%)
 >
-> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
-> index 3251d0f05b..fa90a12bf8 100644
-> --- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
-> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
-> @@ -1,5 +1,5 @@
->  SUMMARY = "U-Boot libraries and tools to access environment"
-> -DEPENDS += "mtd-utils"
-> +DEPENDS += "mtd-utils zlib"
+> diff --git a/meta/recipes-core/newlib/libgloss_3.2.0.bb b/meta/recipes-core/newlib/libgloss_3.3.0.bb
+> similarity index 100%
+> rename from meta/recipes-core/newlib/libgloss_3.2.0.bb
+> rename to meta/recipes-core/newlib/libgloss_3.3.0.bb
+> diff --git a/meta/recipes-core/newlib/newlib.inc b/meta/recipes-core/newlib/newlib.inc
+> index 5edea8aba1..96e230f985 100644
+> --- a/meta/recipes-core/newlib/newlib.inc
+> +++ b/meta/recipes-core/newlib/newlib.inc
+> @@ -16,8 +16,7 @@ LIC_FILES_CHKSUM = " \
+>                 "
 >
->  DESCRIPTION = "This package contains tools and libraries to read \
->  and modify U-Boot environment. \
+>  SRC_URI = "https://sourceware.org/pub/newlib/newlib-${PV}.tar.gz"
+> -SRC_URI[md5sum] = "afb3a01c8c82b6717ea55659a4de30ec"
+> -SRC_URI[sha256sum] = "f7b2322964a1e3b37bec0768da20f50dfb62247d729110974dd95756a53bb6d4"
+> +SRC_URI[sha256sum] = "58dd9e3eaedf519360d92d84205c3deef0b3fc286685d1c562e245914ef72c66"
+>
+>  INHIBIT_DEFAULT_DEPS = "1"
+>  DEPENDS = "virtual/${TARGET_PREFIX}gcc"
+> diff --git a/meta/recipes-core/newlib/newlib_3.2.0.bb b/meta/recipes-core/newlib/newlib_3.3.0.bb
+> similarity index 100%
+> rename from meta/recipes-core/newlib/newlib_3.2.0.bb
+> rename to meta/recipes-core/newlib/newlib_3.3.0.bb
 > --
 > 2.17.1
 
-Is this actually needed for the u-boot version in dunfell? My
-understanding when I saw the original patch was that this is a new
-requirement of the latest u-boot.
+NACK: https://lists.openembedded.org/g/openembedded-core/message/137847
 
-Thanks,
 
--- 
+--
 Paul Barker
 Konsulko Group
