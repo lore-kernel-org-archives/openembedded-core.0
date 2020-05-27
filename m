@@ -1,30 +1,28 @@
-Received: from mga18.intel.com (mga18.intel.com [])
- by mx.groups.io with SMTP id smtpd.web10.2425.1590570674053154584
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+ by mx.groups.io with SMTP id smtpd.web12.2877.1590572831380485674
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2020 02:11:15 -0700
+ Wed, 27 May 2020 02:47:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: iEiyibh5y13FzQeKP3XS7m2eSMYwlf1oMOc+Er6usK2nY5aHKVh9RtsAF3Tr67/Dwi0+xYXnxe
- /75C+3XxK8EA==
+ dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.120, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: LVXK+Y9g+nHQss58M5V/19UagvvW8Ak5nL5X3XfIWmCf2GL7aXlod5aTkLpRfXJhzi/2gmuhe3
+ yk8A+TUSrmAA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2020 02:11:13 -0700
-IronPort-SDR: kh/XGLaYGUMu19TbfDCN+TdFndLIUX6c59eq4Wvd6/3IQXRnAm9MTaqzKUbAKfp37BEi26aH71
- uATsI2DJLIKQ==
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2020 02:47:10 -0700
+IronPort-SDR: JUkjFhMXrm9NDG1cR0YLOLKhCYn7r4USNHbo5pMkAELAuFsEXTHSphIMxhX3QsWtfL120CHHuQ
+ VibgVGvmvrHw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,440,1583222400"; 
-   d="scan'208";a="468642780"
+   d="scan'208";a="468651399"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga005.fm.intel.com with ESMTP; 27 May 2020 02:11:12 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 27 May 2020 02:47:09 -0700
 From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] bind: fix CVE-2020-8616/7
-Date: Wed, 27 May 2020 17:11:11 +0800
-Message-Id: <1590570671-45046-2-git-send-email-chee.yang.lee@intel.com>
+Subject: [PATCH][dunfell 1/2] bind: fix CVE-2020-8616/7
+Date: Wed, 27 May 2020 17:47:07 +0800
+Message-Id: <1590572828-47312-1-git-send-email-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1590570671-45046-1-git-send-email-chee.yang.lee@intel.com>
-References: <1590570671-45046-1-git-send-email-chee.yang.lee@intel.com>
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
