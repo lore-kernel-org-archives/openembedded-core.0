@@ -1,68 +1,80 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web12.8736.1590593644905851187
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+ by mx.groups.io with SMTP id smtpd.web11.13.1590594616273878973
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2020 08:34:05 -0700
+ Wed, 27 May 2020 08:50:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.73,441,1583164800"; 
-   d="scan'208";a="93220351"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 27 May 2020 23:34:02 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 31C3D50A9974
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2020 23:33:57 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 27 May 2020 23:33:56 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] libyaml: upgrade 0.2.2 -> 0.2.4
-Date: Wed, 27 May 2020 23:33:55 +0800
-Message-ID: <1590593635-63448-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ipCAUZt4;
+ spf=pass (domain: gmail.com, ip: 209.85.214.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f170.google.com with SMTP id a13so10277505pls.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2020 08:50:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=weJ74nFGgBh8wJiK3GCpe07f35a8GngFYJff6eKrN+U=;
+        b=ipCAUZt44e8Uer7ztIN+w/siJdW/vOW4w5Iou4Z/bH16x7HZkR+U/F9PnTJtUPWYYM
+         jtvbWGEUjx1xZBzSivaD/3fw1vcQRn22HX99jOD+qWAAaqgTNlnCcKWcfhfcqH2auyrh
+         7yYuE+WZMd1TtqPw/yELL49g6IvB0Y29AWDceGcmcfAlDrJMUTOeQbKpEVhPO7MJ2yOk
+         ZEH0ePHyj6UGdyMWmnZNJmaHuoX3XdUZ894KPkVEXJWmorE1J4WDrQ06uWcF/zB6OrSs
+         1cGpI6lv4T621A5D+MshADZIV1e8/XI+PW4Ok6bjFPrObH94rej310YRhGc4CHBoauVk
+         BaeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=weJ74nFGgBh8wJiK3GCpe07f35a8GngFYJff6eKrN+U=;
+        b=jQMXb3e9xuzxaIOHR1VsaesVst/Hu8Ywu4y0JepSv/rBj23tO8eZxlVt6F59w+rzgJ
+         3v41o+HFZrw9YL7H64J8+3FfavZr9TN6ndDoitkJTPk/02EtL25ZppHxnHukNVct+RTJ
+         34K0ef+AK3a6bXMCB6hsbyowyOa1tjL2X2JkrS5GfrnmpudqdxP45ovOu+9mugTjg/IP
+         LaNu2K1wU+xO/3AAzyNMxtKb87PuUIZ+Dn910fXsgiqeWhAHiAb5fBjk4c0JE6ym0DOB
+         aXdl8ozii8T12zGataBPPBwvjm8HfFleLC3/Nrxmi2VV4M5SCWsaNtT4OkDfFttUcgF9
+         RHWA==
+X-Gm-Message-State: AOAM531U0v9p0s8uNkQnh4k7Wq/ACVrIOaMcOb+pLRpDMO1vYBbQttEm
+	7kAcPTK609ac2n+Koinyhv5nNjtdZCk=
+X-Google-Smtp-Source: ABdhPJyxRfDdKtxMXlhBSQMnJ5G2wlVBXOvvop227MBuZexzY0V8P+sgqusIqA47W4O8njFHyDTFiA==
+X-Received: by 2002:a17:902:bf84:: with SMTP id v4mr6531312pls.312.1590594615000;
+        Wed, 27 May 2020 08:50:15 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::3faa])
+        by smtp.gmail.com with ESMTPSA id n21sm2847597pjo.25.2020.05.27.08.50.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2020 08:50:14 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] linux-libc-headers: Check for asm/bpf_perf_event.h before multilibbing
+Date: Wed, 27 May 2020 08:50:11 -0700
+Message-Id: <20200527155011.3165976-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: 31C3D50A9974.A61BF
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
--License-Update: file name changed from LICENSE to License.
-                 Copyright year updated to 2020.
+asm/bpf_perf_event.h does not exist in older kernels e.g. ( 4.1 )
+this helps in using common header across multiple versions of kernel
+going back
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../libyaml/{libyaml_0.2.2.bb => libyaml_0.2.4.bb}          | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libyaml/{libyaml_0.2.2.bb => libyaml_0.2.4.bb} (66%)
+ .../recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libyaml/libyaml_0.2.2.bb b/meta/recipes-support/libyaml/libyaml_0.2.4.bb
-similarity index 66%
-rename from meta/recipes-support/libyaml/libyaml_0.2.2.bb
-rename to meta/recipes-support/libyaml/libyaml_0.2.4.bb
-index 5105ce69db..e1817748bc 100644
---- a/meta/recipes-support/libyaml/libyaml_0.2.2.bb
-+++ b/meta/recipes-support/libyaml/libyaml_0.2.4.bb
-@@ -5,11 +5,11 @@ HOMEPAGE = "https://pyyaml.org/wiki/LibYAML"
- SECTION = "libs/devel"
+diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+index 4481aa430c..933a01ba81 100644
+--- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
++++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
+@@ -81,8 +81,11 @@ do_install_append_armeb () {
+ }
  
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=a76b4c69bfcf82313bbdc0393b04438a"
-+LIC_FILES_CHKSUM = "file://License;md5=7bbd28caa69f81f5cd5f48647236663d"
+ do_install_armmultilib () {
+-	oe_multilib_header asm/auxvec.h asm/bitsperlong.h asm/byteorder.h asm/fcntl.h asm/hwcap.h asm/ioctls.h asm/kvm.h asm/kvm_para.h asm/mman.h asm/param.h asm/perf_regs.h asm/bpf_perf_event.h
++	oe_multilib_header asm/auxvec.h asm/bitsperlong.h asm/byteorder.h asm/fcntl.h asm/hwcap.h asm/ioctls.h asm/kvm.h asm/kvm_para.h asm/mman.h asm/param.h asm/perf_regs.h
+ 	oe_multilib_header asm/posix_types.h asm/ptrace.h  asm/setup.h  asm/sigcontext.h asm/siginfo.h asm/signal.h asm/stat.h  asm/statfs.h asm/swab.h  asm/types.h asm/unistd.h
++	if [ -f "${D}/${includedir}/asm/bpf_perf_event.h" ]; then
++		oe_multilib_header asm/bpf_perf_event.h
++	fi
+ }
  
- SRC_URI = "https://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz"
--SRC_URI[md5sum] = "54bf11ccb8bc488b5b3bec931f5b70dc"
--SRC_URI[sha256sum] = "4a9100ab61047fd9bd395bcef3ce5403365cafd55c1e0d0299cde14958e47be9"
-+SRC_URI[md5sum] = "0532bb32548ee92f1c0328aa8a87dec7"
-+SRC_URI[sha256sum] = "d80aeda8747b7c26fbbfd87ab687786e58394a8435ae3970e79cb97882e30557"
- 
- S = "${WORKDIR}/yaml-${PV}"
- 
+ BBCLASSEXTEND = "nativesdk"
 -- 
-2.17.1
-
-
+2.26.2
 
