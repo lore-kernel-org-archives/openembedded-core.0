@@ -1,105 +1,58 @@
-Received: from mail4.protonmail.ch (mail4.protonmail.ch [185.70.40.27])
- by mx.groups.io with SMTP id smtpd.web11.6193.1590587323094229564
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web12.6341.1590587327847890913
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2020 06:48:44 -0700
+ Wed, 27 May 2020 06:48:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@protonmail.ch header.s=protonmail header.b=KHH1Km8N;
- spf=pass (domain: protonmail.ch, ip: 185.70.40.27, mailfrom: vygu@protonmail.ch)
-Date: Wed, 27 May 2020 13:48:37 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.ch;
-	s=protonmail; t=1590587320;
-	bh=o6QiDq6u/4FuKMkFVpUZUvmP/oJ87tCe/K07WhldW/Y=;
-	h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-	b=KHH1Km8NNEUKyRUujyaqTmLHH2V6BKhb4LAHtz49VD/aeWps3AkFa4qwMIMjgDvjy
-	 fHKZw+SivIe4RPrrB1A37pvmfCelhEAYzGyJrmSvbLm00g8awabkGDqKyRQzdoumyc
-	 T6VG2o6QYArXjZ75wxmi9NcDQs4l8n3llMqWWpLg=
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-From: "vygu" <vygu@protonmail.ch>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Reply-To: vygu <vygu@protonmail.ch>
-Subject: Re: [OE-core] Issue with qemu and a shared sstate-cache used by different linux distribution supported by yocto
-Message-ID: <ISqWWzU3l6bzSyekYe8yIJjAR5oDaTRMvWm3KOKsRjKmWO9MWK4wT5PtCO-HvvDNcVgHdP1NbKWr4x5JU5J-YB-E2wNBs3NoT6AUcW3NdCU=@protonmail.ch>
-In-Reply-To: <CANNYZj-5X7R+u8DbcukZcCYcZH6iAdX6b-4Q9vcbFpA2yJMzig@mail.gmail.com>
-References: <qGlJFzBcawqf2UFr8E8EaYuftNrwyxaR9FaRpw7UDU7hVtXdCiCR9oZT9pWwRM-XXY-_OoOVLDeYazLfwnS7FbFIijyMlVVBGHDUc6R_EP8=@protonmail.ch>
- <CANNYZj-5X7R+u8DbcukZcCYcZH6iAdX6b-4Q9vcbFpA2yJMzig@mail.gmail.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: tgamblin@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 04RDmjWw001346
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2020 06:48:46 -0700 (PDT)
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Wed, 27 May 2020
+ 06:48:44 -0700
+Received: by ala-lpggp3.wrs.com (Postfix, from userid 20958)	id E923890059A;
+ Wed, 27 May 2020 06:48:44 -0700 (PDT)
+From: "Trevor Gamblin" <trevor.gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH] llvm: upgrade 9.0.1 -> 10.0.0
+Date: Wed, 27 May 2020 06:48:44 -0700
+Message-ID: <20200527134844.105405-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HTML_MESSAGE
-	shortcircuit=no autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
-Content-Type: multipart/alternative;
-	boundary="b1_bef4b821fc61c976ce949f15022a5efa"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
---b1_bef4b821fc61c976ce949f15022a5efa
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+---
+ meta/recipes-devtools/llvm/llvm_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-bGlibmZzIGZvciBleGFtcGxlCgrigJDigJDigJDigJDigJDigJDigJAgT3JpZ2luYWwgTWVzc2Fn
-ZSDigJDigJDigJDigJDigJDigJDigJAKT24gV2VkbmVzZGF5IDI3IE1heSAyMDIwIDE0OjQzLCBB
-bGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4gd3JvdGU6Cgo+IENhbiB5
-b3UgcGxlYXNlIHByb3ZpZGUgdGhlIGxpYiBuYW1lcyB3aGljaCBhcmUgcHJvYmxlbWF0aWM/Cj4K
-PiBBbGV4Cj4KPiBPbiBXZWQsIDI3IE1heSAyMDIwIGF0IDE0OjI5LCB2eWd1IHZpYSBsaXN0cy5v
-cGVuZW1iZWRkZWQub3JnIDx2eWd1PXByb3Rvbm1haWwuY2hAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zz4gd3JvdGU6Cj4KPj4gSGVsbG8sCj4+Cj4+IFNpbmNlIHRoZSB6ZXVzIHNlcmllIChhbHNvIHdp
-dGggZHVuZmVsbCksIHdlIG9ic2VydmUgYW4gaXNzdWUgd2l0aCBydW5xZW11IHdoZW4gd2Ugc2hh
-cmUgdGhlIHNzdGF0ZS1jYWNoZSB0aGFua3MgdG8gYSBtaXJyb3IgYmV0d2VlbiBkaWZmZXJlbnQg
-bGludXggZGlzdHJpYnV0aW9uIHN1cHBvcnRlZCBieSB5b2N0by4KPj4KPj4gSWYgd2UgYnVpbGQg
-YSBzc3RhdGUtY2FjaGUgb24gYSBkZWJpYW4gMTAgeDg2XzY0IGJ1aWxkZmFybSwgIGFuZCBhZnRl
-ciB0aGF0IHdlIHVzZSBpdCBvbiBhbiB1YnVudHUgMTguMDQgeDg2XzY0LCBydW5xZW11IGRvbid0
-IGZpbmQgc2V2ZXJhbCBsaWJzLgo+PiBXZSBoYXZlIHJlcHJvZHVjZWQgdGhpcyBwcm9ibGVtIG9u
-IHR3byBkaWZmZXJlbnQgcGMgd2l0aCB1YnVudHUgMTguMDQgYW5kIDE2LjA0Lgo+Pgo+PiBXZSBk
-b24ndCBoYXZlIHRoaXMgcHJvYmxlbSwgaWYgd2UgdXNlIHRoZSBzaGFyZWQgc3N0YXRlLWNhY2hl
-IG9uIGFub3RoZXIgZGViaWFuLgo+Pgo+PiBJbiBhbGwgY2FzZXMsIGEgIGxkZCBvbiB0aGUgcWVt
-dSBiaW5hcnkgc2hvd3MgdXMgdGhlIHVzZSBvZiBsb2NhbC9ob3N0IGxpYnMsIG5vdCB0aGUgeW9j
-dG8gbGlicy4KPj4KPj4gSXMgaXQgYW4gZXhwZWN0ZWQgYmVoYXZpb3I/IG9yIG5vdD8KPj4gUnVu
-cWVtdSdzIGxpYnMgaGF2ZSB0byBjb21lIGZyb20gdGhlIGxpbnV4IGRpc3RyaWJ1dGlvbiBvciBm
-cm9tIHRoZSB5b2N0byBidWlsZCBlbnY/Cj4+Cj4+IENvcmRpYWxseSwKPj4KPj4gdnlndQ==
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index d24ed761bf..787cc3adcf 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -19,9 +19,9 @@ inherit cmake pkgconfig
+ 
+ PROVIDES += "llvm${PV}"
+ 
+-MAJOR_VERSION = "9"
++MAJOR_VERSION = "10"
+ MINOR_VERSION = "0"
+-PATCH_VERSION = "1"
++PATCH_VERSION = "0"
+ 
+ PV = "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+ 
+@@ -29,7 +29,7 @@ LLVM_RELEASE = "${PV}"
+ LLVM_DIR = "llvm${LLVM_RELEASE}"
+ 
+ BRANCH = "release/${MAJOR_VERSION}.x"
+-SRCREV = "c1a0a213378a458fbea1a5c77b315c7dce08fd05"
++SRCREV = "d32170dbd5b0d54436537b6b75beaf44324e0c28"
+ SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH} \
+            file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2 \
+            file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
+-- 
+2.24.1
 
-
---b1_bef4b821fc61c976ce949f15022a5efa
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: base64
-
-PGRpdj5saWJuZnMgZm9yIGV4YW1wbGU8YnI+PC9kaXY+PGRpdiBjbGFzcz0icHJvdG9ubWFpbF9z
-aWduYXR1cmVfYmxvY2siPjxkaXYgY2xhc3M9InByb3Rvbm1haWxfc2lnbmF0dXJlX2Jsb2NrLXVz
-ZXIgcHJvdG9ubWFpbF9zaWduYXR1cmVfYmxvY2stZW1wdHkiPjxicj48L2Rpdj48L2Rpdj48ZGl2
-Pjxicj48L2Rpdj48ZGl2PuKAkOKAkOKAkOKAkOKAkOKAkOKAkCBPcmlnaW5hbCBNZXNzYWdlIOKA
-kOKAkOKAkOKAkOKAkOKAkOKAkDxicj48L2Rpdj48ZGl2PiBPbiBXZWRuZXNkYXkgMjcgTWF5IDIw
-MjAgMTQ6NDMsIEFsZXhhbmRlciBLYW5hdmluICZsdDthbGV4LmthbmF2aW5AZ21haWwuY29tJmd0
-OyB3cm90ZTo8YnI+PC9kaXY+PGRpdj4gPGJyPjwvZGl2PjxibG9ja3F1b3RlIGNsYXNzPSJwcm90
-b25tYWlsX3F1b3RlIiB0eXBlPSJjaXRlIj48ZGl2IGRpcj0ibHRyIj48ZGl2PkNhbiB5b3UgcGxl
-YXNlIHByb3ZpZGUgdGhlIGxpYiBuYW1lcyB3aGljaCBhcmUgcHJvYmxlbWF0aWM/PGJyPjwvZGl2
-PjxkaXY+PGJyPjwvZGl2PjxkaXY+QWxleDxicj48L2Rpdj48L2Rpdj48ZGl2Pjxicj48L2Rpdj48
-ZGl2IGNsYXNzPSJnbWFpbF9xdW90ZSI+PGRpdiBkaXI9Imx0ciI+T24gV2VkLCAyNyBNYXkgMjAy
-MCBhdCAxNDoyOSwgdnlndSB2aWEgPGEgaHJlZj0iaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
-cmciPmxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8L2E+ICZsdDt2eWd1PTxhIGhyZWY9Im1haWx0bzpw
-cm90b25tYWlsLmNoQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciPnByb3Rvbm1haWwuY2hAbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZzwvYT4mZ3Q7IHdyb3RlOjxicj48L2Rpdj48YmxvY2txdW90ZSBkYXRh
-LWRhcmtyZWFkZXItaW5saW5lLWJvcmRlci1sZWZ0IGNsYXNzPSJnbWFpbF9xdW90ZSIgc3R5bGU9
-Im1hcmdpbjogMHB4IDBweCAwcHggMC44ZXg7IGJvcmRlci1sZWZ0OiAxcHggc29saWQgcmdiKDIw
-NCwgMjA0LCAyMDQpOyBwYWRkaW5nLWxlZnQ6IDFleDsgLS1kYXJrcmVhZGVyLWlubGluZS1ib3Jk
-ZXItbGVmdDojM2QzZDNkOyI+PGRpdj5IZWxsbyw8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRp
-dj5TaW5jZSB0aGUgemV1cyBzZXJpZSAoYWxzbyB3aXRoIGR1bmZlbGwpLCB3ZSBvYnNlcnZlIGFu
-IGlzc3VlIHdpdGggcnVucWVtdSB3aGVuIHdlIHNoYXJlIHRoZSBzc3RhdGUtY2FjaGUgdGhhbmtz
-IHRvIGEgbWlycm9yIGJldHdlZW4gZGlmZmVyZW50IGxpbnV4IGRpc3RyaWJ1dGlvbiBzdXBwb3J0
-ZWQgYnkgeW9jdG8uPGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+PGRpdj48ZGl2PklmIHdl
-IGJ1aWxkIGEgc3N0YXRlLWNhY2hlIG9uIGEgZGViaWFuIDEwIHg4Nl82NCBidWlsZGZhcm0sJm5i
-c3A7IGFuZCBhZnRlciB0aGF0IHdlIHVzZSBpdCBvbiBhbiB1YnVudHUgMTguMDQgeDg2XzY0LCBy
-dW5xZW11IGRvbid0IGZpbmQgc2V2ZXJhbCBsaWJzLjxicj48L2Rpdj48L2Rpdj48ZGl2PldlDQog
-aGF2ZSByZXByb2R1Y2VkIHRoaXMgcHJvYmxlbSBvbiB0d28gZGlmZmVyZW50IHBjIHdpdGggdWJ1
-bnR1IDE4LjA0IGFuZCAxNi4wNC4gPGJyPjwvZGl2PjxkaXY+PGRpdj48YnI+PC9kaXY+PGRpdj5X
-ZSBkb24ndA0KaGF2ZSB0aGlzIHByb2JsZW0sIGlmIHdlIHVzZSB0aGUgc2hhcmVkIHNzdGF0ZS1j
-YWNoZSBvbiBhbm90aGVyIGRlYmlhbi48YnI+PC9kaXY+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRp
-dj5JbiBhbGwgY2FzZXMsIGEmbmJzcDsgbGRkIG9uIHRoZSBxZW11IGJpbmFyeSBzaG93cyB1cyB0
-aGUgdXNlIG9mIGxvY2FsL2hvc3QgbGlicywgbm90IHRoZSB5b2N0byBsaWJzLiA8YnI+PC9kaXY+
-PGRpdj48YnI+PC9kaXY+PGRpdj5JcyBpdCBhbiBleHBlY3RlZCBiZWhhdmlvcj8gb3Igbm90Pzxi
-cj48L2Rpdj48L2Rpdj48ZGl2PlJ1bnFlbXUncyBsaWJzIGhhdmUgdG8gY29tZSBmcm9tIHRoZSBs
-aW51eCBkaXN0cmlidXRpb24gb3IgZnJvbSB0aGUgeW9jdG8gYnVpbGQgZW52Pzxicj48L2Rpdj48
-ZGl2Pjxicj48L2Rpdj48ZGl2PkNvcmRpYWxseSw8YnI+PC9kaXY+PGRpdj48YnI+PC9kaXY+PGRp
-dj52eWd1PGJyPjwvZGl2PjxkaXY+PGJyPjwvZGl2PjxkaXY+PGRpdj48YnI+PC9kaXY+PC9kaXY+
-PGRpdj48YnI+PC9kaXY+PC9ibG9ja3F1b3RlPjwvZGl2PjwvYmxvY2txdW90ZT48ZGl2Pjxicj48
-L2Rpdj4=
-
-
-
---b1_bef4b821fc61c976ce949f15022a5efa--
