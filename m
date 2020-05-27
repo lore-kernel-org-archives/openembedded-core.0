@@ -1,74 +1,63 @@
-Received: from hel-mailgw-01.vaisala.com (hel-mailgw-01.vaisala.com [193.143.230.17])
- by mx.groups.io with SMTP id smtpd.web10.1012.1590561639217462941
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.web12.1048.1590561689575258078
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 May 2020 23:40:39 -0700
+ Tue, 26 May 2020 23:41:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: vaisala.com, ip: 193.143.230.17, mailfrom: nandor.han@vaisala.com)
-IronPort-SDR: IktWFNyuzFv+haN4J+maik+wktAXxccVNEeJKMWRtXoNRDlUe6rddqbE8m1HoiV1rgZvKJwkjq
- GNHVGAs44kVU1LxP/+WgC30cWiWJJeDUbGfKKPjN2ksyO7QvVvypR11q9YOU1f+RzMmtBhalYe
- oRZHDrDeTKo+ZM332ZbQp/XX/d6jLCdJEkTD9EbI6hpGWD6VoZ3acB9NVFaT2agcHns/mlwjui
- QbX5CulHykQBNSBzBv7MnbaA34V/pUB1MfvlTF4ZanaD+PhYTrlSM+UbDtu/pqKuvSvpvuuI1m
- 2v8=
-X-IronPort-AV: E=Sophos;i="5.73,440,1583186400"; 
-   d="scan'208";a="280426074"
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIEFkZCBhIG5ldyBiYmNsYXNzIHRoYXQgYWJzdHJhY3RzIHRoZSBnZW5lcmF0aW9uIG9mIEZJVCBibG9icyAocmV2OCk=?=
-To: openembedded-core@lists.openembedded.org
-References: <cover.1590559408.git.nandor.han@vaisala.com>
- <20200527063242.20801.78082@do>
-From: "Nandor Han" <nandor.han@vaisala.com>
-Message-ID: <d60d3491-d008-e5ff-caa1-d7dc78f8da7a@vaisala.com>
-Date: Wed, 27 May 2020 09:40:32 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NkfXzgXc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id x14so17453754wrp.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 May 2020 23:41:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:cc:date:user-agent:mime-version
+         :content-transfer-encoding;
+        bh=Il1InRNfTsjmBxTxaHY4/J9V8Yy5/Bcrn+x7NQGq9P8=;
+        b=NkfXzgXcqGmN0WJFd0OvVAAK252X8WSXiBXoXHmzBx5MNo16zyi37bNifJ2MbugdYD
+         9HUWcG+WysuKQlNsFs9QByHnTt0hbGik1jTxj1F4kCQuahYXbmyGQqQ8fwOPf1Z9eqX9
+         cy6JFsls/iBojVxQVaWVMzjbgk819FpQED0t4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=Il1InRNfTsjmBxTxaHY4/J9V8Yy5/Bcrn+x7NQGq9P8=;
+        b=m30k+vVeBAWa6ggFmI1qqpC+99BssFP9aieIoeqOTrzSmS5Hs4fBgGLMT1CdLwOHix
+         67hZVFDNnJSgh4xuKY+FVA8H7gckpgLHmLDTmw3F2XfMHGgqlNOee7ukQJqTYHj5IWHl
+         QzLBuaKCsOOXzSiz1kwPGi3Hiki519hdiCOuUuPB9f6bfl1bpvwtekG76VLWi9Yva90s
+         HDr5KEWlV6PYgKiMm1Eu10O7TGOPwhqtDkDC12Tnby4QcMat7B9GjO+2+P41e9nD3era
+         kR62kA821DNyoSrvW0emdbpW2AUsz2RUTSEailYjgnULd4WGBFswlyh9gMdwXaBCOFBt
+         jn8Q==
+X-Gm-Message-State: AOAM532xR+g46+9Q59wZLYaxYa+MYB1TL5Keb9Ku56ovuBqfjvSivEs8
+	kdBmZTTZ9ERHb2Wm0uLqrt19+D206bV2GQ==
+X-Google-Smtp-Source: ABdhPJwY7QHragt0LtrEAo6ivPx30j/2JikmBq2V6bl5R2Or+crDtONo2n+1ob+LseJZ/yPVoSagxw==
+X-Received: by 2002:adf:8b55:: with SMTP id v21mr17958961wra.187.1590561687728;
+        Tue, 26 May 2020 23:41:27 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id l19sm1792294wmj.14.2020.05.26.23.41.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2020 23:41:26 -0700 (PDT)
+Message-ID: <e7d33c70b4fff3bdf9994c1030ad63512a370845.camel@linuxfoundation.org>
+Subject: [warrior] Backport 'prservice.py: fix do_package with newer Python in Ubuntu 20.04'
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Cc: "Armin Kuster (akuster808@gmail.com)" <akuster808@gmail.com>
+Date: Wed, 27 May 2020 07:41:24 +0100
+User-Agent: Evolution 3.36.1-2 
 MIME-Version: 1.0
-In-Reply-To: <20200527063242.20801.78082@do>
-Return-Path: nandor.han@vaisala.com
-X-OriginalArrivalTime: 27 May 2020 06:40:32.0211 (UTC) FILETIME=[B80EA230:01D633F1]
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 2020-05-27 09:32, Patchwork wrote:
-> == Series Details ==
-> 
-> Series: Add a new bbclass that abstracts the generation of FIT blobs (rev8)
-> Revision: 8
-> URL   : https://patchwork.openembedded.org/series/23431/
-> State : failure
-> 
-> == Summary ==
-> 
-> 
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
-> 
-> 
-> 
-> * Issue             Errors in your Python code were encountered [test_pylint]
->    Suggested fix    Correct the lines introduced by your patch
->    Output           Please, fix the listed issues:
->                     meta/lib/oeqa/selftest/cases/fit_image.py does not exist
-> 
-> 
+Hi,
 
-I don't know how to fix this issue. The file is part of the patchset:
+I just wanted to give people a headsup that I backported OE-Core rev:
+4b26eaf7152fb712aba47a0c746333578f58ee8d onto warrior.
 
-   create mode 100644 meta/lib/oeqa/selftest/cases/fit_image.py
+The issue wasn't ubuntu 20.04 but that we were seeing the same issue on
+Fedora 30 and it wiped out the rc1 build.
 
-Any suggestions
+I'm trying an rc2 with that applied.
 
-> 
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
-> 
-> ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> 
+Cheers,
+
+Richard
 
