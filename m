@@ -1,99 +1,70 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web11.1524.1590598622791185710
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.2153.1590600417521748171
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2020 09:57:03 -0700
+ Wed, 27 May 2020 10:26:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YOYd2dC9;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id a2so28880529ejb.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2020 09:57:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=teb27L6K;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: liu.ming50@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id l11so24911781wru.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2020 10:26:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wUo2of6DxwqxbVPd66KXSMwiBLbaU1F6tXlwIhLdg70=;
-        b=YOYd2dC97b/lWuhldpm7pq5JoVwLYa1d9JO6iF6kVdsMvjIeA8IQ+rPVYDV7C6whGr
-         RX7Ez0JyonmanmQAUIvVAtBeaJVg1GI8Nk1vMUsglTMxve0HdgUm8uCKTpIBvMIyI90Y
-         hRqEonya6qxtePXdqs00v0oa5YC+aPV1GDMv8UnWLhRvA+7yyHByP8f/CKKwsdLdtHCo
-         FSka6T6tz0X+JiJ6rhpTCMsRiL7HtMQl3JOHAvxQ5D9cZmXI6bGRJcHqPSvLQmM1g/hS
-         45tmYO2gJ+ra2b4RgBtuQ9vz47Cdiw45K7VlfTiQHRLffRGcU0iKVfAv94zuHxKwjMq5
-         3ZWg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HhSH5St5k5QSobMiIvrjivNyzxcHRzgloon5qqbm9mY=;
+        b=teb27L6KyXcfy8dVKIXjbThw44p91rwBEV+b+Bl+DJ8znfzFkZ+ULl6FAO5tYykVeL
+         BZUeUNPvoCbDalyJNhIWANNaDbyGsTw/qX6z2ESglfIe1hcr27sUaBwi5+BcRmuVDWPY
+         a775ksK5e1uF/zMciXe9S4xjx5qv7p5R5vcMN5fKIBcTCLAEHT1q3sCAa/E9fmIRXE8n
+         0zgs20LX0NX2P+Gjb5RANetOypYo25dgpl6iaK4EcjVQBge5H5Af5H/4rqH6XpUFfOnL
+         9L5WnH//gXuwrI/9YoxkLZdI+PP5unt9mbH7wxKnZi2qSflD7xSAkafXkVtdK8Kws5ZC
+         gBvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wUo2of6DxwqxbVPd66KXSMwiBLbaU1F6tXlwIhLdg70=;
-        b=N24rg5V4MrOxL763AtE/bKdH5ec5nz+QVaWFqp/3pAOxYOl3/4Pb49DLZEFCGPqVvd
-         t7VgIQS1+jRf5DYgeTk69UhLFs8BOLI9itKbiA0QJxijsY1S7fFJpJcNCo/Xqrm0Itmw
-         acx06JTU2ZLeGJOGmVNWYLWdHwVLHeM1kzeYYaJl7qlQ6Hi7KtV6LRmj31G1Hp36v1Sx
-         muijRQaJZ1/Cig8DVKBQDUVbDXvEcjNMmimAfBcjcGLxT5qH70/T5lEL+U/sjo0kCWWN
-         3dA4+/7QwRfCRAPIBUh2C8YbyYvTScnqulE0yAsB8E+xL+k0DkGwWmkixnFyvcN7W/in
-         peTg==
-X-Gm-Message-State: AOAM531ZhD+Wx/ysvhba7xf90Ocs+wDGr4KMJfqkITED/FsFIisQrsYB
-	KU8AivsyQxGPg+C9GqH68FSYA5T4KCLqYhsD/vY=
-X-Google-Smtp-Source: ABdhPJyFu7mFLgXh8N8zMx4JH1VzqOVIRVE6kHhNN/mnEfGEUqF2hl2kwKOXGYRW14d7pxXa7QvocFNrnqTXlOf4MJE=
-X-Received: by 2002:a17:906:4356:: with SMTP id z22mr6860168ejm.334.1590598621229;
- Wed, 27 May 2020 09:57:01 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=HhSH5St5k5QSobMiIvrjivNyzxcHRzgloon5qqbm9mY=;
+        b=QgMSppsuTkC0M4gi84R7c+/JRCz3ZXwz2v68dYeRPsFc189jUIbtGqSHz0BVlE76Ad
+         egkrFyd1KzXhIsy+xmqhbU/jfIu1TjTxQb214rWA7iywtxvtEKQh0IGCsB61/byJlY2o
+         fnw3/3LQoGckz/Q374P8L+x25akcBWe/UAivZ8qZ4usQ1YXDINj+nnEXi/Dv4K8s4oL5
+         w3pvII3D0tKx1xTKLnYNxP/B4I0AtMwER6Pdv3KPlprr7iVmcSpgZ06FfuD5Os73GT2f
+         w2amVTPmxD4qNDH0DCyojSz5cL+jmm2/GqOphRwLkAu4SL84J1BYertzX4zuPhd7CXre
+         hHyw==
+X-Gm-Message-State: AOAM531Hs/ia7T8pr33i//7YmN0H5I25m/o6sbbJODdUT8BJ7u5xZ1Cq
+	dMfL1HtNASH/TgGKWC545KiM8jCZ
+X-Google-Smtp-Source: ABdhPJwWO0/7mFzQ3FJMayyRsTOTaWwxURuJx5OrbpNxOp8ilD1i47u3x8fXjMUfupRFXLQ4fr+u6Q==
+X-Received: by 2002:adf:ef47:: with SMTP id c7mr27980238wrp.57.1590600415749;
+        Wed, 27 May 2020 10:26:55 -0700 (PDT)
+Return-Path: <liu.ming50@gmail.com>
+Received: from peterliu-Precision-7530.toradex.int (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
+        by smtp.gmail.com with ESMTPSA id w10sm3388147wrp.16.2020.05.27.10.26.55
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 27 May 2020 10:26:55 -0700 (PDT)
+From: "Ming Liu" <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: stefan.agner@toradex.com,
+	max.krummenacher@toradex.com,
+	Ming Liu <ming.liu@toradex.com>
+Subject: [OE-core] [PATCH V2 0/2] Introduce UBOOT_INITIAL_ENV/coding style fixes
+Date: Wed, 27 May 2020 19:27:39 +0200
+Message-Id: <20200527172741.4319-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200527160355.3169339-1-raj.khem@gmail.com>
-In-Reply-To: <20200527160355.3169339-1-raj.khem@gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 27 May 2020 12:56:50 -0400
-Message-ID: <CADkTA4O77VD2pYx6ySDOeOcUAr5nE8ZmTKGLJtn0cX2EKJ887w@mail.gmail.com>
-Subject: Re: [PATCH] make-mod-scripts: Fix a rare build race condition
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 27, 2020 at 12:03 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> There is a build break which often happens whem using 4.1 kernel
->
-> /bin/sh: 1: scripts/basic/fixdep: Permission denied
-> scripts/Makefile.host:124: recipe for target 'scripts/dtc/srcpos.o' failed
-> make[3]: *** [scripts/dtc/srcpos.o] Error 126
->
-> this patch sequences the build targets so it can work reliably with
-> different kernel versions
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
->  .../make-mod-scripts/make-mod-scripts_1.0.bb               | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> index 0be1422a24..c7edb20ee4 100644
-> --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-> @@ -23,7 +23,8 @@ EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="
->  #
->  do_configure() {
->         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-> -       oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
-> -                  -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts prepare
-> -
-> +       for t in prepare scripts_basic scripts; do
+From: Ming Liu <ming.liu@toradex.com>
 
-Last I checked, we don't actually need scripts_basic.
+Changes in V2:
 
-Isn't just sequencing prepare, followed by 'scripts' enough ?
+1 Introduce UBOOT_INITIAL_ENV as suggested by Denys Dmytriyenko.
+2 Add fix for some inconsistent coding style.
 
-If not, we really should put in the long log why we need that new
-target when sequencing, when we didn't need it before.
+Ming Liu (2):
+  u-boot.inc: fix some inconsistent coding style
+  u-boot: introduce UBOOT_INITIAL_ENV
 
-Bruce
-
-> +               oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
-> +               -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} $t
-> +       done
->  }
-> --
-> 2.26.2
->
-
+ meta/recipes-bsp/u-boot/u-boot.inc | 76 +++++++++++++++---------------
+ 1 file changed, 39 insertions(+), 37 deletions(-)
 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.26.2
+
