@@ -1,100 +1,304 @@
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+Received: from mga18.intel.com (mga18.intel.com [])
  by mx.groups.io with SMTP id smtpd.web10.2425.1590570674053154584
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2020 02:11:14 -0700
+ Wed, 27 May 2020 02:11:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.126, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: sNMzX7dDk7VLP2fVP8bhkaW2xQ8dfjUdtt1+5E4Y1X6jQmYZ1ZUn1EFJMHMfw2NCrdzy1RIUpu
- 7WXVLFojduBg==
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: chee.yang.lee@intel.com)
+IronPort-SDR: iEiyibh5y13FzQeKP3XS7m2eSMYwlf1oMOc+Er6usK2nY5aHKVh9RtsAF3Tr67/Dwi0+xYXnxe
+ /75C+3XxK8EA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2020 02:11:12 -0700
-IronPort-SDR: Oi/45Bx+3jd63kLAGI1iLwe3smfuSKVTJ5hNR/SlQdS/ozqT0VUrzaajzZoXRjt5E3hvIb3ruw
- /JvMwr+03EFw==
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 May 2020 02:11:13 -0700
+IronPort-SDR: kh/XGLaYGUMu19TbfDCN+TdFndLIUX6c59eq4Wvd6/3IQXRnAm9MTaqzKUbAKfp37BEi26aH71
+ uATsI2DJLIKQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.73,440,1583222400"; 
-   d="scan'208";a="468642774"
+   d="scan'208";a="468642780"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga005.fm.intel.com with ESMTP; 27 May 2020 02:11:11 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 27 May 2020 02:11:12 -0700
 From: "Lee Chee Yang" <chee.yang.lee@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] re2c: fix CVE-2020-11958
-Date: Wed, 27 May 2020 17:11:10 +0800
-Message-Id: <1590570671-45046-1-git-send-email-chee.yang.lee@intel.com>
+Subject: [PATCH 2/2] bind: fix CVE-2020-8616/7
+Date: Wed, 27 May 2020 17:11:11 +0800
+Message-Id: <1590570671-45046-2-git-send-email-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1590570671-45046-1-git-send-email-chee.yang.lee@intel.com>
+References: <1590570671-45046-1-git-send-email-chee.yang.lee@intel.com>
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
+fix CVE-2020-8616 and CVE-2020-8617
+
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- .../recipes-support/re2c/re2c/CVE-2020-11958.patch | 41 ++++++++++++++++++++++
- meta/recipes-support/re2c/re2c_1.3.bb              |  4 ++-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/re2c/re2c/CVE-2020-11958.patch
+ .../bind/bind/CVE-2020-8616.patch                  | 206 +++++++++++++++++++++
+ .../bind/bind/CVE-2020-8617.patch                  |  29 +++
+ meta/recipes-connectivity/bind/bind_9.11.13.bb     |   2 +
+ 3 files changed, 237 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
 
-diff --git a/meta/recipes-support/re2c/re2c/CVE-2020-11958.patch b/meta/recipes-support/re2c/re2c/CVE-2020-11958.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
 new file mode 100644
-index 0000000..43462e6
+index 0000000..8f00231
 --- /dev/null
-+++ b/meta/recipes-support/re2c/re2c/CVE-2020-11958.patch
-@@ -0,0 +1,41 @@
-+From c4603ba5ce229db83a2a4fb93e6d4b4e3ec3776a Mon Sep 17 00:00:00 2001
-+From: Ulya Trofimovich <skvadrik@gmail.com>
-+Date: Fri, 17 Apr 2020 22:47:14 +0100
-+Subject: [PATCH] Fix crash in lexer refill (reported by Agostino Sarubbo).
-+
-+The crash happened in a rare case of a very long lexeme that doen't fit
-+into the buffer, forcing buffer reallocation.
-+
-+The crash was caused by an incorrect calculation of the shift offset
-+(it was smaller than necessary). As a consequence, the data from buffer
-+start and up to the beginning of the current lexeme was not discarded
-+(as it should have been), resulting in less free space for new data than
-+expected.
-+
-+Upstream-Status: Backport [https://github.com/skvadrik/re2c/commit/c4603ba5ce229db83a2a4fb93e6d4b4e3ec3776a]
-+CVE: CVE-2020-11958
++++ b/meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
+@@ -0,0 +1,206 @@
++Upstream-Status: Backport [https://downloads.isc.org/isc/bind9/9.11.19/patches/CVE-2020-8616.patch]
++CVE: CVE-2020-8616
 +Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 +---
-+ src/parse/scanner.cc | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/parse/scanner.cc b/src/parse/scanner.cc
-+index 1d6e9efa..bd651314 100644
-+--- a/src/parse/scanner.cc
-++++ b/src/parse/scanner.cc
-+@@ -155,13 +155,14 @@ bool Scanner::fill(size_t need)
-+         if (!buf) fatal("out of memory");
++diff --git a/lib/dns/adb.c b/lib/dns/adb.c
++index 058495f6a5..6b8a9537f0 100644
++--- a/lib/dns/adb.c
+++++ b/lib/dns/adb.c
++@@ -404,14 +404,13 @@ static void log_quota(dns_adbentry_t *entry, const char *fmt, ...)
++  */
++ #define FIND_WANTEVENT(fn)      (((fn)->options & DNS_ADBFIND_WANTEVENT) != 0)
++ #define FIND_WANTEMPTYEVENT(fn) (((fn)->options & DNS_ADBFIND_EMPTYEVENT) != 0)
++-#define FIND_AVOIDFETCHES(fn)   (((fn)->options & DNS_ADBFIND_AVOIDFETCHES) \
++-				 != 0)
++-#define FIND_STARTATZONE(fn)    (((fn)->options & DNS_ADBFIND_STARTATZONE) \
++-				 != 0)
++-#define FIND_HINTOK(fn)         (((fn)->options & DNS_ADBFIND_HINTOK) != 0)
++-#define FIND_GLUEOK(fn)         (((fn)->options & DNS_ADBFIND_GLUEOK) != 0)
++-#define FIND_HAS_ADDRS(fn)      (!ISC_LIST_EMPTY((fn)->list))
++-#define FIND_RETURNLAME(fn)     (((fn)->options & DNS_ADBFIND_RETURNLAME) != 0)
+++#define FIND_AVOIDFETCHES(fn)	(((fn)->options & DNS_ADBFIND_AVOIDFETCHES) != 0)
+++#define FIND_STARTATZONE(fn)	(((fn)->options & DNS_ADBFIND_STARTATZONE) != 0)
+++#define FIND_HINTOK(fn)		(((fn)->options & DNS_ADBFIND_HINTOK) != 0)
+++#define FIND_GLUEOK(fn)		(((fn)->options & DNS_ADBFIND_GLUEOK) != 0)
+++#define FIND_HAS_ADDRS(fn)	(!ISC_LIST_EMPTY((fn)->list))
+++#define FIND_RETURNLAME(fn)	(((fn)->options & DNS_ADBFIND_RETURNLAME) != 0)
+++#define FIND_NOFETCH(fn)	(((fn)->options & DNS_ADBFIND_NOFETCH) != 0)
 + 
-+         memmove(buf, tok, copy);
-+-        shift_ptrs_and_fpos(buf - bot);
-++        shift_ptrs_and_fpos(buf - tok);
-+         delete [] bot;
-+         bot = buf;
++ /*
++  * These are currently used on simple unsigned ints, so they are
++@@ -3155,21 +3154,26 @@ dns_adb_createfind2(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
++ 		 * Listen to negative cache hints, and don't start
++ 		 * another query.
++ 		 */
++-		if (NCACHE_RESULT(result) || AUTH_NX(result))
+++		if (NCACHE_RESULT(result) || AUTH_NX(result)) {
++ 			goto fetch;
+++		}
 + 
-+         free = BSIZE - copy;
-+     }
++-		if (!NAME_FETCH_V6(adbname))
+++		if (!NAME_FETCH_V6(adbname)) {
++ 			wanted_fetches |= DNS_ADBFIND_INET6;
+++		}
++ 	}
 + 
-++    DASSERT(lim + free <= bot + BSIZE);
-+     if (!read(free)) {
-+         eof = lim;
-+         memset(lim, 0, YYMAXFILL);
-diff --git a/meta/recipes-support/re2c/re2c_1.3.bb b/meta/recipes-support/re2c/re2c_1.3.bb
-index 0e1d938..e9053ac 100644
---- a/meta/recipes-support/re2c/re2c_1.3.bb
-+++ b/meta/recipes-support/re2c/re2c_1.3.bb
-@@ -5,7 +5,9 @@ SECTION = "devel"
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
++  fetch:
++ 	if ((WANT_INET(wanted_addresses) && NAME_HAS_V4(adbname)) ||
++ 	    (WANT_INET6(wanted_addresses) && NAME_HAS_V6(adbname)))
+++	{
++ 		have_address = true;
++-	else
+++	} else {
++ 		have_address = false;
++-	if (wanted_fetches != 0 &&
++-	    ! (FIND_AVOIDFETCHES(find) && have_address)) {
+++	}
+++	if (wanted_fetches != 0 && !(FIND_AVOIDFETCHES(find) && have_address) &&
+++	    !FIND_NOFETCH(find))
+++	{
++ 		/*
++ 		 * We're missing at least one address family.  Either the
++ 		 * caller hasn't instructed us to avoid fetches, or we don't
++@@ -3177,8 +3181,9 @@ dns_adb_createfind2(dns_adb_t *adb, isc_task_t *task, isc_taskaction_t action,
++ 		 * be acceptable so we have to launch fetches.
++ 		 */
++ 
++-		if (FIND_STARTATZONE(find))
+++		if (FIND_STARTATZONE(find)) {
++ 			start_at_zone = true;
+++		}
++ 
++ 		/*
++ 		 * Start V4.
++diff --git a/lib/dns/include/dns/adb.h b/lib/dns/include/dns/adb.h
++index 63a13c4e41..edf6e54935 100644
++--- a/lib/dns/include/dns/adb.h
+++++ b/lib/dns/include/dns/adb.h
++@@ -207,6 +207,10 @@ struct dns_adbfind {
++  *      lame for this query.
++  */
++ #define DNS_ADBFIND_OVERQUOTA		0x00000400
+++/*%
+++ *	Don't perform a fetch even if there are no address records available.
+++ */
+++#define DNS_ADBFIND_NOFETCH		0x00000800
++ 
++ /*%
++  * The answers to queries come back as a list of these.
++diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
++index 7c44478a26..0a40859d08 100644
++--- a/lib/dns/resolver.c
+++++ b/lib/dns/resolver.c
++@@ -172,6 +172,14 @@
++ #define DEFAULT_MAX_QUERIES 75
++ #endif
++ 
+++/*
+++ * After NS_FAIL_LIMIT attempts to fetch a name server address,
+++ * if the number of addresses in the NS RRset exceeds NS_RR_LIMIT,
+++ * stop trying to fetch, in order to avoid wasting resources.
+++ */
+++#define NS_FAIL_LIMIT 4
+++#define NS_RR_LIMIT   5
+++
++ /* Number of hash buckets for zone counters */
++ #ifndef RES_DOMAIN_BUCKETS
++ #define RES_DOMAIN_BUCKETS	523
++@@ -3130,8 +3138,7 @@ sort_finds(dns_adbfindlist_t *findlist, unsigned int bias) {
++ static void
++ findname(fetchctx_t *fctx, dns_name_t *name, in_port_t port,
++ 	 unsigned int options, unsigned int flags, isc_stdtime_t now,
++-	 bool *overquota, bool *need_alternate)
++-{
+++	 bool *overquota, bool *need_alternate, unsigned int *no_addresses) {
++ 	dns_adbaddrinfo_t *ai;
++ 	dns_adbfind_t *find;
++ 	dns_resolver_t *res;
++@@ -3219,7 +3226,12 @@ findname(fetchctx_t *fctx, dns_name_t *name, in_port_t port,
++ 			      find->result_v6 != DNS_R_NXDOMAIN) ||
++ 			     (res->dispatches6 == NULL &&
++ 			      find->result_v4 != DNS_R_NXDOMAIN)))
+++			{
++ 				*need_alternate = true;
+++			}
+++			if (no_addresses != NULL) {
+++				(*no_addresses)++;
+++			}
++ 		} else {
++ 			if ((find->options & DNS_ADBFIND_OVERQUOTA) != 0) {
++ 				if (overquota != NULL)
++@@ -3270,6 +3282,7 @@ fctx_getaddresses(fetchctx_t *fctx, bool badcache) {
++ 	dns_rdata_ns_t ns;
++ 	bool need_alternate = false;
++ 	bool all_spilled = true;
+++	unsigned int no_addresses = 0;
++ 
++ 	FCTXTRACE5("getaddresses", "fctx->depth=", fctx->depth);
++ 
++@@ -3437,20 +3450,28 @@ fctx_getaddresses(fetchctx_t *fctx, bool badcache) {
++ 		 * Extract the name from the NS record.
++ 		 */
++ 		result = dns_rdata_tostruct(&rdata, &ns, NULL);
++-		if (result != ISC_R_SUCCESS)
+++		if (result != ISC_R_SUCCESS) {
++ 			continue;
+++		}
++ 
++-		findname(fctx, &ns.name, 0, stdoptions, 0, now,
++-			 &overquota, &need_alternate);
+++		if (no_addresses > NS_FAIL_LIMIT &&
+++		    dns_rdataset_count(&fctx->nameservers) > NS_RR_LIMIT)
+++		{
+++			stdoptions |= DNS_ADBFIND_NOFETCH;
+++		}
+++		findname(fctx, &ns.name, 0, stdoptions, 0, now, &overquota,
+++			 &need_alternate, &no_addresses);
++ 
++-		if (!overquota)
+++		if (!overquota) {
++ 			all_spilled = false;
+++		}
++ 
++ 		dns_rdata_reset(&rdata);
++ 		dns_rdata_freestruct(&ns);
++ 	}
++-	if (result != ISC_R_NOMORE)
+++	if (result != ISC_R_NOMORE) {
++ 		return (result);
+++	}
++ 
++ 	/*
++ 	 * Do we need to use 6 to 4?
++@@ -3465,7 +3486,7 @@ fctx_getaddresses(fetchctx_t *fctx, bool badcache) {
++ 			if (!a->isaddress) {
++ 				findname(fctx, &a->_u._n.name, a->_u._n.port,
++ 					 stdoptions, FCTX_ADDRINFO_FORWARDER,
++-					 now, NULL, NULL);
+++					 now, NULL, NULL, NULL);
++ 				continue;
++ 			}
++ 			if (isc_sockaddr_pf(&a->_u.addr) != family)
++@@ -3827,16 +3827,14 @@ fctx_try(fetchctx_t *fctx, bool retrying, bool badcache) {
++ 		}
++ 	}
++ 
++-	if (dns_name_countlabels(&fctx->domain) > 2) {
++-		result = isc_counter_increment(fctx->qc);
++-		if (result != ISC_R_SUCCESS) {
++-			isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
++-				      DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
++-				      "exceeded max queries resolving '%s'",
++-				      fctx->info);
++-			fctx_done(fctx, DNS_R_SERVFAIL, __LINE__);
++-			return;
++-		}
+++	result = isc_counter_increment(fctx->qc);
+++	if (result != ISC_R_SUCCESS) {
+++		isc_log_write(dns_lctx, DNS_LOGCATEGORY_RESOLVER,
+++			      DNS_LOGMODULE_RESOLVER, ISC_LOG_DEBUG(3),
+++			      "exceeded max queries resolving '%s'",
+++			      fctx->info);
+++		fctx_done(fctx, DNS_R_SERVFAIL, __LINE__);
+++		return;
++ 	}
++ 
++ 	bucketnum = fctx->bucketnum;
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch b/meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
+new file mode 100644
+index 0000000..d8769c4
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
+@@ -0,0 +1,29 @@
++Upstream-Status: Backport [https://downloads.isc.org/isc/bind9/9.11.19/patches/CVE-2020-8617.patch]
++CVE: CVE-2020-8617
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++---
++diff --git a/lib/dns/tsig.c b/lib/dns/tsig.c
++index b597a18d49..6357a3a486 100644
++--- a/lib/dns/tsig.c
+++++ b/lib/dns/tsig.c
++@@ -1427,8 +1424,9 @@ dns_tsig_verify(isc_buffer_t *source, dns_message_t *msg,
++ 			goto cleanup_context;
++ 		}
++ 		msg->verified_sig = 1;
++-	} else if (tsig.error != dns_tsigerror_badsig &&
++-		   tsig.error != dns_tsigerror_badkey) {
+++	} else if (!response || (tsig.error != dns_tsigerror_badsig &&
+++				 tsig.error != dns_tsigerror_badkey))
+++	{
++ 		tsig_log(msg->tsigkey, 2, "signature was empty");
++ 		return (DNS_R_TSIGVERIFYFAILURE);
++ 	}
++@@ -1484,7 +1482,7 @@ dns_tsig_verify(isc_buffer_t *source, dns_message_t *msg,
++ 		}
++ 	}
++ 
++-	if (tsig.error != dns_rcode_noerror) {
+++	if (response && tsig.error != dns_rcode_noerror) {
++ 		msg->tsigstatus = tsig.error;
++ 		if (tsig.error == dns_tsigerror_badtime)
++ 			ret = DNS_R_CLOCKSKEW;
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.13.bb b/meta/recipes-connectivity/bind/bind_9.11.13.bb
+index 4e64171..8f2d702 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.13.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.13.bb
+@@ -18,6 +18,8 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
+            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
++           file://CVE-2020-8616.patch \
++           file://CVE-2020-8617.patch \
+            "
  
--SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.xz"
-+SRC_URI = "https://github.com/skvadrik/re2c/releases/download/${PV}/${BPN}-${PV}.tar.xz \
-+           file://CVE-2020-11958.patch \
-+"
- SRC_URI[sha256sum] = "f37f25ff760e90088e7d03d1232002c2c2672646d5844fdf8e0d51a5cd75a503"
- UPSTREAM_CHECK_URI = "https://github.com/skvadrik/re2c/releases"
- 
+ SRC_URI[md5sum] = "17de0d024ab1eac377f1c2854dc25057"
 -- 
 2.7.4
 
