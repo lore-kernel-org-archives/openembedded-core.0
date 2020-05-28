@@ -1,53 +1,53 @@
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com [209.85.208.195])
- by mx.groups.io with SMTP id smtpd.web12.11123.1590669662419283467
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
+ by mx.groups.io with SMTP id smtpd.web10.11113.1590669665373880243
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2020 05:41:02 -0700
+ Thu, 28 May 2020 05:41:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=rAkY/Kdj;
- spf=pass (domain: gmail.com, ip: 209.85.208.195, mailfrom: liu.ming50@gmail.com)
-Received: by mail-lj1-f195.google.com with SMTP id z6so33137158ljm.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 05:41:02 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XDQZtAUH;
+ spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f193.google.com with SMTP id m18so33150914ljo.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 05:41:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=apEgWWERmC4iZliEA7sbM/jAUQ6Qf8znblD8yB1y+3M=;
-        b=rAkY/Kdj3cEfd+2BOtNwbwadWW2tS5frIXbFOAdkIx3D/O+GhWnyTm2NiUvGNzljot
-         Hgsul8llFso4JTZHDW5UNLREIJoMVPEfW0F2NRVzxKXIlcdzT6DeuoS4dpxxabVOi1aq
-         JwET8+d48n5l3iGa0DZsFI99CkAp82GZbmPzGpQIVcqHfX/3C7tejTskz8utUahg+hOg
-         DAaynNWWZyO3VY3FEJxyiu0+h/xXoIev9DLZnhB9D+U9VHwdUELNxTYZWT6168PHeJ5C
-         2FckjOoNQLTB5l4vPHkdWEND/n5IAijQPnY2WY6iLAUDkCORxhgeR1zBBNtMT/w+cYP9
-         WEMg==
+        bh=fZ2fOFbpSdjgt1Z6NpKzlu7iPEFCbhc0OX3qrHjXcTg=;
+        b=XDQZtAUH2uLMU0WpiAfa0YTM4GlGAAkAAsp33M5dbSaDKXUweyYjaNbFtVtQONykwX
+         FQJCsArPTpWN3NmFadQ2h/SfJ8sdyMHUK+QbGhukknovT5N6c11Qz+lvqusL9f466Igt
+         2zClp2qQDnyiRnZBtXLlp8Fd3s5fd/4KTWdY1SrUFclgKsGKyYdFcdpBY8m5tUDSzo96
+         x5fHzR/v44p1ziRkY1B1ifsexZUn5RJe6pVN9UxRFzQjk+njbXLkuYCj3jDYPgfmOzqt
+         hCJK4jBd59NrDvz9tuazcHHnR5VF1bDij1uHzE061EWtaJ20OfJ2eOktlkRSDHAX/snW
+         W9LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=apEgWWERmC4iZliEA7sbM/jAUQ6Qf8znblD8yB1y+3M=;
-        b=bnuK9k6QTWFi2c8zCi0Xho0sh0DenNkgpEfmmK9HU1IiiIQwhefjzDKGHPCrc9Hq8+
-         2xL/8CwOyF7wxz/4GEZrRdo6e3AoNc1VHpIujVu2/v5CdDwZC/qnqDkClqaBNW+a3J07
-         F3pHoBxfx7aI7X9CzL/yaNwf6KCWrjHdyqlWYXrTUMdKqeEL5+auIQp1miVa8VsraSe5
-         IBhg075nZ4YBw6uClhIlghCzTUgi4zLNUJnlXtuIR5ezPyNUmGu5BHNCnYgrtlNF/7o2
-         ER47BpbJDkE9WZ8RXOskKfxHoYCv0ZPPbcDuOoOysHoaadHS8S+hEIkhHIliZnPDbt/Q
-         w6LA==
-X-Gm-Message-State: AOAM530fTXeHJbeAiWrv1WXRPAjyZ1R4LL+zGE0ogk5U1N9Pn11JyXcT
-	U/8ghZ5yDTaCrIbPmki87FtRKa2N
-X-Google-Smtp-Source: ABdhPJyQAHHBe2oiXHSBAPVKGyKghMu+Aeh6L6NXUjeQ5tvrcNWiqzLvC7iaq64JiR2tjnxo7RsxiA==
-X-Received: by 2002:a2e:7f08:: with SMTP id a8mr1514105ljd.332.1590669660494;
-        Thu, 28 May 2020 05:41:00 -0700 (PDT)
+        bh=fZ2fOFbpSdjgt1Z6NpKzlu7iPEFCbhc0OX3qrHjXcTg=;
+        b=EjG0xZg9yROBs2mhC28MSoMbJ6/Dup/roKrp84h9e2lAtlWCMpP/AzWIZxHHsWcrXb
+         ctJb5p1+tQ+fbFBslao7KWJ2hKG65ZAHkbljr2Yd8tpt/n9DsIUeA/ZEl3pF8V2FvkHr
+         2E0neA6H6X3sHagg9LKbWEynZgZh6lLV4ZzF+OHcxJCNtHK8B2ErK48UH05xF0/FvTX5
+         tZUTUaNrnzS4DMAd0ThjViUIQXh4rdZI1rrO5pGLNttRXmpsTO5wfwQiipMd1q7Ohske
+         IU8GJROkwquSxbQtkEvojFKM4h+HSz89E48+HDemT+j1jMNVD0d6hPqTDmJhltKg5LBY
+         85uQ==
+X-Gm-Message-State: AOAM530NVG1WPMwf6DO3mY2QW9SR+rk4iqGMW/0DYN0jJO4dy+nofETj
+	Fcyv6mogtGLX+t2cjrgQgobUHzi0
+X-Google-Smtp-Source: ABdhPJyE7qJIIV/aHRIFfPEeCj4DlinXsPuwr50aPWi1murJs+yBvDLChae59BwdGmKkx97fEMy7dQ==
+X-Received: by 2002:a2e:81d1:: with SMTP id s17mr1490500ljg.91.1590669663419;
+        Thu, 28 May 2020 05:41:03 -0700 (PDT)
 Return-Path: <liu.ming50@gmail.com>
 Received: from localhost.localdomain (m83-185-47-112.cust.tele2.se. [83.185.47.112])
-        by smtp.gmail.com with ESMTPSA id f14sm1412061ljp.118.2020.05.28.05.40.59
+        by smtp.gmail.com with ESMTPSA id f14sm1412061ljp.118.2020.05.28.05.41.02
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 28 May 2020 05:41:00 -0700 (PDT)
+        Thu, 28 May 2020 05:41:02 -0700 (PDT)
 From: "Ming Liu" <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: stefan.agner@toradex.com,
 	max.krummenacher@toradex.com,
 	denys@ti.com,
 	Ming Liu <ming.liu@toradex.com>
-Subject: [OE-core] [PATCH V3 2/3] u-boot.inc: fix some inconsistent coding style
-Date: Thu, 28 May 2020 14:41:28 +0200
-Message-Id: <20200528124129.15100-3-liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH V3 3/3] u-boot: introduce UBOOT_INITIAL_ENV
+Date: Thu, 28 May 2020 14:41:29 +0200
+Message-Id: <20200528124129.15100-4-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200528124129.15100-1-liu.ming50@gmail.com>
 References: <20200528124129.15100-1-liu.ming50@gmail.com>
@@ -56,121 +56,143 @@ Content-Transfer-Encoding: 8bit
 
 From: Ming Liu <ming.liu@toradex.com>
 
+It defaults to ${PN}-initial-env, no functional changes with current
+implementation, but this allows it to be changed in individual u-boot
+recipes.
+
+If UBOOT_INITIAL_ENV is empty, then no initial env would be compiled/
+installed/deployed, set ALLOW_EMPTY_${PN}-env = "1".
+
+The major purpose for introducing this, is that the users might have
+some scripts on targets like:
+```
+/sbin/fw_setenv -f /etc/u-boot-initial-env
+```
+
+and it should be able to run against a identical path generated by
+different u-boot recipes.
+
 Signed-off-by: Ming Liu <ming.liu@toradex.com>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc | 44 ++++++++++++++----------------
- 1 file changed, 21 insertions(+), 23 deletions(-)
+ meta/recipes-bsp/u-boot/u-boot.inc | 55 +++++++++++++++++++-----------
+ 1 file changed, 36 insertions(+), 19 deletions(-)
 
 diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 8cfd25020c..be15e1760f 100644
+index be15e1760f..8e60615e5c 100644
 --- a/meta/recipes-bsp/u-boot/u-boot.inc
 +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -105,19 +105,19 @@ do_configure () {
- }
+@@ -60,6 +60,10 @@ UBOOT_ENV_BINARY ?= "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
+ UBOOT_ENV_IMAGE ?= "${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.${UBOOT_ENV_SUFFIX}"
+ UBOOT_ENV_SYMLINK ?= "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
  
- do_compile () {
--	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'ld-is-gold', d)}" ]; then
--		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/config.mk
--	fi
-+    if [ "${@bb.utils.filter('DISTRO_FEATURES', 'ld-is-gold', d)}" ]; then
-+        sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/config.mk
-+    fi
++# Default name of u-boot initial env, but enable individual recipes to change
++# this value.
++UBOOT_INITIAL_ENV ?= "${PN}-initial-env"
++
+ # U-Boot EXTLINUX variables. U-Boot searches for /boot/extlinux/extlinux.conf
+ # to find EXTLINUX conf file.
+ UBOOT_EXTLINUX_INSTALL_DIR ?= "/boot/extlinux"
+@@ -137,8 +141,10 @@ do_compile () {
+                     done
  
--	unset LDFLAGS
--	unset CFLAGS
--	unset CPPFLAGS
-+    unset LDFLAGS
-+    unset CFLAGS
-+    unset CPPFLAGS
+                     # Generate the uboot-initial-env
+-                    oe_runmake -C ${S} O=${B}/${config} u-boot-initial-env
+-                    cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-boot-initial-env-${type}
++                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++                        oe_runmake -C ${S} O=${B}/${config} u-boot-initial-env
++                        cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-boot-initial-env-${type}
++                    fi
  
--	if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]
--	then
--		echo ${UBOOT_LOCALVERSION} > ${B}/.scmversion
--		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
--	fi
-+    if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]
-+    then
-+        echo ${UBOOT_LOCALVERSION} > ${B}/.scmversion
-+        echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
-+    fi
- 
-     if [ -n "${UBOOT_CONFIG}" ]
-     then
-@@ -143,16 +143,15 @@ do_compile () {
                      unset k
                  fi
-             done
--            unset  j
-+            unset j
-         done
--        unset  i
-+        unset i
-     else
+@@ -150,7 +156,9 @@ do_compile () {
          oe_runmake -C ${S} O=${B} ${UBOOT_MAKE_TARGET}
  
          # Generate the uboot-initial-env
-         oe_runmake -C ${S} O=${B} u-boot-initial-env
+-        oe_runmake -C ${S} O=${B} u-boot-initial-env
++        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++            oe_runmake -C ${S} O=${B} u-boot-initial-env
++        fi
      fi
--
  }
  
- do_install () {
-@@ -175,9 +174,9 @@ do_install () {
-                     ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
+@@ -168,10 +176,12 @@ do_install () {
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
+ 
+                     # Install the uboot-initial-env
+-                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${type}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
++                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++                        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
++                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
++                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${type}
++                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
++                    fi
                  fi
              done
--            unset  j
-+            unset j
-         done
--        unset  i
-+        unset i
-     else
-         install -D -m 644 ${B}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
+             unset j
+@@ -182,9 +192,11 @@ do_install () {
          ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
-@@ -232,9 +231,9 @@ do_install () {
-                          ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${D}/boot/${SPL_BINARYNAME}
-                     fi
-                 done
--                unset  j
-+                unset j
-             done
--            unset  i
-+            unset i
-         else
-             install -m 644 ${B}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
-             ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARYNAME}
-@@ -251,7 +250,6 @@ do_install () {
-     then
-         install -Dm 0644 ${UBOOT_EXTLINUX_CONFIG} ${D}/${UBOOT_EXTLINUX_INSTALL_DIR}/${UBOOT_EXTLINUX_CONF_NAME}
-     fi
--
- }
  
+         # Install the uboot-initial-env
+-        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
++        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++            install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
++        fi
+     fi
+ 
+     if [ -n "${UBOOT_ELF}" ]
+@@ -255,8 +267,9 @@ do_install () {
  PACKAGE_BEFORE_PN += "${PN}-env"
-@@ -288,9 +286,9 @@ do_deploy () {
-                     ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${type}
+ 
+ RPROVIDES_${PN}-env += "u-boot-default-env"
++ALLOW_EMPTY_${PN}-env = "1"
+ FILES_${PN}-env = " \
+-    ${sysconfdir}/${PN}-initial-env* \
++    ${sysconfdir}/${UBOOT_INITIAL_ENV}* \
+     ${sysconfdir}/fw_env.config \
+ "
+ 
+@@ -280,10 +293,12 @@ do_deploy () {
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
+ 
+                     # Deploy the uboot-initial-env
+-                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+-                    cd ${DEPLOYDIR}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${MACHINE}-${type}
+-                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${type}
++                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++                        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
++                        cd ${DEPLOYDIR}
++                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
++                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${type}
++                    fi
                  fi
              done
--            unset  j
-+            unset j
-         done
--        unset  i
-+        unset i
-     else
-         install -D -m 644 ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+             unset j
+@@ -298,10 +313,12 @@ do_deploy () {
+         ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
  
-@@ -359,9 +357,9 @@ do_deploy () {
-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDIR}/${SPL_SYMLINK}
-                     fi
-                 done
--                unset  j
-+                unset j
-             done
--            unset  i
-+            unset i
-         else
-             install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
-             rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLINK}
+         # Deploy the uboot-initial-env
+-        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
+-        cd ${DEPLOYDIR}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${PN}-initial-env-${MACHINE}
+-        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${PN}-initial-env
++        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
++            install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
++            cd ${DEPLOYDIR}
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}
++            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}
++        fi
+     fi
+ 
+     if [ -e ${WORKDIR}/fw_env.config ] ; then
 -- 
 2.26.2
 
