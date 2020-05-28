@@ -1,94 +1,90 @@
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com [209.85.210.68])
- by mx.groups.io with SMTP id smtpd.web12.14726.1590679934856538474
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web10.15741.1590682659639000441
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2020 08:32:15 -0700
+ Thu, 28 May 2020 09:17:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=U0q/Tf2P;
- spf=pass (domain: gmail.com, ip: 209.85.210.68, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f68.google.com with SMTP id 69so2687189otv.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 08:32:14 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=sixx2mcW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.218.65, mailfrom: steve@sakoman.com)
+Received: by mail-ej1-f65.google.com with SMTP id x1so581579ejd.8
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 09:17:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=P84BV52WhexJCoSA8l6IRvtfqzvgr8C2F7DNwwol2wg=;
-        b=U0q/Tf2PPvsOY1tzPP9E0UhcauyROgIb009QsGoYNWBzAN3pszv4kNW4Rnh9ja+cGz
-         Ycy7IEBDNrzEpOHWMsSKlLWZy1k50dAn0bnA0rxelNgFU/BkOO8T2g4uyDQ5+wLANyzt
-         WgqXA9kDtQggPWz7nRncX4+L+/TxcTpzsjbbyh0IF5VPio50riHsD5Tibpcdtgl1pPi8
-         GQfnrZ3ioBQfRKBosqcaTRhvci85D2C7yqZKSqvDQCklLxc+MdDj0mixX5R05xvaKaL3
-         ZEZXnx2GKDiR5C/AflPQ/ACIrQ2hVtkx9h3Bo0OUpYkrlnvSJsiYEGmSj/fTL+m0/bgZ
-         DBLg==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QwNl3z+lEOAcwgyVT7KLLqzmE7/NtrkLNdZu67JXMFQ=;
+        b=sixx2mcWwnXpoGKk8RVSFENDq7bTD7D+PbUFfD92zq7STGw1sZoHvr3cSEpYO2TvlY
+         w0luG7mYEc5o2foWGrGHc5vIRN8/FoA31iG4s4cw3QUk6r+hMwifhFycoJzERD/d3ER7
+         kg1BZkrM8SIXM1ZQchlOZRiU97Sdl60o1GA9HzRlqa19nflEEP1XMcF5zZmgKjHCQ7ZG
+         +EoM8SDp3isECIz8FWTiOgEg9Y1FdDvchOcy34JfI+mXx4m0NbLl39IKODyuWS2zOSAZ
+         o6B3sVH5v6YHPKX6FnYlhlaqudT3cpWqRng7q0XeYlJjIACPIfMAIzNvW8Ikapovxfeg
+         4yrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=P84BV52WhexJCoSA8l6IRvtfqzvgr8C2F7DNwwol2wg=;
-        b=VCWxwcYJQ51pW74y9M2JBiBZYO1Urr0tWUX4W5uoazhVFUAx3M67tIAHQFZxqlzkEG
-         OAzGjF8nYfZxwXyROzdZHzC2ODidOgeHPAewClZgIq5qtMjW3Nqwhdkr/eSLruy9aYQT
-         mp7dtz47ohyvWlIEiRJaIp4dQKSObUT6/ITTf7dYqB7pOkvtKJ+bU3dccdUOixJJ8VXb
-         dO5PZmJhF71ZuRqPK4KM1D+KoqruiZFO5nDBmzLBalX+ax/ryi0vDzhBrfPY2mie+DLg
-         AeHkoAEdaUrbB9DGcT6aToSkPox7Zqp4pdE6sBhC5Pb4hYnAY7ZLb3+Pa9O5hLmFK879
-         vCZw==
-X-Gm-Message-State: AOAM531v67VyoAkJTkhY4k6WcmnDBjfi/q834KeoL6na/kWBN3kAd7kv
-	aN9FHtLrnQBMQ3+0fZcyWUDovv/inKs=
-X-Google-Smtp-Source: ABdhPJzavsFt/jblzZpcQ16L5ORR8wUe03ONG8zkH8SJOYnx+7mRkXxooryYvWc07cO3gzCV9OqRUA==
-X-Received: by 2002:a9d:768a:: with SMTP id j10mr2912600otl.188.1590679933776;
-        Thu, 28 May 2020 08:32:13 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from ?IPv6:2601:646:9200:4e0:5cfb:80e2:2942:9b65? ([2601:646:9200:4e0:5cfb:80e2:2942:9b65])
-        by smtp.gmail.com with ESMTPSA id y5sm1891983oia.30.2020.05.28.08.32.13
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 May 2020 08:32:13 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] at-spi2-atk: dont inherit features_check
-To: openembedded-core@lists.openembedded.org
-References: <20200524162528.23693-1-liu.ming50@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Message-ID: <0da4a6aa-15f5-6801-820b-40cbcbb68d7a@gmail.com>
-Date: Thu, 28 May 2020 08:32:12 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.8.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QwNl3z+lEOAcwgyVT7KLLqzmE7/NtrkLNdZu67JXMFQ=;
+        b=WjeF55sonSqeFzqcHzFY5sXvzLHIDG4zlFErbLwWjuKjP54CW9fCditiUJaPKsn87J
+         hQ+rOf7OZCRtto18j8G2vxsIIJVYXx7jK8QDm7EpRZuBLxdvwyAwqRbo3glrTI0oJoVP
+         cGz5OC0PWNfTd5XeoOemHrICJaQ+slZjE/D16jb/mJIn0py6fvaO8966CdoLtqEwXPo7
+         6N92E1BfEiYa7Q4kDxo477zGVYZx9uu5niuqaDmUyIIolPiapl517s3jg7bbve0mCXl0
+         +cw2YbCbhwrfnPN+yTJC+X/+IzKF+Iwnv5eImbMYIYo/3dj/L31YfvjDiRykx0SQbuiI
+         BMkw==
+X-Gm-Message-State: AOAM533yTtIxz1V4EIA4Gc11bAHHCYDKarbDmpnhx7HHhe50Dt+saOw5
+	3T3XZHKfCcoalrYzG7ui74BC8wAxcmKrOJvyfMWXBw==
+X-Google-Smtp-Source: ABdhPJyCjiipsoAe7s/Uk8V07eJMUdCJcSNin2HJ0Kti2ThxDTGcQy62iEpltGKs0FaycUamm82N0KPGPvDA0f7HS8s=
+X-Received: by 2002:a17:907:2486:: with SMTP id zg6mr3834528ejb.225.1590682658089;
+ Thu, 28 May 2020 09:17:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200524162528.23693-1-liu.ming50@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20200522220826.27434-1-JPEWhacker@gmail.com> <fb6419f4-4459-4c06-da1c-a297e9972ec3@gmail.com>
+In-Reply-To: <fb6419f4-4459-4c06-da1c-a297e9972ec3@gmail.com>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Thu, 28 May 2020 06:17:27 -1000
+Message-ID: <CAOSpxda9a+oTCMaGObdpy=VfvhJOiUcs8iFnb=psFOPsGeTQ9A@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] checklayer: Skip layers without a collection
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
+On Thu, May 28, 2020 at 4:13 AM Joshua Watt <jpewhacker@gmail.com> wrote:
 
+> I would like to backport this to dunfell if possible.
 
-On 5/24/20 9:25 AM, Ming Liu wrote:
-> From: Ming Liu <ming.liu@toradex.com>
-> 
-> In commit be18dabd:
-> [ at-spi2: Make X11 support truly optional ]
-> 
-> REQUIRED_DISTRO_FEATURES was dropped, so it does not have to inherit
-> features_check.bbclass.
-> 
-> Signed-off-by: Ming Liu <ming.liu@toradex.com>
-> ---
->   meta/recipes-support/atk/at-spi2-atk_2.34.2.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-support/atk/at-spi2-atk_2.34.2.bb b/meta/recipes-support/atk/at-spi2-atk_2.34.2.bb
-> index 107d312d14..02a4d4712c 100644
-> --- a/meta/recipes-support/atk/at-spi2-atk_2.34.2.bb
-> +++ b/meta/recipes-support/atk/at-spi2-atk_2.34.2.bb
-> @@ -9,7 +9,7 @@ SRC_URI[archive.sha256sum] = "901323cee0eef05c01ec4dee06c701aeeca81a314a7d60216f
->   DEPENDS = "dbus glib-2.0 glib-2.0-native atk at-spi2-core libxml2"
->   
->   GNOMEBASEBUILDCLASS = "meson"
-> -inherit gnomebase features_check upstream-version-is-even
-> +inherit gnomebase upstream-version-is-even
->   
+I've already got it in the next batch of patches!
 
+I really do appreciate the heads up on things that are suitable, I
+don't want to miss anything :-)
 
-do we have x11 as packageconfig ? if not perhaps it should be done here too
+You can find what I'm currently testing at:
 
->   PACKAGES =+ "${PN}-gnome ${PN}-gtk2"
->   
-> 
-> 
-> 
-> 
+https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+I try to send a batch out for review at the beginning of each week, so
+this patch will be sent out with next week's group.
+
+Steve
+
+> On 5/22/20 5:08 PM, Joshua Watt wrote:
+> > As in other places in the file, skip layers that don't define a
+> > collection when searching for a layer to resolve a dependency. Fixes
+> > KeyError exceptions when attempting to access the layer collections
+> > later
+> >
+> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > ---
+> >   scripts/lib/checklayer/__init__.py | 3 +++
+> >   1 file changed, 3 insertions(+)
+> >
+> > diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
+> > index 5aeec2f00f..1138000275 100644
+> > --- a/scripts/lib/checklayer/__init__.py
+> > +++ b/scripts/lib/checklayer/__init__.py
+> > @@ -143,6 +143,9 @@ def detect_layers(layer_directories, no_auto):
+> >
+> >   def _find_layer_depends(depend, layers):
+> >       for layer in layers:
+> > +        if 'collections' not in layer:
+> > +            continue
+> > +
+> >           for collection in layer['collections']:
+> >               if depend == collection:
+> >                   return layer
