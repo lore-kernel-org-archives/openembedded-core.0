@@ -1,150 +1,128 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web10.3739.1590629156936050920
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+ by mx.groups.io with SMTP id smtpd.web12.5008.1590635075953588617
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2020 18:25:57 -0700
+ Wed, 27 May 2020 20:04:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=O14hSPrj;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=EeyYRTlv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.54, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f54.google.com with SMTP id fs4so2436715pjb.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2020 20:04:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=3951; q=dns/txt; s=axis-central1;
-  t=1590629157; x=1622165157;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=HcNdqEWjDKt0immFODq1BfzKkQT5aNANhhiUXL5Wed0=;
-  b=O14hSPrjkZc9rD7QO9MNHU4lfwucF1n05hBfQtPszgYDylFEeWf62omA
-   LZI0/1uQJVbDVfkw8EDRpH+sIOjYPMdea4+DjXl3bBpllBUw575LbzOT9
-   uDu3X2xoKedkuVg8dxIzi3PZQfbIxpz0daQmaFa4B220xRkaRdHI+KMsz
-   2/WN/Annq3KBi+E8/v6WVAOskato45w1ePNSnrC6nD7wywCBoNj5Cq7Vp
-   DfIvKokIy1AlJhePLGYdgIOC+SBAmZjK3vOxnbsXzFimr3scJ5v6VbS//
-   CyUzHQMf560OqqmamwyaGC7HTTBFPBwS8yPQZoMENJx6aWbmTXKkMfNJC
-   Q==;
-IronPort-SDR: tZky7ItaRfnEtRa0adLKV89hiDmJRH4axcbUuG6gZToFn9BJH6yRoCvFuDelzBR+sMfr0g4Cxo
- 6ICTT7qBIwQZNbyrTOcl/J9Z4Epyu/OcB7wuLy75auMO33GCEpCGkkPITKppknfDGAgcfMMOnc
- DAbRTKKgnSp5ojE+f0DQbXcqE9Urr/nFOEFwupISpE9pJ9lxtb87LWQwyQ4lque2HDMy83/jFW
- 7qsB9x53imL/vHvbMSyhzNV2CO0ENOBNwlTGbHw2zY3inTFlisjRER5PLIZvHdaqwn2ylDRQWN
- m4s=
-X-IronPort-AV: E=Sophos;i="5.73,443,1583190000"; 
-   d="scan'208";a="9190665"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid an exception if an empty pkgconfig dir exist
-Thread-Topic: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid an
- exception if an empty pkgconfig dir exist
-Thread-Index: AQHWCdRlzShdKB7XZ0iWsxM6QnpIZqiJsMGQgDNOC1A=
-Date: Thu, 28 May 2020 01:25:51 +0000
-Message-ID: <9c968d407ae44858ab74bb766b5f7c13@XBOX03.axis.com>
-References: <20200320180420.32303-1-pkj@axis.com>
- <16025BE698C394B5.19764@lists.openembedded.org>
- <16090558444D87E6.18576@lists.openembedded.org>
-In-Reply-To: <16090558444D87E6.18576@lists.openembedded.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.20.13.15]
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qq8lQwoJVrQzV5ntgwcAfEJhnYfRneM/GCw08Q+yCPs=;
+        b=EeyYRTlv1XlaYmSH6npLACR76DYvaV5T10iQ6/HK4wLbJpPT7yQ1AFTCBUvpv3pqgA
+         8lMqj+ueez494bhziHky14lbxw/K/h1KEi3dZEg+fF9WZ0Yjo13dawaevMJYsjV8dG6v
+         vnIw2swzgCEI7hLs8TtZ7hwSEuQX9qWfizGU8Tjink4OascU5LuXL7lhElxWdRPHw5cc
+         3GMX80/KnphKHUSUMZOLDd3YyboN4yh3G5hn/lOeYReZ/NxjW9Z8KMlh84dcHv5pWNTL
+         GQKBa+S9BjeoUn6upLShgMav/GrJ4Zx1w55ZuQ80hiKewbm9lrk7eoI4x40mFbApACR1
+         rTYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=qq8lQwoJVrQzV5ntgwcAfEJhnYfRneM/GCw08Q+yCPs=;
+        b=RrCqgQUsSGD5HT5H6iGzECVvfSxKEQ/XjoSRSFtDdCCNnJbbCc+wXL9/1+6kO+Zawq
+         NLk3r2W6WWHeB+V+PPSCoMSkfvBlOrdaklI5qMwhlhsM/aJTplPIE2QkSbeXCIm1puSp
+         Sbo1enm5C0jyS0So/Xxmp4pMHS9Fft226/i9WXTDTDJzkO9W9HYSAup/diJhylicNSn/
+         AtPIbuDMqd7nJ66qyd3NhlChOGeBHpRqvRaKlkNNQb6hWRIm+HnUjYiREU+Pn2qYRaMR
+         bdIrKA7It+QzNwePVZk8oePOXZ8S0/hclRU2ZHGZSW8AMHRSFX/MEuUX8zQH9H/hSIw7
+         iCzw==
+X-Gm-Message-State: AOAM530CtaSHW62qnAd/F8fGqjpnuBbkOjnc1D8hsvdb9nER9bX+Raje
+	FgoKLVqR7nPVLMefcUw8dba39pcA8Bg=
+X-Google-Smtp-Source: ABdhPJxU+iCp/PuLnfQAdKY94OG57odlnx60vDrZvHmdBm/BBeFRJGuNn2yOk+ZPcycrgGnfioYmWA==
+X-Received: by 2002:a17:90a:fb8e:: with SMTP id cp14mr1472074pjb.56.1590635074276;
+        Wed, 27 May 2020 20:04:34 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id g18sm3213813pfq.146.2020.05.27.20.04.32
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2020 20:04:33 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 00/16] Pull request (cover letter only)
+Date: Wed, 27 May 2020 17:04:12 -1000
+Message-Id: <cover.1590619258.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-*ping* *ping* *ping*
+The following changes since commit 5bfdb6bfbd6f1de10d415228e5a5ebe01a623e2a:
 
-I am not sure why this is being ignored. It is two months since I=20
-first sent it and the third time I ping it. I have not received any=20
-objections, yet it has never made it even to master-next as far as=20
-I know.=20
+  file: add PACKAGECONFIG for auto options (2020-05-14 06:33:16 -1000)
 
-This should not be taken as a complaint. I know there has been=20
-problems with the autobuilder and that patch integration has been=20
-slowed, and during this time all other patches I have sent have=20
-been applied on the first try. So it just seems to be this one that=20
-has been left out, and I would like to know if there is a reason or=20
-if it just has fallen between the cracks.
+are available in the Git repository at:
 
-//Peter
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-next
 
-PS. The patch of course applies to Dunfell now too in addition to=20
-master and Zeus since it has been released in the meantime.
+Adrian Bunk (2):
+  git: Upgrade 2.24.1 -> 2.24.3
+  wireless-regdb: Upgrade 2019.06.03 -> 2020.04.29
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 25 april 2020 11:17
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid a=
-n exception if an empty pkgconfig dir exist
->=20
-> *ping again*
->=20
-> //Peter
->=20
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
-.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > Sent: den 3 april 2020 18:24
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid=
- an exception if an empty pkgconfig dir exist
-> >
-> > *ping*
-> >
-> > //Peter
-> >
-> > > -----Original Message-----
-> > > From: openembedded-core-bounces@lists.openembedded.org <openembedded-=
-core-bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > > Sent: den 20 mars 2020 19:04
-> > > To: openembedded-core@lists.openembedded.org
-> > > Subject: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid a=
-n exception if an empty pkgconfig dir exist
-> > >
-> > > Rewrite relocatable_native_pcfiles() so that it can handle that any o=
-f
-> > > the checked pkgconfig directories are empty without causing an
-> > > exception.
-> > >
-> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > ---
-> > >  meta/classes/relocatable.bbclass | 20 +++++++++++---------
-> > >  1 file changed, 11 insertions(+), 9 deletions(-)
-> > >
-> > > diff --git a/meta/classes/relocatable.bbclass b/meta/classes/relocata=
-ble.bbclass
-> > > index 582812c1cf..af04be5cca 100644
-> > > --- a/meta/classes/relocatable.bbclass
-> > > +++ b/meta/classes/relocatable.bbclass
-> > > @@ -6,13 +6,15 @@ python relocatable_binaries_preprocess() {
-> > >      rpath_replace(d.expand('${SYSROOT_DESTDIR}'), d)
-> > >  }
-> > >
-> > > -relocatable_native_pcfiles () {
-> > > -	if [ -d ${SYSROOT_DESTDIR}${libdir}/pkgconfig ]; then
-> > > -		rel=3D${@os.path.relpath(d.getVar('base_prefix'), d.getVar('libdir=
-') + "/pkgconfig")}
-> > > -		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDI=
-R}${libdir}/pkgconfig/*.pc
-> > > -	fi
-> > > -	if [ -d ${SYSROOT_DESTDIR}${datadir}/pkgconfig ]; then
-> > > -		rel=3D${@os.path.relpath(d.getVar('base_prefix'), d.getVar('datadi=
-r') + "/pkgconfig")}
-> > > -		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDI=
-R}${datadir}/pkgconfig/*.pc
-> > > -	fi
-> > > +relocatable_native_pcfiles() {
-> > > +	for dir in ${libdir}/pkgconfig ${datadir}/pkgconfig; do
-> > > +		files_template=3D${SYSROOT_DESTDIR}$dir/*.pc
-> > > +		# Expand to any files matching $files_template
-> > > +		files=3D$(echo $files_template)
-> > > +		# $files_template and $files will differ if any files were found
-> > > +		if [ "$files_template" !=3D "$files" ]; then
-> > > +			rel=3D$(realpath -m --relative-to=3D$dir ${base_prefix})
-> > > +			sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" $files
-> > > +		fi
-> > > +	done
-> > >  }
-> > > --
-> > > 2.21.1
-> >
-> > //Peter
+Alexander Kanavin (1):
+  testresults.json: add duration of the tests as well
+
+Aníbal Limón (3):
+  recipes-kernel/linux-firmware: Add wlanmdsp.mbn to qcom-modem package
+  recipes-kernel/linux-firmware: Add adreno-a630 firmware package
+  linux-firmware: Update to 20200122 -> 20200421
+
+Jan-Simon Moeller (1):
+  file: add bzip2-replacement-native to DEPENDS to fix sstate issue
+
+Kai Kang (1):
+  gcr: depends on gnupg-native
+
+Lee Chee Yang (1):
+  qemu: fix CVE-2020-11869
+
+Marek Vasut (1):
+  libubootenv: Depend on zlib
+
+Mingli Yu (2):
+  bison: fix the parallel build
+  python3-setuptools: add the missing rdepends
+
+Paul Barker (2):
+  archiver.bbclass: Make do_deploy_archives a recursive dependency
+  avahi: Don't advertise example services by default
+
+Quentin Schulz (1):
+  base/insane: Check pkgs lics are subset of recipe lics only once
+
+zhengruoqin (1):
+  make-mod-scripts: Fix dependence error.
+
+ meta/classes/archiver.bbclass                 |  4 +-
+ meta/classes/base.bbclass                     | 13 ---
+ meta/classes/insane.bbclass                   | 21 +++-
+ meta/lib/oeqa/core/runner.py                  |  6 +-
+ meta/recipes-bsp/u-boot/libubootenv_0.2.bb    |  2 +-
+ meta/recipes-connectivity/avahi/avahi.inc     |  5 +
+ .../0001-bison-fix-the-parallel-build.patch   | 63 ++++++++++++
+ meta/recipes-devtools/bison/bison_3.5.3.bb    |  1 +
+ meta/recipes-devtools/file/file_5.38.bb       |  2 +-
+ meta/recipes-devtools/git/git_2.24.1.bb       | 11 ---
+ meta/recipes-devtools/git/git_2.24.3.bb       |  9 ++
+ .../python/python-setuptools.inc              |  2 +
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2020-11869.patch            | 97 +++++++++++++++++++
+ meta/recipes-gnome/gcr/gcr_3.34.0.bb          |  2 +-
+ ...20200122.bb => linux-firmware_20200421.bb} | 12 ++-
+ .../make-mod-scripts/make-mod-scripts_1.0.bb  |  2 +
+ ....06.03.bb => wireless-regdb_2020.04.29.bb} |  3 +-
+ 18 files changed, 219 insertions(+), 37 deletions(-)
+ create mode 100644 meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
+ delete mode 100644 meta/recipes-devtools/git/git_2.24.1.bb
+ create mode 100644 meta/recipes-devtools/git/git_2.24.3.bb
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-11869.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20200122.bb => linux-firmware_20200421.bb} (98%)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2019.06.03.bb => wireless-regdb_2020.04.29.bb} (91%)
+
+-- 
+2.17.1
 
