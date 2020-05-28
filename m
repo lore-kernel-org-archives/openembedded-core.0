@@ -1,90 +1,77 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web10.15741.1590682659639000441
+Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com [209.85.222.67])
+ by mx.groups.io with SMTP id smtpd.web12.17658.1590687507222679671
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2020 09:17:40 -0700
+ Thu, 28 May 2020 10:38:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=sixx2mcW;
- spf=softfail (domain: sakoman.com, ip: 209.85.218.65, mailfrom: steve@sakoman.com)
-Received: by mail-ej1-f65.google.com with SMTP id x1so581579ejd.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 09:17:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qzhAnjfw;
+ spf=pass (domain: gmail.com, ip: 209.85.222.67, mailfrom: armccurdy@gmail.com)
+Received: by mail-ua1-f67.google.com with SMTP id g14so4248969uaq.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 10:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QwNl3z+lEOAcwgyVT7KLLqzmE7/NtrkLNdZu67JXMFQ=;
-        b=sixx2mcWwnXpoGKk8RVSFENDq7bTD7D+PbUFfD92zq7STGw1sZoHvr3cSEpYO2TvlY
-         w0luG7mYEc5o2foWGrGHc5vIRN8/FoA31iG4s4cw3QUk6r+hMwifhFycoJzERD/d3ER7
-         kg1BZkrM8SIXM1ZQchlOZRiU97Sdl60o1GA9HzRlqa19nflEEP1XMcF5zZmgKjHCQ7ZG
-         +EoM8SDp3isECIz8FWTiOgEg9Y1FdDvchOcy34JfI+mXx4m0NbLl39IKODyuWS2zOSAZ
-         o6B3sVH5v6YHPKX6FnYlhlaqudT3cpWqRng7q0XeYlJjIACPIfMAIzNvW8Ikapovxfeg
-         4yrA==
+        bh=zV+AX0gNpISIzumlq4QF2B+OVScBLbI3Zt6Z2EyVe1M=;
+        b=qzhAnjfw/TwqXOYX/yvUuDG2ld+m6DK14LHlrZXliMStzgLeTzA3yOpiuDkY6pWcpg
+         qv4Nkpg1BjOjLLfYHxbpYdhYCTN5MBon/1Bu1KRbJ1cUAFKAAJzPvxQjBBPW5cD13ykt
+         vE5Krm/NrDCfxxqt/93Hxi9WCLV2SHcZfGlDu5WvrxKiKaHplrUPxrS4obRvUZSJcaS9
+         2QthYUYy7DO6roO6YaqVaX8JDX4UR2bOWK9rw4pbSH55xIZLmurgcM4GH8ukuX8hcuA/
+         Kg5smrknl4UfAcjGx3TkTaJ5hXBac64qg5MFPkuiG+Jh83PmndZqGLzLjclgggYgIMBl
+         zoQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QwNl3z+lEOAcwgyVT7KLLqzmE7/NtrkLNdZu67JXMFQ=;
-        b=WjeF55sonSqeFzqcHzFY5sXvzLHIDG4zlFErbLwWjuKjP54CW9fCditiUJaPKsn87J
-         hQ+rOf7OZCRtto18j8G2vxsIIJVYXx7jK8QDm7EpRZuBLxdvwyAwqRbo3glrTI0oJoVP
-         cGz5OC0PWNfTd5XeoOemHrICJaQ+slZjE/D16jb/mJIn0py6fvaO8966CdoLtqEwXPo7
-         6N92E1BfEiYa7Q4kDxo477zGVYZx9uu5niuqaDmUyIIolPiapl517s3jg7bbve0mCXl0
-         +cw2YbCbhwrfnPN+yTJC+X/+IzKF+Iwnv5eImbMYIYo/3dj/L31YfvjDiRykx0SQbuiI
-         BMkw==
-X-Gm-Message-State: AOAM533yTtIxz1V4EIA4Gc11bAHHCYDKarbDmpnhx7HHhe50Dt+saOw5
-	3T3XZHKfCcoalrYzG7ui74BC8wAxcmKrOJvyfMWXBw==
-X-Google-Smtp-Source: ABdhPJyCjiipsoAe7s/Uk8V07eJMUdCJcSNin2HJ0Kti2ThxDTGcQy62iEpltGKs0FaycUamm82N0KPGPvDA0f7HS8s=
-X-Received: by 2002:a17:907:2486:: with SMTP id zg6mr3834528ejb.225.1590682658089;
- Thu, 28 May 2020 09:17:38 -0700 (PDT)
+        bh=zV+AX0gNpISIzumlq4QF2B+OVScBLbI3Zt6Z2EyVe1M=;
+        b=j1IdxP/NVKQ5VhnfWzksQtZ7ZbloVUFDWlo6dPlKe6vGiUdrP/cX4Cj1rSYSvhm+OH
+         CX3PzIrk7sPV681/lEBFlHoku3Q9EXxQUPBOpPWW+ga6oMw/+Z6miB4IHAXqifPvxDdh
+         j22sCj+gy09gwvahuEec11q2CgniZgeGjHhY1XMv1ssZ5Z6pE4DmXEnmSjMDxHnQDfvt
+         3qbuepvOhxN2cHvNFnj0fLfCOcLmuoDCi3zHb0NOQ16bmLXiotmlaq4RhLsB/X4a9gD0
+         zjn2hII1OKAaM7VBwGHcM4A7f5tYAfniS7CjniQySnnFKOT6zTg8eEkuDiWjI68hHpAP
+         f/NA==
+X-Gm-Message-State: AOAM532aysZCDGD2gSe81LgUqEjLfLN7aktpBlUp58n9rPOfJ35D0scx
+	hB/2nKfmH1w25kkoXy9tlQuoMhXbjjqWtbWekO0=
+X-Google-Smtp-Source: ABdhPJxD5VJhtCwl7t78PxP/Jbo9dM/gSpsf9W/JzJeNvN/o9O3LI5wIw/6hpGKSaXpYo7ca+v7tcCYnU5w795Oewag=
+X-Received: by 2002:a9f:2788:: with SMTP id b8mr2986617uab.81.1590687506141;
+ Thu, 28 May 2020 10:38:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200522220826.27434-1-JPEWhacker@gmail.com> <fb6419f4-4459-4c06-da1c-a297e9972ec3@gmail.com>
-In-Reply-To: <fb6419f4-4459-4c06-da1c-a297e9972ec3@gmail.com>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Thu, 28 May 2020 06:17:27 -1000
-Message-ID: <CAOSpxda9a+oTCMaGObdpy=VfvhJOiUcs8iFnb=psFOPsGeTQ9A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] checklayer: Skip layers without a collection
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+References: <20200527155011.3165976-1-raj.khem@gmail.com> <20200527155957.GK17660@denix.org>
+ <765f3daeb6ce5f28c2d1e258dd303f5707363678.camel@linuxfoundation.org>
+ <20200527231145.GO17660@denix.org> <f8ee3144eaa92a32d6661f397d7042da9a7db46d.camel@linuxfoundation.org>
+ <20200528133912.GB12536@localhost>
+In-Reply-To: <20200528133912.GB12536@localhost>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Thu, 28 May 2020 10:38:15 -0700
+Message-ID: <CAJ86T=WmE-3Q4Y4ezZs56RRbZ21P=tomBHiSpzyyir_j6wV27w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] linux-libc-headers: Check for asm/bpf_perf_event.h before multilibbing
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Denys Dmytriyenko <denis@denix.org>, 
+	Khem Raj <raj.khem@gmail.com>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, May 28, 2020 at 4:13 AM Joshua Watt <jpewhacker@gmail.com> wrote:
-
-> I would like to backport this to dunfell if possible.
-
-I've already got it in the next batch of patches!
-
-I really do appreciate the heads up on things that are suitable, I
-don't want to miss anything :-)
-
-You can find what I'm currently testing at:
-
-https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-
-I try to send a batch out for review at the beginning of each week, so
-this patch will be sent out with next week's group.
-
-Steve
-
-> On 5/22/20 5:08 PM, Joshua Watt wrote:
-> > As in other places in the file, skip layers that don't define a
-> > collection when searching for a layer to resolve a dependency. Fixes
-> > KeyError exceptions when attempting to access the layer collections
-> > later
+On Thu, May 28, 2020 at 6:39 AM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> On Thu, May 28, 2020 at 02:20:02PM +0100, Richard Purdie wrote:
 > >
-> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > ---
-> >   scripts/lib/checklayer/__init__.py | 3 +++
-> >   1 file changed, 3 insertions(+)
-> >
-> > diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-> > index 5aeec2f00f..1138000275 100644
-> > --- a/scripts/lib/checklayer/__init__.py
-> > +++ b/scripts/lib/checklayer/__init__.py
-> > @@ -143,6 +143,9 @@ def detect_layers(layer_directories, no_auto):
-> >
-> >   def _find_layer_depends(depend, layers):
-> >       for layer in layers:
-> > +        if 'collections' not in layer:
-> > +            continue
-> > +
-> >           for collection in layer['collections']:
-> >               if depend == collection:
-> >                   return layer
+> > Right, external toolchains I can understand having specific version
+> > requirements. What I don't really understand is external toolchains
+> > would come with their own headers in most cases I can think of?
+>
+> What I don't really understand is why kernel 4.1 was mentioned
+> in the submission.
+>
+> At kernel 4.1 times the latest gcc was gcc 5.
+>
+> gcc 5 is not even supported as host gcc in master,
+> and target builds are only tested with gcc 10.
+
+Is that an argument that users with an older vendor kernel should not
+update to newer versions of OE? Or that OE should provide older
+versions of gcc (in addition to the default) in order to support older
+kernels?
+
+And where does it leave OLDEST_KERNEL (currently set to 3.2.0)? If
+even kernel 4.1 is too old to be used with OE master then
+OLDEST_KERNEL looks like it should be updated to avoid giving users
+with older kernels false hope.
