@@ -1,77 +1,80 @@
-Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com [209.85.222.67])
- by mx.groups.io with SMTP id smtpd.web12.17658.1590687507222679671
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+ by mx.groups.io with SMTP id smtpd.web11.18502.1590690112726105388
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2020 10:38:27 -0700
+ Thu, 28 May 2020 11:21:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qzhAnjfw;
- spf=pass (domain: gmail.com, ip: 209.85.222.67, mailfrom: armccurdy@gmail.com)
-Received: by mail-ua1-f67.google.com with SMTP id g14so4248969uaq.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 10:38:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=f2nar7eL;
+ spf=pass (domain: gmail.com, ip: 209.85.167.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f170.google.com with SMTP id i22so21279oik.10
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 11:21:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zV+AX0gNpISIzumlq4QF2B+OVScBLbI3Zt6Z2EyVe1M=;
-        b=qzhAnjfw/TwqXOYX/yvUuDG2ld+m6DK14LHlrZXliMStzgLeTzA3yOpiuDkY6pWcpg
-         qv4Nkpg1BjOjLLfYHxbpYdhYCTN5MBon/1Bu1KRbJ1cUAFKAAJzPvxQjBBPW5cD13ykt
-         vE5Krm/NrDCfxxqt/93Hxi9WCLV2SHcZfGlDu5WvrxKiKaHplrUPxrS4obRvUZSJcaS9
-         2QthYUYy7DO6roO6YaqVaX8JDX4UR2bOWK9rw4pbSH55xIZLmurgcM4GH8ukuX8hcuA/
-         Kg5smrknl4UfAcjGx3TkTaJ5hXBac64qg5MFPkuiG+Jh83PmndZqGLzLjclgggYgIMBl
-         zoQA==
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=5zerdFgSqXDrJ/eACqn91s5zqtgjiAj/ZmFDqlmiyRo=;
+        b=f2nar7eLu9cPxMOSNwWrV4i976KyEf/ksp3JpGeE9aCnGGGl+wF1HBT1eOCY30Ji9E
+         c3msqvKQWp5h+N3/UBDvvU8B25t1prAMDfVgF7PwKXIwkp3klQCY5vIZjnng3pC5adqH
+         QRUATK4C0BDVxdb0Y4EWnMqfWFWmaGXsSnBEFzVQ1xMrgAgcMxBhL4v2E2M73whJh0p6
+         ja8rYPT9HPEZp6QgZsKBi79hUkD+qyq30+PShSX4s7JXUW1+BRixmI6QMnyTmglgTn+8
+         nHMw9Sxu7USaZK+rv6BOxME9XoSkNKKRG0icg95lxfLoc1EYXTl6TBomDObh1pf9PACI
+         HMvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zV+AX0gNpISIzumlq4QF2B+OVScBLbI3Zt6Z2EyVe1M=;
-        b=j1IdxP/NVKQ5VhnfWzksQtZ7ZbloVUFDWlo6dPlKe6vGiUdrP/cX4Cj1rSYSvhm+OH
-         CX3PzIrk7sPV681/lEBFlHoku3Q9EXxQUPBOpPWW+ga6oMw/+Z6miB4IHAXqifPvxDdh
-         j22sCj+gy09gwvahuEec11q2CgniZgeGjHhY1XMv1ssZ5Z6pE4DmXEnmSjMDxHnQDfvt
-         3qbuepvOhxN2cHvNFnj0fLfCOcLmuoDCi3zHb0NOQ16bmLXiotmlaq4RhLsB/X4a9gD0
-         zjn2hII1OKAaM7VBwGHcM4A7f5tYAfniS7CjniQySnnFKOT6zTg8eEkuDiWjI68hHpAP
-         f/NA==
-X-Gm-Message-State: AOAM532aysZCDGD2gSe81LgUqEjLfLN7aktpBlUp58n9rPOfJ35D0scx
-	hB/2nKfmH1w25kkoXy9tlQuoMhXbjjqWtbWekO0=
-X-Google-Smtp-Source: ABdhPJxD5VJhtCwl7t78PxP/Jbo9dM/gSpsf9W/JzJeNvN/o9O3LI5wIw/6hpGKSaXpYo7ca+v7tcCYnU5w795Oewag=
-X-Received: by 2002:a9f:2788:: with SMTP id b8mr2986617uab.81.1590687506141;
- Thu, 28 May 2020 10:38:26 -0700 (PDT)
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=5zerdFgSqXDrJ/eACqn91s5zqtgjiAj/ZmFDqlmiyRo=;
+        b=Xjp42cE9Y4fn54ul+9Nk/nb5FPq/WE/EHXbZUAEqycRg0HTY4NuTcjeLiEDuxPX/jL
+         /Q4LXfT8RoT2O5yTtNG0JPMHag49q2w1ueUu9Hwxb+Ny6dLBwpa1a4QolPnbRH0z04sN
+         /NQmx9Ijyu8YgdE8Y5Upweon2+ctLfNMy0k9yQ1WO943Tc91dnb9vuVFlnNGlK8/8wIy
+         rwH6viNjCQFptanJ3kncRVqxeGaSD1ic0icXDIKKv3x8lpwe2JRTPncuQws0G+ufnypc
+         eMYD7JTt0JiadO67G7kxnojfwhkc4uDA27yZo43Kd2E203qg5Vi4Y9CXm+zM75Skz+Y4
+         khjQ==
+X-Gm-Message-State: AOAM530t9P4xAoKwwk9AG5tgPI5cZhnsjshbM1CZKIoBRxQiiPzG2wJF
+	zbgRWHDfi/IEdgkKFmCN4o5ufIlergM=
+X-Google-Smtp-Source: ABdhPJzIyjXl8xoYfjnPEYEFQbOYJnSGFmZ5e0THmCMNbxa13K4JsQNSTIqwSeM2aVwOY/BoISm1rw==
+X-Received: by 2002:aca:3746:: with SMTP id e67mr2999538oia.112.1590690111675;
+        Thu, 28 May 2020 11:21:51 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from ?IPv6:2601:646:9200:4e0:5cfb:80e2:2942:9b65? ([2601:646:9200:4e0:5cfb:80e2:2942:9b65])
+        by smtp.gmail.com with ESMTPSA id n9sm1766942otl.76.2020.05.28.11.21.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 28 May 2020 11:21:51 -0700 (PDT)
+Subject: Re: [OE-core] go-dev and go-runtime-dev overlapping files
+To: Daniel Ammann <daniel.ammann@bytesatwork.ch>,
+ openembedded-core@lists.openembedded.org
+References: <e04a859c-e00c-e537-7301-6180e052b91f@bytesatwork.ch>
+From: "Khem Raj" <raj.khem@gmail.com>
+Message-ID: <6db4fbc1-8ba5-8008-3cf2-be1a3f59e3f4@gmail.com>
+Date: Thu, 28 May 2020 11:21:50 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.8.1
 MIME-Version: 1.0
-References: <20200527155011.3165976-1-raj.khem@gmail.com> <20200527155957.GK17660@denix.org>
- <765f3daeb6ce5f28c2d1e258dd303f5707363678.camel@linuxfoundation.org>
- <20200527231145.GO17660@denix.org> <f8ee3144eaa92a32d6661f397d7042da9a7db46d.camel@linuxfoundation.org>
- <20200528133912.GB12536@localhost>
-In-Reply-To: <20200528133912.GB12536@localhost>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Thu, 28 May 2020 10:38:15 -0700
-Message-ID: <CAJ86T=WmE-3Q4Y4ezZs56RRbZ21P=tomBHiSpzyyir_j6wV27w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] linux-libc-headers: Check for asm/bpf_perf_event.h before multilibbing
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, Denys Dmytriyenko <denis@denix.org>, 
-	Khem Raj <raj.khem@gmail.com>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <e04a859c-e00c-e537-7301-6180e052b91f@bytesatwork.ch>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 28, 2020 at 6:39 AM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Thu, May 28, 2020 at 02:20:02PM +0100, Richard Purdie wrote:
-> >
-> > Right, external toolchains I can understand having specific version
-> > requirements. What I don't really understand is external toolchains
-> > would come with their own headers in most cases I can think of?
->
-> What I don't really understand is why kernel 4.1 was mentioned
-> in the submission.
->
-> At kernel 4.1 times the latest gcc was gcc 5.
->
-> gcc 5 is not even supported as host gcc in master,
-> and target builds are only tested with gcc 10.
 
-Is that an argument that users with an older vendor kernel should not
-update to newer versions of OE? Or that OE should provide older
-versions of gcc (in addition to the default) in order to support older
-kernels?
 
-And where does it leave OLDEST_KERNEL (currently set to 3.2.0)? If
-even kernel 4.1 is too old to be used with OE master then
-OLDEST_KERNEL looks like it should be updated to avoid giving users
-with older kernels false hope.
+On 5/28/20 7:40 AM, Daniel Ammann wrote:
+> Hi
+> 
+> According to commit 60dcae509a210f2cae8eda525a1b006663aef9bf, there shouldn't be
+> conflicting files in packages, say go-dev and go-runtime-dev. As far as I know,
+> this is generally true.
+> 
+> There are however many overlapping files in /usr/lib/go/src/cmd/. Should the
+> recipe for go-runtime modified to not include those?
+> 
+
+This should be fixed with
+https://git.openembedded.org/openembedded-core/commit/?id=307ad88822950e8523b313d70a1fbab87048fa8d
+
+> Thanks and kind regards
+> 
+> Daniel
+> 
+> 
+> 
+> 
