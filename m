@@ -1,74 +1,74 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web12.13523.1590676848744227716
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
+ by mx.groups.io with SMTP id smtpd.web11.14093.1590678535248916591
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2020 07:40:49 -0700
+ Thu, 28 May 2020 08:08:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bytesatwork-ch.20150623.gappssmtp.com header.s=20150623 header.b=BnZlPebO;
- spf=pass (domain: bytesatwork.ch, ip: 209.85.128.49, mailfrom: daniel.ammann@bytesatwork.ch)
-Received: by mail-wm1-f49.google.com with SMTP id u13so3414668wml.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 07:40:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=F635msZr;
+ spf=pass (domain: gmail.com, ip: 209.85.214.193, mailfrom: akuster808@gmail.com)
+Received: by mail-pl1-f193.google.com with SMTP id m7so11670953plt.5
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 08:08:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bytesatwork-ch.20150623.gappssmtp.com; s=20150623;
-        h=to:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=EGkYMXClqRC4dOfNdmvDCZCGZ5WRo9vKZK6rriT0lAw=;
-        b=BnZlPebOP51Cu+rsEjY8NHLfMev8G4CG4Gv5UKPchyITfmdgIxEIpDtIJJN7SHqgNo
-         y3peGj7Glo4V+yBZVIZRw6lC9+WwzwPdWzMnvCukUoJ3LcAchsb0JzOu6gT72AWL0YdJ
-         ZUd8t9ZvXifr7z3162UBVe+4TXmppVqCEdIWmkxqB2600AfXXQnwDhfgTPRVENDXZuik
-         C3sqHJMZyNURinbpPJnO0ekC6FGjbtRwrD8oVRq3fDohMi9Jlqdo0NU99FwyJfigBfff
-         tfQss+PgUeeNmh58xHAofeMSwr1pi+TKQCCwBeaTxcMpykVBdO6ym8pebGQStO2EO3ZF
-         6vfg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=Pmslr1zVq6TmwepO1saD1ssuglwcObqU6MT4vKU8/C8=;
+        b=F635msZrWxi/r9hrIy96yAdCN9KYJj/s4HnJJ0/242Z0GjVkaIxLFzKquoq76f4A1U
+         E35m3msvdnjOA4x2zVZyhqZK957wkAn/cjy/KghwYPNxziHPt/jsZz0+qdXlNa5yIhac
+         Kg53QPnOi+jo8rsvUQ+hkidrE7qzsvLWMTw4aqQDb7F2jm8LVVc4bGDCQgXCEMwW7Olh
+         SibEdfSCV4EJb1NTGpfSSaxCQGdDwCx4uuFqcs9YMnd6Yx+hVtEPujNhnUehI8aOOwBW
+         ktWCw7QkS8BiK/Sp/xdLOv0m0DZNCCZOQ8Tcw9gLM/kpOXOr4HVA3L7cHyI9f2NsxezF
+         p4VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=EGkYMXClqRC4dOfNdmvDCZCGZ5WRo9vKZK6rriT0lAw=;
-        b=C5kRK+AwwO012oPSnAWiZnv3N2E1zuVT/1RtM9HxrIqUt2NxhQk0++BVXlUjKlNtC0
-         EtYCfcX6LmufLQXwnO8PhLj52/g37znwDL1gLT08v4UmhZ7/oIpPK/2+dcICibMdoTKt
-         L4g5kGu4Y0GnVoG68eOaYxGgsLDvjuD/Ia6gm3xENfemO7lST+4rtp6qdbExgvnitMs1
-         I5Sw1ejE10ltN5LLQkrEKk6z4wlvW3HB6M0iOiJl72EjyIxOQw2AHax6X9D9OD1AtIIk
-         aMrFAs5n6dzb0wa9Gqqba7kMn2WoAxRoIcC9ZxtM/NVpmZAmyjiOdWMxT8x5ugPFLETv
-         KbJw==
-X-Gm-Message-State: AOAM5317QgLSlgN96plb7boNaMsAw0TJJNCyR+ydidpcN0aMawg+UoMw
-	ebfnXB0i/3RQYsb2LCUD42BvMzxOPJsEQQ==
-X-Google-Smtp-Source: ABdhPJwBpzazC4YxcD5PGVAg4AvN3doo904IgO5+wPdFm1h/9ySWit57UnLOP3rWjYgEh3NkSK1xJQ==
-X-Received: by 2002:a1c:62d6:: with SMTP id w205mr3508577wmb.97.1590676846928;
-        Thu, 28 May 2020 07:40:46 -0700 (PDT)
-Return-Path: <daniel.ammann@bytesatwork.ch>
-Received: from [172.16.80.18] (162.40.150.83.ftth.as8758.net. [83.150.40.162])
-        by smtp.gmail.com with ESMTPSA id x186sm7228010wmg.8.2020.05.28.07.40.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 May 2020 07:40:46 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Pmslr1zVq6TmwepO1saD1ssuglwcObqU6MT4vKU8/C8=;
+        b=elME3pfbLMGpzWaciLK+RkKN+IzYVNXGUVBpViL2WO/5Zige/A8RZFsJLFUckZKhUy
+         6OTID1ptQ8oa5rJu0c2TcO28hehusW7XFK0GsjDyv+ffHqVIUhesLNUUQ45MAcnoYlwe
+         oA2LfGJj8rDXuhNn16K+op2EI13tuxJMUez+Mz7a4/OcSqp6228G+k/V4WV3zjGF0NXo
+         b9wYSZNbK1BbpKV/oA5bRVKyPgA80gbcIDPMcQ4y2yAW15dwcHFi8cyRRD3fG5Fnxm0L
+         yTQ/0wN3B1gb0YwW/V+dsMJvvktBsI2y/ZQdf/e0KEZNrbZGU7esMUIMAUZw0f3fQX99
+         sDSg==
+X-Gm-Message-State: AOAM5332+gxdXTKy9vfkIHjsFTdfncR4A8qKQpO/94ocTyesgwHuRoXU
+	QtC47UQDlqgWVhtkJycZWuNSi/0b
+X-Google-Smtp-Source: ABdhPJykWMQT3Q0KTXtPAB4I3DwVnrh3V2B8+wxegn9FaNe4ZNsM4JBE4pqDwhkdze97nKEOvphiNw==
+X-Received: by 2002:a17:90a:d78e:: with SMTP id z14mr4282143pju.155.1590678534230;
+        Thu, 28 May 2020 08:08:54 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net ([2601:202:4180:a5c0:34cd:9c9d:ce61:c13d])
+        by smtp.gmail.com with ESMTPSA id nl8sm5930131pjb.13.2020.05.28.08.08.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2020 08:08:53 -0700 (PDT)
+From: "akuster" <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-From: "Daniel Ammann" <daniel.ammann@bytesatwork.ch>
-Subject: go-dev and go-runtime-dev overlapping files
-Message-ID: <e04a859c-e00c-e537-7301-6180e052b91f@bytesatwork.ch>
-Date: Thu, 28 May 2020 16:40:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Cc: Yann Dirson <yann@blade-group.com>,
+	Ross Burton <ross.burton@intel.com>
+Subject: [zeus][PATCH] mesa: fix meson configure fix when 'dri' is excluded from PACKAGECONFIG
+Date: Thu, 28 May 2020 08:08:52 -0700
+Message-Id: <20200528150852.12292-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-Hi
+From: Yann Dirson <yann@blade-group.com>
 
-According to commit 60dcae509a210f2cae8eda525a1b006663aef9bf, there shouldn't be
-conflicting files in packages, say go-dev and go-runtime-dev. As far as I know,
-this is generally true.
+Signed-off-by: Yann Dirson <yann@blade-group.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+(cherry picked from commit 78efff8741f869647790810a3dd41459b9d9d8a6)
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-There are however many overlapping files in /usr/lib/go/src/cmd/. Should the 
-recipe for go-runtime modified to not include those?
-
-Thanks and kind regards
-
-Daniel
-
+diff --git a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+index 3458c19199..346b217585 100644
+--- a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
++++ b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+@@ -23,7 +23,7 @@ index 0e50bb26c0a..de065c290d6 100644
+  with_dri_swrast = dri_drivers.contains('swrast')
+  
+ -with_dri = dri_drivers.length() != 0 and dri_drivers != ['']
+-+with_dri = get_option('dri') or (_drivers.length() != 0 and _drivers != [''])
+++with_dri = get_option('dri') or (dri_drivers.length() != 0 and dri_drivers != [''])
+  
+  gallium_drivers = get_option('gallium-drivers')
+  if gallium_drivers.contains('auto')
 -- 
-bytes at work
-Technoparkstrasse 7
-CH-8406 Winterthur
-Switzerland
+2.17.1
 
-phone: +41 52 550 50 67
