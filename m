@@ -1,123 +1,73 @@
-Received: from esa3.bmw.c3s2.iphmx.com (esa3.bmw.c3s2.iphmx.com [68.232.133.150])
- by mx.groups.io with SMTP id smtpd.web10.10166.1590665441267085093
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web11.10995.1590669656243225061
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2020 04:30:41 -0700
+ Thu, 28 May 2020 05:40:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=CtbQn/g9;
- spf=pass (domain: bmw.de, ip: 68.232.133.150, mailfrom: prvs=4107ed6de=michael.ho@bmw.de)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=iAsuhWSN;
+ spf=pass (domain: gmail.com, ip: 209.85.208.173, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f173.google.com with SMTP id o9so1490107ljj.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 05:40:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1590665442; x=1622201442;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=kDk0Co7M3LjESegWM5iqC4oKJhxtc1enN+cCPUvPwLQ=;
-  b=CtbQn/g9BpSJd8ZJbYPGk7t94tkTQH4isWunV6xToW/YDW92QA6onmVK
-   iFNHjI0ZfJoNWdONENiXC7Xvfe4Pd2G9UIhx9IMDFxHNPSNg40JP+T7Uu
-   r6a9zIhOYiFb9+T136BtyrqJXnY7W3LRt/O7gr/wF5X3Epl7vfhQQRl3P
-   Y=;
-Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
- esa3.bmw.c3s2.iphmx.com with ESMTP/TLS; 28 May 2020 13:30:40 +0200
-Received: from esabb2.muc ([160.50.100.34])  by esagw5.muc with ESMTP/TLS;
- 28 May 2020 13:30:38 +0200
-Received: from smucm09m.bmwgroup.net (HELO smucm09m.europe.bmw.corp) ([160.48.96.45])
- by esabb2.muc with ESMTP/TLS; 28 May 2020 13:30:36 +0200
-Received: from smucm09k.europe.bmw.corp (160.48.96.43) by smucm09m.europe.bmw.corp
- (160.48.96.45) with Microsoft SMTP Server (TLS;
- Thu, 28 May 2020 13:30:36 +0200
-Received: from smucm09k.europe.bmw.corp ([160.48.96.43]) by
- smucm09k.europe.bmw.corp ([160.48.96.43]) with mapi id 15.00.1497.006; Thu,
- 28 May 2020 13:30:36 +0200
-From: "Michael Ho" <Michael.Ho@bmw.de>
-To: <sakoman@gmail.com>
-CC: <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] package_rpm.bbclass: respect package overrides for the main package
-Thread-Topic: [OE-core] [PATCH] package_rpm.bbclass: respect package overrides
- for the main package
-Thread-Index: AQHWMmiHD/PNNGfF5UiuLApEVWAsgqi6eIGAgALpfQA=
-Date: Thu, 28 May 2020 11:30:36 +0000
-Message-ID: <5483300D-5E77-4407-8C5F-317F33B4FD56@bmw.de>
-References: <1590392749-329454-1-git-send-email-michael.ho@bmw.de>
- <CAGDS+n=SfCk_+DeBghVu80=f+RfEJ39Hg72xPG2iUyTwz6WY7A@mail.gmail.com>
-In-Reply-To: <CAGDS+n=SfCk_+DeBghVu80=f+RfEJ39Hg72xPG2iUyTwz6WY7A@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lix0uf/p5wO2Oj1gDbFG0/6buv/x52OzFXt9AfVQT+U=;
+        b=iAsuhWSNnQc0/ZY/uC9OYR7u7crx32r/WBiZGec1RJW7y21Vq9DxbXkhMul8Lp5m9v
+         dylEo1MHAbHSZSiWlkZuNHWffoY75eqI8fIykTDxnAvGqgzKNT/Un5X65SGHQ4878kl3
+         d6taShntjefghSVEYbrpMTYKNrj+qOoBxcKt6fAUlsxPVgByPk0xbdmGln5TYh05VXHL
+         1FIHO32j613q2rtqMvtomWsnQHEDyR6VdVXLnTznu/CeGMP7lKzFiWbn6RW+l9e1a97q
+         nu2GjWCLj73NKI1dw4CvVr8TAhCR7E3BdajjyVzzg80tjpz7qQfiRsflTsg5/AgUoOKF
+         Dx6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=lix0uf/p5wO2Oj1gDbFG0/6buv/x52OzFXt9AfVQT+U=;
+        b=Uhk272U/+pvTLvpsBrCDO2k8vOoeIAHcCBdEdboLW0vw141bWYaKzIr6PeeVM8j6tR
+         RL5D2Y2LrMCA+BRXdGvW13IROe8k6pO8aN1W283J5B/yN3gTW+wBCCXVQpcRKZXri15J
+         hw2lRVQRGM5Z7O8JBfBB1IMCjpUDeSXy6V16Hv911iJ7A+h4yuobwwoMoGawS8Lmmog1
+         BeICFx4M5OBZcNLbZVxKmy0Xk7G1xf+NtR/TizMQ5Nsz+uQeVsjKjaXnAihTttrtHonJ
+         eAqOQf9b0jj1bJBgEqh+ACDXypgnJcc55KeomeKlpj5f6x1ld1qXRmrsmnwGhrS1SmsK
+         bqzw==
+X-Gm-Message-State: AOAM5303FlA+tbTv4Clg6iVp8yZe8YYos+aG302i4xYAA05tVYV3MAj5
+	6q/e7VXtLdeHWRiL4Td5enBLfoLc
+X-Google-Smtp-Source: ABdhPJwE1SSjJA0vNA6CBvYnR7wv1apMyoTGMPaOkzXjUsPdZ+3e8Mcf8XyD22V3ogy5j4voIaqKBA==
+X-Received: by 2002:a2e:2c0a:: with SMTP id s10mr1510241ljs.447.1590669654179;
+        Thu, 28 May 2020 05:40:54 -0700 (PDT)
+Return-Path: <liu.ming50@gmail.com>
+Received: from localhost.localdomain (m83-185-47-112.cust.tele2.se. [83.185.47.112])
+        by smtp.gmail.com with ESMTPSA id f14sm1412061ljp.118.2020.05.28.05.40.53
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 28 May 2020 05:40:53 -0700 (PDT)
+From: "Ming Liu" <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: stefan.agner@toradex.com,
+	max.krummenacher@toradex.com,
+	denys@ti.com,
+	Ming Liu <ming.liu@toradex.com>
+Subject: [OE-core] [PATCH V3 0/3] Introduce UBOOT_INITIAL_ENV/cfg files fixes/coding style fixes
+Date: Thu, 28 May 2020 14:41:26 +0200
+Message-Id: <20200528124129.15100-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Language: en-GB
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <48ADC8D4C616624288117C25DBA677C3@bmwmail.corp>
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 8bit
 
-SGkgU3RldmUsDQoNCk5vdCBzdXJlIGlmIHRoYXQgcXVlc3Rpb24gd2FzIGZvciBtZSBvciB0aGUg
-Z2VuZXJhbCBjb21tdW5pdHkuIEkgdGhpbmsgdGhlIGZvbGxvdy1vbiBzZXJpZXMgZml4aW5nIHRo
-ZSBzc3RhdGUtY2FjaGluZyBtaWdodCBiZSBuaWNlIGluIGR1bmZlbGwgYnV0IEknZCBkZWZlciBq
-dWRnZW1lbnQgdG8gdGhlIGNvbW11bml0eSBhYm91dCB0aGlzIG9uZSBhcyBpdCdzIGFib3V0IGNo
-YW5naW5nIGEgYmVoYXZpb3IgaW4gdGhlIHJlY2lwZXMgYW5kIEkgZG9uJ3Qga25vdyB3aGF0IExU
-UyBndWlkZWxpbmVzIHRoZXJlIGFyZSBpbiBwbGFjZSBpbiB0aGUgcHJvamVjdC4NCg0KU2hvdWxk
-IEkgaW4gdGhlIGZ1dHVyZSBhZGRyZXNzIHBhdGNoZXMgdG8gdGhlIGR1bmZlbGwgYnJhbmNoPyAo
-V2hlcmUgbWlnaHQgSSBmaW5kIHRoZSBndWlkZWxpbmVzIGZvciBzdWJtaXR0aW5nIHRvIGR1bmZl
-bGwgdnMgbWFzdGVyKS4NCg0KVGhhbmtzLg0KDQpLaW5kIHJlZ2FyZHMsDQpNaWNoYWVsDQoNCi0t
-IA0KQk1XIENhciBJVCBHbWJIDQpNaWNoYWVsIEhvDQpTcGV6aWFsaXN0IEVudHdpY2tsdW5nIOKA
-kyBCdWlsZCBhbmQgUmVsZWFzZSBFbmdpbmVlcmluZw0KTGlzZS1NZWl0bmVyLVN0cmHDn2UgMTQN
-Cjg5MDgxIFVsbQ0KDQpUZWwuOiDCrSs0OS03MzEtMzc4MDQtMDcxDQpNb2JpbDogKzQ5LTE1Mi01
-NDk4MC00NzENCkZheDogKzQ5LTczMS0zNzgwNC0wMDENCk1haWw6IG1pY2hhZWwuaG9AYm13LWNh
-cml0LmRlIA0KV2ViOiBodHRwOi8vd3d3LmJtdy1jYXJpdC5kZSA8aHR0cDovL3d3dy5ibXctY2Fy
-aXQuZGUvPg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KQk1XIENhciBJVCBHbWJIDQpHZXNjaMOkZnRzZsO8
-aHJlcjogS2FpLVV3ZSBCYWxzenV3ZWl0IHVuZCBNaWNoYWVsIELDtnR0cmljaA0KU2l0eiB1bmQg
-UmVnaXN0ZXJnZXJpY2h0OiBNw7xuY2hlbiBIUkIgMTM0ODEwDQotLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQog
-DQoNCu+7v09uIDI2LjA1LjIwLCAxOTowMiwgIlN0ZXZlIFNha29tYW4iIDxzYWtvbWFuQGdtYWls
-LmNvbT4gd3JvdGU6DQoNCiAgICBEb2VzIHRoaXMgcGF0Y2ggKGFuZCB0aGUgZm9sbG93LW9uIHNl
-cmllcykgbWFrZSBzZW5zZSBmb3IgaW5jbHVzaW9uIGluIGR1bmZlbGw/DQoNCiAgICBTdGV2ZQ0K
-DQogICAgT24gU3VuLCBNYXkgMjQsIDIwMjAgYXQgOTo0NiBQTSBNaWNoYWVsIEhvIDxNaWNoYWVs
-LkhvQGJtdy5kZT4gd3JvdGU6DQogICAgPg0KICAgID4gRnJvbTogTWljaGFlbCBIbyA8TWljaGFl
-bC5Ib0BibXcuZGU+DQogICAgPg0KICAgID4gQXBwbHkgJHtQTn0gdG8gT1ZFUlJJREVTIHdoZW4g
-ZGV0ZXJtaW5pbmcgdGhlIGJhc2UgcGFja2FnZSBzcGVjIHZhcmlhYmxlcy4NCiAgICA+IFdpdGhv
-dXQgdGhpcywgdGhlcmUgaXMgYSBtaXNtYXRjaCBpbiBiZWhhdmlvdXIgd2hlcmUgb3ZlcnJpZGVz
-IGZvciB0aGUgYmFzZQ0KICAgID4gcGFja2FnZSBoYXZlIG5vIGVmZmVjdCB3aGlsZSBvdmVycmlk
-ZXMgZm9yIHN1YnBhY2thZ2VzIGRvLiBUaGUgc3VicGFja2FnZXMNCiAgICA+IHNob3VsZCBub3Qg
-YmUgYWZmZWN0ZWQgYnkgdGhpcyBvdmVycmlkZSBhcyB0aGV5IGFwcGx5IHRoZWlyIG93biBwYWNr
-YWdlDQogICAgPiBvdmVycmlkZXMgYW5kIHdpbGwgYnkgZGVmYXVsdCBmZXRjaCB0aGUgYmFzZSB2
-YXJpYWJsZXMgYW5kIGFwcGx5IHRoZW0gaW4NCiAgICA+IHRoZSBzcGVjIGZpbGUuDQogICAgPg0K
-ICAgID4gVGhpcyBtYWtlcyB0aGUgYmVoYXZpb3VyIGZvciBwYWNrYWdlIG92ZXJyaWRlcyBtYXRj
-aCB0aGUgaW1wbGVtZW50YXRpb24NCiAgICA+IGluIHBhY2thZ2VfZGViLmJiY2xhc3MgYW5kIHBh
-Y2thZ2VfaXBrLmJiY2xhc3MuDQogICAgPg0KICAgID4gU2lnbmVkLW9mZi1ieTogTWljaGFlbCBI
-byA8TWljaGFlbC5Ib0BibXcuZGU+DQogICAgPiAtLS0NCiAgICA+ICBtZXRhL2NsYXNzZXMvcGFj
-a2FnZV9ycG0uYmJjbGFzcyB8IDIyICsrKysrKysrKysrKy0tLS0tLS0tLS0NCiAgICA+ICAxIGZp
-bGUgY2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pDQogICAgPg0KICAg
-ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlX3JwbS5iYmNsYXNzIGIvbWV0YS9j
-bGFzc2VzL3BhY2thZ2VfcnBtLmJiY2xhc3MNCiAgICA+IGluZGV4IDlhNGJlMmUuLjUxOWMyMmIg
-MTAwNjQ0DQogICAgPiAtLS0gYS9tZXRhL2NsYXNzZXMvcGFja2FnZV9ycG0uYmJjbGFzcw0KICAg
-ID4gKysrIGIvbWV0YS9jbGFzc2VzL3BhY2thZ2VfcnBtLmJiY2xhc3MNCiAgICA+IEBAIC0yODYs
-MTYgKzI4NiwxOCBAQCBweXRob24gd3JpdGVfc3BlY2ZpbGUgKCkgew0KICAgID4NCiAgICA+ICAg
-ICAgIyBDb25zdHJ1Y3QgdGhlIFNQRUMgZmlsZS4uLg0KICAgID4gICAgICBzcmNuYW1lICAgID0g
-ZC5nZXRWYXIoJ1BOJykNCiAgICA+IC0gICAgc3Jjc3VtbWFyeSA9IChkLmdldFZhcignU1VNTUFS
-WScpIG9yIGQuZ2V0VmFyKCdERVNDUklQVElPTicpIG9yICIuIikNCiAgICA+IC0gICAgc3JjdmVy
-c2lvbiA9IGQuZ2V0VmFyKCdQS0dWJykucmVwbGFjZSgnLScsICcrJykNCiAgICA+IC0gICAgc3Jj
-cmVsZWFzZSA9IGQuZ2V0VmFyKCdQS0dSJykNCiAgICA+IC0gICAgc3JjZXBvY2ggICA9IChkLmdl
-dFZhcignUEtHRScpIG9yICIiKQ0KICAgID4gLSAgICBzcmNsaWNlbnNlID0gZC5nZXRWYXIoJ0xJ
-Q0VOU0UnKQ0KICAgID4gLSAgICBzcmNzZWN0aW9uID0gZC5nZXRWYXIoJ1NFQ1RJT04nKQ0KICAg
-ID4gLSAgICBzcmNtYWludGFpbmVyICA9IGQuZ2V0VmFyKCdNQUlOVEFJTkVSJykNCiAgICA+IC0g
-ICAgc3JjaG9tZXBhZ2UgICAgPSBkLmdldFZhcignSE9NRVBBR0UnKQ0KICAgID4gLSAgICBzcmNk
-ZXNjcmlwdGlvbiA9IGQuZ2V0VmFyKCdERVNDUklQVElPTicpIG9yICIuIg0KICAgID4gLSAgICBz
-cmNjdXN0b210YWdzY2h1bmsgPSBnZXRfcGFja2FnZV9hZGRpdGlvbmFsX21ldGFkYXRhKCJycG0i
-LCBkKQ0KICAgID4gKyAgICBsb2NhbGRhdGEgPSBiYi5kYXRhLmNyZWF0ZUNvcHkoZCkNCiAgICA+
-ICsgICAgbG9jYWxkYXRhLnNldFZhcignT1ZFUlJJREVTJywgZC5nZXRWYXIoIk9WRVJSSURFUyIs
-IEZhbHNlKSArICI6IiArIHNyY25hbWUpDQogICAgPiArICAgIHNyY3N1bW1hcnkgPSAobG9jYWxk
-YXRhLmdldFZhcignU1VNTUFSWScpIG9yIGxvY2FsZGF0YS5nZXRWYXIoJ0RFU0NSSVBUSU9OJykg
-b3IgIi4iKQ0KICAgID4gKyAgICBzcmN2ZXJzaW9uID0gbG9jYWxkYXRhLmdldFZhcignUEtHVicp
-LnJlcGxhY2UoJy0nLCAnKycpDQogICAgPiArICAgIHNyY3JlbGVhc2UgPSBsb2NhbGRhdGEuZ2V0
-VmFyKCdQS0dSJykNCiAgICA+ICsgICAgc3JjZXBvY2ggICA9IChsb2NhbGRhdGEuZ2V0VmFyKCdQ
-S0dFJykgb3IgIiIpDQogICAgPiArICAgIHNyY2xpY2Vuc2UgPSBsb2NhbGRhdGEuZ2V0VmFyKCdM
-SUNFTlNFJykNCiAgICA+ICsgICAgc3Jjc2VjdGlvbiA9IGxvY2FsZGF0YS5nZXRWYXIoJ1NFQ1RJ
-T04nKQ0KICAgID4gKyAgICBzcmNtYWludGFpbmVyICA9IGxvY2FsZGF0YS5nZXRWYXIoJ01BSU5U
-QUlORVInKQ0KICAgID4gKyAgICBzcmNob21lcGFnZSAgICA9IGxvY2FsZGF0YS5nZXRWYXIoJ0hP
-TUVQQUdFJykNCiAgICA+ICsgICAgc3JjZGVzY3JpcHRpb24gPSBsb2NhbGRhdGEuZ2V0VmFyKCdE
-RVNDUklQVElPTicpIG9yICIuIg0KICAgID4gKyAgICBzcmNjdXN0b210YWdzY2h1bmsgPSBnZXRf
-cGFja2FnZV9hZGRpdGlvbmFsX21ldGFkYXRhKCJycG0iLCBsb2NhbGRhdGEpDQogICAgPg0KICAg
-ID4gICAgICBzcmNkZXBlbmRzICAgICA9IGQuZ2V0VmFyKCdERVBFTkRTJykNCiAgICA+ICAgICAg
-c3JjcmRlcGVuZHMgICAgPSBbXQ0KICAgID4gLS0NCiAgICA+IDIuNy40DQogICAgPg0KICAgID4g
-DQoNCg==
+From: Ming Liu <ming.liu@toradex.com>
+
+Changes in V2:
+
+1 Introduce UBOOT_INITIAL_ENV as suggested by Denys Dmytriyenko.
+2 Fix cfg files in case UBOOT_CONFIG is enabled.
+3 Add fix for some inconsistent coding style.
+
+Ming Liu (3):
+  u-boot: support merging .cfg files for UBOOT_CONFIG
+  u-boot.inc: fix some inconsistent coding style
+  u-boot: introduce UBOOT_INITIAL_ENV
+
+ meta/recipes-bsp/u-boot/u-boot.inc | 120 ++++++++++++++++++-----------
+ 1 file changed, 74 insertions(+), 46 deletions(-)
+
+-- 
+2.26.2
+
