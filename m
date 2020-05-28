@@ -1,107 +1,150 @@
-Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
- by mx.groups.io with SMTP id smtpd.web12.3587.1590628737315702449
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.3739.1590629156936050920
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2020 18:18:57 -0700
+ Wed, 27 May 2020 18:25:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZzatMnyi;
- spf=pass (domain: gmail.com, ip: 209.85.166.196, mailfrom: maxime.roussinbelanger@gmail.com)
-Received: by mail-il1-f196.google.com with SMTP id 18so26058341iln.9
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2020 18:18:57 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=O14hSPrj;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=3/2O9QQkp1u18M+sgn06G8ISEE9qaHWJ9nmb3tgMmiQ=;
-        b=ZzatMnyi74G9d5jajyfIaBgJIl5DCQAK5PpTMjm2bp1BO4ZBlvSW+hzBe7v9mueoPu
-         MT8DCHqwJxrDxnY19T4vi13sQvelp0D7cPX6DvyH5uX2gKoZTESWz+WMaTqj8SvqmWBo
-         C2QQl7CgEes9k5o44tWYdiTGrdSCt7n6O0H6Bf22qGp0kcrmUuj4yjfWY+xP5gpUJKer
-         HT+03olJV1O4K9gzGF5O5TU4rmtjcCYNOqTBykJjk6plSrSb4rOYwWc+c07Y29j7itBI
-         LOHFyMIPXAcEkQNp3Pofh1Yp475/8RMfc8PPFVLAKU1/NIrNtkWDXOyj3VU45XCcPY21
-         3BYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=3/2O9QQkp1u18M+sgn06G8ISEE9qaHWJ9nmb3tgMmiQ=;
-        b=fClnvl9CxPk5C1K5dUrjBEOCwUFKN3m4nf50sHhysp4lcf7GiBVlwA5kjBu6acleVU
-         rfF8EbFzuSaj2j2637b5Z+bRuqoOMIH3HHR4ODMTFQpLmXDfLZNXLUGM33thtsUbeq/j
-         mVGtnwjgPjijUSeofjwOrRV2hKZ1hTM3lGAMb9/dXKFD05aPNlAlBx0xC+C/9lrZAXkL
-         o/x24T8C75tnvAoMoDZMp0UxM/qfTLhuebuoKAd8gFRo6dWRXM7fHMan4f0QYdpGU9tx
-         xEj5D6EEqMEvEVUAHY/MvnqE2H4ycNqm8Y+DLzUOigLlzbiv4VPLIpJK6bypOXkNoB7I
-         nHpg==
-X-Gm-Message-State: AOAM530rIic3K58B/Vb5Rbegl0QahFez0y+oQ5NgLEoKCnJRsiQ3fUU3
-	3ynfIS1tX5oPpOaPqJdO2qwqx+EjevJkkBxZp5o=
-X-Google-Smtp-Source: ABdhPJyoXn+wIf/6AeZrhYDuPt0HJ6vX/UTnIy0CxDbD194geMD1eL8CprkSySPR+8F4nA2fUiW3/4bFzaGKCoO/RBg=
-X-Received: by 2002:a92:7787:: with SMTP id s129mr844103ilc.297.1590628736620;
- Wed, 27 May 2020 18:18:56 -0700 (PDT)
+  d=axis.com; l=3951; q=dns/txt; s=axis-central1;
+  t=1590629157; x=1622165157;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=HcNdqEWjDKt0immFODq1BfzKkQT5aNANhhiUXL5Wed0=;
+  b=O14hSPrjkZc9rD7QO9MNHU4lfwucF1n05hBfQtPszgYDylFEeWf62omA
+   LZI0/1uQJVbDVfkw8EDRpH+sIOjYPMdea4+DjXl3bBpllBUw575LbzOT9
+   uDu3X2xoKedkuVg8dxIzi3PZQfbIxpz0daQmaFa4B220xRkaRdHI+KMsz
+   2/WN/Annq3KBi+E8/v6WVAOskato45w1ePNSnrC6nD7wywCBoNj5Cq7Vp
+   DfIvKokIy1AlJhePLGYdgIOC+SBAmZjK3vOxnbsXzFimr3scJ5v6VbS//
+   CyUzHQMf560OqqmamwyaGC7HTTBFPBwS8yPQZoMENJx6aWbmTXKkMfNJC
+   Q==;
+IronPort-SDR: tZky7ItaRfnEtRa0adLKV89hiDmJRH4axcbUuG6gZToFn9BJH6yRoCvFuDelzBR+sMfr0g4Cxo
+ 6ICTT7qBIwQZNbyrTOcl/J9Z4Epyu/OcB7wuLy75auMO33GCEpCGkkPITKppknfDGAgcfMMOnc
+ DAbRTKKgnSp5ojE+f0DQbXcqE9Urr/nFOEFwupISpE9pJ9lxtb87LWQwyQ4lque2HDMy83/jFW
+ 7qsB9x53imL/vHvbMSyhzNV2CO0ENOBNwlTGbHw2zY3inTFlisjRER5PLIZvHdaqwn2ylDRQWN
+ m4s=
+X-IronPort-AV: E=Sophos;i="5.73,443,1583190000"; 
+   d="scan'208";a="9190665"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid an exception if an empty pkgconfig dir exist
+Thread-Topic: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid an
+ exception if an empty pkgconfig dir exist
+Thread-Index: AQHWCdRlzShdKB7XZ0iWsxM6QnpIZqiJsMGQgDNOC1A=
+Date: Thu, 28 May 2020 01:25:51 +0000
+Message-ID: <9c968d407ae44858ab74bb766b5f7c13@XBOX03.axis.com>
+References: <20200320180420.32303-1-pkj@axis.com>
+ <16025BE698C394B5.19764@lists.openembedded.org>
+ <16090558444D87E6.18576@lists.openembedded.org>
+In-Reply-To: <16090558444D87E6.18576@lists.openembedded.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.20.13.15]
 MIME-Version: 1.0
-References: <20200526051216.14143-1-maxime.roussinbelanger@gmail.com> <b575e6f22a31a360687917d88ba1af929b7c9ab6.camel@linuxfoundation.org>
-In-Reply-To: <b575e6f22a31a360687917d88ba1af929b7c9ab6.camel@linuxfoundation.org>
-From: =?UTF-8?B?TWF4aW1lIFJvdXNzaW4tQsOpbGFuZ2Vy?= <maxime.roussinbelanger@gmail.com>
-Date: Wed, 27 May 2020 21:18:31 -0400
-Message-ID: <CAE=T-s4HBUhKGa7SjEeCPNe=ZXVdz_x8tWxmndtU3RUopyt3uw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] python3-pathtools: add a recipe
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d0de0305a6ab1ca6"
-
---000000000000d0de0305a6ab1ca6
-Content-Type: text/plain; charset="UTF-8"
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hello!
+*ping* *ping* *ping*
 
-On Wed, May 27, 2020 at 5:49 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2020-05-26 at 01:12 -0400, Maxime Roussin-B=C3=A9langer wrote:
-> > Signed-off-by: Maxime Roussin-B=C3=A9langer <maxime.roussinbelanger@gma=
-il.com
->
-> > ---
-> >  .../python/python3-pathtools_0.1.2.bb               | 13 +++++++++++++
-> >  1 file changed, 13 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/python/
-python3-pathtools_0.1.2.bb
->
-> Should these be in OE-Core or meta-python?
+I am not sure why this is being ignored. It is two months since I=20
+first sent it and the third time I ping it. I have not received any=20
+objections, yet it has never made it even to master-next as far as=20
+I know.=20
 
-I'm always confused by OE-Core, Poky and meta-oe.
+This should not be taken as a complaint. I know there has been=20
+problems with the autobuilder and that patch integration has been=20
+slowed, and during this time all other patches I have sent have=20
+been applied on the first try. So it just seems to be this one that=20
+has been left out, and I would like to know if there is a reason or=20
+if it just has fallen between the cracks.
 
+//Peter
 
-I think when you are referring to meta-python you mean the sub-directory
-inside meta-oe.
-meta-oe might be a better place for them.
+PS. The patch of course applies to Dunfell now too in addition to=20
+master and Zeus since it has been released in the meantime.
 
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 25 april 2020 11:17
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid a=
+n exception if an empty pkgconfig dir exist
+>=20
+> *ping again*
+>=20
+> //Peter
+>=20
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
+.openembedded.org> On Behalf Of Peter Kjellerstedt
+> > Sent: den 3 april 2020 18:24
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid=
+ an exception if an empty pkgconfig dir exist
+> >
+> > *ping*
+> >
+> > //Peter
+> >
+> > > -----Original Message-----
+> > > From: openembedded-core-bounces@lists.openembedded.org <openembedded-=
+core-bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> > > Sent: den 20 mars 2020 19:04
+> > > To: openembedded-core@lists.openembedded.org
+> > > Subject: [OE-core] [master][zeus][PATCH] relocatable.bbclass: Avoid a=
+n exception if an empty pkgconfig dir exist
+> > >
+> > > Rewrite relocatable_native_pcfiles() so that it can handle that any o=
+f
+> > > the checked pkgconfig directories are empty without causing an
+> > > exception.
+> > >
+> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > ---
+> > >  meta/classes/relocatable.bbclass | 20 +++++++++++---------
+> > >  1 file changed, 11 insertions(+), 9 deletions(-)
+> > >
+> > > diff --git a/meta/classes/relocatable.bbclass b/meta/classes/relocata=
+ble.bbclass
+> > > index 582812c1cf..af04be5cca 100644
+> > > --- a/meta/classes/relocatable.bbclass
+> > > +++ b/meta/classes/relocatable.bbclass
+> > > @@ -6,13 +6,15 @@ python relocatable_binaries_preprocess() {
+> > >      rpath_replace(d.expand('${SYSROOT_DESTDIR}'), d)
+> > >  }
+> > >
+> > > -relocatable_native_pcfiles () {
+> > > -	if [ -d ${SYSROOT_DESTDIR}${libdir}/pkgconfig ]; then
+> > > -		rel=3D${@os.path.relpath(d.getVar('base_prefix'), d.getVar('libdir=
+') + "/pkgconfig")}
+> > > -		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDI=
+R}${libdir}/pkgconfig/*.pc
+> > > -	fi
+> > > -	if [ -d ${SYSROOT_DESTDIR}${datadir}/pkgconfig ]; then
+> > > -		rel=3D${@os.path.relpath(d.getVar('base_prefix'), d.getVar('datadi=
+r') + "/pkgconfig")}
+> > > -		sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" ${SYSROOT_DESTDI=
+R}${datadir}/pkgconfig/*.pc
+> > > -	fi
+> > > +relocatable_native_pcfiles() {
+> > > +	for dir in ${libdir}/pkgconfig ${datadir}/pkgconfig; do
+> > > +		files_template=3D${SYSROOT_DESTDIR}$dir/*.pc
+> > > +		# Expand to any files matching $files_template
+> > > +		files=3D$(echo $files_template)
+> > > +		# $files_template and $files will differ if any files were found
+> > > +		if [ "$files_template" !=3D "$files" ]; then
+> > > +			rel=3D$(realpath -m --relative-to=3D$dir ${base_prefix})
+> > > +			sed -i -e "s:${base_prefix}:\${pcfiledir}/$rel:g" $files
+> > > +		fi
+> > > +	done
+> > >  }
+> > > --
+> > > 2.21.1
+> >
+> > //Peter
 
-Thanks,
-Max.
-
->
-> Cheers,
->
-> Richard
-
---000000000000d0de0305a6ab1ca6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello!<br><br>On Wed, May 27, 2020 at 5:49 AM Richard Purd=
-ie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie=
-@linuxfoundation.org</a>&gt; wrote:<br>&gt;<br>&gt; On Tue, 2020-05-26 at 0=
-1:12 -0400, Maxime Roussin-B=C3=A9langer wrote:<br>&gt; &gt; Signed-off-by:=
- Maxime Roussin-B=C3=A9langer &lt;<a href=3D"mailto:maxime.roussinbelanger@=
-gmail.com">maxime.roussinbelanger@gmail.com</a>&gt;<br>&gt; &gt; ---<br>&gt=
-; &gt; =C2=A0.../python/<a href=3D"http://python3-pathtools_0.1.2.bb">pytho=
-n3-pathtools_0.1.2.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-| 13 +++++++++++++<br>&gt; &gt; =C2=A01 file changed, 13 insertions(+)<br>&=
-gt; &gt; =C2=A0create mode 100644 meta/recipes-devtools/python/<a href=3D"h=
-ttp://python3-pathtools_0.1.2.bb">python3-pathtools_0.1.2.bb</a><br>&gt;<br=
->&gt; Should these be in OE-Core or meta-python?<div><br></div><div>I&#39;m=
- always confused by OE-Core, Poky and meta-oe.</div><div><br></div><div><br=
-></div><div>I think when you are referring=C2=A0to meta-python you mean the=
- sub-directory inside meta-oe.</div><div>meta-oe might be a better place fo=
-r them.</div><div><br></div><div><br></div><div>Thanks,</div><div>Max.</div=
-><div><br>&gt;<br>&gt; Cheers,<br>&gt;<br>&gt; Richard</div></div>
-
---000000000000d0de0305a6ab1ca6--
