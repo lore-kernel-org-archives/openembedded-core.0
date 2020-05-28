@@ -1,101 +1,63 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web10.11843.1590672007700628869
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web11.12143.1590673158477680823
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2020 06:20:08 -0700
+ Thu, 28 May 2020 06:39:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eqwk0jQV;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f68.google.com with SMTP id k26so3131459wmi.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 06:20:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=g0ATJSROX2ARyHJe2VZeMEOcsAuhk6Ik5ETWl4RoNUk=;
-        b=eqwk0jQVuh3ln/7dRQ634Elt8pWoejhF21janFzNmqbETz+QO5I+VnczrUJQra8kev
-         ZJ9u9365RolCUwDc7DKj1J0cCoA/lKPPJw7MXBEs9VID6I/rma3m/3Zkmi6WEvZfiDIm
-         hL+aM9EqOsZ1Rj2sLfzJOLAW7sW1NrTTSq6e8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=g0ATJSROX2ARyHJe2VZeMEOcsAuhk6Ik5ETWl4RoNUk=;
-        b=DFGOqYWXYu1czqJl/xFeMRo0D1zeK3/TNIdJs4ZcSTpqO3fpnCtHZpKwrjYic/bVLS
-         v0tUYrt3AsOOzbYdICXrkBu49jPlO+0StfsaSPF2gwAjXlITfLjhqK4sv3PS94NzJeuR
-         48y/lg5uSpU+Qw5iZQiCm0gO/wKhgTwLuwgiUZ+mBHFOou2zQkxuqF/PtmBuYnk1Lw/y
-         MQ7sNeLFGIQN9AgQoZjiYPlalipQN65TGszmUSn/3oLpX/wFirypKjmloYEUP9nKvnK+
-         WYZzGz4HuxnCxjHXsYDmBcrWPjvstUsFpLwCBmBM2AM+qAQlgR51yldsMGZehqDcwKwx
-         Zklg==
-X-Gm-Message-State: AOAM531srFTItBYVTQIb4rSwzhrObgUe6KTxRU1i+As6r8OMtBBMUug0
-	vq1kaNzXEiM3oWK6HM0E2OBMBw==
-X-Google-Smtp-Source: ABdhPJzAyiimsABvEwWB8h5l4iQPO6BQD3ldyx6/Uxi0DHkUxUI0/OLQzUw8O4mJHYar0lBCBZimrA==
-X-Received: by 2002:a1c:dc44:: with SMTP id t65mr3623666wmg.128.1590672006167;
-        Thu, 28 May 2020 06:20:06 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id d13sm6310826wmb.39.2020.05.28.06.20.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 28 May 2020 06:20:04 -0700 (PDT)
-Message-ID: <f8ee3144eaa92a32d6661f397d7042da9a7db46d.camel@linuxfoundation.org>
+ dkim=pass header.i=@stusta.de header.s=default header.b=KTCDNJzN;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=eclz=7k=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49XphL0Dc3z3K;
+	Thu, 28 May 2020 15:39:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1590673155;
+	bh=v6f/dXPMx2TXX3BNDlWdu1GtFsmY35wCHuag+z/mpSM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KTCDNJzNytX3lPLv+Cir1sePCKT1mH0r83HFV/wLdDYPvQNDzY3Rp9G+wKqBNQLHF
+	 DKM03DZSreO5W+Xmib+kjDulyyFuOGl4ihc+0x3bO+t5z9G+9NTm5brv9vVCUZWABJ
+	 GVFfckfWZjRD5WpDrogAb1VN2rq/8DCH9Zu0Q8RkViDUXS1IZKjKcx9Y7T5Rc3jaAX
+	 Sak9964VQWd3RmUxJGIsFqVvhvdLFr29AjTOLs8sDG1DN/i+2GglAeS2ddlCQ0RjgI
+	 Jva9bqnGxFVffBppuo0qPZwss06FaE4XCFPOZKoda2CeWjSe+edExlEvQ8po5OLJbi
+	 x2PZZzFuyZ9Ch8KDOMManldITZBoxHxZy5SKfTnZX1//bnuaKhAunFfTjB4LTrbjMw
+	 EYrhNnVL+PqNcjMTxQE1X1d9sAyqv4Wh4jRj479JLs3yLQLmWzRzKVQtRjWlP3zUg6
+	 XVNJD8DEfLHOBL7IOouwZHqpZrKgNKj7WbP8PFfd3XGVjQCy6lWcMvAZlDka4keeaR
+	 83fL9vZb6lOR9sTV/y/bcpwDsbeWy/osJpdI8gdSjnB/YXKfvOACqzuH51aBMGWzs9
+	 mCswB+vO7loYBBOBQ3lmD41l3NIhl+kCZ5o/XV0ybimNcHJvJJqtkhyJ9WWhqfR6ol
+	 zACpYscoeYDrY7n5EfHMgVj0=
+Date: Thu, 28 May 2020 16:39:12 +0300
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Denys Dmytriyenko <denis@denix.org>, Khem Raj <raj.khem@gmail.com>,
+	openembedded-core@lists.openembedded.org
 Subject: Re: [OE-core] [PATCH] linux-libc-headers: Check for asm/bpf_perf_event.h before multilibbing
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 28 May 2020 14:20:02 +0100
-In-Reply-To: <20200527231145.GO17660@denix.org>
+Message-ID: <20200528133912.GB12536@localhost>
 References: <20200527155011.3165976-1-raj.khem@gmail.com>
-	 <20200527155957.GK17660@denix.org>
-	 <765f3daeb6ce5f28c2d1e258dd303f5707363678.camel@linuxfoundation.org>
-	 <20200527231145.GO17660@denix.org>
-User-Agent: Evolution 3.36.1-2 
+ <20200527155957.GK17660@denix.org>
+ <765f3daeb6ce5f28c2d1e258dd303f5707363678.camel@linuxfoundation.org>
+ <20200527231145.GO17660@denix.org>
+ <f8ee3144eaa92a32d6661f397d7042da9a7db46d.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <f8ee3144eaa92a32d6661f397d7042da9a7db46d.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Wed, 2020-05-27 at 19:11 -0400, Denys Dmytriyenko wrote:
-> On Wed, May 27, 2020 at 10:25:31PM +0100, Richard Purdie wrote:
-> > On Wed, 2020-05-27 at 11:59 -0400, Denys Dmytriyenko wrote:
-> > > On Wed, May 27, 2020 at 08:50:11AM -0700, Khem Raj wrote:
-> > > > asm/bpf_perf_event.h does not exist in older kernels e.g. ( 4.1
-> > > > )
-> > > > this helps in using common header across multiple versions of
-> > > > kernel
-> > > > going back
-> > > 
-> > > This check should have been there from the beginning and for
-> > > every
-> > > header 
-> > > file. It's big PITA to sync this list up, especially when dealing
-> > > with 
-> > > different glibc or kernel than OE-Core, e.g. external toolchains,
-> > > etc.
-> > > 
-> > > Any objections to making this check more generic for every entry
-> > > in
-> > > the list?
-> > 
-> > Yes, a strong objection. We don't want to support or encourage
-> > every
-> > kernel version out there. 
-> > 
-> > I also don't understand why people need to change the libc-headers
-> > anyway :(
+On Thu, May 28, 2020 at 02:20:02PM +0100, Richard Purdie wrote:
 > 
-> I already explained my use-case with external toolchains - those
-> usually come 
-> with specific set of libc-headers. And when those don't match the
-> list from 
-> OE-Core, it causes problems, trying to support some resemblance of
-> multilib. 
-> I believe that got disabled completely now for external-toolchains
-> anyway...
+> Right, external toolchains I can understand having specific version
+> requirements. What I don't really understand is external toolchains
+> would come with their own headers in most cases I can think of?
 
-Right, external toolchains I can understand having specific version
-requirements. What I don't really understand is external toolchains
-would come with their own headers in most cases I can think of?
+What I don't really understand is why kernel 4.1 was mentioned
+in the submission.
 
-Cheers,
+At kernel 4.1 times the latest gcc was gcc 5.
 
-Richard
+gcc 5 is not even supported as host gcc in master,
+and target builds are only tested with gcc 10.
 
+> Cheers,
+> 
+> Richard
 
+cu
+Adrian
