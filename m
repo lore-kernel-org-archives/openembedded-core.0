@@ -1,99 +1,107 @@
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
- by mx.groups.io with SMTP id smtpd.web11.3519.1590628684975775292
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
+ by mx.groups.io with SMTP id smtpd.web12.3587.1590628737315702449
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 May 2020 18:18:05 -0700
+ Wed, 27 May 2020 18:18:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LJZBKyXH;
- spf=pass (domain: gmail.com, ip: 209.85.221.176, mailfrom: armccurdy@gmail.com)
-Received: by mail-vk1-f176.google.com with SMTP id r11so6342161vkf.11
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2020 18:18:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZzatMnyi;
+ spf=pass (domain: gmail.com, ip: 209.85.166.196, mailfrom: maxime.roussinbelanger@gmail.com)
+Received: by mail-il1-f196.google.com with SMTP id 18so26058341iln.9
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 May 2020 18:18:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6vCL5B5sSWuEECRgE5x9EBPwet27woY1PIQa3F9BWG4=;
-        b=LJZBKyXH68lxBkg3qa5fFKoqhZXDII9gbGbSn8WdeuxNnOhBtggjF8naKWzfDfRWxi
-         yfAVhic1h+8QUGOqhVmk1+sKC4Ub8VZy1/4yMhWm7ZGrL2W9dGMIcFRmc31asjTebGq1
-         rXH/DS8+yJ0U2zWsYUIfnRuIcXF6dQFy61DEiYR7huSLiXpfpqaLty/M4e0WasPd7ZAB
-         LmmuBsUcda3MiwBnRVxPl5dAlkK+FQ9xGa7Vre1CtBD9htcVkxsV/jo0Qg+7lRs7ypKq
-         EvxgtG7q2XPMOF0UE25x0YotAwN+LBXjdYEMjWvkMekgsZpDzkJkTbCRULWI4yUvEb5Z
-         2dFw==
+        bh=3/2O9QQkp1u18M+sgn06G8ISEE9qaHWJ9nmb3tgMmiQ=;
+        b=ZzatMnyi74G9d5jajyfIaBgJIl5DCQAK5PpTMjm2bp1BO4ZBlvSW+hzBe7v9mueoPu
+         MT8DCHqwJxrDxnY19T4vi13sQvelp0D7cPX6DvyH5uX2gKoZTESWz+WMaTqj8SvqmWBo
+         C2QQl7CgEes9k5o44tWYdiTGrdSCt7n6O0H6Bf22qGp0kcrmUuj4yjfWY+xP5gpUJKer
+         HT+03olJV1O4K9gzGF5O5TU4rmtjcCYNOqTBykJjk6plSrSb4rOYwWc+c07Y29j7itBI
+         LOHFyMIPXAcEkQNp3Pofh1Yp475/8RMfc8PPFVLAKU1/NIrNtkWDXOyj3VU45XCcPY21
+         3BYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6vCL5B5sSWuEECRgE5x9EBPwet27woY1PIQa3F9BWG4=;
-        b=q+WWO3CCt7pRd7XEouP8gEZq+qqs5plbgppBo8PwlC2dolclK11lW75Rs4r6IznKSv
-         eVMWea+96wfmY0rykX+kCjaCjhY8stycg/AiFGuuxFGC39WYpXDVLt50LuuxnMXIPU/t
-         Xgzw90c4NKvT6BhNwhMasM79MbyTFFkvwz5GulOJwxEEZtbGAOx1IATlD2uqCtAvIy7+
-         35+gs8TFPvmliW3gdx9gtP5/PnRVar0tCoGIG1EZMqlXRexhT3A9UQbj70B0R0a/t57M
-         vtHy43qUiqN0GbMqObWJBPrx7+h+mQAJC9o7Xp1IAgenhhY0G+rYCj7enzJ0LNPxIG3A
-         N1dA==
-X-Gm-Message-State: AOAM531G7MOL/4bre3N0hpbazmPi8rJ5wEdRCAhTxFsqYfK8duLpWWXt
-	nNPD6d9iL64bfEI3MYIU3EVCj4dZNu3ZesWRgfg=
-X-Google-Smtp-Source: ABdhPJxW7O1ItTAcadcZ3WwEnHprK70A9NJw/9STjTvCDw2SlHAiIndl5di13FlsbeCkxVdlVWMS4Pgv+0qqoOPYyy4=
-X-Received: by 2002:a05:6122:11bc:: with SMTP id y28mr525727vkn.75.1590628684007;
- Wed, 27 May 2020 18:18:04 -0700 (PDT)
+        bh=3/2O9QQkp1u18M+sgn06G8ISEE9qaHWJ9nmb3tgMmiQ=;
+        b=fClnvl9CxPk5C1K5dUrjBEOCwUFKN3m4nf50sHhysp4lcf7GiBVlwA5kjBu6acleVU
+         rfF8EbFzuSaj2j2637b5Z+bRuqoOMIH3HHR4ODMTFQpLmXDfLZNXLUGM33thtsUbeq/j
+         mVGtnwjgPjijUSeofjwOrRV2hKZ1hTM3lGAMb9/dXKFD05aPNlAlBx0xC+C/9lrZAXkL
+         o/x24T8C75tnvAoMoDZMp0UxM/qfTLhuebuoKAd8gFRo6dWRXM7fHMan4f0QYdpGU9tx
+         xEj5D6EEqMEvEVUAHY/MvnqE2H4ycNqm8Y+DLzUOigLlzbiv4VPLIpJK6bypOXkNoB7I
+         nHpg==
+X-Gm-Message-State: AOAM530rIic3K58B/Vb5Rbegl0QahFez0y+oQ5NgLEoKCnJRsiQ3fUU3
+	3ynfIS1tX5oPpOaPqJdO2qwqx+EjevJkkBxZp5o=
+X-Google-Smtp-Source: ABdhPJyoXn+wIf/6AeZrhYDuPt0HJ6vX/UTnIy0CxDbD194geMD1eL8CprkSySPR+8F4nA2fUiW3/4bFzaGKCoO/RBg=
+X-Received: by 2002:a92:7787:: with SMTP id s129mr844103ilc.297.1590628736620;
+ Wed, 27 May 2020 18:18:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <qGlJFzBcawqf2UFr8E8EaYuftNrwyxaR9FaRpw7UDU7hVtXdCiCR9oZT9pWwRM-XXY-_OoOVLDeYazLfwnS7FbFIijyMlVVBGHDUc6R_EP8=@protonmail.ch>
-In-Reply-To: <qGlJFzBcawqf2UFr8E8EaYuftNrwyxaR9FaRpw7UDU7hVtXdCiCR9oZT9pWwRM-XXY-_OoOVLDeYazLfwnS7FbFIijyMlVVBGHDUc6R_EP8=@protonmail.ch>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Wed, 27 May 2020 18:17:53 -0700
-Message-ID: <CAJ86T=Wbyg2DeYojcecH7OLwB-SJprXaZ3Nqha0+9t-gPjLn6Q@mail.gmail.com>
-Subject: Re: [OE-core] Issue with qemu and a shared sstate-cache used by different linux distribution supported by yocto
-To: vygu@protonmail.ch
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20200526051216.14143-1-maxime.roussinbelanger@gmail.com> <b575e6f22a31a360687917d88ba1af929b7c9ab6.camel@linuxfoundation.org>
+In-Reply-To: <b575e6f22a31a360687917d88ba1af929b7c9ab6.camel@linuxfoundation.org>
+From: =?UTF-8?B?TWF4aW1lIFJvdXNzaW4tQsOpbGFuZ2Vy?= <maxime.roussinbelanger@gmail.com>
+Date: Wed, 27 May 2020 21:18:31 -0400
+Message-ID: <CAE=T-s4HBUhKGa7SjEeCPNe=ZXVdz_x8tWxmndtU3RUopyt3uw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] python3-pathtools: add a recipe
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000d0de0305a6ab1ca6"
+
+--000000000000d0de0305a6ab1ca6
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 27, 2020 at 5:29 AM vygu via lists.openembedded.org
-<vygu=protonmail.ch@lists.openembedded.org> wrote:
->
-> Hello,
->
-> Since the zeus serie (also with dunfell), we observe an issue with runqemu when we share the sstate-cache thanks to a mirror between different linux distribution supported by yocto.
->
-> If we build a sstate-cache on a debian 10 x86_64 buildfarm,  and after that we use it on an ubuntu 18.04 x86_64, runqemu don't find several libs.
->
-> We have reproduced this problem on two different pc with ubuntu 18.04 and 16.04.
->
-> We don't have this problem, if we use the shared sstate-cache on another debian.
->
-> In all cases, a  ldd on the qemu binary shows us the use of local/host libs, not the yocto libs.
->
-> Is it an expected behavior? or not?
-> Runqemu's libs have to come from the linux distribution or from the yocto build env?
+Hello!
 
-There are two cases, depending on whether you have uninative enabled
-or not. It's disabled by default in oe-core but enabled by default in
-poky (the distro aimed at testing).
+On Wed, May 27, 2020 at 5:49 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2020-05-26 at 01:12 -0400, Maxime Roussin-B=C3=A9langer wrote:
+> > Signed-off-by: Maxime Roussin-B=C3=A9langer <maxime.roussinbelanger@gma=
+il.com
+>
+> > ---
+> >  .../python/python3-pathtools_0.1.2.bb               | 13 +++++++++++++
+> >  1 file changed, 13 insertions(+)
+> >  create mode 100644 meta/recipes-devtools/python/
+python3-pathtools_0.1.2.bb
+>
+> Should these be in OE-Core or meta-python?
 
-With uninative disabled, native binaries link with host libc. Other
-link dependencies are either native packages provided by OE or they
-come from the host. In this case, sstate for native packages is stored
-within a host specific subdirectory of sstate-cache (e.g.
-sstate-cache/ubuntu-18.04). It should be quite safe to share
-sstate-cache between different hosts (since different hosts should
-each use a different subdirectory of sstate-cache). The downside is
-that because different hosts don't share sstate, build times may be
-slower.
+I'm always confused by OE-Core, Poky and meta-oe.
 
-With uninative enabled, native binaries link with uninative libc.
-Other link dependencies should only be native packages provided by OE
-(ie they should NOT come directly from the host). In this case, sstate
-for native packages is stored within a common subdirectory of
-sstate-cache (ie sstate-cache/universal). The assumption is that
-because native packages never link with libs from the host, sstate for
-native packages no longer needs to be host specific.
 
-Unfortunately problems happen if uninative is enabled but a link
-dependency _is_ found from the host. That causes host dependent sstate
-files to pollute sstate-cache/universal, making it unsafe to reuse
-between different hosts. This doesn't happen often, but it does happen
-sometimes, e.g:
+I think when you are referring to meta-python you mean the sub-directory
+inside meta-oe.
+meta-oe might be a better place for them.
 
-  https://git.openembedded.org/openembedded-core/commit/?id=4a996574464028bd5d57b90920d0887d1a81e9e9
 
-It looks like maybe it's happened in your case too. If you want to
-share sstate-cache between different hosts the safest way is to
-disable uninative. If you are happy to test and debug uninative then
-of course give it a try, but be aware that it's not bug free.
+Thanks,
+Max.
+
+>
+> Cheers,
+>
+> Richard
+
+--000000000000d0de0305a6ab1ca6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hello!<br><br>On Wed, May 27, 2020 at 5:49 AM Richard Purd=
+ie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie=
+@linuxfoundation.org</a>&gt; wrote:<br>&gt;<br>&gt; On Tue, 2020-05-26 at 0=
+1:12 -0400, Maxime Roussin-B=C3=A9langer wrote:<br>&gt; &gt; Signed-off-by:=
+ Maxime Roussin-B=C3=A9langer &lt;<a href=3D"mailto:maxime.roussinbelanger@=
+gmail.com">maxime.roussinbelanger@gmail.com</a>&gt;<br>&gt; &gt; ---<br>&gt=
+; &gt; =C2=A0.../python/<a href=3D"http://python3-pathtools_0.1.2.bb">pytho=
+n3-pathtools_0.1.2.bb</a> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+| 13 +++++++++++++<br>&gt; &gt; =C2=A01 file changed, 13 insertions(+)<br>&=
+gt; &gt; =C2=A0create mode 100644 meta/recipes-devtools/python/<a href=3D"h=
+ttp://python3-pathtools_0.1.2.bb">python3-pathtools_0.1.2.bb</a><br>&gt;<br=
+>&gt; Should these be in OE-Core or meta-python?<div><br></div><div>I&#39;m=
+ always confused by OE-Core, Poky and meta-oe.</div><div><br></div><div><br=
+></div><div>I think when you are referring=C2=A0to meta-python you mean the=
+ sub-directory inside meta-oe.</div><div>meta-oe might be a better place fo=
+r them.</div><div><br></div><div><br></div><div>Thanks,</div><div>Max.</div=
+><div><br>&gt;<br>&gt; Cheers,<br>&gt;<br>&gt; Richard</div></div>
+
+--000000000000d0de0305a6ab1ca6--
