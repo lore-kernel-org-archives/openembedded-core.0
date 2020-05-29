@@ -1,166 +1,73 @@
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
- by mx.groups.io with SMTP id smtpd.web12.31380.1590744991898346731
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.31676.1590746530406853091
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 May 2020 02:36:32 -0700
+ Fri, 29 May 2020 03:02:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ncX0V6By;
- spf=pass (domain: gmail.com, ip: 209.85.217.68, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vs1-f68.google.com with SMTP id c1so1092481vsc.11
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 May 2020 02:36:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=f9isD9eC;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: maurofrqueiros@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id u13so2594972wml.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 May 2020 03:02:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jllwK0EEyy3doZIKhvCoQFTuL5oLrBMdiIsJ1uLsqFs=;
-        b=ncX0V6ByAsR1fmGbSinZMoXS4fxCTF1CJT0T7kqFjFReuYFYz2t/CiEOvWF/cs+LSb
-         HFZWMYSh1oXS/fAYE7EB1L3rY8kfqj8BJu8st+xrXud95oHeutiO/WCJVkCtLafbaeCd
-         +Ckyq43pssWdx3HwRspuhPdhtBX2nCfqjQxcpz9OszvtMQjTnhp1CfUD+N/pOghqG5gf
-         SJ04iHkGTcVUo5rxRfTDvV6WHMpBkGGdz+0o0vReGVlED3Ppx2nVYeisUBs2rM9Q+Gzi
-         uXOEfUwDhGzv5Cko+XZnzLSSHMg9IVOwlBqUF6FclWJPDZDzzu9ZGIwApqzKImZs7xse
-         qqDg==
+        h=from:to:cc:subject:date:message-id;
+        bh=Pq1rjFiHyVfTgLwrY2X2NNS+e40M06+DBfE8mnJSS1I=;
+        b=f9isD9eCffT7Fkc89t/nJaoj2ILs7zm/uA3dSbdfhz+OKJ2eb9MHVosLtBtU62rNyF
+         wE/tOnGK/lTOoi6rSiLHjPH9Mo8yDS2GnBPixvG7NmMpDcSIWTCupqqdmLOYVE3TsUxX
+         pxAWkwjXQond88+gZG2ikXH3XDxYSxQjhK4lmG11jyaNvj6MjwTFqJjLrR/5roJS5XIN
+         OJ8wqlWG0z7maIwlicm1JLOj42T1oH7eHO0H8t4zM8uQ95V9V5+L4bvA9nRKzIyNjoft
+         cQyheOsODtNb1BoQUabfX2dw/T7Pthjtx8M5g6lfQDnCajNhnylM8cBP0vli/M0wi8M2
+         otaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jllwK0EEyy3doZIKhvCoQFTuL5oLrBMdiIsJ1uLsqFs=;
-        b=D8ZfqQCgFQOrZY7l5ZloICubQRH0UxRs5ltOID0GjhwrwQwtuwr25helLQPqWOGP2q
-         TqP7XO5wpJXWOrTz7zaHNZz3i1YyxWftKFwF/zs3ANHo8PV3Omv1fKIo2Nfn3Jtagqhr
-         kSqGgnhdVduhq6yW6YUgu1R6ZB3/GQAUt0kt3hUjnOQanQckfeIPWfImeeYpkGgwRXtM
-         KTe5WGztMPYIJlcXQDrpB2tqVbCxmEzW8xj2vvDlYPcuTkh+M6WxgRhkyYQh6QlK37BD
-         SXpWfmEqMT3Cvjg7WAC3AptwmPi8sGcmHvNLZ1Elu0iR5VZFkqJILZdVSdBZIPmpEjhV
-         rlvw==
-X-Gm-Message-State: AOAM533n1sJRyu8y+Z5XHRWjN0kVNzwFxgTdcK1b3SHzMnP/NTxCpDSy
-	+Ge8+pgveUrWg4V2RcvMswnGH2rq5yFFYa5oxbY=
-X-Google-Smtp-Source: ABdhPJzbeftcUIDicHhp0Aq1gwZy25vqDwdpCyNSONq+3h+d+mGBwch6ICzcIiE8wwp0svR33QZ6zbfmnN2iTyYWEPc=
-X-Received: by 2002:a67:d098:: with SMTP id s24mr5194798vsi.25.1590744991045;
- Fri, 29 May 2020 02:36:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200523191238.1224501-1-gzatko@gmail.com> <0f497fa917b7831dff5cf53553758d96c18e30a4.camel@linuxfoundation.org>
- <bb3f3198b359a4533193c61736823fd750c04e10.camel@gmail.com>
-In-Reply-To: <bb3f3198b359a4533193c61736823fd750c04e10.camel@gmail.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Fri, 29 May 2020 11:36:18 +0200
-Message-ID: <CANNYZj_gp8p1s-UyEktvaZcx7EPpyw9m=U1oHaM2XFrZUpZjFA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] docbook-xml: update recipe to stick with the upstream
-To: Gregor Zatko <gzatko@gmail.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000001e9b1405a6c62eda"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Pq1rjFiHyVfTgLwrY2X2NNS+e40M06+DBfE8mnJSS1I=;
+        b=WldY6fhNihSf9vMPGOjIqwm48ELcrBrdcuh2JRtQEh8IZQLuCd+TCHT/d529HmPTbt
+         gO4aQIROq7+VAhgCZJ/KZ8MpB1BZXrNXxVQ6SHaRmbpPJDOjuXc6Y2Qnn/3X8oYH5GUp
+         GOW+z1nadDa5B5PGRFgclyDHvHU7zMZPTx6gYh3Niy8CsJjU6/K0kjVSlZhSUJxmQU5W
+         TD5Yt7DZHtwgj801eTyeuthAdwFITG6gl6FzwUSU2DrMHee9rHaXaRrsGRNq5mMCLaiS
+         ABigZ/5SIRm0vAmKxjP7Z4GbI/c15XZzVK/39XotpmUcbOjSytHdm6vQMVilyDyboSlC
+         OXIQ==
+X-Gm-Message-State: AOAM532KLxAE6SHv4dqev/Ca2d8Q/DK66VcHTo7HBX9jyjbCmema+znG
+	jgj9NSOUZlsqdoXlNScliLw2GhCefdY=
+X-Google-Smtp-Source: ABdhPJzQtwvqa54LG6jovTmpuLx052D3gBIOhkpM5xJQggmmi0tFDlPXHB330nV+zGm6FoMmgJen5A==
+X-Received: by 2002:a1c:abc3:: with SMTP id u186mr7778325wme.21.1590746528615;
+        Fri, 29 May 2020 03:02:08 -0700 (PDT)
+Return-Path: <maurofrqueiros@gmail.com>
+Received: from ctw-bre-003.criticaltechworks.com ([83.240.214.249])
+        by smtp.gmail.com with ESMTPSA id u3sm9445322wrw.89.2020.05.29.03.02.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 May 2020 03:02:07 -0700 (PDT)
+From: =?UTF-8?B?TWF1cm8gUXVlaXLDs3M=?= <maurofrqueiros@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Mauro Queiros <maurofrqueiros@gmail.com>
+Subject: [PATCH v2 1/3] git.py: skip smudging if lfs=0 is set
+Date: Fri, 29 May 2020 11:01:57 +0100
+Message-Id: <20200529100159.32393-1-maurofrqueiros@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
---0000000000001e9b1405a6c62eda
-Content-Type: text/plain; charset="UTF-8"
+Git-LFS objects were being fetched even when lfs=0 was not set.
+This patch disables LFS smudging when lfs=0. That way, only the LFS pointers
+are downloaded during checkout.
 
-Perhaps directly is simplest, with a note on their origin above SRC_URI.
+Signed-off-by: Mauro Queiros <maurofrqueiros@gmail.com>
+---
+ lib/bb/fetch2/git.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Alex
+diff --git a/lib/bb/fetch2/git.py b/lib/bb/fetch2/git.py
+index 5b3793a7..4c7d388e 100644
+--- a/lib/bb/fetch2/git.py
++++ b/lib/bb/fetch2/git.py
+@@ -475,6 +475,9 @@ class Git(FetchMethod):
+ 
+         need_lfs = ud.parm.get("lfs", "1") == "1"
+ 
++        if not need_lfs:
++            ud.basecmd = "GIT_LFS_SKIP_SMUDGE=1 " + ud.basecmd
++
+         source_found = False
+         source_error = []
+ 
+-- 
+2.17.1
 
-On Thu, 28 May 2020 at 23:12, Gregor Zatko <gzatko@gmail.com> wrote:
-
-> On Sun, 2020-05-24 at 16:24 +0100, Richard Purdie wrote:
->
-> On Sat, 2020-05-23 at 21:12 +0200, Gregor Zatko wrote:
->
-> From: Gregor Zatko <
->
-> gzatko@zoznam.sk
->
-> >
->
->
-> Until now a Debian package has been used as a source.
->
-> This change just switches it to project's upstream.
->
->
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13270
->
->
->
-> Signed-off-by: Gregor Zatko <
->
-> gzatko@gmail.com
->
-> >
->
-> ---
->
->  .../docbook-xml-update-catalog.xml.patch      | 515 ------------------
->
->  .../docbook-xml/docbook-xml-dtd4_4.5.bb       |  65 ++-
->
->  2 files changed, 36 insertions(+), 544 deletions(-)
->
->  delete mode 100644 meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/docbook-xml-update-catalog.xml.patch
->
->
-> Unfortunately test builds failed:
->
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/2176
->
->
->
-> Cheers,
->
->
-> Richard
->
->
->
-> The catalogs of versions 4.0 and 4.1.2 are not present standalone in the docbook.org page.
->
-> A question is what is the best choice to include them into the file tree:
->
-> 1) add them directly
->
-> 2) add them as a patch
->
-> 3) extract from a Ubuntu/Debian package where they are present
->
-> 
->
-
---0000000000001e9b1405a6c62eda
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Perhaps directly is simplest, with a note on their or=
-igin above SRC_URI.</div><div><br></div><div>Alex<br></div></div><br><div c=
-lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 28 May 2=
-020 at 23:12, Gregor Zatko &lt;<a href=3D"mailto:gzatko@gmail.com">gzatko@g=
-mail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex"><div style=3D"text-align:left;direction:ltr"><div>On Sun, 2020-05-2=
-4 at 16:24 +0100, Richard Purdie wrote:</div><blockquote type=3D"cite" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:2px solid rgb(114,159,207);paddin=
-g-left:1ex"><pre>On Sat, 2020-05-23 at 21:12 +0200, Gregor Zatko wrote:</pr=
-e><blockquote type=3D"cite" style=3D"margin:0px 0px 0px 0.8ex;border-left:2=
-px solid rgb(114,159,207);padding-left:1ex"><pre>From: Gregor Zatko &lt;</p=
-re><a href=3D"mailto:gzatko@zoznam.sk" target=3D"_blank"><pre>gzatko@zoznam=
-.sk</pre></a><pre>&gt;</pre><pre><br></pre><pre>Until now a Debian package =
-has been used as a source.</pre><pre>This change just switches it to projec=
-t&#39;s upstream.</pre><pre><br></pre><a href=3D"https://bugzilla.yoctoproj=
-ect.org/show_bug.cgi?id=3D13270" target=3D"_blank"><pre>https://bugzilla.yo=
-ctoproject.org/show_bug.cgi?id=3D13270</pre></a><pre><br></pre><pre><br></p=
-re><pre>Signed-off-by: Gregor Zatko &lt;</pre><a href=3D"mailto:gzatko@gmai=
-l.com" target=3D"_blank"><pre>gzatko@gmail.com</pre></a><pre>&gt;</pre><pre=
->---</pre><pre> .../docbook-xml-update-catalog.xml.patch      | 515 -------=
------------</pre><pre> .../docbook-xml/<a href=3D"http://docbook-xml-dtd4_4=
-.5.bb" target=3D"_blank">docbook-xml-dtd4_4.5.bb</a>       |  65 ++-</pre><=
-pre> 2 files changed, 36 insertions(+), 544 deletions(-)</pre><pre> delete =
-mode 100644 meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/docbook-xml-=
-update-catalog.xml.patch</pre></blockquote><pre><br></pre><pre>Unfortunatel=
-y test builds failed:</pre><pre><br></pre><a href=3D"https://autobuilder.yo=
-ctoproject.org/typhoon/#/builders/23/builds/2176" target=3D"_blank"><pre>ht=
-tps://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/2176</pre><=
-/a><pre><br></pre><pre><br></pre><pre>Cheers,</pre><pre><br></pre><pre>Rich=
-ard</pre><pre><br></pre></blockquote><pre><br></pre><pre>The catalogs of ve=
-rsions 4.0 and 4.1.2 are not present standalone in the <a href=3D"http://do=
-cbook.org" target=3D"_blank">docbook.org</a> page.</pre><pre>A question is =
-what is the best choice to include them into the file tree:</pre><pre>1) ad=
-d them directly</pre><pre>2) add them as a patch</pre><pre>3) extract from =
-a Ubuntu/Debian package where they are present</pre></div>
-<br>
-</blockquote></div>
-
---0000000000001e9b1405a6c62eda--
