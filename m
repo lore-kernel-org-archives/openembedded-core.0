@@ -1,89 +1,207 @@
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
- by mx.groups.io with SMTP id smtpd.web11.27042.1590717458142793420
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.84])
+ by mx.groups.io with SMTP id smtpd.web11.27046.1590717473386958597
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2020 18:57:38 -0700
+ Thu, 28 May 2020 18:57:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CwPAyCt4;
- spf=pass (domain: gmail.com, ip: 209.85.160.193, mailfrom: raj.khem@gmail.com)
-Received: by mail-qt1-f193.google.com with SMTP id g18so713471qtu.13
-        for <openembedded-core@lists.openembedded.org>; Thu, 28 May 2020 18:57:38 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=GFdwSO2R;
+ spf=pass (domain: windriver.com, ip: 40.107.223.84, mailfrom: hongxu.jia@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=HAY55dKUEPEuTiBW1vfx33QOJbMXBRNBP4qkHjrp4bT5KCNHZu9zMqjnX40KsqkqOFkoNrtsaSpVTM8AnTbbN84Ir17futujO0u6Vc+hVXsWuhU6Z5XcYFJ6V/6ymdolSlV5ZolMA41Zg46pKUr2tPU+VIVUbQf+xRwi4PCIYmsUolYbKDWo/UOWbUgH78waBAAVZOsW3H0KR9cW212Ak1J3oaDLZ0dF8jzfsAclmDlgViHVBI377gyb+XUh0zejwOLtjI5RieMqfc9uB+kLSWIONOJiJ/PfLc/Ik7JM0i5N+vz9/besuz/7R1fepxxLDVyxpOpwZLJHawTgtndW1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9RjPR8zVgbvK7FxB0pOW/OmgaIkIjGjDTUOMu3zLZpM=;
+ b=QF3SbCvRBVYPrvZ5d/7ALTMod18maYLDFsLNMepadPWoNOZNv0RcRS9juOf0+KdOJFaxZRXHDetmVZhCIKwchZk0NCglpqqH53Gla1y4k8SrEZRgeqDzLp2xYMrXZwtwZ7KrRkL92SM6/QoohM55RG6kmTPQcT3/chx6Tf4SrSy6YvTl/XMOcwzgEZJOIkFHm9ysqbPq7sZTt2SMUpUgvupUMJahKO4gLfUDC5XICtrDUOyYxXfHqNff/1Y/wJMRTzpUB6D36fZr3XUPcZ1xHEHXKVBM2YYqkUiNfWJMalFgckVZTdGa+VTGOiuB02kPayXffpLqjC1i1Yh+8nhgGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8CMDJg914tHrAId/cAdBFJ/J8NDSf2czU3uQeoorg3s=;
-        b=CwPAyCt4aXbpFPU1nZU3OgfAHrjEmBSL3OsoPWGqGkw9MR11ullkrEauRy5y/7MJk2
-         ITcoBtrUTg3H9E65CsV5uFSS8+01Se56a9Y9KUHF0j/UfiRNhDTZpV9UXKa/Y/BMoGOT
-         urS1ZOaBEKU8esMkP0F7D34dDRZ5SXiKAr8PNUaCH4a2W/PsW9QQskjTzmYHY3Fi6s+2
-         CZrGJJEyoo22GtYIccesVoFjXBII+Haij+7O2E6bRKB+j03WS/JtmpshmMBiEF9NfULh
-         oZCj1AhZhoekVEkkC6DXU6AzEKIM+9zSuBCJp+xK/3EHDy+Z3WPCz5BIGfEmZg6taMJT
-         yc4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8CMDJg914tHrAId/cAdBFJ/J8NDSf2czU3uQeoorg3s=;
-        b=iCduNLeSRlBcDvWYC6ITFjfOfCCQ9a2cmcLqMGsT8/0/bxYuwl/YIJLvPy3J4Yvgmv
-         xYkeIE52d9YlDHsMbWSPfqpBAlVOrDwXyLlQmpkJQ2mQ0HrxLwgrRJCJE3IgF2CKWF8Y
-         XX6zm1JnOskUQhKFdjYk/WGFXgqoz8axTGS/1k+PqUtf1gb59L2j/gvS80+tYRHBlRur
-         evAR+KUbXoHKm6bhRET9Hjf06z7XmyzntmHeAo29l6XJi63DH4uWg7xb2b+V9sypb33E
-         ueDW++uIH0rSqkegrDPo9i9jO5l5wud+Z7c+IBNPwy/mloDyoMZihMk62+IieomW/2ls
-         BKOg==
-X-Gm-Message-State: AOAM530NKTGNsVjGp66NpczYii+zdCJpq9O9mSuVHIV44T47R50FhHJL
-	wACpZcAEWrjGPNirx92nZT79xPCRqrxpn63ABro=
-X-Google-Smtp-Source: ABdhPJwGQyrwBjz0Yu1QJIQnXqDdCyuUqZYH/ns3MuGvOlXw3qYGFwb/25wS9oYW4LgMUZHPCFmiUSeeQRRxbTHmutU=
-X-Received: by 2002:ac8:44b3:: with SMTP id a19mr6326936qto.285.1590717457033;
- Thu, 28 May 2020 18:57:37 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9RjPR8zVgbvK7FxB0pOW/OmgaIkIjGjDTUOMu3zLZpM=;
+ b=GFdwSO2RatJXnQznKyty3ElHjWleNQWh1odZRZ3ozaFlKPFa4Tr9Du4yc/3UStmEf1Qa6VwSrL6A43V3EJvTKpDP7yY438H0hobZ6g37lIzcdBaQb2IM3EKfr17wEaqxq0fb4N8sBDMmEVGFYyQMjMJj/PJQWEEo6nkLTQhpnDE=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from DM6PR11MB4380.namprd11.prod.outlook.com (2603:10b6:5:14e::20)
+ by DM6PR11MB3209.namprd11.prod.outlook.com (2603:10b6:5:55::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Fri, 29 May
+ 2020 01:57:51 +0000
+Received: from DM6PR11MB4380.namprd11.prod.outlook.com
+ ([fe80::a402:5c0a:9c87:dd5d]) by DM6PR11MB4380.namprd11.prod.outlook.com
+ ([fe80::a402:5c0a:9c87:dd5d%6]) with mapi id 15.20.3045.018; Fri, 29 May 2020
+ 01:57:51 +0000
+Subject: Re: [OE-core] [PATCH] initramfs-framework/udev: umount /run/media/XXX
+From: "hongxu" <hongxu.jia@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20200525030622.28426-1-hongxu.jia@windriver.com>
+ <b86fb730228c5c66dc33111de6d9628ab88badfc.camel@linuxfoundation.org>
+ <1612DC74B95B207F.28111@lists.openembedded.org>
+Message-ID: <9353b8a2-d91c-f490-dac3-b96cf32a64be@windriver.com>
+Date: Fri, 29 May 2020 09:57:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+In-Reply-To: <1612DC74B95B207F.28111@lists.openembedded.org>
+X-ClientProxiedBy: HK2PR02CA0195.apcprd02.prod.outlook.com
+ (2603:1096:201:21::31) To DM6PR11MB4380.namprd11.prod.outlook.com
+ (2603:10b6:5:14e::20)
+Return-Path: hongxu.jia@windriver.com
 MIME-Version: 1.0
-References: <20200527134844.105405-1-trevor.gamblin@windriver.com>
-In-Reply-To: <20200527134844.105405-1-trevor.gamblin@windriver.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Thu, 28 May 2020 18:57:10 -0700
-Message-ID: <CAMKF1soY7W40VRw-puspRKkmQ0FEiFk35=W_z=uz93Hj2mWVxA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] llvm: upgrade 9.0.1 -> 10.0.0
-To: Trevor Gamblin <trevor.gamblin@windriver.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.148] (60.247.85.82) by HK2PR02CA0195.apcprd02.prod.outlook.com (2603:1096:201:21::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.27 via Frontend Transport; Fri, 29 May 2020 01:57:49 +0000
+X-Originating-IP: [60.247.85.82]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3fff895b-4a96-4624-4079-08d80373b13b
+X-MS-TrafficTypeDiagnostic: DM6PR11MB3209:
+X-Microsoft-Antispam-PRVS: 
+	<DM6PR11MB320909EE0823A53CE50644CE948F0@DM6PR11MB3209.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Forefront-PRVS: 04180B6720
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	34iWb1IFJEqBRLEklcXT0MhHk3sasj/iHHeWZXaZdZbk0PHKrVpEP9O+eMqBCETDq5nv624+Djw3aYSyjSZcilPLR5N6pCw9V/gWNssbJntJ0XKJPxcEYjAC+YMSD08sZT+PZxHPe4nSk/dggY9whFzI8YfF7Ms/+G8Jyuf7KqaQbN/vEK8f4BeIL8PSqMCQy3xV0qoQEQ8eIkYcl+cGL4uoas7xmmeLeTkNNLUPBs0aGn7m9dDMbsFG7GjDU1Wo5Cxccw4hsaHPoL74h/stNRdtDfgI0+Bb1/YDLydiz3rc8CLNloykq4xloLO2kSrRZM/Um8Y6gXcybx3Slb68BbWZJiLsWGht2E7N0qLDHLjjbjlm3YVOR+eORx/ojZzEVKj7L7h1wM7lVjaQ7ZnDv580+syFI3h0wzvbpiQKdzCfxBLONexdmCL7M+cp9Cbkazt7sd2xnbzm1L0mca1QAf5ikx1SSqrE1szh5ayo2Z9deqmZJRo2m0rtdCeHN8aH0tVj68Ee3KRAngDYxPS+bvSpyeRkmtNyTfmUszvCmpwgKkqYru7qceBNp+ZKXaZhzS5n43y58HnSybXLnHXtWQ==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4380.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(39850400004)(366004)(396003)(376002)(136003)(346002)(5660300002)(83380400001)(36756003)(66946007)(31686004)(86362001)(31696002)(66556008)(66476007)(166002)(6706004)(6666004)(8676002)(2906002)(52116002)(8936002)(33964004)(186003)(44832011)(478600001)(2616005)(53546011)(26005)(316002)(16526019)(956004)(16576012)(6486002)(966005)(78286006)(13513002)(21314003)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	kGnxaLKLxXhMo0v9ZSkUKEhjLu/st6V5cSk1Mqbl39QmWeWBly2nKqfMZmZwHxAqJJT4w3Q7mOLOy1jPIUlhvLVxSBeKVSHafw7wXAmcR17zKDvbkCz1G6s6H6VQ04NeAagLxEZCkmYhlaW4vbKnU8NozON0l92zfA9kJow9rPIdIl6IZN83Vp4J8rAOdDbmlWQnAUAGDdiN2U8N21xyNzNDm+G1qbM3qbpyKL7snWc5BeLdSJGwznBsfUCaYuVm57b+zK0mcC0dW9EKUFJM0PbYe4cNO/8S7ErE9I7YqmuDpa5M5aRKGvYT4SJEG3HuOprK5FTYD0Pp/Q8LYg/9U1fVgvakfP5vxA3jLK/9IRiLuSckVQ0OmEVCnGp3220BcSC2j/G//9POjrPuIJxxVbEf4fj+oTqT4B82llELYTkO6RhZbES2ywIKNTVu3MXscss9ml1b5AAg0Lsgbufy9qS5r4fiDjXHVZTY1Z+OrEo=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fff895b-4a96-4624-4079-08d80373b13b
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 May 2020 01:57:51.0663
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 2IudfvZfU/0tnNXY0H/OnxlpnK8PEf8qHP4VdRV6uwOcubsrHKm2AqqDsLG3eozLoc8HsCjn/EFC48HTB772cE1yL913OVim5Dpywmxt+08=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3209
+Content-Type: multipart/alternative;
+ boundary="------------CCA761002E6961B7D51761BD"
+Content-Language: en-US
 
-On Wed, May 27, 2020 at 6:48 AM Trevor Gamblin
-<trevor.gamblin@windriver.com> wrote:
->
-> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-> ---
->  meta/recipes-devtools/llvm/llvm_git.bb | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-> index d24ed761bf..787cc3adcf 100644
-> --- a/meta/recipes-devtools/llvm/llvm_git.bb
-> +++ b/meta/recipes-devtools/llvm/llvm_git.bb
-> @@ -19,9 +19,9 @@ inherit cmake pkgconfig
->
->  PROVIDES += "llvm${PV}"
->
-> -MAJOR_VERSION = "9"
-> +MAJOR_VERSION = "10"
->  MINOR_VERSION = "0"
-> -PATCH_VERSION = "1"
-> +PATCH_VERSION = "0"
->
+--------------CCA761002E6961B7D51761BD
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-It also needs updating LLVMVERSION in
-meta/conf/distro/include/tcmode-default.inc
-secondly, I would suggest to wait for 10.0.1 which is releasing in a weeks time.
+On 5/27/20 6:40 PM, hongxu wrote:
+> On 5/27/20 5:52 PM, Richard Purdie wrote:
+>> On Mon, 2020-05-25 at 11:06 +0800, hongxu wrote:
+>>> In initramfs-framework, before swith_root rootfs, if udev have time
+>>> to
+>>> run (before being killed), it will invoke hook mount.sh (which is
+>>> provided
+>>> by udev-extraconf) to mount /run/media/XXX.
+>>>
+>>> Release the mounted disk after udev being killed.
+>> This feels like a workaround. Would we be better off not installing the
+>> mount scripts into the initramfs in the first place?
+>
+> Follow your suggestion, I just tested it to remove the script, and 
+> everything works well,
+>
+> I will remove it in V2
+>
+Hi RP,
 
->  PV = "${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}"
+As the oe-selftest result, the mount scripts (/run/media/XXX) was used by
+
+meta/recipes-core/initrdscripts/files/init-install.sh, we could not 
+remove mount.sh in V2
+
+How about this workaround V1
+
+//Hongxu
+
+> //Hongxu
 >
-> @@ -29,7 +29,7 @@ LLVM_RELEASE = "${PV}"
->  LLVM_DIR = "llvm${LLVM_RELEASE}"
+>> Cheers,
+>>
+>> Richard
+>>
 >
->  BRANCH = "release/${MAJOR_VERSION}.x"
-> -SRCREV = "c1a0a213378a458fbea1a5c77b315c7dce08fd05"
-> +SRCREV = "d32170dbd5b0d54436537b6b75beaf44324e0c28"
->  SRC_URI = "git://github.com/llvm/llvm-project.git;branch=${BRANCH} \
->             file://0006-llvm-TargetLibraryInfo-Undefine-libc-functions-if-th.patch;striplevel=2 \
->             file://0007-llvm-allow-env-override-of-exe-path.patch;striplevel=2 \
-> --
-> 2.24.1
 >
 > 
+
+
+
+--------------CCA761002E6961B7D51761BD
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <div class="moz-cite-prefix">On 5/27/20 6:40 PM, hongxu wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:1612DC74B95B207F.28111@lists.openembedded.org">On
+      5/27/20 5:52 PM, Richard Purdie wrote:
+      <br>
+      <blockquote type="cite">On Mon, 2020-05-25 at 11:06 &#43;0800, hongxu
+        wrote:
+        <br>
+        <blockquote type="cite">In initramfs-framework, before
+          swith_root rootfs, if udev have time
+          <br>
+          to
+          <br>
+          run (before being killed), it will invoke hook mount.sh (which
+          is
+          <br>
+          provided
+          <br>
+          by udev-extraconf) to mount /run/media/XXX.
+          <br>
+          <br>
+          Release the mounted disk after udev being killed.
+          <br>
+        </blockquote>
+        This feels like a workaround. Would we be better off not
+        installing the
+        <br>
+        mount scripts into the initramfs in the first place?
+        <br>
+      </blockquote>
+      <br>
+      Follow your suggestion, I just tested it to remove the script, and
+      everything works well,
+      <br>
+      <br>
+      I will remove it in V2
+      <br>
+      <br>
+    </blockquote>
+    <p>Hi RP,</p>
+    <p>As the oe-selftest result, the mount scripts (/run/media/XXX) was
+      used by</p>
+    <p>meta/recipes-core/initrdscripts/files/init-install.sh, we could
+      not remove mount.sh in V2<br>
+    </p>
+    <p>How about this workaround V1 <br>
+    </p>
+    <p>//Hongxu<br>
+    </p>
+    <blockquote type="cite" cite="mid:1612DC74B95B207F.28111@lists.openembedded.org">//Hongxu
+      <br>
+      <br>
+      <blockquote type="cite">Cheers,
+        <br>
+        <br>
+        Richard
+        <br>
+        <br>
+      </blockquote>
+      <br>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------CCA761002E6961B7D51761BD--
