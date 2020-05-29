@@ -1,141 +1,111 @@
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+Received: from mga06.intel.com (mga06.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.29384.1590731592716727128
  for <openembedded-core@lists.openembedded.org>;
  Thu, 28 May 2020 22:53:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: tvdHddpybPcaXx6PZUqG8M6sC9mdMKHKrQ5rkzPNyQJHNlJc3K/6+KMFzMvpghkc3zLIw7zmq0
- mMxdIQ8b6oZQ==
+ dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: kQu5QbpRj4W3fow6BwoBLid/G1jYIAfAfwgEduI4W4ZJp/lQQKmAAmbjk1XVwIYU95LPxs0Gvs
+ Z5UYu2swkUHg==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:53:12 -0700
-IronPort-SDR: 9VqIGL8qAh9jqGgjkaxYYVlNNLQDQNwDl2eW/wrua3eY6V4SKQN9944dphB0evxdjijfP4ks08
- dtJ2MSrKMe3g==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:53:13 -0700
+IronPort-SDR: 5HI3WQU9/6kjfo0JcRoO8l+N/MSzcDKsa59i6HQS+cUAn/rmF8lePWNkaV0KU9vkI+kojdm8xL
+ P5ptqE/wOxlg==
 X-IronPort-AV: E=Sophos;i="5.73,447,1583222400"; 
-   d="scan'208";a="414866114"
+   d="scan'208";a="414866116"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.136.157])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:53:10 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:53:12 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 00/25] zeus review request
-Date: Fri, 29 May 2020 13:52:36 +0800
-Message-Id: <cover.1590731377.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 01/25] oeqa/qemurunner: Clean up failure handling
+Date: Fri, 29 May 2020 13:52:37 +0800
+Message-Id: <19120fce4f55f6a2903812ed9461273a85cb3544.1590731377.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.4
+In-Reply-To: <cover.1590731377.git.anuj.mittal@intel.com>
+References: <cover.1590731377.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Please review these next set of changes for zeus.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Thanks,
+If you fail to setup the tap devices, runqemu will error quickly
+however stdout/stderr are not shown to the user, instead a SystemExit
+traceback is shown. This could explain some long since unexplained
+failures on the autobuilder.
 
-Anuj
+Rework the error handling so SystemExit isn't used and the
+standard log failure messages can be shown. The code could
+likely ultimatley need some restructuring to work effectively.
 
-The following changes since commit b63955977ebbf9fba291faa1b30c8dba9bd52869:
+(From OE-Core rev: 83b8e66b66aa9848ed9c8761a21cb47c6443d0c6)
 
-  resulttool/resultutils: Fix unicode error handling (2020-05-15 11:55:34 +0100)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit e820c86fb9ddfadea0c27f29e14b985ee3178320)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib anujm/zeus
-
-Adrian Bunk (1):
-  wireless-regdb: Upgrade 2019.06.03 -> 2020.04.29
-
-Alexander Kanavin (4):
-  gstreamer1.0-python: add a patch to fix python 3.8 builds
-  gst-validate: upgrade 1.16.1 -> 1.16.2
-  icu: update SRC_URI
-  strace: fix failing ptests
-
-Anuj Mittal (10):
-  gstreamer1.0: upgrade 1.16.1 -> 1.16.2
-  gstreamer1.0-plugins-base: upgrade 1.16.1 -> 1.16.2
-  gstreamer1.0-plugins-good: upgrade 1.16.1 -> 1.16.2
-  gstreamer1.0-plugins-bad: upgrade 1.16.1 -> 1.16.2
-  gstreamer1.0-plugins-ugly: upgrade 1.16.1 -> 1.16.2
-  gstreamer1.0-libav: upgrade 1.16.1 -> 1.16.2
-  gstreamer1.0-omx: upgrade 1.16.1 -> 1.16.2
-  gstreamer1.0-python: upgrade 1.16.1 -> 1.16.2
-  gstreamer1.0-rtsp-server: upgrade 1.16.1 -> 1.16.2
-  gstreamer1.0-vaapi: upgrade 1.16.1 -> 1.16.2
-
-Lee Chee Yang (3):
-  qemu: fix CVE-2020-11869
-  ghostscript : fix CVE-2019-10216
-  bind: fix CVE-2020-8616/7
-
-Paul Barker (1):
-  avahi: Don't advertise example services by default
-
-Richard Purdie (3):
-  oeqa/qemurunner: Clean up failure handling
-  targetcontrol: Fix leaking log handler
-  sstatesig: Optimise get_taskhash for hashequiv
-
-Trevor Gamblin (1):
-  python3: fix CVE-2020-8492
-
-Yann Dirson (1):
-  mesa: fix meson configure fix when 'dri' is excluded from
-    PACKAGECONFIG
-
-Zhixiong Chi (1):
-  glibc: CVE-2020-1752
-
- meta/lib/oe/sstatesig.py                      |  13 +-
- meta/lib/oeqa/targetcontrol.py                |   7 +-
- meta/lib/oeqa/utils/qemurunner.py             |  11 +-
- meta/recipes-connectivity/avahi/avahi.inc     |   5 +
- .../bind/bind/CVE-2020-8616.patch             | 206 +++++++++++++++
- .../bind/bind/CVE-2020-8617.patch             |  29 ++
- .../bind/bind_9.11.5-P4.bb                    |   2 +
- .../glibc/glibc/CVE-2020-1752.patch           |  66 +++++
- meta/recipes-core/glibc/glibc_2.30.bb         |   1 +
- ...20-8492-Fix-AbstractBasicAuthHandler.patch | 248 ++++++++++++++++++
- meta/recipes-devtools/python/python3_3.7.7.bb |   1 +
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/CVE-2020-11869.patch            |  97 +++++++
- .../strace/strace/Makefile-ptest.patch        |   2 +-
- meta/recipes-devtools/strace/strace/run-ptest |   7 +-
- .../ghostscript/CVE-2019-10216.patch          |  53 ++++
- .../ghostscript/ghostscript_9.27.bb           |   1 +
- ...Allow-enable-DRI-without-DRI-drivers.patch |   2 +-
- ....06.03.bb => wireless-regdb_2020.04.29.bb} |   3 +-
- ...idate_1.16.1.bb => gst-validate_1.16.2.bb} |   4 +-
- ...1.16.1.bb => gstreamer1.0-libav_1.16.2.bb} |   4 +-
- ...x_1.16.1.bb => gstreamer1.0-omx_1.16.2.bb} |   4 +-
- ....bb => gstreamer1.0-plugins-bad_1.16.2.bb} |   4 +-
- ...bb => gstreamer1.0-plugins-base_1.16.2.bb} |   4 +-
- ...bb => gstreamer1.0-plugins-good_1.16.2.bb} |   4 +-
- ...bb => gstreamer1.0-plugins-ugly_1.16.2.bb} |   4 +-
- ...son.build-fix-builds-with-python-3.8.patch |  24 ++
- ....16.1.bb => gstreamer1.0-python_1.16.2.bb} |   8 +-
- ....bb => gstreamer1.0-rtsp-server_1.16.2.bb} |   4 +-
- ...1.16.1.bb => gstreamer1.0-vaapi_1.16.2.bb} |   4 +-
- ...er1.0_1.16.1.bb => gstreamer1.0_1.16.2.bb} |   4 +-
- meta/recipes-support/icu/icu_64.2.bb          |  11 +-
- 32 files changed, 798 insertions(+), 40 deletions(-)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2020-1752.patch
- create mode 100644 meta/recipes-devtools/python/files/0001-bpo-39503-CVE-2020-8492-Fix-AbstractBasicAuthHandler.patch
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-11869.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-10216.patch
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2019.06.03.bb => wireless-regdb_2020.04.29.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gst-validate_1.16.1.bb => gst-validate_1.16.2.bb} (87%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.16.1.bb => gstreamer1.0-libav_1.16.2.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-omx_1.16.1.bb => gstreamer1.0-omx_1.16.2.bb} (93%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.16.1.bb => gstreamer1.0-plugins-bad_1.16.2.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.16.1.bb => gstreamer1.0-plugins-base_1.16.2.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.16.1.bb => gstreamer1.0-plugins-good_1.16.2.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.16.1.bb => gstreamer1.0-plugins-ugly_1.16.2.bb} (90%)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.16.1.bb => gstreamer1.0-python_1.16.2.bb} (81%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.16.1.bb => gstreamer1.0-rtsp-server_1.16.2.bb} (88%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.16.1.bb => gstreamer1.0-vaapi_1.16.2.bb} (93%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.16.1.bb => gstreamer1.0_1.16.2.bb} (96%)
-
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 0d63e44ea7..3db177b001 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -35,6 +35,7 @@ class QemuRunner:
+ 
+         # Popen object for runqemu
+         self.runqemu = None
++        self.runqemu_exited = False
+         # pid of the qemu process that runqemu will start
+         self.qemupid = None
+         # target ip - from the command line or runqemu output
+@@ -102,7 +103,6 @@ class QemuRunner:
+                 self.logger.debug("Output from runqemu:\n%s" % self.getOutput(self.runqemu.stdout))
+                 self.stop()
+                 self._dump_host()
+-                raise SystemExit
+ 
+     def start(self, qemuparams = None, get_ip = True, extra_bootparams = None, runqemuparams='', launch_cmd=None, discard_writes=True):
+         env = os.environ.copy()
+@@ -206,6 +206,8 @@ class QemuRunner:
+         endtime = time.time() + self.runqemutime
+         while not self.is_alive() and time.time() < endtime:
+             if self.runqemu.poll():
++                if self.runqemu_exited:
++                    return False
+                 if self.runqemu.returncode:
+                     # No point waiting any longer
+                     self.logger.warning('runqemu exited with code %d' % self.runqemu.returncode)
+@@ -215,6 +217,9 @@ class QemuRunner:
+                     return False
+             time.sleep(0.5)
+ 
++        if self.runqemu_exited:
++            return False
++
+         if not self.is_alive():
+             self.logger.error("Qemu pid didn't appear in %s seconds (%s)" %
+                               (self.runqemutime, time.strftime("%D %H:%M:%S")))
+@@ -385,7 +390,7 @@ class QemuRunner:
+                 os.killpg(os.getpgid(self.runqemu.pid), signal.SIGKILL)
+             self.runqemu.stdin.close()
+             self.runqemu.stdout.close()
+-            self.runqemu = None
++            self.runqemu_exited = True
+ 
+         if hasattr(self, 'server_socket') and self.server_socket:
+             self.server_socket.close()
+@@ -425,7 +430,7 @@ class QemuRunner:
+         return False
+ 
+     def is_alive(self):
+-        if not self.runqemu or self.runqemu.poll() is not None:
++        if not self.runqemu or self.runqemu.poll() is not None or self.runqemu_exited:
+             return False
+         if os.path.isfile(self.qemu_pidfile):
+             # when handling pidfile, qemu creates the file, stat it, lock it and then write to it
 -- 
 2.25.4
 
