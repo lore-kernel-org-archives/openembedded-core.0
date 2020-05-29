@@ -1,113 +1,88 @@
 Received: from mga06.intel.com (mga06.intel.com [])
  by mx.groups.io with SMTP id smtpd.web12.29384.1590731592716727128
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2020 22:53:23 -0700
+ Thu, 28 May 2020 22:53:25 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 1IAb0eGzSf6tzAwHTAve3p/+ab0XP84N0dr9jIX1r7Vtc0E28FFX2YEsKrxxYN8UaZQDShHJgq
- ct7NaYSnII/A==
+IronPort-SDR: e18boFVKdh/eG9uTT0mikR2Ub1eJhSeVQsdiqmjDsyYFbJsvHZL2A7Px6ktlDKn2V98bOnrBPW
+ +m8VU+q5NClA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:53:23 -0700
-IronPort-SDR: X1l4uze7UGXrMuksgBmRgXXZtjFIesSrWKhbjHQ3pxGDqKvWfwUB8n2jD9TFC76pdJiqAHazvu
- b0A5kRgkIz8g==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:53:25 -0700
+IronPort-SDR: oONlargXi96TQXHoaenvVzwYOsge5u6w+kw5f3uQX69bBk8Ze0RSnxG2l53hGmWDIYMZp+eP3W
+ DWr1ryB1yF5g==
 X-IronPort-AV: E=Sophos;i="5.73,447,1583222400"; 
-   d="scan'208";a="414866148"
+   d="scan'208";a="414866152"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.136.157])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:53:20 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:53:23 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 05/25] ghostscript : fix CVE-2019-10216
-Date: Fri, 29 May 2020 13:52:41 +0800
-Message-Id: <4620180a073b721dbc91d14ab64285187bec4cb7.1590731377.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 06/25] sstatesig: Optimise get_taskhash for hashequiv
+Date: Fri, 29 May 2020 13:52:42 +0800
+Message-Id: <4c7e12ee42ff6ab228c2d8aa23a8153ff0debd4b.1590731377.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1590731377.git.anuj.mittal@intel.com>
 References: <cover.1590731377.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+With hashequiv the get_taskhash function is called much more regularly
+and contains expensive operations. This these don't change based upon
+hash in a given build, improve the caching within the function to
+reduce overhead.
+
+(From OE-Core rev: de98cfe3cde4b8d5f4b163b5fba3f129651ef06a)
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../ghostscript/CVE-2019-10216.patch          | 53 +++++++++++++++++++
- .../ghostscript/ghostscript_9.27.bb           |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-10216.patch
+ meta/lib/oe/sstatesig.py | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-10216.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-10216.patch
-new file mode 100644
-index 0000000000..9bec7343f5
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-10216.patch
-@@ -0,0 +1,53 @@
-+From 5b85ddd19a8420a1bd2d5529325be35d78e94234 Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Fri, 2 Aug 2019 15:18:26 +0100
-+Subject: [PATCH] Bug 701394: protect use of .forceput with executeonly
-+
-+Upstream-Status: Backport [http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=5b85ddd19] 
-+CVE: CVE-2019-10216
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+
-+---
-+ Resource/Init/gs_type1.ps | 14 +++++++-------
-+ 1 file changed, 7 insertions(+), 7 deletions(-)
-+
-+diff --git a/Resource/Init/gs_type1.ps b/Resource/Init/gs_type1.ps
-+index 6c7735bc0..a039ccee3 100644
-+--- a/Resource/Init/gs_type1.ps
-++++ b/Resource/Init/gs_type1.ps
-+@@ -118,25 +118,25 @@
-+                          ( to be the same as glyph: ) print 1 index //== exec } if
-+                    3 index exch 3 index .forceput
-+                                                                  % scratch(string) RAGL(dict) AGL(dict) CharStrings(dict) cstring gname
-+-                 }
-++                 }executeonly
-+                  {pop} ifelse
-+-               } forall
-++               } executeonly forall
-+                pop pop
-+-             }
-++             } executeonly
-+              {
-+                pop pop pop
-+              } ifelse
-+-           }
-++           } executeonly
-+            {
-+                                                                % scratch(string) RAGL(dict) AGL(dict) CharStrings(dict) cstring gname
-+              pop pop
-+            } ifelse
-+-         } forall
-++         } executeonly forall
-+          3 1 roll pop pop
-+-     } if
-++     } executeonly if
-+      pop
-+      dup /.AGLprocessed~GS //true .forceput
-+-   } if
-++   } executeonly if
-+ 
-+    %% We need to excute the C .buildfont1 in a stopped context so that, if there
-+    %% are errors we can put the stack back sanely and exit. Otherwise callers won't
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.27.bb b/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-index 32f938f254..bbd17104e1 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-@@ -29,6 +29,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://CVE-2019-14817-0001.patch \
-                 file://CVE-2019-14817-0002.patch \
-                 file://CVE-2019-14869-0001.patch \
-+                file://CVE-2019-10216.patch \
- "
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index b2316b12b8..f1abff0c45 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -151,6 +151,13 @@ class SignatureGeneratorOEBasicHashMixIn(object):
  
- SRC_URI = "${SRC_URI_BASE} \
+     def get_taskhash(self, tid, deps, dataCache):
+         h = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskhash(tid, deps, dataCache)
++        if tid in self.lockedhashes:
++            if self.lockedhashes[tid]:
++                return self.lockedhashes[tid]
++            else:
++                return h
++
++        h = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskhash(tid, deps, dataCache)
+ 
+         (mc, _, task, fn) = bb.runqueue.split_tid_mcfn(tid)
+ 
+@@ -187,17 +194,19 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+                                           % (recipename, task, h, h_locked, var))
+ 
+                 return h_locked
++
++        self.lockedhashes[tid] = False
+         #bb.warn("%s %s %s" % (recipename, task, h))
+         return h
+ 
+     def get_unihash(self, tid):
+-        if tid in self.lockedhashes:
++        if tid in self.lockedhashes and self.lockedhashes[tid]:
+             return self.lockedhashes[tid]
+         return super().get_unihash(tid)
+ 
+     def dump_sigtask(self, fn, task, stampbase, runtime):
+         tid = fn + ":" + task
+-        if tid in self.lockedhashes:
++        if tid in self.lockedhashes and self.lockedhashes[tid]:
+             return
+         super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigtask(fn, task, stampbase, runtime)
+ 
 -- 
 2.25.4
 
