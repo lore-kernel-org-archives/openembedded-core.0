@@ -1,115 +1,171 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web11.672.1590789820158102190
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web11.673.1590789821387991408
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 May 2020 15:03:40 -0700
+ Fri, 29 May 2020 15:03:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=W1tGG+T3;
- spf=pass (domain: gmail.com, ip: 209.85.128.66, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f66.google.com with SMTP id c71so5263332wmd.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 29 May 2020 15:03:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TEviViTL;
+ spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f45.google.com with SMTP id e1so5656604wrt.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 29 May 2020 15:03:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=+xLRlO9x0ghV2JfirUB7c0/6YcyFAWAcHtyeg4CCkhQ=;
-        b=W1tGG+T3xxsuRk/xV6BXt2Wo/e417J0jTtk6J0MwR7awoDvx2Hn50UQJH1jIrPgoia
-         0wTsFhc+9UzOhgJgfKaCJ4IJLww+WpkF5w9v0TLmsah2nGUxpItCMDHb+9jKy42Ql0tl
-         hEPOeAyuokBvxfp2sPePErA7DUV8yTdCmqtvOqaW5FYcoOKNYMWAp0WX+JXt9rvhWcnG
-         OjkpOM5EU7XVIqEfMNe4jOKx9Vje23aAya/Ozm9/kmL8QURBc1cALT252NqVwk+bEOub
-         Hutpc32EXrYwntT0LbqCoRRrJddqFQoxEVDC7gYKjPi27V3j4rmEsJhUY72uhWGkJqD7
-         ipAw==
+        bh=3HZ5bWRb7Uo617csvWRTDf1HmozQWmHiiETbPr3Nhtg=;
+        b=TEviViTLSIr7QNOyKBzvfRzCcMgPGqtpQ5u4Q2YS8cXrxi6Pkf6+qUpWWulzBlRsDa
+         HeQ992HiChm/742kp6fl/VZeo9DnbRljagwFvXD7i/YKIBGFjqn01TvB24bEOVNLtbGe
+         hCUIc8jhcpL07p0XUmosQdaWLx8LK+re4xCuKBMqO62N9kckyAEz7t32TnZeGEmNpy5c
+         FlzozYpzDzqzybntcVU7tvchNKkRajxL19YqUpB0i4LnaZz/xlaHk++PaKcwpG117mqt
+         /Dwv3ThTXkOxv23cZkRv9RUIy0MyB9/jb3PnrK22IqtCdGmOkqL4miJmXPgP7SkQmYu9
+         EkXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=+xLRlO9x0ghV2JfirUB7c0/6YcyFAWAcHtyeg4CCkhQ=;
-        b=LGt2P/y+ICY9Sbtp/Z3gWH9/TxxPZ5efZ9LmEgLNxwe8wmX/YOyO2kVVCixbJt5cpx
-         vMaCIjP9dkYM3TzwSGEZCgSpQNgVksfl3g2jnUoMxJ9y762NTaGAOnKElHeWvlavwD7w
-         EjHZ7HE9Opp4fhnX5IibqnU92N3/VSrdRQK3F1Mx4ZuBKWMzfj8WzZfwybbEmV3a15c3
-         RikJo96+DIHvVUZIwy1LdRxIEFejLtfn2+yTyh1fyMiT24jtFwSuX1roKqQ5NY5RyPwo
-         NHOtOmRQbSW1QfjxF6lj+g8ggulvCQ5EG2OBvAPCii2lbUs1hef9rgUVy44AG8PYi4fl
-         W5PA==
-X-Gm-Message-State: AOAM531GTkHi25q8hqYLxV2+YmFeaPVWLDrMdkBfF1PU1u8jw5Cls6Y+
-	MEK+LZ94CjCfhU+UwCPo8vVN8uSl
-X-Google-Smtp-Source: ABdhPJzpz5TPcvwZgb5RgB0hEd9TzkK6EoL00dvvAPkg15LVBBFISQhoE1QYyaXI4v/wtKAccgK8jw==
-X-Received: by 2002:a1c:28c5:: with SMTP id o188mr10016493wmo.62.1590789818327;
-        Fri, 29 May 2020 15:03:38 -0700 (PDT)
+        bh=3HZ5bWRb7Uo617csvWRTDf1HmozQWmHiiETbPr3Nhtg=;
+        b=KS9SitPToC+AsTXTCB/iV7kMqSnesqLBngDntNHnbRCx7liurb8EZScp/HBg4rxDG4
+         bZl7OTVX1a9A+ycaUmMhZ0XnoPXUdfwZ+vh4L/84Lezkm0A4/qPIXfL5i2ep/m2HasQ/
+         YRKrkRVoxoPcg8jbaUjO1/OKCvvZU7DwLF9RgaGVL7/Ap4voFHVICF/SpD75mZHDjjJa
+         0VD11JcQyQmfsqPUNPsNOLWThdQQlGRfXzfazHroBYo4ryvb+bGOO005/GxppAr4fPvl
+         zX/BziFwZyI2t1HY0IRo+Jh7N0r7aXsTPia0zTRUa5awAN8kGYSqih/+hde18BI9RDIm
+         zGqg==
+X-Gm-Message-State: AOAM533887QCM0KlgCNFF/7HpQxq6nuNgGGrfHH6PSTPuhK985sSfHXJ
+	XgBh8BSLmT7MUDulf6V86ELAn2oc
+X-Google-Smtp-Source: ABdhPJx5auHxgnJQdu9IyYIxOGsNGFLVAq074laPZmOYHtr6FJy1vJk3T/GX8IOYfoCUV6dZMJeGUA==
+X-Received: by 2002:a5d:45c2:: with SMTP id b2mr10016953wrs.323.1590789819671;
+        Fri, 29 May 2020 15:03:39 -0700 (PDT)
 Return-Path: <martin.jansa@gmail.com>
 Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id f2sm12222889wrg.17.2020.05.29.15.03.37
+        by smtp.gmail.com with ESMTPSA id s132sm1287106wmf.12.2020.05.29.15.03.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 May 2020 15:03:37 -0700 (PDT)
+        Fri, 29 May 2020 15:03:39 -0700 (PDT)
 From: "Martin Jansa" <Martin.Jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Martin Jansa <Martin.Jansa@gmail.com>
-Subject: [PATCH 5/6] Revert "lib/oe/patch: fix handling of patches with no header"
-Date: Sat, 30 May 2020 00:03:27 +0200
-Message-Id: <20200529220328.3480555-5-Martin.Jansa@gmail.com>
+Subject: [PATCH 6/6] meta-selftest: add test for .patch file with long filename and without subject
+Date: Sat, 30 May 2020 00:03:28 +0200
+Message-Id: <20200529220328.3480555-6-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200529220328.3480555-1-Martin.Jansa@gmail.com>
 References: <20200529220328.3480555-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-* This reverts commit d9971f5dc8eb7de551fd6f5e058fd24770ef5d78.
-
-* With the missing Subject line fixed in GitApplyTree.prepareCommit()
-  we should be able to revert, the fix which was trying to help it by
-  parsing GitApplyTree.patch_line_prefix ("%% original patch:") also
-  from Subject line, now GitApplyTree.patch_line_prefix should always
-  end on separate line which is then skipped when copying the lines to
-  resulting patch, see original commit message from Paul:
-
-    lib/oe/patch: fix handling of patches with no header
-
-    If a patch applied by a recipe has no header and we turn the recipe's
-    source into a git tree (when PATCHTOOL = "git" or when using devtool
-    extract / modify / upgrade), the commit message ends up consisting only
-    of the original filename marker ("%% original patch: filename.patch").
-    When we come to do turn the commits back into a set of patches in
-    extractPatches(), this first line ends up in the "Subject: " part of
-    the file, but we were ignoring it because the line didn't start with the
-    marker text. The end result was we weren't able to get the original
-    patch name. Strip off any "Subject [PATCH x/y]" part before looking for
-    the marker text to fix.
-
-    This caused "devtool modify openssl" followed by "devtool update-recipe
-    openssl" (without any changes in-between) to remove version-script.patch
-    because that patch has no header and we weren't able to determine the
-    original filename.
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/lib/oe/patch.py | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ .../devtool/devtool-test-long-filename.bb     |   9 ++++++
+ ...nly-if-devtool-lets-me-to-do-it-corr.patch |   7 +++++
+ ...vtool-lets-me-to-do-it-corr.patch.expected |  16 +++++++++++
+ .../devtool-test-long-filename.tar.gz         | Bin 0 -> 180 bytes
+ meta/lib/oeqa/selftest/cases/devtool.py       |  27 ++++++++++++++++++
+ 5 files changed, 59 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-long-filename.bb
+ create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch
+ create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch.expected
+ create mode 100644 meta-selftest/recipes-test/devtool/devtool-test-long-filename/devtool-test-long-filename.tar.gz
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index bb1c40aa1e..7ca2e28b1f 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -439,7 +439,6 @@ class GitApplyTree(PatchTree):
-     def extractPatches(tree, startcommit, outdir, paths=None):
-         import tempfile
-         import shutil
--        import re
-         tempdir = tempfile.mkdtemp(prefix='oepatch')
-         try:
-             shellcmd = ["git", "format-patch", "--no-signature", "--no-numbered", startcommit, "-o", tempdir]
-@@ -455,13 +454,10 @@ class GitApplyTree(PatchTree):
-                         try:
-                             with open(srcfile, 'r', encoding=encoding) as f:
-                                 for line in f:
--                                    checkline = line
--                                    if checkline.startswith('Subject: '):
--                                        checkline = re.sub(r'\[.+?\]\s*', '', checkline[9:])
--                                    if checkline.startswith(GitApplyTree.patch_line_prefix):
-+                                    if line.startswith(GitApplyTree.patch_line_prefix):
-                                         outfile = line.split()[-1].strip()
-                                         continue
--                                    if checkline.startswith(GitApplyTree.ignore_commit_prefix):
-+                                    if line.startswith(GitApplyTree.ignore_commit_prefix):
-                                         continue
-                                     patchlines.append(line)
-                         except UnicodeDecodeError:
+diff --git a/meta-selftest/recipes-test/devtool/devtool-test-long-filename.bb b/meta-selftest/recipes-test/devtool/devtool-test-long-filename.bb
+new file mode 100644
+index 0000000000..3ec22cae7f
+--- /dev/null
++++ b/meta-selftest/recipes-test/devtool/devtool-test-long-filename.bb
+@@ -0,0 +1,9 @@
++LICENSE = "CLOSED"
++INHIBIT_DEFAULT_DEPS = "1"
++
++SRC_URI = "file://${BPN}.tar.gz \
++           file://0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch"
++
++S = "${WORKDIR}/${BPN}"
++
++EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch b/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch
+new file mode 100644
+index 0000000000..6aaf409ebc
+--- /dev/null
++++ b/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch
+@@ -0,0 +1,7 @@
++diff --git a/patch-me b/patch-me
++index a20b29a..5e35d1b 100644
++--- a/patch-me
+++++ b/patch-me
++@@ -1 +1 @@
++-please
+++NO
+diff --git a/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch.expected b/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch.expected
+new file mode 100644
+index 0000000000..1bf25a61d0
+--- /dev/null
++++ b/meta-selftest/recipes-test/devtool/devtool-test-long-filename/0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch.expected
+@@ -0,0 +1,16 @@
++From 45ba3d107ea60777a6b6e134fd00fe5009749177 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Thu, 28 May 2020 02:03:39 +0200
++Subject: [PATCH] meta-selftest: add test for .patch file with long filename
++
++---
++ patch-me | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/patch-me b/patch-me
++index a20b29a..5e35d1b 100644
++--- a/patch-me
+++++ b/patch-me
++@@ -1 +1 @@
++-please
+++NO
+diff --git a/meta-selftest/recipes-test/devtool/devtool-test-long-filename/devtool-test-long-filename.tar.gz b/meta-selftest/recipes-test/devtool/devtool-test-long-filename/devtool-test-long-filename.tar.gz
+new file mode 100644
+index 0000000000000000000000000000000000000000..ab6242aae78dfc2257d44e5caef94f89a269f668
+GIT binary patch
+literal 180
+zcmb2|=3oE==C>Dpxegf!v^`v7>#8T<Q$J~r`i&K>U)ZH>_rG-#Sg4!fc;x%dGf8Y|
+zZR@$VUnvb-YM>&z``ePfQl7Q>hvITv`{x)3pPh5@{8z`6)~&6De$yYvq~%QG&NSPd
+zaIn<lpVHEdKdM*X{<#zN-#zs6&+m4!=T>pbzn{UhZClKV`+J|f|K!BI()>sM)%nlw
+bAAiuk;rBO5h{K@dy#jV)qm{E6G#D5Fy|+>h
+
+literal 0
+HcmV?d00001
+
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 0218f0821c..49cee6d6a8 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -1134,6 +1134,33 @@ class DevtoolUpdateTests(DevtoolBase):
+         # devtool-test-ignored manually, then it should generate exactly the same .patch file
+         self.assertEqual(desiredlines[5:], newlines[5:])
+ 
++    def test_devtool_update_recipe_long_filename(self):
++        # First, modify the recipe
++        testrecipe = 'devtool-test-long-filename'
++        bb_vars = get_bb_vars(['FILE'], testrecipe)
++        recipefile = bb_vars['FILE']
++        patchfilename = '0001-I-ll-patch-you-only-if-devtool-lets-me-to-do-it-corr.patch'
++        patchfile = os.path.join(os.path.dirname(recipefile), testrecipe, patchfilename)
++        newpatchfile = os.path.join(os.path.dirname(recipefile), testrecipe, patchfilename + '.expected')
++        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(tempdir)
++        self.track_for_cleanup(self.workspacedir)
++        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
++        # (don't bother with cleaning the recipe on teardown, we won't be building it)
++        result = runCmd('devtool modify %s' % testrecipe)
++        self.add_command_to_tearDown('cd %s; rm %s/*; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile)))
++        result = runCmd('devtool finish --force-patch-refresh %s meta-selftest' % testrecipe)
++        # Check recipe got changed as expected
++        with open(newpatchfile, 'r') as f:
++            desiredlines = f.readlines()
++        with open(patchfile, 'r') as f:
++            newlines = f.readlines()
++        # Ignore the initial lines, because oe-selftest creates own meta-selftest repo
++        # which changes the metadata subject which is added into the patch, but keep
++        # .patch.expected as it is in case someone runs devtool finish --force-patch-refresh
++        # devtool-test-ignored manually, then it should generate exactly the same .patch file
++        self.assertEqual(desiredlines[5:], newlines[5:])
++
+     def test_devtool_update_recipe_local_files_3(self):
+         # First, modify the recipe
+         testrecipe = 'devtool-test-localonly'
 -- 
 2.25.1
 
