@@ -1,74 +1,55 @@
-Received: from mga06.intel.com (mga06.intel.com [])
- by mx.groups.io with SMTP id smtpd.web12.29384.1590731592716727128
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+ by mx.groups.io with SMTP id smtpd.web12.29408.1590731652212875688
  for <openembedded-core@lists.openembedded.org>;
- Thu, 28 May 2020 22:54:07 -0700
+ Thu, 28 May 2020 22:54:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=fail (domain: intel.com, ip: <nil>, mailfrom: anuj.mittal@intel.com)
-IronPort-SDR: 2GF3c+KBS9NOoCaRmYuVj7Tb9apU/naFqaMIOXfHwqDiU/hAe8ya100wWYJjmjry3KIT9+RtKX
- J4Rcw8SCAnhQ==
+ dkim=missing; spf=pass (domain: intel.com, ip: 134.134.136.31, mailfrom: anuj.mittal@intel.com)
+IronPort-SDR: Ys7yvzjYw5mZnuk/jQSUCAbsDx5iyFU3dGP+yAua/LhKaYmL4vJCJ2xKlFBQOTeOR3exuIKoPY
+ fCf8wai6Awow==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:54:07 -0700
-IronPort-SDR: le7Nue44yo77EpdHkclW06QWYU/V73MdVZNwR6nzTRs/T4tZEJY/2/8yP8PdP1bZu7vl/JWB7j
- hRnzQSOkxxVA==
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:54:11 -0700
+IronPort-SDR: qjoUg0DEDlK2Fxw3IjBG4P1/DP0OfxTCBpqY+uKK7jlKGK3Azp9zVf58tMFX01CFo+k3VCwzLp
+ UOXYdIjYLp9g==
 X-IronPort-AV: E=Sophos;i="5.73,447,1583222400"; 
-   d="scan'208";a="414866294"
+   d="scan'208";a="414866321"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.136.157])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:54:05 -0700
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 May 2020 22:54:10 -0700
 From: "Anuj Mittal" <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [zeus][PATCH 23/25] strace: fix failing ptests
-Date: Fri, 29 May 2020 13:52:59 +0800
-Message-Id: <7bc11ef93b02ff3b223fc0b3b730ce7b06181156.1590731377.git.anuj.mittal@intel.com>
+Subject: [zeus][PATCH 25/25] mesa: fix meson configure fix when 'dri' is excluded from PACKAGECONFIG
+Date: Fri, 29 May 2020 13:53:01 +0800
+Message-Id: <ee95a399285abbde84e0148ca957b59d65bcad0a.1590731377.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.25.4
 In-Reply-To: <cover.1590731377.git.anuj.mittal@intel.com>
 References: <cover.1590731377.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Yann Dirson <yann@blade-group.com>
 
-1. They need to be run under regular user.
-2. Some tests genuinely need more time than 30 seconds
-3. The Makefile patch erroneously introduced a test-breaking change.
-
-(From OE-Core rev: 3d6bf58c7080c1cacf3ed1f270ff5acf4858c790)
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a5e90281ac211e912ec6bfd6873e56152ec8bd4e)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Yann Dirson <yann@blade-group.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+(cherry picked from commit 78efff8741f869647790810a3dd41459b9d9d8a6)
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/strace/strace/Makefile-ptest.patch | 2 +-
- meta/recipes-devtools/strace/strace/run-ptest            | 7 +++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ .../mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-index 08fa5c53b8..36e93a2dcf 100644
---- a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-+++ b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-@@ -44,6 +44,6 @@ index 825c989..4623c48 100644
- +	done
- +	for file in $(EXTRA_DIST); do \
- +		install $(srcdir)/$$file $(DESTDIR)/$(TESTDIR); \
--+		sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
-++		#sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
- +	done
- +	for i in net scm_rights-fd rt_sigaction; do sed -i -e 's/$$srcdir/./g' $(DESTDIR)/$(TESTDIR)/$$i.test; done
-diff --git a/meta/recipes-devtools/strace/strace/run-ptest b/meta/recipes-devtools/strace/strace/run-ptest
-index 2fed984e90..4660207220 100755
---- a/meta/recipes-devtools/strace/strace/run-ptest
-+++ b/meta/recipes-devtools/strace/strace/run-ptest
-@@ -1,3 +1,6 @@
- #!/bin/sh
--export TIMEOUT_DURATION=30
--make -B -C tests -k test-suite.log
-+export TIMEOUT_DURATION=120
-+chown nobody tests
-+chown nobody tests/*
-+chown nobody ../ptest
-+su nobody -c "make -B -C tests -k test-suite.log"
+diff --git a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+index 3458c19199..346b217585 100644
+--- a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
++++ b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+@@ -23,7 +23,7 @@ index 0e50bb26c0a..de065c290d6 100644
+  with_dri_swrast = dri_drivers.contains('swrast')
+  
+ -with_dri = dri_drivers.length() != 0 and dri_drivers != ['']
+-+with_dri = get_option('dri') or (_drivers.length() != 0 and _drivers != [''])
+++with_dri = get_option('dri') or (dri_drivers.length() != 0 and dri_drivers != [''])
+  
+  gallium_drivers = get_option('gallium-drivers')
+  if gallium_drivers.contains('auto')
 -- 
 2.25.4
 
