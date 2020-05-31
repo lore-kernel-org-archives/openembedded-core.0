@@ -1,85 +1,69 @@
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
- by mx.groups.io with SMTP id smtpd.web10.17664.1590940467470591391
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web11.17537.1590940469865081743
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 08:54:27 -0700
+ Sun, 31 May 2020 08:54:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mKNJVAxm;
- spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f54.google.com with SMTP id mb16so6880014ejb.4
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:54:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DCyt+A+Q;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id l27so6907942ejc.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:54:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=cM0v8C6k3pUuCUYf+eHQZCb/qdHlGUaG0Ao/NOliIwg=;
-        b=mKNJVAxmA32Et6nZ+BRrx99TvEYQgt9ljGqS8b7lHZmDlSIYv8IhBbmMml4R/Fi4T1
-         OUdNjNWN97zfTmAF+cmTmx3NrwuHVPM3h8VxS+b7rJda6q2KMDVybu2VwalhdDmLKh25
-         8voBDoiSI5vYaLZhnpahM6o+pP2JoTEIHzV1zuw+a4HISeKrur+6ch73LtxxI5zofuX9
-         jXDhxACUfB9JmuDx/bbDG5r2hnlhJWfnpMLdyZtjKjJJxnDBk048MfDO8LtvGt3TsYxt
-         QIpTLDXZxCZKUFPy1nxcI8x/s909sP1dqwgpr5v9RuNhP6AhUhzkXEr0jlQXSQRLEg37
-         mFdA==
+        bh=McgP1lYUdQoGaYhTlmb0kLKu8Wt7FFneEmyLBKdaagA=;
+        b=DCyt+A+QoElj06tOwBviNtgNoVvnbQaaHSHFvKD9/tCsENq9UxEegowRgKhknU7/4g
+         +cdX17urR7Jz2ytFq4Ru6Qs0r5xgfGjbm2DiUvsMQyxKLQkUvvWTdE4LryCzrSOK6OCF
+         /piS3CpqjBcu84cK1kD0ZfT2QdxpEfY8MYIjiGCAfNWszuOYF6kIDfMIBsYt2hjk0O3m
+         CsopHFMGyAjogeKGPM69xU0c+S64gtVovvIncVBPzDGLRM5uA8NjEil0W2dzqEUDcRcx
+         oybWsVaRzfx1e0cchD9nu9FAUKPuS73uIjTSVEf1rtNvFsLGzT02OfXcDKGh9nFb49pz
+         B+TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=cM0v8C6k3pUuCUYf+eHQZCb/qdHlGUaG0Ao/NOliIwg=;
-        b=b+bHQ3XloS7AIGrIPVdIK0km6Tisln9HDYV9oVLAlGW5zgd2qb0s94SEoVfCgMoFa3
-         84bOfRumEHrRCEweOzlUUH42ARbFQ61ilyMt9uLCjYIst8bQu3TUDGmWR+jlx6Jz8dWs
-         VK8u/nq02JWGBe0nNvn6dok9Ao+mB5g3wYwTymRqjpe5H/9S3tQznJWER6keL/3la03w
-         0X1lJPcEaiAY4fE2BM/bJoBcnO5k0669i3zj2NoiUtq3TNgAiiUvBSm6s2hqqy/ofFXt
-         cppi6SLSQVWhxxBg1cCIQ9VWpgvRUxu3ydwaP8sMBGoh0HpfB6CPDip5FI8vGAyZX+uV
-         k6Gg==
-X-Gm-Message-State: AOAM530Plkh+kIibyr0eptXofBihf8BPRXmO45qRtpRQjaeeqaVM0Znl
-	DPR9i4yXVbxs/Dco2mWpzzXWMHkq
-X-Google-Smtp-Source: ABdhPJxntEK53gL2+MoVcIOqx/xybkRF/NiBvRYKX7Zw00KShUU6NytYGP8Yysg56Ev4HGjQIu+jvQ==
-X-Received: by 2002:a17:906:a8d:: with SMTP id y13mr15560196ejf.455.1590940465848;
-        Sun, 31 May 2020 08:54:25 -0700 (PDT)
+        bh=McgP1lYUdQoGaYhTlmb0kLKu8Wt7FFneEmyLBKdaagA=;
+        b=CIeF4IVk/bztoHGnHXAnVVQmFlAPoPJrnk+IuwIAsY99LvbmROHHzxXxl4llZ4SS49
+         3FlWs3bYLi/tBQbtAiSKXiS49uEy560yOwLDZgq2MVf9ftYPMxIaDR0K+JbT9/jy0qSM
+         gA77FraWw8g584zSskTFzY/1/JLpYG5+lNrrL0mwzZLr4bp/UVDfmAVnq7+ugRus4zsu
+         cVDgw83HKIT8EKbiujP2k0sWRIi5snleke94Yyg8rvo6foE5EQaiTuNSB8pV+5HXbUCC
+         EZDK50rSYwvsEgU5meB6b0Og1GaZOlD9A66G4YXTKawgi3Bh5ehLVDvkFJAk3aW1P96x
+         Y0+Q==
+X-Gm-Message-State: AOAM530wBdqRXoSOP3URlAzcyD1yzDtJ065u8kCFFdjf06SrMmcASkNH
+	l6BHB3BJ/d7/raffzsHE+UkYrfnj
+X-Google-Smtp-Source: ABdhPJxdHRceCPcHRJ8KzurgtSWUO9+F8fB7JROxt/ZhnlVH6YO3cZzS+MuDa8YB+ghegi2zCZgfhA==
+X-Received: by 2002:a17:906:d0d7:: with SMTP id bq23mr1912099ejb.259.1590940468242;
+        Sun, 31 May 2020 08:54:28 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.54.24
+        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.54.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2020 08:54:25 -0700 (PDT)
+        Sun, 31 May 2020 08:54:27 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 66/70] help2man-native: update to 1.47.15
-Date: Sun, 31 May 2020 17:52:50 +0200
-Message-Id: <20200531155254.10283-66-alex.kanavin@gmail.com>
+Subject: [PATCH 68/70] asciidoc: bump PV to 8.6.10
+Date: Sun, 31 May 2020 17:52:52 +0200
+Message-Id: <20200531155254.10283-68-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531155254.10283-1-alex.kanavin@gmail.com>
 References: <20200531155254.10283-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-License-Update: http changed to https
+SRCREV is unchanged, as it already points to a post-8.6.10 commit.
+(this was overlooked when asciidoc was switched to a py3 port)
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...help2man-native_1.47.11.bb => help2man-native_1.47.15.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/help2man/{help2man-native_1.47.11.bb => help2man-native_1.47.15.bb} (69%)
+ .../asciidoc/{asciidoc_8.6.9.bb => asciidoc_8.6.10.bb}            | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-extended/asciidoc/{asciidoc_8.6.9.bb => asciidoc_8.6.10.bb} (100%)
 
-diff --git a/meta/recipes-devtools/help2man/help2man-native_1.47.11.bb b/meta/recipes-devtools/help2man/help2man-native_1.47.15.bb
-similarity index 69%
-rename from meta/recipes-devtools/help2man/help2man-native_1.47.11.bb
-rename to meta/recipes-devtools/help2man/help2man-native_1.47.15.bb
-index a60e851897..4f80a2bdb1 100644
---- a/meta/recipes-devtools/help2man/help2man-native_1.47.11.bb
-+++ b/meta/recipes-devtools/help2man/help2man-native_1.47.15.bb
-@@ -1,12 +1,11 @@
- SUMMARY = "Program for creating simple man pages"
- SECTION = "devel"
- LICENSE = "GPLv3"
--LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
- DEPENDS = "autoconf-native automake-native"
- 
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "dd322adcaede5bd5eaed075ff8971bc1"
--SRC_URI[sha256sum] = "5985b257f86304c8791842c0c807a37541d0d6807ee973000cf8a3fe6ad47b88"
-+SRC_URI[sha256sum] = "c25a35b30eceb315361484b0ff1f81c924e8ee5c8881576f1ee762f001dbcd1c"
- 
- inherit autotools native
- 
+diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.10.bb
+similarity index 100%
+rename from meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+rename to meta/recipes-extended/asciidoc/asciidoc_8.6.10.bb
 -- 
 2.26.2
 
