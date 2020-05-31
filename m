@@ -1,50 +1,50 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web10.17627.1590940424594811051
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web10.17630.1590940426022536515
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 08:53:44 -0700
+ Sun, 31 May 2020 08:53:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DL4twLnz;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id g9so5414494edr.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Qc9IXJ9s;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id c35so5416868edf.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=drGrL8Tq/I2rZWRS1ksqwLUO1+pQAwqDz7hwW5OXgRw=;
-        b=DL4twLnzEtjxZCjCDRd3+GkwA+n7SkaTBXwf8srJWNeJ96/FQ0UpQ+gzsWYLq9f2Tj
-         FaJJtoyXjW6V+ouekIgryZvtoXsP+co488oI8liQ7SdgwOxvayGKzTLv5HdgbcFR7ALF
-         NZ2Dm6hykdYzKHkPfGIsOVtmXivhDOcpdhhcF6x/bfLisGatBh5Keu4Z13aKiNlmkcN7
-         b7k4I6vUp16VBG8Uc5rTNEfOm5PPuSty86+nSmV9HSUYin5Q5ilPZdHCHadSnsOzqbHp
-         xZ0/aX+n0YQNqHTwT/uhfTc8HHZ57wUswLp2K7KhwEbyehA4Nyp2wGHJmtwsgIUJX6SX
-         u9nQ==
+        bh=Yo/qdo+ejwNiADcZvfXwi1ONGVbJxC0hesuB2/jKdq8=;
+        b=Qc9IXJ9srYx5Vabta6zWh+zPQJ50p68XWDWML2gUXzyQfBAKv+de56opKH7aYCLbIa
+         IwGLi6KSXifAZrj0IDs7ppVr/YKkGIxSHdxWoaMgLL2CiwkD2foAIv1VZvJvboKsLPPl
+         M057kcqrrGocyH1BV5vW23eCQnLcwQfiSaNpfY+sTRoQ2tf3XrV8P+ZOy/RzdUmrCpUj
+         QVpFLqi1Yo1l7gm1PDeLU+3j0nbFILSIdLPub0xF76Ll2UCL6qglTFa5uKYrQVcl3rMN
+         9wCZeK4ugdKR1QMSmRapmLBVxUXxCfT0/3umfEjlfqkIAFT3bwA9DZJyQa8H8T+OERaa
+         90yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=drGrL8Tq/I2rZWRS1ksqwLUO1+pQAwqDz7hwW5OXgRw=;
-        b=WLYEOM9+IEajh8E8pP/IK79e1G5TziwmTQxlITPTFYKCUEH9WD6CVWaA4AbqmOVStj
-         Ti+AOMioSQXna+oElsSoEKvuHHbY9CSZQPt20xK92vKIlbOlLEv+mp/v2mcHL3gr8Psc
-         5FZx8VTSkU1lWDjPn8HOOYwX0jNZPCEVvO0rymDa6X3eUbKxq5fyMuu8IR43YCnewbJA
-         dMNyO09AI2tCXheRmFYrGenOAb34GdPDU7/xeOvNFTIaq0cZzPV3BqY/DdpiyJywtwY3
-         fGEnYbj9NNUIdGLEVSlhDaF/1wq/NB7ePY9nLJ2xbe7Fvi9wOGQqI9+8YQ459eCTUrzL
-         UKig==
-X-Gm-Message-State: AOAM530cdrp1rkQFTWsBuwkCuRE4UClUg4SnziPlL7fu7JQ/M2SnmLN2
-	WM+B3wVExCikuRTr6ELe02C1sqIN
-X-Google-Smtp-Source: ABdhPJzwjhmLgfm4Ii26t3L58mVFj5ogaNndPUN+Nz3KajZ8gw82AIwoM7v6GWqy0cYVpTGIz/PycQ==
-X-Received: by 2002:a50:d1d3:: with SMTP id i19mr17311662edg.35.1590940423030;
-        Sun, 31 May 2020 08:53:43 -0700 (PDT)
+        bh=Yo/qdo+ejwNiADcZvfXwi1ONGVbJxC0hesuB2/jKdq8=;
+        b=sUQRS9/SzMgiru5sIrkTYCnqvlN6C0onuOgoUqfzPzp4B4nOi1Et0DUf1CvGf30fHB
+         AcVoUMh+tpuNmL3mj3B9DvvG8nNXOa7YYVVI/g+1b68CTMWAoKZ21+740nxMzafwzNgC
+         EvSXcPFjbWdxvonxqfFU6zd1GztfXYbs4vqAFe6PvLsZlrfu+In502V6ug6hJjufhu/f
+         YOiD2q9yI0w8XwXD3Jfatri7HBOvA8PLO73hp0UDD2c8gtm9pBm9yTOpAhWtJZhw0NoC
+         p3DBuao/VBILaEqOqbvnAyIBGN7MyDwnYR22dzpAQ+G1uGjUSEWjcOQSUv5z105JWFLU
+         co7g==
+X-Gm-Message-State: AOAM530ZXzRxHq1bWH1mANPlFCKT47RqEOJcJyb/+KK9QSxdeg2s+769
+	RAjXgt3rsM5d1kdTkh1IOZMS/RxP
+X-Google-Smtp-Source: ABdhPJwFXj0iH2tFce7PdW2z8M6hnNvgBECq2akVB2p0WShbl0qvIaigocwSBMgnY4K9Fp0+tYJcCA==
+X-Received: by 2002:aa7:da8c:: with SMTP id q12mr17860393eds.334.1590940424451;
+        Sun, 31 May 2020 08:53:44 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.42
+        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2020 08:53:42 -0700 (PDT)
+        Sun, 31 May 2020 08:53:43 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 19/70] cups: upgrade 2.3.1 -> 2.3.3
-Date: Sun, 31 May 2020 17:52:03 +0200
-Message-Id: <20200531155254.10283-19-alex.kanavin@gmail.com>
+Subject: [PATCH 20/70] gawk: upgrade 5.0.1 -> 5.1.0
+Date: Sun, 31 May 2020 17:52:04 +0200
+Message-Id: <20200531155254.10283-20-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531155254.10283-1-alex.kanavin@gmail.com>
 References: <20200531155254.10283-1-alex.kanavin@gmail.com>
@@ -53,36 +53,28 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/cups/cups_2.3.1.bb | 6 ------
- meta/recipes-extended/cups/cups_2.3.3.bb | 6 ++++++
- 2 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 meta/recipes-extended/cups/cups_2.3.1.bb
- create mode 100644 meta/recipes-extended/cups/cups_2.3.3.bb
+ meta/recipes-extended/gawk/{gawk_5.0.1.bb => gawk_5.1.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/gawk/{gawk_5.0.1.bb => gawk_5.1.0.bb} (91%)
 
-diff --git a/meta/recipes-extended/cups/cups_2.3.1.bb b/meta/recipes-extended/cups/cups_2.3.1.bb
-deleted file mode 100644
-index f5230faf81..0000000000
---- a/meta/recipes-extended/cups/cups_2.3.1.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require cups.inc
--
--LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
--
--SRC_URI[md5sum] = "8ad8897c97cf4d90f20dac4318f47421"
--SRC_URI[sha256sum] = "1bca9d89507e3f68cbc84482fe46ae8d5333af5bc2b9061347b2007182ac77ce"
-diff --git a/meta/recipes-extended/cups/cups_2.3.3.bb b/meta/recipes-extended/cups/cups_2.3.3.bb
-new file mode 100644
-index 0000000000..5caeb6f58b
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups_2.3.3.bb
-@@ -0,0 +1,6 @@
-+require cups.inc
-+
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
-+
-+SRC_URI[md5sum] = "412434ceefbdf3ec71bc9188a035f589"
-+SRC_URI[sha256sum] = "261fd948bce8647b6d5cb2a1784f0c24cc52b5c4e827b71d726020bcc502f3ee"
+diff --git a/meta/recipes-extended/gawk/gawk_5.0.1.bb b/meta/recipes-extended/gawk/gawk_5.1.0.bb
+similarity index 91%
+rename from meta/recipes-extended/gawk/gawk_5.0.1.bb
+rename to meta/recipes-extended/gawk/gawk_5.1.0.bb
+index e79ccfdebf..0d005cd43b 100644
+--- a/meta/recipes-extended/gawk/gawk_5.0.1.bb
++++ b/meta/recipes-extended/gawk/gawk_5.1.0.bb
+@@ -19,8 +19,8 @@ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+            file://run-ptest \
+ "
+ 
+-SRC_URI[md5sum] = "c5441c73cc451764055ee65e9a4292bb"
+-SRC_URI[sha256sum] = "625bf3718e25a84dc4486135d5cb5388174682362c70107fd13f21572f5603bb"
++SRC_URI[md5sum] = "f719bc9966df28e67fc6ebc405e7ea03"
++SRC_URI[sha256sum] = "03a0360edcd84bec156fe211bbc4fc8c78790973ce4e8b990a11d778d40b1a26"
+ 
+ inherit autotools gettext texinfo update-alternatives
+ 
 -- 
 2.26.2
 
