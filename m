@@ -1,50 +1,50 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.17625.1590940423074019520
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web10.17626.1590940423754220409
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 08:53:43 -0700
+ Sun, 31 May 2020 08:53:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=E9Bz+LAi;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id m21so5383468eds.13
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=l9vHnDAg;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id z5so6893381ejb.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=auBkgn8x9hOy3InAcRQ2PIsq4Ve4rXh72pCPNJZ8E0s=;
-        b=E9Bz+LAiqRYTd/ge+YqJSCS/NllhR1O2I0w1ObD4hlAQt9sUKP9SriT5MAWvXXZQI7
-         HPbJcv3AlQ1MDHx9sJkx/ZD6Cdjcmng4bOY6VdpEvrOj1HCtRmclF4CxXPJbpwFgzqz2
-         5yI11jQBBAI+Qkc3VtBdLIdfktnlJoYXibH+2AWh0B1e0EzzK7Ym7AEBYCQWKPNmep/O
-         yWMmgfjtf7vxjFEhvhuK2/j8Ovk1DS8ugFY15BwZCJC1zWvWVgRQzlG4BT4p4ueBO1c+
-         r1vG/aQS0n7R7xDO/XB5XaIgWwiMJiX+SQRxwahWZOEmVQ1hvB7o19EQ6VSWcrMDPRjN
-         TzZw==
+        bh=e+I6HbfppdHqTnuwEHsy2V3N+XY+w9YLYgCKbvAe3Nk=;
+        b=l9vHnDAgUVD5pULbRsxUul3Q1bPl7RHyykt1ji4ywZdlIQmKeX3zMdYO/xXHiMOMMW
+         EMjEDjpKYuFTAHn9KmQE0145vf8mY5lQcTSi0tz+tKMaSamNmprmcXvKA+ocaoD9ijYz
+         p6Jm0itoE7PJ/xEM8EWUe3zm15+FQSlTTkwcJUAGEMIZac9zCwrIC6ispA3KQMJal09/
+         hsg+gijhlzQ4xGS5GKVF0GKaZ4JxcjdKq933iqVMB+6EapRva/AitkK0pvkr05/q43p5
+         fNqjOp8EV3iCA2041sz7qRLv+dogbxznnToYNr6IEUvXR08ZnAx5/fLp+zCBuW5NS/cq
+         HBcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=auBkgn8x9hOy3InAcRQ2PIsq4Ve4rXh72pCPNJZ8E0s=;
-        b=MA2R/tOorXaT1jH4xCxbrs2qDJw7ixgIE67ILEgWdrP4b5LH7xL1t+9Ojxyi2jVcLC
-         +FWlCwuhxZpxfWZ/GdWSHO9FtzO/u2LAArBXnf8dZbDs9BxYTyd1xReedrO3bAwr5OVh
-         AD2OPI1JlK+XHolKQG2LSA86HTmD46R8eXITAQ2l82rQsahgb/Wp10GGuRE6pXrhjS8A
-         x2Af2UrnBnpAvLL21z8PGyQ4sM8fHLoPHmSAr7qERXNAh1NFnGunKOnG40b2IU3AqQ99
-         dreivmiypBnuWdPurIYtJv35U1oNbyZz98cZIWLVmYghLyFkBxAIERGVpuoXwT1ZwiLV
-         FqdA==
-X-Gm-Message-State: AOAM531q6aE+o5Aae25rR9VOhsLtEjy/BAZmSPuOGtvv95E3LjQKe8ME
-	mSjc1qnlOWWqZqEaHokwevKu7tTW
-X-Google-Smtp-Source: ABdhPJxjzTdAEP9wtGPRj4jdadnWILxB55l+PLkiUj8JsVHQ8N19BEwSQEU4J8TcHzK312BVdI4dFA==
-X-Received: by 2002:a50:f1d9:: with SMTP id y25mr1225165edl.292.1590940421467;
-        Sun, 31 May 2020 08:53:41 -0700 (PDT)
+        bh=e+I6HbfppdHqTnuwEHsy2V3N+XY+w9YLYgCKbvAe3Nk=;
+        b=f8xxZZ/8v8UYKAJhRf5QOLaP3kdKbd86ghXZq307ymQdJKj1Lw0MY2E/XfJav+DTlp
+         pKYT75IQUFghoj/d66R2ReUUN6L2sBG1BsXyKNl1QfOboM3rqQBDj7ZgfyIdJEzds1k0
+         6o5w1B24K/m/v9kPpBZzBNPlgnNQX3FVOGn30An18Rzbm6o6Ck6bgzP9MbpQaD+6acwl
+         yB4+fKaFAry6cdwgY0vgnynUqDtXzRqVaoWJTfLBss53kr4ni38Ty7EEj6C6Cv4+l65O
+         xqBmaDl5EMOOcfvaI0c0GAZLYJK9wkIY9D6RulydBBo1XVJ0Kj0sD5oT0GZgH5MSKyHU
+         ZK9Q==
+X-Gm-Message-State: AOAM533MwcaIyXYkMRCwVubUF1q1tJAYxm1WGrBsLGQRC8J1Qqwq0fMG
+	FInFMLTnZtUXowWnL/JzKyE5DhhM
+X-Google-Smtp-Source: ABdhPJyKpyFcNnp4lqVSloXD5pOALC3ssFDemOe/0sI2zc4QOp82hsYFJp+iOyyGsnZwtfNX352urA==
+X-Received: by 2002:a17:906:c943:: with SMTP id fw3mr15498909ejb.288.1590940422142;
+        Sun, 31 May 2020 08:53:42 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.40
+        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 31 May 2020 08:53:41 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 17/70] strace: upgrade 5.5 -> 5.6
-Date: Sun, 31 May 2020 17:52:01 +0200
-Message-Id: <20200531155254.10283-17-alex.kanavin@gmail.com>
+Subject: [PATCH 18/70] vala: upgrade 0.46.6 -> 0.48.6
+Date: Sun, 31 May 2020 17:52:02 +0200
+Message-Id: <20200531155254.10283-18-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531155254.10283-1-alex.kanavin@gmail.com>
 References: <20200531155254.10283-1-alex.kanavin@gmail.com>
@@ -53,37 +53,24 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../strace/{strace_5.5.bb => strace_5.6.bb}                 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/strace/{strace_5.5.bb => strace_5.6.bb} (90%)
+ meta/recipes-devtools/vala/{vala_0.46.6.bb => vala_0.48.6.bb} | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/vala/{vala_0.46.6.bb => vala_0.48.6.bb} (57%)
 
-diff --git a/meta/recipes-devtools/strace/strace_5.5.bb b/meta/recipes-devtools/strace/strace_5.6.bb
-similarity index 90%
-rename from meta/recipes-devtools/strace/strace_5.5.bb
-rename to meta/recipes-devtools/strace/strace_5.6.bb
-index ae552da028..53679cd0d2 100644
---- a/meta/recipes-devtools/strace/strace_5.5.bb
-+++ b/meta/recipes-devtools/strace/strace_5.6.bb
-@@ -15,8 +15,8 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://uintptr_t.patch \
-            file://0001-strace-fix-reproducibilty-issues.patch \
+diff --git a/meta/recipes-devtools/vala/vala_0.46.6.bb b/meta/recipes-devtools/vala/vala_0.48.6.bb
+similarity index 57%
+rename from meta/recipes-devtools/vala/vala_0.46.6.bb
+rename to meta/recipes-devtools/vala/vala_0.48.6.bb
+index 66f620384c..9dace1348c 100644
+--- a/meta/recipes-devtools/vala/vala_0.46.6.bb
++++ b/meta/recipes-devtools/vala/vala_0.48.6.bb
+@@ -4,5 +4,4 @@ SRC_URI += "file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.pat
+            file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
             "
--SRC_URI[md5sum] = "dbce2e84632b39a4ed86b9fc60447af9"
--SRC_URI[sha256sum] = "9f58958c8e59ea62293d907d10572e352b582bd7948ed21aa28ebb47e5bf30ff"
-+SRC_URI[md5sum] = "f8e0394d4e537b3faadf0a72f5d1d17e"
-+SRC_URI[sha256sum] = "189968eeae06ed9e20166ec55a830943c84374676a457c9fe010edc7541f1b01"
  
- inherit autotools ptest
- 
-@@ -27,7 +27,7 @@ PACKAGECONFIG_class-target ??= "\
- PACKAGECONFIG[bluez] = "ac_cv_header_bluetooth_bluetooth_h=yes,ac_cv_header_bluetooth_bluetooth_h=no,bluez5"
- PACKAGECONFIG[libunwind] = "--with-libunwind,--without-libunwind,libunwind"
- 
--EXTRA_OECONF += "--enable-mpers=no"
-+EXTRA_OECONF += "--enable-mpers=no --disable-gcc-Werror"
- 
- CFLAGS_append_libc-musl = " -Dsigcontext_struct=sigcontext"
- 
+-SRC_URI[md5sum] = "d9af125648505503b139ebc2d2c9eee5"
+-SRC_URI[sha256sum] = "ef31649932872f094971d46453b21c60a41661670f98afa334062425b4aec47a"
++SRC_URI[sha256sum] = "d18d08ed030ce0e0f044f4c15c9df3c25b15beaf8700e45e43b736a6debf9707"
 -- 
 2.26.2
 
