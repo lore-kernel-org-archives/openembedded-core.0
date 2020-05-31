@@ -1,50 +1,50 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web11.17508.1590940433036953787
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web12.17609.1590940433741509750
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 08:53:53 -0700
+ Sun, 31 May 2020 08:53:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=rf/jAL5L;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id x1so6857080ejd.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=RuQkQ6zh;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id o15so6834685ejm.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=CQTySVrZ2aFzXAI/4Z1o7MF2YDbb2lWopSdM9CN86Oo=;
-        b=rf/jAL5LQOK0D3zh50yEj2u4EOqzHnb7RDE1Zb94DcZmimnYiWxTXpxunOTaKCbkih
-         OSvckDQNzbPcsmBRCJuV1gJ/OwaUTfubmiQRlIKR3NGcQ6dd0aq9TBgVGxkKqXhyKAGi
-         GZ857V6ZwC1vcXYjNXnb+7XbhW2ccYI9Ur+ftfDyFKH/pB66jDsyhpUUtWNJi1L0guYl
-         VLv3LL7Kk1ArnvgbfKa5ZN6cZSKN4Jtz1fo+OlKmGNO6pZajyiLZHwjaq3gJYLzPL6l0
-         XFKlPj7dYYIRfoAjwufVYD5oJvsZnUhvVs7UlKdbp5M00cTY83x7NgbYVr8rHvjMem5a
-         kHog==
+        bh=8HSj8EkIJwy4T1YKa5bP74ogM5It5kSKh8CVL+cWGO0=;
+        b=RuQkQ6zhrL6eQNPcApYa9cAnJPFeszeFB+Xg8T6dNI8pQXR7SsQ48iB2RgCJuK0lIS
+         /ZovyqfqBha39dJkFYaQGiYVnU0s7RrkpAvzFMWsz7KjkERhOAL9Ac+vf3/PYeMSuSE6
+         ALckV3mjSJh2XiTwxy0+8ZEaLCO6oQr413tYwoe4/hW8C4nuGdaGuA6kfu8Z5DV19+Sj
+         wHjSLE8/nNyzB0Xu7LJIbQeel2XtOHKMlR+CxpHosTc/iQgHJB39H3UyKSg3BS5LvSTd
+         yYNOvJ1iK0GirJNJBNs+cyBlmGmOqpseujByK7n4XyknwcVLxpqwt76teeq9JfUJECW5
+         pgPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=CQTySVrZ2aFzXAI/4Z1o7MF2YDbb2lWopSdM9CN86Oo=;
-        b=tCdUNyotg9+MI+DrJ+EFx7lY59V7g6lHDuvHEJDF9hT68q56M3SmhyRGSC15vxuqcR
-         K7EyHYFNxuFiSDdqX2Kktja/5OVlh8ER0M53IM/2Suz+sJudfZyx+3m0bS8KoGi2/ARs
-         YIleYiRH1UhHwgEfA20tjPK2irvH0C0trQxvO78nqbpaKy8eFAybi8fhoiwihVuPz/Bx
-         cbzeFrS/10mGAr8nVWMhpMQbgZT5GL/NBq9JYU4bXQ7WeJ0TxzHlz0ESvwApWmid7/dx
-         Ir/+bLRt6nWs/3T3+zUaGTZjMA5b34VsIwYfNQkSq+vaeXuHGooknWVo3bz1Ru3H6W6M
-         /t3A==
-X-Gm-Message-State: AOAM531g2PkCLfSSkgXYqBoVraQig9kRE6JkYSao0h3G2URLxu7uA8QH
-	pvCNt0xVoXrKWMsIZTvc7RBeI/qL
-X-Google-Smtp-Source: ABdhPJw87wFq9MSBc7RN0dkj09NFMKcCLXat7D2k6KC4z6GLFncxTBUCRq1KwwXzOkcH2jEfsy5FRg==
-X-Received: by 2002:a17:906:2e4c:: with SMTP id r12mr16655519eji.546.1590940431324;
-        Sun, 31 May 2020 08:53:51 -0700 (PDT)
+        bh=8HSj8EkIJwy4T1YKa5bP74ogM5It5kSKh8CVL+cWGO0=;
+        b=ETe9aihwjfYpQ4soWX1pd8jzsC6fMfDX21A+mubGNTZ8cs4ZFBIyt7P10NDGP2Vkwj
+         6aNF9rbRHbYEcyfmgHM9Dnl8N8FAvfDUultWRDxoMLJ3PXTzBg1U8AUh2yRqpEyB+Cyg
+         BpgAf3UQCqgsuLLl2CKGUy12EanVVSDX+UND/YYEXEterGRkgC1PFJ0v7C8tFYSTVUcl
+         fqc3wRTddoiYRhalvqJ/zNtJ+msoz8nRZElu+P63hdxN4wXnHsnsn7nz0oSWwHbHyopM
+         P4svM+T6bnn8FreYOFBlIVwgYw/PggVqurx7XyII6XNFEgrmbN/WWq1M18gNHIabF/+Y
+         2fPA==
+X-Gm-Message-State: AOAM532o7P4kgcpuehuDhfMxCJ27o2EOGdLr8Kp1TVCIRa+7amEFrQm9
+	FxoPmB0uoYMd1/gAd1T8Pi2sIjtu
+X-Google-Smtp-Source: ABdhPJzDHoDL3uCM3N9hxiPaEXHlfG3yXCnXD7TNjSkNE2bF2CpMt30iGUU4j5D/kK9fIbmidS8G0Q==
+X-Received: by 2002:a17:906:594e:: with SMTP id g14mr6236456ejr.52.1590940432127;
+        Sun, 31 May 2020 08:53:52 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.50
+        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2020 08:53:50 -0700 (PDT)
+        Sun, 31 May 2020 08:53:51 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 28/70] gtk+3: upgrade 3.24.14 -> 3.24.20
-Date: Sun, 31 May 2020 17:52:12 +0200
-Message-Id: <20200531155254.10283-28-alex.kanavin@gmail.com>
+Subject: [PATCH 29/70] cogl-1.0: upgrade 1.22.4 -> 1.22.6
+Date: Sun, 31 May 2020 17:52:13 +0200
+Message-Id: <20200531155254.10283-29-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531155254.10283-1-alex.kanavin@gmail.com>
 References: <20200531155254.10283-1-alex.kanavin@gmail.com>
@@ -53,71 +53,36 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-gnome/gtk+/gtk+3.inc             |  1 +
- .../gtk+/gtk+3/sort-resources.patch           | 19 -------------------
- .../{gtk+3_3.24.14.bb => gtk+3_3.24.20.bb}    |  7 +++----
- 3 files changed, 4 insertions(+), 23 deletions(-)
- delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
- rename meta/recipes-gnome/gtk+/{gtk+3_3.24.14.bb => gtk+3_3.24.20.bb} (79%)
+ meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb | 6 ------
+ meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb | 6 ++++++
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb
+ create mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-index 6154154004..e1ecf504a0 100644
---- a/meta/recipes-gnome/gtk+/gtk+3.inc
-+++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-@@ -106,6 +106,7 @@ FILES_${PN}_append = " ${bindir}/gtk-update-icon-cache-3.0 \
- FILES_${PN}-dev += " \
-                     ${datadir}/gtk-3.0/gtkbuilder.rng \
-                     ${datadir}/gtk-3.0/include \
-+                    ${datadir}/gtk-3.0/valgrind \
-                     ${datadir}/gettext/its \
-                     ${libdir}/gtk-3.0/include \
-                     ${libdir}/gtk-3.0/${LIBV}/loaders/*.la \
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch b/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb
 deleted file mode 100644
-index 7f87372c52..0000000000
---- a/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
+index 8e61c19f5d..0000000000
+--- a/meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb
 +++ /dev/null
-@@ -1,19 +0,0 @@
--If the resources file isn't sorted in some way then libgdk.so will differ
--depending on the inode order of the resource files.
+@@ -1,6 +0,0 @@
+-require cogl-1.0.inc
 -
--Upstream-Status: Pending
--Signed-off-by: Ross Burton <ross.burton@intel.com>
+-SRC_URI[archive.md5sum] = "31755015a865c4af51ac84f6e53af8ab"
+-SRC_URI[archive.sha256sum] = "5217bf94cbca3df63268a3b79d017725382b9e592b891d1e7dc6212590ce0de0"
 -
--diff --git a/gdk/Makefile.am b/gdk/Makefile.am
--index e25b57ba50..26f2d57c6e 100644
----- a/gdk/Makefile.am
--+++ b/gdk/Makefile.am
--@@ -465,7 +465,7 @@ stamp-gc-h: $(top_builddir)/config.status
-- # Resources
-- #
-- 
---glsl_sources := $(wildcard $(srcdir)/resources/glsl/*.glsl)
--+glsl_sources := $(sort $(wildcard $(srcdir)/resources/glsl/*.glsl))
-- 
-- gdk.gresource.xml: Makefile.am
-- 	$(AM_V_GEN) echo "<?xml version='1.0' encoding='UTF-8'?>" > $@; \
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.14.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.20.bb
-similarity index 79%
-rename from meta/recipes-gnome/gtk+/gtk+3_3.24.14.bb
-rename to meta/recipes-gnome/gtk+/gtk+3_3.24.20.bb
-index ab1f87c22e..e5744a4b05 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.24.14.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.20.bb
-@@ -7,10 +7,9 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
-            file://0002-Do-not-try-to-initialize-GL-without-libGL.patch \
-            file://0003-Add-disable-opengl-configure-option.patch \
-            file://link_fribidi.patch \
--           file://sort-resources.patch \
--          "
--SRC_URI[md5sum] = "62e39212fa0a84016a3392a9d291faf8"
--SRC_URI[sha256sum] = "1c4d69f93ab884fd80c6b95115bfbc12d51ecd029178b6dad3672fdc5ff91e88"
-+           "
-+SRC_URI[md5sum] = "b302acc0a4b42e2980ef18628f9ce951"
-+SRC_URI[sha256sum] = "2dac69f716e8d04ba7a95091589e2baaec95dcace932cb15839163db479b1df3"
- 
- S = "${WORKDIR}/gtk+-${PV}"
- 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1b1a508d91d25ca607c83f92f3e31c84"
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb
+new file mode 100644
+index 0000000000..86bbdbff69
+--- /dev/null
++++ b/meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb
+@@ -0,0 +1,6 @@
++require cogl-1.0.inc
++
++SRC_URI[archive.md5sum] = "7bcc01edb5462d4d08d01bf893feddb0"
++SRC_URI[archive.sha256sum] = "6d134bd3e48c067507167c001200b275997fb9c68b08b48ff038211c8c251b75"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=1b1a508d91d25ca607c83f92f3e31c84"
 -- 
 2.26.2
 
