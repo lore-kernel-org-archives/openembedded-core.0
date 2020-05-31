@@ -1,164 +1,189 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web12.17634.1590940464365310745
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+ by mx.groups.io with SMTP id smtpd.web12.17635.1590940465564859676
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 08:54:24 -0700
+ Sun, 31 May 2020 08:54:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=etv+T3xg;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id gl26so6843603ejb.11
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:54:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TcRpWGHw;
+ spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f67.google.com with SMTP id x1so6857910ejd.8
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8lejxFsxEkwqqgog9gWOzUy0J02e0kEx9ALK9yQCxsA=;
-        b=etv+T3xgzmcufjfve5IlbnUoljNeVbNTCptYjEUS0XrpgViNxjO4gigUBwzNu4c+Ej
-         Hm1mNnWpc03BtFH3ImTJD/wvE735lGeVA7YXgeIIYy/89pjClfy6cXjiobvkAeCDvtZa
-         YWfrA3DnC+mi06FNlIzv5MncsHf9A37Ub51bE9CZhDP6M2naDaqpmZvsGVaj19UDliyh
-         hkDRreutkQxn6UGFsvjZxm1ummssVWgROIEUXdN3A5SHxDW+o8/jt5ARDL7pUx8TOI4N
-         Rw+OWJxMbAdbDBl+jL2yUQKTcqeobb7nIoZ1QCQapcU0Fb4ijjCHJq7seegHCIfcaoC3
-         9L9Q==
+        bh=NWCfw/+0RSHhn9QUyyDOPZ57MXpf5ABTYC+UGRyvifM=;
+        b=TcRpWGHw9zhviWymPHTa5Q3Kd82V1taEDyBJ0yj45zJjgg/SOogqOq7rRK1D20TlC/
+         SGHt2zN71xUsAflD9xNlqNvZzBxwCDpCFl7Gqh4KukJoN/LgUES96UiSVzHMJqmW00UE
+         kX8KvV44svX0NFRb9l6aVo+LlllUQ3GtEbVbuBO2MMRq+3YNkBw2/gJ9NceldL6RlV6R
+         Ahn613G95e/r+uKue3UcxIV5FlCD+rjAthmLmMqHwC6aIXBrXetBb9CzlAKYzNnSLjU6
+         raGM/nlGbZIJ3HMReQ+G9N5+anNWnG7mS03wQXLaK/KHwgZj8EZcckMAXdWJ3GiD8L2u
+         uvLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8lejxFsxEkwqqgog9gWOzUy0J02e0kEx9ALK9yQCxsA=;
-        b=Qt5s0pdi5Cfa+IZgbu0s4MRxwr1L4jhUN6yHZjTnSNp5xqNWuZCBjUn+SdjZVETlQK
-         yB5yUn31cJCiEQU6uTGMp9be47I2gypCieW2NwGJX9DTGPRMVEBUSzanzh1f/+aIhkU8
-         qKJzeRb0QcEo4g7NRlH/5V7fd90oMvh8JBaUxMufycMQG0LlYx45iPa/V4kggr+yTodp
-         lAimOpfi6Pe6hQG7X2gcS5BENCIkDILgqoOpF9twWPS8Te6bvf32nfzuvApsEzcLg7k7
-         lo9GDcRVBgLhIc6de14r6kmPb49lR1W+K8F8GEkwiiysu0GZ5DArdfga4KHU0Gbn5VXr
-         GVfA==
-X-Gm-Message-State: AOAM530o169ULMA7BEAQv/uL8+pnt6qh9TaBI6kOehejrUvyvRIEDcb6
-	e5NimgecD2K7oM+IpArZGpQhTYQL
-X-Google-Smtp-Source: ABdhPJwZnBvPmY4eThnkiHgHsVp2a/vQTr0RreooFcO3ZMENH5lu79u26CAzsVHFsXOFXOMwmwuZ1Q==
-X-Received: by 2002:a17:906:1c4a:: with SMTP id l10mr14919086ejg.499.1590940462519;
-        Sun, 31 May 2020 08:54:22 -0700 (PDT)
+        bh=NWCfw/+0RSHhn9QUyyDOPZ57MXpf5ABTYC+UGRyvifM=;
+        b=n7eCgE1/eb45slSKiAXNLLjGh0nAGAzD4nDqv15jnqHhdMRVQ+Vex26O4Q4+pJPpTi
+         3fWVdPYz+wx1ttUbjuEffNoiDxF+IaVCiwI9Ka9WnB2tWR5Ztbf9eKP2l9foB51TJ4T1
+         P9RD9LADNEQ0LWBeFl4raf98dXowK4ktfY28hvmQ3+67NV3B3uwt7KFpSR8qrl06mSlf
+         TV76YxwjlkrVX13ARDL/Q9jrGwgjn6Xs689eECqUhNWMIGFVb7TP3yPme5nqOyU9/v2j
+         KB+giNARoB6shaQn9inLEWVTY5ACcw8qRmyZ/7BaUfBOzGk+VztzHyiVf89bxh4XrJXR
+         9Jrw==
+X-Gm-Message-State: AOAM532e4xgjYHg/6YzhEOjv1topKOgGPmewBVbTzI3ntVSbFY+N5Wv2
+	efEsSJgcFaWexxxFpJa+BCvEVhBl
+X-Google-Smtp-Source: ABdhPJwhXR6ZWUy5hwdmjSel7sK4n9PvLxsvM8L8T+Q6yvgxYI8Eozmi2b/Ff6BqLyFjvh4Oa1juzw==
+X-Received: by 2002:a17:906:da1e:: with SMTP id fi30mr16482078ejb.80.1590940463703;
+        Sun, 31 May 2020 08:54:23 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.54.21
+        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.54.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2020 08:54:22 -0700 (PDT)
+        Sun, 31 May 2020 08:54:23 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 63/70] ethtool: upgrade 5.4 -> 5.6
-Date: Sun, 31 May 2020 17:52:47 +0200
-Message-Id: <20200531155254.10283-63-alex.kanavin@gmail.com>
+Subject: [PATCH 64/70] libcpre2: update 10.34 -> 10.35
+Date: Sun, 31 May 2020 17:52:48 +0200
+Message-Id: <20200531155254.10283-64-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531155254.10283-1-alex.kanavin@gmail.com>
 References: <20200531155254.10283-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Replace pcre-cross.patch with the (default) option
+to use pre-built tables; the README says it's ok, and
+recommended in cross-compile situations. The option
+was in the recipe from the start and neither the commit
+that adds the recipe, nor the patch to make it work explain
+why.
+
+License-Update: copyright years
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../ethtool/avoid_parallel_tests.patch        | 10 +++---
- .../ethtool/ethtool/fix-printf.patch          | 32 +++++++++++++++++++
- .../{ethtool_5.4.bb => ethtool_5.6.bb}        |  9 ++++--
- 3 files changed, 43 insertions(+), 8 deletions(-)
- create mode 100644 meta/recipes-extended/ethtool/ethtool/fix-printf.patch
- rename meta/recipes-extended/ethtool/{ethtool_5.4.bb => ethtool_5.6.bb} (80%)
+ .../libpcre/libpcre2/pcre-cross.patch         | 65 -------------------
+ .../{libpcre2_10.34.bb => libpcre2_10.35.bb}  | 15 +----
+ 2 files changed, 3 insertions(+), 77 deletions(-)
+ delete mode 100644 meta/recipes-support/libpcre/libpcre2/pcre-cross.patch
+ rename meta/recipes-support/libpcre/{libpcre2_10.34.bb => libpcre2_10.35.bb} (74%)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index d5c93244fa..2f2d04ca07 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -1,4 +1,4 @@
--From f8333f7759717b4d163cfe8e3ef8861c5a667324 Mon Sep 17 00:00:00 2001
-+From 1c6c017e56ec536f5cceacdb02092777d390debb Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Wed, 28 May 2014 18:59:54 +0200
- Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
-@@ -15,15 +15,15 @@ Upstream-Status: Inappropriate
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-support/libpcre/libpcre2/pcre-cross.patch b/meta/recipes-support/libpcre/libpcre2/pcre-cross.patch
+deleted file mode 100644
+index 871cdfcb7d..0000000000
+--- a/meta/recipes-support/libpcre/libpcre2/pcre-cross.patch
++++ /dev/null
+@@ -1,65 +0,0 @@
+-Fix for cross compiling
+-
+-Fixed:
+-| ./dftables src/pcre2_chartables.c
+-| make: ./dftables: Command not found
+-| make: *** [src/pcre2_chartables.c] Error 127
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-
+-Index: pcre2-10.30/Makefile.am
+-===================================================================
+---- pcre2-10.30.orig/Makefile.am
+-+++ pcre2-10.30/Makefile.am
+-@@ -325,9 +325,21 @@ bin_SCRIPTS = pcre2-config
+- ## to copy a distributed set of tables that are defined for ASCII code. In this
+- ## case, dftables is not needed.
+- 
+-+CC_FOR_BUILD = @CC_FOR_BUILD@
+-+CFLAGS_FOR_BUILD = @CFLAGS_FOR_BUILD@
+-+CCLD_FOR_BUILD = @CCLD_FOR_BUILD@
+-+LDFLAGS_FOR_BUILD = @LDFLAGS_FOR_BUILD@
+-+
+- if WITH_REBUILD_CHARTABLES
+- noinst_PROGRAMS += dftables
+- dftables_SOURCES = src/dftables.c
+-+
+-+dftables_LINK = $(CCLD_FOR_BUILD) -o $@
+-+dftables_LDFLAGS = $(LDFLAGS_FOR_BUILD)
+-+
+-+src/dftables.o: $(srcdir)/src/dftables.c
+-+	$(CC_FOR_BUILD) -c $(CFLAGS_FOR_BUILD) -o $@ $(srcdir)/src/dftables.c
+-+
+- src/pcre2_chartables.c: dftables$(EXEEXT)
+- 	rm -f $@
+- 	./dftables$(EXEEXT) $@
+-Index: pcre2-10.30/configure.ac
+-===================================================================
+---- pcre2-10.30.orig/configure.ac
+-+++ pcre2-10.30/configure.ac
+-@@ -60,6 +60,23 @@ fi
+- # This is a new thing required to stop a warning from automake 1.12
+- m4_ifdef([AM_PROG_AR], [AM_PROG_AR])
+- 
+-+if test x"$cross_compiling" = xyes; then
+-+    CC_FOR_BUILD="${CC_FOR_BUILD-gcc}"
+-+    CCLD_FOR_BUILD="${CCLD_FOR_BUILD-gcc}"
+-+    CFLAGS_FOR_BUILD="${CFLAGS_FOR_BUILD}"
+-+    LDFLAGS_FOR_BUILD="${LDFLAGS_FOR_BUILD}"
+-+else
+-+    CC_FOR_BUILD="${CC_FOR_BUILD-\$(CC)}"
+-+    CCLD_FOR_BUILD="${CCLD_FOR_BUILD-\$(CCLD)}"
+-+    CFLAGS_FOR_BUILD="${CFLAGS_FOR_BUILD-\$(CFLAGS)}"
+-+    LDFLAGS_FOR_BUILD="${LDFLAGS_FOR_BUILD-\$(LDFLAGS)}"
+-+fi
+-+AC_ARG_VAR(CC_FOR_BUILD, [build system C compiler])
+-+AC_ARG_VAR(CCLD_FOR_BUILD, [build system C linker frontend])
+-+AC_ARG_VAR(CFLAGS_FOR_BUILD, [build system C compiler arguments])
+-+AC_ARG_VAR(LDFLAGS_FOR_BUILD, [build system C linker frontend arguments])
+-+
+-+
+- # Check for a 64-bit integer type
+- AC_TYPE_INT64_T
+- 
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.34.bb b/meta/recipes-support/libpcre/libpcre2_10.35.bb
+similarity index 74%
+rename from meta/recipes-support/libpcre/libpcre2_10.34.bb
+rename to meta/recipes-support/libpcre/libpcre2_10.35.bb
+index fa8655e027..35c019c100 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.34.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.35.bb
+@@ -8,14 +8,11 @@ SUMMARY = "Perl Compatible Regular Expressions version 2"
+ HOMEPAGE = "http://www.pcre.org"
+ SECTION = "devel"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=b1588d3bb4cb0e1f5a597d908f8c5b37"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=a06590e9bd4c229532364727aaeaf084"
  
- diff --git a/configure.ac b/configure.ac
--index 2127fdb..4910e6f 100644
-+index 1169b7f..ed82524 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -2,7 +2,7 @@ dnl Process this file with autoconf to produce a configure script.
-- AC_INIT(ethtool, 5.4, netdev@vger.kernel.org)
-+ AC_INIT(ethtool, 5.6, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_SRCDIR([ethtool.c])
---AM_INIT_AUTOMAKE([gnu])
--+AM_INIT_AUTOMAKE([gnu serial-tests])
-+-AM_INIT_AUTOMAKE([gnu subdir-objects])
-++AM_INIT_AUTOMAKE([gnu subdir-objects serial-tests])
-  AC_CONFIG_HEADERS([ethtool-config.h])
-  
-  AM_MAINTAINER_MODE
-diff --git a/meta/recipes-extended/ethtool/ethtool/fix-printf.patch b/meta/recipes-extended/ethtool/ethtool/fix-printf.patch
-new file mode 100644
-index 0000000000..9effa4f3f4
---- /dev/null
-+++ b/meta/recipes-extended/ethtool/ethtool/fix-printf.patch
-@@ -0,0 +1,32 @@
-+From 8dcdb3d22a66f18770e5566c0e72e86a0701aeac Mon Sep 17 00:00:00 2001
-+From: Robert Scheck <robert@fedoraproject.org>
-+Date: Tue, 12 May 2020 20:33:12 +0200
-+Subject: Rewrite printf() due to -Werror=format-security
-+
-+Avoid -Werror=format-security leading to: netlink/settings.c:378:2: error:
-+format not a string literal and no format arguments [-Werror=format-security]
-+
-+Upstream-Status: Backport
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+Signed-off-by: Robert Scheck <robert@fedoraproject.org>
-+Signed-off-by: John W. Linville <linville@tuxdriver.com>
-+---
-+ netlink/settings.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/netlink/settings.c b/netlink/settings.c
-+index c8a911d..0212465 100644
-+--- a/netlink/settings.c
-++++ b/netlink/settings.c
-+@@ -375,7 +375,7 @@ static int dump_link_modes(struct nl_context *nlctx,
-+ after:
-+ 	if (first && if_none)
-+ 		printf("%s", if_none);
-+-	printf(after);
-++	printf("%s", after);
-+ 
-+ 	return 0;
-+ err:
-+-- 
-+cgit 1.2.3-1.el7
-+
-diff --git a/meta/recipes-extended/ethtool/ethtool_5.4.bb b/meta/recipes-extended/ethtool/ethtool_5.6.bb
-similarity index 80%
-rename from meta/recipes-extended/ethtool/ethtool_5.4.bb
-rename to meta/recipes-extended/ethtool/ethtool_5.6.bb
-index d6eafaa8dc..eda32c877c 100644
---- a/meta/recipes-extended/ethtool/ethtool_5.4.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_5.6.bb
-@@ -9,17 +9,20 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://run-ptest \
-            file://avoid_parallel_tests.patch \
-+           file://fix-printf.patch \
-            "
+-SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2 \
+-           file://pcre-cross.patch \
+-"
++SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2"
  
--SRC_URI[md5sum] = "fbb24aa414ab9a11ff66d351b5b8493b"
--SRC_URI[sha256sum] = "0b25a46b61bc6e26f56dcb973fc28acea159e2c32c9d6da42c0fa8d1a6339829"
-+SRC_URI[sha256sum] = "e904e980294baf5878df410ebcf1d660497ba19bc3a77f798a04dba569f44a7e"
+-SRC_URI[md5sum] = "d280b62ded13f9ccf2fac16ee5286366"
+-SRC_URI[sha256sum] = "74c473ffaba9e13db6951fd146e0143fe9887852ce73406a03277af1d9b798ca"
++SRC_URI[sha256sum] = "9ccba8e02b0ce78046cdfb52e5c177f0f445e421059e43becca4359c669d4613"
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
+ CVE_PRODUCT = "pcre2"
  
--inherit autotools ptest bash-completion
-+inherit autotools ptest bash-completion pkgconfig
+@@ -30,20 +27,14 @@ inherit autotools binconfig-disabled
  
- RDEPENDS_${PN}-ptest += "make"
+ EXTRA_OECONF = "\
+     --enable-newline-is-lf \
+-    --enable-rebuild-chartables \
+     --with-link-size=2 \
+     --with-match-limit=10000000 \
+     --enable-pcre2-16 \
+     --enable-pcre2-32 \
+ "
+-# Set LINK_SIZE in BUILD_CFLAGS given that the autotools bbclass use it to
+-# set CFLAGS_FOR_BUILD, required for the libpcre build.
+-BUILD_CFLAGS =+ "-DLINK_SIZE=2 -I${B}/src"
+ CFLAGS += "-D_REENTRANT"
+ CXXFLAGS_append_powerpc = " -lstdc++"
  
-+PACKAGECONFIG ?= "netlink"
-+PACKAGECONFIG[netlink] = "--enable-netlink,--disable-netlink,libmnl,"
-+
- do_compile_ptest() {
-    oe_runmake buildtest-TESTS
- }
+-export CCLD_FOR_BUILD ="${BUILD_CCLD}"
+-
+ PACKAGES =+ "libpcre2-16 libpcre2-32 pcre2grep pcre2grep-doc pcre2test pcre2test-doc"
+ 
+ SUMMARY_pcre2grep = "grep utility that uses perl 5 compatible regexes"
 -- 
 2.26.2
 
