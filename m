@@ -1,95 +1,106 @@
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.web11.17507.1590940431271772725
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web10.17634.1590940432241879764
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 08:53:51 -0700
+ Sun, 31 May 2020 08:53:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=KjQO1Qnu;
- spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f51.google.com with SMTP id k19so5396750edv.9
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:51 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=F6flS/qw;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id h21so6883602ejq.5
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=5Q8mPGCS92nVw8sX19smr47W92r4gPDfqpU6q7mx75o=;
-        b=KjQO1QnuFVNkKW/2b3An4g89KWVoHik+RSS/JrGsK/f69DbkCTpd2cx3utNQPckTgT
-         yQtC7hFwVqqfhLBwstU5W+JfKr1xR1K6A7sD2I2Erxvev22cIeTSeLjHvq+Rp4iZ0s3r
-         NkvsQtJO8vtipB5sG78xDZDmLOX3ZtzjUDaWpt72eVZErLFE9WWqiIT/Dr71UHCAc0xD
-         zuxUhL2vaim9HkIxc8KVzQqG+/z7GSfprcXjUgGS8E7eDINBGVQU58v4h37Tox5XZ5nc
-         Hqf5xeIaOAgXOeEaWbND9YFKPJkDXjYW1nW/UKkzdOhZcCqp/jJhfZjatAqagK2MhBCd
-         V8/g==
+        bh=J1Syt2SkSuvXbpvQoe+4cc+iz32OnLayn4QxMP2IGGg=;
+        b=F6flS/qwLNn/AZtDDsMJoBeJpda+a/toCm47w4gA1QvE0KWnqLOuhbdWlCmpF5zPft
+         iQFUHARxP0mRXJ0dUnUEm9WwSYMiSGAfHK7VuWdvg2kqDx9Sf2vk4MNjNw8FedBoVVBY
+         LBGrGRycYB8dvlDHbFN2RwH0q0XDmG199L980VSFVm6uz95p/GJg3NlOqbyjCjNeFuPh
+         Aorcw0Bz3Kfhbjqybr3BZpziM7NrurzycKtmPOAgyn4NCoOm6qYiCXOaaIscZX7v+oLe
+         LZMh76MpzHyxTTD0p5Q1/mdz5MBYqZW6xOJrUVMxMG2B7d+WfdrkdyDBYH6Qe3VmHRDL
+         Vk+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=5Q8mPGCS92nVw8sX19smr47W92r4gPDfqpU6q7mx75o=;
-        b=CfnfuQSO8vIJ1cRnPzZPBgGKLF17LqSq45G3wMlDrWtzaiKEDWoQ29R2E6IyWIbA+a
-         Th6D1u2akv6Bni8k3SywZUPedcG6cF8OUb6BflWAyYYDDjs4hAmbOb6bVBPZJZjB9Bik
-         lmOH5tstLwE9iAGYT1S1BVnXKShdSPrfIuXWswLziUk/H2NxjGNE9hAclu2U5PRqVaY2
-         QHin2AAaBNEeBD+6Iv6IN0cy4QwirPg7zcH6gzfn7LtMVikbttyHm4rKt8E+y0Eh97ik
-         84HZGOVngbIv/QBUd2teOOCDy3H533IViBKujWEOxLMqxW6nVYIdvX1woerCNevcgdLT
-         xTMA==
-X-Gm-Message-State: AOAM532i2SC/IbBgo+fmBzpqg8BRJksBs7wWhKDd0Fzb8kcNdmxxyO3A
-	EBkWV+zApaRtp1XfkWquCGFZawl6
-X-Google-Smtp-Source: ABdhPJyHL1MtwSxuNIphDwFTK7jZJNx4PXtfc8Uj2TAQxiALQkd8UZr0sTJRzIbhUskEMgfFT2+ioA==
-X-Received: by 2002:aa7:c682:: with SMTP id n2mr5120900edq.18.1590940429677;
-        Sun, 31 May 2020 08:53:49 -0700 (PDT)
+        bh=J1Syt2SkSuvXbpvQoe+4cc+iz32OnLayn4QxMP2IGGg=;
+        b=Z4aaMvvzGIQK8EwMsyGps6+BM6oEftRsEahbOb3H9aT7BFxfwpUtng6yD9nm1FfKYo
+         FdXZT8L7EBWNvI/oIPhKowzfw9WHXzxse72OafFq7T+QBdi1dCUjk8/gPUlsRSxC9kWr
+         w26dWzQfZZnLPj9IbSY7cst/cmKVwImfw4ZDOgwQFurbJxc8kNYR1x7U0wwH+lIfbeL0
+         Y/n34Ze7huaErYKGF5n5Pwg5YBbMv04JHZIkSvj4Z7yY39IXS9lLHmEJuM2ysQZj9Omy
+         euA8owhco3m9VdDUe3Yq0U02Tn4LqRCs8xiyGDKh1VZgSS7L/GO4vwi74NGhKVP6OIb/
+         agiQ==
+X-Gm-Message-State: AOAM530YUSb9XLCyY0JyzJCVQTIUKMjcOAAkalFTwdkkoTBD7niN7p07
+	KX84VqHji6hib5STOf+vFcT1SYP5
+X-Google-Smtp-Source: ABdhPJzFeRIzTQhnLI0geWojHIj2STEoNALMHYTte27FvvmlWvhfCm0Esjf7NWzssczN6r0G/uoYlA==
+X-Received: by 2002:a17:906:1cc6:: with SMTP id i6mr15374440ejh.552.1590940430550;
+        Sun, 31 May 2020 08:53:50 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.48
+        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2020 08:53:49 -0700 (PDT)
+        Sun, 31 May 2020 08:53:50 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 26/70] sudo: upgrade 1.8.31 -> 1.9.0
-Date: Sun, 31 May 2020 17:52:10 +0200
-Message-Id: <20200531155254.10283-26-alex.kanavin@gmail.com>
+Subject: [PATCH 27/70] adwaita-icon-theme: upgrade 3.34.3 -> 3.36.1
+Date: Sun, 31 May 2020 17:52:11 +0200
+Message-Id: <20200531155254.10283-27-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531155254.10283-1-alex.kanavin@gmail.com>
 References: <20200531155254.10283-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-License-Update: additional copyright statements, all BSD
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/sudo/sudo.inc                          | 2 +-
- meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.9.0.bb} | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.31.bb => sudo_1.9.0.bb} (92%)
+ .../0001-Don-t-use-AC_CANONICAL_HOST.patch                  | 6 +++---
+ ...ta-icon-theme_3.34.3.bb => adwaita-icon-theme_3.36.1.bb} | 4 ++--
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.34.3.bb => adwaita-icon-theme_3.36.1.bb} (92%)
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index 5d27d46928..86a18be7e2 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD & Zlib"
--LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=4d1b44b1576eea036d78b8cc961aa93d \
-+LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=828cd502ad216ff869bf83adf3301e02 \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
-                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.31.bb b/meta/recipes-extended/sudo/sudo_1.9.0.bb
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+index 372f144be0..5da3fbf6d8 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+@@ -1,4 +1,4 @@
+-From 4409423752885f76326d05c1266698155f47c5f9 Mon Sep 17 00:00:00 2001
++From 0a867caa8803a78f7cf3a204c4c358bc63daaf28 Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Tue, 30 May 2017 14:55:49 +0300
+ Subject: [PATCH] Don't use AC_CANONICAL_HOST
+@@ -14,12 +14,12 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+  1 file changed, 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 4a84501..52dbb8e 100644
++index e749112..58790e8 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
+  
+- AC_INIT([adwaita-icon-theme], [3.34.3],
++ AC_INIT([adwaita-icon-theme], [3.36.1],
+          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
+ -AC_CANONICAL_HOST
+  AC_CONFIG_MACRO_DIR([m4])
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb
 similarity index 92%
-rename from meta/recipes-extended/sudo/sudo_1.8.31.bb
-rename to meta/recipes-extended/sudo/sudo_1.9.0.bb
-index 39d8817c32..76266537b6 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.31.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.0.bb
-@@ -7,8 +7,8 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb
+rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb
+index 3a2727b701..473e1fc0be 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb
+@@ -14,8 +14,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0001-Run-installation-commands-as-shell-jobs.patch \
+            "
  
- PAM_SRC_URI = "file://sudo.pam"
+-SRC_URI[md5sum] = "9aea4ad9bc002aacad155ee0748b357f"
+-SRC_URI[sha256sum] = "e7c2d8c259125d5f35ec09522b88c8fe7ecf625224ab0811213ef0a95d90b908"
++SRC_URI[md5sum] = "c61ca9d6b3ce70a9ab66dcff945923ff"
++SRC_URI[sha256sum] = "e498518627044dfd7db7d79a5b3d437848caf1991ef4ef036a2d3a2ac2c1f14d"
  
--SRC_URI[md5sum] = "ce17ff6e72a70f8d5dabba8abf3cd2de"
--SRC_URI[sha256sum] = "7ea8d97a3cee4c844e0887ea7a1bd80eb54cc98fd77966776cb1a80653ad454f"
-+SRC_URI[md5sum] = "060b91a6b171cb7ce587222664549b2c"
-+SRC_URI[sha256sum] = "ab231439c5dfdf4ecbef74f10d5f7e9686c2255c2f3887085b5c5e13281bf95c"
+ DEPENDS += "librsvg-native"
  
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.26.2
 
