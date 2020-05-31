@@ -1,50 +1,50 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web10.17656.1590940458593121377
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web11.17529.1590940459406381039
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 08:54:18 -0700
+ Sun, 31 May 2020 08:54:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bMoV8t+O;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id s19so5391305edt.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:54:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lC5AwmMx;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id f7so6868420ejq.6
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:54:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6CWz6g7jnfc3IyDORmZSMGHjlsTbLhBE/nYCsmuoi8I=;
-        b=bMoV8t+OgMViNTkPE1HzDUifQDfCySeXXCvQ1e9a7HqFxInK0jst4EpPGryasrwfEN
-         +4i16jwcy2/gDXL237QGIE6tuaFZzNOkT8fDv2iFTO8OqPIxITT3klu1/Yi1f5WbNAgm
-         o9QV6MmDyri7epe8SUnM2l42np2sUvlPgzEE5dWVh8bo+tGusYJ78Wfu8MxkKOyPX4EQ
-         8ckqPzZLxZjX2IEOxK2CUiIUlIjnxS1DeK7sCY+IX6rwIQSGyIhqP32SYkVqA4wkIuPY
-         gdOjym4cuHjWuuk2K9detvGJ1Bt4Qs1mkwbSLx++ofkEYA17/axUQJO6GGPdOk4nI/nX
-         UZYw==
+        bh=xmzvzmHggtNUfejOBnqZRjFqzFMADxP9FNVBIum+0YQ=;
+        b=lC5AwmMxR5N5k0ZRjifg/q53KETGhr6s5zqdNedX5+gfpkArZJ85WxOHtcu7sYeKN5
+         G/kKah7sOr4KY/xUCZM6Y0oXmGy+OT4q9UL0zylBDrwEvKDWGJHWyp8GA/m/a+p0bWTx
+         TkNl1qXS1SMkhjofpRKY7WVDxhOzkAh2jE5k8n/V2hwcyTz4hSMqdzQ5Dn0XwHsWYD7V
+         o6TeoLshDA5+dLRkNLp+MEtfhc80iA6D7ldghF6h2p/tm9F0O0l6jMla29QXCPTcX7tb
+         dDhZwaG0e4HjKW6D/OVq9+gwqeZqLnPIe0caeOHcyXyzuxBcrXj8STPHFn89rZZfNUEZ
+         J9yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6CWz6g7jnfc3IyDORmZSMGHjlsTbLhBE/nYCsmuoi8I=;
-        b=JLsj0VRC7HMA8hyO25y3nW3I52XrEuMd+lrcmxOLVbBBTIN5OyS+bm7V9yfqwWvvnC
-         QfwY/UHnmslmCHaLA7sxcJoo1MaJ25kX/A7FrIh7wwHdY3ZIaWOiGwUnUOP4oTm6otiY
-         O1trv2DhY3czAw+yzS3W0xL6Ky5bjFbM3GslvIJ2dsjptv8lf5OlMwKim0r0zbCcgEuC
-         O8F9C8tWT8F5qJz/+76k3hH77wfAvXDWGka08dfOs50eq8i7nBs2LDTga14fXNhpPtzw
-         TFzpsZ43+/XZQ1p9Au4byv8n3v49QwJxA1Zom4LEWNxdoebFxEgPyZJjo084xb14OeG8
-         3zAw==
-X-Gm-Message-State: AOAM531EzoaIr3LLXuZAX58/aI3QPnr20nBJPXA0kUKIh9w4N7pgpMOH
-	4AxjvEgaioc9wwZjBFqj2ifSZ72K
-X-Google-Smtp-Source: ABdhPJwlDmcFekjHd6dNJyvwLTtqGLvsBIEHJA3kR29mJUt3nSKdJONGT8zzY2csqzlFRGjLughExA==
-X-Received: by 2002:a05:6402:70b:: with SMTP id w11mr17090344edx.251.1590940456945;
-        Sun, 31 May 2020 08:54:16 -0700 (PDT)
+        bh=xmzvzmHggtNUfejOBnqZRjFqzFMADxP9FNVBIum+0YQ=;
+        b=qYLFQgW6/blOa9eczubUOmHiNPSjp+pfhT0o5tI1kp11/XTT2tIbRxqtuRfuLZ7PP1
+         qdwJv8qWWW6X2qiJEjEMsIKCufmx5/bzTGIECxprul/2B/NzPkxiTHHBDnxg/bdfZph4
+         8cWhqU5zBM4wzCbnzPMlVgPPt2lB5umZMmfFxTmkMxTIMJTvAvzuKw2Tp/OAiUog8VF5
+         7jB3YfM/Ms6MjZ0s1vz77ggoPItoYUMQkOk7fOmuSQM+3e5f0lZUUKPKROh298H6q5Fi
+         yEH++hrqLNC+CKhyDgLz8sxE24vXJJKbhHsFIR9EsXyPzds9SZENtl7pkoCUgedVhw+k
+         7D9w==
+X-Gm-Message-State: AOAM530PCGthILL8kX5pgArbZTpweMUiy6XldOTys/om64tM1hb2bswP
+	ojkEXxwrc4zStxY5+mBaUcob6+7g
+X-Google-Smtp-Source: ABdhPJzz/24DDG+hRsa7QyZoll0kHx0kayzY/bTz0xYPF7A0/jxXSzFsPzWGmR+7J8Hnl3VTACWMbw==
+X-Received: by 2002:a17:906:e08a:: with SMTP id gh10mr16736866ejb.512.1590940457663;
+        Sun, 31 May 2020 08:54:17 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.54.16
+        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.54.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2020 08:54:16 -0700 (PDT)
+        Sun, 31 May 2020 08:54:17 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 56/70] jquery: update to 3.5.1
-Date: Sun, 31 May 2020 17:52:40 +0200
-Message-Id: <20200531155254.10283-56-alex.kanavin@gmail.com>
+Subject: [PATCH 57/70] json-c: update 0.13.1 - > 0.14
+Date: Sun, 31 May 2020 17:52:41 +0200
+Message-Id: <20200531155254.10283-57-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531155254.10283-1-alex.kanavin@gmail.com>
 References: <20200531155254.10283-1-alex.kanavin@gmail.com>
@@ -53,39 +53,93 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../jquery/{jquery_3.5.0.bb => jquery_3.5.1.bb}           | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/jquery/{jquery_3.5.0.bb => jquery_3.5.1.bb} (67%)
+ ...d-disable-werror-option-to-configure.patch | 45 -------------------
+ .../{json-c_0.13.1.bb => json-c_0.14.bb}      | 11 ++---
+ 2 files changed, 3 insertions(+), 53 deletions(-)
+ delete mode 100644 meta/recipes-devtools/json-c/json-c/add-disable-werror-option-to-configure.patch
+ rename meta/recipes-devtools/json-c/{json-c_0.13.1.bb => json-c_0.14.bb} (67%)
 
-diff --git a/meta/recipes-devtools/jquery/jquery_3.5.0.bb b/meta/recipes-devtools/jquery/jquery_3.5.1.bb
+diff --git a/meta/recipes-devtools/json-c/json-c/add-disable-werror-option-to-configure.patch b/meta/recipes-devtools/json-c/json-c/add-disable-werror-option-to-configure.patch
+deleted file mode 100644
+index 0c20c8458a..0000000000
+--- a/meta/recipes-devtools/json-c/json-c/add-disable-werror-option-to-configure.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-json-c: Backport --disable-werror patch to allow compilation under icecc
+-
+-icecc preprocesses source files locally before shipping them off to be compiled
+-on remote hosts. This preprocessing removes comments, including /* fallthough */
+-comments in switch statements that normally prevent an implicit-fallthrough
+-warning, see https://github.com/icecc/icecream/issues/419
+-
+-Rather than turning off -Werror, the upstream project has implemented a
+-configure option, --disable-werror, in response to Ross's
+-https://github.com/json-c/json-c/issues/489
+-
+-This patch from
+-https://github.com/json-c/json-c/commit/21c886534f8927fdc0fb5f8647394f3e0e0874b8
+-
+-Upstream-Status: Backport [Not yet released]
+-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+-
+-From 21c886534f8927fdc0fb5f8647394f3e0e0874b8 Mon Sep 17 00:00:00 2001
+-From: Pierce Lopez <pierce.lopez@gmail.com>
+-Date: Sun, 9 Jun 2019 10:52:08 -0400
+-Subject: [PATCH] build: add --disable-werror option to configure
+-
+-to omit -Werror compiler option
+----
+- configure.ac | 7 ++++++-
+- 1 file changed, 6 insertions(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 272ea6af9c..798fd5b747 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -165,7 +165,12 @@ AS_IF([test "x$enable_Bsymbolic" = "xcheck"],
+- AS_IF([test "x$enable_Bsymbolic" = "xyes"], [JSON_BSYMBOLIC_LDFLAGS=-Wl[,]-Bsymbolic-functions])
+- AC_SUBST(JSON_BSYMBOLIC_LDFLAGS)
+- 
+--AX_APPEND_COMPILE_FLAGS([-Wall -Werror -Wcast-qual -Wno-error=deprecated-declarations])
+-+AC_ARG_ENABLE([werror],
+-+    AS_HELP_STRING([--disable-werror], [avoid treating compiler warnings as fatal errors]))
+-+
+-+AS_IF([test "x$enable_werror" != "xno"], [AX_APPEND_COMPILE_FLAGS([-Werror])])
+-+
+-+AX_APPEND_COMPILE_FLAGS([-Wall -Wcast-qual -Wno-error=deprecated-declarations])
+- AX_APPEND_COMPILE_FLAGS([-Wextra -Wwrite-string -Wno-unused-parameter])
+- AX_APPEND_COMPILE_FLAGS([-D_GNU_SOURCE])
+- 
+diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb b/meta/recipes-devtools/json-c/json-c_0.14.bb
 similarity index 67%
-rename from meta/recipes-devtools/jquery/jquery_3.5.0.bb
-rename to meta/recipes-devtools/jquery/jquery_3.5.1.bb
-index 5c6f9cddbe..b4d7e80afe 100644
---- a/meta/recipes-devtools/jquery/jquery_3.5.0.bb
-+++ b/meta/recipes-devtools/jquery/jquery_3.5.1.bb
-@@ -2,7 +2,7 @@ SUMMARY = "jQuery is a fast, small, and feature-rich JavaScript library"
- HOMEPAGE = "https://jquery.com/"
+rename from meta/recipes-devtools/json-c/json-c_0.13.1.bb
+rename to meta/recipes-devtools/json-c/json-c_0.14.bb
+index 522879f21f..99fde873b1 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.14.bb
+@@ -4,19 +4,14 @@ HOMEPAGE = "https://github.com/json-c/json-c/wiki"
  LICENSE = "MIT"
- SECTION = "devel"
--LIC_FILES_CHKSUM = "file://${WORKDIR}/${BP}.js;startline=8;endline=10;md5=b1e67ece919e852643f1541a54492d65"
-+LIC_FILES_CHKSUM = "file://${WORKDIR}/${BP}.js;beginline=8;endline=10;md5=ebd7bc5d23ab165188e526a0c65d24bb"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
  
- SRC_URI = "\
-     https://code.jquery.com/${BP}.js;name=js \
-@@ -10,9 +10,9 @@ SRC_URI = "\
-     https://code.jquery.com/${BP}.min.map;name=map \
-     "
+-SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
+-           file://add-disable-werror-option-to-configure.patch \
+-           "
+-SRC_URI[md5sum] = "04969ad59cc37bddd83741a08b98f350"
+-SRC_URI[sha256sum] = "b87e608d4d3f7bfdd36ef78d56d53c74e66ab278d318b71e6002a369d36f4873"
++SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
++SRC_URI[sha256sum] = "b377de08c9b23ca3b37d9a9828107dff1de5ce208ff4ebb35005a794f30c6870"
  
--SRC_URI[js.sha256sum] = "aff01a147aeccc9b70a5efad1f2362fd709f3316296ec460d94aa7d31decdb37"
--SRC_URI[min.sha256sum] = "c4dccdd9ae25b64078e0c73f273de94f8894d5c99e4741645ece29aeefc9c5a4"
--SRC_URI[map.sha256sum] = "3149351c8cbc3fb230bbf6188617c7ffda77d9e14333f4f5f0aa1aae379df892"
-+SRC_URI[js.sha256sum] = "416a3b2c3bf16d64f6b5b6d0f7b079df2267614dd6847fc2f3271b4409233c37"
-+SRC_URI[min.sha256sum] = "f7f6a5894f1d19ddad6fa392b2ece2c5e578cbf7da4ea805b6885eb6985b6e3d"
-+SRC_URI[map.sha256sum] = "511d6f6d3e7acec78cd2505f04282b6e01329b4c24931f39d91739d0d1ddeef8"
+ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+)-\d+"
  
- UPSTREAM_CHECK_REGEX = "jquery-(?P<pver>\d+(\.\d+)+)\.js"
+ RPROVIDES_${PN} = "libjson"
  
+-inherit autotools
+-
+-EXTRA_OECONF = "--disable-werror"
++inherit cmake
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.26.2
 
