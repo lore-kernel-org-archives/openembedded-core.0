@@ -1,107 +1,107 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.42])
- by mx.groups.io with SMTP id smtpd.web11.20455.1590949265263256572
+Received: from EUR06-AM7-obe.outbound.protection.outlook.com (EUR06-AM7-obe.outbound.protection.outlook.com [40.92.16.71])
+ by mx.groups.io with SMTP id smtpd.web10.23455.1590958687742213897
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 11:21:05 -0700
+ Sun, 31 May 2020 13:58:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Vqz7BNgV;
- spf=pass (domain: windriver.com, ip: 40.107.223.42, mailfrom: joe.slater@windriver.com)
+ dkim=fail reason="body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=qZqUNC1C;
+ spf=pass (domain: outlook.com, ip: 40.92.16.71, mailfrom: kweihmann@outlook.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Isg01GcC5sHD5JxIoPtMih5wF9jdXHH4LQPygG12n0rlK+oB4CzeR5QnLtefD4ZpJMcCOEyfxY7+LQo0dCe9LUs+vWkSQzjikGnw1fNSCmRd0hryl6g6SFTW+qHW7HZ1YbdJLRnxKxc4teepJr5RwXCq6C4eDCz9a8m9w/p9hw0hPeh3677nnNrUqbA5fj0F3xF+eNaKdaiFjqACiN0nF8acjyL7q93N+FOhOY1lDL3NZzZfBbbB0AjaO8ANydMlToc/iyH0zuyCr1DBZkG5r94RUcm29MdQdA675WdvPK2oFIsa/7J9uULvm0GzyAVwBZ1Jl3q5SanE83GBJFuelA==
+ b=Fb7kQ4EjkkmEBdVQaG3LDMv1RCGh/QVQiJkHKNd6Y/Qi41NcS/bSvrAOScV5+fIOka1hVDG/LcqaOu6isTk5bljwanAONjGfM5Ut0B4ngde69wa4eaY/YceXhMSVYprvFxI0OUlMnZIYJQ+q8yMsnqz2xBHdI7hHh/mB6fw5kdlNArWKVMvRCqA5ZUP1Mn7b7PG7qgI5yuaHvWAloLZc7uUkPC4Z5/QqfPR86GcLUbpe+FAD0jNgaIAF7pcGgzYn2Q4nhOIb/MthMAygkoLWP4mKH8gLBu89mAREJ7CyjXeuXcnRxkG52ofyU2lDa43uWOwPrcg4Jdxj+sTgsBq5cg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rEnH65jclqWfLhT7gZs/MnXEVp+zwfl7izdIhSM1JNM=;
- b=iAWEPFNfxExUXTUEiHRGWhwEX2zQUbMQy1iiaScMs+9CWeXeB7xxGp53SYZ0+xex7BJ5CytIZJhN81a8bR1PYa3NspOY5+eEiJgoYIlQ10I5+PuQbjrKEdPn2XqFju3Cdq86ZQa3kRrlRp043MOenOJ0WMbT4aAX43SqZvN5plx5KSesoyqrGm2PIXGCVlgVlu7UK5NYsDK9QnmWWeM3nxweIZ66jyRc+xrat+dEPGUcx+FVzp+/WQSX+Emd581xSLktd4x8Q/4t/IHfTb5YEUgFVsRZs/EbNNmOYHd3mQVIEZqChU8tSOB5y+URnEuUneyR8Lt26fx+BVJsrZX+qQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ bh=21jhKbhCLSz305hX67CjobjTPcFZV8zk/WeeCBELTxI=;
+ b=a112Hkch2EsG0m4ARgkPWRbE8qM0bn62T7L2v9X9vv5Tn3F5vRpMYDCGKiXs/ERF+xsYeKjliskNeYS0f4aKH8DQ+FUKW+K6FWrPlXqqkPgoM//dJUOimV6hClqYehH/1d+K6SjUofRYpvlJwtCz3BH3RuRFWm0QUoqyR8gdzmYYE+gg/onDrNllTWQZumFWQHp1V2t4oE3fL3RWKNDhO1273VLndZj4y2zsKn3bOSDpSsRqJ11RAf0LPShBUA5czzdXmRv3i+dQlhnx2uhu6r4vUg0lMK8+9knl2jBpenGDO2//0azYDO6OqbUNc3f7FJBA0UQLzwjz46JWY2oq2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rEnH65jclqWfLhT7gZs/MnXEVp+zwfl7izdIhSM1JNM=;
- b=Vqz7BNgVyMXV9ddK9I88pTBhRsHXZy7TDImD40Z7UJsHylA9IX88SY1I86TY2K7kXI3RIRCO3rC/mfjxr7DPOz3R16+4lyPk/7dvS2QiSgrg8ACYBn00kiWi+G8/emUMEGwUIySXHS7J+/hEhejPlHLRVxzrWQCoLcLayeHbYIo=
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com (2603:10b6:a03:188::10)
- by BY5PR11MB3880.namprd11.prod.outlook.com (2603:10b6:a03:184::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.22; Sun, 31 May
- 2020 18:21:03 +0000
-Received: from BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::2c89:3733:2dbb:3a8d]) by BY5PR11MB3992.namprd11.prod.outlook.com
- ([fe80::2c89:3733:2dbb:3a8d%4]) with mapi id 15.20.3045.024; Sun, 31 May 2020
- 18:21:02 +0000
-From: "Joe Slater" <joe.slater@windriver.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-CC: "MacLeod, Randy" <Randy.MacLeod@windriver.com>
-Subject: Re: [oe-core][PATCH 1/1] qemu: force target build type to production
-Thread-Topic: [oe-core][PATCH 1/1] qemu: force target build type to production
-Thread-Index: AQHWNf+LMIGGFsr+/k2HCThgObF0EajB8qwAgACRc9A=
-Date: Sun, 31 May 2020 18:21:01 +0000
-Message-ID: 
- <BY5PR11MB399216FB780D0B2A3448DFD7888D0@BY5PR11MB3992.namprd11.prod.outlook.com>
-References: <20200529212429.145132-1-joe.slater@windriver.com>
- <b2c5a45e2ce62526052b472c80867500d4840a4e.camel@linuxfoundation.org>
-In-Reply-To: 
- <b2c5a45e2ce62526052b472c80867500d4840a4e.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=windriver.com;
-x-originating-ip: [24.4.218.114]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 752feab7-5713-4455-96b4-08d8058f6053
-x-ms-traffictypediagnostic: BY5PR11MB3880:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: 
- <BY5PR11MB3880CF527E87CA52ACF5B68C888D0@BY5PR11MB3880.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3968;
-x-forefront-prvs: 0420213CCD
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 
- yO3MuMO+9nB9NqfSpsyQ/3AwPwM+yN2b1XD9oYV7pOHwYYVhuHhSfRosyUKBOkZysDMitiKkMBRpIlgahJ7RM/MGn6BOlhRUatEIY1H5zFFV1jGOlPq7AxkD6D+KrBptmTPvlNABfurmkULf0Z16p1/UTYtSNok+k9eSU2I9TSwRmSP0qw33D2belrgEPeU8WcGTsN31dvtVPSDtKGwFEW+9S1WIH6/Ckr6fm/XOnzg8XcdZUNbDbiptiLIweAKnHK9B5amKc17qmZ+2+7yjVs5ch3pdVM+fBZYUlrW4uZ42f6VaV8equvjJJPsKIenjZB6rJHIJCsZeDjuOLNgO0A==
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3992.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(346002)(376002)(39830400003)(366004)(136003)(396003)(8676002)(5660300002)(186003)(4326008)(66946007)(66476007)(64756008)(66446008)(66556008)(8936002)(316002)(76116006)(71200400001)(7696005)(110136005)(83380400001)(107886003)(55016002)(9686003)(2906002)(26005)(52536014)(478600001)(86362001)(33656002)(53546011)(6506007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- he+Lea2EVAPVePd1iB7VbRXlVjciM6LyJj7hU0ElUgETZ4FlVQb+O22tmcGujJUeridnwk0cB64l5l/rT7gvmDVeSgT6MBLCCT0uf3c/Wo/vc5cB7tzsrnkY5ntWiMibaqH6dLzHKqE/5zKsXJwcgkaG2g+sek3lVZYFS0A39ogSyt3i6Foq3/I6cgdWdK8jKMNCLAGU53NYZjq6nVKEFsrpbJ1FDLnHuewEFRx5V7/7ON5vWT1kf+PQAclLZh0zx/AbzzIsHxPv31KZu/xh3e/Hh9zjHwoTpcO78+KRRCwgBFsGjS9dfMjxtu/vMAzzW5EloodGqAnIKhDj7Hg1QPT4zh3m7218nDwx0sBjGBf1lt4p/CRMaIuOBr1pRU1vY3LDCgJYt5lgS1YDSlD0izSRYL3D+MKlP+6RfVm0/3cY5IHA4xSeIbH+L9+8U94MuE/OPDY9mVzSW9PmTK1ye58vImY855c/SkkKnRHPUKQ=
+ bh=21jhKbhCLSz305hX67CjobjTPcFZV8zk/WeeCBELTxI=;
+ b=qZqUNC1CZ1qzhjFYBW6RHf8zAoNLDzNbPZo1C685xpbpVZzseMj3O8Dda5up91dgGfCkXKcuGQtGSsDG9l66PLkXtegxEAFgHAdfoMHA4wd7MqQ9uS7vz9TcDRfrzeGPbuUwLAlOkEQCHLHQQyD8DkD8gotKUWPbeSKjelFFB2onGbMuEwwkI/SXScK/F9nXA//uM6fLaZ+nh+1+OUv0BDG1xqYWySlqtdfw2A3mBlDXKJg+L769QO5c6MOOjuL7u3TJPKDb9AbEOJkUgk8Dv1mw6LCG7S99nD9Lb+Gqsv0XeW+6mc2kbMFh47L3j0709er4/f3RtPPWDA3nN9Zm1A==
+Received: from VI1EUR06FT046.eop-eur06.prod.protection.outlook.com
+ (2a01:111:e400:fc37::4c) by
+ VI1EUR06HT187.eop-eur06.prod.protection.outlook.com (2a01:111:e400:fc37::370)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17; Sun, 31 May
+ 2020 20:58:05 +0000
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ (2a01:111:e400:fc37::41) by VI1EUR06FT046.mail.protection.outlook.com
+ (2a01:111:e400:fc37::317) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17 via Frontend
+ Transport; Sun, 31 May 2020 20:58:05 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:67E6D8D421C9C75A1453A92514853882758ADEA75BE7B5CB2807444C59A495C1;UpperCasedChecksum:EEEBB9922CA0AE11E17C5184D3C2BA65B64183C8C1474E73296C3B9D4425846C;SizeAsReceived:7487;Count:48
+Received: from AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::2c81:794e:63ae:e722]) by AM7PR05MB6881.eurprd05.prod.outlook.com
+ ([fe80::2c81:794e:63ae:e722%7]) with mapi id 15.20.3045.024; Sun, 31 May 2020
+ 20:58:05 +0000
+From: "Konrad Weihmann" <kweihmann@outlook.com>
+To: openembedded-core@lists.openembedded.org
+CC: Konrad Weihmann <kweihmann@outlook.com>
+Subject: [PATCH] sysfsutils: rem leftover settings for libsysfs-dev
+Date: Sun, 31 May 2020 22:57:48 +0200
+Message-ID: <AM7PR05MB688135CAE8F98FB0B7F5836EA88D0@AM7PR05MB6881.eurprd05.prod.outlook.com>
+X-Mailer: git-send-email 2.20.1
+X-ClientProxiedBy: AM5PR0701CA0008.eurprd07.prod.outlook.com
+ (2603:10a6:203:51::18) To AM7PR05MB6881.eurprd05.prod.outlook.com
+ (2603:10a6:20b:1a9::19)
+Return-Path: kweihmann@outlook.com
+X-Microsoft-Original-Message-ID: <20200531205748.1725-1-kweihmann@outlook.com>
 MIME-Version: 1.0
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 752feab7-5713-4455-96b4-08d8058f6053
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 May 2020 18:21:02.2700
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ICKE-EDGE.fritz.box (79.215.15.24) by AM5PR0701CA0008.eurprd07.prod.outlook.com (2603:10a6:203:51::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.8 via Frontend Transport; Sun, 31 May 2020 20:58:04 +0000
+X-Mailer: git-send-email 2.20.1
+X-Microsoft-Original-Message-ID: <20200531205748.1725-1-kweihmann@outlook.com>
+X-TMN: [GCXn6149uZMTSaP6rBGtWnTZaoDh9B1O]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 48
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 2d85f61a-10c5-4243-af24-08d805a5503d
+X-MS-Exchange-SLBlob-MailProps: 
+	7MJMDUNTCtxZDRLgFxEZNXonRi+PvJzlV08W4VR+FeRyrjyuWMUZdV1Fsgv0V9BuiDG14YoW4Y04oTLgTj/cbzPBeDY4zcQWK2pSqKIILVIsmZWS0iYpOYIpQRaQCIq4E434xZI35z51X0l/7urQZuK4Yt3a0/jbw8Sv0OQ1q3nG4StECam//LSYUn4P0oe2Zl3Lsg113WeakoUouUzhZePj4U48BheMCeAaff2i7oznwicJ392k1fPCw2mjmMZi9W4Tw4VAuaxiosyIBajsXtWfVXW3mMFeuZKAA0q01/VaVNRdQnHySERBHNoM9EOAJ1eekR62cnfYGeiP4AcuzkE4MxP3dzsh9tcPy1ft3d3Cyva2y3+7I1TI/qMLJbFCArlpZEAErKtbO4D2MxbHIhpzpEHD8/xnKTVlGPlPPSP8s+cqb2honF1BAXR3KjzRk98dhFTfd9+gaiEo7CGPQBbq3zxXD1N/pdUzzjnG9aySSApzMDXbZQlPJBhgou6RKkX1r+RBDnrbAtV+RwqEsKQkTNwI/4pHoN66lKp98RM83YO5kGSsetBjrPKVb0S7WIU3np66vQpRz0gdmgfXlyXWigkmnMgFFszzfD4yqaI4wmFByGg/I8vxi6pzwR7kbZTZ2BCYZ1t8EHxGV5uXfms9eFYqETkq/BQRZsfYkJD2EEaRVYPOYmWRLbT9xkxluzGrmpy4VJJ88xPLpq+GS/83vweMLgTORJannYBsnD6kSx33DKTieA==
+X-MS-TrafficTypeDiagnostic: VI1EUR06HT187:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	kMU4QxblpLgLwL6Lc8KIh3G3/8KkS64ghr5YaosB9rdi8jDIkScIuHAPqs8RffVAHBh5PdQUifuJutTzz/5BkbyBQ3TCvO8Zsg0LTlxJeN/N0DlTU5ItXh6zhIi1r8tcPznzn1/YExcbwhlWZOm488Q5BB+Of1I4w1SdVpoWwX30BTcY7g7ya1nELfZ/mf4yZUSlo1jDZNh1qqid26tOGA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR05MB6881.eurprd05.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
+X-MS-Exchange-AntiSpam-MessageData: 
+	B9KQXMQa1Ebw1mOhxTE9Toy43yVLYyo9WHya4nq1jRRKZalNR69GdT/nhhcZUtY65yx3zzYRpc/kCFPEHL/PSj5uvnaEail3cIZbmfTwHaaI3+JWqqU2tZk+rfSCrrlhzu5rdDaxHCUpvQJ0ENL/qQ==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2d85f61a-10c5-4243-af24-08d805a5503d
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 May 2020 20:58:04.9854
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: TnMHDVtR829qYd5MdIW9nouwCAkiyW8rHgZe5f4NOTZE76mgBzxFEZrSWXYfUM1QfUdqkGGQeUBQN3zq/FTbVqJxmeOuMq+Xdm2WE4ifU80=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB3880
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1EUR06HT187
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-UWVtdS1uYXRpdmUsIG5vLCBidXQgbmF0aXZlc2RrLXFlbXUsIHllcy4gICBKb2UNCg0KLS0tLS1P
-cmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRp
-ZUBsaW51eGZvdW5kYXRpb24ub3JnPiANClNlbnQ6IFN1bmRheSwgTWF5IDMxLCAyMDIwIDI6Mzkg
-QU0NClRvOiBTbGF0ZXIsIEpvc2VwaCA8am9lLnNsYXRlckB3aW5kcml2ZXIuY29tPjsgb3BlbmVt
-YmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KQ2M6IE1hY0xlb2QsIFJhbmR5IDxS
-YW5keS5NYWNMZW9kQHdpbmRyaXZlci5jb20+DQpTdWJqZWN0OiBSZTogW29lLWNvcmVdW1BBVENI
-IDEvMV0gcWVtdTogZm9yY2UgdGFyZ2V0IGJ1aWxkIHR5cGUgdG8gcHJvZHVjdGlvbg0KDQpPbiBG
-cmksIDIwMjAtMDUtMjkgYXQgMTQ6MjQgLTA3MDAsIEpvZSBTbGF0ZXIgd3JvdGU6DQo+IHFlbXUg
-d2lsbCBub3QgYnVpbGQgZm9yIC1PZyBvcHRpbWl6YXRpb24gYmVjYXVzZSBtYWNyb3MgaW4gbG9j
-a2FibGUuaCANCj4gZG8gbm90IHdvcmsgYXMgZXhwZWN0ZWQuICBPdmVycmlkZSBERUJVR19CVUlM
-RC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6IEpvZSBTbGF0ZXIgPGpvZS5zbGF0ZXJAd2luZHJpdmVy
-LmNvbT4NCj4gLS0tDQo+ICBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11XzQuMi4wLmJi
-IHwgNCArKysrDQo+ICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspDQo+IA0KPiBkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdV80LjIuMC5iYiANCj4gYi9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11XzQuMi4wLmJiDQo+IGluZGV4IGE0MDE4Y2M0
-NDguLjkwYjIzMGQ2MmYgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9xZW11
-L3FlbXVfNC4yLjAuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVtdV80
-LjIuMC5iYg0KPiBAQCAtMTAsNiArMTAsMTAgQEAgREVQRU5EUyA9ICJnbGliLTIuMCB6bGliIHBp
-eG1hbiBiaXNvbi1uYXRpdmUiDQo+ICANCj4gIFJERVBFTkRTXyR7UE59X2NsYXNzLXRhcmdldCAr
-PSAiYmFzaCINCj4gIA0KPiArIyBEb2VzIG5vdCBjb21waWxlIGZvciAtT2cNCj4gKyMNCj4gK0RF
-QlVHX0JVSUxEX2NsYXNzLXRhcmdldCA9ICIwIg0KDQpXb3VsZCBuYXRpdmUgYW5kIG5hdGl2ZXNk
-ayBidWlsZHMgbm90IGhhdmUgdGhlIHNhbWUgaXNzdWU/DQoNCkNoZWVycywNCg0KUmljaGFyZA0K
-DQo=
+22af6a2595dbec98ce4a2e3b1324ad8d400390ad removed the PACKAGES
+setting, but left the FILES-assignments of libsysfs-dev and -staticdev.
+As these have no use anymore they can be safely removed
+
+Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
+---
+ meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb b/meta/recipe=
+s-core/sysfsutils/sysfsutils_2.1.0.bb
+index f9f067dcad..34bf431f40 100644
+--- a/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
++++ b/meta/recipes-core/sysfsutils/sysfsutils_2.1.0.bb
+@@ -27,7 +27,5 @@ inherit autotools
+=20
+ PACKAGES =3D+ "libsysfs"
+ FILES_libsysfs =3D "${libdir}/lib*${SOLIBS}"
+-FILES_libsysfs-dev =3D "${libdir}/lib*${SOLIBSDEV} ${includedir}"
+-FILES_libsysfs-staticdev =3D "${libdir}/lib*.a"
+=20
+ export libdir =3D "${base_libdir}"
+--=20
+2.20.1
+
