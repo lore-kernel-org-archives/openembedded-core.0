@@ -1,50 +1,50 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
- by mx.groups.io with SMTP id smtpd.web10.17615.1590940412638917394
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+ by mx.groups.io with SMTP id smtpd.web12.17595.1590940413511775446
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 08:53:32 -0700
+ Sun, 31 May 2020 08:53:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=XjYrNt9Q;
- spf=pass (domain: gmail.com, ip: 209.85.208.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f41.google.com with SMTP id g9so5414220edr.8
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:32 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BvwAClMX;
+ spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f42.google.com with SMTP id l27so6906520ejc.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vKQZbJWTVN4UUT3I/GaPSxwK7Pwyk1OtogEoN20tV6M=;
-        b=XjYrNt9QUm3briFYUJWNIXA1hDcD/n3lyefOLc1nArO8eyEqYLMhaGn0kY4SA86ktl
-         irOc9nc4RwSR+I1M2oo/+7lwGAMobYTPxdxHoy8NSW/HL18TrJ+TN8mSo9B4cmc1lOa9
-         3+L+kLntBKb8GFLOq1Af867f9QlStClsrkQ25IMosbohh+aAAPubifGXvOQibC29mKkt
-         Nnn5XJBOe9+TtO1BiCuMSaDYUi3x40Qynt2Kf3k6vUDyFjze4ij2bHKHfnJFQPaiLpVR
-         A8ZZWdpgiV/i0KBwqy5H1O0TD2LMw1CZP/54IaUeK8IxpQAp8/Ny/FKY9Gfk3ARLKhTV
-         rB3A==
+        bh=HENSdCTz0SX498l22EXoqVHRwfI2wHzKcJtYFSpX6+U=;
+        b=BvwAClMXlcieHXUOfe7bLc4uwqfgMRdBRCQQbl0W2/u91rrjCNcq3iMxvx32ngbbHi
+         /9ROlJV3N7pnEyQ5FuEVXf1mePw6evERLR1CPg55WYy/+yTAfwbjnpWaeMEK8+tvNKgv
+         uAUNngmsNnuJY+o18mJwmetYU0IG6HdyEdgmSVt3Cw01JjAlD0AFb/pm227qjotlim4D
+         oXPs9uM2TZsg/B9gg4SSBaWOy3lFGZY8AaEyqc6KaCbikJVLYj/qPv8CvCvepYfL9vLk
+         6lbyLh9KQAKnyvc+eOcpV28fL2e7Z+gCMpplCddCPNLo+iUfr5CeNPb1wpBLETOCPPRq
+         hldQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vKQZbJWTVN4UUT3I/GaPSxwK7Pwyk1OtogEoN20tV6M=;
-        b=XhpkiCQo0a48dVIt3rAxUZnhXPQ9IP4syjVNYSNJdJ234dNUT220Dbj53iVmU/QWhe
-         bqqoCZAJZ1tnfZvitwvfxXoLWvqdfHKO3Xg14owO3P0EKzzr3DFUDmK9POTPO/ZHB0/n
-         kJ/Gud8v4PwwfU3QJphLv8LIkVrx4F+ESO1poFqV1R1y1nxXPA74UEf2gsYsq32rOSAQ
-         V1/SovYG+GS7bOIr5oSt688AuemeGguWxZR8iziNtywOFvKJvw0w+P4X+wkyjZcbIl6J
-         fKi/ZZwPgstP8B/Tfm+yI2FdVl3fHlNHUz5phSc6KONk/Zmp7M3IgQE1GA9gJBEa2K4N
-         Ex7A==
-X-Gm-Message-State: AOAM532GuuMDygQr2YzIO14gEJ17HuQgswSiblOTcdeGcOQ2te2qKx9W
-	U7YH78l+t3jzZTxk0hH6vBFquXm8
-X-Google-Smtp-Source: ABdhPJy0ENdxL0K378Aq/PFU7XGEwa7CVwurQjjGRFwoKE6oTK55WuA58OfnZcuPAdLWBcwUF3C+Gw==
-X-Received: by 2002:a05:6402:362:: with SMTP id s2mr1067453edw.337.1590940411048;
+        bh=HENSdCTz0SX498l22EXoqVHRwfI2wHzKcJtYFSpX6+U=;
+        b=SS6EptRwCJgM/RUpZu7aVmT1dTeggj6JWPsqjYr39dhqxisDLIBEAI6U2bR0FfI3D8
+         nJMBoYN/B1i1ELM+oUGNe+mFpe1ojmCv9mH74+7xkA9V0PZG57lsAb5YHHXCGppWzXVc
+         JdQw/CGBwTFg4wMq/3jYj+ue9BA/M7KoZYptkcAnH9sYkUw1TzUbip6qmpLyiIsatxvQ
+         lXs3zHH+gEqG1jxY7fTIwmw9nO3LNIhc0IEPu3hqFTItpaoVGV2hwbEADYePjuTYHbbW
+         2liC1zuqHBLt3IKO+92NgA4SQJaG9WofvH2q5kBKG3YyIh4alxtVRReY24jiBTbeJSXu
+         QzjA==
+X-Gm-Message-State: AOAM532ICzFLEZtnXTlxaSL2VqbOpFQUuoArfvGdGI2RZC2xdmH82+GX
+	mC3ZqlxGCS00SHx+dTbQ3a0achMx
+X-Google-Smtp-Source: ABdhPJwtVTHjvzNuHOfUpDdKAfPhA5hpNp9QAFI38sCDP2Iffq4JVzi4lbDheI4VQBEfcwvKQ0Dg7Q==
+X-Received: by 2002:a17:906:5fcd:: with SMTP id k13mr3555209ejv.459.1590940411894;
         Sun, 31 May 2020 08:53:31 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.30
+        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2020 08:53:30 -0700 (PDT)
+        Sun, 31 May 2020 08:53:31 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 04/70] createrepo-c: upgrade 0.15.7 -> 0.15.10
-Date: Sun, 31 May 2020 17:51:48 +0200
-Message-Id: <20200531155254.10283-4-alex.kanavin@gmail.com>
+Subject: [PATCH 05/70] dpkg: upgrade 1.19.7 -> 1.20.0
+Date: Sun, 31 May 2020 17:51:49 +0200
+Message-Id: <20200531155254.10283-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531155254.10283-1-alex.kanavin@gmail.com>
 References: <20200531155254.10283-1-alex.kanavin@gmail.com>
@@ -53,26 +53,54 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{createrepo-c_0.15.7.bb => createrepo-c_0.15.10.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.15.7.bb => createrepo-c_0.15.10.bb} (95%)
+ .../dpkg/dpkg/tweak-options-require-tar-1.27.patch    | 11 ++++++++++-
+ .../dpkg/{dpkg_1.19.7.bb => dpkg_1.20.0.bb}           |  4 ++--
+ 2 files changed, 12 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/dpkg/{dpkg_1.19.7.bb => dpkg_1.20.0.bb} (87%)
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.7.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.10.bb
-similarity index 95%
-rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.15.7.bb
-rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.15.10.bb
-index c6a53ffece..13bfa21091 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.7.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.10.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            "
+diff --git a/meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch b/meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch
+index e9119918b1..ac59dce69e 100644
+--- a/meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch
++++ b/meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch
+@@ -1,3 +1,8 @@
++From 48bcc51ce042d1b779b34fae454c52b15bdd9cae Mon Sep 17 00:00:00 2001
++From: Kai Kang <kai.kang@windriver.com>
++Date: Fri, 22 Feb 2019 01:47:16 -0500
++Subject: [PATCH] dpkg: 1.18.25 -> 1.19.4
++
+ GNU tar >= 1.27 is required for --owner=NAME:ID and --group=NAME:ID. And fails
+ to build .deb packages with error:
  
--SRCREV = "4ab6b56b8b718396386982afba4ade297c14d91a"
-+SRCREV = "9f3f3be6359d8f9b6b269e28d9ae1f279cc5f3aa"
+@@ -11,9 +16,13 @@ Tweak tar options in dpkg-deb source code to make it work on old machines.
+ Upstream-Status: Inappropriate [cross build specific]
  
- S = "${WORKDIR}/git"
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
+ ---
++ dpkg-deb/build.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
+ diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
+-index 68d187511..86fe22e25 100644
++index 8436839..67c0c20 100644
+ --- a/dpkg-deb/build.c
+ +++ b/dpkg-deb/build.c
+ @@ -462,7 +462,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.19.7.bb b/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
+similarity index 87%
+rename from meta/recipes-devtools/dpkg/dpkg_1.19.7.bb
+rename to meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
+index 50fe54dee1..1e822bbdf5 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.19.7.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
+@@ -19,5 +19,5 @@ SRC_URI_append_class-native = " \
+                                 file://tweak-options-require-tar-1.27.patch \
+ "
  
+-SRC_URI[md5sum] = "60f57c5494e6dfa177504d47bfa0e383"
+-SRC_URI[sha256sum] = "4c27fededf620c0aa522fff1a48577ba08144445341257502e7730f2b1a296e8"
++SRC_URI[md5sum] = "f88f077236a3ff3decae3b25c989893d"
++SRC_URI[sha256sum] = "b633cc2b0e030efb61e11029d8a3fb1123f719864c9992da2e52b471c96d0900"
 -- 
 2.26.2
 
