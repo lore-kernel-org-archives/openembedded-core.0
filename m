@@ -1,50 +1,50 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web10.17634.1590940432241879764
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.web11.17508.1590940433036953787
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 08:53:52 -0700
+ Sun, 31 May 2020 08:53:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=F6flS/qw;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id h21so6883602ejq.5
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rf/jAL5L;
+ spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f66.google.com with SMTP id x1so6857080ejd.8
         for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=J1Syt2SkSuvXbpvQoe+4cc+iz32OnLayn4QxMP2IGGg=;
-        b=F6flS/qwLNn/AZtDDsMJoBeJpda+a/toCm47w4gA1QvE0KWnqLOuhbdWlCmpF5zPft
-         iQFUHARxP0mRXJ0dUnUEm9WwSYMiSGAfHK7VuWdvg2kqDx9Sf2vk4MNjNw8FedBoVVBY
-         LBGrGRycYB8dvlDHbFN2RwH0q0XDmG199L980VSFVm6uz95p/GJg3NlOqbyjCjNeFuPh
-         Aorcw0Bz3Kfhbjqybr3BZpziM7NrurzycKtmPOAgyn4NCoOm6qYiCXOaaIscZX7v+oLe
-         LZMh76MpzHyxTTD0p5Q1/mdz5MBYqZW6xOJrUVMxMG2B7d+WfdrkdyDBYH6Qe3VmHRDL
-         Vk+A==
+        bh=CQTySVrZ2aFzXAI/4Z1o7MF2YDbb2lWopSdM9CN86Oo=;
+        b=rf/jAL5LQOK0D3zh50yEj2u4EOqzHnb7RDE1Zb94DcZmimnYiWxTXpxunOTaKCbkih
+         OSvckDQNzbPcsmBRCJuV1gJ/OwaUTfubmiQRlIKR3NGcQ6dd0aq9TBgVGxkKqXhyKAGi
+         GZ857V6ZwC1vcXYjNXnb+7XbhW2ccYI9Ur+ftfDyFKH/pB66jDsyhpUUtWNJi1L0guYl
+         VLv3LL7Kk1ArnvgbfKa5ZN6cZSKN4Jtz1fo+OlKmGNO6pZajyiLZHwjaq3gJYLzPL6l0
+         XFKlPj7dYYIRfoAjwufVYD5oJvsZnUhvVs7UlKdbp5M00cTY83x7NgbYVr8rHvjMem5a
+         kHog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=J1Syt2SkSuvXbpvQoe+4cc+iz32OnLayn4QxMP2IGGg=;
-        b=Z4aaMvvzGIQK8EwMsyGps6+BM6oEftRsEahbOb3H9aT7BFxfwpUtng6yD9nm1FfKYo
-         FdXZT8L7EBWNvI/oIPhKowzfw9WHXzxse72OafFq7T+QBdi1dCUjk8/gPUlsRSxC9kWr
-         w26dWzQfZZnLPj9IbSY7cst/cmKVwImfw4ZDOgwQFurbJxc8kNYR1x7U0wwH+lIfbeL0
-         Y/n34Ze7huaErYKGF5n5Pwg5YBbMv04JHZIkSvj4Z7yY39IXS9lLHmEJuM2ysQZj9Omy
-         euA8owhco3m9VdDUe3Yq0U02Tn4LqRCs8xiyGDKh1VZgSS7L/GO4vwi74NGhKVP6OIb/
-         agiQ==
-X-Gm-Message-State: AOAM530YUSb9XLCyY0JyzJCVQTIUKMjcOAAkalFTwdkkoTBD7niN7p07
-	KX84VqHji6hib5STOf+vFcT1SYP5
-X-Google-Smtp-Source: ABdhPJzFeRIzTQhnLI0geWojHIj2STEoNALMHYTte27FvvmlWvhfCm0Esjf7NWzssczN6r0G/uoYlA==
-X-Received: by 2002:a17:906:1cc6:: with SMTP id i6mr15374440ejh.552.1590940430550;
-        Sun, 31 May 2020 08:53:50 -0700 (PDT)
+        bh=CQTySVrZ2aFzXAI/4Z1o7MF2YDbb2lWopSdM9CN86Oo=;
+        b=tCdUNyotg9+MI+DrJ+EFx7lY59V7g6lHDuvHEJDF9hT68q56M3SmhyRGSC15vxuqcR
+         K7EyHYFNxuFiSDdqX2Kktja/5OVlh8ER0M53IM/2Suz+sJudfZyx+3m0bS8KoGi2/ARs
+         YIleYiRH1UhHwgEfA20tjPK2irvH0C0trQxvO78nqbpaKy8eFAybi8fhoiwihVuPz/Bx
+         cbzeFrS/10mGAr8nVWMhpMQbgZT5GL/NBq9JYU4bXQ7WeJ0TxzHlz0ESvwApWmid7/dx
+         Ir/+bLRt6nWs/3T3+zUaGTZjMA5b34VsIwYfNQkSq+vaeXuHGooknWVo3bz1Ru3H6W6M
+         /t3A==
+X-Gm-Message-State: AOAM531g2PkCLfSSkgXYqBoVraQig9kRE6JkYSao0h3G2URLxu7uA8QH
+	pvCNt0xVoXrKWMsIZTvc7RBeI/qL
+X-Google-Smtp-Source: ABdhPJw87wFq9MSBc7RN0dkj09NFMKcCLXat7D2k6KC4z6GLFncxTBUCRq1KwwXzOkcH2jEfsy5FRg==
+X-Received: by 2002:a17:906:2e4c:: with SMTP id r12mr16655519eji.546.1590940431324;
+        Sun, 31 May 2020 08:53:51 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.49
+        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 31 May 2020 08:53:50 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 27/70] adwaita-icon-theme: upgrade 3.34.3 -> 3.36.1
-Date: Sun, 31 May 2020 17:52:11 +0200
-Message-Id: <20200531155254.10283-27-alex.kanavin@gmail.com>
+Subject: [PATCH 28/70] gtk+3: upgrade 3.24.14 -> 3.24.20
+Date: Sun, 31 May 2020 17:52:12 +0200
+Message-Id: <20200531155254.10283-28-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531155254.10283-1-alex.kanavin@gmail.com>
 References: <20200531155254.10283-1-alex.kanavin@gmail.com>
@@ -53,53 +53,70 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../0001-Don-t-use-AC_CANONICAL_HOST.patch                  | 6 +++---
- ...ta-icon-theme_3.34.3.bb => adwaita-icon-theme_3.36.1.bb} | 4 ++--
- 2 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.34.3.bb => adwaita-icon-theme_3.36.1.bb} (92%)
+ meta/recipes-gnome/gtk+/gtk+3.inc             |  1 +
+ .../gtk+/gtk+3/sort-resources.patch           | 19 -------------------
+ .../{gtk+3_3.24.14.bb => gtk+3_3.24.20.bb}    |  7 +++----
+ 3 files changed, 4 insertions(+), 23 deletions(-)
+ delete mode 100644 meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
+ rename meta/recipes-gnome/gtk+/{gtk+3_3.24.14.bb => gtk+3_3.24.20.bb} (79%)
 
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-index 372f144be0..5da3fbf6d8 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
-@@ -1,4 +1,4 @@
--From 4409423752885f76326d05c1266698155f47c5f9 Mon Sep 17 00:00:00 2001
-+From 0a867caa8803a78f7cf3a204c4c358bc63daaf28 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Tue, 30 May 2017 14:55:49 +0300
- Subject: [PATCH] Don't use AC_CANONICAL_HOST
-@@ -14,12 +14,12 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  1 file changed, 1 deletion(-)
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index 6154154004..e1ecf504a0 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -106,6 +106,7 @@ FILES_${PN}_append = " ${bindir}/gtk-update-icon-cache-3.0 \
+ FILES_${PN}-dev += " \
+                     ${datadir}/gtk-3.0/gtkbuilder.rng \
+                     ${datadir}/gtk-3.0/include \
++                    ${datadir}/gtk-3.0/valgrind \
+                     ${datadir}/gettext/its \
+                     ${libdir}/gtk-3.0/include \
+                     ${libdir}/gtk-3.0/${LIBV}/loaders/*.la \
+diff --git a/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch b/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
+deleted file mode 100644
+index 7f87372c52..0000000000
+--- a/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
++++ /dev/null
+@@ -1,19 +0,0 @@
+-If the resources file isn't sorted in some way then libgdk.so will differ
+-depending on the inode order of the resource files.
+-
+-Upstream-Status: Pending
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-diff --git a/gdk/Makefile.am b/gdk/Makefile.am
+-index e25b57ba50..26f2d57c6e 100644
+---- a/gdk/Makefile.am
+-+++ b/gdk/Makefile.am
+-@@ -465,7 +465,7 @@ stamp-gc-h: $(top_builddir)/config.status
+- # Resources
+- #
+- 
+--glsl_sources := $(wildcard $(srcdir)/resources/glsl/*.glsl)
+-+glsl_sources := $(sort $(wildcard $(srcdir)/resources/glsl/*.glsl))
+- 
+- gdk.gresource.xml: Makefile.am
+- 	$(AM_V_GEN) echo "<?xml version='1.0' encoding='UTF-8'?>" > $@; \
+diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.14.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.20.bb
+similarity index 79%
+rename from meta/recipes-gnome/gtk+/gtk+3_3.24.14.bb
+rename to meta/recipes-gnome/gtk+/gtk+3_3.24.20.bb
+index ab1f87c22e..e5744a4b05 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3_3.24.14.bb
++++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.20.bb
+@@ -7,10 +7,9 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
+            file://0002-Do-not-try-to-initialize-GL-without-libGL.patch \
+            file://0003-Add-disable-opengl-configure-option.patch \
+            file://link_fribidi.patch \
+-           file://sort-resources.patch \
+-          "
+-SRC_URI[md5sum] = "62e39212fa0a84016a3392a9d291faf8"
+-SRC_URI[sha256sum] = "1c4d69f93ab884fd80c6b95115bfbc12d51ecd029178b6dad3672fdc5ff91e88"
++           "
++SRC_URI[md5sum] = "b302acc0a4b42e2980ef18628f9ce951"
++SRC_URI[sha256sum] = "2dac69f716e8d04ba7a95091589e2baaec95dcace932cb15839163db479b1df3"
  
- diff --git a/configure.ac b/configure.ac
--index 4a84501..52dbb8e 100644
-+index e749112..58790e8 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
-  
-- AC_INIT([adwaita-icon-theme], [3.34.3],
-+ AC_INIT([adwaita-icon-theme], [3.36.1],
-          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
- -AC_CANONICAL_HOST
-  AC_CONFIG_MACRO_DIR([m4])
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb
-similarity index 92%
-rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb
-rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb
-index 3a2727b701..473e1fc0be 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.36.1.bb
-@@ -14,8 +14,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-            file://0001-Run-installation-commands-as-shell-jobs.patch \
-            "
- 
--SRC_URI[md5sum] = "9aea4ad9bc002aacad155ee0748b357f"
--SRC_URI[sha256sum] = "e7c2d8c259125d5f35ec09522b88c8fe7ecf625224ab0811213ef0a95d90b908"
-+SRC_URI[md5sum] = "c61ca9d6b3ce70a9ab66dcff945923ff"
-+SRC_URI[sha256sum] = "e498518627044dfd7db7d79a5b3d437848caf1991ef4ef036a2d3a2ac2c1f14d"
- 
- DEPENDS += "librsvg-native"
+ S = "${WORKDIR}/gtk+-${PV}"
  
 -- 
 2.26.2
