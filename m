@@ -1,50 +1,50 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web10.17617.1590940416041784907
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.web11.17496.1590940416739253459
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 08:53:36 -0700
+ Sun, 31 May 2020 08:53:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CJ8cft8D;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id w7so1749204edt.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bOTYQMYV;
+ spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f42.google.com with SMTP id s19so5390514edt.12
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Hf70UEMLACQWA+jCMEVd0pBZINMQqxfX6uDu/rMkOks=;
-        b=CJ8cft8DqNcUJ1Y/KENPgb3aqM09NSNPLAhxKZe+0KL8jN6zx4c0RvhhBCErUrRp2Z
-         dIi87GdDSU+GN0lpBOSJovLFMG/FJKHFsukrFHMEfgH8lx80iL/QAhXNuu4c/Ytfc82y
-         hag36wXt50NGFywc6dKNlH+LMvQG1HQKb2LBDCR10SQiula/LOAV+/wxdHY8yJCSkBB2
-         Y7fgJUbyGfx9MYm9TxAZZkwEAeNTn6ywznQ3v5RhkASYpq/vYezWAN9TbaH5W+Fbdgf0
-         uBAxSNqboBgaWHVHuSvLxBXKQqQ0r95mqC6n7r8exKpbpqTXJV7ajNgHYKadJn/0+Enb
-         516w==
+        bh=kjRKhb3cVCwxJ0HDCyAW8bjTZZ0KHAD0MsyBS3m+wEU=;
+        b=bOTYQMYVQydiTeb/g4YsDIQVsXprmJ+BzdfpdTgZtGYTQQ8bkSYOouODM1pGKZ0V+h
+         lBpCnLs+F36e4GHQ0/pU7hFKTQ4yrx1cXD/NM+4rNokJ30U25Ba3LhPidf0uoFqrRhOg
+         mcTds7Yz2/uO76KQtrKXvNs5i3hLm0Pk7TfZXsBTFpgLfiTNDCrwkXdo80rQTvL9aSZm
+         D9WQgNWhRnJGuHuDUiA2DilBsQXP/nnscN23jnCqwo8jdwVAusdQFI/dqYsYm1LUT9Ni
+         TMdVkAegb4QlGhiIvmsOOkFiukjEKNGoENZUXuXMkYvQ+bl/TNhrRP5F/PM6ij2SWLHB
+         HcOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Hf70UEMLACQWA+jCMEVd0pBZINMQqxfX6uDu/rMkOks=;
-        b=kP0igikP5SCSo5W6PeJKPH04w3sO1UjYNOCMyC+qcCutfiyBiasPS5CHo5fVQTiaAk
-         otfje9BjeHYWqmwD47uu6DvCf/mDQ2knCeWzKsI06kn1tMpAzn8w7j+LTqzH3wgZAJF2
-         ufzbgqsrbCSRcGPu0aqrO61sUKb5K9hluJX0q6R1F7z9o7+9aNl+mE+5lVDIhkti3lMa
-         XAGuEkbQtvyEcaopj2zjudO4nSxVdlSltcZJzmJ83/Bz0Lc+azZIOL7xI9xoZ16RP3If
-         sE3hhW3B+l363/8H/i4vqKijD7XIkFz5JnRJ3TWkEg9O9IPyPQKqcvaL0qPnaX2CIRd6
-         Ka+A==
-X-Gm-Message-State: AOAM5302cptHx1oFfzEXKsIlxGOfO+DVKsRJJS8xgQHIQQ8AKAycY9xF
-	Mqd22EbHGgdcFjizWH4btlGiszLd
-X-Google-Smtp-Source: ABdhPJw4rcAGGY5RNac25oEF1bpkFjB9r4Fhsg5w6J/2BlLfSeKqM40gcnTpf9NF54pGKxC+8L1sUg==
-X-Received: by 2002:aa7:c617:: with SMTP id h23mr18222566edq.305.1590940414410;
-        Sun, 31 May 2020 08:53:34 -0700 (PDT)
+        bh=kjRKhb3cVCwxJ0HDCyAW8bjTZZ0KHAD0MsyBS3m+wEU=;
+        b=k2SFEpiwtZk1Ipnx66lM6rWKT66lFsIvtoiQs33oGrw51itr9frw9rfPrzWTVxry/9
+         Bn4bw+H/UVjIszhyr3+7Pd6VGy1Up+wr1WnpHLVRcihZQt9MESrc/vDHgbnWwZlBYh/D
+         qWgb+6HM0bIuihXvLdVyagAWWC9raumnzUv+HNKXaEtEgAkLufsutH/gS3/Id4IaywKh
+         T2Nw3/CZViI9JfVc5gm3LPcuuLO/qyTMP8tStTBX98JRBd945ahWNMB5onfSVKJkgQJh
+         SABCI71zpZqwICKjcCueWnTW5cGSn8wI0J40NVzquUFsp9/5+w79FP08XmfpYFTCQPWS
+         KmxQ==
+X-Gm-Message-State: AOAM533efRBIFwue0ypQpRyL0ekp4w9dR8EXjPUMCm7cFHD7u7rJ0kZu
+	2iyM1ZXTaD6RTV6PNbkCBb7QM0Vh
+X-Google-Smtp-Source: ABdhPJyZQQRXEkp+nEf0Rev5CQwEagipTbM3JJWdnL3hXZ8UF/taQ/jhBAOjkTtqPCt0hNeN77alYQ==
+X-Received: by 2002:a05:6402:3106:: with SMTP id dc6mr17353933edb.19.1590940415162;
+        Sun, 31 May 2020 08:53:35 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.33
+        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Sun, 31 May 2020 08:53:34 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 08/70] python3-cython: upgrade 0.29.16 -> 0.29.19
-Date: Sun, 31 May 2020 17:51:52 +0200
-Message-Id: <20200531155254.10283-8-alex.kanavin@gmail.com>
+Subject: [PATCH 09/70] python3-gitdb: upgrade 4.0.4 -> 4.0.5
+Date: Sun, 31 May 2020 17:51:53 +0200
+Message-Id: <20200531155254.10283-9-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531155254.10283-1-alex.kanavin@gmail.com>
 References: <20200531155254.10283-1-alex.kanavin@gmail.com>
@@ -53,29 +53,45 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/python/python-cython.inc                 | 3 +--
- .../{python3-cython_0.29.16.bb => python3-cython_0.29.19.bb}   | 0
- 2 files changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-cython_0.29.16.bb => python3-cython_0.29.19.bb} (100%)
+ meta/recipes-devtools/python/python-gitdb.inc       | 2 +-
+ meta/recipes-devtools/python/python3-gitdb_4.0.4.bb | 3 ---
+ meta/recipes-devtools/python/python3-gitdb_4.0.5.bb | 4 ++++
+ 3 files changed, 5 insertions(+), 4 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-gitdb_4.0.4.bb
+ create mode 100644 meta/recipes-devtools/python/python3-gitdb_4.0.5.bb
 
-diff --git a/meta/recipes-devtools/python/python-cython.inc b/meta/recipes-devtools/python/python-cython.inc
-index 437e796629..eee567ed2c 100644
---- a/meta/recipes-devtools/python/python-cython.inc
-+++ b/meta/recipes-devtools/python/python-cython.inc
-@@ -7,8 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=e23fadd6ceef8c618fc1c65191d846fa"
- PYPI_PACKAGE = "Cython"
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python-gitdb.inc b/meta/recipes-devtools/python/python-gitdb.inc
+index a91bb32c3b..618d85ff8d 100644
+--- a/meta/recipes-devtools/python/python-gitdb.inc
++++ b/meta/recipes-devtools/python/python-gitdb.inc
+@@ -8,7 +8,7 @@ inherit pypi
  
--SRC_URI[md5sum] = "a899abaa48b68bb679aef45ceb4b89d3"
--SRC_URI[sha256sum] = "232755284f942cbb3b43a06cd85974ef3c970a021aef19b5243c03ee2b08fa05"
-+SRC_URI[sha256sum] = "97f98a7dc0d58ea833dc1f8f8b3ce07adf4c0f030d1886c5399a2135ed415258"
- UPSTREAM_CHECK_REGEX = "Cython-(?P<pver>.*)\.tar"
+ PYPI_PACKAGE = "gitdb"
  
- inherit pypi
-diff --git a/meta/recipes-devtools/python/python3-cython_0.29.16.bb b/meta/recipes-devtools/python/python3-cython_0.29.19.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-cython_0.29.16.bb
-rename to meta/recipes-devtools/python/python3-cython_0.29.19.bb
+-SRC_URI[sha256sum] = "6f0ecd46f99bb4874e5678d628c3a198e2b4ef38daea2756a2bfd8df7dd5c1a5"
++SRC_URI[sha256sum] = "c9e1f2d0db7ddb9a704c2a0217be31214e91a4fe1dea1efad19ae42ba0c285c9"
+ 
+ DEPENDS = "${PYTHON_PN}-async ${PYTHON_PN}-setuptools-native ${PYTHON_PN}-smmap"
+ 
+diff --git a/meta/recipes-devtools/python/python3-gitdb_4.0.4.bb b/meta/recipes-devtools/python/python3-gitdb_4.0.4.bb
+deleted file mode 100644
+index 2dcd9c8aff..0000000000
+--- a/meta/recipes-devtools/python/python3-gitdb_4.0.4.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-inherit setuptools3
+-require python-gitdb.inc
+-
+diff --git a/meta/recipes-devtools/python/python3-gitdb_4.0.5.bb b/meta/recipes-devtools/python/python3-gitdb_4.0.5.bb
+new file mode 100644
+index 0000000000..fe56bf9640
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-gitdb_4.0.5.bb
+@@ -0,0 +1,4 @@
++inherit setuptools3
++require python-gitdb.inc
++
++SRC_URI[md5sum] = "0e2d3f34efece5deda7c55fede6507cc"
 -- 
 2.26.2
 
