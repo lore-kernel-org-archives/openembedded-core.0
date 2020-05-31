@@ -1,50 +1,50 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
- by mx.groups.io with SMTP id smtpd.web12.17609.1590940433741509750
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.web11.17512.1590940435131437889
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 08:53:54 -0700
+ Sun, 31 May 2020 08:53:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RuQkQ6zh;
- spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f49.google.com with SMTP id o15so6834685ejm.12
-        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YmSnmSN9;
+ spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f46.google.com with SMTP id k11so6852338ejr.9
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 08:53:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=8HSj8EkIJwy4T1YKa5bP74ogM5It5kSKh8CVL+cWGO0=;
-        b=RuQkQ6zhrL6eQNPcApYa9cAnJPFeszeFB+Xg8T6dNI8pQXR7SsQ48iB2RgCJuK0lIS
-         /ZovyqfqBha39dJkFYaQGiYVnU0s7RrkpAvzFMWsz7KjkERhOAL9Ac+vf3/PYeMSuSE6
-         ALckV3mjSJh2XiTwxy0+8ZEaLCO6oQr413tYwoe4/hW8C4nuGdaGuA6kfu8Z5DV19+Sj
-         wHjSLE8/nNyzB0Xu7LJIbQeel2XtOHKMlR+CxpHosTc/iQgHJB39H3UyKSg3BS5LvSTd
-         yYNOvJ1iK0GirJNJBNs+cyBlmGmOqpseujByK7n4XyknwcVLxpqwt76teeq9JfUJECW5
-         pgPg==
+        bh=bsCyuy0OOTqyYvKBpX8kjFAVpgQO9gya8oJ7WRPLlA0=;
+        b=YmSnmSN9MrkOPUBTGyoLt8mbqlyfOKrwL7RV2DC2+8abzIMG+4T+E6OOYYy5RP9CBK
+         sAN4sy/uGhCjRnQGUkcekywhTVpZIR8TPt1BRxm+OfkRoQYfe/FghDPK8m/Y0ZnsD9x0
+         L8ps7DqF6HBgZqvqQ4/lb81memvkgKMQ+oMis7Vbx+pnN+lf3lNpwDDaWqwFhpKNv/6k
+         sI3ESgvTRZq5hJJV4SQZsJ6XnoNwFHffKsKG4GH2aNdnCNJ4syelk8vnTCmE8JjNUMW1
+         BxD4euFzF5vZkSjTiKSymx1ryMnKGryHf7piHNjrsijKGBQV9TbUhxhmvke/IpcprV9T
+         948g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=8HSj8EkIJwy4T1YKa5bP74ogM5It5kSKh8CVL+cWGO0=;
-        b=ETe9aihwjfYpQ4soWX1pd8jzsC6fMfDX21A+mubGNTZ8cs4ZFBIyt7P10NDGP2Vkwj
-         6aNF9rbRHbYEcyfmgHM9Dnl8N8FAvfDUultWRDxoMLJ3PXTzBg1U8AUh2yRqpEyB+Cyg
-         BpgAf3UQCqgsuLLl2CKGUy12EanVVSDX+UND/YYEXEterGRkgC1PFJ0v7C8tFYSTVUcl
-         fqc3wRTddoiYRhalvqJ/zNtJ+msoz8nRZElu+P63hdxN4wXnHsnsn7nz0oSWwHbHyopM
-         P4svM+T6bnn8FreYOFBlIVwgYw/PggVqurx7XyII6XNFEgrmbN/WWq1M18gNHIabF/+Y
-         2fPA==
-X-Gm-Message-State: AOAM532o7P4kgcpuehuDhfMxCJ27o2EOGdLr8Kp1TVCIRa+7amEFrQm9
-	FxoPmB0uoYMd1/gAd1T8Pi2sIjtu
-X-Google-Smtp-Source: ABdhPJzDHoDL3uCM3N9hxiPaEXHlfG3yXCnXD7TNjSkNE2bF2CpMt30iGUU4j5D/kK9fIbmidS8G0Q==
-X-Received: by 2002:a17:906:594e:: with SMTP id g14mr6236456ejr.52.1590940432127;
-        Sun, 31 May 2020 08:53:52 -0700 (PDT)
+        bh=bsCyuy0OOTqyYvKBpX8kjFAVpgQO9gya8oJ7WRPLlA0=;
+        b=IlIM+XiGp1cVGZZBNKSVO6YNbjFjZmI44vJusaEt8kAIYssolLW7NTO9tfYRZSye7a
+         /K9wMiMEe4G2j0yw4ulzg+rkuFlYF+ZJPn1mLToFd0TCatYEV9rwyWwPMjmYChJ5Itfu
+         V85h1xmfGwq1amhsRxpb3pY5b+VrHCLDxZKME3OMxzxyj/H/Xe+a0yqwOYjgRtcKMy6f
+         p5YJIq+ZJ/kVgUsoRSBm0AljAb2r5OTu6aPr9mZe77q4kf52xr8z26NZPvoW0zTp0kLY
+         YxMW/dUQsDISvQ9NPmYAwqv072jLWwlh3vHUtIPBuIW/ns0oXVgRDwN+Z6LWMuJCxJdo
+         FS1Q==
+X-Gm-Message-State: AOAM531qvDcHcVb0FiFhLrCoqoBHCjbrFsTzT1Ds4Z/IQQd0xrMh7BJa
+	d/u0VS1Pn6P2kR/c1Wb9jeXebMyb
+X-Google-Smtp-Source: ABdhPJwscJsjqAFMmHNcXIgmgRd9eU2k7o7LqUb0oiN++yBdIZH+g8Qm4vNINjMUADVriJdPZ4OKFw==
+X-Received: by 2002:a17:906:a458:: with SMTP id cb24mr1870568ejb.5.1590940433437;
+        Sun, 31 May 2020 08:53:53 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.51
+        by smtp.gmail.com with ESMTPSA id dn15sm13227042ejc.26.2020.05.31.08.53.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 31 May 2020 08:53:51 -0700 (PDT)
+        Sun, 31 May 2020 08:53:53 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 29/70] cogl-1.0: upgrade 1.22.4 -> 1.22.6
-Date: Sun, 31 May 2020 17:52:13 +0200
-Message-Id: <20200531155254.10283-29-alex.kanavin@gmail.com>
+Subject: [PATCH 30/70] mesa: upgrade 20.0.2 -> 20.0.7
+Date: Sun, 31 May 2020 17:52:14 +0200
+Message-Id: <20200531155254.10283-30-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200531155254.10283-1-alex.kanavin@gmail.com>
 References: <20200531155254.10283-1-alex.kanavin@gmail.com>
@@ -53,36 +53,28 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb | 6 ------
- meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb | 6 ++++++
- 2 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb
- create mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb
+ meta/recipes-graphics/mesa/{mesa_20.0.2.bb => mesa_20.0.7.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa_20.0.2.bb => mesa_20.0.7.bb} (88%)
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb
-deleted file mode 100644
-index 8e61c19f5d..0000000000
---- a/meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require cogl-1.0.inc
--
--SRC_URI[archive.md5sum] = "31755015a865c4af51ac84f6e53af8ab"
--SRC_URI[archive.sha256sum] = "5217bf94cbca3df63268a3b79d017725382b9e592b891d1e7dc6212590ce0de0"
--
--LIC_FILES_CHKSUM = "file://COPYING;md5=1b1a508d91d25ca607c83f92f3e31c84"
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb
-new file mode 100644
-index 0000000000..86bbdbff69
---- /dev/null
-+++ b/meta/recipes-graphics/cogl/cogl-1.0_1.22.6.bb
-@@ -0,0 +1,6 @@
-+require cogl-1.0.inc
-+
-+SRC_URI[archive.md5sum] = "7bcc01edb5462d4d08d01bf893feddb0"
-+SRC_URI[archive.sha256sum] = "6d134bd3e48c067507167c001200b275997fb9c68b08b48ff038211c8c251b75"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=1b1a508d91d25ca607c83f92f3e31c84"
+diff --git a/meta/recipes-graphics/mesa/mesa_20.0.2.bb b/meta/recipes-graphics/mesa/mesa_20.0.7.bb
+similarity index 88%
+rename from meta/recipes-graphics/mesa/mesa_20.0.2.bb
+rename to meta/recipes-graphics/mesa/mesa_20.0.7.bb
+index ee0260e073..420565808e 100644
+--- a/meta/recipes-graphics/mesa/mesa_20.0.2.bb
++++ b/meta/recipes-graphics/mesa/mesa_20.0.7.bb
+@@ -9,8 +9,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            "
+ 
+-SRC_URI[md5sum] = "31ca59cd92c38cb8e1a58b62b01c3e08"
+-SRC_URI[sha256sum] = "aa54f1cb669550606aab8ceb475105d15aeb814fca5a778ce70d0fd10e98e86f"
++SRC_URI[md5sum] = "609cb7664204e031d4c65c602c652a28"
++SRC_URI[sha256sum] = "fe6e258fe772c3cd2ac01741bf7408058c3ac02d66acff9a6e669bd72e3ea178"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
 -- 
 2.26.2
 
