@@ -1,97 +1,85 @@
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
- by mx.groups.io with SMTP id smtpd.web11.37949.1591020743184921271
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web10.38139.1591020745895900859
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 07:12:23 -0700
+ Mon, 01 Jun 2020 07:12:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=rKClc4io;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.68, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f68.google.com with SMTP id 5so5160694pjd.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:12:23 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=zRmg8X7c;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id s88so4577407pjb.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:12:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=Rgg52MRUFpf7Do1LcVSHK931lR4fV2Z4YO9QCeg6SkY=;
-        b=rKClc4iobYbEFW//d2jurtqNzPBiY2dzbOTV3DU8A2OHGfpVaR1pjhQzEipEYoWMJ8
-         2dt6oZI525gF2Q2JlkcdJn4BrG5476xteWgR26vKcGRYoo43S4eyApiTXFzn7URsGiGm
-         z978QF7AN5o9V31eyILXE0FrdgIHa/zQwnZnyCsqCL8FAkMY262fLpHArJFGWZct0jEl
-         2g6HQouTJ4I4Y53CHVlBJiBvHTfcu/YJjIkWdg3B8Vdjfe8jwpIvdBLb6bDEpeQXn5pe
-         TTkCntKDaAbT3FIrZgOPwJ1U+FOOuQgc9/mVYMdVfnRUZJ7PFGnjIzlJrerZsrCNI2Rc
-         BsQA==
+        bh=R5JOadkZQKQZHJ7npmYYywGTnpFUfw+Ia+88UfXFxFY=;
+        b=zRmg8X7cIAlgWUkf17grN42S2G6SRjAaIJn6Grx8VkQqJ4p6igwUszDn8d2apfBNyH
+         tvfs3xPmzZSp5oju5AgDOQQr5ZJfIjODtuA1kVpeTC9Rvh+K99OdXtMH1nmtI5RtnHTP
+         VLFSqooOnK4dtbuNvBVMJQKG4dflSHrcuHPGkbkZ16Zjog/zovrioBgjd/GolJYxN7bT
+         oEaz5t7yHNSrETDr0rBpvV0lzBAAoVn6bATZz5pOOw+GH4E4sJL6wWbn7qI7IvhG/iWn
+         Qw8JoOnY0a8tTXWajZ4POWBe+y/5eGB/5P9TEFS78zap2FNgsh81m5nGycgJ+rUBEvjf
+         rhVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=Rgg52MRUFpf7Do1LcVSHK931lR4fV2Z4YO9QCeg6SkY=;
-        b=jPpJrc59/QKsDCn2aceVGdvF2qF2WJ9ZylYraUacdFQIBlLJEUMNTyjguoZ57aQUem
-         DaiPOkHT2tHB+s5h6x0+cFXidH94ONKNWUDX67xQdorRLzQUme+x1cxpdCuBZeF2Lzie
-         6eJ55oCXCa43n9kgnfs4cfgbrWgZN8G37PexonuVR1PKwp6qwP6vAK3EE+DCr9kJUvBt
-         lJKyybSXhdRm3GVFyvKTxZiA/G6IBCrskMPwzlxPZGU+NP/kNz8asjdOZ0hLHXrU9uqs
-         S28g6JDy2ZtIV1bLJdKrHDwzyZ/teXotWNFXZVJdtJHboatoK1yy1iEjaJFXcb3St18r
-         Zh7Q==
-X-Gm-Message-State: AOAM533ZWvl0+PPpLNZ4Hb0PIYR4XvIfZMlRKm3qhZRopgALtThrnSqR
-	3CyVXC3RKHsr5K7i/v+rbZ6/8xU68jU=
-X-Google-Smtp-Source: ABdhPJyo7e01yhN+/TsoN7MxeZwRDDpxWWYj7c3mJrcyiiYHNFI3m+T92NAxkQs7xgGwVJhGctcHVw==
-X-Received: by 2002:a17:90a:d809:: with SMTP id a9mr5558312pjv.212.1591020742236;
-        Mon, 01 Jun 2020 07:12:22 -0700 (PDT)
+        bh=R5JOadkZQKQZHJ7npmYYywGTnpFUfw+Ia+88UfXFxFY=;
+        b=PBG6MltfspgCD46fnLyzsBHWXru+wdGTyT9/zzPDFXbVYvB6vvgvDuaBSK0oZYbkqm
+         GdB5OdyiSxnrdbJ3tU5AD1CwGdRrjXPqSkLn0BzrrJleX0sCZB6PYaSFe75HBIoWnvJh
+         y61bv93y8008484qhEKdW1qo895B3VKEi2Oe8oIFd+TrzFzCNFyuO9Sct0Q8k3VkQ50i
+         b4D92PazDqy8raGHzKSEIXMIlwH5xQm6TQkVetNXiymFfQ0mbKxGM1vFek+MjKylrvIn
+         Dz2BiDlG/DiWsAo10HY/KeWDdUk5M3rNBBMN/pxQUT8Sm5AJ96Xv+WJ1+6f1wuD6L/Ma
+         J2VA==
+X-Gm-Message-State: AOAM531bpxRNdJFTglLt1//ACtYryCDwKNYcNEx/WMTtvzN6vQ+b7jZ8
+	j+FhbEkfTI9JzxpUfwd8ghtgUTMnw5Q=
+X-Google-Smtp-Source: ABdhPJzoeEx2SZTZNGBCDmwMz41uJydOkKEohyj//7UgjaSS+lc5pn2oXMJ6l44lMLLN5iLRb0H0jg==
+X-Received: by 2002:a17:90a:c686:: with SMTP id n6mr24611376pjt.194.1591020744718;
+        Mon, 01 Jun 2020 07:12:24 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.12.21
+        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.12.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 07:12:21 -0700 (PDT)
+        Mon, 01 Jun 2020 07:12:24 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 13/16] make-mod-scripts: Fix a rare build race condition
-Date: Mon,  1 Jun 2020 04:11:21 -1000
-Message-Id: <8a7da39c04fbab1280c464f39a791e4fbd1e7da9.1591020366.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 14/16] bitbake.conf: Remove unused DEPLOY_DIR_TOOLS variable
+Date: Mon,  1 Jun 2020 04:11:22 -1000
+Message-Id: <afb301af1cc21c69d6f26f47202d399228406390.1591020366.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1591020366.git.steve@sakoman.com>
 References: <cover.1591020366.git.steve@sakoman.com>
 
-From: Khem Raj <raj.khem@gmail.com>
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
 
-There is a build break which rarely happens but is seen often enough
-with 4.1 kernel based builds
+Variable DEPLOY_DIR_TOOLS was introduced in 2007:
 
-/bin/sh: 1: scripts/basic/fixdep: Permission denied
-scripts/Makefile.host:124: recipe for target 'scripts/dtc/srcpos.o' failed
-make[3]: *** [scripts/dtc/srcpos.o] Error 126
+  commit f751a20152c651a33f08ceda0502fa1d4f11c005
+  Author: Richard Purdie <richard@openedhand.com>
+  Date:   Wed Aug 8 21:02:39 2007 +0000
 
-this patch sequences the build targets so it can work reliably with
-different kernel versions
+      bitbake.conf: Sync with OE.dev
 
-Divide the target into scripts_basic scripts is not
-strictly necessary and was simply what was used for
-testing on kernel 4.1, which is quite an old kernel
+apparently never used so get rid of it.
 
-perhaps just using scripts is sufficient, but it is not tested to not
-known will cause the build race as seen above.
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 55ac6e2d251287419138931aa0d0894cf1267787)
+(cherry picked from commit b1f15f651461d07a8cfbd3bdcfea0e89f195212d)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../make-mod-scripts/make-mod-scripts_1.0.bb               | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/conf/bitbake.conf | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 0be1422a24..c7edb20ee4 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -23,7 +23,8 @@ EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="
- #
- do_configure() {
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
--	oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
--	           -C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} scripts prepare
--
-+	for t in prepare scripts_basic scripts; do
-+		oe_runmake CC="${KERNEL_CC}" LD="${KERNEL_LD}" AR="${KERNEL_AR}" \
-+		-C ${STAGING_KERNEL_DIR} O=${STAGING_KERNEL_BUILDDIR} $t
-+	done
- }
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index bdade79abe..4acf235930 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -410,7 +410,6 @@ DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
+ DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
+ DEPLOY_DIR_DEB = "${DEPLOY_DIR}/deb"
+ DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
+-DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
+ 
+ PKGDATA_DIR = "${TMPDIR}/pkgdata/${MACHINE}"
+ 
 -- 
 2.17.1
 
