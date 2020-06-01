@@ -1,117 +1,131 @@
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
- by mx.groups.io with SMTP id smtpd.web10.37326.1591018840349359737
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
+ by mx.groups.io with SMTP id smtpd.web10.38119.1591020701176166012
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 06:40:40 -0700
+ Mon, 01 Jun 2020 07:11:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: intel.com, ip: 192.55.52.136, mailfrom: chee.yang.lee@intel.com)
-IronPort-SDR: 3X37WA6sFKnq/CRGCg4/nCu082x2EQbKIbEAmhsWXIFNI2ptuT8XmD6NJuTyVjRwMUexEv/d4g
- Xg/nZTugRj2w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2020 06:40:39 -0700
-IronPort-SDR: 4pXTBNk2sFB8YxLq+z8PKWP0sgyrMhIA5DHB/apxI5jRl5RCgKPWTnnYod63kTahE78EmaMvIa
- idUWYRCZl1zQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,460,1583222400"; 
-   d="scan'208";a="470290114"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-  by fmsmga006.fm.intel.com with ESMTP; 01 Jun 2020 06:40:38 -0700
-From: "Lee Chee Yang" <chee.yang.lee@intel.com>
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=TwrRFG0x;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.193, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f193.google.com with SMTP id f3so3509446pfd.11
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:11:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=Nq6N9zcBiZYvczjvbMYTzYa2QdTDnkHRDlA11o74Au8=;
+        b=TwrRFG0x9Xml2+ynzh81B6p5KJhoBTZa5tpjoro1s2K5a8woDLvVBM/80nNmcYn3IQ
+         PiVEQ47OdwaBFItApotWs+c2ZnT5h9E+BGqjJ8K/EouzoHapxEmmF+aksiJSUMHhx/pI
+         gtA2LsZEk3i4IOdyVHu40RfDBoMpe4w5RBdbMPxHvOU2Ns3mCf85Trcqyhh2JBFSNX5+
+         LCtmUi7lqTPMewtWLqA4KGZhYv9KUWBc2aJvhtvrCiBOm9qc2Ctgdp0w6UNsse4iQdA4
+         qsRcIfz93GtMSn07KOROwl/6FVKywJisWJk7OOHhQlV5hB4o+sq3b7GIwe1/6RS2Ruw4
+         Snog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=Nq6N9zcBiZYvczjvbMYTzYa2QdTDnkHRDlA11o74Au8=;
+        b=ZV2oJIigNJSPsERigK8uOoxUzJ80SKatpPPCdKcJVLWInbeNE9q+iuTVKjZTOViJsD
+         vmeUtwaAz86ft7hw9T6em5BjnrEDWHO+PqHN9X901mgC3JpwTBYQEMouS2I0kTQOkyPk
+         fXDkrc+Dd5cK35m2IuGhP2/nFyJpt8GvChIQfjDSJC0FA6jEwfav4uqDC9hK63HXsg2f
+         3a6bLKT1n9KULZHpw34MYXfxmXyvF52eP9mN5/PnbjPEAPNpW/uLzQEEBV9VHBRqUJo9
+         SXuwqjQYrO4aa77rYzcvCtlggcX6GpNwgWljq0BbfEiDsbl0k3AE67xMtwzyUfsax0Vm
+         ZhhA==
+X-Gm-Message-State: AOAM530CqREPVxtR2PUFjGJZq68R/Qki0aYzny3xmaLcz1gaG1GCO7Go
+	M4186i3Bfngl4EsxSEWv59BtL8F8dmI=
+X-Google-Smtp-Source: ABdhPJzpYURlMT27ciuQ4PQJXvSQ1lTDEUmb2471FuvSmoZ2plKLcZRsgqtr168kttYK+Dv6hgyhOQ==
+X-Received: by 2002:a63:5961:: with SMTP id j33mr19540382pgm.372.1591020699774;
+        Mon, 01 Jun 2020 07:11:39 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.11.38
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2020 07:11:39 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] qemu: fix CVE-2020-13361
-Date: Mon,  1 Jun 2020 21:40:37 +0800
-Message-Id: <1591018837-83073-1-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
+Subject: [OE-core][dunfell 00/16] Patch review
+Date: Mon,  1 Jun 2020 04:11:08 -1000
+Message-Id: <cover.1591020366.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+Please review this next set of patches for dunfell and have comments back
+by end of day Wednesday.
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- meta/recipes-devtools/qemu/qemu.inc                |  1 +
- .../qemu/qemu/CVE-2020-13361.patch                 | 61 ++++++++++++++++++++++
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2020-13361.patch
+The following changes since commit c88cf750f26f6786d6ba5b4f1f7e5d4f0c800e6e:
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 126e7d4..3e50069 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -38,6 +38,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- 	   file://0001-qemu-Do-not-include-file-if-not-exists.patch \
-            file://CVE-2020-11102.patch \
- 	   file://CVE-2020-11869.patch \
-+	   file://CVE-2020-13361.patch \
- 	   "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2020-13361.patch b/meta/recipes-devtools/qemu/qemu/CVE-2020-13361.patch
-new file mode 100644
-index 0000000..e0acc70
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2020-13361.patch
-@@ -0,0 +1,61 @@
-+From 369ff955a8497988d079c4e3fa1e93c2570c1c69 Mon Sep 17 00:00:00 2001
-+From: Prasad J Pandit <pjp@fedoraproject.org>
-+Date: Fri, 15 May 2020 01:36:08 +0530
-+Subject: [PATCH] es1370: check total frame count against current frame
-+
-+A guest user may set channel frame count via es1370_write()
-+such that, in es1370_transfer_audio(), total frame count
-+'size' is lesser than the number of frames that are processed
-+'cnt'.
-+
-+    int cnt = d->frame_cnt >> 16;
-+    int size = d->frame_cnt & 0xffff;
-+
-+if (size < cnt), it results in incorrect calculations leading
-+to OOB access issue(s). Add check to avoid it.
-+
-+Reported-by: Ren Ding <rding@gatech.edu>
-+Reported-by: Hanqing Zhao <hanqing@gatech.edu>
-+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Message-id: 20200514200608.1744203-1-ppandit@redhat.com
-+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-+
-+Upstream-Status: Backport [https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg03983.html]
-+CVE: CVE-2020-13361
-+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-+---
-+ hw/audio/es1370.c | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/hw/audio/es1370.c b/hw/audio/es1370.c
-+index 89c4dabcd44..5f8a83ff562 100644
-+--- a/hw/audio/es1370.c
-++++ b/hw/audio/es1370.c
-+@@ -643,6 +643,9 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
-+     int csc_bytes = (csc + 1) << d->shift;
-+     int cnt = d->frame_cnt >> 16;
-+     int size = d->frame_cnt & 0xffff;
-++    if (size < cnt) {
-++        return;
-++    }
-+     int left = ((size - cnt + 1) << 2) + d->leftover;
-+     int transferred = 0;
-+     int temp = MIN (max, MIN (left, csc_bytes));
-+@@ -651,7 +654,7 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
-+     addr += (cnt << 2) + d->leftover;
-+ 
-+     if (index == ADC_CHANNEL) {
-+-        while (temp) {
-++        while (temp > 0) {
-+             int acquired, to_copy;
-+ 
-+             to_copy = MIN ((size_t) temp, sizeof (tmpbuf));
-+@@ -669,7 +672,7 @@ static void es1370_transfer_audio (ES1370State *s, struct chan *d, int loop_sel,
-+     else {
-+         SWVoiceOut *voice = s->dac_voice[index];
-+ 
-+-        while (temp) {
-++        while (temp > 0) {
-+             int copied, to_copy;
-+ 
-+             to_copy = MIN ((size_t) temp, sizeof (tmpbuf));
+  avahi: Don't advertise example services by default (2020-05-26 04:12:28 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Adrian Bunk (1):
+  libubootenv: Remove the DEPENDS on mtd-utils
+
+Gregor Zatko (1):
+  sanity.bbclass: Detect and fail if 'inherit' is used in conf file
+
+Joe Slater (1):
+  terminal.py: do not stop searching for auto
+
+Joshua Watt (1):
+  checklayer: Skip layers without a collection
+
+Khem Raj (2):
+  cve-check: Run it after do_fetch
+  make-mod-scripts: Fix a rare build race condition
+
+Konrad Weihmann (1):
+  qemurunner: fix ip fallback detection
+
+Lee Chee Yang (2):
+  bind: fix CVE-2020-8616/7
+  libexif: fix CVE-2020-13114
+
+Mark Hatle (1):
+  sstate.bbclass: When siginfo or sig files are missing, stop fetcher
+    errors
+
+Richard Purdie (2):
+  resulttool/report: Remove leftover debugging
+  resulttool/log: Add ability to dump ltp logs as well as ptest
+
+Robert P. J. Day (1):
+  bitbake.conf: Remove unused DEPLOY_DIR_TOOLS variable
+
+Robert Yang (1):
+  archiver.bbclass: Fix duplicated SRC_URIs for do_ar_original
+
+Steve Sakoman (1):
+  oeqa/concurrencytest: don't delete build directory for failed tests
+
+Trevor Gamblin (1):
+  qemuarm: check serial consoles vs /proc/consoles
+
+ meta/classes/archiver.bbclass                 |   8 +-
+ meta/classes/cve-check.bbclass                |   2 +-
+ meta/classes/sanity.bbclass                   |   6 +
+ meta/classes/sstate.bbclass                   |   6 +-
+ meta/conf/bitbake.conf                        |   1 -
+ meta/conf/machine/qemuarm.conf                |   1 +
+ meta/conf/machine/qemuarm64.conf              |   1 +
+ meta/lib/oe/terminal.py                       |   5 +-
+ meta/lib/oeqa/core/utils/concurrencytest.py   |  10 +-
+ meta/lib/oeqa/utils/qemurunner.py             |   2 +-
+ meta/recipes-bsp/u-boot/libubootenv_0.2.bb    |   2 +-
+ .../bind/bind/CVE-2020-8616.patch             | 206 ++++++++++++++++++
+ .../bind/bind/CVE-2020-8617.patch             |  29 +++
+ .../recipes-connectivity/bind/bind_9.11.13.bb |   2 +
+ .../make-mod-scripts/make-mod-scripts_1.0.bb  |   7 +-
+ .../libexif/libexif/CVE-2020-13114.patch      |  73 +++++++
+ .../recipes-support/libexif/libexif_0.6.21.bb |   4 +-
+ scripts/lib/checklayer/__init__.py            |   3 +
+ scripts/lib/resulttool/log.py                 |  21 +-
+ scripts/lib/resulttool/report.py              |   1 -
+ scripts/lib/resulttool/resultutils.py         |  22 +-
+ 21 files changed, 383 insertions(+), 29 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8616.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2020-8617.patch
+ create mode 100644 meta/recipes-support/libexif/libexif/CVE-2020-13114.patch
+
 -- 
-2.7.4
+2.17.1
 
