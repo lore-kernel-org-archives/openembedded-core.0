@@ -1,111 +1,101 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web12.38024.1591020748518718170
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web12.38027.1591020750817485622
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 07:12:28 -0700
+ Mon, 01 Jun 2020 07:12:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=YDLLM2Wf;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id y11so4315939plt.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:12:28 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=BCcYKe05;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id t7so6494plr.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:12:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=5+0UOEjOyEldVRR01j/CdzMInWKHr2EzbN7xkuSPNAc=;
-        b=YDLLM2Wf8ia5ZUNs0UlVZBGR+6gmok3uZOhuPzeHj88F1c2vgfS4khWoCw3Txn/46J
-         sqThVqvAitYaxUOxe7rEcEXSHoghp5LcJ8szVhZGf4jx/ud0gIp++34nJSIcFLg4YIOC
-         jrFs27jgMLxk/pmzcy5LAzTE8jI8Ljys6IODO98fl6WPrp46trdXvJYwePTrf3ioUqR/
-         KqDBTe+Epp+0heeBhxYJQUQZM1H896rf68oOC1UJJRMR5N3YiyreOdyMAafiQU6V4qY1
-         cM4yakQ0pv5s/9unpQc6ybe8aJ8MeLenG9lPPd6YajNAhZ9/8ikYKA+HLsoH6xyIIlWS
-         J76A==
+        bh=te5rjL+94v+yIamWjQSDxazW/SMUF6feNvB6Ds+oySM=;
+        b=BCcYKe051KnkSyIkgnSWLr4zeGrBRpIazjBjMsaM6rlYZ0Fs/do1FvzrCWNwyl0kZb
+         U/lPC5RfMpq8pFvRDQQs20jKXd0BBXQ5qIkRoKRLBZK9N1Rsu2VpUVLYX89OWiLr9YWN
+         K+f6KraSc6tQ1Udkw7Dw08ZqRTiqPGPOMMfbwDyZMiBWUpNqEY4+XnbXfex+myNfvJe5
+         1/u1P2R+Is7t0smPtChrE2NAQSR3fc5AgE73npuLw+8zbSqrgjNA9Xi6Bb7A5CeJS1Yv
+         4rn/CT3aaWx+v+GwxXwwCYINrn5tsri4dIBGgjzW7913AJShnLOsiC+0YbU2+kzwLJCz
+         iCRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=5+0UOEjOyEldVRR01j/CdzMInWKHr2EzbN7xkuSPNAc=;
-        b=tKvl2OSV0aRb03tJSxidx3RfNyEPDob2Dc/9h9pBx6dvb75yqfSRj/HL+34Hbf2t+W
-         b2KsJpIyZmFl2LSEmAFATR837iaqIMsOihaA6uiUTwA05QWbHV4EDdDYD5/teU6tsrE4
-         hf94GROeu9tkghjgNNXHlB7YBnZ8LNvBnY3ObL0tmmyBt+cxRd8WGybvE7+Q6U3IsBJF
-         dcWha+YXvN91iBaqYmfDFGHhCv0F7Kb8MP1NwPcJKXqCuVu/W3k6Vs3WsW9KbH/QWxxZ
-         TRY9rGmuutIgvIxNsupMGNxSNlSDr+UPosFqfo9eDTgFlTm17uFJw16I2nYJceYyDrgo
-         xG5g==
-X-Gm-Message-State: AOAM532QdgZGfEmWkJ//onve6uLGaw5drPAsBzqIBeng2GshI4s1Vz7t
-	UVueaTBsKOTCzETanKKaKwB367SAF7w=
-X-Google-Smtp-Source: ABdhPJwdPEZjh9NZ/TuTl2td3Jdd/2c5Rm3Tb71zdK2t38tsD/ZoLHhf/z6aS2oJ9kMUPuMhp470AA==
-X-Received: by 2002:a17:902:d711:: with SMTP id w17mr21049691ply.122.1591020747201;
-        Mon, 01 Jun 2020 07:12:27 -0700 (PDT)
+        bh=te5rjL+94v+yIamWjQSDxazW/SMUF6feNvB6Ds+oySM=;
+        b=p+2bnIBfdj2qBpFty31bCbEpx/lyRHAbrRqukglcaxkCIRpm3Wfo3kZMU6GU144mr5
+         YT+lGsai63KXQpsVMWmc8LMHQmMqADN0UlVHTHzvAhRa7avJp+J1vcCIpw5+8SgRSZCt
+         awel/RPDT4uBapxtouSBL+GewdLrk2fwOrR2+/S/mpO1kmSv1OiEwYrWaQ6y3sQBuVkJ
+         5UFDIS72OdTa24V+Upzrx/whEI13ccu8KIAIjyRY242ZmhfuNic9bEYLWEviK6P5V5uC
+         Pk/28RpzzfntkaIw47XChY3zoUwbmj+WPxrlGPntMrC5BRq3x6Tsud7kdoNSce4k6qTy
+         cbzw==
+X-Gm-Message-State: AOAM533zyDkX0WZZTDuFCn3fhd5drP2lc2nnGqpz97UDouH3qU/Uxyq7
+	ZD3zj5y0fy23qe/lJ6X9nys2HveOAUs=
+X-Google-Smtp-Source: ABdhPJzZkSgeugAi8k3O6dNsyKd/KhGczKJW1DxkGhgeprHXhkqYh1bLOCUw9G/DDwoSlWjzMR0RFQ==
+X-Received: by 2002:a17:90a:248a:: with SMTP id i10mr24934067pje.174.1591020749908;
+        Mon, 01 Jun 2020 07:12:29 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.12.25
+        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.12.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 07:12:26 -0700 (PDT)
+        Mon, 01 Jun 2020 07:12:29 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 15/16] sstate.bbclass: When siginfo or sig files are missing, stop fetcher errors
-Date: Mon,  1 Jun 2020 04:11:23 -1000
-Message-Id: <9fbdfb64c55fea942f14b201b35af2b2ec91a6f7.1591020366.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 16/16] qemuarm: check serial consoles vs /proc/consoles
+Date: Mon,  1 Jun 2020 04:11:24 -1000
+Message-Id: <b2f9f6c856e2fad0feda2ce09073562543c3dd9a.1591020366.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1591020366.git.steve@sakoman.com>
 References: <cover.1591020366.git.steve@sakoman.com>
 
-From: Mark Hatle <mark.hatle@xilinx.com>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-Prior to fetching, the system checks if the sstate file is present
-either locally or on the mirror.  If it is, then it goes to the fetch
-stage.  Up to three files can be fetched, sstate, sstate.siginfo and
-sstate.sig (if signature validation is enabled).
+Note that this patch affects qemuarm AND qemuarm64.
 
-The previous pstaging_fetch function would iterate over these, and if
-a download error occurred would spew forth a great amount of fetcher
-failure messages as well as stop fetching the next item in the set.
+When booting a VM and during operation, the following message
+periodically appears:
 
-This was resolved by adding a fetcher.checkstatus() call prior to
-the download.  If the file isn't present, then the exception will
-be triggered, and no fetcher failure messages will reach the user.
+INIT: Id "hvc0" respawning too fast: disabled for 5 minutes
 
-The exception handler is then modified to be a pass so that it will
-loop and pull the rest of the files that that are requested.
+This is because hvc0 is specified in SERIAL_CONSOLES in qemuarm.conf
+and qemuarm64.conf, but it is not in /proc/consoles and
+SERIAL_CONSOLES_CHECK is not specified, leaving getty to attempt to
+enable hvc0. Add SERIAL_CONSOLES_CHECK to both conf files so that
+hvc0 isn't enabled if it hasn't been set there or in local.conf.
 
-Additionally, a check for the existance of the .sig file was added
-to the sstate_installpkg to avoid an error trying to load the .sig
-if it wasn't downloaded.
-
-Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a9085140434e2d26c0bb75bb53fcb7f7c19ef86d)
+(cherry picked from commit 982b7f98b8423236cc986346379b1bde3694f131)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/sstate.bbclass | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/conf/machine/qemuarm.conf   | 1 +
+ meta/conf/machine/qemuarm64.conf | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index aa9c30b4e1..375196ef21 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -355,6 +355,9 @@ def sstate_installpkg(ss, d):
-     d.setVar('SSTATE_INSTDIR', sstateinst)
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index 367fcef019..4e605d3a92 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -8,6 +8,7 @@ require conf/machine/include/qemu.inc
+ KERNEL_IMAGETYPE = "zImage"
  
-     if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False):
-+        if not os.path.isfile(sstatepkg + '.sig'):
-+            bb.warn("No signature file for sstate package %s, skipping acceleration..." % sstatepkg)
-+            return False
-         signer = get_signer(d, 'local')
-         if not signer.verify(sstatepkg + '.sig'):
-             bb.warn("Cannot verify signature on sstate package %s, skipping acceleration..." % sstatepkg)
-@@ -733,10 +736,11 @@ def pstaging_fetch(sstatefetch, d):
-         localdata.setVar('SRC_URI', srcuri)
-         try:
-             fetcher = bb.fetch2.Fetch([srcuri], localdata, cache=False)
-+            fetcher.checkstatus()
-             fetcher.download()
+ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
++SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
  
-         except bb.fetch2.BBFetchException:
--            break
-+            pass
+ # For runqemu
+ QB_SYSTEM_NAME = "qemu-system-arm"
+diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm64.conf
+index 1e2d4f018d..2cf1a0206c 100644
+--- a/meta/conf/machine/qemuarm64.conf
++++ b/meta/conf/machine/qemuarm64.conf
+@@ -8,6 +8,7 @@ require conf/machine/include/qemu.inc
+ KERNEL_IMAGETYPE = "Image"
  
- def sstate_setscene(d):
-     shared_state = sstate_state_fromvars(d)
+ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
++SERIAL_CONSOLES_CHECK = "${SERIAL_CONSOLES}"
+ 
+ # For runqemu
+ QB_SYSTEM_NAME = "qemu-system-aarch64"
 -- 
 2.17.1
 
