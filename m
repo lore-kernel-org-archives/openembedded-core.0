@@ -1,76 +1,107 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web10.34656.1591009989296510176
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
+ by mx.groups.io with SMTP id smtpd.web11.34519.1591010286398695402
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 04:13:09 -0700
+ Mon, 01 Jun 2020 04:18:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aYO8D/gZ;
- spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f66.google.com with SMTP id ce8so841011edb.8
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 04:13:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=D1KtoxG4;
+ spf=pass (domain: gmail.com, ip: 209.85.217.68, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f68.google.com with SMTP id r11so1042333vsj.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 04:18:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MrlAjlZIInm3YWai+aDHORjxYONGwgv8yrT5y5Qy7R0=;
-        b=aYO8D/gZfBNX+bxwrSeEYO6t10oMHirUYBHQKp0FqEXTO/iDZ6X5YnhAmMZ67YxDKo
-         o7a/N+ExDKo2J0FMSzSE4ZkqYkx/knxv2AFfaMVy83CqL/BVFK9TKuP0hvqr5dTO9oyl
-         CMtWfL03vzL2B+k35f+8nHlv6v2Nxl+MudDvW56eQm37Q5PWHrg0NxPssf3LD3QUH6We
-         bWixqQiaSA1EBzE/dzFKbUkqCGizgDzvo3BnsazpHN4lRQjbF3fEDBad0u1fLN+QI6z2
-         2xVTI6CnO3ZuekD6BlHXe4CmSvYBCpKjN5hCyaYJMapsBW9kvl2ikNHyTJE8FUguv44y
-         irUA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=HZ2mV4BM96/Va182NdBrrdDvO8CzeuqHC8iQBWCkwS0=;
+        b=D1KtoxG40HNjAOIVYjTMVZCCxbyWNtn0g/FtlrivW/Z55HoA1vgYhnHhFAi7Z2EjE0
+         NWCRQJNuWDaoDBG4RoiCI/lbwj3styXh7J6aiQYsbeUPQIGQ2dFdRFMPyexptf9sCKsJ
+         GCTeytWBplGpe8Yrh4YMppY3fHCw6t45WzRRwbsw4JINM3t3zajDQ8csZfQn+MbUPVnV
+         yJYrSTxz0UARHZeU9Rjpi+lpJiTEvZDtbAPTiz7dV6bATGwGRhV55giautA5pvCLuA3H
+         Ml+JMSzUCza4Bmz/dB8oqcO59/LPCsECBgYpnd/ln50y5GDRFI1jXwXVmvOo1ua3XbEJ
+         +bZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MrlAjlZIInm3YWai+aDHORjxYONGwgv8yrT5y5Qy7R0=;
-        b=PBq4Cc/fvV4XUlpKZDaKHHF/qZQC4truP0WiZZH9CDeYdIT3C157CbVRZ4z3pPh/aP
-         cekHCgrEi037n8XFRYhXNWxmGfOlryFH4Y0YJJPNYfOJI99kItCG6lm8FD9zFbz9VMs6
-         kNePk/c0JihqIhTypNtSAIk0gjwpWuagVRkr/Te5JKAM8jEu5J/wphVpGktLiR9yYj7Z
-         N5iVXJEDCELggPWYcwugONJytQfGV5TXRzVu1oF8ALNx1gsKotqY+DNqPMIG5QO7bw3L
-         4Cn7mkGbXNcDKV8X9X5LBG+Ncnn7WZ1jgLMDRQj1skq+qrVd0CsdvyhIowr7p74rM7p3
-         VRDA==
-X-Gm-Message-State: AOAM530trTIXj7yd7fqia8bOgrtPSqxx33eXPT0UjSExX7F5+ErxLCzc
-	EZW0NAZGTVtyeveRz1vtct9yxI0y
-X-Google-Smtp-Source: ABdhPJyTXiamuEnkGThhlR49Wp4jJoLPbPEosf+QjPvNGWCycUt4u0gap3sINlNQBQZ9LCW23MAQZg==
-X-Received: by 2002:a05:6402:8d1:: with SMTP id d17mr20335370edz.38.1591009987540;
-        Mon, 01 Jun 2020 04:13:07 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.66.228])
-        by smtp.gmail.com with ESMTPSA id n5sm9645637edq.13.2020.06.01.04.13.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 04:13:06 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH] lz4: disable static library
-Date: Mon,  1 Jun 2020 13:12:43 +0200
-Message-Id: <20200601111243.30819-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=HZ2mV4BM96/Va182NdBrrdDvO8CzeuqHC8iQBWCkwS0=;
+        b=h18uoEpKyVjOWZmxdKAmAT8FGTmOG5kshh3LyJ8Zxq8fUgJt7H4rFBZFFPgrVQWUGj
+         2agKS+3ddh567hVhb8uvXsMRQC7p1ond6Z9a4x0wQgaTmk2A2gNnG0N2Iz+pqkMNY1HE
+         /NSfPnSA830fYm/YzTsf0vYT/aWV+IA45B1kYB4AG67l/jU4DfIGtTZxuEvtKzi7VTUw
+         hi2WJ2cJa4lZ9O2w/bOTx0Tc87OwRmG/qX9DWY4dOYuf0Da/cDabFQ7srDB+KXwvvLkZ
+         JJQkOcdNTaw+R8DHVRwsIfhWwqwiqB+pB2b2SjdHHF+uTQ9cWglEKOsx4OvTxmr+MIL8
+         3Scg==
+X-Gm-Message-State: AOAM5330QYs9tduKZvTr+Z0r6JAYvYW3rpWZvBEZm1L6kPfsjDzqrdGq
+	PNE1s1T6gYAzV3wt879p3ga/aI7cxW6yG97kgmM=
+X-Google-Smtp-Source: ABdhPJz3GkVRjktV9ZbFLAE9wB58DCWGgbd+nOhF5AUsuU0oh19DrUb6yug/37BxJLupqoFkWOylcrG8DAabOvoIV2o=
+X-Received: by 2002:a67:d098:: with SMTP id s24mr13616846vsi.25.1591010285560;
+ Mon, 01 Jun 2020 04:18:05 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200531155254.10283-1-alex.kanavin@gmail.com>
+ <20200531155254.10283-67-alex.kanavin@gmail.com> <c48af912b817bbb89b8dcae32a94562fd83efc66.camel@linuxfoundation.org>
+In-Reply-To: <c48af912b817bbb89b8dcae32a94562fd83efc66.camel@linuxfoundation.org>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Mon, 1 Jun 2020 13:17:54 +0200
+Message-ID: <CANNYZj8d2uOO4-HSBzn-gSOxaXpS12p1xdcfaNt4Qu=muY=aiw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 67/70] apt: update to 1.8.2.1
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="000000000000e7aad305a703f2c1"
 
-It was found to be built in a non-reproducible way.
+--000000000000e7aad305a703f2c1
+Content-Type: text/plain; charset="UTF-8"
 
-[YOCTO #13925]
+On Mon, 1 Jun 2020 at 09:21, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-support/lz4/lz4_1.9.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> On Sun, 2020-05-31 at 17:52 +0200, Alexander Kanavin wrote:
+> > I took the opportunity to rewrite the recipe from scratch; there was
+> > just too much baggage in it.
+>
+> Test builds failed with a reproducibility problem in lz4:
+>
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13925
+>
+> This hasn't been seen until now since there is now a hard dependency on
+> lz4 from apt in this patch.
+>
+> We could fix the symbol ordering or perhaps disable the static library
+> as we don't use it as far as I know, not sure why it would be building
+> one...
+>
 
-diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-support/lz4/lz4_1.9.2.bb
-index ed4452c82e..6510156ed0 100644
---- a/meta/recipes-support/lz4/lz4_1.9.2.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.2.bb
-@@ -21,7 +21,7 @@ S = "${WORKDIR}/git"
- # Fixed in r118, which is larger than the current version.
- CVE_CHECK_WHITELIST += "CVE-2014-4715"
- 
--EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
-+EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir} BUILD_STATIC=no"
- 
- do_install() {
- 	oe_runmake install
--- 
-2.26.2
+lz4 is using hand-crafted Makefiles, so the build is non-standard. I just
+sent a patch to disable the static library.
 
+Alex
+
+--000000000000e7aad305a703f2c1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 1 Jun 2020 at 09:21, Richard Purd=
+ie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie=
+@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">On Sun, 2020-05-31 at 17:52 =
++0200, Alexander Kanavin wrote:<br>
+&gt; I took the opportunity to rewrite the recipe from scratch; there was<b=
+r>
+&gt; just too much baggage in it.<br>
+<br>
+Test builds failed with a reproducibility problem in lz4:<br>
+<br>
+<a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13925" rel=
+=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show_bu=
+g.cgi?id=3D13925</a><br>
+<br>
+This hasn&#39;t been seen until now since there is now a hard dependency on=
+<br>
+lz4 from apt in this patch.<br>
+<br>
+We could fix the symbol ordering or perhaps disable the static library<br>
+as we don&#39;t use it as far as I know, not sure why it would be building<=
+br>
+one...<br></blockquote><div><br></div><div>lz4 is using hand-crafted Makefi=
+les, so the build is non-standard. I just sent a patch to disable the stati=
+c library.</div><div><br></div><div>Alex<br></div></div></div>
+
+--000000000000e7aad305a703f2c1--
