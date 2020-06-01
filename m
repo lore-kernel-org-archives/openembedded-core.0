@@ -1,92 +1,76 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web11.41763.1591030287971218095
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+ by mx.groups.io with SMTP id smtpd.web10.41954.1591030328510184462
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 09:51:28 -0700
+ Mon, 01 Jun 2020 09:52:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=IglyNI3v;
- spf=softfail (domain: sakoman.com, ip: 209.85.208.66, mailfrom: steve@sakoman.com)
-Received: by mail-ed1-f66.google.com with SMTP id w7so4113351edt.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 09:51:27 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jx//xwsh;
+ spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f196.google.com with SMTP id k22so8209820qtm.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 09:52:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dkZsXU/VX9rNADg4NgBbsC9WYtQFN1XTbldzIslpCgU=;
-        b=IglyNI3vXHhpuxQ4v5yrXPiVxXKZr3sD7dU/yOYMCWWzSoO/aOuAiWi8Uis8FKZKVu
-         0kcyYRB8d/d80kPRE21rz8G+hbvkTQTHn0ZzHKWq5zq3YVjySKZ0zQFnK5CASIlkVwNa
-         TlBVN4Q4Hh2YmZ1oNqspmfKejwJJDYrPfZKJwtXA8BvstZwEgicEL+g2Mks7BIjxl6Cw
-         fNqwU1StWIvlRWH75okA7uWIT/ScdBX7/de88X7+cFb76olBPXRaphOU8TF9Qxc7fD3l
-         /saHuNzQEbFztj0jRMO3R8yq746YrTvUGDi33qebDTvws0GiFuA3LDiHwFOB3fM+YXE3
-         vrGg==
+        bh=6becdlBNByV5wVBu802zEPJmfjb6ND6WW0+83zfNra8=;
+        b=jx//xwshdXLa763rBoKkMCQDjlqBCnxlEHI3S31aRBm/6EIXx5qUGXh9VD18TP/bfV
+         oP6VJBO+O8PEe6iHYi1b4xFEdoibbpRNxv7nasBkTRJAh7zaCjsTRdj0Au6I0iMtEhBY
+         hjL0dc6S/tDr8zFCH6WT3IGNNk+O8f8kbU0mvCYqV0agKI8dPXzNeXs9a31kjGS8z3Td
+         dASwT51cMnfhpZsrN/SeM2tTODYzk5SOWLpYYsKn1PyJasISsde5n5295d5LqhdxA5lP
+         HqCqbpXOVHj7eQs7ZWIghiIZ3mnoqTQy3wNZAyFOKVKbaS6LXwrVi5CiDJJIppuQLMQU
+         Plkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dkZsXU/VX9rNADg4NgBbsC9WYtQFN1XTbldzIslpCgU=;
-        b=S/dddjruhM4tzSLVZi0+YZW4Bcoy/fnCOv3uPMRL50X0uFYZDhGekt+jMLLOWOyfw+
-         i2azusc76jIKlhio7BddQHowi5q4W4U9jAoTeWAZXClhFBWAK6Gm0OidyW2mHRQy/G+g
-         50xQ+D+YA3+wuO8POh5h2rOuJzPfzPA1yNWt73bATU0PBtA6WR6lKZl0gdLt2zl4WsSP
-         j1+l4+/iJwHWt9HDfnJYkHrfM0Tpy4rhRRr3WgGdTdRLFiSElBha8e499t+Q0vaK2Fmy
-         RxMYrEqFnS0XlSA3AJLeSr1wKAnNjSrac87+sohxwaT4zbDthGexXn8C3yf1ShRsLg7Z
-         xxQQ==
-X-Gm-Message-State: AOAM533tON19Zf5vOlAYodYQCmgbuHgd/UjEOwIs/aR9IpfW2F0kulcO
-	rNde2vxIk2k/9xrle6Sak1bxxDGFb26kSJLBD4aVSg==
-X-Google-Smtp-Source: ABdhPJwC2mFeFOsAtNwLADujQzY8KmCBaldsfejxfJUdAVTuC/us9zE4lC0Ik7/9Ijx+be4MrwdfKzR9PQZeZrJLMEw=
-X-Received: by 2002:a50:fc0d:: with SMTP id i13mr20714160edr.260.1591030286319;
- Mon, 01 Jun 2020 09:51:26 -0700 (PDT)
+        bh=6becdlBNByV5wVBu802zEPJmfjb6ND6WW0+83zfNra8=;
+        b=KbY8rrnFuI3ws6liWitQY4rrBHrzK485MPN4mUZpTPM/Aglzq4FU7WI+4ja8Ju3MCo
+         FNhv1r/FIF/8vtaaOXvnBFnAegAOL6BU7kCo8El6D8zOzLJRnJue7OCpMfZlSqRK+5ii
+         Lrsu4XKIceHhgRmVQOTbkeDFSbSoIhLWTdHQEUcKBhZ9fJnKAhEu5ci2RfiqaiRWnyBl
+         p1EB+oPv975a9mnXYdcMWaQfbG/jfbquMlGroQqpcejU1r/lNqcLP54W6FQnxBeTWS7m
+         YH0RChO61AT2Bdf8DWPnMziweaIAbNtwBd2At68j87Lv2Pnj1NgBkblC9/h2dtYvpibI
+         D/aA==
+X-Gm-Message-State: AOAM532zbw3RF2U4gkfxt14i96HYy0LKgPxk1jkpcQyJOBER4k8vxq70
+	Q7GlZBL0IXnhUxK2LCa6xVJENX16bjQMYx1Bvpg=
+X-Google-Smtp-Source: ABdhPJwv9TFpUpQ7Y3/XTCS93GDSbpQn2n0i8q7ozjLLj0hVICt+h4MKZuBDiY1PF3nxBNoceUEMb14h9LK73c+9G8Q=
+X-Received: by 2002:ac8:5148:: with SMTP id h8mr22027834qtn.316.1591030326297;
+ Mon, 01 Jun 2020 09:52:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1591020366.git.steve@sakoman.com> <afb301af1cc21c69d6f26f47202d399228406390.1591020366.git.steve@sakoman.com>
- <234ca3dfe01ffa0108e1ee9bc73934ce5fd45141.camel@linuxfoundation.org>
-In-Reply-To: <234ca3dfe01ffa0108e1ee9bc73934ce5fd45141.camel@linuxfoundation.org>
-From: "Steve Sakoman" <steve@sakoman.com>
-Date: Mon, 1 Jun 2020 06:51:14 -1000
-Message-ID: <CAOSpxdbKZ9o30_5BPiPySJ7_DQ5DWY50YhMaq_mZdQ6zLwuw+Q@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 14/16] bitbake.conf: Remove unused DEPLOY_DIR_TOOLS variable
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20200531155254.10283-1-alex.kanavin@gmail.com> <20200531155254.10283-18-alex.kanavin@gmail.com>
+In-Reply-To: <20200531155254.10283-18-alex.kanavin@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Mon, 1 Jun 2020 09:51:40 -0700
+Message-ID: <CAMKF1spJJn+ZvGwtau_QzQiJT52_rRkj56Ys4Dt1pp=_rSJ--A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 18/70] vala: upgrade 0.46.6 -> 0.48.6
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jun 1, 2020 at 6:38 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+gnome-calculator fails https://errors.yoctoproject.org/Errors/Details/414868/
+
+On Sun, May 31, 2020 at 8:53 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> On Mon, 2020-06-01 at 04:11 -1000, Steve Sakoman wrote:
-> > From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-> >
-> > Variable DEPLOY_DIR_TOOLS was introduced in 2007:
-> >
-> >   commit f751a20152c651a33f08ceda0502fa1d4f11c005
-> >   Author: Richard Purdie <richard@openedhand.com>
-> >   Date:   Wed Aug 8 21:02:39 2007 +0000
-> >
-> >       bitbake.conf: Sync with OE.dev
-> >
-> > apparently never used so get rid of it.
-> >
-> > Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > (cherry picked from commit b1f15f651461d07a8cfbd3bdcfea0e89f195212d)
-> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> > ---
-> >  meta/conf/bitbake.conf | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index bdade79abe..4acf235930 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -410,7 +410,6 @@ DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
-> >  DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
-> >  DEPLOY_DIR_DEB = "${DEPLOY_DIR}/deb"
-> >  DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
-> > -DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
-> >
-> >  PKGDATA_DIR = "${TMPDIR}/pkgdata/${MACHINE}"
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/recipes-devtools/vala/{vala_0.46.6.bb => vala_0.48.6.bb} | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>  rename meta/recipes-devtools/vala/{vala_0.46.6.bb => vala_0.48.6.bb} (57%)
 >
-> This does cause breakage in meta-oe (single recipe) so probably not
-> stable material.
-
-OK, I'll remove this patch from the pull request.
-
-Thanks!
-
-Steve
+> diff --git a/meta/recipes-devtools/vala/vala_0.46.6.bb b/meta/recipes-devtools/vala/vala_0.48.6.bb
+> similarity index 57%
+> rename from meta/recipes-devtools/vala/vala_0.46.6.bb
+> rename to meta/recipes-devtools/vala/vala_0.48.6.bb
+> index 66f620384c..9dace1348c 100644
+> --- a/meta/recipes-devtools/vala/vala_0.46.6.bb
+> +++ b/meta/recipes-devtools/vala/vala_0.48.6.bb
+> @@ -4,5 +4,4 @@ SRC_URI += "file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.pat
+>             file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
+>             "
+>
+> -SRC_URI[md5sum] = "d9af125648505503b139ebc2d2c9eee5"
+> -SRC_URI[sha256sum] = "ef31649932872f094971d46453b21c60a41661670f98afa334062425b4aec47a"
+> +SRC_URI[sha256sum] = "d18d08ed030ce0e0f044f4c15c9df3c25b15beaf8700e45e43b736a6debf9707"
+> --
+> 2.26.2
+>
+> 
