@@ -1,91 +1,93 @@
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.37925.1591020715530994240
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web12.38000.1591020719037569772
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 07:11:55 -0700
+ Mon, 01 Jun 2020 07:11:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=yDppmS4q;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id fs4so5201898pjb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:11:55 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=hPZraVUD;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f52.google.com with SMTP id nu7so5200689pjb.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:11:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=v1k7U8FV0OuXj1c9HGPyWEpK+OuqzsS5IcmEtKB2ICM=;
-        b=yDppmS4qR18Lrq4CFqSw+fM8wn7VAE8TCnXPZrs/mw1Wg61OG/LnF0ProYpE1VkF5p
-         9ezYNvTaoeHGr3HgEjPNLlHLokmmL4zpSW4gGzGlyn5O5Zt1FIsGzzCs/dOlT1Gl1cDl
-         RsZd+zf/u8crexuHwRAodOZk4g3fpMC7uq7066rwmIy+7RgIw2n+e7I0AOqEcq4eHdOA
-         TT6bJg6/C0qtRkJYTruuaoFrPphenkDHajiX7iSEa+djZAbLya6E55zp0Xk5Uk2oS+5l
-         uXY8tIunULS7dKd+ca2uX3ayoUwGG8ulCHYgl40oU5t81v0Ide8pXuV/KpZ2uHECvkAh
-         J4Hg==
+        bh=+hto8DeAw9uyZ+5f+7hufZ1I5CO0fIfqK8aGUPviJBI=;
+        b=hPZraVUDdG9y5vMiP9u+qf5Sh20bLFpFGEnEwWZk0VQKGjsgogyMBxQyFd2MkQlB93
+         gP2I1oJTuClvwcm4UBiFKEzVFO7ZfITdEsU9ijOYvtswz2hjPG6TgEqj8puf5NqB9nS7
+         8dWaGT7OCiXYEF33nreiaRr83uO8BJk706/ateiO0RsU0VIy7thysqctEv4xq2f+6NFH
+         YczjQJ4MmiSrRrBhSYIXJrzzNvagVbX1g0lqklk0opjRFGg+i/fE2EbkDuT/U7VJlg+y
+         RJkzTnCgOGRCLHEvLCNe4acmPgNjEhcwyjah+wLnL3rfr2ilX+yQFWPlRGtNuiAM6Xpy
+         No+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=v1k7U8FV0OuXj1c9HGPyWEpK+OuqzsS5IcmEtKB2ICM=;
-        b=CRWfsaJJp8DL34yV5QmIdUftmLV099aivo/FK57RRkxTXpWWO5ob1ran8gSociM5J7
-         ioD8uB1AbzxwckkRTO+c8yvG2XQ7rFSKjKQoTke5rmosgwlV/hX7tzrZKPO7Ee06Y+In
-         qy78l5HdJQlRxdpev28f2/BaCkgOyP1f4V8FknwIqL9SoBEm5DhcRTJJW/1x4gcwotNM
-         P3M9M5F+v7yXideEGTguOwVg2QX7IuS70AZCxIQtr9YnG5ffgGQqbR0TPmH8obUSswuH
-         dSHC7M16JtVbj0iihmbrYdQ50HCcOiYL2zE9XGS0Cw9Wa2VCxMpVsJq1a4jjT7YqCjns
-         938Q==
-X-Gm-Message-State: AOAM530uB2DJQqZyKfufy+3+CXHwQ4e5Sd8Od3IJg6HDGiFame8rL591
-	nKdg/V2ntzGJnAJfV9ihlRZXe2YtBTs=
-X-Google-Smtp-Source: ABdhPJypTe6wwIN19ZgszhBKs40EqCliPPHPTPxL4/67VnN/hq08dwMkLEbDoodBOZOzGHJiyQk/IQ==
-X-Received: by 2002:a17:902:9a95:: with SMTP id w21mr21249752plp.259.1591020714471;
-        Mon, 01 Jun 2020 07:11:54 -0700 (PDT)
+        bh=+hto8DeAw9uyZ+5f+7hufZ1I5CO0fIfqK8aGUPviJBI=;
+        b=E8F7ncjLFoRolE4JGeOT9cKBqIrplq+nEinB5MvymYiBIClZsvLNKMXRlR98ucrqzu
+         iBwHXZPJNPKLAHFixr9A/lhxOr11E92FbVe6A2Y5G2ReYg2mJtw0a21eEN1fJHCVwCrF
+         9HwpGzNFQ6vAd/j6Gu0FjuNhlXH1aryXPBaPGJmHcC3cktgjxLzi4K161vNpFclFxJtR
+         tUQylMaGHiujRYSJb6EuWGLGqi+j0gOaTPMht4y0RBErnAOD4KN1ueIpEpHxwbOESuT/
+         5v0dslq/B+N5Y6lX8rEBfGmjSEvCErIzcZS5TDSmgxeZWznRFfeV79EcOIrD1G5D/D1u
+         FiYQ==
+X-Gm-Message-State: AOAM533ayOO8Ir2TQQ2rQiNyr0rFDqGoqp5Fpd0/nnhbuaMdZRZgiy8f
+	e8DZwwFK1UfNlDHEkt2o8ipd/zJAx+0=
+X-Google-Smtp-Source: ABdhPJyrMzmGhMdLJcM/UHkZMvZwngiMdt9M7AC15czETIZNADzkOe3hW9haUwiSkig9FWcQ17W45Q==
+X-Received: by 2002:a17:90a:ee85:: with SMTP id i5mr22747477pjz.165.1591020717258;
+        Mon, 01 Jun 2020 07:11:57 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.11.53
+        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.11.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 07:11:53 -0700 (PDT)
+        Mon, 01 Jun 2020 07:11:56 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 04/16] sanity.bbclass: Detect and fail if 'inherit' is used in conf file
-Date: Mon,  1 Jun 2020 04:11:12 -1000
-Message-Id: <bc6e27aeed5d536d2b764949c307f260f78b7810.1591020366.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 05/16] archiver.bbclass: Fix duplicated SRC_URIs for do_ar_original
+Date: Mon,  1 Jun 2020 04:11:13 -1000
+Message-Id: <a7f50876f95a9be9fe045af1e4efddfe53a983f5.1591020366.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1591020366.git.steve@sakoman.com>
 References: <cover.1591020366.git.steve@sakoman.com>
 
-From: Gregor Zatko <gzatko@gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-'inherit' directive may not be used in conf files as it's supposed
-to be used for the inheritance of classes.
-Correct form in conf file is INHERIT.
+The argument urls of bb.fetch2.Fetch(urls, d) are duplicated to SRC_URI, which caused errors like:
 
-This commit adds:
-- a sanity check to find whether the wrong case exists
-- fail the build if so
-- tell user about the difference in directives
+bb.data_smart.ExpansionError: Failure expanding variable SRCPV, expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError: Fetcher failure: The SRCREV_FORMAT variable must be set when multiple SCMs are used.
+The SCMs are:
+git://github.com/docker/notary.git;destsuffix=git/src/github.com/docker/notary
+git://github.com/docker/notary.git
 
-[YOCTO #5426]
+The first one is from original SRC_URI, the second one is from the
+variable 'urls', so cleanup SRC_URI before call bb.fetch2.Fetch() can fix the
+problem.
 
-Signed-off-by: Gregor Zatko <gzatko@gmail.com>
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 07bf9b460fe97dec86439302a83bbefa8bac9d70)
+(cherry picked from commit b244c4f3427cd07376d4b8f7d27e38735bcc90e7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/sanity.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes/archiver.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 9e87101738..5ddde9cc9c 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -784,6 +784,12 @@ def check_sanity_everybuild(status, d):
-     if "." in paths or "./" in paths or "" in paths:
-         status.addresult("PATH contains '.', './' or '' (empty element), which will break the build, please remove this.\nParsed PATH is " + str(paths) + "\n")
- 
-+    # Check whether 'inherit' directive is found (used for a class to inherit)
-+    # in conf file it's supposed to be uppercase INHERIT
-+    inherit = d.getVar('inherit')
-+    if inherit:
-+        status.addresult("Please don't use inherit directive in your local.conf. The directive is supposed to be used in classes and recipes only to inherit of bbclasses. Here INHERIT should be used.\n")
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
+index 43333a7551..780c562b68 100644
+--- a/meta/classes/archiver.bbclass
++++ b/meta/classes/archiver.bbclass
+@@ -193,7 +193,13 @@ python do_ar_original() {
+                 del decoded[5][param]
+         encoded = bb.fetch2.encodeurl(decoded)
+         urls[i] = encoded
+-    fetch = bb.fetch2.Fetch(urls, d)
 +
-     # Check that the DISTRO is valid, if set
-     # need to take into account DISTRO renaming DISTRO
-     distro = d.getVar('DISTRO')
++    # Cleanup SRC_URI before call bb.fetch2.Fetch() since now SRC_URI is in the
++    # variable "urls", otherwise there might be errors like:
++    # The SRCREV_FORMAT variable must be set when multiple SCMs are used
++    ld = bb.data.createCopy(d)
++    ld.setVar('SRC_URI', '')
++    fetch = bb.fetch2.Fetch(urls, ld)
+     tarball_suffix = {}
+     for url in fetch.urls:
+         local = fetch.localpath(url).rstrip("/");
 -- 
 2.17.1
 
