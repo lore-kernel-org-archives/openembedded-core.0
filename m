@@ -1,82 +1,106 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
- by mx.groups.io with SMTP id smtpd.web11.37919.1591020709915965137
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web10.38124.1591020713680801693
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 07:11:50 -0700
+ Mon, 01 Jun 2020 07:11:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=ilad3jJ9;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.47, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f47.google.com with SMTP id m2so1045714pjv.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:11:49 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=NaOWHgwd;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f44.google.com with SMTP id ga6so2016072pjb.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:11:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=lW5zQL/mgTkphlYJOVQi3o9lTxyOf44Q5jfhR6i6GfA=;
-        b=ilad3jJ9kvdeUFD1iG1CkLwDZkwIOD7N8sHV4AXBPyKFwm0eB2mmAFEsWUu5RBwck0
-         dn2g/qW5sViI1fZWqzmVXVpYIkdbgGR9U3jH+S7i4vntGFsrvlodoUMsZDNhI/8CH674
-         HW6dwoMbuDaTYIQ7khvU8aVcuUJ/vqzOnHngc9PE5urPjtj62/eS6DSL7OoQq27+O5Mz
-         /3BuTfKPo3lIOp1cOHrEyhWL8xQNOqCY5La+184n9x5yLUGXV0SB5brFPAZJx8JkmpMk
-         v/apNjkzmfxLip9BADsHkhYGzpXNy3Xc9DnBqLDTlhhKf2o5zDksqNkluC6Sml8c8Qo5
-         QHcA==
+        bh=UkcZnPvaO1K3kZ99W+ETL6IrorAETxjE93lNful1i10=;
+        b=NaOWHgwdm0nw8Yt3mC51RIc0D0yBCYBkmRkQ5M188wUUBwAisdW0VPdrMZNeGYwB3v
+         pCJDeRltr09MTVLejsZtxKLoSnoozV4MyKD3wJpn0vyOIHEX/2JN3gUqINn8VUNAHgGl
+         aTqhxiqgP+HQITcJ+Ng5c7rXvJYUCbLnZaK7nvio556FX2F/l3e50rj9G+lNDODo8jAb
+         Aet2R7O4vDxpk94S0AhSY2+QBRdA3yZ9UskPE1pRATj+DKhHR8w6HXJaxBSbiYFg5TpL
+         eJh1WMoF2svRLmfagzgm1s8bI7/fpz+JpTulajP/eC2lh/Ul/wSLWgWx7zIfZS63YAzx
+         6gTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=lW5zQL/mgTkphlYJOVQi3o9lTxyOf44Q5jfhR6i6GfA=;
-        b=GpcOQg8EalNB/rqOSBcXN2HAlNRDI7leboz55Fy2nkA3hLTYsOTzShSjcjz/8wgCQn
-         Hays4pF45t77y+Fp2qWhkD8lramrkRNdRcPYJv0G/y0dbfsIGI0OjBqfNo/sltNYx9QQ
-         lF+S+aTu0BBw01Dp/Z8E1g/jUlk1/Xl2Ujr8FNy6e2Q+L04RKJHqT4goWPE74GLf+qom
-         nH6epaWND0rr21p7AvQcE5mNUi7JDhXBGtjChruy+YjbFbmxFxSCeMfEE155zpujuNhQ
-         mHa2p8nfcddEAFTEdxD5haDUx/1SY+FIE0s2VC64XAnNgk/YfrrllYqOgeTG7ZKB6j8O
-         +GeA==
-X-Gm-Message-State: AOAM533xuLLLrB5/x3XeEiKwLFDYHjPs0JZR+hrH2k+xLjBAoSiEQZGA
-	Im+6UUtZn6JiaAw8xj4lyqUiVPDFYyk=
-X-Google-Smtp-Source: ABdhPJwPhErq0n9aEiCvrYj94plrUHoySpPuuuYBUnQAry2Dj5EtYDntFwavmXRrGm+FSyGa0kAb7A==
-X-Received: by 2002:a17:902:b110:: with SMTP id q16mr20025625plr.221.1591020709092;
-        Mon, 01 Jun 2020 07:11:49 -0700 (PDT)
+        bh=UkcZnPvaO1K3kZ99W+ETL6IrorAETxjE93lNful1i10=;
+        b=DPFAZryILjppGfVEyA9jHSEzxfTcR2eh01JFgw92cCrJT9/Pv3oevfHF8kXb7r4VMz
+         qs1y5dA04Sxgi2CIpnoRAs0qb6mC65JFDTDBo002HFB204COR5YoQreLCQcSh6WeaXsO
+         b3p/bCgCr4csdyvkeiBfT/QGDLmZGPGF4NSqU0pNS+nxlAEq+LvAHxWvYEAxTyIo37pl
+         drQENkQRmdFR+H8tJzc2a0T6uoTjmHYtPttQAEn9WQbbsddFXdnRdW293moxsU/0D1O5
+         lIIzPQjEJIm/mYi0EGpFmmqYw396DiXaRWcL0MftFhl1oeYHQi8LBgnAyaDyDIYsLjHZ
+         +CSA==
+X-Gm-Message-State: AOAM531cUA8d5ped98CUftvyHToEBCT9/xjRn81i26v7ra1lUNbRfV5z
+	9A/gdQ0GJFUs+KhuoQHOt1bzLLgc7gA=
+X-Google-Smtp-Source: ABdhPJwMiK+QcmqhTQBJtUR2//rqLnP8buIjclY8Dv+fYek8Us2aAozniWo3zDx6ULjMt00G/h6vTA==
+X-Received: by 2002:a17:902:7d85:: with SMTP id a5mr20965892plm.106.1591020711894;
+        Mon, 01 Jun 2020 07:11:51 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.11.47
+        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.11.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 07:11:48 -0700 (PDT)
+        Mon, 01 Jun 2020 07:11:51 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 02/16] checklayer: Skip layers without a collection
-Date: Mon,  1 Jun 2020 04:11:10 -1000
-Message-Id: <ae65adf471a9ad04c6a44bf020a28f1006db106a.1591020366.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 03/16] oeqa/concurrencytest: don't delete build directory for failed tests
+Date: Mon,  1 Jun 2020 04:11:11 -1000
+Message-Id: <be24033acee75526a3a66c12606ef67dcb52a7ee.1591020366.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1591020366.git.steve@sakoman.com>
 References: <cover.1591020366.git.steve@sakoman.com>
 
-From: Joshua Watt <JPEWhacker@gmail.com>
-
-As in other places in the file, skip layers that don't define a
-collection when searching for a layer to resolve a dependency. Fixes
-KeyError exceptions when attempting to access the layer collections
-later
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 26090a2861ebe21224aaf89d7be0c0a89ca58e48)
+(cherry picked from commit 3d5aa170d2e88b852bd2a4452aab9311a24badef)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/checklayer/__init__.py | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/lib/oeqa/core/utils/concurrencytest.py | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/lib/checklayer/__init__.py b/scripts/lib/checklayer/__init__.py
-index 5aeec2f00f..1138000275 100644
---- a/scripts/lib/checklayer/__init__.py
-+++ b/scripts/lib/checklayer/__init__.py
-@@ -143,6 +143,9 @@ def detect_layers(layer_directories, no_auto):
+diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
+index fac59f765a..01c39830f9 100644
+--- a/meta/lib/oeqa/core/utils/concurrencytest.py
++++ b/meta/lib/oeqa/core/utils/concurrencytest.py
+@@ -77,14 +77,17 @@ class ProxyTestResult:
+     # a very basic TestResult proxy, in order to modify add* calls
+     def __init__(self, target):
+         self.result = target
++        self.failed_tests = 0
  
- def _find_layer_depends(depend, layers):
-     for layer in layers:
-+        if 'collections' not in layer:
-+            continue
+     def _addResult(self, method, test, *args, exception = False, **kwargs):
+         return method(test, *args, **kwargs)
+ 
+     def addError(self, test, err = None, **kwargs):
++        self.failed_tests += 1
+         self._addResult(self.result.addError, test, err, exception = True, **kwargs)
+ 
+     def addFailure(self, test, err = None, **kwargs):
++        self.failed_tests += 1
+         self._addResult(self.result.addFailure, test, err, exception = True, **kwargs)
+ 
+     def addSuccess(self, test, **kwargs):
+@@ -96,6 +99,9 @@ class ProxyTestResult:
+     def addUnexpectedSuccess(self, test, **kwargs):
+         self._addResult(self.result.addUnexpectedSuccess, test, **kwargs)
+ 
++    def wasSuccessful(self):
++        return self.failed_tests == 0
 +
-         for collection in layer['collections']:
-             if depend == collection:
-                 return layer
+     def __getattr__(self, attr):
+         return getattr(self.result, attr)
+ 
+@@ -287,10 +293,10 @@ def fork_for_tests(concurrency_num, suite):
+                 # as per default in parent code
+                 subunit_client.buffer = True
+                 subunit_result = AutoTimingTestResultDecorator(subunit_client)
+-                process_suite.run(ExtraResultsEncoderTestResult(subunit_result))
++                unittest_result = process_suite.run(ExtraResultsEncoderTestResult(subunit_result))
+                 if ourpid != os.getpid():
+                     os._exit(0)
+-                if newbuilddir:
++                if newbuilddir and unittest_result.wasSuccessful():
+                     removebuilddir(newbuilddir)
+             except:
+                 # Don't do anything with process children
 -- 
 2.17.1
 
