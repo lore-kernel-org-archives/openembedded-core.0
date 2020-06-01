@@ -1,318 +1,551 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
- by mx.groups.io with SMTP id smtpd.web11.30626.1590989367105980615
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web11.31407.1590994084563366442
  for <openembedded-core@lists.openembedded.org>;
- Sun, 31 May 2020 22:29:27 -0700
+ Sun, 31 May 2020 23:48:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
-X-IronPort-AV: E=Sophos;i="5.73,459,1583164800"; 
-   d="scan'208,217";a="93512374"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 01 Jun 2020 13:29:18 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 653224BCC8A5;
-	Mon,  1 Jun 2020 13:29:13 +0800 (CST)
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 1 Jun 2020 13:29:13 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local ([fe80::a02b:f831:342:223])
- by G08CNEXMBPEKD04.g08.fujitsu.local ([fe80::a02b:f831:342:223%14]) with mapi
- id 15.00.1497.006; Mon, 1 Jun 2020 13:29:15 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] python3-setuptools:upgrade 45.2.0 -> 47.1.1
-Thread-Topic: [OE-core] [PATCH] python3-setuptools:upgrade 45.2.0 -> 47.1.1
-Thread-Index: AQHWNZDCS6dz+d1gRkCv/gNTuC/bpKjCZJ6AgACQizD//7LWgIAAl7ew
-Date: Mon, 1 Jun 2020 05:29:15 +0000
-Message-ID: <359f306ed30a45009ffb6173cd4e2629@G08CNEXMBPEKD04.g08.fujitsu.local>
-References: <1590772282-43066-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <1590772282-43066-2-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <CAMKF1sqXOp88HSgjgHBqyq_=LT7hJnnAgaYg79NfmpPDXu_1mg@mail.gmail.com>
- <b7e6b91ece4e43a594113456040b105c@G08CNEXMBPEKD04.g08.fujitsu.local>
- <CAMKF1sr3X=sw6PYoBPmm32tGvneJiuGRDDMMSQEgKL_r=1TVag@mail.gmail.com>
-In-Reply-To: <CAMKF1sr3X=sw6PYoBPmm32tGvneJiuGRDDMMSQEgKL_r=1TVag@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.167.225.81]
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WRRuOvI8;
+ spf=pass (domain: gmail.com, ip: 209.85.221.65, mailfrom: liu.ming50@gmail.com)
+Received: by mail-wr1-f65.google.com with SMTP id r7so10352460wro.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 31 May 2020 23:48:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+c80MszPzyn4FNP9whLOvKs3P6odF4rW+KHmk2arZ+o=;
+        b=WRRuOvI8pnHef5GOzguwhqHatyPiy41SmRcjbWsgwHS61R+EDyoHmj160tlz3WEiYS
+         SVc3sp3alqCL/LnQ7rLEaFKfodiO8k3tnLrUV/34Z0/fr2ofkgT1EIRpgMdicFIK6Taa
+         JLH+vjLNjFlHdMNEpsVZkC/P0EgeZI4QrJn6rhw94Wjwq+2QD8P0RTumhB8hRieXIrut
+         6AL64ohK/IV/IEC4BlGVfs8oaS8gaebgOxOMf28i754pOkP7lw7hiqSEDi2b6bKWd00U
+         sZndgeJcwCS1t7VPmx64NOT2CM2J+Ec20Xb2awMTsC21Q5JoRUH4a4wdZT6zWkHwg9sa
+         t7Ww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+c80MszPzyn4FNP9whLOvKs3P6odF4rW+KHmk2arZ+o=;
+        b=lik49RSZp2DxdSzMr3evpdUEDzILQjwNY3JvsmBhT8WVH2fpYv/8aAZwL/9YNar1Mk
+         ZA/V7l6r2EZW8VqwlJbchiXvV3aLPE4bxrqM1GKBx9dmNwABDuaBJppfr7TepDnEoKx+
+         jYjYp0XA2/c1mzBF6yD7/F+AxTPig99Y3qUjWtS3zNk+QtLE41A5TG6u/4Nz2GjZIpnr
+         84RIxInBkyEhUKUoCeFFkBtIO5hIcZhHe5DIYBFpW1ZdwcCuDYPSNMYWfCNsW1Jr82F6
+         zIf6yOmFJ8QGm7pWpC2qTm13fsg/GDKeuqImmPZCQXYU9dlMquBwvK+SLpGMLRJtXbJR
+         RlXA==
+X-Gm-Message-State: AOAM5337EIgOvqiyt+Z1v32YZ/L2YcfZkLGv0rwiszGXrrzCg9ZS80+m
+	t9xu3fhI41viQJbcAlc6Q2nOdt2bHfVlwGnS6lk=
+X-Google-Smtp-Source: ABdhPJy6k6NCXTbk5VgdsNuLl9vMUrmAs4FMtXUKr5nSoIkEJGZWRPz8Bt3ghZXfYI/1RX9UcdP9AYTn5Ux+Txv1d1k=
+X-Received: by 2002:a5d:4e87:: with SMTP id e7mr19282378wru.427.1590994082993;
+ Sun, 31 May 2020 23:48:02 -0700 (PDT)
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 653224BCC8A5.A4E6F
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_359f306ed30a45009ffb6173cd4e2629G08CNEXMBPEKD04g08fujit_"
+References: <20200528124129.15100-1-liu.ming50@gmail.com> <20200528124129.15100-4-liu.ming50@gmail.com>
+ <20200529201129.GT17660@denix.org>
+In-Reply-To: <20200529201129.GT17660@denix.org>
+From: "Ming Liu" <liu.ming50@gmail.com>
+Date: Mon, 1 Jun 2020 08:48:51 +0200
+Message-ID: <CALatG=60HWtOyu3BMpWtCw7WErhkZ3Zc=2L1UUS1=P+M0LkXdw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V3 3/3] u-boot: introduce UBOOT_INITIAL_ENV
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Stefan Agner <stefan.agner@toradex.com>, Max Krummenacher <max.krummenacher@toradex.com>, denys@ti.com, 
+	Ming Liu <ming.liu@toradex.com>
+Content-Type: multipart/alternative; boundary="000000000000281ce905a7002dbd"
 
---_000_359f306ed30a45009ffb6173cd4e2629G08CNEXMBPEKD04g08fujit_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+--000000000000281ce905a7002dbd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SSBnb3QgaXQsIHRoYW5rIHlvdS4NCg0KRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
-bT4NClNlbnQ6IE1vbmRheSwgSnVuZSAxLCAyMDIwIDEyOjI1IFBNDQpUbzogWmFuZywgUnVvY2hl
-bi/oh6cg6Iul5bCYIDx6YW5ncmMuZm5zdEBjbi5mdWppdHN1LmNvbT4NCkNjOiBQYXRjaGVzIGFu
-ZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciA8b3BlbmVtYmVkZGVkLWNvcmVA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBw
-eXRob24zLXNldHVwdG9vbHM6dXBncmFkZSA0NS4yLjAgLT4gNDcuMS4xDQoNCg0KDQpPbiBTdW4s
-IE1heSAzMSwgMjAyMCBhdCA2OjAzIFBNIHphbmdyYyA8emFuZ3JjLmZuc3RAY24uZnVqaXRzdS5j
-b208bWFpbHRvOnphbmdyYy5mbnN0QGNuLmZ1aml0c3UuY29tPj4gd3JvdGU6DQpJIGFtIGludmVz
-dGlnYXRpbmcsIGFuZCBwYXRjaHYyIHdpbGwgYmUgc2VudCBhZnRlciB0aGUgaW52ZXN0aWdhdGlv
-biBpcyBzdWNjZXNzZnVsLg0KDQpJIGhhdmUgc2VudCBhbiB1cGRhdGUgZm9yIGZhaWxpbmcgcmVj
-aXBlIHdoaWNoIGZpeGVzIGl0IHNvIHRoaXMgcGF0Y2ggc2hvdWxkIGJlIG9rIG5vdw0KDQotLS0t
-LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
-bTxtYWlsdG86cmFqLmtoZW1AZ21haWwuY29tPj4NClNlbnQ6IE1vbmRheSwgSnVuZSAxLCAyMDIw
-IDg6MjQgQU0NClRvOiBaYW5nLCBSdW9jaGVuL+iHpyDoi6XlsJggPHphbmdyYy5mbnN0QGNuLmZ1
-aml0c3UuY29tPG1haWx0bzp6YW5ncmMuZm5zdEBjbi5mdWppdHN1LmNvbT4+DQpDYzogUGF0Y2hl
-cyBhbmQgZGlzY3Vzc2lvbnMgYWJvdXQgdGhlIG9lLWNvcmUgbGF5ZXIgPG9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmc+Pg0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHB5dGhv
-bjMtc2V0dXB0b29sczp1cGdyYWRlIDQ1LjIuMCAtPiA0Ny4xLjENCg0KVGhpcyBmYWlscyB6b3Bl
-aW50ZXJmYWNlIG1vZHVsZSBidWlsZHMgc2VlDQoNCmh0dHBzOi8vZXJyb3JzLnlvY3RvcHJvamVj
-dC5vcmcvRXJyb3JzL0RldGFpbHMvNDE0NjUwLw0KDQpPbiBGcmksIE1heSAyOSwgMjAyMCBhdCAx
-OjExIEFNIHphbmdyYyA8emFuZ3JjLmZuc3RAY24uZnVqaXRzdS5jb208bWFpbHRvOnphbmdyYy5m
-bnN0QGNuLmZ1aml0c3UuY29tPj4gd3JvdGU6DQo+DQo+IFNpZ25lZC1vZmYtYnk6IFphbmcgUnVv
-Y2hlbiA8emFuZ3JjLmZuc3RAY24uZnVqaXRzdS5jb208bWFpbHRvOnphbmdyYy5mbnN0QGNuLmZ1
-aml0c3UuY29tPj4NCj4gLS0tDQo+ICBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bi1zZXR1cHRvb2xzLmluYyAgfCAgNCArKy0tDQo+ICAuLi4vMDAwMS1jaGFuZ2Utc2hlYmFuZy10
-by1weXRob24zLnBhdGNoICAgICAgICAgICAgfCAxMyArLS0tLS0tLS0tLS0tDQo+ICAuLi50b29s
-c180NS4yLjAuYmI8aHR0cDovL3Rvb2xzXzQ1LjIuMC5iYj4gPT4gcHl0aG9uMy1zZXR1cHRvb2xz
-XzQ3LjEuMS5iYjxodHRwOi8vcHl0aG9uMy1zZXR1cHRvb2xzXzQ3LjEuMS5iYj59IHwgIDANCj4g
-IDMgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxNCBkZWxldGlvbnMoLSkgIHJlbmFt
-ZQ0KPiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXNldHVwdG9vbHNfNDUu
-Mi4wLmJiPGh0dHA6Ly9weXRob24zLXNldHVwdG9vbHNfNDUuMi4wLmJiPiA9Pg0KPiBweXRob24z
-LXNldHVwdG9vbHNfNDcuMS4xLmJiPGh0dHA6Ly9weXRob24zLXNldHVwdG9vbHNfNDcuMS4xLmJi
-Pn0gKDEwMCUpDQo+DQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbi1zZXR1cHRvb2xzLmluYw0KPiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uLXNldHVwdG9vbHMuaW5jDQo+IGluZGV4IGU5YWQ5M2RiZWUuLmM5MWNjYTlmMDYgMTAw
-NjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLXNldHVwdG9v
-bHMuaW5jDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLXNldHVw
-dG9vbHMuaW5jDQo+IEBAIC0xMiw4ICsxMiw4IEBAIFNSQ19VUklfYXBwZW5kX2NsYXNzLW5hdGl2
-ZSA9ICINCj4gZmlsZTovLzAwMDEtY29uZGl0aW9uYWxseS1kby1ub3QtZmV0Y2gtY29kZS1ieS1l
-DQo+DQo+ICBTUkNfVVJJICs9ICJmaWxlOi8vMDAwMS1jaGFuZ2Utc2hlYmFuZy10by1weXRob24z
-LnBhdGNoIg0KPg0KPiAtU1JDX1VSSVttZDVzdW1dID0gIjBjOTU2ZWVhMTQyYWY5YzJiMDJkNzJl
-M2MwNDJhZjMwIg0KPiAtU1JDX1VSSVtzaGEyNTZzdW1dID0gIjg5YzZlNjAxMWVjMmY2ZDU3ZDQz
-YTNmOTI5NmM0ZWYwMjJjMmNiZjQ5YmFiMjZiNDA3ZmU2Nzk5MmFlMzM5N2YiDQo+ICtTUkNfVVJJ
-W21kNXN1bV0gPSAiNmU5ZGU5MGIyNDJmZGQ2MGVmNTlmNDk3NDI0Y2UxM2EiDQo+ICtTUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiMTQ1ZmE2MmI5ZDdiYjU0NGZjZTE2ZTliNWE5YmY0YWIyMDMyZDJmNzU4
-YjdjZDY3NGFmMDlhOTI3MzZhZmY3NCINCj4NCj4gIERFUEVORFMgKz0gIiR7UFlUSE9OX1BOfSIN
-Cj4NCj4gZGlmZiAtLWdpdA0KPiBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1zZXR1cHRvb2xzLzAwMDEtY2hhbmdlLXNoZWJhbmctDQo+IHRvLXB5dGhvbjMucGF0Y2gNCj4g
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNo
-YW5nZS1zaGViYW5nLQ0KPiB0by1weXRob24zLnBhdGNoDQo+IGluZGV4IDMzYWY4ZGFlZDcuLjZk
-Y2Y1Mjc3MWIgMTAwNjQ0DQo+IC0tLQ0KPiBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtY2hhbmdlLXNoZWJhbmctDQo+IHRvLXB5dGhvbjMucGF0
-Y2gNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9v
-bHMvMDAwMS1jaGFuZ2Utc2hlYg0KPiArKysgYW5nLXRvLXB5dGhvbjMucGF0Y2gNCj4gQEAgLTgs
-OCArOCw3IEBAIFVwc3RyZWFtLVN0YXR1czogUGVuZGluZw0KPiAgU2lnbmVkLW9mZi1ieTogQ2hh
-bmdxaW5nIExpIDxjaGFuZ3FpbmcubGlAd2luZHJpdmVyLmNvbTxtYWlsdG86Y2hhbmdxaW5nLmxp
-QHdpbmRyaXZlci5jb20+Pg0KPiAgLS0tDQo+ICAgcGtnX3Jlc291cmNlcy9fdmVuZG9yL2FwcGRp
-cnMucHkgICB8IDIgKy0NCj4gLSBzZXR1cHRvb2xzL2NvbW1hbmQvZWFzeV9pbnN0YWxsLnB5IHwg
-MiArLQ0KPiAtIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygt
-KQ0KPiArIDEgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9ucygtKQ0K
-Pg0KPiAgZGlmZiAtLWdpdCBhL3BrZ19yZXNvdXJjZXMvX3ZlbmRvci9hcHBkaXJzLnB5DQo+IGIv
-cGtnX3Jlc291cmNlcy9fdmVuZG9yL2FwcGRpcnMucHkNCj4gIGluZGV4IGFlNjcwMDEuLjkzM2Uz
-OTggMTAwNjQ0DQo+IEBAIC0yMSwxNiArMjAsNiBAQCBpbmRleCBhZTY3MDAxLi45MzNlMzk4IDEw
-MDY0NA0KPiAgICMgLSotIGNvZGluZzogdXRmLTggLSotDQo+ICAgIyBDb3B5cmlnaHQgKGMpIDIw
-MDUtMjAxMCBBY3RpdmVTdGF0ZSBTb2Z0d2FyZSBJbmMuDQo+ICAgIyBDb3B5cmlnaHQgKGMpIDIw
-MTMgRWRkeSBQZXRyaciZb3INCj4gLWRpZmYgLS1naXQgYS9zZXR1cHRvb2xzL2NvbW1hbmQvZWFz
-eV9pbnN0YWxsLnB5DQo+IGIvc2V0dXB0b29scy9jb21tYW5kL2Vhc3lfaW5zdGFsbC5weQ0KPiAt
-aW5kZXggYWJjYTFhZS4uNmJjZGM5OCAxMDA2NDQNCj4gLS0tLSBhL3NldHVwdG9vbHMvY29tbWFu
-ZC9lYXN5X2luc3RhbGwucHkNCj4gLSsrKyBiL3NldHVwdG9vbHMvY29tbWFuZC9lYXN5X2luc3Rh
-bGwucHkNCj4gLUBAIC0xLDQgKzEsNCBAQA0KPiAtLSMhL3Vzci9iaW4vZW52IHB5dGhvbg0KPiAt
-KyMhL3Vzci9iaW4vZW52IHB5dGhvbjMNCj4gLSAiIiINCj4gLSBFYXN5IEluc3RhbGwNCj4gLSAt
-LS0tLS0tLS0tLS0NCj4gIC0tDQo+ICAyLjI0LjENCj4NCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzQ1LjIuMC5iYjxodHRwOi8v
-cHl0aG9uMy1zZXR1cHRvb2xzXzQ1LjIuMC5iYj4NCj4gYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc180Ny4xLjEuYmI8aHR0cDovL3B5dGhvbjMtc2V0dXB0
-b29sc180Ny4xLjEuYmI+DQo+IHNpbWlsYXJpdHkgaW5kZXggMTAwJQ0KPiByZW5hbWUgZnJvbSBt
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc180NS4yLjAuYmI8
-aHR0cDovL3B5dGhvbjMtc2V0dXB0b29sc180NS4yLjAuYmI+DQo+IHJlbmFtZSB0byBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc180Ny4xLjEuYmI8aHR0cDov
-L3B5dGhvbjMtc2V0dXB0b29sc180Ny4xLjEuYmI+DQo+IC0tDQo+IDIuMTcuMQ0KPg0KPg0KPg0K
-Pg0KDQoNCg0KDQoNCgoK
+Hi, Denys:
 
---_000_359f306ed30a45009ffb6173cd4e2629G08CNEXMBPEKD04g08fujit_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+To install fw_env.config or not is also optional, attempt to say that
+"ALLOW_EMPTY_${PN}-dev =3D "1"" is needed.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
-bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
-YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
-cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
-VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
-Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
-ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
-PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
-IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5Ouetiee6vzsNCglwYW5vc2UtMToyIDEgNiAwIDMgMSAxIDEgMSAx
-O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUg
-MiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OuW+rui9r+mbhem7kTsN
-CglwYW5vc2UtMToyIDExIDUgMyAyIDIgNCAyIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFt
-aWx5OiJcQOetiee6vyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQpAZm9udC1m
-YWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOW+rui9r+mbhem7kSI7fQ0KLyogU3R5bGUgRGVmaW5pdGlv
-bnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2lu
-OjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250
-LWZhbWlseToiVGltZXMgTmV3IFJvbWFuIixzZXJpZjt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJs
-aW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3Jh
-dGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJ
-e21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9u
-OnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1zb25vcm1hbDAsIGRpdi5tc29ub3JtYWww
-DQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCgltc28tbWFyZ2luLXRvcC1hbHQ6YXV0bzsN
-CgltYXJnaW4tcmlnaHQ6MGNtOw0KCW1zby1tYXJnaW4tYm90dG9tLWFsdDphdXRvOw0KCW1hcmdp
-bi1sZWZ0OjBjbTsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5OiJUaW1lcyBOZXcg
-Um9tYW4iLHNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE4DQoJe21zby1zdHlsZS10eXBlOnBlcnNv
-bmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5Ouetiee6vzsNCgljb2xvcjojMUY0OTdEO30NCi5Nc29D
-aHBEZWZhdWx0DQoJe21zby1zdHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCWZvbnQtc2l6ZToxMC41
-cHQ7DQoJZm9udC1mYW1pbHk6562J57q/O30NCkBwYWdlIFdvcmRTZWN0aW9uMQ0KCXtzaXplOjYx
-Mi4wcHQgNzkyLjBwdDsNCgltYXJnaW46NzIuMHB0IDkwLjBwdCA3Mi4wcHQgOTAuMHB0O30NCmRp
-di5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0tW2lm
-IGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRtYXg9
-IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxv
-OnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRhPSIx
-IiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJvZHkg
-bGFuZz0iRU4tVVMiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29y
-ZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
-MTEuMHB0O2ZvbnQtZmFtaWx5Ouetiee6vztjb2xvcjojMUY0OTdEIj5JIGdvdCBpdCwgdGhhbmsg
-eW91LjxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0
-eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5Ouetiee6vztjb2xvcjojMUY0OTdEIj48
-bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48Yj48c3Bh
-biBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7
-LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiBLaGVtIFJhaiAm
-bHQ7cmFqLmtoZW1AZ21haWwuY29tJmd0Ow0KPGJyPg0KPGI+U2VudDo8L2I+IE1vbmRheSwgSnVu
-ZSAxLCAyMDIwIDEyOjI1IFBNPGJyPg0KPGI+VG86PC9iPiBaYW5nLCBSdW9jaGVuLzwvc3Bhbj48
-c3BhbiBsYW5nPSJaSC1DTiIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1
-b3Q75b6u6L2v6ZuF6buRJnF1b3Q7LHNhbnMtc2VyaWYiPuiHpzwvc3Bhbj48c3BhbiBsYW5nPSJa
-SC1DTiIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZx
-dW90OyxzYW5zLXNlcmlmIj4NCjwvc3Bhbj48c3BhbiBsYW5nPSJaSC1DTiIgc3R5bGU9ImZvbnQt
-c2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q75b6u6L2v6ZuF6buRJnF1b3Q7LHNhbnMtc2Vy
-aWYiPuiLpeWwmDwvc3Bhbj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWls
-eTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPiAmbHQ7emFuZ3JjLmZuc3RAY24uZnVq
-aXRzdS5jb20mZ3Q7PGJyPg0KPGI+Q2M6PC9iPiBQYXRjaGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91
-dCB0aGUgb2UtY29yZSBsYXllciAmbHQ7b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZyZndDs8YnI+DQo8Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHB5
-dGhvbjMtc2V0dXB0b29sczp1cGdyYWRlIDQ1LjIuMCAtJmd0OyA0Ny4xLjE8bzpwPjwvbzpwPjwv
-c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0K
-PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4N
-CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5PbiBTdW4sIE1heSAzMSwgMjAyMCBhdCA2OjAz
-IFBNIHphbmdyYyAmbHQ7PGEgaHJlZj0ibWFpbHRvOnphbmdyYy5mbnN0QGNuLmZ1aml0c3UuY29t
-Ij56YW5ncmMuZm5zdEBjbi5mdWppdHN1LmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9w
-Pg0KPC9kaXY+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29s
-aWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDYuMHB0O21hcmdpbi1sZWZ0OjQu
-OHB0O21hcmdpbi1yaWdodDowY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SSBhbSBpbnZlc3Rp
-Z2F0aW5nLCBhbmQgcGF0Y2h2MiB3aWxsIGJlIHNlbnQgYWZ0ZXIgdGhlIGludmVzdGlnYXRpb24g
-aXMgc3VjY2Vzc2Z1bC48bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2txdW90ZT4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPkkgaGF2ZSBzZW50IGFuIHVwZGF0ZSBmb3IgZmFpbGluZyByZWNp
-cGUgd2hpY2ggZml4ZXMgaXQgc28gdGhpcyBwYXRjaCBzaG91bGQgYmUgb2sgbm93Jm5ic3A7PG86
-cD48L286cD48L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3Jk
-ZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFy
-Z2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48
-YnI+DQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLTxicj4NCkZyb206IEtoZW0gUmFqICZsdDs8
-YSBocmVmPSJtYWlsdG86cmFqLmtoZW1AZ21haWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+cmFqLmto
-ZW1AZ21haWwuY29tPC9hPiZndDsNCjxicj4NClNlbnQ6IE1vbmRheSwgSnVuZSAxLCAyMDIwIDg6
-MjQgQU08YnI+DQpUbzogWmFuZywgUnVvY2hlbi88c3BhbiBsYW5nPSJaSC1DTiIgc3R5bGU9ImZv
-bnQtZmFtaWx5Ouetiee6vyI+6IenPC9zcGFuPjxzcGFuIGxhbmc9IlpILUNOIj4NCjwvc3Bhbj48
-c3BhbiBsYW5nPSJaSC1DTiIgc3R5bGU9ImZvbnQtZmFtaWx5Ouetiee6vyI+6Iul5bCYPC9zcGFu
-PiAmbHQ7PGEgaHJlZj0ibWFpbHRvOnphbmdyYy5mbnN0QGNuLmZ1aml0c3UuY29tIiB0YXJnZXQ9
-Il9ibGFuayI+emFuZ3JjLmZuc3RAY24uZnVqaXRzdS5jb208L2E+Jmd0Ozxicj4NCkNjOiBQYXRj
-aGVzIGFuZCBkaXNjdXNzaW9ucyBhYm91dCB0aGUgb2UtY29yZSBsYXllciAmbHQ7PGEgaHJlZj0i
-bWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmciIHRhcmdldD0i
-X2JsYW5rIj5vcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPiZndDs8
-YnI+DQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gcHl0aG9uMy1zZXR1cHRvb2xzOnVw
-Z3JhZGUgNDUuMi4wIC0mZ3Q7IDQ3LjEuMTxicj4NCjxicj4NClRoaXMgZmFpbHMgem9wZWludGVy
-ZmFjZSBtb2R1bGUgYnVpbGRzIHNlZTxicj4NCjxicj4NCjxhIGhyZWY9Imh0dHBzOi8vZXJyb3Jz
-LnlvY3RvcHJvamVjdC5vcmcvRXJyb3JzL0RldGFpbHMvNDE0NjUwLyIgdGFyZ2V0PSJfYmxhbmsi
-Pmh0dHBzOi8vZXJyb3JzLnlvY3RvcHJvamVjdC5vcmcvRXJyb3JzL0RldGFpbHMvNDE0NjUwLzwv
-YT48YnI+DQo8YnI+DQpPbiBGcmksIE1heSAyOSwgMjAyMCBhdCAxOjExIEFNIHphbmdyYyAmbHQ7
-PGEgaHJlZj0ibWFpbHRvOnphbmdyYy5mbnN0QGNuLmZ1aml0c3UuY29tIiB0YXJnZXQ9Il9ibGFu
-ayI+emFuZ3JjLmZuc3RAY24uZnVqaXRzdS5jb208L2E+Jmd0OyB3cm90ZTo8YnI+DQomZ3Q7PGJy
-Pg0KJmd0OyBTaWduZWQtb2ZmLWJ5OiBaYW5nIFJ1b2NoZW4gJmx0OzxhIGhyZWY9Im1haWx0bzp6
-YW5ncmMuZm5zdEBjbi5mdWppdHN1LmNvbSIgdGFyZ2V0PSJfYmxhbmsiPnphbmdyYy5mbnN0QGNu
-LmZ1aml0c3UuY29tPC9hPiZndDs8YnI+DQomZ3Q7IC0tLTxicj4NCiZndDsmbmJzcDsgbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tc2V0dXB0b29scy5pbmMmbmJzcDsgfCZuYnNw
-OyA0ICYjNDM7JiM0MzstLTxicj4NCiZndDsmbmJzcDsgLi4uLzAwMDEtY2hhbmdlLXNoZWJhbmct
-dG8tcHl0aG9uMy5wYXRjaCZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
-IHwgMTMgJiM0MzstLS0tLS0tLS0tLS08YnI+DQomZ3Q7Jm5ic3A7IC4uLjxhIGhyZWY9Imh0dHA6
-Ly90b29sc180NS4yLjAuYmIiIHRhcmdldD0iX2JsYW5rIj50b29sc180NS4yLjAuYmI8L2E+ID0m
-Z3Q7IDxhIGhyZWY9Imh0dHA6Ly9weXRob24zLXNldHVwdG9vbHNfNDcuMS4xLmJiIiB0YXJnZXQ9
-Il9ibGFuayI+DQpweXRob24zLXNldHVwdG9vbHNfNDcuMS4xLmJiPC9hPn0gfCZuYnNwOyAwPGJy
-Pg0KJmd0OyZuYnNwOyAzIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygmIzQzOyksIDE0IGRl
-bGV0aW9ucygtKSZuYnNwOyByZW5hbWUgPGJyPg0KJmd0OyBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3s8YSBocmVmPSJodHRwOi8vcHl0aG9uMy1zZXR1cHRvb2xzXzQ1LjIuMC5iYiIgdGFy
-Z2V0PSJfYmxhbmsiPnB5dGhvbjMtc2V0dXB0b29sc180NS4yLjAuYmI8L2E+ID0mZ3Q7DQo8YnI+
-DQomZ3Q7IDxhIGhyZWY9Imh0dHA6Ly9weXRob24zLXNldHVwdG9vbHNfNDcuMS4xLmJiIiB0YXJn
-ZXQ9Il9ibGFuayI+cHl0aG9uMy1zZXR1cHRvb2xzXzQ3LjEuMS5iYjwvYT59ICgxMDAlKTxicj4N
-CiZndDs8YnI+DQomZ3Q7IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbi1zZXR1cHRvb2xzLmluYyA8YnI+DQomZ3Q7IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24tc2V0dXB0b29scy5pbmM8YnI+DQomZ3Q7IGluZGV4IGU5YWQ5M2RiZWUu
-LmM5MWNjYTlmMDYgMTAwNjQ0PGJyPg0KJmd0OyAtLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbi1zZXR1cHRvb2xzLmluYzxicj4NCiZndDsgJiM0MzsmIzQzOyYjNDM7IGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24tc2V0dXB0b29scy5pbmM8YnI+DQom
-Z3Q7IEBAIC0xMiw4ICYjNDM7MTIsOCBAQCBTUkNfVVJJX2FwcGVuZF9jbGFzcy1uYXRpdmUgPSAm
-cXVvdDsgPGJyPg0KJmd0OyA8YSBocmVmPSJmaWxlOi8vMDAwMS1jb25kaXRpb25hbGx5LWRvLW5v
-dC1mZXRjaC1jb2RlLWJ5LWUiPmZpbGU6Ly8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNo
-LWNvZGUtYnktZTwvYT48YnI+DQomZ3Q7PGJyPg0KJmd0OyZuYnNwOyBTUkNfVVJJICYjNDM7PSAm
-cXVvdDs8YSBocmVmPSJmaWxlOi8vMDAwMS1jaGFuZ2Utc2hlYmFuZy10by1weXRob24zLnBhdGNo
-Ij5maWxlOi8vMDAwMS1jaGFuZ2Utc2hlYmFuZy10by1weXRob24zLnBhdGNoPC9hPiZxdW90Ozxi
-cj4NCiZndDs8YnI+DQomZ3Q7IC1TUkNfVVJJW21kNXN1bV0gPSAmcXVvdDswYzk1NmVlYTE0MmFm
-OWMyYjAyZDcyZTNjMDQyYWYzMCZxdW90Ozxicj4NCiZndDsgLVNSQ19VUklbc2hhMjU2c3VtXSA9
-ICZxdW90Ozg5YzZlNjAxMWVjMmY2ZDU3ZDQzYTNmOTI5NmM0ZWYwMjJjMmNiZjQ5YmFiMjZiNDA3
-ZmU2Nzk5MmFlMzM5N2YmcXVvdDs8YnI+DQomZ3Q7ICYjNDM7U1JDX1VSSVttZDVzdW1dID0gJnF1
-b3Q7NmU5ZGU5MGIyNDJmZGQ2MGVmNTlmNDk3NDI0Y2UxM2EmcXVvdDs8YnI+DQomZ3Q7ICYjNDM7
-U1JDX1VSSVtzaGEyNTZzdW1dID0gJnF1b3Q7MTQ1ZmE2MmI5ZDdiYjU0NGZjZTE2ZTliNWE5YmY0
-YWIyMDMyZDJmNzU4YjdjZDY3NGFmMDlhOTI3MzZhZmY3NCZxdW90Ozxicj4NCiZndDs8YnI+DQom
-Z3Q7Jm5ic3A7IERFUEVORFMgJiM0Mzs9ICZxdW90OyR7UFlUSE9OX1BOfSZxdW90Ozxicj4NCiZn
-dDs8YnI+DQomZ3Q7IGRpZmYgLS1naXQgPGJyPg0KJmd0OyBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtY2hhbmdlLXNoZWJhbmctPGJyPg0KJmd0
-OyB0by1weXRob24zLnBhdGNoIDxicj4NCiZndDsgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNoYW5nZS1zaGViYW5nLTxicj4NCiZndDsgdG8t
-cHl0aG9uMy5wYXRjaDxicj4NCiZndDsgaW5kZXggMzNhZjhkYWVkNy4uNmRjZjUyNzcxYiAxMDA2
-NDQ8YnI+DQomZ3Q7IC0tLSA8YnI+DQomZ3Q7IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXNldHVwdG9vbHMvMDAwMS1jaGFuZ2Utc2hlYmFuZy08YnI+DQomZ3Q7IHRvLXB5
-dGhvbjMucGF0Y2g8YnI+DQomZ3Q7ICYjNDM7JiM0MzsmIzQzOyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtY2hhbmdlLXNoZWI8YnI+DQomZ3Q7
-ICYjNDM7JiM0MzsmIzQzOyBhbmctdG8tcHl0aG9uMy5wYXRjaDxicj4NCiZndDsgQEAgLTgsOCAm
-IzQzOzgsNyBAQCBVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmc8YnI+DQomZ3Q7Jm5ic3A7IFNpZ25l
-ZC1vZmYtYnk6IENoYW5ncWluZyBMaSAmbHQ7PGEgaHJlZj0ibWFpbHRvOmNoYW5ncWluZy5saUB3
-aW5kcml2ZXIuY29tIiB0YXJnZXQ9Il9ibGFuayI+Y2hhbmdxaW5nLmxpQHdpbmRyaXZlci5jb208
-L2E+Jmd0Ozxicj4NCiZndDsmbmJzcDsgLS0tPGJyPg0KJmd0OyZuYnNwOyAmbmJzcDtwa2dfcmVz
-b3VyY2VzL192ZW5kb3IvYXBwZGlycy5weSZuYnNwOyAmbmJzcDt8IDIgJiM0MzstPGJyPg0KJmd0
-OyAtIHNldHVwdG9vbHMvY29tbWFuZC9lYXN5X2luc3RhbGwucHkgfCAyICYjNDM7LTxicj4NCiZn
-dDsgLSAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygmIzQzOyksIDIgZGVsZXRpb25zKC0p
-PGJyPg0KJmd0OyAmIzQzOyAxIGZpbGVzIGNoYW5nZWQsIDEgaW5zZXJ0aW9ucygmIzQzOyksIDEg
-ZGVsZXRpb25zKC0pPGJyPg0KJmd0Ozxicj4NCiZndDsmbmJzcDsgZGlmZiAtLWdpdCBhL3BrZ19y
-ZXNvdXJjZXMvX3ZlbmRvci9hcHBkaXJzLnB5IDxicj4NCiZndDsgYi9wa2dfcmVzb3VyY2VzL192
-ZW5kb3IvYXBwZGlycy5weTxicj4NCiZndDsmbmJzcDsgaW5kZXggYWU2NzAwMS4uOTMzZTM5OCAx
-MDA2NDQ8YnI+DQomZ3Q7IEBAIC0yMSwxNiAmIzQzOzIwLDYgQEAgaW5kZXggYWU2NzAwMS4uOTMz
-ZTM5OCAxMDA2NDQ8YnI+DQomZ3Q7Jm5ic3A7ICZuYnNwOyMgLSotIGNvZGluZzogdXRmLTggLSot
-PGJyPg0KJmd0OyZuYnNwOyAmbmJzcDsjIENvcHlyaWdodCAoYykgMjAwNS0yMDEwIEFjdGl2ZVN0
-YXRlIFNvZnR3YXJlIEluYy48YnI+DQomZ3Q7Jm5ic3A7ICZuYnNwOyMgQ29weXJpZ2h0IChjKSAy
-MDEzIEVkZHkgUGV0cmnImW9yPGJyPg0KJmd0OyAtZGlmZiAtLWdpdCBhL3NldHVwdG9vbHMvY29t
-bWFuZC9lYXN5X2luc3RhbGwucHkgPGJyPg0KJmd0OyBiL3NldHVwdG9vbHMvY29tbWFuZC9lYXN5
-X2luc3RhbGwucHk8YnI+DQomZ3Q7IC1pbmRleCBhYmNhMWFlLi42YmNkYzk4IDEwMDY0NDxicj4N
-CiZndDsgLS0tLSBhL3NldHVwdG9vbHMvY29tbWFuZC9lYXN5X2luc3RhbGwucHk8YnI+DQomZ3Q7
-IC0mIzQzOyYjNDM7JiM0MzsgYi9zZXR1cHRvb2xzL2NvbW1hbmQvZWFzeV9pbnN0YWxsLnB5PGJy
-Pg0KJmd0OyAtQEAgLTEsNCAmIzQzOzEsNCBAQDxicj4NCiZndDsgLS0jIS91c3IvYmluL2VudiBw
-eXRob248YnI+DQomZ3Q7IC0mIzQzOyMhL3Vzci9iaW4vZW52IHB5dGhvbjM8YnI+DQomZ3Q7IC0g
-JnF1b3Q7JnF1b3Q7JnF1b3Q7PGJyPg0KJmd0OyAtIEVhc3kgSW5zdGFsbDxicj4NCiZndDsgLSAt
-LS0tLS0tLS0tLS08YnI+DQomZ3Q7Jm5ic3A7IC0tPGJyPg0KJmd0OyZuYnNwOyAyLjI0LjE8YnI+
-DQomZ3Q7PGJyPg0KJmd0OyBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi88YSBocmVmPSJodHRwOi8vcHl0aG9uMy1zZXR1cHRvb2xzXzQ1LjIuMC5iYiIgdGFyZ2V0PSJf
-YmxhbmsiPnB5dGhvbjMtc2V0dXB0b29sc180NS4yLjAuYmI8L2E+DQo8YnI+DQomZ3Q7IGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi88YSBocmVmPSJodHRwOi8vcHl0aG9uMy1zZXR1cHRv
-b2xzXzQ3LjEuMS5iYiIgdGFyZ2V0PSJfYmxhbmsiPnB5dGhvbjMtc2V0dXB0b29sc180Ny4xLjEu
-YmI8L2E+PGJyPg0KJmd0OyBzaW1pbGFyaXR5IGluZGV4IDEwMCU8YnI+DQomZ3Q7IHJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vPGEgaHJlZj0iaHR0cDovL3B5dGhvbjMt
-c2V0dXB0b29sc180NS4yLjAuYmIiIHRhcmdldD0iX2JsYW5rIj5weXRob24zLXNldHVwdG9vbHNf
-NDUuMi4wLmJiPC9hPjxicj4NCiZndDsgcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vPGEgaHJlZj0iaHR0cDovL3B5dGhvbjMtc2V0dXB0b29sc180Ny4xLjEuYmIiIHRhcmdl
-dD0iX2JsYW5rIj5weXRob24zLXNldHVwdG9vbHNfNDcuMS4xLmJiPC9hPjxicj4NCiZndDsgLS08
-YnI+DQomZ3Q7IDIuMTcuMTxicj4NCiZndDs8YnI+DQomZ3Q7PGJyPg0KJmd0Ozxicj4NCiZndDsg
-PGJyPg0KPGJyPg0KPGJyPg0KPGJyPg0KPGJyPg0KPG86cD48L286cD48L3A+DQo8L2Jsb2NrcXVv
-dGU+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+Will send a V4 according to your other comments.
 
---_000_359f306ed30a45009ffb6173cd4e2629G08CNEXMBPEKD04g08fujit_--
+//Ming Liu
+
+Denys Dmytriyenko <denis@denix.org> =E6=96=BC 2020=E5=B9=B45=E6=9C=8829=E6=
+=
+=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=8810:11=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+
+> On Thu, May 28, 2020 at 02:41:29PM +0200, Ming Liu wrote:
+> > From: Ming Liu <ming.liu@toradex.com>
+> >
+> > It defaults to ${PN}-initial-env, no functional changes with current
+> > implementation, but this allows it to be changed in individual u-boot
+> > recipes.
+> >
+> > If UBOOT_INITIAL_ENV is empty, then no initial env would be compiled/
+> > installed/deployed, set ALLOW_EMPTY_${PN}-env =3D "1".
+> >
+> > The major purpose for introducing this, is that the users might have
+> > some scripts on targets like:
+> > ```
+> > /sbin/fw_setenv -f /etc/u-boot-initial-env
+> > ```
+> >
+> > and it should be able to run against a identical path generated by
+> > different u-boot recipes.
+> >
+> > Signed-off-by: Ming Liu <ming.liu@toradex.com>
+> > ---
+> >  meta/recipes-bsp/u-boot/u-boot.inc | 55 +++++++++++++++++++----------=
+-
+> >  1 file changed, 36 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc
+> b/meta/recipes-bsp/u-boot/u-boot.inc
+> > index be15e1760f..8e60615e5c 100644
+> > --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> > @@ -60,6 +60,10 @@ UBOOT_ENV_BINARY ?=3D "${UBOOT_ENV}.${UBOOT_ENV_SUF=
+FIX}"
+> >  UBOOT_ENV_IMAGE ?=3D
+> "${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.${UBOOT_ENV_SUFFIX}"
+> >  UBOOT_ENV_SYMLINK ?=3D "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
+> >
+> > +# Default name of u-boot initial env, but enable individual recipes t=
+o
+> change
+> > +# this value.
+> > +UBOOT_INITIAL_ENV ?=3D "${PN}-initial-env"
+> > +
+> >  # U-Boot EXTLINUX variables. U-Boot searches for
+> /boot/extlinux/extlinux.conf
+> >  # to find EXTLINUX conf file.
+> >  UBOOT_EXTLINUX_INSTALL_DIR ?=3D "/boot/extlinux"
+> > @@ -137,8 +141,10 @@ do_compile () {
+> >                      done
+> >
+> >                      # Generate the uboot-initial-env
+> > -                    oe_runmake -C ${S} O=3D${B}/${config}
+> u-boot-initial-env
+> > -                    cp ${B}/${config}/u-boot-initial-env
+> ${B}/${config}/u-boot-initial-env-${type}
+> > +                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> > +                        oe_runmake -C ${S} O=3D${B}/${config}
+> u-boot-initial-env
+> > +                        cp ${B}/${config}/u-boot-initial-env
+> ${B}/${config}/u-boot-initial-env-${type}
+> > +                    fi
+> >
+> >                      unset k
+> >                  fi
+> > @@ -150,7 +156,9 @@ do_compile () {
+> >          oe_runmake -C ${S} O=3D${B} ${UBOOT_MAKE_TARGET}
+> >
+> >          # Generate the uboot-initial-env
+> > -        oe_runmake -C ${S} O=3D${B} u-boot-initial-env
+> > +        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> > +            oe_runmake -C ${S} O=3D${B} u-boot-initial-env
+> > +        fi
+> >      fi
+> >  }
+> >
+> > @@ -168,10 +176,12 @@ do_install () {
+> >                      ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
+> ${D}/boot/${UBOOT_BINARY}
+> >
+> >                      # Install the uboot-initial-env
+> > -                    install -D -m 644
+> ${B}/${config}/u-boot-initial-env-${type}
+> ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+> > -                    ln -sf
+> ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+> ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}
+> > -                    ln -sf
+> ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+> ${D}/${sysconfdir}/${PN}-initial-env-${type}
+> > -                    ln -sf
+> ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+> ${D}/${sysconfdir}/${PN}-initial-env
+> > +                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> > +                        install -D -m 644
+> ${B}/${config}/u-boot-initial-env-${type}
+> ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
+> > +                        ln -sf
+> ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
+> ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
+> > +                        ln -sf
+> ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
+> ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${type}
+> > +                        ln -sf
+> ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
+> ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
+> > +                    fi
+> >                  fi
+> >              done
+> >              unset j
+> > @@ -182,9 +192,11 @@ do_install () {
+> >          ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+> >
+> >          # Install the uboot-initial-env
+> > -        install -D -m 644 ${B}/u-boot-initial-env
+> ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
+> > -        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR}
+> ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}
+> > -        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR}
+> ${D}/${sysconfdir}/${PN}-initial-env
+> > +        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> > +            install -D -m 644 ${B}/u-boot-initial-env
+> ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
+> > +            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
+> ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}
+> > +            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
+> ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
+> > +        fi
+> >      fi
+> >
+> >      if [ -n "${UBOOT_ELF}" ]
+> > @@ -255,8 +267,9 @@ do_install () {
+> >  PACKAGE_BEFORE_PN +=3D "${PN}-env"
+> >
+> >  RPROVIDES_${PN}-env +=3D "u-boot-default-env"
+> > +ALLOW_EMPTY_${PN}-env =3D "1"
+>
+> I don't think this ^ is required, as there are other files in ${PN}-env,
+> e.g.
+> fw_env.config:
+>
+> >  FILES_${PN}-env =3D " \
+> > -    ${sysconfdir}/${PN}-initial-env* \
+> > +    ${sysconfdir}/${UBOOT_INITIAL_ENV}* \
+> >      ${sysconfdir}/fw_env.config \
+> >  "
+>
+> So, what happens whe UBOOT_INITIAL_ENV is empty? You get ${sysconfdir}/*
+> in
+> there. Mayve you need a better check here?
+>
+>
+> > @@ -280,10 +293,12 @@ do_deploy () {
+> >                      ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
+> ${UBOOT_BINARY}
+> >
+> >                      # Deploy the uboot-initial-env
+> > -                    install -D -m 644
+> ${B}/${config}/u-boot-initial-env-${type}
+> ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+> > -                    cd ${DEPLOYDIR}
+> > -                    ln -sf
+> ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+> ${PN}-initial-env-${MACHINE}-${type}
+> > -                    ln -sf
+> ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${typ=
+e}
+> > +                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> > +                        install -D -m 644
+> ${B}/${config}/u-boot-initial-env-${type}
+> ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
+> > +                        cd ${DEPLOYDIR}
+> > +                        ln -sf
+> ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
+> ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
+> > +                        ln -sf
+> ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
+> ${UBOOT_INITIAL_ENV}-${type}
+> > +                    fi
+> >                  fi
+> >              done
+> >              unset j
+> > @@ -298,10 +313,12 @@ do_deploy () {
+> >          ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
+> >
+> >          # Deploy the uboot-initial-env
+> > -        install -D -m 644 ${B}/u-boot-initial-env
+> ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
+> > -        cd ${DEPLOYDIR}
+> > -        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR}
+> ${PN}-initial-env-${MACHINE}
+> > -        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR}
+> ${PN}-initial-env
+> > +        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> > +            install -D -m 644 ${B}/u-boot-initial-env
+> ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
+> > +            cd ${DEPLOYDIR}
+> > +            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
+> ${UBOOT_INITIAL_ENV}-${MACHINE}
+> > +            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
+> ${UBOOT_INITIAL_ENV}
+> > +        fi
+> >      fi
+> >
+> >      if [ -e ${WORKDIR}/fw_env.config ] ; then
+> > --
+> > 2.26.2
+> >
+>
+> >=20
+>
+>
+
+--000000000000281ce905a7002dbd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi, Denys:<div><br></div><div>To install fw_env.config or =
+not is also optional, attempt to say that &quot;ALLOW_EMPTY_${PN}-dev =3D &=
+quot;1&quot;&quot; is needed.<br></div><div><br></div><div>Will send a V4 a=
+ccording to your other comments.</div><div><br></div><div>//Ming Liu</div><=
+/div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">D=
+enys Dmytriyenko &lt;<a href=3D"mailto:denis@denix.org">denis@denix.org</a>=
+&gt; =E6=96=BC 2020=E5=B9=B45=E6=9C=8829=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=
+=
+=8B=E5=8D=8810:11=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">On Thu, May 28, 2020 at 02:41:29PM +0200, Min=
+g Liu wrote:<br>
+&gt; From: Ming Liu &lt;<a href=3D"mailto:ming.liu@toradex.com" target=3D"=
+_blank">ming.liu@toradex.com</a>&gt;<br>
+&gt; <br>
+&gt; It defaults to ${PN}-initial-env, no functional changes with current<=
+br>
+&gt; implementation, but this allows it to be changed in individual u-boot=
+<br>
+&gt; recipes.<br>
+&gt; <br>
+&gt; If UBOOT_INITIAL_ENV is empty, then no initial env would be compiled/=
+<br>
+&gt; installed/deployed, set ALLOW_EMPTY_${PN}-env =3D &quot;1&quot;.<br>
+&gt; <br>
+&gt; The major purpose for introducing this, is that the users might have<=
+br>
+&gt; some scripts on targets like:<br>
+&gt; ```<br>
+&gt; /sbin/fw_setenv -f /etc/u-boot-initial-env<br>
+&gt; ```<br>
+&gt; <br>
+&gt; and it should be able to run against a identical path generated by<br=
+>
+&gt; different u-boot recipes.<br>
+&gt; <br>
+&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:ming.liu@toradex.com" t=
+arget=3D"_blank">ming.liu@toradex.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-bsp/u-boot/u-boot.inc | 55 +++++++++++++++++++----=
+-------<br>
+&gt;=C2=A0 1 file changed, 36 insertions(+), 19 deletions(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-=
+boot/u-boot.inc<br>
+&gt; index be15e1760f..8e60615e5c 100644<br>
+&gt; --- a/meta/recipes-bsp/u-boot/u-boot.inc<br>
+&gt; +++ b/meta/recipes-bsp/u-boot/u-boot.inc<br>
+&gt; @@ -60,6 +60,10 @@ UBOOT_ENV_BINARY ?=3D &quot;${UBOOT_ENV}.${UBOOT_E=
+NV_SUFFIX}&quot;<br>
+&gt;=C2=A0 UBOOT_ENV_IMAGE ?=3D &quot;${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.=
+${UBOOT_ENV_SUFFIX}&quot;<br>
+&gt;=C2=A0 UBOOT_ENV_SYMLINK ?=3D &quot;${UBOOT_ENV}-${MACHINE}.${UBOOT_EN=
+V_SUFFIX}&quot;<br>
+&gt;=C2=A0 <br>
+&gt; +# Default name of u-boot initial env, but enable individual recipes =
+to change<br>
+&gt; +# this value.<br>
+&gt; +UBOOT_INITIAL_ENV ?=3D &quot;${PN}-initial-env&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 # U-Boot EXTLINUX variables. U-Boot searches for /boot/extlinux=
+/extlinux.conf<br>
+&gt;=C2=A0 # to find EXTLINUX conf file.<br>
+&gt;=C2=A0 UBOOT_EXTLINUX_INSTALL_DIR ?=3D &quot;/boot/extlinux&quot;<br>
+&gt; @@ -137,8 +141,10 @@ do_compile () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 done<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 # Generate the uboot-initial-env<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 oe_runmake -C ${S} O=3D${B}/${config} u-boot-initial-env<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-boot-initial-env=
+-${type}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if [ -n &quot;${UBOOT_INITIAL_ENV}&quot; ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 oe_runmake -C ${S} O=3D${B}/${config} u-boot-initial-env=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-bo=
+ot-initial-env-${type}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 fi<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 unset k<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; @@ -150,7 +156,9 @@ do_compile () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake -C ${S} O=3D${B} ${UBOOT=
+_MAKE_TARGET}<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Generate the uboot-initial-env<br=
+>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake -C ${S} O=3D${B} u-boot-initi=
+al-env<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -n &quot;${UBOOT_INITIAL_ENV}&quot;=
+ ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake -C ${S} O=3D${B=
+} u-boot-initial-env<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt;=C2=A0 }<br>
+&gt;=C2=A0 <br>
+&gt; @@ -168,10 +176,12 @@ do_install () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT=
+_BINARY}<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 # Install the uboot-initial-env<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sys=
+confdir}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconf=
+dir}/${PN}-initial-env-${MACHINE}-${type}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconf=
+dir}/${PN}-initial-env-${type}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconf=
+dir}/${PN}-initial-env<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if [ -n &quot;${UBOOT_INITIAL_ENV}&quot; ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 install -D -m 644 ${B}/${config}/u-boot-initial-env-${ty=
+pe} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${P=
+R} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${P=
+R} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${type}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${P=
+R} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 fi<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unset j<br>
+&gt; @@ -182,9 +192,11 @@ do_install () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${UBOOT_IMAGE} ${D}/boot/${U=
+BOOT_BINARY}<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Install the uboot-initial-env<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -D -m 644 ${B}/u-boot-initial-en=
+v ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${PV}-${PR}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${PN}-initial-env-${MACHINE}-${PV=
+}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${PN}-initial-env-${MACHINE}-${PV=
+}-${PR} ${D}/${sysconfdir}/${PN}-initial-env<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -n &quot;${UBOOT_INITIAL_ENV}&quot;=
+ ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -D -m 644 ${B}/u-b=
+oot-initial-env ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${=
+PR}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${UBOOT_INITIAL_ENV=
+}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${UBOOT_INITIAL_ENV=
+}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if [ -n &quot;${UBOOT_ELF}&quot; ]<br>
+&gt; @@ -255,8 +267,9 @@ do_install () {<br>
+&gt;=C2=A0 PACKAGE_BEFORE_PN +=3D &quot;${PN}-env&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 RPROVIDES_${PN}-env +=3D &quot;u-boot-default-env&quot;<br>
+&gt; +ALLOW_EMPTY_${PN}-env =3D &quot;1&quot;<br>
+<br>
+I don&#39;t think this ^ is required, as there are other files in ${PN}-en=
+v, e.g. <br>
+fw_env.config:<br>
+<br>
+&gt;=C2=A0 FILES_${PN}-env =3D &quot; \<br>
+&gt; -=C2=A0 =C2=A0 ${sysconfdir}/${PN}-initial-env* \<br>
+&gt; +=C2=A0 =C2=A0 ${sysconfdir}/${UBOOT_INITIAL_ENV}* \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 ${sysconfdir}/fw_env.config \<br>
+&gt;=C2=A0 &quot;<br>
+<br>
+So, what happens whe UBOOT_INITIAL_ENV is empty? You get ${sysconfdir}/* i=
+n <br>
+there. Mayve you need a better check here?<br>
+<br>
+<br>
+&gt; @@ -280,10 +293,12 @@ do_deploy () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}<b=
+r>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 # Deploy the uboot-initial-env<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDI=
+R}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 cd ${DEPLOYDIR}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-=
+env-${MACHINE}-${type}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-=
+env-${type}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 if [ -n &quot;${UBOOT_INITIAL_ENV}&quot; ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 install -D -m 644 ${B}/${config}/u-boot-initial-env-${ty=
+pe} ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 cd ${DEPLOYDIR}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${P=
+R} ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${P=
+R} ${UBOOT_INITIAL_ENV}-${type}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 fi<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 done<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 unset j<br>
+&gt; @@ -298,10 +313,12 @@ do_deploy () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${UBOOT_IMAGE} ${UBOOT_BINAR=
+Y}<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Deploy the uboot-initial-env<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -D -m 644 ${B}/u-boot-initial-en=
+v ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${PV}-${PR}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 cd ${DEPLOYDIR}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${PN}-initial-env-${MACHINE}-${PV=
+}-${PR} ${PN}-initial-env-${MACHINE}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${PN}-initial-env-${MACHINE}-${PV=
+}-${PR} ${PN}-initial-env<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -n &quot;${UBOOT_INITIAL_ENV}&quot;=
+ ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 install -D -m 644 ${B}/u-b=
+oot-initial-env ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cd ${DEPLOYDIR}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${UBOOT_INITIAL_ENV=
+}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${UBOOT_INITIAL_ENV=
+}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if [ -e ${WORKDIR}/fw_env.config ] ; then<br>
+&gt; -- <br>
+&gt; 2.26.2<br>
+&gt; <br>
+<br>
+&gt; <br>
+<br>
+</blockquote></div>
+
+--000000000000281ce905a7002dbd--
