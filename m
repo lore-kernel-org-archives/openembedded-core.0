@@ -1,92 +1,57 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.41550.1591029523222032212
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+ by mx.groups.io with SMTP id smtpd.web11.41443.1591029633611475958
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 09:38:43 -0700
+ Mon, 01 Jun 2020 09:40:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UtNnUbT7;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id d128so181165wmc.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 09:38:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=R3dekr2ap50mxYmz+0KSjQ92qtiOh9AAKpw6E/GYOEs=;
-        b=UtNnUbT7Dl8U/ENCZnkuc+5P4JtuLZhMUMQc7oKQPQAIPoJJ0WnUObOQzMfZ3POUwV
-         pDEdk/WI3qnd/hSoQzl+XhOg51G8G2DjR7vXWczf1fhPpJroXyIcdEl+E9e91/OCGg4/
-         IQ3o8m95QSPJfd7sbVLe5UKh34h/xOmDcTEXI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=R3dekr2ap50mxYmz+0KSjQ92qtiOh9AAKpw6E/GYOEs=;
-        b=KcBkRmXsSEOXX2KkJJdtS8O3zn9zxWX8Gr7B0LNuDdo4M13p0uPOh2XxERzll41mIh
-         KoKztJ1lUZmYsZadpUybDgzkVGJ/4jj1SayaWPZ2thZBTb0VTfXA5kQ0w91rHJ9+DGCY
-         x5o4jfgV9kl5CVakFXh6Eqfl5ZstHDJtWo/lWwZZGcXQlzKYGlEP07xx5D0c0mQpnXOU
-         ce9MD4y9ehvR5ULK74AyWTOO7u/n1bYiyOlOeIAyDemLtlWWVEwuASZ7cHLm8gFrNkBc
-         Cn35nl2uT8Jc5Itz74yyb1jrcuIXRuVbUhr9Sn2Y0QTA3B2+UwR6d+QwzSDhVotN5X45
-         zV9w==
-X-Gm-Message-State: AOAM5303NBR0mAe2S7kCuR3KT+YFoBHnHAVIyMVHBk5kUbNGa7SoRtzE
-	BxzjJNU+HF/KBxZRdyc+OJH33g==
-X-Google-Smtp-Source: ABdhPJwBP1PXmr4nDyiGjGx9iS+BosSk5QQOb/Xmcq2ylsNjaK+Re9LLUi8DhJgAYgR1TolKNeNnSA==
-X-Received: by 2002:a1c:7e52:: with SMTP id z79mr195154wmc.104.1591029521588;
-        Mon, 01 Jun 2020 09:38:41 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id y37sm25898197wrd.55.2020.06.01.09.38.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 09:38:41 -0700 (PDT)
-Message-ID: <234ca3dfe01ffa0108e1ee9bc73934ce5fd45141.camel@linuxfoundation.org>
-Subject: Re: [OE-core][dunfell 14/16] bitbake.conf: Remove unused DEPLOY_DIR_TOOLS variable
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Steve Sakoman <steve@sakoman.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 01 Jun 2020 17:38:39 +0100
-In-Reply-To: <afb301af1cc21c69d6f26f47202d399228406390.1591020366.git.steve@sakoman.com>
-References: <cover.1591020366.git.steve@sakoman.com>
-	 <afb301af1cc21c69d6f26f47202d399228406390.1591020366.git.steve@sakoman.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
-MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@koncepto.io header.s=default header.b=moNa4BBM;
+ spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
+Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr [193.250.66.88])
+	by koncepto.io (Postfix) with ESMTPSA id 2D8C16012F;
+	Mon,  1 Jun 2020 18:40:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1591029631;
+	bh=iFr3EBvny6J+LI2+qcsP3sh6CFFQN/w7jqNJJHJHFzI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=moNa4BBMNqNJZUnOmpGxcFyI9F6ihOTMubEFGGIpMgKdUvblfNALGXpdbkNdl797R
+	 h7a9urw0fil/y4x+MTD8J+sFoPmKM5S9dNeeh+YQFwcrl5lmQ5XJa0JDrvL32ULE1T
+	 hME3pOnJ47hSfoQ2eL79Ti+QGUH7Ra+KHbKGvOwTmINfuDaSnUIkyZSNBB++JsUk+V
+	 jpAxcRt4Hvs088QbYceKbyOrC+x56+xFDvFhvxRyhzr8fQq1SUQUrbEtQv3C8fcAbb
+	 4cFgHVKuzLgMgGHUmWk8RCdKeIxXpEcNp/smYOsn93DXUSndNR4iAzF5zp6MaJ/K8X
+	 6XBsM6JW/kzLQ==
+From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
+To: openembedded-core@lists.openembedded.org
+Cc: otavio.salvador@ossystems.com.br,
+	Pierre-Jean Texier <pjtexier@koncepto.io>
+Subject: [PATCH 1/1] libarchive: upgrade 3.4.2 -> 3.4.3
+Date: Mon,  1 Jun 2020 18:40:25 +0200
+Message-Id: <1591029625-8136-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
 
-On Mon, 2020-06-01 at 04:11 -1000, Steve Sakoman wrote:
-> From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-> 
-> Variable DEPLOY_DIR_TOOLS was introduced in 2007:
-> 
->   commit f751a20152c651a33f08ceda0502fa1d4f11c005
->   Author: Richard Purdie <richard@openedhand.com>
->   Date:   Wed Aug 8 21:02:39 2007 +0000
-> 
->       bitbake.conf: Sync with OE.dev
-> 
-> apparently never used so get rid of it.
-> 
-> Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit b1f15f651461d07a8cfbd3bdcfea0e89f195212d)
-> Signed-off-by: Steve Sakoman <steve@sakoman.com>
-> ---
->  meta/conf/bitbake.conf | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index bdade79abe..4acf235930 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -410,7 +410,6 @@ DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
->  DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
->  DEPLOY_DIR_DEB = "${DEPLOY_DIR}/deb"
->  DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
-> -DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
->  
->  PKGDATA_DIR = "${TMPDIR}/pkgdata/${MACHINE}"
+See full changelog https://github.com/libarchive/libarchive/releases/tag/v3.4.3
 
-This does cause breakage in meta-oe (single recipe) so probably not
-stable material.
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+---
+ .../libarchive/{libarchive_3.4.2.bb => libarchive_3.4.3.bb}            | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-extended/libarchive/{libarchive_3.4.2.bb => libarchive_3.4.3.bb} (94%)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb b/meta/recipes-extended/libarchive/libarchive_3.4.3.bb
+similarity index 94%
+rename from meta/recipes-extended/libarchive/libarchive_3.4.2.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.4.3.bb
+index 0ab40fc..dbfc067 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.4.3.bb
+@@ -34,8 +34,7 @@ EXTRA_OECONF += "--enable-largefile"
+ 
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "d953ed6b47694dadf0e6042f8f9ff451"
+-SRC_URI[sha256sum] = "b60d58d12632ecf1e8fad7316dc82c6b9738a35625746b47ecdcaf4aed176176"
++SRC_URI[sha256sum] = "ee1e749213c108cb60d53147f18c31a73d6717d7e3d2481c157e1b34c881ea39"
+ 
+ inherit autotools update-alternatives pkgconfig
+ 
+-- 
+2.7.4
 
