@@ -1,106 +1,91 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.38124.1591020713680801693
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.37925.1591020715530994240
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 07:11:53 -0700
+ Mon, 01 Jun 2020 07:11:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=NaOWHgwd;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.44, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f44.google.com with SMTP id ga6so2016072pjb.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:11:53 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=yDppmS4q;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id fs4so5201898pjb.5
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:11:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=UkcZnPvaO1K3kZ99W+ETL6IrorAETxjE93lNful1i10=;
-        b=NaOWHgwdm0nw8Yt3mC51RIc0D0yBCYBkmRkQ5M188wUUBwAisdW0VPdrMZNeGYwB3v
-         pCJDeRltr09MTVLejsZtxKLoSnoozV4MyKD3wJpn0vyOIHEX/2JN3gUqINn8VUNAHgGl
-         aTqhxiqgP+HQITcJ+Ng5c7rXvJYUCbLnZaK7nvio556FX2F/l3e50rj9G+lNDODo8jAb
-         Aet2R7O4vDxpk94S0AhSY2+QBRdA3yZ9UskPE1pRATj+DKhHR8w6HXJaxBSbiYFg5TpL
-         eJh1WMoF2svRLmfagzgm1s8bI7/fpz+JpTulajP/eC2lh/Ul/wSLWgWx7zIfZS63YAzx
-         6gTA==
+        bh=v1k7U8FV0OuXj1c9HGPyWEpK+OuqzsS5IcmEtKB2ICM=;
+        b=yDppmS4qR18Lrq4CFqSw+fM8wn7VAE8TCnXPZrs/mw1Wg61OG/LnF0ProYpE1VkF5p
+         9ezYNvTaoeHGr3HgEjPNLlHLokmmL4zpSW4gGzGlyn5O5Zt1FIsGzzCs/dOlT1Gl1cDl
+         RsZd+zf/u8crexuHwRAodOZk4g3fpMC7uq7066rwmIy+7RgIw2n+e7I0AOqEcq4eHdOA
+         TT6bJg6/C0qtRkJYTruuaoFrPphenkDHajiX7iSEa+djZAbLya6E55zp0Xk5Uk2oS+5l
+         uXY8tIunULS7dKd+ca2uX3ayoUwGG8ulCHYgl40oU5t81v0Ide8pXuV/KpZ2uHECvkAh
+         J4Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=UkcZnPvaO1K3kZ99W+ETL6IrorAETxjE93lNful1i10=;
-        b=DPFAZryILjppGfVEyA9jHSEzxfTcR2eh01JFgw92cCrJT9/Pv3oevfHF8kXb7r4VMz
-         qs1y5dA04Sxgi2CIpnoRAs0qb6mC65JFDTDBo002HFB204COR5YoQreLCQcSh6WeaXsO
-         b3p/bCgCr4csdyvkeiBfT/QGDLmZGPGF4NSqU0pNS+nxlAEq+LvAHxWvYEAxTyIo37pl
-         drQENkQRmdFR+H8tJzc2a0T6uoTjmHYtPttQAEn9WQbbsddFXdnRdW293moxsU/0D1O5
-         lIIzPQjEJIm/mYi0EGpFmmqYw396DiXaRWcL0MftFhl1oeYHQi8LBgnAyaDyDIYsLjHZ
-         +CSA==
-X-Gm-Message-State: AOAM531cUA8d5ped98CUftvyHToEBCT9/xjRn81i26v7ra1lUNbRfV5z
-	9A/gdQ0GJFUs+KhuoQHOt1bzLLgc7gA=
-X-Google-Smtp-Source: ABdhPJwMiK+QcmqhTQBJtUR2//rqLnP8buIjclY8Dv+fYek8Us2aAozniWo3zDx6ULjMt00G/h6vTA==
-X-Received: by 2002:a17:902:7d85:: with SMTP id a5mr20965892plm.106.1591020711894;
-        Mon, 01 Jun 2020 07:11:51 -0700 (PDT)
+        bh=v1k7U8FV0OuXj1c9HGPyWEpK+OuqzsS5IcmEtKB2ICM=;
+        b=CRWfsaJJp8DL34yV5QmIdUftmLV099aivo/FK57RRkxTXpWWO5ob1ran8gSociM5J7
+         ioD8uB1AbzxwckkRTO+c8yvG2XQ7rFSKjKQoTke5rmosgwlV/hX7tzrZKPO7Ee06Y+In
+         qy78l5HdJQlRxdpev28f2/BaCkgOyP1f4V8FknwIqL9SoBEm5DhcRTJJW/1x4gcwotNM
+         P3M9M5F+v7yXideEGTguOwVg2QX7IuS70AZCxIQtr9YnG5ffgGQqbR0TPmH8obUSswuH
+         dSHC7M16JtVbj0iihmbrYdQ50HCcOiYL2zE9XGS0Cw9Wa2VCxMpVsJq1a4jjT7YqCjns
+         938Q==
+X-Gm-Message-State: AOAM530uB2DJQqZyKfufy+3+CXHwQ4e5Sd8Od3IJg6HDGiFame8rL591
+	nKdg/V2ntzGJnAJfV9ihlRZXe2YtBTs=
+X-Google-Smtp-Source: ABdhPJypTe6wwIN19ZgszhBKs40EqCliPPHPTPxL4/67VnN/hq08dwMkLEbDoodBOZOzGHJiyQk/IQ==
+X-Received: by 2002:a17:902:9a95:: with SMTP id w21mr21249752plp.259.1591020714471;
+        Mon, 01 Jun 2020 07:11:54 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.11.50
+        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.11.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 07:11:51 -0700 (PDT)
+        Mon, 01 Jun 2020 07:11:53 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 03/16] oeqa/concurrencytest: don't delete build directory for failed tests
-Date: Mon,  1 Jun 2020 04:11:11 -1000
-Message-Id: <be24033acee75526a3a66c12606ef67dcb52a7ee.1591020366.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 04/16] sanity.bbclass: Detect and fail if 'inherit' is used in conf file
+Date: Mon,  1 Jun 2020 04:11:12 -1000
+Message-Id: <bc6e27aeed5d536d2b764949c307f260f78b7810.1591020366.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1591020366.git.steve@sakoman.com>
 References: <cover.1591020366.git.steve@sakoman.com>
 
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+From: Gregor Zatko <gzatko@gmail.com>
+
+'inherit' directive may not be used in conf files as it's supposed
+to be used for the inheritance of classes.
+Correct form in conf file is INHERIT.
+
+This commit adds:
+- a sanity check to find whether the wrong case exists
+- fail the build if so
+- tell user about the difference in directives
+
+[YOCTO #5426]
+
+Signed-off-by: Gregor Zatko <gzatko@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3d5aa170d2e88b852bd2a4452aab9311a24badef)
+(cherry picked from commit 07bf9b460fe97dec86439302a83bbefa8bac9d70)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/core/utils/concurrencytest.py | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ meta/classes/sanity.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
-index fac59f765a..01c39830f9 100644
---- a/meta/lib/oeqa/core/utils/concurrencytest.py
-+++ b/meta/lib/oeqa/core/utils/concurrencytest.py
-@@ -77,14 +77,17 @@ class ProxyTestResult:
-     # a very basic TestResult proxy, in order to modify add* calls
-     def __init__(self, target):
-         self.result = target
-+        self.failed_tests = 0
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 9e87101738..5ddde9cc9c 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -784,6 +784,12 @@ def check_sanity_everybuild(status, d):
+     if "." in paths or "./" in paths or "" in paths:
+         status.addresult("PATH contains '.', './' or '' (empty element), which will break the build, please remove this.\nParsed PATH is " + str(paths) + "\n")
  
-     def _addResult(self, method, test, *args, exception = False, **kwargs):
-         return method(test, *args, **kwargs)
- 
-     def addError(self, test, err = None, **kwargs):
-+        self.failed_tests += 1
-         self._addResult(self.result.addError, test, err, exception = True, **kwargs)
- 
-     def addFailure(self, test, err = None, **kwargs):
-+        self.failed_tests += 1
-         self._addResult(self.result.addFailure, test, err, exception = True, **kwargs)
- 
-     def addSuccess(self, test, **kwargs):
-@@ -96,6 +99,9 @@ class ProxyTestResult:
-     def addUnexpectedSuccess(self, test, **kwargs):
-         self._addResult(self.result.addUnexpectedSuccess, test, **kwargs)
- 
-+    def wasSuccessful(self):
-+        return self.failed_tests == 0
++    # Check whether 'inherit' directive is found (used for a class to inherit)
++    # in conf file it's supposed to be uppercase INHERIT
++    inherit = d.getVar('inherit')
++    if inherit:
++        status.addresult("Please don't use inherit directive in your local.conf. The directive is supposed to be used in classes and recipes only to inherit of bbclasses. Here INHERIT should be used.\n")
 +
-     def __getattr__(self, attr):
-         return getattr(self.result, attr)
- 
-@@ -287,10 +293,10 @@ def fork_for_tests(concurrency_num, suite):
-                 # as per default in parent code
-                 subunit_client.buffer = True
-                 subunit_result = AutoTimingTestResultDecorator(subunit_client)
--                process_suite.run(ExtraResultsEncoderTestResult(subunit_result))
-+                unittest_result = process_suite.run(ExtraResultsEncoderTestResult(subunit_result))
-                 if ourpid != os.getpid():
-                     os._exit(0)
--                if newbuilddir:
-+                if newbuilddir and unittest_result.wasSuccessful():
-                     removebuilddir(newbuilddir)
-             except:
-                 # Don't do anything with process children
+     # Check that the DISTRO is valid, if set
+     # need to take into account DISTRO renaming DISTRO
+     distro = d.getVar('DISTRO')
 -- 
 2.17.1
 
