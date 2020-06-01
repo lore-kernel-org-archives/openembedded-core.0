@@ -1,157 +1,86 @@
 Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
- by mx.groups.io with SMTP id smtpd.web12.38010.1591020733174292548
+ by mx.groups.io with SMTP id smtpd.web12.38013.1591020735949324431
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 07:12:13 -0700
+ Mon, 01 Jun 2020 07:12:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=PYmB3SbR;
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=iQyFJnhH;
  spf=softfail (domain: sakoman.com, ip: 209.85.216.68, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f68.google.com with SMTP id fs4so5202302pjb.5
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:12:13 -0700 (PDT)
+Received: by mail-pj1-f68.google.com with SMTP id q24so5154410pjd.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 07:12:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=zM+UbIl7RBAQDU4i/GlL6UnzgO5CDOQiIV1f2RDvJl4=;
-        b=PYmB3SbRzL03ce95R+q/mrTVSfqiP1jW8eIz2eelMjDhoLaOhb3myYpDo4tkkT1LTH
-         dvhLaNn0ZMHN2/1r/xz4H7+fhjRc4uEEVNnyVV6UVYKnjAMQ8hhgcji9Xg7J889V9Len
-         LPmsMAMUxEWAT8Cccrm2obQ8M9ba673IS+pGxMkKi9TqrwxJzUInzMQBC8Z3iHrfa+F4
-         eIS9RqC9H+AICHtN/vX8uGAxjgrm6bzo+9gVLrE2fI5LikGKb9olkQJDy48SoTiD1WcG
-         qcFf04io3r1/Y5YX1xPtQ6BvdJaU2r7KJNWUAFSmn2zzlzpMAS0MI48oOnjX5v/vqVUr
-         SGpQ==
+        bh=Y2ltRvl1u9nogCeRqZDkgls7Vyxm6FwK8iROEBPnazM=;
+        b=iQyFJnhHk8gk7NK5WhOmeY+uXBg3a/u+JImX7cWGv2J8tRLupps75Z3pkvnVTdTHJG
+         a2Ct0DKmLTthrsQxTel1+qD/c5Wgo9wLXbjhowYS7TGSkHozjCdrNruqIoRttsvIRoBe
+         y4UKX2YPnoFMGFb1lac7nYMr8T9ecHU5VrpZ7GIr5z9QuAkEvUQ1bg7zXxTlO4+AxhYR
+         3RpspYdqb7oTKD9916LNyfkCvfZuHpLK5WvZqf8dEgtR3AhlUbGIpS3bcA6Ibwa6J9en
+         t/Q/03N93+I8ycTjfg6MivX1QPjlVe4i6J6CNB/Q+HsozbRGi4kNyqSvLt1HYC5DOpnH
+         pg7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references;
-        bh=zM+UbIl7RBAQDU4i/GlL6UnzgO5CDOQiIV1f2RDvJl4=;
-        b=ru9eGqyNDe0a10YwAP5CvjPZCHZ9skdaCPM1Hbn1RCxpisfKct9Ed77zkOCuP/AsRD
-         O0FO+TYIyMJIPFThYBEaN6cLv5jXSPJCXqN2vKO3Kje1oNXUng1x3V2Ezq79hA410S2J
-         f82gTcCH2ppLv8fp3c8lzPZUuhA0x1fmHVYC5/HV+UPdB6Tlguvxy26n+py8rQcoSXju
-         Bpb7pAJ+ov4KKcjLDuoh94+YYHHFBsJRDr2pV8RMb3ra4Y6ABaU29qWAT6rA+kuyETiT
-         TsaXN0Ns3JwddCXA91i/FDKb6/MdAOZ2ugk2i9Z488rSl+LhC3Z53LNUcTJ+TADo/GPA
-         imKw==
-X-Gm-Message-State: AOAM5314XLRG1hgpSJNWpvHEbofz0NFSbHwUra2Z8F//+cei6X1Vn/Bx
-	CqEPSqIvTuKYJTz7xUh9hlCPIV8fhmY=
-X-Google-Smtp-Source: ABdhPJxajJcf4LIaJoppxLJX4WpYM9eJqG76/G9oEgAolf1hSBYMDAjAHNbvvcRFm8cDLyHhv+z5cA==
-X-Received: by 2002:a17:902:7897:: with SMTP id q23mr4255016pll.5.1591020732202;
-        Mon, 01 Jun 2020 07:12:12 -0700 (PDT)
+        bh=Y2ltRvl1u9nogCeRqZDkgls7Vyxm6FwK8iROEBPnazM=;
+        b=QJXi+FtlJJC6sW9xBuMUhmBrwzbB5eSODAy1KqnpZTfkK70DqJXScbBqZ1kWqNBD9j
+         Ko9i12iv+knoAvprDmyh1auHxHEwmRZ5qHp9KPWOh6isp3MbuqmknYkkgBzMwCnYoTWj
+         WEbyoxS7coQoDc/AP/p6v7DmtxJo0F0XAyRHoUmHAZdj6oJ9SC+qGhsBZyGJQZhQ59mY
+         Bkm5XCvQYQlV1U+/EUj+w6BKcvoAfip84vnsJ9sNp3WlxCnMiRuKncHBKgJqhF4v2OQk
+         51/QrtRDmC2dJY6rUznGRWrTUYWNpXEABFXApyxcrE7uluLtSKmIv4FMK7vK1iJ9uAmG
+         W7mg==
+X-Gm-Message-State: AOAM5337c2vO8rf338U7xPHSzU1QnRsETRyF0NBp/Tv0PGGK7kpvur82
+	WJc1ZVe32EYsJx0kr6xsXkOhPX6+qCU=
+X-Google-Smtp-Source: ABdhPJy1dBOWzcaetCBUrn8vUmINEleMU3EBQV1pxksSHCmfGoW2X8o3d6WZWkFSkD9fLH1iz+nEag==
+X-Received: by 2002:a17:902:a515:: with SMTP id s21mr20659675plq.334.1591020735043;
+        Mon, 01 Jun 2020 07:12:15 -0700 (PDT)
 Return-Path: <steve@sakoman.com>
 Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.12.11
+        by smtp.gmail.com with ESMTPSA id u19sm5509859pfk.98.2020.06.01.07.12.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 01 Jun 2020 07:12:11 -0700 (PDT)
+        Mon, 01 Jun 2020 07:12:14 -0700 (PDT)
 From: "Steve Sakoman" <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 10/16] libexif: fix CVE-2020-13114
-Date: Mon,  1 Jun 2020 04:11:18 -1000
-Message-Id: <2e497029ee00babbc50f3c1d99580230bc46155c.1591020366.git.steve@sakoman.com>
+Subject: [OE-core][dunfell 11/16] libubootenv: Remove the DEPENDS on mtd-utils
+Date: Mon,  1 Jun 2020 04:11:19 -1000
+Message-Id: <ce5500cc07da270322b67db5001fc1476b6bf2fe.1591020366.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1591020366.git.steve@sakoman.com>
 References: <cover.1591020366.git.steve@sakoman.com>
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+From: Adrian Bunk <bunk@stusta.de>
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+It was only used for pulling in zlib, but this is now
+a direct dependency.
+
+Also move the DEPENDS to a more common location in the file.
+
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a99fd8b705be3b8c70cb0f17f60b013d989d625c)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libexif/libexif/CVE-2020-13114.patch      | 73 +++++++++++++++++++
- .../recipes-support/libexif/libexif_0.6.21.bb |  4 +-
- 2 files changed, 76 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libexif/libexif/CVE-2020-13114.patch
+ meta/recipes-bsp/u-boot/libubootenv_0.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libexif/libexif/CVE-2020-13114.patch b/meta/recipes-support/libexif/libexif/CVE-2020-13114.patch
-new file mode 100644
-index 0000000000..06b8b46c21
---- /dev/null
-+++ b/meta/recipes-support/libexif/libexif/CVE-2020-13114.patch
-@@ -0,0 +1,73 @@
-+From 47f51be021f4dfd800d4ff4630659887378baa3a Mon Sep 17 00:00:00 2001
-+From: Dan Fandrich <dan@coneharvesters.com>
-+Date: Sat, 16 May 2020 19:32:30 +0200
-+Subject: [PATCH] Add a failsafe on the maximum number of Canon MakerNote
-+
-+ subtags.
-+
-+A malicious file could be crafted to cause extremely large values in some
-+tags without tripping any buffer range checks.  This is bad with the libexif
-+representation of Canon MakerNotes because some arrays are turned into
-+individual tags that the application must loop around.
-+
-+The largest value I've seen for failsafe_size in a (very small) sample of valid
-+Canon files is <5000.  The limit is set two orders of magnitude larger to avoid
-+tripping up falsely in case some models use much larger values.
-+
-+Patch from Google.
-+
-+CVE-2020-13114
-+
-+Upstream-Status: Backport [https://github.com/libexif/libexif/commit/e6a38a1a23ba94d139b1fa2cd4519fdcfe3c9bab]
-+CVE: CVE-2020-13114
-+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-+---
-+ libexif/canon/exif-mnote-data-canon.c | 21 +++++++++++++++++++++
-+ 1 file changed, 21 insertions(+)
-+
-+diff --git a/libexif/canon/exif-mnote-data-canon.c b/libexif/canon/exif-mnote-data-canon.c
-+index eb53598..72fd7a3 100644
-+--- a/libexif/canon/exif-mnote-data-canon.c
-++++ b/libexif/canon/exif-mnote-data-canon.c
-+@@ -32,6 +32,9 @@
-+ 
-+ #define DEBUG
-+ 
-++/* Total size limit to prevent abuse by DoS */
-++#define FAILSAFE_SIZE_MAX 1000000L
-++
-+ static void
-+ exif_mnote_data_canon_clear (ExifMnoteDataCanon *n)
-+ {
-+@@ -202,6 +205,7 @@ exif_mnote_data_canon_load (ExifMnoteData *ne,
-+ 	ExifMnoteDataCanon *n = (ExifMnoteDataCanon *) ne;
-+ 	ExifShort c;
-+ 	size_t i, tcount, o, datao;
-++	long failsafe_size = 0;
-+ 
-+ 	if (!n || !buf || !buf_size) {
-+ 		exif_log (ne->log, EXIF_LOG_CODE_CORRUPT_DATA,
-+@@ -280,6 +284,23 @@ exif_mnote_data_canon_load (ExifMnoteData *ne,
-+ 			memcpy (n->entries[tcount].data, buf + dataofs, s);
-+ 		}
-+ 
-++		/* Track the size of decoded tag data. A malicious file could
-++		 * be crafted to cause extremely large values here without
-++		 * tripping any buffer range checks.  This is especially bad
-++		 * with the libexif representation of Canon MakerNotes because
-++		 * some arrays are turned into individual tags that the
-++		 * application must loop around. */
-++		failsafe_size += mnote_canon_entry_count_values(&n->entries[tcount]);
-++
-++		if (failsafe_size > FAILSAFE_SIZE_MAX) {
-++			/* Abort if the total size of the data in the tags extraordinarily large, */
-++			exif_mem_free (ne->mem, n->entries[tcount].data);
-++			exif_log (ne->log, EXIF_LOG_CODE_CORRUPT_DATA,
-++					  "ExifMnoteCanon", "Failsafe tag size overflow (%lu > %ld)",
-++					  failsafe_size, FAILSAFE_SIZE_MAX);
-++			break;
-++		}
-++
-+ 		/* Tag was successfully parsed */
-+ 		++tcount;
-+ 	}
-diff --git a/meta/recipes-support/libexif/libexif_0.6.21.bb b/meta/recipes-support/libexif/libexif_0.6.21.bb
-index d847beab18..3f6fa32b25 100644
---- a/meta/recipes-support/libexif/libexif_0.6.21.bb
-+++ b/meta/recipes-support/libexif/libexif_0.6.21.bb
-@@ -7,7 +7,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=243b725d71bb5df4a1e5920b344b86ad"
- SRC_URI = "${SOURCEFORGE_MIRROR}/libexif/libexif-${PV}.tar.bz2 \
-            file://CVE-2017-7544.patch \
-            file://CVE-2016-6328.patch \
--           file://CVE-2018-20030.patch"
-+           file://CVE-2018-20030.patch \
-+           file://CVE-2020-13114.patch \
-+"
+diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+index fa90a12bf8..ea29b668e8 100644
+--- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
++++ b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+@@ -1,5 +1,4 @@
+ SUMMARY = "U-Boot libraries and tools to access environment"
+-DEPENDS += "mtd-utils zlib"
  
- SRC_URI[md5sum] = "27339b89850f28c8f1c237f233e05b27"
- SRC_URI[sha256sum] = "16cdaeb62eb3e6dfab2435f7d7bccd2f37438d21c5218ec4e58efa9157d4d41a"
+ DESCRIPTION = "This package contains tools and libraries to read \
+ and modify U-Boot environment. \
+@@ -21,6 +20,7 @@ inherit cmake lib_package
+ 
+ EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=Release"
+ 
++DEPENDS = "zlib"
+ PROVIDES += "u-boot-fw-utils"
+ RPROVIDES_${PN}-bin += "u-boot-fw-utils"
+ 
 -- 
 2.17.1
 
