@@ -1,270 +1,134 @@
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web12.41730.1591030035544665007
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web10.41916.1591030276241808101
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 09:47:15 -0700
+ Mon, 01 Jun 2020 09:51:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=W/Mmue/R;
- spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: sjolley.yp.pm@gmail.com)
-Received: by mail-pf1-f172.google.com with SMTP id n15so3767298pfd.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 09:47:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=dIG52pfd;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id q8so9671902qkm.12
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 09:51:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version:thread-index
-         :content-language;
-        bh=pZGoxWoP4ogQO+Rw6wBcMnPD2GJB8uoPIXknVemG3FY=;
-        b=W/Mmue/RMeTdrQONhRP0Qg3TTAqjKds7hVHv4TnORJq9n0CYG/iwtwxhUkRiGE6lQQ
-         86HQILSYBzEetUsZyHuEx94BtvFVilfCZj+2+tckMQEnDZK0CjlTi1YBWVZ/3KOtQUFB
-         Pjnmk4kMgoHh87Qhjpb6WxZ3dbn6UDyCGPGS/8vF7mdJXaTuXd4yiBUzMSdYHvTbPjQv
-         NxgmzzTshLeaMWl8evenNqIzfPbqH5Vx9EyggODkXJp+qDySC2img8MRxodKfZ5SeCrp
-         20mBI8oDY3VtVJEhYhXG8r/P6b/ASA9vdYNpZN6LgsJx1KMLTSlJDa45FpijtK932hyf
-         2GOw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=mpedwQf9tPIuI/xPnOhYdfJf+AblWI9IFFkP5ecYOQ0=;
+        b=dIG52pfdK4eOamqOjSwqPvFTBzvS3OdftTgHLrZiDKYBGq8FV37/YfcewrU07lY8Xx
+         jbs7Tsyip7GTNkpJ5FBf+W8Q/M3Wpb6Y6AVLp7eB6CVZRUyOqDYwWbTEQAnwtaH+srJr
+         sBJEBkROUA967Rc54FzTqmhg2J8+EFWIMb0lefxkBHJ6Or227DMABincO6rjwvXDN442
+         NzAuKqNAEZ5G0NHlDLaUWayKRDCVDgdjZZSlz9WI9UDUQuzTWL8PM12mUlffrRX3dJLu
+         Ee+ogLhF2ZcoOzeE1d4ZRvIdtWzmqInq8rCyxavSuvrQQV2fiuMTiTohwMOR6kl4aTIa
+         fxnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :thread-index:content-language;
-        bh=pZGoxWoP4ogQO+Rw6wBcMnPD2GJB8uoPIXknVemG3FY=;
-        b=m0U2zqSknk4O6Gdq3FO4pBt1MsfDOMWDGoWI0MAy7OSON4oqamqFKEpFwqVxFGOVTJ
-         Ls2ZUpDLGW+jHfFSC+Syx13dAox2C5nNbOeOXlbH33IweErb4zUvlZiu3NdRFlGYNR71
-         WItIjLkyou398Jahp7YfMS9bZJMzWoLP+KSJ0x/qcT9dzZd1pY1z5epAe2BbczGqxVzE
-         JxsUkWqVci6bv1psjM/YOp32W0NAepwviTd9DlfoanG0Did8nlhdNhbHWtahJKMejAa5
-         Pd9aCz7L7q1Nqt68L52XX88yN33X+tI260Kxqjude1KBhSjk2nIgpJ1u/82tVYI4m/68
-         TFuA==
-X-Gm-Message-State: AOAM530ykkK6KX50wSkgKhnZZ35K1IyiRPvciYtYlOZQKAG2X2FbGEkZ
-	3EtjgIZdJz41sDn7CpeTaSTHATFY
-X-Google-Smtp-Source: ABdhPJwe1vPHMYK9oJs0T2pwL3MlIdwLPr2ozLpcUwyTu+MgNjAaBkaVMEswm+NI1BT7ntsAKoXahg==
-X-Received: by 2002:a63:d307:: with SMTP id b7mr20432399pgg.219.1591030033981;
-        Mon, 01 Jun 2020 09:47:13 -0700 (PDT)
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-        by smtp.gmail.com with ESMTPSA id n19sm13738pjo.5.2020.06.01.09.47.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 01 Jun 2020 09:47:13 -0700 (PDT)
-From: "Stephen Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
-Date: Mon, 1 Jun 2020 09:47:13 -0700
-Message-ID: <11d801d63834$4d2fee50$e78fcaf0$@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=mpedwQf9tPIuI/xPnOhYdfJf+AblWI9IFFkP5ecYOQ0=;
+        b=NiAevEy8XSbjT7uPh1t5rNZYr8sLSaGPH1dUdmndjFa6bIwnT8hBG8noVKifGgUKwJ
+         5ISKknDC/FSEG5bf3TVa5wrZvYbmYK8i0w024pj64ywsexV5s9Hl7TqNZ7HTNOrTuCeq
+         CdTieQWbWU1srwi1VqmQugZSUzpWilkCjUhSyEj2zVWVkaKVhX/f9rrib+NjitjzAGfq
+         lxKB5iN+XcS86w+hE0UN7r5CIK0SFddxzufOXvT6LKdd1gmcpRgckDgpftClRVTC8gu6
+         MZg6bfqTc0Y+87wMezpLt5BcDybb/R4OVd8Q7UNYJ61Zt5ZNGPj9RKfGCS1XcqngXa0/
+         oOPg==
+X-Gm-Message-State: AOAM532sBMt4boabhVeYNCW3SH4NdF3jPlkHABXi+yL08xOT4UNMbR5C
+	mpvjvWhdUe6lLncw+ooQgu0dOi55LKqAwhvljks=
+X-Google-Smtp-Source: ABdhPJytzhhIF8fHOcW+fGaf/3r/9uw0DKmJEe9dJlthprQP6uVHFtNu3TZwRnBe7jhxVRSa6uy4azmQvAtd3e0+40Y=
+X-Received: by 2002:a37:4c97:: with SMTP id z145mr20914380qka.165.1591030275064;
+ Mon, 01 Jun 2020 09:51:15 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQFgpQdkty3UgvH6TzurRFgIPfziUQ==
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_11D9_01D637F9.A0D24ED0"
-Content-Language: en-us
+References: <20200531155254.10283-1-alex.kanavin@gmail.com> <20200531155254.10283-45-alex.kanavin@gmail.com>
+In-Reply-To: <20200531155254.10283-45-alex.kanavin@gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Mon, 1 Jun 2020 09:50:49 -0700
+Message-ID: <CAMKF1soxBMZZ92i6fmS_KqSdrR19QqWWrJesZYoZuT2NROKcFg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 45/70] libunwind: upgrade 1.3.1 -> 1.4.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-------=_NextPart_000_11D9_01D637F9.A0D24ED0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Fails to build on musl
 
-All,
+https://errors.yoctoproject.org/Errors/Details/414866/
 
- 
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
- 
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
-
- 
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 361
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
-being in "3.1" and then "3.2".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_or_Newcomer
-_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_11D9_01D637F9.A0D24ED0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_1A1F_01D632A6.CBD6CBE0";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
-starting to try and collect up and classify bugs which a newcomer to the =
-project would be able to work on in a way which means people can find =
-them. They're being listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
-><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 361 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#Unassigned_=
-or_Newcomer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage_Archive#U=
-nassigned_or_Newcomer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_11D9_01D637F9.A0D24ED0--
+On Sun, May 31, 2020 at 8:54 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  .../libunwind/musl-header-conflict.patch      | 27 ++++++++++++-------
+>  ...{libunwind_1.3.1.bb => libunwind_1.4.0.bb} |  4 +--
+>  2 files changed, 19 insertions(+), 12 deletions(-)
+>  rename meta/recipes-support/libunwind/{libunwind_1.3.1.bb => libunwind_1.4.0.bb} (87%)
+>
+> diff --git a/meta/recipes-support/libunwind/libunwind/musl-header-conflict.patch b/meta/recipes-support/libunwind/libunwind/musl-header-conflict.patch
+> index 79f63fd84e..63b78a8a30 100644
+> --- a/meta/recipes-support/libunwind/libunwind/musl-header-conflict.patch
+> +++ b/meta/recipes-support/libunwind/libunwind/musl-header-conflict.patch
+> @@ -1,4 +1,7 @@
+> -If you:
+> +From 49b21f0fe5fb93b30b94cc449429fd33de0652a7 Mon Sep 17 00:00:00 2001
+> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Date: Thu, 18 Aug 2016 14:46:32 +0100
+> +Subject: [PATCH] If you:
+>
+>  TCLIBC=musl bitbake unwind
+>  TCLIBC=musl bitbake gcc-runtime -c cleansstate
+> @@ -6,12 +9,12 @@ TCLIBC=musl bitbake gcc-runtime
+>
+>  you will see libstdc++ fail to build due to finding libunwind's header file.
+>
+> -Khem: "When we build any of gcc components they expect to use internal version
+> -and that works with glibc based gcc since the search headers first look into gcc
+> -headers, however with musl the gcc headers are searched after the standard
+> +Khem: "When we build any of gcc components they expect to use internal version
+> +and that works with glibc based gcc since the search headers first look into gcc
+> +headers, however with musl the gcc headers are searched after the standard
+>  headers ( which is by design the right thing )."
+>
+> -This patch hacks around the issue by looking for a define used during gcc-runtime's
+> +This patch hacks around the issue by looking for a define used during gcc-runtime's
+>  build and skipping to the internal header in that case.
+>
+>  [YOCTO #10129]
+> @@ -20,11 +23,15 @@ RP 2016/8/18
+>
+>  Upstream-Status: Inappropriate [really need to fix gcc]
+>
+> -Index: git/include/unwind.h
+> -===================================================================
+> ---- git.orig/include/unwind.h
+> -+++ git/include/unwind.h
+> -@@ -23,6 +23,10 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER L
+> +---
+> + include/unwind.h | 4 ++++
+> + 1 file changed, 4 insertions(+)
+> +
+> +diff --git a/include/unwind.h b/include/unwind.h
+> +index 7cf128d..31c2871 100644
+> +--- a/include/unwind.h
+> ++++ b/include/unwind.h
+> +@@ -23,6 +23,10 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+>   OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+>   WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
+>
+> diff --git a/meta/recipes-support/libunwind/libunwind_1.3.1.bb b/meta/recipes-support/libunwind/libunwind_1.4.0.bb
+> similarity index 87%
+> rename from meta/recipes-support/libunwind/libunwind_1.3.1.bb
+> rename to meta/recipes-support/libunwind/libunwind_1.4.0.bb
+> index 037e04c3c0..f50205f1b9 100644
+> --- a/meta/recipes-support/libunwind/libunwind_1.3.1.bb
+> +++ b/meta/recipes-support/libunwind/libunwind_1.4.0.bb
+> @@ -10,8 +10,8 @@ SRC_URI = "http://download.savannah.nongnu.org/releases/libunwind/libunwind-${PV
+>             "
+>  SRC_URI_append_libc-musl = " file://musl-header-conflict.patch"
+>
+> -SRC_URI[md5sum] = "a04f69d66d8e16f8bf3ab72a69112cd6"
+> -SRC_URI[sha256sum] = "43997a3939b6ccdf2f669b50fdb8a4d3205374728c2923ddc2354c65260214f8"
+> +SRC_URI[md5sum] = "5114504c74ac3992ac06aa551cd55678"
+> +SRC_URI[sha256sum] = "df59c931bd4d7ebfd83ee481c943edf015138089b8e50abed8d9c57ba9338435"
+>
+>  EXTRA_OECONF_append_libc-musl = " --disable-documentation --disable-tests --enable-static"
+>
+> --
+> 2.26.2
+>
+> 
