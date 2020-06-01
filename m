@@ -1,134 +1,92 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web10.41916.1591030276241808101
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+ by mx.groups.io with SMTP id smtpd.web11.41763.1591030287971218095
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 09:51:16 -0700
+ Mon, 01 Jun 2020 09:51:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=dIG52pfd;
- spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: raj.khem@gmail.com)
-Received: by mail-qk1-f196.google.com with SMTP id q8so9671902qkm.12
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 09:51:16 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=IglyNI3v;
+ spf=softfail (domain: sakoman.com, ip: 209.85.208.66, mailfrom: steve@sakoman.com)
+Received: by mail-ed1-f66.google.com with SMTP id w7so4113351edt.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 09:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=mpedwQf9tPIuI/xPnOhYdfJf+AblWI9IFFkP5ecYOQ0=;
-        b=dIG52pfdK4eOamqOjSwqPvFTBzvS3OdftTgHLrZiDKYBGq8FV37/YfcewrU07lY8Xx
-         jbs7Tsyip7GTNkpJ5FBf+W8Q/M3Wpb6Y6AVLp7eB6CVZRUyOqDYwWbTEQAnwtaH+srJr
-         sBJEBkROUA967Rc54FzTqmhg2J8+EFWIMb0lefxkBHJ6Or227DMABincO6rjwvXDN442
-         NzAuKqNAEZ5G0NHlDLaUWayKRDCVDgdjZZSlz9WI9UDUQuzTWL8PM12mUlffrRX3dJLu
-         Ee+ogLhF2ZcoOzeE1d4ZRvIdtWzmqInq8rCyxavSuvrQQV2fiuMTiTohwMOR6kl4aTIa
-         fxnw==
+        bh=dkZsXU/VX9rNADg4NgBbsC9WYtQFN1XTbldzIslpCgU=;
+        b=IglyNI3vXHhpuxQ4v5yrXPiVxXKZr3sD7dU/yOYMCWWzSoO/aOuAiWi8Uis8FKZKVu
+         0kcyYRB8d/d80kPRE21rz8G+hbvkTQTHn0ZzHKWq5zq3YVjySKZ0zQFnK5CASIlkVwNa
+         TlBVN4Q4Hh2YmZ1oNqspmfKejwJJDYrPfZKJwtXA8BvstZwEgicEL+g2Mks7BIjxl6Cw
+         fNqwU1StWIvlRWH75okA7uWIT/ScdBX7/de88X7+cFb76olBPXRaphOU8TF9Qxc7fD3l
+         /saHuNzQEbFztj0jRMO3R8yq746YrTvUGDi33qebDTvws0GiFuA3LDiHwFOB3fM+YXE3
+         vrGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=mpedwQf9tPIuI/xPnOhYdfJf+AblWI9IFFkP5ecYOQ0=;
-        b=NiAevEy8XSbjT7uPh1t5rNZYr8sLSaGPH1dUdmndjFa6bIwnT8hBG8noVKifGgUKwJ
-         5ISKknDC/FSEG5bf3TVa5wrZvYbmYK8i0w024pj64ywsexV5s9Hl7TqNZ7HTNOrTuCeq
-         CdTieQWbWU1srwi1VqmQugZSUzpWilkCjUhSyEj2zVWVkaKVhX/f9rrib+NjitjzAGfq
-         lxKB5iN+XcS86w+hE0UN7r5CIK0SFddxzufOXvT6LKdd1gmcpRgckDgpftClRVTC8gu6
-         MZg6bfqTc0Y+87wMezpLt5BcDybb/R4OVd8Q7UNYJ61Zt5ZNGPj9RKfGCS1XcqngXa0/
-         oOPg==
-X-Gm-Message-State: AOAM532sBMt4boabhVeYNCW3SH4NdF3jPlkHABXi+yL08xOT4UNMbR5C
-	mpvjvWhdUe6lLncw+ooQgu0dOi55LKqAwhvljks=
-X-Google-Smtp-Source: ABdhPJytzhhIF8fHOcW+fGaf/3r/9uw0DKmJEe9dJlthprQP6uVHFtNu3TZwRnBe7jhxVRSa6uy4azmQvAtd3e0+40Y=
-X-Received: by 2002:a37:4c97:: with SMTP id z145mr20914380qka.165.1591030275064;
- Mon, 01 Jun 2020 09:51:15 -0700 (PDT)
+        bh=dkZsXU/VX9rNADg4NgBbsC9WYtQFN1XTbldzIslpCgU=;
+        b=S/dddjruhM4tzSLVZi0+YZW4Bcoy/fnCOv3uPMRL50X0uFYZDhGekt+jMLLOWOyfw+
+         i2azusc76jIKlhio7BddQHowi5q4W4U9jAoTeWAZXClhFBWAK6Gm0OidyW2mHRQy/G+g
+         50xQ+D+YA3+wuO8POh5h2rOuJzPfzPA1yNWt73bATU0PBtA6WR6lKZl0gdLt2zl4WsSP
+         j1+l4+/iJwHWt9HDfnJYkHrfM0Tpy4rhRRr3WgGdTdRLFiSElBha8e499t+Q0vaK2Fmy
+         RxMYrEqFnS0XlSA3AJLeSr1wKAnNjSrac87+sohxwaT4zbDthGexXn8C3yf1ShRsLg7Z
+         xxQQ==
+X-Gm-Message-State: AOAM533tON19Zf5vOlAYodYQCmgbuHgd/UjEOwIs/aR9IpfW2F0kulcO
+	rNde2vxIk2k/9xrle6Sak1bxxDGFb26kSJLBD4aVSg==
+X-Google-Smtp-Source: ABdhPJwC2mFeFOsAtNwLADujQzY8KmCBaldsfejxfJUdAVTuC/us9zE4lC0Ik7/9Ijx+be4MrwdfKzR9PQZeZrJLMEw=
+X-Received: by 2002:a50:fc0d:: with SMTP id i13mr20714160edr.260.1591030286319;
+ Mon, 01 Jun 2020 09:51:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200531155254.10283-1-alex.kanavin@gmail.com> <20200531155254.10283-45-alex.kanavin@gmail.com>
-In-Reply-To: <20200531155254.10283-45-alex.kanavin@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Mon, 1 Jun 2020 09:50:49 -0700
-Message-ID: <CAMKF1soxBMZZ92i6fmS_KqSdrR19QqWWrJesZYoZuT2NROKcFg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 45/70] libunwind: upgrade 1.3.1 -> 1.4.0
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <cover.1591020366.git.steve@sakoman.com> <afb301af1cc21c69d6f26f47202d399228406390.1591020366.git.steve@sakoman.com>
+ <234ca3dfe01ffa0108e1ee9bc73934ce5fd45141.camel@linuxfoundation.org>
+In-Reply-To: <234ca3dfe01ffa0108e1ee9bc73934ce5fd45141.camel@linuxfoundation.org>
+From: "Steve Sakoman" <steve@sakoman.com>
+Date: Mon, 1 Jun 2020 06:51:14 -1000
+Message-ID: <CAOSpxdbKZ9o30_5BPiPySJ7_DQ5DWY50YhMaq_mZdQ6zLwuw+Q@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 14/16] bitbake.conf: Remove unused DEPLOY_DIR_TOOLS variable
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Fails to build on musl
+On Mon, Jun 1, 2020 at 6:38 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2020-06-01 at 04:11 -1000, Steve Sakoman wrote:
+> > From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+> >
+> > Variable DEPLOY_DIR_TOOLS was introduced in 2007:
+> >
+> >   commit f751a20152c651a33f08ceda0502fa1d4f11c005
+> >   Author: Richard Purdie <richard@openedhand.com>
+> >   Date:   Wed Aug 8 21:02:39 2007 +0000
+> >
+> >       bitbake.conf: Sync with OE.dev
+> >
+> > apparently never used so get rid of it.
+> >
+> > Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > (cherry picked from commit b1f15f651461d07a8cfbd3bdcfea0e89f195212d)
+> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> > ---
+> >  meta/conf/bitbake.conf | 1 -
+> >  1 file changed, 1 deletion(-)
+> >
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index bdade79abe..4acf235930 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -410,7 +410,6 @@ DEPLOY_DIR_IPK = "${DEPLOY_DIR}/ipk"
+> >  DEPLOY_DIR_RPM = "${DEPLOY_DIR}/rpm"
+> >  DEPLOY_DIR_DEB = "${DEPLOY_DIR}/deb"
+> >  DEPLOY_DIR_IMAGE ?= "${DEPLOY_DIR}/images/${MACHINE}"
+> > -DEPLOY_DIR_TOOLS = "${DEPLOY_DIR}/tools"
+> >
+> >  PKGDATA_DIR = "${TMPDIR}/pkgdata/${MACHINE}"
+>
+> This does cause breakage in meta-oe (single recipe) so probably not
+> stable material.
 
-https://errors.yoctoproject.org/Errors/Details/414866/
+OK, I'll remove this patch from the pull request.
 
-On Sun, May 31, 2020 at 8:54 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  .../libunwind/musl-header-conflict.patch      | 27 ++++++++++++-------
->  ...{libunwind_1.3.1.bb => libunwind_1.4.0.bb} |  4 +--
->  2 files changed, 19 insertions(+), 12 deletions(-)
->  rename meta/recipes-support/libunwind/{libunwind_1.3.1.bb => libunwind_1.4.0.bb} (87%)
->
-> diff --git a/meta/recipes-support/libunwind/libunwind/musl-header-conflict.patch b/meta/recipes-support/libunwind/libunwind/musl-header-conflict.patch
-> index 79f63fd84e..63b78a8a30 100644
-> --- a/meta/recipes-support/libunwind/libunwind/musl-header-conflict.patch
-> +++ b/meta/recipes-support/libunwind/libunwind/musl-header-conflict.patch
-> @@ -1,4 +1,7 @@
-> -If you:
-> +From 49b21f0fe5fb93b30b94cc449429fd33de0652a7 Mon Sep 17 00:00:00 2001
-> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> +Date: Thu, 18 Aug 2016 14:46:32 +0100
-> +Subject: [PATCH] If you:
->
->  TCLIBC=musl bitbake unwind
->  TCLIBC=musl bitbake gcc-runtime -c cleansstate
-> @@ -6,12 +9,12 @@ TCLIBC=musl bitbake gcc-runtime
->
->  you will see libstdc++ fail to build due to finding libunwind's header file.
->
-> -Khem: "When we build any of gcc components they expect to use internal version
-> -and that works with glibc based gcc since the search headers first look into gcc
-> -headers, however with musl the gcc headers are searched after the standard
-> +Khem: "When we build any of gcc components they expect to use internal version
-> +and that works with glibc based gcc since the search headers first look into gcc
-> +headers, however with musl the gcc headers are searched after the standard
->  headers ( which is by design the right thing )."
->
-> -This patch hacks around the issue by looking for a define used during gcc-runtime's
-> +This patch hacks around the issue by looking for a define used during gcc-runtime's
->  build and skipping to the internal header in that case.
->
->  [YOCTO #10129]
-> @@ -20,11 +23,15 @@ RP 2016/8/18
->
->  Upstream-Status: Inappropriate [really need to fix gcc]
->
-> -Index: git/include/unwind.h
-> -===================================================================
-> ---- git.orig/include/unwind.h
-> -+++ git/include/unwind.h
-> -@@ -23,6 +23,10 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER L
-> +---
-> + include/unwind.h | 4 ++++
-> + 1 file changed, 4 insertions(+)
-> +
-> +diff --git a/include/unwind.h b/include/unwind.h
-> +index 7cf128d..31c2871 100644
-> +--- a/include/unwind.h
-> ++++ b/include/unwind.h
-> +@@ -23,6 +23,10 @@ LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
->   OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
->   WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  */
->
-> diff --git a/meta/recipes-support/libunwind/libunwind_1.3.1.bb b/meta/recipes-support/libunwind/libunwind_1.4.0.bb
-> similarity index 87%
-> rename from meta/recipes-support/libunwind/libunwind_1.3.1.bb
-> rename to meta/recipes-support/libunwind/libunwind_1.4.0.bb
-> index 037e04c3c0..f50205f1b9 100644
-> --- a/meta/recipes-support/libunwind/libunwind_1.3.1.bb
-> +++ b/meta/recipes-support/libunwind/libunwind_1.4.0.bb
-> @@ -10,8 +10,8 @@ SRC_URI = "http://download.savannah.nongnu.org/releases/libunwind/libunwind-${PV
->             "
->  SRC_URI_append_libc-musl = " file://musl-header-conflict.patch"
->
-> -SRC_URI[md5sum] = "a04f69d66d8e16f8bf3ab72a69112cd6"
-> -SRC_URI[sha256sum] = "43997a3939b6ccdf2f669b50fdb8a4d3205374728c2923ddc2354c65260214f8"
-> +SRC_URI[md5sum] = "5114504c74ac3992ac06aa551cd55678"
-> +SRC_URI[sha256sum] = "df59c931bd4d7ebfd83ee481c943edf015138089b8e50abed8d9c57ba9338435"
->
->  EXTRA_OECONF_append_libc-musl = " --disable-documentation --disable-tests --enable-static"
->
-> --
-> 2.26.2
->
-> 
+Thanks!
+
+Steve
