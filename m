@@ -1,197 +1,283 @@
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
- by mx.groups.io with SMTP id smtpd.web12.4668.1591077883122199778
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com [209.85.217.48])
+ by mx.groups.io with SMTP id smtpd.web12.5470.1591082217674111397
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 23:04:43 -0700
+ Tue, 02 Jun 2020 00:16:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gJFx6FmD;
- spf=pass (domain: gmail.com, ip: 209.85.167.66, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lf1-f66.google.com with SMTP id 82so5413228lfh.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 23:04:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pTvSU+Pj;
+ spf=pass (domain: gmail.com, ip: 209.85.217.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-vs1-f48.google.com with SMTP id g129so1463518vsc.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2020 00:16:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:references:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=Qc3U+RrQF9mmVG0sLIu8hWUji/+JNr7W2s7Czr2rft8=;
-        b=gJFx6FmDXvB2QS411banaKwgNHFrjWO1q7fK1vA1oszSeaTO7eefZQdKPWb/kiUQ3+
-         C3nMOyyXt43LaStvNr9pJjlhrbszD2jtZX7zfuEnc2QsMiDPCToqCuw9Oe6Y7epZpHx7
-         kfICIVjL+iXgB9kSsjVkn4xaQJypzJHzzW5lCUMJW9cLMIrWEdpvGOADgf7rMg54wRP5
-         P9mH4DELLIfk1WuOpaJ3n/tmQXcuRKmxA+ivBPjx4Y71k39mhaAo9Ab5XszWk4V4ntra
-         u2JmZNWeQVSkxyn0a/nEx5E280Yt4kRpeFvirmQ7shKqHmRVZYzgt+IH0sCNnmdEmvgC
-         R+pQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rPc7Rri6u4DVqBPVOYINZIwwcyj0Ir6cnP2Ouqyb+rs=;
+        b=pTvSU+PjFmNxoKCo42Gpm/WsNCtBHkwhR8rlC7ijvlb5KZAaKRxUa6jMnUnEzWFKfa
+         Q4Y+XJVlYbyoS7tZKf+TsxOpjA1Kp61yjEA33+Df3zlp/UplF3RTWGKTudO4kIjwAR0Y
+         ijm7HRXPq0AVV1SYEUrCmRTio9jm/QshWubwmOkNzhlg4JvppjbKMfG8olIG7vY+TsIN
+         WPrStsaQGrfduaoi+sxw5yj0HzJdLrcyVAufzib1leKPx5eeyjMAPJVj5ytN1ytRW+Tr
+         cCrATY5DTmRAePEsCgwZDzjs312cSjRYTHXuiYySDqlv313dC87cABV5KncMNBqY0ro5
+         4LgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Qc3U+RrQF9mmVG0sLIu8hWUji/+JNr7W2s7Czr2rft8=;
-        b=f0J1ZBvINq9KkjhXTL46z06QCzGSABOU2y+6+gtOsGDBTuE0BMvdeShLkGkJrGET3q
-         lCOE5Fm1oA5W0vXV0BOuYjXfwTIekgQ1JftcY0Ph9nXmz4PnmldAge3Ux/upqPczt3hU
-         dxCJWEY6mfp18Fxcr3CmNeWnYgfiu4RXAYjGnAaNFUK+WcRdeB6sYn3LIo6sClz86lmZ
-         ofqzHSUaIGjUCuumWml4hQK65Ro+HEf7v9PJ1OB0xPa9//30bFGmVTBZF9JZLJ6HVqlP
-         PQXBpB53G9W3CE1VgRw7yw+/n72MCKexXtyVeSzSjGHh3IZaeB0+/AtsPaMy1aJEv1yf
-         sFvQ==
-X-Gm-Message-State: AOAM532nijlmIpoaNEkbgczOVwPyJbq+wc/MfO3uuWtAf0ZX5cZ8B20c
-	21awVbQNWarfk6I1Dlgi0j2v+ZLq
-X-Google-Smtp-Source: ABdhPJy1YV6NrOIBMg409QTmiCpMsLEipfgSFO1fwEf8DaGuO0Ugr3e/Rd6IFjPAGYWjmOwc8zFWKw==
-X-Received: by 2002:a19:cb92:: with SMTP id b140mr13384191lfg.63.1591077880378;
-        Mon, 01 Jun 2020 23:04:40 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain ([213.185.29.22])
-        by smtp.gmail.com with ESMTPSA id w25sm439682lfn.42.2020.06.01.23.04.39
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2020 23:04:39 -0700 (PDT)
-Subject: Re: [PATCH] features_check: Factorize code for checking features
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-References: <20200526073623.38078-1-jacob.kroon@gmail.com>
-Message-ID: <0c555301-e1eb-292f-82e3-47b1d87ff6dc@gmail.com>
-Date: Tue, 2 Jun 2020 08:04:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rPc7Rri6u4DVqBPVOYINZIwwcyj0Ir6cnP2Ouqyb+rs=;
+        b=FbTBOfQquWlP/5q5LlDbjeDMuiWlhA6w/LmM90o162GH4yM2lktFko1as+f5l8tVkr
+         dPMhYqyEem62JBKdOyWpNRHPosf8VU4y6lUwXNrX+sp4wmEHT0ZYXzhEaN6LXabiGofT
+         1Vwu1b5TY2rb+JQT5peTJBC9DKzspeYER7BASWV36WCAIAd5Ni/7eUKRVgpELLzrduxn
+         /Pwkw9EKQrj/8UkBKa/kF82mXlIH6xpSnID4TcC2LhAt2I0Mp07ZxouoxaQMb4jpNiMo
+         kTSIpO/zvhiIxoK3cKrdRBx6m+NDQyUTfmpctY+2IHdnivyiRWFUlfaqXjnbi9i49j3n
+         4DLQ==
+X-Gm-Message-State: AOAM532KygedD2yzRHMTP+ZABt9g1D/zzGU7hy9Q2zSncUPs0Sut4YLM
+	wIi9bZ6GDx4E2xwOCcAZI9Dq1B/SyzNSYkmTDf0=
+X-Google-Smtp-Source: ABdhPJxnZmx5ebSEqE5C6zfZDfRAmArtFMBBSzEgU4ZyD4XTOsav74WUrX9MgiXY+s1OCW4jYjQyfy2b57zog2VZsbc=
+X-Received: by 2002:a67:c806:: with SMTP id u6mr11010599vsk.94.1591082216835;
+ Tue, 02 Jun 2020 00:16:56 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200526073623.38078-1-jacob.kroon@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200531155254.10283-1-alex.kanavin@gmail.com>
+ <20200531155254.10283-34-alex.kanavin@gmail.com> <CAMKF1spOVgSmKCzDoj8WCVZmHcAjP5w=ut=7AwX4ZDcgXw29sA@mail.gmail.com>
+In-Reply-To: <CAMKF1spOVgSmKCzDoj8WCVZmHcAjP5w=ut=7AwX4ZDcgXw29sA@mail.gmail.com>
+From: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Date: Tue, 2 Jun 2020 09:16:44 +0200
+Message-ID: <CANNYZj8VPzDDNoNynaaNcys1uKLACoCXHECvUDFaON6-uSABfw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 34/70] pixman: upgrade 0.38.4 -> 0.40.0
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000057cd4d05a714b274"
 
-On 5/26/20 9:36 AM, Jacob Kroon wrote:
-> The DISTRO/MACHINE/COMBINED features should be treated identically, so
-> convert the expanded code to a loop. This fixes some of the COMBINED error
-> messages which were previously referring to MACHINE features. There
-> should be no functional changes.
-> 
-> Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-> ---
->   meta/classes/features_check.bbclass | 110 ++++++++--------------------
->   1 file changed, 32 insertions(+), 78 deletions(-)
-> 
-> diff --git a/meta/classes/features_check.bbclass b/meta/classes/features_check.bbclass
-> index 876d32e315..4ba827d4ab 100644
-> --- a/meta/classes/features_check.bbclass
-> +++ b/meta/classes/features_check.bbclass
-> @@ -1,23 +1,13 @@
-> -# Allow checking of required and conflicting DISTRO_FEATURES
-> +# Allow checking of required and conflicting features
->   #
-> -# ANY_OF_DISTRO_FEATURES:     ensure at least one item on this list is included
-> -#                             in DISTRO_FEATURES.
-> -# REQUIRED_DISTRO_FEATURES:   ensure every item on this list is included
-> -#                             in DISTRO_FEATURES.
-> -# CONFLICT_DISTRO_FEATURES:   ensure no item in this list is included in
-> -#                             DISTRO_FEATURES.
-> -# ANY_OF_MACHINE_FEATURES:    ensure at least one item on this list is included
-> -#                             in MACHINE_FEATURES.
-> -# REQUIRED_MACHINE_FEATURES:  ensure every item on this list is included
-> -#                             in MACHINE_FEATURES.
-> -# CONFLICT_MACHINE_FEATURES:  ensure no item in this list is included in
-> -#                             MACHINE_FEATURES.
-> -# ANY_OF_COMBINED_FEATURES:   ensure at least one item on this list is included
-> -#                             in COMBINED_FEATURES.
-> -# REQUIRED_COMBINED_FEATURES: ensure every item on this list is included
-> -#                             in COMBINED_FEATURES.
-> -# CONFLICT_COMBINED_FEATURES: ensure no item in this list is included in
-> -#                             COMBINED_FEATURES.
-> +# xxx = [DISTRO,MACHINE,COMBINED]
-> +#
-> +# ANY_OF_xxx_FEATURES:        ensure at least one item on this list is included
-> +#                             in xxx_FEATURES.
-> +# REQUIRED_xxx_FEATURES:      ensure every item on this list is included
-> +#                             in xxx_FEATURES.
-> +# CONFLICT_xxx_FEATURES:      ensure no item in this list is included in
-> +#                             xxx_FEATURES.
->   #
->   # Copyright 2019 (C) Texas Instruments Inc.
->   # Copyright 2013 (C) O.S. Systems Software LTDA.
-> @@ -26,63 +16,27 @@ python () {
->       if d.getVar('PARSE_ALL_RECIPES', False):
->           return
->   
-> -    # Assume at least one var is set.
-> -    distro_features = set((d.getVar('DISTRO_FEATURES') or '').split())
-> -
-> -    any_of_distro_features = set((d.getVar('ANY_OF_DISTRO_FEATURES') or '').split())
-> -    if any_of_distro_features:
-> -        if set.isdisjoint(any_of_distro_features, distro_features):
-> -            raise bb.parse.SkipRecipe("one of '%s' needs to be in DISTRO_FEATURES" % ' '.join(any_of_distro_features))
-> -
-> -    required_distro_features = set((d.getVar('REQUIRED_DISTRO_FEATURES') or '').split())
-> -    if required_distro_features:
-> -        missing = set.difference(required_distro_features, distro_features)
-> -        if missing:
-> -            raise bb.parse.SkipRecipe("missing required distro feature%s '%s' (not in DISTRO_FEATURES)" % ('s' if len(missing) > 1 else '', ' '.join(missing)))
-> -
-> -    conflict_distro_features = set((d.getVar('CONFLICT_DISTRO_FEATURES') or '').split())
-> -    if conflict_distro_features:
-> -        conflicts = set.intersection(conflict_distro_features, distro_features)
-> -        if conflicts:
-> -            raise bb.parse.SkipRecipe("conflicting distro feature%s '%s' (in DISTRO_FEATURES)" % ('s' if len(conflicts) > 1 else '', ' '.join(conflicts)))
-> -
-> -    # Assume at least one var is set.
-> -    machine_features = set((d.getVar('MACHINE_FEATURES') or '').split())
-> -
-> -    any_of_machine_features = set((d.getVar('ANY_OF_MACHINE_FEATURES') or '').split())
-> -    if any_of_machine_features:
-> -        if set.isdisjoint(any_of_machine_features, machine_features):
-> -            raise bb.parse.SkipRecipe("one of '%s' needs to be in MACHINE_FEATURES" % ' '.join(any_of_machine_features))
-> -
-> -    required_machine_features = set((d.getVar('REQUIRED_MACHINE_FEATURES') or '').split())
-> -    if required_machine_features:
-> -        missing = set.difference(required_machine_features, machine_features)
-> -        if missing:
-> -            raise bb.parse.SkipRecipe("missing required machine feature%s '%s' (not in MACHINE_FEATURES)" % ('s' if len(missing) > 1 else '', ' '.join(missing)))
-> -
-> -    conflict_machine_features = set((d.getVar('CONFLICT_MACHINE_FEATURES') or '').split())
-> -    if conflict_machine_features:
-> -        conflicts = set.intersection(conflict_machine_features, machine_features)
-> -        if conflicts:
-> -            raise bb.parse.SkipRecipe("conflicting machine feature%s '%s' (in MACHINE_FEATURES)" % ('s' if len(conflicts) > 1 else '', ' '.join(conflicts)))
-> -
-> -    # Assume at least one var is set.
-> -    combined_features = set((d.getVar('COMBINED_FEATURES') or '').split())
-> -
-> -    any_of_combined_features = set((d.getVar('ANY_OF_COMBINED_FEATURES') or '').split())
-> -    if any_of_combined_features:
-> -        if set.isdisjoint(any_of_combined_features, combined_features):
-> -            raise bb.parse.SkipRecipe("one of '%s' needs to be in COMBINED_FEATURES" % ' '.join(any_of_combined_features))
-> -
-> -    required_combined_features = set((d.getVar('REQUIRED_COMBINED_FEATURES') or '').split())
-> -    if required_combined_features:
-> -        missing = set.difference(required_combined_features, combined_features)
-> -        if missing:
-> -            raise bb.parse.SkipRecipe("missing required machine feature%s '%s' (not in COMBINED_FEATURES)" % ('s' if len(missing) > 1 else '', ' '.join(missing)))
-> -
-> -    conflict_combined_features = set((d.getVar('CONFLICT_COMBINED_FEATURES') or '').split())
-> -    if conflict_combined_features:
-> -        conflicts = set.intersection(conflict_combined_features, combined_features)
-> -        if conflicts:
-> -            raise bb.parse.SkipRecipe("conflicting machine feature%s '%s' (in COMBINED_FEATURES)" % ('s' if len(conflicts) > 1 else '', ' '.join(conflicts)))
-> +    for kind in ['DISTRO', 'MACHINE', 'COMBINED']:
-> +        # Assume at least one var is set.
-> +        features = set((d.getVar(kind + '_FEATURES') or '').split())
-> +
-> +        any_of_features = set((d.getVar('ANY_OF_' + kind + '_FEATURES') or '').split())
-> +        if any_of_features:
-> +            if set.isdisjoint(any_of_features, features):
-> +                raise bb.parse.SkipRecipe("one of '%s' needs to be in %s_FEATURES"
-> +                    % (' '.join(any_of_features), kind))
-> +
-> +        required_features = set((d.getVar('REQUIRED_' + kind + '_FEATURES') or '').split())
-> +        if required_features:
-> +            missing = set.difference(required_features, features)
-> +            if missing:
-> +                raise bb.parse.SkipRecipe("missing required %s feature%s '%s' (not in %s_FEATURES)"
-> +                    % (kind.lower(), 's' if len(missing) > 1 else '', ' '.join(missing), kind))
-> +
-> +        conflict_features = set((d.getVar('CONFLICT_' + kind + '_FEATURES') or '').split())
-> +        if conflict_features:
-> +            conflicts = set.intersection(conflict_features, features)
-> +            if conflicts:
-> +                raise bb.parse.SkipRecipe("conflicting %s feature%s '%s' (in %s_FEATURES)"
-> +                    % (kind.lower(), 's' if len(conflicts) > 1 else '', ' '.join(conflicts), kind))
->   }
-> 
+--00000000000057cd4d05a714b274
+Content-Type: text/plain; charset="UTF-8"
 
-Ping ? Any feedback on this proposed change ?
+The patch has been merged upstream - easy to establish by clicking on the
+link inside it.
 
-Jacob
+Alex
+
+On Tue, 2 Jun 2020 at 05:41, Khem Raj <raj.khem@gmail.com> wrote:
+
+>
+>
+> On Sun, May 31, 2020 at 8:54 AM Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
+>
+>> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>> ---
+>>  ...-for-FE_INVALID-definition-before-us.patch | 33 -------------------
+>>  .../{pixman_0.38.4.bb => pixman_0.40.0.bb}    |  5 ++-
+>>  2 files changed, 2 insertions(+), 36 deletions(-)
+>>  delete mode 100644
+>> meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch
+>
+>
+> Why is this patch being removed ?
+>
+>
+>>  rename meta/recipes-graphics/xorg-lib/{pixman_0.38.4.bb =>
+>> pixman_0.40.0.bb} (85%)
+>>
+>> diff --git
+>> a/meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch
+>> b/meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch
+>> deleted file mode 100644
+>> index 23cbf53a41..0000000000
+>> ---
+>> a/meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch
+>> +++ /dev/null
+>> @@ -1,33 +0,0 @@
+>> -From 0ccd906b904d21536d5ab41c6196760e3e5d72cb Mon Sep 17 00:00:00 2001
+>> -From: Khem Raj <raj.khem@gmail.com>
+>> -Date: Tue, 17 May 2016 17:30:00 -0700
+>> -Subject: [PATCH] test/utils: Check for FE_INVALID definition before use
+>> -
+>> -Some architectures e.g. nios2 do not support all exceptions
+>> -
+>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> ----
+>> -Upstream-Status: Submitted [
+>> https://gitlab.freedesktop.org/pixman/pixman/merge_requests/24]
+>> -
+>> - test/utils.c | 2 ++
+>> - 1 file changed, 2 insertions(+)
+>> -
+>> -diff --git a/test/utils.c b/test/utils.c
+>> -index f8e42a5..fe32b1e 100644
+>> ---- a/test/utils.c
+>> -+++ b/test/utils.c
+>> -@@ -978,9 +978,11 @@ enable_invalid_exceptions (void)
+>> - {
+>> - #ifdef HAVE_FENV_H
+>> - #ifdef HAVE_FEENABLEEXCEPT
+>> -+#ifdef FE_INVALID
+>> -     feenableexcept (FE_INVALID);
+>> - #endif
+>> - #endif
+>> -+#endif
+>> - }
+>> -
+>> - void *
+>> ---
+>> -2.8.2
+>> -
+>> diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
+>> b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+>> similarity index 85%
+>> rename from meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
+>> rename to meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+>> index 22e19ba069..5a3bb22ec3 100644
+>> --- a/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
+>> +++ b/meta/recipes-graphics/xorg-lib/pixman_0.40.0.bb
+>> @@ -9,10 +9,9 @@ DEPENDS = "zlib"
+>>
+>>  SRC_URI = "https://www.cairographics.org/releases/${BP}.tar.gz \
+>>
+>> file://0001-ARM-qemu-related-workarounds-in-cpu-features-detecti.patch \
+>> -
+>>  file://0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch \
+>>             "
+>> -SRC_URI[md5sum] = "267a7af290f93f643a1bc74490d9fdd1"
+>> -SRC_URI[sha256sum] =
+>> "da66d6fd6e40aee70f7bd02e4f8f76fc3f006ec879d346bae6a723025cfbdde7"
+>> +SRC_URI[md5sum] = "73858c0862dd9896fb5f62ae267084a4"
+>> +SRC_URI[sha256sum] =
+>> "6d200dec3740d9ec4ec8d1180e25779c00bc749f94278c8b9021f5534db223fc"
+>>
+>>  # see http://cairographics.org/releases/ - only even minor versions are
+>> stable
+>>  UPSTREAM_CHECK_REGEX = "pixman-(?P<pver>\d+\.(\d*[02468])+(\.\d+)+)"
+>> --
+>> 2.26.2
+>>
+>> 
+>>
+>
+
+--00000000000057cd4d05a714b274
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>The patch has been merged upstream - easy to establis=
+h by clicking on the link inside it.</div><div><br></div><div>Alex<br></div=
+></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>On Tue, 2 Jun 2020 at 05:41, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail=
+.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex"><div><br></div><div><br><div clas=
+s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, May 31, 202=
+0 at 8:54 AM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com=
+" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">Signed-off-by: Alexander Kanavin =
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
+n@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0...-for-FE_INVALID-definition-before-us.patch | 33 -----------------=
+--<br>
+=C2=A0.../{<a href=3D"http://pixman_0.38.4.bb" rel=3D"noreferrer" target=
+=3D"_blank">pixman_0.38.4.bb</a> =3D&gt; <a href=3D"http://pixman_0.40.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">pixman_0.40.0.bb</a>}=C2=A0 =C2=A0 =
+|=C2=A0 5 ++-<br>
+=C2=A02 files changed, 2 insertions(+), 36 deletions(-)<br>
+=C2=A0delete mode 100644 meta/recipes-graphics/xorg-lib/pixman/0001-test-u=
+tils-Check-for-FE_INVALID-definition-before-us.patch</blockquote><div dir=
+=3D"auto"><br></div><div dir=3D"auto">Why is this patch being removed ?</d=
+iv><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
+:1ex"><br>
+=C2=A0rename meta/recipes-graphics/xorg-lib/{<a href=3D"http://pixman_0.38=
+.4.bb" rel=3D"noreferrer" target=3D"_blank">pixman_0.38.4.bb</a> =3D&gt; <a=
+ href=3D"http://pixman_0.40.0.bb" rel=3D"noreferrer" target=3D"_blank">pixm=
+an_0.40.0.bb</a>} (85%)<br>
+<br>
+diff --git a/meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-f=
+or-FE_INVALID-definition-before-us.patch b/meta/recipes-graphics/xorg-lib/p=
+ixman/0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch<br>
+deleted file mode 100644<br>
+index 23cbf53a41..0000000000<br>
+--- a/meta/recipes-graphics/xorg-lib/pixman/0001-test-utils-Check-for-FE_I=
+NVALID-definition-before-us.patch<br>
++++ /dev/null<br>
+@@ -1,33 +0,0 @@<br>
+-From 0ccd906b904d21536d5ab41c6196760e3e5d72cb Mon Sep 17 00:00:00 2001<br=
+>
+-From: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank=
+">raj.khem@gmail.com</a>&gt;<br>
+-Date: Tue, 17 May 2016 17:30:00 -0700<br>
+-Subject: [PATCH] test/utils: Check for FE_INVALID definition before use<b=
+r>
+-<br>
+-Some architectures e.g. nios2 do not support all exceptions<br>
+-<br>
+-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
+----<br>
+-Upstream-Status: Submitted [<a href=3D"https://gitlab.freedesktop.org/pix=
+man/pixman/merge_requests/24" rel=3D"noreferrer" target=3D"_blank">https://=
+gitlab.freedesktop.org/pixman/pixman/merge_requests/24</a>]<br>
+-<br>
+- test/utils.c | 2 ++<br>
+- 1 file changed, 2 insertions(+)<br>
+-<br>
+-diff --git a/test/utils.c b/test/utils.c<br>
+-index f8e42a5..fe32b1e 100644<br>
+---- a/test/utils.c<br>
+-+++ b/test/utils.c<br>
+-@@ -978,9 +978,11 @@ enable_invalid_exceptions (void)<br>
+- {<br>
+- #ifdef HAVE_FENV_H<br>
+- #ifdef HAVE_FEENABLEEXCEPT<br>
+-+#ifdef FE_INVALID<br>
+-=C2=A0 =C2=A0 =C2=A0feenableexcept (FE_INVALID);<br>
+- #endif<br>
+- #endif<br>
+-+#endif<br>
+- }<br>
+- <br>
+- void *<br>
+--- <br>
+-2.8.2<br>
+-<br>
+diff --git a/meta/recipes-graphics/xorg-lib/<a href=3D"http://pixman_0.38.=
+4.bb" rel=3D"noreferrer" target=3D"_blank">pixman_0.38.4.bb</a> b/meta/reci=
+pes-graphics/xorg-lib/<a href=3D"http://pixman_0.40.0.bb" rel=3D"noreferrer=
+" target=3D"_blank">pixman_0.40.0.bb</a><br>
+similarity index 85%<br>
+rename from meta/recipes-graphics/xorg-lib/<a href=3D"http://pixman_0.38.4=
+.bb" rel=3D"noreferrer" target=3D"_blank">pixman_0.38.4.bb</a><br>
+rename to meta/recipes-graphics/xorg-lib/<a href=3D"http://pixman_0.40.0.b=
+b" rel=3D"noreferrer" target=3D"_blank">pixman_0.40.0.bb</a><br>
+index 22e19ba069..5a3bb22ec3 100644<br>
+--- a/meta/recipes-graphics/xorg-lib/<a href=3D"http://pixman_0.38.4.bb" r=
+el=3D"noreferrer" target=3D"_blank">pixman_0.38.4.bb</a><br>
++++ b/meta/recipes-graphics/xorg-lib/<a href=3D"http://pixman_0.40.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">pixman_0.40.0.bb</a><br>
+@@ -9,10 +9,9 @@ DEPENDS =3D &quot;zlib&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;<a href=3D"https://www.cairographics.org/releases/=
+$%7BBP%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">https://www.cairogra=
+phics.org/releases/${BP}.tar.gz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-ARM-qemu-related-wor=
+karounds-in-cpu-features-detecti.patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-test-utils-Check-for=
+-FE_INVALID-definition-before-us.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+-SRC_URI[md5sum] =3D &quot;267a7af290f93f643a1bc74490d9fdd1&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;da66d6fd6e40aee70f7bd02e4f8f76fc3f006ec879d3=
+46bae6a723025cfbdde7&quot;<br>
++SRC_URI[md5sum] =3D &quot;73858c0862dd9896fb5f62ae267084a4&quot;<br>
++SRC_URI[sha256sum] =3D &quot;6d200dec3740d9ec4ec8d1180e25779c00bc749f9427=
+8c8b9021f5534db223fc&quot;<br>
+<br>
+=C2=A0# see <a href=3D"http://cairographics.org/releases/" rel=3D"noreferr=
+er" target=3D"_blank">http://cairographics.org/releases/</a> - only even mi=
+nor versions are stable<br>
+=C2=A0UPSTREAM_CHECK_REGEX =3D &quot;pixman-(?P&lt;pver&gt;\d+\.(\d*[02468=
+])+(\.\d+)+)&quot;<br>
+-- <br>
+2.26.2<br>
+<br>
+<br>
+</blockquote></div></div>
+</blockquote></div>
+
+--00000000000057cd4d05a714b274--
