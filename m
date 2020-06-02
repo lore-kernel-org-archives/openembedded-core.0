@@ -1,100 +1,74 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web11.10974.1591105409150533656
+Received: from mailout09.rmx.de (mailout09.rmx.de [94.199.88.74])
+ by mx.groups.io with SMTP id smtpd.web12.11149.1591105983434731441
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2020 06:43:29 -0700
+ Tue, 02 Jun 2020 06:53:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZCGrEsJ/;
- spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: rehsack@gmail.com)
-Received: by mail-wr1-f66.google.com with SMTP id x13so3498698wrv.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2020 06:43:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=MJDIGwR0KjsiLh6H57SVsPxMJdxIWFaakQKJd1I1w/U=;
-        b=ZCGrEsJ/Z8QIPpJBrTKlSsmbIETXZbrSVL0yXNygiVWVicCM/ijMI72c3eIedCimwR
-         +0VrEl4wy3omBjg90XlmL5Qxnvk8d2gIHmgYjKfpE4LUZiA5HsSb2befyzrDbgU5+lNj
-         VDpejFmKdggVtiF25lJi9t+0jtf399hh2AdFCnHYvH25okhmB/iljwm61GRuL3nZ9MQi
-         LwuozgUEYECckWuCbfABqOgj5+xByx9xldwoJq/1fHu9puR/vtIuw7zfpDtjSAtCYGpc
-         9oG6vYiiL4+yYxC109EveK0T2trAMOGXjkKMfzNbIut+45i/y8h/e4MhplmBVGMzwaRs
-         W7LQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-         :in-reply-to:references;
-        bh=MJDIGwR0KjsiLh6H57SVsPxMJdxIWFaakQKJd1I1w/U=;
-        b=i/lEzKZaSr+e3RMCUT9lRTIfOvO+n4mzMeT2jCSyEOrjBUdtZSDNA/xnwXuu7e2wwS
-         cauolNw+kqOS4xM4uHs7z2wghfM4uInPnKNaqm0/4NPCX5tFRhWrngy2quirvL1l/HsQ
-         R9fCPYQMnDN4mPZp9vbqh4vxMXwc0GwVlex6ApwQ3m84ms+LgkfsAoL6fJZKd4oLTOS1
-         SjbaXk15iTQXcBOmYpKxfV8e4PFru73eG/YWRtsTvyn358IT9tixejaqMUT7hr4tAEJU
-         4/cIDwCfwFNJLOH3BTVDeQtNfLcaN/Y5KEP8odiwjwJ64LoanzsgPdL5GM+Gs+En0A1Z
-         8sRg==
-X-Gm-Message-State: AOAM530sMMaapX0PgMseWG7aq/Ao1OVISYrYCXf246dQLRLZJbnTf1/B
-	9ZkIWYfyfQi4FFWkaLrRGxoNo4FoT44=
-X-Google-Smtp-Source: ABdhPJylyWg3SOS2lSFHwv2r3Jgmddb2YJ0Ekn8rcivfk3JdLSgc5lKNnbiHq0JBtJl5pOeJoRBpcg==
-X-Received: by 2002:adf:e751:: with SMTP id c17mr25164826wrn.134.1591105407384;
-        Tue, 02 Jun 2020 06:43:27 -0700 (PDT)
-Return-Path: <rehsack@gmail.com>
-Received: from beaker.muppets.liwing.de (p4fe931fc.dip0.t-ipconnect.de. [79.233.49.252])
-        by smtp.gmail.com with ESMTPSA id q1sm3505385wmc.12.2020.06.02.06.43.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2020 06:43:26 -0700 (PDT)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: "Jens Rehsack" <rehsack@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Anuj Mittal <anuj.mittal@intel.com>,
-	Otavio Salvador <otavio.salvador@gmail.com>,
-	Jens Rehsack <sno@netbsd.org>
-Subject: [OE-core][PATCH v4 2/2] init-system-helpers: avoid superfluous update-rc.d
-Date: Tue,  2 Jun 2020 15:42:56 +0200
-Message-Id: <20200602134256.8156-2-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200602134256.8156-1-sno@netbsd.org>
-References: <20200602134256.8156-1-sno@netbsd.org>
+ dkim=missing; spf=pass (domain: arri.de, ip: 94.199.88.74, mailfrom: ceggers@arri.de)
+Received: from kdin01.retarus.com (kdin01.dmz1.retloc [172.19.17.48])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout09.rmx.de (Postfix) with ESMTPS id 49btlv1xRrzbhXw
+	for <openembedded-core@lists.openembedded.org>; Tue,  2 Jun 2020 15:52:59 +0200 (CEST)
+Received: from ppmail.arri.de (unknown [217.111.95.7])
+	(using TLSv1 with cipher AES128-SHA (128/128 bits))
+	(No client certificate requested)
+	by kdin01.retarus.com (Postfix) with ESMTPS id 49btlr3bhxz2yxk
+	for <openembedded-core@lists.openembedded.org>; Tue,  2 Jun 2020 15:52:56 +0200 (CEST)
+Received: from mta.arri.de ([192.168.100.141]) by ppmail.arri.de over TLS secured channel with Microsoft SMTPSVC(7.0.6002.18264);
+	 Tue, 2 Jun 2020 15:52:37 +0200
+Received: from N95HX1G2.wgnetz.xx (192.168.54.51) by mta.arri.de
+ (192.168.100.104) with Microsoft SMTP Server (TLS) id 14.3.408.0; Tue, 2 Jun
+ 2020 15:52:36 +0200
+From: ceggers@arri.de
+To: <openembedded-core@lists.openembedded.org>
+CC: Christian Eggers <ceggers@arri.de>
+Subject: [PATCH] librsvg: Extend for nativesdk
+Date: Tue, 2 Jun 2020 15:52:20 +0200
+Message-ID: <20200602135220.22834-1-ceggers@arri.de>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+X-Originating-IP: [192.168.54.51]
+X-OriginalArrivalTime: 02 Jun 2020 13:52:37.0280 (UTC) FILETIME=[1314BA00:01D638E5]
+X-RMX-ID: 20200602-155256-49btlr3bhxz2yxk-0@kdin01
+X-RMX-SOURCE: 217.111.95.7
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Debians init-system-helpers bundle an own, perl written update-rc.d which
-doesn't fulfill embedded/cross-build requirements as our own in
-    meta/recipes-core/update-rc.d
-does. To avoid unnecessary conflicts or questions, do not bundle it by
-default. Whoever wants it is invited to have an .bbappend.
+Doxygen in meta-oe has recently been extended for nativesdk. Doxygen is
+often used together with dot (graphviz) which in turn depends on
+librsvg.
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
+Signed-off-by: Christian Eggers <ceggers@arri.de>
 ---
- .../recipes-core/initscripts/init-system-helpers_1.57.bb | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ meta/recipes-gnome/librsvg/librsvg_2.40.20.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/initscripts/init-system-helpers_1.57.bb b/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
-index d41bb94791..46f5bbf442 100644
---- a/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
-+++ b/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
-@@ -16,8 +16,6 @@ SECTION = "base"
- LICENSE = "BSD-3-Clause & GPLv2"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=ee2b1830fcfead84d07bc060ec43e072"
- 
--DEPENDS = "perl"
--
- SRCREV = "760c625ec0e1ffebec2e391d891d389da0f65726"
- SRC_URI = "git://salsa.debian.org/debian/init-system-helpers.git"
- 
-@@ -30,17 +28,14 @@ do_install() {
- 	install -d -m 0755 ${D}${sbindir}
- 	install -m 0755 ${S}/script/invoke-rc.d ${D}${sbindir}
- 	install -m 0755 ${S}/script/service ${D}${sbindir}
--	install -m 0755 ${S}/script/update-rc.d ${D}${sbindir}
- }
- 
--PACKAGES += "${PN}-invoke-rc.d ${PN}-service ${PN}-update-rc.d"
-+PACKAGES += "${PN}-invoke-rc.d ${PN}-service"
- 
- FILES_${PN} = ""
- FILES_${PN}-invoke-rc.d = "${sbindir}/invoke-rc.d"
- FILES_${PN}-service = "${sbindir}/service"
--FILES_${PN}-update-rc.d = "${sbindir}/update-rc.d"
- 
- ALLOW_EMPTY_${PN} = "1"
- 
--RDEPENDS_${PN}-update-rc.d = "perl"
--RRECOMMENDS_${PN} += "${PN}-invoke-rc.d ${PN}-service ${PN}-update-rc.d"
-+RRECOMMENDS_${PN} += "${PN}-invoke-rc.d ${PN}-service"
--- 
-2.17.1
+diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb b/meta/recipes=
+-gnome/librsvg/librsvg_2.40.20.bb
+index 6dd0533a5d..337299ff69 100644
+--- a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
++++ b/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9b=
+a36caa9b7df079bae19f \
+=20
+ SECTION =3D "x11/utils"
+ DEPENDS =3D "cairo gdk-pixbuf glib-2.0 libcroco libxml2 pango"
+-BBCLASSEXTEND =3D "native"
++BBCLASSEXTEND =3D "native nativesdk"
+=20
+ inherit gnomebase gtk-doc pixbufcache upstream-version-is-even gobject-i=
+ntrospection
+=20
+--=20
+Christian Eggers
+Embedded software developer
+
+Arnold & Richter Cine Technik GmbH & Co. Betriebs KG
+Sitz: Muenchen - Registergericht: Amtsgericht Muenchen - Handelsregistern=
+ummer: HRA 57918
+Persoenlich haftender Gesellschafter: Arnold & Richter Cine Technik GmbH
+Sitz: Muenchen - Registergericht: Amtsgericht Muenchen - Handelsregistern=
+ummer: HRB 54477
+Geschaeftsfuehrer: Dr. Michael Neuhaeuser; Stephan Schenk; Walter Traunin=
+ger; Markus Zeiler
 
