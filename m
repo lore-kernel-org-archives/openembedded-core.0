@@ -1,180 +1,82 @@
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
- by mx.groups.io with SMTP id smtpd.web11.50189.1591052198373729736
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+ by mx.groups.io with SMTP id smtpd.web11.51568.1591056787000286821
  for <openembedded-core@lists.openembedded.org>;
- Mon, 01 Jun 2020 15:56:38 -0700
+ Mon, 01 Jun 2020 17:13:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PjMaxz2a;
- spf=pass (domain: gmail.com, ip: 209.85.221.182, mailfrom: armccurdy@gmail.com)
-Received: by mail-vk1-f182.google.com with SMTP id n188so420809vkc.11
-        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 15:56:38 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=koIL+Ljz;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.68, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f68.google.com with SMTP id d6so570836pjs.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 01 Jun 2020 17:13:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0NMnv/jptuFUGbWdbNOEj912xucXP22nS/fMnEQoSlU=;
-        b=PjMaxz2aNK7v1uTRjAENY5Ts84vqXXgX31VaOscoWYKczEf8m6AIQ9aZPpFXTh55wR
-         0SVHa4/xjyb+AjZXx+iFYDwavVu3ZEbgUck/Rxjxn+NEK57VvE2dPVOP4JNUhhrxTyjN
-         V9QCkzEx+rw8pUZQje1o8J8myaw+g/v3PvMEJ2528ZvwbY4L+bnK1xlDahRnhC5VAWM1
-         2Wrpn/8RuQ3Qemfh1fxvU6vV2BTtEx/1scoLyypOOU5dd9t6T8+vj7WP4WFJWfwV6fYa
-         u/doaeBd5rRcXDeiQZzRca6y8n8buJlZs7mXQCVK3i40tegOIEbRFVvPpOEZFNjKew4b
-         Oxzg==
+        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id;
+        bh=7KkzHi/piHtYNABwU28JHqhZgWPZ2rzJa4Hec1JpZU8=;
+        b=koIL+Ljz6HImXkFxda9n0swW52DHbgRSsP8uEbRE1V40BzoU0g7U/0X3XPSUg9E14q
+         HhZbOZqyJevUTrDB9IRysD6f859stuNNsP7lOsbf7vidAkp+v9EBSx6UNpqJGglJlIvv
+         OBHUxJAeSdlh0ej5Ev6Xi7cbfGXBx+69SPNa2PLUD4c5uGSrMxfhw4P9nkIJeaLCnwup
+         zDncshf09HhTyKH2ajxSqvGrFncH2eRC3PiBgaY+6uNyXTPWrZ+3MGuK0cUIjYoHkzPq
+         JkE0Bv2rLrahiIV7RQukO7aA25vcdr+JWWtQtg1pz/9FmT5yUiQVJKmFAy2o7LNe3dp2
+         pOKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0NMnv/jptuFUGbWdbNOEj912xucXP22nS/fMnEQoSlU=;
-        b=PXDoiIhcJKk7QL3WoJZDXTIRDprJmlWWkTqWi1arKEFdy33VXj3zEzqoa0jHdsRyE6
-         BuQzuZwnXVvBJfRvsT1NeQXk0JfL4KxRpCTNrdPN+cuc1O3JJ56c9hWWZDzPdz+otW3Y
-         ptxO/8rW8Fgi4r2fjQ/5cLlmdK9JCCcNEcjgGP/6w+OZX8wLZEk3gg0wo2Ck2/bhUfhz
-         7FdxBlzVOpiS/ZXnc3yDI2UAXajODheNQdXde5SRqzlLu5+P20p523I0M+8UYZ1CskpU
-         D4Z1FOyybDPvOiwC7u2cDc4OtJ3z7IzSDGWcB5PKLrSy9luLawAsKgnh87EtRv09X3AV
-         241w==
-X-Gm-Message-State: AOAM532OP6l4bwwYiidGtu7AwRY8F9sFAI91xTbg3FMeRnOBXXmB4uFM
-	tma+BMxiX0s5/MA2up7LogzDin9Ai77C2YO7j9Y=
-X-Google-Smtp-Source: ABdhPJwie0wmkSZdKNFKDhKz0fKiebiDTYENBKWqKHrpWlOxYnMSBAK9bxj4V2v+qs8R/wwBuDHGp6mE2SW8ftZjnuw=
-X-Received: by 2002:ac5:cc44:: with SMTP id l4mr7755346vkm.43.1591052197363;
- Mon, 01 Jun 2020 15:56:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200514073936.40572-1-mingli.yu@windriver.com>
- <17e2ea0e-6588-355a-9f5a-b570a0e4cf87@gmail.com> <5EBCFA66.5010902@windriver.com>
- <BYAPR11MB2598FF5F9FC00BB12F54AF7EF1BD0@BYAPR11MB2598.namprd11.prod.outlook.com>
- <a0bd0c21-78b2-08ed-304c-3b5345d7e5da@gmail.com>
-In-Reply-To: <a0bd0c21-78b2-08ed-304c-3b5345d7e5da@gmail.com>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Mon, 1 Jun 2020 15:56:28 -0700
-Message-ID: <CAJ86T=W_ymSuW+D5mveh=+xo50gXq-3Chgu+shq4vWqY8_BNjQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] bison: fix the parallel build
-To: Jacob Kroon <jacob.kroon@gmail.com>
-Cc: "Yu, Mingli" <Mingli.Yu@windriver.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=7KkzHi/piHtYNABwU28JHqhZgWPZ2rzJa4Hec1JpZU8=;
+        b=XvUhfbZpaLGrtPMhXxMJxs+nSq9DsSPmVkkNMZxKEo78hsv4hojrZf7MaGjRa9vIR8
+         8nQnXxwWEtPj0OKGAD0AUPbTwEBqWh5Vd2v2qw8m97hi77eStZBHrDf8fBLdQX9TBBQU
+         IHisH9b1T5Y3okuw2gH+oGuJbKAVNj8YD9tP+f6VHtFrEorze4uZypcNkSb5vBiPn5jJ
+         WeALPIDZCzF38Z0cNeED0PfBXDLLuzlbs5gqWb+Q655uxEkVALrT1NUiccLylOiGuvZ1
+         bUkp6TC6FUptOmMIo+5avzsbTT6DSis0s9p9spYm6t7zgz3ix/iRV1+2O9Uk8RvAdnEy
+         wLlQ==
+X-Gm-Message-State: AOAM530uPosjzEFslMCvP29bRwqquxV1GuCjswoy3yn5ymY6Sfhucy5M
+	G75Px7JgRMVQeVjAciB5TTHolSWYim0=
+X-Google-Smtp-Source: ABdhPJwd5VeVeA5+iBqyV123dpkl72J7Loaurm+cmSsFY11RcXg1YpDUIQZAx4Hraq27G7Lf297Egw==
+X-Received: by 2002:a17:90b:882:: with SMTP id bj2mr2046766pjb.186.1591056785801;
+        Mon, 01 Jun 2020 17:13:05 -0700 (PDT)
+Return-Path: <steve@sakoman.com>
+Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
+        by smtp.gmail.com with ESMTPSA id c195sm442699pfc.203.2020.06.01.17.13.04
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2020 17:13:05 -0700 (PDT)
+From: "Steve Sakoman" <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][dunfell 0/8] Patch review
+Date: Mon,  1 Jun 2020 14:12:38 -1000
+Message-Id: <cover.1591056239.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.17.1
 
-On Thu, May 14, 2020 at 10:53 PM Jacob Kroon <jacob.kroon@gmail.com> wrote:
->
-> Hi Mingli,
-> Thank you for fixing.
-> /Jacob
->
-> On 5/15/20 3:55 AM, Yu, Mingli wrote:
-> > Hi Jacob,
-> >
-> > I can check the
-> > https://lists.gnu.org/archive/html/bison-patches/2020-05/msg00055.html
-> > link now, so I resend the v2 to add the link for Upstream-Status part.
+Please review this next set of patches for dunfell and have comments back
+by end of day Wednesday.
 
-The previous workaround (ie EXTRA_OEMAKE_append = " -l") in the bison
-recipe should be removed now.
+Passed a-full build on the autobuilder:
 
-Note also that there are questions on the bison mailing list related
-to this change which don't seem to have any response yet:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/1029
 
-  https://lists.gnu.org/archive/html/bison-patches/2020-05/msg00058.html
+The following changes since commit e2658a7d73b6f21939e644e533718cd05b288766:
 
-> > Thanks,
-> > Mingli
-> > ------------------------------------------------------------------------
-> > *From:* Yu, Mingli <mingli.yu@windriver.com>
-> > *Sent:* Thursday, May 14, 2020 15:59
-> > *To:* Jacob Kroon <jacob.kroon@gmail.com>;
-> > openembedded-core@lists.openembedded.org
-> > <openembedded-core@lists.openembedded.org>
-> > *Subject:* Re: [OE-core] [PATCH] bison: fix the parallel build
-> > Hi Jacob,
-> >
-> > On 05/14/20 15:55, Jacob Kroon wrote:
-> >> Hi Mingli,
-> >>
-> >> On 5/14/20 9:39 AM, Yu, Mingli wrote:
-> >>> From: Mingli Yu <mingli.yu@windriver.com>
-> >>>
-> >>> Explicitly make the BUILT_SOURCES which
-> >>> are the generated headers such as stdio.h,
-> >>> fcntl.h and etc to be the dependencies of
-> >>> the gl_LIBOBJS such as libbison_a-sprintf.o,
-> >>> libbison_a-printf.o and etc to guarantee the
-> >>> BUILT_SOURCES is generated before begin to
-> >>> compile EXTRA_lib_libbison_a_SOURCES such as
-> >>> fprintf.c in parallel builid, otherwise there
-> >>> may come below error:
-> >>>   | muscle-tab.c:(.text+0x77a): undefined reference to `rpl_sprintf'
-> >>>
-> >>> It does the same for src_bison_OBJECTS and
-> >>> lib_libbison_a_OBJECTS to make sure BUILT_SOURCES
-> >>> generated before begin to compile src_bison_SOURCES
-> >>> which contains AnnotationList.c and etc.
-> >>>
-> >>> BTW, the MOSTLYCLEANFILES also contains the
-> >>> generated header needs to be created early
-> >>> in the build process, so add it also in to
-> >>> avoid below error:
-> >>>   | ./lib/uniwidth/width.c:21:10: fatal error: uniwidth.h: No such
-> >>> file or directory
-> >>>
-> >>> [YOCTO #13825]
-> >>>
-> >>> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> >>> ---
-> >>>   .../0001-bison-fix-the-parallel-build.patch   | 63 +++++++++++++++++++
-> >>>   meta/recipes-devtools/bison/bison_3.5.4.bb    |  1 +
-> >>>   2 files changed, 64 insertions(+)
-> >>>   create mode 100644
-> >>> meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
-> >>>
-> >>> diff --git
-> >>> a/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
-> >>> b/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
-> >>>
-> >>> new file mode 100644
-> >>> index 0000000000..c3be91a109
-> >>> --- /dev/null
-> >>> +++
-> >>> b/meta/recipes-devtools/bison/bison/0001-bison-fix-the-parallel-build.patch
-> >>>
-> >>> @@ -0,0 +1,63 @@
-> >>> +From e0dbcee6e25b3c0cb11a627bbfe3af45ef67ec30 Mon Sep 17 00:00:00 2001
-> >>> +From: Mingli Yu <mingli.yu@windriver.com>
-> >>> +Date: Thu, 14 May 2020 15:23:16 +0800
-> >>> +Subject: [PATCH] bison: fix the parallel build
-> >>> +
-> >>> +Explicitly make the BUILT_SOURCES which
-> >>> +are the generated headers such as stdio.h,
-> >>> +fcntl.h and etc to be the dependencies of
-> >>> +the gl_LIBOBJS such as libbison_a-sprintf.o,
-> >>> +libbison_a-printf.o and etc to guarantee the
-> >>> +BUILT_SOURCES is generated before begin to
-> >>> +compile EXTRA_lib_libbison_a_SOURCES such as
-> >>> +fprintf.c in parallel builid, otherwise there
-> >>> +may come below error:
-> >>> + | muscle-tab.c:(.text+0x77a): undefined reference to `rpl_sprintf'
-> >>> +
-> >>> +It does the same for src_bison_OBJECTS and
-> >>> +lib_libbison_a_OBJECTS to make sure BUILT_SOURCES
-> >>> +generated before begin to compile src_bison_SOURCES
-> >>> +which contains AnnotationList.c and etc.
-> >>> +
-> >>> +BTW, the MOSTLYCLEANFILES also contains the
-> >>> +generated header needs to be created early
-> >>> +in the build process, so add it also in to
-> >>> +avoid below error:
-> >>> + | ./lib/uniwidth/width.c:21:10: fatal error: uniwidth.h: No such
-> >>> file or directory
-> >>> +
-> >>> +Upstream-Status: Submitted [bison-patches@gnu.org maillist]
-> >>> +
-> >>
-> >> I can't find the patch email in the bison-patches mailing list archive,
-> >> do you have a link url ?
-> >
-> > Good catch, that's why I didn't paste the link in the Submitted part.
-> >
-> > BTW, I also cannot find at
-> > https://lists.gnu.org/archive/html/bison-patches/2020-05/threads.html
-> > though I indeed sent to bison-patches@gnu.org.
-> >
-> > Thanks,
-> > Mingli
-> >
-> >>
-> >> /Jacob
-> >>
-> 
+  qemuarm: check serial consoles vs /proc/consoles (2020-06-01 07:02:44 -1000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+
+Bruce Ashfield (8):
+  linux-yocto/5.4: update to v5.4.38
+  linux-yocto/5.4: update to v5.4.40
+  kernel/reproducibility: kernel modules need SOURCE_DATE_EPOCH export
+  linux-yocto/5.4: update to v5.4.42
+  linux-yocto-rt/5.4: update to rt24
+  linux-yocto/5.4: temporarily revert IKHEADERS in standard kernels
+  linux-yocto: gather reproducibility configs into a fragment
+  linux-yocto/5.4: update to v5.4.43
+
+ meta/classes/kernel.bbclass                   | 15 +++++++++++++
+ .../linux/linux-yocto-rt_5.4.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.4.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 22 +++++++++----------
+ 4 files changed, 33 insertions(+), 18 deletions(-)
+
+-- 
+2.17.1
+
