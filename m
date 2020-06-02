@@ -1,79 +1,360 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.web10.9198.1591100334754614900
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web10.9197.1591100334731841895
  for <openembedded-core@lists.openembedded.org>;
  Tue, 02 Jun 2020 05:18:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Quuzzln3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id q11so3200758wrp.3
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OYI7PQhr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id r15so2882619wmh.5
         for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2020 05:18:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+        h=from:to:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=UNBJgmWLFITY/Z7ERcXRLU5h4/KtNrHwQZwarWbddbA=;
-        b=Quuzzln3hucPQb3Mb4SI7NyqJ0rYfK7xFneCYcVBrpXU+X1vN0JXq8BBpKy1z9EEoo
-         3qbBsQZc16tC/kIhEgLuR4ytjUPBxzT/UdV0McXwsdCPrJ4oLHkyL28ApVA6ARunEIwM
-         hiujLCAGGraly367BDlwIExS3qdXc7MRHra00=
+        bh=jX4GPpM08JuAG3h58OqCLL3Jj5uuND+8scB8V79ZoMI=;
+        b=OYI7PQhrvAdp8h8/caSFF/awViHNVeNY3fslt9S0fyUECOJjjL/aTNvTqwIQFJppjE
+         ya/qBfvwZCpgSrcXCxgozmD6zaUoDESPv0yy3HwFg7RWM0f34vn6+iV0+99/9i6rEv4h
+         HIDBe4AxiqEnAx1kHcrDjcDMxUjid0MNECj78=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=UNBJgmWLFITY/Z7ERcXRLU5h4/KtNrHwQZwarWbddbA=;
-        b=tGBapgr+GdwUpUkmlGyFvxlU+vNP6lZAzsrdA9jI3f3MVcgBlE7S1KttetxHDJsSMk
-         SKTLAmC+88kdroIKTBFdadcd4p6xalNSoPsGTceZuTuHAvbaMzC5l9Q7BP8MZrMgSf8v
-         QlgjMydpWBGQSQRCBy/StAg9lqlqTiCyq8MDXz/Ec1Rr1dIFwwALhsQdeKgkkPHUZ4tA
-         KbnuUpqTJNhx5sWxQO+bTNkFMUOHEzST4d5D9tuTctBtwdVjWfPpdwfS/9cxSRwM35tk
-         kmX7R62aAxCCrwGvS4v+7hEI1ogWkznAbQn8hvrMp347Lz/itadSAMxQNGh9h0aULeHL
-         x71A==
-X-Gm-Message-State: AOAM533Nzsj2g/yN939ySR08ei6yIO37YIOy2olhYxOCAbjuHJ5p8Ys4
-	zPlUxlljynjiF4uxUvyYjoIkgVwXW697Dw==
-X-Google-Smtp-Source: ABdhPJw9SJw370HA5c/9Q0x4WJ4dllH1FkhJEPTMuhz6FPl2Z4OHIFpS2gKdUbOC90bBQ6GoZivV0Q==
-X-Received: by 2002:a5d:4948:: with SMTP id r8mr25502721wrs.290.1591100332918;
-        Tue, 02 Jun 2020 05:18:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jX4GPpM08JuAG3h58OqCLL3Jj5uuND+8scB8V79ZoMI=;
+        b=cuHtQwe1lX70y81CCFY5yiwahglXqlg1m6llm1nw7/iP74OqcExdmatOYMYPRsi9JH
+         pWgKNmTHhs/vUbr8sG9PhuWoyhMNqdzScHDI6nbwP5Q6bkyA4jrCSlGFB5GAvrUlOMbH
+         rgPiRB2P2tqGqtwGCl6giumZfqn2J4A4LCZbE+9NyMwHkSNz7SzhNBroOA3gFb3n8VUm
+         SlGEwbNyi6h7gXOmbw/6lx5UzH4SSrkBzOq6Gobs9e+E8vIHksgEcibs5rWTSnNw70BB
+         zRBXTK6LuN0xp7y+Ffi42Rh8BXnQscXZW4wKMDTqPqtGVVrPjxsWuBj0iaOKspip1eV0
+         E1Aw==
+X-Gm-Message-State: AOAM531y4bhQu5aMbqi//1k2T52NuHpwYO01/2kFIpw5mGXt4QmOZCvV
+	y7UD6dIcPzx3xJWqjocakpc0KdsDpHpXHQ==
+X-Google-Smtp-Source: ABdhPJz/DI3PyusRkkiuiWOA2I+sNlqD4cCbWDj8a7TmjsedNMyTuPoj6TxYkXcUZjge/OORWNdNUA==
+X-Received: by 2002:a1c:3c08:: with SMTP id j8mr3736247wma.23.1591100331924;
+        Tue, 02 Jun 2020 05:18:51 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id l1sm4163788wrb.31.2020.06.02.05.18.52
+        by smtp.gmail.com with ESMTPSA id l1sm4163788wrb.31.2020.06.02.05.18.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2020 05:18:52 -0700 (PDT)
+        Tue, 02 Jun 2020 05:18:50 -0700 (PDT)
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] logrotate: Drop obsolete setting/comment
-Date: Tue,  2 Jun 2020 13:18:49 +0100
-Message-Id: <20200602121849.4152981-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/2] maintainers: Update Ross' email address
+Date: Tue,  2 Jun 2020 13:18:48 +0100
+Message-Id: <20200602121849.4152981-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200602121849.4152981-1-richard.purdie@linuxfoundation.org>
-References: <20200602121849.4152981-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The comment applies to an old version and the WORKDIR setting matches
-the default so drop it.
+Update Ross' address to a valid one.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/logrotate/logrotate_3.16.0.bb | 7 -------
- 1 file changed, 7 deletions(-)
+ meta/conf/distro/include/maintainers.inc | 126 +++++++++++------------
+ 1 file changed, 63 insertions(+), 63 deletions(-)
 
-diff --git a/meta/recipes-extended/logrotate/logrotate_3.16.0.bb b/meta/recipes-extended/logrotate/logrotate_3.16.0.bb
-index 2b6ee0a19a3..1c9df5a3cad 100644
---- a/meta/recipes-extended/logrotate/logrotate_3.16.0.bb
-+++ b/meta/recipes-extended/logrotate/logrotate_3.16.0.bb
-@@ -9,13 +9,6 @@ DEPENDS="coreutils popt"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--# When updating logrotate to latest upstream, SRC_URI should point to
--# a proper release tarball from https://github.com/logrotate/logrotate/releases
--# and we have to take the snapshot for now because there is no such
--# tarball available for 3.9.1.
--
--S = "${WORKDIR}/${BPN}-${PV}"
--
- UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
- UPSTREAM_CHECK_REGEX = "logrotate-(?P<pver>\d+(\.\d+)+).tar"
- 
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 1ca1dcf775d..dc20126d9b8 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -28,9 +28,9 @@
+ # Please keep this list in alphabetical order.
+ #
+ RECIPE_MAINTAINER_pn-acl = "Chen Qi <Qi.Chen@windriver.com>"
+-RECIPE_MAINTAINER_pn-acpica = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-acpid = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-adwaita-icon-theme = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-acpica = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-acpid = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-adwaita-icon-theme = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-alsa-lib = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-alsa-plugins = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-alsa-state = "Tanu Kaskinen <tanuk@iki.fi>"
+@@ -94,15 +94,15 @@ RECIPE_MAINTAINER_pn-cantarell-fonts = "Alexander Kanavin <alex.kanavin@gmail.co
+ RECIPE_MAINTAINER_pn-ccache = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-cdrtools-native = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-chrpath = "Yi Zhao <yi.zhao@windriver.com>"
+-RECIPE_MAINTAINER_pn-clutter-1.0 = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-clutter-gst-3.0 = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-clutter-gtk-1.0 = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-clutter-1.0 = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-clutter-gst-3.0 = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-clutter-gtk-1.0 = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-cmake = "Pascal Bach <pascal.bach@siemens.com>"
+ RECIPE_MAINTAINER_pn-cmake-native = "Pascal Bach <pascal.bach@siemens.com>"
+-RECIPE_MAINTAINER_pn-cogl-1.0 = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-cogl-1.0 = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-connman = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+-RECIPE_MAINTAINER_pn-connman-conf = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-connman-gnome = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-connman-conf = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-connman-gnome = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-consolekit = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-core-image-base = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-core-image-minimal = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+@@ -133,8 +133,8 @@ RECIPE_MAINTAINER_pn-cryptodev-module = "Robert Yang <liezhi.yang@windriver.com>
+ RECIPE_MAINTAINER_pn-cryptodev-tests = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-cups = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-curl = "Armin Kuster <akuster808@gmail.com>"
+-RECIPE_MAINTAINER_pn-cve-update-db-native = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-cwautomacros = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-cve-update-db-native = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-cwautomacros = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-db = "Mark Hatle <mark.hatle@windriver.com>"
+ RECIPE_MAINTAINER_pn-dbus = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-dbus-glib = "Chen Qi <Qi.Chen@windriver.com>"
+@@ -162,8 +162,8 @@ RECIPE_MAINTAINER_pn-dtc = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-dwarfsrcfiles = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-e2fsprogs = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-ed = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-efivar = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-efibootmgr = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-efivar = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-efibootmgr = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-elfutils = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-ell = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-enchant2 = "Anuj Mittal <anuj.mittal@intel.com>"
+@@ -180,10 +180,10 @@ RECIPE_MAINTAINER_pn-flac = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-flex = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-font-alias = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-font-util = "Armin Kuster <akuster808@gmail.com>"
+-RECIPE_MAINTAINER_pn-fontconfig = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-formfactor = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-freetype = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-fribidi = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-fontconfig = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-formfactor = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-freetype = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-fribidi = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-fts = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-gawk = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-gcc = "Khem Raj <raj.khem@gmail.com>"
+@@ -193,13 +193,13 @@ RECIPE_MAINTAINER_pn-gcc-crosssdk-${SDK_SYS} = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-gcc-runtime = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-gcc-sanitizers = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-gcc-source-10.1.0 = "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER_pn-gconf = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-gconf = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-gcr = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-gdb = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-gdb-cross-${TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-gdbm = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-gdk-pixbuf = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-gdk-pixbuf = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-gettext = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-gettext-minimal-native = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-ghostscript = "Hongxu Jia <hongxu.jia@windriver.com>"
+@@ -214,7 +214,7 @@ RECIPE_MAINTAINER_pn-glibc-scripts = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-glibc-testsuite = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-glide = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+ RECIPE_MAINTAINER_pn-gmp = "Khem Raj <raj.khem@gmail.com>"
+-RECIPE_MAINTAINER_pn-gnome-desktop-testing = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-gnome-desktop-testing = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-gnu-config = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-gnu-efi = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-gnupg = "Hongxu Jia <hongxu.jia@windriver.com>"
+@@ -250,7 +250,7 @@ RECIPE_MAINTAINER_pn-gstreamer1.0-plugins-ugly = "Anuj Mittal <anuj.mittal@intel
+ RECIPE_MAINTAINER_pn-gstreamer1.0-python = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-gstreamer1.0-rtsp-server = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-gstreamer1.0-vaapi = "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-gtk+3 = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-gtk+3 = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-gtk-doc = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-gzip = "Denys Dmytriyenko <denys@ti.com>"
+ RECIPE_MAINTAINER_pn-harfbuzz = "Anuj Mittal <anuj.mittal@intel.com>"
+@@ -333,18 +333,18 @@ RECIPE_MAINTAINER_pn-libgcc-initial = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-libgcrypt = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-libgfortran = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-libgloss = "Alejandro Hernandez <aehs29@gmail.com>"
+-RECIPE_MAINTAINER_pn-libglu = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-libglu = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-libgpg-error = "Hongxu Jia <hongxu.jia@windriver.com>"
+-RECIPE_MAINTAINER_pn-libgudev = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-libgudev = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-libhandy = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-libical = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-libical = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-libice = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-libid3tag = "Tanu Kaskinen <tanuk@iki.fi>"
+-RECIPE_MAINTAINER_pn-libidn2 = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-libinput = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-libjitterentropy = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-libidn2 = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-libinput = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-libjitterentropy = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-libksba = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-libmatchbox = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-libmatchbox = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-libmnl = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-libmpc = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-libmodule-build-perl = "Tim Orling <timothy.t.orling@linux.intel.com>"
+@@ -449,7 +449,7 @@ RECIPE_MAINTAINER_pn-llvm = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-lrzsz = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-lsb-release = "Hongxu Jia <hongxu.jia@windriver.com>"
+-RECIPE_MAINTAINER_pn-lsof = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-lsof = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-ltp = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-lttng-modules = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-lttng-tools = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+@@ -466,18 +466,18 @@ RECIPE_MAINTAINER_pn-makedevs = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-make-mod-scripts = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER_pn-man-db = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-man-pages = "Hongxu Jia <hongxu.jia@windriver.com>"
+-RECIPE_MAINTAINER_pn-matchbox-config-gtk = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-matchbox-desktop = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-matchbox-keyboard = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-matchbox-panel-2 = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-matchbox-session = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-matchbox-session-sato = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-matchbox-terminal = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-matchbox-theme-sato = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-matchbox-wm = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-mc = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-mdadm = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-menu-cache = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-matchbox-config-gtk = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-matchbox-desktop = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-matchbox-keyboard = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-matchbox-panel-2 = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-matchbox-session = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-matchbox-session-sato = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-matchbox-terminal = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-matchbox-theme-sato = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-matchbox-wm = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-mc = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-mdadm = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-menu-cache = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-mesa = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+ RECIPE_MAINTAINER_pn-mesa-demos = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+ RECIPE_MAINTAINER_pn-mesa-gl = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+@@ -513,7 +513,7 @@ RECIPE_MAINTAINER_pn-nativesdk-buildtools-perl-dummy = "Richard Purdie <richard.
+ RECIPE_MAINTAINER_pn-nativesdk-icecc-toolchain = "Joshua Watt <JPEWhacker@gmail.com>"
+ RECIPE_MAINTAINER_pn-nativesdk-libtool = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-nativesdk-meson = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-nativesdk-packagegroup-sdk-host = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-nativesdk-packagegroup-sdk-host = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-nativesdk-qemu-helper = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-nativesdk-sdk-provides-dummy = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-newlib = "Alejandro Hernandez <aehs29@gmail.com>"
+@@ -527,7 +527,7 @@ RECIPE_MAINTAINER_pn-nfs-utils = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-ninja = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-npth = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-nss-myhostname = "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-ofono = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-ofono = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-opensbi = "Alistair Francis <alistair.francis@wdc.com>"
+ RECIPE_MAINTAINER_pn-openssh = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-openssl = "Alexander Kanavin <alex.kanavin@gmail.com>"
+@@ -536,12 +536,12 @@ RECIPE_MAINTAINER_pn-opkg-arch-config = "Alejandro del Castillo <alejandro.delca
+ RECIPE_MAINTAINER_pn-opkg-keyrings = "Alejandro del Castillo <alejandro.delcastillo@ni.com>"
+ RECIPE_MAINTAINER_pn-opkg-utils = "Alejandro del Castillo <alejandro.delcastillo@ni.com>"
+ RECIPE_MAINTAINER_pn-orc = "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-os-release = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-os-release = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-ovmf = "Ricardo Neri <ricardo.neri-calderon@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-ovmf-shell-image = "Ricardo Neri <ricardo.neri-calderon@linux.intel.com>"
+ RECIPE_MAINTAINER_pn-p11-kit = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-package-index = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-pango = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-package-index = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-pango = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-parted = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-patch = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-patchelf = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+@@ -550,13 +550,13 @@ RECIPE_MAINTAINER_pn-pciutils = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-pcmanfm = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-perf = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER_pn-perl = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-piglit = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-piglit = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-pigz = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-pinentry = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-pixman = "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-pkgconf = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-pkgconfig = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-pm-utils = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-pkgconf = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-pkgconfig = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-pm-utils = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-pointercal-xinput = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-pong-clock = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-popt = "Yi Zhao <yi.zhao@windriver.com>"
+@@ -568,7 +568,7 @@ RECIPE_MAINTAINER_pn-procps = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-pseudo = "Mark Hatle <mark.hatle@windriver.com>"
+ RECIPE_MAINTAINER_pn-psmisc = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-psplash = "Yi Zhao <yi.zhao@windriver.com>"
+-RECIPE_MAINTAINER_pn-ptest-runner = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-ptest-runner = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-pulseaudio = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-pulseaudio-client-conf-sato = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-puzzles = "Anuj Mittal <anuj.mittal@intel.com>"
+@@ -621,10 +621,10 @@ RECIPE_MAINTAINER_pn-rpcsvc-proto = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER_pn-rpm = "Mark Hatle <mark.hatle@windriver.com>"
+ RECIPE_MAINTAINER_pn-rsync = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-rt-tests = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-ruby = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-run-postinsts = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-ruby = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-run-postinsts = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-rxvt-unicode = "Armin Kuster <akuster808@gmail.com>"
+-RECIPE_MAINTAINER_pn-sato-screenshot = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-sbc = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-screen = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-sed = "Chen Qi <Qi.Chen@windriver.com>"
+@@ -664,8 +664,8 @@ RECIPE_MAINTAINER_pn-systemd-systemctl-native = "Chen Qi <Qi.Chen@windriver.com>
+ RECIPE_MAINTAINER_pn-systemtap = "Victor Kamensky <kamensky@cisco.com>"
+ RECIPE_MAINTAINER_pn-systemtap-native = "Victor Kamensky <kamensky@cisco.com>"
+ RECIPE_MAINTAINER_pn-systemtap-uprobes = "Victor Kamensky <kamensky@cisco.com>"
+-RECIPE_MAINTAINER_pn-sysvinit = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-sysvinit-inittab = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-sysvinit = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-sysvinit-inittab = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-taglib = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-tar = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-tcf-agent = "Anuj Mittal <anuj.mittal@intel.com>"
+@@ -681,12 +681,12 @@ RECIPE_MAINTAINER_pn-tzcode-native = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-tzdata = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-u-boot = "Marek Vasut <marek.vasut@gmail.com>"
+ RECIPE_MAINTAINER_pn-u-boot-tools = "Marek Vasut <marek.vasut@gmail.com>"
+-RECIPE_MAINTAINER_pn-udev-extraconf = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-unfs3 = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-unifdef = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-udev-extraconf = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-unfs3 = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER_pn-unifdef = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-uninative-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-unzip = "Denys Dmytriyenko <denys@ti.com>"
+-RECIPE_MAINTAINER_pn-update-rc.d = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-update-rc.d = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-usbinit = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-usbutils = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-util-linux = "Chen Qi <Qi.Chen@windriver.com>"
+@@ -699,11 +699,11 @@ RECIPE_MAINTAINER_pn-vim-tiny = "Tom Rini <trini@konsulko.com>"
+ RECIPE_MAINTAINER_pn-virglrenderer = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-volatile-binds = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-vte = "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-vulkan-demos = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-vulkan-demos = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-vulkan-headers = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-vulkan-loader = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-vulkan-tools = "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-waffle = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-waffle = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-watchdog = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-watchdog-config = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-wayland = "Denys Dmytriyenko <denys@ti.com>"
+@@ -743,7 +743,7 @@ RECIPE_MAINTAINER_pn-xf86-video-intel = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xf86-video-vesa = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xf86-video-vmware = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xhost = "Armin Kuster <akuster808@gmail.com>"
+-RECIPE_MAINTAINER_pn-xinetd = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-xinetd = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER_pn-xinit = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xinput = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xinput-calibrator = "Armin Kuster <akuster808@gmail.com>"
 -- 
 2.25.1
 
