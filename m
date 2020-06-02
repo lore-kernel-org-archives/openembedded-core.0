@@ -1,126 +1,220 @@
-Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com [209.85.222.67])
- by mx.groups.io with SMTP id smtpd.web11.5674.1591083027568598128
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.5755.1591083589978034263
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2020 00:30:27 -0700
+ Tue, 02 Jun 2020 00:39:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=d4H2K3DP;
- spf=pass (domain: gmail.com, ip: 209.85.222.67, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f67.google.com with SMTP id w20so915060uaa.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2020 00:30:27 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=dKoZcFT9;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=koLWhSMtOM8eIyAUys9ldgxUw7gz75yNJV7t8ZW55hk=;
-        b=d4H2K3DPPbI8jE/K7fTcmt+w0sTubKX+FwtdE0+HjTcvVEfiz244JLOcsIu+LyTW4g
-         mTIc29YkFoIYvUH5ZTUYIGhegbg9hhXURQkQ5oYKlYYkiHz+X9WsRVrRk0veKEA1sRAM
-         qKAWHFTfh8tQCTwxmV7kq9hj895uNItJSasy+7ormohJos+oMQsJfrTVM+EReIaZEvwl
-         0OfPba0R9+1yz4oMnOXlglrLzLKrOEiz4O7k0NTPLi80TnNoDNfEp9V/930hQbfVI6BK
-         zF8TbRFabsVQYbR8OWwHLKnfovDmHsNPuA6eOC0epTgUyKchnvX4ctOzetGq6VXMTCtE
-         0LcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=koLWhSMtOM8eIyAUys9ldgxUw7gz75yNJV7t8ZW55hk=;
-        b=ibFuTRl+MndN7/L/oLxPPfonkT3ivS4Q/5RZzohqWLZKYieq7pFcUTtnERfpRMztHB
-         oKAhiHyzLb4nPQqF36UvNyVDtsm9J8VjkjKQyJ2O8orJ3VNQXHf16Tst5m8EXw356+Jo
-         1+9q7dIg0kGasZQaL3qWr2n57O7d6I2Y6u9uwArs/cCarRNuZbVCK2Hr1nHfKFzux7JN
-         JNDORCYAzGAPzIFRavh0DwXvGZBLAFI2SZ+xbsQH5abhI9cpraQU7vz5ow7uCJyiU3x9
-         ti3Qw1r5hLcIocWS+eHLsOPCZqKAwt3m+Y7g25KV6HbmDdH3sVkHQ7KF0Wjn9sscYg6x
-         3dQA==
-X-Gm-Message-State: AOAM531PFkkOw18gemSdzabMdPC0AFN1dpWM9f9KeNyX+gzdPhQkJDcD
-	G09ENdIFIHQQTg/WneFl6m/GTprN91GHafeOZpFWjkSvbMk=
-X-Google-Smtp-Source: ABdhPJxUeLO2R/5X2eowA5SkM+egN61ctUawLS4C+/kSwxQavBmQrExYxK1b4g+21bwkyxyfV2hX1k35TSGxFQrrVno=
-X-Received: by 2002:ab0:2b14:: with SMTP id e20mr16653196uar.89.1591083026688;
- Tue, 02 Jun 2020 00:30:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200531155254.10283-1-alex.kanavin@gmail.com>
- <20200531155254.10283-65-alex.kanavin@gmail.com> <e2f4088c4e4a43f4ad105a81b95057f5@XBOX03.axis.com>
-In-Reply-To: <e2f4088c4e4a43f4ad105a81b95057f5@XBOX03.axis.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 2 Jun 2020 09:30:15 +0200
-Message-ID: <CANNYZj9fr4o5C3X7DOCs6Oza9RA4QKh1CnGnV=8hdTaBvf7rvA@mail.gmail.com>
+  d=axis.com; l=12492; q=dns/txt; s=axis-central1;
+  t=1591083590; x=1622619590;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=SWfX79aUCpoAVibtt8Xmrj/QTzZnq5+7XC5L5UvHbSE=;
+  b=dKoZcFT9g4iEJ/VpUaNliyez3WplqKZmvYVZow/6D/tLjFZ6iH01Iykr
+   2ZGLdBDCWs9Uv1gcN0Q8ToxoFFdI0X9aTKitLzeVNQqw4uZeHyi/eyUKg
+   Pk4lH7cOC24kuVMslPyEdk2BghDT7Uf2vxdr7ulIv1679+LhK96NRYOba
+   fw0bULlHStlcDd+1BJ1lsc5RHDMv7djdZMGnJ+rZYswBrpr6iH4RPPOxX
+   Jw1ixeLLT0OswmTXD1kNib/O2Cwsx8NNg9ixNpSZ7HcuK8yhepDYQg82m
+   3kpYpLgzlVSGKJ82AlRneiOANtdUy92C02Lorun8SKa/qay0t+9WDlIfz
+   A==;
+IronPort-SDR: EcL0c/RLBQmJAdDa65eWWJVHGfq8Zay4ncb7m9sHokZwwxGoL8xK2hs4cz9zFocXN/RReQ7Ena
+ FkxnPQAjow+xUtNG/HG7f8AKUna4vqvPM9sTl/U56yW/i3CQrVFeWufM/+W77T+OawV91A6P4Q
+ 40epj7SyRjLIgykFy3HkP/juJosQbYZUPYHrvzCWMpDDz7x6CaGkH5TkBKArHzZxtaKkpIdkd3
+ ycipbYVNeTKhje/iWsddKyRDDDsqXy7bdApalRPHejoQ8QAXnDx89hQylssTk0vC+QnOD/1aDQ
+ 7W8=
+X-IronPort-AV: E=Sophos;i="5.73,463,1583190000"; 
+   d="scan'208,217";a="9383606"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH 65/70] libyaml: adjust license checksum to omit copyright year lines.
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000009d31f505a714e22d"
+Thread-Topic: [OE-core] [PATCH 65/70] libyaml: adjust license checksum to omit
+ copyright year lines.
+Thread-Index: AQHWN2Ue81/0BuJcrkeHoTmFj/MVKajEUx1QgAB74oCAACIT0A==
+Date: Tue, 2 Jun 2020 07:39:48 +0000
+Message-ID: <77be6de7fa4b447eab96bfb9cc2253d5@XBOX03.axis.com>
+References: <20200531155254.10283-1-alex.kanavin@gmail.com>
+ <20200531155254.10283-65-alex.kanavin@gmail.com>
+ <e2f4088c4e4a43f4ad105a81b95057f5@XBOX03.axis.com>
+ <CANNYZj9fr4o5C3X7DOCs6Oza9RA4QKh1CnGnV=8hdTaBvf7rvA@mail.gmail.com>
+In-Reply-To: <CANNYZj9fr4o5C3X7DOCs6Oza9RA4QKh1CnGnV=8hdTaBvf7rvA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.20.13.13]
+MIME-Version: 1.0
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_77be6de7fa4b447eab96bfb9cc2253d5XBOX03axiscom_"
 
---0000000000009d31f505a714e22d
-Content-Type: text/plain; charset="UTF-8"
+--_000_77be6de7fa4b447eab96bfb9cc2253d5XBOX03axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Tue, 2 Jun 2020 at 00:12, Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-wrote:
+SWYgeW91IGhhdmUgQ09QWV9MSUNfRElSUyBlbmFibGVkLCB0aGUgbGljZW5zZSBmaWxlcyAodGhl
+IG9uZXMgbGlzdGVkIGluIExJQ0VOU0UgYW5kIHRoZSAocGFydHMpIGxpc3RlZCBpbiBMSUNfRklM
+RVNfQ0hLU1VNKSB3aWxsIGJlIGluY2x1ZGVkIGluIHRoZSBnZW5lcmF0ZWQgaW1hZ2UgYnkgbGlj
+ZW5zZV9pbWFnZS5iYmNsYXNzLiBFeHRyYWN0aW9uIG9mIHRoZSBsaWNlbnNlIGluZm9ybWF0aW9u
+IGlzIGhhbmRsZWQgYnkgbGljZW5zZS5iYmNsYXNzLCB3aGljaCBhbHNvIGlzIHJlc3BvbnNpYmxl
+IGZvciBjcmVhdGluZyAke1BOfS1saWMgcGFja2FnZXMgaWYgTElDRU5TRV9DUkVBVEVfUEFDS0FH
+RSBpcyBzZXQuDQoNCi8vUGV0ZXINCg0KRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2Fu
+YXZpbkBnbWFpbC5jb20+DQpTZW50OiBkZW4gMiBqdW5pIDIwMjAgMDk6MzANClRvOiBQZXRlciBL
+amVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCkNjOiBvcGVuZW1iZWRk
+ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQpTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQ
+QVRDSCA2NS83MF0gbGlieWFtbDogYWRqdXN0IGxpY2Vuc2UgY2hlY2tzdW0gdG8gb21pdCBjb3B5
+cmlnaHQgeWVhciBsaW5lcy4NCg0KT24gVHVlLCAyIEp1biAyMDIwIGF0IDAwOjEyLCBQZXRlciBL
+amVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbTxtYWlsdG86cGV0ZXIua2pl
+bGxlcnN0ZWR0QGF4aXMuY29tPj4gd3JvdGU6DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
+DQo+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc8bWFpbHRv
+Om9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IDxvcGVuZW1iZWRkZWQt
+DQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzxtYWlsdG86Y29yZUBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnPj4gT24gQmVoYWxmIE9mIEFsZXhhbmRlciBLYW5hdmluDQo+IFNlbnQ6IGRlbiAz
+MSBtYWogMjAyMCAxNzo1Mw0KPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZzxtYWlsdG86b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4N
+Cj4gQ2M6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPG1haWx0bzph
+bGV4LmthbmF2aW5AZ21haWwuY29tPj4NCj4gU3ViamVjdDogW09FLWNvcmVdIFtQQVRDSCA2NS83
+MF0gbGlieWFtbDogYWRqdXN0IGxpY2Vuc2UgY2hlY2tzdW0gdG8gb21pdA0KPiBjb3B5cmlnaHQg
+eWVhciBsaW5lcy4NCg0KRWgsIHdoYXQ/IFRoYXQncyBkZWZpbml0ZWx5IG5vdCB0aGUgcmlnaHQg
+dGhpbmcgdG8gZG8uIEZvciBhIGxpY2Vuc2UNCnRoYXQgc2F5cyAiVGhlIGFib3ZlIGNvcHlyaWdo
+dCBub3RpY2UgYW5kIHRoaXMgcGVybWlzc2lvbiBub3RpY2Ugc2hhbGwNCmJlIGluY2x1ZGVkIGlu
+IGFsbCBjb3BpZXMgb3Igc3Vic3RhbnRpYWwgcG9ydGlvbnMgb2YgdGhlIFNvZnR3YXJlLiIsDQpy
+ZW1vdmluZyB0aGUgY29weXJpZ2h0IGluZm9ybWF0aW9uIG1ha2VzIHRoZSBmaWxlIHVzZWxlc3Mg
+YXMgcGFydCBvZiwNCmUuZy4sICR7UE59LWxpYy4NCg0KQXMgZmFyIGFzIEkgdW5kZXJzdGFuZCwg
+dGhlIGV4dHJhY3RzIGZyb20gTElDX0ZJTEVTX0NIS1NVTSBhcmUgbm90IHVzZWQgaW4gY29waWVz
+IG9yIHN1YnN0YW50aWFsIHBvcnRpb25zIG9mIHRoZSBzb2Z0d2FyZSwNCnRoZXkgYXJlIHVzZWQg
+aW4gdG1wL2RlcGxveS9saWNlbnNlcyAod2hpY2ggaXMgbmVpdGhlcikuIElzIGl0IGJlbmVmaWNp
+YWwgdG8gaGF2ZSB0aGUgY29weXJpZ2h0IHllYXJzIGFuZCBvd25lcnMNCnRoZXJlPyBUaGUgaWRl
+YSBiZWhpbmQgZHJvcHBpbmcgdGhlbSBpcyB0aGF0IHdlIGNhbiBhdm9pZCBjb250aW51b3VzIGFk
+anVzdGluZyBvZiB0aGUgY2hlY2tzdW0gb24gdmVyc2lvbiB1cGRhdGVzLg0KDQpJZiB5b3UgYXJj
+aGl2ZSB0aGUgc291cmNlIGNvZGUsIG9yIGluc3RhbGwgYmluYXJpZXMgdG8gdGhlIHRhcmdldCwg
+dGhpcyBtZWNoYW5pc20gaXMgbm90IGludm9sdmVkLg0KDQpJIGFtIG5vdCBhd2FyZSBvZiAke1BO
+fS1saWMsIGNhbiB5b3UgcGxlYXNlIHBvaW50IHdoZXJlIHRoYXQgaXMgZGVmaW5lZD8NCg0KQWxl
+eA0K
 
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Alexander Kanavin
-> > Sent: den 31 maj 2020 17:53
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-> > Subject: [OE-core] [PATCH 65/70] libyaml: adjust license checksum to omit
-> > copyright year lines.
->
-> Eh, what? That's definitely not the right thing to do. For a license
-> that says "The above copyright notice and this permission notice shall
-> be included in all copies or substantial portions of the Software.",
-> removing the copyright information makes the file useless as part of,
-> e.g., ${PN}-lic.
->
+--_000_77be6de7fa4b447eab96bfb9cc2253d5XBOX03axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-As far as I understand, the extracts from LIC_FILES_CHKSUM are not used in
-copies or substantial portions of the software,
-they are used in tmp/deploy/licenses (which is neither). Is it beneficial
-to have the copyright years and owners
-there? The idea behind dropping them is that we can avoid continuous
-adjusting of the checksum on version updates.
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseTpDb25zb2xhczsNCglwYW5vc2UtMToyIDEx
+IDYgOSAyIDIgNCAzIDIgNDt9DQovKiBTdHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWws
+IGxpLk1zb05vcm1hbCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
+b206LjAwMDFwdDsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixz
+YW5zLXNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29IeXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9y
+aXR5Ojk5Ow0KCWNvbG9yOmJsdWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZp
+c2l0ZWQsIHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5
+Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJsaW5lO30NCnAubXNvbm9y
+bWFsMCwgbGkubXNvbm9ybWFsMCwgZGl2Lm1zb25vcm1hbDANCgl7bXNvLXN0eWxlLW5hbWU6bXNv
+bm9ybWFsOw0KCW1zby1tYXJnaW4tdG9wLWFsdDphdXRvOw0KCW1hcmdpbi1yaWdodDowY207DQoJ
+bXNvLW1hcmdpbi1ib3R0b20tYWx0OmF1dG87DQoJbWFyZ2luLWxlZnQ6MGNtOw0KCWZvbnQtc2l6
+ZToxMS4wcHQ7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7fQ0Kc3Bhbi5FbWFp
+bFN0eWxlMTgNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6
+IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJY29sb3I6Izk0MzYzNDsNCglmb250LXdlaWdodDpub3Jt
+YWw7DQoJZm9udC1zdHlsZTpub3JtYWw7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5
+cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNhbnMtc2VyaWY7DQoJbXNv
+LWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEy
+LjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3MC44NXB0IDcwLjg1cHQgNzAuODVwdCA3MC44NXB0O30N
+CmRpdi5Xb3JkU2VjdGlvbjENCgl7cGFnZTpXb3JkU2VjdGlvbjE7fQ0KLS0+PC9zdHlsZT48IS0t
+W2lmIGd0ZSBtc28gOV0+PHhtbD4NCjxvOnNoYXBlZGVmYXVsdHMgdjpleHQ9ImVkaXQiIHNwaWRt
+YXg9IjEwMjYiIC8+DQo8L3htbD48IVtlbmRpZl0tLT48IS0tW2lmIGd0ZSBtc28gOV0+PHhtbD4N
+CjxvOnNoYXBlbGF5b3V0IHY6ZXh0PSJlZGl0Ij4NCjxvOmlkbWFwIHY6ZXh0PSJlZGl0IiBkYXRh
+PSIxIiAvPg0KPC9vOnNoYXBlbGF5b3V0PjwveG1sPjwhW2VuZGlmXS0tPg0KPC9oZWFkPg0KPGJv
+ZHkgbGFuZz0iU1YiIGxpbms9ImJsdWUiIHZsaW5rPSJwdXJwbGUiPg0KPGRpdiBjbGFzcz0iV29y
+ZFNlY3Rpb24xIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHls
+ZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+SWYgeW91IGhhdmUN
+Cjwvc3Bhbj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtZmFtaWx5OkNvbnNvbGFzO2Nv
+bG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPkNPUFlfTElDX0RJUlM8L3Nw
+YW4+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxh
+bmd1YWdlOkVOLVVTIj4gZW5hYmxlZCwgdGhlIGxpY2Vuc2UgZmlsZXMgKHRoZSBvbmVzIGxpc3Rl
+ZCBpbg0KPC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1mYW1pbHk6Q29uc29s
+YXM7Y29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+TElDRU5TRTwvc3Bh
+bj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFu
+Z3VhZ2U6RU4tVVMiPiBhbmQgdGhlIChwYXJ0cykgbGlzdGVkIGluDQo8L3NwYW4+PHNwYW4gbGFu
+Zz0iRU4tVVMiIHN0eWxlPSJmb250LWZhbWlseTpDb25zb2xhcztjb2xvcjojOTQzNjM0O21zby1m
+YXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5MSUNfRklMRVNfQ0hLU1VNPC9zcGFuPjxzcGFuIGxhbmc9
+IkVOLVVTIiBzdHlsZT0iY29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5ndWFnZTpFTi1VUyI+
+KSB3aWxsIGJlIGluY2x1ZGVkIGluIHRoZSBnZW5lcmF0ZWQgaW1hZ2UgYnkgbGljZW5zZV9pbWFn
+ZS5iYmNsYXNzLiBFeHRyYWN0aW9uDQogb2YgdGhlIGxpY2Vuc2UgaW5mb3JtYXRpb24gaXMgaGFu
+ZGxlZCBieSBsaWNlbnNlLmJiY2xhc3MsIHdoaWNoIGFsc28gaXMgcmVzcG9uc2libGUgZm9yIGNy
+ZWF0aW5nICR7UE59LWxpYyBwYWNrYWdlcyBpZg0KPC9zcGFuPjxzcGFuIGxhbmc9IkVOLVVTIiBz
+dHlsZT0iZm9udC1mYW1pbHk6Q29uc29sYXM7Y29sb3I6Izk0MzYzNDttc28tZmFyZWFzdC1sYW5n
+dWFnZTpFTi1VUyI+TElDRU5TRV9DUkVBVEVfUEFDS0FHRTwvc3Bhbj48c3BhbiBsYW5nPSJFTi1V
+UyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPiBpcyBz
+ZXQuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFu
+Zz0iRU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVT
+Ij48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3Bh
+biBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6
+RU4tVVMiPi8vUGV0ZXI8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFu
+Z3VhZ2U6RU4tVVMiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJv
+cmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20gMGNtIDBj
+bSA0LjBwdCI+DQo8ZGl2Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xp
+ZCAjRTFFMUUxIDEuMHB0O3BhZGRpbmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PGI+PHNwYW4gbGFuZz0iRU4tVVMiPkZyb206PC9zcGFuPjwvYj48c3BhbiBsYW5n
+PSJFTi1VUyI+IEFsZXhhbmRlciBLYW5hdmluICZsdDthbGV4LmthbmF2aW5AZ21haWwuY29tJmd0
+Ow0KPGJyPg0KPGI+U2VudDo8L2I+IGRlbiAyIGp1bmkgMjAyMCAwOTozMDxicj4NCjxiPlRvOjwv
+Yj4gUGV0ZXIgS2plbGxlcnN0ZWR0ICZsdDtwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20mZ3Q7
+PGJyPg0KPGI+Q2M6PC9iPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+PGJyPg0KPGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIIDY1LzcwXSBsaWJ5YW1s
+OiBhZGp1c3QgbGljZW5zZSBjaGVja3N1bSB0byBvbWl0IGNvcHlyaWdodCB5ZWFyIGxpbmVzLjxv
+OnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCI+T24gVHVlLCAyIEp1biAyMDIwIGF0IDAwOjEyLCBQZXRlciBLamVsbGVyc3RlZHQgJmx0Ozxh
+IGhyZWY9Im1haWx0bzpwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20iPnBldGVyLmtqZWxsZXJz
+dGVkdEBheGlzLmNvbTwvYT4mZ3Q7IHdyb3RlOjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
+Pg0KPGJsb2NrcXVvdGUgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0ND
+Q0MgMS4wcHQ7cGFkZGluZzowY20gMGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJn
+aW4tcmlnaHQ6MGNtIj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPiZndDsgLS0tLS1PcmlnaW5hbCBN
+ZXNzYWdlLS0tLS08YnI+DQomZ3Q7IEZyb206IDxhIGhyZWY9Im1haWx0bzpvcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIiB0YXJnZXQ9Il9ibGFuayI+DQpvcGVuZW1iZWRk
+ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPC9hPiAmbHQ7b3BlbmVtYmVkZGVkLTxicj4N
+CiZndDsgPGEgaHJlZj0ibWFpbHRvOmNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyIgdGFyZ2V0
+PSJfYmxhbmsiPmNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZzwvYT4mZ3Q7IE9uIEJlaGFsZiBP
+ZiBBbGV4YW5kZXIgS2FuYXZpbjxicj4NCiZndDsgU2VudDogZGVuIDMxIG1haiAyMDIwIDE3OjUz
+PGJyPg0KJmd0OyBUbzogPGEgaHJlZj0ibWFpbHRvOm9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmciIHRhcmdldD0iX2JsYW5rIj5vcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnPC9hPjxicj4NCiZndDsgQ2M6IEFsZXhhbmRlciBLYW5hdmluICZsdDs8
+YSBocmVmPSJtYWlsdG86YWxleC5rYW5hdmluQGdtYWlsLmNvbSIgdGFyZ2V0PSJfYmxhbmsiPmFs
+ZXgua2FuYXZpbkBnbWFpbC5jb208L2E+Jmd0Ozxicj4NCiZndDsgU3ViamVjdDogW09FLWNvcmVd
+IFtQQVRDSCA2NS83MF0gbGlieWFtbDogYWRqdXN0IGxpY2Vuc2UgY2hlY2tzdW0gdG8gb21pdDxi
+cj4NCiZndDsgY29weXJpZ2h0IHllYXIgbGluZXMuPGJyPg0KPGJyPg0KRWgsIHdoYXQ/IFRoYXQn
+cyBkZWZpbml0ZWx5IG5vdCB0aGUgcmlnaHQgdGhpbmcgdG8gZG8uIEZvciBhIGxpY2Vuc2UgPGJy
+Pg0KdGhhdCBzYXlzICZxdW90O1RoZSBhYm92ZSBjb3B5cmlnaHQgbm90aWNlIGFuZCB0aGlzIHBl
+cm1pc3Npb24gbm90aWNlIHNoYWxsIDxicj4NCmJlIGluY2x1ZGVkIGluIGFsbCBjb3BpZXMgb3Ig
+c3Vic3RhbnRpYWwgcG9ydGlvbnMgb2YgdGhlIFNvZnR3YXJlLiZxdW90OywgPGJyPg0KcmVtb3Zp
+bmcgdGhlIGNvcHlyaWdodCBpbmZvcm1hdGlvbiBtYWtlcyB0aGUgZmlsZSB1c2VsZXNzIGFzIHBh
+cnQgb2YsIDxicj4NCmUuZy4sICR7UE59LWxpYy48bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2txdW90
+ZT4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwv
+ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkFzIGZhciBhcyBJIHVuZGVyc3RhbmQs
+IHRoZSBleHRyYWN0cyBmcm9tIExJQ19GSUxFU19DSEtTVU0gYXJlIG5vdCB1c2VkIGluIGNvcGll
+cyBvciBzdWJzdGFudGlhbCBwb3J0aW9ucyBvZiB0aGUgc29mdHdhcmUsPG86cD48L286cD48L3A+
+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj50aGV5IGFyZSB1c2VkIGluIHRt
+cC9kZXBsb3kvbGljZW5zZXMgKHdoaWNoIGlzIG5laXRoZXIpLiBJcyBpdCBiZW5lZmljaWFsIHRv
+IGhhdmUgdGhlIGNvcHlyaWdodCB5ZWFycyBhbmQgb3duZXJzPG86cD48L286cD48L3A+DQo8L2Rp
+dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj50aGVyZT8gVGhlIGlkZWEgYmVoaW5kIGRy
+b3BwaW5nIHRoZW0gaXMgdGhhdCB3ZSBjYW4gYXZvaWQgY29udGludW91cyBhZGp1c3Rpbmcgb2Yg
+dGhlIGNoZWNrc3VtIG9uIHZlcnNpb24gdXBkYXRlcy48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0K
+PGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+
+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+SWYgeW91IGFyY2hpdmUgdGhlIHNvdXJjZSBj
+b2RlLCBvciBpbnN0YWxsIGJpbmFyaWVzIHRvIHRoZSB0YXJnZXQsIHRoaXMgbWVjaGFuaXNtIGlz
+IG5vdCBpbnZvbHZlZC48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9
+Ik1zb05vcm1hbCI+SSBhbSBub3QgYXdhcmUgb2YgJHtQTn0tbGljLCBjYW4geW91IHBsZWFzZSBw
+b2ludCB3aGVyZSB0aGF0IGlzIGRlZmluZWQ/PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+
+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkFsZXg8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9k
+aXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-If you archive the source code, or install binaries to the target, this
-mechanism is not involved.
-
-I am not aware of ${PN}-lic, can you please point where that is defined?
-
-Alex
-
---0000000000009d31f505a714e22d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 2 Jun 2020 at 00:12, Peter Kjelle=
-rstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis.com">peter.kjellersted=
-t@axis.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
--<br>
-&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
-lists.openembedded.org</a>&gt; On Behalf Of Alexander Kanavin<br>
-&gt; Sent: den 31 maj 2020 17:53<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Cc: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; Subject: [OE-core] [PATCH 65/70] libyaml: adjust license checksum to o=
-mit<br>
-&gt; copyright year lines.<br>
-<br>
-Eh, what? That&#39;s definitely not the right thing to do. For a license <b=
-r>
-that says &quot;The above copyright notice and this permission notice shall=
- <br>
-be included in all copies or substantial portions of the Software.&quot;, <=
-br>
-removing the copyright information makes the file useless as part of, <br>
-e.g., ${PN}-lic.<br></blockquote><div><br></div><div>As far as I understand=
-, the extracts from LIC_FILES_CHKSUM are not used in copies or substantial =
-portions of the software,</div><div>they are used in tmp/deploy/licenses (w=
-hich is neither). Is it beneficial to have the copyright years and owners</=
-div><div>there? The idea behind dropping them is that we can avoid continuo=
-us adjusting of the checksum on version updates.<br></div><div><br></div><d=
-iv>If you archive the source code, or install binaries to the target, this =
-mechanism is not involved.</div><div><br></div><div>I am not aware of ${PN}=
--lic, can you please point where that is defined?</div><div><br></div><div>=
-Alex<br></div></div></div>
-
---0000000000009d31f505a714e22d--
+--_000_77be6de7fa4b447eab96bfb9cc2253d5XBOX03axiscom_--
