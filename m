@@ -1,100 +1,79 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
- by mx.groups.io with SMTP id smtpd.web11.9215.1591100266003931293
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.web10.9198.1591100334754614900
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2020 05:17:46 -0700
+ Tue, 02 Jun 2020 05:18:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=N4kLmyi8;
- spf=pass (domain: konsulko.com, ip: 209.85.210.44, mailfrom: paul.barker@konsulko.com)
-Received: by mail-ot1-f44.google.com with SMTP id h7so10741508otr.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2020 05:17:45 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Quuzzln3;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f50.google.com with SMTP id q11so3200758wrp.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2020 05:18:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VP45gbURkAFtYKnhZaY8fncPFJmjXOXVmZ8wN31WO+Y=;
-        b=N4kLmyi8DYwb6lYFxYwdbgRlgUXFaCbOURsUztF+aV4Q3vFLI1zC2LPibbXBSWyHvs
-         mNIX8zb0GpDE0mpZpSyy7oV0h6EFs5D9IWrHe4F0J6djro9/suLysuNJQjIywsgXYhP/
-         ojQ4/T1N41RDMU+qegNigaTfGIvUGPeAQI0C8=
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+         :content-transfer-encoding;
+        bh=UNBJgmWLFITY/Z7ERcXRLU5h4/KtNrHwQZwarWbddbA=;
+        b=Quuzzln3hucPQb3Mb4SI7NyqJ0rYfK7xFneCYcVBrpXU+X1vN0JXq8BBpKy1z9EEoo
+         3qbBsQZc16tC/kIhEgLuR4ytjUPBxzT/UdV0McXwsdCPrJ4oLHkyL28ApVA6ARunEIwM
+         hiujLCAGGraly367BDlwIExS3qdXc7MRHra00=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VP45gbURkAFtYKnhZaY8fncPFJmjXOXVmZ8wN31WO+Y=;
-        b=ri8lnwJfQvZi3vcjBTVd+RBFmp/TrBZPNYfJ40USSUP5XrGPYJFGOqgmCgRmUGF/YD
-         l+04LSC6MA7r5SeMHf7sSqotBAT9q30dyd2nQpiownygDpf191oFZyzqeTtvhmaw5avR
-         UwZyI6PmytNul/wLqifASKiC6U5yu6rU6WBlWmRRx54MaXlhap6UA92Eg2uMyP0B0wgt
-         u5+VIUaf/4gZnrfKpjzBjuv/sCWNRYo2Lniu6UK1rumMe97xZmNWThRUMvriZva2Pkox
-         SXe3l5vFWSZF8GTqwOc/6c6WZ/hV4aUtLKJxnx6KoJSclKPvC1nnLR8cfJ7of64k66Bf
-         s0OQ==
-X-Gm-Message-State: AOAM530gmp4ZFbriEgwBkOVObXXppoAl48DKeOSrtEUkQYCyuF0i7336
-	bafJkBiMMGvWy6gyGC6gyDj/a9wgeuUuSxaph2HRG6eJR0I=
-X-Google-Smtp-Source: ABdhPJyTMqHi2UtpfSCoGWe01koJn4OTdS2NBYk6pLCCNDjC5romy55T+JZ6JVx+75jYGx33+/bKIvcgbrJ0HGwWbqs=
-X-Received: by 2002:a05:6830:22ee:: with SMTP id t14mr3874931otc.92.1591100265260;
- Tue, 02 Jun 2020 05:17:45 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=UNBJgmWLFITY/Z7ERcXRLU5h4/KtNrHwQZwarWbddbA=;
+        b=tGBapgr+GdwUpUkmlGyFvxlU+vNP6lZAzsrdA9jI3f3MVcgBlE7S1KttetxHDJsSMk
+         SKTLAmC+88kdroIKTBFdadcd4p6xalNSoPsGTceZuTuHAvbaMzC5l9Q7BP8MZrMgSf8v
+         QlgjMydpWBGQSQRCBy/StAg9lqlqTiCyq8MDXz/Ec1Rr1dIFwwALhsQdeKgkkPHUZ4tA
+         KbnuUpqTJNhx5sWxQO+bTNkFMUOHEzST4d5D9tuTctBtwdVjWfPpdwfS/9cxSRwM35tk
+         kmX7R62aAxCCrwGvS4v+7hEI1ogWkznAbQn8hvrMp347Lz/itadSAMxQNGh9h0aULeHL
+         x71A==
+X-Gm-Message-State: AOAM533Nzsj2g/yN939ySR08ei6yIO37YIOy2olhYxOCAbjuHJ5p8Ys4
+	zPlUxlljynjiF4uxUvyYjoIkgVwXW697Dw==
+X-Google-Smtp-Source: ABdhPJw9SJw370HA5c/9Q0x4WJ4dllH1FkhJEPTMuhz6FPl2Z4OHIFpS2gKdUbOC90bBQ6GoZivV0Q==
+X-Received: by 2002:a5d:4948:: with SMTP id r8mr25502721wrs.290.1591100332918;
+        Tue, 02 Jun 2020 05:18:52 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id l1sm4163788wrb.31.2020.06.02.05.18.52
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jun 2020 05:18:52 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] logrotate: Drop obsolete setting/comment
+Date: Tue,  2 Jun 2020 13:18:49 +0100
+Message-Id: <20200602121849.4152981-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200602121849.4152981-1-richard.purdie@linuxfoundation.org>
+References: <20200602121849.4152981-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-References: <25Tw.1591097911764956513.5rNg@lists.openembedded.org>
-In-Reply-To: <25Tw.1591097911764956513.5rNg@lists.openembedded.org>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Tue, 2 Jun 2020 13:17:34 +0100
-Message-ID: <CAM9ZRVvXyTKRzUSR3atE97A+47So=GYDZ0K4aAACV4g3Uj4WuA@mail.gmail.com>
-Subject: Re: [OE-core] error while adding meta-python layer
-To: Pankaj Vinadrao Joshi <pankaj.vj@exaleapsemi.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2 Jun 2020 at 12:38, Pankaj Vinadrao Joshi
-<pankaj.vj@exaleapsemi.com> wrote:
->
->  i have cloned meta-openembedded layer and from that i am trying to add meta-python layer but i am getting following error i am adding this to my poky
->
->
-> pankaj@exaleap-Inspiron-3584:~/raspberrypi4_image$ bitbake-layers add-layer /home/pankaj/meta-openembedded/meta-python/
-> NOTE: Starting bitbake server...
-> Traceback (most recent call last):
->   File "/home/pankaj/Yocto-practice/poky/bitbake/bin/bitbake-layers", line 95, in <module>
->     ret = main()
->   File "/home/pankaj/Yocto-practice/poky/bitbake/bin/bitbake-layers", line 63, in main
->     tinfoil.prepare(True)
->   File "/home/pankaj/Yocto-practice/poky/bitbake/lib/bb/tinfoil.py", line 414, in prepare
->     self.run_command('parseConfiguration')
->   File "/home/pankaj/Yocto-practice/poky/bitbake/lib/bb/tinfoil.py", line 470, in run_command
->     raise TinfoilCommandFailed(result[1])
-> bb.tinfoil.TinfoilCommandFailed: Traceback (most recent call last):
->   File "/home/pankaj/Yocto-practice/poky/bitbake/lib/bb/command.py", line 74, in runCommand
->     result = command_method(self, commandline)
->   File "/home/pankaj/Yocto-practice/poky/bitbake/lib/bb/command.py", line 275, in parseConfiguration
->     command.cooker.parseConfiguration()
->   File "/home/pankaj/Yocto-practice/poky/bitbake/lib/bb/cooker.py", line 433, in parseConfiguration
->     self.handleCollections(self.data.getVar("BBFILE_COLLECTIONS"))
->   File "/home/pankaj/Yocto-practice/poky/bitbake/lib/bb/cooker.py", line 1225, in handleCollections
->     raise CollectionError("Errors during parsing layer configuration")
-> bb.cooker.CollectionError: Errors during parsing layer configuration
->
-> this is bblayer.conf
-> my  bblayer.conf is as following
->
->  POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
-> # changes incompatibly
-> POKY_BBLAYERS_CONF_VERSION = "2"
->
-> BBPATH = "${TOPDIR}"
-> BBFILES ?= ""
->
-> BBLAYERS ?= " \
->   /home/pankajjoshi/Yocto_practice/poky/meta \
->   /home/pankajjoshi/Yocto_practice/poky/meta-poky \
->   /home/pankajjoshi/Yocto_practice/poky/meta-yocto-bsp \
->   /home/pankajjoshi/source_meta/meta-raspberrypi \
->   /home/pankajjoshi/source_meta/meta-openembedded/meta-oe \
->   /home/pankajjoshi/source_meta/meta-openembedded/meta-filesystems \
->   /home/pankajjoshi/source_meta/meta-openembedded/meta-networking \
->   "
-> i am doing anything wrong???why i am getting this error??
+The comment applies to an old version and the WORKDIR setting matches
+the default so drop it.
 
-Are those paths in BBLAYERS correct? I see
-/home/pankaj/Yocto-practice/poky in the bitbake output vs
-/home/pankajjoshi/Yocto_practice/poky in BBLAYERS.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-extended/logrotate/logrotate_3.16.0.bb | 7 -------
+ 1 file changed, 7 deletions(-)
 
+diff --git a/meta/recipes-extended/logrotate/logrotate_3.16.0.bb b/meta/recipes-extended/logrotate/logrotate_3.16.0.bb
+index 2b6ee0a19a3..1c9df5a3cad 100644
+--- a/meta/recipes-extended/logrotate/logrotate_3.16.0.bb
++++ b/meta/recipes-extended/logrotate/logrotate_3.16.0.bb
+@@ -9,13 +9,6 @@ DEPENDS="coreutils popt"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+-# When updating logrotate to latest upstream, SRC_URI should point to
+-# a proper release tarball from https://github.com/logrotate/logrotate/releases
+-# and we have to take the snapshot for now because there is no such
+-# tarball available for 3.9.1.
+-
+-S = "${WORKDIR}/${BPN}-${PV}"
+-
+ UPSTREAM_CHECK_URI = "https://github.com/${BPN}/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "logrotate-(?P<pver>\d+(\.\d+)+).tar"
+ 
 -- 
-Paul Barker
-Konsulko Group
+2.25.1
+
