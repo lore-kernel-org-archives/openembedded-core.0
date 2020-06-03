@@ -1,80 +1,61 @@
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
- by mx.groups.io with SMTP id smtpd.web12.4155.1591213819556606950
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web10.4408.1591214526373725606
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 12:50:21 -0700
+ Wed, 03 Jun 2020 13:02:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agner.ch header.s=dkim header.b=e0f7nOFx;
- spf=pass (domain: agner.ch, ip: 178.209.48.109, mailfrom: stefan@agner.ch)
-Received: from localhost.localdomain (31-10-206-124.static.upc.ch [31.10.206.124])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 66CBD5C0842;
-	Wed,  3 Jun 2020 21:50:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1591213816;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
-	 in-reply-to:references; bh=EoM2ZhuLmDCWRh/n0qGhdP2czveNku32+JyB5OM6REM=;
-	b=e0f7nOFx9+4b23CXhbFhp2ga5q538poO3lQunRFN8KaOyENj2FNEmF2dspokmWID1ALi6m
-	1+MylEzakbxvOt0CfwkMqnXtmFpFF0PoR9zLO5+6YE6FXEy8nCBQSCgInF9qB2gzYZjwkc
-	4jks3XR9gE7Y9aNenrj+9DcRB6jKCI8=
-From: "Stefan Agner" <stefan@agner.ch>
+ dkim=pass header.i=@konsulko.com header.s=google header.b=FzmfY/UZ;
+ spf=pass (domain: konsulko.com, ip: 209.85.221.67, mailfrom: pbarker@konsulko.com)
+Received: by mail-wr1-f67.google.com with SMTP id l11so3724277wru.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 13:02:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k2s0QtTOD3fELUd2Et1r99ahCTCfA/pFfsFqoi3CRv0=;
+        b=FzmfY/UZjZScq8Xc4OpZ6+dbw8Iw6ssbzwv2QY53iXdznzkvTz5fBgNje25f8GJ5f2
+         4pavW3IFn5f87KVTRWtlyiSNoksRMj7WsEBK4RZ1RakJcEoSfgD6sCOh+8Roef3FfrIA
+         bVTY1+eILA3Hh4UI9F+yaP4Gal05wrMAuuqbk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k2s0QtTOD3fELUd2Et1r99ahCTCfA/pFfsFqoi3CRv0=;
+        b=le17nzIkkOhpFT7Hs3zv8u46/klYo0JenpmcnIclR09bSdlg3LdhmfXncXky3DaSmp
+         grH4RAVfPurNATYug9ZPfUSos1K6NWjjScQAEx0UfK9jzDWi1hYYXJfY5mYCqi8jKx6u
+         +XeOBPeyNDSJ0Nd2SNhDgFkiYwqxyQAMgExFMBPWg5MAc39HnMMIvONnYzG9jAznNDgE
+         Vhfp7jrm6ktsSWsu0Noqe9LE/ujDV2eptS0vMjicksQ3bA8cip3Z15yJfgoybq2VxZTU
+         WbQSc3YU0WqX/+9AcRo/ATC4xNHdVXmMn8eR/d938oe2jbfAe8y03zvXiHw920b4UdA1
+         bVhA==
+X-Gm-Message-State: AOAM530xCqC1nYyGFnOpX+LnGGIeATWoYVVgaKiIB6tMBnhRDK+NP/tC
+	qWFFZnOSAiTxGd71WZmqXEcKb9dPN5Z2Lw==
+X-Google-Smtp-Source: ABdhPJw9emw7kF4xZxJijf023Lp/hm5/wisvrG3/kQ70GemdG3AfcQQ6SadSNGnUx4fWRPckOtMAjA==
+X-Received: by 2002:a5d:49cd:: with SMTP id t13mr1100218wrs.292.1591214524407;
+        Wed, 03 Jun 2020 13:02:04 -0700 (PDT)
+Return-Path: <pbarker@konsulko.com>
+Received: from ar2.home.b5net.uk ([213.48.11.149])
+        by smtp.gmail.com with ESMTPSA id a3sm4682716wrp.91.2020.06.03.13.02.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2020 13:02:03 -0700 (PDT)
+From: "Paul Barker" <pbarker@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Cc: stefan@agner.ch,
-	liu.ming50@gmail.com,
-	ricardo@foundries.io,
-	alex.kiernan@gmail.com,
-	Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH] initramfs-framework: check successful mount using mountpoint
-Date: Wed,  3 Jun 2020 19:50:11 +0000
-Message-Id: <20200603195011.12498-1-stefan@agner.ch>
-X-Mailer: git-send-email 2.17.1
+Cc: Paul Barker <pbarker@konsulko.com>
+Subject: [PATCH 0/1] archiver: Capture git submodules in mirror archiver
+Date: Wed,  3 Jun 2020 21:02:00 +0100
+Message-Id: <20200603200201.23110-1-pbarker@konsulko.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-From: Stefan Agner <stefan.agner@toradex.com>
+This patch depends on the addition of the Fetch.expanded_urldata()
+function in bitbake submitted to the bitbake-devel list.
 
-Instead of checking for existence of /dev in the mounted file system use
-mountpoint to check if a root file system has been mounted. This allows
-to use the rootfs module for OSTree based rootfs as well, where the file
-system rootfs does not have any of the regular directories (at least
-when using the modern layout).
+Paul Barker (1):
+  archiver: Capture git submodules in mirror archiver
 
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
----
-Note that the finish module is checking for existence of /dev again, but
-we are not using this module for the OSTree case.
+ meta/classes/archiver.bbclass            | 13 ++++---
+ meta/lib/oeqa/selftest/cases/archiver.py | 46 ++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+), 7 deletions(-)
 
-Another alternative to this patch would be to check for lost+found, which
-I found a bit ad-hoc as well.
-
-We could also check the exit code of the mount command, but I am not sure
-if that is a reliable way. mount(8) documents two exit code which sound
-like mount has succeeded (0 and 64, "some mount succeeded"). Also, if we
-want to retain the option that a module before the rootfs module mounts
-$ROOTFS_DIR, we would still have to use a mountpoint check.
-
- meta/recipes-core/initrdscripts/initramfs-framework/rootfs | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
-index 748c9391c0..ee24e82af3 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
-@@ -13,7 +13,7 @@ rootfs_run() {
- 	C=0
- 	delay=${bootparam_rootdelay:-1}
- 	timeout=${bootparam_roottimeout:-5}
--	while [ ! -d $ROOTFS_DIR/dev ]; do
-+	while ! mountpoint -q $ROOTFS_DIR; do
- 		if [ $(( $C * $delay )) -gt $timeout ]; then
- 			fatal "root '$bootparam_root' doesn't exist or does not contain a /dev."
- 		fi
-@@ -61,7 +61,7 @@ rootfs_run() {
- 					flags="$flags -t$bootparam_rootfstype"
- 				fi
- 				mount $flags $bootparam_root $ROOTFS_DIR
--				if [ -d $ROOTFS_DIR/dev ]; then
-+				if mountpoint -q $ROOTFS_DIR; then
- 					break
- 				else
- 					# It is unlikely to change, but keep trying anyway.
 -- 
-2.17.1
+2.26.2
 
