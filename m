@@ -1,62 +1,45 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web11.5935.1591153328508831931
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.6517.1591155831611222995
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2020 20:02:08 -0700
+ Tue, 02 Jun 2020 20:43:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8596160CCD;
-	Wed,  3 Jun 2020 03:02:06 +0000 (UTC)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: yi.zhao@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0533hJo8010744
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Tue, 2 Jun 2020 20:43:40 -0700
+Received: from localhost (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 2 Jun
+ 2020 20:43:24 -0700
+From: "Yi Zhao" <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] vte: add missing runtime dependency for vte-prompt
+Date: Wed, 3 Jun 2020 11:43:06 +0800
+Message-ID: <20200603034306.19886-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQWRkIHN1cHBvcnQgZm9yIHBlci1tdWx0aWNvbmZpZyBCQk1BU0s=?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Wed, 03 Jun 2020 03:02:08 -0000
-Message-ID: <20200603030208.20810.34052@do>
-References: <20200601202807.26357-1-JPEWhacker@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200601202807.26357-1-JPEWhacker@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-Originating-IP: [128.224.162.174]
+Content-Type: text/plain
 
-== Series Details ==
+The /etc/profile.d/vte.sh in vte-prompt package requires
+vte-urlencode-cwd command which is from vte package.
 
-Series: Add support for per-multiconfig BBMASK
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/24450/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
-  Suggested fix    Send the series again to the correct mailing list (ML)
-  Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
-  Patch's path:    bitbake/lib/bb/cache.py
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 982b7f98b8)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-support/vte/vte_0.60.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-support/vte/vte_0.60.2.bb b/meta/recipes-support/vte/vte_0.60.2.bb
+index 4a33f6e4d0..7c7bc3864b 100644
+--- a/meta/recipes-support/vte/vte_0.60.2.bb
++++ b/meta/recipes-support/vte/vte_0.60.2.bb
+@@ -53,5 +53,6 @@ CFLAGS += "-D_GNU_SOURCE"
+ PACKAGES =+ "libvte ${PN}-prompt"
+ FILES_libvte = "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
+ FILES_${PN}-prompt = "${sysconfdir}/profile.d"
++RDEPENDS_${PN}-prompt = "${PN}"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.17.1
 
