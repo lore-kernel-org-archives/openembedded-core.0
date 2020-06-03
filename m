@@ -1,70 +1,175 @@
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
- by mx.groups.io with SMTP id smtpd.web12.11778.1591184874085181630
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+ by mx.groups.io with SMTP id smtpd.web10.11960.1591184880486757710
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 04:47:54 -0700
+ Wed, 03 Jun 2020 04:48:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=rH/XbInQ;
- spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: liu.ming50@gmail.com)
-Received: by mail-lf1-f45.google.com with SMTP id e125so1133266lfd.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 04:47:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ax1p9cGG;
+ spf=pass (domain: gmail.com, ip: 209.85.208.194, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f194.google.com with SMTP id o9so2311670ljj.6
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 04:48:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=E7gGi3mUWFEqS2W/qi+LDB7mwmGDqMDfwn3qVTYQEI0=;
-        b=rH/XbInQc4fsND346K7fozILLhnJBUHf/Vd3wRf1Zh0H4ljjw8oHJUzq5ncw4QDT+G
-         syBJpOIocHjIANY+9tnCllegq5ali/x2qU5bh7DeIe3Gx3mZV8wb6Xdhi3LUjZcDe1PA
-         oVgRUBuiPWhoV+w6mNzIlUSJSdCj0LdK2c4tIEaAaw+KHm5If1bMfwo3i6+V7Nh5ofQJ
-         br8sw002AcdpPy9dcEkJYN0LxCUBIpJbtgPnqJqppvK3CsYh7enIcN8OAMaomkXSR/FY
-         BVKIlsliGttTZMGiOy49sZWQoj6wEgKjjDD/2w7E2Ih/zZucjOZoxfNwSgRD41jsq8vz
-         yoZw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=tLvBoI3p/njMWofs9YISNZRkvmhgcwSrMrmUVCo5TBQ=;
+        b=ax1p9cGGk3d59PahDP8tLOcrSZS+hGdrF4A93JixdEAJn8w3Qh+HmCm0JmwjeCC0QO
+         RYY6IiMrHIUSUCRy1v5HTMROK3hPDIaDY5bSLz9XrbxVQPC3NdhziuxQ4Cdw8Zc8QT2M
+         /+/uXIeRjo6ZNtWWNAcyD0T5mFb5iTf+XxaIUMLk2ALYadhr6RiM23RP5IRRG86boS6n
+         n7lQIN4q5XkcdtvWcfcM8lhOD7aYVrrvhaQc5xs04NFACqxQuFIYjO6hWqaaCpSebTT3
+         +mGL/swXDFgSA8yO5BTpyH0j3GZ/r2zcS3w5J5nwr+SgwOzMC8joEEq2rszqWS5ep/g0
+         SQZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=E7gGi3mUWFEqS2W/qi+LDB7mwmGDqMDfwn3qVTYQEI0=;
-        b=YhkOV5meLdBUj/jvuRCddelD6EZkVuepBhezLt+xEQa5GSQjNFLkvwwqwlM/W0DVIv
-         /8beuFOBUeWNPY348XgRMemtBI+uh2EBcVl36nXcUbgGrw+zeosU6t/NkAmLU7U1WlQA
-         0pxwIGrCudEDWa6/qgtTZ7HofopfXQnB0NAi04T72Qzao536FbuRKMjNcjcTNn7+or7F
-         Fgw/zS9YQxwFyBX/gHZFlLXBqNnFw4hmh7qhg39lBY+UvwgTaT0sScBvGH2zG8kRX/GM
-         yU2kNqE8wY9g+izztMz7V7cbYxAIj0i8nziGI3rui/LJiz5uaX3m6VkMnXd8k9A8AR1W
-         mXRw==
-X-Gm-Message-State: AOAM533bTzPEgiFNANGgvg4/cqSBV5sUkhalGTevNFogNOhrzGcbAyNI
-	zaWgj5i1LgkGMeGgZ1tqNk+Dim8+
-X-Google-Smtp-Source: ABdhPJwAbq/HoLF76dQETJZJVW0LnQ1Hu5evj8HwOHbGmXjLdOzh6oRk5PVs7ScLGV46D5jCv7SRbA==
-X-Received: by 2002:a19:6914:: with SMTP id e20mr2276081lfc.27.1591184872001;
-        Wed, 03 Jun 2020 04:47:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=tLvBoI3p/njMWofs9YISNZRkvmhgcwSrMrmUVCo5TBQ=;
+        b=n2RXg29YbJJb3JS23e7D3cxlFSvIm+aXxcgFL3R5QeHPefLWgs1u9beXwJjrmxrNXn
+         d4I6rX9OJetgoB6KRhGO+NNU0tQt+xBkhcN+utM9jzfVDFoEtDHE59GbHaeIlSEKuttU
+         o9W7mE1F4guZLB4pfTUpLKosmO6qgD/31RdJgOwBp0jt2ntbqeRJZ7Qx58xX3dB7jShD
+         MX2MJWtrpNezCJC0/7Jk0ZxVKDGPqJHK4LB2rksOcg5sNiwxIOxFrtWdqxq3Xbl3fJrP
+         5oBhKSUF4tKUz8TwhJXU3L4/r0Z4OxVn6ZCZInFGApp4tfNX8O+pAR6aJU2Y1tMGYix0
+         L4sQ==
+X-Gm-Message-State: AOAM531fHIC9+TJDtOpYZuwyXePKZhA7D8oC89F/T5kGkvwbCPzpC3Ng
+	K4jgywCnXxuH62Tv6P3lJ5riC+0b
+X-Google-Smtp-Source: ABdhPJyhI2xAjDkGnniWWzhOpZUmsI2XmTXWFj0F0L57SpkNTdgq0131+qohk3ZMXuFaaAWgLOQO8w==
+X-Received: by 2002:a2e:a37c:: with SMTP id i28mr2026818ljn.111.1591184878460;
+        Wed, 03 Jun 2020 04:47:58 -0700 (PDT)
 Return-Path: <liu.ming50@gmail.com>
 Received: from localhost.localdomain ([2a00:801:3fb:ebd4:e18d:d2e7:773:e410])
-        by smtp.gmail.com with ESMTPSA id q3sm403715ljc.110.2020.06.03.04.47.50
+        by smtp.gmail.com with ESMTPSA id q3sm403715ljc.110.2020.06.03.04.47.57
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Jun 2020 04:47:51 -0700 (PDT)
+        Wed, 03 Jun 2020 04:47:57 -0700 (PDT)
 From: "Ming Liu" <liu.ming50@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: stefan.agner@toradex.com,
 	max.krummenacher@toradex.com,
 	Ming Liu <ming.liu@toradex.com>
-Subject: [OE-core] [PATCH V3 0/2] Introduce UBOOT_INITIAL_ENV/coding style fixes
-Date: Wed,  3 Jun 2020 13:48:36 +0200
-Message-Id: <20200603114838.13541-1-liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH V3 1/2] u-boot.inc: fix some inconsistent coding style
+Date: Wed,  3 Jun 2020 13:48:37 +0200
+Message-Id: <20200603114838.13541-2-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200603114838.13541-1-liu.ming50@gmail.com>
+References: <20200603114838.13541-1-liu.ming50@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Ming Liu <ming.liu@toradex.com>
 
-Changes in V3:
+Signed-off-by: Ming Liu <ming.liu@toradex.com>
+---
+ meta/recipes-bsp/u-boot/u-boot.inc | 44 ++++++++++++++----------------
+ 1 file changed, 21 insertions(+), 23 deletions(-)
 
-1 Add UBOOT_INITIAL_ENV to FILES conditionally as suggested by Denys
-  Dmytriyenko.
-
-Ming Liu (2):
-  u-boot.inc: fix some inconsistent coding style
-  u-boot: introduce UBOOT_INITIAL_ENV
-
- meta/recipes-bsp/u-boot/u-boot.inc | 99 +++++++++++++++++-------------
- 1 file changed, 57 insertions(+), 42 deletions(-)
-
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 80f828df52..718435f13f 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -91,19 +91,19 @@ do_configure () {
+ }
+ 
+ do_compile () {
+-	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'ld-is-gold', d)}" ]; then
+-		sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/config.mk
+-	fi
++    if [ "${@bb.utils.filter('DISTRO_FEATURES', 'ld-is-gold', d)}" ]; then
++        sed -i 's/$(CROSS_COMPILE)ld$/$(CROSS_COMPILE)ld.bfd/g' ${S}/config.mk
++    fi
+ 
+-	unset LDFLAGS
+-	unset CFLAGS
+-	unset CPPFLAGS
++    unset LDFLAGS
++    unset CFLAGS
++    unset CPPFLAGS
+ 
+-	if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]
+-	then
+-		echo ${UBOOT_LOCALVERSION} > ${B}/.scmversion
+-		echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
+-	fi
++    if [ ! -e ${B}/.scmversion -a ! -e ${S}/.scmversion ]
++    then
++        echo ${UBOOT_LOCALVERSION} > ${B}/.scmversion
++        echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
++    fi
+ 
+     if [ -n "${UBOOT_CONFIG}" ]
+     then
+@@ -130,16 +130,15 @@ do_compile () {
+                     unset k
+                 fi
+             done
+-            unset  j
++            unset j
+         done
+-        unset  i
++        unset i
+     else
+         oe_runmake -C ${S} O=${B} ${UBOOT_MAKE_TARGET}
+ 
+         # Generate the uboot-initial-env
+         oe_runmake -C ${S} O=${B} u-boot-initial-env
+     fi
+-
+ }
+ 
+ do_install () {
+@@ -162,9 +161,9 @@ do_install () {
+                     ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
+                 fi
+             done
+-            unset  j
++            unset j
+         done
+-        unset  i
++        unset i
+     else
+         install -D -m 644 ${B}/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
+         ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+@@ -219,9 +218,9 @@ do_install () {
+                          ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${D}/boot/${SPL_BINARYNAME}
+                     fi
+                 done
+-                unset  j
++                unset j
+             done
+-            unset  i
++            unset i
+         else
+             install -m 644 ${B}/${SPL_BINARY} ${D}/boot/${SPL_IMAGE}
+             ln -sf ${SPL_IMAGE} ${D}/boot/${SPL_BINARYNAME}
+@@ -238,7 +237,6 @@ do_install () {
+     then
+         install -Dm 0644 ${UBOOT_EXTLINUX_CONFIG} ${D}/${UBOOT_EXTLINUX_INSTALL_DIR}/${UBOOT_EXTLINUX_CONF_NAME}
+     fi
+-
+ }
+ 
+ PACKAGE_BEFORE_PN += "${PN}-env"
+@@ -275,9 +273,9 @@ do_deploy () {
+                     ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${type}
+                 fi
+             done
+-            unset  j
++            unset j
+         done
+-        unset  i
++        unset i
+     else
+         install -D -m 644 ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+ 
+@@ -346,9 +344,9 @@ do_deploy () {
+                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDIR}/${SPL_SYMLINK}
+                     fi
+                 done
+-                unset  j
++                unset j
+             done
+-            unset  i
++            unset i
+         else
+             install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
+             rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLINK}
 -- 
 2.26.2
 
