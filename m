@@ -1,97 +1,80 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web10.2040.1591208331655153767
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+ by mx.groups.io with SMTP id smtpd.web12.4155.1591213819556606950
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 11:18:52 -0700
+ Wed, 03 Jun 2020 12:50:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id E16AC40C2E;
-	Wed,  3 Jun 2020 18:18:50 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id VXbkXOkeQ6Pe; Wed,  3 Jun 2020 18:18:50 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 522E240A9E;
-	Wed,  3 Jun 2020 18:18:48 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 7FA921731FF; Wed,  3 Jun 2020 14:18:47 -0400 (EDT)
-Date: Wed, 3 Jun 2020 14:18:47 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: akuster808 <akuster808@gmail.com>
-Cc: Steve Sakoman <steve@sakoman.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][dunfell 0/5] Patch review
-Message-ID: <20200603181847.GZ17660@denix.org>
-References: <cover.1591197295.git.steve@sakoman.com>
- <fa08dc08-22f5-f82f-58dc-02b976acdf2b@gmail.com>
- <20200603173620.GY17660@denix.org>
- <9c5425d3-fc0a-a63e-e090-e83f364edd3e@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <9c5425d3-fc0a-a63e-e090-e83f364edd3e@gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ dkim=pass header.i=@agner.ch header.s=dkim header.b=e0f7nOFx;
+ spf=pass (domain: agner.ch, ip: 178.209.48.109, mailfrom: stefan@agner.ch)
+Received: from localhost.localdomain (31-10-206-124.static.upc.ch [31.10.206.124])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 66CBD5C0842;
+	Wed,  3 Jun 2020 21:50:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1591213816;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
+	 in-reply-to:references; bh=EoM2ZhuLmDCWRh/n0qGhdP2czveNku32+JyB5OM6REM=;
+	b=e0f7nOFx9+4b23CXhbFhp2ga5q538poO3lQunRFN8KaOyENj2FNEmF2dspokmWID1ALi6m
+	1+MylEzakbxvOt0CfwkMqnXtmFpFF0PoR9zLO5+6YE6FXEy8nCBQSCgInF9qB2gzYZjwkc
+	4jks3XR9gE7Y9aNenrj+9DcRB6jKCI8=
+From: "Stefan Agner" <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Cc: stefan@agner.ch,
+	liu.ming50@gmail.com,
+	ricardo@foundries.io,
+	alex.kiernan@gmail.com,
+	Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH] initramfs-framework: check successful mount using mountpoint
+Date: Wed,  3 Jun 2020 19:50:11 +0000
+Message-Id: <20200603195011.12498-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.17.1
 
-On Wed, Jun 03, 2020 at 11:17:20AM -0700, akuster808 wrote:
-> 
-> 
-> On 6/3/20 10:36 AM, Denys Dmytriyenko wrote:
-> > On Wed, Jun 03, 2020 at 10:33:55AM -0700, akuster wrote:
-> >> Does someone have the complementary set of patches for meta-openbedded
-> >> to remove these?
-> > https://git.openembedded.org/meta-openembedded/commit/?id=a8f3c00d8d113b46a49584682e10435157d516ca
-> > https://git.openembedded.org/meta-openembedded/commit/?id=7aee545a61c4f91d5e462d5b46b1b8f9a8bad1e3
-> >
-> > Do you want me to re-submit them with [dunfell] tag?
-> 
-> changes in stable/dunfell-nut for testing with my other backports.
+From: Stefan Agner <stefan.agner@toradex.com>
 
-Thanks!
+Instead of checking for existence of /dev in the mounted file system use
+mountpoint to check if a root file system has been mounted. This allows
+to use the rootfs module for OSTree based rootfs as well, where the file
+system rootfs does not have any of the regular directories (at least
+when using the modern layout).
 
-> -armin
-> >
-> >
-> >> - armin
-> >>
-> >> On 6/3/20 8:33 AM, Steve Sakoman wrote:
-> >>> Pending final approval for an exception to LTS policy in this case please
-> >>> review this patch series and have comments back by end of day Thursday.
-> >>>
-> >>> For details on the motivation for this change see:
-> >>>
-> >>> https://lists.openembedded.org/g/openembedded-architecture/message/1085
-> >>>
-> >>> The following changes since commit ef5af31f406076107402694f5d6afb27b240eba6:
-> >>>
-> >>>   linux-yocto/5.4: update to v5.4.43 (2020-06-01 07:19:09 -1000)
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>>   git://git.openembedded.org/openembedded-core-contrib stable/dunfell-nut
-> >>>   http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-> >>>
-> >>> Joshua Watt (5):
-> >>>   pycryptodome: Import from meta-python
-> >>>   pyelftools: Import from meta-python
-> >>>   python3-pycryptodome(x): Upgrade 3.9.4 -> 3.9.7
-> >>>   python3-pyelftools: Upgrade 0.25 -> 0.26
-> >>>   layer.conf: Bump OE-Core layer version
-> >>>
-> >>>  meta/conf/distro/include/maintainers.inc      |  5 +++-
-> >>>  meta/conf/layer.conf                          |  2 +-
-> >>>  .../python/python-pycryptodome.inc            | 26 +++++++++++++++++++
-> >>>  .../python/python3-pycryptodome_3.9.7.bb      |  5 ++++
-> >>>  .../python/python3-pycryptodomex_3.9.7.bb     |  9 +++++++
-> >>>  .../python/python3-pyelftools_0.26.bb         | 14 ++++++++++
-> >>>  6 files changed, 59 insertions(+), 2 deletions(-)
-> >>>  create mode 100644 meta/recipes-devtools/python/python-pycryptodome.inc
-> >>>  create mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.9.7.bb
-> >>>  create mode 100644 meta/recipes-devtools/python/python3-pycryptodomex_3.9.7.bb
-> >>>  create mode 100644 meta/recipes-devtools/python/python3-pyelftools_0.26.bb
-> >>>
-> >>>
-> >>>
-> >> 
-> 
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+Note that the finish module is checking for existence of /dev again, but
+we are not using this module for the OSTree case.
+
+Another alternative to this patch would be to check for lost+found, which
+I found a bit ad-hoc as well.
+
+We could also check the exit code of the mount command, but I am not sure
+if that is a reliable way. mount(8) documents two exit code which sound
+like mount has succeeded (0 and 64, "some mount succeeded"). Also, if we
+want to retain the option that a module before the rootfs module mounts
+$ROOTFS_DIR, we would still have to use a mountpoint check.
+
+ meta/recipes-core/initrdscripts/initramfs-framework/rootfs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
+index 748c9391c0..ee24e82af3 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/rootfs
+@@ -13,7 +13,7 @@ rootfs_run() {
+ 	C=0
+ 	delay=${bootparam_rootdelay:-1}
+ 	timeout=${bootparam_roottimeout:-5}
+-	while [ ! -d $ROOTFS_DIR/dev ]; do
++	while ! mountpoint -q $ROOTFS_DIR; do
+ 		if [ $(( $C * $delay )) -gt $timeout ]; then
+ 			fatal "root '$bootparam_root' doesn't exist or does not contain a /dev."
+ 		fi
+@@ -61,7 +61,7 @@ rootfs_run() {
+ 					flags="$flags -t$bootparam_rootfstype"
+ 				fi
+ 				mount $flags $bootparam_root $ROOTFS_DIR
+-				if [ -d $ROOTFS_DIR/dev ]; then
++				if mountpoint -q $ROOTFS_DIR; then
+ 					break
+ 				else
+ 					# It is unlikely to change, but keep trying anyway.
+-- 
+2.17.1
+
