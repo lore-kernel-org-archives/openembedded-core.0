@@ -1,21 +1,21 @@
 Received: from huawei.com (huawei.com [45.249.212.35])
- by mx.groups.io with SMTP id smtpd.web10.14612.1591193364444190991
+ by mx.groups.io with SMTP id smtpd.web11.14893.1591193703300931249
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 07:09:27 -0700
+ Wed, 03 Jun 2020 07:15:03 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: huawei.com, ip: 45.249.212.35, mailfrom: zhengjunling@huawei.com)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
-	by Forcepoint Email with ESMTP id 1937099C5D05E4BD5577
-	for <openembedded-core@lists.openembedded.org>; Wed,  3 Jun 2020 22:09:20 +0800 (CST)
+Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.59])
+	by Forcepoint Email with ESMTP id 8B824B739BEE1007AB8D
+	for <openembedded-core@lists.openembedded.org>; Wed,  3 Jun 2020 22:14:59 +0800 (CST)
 Received: from HULK-Android.huawei.com (10.113.189.218) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 3 Jun 2020 22:08:42 +0800
+ DGGEMS404-HUB.china.huawei.com (10.3.19.204) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 3 Jun 2020 22:14:51 +0800
 From: "Junling Zheng" <zhengjunling@huawei.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <zhengjunling@huawei.com>, <fanyiming@huawei.com>
-Subject: [OE-core] [PATCH] security_flags: Remove stack protector flag from LDFLAGS
-Date: Wed, 3 Jun 2020 22:08:41 +0800
-Message-ID: <20200603140841.1321-1-zhengjunling@huawei.com>
+Subject: [OE-core] [PATCH RESEND] security_flags: Remove stack protector flag from LDFLAGS
+Date: Wed, 3 Jun 2020 22:14:51 +0800
+Message-ID: <20200603141451.1447-1-zhengjunling@huawei.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 X-Originating-IP: [10.113.189.218]
@@ -23,7 +23,7 @@ X-CFilter-Loop: Reflected
 Content-Type: text/plain
 
 SECURITY_LDFLAGS contains stack protector flag inappropriately, which
-has already be contained in SECURITY_CFLAGS. Let's remove it from
+has already been contained in SECURITY_CFLAGS. Let's remove it from
 SECURITY_LDFLAGS.
 
 Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
