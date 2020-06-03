@@ -1,85 +1,117 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
- by mx.groups.io with SMTP id smtpd.web11.13026.1591188516006032690
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+ by mx.groups.io with SMTP id smtpd.web11.13913.1591190936662030286
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 05:48:36 -0700
+ Wed, 03 Jun 2020 06:28:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@globallogic.com header.s=google header.b=PkNugkPc;
- spf=pass (domain: globallogic.com, ip: 209.85.219.65, mailfrom: oleksandr.s.popovych@globallogic.com)
-Received: by mail-qv1-f65.google.com with SMTP id e2so985427qvw.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 05:48:35 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AqMP1+jp;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f66.google.com with SMTP id q25so2083493wmj.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 06:28:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=globallogic.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=XfH16xOivihUE4oPE0L4kAP0y78Pqk3im2yqN+f+pzw=;
-        b=PkNugkPck7Us4K6dxe+HlzyH6TaLXAWzxjGaxwX3UL1zkjhZz2iq03Iex5eA5pr43O
-         frZLkXKL90nZmAJMI4/CEaIwINAt0+HzGvY5bxIKQWnw47Iwv5OlBigeurpZUOHwv0Ae
-         0dyBd6AJpcKrS3v96Wfl2ZVngDuiyfQnw41tEnJltf19KZ0k0GiyjN6WK24WVHWYTcmp
-         K3mtJr3IkJYAvFVFUxtorIJaFzA4Vog94uR8bdbCqr1/fK3O5RO5hQsQ/ujpcPTYd9ZG
-         +t7OSLHtywKl8AIvr1upe5D7seZLqJaPpYkrppmjpRJhS7HlwADRnAbV50PkKUI3ue62
-         BIcw==
+        d=linuxfoundation.org; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jmY9aXBwmQLp3IhPCubJpwp8AdWryu+icE0BuAbw99c=;
+        b=AqMP1+jpwg9V4zJG/qovFSm9q+CmMneS04FId1Yi151ANriIvvQ3n2XtFyr6gjfd36
+         PP4nZUI7rSoSIq7dy6xGRmU41t6qMwN3sylHDWDxMYp+d2BM2m8zU4wVwPWRWXtkBZiA
+         kJDypfgog2CrRNZYCWowoEumkbTxS+pkTwhiA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=XfH16xOivihUE4oPE0L4kAP0y78Pqk3im2yqN+f+pzw=;
-        b=ndBuxru2/oA3Qzi6kzRFgt3kb05HOcAiILPromz6gKOBECaNxCD9IltK2Vk5A3N5N6
-         QuX92pdc2c5CV1A6x4WlM2nBmTLk3DKCy8Cj8GCBWv0P90FfOHTjsgh9efBNdRjZlchM
-         LoOMkAOr+fKQNh+SdWxx9nj54h5HPPFOFJAz3C9JcgsasH5qMzWkDaVL9g1VpSxNsNji
-         WazN34XdhrbcOHZAssVrmhvpxOuPLxlbfP+LNw3NVFbKyJRKq/CGL8qnjlYISKuGkeNQ
-         0AcVt+23M1mzMbm6VsSd4IdbAAluNMdyCUU66q1DsDQF/IPb/AvY4RAoVFdLdu49XuoT
-         1fqg==
-X-Gm-Message-State: AOAM531JSoB5BJSSI1s1c4Xj6pBBeAT685aPp30PSxq5dv4xe+zzqZaX
-	0h0k6wHv/SUo0nStSn+PjwEr+lsqf1NznQJT+R8nDA==
-X-Google-Smtp-Source: ABdhPJzVFqAnp6qn0P6LVH44LX3RoEhlDzm1A4wz5DmeLXSiMh++uo2QshCVlLsep7yZ8vCojkvTdfuDDN7+3G2Q5u0=
-X-Received: by 2002:a0c:bd9a:: with SMTP id n26mr29035893qvg.21.1591188515033;
- Wed, 03 Jun 2020 05:48:35 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=jmY9aXBwmQLp3IhPCubJpwp8AdWryu+icE0BuAbw99c=;
+        b=Ha42ZWNypMHIw6iEMTCDCSAeeYMMOgWmN1ohllCsvi56Av4BN8XFajaT9XaLd4yA87
+         7Vl+Z2qoCb2/37phd+cneB5+uqhrrnViEQohcx4llPOY4W8mUx6oQZWtrcxWDDmsyIc+
+         EAB+MQsQ5Pj67VbUv8AAfADauDfOh5o0PRCC2IWXwBxuav4kIk7KVnilkHSKC/PniG4D
+         m4WIKCZrEeys0jfhLPooKBwoEH0BM/87lZJjxoBjhHT6j9diAysL0QIsGobVxukDCO86
+         3G0EHoFUJ8OgMu7rfMJhNsylvgW4N6TIHpcG9hgeA+7yAZRFv+P1Lky1gsKeN6d5t1ot
+         XI8w==
+X-Gm-Message-State: AOAM5318NFZTgHW+F4xRVOyGXeqI12tqyJTHTR+3pFcxGl4I5h2r3BWU
+	19enu8QLefDNDMwukYZpvSObCnAITAyIBg==
+X-Google-Smtp-Source: ABdhPJzjBgdg/4Mwt0zSOfTV3+VNVlvdkPzDwjhawMe1TizdqEIecT0/kKP/3Y/JmiSn8dmuzcOAuQ==
+X-Received: by 2002:a05:600c:210:: with SMTP id 16mr3287636wmi.185.1591190934747;
+        Wed, 03 Jun 2020 06:28:54 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id n7sm3404053wrx.82.2020.06.03.06.28.53
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2020 06:28:54 -0700 (PDT)
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] patchelf: Add patch to address corrupt shared library issue
+Date: Wed,  3 Jun 2020 14:28:53 +0100
+Message-Id: <20200603132853.15139-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20200430165529.23657-1-oleksandr.s.popovych@globallogic.com> <9c6bfc2b37121a36c866bffff3f72efe91e847aa.camel@linuxfoundation.org>
-In-Reply-To: <9c6bfc2b37121a36c866bffff3f72efe91e847aa.camel@linuxfoundation.org>
-From: "Oleksandr" <oleksandr.s.popovych@globallogic.com>
-Date: Wed, 3 Jun 2020 15:48:23 +0300
-Message-ID: <CAKqUGW-3RDNU1SFmy9egAbPv8AEOfGBHWb9o34O0P2TxF3boMA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v8] expat: Added ptest
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Joshua Watt <JPEW.hacker@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello Richard, Joshua,
+patchelf can corrupt shared libraries if the program headers don't
+immediately follow the elf header. Add a patch submitted upstream
+to address this.
 
-On Mon, May 11, 2020 at 3:45 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> ...
->
-> Thanks, this is definitely getting there. There was only one test
-> failure this time, with meta-mingw:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/1884
->
-> I've cc'd Joshua in case he has any insights on this.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../patchelf/patchelf/fix-phdrs.patch         | 37 +++++++++++++++++++
+ .../patchelf/patchelf_0.10.bb                 |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch
 
-I`ve tested my patch with meta-mingw layer on my host and it seems I
-have fixed the current compilation error, with making some changes to
-meta-mingw (by changing "CMAKE_SYSTEM_NAME" variable to "Windows"
-value during toolchain file generation in
-"recipes-core/expat/expat_%.bbappend" file using a
-"recipes-devtools/cmake/cmake_%.bbappend" file as template). However
-this is only part of a solution, because another error appears next to
-it: gdb-cross-canadian that depends on expat now fails to build,
-because it can not find a proper expat library. It seems that expat
-recipe, which was switched to build with CMake in my patch, does not
-generate output library in proper format (it compiles only
-"libexpat.dll.a", when the current version of expat recipe from
-upstream, that uses Autotools, generates both "libexpat.a" and
-"libexpat.dll.a"). This is such an error that I can not figure out how
-to solve it by myself, so I ask for help.
+diff --git a/meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch b/meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch
+new file mode 100644
+index 00000000000..d087bd7855c
+--- /dev/null
++++ b/meta/recipes-devtools/patchelf/patchelf/fix-phdrs.patch
+@@ -0,0 +1,37 @@
++When running patchelf on some existing patchelf'd binaries to change to longer 
++RPATHS, ldd would report the binaries as invalid. The output of objdump -x on 
++those libraryies should show the top of the .dynamic section is getting trashed,
++something like:
++
++0x600000001 0x0000000000429000
++0x335000 0x0000000000335000
++0xc740 0x000000000000c740
++0x1000 0x0000000000009098
++SONAME libglib-2.0.so.0
++
++(which should be RPATH and DT_NEEDED entries)
++
++This was tracked down to the code which injects the PT_LOAD section.
++
++The issue is that if the program headers were previously relocated to the end 
++of the file which was how patchelf operated previously, the relocation code 
++wouldn't work properly on a second run as it now assumes they're located after 
++the elf header. This change forces them back to immediately follow the elf
++header which is where the code has made space for them.
++
++Upstream-Status: Submitted [https://github.com/NixOS/patchelf/pull/202]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++RP 2020/6/2
++
++Index: git/src/patchelf.cc
++===================================================================
++--- git.orig/src/patchelf.cc
+++++ git/src/patchelf.cc
++@@ -762,6 +762,7 @@ void ElfFile<ElfFileParamNames>::rewrite
++     }
++ 
++     /* Add a segment that maps the replaced sections into memory. */
+++    wri(hdr->e_phoff, sizeof(Elf_Ehdr));
++     phdrs.resize(rdi(hdr->e_phnum) + 1);
++     wri(hdr->e_phnum, rdi(hdr->e_phnum) + 1);
++     Elf_Phdr & phdr = phdrs[rdi(hdr->e_phnum) - 1];
+diff --git a/meta/recipes-devtools/patchelf/patchelf_0.10.bb b/meta/recipes-devtools/patchelf/patchelf_0.10.bb
+index d29e094edd6..84e640773b2 100644
+--- a/meta/recipes-devtools/patchelf/patchelf_0.10.bb
++++ b/meta/recipes-devtools/patchelf/patchelf_0.10.bb
+@@ -1,6 +1,7 @@
+ SRC_URI = "git://github.com/NixOS/patchelf;protocol=https \
+            file://handle-read-only-files.patch \
+            file://fix-adjusting-startPage.patch \
++           file://fix-phdrs.patch \
+            "
+ 
+ LICENSE = "GPLv3"
+-- 
+2.25.1
 
-Additionally I would like to ask you: How should I send patches now
-when at least two separate patches with similar purposes should be
-sent to different layers (one for [OE-core] and other for
-[meta-mingw])? Should they be connected with some kind of cover-letter
-or is there another option?
-
-Thanks for your attention.
