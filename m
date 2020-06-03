@@ -1,82 +1,186 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web10.16622.1591198499845907165
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.888.1591205387555299208
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 08:34:59 -0700
+ Wed, 03 Jun 2020 10:29:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20150623.gappssmtp.com header.s=20150623 header.b=1eOEzLhQ;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id o8so1983826pgm.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 08:34:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:subject:date:message-id:in-reply-to:references;
-        bh=zZFfhMjt0OZIXjrPgLXXCyFh+E62TGJX25hq8t7yuGY=;
-        b=1eOEzLhQ65ASIaoz6nyvuWsFci7IuXN5gXIfbfBLe7UjEcGFbPMJb+YR5OpRljGtpU
-         0XEMzZrj311VkAI3ibRa0AdWQ/Rs+D5/gCkPrU4MJigq5mG5ESyvH+PRxPfjSzJIHf2r
-         7b3azwpGXDDapv4ovk52A20usUXTLLn/exwolYDovFD+1Inxa144ctVZ/HK3UIMIxPTQ
-         E5DC0HBD8XlY2IFwl4BGPGGv4bLxLWEU6sbuzlklB0L6J/eP1DVyD3Ta9FpsadUhiv18
-         s7TdeJRhL8TvsI2EuYmWR1Rm96Y6jJdwa4CXJ0X0ietanRl6S/oMFdm0W2fbzBa9zIYf
-         lZiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references;
-        bh=zZFfhMjt0OZIXjrPgLXXCyFh+E62TGJX25hq8t7yuGY=;
-        b=sy3pmwkWdT7XZGpIk27Qgfv7ifZnSFuryLBt+rUnBb7tfT/Wnmr+2XgsPNBIvQ2G99
-         jWhBpiuQvo9VEGA6nqZKYdYQx2vNV1UQUwiahSrtD3cy0/bCOe0UWwBGIjvXyLqNIr29
-         nA/gP742Mz1mubBQKqas0mMDSy7oekKf5tJzVFX0sFWR0p6XSdznehpZBiZBDhmq0hVF
-         DkgHGUeW15zHyfc0CfkADoKRM08CcFWshqY7e9owFWBiJT4Lf7+NesSahaJ1xYpXFPBi
-         UO7perVFAPEwXssCh00H6tZRuTGSCVVP/xv0pPh+H6GlB3YIB7PkgegX9gvG/WignB47
-         LbZA==
-X-Gm-Message-State: AOAM533IuusU5a6Bc2iuI2MG5trnPHzb6aLwKMu79qu2W8XGP8TjQla1
-	UFwop0E1uTuU6mUNjY1om4zHl5lUvc4=
-X-Google-Smtp-Source: ABdhPJyVN+xJHEmEbToju/tGuAjIFyzCvlYvSmXDjNrzrBrOJMXiuEim0IsVvEO0Kjhf0qc7+juqHg==
-X-Received: by 2002:a17:90a:36aa:: with SMTP id t39mr233977pjb.185.1591198498924;
-        Wed, 03 Jun 2020 08:34:58 -0700 (PDT)
-Return-Path: <steve@sakoman.com>
-Received: from octo.router0800d9.com (rrcs-66-91-142-162.west.biz.rr.com. [66.91.142.162])
-        by smtp.gmail.com with ESMTPSA id np5sm3187660pjb.43.2020.06.03.08.34.57
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2020 08:34:58 -0700 (PDT)
-From: "Steve Sakoman" <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][dunfell 5/5] layer.conf: Bump OE-Core layer version
-Date: Wed,  3 Jun 2020 05:34:02 -1000
-Message-Id: <4d4e69bc056bec4625b1cde0e1fc9d5e527c6a98.1591197295.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1591197295.git.steve@sakoman.com>
-References: <cover.1591197295.git.steve@sakoman.com>
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id BBC0240C2E;
+	Wed,  3 Jun 2020 17:29:46 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id NApns5MBUs1v; Wed,  3 Jun 2020 17:29:46 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 7C61D40A9E;
+	Wed,  3 Jun 2020 17:29:40 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 001CB1731FF; Wed,  3 Jun 2020 13:29:39 -0400 (EDT)
+Date: Wed, 3 Jun 2020 13:29:39 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, stefan.agner@toradex.com,
+	max.krummenacher@toradex.com, Ming Liu <ming.liu@toradex.com>
+Subject: Re: [OE-core] [PATCH V3 2/2] u-boot: introduce UBOOT_INITIAL_ENV
+Message-ID: <20200603172939.GX17660@denix.org>
+References: <20200603114838.13541-1-liu.ming50@gmail.com>
+ <20200603114838.13541-3-liu.ming50@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20200603114838.13541-3-liu.ming50@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Joshua Watt <JPEWhacker@gmail.com>
+On Wed, Jun 03, 2020 at 01:48:38PM +0200, Ming Liu wrote:
+> From: Ming Liu <ming.liu@toradex.com>
+> 
+> It defaults to ${PN}-initial-env, no functional changes with current
+> implementation, but this allows it to be changed in individual u-boot
+> recipes.
+> 
+> If UBOOT_INITIAL_ENV is empty, then no initial env would be compiled/
+> installed/deployed, set ALLOW_EMPTY_${PN}-env = "1".
+> 
+> The major purpose for introducing this, is that the users might have
+> some scripts on targets like:
+> ```
+> /sbin/fw_setenv -f /etc/u-boot-initial-env
+> ```
+> 
+> and it should be able to run against a identical path generated by
+> different u-boot recipes.
+> 
+> Signed-off-by: Ming Liu <ming.liu@toradex.com>
 
-The commits 910ffaf5be ("pyelftools: Import from meta-python") and
-a96f815c53 ("pycryptodome: Import from meta-python") moved recipes from
-meta-python to oe-core. In order for this to be communicated with users,
-bump the LAYERVERSION so that meta-python can key of it in its
-LAYERDEPENDS.
+Thank you for addressing all the comments!
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2d503b27e7c88cee9a37c79c4605c77b11f230b6)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/conf/layer.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Reviewed-by: Denys Dmytriyenko <denys@ti.com>
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index f03eb485a3..43917d4c3c 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -11,7 +11,7 @@ LAYERSERIES_CORENAMES = "dunfell"
- 
- # This should only be incremented on significant changes that will
- # cause compatibility issues with other layers
--LAYERVERSION_core = "11"
-+LAYERVERSION_core = "12"
- LAYERSERIES_COMPAT_core = "dunfell"
- 
- BBLAYERS_LAYERINDEX_NAME_core = "openembedded-core"
--- 
-2.17.1
+
+> ---
+>  meta/recipes-bsp/u-boot/u-boot.inc | 55 +++++++++++++++++++-----------
+>  1 file changed, 36 insertions(+), 19 deletions(-)
+> 
+> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+> index 718435f13f..6fa2d0820c 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> @@ -60,6 +60,10 @@ UBOOT_ENV_BINARY ?= "${UBOOT_ENV}.${UBOOT_ENV_SUFFIX}"
+>  UBOOT_ENV_IMAGE ?= "${UBOOT_ENV}-${MACHINE}-${PV}-${PR}.${UBOOT_ENV_SUFFIX}"
+>  UBOOT_ENV_SYMLINK ?= "${UBOOT_ENV}-${MACHINE}.${UBOOT_ENV_SUFFIX}"
+>  
+> +# Default name of u-boot initial env, but enable individual recipes to change
+> +# this value.
+> +UBOOT_INITIAL_ENV ?= "${PN}-initial-env"
+> +
+>  # U-Boot EXTLINUX variables. U-Boot searches for /boot/extlinux/extlinux.conf
+>  # to find EXTLINUX conf file.
+>  UBOOT_EXTLINUX_INSTALL_DIR ?= "/boot/extlinux"
+> @@ -124,8 +128,10 @@ do_compile () {
+>                      done
+>  
+>                      # Generate the uboot-initial-env
+> -                    oe_runmake -C ${S} O=${B}/${config} u-boot-initial-env
+> -                    cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-boot-initial-env-${type}
+> +                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> +                        oe_runmake -C ${S} O=${B}/${config} u-boot-initial-env
+> +                        cp ${B}/${config}/u-boot-initial-env ${B}/${config}/u-boot-initial-env-${type}
+> +                    fi
+>  
+>                      unset k
+>                  fi
+> @@ -137,7 +143,9 @@ do_compile () {
+>          oe_runmake -C ${S} O=${B} ${UBOOT_MAKE_TARGET}
+>  
+>          # Generate the uboot-initial-env
+> -        oe_runmake -C ${S} O=${B} u-boot-initial-env
+> +        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> +            oe_runmake -C ${S} O=${B} u-boot-initial-env
+> +        fi
+>      fi
+>  }
+>  
+> @@ -155,10 +163,12 @@ do_install () {
+>                      ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
+>  
+>                      # Install the uboot-initial-env
+> -                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+> -                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${type}
+> -                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${type}
+> -                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
+> +                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> +                        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
+> +                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
+> +                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${type}
+> +                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
+> +                    fi
+>                  fi
+>              done
+>              unset j
+> @@ -169,9 +179,11 @@ do_install () {
+>          ln -sf ${UBOOT_IMAGE} ${D}/boot/${UBOOT_BINARY}
+>  
+>          # Install the uboot-initial-env
+> -        install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
+> -        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env-${MACHINE}
+> -        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${PN}-initial-env
+> +        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> +            install -D -m 644 ${B}/u-boot-initial-env ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
+> +            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}-${MACHINE}
+> +            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${D}/${sysconfdir}/${UBOOT_INITIAL_ENV}
+> +        fi
+>      fi
+>  
+>      if [ -n "${UBOOT_ELF}" ]
+> @@ -242,8 +254,9 @@ do_install () {
+>  PACKAGE_BEFORE_PN += "${PN}-env"
+>  
+>  RPROVIDES_${PN}-env += "u-boot-default-env"
+> +ALLOW_EMPTY_${PN}-env = "1"
+>  FILES_${PN}-env = " \
+> -    ${sysconfdir}/${PN}-initial-env* \
+> +    ${@ '${sysconfdir}/${UBOOT_INITIAL_ENV}*' if d.getVar('UBOOT_INITIAL_ENV') else ''} \
+>      ${sysconfdir}/fw_env.config \
+>  "
+>  
+> @@ -267,10 +280,12 @@ do_deploy () {
+>                      ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
+>  
+>                      # Deploy the uboot-initial-env
+> -                    install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR}
+> -                    cd ${DEPLOYDIR}
+> -                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${MACHINE}-${type}
+> -                    ln -sf ${PN}-initial-env-${MACHINE}-${type}-${PV}-${PR} ${PN}-initial-env-${type}
+> +                    if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> +                        install -D -m 644 ${B}/${config}/u-boot-initial-env-${type} ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR}
+> +                        cd ${DEPLOYDIR}
+> +                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}
+> +                        ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${type}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${type}
+> +                    fi
+>                  fi
+>              done
+>              unset j
+> @@ -285,10 +300,12 @@ do_deploy () {
+>          ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
+>  
+>          # Deploy the uboot-initial-env
+> -        install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${PN}-initial-env-${MACHINE}-${PV}-${PR}
+> -        cd ${DEPLOYDIR}
+> -        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${PN}-initial-env-${MACHINE}
+> -        ln -sf ${PN}-initial-env-${MACHINE}-${PV}-${PR} ${PN}-initial-env
+> +        if [ -n "${UBOOT_INITIAL_ENV}" ]; then
+> +            install -D -m 644 ${B}/u-boot-initial-env ${DEPLOYDIR}/${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR}
+> +            cd ${DEPLOYDIR}
+> +            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}-${MACHINE}
+> +            ln -sf ${UBOOT_INITIAL_ENV}-${MACHINE}-${PV}-${PR} ${UBOOT_INITIAL_ENV}
+> +        fi
+>      fi
+>  
+>      if [ -e ${WORKDIR}/fw_env.config ] ; then
+> -- 
+> 2.26.2
+> 
+
+> 
 
