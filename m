@@ -1,117 +1,99 @@
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com [209.85.217.68])
- by mx.groups.io with SMTP id smtpd.web12.484.1591134372998527061
+Received: from mail-il1-f196.google.com (mail-il1-f196.google.com [209.85.166.196])
+ by mx.groups.io with SMTP id smtpd.web10.5889.1591152851114839954
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2020 14:46:13 -0700
+ Tue, 02 Jun 2020 19:54:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kkgCT1bn;
- spf=pass (domain: gmail.com, ip: 209.85.217.68, mailfrom: armccurdy@gmail.com)
-Received: by mail-vs1-f68.google.com with SMTP id r10so149222vsa.12
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2020 14:46:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QCxFP6BC;
+ spf=pass (domain: gmail.com, ip: 209.85.166.196, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f196.google.com with SMTP id a13so1015589ilh.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2020 19:54:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Do64e7M36xUo1FWiaNRYgilQiLu2FspLO7psY0Z/IEU=;
-        b=kkgCT1bnPfOcysHQJiUK3L8qhqbmmN5mzhQgHZ7buhx79dzXEtk2SDDAPA5/PjHUIW
-         HvTm0nXCSQxUkRezcwTg/tan1IxkS/yVHHKNuLWJWIztye8gF5X5NVy+lzJ0/aH6dZNv
-         VU1sTwqGykBlMAmH4DepoDf5RA5yAZCM3exRnGvm/gzyXAKqXPtOduCxoDD3UGy3qHSZ
-         8TMJsZ6s+e1aKthF2ah9xWHOt18p4Zj1ga+I9ayUuTag26DXukrRbhnIsIf6vltgwM9D
-         u/cZ1gYk1PTmF9GGpHS2Az54CeyHCG4JlF7MRtDzNTPcxCST3gSIJ9mPH0tu6wpFRuZD
-         IqUQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ci2ArnvuMKbGfPTv0mUZQ25DENEbgfyR5XukfwVoMTQ=;
+        b=QCxFP6BCuTDbWF9ENPev0ZDKSeMUp2yt06ThdUIYEbQqRGWPk8XjyR3BnbyKaswQr9
+         FQs81zafnjxNj5nDVIYmoLG1k4NpcbR8O0oyNXWIy9FTuVC6ANZbE0JjUCMDeMuRnxHn
+         4Yj+VOHN5tzF4q1WMIhLMVoBZsg17dmviS7zQllMcPkFq9y9PRmKDFboJIP+wR29wzFt
+         taURm6uOiqSgB06UYRKgAkhQXuVQr84Xf1lUE9/m1Ukkk/wTtXnlyQ0fnE0UNx2x/A6V
+         y7gclnREDwCkOz9fb7iJbxI7x9Ov8QbASikVEoT34Vu5579fiHArU8Y6ktIk82CcAWjm
+         pgaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Do64e7M36xUo1FWiaNRYgilQiLu2FspLO7psY0Z/IEU=;
-        b=J9gifyAPHOtwXELbIEx1K+eoUmzKdw3YpiK9MA/Dv5mkQ39/GT9lSlO37zuubY3lQF
-         r+O0K219k0HWHwuZD3wE7dnHIYkXiUVjzK+qD2fEvAJL/CfBxUuZf6ppcwotpwS4yjqZ
-         W9/4pDIdZleDIO1jx31Pv24rbcCMtIMzgF4R8DmE45TsjThwBP/NCwPsQ+sgelVqSzuf
-         1GRAtxu2l2peFpWfOkCtX/o5oIaZ21bNU4hllp2bwM+x/nagedOeFFxjl+wvfykVRH+m
-         2Pmv4qTVIV8mpKBTm5SPD9J+HHffB+hfMhkKEYHfkp2eOuS8dIdO8vq2X1J1iDi9CICp
-         Crww==
-X-Gm-Message-State: AOAM532oCxYUS6b4KzrSpdLMKzDdijw6ODHjn+Xu293QUlBVLgeNMRtC
-	Hc0f3Aho8QnP6oNriL39GRBnBsiIkzeFboMFJFM=
-X-Google-Smtp-Source: ABdhPJxPdiY9WDF/cBzDJwwDLamBlIHAJvol+mBC3gU8oclTnpHo/JHBOMd18axbgPZBCcMmCGejLUZLCu8QWHOPNoQ=
-X-Received: by 2002:a67:ed02:: with SMTP id l2mr6523277vsp.137.1591134371977;
- Tue, 02 Jun 2020 14:46:11 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ci2ArnvuMKbGfPTv0mUZQ25DENEbgfyR5XukfwVoMTQ=;
+        b=rc4zC6C03r3Y0hy6P5TnWff5osmWIxzAGofNwfi7V7SgdlcIO57oynrUU8TR0+td17
+         a1mE2iWlyvUEwURnES+SxDerXMK8LB32nVQ4i3zeHG4g8oB9/vnJW2ikXSecT9SBe8jM
+         oWoXMbkyCfAmIzFKdK0YC123NzXsjnazjQIPr9cu2bTDoce5uAT65kZaH8SbRCTpWYio
+         SPmeC3DNt0AWoYIZ7UVjzptb6J5WwVaPwPD7itmnTizCAetDQufmOfK66ZtDkPx5fsyy
+         Ksz3Or07mk5Fdj1x8yWLhm3i0KcQDbZTZ0n78kHErI59C6vHOuecdKf03VZcIPvEcgRj
+         xnzg==
+X-Gm-Message-State: AOAM530E/kLX67zxJMCNHxLVq42Kxg/AwTzYuhxa1OVm90dzWPTTtM5G
+	sT4Q9Hf5Vdp47/MpFCdd3POyr7It1H4=
+X-Google-Smtp-Source: ABdhPJzDim+IKOry8HjS7T1z/5V1XuLsf9bldBejnXbeV1wNk5O4ymxXyrUIqSBP5t4h3G4jlOpuwQ==
+X-Received: by 2002:a92:6b10:: with SMTP id g16mr2031084ilc.29.1591152849817;
+        Tue, 02 Jun 2020 19:54:09 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:b01b:daad:c850:7bb9])
+        by smtp.gmail.com with ESMTPSA id x15sm355643ilj.78.2020.06.02.19.54.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jun 2020 19:54:09 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v3 0/8] Add support for per-multiconfig BBMASK
+Date: Tue,  2 Jun 2020 21:53:57 -0500
+Message-Id: <20200603025405.26885-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200601202807.26357-1-JPEWhacker@gmail.com>
+References: <20200601202807.26357-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-References: <1614B0E5E96C4272.14405@lists.openembedded.org>
- <20200602121722.32623-1-rasmus.villemoes@prevas.dk> <20200602200008.GB2207@pbcl.net>
- <24a52dc42bb9eb49e2f8802a3c7558859160de18.camel@linuxfoundation.org> <20200602211524.GC2207@pbcl.net>
-In-Reply-To: <20200602211524.GC2207@pbcl.net>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Tue, 2 Jun 2020 14:46:04 -0700
-Message-ID: <CAJ86T=X0Jd+_K8xG6G9LB2FfSo51dQ2rL1sa1f_zo2+r8fh0XQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] glibc: move ld.so.conf back to main package
-To: Phil Blundell <pb@pbcl.net>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Rasmus Villemoes <rasmus.villemoes@prevas.dk>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>, 
-	Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
-	Andreas Oberritter <obi@opendreambox.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jun 2, 2020 at 2:15 PM Phil Blundell via
-lists.openembedded.org <pb=pbcl.net@lists.openembedded.org> wrote:
->
-> On Tue, Jun 02, 2020 at 09:17:44PM +0100, Richard Purdie wrote:
-> > I understand the concern, I am a little torn on this as adding in too
-> > many different controls and options complicates the test matrix and
-> > makes things harder for users.
-> >
-> > You're effectively suggesting a new DISTRO_FEATURE to control this? or
-> > maybe better, perhaps a glibc PACKAGECONFIG?
->
-> Yes, right.  I don't think it need be a DISTRO_FEATURE because nothing
-> outside glibc needs to care.
->
-> Here are the scenarios that I think matter, ordered from simplest to
-> most complex:
->
-> 1. Immutable filesystem, every library installed in the place where
-> ld.so would first look for it anyway (i.e. everything in {/usr}/lib).
-> In this case, we don't want ldconfig (because it can never do anything
-> useful), we don't want ld.so.cache and we don't want ld.so.conf
-> because they would cause ld.so to do extra file loads and computation
-> but end up with the same result that it would anyway.
->
-> 2. Immutable filesystem but some libraries are in places that ld.so
-> wouldn't automatically know about.  In this case we do want ld.so.conf
-> and ld.so.cache, but we still don't want ldconfig.
->
-> 3. Mutable filesystem where arbitrary binaries can be installed in
-> arbitrary places.  It's probably debatable whether ldconfig is needed
-> in all these cases, but clearly it's needed in some and I think at
-> this point it can be left to a DISTRO decision how exactly they want
-> to optimize things.
->
-> I think right now oe-core supports #1 and #3.  The proposed patch
-> seems to be aimed at #2, which is a completely valid usecase,
+Splits apart the bitbake configuration data and caches so that each
+defined multiconfig can specify as separate BBMASK independently of the
+other multiconfigs. This can take multiple forms, such as a `BBMASK` in
+a multiconfig .conf file, or BBMASK assignment based on an override (see
+linked bugzilla for an example).
 
-It seems like a weird corner case to me. Where do these libraries come
-from and why can't they be moved or symlinked into a standard path?
+The most noticeable change is that bitbake now keeps a parsing cache
+file for each multiconfig instead of a single parsing cache file that
+caches all multiconfigs.
 
-If they are somehow special and only used by special applications then
-setting rpath or using LD_LIBRARY_PATH just for those applications
-would seem to be a better solution than enabling them globally.
+V2: Fixes some syntax errors in tinfoil
 
-> but
-> my concern is that we don't want to pessimize #1 in the process.
->
-> There is a whole parallel discussion to be had about the merits
-> or otherwise of ld.so's hwcaps mechanism.  meta-micro has been
-> carrying a patch for about a decade to turn all that stuff off,
-> on the grounds that it's just a loss on any kind of embedded
-> environment.  Maybe I should make some effort to get it upstream
-> as an option.
+V3: Optimizes caches so that each one only caches the files for it's own
+multiconfig
 
-Note also that glibc already has a build time option to completely
-disable support for ldconfig:
+Joshua Watt (8):
+  bitbake: cooker: Split file collections per multiconfig
+  bitbake: cache: Use multiconfig aware caches
+  bitbake: lib: Add support for Logging Adapters
+  bitbake: lib: Add PrefixLoggerAdapter helper
+  bitbake: cache: Improve logging
+  bitbake: cache: Cache size optimization
+  bitbake: tests: Add tests for BBMASK in multiconfig
+  bitbake: command: Move split_mc_pn to runqueue
 
-  https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/configure.ac#l89
+ bitbake/lib/bb/__init__.py                    |  30 ++-
+ bitbake/lib/bb/cache.py                       | 228 ++++++++++++------
+ bitbake/lib/bb/command.py                     |  39 +--
+ bitbake/lib/bb/cooker.py                      | 159 +++++++-----
+ bitbake/lib/bb/runqueue.py                    |  17 +-
+ .../bb/tests/runqueue-tests/conf/bitbake.conf |   3 +-
+ .../runqueue-tests/conf/multiconfig/mc1.conf  |   1 +
+ .../runqueue-tests/conf/multiconfig/mc2.conf  |   1 +
+ .../recipes/fails-mc/fails-mc1.bb             |   5 +
+ .../recipes/fails-mc/fails-mc2.bb             |   4 +
+ bitbake/lib/bb/tests/runqueue.py              |  15 ++
+ bitbake/lib/bb/tinfoil.py                     |  26 +-
+ bitbake/lib/bblayers/query.py                 |   4 +-
+ 13 files changed, 360 insertions(+), 172 deletions(-)
+ create mode 100644 bitbake/lib/bb/tests/runqueue-tests/recipes/fails-mc/fails-mc1.bb
+ create mode 100644 bitbake/lib/bb/tests/runqueue-tests/recipes/fails-mc/fails-mc2.bb
 
-Sadly it's not usable in recent versions of glibc (setting
-use_ldconfig=no results in a build failure due to some seemingly
-unrelated missing build dependency which I haven't had time to dig
-into yet) but it worked well for OE 2.2 and gave a noticeable
-reduction in glibc code size.
+-- 
+2.26.2
+
