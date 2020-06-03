@@ -1,115 +1,243 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.web11.2861.1591227114383210161
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+ by mx.groups.io with SMTP id smtpd.web10.3001.1591227225638079913
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 16:31:54 -0700
+ Wed, 03 Jun 2020 16:33:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=F0kzt/xy;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id fc4so2072099qvb.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 16:31:54 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VDp2cvZ+;
+ spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f48.google.com with SMTP id w7so3185100edt.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 16:33:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=MLOrkA19fYJEEc5lzDuNy1GCxb7lwdNEfD7cAeMTZoE=;
-        b=F0kzt/xy6B3VipBjDpOZ2E8nQhyPMdHydOJ3hPEPArKyGlLJOd9IoiHIaIjbVlUZTE
-         VUgKpbMMVIayofI/Gt8PV6DHKzv49tE79aCgucIjecnNABHEIALV9sF3aI9iNdOWNWkS
-         rwK/S3dcvpw2OW1THvVX+faIhcKClNVZ4IEy6GSlhMdjyCO/JIcTu2nB+m1RQO/32EjL
-         4HdT35di06PCCDPuCB4nWGUJnlsD2NPkjjcJGC5/yKlwAhPakt7Zoo1AFG1xLyYlPnW2
-         eCi/ORK5r7DD3pZq2jcGnq6rr5bwf0Ds4DGqGupfS9JRAs4u4xgKMhsKza3YN1pl2wws
-         xZjg==
+        bh=965Dd6d55w6dkA/90Y6spSmpy+gxAHpU2YcWZwRup20=;
+        b=VDp2cvZ+hANpeFAD6IfpRuVzJPGQwMUOv5QcKlcIIUSRsc15OVQwG5bOgBShkUfQU6
+         /Zs18yLmSOHkqIr/iv/uF9/0l7aC9wGnF1qU/ePhr6km+YZE8Q2AWgRWWtEltwNQpUYW
+         6fJuwY8sLnken57NSfHsfArT27JWhrZ79+DqHqjh5RxIWI1KanS/ZXN8sWJ0ZaGnZ9KK
+         fqDDtl/3g5DiJyOZ36mxdUj4nuxs08xfKBqiAg2cWO1mydF2QIHVLGe7tBP7sj+kVCH8
+         46xPHW7csioBlspCclpGOlNJDf5E1T4WAv71RNmGyZHnf35Uv98oT7eNYQmCizrQzC7o
+         c6TA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=MLOrkA19fYJEEc5lzDuNy1GCxb7lwdNEfD7cAeMTZoE=;
-        b=lbMBxGjGsPg5BVoXyWWEky1n66Q6ewIChkzpAX+pLcVHGWsVQevAv/DKabe+mwAqbo
-         8EvCyBg8ElKVWx4jdVKWHbJ+/PZpDbPSRJEfaz7dVCt+QNX1ZJQq4dPrh+prXcpwZ6wZ
-         kaAmnyEscIiqw3iTvhsabyLLzlRBN5o6qSZDzgbrFzIDITl7jdkB+oUGENmQyjM4q6YY
-         iYrNtFUKHVTIuTwU9OjOHncM457n48y8Ok+4qamuLGEOfKsoZHhQ/Aa5f4ySX2EroHQb
-         QKEkElZqO/BcPuovfFHZ/+tNT26wQddFKvy5IZCsrju6PjrsPkozW5WaxgUJuQEMYOc+
-         rRQg==
-X-Gm-Message-State: AOAM533bklWKPnB181rzXx8lhJfqzt+SuUqb5xZ6RlV0+kLFgqMiGVIe
-	pTJ1Wb9OduSkB/Ch44UY6x+kaVNW6jXGIVM1ef+SXc1P
-X-Google-Smtp-Source: ABdhPJy1f80kFkGYbNyxbE+WeOZuKqbYeTOtc1/J4zGx75aV9Ri4LZ/5g2+9jOb93nOVmzTjy0aGTQcds0wC2eYfWr4=
-X-Received: by 2002:a0c:e9cd:: with SMTP id q13mr2273881qvo.23.1591227113217;
- Wed, 03 Jun 2020 16:31:53 -0700 (PDT)
+        bh=965Dd6d55w6dkA/90Y6spSmpy+gxAHpU2YcWZwRup20=;
+        b=HSsPpzd+Kt4auRZmErP3Oabs4rdbetWg5nxIlKsUREym9s/i8uXObPy53NEcO/dbHn
+         oOkNEo4aNwcW2UhjFW0tfUphnz2BbpNsNOdmqoHkayXNnegI7QEcb4I+UZCJt/oGzEqA
+         v8F0lC9O5pyhMNzcDpndVXdLu2bgAEVxJefyQZ4uT0Gj9RH6kUuYOPmE5ndfqxWO4mNQ
+         pkngowSSbjGqzyfs3px1LYNSHu7HQZk3v7T6WaEFOC5p91Rko3+sCjLKelcvryky1Sn8
+         qMUjFyPDHk+UxqEVjGx/BuA+QCYh697XNe4TAfXjtdFgXng9FwGzByGJ981c8iJARxmO
+         0lrA==
+X-Gm-Message-State: AOAM5330GC9FL3K9U3cHNmifU9r9m8cyDmla6oWl3tW184ozebYz4WLc
+	UUGh1aNY5lVItS3EyRhzcRlg4BvV1oRwFWNLv1I=
+X-Google-Smtp-Source: ABdhPJwjakqprekgJIB1TDTQ+u8exwi71h8JiYozuShfFO8Egc1Jqa3wvP8ioW93uuDcwDlUmofdu9TvhWpv3G6ly+Y=
+X-Received: by 2002:a05:6402:362:: with SMTP id s2mr1762328edw.337.1591227224240;
+ Wed, 03 Jun 2020 16:33:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200521161543.3273063-1-raj.khem@gmail.com>
-In-Reply-To: <20200521161543.3273063-1-raj.khem@gmail.com>
-From: "Khem Raj" <raj.khem@gmail.com>
-Date: Wed, 3 Jun 2020 16:31:27 -0700
-Message-ID: <CAMKF1sr1q0s2h=t-xjFqsOyX44TXBzhFr=VeLC-5rDEjYfOx3Q@mail.gmail.com>
-Subject: Re: [dunfell][ 01/10] tunes: Add new tune files for cortexa55 and cortexa73-cortexa53
-To: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <cover.1591197295.git.steve@sakoman.com> <fa08dc08-22f5-f82f-58dc-02b976acdf2b@gmail.com>
+ <20200603173620.GY17660@denix.org> <a4714244-b570-1f18-185c-22d3a4a9c80f@gmail.com>
+In-Reply-To: <a4714244-b570-1f18-185c-22d3a4a9c80f@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Thu, 4 Jun 2020 01:33:33 +0200
+Message-ID: <CA+chaQcnHdYcjUGGDJ0aPrjKAghJpjpHy=FrbPGMC0ms4YGS2g@mail.gmail.com>
+Subject: Re: [OE-core][dunfell 0/5] Patch review
+To: akuster <akuster808@gmail.com>, Joshua Watt <jpewhacker@gmail.com>
+Cc: Denys Dmytriyenko <denis@denix.org>, Steve Sakoman <steve@sakoman.com>, 
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000075365105a7367574"
+
+--00000000000075365105a7367574
 Content-Type: text/plain; charset="UTF-8"
 
-Ping for this series.
+I think we still need corresponding LAYERDEPENDS_meta-python update which
+isn't in master yet (and I haven't noticed it on the list).
 
-On Thu, May 21, 2020 at 9:15 AM Khem Raj <raj.khem@gmail.com> wrote:
+Joshua: did I overlook it somewhere or should I send it?
+
+On Wed, Jun 3, 2020 at 7:45 PM akuster <akuster808@gmail.com> wrote:
+
 >
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/conf/machine/include/tune-cortexa55.inc  | 17 ++++++++++++++
->  .../include/tune-cortexa73-cortexa53.inc      | 23 +++++++++++++++++++
->  2 files changed, 40 insertions(+)
->  create mode 100644 meta/conf/machine/include/tune-cortexa55.inc
->  create mode 100644 meta/conf/machine/include/tune-cortexa73-cortexa53.inc
 >
-> diff --git a/meta/conf/machine/include/tune-cortexa55.inc b/meta/conf/machine/include/tune-cortexa55.inc
-> new file mode 100644
-> index 0000000000..8242cc9cef
-> --- /dev/null
-> +++ b/meta/conf/machine/include/tune-cortexa55.inc
-> @@ -0,0 +1,17 @@
-> +DEFAULTTUNE ?= "cortexa55"
-> +
-> +TUNEVALID[cortexa55] = "Enable Cortex-A55 specific processor optimizations"
-> +TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa55', ' -mcpu=cortex-a55', '', d)}"
-> +
-> +require conf/machine/include/arm/arch-armv8a.inc
-> +
-> +# Little Endian base configs
-> +AVAILTUNES += "cortexa55 cortexa55-crypto"
-> +ARMPKGARCH_tune-cortexa55             = "cortexa55"
-> +ARMPKGARCH_tune-cortexa55-crypto      = "cortexa55"
-> +TUNE_FEATURES_tune-cortexa55          = "aarch64 cortexa55 crc"
-> +TUNE_FEATURES_tune-cortexa55-crypto   = "aarch64 cortexa55 crc crypto"
-> +PACKAGE_EXTRA_ARCHS_tune-cortexa55             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa55"
-> +PACKAGE_EXTRA_ARCHS_tune-cortexa55-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa55 cortexa55-crypto"
-> +BASE_LIB_tune-cortexa55               = "lib64"
-> +BASE_LIB_tune-cortexa55-crypto        = "lib64"
-> diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
-> new file mode 100644
-> index 0000000000..8df418227f
-> --- /dev/null
-> +++ b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
-> @@ -0,0 +1,23 @@
-> +DEFAULTTUNE ?= "cortexa73-cortexa53"
-> +
-> +require conf/machine/include/arm/arch-armv8a.inc
-> +
-> +TUNEVALID[cortexa73-cortexa53] = "Enable big.LITTLE Cortex-A73.Cortex-A53 specific processor optimizations"
-> +
-> +TUNECONFLICTS[aarch64] = "armv4 armv5 armv6 armv7 armv7a"
-> +
-> +MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "cortexa73-cortexa53", "cortexa73-cortexa53:", "" ,d)}"
-> +
-> +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortexa73-cortexa53", " -mtune=cortex-a73.cortex-a53", "", d)}"
-> +
-> +# cortexa73.cortexa53 implies crc support
-> +AVAILTUNES += "cortexa73-cortexa53 cortexa73-cortexa53-crypto"
-> +ARMPKGARCH_tune-cortexa73-cortexa53                  = "cortexa73-cortexa53"
-> +ARMPKGARCH_tune-cortexa73-cortexa53-crypto           = "cortexa73-cortexa53"
-> +TUNE_FEATURES_tune-cortexa73-cortexa53               = "${TUNE_FEATURES_tune-armv8a-crc} cortexa73-cortexa53"
-> +TUNE_FEATURES_tune-cortexa73-cortexa53-crypto        = "${TUNE_FEATURES_tune-armv8a-crc-crypto} cortexa73-cortexa53"
-> +PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa73-cortexa53"
-> +PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa73-cortexa53 cortexa73-cortexa53-crypto"
-> +BASE_LIB_tune-cortexa73-cortexa53                    = "lib64"
-> +BASE_LIB_tune-cortexa73-cortexa53-crypto             = "lib64"
-> +
-> --
-> 2.26.2
+> On 6/3/20 10:36 AM, Denys Dmytriyenko wrote:
+> > On Wed, Jun 03, 2020 at 10:33:55AM -0700, akuster wrote:
+> >> Does someone have the complementary set of patches for meta-openbedded
+> >> to remove these?
+> >
+> https://git.openembedded.org/meta-openembedded/commit/?id=a8f3c00d8d113b46a49584682e10435157d516ca
+> >
+> https://git.openembedded.org/meta-openembedded/commit/?id=7aee545a61c4f91d5e462d5b46b1b8f9a8bad1e3
+> >
+> > Do you want me to re-submit them with [dunfell] tag?
+> nah, the commits work of me. Thanks
 >
+> - armin
+> >
+> >
+> >> - armin
+> >>
+> >> On 6/3/20 8:33 AM, Steve Sakoman wrote:
+> >>> Pending final approval for an exception to LTS policy in this case
+> please
+> >>> review this patch series and have comments back by end of day Thursday.
+> >>>
+> >>> For details on the motivation for this change see:
+> >>>
+> >>>
+> https://lists.openembedded.org/g/openembedded-architecture/message/1085
+> >>>
+> >>> The following changes since commit
+> ef5af31f406076107402694f5d6afb27b240eba6:
+> >>>
+> >>>   linux-yocto/5.4: update to v5.4.43 (2020-06-01 07:19:09 -1000)
+> >>>
+> >>> are available in the Git repository at:
+> >>>
+> >>>   git://git.openembedded.org/openembedded-core-contrib
+> stable/dunfell-nut
+> >>>
+> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
+> >>>
+> >>> Joshua Watt (5):
+> >>>   pycryptodome: Import from meta-python
+> >>>   pyelftools: Import from meta-python
+> >>>   python3-pycryptodome(x): Upgrade 3.9.4 -> 3.9.7
+> >>>   python3-pyelftools: Upgrade 0.25 -> 0.26
+> >>>   layer.conf: Bump OE-Core layer version
+> >>>
+> >>>  meta/conf/distro/include/maintainers.inc      |  5 +++-
+> >>>  meta/conf/layer.conf                          |  2 +-
+> >>>  .../python/python-pycryptodome.inc            | 26 +++++++++++++++++++
+> >>>  .../python/python3-pycryptodome_3.9.7.bb      |  5 ++++
+> >>>  .../python/python3-pycryptodomex_3.9.7.bb     |  9 +++++++
+> >>>  .../python/python3-pyelftools_0.26.bb         | 14 ++++++++++
+> >>>  6 files changed, 59 insertions(+), 2 deletions(-)
+> >>>  create mode 100644
+> meta/recipes-devtools/python/python-pycryptodome.inc
+> >>>  create mode 100644 meta/recipes-devtools/python/
+> python3-pycryptodome_3.9.7.bb
+> >>>  create mode 100644 meta/recipes-devtools/python/
+> python3-pycryptodomex_3.9.7.bb
+> >>>  create mode 100644 meta/recipes-devtools/python/
+> python3-pyelftools_0.26.bb
+> >>>
+> >>>
+> >>>
+> >>
+>
+> 
+>
+
+--00000000000075365105a7367574
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I think we still need corresponding LAYERDEPENDS_meta-pyth=
+on update which isn&#39;t in master yet (and I haven&#39;t noticed it on th=
+e list).<div><br></div><div>Joshua: did I overlook it somewhere or should I=
+ send it?</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Jun 3, 2020 at 7:45 PM akuster &lt;<a href=3D"mail=
+to:akuster808@gmail.com">akuster808@gmail.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex"><br>
+<br>
+On 6/3/20 10:36 AM, Denys Dmytriyenko wrote:<br>
+&gt; On Wed, Jun 03, 2020 at 10:33:55AM -0700, akuster wrote:<br>
+&gt;&gt; Does someone have the complementary set of patches for meta-openb=
+edded<br>
+&gt;&gt; to remove these?<br>
+&gt; <a href=3D"https://git.openembedded.org/meta-openembedded/commit/?id=
+=3Da8f3c00d8d113b46a49584682e10435157d516ca" rel=3D"noreferrer" target=3D"=
+_blank">https://git.openembedded.org/meta-openembedded/commit/?id=3Da8f3c00=
+d8d113b46a49584682e10435157d516ca</a><br>
+&gt; <a href=3D"https://git.openembedded.org/meta-openembedded/commit/?id=
+=3D7aee545a61c4f91d5e462d5b46b1b8f9a8bad1e3" rel=3D"noreferrer" target=3D"=
+_blank">https://git.openembedded.org/meta-openembedded/commit/?id=3D7aee545=
+a61c4f91d5e462d5b46b1b8f9a8bad1e3</a><br>
+&gt;<br>
+&gt; Do you want me to re-submit them with [dunfell] tag?<br>
+nah, the commits work of me. Thanks<br>
+<br>
+- armin<br>
+&gt;<br>
+&gt;<br>
+&gt;&gt; - armin<br>
+&gt;&gt;<br>
+&gt;&gt; On 6/3/20 8:33 AM, Steve Sakoman wrote:<br>
+&gt;&gt;&gt; Pending final approval for an exception to LTS policy in this=
+ case please<br>
+&gt;&gt;&gt; review this patch series and have comments back by end of day=
+ Thursday.<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; For details on the motivation for this change see:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; <a href=3D"https://lists.openembedded.org/g/openembedded-arch=
+itecture/message/1085" rel=3D"noreferrer" target=3D"_blank">https://lists.o=
+penembedded.org/g/openembedded-architecture/message/1085</a><br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; The following changes since commit ef5af31f406076107402694f5d=
+6afb27b240eba6:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0linux-yocto/5.4: update to v5.4.43 (2020-06-01 07=
+:19:09 -1000)<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; are available in the Git repository at:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0git://<a href=3D"http://git.openembedded.org/open=
+embedded-core-contrib" rel=3D"noreferrer" target=3D"_blank">git.openembedde=
+d.org/openembedded-core-contrib</a> stable/dunfell-nut<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0<a href=3D"http://cgit.openembedded.org/openembed=
+ded-core-contrib/log/?h=3Dstable/dunfell-nut" rel=3D"noreferrer" target=3D"=
+_blank">http://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Dsta=
+ble/dunfell-nut</a><br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Joshua Watt (5):<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0pycryptodome: Import from meta-python<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0pyelftools: Import from meta-python<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0python3-pycryptodome(x): Upgrade 3.9.4 -&gt; 3.9.=
+7<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0python3-pyelftools: Upgrade 0.25 -&gt; 0.26<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0layer.conf: Bump OE-Core layer version<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;=C2=A0 meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 5 +++-<br>
+&gt;&gt;&gt;=C2=A0 meta/conf/layer.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+&gt;&gt;&gt;=C2=A0 .../python/python-pycryptodome.inc=C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0 =C2=A0 =C2=A0 | 26 +++++++++++++++++++<br>
+&gt;&gt;&gt;=C2=A0 .../python/<a href=3D"http://python3-pycryptodome_3.9.7=
+.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycryptodome_3.9.7.bb</a>=
+=
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 5 ++++<br>
+&gt;&gt;&gt;=C2=A0 .../python/<a href=3D"http://python3-pycryptodomex_3.9.=
+7.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycryptodomex_3.9.7.bb</=
+a>=C2=A0 =C2=A0 =C2=A0|=C2=A0 9 +++++++<br>
+&gt;&gt;&gt;=C2=A0 .../python/<a href=3D"http://python3-pyelftools_0.26.bb=
+" rel=3D"noreferrer" target=3D"_blank">python3-pyelftools_0.26.bb</a>=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0| 14 ++++++++++<br>
+&gt;&gt;&gt;=C2=A0 6 files changed, 59 insertions(+), 2 deletions(-)<br>
+&gt;&gt;&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/python-=
+pycryptodome.inc<br>
+&gt;&gt;&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=
+=
+=3D"http://python3-pycryptodome_3.9.7.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">python3-pycryptodome_3.9.7.bb</a><br>
+&gt;&gt;&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=
+=
+=3D"http://python3-pycryptodomex_3.9.7.bb" rel=3D"noreferrer" target=3D"_b=
+lank">python3-pycryptodomex_3.9.7.bb</a><br>
+&gt;&gt;&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=
+=
+=3D"http://python3-pyelftools_0.26.bb" rel=3D"noreferrer" target=3D"_blank=
+">python3-pyelftools_0.26.bb</a><br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt; <br>
+<br>
+<br>
+</blockquote></div>
+
+--00000000000075365105a7367574--
