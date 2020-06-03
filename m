@@ -1,45 +1,45 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.1234.1591206324255811328
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web12.2059.1591208244414454524
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 10:45:24 -0700
+ Wed, 03 Jun 2020 11:17:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EUq7ML5v;
- spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: akuster808@gmail.com)
-Received: by mail-pf1-f180.google.com with SMTP id 23so1186718pfw.10
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 10:45:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pA72n1gn;
+ spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: akuster808@gmail.com)
+Received: by mail-pg1-f181.google.com with SMTP id t7so2318864pgt.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 11:17:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
          :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=AchJ1M9TDos+UgK+d/CF13A+QyTqC9tNTHyeI/8jyso=;
-        b=EUq7ML5vS2x7Yaj3P9wL1oXy27nw/S+dbL+1oVlBi9Z0v8hiiMqTh9jIPYGGCbouke
-         KWY1OqYODClGdvTE57Cv7cgxnHZIsp6aYzuaTNc40lL5F881AiRgYWCePtc1Q84nMlpc
-         XfDJ7kQqUjsDWfZy7WvIHi5IyN2FeMpKoj5lJd68OU07dF3IDaqOSzRv8U1NLDd5eTUl
-         jbrHrxekur/gWe3CePqfEoHbM76jE25kTf1be4KcGFIrX23WM8cVlmx8gUipGZIMuGtz
-         Wk2gXmpYzm+Tm5VFTAsxa+TsulKED2y7w4z8EW5TU2iQP1epIokCkZvPnmkmhmDAsxP4
-         vXVg==
+        bh=eu5KGsUnbB5Amv3zbpGhS9MyXyKexl7wsuiKhZC+b7o=;
+        b=pA72n1gnOI6v3PM05iWBXR7lcUErOoEk7ODbn+ymYunNdY6kmALW0F21Qvppulhmbt
+         n4vJZRJlWC9Db5PiOon8hGPfrBaE45O9JmlF2eOuT+S/B6XjKdVqwopI9HilX0Lljt3p
+         MBMgXn0ONfSNISK5HvOPPeUB4G/FhpcTXZChAvKlSclrNJ6mHxNga/NYjcnCv6MI6lam
+         93z4bgZ68JEyllENBzJ6LiL3FxIlcTBu7VCcRqYbXadwJUDDMg0kXyg02F7v8bEOoGRV
+         UBG4Aa8Jqa3K7r4eUd39iZE9OiBnCEIkPcodgdtu4gLSzG1n16gJy5HqS/99roBqPLvJ
+         zETA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:autocrypt
          :message-id:date:user-agent:mime-version:in-reply-to
          :content-transfer-encoding:content-language;
-        bh=AchJ1M9TDos+UgK+d/CF13A+QyTqC9tNTHyeI/8jyso=;
-        b=kRq9AqHaMxopG3WFoUmRLIozdF9TREgqjuy0h7n7urH++HClpLEuE7SnZ8jt7NdYB6
-         iulG3JSknZwGhOy5qCZCjEw+DW1a9l0o/zzI+0f2nnFRl3OsayEPRIwxOKt0qa6R7KX8
-         eMKtcJb8WTZMfQ9mv9C0w5fn9VKhY98MxoLkOHejwEXS1MohiXBUutQzhL+ZULwTvL9m
-         gHJBv+yPrlgCn0Xgtd55zODNbeCShLKgDEVz7g6GQYoHPDWkWprKw6qkcVyCyFtqrzgx
-         EdVz05R5V0objdag7KJymTmE52aN8TTxYpF1Xm6Gme+nSv7Pj3VSOhoJaoFcdf9NSabh
-         k2HQ==
-X-Gm-Message-State: AOAM531hjV3Vu83PgooDd8UPRIWVurUQieJ5QQeKCygnZg1jYB6PRsG0
-	1LV89D6dXJJk2YnXQwr5OtdbnNMQ
-X-Google-Smtp-Source: ABdhPJzpOKSHlDLeG4o2rlkxXOPxbaKMzq0UrhF8a8wggmRUnb8vgE3kcC+jSRYhh321n+sHkB/KgQ==
-X-Received: by 2002:a17:90a:d803:: with SMTP id a3mr1135964pjv.125.1591206323176;
-        Wed, 03 Jun 2020 10:45:23 -0700 (PDT)
+        bh=eu5KGsUnbB5Amv3zbpGhS9MyXyKexl7wsuiKhZC+b7o=;
+        b=Or8DS6/bS2EuDZyaL0jZYii3BjrOPqNTqHTxVUoIeeScDek0hSH2SF/7Tpp4b7c1ph
+         H/9C1qOcjnrUZGpi4IMi8jd7hrHfF5T9L0xESY61ucTylcWOqp6REW6m1J1nZ7acpAcA
+         85tnsimsGajJBzboyZODY70x8y6Y3XH8YUUxEkgskYxTcTH2s9iWpUZ0dLNlvA2zXZZG
+         8MwJuJMvF0R40rjthYvyiSdMnGt0wToXxE3XY1zabHmEguiTuNH6owPo3C3+bAFIT848
+         wUGlnvjENxcCETN/f4zr8Ui3UBreSUqij++jPpzVpwv7AqdSiI7W9D2OTIaaZZD/mrD3
+         9LhQ==
+X-Gm-Message-State: AOAM530Wveomrnp7Y93XZaI42PLsAcSF1uyaXUCLc8LYDw8kwF3aruKb
+	EUJEBCmmOFKYlyotTWW0TrUiWGUN
+X-Google-Smtp-Source: ABdhPJwt6nCnxYmchK38vl67yLkGgfkRzPeM8HsZE+5rxtpjOO+B2ieeqaf7eaWGYKZuIXrlkZj5dQ==
+X-Received: by 2002:a63:3147:: with SMTP id x68mr620462pgx.418.1591208243600;
+        Wed, 03 Jun 2020 11:17:23 -0700 (PDT)
 Return-Path: <akuster808@gmail.com>
 Received: from ?IPv6:2601:202:4180:a5c0:7c6f:fec8:5548:f4b0? ([2601:202:4180:a5c0:7c6f:fec8:5548:f4b0])
-        by smtp.gmail.com with ESMTPSA id 12sm2615940pfb.3.2020.06.03.10.45.22
+        by smtp.gmail.com with ESMTPSA id s63sm3247195pjj.16.2020.06.03.11.17.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Jun 2020 10:45:22 -0700 (PDT)
+        Wed, 03 Jun 2020 11:17:22 -0700 (PDT)
 Subject: Re: [OE-core][dunfell 0/5] Patch review
 To: Denys Dmytriyenko <denis@denix.org>
 Cc: Steve Sakoman <steve@sakoman.com>,
@@ -91,8 +91,8 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
  PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
  ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
  8CS2NxU=
-Message-ID: <a4714244-b570-1f18-185c-22d3a4a9c80f@gmail.com>
-Date: Wed, 3 Jun 2020 10:45:21 -0700
+Message-ID: <9c5425d3-fc0a-a63e-e090-e83f364edd3e@gmail.com>
+Date: Wed, 3 Jun 2020 11:17:20 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
@@ -111,9 +111,10 @@ On 6/3/20 10:36 AM, Denys Dmytriyenko wrote:
 > https://git.openembedded.org/meta-openembedded/commit/?id=7aee545a61c4f91d5e462d5b46b1b8f9a8bad1e3
 >
 > Do you want me to re-submit them with [dunfell] tag?
-nah, the commits work of me. Thanks
 
-- armin
+changes in stable/dunfell-nut for testing with my other backports.
+
+-armin
 >
 >
 >> - armin
