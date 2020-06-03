@@ -1,243 +1,123 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
- by mx.groups.io with SMTP id smtpd.web10.3001.1591227225638079913
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web11.3045.1591227737143435838
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 16:33:46 -0700
+ Wed, 03 Jun 2020 16:42:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VDp2cvZ+;
- spf=pass (domain: gmail.com, ip: 209.85.208.48, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f48.google.com with SMTP id w7so3185100edt.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 16:33:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UWfgrTel;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id g62so201391qtd.5
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 16:42:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=965Dd6d55w6dkA/90Y6spSmpy+gxAHpU2YcWZwRup20=;
-        b=VDp2cvZ+hANpeFAD6IfpRuVzJPGQwMUOv5QcKlcIIUSRsc15OVQwG5bOgBShkUfQU6
-         /Zs18yLmSOHkqIr/iv/uF9/0l7aC9wGnF1qU/ePhr6km+YZE8Q2AWgRWWtEltwNQpUYW
-         6fJuwY8sLnken57NSfHsfArT27JWhrZ79+DqHqjh5RxIWI1KanS/ZXN8sWJ0ZaGnZ9KK
-         fqDDtl/3g5DiJyOZ36mxdUj4nuxs08xfKBqiAg2cWO1mydF2QIHVLGe7tBP7sj+kVCH8
-         46xPHW7csioBlspCclpGOlNJDf5E1T4WAv71RNmGyZHnf35Uv98oT7eNYQmCizrQzC7o
-         c6TA==
+        bh=aDDasVZgw8n+ybSp+bvRYhoeLuQX3fnSuUMjmu/VVus=;
+        b=UWfgrTel8MVY5hmM5oCqXKuIJHWs2Nxc34DFbGeEk1yTUMSRj6J0btuAgp7aasZFvW
+         5Hqc8ht0jwk2TfKQ0WWgJsaKI0WEePIwJJAlc7CgiDm6nrUf7k9n6Z9XS61RAb5Ignpg
+         NOq1p9NmAnhJXXwAMZ2tX4+WfXzfV0oBSI9Q4ji6+85m9n1GXprVqeRT6oyXmZSBZFna
+         GHwMVCs8MK9DJX/ZL7kutJHtZp/iNt4HBY4Hx5HBnWRkjtigPvZL2ld9SbdU9PSZZ63Q
+         wQB1Wk56yXoKY96S5EV1dMe0IJ71DGtKWRHLcmtP3DuL7inUntIOekk0iQHLTcW2/Ij7
+         zGAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=965Dd6d55w6dkA/90Y6spSmpy+gxAHpU2YcWZwRup20=;
-        b=HSsPpzd+Kt4auRZmErP3Oabs4rdbetWg5nxIlKsUREym9s/i8uXObPy53NEcO/dbHn
-         oOkNEo4aNwcW2UhjFW0tfUphnz2BbpNsNOdmqoHkayXNnegI7QEcb4I+UZCJt/oGzEqA
-         v8F0lC9O5pyhMNzcDpndVXdLu2bgAEVxJefyQZ4uT0Gj9RH6kUuYOPmE5ndfqxWO4mNQ
-         pkngowSSbjGqzyfs3px1LYNSHu7HQZk3v7T6WaEFOC5p91Rko3+sCjLKelcvryky1Sn8
-         qMUjFyPDHk+UxqEVjGx/BuA+QCYh697XNe4TAfXjtdFgXng9FwGzByGJ981c8iJARxmO
-         0lrA==
-X-Gm-Message-State: AOAM5330GC9FL3K9U3cHNmifU9r9m8cyDmla6oWl3tW184ozebYz4WLc
-	UUGh1aNY5lVItS3EyRhzcRlg4BvV1oRwFWNLv1I=
-X-Google-Smtp-Source: ABdhPJwjakqprekgJIB1TDTQ+u8exwi71h8JiYozuShfFO8Egc1Jqa3wvP8ioW93uuDcwDlUmofdu9TvhWpv3G6ly+Y=
-X-Received: by 2002:a05:6402:362:: with SMTP id s2mr1762328edw.337.1591227224240;
- Wed, 03 Jun 2020 16:33:44 -0700 (PDT)
+        bh=aDDasVZgw8n+ybSp+bvRYhoeLuQX3fnSuUMjmu/VVus=;
+        b=Ld4fG8WUoWbBakzur8t1MFT25Gmz5LvBojkHw3qDCXCVuTshIwrMgDPrI+F7wCQhoP
+         EzocOpKlBDf4Qj0go0j1UdkCvwFEIZbtEdRr6AoBgEPS1M6BW6RBrqV4ZdgVx0tI0B6x
+         5P3lQFxObGLYE6PqKFoNlx1kJMert2/4T9YUqv9lSGHweEgLJNV+rebOcHxIx2afcu3a
+         V0r9vsC/c+bhgzvzBK/JgMZB3vmDhh0uuJVbukVaGQSWq2IanQAwqotUZwh1/4L1FAYM
+         8kZ+IPLdR2IsGKFav1qw07kWiWs43p8RHLmFElAJ2iG1u8fYNRfiXwHiMsn2k4XE9HfS
+         UFig==
+X-Gm-Message-State: AOAM530g6sC/a+XuU2apASyphvCvYbbVCateqo3pDcYrxkxtn4e0OUQG
+	GZA8ebtL9TkcxonDYvPD0GEeoLK/8yqjHb2sC3w=
+X-Google-Smtp-Source: ABdhPJzCCdrkoZGMLvsj8PivoBmn8PxoFBC19dD0GP2xnhUw4Ns0XCIeZ0Q/814QCzNxzGlggU5DtKkuqLr2ppV8mk8=
+X-Received: by 2002:aed:308e:: with SMTP id 14mr1932620qtf.146.1591227736100;
+ Wed, 03 Jun 2020 16:42:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1591197295.git.steve@sakoman.com> <fa08dc08-22f5-f82f-58dc-02b976acdf2b@gmail.com>
- <20200603173620.GY17660@denix.org> <a4714244-b570-1f18-185c-22d3a4a9c80f@gmail.com>
-In-Reply-To: <a4714244-b570-1f18-185c-22d3a4a9c80f@gmail.com>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Thu, 4 Jun 2020 01:33:33 +0200
-Message-ID: <CA+chaQcnHdYcjUGGDJ0aPrjKAghJpjpHy=FrbPGMC0ms4YGS2g@mail.gmail.com>
-Subject: Re: [OE-core][dunfell 0/5] Patch review
-To: akuster <akuster808@gmail.com>, Joshua Watt <jpewhacker@gmail.com>
-Cc: Denys Dmytriyenko <denis@denix.org>, Steve Sakoman <steve@sakoman.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000075365105a7367574"
-
---00000000000075365105a7367574
+References: <1614B0E5E96C4272.14405@lists.openembedded.org>
+ <20200602121722.32623-1-rasmus.villemoes@prevas.dk> <20200602200008.GB2207@pbcl.net>
+ <24a52dc42bb9eb49e2f8802a3c7558859160de18.camel@linuxfoundation.org>
+ <20200602211524.GC2207@pbcl.net> <CAJ86T=X0Jd+_K8xG6G9LB2FfSo51dQ2rL1sa1f_zo2+r8fh0XQ@mail.gmail.com>
+In-Reply-To: <CAJ86T=X0Jd+_K8xG6G9LB2FfSo51dQ2rL1sa1f_zo2+r8fh0XQ@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 3 Jun 2020 16:41:49 -0700
+Message-ID: <CAMKF1so0ihfr=A56FeZ+xhABjHGgh3A7rdo6L02x3yvKoNj9FA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] glibc: move ld.so.conf back to main package
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Phil Blundell <pb@pbcl.net>, Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Rasmus Villemoes <rasmus.villemoes@prevas.dk>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>, 
+	Martin Jansa <martin.jansa@gmail.com>, Andreas Oberritter <obi@opendreambox.org>
 Content-Type: text/plain; charset="UTF-8"
 
-I think we still need corresponding LAYERDEPENDS_meta-python update which
-isn't in master yet (and I haven't noticed it on the list).
-
-Joshua: did I overlook it somewhere or should I send it?
-
-On Wed, Jun 3, 2020 at 7:45 PM akuster <akuster808@gmail.com> wrote:
-
+On Tue, Jun 2, 2020 at 2:46 PM Andre McCurdy <armccurdy@gmail.com> wrote:
 >
+> On Tue, Jun 2, 2020 at 2:15 PM Phil Blundell via
+> lists.openembedded.org <pb=pbcl.net@lists.openembedded.org> wrote:
+> >
+> > On Tue, Jun 02, 2020 at 09:17:44PM +0100, Richard Purdie wrote:
+> > > I understand the concern, I am a little torn on this as adding in too
+> > > many different controls and options complicates the test matrix and
+> > > makes things harder for users.
+> > >
+> > > You're effectively suggesting a new DISTRO_FEATURE to control this? or
+> > > maybe better, perhaps a glibc PACKAGECONFIG?
+> >
+> > Yes, right.  I don't think it need be a DISTRO_FEATURE because nothing
+> > outside glibc needs to care.
+> >
+> > Here are the scenarios that I think matter, ordered from simplest to
+> > most complex:
+> >
+> > 1. Immutable filesystem, every library installed in the place where
+> > ld.so would first look for it anyway (i.e. everything in {/usr}/lib).
+> > In this case, we don't want ldconfig (because it can never do anything
+> > useful), we don't want ld.so.cache and we don't want ld.so.conf
+> > because they would cause ld.so to do extra file loads and computation
+> > but end up with the same result that it would anyway.
+> >
+> > 2. Immutable filesystem but some libraries are in places that ld.so
+> > wouldn't automatically know about.  In this case we do want ld.so.conf
+> > and ld.so.cache, but we still don't want ldconfig.
+> >
+> > 3. Mutable filesystem where arbitrary binaries can be installed in
+> > arbitrary places.  It's probably debatable whether ldconfig is needed
+> > in all these cases, but clearly it's needed in some and I think at
+> > this point it can be left to a DISTRO decision how exactly they want
+> > to optimize things.
+> >
+> > I think right now oe-core supports #1 and #3.  The proposed patch
+> > seems to be aimed at #2, which is a completely valid usecase,
 >
-> On 6/3/20 10:36 AM, Denys Dmytriyenko wrote:
-> > On Wed, Jun 03, 2020 at 10:33:55AM -0700, akuster wrote:
-> >> Does someone have the complementary set of patches for meta-openbedded
-> >> to remove these?
-> >
-> https://git.openembedded.org/meta-openembedded/commit/?id=a8f3c00d8d113b46a49584682e10435157d516ca
-> >
-> https://git.openembedded.org/meta-openembedded/commit/?id=7aee545a61c4f91d5e462d5b46b1b8f9a8bad1e3
-> >
-> > Do you want me to re-submit them with [dunfell] tag?
-> nah, the commits work of me. Thanks
+> It seems like a weird corner case to me. Where do these libraries come
+> from and why can't they be moved or symlinked into a standard path?
 >
-> - armin
-> >
-> >
-> >> - armin
-> >>
-> >> On 6/3/20 8:33 AM, Steve Sakoman wrote:
-> >>> Pending final approval for an exception to LTS policy in this case
-> please
-> >>> review this patch series and have comments back by end of day Thursday.
-> >>>
-> >>> For details on the motivation for this change see:
-> >>>
-> >>>
-> https://lists.openembedded.org/g/openembedded-architecture/message/1085
-> >>>
-> >>> The following changes since commit
-> ef5af31f406076107402694f5d6afb27b240eba6:
-> >>>
-> >>>   linux-yocto/5.4: update to v5.4.43 (2020-06-01 07:19:09 -1000)
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>>   git://git.openembedded.org/openembedded-core-contrib
-> stable/dunfell-nut
-> >>>
-> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/dunfell-nut
-> >>>
-> >>> Joshua Watt (5):
-> >>>   pycryptodome: Import from meta-python
-> >>>   pyelftools: Import from meta-python
-> >>>   python3-pycryptodome(x): Upgrade 3.9.4 -> 3.9.7
-> >>>   python3-pyelftools: Upgrade 0.25 -> 0.26
-> >>>   layer.conf: Bump OE-Core layer version
-> >>>
-> >>>  meta/conf/distro/include/maintainers.inc      |  5 +++-
-> >>>  meta/conf/layer.conf                          |  2 +-
-> >>>  .../python/python-pycryptodome.inc            | 26 +++++++++++++++++++
-> >>>  .../python/python3-pycryptodome_3.9.7.bb      |  5 ++++
-> >>>  .../python/python3-pycryptodomex_3.9.7.bb     |  9 +++++++
-> >>>  .../python/python3-pyelftools_0.26.bb         | 14 ++++++++++
-> >>>  6 files changed, 59 insertions(+), 2 deletions(-)
-> >>>  create mode 100644
-> meta/recipes-devtools/python/python-pycryptodome.inc
-> >>>  create mode 100644 meta/recipes-devtools/python/
-> python3-pycryptodome_3.9.7.bb
-> >>>  create mode 100644 meta/recipes-devtools/python/
-> python3-pycryptodomex_3.9.7.bb
-> >>>  create mode 100644 meta/recipes-devtools/python/
-> python3-pyelftools_0.26.bb
-> >>>
-> >>>
-> >>>
-> >>
+> If they are somehow special and only used by special applications then
+> setting rpath or using LD_LIBRARY_PATH just for those applications
+> would seem to be a better solution than enabling them globally.
 >
-> 
+> > but
+> > my concern is that we don't want to pessimize #1 in the process.
+> >
+> > There is a whole parallel discussion to be had about the merits
+> > or otherwise of ld.so's hwcaps mechanism.  meta-micro has been
+> > carrying a patch for about a decade to turn all that stuff off,
+> > on the grounds that it's just a loss on any kind of embedded
+> > environment.  Maybe I should make some effort to get it upstream
+> > as an option.
 >
+> Note also that glibc already has a build time option to completely
+> disable support for ldconfig:
+>
+>   https://sourceware.org/git/?p=glibc.git;a=blob;f=sysdeps/unix/sysv/linux/configure.ac#l89
+>
+> Sadly it's not usable in recent versions of glibc (setting
+> use_ldconfig=no results in a build failure due to some seemingly
+> unrelated missing build dependency which I haven't had time to dig
+> into yet) but it worked well for OE 2.2 and gave a noticeable
+> reduction in glibc code size.
 
---00000000000075365105a7367574
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I think we still need corresponding LAYERDEPENDS_meta-pyth=
-on update which isn&#39;t in master yet (and I haven&#39;t noticed it on th=
-e list).<div><br></div><div>Joshua: did I overlook it somewhere or should I=
- send it?</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Jun 3, 2020 at 7:45 PM akuster &lt;<a href=3D"mail=
-to:akuster808@gmail.com">akuster808@gmail.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex"><br>
-<br>
-On 6/3/20 10:36 AM, Denys Dmytriyenko wrote:<br>
-&gt; On Wed, Jun 03, 2020 at 10:33:55AM -0700, akuster wrote:<br>
-&gt;&gt; Does someone have the complementary set of patches for meta-openb=
-edded<br>
-&gt;&gt; to remove these?<br>
-&gt; <a href=3D"https://git.openembedded.org/meta-openembedded/commit/?id=
-=3Da8f3c00d8d113b46a49584682e10435157d516ca" rel=3D"noreferrer" target=3D"=
-_blank">https://git.openembedded.org/meta-openembedded/commit/?id=3Da8f3c00=
-d8d113b46a49584682e10435157d516ca</a><br>
-&gt; <a href=3D"https://git.openembedded.org/meta-openembedded/commit/?id=
-=3D7aee545a61c4f91d5e462d5b46b1b8f9a8bad1e3" rel=3D"noreferrer" target=3D"=
-_blank">https://git.openembedded.org/meta-openembedded/commit/?id=3D7aee545=
-a61c4f91d5e462d5b46b1b8f9a8bad1e3</a><br>
-&gt;<br>
-&gt; Do you want me to re-submit them with [dunfell] tag?<br>
-nah, the commits work of me. Thanks<br>
-<br>
-- armin<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt; - armin<br>
-&gt;&gt;<br>
-&gt;&gt; On 6/3/20 8:33 AM, Steve Sakoman wrote:<br>
-&gt;&gt;&gt; Pending final approval for an exception to LTS policy in this=
- case please<br>
-&gt;&gt;&gt; review this patch series and have comments back by end of day=
- Thursday.<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; For details on the motivation for this change see:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; <a href=3D"https://lists.openembedded.org/g/openembedded-arch=
-itecture/message/1085" rel=3D"noreferrer" target=3D"_blank">https://lists.o=
-penembedded.org/g/openembedded-architecture/message/1085</a><br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; The following changes since commit ef5af31f406076107402694f5d=
-6afb27b240eba6:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0linux-yocto/5.4: update to v5.4.43 (2020-06-01 07=
-:19:09 -1000)<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; are available in the Git repository at:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0git://<a href=3D"http://git.openembedded.org/open=
-embedded-core-contrib" rel=3D"noreferrer" target=3D"_blank">git.openembedde=
-d.org/openembedded-core-contrib</a> stable/dunfell-nut<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0<a href=3D"http://cgit.openembedded.org/openembed=
-ded-core-contrib/log/?h=3Dstable/dunfell-nut" rel=3D"noreferrer" target=3D"=
-_blank">http://cgit.openembedded.org/openembedded-core-contrib/log/?h=3Dsta=
-ble/dunfell-nut</a><br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; Joshua Watt (5):<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0pycryptodome: Import from meta-python<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0pyelftools: Import from meta-python<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0python3-pycryptodome(x): Upgrade 3.9.4 -&gt; 3.9.=
-7<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0python3-pyelftools: Upgrade 0.25 -&gt; 0.26<br>
-&gt;&gt;&gt;=C2=A0 =C2=A0layer.conf: Bump OE-Core layer version<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;=C2=A0 meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 5 +++-<br>
-&gt;&gt;&gt;=C2=A0 meta/conf/layer.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-&gt;&gt;&gt;=C2=A0 .../python/python-pycryptodome.inc=C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 =C2=A0 =C2=A0 | 26 +++++++++++++++++++<br>
-&gt;&gt;&gt;=C2=A0 .../python/<a href=3D"http://python3-pycryptodome_3.9.7=
-.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycryptodome_3.9.7.bb</a>=
-=
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 5 ++++<br>
-&gt;&gt;&gt;=C2=A0 .../python/<a href=3D"http://python3-pycryptodomex_3.9.=
-7.bb" rel=3D"noreferrer" target=3D"_blank">python3-pycryptodomex_3.9.7.bb</=
-a>=C2=A0 =C2=A0 =C2=A0|=C2=A0 9 +++++++<br>
-&gt;&gt;&gt;=C2=A0 .../python/<a href=3D"http://python3-pyelftools_0.26.bb=
-" rel=3D"noreferrer" target=3D"_blank">python3-pyelftools_0.26.bb</a>=C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0| 14 ++++++++++<br>
-&gt;&gt;&gt;=C2=A0 6 files changed, 59 insertions(+), 2 deletions(-)<br>
-&gt;&gt;&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/python-=
-pycryptodome.inc<br>
-&gt;&gt;&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=
-=
-=3D"http://python3-pycryptodome_3.9.7.bb" rel=3D"noreferrer" target=3D"_bl=
-ank">python3-pycryptodome_3.9.7.bb</a><br>
-&gt;&gt;&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=
-=
-=3D"http://python3-pycryptodomex_3.9.7.bb" rel=3D"noreferrer" target=3D"_b=
-lank">python3-pycryptodomex_3.9.7.bb</a><br>
-&gt;&gt;&gt;=C2=A0 create mode 100644 meta/recipes-devtools/python/<a href=
-=
-=3D"http://python3-pyelftools_0.26.bb" rel=3D"noreferrer" target=3D"_blank=
-">python3-pyelftools_0.26.bb</a><br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt;<br>
-&gt;&gt; <br>
-<br>
-<br>
-</blockquote></div>
-
---00000000000075365105a7367574--
+If we can get this working and perhaps as a packageconfig this would address
+concern #1 nicely per distro policies.
