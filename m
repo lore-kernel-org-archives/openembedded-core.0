@@ -1,50 +1,69 @@
-Received: from huawei.com (huawei.com [45.249.212.191])
- by mx.groups.io with SMTP id smtpd.web12.8747.1591169931401136791
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web12.9082.1591171967429339999
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 00:38:51 -0700
+ Wed, 03 Jun 2020 01:12:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: huawei.com, ip: 45.249.212.191, mailfrom: zhengjunling@huawei.com)
-Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id 32314B3CC866867CE329
-	for <openembedded-core@lists.openembedded.org>; Wed,  3 Jun 2020 15:38:48 +0800 (CST)
-Received: from HULK-Android.huawei.com (10.113.189.218) by
- DGGEMS403-HUB.china.huawei.com (10.3.19.203) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 3 Jun 2020 15:38:39 +0800
-From: "Junling Zheng" <zhengjunling@huawei.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <fanyiming@huawei.com>
-Subject: [OE-core] [PATCH 2/2] buildstats.bbclass: Do not recalculate build start time
-Date: Wed, 3 Jun 2020 15:38:28 +0800
-Message-ID: <20200603073828.7704-2-zhengjunling@huawei.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200603073828.7704-1-zhengjunling@huawei.com>
-References: <20200603073828.7704-1-zhengjunling@huawei.com>
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: jlu@pengutronix.de)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1jgOVw-0002UJ-Jr; Wed, 03 Jun 2020 10:12:44 +0200
+Received: from jlu by dude.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1jgOVw-0001hI-Ab; Wed, 03 Jun 2020 10:12:44 +0200
+From: "Jan Luebbe" <jlu@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: Jan Luebbe <jlu@pengutronix.de>
+Subject: [OE-core][PATCH] classes/buildhistory: capture package config
+Date: Wed,  3 Jun 2020 10:12:37 +0200
+Message-Id: <20200603081237.1959-1-jlu@pengutronix.de>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-Originating-IP: [10.113.189.218]
-X-CFilter-Loop: Reflected
-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: jlu@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Content-Transfer-Encoding: 8bit
 
-The build start time is recorded in __timedata_build, which we should
-use rather than recalculating it.
+As the PACKAGECONFIG variable has a large influence on the resulting
+package sizes and dependencies, it's useful to capture it in the
+recipe-level buildhistory. This makes it straightforward to analyze the
+impact of PACKAGECONFIG changes on the resulting image size.
 
-Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
+Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
 ---
- meta/classes/buildstats.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/buildhistory.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/buildstats.bbclass b/meta/classes/buildstats.bbclass
-index e7d47c74df..6f87187233 100644
---- a/meta/classes/buildstats.bbclass
-+++ b/meta/classes/buildstats.bbclass
-@@ -136,7 +136,7 @@ python run_buildstats () {
-                 if x:
-                     f.write(x + " ")
-             f.write("\n")
--            f.write("Build Started: %0.2f \n" % time.time())
-+            f.write("Build Started: %0.2f \n" % d.getVar('__timedata_build', False)[0])
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index eb7295570dbd..a4288ef9e1f5 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -113,6 +113,7 @@ python buildhistory_emit_pkghistory() {
+             self.packages = ""
+             self.srcrev = ""
+             self.layer = ""
++            self.config = ""
  
-     elif isinstance(e, bb.event.BuildCompleted):
-         build_time = os.path.join(bsdir, "build_stats")
+ 
+     class PackageInfo:
+@@ -254,6 +255,7 @@ python buildhistory_emit_pkghistory() {
+     rcpinfo.depends = sortlist(oe.utils.squashspaces(d.getVar('DEPENDS') or ""))
+     rcpinfo.packages = packages
+     rcpinfo.layer = layer
++    rcpinfo.config = sortlist(oe.utils.squashspaces(d.getVar('PACKAGECONFIG') or ""))
+     write_recipehistory(rcpinfo, d)
+ 
+     pkgdest = d.getVar('PKGDEST')
+@@ -368,6 +370,7 @@ def write_recipehistory(rcpinfo, d):
+         f.write(u"DEPENDS = %s\n" %  rcpinfo.depends)
+         f.write(u"PACKAGES = %s\n" %  rcpinfo.packages)
+         f.write(u"LAYER = %s\n" %  rcpinfo.layer)
++        f.write(u"CONFIG = %s\n" %  rcpinfo.config)
+ 
+     write_latest_srcrev(d, pkghistdir)
+ 
 -- 
-2.17.1
+2.27.0
 
