@@ -1,51 +1,51 @@
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com [209.85.166.195])
- by mx.groups.io with SMTP id smtpd.web11.5819.1591152857052345612
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com [209.85.166.179])
+ by mx.groups.io with SMTP id smtpd.web10.5893.1591152858260891960
  for <openembedded-core@lists.openembedded.org>;
- Tue, 02 Jun 2020 19:54:17 -0700
+ Tue, 02 Jun 2020 19:54:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Gw/zz+4H;
- spf=pass (domain: gmail.com, ip: 209.85.166.195, mailfrom: jpewhacker@gmail.com)
-Received: by mail-il1-f195.google.com with SMTP id l6so1023086ilo.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2020 19:54:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=vbeKprri;
+ spf=pass (domain: gmail.com, ip: 209.85.166.179, mailfrom: jpewhacker@gmail.com)
+Received: by mail-il1-f179.google.com with SMTP id r2so1007549ila.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 02 Jun 2020 19:54:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lqAmIo86Ed4JiIeOuhDNYAfD/xpaF28tHKUVH9i5PT0=;
-        b=Gw/zz+4HaQ2OSk/OuANx8rh+Th9sjhD5GltoXNpTvtPxEwyYpSyBpfkdVzbudst6c/
-         Dx7UyMsaCkgNnbTG/QS4Nt8fzVEPg3UOIC47HPYw5+Sj5/TRCnQPl3eP7A4fGDTKiwwO
-         LD1doop0XMn5FEKY00GLaDOecthI6IDsCCHCScXBk39wtgPA0yeAEohC7daICAfnBLwL
-         WruXQNGMBpTZjssgizrz1WpAznpI4gG5tUIV3VzJzFnm0PbFEf8DYOB6sfKAGtbPGNx9
-         zLlTVjXIVEhQIKqzHOHe2oCuk7b+tuNkgNLEGgTewX1ZBE6DggiFgigNrViPQ1p0Sy/C
-         vX1g==
+        bh=qLE2xavfWqzPiMNJYNxkmr/DoKEttQByHYxmiFhLxI0=;
+        b=vbeKprriPWsjC8mMuRlemYSFWkIdWBj4q4Dm90W9/PO1h7KCqHeuJYpcfIfCK4vY4u
+         fTA2Mv0WUGV84wJFYr3AUpq918NndkVtK5n4QOvYXwtV1RevTfzexCZNgumNDXNi590E
+         uX0V57TfiuZsAkAaqXwlF5jR/OvfIoR4+zDgQo3hJ48kTCTpY4KpCyqZjEMqlGzCsnUi
+         YcBUQZhi4ElQC1SEiO2p3cgsJKENAW+eHjd9SGmy1LB0KUViIJkRZIc+Yax5u7Y0PLcA
+         QOfgi4CPwW56IaVRqO0aahS1HcZqMJxcLS1cXM7kDcSXi20gnu+9SKW2aZKPaNZsiYo+
+         vibQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lqAmIo86Ed4JiIeOuhDNYAfD/xpaF28tHKUVH9i5PT0=;
-        b=XCp32zFZ6riS2o+Z27QXalSkE91O3AGB0xj+6j6+mk+0Mda0AwhXAgWuIQrEuFASEK
-         DnOJHdNl3fUMSHSZ8NS8K92Qqns+YhrEakDnr27750lFiyGRvPH+GLbcQQpliUXjN69T
-         A1iCjSQfKKqt0KnLUcsJ9w+uFN0VwkAdv9myeDmxWNW/FNVI9MKVx/gobf92YZJshLU2
-         0CjfOyGHU6OHol4SunaWwU8x/0rqoe78LQAqCztI8O/6kSADGQIvrjTxQuTWUsr3T4zg
-         BJ/iX7v38LI7A13mJOs/+vBgsrl3sWe7xkEn6/ym5RKDOQZGJt/iN1pJ9utQCdVJuBPH
-         rgfg==
-X-Gm-Message-State: AOAM533pxGHwktCNRqNmHaFdbyHYDXUaMxiiJoLbNuyuE7U2N18TA0+x
-	XL/6K2UzLnxRTtWi6PVw8lJRcrxGN48=
-X-Google-Smtp-Source: ABdhPJzXlNWOpKve8E9Xgf79/Zc/4VZX6OVPtJRFUatSubhW6I5XUOj04oLcriDvaY+TmwbEiPVO8g==
-X-Received: by 2002:a92:d151:: with SMTP id t17mr2093487ilg.101.1591152856235;
-        Tue, 02 Jun 2020 19:54:16 -0700 (PDT)
+        bh=qLE2xavfWqzPiMNJYNxkmr/DoKEttQByHYxmiFhLxI0=;
+        b=f3+NIs3BB4pv+0AbXalLuXGd2jahyirq/lyLQjfle4B53ZWoy8JzaC/uWofD/4F66w
+         S4sVMms22L8joNr1JHntci9HXgJFPehXVKS9hzQbxZty5mnmoHksLqyhyCSLPdv683aY
+         aK3sxvOi7B/l1mWa7Qv1vKLuYidyRriFR9NzyYfVwE0r3RfBeAr8wAoQ1X116ufTqpP3
+         POkznGv0/HaBDUFMC6gQWtWVqJVmxn+Z1kDXFdfkZAETRGZT0RlfGjHxoU5SwwSsp+Qf
+         rn948xA195hju76NIuHCd5BCbuTcOCabInju6B+7DveTPa6qPBUqSYb4PgPu0C8xUyz5
+         KAzQ==
+X-Gm-Message-State: AOAM530+K73wpqjfOxvNG3nVl2eD16I8G21Kl/DUgq4POiyCiHdCRJzO
+	6DJcGYRuKYuJbyyQgOYfS3TBcESl0zM=
+X-Google-Smtp-Source: ABdhPJzWrUyRPnvf0AbrV/hKtdQZHi+owletZ4Ay924fQLkUIxhBkmgDD/x5sNTM/UAWAtnE57x72w==
+X-Received: by 2002:a92:155d:: with SMTP id v90mr2067291ilk.73.1591152857178;
+        Tue, 02 Jun 2020 19:54:17 -0700 (PDT)
 Return-Path: <jpewhacker@gmail.com>
 Received: from localhost.localdomain ([2605:a601:ac3d:c100:b01b:daad:c850:7bb9])
-        by smtp.gmail.com with ESMTPSA id x15sm355643ilj.78.2020.06.02.19.54.15
+        by smtp.gmail.com with ESMTPSA id x15sm355643ilj.78.2020.06.02.19.54.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Jun 2020 19:54:15 -0700 (PDT)
+        Tue, 02 Jun 2020 19:54:16 -0700 (PDT)
 From: "Joshua Watt" <JPEWhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v3 6/8] bitbake: cache: Cache size optimization
-Date: Tue,  2 Jun 2020 21:54:03 -0500
-Message-Id: <20200603025405.26885-7-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH v3 7/8] bitbake: tests: Add tests for BBMASK in multiconfig
+Date: Tue,  2 Jun 2020 21:54:04 -0500
+Message-Id: <20200603025405.26885-8-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200603025405.26885-1-JPEWhacker@gmail.com>
 References: <20200601202807.26357-1-JPEWhacker@gmail.com>
@@ -53,89 +53,97 @@ References: <20200601202807.26357-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now that there is a cache object per multiconfig, it is not necessary
-for each cache object to parse all other multiconfigs. Instead, each
-cache now only parses the files for it's multiconfig.
+Adds a test to validate that multiconfigs can independently mask off
+recipes by setting BBMASK. See the test description for further
+information about how the test works.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- bitbake/lib/bb/cache.py  | 22 ++++++++++++++++++----
- bitbake/lib/bb/cooker.py |  8 +-------
- 2 files changed, 19 insertions(+), 11 deletions(-)
+ .../lib/bb/tests/runqueue-tests/conf/bitbake.conf |  3 ++-
+ .../runqueue-tests/conf/multiconfig/mc1.conf      |  1 +
+ .../runqueue-tests/conf/multiconfig/mc2.conf      |  1 +
+ .../runqueue-tests/recipes/fails-mc/fails-mc1.bb  |  5 +++++
+ .../runqueue-tests/recipes/fails-mc/fails-mc2.bb  |  4 ++++
+ bitbake/lib/bb/tests/runqueue.py                  | 15 +++++++++++++++
+ 6 files changed, 28 insertions(+), 1 deletion(-)
+ create mode 100644 bitbake/lib/bb/tests/runqueue-tests/recipes/fails-mc/fails-mc1.bb
+ create mode 100644 bitbake/lib/bb/tests/runqueue-tests/recipes/fails-mc/fails-mc2.bb
 
-diff --git a/bitbake/lib/bb/cache.py b/bitbake/lib/bb/cache.py
-index b34bfa9b5a..df78d5b701 100644
---- a/bitbake/lib/bb/cache.py
-+++ b/bitbake/lib/bb/cache.py
-@@ -328,7 +328,7 @@ class NoCache(object):
-         bb_data = self.load_bbfile(virtualfn, appends, virtonly=True)
-         return bb_data[virtual]
- 
--    def load_bbfile(self, bbfile, appends, virtonly = False):
-+    def load_bbfile(self, bbfile, appends, virtonly = False, mc=None):
-         """
-         Load and parse one .bb build file
-         Return the data and whether parsing resulted in the file being skipped
-@@ -341,6 +341,10 @@ class NoCache(object):
-             datastores = parse_recipe(bb_data, bbfile, appends, mc)
-             return datastores
- 
-+        if mc is not None:
-+            bb_data = self.databuilder.mcdata[mc].createCopy()
-+            return parse_recipe(bb_data, bbfile, appends, mc)
+diff --git a/bitbake/lib/bb/tests/runqueue-tests/conf/bitbake.conf b/bitbake/lib/bb/tests/runqueue-tests/conf/bitbake.conf
+index 5e451fc2c0..efebf001a9 100644
+--- a/bitbake/lib/bb/tests/runqueue-tests/conf/bitbake.conf
++++ b/bitbake/lib/bb/tests/runqueue-tests/conf/bitbake.conf
+@@ -1,7 +1,8 @@
+ CACHE = "${TOPDIR}/cache"
+ THISDIR = "${@os.path.dirname(d.getVar('FILE'))}"
+ COREBASE := "${@os.path.normpath(os.path.dirname(d.getVar('FILE')+'/../../'))}"
+-BBFILES = "${COREBASE}/recipes/*.bb"
++EXTRA_BBFILES ?= ""
++BBFILES = "${COREBASE}/recipes/*.bb ${EXTRA_BBFILES}"
+ PROVIDES = "${PN}"
+ PN = "${@bb.parse.vars_from_file(d.getVar('FILE', False),d)[0]}"
+ PF = "${BB_CURRENT_MC}:${PN}"
+diff --git a/bitbake/lib/bb/tests/runqueue-tests/conf/multiconfig/mc1.conf b/bitbake/lib/bb/tests/runqueue-tests/conf/multiconfig/mc1.conf
+index ecf23e1c73..f34b8dcccf 100644
+--- a/bitbake/lib/bb/tests/runqueue-tests/conf/multiconfig/mc1.conf
++++ b/bitbake/lib/bb/tests/runqueue-tests/conf/multiconfig/mc1.conf
+@@ -1 +1,2 @@
+ TMPDIR = "${TOPDIR}/mc1/"
++BBMASK += "recipes/fails-mc/fails-mc1.bb"
+diff --git a/bitbake/lib/bb/tests/runqueue-tests/conf/multiconfig/mc2.conf b/bitbake/lib/bb/tests/runqueue-tests/conf/multiconfig/mc2.conf
+index eef338e4cc..c3360fc5c8 100644
+--- a/bitbake/lib/bb/tests/runqueue-tests/conf/multiconfig/mc2.conf
++++ b/bitbake/lib/bb/tests/runqueue-tests/conf/multiconfig/mc2.conf
+@@ -1 +1,2 @@
+ TMPDIR = "${TOPDIR}/mc2/"
++BBMASK += "recipes/fails-mc/fails-mc2.bb"
+diff --git a/bitbake/lib/bb/tests/runqueue-tests/recipes/fails-mc/fails-mc1.bb b/bitbake/lib/bb/tests/runqueue-tests/recipes/fails-mc/fails-mc1.bb
+new file mode 100644
+index 0000000000..17a181fffb
+--- /dev/null
++++ b/bitbake/lib/bb/tests/runqueue-tests/recipes/fails-mc/fails-mc1.bb
+@@ -0,0 +1,5 @@
++python () {
++    if d.getVar("BB_CURRENT_MC") == "mc1":
++        bb.fatal("Multiconfig is mc1")
++}
 +
-         bb_data = self.data.createCopy()
-         datastores = parse_recipe(bb_data, bbfile, appends)
+diff --git a/bitbake/lib/bb/tests/runqueue-tests/recipes/fails-mc/fails-mc2.bb b/bitbake/lib/bb/tests/runqueue-tests/recipes/fails-mc/fails-mc2.bb
+new file mode 100644
+index 0000000000..cc69e7b82d
+--- /dev/null
++++ b/bitbake/lib/bb/tests/runqueue-tests/recipes/fails-mc/fails-mc2.bb
+@@ -0,0 +1,4 @@
++python () {
++    if d.getVar("BB_CURRENT_MC") == "mc2":
++        bb.fatal("Multiconfig is mc2")
++}
+diff --git a/bitbake/lib/bb/tests/runqueue.py b/bitbake/lib/bb/tests/runqueue.py
+index 4ba12a0772..091b5e41e0 100644
+--- a/bitbake/lib/bb/tests/runqueue.py
++++ b/bitbake/lib/bb/tests/runqueue.py
+@@ -232,6 +232,21 @@ class RunQueueTests(unittest.TestCase):
+                 expected.remove(x)
+             self.assertEqual(set(tasks), set(expected))
  
-@@ -500,7 +504,7 @@ class Cache(NoCache):
-         """Parse the specified filename, returning the recipe information"""
-         self.logger.debug(1, "Parsing %s", filename)
-         infos = []
--        datastores = self.load_bbfile(filename, appends)
-+        datastores = self.load_bbfile(filename, appends, mc=self.mc)
-         depends = []
-         variants = []
-         # Process the "real" fn last so we can store variants list
-@@ -720,8 +724,18 @@ class Cache(NoCache):
-         return bb.parse.cached_mtime_noerror(cachefile)
++    def test_multiconfig_bbmask(self):
++        # This test validates that multiconfigs can independently mask off
++        # recipes they do not want with BBMASK. It works by having recipes
++        # that will fail to parse for mc1 and mc2, then making each multiconfig
++        # build the one that does parse. This ensures that the recipes are in
++        # each multiconfigs BBFILES, but each is masking only the one that
++        # doesn't parse
++        with tempfile.TemporaryDirectory(prefix="runqueuetest") as tempdir:
++            extraenv = {
++                "BBMULTICONFIG" : "mc1 mc2",
++                "BB_SIGNATURE_HANDLER" : "basic",
++                "EXTRA_BBFILES": "${COREBASE}/recipes/fails-mc/*.bb",
++            }
++            cmd = ["bitbake", "mc:mc1:fails-mc2", "mc:mc2:fails-mc1"]
++            self.run_bitbakecmd(cmd, tempdir, "", extraenv=extraenv)
  
-     def add_info(self, filename, info_array, cacheData, parsed=None, watcher=None):
--        if cacheData is not None and isinstance(info_array[0], CoreRecipeInfo) and (not info_array[0].skipped):
--            cacheData.add_from_recipeinfo(filename, info_array)
-+        if self.mc is not None:
-+            (fn, cls, mc) = virtualfn2realfn(filename)
-+            if mc:
-+                self.logger.error("Unexpected multiconfig %s", virtualfn)
-+                return
-+
-+            vfn = realfn2virtual(fn, cls, self.mc)
-+        else:
-+            vfn = filename
-+
-+        if isinstance(info_array[0], CoreRecipeInfo) and (not info_array[0].skipped):
-+            cacheData.add_from_recipeinfo(vfn, info_array)
- 
-             if watcher:
-                 watcher(info_array[0].file_depends)
-diff --git a/bitbake/lib/bb/cooker.py b/bitbake/lib/bb/cooker.py
-index 50526d52b2..effd02442c 100644
---- a/bitbake/lib/bb/cooker.py
-+++ b/bitbake/lib/bb/cooker.py
-@@ -2199,13 +2199,7 @@ class CookerParser(object):
-             if info_array[0].skipped:
-                 self.skipped += 1
-                 self.cooker.skiplist[virtualfn] = SkippedPackage(info_array[0])
--            (fn, cls, fnmc) = bb.cache.virtualfn2realfn(virtualfn)
--
--            if fnmc == mc:
--                cache = self.cooker.recipecaches[mc]
--            else:
--                cache = None
--            self.bb_caches[mc].add_info(virtualfn, info_array, cache,
-+            self.bb_caches[mc].add_info(virtualfn, info_array, self.cooker.recipecaches[mc],
-                                         parsed=parsed, watcher = self.cooker.add_filewatch)
-         return True
- 
+     @unittest.skipIf(sys.version_info < (3, 5, 0), 'Python 3.5 or later required')
+     def test_hashserv_single(self):
 -- 
 2.26.2
 
