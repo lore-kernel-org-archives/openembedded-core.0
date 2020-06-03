@@ -1,114 +1,85 @@
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
- by mx.groups.io with SMTP id smtpd.web11.12138.1591185318494791486
+Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
+ by mx.groups.io with SMTP id smtpd.web11.13026.1591188516006032690
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 04:55:18 -0700
+ Wed, 03 Jun 2020 05:48:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eJAFEPOZ;
- spf=pass (domain: gmail.com, ip: 209.85.167.68, mailfrom: liu.ming50@gmail.com)
-Received: by mail-lf1-f68.google.com with SMTP id c21so1133066lfb.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 04:55:18 -0700 (PDT)
+ dkim=pass header.i=@globallogic.com header.s=google header.b=PkNugkPc;
+ spf=pass (domain: globallogic.com, ip: 209.85.219.65, mailfrom: oleksandr.s.popovych@globallogic.com)
+Received: by mail-qv1-f65.google.com with SMTP id e2so985427qvw.7
+        for <openembedded-core@lists.openembedded.org>; Wed, 03 Jun 2020 05:48:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=A8LVW4FtKuBEPsDx0EFsSeClYxM4MjTvHJ+3QXU+3lA=;
-        b=eJAFEPOZQikuC44ISM5vFc9u1si0/T9HqIESbanubZ39i2rvsFDTzeL12GTg0PX4DJ
-         xAhPWmXGdNkmt01r6AGzJJwQrZHlUQ941ukiZ6ZVPy77DUK0oPenn5fUX8BqtpBSsoGY
-         U0fk1dSOoNzxr29ccpz+BuWsvRwhX0yQjXMn0w9ex6uhQkk6NcqmGqNAOcfuD5eyoZL0
-         +KmzoohJw41fB9RLjXzkZedLPg4iYBq+0+TJ7HG9ezWchl17NZkSgLdgnVosvrhhruXt
-         a098mUuNmSXMtHZQmV9/rvjquNejzxKMNwpwvSb68OgXRsD7GRkiWr9TwgmiRGnADMF8
-         zIBw==
+        d=globallogic.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=XfH16xOivihUE4oPE0L4kAP0y78Pqk3im2yqN+f+pzw=;
+        b=PkNugkPck7Us4K6dxe+HlzyH6TaLXAWzxjGaxwX3UL1zkjhZz2iq03Iex5eA5pr43O
+         frZLkXKL90nZmAJMI4/CEaIwINAt0+HzGvY5bxIKQWnw47Iwv5OlBigeurpZUOHwv0Ae
+         0dyBd6AJpcKrS3v96Wfl2ZVngDuiyfQnw41tEnJltf19KZ0k0GiyjN6WK24WVHWYTcmp
+         K3mtJr3IkJYAvFVFUxtorIJaFzA4Vog94uR8bdbCqr1/fK3O5RO5hQsQ/ujpcPTYd9ZG
+         +t7OSLHtywKl8AIvr1upe5D7seZLqJaPpYkrppmjpRJhS7HlwADRnAbV50PkKUI3ue62
+         BIcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=A8LVW4FtKuBEPsDx0EFsSeClYxM4MjTvHJ+3QXU+3lA=;
-        b=FsD5DyNiGtz92O4RXlvEMJmCGZB1SF9/pS7hLVylVCYtlA/OvYnAEXZcVGM5Pgpg2k
-         bkWQKX5CcaXptnLmH7upUG6ie3RDbN8yiKA7gXm2A4Ogdc1nTrdsbwnlnegr/vQwbO6R
-         sn1tFjqTV5GAUeJ+I6zCkVe2rdQggIHQEPZxI/fos6HejpldD2mUe4U1PleJaDfcRjrk
-         cbeMudONZ5fCMiADzZowRCeYHv1VI3A4V32DErbRSFAkvbHK8t4CHKSQ47Cncxyyt2Xv
-         D4HOm8eBrP3wpnsn995T4S06siHxj+joAymm2DVYbQywnXkQpVgExAE3vqvaXWVOUWNb
-         4nKA==
-X-Gm-Message-State: AOAM530qJA/pbBqb4Hsb9prJ6ltfG93jh8pnLHCFv93vxu2f6FsUKSeZ
-	5Cvgq9rS2m3x7KEho4VOquxZtxR9
-X-Google-Smtp-Source: ABdhPJxH2DSbFm6BXQ20MMkcSpfjz0KuN085gitlI3/pwUV0Rd3lZXpB9IAUsz3vgpnHIf6oJdDZYw==
-X-Received: by 2002:a19:f017:: with SMTP id p23mr2263442lfc.79.1591185316069;
-        Wed, 03 Jun 2020 04:55:16 -0700 (PDT)
-Return-Path: <liu.ming50@gmail.com>
-Received: from localhost.localdomain ([2a00:801:3fb:ebd4:e18d:d2e7:773:e410])
-        by smtp.gmail.com with ESMTPSA id p68sm551652lfa.71.2020.06.03.04.55.14
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 03 Jun 2020 04:55:14 -0700 (PDT)
-From: "Ming Liu" <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: stefan.agner@toradex.com,
-	max.krummenacher@toradex.com,
-	Ming Liu <ming.liu@toradex.com>
-Subject: [OE-core] [PATCH V2] u-boot: support merging .cfg files for UBOOT_CONFIG
-Date: Wed,  3 Jun 2020 13:56:01 +0200
-Message-Id: <20200603115601.13841-1-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=XfH16xOivihUE4oPE0L4kAP0y78Pqk3im2yqN+f+pzw=;
+        b=ndBuxru2/oA3Qzi6kzRFgt3kb05HOcAiILPromz6gKOBECaNxCD9IltK2Vk5A3N5N6
+         QuX92pdc2c5CV1A6x4WlM2nBmTLk3DKCy8Cj8GCBWv0P90FfOHTjsgh9efBNdRjZlchM
+         LoOMkAOr+fKQNh+SdWxx9nj54h5HPPFOFJAz3C9JcgsasH5qMzWkDaVL9g1VpSxNsNji
+         WazN34XdhrbcOHZAssVrmhvpxOuPLxlbfP+LNw3NVFbKyJRKq/CGL8qnjlYISKuGkeNQ
+         0AcVt+23M1mzMbm6VsSd4IdbAAluNMdyCUU66q1DsDQF/IPb/AvY4RAoVFdLdu49XuoT
+         1fqg==
+X-Gm-Message-State: AOAM531JSoB5BJSSI1s1c4Xj6pBBeAT685aPp30PSxq5dv4xe+zzqZaX
+	0h0k6wHv/SUo0nStSn+PjwEr+lsqf1NznQJT+R8nDA==
+X-Google-Smtp-Source: ABdhPJzVFqAnp6qn0P6LVH44LX3RoEhlDzm1A4wz5DmeLXSiMh++uo2QshCVlLsep7yZ8vCojkvTdfuDDN7+3G2Q5u0=
+X-Received: by 2002:a0c:bd9a:: with SMTP id n26mr29035893qvg.21.1591188515033;
+ Wed, 03 Jun 2020 05:48:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200430165529.23657-1-oleksandr.s.popovych@globallogic.com> <9c6bfc2b37121a36c866bffff3f72efe91e847aa.camel@linuxfoundation.org>
+In-Reply-To: <9c6bfc2b37121a36c866bffff3f72efe91e847aa.camel@linuxfoundation.org>
+From: "Oleksandr" <oleksandr.s.popovych@globallogic.com>
+Date: Wed, 3 Jun 2020 15:48:23 +0300
+Message-ID: <CAKqUGW-3RDNU1SFmy9egAbPv8AEOfGBHWb9o34O0P2TxF3boMA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v8] expat: Added ptest
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Joshua Watt <JPEW.hacker@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ming Liu <ming.liu@toradex.com>
+Hello Richard, Joshua,
 
-U-boot recipe supports .cfg files in SRC_URI, but they would be merged
-to .config during do_configure only when UBOOT_MACHINE is set, we
-should also support merging .cfg files for UBOOT_CONFIG.
+On Mon, May 11, 2020 at 3:45 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> ...
+>
+> Thanks, this is definitely getting there. There was only one test
+> failure this time, with meta-mingw:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/1884
+>
+> I've cc'd Joshua in case he has any insights on this.
 
-Signed-off-by: Max Krummenacher <max.krummenacher@toradex.com>
-Signed-off-by: Ming Liu <ming.liu@toradex.com>
----
- meta/recipes-bsp/u-boot/u-boot.inc | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+I`ve tested my patch with meta-mingw layer on my host and it seems I
+have fixed the current compilation error, with making some changes to
+meta-mingw (by changing "CMAKE_SYSTEM_NAME" variable to "Windows"
+value during toolchain file generation in
+"recipes-core/expat/expat_%.bbappend" file using a
+"recipes-devtools/cmake/cmake_%.bbappend" file as template). However
+this is only part of a solution, because another error appears next to
+it: gdb-cross-canadian that depends on expat now fails to build,
+because it can not find a proper expat library. It seems that expat
+recipe, which was switched to build with CMake in my patch, does not
+generate output library in proper format (it compiles only
+"libexpat.dll.a", when the current version of expat recipe from
+upstream, that uses Autotools, generates both "libexpat.a" and
+"libexpat.dll.a"). This is such an error that I can not figure out how
+to solve it by myself, so I ask for help.
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 80f828df52..8cfd25020c 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -77,7 +77,23 @@ def find_cfgs(d):
-     return sources_list
- 
- do_configure () {
--    if [ -z "${UBOOT_CONFIG}" ]; then
-+    if [ -n "${UBOOT_CONFIG}" ]; then
-+        unset i j
-+        for config in ${UBOOT_MACHINE}; do
-+            i=$(expr $i + 1);
-+            for type in ${UBOOT_CONFIG}; do
-+                j=$(expr $j + 1);
-+                if [ $j -eq $i ]; then
-+                    oe_runmake -C ${S} O=${B}/${config} ${config}
-+                    merge_config.sh -m -O ${B}/${config} ${B}/${config}/.config ${@" ".join(find_cfgs(d))}
-+                    oe_runmake -C ${S} O=${B}/${config} oldconfig
-+                fi
-+            done
-+            unset j
-+        done
-+        unset i
-+        DEVTOOL_DISABLE_MENUCONFIG=true
-+    else
-         if [ -n "${UBOOT_MACHINE}" ]; then
-             oe_runmake -C ${S} O=${B} ${UBOOT_MACHINE}
-         else
-@@ -85,8 +101,6 @@ do_configure () {
-         fi
-         merge_config.sh -m .config ${@" ".join(find_cfgs(d))}
-         cml1_do_configure
--    else
--        DEVTOOL_DISABLE_MENUCONFIG=true
-     fi
- }
- 
-@@ -114,7 +128,6 @@ do_compile () {
-                 j=$(expr $j + 1);
-                 if [ $j -eq $i ]
-                 then
--                    oe_runmake -C ${S} O=${B}/${config} ${config}
-                     oe_runmake -C ${S} O=${B}/${config} ${UBOOT_MAKE_TARGET}
-                     for binary in ${UBOOT_BINARIES}; do
-                         k=$(expr $k + 1);
--- 
-2.26.2
+Additionally I would like to ask you: How should I send patches now
+when at least two separate patches with similar purposes should be
+sent to different layers (one for [OE-core] and other for
+[meta-mingw])? Should they be connected with some kind of cover-letter
+or is there another option?
 
+Thanks for your attention.
