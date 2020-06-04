@@ -1,189 +1,120 @@
-Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com [209.85.222.66])
- by mx.groups.io with SMTP id smtpd.web10.23365.1591301139744961862
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web10.24479.1591304168544619081
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2020 13:05:39 -0700
+ Thu, 04 Jun 2020 13:56:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=VB4khbiN;
- spf=pass (domain: gmail.com, ip: 209.85.222.66, mailfrom: armccurdy@gmail.com)
-Received: by mail-ua1-f66.google.com with SMTP id w20so2508250uaa.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 13:05:39 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y0fymu6d;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id l11so7612842wru.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 13:56:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QuIg8y68xkqgQ0J+Ku7GeWSYB2bWiYC4dgAP49A5+n4=;
-        b=VB4khbiNZb+nh8ZU4DYtkEV3mNsIsMLy3jPJr7d3Nf+FchrARjPxjREt9b47DovNRS
-         SYEKU6SJXLD3tXPEpb+g7UEt/fDntqnZYiLkuCDHvu7Z0djvnyIZunXpEygRzVHr07ln
-         H9I2UqhPWL6L7chdVaLzpQ+AfAxA+LotqVzcCwkAzNTVdLXDs8rSO056c6LzJP0PfalM
-         DEA6XN4Nf5HDlWbaT0+xPWzR123a4TZLhJwakdQHC80PVYP7CWKjtwX0xBtWCHOqnYBd
-         6Rx+5lAUUFn7BrTH3UKTnQdAsq9NvBgeXI+6m2MneAQXcHKxlJdNzdNwzTZ9bQNuHdr1
-         84lQ==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=uqAXIzs8YXg85K01229KeAJv2sKRH5YPkI6RWZEMq2U=;
+        b=Y0fymu6daV8EvckKj7IMxHqGNe0U3b1yZY2va+7UX75blf9wo7LkXBc6hZQ+a/Fgmb
+         r3SuGEfzMnzPcS4jlQSLKJSKFfZ43NUAWp+RuKI3wzEi8Le4QMQYpySjynm4LYwgxjUm
+         h+UzUwLl7z/k+ELuJ1PD8Vox7rvTf4J+z/JN0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QuIg8y68xkqgQ0J+Ku7GeWSYB2bWiYC4dgAP49A5+n4=;
-        b=cYC7BvKOpfSuRnMGp2hiFzrvYH3XQDKSK9UxqjB9k2D/6w/rsrIvV8wemhPhWlCi1K
-         NqJtPTD3AqWX84KXUJdx6uKAi9XJYVi3A5P3EX+NBY/jWFSPK37n+Vo5AU4jb/s4vJFc
-         2lk0MFGttTej/YmntE4yxnMZaYpqz5hlqVy5D3KBtL1oz6rbRuAR+anmVW1VTcC5fyV1
-         8GKUPOgIAh+DK2U2YSuRey43gCat55kYrBSAM/lFQGo7JS8ujqn/wNMnIfet97u9oNcp
-         fKZ4HJ0VeldnFV50Z5sBOQnX++9b7b46NXJt5fX/lioRPcPwt2tVaZ1zEFL+sn0Vuhaz
-         43Ew==
-X-Gm-Message-State: AOAM5329DT/81NHZunaQld9C0FMAlJlaBGeGiNe9UzVf0Dsx72QtPe0q
-	VfVHNhP8YAOunVB/0udlJiCJDLDwPO909DJlc7g=
-X-Google-Smtp-Source: ABdhPJxkdUmSOudWh+xVmFebQUJnbb1D7vCe8ffGBviABA2E66OPt5uIzyJND7elM9LGWkTT94iRrZJ9ZojPyYrnN/I=
-X-Received: by 2002:a9f:2788:: with SMTP id b8mr4939516uab.81.1591301138598;
- Thu, 04 Jun 2020 13:05:38 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=uqAXIzs8YXg85K01229KeAJv2sKRH5YPkI6RWZEMq2U=;
+        b=F/Dmkqu3UZ72+u4Yo165XRoFkoRx4eT8HHsFt+l5UeST/hXqymZQqQiDKUxD10jSyQ
+         W6WOpr/nV2s2Q8xZjHT3GkRVXKbU3qr+0YOIfNgfMXrz+GLLudeck2RaG57Vyq8/Oe32
+         8KGcZPwdWrbBY4OdUYCP7mdCF6Lqz4sVXXI/VJQ8CcTczWbl/o0G9go3eawJ5s7ipJzC
+         hWdCVG8kUypXiasiX3xcSHWjmWf0E76jG84zaVNwavMnGlckBYwyJj/NWQOdOKDz/BKj
+         wtO/JvFivEokDoX/oVTIU4PU46wJ20oSSO9QMd2DTm1I2Az+7OaBe/6PuvVAN+TkeJ9y
+         XOGA==
+X-Gm-Message-State: AOAM5319a3EIFhMvDDY3SGPd/Wv646P9+FvoO6pMcaSZkwqJO48phV7y
+	q29CC+s2ErCzLtTduZoWprNjXw==
+X-Google-Smtp-Source: ABdhPJx5yyMvSyM81sk+oPLUi0FgIZ/2vT6vYUJpJ3MPKFBXp3EVe/Xw1UrbMQoyE9ns63R855taqg==
+X-Received: by 2002:a5d:4484:: with SMTP id j4mr6030825wrq.325.1591304166962;
+        Thu, 04 Jun 2020 13:56:06 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id y5sm9691424wrs.63.2020.06.04.13.56.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Jun 2020 13:56:04 -0700 (PDT)
+Message-ID: <38c108ddb09675f4638502391d05dbdf3a8cb83e.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3] bzip2: Add test suite for bzip2
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Rahul Kumar <rahulk@mvista.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 04 Jun 2020 21:56:03 +0100
+In-Reply-To: <1590928026-6366-1-git-send-email-rahulk@mvista.com>
+References: <1590928026-6366-1-git-send-email-rahulk@mvista.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-References: <1614B0E5E96C4272.14405@lists.openembedded.org>
- <20200602121722.32623-1-rasmus.villemoes@prevas.dk> <20200602200008.GB2207@pbcl.net>
- <24a52dc42bb9eb49e2f8802a3c7558859160de18.camel@linuxfoundation.org>
- <20200602211524.GC2207@pbcl.net> <CAJ86T=X0Jd+_K8xG6G9LB2FfSo51dQ2rL1sa1f_zo2+r8fh0XQ@mail.gmail.com>
- <9ecda083-eae5-428d-42d3-57cbe564ea9a@prevas.dk> <CAJ86T=U-V5p-va-MJf=4V3uVhEM+DmVRqU8DJ2=wVzJKfATDpA@mail.gmail.com>
- <5da0a98a98d9b1194ca13315f9986c20b9e5d565.camel@linuxfoundation.org>
-In-Reply-To: <5da0a98a98d9b1194ca13315f9986c20b9e5d565.camel@linuxfoundation.org>
-From: "Andre McCurdy" <armccurdy@gmail.com>
-Date: Thu, 4 Jun 2020 13:05:30 -0700
-Message-ID: <CAJ86T=Xu+mjNER1D=R4110uN-8oK-s3xk6ij1hChESNVY2U2Dw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] glibc: move ld.so.conf back to main package
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, Phil Blundell <pb@pbcl.net>, 
-	OE Core mailing list <openembedded-core@lists.openembedded.org>, 
-	Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
-	Andreas Oberritter <obi@opendreambox.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 4, 2020 at 5:43 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> On Wed, 2020-06-03 at 13:44 -0700, Andre McCurdy wrote:
-> > On Wed, Jun 3, 2020 at 12:38 AM Rasmus Villemoes
-> > <rasmus.villemoes@prevas.dk> wrote:
-> > > On 02/06/2020 23.46, Andre McCurdy wrote:
-> > > > On Tue, Jun 2, 2020 at 2:15 PM Phil Blundell via
-> > > > lists.openembedded.org <pb=pbcl.net@lists.openembedded.org>
-> > > > wrote:
-> > > > > On Tue, Jun 02, 2020 at 09:17:44PM +0100, Richard Purdie wrote:
-> > > > > > I understand the concern, I am a little torn on this as
-> > > > > > adding in too
-> > > > > > many different controls and options complicates the test
-> > > > > > matrix and
-> > > > > > makes things harder for users.
-> > > > > >
-> > > > > > You're effectively suggesting a new DISTRO_FEATURE to control
-> > > > > > this? or
-> > > > > > maybe better, perhaps a glibc PACKAGECONFIG?
-> > > > >
-> > > > > Yes, right.  I don't think it need be a DISTRO_FEATURE because
-> > > > > nothing
-> > > > > outside glibc needs to care.
-> > > > >
-> > > > > Here are the scenarios that I think matter, ordered from
-> > > > > simplest to
-> > > > > most complex:
-> > > > >
-> > > > > 1. Immutable filesystem, every library installed in the place
-> > > > > where
-> > > > > ld.so would first look for it anyway (i.e. everything in
-> > > > > {/usr}/lib).
-> > > > > In this case, we don't want ldconfig (because it can never do
-> > > > > anything
-> > > > > useful), we don't want ld.so.cache and we don't want ld.so.conf
-> > > > > because they would cause ld.so to do extra file loads and
-> > > > > computation
-> > > > > but end up with the same result that it would anyway.
-> > > > >
-> > > > > 2. Immutable filesystem but some libraries are in places that
-> > > > > ld.so
-> > > > > wouldn't automatically know about.  In this case we do want
-> > > > > ld.so.conf
-> > > > > and ld.so.cache, but we still don't want ldconfig.
-> > > > >
-> > > > > 3. Mutable filesystem where arbitrary binaries can be installed
-> > > > > in
-> > > > > arbitrary places.  It's probably debatable whether ldconfig is
-> > > > > needed
-> > > > > in all these cases, but clearly it's needed in some and I think
-> > > > > at
-> > > > > this point it can be left to a DISTRO decision how exactly they
-> > > > > want
-> > > > > to optimize things.
-> > > > >
-> > > > > I think right now oe-core supports #1 and #3.  The proposed
-> > > > > patch
-> > > > > seems to be aimed at #2, which is a completely valid usecase,
-> > > >
-> > > > It seems like a weird corner case to me. Where do these libraries
-> > > > come
-> > > > from and why can't they be moved or symlinked into a standard
-> > > > path?
-> > >
-> > > Pre-compiled proprietary binaries/libraries that go in
-> > > /opt/<vendor>/..., just as /opt is meant for (and no, we can't just
-> > > install them to /usr/lib, /usr/bin etc - partly because they
-> > > contain
-> > > hard-coded absolute paths, but also due to some not-entirely-
-> > > techical
-> > > reasons). So there's an /etc/ld.so.conf.d/<vendor>.conf that needs
-> > > to be
-> > > picked up.
-> > >
-> > > > If they are somehow special and only used by special applications
-> > > > then
-> > > > setting rpath or using LD_LIBRARY_PATH just for those
-> > > > applications
-> > > > would seem to be a better solution than enabling them globally.
-> > >
-> > > We don't control the compilation, so rpath is out. We did consider
-> > > LD_LIBRARY_PATH, but figured that the ld.conf solution is more
-> > > robust
-> > > (no problems with setuid binaries or an application that
-> > > misguidedly
-> > > sanitizes the environment for subprocesses).
-> >
-> > Unless the supplier of your binaries is completely unresponsive (if
-> > so, bad luck) then educating them on the usage of rpath and asking
-> > for
-> > a new release is probably the cleanest solution.
-> >
-> > If you start your special application via a wrapper script which sets
-> > LD_LIBRARY_PATH then it won't be seen by anything else, so the
-> > concerns about other apps messing with it etc should not apply?
-> >
-> > Relying on /etc/ld.so.conf.d/*.conf will certainly work too, but has
-> > two disadvantages: it will add the custom library path globally
-> > instead of just for the special apps and it's not portable (it's not
-> > supported by musl etc - although if you only care about your
-> > proprietary binaries pre-compiled for glibc then that won't matter to
-> > you).
-> >
-> > Anyway, the original patch has been merged, so this now just a side
-> > discussion.
->
-> It hasn't, its still in master-next waiting for us to reach a
-> conclusion...
+On Sun, 2020-05-31 at 17:57 +0530, Rahul Kumar wrote:
+> Source: git://sourceware.org/git/bzip2-tests.git
+> Type: Enhancement
+> Description:
+> bzip2 now has a test suite available at
+> git://sourceware.org/git/bzip2-tests.git.
+> 
+> This is a collection of "interesting" .bz2 files that can be used to
+> test bzip2 works correctly. They come from different projects.
+> 
+> Some files are deliberately bad, and are use to see how bzip2 handles
+> corrupt files. They are explicitly not intended to decompress
+> correctly,
+> but to catch errors in bzip2 trying to deal with deliberately bad
+> data.
+> All such files have a name ending in .bz2.bad.
+> 
+> All non-bad files end in bz2. And should come with a .md5 file for
+> the original input file. The .md5 file is used to check that bzip2
+> could correctly decompress the file. The original (non-compressed)
+> files are deliberately not checked in.
+> 
+> It will by default test with the command 'bzip2', running under
+> valgrind (if installed on the system).
+> 
+> For each .bz2 file found it is decompressed, recompressed and
+> decompressed again. Once with the default bzip2 settings and
+> once in --small (-s) mode.
+> 
+> For each .bz2.bad file decompression is tried twice also. In
+> default mode and small mode. The bzip2 binary is expected to
+> return either 1 or 2 as exit status. Any other exit code is
+> interpreted as failure.
+> 
+> License:
+>    In bzip2-tests source code Each directory should contain a README
+>    file explaining where the .bz2 files originally came from.
+>    Plus a reference to the (Free Software) license that the project
+>    files were distributed under.
+> 
+> Test Summery:
+>    On qemux86-64/kvm the ptest results with extra filesystem space
+> (atleast 114688) are:
+> 
+> TOTAL:      396
+> PASS:       396
+> SKIP:       0
+> XFAIL:      0
+> FAIL:       0
+> XPASS:      0
+> ERROR:      0
+> 
+> All tests passed
+> DURATION: 517
+> 
+> [YOCTO #13444]
+> 
+> Signed-off-by: Rahul Kumar <rahulk@mvista.com>
 
-OK. The discussion has moved on to the details of Rasmus's use case,
-but I can try to summarise the details related to the actual patch...
+Still not quite there yet unfortunately:
 
-The patch fixes the problem that if the ldconfig distro feature is
-disabled, then the config file needed by ldconfig will not be present
-in the rootfs when ldconfig is run at build time (and so ld.so.cache
-may not be correctly generated). The change to move ldconfig and its
-config file into a separate package didn't account for the fact that
-the config file is used at build time, but the underlying problem was
-there before that too (before the separate package, the config file
-was simply deleted).
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1996
+https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1992
+and probably a few other builds too.
 
-The risk of an incorrectly generated ld.so.cache is a bug, so it
-should be fixing unconditionally (ie it should not be tied to any
-PACKAGECONFIG or new distro config option).
+Cheers,
 
-The fix being proposed is simply to always leave the config file in
-the rootfs, so it's always there when ldconfig is run at build time.
-Doing so seems safe enough. Since the config file is only parsed by
-ldconfig, there's no run time performance penalty of leaving it around
-- it will just be ignored if there's no ldconfig in the rootfs to use
-it.
+Richard
 
-There's a genuine bug and I don't see an obviously better fix, so I
-think the patch should be merged.
+
