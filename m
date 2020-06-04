@@ -1,120 +1,98 @@
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
- by mx.groups.io with SMTP id smtpd.web10.24479.1591304168544619081
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web10.24568.1591304429344738668
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2020 13:56:08 -0700
+ Thu, 04 Jun 2020 14:00:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y0fymu6d;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f66.google.com with SMTP id l11so7612842wru.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 13:56:08 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DUxEHSQW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.68, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f68.google.com with SMTP id d128so7061836wmc.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 14:00:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=uqAXIzs8YXg85K01229KeAJv2sKRH5YPkI6RWZEMq2U=;
-        b=Y0fymu6daV8EvckKj7IMxHqGNe0U3b1yZY2va+7UX75blf9wo7LkXBc6hZQ+a/Fgmb
-         r3SuGEfzMnzPcS4jlQSLKJSKFfZ43NUAWp+RuKI3wzEi8Le4QMQYpySjynm4LYwgxjUm
-         h+UzUwLl7z/k+ELuJ1PD8Vox7rvTf4J+z/JN0=
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=LrwTU6iIT42SWXZmmT5O8WmSPL5e069RQFv4dGulzvU=;
+        b=DUxEHSQWchlVXxoqQotM03WsjB3DVR9WknHbKKFqQ3lp/58h3rIdRKabMFHPyRQGuZ
+         aeYH7rOUmm871189QLHwMwRX6LCL9hzbfxVnrUFXBRKZxonxqU8PdpH7CpGMrzIATfdy
+         CIr+PClswlO58nMcBPVwVrqZnGtapdPS88nwU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=uqAXIzs8YXg85K01229KeAJv2sKRH5YPkI6RWZEMq2U=;
-        b=F/Dmkqu3UZ72+u4Yo165XRoFkoRx4eT8HHsFt+l5UeST/hXqymZQqQiDKUxD10jSyQ
-         W6WOpr/nV2s2Q8xZjHT3GkRVXKbU3qr+0YOIfNgfMXrz+GLLudeck2RaG57Vyq8/Oe32
-         8KGcZPwdWrbBY4OdUYCP7mdCF6Lqz4sVXXI/VJQ8CcTczWbl/o0G9go3eawJ5s7ipJzC
-         hWdCVG8kUypXiasiX3xcSHWjmWf0E76jG84zaVNwavMnGlckBYwyJj/NWQOdOKDz/BKj
-         wtO/JvFivEokDoX/oVTIU4PU46wJ20oSSO9QMd2DTm1I2Az+7OaBe/6PuvVAN+TkeJ9y
-         XOGA==
-X-Gm-Message-State: AOAM5319a3EIFhMvDDY3SGPd/Wv646P9+FvoO6pMcaSZkwqJO48phV7y
-	q29CC+s2ErCzLtTduZoWprNjXw==
-X-Google-Smtp-Source: ABdhPJx5yyMvSyM81sk+oPLUi0FgIZ/2vT6vYUJpJ3MPKFBXp3EVe/Xw1UrbMQoyE9ns63R855taqg==
-X-Received: by 2002:a5d:4484:: with SMTP id j4mr6030825wrq.325.1591304166962;
-        Thu, 04 Jun 2020 13:56:06 -0700 (PDT)
+        bh=LrwTU6iIT42SWXZmmT5O8WmSPL5e069RQFv4dGulzvU=;
+        b=rupCktqTD7JJGOKaruIJfpPE+RDp1pNavCLhAogPGHHZywSqmvGXWZD2OcipRZTsWU
+         GNkzDlaHQpm3Axjvn09rpVx5kqbqNF2lsH29TZra3I6phSMBd0MRL6seRP1L4FtHwmB9
+         GySMXUSn/J1bu/sdzyvC72y3tgQ5CNFmvIIOpeiA6bhXd4x4e2uS7lVxVSzyfPrKH5nn
+         QuBVRvID3WhI8rgrYz6/+iJgYq9JjpjTosk2UoF8pX4ak/auYbtefCS4JGWgNMFa+RTu
+         GWMG9oYkg3cP2mGZBT8FZAolNfrQpgQCq7wrslVxytWyhhcb9PRm9qi5CA4h89MC1WqG
+         itrg==
+X-Gm-Message-State: AOAM533AOuPUZd+1TyWcayvBA+rD4TInUtltkjRADO7orlXtdRGTuVJK
+	Pdm3JLdjnWwOJy7q2fiYzAeuwQ==
+X-Google-Smtp-Source: ABdhPJyiCnOo92HtJa73hO6tyJSX/UZ3uXYoBUJKZb0zlTpZVKqG23TRLNxwCnhdpyT1Se/jsnuxCQ==
+X-Received: by 2002:a7b:c761:: with SMTP id x1mr6020716wmk.90.1591304427765;
+        Thu, 04 Jun 2020 14:00:27 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id y5sm9691424wrs.63.2020.06.04.13.56.04
+        by smtp.gmail.com with ESMTPSA id h15sm9018735wrt.73.2020.06.04.14.00.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2020 13:56:04 -0700 (PDT)
-Message-ID: <38c108ddb09675f4638502391d05dbdf3a8cb83e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3] bzip2: Add test suite for bzip2
+        Thu, 04 Jun 2020 14:00:26 -0700 (PDT)
+Message-ID: <7b90285ec759589cc2edc3994ef39ef508b8927d.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v3 4/8] bitbake: lib: Add PrefixLoggerAdapter helper
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Rahul Kumar <rahulk@mvista.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 04 Jun 2020 21:56:03 +0100
-In-Reply-To: <1590928026-6366-1-git-send-email-rahulk@mvista.com>
-References: <1590928026-6366-1-git-send-email-rahulk@mvista.com>
+To: Joshua Watt <JPEWhacker@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: bitbake-devel <bitbake-devel@lists.openembedded.org>
+Date: Thu, 04 Jun 2020 22:00:24 +0100
+In-Reply-To: <20200603025405.26885-5-JPEWhacker@gmail.com>
+References: <20200601202807.26357-1-JPEWhacker@gmail.com>
+	 <20200603025405.26885-1-JPEWhacker@gmail.com>
+	 <20200603025405.26885-5-JPEWhacker@gmail.com>
 User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2020-05-31 at 17:57 +0530, Rahul Kumar wrote:
-> Source: git://sourceware.org/git/bzip2-tests.git
-> Type: Enhancement
-> Description:
-> bzip2 now has a test suite available at
-> git://sourceware.org/git/bzip2-tests.git.
+On Tue, 2020-06-02 at 21:54 -0500, Joshua Watt wrote:
+> Adds a helper logger adapter to add a prefix to all log messages.
+> This
+> is useful to distinguish log messages between multiple instances of a
+> object.
 > 
-> This is a collection of "interesting" .bz2 files that can be used to
-> test bzip2 works correctly. They come from different projects.
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  bitbake/lib/bb/__init__.py | 8 ++++++++
+>  1 file changed, 8 insertions(+)
 > 
-> Some files are deliberately bad, and are use to see how bzip2 handles
-> corrupt files. They are explicitly not intended to decompress
-> correctly,
-> but to catch errors in bzip2 trying to deal with deliberately bad
-> data.
-> All such files have a name ending in .bz2.bad.
-> 
-> All non-bad files end in bz2. And should come with a .md5 file for
-> the original input file. The .md5 file is used to check that bzip2
-> could correctly decompress the file. The original (non-compressed)
-> files are deliberately not checked in.
-> 
-> It will by default test with the command 'bzip2', running under
-> valgrind (if installed on the system).
-> 
-> For each .bz2 file found it is decompressed, recompressed and
-> decompressed again. Once with the default bzip2 settings and
-> once in --small (-s) mode.
-> 
-> For each .bz2.bad file decompression is tried twice also. In
-> default mode and small mode. The bzip2 binary is expected to
-> return either 1 or 2 as exit status. Any other exit code is
-> interpreted as failure.
-> 
-> License:
->    In bzip2-tests source code Each directory should contain a README
->    file explaining where the .bz2 files originally came from.
->    Plus a reference to the (Free Software) license that the project
->    files were distributed under.
-> 
-> Test Summery:
->    On qemux86-64/kvm the ptest results with extra filesystem space
-> (atleast 114688) are:
-> 
-> TOTAL:      396
-> PASS:       396
-> SKIP:       0
-> XFAIL:      0
-> FAIL:       0
-> XPASS:      0
-> ERROR:      0
-> 
-> All tests passed
-> DURATION: 517
-> 
-> [YOCTO #13444]
-> 
-> Signed-off-by: Rahul Kumar <rahulk@mvista.com>
+> diff --git a/bitbake/lib/bb/__init__.py b/bitbake/lib/bb/__init__.py
+> index 2e2966c3b9..1de32041ed 100644
+> --- a/bitbake/lib/bb/__init__.py
+> +++ b/bitbake/lib/bb/__init__.py
+> @@ -84,6 +84,14 @@ logger.setLevel(logging.DEBUG - 2)
+>  
+>  mainlogger = logging.getLogger("BitBake.Main")
+>  
+> +class PrefixLoggerAdapter(logging.LoggerAdapter):
+> +    def __init__(self, prefix, logger):
+> +        super().__init__(logger, {})
+> +        self.__msg_prefix = prefix
+> +
+> +    def process(self, msg, kwargs):
+> +        return "%s%s" %(self.__msg_prefix, msg), kwargs
+> +
 
-Still not quite there yet unfortunately:
+Ignoring the mailing list issue, I think there is something odd going
+on with different python versions somewhere in here.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1996
-https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1992
-and probably a few other builds too.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/81/builds/1004
+https://autobuilder.yoctoproject.org/typhoon/#/builders/107/builds/585
+https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/2255
+(all debian9)
+
+and then selftest issues:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1020
 
 Cheers,
 
 Richard
-
 
