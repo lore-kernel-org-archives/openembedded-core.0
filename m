@@ -1,149 +1,189 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web11.22096.1591298987366989793
+Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com [209.85.222.66])
+ by mx.groups.io with SMTP id smtpd.web10.23365.1591301139744961862
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2020 12:29:47 -0700
+ Thu, 04 Jun 2020 13:05:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id AFC7D40C2E;
-	Thu,  4 Jun 2020 19:29:46 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id EqX7LhQkS1gZ; Thu,  4 Jun 2020 19:29:46 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 6EB6D40B53;
-	Thu,  4 Jun 2020 19:29:42 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id DCA4717320C; Thu,  4 Jun 2020 15:29:41 -0400 (EDT)
-Date: Thu, 4 Jun 2020 15:29:41 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: Jens Rehsack <rehsack@gmail.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Anuj Mittal <anuj.mittal@intel.com>,
-	Otavio Salvador <otavio.salvador@gmail.com>,
-	Jens Rehsack <sno@netbsd.org>
-Subject: Re: [OE-core][PATCH v4 1/2] initscripts/init-system-helpers: fix mountnfs.sh dependency
-Message-ID: <20200604192941.GG17660@denix.org>
-References: <20200602134256.8156-1-sno@netbsd.org>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VB4khbiN;
+ spf=pass (domain: gmail.com, ip: 209.85.222.66, mailfrom: armccurdy@gmail.com)
+Received: by mail-ua1-f66.google.com with SMTP id w20so2508250uaa.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 13:05:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QuIg8y68xkqgQ0J+Ku7GeWSYB2bWiYC4dgAP49A5+n4=;
+        b=VB4khbiNZb+nh8ZU4DYtkEV3mNsIsMLy3jPJr7d3Nf+FchrARjPxjREt9b47DovNRS
+         SYEKU6SJXLD3tXPEpb+g7UEt/fDntqnZYiLkuCDHvu7Z0djvnyIZunXpEygRzVHr07ln
+         H9I2UqhPWL6L7chdVaLzpQ+AfAxA+LotqVzcCwkAzNTVdLXDs8rSO056c6LzJP0PfalM
+         DEA6XN4Nf5HDlWbaT0+xPWzR123a4TZLhJwakdQHC80PVYP7CWKjtwX0xBtWCHOqnYBd
+         6Rx+5lAUUFn7BrTH3UKTnQdAsq9NvBgeXI+6m2MneAQXcHKxlJdNzdNwzTZ9bQNuHdr1
+         84lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QuIg8y68xkqgQ0J+Ku7GeWSYB2bWiYC4dgAP49A5+n4=;
+        b=cYC7BvKOpfSuRnMGp2hiFzrvYH3XQDKSK9UxqjB9k2D/6w/rsrIvV8wemhPhWlCi1K
+         NqJtPTD3AqWX84KXUJdx6uKAi9XJYVi3A5P3EX+NBY/jWFSPK37n+Vo5AU4jb/s4vJFc
+         2lk0MFGttTej/YmntE4yxnMZaYpqz5hlqVy5D3KBtL1oz6rbRuAR+anmVW1VTcC5fyV1
+         8GKUPOgIAh+DK2U2YSuRey43gCat55kYrBSAM/lFQGo7JS8ujqn/wNMnIfet97u9oNcp
+         fKZ4HJ0VeldnFV50Z5sBOQnX++9b7b46NXJt5fX/lioRPcPwt2tVaZ1zEFL+sn0Vuhaz
+         43Ew==
+X-Gm-Message-State: AOAM5329DT/81NHZunaQld9C0FMAlJlaBGeGiNe9UzVf0Dsx72QtPe0q
+	VfVHNhP8YAOunVB/0udlJiCJDLDwPO909DJlc7g=
+X-Google-Smtp-Source: ABdhPJxkdUmSOudWh+xVmFebQUJnbb1D7vCe8ffGBviABA2E66OPt5uIzyJND7elM9LGWkTT94iRrZJ9ZojPyYrnN/I=
+X-Received: by 2002:a9f:2788:: with SMTP id b8mr4939516uab.81.1591301138598;
+ Thu, 04 Jun 2020 13:05:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200602134256.8156-1-sno@netbsd.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <1614B0E5E96C4272.14405@lists.openembedded.org>
+ <20200602121722.32623-1-rasmus.villemoes@prevas.dk> <20200602200008.GB2207@pbcl.net>
+ <24a52dc42bb9eb49e2f8802a3c7558859160de18.camel@linuxfoundation.org>
+ <20200602211524.GC2207@pbcl.net> <CAJ86T=X0Jd+_K8xG6G9LB2FfSo51dQ2rL1sa1f_zo2+r8fh0XQ@mail.gmail.com>
+ <9ecda083-eae5-428d-42d3-57cbe564ea9a@prevas.dk> <CAJ86T=U-V5p-va-MJf=4V3uVhEM+DmVRqU8DJ2=wVzJKfATDpA@mail.gmail.com>
+ <5da0a98a98d9b1194ca13315f9986c20b9e5d565.camel@linuxfoundation.org>
+In-Reply-To: <5da0a98a98d9b1194ca13315f9986c20b9e5d565.camel@linuxfoundation.org>
+From: "Andre McCurdy" <armccurdy@gmail.com>
+Date: Thu, 4 Jun 2020 13:05:30 -0700
+Message-ID: <CAJ86T=Xu+mjNER1D=R4110uN-8oK-s3xk6ij1hChESNVY2U2Dw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] glibc: move ld.so.conf back to main package
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Rasmus Villemoes <rasmus.villemoes@prevas.dk>, Phil Blundell <pb@pbcl.net>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>, 
+	Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>, 
+	Andreas Oberritter <obi@opendreambox.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 02, 2020 at 03:42:55PM +0200, Jens Rehsack wrote:
-> With commit c9fc9110be33fe0f24bc3a7c242b584a4ca33e04
->     Author: Yue Tao <Yue.Tao@windriver.com>
->     Date:   Fri May 25 10:48:08 2018 +0800
-> 
-> 	initscripts: Avoid starting rpcbind daemon twice
-> 
-> 	Check the status before start it to avoid duplicates.
-> 
-> the use of a script {/usr/sbin/}service is introduced - maybe earlier
-> provided by systemd, nowadays mostly by init-system-helpers from
-> debian project.
-> 
-> For the very first shot, maybe discussions and improvements based
-> on that script collection, use just the init-system-helpers-service
-> in initscripts/mountnfs.sh to avoid problems mounting NFS in later
-> boot stage.
-> 
-> Signed-off-by: Jens Rehsack <sno@netbsd.org>
-> ---
->  meta/conf/distro/include/maintainers.inc      |  1 +
->  .../initscripts/init-system-helpers_1.57.bb   | 46 +++++++++++++++++++
->  .../initscripts/initscripts_1.0.bb            |  1 +
->  3 files changed, 48 insertions(+)
->  create mode 100644 meta/recipes-core/initscripts/init-system-helpers_1.57.bb
-> 
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 51e6da669c..adac9fd824 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -265,6 +265,7 @@ RECIPE_MAINTAINER_pn-icu = "Alexander Kanavin <alex.kanavin@gmail.com>"
->  RECIPE_MAINTAINER_pn-ifupdown = "Anuj Mittal <anuj.mittal@intel.com>"
->  RECIPE_MAINTAINER_pn-inetutils = "Tom Rini <trini@konsulko.com>"
->  RECIPE_MAINTAINER_pn-init-ifupdown = "Anuj Mittal <anuj.mittal@intel.com>"
-> +RECIPE_MAINTAINER_pn-init-system-helpers = "Anuj Mittal <anuj.mittal@intel.com>"
->  RECIPE_MAINTAINER_pn-initramfs-boot = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
->  RECIPE_MAINTAINER_pn-initramfs-framework = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
->  RECIPE_MAINTAINER_pn-initramfs-live-boot = "Anuj Mittal <anuj.mittal@intel.com>"
-> diff --git a/meta/recipes-core/initscripts/init-system-helpers_1.57.bb b/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
-> new file mode 100644
-> index 0000000000..d41bb94791
-> --- /dev/null
-> +++ b/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
-> @@ -0,0 +1,46 @@
-> +SUMMARY = "helper tools for all init systems"
-> +DESCRIPTION = "This package contains helper tools that are necessary for switching between \
-> +the various init systems that Debian contains (e. g. sysvinit or \
-> +systemd). An example is deb-systemd-helper, a script that enables systemd unit \
-> +files without depending on a running systemd. \
-> +\
-> +It also includes the \"service\", \"invoke-rc.d\", and \"update-rc.d\" scripts which \
-> +provide an abstraction for enabling, disabling, starting, and stopping \
-> +services for all supported Debian init systems as specified by the policy. \
-> +\
-> +While this package is maintained by pkg-systemd-maintainers, it is NOT \
-> +specific to systemd at all. Maintainers of other init systems are welcome to \
-> +include their helpers in this package."
-> +HOMEPAGE = "https://salsa.debian.org/debian/init-system-helpers"
-> +SECTION = "base"
-> +LICENSE = "BSD-3-Clause & GPLv2"
-> +LIC_FILES_CHKSUM = "file://debian/copyright;md5=ee2b1830fcfead84d07bc060ec43e072"
-> +
-> +DEPENDS = "perl"
-> +
-> +SRCREV = "760c625ec0e1ffebec2e391d891d389da0f65726"
-> +SRC_URI = "git://salsa.debian.org/debian/init-system-helpers.git"
+On Thu, Jun 4, 2020 at 5:43 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Wed, 2020-06-03 at 13:44 -0700, Andre McCurdy wrote:
+> > On Wed, Jun 3, 2020 at 12:38 AM Rasmus Villemoes
+> > <rasmus.villemoes@prevas.dk> wrote:
+> > > On 02/06/2020 23.46, Andre McCurdy wrote:
+> > > > On Tue, Jun 2, 2020 at 2:15 PM Phil Blundell via
+> > > > lists.openembedded.org <pb=pbcl.net@lists.openembedded.org>
+> > > > wrote:
+> > > > > On Tue, Jun 02, 2020 at 09:17:44PM +0100, Richard Purdie wrote:
+> > > > > > I understand the concern, I am a little torn on this as
+> > > > > > adding in too
+> > > > > > many different controls and options complicates the test
+> > > > > > matrix and
+> > > > > > makes things harder for users.
+> > > > > >
+> > > > > > You're effectively suggesting a new DISTRO_FEATURE to control
+> > > > > > this? or
+> > > > > > maybe better, perhaps a glibc PACKAGECONFIG?
+> > > > >
+> > > > > Yes, right.  I don't think it need be a DISTRO_FEATURE because
+> > > > > nothing
+> > > > > outside glibc needs to care.
+> > > > >
+> > > > > Here are the scenarios that I think matter, ordered from
+> > > > > simplest to
+> > > > > most complex:
+> > > > >
+> > > > > 1. Immutable filesystem, every library installed in the place
+> > > > > where
+> > > > > ld.so would first look for it anyway (i.e. everything in
+> > > > > {/usr}/lib).
+> > > > > In this case, we don't want ldconfig (because it can never do
+> > > > > anything
+> > > > > useful), we don't want ld.so.cache and we don't want ld.so.conf
+> > > > > because they would cause ld.so to do extra file loads and
+> > > > > computation
+> > > > > but end up with the same result that it would anyway.
+> > > > >
+> > > > > 2. Immutable filesystem but some libraries are in places that
+> > > > > ld.so
+> > > > > wouldn't automatically know about.  In this case we do want
+> > > > > ld.so.conf
+> > > > > and ld.so.cache, but we still don't want ldconfig.
+> > > > >
+> > > > > 3. Mutable filesystem where arbitrary binaries can be installed
+> > > > > in
+> > > > > arbitrary places.  It's probably debatable whether ldconfig is
+> > > > > needed
+> > > > > in all these cases, but clearly it's needed in some and I think
+> > > > > at
+> > > > > this point it can be left to a DISTRO decision how exactly they
+> > > > > want
+> > > > > to optimize things.
+> > > > >
+> > > > > I think right now oe-core supports #1 and #3.  The proposed
+> > > > > patch
+> > > > > seems to be aimed at #2, which is a completely valid usecase,
+> > > >
+> > > > It seems like a weird corner case to me. Where do these libraries
+> > > > come
+> > > > from and why can't they be moved or symlinked into a standard
+> > > > path?
+> > >
+> > > Pre-compiled proprietary binaries/libraries that go in
+> > > /opt/<vendor>/..., just as /opt is meant for (and no, we can't just
+> > > install them to /usr/lib, /usr/bin etc - partly because they
+> > > contain
+> > > hard-coded absolute paths, but also due to some not-entirely-
+> > > techical
+> > > reasons). So there's an /etc/ld.so.conf.d/<vendor>.conf that needs
+> > > to be
+> > > picked up.
+> > >
+> > > > If they are somehow special and only used by special applications
+> > > > then
+> > > > setting rpath or using LD_LIBRARY_PATH just for those
+> > > > applications
+> > > > would seem to be a better solution than enabling them globally.
+> > >
+> > > We don't control the compilation, so rpath is out. We did consider
+> > > LD_LIBRARY_PATH, but figured that the ld.conf solution is more
+> > > robust
+> > > (no problems with setuid binaries or an application that
+> > > misguidedly
+> > > sanitizes the environment for subprocesses).
+> >
+> > Unless the supplier of your binaries is completely unresponsive (if
+> > so, bad luck) then educating them on the usage of rpath and asking
+> > for
+> > a new release is probably the cleanest solution.
+> >
+> > If you start your special application via a wrapper script which sets
+> > LD_LIBRARY_PATH then it won't be seen by anything else, so the
+> > concerns about other apps messing with it etc should not apply?
+> >
+> > Relying on /etc/ld.so.conf.d/*.conf will certainly work too, but has
+> > two disadvantages: it will add the custom library path globally
+> > instead of just for the special apps and it's not portable (it's not
+> > supported by musl etc - although if you only care about your
+> > proprietary binaries pre-compiled for glibc then that won't matter to
+> > you).
+> >
+> > Anyway, the original patch has been merged, so this now just a side
+> > discussion.
+>
+> It hasn't, its still in master-next waiting for us to reach a
+> conclusion...
 
-I'm getting this:
+OK. The discussion has moved on to the details of Rasmus's use case,
+but I can try to summarise the details related to the actual patch...
 
-WARNING: init-system-helpers-1.57-r0 do_fetch: Failed to fetch URL git://salsa.debian.org/debian/init-system-helpers.git, attempting MIRRORS if available
+The patch fixes the problem that if the ldconfig distro feature is
+disabled, then the config file needed by ldconfig will not be present
+in the rootfs when ldconfig is run at build time (and so ld.so.cache
+may not be correctly generated). The change to move ldconfig and its
+config file into a separate package didn't account for the fact that
+the config file is used at build time, but the underlying problem was
+there before that too (before the separate package, the config file
+was simply deleted).
 
+The risk of an incorrectly generated ld.so.cache is a bug, so it
+should be fixing unconditionally (ie it should not be tied to any
+PACKAGECONFIG or new distro config option).
 
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +do_configure[noexec] = "1"
-> +do_compile[noexec] = "1"
-> +
-> +do_install() {
-> +	install -d -m 0755 ${D}${sbindir}
-> +	install -m 0755 ${S}/script/invoke-rc.d ${D}${sbindir}
-> +	install -m 0755 ${S}/script/service ${D}${sbindir}
-> +	install -m 0755 ${S}/script/update-rc.d ${D}${sbindir}
-> +}
-> +
-> +PACKAGES += "${PN}-invoke-rc.d ${PN}-service ${PN}-update-rc.d"
-> +
-> +FILES_${PN} = ""
-> +FILES_${PN}-invoke-rc.d = "${sbindir}/invoke-rc.d"
-> +FILES_${PN}-service = "${sbindir}/service"
-> +FILES_${PN}-update-rc.d = "${sbindir}/update-rc.d"
-> +
-> +ALLOW_EMPTY_${PN} = "1"
-> +
-> +RDEPENDS_${PN}-update-rc.d = "perl"
-> +RRECOMMENDS_${PN} += "${PN}-invoke-rc.d ${PN}-service ${PN}-update-rc.d"
-> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> index 1a59b82fbf..4080c4a495 100644
-> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
-> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
-> @@ -50,6 +50,7 @@ PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','
->  PACKAGES =+ "${PN}-functions ${PN}-sushell"
->  RDEPENDS_${PN} = "initd-functions \
->                    ${@bb.utils.contains('DISTRO_FEATURES','selinux','${PN}-sushell','',d)} \
-> +                  init-system-helpers-service \
->  		 "
->  # Recommend pn-functions so that it will be a preferred default provider for initd-functions
->  RRECOMMENDS_${PN} = "${PN}-functions"
-> -- 
-> 2.17.1
-> 
+The fix being proposed is simply to always leave the config file in
+the rootfs, so it's always there when ldconfig is run at build time.
+Doing so seems safe enough. Since the config file is only parsed by
+ldconfig, there's no run time performance penalty of leaving it around
+- it will just be ignored if there's no ldconfig in the rootfs to use
+it.
 
-> 
-
+There's a genuine bug and I don't see an obviously better fix, so I
+think the patch should be merged.
