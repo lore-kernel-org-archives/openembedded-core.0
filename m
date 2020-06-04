@@ -1,262 +1,274 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web11.14699.1591279605586530384
+Received: from mx08-00271601.pphosted.com (mx08-00271601.pphosted.com [91.207.212.217])
+ by mx.groups.io with SMTP id smtpd.web10.15366.1591280814756186098
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2020 07:06:45 -0700
+ Thu, 04 Jun 2020 07:26:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RHLq9H1q;
- spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id g9so4795756edw.10
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 07:06:45 -0700 (PDT)
+ dkim=pass header.i=@verisure.com header.s=pp16032020 header.b=Me5EnlPG;
+ spf=pass (domain: verisure.com, ip: 91.207.212.217, mailfrom: ernst.sjostrand@verisure.com)
+Received: from pps.filterd (m0107397.ppops.net [127.0.0.1])
+	by mx08-00271601.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 054EIgkS030947;
+	Thu, 4 Jun 2020 16:26:51 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=verisure.com; h=from : to : cc :
+ subject : date : message-id : references : in-reply-to : content-type :
+ mime-version; s=pp16032020;
+ bh=rUlaxbMZFpKuPtmQxHw2phirv4XmyzBZBRk2k3zPIyg=;
+ b=Me5EnlPGrFccJJ5ASauiSKlFjQ+eR95nOjbLuBq+JPydf8RkRK9pode2ZQl6h/jVLttH
+ A2zewWUQGIRE2j19Sbt9DYTe91l7gjYa5q19SZdPNwVUG+6gSoETflETfqFqbEW6vOy3
+ pmc/RIi+3wO6gNH9eCP+CIJdpqiT7xy4MELCQblzgV+aM2jRsdUeKMBrZD1QuuwvC6Ty
+ cggnYRA2yBA5CYcPZKdA+GpI06fa9EAmnSed25UsMWjf2BcufVuY//zStC4r2UgjvaU4
+ IbbelQ8HW+oUJ6xQ0sjJUPyncx19u+rrtJX8uK71RCPVwz3+au2+ISJG/hWqafFubcvZ QQ== 
+Received: from eur04-db3-obe.outbound.protection.outlook.com (mail-db3eur04lp2051.outbound.protection.outlook.com [104.47.12.51])
+	by mx08-00271601.pphosted.com with ESMTP id 31bc91bseq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 04 Jun 2020 16:26:50 +0200
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=RoyJqNELytxwDOq6kQC1iuwxenc0DWOJW23QZ9xohzLWix7g4TSDICAqk5SfV4bm/WUQEXeLGcYIAK7u46ND/m7QRPN7t+gLMxoqvCw+A8/Zok7B+qDdhDJ4kEGqFeU8eO1PNiucRQH+qiouZwMIASuoSIzbXa0aj5DaJAoxfe01HxCu/wLF3j53lM0LoGISWVahg/VWVmyQXYZ3PIzeTn0c4yLvBOsMAm9xZUEZmX5xWOjaHAz06EZeJcxHvyroMt0GeUZ0KJP7b8qlrRqYFMf6uGnmsJP28/rbrb6X/i/zoHpGc4ULBOfEEB2rh9uSrCyEhY4dM7f+8tfEMNKUZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rUlaxbMZFpKuPtmQxHw2phirv4XmyzBZBRk2k3zPIyg=;
+ b=mWbp9CxKiZqp53NUmQvRJytCpp4FtHuDEkiuRAQXPDz7dH5Ct6tm3st7GLRfYVlUxpDL/5XJgqIoJ/E9bRtc1UjJFiBlygIbx0WNMZyZj5Nv0KwSNamaet6mUj9ks7tPH1p90uPHtum2YnNpfNdwckcMtAPrzv796pVHAXbZt+AqusEGU3tMlbXT00c4nk+4cxlGKGHxW7ZrdSX9h0bInPlDMTHcvcCYAbqD0+DctLwzk0quOZinlSxOxJUcY8TmQjv4woyOYD3ftyj9Mkkn+7vUSMhtFA7vLwiOhP3zyoDrYVh4V9GHhPVdvKGb8IAUZBzO6znDJYVwgzuaZ5xK4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=verisure.com; dmarc=pass action=none header.from=verisure.com;
+ dkim=pass header.d=verisure.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=v90JbTk8T0rZtgc55Km5udAITs4khhfQFMjyFJHZYcc=;
-        b=RHLq9H1qjnehH5dyi2BIsG/S8z3KA2+LgkXcH6GZWyHJq2FLkULX4BXXPfstOCJWEI
-         3GSMpjrnMrtPEWJUua4zNsYl1vBFO2QfVNCtMJqKSQFHBWU84wm6kmjSB1XeT5aO57/J
-         AdDizL5Hy+h2tt27VPnVx8yhEUA/cXaN0PxvV+P92+XPj6xv2hb1DhAj8qiO7pHurEqd
-         erueQBInsw0kheVXpF6IHkvCL3T4aVH8ftJTE18T+aX4xLpDxlHujKpPq3DtFlfUtzTt
-         dQuRp2RotAzlNdl9kT4H688Ku/gXtIKwuEMlwGh4fRgwYq5FIWUk0CNIryU2jUIPGBE9
-         ijjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=v90JbTk8T0rZtgc55Km5udAITs4khhfQFMjyFJHZYcc=;
-        b=GIIxJ/CRD3AKuO7ac7sOuNVUj2by44k5caHcz111DNuQLygBvI7VMt2EW4jz80qv5b
-         yfPua0y0F29942YnE6I+67p84T8uBB1XEHZbnceA5fxnB+7WvFNP54q5z9kvAT2IFiX7
-         MzXWGFC9FOOruZhiQVZ7Myotkbum0ymICn6UZ97K5gIp0Qw5s70tbIkcUmbHbWx2yVpH
-         QCKQh9NsxVpE/+DL35Fxt+f1MD6KLWD9Jn2jmT5d8/9ulxxGEO+SoiBU5pOEeOaha4vY
-         dJJN4PyzeTT6TTRyHzanaT1fPqrRmmK7YMGIrvsFH0kymRIhJfVd4WQySBHCLW7CFFFs
-         ayhA==
-X-Gm-Message-State: AOAM532kHLjLvN6ZM3bMREpHcwoUkQepJkFRIjsjp/f925+LPLuS+Hqa
-	RFMLt48hSl1n+VhivhtGpquwKnnVnV+rqH6qwdQ=
-X-Google-Smtp-Source: ABdhPJwJaVh8v0dEDdqsnvVA3MFpeEE3G14WwkX4Fr76kQ2PPequwmeYlhBx+0tpWTsJEq+nLb1BV5IM5obxR2g93I0=
-X-Received: by 2002:a05:6402:1217:: with SMTP id c23mr4452118edw.270.1591279604046;
- Thu, 04 Jun 2020 07:06:44 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200604120349.17455-1-schnitzeltony@gmail.com>
- <faaa5a2d120eacab6825cf079e92aa220dd7b151.camel@linuxfoundation.org>
- <CALbNGRQDVCm4zDJ6NPw=+-mQ8xibCDh+pqjToPcrnXRvJcYOkg@mail.gmail.com>
- <421c9a5c69b54bfb41734e58b89dc66bf9e84c0a.camel@linuxfoundation.org>
- <CALbNGRQyxDXcyKUA3zFYfwRFivLWbqrYyoGSKr4CWRz0Vjo1YA@mail.gmail.com> <20200604135728.wce5jsupc6bgwmvi@qschulz>
-In-Reply-To: <20200604135728.wce5jsupc6bgwmvi@qschulz>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Thu, 4 Jun 2020 16:06:33 +0200
-Message-ID: <CA+chaQd4bb751gr6igkcemwYS3qNZqg21fR9jTZrjGPRboa_sg@mail.gmail.com>
+ d=verisure.onmicrosoft.com; s=selector1-verisure-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rUlaxbMZFpKuPtmQxHw2phirv4XmyzBZBRk2k3zPIyg=;
+ b=f0XK9KvqjIr3tL8KwxLr8Sk+qLW05Cq0j+wmfbVTQBCyglPZMC37mCVaQFU5Oko270J0az4te4LsVsqzQY2KBRK/QgunLOnkzRKS+QX8Zmh6/KN6l681/YrdivOzlmlAyhvnhNume6QAd5brs14n8vd5i6GhhHiScYvD/VApBos=
+Received: from HE1PR10MB1786.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:7:59::11) by
+ HE1PR10MB1834.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:7:5f::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3066.18; Thu, 4 Jun 2020 14:26:49 +0000
+Received: from HE1PR10MB1786.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::898f:65d0:5ef9:cc6d]) by HE1PR10MB1786.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::898f:65d0:5ef9:cc6d%5]) with mapi id 15.20.3045.022; Thu, 4 Jun 2020
+ 14:26:49 +0000
+From: "Ernst Sj?strand" <ernst.sjostrand@verisure.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+        "quentin.schulz@streamunlimited.com" <quentin.schulz@streamunlimited.com>,
+        "schnitzeltony@gmail.com" <schnitzeltony@gmail.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [OE-core] [PATCH][warrior] pseudo: Fix enum typedef
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="00000000000089a02605a742a7ef"
+Thread-Topic: [OE-core] [PATCH][warrior] pseudo: Fix enum typedef
+Thread-Index: 
+ AQHWOmg+I8vGrk0suUy8UamwLsdipajIXaeAgAAB/4CAAAg1AIAAEUIAgAACPACAAAKPgIAABaMA
+Date: Thu, 4 Jun 2020 14:26:49 +0000
+Message-ID: <137c6a28a6aed444c2c152e68ce8ebe9cc159341.camel@verisure.com>
+References: <20200604120349.17455-1-schnitzeltony@gmail.com>
+	 <faaa5a2d120eacab6825cf079e92aa220dd7b151.camel@linuxfoundation.org>
+	 <CALbNGRQDVCm4zDJ6NPw=+-mQ8xibCDh+pqjToPcrnXRvJcYOkg@mail.gmail.com>
+	 <421c9a5c69b54bfb41734e58b89dc66bf9e84c0a.camel@linuxfoundation.org>
+	 <CALbNGRQyxDXcyKUA3zFYfwRFivLWbqrYyoGSKr4CWRz0Vjo1YA@mail.gmail.com>
+	 <20200604135728.wce5jsupc6bgwmvi@qschulz>
+	 <3d2ee2081773b4e98fa078976cae17d88bf31ee0.camel@linuxfoundation.org>
+In-Reply-To: 
+ <3d2ee2081773b4e98fa078976cae17d88bf31ee0.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=verisure.com;
+x-originating-ip: [94.246.105.186]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7ffeacc9-648f-4406-bf3c-08d808935182
+x-ms-traffictypediagnostic: HE1PR10MB1834:
+x-microsoft-antispam-prvs: 
+ <HE1PR10MB18346C0CE7FFF0CDE9DF05B794890@HE1PR10MB1834.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 04244E0DC5
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ CX2nKp+WgcbX1pxKZInAAIbJ/KKR3LtmtbKPKuk/m1vBYY4klVO+GJR985fYCWqpJu8NF9lJ8UyxiAyUS07VWBrvycEhJPJySSmD7mMNr6oAkHyHP/NACxRVeV6I5HvsdZycvFvorZPr3r1OW/YG3fImn65hXIxDor7Tr7ojsqJhLp6ii5F/U4qsx8QBwrK6X5vhxPeZiSMJxip9+5rP8gO13SnEGBk5WFkj1vh/6/mGSQLw9hiVSUbOXqxKUH/9jfPU1SXnJ0bUNzWcbmbk4PBFgRTIDl4QP5t2X6ALBOjbcYawqP1j+c8h/ExWGEcgzZ0NrXVqWNayUjJkmek800N6aoUQBZE4u75h9+z2VDIV9gfYO75FeSxZIx8A3UlBr0aM1/zR0aIIa0R+LgRDkg==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:HE1PR10MB1786.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(376002)(346002)(39860400002)(396003)(136003)(66946007)(6486002)(66446008)(8676002)(85182001)(8936002)(64756008)(2906002)(36756003)(478600001)(4326008)(76116006)(85202003)(5660300002)(66476007)(66556008)(83380400001)(26005)(53546011)(166002)(6512007)(316002)(966005)(71200400001)(6506007)(2616005)(110136005)(186003)(66574014)(86362001);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ 1HQF/A55BaygivcYLBL57I1TO/S6apr4V2ksk3cwyzxnfCnZshYf7Uug4j1FTc8Qnr2gqlfRsN5b2ysqFBI1GnUMg1wO2vXOOKUaTUJ7bwdYYDtWExE+gNrMQ57UZ4MZ3vKHTSRSEpaj1U16QmhLZfLVwcq+iOh0yYB/LZnOPW4vCu4Vhae64XJzUZx39/h9sWpa+Ve4rVr+eg7nSoJsXn9VOIz1b4E5DfS3Fof4WbmT2X/6dPS8QvmHZB9+l3wR303sVGaw4VNTln78eSVM6whI5yVyd11Ah6E16GNxpWXM9FSAzowlfQjxC2u16B6aqK0HyOlr9VrBk/EAMb1KFaMidzXk7OzRupDtQOG/nXw3iA/ZC11SEe3AXnY7C9RjfOlJk0/gK5VJ513+vHM6F+0r3XQ1dIpByYZAyAuSTl+xFTtJFdw2qpn8ihv4i3b6EwMUilY+tBjGneR84UyAxhzkLYT8keAHsgAahmqhcsv0dvllcF5jEvL9NJ//wD0B
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-OriginatorOrg: verisure.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ffeacc9-648f-4406-bf3c-08d808935182
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Jun 2020 14:26:49.2683
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3055fa7f-a944-4927-801e-a62b63119e43
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: J3v1ZiJeufxUAFEhaY+fYL3n6D+rdiEmWuZdfbg1Elj8RHRUK+cQHHF9e0uymsPpeY2d3NvtbikLPHkxpobIikdc6MQsEC0BQ2fs0KwdUek=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: HE1PR10MB1834
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-04_10:2020-06-02,2020-06-04 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ impostorscore=0 cotscore=-2147483648 phishscore=0 clxscore=1011
+ mlxlogscore=999 malwarescore=0 mlxscore=0 spamscore=0 priorityscore=1501
+ suspectscore=0 bulkscore=0 adultscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006040098
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_137c6a28a6aed444c2c152e68ce8ebe9cc159341camelverisureco_"
 
---00000000000089a02605a742a7ef
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--_000_137c6a28a6aed444c2c152e68ce8ebe9cc159341camelverisureco_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Maybe I'm reading RP's reply differently, but I think he just asked to
-collect all necessary changes for warrior to support newer host, before
-they are accepted.
+VWJ1bnR1IDIwLjA0IGRvZXNuJ3QgaGF2ZSBnY2MgMTAgYXMgZGVmYXVsdCwgaXQncyBzdGlsbCA5
+LiBTbyBJIGd1ZXNzIHRoYXQncyBkaWZmZXJlbnQgZnJvbSBGZWRvcmEgMzINCnRoYXQgc29tZW9u
+ZSBtZW50aW9uZWQuDQoNClJlZ2FyZHMNCi8vRXJuc3QNCg0KVGh1IDIwMjAtMDYtMDQga2xvY2th
+biAxNTowNiArMDEwMCBza3JldiBSaWNoYXJkIFB1cmRpZToNCg0KT24gVGh1LCAyMDIwLTA2LTA0
+IGF0IDE1OjU3ICswMjAwLCBRdWVudGluIFNjaHVseiB3cm90ZToNCg0KT24gVGh1LCBKdW4gMDQs
+IDIwMjAgYXQgMDM6NDk6MjhQTSArMDIwMCwgQW5kcmVhcyBNw7xsbGVyIHdyb3RlOg0KDQpPbiBU
+aHUsIEp1biA0LCAyMDIwIGF0IDI6NDcgUE0gUmljaGFyZCBQdXJkaWUNCg0KPA0KDQo8bWFpbHRv
+OnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQoNCnJpY2hhcmQucHVyZGllQGxp
+bnV4Zm91bmRhdGlvbi5vcmcNCg0KPiB3cm90ZToNCg0KT24gVGh1LCAyMDIwLTA2LTA0IGF0IDE0
+OjE4ICswMjAwLCBBbmRyZWFzIE3DvGxsZXIgd3JvdGU6DQoNCk9uIFRodSwgSnVuIDQsIDIwMjAg
+YXQgMjoxMSBQTSBSaWNoYXJkIFB1cmRpZQ0KDQo8DQoNCjxtYWlsdG86cmljaGFyZC5wdXJkaWVA
+bGludXhmb3VuZGF0aW9uLm9yZz4NCg0KcmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9y
+Zw0KDQo+IHdyb3RlOg0KDQpPbiBUaHUsIDIwMjAtMDYtMDQgYXQgMTQ6MDMgKzAyMDAsIEFuZHJl
+YXMgTcO8bGxlciB3cm90ZToNCg0KRnJvbTogSmFjb2IgS3Jvb24gPA0KDQo8bWFpbHRvOmphY29i
+Lmtyb29uQGdtYWlsLmNvbT4NCg0KamFjb2Iua3Jvb25AZ21haWwuY29tDQoNCj4NCg0KDQoncHNl
+dWRvX2FjY2Vzc190JyBpcyBhIHR5cGUsIHNvIHVzZSB0eXBlZGVmLg0KDQoNCkZpeGVzIGJ1aWxk
+aW5nIHBzZXVkbyB3aXRoIGdjYyAxMCB3aGVyZSAtZm5vLWNvbW1vbiBpcyB0aGUNCg0KZGVmYXVs
+dC4NCg0KDQooQmFja3BvcnQgb2YgT0UtQ29yZSByZXY6DQoNCmE3ZDUxOWY3NDJhYWRjOTExMGMy
+NDAxZjM1OTI1NDIxMGE3ODRmNmIpDQoNCg0KU2lnbmVkLW9mZi1ieTogSmFjb2IgS3Jvb24gPA0K
+DQo8bWFpbHRvOmphY29iLmtyb29uQGdtYWlsLmNvbT4NCg0KamFjb2Iua3Jvb25AZ21haWwuY29t
+DQoNCj4NCg0KU2lnbmVkLW9mZi1ieTogUmljaGFyZCBQdXJkaWUgPA0KDQo8bWFpbHRvOnJpY2hh
+cmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+DQoNCnJpY2hhcmQucHVyZGllQGxpbnV4Zm91
+bmRhdGlvbi5vcmcNCg0KDQpTaWduZWQtb2ZmLWJ5OiBBbmRyZWFzIE3DvGxsZXIgPA0KDQo8bWFp
+bHRvOnNjaG5pdHplbHRvbnlAZ21haWwuY29tPg0KDQpzY2huaXR6ZWx0b255QGdtYWlsLmNvbQ0K
+DQo+DQoNCg0KRG9lcyB3YXJyaW9yIG90aGVyd2lzZSB3b3JrIG9uIGdjYzEwIGhvc3RzPw0KDQpO
+b3QgeWV0IGJ1dCBJIGFtIHdvcmtpbmcgb24gaXQuDQoNCg0KSSB0aGluayB0byBtYWtlIGEgZGVj
+aXNpb24gb24gd2hldGhlciB3ZSBwbGFuIHRvIHN1cHBvcnQgZ2NjMTAgb3Igbm90DQoNCndlJ2xs
+IG5lZWQgdG8ga25vdyB0aGUgc2NvcGUgb2YgdGhlIGNoYW5nZXMuIEknbSBzdGFydGluZyB0byB3
+b3JyeSB0aGlzDQoNCndvdWxkIGJlIGEgYml0IHRvbyBpbnZhc2l2ZSwgcGFydGljdWxhcmx5IGFz
+IHdhcnJpb3IgaXMgYWJvdXQgdG8gZW50ZXINCg0KY29tbXVuaXR5IHN1cHBvcnQgb3IgRU9MIGRl
+cGVuZGluZyBvbiB3aGV0aGVyIHRoZXJlIGlzIGEgbWFpbnRhaW5lci4NCg0KDQpJIHNlZS4gUHJv
+YmxlbXMgZm9yIG1lIC0gam9iJ3MgaGF0IG9uIC0gYXJlOg0KDQoNCjEuIHdlJ3JlIGNsb3NlIHRv
+IHJlbGVhc2UgYSBwcm9kdWN0IGJhc2VkIG9uIHdhcnJpb3IgKGFuZCBhIG5ldw0KDQpjb2xsZWFn
+dWUgb2YgbWluZSBoYXMganVzdCBpbnN0YWxsZWQgRmVkb3JhIDMyIHdpdGggZ2NjIDEwIC0gdGhh
+dCdzDQoNCndoeSBJIGFzayBmb3IgaXQpDQoNCjIuIG15IHRlc3RzIHdpdGggZHVuZmVsbCB3ZXJl
+IC0gaG1tIC0gbm90IHJ1bm5pbmcgb3V0IG9mIHRoZSBib3ggZXhhY3RseS4NCg0KDQpTbyB3ZSBz
+aG91bGQgZGVjaWRlIHRvIHVwZ3JhZGUgdG8gZHVuZmVsbC4gVGhhdCBpcyB3aGF0IEkgdXNlIGZv
+cg0KDQpwcml2YXRlIHJhc3BpLWltYWdlcyBhbiBhbSB2ZXJ5IGNsb3NlIHRvIGhhcHB5Lg0KDQoN
+Cg0KRGFuZywgSSB3YXMgc2lsZW50bHkgYnV0IGNsb3NlbHkgZm9sbG93aW5nIHRoZSBkaXNjdXNz
+aW9uIGhvcGluZyB0byBiZQ0KDQphYmxlIHRvIGFwcGx5IG1vcmUgb3IgbGVzcyB0aGUgc2FtZSBw
+YXRjaGVzIG9uIHRvcCBvZiB0aHVkLiBTYW1lIGlzc3VlDQoNCmFzIHlvdXJzLCBjb2xsZWFndWVz
+IG1vdmluZyB0byBVYnVudHUgMjAuMDQgd2l0aCBnY2MgMTArLiBJIGd1ZXNzIGl0J3MNCg0KZG9j
+a2VyIHRpbWUgOi8gKHRoZXJlJ2xsIGFsd2F5cyBiZSB0aGF0IG9uZSBjbGllbnQgdGhhdCB3aWxs
+IG5vdCB3YW50IHRvDQoNCnVwZ3JhZGUgdG8gbmV3ZXIgcmVsZWFzZXMpLg0KDQoNCk9yIG1heWJl
+IHdlIGNhbiBzdXBwb3J0IGdjYzEwIG9uIHRoZSBjb21tdW5pdHkgYnJhbmNoIG9uY2UgaXQncyBF
+T0wgKG9yDQoNCmRvaW5nIHRoZSBqb2Igb3Vyc2VsdmVzLi4pLiBXaGF0IHNlZW1zIHRvIGJlIHRo
+ZSBiaWcgd29ycnkgYWJvdXQNCg0Kc3VwcG9ydGluZyBnY2MxMCBvbiB3YXJyaW9yL3RodWQ/IEp1
+c3Qgc28gSSBjYW4gZXhwbGFpbiB3aHkgd2Ugc2hvdWxkIGdvDQoNCnRoZSBkb2NrZXIgcm91dGUg
+aW5zdGVhZCBvZiBzcGVuZGluZyB0aW1lIG9uIG1ha2luZyB0aHVkIChhbmQgd2Ugc3RpbGwNCg0K
+aGF2ZSBrcm9nb3RoIGZvciBzb21lLi4uKSBidWlsZCB3aXRoIGdjYzEwIGFuZCBtYXliZSBzdGFy
+dCB3b3JraW5nIG9uDQoNCnVwZ3JhZGluZyB0aG9zZSB3ZSBjYW4gdG8gbmV3ZXIgcmVsZWFzZXMu
+IEJhc2ljYWxseSB3aGF0IGFyZSB0aGUNCg0KZXhwZWN0ZWQgYmlnIGh1cmRsZXMgb24gdGhlIHdh
+eT8NCg0KDQpZb3VyIG90aGVyIG9wdGlvbiB3b3VsZCBiZSBidWlsZHRvb2xzIHRhcmJhbGwgZm9y
+IHRoZSBmMzIvdWJ1bnR1MjAwNA0KDQpzeXN0ZW1zLg0KDQoNCkkgY291bGQgc2VlIGEgY2FzZSBm
+b3IgYmFja3BvcnRpbmcgdGhlIGJ1aWxkdG9vbHMgdGFyYmFsbA0KDQppbnN0YWxsZXIvd3JhcHBl
+ciBmb3IgdGhvc2Ugb2xkZXIgcmVsZWFzZXMgYXMgYSB3YXkgb2YgZml4aW5nIHRoZXNlDQoNCmlz
+c3Vlcy4NCg0KDQpDaGVlcnMsDQoNCg0KUmljaGFyZA0KDQoNCg0K
 
-It doesn't help much when only one smaller issue is fixed and the rest
-still needs to be figured out locally and the commit message might even
-mislead people in assuming that gcc-10 on host is now supported in
-warrior/thud.
+--_000_137c6a28a6aed444c2c152e68ce8ebe9cc159341camelverisureco_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <0D06D0B9D1E7764B9074837F31E21B25@EURPRD10.PROD.OUTLOOK.COM>
+Content-Transfer-Encoding: base64
 
-FWIW: I've built some smaller thud based images on 20.04 with only small
-modifications, e.g. fix for qemu:
-https://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/t=
-hud&id=3D68475d0255c4089538886d1ee2cab6b6efd62ce1
-there aren't probably many issues left, so it just needs someone to test i=
-t
-more properly and collect all needed fixes to apply them at the same time
-or give up if it shows too many difficult to solve issues (I doubt that).
+PGh0bWwgZGlyPSJsdHIiPg0KPGhlYWQ+DQo8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUi
+IGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD11dGYtOCI+DQo8L2hlYWQ+DQo8Ym9keSBzdHls
+ZT0idGV4dC1hbGlnbjpsZWZ0OyBkaXJlY3Rpb246bHRyOyI+DQo8ZGl2PlVidW50dSAyMC4wNCBk
+b2Vzbid0IGhhdmUgZ2NjIDEwIGFzIGRlZmF1bHQsIGl0J3Mgc3RpbGwgOS4gU28gSSBndWVzcyB0
+aGF0J3MgZGlmZmVyZW50IGZyb20gRmVkb3JhIDMyPC9kaXY+DQo8ZGl2PnRoYXQgc29tZW9uZSBt
+ZW50aW9uZWQuPC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5SZWdhcmRzPC9kaXY+DQo8
+ZGl2Pi8vRXJuc3Q8L2Rpdj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2PlRodSAyMDIwLTA2LTA0
+IGtsb2NrYW4gMTU6MDYgJiM0MzswMTAwIHNrcmV2IFJpY2hhcmQgUHVyZGllOjwvZGl2Pg0KPGJs
+b2NrcXVvdGUgdHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4OyBib3JkZXItbGVm
+dDoycHggIzcyOWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxwcmU+T24gVGh1LCAyMDIw
+LTA2LTA0IGF0IDE1OjU3ICYjNDM7MDIwMCwgUXVlbnRpbiBTY2h1bHogd3JvdGU6PC9wcmU+DQo8
+YmxvY2txdW90ZSB0eXBlPSJjaXRlIiBzdHlsZT0ibWFyZ2luOjAgMCAwIC44ZXg7IGJvcmRlci1s
+ZWZ0OjJweCAjNzI5ZmNmIHNvbGlkO3BhZGRpbmctbGVmdDoxZXgiPg0KPHByZT5PbiBUaHUsIEp1
+biAwNCwgMjAyMCBhdCAwMzo0OToyOFBNICYjNDM7MDIwMCwgQW5kcmVhcyBNw7xsbGVyIHdyb3Rl
+OjwvcHJlPg0KPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4
+OyBib3JkZXItbGVmdDoycHggIzcyOWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxwcmU+
+T24gVGh1LCBKdW4gNCwgMjAyMCBhdCAyOjQ3IFBNIFJpY2hhcmQgUHVyZGllPC9wcmU+DQo8cHJl
+PiZsdDs8L3ByZT4NCjxhIGhyZWY9Im1haWx0bzpyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
+b24ub3JnIj4NCjxwcmU+cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZzwvcHJlPg0K
+PC9hPg0KPHByZT4mZ3Q7IHdyb3RlOjwvcHJlPg0KPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgc3R5
+bGU9Im1hcmdpbjowIDAgMCAuOGV4OyBib3JkZXItbGVmdDoycHggIzcyOWZjZiBzb2xpZDtwYWRk
+aW5nLWxlZnQ6MWV4Ij4NCjxwcmU+T24gVGh1LCAyMDIwLTA2LTA0IGF0IDE0OjE4ICYjNDM7MDIw
+MCwgQW5kcmVhcyBNw7xsbGVyIHdyb3RlOjwvcHJlPg0KPGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIg
+c3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4OyBib3JkZXItbGVmdDoycHggIzcyOWZjZiBzb2xpZDtw
+YWRkaW5nLWxlZnQ6MWV4Ij4NCjxwcmU+T24gVGh1LCBKdW4gNCwgMjAyMCBhdCAyOjExIFBNIFJp
+Y2hhcmQgUHVyZGllPC9wcmU+DQo8cHJlPiZsdDs8L3ByZT4NCjxhIGhyZWY9Im1haWx0bzpyaWNo
+YXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnIj4NCjxwcmU+cmljaGFyZC5wdXJkaWVAbGlu
+dXhmb3VuZGF0aW9uLm9yZzwvcHJlPg0KPC9hPg0KPHByZT4mZ3Q7IHdyb3RlOjwvcHJlPg0KPGJs
+b2NrcXVvdGUgdHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4OyBib3JkZXItbGVm
+dDoycHggIzcyOWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxwcmU+T24gVGh1LCAyMDIw
+LTA2LTA0IGF0IDE0OjAzICYjNDM7MDIwMCwgQW5kcmVhcyBNw7xsbGVyIHdyb3RlOjwvcHJlPg0K
+PGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4OyBib3JkZXIt
+bGVmdDoycHggIzcyOWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxwcmU+RnJvbTogSmFj
+b2IgS3Jvb24gJmx0OzwvcHJlPg0KPGEgaHJlZj0ibWFpbHRvOmphY29iLmtyb29uQGdtYWlsLmNv
+bSI+DQo8cHJlPmphY29iLmtyb29uQGdtYWlsLmNvbTwvcHJlPg0KPC9hPg0KPHByZT4mZ3Q7PC9w
+cmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+J3BzZXVkb19hY2Nlc3NfdCcgaXMgYSB0eXBlLCBz
+byB1c2UgdHlwZWRlZi48L3ByZT4NCjxwcmU+PGJyPjwvcHJlPg0KPHByZT5GaXhlcyBidWlsZGlu
+ZyBwc2V1ZG8gd2l0aCBnY2MgMTAgd2hlcmUgLWZuby1jb21tb24gaXMgdGhlPC9wcmU+DQo8cHJl
+PmRlZmF1bHQuPC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+KEJhY2twb3J0IG9mIE9FLUNv
+cmUgcmV2OjwvcHJlPg0KPHByZT5hN2Q1MTlmNzQyYWFkYzkxMTBjMjQwMWYzNTkyNTQyMTBhNzg0
+ZjZiKTwvcHJlPg0KPHByZT48YnI+PC9wcmU+DQo8cHJlPlNpZ25lZC1vZmYtYnk6IEphY29iIEty
+b29uICZsdDs8L3ByZT4NCjxhIGhyZWY9Im1haWx0bzpqYWNvYi5rcm9vbkBnbWFpbC5jb20iPg0K
+PHByZT5qYWNvYi5rcm9vbkBnbWFpbC5jb208L3ByZT4NCjwvYT4NCjxwcmU+Jmd0OzwvcHJlPg0K
+PHByZT5TaWduZWQtb2ZmLWJ5OiBSaWNoYXJkIFB1cmRpZSAmbHQ7PC9wcmU+DQo8YSBocmVmPSJt
+YWlsdG86cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZyI+DQo8cHJlPnJpY2hhcmQu
+cHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc8L3ByZT4NCjwvYT4NCjxwcmU+PGJyPjwvcHJlPg0K
+PHByZT5TaWduZWQtb2ZmLWJ5OiBBbmRyZWFzIE3DvGxsZXIgJmx0OzwvcHJlPg0KPGEgaHJlZj0i
+bWFpbHRvOnNjaG5pdHplbHRvbnlAZ21haWwuY29tIj4NCjxwcmU+c2Nobml0emVsdG9ueUBnbWFp
+bC5jb208L3ByZT4NCjwvYT4NCjxwcmU+Jmd0OzwvcHJlPg0KPC9ibG9ja3F1b3RlPg0KPHByZT48
+YnI+PC9wcmU+DQo8cHJlPkRvZXMgd2FycmlvciBvdGhlcndpc2Ugd29yayBvbiBnY2MxMCBob3N0
+cz88L3ByZT4NCjwvYmxvY2txdW90ZT4NCjxwcmU+Tm90IHlldCBidXQgSSBhbSB3b3JraW5nIG9u
+IGl0LjwvcHJlPg0KPC9ibG9ja3F1b3RlPg0KPHByZT48YnI+PC9wcmU+DQo8cHJlPkkgdGhpbmsg
+dG8gbWFrZSBhIGRlY2lzaW9uIG9uIHdoZXRoZXIgd2UgcGxhbiB0byBzdXBwb3J0IGdjYzEwIG9y
+IG5vdDwvcHJlPg0KPHByZT53ZSdsbCBuZWVkIHRvIGtub3cgdGhlIHNjb3BlIG9mIHRoZSBjaGFu
+Z2VzLiBJJ20gc3RhcnRpbmcgdG8gd29ycnkgdGhpczwvcHJlPg0KPHByZT53b3VsZCBiZSBhIGJp
+dCB0b28gaW52YXNpdmUsIHBhcnRpY3VsYXJseSBhcyB3YXJyaW9yIGlzIGFib3V0IHRvIGVudGVy
+PC9wcmU+DQo8cHJlPmNvbW11bml0eSBzdXBwb3J0IG9yIEVPTCBkZXBlbmRpbmcgb24gd2hldGhl
+ciB0aGVyZSBpcyBhIG1haW50YWluZXIuPC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjwvYmxvY2tx
+dW90ZT4NCjxwcmU+SSBzZWUuIFByb2JsZW1zIGZvciBtZSAtIGpvYidzIGhhdCBvbiAtIGFyZTo8
+L3ByZT4NCjxwcmU+PGJyPjwvcHJlPg0KPHByZT4xLiB3ZSdyZSBjbG9zZSB0byByZWxlYXNlIGEg
+cHJvZHVjdCBiYXNlZCBvbiB3YXJyaW9yIChhbmQgYSBuZXc8L3ByZT4NCjxwcmU+Y29sbGVhZ3Vl
+IG9mIG1pbmUgaGFzIGp1c3QgaW5zdGFsbGVkIEZlZG9yYSAzMiB3aXRoIGdjYyAxMCAtIHRoYXQn
+czwvcHJlPg0KPHByZT53aHkgSSBhc2sgZm9yIGl0KTwvcHJlPg0KPHByZT4yLiBteSB0ZXN0cyB3
+aXRoIGR1bmZlbGwgd2VyZSAtIGhtbSAtIG5vdCBydW5uaW5nIG91dCBvZiB0aGUgYm94IGV4YWN0
+bHkuPC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+U28gd2Ugc2hvdWxkIGRlY2lkZSB0byB1
+cGdyYWRlIHRvIGR1bmZlbGwuIFRoYXQgaXMgd2hhdCBJIHVzZSBmb3I8L3ByZT4NCjxwcmU+cHJp
+dmF0ZSByYXNwaS1pbWFnZXMgYW4gYW0gdmVyeSBjbG9zZSB0byBoYXBweS48L3ByZT4NCjxwcmU+
+PGJyPjwvcHJlPg0KPC9ibG9ja3F1b3RlPg0KPHByZT48YnI+PC9wcmU+DQo8cHJlPkRhbmcsIEkg
+d2FzIHNpbGVudGx5IGJ1dCBjbG9zZWx5IGZvbGxvd2luZyB0aGUgZGlzY3Vzc2lvbiBob3Bpbmcg
+dG8gYmU8L3ByZT4NCjxwcmU+YWJsZSB0byBhcHBseSBtb3JlIG9yIGxlc3MgdGhlIHNhbWUgcGF0
+Y2hlcyBvbiB0b3Agb2YgdGh1ZC4gU2FtZSBpc3N1ZTwvcHJlPg0KPHByZT5hcyB5b3VycywgY29s
+bGVhZ3VlcyBtb3ZpbmcgdG8gVWJ1bnR1IDIwLjA0IHdpdGggZ2NjIDEwJiM0MzsuIEkgZ3Vlc3Mg
+aXQnczwvcHJlPg0KPHByZT5kb2NrZXIgdGltZSA6LyAodGhlcmUnbGwgYWx3YXlzIGJlIHRoYXQg
+b25lIGNsaWVudCB0aGF0IHdpbGwgbm90IHdhbnQgdG88L3ByZT4NCjxwcmU+dXBncmFkZSB0byBu
+ZXdlciByZWxlYXNlcykuPC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+T3IgbWF5YmUgd2Ug
+Y2FuIHN1cHBvcnQgZ2NjMTAgb24gdGhlIGNvbW11bml0eSBicmFuY2ggb25jZSBpdCdzIEVPTCAo
+b3I8L3ByZT4NCjxwcmU+ZG9pbmcgdGhlIGpvYiBvdXJzZWx2ZXMuLikuIFdoYXQgc2VlbXMgdG8g
+YmUgdGhlIGJpZyB3b3JyeSBhYm91dDwvcHJlPg0KPHByZT5zdXBwb3J0aW5nIGdjYzEwIG9uIHdh
+cnJpb3IvdGh1ZD8gSnVzdCBzbyBJIGNhbiBleHBsYWluIHdoeSB3ZSBzaG91bGQgZ288L3ByZT4N
+CjxwcmU+dGhlIGRvY2tlciByb3V0ZSBpbnN0ZWFkIG9mIHNwZW5kaW5nIHRpbWUgb24gbWFraW5n
+IHRodWQgKGFuZCB3ZSBzdGlsbDwvcHJlPg0KPHByZT5oYXZlIGtyb2dvdGggZm9yIHNvbWUuLi4p
+IGJ1aWxkIHdpdGggZ2NjMTAgYW5kIG1heWJlIHN0YXJ0IHdvcmtpbmcgb248L3ByZT4NCjxwcmU+
+dXBncmFkaW5nIHRob3NlIHdlIGNhbiB0byBuZXdlciByZWxlYXNlcy4gQmFzaWNhbGx5IHdoYXQg
+YXJlIHRoZTwvcHJlPg0KPHByZT5leHBlY3RlZCBiaWcgaHVyZGxlcyBvbiB0aGUgd2F5PzwvcHJl
+Pg0KPC9ibG9ja3F1b3RlPg0KPHByZT48YnI+PC9wcmU+DQo8cHJlPllvdXIgb3RoZXIgb3B0aW9u
+IHdvdWxkIGJlIGJ1aWxkdG9vbHMgdGFyYmFsbCBmb3IgdGhlIGYzMi91YnVudHUyMDA0PC9wcmU+
+DQo8cHJlPnN5c3RlbXMuPC9wcmU+DQo8cHJlPjxicj48L3ByZT4NCjxwcmU+SSBjb3VsZCBzZWUg
+YSBjYXNlIGZvciBiYWNrcG9ydGluZyB0aGUgYnVpbGR0b29scyB0YXJiYWxsPC9wcmU+DQo8cHJl
+Pmluc3RhbGxlci93cmFwcGVyIGZvciB0aG9zZSBvbGRlciByZWxlYXNlcyBhcyBhIHdheSBvZiBm
+aXhpbmcgdGhlc2U8L3ByZT4NCjxwcmU+aXNzdWVzLjwvcHJlPg0KPHByZT48YnI+PC9wcmU+DQo8
+cHJlPkNoZWVycyw8L3ByZT4NCjxwcmU+PGJyPjwvcHJlPg0KPHByZT5SaWNoYXJkPC9wcmU+DQo8
+cHJlPjxicj48L3ByZT4NCjxwcmU+PC9wcmU+DQo8L2Jsb2NrcXVvdGU+DQo8L2JvZHk+DQo8L2h0
+bWw+DQo=
 
-In worst case they might be rejected, but then it would be still useful to
-have them in one pull request and share them with other interested parties=
-.
-
-Cheers,
-
-On Thu, Jun 4, 2020 at 3:58 PM Quentin Schulz <
-quentin.schulz@streamunlimited.com> wrote:
-
-> On Thu, Jun 04, 2020 at 03:49:28PM +0200, Andreas M=C3=BCller wrote:
-> > On Thu, Jun 4, 2020 at 2:47 PM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Thu, 2020-06-04 at 14:18 +0200, Andreas M=C3=BCller wrote:
-> > > > On Thu, Jun 4, 2020 at 2:11 PM Richard Purdie
-> > > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > > On Thu, 2020-06-04 at 14:03 +0200, Andreas M=C3=BCller wrote:
-> > > > > > From: Jacob Kroon <jacob.kroon@gmail.com>
-> > > > > >
-> > > > > > 'pseudo_access_t' is a type, so use typedef.
-> > > > > >
-> > > > > > Fixes building pseudo with gcc 10 where -fno-common is the
-> > > > > > default.
-> > > > > >
-> > > > > > (Backport of OE-Core rev:
-> > > > > > a7d519f742aadc9110c2401f359254210a784f6b)
-> > > > > >
-> > > > > > Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-> > > > > > Signed-off-by: Richard Purdie <
-> richard.purdie@linuxfoundation.org
-> > > > > > >
-> > > > > > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> > > > >
-> > > > > Does warrior otherwise work on gcc10 hosts?
-> > > > Not yet but I am working on it.
-> > >
-> > > I think to make a decision on whether we plan to support gcc10 or no=
-t
-> > > we'll need to know the scope of the changes. I'm starting to worry t=
-his
-> > > would be a bit too invasive, particularly as warrior is about to ent=
-er
-> > > community support or EOL depending on whether there is a maintainer.
-> > >
-> > I see. Problems for me - job's hat on - are:
-> >
-> > 1. we're close to release a product based on warrior (and a new
-> > colleague of mine has just installed Fedora 32 with gcc 10 - that's
-> > why I ask for it)
-> > 2. my tests with dunfell were - hmm - not running out of the box exact=
-ly.
-> >
-> > So we should decide to upgrade to dunfell. That is what I use for
-> > private raspi-images an am very close to happy.
-> >
->
-> Dang, I was silently but closely following the discussion hoping to be
-> able to apply more or less the same patches on top of thud. Same issue
-> as yours, colleagues moving to Ubuntu 20.04 with gcc 10+. I guess it's
-> docker time :/ (there'll always be that one client that will not want to
-> upgrade to newer releases).
->
-> Or maybe we can support gcc10 on the community branch once it's EOL (or
-> doing the job ourselves..). What seems to be the big worry about
-> supporting gcc10 on warrior/thud? Just so I can explain why we should go
-> the docker route instead of spending time on making thud (and we still
-> have krogoth for some...) build with gcc10 and maybe start working on
-> upgrading those we can to newer releases. Basically what are the
-> expected big hurdles on the way?
->
-> Cheers,
-> Quentin
->=20
->
-
---00000000000089a02605a742a7ef
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Maybe I&#39;m reading RP&#39;s reply differently, but I th=
-ink he just asked to collect all necessary=C2=A0changes for warrior to supp=
-ort newer host, before they are accepted.<div><br></div><div>It doesn&#39;t=
- help much when only one smaller issue is fixed and the rest still needs to=
- be figured out locally and the commit message might even mislead people in=
- assuming that gcc-10 on host is now supported in warrior/thud.</div><div><=
-br></div><div>FWIW: I&#39;ve built some smaller thud based images on 20.04 =
-with only small modifications, e.g. fix for qemu:</div><div><a href=3D"http=
-s://git.openembedded.org/openembedded-core-contrib/commit/?h=3Djansa/thud&a=
-mp;id=3D68475d0255c4089538886d1ee2cab6b6efd62ce1">https://git.openembedded.=
-org/openembedded-core-contrib/commit/?h=3Djansa/thud&amp;id=3D68475d0255c40=
-89538886d1ee2cab6b6efd62ce1</a><br></div><div>there aren&#39;t probably man=
-y issues left, so it just needs someone to test it more properly and collec=
-t all needed fixes to apply them at the same time or give up if it shows to=
-o many difficult to solve issues (I doubt that).</div><div><br></div><div>I=
-n worst case they might be rejected, but then it would be still useful to h=
-ave them in one pull request and share them with other interested parties.<=
-/div><div><br></div><div>Cheers,</div></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 4, 2020 at 3:58 PM Quenti=
-n Schulz &lt;<a href=3D"mailto:quentin.schulz@streamunlimited.com">quentin.=
-schulz@streamunlimited.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">On Thu, Jun 04, 2020 at 03:49:28PM +0200, Andreas=
- M=C3=BCller wrote:<br>
-&gt; On Thu, Jun 4, 2020 at 2:47 PM Richard Purdie<br>
-&gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_=
-blank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; On Thu, 2020-06-04 at 14:18 +0200, Andreas M=C3=BCller wrote:<br=
->
-&gt; &gt; &gt; On Thu, Jun 4, 2020 at 2:11 PM Richard Purdie<br>
-&gt; &gt; &gt; &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" t=
-arget=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; On Thu, 2020-06-04 at 14:03 +0200, Andreas M=C3=BCller=
- wrote:<br>
-&gt; &gt; &gt; &gt; &gt; From: Jacob Kroon &lt;<a href=3D"mailto:jacob.kro=
-on@gmail.com" target=3D"_blank">jacob.kroon@gmail.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &#39;pseudo_access_t&#39; is a type, so use typed=
-ef.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Fixes building pseudo with gcc 10 where -fno-comm=
-on is the<br>
-&gt; &gt; &gt; &gt; &gt; default.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; (Backport of OE-Core rev:<br>
-&gt; &gt; &gt; &gt; &gt; a7d519f742aadc9110c2401f359254210a784f6b)<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Signed-off-by: Jacob Kroon &lt;<a href=3D"mailto:=
-jacob.kroon@gmail.com" target=3D"_blank">jacob.kroon@gmail.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; &gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mail=
-to:richard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@lin=
-uxfoundation.org</a><br>
-&gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Signed-off-by: Andreas M=C3=BCller &lt;<a href=3D=
-"mailto:schnitzeltony@gmail.com" target=3D"_blank">schnitzeltony@gmail.com<=
-/a>&gt;<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Does warrior otherwise work on gcc10 hosts?<br>
-&gt; &gt; &gt; Not yet but I am working on it.<br>
-&gt; &gt;<br>
-&gt; &gt; I think to make a decision on whether we plan to support gcc10 o=
-r not<br>
-&gt; &gt; we&#39;ll need to know the scope of the changes. I&#39;m startin=
-g to worry this<br>
-&gt; &gt; would be a bit too invasive, particularly as warrior is about to=
- enter<br>
-&gt; &gt; community support or EOL depending on whether there is a maintai=
-ner.<br>
-&gt; &gt;<br>
-&gt; I see. Problems for me - job&#39;s hat on - are:<br>
-&gt; <br>
-&gt; 1. we&#39;re close to release a product based on warrior (and a new<b=
-r>
-&gt; colleague of mine has just installed Fedora 32 with gcc 10 - that&#39=
-;s<br>
-&gt; why I ask for it)<br>
-&gt; 2. my tests with dunfell were - hmm - not running out of the box exac=
-tly.<br>
-&gt; <br>
-&gt; So we should decide to upgrade to dunfell. That is what I use for<br>
-&gt; private raspi-images an am very close to happy.<br>
-&gt; <br>
-<br>
-Dang, I was silently but closely following the discussion hoping to be<br>
-able to apply more or less the same patches on top of thud. Same issue<br>
-as yours, colleagues moving to Ubuntu 20.04 with gcc 10+. I guess it&#39;s=
-<br>
-docker time :/ (there&#39;ll always be that one client that will not want =
-to<br>
-upgrade to newer releases).<br>
-<br>
-Or maybe we can support gcc10 on the community branch once it&#39;s EOL (o=
-r<br>
-doing the job ourselves..). What seems to be the big worry about<br>
-supporting gcc10 on warrior/thud? Just so I can explain why we should go<b=
-r>
-the docker route instead of spending time on making thud (and we still<br>
-have krogoth for some...) build with gcc10 and maybe start working on<br>
-upgrading those we can to newer releases. Basically what are the<br>
-expected big hurdles on the way?<br>
-<br>
-Cheers,<br>
-Quentin<br>
-<br>
-</blockquote></div>
-
---00000000000089a02605a742a7ef--
+--_000_137c6a28a6aed444c2c152e68ce8ebe9cc159341camelverisureco_--
