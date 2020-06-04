@@ -1,209 +1,149 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web12.21243.1591296278876481863
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.22096.1591298987366989793
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2020 11:44:39 -0700
+ Thu, 04 Jun 2020 12:29:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=rbgz5Zb5;
- spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.128.67, mailfrom: rahulk@mvista.com)
-Received: by mail-wm1-f67.google.com with SMTP id f5so6733913wmh.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 11:44:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Lxsy952GZpKKh8UfpF8E0a4GFS2lWm1Wr1gralN/Pcg=;
-        b=rbgz5Zb5z0y3VI8cjuRdxOVVmo2RKKHnXwfnzo/A6TlE4oiS8M3YjK33u+PuzhdwPF
-         hiC89rcCEtD2Uk7dJzX4aOGLGmuLybrRi7/upAadVPASC/Ly2MFr0vHT2Y53sAMlp9tR
-         SbZgpSgMXZyg/6e3aCxnKNGYrxl3f31SWrS8aIPuPrY4sISzraU06HKMxRrB7KLs4qCp
-         mccuzn0rqJpgvF2DNal/fNmZJ4zUrMD2bCvEIPQLvytqd6b0r1h6+EeuKpr1YOfrft2E
-         SbLpx82Gd3nWLLDi/AN0LiOHrpmLBdOY59/nvgDieu+cZrHm1afRZbCl1EC1Zq5//Ptw
-         FwJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Lxsy952GZpKKh8UfpF8E0a4GFS2lWm1Wr1gralN/Pcg=;
-        b=g+a72rJDZ9fXIjfUuSeeib4awjJUd3QImNQPYdveEk6jU5S5BIoB7glRLLoaMd7kkF
-         D2SzeIxCYUjVcJa6dwsR+QhBvqe8Kw1aZrP68fF4z2x5/t/TEsEfJlmKGWouugFBXJeq
-         7OZWhgzAULwSAvOohZMbC/C+Jam4OwdvEKAj5F15B6MTGU5WGGaeUKZv/CYWzmUp7D6D
-         pFkMfDGVoSy2cBPMYP9GKJ1lfRVW9BnoSCCeF2+ygKHh23fMMHenSwu/BXdL+V+ZmTWG
-         RnTRT5jEHOwhiyUJ2ZG4DI7wdORGICyFDCg1w+A+BdCCtN08qpeacZQ66MNW3OBJ46JZ
-         5lmg==
-X-Gm-Message-State: AOAM530lTI1KujVbUri5yam1wlv8Wy5UUxdt0cDXtQXamRdp/b7sIGwL
-	6djpsaqptl9Yl7DE58ll3dV1eBAao3ibaNA5ctgYVQ==
-X-Google-Smtp-Source: ABdhPJzSY6Wy6Mmf+bR8+ckd4Nlx/mljbWKPQPKFlfyd0vZpXT01ElsuSY6iFiePQkcBHtgkZNDxN+fknn+PGRl3+AM=
-X-Received: by 2002:a1c:7517:: with SMTP id o23mr5064833wmc.7.1591296277251;
- Thu, 04 Jun 2020 11:44:37 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id AFC7D40C2E;
+	Thu,  4 Jun 2020 19:29:46 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id EqX7LhQkS1gZ; Thu,  4 Jun 2020 19:29:46 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 6EB6D40B53;
+	Thu,  4 Jun 2020 19:29:42 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id DCA4717320C; Thu,  4 Jun 2020 15:29:41 -0400 (EDT)
+Date: Thu, 4 Jun 2020 15:29:41 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Jens Rehsack <rehsack@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Anuj Mittal <anuj.mittal@intel.com>,
+	Otavio Salvador <otavio.salvador@gmail.com>,
+	Jens Rehsack <sno@netbsd.org>
+Subject: Re: [OE-core][PATCH v4 1/2] initscripts/init-system-helpers: fix mountnfs.sh dependency
+Message-ID: <20200604192941.GG17660@denix.org>
+References: <20200602134256.8156-1-sno@netbsd.org>
 MIME-Version: 1.0
-References: <1591292828-25442-1-git-send-email-rahulk@mvista.com> <20200604180937.GC17660@denix.org>
-In-Reply-To: <20200604180937.GC17660@denix.org>
-From: "Rahul Kumar" <rahulk@mvista.com>
-Date: Fri, 5 Jun 2020 00:14:26 +0530
-Message-ID: <CANv91vM=_q_dh7u9eexkDVHudvxPOxrrRrEZgnc2dELv0vsnBA@mail.gmail.com>
-Subject: Re: [OE-core] [meta-oe,zeus][PATCH] tremor: update SRC_URI as project moved to gitlab
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Armin Kuster <akuster808@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000569f4a05a74689b4"
+In-Reply-To: <20200602134256.8156-1-sno@netbsd.org>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---000000000000569f4a05a74689b4
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Jun 02, 2020 at 03:42:55PM +0200, Jens Rehsack wrote:
+> With commit c9fc9110be33fe0f24bc3a7c242b584a4ca33e04
+>     Author: Yue Tao <Yue.Tao@windriver.com>
+>     Date:   Fri May 25 10:48:08 2018 +0800
+> 
+> 	initscripts: Avoid starting rpcbind daemon twice
+> 
+> 	Check the status before start it to avoid duplicates.
+> 
+> the use of a script {/usr/sbin/}service is introduced - maybe earlier
+> provided by systemd, nowadays mostly by init-system-helpers from
+> debian project.
+> 
+> For the very first shot, maybe discussions and improvements based
+> on that script collection, use just the init-system-helpers-service
+> in initscripts/mountnfs.sh to avoid problems mounting NFS in later
+> boot stage.
+> 
+> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+> ---
+>  meta/conf/distro/include/maintainers.inc      |  1 +
+>  .../initscripts/init-system-helpers_1.57.bb   | 46 +++++++++++++++++++
+>  .../initscripts/initscripts_1.0.bb            |  1 +
+>  3 files changed, 48 insertions(+)
+>  create mode 100644 meta/recipes-core/initscripts/init-system-helpers_1.57.bb
+> 
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index 51e6da669c..adac9fd824 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -265,6 +265,7 @@ RECIPE_MAINTAINER_pn-icu = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER_pn-ifupdown = "Anuj Mittal <anuj.mittal@intel.com>"
+>  RECIPE_MAINTAINER_pn-inetutils = "Tom Rini <trini@konsulko.com>"
+>  RECIPE_MAINTAINER_pn-init-ifupdown = "Anuj Mittal <anuj.mittal@intel.com>"
+> +RECIPE_MAINTAINER_pn-init-system-helpers = "Anuj Mittal <anuj.mittal@intel.com>"
+>  RECIPE_MAINTAINER_pn-initramfs-boot = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+>  RECIPE_MAINTAINER_pn-initramfs-framework = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+>  RECIPE_MAINTAINER_pn-initramfs-live-boot = "Anuj Mittal <anuj.mittal@intel.com>"
+> diff --git a/meta/recipes-core/initscripts/init-system-helpers_1.57.bb b/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
+> new file mode 100644
+> index 0000000000..d41bb94791
+> --- /dev/null
+> +++ b/meta/recipes-core/initscripts/init-system-helpers_1.57.bb
+> @@ -0,0 +1,46 @@
+> +SUMMARY = "helper tools for all init systems"
+> +DESCRIPTION = "This package contains helper tools that are necessary for switching between \
+> +the various init systems that Debian contains (e. g. sysvinit or \
+> +systemd). An example is deb-systemd-helper, a script that enables systemd unit \
+> +files without depending on a running systemd. \
+> +\
+> +It also includes the \"service\", \"invoke-rc.d\", and \"update-rc.d\" scripts which \
+> +provide an abstraction for enabling, disabling, starting, and stopping \
+> +services for all supported Debian init systems as specified by the policy. \
+> +\
+> +While this package is maintained by pkg-systemd-maintainers, it is NOT \
+> +specific to systemd at all. Maintainers of other init systems are welcome to \
+> +include their helpers in this package."
+> +HOMEPAGE = "https://salsa.debian.org/debian/init-system-helpers"
+> +SECTION = "base"
+> +LICENSE = "BSD-3-Clause & GPLv2"
+> +LIC_FILES_CHKSUM = "file://debian/copyright;md5=ee2b1830fcfead84d07bc060ec43e072"
+> +
+> +DEPENDS = "perl"
+> +
+> +SRCREV = "760c625ec0e1ffebec2e391d891d389da0f65726"
+> +SRC_URI = "git://salsa.debian.org/debian/init-system-helpers.git"
 
-Hi Denys,
+I'm getting this:
 
-I apologize, By Mistake it happened.
-Now i have sent it to the correct mailing list .
-
-*Thanks & Regards,*
-Rahul Kumar
-Software Engineer,Linux Solutions Engineering
-Group,Montavista Software LLC
-Email Id: rahulk@mvista.com
-<https://plus.google.com/+CodeTwoSoftware>
+WARNING: init-system-helpers-1.57-r0 do_fetch: Failed to fetch URL git://salsa.debian.org/debian/init-system-helpers.git, attempting MIRRORS if available
 
 
-On Thu, Jun 4, 2020 at 11:39 PM Denys Dmytriyenko <denis@denix.org> wrote:
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +do_configure[noexec] = "1"
+> +do_compile[noexec] = "1"
+> +
+> +do_install() {
+> +	install -d -m 0755 ${D}${sbindir}
+> +	install -m 0755 ${S}/script/invoke-rc.d ${D}${sbindir}
+> +	install -m 0755 ${S}/script/service ${D}${sbindir}
+> +	install -m 0755 ${S}/script/update-rc.d ${D}${sbindir}
+> +}
+> +
+> +PACKAGES += "${PN}-invoke-rc.d ${PN}-service ${PN}-update-rc.d"
+> +
+> +FILES_${PN} = ""
+> +FILES_${PN}-invoke-rc.d = "${sbindir}/invoke-rc.d"
+> +FILES_${PN}-service = "${sbindir}/service"
+> +FILES_${PN}-update-rc.d = "${sbindir}/update-rc.d"
+> +
+> +ALLOW_EMPTY_${PN} = "1"
+> +
+> +RDEPENDS_${PN}-update-rc.d = "perl"
+> +RRECOMMENDS_${PN} += "${PN}-invoke-rc.d ${PN}-service ${PN}-update-rc.d"
+> diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> index 1a59b82fbf..4080c4a495 100644
+> --- a/meta/recipes-core/initscripts/initscripts_1.0.bb
+> +++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+> @@ -50,6 +50,7 @@ PACKAGE_WRITE_DEPS_append = " ${@bb.utils.contains('DISTRO_FEATURES','systemd','
+>  PACKAGES =+ "${PN}-functions ${PN}-sushell"
+>  RDEPENDS_${PN} = "initd-functions \
+>                    ${@bb.utils.contains('DISTRO_FEATURES','selinux','${PN}-sushell','',d)} \
+> +                  init-system-helpers-service \
+>  		 "
+>  # Recommend pn-functions so that it will be a preferred default provider for initd-functions
+>  RRECOMMENDS_${PN} = "${PN}-functions"
+> -- 
+> 2.17.1
+> 
 
-> Why openembedded-core mailing list?
->
-> On Thu, Jun 04, 2020 at 11:17:08PM +0530, Rahul Kumar wrote:
-> > From: Armin Kuster <akuster808@gmail.com>
-> >
-> > It appears Xiph.Org is now on gitlab
-> > https://gitlab.xiph.org/xiph
-> >
-> > Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > (cherry picked from commit cc6e59fdff71e47ef5b9b40aab3bcd9438960ea4)
-> > Signed-off-by: Rahul Kumar <rahulk@mvista.com>
-> > ---
-> >  meta-multimedia/recipes-multimedia/tremor/tremor_20180319.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta-multimedia/recipes-multimedia/tremor/
-> tremor_20180319.bb b/meta-multimedia/recipes-multimedia/tremor/
-> tremor_20180319.bb
-> > index beeb23a..d2ad961 100644
-> > --- a/meta-multimedia/recipes-multimedia/tremor/tremor_20180319.bb
-> > +++ b/meta-multimedia/recipes-multimedia/tremor/tremor_20180319.bb
-> > @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =
-> "file://COPYING;md5=db1b7a668b2a6f47b2af88fb008ad555 \
-> >
-> file://os.h;beginline=3;endline=14;md5=5c0af5e1bedef3ce8178c89f48cd6f1f"
-> >  DEPENDS = "libogg"
-> >
-> > -SRC_URI = "git://git.xiph.org/tremor.git;protocol=https \
-> > +SRC_URI = "git://gitlab.xiph.org/xiph/tremor.git;protocol=https \
-> >             file://obsolete_automake_macros.patch;striplevel=0 \
-> >             file://tremor-arm-thumb2.patch \
-> >  "
-> > --
-> > 2.7.4
-> >
->
-> > 
->
->
+> 
 
---000000000000569f4a05a74689b4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
-sans-serif;color:#0b5394">Hi Denys,</div><div class=3D"gmail_default" style=
-=
-=3D"font-family:verdana,sans-serif;color:#0b5394"><br></div><div class=3D"=
-gmail_default" style=3D"font-family:verdana,sans-serif;color:#0b5394">I apo=
-logize, By Mistake it happened.<br>Now i have sent it to the correct mailin=
-g list .<br clear=3D"all"></div><div><div dir=3D"ltr" class=3D"gmail_signat=
-ure" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"l=
-tr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div>=
-<div dir=3D"ltr"><div><span style=3D"color:rgb(111,168,220)"><b><span style=
-=
-=3D"color:rgb(11,83,148)"><br></span></b></span></div><div><span style=3D"=
-color:rgb(111,168,220)">	=09
-  =09
-  
-   <b><span style=3D"color:rgb(11,83,148)">Thanks &amp; Regards,</span></b=
-></span></div><div><span style=3D"color:rgb(111,168,220)"><span style=3D"co=
-lor:rgb(11,83,148)"></span></span><span style=3D"color:rgb(111,168,220)"><s=
-pan style=3D"color:rgb(11,83,148)"></span></span></div><div><span style=3D"=
-color:rgb(111,168,220)"><span style=3D"color:rgb(11,83,148)">Rahul Kumar</s=
-pan></span></div><div><span style=3D"color:rgb(11,83,148)">Software Enginee=
-r,Linux Solutions Engineering</span></div><div><span style=3D"color:rgb(11,=
-83,148)"> Group,Montavista Software LLC</span></div><div><span style=3D"col=
-or:rgb(11,83,148)">Email Id: <span style=3D"font-size:10pt"><a href=3D"mail=
-to:rahulk@mvista.com" target=3D"_blank">rahulk@mvista.com</a></span></span>=
-<span><a href=3D"https://plus.google.com/+CodeTwoSoftware" rel=3D"noopener"=
- target=3D"_blank"><span style=3D"font-family:Verdana,sans-serif;font-size:=
-10pt;color:rgb(42,42,42)"><br></span></a></span></div></div></div></div></d=
-iv></div></div></div></div></div></div></div></div></div><br></div><br><div=
- class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 4,=
- 2020 at 11:39 PM Denys Dmytriyenko &lt;<a href=3D"mailto:denis@denix.org">=
-denis@denix.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">Why openembedded-core mailing list?<br>
-<br>
-On Thu, Jun 04, 2020 at 11:17:08PM +0530, Rahul Kumar wrote:<br>
-&gt; From: Armin Kuster &lt;<a href=3D"mailto:akuster808@gmail.com" target=
-=
-=3D"_blank">akuster808@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; It appears Xiph.Org is now on gitlab<br>
-&gt; <a href=3D"https://gitlab.xiph.org/xiph" rel=3D"noreferrer" target=3D=
-"_blank">https://gitlab.xiph.org/xiph</a><br>
-&gt; <br>
-&gt; Signed-off-by: Armin Kuster &lt;<a href=3D"mailto:akuster808@gmail.co=
-m" target=3D"_blank">akuster808@gmail.com</a>&gt;<br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" tar=
-get=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; (cherry picked from commit cc6e59fdff71e47ef5b9b40aab3bcd9438960ea4)<=
-br>
-&gt; Signed-off-by: Rahul Kumar &lt;<a href=3D"mailto:rahulk@mvista.com" t=
-arget=3D"_blank">rahulk@mvista.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta-multimedia/recipes-multimedia/tremor/<a href=3D"http://tre=
-mor_20180319.bb" rel=3D"noreferrer" target=3D"_blank">tremor_20180319.bb</a=
-> | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta-multimedia/recipes-multimedia/tremor/<a href=3D"htt=
-p://tremor_20180319.bb" rel=3D"noreferrer" target=3D"_blank">tremor_2018031=
-9.bb</a> b/meta-multimedia/recipes-multimedia/tremor/<a href=3D"http://trem=
-or_20180319.bb" rel=3D"noreferrer" target=3D"_blank">tremor_20180319.bb</a>=
-<br>
-&gt; index beeb23a..d2ad961 100644<br>
-&gt; --- a/meta-multimedia/recipes-multimedia/tremor/<a href=3D"http://tre=
-mor_20180319.bb" rel=3D"noreferrer" target=3D"_blank">tremor_20180319.bb</a=
-><br>
-&gt; +++ b/meta-multimedia/recipes-multimedia/tremor/<a href=3D"http://tre=
-mor_20180319.bb" rel=3D"noreferrer" target=3D"_blank">tremor_20180319.bb</a=
-><br>
-&gt; @@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Ddb1b7=
-a668b2a6f47b2af88fb008ad555 \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=
-=C2=A0 file://os.h;beginline=3D3;endline=3D14;md5=3D5c0af5e1bedef3ce8178c8=
-9f48cd6f1f&quot;<br>
-&gt;=C2=A0 DEPENDS =3D &quot;libogg&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -SRC_URI =3D &quot;git://<a href=3D"http://git.xiph.org/tremor.git;pr=
-otocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">git.xiph.org/tremor.gi=
-t;protocol=3Dhttps</a> \<br>
-&gt; +SRC_URI =3D &quot;git://<a href=3D"http://gitlab.xiph.org/xiph/tremo=
-r.git;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">gitlab.xiph.or=
-g/xiph/tremor.git;protocol=3Dhttps</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://obsolete_automa=
-ke_macros.patch;striplevel=3D0 \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://tremor-arm-thum=
-b2.patch \<br>
-&gt;=C2=A0 &quot;<br>
-&gt; -- <br>
-&gt; 2.7.4<br>
-&gt; <br>
-<br>
-&gt; <br>
-<br>
-</blockquote></div>
-
---000000000000569f4a05a74689b4--
