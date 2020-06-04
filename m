@@ -1,93 +1,90 @@
-Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
- by mx.groups.io with SMTP id smtpd.web10.14513.1591278580569550103
+Received: from bsmtp.bon.at (bsmtp.bon.at [213.33.87.14])
+ by mx.groups.io with SMTP id smtpd.web12.14317.1591279053593141073
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2020 06:49:40 -0700
+ Thu, 04 Jun 2020 06:57:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pCaGuPDc;
- spf=pass (domain: gmail.com, ip: 209.85.166.169, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-il1-f169.google.com with SMTP id z2so6139662ilq.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 06:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=TQPiePBeR2rY4tP2KGiAvBcuB3OESXo0Ng8D0cub6So=;
-        b=pCaGuPDcPaOZnZYP5E24PCgjVWxYSe/A8jYF/72fRPo2xshDKvjEqVq9JvCUu17hnl
-         kLH+fTNkRUNPmlfPUWLSWku/A5SQi+n5m0zqJrozaRyPCAgjC64nnLrIXhc2tMKEatat
-         UNtbzpq0BfOto6C/NaMRyOIjIdMsc01rHmEF7XT3BNA97kAVYTy9uwDq8ZPWSfzSg/38
-         AauSGkTs43yVDJcczO2MhY9BqQO54x6PyHV39pLs26DetqrnStrRsIBNBYcQAGRj/sv5
-         /ADToJJGy969PHGlWZHe1P7yZqQ4Tp1wE2OgnsTpng0esIyA/Vm3PEsv/TkmtFMlPCUz
-         h+bQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=TQPiePBeR2rY4tP2KGiAvBcuB3OESXo0Ng8D0cub6So=;
-        b=uR1MLRG+/Nn3ET3kC+h948zC1KuUPXo8mudFj27otkZfS8kekdgc2WEWnmIsmHXxGE
-         PSry3jWq+gF8xfNwB87eVZnOal4H6JndfvPxqdDw7LmTHCqmyU1DltrC/Iyg5MZtS3Q1
-         gSCwk/977XZVEXQTVJI0ji361VSug0bIbaMGyt5RZwejn+Etpopc0CbKJX8sScZaxDPC
-         LJXKgIsyb0HcLBx6HdynVYLLMgJYwk7+bWC+n/D6qlLTXCEqp5kBdRCvuO30KuuqLqp1
-         ZCUGrf4AXpX9ztAlCLStWsrGrk6Jag0m/XiczF8lB31oj2HlbUNUzMPJ2ZMC4ija+6IK
-         vlpw==
-X-Gm-Message-State: AOAM531BATgZQOshnEQDjfAET/GVQUi3xsdNPBtdCXQzDc0w3a/IXgru
-	n8c8jhqy9aSCPa0+WgB09lhb47FZM0xBuOGcSfU=
-X-Google-Smtp-Source: ABdhPJzIP7l8sbqrwMGOd7ULKB8s9ZjPpetfpWKBbnTyQA3+s3xUNuQ4+1plNQ3BsZvRdakHOVpRkTTq2Axv1Cy1hmM=
-X-Received: by 2002:a92:cf48:: with SMTP id c8mr3949085ilr.147.1591278580000;
- Thu, 04 Jun 2020 06:49:40 -0700 (PDT)
-MIME-Version: 1.0
+ dkim=missing; spf=pass (domain: streamunlimited.com, ip: 213.33.87.14, mailfrom: quentin.schulz@streamunlimited.com)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp.bon.at (Postfix) with ESMTPSA id 49d6mB2KK9z5tlF;
+	Thu,  4 Jun 2020 15:57:30 +0200 (CEST)
+Date: Thu, 4 Jun 2020 15:57:28 +0200
+From: "Quentin Schulz" <quentin.schulz@streamunlimited.com>
+To: Andreas =?utf-8?Q?M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH][warrior] pseudo: Fix enum typedef
+Message-ID: <20200604135728.wce5jsupc6bgwmvi@qschulz>
 References: <20200604120349.17455-1-schnitzeltony@gmail.com>
  <faaa5a2d120eacab6825cf079e92aa220dd7b151.camel@linuxfoundation.org>
- <CALbNGRQDVCm4zDJ6NPw=+-mQ8xibCDh+pqjToPcrnXRvJcYOkg@mail.gmail.com> <421c9a5c69b54bfb41734e58b89dc66bf9e84c0a.camel@linuxfoundation.org>
-In-Reply-To: <421c9a5c69b54bfb41734e58b89dc66bf9e84c0a.camel@linuxfoundation.org>
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
-Date: Thu, 4 Jun 2020 15:49:28 +0200
-Message-ID: <CALbNGRQyxDXcyKUA3zFYfwRFivLWbqrYyoGSKr4CWRz0Vjo1YA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH][warrior] pseudo: Fix enum typedef
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ <CALbNGRQDVCm4zDJ6NPw=+-mQ8xibCDh+pqjToPcrnXRvJcYOkg@mail.gmail.com>
+ <421c9a5c69b54bfb41734e58b89dc66bf9e84c0a.camel@linuxfoundation.org>
+ <CALbNGRQyxDXcyKUA3zFYfwRFivLWbqrYyoGSKr4CWRz0Vjo1YA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CALbNGRQyxDXcyKUA3zFYfwRFivLWbqrYyoGSKr4CWRz0Vjo1YA@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 4, 2020 at 2:47 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2020-06-04 at 14:18 +0200, Andreas M=C3=BCller wrote:
-> > On Thu, Jun 4, 2020 at 2:11 PM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > On Thu, 2020-06-04 at 14:03 +0200, Andreas M=C3=BCller wrote:
-> > > > From: Jacob Kroon <jacob.kroon@gmail.com>
-> > > >
-> > > > 'pseudo_access_t' is a type, so use typedef.
-> > > >
-> > > > Fixes building pseudo with gcc 10 where -fno-common is the
-> > > > default.
-> > > >
-> > > > (Backport of OE-Core rev:
-> > > > a7d519f742aadc9110c2401f359254210a784f6b)
-> > > >
-> > > > Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
-> > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
+On Thu, Jun 04, 2020 at 03:49:28PM +0200, Andreas M=FCller wrote:
+> On Thu, Jun 4, 2020 at 2:47 PM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Thu, 2020-06-04 at 14:18 +0200, Andreas M=FCller wrote:
+> > > On Thu, Jun 4, 2020 at 2:11 PM Richard Purdie
+> > > <richard.purdie@linuxfoundation.org> wrote:
+> > > > On Thu, 2020-06-04 at 14:03 +0200, Andreas M=FCller wrote:
+> > > > > From: Jacob Kroon <jacob.kroon@gmail.com>
 > > > > >
-> > > > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> > >
-> > > Does warrior otherwise work on gcc10 hosts?
-> > Not yet but I am working on it.
->
-> I think to make a decision on whether we plan to support gcc10 or not
-> we'll need to know the scope of the changes. I'm starting to worry this
-> would be a bit too invasive, particularly as warrior is about to enter
-> community support or EOL depending on whether there is a maintainer.
->
-I see. Problems for me - job's hat on - are:
+> > > > > 'pseudo_access_t' is a type, so use typedef.
+> > > > >
+> > > > > Fixes building pseudo with gcc 10 where -fno-common is the
+> > > > > default.
+> > > > >
+> > > > > (Backport of OE-Core rev:
+> > > > > a7d519f742aadc9110c2401f359254210a784f6b)
+> > > > >
+> > > > > Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+> > > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.o=
+rg
+> > > > > >
+> > > > > Signed-off-by: Andreas M=FCller <schnitzeltony@gmail.com>
+> > > >
+> > > > Does warrior otherwise work on gcc10 hosts?
+> > > Not yet but I am working on it.
+> >
+> > I think to make a decision on whether we plan to support gcc10 or not
+> > we'll need to know the scope of the changes. I'm starting to worry th=
+is
+> > would be a bit too invasive, particularly as warrior is about to ente=
+r
+> > community support or EOL depending on whether there is a maintainer.
+> >
+> I see. Problems for me - job's hat on - are:
+>=20
+> 1. we're close to release a product based on warrior (and a new
+> colleague of mine has just installed Fedora 32 with gcc 10 - that's
+> why I ask for it)
+> 2. my tests with dunfell were - hmm - not running out of the box exactl=
+y.
+>=20
+> So we should decide to upgrade to dunfell. That is what I use for
+> private raspi-images an am very close to happy.
+>=20
 
-1. we're close to release a product based on warrior (and a new
-colleague of mine has just installed Fedora 32 with gcc 10 - that's
-why I ask for it)
-2. my tests with dunfell were - hmm - not running out of the box exactly.
+Dang, I was silently but closely following the discussion hoping to be
+able to apply more or less the same patches on top of thud. Same issue
+as yours, colleagues moving to Ubuntu 20.04 with gcc 10+. I guess it's
+docker time :/ (there'll always be that one client that will not want to
+upgrade to newer releases).
 
-So we should decide to upgrade to dunfell. That is what I use for
-private raspi-images an am very close to happy.
+Or maybe we can support gcc10 on the community branch once it's EOL (or
+doing the job ourselves..). What seems to be the big worry about
+supporting gcc10 on warrior/thud? Just so I can explain why we should go
+the docker route instead of spending time on making thud (and we still
+have krogoth for some...) build with gcc10 and maybe start working on
+upgrading those we can to newer releases. Basically what are the
+expected big hurdles on the way?
 
-Thanks for 'warning' me
-
-Andreas
+Cheers,
+Quentin
