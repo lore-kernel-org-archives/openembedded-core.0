@@ -1,110 +1,93 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web12.13177.1591275884875484388
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+ by mx.groups.io with SMTP id smtpd.web10.14513.1591278580569550103
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2020 06:04:45 -0700
+ Thu, 04 Jun 2020 06:49:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IP3CToNr;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id a25so6000296ejg.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 06:04:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pCaGuPDc;
+ spf=pass (domain: gmail.com, ip: 209.85.166.169, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-il1-f169.google.com with SMTP id z2so6139662ilq.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 06:49:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2KWn10zfjW+gt/hakWF6q3c01ebJzdZxHip1OBEEc+Q=;
-        b=IP3CToNr9zldeqycqlx2sxYLLDiMZfwAAKuMO7eIP0uTF8l8t80I80O1m1UGK4LEvV
-         4egVLIj7miL2vMspzj+etKfwedw2vRv+TQDxhJ7iM2O3+Tmz4N27ZuzBSGgGmV6l7GIA
-         VwkrSRq3NgNGSleZ8AhJqQxxs+W199lu0SGVUD4CgvfLi3KuE+d4bmeGZpp0niKHM0pg
-         RpcAqsDmxvHA+UoQj0hoZFOhapGklsL5XghFh+wJ0ObYnK3t4NxghwXwLQhidzuqCqpP
-         f3PIzsiQvqFeOjBLz739Eujej5L+1o14cqgJz5D+PmhcjVz0+wXbtc/u3gKm850jQcfC
-         zYxg==
+         :cc:content-transfer-encoding;
+        bh=TQPiePBeR2rY4tP2KGiAvBcuB3OESXo0Ng8D0cub6So=;
+        b=pCaGuPDcPaOZnZYP5E24PCgjVWxYSe/A8jYF/72fRPo2xshDKvjEqVq9JvCUu17hnl
+         kLH+fTNkRUNPmlfPUWLSWku/A5SQi+n5m0zqJrozaRyPCAgjC64nnLrIXhc2tMKEatat
+         UNtbzpq0BfOto6C/NaMRyOIjIdMsc01rHmEF7XT3BNA97kAVYTy9uwDq8ZPWSfzSg/38
+         AauSGkTs43yVDJcczO2MhY9BqQO54x6PyHV39pLs26DetqrnStrRsIBNBYcQAGRj/sv5
+         /ADToJJGy969PHGlWZHe1P7yZqQ4Tp1wE2OgnsTpng0esIyA/Vm3PEsv/TkmtFMlPCUz
+         h+bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2KWn10zfjW+gt/hakWF6q3c01ebJzdZxHip1OBEEc+Q=;
-        b=FqVSyqeLW53ZwazqwczwmrAubpovdcge+OJFyYy26eNcJmt7yITboF+msux/1de+Y1
-         nU1clonCgZOegpGfomJbfe10sqvMT5cRThJd2b+gBDrRG2y20CsBOUmJyeq/LsbtIxEO
-         CzVLpetUHapNTONiqHwL6iFDo5Og/Fd/daqRpjRFRpdFVf6DXcctwzQZTvi9JNk9HAOV
-         JGXgeHsYQyH4Lf4R7ohSMwN52XNeqxJf6s74Hq1Q3pus6feU2YYXZHdkagNKf6RO4292
-         41Pb4KXyn59BJ0uSrn0VK+AIt2aa+Nz8cakyY/WDKczdmR4+Z48wz0ZZQY9B0MkS21Cd
-         iCug==
-X-Gm-Message-State: AOAM530CgKnbmZvi7QaCSjtDGLJ+TbUmnos5O0VAurLrX7baSjCP+aFm
-	8F76OpQYafoqUGzm/+5N6jBLh2K9iGh6xqhFPcE=
-X-Google-Smtp-Source: ABdhPJz4oJJwISxViXGdKU61SJUiA/pfChkSEJcl854NcV/Cyjw9eYmuHRLXYPMy25+olztIR6lF5DizfePGEZ8lI8U=
-X-Received: by 2002:a17:906:5283:: with SMTP id c3mr3576699ejm.22.1591275883350;
- Thu, 04 Jun 2020 06:04:43 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=TQPiePBeR2rY4tP2KGiAvBcuB3OESXo0Ng8D0cub6So=;
+        b=uR1MLRG+/Nn3ET3kC+h948zC1KuUPXo8mudFj27otkZfS8kekdgc2WEWnmIsmHXxGE
+         PSry3jWq+gF8xfNwB87eVZnOal4H6JndfvPxqdDw7LmTHCqmyU1DltrC/Iyg5MZtS3Q1
+         gSCwk/977XZVEXQTVJI0ji361VSug0bIbaMGyt5RZwejn+Etpopc0CbKJX8sScZaxDPC
+         LJXKgIsyb0HcLBx6HdynVYLLMgJYwk7+bWC+n/D6qlLTXCEqp5kBdRCvuO30KuuqLqp1
+         ZCUGrf4AXpX9ztAlCLStWsrGrk6Jag0m/XiczF8lB31oj2HlbUNUzMPJ2ZMC4ija+6IK
+         vlpw==
+X-Gm-Message-State: AOAM531BATgZQOshnEQDjfAET/GVQUi3xsdNPBtdCXQzDc0w3a/IXgru
+	n8c8jhqy9aSCPa0+WgB09lhb47FZM0xBuOGcSfU=
+X-Google-Smtp-Source: ABdhPJzIP7l8sbqrwMGOd7ULKB8s9ZjPpetfpWKBbnTyQA3+s3xUNuQ4+1plNQ3BsZvRdakHOVpRkTTq2Axv1Cy1hmM=
+X-Received: by 2002:a92:cf48:: with SMTP id c8mr3949085ilr.147.1591278580000;
+ Thu, 04 Jun 2020 06:49:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <67e32d06-6dc2-5566-f362-d7c2dd736618@windriver.com>
-In-Reply-To: <67e32d06-6dc2-5566-f362-d7c2dd736618@windriver.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 4 Jun 2020 09:04:32 -0400
-Message-ID: <CADkTA4M+tRVzebByfDPmM2kwALcakrSoS4CQ87zAj759cBksEA@mail.gmail.com>
-Subject: Re: The change pointed to by a .scc file not detected when compile kernel
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, 
-	Robert Yang <liezhi.yang@windriver.com>, zyang <zhangle.yang@windriver.com>, 
-	"Asselstine, Mark" <mark.asselstine@windriver.com>
+References: <20200604120349.17455-1-schnitzeltony@gmail.com>
+ <faaa5a2d120eacab6825cf079e92aa220dd7b151.camel@linuxfoundation.org>
+ <CALbNGRQDVCm4zDJ6NPw=+-mQ8xibCDh+pqjToPcrnXRvJcYOkg@mail.gmail.com> <421c9a5c69b54bfb41734e58b89dc66bf9e84c0a.camel@linuxfoundation.org>
+In-Reply-To: <421c9a5c69b54bfb41734e58b89dc66bf9e84c0a.camel@linuxfoundation.org>
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+Date: Thu, 4 Jun 2020 15:49:28 +0200
+Message-ID: <CALbNGRQyxDXcyKUA3zFYfwRFivLWbqrYyoGSKr4CWRz0Vjo1YA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH][warrior] pseudo: Fix enum typedef
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jun 4, 2020 at 12:52 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
+On Thu, Jun 4, 2020 at 2:47 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> Hi Bruce,
+> On Thu, 2020-06-04 at 14:18 +0200, Andreas M=C3=BCller wrote:
+> > On Thu, Jun 4, 2020 at 2:11 PM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > > On Thu, 2020-06-04 at 14:03 +0200, Andreas M=C3=BCller wrote:
+> > > > From: Jacob Kroon <jacob.kroon@gmail.com>
+> > > >
+> > > > 'pseudo_access_t' is a type, so use typedef.
+> > > >
+> > > > Fixes building pseudo with gcc 10 where -fno-common is the
+> > > > default.
+> > > >
+> > > > (Backport of OE-Core rev:
+> > > > a7d519f742aadc9110c2401f359254210a784f6b)
+> > > >
+> > > > Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+> > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
+> > > > >
+> > > > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> > >
+> > > Does warrior otherwise work on gcc10 hosts?
+> > Not yet but I am working on it.
 >
-> Currently, the change pointed to by a .scc file not detected when
-> compile kernel, for example:
+> I think to make a decision on whether we plan to support gcc10 or not
+> we'll need to know the scope of the changes. I'm starting to worry this
+> would be a bit too invasive, particularly as warrior is about to enter
+> community support or EOL depending on whether there is a maintainer.
 >
-> 1, add DISTRO_FEATURES_append = " virtualization" to conf/local.conf to
-> enable virtualization DISTRO_FEATURES and also add meta-virtualization
-> layer to conf/bblayers.conf
->
-> 2, bitbake -cconfigure linux-yocto
->
-> 3,
-> $ grep -Rn CONFIG_IO_DELAY_0XED
-> tmp/work/qemux86_64-wrs-linux/linux-yocto/5.4.43+gitAUTOINC+aafb8f095e_9e1b13d7f9-r0/linux-qemux86_64-standard-build/.config
-> 5367:# CONFIG_IO_DELAY_0XED is not set
->
-> 4, modify the lxc.cfg which introduced by lxc.scc under
-> meta-virtualization layer
-> $ git diff
-> diff --git a/recipes-kernel/linux/linux-yocto/lxc.cfg
-> b/recipes-kernel/linux/linux-yocto/lxc.cfg
-> index 3fefc03..b7a19a8 100644
-> --- a/recipes-kernel/linux/linux-yocto/lxc.cfg
-> +++ b/recipes-kernel/linux/linux-yocto/lxc.cfg
-> @@ -1,3 +1,4 @@
-> +CONFIG_IO_DELAY_0XED=y
->   CONFIG_CGROUP_DEVICE=y
->   CONFIG_CPUSETS=y
->   CONFIG_PROC_PID_CPUSET=y
->
->
-> 5, bitbake -cconfigure linux-yocto
->
-> 6,
-> $ grep -Rn CONFIG_IO_DELAY_0XED
-> tmp-glibc/work/qemux86_64-wrs-linux/linux-yocto/5.4.43+gitAUTOINC+aafb8f095e_9e1b13d7f9-r0/linux-qemux86_64-standard-build/.config
-> 5367:# CONFIG_IO_DELAY_0XED is not set
->
-> The change for CONFIG_IO_DELAY_0XED doesn't take effect.
+I see. Problems for me - job's hat on - are:
 
-Does the same thing happen with a cleanall ? There's an open bug about
-the checksuming of those SRC_URI elements, and you are likely hitting
-it if there's no cleansstate or cleanall happening.
+1. we're close to release a product based on warrior (and a new
+colleague of mine has just installed Fedora 32 with gcc 10 - that's
+why I ask for it)
+2. my tests with dunfell were - hmm - not running out of the box exactly.
 
-Also, you've confirmed that CONFIG_IO_DELAY_0XED isn't missing any
-config options that it has as dependencies ?
+So we should decide to upgrade to dunfell. That is what I use for
+private raspi-images an am very close to happy.
 
-Bruce
+Thanks for 'warning' me
 
->
-> Thanks,
-> Mingli
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Andreas
