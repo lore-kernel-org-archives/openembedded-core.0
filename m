@@ -1,164 +1,78 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web10.20021.1591291997671058985
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+ by mx.groups.io with SMTP id smtpd.web12.19930.1591292844424743084
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2020 10:33:18 -0700
+ Thu, 04 Jun 2020 10:47:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=J8Iejoq0;
- spf=pass (domain: konsulko.com, ip: 209.85.128.68, mailfrom: pbarker@konsulko.com)
-Received: by mail-wm1-f68.google.com with SMTP id u26so7322029wmn.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 10:33:17 -0700 (PDT)
+ dkim=pass header.i=@mvista-com.20150623.gappssmtp.com header.s=20150623 header.b=NPKrf+hB;
+ spf=permerror, err=parse error for token &{10 18 websitewelcome.com}: parse error for token &{10 18 _spf.google.com}: limit exceeded (domain: mvista.com, ip: 209.85.210.195, mailfrom: rahulk@mvista.com)
+Received: by mail-pf1-f195.google.com with SMTP id b5so3578350pfp.9
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 10:47:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=01S+bt1uf4SWY+6VOHkOoCpSVSEylXfC8vxsU9rdw30=;
-        b=J8Iejoq0ocTwRm7dICuni/0WIjUf00qCBD37ZVY/x5dio7w4U0+dtX8FV0hzw9iJHI
-         wKsV7YQmiECaovX6BtMdHCVfYSH4e5KSSNrIpaVs8p0lxyzFJ+0aCh+0XP6w0IvHypQ+
-         kY0WM7mOBKabtiKK5CMGWL+CDKOxXd3yLSCEc=
+        d=mvista-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=HSK08U+muU/joXr3MEuspOPpv911yvbfpkv1+xsBO7k=;
+        b=NPKrf+hBZYvf6nvbniFAJS9FluaBGRie5kGfc2oCQBfAFt/jJH7qYAPY3TkyYkVEzs
+         8zfZLmQ5lPK/mqaLWPaJ1n6xqLH5P674Q66hY21mjO9Vulrxj/v8zl94020DWmuVCFAc
+         FJhcrcVOj2WCQhoJbNZEKXGjAeI3l+2LWevLk9MVrpsWw04beheI5pbGwAL+eNxqjUlw
+         QJjAvovP6O/L3WnsYoVYdXRCIv3a3UzMdZvPeXSLZSri70jrR9GEK7Z7jOi3YpiR0oVd
+         2Cxj4/Of5mZvv1OIiEVhWYZkO27XDbP+woOmPZmHVnmRsZloA/Qs/Sib2j2skqhg1JCu
+         O9Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=01S+bt1uf4SWY+6VOHkOoCpSVSEylXfC8vxsU9rdw30=;
-        b=rPcvb7pkVNCDP96VTZxh0ag3yMzzUK2j15Kd8zaXMoAkimyIHECtTPUABldU1YV0eN
-         31kZutEBbvIUxmQ+5RZ7qHwq2eCrRxzJkdZC4g63BgI7GfTYEMn/Boy7Agg3WB95xIoU
-         OoI1SSQlK7jlrf3eQQtrX1MKyU9YHwj6dEbDTOE83NFe2A69l2/kVzjri/NiTHTPsrop
-         37oaiwn3wrvg7hgAM5pZI2GZWeu17mkx8TlYi3NTNPRrD1VAUNQULCVRwDCMW72kdwFq
-         MPNw2JSOutuo0h1Z3NhpHkUU3vY9sXR8dAISwg3EnY5KXPNoaCfI9wVIaONcFCkAXrBO
-         u7Ww==
-X-Gm-Message-State: AOAM531WXuLXliMAeQPAzHOvqLeUuMuXJeyMm50nmNmi0647gn80VrGN
-	opKVlcWJfSKRx0ydTxPJF1Wx005xhanJ7Q==
-X-Google-Smtp-Source: ABdhPJzlSMLghhI6gY+SBfF02VgtsN6DTBJ/cMxeV+kGOp0bMSQKYMl8GyU/CcEJKlgSsHEBNSIBEg==
-X-Received: by 2002:a05:600c:1008:: with SMTP id c8mr5034266wmc.95.1591291995974;
-        Thu, 04 Jun 2020 10:33:15 -0700 (PDT)
-Return-Path: <pbarker@konsulko.com>
-Received: from ar2.home.b5net.uk ([213.48.11.149])
-        by smtp.gmail.com with ESMTPSA id o10sm8868339wrj.37.2020.06.04.10.33.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2020 10:33:15 -0700 (PDT)
-From: "Paul Barker" <pbarker@konsulko.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=HSK08U+muU/joXr3MEuspOPpv911yvbfpkv1+xsBO7k=;
+        b=XRrst68zMkn7SRCvibNAFWXaXaTBGHUzKcPRlCqW95EtdYpXKYtQjZkzWdv0DZ/P4l
+         bepnMHEYKZvn0B8peJSGIIfV736SYAPsHy2Oz3ttO9BwggP+S5gC86WNRGvnZDFaT6g3
+         jpHZiSMSjlcin7VnGZfLbmNusSAriqSwXvC83lqjRfQ+pbhNDfc8pgKHB3jhg5Rkqv0z
+         KxZsMWz2PP/Rip2loEm8FUq3YtxDDW2W3lcRxbwwSh583K57YYUs5kLfPzt2WDjLwk0G
+         My6dokeVeb7jxWcGuM38lBeTN58H7kVr+SM7lr1QeREWDTP0qr9mloXZ1V8H3JAy+du/
+         TE6A==
+X-Gm-Message-State: AOAM530gvsV9y/2vrBy8XB4azPiymqObmwCtqd+crO/P6mc/1JNahrcl
+	xVnY4KIXeCEtMG9b4Zq1AYcEkzy8EVInbg==
+X-Google-Smtp-Source: ABdhPJzbyEwmqjI5ILf8n0vIGC1hIIXBgLEOi2CmcU0EUl0axYG7DRzd2xzCOdNfwqp6mU63kjxpNA==
+X-Received: by 2002:a63:cd0d:: with SMTP id i13mr5596875pgg.292.1591292843585;
+        Thu, 04 Jun 2020 10:47:23 -0700 (PDT)
+Return-Path: <rahulk@mvista.com>
+Received: from CelSys065.mvista.com ([36.255.87.199])
+        by smtp.gmail.com with ESMTPSA id fa19sm5864286pjb.18.2020.06.04.10.47.21
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 04 Jun 2020 10:47:22 -0700 (PDT)
+From: "Rahul Kumar" <rahulk@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <pbarker@konsulko.com>
-Subject: [PATCH v2 2/2] archiver: Capture git submodules in mirror archiver
-Date: Thu,  4 Jun 2020 18:33:01 +0100
-Message-Id: <20200604173301.12364-3-pbarker@konsulko.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200604173301.12364-1-pbarker@konsulko.com>
-References: <20200604173301.12364-1-pbarker@konsulko.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Armin Kuster <akuster808@gmail.com>,
+	Khem Raj <raj.khem@gmail.com>,
+	Rahul Kumar <rahulk@mvista.com>
+Subject: [meta-oe,zeus][PATCH] tremor: update SRC_URI as project moved to gitlab
+Date: Thu,  4 Jun 2020 23:17:08 +0530
+Message-Id: <1591292828-25442-1-git-send-email-rahulk@mvista.com>
+X-Mailer: git-send-email 2.7.4
 
-Using the new Fetch.expanded_urldata() function we can get URL data for
-all git submodules.
+From: Armin Kuster <akuster808@gmail.com>
 
-Signed-off-by: Paul Barker <pbarker@konsulko.com>
+It appears Xiph.Org is now on gitlab
+https://gitlab.xiph.org/xiph
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+(cherry picked from commit cc6e59fdff71e47ef5b9b40aab3bcd9438960ea4)
+Signed-off-by: Rahul Kumar <rahulk@mvista.com>
 ---
- meta/classes/archiver.bbclass            | 13 +++---
- meta/lib/oeqa/selftest/cases/archiver.py | 54 ++++++++++++++++++++++++
- 2 files changed, 60 insertions(+), 7 deletions(-)
+ meta-multimedia/recipes-multimedia/tremor/tremor_20180319.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 780c562b68..c2c049c343 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -345,13 +345,12 @@ python do_ar_mirror() {
+diff --git a/meta-multimedia/recipes-multimedia/tremor/tremor_20180319.bb b/meta-multimedia/recipes-multimedia/tremor/tremor_20180319.bb
+index beeb23a..d2ad961 100644
+--- a/meta-multimedia/recipes-multimedia/tremor/tremor_20180319.bb
++++ b/meta-multimedia/recipes-multimedia/tremor/tremor_20180319.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=db1b7a668b2a6f47b2af88fb008ad555 \
+                     file://os.h;beginline=3;endline=14;md5=5c0af5e1bedef3ce8178c89f48cd6f1f"
+ DEPENDS = "libogg"
  
-     fetcher = bb.fetch2.Fetch(src_uri, d)
- 
--    for url in fetcher.urls:
--        if is_excluded(url):
--            bb.note('Skipping excluded url: %s' % (url))
-+    for ud in fetcher.expanded_urldata():
-+        if is_excluded(ud.url):
-+            bb.note('Skipping excluded url: %s' % (ud.url))
-             continue
- 
--        bb.note('Archiving url: %s' % (url))
--        ud = fetcher.ud[url]
-+        bb.note('Archiving url: %s' % (ud.url))
-         ud.setup_localpath(d)
-         localpath = None
- 
-@@ -367,7 +366,7 @@ python do_ar_mirror() {
-         if len(ud.mirrortarballs) and not localpath:
-             bb.warn('Mirror tarballs are listed for a source but none are present. ' \
-                     'Falling back to original download.\n' \
--                    'SRC_URI = %s' % (url))
-+                    'SRC_URI = %s' % (ud.url))
- 
-         # Check original download
-         if not localpath:
-@@ -376,7 +375,7 @@ python do_ar_mirror() {
- 
-         if not localpath or not os.path.exists(localpath):
-             bb.fatal('Original download is missing for a source.\n' \
--                        'SRC_URI = %s' % (url))
-+                        'SRC_URI = %s' % (ud.url))
- 
-         # We now have an appropriate localpath
-         bb.note('Copying source mirror')
-diff --git a/meta/lib/oeqa/selftest/cases/archiver.py b/meta/lib/oeqa/selftest/cases/archiver.py
-index bc5447d2a3..37efed57c8 100644
---- a/meta/lib/oeqa/selftest/cases/archiver.py
-+++ b/meta/lib/oeqa/selftest/cases/archiver.py
-@@ -255,3 +255,57 @@ class Archiver(OESelftestTestCase):
-             glob_str = os.path.join(bb_vars['DEPLOY_DIR_SRC'], 'mirror', target_file_name)
-             glob_result = glob.glob(glob_str)
-             self.assertTrue(glob_result, 'Missing archive file %s' % (target_file_name))
-+
-+    def test_archiver_mode_mirror_gitsm(self):
-+        """
-+        Test that the archiver correctly handles git submodules with
-+        `ARCHIVER_MODE[src] = "mirror"`.
-+        """
-+        features = 'INHERIT += "archiver"\n'
-+        features += 'ARCHIVER_MODE[src] = "mirror"\n'
-+        features += 'ARCHIVER_MODE[mirror] = "combined"\n'
-+        features += 'BB_GENERATE_MIRROR_TARBALLS = "1"\n'
-+        features += 'COPYLEFT_LICENSE_INCLUDE = "*"\n'
-+        self.write_config(features)
-+
-+        bitbake('-c clean git-submodule-test')
-+        bitbake('-c deploy_archives -f git-submodule-test')
-+
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_SRC'])
-+        for target_file_name in [
-+            'git2_git.yoctoproject.org.git-submodule-test.tar.gz',
-+            'git2_git.yoctoproject.org.bitbake-gitsm-test1.tar.gz',
-+            'git2_git.yoctoproject.org.bitbake-gitsm-test2.tar.gz',
-+            'git2_git.openembedded.org.bitbake.tar.gz'
-+        ]:
-+            target_path = os.path.join(bb_vars['DEPLOY_DIR_SRC'], 'mirror', target_file_name)
-+            self.assertTrue(os.path.exists(target_path))
-+
-+    def test_archiver_mode_mirror_gitsm_shallow(self):
-+        """
-+        Test that the archiver correctly handles git submodules with
-+        `ARCHIVER_MODE[src] = "mirror"`.
-+        """
-+        features = 'INHERIT += "archiver"\n'
-+        features += 'ARCHIVER_MODE[src] = "mirror"\n'
-+        features += 'ARCHIVER_MODE[mirror] = "combined"\n'
-+        features += 'BB_GENERATE_MIRROR_TARBALLS = "1"\n'
-+        features += 'COPYLEFT_LICENSE_INCLUDE = "*"\n'
-+        features += 'BB_GIT_SHALLOW = "1"\n'
-+        features += 'BB_GENERATE_SHALLOW_TARBALLS = "1"\n'
-+        features += 'DL_DIR = "${TOPDIR}/downloads-shallow"\n'
-+        self.write_config(features)
-+
-+        bitbake('-c clean git-submodule-test')
-+        bitbake('-c deploy_archives -f git-submodule-test')
-+
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_SRC'])
-+        for target_file_name in [
-+            'gitsmshallow_git.yoctoproject.org.git-submodule-test_a2885dd-1_master.tar.gz',
-+            'gitsmshallow_git.yoctoproject.org.bitbake-gitsm-test1_bare_120f4c7-1.tar.gz',
-+            'gitsmshallow_git.yoctoproject.org.bitbake-gitsm-test2_bare_f66699e-1.tar.gz',
-+            'gitsmshallow_git.openembedded.org.bitbake_bare_52a144a-1.tar.gz',
-+            'gitsmshallow_git.openembedded.org.bitbake_bare_c39b997-1.tar.gz'
-+        ]:
-+            target_path = os.path.join(bb_vars['DEPLOY_DIR_SRC'], 'mirror', target_file_name)
-+            self.assertTrue(os.path.exists(target_path))
+-SRC_URI = "git://git.xiph.org/tremor.git;protocol=https \
++SRC_URI = "git://gitlab.xiph.org/xiph/tremor.git;protocol=https \
+            file://obsolete_automake_macros.patch;striplevel=0 \
+            file://tremor-arm-thumb2.patch \
+ "
 -- 
-2.26.2
+2.7.4
 
