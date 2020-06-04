@@ -1,124 +1,155 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.73])
- by mx.groups.io with SMTP id smtpd.web10.7685.1591246355175942942
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.128])
+ by mx.groups.io with SMTP id smtpd.web10.8819.1591253870788252492
  for <openembedded-core@lists.openembedded.org>;
- Wed, 03 Jun 2020 21:52:35 -0700
+ Wed, 03 Jun 2020 23:57:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=DLFF/B8+;
- spf=pass (domain: windriver.com, ip: 40.107.237.73, mailfrom: mingli.yu@windriver.com)
+ dkim=pass header.i=@prevas.dk header.s=selector1 header.b=S2+M6USq;
+ spf=pass (domain: prevas.dk, ip: 40.107.20.128, mailfrom: rasmus.villemoes@prevas.dk)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PT3RXFllAzPKsBBIHcd7rwaBR5XwinrPs7oZ0Z+nyNJoOGqqeZPJDKKwCH2rFPzcjvbD6xoXW0R7Vk7b1vWwOaN9yQv9H0krBOLununNt7l3gR1Yu2eSC5C17pIsX+IbKZKAAmvdCnEya66/UZPixyGYL9/c6PuNSLIeCwSX8o3TUwiP9y5b2dmOC0ke5Ueqtx7Py7BryBCmGbIoMJj2Yh+VbAsHS0H3AOsYYLB8SAHklTxrWlb/Pya1uC1JqJIV3uOvZGTs1P3aagrw0/t1uCbiecem9wZzWj3dk5uQ6JDeJ9quD75JzDVZto54Qi+DMq8ml/rUZ87CkeIWuF7z3A==
+ b=W1Pf2zHmtg58pN0BD8MdL9M79MLWCAPTnJL18Oet9XJTAlgJTzcHnuxjtznDoTG1QPwssjYeETbHd4cTqk+NgFIcigEfARTnHQ3HUH0SyCfTj6Jph78YWuoDusPxe0iLZZN1qEP2guuVxbwobWSYWLFHBmkAdVNA9eFrUdkjFRnhhx9Yzc0a+rObG7FIZsnYqxBC0wZ4mQ2cwynG2OOXuMsAvCtgmFMXW12UD1k2Zi3WPdkRAcjJLg8wEVJ4Nwr5AFCIGvgbGj//Pn+ZO6q+rhfZ7udw2EbW1PV7pIgRNWwe9s5/8EvS7LWH1LKCJ1kN64mvkccKZFlr3YXSpTNzGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cczIaEct75Jkon5NgD3kuzgWnjr3HIszuBTWLwEf3iA=;
- b=NilI7AsXCnUbeBd9Lreg+6GQxnM5LZaFX+uFsu8PsAzYQsONX2FhyD0Bo4DIcVqXFnHhqoufvfUIuu2pI/5wDTXQ6tlp81pRzW/sB8/4egXgr06YfViWntX5F0auh8bVZ25V45iRsWv7YSIKl3DIgPK1t5mjcBfTBp2tcL3xQtPo/FRY1GMLFYywE9HOb1A9VsM/kihCJ8We8gb4RBOA6YANrSVwiciOjDBVmhMa3eLf4FmdwXkh0gJWQuwC0xZ+mtVQZWLUCWjBZSWFmRaN8HqInzlZly7ckm39B/LgAwblmB9Xvm9NsBlNTjWpICdQjU9jrCF99J3k0TCMQ2M63A==
+ bh=QM+RiRK4gROFlmmcfEej8RE78yi6hWsaIT7VDjrwtBE=;
+ b=W8yiYxxd80nwxB8a+M0t0zXnFK4d0rWk+1OSYAoaIUJhPALWwWsUwajq5K7WSYRY4HGLRA0LdyKWSqtwi1tYTorPU4yrcF7sSUQwEJm/SShTzeJ1l6A9cKgYds+8kxkGs9hrbL6BWKTkJxcLZkLLrM3cGMQvrzU+NDZxYrnnkcW2NuRR7ntx0jvHXo6pIYs4fhtVabW4In8yk1NVkOnxeG0PDKJ9O4S8DDhX1geGtWxOdwVdvBscMOO3oD24ThMjTz2Dv7Rebioo+syXULsN7AAouBxikVq5A2/pKEyAs1Y4G3mbdk8VNQE08zA4tFl7/4TW1YGtis2Q4DPV4ZX/xg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cczIaEct75Jkon5NgD3kuzgWnjr3HIszuBTWLwEf3iA=;
- b=DLFF/B8+MpVLM/IcVijiadEyLePJjChpXBZ40OsB33u5yIdCEv/+zvAyczWQTkwlSQYx6XLmcvhyOoX72C1OefBXJeQ589aFKtHIKWNFSFR2dYLHiOB4/FIAEz3Yy3UBDpGuFY+oan8qjjeanuS4TH7ykaf+bcgPeI6bcBy/lIo=
-Authentication-Results: windriver.com; dkim=none (message not signed)
- header.d=none;windriver.com; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com (2603:10b6:a02:cb::17)
- by BYAPR11MB3335.namprd11.prod.outlook.com (2603:10b6:a03:1d::32) with
+ bh=QM+RiRK4gROFlmmcfEej8RE78yi6hWsaIT7VDjrwtBE=;
+ b=S2+M6USqO9ekjIBdKKYxc5duqk3T21ULUawvkLt5q14SXALiamhqLRsk2gNwIpV2CHhMV+dBLoveZBxyz9FhgVXT5ftPPElcNcBX2wymuysa4zyFUJPq4KDJs7YFBoYVHlzEobJ+w+jsYITSbJD3q1sCcDwKJniQG0q1lFEmrHI=
+Authentication-Results: opendreambox.org; dkim=none (message not signed)
+ header.d=none;opendreambox.org; dmarc=none action=none header.from=prevas.dk;
+Received: from VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:e1::21)
+ by VI1PR10MB2061.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:3a::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Thu, 4 Jun
- 2020 04:52:32 +0000
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::b1da:3c52:3aeb:d91d]) by BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::b1da:3c52:3aeb:d91d%7]) with mapi id 15.20.3066.018; Thu, 4 Jun 2020
- 04:52:32 +0000
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Subject: The change pointed to by a .scc file not detected when compile kernel
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
- Robert Yang <liezhi.yang@windriver.com>, zyang <zhangle.yang@windriver.com>,
- "Asselstine, Mark" <mark.asselstine@windriver.com>
-Message-ID: <67e32d06-6dc2-5566-f362-d7c2dd736618@windriver.com>
-Date: Thu, 4 Jun 2020 12:51:52 +0800
+ 2020 06:57:48 +0000
+Received: from VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f0ac:4e97:2536:faa]) by VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f0ac:4e97:2536:faa%7]) with mapi id 15.20.3066.018; Thu, 4 Jun 2020
+ 06:57:48 +0000
+Subject: Re: [OE-core] [PATCH v3] glibc: move ld.so.conf back to main package
+To: Andre McCurdy <armccurdy@gmail.com>
+Cc: Phil Blundell <pb@pbcl.net>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ OE Core mailing list <openembedded-core@lists.openembedded.org>,
+ Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>,
+ Andreas Oberritter <obi@opendreambox.org>
+References: <1614B0E5E96C4272.14405@lists.openembedded.org>
+ <20200602121722.32623-1-rasmus.villemoes@prevas.dk>
+ <20200602200008.GB2207@pbcl.net>
+ <24a52dc42bb9eb49e2f8802a3c7558859160de18.camel@linuxfoundation.org>
+ <20200602211524.GC2207@pbcl.net>
+ <CAJ86T=X0Jd+_K8xG6G9LB2FfSo51dQ2rL1sa1f_zo2+r8fh0XQ@mail.gmail.com>
+ <9ecda083-eae5-428d-42d3-57cbe564ea9a@prevas.dk>
+ <CAJ86T=U-V5p-va-MJf=4V3uVhEM+DmVRqU8DJ2=wVzJKfATDpA@mail.gmail.com>
+From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
+Message-ID: <7d0cb356-ee3f-d83c-3bb7-99c06af4a7d6@prevas.dk>
+Date: Thu, 4 Jun 2020 08:57:46 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
-X-ClientProxiedBy: HKAPR04CA0008.apcprd04.prod.outlook.com
- (2603:1096:203:d0::18) To BYAPR11MB2598.namprd11.prod.outlook.com
- (2603:10b6:a02:cb::17)
-Return-Path: mingli.yu@windriver.com
+In-Reply-To: <CAJ86T=U-V5p-va-MJf=4V3uVhEM+DmVRqU8DJ2=wVzJKfATDpA@mail.gmail.com>
+X-ClientProxiedBy: AM5PR0602CA0001.eurprd06.prod.outlook.com
+ (2603:10a6:203:a3::11) To VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:803:e1::21)
+Return-Path: rasmus.villemoes@prevas.dk
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.138] (60.247.85.82) by HKAPR04CA0008.apcprd04.prod.outlook.com (2603:1096:203:d0::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18 via Frontend Transport; Thu, 4 Jun 2020 04:52:30 +0000
-X-Originating-IP: [60.247.85.82]
+Received: from [192.168.1.149] (5.186.116.45) by AM5PR0602CA0001.eurprd06.prod.outlook.com (2603:10a6:203:a3::11) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18 via Frontend Transport; Thu, 4 Jun 2020 06:57:47 +0000
+X-Originating-IP: [5.186.116.45]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: f893f48b-3df9-40ab-94cb-08d80843175a
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3335:
-X-MS-Exchange-Transport-Forked: True
+X-MS-Office365-Filtering-Correlation-Id: 78e6aa03-4dbd-4680-d5da-08d808549707
+X-MS-TrafficTypeDiagnostic: VI1PR10MB2061:
 X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB3335BB4EEE12DC766B68D8E1F1890@BYAPR11MB3335.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+	<VI1PR10MB20614B5BAE694242075423E393890@VI1PR10MB2061.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-Forefront-PRVS: 04244E0DC5
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	TvgJJ/2rpzApNc3ExLKd/txTNhhYkgMuqFc7xH9v72PSI5wwMciPnV4RaLuF+4/SSuAlx9LSDZDwTsMCH/NpmXLD3nKUyXEApZ+D39oG02CcIwZafCcdow/52tpjHd5kSWPGJE+0wBHYLbQ5tEsd6J1UKE4OiU0wGnHt4vpj9hxBjjszaQZCViqntbhwgd1l4IaT2/wDVuZuwmBhGi4YvGe+2b+cKWycIedikoMgi367WKI/9bZRSIZ5kqWbMWBMauZszG84Efz3Lpei4spa2rEUsXhCfo+yqvDSCdafagO+BGrE9VyntRyA3kH+RAKnJtHdyYm5NjuAYm7/tUA1hV+qft8fkZ8hPpRkzAVRiJldR/ATy7scP69PeHtJFPI9miNMx9/HX9sMyAmcthmncX/UEDc0rXcTrO0kVaJDW32stIVTI+RZAit1QcgwwyM9dbHtbYs0Wc2jugpogzSTqhvUin13aiKjLD8D9GKBmjY=
+	IM485vwAxdLhKAGIyDwpMiwa5QAl8fUmhdedzzmNnqFjy4X58KD0G1xaaMwOKfBZEEwBKKrhj346Zv5Dl8tj4A1qKRfvn1ou67H/VpnsupwqW2Zb8X1inzUKPifJhC8rjQAry41m2Kdn3qa0M8pHfLqCW/ixOEzM0r0yV8zdUMYewxKZ0apFavu/JEnomGK0ypTfquvC/B7Y6GH2FKs8or5Tgo2IUrVKzkQr1QFgfUtKf58d7/uadoAMy9Gh7Mkm1GA+AdgPiN7W039EZhxt0XiF3QNvc2+3k9V7eizSfknv9roiseY2FrKQe1k/HTWcwo1/SdTgCvC/N2NuAKXSMmzzUj9C60xeqB03G56fO/xept4gr1/Ps4zLotWOqTin
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2598.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(346002)(136003)(366004)(39850400004)(376002)(396003)(2616005)(6486002)(83380400001)(107886003)(478600001)(66556008)(66476007)(16526019)(4326008)(2906002)(36756003)(186003)(66946007)(8676002)(6916009)(31686004)(16576012)(86362001)(26005)(31696002)(956004)(5660300002)(316002)(6706004)(52116002)(8936002)(6666004)(54906003)(78286006)(142923001)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(396003)(376002)(366004)(346002)(136003)(39830400003)(16526019)(31696002)(8676002)(8976002)(31686004)(44832011)(66946007)(956004)(2616005)(8936002)(86362001)(66556008)(6486002)(52116002)(26005)(16576012)(53546011)(186003)(66476007)(478600001)(2906002)(54906003)(6916009)(316002)(4326008)(5660300002)(36756003)(43740500002);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData: 
-	bEIkGqFPlI5Clh8qcsKfGNbQzZgwBu//mfnhZvFb80NK8jKJ5Q8pK7DY3L2zk8U0J9nOMZwld/KlGSm9LUu+zP7QxzGfBS7mXCUB1L+y4WK1zEQD0JSMYIWC+vd5WlycV4eDK96G2UUv0Qj0txIEh4/iSL12rrpKjgY/36XI1prp/kk1htNerXkV88NTUI6jgprygsOQPozIEa3Ww1MEFfQR/SMuDfJ95KrX5o6Ky9Q4ya31PCTD0cPx5zxsLtSGAXE9IETS8lPlgjFkJlEcGwg3n9XT9akCNyXKhjyOHQ09BlaobM60l81+OC3o1DNQsjb8yKfscdZbwlXSoPotzjomv3t2dAPVbC//OjG4NN1suRc5UtgCmQcFsOY6UVqrYUSqYgq9b0Ga+hZqTmipNsPzqSM/Mb3vbghQi7fpOwbF2gK5mpGN54c5Y3hLcamt6ODuoediN7Cn99VTIZXjxH0k5vJqKXqOOeC9b2DQtHc=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f893f48b-3df9-40ab-94cb-08d80843175a
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2020 04:52:32.2797
+	q4wPwqt5siNuXRfWtEEvWanSw1LfQUx0Rr8CCla6f3OY7D0icH06nr2iGDQbDKPNpC2X1AUUxb1jc29+jZlLw2KcoFJHeNNMS34yvInfbmFrkrzX7xylmorY1KdCSqjHh/xYJ80cyzgvgXpZL9KjQQhnb/Tpzwglj6FuAnVZkFGGOliDMAnPvwiXNpNlTBLG/3TMo5mlA9KdQjamXslOz6bqjfQ65EAtzG4IFTHsjvABXpFJf5tEb8Glx1N9z6fiv413KXzQRSVofd5NqfPCLUEzRr6eAsz1MVZDQryXL6HFPtZarQoKONbYblj6WeTN0s0BI8Hpg2tINWKtFhFVTz5knbjjGWwkrF9auCAGuf6A3ffURUYaZvrxPlw1JItl4Qp4aNpW4sC2z0BOn46y/N1ercR+WmAvVy27keimAuSVwM1rQOSlQ8OxNnyRK7UUP/5lYhT+1jY7CiSIQq0HPHOs87bqTNh26u5G+fuZHkM=
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 78e6aa03-4dbd-4680-d5da-08d808549707
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Jun 2020 06:57:47.8882
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hI6s3JkLTND5g59ELRgoCzwLDHh1x5dhxNXJiKjvMB6WGvpiA8nK5dGb9CG36ho9UVIWSHUWobilQcTC5PldOQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3335
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-MS-Exchange-CrossTenant-UserPrincipalName: wk/qbSfnIFoqGY679SPKLv5+8WF1zdwGWh8MNxs1GN1De2JrQ6/tBjrYYbJaoPjJjbOJtY1DiyJjri2D6f0o5CddFn4FdcBKY5azg44QcAk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB2061
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Hi Bruce,
+On 03/06/2020 22.44, Andre McCurdy wrote:
+> On Wed, Jun 3, 2020 at 12:38 AM Rasmus Villemoes
+> <rasmus.villemoes@prevas.dk> wrote:
+>> On 02/06/2020 23.46, Andre McCurdy wrote:
+>>> On Tue, Jun 2, 2020 at 2:15 PM Phil Blundell via
+>>> lists.openembedded.org <pb=pbcl.net@lists.openembedded.org> wrote:
+>>>>
+>>>
+>>> It seems like a weird corner case to me. Where do these libraries come
+>>> from and why can't they be moved or symlinked into a standard path?
+>>
+>> Pre-compiled proprietary binaries/libraries that go in
+>> /opt/<vendor>/..., just as /opt is meant for (and no, we can't just
+>> install them to /usr/lib, /usr/bin etc - partly because they contain
+>> hard-coded absolute paths, but also due to some not-entirely-techical
+>> reasons). So there's an /etc/ld.so.conf.d/<vendor>.conf that needs to be
+>> picked up.
+>>
+>>> If they are somehow special and only used by special applications then
+>>> setting rpath or using LD_LIBRARY_PATH just for those applications
+>>> would seem to be a better solution than enabling them globally.
+>>
+>> We don't control the compilation, so rpath is out. We did consider
+>> LD_LIBRARY_PATH, but figured that the ld.conf solution is more robust
+>> (no problems with setuid binaries or an application that misguidedly
+>> sanitizes the environment for subprocesses).
+> 
+> Unless the supplier of your binaries is completely unresponsive (if
+> so, bad luck) then educating them on the usage of rpath and asking for
+> a new release is probably the cleanest solution.
 
-Currently, the change pointed to by a .scc file not detected when 
-compile kernel, for example:
+For various reasons that is not a viable path.
 
-1, add DISTRO_FEATURES_append = " virtualization" to conf/local.conf to 
-enable virtualization DISTRO_FEATURES and also add meta-virtualization 
-layer to conf/bblayers.conf
+> If you start your special application via a wrapper script which sets
+> LD_LIBRARY_PATH then it won't be seen by anything else, so the
+> concerns about other apps messing with it etc should not apply?
 
-2, bitbake -cconfigure linux-yocto
+"Other apps" could be the apps in /opt themselves, that start other
+binaries from under /opt, perhaps via some maze of shell scripts or
+whatnot (the usual mess one sees with proprietary stuff) - which is also
+the reason I'm worried they might have done some "value-add"
+sanitization somewhere.
 
-3,
-$ grep -Rn CONFIG_IO_DELAY_0XED 
-tmp/work/qemux86_64-wrs-linux/linux-yocto/5.4.43+gitAUTOINC+aafb8f095e_9e1b13d7f9-r0/linux-qemux86_64-standard-build/.config
-5367:# CONFIG_IO_DELAY_0XED is not set
+> Relying on /etc/ld.so.conf.d/*.conf will certainly work too, but has
+> two disadvantages: it will add the custom library path globally
+> instead of just for the special apps and it's not portable (it's not
+> supported by musl etc - although if you only care about your
+> proprietary binaries pre-compiled for glibc then that won't matter to
+> you).
 
-4, modify the lxc.cfg which introduced by lxc.scc under 
-meta-virtualization layer
-$ git diff
-diff --git a/recipes-kernel/linux/linux-yocto/lxc.cfg 
-b/recipes-kernel/linux/linux-yocto/lxc.cfg
-index 3fefc03..b7a19a8 100644
---- a/recipes-kernel/linux/linux-yocto/lxc.cfg
-+++ b/recipes-kernel/linux/linux-yocto/lxc.cfg
-@@ -1,3 +1,4 @@
-+CONFIG_IO_DELAY_0XED=y
-  CONFIG_CGROUP_DEVICE=y
-  CONFIG_CPUSETS=y
-  CONFIG_PROC_PID_CPUSET=y
+One could also ask the question: If one is not supposed to use the
+drop-in dir ld.so.conf.d/ for exactly what I'm using it for, then why
+does Yocto provide a ld.so.conf that mentions it? Sure, for glibc-based
+distros (of course, it's from the glibc recipe), but that's fine.
 
+Please remember that this is all just about ensuring that the ldconfig
+run at image build time produces the same result, regardless of whether
+one has opted to have ldconfig-the-binary in the rootfs or not (and
+everybody seems to agree there are valid reasons not to have that).
 
-5, bitbake -cconfigure linux-yocto
+> Anyway, the original patch has been merged, so this now just a side discussion.
 
-6,
-$ grep -Rn CONFIG_IO_DELAY_0XED 
-tmp-glibc/work/qemux86_64-wrs-linux/linux-yocto/5.4.43+gitAUTOINC+aafb8f095e_9e1b13d7f9-r0/linux-qemux86_64-standard-build/.config
-5367:# CONFIG_IO_DELAY_0XED is not set
+Indeed.
 
-The change for CONFIG_IO_DELAY_0XED doesn't take effect.
-
-Thanks,
-Mingli
+Rasmus
