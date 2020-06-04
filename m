@@ -1,82 +1,56 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web11.9248.1591257739906961206
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.9258.1591258530946601494
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2020 01:02:20 -0700
+ Thu, 04 Jun 2020 01:15:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XAzAoOav;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id u13so4271343wml.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 01:02:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=qGND8gQJtpblizTfhcV4wUTBfDc20nPmHmH5DKQT37Y=;
-        b=XAzAoOavkpiWPK4pgEzGZSvzUdxISYlZ10HxJHp6TwPY2Gj2WZma6e6KyG8Lg4tA9M
-         8lfzupU+QJUrUHCkPl170aJ9MfEx6lNqlzAmlfTGGNiHbJAvmVmUN5ZWhrOYbiGEuML7
-         VdwqMOgvEHgY3p2wffES/66ox47fua3PAcvOY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=qGND8gQJtpblizTfhcV4wUTBfDc20nPmHmH5DKQT37Y=;
-        b=mv7ZXzLXJU77N7/hCfRGX+hUgEAVOJTWa+Msls5r7m/JwhNfKeAGK5GisnD6KoN3ul
-         O4aYh6oZrsyNF7psGdFzOzFBQeG9Z6744RO9gCvUU7b0/ymmLrc1ultHtAPK3q/oDeOI
-         wvzLjd/E11I/aqrUScEihUmOi9zd4+0YBJQcdSiZ/ChzFDpsj8ZPYFHbGG6ASaMln51M
-         zVrFzZdW4UulQlOF1wrzTBT808AfbOHem+mXIPoRSU04UOlQqwf2ywPUxfNC4DtxBxgt
-         PK/mLw5fTYincBDC7ve73dlMKPgpGFPeYapQyOHgvVTixu5SHtzc8hRmbfGWcg5KtgX9
-         3aOg==
-X-Gm-Message-State: AOAM532c2KeISOBaAbZ/M8Q7i8EHp373DOWcred2WEvly7gLMQjJy4xj
-	wmhmPy+Srg5WEsWcFBHYGRM8+w==
-X-Google-Smtp-Source: ABdhPJwPQSk4IqwkW0CVIlxV7HWoGY5zJ1rTwqmoRryxFsGA4jTQHf0ZVSweCc3PFerBYyxxvfyojg==
-X-Received: by 2002:a1c:9d96:: with SMTP id g144mr2718832wme.126.1591257738330;
-        Thu, 04 Jun 2020 01:02:18 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id c65sm6396629wme.8.2020.06.04.01.02.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2020 01:02:17 -0700 (PDT)
-Message-ID: <14b27a884632bd9c33b1b6aab57422c31422a3b8.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] kmod: fix RCONFLICTS setting
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Konrad Weihmann <kweihmann@outlook.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 04 Jun 2020 09:02:16 +0100
-In-Reply-To: <AM7PR05MB6881DCC70535A434D4B63AEFA88B0@AM7PR05MB6881.eurprd05.prod.outlook.com>
-References: 
-	<AM7PR05MB6881DCC70535A434D4B63AEFA88B0@AM7PR05MB6881.eurprd05.prod.outlook.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0548F9SX004658
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 4 Jun 2020 01:15:20 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 4 Jun 2020 01:14:46 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] python3-magic: add the missing rdepends
+Date: Thu, 4 Jun 2020 16:13:39 +0800
+Message-ID: <20200604081339.275866-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, 2020-06-02 at 22:44 +0200, Konrad Weihmann wrote:
-> Previously used libkmod2 isn't known in this scope,
-> replace it with the correct libkmod
-> 
-> Signed-off-by: Konrad Weihmann <kweihmann@outlook.com>
-> ---
->  meta/recipes-kernel/kmod/kmod_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-kernel/kmod/kmod_git.bb b/meta/recipes-kernel/kmod/kmod_git.bb
-> index bd21d2ff73..5cfd2238c9 100644
-> --- a/meta/recipes-kernel/kmod/kmod_git.bb
-> +++ b/meta/recipes-kernel/kmod/kmod_git.bb
-> @@ -10,7 +10,7 @@ RCONFLICTS_${PN} += "module-init-tools-insmod-static module-init-tools-depmod mo
->  RREPLACES_${PN} += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
->  
->  # to force user to remove old module-init-tools and replace them with kmod variants
-> -RCONFLICTS_libkmod2 += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
-> +RCONFLICTS_libkmod += "module-init-tools-insmod-static module-init-tools-depmod module-init-tools"
+From: Mingli Yu <mingli.yu@windriver.com>
 
-This change caused:
+Add the missing rdepends to fix below error:
+ # python3
+ [snip]
+ >>> import magic
+ [snip]
+ ModuleNotFoundError: No module named 'ctypes'
+ ModuleNotFoundError: No module named 'tempfile'
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/2006
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ meta/recipes-devtools/python/python3-magic_0.4.18.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-(and pretty much every other build to fail too)
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/python/python3-magic_0.4.18.bb b/meta/recipes-devtools/python/python3-magic_0.4.18.bb
+index be423adacd..101b96d31c 100644
+--- a/meta/recipes-devtools/python/python3-magic_0.4.18.bb
++++ b/meta/recipes-devtools/python/python3-magic_0.4.18.bb
+@@ -14,6 +14,9 @@ inherit pypi setuptools3
+ SRC_URI[md5sum] = "5edc6caa39cc62641850f6b1b6f284ba"
+ SRC_URI[sha256sum] = "b757db2a5289ea3f1ced9e60f072965243ea43a2221430048fd8cacab17be0ce"
+ 
+-RDEPENDS_${PN} += "file"
++RDEPENDS_${PN} += "file \
++                   ${PYTHON_PN}-ctypes \
++                   ${PYTHON_PN}-io \
++                   ${PYTHON_PN}-shell"
+ 
+ BBCLASSEXTEND = "native"
+-- 
+2.24.1
 
