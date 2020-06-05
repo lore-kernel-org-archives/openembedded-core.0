@@ -1,80 +1,74 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web10.7316.1591350009032248849
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web12.7449.1591350009795024285
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2020 02:40:09 -0700
+ Fri, 05 Jun 2020 02:40:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=t1IS5ynN;
- spf=pass (domain: konsulko.com, ip: 209.85.128.45, mailfrom: pbarker@konsulko.com)
-Received: by mail-wm1-f45.google.com with SMTP id f185so8432026wmf.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2020 02:40:08 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=bqhVysTz;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.68, mailfrom: pbarker@konsulko.com)
+Received: by mail-wm1-f68.google.com with SMTP id l26so7801888wme.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2020 02:40:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=konsulko.com; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nYiFJyYFieLsRXADskXrZN09FcsTq0CM9oL2Q9Bo42A=;
-        b=t1IS5ynNhrndvZSzSWblUEOqLGbriQpcfTNSKNNajBi8rhllYpEHOJib9X3WySVrUJ
-         eMOCLlFtbzzAMPvGvSIMS9fESQ3bQw8unzc0V4bCNyjm96BgFtubDr37yhvGfCpOkdUL
-         zSeKesCnR/keY4OBQ+1SDfQXE+XUtzN/dKWEk=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=rxrIKu1qD/GIlcJ/7g2nlBctMTUZt6u0UcGcrQVh3u4=;
+        b=bqhVysTz/zhFIcWCGcLUjumvMjFOueYh+EStJiZVu3SMTh1iPyRL6alTuTT0SOWLNg
+         O9GKf4wOUpHAqpsFuRoyX4i5X/eD+WumROgTPYo2hOHl0jCxsA0mORYkHWtfKA/aMIEF
+         b09BwG7NjuPb3T9Qx26mAJYcztbo8omuMDIoQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=nYiFJyYFieLsRXADskXrZN09FcsTq0CM9oL2Q9Bo42A=;
-        b=cSoicxGdgLJ2zi2zQxDE6RkXsUD0KcdNaiMxbjntyTAz0TL8oK3IwSCHiq17QNb+8o
-         20rIpqc3dU48N3fvRPRCZi9aUghKhoCtHHUGuyUBc3EjTk08CCObKlnBeA4qZ6kwKd7+
-         ynDJoz+BcQZg/rqSZf6+VKWc0T/deafcdSqgwDzaTYxzJfH5IC26LX11JiUphfZpsojp
-         UN3L4C60HsEpYsLA0OqeopTPjdLMhU0r8AnNc0ePn+cm7uUqlJErf0Y3WtL5NVul8uaU
-         5P+aKRGL71P/gV/aGBuvg9MSjQ5E+11DjJZ1dtRPa91wQBp4iF/WBxmuYNKUhmz8r41v
-         fTtA==
-X-Gm-Message-State: AOAM533rbmbSoDBfVgmt9jSvHpB3o01SbLN4QOq6Xy4mA8AKipJoTMjs
-	t4GgG2f6fqqsvlGpR20m8gDhoTtBcS0HIA==
-X-Google-Smtp-Source: ABdhPJyI9eOfgOw/BwVNCmBrlmOKONWQ/hpFahHmoAfx0+Z+/qg07VOtQcbUxiumfv0riyT4yX1QcQ==
-X-Received: by 2002:a05:600c:2385:: with SMTP id m5mr1334838wma.106.1591350007215;
-        Fri, 05 Jun 2020 02:40:07 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=rxrIKu1qD/GIlcJ/7g2nlBctMTUZt6u0UcGcrQVh3u4=;
+        b=U5GdG2p+1SsiN3mERNlFduzU7xwQCrkbrCLJdq7cXM3p0aJ/tQVFGFbNAXWGQpUzc4
+         5bOs2Rysf7VeARKtTfnnli60hepjQqMyEbM0kDppUO7U75oM+BBE22TCETLH0tuFrMQt
+         o3R8BDDbv39hZOGWm2doI7as6GdP0XMYm5ncZ2+jLeiDE1ZX2BeAyzHVZZByDTHucMe/
+         5IqMI6w09z4qdhBbnql5dCSE6dINLzotHJs4XgY50+r7oc/KnqscSipfhV0YU8HYT6dj
+         8tqmNLcPJq03pRED4fhHbBTmdggK3elvJ18tugg7x276bV2yu7OxqyYHqCMP0jKLCOe1
+         57JQ==
+X-Gm-Message-State: AOAM530+J15b3zAwAPdWJ+fao6ZfG4Py3vXu/GBwCdDv/hE3bEX4U3tQ
+	HQGzmRgJfQoX39vBGkmXHlEHO6oe5svMAQ==
+X-Google-Smtp-Source: ABdhPJx7O+Pl/JA+8X0cesQGoZYC3ge+gpz9Gm1FKpn+yDTViYHAbqS/NMTrfZSNT988Bkcl4kAT5A==
+X-Received: by 2002:a1c:f312:: with SMTP id q18mr1824081wmq.106.1591350008175;
+        Fri, 05 Jun 2020 02:40:08 -0700 (PDT)
 Return-Path: <pbarker@konsulko.com>
 Received: from ar2.home.b5net.uk ([213.48.11.149])
-        by smtp.gmail.com with ESMTPSA id j5sm11283493wrq.39.2020.06.05.02.40.06
+        by smtp.gmail.com with ESMTPSA id j5sm11283493wrq.39.2020.06.05.02.40.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2020 02:40:06 -0700 (PDT)
+        Fri, 05 Jun 2020 02:40:07 -0700 (PDT)
 From: "Paul Barker" <pbarker@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <pbarker@konsulko.com>
-Subject: [PATCH 1/3] selftest-ed: Support native builds
-Date: Fri,  5 Jun 2020 10:39:54 +0100
-Message-Id: <20200605093956.6385-1-pbarker@konsulko.com>
+Subject: [PATCH 2/3] selftest-nopackages: New recipe in meta-selftest
+Date: Fri,  5 Jun 2020 10:39:55 +0100
+Message-Id: <20200605093956.6385-2-pbarker@konsulko.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200605093956.6385-1-pbarker@konsulko.com>
+References: <20200605093956.6385-1-pbarker@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This allows tests to switch to selftest-ed-native which has far fewer
-dependencies than selftest-ed.
+This provides a test recipe which is known to inherit the nopackages
+bbclass.
 
 Signed-off-by: Paul Barker <pbarker@konsulko.com>
 ---
- meta-selftest/recipes-test/selftest-ed/selftest-ed_0.5.bb    | 2 ++
- meta-selftest/recipes-test/selftest-ed/selftest-ed_1.14.1.bb | 2 ++
- 2 files changed, 4 insertions(+)
+ .../recipes-test/nopackages/selftest-nopackages.bb          | 6 ++++++
+ 1 file changed, 6 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/nopackages/selftest-nopackages.bb
 
-diff --git a/meta-selftest/recipes-test/selftest-ed/selftest-ed_0.5.bb b/meta-selftest/recipes-test/selftest-ed/selftest-ed_0.5.bb
-index 8e0d1cdd8e..4f713f5c0e 100644
---- a/meta-selftest/recipes-test/selftest-ed/selftest-ed_0.5.bb
-+++ b/meta-selftest/recipes-test/selftest-ed/selftest-ed_0.5.bb
-@@ -20,3 +20,5 @@ EXTRA_OECONF = "'CC=${CC}' 'CXX=${CXX}' 'CFLAGS=${CFLAGS}' 'CXXFLAGS=${CXXFLAGS}
- CONFIGUREOPTS_remove = "--disable-dependency-tracking"
- CONFIGUREOPTS_remove = "--disable-silent-rules"
- EXTRA_OECONF_remove = "--disable-static"
+diff --git a/meta-selftest/recipes-test/nopackages/selftest-nopackages.bb b/meta-selftest/recipes-test/nopackages/selftest-nopackages.bb
+new file mode 100644
+index 0000000000..154df910e4
+--- /dev/null
++++ b/meta-selftest/recipes-test/nopackages/selftest-nopackages.bb
+@@ -0,0 +1,6 @@
++SUMMARY = "Test recipe for nopackages bbclass"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 +
-+BBCLASSEXTEND = "native"
-diff --git a/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.14.1.bb b/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.14.1.bb
-index 8a2b565ce5..08fb415d9d 100644
---- a/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.14.1.bb
-+++ b/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.14.1.bb
-@@ -34,3 +34,5 @@ do_install() {
- 		rm -f ${D}${infodir}/dir
- 	fi
- }
-+
-+BBCLASSEXTEND = "native"
++INHIBIT_DEFAULT_DEPS = "1"
++inherit nopackages
 -- 
 2.26.2
 
