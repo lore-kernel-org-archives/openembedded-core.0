@@ -1,188 +1,155 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web10.5358.1591338876900044676
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com [209.85.221.67])
+ by mx.groups.io with SMTP id smtpd.web12.5475.1591339217939434401
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2020 23:34:37 -0700
+ Thu, 04 Jun 2020 23:40:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KAsq6JOw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.66, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f66.google.com with SMTP id f185so7908170wmf.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 23:34:36 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dZa2QY/K;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.67, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f67.google.com with SMTP id t18so8513951wru.6
+        for <openembedded-core@lists.openembedded.org>; Thu, 04 Jun 2020 23:40:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google;
         h=message-id:subject:from:to:date:in-reply-to:references:user-agent
          :mime-version:content-transfer-encoding;
-        bh=oL20HhZ3BZ6+cNU8sQlOhcngua5uhD7Uveee5rnYndg=;
-        b=KAsq6JOwwGHixa/QkCAxs2bRv7dbJn4nn3aUnxXsNHmtsj9MFVZNY2SsunEIpgyegP
-         YlBoyKy+JBk+IsazPVD5DIXvMmXW+O+RBvH0Kbw+WNjuleMFnXYGYFGFPSurrWpMYnCB
-         /fnGoatiNmZMxyqCMhI6N5uKXo2nPNzbR0Q08=
+        bh=6InTvw/kscHGF5nbsURDK8OLBQgpXcDLL8gReYIPrnU=;
+        b=dZa2QY/KEC5fcNgsXcVtqNDyuFxpJH2SIi/yNhoQdiRy6esuimCKS5sQKjdw+OGojh
+         mvFrYHwuRtdR2ISSv5TeUYe1SsW4OBrNYwqgJ3P8iIpjwfsoqnzCelkqmT9cZAXxWDHM
+         c6yHksJrjhvCsYm9VS/QvwF5tKw7OKxZMLdRQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
          :references:user-agent:mime-version:content-transfer-encoding;
-        bh=oL20HhZ3BZ6+cNU8sQlOhcngua5uhD7Uveee5rnYndg=;
-        b=PHQ4qVo9sNeCtvJeQJFs5GiyMm25PEN70IHqsY2MYyoJzhhqd+0twM2bxNLH7gKD9O
-         ogX/kxPXwWywWsh24DznvttfIsgJR/VE7n9lsc0578Rbj4zgVu5pCvVlxMmedJWa6zYC
-         S09B8qP2e33eAmXnP1dDnI06rejT58eKE4SENMkA+rH9OwBFovA+e0GHgmZ2D6YUt1ld
-         SQl3vPfJXp4/yS5E8V/k/x1vlgGdj5j/h9wcPZgcGqXlBba3V5yiruA8+anv4NJm3cbC
-         lj78ltRtaq2B5md7Y3VYS/MUqZlhThhnHTTXyqIPgRITHsoUweAXvGOzbdGMuxQyHckZ
-         4pOQ==
-X-Gm-Message-State: AOAM531mT73HFMlQFGaZZG+7hEFX14rOxiXFX6OGgl2mT9Cb64Eqwq+F
-	ri2D/P3bZgEU3oINFj5fwHYcZQ==
-X-Google-Smtp-Source: ABdhPJy8dpP413pDkx2R8rQcI3BbiTOOF8O8qJ0JlEIHRxKVE6pzU2+gmslZ4XPI4NbEeVZiDBePHg==
-X-Received: by 2002:a7b:c248:: with SMTP id b8mr1063984wmj.2.1591338875152;
-        Thu, 04 Jun 2020 23:34:35 -0700 (PDT)
+        bh=6InTvw/kscHGF5nbsURDK8OLBQgpXcDLL8gReYIPrnU=;
+        b=VXmgFr/tUimgYX2mCutzTZY1hcaQ1YzQselWXfslij1O1zNWeCJsTrGqEf5D2/IgyW
+         urLEI0sSIiDZ/P3lfeYzttkvzasOhvCXECMTb+cN03TUKh8x2ZgP0Dn2eHiUfudzI/ix
+         fCpRdb9ZLn5zLyj4Diot993H6kaTQdW8vjk1YhmOCZXDOcoB+H011THd/Cao6SRK0yA5
+         BjyJs6EMBLhAcUb5ixTrmrbbP3tDGerbqT4Tup7mNao6Y3iYnRsNr94GW/5P5HRjdKQT
+         nXBcov9BCnjcUx8bR0XRIaDFs3YGYAyWZR6wOx+16tIR2WETF/9la2KAFH4jUQQ0QCXI
+         3Izw==
+X-Gm-Message-State: AOAM530qawGYbOTtgwlIVeU2a6ZmgoqRnWsL56q+nm4oNJpT56oZX10k
+	7zeFdTlGmATYkIcMXSVU1Z7hDQ==
+X-Google-Smtp-Source: ABdhPJzSR4oh6yCCNOef4esMe7yjQEibmYOgFoBopcdyC5DpExLqzk/pwuBdlK9HvC7K32bFGexIAA==
+X-Received: by 2002:a5d:40d2:: with SMTP id b18mr7751369wrq.131.1591339216047;
+        Thu, 04 Jun 2020 23:40:16 -0700 (PDT)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id u7sm10972973wrm.23.2020.06.04.23.34.33
+        by smtp.gmail.com with ESMTPSA id b14sm10091268wmj.47.2020.06.04.23.40.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2020 23:34:34 -0700 (PDT)
-Message-ID: <fbca27d924e7f0f89da34872fbcda680b5dc0042.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v7 0/3] Add a new bbclass that abstracts the generation of FIT blobs
+        Thu, 04 Jun 2020 23:40:15 -0700 (PDT)
+Message-ID: <b2edd74f0db71f891253828cfca64699a32a6622.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] Revert "vim: do not adjust script paths building for target"
 From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Nandor Han <nandor.han@vaisala.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 05 Jun 2020 07:34:33 +0100
-In-Reply-To: <cover.1590559408.git.nandor.han@vaisala.com>
-References: <cover.1590559408.git.nandor.han@vaisala.com>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 05 Jun 2020 07:40:14 +0100
+In-Reply-To: <20200605021331.20630-1-Qi.Chen@windriver.com>
+References: <20200605021331.20630-1-Qi.Chen@windriver.com>
 User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-05-27 at 09:05 +0300, Nandor Han wrote:
-> Description
-> ----------
-> Add a new class and unittest for generating FIT blobs.
+On Fri, 2020-06-05 at 10:13 +0800, Chen Qi wrote:
+> This reverts commit 8972fe5581b9fe8ef14d539001758bb13bca6737.
 > 
+> The above commit causes regression when vim-tools is installed.
+> The error is like below.
 > 
-> Testing
-> -------
+> Error:
+>  Problem: conflicting requests
+>    - nothing provides /bin/csh needed by vim-tools-8.2-r0.corei7_64
+>    - nothing provides /usr/bin/nawk needed by vim-tools-8.2-r0.corei7_64
+>    - nothing provides /usr/bin/python needed by vim-tools-8.2-r0.corei7_64
 > 
->     1. linux-yocto_5.4.bbappend was modified to have the following
-> configuration:
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  .../vim/files/no-path-adjust.patch            | 27 -------------------
+>  meta/recipes-support/vim/vim.inc              | 12 ++++-----
+>  2 files changed, 6 insertions(+), 33 deletions(-)
+>  delete mode 100644 meta/recipes-support/vim/files/no-path-adjust.patch
 > 
->     ```
->     inherit fit-image
-> 
->     KERNEL_IMAGE_NODE[name] = "kernel"
->     KERNEL_IMAGE_NODE[description] = "${PF}"
->     KERNEL_IMAGE_NODE[data] =
-> '/incbin/("./arch/${ARCH}/boot/zImage")'
->     KERNEL_IMAGE_NODE[type] = "kernel"
->     KERNEL_IMAGE_NODE[arch] = "${ARCH}"
->     KERNEL_IMAGE_NODE[os] = "linux"
->     KERNEL_IMAGE_NODE[compression] = "none"
->     KERNEL_IMAGE_NODE[load] = "${UBOOT_LOADADDRESS}"
->     KERNEL_IMAGE_NODE[entry] = "${UBOOT_ENTRYPOINT}"
->     KERNEL_IMAGE_NODE[hash] = "sha256"
-> 
->     FDT_IMAGE_NODE[name] = "fdt"
->     FDT_IMAGE_NODE[description] = "FDT blob"
->     FDT_IMAGE_NODE[data] = '/incbin/("./arch/${ARCH}/boot/dts/am335x-
-> bone.dtb")'
->     FDT_IMAGE_NODE[type] = "flat_dt"
->     FDT_IMAGE_NODE[arch] = "${ARCH}"
->     FDT_IMAGE_NODE[compression] = "none"
->     FDT_IMAGE_NODE[hash] = "sha256"
-> 
->     CONF1_CONF_NODE[name] = "conf"
->     CONF1_CONF_NODE[description] = "Linux kernel and FDT blob"
->     CONF1_CONF_NODE[kernel] = "kernel"
->     CONF1_CONF_NODE[fdt] = "fdt"
-> 
->     FIT_IMAGES_NODE = "KERNEL_IMAGE_NODE FDT_IMAGE_NODE"
->     FIT_CONFIGURATIONS_NODE = "CONF1_CONF_NODE"
->     FIT_CONFIGURATIONS_NODE[default] = "${@d.getVarFlag('CONF1_CONF_N
-> ODE', 'name') or ""}"
->     ```
->     2. Build the kernel: `bitbake virtual/kernel`
->     3. Verify that `image-fit.itb` is present in the build directory:
-> PASS
->     4. Disassemble the image using the command: `dtc -I dtb -O dts
-> image-fit.itb`
->     5. Verify that the FIT source contains the expected
-> configuration: PASS
->     6. Run the unittest using the command: `oe-selftest --run-tests
-> fit_image.FitImage`
->     7. Verify that is successfully: PASS
->     ```
->     2020-05-26 16:54:34,996 - oe-selftest - INFO - SUMMARY:
->     2020-05-26 16:54:34,996 - oe-selftest - INFO - oe-selftest () -
-> Ran 13
->     tests in 1956.639s
->     2020-05-26 16:54:34,997 - oe-selftest - INFO - oe-selftest - OK -
-> All
->     required tests passed (successes=13, skipped=0, failures=0,
-> errors=0)
->     ```         
->  
-> 
->     Changes since v1:
->     ----------------
->     - Change the format of short-log to "<target>: <summary>"
-> 
->     Changes since v2:
->     ----------------
->     - rename the file from `fit-image` to `fit_image` to successfully
-> export the class functions.
->     - adding new sanity checks.
->     - add missing dependency.
->     - fix a variable reference in a debug log.
->     
->     Changes since v3:
->     ----------------
->     - unit-test added
->     - class updated to support also properties for U-Boot image
-> 
->     Changes since v4:
->     ----------------
->     - remove a wrong patch
-> 
->     Changes since v5:
->     ----------------
->     - something went wrong with generation of the patches. regenerate
-> 
->     Changes since v6:
->     ----------------
->     - fix the shortlog for one of the patches
-> 
-> Nandor Han (3):
->   python-fdt: add a recipe for `python3-fdt` package
->   classes: Add a new bbclass that abstracts the generation of FIT
-> blobs
->   selftest: add a unit-test for fit-image bbclass
-> 
->  .../fit-image-test/files/dt-fake.dtb          |   3 +
->  .../fit-image-test/files/zImage-fake          |   3 +
->  .../fit-image-test/fit-image-test.bb          |  17 +
->  meta/classes/fit_image.bbclass                | 387
-> ++++++++++++++++++
->  meta/lib/oeqa/selftest/cases/fit_image.py     | 212 ++++++++++
->  .../python/python3-fdt_0.2.0.bb               |  14 +
->  6 files changed, 636 insertions(+)
->  create mode 100644 meta-selftest/recipes-test/fit-image-
-> test/files/dt-fake.dtb
->  create mode 100644 meta-selftest/recipes-test/fit-image-
-> test/files/zImage-fake
->  create mode 100644 meta-selftest/recipes-test/fit-image-test/fit-
-> image-test.bb
->  create mode 100644 meta/classes/fit_image.bbclass
->  create mode 100644 meta/lib/oeqa/selftest/cases/fit_image.py
->  create mode 100644 meta/recipes-devtools/python/python3-fdt_0.2.0.bb
+> diff --git a/meta/recipes-support/vim/files/no-path-adjust.patch b/meta/recipes-support/vim/files/no-path-adjust.patch
+> deleted file mode 100644
+> index 05c2d803f6..0000000000
+> --- a/meta/recipes-support/vim/files/no-path-adjust.patch
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -vim: do not adjust script pathnames
+> -
+> -When cross-compiling, we do not want to reference the host versions of
+> -things like perl and awk.
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> -
+> ---- a/src/Makefile
+> -+++ b/src/Makefile
+> -@@ -2507,11 +2507,14 @@ installtools: $(TOOLS) $(DESTDIR)$(exec_
+> - 		 rm -rf $$cvs; \
+> - 	      fi
+> - 	-chmod $(FILEMOD) $(DEST_TOOLS)/*
+> --# replace the path in some tools
+> -+
+> -+# replace the path in some tools, but not when cross-compiling
+> -+ifneq ($(CROSS_COMPILING),1)
+> - 	perlpath=`./which.sh perl` && sed -e "s+/usr/bin/perl+$$perlpath+" $(TOOLSSOURCE)/efm_perl.pl >$(DEST_TOOLS)/efm_perl.pl
+> - 	awkpath=`./which.sh nawk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; if test -z "$$awkpath"; then \
+> - 		awkpath=`./which.sh gawk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; if test -z "$$awkpath"; then \
+> - 		awkpath=`./which.sh awk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; fi; fi
+> -+endif
+> - 	-chmod $(SCRIPTMOD) `grep -l "^#!" $(DEST_TOOLS)/*`
+> - 
+> - # install the language specific files for tools, if they were unpacked
 
-This did show up two issues in testing:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/1022
+If we're going to install these files which you're still doing, we want
+to use target paths, not host ones?
 
-(step2d)
-
-Basically there is no maintainer listed for python3-fdt which is an
-easy fix and secondly the tests need python3-fdt-native which isn't
-present in the test environment.
+I suspect we therefore need this and your changes rather than removing
+this patch?
 
 Cheers,
 
 Richard
 
 
+> diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+> index 9f3dc08027..78e3f9528d 100644
+> --- a/meta/recipes-support/vim/vim.inc
+> +++ b/meta/recipes-support/vim/vim.inc
+> @@ -11,7 +11,6 @@ SRC_URI = "git://github.com/vim/vim.git \
+>             file://disable_acl_header_check.patch \
+>             file://vim-add-knob-whether-elf.h-are-checked.patch \
+>             file://0001-src-Makefile-improve-reproducibility.patch \
+> -           file://no-path-adjust.patch \
+>  "
+>  SRCREV = "98056533b96b6b5d8849641de93185dd7bcadc44"
+>  
+> @@ -83,6 +82,12 @@ EXTRA_OECONF = " \
+>  do_install() {
+>      autotools_do_install
+>  
+> +    # Work around file-rdeps picking up csh, awk, perl or python as a dep
+> +    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/vim132
+> +    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/mve.awk
+> +    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.pl
+> +    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.py
+> +
+>      # Install example vimrc from runtime files
+>      install -m 0644 runtime/vimrc_example.vim ${D}/${datadir}/${BPN}/vimrc
+>  
+> @@ -105,12 +110,7 @@ FILES_${PN}-help = "${datadir}/${BPN}/${VIMDIR}/doc"
+>  FILES_${PN}-tutor = "${datadir}/${BPN}/${VIMDIR}/tutor ${bindir}/${BPN}tutor"
+>  FILES_${PN}-vimrc = "${datadir}/${BPN}/vimrc"
+>  FILES_${PN}-data = "${datadir}/${BPN}"
+> -
+> -# We do not want to complain if perl or gawk are not on the target.
+> -#
+>  FILES_${PN}-tools = "${datadir}/${BPN}/${VIMDIR}/tools"
+> -INSANE_SKIP_${PN}-tools = "file-rdeps"
+> -
+>  FILES_${PN}-common = " \
+>      ${datadir}/${BPN}/${VIMDIR}/*.vim \
+>      ${datadir}/${BPN}/${VIMDIR}/autoload \
+> 
 
