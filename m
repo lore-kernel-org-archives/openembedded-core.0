@@ -1,65 +1,52 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web12.2357.1591322534812213453
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.2506.1591323018240275584
  for <openembedded-core@lists.openembedded.org>;
- Thu, 04 Jun 2020 19:02:14 -0700
+ Thu, 04 Jun 2020 19:10:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id ACA2B60FAB;
-	Fri,  5 Jun 2020 02:02:12 +0000 (UTC)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 05529vmD007677
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 4 Jun 2020 19:10:07 -0700
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Thu, 4 Jun 2020 19:09:46 -0700
+From: "Chen Qi" <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH] db: do not install db_verify if 'verify' is not enabled
+Date: Fri, 5 Jun 2020 10:09:45 +0800
+Message-ID: <20200605020945.7799-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGF0Y2gucHk6IGRvbid0IGFwcGx5IHN0cmlwbGV2ZWwgdG8gZ2l0IGFtIGNvbW1hbmQ=?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Kyle Russell <bkylerussell@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 05 Jun 2020 02:02:14 -0000
-Message-ID: <20200605020214.20810.78242@do>
-References: <20200605013540.18777-1-bkylerussell@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200605013540.18777-1-bkylerussell@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-== Series Details ==
+On target, when running `db_verify /var/lib/rpm/Packages', we get
+the following error.
 
-Series: patch.py: don't apply striplevel to git am command
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/24491/
-State : failure
+  db_verify: BDB0571 library build did not include support for database verification
 
-== Summary ==
+This is because db_verify is installed but 'verify' PACKAGECONFIG is
+not enabled. So fix it by not installing do_verify in such case.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [v2,1/1] patch.py: don't apply striplevel to git am command
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta-selftest/recipes-test/llvm/files/0001-Test-new-file.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta-selftest/recipes-test/llvm/files/0001-Test-new-file.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-support/db/db_5.3.28.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
+index 3a0923ae36..318efcb61d 100644
+--- a/meta/recipes-support/db/db_5.3.28.bb
++++ b/meta/recipes-support/db/db_5.3.28.bb
+@@ -109,6 +109,9 @@ do_install_append() {
+ 	fi
+ 
+ 	chown -R root:root ${D}
++	if ${@bb.utils.contains('PACKAGECONFIG', 'verify', 'false', 'true', d)}; then
++		rm -f ${D}${bindir}/db_verify
++	fi
+ }
+ 
+ INSANE_SKIP_${PN} = "dev-so"
+-- 
+2.17.1
 
