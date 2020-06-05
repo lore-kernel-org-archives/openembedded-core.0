@@ -1,209 +1,105 @@
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
- by mx.groups.io with SMTP id smtpd.web10.7317.1591350011130367362
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (EUR01-VE1-obe.outbound.protection.outlook.com [40.107.14.105])
+ by mx.groups.io with SMTP id smtpd.web10.7976.1591353281055623800
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2020 02:40:11 -0700
+ Fri, 05 Jun 2020 03:34:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=b18sv7sx;
- spf=pass (domain: konsulko.com, ip: 209.85.221.68, mailfrom: pbarker@konsulko.com)
-Received: by mail-wr1-f68.google.com with SMTP id t18so9043159wru.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2020 02:40:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=v9csNvTfuUVG5Hmv+Pp94CShAEJ/yFgFydP3H9pRZLE=;
-        b=b18sv7sx26+Jm1BEEd5Ga10wbRHKQhe9bDXtT4oimx4KwHeUVdgvGcAoEagHIw2Qkj
-         l9Z6I7tb5/iT+S8fpZP/u48SlxP/uLseSxGGyk+s+fHgZmDZcKirkc148A0WF3sQbQAH
-         Ex9TwrDKdOFeHTelTFWNr1ULnqJf8NC0sPvq4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=v9csNvTfuUVG5Hmv+Pp94CShAEJ/yFgFydP3H9pRZLE=;
-        b=NhmkPn2SMJNVLvUBXOCGLSVopMMblFM6vcdxBWYAcH/haZ0A5AIPi9Ze+M17riJSuc
-         T8J+Z0AwZMYDnEDUz+doOQE7b86ACCwJKKwtIc515FUxeyFM1LXjOG/BYMMMJiSjMvs9
-         GxxUmhP3oFYPllmE90q4n8EormoSqGZw5AyLUxFgd9iC+kJ+tey0hLMrg/R5s2dlAEPN
-         IzU1UbfCB8FThYwmV9ARsM67e0evLB+PdA9wXTeCdLsAgp9GF0GTsp00cGaca5K7a1Id
-         Vm7nDVOELYw44S2iRTwrt3LvqPpYikS26jrdJjV/6kJMgEaaGTJqYen+w9LVJahohFZR
-         XZTA==
-X-Gm-Message-State: AOAM533JOSzn6Eo80gV69b0+Zw7+ERVSILevcqzZdxsgLVEkb4vkdpQu
-	paJETDHxAH9QBUYJGKC6BwmFs3lYoueZ/w==
-X-Google-Smtp-Source: ABdhPJxIM5Fga8ltNmtxl669Xd6YwsPmJPJly47E2vmRT2oP3xWkertkyS3vdQpPswUvTojoEvg2Bg==
-X-Received: by 2002:a5d:4008:: with SMTP id n8mr8535201wrp.82.1591350009284;
-        Fri, 05 Jun 2020 02:40:09 -0700 (PDT)
-Return-Path: <pbarker@konsulko.com>
-Received: from ar2.home.b5net.uk ([213.48.11.149])
-        by smtp.gmail.com with ESMTPSA id j5sm11283493wrq.39.2020.06.05.02.40.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2020 02:40:08 -0700 (PDT)
-From: "Paul Barker" <pbarker@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <pbarker@konsulko.com>
-Subject: [PATCH 3/3] archiver: Speed up tests
-Date: Fri,  5 Jun 2020 10:39:56 +0100
-Message-Id: <20200605093956.6385-3-pbarker@konsulko.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200605093956.6385-1-pbarker@konsulko.com>
-References: <20200605093956.6385-1-pbarker@konsulko.com>
+ dkim=pass header.i=@prevas.dk header.s=selector1 header.b=Rh933WVS;
+ spf=pass (domain: prevas.dk, ip: 40.107.14.105, mailfrom: rasmus.villemoes@prevas.dk)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=cIpTvAdrH6JmAnzDD5zcq7S3nN5G2F4qQQm4j7xGacFFGVbVAXZTa8AueEly3z5yCUL/DjxgBAQlz8ZWL1l4BVfz6hwV24FbyVsCG6cy10ZphU9T235UuS5c8y2KtaO2QxgtxpyYRqEf+zkhYXrOpvNw77u+K8tyY40Bgoll5wkEKMJf8YKtWbO2S1QPz1xyr3y3yHpINpf7Ds8lu2xbPerY/F3SOIGlCZUyv6e8FN6ZP2LcHcf5wokBwx4NLTl0jqUuHSiBR9OGt1j6hcJkAYnYmPec0d7vkLc2utHWDWGWXpef6tcjLQ5/0qEGSYyPsXaR8+ZwBEMURdtFQ2Cphw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L4/FOKYb7wqCmmfbv/ZpcBSKbDCLJZnx097D1aYooDE=;
+ b=NV2vVCKKCMW1MMQG7W5a78cXusXBk/2f1+bJJd042L171KGA95mAHhIuNwIL4C2ViU33agMjpHmAClzr5X0a+62yPHhiKNJp2pRzT6IpQLF8nxa8xWq/skouiG2j0loMNSVRH+gSsFgECkCJbCRwi73/4EwKAgIN5ULfq0Ha9K2Hb9LGdQ5XMDIcZ2l394AXSzxv9l+RR1oWUPjaHyxweLwwUN6G9EbPkIFNNgWiFNiajjRr0BB8rpoe4bMOIdClikWlTqrKI1N9NjiZ8cKTFVzze4kSBP27ZVmrfW60TL6LMy+F3JsfH5GN6PgHvZIdGQgJTxfa3NF8dIfksg5Fjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
+ dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L4/FOKYb7wqCmmfbv/ZpcBSKbDCLJZnx097D1aYooDE=;
+ b=Rh933WVSBnVtDk6oaD35lHsqnEad/mz/SxasPwBasCtJQWhH4IevhdENKUvJsJ9UekE0RIT7aT8tOYtU8E1WqMJx+A5VKCPlL0v8MLwvSAVF2W/VlinqXzE0ESZ6sq0iH7xtyTfYDDFixUkYyUFfUvUeeGjTjWBzpwXatANMXxg=
+Authentication-Results: opendreambox.org; dkim=none (message not signed)
+ header.d=none;opendreambox.org; dmarc=none action=none header.from=prevas.dk;
+Received: from VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:e1::21)
+ by VI1PR10MB3984.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:13d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Fri, 5 Jun
+ 2020 10:34:38 +0000
+Received: from VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f0ac:4e97:2536:faa]) by VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::f0ac:4e97:2536:faa%7]) with mapi id 15.20.3066.018; Fri, 5 Jun 2020
+ 10:34:38 +0000
+Subject: Re: [OE-core] [PATCH v3] glibc: move ld.so.conf back to main package
+To: Andre McCurdy <armccurdy@gmail.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Phil Blundell <pb@pbcl.net>,
+ OE Core mailing list <openembedded-core@lists.openembedded.org>,
+ Martin Jansa <martin.jansa@gmail.com>, Khem Raj <raj.khem@gmail.com>,
+ Andreas Oberritter <obi@opendreambox.org>
+References: <1614B0E5E96C4272.14405@lists.openembedded.org>
+ <20200602121722.32623-1-rasmus.villemoes@prevas.dk>
+ <20200602200008.GB2207@pbcl.net>
+ <24a52dc42bb9eb49e2f8802a3c7558859160de18.camel@linuxfoundation.org>
+ <20200602211524.GC2207@pbcl.net>
+ <CAJ86T=X0Jd+_K8xG6G9LB2FfSo51dQ2rL1sa1f_zo2+r8fh0XQ@mail.gmail.com>
+ <9ecda083-eae5-428d-42d3-57cbe564ea9a@prevas.dk>
+ <CAJ86T=U-V5p-va-MJf=4V3uVhEM+DmVRqU8DJ2=wVzJKfATDpA@mail.gmail.com>
+ <5da0a98a98d9b1194ca13315f9986c20b9e5d565.camel@linuxfoundation.org>
+ <CAJ86T=Xu+mjNER1D=R4110uN-8oK-s3xk6ij1hChESNVY2U2Dw@mail.gmail.com>
+From: "Rasmus Villemoes" <rasmus.villemoes@prevas.dk>
+Message-ID: <d48f4fd3-9786-8fa5-7609-4fc337dd3df3@prevas.dk>
+Date: Fri, 5 Jun 2020 12:34:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <CAJ86T=Xu+mjNER1D=R4110uN-8oK-s3xk6ij1hChESNVY2U2Dw@mail.gmail.com>
+X-ClientProxiedBy: AM6PR10CA0036.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:209:89::49) To VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+ (2603:10a6:803:e1::21)
+Return-Path: rasmus.villemoes@prevas.dk
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.149] (5.186.116.45) by AM6PR10CA0036.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:209:89::49) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18 via Frontend Transport; Fri, 5 Jun 2020 10:34:37 +0000
+X-Originating-IP: [5.186.116.45]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 341a18c0-32a5-4db4-848b-08d8093c0c6f
+X-MS-TrafficTypeDiagnostic: VI1PR10MB3984:
+X-Microsoft-Antispam-PRVS: 
+	<VI1PR10MB3984FB05E6512D15F3CC646F93860@VI1PR10MB3984.EURPRD10.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 0425A67DEF
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	YNvDEr1CfrBsMk96Ho8Q6rifuQw5kYF/ZtgMO59keJEes30E+1IXmwlibVkeU2lNGyHPhOjYaW/dnCsNbnq5m9IwyGgcBuaMzIPYWdWOwKP+2uOZm2yXcn5l4JS8ixXAw4QDle/ARuLVaATrEHu/fl3Qg4wXvhc5HF0gayktWGnFbyEqy4Om3shL9vJBe4fdw28S5fW3s9sKDzQb6tcsxxLHDVtN3N6vSeycLgvy8lPh65FOCNFI4U+JC+k7tqJQwNekDPDHfRpkhglQk/FDpVWe3vBkvsM5CddPXmA/dpiRhl1fb4RNF/s5JEsOz7Ri5Nwc7r6j4VOngmvXU17BnGQ3Ok8qxk5bOJdzEACmjw6u+V0ZaKecEZ8Wk7hwqQrK
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFTY:;SFS:(376002)(136003)(366004)(39850400004)(396003)(346002)(2906002)(8936002)(478600001)(31696002)(4326008)(44832011)(956004)(31686004)(86362001)(2616005)(16526019)(66476007)(110136005)(52116002)(6486002)(36756003)(26005)(8676002)(4744005)(8976002)(316002)(186003)(66946007)(54906003)(16576012)(66556008)(5660300002)(43740500002);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData: 
+	RccQglvp9Sp2WIu7n1qKdJWahr6AZK2FCw1ynSsP6nhldujnavIPdeV2TkgkcxRRKuzJtbaiMq8UeoxeWYhhuaCvz4j6tDuZh/9nMVnxLcdHAV172mu2tZUAxj+f4xRJKEmhOScHAhVgEXJdnLz8skp08F5K4nq0+M2Vxmq4LbgYpX/biaUHHOhd1pssqCCwVIfcqQrzXovIvXGtYxuJeTkoUgsC2AD1CGqqoX3CDGmzeEVs6aEggU1gzZb3fHbGi9Hk+B0F9Qr38StIOa+JOtYv+0xX/rhELJzXQRgChXOypVThIR141zRr529T3JF0LaV1/tgl/yf3d3c6CC6T4t5F+YgP2O2vlo1MtPGHAnrSBb7aKO8p5Sl1tUbm3d5CdVLcC8kBWn/xIogF4tQL6LxclP1ln0PYhEzmd5Ka7WL8ex/VPInXQjpaPWuh4578ott3ootGxT5o4wseK2eRKbt0VeTTf28rlC0IXjFNBng=
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 341a18c0-32a5-4db4-848b-08d8093c0c6f
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Jun 2020 10:34:38.6946
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OqQzdfDbTCPSpYIqQsljgQig69vuEfttYN5mKNKjutGakGA/VDBTT8m/NOcu/7TU2aKfLwzhMZQ6Y+Cic93vFa1fE/bhFuo60JYtiGH2Pfc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB3984
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-When running tests locally without the advantage of a populated sstate
-cache, the archiver tests can take an unnecessarily long time. Using
-different target recipes can speed things up a lot by reducing the
-number of dependencies that are built.
+On 04/06/2020 22.05, Andre McCurdy wrote:
 
-For the test case test_archiver_srpm_mode we can still test the
-conditions described in bug #11121 by using a target recipe that is
-known to inherit the nopackages class as well as a more normal recipe,
-instead of having to compute all the depepndencies of core-image-sato.
+> but I can try to summarise the details related to the actual patch...
 
-Before:
-    archiver.Archiver.test_archiver_allows_to_filter_on_recipe_name: PASSED (20.50s)
-    archiver.Archiver.test_archiver_filters_by_type: PASSED (14.16s)
-    archiver.Archiver.test_archiver_filters_by_type_and_name: PASSED (79.08s)
-    archiver.Archiver.test_archiver_mode_configured: PASSED (558.19s)
-    archiver.Archiver.test_archiver_mode_diff: PASSED (14.59s)
-    archiver.Archiver.test_archiver_mode_dumpdata: PASSED (14.41s)
-    archiver.Archiver.test_archiver_mode_mirror: PASSED (14.02s)
-    archiver.Archiver.test_archiver_mode_mirror_combined: PASSED (19.99s)
-    archiver.Archiver.test_archiver_mode_mirror_excludes: PASSED (14.24s)
-    archiver.Archiver.test_archiver_mode_mirror_gitsm: PASSED (13.47s)
-    archiver.Archiver.test_archiver_mode_mirror_gitsm_shallow: PASSED (22.15s)
-    archiver.Archiver.test_archiver_mode_original: PASSED (14.15s)
-    archiver.Archiver.test_archiver_mode_patched: PASSED (14.57s)
-    archiver.Archiver.test_archiver_mode_recipe: PASSED (14.56s)
-    archiver.Archiver.test_archiver_srpm_mode: PASSED (83.03s)
-    oe-selftest () - Ran 15 tests in 911.905s
+[snip]
 
-After:
-    archiver.Archiver.test_archiver_allows_to_filter_on_recipe_name: PASSED (23.66s)
-    archiver.Archiver.test_archiver_filters_by_type: PASSED (15.16s)
-    archiver.Archiver.test_archiver_filters_by_type_and_name: PASSED (15.33s)
-    archiver.Archiver.test_archiver_mode_configured: PASSED (15.94s)
-    archiver.Archiver.test_archiver_mode_diff: PASSED (15.79s)
-    archiver.Archiver.test_archiver_mode_dumpdata: PASSED (15.39s)
-    archiver.Archiver.test_archiver_mode_mirror: PASSED (15.28s)
-    archiver.Archiver.test_archiver_mode_mirror_combined: PASSED (21.22s)
-    archiver.Archiver.test_archiver_mode_mirror_excludes: PASSED (15.11s)
-    archiver.Archiver.test_archiver_mode_mirror_gitsm: PASSED (13.61s)
-    archiver.Archiver.test_archiver_mode_mirror_gitsm_shallow: PASSED (23.21s)
-    archiver.Archiver.test_archiver_mode_original: PASSED (14.87s)
-    archiver.Archiver.test_archiver_mode_patched: PASSED (15.50s)
-    archiver.Archiver.test_archiver_mode_recipe: PASSED (15.62s)
-    archiver.Archiver.test_archiver_srpm_mode: PASSED (20.66s)
-    oe-selftest () - Ran 15 tests in 257.170s
+> There's a genuine bug and I don't see an obviously better fix, so I
+> think the patch should be merged.
 
-Signed-off-by: Paul Barker <pbarker@konsulko.com>
----
- meta/lib/oeqa/selftest/cases/archiver.py | 30 ++++++++++++------------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+Thank you for that summary, that's much better than what I could have
+written, and also thanks for the conclusion.
 
-diff --git a/meta/lib/oeqa/selftest/cases/archiver.py b/meta/lib/oeqa/selftest/cases/archiver.py
-index 37efed57c8..ddd08ecf84 100644
---- a/meta/lib/oeqa/selftest/cases/archiver.py
-+++ b/meta/lib/oeqa/selftest/cases/archiver.py
-@@ -19,8 +19,8 @@ class Archiver(OESelftestTestCase):
-         AutomatedBy: Daniel Istrate <daniel.alexandrux.istrate@intel.com>
-         """
- 
--        include_recipe = 'busybox'
--        exclude_recipe = 'zlib'
-+        include_recipe = 'selftest-ed'
-+        exclude_recipe = 'initscripts'
- 
-         features = 'INHERIT += "archiver"\n'
-         features += 'ARCHIVER_MODE[src] = "original"\n'
-@@ -51,8 +51,8 @@ class Archiver(OESelftestTestCase):
-         Author:      André Draszik <adraszik@tycoint.com>
-         """
- 
--        target_recipe = 'initscripts'
--        native_recipe = 'zlib-native'
-+        target_recipe = 'selftest-ed'
-+        native_recipe = 'selftest-ed-native'
- 
-         features = 'INHERIT += "archiver"\n'
-         features += 'ARCHIVER_MODE[src] = "original"\n'
-@@ -86,8 +86,8 @@ class Archiver(OESelftestTestCase):
-         Author:      André Draszik <adraszik@tycoint.com>
-         """
- 
--        target_recipes = [ 'initscripts', 'zlib' ]
--        native_recipes = [ 'update-rc.d-native', 'zlib-native' ]
-+        target_recipes = [ 'initscripts', 'selftest-ed' ]
-+        native_recipes = [ 'update-rc.d-native', 'selftest-ed-native' ]
- 
-         features = 'INHERIT += "archiver"\n'
-         features += 'ARCHIVER_MODE[src] = "original"\n'
-@@ -129,10 +129,10 @@ class Archiver(OESelftestTestCase):
-         features += 'PACKAGE_CLASSES = "package_rpm"\n'
-         self.write_config(features)
- 
--        bitbake('-n core-image-sato')
-+        bitbake('-n selftest-nopackages selftest-ed')
- 
-     def _test_archiver_mode(self, mode, target_file_name, extra_config=None):
--        target = "selftest-ed"
-+        target = 'selftest-ed-native'
- 
-         features = 'INHERIT += "archiver"\n'
-         features +=  'ARCHIVER_MODE[src] = "%s"\n' % (mode)
-@@ -143,8 +143,8 @@ class Archiver(OESelftestTestCase):
-         bitbake('-c clean %s' % (target))
-         bitbake('-c deploy_archives %s' % (target))
- 
--        bb_vars = get_bb_vars(['DEPLOY_DIR_SRC', 'TARGET_SYS'])
--        glob_str = os.path.join(bb_vars['DEPLOY_DIR_SRC'], bb_vars['TARGET_SYS'], '%s-*' % (target))
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_SRC', 'BUILD_SYS'])
-+        glob_str = os.path.join(bb_vars['DEPLOY_DIR_SRC'], bb_vars['BUILD_SYS'], '%s-*' % (target))
-         glob_result = glob.glob(glob_str)
-         self.assertTrue(glob_result, 'Missing archiver directory for %s' % (target))
- 
-@@ -163,21 +163,21 @@ class Archiver(OESelftestTestCase):
-         Test that the archiver works with `ARCHIVER_MODE[src] = "patched"`.
-         """
- 
--        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-patched.tar.gz')
-+        self._test_archiver_mode('patched', 'selftest-ed-native-1.14.1-r0-patched.tar.gz')
- 
-     def test_archiver_mode_configured(self):
-         """
-         Test that the archiver works with `ARCHIVER_MODE[src] = "configured"`.
-         """
- 
--        self._test_archiver_mode('configured', 'selftest-ed-1.14.1-r0-configured.tar.gz')
-+        self._test_archiver_mode('configured', 'selftest-ed-native-1.14.1-r0-configured.tar.gz')
- 
-     def test_archiver_mode_recipe(self):
-         """
-         Test that the archiver works with `ARCHIVER_MODE[recipe] = "1"`.
-         """
- 
--        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-recipe.tar.gz',
-+        self._test_archiver_mode('patched', 'selftest-ed-native-1.14.1-r0-recipe.tar.gz',
-                                  'ARCHIVER_MODE[recipe] = "1"\n')
- 
-     def test_archiver_mode_diff(self):
-@@ -186,7 +186,7 @@ class Archiver(OESelftestTestCase):
-         Exclusions controlled by `ARCHIVER_MODE[diff-exclude]` are not yet tested.
-         """
- 
--        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-diff.gz',
-+        self._test_archiver_mode('patched', 'selftest-ed-native-1.14.1-r0-diff.gz',
-                                  'ARCHIVER_MODE[diff] = "1"\n')
- 
-     def test_archiver_mode_dumpdata(self):
-@@ -194,7 +194,7 @@ class Archiver(OESelftestTestCase):
-         Test that the archiver works with `ARCHIVER_MODE[dumpdata] = "1"`.
-         """
- 
--        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-showdata.dump',
-+        self._test_archiver_mode('patched', 'selftest-ed-native-1.14.1-r0-showdata.dump',
-                                  'ARCHIVER_MODE[dumpdata] = "1"\n')
- 
-     def test_archiver_mode_mirror(self):
--- 
-2.26.2
-
+Rasmus
