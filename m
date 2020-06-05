@@ -1,81 +1,64 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web11.13616.1591370980455738268
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web10.14023.1591372218401274832
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2020 08:29:40 -0700
+ Fri, 05 Jun 2020 08:50:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=NInV9y0+;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: schnitzeltony@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id o26so7804241edq.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2020 08:29:40 -0700 (PDT)
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=Jcp635H1;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=6HuU14OXMirGK0gBsipTuYClmxFCzyu+BGNZc5B2Qu0=;
-        b=NInV9y0+CGhsFCzeJc81cjnbEuBraAOKakhjIBiP0vpeUm8/IxnNAC2GQT+IMKHgSZ
-         LCP7SOPj9GbkRvIpnY1euz2RiLAKXeFXzjOyjeICz11LBtEBPH7x/Upwfqh3JRYwosqJ
-         fSWKufcJoOXtZNMBZeb6dkuGkc8AVZWWzdjzZWn9iQv7Xhb25EEzQC+OKiPtOD5nDYMj
-         vwSPZvrNWXRCyeRNRILTeK1i3N4cSuSNQIMJ/ht7V5SSyUfeLQXSiPoK6QhVkd7EFkhi
-         NPaiV4gqYEqLinDC6d8DqbolS/Hw2MLhSvf1QyX/9Y0w9Y/ZHcBKYWHibVwZjzbAAoh+
-         9ZJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6HuU14OXMirGK0gBsipTuYClmxFCzyu+BGNZc5B2Qu0=;
-        b=gqS/U11WtuDCYNR26tptiBodJ6tXb9DvUZvfofGphH0eW3cJ5cTeP9a66O9QiPIL4a
-         gbLFi2yPesYJ5gyV2wlinNUAcuymeiClwv5EyC/6XUgIf9JF1n8wBFCWTU8xeLDUhZeh
-         CDmUytchIa1kT2rSuNPotgUr22Q1EoLrUt59057gn3xF/bgaPU8XExfM96q6g9m9VpAi
-         xsh8ybB6omtdlo99oK4U9qn1wo3rSVGE0hRSi4rf8icmwXaf6N1ZGZiU88t68/USJd5j
-         O7AgSxDp+PogqmXD5Cpwysoy1zPlaKzaRXUdgioSaaFzMKgPTmZmqUNV1reoMY8xzrMB
-         q1cA==
-X-Gm-Message-State: AOAM531u1wMv5iuCm3B8VTWaVh288LLqBtr4dhUC6kkxDwUcO5Hppeih
-	GDvCFrdijRawj4J/FY3Oell9K3Zxlpw=
-X-Google-Smtp-Source: ABdhPJyTGUXpLJvgbscoed8v7vmfFG8HRul8qmGDS5TqelG++38aYN7Vqe4uItXGUM/VBCgaAbXxtg==
-X-Received: by 2002:a05:6402:1bdc:: with SMTP id ch28mr9595861edb.19.1591370978777;
-        Fri, 05 Jun 2020 08:29:38 -0700 (PDT)
-Return-Path: <schnitzeltony@gmail.com>
-Received: from superandy.speedport.ip (p200300f07f0816493dd1634773746530.dip0.t-ipconnect.de. [2003:f0:7f08:1649:3dd1:6347:7374:6530])
-        by smtp.gmail.com with ESMTPSA id o12sm5189609edq.7.2020.06.05.08.29.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2020 08:29:38 -0700 (PDT)
-From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] sqlite3: upgrade 3.32.1 -> 3.32.2
-Date: Fri,  5 Jun 2020 17:29:27 +0200
-Message-Id: <20200605152927.3428858-4-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200605152927.3428858-1-schnitzeltony@gmail.com>
-References: <20200605152927.3428858-1-schnitzeltony@gmail.com>
+  d=axis.com; l=1008; q=dns/txt; s=axis-central1;
+  t=1591372218; x=1622908218;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=lFkywsDKuOfiP4QKaElk7vqgi7KTXSGSHgcXawJE15M=;
+  b=Jcp635H17A6bttbspgSO69iIz0c0kXzZhaCOX1qe32FhGBgz26e1zY5r
+   48ZfseC8IGJ9NJmt2iRmD0oeT/m2Jza0h2AV4nt4a6GKndZOh4WTnD8uK
+   Nl2POnJpq6g3atNJdr9PCROoVhrgxaRHx58PiGV6o/kjBRhRIbCPs5268
+   v41HPT4i+Ij3DAl+1sXLDbdPt8QXoRUUxC6absfZhP8G5xb/xJ5EkI5Vc
+   jT7kj6/eUuhrR9wc9UYEOBWIvNFozWB0u4Xk2j0QBslfSQiEp/T4edCqb
+   MJCeAE5W0Moac3rBpIk/ObtXyFc3TK/gnf5oGonUsXllK7axsD3AFxTMn
+   A==;
+IronPort-SDR: HMwaS5ZRoX6MegyIFa07TJx7akwOp1ljRqmQxL0pN/ORpir+ZT13Svwk9QoIUwqDfbUkavCGhs
+ O40dByeDH8jscY63yj79eVd3DLLXmf26FJb8O27sQjFZstK3XSlGdSTWB4mUATtTU3y+6LH6k2
+ khLZS5ZBaTkdIxAdW4mbuAdffdLgac46R7VXGRT2gevT3LuwO5PWIUZ9tSdYHlyANffuJyfjtC
+ 87XPm/X4LozfBf9eqMdPzGUa5wpaKSwnshm2t8gogjdytjLB83AbeYERtEG/ggRaj8NU1p/Hdd
+ lQs=
+X-IronPort-AV: E=Sophos;i="5.73,476,1583190000"; 
+   d="scan'208";a="9267852"
+From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [master][dunfell] Revert "prservice.py: fix do_package with newer Python in Ubuntu 20.04"
+Date: Fri, 5 Jun 2020 17:50:12 +0200
+Message-ID: <20200605155012.7175-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Return-Path: pkj@axis.com
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+This reverts commit 4b26eaf7152fb712aba47a0c746333578f58ee8d.
+
+Since the problem occurred while importing prserv, the solution has
+been moved into it instead so it is solved for all cases where prserv
+is imported, most notably when using devtool.
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- .../sqlite/{sqlite3_3.32.1.bb => sqlite3_3.32.2.bb}           | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.32.1.bb => sqlite3_3.32.2.bb} (68%)
+ meta/lib/oe/prservice.py | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.32.1.bb b/meta/recipes-support/sqlite/sqlite3_3.32.2.bb
-similarity index 68%
-rename from meta/recipes-support/sqlite/sqlite3_3.32.1.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.32.2.bb
-index d6081f10ad..8de74aa221 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.32.1.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.32.2.bb
-@@ -4,8 +4,8 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
+index 2d3c9c7e50..fcdbe66c19 100644
+--- a/meta/lib/oe/prservice.py
++++ b/meta/lib/oe/prservice.py
+@@ -3,10 +3,6 @@
+ #
  
- SRC_URI = "http://www.sqlite.org/2020/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[md5sum] = "bc7afc06f1e30b09ac930957af68d723"
--SRC_URI[sha256sum] = "486748abfb16abd8af664e3a5f03b228e5f124682b0c942e157644bf6fff7d10"
-+SRC_URI[md5sum] = "eb498918a33159cdf8104997aad29e83"
-+SRC_URI[sha256sum] = "2dbef1254c1dbeeb5d13d7722d37e633f18ccbba689806b0a65b68701a5b6084"
- 
- # -19242 is only an issue in specific development branch commits
- CVE_CHECK_WHITELIST += "CVE-2019-19242"
--- 
-2.26.2
-
+ def prserv_make_conn(d, check = False):
+-    # Otherwise this fails when called from recipes which e.g. inherit python3native (which sets _PYTHON_SYSCONFIGDATA_NAME) with:
+-    # No module named '_sysconfigdata'
+-    if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
+-        del os.environ['_PYTHON_SYSCONFIGDATA_NAME']
+     import prserv.serv
+     host_params = list([_f for _f in (d.getVar("PRSERV_HOST") or '').split(':') if _f])
+     try:
