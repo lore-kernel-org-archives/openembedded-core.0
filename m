@@ -1,57 +1,54 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.6906.1591347709904744493
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web10.6961.1591348056156418820
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2020 02:01:50 -0700
+ Fri, 05 Jun 2020 02:07:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 6650360FF9;
-	Fri,  5 Jun 2020 09:01:47 +0000 (UTC)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: kai.kang@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 05597ZkN019832
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 5 Jun 2020 02:07:35 -0700 (PDT)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 5 Jun 2020 02:07:22 -0700
+From: "kai" <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] avahi-dnsconfd: rdepends on avahi-daemon
+Date: Fri, 5 Jun 2020 17:07:19 +0800
+Message-ID: <20200605090719.12759-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uMzogYWRkIHRjbCByZGVwZW5kcyBmb3IgcHl0aG9uMy1pZGxl?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: mingli.yu@windriver.com
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 05 Jun 2020 09:01:48 -0000
-Message-ID: <20200605090148.20804.46937@do>
-References: <20200605084729.563714-1-mingli.yu@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200605084729.563714-1-mingli.yu@windriver.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id 05597ZkN019832
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-== Series Details ==
+From: Kai Kang <kai.kang@windriver.com>
 
-Series: python3: add tcl rdepends for python3-idle
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/24497/
-State : failure
+Systemd service avahi-dnsconfd.service=C2=A0requires avahi-daemon.socket
+and avahi-daemon.service which are from avahi-daemon. So make
+avahi-dnsconfd rdepends on avahi-daemon.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 56e211d0f3)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-connectivity/avahi/avahi_0.8.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-=
+connectivity/avahi/avahi_0.8.bb
+index 2b0c71159d..35d0c3ea75 100644
+--- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
++++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
+@@ -144,6 +144,7 @@ FILES_avahi-utils =3D "${bindir}/avahi-* ${bindir}/b*=
+ ${datadir}/applications/b*"
+=20
+ RDEPENDS_${PN}-dev =3D "avahi-daemon (=3D ${EXTENDPKGV}) libavahi-core (=
+=3D ${EXTENDPKGV})"
+ RDEPENDS_${PN}-dev +=3D "${@["", " libavahi-client (=3D ${EXTENDPKGV})"]=
+[bb.utils.contains('PACKAGECONFIG', 'dbus', 1, 0, d)]}"
++RDEPENDS_${PN}-dnsconfd =3D "${PN}-daemon"
+=20
+ RRECOMMENDS_avahi-daemon_append_libc-glibc =3D " libnss-mdns"
+=20
+--=20
+2.17.1
 
