@@ -1,54 +1,80 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web10.6961.1591348056156418820
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web10.7316.1591350009032248849
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2020 02:07:36 -0700
+ Fri, 05 Jun 2020 02:40:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: kai.kang@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 05597ZkN019832
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 5 Jun 2020 02:07:35 -0700 (PDT)
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 5 Jun 2020 02:07:22 -0700
-From: "kai" <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] avahi-dnsconfd: rdepends on avahi-daemon
-Date: Fri, 5 Jun 2020 17:07:19 +0800
-Message-ID: <20200605090719.12759-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@konsulko.com header.s=google header.b=t1IS5ynN;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.45, mailfrom: pbarker@konsulko.com)
+Received: by mail-wm1-f45.google.com with SMTP id f185so8432026wmf.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2020 02:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nYiFJyYFieLsRXADskXrZN09FcsTq0CM9oL2Q9Bo42A=;
+        b=t1IS5ynNhrndvZSzSWblUEOqLGbriQpcfTNSKNNajBi8rhllYpEHOJib9X3WySVrUJ
+         eMOCLlFtbzzAMPvGvSIMS9fESQ3bQw8unzc0V4bCNyjm96BgFtubDr37yhvGfCpOkdUL
+         zSeKesCnR/keY4OBQ+1SDfQXE+XUtzN/dKWEk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nYiFJyYFieLsRXADskXrZN09FcsTq0CM9oL2Q9Bo42A=;
+        b=cSoicxGdgLJ2zi2zQxDE6RkXsUD0KcdNaiMxbjntyTAz0TL8oK3IwSCHiq17QNb+8o
+         20rIpqc3dU48N3fvRPRCZi9aUghKhoCtHHUGuyUBc3EjTk08CCObKlnBeA4qZ6kwKd7+
+         ynDJoz+BcQZg/rqSZf6+VKWc0T/deafcdSqgwDzaTYxzJfH5IC26LX11JiUphfZpsojp
+         UN3L4C60HsEpYsLA0OqeopTPjdLMhU0r8AnNc0ePn+cm7uUqlJErf0Y3WtL5NVul8uaU
+         5P+aKRGL71P/gV/aGBuvg9MSjQ5E+11DjJZ1dtRPa91wQBp4iF/WBxmuYNKUhmz8r41v
+         fTtA==
+X-Gm-Message-State: AOAM533rbmbSoDBfVgmt9jSvHpB3o01SbLN4QOq6Xy4mA8AKipJoTMjs
+	t4GgG2f6fqqsvlGpR20m8gDhoTtBcS0HIA==
+X-Google-Smtp-Source: ABdhPJyI9eOfgOw/BwVNCmBrlmOKONWQ/hpFahHmoAfx0+Z+/qg07VOtQcbUxiumfv0riyT4yX1QcQ==
+X-Received: by 2002:a05:600c:2385:: with SMTP id m5mr1334838wma.106.1591350007215;
+        Fri, 05 Jun 2020 02:40:07 -0700 (PDT)
+Return-Path: <pbarker@konsulko.com>
+Received: from ar2.home.b5net.uk ([213.48.11.149])
+        by smtp.gmail.com with ESMTPSA id j5sm11283493wrq.39.2020.06.05.02.40.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jun 2020 02:40:06 -0700 (PDT)
+From: "Paul Barker" <pbarker@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <pbarker@konsulko.com>
+Subject: [PATCH 1/3] selftest-ed: Support native builds
+Date: Fri,  5 Jun 2020 10:39:54 +0100
+Message-Id: <20200605093956.6385-1-pbarker@konsulko.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail.windriver.com id 05597ZkN019832
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-From: Kai Kang <kai.kang@windriver.com>
+This allows tests to switch to selftest-ed-native which has far fewer
+dependencies than selftest-ed.
 
-Systemd service avahi-dnsconfd.service=C2=A0requires avahi-daemon.socket
-and avahi-daemon.service which are from avahi-daemon. So make
-avahi-dnsconfd rdepends on avahi-daemon.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Paul Barker <pbarker@konsulko.com>
 ---
- meta/recipes-connectivity/avahi/avahi_0.8.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta-selftest/recipes-test/selftest-ed/selftest-ed_0.5.bb    | 2 ++
+ meta-selftest/recipes-test/selftest-ed/selftest-ed_1.14.1.bb | 2 ++
+ 2 files changed, 4 insertions(+)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.8.bb b/meta/recipes-=
-connectivity/avahi/avahi_0.8.bb
-index 2b0c71159d..35d0c3ea75 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.8.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.8.bb
-@@ -144,6 +144,7 @@ FILES_avahi-utils =3D "${bindir}/avahi-* ${bindir}/b*=
- ${datadir}/applications/b*"
-=20
- RDEPENDS_${PN}-dev =3D "avahi-daemon (=3D ${EXTENDPKGV}) libavahi-core (=
-=3D ${EXTENDPKGV})"
- RDEPENDS_${PN}-dev +=3D "${@["", " libavahi-client (=3D ${EXTENDPKGV})"]=
-[bb.utils.contains('PACKAGECONFIG', 'dbus', 1, 0, d)]}"
-+RDEPENDS_${PN}-dnsconfd =3D "${PN}-daemon"
-=20
- RRECOMMENDS_avahi-daemon_append_libc-glibc =3D " libnss-mdns"
-=20
---=20
-2.17.1
+diff --git a/meta-selftest/recipes-test/selftest-ed/selftest-ed_0.5.bb b/meta-selftest/recipes-test/selftest-ed/selftest-ed_0.5.bb
+index 8e0d1cdd8e..4f713f5c0e 100644
+--- a/meta-selftest/recipes-test/selftest-ed/selftest-ed_0.5.bb
++++ b/meta-selftest/recipes-test/selftest-ed/selftest-ed_0.5.bb
+@@ -20,3 +20,5 @@ EXTRA_OECONF = "'CC=${CC}' 'CXX=${CXX}' 'CFLAGS=${CFLAGS}' 'CXXFLAGS=${CXXFLAGS}
+ CONFIGUREOPTS_remove = "--disable-dependency-tracking"
+ CONFIGUREOPTS_remove = "--disable-silent-rules"
+ EXTRA_OECONF_remove = "--disable-static"
++
++BBCLASSEXTEND = "native"
+diff --git a/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.14.1.bb b/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.14.1.bb
+index 8a2b565ce5..08fb415d9d 100644
+--- a/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.14.1.bb
++++ b/meta-selftest/recipes-test/selftest-ed/selftest-ed_1.14.1.bb
+@@ -34,3 +34,5 @@ do_install() {
+ 		rm -f ${D}${infodir}/dir
+ 	fi
+ }
++
++BBCLASSEXTEND = "native"
+-- 
+2.26.2
 
