@@ -1,90 +1,82 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.14355.1591372407236092594
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.web11.1053.1591381079639730096
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2020 08:53:27 -0700
+ Fri, 05 Jun 2020 11:17:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=J8sKQClN;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AnJ4dNGn;
+ spf=pass (domain: gmail.com, ip: 209.85.216.47, mailfrom: jpewhacker@gmail.com)
+Received: by mail-pj1-f47.google.com with SMTP id m2so3181181pjv.2;
+        Fri, 05 Jun 2020 11:17:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=1562; q=dns/txt; s=axis-central1;
-  t=1591372407; x=1622908407;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=6l7kjNceJju515dzYZSaDWm8SLo+y5wjGdlq5lRGUWE=;
-  b=J8sKQClNEry2HCMm1hzc7ya+bPGBHYliZP63UQn3LDihz/huKbD2YYbK
-   fzTXR6WYyHK/KK7qwJZgoWvvWm69xlRI/D9lVh7QBmfTGSWdhCmUHtlDd
-   sBmpuZQ/OAO9KPudmlDfjuwua3w6ijAIQWgtTz40AsjpyFnPpruRep69y
-   vpX1nwL3HjxqpA1HOUNWTjeX+uWQPEdq7gTr+vdfo+Gtybm4sBG61g5A2
-   +XDSYTdHWsziOU1pVwR7Vvp7pq2IU8u7hLcapkdSEl3hiorTr5Wue7wuN
-   qN7KlZc99JLd+UUQQNBjrTytbNJJnpFxt+iTb+IB3c4opqQlKbkVQPDZ1
-   w==;
-IronPort-SDR: PRN95lcd5BjIbk4X82oY9NPOoRhdBrzaZUkQ2l7FI4lki/YVmWHi0arEIBBPTB+ybhYnaeT4Km
- 01hXrVZA2aiLqHIhdLX/x1PNyWFGjpDa6/3MsOjvRBk8D79jA6p/Riiv72C7GFTDvUAbx7Ar3W
- E43TNcsMbjtXPsj7Rn7A8YU+dycXQ6BwrvTmN8OTklrt4HDhKWweelLJxeF/ze85kW46v+ENVm
- 2QmxC0mbQDEd3B0XP9gRc5yCfAdx7UwxOyHmHxkMq6VPVuiHhfGDZSZgSBe0W6hxhdDQ4IiNnP
- Ez0=
-X-IronPort-AV: E=Sophos;i="5.73,476,1583190000"; 
-   d="scan'208";a="9534004"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [master][dunfell] Revert "prservice.py: fix do_package with newer Python in Ubuntu 20.04"
-Thread-Topic: [OE-core] [master][dunfell] Revert "prservice.py: fix do_package
- with newer Python in Ubuntu 20.04"
-Thread-Index: AQHWO1EJ512pbCUYp0CWtn07RDhN6KjKK5sg
-Date: Fri, 5 Jun 2020 15:53:25 +0000
-Message-ID: <09a573201ca04ab69fab09155aba02f8@XBOX03.axis.com>
-References: <1615B09A37DD131A.25101@lists.openembedded.org>
-In-Reply-To: <1615B09A37DD131A.25101@lists.openembedded.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZoIOhb8TLtEFocF7Dlw6eB/6SjpIEYLbyl5Xz8BvbyI=;
+        b=AnJ4dNGn/RTQCdJUondgR+UpggIgGKPhSW3X7d5VD5SKjAVDNslhTc00q60fPzwWog
+         LIRttH98HhN6o1gMMmf7De/AxZpz6CTIMa1rQYzcWYbJYp6voBHdGVaV6X2GNonhcyj8
+         sZOoriv0cB3xtSv6s9d864i9Y3Of8tI/+X9Yc7o6CGMHSI9c4/NP1pQQVPOMOcElH42u
+         cE1rX6SmR7bC7tO+myIlJTuNKYwH/HEPbCzXn+H4zIZO2KoO8UAZBC8dDsATAAvb0tBf
+         BJhaxRGJHpw6X/SiiFCFh44tQTicu6PAlqbObqFI6+PUSiuOODRIazFIBf3Gqcg1RSsa
+         vE9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZoIOhb8TLtEFocF7Dlw6eB/6SjpIEYLbyl5Xz8BvbyI=;
+        b=L3VBeq+xx7sut3cBuRGwn9zP0mYBAeYUvt+Y1lzE0AyCXYcRADAv2BHpME4rK8FO3O
+         xtnokOcnFNUR6z5ifz4N52cgnsZrjAMRRqEj9/8MR84yO2SUc0Ba5qcKop+DeuDQSkBF
+         w+uwuT2P0GlNpgW4LNuFbv6yvDBeM5sguR7GiSz4F7WTsFS/xxZ+GW2okOsZpk9Iio+l
+         ph9GIPVQDe+ISAN7bDOnmUoYWSVy9LYgm0VCpq4ULwJJIBNWy5DaQz0/wsaDd/45Ln/T
+         yn0l1nSGqQo48DFsXuiQAcqpo20hRo7TsJydOrqsQeMOu3ZCzFBbq/cwgGCJVFX4BQXH
+         +UyA==
+X-Gm-Message-State: AOAM530yJFQHTXT1FbG0yR2R+yRu9UCcoGM/bGwBaxppwg5YqHnawx2Y
+	LFjfLeWu/B18Gkz4CSqKYi7BqbBAFTM=
+X-Google-Smtp-Source: ABdhPJzjSalTGQFz3J4HOC2MXcDHVxIfc8ExDI30p3p+F/t1923EZCTs416EyXdQnYWhEA6IMIAguw==
+X-Received: by 2002:a17:90a:240c:: with SMTP id h12mr4503899pje.42.1591381078874;
+        Fri, 05 Jun 2020 11:17:58 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:28:333f:5748:fb55])
+        by smtp.gmail.com with ESMTPSA id g21sm246096pfh.134.2020.06.05.11.17.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jun 2020 11:17:58 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: bitbake-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [RFC PATCH 0/3] Include mcdepends in signature generation
+Date: Fri,  5 Jun 2020 13:17:51 -0500
+Message-Id: <20200605181754.32883-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 5 juni 2020 17:50
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [master][dunfell] Revert "prservice.py: fix do_package=
- with newer Python in Ubuntu 20.04"
->=20
-> This reverts commit 4b26eaf7152fb712aba47a0c746333578f58ee8d.
->=20
-> Since the problem occurred while importing prserv, the solution has
-> been moved into it instead so it is solved for all cases where prserv
-> is imported, most notably when using devtool.
->=20
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/lib/oe/prservice.py | 4 ----
->  1 file changed, 4 deletions(-)
->=20
-> diff --git a/meta/lib/oe/prservice.py b/meta/lib/oe/prservice.py
-> index 2d3c9c7e50..fcdbe66c19 100644
-> --- a/meta/lib/oe/prservice.py
-> +++ b/meta/lib/oe/prservice.py
-> @@ -3,10 +3,6 @@
->  #
->=20
->  def prserv_make_conn(d, check =3D False):
-> -    # Otherwise this fails when called from recipes which e.g. inherit p=
-ython3native (which sets _PYTHON_SYSCONFIGDATA_NAME) with:
-> -    # No module named '_sysconfigdata'
-> -    if '_PYTHON_SYSCONFIGDATA_NAME' in os.environ:
-> -        del os.environ['_PYTHON_SYSCONFIGDATA_NAME']
->      import prserv.serv
->      host_params =3D list([_f for _f in (d.getVar("PRSERV_HOST") or '').s=
-plit(':') if _f])
->      try:
+Updates signature generation so that mcdepends are included. Previously,
+they were not which meant that if recipe A mcdepends on recipe B, and
+recipe B changed, it would not automatically cause recipe A to also
+rebuild.
 
-There is a corresponding patch sent to the bitbake-devel list that should=20
-be integrated before/together with this.
+In order for signature generation classes to correctly handle mcdepends,
+they need access to all the data caches, so all are passed instead of
+just the one for the recipe in question.
 
-//Peter
+This breaks the bitbake siggen API and makes it incompatible with
+previous signature generators, hence the cross-posting between bitbake
+and oe-core.
+
+Joshua Watt (3):
+  bitbake: siggen: Pass all data caches to hash functions
+  bitbake: tests: Add mcdepends test
+  sstatesig: Account for all dataCaches being passed
+
+ bitbake/lib/bb/runqueue.py                    |  6 +-
+ bitbake/lib/bb/siggen.py                      | 32 ++++----
+ .../lib/bb/tests/runqueue-tests/recipes/f1.bb |  1 +
+ bitbake/lib/bb/tests/runqueue.py              | 30 ++++++++
+ meta/lib/oe/sstatesig.py                      | 77 ++++++++++---------
+ 5 files changed, 89 insertions(+), 57 deletions(-)
+ create mode 100644 bitbake/lib/bb/tests/runqueue-tests/recipes/f1.bb
+
+-- 
+2.26.2
 
