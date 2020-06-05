@@ -1,65 +1,81 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
- by mx.groups.io with SMTP id smtpd.web12.10908.1591363784030469474
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web10.13546.1591370977987489835
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2020 06:29:44 -0700
+ Fri, 05 Jun 2020 08:29:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=cF3y3pIV;
- spf=pass (domain: konsulko.com, ip: 209.85.167.177, mailfrom: paul.barker@konsulko.com)
-Received: by mail-oi1-f177.google.com with SMTP id m67so8206712oif.4
-        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2020 06:29:43 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=prnIxRmL;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id a25so10561437ejg.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 05 Jun 2020 08:29:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=XOpCXvTTgC8DnOXkBeU6rI+W2P0clZ7SoFLB1NOFmsE=;
-        b=cF3y3pIVONbesWPKfZJDpkQQQ8EMW29Qrd8JMZGWN61Zt5uSVUyDi8t3Pl9mrPxY9X
-         CuL5jz+2OzGp1E+4Y82qto6hAelKZubJYuIlsTEMWfyGTIq6AlgNX5Rm+2nR/q/zMUNA
-         pLLKwLY7sM4Di77thJEgaNBbps8GRkltSrHaY=
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XaCIarl5TbWpzFMR925QdE6IPJhdQAOHG21p0r3nAGY=;
+        b=prnIxRmLK8y3M6G+1vICSSi7eYx4Ch9PeuH/1JkBsyw/zfpZRjHDDsVJD4zDP691+u
+         2eChwvKdv+oiUECm+A6HoEmD/1/IblpPxN4SBQH238BhLJPOGcfd8KWeSiGpHJM1LZcV
+         xb51zYIhW8hxcBb0mc3TerQzMZC3e3gjOxQJY2O2tewL3jDoXzsgf1ajXSpwcrlQfcjq
+         H2SDOq8WAk7OCrSP1YYth2fALTR08LliheS+Gprykv4fusKmCar3EqoPME6HMnW7nU4t
+         56ObKsWcZtcsg/9QsZiVxuc0OKvB8hnSSQHVJjMu8clWAwCgyOup/MPSdyct4M+VaJW7
+         518g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=XOpCXvTTgC8DnOXkBeU6rI+W2P0clZ7SoFLB1NOFmsE=;
-        b=B0/zZXBVwC5sRoH7C1TLa4YW8jSZr11d2l300VDMk+HtpJppOS3uZGsd01vjLsLWj8
-         QyjQVUeIfaW7JMruPfIMHw8Pa/DWwIBOqROZhahcY3uIhd+HxS7jIznW8JZpv6zsTbXc
-         RR3XakqDufMmpo77Zmw97atatpwo2f0xiflj1RxsBwBLlhLmdoPo3IBQgK+vzACKYTOz
-         PTDJHY0CFOHCrePBWF4Cq5pEBCT4feornfqBp9B9JdKfaOtRgRF+OSeU8bc43y4/Z1S2
-         zyUL2j1ZBG2tvjHH1Y67ZHX/J2LtrZxE0YMdBcx6F/Z/UtTbVhAzyncyVsjzNHyGKIry
-         H22Q==
-X-Gm-Message-State: AOAM530KpmEaPjjm5ScSJjWNg6e7PtzH5tiIirD5qkQGllSmTkAWUPJ1
-	VG1leA4wS2a2Af8wKkm+Lt227KH58E9AirCBRWH9Qw==
-X-Google-Smtp-Source: ABdhPJzmyLMwOoRBFm1zj82xhwI/4WyKT5HIQnqeCzZDSHwft/uVZXxFcYfQ3KQFA4KenCzjghiSFETkk7BGkl/FZQM=
-X-Received: by 2002:a54:439a:: with SMTP id u26mr1819377oiv.6.1591363783138;
- Fri, 05 Jun 2020 06:29:43 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XaCIarl5TbWpzFMR925QdE6IPJhdQAOHG21p0r3nAGY=;
+        b=PWw31y/Ec2kxNJ0VJPZO8lqla5XxSpSgCBhoPs37tpqaYDO+wWzK+1mJR7Ncyux2lK
+         iL/mg3k7FVhLYFf+IHL2f35YehPbtPLnUhM8S5Mpbc2Utf/PJLUL1uEAZkeBjDaAiuSF
+         qSU6MVAzBZJC4qLEIwvt7FmoTwKZHHOJpELkghVrc3rNxCdMH+9pc1CNkJBEuy36u1an
+         lE4nsX6le5YhErzAsAARPxVxnuSRA7pn3pKEf0ip3EX7qT3rKdkJsJLh/HYiP+E9N47q
+         MKcTpCJrXG+QZuSGZdhRFmSz3vdP8Yepb7YCVfJPt5hrLP5LBQbEw4zol+pNTH79vsyU
+         Kf9A==
+X-Gm-Message-State: AOAM530qVaYwZT8CbUBnmH3QhYMRMFufAJ9SAB9pVOTayTnzvebpV7Sg
+	iihsoNLzTlbOfjnzp43PUj8aBXXPM7k=
+X-Google-Smtp-Source: ABdhPJzOE6I1Up2u4lBaMrEpCbHulKmKSKJJy7UrKxg/T8LbzdlWaZozeps2mqK8eYPO86jThuSd+g==
+X-Received: by 2002:a17:906:aad8:: with SMTP id kt24mr9087846ejb.527.1591370975976;
+        Fri, 05 Jun 2020 08:29:35 -0700 (PDT)
+Return-Path: <schnitzeltony@gmail.com>
+Received: from superandy.speedport.ip (p200300f07f0816493dd1634773746530.dip0.t-ipconnect.de. [2003:f0:7f08:1649:3dd1:6347:7374:6530])
+        by smtp.gmail.com with ESMTPSA id o12sm5189609edq.7.2020.06.05.08.29.35
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 05 Jun 2020 08:29:35 -0700 (PDT)
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] vte: tiny cleanup / renumber patch
+Date: Fri,  5 Jun 2020 17:29:24 +0200
+Message-Id: <20200605152927.3428858-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <1615A7E9D8CB7FC6.25101@lists.openembedded.org> <CA+4=imaaV_2OtheyeYqcV1tFgiPGe3OMsj=rA8EWRXO5XD0FRw@mail.gmail.com>
-In-Reply-To: <CA+4=imaaV_2OtheyeYqcV1tFgiPGe3OMsj=rA8EWRXO5XD0FRw@mail.gmail.com>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Fri, 5 Jun 2020 14:29:32 +0100
-Message-ID: <CAM9ZRVtELmoGty5fuPKOoBUP1PJW8ew7nLCTwpSq1U=Y_gMyoQ@mail.gmail.com>
-Subject: Re: [OE-core] Status of support for recent host glibc
-To: Yann Dirson <yann.dirson@blade-group.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
-	=?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, 5 Jun 2020 at 14:25, Yann Dirson <yann.dirson@blade-group.com> wrot=
-e:
->
-> Le ven. 5 juin 2020 =C3=A0 15:11, Yann Dirson via lists.openembedded.org =
-<yann.dirson=3Dblade-group.com@lists.openembedded.org> a =C3=A9crit :
->>
->> I just got hit by the following dunfell build issue on my debian/testing=
- dev box:
->
->
-> My bad (too many build trees), it is a sumo build.
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+ ... => 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch} | 0
+ meta/recipes-support/vte/vte_0.60.2.bb                        | 4 +---
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+ rename meta/recipes-support/vte/vte/{0002-Add-W_EXITCODE-macro-for-non-glibc-systems.patch => 0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch} (100%)
 
-Sumo is now EOL (https://wiki.yoctoproject.org/wiki/Releases), you'll
-probably need to update to something more recent to support Debian
-testing.
+diff --git a/meta/recipes-support/vte/vte/0002-Add-W_EXITCODE-macro-for-non-glibc-systems.patch b/meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+similarity index 100%
+rename from meta/recipes-support/vte/vte/0002-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+rename to meta/recipes-support/vte/vte/0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch
+diff --git a/meta/recipes-support/vte/vte_0.60.2.bb b/meta/recipes-support/vte/vte_0.60.2.bb
+index 8c7054913f..571fdeba9e 100644
+--- a/meta/recipes-support/vte/vte_0.60.2.bb
++++ b/meta/recipes-support/vte/vte_0.60.2.bb
+@@ -17,9 +17,7 @@ GIR_MESON_OPTION = 'gir'
+ inherit gnomebase gtk-doc features_check upstream-version-is-even gobject-introspection
+ 
+ # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
+-SRC_URI += " \
+-            file://0002-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
+-           "
++SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch"
+ SRC_URI[archive.md5sum] = "1a0b5395915d2f3c88484511b38cc584"
+ SRC_URI[archive.sha256sum] = "35a0280e3f12feeb3096da05699191373c47a4a20c55cb7081e828e6015f8ca5"
+ 
+-- 
+2.26.2
 
---=20
-Paul Barker
-Konsulko Group
