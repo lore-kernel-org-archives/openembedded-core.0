@@ -1,57 +1,52 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web10.5942.1591342351561965068
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web11.6842.1591346923292297010
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2020 00:32:31 -0700
+ Fri, 05 Jun 2020 01:48:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D44160FF9;
-	Fri,  5 Jun 2020 07:32:29 +0000 (UTC)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mingli.yu@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0558mfBv014979
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Fri, 5 Jun 2020 01:48:42 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Fri, 5 Jun 2020 01:48:41 -0700
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] python3: add tcl rdepends for python3-idle
+Date: Fri, 5 Jun 2020 16:47:29 +0800
+Message-ID: <20200605084729.563714-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2VybmVsLWZpdGltYWdlOiBpbnRyb2R1Y2UgRklUX0hBU0hfQUxHIChyZXY0KQ==?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Daisuke Yamane <daisuke.yamane@cybertrust.co.jp>
-Cc: openembedded-core@lists.openembedded.org
-Date: Fri, 05 Jun 2020 07:32:30 -0000
-Message-ID: <20200605073230.20804.44456@do>
-References: <20200605070838.6352-1-daisuke.yamane@cybertrust.co.jp>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200605070838.6352-1-daisuke.yamane@cybertrust.co.jp>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-== Series Details ==
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Series: kernel-fitimage: introduce FIT_HASH_ALG (rev4)
-Revision: 4
-URL   : https://patchwork.openembedded.org/series/9598/
-State : failure
+Add tcl rdepends for python3-idle to fix
+below error:
+ # /usr/bin/idle3 -h
+ [snip]
+ _tkinter.TclError: Can't find a usable init.tcl
+ [snip]
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 56e211d0f3)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/python/python3_3.8.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+index 0474f07214..0ddf88699c 100644
+--- a/meta/recipes-devtools/python/python3_3.8.2.bb
++++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+@@ -346,6 +346,7 @@ RDEPENDS_libpython3_append_libc-glibc = " libgcc"
+ RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
+ RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
+ RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
++RDEPENDS_${PN}-idle += "tcl"
+ RDEPENDS_${PN}-dev = ""
+ 
+ RDEPENDS_${PN}-tests_append_class-target = " ${MLPREFIX}bash"
+-- 
+2.24.1
 
