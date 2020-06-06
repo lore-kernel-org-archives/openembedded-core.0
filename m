@@ -1,75 +1,100 @@
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web12.909.1591401278678585367
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web11.6088.1591429109096790940
  for <openembedded-core@lists.openembedded.org>;
- Fri, 05 Jun 2020 16:54:39 -0700
+ Sat, 06 Jun 2020 00:38:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 13CF340C36;
-	Fri,  5 Jun 2020 23:54:38 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id sBFKXQW9xfbw; Fri,  5 Jun 2020 23:54:38 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id DAF5240A13;
-	Fri,  5 Jun 2020 23:54:35 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 9E6BA173217; Fri,  5 Jun 2020 19:54:35 -0400 (EDT)
-Date: Fri, 5 Jun 2020 19:54:35 -0400
-From: "Denys Dmytriyenko" <denis@denix.org>
-To: Joshua Watt <JPEWhacker@gmail.com>
-Cc: bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [bitbake-devel] [RFC PATCH 0/3] Include mcdepends in signature generation
-Message-ID: <20200605235435.GR17660@denix.org>
-References: <20200605181754.32883-1-JPEWhacker@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20200605181754.32883-1-JPEWhacker@gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+ dkim=pass header.i=@stusta.de header.s=default header.b=sYnLHG3T;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=7vhd=7t=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49fBFs59K1z4R
+	for <openembedded-core@lists.openembedded.org>; Sat,  6 Jun 2020 09:38:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1591429105;
+	bh=2YbLUEt0gvpsbMnlsMyOo6/gZgwRKhkcMzu15a8jVP0=;
+	h=From:To:Subject:Date:From;
+	b=sYnLHG3Tnm75CMtRq7RMh4u96AF8z5RZNFv/LqkI/S4w2dboW3EvqXAOkRwUFJ6Zl
+	 SI3gN35ASJMwAWXRlF+QKbiujomEl25evg4htqeavFhySa8lqYOsXADyvP1nwUXYuu
+	 Hb1cZIbi507ZsYlhoON6ZpP8/yAL+TMqsXzRWVH67/fOcGb0P2NJGbP9b6nWTnjFBN
+	 6HxchDQJ7FqcrjtN1qlAOSyi9hvfhCbIn4nEmUH+FVI5W8A5nQNGR7lwueYwQakO6H
+	 J40FsU36tjMwwb9/TCEhxca/ioIoM63ANwxJawyiicG9sfyqIDKayRmDoXezvgfj/Y
+	 ntW2Z5PYi9c93hBMGuSsJ7fg6jJdANKX5LRk/X9/QotJK0DOJA6hbiGg9DuK9b60k5
+	 sbYut3vo7hkpKguKtRS+ENzFh2EvN7pJb9e9BUIJCLL3nWiDWU65CrYAyC/5z1o7Q9
+	 nZVOTlgNDvA6uLa2dcKCsts95dD19Tb4WEHZC3hgj6rFSBBYuix22GNi+BsImLIQTs
+	 yke3QsKxG787lgJg9fdiO4u6GMdqRsDc15U9yVQfPuPIL7U/bCmhlnYcCOWkWepEsQ
+	 I/rxYkTKKTDXzmga7pfFtkc/jkLki3vos1G31Tw1rnEX8Afz3eqXCn/uwLAXcasUD1
+	 gtV/OlAmIGVCpFs7DyCofw44=
+From: "Adrian Bunk" <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH] dpkg: Remove workaound patch for host tar < 1.27
+Date: Sat,  6 Jun 2020 10:38:24 +0300
+Message-Id: <20200606073824.17972-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
 
-Joshua,
+tar >= 1.28 is already required.
 
-I see you've been actively working recently on multiconfig-related fixes in 
-bitbake, thanks! While at it, would you also be able to take a look at 
-multiconfig-aware RDEPENDS implementation, as discussed here[1]? Thanks!
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ .../dpkg/tweak-options-require-tar-1.27.patch | 36 -------------------
+ meta/recipes-devtools/dpkg/dpkg_1.20.0.bb     |  3 --
+ 2 files changed, 39 deletions(-)
+ delete mode 100644 meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch
 
-[1] https://lists.openembedded.org/g/bitbake-devel/topic/74485221
-
-
-On Fri, Jun 05, 2020 at 01:17:51PM -0500, Joshua Watt wrote:
-> Updates signature generation so that mcdepends are included. Previously,
-> they were not which meant that if recipe A mcdepends on recipe B, and
-> recipe B changed, it would not automatically cause recipe A to also
-> rebuild.
-> 
-> In order for signature generation classes to correctly handle mcdepends,
-> they need access to all the data caches, so all are passed instead of
-> just the one for the recipe in question.
-> 
-> This breaks the bitbake siggen API and makes it incompatible with
-> previous signature generators, hence the cross-posting between bitbake
-> and oe-core.
-> 
-> Joshua Watt (3):
->   bitbake: siggen: Pass all data caches to hash functions
->   bitbake: tests: Add mcdepends test
->   sstatesig: Account for all dataCaches being passed
-> 
->  bitbake/lib/bb/runqueue.py                    |  6 +-
->  bitbake/lib/bb/siggen.py                      | 32 ++++----
->  .../lib/bb/tests/runqueue-tests/recipes/f1.bb |  1 +
->  bitbake/lib/bb/tests/runqueue.py              | 30 ++++++++
->  meta/lib/oe/sstatesig.py                      | 77 ++++++++++---------
->  5 files changed, 89 insertions(+), 57 deletions(-)
->  create mode 100644 bitbake/lib/bb/tests/runqueue-tests/recipes/f1.bb
-> 
-> -- 
-> 2.26.2
-> 
-
-> 
+diff --git a/meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch b/meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch
+deleted file mode 100644
+index ac59dce69e..0000000000
+--- a/meta/recipes-devtools/dpkg/dpkg/tweak-options-require-tar-1.27.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 48bcc51ce042d1b779b34fae454c52b15bdd9cae Mon Sep 17 00:00:00 2001
+-From: Kai Kang <kai.kang@windriver.com>
+-Date: Fri, 22 Feb 2019 01:47:16 -0500
+-Subject: [PATCH] dpkg: 1.18.25 -> 1.19.4
+-
+-GNU tar >= 1.27 is required for --owner=NAME:ID and --group=NAME:ID. And fails
+-to build .deb packages with error:
+-
+-| dpkg-deb: building package 'linux-libc-headers-dbg' in '.../tmp/work/i586-poky-linux/linux-libc-headers/4.19-r0/deploy-debs/i586/linux-libc-headers-dbg_ 4.19-r0.0_i386.deb'.
+-| tar: root\:0: Invalid owner
+-| tar: Error is not recoverable: exiting now
+-| dpkg-deb: error: tar -cf subprocess returned error exit status 2
+-
+-Tweak tar options in dpkg-deb source code to make it work on old machines.
+-
+-Upstream-Status: Inappropriate [cross build specific]
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-
+----
+- dpkg-deb/build.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/dpkg-deb/build.c b/dpkg-deb/build.c
+-index 8436839..67c0c20 100644
+---- a/dpkg-deb/build.c
+-+++ b/dpkg-deb/build.c
+-@@ -462,7 +462,7 @@ tarball_pack(const char *dir, filenames_feed_func *tar_filenames_feeder,
+-     if (options->mode)
+-       command_add_args(&cmd, "--mode", options->mode, NULL);
+-     if (options->root_owner_group)
+--      command_add_args(&cmd, "--owner", "root:0", "--group", "root:0", NULL);
+-+      command_add_args(&cmd, "--owner", "root", "--group", "root", NULL);
+-     command_add_args(&cmd, "--null", "--no-unquote", "--no-recursion",
+-                            "-T", "-", NULL);
+-     command_exec(&cmd);
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb b/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
+index 1e822bbdf5..d539c57522 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.20.0.bb
+@@ -15,9 +15,6 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz \
+            file://pager.patch \
+            file://0001-Add-support-for-riscv32-CPU.patch \
+            "
+-SRC_URI_append_class-native = " \
+-                                file://tweak-options-require-tar-1.27.patch \
+-"
+ 
+ SRC_URI[md5sum] = "f88f077236a3ff3decae3b25c989893d"
+ SRC_URI[sha256sum] = "b633cc2b0e030efb61e11029d8a3fb1123f719864c9992da2e52b471c96d0900"
+-- 
+2.17.1
 
