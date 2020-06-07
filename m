@@ -1,97 +1,170 @@
-Received: from koncepto.io (koncepto.io [195.154.119.111])
- by mx.groups.io with SMTP id smtpd.web10.10341.1591546288422198830
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.80])
+ by mx.groups.io with SMTP id smtpd.web12.11818.1591550202587592770
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Jun 2020 09:11:29 -0700
+ Sun, 07 Jun 2020 10:16:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@koncepto.io header.s=default header.b=xmwRMJ0i;
- spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
-Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr [193.250.66.88])
-	by koncepto.io (Postfix) with ESMTPSA id 928C860250;
-	Sun,  7 Jun 2020 18:11:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
-	s=default; t=1591546286;
-	bh=txoiZUbLn7OQ0EohqoERfoVd5R8rgDFwKJbPOtbmhw8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=xmwRMJ0iZ+7/UHgOYA7vBSPz4i8WU1MbR+3LsVrE/YPnUVPmFXdXANVfPStGSjF72
-	 e4Z47nZmNy+SdZ34p2dHUAAsWtu7XrsUlGynMvDmCMAku4uzGTR9xD78CLnQ1WOQZl
-	 JmYMlkUXiBrVLYfzvWmJPWYQ0bcjK+oZ/i1rFns8L4JmG0BhVLS1birUODwWtve4EX
-	 5xABKBbX+sPxubiSoKcNxj+eIQbS5t4YKzD1nNfoD0fBXt3G6+sZoUhHGTwM3Wf5o/
-	 Sf200b1HJridxnJp2yMSQ23fwWWNIzMAwyXIHovT5XRQvjiU2QbpfQ3kT3X7NxyolE
-	 TbCnwkf6EPbog==
-From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
-Subject: [PATCH] iptables: upgrade 1.8.4 -> 1.8.5
-Date: Sun,  7 Jun 2020 18:11:23 +0200
-Message-Id: <1591546283-23154-1-git-send-email-pjtexier@koncepto.io>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=EPayu/ZC;
+ spf=pass (domain: windriver.com, ip: 40.107.94.80, mailfrom: joe.slater@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iwZ63NKtu/QMM5ECzdaAqP5QOlJ4868i3lvUNBl+J3NFd5MgrgQ5uTR5bR1eQ0sjn43VKcIwvDJtyaJiWcn6yT5SKAFttvXBoLD5vQ4uLJZUlbxIL38t2JcJ0IJJUzSOBQbpqv5tJsPzmFzqg3QJrbQoSZmgZLnOQhC2kAxZfi0hFOr/xygDVxAI855il/HH52IrxHVqR7ctaegkjJWlbCZE2x6uOGCQQYHINZPW2RxDOoAShvuhkyyVeQeJhihR/aHMnHrgyypWE7u0S7C38gKcWoLhGQGO+LK13iXv3v3GILMJ0tZG8m2oNTd5y1zTormZsxIGtPeo4NYtx4tQXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZdpxH/zMmqfbCbd4FI6fJWwK3ukHi3g/5XY5kFL1M2U=;
+ b=ju/HSN6qMAWKmdJTtOYDT64ktcwIoR0OTLSKoYCjG4rZKvqmG77RXweilgJTmLpRFefU7+NP1hTz0PqoyvqlPPjwXF+GoOJg+B8Iw0KGId+uNnjnuyje4iqglf1bEP946c0SDe3tAPl6t0J+PRLBPSw+gvb6CXrjf7BRZfTQrneXsQChlsLtGM4N7464Yppj3hs2tjfHyYCgUN0jVWy3WONmTrCblQu+CBnJL/xPvCDPDW2zwDggOCK+t4JsThlwUfu0VqYLYlIbE4QW3PgCTtPaK6e9AmB+3GxwCfjqot2nRN26QC21uYjejqAieZus0te2lAjz81mUE58EFJPqTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZdpxH/zMmqfbCbd4FI6fJWwK3ukHi3g/5XY5kFL1M2U=;
+ b=EPayu/ZCJnkJiSXBRimmsIwKAoxtufO+ySZOXXvqWCflTh/NQy0q7hz5DDbhbhK3DcizX21qwruoDRc5ptQNtzzOh+euC3yZd1U7QwOXA7bUa7jkqQZRGkOZUhv+SRZg7n3jhZSjPjAVy9dmZRvEP6vfAvA09yNvpkfHuHjJlk8=
+Received: from BY5PR11MB3992.namprd11.prod.outlook.com (2603:10b6:a03:188::10)
+ by BY5PR11MB4101.namprd11.prod.outlook.com (2603:10b6:a03:18e::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Sun, 7 Jun
+ 2020 17:16:39 +0000
+Received: from BY5PR11MB3992.namprd11.prod.outlook.com
+ ([fe80::2c89:3733:2dbb:3a8d]) by BY5PR11MB3992.namprd11.prod.outlook.com
+ ([fe80::2c89:3733:2dbb:3a8d%4]) with mapi id 15.20.3066.023; Sun, 7 Jun 2020
+ 17:16:39 +0000
+From: "Joe Slater" <joe.slater@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, "Chen, Qi"
+	<Qi.Chen@windriver.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH] Revert "vim: do not adjust script paths building for target"
+Thread-Topic: [OE-core][PATCH] Revert "vim: do not adjust script paths
+ building for target"
+Thread-Index: AQHWOt8L9QYclZvdYEy0BtUr3nKDAajJkpcAgAPVOGA=
+Date: Sun, 7 Jun 2020 17:16:39 +0000
+Message-ID: 
+ <BY5PR11MB3992F281954BC697CCD5762988840@BY5PR11MB3992.namprd11.prod.outlook.com>
+References: <20200605021331.20630-1-Qi.Chen@windriver.com>
+ <b2edd74f0db71f891253828cfca64699a32a6622.camel@linuxfoundation.org>
+In-Reply-To: 
+ <b2edd74f0db71f891253828cfca64699a32a6622.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linuxfoundation.org; dkim=none (message not signed)
+ header.d=none;linuxfoundation.org; dmarc=none action=none
+ header.from=windriver.com;
+x-originating-ip: [24.4.218.114]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: fe8a982c-3aa6-4f82-ef3b-08d80b068aaa
+x-ms-traffictypediagnostic: BY5PR11MB4101:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: 
+ <BY5PR11MB41016B5088D806558A651C8A88840@BY5PR11MB4101.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:469;
+x-forefront-prvs: 04270EF89C
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 
+ WVvhdwC35UZoKJSXR3haKBh3TFi5f02t1M518akf9gNSM7lqD2+lVsEi54cTH3iOzojoo1dgfXv+8zEvE8HS+Gg37LcYmhVLEILWAi8bl5MJMQQ8BYnXmcTKJF4cr3OCg9Vo2w2NPGuqS1u4R6u+SCs79km1Bd4r0RVqRN/wmtwXXPUbQ6NCAqH4HTS5DbKXtYDchbYwUsLl76XvRQIRC8HAJrtCHD8Bef7rqjdHEIg/HTN/loXBUqTBaBqNMB62B2Jvv6DoYGyDkxjbCueircSS4kN7uqvtgOml6gvc4a9b0wmfrHYLVQsI8LcYvLrnVzIOph+7jgk2MetJhjQMng==
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB3992.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(346002)(39830400003)(366004)(396003)(376002)(55016002)(9686003)(5660300002)(64756008)(66446008)(66556008)(66476007)(66946007)(86362001)(26005)(83380400001)(52536014)(76116006)(186003)(2906002)(71200400001)(6506007)(53546011)(110136005)(8936002)(8676002)(33656002)(478600001)(316002)(7696005);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ oHYJkaDjfZhm06RkXSKPmmUL1RoWZo1iDIBgv/0bH5zYG5rCvYvjTK3YeVpuE9Y3NvvytRhjY91dEKgtYbAdVtMYSeeOVcAJ39E/T6D0dlOXMcAGw57Q0GY1f8ZDKWYsb5PX0Nkp8ZDnKQYswGQuXrvYffAuM8IhWGdZ/v/Gt7waSbmlCttZNPxyMFb5Noj1XySh2Luyd7D/b9mmpEnOisK40gZTfo8UNGqBOUNSGRrDGLuFSpummSYXKkGc/Ki/rJWeMer3RZog0FAjR0dOxzZYR1/mpMQe4uNL+7ESDKqIk7GxYmmUTGUEQiEPIPZwzC2+l/OhUSO7nxROFCqOP4KqMRsdjFdvP+S9LWD/9jIB1PQvjkoZ6hNSCv3KDiP4+0h8abb0iRTUnGxmOQNdOGwfltWDCJnDFJQLiNYK53+YomfvDkShmvZn8ymFk476UW44Yt7Krxeg8duCySUjPzcSDh9XkuTRYQVJXzQVZs4=
+MIME-Version: 1.0
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe8a982c-3aa6-4f82-ef3b-08d80b068aaa
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 Jun 2020 17:16:39.5303
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: AIIRmMm2IrLOE5Tb/q0+tJo0nmfgq5bNDSlz38UENWieNeXmQMMZ5btOBFLxjqEjJAyjk8B2PWy2MT3Czk2dvsoV5IcK4iJWyTOUBqpuKSQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4101
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This release contains the following fixes and enhancements:
-
-xtables-save/xtables-restore:
-- Fix parser in `--noflush' mode incorrectly rejecting chain definitions
-  and empty lines.
-- Fix crash when restoring or dumping while other ruleset changes happen
-  in parallel.
-
-iptables-apply:
-- Install the script along with `make install'.
-- Introduce parameters `-c' (run command) and `-w' (save successfully
-  applied rules to file).
-- Use `mktemp' instead of `tempfile' for temporary files.
-
-iptables-translate:
-- Support `time' match and `NOTRACK' target.
-- Fix for special interface names `*', `+' and `eth++'.
-
-ebtables-nft:
-- Full among match support, including sets with mixed MAC and MAC+IP
-  entries.
-
-extensions:
-- connlabel: Numeric labels were rejected if a connlabel.conf existed in
-             the system.
-- IDLETIMER: Introduce `--alarm' option.
-
-libxtables:
-- Introduce xtables_fini() to properly deinit the library and close any
-  loaded shared objects.
-
-nfnl_osf:
-- Fix lockup after loading the first line from fingerprints file.
-- Improve error handling, don't silently exit when deleting a
-  non-existing fingerprint.
-
-General:
-- Fixes for undefined behaviour.
-- Replace a few unsafe calls to strcpy().
-- Fix some warnings when compiling with clang.
-- Various fixes for valgrind-detected problems such as memory leaks and
-  reachable memory at program exit.
-
-Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
----
- .../recipes-extended/iptables/{iptables_1.8.4.bb => iptables_1.8.5.bb} | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-extended/iptables/{iptables_1.8.4.bb => iptables_1.8.5.bb} (96%)
-
-diff --git a/meta/recipes-extended/iptables/iptables_1.8.4.bb b/meta/recipes-extended/iptables/iptables_1.8.5.bb
-similarity index 96%
-rename from meta/recipes-extended/iptables/iptables_1.8.4.bb
-rename to meta/recipes-extended/iptables/iptables_1.8.5.bb
-index cf1388c..fa1e5c2 100644
---- a/meta/recipes-extended/iptables/iptables_1.8.4.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.8.5.bb
-@@ -16,8 +16,7 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://ip6tables.service \
-            file://ip6tables.rules \
- "
--SRC_URI[md5sum] = "9b201107957fbf62709c3d8226239b0d"
--SRC_URI[sha256sum] = "993a3a5490a544c2cbf2ef15cf7e7ed21af1845baf228318d5c36ef8827e157c"
-+SRC_URI[sha256sum] = "d457d74512e63aa3f50336e0597d4023c0e3c6845594d38532efb6ebcb294309"
- 
- SYSTEMD_SERVICE_${PN} = "\
-     iptables.service \
--- 
-2.7.4
-
+VGhlIElOU0FORV9TS0lQIGlzIGludGVuZGVkIHRvIGF2b2lkIHRoZSBzY3JpcHQgZGVwZW5kZW5j
+aWVzLiAgUGVyaGFwcyBpdCBpcyBvZiB0aGUNCndyb25nIGZvcm0gb3IgdGhlcmUgaXMgbm93IHNv
+bWUgb3RoZXIgc2FuaXR5IGNoZWNrIHByb2R1Y2luZyB0aGUgZXJyb3I/DQoNCkpvZQ0KDQotLS0t
+LU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4g
+T24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQpTZW50OiBUaHVyc2RheSwgSnVuZSA0LCAyMDIw
+IDExOjQwIFBNDQpUbzogQ2hlbiwgUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT47IG9wZW5lbWJl
+ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV1b
+UEFUQ0hdIFJldmVydCAidmltOiBkbyBub3QgYWRqdXN0IHNjcmlwdCBwYXRocyBidWlsZGluZyBm
+b3IgdGFyZ2V0Ig0KDQpPbiBGcmksIDIwMjAtMDYtMDUgYXQgMTA6MTMgKzA4MDAsIENoZW4gUWkg
+d3JvdGU6DQo+IFRoaXMgcmV2ZXJ0cyBjb21taXQgODk3MmZlNTU4MWI5ZmU4ZWYxNGQ1MzkwMDE3
+NThiYjEzYmNhNjczNy4NCj4gDQo+IFRoZSBhYm92ZSBjb21taXQgY2F1c2VzIHJlZ3Jlc3Npb24g
+d2hlbiB2aW0tdG9vbHMgaXMgaW5zdGFsbGVkLg0KPiBUaGUgZXJyb3IgaXMgbGlrZSBiZWxvdy4N
+Cj4gDQo+IEVycm9yOg0KPiAgUHJvYmxlbTogY29uZmxpY3RpbmcgcmVxdWVzdHMNCj4gICAgLSBu
+b3RoaW5nIHByb3ZpZGVzIC9iaW4vY3NoIG5lZWRlZCBieSB2aW0tdG9vbHMtOC4yLXIwLmNvcmVp
+N182NA0KPiAgICAtIG5vdGhpbmcgcHJvdmlkZXMgL3Vzci9iaW4vbmF3ayBuZWVkZWQgYnkgdmlt
+LXRvb2xzLTguMi1yMC5jb3JlaTdfNjQNCj4gICAgLSBub3RoaW5nIHByb3ZpZGVzIC91c3IvYmlu
+L3B5dGhvbiBuZWVkZWQgYnkgDQo+IHZpbS10b29scy04LjItcjAuY29yZWk3XzY0DQo+IA0KPiBT
+aWduZWQtb2ZmLWJ5OiBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+DQo+IC0tLQ0KPiAg
+Li4uL3ZpbS9maWxlcy9uby1wYXRoLWFkanVzdC5wYXRjaCAgICAgICAgICAgIHwgMjcgLS0tLS0t
+LS0tLS0tLS0tLS0tLQ0KPiAgbWV0YS9yZWNpcGVzLXN1cHBvcnQvdmltL3ZpbS5pbmMgICAgICAg
+ICAgICAgIHwgMTIgKysrKy0tLS0tDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDYgaW5zZXJ0aW9ucygr
+KSwgMzMgZGVsZXRpb25zKC0pICBkZWxldGUgbW9kZSAxMDA2NDQgDQo+IG1ldGEvcmVjaXBlcy1z
+dXBwb3J0L3ZpbS9maWxlcy9uby1wYXRoLWFkanVzdC5wYXRjaA0KPiANCj4gZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L3ZpbS9maWxlcy9uby1wYXRoLWFkanVzdC5wYXRjaCANCj4g
+Yi9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vZmlsZXMvbm8tcGF0aC1hZGp1c3QucGF0Y2gNCj4g
+ZGVsZXRlZCBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDA1YzJkODAzZjYuLjAwMDAwMDAwMDAN
+Cj4gLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvdmltL2ZpbGVzL25vLXBhdGgtYWRqdXN0LnBh
+dGNoDQo+ICsrKyAvZGV2L251bGwNCj4gQEAgLTEsMjcgKzAsMCBAQA0KPiAtdmltOiBkbyBub3Qg
+YWRqdXN0IHNjcmlwdCBwYXRobmFtZXMNCj4gLQ0KPiAtV2hlbiBjcm9zcy1jb21waWxpbmcsIHdl
+IGRvIG5vdCB3YW50IHRvIHJlZmVyZW5jZSB0aGUgaG9zdCB2ZXJzaW9ucyANCj4gb2YgLXRoaW5n
+cyBsaWtlIHBlcmwgYW5kIGF3ay4NCj4gLQ0KPiAtVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nDQo+
+IC0NCj4gLVNpZ25lZC1vZmYtYnk6IEpvZSBTbGF0ZXIgPGpvZS5zbGF0ZXJAd2luZHJpdmVyLmNv
+bT4NCj4gLQ0KPiAtLS0tIGEvc3JjL01ha2VmaWxlDQo+IC0rKysgYi9zcmMvTWFrZWZpbGUNCj4g
+LUBAIC0yNTA3LDExICsyNTA3LDE0IEBAIGluc3RhbGx0b29sczogJChUT09MUykgJChERVNURElS
+KSQoZXhlY18NCj4gLSAJCSBybSAtcmYgJCRjdnM7IFwNCj4gLSAJICAgICAgZmkNCj4gLSAJLWNo
+bW9kICQoRklMRU1PRCkgJChERVNUX1RPT0xTKS8qDQo+IC0tIyByZXBsYWNlIHRoZSBwYXRoIGlu
+IHNvbWUgdG9vbHMNCj4gLSsNCj4gLSsjIHJlcGxhY2UgdGhlIHBhdGggaW4gc29tZSB0b29scywg
+YnV0IG5vdCB3aGVuIGNyb3NzLWNvbXBpbGluZyBpZm5lcSANCj4gLSsoJChDUk9TU19DT01QSUxJ
+TkcpLDEpDQo+IC0gCXBlcmxwYXRoPWAuL3doaWNoLnNoIHBlcmxgICYmIHNlZCAtZSAicysvdXNy
+L2Jpbi9wZXJsKyQkcGVybHBhdGgrIiAkKFRPT0xTU09VUkNFKS9lZm1fcGVybC5wbCA+JChERVNU
+X1RPT0xTKS9lZm1fcGVybC5wbA0KPiAtIAlhd2twYXRoPWAuL3doaWNoLnNoIG5hd2tgICYmIHNl
+ZCAtZSAicysvdXNyL2Jpbi9uYXdrKyQkYXdrcGF0aCsiICQoVE9PTFNTT1VSQ0UpL212ZS5hd2sg
+PiQoREVTVF9UT09MUykvbXZlLmF3azsgaWYgdGVzdCAteiAiJCRhd2twYXRoIjsgdGhlbiBcDQo+
+IC0gCQlhd2twYXRoPWAuL3doaWNoLnNoIGdhd2tgICYmIHNlZCAtZSAicysvdXNyL2Jpbi9uYXdr
+KyQkYXdrcGF0aCsiICQoVE9PTFNTT1VSQ0UpL212ZS5hd2sgPiQoREVTVF9UT09MUykvbXZlLmF3
+azsgaWYgdGVzdCAteiAiJCRhd2twYXRoIjsgdGhlbiBcDQo+IC0gCQlhd2twYXRoPWAuL3doaWNo
+LnNoIGF3a2AgJiYgc2VkIC1lICJzKy91c3IvYmluL25hd2srJCRhd2twYXRoKyIgJChUT09MU1NP
+VVJDRSkvbXZlLmF3ayA+JChERVNUX1RPT0xTKS9tdmUuYXdrOyBmaTsgZmkNCj4gLStlbmRpZg0K
+PiAtIAktY2htb2QgJChTQ1JJUFRNT0QpIGBncmVwIC1sICJeIyEiICQoREVTVF9UT09MUykvKmAN
+Cj4gLQ0KPiAtICMgaW5zdGFsbCB0aGUgbGFuZ3VhZ2Ugc3BlY2lmaWMgZmlsZXMgZm9yIHRvb2xz
+LCBpZiB0aGV5IHdlcmUgDQo+IHVucGFja2VkDQoNCg0KSWYgd2UncmUgZ29pbmcgdG8gaW5zdGFs
+bCB0aGVzZSBmaWxlcyB3aGljaCB5b3UncmUgc3RpbGwgZG9pbmcsIHdlIHdhbnQgdG8gdXNlIHRh
+cmdldCBwYXRocywgbm90IGhvc3Qgb25lcz8NCg0KSSBzdXNwZWN0IHdlIHRoZXJlZm9yZSBuZWVk
+IHRoaXMgYW5kIHlvdXIgY2hhbmdlcyByYXRoZXIgdGhhbiByZW1vdmluZyB0aGlzIHBhdGNoPw0K
+DQpDaGVlcnMsDQoNClJpY2hhcmQNCg0KDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC92aW0vdmltLmluYyANCj4gYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0vdmltLmluYw0K
+PiBpbmRleCA5ZjNkYzA4MDI3Li43OGUzZjk1MjhkIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC92aW0vdmltLmluYw0KPiArKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC92aW0v
+dmltLmluYw0KPiBAQCAtMTEsNyArMTEsNiBAQCBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20v
+dmltL3ZpbS5naXQgXA0KPiAgICAgICAgICAgICBmaWxlOi8vZGlzYWJsZV9hY2xfaGVhZGVyX2No
+ZWNrLnBhdGNoIFwNCj4gICAgICAgICAgICAgZmlsZTovL3ZpbS1hZGQta25vYi13aGV0aGVyLWVs
+Zi5oLWFyZS1jaGVja2VkLnBhdGNoIFwNCj4gICAgICAgICAgICAgZmlsZTovLzAwMDEtc3JjLU1h
+a2VmaWxlLWltcHJvdmUtcmVwcm9kdWNpYmlsaXR5LnBhdGNoIFwNCj4gLSAgICAgICAgICAgZmls
+ZTovL25vLXBhdGgtYWRqdXN0LnBhdGNoIFwNCj4gICINCj4gIFNSQ1JFViA9ICI5ODA1NjUzM2I5
+NmI2YjVkODg0OTY0MWRlOTMxODVkZDdiY2FkYzQ0Ig0KPiAgDQo+IEBAIC04Myw2ICs4MiwxMiBA
+QCBFWFRSQV9PRUNPTkYgPSAiIFwNCj4gIGRvX2luc3RhbGwoKSB7DQo+ICAgICAgYXV0b3Rvb2xz
+X2RvX2luc3RhbGwNCj4gIA0KPiArICAgICMgV29yayBhcm91bmQgZmlsZS1yZGVwcyBwaWNraW5n
+IHVwIGNzaCwgYXdrLCBwZXJsIG9yIHB5dGhvbiBhcyBhIGRlcA0KPiArICAgIGNobW9kIC14ICR7
+RH0ke2RhdGFkaXJ9LyR7QlBOfS8ke1ZJTURJUn0vdG9vbHMvdmltMTMyDQo+ICsgICAgY2htb2Qg
+LXggJHtEfSR7ZGF0YWRpcn0vJHtCUE59LyR7VklNRElSfS90b29scy9tdmUuYXdrDQo+ICsgICAg
+Y2htb2QgLXggJHtEfSR7ZGF0YWRpcn0vJHtCUE59LyR7VklNRElSfS90b29scy8qLnBsDQo+ICsg
+ICAgY2htb2QgLXggJHtEfSR7ZGF0YWRpcn0vJHtCUE59LyR7VklNRElSfS90b29scy8qLnB5DQo+
+ICsNCj4gICAgICAjIEluc3RhbGwgZXhhbXBsZSB2aW1yYyBmcm9tIHJ1bnRpbWUgZmlsZXMNCj4g
+ICAgICBpbnN0YWxsIC1tIDA2NDQgcnVudGltZS92aW1yY19leGFtcGxlLnZpbSANCj4gJHtEfS8k
+e2RhdGFkaXJ9LyR7QlBOfS92aW1yYw0KPiAgDQo+IEBAIC0xMDUsMTIgKzExMCw3IEBAIEZJTEVT
+XyR7UE59LWhlbHAgPSAiJHtkYXRhZGlyfS8ke0JQTn0vJHtWSU1ESVJ9L2RvYyINCj4gIEZJTEVT
+XyR7UE59LXR1dG9yID0gIiR7ZGF0YWRpcn0vJHtCUE59LyR7VklNRElSfS90dXRvciAke2JpbmRp
+cn0vJHtCUE59dHV0b3IiDQo+ICBGSUxFU18ke1BOfS12aW1yYyA9ICIke2RhdGFkaXJ9LyR7QlBO
+fS92aW1yYyINCj4gIEZJTEVTXyR7UE59LWRhdGEgPSAiJHtkYXRhZGlyfS8ke0JQTn0iDQo+IC0N
+Cj4gLSMgV2UgZG8gbm90IHdhbnQgdG8gY29tcGxhaW4gaWYgcGVybCBvciBnYXdrIGFyZSBub3Qg
+b24gdGhlIHRhcmdldC4NCj4gLSMNCj4gIEZJTEVTXyR7UE59LXRvb2xzID0gIiR7ZGF0YWRpcn0v
+JHtCUE59LyR7VklNRElSfS90b29scyINCj4gLUlOU0FORV9TS0lQXyR7UE59LXRvb2xzID0gImZp
+bGUtcmRlcHMiDQo+IC0NCj4gIEZJTEVTXyR7UE59LWNvbW1vbiA9ICIgXA0KPiAgICAgICR7ZGF0
+YWRpcn0vJHtCUE59LyR7VklNRElSfS8qLnZpbSBcDQo+ICAgICAgJHtkYXRhZGlyfS8ke0JQTn0v
+JHtWSU1ESVJ9L2F1dG9sb2FkIFwNCj4gDQoNCg==
