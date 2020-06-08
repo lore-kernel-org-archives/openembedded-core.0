@@ -1,86 +1,79 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web12.25210.1591602495900405068
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web11.25172.1591602496302248876
  for <openembedded-core@lists.openembedded.org>;
  Mon, 08 Jun 2020 00:48:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=bIJ+7LH3;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id d15so83348edm.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 00:48:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hz8xJLtr;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id q19so17149634eja.7
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 00:48:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=O0vvoJFwPjh2v2XeagowZvWWezsK5VntOFzA6SgS6NU=;
-        b=bIJ+7LH3mZuzaz2UuzxgJ2rssRgylr/0btOlBepHyt7zcKY8EOH9tfw3VpqpcwmDb8
-         QNL8Ud3Gor0GqUFb+R3mitpGZ0gGtODcl+RGIeBH7uXIc4cSKVQqztt3PtOHUWE1TGGa
-         dGKJhuKSe003EImwNJJI5EGGj52NGrL7PLNvnRIjty8V8aj0jYkac8FdXjY1Bd+PPojo
-         OMNFx1JmToP/R4OstawdsnCAgswVvz5OArfIZ97o7prPd1QqGNGWsgWLcfuKl75DSlrR
-         K+L0SFwGSwAeUtUwte/IHrJ6637e5wSUXq9VUJ5YkPCRM/UFTADnnwir66KxP1v3jjFC
-         LDhQ==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=HRRpIrlc59VQlWAjsfanvUtcHHXTiaptn8S273e3SAE=;
+        b=hz8xJLtr1Kuj2UBVdQ3dxiRn0Xlzko20F1etLfmJ4jcIz1yyYuGr2lH29dSotb3V/w
+         z4oZAdus9YV+P+vh0yGFUrZt7p0LsHNuTk3ouzZDBgrnB9YEvrUUoxl9ubnuoBVC0Vwb
+         VuDG5ekiBJWV/5AwgJMK1+W6or6hENzdV0rcL5jT+ZA1vBYtFW/jQiqZXRvn71PSeUxv
+         PHGTDTrI9zu//AELaFVMlyt5B1Ztet4DJ+CnxA6JmxfbXwxUNI8XwiLWZgiBW9jviRVq
+         GYK4l1BhaBJNGQ2ekpb8e8dOu2Xs4Drda+lIreG/S32ywQ6HLORYvOtxiScwEKUXjrqZ
+         7SjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=O0vvoJFwPjh2v2XeagowZvWWezsK5VntOFzA6SgS6NU=;
-        b=rk3L9UTvuHfGJ4t2PFm3foL2K0Hpf7EqvB12PEnhfRy7v1oDa58Vrn791LAPUIF18I
-         tks9/CjiYHRQsOXdXbxHmwOFPrJM/75GE2dyRJ1BxH2O3WdSPLaleguUNoXxWdsOF62Z
-         UCA41kHlOIuVCq+xvfa1lLr5fBi658aMDcat54F92eUGUyN5H5LdIP8BDns5iPPuMb3B
-         Y9W0iyYWn5IBLw6sJo0b2SErY17h5ThFOAKRqmL+nR1gw361sqq0FaYsptuKNMo9kpnK
-         Y3YUa2zq98up1496Jv92/sJYQ9NTSx76PhTqlU3V7/YQDMmDiBhteXbBjliLsoGCl7b2
-         lLwg==
-X-Gm-Message-State: AOAM530XCIRqWIeILh3gVk+IDwr1TVUi9Am5/TFaAHQdT/lDutnCf4Sn
-	CxviZuVaRf5JKJ3/ypKkt/niM9mytNU=
-X-Google-Smtp-Source: ABdhPJyyYfwQvCM6FkOG/7zgY7YIgF0SpbtxcOO2jPY0JI5kDkdTOZZrLrzdGXfn5RCvY/vlVD1K6g==
-X-Received: by 2002:a50:ec1a:: with SMTP id g26mr951986edr.289.1591602493879;
-        Mon, 08 Jun 2020 00:48:13 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=HRRpIrlc59VQlWAjsfanvUtcHHXTiaptn8S273e3SAE=;
+        b=NE/q0/VEO1p70zGBhlCX9cTuiulUH8k5mJ2krM98zj/impbtYrGiOkVUpO3XQXlUY2
+         0piY7yJR06Sbw/F6Qqg+Fetzr4ZTq+5b9STXp/i96OC9sbOVRMix5nfho8wnP7DeizP4
+         vujf3/P19a8ZtHPL5K2/Wf803v3bTFKAtTynvXtbI5tb/fw7U7Mj0SBO6AO54zh+iOEc
+         KqiV+IKT/vFde9BCOQ1+H3COUvg8yUyCX14sBYOHcpfPUhysXAVlPYBd7LEKHuQI5yjj
+         e1EohIwudTSDUPxGutjw27Yc8sS9UvYYvPuGM5CHxrQUKQj/K1nvI/3/7USXpwvC8WAi
+         6HsA==
+X-Gm-Message-State: AOAM531eKoB0VspUT8aM/eIjDwjnKTCnMhLZzvUIxgvIrOTHsXObQAgU
+	v2wriDia3LuMCLKAMbo7h5f/XJFyQVM=
+X-Google-Smtp-Source: ABdhPJwsUYxgivM11cVjzGXSvqzdPZ26hf1JbhtAL5ZtBwk1NVOZGbLaNh0pZpSuwfJci4OhSLEd9g==
+X-Received: by 2002:a17:906:7e50:: with SMTP id z16mr20455629ejr.277.1591602494591;
+        Mon, 08 Jun 2020 00:48:14 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.66.228])
-        by smtp.gmail.com with ESMTPSA id g22sm12473466edj.63.2020.06.08.00.48.12
+        by smtp.gmail.com with ESMTPSA id g22sm12473466edj.63.2020.06.08.00.48.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2020 00:48:13 -0700 (PDT)
+        Mon, 08 Jun 2020 00:48:14 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 01/42] linux-yocto: exclude from version checks/automated version updates
-Date: Mon,  8 Jun 2020 09:46:18 +0200
-Message-Id: <20200608074659.7051-1-alex.kanavin@gmail.com>
+Subject: [PATCH 02/42] pciutils: upgrade 3.6.4 -> 3.7.0
+Date: Mon,  8 Jun 2020 09:46:19 +0200
+Message-Id: <20200608074659.7051-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200608074659.7051-1-alex.kanavin@gmail.com>
+References: <20200608074659.7051-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc | 2 ++
- meta/recipes-kernel/linux/linux-yocto.inc                     | 2 ++
- 2 files changed, 4 insertions(+)
+ .../pciutils/{pciutils_3.6.4.bb => pciutils_3.7.0.bb}          | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-bsp/pciutils/{pciutils_3.6.4.bb => pciutils_3.7.0.bb} (92%)
 
-diff --git a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-index 4481aa430c..20139a8497 100644
---- a/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-+++ b/meta/recipes-kernel/linux-libc-headers/linux-libc-headers.inc
-@@ -32,6 +32,8 @@ LICENSE = "GPLv2"
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.6.4.bb b/meta/recipes-bsp/pciutils/pciutils_3.7.0.bb
+similarity index 92%
+rename from meta/recipes-bsp/pciutils/pciutils_3.6.4.bb
+rename to meta/recipes-bsp/pciutils/pciutils_3.7.0.bb
+index 034bb63dc9..4f0edc01ed 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.6.4.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.7.0.bb
+@@ -11,8 +11,7 @@ DEPENDS = "zlib kmod"
+ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.xz \
+            file://configure.patch"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-SRC_URI[md5sum] = "4343b37e19f319ce8f3d59c30031790e"
+-SRC_URI[sha256sum] = "f67ff732976e2db2a5ccdf3960020796526ba6b05f6b1cdd24b7b206af706055"
++SRC_URI[sha256sum] = "9d40b97be8b6a2cdf96aead5a61881d1f7e4e0da9544a9bac4fba1ae9dcd40eb"
  
-+RECIPE_NO_UPDATE_REASON = "Recipe is updated through a separate process"
-+
- python __anonymous () {
-     major = d.getVar("PV").split('.')[0]
-     if major == "3":
-diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
-index f560dec589..bd37006f88 100644
---- a/meta/recipes-kernel/linux/linux-yocto.inc
-+++ b/meta/recipes-kernel/linux/linux-yocto.inc
-@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM ?= "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
+ inherit multilib_header pkgconfig
  
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+(\.\d+)*)"
- 
-+RECIPE_NO_UPDATE_REASON = "Recipe is updated through a separate process"
-+
- # Skip processing of this recipe if it is not explicitly specified as the
- # PREFERRED_PROVIDER for virtual/kernel. This avoids network access required
- # by the use of AUTOREV SRCREVs, which are the default for this recipe.
 -- 
 2.26.2
 
