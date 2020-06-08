@@ -1,86 +1,88 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
- by mx.groups.io with SMTP id smtpd.web12.25222.1591602519773994263
+Received: from mail-ej1-f68.google.com (mail-ej1-f68.google.com [209.85.218.68])
+ by mx.groups.io with SMTP id smtpd.web11.25189.1591602520523618211
  for <openembedded-core@lists.openembedded.org>;
  Mon, 08 Jun 2020 00:48:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jq3U7O/P;
- spf=pass (domain: gmail.com, ip: 209.85.218.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f51.google.com with SMTP id l12so13373201ejn.10
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 00:48:39 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=N3L8kbwc;
+ spf=pass (domain: gmail.com, ip: 209.85.218.68, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f68.google.com with SMTP id f7so17153407ejq.6
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 00:48:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=OUq/ngH8/1q8xjW+CscE4eDcZvV+4bPtvsiohwOiSaw=;
-        b=jq3U7O/PQCoaCqrdOba2hpoUDtKMSxXPDEofgPnzBptQYuVWkyBlVNEGCJNWosaD13
-         1XLkJHpnj3/XFLj3LziXpHD+cu+8aOSZeMs2mIJVDBAY8K6h5d3J8abnJqKuL7l8lZJp
-         3lTm3XpRQrhAZvprFAsQUQZ5+4/ai8zDwj5Th2jXmbnlorLKMYR0IDgCB895k1xP5eQe
-         CeZiDEJq6bSuY/7jYysIddvzQf5Cv5bPnx+9SwjUiznP/uNBOPovvCbkXRkLkdgypLxP
-         3tr8arhtwxTjHLq8cJpKs0zMaHZeoDXp+na0stSq4hNoloA+VDhsycexC04dBRLGs/uA
-         YDEg==
+        bh=/Lmfg/UV/Y/SYoD4dQLNQDhOHP4PA8tJNfjFA9bpftI=;
+        b=N3L8kbwcLSEaDPjgL/s+cF9sN2XQhEzUOqpVeb91H4p3eDlLCLqT4DtWQd8tLrXdkP
+         Eh1Fu41jzhRzgkBfNJXZZmsS6JGTrIj3TramjgC+CzIReiLSxxQTsHSnz9E2C/CZvD4q
+         uPd859Al1QXtv/d2RWwJJbc2w3q5Zck6CNGTdfUi6agO3cfbqUDY9a45x/v7f9entuXW
+         +Fzdb9qrx+Zah0m/bES4RA/GTqiDgzmrt/Dcgfby1X1U24GUWNTfe7X5DJMkkipAydk/
+         sMnz+V/9zQyDQ8hVHr2oISTVEUkLW6mXSLD3mfvs3CSOB53yGNNXqvWdFemiO1N0pM9/
+         Ud6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=OUq/ngH8/1q8xjW+CscE4eDcZvV+4bPtvsiohwOiSaw=;
-        b=f928OhzDR3oOyK+vDfPl+6jkPViIo5cvlSO4QKwhQENoIHb+8WmM7tScPWjdtWz8sW
-         YUwkfXOQw1P2qiW6qOD9xR4Epqny2CY2OsyQt02DeIBBeK7XE6EyX6XWm9f1FT+re9QU
-         deS0pVNmbIL6c7zBeb26Jb8FZMhQ0SepXBSnMZzQL6r/Gk31wJoLaDq9k1rXXrnN/ecS
-         C/QKRTQr6MJL0v1NOY3j6mndoLfkeVimgRGIIVKEBJe3fmQiMrE23/bjDAtzsIcoKVTQ
-         +qHKQiYx5w1+k0+WZGt8ClYFhIiU8echDmTC8OfRjsI3pZRWEOLbZnuqADjxsywpm37A
-         cFPQ==
-X-Gm-Message-State: AOAM533DWGRGrqYS/WpMfEtDXMw4DUH7ebChaDaK9cb/HUlUQPpO40KL
-	3iLGF5JRBVAbjpBMkuGTXq5s+bL4pbU=
-X-Google-Smtp-Source: ABdhPJz7+TrTGMd/ib0OpVg7ClcGVa+UjPDKCq49CJWpI2j/hhOXhh/Vl03SVoejdW8a5l4iQiisPQ==
-X-Received: by 2002:a17:906:c828:: with SMTP id dd8mr20373911ejb.550.1591602518032;
+        bh=/Lmfg/UV/Y/SYoD4dQLNQDhOHP4PA8tJNfjFA9bpftI=;
+        b=G4tGy0q/nO+lOcrVrzKjQbYilq6O/BNH7N8msWBXs5Vh79+lvy/wXAnUxIjrKoq4N0
+         L1R4Ok8aa+7BD5ZAA/nevjnLnnpG+TUeQsKJRdIILMNH25HZYU9bh5NA97p1X1Qu8nit
+         WNwwGgrAn02ZakA67owMlWZqLr+2ooHxTBc2Q4cTY6dLu75GNfgfxFpPEhxQiN7UzWsF
+         LBRUw6KZJnEG0Ui6qxB/XF3HT2qJ+63Nd9xfpSP29aMMOm7E/Z1MC3ZU6ZUTzAMsW7mT
+         JHowAmXOEeKtAqzTDviwr0F+XmWgnMlRGZtbapWONC7BD38HLliAQsFBJTwtxqHnnPOz
+         S/8g==
+X-Gm-Message-State: AOAM530rW4V367womJ+ZDS+Qh10wF/po39OFrZWon1RsBKubp3hW+rPD
+	t0DoMMydCGli9sMTAfjZNvLI7Jo/k6M=
+X-Google-Smtp-Source: ABdhPJyEscHPcq53+f2t4I1GPRf+51k0wGa5HAfoAKnCWNFhfLp4ucmYwdtOTixpiGrR0uBOgBX1ag==
+X-Received: by 2002:a17:906:7253:: with SMTP id n19mr9541653ejk.31.1591602518832;
         Mon, 08 Jun 2020 00:48:38 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.66.228])
-        by smtp.gmail.com with ESMTPSA id g22sm12473466edj.63.2020.06.08.00.48.37
+        by smtp.gmail.com with ESMTPSA id g22sm12473466edj.63.2020.06.08.00.48.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2020 00:48:37 -0700 (PDT)
+        Mon, 08 Jun 2020 00:48:38 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 28/42] asciidoc: 8.6.10 -> 9.0.0
-Date: Mon,  8 Jun 2020 09:46:45 +0200
-Message-Id: <20200608074659.7051-28-alex.kanavin@gmail.com>
+Subject: [PATCH 29/42] debianutils: 4.9.1 -> 4.11
+Date: Mon,  8 Jun 2020 09:46:46 +0200
+Message-Id: <20200608074659.7051-29-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200608074659.7051-1-alex.kanavin@gmail.com>
 References: <20200608074659.7051-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-License-Update: copyright years, gpl2 text updated to latest official
+License-Update: changed license file path on Debian systems
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../asciidoc/{asciidoc_8.6.10.bb => asciidoc_9.0.0.bb}     | 7 +++----
+ .../{debianutils_4.9.1.bb => debianutils_4.11.bb}          | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/asciidoc/{asciidoc_8.6.10.bb => asciidoc_9.0.0.bb} (80%)
+ rename meta/recipes-support/debianutils/{debianutils_4.9.1.bb => debianutils_4.11.bb} (83%)
 
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.10.bb b/meta/recipes-extended/asciidoc/asciidoc_9.0.0.bb
-similarity index 80%
-rename from meta/recipes-extended/asciidoc/asciidoc_8.6.10.bb
-rename to meta/recipes-extended/asciidoc/asciidoc_9.0.0.bb
-index 751bf0f19f..63e02ce5fc 100644
---- a/meta/recipes-extended/asciidoc/asciidoc_8.6.10.bb
-+++ b/meta/recipes-extended/asciidoc/asciidoc_9.0.0.bb
-@@ -5,13 +5,12 @@ articles, books and UNIX man pages."
- HOMEPAGE = "http://asciidoc.org/"
+diff --git a/meta/recipes-support/debianutils/debianutils_4.9.1.bb b/meta/recipes-support/debianutils/debianutils_4.11.bb
+similarity index 83%
+rename from meta/recipes-support/debianutils/debianutils_4.9.1.bb
+rename to meta/recipes-support/debianutils/debianutils_4.11.bb
+index 768f28906f..ac3d5b0267 100644
+--- a/meta/recipes-support/debianutils/debianutils_4.9.1.bb
++++ b/meta/recipes-support/debianutils/debianutils_4.11.bb
+@@ -1,15 +1,14 @@
+ SUMMARY = "Miscellaneous utilities specific to Debian"
+ SECTION = "base"
+ LICENSE = "GPLv2 & SMAIL_GPL"
+-LIC_FILES_CHKSUM = "file://debian/copyright;md5=f01a5203d50512fc4830b4332b696a9f"
++LIC_FILES_CHKSUM = "file://debian/copyright;md5=9b912cd0cc654134c0ef3424a0705b94"
  
- LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
--                    file://COPYRIGHT;md5=029ad5428ba5efa20176b396222d4069"
-+LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=4e5d1baf6f20559e3bec172226a47e4e \
-+                    file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263 "
+-SRC_URI = "http://snapshot.debian.org/archive/debian/20191212T145612Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
++SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz"
+ # the package is taken from snapshots.debian.org; that source is static and goes stale
+ # so we check the latest upstream from a directory that does get updated
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
  
- SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https \
-            file://auto-catalogs.patch"
--SRCREV = "618f6e6f6b558ed1e5f2588cd60a5a6b4f881ca0"
--PV .= "+py3-git${SRCPV}"
-+SRCREV = "c44cb22b0cb110b69e4909c93c1cc6e2be5470cc"
+-SRC_URI[md5sum] = "95633416680bfd249b7cb07d94137048"
+-SRC_URI[sha256sum] = "af826685d9c56abfa873e84cd392539cd363cb0ba04a09d21187377e1b764091"
++SRC_URI[sha256sum] = "bb5ce6290696b0d623377521ed217f484aa98f7346c5f7c48f9ae3e1acfb7151"
  
- DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+ inherit autotools update-alternatives
  
 -- 
 2.26.2
