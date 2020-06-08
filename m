@@ -1,103 +1,156 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web11.25194.1591602533102385786
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web11.25861.1591606488546361468
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jun 2020 00:48:53 -0700
+ Mon, 08 Jun 2020 01:54:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=P/Ql9i0q;
- spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f66.google.com with SMTP id m21so12563340eds.13
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 00:48:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=4muZ+xYb31yczWG6QW+/3i5mhQgjkQIA7M9r0UoFTro=;
-        b=P/Ql9i0qfS18WKvOlMnj1M58rY9YkFy4CfOlyY86IqF7ffMno7xW9YW/cCPgike5iM
-         kqtt2pYIBuBn/oywUe3gGF4NtOmTUBkx+sg2dqpaeXfXau9zwmezNcag9hT6lwfzO4B4
-         Z14ZYvYYMMSmitgVluAStbzqyzuqf1G0eoAzNYjOEHnINvh0PFmi+cCwcDQXuTmIKsGy
-         kQvcSt0RcxdYsDHPoXqnCAyZwQOyUPpeMEUXBL5B17GbrVEuJ43QBCVtZM5WeOoCc4QY
-         ZwApg4derF+H9giJJ4YjKKZciLMfZaqBXEgwjwx6Y27v0oUYGfCmUN+25wcFZauu8i8a
-         uI5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=4muZ+xYb31yczWG6QW+/3i5mhQgjkQIA7M9r0UoFTro=;
-        b=B2Ec5Q78StQ5BcD6wKKZubtCGIRsFXjqle405m5cA9Pi6/r/nDOPz/CkOk2JdJUIni
-         /xKcJTbVihQo+varg6Pti5IKJbGc9ZsusPfNS3Pp9mDhGAHIC+ru4cQqa4219F2IkbE+
-         n3Fjy6uMueTpkIBdeq3QLElhckpw2IcIS4QSJHMSg8d/f/0O4WiFb/jl1bYVLB+ToYmV
-         RrLEgcZoDlxPBq6xOf2WS/ZPyhehnZQQlZimkzVVdkiZeY5JV/xJgJPkyY05iNdb5jcY
-         Ak6XYrkLSQMZUgp0m261rPmtPruI6Cb0Kx7Krwn9A8cWJn1b0MEpA9bkzvqzK0+dk2aI
-         mprg==
-X-Gm-Message-State: AOAM5316lTNzUkw8jt3gpO6qg7sdlPTW9OeNptAoN/foD49Ag0iQy6tC
-	skVYZ38gZ8k1V++Dgo4wSC5hJQnZ/gg=
-X-Google-Smtp-Source: ABdhPJy7E3BAJoPFuT8E3qWdooCarYugMqUc4BxILJDxKR67rzeIJQVaAAFRF9XOtGOP/Ia16DGSZA==
-X-Received: by 2002:aa7:d0cb:: with SMTP id u11mr19934359edo.381.1591602531468;
-        Mon, 08 Jun 2020 00:48:51 -0700 (PDT)
-Return-Path: <alex.kanavin@gmail.com>
-Received: from linux-f9zs.box ([5.28.66.228])
-        by smtp.gmail.com with ESMTPSA id g22sm12473466edj.63.2020.06.08.00.48.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2020 00:48:50 -0700 (PDT)
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 42/42] build-sysroots: add sysroot paths with native binaries to PATH
-Date: Mon,  8 Jun 2020 09:46:59 +0200
-Message-Id: <20200608074659.7051-42-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200608074659.7051-1-alex.kanavin@gmail.com>
-References: <20200608074659.7051-1-alex.kanavin@gmail.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zhengrq.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.73,487,1583164800"; 
+   d="scan'208";a="94079329"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 08 Jun 2020 16:54:45 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id 89B9750A9974
+	for <openembedded-core@lists.openembedded.org>; Mon,  8 Jun 2020 16:54:39 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.227) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Mon, 8 Jun 2020 16:54:41 +0800
+From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Subject: [OE-core][PATCH] Modied the license to GPLv2.1+ to keep with LICENSE file.
+Date: Tue, 9 Jun 2020 01:54:39 +0800
+Message-ID: <1591638879-97684-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.227]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
+X-yoursite-MailScanner-ID: 89B9750A9974.A70D8
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-staging_populate_sysroot_dir() collects postinsts from the sysroot
-and executes them. These postinsts, in turn, may call binaries that
-are only available from the sysroot. This works fine with recipe-specific
-sysroots, as all necessary paths are already in PATH, but breaks down
-in this recipe which imitates the old global sysroot way but doesn't adjust
-the PATH to include the binary paths from global sysroot.
+Please reference to https://gitlab.com/gnutls/gnutls/-/issues/1018.
 
-To reproduce the failure:
+Upstream-Status: Submitted
+[https://gitlab.com/gnutls/gnutls/-/merge_requests/1285].
 
-$ bitbake docbook-xml-dtd4-native
-$ bitbake -c build_native_sysroot build-sysroots
-
-...
-
-Exception: subprocess.CalledProcessError: Command '/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status 127.
-
-Subprocess output:
-/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: 5: /home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: xmlcatalog: not found
-/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: 8: /home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: xmlcatalog: not found
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- meta/recipes-core/meta/build-sysroots.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ ...license-to-GPLv2.1-to-keep-with-LICENSE-f.patch | 88 ++++++++++++++++++++++
+ meta/recipes-support/gnutls/gnutls_3.6.13.bb       |  1 +
+ 2 files changed, 89 insertions(+)
+ create mode 100644 meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
 
-diff --git a/meta/recipes-core/meta/build-sysroots.bb b/meta/recipes-core/meta/build-sysroots.bb
-index 7a712e2f38..ad22a75eb2 100644
---- a/meta/recipes-core/meta/build-sysroots.bb
-+++ b/meta/recipes-core/meta/build-sysroots.bb
-@@ -20,6 +20,8 @@ deltask populate_sysroot
- python do_build_native_sysroot () {
-     targetsysroot = d.getVar("STANDALONE_SYSROOT")
-     nativesysroot = d.getVar("STANDALONE_SYSROOT_NATIVE")
-+    import os
-+    os.environ['PATH'] = "%s/bin:%s/usr/bin:%s" % (nativesysroot, nativesysroot, os.environ['PATH'])
-     staging_populate_sysroot_dir(targetsysroot, nativesysroot, True, d)
- }
- do_build_native_sysroot[cleandirs] = "${STANDALONE_SYSROOT_NATIVE}"
-@@ -29,6 +31,8 @@ addtask do_build_native_sysroot before do_build
- python do_build_target_sysroot () {
-     targetsysroot = d.getVar("STANDALONE_SYSROOT")
-     nativesysroot = d.getVar("STANDALONE_SYSROOT_NATIVE")
-+    import os
-+    os.environ['PATH'] = "%s/bin:%s/usr/bin:%s" % (nativesysroot, nativesysroot, os.environ['PATH'])
-     staging_populate_sysroot_dir(targetsysroot, nativesysroot, False, d)
- }
- do_build_target_sysroot[cleandirs] = "${STANDALONE_SYSROOT}"
+diff --git a/meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch b/meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
+new file mode 100644
+index 0000000..89682b7
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
+@@ -0,0 +1,88 @@
++From a5f05cd4bc2bae3803e7cf8d7ae3dfa9abb34110 Mon Sep 17 00:00:00 2001
++From: Lei Maohui <leimaohui@cn.fujitsu.com>
++Date: Mon, 8 Jun 2020 16:15:07 +0900
++Subject: [PATCH] Modied the license to GPLv2.1+ to keep with LICENSE file.
++
++Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++---
++ lib/x509/krb5.c | 20 +++++++++++---------
++ lib/x509/krb5.h | 20 +++++++++++---------
++ 2 files changed, 22 insertions(+), 18 deletions(-)
++
++diff --git a/lib/x509/krb5.c b/lib/x509/krb5.c
++index 7fe84e651..d68c73757 100644
++--- a/lib/x509/krb5.c
+++++ b/lib/x509/krb5.c
++@@ -1,21 +1,23 @@
++ /*
++  * Copyright (C) 2015 Red Hat, Inc.
++  *
+++ * Author: Nikos Mavrogiannopoulos
+++ *
++  * This file is part of GnuTLS.
++  *
++- * GnuTLS is free software: you can redistribute it and/or modify it
++- * under the terms of the GNU General Public License as published by
++- * the Free Software Foundation, either version 3 of the License, or
++- * (at your option) any later version.
+++ * The GnuTLS is free software; you can redistribute it and/or
+++ * modify it under the terms of the GNU Lesser General Public License
+++ * as published by the Free Software Foundation; either version 2.1 of
+++ * the License, or (at your option) any later version.
++  *
++- * GnuTLS is distributed in the hope that it will be useful, but
+++ * This library is distributed in the hope that it will be useful, but
++  * WITHOUT ANY WARRANTY; without even the implied warranty of
++  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++- * General Public License for more details.
+++ * Lesser General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU Lesser General Public License
+++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
++  *
++- * You should have received a copy of the GNU General Public License
++- * along with this program.  If not, see
++- * <https://www.gnu.org/licenses/>.
++  */
++ 
++ #include <config.h>
++diff --git a/lib/x509/krb5.h b/lib/x509/krb5.h
++index d8926af67..815bb28f7 100644
++--- a/lib/x509/krb5.h
+++++ b/lib/x509/krb5.h
++@@ -1,21 +1,23 @@
++ /*
++  * Copyright (C) 2015 Red Hat, Inc.
++  *
+++ * Author: Nikos Mavrogiannopoulos
+++ *
++  * This file is part of GnuTLS.
++  *
++- * GnuTLS is free software: you can redistribute it and/or modify it
++- * under the terms of the GNU General Public License as published by
++- * the Free Software Foundation, either version 3 of the License, or
++- * (at your option) any later version.
+++ * The GnuTLS is free software; you can redistribute it and/or
+++ * modify it under the terms of the GNU Lesser General Public License
+++ * as published by the Free Software Foundation; either version 2.1 of
+++ * the License, or (at your option) any later version.
++  *
++- * GnuTLS is distributed in the hope that it will be useful, but
+++ * This library is distributed in the hope that it will be useful, but
++  * WITHOUT ANY WARRANTY; without even the implied warranty of
++  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++- * General Public License for more details.
+++ * Lesser General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU Lesser General Public License
+++ * along with this program.  If not, see <https://www.gnu.org/licenses/>
++  *
++- * You should have received a copy of the GNU General Public License
++- * along with this program.  If not, see
++- * <https://www.gnu.org/licenses/>.
++  */
++ 
++ #ifndef GNUTLS_LIB_X509_KRB5_H
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.13.bb b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
+index f56d42a..594cb0f 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.13.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.13.bb
+@@ -19,6 +19,7 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ 
+ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar.xz \
+            file://arm_eabi.patch \
++           file://0001-Modied-the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch \
+ "
+ 
+ SRC_URI[md5sum] = "bb1fe696a11543433785b4fc70ca225f"
 -- 
-2.26.2
+1.8.3.1
+
+
 
