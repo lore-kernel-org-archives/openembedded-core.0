@@ -1,85 +1,88 @@
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web12.31358.1591627243461874185
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [85.220.165.71])
+ by mx.groups.io with SMTP id smtpd.web10.1330.1591647341790307672
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jun 2020 07:40:43 -0700
+ Mon, 08 Jun 2020 13:15:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iVUXCg7n;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: ricardo.ribalda@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id s1so20820209ljo.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 07:40:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=e8jOQxu33WYv1FJmYFdoD3BMrP2rCcyLu8lXyi8B8bg=;
-        b=iVUXCg7nsrzLKYrHWe3i5XxrTFKpGoLAvH+Rv2EHrfgpU2jYxQLOyxRNUkeX2YKKPY
-         2sRtPWDUrKgsSqEqTrkPyytJe6av0LwEFjffYCy3VmGoZ8gMijcKpsackZAojOyH5gY3
-         3j8ETDb40XsUnBYViVSYh2tEwc5cO1BtnZVFuvl1SNEj7IN4/xgAJAlXTwOPB2+13OiR
-         J+c9kzy2+QP7hpYFKCb/0lyvj5nzcKwud3hEXeAPAo7frmVSGZFLaAhXoxjU7xB5P7Er
-         Q/WWc+9VJdznNBwKMktbvoPAsB3NoGhYbWmtfW3gOMiLsRyjNgLMCKvlOX+3BuRDaltP
-         tZJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=e8jOQxu33WYv1FJmYFdoD3BMrP2rCcyLu8lXyi8B8bg=;
-        b=WTX6zTbYz8YlspMfACv7l+mwFmUrwk2aoBtSchfcQECILGYg1tTchGDd8UVxf604I2
-         Cz8aqTg7hjpNK0JUC8CrvP/JmpatCLJZvXrJiEG4aS+OSETsBukpUGOA/rzukHBC0pG2
-         UxqVCMApZkViiz0dVWRlNrMUOJPG0T6jhflDJRCDpRs1gRJNsLwJdbZfCburnwFcacsR
-         FbVv0poESr7MK/nRRufC00Wtp4Ucf7cfUOCHpVWPJY8GB03XOhLLRW8ipsbPQbL0Ijjt
-         YFlCE/lzsDWQ3VRtK6sUNQMf7gc1SQe6kqu4fDRXCRc31TJGKV6O39i/lTKJ0olBK89i
-         FmHQ==
-X-Gm-Message-State: AOAM531SMaFi2KQH2ylleS+LW+xmWhwpJCWyGxU+QmWOFFbR/fpAAgTH
-	jGRspCjrWMwYItWrW5c8tHoO2DlvowfbU2pytjzfi48ZBCQ=
-X-Google-Smtp-Source: ABdhPJw4f/sFtcvpHa2uTq4aa/F0I5jmti2n6/aVV54tiirWtSCNWBaast9D8W5BKBxXOp0H0hWw6ebpTA+zPUdinYQ=
-X-Received: by 2002:a2e:9496:: with SMTP id c22mr4366325ljh.159.1591627241015;
- Mon, 08 Jun 2020 07:40:41 -0700 (PDT)
+ dkim=missing; spf=pass (domain: pengutronix.de, ip: 85.220.165.71, mailfrom: ejo@pengutronix.de)
+Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
+	by metis.ext.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1jiOBE-0000Ty-FP; Mon, 08 Jun 2020 22:15:36 +0200
+Message-ID: <2cf81259a8f75130bc7dfbb473ab92017d054ae4.camel@pengutronix.de>
+Subject: Re: [OE-core] [PATCH] remove unused DEPLOY_DIR_TOOLS variable from bitbake.conf
+From: "Enrico J?rns" <ejo@pengutronix.de>
+To: Khem Raj <raj.khem@gmail.com>, Jacob Kroon <jacob.kroon@gmail.com>
+Cc: "Robert P. J. Day" <rpjday@crashcourse.ca>, OE Core mailing list
+	 <openembedded-core@lists.openembedded.org>, jlu@pengutronix.de
+Date: Mon, 08 Jun 2020 22:15:35 +0200
+In-Reply-To: <CAMKF1spsARiB5ibBVZ2AF5sLGw9cAakGos-yqbfn=NG6B+nw9A@mail.gmail.com>
+References: <alpine.LFD.2.21.2005271027490.2161832@localhost.localdomain>
+	 <0d663371-0bb1-9ae8-a50b-bc4ed7fda412@gmail.com>
+	 <CAMKF1spsARiB5ibBVZ2AF5sLGw9cAakGos-yqbfn=NG6B+nw9A@mail.gmail.com>
+User-Agent: Evolution 3.36.2-1 
 MIME-Version: 1.0
-From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
-Date: Mon, 8 Jun 2020 16:40:24 +0200
-Message-ID: <CAPybu_2pgXgLsvdgLhn60emg5Qh8krRQRNKzQbB5LHfec_YUDQ@mail.gmail.com>
-Subject: devtool and multiconfig: Bug or feature?
-To: openembedded-core <openembedded-core@lists.openembedded.org>, Jan Lorenzen <jl@newtec.dk>
+X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi
+Hi,
 
-I am trying to use devtool in combination with multiconfig for the
-first time, so probably I am doing something wrong.
+Am Donnerstag, den 28.05.2020, 19:02 -0700 schrieb Khem Raj:
+> On Wed, May 27, 2020 at 7:36 AM Jacob Kroon <jacob.kroon@gmail.com>
+> wrote:
+> > On 5/27/20 4:31 PM, Robert P. J. Day wrote:
+> > > Variable DEPLOY_DIR_TOOLS was introduced in 2007:
+> > > 
+> > >    commit f751a20152c651a33f08ceda0502fa1d4f11c005
+> > >    Author: Richard Purdie <richard@openedhand.com>
+> > >    Date:   Wed Aug 8 21:02:39 2007 +0000
+> > > 
+> > >        bitbake.conf: Sync with OE.dev
+> > > 
+> > > apparently never used so get rid of it.
+> > > 
+> > > Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+> > > 
+> > 
+> > meta-openembedded/meta-oe/recipes-support/dfu-util/dfu-util-
+> > native_0.9.bb:do_deploy[sstate-outputdirs]
+> > = "${DEPLOY_DIR_TOOLS}"
 
-I have created a very simple multiconfig
+this was removed now in meta-oe commit
+af3fc04cfb64d9f229be26f47b4dec892ff919dc ("dfu-util-native: Remove
+DEPLOY_DIR_TOOLS from sstate-outputdirs") apparantely.
 
-cat build/conf/multiconfig/arm.conf
-MACHINE = "qemuarm"
+However, I do not get the argumentation for that:
 
-And then I want to modify bash:
-devtool modify multiconfig:arm:bash
+>    In commit 1ef92d2423d6d6546e4f0585478540212b26f3a0 deploying the native
+>    tool was changed to use DEPLOYDIR, so setting DEPLOY_DIR_TOOLS for sstate-outputdir
+>    dependency should have been changed as well.
 
-If then I try to run:
-devtool build multiconfig:arm:bash
-NOTE: Starting bitbake server...
-ERROR: No recipe named 'multiconfig:arm:bash' in your workspace
-
-So I run:
-devtool build bash
-
-But that builds for x86 instead of for arm...
-
-Simply patching check_workspace_recipe does not do the trick:
-@@ -145,6 +145,8 @@ def check_workspace_recipe(workspace, pn,
-checksrc=True, bbclassextend=False):
-     is present.
-     """
-
-+    pn = pn.split(":")[-1]
-+
-     workspacepn = pn
-
-     for recipe, value in workspace.items():
+Setting do_deploy[sstate-outputdirs] to something different than its default appears to be valid for me and has nothing to do with DEPLOYDIR, which is only the sstate intermediate directory name.
+And the result of this is, that the tool now lands in DEPLOY_DIR_IMAGE instead.
 
 
-Any idea or documentation to follow?
+My motivation of questioning is, that we have in our RAUC recipe a similar usage:
 
-Thanks!
+https://github.com/rauc/meta-rauc/blob/master/recipes-core/rauc/rauc-native_1.3.bb#L5
 
+The idea behind that was that one might give some convenience to use the tool manually to manipulate update bundles, re-sign them, obtain meta information, etc.
+
+What is the now suggested way of placing these kind of binaries? Simply in DEPLOY_DIR_IMAGES as the above-mentioned commit does (silently)?
+Or is there maybe still some motivation to keep DEPLOY_DIR_TOOLS?
+
+
+Thanks and best regards
+
+Enrico
 
 -- 
-Ricardo Ribalda
+Pengutronix e.K.                           | Enrico Jörns                |
+Embedded Linux Consulting & Support        | https://www.pengutronix.de/
+ |
+Steuerwalder Str. 21                       | Phone: +49-5121-206917-180  |
+31137 Hildesheim, Germany                  | Fax:   +49-5121-206917-9    |
+
