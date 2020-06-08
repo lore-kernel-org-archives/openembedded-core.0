@@ -1,73 +1,103 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
- by mx.groups.io with SMTP id smtpd.web12.25235.1591602532254886152
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+ by mx.groups.io with SMTP id smtpd.web11.25194.1591602533102385786
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jun 2020 00:48:52 -0700
+ Mon, 08 Jun 2020 00:48:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jQRxNvlU;
- spf=pass (domain: gmail.com, ip: 209.85.208.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f43.google.com with SMTP id o26so12594913edq.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=P/Ql9i0q;
+ spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f66.google.com with SMTP id m21so12563340eds.13
         for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 00:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0S7tJBUTO3P7cJ4Nx8hjEKr1UUErlc0ARVTIM94WNXI=;
-        b=jQRxNvlUqd4E2OAUOglcyhS6Q61G3QHrOpP9UCVE5AIQ/uDgzc/RLWx36xZgaFlOBO
-         Aao9IrK+eXCT8leYM29MeSUOm1lD1ziHIn6LqYmB0VmpshEtgsz0DF+0AfaYMG6hVfT7
-         Y8aeAg/ZtGcdrtx8EFrBV7Ho5kIeq1kzBWTo7wvCThXOS+gioGGr2Hip2sB7L94BlvvN
-         NNeB08d5T2p4R4XF517jIt5Blehs2rIPIZkz8fL3+A8Ds979kPawaOkAa6Umq5D8i3PX
-         aXwrARA910tNsNjEeA150SwFi0Cn1ZV71Ar1thAa+PHRFIMnV2qpUKBeHxeKSVKc1y+t
-         fv8Q==
+        bh=4muZ+xYb31yczWG6QW+/3i5mhQgjkQIA7M9r0UoFTro=;
+        b=P/Ql9i0qfS18WKvOlMnj1M58rY9YkFy4CfOlyY86IqF7ffMno7xW9YW/cCPgike5iM
+         kqtt2pYIBuBn/oywUe3gGF4NtOmTUBkx+sg2dqpaeXfXau9zwmezNcag9hT6lwfzO4B4
+         Z14ZYvYYMMSmitgVluAStbzqyzuqf1G0eoAzNYjOEHnINvh0PFmi+cCwcDQXuTmIKsGy
+         kQvcSt0RcxdYsDHPoXqnCAyZwQOyUPpeMEUXBL5B17GbrVEuJ43QBCVtZM5WeOoCc4QY
+         ZwApg4derF+H9giJJ4YjKKZciLMfZaqBXEgwjwx6Y27v0oUYGfCmUN+25wcFZauu8i8a
+         uI5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0S7tJBUTO3P7cJ4Nx8hjEKr1UUErlc0ARVTIM94WNXI=;
-        b=NTsncqp0NQo2oGDGRYnjW7Mdpii3baaSKBcsj7v02t/3w2d8Nn5iGWOL5t8om03KUt
-         LtTNETtzuzjwwPtixrtSeJjDsuwG/vAj/53mRqeT8ya4NLPjDWL2yIvJMrhjW/2Qx/Qv
-         J46MebX5fbgaieNobXq2DSLgXgLOFzrv6U7w1OSTgQ1xjM7RTsl+iNM/DVmZZ9vRmuRU
-         k6hMuaBDwnud4vrWCDSXDNS3067DHizfF5T4iWU+nAvcDXddiLUrD4MKNfaemueC+nk5
-         Q+v794f2gvuyeRePF/i7nLJa2ybSS30KKDiyA2hprbJ777JqHMpMNiAh9YjWn/7bb/3r
-         C/MA==
-X-Gm-Message-State: AOAM530lW/aA79NFBWqeeV/+0b60gqcdydMvyXRZA5krKLM8z8rOAMpN
-	EaSpZwdGLCov0FCoZOKD9Y6igt3DbIA=
-X-Google-Smtp-Source: ABdhPJzNF7JlGoIh2HTvflqiNHZni3j46T7bIxhLuweuR+bzlDPaINOULyBAL3HNKZ0oMscStqWqKA==
-X-Received: by 2002:a05:6402:306f:: with SMTP id bs15mr21585754edb.331.1591602530674;
-        Mon, 08 Jun 2020 00:48:50 -0700 (PDT)
+        bh=4muZ+xYb31yczWG6QW+/3i5mhQgjkQIA7M9r0UoFTro=;
+        b=B2Ec5Q78StQ5BcD6wKKZubtCGIRsFXjqle405m5cA9Pi6/r/nDOPz/CkOk2JdJUIni
+         /xKcJTbVihQo+varg6Pti5IKJbGc9ZsusPfNS3Pp9mDhGAHIC+ru4cQqa4219F2IkbE+
+         n3Fjy6uMueTpkIBdeq3QLElhckpw2IcIS4QSJHMSg8d/f/0O4WiFb/jl1bYVLB+ToYmV
+         RrLEgcZoDlxPBq6xOf2WS/ZPyhehnZQQlZimkzVVdkiZeY5JV/xJgJPkyY05iNdb5jcY
+         Ak6XYrkLSQMZUgp0m261rPmtPruI6Cb0Kx7Krwn9A8cWJn1b0MEpA9bkzvqzK0+dk2aI
+         mprg==
+X-Gm-Message-State: AOAM5316lTNzUkw8jt3gpO6qg7sdlPTW9OeNptAoN/foD49Ag0iQy6tC
+	skVYZ38gZ8k1V++Dgo4wSC5hJQnZ/gg=
+X-Google-Smtp-Source: ABdhPJy7E3BAJoPFuT8E3qWdooCarYugMqUc4BxILJDxKR67rzeIJQVaAAFRF9XOtGOP/Ia16DGSZA==
+X-Received: by 2002:aa7:d0cb:: with SMTP id u11mr19934359edo.381.1591602531468;
+        Mon, 08 Jun 2020 00:48:51 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.66.228])
-        by smtp.gmail.com with ESMTPSA id g22sm12473466edj.63.2020.06.08.00.48.49
+        by smtp.gmail.com with ESMTPSA id g22sm12473466edj.63.2020.06.08.00.48.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 08 Jun 2020 00:48:50 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 41/42] ca-certificates: correct upstream version check
-Date: Mon,  8 Jun 2020 09:46:58 +0200
-Message-Id: <20200608074659.7051-41-alex.kanavin@gmail.com>
+Subject: [PATCH 42/42] build-sysroots: add sysroot paths with native binaries to PATH
+Date: Mon,  8 Jun 2020 09:46:59 +0200
+Message-Id: <20200608074659.7051-42-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200608074659.7051-1-alex.kanavin@gmail.com>
 References: <20200608074659.7051-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+staging_populate_sysroot_dir() collects postinsts from the sysroot
+and executes them. These postinsts, in turn, may call binaries that
+are only available from the sysroot. This works fine with recipe-specific
+sysroots, as all necessary paths are already in PATH, but breaks down
+in this recipe which imitates the old global sysroot way but doesn't adjust
+the PATH to include the binary paths from global sysroot.
+
+To reproduce the failure:
+
+$ bitbake docbook-xml-dtd4-native
+$ bitbake -c build_native_sysroot build-sysroots
+
+...
+
+Exception: subprocess.CalledProcessError: Command '/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status 127.
+
+Subprocess output:
+/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: 5: /home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: xmlcatalog: not found
+/home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: 8: /home/akanavin/build/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog: xmlcatalog: not found
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-support/ca-certificates/ca-certificates_20200601.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/meta/build-sysroots.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20200601.bb b/meta/recipes-support/ca-certificates/ca-certificates_20200601.bb
-index 37ba51ce6a..6f39df7985 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20200601.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20200601.bb
-@@ -25,6 +25,7 @@ SRC_URI = "git://salsa.debian.org/debian/ca-certificates.git;protocol=https \
-            file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
-            file://0001-certdata2pem.py-use-python3.patch \
-            "
-+UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+)"
- 
- S = "${WORKDIR}/git"
- 
+diff --git a/meta/recipes-core/meta/build-sysroots.bb b/meta/recipes-core/meta/build-sysroots.bb
+index 7a712e2f38..ad22a75eb2 100644
+--- a/meta/recipes-core/meta/build-sysroots.bb
++++ b/meta/recipes-core/meta/build-sysroots.bb
+@@ -20,6 +20,8 @@ deltask populate_sysroot
+ python do_build_native_sysroot () {
+     targetsysroot = d.getVar("STANDALONE_SYSROOT")
+     nativesysroot = d.getVar("STANDALONE_SYSROOT_NATIVE")
++    import os
++    os.environ['PATH'] = "%s/bin:%s/usr/bin:%s" % (nativesysroot, nativesysroot, os.environ['PATH'])
+     staging_populate_sysroot_dir(targetsysroot, nativesysroot, True, d)
+ }
+ do_build_native_sysroot[cleandirs] = "${STANDALONE_SYSROOT_NATIVE}"
+@@ -29,6 +31,8 @@ addtask do_build_native_sysroot before do_build
+ python do_build_target_sysroot () {
+     targetsysroot = d.getVar("STANDALONE_SYSROOT")
+     nativesysroot = d.getVar("STANDALONE_SYSROOT_NATIVE")
++    import os
++    os.environ['PATH'] = "%s/bin:%s/usr/bin:%s" % (nativesysroot, nativesysroot, os.environ['PATH'])
+     staging_populate_sysroot_dir(targetsysroot, nativesysroot, False, d)
+ }
+ do_build_target_sysroot[cleandirs] = "${STANDALONE_SYSROOT}"
 -- 
 2.26.2
 
