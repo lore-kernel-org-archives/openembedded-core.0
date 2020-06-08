@@ -1,76 +1,111 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
- by mx.groups.io with SMTP id smtpd.web10.25171.1591602527347520573
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
+ by mx.groups.io with SMTP id smtpd.web11.25191.1591602528113919268
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jun 2020 00:48:47 -0700
+ Mon, 08 Jun 2020 00:48:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=O4qPWSA8;
- spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ed1-f52.google.com with SMTP id q13so12602672edi.3
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=P17CNXat;
+ spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ed1-f66.google.com with SMTP id m32so7403027ede.8
         for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 00:48:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Q0vwt/tGmQoO6dAmA1EjZddYMtuQ7bKpgnFYuZ+bsXw=;
-        b=O4qPWSA8Dpe5dVKJy58ZIcsfC0Sr/ivSgBP0svnwjUaeLdKfxVYLSK5dDm2Nf8nv72
-         Hiut2L9EgbSlHUYSHzLLsIXo6vDCENCT8nDS1WYcSnRbzYAJl9YhAUDO69pP1gmBCefm
-         R7xaX4t0RlDjFq6gltld8vnvh2I74hKF1GhTdcJtVGTS+EnASspi+ItsRqHKWBPggYk2
-         LU8VjO+tH16xk/gZ0fi0WCz0IKJ2FId0iMF64JNQx5vtMdA4NgrfPTqNdkYIK6oNM4/W
-         qnOHDPasT8yKqvfyT0YDnf08XvILYXWEfkPtlgJhkuLhUwHZ+0jCfgP20jUKhQRgRnjW
-         C3SA==
+        bh=b4y/JHVrMtRm7lUu/PisB7nA5XpLKaoDWYnZ5ohmmds=;
+        b=P17CNXatUd1qoM2FL0gYZKiPSqkkVRvfbshdJOE0FJpXwUfg8cNrkEbUuRyI49OvQ9
+         Ds5M4wrCuZHIrEqRw1OPJIPEfQg3BOTAfExOYFw3LjRvfGYYWQFavjFkSLPDOPep9GOL
+         8b6nJk/kxQiyOMiMhY8e5e57kRvXkBCCzXfnp2ndInpSX3NVBzVTL07wM3QM71BcweXg
+         4vaTRo+SNzyrVfGcVyQZMs9SlJCNJ7//jUA2XHqxUyI4HBf+z6m9C1mratPa01uulTkV
+         qWOIA3s85XU70I5tXPiO6l9uxM/QzY6HHDhXRWkT0q64X/C6FlOjQiNh6xe52x9qLk/E
+         JjGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Q0vwt/tGmQoO6dAmA1EjZddYMtuQ7bKpgnFYuZ+bsXw=;
-        b=adv5KwtzoJWxF7qacq3AJUCGJsvDvAipNcD0IQ/K4MAWVUFsWVffc+c/IaWdOxBdnt
-         nnqui0zrc+mMwaWX/G2EC2SS6DFOmMs6vMt1zWoKZ/30kM4eHyT+tVUU9EqSxVcWyKAE
-         t00qVyl10SOFwFDYOfFDozV+2CeA3XvfMaJii3EC9ZXLBKzPK9PwvxaQ8289G2bSPamI
-         F6zw0lV9YOhcDqnW5M2nwRSdnDGevlq/7L1P4KMKQABAKXGG1isroBw5vI5X8WdKUbT4
-         DwLJ+SeTH7GcKqlU9n0rrCkvMnIHGaRcqaiW+LRxReExUw7VA9S9D++wXnPzEO9rkuR6
-         OUng==
-X-Gm-Message-State: AOAM531dia2VJcUKVzwJ0mBsGWvQujrrShnsIVWjE8yat7JuxjwPQjkn
-	e6j0nmP1yIRsQRE2M4ERUldUw1ZLkXQ=
-X-Google-Smtp-Source: ABdhPJzB0dBh2HxUzcMcLzk5+pLiwGY+Cf7uNk4lZBR0U/KPzMNo6GcaZFhgt+aED9f2NFoYeOo/Nw==
-X-Received: by 2002:a50:d785:: with SMTP id w5mr20223959edi.212.1591602525647;
-        Mon, 08 Jun 2020 00:48:45 -0700 (PDT)
+        bh=b4y/JHVrMtRm7lUu/PisB7nA5XpLKaoDWYnZ5ohmmds=;
+        b=rXd8kC3GJSKj8YWM/CKmgN4W1KoCqAm5FDulN9LK7d2dKtyCHGba3fqz1d3UkPuBgZ
+         4J1lQF98xUQMkcNMlkJ7A5KU4kS1Jx22vtaNyno3g6xLQK0swYm+GRfWLlbEKmJmXvVQ
+         SNlH0FbzXFI5o0u1hCAwcHiOQ68j4GIlPph6b3jHzrmSwiUbgitD2x1x8OriIYJG+BkY
+         vb7MshPHTA5XpAzVXXXhKwUKMI/bs+EHJdWJ0wz0gHB6vR5E0v7OvUDw0ZxPl+8mG0qP
+         cebQLL93Mn1nATcj8spmKiYpLenSUS3MFwDkD+pTIoQiz5eOM1XUpc4a2uD3p3CkHYzh
+         LcfQ==
+X-Gm-Message-State: AOAM533+aprVBoZSButAESrBcemU4lZwH1S3+jRA4LM142ZW4YP+Ltjz
+	sQN5rziZqFbsIu7q5xfW+kcL4C0CRLk=
+X-Google-Smtp-Source: ABdhPJzt8bN1LsBZMwDMW181pWYH8JMzi2HfARrpCQLWj+QHuwc59NPoK3vhZ8rvFoo4ruEUCCWAhw==
+X-Received: by 2002:aa7:d6c1:: with SMTP id x1mr16425458edr.154.1591602526446;
+        Mon, 08 Jun 2020 00:48:46 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.66.228])
-        by smtp.gmail.com with ESMTPSA id g22sm12473466edj.63.2020.06.08.00.48.44
+        by smtp.gmail.com with ESMTPSA id g22sm12473466edj.63.2020.06.08.00.48.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2020 00:48:45 -0700 (PDT)
+        Mon, 08 Jun 2020 00:48:46 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 36/42] ovmf: update to 202005
-Date: Mon,  8 Jun 2020 09:46:53 +0200
-Message-Id: <20200608074659.7051-36-alex.kanavin@gmail.com>
+Subject: [PATCH 37/42] shared-mime-info: upgrade 1.15 -> 2.0
+Date: Mon,  8 Jun 2020 09:46:54 +0200
+Message-Id: <20200608074659.7051-37-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200608074659.7051-1-alex.kanavin@gmail.com>
 References: <20200608074659.7051-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
+Convert to meson, replace custom call to
+update-mime-database with a built-in meson option.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-core/ovmf/ovmf_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../shared-mime-info/shared-mime-info_git.bb  | 24 +++++--------------
+ 1 file changed, 6 insertions(+), 18 deletions(-)
 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index c089627822..91c1b6ba14 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -19,8 +19,8 @@ SRC_URI = "gitsm://github.com/tianocore/edk2.git;branch=master;protocol=https \
-            file://0001-ovmf-Update-to-latest.patch \
-         "
+diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
+index f0d5bc62e9..e82c818e5c 100644
+--- a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
++++ b/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
+@@ -5,19 +5,19 @@ SECTION = "base"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
--PV = "edk2-stable202002"
--SRCREV = "4c0f6e349d32cf27a7104ddd3e729d6ebc88ea70"
-+PV = "edk2-stable202005"
-+SRCREV = "ca407c7246bf405da6d9b1b9d93e5e7f17b4b1f9"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>edk2-stable.*)"
+-DEPENDS = "libxml2 itstool-native glib-2.0 shared-mime-info-native"
++DEPENDS = "libxml2 itstool-native glib-2.0 shared-mime-info-native xmlto-native"
  
- inherit deploy
+ SRC_URI = "git://gitlab.freedesktop.org/xdg/shared-mime-info.git;protocol=https"
+-SRCREV = "829b26d85e7d89a0caee03046c3bce373f04c80a"
+-PV = "1.15"
++SRCREV = "ef58b2b2f7ad4070171c6e45e3b3764daa3ff2c1"
++PV = "2.0"
+ S = "${WORKDIR}/git"
+ 
+-inherit autotools pkgconfig gettext python3native mime
++inherit meson pkgconfig gettext python3native mime
+ 
+-EXTRA_OECONF = "--disable-update-mimedb"
++EXTRA_OEMESON = "-Dupdate-mimedb=true"
+ 
+ FILES_${PN} += "${datadir}/mime"
+-FILES_${PN}-dev += "${datadir}/pkgconfig/shared-mime-info.pc"
++FILES_${PN}-dev += "${datadir}/pkgconfig/shared-mime-info.pc ${datadir}/gettext/its"
+ 
+ # freedesktop.org.xml is only required when updating the mime database,
+ # package it separately
+@@ -25,16 +25,4 @@ PACKAGES =+ "shared-mime-info-data"
+ FILES_shared-mime-info-data = "${datadir}/mime/packages/freedesktop.org.xml"
+ RDEPENDS_shared-mime-info-data = "shared-mime-info"
+ 
+-do_install () {
+-	autotools_do_install
+-
+-	update-mime-database ${D}${datadir}/mime
+-}
+-
+-do_install_class-native () {
+-	autotools_do_install
+-
+-	${B}/update-mime-database ${D}${datadir}/mime
+-}
+-
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.26.2
 
