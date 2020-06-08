@@ -1,50 +1,50 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web10.25157.1591602499519973584
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web11.25175.1591602500269187085
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jun 2020 00:48:19 -0700
+ Mon, 08 Jun 2020 00:48:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=M34hYGdA;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id k11so17158132ejr.9
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 00:48:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=o2dSgAOB;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id n21so2716863ejg.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 00:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=jzkPjOp/rTrI66c1wVpcGNWN1rnP2JCSxkK8mtF70kA=;
-        b=M34hYGdA2LSTMBNtcQpCxeDeG9irSBLdJ5ipdW/l0+Oe9Bc5wM0ewaVI6Pl+gK7kzJ
-         E930gq8k6OnRPKQjyb4Ua7uijMI8bPI13H6x5ntbIBmqR/Nxc2ycQszbpAmUDZwm18NU
-         rjaKJxtq40WKEGL7LPvyOrPQb80kPWOyN2l9hdiDkYC6j4GTtTKJnEmnS27iGqGtIkaD
-         g9mN66eZaNfwP044HH1diiBI5F+wfzfPKsl2pDJ83RhFebQkEzO+E21YnZbOGecoLnfA
-         sFSdLNLhFF7QXCk5jKS/8omYUeIp7AOD0Sp8F6iFn+BuyTY31ukC/q0G+dAC+4HyE9aO
-         cALA==
+        bh=DuL2rkX8J9wghFhg2qzhAC32ii6CKumBcKMdalosm7U=;
+        b=o2dSgAOBOZbz84QEtztkXzxWsXScQ4DCFNVlI6fRamjngG0jVJUNbgyDqA+jMKrwP2
+         M1Y0VtLdtotd6cveDVYfngK0CD22+6pxkrkqT+SvVnEcQyA+waKDCMLUfeg43Te0IGBx
+         lNAMD9AlBVM0IEZzFfE5UGNkMHHxAT0tug025R2Ay7yLwtq1hw7FJRd4kBh3nTNsgopS
+         Nw+6tCn57WURJR450WBhpwpc+EG3j/DDS7B8l93F8GGBsWectkETO7Dy14e765MVgBIH
+         MVib3HraJaduEoYnMc/xZDfY9vI8RFFI4Y79o3XB+AuzZ1EUXXYHmYrOs67JjDFrFz1f
+         XNDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=jzkPjOp/rTrI66c1wVpcGNWN1rnP2JCSxkK8mtF70kA=;
-        b=Ru+lKVs4qodS3Ctd+OZ8Qip+9bVKVUuAKy0BmW4P+3Y7VRyrmep2JqnpQRSAbvezCk
-         N+owD6N+4WDsM9p5dZIrhyuaCTWwXT9eKnTsAP/DrpUkH9wRtnRXQntLr11icZOa8jzA
-         BX5uh1598RHndxmjBZnxuGoengXYCgoaEkNnsoFvrVYAB6Cp63sqLxO5qPtJz/wM2jWl
-         k0mpb/JpM6YWfE24E0hV4uqdTt+pCBUznhCRoHDWR0MdmP7Ah9vg1HL7PQ72+ypFYj0H
-         diS4dAccU6zxwrUosUJCry5o2cmGvrQceaUu4fbxvVln3KMXKKQhJqwgKmgsUFmaqXdN
-         YeRw==
-X-Gm-Message-State: AOAM5321PajqiHjRbZYXfyK0zEjQDkKdA2pUV/f+ekEHtaCeoYCIvC/E
-	UmyKItf+nih66KEziKtO5YEZk2GHmhE=
-X-Google-Smtp-Source: ABdhPJxkBatcVm9hZ79JKMfbzzNyarE42xGtQIFWw3Y5werVvQp8P2cMkNBLjz0PEwVdk/mpBEA6Jw==
-X-Received: by 2002:a17:906:940d:: with SMTP id q13mr19956145ejx.534.1591602497895;
-        Mon, 08 Jun 2020 00:48:17 -0700 (PDT)
+        bh=DuL2rkX8J9wghFhg2qzhAC32ii6CKumBcKMdalosm7U=;
+        b=TISpqqJTPZ4OJczMokLX+iY+7ax7+ix6QJOqAqqVvVKO+m59YI/7Z/w0OM3GpmNQVk
+         HY1qjxMHLfIO+SKdhGMGaTzzV90F2sHE2hd+hOnMJzxmay1MefoRojokz+vafoSSin46
+         VTVIbHkHTd/8mJ7FJpIYz+ulb/X2LWrI/+Yh3P+r+WfWbi9r+V6F5U8D7p7WWsC/ahb7
+         RtrCIyk+7mNQ16TJ1A0P486ZBdn0PCi4rssQakpCko1MtiAycZRnrhBhE3EG1G+X4yul
+         ftINmUzR9JqlgcVc42iunjLkp7wBfU898peZjyPxbt8a0T0QKnBEVafF8eOvzJNA2lG1
+         to/Q==
+X-Gm-Message-State: AOAM533yIFuBIiWRvbo7M4dvHfRZxuVtTYO/cfu0kABW3g0coNtuAhQr
+	txDufMGAFqw9mxw6FSrrFTWoibAey1M=
+X-Google-Smtp-Source: ABdhPJyHJlvQY9mTbF+h9ywmsV+g5pQEBwVB4HX3+gksmViCCkYe8gaDszciemBIn765YbWrtALgaw==
+X-Received: by 2002:a17:906:7c5a:: with SMTP id g26mr19900208ejp.200.1591602498566;
+        Mon, 08 Jun 2020 00:48:18 -0700 (PDT)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from linux-f9zs.box ([5.28.66.228])
         by smtp.gmail.com with ESMTPSA id g22sm12473466edj.63.2020.06.08.00.48.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2020 00:48:17 -0700 (PDT)
+        Mon, 08 Jun 2020 00:48:18 -0700 (PDT)
 From: "Alexander Kanavin" <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-Subject: [PATCH 06/42] python3-numpy: upgrade 1.18.4 -> 1.18.5
-Date: Mon,  8 Jun 2020 09:46:23 +0200
-Message-Id: <20200608074659.7051-6-alex.kanavin@gmail.com>
+Subject: [PATCH 07/42] python3-git: upgrade 3.1.2 -> 3.1.3
+Date: Mon,  8 Jun 2020 09:46:24 +0200
+Message-Id: <20200608074659.7051-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200608074659.7051-1-alex.kanavin@gmail.com>
 References: <20200608074659.7051-1-alex.kanavin@gmail.com>
@@ -53,29 +53,27 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/python-numpy/python-numpy.inc            | 3 +--
- .../{python3-numpy_1.18.4.bb => python3-numpy_1.18.5.bb}       | 0
- 2 files changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/python-numpy/{python3-numpy_1.18.4.bb => python3-numpy_1.18.5.bb} (100%)
+ .../python/{python3-git_3.1.2.bb => python3-git_3.1.3.bb}      | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-git_3.1.2.bb => python3-git_3.1.3.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
-index 6a437e7c3c..75309e3080 100644
---- a/meta/recipes-devtools/python-numpy/python-numpy.inc
-+++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
-@@ -9,8 +9,7 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
-            file://0001-Don-t-search-usr-and-so-on-for-libraries-by-default-.patch \
-            file://0001-convert-shebang-from-python-to-python3.patch \
-            "
--SRC_URI[md5sum] = "70e6c294f8dffa8d630eda1b0d42ae4d"
--SRC_URI[sha256sum] = "e0781ec6627e85f2a618478ee278893343fb8b40577b4c74b2ec15c7a5b8f698"
-+SRC_URI[sha256sum] = "2c095bd1c5290966cceee8b6ef5cd66f13cd0e9d6d0e8d6fc8961abd64a8e51f"
+diff --git a/meta/recipes-devtools/python/python3-git_3.1.2.bb b/meta/recipes-devtools/python/python3-git_3.1.3.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-git_3.1.2.bb
+rename to meta/recipes-devtools/python/python3-git_3.1.3.bb
+index 72280ec30d..064868d858 100644
+--- a/meta/recipes-devtools/python/python3-git_3.1.2.bb
++++ b/meta/recipes-devtools/python/python3-git_3.1.3.bb
+@@ -12,8 +12,7 @@ PYPI_PACKAGE = "GitPython"
  
- UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
-diff --git a/meta/recipes-devtools/python-numpy/python3-numpy_1.18.4.bb b/meta/recipes-devtools/python-numpy/python3-numpy_1.18.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/python-numpy/python3-numpy_1.18.4.bb
-rename to meta/recipes-devtools/python-numpy/python3-numpy_1.18.5.bb
+ inherit pypi setuptools3
+ 
+-SRC_URI[md5sum] = "2397bea2d7c36ef9f874ab6355abae59"
+-SRC_URI[sha256sum] = "864a47472548f3ba716ca202e034c1900f197c0fb3a08f641c20c3cafd15ed94"
++SRC_URI[sha256sum] = "e107af4d873daed64648b4f4beb89f89f0cfbe3ef558fc7821ed2331c2f8da1a"
+ 
+ DEPENDS += " ${PYTHON_PN}-gitdb"
+ 
 -- 
 2.26.2
 
