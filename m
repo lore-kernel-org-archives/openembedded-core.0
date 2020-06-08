@@ -1,17 +1,17 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (NAM11-CO1-obe.outbound.protection.outlook.com [40.107.220.80])
- by mx.groups.io with SMTP id smtpd.web11.21124.1591580287088687066
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.43])
+ by mx.groups.io with SMTP id smtpd.web11.21152.1591580430358195526
  for <openembedded-core@lists.openembedded.org>;
- Sun, 07 Jun 2020 18:38:07 -0700
+ Sun, 07 Jun 2020 18:40:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=JbJPI6vo;
- spf=pass (domain: windriver.com, ip: 40.107.220.80, mailfrom: qi.chen@windriver.com)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Hn4WIN5u;
+ spf=pass (domain: windriver.com, ip: 40.107.223.43, mailfrom: qi.chen@windriver.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JkMr03g7NkNadQIxbRZ3RDv/UK0Pp3OCECV80Ce1L7SV2MQvt6GL1eFjwa2CbXDgnRc34Di34lpV20pGH0OgXm251VmcOeCV+fyvCLmm+Ock84/trrOtBMR7cGjrAxT1hkckYgfj7ld5rdwK2uSsf+Twx/ZcM+yTQbN96yP/IbXaPt4KzmHoWDaDavUUC9v7z1+w3YhRWCtfuBVuvjzDiIXv4D7bp3PO3wSLNw07CMMlvqGCiM8cnKln7x7VfeH2syu/lDohb7BTTJqXsS+aNCdJf6WGwT25xXRnaMCRy+xYpcJUEuyLEFqsNIKLrwUhr9Ky08c9Dbe65mtFAcV7GA==
+ b=M0GAImAEPGgq+Fa6/LjUyzgaff9r5l7NG0vRIPer+OHPlwke19BMlcvfqlCyv6UkOxpb0dT1w4XNlCYXubF7kGSC27RdpE9GqI8hs2EOHwK1Q+HNkmdiQn0+PV0ms8Gxnv2fLSbsuA0Gq4FS1ozNFSOjxGC8rRrG1GNAkHx0YoZuOvoWOMtHKXDxbQr01KUTh51rvfW7tPg/nMYULyXJ8bwFYcr2XMn+A8XCIAoQNLkxyRQiSp+DYsKgQr8/qbDA83uOosQ6uPzZ7tZU36ux+uyfNWfdOdMvZsmDIh0p9kM4FFMd1mYciQsJ2MkeH6rBv4tphQ7X6nm8r4LYX6t2Nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aFLzQR2+lXCNPx3klzgxPUVv+tk9eS36hprAiNljcA4=;
- b=lGGtqrV+KrTWLi+hNf/sHxiWoge6PgjmhDuvTanN+lshL8NC0cyaMl2J0r00f1+KNOUCSuOYU5C5ofKJCctfpfKLnKJQHkJgtnVNiwRoRqbaX19lzGSu4YBPipr7cIgSQEO66cD/MWis4cpXXphqUlRUKxIISopx+RVsGdLu6drH1YhPv+CUA8G7O/qzgN4eLiXGcxMBhKoZSWUDu2PdkNRfWY01FZvawNXdd0PrKlrJEkgDYHGRTDwqVNOvVbEWsY/hFLvPuqeIqSvj6HzZYX/xNhZZeQlVuuuBWN0eZ8EbtJCCytFa9g9ZqQ4mKQjAZW5msVY0kjzNUDmJ0djU1A==
+ bh=ipzbv5aSBIXaBUec0/h1XP2/ldSS7aHqC6qmUyNf6z8=;
+ b=gnZkM/DCMl1UxjFSCmdfSj8NEiGELgupHXKlGwTehVRKeBiYKlpFUbuV+0wc8M6iR6vwjNVd6VyxHB4IFv+BTP9pV6WlKNNT9l2qm52dhMWulkuYiJnRW+hiKUrcrw6xDBEdCCRi+eRet5nyQg/0T7BUU3qNYnqgSz6CQRzFUX3tVjnT32nEgCPMIgeEHocBBeo+jWZguVEemyPX3XfRwXhcpScHyulw2wfBb24SiUWia0dqge49G4rwQ/nxkdQusgmi8ida6S66ClUSJurqr3NES7zcDMdy0Vmy+w5ikziGvDQI9sMZ9mtS74yTuO+TJKd9OfAe1n5jG7s/eGrCZw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -19,67 +19,92 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aFLzQR2+lXCNPx3klzgxPUVv+tk9eS36hprAiNljcA4=;
- b=JbJPI6voXZcfa2FmxyVV4j4vCAlf2We8fGWS2WoOo/7YeVqmQcsyjzfBbFeZ/y3tov3lXr9AHwaVonifce+pVc/XDLrME03m1iMA9ZuANkF32yrgPt1j8hAnO7tFqWsnyvNB0ZPYQ91rQ+U+wsQJvTSVkhEC3xibqTI6SuMsefs=
+ bh=ipzbv5aSBIXaBUec0/h1XP2/ldSS7aHqC6qmUyNf6z8=;
+ b=Hn4WIN5uK1RNqX8ooh+dKelIvs+EjC3TjHMQS8PW9jLKax+p9VqBjPoAU+ctsWiDpbHvjY2JVejiFgRKAhTyz5YjqTEkRuAf2wxas7kiBgcNWMFPV1w+97xTOcZd2mmYzJ4JZYmB+DyJ7FCcDVdBeCq9C1zk8zooF7pFjuZSETI=
 Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
  header.d=none;lists.openembedded.org; dmarc=none action=none
  header.from=windriver.com;
 Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
- by BYAPR11MB3848.namprd11.prod.outlook.com (2603:10b6:a03:fd::31) with
+ by BYAPR11MB3080.namprd11.prod.outlook.com (2603:10b6:a03:8c::33) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.22; Mon, 8 Jun
- 2020 01:38:06 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.20; Mon, 8 Jun
+ 2020 01:40:28 +0000
 Received: from BYAPR11MB3480.namprd11.prod.outlook.com
  ([fe80::ddb1:52c7:c1f9:a70c]) by BYAPR11MB3480.namprd11.prod.outlook.com
  ([fe80::ddb1:52c7:c1f9:a70c%3]) with mapi id 15.20.3066.023; Mon, 8 Jun 2020
- 01:38:06 +0000
+ 01:40:28 +0000
 Subject: Re: [OE-core][PATCH] Revert "vim: do not adjust script paths building for target"
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
+To: "Slater, Joseph" <joe.slater@windriver.com>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
 References: <20200605021331.20630-1-Qi.Chen@windriver.com>
  <b2edd74f0db71f891253828cfca64699a32a6622.camel@linuxfoundation.org>
+ <BY5PR11MB3992F281954BC697CCD5762988840@BY5PR11MB3992.namprd11.prod.outlook.com>
 From: "Chen Qi" <Qi.Chen@windriver.com>
-Message-ID: <1e446c43-427d-9a9d-18a0-b3785298120f@windriver.com>
-Date: Mon, 8 Jun 2020 09:41:02 +0800
+Message-ID: <70d2cf02-7160-fc23-9082-e74f0ae67006@windriver.com>
+Date: Mon, 8 Jun 2020 09:43:24 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
  Thunderbird/45.4.0
-In-Reply-To: <b2edd74f0db71f891253828cfca64699a32a6622.camel@linuxfoundation.org>
-X-ClientProxiedBy: HK2PR06CA0006.apcprd06.prod.outlook.com
- (2603:1096:202:2e::18) To BYAPR11MB3480.namprd11.prod.outlook.com
+In-Reply-To: <BY5PR11MB3992F281954BC697CCD5762988840@BY5PR11MB3992.namprd11.prod.outlook.com>
+X-ClientProxiedBy: HK0PR01CA0068.apcprd01.prod.exchangelabs.com
+ (2603:1096:203:a6::32) To BYAPR11MB3480.namprd11.prod.outlook.com
  (2603:10b6:a03:79::27)
 Return-Path: Qi.Chen@windriver.com
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.161] (60.247.85.82) by HK2PR06CA0006.apcprd06.prod.outlook.com (2603:1096:202:2e::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.3066.18 via Frontend Transport; Mon, 8 Jun 2020 01:38:05 +0000
+Received: from [128.224.162.161] (60.247.85.82) by HK0PR01CA0068.apcprd01.prod.exchangelabs.com (2603:1096:203:a6::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.20.3066.18 via Frontend Transport; Mon, 8 Jun 2020 01:40:27 +0000
 X-Originating-IP: [60.247.85.82]
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8a9b990d-bcd8-4642-985d-08d80b4c9773
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3848:
+X-MS-Office365-Filtering-Correlation-Id: bf863b2b-2099-48e3-61f6-08d80b4cec77
+X-MS-TrafficTypeDiagnostic: BYAPR11MB3080:
+X-MS-Exchange-Transport-Forked: True
 X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB384842F039ABA53CBB3D4C39ED850@BYAPR11MB3848.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:425;
+	<BYAPR11MB30801E92C79BA6CA955E2C8BED850@BYAPR11MB3080.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:207;
 X-Forefront-PRVS: 042857DBB5
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	OePWzPaeDxAPuWa2ukmZjZkQ9rf+oc3RMjOwslmLsBwMgCM04tgVhyJCjuAHY3zeHglSbl35rHNpbMOz/2DtU6sgzqM1Izy4B9AWJ02ZdnmoNs56a230g13bDw/ENTRv5CRl9Fa1opijSUx4cgbl/s8nXsJv7LMkwilmvOFupCMiyQY5SC5DFYL5vL5KEyCcMqqdH0Tr09Gt25Onhih1xmD5l4eH4uxPUkD/kzKJ7y+/+pcJEx+wqSsXzKXcqXZftlvTTcHEa1rd+PjBpN6oS2xuSlWq8688piw3fjO7fKYjphqoTMqoNgOfIIs8bbEflq3QWrXmKqO2iRK14EKxUq3GnMac54bDadvBFNyQKuIgWzRzsBSfcCHOgBEwxagkhEK/55T7Qze1cNWTYsC+FET7YOyWM3I8ZkTLA866pXW5GHu2SxFJZCGDS5B+Mqto/lDCC/iu2cq3RquhocH3orC5gC1ooAyLfHtGUbCx5mW9zYyROlY+EyZ8z/xxf6XYTfdgl14i/tZyHrr5iRzBaQ==
+	NjA88ucnOtdRdBLIZBfGMs7FSVTn7CaXPHQLIkiWxoIM8CvG2h2XF4n3t9QI6TcF7FNepbd0K/FdP/GzYuF9ZOLEfqsUYcDkGT7Uvp2UV09DmM4pREQK+9Z+t1e3lMl9GmD8UGYlcL8WL0ZOqNidwpytfPQW0p/CxDUOtCs08fWC3dP0cnhXY4UAWaPhPA/QwngzUKrxl+zA3uPC4HBiIBRwcesxLDAqod2jujHVJNwAuF1J2j3/33EYfMm2gI5odrcyHVI9vrRWJbxP89gP1xDZGHjhQpZPLABKqEnOR5XvcnsSs9JyeMJmP2lWRksxNljB811Jm5WNYSWpUA4SHeSCjkjWnP/o8im11GJ/V6XQ3cS5+AhumslAenjWpuUKsc1DRE7tlyKhUCsoi/qKeX7RlICcvdV6BOXuMox337MPRsI3uv3BpTXEb9N8gByoU2JwkXrtLvBRuVOgLxVUWDHpsmBTEu+UFwSOLSfGyws=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(396003)(376002)(136003)(39840400004)(346002)(366004)(83380400001)(36756003)(6666004)(5660300002)(16576012)(2906002)(53546011)(31686004)(8676002)(52116002)(316002)(2616005)(26005)(956004)(66476007)(66556008)(478600001)(31696002)(966005)(6486002)(8936002)(86362001)(6706004)(186003)(16526019)(66946007)(78286006)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(39840400004)(396003)(136003)(376002)(366004)(346002)(26005)(16526019)(186003)(52116002)(478600001)(110136005)(6706004)(53546011)(316002)(16576012)(6486002)(8936002)(31686004)(2906002)(31696002)(66476007)(66556008)(66946007)(83380400001)(86362001)(6666004)(956004)(2616005)(36756003)(8676002)(5660300002)(78286006)(21314003)(43740500002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	6qXAjI6mEokG7bXSLJSk2JKkLYGq+I8muJbOs5KyEHE666r6MKbtOLFcw0/VCitLDIalF9H6rJa3PyQ6P1CAwgSFlOEBZctWnUnbDOmj90PPp+w42vK4NUOezC2TiyCZqS8qe9HoxeLBgOGfCPL9TaQhYlY1UcZ1+W07bSrJmIqDZIAXNu2+kSpCzN98yw8sf2NoGguB1nTpU7CmYGi2xrkUZoN2mz0lOUNMYDSRxd2Ruy3vh77H6bf0uis7+RPgME6FOpUSUpTWB7Rhr/F4MyphGWDeJtNnMMR+iN1hcoUnLoKKSPU24i1liaC8EPvjsYUsGTYPyXGbYqaw0R3EzrAYeBV5OT1xdn0NuEt4Tqb0Y10QCEOcRWO6LLFLWNs8Xes8KgF8cTHaADM52b2VKXjLO4bpZorbUg2dEoehfCxFjs6YBTso0eIR5+tsBFsdlx8LZj9fvWrmmw0sw7PpvDvB3LFrciIyio0SdzI4aWU=
+	FFJJ2jdZhc4WUURUeyKpZWhQQyHzSaqyMXTNm51Dr3Znq+zAjYhFyLUW1Lkx/Vb0pPROB1YtGk131xUI7H/1wVmtGMX3EwsFkCJyqSGCTGuQNxqaDq+v1hTxlEZOzAut6Cw4bmlqxZEmG5xEM5X1w0JMzfDKU7ILEtNz8XRmN0M5rkqYJMF0AuPGjxwKFjOSdyXD8605iRNSHUck5rkXiYfh2t7p1HoqPMu3Ni0Z354hnJykaHrvBAhCmbWDMHu8OAVmb+cfqElfwFX/bQiM/NwubcAdTDEd6/POrmy6FKkpBHaU3+Z3nb27yJMcEy37twESRwqv1Hj+CJstCSSHDnwNyyR1pTkS9se0w20oSM6YVmQxrnYMVsg2FdlNm6+T31iAutU0TepQoxED8hR+/yUObkbHy1NxyVt1PgOt89Kn2IY1Q1wlTplNV8j617xMBz1b6TvArXC4I4RE/mS+qYuwQfAtDBA8binqYpVInjo=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a9b990d-bcd8-4642-985d-08d80b4c9773
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2020 01:38:06.0879
+X-MS-Exchange-CrossTenant-Network-Message-Id: bf863b2b-2099-48e3-61f6-08d80b4cec77
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Jun 2020 01:40:28.7500
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EVTp8qm50npxN9J/J16EfqJIMA5/ulUUQwvVJHtd9RdolQsNeZEF1eL1H0dpWnpPi290gX4oCdfZu5U5Fp7v4A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3848
+X-MS-Exchange-CrossTenant-UserPrincipalName: GCc3E56O0sPUBANPCV731DojEhbLJfwfRdXhm8ygntaS7tXJumiEdlPKfgmLqKUTyQ06l3/Q7Q83yFLLj+7Rbw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3080
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 06/05/2020 02:40 PM, Richard Purdie wrote:
+On 06/08/2020 01:16 AM, Slater, Joseph wrote:
+> The INSANE_SKIP is intended to avoid the script dependencies.  Perhaps it is of the
+> wrong form or there is now some other sanity check producing the error?
+>
+> Joe
+
+It solves do_package_qa issue but introduces do_rootfs problem if 
+vim-tools is installed.
+The dependencies will calculated anyway at do_rootfs step, and it will 
+report the 'nothing provides xxx' error.
+
+
+Best Regards,
+Chen Qi
+
+>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Richard Purdie
+> Sent: Thursday, June 4, 2020 11:40 PM
+> To: Chen, Qi <Qi.Chen@windriver.com>; openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core][PATCH] Revert "vim: do not adjust script paths building for target"
+>
 > On Fri, 2020-06-05 at 10:13 +0800, Chen Qi wrote:
 >> This reverts commit 8972fe5581b9fe8ef14d539001758bb13bca6737.
 >>
@@ -90,16 +115,18 @@ On 06/05/2020 02:40 PM, Richard Purdie wrote:
 >>   Problem: conflicting requests
 >>     - nothing provides /bin/csh needed by vim-tools-8.2-r0.corei7_64
 >>     - nothing provides /usr/bin/nawk needed by vim-tools-8.2-r0.corei7_64
->>     - nothing provides /usr/bin/python needed by vim-tools-8.2-r0.corei7_64
+>>     - nothing provides /usr/bin/python needed by
+>> vim-tools-8.2-r0.corei7_64
 >>
 >> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 >> ---
 >>   .../vim/files/no-path-adjust.patch            | 27 -------------------
 >>   meta/recipes-support/vim/vim.inc              | 12 ++++-----
->>   2 files changed, 6 insertions(+), 33 deletions(-)
->>   delete mode 100644 meta/recipes-support/vim/files/no-path-adjust.patch
+>>   2 files changed, 6 insertions(+), 33 deletions(-)  delete mode 100644
+>> meta/recipes-support/vim/files/no-path-adjust.patch
 >>
->> diff --git a/meta/recipes-support/vim/files/no-path-adjust.patch b/meta/recipes-support/vim/files/no-path-adjust.patch
+>> diff --git a/meta/recipes-support/vim/files/no-path-adjust.patch
+>> b/meta/recipes-support/vim/files/no-path-adjust.patch
 >> deleted file mode 100644
 >> index 05c2d803f6..0000000000
 >> --- a/meta/recipes-support/vim/files/no-path-adjust.patch
@@ -107,8 +134,8 @@ On 06/05/2020 02:40 PM, Richard Purdie wrote:
 >> @@ -1,27 +0,0 @@
 >> -vim: do not adjust script pathnames
 >> -
->> -When cross-compiling, we do not want to reference the host versions of
->> -things like perl and awk.
+>> -When cross-compiling, we do not want to reference the host versions
+>> of -things like perl and awk.
 >> -
 >> -Upstream-Status: Pending
 >> -
@@ -122,8 +149,8 @@ On 06/05/2020 02:40 PM, Richard Purdie wrote:
 >> - 	-chmod $(FILEMOD) $(DEST_TOOLS)/*
 >> --# replace the path in some tools
 >> -+
->> -+# replace the path in some tools, but not when cross-compiling
->> -+ifneq ($(CROSS_COMPILING),1)
+>> -+# replace the path in some tools, but not when cross-compiling ifneq
+>> -+($(CROSS_COMPILING),1)
 >> - 	perlpath=`./which.sh perl` && sed -e "s+/usr/bin/perl+$$perlpath+" $(TOOLSSOURCE)/efm_perl.pl >$(DEST_TOOLS)/efm_perl.pl
 >> - 	awkpath=`./which.sh nawk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; if test -z "$$awkpath"; then \
 >> - 		awkpath=`./which.sh gawk` && sed -e "s+/usr/bin/nawk+$$awkpath+" $(TOOLSSOURCE)/mve.awk >$(DEST_TOOLS)/mve.awk; if test -z "$$awkpath"; then \
@@ -131,25 +158,20 @@ On 06/05/2020 02:40 PM, Richard Purdie wrote:
 >> -+endif
 >> - 	-chmod $(SCRIPTMOD) `grep -l "^#!" $(DEST_TOOLS)/*`
 >> -
->> - # install the language specific files for tools, if they were unpacked
+>> - # install the language specific files for tools, if they were
+>> unpacked
 >
-> If we're going to install these files which you're still doing, we want
-> to use target paths, not host ones?
+> If we're going to install these files which you're still doing, we want to use target paths, not host ones?
 >
-> I suspect we therefore need this and your changes rather than removing
-> this patch?
+> I suspect we therefore need this and your changes rather than removing this patch?
 >
 > Cheers,
 >
 > Richard
-
-Thanks. I've sent out V2.
-
-Regards,
-Chen Qi
-
 >
->> diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+>
+>> diff --git a/meta/recipes-support/vim/vim.inc
+>> b/meta/recipes-support/vim/vim.inc
 >> index 9f3dc08027..78e3f9528d 100644
 >> --- a/meta/recipes-support/vim/vim.inc
 >> +++ b/meta/recipes-support/vim/vim.inc
@@ -172,7 +194,8 @@ Chen Qi
 >> +    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.py
 >> +
 >>       # Install example vimrc from runtime files
->>       install -m 0644 runtime/vimrc_example.vim ${D}/${datadir}/${BPN}/vimrc
+>>       install -m 0644 runtime/vimrc_example.vim
+>> ${D}/${datadir}/${BPN}/vimrc
 >>   
 >> @@ -105,12 +110,7 @@ FILES_${PN}-help = "${datadir}/${BPN}/${VIMDIR}/doc"
 >>   FILES_${PN}-tutor = "${datadir}/${BPN}/${VIMDIR}/tutor ${bindir}/${BPN}tutor"
@@ -187,6 +210,5 @@ Chen Qi
 >>   FILES_${PN}-common = " \
 >>       ${datadir}/${BPN}/${VIMDIR}/*.vim \
 >>       ${datadir}/${BPN}/${VIMDIR}/autoload \
->> 
->
+>>
 
