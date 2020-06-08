@@ -1,80 +1,136 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web10.26341.1591608781405978586
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.web11.29185.1591620611736241731
  for <openembedded-core@lists.openembedded.org>;
- Mon, 08 Jun 2020 02:33:01 -0700
+ Mon, 08 Jun 2020 05:50:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RTLWQX4T;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id u26so13843462wmn.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 02:33:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=McEfzU/2;
+ spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f66.google.com with SMTP id e2so18109169eje.13
+        for <openembedded-core@lists.openembedded.org>; Mon, 08 Jun 2020 05:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=3skns7cQBP5HT12HERGa0bkYzGYYsJS/1+YC7OyAPVU=;
-        b=RTLWQX4T4WqeXtHmY+9vw3k5lzLexWPc33pNpVPqyuHpmdL3LyShXxC1YwkQECa+P4
-         zS59BeFMjJaFOywZmG9XC9ydl+uNkUiDAcTgheCeKto35SqXLvqOL3UlN3aOpGK+7HlC
-         K22yvqivBDEWQF4dnQzVO4LPSG4yryHMAb0L0=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hAXZiz6dpekaBcCJhh8hyEx+hQ8t5Jo/9kGuGKFLp50=;
+        b=McEfzU/2OT1t59UzhkVydrvwYEPBjmzPnHT3gDF8Rh8g9ehj4NzD2Wjw58SnIoT1hf
+         azYqUmxILICXOYvJWRf0laxagPeYTUgsbFTIChvkN0t50mCGOEbfcK2l6rbyBUlsWeWD
+         aoUTW8Ilo/M3CaZR7M23QwkM91pU2KncYGTOQN0WmvE0OOi8J4bicgSgV0DrVdMmXlQ7
+         RGI+AAU9Xc9cPhSPcYezxlQvMWfr3Amhy01xtFxq1MIGHIxwR08WqQ+tA+qyrQNb1qf0
+         ONk5BYQx0j5HebNoAqeDn6MX+AhDRvn0CW52UYuCY7MyMhi/UTM+E3OBgniFE6isCSD7
+         p4Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=3skns7cQBP5HT12HERGa0bkYzGYYsJS/1+YC7OyAPVU=;
-        b=YuhUp/zecglUSnrgZ8g3Ze9iH6+nZDhVeaXvA0srO3mwRjUc2V22yp6Aq5+n/gveJ3
-         e+/HoGBHAI9DWzORH2elVYQ3YeQJeM6cULuXF9iBGXUw+v5sy1Hkzi4LfwO32xAt40dI
-         8zvfPDukCGrbrTbSEO2EfzDozyelAyosBU6e6SJJnsVaHpOq1B2npXaSuPOrREoqEEVQ
-         wLU2mMGySyC/bqGXYgTf1yjtQZCWyiG1hjcclWznPqrInw3ju5vs5qR+n9AXS3kEFUq/
-         mN7xOnT5nDxjLkbPYVt79JP8UHPX3Rf863dyYObk3rCjzM2KUBJhDI4CprGj5F36XWml
-         Xk2w==
-X-Gm-Message-State: AOAM531A9zlWF80TiOci1klymohMS6DfUSXTl4emRqxiGbYK1pF0KKez
-	zq9V86sXyutBQK4uxkWSLDJ8mQ==
-X-Google-Smtp-Source: ABdhPJxWRv3McFK0lzZ4WD7jydSqKeuz8WyAhaELlvvzEM1mwaorvPtjrcOVH62FRkrwkAimq7+vHQ==
-X-Received: by 2002:a05:600c:2153:: with SMTP id v19mr15086411wml.47.1591608779895;
-        Mon, 08 Jun 2020 02:32:59 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id u9sm18920275wme.16.2020.06.08.02.32.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2020 02:32:58 -0700 (PDT)
-Message-ID: <918d16ff5776f0a9991e46b5b4da3f5a0d286dc3.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] Modied the license to GPLv2.1+ to keep with LICENSE file.
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 08 Jun 2020 10:32:57 +0100
-In-Reply-To: <1591638879-97684-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-References: <1591638879-97684-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hAXZiz6dpekaBcCJhh8hyEx+hQ8t5Jo/9kGuGKFLp50=;
+        b=p6qE5htcMGb1q+XZPG4A7qHAqy3V8A5NBISd2EwyC8x5r6lnfh2sb2093Ro36Fhj6+
+         9XM3qw3l7vD1MuMl3qj2KRZmx0Qwf/ANNRFYjZ02Jy/Gw42cg/KE6TmsmdSi7KktGMfW
+         /ZYgnJMBdjPGKjWzdwCaJNNP46jlE77NM+s2/5FJUFEmharJ2Pj8OU0Hc526fB5On6//
+         +N/3f/Nxk1TtpKeeusnyDOCqH3x/CCgiT7jL6e1bNuCRpc/LHMs2Fur9kFjt++2hUZ7T
+         rxaQBYxMbJIjenIU/A02QxEHVM8FhCg/HZN+JxW10i8bNPUHk30fd/PQ9h+SDBzknDyh
+         LGdQ==
+X-Gm-Message-State: AOAM531b+k2DewNZGSczpaCApq6GJQPZelJlosOptAGKnTI8bjKq/vX+
+	rv0QxubLSCi3zxZvqdGH+FYAXDfgDT+M1BsfCpk=
+X-Google-Smtp-Source: ABdhPJykAGiQBntgn4pYjJ9uFXPOCNi2Xj8ebQsvghJMzvsUPe8A2ecR72Bom22VH495u1bjgC3DQYuDryITA/Fspi4=
+X-Received: by 2002:a17:906:4356:: with SMTP id z22mr20409142ejm.334.1591620609928;
+ Mon, 08 Jun 2020 05:50:09 -0700 (PDT)
 MIME-Version: 1.0
+References: <67e32d06-6dc2-5566-f362-d7c2dd736618@windriver.com>
+ <CADkTA4M+tRVzebByfDPmM2kwALcakrSoS4CQ87zAj759cBksEA@mail.gmail.com> <ae0f0097-c805-ac7b-5706-4833ffcc0244@windriver.com>
+In-Reply-To: <ae0f0097-c805-ac7b-5706-4833ffcc0244@windriver.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Mon, 8 Jun 2020 08:49:58 -0400
+Message-ID: <CADkTA4N=0ZmZyrb7Qe8hwbB1sFJU+FStkJHTaR-u+dXxM41wHA@mail.gmail.com>
+Subject: Re: The change pointed to by a .scc file not detected when compile kernel
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Robert Yang <liezhi.yang@windriver.com>, zyang <zhangle.yang@windriver.com>, 
+	"Asselstine, Mark" <mark.asselstine@windriver.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-06-09 at 01:54 +0800, zhengruoqin wrote:
-> Please reference to https://gitlab.com/gnutls/gnutls/-/issues/1018.
-> 
-> Upstream-Status: Submitted
-> [https://gitlab.com/gnutls/gnutls/-/merge_requests/1285].
-> 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-> ---
->  ...license-to-GPLv2.1-to-keep-with-LICENSE-f.patch | 88
-> ++++++++++++++++++++++
->  meta/recipes-support/gnutls/gnutls_3.6.13.bb       |  1 +
->  2 files changed, 89 insertions(+)
->  create mode 100644 meta/recipes-support/gnutls/gnutls/0001-Modied-
-> the-license-to-GPLv2.1-to-keep-with-LICENSE-f.patch
+On Mon, Jun 8, 2020 at 1:39 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
+>
+> Hi Bruce,
+>
+> On 6/4/20 9:04 PM, Bruce Ashfield wrote:
+> > On Thu, Jun 4, 2020 at 12:52 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
+> >>
+> >> Hi Bruce,
+> >>
+> >> Currently, the change pointed to by a .scc file not detected when
+> >> compile kernel, for example:
+> >>
+> >> 1, add DISTRO_FEATURES_append = " virtualization" to conf/local.conf to
+> >> enable virtualization DISTRO_FEATURES and also add meta-virtualization
+> >> layer to conf/bblayers.conf
+> >>
+> >> 2, bitbake -cconfigure linux-yocto
+> >>
+> >> 3,
+> >> $ grep -Rn CONFIG_IO_DELAY_0XED
+> >> tmp/work/qemux86_64-wrs-linux/linux-yocto/5.4.43+gitAUTOINC+aafb8f095e_9e1b13d7f9-r0/linux-qemux86_64-standard-build/.config
+> >> 5367:# CONFIG_IO_DELAY_0XED is not set
+> >>
+> >> 4, modify the lxc.cfg which introduced by lxc.scc under
+> >> meta-virtualization layer
+> >> $ git diff
+> >> diff --git a/recipes-kernel/linux/linux-yocto/lxc.cfg
+> >> b/recipes-kernel/linux/linux-yocto/lxc.cfg
+> >> index 3fefc03..b7a19a8 100644
+> >> --- a/recipes-kernel/linux/linux-yocto/lxc.cfg
+> >> +++ b/recipes-kernel/linux/linux-yocto/lxc.cfg
+> >> @@ -1,3 +1,4 @@
+> >> +CONFIG_IO_DELAY_0XED=y
+> >>    CONFIG_CGROUP_DEVICE=y
+> >>    CONFIG_CPUSETS=y
+> >>    CONFIG_PROC_PID_CPUSET=y
+> >>
+> >>
+> >> 5, bitbake -cconfigure linux-yocto
+> >>
+> >> 6,
+> >> $ grep -Rn CONFIG_IO_DELAY_0XED
+> >> tmp-glibc/work/qemux86_64-wrs-linux/linux-yocto/5.4.43+gitAUTOINC+aafb8f095e_9e1b13d7f9-r0/linux-qemux86_64-standard-build/.config
+> >> 5367:# CONFIG_IO_DELAY_0XED is not set
+> >>
+> >> The change for CONFIG_IO_DELAY_0XED doesn't take effect.
+> >
+> > Does the same thing happen with a cleanall ? There's an open bug about
+> > the checksuming of those SRC_URI elements, and you are likely hitting
+> > it if there's no cleansstate or cleanall happening.
+>
+> No, it works if execute a cleanall before the step 6. But it should work
+> even if we don't execute cleanall.
+>
+> BTW, what's the status of the bug you mentioned?
 
-No, you simply cannot just do that.
-
-If upstream takes the patch we can apply as a backport but until they
-accept a license change we can and will not.
-
-Just because the license file says something doesn't mean every file is
-under that license if that file's header says differently.
-
-I suspect upstream won't accept this patch either.
+It's waiting on some input from Richard, its on the fix list for the
+coming release though.
 
 Cheers,
 
-Richard
+Bruce
 
+>
+> Thanks,
+> Mingli
+>
+> >
+> > Also, you've confirmed that CONFIG_IO_DELAY_0XED isn't missing any
+> > config options that it has as dependencies ?
+> >
+> > Bruce
+> >
+> >>
+> >> Thanks,
+> >> Mingli
+> >
+> >
+> >
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
