@@ -1,102 +1,57 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web12.2643.1591690803325785167
+Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
+ by mx.groups.io with SMTP id smtpd.web12.2773.1591691516020484521
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2020 01:20:03 -0700
+ Tue, 09 Jun 2020 01:31:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: hongxu.jia@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0598K0TR026963
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Tue, 9 Jun 2020 01:20:01 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Tue, 9 Jun 2020
- 01:20:00 -0700
-From: "hongxu" <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-        <richard.purdie@linuxfoundation.org>
-Subject: [PATCH] glib-networking/btrfs-tools/dosfstools/parted/bmap-tools/libsoup-2.4: add nativesdk support
-Date: Tue, 9 Jun 2020 16:19:59 +0800
-Message-ID: <20200609081959.17841-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.18.2
+ dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id E728460B0D;
+	Tue,  9 Jun 2020 08:31:53 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYi1uZXR3b3JraW5nL2J0cmZzLXRvb2xzL2Rvc2ZzdG9vbHMvcGFydGVkL2JtYXAtdG9vbHMvbGlic291cC0yLjQ6IGFkZCBuYXRpdmVzZGsgc3VwcG9ydA==?=
+From: "Patchwork" <patchwork@patchwork.openembedded.org>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 09 Jun 2020 08:31:55 -0000
+Message-ID: <20200609083155.20779.64669@do>
+References: <20200609081959.17841-1-hongxu.jia@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200609081959.17841-1-hongxu.jia@windriver.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+== Series Details ==
+
+Series: glib-networking/btrfs-tools/dosfstools/parted/bmap-tools/libsoup-2.4: add nativesdk support
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/24546/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            glib-networking/btrfs-tools/dosfstools/parted/bmap-tools/libsoup-2.4: add nativesdk support
+ Issue             Commit shortlog is too long [test_shortlog_length] 
+  Suggested fix    Edit shortlog so that it is 90 characters or less (currently 91 characters)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-core/glib-networking/glib-networking_2.64.3.bb | 2 +-
- meta/recipes-devtools/btrfs-tools/btrfs-tools_5.6.1.bb      | 2 +-
- meta/recipes-devtools/dosfstools/dosfstools_4.1.bb          | 2 +-
- meta/recipes-extended/parted/parted_3.3.bb                  | 2 +-
- meta/recipes-support/bmap-tools/bmap-tools_3.5.bb           | 2 +-
- meta/recipes-support/libsoup/libsoup-2.4_2.70.0.bb          | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb b/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb
-index a79e0e4988..c34ae508f6 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.64.3.bb
-@@ -31,4 +31,4 @@ FILES_${PN} += "\
- FILES_${PN}-dev += "${libdir}/gio/modules/libgio*.la"
- FILES_${PN}-staticdev += "${libdir}/gio/modules/libgio*.a"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.6.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.6.1.bb
-index 885d79dcdc..29f14d9077 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.6.1.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.6.1.bb
-@@ -49,4 +49,4 @@ do_install_append() {
-     fi
- }
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb b/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb
-index 23b8836670..97ce449954 100644
---- a/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb
-+++ b/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb
-@@ -22,7 +22,7 @@ EXTRA_OECONF = "--without-udev --enable-compat-symlinks"
- 
- CFLAGS += "-D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- # Add codepage437 to avoid error from `dosfsck -l`
- RRECOMMENDS_${PN}_append_libc-glibc = " glibc-gconv-ibm437"
-diff --git a/meta/recipes-extended/parted/parted_3.3.bb b/meta/recipes-extended/parted/parted_3.3.bb
-index 1cfd9ec264..aa4d8042cf 100644
---- a/meta/recipes-extended/parted/parted_3.3.bb
-+++ b/meta/recipes-extended/parted/parted_3.3.bb
-@@ -22,7 +22,7 @@ EXTRA_OECONF = "--disable-device-mapper"
- 
- inherit autotools pkgconfig gettext texinfo ptest
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
- 
- do_compile_ptest() {
- 	oe_runmake -C tests print-align print-max dup-clobber duplicate fs-resize print-flags
-diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-index 694c5f09be..fd57f8f7f0 100644
---- a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-+++ b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-@@ -22,4 +22,4 @@ RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptoo
- inherit python3native
- inherit setuptools3
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.70.0.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.70.0.bb
-index d10db7940a..d6425bd941 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.70.0.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.70.0.bb
-@@ -40,4 +40,4 @@ DEBIAN_NOAUTONAME_${PN} = "1"
- # glib-networking is needed for SSL, proxies, etc.
- RRECOMMENDS_${PN} = "glib-networking"
- 
--BBCLASSEXTEND = "native"
-+BBCLASSEXTEND = "native nativesdk"
--- 
-2.18.2
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
