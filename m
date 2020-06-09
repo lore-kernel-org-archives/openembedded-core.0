@@ -1,142 +1,105 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.2419.1591719848715941394
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web12.3737.1591722998435556544
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2020 09:24:10 -0700
+ Tue, 09 Jun 2020 10:16:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ieL9rBYX;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=helf2ogw;
+ spf=pass (domain: gmail.com, ip: 209.85.216.43, mailfrom: jpewhacker@gmail.com)
+Received: by mail-pj1-f43.google.com with SMTP id d6so1684462pjs.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2020 10:16:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=3931; q=dns/txt; s=axis-central1;
-  t=1591719849; x=1623255849;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=cDTIX3qY1TsXU/+fY25VdDQI2NQYLSSxjNg2wYgIuGU=;
-  b=ieL9rBYXNyldhWfsf2fgZBt79K4DBKqUbXUzNltKCP0/gV6zKH6JGTUy
-   2gP67RHVd8fI3DW4b5xp2GENtYf563Fjo+Yk0h9+hX3VV/bWeVq+tstX0
-   YuP34/LZBH3i7GO6I1mz/6BkxAopCmZldBdfzmybBX7TQDYJm/8oTVvES
-   SiEAi8eROtLAX/dP8/EfU1ov5TZDO2IIdudxCvFUDmeyPrPlHN57cwfPa
-   mKKh3kRWHfzDkjDZfojj4ijeDxuqKvfXFhTt/Ftb52d6faqOLJeW+McPG
-   la108LBFm52P59xXCN1us5vwFfIgE/H1TZuvpPwpveyKsbNHs975UNrpu
-   w==;
-IronPort-SDR: w9Z/nDPPk9OygzkBhdyTnGZdohuCLacmlKxLs2c+Sr64PJu8CMgzngqkAGYt+d6h8liEcTk8MT
- xrnCiU81q+vRFoA5hdBBeJTicWACWXnNid1wDPmeMrBbE+aA/wh8fMZXFI2EarB11+cWp7L6Ms
- ucZSZitJl3UJizxiYh5VPNF0sYKsZwr9gVxPWps9T55UgP7U/KpI0iZU9rDZd4FY4xixJkqA7C
- Ojt3g3dLZ20ynLPiP+rcYel2fZ1Ut9CLJCksyc9i/rjgDbVJhmcA1waeJndrLMbRFtNfjlKP+2
- ngw=
-X-IronPort-AV: E=Sophos;i="5.73,492,1583190000"; 
-   d="scan'208";a="9362008"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 34/42] lttng-modules: update to 2.12.1
-Thread-Topic: [OE-core] [PATCH 34/42] lttng-modules: update to 2.12.1
-Thread-Index: AQHWPWnXJkwLjoZQpkm9Pt/iqUVJQqjQeGpQ
-Date: Tue, 9 Jun 2020 16:24:05 +0000
-Message-ID: <2129b01748864d44ae689b45fc9c8684@XBOX03.axis.com>
-References: <20200608074659.7051-1-alex.kanavin@gmail.com>
- <20200608074659.7051-34-alex.kanavin@gmail.com>
-In-Reply-To: <20200608074659.7051-34-alex.kanavin@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f/ts2nlc18DV3XpqdHi7RCkChD564m75jHzPQhUE8CM=;
+        b=helf2ogwfVBsYnwVi6iOaqCSfJkO56eSwjkgS2ms+Jm9PKU6nTW7xrMPJs4Pe4Dtza
+         hSWGvVbUgcK+Omd2qZi+8+1a7u3e8wIZYqzAidqzoFbW8VYkjRhmAiqm0pZ/09KkiIvw
+         fD9KaDDoc+opFnJ/fcp0UFF4sjySvOfvk6D1rf2AxG6utXO4gWKmgY/wSWJASxGo5iS2
+         YOlGAYA/rEjd+0OkMOVR56E66RgkCCVMAfE7nbZWJJ11nLzExlZKbYGhd54qbaSSOgMu
+         Bav7i17RzO8bEAFR71EveyLZ7VnMCJio53FrsvSfNlWhjmf9ICRxlq+CeUXPuoMF4EDP
+         0r1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=f/ts2nlc18DV3XpqdHi7RCkChD564m75jHzPQhUE8CM=;
+        b=NZYA1if+vdPFxQrgg5qn2o+tXHMd99cn9F0HdxTAcNZD/Dr7CelVRn/TlxlB7bNdt5
+         F6NkHVlSFMkn+hmZRfpBDAXXqT9dP25yGi5zQ+8FNxYvRGcU3BEUOf3pYtVrNzhE3Fjl
+         DsTtkcGQmX6EWLfpYjfILWZz0KHSfR+MFvtQ3Ob56undf0Y+CJGpE55L9cRypzE70dO6
+         YIXc8eYcwHWDmdJ2mhnL8Ue1demBKFQ/5Jy6hOUYuW4Fl7MWZLXdonY/4H01eFDxzgoP
+         MifkWg0XJLmgavZhziJBYPMNKZf/sXZI4y2rXoCIUK81yhQxPpHBNAuJ4EGZYSx7Ly08
+         F4Lg==
+X-Gm-Message-State: AOAM531o3EOch9WI2KDfZA5QW3egSRTeI/Az6FcvE5cTMJBjpjPBhTDC
+	vaujTySN+TStRpWwYS+dq34Hyz36Vbk=
+X-Google-Smtp-Source: ABdhPJw0jhLca/AG6igTMoRAqFxLphi3uovwwJBd0gH4S888/OEpGP5fw4OYJqFQlMF4w6kLoRZHgQ==
+X-Received: by 2002:a17:90a:bf92:: with SMTP id d18mr5975985pjs.120.1591722997364;
+        Tue, 09 Jun 2020 10:16:37 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:6cec:510:bc9:611])
+        by smtp.gmail.com with ESMTPSA id t25sm9031513pgo.7.2020.06.09.10.16.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2020 10:16:36 -0700 (PDT)
+From: "Joshua Watt" <JPEWhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: denis@denix.org,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] wic: Fix --extra-space argument handling
+Date: Tue,  9 Jun 2020 12:16:31 -0500
+Message-Id: <20200609171631.21796-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Alexander Kanavin
-> Sent: den 8 juni 2020 09:47
-> To: openembedded-core@lists.openembedded.org
-> Cc: Alexander Kanavin <alex.kanavin@gmail.com>
-> Subject: [OE-core] [PATCH 34/42] lttng-modules: update to 2.12.1
->=20
-> Drop backports.
->=20
-> devupstream variant was incorrectly updated in a059fc67da4
-> (changed to 2.12, but without updating SRCREV), so revert it back
-> to 2.11.2.
+467f84e12b ("wic: Add --offset argument for partitions") broke the
+--extra-space argument handling in wic. Fix the option and add a unit
+test for the argument.
 
-I don't understand this. If you update the recipe to 2.12.1, why do=20
-you not update the devupstream variant to match?
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/wic.py | 15 +++++++++++++++
+ scripts/lib/wic/ksparser.py         |  2 +-
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  ...l-5.7-use-vmalloc_sync_mappings-on-k.patch | 853 ------------------
->  ...per-rename-to-wrapper_vmalloc_sync_m.patch |  32 -
->  ..._sync_mappings-on-kernel-5.6-as-well.patch |  88 --
->  ...loc_sync_mappings-for-stable-kernels.patch |  67 --
->  ...ules_2.12.0.bb =3D> lttng-modules_2.12.1.bb} |  11 +-
->  5 files changed, 3 insertions(+), 1048 deletions(-)
->  delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Update-
-> for-kernel-5.7-use-vmalloc_sync_mappings-on-k.patch
->  delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-Fix-
-> missing-wrapper-rename-to-wrapper_vmalloc_sync_m.patch
->  delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-Fix-Use-
-> vmalloc_sync_mappings-on-kernel-5.6-as-well.patch
->  delete mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-Update-
-> Use-vmalloc_sync_mappings-for-stable-kernels.patch
->  rename meta/recipes-kernel/lttng/{lttng-modules_2.12.0.bb =3D> lttng-
-> modules_2.12.1.bb} (75%)
-
-[snip]
-
-> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.12.0.bb b/meta/rec=
-ipes-kernel/lttng/lttng-modules_2.12.1.bb
-> similarity index 75%
-> rename from meta/recipes-kernel/lttng/lttng-modules_2.12.0.bb
-> rename to meta/recipes-kernel/lttng/lttng-modules_2.12.1.bb
-> index 4a6c42e3bf..8d3fb475c0 100644
-> --- a/meta/recipes-kernel/lttng/lttng-modules_2.12.0.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.12.1.bb
-> @@ -11,14 +11,9 @@ COMPATIBLE_HOST =3D '(x86_64|i.86|powerpc|aarch64|mips=
-|nios2|arm|riscv).*-linux'
->  SRC_URI =3D "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
->             file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.p=
-atch \
->             file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-> -           file://0001-Update-for-kernel-5.7-use-vmalloc_sync_mappings-o=
-n-k.patch \
-> -           file://0002-Fix-missing-wrapper-rename-to-wrapper_vmalloc_syn=
-c_m.patch \
-> -           file://0003-Fix-Use-vmalloc_sync_mappings-on-kernel-5.6-as-we=
-ll.patch \
-> -           file://0004-Update-Use-vmalloc_sync_mappings-for-stable-kerne=
-ls.patch \
->             "
->=20
-> -SRC_URI[md5sum] =3D "be252df5013ea03894921d0b493c7b6c"
-> -SRC_URI[sha256sum] =3D "efeb2ae60e96dbe9a9b342d3a80dfc7642f06a8c09686089=
-d491ad696bb98f4d"
-> +SRC_URI[sha256sum] =3D "639c03bf8f0e920567f45c96cc7ef749a8fc29ff7fb3fb97=
-263d67f66fb71aef"
->=20
->  export INSTALL_MOD_DIR=3D"kernel/lttng-modules"
->=20
-> @@ -37,11 +32,11 @@ python do_package_prepend() {
->  BBCLASSEXTEND =3D "devupstream:target"
->  LIC_FILES_CHKSUM_class-devupstream =3D "file://LICENSE;md5=3D3f882d431dc=
-0f32f1f44c0707aa41128"
->  DEFAULT_PREFERENCE_class-devupstream =3D "-1"
-> -SRC_URI_class-devupstream =3D "git://git.lttng.org/lttng-modules;branch=
-=3Dstable-2.12 \
-> +SRC_URI_class-devupstream =3D "git://git.lttng.org/lttng-modules;branch=
-=3Dstable-2.11 \
->             file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.p=
-atch \
->             file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
->             "
->  SRCREV_class-devupstream =3D "17c413953603f063f2a9d6c3788bec914ce6f955"
-> -PV_class-devupstream =3D "2.12.0+git${SRCPV}"
-> +PV_class-devupstream =3D "2.11.2+git${SRCPV}"
->  S_class-devupstream =3D "${WORKDIR}/git"
->  SRCREV_FORMAT ?=3D "lttng_git"
-> --
-> 2.26.2
-
-//Peter
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index 9e7be6168e..8b58285c32 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -908,6 +908,21 @@ class Wic2(WicTestCase):
+             p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
+             self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
+ 
++    def test_extra_space(self):
++        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
++
++        with NamedTemporaryFile("w", suffix=".wks") as tempf:
++            tempf.write("bootloader --ptable gpt\n" \
++                        "part /     --source rootfs --ondisk hda --extra-space 200M --fstype=ext4\n")
++            tempf.flush()
++
++            _, partlns = self._get_wic_partitions(tempf.name, native_sysroot)
++            self.assertEqual(len(partlns), 1)
++            size = partlns[0].split(':')[3]
++            self.assertRegex(size, r'^[0-9]+kiB$')
++            size = int(size[:-3])
++            self.assertGreaterEqual(size, 204800)
++
+     @only_for_arch(['i586', 'i686', 'x86_64'])
+     def test_rawcopy_plugin_qemu(self):
+         """Test rawcopy plugin in qemu"""
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 05ae292ef5..3453d9cb9d 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -145,7 +145,7 @@ class KickStart():
+         part.add_argument('--exclude-path', nargs='+')
+         part.add_argument('--include-path', nargs='+', action='append')
+         part.add_argument('--change-directory')
+-        part.add_argument("--extra-space", type=sizetype)
++        part.add_argument("--extra-space", type=sizetype("M"))
+         part.add_argument('--fsoptions', dest='fsopts')
+         part.add_argument('--fstype', default='vfat',
+                           choices=('ext2', 'ext3', 'ext4', 'btrfs',
+-- 
+2.26.2
 
