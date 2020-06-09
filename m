@@ -1,129 +1,79 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.4632.1591700248096807300
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web10.5859.1591705356247430719
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2020 03:57:28 -0700
+ Tue, 09 Jun 2020 05:22:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: quanyang.wang@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 059AvRqU001543
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Tue, 9 Jun 2020 03:57:27 -0700 (PDT)
-Received: from pek-qwang2-d1.wrs.com (128.224.162.199) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 9 Jun 2020 03:57:26 -0700
-From: "quanyang.wang" <quanyang.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core] [PATCH] mesa: use x11 as egl_native_platform when the configure argument "platforms" contains x11
-Date: Tue, 9 Jun 2020 18:57:25 +0800
-Message-ID: <20200609105725.31674-1-quanyang.wang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cV6uLfIT;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.66, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f66.google.com with SMTP id r7so21095924wro.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2020 05:22:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=U28MXxValpZgA/9JI9HbZe96KD8+kPUxqVD4SgvfIjg=;
+        b=cV6uLfITilWze2+Nfurx1LSUPi48Glmyn8ijgmDect6IVEHUoJdqkKG6Zb1YlwxTVI
+         FhengGfdgollw1lMSnQX5S63J/lzJaT3nW1bCiD8pI+AWFl0kEye2bZaY8Zku4/73cYg
+         5LuIIEKxRYQTB8j6+4zrwC979pYRovedZN2yo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=U28MXxValpZgA/9JI9HbZe96KD8+kPUxqVD4SgvfIjg=;
+        b=KtgQaVTaZkqQ7PAIBWQq6WXLO0BA0VPON9gFwhAsUUAiNadoDXLLp4Kvw00DVGSGI5
+         T/T5PRYISM5RDwU7fsdv9tKqCADNnjc+A2xT/NKEyqo4KJ8ZqLXs5XOENfQirr1R1+L0
+         Eg1HsZXJwlb9hJ/haezfVKxHe/TzUaBTYDxHaPx3dvYBUAmr6LmcphpOl5XhAkDrGbEe
+         k+NMee2BpaK1hllPxP1iVhkUVhWMeUFyuZLHxPudtexvrExcdFH9FDnvPBXFe5FRXQJ2
+         +8KSb9rIdT6wTAjr3ITaktJVxmrWjtD+ReAxue+e0Ji23QeT2EZIEQTdGF6kNwc3Zq5T
+         hnjA==
+X-Gm-Message-State: AOAM533kjac0epCqdjmXJFNEcN7TeGIek0But1klq7t1bGWqY2PmrWTd
+	rQlhxaiyqeH+8iZ0zc116e+wmQ==
+X-Google-Smtp-Source: ABdhPJxzgo4VqXNCjGfopP/TPe9SkZttB/tl6pRDoAipN0IgGx2IAnVAd1GUnOOr+j8MQPuhciXdbg==
+X-Received: by 2002:adf:feca:: with SMTP id q10mr3856938wrs.380.1591705354725;
+        Tue, 09 Jun 2020 05:22:34 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id k12sm3226787wrn.42.2020.06.09.05.22.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2020 05:22:33 -0700 (PDT)
+Message-ID: <bdd4e8601d116c135dba9fc04095e7d634294689.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [master][dunfell] Revert "prservice.py: fix do_package with newer Python in Ubuntu 20.04"
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 09 Jun 2020 13:22:32 +0100
+In-Reply-To: <20200605155012.7175-1-pkj@axis.com>
+References: <20200605155012.7175-1-pkj@axis.com>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Quanyang Wang <quanyang.wang@windriver.com>
+On Fri, 2020-06-05 at 17:50 +0200, Peter Kjellerstedt wrote:
+> This reverts commit 4b26eaf7152fb712aba47a0c746333578f58ee8d.
+> 
+> Since the problem occurred while importing prserv, the solution has
+> been moved into it instead so it is solved for all cases where prserv
+> is imported, most notably when using devtool.
+> 
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-This fixes an issue that the mesa egl library detecting the wrong
-platform type.
+I can see why you've done this however it really is a bit of a hack :(.
 
-Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
----
-When mesa update from 19.1 to 20.0, there is an issue that the mesa egl
-will detect the wrong platform type, this issue results that in the sato
-X11 window system all opengl/opengles apps by using egl run into
-"Segmentation fault".
+At least in this code its all together with the OE code which uses it.
+With it moved into bitbake, its moving "OE" knowledge over there and
+that worries me a lot as people won't find it when changing OE-Core.
 
-I have filed a bug to mesa community:
-https://gitlab.freedesktop.org/mesa/mesa/-/issues/3075#note_519060
-Until now there is no response from the developers.
+Chris did have some ideas about this which seemed on the right track:
 
-There are several solutions to resolve it:
-1) When running an openg/opengles app in sato, export
-EGL_PLATFORM="x11".
-2) Adjust the configure argument order in mesa.inc to make "-Dplatforms=wayland,x11,drm,surfaceless"
-to be "-Dplatforms=x11,wayland,drm,surfaceless" to dodge this issue.
-3) Apply this patch for a workaround then waiting for mesa development
-community to work out a perfect solution.
+https://lists.yoctoproject.org/g/yocto/message/49571
 
- ...-egl_native_platform-when-the-config.patch | 57 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa.inc           |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0001-meson-use-x11-as-egl_native_platform-when-the-config.patch
+although it seems that solution didn't work.
 
-diff --git a/meta/recipes-graphics/mesa/files/0001-meson-use-x11-as-egl_native_platform-when-the-config.patch b/meta/recipes-graphics/mesa/files/0001-meson-use-x11-as-egl_native_platform-when-the-config.patch
-new file mode 100644
-index 0000000000..825dc988a0
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0001-meson-use-x11-as-egl_native_platform-when-the-config.patch
-@@ -0,0 +1,57 @@
-+From 8fe9af6ba8477f6a3d7a85168bb47e7d953d090c Mon Sep 17 00:00:00 2001
-+From: Quanyang Wang <quanyang.wang@windriver.com>
-+Date: Tue, 9 Jun 2020 10:59:47 +0800
-+Subject: [PATCH] meson: use x11 as egl_native_platform when the configure
-+ argument "platforms" contains x11
-+
-+When mesa is configured with argument "-Dplatforms=wayland,x11,drm,surfaceless",
-+in meson.build, the "wayland" is the first element of "platforms" and the
-+"egl_native_platform" will be "wayland", then in src/egl/meson.build,
-+_EGL_NATIVE_PLATFORM will be assigned to be _EGL_NATIVE_WAYLAND. And in the
-+commit 86d3a346 ("egl: fix _EGL_NATIVE_PLATFORM fallback"), the function
-+_eglNativePlatformDetectNativeDisplay delete the return value _EGL_PLATFORM_X11
-+when detecting "wayland" and "gbm" failed, this will result that in _eglGetNativePlatform
-+the platform type will be _EGL_NATIVE_PLATFORM which is equal to be _EGL_NATIVE_WAYLAND
-+even if the app runs at a "X11" platform.
-+
-+So when an X11 app using egl:
-+x_dpy = XOpenDisplay(NULL);
-+...
-+dpy = eglGetDisplay((EGLNativeDisplayType) x_dpy);
-+eglGetDisplay will run into crash because libEGL.so detected the wrong platform type.
-+
-+root@genericx86-64:~# export DISPLAY=:0
-+root@genericx86-64:~# eglgears_x11
-+Segmentation fault
-+
-+When apps run at wayland or gbm platform, eglGetDisplay can detect the platform type
-+automatically, but x11 can't. So use x11 as egl_native_platform when the configure
-+argument "platforms" contains x11.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-+---
-+ meson.build | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index b25fa19..ae95e73 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -307,7 +307,11 @@ if _platforms.length() != 0 and _platforms != ['']
-+     error('Invalid argument list given to -Dplatforms, please fix.')
-+   endif
-+   with_platforms = true
-+-  egl_native_platform = _platforms[0]
-++  if with_platform_x11
-++    egl_native_platform = 'x11'
-++  else
-++    egl_native_platform = _platforms[0]
-++  endif
-+ endif
-+ 
-+ _xlib_lease = get_option('xlib-lease')
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 965e12d17e..ccaf42f9ad 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -21,6 +21,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch \
-            file://0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch \
-            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
-+           file://0001-meson-use-x11-as-egl_native_platform-when-the-config.patch \
-            "
- 
- SRC_URI[md5sum] = "609cb7664204e031d4c65c602c652a28"
--- 
-2.17.1
+I'd like to better understand this issue before we merge things to
+bitbake.
+
+Cheers,
+
+Richard
 
