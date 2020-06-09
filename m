@@ -1,97 +1,89 @@
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com [209.85.222.68])
- by mx.groups.io with SMTP id smtpd.web10.4714.1591725537152288515
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.414.1591729677229514048
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2020 10:58:57 -0700
+ Tue, 09 Jun 2020 12:07:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=HhvBCOJX;
- spf=pass (domain: gmail.com, ip: 209.85.222.68, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f68.google.com with SMTP id c9so7492037uao.11
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2020 10:58:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pEQsspch4UC8IZvc5kxDdEuat7PRL7frd7Q1y+Sk4do=;
-        b=HhvBCOJXq+DkX2haRnWir60vs1Q8oEw1b7aD78oAlUpLiO7X01LdXXNQ4WdAGWYyzJ
-         Z+Qo/RArhnD86lPCdGQ75psRrA7tIRWdJ9xtvRil6O03MEv7CmUNkoVtO1SV6ldRa5sZ
-         sToUDhikz3InFm7MJu/tdBIZzcO78VvlcJsZheW+9/u/y7pLNBHB8fmRMr3h9Kv0qV6Q
-         t7Z+qcKYorxMejSkHEB9X/iA3Khz6dIaFqSedxq8kYECUL5JFkYtxif2R1PKbBFYObiA
-         lqBAJBs4oZXK0fpcEzjMXKnFkJJtloYKpR+ilGsLblMMxwZS0XXnNokRrNSJdB3+TWMD
-         T4xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pEQsspch4UC8IZvc5kxDdEuat7PRL7frd7Q1y+Sk4do=;
-        b=JIZTNnMmRLehfOOGJ/wwj0t4FCqjuVZ+8ZisebWt4TrX8KvngIa4AMKwR599gmHdd+
-         +yqhANUs58mMPGzKIjeVmHTBFdBXHw7DB7kMYGCQ2b1+m0VyqLvPiArDPMAJGo2Rc1ru
-         E61VVo808r7UxLKLmi+PM6OeWms5ZzvnfXfGicub0rKzTVOCG31ED2Ma6nyyaBoYXRm1
-         CWBwOmz5CclHAWv9LkZ6c37iF46L5YqfBrPBfZVqYdhvPhd+i2WLYFtRdTzjE6bf/1Iw
-         JjQvleQCI8SDIi0+bOUp5mkUTR1XAUkdgrSkEyL4STx2ji2VsNR8OP4uW9mEjan2MKWN
-         M73A==
-X-Gm-Message-State: AOAM530882sLCDDemuzaknV6YskpVTSjHhs6OzS8yehx15BzliWVxWdG
-	jaNfGG8+svzmBB6kZv1r7PbgP5V9VkY3ZFj/m1i/ChcE
-X-Google-Smtp-Source: ABdhPJx4kAy4/YReZJqBtGbQf5TkD8MVN0euXjJPb2tIMaBgdQb2BjtQbonbL0lyFwsJBO2I3vKVhJjDh3+T+TqCb5U=
-X-Received: by 2002:ab0:168c:: with SMTP id e12mr4431909uaf.89.1591725536215;
- Tue, 09 Jun 2020 10:58:56 -0700 (PDT)
+ dkim=missing; spf=none, err=permanent DNS error (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 49E7640C06;
+	Tue,  9 Jun 2020 19:07:56 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id hP86QnDSLH02; Tue,  9 Jun 2020 19:07:56 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net [100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2CA3840A35;
+	Tue,  9 Jun 2020 19:07:55 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 7C3F217320C; Tue,  9 Jun 2020 15:07:54 -0400 (EDT)
+Date: Tue, 9 Jun 2020 15:07:54 -0400
+From: "Denys Dmytriyenko" <denis@denix.org>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH] wic: Fix --extra-space argument handling
+Message-ID: <20200609190754.GU17660@denix.org>
+References: <20200609171631.21796-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-References: <20200608074659.7051-1-alex.kanavin@gmail.com> <20200608074659.7051-34-alex.kanavin@gmail.com>
- <2129b01748864d44ae689b45fc9c8684@XBOX03.axis.com>
-In-Reply-To: <2129b01748864d44ae689b45fc9c8684@XBOX03.axis.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Tue, 9 Jun 2020 19:58:45 +0200
-Message-ID: <CANNYZj82eEqZsxLBN7m-qUp8wNWniKkXs8fKsBoeQt=c9nxTAA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 34/42] lttng-modules: update to 2.12.1
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000002a879a05a7aa7b76"
+In-Reply-To: <20200609171631.21796-1-JPEWhacker@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---0000000000002a879a05a7aa7b76
-Content-Type: text/plain; charset="UTF-8"
+On Tue, Jun 09, 2020 at 12:16:31PM -0500, Joshua Watt wrote:
+> 467f84e12b ("wic: Add --offset argument for partitions") broke the
+> --extra-space argument handling in wic. Fix the option and add a unit
+> test for the argument.
+> 
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 
-On Tue, 9 Jun 2020 at 18:24, Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-wrote:
+Tested-by: Denys Dmytriyenko <denys@ti.com>
 
-> > devupstream variant was incorrectly updated in a059fc67da4
-> > (changed to 2.12, but without updating SRCREV), so revert it back
-> > to 2.11.2.
->
-> I don't understand this. If you update the recipe to 2.12.1, why do
-> you not update the devupstream variant to match?
->
 
-Because I have no interest in that variant, other than making sure it is
-not misleading; it was added and is (supposedly) maintained by others who
-use it to test the bleeding edge.
-
-Generally those 'development' variants tend to bit rot quickly due to lack
-of regular updates and testing, oe-core used to have plenty of them and
-they were all dropped, except this one.
-
-Alex
-
---0000000000002a879a05a7aa7b76
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 9 Jun 2020 at 18:24, Peter Kjelle=
-rstedt &lt;<a href=3D"mailto:peter.kjellerstedt@axis.com">peter.kjellersted=
-t@axis.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">&gt; devupstream variant was incorrect=
-ly updated in a059fc67da4<br>
-&gt; (changed to 2.12, but without updating SRCREV), so revert it back<br>
-&gt; to 2.11.2.<br>
-<br>
-I don&#39;t understand this. If you update the recipe to 2.12.1, why do <br=
->
-you not update the devupstream variant to match?<br></blockquote><div><br><=
-/div><div>Because I have no interest in that variant, other than making sur=
-e it is not misleading; it was added and is (supposedly) maintained by othe=
-rs who use it to test the bleeding edge.</div><div><br></div><div>Generally=
- those &#39;development&#39; variants tend to bit rot quickly due to lack o=
-f regular updates and testing, oe-core used to have plenty of them and they=
- were all dropped, except this one.<br></div><div><br></div><div>Alex<br></=
-div></div></div>
-
---0000000000002a879a05a7aa7b76--
+> ---
+>  meta/lib/oeqa/selftest/cases/wic.py | 15 +++++++++++++++
+>  scripts/lib/wic/ksparser.py         |  2 +-
+>  2 files changed, 16 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+> index 9e7be6168e..8b58285c32 100644
+> --- a/meta/lib/oeqa/selftest/cases/wic.py
+> +++ b/meta/lib/oeqa/selftest/cases/wic.py
+> @@ -908,6 +908,21 @@ class Wic2(WicTestCase):
+>              p, _ = self._get_wic_partitions(tempf.name, ignore_status=True)
+>              self.assertNotEqual(p.status, 0, "wic exited successfully when an error was expected:\n%s" % p.output)
+>  
+> +    def test_extra_space(self):
+> +        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "wic-tools")
+> +
+> +        with NamedTemporaryFile("w", suffix=".wks") as tempf:
+> +            tempf.write("bootloader --ptable gpt\n" \
+> +                        "part /     --source rootfs --ondisk hda --extra-space 200M --fstype=ext4\n")
+> +            tempf.flush()
+> +
+> +            _, partlns = self._get_wic_partitions(tempf.name, native_sysroot)
+> +            self.assertEqual(len(partlns), 1)
+> +            size = partlns[0].split(':')[3]
+> +            self.assertRegex(size, r'^[0-9]+kiB$')
+> +            size = int(size[:-3])
+> +            self.assertGreaterEqual(size, 204800)
+> +
+>      @only_for_arch(['i586', 'i686', 'x86_64'])
+>      def test_rawcopy_plugin_qemu(self):
+>          """Test rawcopy plugin in qemu"""
+> diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+> index 05ae292ef5..3453d9cb9d 100644
+> --- a/scripts/lib/wic/ksparser.py
+> +++ b/scripts/lib/wic/ksparser.py
+> @@ -145,7 +145,7 @@ class KickStart():
+>          part.add_argument('--exclude-path', nargs='+')
+>          part.add_argument('--include-path', nargs='+', action='append')
+>          part.add_argument('--change-directory')
+> -        part.add_argument("--extra-space", type=sizetype)
+> +        part.add_argument("--extra-space", type=sizetype("M"))
+>          part.add_argument('--fsoptions', dest='fsopts')
+>          part.add_argument('--fstype', default='vfat',
+>                            choices=('ext2', 'ext3', 'ext4', 'btrfs',
+> -- 
+> 2.26.2
+> 
