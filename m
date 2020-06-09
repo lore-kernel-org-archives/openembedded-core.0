@@ -1,104 +1,63 @@
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
- by mx.groups.io with SMTP id smtpd.web12.7106.1591709213344645176
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
+ by mx.groups.io with SMTP id smtpd.web11.7230.1591709600828201975
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2020 06:26:53 -0700
+ Tue, 09 Jun 2020 06:33:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=L6/c/Sb2;
- spf=pass (domain: gmail.com, ip: 209.85.166.193, mailfrom: jpewhacker@gmail.com)
-Received: by mail-il1-f193.google.com with SMTP id b5so20289957iln.5
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2020 06:26:53 -0700 (PDT)
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=TarJo1yL;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.196, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f196.google.com with SMTP id n24so25035981lji.10
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2020 06:33:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=UKidboM54rhEPBju3KpDAzMAOpzVB3XnT0GH9f41jrA=;
-        b=L6/c/Sb2lOafeXoUUv1vAKAJsoHCyrQzpfVwI7zayWMNc4gXWyA3eohJnMGws4otCF
-         pgUIMJs9VksaV8Q9IN1OFURXIZ+vtL7x2n3yYtJlvjh7tp60e+/ziKJZJAd0zlhkxPjr
-         kawJ57D5crBPxkDP/El+XHfnn417R+vpzddUASbG0KWZHwQ4ssPdlYrKYERWHpBz15fA
-         EMOv5qwdMtV2zpWgaK9Ud2wJMFbq3E5WfWxO3ngPO34pOlBF9k0s72sh9tt5MwHn/Nax
-         BciwLJUYr61Qdub8bI++ylVB9d5iu5LBe0dUlCDpyrwnTOf1mtJs5pgwrNz/beswkyqt
-         ceGg==
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QEy2jx6yOrxxG/Zr3XTfSEmPX4os9bdegknB9tlwkM0=;
+        b=TarJo1yLT5vp6GQa6SWPOr8eD+BpRaY8omH3Z8CqsLzxR4zIVG3nrGLJfRsatfc9vh
+         wLFRMgAQEjJZl/i+q/Gm5DmMWtWFceDkId32MvvJpDS0shFyBKhpGaexmDNjERS2D9M8
+         ZRKYkW/svjPZ5SySpUiiBzQhMybDYxH/QeG77g5unAK8Tc7R4xLO7M0BewU9aK3e/9Tz
+         nU1zdbh02+v3kJIsNYqIT50QDWP3MM6GPol1jtSDXELcW2FsoyhVCieHs3n/MugM0iYe
+         CfFcufxy69JXJ1At22/lZlwPWrj67gy/1IfP47KczF7mhQB2hwAnN+RL/BuygmBWqdM6
+         HpyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=UKidboM54rhEPBju3KpDAzMAOpzVB3XnT0GH9f41jrA=;
-        b=fyrVb2cXlJthyHyQf7lyqcFZobvMA/OUiInKigT9qWodzAasvIKyzBCTWAIDTotJPE
-         WS5r16Cq3vw/Vw2FxTweQlZUYLmJzo2DT0FREnN7HRabLqP/KiTlJ7GeGQgLe9KZdO5S
-         nmuKCca4mUxDzoJMZU52B5clvQJIVPn0kt0hoaXhihAdM+DbcnLkVxrqSDEK1aXeR2Va
-         BwmhNtq3/LHAJsQysChVMhpO5ESSRIhpG2sfcIqS5WXlfJkSed/LDNCU12tXBu3ib+Uo
-         P3qvPmsA2VXY9eIjmroCq8Rr6U0cI7Xau8AFdf7ta98rxbalXVWe/s39HyefmO7e42BT
-         IVMQ==
-X-Gm-Message-State: AOAM532NTK97eIMFmh84wR00pBE7BEqbGne3EctAh6PSjtEgsVz53vcs
-	hkG8BcW299gHnb+eG2/aZy9jHXOy
-X-Google-Smtp-Source: ABdhPJy9n9qzUnoDR1M6DjFCCTprXzPcl8yBiusO3167toCwd3gCKftfwirFa5RpVrM+Fs5/b/laDQ==
-X-Received: by 2002:a92:506:: with SMTP id q6mr25248474ile.107.1591709212394;
-        Tue, 09 Jun 2020 06:26:52 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from ?IPv6:2605:a601:ac3d:c100:6cec:510:bc9:611? ([2605:a601:ac3d:c100:6cec:510:bc9:611])
-        by smtp.gmail.com with ESMTPSA id v2sm7309925iol.36.2020.06.09.06.26.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Jun 2020 06:26:51 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Subject: Re: [OE-core][PATCH v3] wic: Add --offset argument for partitions
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: openembedded-core@lists.openembedded.org
-References: <20200511194835.20890-1-JPEWhacker@gmail.com>
- <20200602134205.17838-1-JPEWhacker@gmail.com>
- <20200608231107.GT17660@denix.org>
-Message-ID: <ec9e545b-f828-7e57-b94e-27de24ce1eee@gmail.com>
-Date: Tue, 9 Jun 2020 08:26:50 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QEy2jx6yOrxxG/Zr3XTfSEmPX4os9bdegknB9tlwkM0=;
+        b=ekXzMJfD1KYkrat60p+2tH2mWKEPh04ZFNfaVJZD0kAIK8EEfRvz+y5B/0uz6PD9Tx
+         amZENVRAoDD34OqSohJf1MXs6N95nJ3RhplmIrkpKNTeDUrWbUwLu9/yvr+1i00dbc1l
+         8+YnLx0MCHTZ3HdxrPOF1JKIChxKb4XFPIFYfpQNJRvbz4x2A7ibVXlHXKmgAjBPi/jP
+         L4w083NCtV+IiWmSxhOub39PmnuTaZO2o64U8/zEjWOBPnI2gGRtU2KKrXWY9vZwCwst
+         JXcNc/Vlxv14sWCPedyVe+1rvL8mKzhCK/6i19lU46FgBIXF25cJftdYdzYHb3LN4OY0
+         hRRg==
+X-Gm-Message-State: AOAM531lMihLQ8Jf166yj5cB2Sp9yskl/2Qrxaa4gpUZr4wUvUbxjGT9
+	2AL8aEnv7G14U+1ZCsxfAQTZ6ilL0WlMd2HZrrrJ2A==
+X-Google-Smtp-Source: ABdhPJxv+cHD0EV9LxLVQvt8TUsnkfrNN4Za5TI2VGEr1VVJoL2V3vn/xL2lwzJm87xtohwkg5G+eviuXjYH8W1/wHI=
+X-Received: by 2002:a2e:9a55:: with SMTP id k21mr1670277ljj.340.1591709598836;
+ Tue, 09 Jun 2020 06:33:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200608231107.GT17660@denix.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+References: <alpine.LFD.2.21.2005271027490.2161832@localhost.localdomain>
+ <0d663371-0bb1-9ae8-a50b-bc4ed7fda412@gmail.com> <CAMKF1spsARiB5ibBVZ2AF5sLGw9cAakGos-yqbfn=NG6B+nw9A@mail.gmail.com>
+ <2cf81259a8f75130bc7dfbb473ab92017d054ae4.camel@pengutronix.de>
+In-Reply-To: <2cf81259a8f75130bc7dfbb473ab92017d054ae4.camel@pengutronix.de>
+From: "Ross Burton" <ross@burtonini.com>
+Date: Tue, 9 Jun 2020 14:33:07 +0100
+Message-ID: <CAAnfSTsshwC-aOTMR=6rx-04QaoVDJh3L6Turr1MsBwH2sbCFA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] remove unused DEPLOY_DIR_TOOLS variable from bitbake.conf
+To: "Enrico J?rns" <ejo@pengutronix.de>
+Cc: Khem Raj <raj.khem@gmail.com>, Jacob Kroon <jacob.kroon@gmail.com>, 
+	"Robert P. J. Day" <rpjday@crashcourse.ca>, 
+	OE Core mailing list <openembedded-core@lists.openembedded.org>, jlu@pengutronix.de
+Content-Type: text/plain; charset="UTF-8"
 
+On Mon, 8 Jun 2020 at 21:15, Enrico J?rns <ejo@pengutronix.de> wrote:
 
-On 6/8/20 6:11 PM, Denys Dmytriyenko wrote:
-> Not sure if it's related to this change, but I've been seeing this error
-> across the platforms in master past few days:
->
-> WARNING: bootloader config not specified, using defaults
->
-> Traceback (most recent call last):
->    File "/OE/poky-master-build/sources/poky/scripts/wic", line 540, in <module>
->      sys.exit(main(sys.argv[1:]))
->    File "/OE/poky-master-build/sources/poky/scripts/wic", line 535, in main
->      return hlp.invoke_subcommand(args, parser, hlp.wic_help_usage, subcommands)
->    File "/OE/poky-master-build/sources/poky/scripts/lib/wic/help.py", line 83, in invoke_subcommand
->      subcmd[0](args, usage)
->    File "/OE/poky-master-build/sources/poky/scripts/wic", line 219, in wic_create_subcommand
->      engine.wic_create(wks_file, rootfs_dir, bootimg_dir, kernel_dir,
->    File "/OE/poky-master-build/sources/poky/scripts/lib/wic/engine.py", line 190, in wic_create
->      plugin.do_create()
->    File "/OE/poky-master-build/sources/poky/scripts/lib/wic/plugins/imager/direct.py", line 86, in do_create
->      self.create()
->    File "/OE/poky-master-build/sources/poky/scripts/lib/wic/plugins/imager/direct.py", line 179, in create
->      self._image.prepare(self)
->    File "/OE/poky-master-build/sources/poky/scripts/lib/wic/plugins/imager/direct.py", line 352, in prepare
->      part.prepare(imager, imager.workdir, imager.oe_builddir,
->    File "/OE/poky-master-build/sources/poky/scripts/lib/wic/partition.py", line 175, in prepare
->      plugin.do_prepare_partition(self, srcparams_dict, creator,
->    File "/OE/poky-master-build/sources/poky/scripts/lib/wic/plugins/source/bootimg-partition.py", line 193, in do_prepare_partition
->      part.prepare_rootfs(cr_workdir, oe_builddir, hdddir,
->    File "/OE/poky-master-build/sources/poky/scripts/lib/wic/partition.py", line 238, in prepare_rootfs
->      method(rootfs, oe_builddir, rootfs_dir, native_sysroot, pseudo)
->    File "/OE/poky-master-build/sources/poky/scripts/lib/wic/partition.py", line 305, in prepare_rootfs_msdos
->      rootfs_size = self.get_rootfs_size(blocks)
->    File "/OE/poky-master-build/sources/poky/scripts/lib/wic/partition.py", line 100, in get_rootfs_size
->      if extra_blocks < self.extra_space:
-> TypeError: '<' not supported between instances of 'int' and 'function'
-> WARNING: /OE/poky-master-build/build-CORTEX_1/arago-tmp/work/am335x_evm-poky-linux-gnueabi/core-image-base/1.0-r0/temp/run.do_image_wic.3266:1 exit 1 from 'BUILDDIR="/OE/poky-master-build/build-CORTEX_1" PSEUDO_UNLOAD=1 wic create "$wks" --vars "/OE/poky-master-build/build-CORTEX_1/arago-tmp/sysroots/am335x-evm/imgdata/" -e "core-image-base" -o "$build_wic/"'
-> ERROR: Execution of '/OE/poky-master-build/build-CORTEX_1/arago-tmp/work/am335x_evm-poky-linux-gnueabi/core-image-base/1.0-r0/temp/run.do_image_wic.3266' failed with exit code 1:
->
-> Any clues? Has anyone seen anything like that?
+> What is the now suggested way of placing these kind of binaries? Simply in DEPLOY_DIR_IMAGES as the above-mentioned commit does (silently)?
+> Or is there maybe still some motivation to keep DEPLOY_DIR_TOOLS?
 
-Yes, this is because of my change to add --offset support. I'm not sure 
-how that slipped past, but I'm working on a patch to fix it.
+FWIW, meta-arm is also using DEPLOY_DIR_TOOLS and to fix builds with
+master is now manually using DEPLOY_DIR/tools because having a
+separate directory does help introduce some structure.
 
->
+Basically, I'd actually like to see this reverted.
+
+Ross
