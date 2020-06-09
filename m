@@ -1,97 +1,99 @@
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com [209.85.208.193])
- by mx.groups.io with SMTP id smtpd.web10.8219.1591711889858589208
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.8221.1591711895820777230
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2020 07:11:30 -0700
+ Tue, 09 Jun 2020 07:11:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=DQeah9lY;
- spf=pass (domain: gmail.com, ip: 209.85.208.193, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-lj1-f193.google.com with SMTP id y11so23610864ljm.9
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2020 07:11:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SK9tyUKx;
+ spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-lj1-f178.google.com with SMTP id q19so2536331lji.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2020 07:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=4gFV/FbKuevfDZvVAjMkRqNFDP26Y0cMoC4T48MnNZ8=;
-        b=DQeah9lYKngrXncvWsal6O8J+wtQ2aEUjLOE/P8OklrDwC7LqL3HokhaG3BmnMvaHa
-         +cZHXzcKevYoZ6yNUP33TiNDtIRdQdSd0Tavp0pWVLOWsRcdxWcleFe6dVD7+mDY66ki
-         6H+zqGfmOLxINjFGmpgY0V2jl0Ort1hENRsTcQmvZ0ER4Dn/XmQlHn2NE0XHRhFJ26BI
-         95DrCxY6VFMwwME1JQU6hoqJ5ipDhEmWclInqy4ZGteVGyfGG/7ve2qgE2KK7eh5nsth
-         yc4VQsE3Ryc+CIipmda8Z4Avy7bwShaF3pH3fUjW0+J0Iu9S/GQ7gP8BTG5JYkQ6vI+Y
-         ERdg==
+        bh=Iu+efCeP8//NWBPpwSQGo9nH/RoAS0Ryk1meqY5XkBE=;
+        b=SK9tyUKx99XoH9Tdk0mCpaiXAI5tfXRY7ewjlel08Apt0YBPcz6IqHosoh3rVyiVpx
+         o7Swgw8by7BOQip3oGndK4aJZMB1sqjWHcvHTtLzLcO5qcofdxPEOW2Z/dkMW+b7jHu2
+         w19oYZp2MrcC0Is78c77zMqad6P9kATO+qJrKT9o8+sx36bhX9EqzazOMUZAbJyJLzVu
+         NEvqz5+ZDhsR8F3vD9y+FRHeMqSM4leFBKlLQjq9ymWW7ZJTNra6MOh7PWtcUoZoIkNM
+         gCLZzrVemDyH1UhGBkMBuhfWNbKBV+aC03quAwHythAa3RINRjUCqoeLh7nabzN/rUEJ
+         vpyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4gFV/FbKuevfDZvVAjMkRqNFDP26Y0cMoC4T48MnNZ8=;
-        b=gAevHEJxTAtwfdQjPw/d4p+SmQOPElcXoNTVWFh3UJt88kmJ3Y4qAwRKRnfPB3zhXJ
-         NZmbh1uy8pYd+tqaboSLeyMuQGTr6/UfLe8Y/XwAl3ENBYxpBMKGU7useKRqPweopvoB
-         RLEhVBFe6pr0bToLu9p4g3Ei9Nzy5VSf8mW55sEZHbCnPVI56+ZsPVAixKMoclYap8nn
-         Aireh+8z9U7TaEK82LEuV7KTdBI0tj5dsNwj7Jb0JIcClAtzixBS9gKQJc/yCc0jrfwf
-         +vRLhS2336nOvvNixLY5bGWD0yRVlhXYq7vFbWCsfjVaL1BF+1l+DeR+Zf92a/pgAA8L
-         OFqw==
-X-Gm-Message-State: AOAM532Jd5ZPbgKxLOVGffozOLntGwuoWjMilLrfAAxwXJwtx9XlcnB5
-	kmonkJxA4NjpQ4PJlwoK8E/Ore5+
-X-Google-Smtp-Source: ABdhPJzzE8wGoMt10Dn5M/zCtcvdofw6UBY8AzuhWrGZloPdKMSbOFDnZEmd4ld/pcd849lUC6ot1A==
-X-Received: by 2002:a2e:9987:: with SMTP id w7mr14517400lji.242.1591711887518;
-        Tue, 09 Jun 2020 07:11:27 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Iu+efCeP8//NWBPpwSQGo9nH/RoAS0Ryk1meqY5XkBE=;
+        b=EoQjwCtW/+9S5QIzzK+QqjQFXigXC1oDitIhQJrWY8lLTTdp4QiU0AwTzd4fZJMVN5
+         f5xeGlmHHE+xMawyDfCVSjuS5WRJ8huaA7jjrobMS8KuxIOX3FIL34dmeQPPv5ZJN7oY
+         IdC/R+PDMypmo4/vsIa5WymzqkVKIXinNX2yC5K0oRDjJVc7CnVUOC1rmvoXmhgjilzw
+         39aSjo1domPe9+GPNRad2YHu2znDuvZ8UGEw1FTSUTb5h6J10c2A6ZtlEJsPAQopWjco
+         gIaTV23tZUcZcsV5UmbEXzYXzRYqpKpyjrObd2B5myNE+XK2W0dvTvrUTbGCGRyH+Ri3
+         eMKQ==
+X-Gm-Message-State: AOAM532IEkxZaQ09U9YPD3K08jfV7wWz3oIz8pkdCqEeA658V4I3Oko4
+	jLXtj53GcndmnMJCPdkN3A7g4BiD
+X-Google-Smtp-Source: ABdhPJxFZm7kWlDKErUvpSbL7Turwn0xGHTHNp7yGBIJ8DPW44wKFwe7CEvxneHhGNjarMbQpAI7Sg==
+X-Received: by 2002:a2e:9192:: with SMTP id f18mr14892521ljg.383.1591711893509;
+        Tue, 09 Jun 2020 07:11:33 -0700 (PDT)
 Return-Path: <jacob.kroon@gmail.com>
 Received: from localhost.localdomain ([213.185.29.22])
-        by smtp.gmail.com with ESMTPSA id m6sm4369947ljg.3.2020.06.09.07.11.26
+        by smtp.gmail.com with ESMTPSA id m6sm4369947ljg.3.2020.06.09.07.11.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2020 07:11:26 -0700 (PDT)
+        Tue, 09 Jun 2020 07:11:32 -0700 (PDT)
 From: "Jacob Kroon" <jacob.kroon@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC][PATCH 1/2] features_check: Warn if not used
-Date: Tue,  9 Jun 2020 16:11:13 +0200
-Message-Id: <20200609141114.1751767-1-jacob.kroon@gmail.com>
+Subject: [RFC][PATCH 2/2] Don't inherit 'features_check' in recipes that don't utilize it
+Date: Tue,  9 Jun 2020 16:11:14 +0200
+Message-Id: <20200609141114.1751767-2-jacob.kroon@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200609141114.1751767-1-jacob.kroon@gmail.com>
+References: <20200609141114.1751767-1-jacob.kroon@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
 ---
- meta/classes/features_check.bbclass | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ meta/recipes-bsp/usbutils/usbutils_012.bb     | 2 +-
+ meta/recipes-core/libxml/libxml2_2.9.10.bb    | 2 +-
+ meta/recipes-devtools/mtools/mtools_4.0.24.bb | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/features_check.bbclass b/meta/classes/features_check.bbclass
-index 4ba827d4ab..31ce600374 100644
---- a/meta/classes/features_check.bbclass
-+++ b/meta/classes/features_check.bbclass
-@@ -12,11 +12,25 @@
- # Copyright 2019 (C) Texas Instruments Inc.
- # Copyright 2013 (C) O.S. Systems Software LTDA.
+diff --git a/meta/recipes-bsp/usbutils/usbutils_012.bb b/meta/recipes-bsp/usbutils/usbutils_012.bb
+index b670fa4ab6..28031e72a7 100644
+--- a/meta/recipes-bsp/usbutils/usbutils_012.bb
++++ b/meta/recipes-bsp/usbutils/usbutils_012.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
+ SRC_URI[md5sum] = "7484445cbcf04b3eacac892fe58f8d9f"
+ SRC_URI[sha256sum] = "ae2e10aad530d95839b6f4d46cd41715eae6f0f1789310d793e9be21b3e7ae20"
  
-+FEATURES_CHECK_INCLUDE_STACK := "${BBINCLUDESTACK}"
-+
- python () {
-     if d.getVar('PARSE_ALL_RECIPES', False):
-         return
+-inherit autotools pkgconfig features_check update-alternatives
++inherit autotools pkgconfig update-alternatives
  
-+    unused = True
-+
-     for kind in ['DISTRO', 'MACHINE', 'COMBINED']:
-+        if d.getVar('ANY_OF_' + kind + '_FEATURES') is None and \
-+           d.overridedata.get('ANY_OF_' + kind + '_FEATURES') is None and \
-+           d.getVar('REQUIRED_' + kind + '_FEATURES') is None and \
-+           d.overridedata.get('REQUIRED_' + kind + '_FEATURES') is None and \
-+           d.getVar('CONFLICT_' + kind + '_FEATURES') is None and \
-+           d.overridedata.get('CONFLICT_' + kind + '_FEATURES') is None:
-+            continue
-+
-+        unused = False
-+
-         # Assume at least one var is set.
-         features = set((d.getVar(kind + '_FEATURES') or '').split())
+ ALTERNATIVE_${PN} = "lsusb"
+ ALTERNATIVE_PRIORITY = "100"
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+index 097aceb2c0..d11b083e8b 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+@@ -37,7 +37,7 @@ PACKAGECONFIG ??= "python \
+ PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python3"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
  
-@@ -39,4 +53,10 @@ python () {
-             if conflicts:
-                 raise bb.parse.SkipRecipe("conflicting %s feature%s '%s' (in %s_FEATURES)"
-                     % (kind.lower(), 's' if len(conflicts) > 1 else '', ' '.join(conflicts), kind))
-+
-+    # Only warn if inherited directly in a .bb-file; if the class is inherited
-+    # via an .inc/.bbclass it could be a false positive
-+    inherited_from_bb = d.getVar('FEATURES_CHECK_INCLUDE_STACK').split()[-1].endswith('.bb')
-+    if unused and inherited_from_bb:
-+        bb.warn("Recipe inherits features_check but doesn't use it")
- }
+-inherit autotools pkgconfig binconfig-disabled ptest features_check
++inherit autotools pkgconfig binconfig-disabled ptest
+ 
+ inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3native', '', d)}
+ 
+diff --git a/meta/recipes-devtools/mtools/mtools_4.0.24.bb b/meta/recipes-devtools/mtools/mtools_4.0.24.bb
+index d7cc72d172..f11cdad37a 100644
+--- a/meta/recipes-devtools/mtools/mtools_4.0.24.bb
++++ b/meta/recipes-devtools/mtools/mtools_4.0.24.bb
+@@ -35,7 +35,7 @@ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
+ 
+ SRC_URI_append_class-native = " file://disable-hardcoded-configs.patch"
+ 
+-inherit autotools texinfo features_check
++inherit autotools texinfo
+ 
+ EXTRA_OECONF = "--without-x"
+ 
