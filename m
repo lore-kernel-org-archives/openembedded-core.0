@@ -1,99 +1,113 @@
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web10.3699.1591696011586503810
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com (NAM02-BL2-obe.outbound.protection.outlook.com [40.107.75.88])
+ by mx.groups.io with SMTP id smtpd.web10.4296.1591698763113085268
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2020 02:46:51 -0700
+ Tue, 09 Jun 2020 03:32:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=EUbrq/0j;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.67, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f67.google.com with SMTP id r9so2180450wmh.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2020 02:46:51 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=ofhAXDXM;
+ spf=pass (domain: windriver.com, ip: 40.107.75.88, mailfrom: yanfei.xu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eov5aF2mT7UkhuJtNfSKw0UKZCuuJ15/ohEABbHS814O4Jizuc2edyB+jzxhToj8pG2+Z60rGd6I9l9w/A7EGZwRCRXXZKS19hCwXSWlv9dPRsVK+qG12usp8usq9dNSlQEda3sCDggxQZpAzXSTUdqMuAFz7rYvXMIR6pBIs1dDYghQZoAYahA2+f0MBdf1jLteXIgTVApxRx1fC0WWexz61//xLjcvzWLLp8dJ8gxQ2mk4GD6gBViUJTNO5s0ZHEM5vMgUyLvyDTEh/dIcJohouT8gfOXF8wTE/Ri5w/JQuaK17av4IhfC5AzbEDJk/ffmKzYdVhRbilnq5sCjGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bMK0tTvbloKgg7tV3Uw6FcRRGMCIOkfBriuJiFz6XmE=;
+ b=i0AtBO6vC8g6Mi7KIBsh/kswbwossuT/UZv2M8Lwl4yIiWNw8w2UpmMJGeEmVpkhleNRMqY1JmhUpvruzeoxEHzmomDYcrYAKLY/7fJ9Ulx0ok8oCiCkduC7ghTFgAMQ8N9VUJgesJYKHrro1QQqdkEnqtjwC8gIdZkjvZNDfvR2obdJd9NhZp2rK4QX+bJvkVOed1ea3Li82ZFNHC2cM4Qvj2a61G59O6KCp8XLfgn/h359Wrlwzg7/ZqT7SycAD2pfnVc2N8XxT0wLFdflU2cRMCedNHoYoHbiH4Acaf8p1XMvKctFVI0ApSdGfmjvxbp37bI15Krkt6x/6S6rFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=z4CCcCp1xcwn9tGYnNVqfgTEUc9i/jD1sPN+70bjNZY=;
-        b=EUbrq/0j82d7EP4gUoicvjqY7AK5Am1WDQC3uvBJivQ/Czt8nAnvSYcBWn1jGos20a
-         hGcZWcMoDrwZM7m4ebcVomdeVld4Tzp0E/iigQSarJZJsKodLaAdivyalmM3y2tbLWke
-         L9PwuXcWOwyNR4hnG8TbroS9/LT+BmSns00jA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=z4CCcCp1xcwn9tGYnNVqfgTEUc9i/jD1sPN+70bjNZY=;
-        b=CD5f6ztPabqtBAKeKhH1uMyBhGkqLsX8YYPBN9bLQYE0cT2cUKV2unDgSV5iSvd19t
-         V69mh/T1dp3ozfqdDUZBwuvAMjRotRCWUQ+wrfcZjXllutsB7rg/xyQapO8bEKYekdJm
-         35TIUipZjtdCgC5VBiZYT/ynQOO8ut1NzB9V1JOp8er1TQ16YrUy/51/LnS3Mc7CxrKv
-         /WLd0HjCLVvgKd3o2Hwwo7yAvYGjb1FdCkL18qgYtgREda43crQzw+YehFyyeKf2uVHj
-         sNJfTRTUATRSozsSuFs9/S42xcIUtgzNbvVLlYn2oEeXVjtK+DLzjgvTAKdyWwcHZ80T
-         5QDQ==
-X-Gm-Message-State: AOAM5310+lMpK3Beut9DPU1S4qpDwmdU57k3juNq4Ob5ebNgNNzm+Iro
-	R/08H5cSHsvvNwx+ipsC+kuz8Q==
-X-Google-Smtp-Source: ABdhPJyOOemZJ4hEoTmuJwilZZ5vaA2B4Q6KO1fUt2PefeoKbM8XpI7UPsDPFHGc2FaMigcoQJvYRQ==
-X-Received: by 2002:a1c:4009:: with SMTP id n9mr3168931wma.104.1591696009952;
-        Tue, 09 Jun 2020 02:46:49 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id f11sm2703654wrm.13.2020.06.09.02.46.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2020 02:46:48 -0700 (PDT)
-Message-ID: <46a2f1527c6b547df37ed040c30369975c188f90.camel@linuxfoundation.org>
-Subject: Re: [OE-core] devtool and multiconfig: Bug or feature?
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: Ricardo Ribalda <ricardo.ribalda@gmail.com>, openembedded-core
-	 <openembedded-core@lists.openembedded.org>, Jan Lorenzen <jl@newtec.dk>
-Date: Tue, 09 Jun 2020 10:46:47 +0100
-In-Reply-To: <CAPybu_2pgXgLsvdgLhn60emg5Qh8krRQRNKzQbB5LHfec_YUDQ@mail.gmail.com>
-References: 
-	<CAPybu_2pgXgLsvdgLhn60emg5Qh8krRQRNKzQbB5LHfec_YUDQ@mail.gmail.com>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bMK0tTvbloKgg7tV3Uw6FcRRGMCIOkfBriuJiFz6XmE=;
+ b=ofhAXDXMXzTWEJieD7JB+hrCrICSQVx48UoPaS1Bn9VnEwfQPRFOes+Kj5hjgqZ7l4oywcpLepDP8csFq6bOsUZm96kgZ3c79GW3nlrVUbxC/xZSN4MG/djLEAp4l8DqI7Z/uQRf4e5ti3OdPZQhXYijPpSpjuk8LgKwo5fqLWI=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com (2603:10b6:a03:1ca::13)
+ by BY5PR11MB4307.namprd11.prod.outlook.com (2603:10b6:a03:1bd::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.19; Tue, 9 Jun
+ 2020 10:32:40 +0000
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::6892:dd68:8b6b:c702]) by BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::6892:dd68:8b6b:c702%4]) with mapi id 15.20.3066.023; Tue, 9 Jun 2020
+ 10:32:40 +0000
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: "Xu, Yanfei" <yanfei.xu@windriver.com>
+Cc: He Zhe <zhe.he@windriver.com>, openembedded-core@lists.openembedded.org
+Subject: [OE-core] kernel: update rpm failed for the vfat
+Message-ID: <d384f6b7-dff7-ab38-7abc-348727f67d40@windriver.com>
+Date: Tue, 9 Jun 2020 18:32:34 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+X-ClientProxiedBy: HK2PR02CA0128.apcprd02.prod.outlook.com
+ (2603:1096:202:16::12) To BY5PR11MB4241.namprd11.prod.outlook.com
+ (2603:10b6:a03:1ca::13)
+Return-Path: yanfei.xu@windriver.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.160] (60.247.85.82) by HK2PR02CA0128.apcprd02.prod.outlook.com (2603:1096:202:16::12) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18 via Frontend Transport; Tue, 9 Jun 2020 10:32:39 +0000
+X-Originating-IP: [60.247.85.82]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ab0e846e-80f7-4f0e-755e-08d80c606fbc
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4307:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<BY5PR11MB43077DAA375100E541BA8CB7E4820@BY5PR11MB4307.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 042957ACD7
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	awobpx38wK8Jde0foBNLcA54ruuMbHo/vcuiNioMPQwL5GOlkwkIh6rT+XtKXjdsSwjacY0Dx5pS83YvCyNbT7Ui84Dbk7HDiVQec1AxjzlpxyVMNWs4rfE4mcpjV1Lnt/8UB5dgluMMwSiXPw6vjtZMLOXcoBvXxcp5Sx6LjEvG9IHcutmBJaHgihAG9tXzQ9JfM/q3kBTLc060dM5oj13pzRz1ttf46ONH0OLE/RnWkRXKlXcHA2/VGEM4T+vlkAf6aUtO6zrXyDpcq+5Anv5stEdsRnPghJMoSFQsu6LfoaFHc5FwBJEU0FoFSUHfCXBh2pZh+ZRgELIOEiwQ1BtLx7Oznxk7PCbWUvgaltssnkhpfGJ6UXt/+KQ5PZvh/58M13oFuNIYVOns8DZdPGQQNl00xHZtSjIT3au5342EUly4v+RbSXptXQY1ndCI
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(346002)(366004)(376002)(39850400004)(396003)(4326008)(2906002)(316002)(16526019)(26005)(36756003)(6666004)(52116002)(83380400001)(16576012)(6486002)(956004)(186003)(2616005)(66556008)(8936002)(31696002)(8676002)(66476007)(6706004)(86362001)(5660300002)(6916009)(478600001)(31686004)(66946007)(78286006)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	ZeEaBZHG7XzRfVoq/0D5Hiz0u+bf8e44iqnuPpiK2eZvOVvRLNKRtwH4lXTO591kzyEJOjMSl1HPQWDu0CGf6RR6rKkKOuEZKmJc6NFv6FRIDLA6PEtJXO+P4ak/tsaHBzV560nZG0Xm1BSPrnTqtmwd2tt8FCtFnHAyeX42fMExMF9D2CqVLf6BICH5gFl+LbaFPW9/5WCHf56Tui5fPgih34EYP0aa603piaD+jjCIQJvYy8k9gyb6ssgOm5V1vnsU6w0hof+GI04hvYbc4ewFQBWV3rZl2Ci+XDxlx90fWOmDZx9Z2rMZIxfziehTkN/gJbnh9z1tEDQj4WBpTrsyCxXCoHsGMtf0DPcHqoFeF0BmlrRGuPMp7cgQWWYrou1W8OHDu8eA7iqKnOth8Jty+1bJ8OU/zYiUWGtBp6sglrTwd0Zw462L3qUhDKVpggSSJ5xMBRMgalSMckLUdbKKvPsLpNa2RJcQt331EwQ=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ab0e846e-80f7-4f0e-755e-08d80c606fbc
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Jun 2020 10:32:40.5979
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JJTewwPd84Fozd6h+s6nQsV7a4tfHb1ecjcspaa7jYek1korutlvx82XtAT4KrD9PSzjZ+WYMv56vdFM6zO8tg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4307
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-06-08 at 16:40 +0200, Ricardo Ribalda wrote:
-> Hi
-> 
-> I am trying to use devtool in combination with multiconfig for the
-> first time, so probably I am doing something wrong.
-> 
-> I have created a very simple multiconfig
-> 
-> cat build/conf/multiconfig/arm.conf
-> MACHINE = "qemuarm"
-> 
-> And then I want to modify bash:
-> devtool modify multiconfig:arm:bash
-> 
-> If then I try to run:
-> devtool build multiconfig:arm:bash
-> NOTE: Starting bitbake server...
-> ERROR: No recipe named 'multiconfig:arm:bash' in your workspace
-> 
-> So I run:
-> devtool build bash
-> 
-> But that builds for x86 instead of for arm...
-> 
-> Simply patching check_workspace_recipe does not do the trick:
-> @@ -145,6 +145,8 @@ def check_workspace_recipe(workspace, pn,
-> checksrc=True, bbclassextend=False):
->      is present.
->      """
-> 
-> +    pn = pn.split(":")[-1]
-> +
->      workspacepn = pn
-> 
->      for recipe, value in workspace.items():
-> 
-> 
-> Any idea or documentation to follow?
+Hi Bruce,
 
-I think this is something which hasn't been tested before. Its a bug
-but nobody has probably tested or fixed devtool to work with
-multiconfig.
+I encountered an issue that updating kernel rpm package will fail when 
+the /boot dir was mount with vfat filesystem. The root cause is vfat 
+don't support symlink.
+--------cut here----------
+error: unpacking of archive failed on file /boot/Image;5eda8385: cpio: 
+symlink failed - Resource temporarily unavailable
+error: 
+kernel-image-image-5.4.43-yocto-standard-5.4.x+git0+f8c88c4331_9961cc8b79-r0.bcm_2xxx_rpi4: 
+install failed
+root@bcm-2xxx-rpi4:/boot#
 
-Cheers,
+Currently I have two ideas to fix it:
+1. we use 'install' cmd instead of 'ln -sf' in kernel_do_install to 
+avoid generating symlink in kernel-image-image*.rpm. And then add an 
+postinstall to this rpm. It will check if the /boot dir is vfat, if not, 
+we remove the copy image* and make a softlink for the image.
+2. we specially add an package type which doesn't contain symlink for 
+the vfat filesystem.
 
-Richard
+For the first idea, I met an problem when I try to add 
+pkg_postinst_packagename function in kernel.bbclass file. Due to there 
+are not package name variables defined for the kernel-image-image.gz 
+kernel-image-image or other type kernel images. So I can not add 
+postinst functions statically why that how many packages and packages' 
+name are not certainly.
 
+Do you have any opinions about these?
+
+
+Regards,
+Yanfei
