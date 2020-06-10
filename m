@@ -1,92 +1,107 @@
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
- by mx.groups.io with SMTP id smtpd.web10.6471.1591779467554576647
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com [209.85.167.67])
+ by mx.groups.io with SMTP id smtpd.web11.7154.1591782543234536392
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2020 01:57:47 -0700
+ Wed, 10 Jun 2020 02:49:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qzq5xE5D;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f65.google.com with SMTP id c3so1296006wru.12
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 01:57:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kdsXwMwi;
+ spf=pass (domain: gmail.com, ip: 209.85.167.67, mailfrom: ricardo.ribalda@gmail.com)
+Received: by mail-lf1-f67.google.com with SMTP id u16so1064496lfl.8
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 02:49:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-         :mime-version:content-transfer-encoding;
-        bh=aO7SLYFnFaJCrLlIAKH+WH3CPV6BO72PG9L9oDV1sPM=;
-        b=Qzq5xE5DSQljM1QwOnxPITLLUSWtF7XYi7EcoP4KPh2d/hMIFAIBks9wlyxSk57OhB
-         RpOkaozg3rMi56ftYqXKdIVWlPkSwVqlWKvlMgc8NwhdQQ+gABAXJ+ZT3OErThImxEdq
-         GtOy3KM+zBq9gWMixVsqhsGwtJzscfuwhpoo0=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=F1wWOfgrlR3h3/Q7B++NeOlWh0u6zmOeL5EpMLn6tZE=;
+        b=kdsXwMwi6XdUCN9/U88ZOidxwlRUyLfJlH1ypm82HXZRiYacLdNSrqM/vZG8bZ9gyO
+         BBxC+xhyEdtI9Eq7pLXfmgaNy4KwPsV4c5u/tV+PS+jjO6ad0f1FL96oSZssQEAgbtcV
+         iaE00AKG4wt4awcm35gDydatEqvXD6mUjlttPUrdjRyGNoE90C4WrSAU4Xtg9p2q8x6a
+         saJ3GV0HOwTPk4iDK+VcyT9f327bUDERkOPh1MGivzwL247iNt7CVDurOyG9P9mx1LgX
+         CpqjnUvEm9uqvumntWJSxcQr/i3+Vtd/WTjiUJM+izS4YiKEFtwH8XuXc/7KoVDYFGG+
+         r6vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=aO7SLYFnFaJCrLlIAKH+WH3CPV6BO72PG9L9oDV1sPM=;
-        b=JRBg55O81fj8LUyLh6RQvksdZOtzXn6KZCXbOdtZjEJxxzoiED1kUYjZ0A4A/QTIyh
-         ONSIywjV6YuOFNJDmxz+eTeSD6rcGeQv1UrtDdkAdYxM793cOog0bkpt6QUop5hcAlKJ
-         UKwjkvnF0Og2u6/LE5DfVJZPX7ZYNVnp2R6AaKbFiWm3f5qlu4OccCT3D20xLXHRkTLE
-         tIwT/O99emOtdEFgKPMTASnbBzMfwQr43wSmZ22814bRP9leeviMfjVxnsJHethA1DIU
-         ZE8UtSLn1F/Lwv+SioYBBTM6p/+aAs0WUn7JW1soNEpZJ1ihFJ6CtYhD/+ywhbQdbJuU
-         6AhA==
-X-Gm-Message-State: AOAM532M+fohpmI3N7VmY3MeEFf2lQREicMuOldUrcxnM6Z3mHEL1cMG
-	DkaaFCPJaFmE+62F6IxeciPAwg==
-X-Google-Smtp-Source: ABdhPJzxplt8D1LPO84afDlsUTyrZbdxy9b+m/X78x1BVm6z6Nl35EAthrgyr/U1toH8pellTYgBHA==
-X-Received: by 2002:adf:e381:: with SMTP id e1mr2344092wrm.320.1591779466019;
-        Wed, 10 Jun 2020 01:57:46 -0700 (PDT)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-        by smtp.gmail.com with ESMTPSA id 128sm6189331wme.39.2020.06.10.01.57.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 01:57:45 -0700 (PDT)
-Message-ID: <88a87bb30460a13a10b8e9a749ad8e2faff878b9.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] Modied the license to GPLv2.1+ to keep with LICENSE file.
-From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>, 
-	"openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jun 2020 09:57:43 +0100
-In-Reply-To: <584df8ef8e7f4eff9841ad09b52c6ac7@G08CNEXMBPEKD06.g08.fujitsu.local>
-References: <1591638879-97684-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	 <918d16ff5776f0a9991e46b5b4da3f5a0d286dc3.camel@linuxfoundation.org>
-	 <584df8ef8e7f4eff9841ad09b52c6ac7@G08CNEXMBPEKD06.g08.fujitsu.local>
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=F1wWOfgrlR3h3/Q7B++NeOlWh0u6zmOeL5EpMLn6tZE=;
+        b=ihCemw541bY0/+kcNCYY3Xav90No0d0SJ+nGpG/Qz7rUa3vuslHaXAU/KU22XQC/ld
+         YTPzpoyCr4JgLrGto9lt0HP3IkRKdmirlEAq1iWmmLEUE/MXz8fK1xJwQW4JHIcsdHdx
+         gLw87T3CokBPl3pzdbVYu0y9BisX/UADXlq7Sx2VSxZMcTDwzorHoPWkkawFaY9PIfA3
+         XsyowaCpqGOmWt5EcjCrJ7ZDEXl85mogzRbQyLOEBj6Vwa0LwmPVRUIVOVXK5LR2hIP1
+         xEgBpXI5/ak3GqNzgiC9DB8VUq5OsWot+M6OlGAbgqpVlt8FE+ha+MSwf8SsAoe0mzjg
+         LfDQ==
+X-Gm-Message-State: AOAM531bvDyzt/fLpmMbX/neLgwxMWwhPlIYpX5TKBqioLu/a/OhaCHH
+	s7hPjurXY0hxG8ynYvOyPSIBDRtQBmdneGUodqg=
+X-Google-Smtp-Source: ABdhPJzYrdt/1Aj/+GJgRX6/mprJTGzHQ/0xrIN7e7NWqTa4hY9xf1/49BjSaK3288yj321yGFQNbZSaYmh3wkm3KXI=
+X-Received: by 2002:ac2:5094:: with SMTP id f20mr1278007lfm.128.1591782541118;
+ Wed, 10 Jun 2020 02:49:01 -0700 (PDT)
 MIME-Version: 1.0
+References: <CAPybu_2pgXgLsvdgLhn60emg5Qh8krRQRNKzQbB5LHfec_YUDQ@mail.gmail.com>
+ <46a2f1527c6b547df37ed040c30369975c188f90.camel@linuxfoundation.org>
+In-Reply-To: <46a2f1527c6b547df37ed040c30369975c188f90.camel@linuxfoundation.org>
+From: "Ricardo Ribalda" <ricardo.ribalda@gmail.com>
+Date: Wed, 10 Jun 2020 11:48:44 +0200
+Message-ID: <CAPybu_24rBzPU_wb2+j-G4HkMd_MtCTFNDuK36pefqbm9JeShw@mail.gmail.com>
+Subject: Re: [OE-core] devtool and multiconfig: Bug or feature?
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, Jan Lorenzen <jl@newtec.dk>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-06-10 at 01:20 +0000, Zheng, Ruoqin wrote:
-> Hi Richard
-> 
-> > No, you simply cannot just do that.
-> > 
-> > If upstream takes the patch we can apply as a backport but until
-> > they accept a
-> > license change we can and will not.
-> > 
-> > Just because the license file says something doesn't mean every
-> > file is under
-> > that license if that file's header says differently.
-> > 
-> OK, I got it.
-> 
-> > I suspect upstream won't accept this patch either.
-> I'm sorry, but I don't know if you noticed 
-> https://gitlab.com/gnutls/gnutls/-/issues/1018 . 
-> Our team have dicussed this issue in gnutls's gitlab, and the
-> community has recognized this modify.
+Hi Richard
+On Tue, Jun 9, 2020 at 11:46 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2020-06-08 at 16:40 +0200, Ricardo Ribalda wrote:
+> > Hi
+> >
+> > I am trying to use devtool in combination with multiconfig for the
+> > first time, so probably I am doing something wrong.
+> >
+> > I have created a very simple multiconfig
+> >
+> > cat build/conf/multiconfig/arm.conf
+> > MACHINE = "qemuarm"
+> >
+> > And then I want to modify bash:
+> > devtool modify multiconfig:arm:bash
+> >
+> > If then I try to run:
+> > devtool build multiconfig:arm:bash
+> > NOTE: Starting bitbake server...
+> > ERROR: No recipe named 'multiconfig:arm:bash' in your workspace
+> >
+> > So I run:
+> > devtool build bash
+> >
+> > But that builds for x86 instead of for arm...
+> >
+> > Simply patching check_workspace_recipe does not do the trick:
+> > @@ -145,6 +145,8 @@ def check_workspace_recipe(workspace, pn,
+> > checksrc=True, bbclassextend=False):
+> >      is present.
+> >      """
+> >
+> > +    pn = pn.split(":")[-1]
+> > +
+> >      workspacepn = pn
+> >
+> >      for recipe, value in workspace.items():
+> >
+> >
+> > Any idea or documentation to follow?
+>
+> I think this is something which hasn't been tested before. Its a bug
+> but nobody has probably tested or fixed devtool to work with
+> multiconfig.
 
-Having the upstream author recognise this means we can make the change
-but we need to quote that in the patch with a reference, specifically
-the comment:
+I have opened a bug on bugzilla, with a horrible patch that kind of fixes it...
+Lets see how it evolves.
 
-"I see from the log that I'm the only one who touched this file, so as
-far as I'm concerned this is the same license as the rest of gnutls.
-Feel free to update the license to right one." and a reference that if
-came from https://gitlab.com/gnutls/gnutls/-/issues/1018
+>
+> Cheers,
+>
+> Richard
+>
 
-We have to be extremely careful about licence changes like this.
 
-If we can backport an upstream patch that would be even better.
-
-Cheers,
-
-Richard
-
+-- 
+Ricardo Ribalda
