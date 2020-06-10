@@ -1,163 +1,112 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (NAM11-BN8-obe.outbound.protection.outlook.com [40.107.236.70])
- by mx.groups.io with SMTP id smtpd.web10.3104.1591759118861748803
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.4234.1591765831654090916
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2020 20:18:39 -0700
+ Tue, 09 Jun 2020 22:10:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=TfDxl4ko;
- spf=pass (domain: windriver.com, ip: 40.107.236.70, mailfrom: mingli.yu@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eUa2bEvEF8gqP/70lcCHWcyQbCb4Kv1xPSUN+dteRT+QGtir5xRuoUEMByvGZyOliW0/Uvlyg4mt6YtNBBYLPD/0I8mVqA3AtDsPsYFsE6XXD5C/UJB/X1p2CGQYqD5CEWC/2EDK9D0kDzX6cJf3g24udiOWlcYyaout7+3I9I145RfbaKhvVAH3uvF1ty3hE0SMnvOEWjbnsYmpzy0SBY82yQjqEviY5UDfR9hWczL7F1/bE0pyRvJl/3AIabSOXKcjOBx78kWSCH/f2CP3qaKISklz/pc4DtdKNtiKoC33zof/9wxsk/UHhkSCAwydewNB9Re322mtzrE4DQDSdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lkmrQW2hNLguLhkQnb8tMLbWxhOU1HTGhlf6WbjyQic=;
- b=OKGi2JGWmOHINHblSavE3vVlwiJam2rsgiMlCNBKvyBfQLfjOZvetAyS2iWDmY5xYJnB0hi4AFtBDbTbp0/4b8WLIUfQuiu1LZBMV4OPneNJn2FsrmZNz0Jy2bN6NC9Vls4dOdFyHAxQL35I9iXw7W6J14L6bhbCECC0gK+meNxzYeZSp1fCZFqAG9LHcrspxAUuqKDk4VD6R8oSTfa+6hq3jcXb3Z8DXMb/yyR7t1IJOPoxLKbs3GeWlwTG+u3MK29ZZroKh0w9dCHaqvI/joWDn5GPY8tmKrcekBg7llY+KL3IHIs7MdAeoCatgUC1hyAiFEjxwGQEqvb2O/aMFw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=g6XvQFuC;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id h95so390964pje.4
+        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2020 22:10:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lkmrQW2hNLguLhkQnb8tMLbWxhOU1HTGhlf6WbjyQic=;
- b=TfDxl4kotl1RPSS3nepk6ZcD8gohhs22OKYwBn1U9Ol/waTG4hwV3m3zRVFVQokNGDN49a/8a45AfnWtmca7RZMezm6Guudsx3VD9uVZaumM5g8vAEcr9SwCFB8hjOE5AnLerfz/riHqAFYrLpyGa7V7euRak1WSNSAatwa47hs=
-Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
- header.d=none;lists.openembedded.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com (2603:10b6:a02:cb::17)
- by BYAPR11MB3703.namprd11.prod.outlook.com (2603:10b6:a03:b2::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.19; Wed, 10 Jun
- 2020 03:18:34 +0000
-Received: from BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::b1da:3c52:3aeb:d91d]) by BYAPR11MB2598.namprd11.prod.outlook.com
- ([fe80::b1da:3c52:3aeb:d91d%7]) with mapi id 15.20.3066.023; Wed, 10 Jun 2020
- 03:18:34 +0000
-Subject: Re: [OE-core] [PATCH 1/4] python: Add libarchive-c recipe
-To: Joshua Watt <jpewhacker@gmail.com>
-References: <20200212031435.792802-1-JPEWhacker@gmail.com>
- <20200212031435.792802-2-JPEWhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <62dc43ba-0d87-6913-0b1e-ad2eb989a705@windriver.com>
-Date: Wed, 10 Jun 2020 11:17:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-In-Reply-To: <20200212031435.792802-2-JPEWhacker@gmail.com>
-X-ClientProxiedBy: HK2PR0302CA0003.apcprd03.prod.outlook.com
- (2603:1096:202::13) To BYAPR11MB2598.namprd11.prod.outlook.com
- (2603:10b6:a02:cb::17)
-Return-Path: mingli.yu@windriver.com
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9v1nv67JyO7L8SH2BptxiQ67rwlexyIHVMW8ApRqBjY=;
+        b=g6XvQFuCMEkTsUVfyIe2bSU6Id36RXuWb8DAM1sN0fPJAhBeJvCIYYt+h3U4IsYFYG
+         N8Z1CKKhqFevBhSZ6hu/oiFyuET2q6X6jhtQkda4Uu5cDh1yXAff2QMrGgqnAXXcRvEb
+         qQwgyDY20BQG9I7bgB0sDSbbiug4FEd3pz0MfY3VJwL0brrcJW4WpMvNT6l/7s+6a90s
+         yAs4X3eL0VigmxNDqDEmNODI1BBLBc01OCU6XIGQtlPsBf7GKJM8vccjtozvbHzwwCx9
+         1WBHymQxDKZVF9NOUiEYvBiE8xT8BngpkRWQRHL9i8boAhDTpUa5q5xo+W0g6t1NuqrK
+         uDfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=9v1nv67JyO7L8SH2BptxiQ67rwlexyIHVMW8ApRqBjY=;
+        b=nZ0RE1OhRAePcn2OLhET73hqIJV7tTLD+mfIvsb1tORyEeP7ZY/y10dzMAzIdbcL6I
+         ndJVheSWCnXlwUx3UQg2vSp1vMGP/Vs6v8mwRi3Z/1KOybU5h8BETJSD424T+OpofoVz
+         YUEMI0cwSiHaU0ZM1bMbRvLgD2nGzi8Vbt2SDd8QL/tv6OaKpiBpU+L76W326KGo9QMP
+         C/o8JSf1WKEY5qSh8LbVoEJsLEPGwGrXfj99svWhEFWIE9UdE48S2x4cjDh61+jzK2oJ
+         vfAAHKHdmhYwtJpCzM9GnU+Vgg1PmGZWwutOA6OZuCR/gjrQY7o8dpb8h8myDm/74zTy
+         oh2w==
+X-Gm-Message-State: AOAM532AE54IqiT2RJgALiOjWA40ecZXu5roQ95VeWHIiwh5lU0MSMc8
+	/QNlIMC1ZQ4bmyPqE0QcLpRV8vlYNFc=
+X-Google-Smtp-Source: ABdhPJyOUEHsKmUU1Px3jn9hnkRAJZuIYIwAuD98bT4vQ9/Mr9omfKPf4YvyrNgaj9FgcLCsEDen2Q==
+X-Received: by 2002:a17:90a:3261:: with SMTP id k88mr1340859pjb.0.1591765830667;
+        Tue, 09 Jun 2020 22:10:30 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::34b9])
+        by smtp.gmail.com with ESMTPSA id o16sm9742445pgg.57.2020.06.09.22.10.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Jun 2020 22:10:30 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] stress-ng: Fix build on musl
+Date: Tue,  9 Jun 2020 22:10:28 -0700
+Message-Id: <20200610051028.765550-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.138] (60.247.85.82) by HK2PR0302CA0003.apcprd03.prod.outlook.com (2603:1096:202::13) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.7 via Frontend Transport; Wed, 10 Jun 2020 03:18:33 +0000
-X-Originating-IP: [60.247.85.82]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 057e3830-aa04-4140-bd02-08d80cecf551
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3703:
-X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB37036B8C5C5A20C9D6B10013F1830@BYAPR11MB3703.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
-X-Forefront-PRVS: 0430FA5CB7
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	lJ9z8cRDbpGt1YzNtjQBMlP3/aGByNV9ULGjZ2RvoySugnkLm1ofr+7NomwpxW+NnVCpU49Jmzk1ogwKg9T1hkSWNLBpClai/mqNcOhtIzEYEdHZdw7ub06/l4q91mO4EBSDJLB2nm1WDgaREQ8i6G/Fa4jYDBjaew/6HmikFhIyh+s06UA9FF1givgATfWeYp64pI1OFCxlmOtL3oI3knGg1dGHUbT96+3dWGKhxG4pdgfzoxeba+KjbA/Mpgus4deUJwDOiErLh9cKVuWfiaaSuYn3Ga7Hc+Ae71ySsAI+i/k0Z9JvfIDNRxUFq8N1Z93epxwF1JSx7lREYscythUNjDfgQhMn7P8UZLZZsYnJU3m6HFKtWhkM1CK+wFUpqxdNXC3t1AiWYp08z3QeadLKG4H1HLad9Qi/JAtbhWEre9P0iLfvZz1LLOAJcXbQgjvgm+ilVFEZCxPN/a6kY1JKzRu5kI4xvMCRbOoq8Jvz0+PW5aNhyZDUKXJp53UmIKyf5EWx8LnNtecJ6paVWA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2598.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(346002)(396003)(39840400004)(366004)(136003)(376002)(956004)(26005)(86362001)(5660300002)(52116002)(53546011)(478600001)(2616005)(16576012)(31696002)(83380400001)(4326008)(8676002)(66556008)(66476007)(8936002)(16526019)(36756003)(2906002)(6706004)(31686004)(186003)(6916009)(316002)(6486002)(66946007)(78286006)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	ZW/0ST0hvp1j/EsIy26/RXdoytF4eQ12c0ZBbOWLNGxuID1IVb6lbP61aHZllx93ZrBuCwwPD9Y+VMQtuBFlzI2TA4iX2CUoSmcoNdwn+Q13HsQBKR3t2g6UUiNGrBNYDczB1QemN7IWiZjDXOSWse7p0L59UN91cqoGje/xufBuQ6m//XraAczUZDN9foNocNFS97Q21PWAEgksHt26arSspOYWW1Wzkw2xIdsQtPc1KRPMDZbV/n1dbLjaa6Parw/JtSorEFfnclTM+kE/NyEY77fdVlEJ27PfEu1vES4F0yYFL0Dnm0DuiWpq4sAC3ALEq+q1IbHmeJ7HQolYcnuYTfQvBgxaUi3OqJuucWKlyKTuYyH6+FaZhu1jpsLOXBKT0DiVoif3NZgy59LTfmLq/u0nJy/FCqMJdUtHnQYJ6T2ACdTeH6d56RO4uCpk+GMQUaXgxyY7m88geaWpikswMREhVGoPaMFDAJcNGes=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 057e3830-aa04-4140-bd02-08d80cecf551
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Jun 2020 03:18:34.4052
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: qhPhvPDNPQM0Na7N5uKNk/nOZ8WV6LMinGKdu1KaCv8zk/lZsZnm2REgaomE9ZPpNU+q/PYJcK9EXH5A4UhSEw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3703
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Joshua,
+Define daddr_t if not provided by system headers
+Fixes
+./stress-ng.h:3755:2: error: unknown type name 'daddr_t'; did you mean 'caddr_t'?
+daddr_t f_tfree;
+^~~~~~~
 
-I encounter below error when use the libarchive module, could you help 
-to take a look?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../stress-ng/stress-ng/no_daddr_t.patch      | 22 +++++++++++++++++++
+ .../stress-ng/stress-ng_0.11.12.bb            |  2 +-
+ 2 files changed, 23 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
 
-# python3
-Python 3.8.2 (default, Jun  8 2020, 06:35:32)
-[GCC 10.1.0] on linux
-Type "help", "copyright", "credits" or "license" for more information.
- >>> import libarchive
-Traceback (most recent call last):
-   File "<stdin>", line 1, in <module>
-   File "/usr/lib64/python3.8/site-packages/libarchive/__init__.py", 
-line 1, in <module>
-     from .entry import ArchiveEntry
-   File "/usr/lib64/python3.8/site-packages/libarchive/entry.py", line 
-6, in <module>
-     from . import ffi
-   File "/usr/lib64/python3.8/site-packages/libarchive/ffi.py", line 
-109, in <module>
-     errno = ffi('errno', [c_archive_p], c_int)
-   File "/usr/lib64/python3.8/site-packages/libarchive/ffi.py", line 96, 
-in ffi
-     f = getattr(libarchive, 'archive_'+name)
-   File "/usr/lib64/python3.8/ctypes/__init__.py", line 386, in __getattr__
-     func = self.__getitem__(name)
-   File "/usr/lib64/python3.8/ctypes/__init__.py", line 391, in __getitem__
-     func = self._FuncPtr((name_or_ordinal, self))
-AttributeError: python3: undefined symbol: archive_errno
- >>>
+diff --git a/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch b/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
+new file mode 100644
+index 0000000000..877f4f0624
+--- /dev/null
++++ b/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
+@@ -0,0 +1,22 @@
++Define daddr_t if __DADDR_T_TYPE is not defined
++
++glibc defined daddr_t but musl does not, ideally it should not be used
++and simple int type is enough. However, its better to leave glibc behavior
++as it is and only define it to int if daddr_t is not provided by libc
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++--- a/stress-ng.h
+++++ b/stress-ng.h
++@@ -3750,6 +3750,10 @@ struct shim_statx {
++ 	uint64_t __spare2[14];
++ };
++ 
+++#ifndef __DADDR_T_TYPE
+++typedef int daddr_t;
+++#endif
+++
++ /* old ustat struct */
++ struct shim_ustat {
++ 	daddr_t	f_tfree;
+diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.11.12.bb b/meta/recipes-extended/stress-ng/stress-ng_0.11.12.bb
+index 45f4bb41ad..c00086c095 100644
+--- a/meta/recipes-extended/stress-ng/stress-ng_0.11.12.bb
++++ b/meta/recipes-extended/stress-ng/stress-ng_0.11.12.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
++           file://no_daddr_t.patch \
+            "
+ SRC_URI[sha256sum] = "0ccf437ca1876a3e8a55986c6481697045203a17f5994cb2f5096cd461d18031"
+ 
+@@ -23,4 +24,3 @@ do_install() {
+     oe_runmake DESTDIR=${D} install
+ }
+ 
+-COMPATIBLE_HOST_libc-musl = 'null'
+-- 
+2.27.0
 
-Thanks,
-
-
-On 2/12/20 11:14 AM, Joshua Watt wrote:
-> The libarchive python module is used by diffoscope tool to
-> make build comparisons.
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->   meta/conf/distro/include/maintainers.inc        |  1 +
->   .../python/python3-libarchive-c_2.9.bb          | 17 +++++++++++++++++
->   2 files changed, 18 insertions(+)
->   create mode 100644 meta/recipes-devtools/python/python3-libarchive-c_2.9.bb
-> 
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index c68e9edf634..abbdb74a0d3 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -579,6 +579,7 @@ RECIPE_MAINTAINER_pn-python3-extras = "Oleksandr Kravchuk <open.source@oleksandr
->   RECIPE_MAINTAINER_pn-python3-git = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
->   RECIPE_MAINTAINER_pn-python3-gitdb = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
->   RECIPE_MAINTAINER_pn-python3-iniparse = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-> +RECIPE_MAINTAINER_pn-python3-libarchive-c = "Joshua Watt <JPEWhacker@gmail.com>"
->   RECIPE_MAINTAINER_pn-python3-mako = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
->   RECIPE_MAINTAINER_pn-python3-nose = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
->   RECIPE_MAINTAINER_pn-python3-numpy = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-> diff --git a/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb b/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb
-> new file mode 100644
-> index 00000000000..4983ae527a1
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-libarchive-c_2.9.bb
-> @@ -0,0 +1,17 @@
-> +SUMMARY = "Python interface to libarchive"
-> +DESCRIPTION = "A Python interface to libarchive. It uses the standard ctypes module to \
-> +    dynamically load and access the C library."
-> +HOMEPAGE = "https://github.com/Changaco/python-libarchive-c"
-> +LICENSE = "CC0-1.0"
-> +LIC_FILES_CHKSUM = "file://LICENSE.md;md5=bcab380227a83bc147350b40a81e6ffc"
-> +
-> +PYPI_PACKAGE = "libarchive-c"
-> +
-> +inherit pypi setuptools3
-> +
-> +SRC_URI[md5sum] = "083bd2cb0043c1e22a52cb9a05e31532"
-> +SRC_URI[sha256sum] = "9919344cec203f5db6596a29b5bc26b07ba9662925a05e24980b84709232ef60"
-> +
-> +RDEPENDS_${PN} += "libarchive"
-> +
-> +BBCLASSEXTEND = "native"
-> 
