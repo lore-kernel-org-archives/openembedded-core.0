@@ -1,71 +1,91 @@
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
- by mx.groups.io with SMTP id smtpd.web10.66.1591810949017456736
- for <Openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2020 10:42:30 -0700
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web11.301.1591811577684229139
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 10 Jun 2020 10:52:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@stusta.de header.s=default header.b=K6QtHIPr;
- spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=0vpq=7x=stusta.de=bunk@stusta.mhn.de)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49hvSt2GbSz4J;
-	Wed, 10 Jun 2020 19:42:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1591810945;
-	bh=9cQ6sdDCQMKu3nEWLyiXPzJZ4+oC9TX7KvLBnOwkoYc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K6QtHIPreGxLrhPNX/R/jW25ouL4T4mcvhsZ/OfyRmfHbrjN6n1k9kVNLEqYYQ6tE
-	 uihZoR6mJ2Gu2j635YBrfTTijJgHbar9Mvy0TgQC4bydyOIiNJf6ZyfNy45CXzaNND
-	 hDsYZQxfs1U8jen6E9e3g2Rq9+rpx5cG/0ZtxmeLRDU98U/BTHf5AGi32PjvjGD5nd
-	 2PA0T2T4V9N1LxDGt2EjQajEQZMBQ9IhstJzQ0s/ziyWEB76lxJ/Wtxew/EiKl/toP
-	 BmpP1nGgUJ3m6cl9QldSQE6k5W3iMX2uh4Q1CeuYX9Z4tkrbrPI5cixEO+vXQDx2Hh
-	 LUyzbdK5gfh/CgFXeFypwiqFsOfVLO3BSiP2BmM5ZGsgQeChwgaTPNLjjk/0AWhrQ/
-	 7hnGvzmDArSaE/V1OFPhieWBiU/q8rSibe5GL6sL0uPDXmHb3YiaXd3lTuVNTVcSlf
-	 S9pay/xvftdPhSDcTpCgW+15XXVZryIytIs/9Bmx0CPMUeGlZsYVGcVcjMQ+qxzJA+
-	 OrbsS55tNle22nWzo90TNX7Qk1DYbXUjZoOJYL0Taq3iNnuwc0xgG4jyasq+Ce5Imi
-	 TmRqY2tJM+NBchKfLT1yE5IQ4LQcZ+fY/elLm2pXC5UhmtwnFM96ies61j0tnMSjaZ
-	 zLp/CXadQGeHWFBAqhRYs19k=
-Date: Wed, 10 Jun 2020 20:42:20 +0300
-From: "Adrian Bunk" <bunk@stusta.de>
-To: Vyacheslav Yurkov <uvv.mail@gmail.com>
-Cc: Openembedded-core@lists.openembedded.org, tmark@isc.org,
-	Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
-Subject: Re: [OE-core] [PATCH] dhcp: use included bind version
-Message-ID: <20200610174220.GE24380@localhost>
-References: <20200610143520.2727827-1-uvv.mail@gmail.com>
- <20200610160719.GD24380@localhost>
- <15e11034-2d2b-a620-f859-450a2b7ef7de@gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XiOYD1ZX;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: jacob.kroon@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id q13so2040981edi.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 10:52:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t23LHuZDA0OpU+DivkeyKWH4Zp8i5uvbFLH1s/cwGSg=;
+        b=XiOYD1ZXk+ZIrmhUNMozAflD3mr4+2fefOqk1vo5yUZButEKHFl/+88Yc9u176BoKL
+         ToxsRmUDFUsu7i+Pq77QUTo6jzYEylQuqXEWLrRjVvYmHyJM48dWfVye6kyPcIfKC75k
+         VN1ekCMGKF2xgLdnpeTTk3/2xTd0fOSSwb2K/JvwY5+yXgA77Eofszb2t8oJxiU45crh
+         9lZTv2XN9HWTyWDIaI+3hcqp7Oeb87h1rvz0CV4gPTJScPzmK40FqJ5wxSyQt8hi8v7X
+         ErVhdQB+U4HUHFVBn7ahiCxWd6r85rZVr+msDcE9REzkJw5mcAV6TUediORMxStp8WfC
+         9IDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=t23LHuZDA0OpU+DivkeyKWH4Zp8i5uvbFLH1s/cwGSg=;
+        b=pNEf7YQHOhMz5PZHi5/A21qeIAR19KbuNenzkCepj95Zq0Cyw2NqovwkavC9dNnQsZ
+         YQY+SIa8yOOOuGRJHfzWM0OdzPvoPGW31KHg7SxQZ6lSJuvetoJLeltLgXCz+KooWhq4
+         MEWERp6IbpT+Vrsx0oQ4VvAD8Sb8rPeD5SvqV2iS3hsXiGJCN0FZ2+9SNmE6tVYrAz0u
+         w8S14NnQUTEtYGtt3ftbDAUaChs0Q8bVf6P5vgnEwiLOYKFpuWaF/FSkpy2fk9nsfqNM
+         a4O54/4rDgGYn9IxlusoSu4WMafugjxI+YP2kv58VHm91zncnBss/R5EbRKQT07QNnMa
+         P2Ww==
+X-Gm-Message-State: AOAM531yWOhMPtRaUwz5vIDR1B429wgvQlJPUic3ioCboSCe2PKBkoyC
+	HevI8H0RaaMlmdtkaVciv5XraPRL
+X-Google-Smtp-Source: ABdhPJxJ1kjcPEPaRFYfPgz6wcXFaOopM/fZzD3Wy5Qv4T6Efi2atFdTUeeO25ZeHWVtkGecXRBVpg==
+X-Received: by 2002:aa7:cdc6:: with SMTP id h6mr3295626edw.191.1591811575762;
+        Wed, 10 Jun 2020 10:52:55 -0700 (PDT)
+Return-Path: <jacob.kroon@gmail.com>
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se. [37.247.29.68])
+        by smtp.gmail.com with ESMTPSA id j31sm200606edb.12.2020.06.10.10.52.54
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2020 10:52:55 -0700 (PDT)
+From: "Jacob Kroon" <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2 1/3] features_check: Warn if not used
+Date: Wed, 10 Jun 2020 19:52:43 +0200
+Message-Id: <20200610175245.38481-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <15e11034-2d2b-a620-f859-450a2b7ef7de@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 10, 2020 at 06:31:55PM +0200, Vyacheslav Yurkov wrote:
-> On 10.06.2020 18:07, Adrian Bunk wrote:
-> > On Wed, Jun 10, 2020 at 04:35:20PM +0200, Vyacheslav Yurkov wrote:
-> > > ...
-> > > BIND9 libraries support a lot of options specifically geared towards
-> > > optimizing DNS operations, many of which do not play nicely with
-> > > ISC DHCP's "architecture".  It isn't necessarily practical to build
-> > > those libraries for both purposes.
-> > > ...
-> > Providing security support for several different copies of the BIND
-> > code would be a nightmare.
-> > 
-> > cu
-> > Adrian
-> 
-> Right, but I don't think there's a way to build two configurations out of
-> one recipe, isn't it?
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+---
+ meta/classes/features_check.bbclass | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-It is possible.
-More common is sharing the sources between two (or more) recipes
-with an .inc file.
-
-Unrelated to that, I am a bit suprised why the current Yocto setup
-is suddenly a problem. Other distributions like Debian/Ubuntu are
-also sharing one build of the BIND libraries between BIND and dhcpd.
-
-> Vyacheslav
-
-cu
-Adrian
+Changes since v1:
+  Always warn if unused, regardless of where the class is
+  included/inherited from
+diff --git a/meta/classes/features_check.bbclass b/meta/classes/features_check.bbclass
+index 4ba827d4ab..b3c8047861 100644
+--- a/meta/classes/features_check.bbclass
++++ b/meta/classes/features_check.bbclass
+@@ -16,7 +16,19 @@ python () {
+     if d.getVar('PARSE_ALL_RECIPES', False):
+         return
+ 
++    unused = True
++
+     for kind in ['DISTRO', 'MACHINE', 'COMBINED']:
++        if d.getVar('ANY_OF_' + kind + '_FEATURES') is None and \
++           d.overridedata.get('ANY_OF_' + kind + '_FEATURES') is None and \
++           d.getVar('REQUIRED_' + kind + '_FEATURES') is None and \
++           d.overridedata.get('REQUIRED_' + kind + '_FEATURES') is None and \
++           d.getVar('CONFLICT_' + kind + '_FEATURES') is None and \
++           d.overridedata.get('CONFLICT_' + kind + '_FEATURES') is None:
++            continue
++
++        unused = False
++
+         # Assume at least one var is set.
+         features = set((d.getVar(kind + '_FEATURES') or '').split())
+ 
+@@ -39,4 +51,7 @@ python () {
+             if conflicts:
+                 raise bb.parse.SkipRecipe("conflicting %s feature%s '%s' (in %s_FEATURES)"
+                     % (kind.lower(), 's' if len(conflicts) > 1 else '', ' '.join(conflicts), kind))
++
++    if unused:
++        bb.warn("Recipe inherits features_check but doesn't use it")
+ }
