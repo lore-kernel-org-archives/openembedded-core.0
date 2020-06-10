@@ -1,78 +1,71 @@
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
- by mx.groups.io with SMTP id smtpd.web12.439.1591807016008216008
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+ by mx.groups.io with SMTP id smtpd.web10.66.1591810949017456736
  for <Openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2020 09:36:56 -0700
+ Wed, 10 Jun 2020 10:42:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=m+BB2HIG;
- spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: uvv.mail@gmail.com)
-Received: by mail-qv1-f66.google.com with SMTP id g11so1324241qvs.2
-        for <Openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 09:36:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=V08/cYbTALmwqj4SBqM5pAnufp+S71h2XQ1q3bmrwtI=;
-        b=m+BB2HIGbmQjO2MdQzvs8k+patr6EE7ce+AeZqYsQ/EiBgzFDDtudnWbBnbWQptPbs
-         XvPHWwCpQob4KbHZikK2JFzeeIOLkHSu8nZOa6Yc4D7Ut8oIw2ZnGPlcEofPozmzXE4L
-         bxZXOi2dcZWJsBWAy3bDJ8mE8j98qe6dKcMZ1kWxXDo1WUy2pZ/cU0HwLvZ8mImtTHKk
-         WkLMHjO9S27DNtz9yZz3KPUFDcUfXkiFE0DmBmlYtYEiqF3In5qK9DWk/ubSW9f4v4hC
-         1K42GFghM1hVhf/FHuox52LIKf1FJNQ53z5FHY4qT5w+mqk047XhU1Kps0cF2Z+FNKzc
-         znzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=V08/cYbTALmwqj4SBqM5pAnufp+S71h2XQ1q3bmrwtI=;
-        b=lvT6s7QIMtPMMpviwYKbK7xmJYWSCHeJ+Y1Mxn+tSW+nbXpASt7pLICOrJWPGVUd28
-         808iDx5eelK2JXdlyvDdNs1yTb+SJomMRLJaawXL0wOKi8bBoFASU7dhXAi1GDLOMtXY
-         s/djWhmkYpo46K1E2A2vqFA+B5soP3FOVIVQO0kJuy0l2aNdG0hf1mGqIgWB8T+nDgOM
-         CQKyAYhL/2lI7Ff22/vr4btl9wFIJnaG8Ky+gbMXedjPNnaApbCZXOl7sRG5BOZIveom
-         12rbHJP//fSJAn/jLjKGGLU41avwg1mCmKZlOviChAGfdOfRMn20KouVXireCytSYeQ9
-         ERUg==
-X-Gm-Message-State: AOAM530N2R2BgdiqIwXvB7lXXxB/8OVKhof48qqE3acbLwcVOTGjxiTQ
-	plD+Ok2lwlPV6ZOkbXl0V7U=
-X-Google-Smtp-Source: ABdhPJyZy3+AOUgEXwxfuHy+u6lqfdQRKYJLHEW9jRpOpNEv/btZheeG+nEQF47msnlcEudg4oosUQ==
-X-Received: by 2002:a0c:dd8e:: with SMTP id v14mr3773970qvk.169.1591807015062;
-        Wed, 10 Jun 2020 09:36:55 -0700 (PDT)
-Return-Path: <uvv.mail@gmail.com>
-Received: from Vyacheslavs-MacBook-Pro.local ([37.120.205.180])
-        by smtp.gmail.com with ESMTPSA id g9sm299656qtq.66.2020.06.10.09.36.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 09:36:54 -0700 (PDT)
+ dkim=pass header.i=@stusta.de header.s=default header.b=K6QtHIPr;
+ spf=pass (domain: stusta.mhn.de, ip: 141.84.69.5, mailfrom: srs0=0vpq=7x=stusta.de=bunk@stusta.mhn.de)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 49hvSt2GbSz4J;
+	Wed, 10 Jun 2020 19:42:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1591810945;
+	bh=9cQ6sdDCQMKu3nEWLyiXPzJZ4+oC9TX7KvLBnOwkoYc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K6QtHIPreGxLrhPNX/R/jW25ouL4T4mcvhsZ/OfyRmfHbrjN6n1k9kVNLEqYYQ6tE
+	 uihZoR6mJ2Gu2j635YBrfTTijJgHbar9Mvy0TgQC4bydyOIiNJf6ZyfNy45CXzaNND
+	 hDsYZQxfs1U8jen6E9e3g2Rq9+rpx5cG/0ZtxmeLRDU98U/BTHf5AGi32PjvjGD5nd
+	 2PA0T2T4V9N1LxDGt2EjQajEQZMBQ9IhstJzQ0s/ziyWEB76lxJ/Wtxew/EiKl/toP
+	 BmpP1nGgUJ3m6cl9QldSQE6k5W3iMX2uh4Q1CeuYX9Z4tkrbrPI5cixEO+vXQDx2Hh
+	 LUyzbdK5gfh/CgFXeFypwiqFsOfVLO3BSiP2BmM5ZGsgQeChwgaTPNLjjk/0AWhrQ/
+	 7hnGvzmDArSaE/V1OFPhieWBiU/q8rSibe5GL6sL0uPDXmHb3YiaXd3lTuVNTVcSlf
+	 S9pay/xvftdPhSDcTpCgW+15XXVZryIytIs/9Bmx0CPMUeGlZsYVGcVcjMQ+qxzJA+
+	 OrbsS55tNle22nWzo90TNX7Qk1DYbXUjZoOJYL0Taq3iNnuwc0xgG4jyasq+Ce5Imi
+	 TmRqY2tJM+NBchKfLT1yE5IQ4LQcZ+fY/elLm2pXC5UhmtwnFM96ies61j0tnMSjaZ
+	 zLp/CXadQGeHWFBAqhRYs19k=
+Date: Wed, 10 Jun 2020 20:42:20 +0300
+From: "Adrian Bunk" <bunk@stusta.de>
+To: Vyacheslav Yurkov <uvv.mail@gmail.com>
+Cc: Openembedded-core@lists.openembedded.org, tmark@isc.org,
+	Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
 Subject: Re: [OE-core] [PATCH] dhcp: use included bind version
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Openembedded-core@lists.openembedded.org
-Cc: tmark@isc.org, Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+Message-ID: <20200610174220.GE24380@localhost>
 References: <20200610143520.2727827-1-uvv.mail@gmail.com>
- <6dd0de0be72028b355cd759e40fee22c9d24ca7b.camel@linuxfoundation.org>
-From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
-Message-ID: <b10c95a7-5d8b-d922-ad40-6d97cceb9c85@gmail.com>
-Date: Wed, 10 Jun 2020 18:36:52 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.8.1
+ <20200610160719.GD24380@localhost>
+ <15e11034-2d2b-a620-f859-450a2b7ef7de@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <6dd0de0be72028b355cd759e40fee22c9d24ca7b.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+In-Reply-To: <15e11034-2d2b-a620-f859-450a2b7ef7de@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 10.06.2020 17:05, Richard Purdie wrote:
-> You seem to disable parallel make yet no mention of that in the log?
-Right, I forgot to mention that in the commit message. Building bind at 
-'compile' stage breaks parallel make. I assume that can be addressed, 
-but I'd need to take a look at how to set that dependency with autotools.
-> Why doesn't dhcp build and link against a static libbind by default if
-> these issues are present the the dhcp authors don't want to work with
-> such libbinds?
-That's a good question. I assume the alternative is disable threads in 
-bind recipes then a shared library can be used by both, dhcp and named 
-(DNS). Hopefully Thomas from ISC (in CC) could clarify this better than me.
->
-> Cheers,
->
-> Richard
->
+On Wed, Jun 10, 2020 at 06:31:55PM +0200, Vyacheslav Yurkov wrote:
+> On 10.06.2020 18:07, Adrian Bunk wrote:
+> > On Wed, Jun 10, 2020 at 04:35:20PM +0200, Vyacheslav Yurkov wrote:
+> > > ...
+> > > BIND9 libraries support a lot of options specifically geared towards
+> > > optimizing DNS operations, many of which do not play nicely with
+> > > ISC DHCP's "architecture".  It isn't necessarily practical to build
+> > > those libraries for both purposes.
+> > > ...
+> > Providing security support for several different copies of the BIND
+> > code would be a nightmare.
+> > 
+> > cu
+> > Adrian
+> 
+> Right, but I don't think there's a way to build two configurations out of
+> one recipe, isn't it?
 
-Regards,
-Vyacheslav
+It is possible.
+More common is sharing the sources between two (or more) recipes
+with an .inc file.
+
+Unrelated to that, I am a bit suprised why the current Yocto setup
+is suddenly a problem. Other distributions like Debian/Ubuntu are
+also sharing one build of the BIND libraries between BIND and dhcpd.
+
+> Vyacheslav
+
+cu
+Adrian
