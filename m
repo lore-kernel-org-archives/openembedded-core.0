@@ -1,94 +1,243 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web12.309.1591811592844872462
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web10.1043.1591813505513183089
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2020 10:53:13 -0700
+ Wed, 10 Jun 2020 11:25:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=hifwS4s6;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: jacob.kroon@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id q19so3574544eja.7
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 10:53:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=POBBbYXO;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: raj.khem@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id 205so3047145qkg.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 11:25:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=ZlSY6lb6sbiti/lwgHgR0AGef9ftXpTimzVvgf0ymBE=;
-        b=hifwS4s6EE4IlzpStxze6xF9P7PMRy3Y5kt+PxuY+kl2o1KVNGQ5wmNQ84L8V4LOhr
-         27W2bf4UuHeWoksKC1fs/vS3/AilFBPHMlA6QetR5JI0vAAQPSOYXY1gFLC2vZ7ami2/
-         lQA6EHR9nlNRlk8wd+stDlf8mZTKstc1aqUk9o9QrB+fC6nCuJ2LD6NIVSUvFx+/SXUC
-         FM2jb3pQBJdRe8SgJm1i9ddxvhQCU5kKlfzSfcabdAfQZPxRppDzj0W7YkkCl/4bGNfx
-         d/iKiP8xPHwfEL5djZKNu034ouDO3Sic7jyStnOHBVFLCprt7mNC7/BwjInWwAJaZapK
-         gmrg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DHE4JlrPJI9JCL9G5Z8Jz+LBIWD3zHEf7S0O+AtU7lQ=;
+        b=POBBbYXO6vsR7T1nNGpj2/fR8bJ7s8FwAOboKMbqKmaILOmByEjAxAAZQcmJpzvacs
+         3nprGQPEyij4/+yX5XtyX1QZUvvMBSVWLuX92KDjqxsSjWQhUO9onlCzgjodApU9rtwb
+         bF3oT02H5MwQ22rfYIuwUdY1kVpMOp2T+AmTQUOksBalIBzGqf/HKeWmt3QElLgJ89p0
+         LzrOBCR5n7i5mIpXJny6gaQn1vhvut7iBuRv71VfgyAE+o8jqhn2ZA0aAdbe+j9JJNJm
+         KU7mMwA+wriAfwy878Auc8HXvlzOHPzLugDKClOdpwviMCmbS1R0yAYjuyJOOQYsJib5
+         K3Mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ZlSY6lb6sbiti/lwgHgR0AGef9ftXpTimzVvgf0ymBE=;
-        b=XVIYbeyWsKqt9k8XQJboZrGp6ITnbhDluXhcwU4xxaYczObK1Vq1BMUtgsnFHT+Fra
-         h5NBL3LeXzezeZOX5j0Z9c45OV8tXNn0hBHFPnnd8CzT2CLr7OZr0CKe4aMTw4dx8fnY
-         GIYzsrdh6F9B1OzgcjXH+dgO/3GJsLqHiB9PFg1w8WiltV8aqPxC1QmIc4bQ+/FdH3fh
-         5Qp180Ckzp1QR+432OCNXpqF/MeyQL/Ix1ogJxASR8BfvJe0thSHpBn2VtdrYwuVJ8K1
-         MrVZF5T108QN9R6tkdvxDxOy2e1h6pUzQEgXXOgGsV5r41/jFfKMtgQg7p4a8q963oK0
-         yuzA==
-X-Gm-Message-State: AOAM531ArRuNpOLesdzE9aXdfIU9Kabya47Asy/9fHSzRuQf6IrFfL7r
-	1dcv8zm8oKUEg/PMnSFSkX7Wo9YN
-X-Google-Smtp-Source: ABdhPJxJMvqBYi/Uae/MNaRPLQ6qZcGTQjiszSI8pNFBRG+i2l+7Jo1MhYvsl99sa5+itMY5UG5VUQ==
-X-Received: by 2002:a17:906:cc85:: with SMTP id oq5mr4430806ejb.142.1591811591152;
-        Wed, 10 Jun 2020 10:53:11 -0700 (PDT)
-Return-Path: <jacob.kroon@gmail.com>
-Received: from localhost.localdomain (37-247-29-68.customers.ownit.se. [37.247.29.68])
-        by smtp.gmail.com with ESMTPSA id j31sm200606edb.12.2020.06.10.10.53.09
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 10:53:10 -0700 (PDT)
-From: "Jacob Kroon" <jacob.kroon@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 3/3] insane: Check for feature check variables not being used
-Date: Wed, 10 Jun 2020 19:52:45 +0200
-Message-Id: <20200610175245.38481-3-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200610175245.38481-1-jacob.kroon@gmail.com>
-References: <20200610175245.38481-1-jacob.kroon@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DHE4JlrPJI9JCL9G5Z8Jz+LBIWD3zHEf7S0O+AtU7lQ=;
+        b=luzUWWZunTPwvvZ/PPE8MN7tV3CfXIQ8W4NId1lST8SpdXz99DQU7gGcDJgnXVk0f5
+         K7lIM6dSt4dULs+y60azc3J1pITLk95ShkE3NCJEjLQC74UFpRSvBjyaheY7cyuTbj20
+         ymP9g7ga6WM1kTbc3OHxJx1ryAcFkHV22L+VfFubDv1/96BLDa2ZAjUMmwwZEs/zK04Z
+         XfkZNq2zZ8BBTfQyjCaZ+ZP4+WYc1FNpWipxfvhMfUCmhsLW2nubSr3dwzqVSFEMwRfY
+         dIYnbs/+UDMomJhPqucSnZTUIyRa8hyetDSs2vGyQBXDNY1R41K5RaIlAFsBl4iTNbNZ
+         AfkQ==
+X-Gm-Message-State: AOAM5313Pz4WRvxQAPgpmu6HnZePJu0IQc7W+9gAi0XLq5DBIL2k0Ra9
+	CBYshVt+gq0xxHPI9qX5CfEPMHdYTcgwvgppaMw=
+X-Google-Smtp-Source: ABdhPJwFckrjii/jmEF9XpLEutUxE/r9AM5ObKvTSMxQVLnyFuu7glXd/KD3/UllyW7fLSZb2XCZoSrU//S4iyE/h/M=
+X-Received: by 2002:a37:e215:: with SMTP id g21mr4425799qki.165.1591813504293;
+ Wed, 10 Jun 2020 11:25:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200526231037.2626327-1-raj.khem@gmail.com> <CAHMutrbae=hs4_0gzWzKZHmm0meTvT4WQYGr67bveo=whqxXSA@mail.gmail.com>
+In-Reply-To: <CAHMutrbae=hs4_0gzWzKZHmm0meTvT4WQYGr67bveo=whqxXSA@mail.gmail.com>
+From: "Khem Raj" <raj.khem@gmail.com>
+Date: Wed, 10 Jun 2020 11:24:38 -0700
+Message-ID: <CAMKF1spDinrsMuEMw9zsVNcu4PECp_2jo+cKHt3AhTYjfX5fTA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V2] armv8/tunes: Set TUNE_PKGARCH_64 based on ARMPKGARCH
+To: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Add a package QA check for wether any of the variables used by
-features_check.bbclass is set while not inheriting the class itself.
+On Tue, Jun 9, 2020 at 12:30 AM Alejandro Enedino Hernandez Samaniego
+<alejandro@enedino.org> wrote:
+>
+> Hello Khem,
+>
+>
+> On Tue, 26 May 2020 at 16:10, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> The setting is to modify TUNE_PKGARCH which is filled with
+>> TUNE_PKGARCH_64 or TUNE_PKGARCH_32 in arm-arch64.inc
+>> This lets higher up tune files for arm64 SOCs override them if needed,
+>> this can help building multiple armv8 machines with different tunes in
+>> same workspace.
+>>
+>> No need to set TUNE_PKGARCH in tune files as it is synthesized from ARMPKGARCH
+>>
+>> Add ARMPKGARCH for aarch64 tunes
+>>
+>> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>> ---
+>> v2: Differentiate triplet for crypto feature
+>>
+>>  meta/conf/machine/include/arm/arch-arm64.inc           | 4 +++-
+>>  meta/conf/machine/include/tune-cortexa53.inc           | 5 +----
+>>  meta/conf/machine/include/tune-cortexa55.inc           | 1 -
+>>  meta/conf/machine/include/tune-cortexa57-cortexa53.inc | 1 -
+>>  meta/conf/machine/include/tune-cortexa57.inc           | 4 +---
+>>  meta/conf/machine/include/tune-cortexa72-cortexa53.inc | 4 +---
+>>  meta/conf/machine/include/tune-cortexa72.inc           | 1 -
+>>  meta/conf/machine/include/tune-cortexa73-cortexa53.inc | 4 +---
+>>  8 files changed, 7 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/meta/conf/machine/include/arm/arch-arm64.inc b/meta/conf/machine/include/arm/arch-arm64.inc
+>> index 53f4566815..6d5b22fff0 100644
+>> --- a/meta/conf/machine/include/arm/arch-arm64.inc
+>> +++ b/meta/conf/machine/include/arm/arch-arm64.inc
+>> @@ -12,6 +12,8 @@ ARMPKGARCH_tune-aarch64 ?= "aarch64"
+>>  ARMPKGARCH_tune-aarch64_be ?= "aarch64_be"
+>>  TUNE_FEATURES_tune-aarch64 = "aarch64"
+>>  TUNE_FEATURES_tune-aarch64_be = "${TUNE_FEATURES_tune-aarch64} bigendian"
+>> +TUNE_PKGARCH_64_tune-aarch64 = "aarch64"
+>> +TUNE_PKGARCH_64_tune-aarch64_be = "aarch64_be"
+>
+>
+>
+> I'm trying to accommodate my machines to the TUNE_PKGARCH changes and I'm a bit confused by looking at the way these variables are now set.
+>
+> The way these overrides are behaving, is this meant to be desired behavior?
+>
+> # $TUNE_PKGARCH [9 operations]
+> ...
+> override[64_tune-aarch64]:set /poky/meta/conf/machine/include/arm/arch-arm64.inc:15
+> #     "aarch64"
+> #   override[64_tune-aarch64_be]:set /oky/meta/conf/machine/include/arm/arch-arm64.inc:16
+> #     "aarch64_be"
+>
+> Is the 64_tune_aarch64 meant to be an override for TUNE_PKGARCH or is that supposed to be set for the TUNE_PKGARCH_64 variable instead?
+>
 
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
----
- meta/classes/insane.bbclass | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+TUNE_PKGARCH_64 is fed into TUNE_PKGARCH but we want to ensure that
+TUNE_PKGARCH_64 can accommodate the SOC specific tune name.
 
-Changes since v1:
-  New patch for catching the other case, when feature_check is missing
-  from being inherited
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index b7c613880b..649aea1da1 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -26,7 +26,7 @@ WARN_QA ?= " libdir xorg-driver-abi \
-             textrel incompatible-license files-invalid \
-             infodir build-deps src-uri-bad symlink-to-sysroot multilib \
-             invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
--            mime mime-xdg unlisted-pkg-lics \
-+            mime mime-xdg unlisted-pkg-lics unhandled-features-check \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -980,6 +980,16 @@ def package_qa_check_src_uri(pn, d, messages):
-         if re.search(r"github\.com/.+/.+/archive/.+", url):
-             package_qa_handle_error("src-uri-bad", "%s: SRC_URI uses unstable GitHub archives" % pn, d)
- 
-+QARECIPETEST[unhandled-features-check] = "package_qa_check_unhandled_features_check"
-+def package_qa_check_unhandled_features_check(pn, d, messages):
-+    if not bb.data.inherits_class('features_check', d):
-+        var_set = False
-+        for kind in ['DISTRO', 'MACHINE', 'COMBINED']:
-+            for var in ['ANY_OF_' + kind + '_FEATURES', 'REQUIRED_' + kind + '_FEATURES', 'CONFLICT_' + kind + '_FEATURES']:
-+                if d.getVar(var) is not None or d.overridedata.get(var) is not None:
-+                    var_set = True
-+        if var_set:
-+            package_qa_handle_error("unhandled-features-check", "%s: recipe doesn't inherit features_check" % pn, d)
- 
- # The PACKAGE FUNC to scan each package
- python do_package_qa () {
+> Cheers,
+>
+> Alejandro
+>
+>
+>
+>
+>>
+>>  BASE_LIB_tune-aarch64 = "lib64"
+>>  BASE_LIB_tune-aarch64_be = "lib64"
+>>
+>> @@ -20,7 +22,7 @@ PACKAGE_EXTRA_ARCHS_tune-aarch64_be = "aarch64_be"
+>>
+>>  ARMPKGSFX_ENDIAN_64 = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '_be', '', d)}"
+>>  TUNE_ARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}"
+>> -TUNE_PKGARCH_64 = "aarch64${ARMPKGSFX_ENDIAN_64}"
+>> +TUNE_PKGARCH_64 = "${ARMPKGARCH}${ARMPKGSFX_ENDIAN_64}"
+>>  ABIEXTENSION_64 = ""
+>>  TARGET_FPU_64 = ""
+>>
+>> diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
+>> index b7327d00c4..c0bb28a19e 100644
+>> --- a/meta/conf/machine/include/tune-cortexa53.inc
+>> +++ b/meta/conf/machine/include/tune-cortexa53.inc
+>> @@ -8,14 +8,11 @@ require conf/machine/include/arm/arch-armv8a.inc
+>>  # Little Endian base configs
+>>  AVAILTUNES += "cortexa53 cortexa53-crypto"
+>>  ARMPKGARCH_tune-cortexa53             = "cortexa53"
+>> -ARMPKGARCH_tune-cortexa53-crypto      = "cortexa53"
+>> +ARMPKGARCH_tune-cortexa53-crypto      = "cortexa53-crypto"
+>>  TUNE_FEATURES_tune-cortexa53          = "aarch64 cortexa53 crc"
+>>  TUNE_FEATURES_tune-cortexa53-crypto   = "aarch64 cortexa53 crc crypto"
+>>  PACKAGE_EXTRA_ARCHS_tune-cortexa53             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa53"
+>>  PACKAGE_EXTRA_ARCHS_tune-cortexa53-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto"
+>>
+>> -TUNE_PKGARCH_tune-cortexa53 = "cortexa53"
+>> -TUNE_PKGARCH_tune-cortexa53-crypto = "cortexa53-crypto"
+>> -
+>>  BASE_LIB_tune-cortexa53               = "lib64"
+>>  BASE_LIB_tune-cortexa53-crypto        = "lib64"
+>> diff --git a/meta/conf/machine/include/tune-cortexa55.inc b/meta/conf/machine/include/tune-cortexa55.inc
+>> index 274944819e..89032b59ec 100644
+>> --- a/meta/conf/machine/include/tune-cortexa55.inc
+>> +++ b/meta/conf/machine/include/tune-cortexa55.inc
+>> @@ -9,6 +9,5 @@ require conf/machine/include/arm/arch-armv8a.inc
+>>  AVAILTUNES += "cortexa55"
+>>  ARMPKGARCH_tune-cortexa55             = "cortexa55"
+>>  TUNE_FEATURES_tune-cortexa55          = "aarch64 cortexa55 crc crypto"
+>> -TUNE_PKGARCH_tune-cortexa55           = "cortexa55"
+>>  PACKAGE_EXTRA_ARCHS_tune-cortexa55    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa55"
+>>  BASE_LIB_tune-cortexa55               = "lib64"
+>> diff --git a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
+>> index b95d63e86b..ba4b073852 100644
+>> --- a/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
+>> +++ b/meta/conf/machine/include/tune-cortexa57-cortexa53.inc
+>> @@ -11,6 +11,5 @@ require conf/machine/include/arm/arch-armv8a.inc
+>>  AVAILTUNES += "cortexa57-cortexa53"
+>>  ARMPKGARCH_tune-cortexa57-cortexa53 = "cortexa57-cortexa53"
+>>  TUNE_FEATURES_tune-cortexa57-cortexa53 = "aarch64 cortexa57-cortexa53"
+>> -TUNE_PKGARCH_tune-cortexa57-cortexa53 = "cortexa57-cortexa53"
+>>  PACKAGE_EXTRA_ARCHS_tune-cortexa57-cortexa53 = "${PACKAGE_EXTRA_ARCHS_tune-aarch64} cortexa57-cortexa53"
+>>  BASE_LIB_tune-cortexa57-cortexa53 = "lib64"
+>> diff --git a/meta/conf/machine/include/tune-cortexa57.inc b/meta/conf/machine/include/tune-cortexa57.inc
+>> index e8ddeb5786..0811d503cc 100644
+>> --- a/meta/conf/machine/include/tune-cortexa57.inc
+>> +++ b/meta/conf/machine/include/tune-cortexa57.inc
+>> @@ -8,12 +8,10 @@ require conf/machine/include/arm/arch-armv8a.inc
+>>  # Little Endian base configs
+>>  AVAILTUNES += "cortexa57 cortexa57-crypto"
+>>  ARMPKGARCH_tune-cortexa57             = "cortexa57"
+>> -ARMPKGARCH_tune-cortexa57-crypto      = "cortexa57"
+>> +ARMPKGARCH_tune-cortexa57-crypto      = "cortexa57-crypto"
+>>  TUNE_FEATURES_tune-cortexa57          = "aarch64 cortexa57 crc"
+>>  TUNE_FEATURES_tune-cortexa57-crypto   = "aarch64 cortexa57 crc crypto"
+>>  PACKAGE_EXTRA_ARCHS_tune-cortexa57             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa57"
+>>  PACKAGE_EXTRA_ARCHS_tune-cortexa57-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa57 cortexa57-crypto"
+>> -TUNE_PKGARCH_tune-cortexa57 = "cortexa57"
+>> -TUNE_PKGARCH_tune-cortexa57-crypto = "cortexa57-crypto"
+>>  BASE_LIB_tune-cortexa57               = "lib64"
+>>  BASE_LIB_tune-cortexa57-crypto        = "lib64"
+>> diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+>> index fd1ffeb177..e857f875ff 100644
+>> --- a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+>> +++ b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+>> @@ -10,13 +10,11 @@ require conf/machine/include/arm/arch-armv8a.inc
+>>  # cortexa72.cortexa53 implies crc support
+>>  AVAILTUNES += "cortexa72-cortexa53 cortexa72-cortexa53-crypto"
+>>  ARMPKGARCH_tune-cortexa72-cortexa53                  = "cortexa72-cortexa53"
+>> -ARMPKGARCH_tune-cortexa72-cortexa53-crypto           = "cortexa72-cortexa53"
+>> +ARMPKGARCH_tune-cortexa72-cortexa53-crypto           = "cortexa72-cortexa53-crypto"
+>>  TUNE_FEATURES_tune-cortexa72-cortexa53               = "aarch64 crc cortexa72-cortexa53"
+>>  TUNE_FEATURES_tune-cortexa72-cortexa53-crypto        = "aarch64 crc crypto cortexa72-cortexa53"
+>>  PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa72-cortexa53"
+>>  PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72-cortexa53 cortexa72-cortexa53-crypto"
+>> -TUNE_PKGARCH_tune-cortexa72-cortexa53                = "cortexa72-cortexa53"
+>> -TUNE_PKGARCH_tune-cortexa72-cortexa53-crypto         = "cortexa72-cortexa53-crypto"
+>>  BASE_LIB_tune-cortexa72-cortexa53                    = "lib64"
+>>  BASE_LIB_tune-cortexa72-cortexa53-crypto             = "lib64"
+>>
+>> diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/tune-cortexa72.inc
+>> index 23640d5c1f..00f7745a22 100644
+>> --- a/meta/conf/machine/include/tune-cortexa72.inc
+>> +++ b/meta/conf/machine/include/tune-cortexa72.inc
+>> @@ -10,5 +10,4 @@ AVAILTUNES += "cortexa72"
+>>  ARMPKGARCH_tune-cortexa72             = "cortexa72"
+>>  TUNE_FEATURES_tune-cortexa72          = "aarch64 cortexa72 crc crypto"
+>>  PACKAGE_EXTRA_ARCHS_tune-cortexa72    = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72"
+>> -TUNE_PKGARCH_tune-cortexa72           = "cortexa72"
+>>  BASE_LIB_tune-cortexa72               = "lib64"
+>> diff --git a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
+>> index ab87c88747..ba2b9b1951 100644
+>> --- a/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
+>> +++ b/meta/conf/machine/include/tune-cortexa73-cortexa53.inc
+>> @@ -10,13 +10,11 @@ require conf/machine/include/arm/arch-armv8a.inc
+>>  # cortexa73.cortexa53 implies crc support
+>>  AVAILTUNES += "cortexa73-cortexa53 cortexa73-cortexa53-crypto"
+>>  ARMPKGARCH_tune-cortexa73-cortexa53                  = "cortexa73-cortexa53"
+>> -ARMPKGARCH_tune-cortexa73-cortexa53-crypto           = "cortexa73-cortexa53"
+>> +ARMPKGARCH_tune-cortexa73-cortexa53-crypto           = "cortexa73-cortexa53-crypto"
+>>  TUNE_FEATURES_tune-cortexa73-cortexa53               = "aarch64 crc cortexa73-cortexa53"
+>>  TUNE_FEATURES_tune-cortexa73-cortexa53-crypto        = "aarch64 crc crypto cortexa73-cortexa53"
+>>  PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa73-cortexa53"
+>>  PACKAGE_EXTRA_ARCHS_tune-cortexa73-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa73-cortexa53 cortexa73-cortexa53-crypto"
+>> -TUNE_PKGARCH_tune-cortexa73-cortexa53                = "cortexa73-cortexa53"
+>> -TUNE_PKGARCH_tune-cortexa73-cortexa53-crypto         = "cortexa73-cortexa53-crypto"
+>>  BASE_LIB_tune-cortexa73-cortexa53                    = "lib64"
+>>  BASE_LIB_tune-cortexa73-cortexa53-crypto             = "lib64"
+>>
+>> --
+>> 2.26.2
+>>
+>> 
