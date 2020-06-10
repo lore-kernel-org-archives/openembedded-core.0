@@ -1,106 +1,92 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
- by mx.groups.io with SMTP id smtpd.web12.6244.1591777523829432741
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com [209.85.221.65])
+ by mx.groups.io with SMTP id smtpd.web10.6471.1591779467554576647
  for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2020 01:25:24 -0700
+ Wed, 10 Jun 2020 01:57:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=K2B3TWOR;
- spf=pass (domain: gmail.com, ip: 209.85.221.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-vk1-f178.google.com with SMTP id u15so361368vkk.6
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 01:25:23 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Qzq5xE5D;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.65, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f65.google.com with SMTP id c3so1296006wru.12
+        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 01:57:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hxxN/I/RK5Qt5WUnCQplWNm1VhESfbQHvV+CG1bvg+Q=;
-        b=K2B3TWORmq3nDQ1R5KwR0/22vGT8Fs7t+FcCzA8GSqHzte1VT1HNUY+JS6NjnlS145
-         oIWawyzmLpwLNPrqpEpOtRdsRNfu8O6uxf4fQLrKXa3jgN4Wi2y5s5k1IF6QClW7mff1
-         5l7RUkmqTUfzfoGUXI8HRcbSZh0rBkklJYSqIgFDePaBggdwvbOvFWyT53YH6rvuseCt
-         IfvC2OWOPyXye7I/4PrwNkcBouwud7YTUknfXGcc3B9DNLsJYgGZE6H/QDakaETNzdnd
-         ijmAnYX0wrDEaYa2dT4Va6jtjGBSnYYAlYS+JNNOMWrKMpZKHZ9rlMwxOqWnFbJ8hc8n
-         fKiA==
+        d=linuxfoundation.org; s=google;
+        h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+         :mime-version:content-transfer-encoding;
+        bh=aO7SLYFnFaJCrLlIAKH+WH3CPV6BO72PG9L9oDV1sPM=;
+        b=Qzq5xE5DSQljM1QwOnxPITLLUSWtF7XYi7EcoP4KPh2d/hMIFAIBks9wlyxSk57OhB
+         RpOkaozg3rMi56ftYqXKdIVWlPkSwVqlWKvlMgc8NwhdQQ+gABAXJ+ZT3OErThImxEdq
+         GtOy3KM+zBq9gWMixVsqhsGwtJzscfuwhpoo0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hxxN/I/RK5Qt5WUnCQplWNm1VhESfbQHvV+CG1bvg+Q=;
-        b=nhdjW7OPwAJYCObKZnhpe410KB83etXYKtlcj9oGiuXf0FA1BHx9ivWWbeoe6DAB1x
-         8cGExIQHFuNqEcnvpskKeAJHFD4KK8S/+P1IO3gYn24oKWz331FpWHmiph198D6xOa6T
-         IhPSUJ2C1/b8uIR2KD49yAB3IHwJ18Vcsm/PbSYioVsczFJAY/Dw7HZO/QjMQDbQQnaG
-         1eWW5J5XwLkyqFrhGPI1bzMa8zdOFgG9N3KVe/RCD6ZLOBFmnocKiiP42gLki3Q4VNn9
-         xoRB6WxB3A9rugWirC97dCPxWpszp6UraNuj7FmRFRa80VqB3XPL61Nt8rUysQAdEc3W
-         /OVA==
-X-Gm-Message-State: AOAM530ceIcjtlnBnR2Y7nTT5FqkJ6e2hZmBJ3L1XHu+q/2sB/ru60oM
-	UMhETsUltmdqolwFgq6I2YSgowCNvQ2ZX5Fnl9I=
-X-Google-Smtp-Source: ABdhPJwmigdyjYl8QbTV5q7jKsHTqsCo9kf9xngK0OyAMRTtYMU/eCM6RN77rWFWDhjO3DqZaAG2CULv8MUlkv9yT6s=
-X-Received: by 2002:a1f:4192:: with SMTP id o140mr1289590vka.49.1591777523001;
- Wed, 10 Jun 2020 01:25:23 -0700 (PDT)
+        h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=aO7SLYFnFaJCrLlIAKH+WH3CPV6BO72PG9L9oDV1sPM=;
+        b=JRBg55O81fj8LUyLh6RQvksdZOtzXn6KZCXbOdtZjEJxxzoiED1kUYjZ0A4A/QTIyh
+         ONSIywjV6YuOFNJDmxz+eTeSD6rcGeQv1UrtDdkAdYxM793cOog0bkpt6QUop5hcAlKJ
+         UKwjkvnF0Og2u6/LE5DfVJZPX7ZYNVnp2R6AaKbFiWm3f5qlu4OccCT3D20xLXHRkTLE
+         tIwT/O99emOtdEFgKPMTASnbBzMfwQr43wSmZ22814bRP9leeviMfjVxnsJHethA1DIU
+         ZE8UtSLn1F/Lwv+SioYBBTM6p/+aAs0WUn7JW1soNEpZJ1ihFJ6CtYhD/+ywhbQdbJuU
+         6AhA==
+X-Gm-Message-State: AOAM532M+fohpmI3N7VmY3MeEFf2lQREicMuOldUrcxnM6Z3mHEL1cMG
+	DkaaFCPJaFmE+62F6IxeciPAwg==
+X-Google-Smtp-Source: ABdhPJzxplt8D1LPO84afDlsUTyrZbdxy9b+m/X78x1BVm6z6Nl35EAthrgyr/U1toH8pellTYgBHA==
+X-Received: by 2002:adf:e381:: with SMTP id e1mr2344092wrm.320.1591779466019;
+        Wed, 10 Jun 2020 01:57:46 -0700 (PDT)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+        by smtp.gmail.com with ESMTPSA id 128sm6189331wme.39.2020.06.10.01.57.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2020 01:57:45 -0700 (PDT)
+Message-ID: <88a87bb30460a13a10b8e9a749ad8e2faff878b9.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] Modied the license to GPLv2.1+ to keep with LICENSE file.
+From: "Richard Purdie" <richard.purdie@linuxfoundation.org>
+To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>, 
+	"openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Wed, 10 Jun 2020 09:57:43 +0100
+In-Reply-To: <584df8ef8e7f4eff9841ad09b52c6ac7@G08CNEXMBPEKD06.g08.fujitsu.local>
+References: <1591638879-97684-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	 <918d16ff5776f0a9991e46b5b4da3f5a0d286dc3.camel@linuxfoundation.org>
+	 <584df8ef8e7f4eff9841ad09b52c6ac7@G08CNEXMBPEKD06.g08.fujitsu.local>
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-References: <20200609071549.350578-1-mingli.yu@windriver.com>
- <CANNYZj9AZ7HS2ufOhWbEpDknD87Bp84nQNVe1kGBFdBffRP_tg@mail.gmail.com>
- <20200609215055.GV17660@denix.org> <f2a20c42-f0b6-4387-b877-90344f90a627@windriver.com>
-In-Reply-To: <f2a20c42-f0b6-4387-b877-90344f90a627@windriver.com>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 10 Jun 2020 10:25:11 +0200
-Message-ID: <CANNYZj_YwkQeLNW1VHAhOJXkgyXDW6XcfyM-N4zcrRdp3fJZ7w@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] virglrenderer: correct REQUIRED_DISTRO_FEATURES
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: Denys Dmytriyenko <denis@denix.org>, OE-core <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000d1edb105a7b695ca"
-
---000000000000d1edb105a7b695ca
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, 10 Jun 2020 at 04:10, Yu, Mingli <mingli.yu@windriver.com> wrote:
+On Wed, 2020-06-10 at 01:20 +0000, Zheng, Ruoqin wrote:
+> Hi Richard
+> 
+> > No, you simply cannot just do that.
+> > 
+> > If upstream takes the patch we can apply as a backport but until
+> > they accept a
+> > license change we can and will not.
+> > 
+> > Just because the license file says something doesn't mean every
+> > file is under
+> > that license if that file's header says differently.
+> > 
+> OK, I got it.
+> 
+> > I suspect upstream won't accept this patch either.
+> I'm sorry, but I don't know if you noticed 
+> https://gitlab.com/gnutls/gnutls/-/issues/1018 . 
+> Our team have dicussed this issue in gnutls's gitlab, and the
+> community has recognized this modify.
 
-> Hi Alex and Denys,
->
-> On 6/10/20 5:50 AM, Denys Dmytriyenko wrote:
-> > +1
-> >
-> > The commit message should explain "why" and not "what", as "what" can be
-> > easily understood from the code itself.
->
-> In fact, the DISTRO_FEATURES setting shouldn't affect native build.
->
-> Initially this patch is used to fix below error when opengl not defined
-> in DISTRO_FEATURES in my build environment.
-> $ bitbake virglrenderer-native
-> virglrenderer-native was skipped: missing required distro feature
-> 'opengl' (not in DISTRO_FEATURES)
->
+Having the upstream author recognise this means we can make the change
+but we need to quote that in the patch with a reference, specifically
+the comment:
 
-This is not an error, but expected behavior. virglrenderer-native only
-works when opengl is in DISTRO_FEATURES and should be skipped otherwise.
+"I see from the log that I'm the only one who touched this file, so as
+far as I'm concerned this is the same license as the rest of gnutls.
+Feel free to update the license to right one." and a reference that if
+came from https://gitlab.com/gnutls/gnutls/-/issues/1018
 
-Alex
+We have to be extremely careful about licence changes like this.
 
---000000000000d1edb105a7b695ca
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+If we can backport an upstream patch that would be even better.
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 10 Jun 2020 at 04:10, Yu, Mingli =
-&lt;<a href=3D"mailto:mingli.yu@windriver.com">mingli.yu@windriver.com</a>&=
-gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex">Hi Alex and Denys,<br>
-<br>
-On 6/10/20 5:50 AM, Denys Dmytriyenko wrote:<br>
-&gt; +1<br>
-&gt; <br>
-&gt; The commit message should explain &quot;why&quot; and not &quot;what&q=
-uot;, as &quot;what&quot; can be<br>
-&gt; easily understood from the code itself.<br>
-<br>
-In fact, the DISTRO_FEATURES setting shouldn&#39;t affect native build.<br>
-<br>
-Initially this patch is used to fix below error when opengl not defined <br=
->
-in DISTRO_FEATURES in my build environment.<br>
-$ bitbake virglrenderer-native<br>
-virglrenderer-native was skipped: missing required distro feature <br>
-&#39;opengl&#39; (not in DISTRO_FEATURES)<br></blockquote><div><br></div><d=
-iv>This is not an error, but expected behavior. virglrenderer-native only w=
-orks when opengl is in DISTRO_FEATURES and should be skipped otherwise.</di=
-v><div><br></div><div>Alex<br></div></div></div>
+Cheers,
 
---000000000000d1edb105a7b695ca--
+Richard
+
