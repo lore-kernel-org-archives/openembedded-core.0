@@ -1,112 +1,61 @@
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.web10.4234.1591765831654090916
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web12.5650.1591774312645073602
  for <openembedded-core@lists.openembedded.org>;
- Tue, 09 Jun 2020 22:10:31 -0700
+ Wed, 10 Jun 2020 00:31:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=g6XvQFuC;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id h95so390964pje.4
-        for <openembedded-core@lists.openembedded.org>; Tue, 09 Jun 2020 22:10:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9v1nv67JyO7L8SH2BptxiQ67rwlexyIHVMW8ApRqBjY=;
-        b=g6XvQFuCMEkTsUVfyIe2bSU6Id36RXuWb8DAM1sN0fPJAhBeJvCIYYt+h3U4IsYFYG
-         N8Z1CKKhqFevBhSZ6hu/oiFyuET2q6X6jhtQkda4Uu5cDh1yXAff2QMrGgqnAXXcRvEb
-         qQwgyDY20BQG9I7bgB0sDSbbiug4FEd3pz0MfY3VJwL0brrcJW4WpMvNT6l/7s+6a90s
-         yAs4X3eL0VigmxNDqDEmNODI1BBLBc01OCU6XIGQtlPsBf7GKJM8vccjtozvbHzwwCx9
-         1WBHymQxDKZVF9NOUiEYvBiE8xT8BngpkRWQRHL9i8boAhDTpUa5q5xo+W0g6t1NuqrK
-         uDfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=9v1nv67JyO7L8SH2BptxiQ67rwlexyIHVMW8ApRqBjY=;
-        b=nZ0RE1OhRAePcn2OLhET73hqIJV7tTLD+mfIvsb1tORyEeP7ZY/y10dzMAzIdbcL6I
-         ndJVheSWCnXlwUx3UQg2vSp1vMGP/Vs6v8mwRi3Z/1KOybU5h8BETJSD424T+OpofoVz
-         YUEMI0cwSiHaU0ZM1bMbRvLgD2nGzi8Vbt2SDd8QL/tv6OaKpiBpU+L76W326KGo9QMP
-         C/o8JSf1WKEY5qSh8LbVoEJsLEPGwGrXfj99svWhEFWIE9UdE48S2x4cjDh61+jzK2oJ
-         vfAAHKHdmhYwtJpCzM9GnU+Vgg1PmGZWwutOA6OZuCR/gjrQY7o8dpb8h8myDm/74zTy
-         oh2w==
-X-Gm-Message-State: AOAM532AE54IqiT2RJgALiOjWA40ecZXu5roQ95VeWHIiwh5lU0MSMc8
-	/QNlIMC1ZQ4bmyPqE0QcLpRV8vlYNFc=
-X-Google-Smtp-Source: ABdhPJyOUEHsKmUU1Px3jn9hnkRAJZuIYIwAuD98bT4vQ9/Mr9omfKPf4YvyrNgaj9FgcLCsEDen2Q==
-X-Received: by 2002:a17:90a:3261:: with SMTP id k88mr1340859pjb.0.1591765830667;
-        Tue, 09 Jun 2020 22:10:30 -0700 (PDT)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::34b9])
-        by smtp.gmail.com with ESMTPSA id o16sm9742445pgg.57.2020.06.09.22.10.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Jun 2020 22:10:30 -0700 (PDT)
-From: "Khem Raj" <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] stress-ng: Fix build on musl
-Date: Tue,  9 Jun 2020 22:10:28 -0700
-Message-Id: <20200610051028.765550-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.27.0
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: zangrc.fnst@cn.fujitsu.com)
+X-IronPort-AV: E=Sophos;i="5.73,495,1583164800"; 
+   d="scan'208";a="94230665"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 10 Jun 2020 15:31:51 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id D7A034CE26DE
+	for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 15:31:49 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Wed, 10 Jun 2020 15:31:49 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] [OE-core] [PATCH] strace:upgrade 5.6 -> 5.7
+Date: Wed, 10 Jun 2020 15:31:47 +0800
+Message-ID: <1591774307-3878-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: D7A034CE26DE.A3E5F
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-Define daddr_t if not provided by system headers
-Fixes
-./stress-ng.h:3755:2: error: unknown type name 'daddr_t'; did you mean 'caddr_t'?
-daddr_t f_tfree;
-^~~~~~~
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../stress-ng/stress-ng/no_daddr_t.patch      | 22 +++++++++++++++++++
- .../stress-ng/stress-ng_0.11.12.bb            |  2 +-
- 2 files changed, 23 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
+ meta/recipes-devtools/strace/{strace_5.6.bb => strace_5.7.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/strace/{strace_5.6.bb => strace_5.7.bb} (92%)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch b/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
-new file mode 100644
-index 0000000000..877f4f0624
---- /dev/null
-+++ b/meta/recipes-extended/stress-ng/stress-ng/no_daddr_t.patch
-@@ -0,0 +1,22 @@
-+Define daddr_t if __DADDR_T_TYPE is not defined
-+
-+glibc defined daddr_t but musl does not, ideally it should not be used
-+and simple int type is enough. However, its better to leave glibc behavior
-+as it is and only define it to int if daddr_t is not provided by libc
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+--- a/stress-ng.h
-++++ b/stress-ng.h
-+@@ -3750,6 +3750,10 @@ struct shim_statx {
-+ 	uint64_t __spare2[14];
-+ };
-+ 
-++#ifndef __DADDR_T_TYPE
-++typedef int daddr_t;
-++#endif
-++
-+ /* old ustat struct */
-+ struct shim_ustat {
-+ 	daddr_t	f_tfree;
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.11.12.bb b/meta/recipes-extended/stress-ng/stress-ng_0.11.12.bb
-index 45f4bb41ad..c00086c095 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.11.12.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.11.12.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
-            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
-+           file://no_daddr_t.patch \
+diff --git a/meta/recipes-devtools/strace/strace_5.6.bb b/meta/recipes-devtools/strace/strace_5.7.bb
+similarity index 92%
+rename from meta/recipes-devtools/strace/strace_5.6.bb
+rename to meta/recipes-devtools/strace/strace_5.7.bb
+index 53679cd0d2..ed422b10c3 100644
+--- a/meta/recipes-devtools/strace/strace_5.6.bb
++++ b/meta/recipes-devtools/strace/strace_5.7.bb
+@@ -15,8 +15,8 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://uintptr_t.patch \
+            file://0001-strace-fix-reproducibilty-issues.patch \
             "
- SRC_URI[sha256sum] = "0ccf437ca1876a3e8a55986c6481697045203a17f5994cb2f5096cd461d18031"
+-SRC_URI[md5sum] = "f8e0394d4e537b3faadf0a72f5d1d17e"
+-SRC_URI[sha256sum] = "189968eeae06ed9e20166ec55a830943c84374676a457c9fe010edc7541f1b01"
++SRC_URI[md5sum] = "8c35b8ebf187b2ec18209bd7bbd16e7a"
++SRC_URI[sha256sum] = "b284b59f9bcd95b9728cea5bd5c0edc5ebe360af73dc76fbf6334f11c777ccd8"
  
-@@ -23,4 +24,3 @@ do_install() {
-     oe_runmake DESTDIR=${D} install
- }
+ inherit autotools ptest
  
--COMPATIBLE_HOST_libc-musl = 'null'
 -- 
-2.27.0
+2.17.1
+
+
 
