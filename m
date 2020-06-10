@@ -1,171 +1,150 @@
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com [209.85.222.47])
- by mx.groups.io with SMTP id smtpd.web10.11415.1591797817954302511
- for <openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2020 07:03:38 -0700
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com [209.85.221.68])
+ by mx.groups.io with SMTP id smtpd.web12.12328.1591799784006284579
+ for <Openembedded-core@lists.openembedded.org>;
+ Wed, 10 Jun 2020 07:36:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=mjXEre34;
- spf=pass (domain: gmail.com, ip: 209.85.222.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-ua1-f47.google.com with SMTP id b10so893469uaf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 07:03:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oP6gBrG2;
+ spf=pass (domain: gmail.com, ip: 209.85.221.68, mailfrom: uvv.mail@gmail.com)
+Received: by mail-wr1-f68.google.com with SMTP id x6so2517774wrm.13
+        for <Openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 07:36:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0/Iz/9XebD5xCUYEVGY1ggsZhBQw3Gd/6kkZW4MpPY4=;
-        b=mjXEre34qCkkyal3LszxiPxquShPJ4fyhkCwZASfIA9Ipa4KUno0P079tN3/PqEs2c
-         heVWkEjuGIKPMtJawTeuwZNJ2uTwjVKO8DV2KWHW/OgFGzhqfMh9p/TsOyJ8taypvcEr
-         V/zp8hPVGG9bxXd5mU8zQdI5E+n1Jk6iR/agJ4N0US4HK6xIvjwHn/pcI6LHAthzxtk+
-         PMX9EUrwVawTaX0LcIBzBA515e5kUTNEmKzZXRVf0FIxlrSJ7/NF29VPspVe7VbQBKsW
-         TIm9a2kzyZcdp7MUHC3jLZDtvCTRA61s8I1o+yI+Ah3RH5fOLWuUgPc1jqoNx7D4vSCt
-         i/dQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wGZxh9hbz7THEHH+djWQ6NcN5NxljyYR2ofm0lOMXcs=;
+        b=oP6gBrG2tRl7N3ynIP7wmJQImfgXGkjbMpnpnOK+w1j+GmSlVVPPvCoZNz7yz92HMn
+         BkCRkNyI7w7/A5eel/c2uNdT0RHFrtaZkoSQGgzRml+3i70s1XU3wp22/Xhi1E74ykyd
+         PVTweI6EJ/WJdKbxDuwU4V/sWaV8xF25ojDTyHSmiFxi69G34wim6KqQmcgOHUoB7I53
+         wZx2Be1uynLZZIJ+dpaIp9D3afQIK7QzfKegMz5vjBVAXaBVW/NZUNddjw1MQuWOBYZH
+         kpY1SMQfaXmZZWuqBdYhFrZHaNtJM8CJNNGlCc5tB5bjO/LEpf7nj//rGJyWMCyW1IYv
+         x/IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0/Iz/9XebD5xCUYEVGY1ggsZhBQw3Gd/6kkZW4MpPY4=;
-        b=nCx1ynnzbnR+ztsi4yPrGOzF5x0F5QMuUPdmPC6DMucyAN1p7d9DKwLll13OV8rVka
-         gWfHPpQ42r2PFh4mPWSV2IugSltvrBijSlVvZNy2c7dl6JEsj96iAXrfCS3myf5wlnuj
-         hSJYXI+L2p5hUGpJN5T9d5sG1O5OiayykQS7VRXORHnoYSLgV8rlMm5vyAKtPfXcTBV4
-         mv1YZZI19h68RNEhw8xC2oPTBZrGPxbFf8hf/GDMgkc8RzpzuMgx9FUVaPJbRzWyHrCN
-         ef5GKFOLadnLm+Xt+a4RXUGwJtctkcmXHtKthuDFtg6Gr9g8iEPitEk3uNmj8tFj/C2w
-         HBBg==
-X-Gm-Message-State: AOAM533mdZKYJKLHRQy9vhgn4sO+H2r8ME3EhvSaRemUalIbXMV1NqBX
-	zQiKcTMoDNmd+pnMUTo98AprkWGQDQ9yKxz+ZBRe279A
-X-Google-Smtp-Source: ABdhPJykIhTbDELEdujKUOWh+ArVdVhem5mel+WpUexAx4w19RuW2ZfBenDrHgFOs+xfhi/TuKMVkDWmBeB6NGQMipQ=
-X-Received: by 2002:ab0:3f0:: with SMTP id 103mr2454094uau.71.1591797816945;
- Wed, 10 Jun 2020 07:03:36 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=wGZxh9hbz7THEHH+djWQ6NcN5NxljyYR2ofm0lOMXcs=;
+        b=pFCEsQQqKsuYZXuNib/zr3jIT6hc/JJJfh4o9FJu3yxn1539O9Kk+DSdhUGst+KeKd
+         wI9gtMGTQOfYMZCao45NnKG3q28g+MPFdw/PHrDMVsJFfaqnjwTVmyf72xz5BR6limJo
+         nHBBfoxrxFbYilEwIdGcVnDdNAUGknIA8wl6GN0huwj5Cfhw8SnnHqys6R5ZwjU8cUI0
+         ++/1eSIBZY83mGXdBFour1JB8fHW9rL31mvDs2/rjNwxTvArMBkVZhmla2LT0L3b62/W
+         pgbQVQg5qw86G/5LfY96uRIsWVK3ktAf4/por38zxmLlbvY/k0mKnd7Nk2FIo3E6ojwL
+         HB3Q==
+X-Gm-Message-State: AOAM532OfsNP6js6glSrxmh6eizeby1+mO2oq8mjFs3dTh/0MyqZdJc/
+	U8HblW3tPYG5nnYK70DLoRHMOachs7aK4zMa
+X-Google-Smtp-Source: ABdhPJz98wSDkBuH1/Wtk7cqlMH9ZQMCAmkdiwf67eX3a+Ln+7WXtMORfh3N0tWfYybdPIgQWvlKpg==
+X-Received: by 2002:adf:e2ce:: with SMTP id d14mr4129689wrj.415.1591799782155;
+        Wed, 10 Jun 2020 07:36:22 -0700 (PDT)
+Return-Path: <uvv.mail@gmail.com>
+Received: from localhost.localdomain (dslb-002-205-007-033.002.205.pools.vodafone-ip.de. [2.205.7.33])
+        by smtp.gmail.com with ESMTPSA id l17sm11973wrq.17.2020.06.10.07.36.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2020 07:36:21 -0700 (PDT)
+From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
+To: Openembedded-core@lists.openembedded.org
+Cc: tmark@isc.org,
+	Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+Subject: [PATCH] dhcp: use included bind version
+Date: Wed, 10 Jun 2020 16:35:20 +0200
+Message-Id: <20200610143520.2727827-1-uvv.mail@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <1855985738.3034.1591791465954.JavaMail.zimbra@nod.at>
-In-Reply-To: <1855985738.3034.1591791465954.JavaMail.zimbra@nod.at>
-From: "Alexander Kanavin" <alex.kanavin@gmail.com>
-Date: Wed, 10 Jun 2020 16:03:24 +0200
-Message-ID: <CANNYZj8kicvZLnGZBK_ZJ99kTmvaaW63mxQt0NTzS3QkTJ7JiQ@mail.gmail.com>
-Subject: Re: [OE-core] nativesdk-meson issues
-To: Richard Weinberger <richard@nod.at>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, mkelly@xevo.com, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	Alexander Haubner <alexander.haubner@sigmatek.at>
-Content-Type: multipart/alternative; boundary="0000000000006ef1d005a7bb4f5a"
+Content-Transfer-Encoding: 8bit
 
---0000000000006ef1d005a7bb4f5a
-Content-Type: text/plain; charset="UTF-8"
+From: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
 
-Seems reasonable, but you need to make and test the patches against master
-first.
+ISC DHCP should link against BIND9 libraries, which are tailored
+specifically for DHCP. BIND9 package in Yocto core layer has different
+configuraiton, in particular it has threads and epoll enabled.
 
-Alex
+ISC DHCP isn't a multi-threaded application, running it with bind9
+libraries compiled in with threading enabled is not something ISC can
+vouch for.
 
-On Wed, 10 Jun 2020 at 14:17, Richard Weinberger <richard@nod.at> wrote:
+BIND9 libraries support a lot of options specifically geared towards
+optimizing DNS operations, many of which do not play nicely with
+ISC DHCP's "architecture".  It isn't necessarily practical to build
+those libraries for both purposes.
 
-> Hi!
->
-> While investigating build issues I traced the root cause back to
-> nativesdk-meson.
-> We are on Yocto zeus with meson-0.54.2 backported from openembedded-core
-> master,
-> but this should not matter.
->
-> 1. meson wrapping
->
-> nativesdk-meson creates a shell wrapper which adds --cross-file=... to the
-> meson command.
-> Maybe this used to work on older meson releases, on recent meson it causes
-> problems since
-> --cross-file= is only accepted by the "setup" command, which is default in
-> meson.
-> As soon you want to use a different command such as "test", meson rejects
-> --cross-file.
-> We noticed because our test infrastructure makes use of meson test.
->
-> 2. meson.cross generation
->
-> The way you generate the cross file makes meson think it does native
-> instead
-> of a cross build.
-> Our target arch is aarch64, although meson writes during setup:
-> Build machine cpu family: x86_64
-> Build machine cpu: x86_64
-> Host machine cpu family: x86_64
-> Host machine cpu: x86_64
-> Target machine cpu family: x86_64
-> Target machine cpu: x86_64
->
-> ...and does not switch to cross mode.
->
->
-> I suggest dropping the wrapper and ship a good enough meson.cross file
-> with the SDK
-> but please do not force everyone to use it.
-> For example in our case we need to set exe_wrapper, root, sys_root, and
-> pkg_config_libdir
-> in our cross file.
-> If you think this is a reasonable apporach, I'll happily send patches. :-)
->
-> Thanks,
-> //richard
->
-> 
->
+If threading is enabled, then DHCP sporadically fails/crashes with
+messages like:
 
---0000000000006ef1d005a7bb4f5a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+lib/isc/unix/socket.c:1054: epoll_ctl(DEL), 6: Bad file descriptor
+lib/isc/unix/socket.c:3332: INSIST(!sock->pending_send) failed.
 
-<div dir=3D"ltr"><div>Seems reasonable, but you need to make and test the p=
-atches against master first.</div><div><br></div><div>Alex<br></div></div><=
-br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed,=
- 10 Jun 2020 at 14:17, Richard Weinberger &lt;<a href=3D"mailto:richard@nod=
-.at">richard@nod.at</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">Hi!<br>
-<br>
-While investigating build issues I traced the root cause back to nativesdk=
--meson.<br>
-We are on Yocto zeus with meson-0.54.2 backported from openembedded-core m=
-aster,<br>
-but this should not matter.<br>
-<br>
-1. meson wrapping<br>
-<br>
-nativesdk-meson creates a shell wrapper which adds --cross-file=3D... to t=
-he meson command.<br>
-Maybe this used to work on older meson releases, on recent meson it causes=
- problems since<br>
---cross-file=3D is only accepted by the &quot;setup&quot; command, which i=
-s default in meson.<br>
-As soon you want to use a different command such as &quot;test&quot;, meso=
-n rejects --cross-file.<br>
-We noticed because our test infrastructure makes use of meson test.<br>
-<br>
-2. meson.cross generation<br>
-<br>
-The way you generate the cross file makes meson think it does native inste=
-ad<br>
-of a cross build.<br>
-Our target arch is aarch64, although meson writes during setup:<br>
-Build machine cpu family: x86_64<br>
-Build machine cpu: x86_64<br>
-Host machine cpu family: x86_64<br>
-Host machine cpu: x86_64<br>
-Target machine cpu family: x86_64<br>
-Target machine cpu: x86_64<br>
-<br>
-...and does not switch to cross mode.<br>
-<br>
-<br>
-I suggest dropping the wrapper and ship a good enough meson.cross file wit=
-h the SDK<br>
-but please do not force everyone to use it.<br>
-For example in our case we need to set exe_wrapper, root, sys_root, and pk=
-g_config_libdir<br>
-in our cross file.<br>
-If you think this is a reasonable apporach, I&#39;ll happily send patches.=
- :-)<br>
-<br>
-Thanks,<br>
-//richard<br>
-<br>
-<br>
-</blockquote></div>
+Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
+---
+ meta/recipes-connectivity/dhcp/dhcp.inc       |  6 ++---
+ .../0014-Use-static-version-of-libbind.patch  | 23 +++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb  |  1 +
+ 3 files changed, 27 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0014-Use-static-version-of-libbind.patch
 
---0000000000006ef1d005a7bb4f5a--
+diff --git a/meta/recipes-connectivity/dhcp/dhcp.inc b/meta/recipes-connectivity/dhcp/dhcp.inc
+index d46130d49b..466cdf921a 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp.inc
++++ b/meta/recipes-connectivity/dhcp/dhcp.inc
+@@ -10,7 +10,7 @@ HOMEPAGE = "http://www.isc.org/"
+ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;beginline=4;md5=004a4db50a1e20972e924a8618747c01"
+ 
+-DEPENDS = "openssl bind"
++DEPENDS = "openssl zlib"
+ 
+ SRC_URI = "http://ftp.isc.org/isc/dhcp/${PV}/dhcp-${PV}.tar.gz \
+            file://init-relay file://default-relay \
+@@ -50,9 +50,9 @@ EXTRA_OECONF = "--with-srv-lease-file=${localstatedir}/lib/dhcp/dhcpd.leases \
+                 --with-cli6-lease-file=${localstatedir}/lib/dhcp/dhclient6.leases \
+                 --enable-paranoia --disable-static \
+                 --with-randomdev=/dev/random \
+-                --with-libbind=${STAGING_DIR_HOST} \
+-		--enable-libtool \
++                --enable-libtool \
+                "
++PARALLEL_MAKE = ""
+ 
+ #Enable shared libs per dhcp README
+ do_configure_prepend () {
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0014-Use-static-version-of-libbind.patch b/meta/recipes-connectivity/dhcp/dhcp/0014-Use-static-version-of-libbind.patch
+new file mode 100644
+index 0000000000..63c74b25a5
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/0014-Use-static-version-of-libbind.patch
+@@ -0,0 +1,23 @@
++From a96f65117d63bea4287f19e80595f7aab282410a Mon Sep 17 00:00:00 2001
++From: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
++Date: Wed, 10 Jun 2020 07:56:20 +0200
++Subject: [PATCH] Use static version of libbind
++
++Signed-off-by: Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
++---
++ bind/Makefile.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/bind/Makefile.in b/bind/Makefile.in
++index 8fe8883..902fc3d 100644
++--- a/bind/Makefile.in
+++++ b/bind/Makefile.in
++@@ -22,7 +22,7 @@ prefix = @prefix@
++ exec_prefix = @exec_prefix@
++ 
++ bindconfig = --without-openssl --without-libxml2 --without-libjson \
++-	--without-gssapi --disable-threads --without-lmdb \
+++	--without-gssapi --disable-threads --without-lmdb --disable-shared \
++ 	--includedir=@includedir@ --libdir=@libdir@  --without-python\
++ 	@BINDLT@ @BINDIOMUX@ @BINDCONFIG@ --enable-full-report
++ 
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
+index b56a204821..a322794e60 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.2.bb
+@@ -10,6 +10,7 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
+             file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
+             file://0013-fixup_use_libbind.patch \
+             file://0001-workaround-busybox-limitation-in-linux-dhclient-script.patch \
++            file://0014-Use-static-version-of-libbind.patch \
+ "
+ 
+ SRC_URI[md5sum] = "2afdaf8498dc1edaf3012efdd589b3e1"
+-- 
+2.25.1
+
