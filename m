@@ -1,122 +1,149 @@
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
- by mx.groups.io with SMTP id smtpd.web10.6279.1591909282136744351
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web12.7022.1591911144934824110
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2020 14:01:22 -0700
+ Thu, 11 Jun 2020 14:32:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=I7f/IeBm;
- spf=pass (domain: gmail.com, ip: 209.85.210.65, mailfrom: geissonator@gmail.com)
-Received: by mail-ot1-f65.google.com with SMTP id n70so5688615ota.5
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2020 14:01:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wfl6Ds2Gljxnz0ea7V/MCWiy/xdQRSp1suxW6NSHdrs=;
-        b=I7f/IeBmf+EVAc/viOaFILnJvT1mY/DJ6xYb1Jb0BYIb4t15YekCjrcAJZypX95m28
-         0B8WH+4zPS9bsaSD3HAf4TsZBxb93LUkR4ADcFmvTKgm5KLdEknjHCTojCjqH+JXpc1K
-         l/TYPZ3ajto7XPGBifgdAFecj+XzijTO+sROl7PEqxWrQh0jml4vJRzEHgSg7Sfqy9VR
-         3elm7BCfunX2DGcOjJawVIoBhw+3o0hExr23O2aiSvI1erSgyqhOA7kwqbsZOgVHximP
-         qYKPqlbPbmxMIt1GJRBdPYe7NolOh5956PC895zDAFtwuDyUTyD8YEtjr9+k8Atm8ymZ
-         3eng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=wfl6Ds2Gljxnz0ea7V/MCWiy/xdQRSp1suxW6NSHdrs=;
-        b=m+WGxDBasPGSgJU5YaOtOQb7JwAEc94Vtjwr9L9PYB2ofR90UIejc+zu2c0x9ebfH3
-         hPTMRxWK90oWOAfwRq/qTexhFH6x8uOrW2iZWyvcR7DQ6teMo2vUwK+zHZkeczSPC6BZ
-         m3K+s/g+7vMV0asPf9QRKkQ3hs2T8T/xm0747xXdvS3bz7hf5KS1dS7Rp/u8DfruJbYr
-         Z+bfSN3gp8ru0QCxhnpfwQz1t+LKg6U0DMtccfem3II7NIzRhI+R9Frrbqt7grK89YX/
-         /9ekuw/qaPwMDc6g+uXf1pos5D6Wtdh/wjpLNgOx5R35V6ss7P/NT+U6LGuiglGmAXfb
-         pKAg==
-X-Gm-Message-State: AOAM531wkUCxbrU9GiewtsPouOMSUeQdMo/YTyu17jUlfDFo8PUpFjDh
-	f0bCj97rIDl5mxwlfAspQ91BSq0dZNw=
-X-Google-Smtp-Source: ABdhPJwuaVlgL4t+iqc/3R3FDeaQL9FdDu2tMWc5TRF8etszXH4Ru6msmXSr0OG9L8oLKQ1DMmOvSg==
-X-Received: by 2002:a05:6830:22ee:: with SMTP id t14mr8444021otc.92.1591909281166;
-        Thu, 11 Jun 2020 14:01:21 -0700 (PDT)
-Return-Path: <geissonator@gmail.com>
-Received: from Andrews-MBP-2.attlocal.net (45-18-127-186.lightspeed.austtx.sbcglobal.net. [45.18.127.186])
-        by smtp.gmail.com with ESMTPSA id e188sm1007725oib.18.2020.06.11.14.01.20
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 11 Jun 2020 14:01:20 -0700 (PDT)
-From: "Andrew Geissler" <geissonator@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Andrew Geissler <geissonator@gmail.com>
-Subject: [PATCH] meson: backport library ordering fix
-Date: Thu, 11 Jun 2020 16:01:02 -0500
-Message-Id: <20200611210102.14077-1-geissonator@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: joe.slater@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 05BLWNdG015925
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2020 14:32:24 -0700 (PDT)
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Thu, 11 Jun 2020
+ 14:32:04 -0700
+From: "Joe Slater" <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
+Subject: [v2][oe-core][PATCH 1/1] systemd: fix CVE-2020-13776
+Date: Thu, 11 Jun 2020 14:32:04 -0700
+Message-ID: <20200611213204.41966-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-meson had a bug where they started looking for static boost libraries
-first vs. the default behavior of looking at shared libraries first.
-This caused issues because some projects assume the shared libraries
-first which automatically add in other shared library dependencies.
-Static libraries do not have the default behavior so projects that use
-boost start failing to compile with undefined references to other boost
-libraries.
+Backport from systemd.git.
 
-Signed-off-by: Andrew Geissler <geissonator@gmail.com>
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- meta/recipes-devtools/meson/meson.inc         |  1 +
- ...sort-shared-before-static-fixes-7171.patch | 35 +++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/meson/meson/0001-boost-Always-sort-shared-before-static-fixes-7171.patch
+ .../systemd/systemd/CVE-2020-13776.patch           | 96 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_245.6.bb         |  1 +
+ 2 files changed, 97 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2020-13776.patch
 
-diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
-index 12bc08648a..a0b54f57db 100644
---- a/meta/recipes-devtools/meson/meson.inc
-+++ b/meta/recipes-devtools/meson/meson.inc
-@@ -15,6 +15,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
-            file://cross-prop-default.patch \
-            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
-            file://0001-gnome.py-prefix-g-i-paths-with-PKG_CONFIG_SYSROOT_DI.patch \
-+           file://0001-boost-Always-sort-shared-before-static-fixes-7171.patch \
-            "
- SRC_URI[sha256sum] = "a7716eeae8f8dff002e4147642589ab6496ff839e4376a5aed761f83c1fa0455"
- 
-diff --git a/meta/recipes-devtools/meson/meson/0001-boost-Always-sort-shared-before-static-fixes-7171.patch b/meta/recipes-devtools/meson/meson/0001-boost-Always-sort-shared-before-static-fixes-7171.patch
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2020-13776.patch b/meta/recipes-core/systemd/systemd/CVE-2020-13776.patch
 new file mode 100644
-index 0000000000..217218180e
+index 0000000..7b5e3e7
 --- /dev/null
-+++ b/meta/recipes-devtools/meson/meson/0001-boost-Always-sort-shared-before-static-fixes-7171.patch
-@@ -0,0 +1,35 @@
-+From 5862ad6965c60caa861dfdcd29e499c34c4d00da Mon Sep 17 00:00:00 2001
-+From: Daniel Mensinger <daniel@mensinger-ka.de>
-+Date: Thu, 21 May 2020 13:35:27 +0200
-+Subject: [PATCH] boost: Always sort shared before static (fixes #7171)
++++ b/meta/recipes-core/systemd/systemd/CVE-2020-13776.patch
+@@ -0,0 +1,96 @@
++From 156a5fd297b61bce31630d7a52c15614bf784843 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
++Date: Sun, 31 May 2020 18:21:09 +0200
++Subject: [PATCH 1/1] basic/user-util: always use base 10 for user/group
++ numbers
 +
-+Upstream-Status: Backport [https://github.com/mesonbuild/meson/commit/5862ad6965c60caa861dfdcd29e499c34c4d00da]
++We would parse numbers with base prefixes as user identifiers. For example,
++"0x2b3bfa0" would be interpreted as UID==45334432 and "01750" would be
++interpreted as UID==1000. This parsing was used also in cases where either a
++user/group name or number may be specified. This means that names like
++0x2b3bfa0 would be ambiguous: they are a valid user name according to our
++documented relaxed rules, but they would also be parsed as numeric uids.
 +
-+Signed-off-by: Andrew Geissler <geissonator@gmail.com>
++This behaviour is definitely not expected by users, since tools generally only
++accept decimal numbers (e.g. id, getent passwd), while other tools only accept
++user names and thus will interpret such strings as user names without even
++attempting to convert them to numbers (su, ssh). So let's follow suit and only
++accept numbers in decimal notation. Effectively this means that we will reject
++such strings as a username/uid/groupname/gid where strict mode is used, and try
++to look up a user/group with such a name in relaxed mode.
++
++Since the function changed is fairly low-level and fairly widely used, this
++affects multiple tools: loginctl show-user/enable-linger/disable-linger foo',
++the third argument in sysusers.d, fourth and fifth arguments in tmpfiles.d,
++etc.
++
++Fixes #15985.
 +---
-+ mesonbuild/dependencies/boost.py | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ src/basic/user-util.c     |  2 +-
++ src/test/test-user-util.c | 10 ++++++++++
++ 2 files changed, 11 insertions(+), 1 deletion(-)
 +
-+diff --git a/mesonbuild/dependencies/boost.py b/mesonbuild/dependencies/boost.py
-+index 6e85c534..38497041 100644
-+--- a/mesonbuild/dependencies/boost.py
-++++ b/mesonbuild/dependencies/boost.py
-+@@ -189,13 +189,13 @@ class BoostLibraryFile():
-+     def __lt__(self, other: T.Any) -> bool:
-+         if isinstance(other, BoostLibraryFile):
-+             return (
-+-                self.mod_name, self.version_lib, self.arch, self.static,
-++                self.mod_name, self.static, self.version_lib, self.arch,
-+                 not self.mt, not self.runtime_static,
-+                 not self.debug, self.runtime_debug, self.python_debug,
-+                 self.stlport, self.deprecated_iostreams,
-+                 self.name,
-+             ) < (
-+-                other.mod_name, other.version_lib, other.arch, other.static,
-++                other.mod_name, other.static, other.version_lib, other.arch,
-+                 not other.mt, not other.runtime_static,
-+                 not other.debug, other.runtime_debug, other.python_debug,
-+                 other.stlport, other.deprecated_iostreams,
-+--
-+2.26.2
++--- end of commit 156a5fd297b61bce31630d7a52c15614bf784843 ---
 +
++
++Add definition of safe_atou32_full() from commit b934ac3d6e7dcad114776ef30ee9098693e7ab7e
++
++CVE: CVE-2020-13776
++
++Upstream-Status: Backport [https://github.com/systemd/systemd.git]
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++
++
++--- git.orig/src/basic/user-util.c
+++++ git/src/basic/user-util.c
++@@ -49,7 +49,7 @@ int parse_uid(const char *s, uid_t *ret)
++         assert(s);
++ 
++         assert_cc(sizeof(uid_t) == sizeof(uint32_t));
++-        r = safe_atou32(s, &uid);
+++        r = safe_atou32_full(s, 10, &uid);
++         if (r < 0)
++                 return r;
++ 
++--- git.orig/src/test/test-user-util.c
+++++ git/src/test/test-user-util.c
++@@ -48,9 +48,19 @@ static void test_parse_uid(void) {
++ 
++         r = parse_uid("65535", &uid);
++         assert_se(r == -ENXIO);
+++        assert_se(uid == 100);
+++
+++        r = parse_uid("0x1234", &uid);
+++        assert_se(r == -EINVAL);
+++        assert_se(uid == 100);
+++
+++        r = parse_uid("01234", &uid);
+++        assert_se(r == 0);
+++        assert_se(uid == 1234);
++ 
++         r = parse_uid("asdsdas", &uid);
++         assert_se(r == -EINVAL);
+++        assert_se(uid == 1234);
++ }
++ 
++ static void test_uid_ptr(void) {
++--- git.orig/src/basic/parse-util.h
+++++ git/src/basic/parse-util.h
++@@ -45,9 +45,13 @@ static inline int safe_atoux16(const cha
++ 
++ int safe_atoi16(const char *s, int16_t *ret);
++ 
++-static inline int safe_atou32(const char *s, uint32_t *ret_u) {
+++static inline int safe_atou32_full(const char *s, unsigned base, uint32_t *ret_u) {
++         assert_cc(sizeof(uint32_t) == sizeof(unsigned));
++-        return safe_atou(s, (unsigned*) ret_u);
+++        return safe_atou_full(s, base, (unsigned*) ret_u);
+++}
+++
+++static inline int safe_atou32(const char *s, uint32_t *ret_u) {
+++        return safe_atou32_full(s, 0, (unsigned*) ret_u);
++ }
++ 
++ static inline int safe_atoi32(const char *s, int32_t *ret_i) {
+diff --git a/meta/recipes-core/systemd/systemd_245.6.bb b/meta/recipes-core/systemd/systemd_245.6.bb
+index ece4220..b6681b2 100644
+--- a/meta/recipes-core/systemd/systemd_245.6.bb
++++ b/meta/recipes-core/systemd/systemd_245.6.bb
+@@ -20,6 +20,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://99-default.preset \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
++           file://CVE-2020-13776.patch \
+            "
+ 
+ # patches needed by musl
 -- 
-2.24.3 (Apple Git-128)
+2.7.4
 
