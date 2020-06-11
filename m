@@ -1,70 +1,149 @@
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com [209.85.210.66])
- by mx.groups.io with SMTP id smtpd.web11.3111.1591899904946851002
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.3349.1591900596431839984
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2020 11:25:05 -0700
+ Thu, 11 Jun 2020 11:36:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=Ry6TiMuW;
- spf=pass (domain: konsulko.com, ip: 209.85.210.66, mailfrom: paul.barker@konsulko.com)
-Received: by mail-ot1-f66.google.com with SMTP id v13so5300958otp.4
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2020 11:25:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C1jCO5YMX0fK3qjC3nFbISbXYUEyhVPbk1eLChEP0dk=;
-        b=Ry6TiMuWzr8Nfh3/9ZnHuyKOlaNh0F2Hs2c1MYNVaVzqekM2jo0aTVysTXOq9hGkt0
-         2R6F1TfWBEt5NThZOKhrSBiOeuUH65k4lvYxyBGVrNKpJChEMO2V4zuQ0byM6/E83Ubd
-         4N5xBIMa9syMWCZFwnF/Agq9N/xVQtxWNlycs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C1jCO5YMX0fK3qjC3nFbISbXYUEyhVPbk1eLChEP0dk=;
-        b=mAAGWqupSZHXKRe2q1WMXepBtCGIZPtJArMs6EttwpJPueuxeSHQa5wCnhCQgweHc7
-         DS4G3gntoqAG5vUS0M8arnYY6GVVGTQr1xVfT4smS6TUls/DtZPLAcK3CxYYIkNaS+wT
-         2SDgrivm4hzvbWf0xhVqFfLvx672Lgq3h6ttS8I18Zy/4DHZDVuGosndFtBL9kawAYjj
-         OMVG1Cd4WkMLZ7JVuFQsOTdtL9zj4mDcIxHs7lvp75EBZJ7aTYKeb1Fk+VNql32dOrzb
-         vxJDlutDwsPsbBp25ppk+7KtbXVZKApj3+4Kt6UvCac5BI0GrXhyjA5E2UfhY+1TFP5T
-         ugJw==
-X-Gm-Message-State: AOAM530jrOSEdUsQqb+STRU4yCFOcvggQBWIh9jJ9T3fl6WAtYPCCd+z
-	T0QuycOfp3TNQGbeYcWxmBoUiGYjjzTPKv/X4NEvFQ==
-X-Google-Smtp-Source: ABdhPJx0z9PQ5IkUua3i/sC74sssbNDus8WdqqapADKbN1lpRgkw+Rm/Lve7QJB77aglQqR7PsS1MPscnJSfoQzzMAA=
-X-Received: by 2002:a9d:2f05:: with SMTP id h5mr7897734otb.258.1591899903757;
- Thu, 11 Jun 2020 11:25:03 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: joe.slater@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 05BIaZtO015183
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2020 11:36:35 -0700 (PDT)
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Thu, 11 Jun 2020
+ 11:36:16 -0700
+From: "Joe Slater" <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
+Subject: [oe-core][PATCH 1/1] systemd: fix CVE-2020-13776
+Date: Thu, 11 Jun 2020 11:36:16 -0700
+Message-ID: <20200611183616.48687-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <AfTE.1591899117764896101.PTbw@lists.openembedded.org>
-In-Reply-To: <AfTE.1591899117764896101.PTbw@lists.openembedded.org>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Thu, 11 Jun 2020 19:24:53 +0100
-Message-ID: <CAM9ZRVurC-sSFJrVN_QQmKGoqGp=VRWEg6LdhWCzsn9g3od=Lg@mail.gmail.com>
-Subject: Re: [OE-core] Changing kernel to the Mainline kernel ,linux-stable instead of linux-raspberrypi
-To: Pankaj Vinadrao Joshi <pankaj.vj@exaleapsemi.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Thu, 11 Jun 2020 at 19:12, Pankaj Vinadrao Joshi
-<pankaj.vj@exaleapsemi.com> wrote:
->
-> Hi,
-> i have built the image for rpi4 using openembedded-core and meta-openembedded but i found that by default its taking the kernel which is linux-raspberrypi which is 4.19.x or 5.4.y but i want to change the kernel to the vanilla,5.5.6 from the mainline.
-> Can someone guide me on how i should proceed with ??
+Backport from systemd.git.
 
-Hi Pankaj,
+CVE: CVE-2020-13776
 
-You can use the linux-stable recipes in meta-kernel
-(https://gitlab.com/openembedded/community/meta-kernel) to achieve
-this. We don't have recipes for 5.5.y as it's already EOL but there
-are recipes for 5.6.y. I'll be adding the recipe for 5.7.y very soon.
-There will likely be a little integration work to do to get this
-working with a Raspberry Pi, I've already done that for raspberrypi3
-(as you can see in the readme for the meta-kernel layer) but other
-models are currently left as an exercise for the reader. Patches are
-welcome :)
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ .../systemd/systemd/CVE-2020-13776.patch           | 94 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_245.6.bb         |  1 +
+ 2 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/CVE-2020-13776.patch
 
-You could also look at the linux-yocto recipes in openembedded-core.
-
-Thanks,
-
+diff --git a/meta/recipes-core/systemd/systemd/CVE-2020-13776.patch b/meta/recipes-core/systemd/systemd/CVE-2020-13776.patch
+new file mode 100644
+index 0000000..f4fde26
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/CVE-2020-13776.patch
+@@ -0,0 +1,94 @@
++From 156a5fd297b61bce31630d7a52c15614bf784843 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
++Date: Sun, 31 May 2020 18:21:09 +0200
++Subject: [PATCH 1/1] basic/user-util: always use base 10 for user/group
++ numbers
++
++We would parse numbers with base prefixes as user identifiers. For example,
++"0x2b3bfa0" would be interpreted as UID==45334432 and "01750" would be
++interpreted as UID==1000. This parsing was used also in cases where either a
++user/group name or number may be specified. This means that names like
++0x2b3bfa0 would be ambiguous: they are a valid user name according to our
++documented relaxed rules, but they would also be parsed as numeric uids.
++
++This behaviour is definitely not expected by users, since tools generally only
++accept decimal numbers (e.g. id, getent passwd), while other tools only accept
++user names and thus will interpret such strings as user names without even
++attempting to convert them to numbers (su, ssh). So let's follow suit and only
++accept numbers in decimal notation. Effectively this means that we will reject
++such strings as a username/uid/groupname/gid where strict mode is used, and try
++to look up a user/group with such a name in relaxed mode.
++
++Since the function changed is fairly low-level and fairly widely used, this
++affects multiple tools: loginctl show-user/enable-linger/disable-linger foo',
++the third argument in sysusers.d, fourth and fifth arguments in tmpfiles.d,
++etc.
++
++Fixes #15985.
++---
++ src/basic/user-util.c     |  2 +-
++ src/test/test-user-util.c | 10 ++++++++++
++ 2 files changed, 11 insertions(+), 1 deletion(-)
++
++--- end of commit 156a5fd297b61bce31630d7a52c15614bf784843 ---
++
++
++Add definition of safe_atou32_full() from commit b934ac3d6e7dcad114776ef30ee9098693e7ab7e
++
++Upstream-Status: Backport [https://github.com/systemd/systemd.git]
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++
++
++--- git.orig/src/basic/user-util.c
+++++ git/src/basic/user-util.c
++@@ -49,7 +49,7 @@ int parse_uid(const char *s, uid_t *ret)
++         assert(s);
++ 
++         assert_cc(sizeof(uid_t) == sizeof(uint32_t));
++-        r = safe_atou32(s, &uid);
+++        r = safe_atou32_full(s, 10, &uid);
++         if (r < 0)
++                 return r;
++ 
++--- git.orig/src/test/test-user-util.c
+++++ git/src/test/test-user-util.c
++@@ -48,9 +48,19 @@ static void test_parse_uid(void) {
++ 
++         r = parse_uid("65535", &uid);
++         assert_se(r == -ENXIO);
+++        assert_se(uid == 100);
+++
+++        r = parse_uid("0x1234", &uid);
+++        assert_se(r == -EINVAL);
+++        assert_se(uid == 100);
+++
+++        r = parse_uid("01234", &uid);
+++        assert_se(r == 0);
+++        assert_se(uid == 1234);
++ 
++         r = parse_uid("asdsdas", &uid);
++         assert_se(r == -EINVAL);
+++        assert_se(uid == 1234);
++ }
++ 
++ static void test_uid_ptr(void) {
++--- git.orig/src/basic/parse-util.h
+++++ git/src/basic/parse-util.h
++@@ -45,9 +45,13 @@ static inline int safe_atoux16(const cha
++ 
++ int safe_atoi16(const char *s, int16_t *ret);
++ 
++-static inline int safe_atou32(const char *s, uint32_t *ret_u) {
+++static inline int safe_atou32_full(const char *s, unsigned base, uint32_t *ret_u) {
++         assert_cc(sizeof(uint32_t) == sizeof(unsigned));
++-        return safe_atou(s, (unsigned*) ret_u);
+++        return safe_atou_full(s, base, (unsigned*) ret_u);
+++}
+++
+++static inline int safe_atou32(const char *s, uint32_t *ret_u) {
+++        return safe_atou32_full(s, 0, (unsigned*) ret_u);
++ }
++ 
++ static inline int safe_atoi32(const char *s, int32_t *ret_i) {
+diff --git a/meta/recipes-core/systemd/systemd_245.6.bb b/meta/recipes-core/systemd/systemd_245.6.bb
+index ece4220..b6681b2 100644
+--- a/meta/recipes-core/systemd/systemd_245.6.bb
++++ b/meta/recipes-core/systemd/systemd_245.6.bb
+@@ -20,6 +20,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://99-default.preset \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
++           file://CVE-2020-13776.patch \
+            "
+ 
+ # patches needed by musl
 -- 
-Paul Barker
-Konsulko Group
+2.7.4
+
