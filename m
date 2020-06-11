@@ -1,57 +1,37 @@
-Received: from mail.openembedded.org (mail.openembedded.org [140.211.169.62])
- by mx.groups.io with SMTP id smtpd.web12.3892.1591902142635330092
- for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2020 12:02:22 -0700
-Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: patchwork.openembedded.org, ip: 140.211.169.62, mailfrom: patchwork@patchwork.openembedded.org)
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 64D9460EB7
-	for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2020 19:02:20 +0000 (UTC)
+Subject: Re: Changing kernel to the Mainline kernel ,linux-stable instead of linux-raspberrypi
+To: openembedded-core@lists.openembedded.org
+From: "Pankaj  Vinadrao Joshi" <pankaj.vj@exaleapsemi.com>
+X-Originating-Location: Pune, Maharashtra, IN (157.47.33.136)
+X-Originating-Platform: Windows Chrome 83
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogZml4IENWRS0yMDIwLTEzNzc2?=
-From: "Patchwork" <patchwork@patchwork.openembedded.org>
-To: Slater, Joseph <joe.slater@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Jun 2020 19:02:21 -0000
-Message-ID: <20200611190221.20779.53966@do>
-References: <20200611183616.48687-1-joe.slater@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200611183616.48687-1-joe.slater@windriver.com>
+Date: Thu, 11 Jun 2020 12:16:00 -0700
+References: <CAM9ZRVurC-sSFJrVN_QQmKGoqGp=VRWEg6LdhWCzsn9g3od=Lg@mail.gmail.com>
+In-Reply-To: <CAM9ZRVurC-sSFJrVN_QQmKGoqGp=VRWEg6LdhWCzsn9g3od=Lg@mail.gmail.com>
+Message-ID: <6467.1591902960377778854@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="Vm5fXJioeYGTQO5cOBFW"
+
+--Vm5fXJioeYGTQO5cOBFW
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-== Series Details ==
+Thanks for response..You have provided the link ,But i want to build specif=
+ically for 5.4.3 only ,where i should change in the existing file so that i=
+ will be able to build the image for same since i am very new to yocto can =
+you help me out ??
 
-Series: systemd: fix CVE-2020-13776
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/24594/
-State : failure
+--Vm5fXJioeYGTQO5cOBFW
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-== Summary ==
+<br style=3D"color: #000000; font-family: 'Segoe UI', 'Segoe UI Web (West E=
+uropean)', 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetic=
+a Neue', sans-serif; font-size: 14.6667px;" /><span style=3D"color: #000000=
+; font-family: 'Segoe UI', 'Segoe UI Web (West European)', 'Segoe UI', -app=
+le-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif; font-s=
+ize: 14.6667px;">Thanks for response..You have provided the link ,But i wan=
+t to build specifically for 5.4.3 only ,where i should change in the existi=
+ng file so that i will be able to build the image for same since i am very =
+new to yocto can you help me out ??</span>
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [1/1] systemd: fix CVE-2020-13776
- Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
-  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+--Vm5fXJioeYGTQO5cOBFW--
