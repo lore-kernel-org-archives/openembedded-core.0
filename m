@@ -1,97 +1,123 @@
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
- by mx.groups.io with SMTP id smtpd.web12.1410.1591814411945759092
- for <Openembedded-core@lists.openembedded.org>;
- Wed, 10 Jun 2020 11:40:12 -0700
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (NAM10-DM6-obe.outbound.protection.outlook.com [40.107.93.48])
+ by mx.groups.io with SMTP id smtpd.web11.1519.1591854567701716893
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 10 Jun 2020 22:49:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=p6/JXsod;
- spf=pass (domain: gmail.com, ip: 209.85.166.193, mailfrom: uvv.mail@gmail.com)
-Received: by mail-il1-f193.google.com with SMTP id z2so2990481ilq.0
-        for <Openembedded-core@lists.openembedded.org>; Wed, 10 Jun 2020 11:40:11 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=Z4OnbsWE;
+ spf=pass (domain: windriver.com, ip: 40.107.93.48, mailfrom: mingli.yu@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=oZn4O6ug4izYNHqFSR8qAdOUiLOgvSXUpjuKsb8QugP5AXqr817vbsXZndSp9KxdHYJL/R5FLC0wWvek3PRfbuz/rpfWlRkCFvNuMWEb+tUNiWwdg1I3HmBARJLgcfPvAx+7r0gNgN17UUiR41xOKX9TgqBKzZx+eGr6SdsP9LAUUpp5TW9D+dxv/BRhKAdMuu8+3mdZbVi16hFwrt/3F6Vdnt8BlbSQwsSeGT0NxTmdcOTv5uLVWKBze3+4fURDeUd5tjUNr9HB+bgwXMgIFGUfIiRLtRor38Au9pb75+0s2yApYKJ2wH206kytTh4TvBfHU/w1uuFMMGRCOCNtVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rPH+rBeNp8F+TUzgeDmIlXhj9vM+UM9AaegilrG9tLI=;
+ b=Vus08G7godyt8ltSRrpRj4dLNCimw4kgiUpou8WUaa6jhQ/dD3Zb3jYTBZ7RuvAelqXe/rrnpxCdXjgVwP+UzHiQz0q9BCNYTviKRvUmkJ6aEWJeK3jE608QweBZ0/YH8E/SK/N4BqXwv9YQaJPlWo3UWhchbu8G4uwWVBIhvEI3fcd8KJRA5XAAmb6F2lfNw4KoOKLzR7ZXsoTs/j6f6EVxqiNMQ/4fPnazfAghvPyaOpFmD3PUxB62T08GW2ZOkY46YTx+lhTUdneRWk9kKVoMvvfVFxX8wNbvjh0wMZOoSbmjvdxTzsa5OXDqiO40ORp9Jn15PEZtoetcRsOzqA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=Rj6fyYuXK4Roezollq31ls0Ekhr1Ea4zfRCxAutwuMA=;
-        b=p6/JXsodiQX0QdpwC+jBW8xEdiccKACjB4orvuQ/oO5W40gaC+NAeh9XeY+vcnhW/3
-         PsqVLFeirlXekX/hlNuRg3134NbFUXlvwj0W/43spjgPQZ8YDROx6yMGpELMwTfIVJnS
-         8bML7xhl0oSE68JcD2jhbNIOuMMF6iv8KNr4zyvVUodJP61Ypr6OJGJybyCXI3oQsqPn
-         djHRgzsiEt+F33Y6cZWN+H6oaSsyu43ktpKkTgOi02rw+vUjJIsLA0wChcdbfLbyNR9a
-         vJXxXpJCoWxAGC5dnqR7tTVW2fS4JOOr/7Dhm6RdnvYf4d6iwF9/DEk5kzTf0Wku7Eb1
-         LwAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=Rj6fyYuXK4Roezollq31ls0Ekhr1Ea4zfRCxAutwuMA=;
-        b=FZgJp96+RmoofbQSoA3KtzomMv65utnPM35n8S+qJSKZVBFTSBpEyGGJqjWK5ceJ/P
-         N8wCU3MMOWoZXfCaFvLvPdDQlyTlBqMW+PdpbCWpNT1yvVhL3enkGMdXd5thgE398YyV
-         H6v6PSH7YJoL0SDmos7v7XzPXWLIoYoiZW0XAxy4AJ5oeZh0L23g6/rkx7El2pu4JdXv
-         C6r01RpLjKhlOSdMqRFYUxJwz9w4LB8bTglBk2Jod2yQoej0xjfyvlGpw2EdklwoY3BB
-         HIcA0jGEOA1ewzj6jwtxUcPJ7Ws0QMpcdqZY+aAuSqFYvw0L0jpr9VpLoci+/9JcaAzd
-         8/og==
-X-Gm-Message-State: AOAM533lSHMe1eF25AUBWzdxwjboRFC3yS5VaLQ/NKXuN7BZnAk6hRp+
-	uNDirM2GQjY7ce1y0WLt7oo=
-X-Google-Smtp-Source: ABdhPJxJaG+4wbZ8/OGfLrH9ydwtcNIK4EY6f+4QKL9FnxP0I155RvMp/EIcS3dWW1ZQJmT202BNLg==
-X-Received: by 2002:a92:508:: with SMTP id q8mr4199639ile.298.1591814411252;
-        Wed, 10 Jun 2020 11:40:11 -0700 (PDT)
-Return-Path: <uvv.mail@gmail.com>
-Received: from Vyacheslavs-MacBook-Pro.local ([37.120.205.180])
-        by smtp.gmail.com with ESMTPSA id b13sm317637ilq.20.2020.06.10.11.40.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 11:40:10 -0700 (PDT)
-Subject: Re: [OE-core] [PATCH] dhcp: use included bind version
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Openembedded-core@lists.openembedded.org, tmark@isc.org,
- Vyacheslav Yurkov <Vyacheslav.Yurkov@bruker.com>
-References: <20200610143520.2727827-1-uvv.mail@gmail.com>
- <20200610160719.GD24380@localhost>
- <15e11034-2d2b-a620-f859-450a2b7ef7de@gmail.com>
- <20200610174220.GE24380@localhost>
-From: "Vyacheslav Yurkov" <uvv.mail@gmail.com>
-Message-ID: <4db17157-4663-cdc9-2177-c85b17edfe60@gmail.com>
-Date: Wed, 10 Jun 2020 20:40:07 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.8.1
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rPH+rBeNp8F+TUzgeDmIlXhj9vM+UM9AaegilrG9tLI=;
+ b=Z4OnbsWEYgd/fHa0y34gT4T3BeGA6jYNO/ROR2AqJLPaMXn0Fwt0rG54g1H8EGupuBBhuqscDUCNY7fxAv+ZBEL34gM0eb40MJqwqCiC3SY1LQcIy6Cll8tX7KSrpJvcoamk1szU062eOJ4pIduCIBQEJPwbnVBBi6mdxMjCfXg=
+Authentication-Results: lists.openembedded.org; dkim=none (message not signed)
+ header.d=none;lists.openembedded.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BYAPR11MB2598.namprd11.prod.outlook.com (2603:10b6:a02:cb::17)
+ by BY5PR11MB4181.namprd11.prod.outlook.com (2603:10b6:a03:18c::32) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.18; Thu, 11 Jun
+ 2020 05:49:25 +0000
+Received: from BYAPR11MB2598.namprd11.prod.outlook.com
+ ([fe80::b1da:3c52:3aeb:d91d]) by BYAPR11MB2598.namprd11.prod.outlook.com
+ ([fe80::b1da:3c52:3aeb:d91d%7]) with mapi id 15.20.3066.023; Thu, 11 Jun 2020
+ 05:49:25 +0000
+Subject: Re: [OE-core] [PATCH] python3: add tcl rdepends for python3-idle
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20200605084729.563714-1-mingli.yu@windriver.com>
+ <5f4e92d0f303fbab8acf72dcaa7e0908d0dccd80.camel@linuxfoundation.org>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <7b94fff7-577a-5dd7-c40b-8c65cd407dec@windriver.com>
+Date: Thu, 11 Jun 2020 13:48:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <5f4e92d0f303fbab8acf72dcaa7e0908d0dccd80.camel@linuxfoundation.org>
+X-ClientProxiedBy: SLXP216CA0020.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:100:6::30) To BYAPR11MB2598.namprd11.prod.outlook.com
+ (2603:10b6:a02:cb::17)
+Return-Path: mingli.yu@windriver.com
 MIME-Version: 1.0
-In-Reply-To: <20200610174220.GE24380@localhost>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.138] (60.247.85.82) by SLXP216CA0020.KORP216.PROD.OUTLOOK.COM (2603:1096:100:6::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18 via Frontend Transport; Thu, 11 Jun 2020 05:49:24 +0000
+X-Originating-IP: [60.247.85.82]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: ff0b0bac-921e-4a1c-82a4-08d80dcb327e
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4181:
+X-Microsoft-Antispam-PRVS: 
+	<BY5PR11MB41810069485C58D998D5FDFDF1800@BY5PR11MB4181.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3968;
+X-Forefront-PRVS: 0431F981D8
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	0NitgIQdHn8uMnwOhDPd97kStVDW8xUaWSwJI9GcvdrqtbBDk5HNKWmd8B024/4ChJCKcYT2RMzHeTyDcWkABQtgsTgAhgIc6H312OS0kYDxenn1lrFESf+XGBwec5EF/qlq0W+HpEd+mA/0ScRuh2MEzOJ3jgXXYsz/5dG9BHXF9RGZaCIG6QBwUvg20ZUujTQFf2poVCFLx6e6sw9j5e36ZlnO43z+XmaWVEcF5uOHlDwi7n9ge+889F8FwG185YsLZ3jR5VPkNLZxeKdfbgfEagRT6R9n85qjxuaz8Xspmi6Jr+cZcRX6f83kkOYDw0GbHKxeJAxnj0/WypgwSScgfgNbBcuoJUyCxxVxUSP/onizEdoO8nZDC97e7Eeaks3hrA3d1SPbJuT171WKT2Gy4+X3zK/PYOm9yAtHJjJrXW0jFzIF/8kCL2zVESEY
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB2598.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(346002)(136003)(39850400004)(396003)(376002)(366004)(6706004)(31686004)(6666004)(66476007)(66556008)(31696002)(2906002)(6486002)(186003)(26005)(16526019)(66946007)(5660300002)(316002)(86362001)(8936002)(16576012)(478600001)(52116002)(36756003)(8676002)(956004)(2616005)(53546011)(78286006)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	1dv/0UzfOkNxl9sNupioqYyso13tZG3CWyqBV/Nv73rFAs0vNtdOcS3I4hmpNNXyi+n9vfyeLFr7nqPbvNb4G7s1zFZInD1E/wPu/CmwnBgpsKXNHNAaNIYbCo56mibbKgifT2gMpwW57+ZCDFHMRtTUV93R6ThqVoIPaGU8qELeWOe+hCWuff8xtULsE71PdADhpZn8PdgT+TRdXqwkJaFmvPmN4NyDaXbFi97AqD0MQlcq5jCJRYz6YmLhE9+HMqW7Sg0dFCvopPqaZwZB/jSKkZaVTsrDIZEn5y9UFm9X+EWQn8QQReM4y8azj4qt9Se2/qchF3cCDc6HUa7HfAiBbjpgkdP2XVhNEku9n/tm3BuXBfSAVephEwlX28p05QedicD/oF5wZDIPXT0q/0/Dv3FzjphU5vwIwkC9gq/LIAGECgFRfqPdFu6VldiTn1D+p7XU0KfGgNAP0aa3WnCRqWtOmbsu7oPRBevH9tA=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff0b0bac-921e-4a1c-82a4-08d80dcb327e
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2020 05:49:25.1787
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YvjpLWHnNkAo5adLvjnziUys4i7qWDj7G4CD5t5A6hhGuGGKnsvsKwD+mL/aBop7XQubKbLOa6qwDrkItnQAYA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4181
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On 10.06.2020 19:42, Adrian Bunk wrote:
->> Right, but I don't think there's a way to build two configurations out of
->> one recipe, isn't it?
-> It is possible.
-> More common is sharing the sources between two (or more) recipes
-> with an .inc file.
-That's not really what I had in mind. That would result in two set of 
-recipes anyway, perhaps with the same SRC_URI.
->
-> Unrelated to that, I am a bit suprised why the current Yocto setup
-> is suddenly a problem. Other distributions like Debian/Ubuntu are
-> also sharing one build of the BIND libraries between BIND and dhcpd.
->
-The thing is, they don't. This is the 'depends' output from my Ubuntu 
-20.04 installation:
-% sudo apt-cache depends isc-dhcp-server
-...
-   Depends: libdns-export1109
-   Depends: libirs-export161
-   Depends: libisc-export1105
+Hi RP,
 
-% sudo apt-cache depends bind9
-bind9
-...
-   Depends: bind9-libs
+On 6/7/20 6:16 AM, Richard Purdie wrote:
+> On Fri, 2020-06-05 at 16:47 +0800, Yu, Mingli wrote:
+>> From: Mingli Yu <mingli.yu@windriver.com>
+>>
+>> Add tcl rdepends for python3-idle to fix
+>> below error:
+>>   # /usr/bin/idle3 -h
+>>   [snip]
+>>   _tkinter.TclError: Can't find a usable init.tcl
+>>   [snip]
+>>
+>> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+>> ---
+>>   meta/recipes-devtools/python/python3_3.8.2.bb | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/meta/recipes-devtools/python/python3_3.8.2.bb b/meta/recipes-devtools/python/python3_3.8.2.bb
+>> index 0474f07214..0ddf88699c 100644
+>> --- a/meta/recipes-devtools/python/python3_3.8.2.bb
+>> +++ b/meta/recipes-devtools/python/python3_3.8.2.bb
+>> @@ -346,6 +346,7 @@ RDEPENDS_libpython3_append_libc-glibc = " libgcc"
+>>   RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
+>>   RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
+>>   RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
+>> +RDEPENDS_${PN}-idle += "tcl"
+> 
+> Shouldn't this be using the tk packageconfig too? or depending on
 
-bind9-libs is bind-9.16.1, but export libraries are bind-9.11.16.
+Will use tk packageconfig in v2, apart from rdepends on ${PN}-tkinter, 
+it also rdepends on tcl.
 
-So answering Richard's question, having shared linking is also possible, 
-but that would result in two sets of bind libraries.
+Thanks,
 
-> cu
-> Adrian
-
-Regards,
-Vyacheslav
+> ${PN}-tkinter?
+> 
+> Cheers,
+> 
+> Richard
+> 
