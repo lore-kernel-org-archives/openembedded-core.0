@@ -1,101 +1,192 @@
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
- by mx.groups.io with SMTP id smtpd.web10.8644.1591885833524852613
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+ by mx.groups.io with SMTP id smtpd.web10.2207.1591897816213247282
  for <openembedded-core@lists.openembedded.org>;
- Thu, 11 Jun 2020 07:30:33 -0700
+ Thu, 11 Jun 2020 10:50:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Wr5HsxYT;
- spf=pass (domain: gmail.com, ip: 209.85.208.66, mailfrom: rehsack@gmail.com)
-Received: by mail-ed1-f66.google.com with SMTP id m32so4075359ede.8
-        for <openembedded-core@lists.openembedded.org>; Thu, 11 Jun 2020 07:30:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:from:to:cc:subject:date:message-id;
-        bh=hdGC82b2vrWgchYJzwMF9zNnuLckan3IBOnAiaGnJqc=;
-        b=Wr5HsxYTSWq6hMIVdEVp2x2EJVrSYFeXq6zllX/J2I489PixOKcGqIKeLwkYITxMSY
-         UcCa4SkxvUiqk3e4UXGhBpKm/1yx26II+XW5wYgTh46hWHDY6VfgnYG4dLWN01iF5m55
-         os2/slSZlBgyF0dmaaz4T/5MyS17BDtSw8MHujylSm+dxIUWhiTMRMz4G+0pequENZLE
-         MrFpqi/ZlXSiovVOJIspk089+/PjIK7c1gZN9nzzTM+jUqpfO/EEQk8Ella3EdyhQIcx
-         hZbGYarqtxv+iy5jcV3qpWa6PuUFiDL7ZBdOb0tNKtHkSUgYP+AIKzMpkqbg7FIum9sv
-         1BYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-        bh=hdGC82b2vrWgchYJzwMF9zNnuLckan3IBOnAiaGnJqc=;
-        b=mjuU50ZSb3sYz1EevdtwiwZPyRywK7BGogIv0Q6XkLOS242rDHZQYiik6ZoeTWdq9I
-         kJCU8MbwvZR6uuExsxr/pQHfV1YlK8r4TxKwZJrarPFlSzv9b/5lhFyJNYuAaGxncMeE
-         ugEPjBnCLqnf3EERcJuNwzCUyWRczc1pZZTjXpwpfGzDlTywwk9yKcPDmV0O8o9zYXee
-         /cKwh4dtaf5LmloD6x3KQlAuGeJbLaX/lQykdL27B7eYO9DigZ7TvMonASRxFB+y1Dx7
-         U04eaGUIYnCCLT5dcUADEpfvTNYl31fAw3W/KhMG5Un358aQIfy0bY/8g63zUKmhdhDg
-         ZASw==
-X-Gm-Message-State: AOAM5333x8cNqbUFe/tK2+ahL9ydraCqbFjbGZtXI+CzSCPwD/XQy9X2
-	YGGPCtaKpOr9PG2CE++8/RYmdTJm
-X-Google-Smtp-Source: ABdhPJws+eOlXp+/UiUc9XiwycrryESi5p/0iQevE12CLX3L8ybRgq3/soSXAeYuquHCNACmXXBZiQ==
-X-Received: by 2002:a50:dac8:: with SMTP id s8mr7167955edj.244.1591885831510;
-        Thu, 11 Jun 2020 07:30:31 -0700 (PDT)
-Return-Path: <rehsack@gmail.com>
-Received: from beaker.muppets.liwing.de (p4fe931fc.dip0.t-ipconnect.de. [79.233.49.252])
-        by smtp.gmail.com with ESMTPSA id qt19sm1939164ejb.14.2020.06.11.07.30.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2020 07:30:30 -0700 (PDT)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: "Jens Rehsack" <rehsack@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ming Liu <ming.liu@toradex.com>,
-	Ting Liu <ting.liu@nxp.com>,
-	Otavio Salvador <otavio.salvador@gmail.com>,
-	Jens Rehsack <sno@netbsd.org>
-Subject: [OE-core][PATCH] u-boot: avoid blind merging all *.cfg
-Date: Thu, 11 Jun 2020 16:30:14 +0200
-Message-Id: <20200611143014.13123-1-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=@linux.microsoft.com header.s=default header.b=P8NAxnUX;
+ spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
+Received: from [192.168.0.123] (unknown [189.154.223.206])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2855C20B7192;
+	Thu, 11 Jun 2020 10:50:15 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2855C20B7192
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1591897815;
+	bh=1z6L6hymhsD646rAnoynqb4OG2+JZT+HjbIrlreBLLw=;
+	h=Subject:From:To:References:Date:In-Reply-To:From;
+	b=P8NAxnUXDFgkKYrU3nSeoXrGlKs8cH6+txfk2qsOoBW5FVtGxTipRdPWc+yB491C8
+	 V7hyfaaCAUOm4MUB/Tb/HT37pIoq0w6adGcaiBWRcVnY6YDFhG3QlkoUPtyOJynlc2
+	 HuAHiUtLomD2Rbq2/2Onv++catHHbFxuH4FH08Hk=
+Subject: Re: [OE-core] [PATCH] python3: add the rdepends for python3-misc
+From: "Alejandro Hernandez" <alhe@linux.microsoft.com>
+To: "Yu, Mingli" <mingli.yu@windriver.com>,
+ openembedded-core@lists.openembedded.org
+References: <20200611073928.1974192-1-mingli.yu@windriver.com>
+ <1617707EBB29F899.26822@lists.openembedded.org>
+Message-ID: <6fa0c20e-c793-fc82-af8d-55297ad29e7a@linux.microsoft.com>
+Date: Thu, 11 Jun 2020 11:50:08 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <1617707EBB29F899.26822@lists.openembedded.org>
+Content-Type: multipart/alternative;
+ boundary="------------CED90DD11D8FD1079EC5A37C"
+Content-Language: en-US
 
-This fixes u-boot-qoriq breakage of:
+--------------CED90DD11D8FD1079EC5A37C
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-    commit 4fde8c8f479f5acd24fb6e0d0b9b4dc94d6f560b
-    Author: Ming Liu <ming.liu@toradex.com>
-    Date:   Wed Jun 3 13:56:01 2020 +0200
+Hey, I just tested this and statistics does depend on numbers, this 
+patch should fix the issue.
 
-	u-boot: support merging .cfg files for UBOOT_CONFIG
+python3-misc is treated as a special package where everything that 
+doesnt belong to another package ends up there, hence its assumed users 
+know what theyre doing and dependencies for these arent checked 
+automatically.
 
-	U-boot recipe supports .cfg files in SRC_URI, but they would be merged
-	to .config during do_configure only when UBOOT_MACHINE is set, we
-	should also support merging .cfg files for UBOOT_CONFIG.
+Alejandro
 
-The intension of 4fde8c8 looks more than append delta-config snippets to
-u-boot config and should probably be rewritten to express that much better
-than implicitely assume all "*.cfg" are for merging into .config.
+Acked-by: Alejandro Hernandez <alhe@linux.microsoft.com>
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
+
+On 6/11/20 2:38 AM, Alejandro Hernandez wrote:
+>
+> Hey Mingli,
+>
+> What are you adding to the image to reproduce this issue?
+>
+>
+> Cheers,
+>
+> Alejandro
+>
+> On 6/11/20 1:39 AM, Yu, Mingli wrote:
+>> From: Mingli Yu<mingli.yu@windriver.com>
+>>
+>> * Add python3-numbers to rdepends for python3-misc to fix below error:
+>>   # python3
+>>   [snip]
+>>   >>> import statistics
+>>   [snip]
+>>   ModuleNotFoundError: No module named 'numbers'
+>>
+>> * Don't use the hardcoded python3 moudules rdepends
+>>
+>> Signed-off-by: Mingli Yu<mingli.yu@windriver.com>
+>> ---
+>>   meta/recipes-devtools/python/python3_3.8.3.bb | 10 +++++++++-
+>>   1 file changed, 9 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-devtools/python/python3_3.8.3.bb b/meta/recipes-devtools/python/python3_3.8.3.bb
+>> index 09793dade2..997308dc75 100644
+>> --- a/meta/recipes-devtools/python/python3_3.8.3.bb
+>> +++ b/meta/recipes-devtools/python/python3_3.8.3.bb
+>> @@ -331,7 +331,15 @@ INSANE_SKIP_${PN}-dev += "dev-elf"
+>>   
+>>   # catch all the rest (unsorted)
+>>   PACKAGES += "${PN}-misc"
+>> -RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pydoc python3-pickle python3-audio"
+>> +RDEPENDS_${PN}-misc += "\
+>> +  ${PN}-core \
+>> +  ${PN}-email \
+>> +  ${PN}-codecs \
+>> +  ${PN}-pydoc \
+>> +  ${PN}-pickle \
+>> +  ${PN}-audio \
+>> +  ${PN}-numbers \
+>> +"
+>>   RDEPENDS_${PN}-modules_append_class-target = " ${MLPREFIX}python3-misc"
+>>   RDEPENDS_${PN}-modules_append_class-nativesdk = " ${MLPREFIX}python3-misc"
+>>   FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MAJMIN}/lib-dynload"
+>>
+>
+> 
+
+--------------CED90DD11D8FD1079EC5A37C
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Hey, I just tested this and statistics does depend on numbers,
+      this patch should fix the issue.<br>
+    </p>
+    <p>python3-misc is treated as a special package where everything
+      that doesnt belong to another package ends up there, hence its
+      assumed users know what theyre doing and dependencies for these
+      arent checked automatically.</p>
+    <p>Alejandro</p>
+    <p>Acked-by: Alejandro Hernandez <a class="moz-txt-link-rfc2396E" href="mailto:alhe@linux.microsoft.com">&lt;alhe@linux.microsoft.com&gt;</a><br>
+    </p>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 6/11/20 2:38 AM, Alejandro Hernandez
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:1617707EBB29F899.26822@lists.openembedded.org">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p>Hey Mingli,</p>
+      <p>What are you adding to the image to reproduce this issue?</p>
+      <p><br>
+      </p>
+      <p>Cheers,</p>
+      <p>Alejandro<br>
+      </p>
+      <div class="moz-cite-prefix">On 6/11/20 1:39 AM, Yu, Mingli wrote:<br>
+      </div>
+      <blockquote type="cite"
+        cite="mid:20200611073928.1974192-1-mingli.yu@windriver.com">
+        <pre class="moz-quote-pre" wrap="">From: Mingli Yu <a class="moz-txt-link-rfc2396E" href="mailto:mingli.yu@windriver.com" moz-do-not-send="true">&lt;mingli.yu@windriver.com&gt;</a>
+
+* Add python3-numbers to rdepends for python3-misc to fix below error:
+ # python3
+ [snip]
+ &gt;&gt;&gt; import statistics
+ [snip]
+ ModuleNotFoundError: No module named 'numbers'
+
+* Don't use the hardcoded python3 moudules rdepends
+
+Signed-off-by: Mingli Yu <a class="moz-txt-link-rfc2396E" href="mailto:mingli.yu@windriver.com" moz-do-not-send="true">&lt;mingli.yu@windriver.com&gt;</a>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/python/python3_3.8.3.bb | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index f6a68da0f6..c91da02959 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -89,8 +89,10 @@ do_configure () {
-                 j=$(expr $j + 1);
-                 if [ $j -eq $i ]; then
-                     oe_runmake -C ${S} O=${B}/${config} ${config}
--                    merge_config.sh -m -O ${B}/${config} ${B}/${config}/.config ${@" ".join(find_cfgs(d))}
--                    oe_runmake -C ${S} O=${B}/${config} oldconfig
-+                    if [ test -n "${@' '.join(find_cfgs(d))}" ]; then
-+                        merge_config.sh -m -O ${B}/${config} ${B}/${config}/.config ${@" ".join(find_cfgs(d))}
-+                        oe_runmake -C ${S} O=${B}/${config} oldconfig
-+                    fi
-                 fi
-             done
-             unset j
-@@ -123,7 +125,7 @@ do_compile () {
-         echo ${UBOOT_LOCALVERSION} > ${S}/.scmversion
-     fi
+diff --git a/meta/recipes-devtools/python/python3_3.8.3.bb b/meta/recipes-devtools/python/python3_3.8.3.bb
+index 09793dade2..997308dc75 100644
+--- a/meta/recipes-devtools/python/python3_3.8.3.bb
++++ b/meta/recipes-devtools/python/python3_3.8.3.bb
+@@ -331,7 +331,15 @@ INSANE_SKIP_${PN}-dev += "dev-elf"
  
--    if [ -n "${UBOOT_CONFIG}" ]
-+    if [ -n "${UBOOT_CONFIG}" -o -n "${UBOOT_DELTA_CONFIG}" ]
-     then
-         unset i j k
-         for config in ${UBOOT_MACHINE}; do
--- 
-2.17.1
+ # catch all the rest (unsorted)
+ PACKAGES += "${PN}-misc"
+-RDEPENDS_${PN}-misc += "python3-core python3-email python3-codecs python3-pydoc python3-pickle python3-audio"
++RDEPENDS_${PN}-misc += "\
++  ${PN}-core \
++  ${PN}-email \
++  ${PN}-codecs \
++  ${PN}-pydoc \
++  ${PN}-pickle \
++  ${PN}-audio \
++  ${PN}-numbers \
++"
+ RDEPENDS_${PN}-modules_append_class-target = " ${MLPREFIX}python3-misc"
+ RDEPENDS_${PN}-modules_append_class-nativesdk = " ${MLPREFIX}python3-misc"
+ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MAJMIN}/lib-dynload"
+</pre>
+        <br>
+        <fieldset class="mimeAttachmentHeader"></fieldset>
+      </blockquote>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <pre class="moz-quote-pre" wrap="">
+</pre>
+    </blockquote>
+  </body>
+</html>
 
+--------------CED90DD11D8FD1079EC5A37C--
