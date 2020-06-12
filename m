@@ -1,112 +1,93 @@
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com [209.85.210.66])
- by mx.groups.io with SMTP id smtpd.web12.16275.1591953540297508274
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+ by mx.groups.io with SMTP id smtpd.web11.18081.1591961444819943682
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 02:19:00 -0700
+ Fri, 12 Jun 2020 04:30:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=L6psrkBl;
- spf=pass (domain: konsulko.com, ip: 209.85.210.66, mailfrom: paul.barker@konsulko.com)
-Received: by mail-ot1-f66.google.com with SMTP id g5so6832636otg.6
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 02:19:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Tm75ImSfoW4UYSOFluuXNZCl9uXVoOcpWQq2kiy8jKY=;
-        b=L6psrkBlHlw7LZph0KLZIRPc0xAfSk4pbi+c5vBtIjOSEyyj4CXawF4wsZIv8eyADN
-         VqP5Hh6CBwfwSavtZqKZtYv0mktT1H6jdafIZMCGPCzhNaskdx+4oeYt3/2z0i/heIi4
-         4IZcOM4yV7ODU+qhTQOXGkMFQtBO7GiQ4h8ls=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Tm75ImSfoW4UYSOFluuXNZCl9uXVoOcpWQq2kiy8jKY=;
-        b=NbtV5FjAveHAX3MWMQ1WMAoBNJ04zJ454pQb3vytPZTDbBz9VkXBR0tJU/UK0MwmWK
-         JGQGXi6RnTmEQY8Qqah7o7yRKDZMZOE3Jzp3WMqdIld2BsJgxzon44jXt/JTK8cEPupR
-         TQeTTogxsIgAf2uH+6OzEE5+EiWZhPH0nPRvQHVZIDTFFsC2pCDVWxoxtZWvXR43+22f
-         mzpoNNzEuMDUri6Qf45go4L/v4ZcTYkg9XJgs5L0JJ8Xv8ovNQFqfnLQcOTdMv4l+rFh
-         Hcy4HlBaxSv2NHqEf7wegVWnt1qNuvnJS9wtLEBhBUehyMWWjQrfAKiXaGF/A+MERpRh
-         fozg==
-X-Gm-Message-State: AOAM531MsI66WvxidwJHGGcEK7CT6rkRw/tKn40UvzwP1MDXmqZfPSUP
-	ioRcOxFhfcChZLhiaJi9OMcx0/EyKFOu44yKE12Ucw==
-X-Google-Smtp-Source: ABdhPJwTtjGU7yi5Xc7PEAh2B7AO/8iXH49QSFWJuKvusX48Q3fMk/rw6FDt9rz8aUGg2BJKilpX151O+18VnainfXs=
-X-Received: by 2002:a9d:6d09:: with SMTP id o9mr9176178otp.305.1591953539635;
- Fri, 12 Jun 2020 02:18:59 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200604173301.12364-1-pbarker@konsulko.com> <20200604173301.12364-2-pbarker@konsulko.com>
- <e617e5f69e0b7779d56e5248104c007848239dc6.camel@linuxfoundation.org>
-In-Reply-To: <e617e5f69e0b7779d56e5248104c007848239dc6.camel@linuxfoundation.org>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Fri, 12 Jun 2020 10:18:49 +0100
-Message-ID: <CAM9ZRVswfT9i_6UYR4+p7tW7TqiVBaFm9vS6Uu1QA+ZMQed_FQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 1/2] selftest: git-submodule-test: New recipe for testing a gitsm SRC_URI
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@koncepto.io header.s=default header.b=BEMbEXSz;
+ spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
+Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr [193.250.66.88])
+	by koncepto.io (Postfix) with ESMTPSA id 7680760222;
+	Fri, 12 Jun 2020 13:30:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1591961441;
+	bh=0Ox53NwyG9pg1L/LsGMk/GP+bi53mXcl8esystwGYOU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BEMbEXSzTU+HrGeDNR/RY1CIzNakFYd5OfufDNz05rJ4jLe5Oox/E5cBUqE+1ETks
+	 wr0kghPfyIBb0yBE53ei7/gFx+bDEA5q+oUZ7ZQKwkI/7IpsTJDut/jTWQf4pwWcVf
+	 QtltqGg3dMuV0eJYowapljx6suI+6ZxTdkCclPKI4h50XoaEvrWci2KkMRiT3/uPvK
+	 9bS8pPkNgRM7cItWzzJ55hi+7Q5bibDLIECGOpedkhCjAcuaR3J7Z7mymqluGxh2/X
+	 xSw99b2NgY6m/myg15iDqMvlWebTZuLOE+8VNdH6ISh9ZNUwNED65lBGilSDHlclhy
+	 zYHlroBkCd3mg==
+From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
+To: openembedded-core@lists.openembedded.org
+Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
+Subject: [PATCH] diffoscope: upgrade 146 -> 147
+Date: Fri, 12 Jun 2020 13:30:35 +0200
+Message-Id: <1591961435-14197-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
 
-On Fri, 12 Jun 2020 at 08:34, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> Hi Paul,
->
-> On Thu, 2020-06-04 at 18:33 +0100, Paul Barker wrote:
-> > Signed-off-by: Paul Barker <pbarker@konsulko.com>
-> > ---
-> >  .../recipes-test/git-submodule-test/git-submodule-test.bb | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >  create mode 100644 meta-selftest/recipes-test/git-submodule-test/git-submodule-test.bb
-> >
-> > diff --git a/meta-selftest/recipes-test/git-submodule-test/git-submodule-test.bb b/meta-selftest/recipes-test/git-submodule-test/git-submodule-test.bb
-> > new file mode 100644
-> > index 0000000000..08089b4186
-> > --- /dev/null
-> > +++ b/meta-selftest/recipes-test/git-submodule-test/git-submodule-test.bb
-> > @@ -0,0 +1,8 @@
-> > +SUMMARY = "Test recipe for fetching git submodules"
-> > +LICENSE = "MIT"
-> > +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-> > +
-> > +INHIBIT_DEFAULT_DEPS = "1"
-> > +
-> > +SRC_URI = "gitsm://git.yoctoproject.org/git-submodule-test"
-> > +SRCREV = "a2885dd7d25380d23627e7544b7bbb55014b16ee"
->
-> I didn't spot it at first but unfortunately this recipe is breaking the
-> autobuilder. I think there is a problem with gitsm:// modules not
-> mirroring correctly.
->
-> Here you see the a-quick build run:
->
-> bitbake universe -c fetch -k
-> (meta-selftest is included and SOURCE_MIRROR_FETCH = '1' set)
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1055/steps/10/logs/step1b
->
-> you do see do_fetch called for this recipe. Then later in the build it
-> does:
->
-> oe-selftest -r buildoptions.SourceMirroring.test_yocto_source_mirror
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/1055/steps/12/logs/step1d
->
-> The intent is that we check YP can build from its mirrors. The test is
-> say it cannot.
->
-> Any ideas on what might be wrong?
+This includes the following changes:
 
-ovmf also uses git submodules and that seems to work. Also, I can see
-the relevant mirror tarballs are present on
-downloads.yoctoproject.org:
+* New features:
 
-http://downloads.yoctoproject.org/mirror/sources/git2_git.openembedded.org.bitbake.tar.gz
-http://downloads.yoctoproject.org/mirror/sources/git2_git.yoctoproject.org.bitbake-gitsm-test1.tar.gz
-http://downloads.yoctoproject.org/mirror/sources/git2_git.yoctoproject.org.bitbake-gitsm-test2.tar.gz
-http://downloads.yoctoproject.org/mirror/sources/git2_git.yoctoproject.org.git-submodule-test.tar.gz
+  - Add output from strings(1) to ELF binaries. It is intended this will
+    expose expose build paths that are hidden somewhere within the objdump(1)
+    output. (Closes: reproducible-builds/diffoscope#148)
+  - Add basic zsh shell tab-completion support.
+    (Closes: reproducible-builds/diffoscope#158)
 
-So it's not immediately obvious what's wrong there. I'll run that
-selftest case locally and see if I can reproduce the issue.
+* Bug fixes:
 
-Thanks,
+  - Prevent a traceback when comparing a PDF document that does not contain
+    any metadata, ie. it is missing a PDF "/Info" stanza.
+    (Closes: reproducible-builds/diffoscope#150)
+  - Fix compatibility with jsondiff 1.2.0 which was causing a traceback and
+    log the version of jsondiff we are using to aid debugging in the future.
+    (Closes: reproducible-builds/diffoscope#159
+  - Fix an issue in GnuPG keybox handling that left filenames in the diff.
+  - Don't mask an existing test name; ie. ensure it is actually run.
 
+* Reporting:
+
+  - Log all calls to subprocess.check_output by using our own wrapper utility.
+    (Closes: reproducible-builds/diffoscope#151)
+
+* Code improvements:
+
+  - Replace references to "WF" with "Wagner-Fischer" for clarity.
+  - Drop a large number of unused imports (list_libarchive,
+    ContainerExtractionError, etc.)
+  - Don't assign exception to a variable that we do not use.
+  - Compare string values with the equality operator, not via "is" identity.
+  - Don't alias an open file to a variable when we don't use it.
+  - Don't alias "filter" builtin.
+  - Refactor many small parts of the HTML generation, dropping explicit
+    u"unicode" strings, tidying the generation of the "Offset X, Y lines
+    modified" messages, moving to PEP 498 f-strings where appropriate, etc.
+  - Inline a number of single-used utility methods.
+
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+---
+ .../recipes-support/diffoscope/{diffoscope_146.bb => diffoscope_147.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/diffoscope/{diffoscope_146.bb => diffoscope_147.bb} (83%)
+
+diff --git a/meta/recipes-support/diffoscope/diffoscope_146.bb b/meta/recipes-support/diffoscope/diffoscope_147.bb
+similarity index 83%
+rename from meta/recipes-support/diffoscope/diffoscope_146.bb
+rename to meta/recipes-support/diffoscope/diffoscope_147.bb
+index a3402d4..3db38fa 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_146.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_147.bb
+@@ -7,7 +7,7 @@ PYPI_PACKAGE = "diffoscope"
+ 
+ inherit pypi setuptools3
+ 
+-SRC_URI[sha256sum] = "a031605c043577c908052763e49b0bd9c1d4d8a169eaf41364900ff1d9566ee2"
++SRC_URI[sha256sum] = "5b5fdaa4d900c891b319e4b9a006eb16824a0b61fdbe15e75acbbe35602e2da6"
+ 
+ RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
+ 
 -- 
-Paul Barker
-Konsulko Group
+2.7.4
+
