@@ -1,230 +1,142 @@
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com [209.85.166.194])
- by mx.groups.io with SMTP id smtpd.web11.16.1591983412026709536
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+ by mx.groups.io with SMTP id smtpd.web12.624.1591985301072347226
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 10:36:52 -0700
+ Fri, 12 Jun 2020 11:08:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=myH61z01;
- spf=pass (domain: gmail.com, ip: 209.85.166.194, mailfrom: jpewhacker@gmail.com)
-Received: by mail-il1-f194.google.com with SMTP id b5so9519654iln.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 10:36:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MtEyc4qPtrgODdFThKuqFTwZSFEzxVARxMWU/9I7vB4=;
-        b=myH61z01qQy3rlqbJt1qjOPpLorVo4uJY6hcJelN/mw+5zexoPz0d1r6iXcjHTc8Vl
-         9Lls/fT8yHPyWQlNspCZabBwS0StKRstctb93nMIzg9Kg2rVP50adMfB+I5EJeyt8tkU
-         /neyzFX7b02Gn9NzVHFpw6Eq+H+/SAELw/7KQcGgd01VH1P+AX7MJ6ti+hd4xDjfCG9Y
-         fv7FamsClcYk22dOxsbVeRUSWuPHtfFtn6jze2v+MsPfuqhP+vxAc2zVChoXsp9a0RVy
-         ernA1M/sDb6FcTO6bTq0y3n4x0p1osQn6ur2w+MqCAncgWpwwx0DcsQmq0rqb3bY9pjD
-         aNzQ==
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qt1-f195.google.com with SMTP id y1so7789359qtv.12
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 11:08:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MtEyc4qPtrgODdFThKuqFTwZSFEzxVARxMWU/9I7vB4=;
-        b=CelQ9PqKCue4af8Y/AGFLGLeCbNx8qEpllydf2S5M80N0zjKyjv6h/36ZEfRN4pVFR
-         7a/FKus4+cU31NSqby8TS6hOCIg0T/RE3q7czi+u2/mLoaBBZfA0GN0dh2rzLXnaI40T
-         zaJc2cqqflwO6mRB3oxdgMb14mKVojqyYmKAwwNV8YrfEZtGoiuAz6uhGnwBGV9GY310
-         GYhoCv9q6Hnux3n0BMPZJoiSqg+L/gmSO8Y0Ob2VtYbB6+YBI7sPJGPzCEDgS4ipFI4F
-         KTRtmdOz08RPU5WImPFgzxgOU5hssYKEnIiMzCo0eh+HR0Ynvipc43USz9Y2WFOJ/z4D
-         025w==
-X-Gm-Message-State: AOAM5328JCZyE86GDQy00dbOh9uFUOumqKWmzHZUdNWY26bshIT2ItL1
-	+Zfwnw4hwUCLHfH6Wm9ASKvXXteJ
-X-Google-Smtp-Source: ABdhPJzDiwCTferNSvriPAPnU6+W5gxkqWab+gEK82xwWobexrIcEGOUIxnX9274tBU4T1inJ/eaQw==
-X-Received: by 2002:a92:c985:: with SMTP id y5mr14358664iln.50.1591983411056;
-        Fri, 12 Jun 2020 10:36:51 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:35f5:8651:479a:b9eb])
-        by smtp.gmail.com with ESMTPSA id y19sm3281059iod.41.2020.06.12.10.36.50
+         :organization:content-transfer-encoding;
+        bh=5Ciw6Ys96M/meqbP20CG3LMuRS9RITVpCDESc4ZeFoY=;
+        b=m+rBoiJp/Oxq3nANottJuipKFawlj3/w1bsCqUV0a+fUcgk4R3iA/LQjYcptRZ8KIh
+         PBw8B9arj7rHJv469h0HRk+7uIPn3IOEH8EbyU4WecvJcmvvkyOMz33nO7S5tGDpojld
+         AVAF4yWJP7KjRVZ20eQYEOSZBmE949/lFoXsR+MLDvpBJp3Juk+NnUug1hJVneGSlshb
+         +wKQyqL8DJm1YGiRGyNo5wFAauoHL0WPjcQY4z09V7ZO6x18DJkf5PzwPrApotHf4EoE
+         opWdb7Dv+jwk17EgKp85inUsyS3I2Lyvn1ryibqTOb0U060ema4gUcKYOFT0JAGb/uPA
+         4OrA==
+X-Gm-Message-State: AOAM531eIEa4nj4HnIWPPtzJ0URtXoi6FdSiZWuFrsy4CFMKaft2PtIZ
+	dHC2zNKDVBXDkvOG8QsZMJGdjlo52nQ=
+X-Google-Smtp-Source: ABdhPJwaUtiyTS5aFbohY2FM+hzmZEvlgWBsy8s/uHli68orWtJYzW9rnhbiwpTonKCW96DYzDj9WQ==
+X-Received: by 2002:aed:2d44:: with SMTP id h62mr4490446qtd.167.1591985299741;
+        Fri, 12 Jun 2020 11:08:19 -0700 (PDT)
+Return-Path: <otavio.salvador@gmail.com>
+Received: from localhost ([181.220.84.90])
+        by smtp.gmail.com with ESMTPSA id p63sm5051023qkf.50.2020.06.12.11.08.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2020 10:36:50 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] sstatesig: Account for all dataCaches being passed
-Date: Fri, 12 Jun 2020 12:36:47 -0500
-Message-Id: <20200612173647.7527-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        Fri, 12 Jun 2020 11:08:19 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@gmail.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH] mtd-utils: Fix return value of ubiformat
+Date: Fri, 12 Jun 2020 15:08:09 -0300
+Message-Id: <20200612180809.107139-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
+Organization: O.S. Systems Software LTDA.
 Content-Transfer-Encoding: 8bit
 
-Bitbake now passes all the dataCaches to the taskhash API, so use this
-to correctly filter mcdepends.
+This changeset fixes a feature regression in ubiformat.  Older versions
+of ubiformat, when invoked with a flash-image, would return 0 in the
+case no error was encountered.  Upon upgrading to latest, it was
+discovered that ubiformat returned 255 even without encountering an
+error condition.
 
-[YOCTO #13724]
+This changeset corrects the above issue and causes ubiformat, when given an
+image file, to return 0 when no errors are detected.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Backport fix from 2.1.2
+
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 ---
- meta/lib/oe/sstatesig.py | 79 +++++++++++++++++++++-------------------
- 1 file changed, 42 insertions(+), 37 deletions(-)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index d24e3738ae..21ae0a7657 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -2,9 +2,10 @@
- # SPDX-License-Identifier: GPL-2.0-only
- #
- import bb.siggen
-+import bb.runqueue
- import oe
- 
--def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-+def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCaches):
-     # Return True if we should keep the dependency, False to drop it
-     def isNative(x):
-         return x.endswith("-native")
-@@ -12,23 +13,26 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-         return "-cross-" in x
-     def isNativeSDK(x):
-         return x.startswith("nativesdk-")
--    def isKernel(fn):
--        inherits = " ".join(dataCache.inherits[fn])
-+    def isKernel(mc, fn):
-+        inherits = " ".join(dataCaches[mc].inherits[fn])
-         return inherits.find("/module-base.bbclass") != -1 or inherits.find("/linux-kernel-base.bbclass") != -1
--    def isPackageGroup(fn):
--        inherits = " ".join(dataCache.inherits[fn])
-+    def isPackageGroup(mc, fn):
-+        inherits = " ".join(dataCaches[mc].inherits[fn])
-         return "/packagegroup.bbclass" in inherits
--    def isAllArch(fn):
--        inherits = " ".join(dataCache.inherits[fn])
-+    def isAllArch(mc, fn):
-+        inherits = " ".join(dataCaches[mc].inherits[fn])
-         return "/allarch.bbclass" in inherits
--    def isImage(fn):
--        return "/image.bbclass" in " ".join(dataCache.inherits[fn])
--
--    # (Almost) always include our own inter-task dependencies.
--    # The exception is the special do_kernel_configme->do_unpack_and_patch
--    # dependency from archiver.bbclass.
--    if recipename == depname:
--        if task == "do_kernel_configme" and dep.endswith(".do_unpack_and_patch"):
-+    def isImage(mc, fn):
-+        return "/image.bbclass" in " ".join(dataCaches[mc].inherits[fn])
+ ...-utils-Fix-return-value-of-ubiformat.patch | 62 +++++++++++++++++++
+ meta/recipes-devtools/mtd/mtd-utils_git.bb    |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
+
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
+new file mode 100644
+index 0000000000..d43f7e1a7a
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-Fix-return-value-of-ubiformat.patch
+@@ -0,0 +1,62 @@
++From 4d19bffcfd66e25d3ee74536ae2d2da7ad52e8e2 Mon Sep 17 00:00:00 2001
++From: Barry Grussling <barry@grussling.com>
++Date: Sun, 12 Jan 2020 12:33:32 -0800
++Subject: [PATCH] mtd-utils: Fix return value of ubiformat
++Organization: O.S. Systems Software LTDA.
 +
-+    depmc, _, deptaskname, depmcfn = bb.runqueue.split_tid_mcfn(dep)
-+    mc, _ = bb.runqueue.split_mc(fn)
++This changeset fixes a feature regression in ubiformat.  Older versions of
++ubiformat, when invoked with a flash-image, would return 0 in the case no error
++was encountered.  Upon upgrading to latest, it was discovered that ubiformat
++returned 255 even without encountering an error condition.
 +
-+    # (Almost) always include our own inter-task dependencies (unless it comes
-+    # from a mcdepends). The exception is the special
-+    # do_kernel_configme->do_unpack_and_patch dependency from archiver.bbclass.
-+    if recipename == depname and depmc == mc:
-+        if task == "do_kernel_configme" and deptaskname == "do_unpack_and_patch":
-             return False
-         return True
- 
-@@ -47,11 +51,11 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-     # Only target packages beyond here
- 
-     # allarch packagegroups are assumed to have well behaved names which don't change between architecures/tunes
--    if isPackageGroup(fn) and isAllArch(fn) and not isNative(depname):
-+    if isPackageGroup(mc, fn) and isAllArch(mc, fn) and not isNative(depname):
-         return False
- 
-     # Exclude well defined machine specific configurations which don't change ABI
--    if depname in siggen.abisaferecipes and not isImage(fn):
-+    if depname in siggen.abisaferecipes and not isImage(mc, fn):
-         return False
- 
-     # Kernel modules are well namespaced. We don't want to depend on the kernel's checksum
-@@ -59,10 +63,9 @@ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCache):
-     # is machine specific.
-     # Therefore if we're not a kernel or a module recipe (inheriting the kernel classes)
-     # and we reccomend a kernel-module, we exclude the dependency.
--    depfn = dep.rsplit(":", 1)[0]
--    if dataCache and isKernel(depfn) and not isKernel(fn):
--        for pkg in dataCache.runrecs[fn]:
--            if " ".join(dataCache.runrecs[fn][pkg]).find("kernel-module-") != -1:
-+    if dataCaches and isKernel(depmc, depmcfn) and not isKernel(mc, fn):
-+        for pkg in dataCaches[mc].runrecs[fn]:
-+            if " ".join(dataCaches[mc].runrecs[fn][pkg]).find("kernel-module-") != -1:
-                 return False
- 
-     # Default to keep dependencies
-@@ -87,10 +90,12 @@ class SignatureGeneratorOEBasic(bb.siggen.SignatureGeneratorBasic):
-         self.abisaferecipes = (data.getVar("SIGGEN_EXCLUDERECIPES_ABISAFE") or "").split()
-         self.saferecipedeps = (data.getVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS") or "").split()
-         pass
--    def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
--        return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
-+    def rundep_check(self, fn, recipename, task, dep, depname, dataCaches = None):
-+        return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCaches)
- 
- class SignatureGeneratorOEBasicHashMixIn(object):
-+    supports_multiconfig_datacaches = True
++This changeset corrects the above issue and causes ubiformat, when given an
++image file, to return 0 when no errors are detected.
 +
-     def init_rundepcheck(self, data):
-         self.abisaferecipes = (data.getVar("SIGGEN_EXCLUDERECIPES_ABISAFE") or "").split()
-         self.saferecipedeps = (data.getVar("SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS") or "").split()
-@@ -126,8 +131,8 @@ class SignatureGeneratorOEBasicHashMixIn(object):
-             newsafedeps.append(a1 + "->" + a2)
-         self.saferecipedeps = newsafedeps
++Tested by running through my loading scripts and verifying ubiformat returned
++0.
++
++Upstream-Status: Backport [2.1.2]
++
++Signed-off-by: Barry Grussling <barry@grussling.com>
++Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++---
++ ubi-utils/ubiformat.c | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/ubi-utils/ubiformat.c b/ubi-utils/ubiformat.c
++index a90627c..5377b12 100644
++--- a/ubi-utils/ubiformat.c
+++++ b/ubi-utils/ubiformat.c
++@@ -550,6 +550,7 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
++ 	struct ubi_vtbl_record *vtbl;
++ 	int eb1 = -1, eb2 = -1;
++ 	long long ec1 = -1, ec2 = -1;
+++	int ret = -1;
++ 
++ 	write_size = UBI_EC_HDR_SIZE + mtd->subpage_size - 1;
++ 	write_size /= mtd->subpage_size;
++@@ -643,8 +644,10 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
++ 	if (!args.quiet && !args.verbose)
++ 		printf("\n");
++ 
++-	if (novtbl)
+++	if (novtbl) {
+++		ret = 0;
++ 		goto out_free;
+++	}
++ 
++ 	if (eb1 == -1 || eb2 == -1) {
++ 		errmsg("no eraseblocks for volume table");
++@@ -669,7 +672,7 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
++ 
++ out_free:
++ 	free(hdr);
++-	return -1;
+++	return ret;
++ }
++ 
++ int main(int argc, char * const argv[])
++-- 
++2.27.0
++
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 810fe40f4e..a13240d61c 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -15,6 +15,7 @@ PV = "2.1.1"
+ SRCREV = "4443221ce9b88440cd9f5bb78e6fe95621d36c8a"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
++           file://mtd-utils-Fix-return-value-of-ubiformat.patch \
+ "
  
--    def rundep_check(self, fn, recipename, task, dep, depname, dataCache = None):
--        return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCache)
-+    def rundep_check(self, fn, recipename, task, dep, depname, dataCaches = None):
-+        return sstate_rundepfilter(self, fn, recipename, task, dep, depname, dataCaches)
- 
-     def get_taskdata(self):
-         return (self.lockedpnmap, self.lockedhashfn, self.lockedhashes) + super().get_taskdata()
-@@ -142,41 +147,41 @@ class SignatureGeneratorOEBasicHashMixIn(object):
-         self.dump_lockedsigs(sigfile)
-         return super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigs(dataCache, options)
- 
--    def prep_taskhash(self, tid, deps, dataCache):
--        super().prep_taskhash(tid, deps, dataCache)
-+    def prep_taskhash(self, tid, deps, dataCaches):
-+        super().prep_taskhash(tid, deps, dataCaches)
-         if hasattr(self, "extramethod"):
--            (_, _, _, fn) = bb.runqueue.split_tid_mcfn(tid)
--            inherits = " ".join(dataCache.inherits[fn])    
-+            (mc, _, _, fn) = bb.runqueue.split_tid_mcfn(tid)
-+            inherits = " ".join(dataCaches[mc].inherits[fn])
-             if inherits.find("/native.bbclass") != -1 or inherits.find("/cross.bbclass") != -1:
-                 self.extramethod[tid] = ":" + self.buildarch
- 
--    def get_taskhash(self, tid, deps, dataCache):
-+    def get_taskhash(self, tid, deps, dataCaches):
-         if tid in self.lockedhashes:
-             if self.lockedhashes[tid]:
-                 return self.lockedhashes[tid]
-             else:
--                return super().get_taskhash(tid, deps, dataCache)
-+                return super().get_taskhash(tid, deps, dataCaches)
- 
--        # get_taskhash will call get_unihash internally in the parent class, we 
-+        # get_taskhash will call get_unihash internally in the parent class, we
-         # need to disable our filter of it whilst this runs else
-         # incorrect hashes can be calculated.
-         self._internal = True
--        h = super().get_taskhash(tid, deps, dataCache)
-+        h = super().get_taskhash(tid, deps, dataCaches)
-         self._internal = False
- 
-         (mc, _, task, fn) = bb.runqueue.split_tid_mcfn(tid)
- 
--        recipename = dataCache.pkg_fn[fn]
-+        recipename = dataCaches[mc].pkg_fn[fn]
-         self.lockedpnmap[fn] = recipename
--        self.lockedhashfn[fn] = dataCache.hashfn[fn]
-+        self.lockedhashfn[fn] = dataCaches[mc].hashfn[fn]
- 
-         unlocked = False
-         if recipename in self.unlockedrecipes:
-             unlocked = True
-         else:
-             def recipename_from_dep(dep):
--                fn = bb.runqueue.fn_from_tid(dep)
--                return dataCache.pkg_fn[fn]
-+                (depmc, _, _, depfn) = bb.runqueue.split_tid_mcfn(dep)
-+                return dataCaches[depmc].pkg_fn[depfn]
- 
-             # If any unlocked recipe is in the direct dependencies then the
-             # current recipe should be unlocked as well.
+ S = "${WORKDIR}/git/"
 -- 
-2.26.2
+2.27.0
 
