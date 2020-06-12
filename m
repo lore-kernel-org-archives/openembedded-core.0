@@ -1,76 +1,83 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web12.1669.1591998620944768623
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+ by mx.groups.io with SMTP id smtpd.web12.401.1592007983968044231
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 14:50:21 -0700
+ Fri, 12 Jun 2020 17:26:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=l5wh2voy;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: jpewhacker@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id ne5so4167821pjb.5
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 14:50:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TVgpbzCH;
+ spf=pass (domain: gmail.com, ip: 209.85.216.65, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f65.google.com with SMTP id ga6so4313025pjb.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 17:26:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rSYrEV5Iqm8a0GkJD00Msp4qkAmA6d1QdwwhHSKa9GM=;
-        b=l5wh2voyXgtjVNSXX9Utqv0MunwxcuaASleCyFXxeSeEksLqzj5tbsLuh9TqbUbaws
-         Ny5b0ZOsf9Qdpzikcmp2dEdFBwGpkPyxmamMbl72ZdocY1UQI/ID0YwmiknmKi4ARfUW
-         5MESNBgjc8pp6YAMULulFqLUSFA6fe/+T3WOGJpV+0DqGT399xOj+9+gXEHYdTGnZcyF
-         pUwhrUaYhIMTysqGsACsZLRdSUSpaQLSiuCazQjR12siOAPuMUr7WMHLlZEa+ZTD3Px7
-         UO66An+eGeD2ca08e8xpDa7LEsI8cRCRRZP03u8f2SyGQ4AI45mfBOjFBUl43+Ow3TmK
-         BKWA==
+        h=from:to:cc:subject:date:message-id:organization:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=qVClWFr9rt58BxoN2C31BVFn0ZHG10Qt/b5BxwzH/rU=;
+        b=TVgpbzCHzfETEYsmK+45wp5U033ASElgNsemV7x86cwmOUX/D86MEmK8Uf/abp25pe
+         WDfC0f1cPtsZVqGVU4DW0dro6dEpIpdySaK9WSTMlR4sHC7WRZ0vofqm2zNwNturi+TO
+         MzqNihaB23JhmLdZ5FAEq08Fjzp0R6f+QgGWVF0BgBrKPZyGmZTi/PSCb9xB1LNvvlSm
+         v9c6ficj9speaSP+XnAdfgZubQBLyIMBzI1/1nPCz7an+Sv6l7+q3eoEJLwmEYiKCIWf
+         iWBIJx7u6WF11YAEFdnRqGQCLtDuh/0QyW06d6ApdioMdWgYO5KxlzVesCuSWchqRFse
+         7s2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=rSYrEV5Iqm8a0GkJD00Msp4qkAmA6d1QdwwhHSKa9GM=;
-        b=NXhA5a6EsxCCd2vK7AIYxmpGgFOD/vCWHRHaMvKZBcJ2iaj4ylpG5L0STmpkDIUCYI
-         xHXb4jYB9csb6U9b/st2ClJ6ZJRvRRmaza6PbktnzMx3S3sjOoTIMWh12j9KDeUK2BBE
-         2pkZkSh/Gs7tqjlZ6lYq567asAqPNHyWaTvNPRJImlptLRi1157VnQJLY67sL3AA2LRQ
-         s2FqVgT47TONGyu1U1ZgciApGqBprcZoDjqsRT+0Bjsi1f9kQu4L3ZciXDQPz9VPjHkE
-         gIjGFsqom/Mm/COvCkbt9nIW2m1/MwrMX2liLAUNj/wYNQ6m/X9h52GAnDEA4RaeHUch
-         xZyg==
-X-Gm-Message-State: AOAM532qIZg6b4qrEqXRxlEx+RV0JmOrb2sg8rjW8EOhdx+4+5vhewo/
-	hG3Cu6sIN+yz9L8MYOOm4dcQ0KVV
-X-Google-Smtp-Source: ABdhPJyPpb3hA02mps9C6w0MaJHaUajZj3zcx+bH+F6dG7UDxnwdo4pHW03JqS1MNe8ddauyDNc58Q==
-X-Received: by 2002:a17:90a:d784:: with SMTP id z4mr948425pju.30.1591998620243;
-        Fri, 12 Jun 2020 14:50:20 -0700 (PDT)
-Return-Path: <jpewhacker@gmail.com>
-Received: from localhost.localdomain ([2605:a601:ac3d:c100:35f5:8651:479a:b9eb])
-        by smtp.gmail.com with ESMTPSA id h17sm5921686pgv.41.2020.06.12.14.50.19
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:organization
+         :in-reply-to:references:mime-version:content-transfer-encoding;
+        bh=qVClWFr9rt58BxoN2C31BVFn0ZHG10Qt/b5BxwzH/rU=;
+        b=uJeSVqej+B+sgNrjK4rfFOA4codlwW9FkbUO74Jh4xgE/CzwBv3cPnV9A55MbWyaLh
+         MqvlOfBVhg1pQ3A59CCaiA0A2DzqRDjfItD5RgHDZlqMHD8hGVQ01CirtWhKSB5o7LDR
+         AlLpn2J1QXtK2XLoLwBnrgGvm+Tj7OLROeguMi7ja6IMTdDHswpz1Z68Z0WJ2RSURJK5
+         2ux67sY3k5sj2gKcGXjdH/8a1jsvy0qKE0fjho64yu6UINrmVatPBB84dZ2QPJgRZsgP
+         KEdgHKYGSbnXOs+m6cp1K3FpLe4Tv7Bve/sXZw8sxprNVJJwG+dJ2vgDTUazMjfDaFFM
+         t5EA==
+X-Gm-Message-State: AOAM533AG1LIejMfX/7oKYmYVX4qkELhXKfnxQvsXh0klaallFUXizwv
+	p11AYinkbkyr2eSozeGpaipUBMwazjw=
+X-Google-Smtp-Source: ABdhPJyzdO3rJZnpUErznA/BJGVvJx25uxmHndljG4o0XrVBjuwHjUspBBvhC8zjE/2m9XhSoGdUYg==
+X-Received: by 2002:a17:902:70c3:: with SMTP id l3mr12429777plt.276.1592007983061;
+        Fri, 12 Jun 2020 17:26:23 -0700 (PDT)
+Return-Path: <raj.khem@gmail.com>
+Received: from tyche.localnet ([2601:646:9200:4e0::96b0])
+        by smtp.gmail.com with ESMTPSA id y23sm6245322pgc.78.2020.06.12.17.26.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2020 14:50:19 -0700 (PDT)
-From: "Joshua Watt" <JPEWhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] wic: Fix error message when reporting invalid offset
-Date: Fri, 12 Jun 2020 16:50:16 -0500
-Message-Id: <20200612215016.24496-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        Fri, 12 Jun 2020 17:26:22 -0700 (PDT)
+From: "Khem Raj" <raj.khem@gmail.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>, Otavio Salvador <otavio.salvador@gmail.com>
+Subject: Re: [OE-core] [PATCH] util-linux: Split out zramctl in a specific package
+Date: Fri, 12 Jun 2020 16:56:50 -0700
+Message-ID: <3337028.jk9WjbSPrm@tyche>
+Organization: HIMVIS
+In-Reply-To: <20200612204531.1119475-1-otavio@ossystems.com.br>
+References: <20200612204531.1119475-1-otavio@ossystems.com.br>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The error message was reporting the calculated offset instead of the
-current offset, which made it confusing.
+On Friday, June 12, 2020 1:45:30 PM PDT Otavio Salvador wrote:
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+> 
+>  meta/recipes-core/util-linux/util-linux.inc | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc
+> b/meta/recipes-core/util-linux/util-linux.inc index 532cceb935..e3ef558d7e
+> 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -270,6 +270,7 @@ ALTERNATIVE_LINK_NAME[umount] = "${base_bindir}/umount"
+>  ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
+>  ALTERNATIVE_LINK_NAME[utmpdump] = "${bindir}/utmpdump"
+>  ALTERNATIVE_LINK_NAME[wall] = "${bindir}/wall"
+> +ALTERNATIVE_LINK_NAME[zramctl] = "${sbindir}/zramctl"
+> 
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- scripts/lib/wic/plugins/imager/direct.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+is this sufficient to create it into an independent package ? or do we need to 
+add it to PACKAGES too ?
 
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plugins/imager/direct.py
-index 1f65a7afe5..2f01999405 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -436,7 +436,7 @@ class PartitionedImage():
- 
-                 delta = offset - self.offset
-                 if delta < 0:
--                    raise WicError("Could not place %s%s at offset %dK: next free sector is %d (delta: %d)" % (part.disk, self.numpart, part.offset, offset, delta))
-+                    raise WicError("Could not place %s%s at offset %dK: next free sector is %d (delta: %d)" % (part.disk, self.numpart, part.offset, self.offset, delta))
- 
-                 logger.debug("Skipping %d sectors to place %s%s at offset %dK",
-                              delta, part.disk, self.numpart, part.offset)
--- 
-2.26.2
+>  ALTERNATIVE_${PN}-doc = "\
+>  blkid.8 eject.1 findfs.8 fsck.8 kill.1 last.1 lastb.1 libblkid.3 logger.1
+> mesg.1 \
+
+
+
 
