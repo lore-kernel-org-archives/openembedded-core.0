@@ -1,99 +1,145 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web10.1367.1591997920369993737
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
+ by mx.groups.io with SMTP id smtpd.web10.1419.1591998096314678978
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 14:38:40 -0700
+ Fri, 12 Jun 2020 14:41:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems-com-br.20150623.gappssmtp.com header.s=20150623 header.b=vQ+MO4HT;
- spf=pass (domain: ossystems.com.br, ip: 209.85.222.196, mailfrom: otavio.salvador@ossystems.com.br)
-Received: by mail-qk1-f196.google.com with SMTP id v79so10429039qkb.10
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 14:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-        h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=85QvoJz+ZVLqCcU1AfuioAZYd+wpQUtTzydZazHUIgk=;
-        b=vQ+MO4HT4UKbUg4+PFgEi8mQoQaCLoatvtJg/OaudTJlhB/USY57D85ekFwCORq60z
-         f2aHaV1VkKF+BdZvKNpwoWnKIAiZ4kK8PRnF1SxA3kbm4MnK3zDJqZtHbkjEloXafsXU
-         yzgd5VfTRGHEXbTjBHWNUWYEfCdC3WiQa8rXfwGzj/8+Pyx1qCE1VIplCS9DoOSNiWZt
-         Olb5nCPp5SnoBjZE8dTpJ/aYTgSAFlNvyABOG51bwXBrJCdQYcoYQacmBfvYVCjvSxUG
-         D29DOEVPhXFL8vv86PY6uBu3Vg+IvlvEEVWB3vK/Z8z56mWVCkc6GcFIBCDwS+W2RTvM
-         yDFg==
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.160.193, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qt1-f193.google.com with SMTP id w90so8278285qtd.8
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 14:41:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=85QvoJz+ZVLqCcU1AfuioAZYd+wpQUtTzydZazHUIgk=;
-        b=FlvGDxHnPlefZ+XvAMjXP/qxCLxGysT4NliCYKAHTBcqpTaDtw8szPXnOR1E06VQ2P
-         2gEHSqypqlZvm9VrMDnL5altpB240tznJTMeuVKZPK2YyZzDaHyXV9MUVx1SM7a9M35B
-         Vomm74P9e2pd/O7E2gHjYuvCWlsSgeu3rnQb8DHTAuTLa1NI2v8Y8pKPYwpRI5Fkmpl6
-         0hytTtWK4UTetek6AJDsBkjwehORTrkgtC5QYKJbL+XzPlrwOhShH7QDnvWfGb3ZvQJI
-         IeYRIAEY7IAuWgbNZanQkIiRziEywg0FwTXbtojLhJ099lwwRnqJ98cCYLXgqkuMEeQs
-         xzFQ==
-X-Gm-Message-State: AOAM5330xQ6zv/9Jgb97cburICwljNbLF98gHNc8gj4x8wRNk6Ne+9sg
-	bU7utLed0wqQFQLz7JjH+HDwqcAlpjqXlA==
-X-Google-Smtp-Source: ABdhPJzAC3b83JM186K7NRuvahU3awDUQuM/sZi1O0C2Yoa3X46U3vajA+RB5C+lnSP6PZ60QO0QkA==
-X-Received: by 2002:a37:9d92:: with SMTP id g140mr5101817qke.59.1591997919199;
-        Fri, 12 Jun 2020 14:38:39 -0700 (PDT)
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com. [209.85.222.173])
-        by smtp.gmail.com with ESMTPSA id u14sm940403qkj.18.2020.06.12.14.38.38
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jun 2020 14:38:38 -0700 (PDT)
-From: "Otavio Salvador" <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qk1-f173.google.com with SMTP id g28so10477866qkl.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 14:38:38 -0700 (PDT)
-X-Received: by 2002:a37:5d6:: with SMTP id 205mr4916572qkf.46.1591997918020;
- Fri, 12 Jun 2020 14:38:38 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :organization:content-transfer-encoding;
+        bh=9c1Rgw+sA1b5BTy+LSRvcdYraPE2P3MyqOUQLAjuR8w=;
+        b=GyNGjQdwDn90Ch1D+EjUecsLc7YHwQOlRkjRmiZAeR9TwdEuj8Sd9pP/wAlWtTuXO+
+         QkD4oRZzGQHxo8wtQKrt//MQirn0QB31ztSeB297+Ls5n+N3LsDk7RONl5eLzXy70IEk
+         epiHVHqnrFdoUpoSCqr1DLUSq11/Jq9QjbaAMPudHpDSk9Cb3/bMNEYcSBf0qk8E+z4z
+         Qkl1sX50OdIJYRPAOL8gQtHa1xYg7Qwxf09UtcEHpUNgDaQDbsewZNNAQLgKmX+a6xDl
+         B0WPVNEd35SSHa6TDKU6bqM12uk72q8qzJ6UfEJz3ztNmVjlC5mq1m/h/+faMupmLWUm
+         BNsw==
+X-Gm-Message-State: AOAM533EO2jDjBTnjkqZO+zLJCd94/VmFKa4/KOqiUSeuIpgHbY5zy5j
+	CbsVmaqh/S/wdgPLQ2lIuug3WJ4513BRmA==
+X-Google-Smtp-Source: ABdhPJyvKSoUYqpgVq6h3b0JVCIUO8blafwxwOerZRS6sXhViVOh++tHvVjfpEV99h3ULaYQKkqsnA==
+X-Received: by 2002:ac8:192c:: with SMTP id t41mr4903438qtj.32.1591998095150;
+        Fri, 12 Jun 2020 14:41:35 -0700 (PDT)
+Return-Path: <otavio.salvador@gmail.com>
+Received: from localhost ([181.220.84.90])
+        by smtp.gmail.com with ESMTPSA id 124sm4822038qkn.45.2020.06.12.14.41.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Jun 2020 14:41:34 -0700 (PDT)
+From: "Otavio Salvador" <otavio.salvador@gmail.com>
+To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: [PATCH v2] mtd-utils: Fix return value of ubiformat
+Date: Fri, 12 Jun 2020 18:41:24 -0300
+Message-Id: <20200612214124.1163233-1-otavio@ossystems.com.br>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20200612180809.107139-1-otavio@ossystems.com.br> <20200612212556.GT17660@denix.org>
-In-Reply-To: <20200612212556.GT17660@denix.org>
-Date: Fri, 12 Jun 2020 18:38:26 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKoa4LLNv0GQJ=fKNebGpe2uu_-gmNKQZWZxKUeZK5z_tg@mail.gmail.com>
-Message-ID: <CAP9ODKoa4LLNv0GQJ=fKNebGpe2uu_-gmNKQZWZxKUeZK5z_tg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] mtd-utils: Fix return value of ubiformat
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, 
-	Otavio Salvador <otavio@ossystems.com.br>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Organization: O.S. Systems Software LTDA.
+Content-Transfer-Encoding: 8bit
 
-Em sex., 12 de jun. de 2020 =C3=A0s 18:25, Denys Dmytriyenko
-<denis@denix.org> escreveu:
->
-> On Fri, Jun 12, 2020 at 03:08:09PM -0300, Otavio Salvador wrote:
-> > This changeset fixes a feature regression in ubiformat.  Older versions
-> > of ubiformat, when invoked with a flash-image, would return 0 in the
-> > case no error was encountered.  Upon upgrading to latest, it was
-> > discovered that ubiformat returned 255 even without encountering an
-> > error condition.
-> >
-> > This changeset corrects the above issue and causes ubiformat, when give=
-n an
-> > image file, to return 0 when no errors are detected.
-> >
-> > Backport fix from 2.1.2
-> >
-> > Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
-> > ---
-> >
-> >  ...-utils-Fix-return-value-of-ubiformat.patch | 62 +++++++++++++++++++
-> >  meta/recipes-devtools/mtd/mtd-utils_git.bb    |  1 +
-> >  2 files changed, 63 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-mtd-utils-=
-Fix-return-value-of-ubiformat.patch
->
-> ^^^
-...
-> ^^^
-> Was it tested? The patch name doesn't seem to match the file name.
+This changeset fixes a feature regression in ubiformat.  Older versions
+of ubiformat, when invoked with a flash-image, would return 0 in the
+case no error was encountered.  Upon upgrading to latest, it was
+discovered that ubiformat returned 255 even without encountering an
+error condition.
 
-It was, but I sent it before the git commit --amend. Sorry.
+This changeset corrects the above issue and causes ubiformat, when given an
+image file, to return 0 when no errors are detected.
 
-Will send the v2.
+Backport fix from 2.1.2
 
---=20
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+---
+
+Changes in v2:
+- fix patch file name.
+
+ ...-utils-Fix-return-value-of-ubiformat.patch | 62 +++++++++++++++++++
+ meta/recipes-devtools/mtd/mtd-utils_git.bb    |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-devtools/mtd/mtd-utils/mtd-utils-Fix-return-value-of-ubiformat.patch
+
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-Fix-return-value-of-ubiformat.patch b/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-Fix-return-value-of-ubiformat.patch
+new file mode 100644
+index 0000000000..d43f7e1a7a
+--- /dev/null
++++ b/meta/recipes-devtools/mtd/mtd-utils/mtd-utils-Fix-return-value-of-ubiformat.patch
+@@ -0,0 +1,62 @@
++From 4d19bffcfd66e25d3ee74536ae2d2da7ad52e8e2 Mon Sep 17 00:00:00 2001
++From: Barry Grussling <barry@grussling.com>
++Date: Sun, 12 Jan 2020 12:33:32 -0800
++Subject: [PATCH] mtd-utils: Fix return value of ubiformat
++Organization: O.S. Systems Software LTDA.
++
++This changeset fixes a feature regression in ubiformat.  Older versions of
++ubiformat, when invoked with a flash-image, would return 0 in the case no error
++was encountered.  Upon upgrading to latest, it was discovered that ubiformat
++returned 255 even without encountering an error condition.
++
++This changeset corrects the above issue and causes ubiformat, when given an
++image file, to return 0 when no errors are detected.
++
++Tested by running through my loading scripts and verifying ubiformat returned
++0.
++
++Upstream-Status: Backport [2.1.2]
++
++Signed-off-by: Barry Grussling <barry@grussling.com>
++Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
++Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++---
++ ubi-utils/ubiformat.c | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/ubi-utils/ubiformat.c b/ubi-utils/ubiformat.c
++index a90627c..5377b12 100644
++--- a/ubi-utils/ubiformat.c
+++++ b/ubi-utils/ubiformat.c
++@@ -550,6 +550,7 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
++ 	struct ubi_vtbl_record *vtbl;
++ 	int eb1 = -1, eb2 = -1;
++ 	long long ec1 = -1, ec2 = -1;
+++	int ret = -1;
++ 
++ 	write_size = UBI_EC_HDR_SIZE + mtd->subpage_size - 1;
++ 	write_size /= mtd->subpage_size;
++@@ -643,8 +644,10 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
++ 	if (!args.quiet && !args.verbose)
++ 		printf("\n");
++ 
++-	if (novtbl)
+++	if (novtbl) {
+++		ret = 0;
++ 		goto out_free;
+++	}
++ 
++ 	if (eb1 == -1 || eb2 == -1) {
++ 		errmsg("no eraseblocks for volume table");
++@@ -669,7 +672,7 @@ static int format(libmtd_t libmtd, const struct mtd_dev_info *mtd,
++ 
++ out_free:
++ 	free(hdr);
++-	return -1;
+++	return ret;
++ }
++ 
++ int main(int argc, char * const argv[])
++-- 
++2.27.0
++
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 810fe40f4e..a13240d61c 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -15,6 +15,7 @@ PV = "2.1.1"
+ SRCREV = "4443221ce9b88440cd9f5bb78e6fe95621d36c8a"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
++           file://mtd-utils-Fix-return-value-of-ubiformat.patch \
+ "
+ 
+ S = "${WORKDIR}/git/"
+-- 
+2.27.0
+
