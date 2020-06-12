@@ -1,40 +1,40 @@
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
- by mx.groups.io with SMTP id smtpd.web12.25448.1591983229676256109
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+ by mx.groups.io with SMTP id smtpd.web10.25380.1591983233622364823
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 10:33:49 -0700
+ Fri, 12 Jun 2020 10:33:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: otavio.salvador@gmail.com)
-Received: by mail-qk1-f195.google.com with SMTP id 205so9760870qkg.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 10:33:49 -0700 (PDT)
+ dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-qt1-f195.google.com with SMTP id g62so7730066qtd.5
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 10:33:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:organization:content-transfer-encoding;
-        bh=h6ri5p1p7Z96oIXcjL8kcGiOwAjPNcAm5wJdGPhKmhg=;
-        b=saUxcuVRX2dSlYR9q2ZEofWdRniH7M3vv4TE5Qy1aCkVhfFSz3I5qR0WIVZqN/SOfi
-         RhNA3GM9l/gLesqL66DEhgMQgersEyBvAJpuw2N83RsdCSOVui5R1tdj3Jp6qXx13/md
-         1U16VkAOxCy8qcgaipsCjiOAMnDV3Vg53TFPAaHqHx5pgCcjvkiuRjJ1fHT1dl0D39po
-         yNvSxFfSHpjdbL2+XHcs787qf72Ur5AwPrYvX1eHcsStSQ9tHd3VDMaeW63Gdia3Xrvz
-         lXUNUxqctUq/pjZC8xcOosm37W4Zh0xe+EwpqTNHnCehwMbQ3uEm/mSFQ8ZBJNT2/AR3
-         eDkA==
-X-Gm-Message-State: AOAM533OEvBoPLLI0m2qhz8FApHF4E48nNPaWnS23NWRGoZ4312flpyq
-	4N3mfX6uFc5i0Xdf3MyxoCXap5ZhkQg=
-X-Google-Smtp-Source: ABdhPJzkKQZfCfN7KksmFmvs1dgp+Ij/hiicvmAq1+Ic39pH6hZR8yG4MRd/Uwej3QobQGKcDfisJw==
-X-Received: by 2002:a37:845:: with SMTP id 66mr4097495qki.67.1591983228571;
-        Fri, 12 Jun 2020 10:33:48 -0700 (PDT)
+        bh=Tg4GHcfKQg+HwxKGL+WOaoxgwGy4hWt2jWExDTKIVRg=;
+        b=fu97PKbNpwgwwREnoj78esdoCsYOUOejqJWjUemyJruq3umNrSDcBL9YHdZK9OpHdP
+         9c2FsQTwzh7jdUh1uNIbWLueqOWSqY86uwCSDIQFydOsRntazpSq5mqH9rDe4GRXrx9o
+         I+DzRfax/AszmivC+YLs84sniK2y96GSzmeQfdBo79v+FYTsJ/oaz6D8BRp4S/ARHgZ2
+         IvtUHOI1bbsF38gCaeycfqYcbTly600qQYO0ExI5HrozlT+GdfMMMIz3HALwymrqtkcp
+         65gprhVpwc05uh6u3RupMwPH5E+ja/notmuNo585Ql+gV2LsedP+ryoPgItOOffv1V5G
+         VURg==
+X-Gm-Message-State: AOAM533wrUO+AYVsBr+C278A2SECxWhNjz02ReA05UaAmV7UEXaisTBX
+	8NSyjBGFScZ+DFbViznNnx5bgEAwL1k=
+X-Google-Smtp-Source: ABdhPJws+2N1MZkywRF1BTjpmJyhDip8UH2Lt9QSxf5abRFRV6MsD8bbqBqcKyQHst0pYz+JRH+ozw==
+X-Received: by 2002:ac8:1827:: with SMTP id q36mr4214735qtj.78.1591983232585;
+        Fri, 12 Jun 2020 10:33:52 -0700 (PDT)
 Return-Path: <otavio.salvador@gmail.com>
 Received: from localhost ([181.220.84.90])
-        by smtp.gmail.com with ESMTPSA id w10sm5481672qtc.15.2020.06.12.10.33.47
+        by smtp.gmail.com with ESMTPSA id 78sm4755085qkg.65.2020.06.12.10.33.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2020 10:33:47 -0700 (PDT)
+        Fri, 12 Jun 2020 10:33:51 -0700 (PDT)
 From: "Otavio Salvador" <otavio.salvador@gmail.com>
 To: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
 Cc: Otavio Salvador <otavio.salvador@gmail.com>,
 	Otavio Salvador <otavio@ossystems.com.br>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [dunfell-backport PATCH 7/9] go-dep: Avoid use of 'go mod' support
-Date: Fri, 12 Jun 2020 14:33:16 -0300
-Message-Id: <20200612173318.103232-7-otavio@ossystems.com.br>
+Subject: [dunfell-backport PATCH 8/9] go.bbclass: Add `-trimpath` to default build flags
+Date: Fri, 12 Jun 2020 14:33:17 -0300
+Message-Id: <20200612173318.103232-8-otavio@ossystems.com.br>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200612173318.103232-1-otavio@ossystems.com.br>
 References: <20200612173318.103232-1-otavio@ossystems.com.br>
@@ -44,31 +44,30 @@ Content-Transfer-Encoding: 8bit
 
 From: Otavio Salvador <otavio.salvador@gmail.com>
 
-dep utility must not use 'go mod' support, so we explicitly disable it.
+The `-trimpath` option is important for reproducible builds so full
+build paths and module paths are not embedded.
 
 Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b34000ae3dd6e0a1d7fc332efb35c5da84cf2275)
+(cherry picked from commit e3df027b3697b6a92b417bba8d442a5bd15525fd)
 ---
 
- meta/recipes-devtools/go/go-dep_0.5.4.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/go.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/go/go-dep_0.5.4.bb b/meta/recipes-devtools/go/go-dep_0.5.4.bb
-index 615cb289e5..496224a5cf 100644
---- a/meta/recipes-devtools/go/go-dep_0.5.4.bb
-+++ b/meta/recipes-devtools/go/go-dep_0.5.4.bb
-@@ -13,6 +13,10 @@ SRCREV = "1f7c19e5f52f49ffb9f956f64c010be14683468b"
- 
- inherit go
- 
-+# New Go versions has Go modules support enabled by default and cause the Glide
-+# tool build to fail.
-+export GO111MODULE = "off"
-+
- GO_INSTALL = "${GO_IMPORT}/cmd/dep"
- 
- RDEPENDS_${PN}-dev += "bash"
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index c99689ac59..a9e31b50ea 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -41,7 +41,7 @@ GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${GO_RPATH_LINK} ${LDFLAGS
+ GO_LINKMODE ?= ""
+ GO_LINKMODE_class-nativesdk = "--linkmode=external"
+ GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} -extldflags '${GO_EXTLDFLAGS}'"'
+-export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS}"
++export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS} -trimpath"
+ export GOPATH_OMIT_IN_ACTIONID ?= "1"
+ export GOPTESTBUILDFLAGS ?= "${GOBUILDFLAGS} -c"
+ export GOPTESTFLAGS ?= ""
 -- 
 2.27.0
 
