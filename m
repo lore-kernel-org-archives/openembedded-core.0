@@ -1,97 +1,66 @@
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
- by mx.groups.io with SMTP id smtpd.web10.344.1591994752320110998
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com [209.85.166.193])
+ by mx.groups.io with SMTP id smtpd.web10.727.1591995769092754005
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 13:45:52 -0700
+ Fri, 12 Jun 2020 14:02:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@e-labworks-com.20150623.gappssmtp.com header.s=20150623 header.b=zOJDiQN+;
- spf=none, err=SPF record not found (domain: e-labworks.com, ip: 209.85.128.66, mailfrom: sergio.prado@e-labworks.com)
-Received: by mail-wm1-f66.google.com with SMTP id r9so9077676wmh.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 13:45:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ubx/91pS;
+ spf=pass (domain: gmail.com, ip: 209.85.166.193, mailfrom: schnitzeltony@gmail.com)
+Received: by mail-il1-f193.google.com with SMTP id t8so10033694ilm.7
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 14:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=e-labworks-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id;
-        bh=6apk4jgKDQoLbR12tw5sYtHUICczTL6knrz0uNt//Yc=;
-        b=zOJDiQN+lYv2bSgZhQXb3+9m/8tE3xW6N7KBGzCXNYkb7oCluUl9wwNKDfZXhKn5UJ
-         6OxpeF0d/pE3MWODAsb47e5jzfx8S/sMUrib9REn0TgwrQJmPyOipZPCsGlLflE0zQZR
-         08RpJnFATm6y3GOA9PK78yfmPd1tQVl6wU3Zv2UHcvBsqzjMonJYPi0GPTb+K1qYvfRK
-         aHV3HI/QOshy0MTOjmireZGpODRefL+PTXarUmAF7YiANB+OAVAHf64pX27Qz9ThdeEC
-         CrZjGJ+EidDFE+2nBvo5iJ1lH4+ClurzVAA3mMfc4MGHWmRLinuaJfZ8EGZDIutzgGNj
-         E7tQ==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=IlSzWI5eXz+IcKEmIvyk7rsrLlxxFmdTBAE6RdATEkU=;
+        b=ubx/91pSKaPWJhwR2zzuXsl1QxiNwuiZ1Or1P+7xIB23InvPhEX1CPxN55Jm/k6HOL
+         IWHwjceztZKfp65H69KNMegcV2YIcVm/Q4JT3arXB/BXANrMhOouTVUbJ+O83xWPOBgD
+         7Tbdh5hcNDmiWc7QpfkD4jZ2p7fNEdnufY1SUBAbuGb8bESP0ivfb08aVJCzaW43nMOX
+         PQgvD+5EEE/pRjR4O2IUv5lg6kuSisCfPJGb+diZ+0bMau2ZpGSNLu+L3E1Eo+4G/Eyf
+         chMv/j6O9dsBAN7vqrn8goQNmVWBdYCgabAzkvGwHPfvCfLF0wLn071q2CJwE49KqjYy
+         DsHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=6apk4jgKDQoLbR12tw5sYtHUICczTL6knrz0uNt//Yc=;
-        b=MxlvCwpUjPhzCUo679XM8DYsNchfajJFn8/yQQeYUkKBn6JxJdzeWwfxvMX+DFoRyg
-         u6s52IRlFjXLMOJdeFcOkpYEbFTnvh3ea51JVSHnNQ17E+lRLUuRulb4AnsyAuDS0/jn
-         9YiOOzwLnO145pORcESm1qJGQOVuSCVMRONxtGsDsy6NygysawSK3Cay7t3hTch/Ie6S
-         HQYIzMyYWcICQXaIn97EL541X6dDGnqUu45VyizRipWQgIPfhIBk+lev2ZeoMg2D/Ue0
-         MfeRsTxaxKcx1vnNmwre1yO1elurYrMin0ldYBPUj2CPApEbN2Edz/JM5mzGpIgRsJE2
-         9SBA==
-X-Gm-Message-State: AOAM532VRF1ppmogKfLXQbNPew9QOyovjVaG3mF5Sw9V6pCUfk6SaOMh
-	FNx+4F41RhHgZy9MUgZVb5bMMG3qjnM=
-X-Google-Smtp-Source: ABdhPJy9ncZKuk/8Km/jheSS2MVBNeBcsOFeBiO6PUYy3RVJmOC1pGAqyxQbNLa30fwpWuKt5sBdiw==
-X-Received: by 2002:a1c:9dc7:: with SMTP id g190mr728575wme.129.1591994750496;
-        Fri, 12 Jun 2020 13:45:50 -0700 (PDT)
-Return-Path: <sergio.prado@e-labworks.com>
-Received: from localhost.localdomain ([189.62.45.221])
-        by smtp.gmail.com with ESMTPSA id n23sm10065335wmc.0.2020.06.12.13.45.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Jun 2020 13:45:49 -0700 (PDT)
-From: "Sergio Prado" <sergio.prado@e-labworks.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Sergio Prado <sergio.prado@e-labworks.com>
-Subject: [PATCH] zlib: build and package minigzip
-Date: Fri, 12 Jun 2020 17:45:20 -0300
-Message-Id: <20200612204520.7818-1-sergio.prado@e-labworks.com>
-X-Mailer: git-send-email 2.17.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=IlSzWI5eXz+IcKEmIvyk7rsrLlxxFmdTBAE6RdATEkU=;
+        b=gMy3d49g8W8V7G7Z43pvq9eazgG/7Igrr0LX/Ah4tHGr1hnBUcXElnRUogZG0d2oNd
+         k/Qbe4xJImBkixex71M5+Efu0+QfA3N+nJf0hUh4LJZYOBzs4JxFmLzsUbwbXjUqglvH
+         v0zJ6LFy2wXwiZ4NGwSUsX6GZ4Yhq5bRG0/smeygXzoD57HeX9KpRh8A4BJ0abxEaso3
+         Coy14J7S1JdkyZW2f1Bo92AKCJLZgc9fK6ElQJTl33MqSWIt1DRbYRUlaSlPyrH7/l5l
+         HWmCDd3xz2OCjgkn/UUEa6O4V+QoTaYKWkY7X+WYJcflgi7hAWApt1dO5w6FH/jhARBD
+         6lcQ==
+X-Gm-Message-State: AOAM533PKEQQw6Le06d8/TZpbRWUm4S6KZwfqHeXn44iksL0SceMyBIj
+	l2yHIQma7KHxMZoVzpW7ad3W4DPuSUpD+dQhTRE=
+X-Google-Smtp-Source: ABdhPJzZzqIqWuUYFn+altfKiKKRunL74Q+uO76JxyXr+Advk3SxTpfPrEOX9t/yVCJoYAKrS0Qezhad8qb0HYL4PHA=
+X-Received: by 2002:a92:cf48:: with SMTP id c8mr14462534ilr.147.1591995768479;
+ Fri, 12 Jun 2020 14:02:48 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200612173318.103232-1-otavio@ossystems.com.br> <20200612173318.103232-3-otavio@ossystems.com.br>
+In-Reply-To: <20200612173318.103232-3-otavio@ossystems.com.br>
+From: =?UTF-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>
+Date: Fri, 12 Jun 2020 23:02:36 +0200
+Message-ID: <CALbNGRTG5xccaQBOLevgtjDvF3cz1gBEx+tLU-8nH0AnmwNazA@mail.gmail.com>
+Subject: Re: [OE-core] [dunfell-backport PATCH 3/9] libtirpc: upgrade 1.2.5 -> 1.2.6
+To: Otavio Salvador <otavio.salvador@gmail.com>
+Cc: OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>, 
+	zhengruoqin <zhengrq.fnst@cn.fujitsu.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	Otavio Salvador <otavio@ossystems.com.br>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-minigzip is a minimal implementation of the gzip utility that simulates
-gzip using the zlib compression library.
+On Fri, Jun 12, 2020 at 7:33 PM Otavio Salvador
+<otavio.salvador@gmail.com> wrote:
+>
+> From: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
+>
+> 0001-xdr_float-do-not-include-bits-endian.h.patch
+> removed since it is included in 1.2.6
+>
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit c940792e1492923036cae97010f9945e7ad43a32)
+> Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+For me this fixes native build on hosts with gcc10
 
-Having a package with minigzip could be useful in some cases.
-
-Signed-off-by: Sergio Prado <sergio.prado@e-labworks.com>
----
- meta/recipes-core/zlib/zlib_1.2.11.bb | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/zlib/zlib_1.2.11.bb b/meta/recipes-core/zlib/zlib_1.2.11.bb
-index ef9431ae475c..3ecb90de2b5f 100644
---- a/meta/recipes-core/zlib/zlib_1.2.11.bb
-+++ b/meta/recipes-core/zlib/zlib_1.2.11.bb
-@@ -19,6 +19,14 @@ CFLAGS += "-D_REENTRANT"
- 
- RDEPENDS_${PN}-ptest += "make"
- 
-+PACKAGES =+ "${PN}-minigzip"
-+
-+FILES_${PN}-minigzip += "\
-+                         ${sbindir}/minigzip \
-+                         ${sbindir}/minigzipsh \
-+                         ${sbindir}/minigzip64 \
-+                         "
-+
- inherit ptest
- 
- do_configure() {
-@@ -26,11 +34,16 @@ do_configure() {
- }
- 
- do_compile() {
--	oe_runmake shared
-+	oe_runmake shared minigzip minigzip64
- }
- 
- do_install() {
- 	oe_runmake DESTDIR=${D} install
-+
-+	install -d ${D}${sbindir}
-+	install -m 0755 ${B}/minigzip ${D}${sbindir}
-+	install -m 0755 ${B}/minigzipsh ${D}${sbindir}
-+	install -m 0755 ${B}/minigzip64 ${D}${sbindir}
- }
- 
- do_install_ptest() {
--- 
-2.17.1
-
+Acked-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
