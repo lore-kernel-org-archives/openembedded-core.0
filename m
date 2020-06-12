@@ -1,93 +1,98 @@
-Received: from koncepto.io (koncepto.io [195.154.119.111])
- by mx.groups.io with SMTP id smtpd.web11.18081.1591961444819943682
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+ by mx.groups.io with SMTP id smtpd.web12.18990.1591965714855793040
  for <openembedded-core@lists.openembedded.org>;
- Fri, 12 Jun 2020 04:30:50 -0700
+ Fri, 12 Jun 2020 05:41:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@koncepto.io header.s=default header.b=BEMbEXSz;
- spf=pass (domain: koncepto.io, ip: 195.154.119.111, mailfrom: pjtexier@koncepto.io)
-Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr [193.250.66.88])
-	by koncepto.io (Postfix) with ESMTPSA id 7680760222;
-	Fri, 12 Jun 2020 13:30:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
-	s=default; t=1591961441;
-	bh=0Ox53NwyG9pg1L/LsGMk/GP+bi53mXcl8esystwGYOU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=BEMbEXSzTU+HrGeDNR/RY1CIzNakFYd5OfufDNz05rJ4jLe5Oox/E5cBUqE+1ETks
-	 wr0kghPfyIBb0yBE53ei7/gFx+bDEA5q+oUZ7ZQKwkI/7IpsTJDut/jTWQf4pwWcVf
-	 QtltqGg3dMuV0eJYowapljx6suI+6ZxTdkCclPKI4h50XoaEvrWci2KkMRiT3/uPvK
-	 9bS8pPkNgRM7cItWzzJ55hi+7Q5bibDLIECGOpedkhCjAcuaR3J7Z7mymqluGxh2/X
-	 xSw99b2NgY6m/myg15iDqMvlWebTZuLOE+8VNdH6ISh9ZNUwNED65lBGilSDHlclhy
-	 zYHlroBkCd3mg==
-From: "Pierre-Jean Texier" <pjtexier@koncepto.io>
-To: openembedded-core@lists.openembedded.org
-Cc: Pierre-Jean Texier <pjtexier@koncepto.io>
-Subject: [PATCH] diffoscope: upgrade 146 -> 147
-Date: Fri, 12 Jun 2020 13:30:35 +0200
-Message-Id: <1591961435-14197-1-git-send-email-pjtexier@koncepto.io>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@burtonini-com.20150623.gappssmtp.com header.s=20150623 header.b=b2FZFWar;
+ spf=pass (domain: burtonini.com, ip: 209.85.208.194, mailfrom: ross@burtonini.com)
+Received: by mail-lj1-f194.google.com with SMTP id a9so10912144ljn.6
+        for <openembedded-core@lists.openembedded.org>; Fri, 12 Jun 2020 05:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=burtonini-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=5rZqc3WCJQf7WxGZUSSNL3A4BCZg148VOo6P+T8BloY=;
+        b=b2FZFWar2d+1p8jDKlkgyBK2Q3ZuC93mnsr/FmfLjFBbt/0+v+gVUFsrgWfBK0gIHy
+         7yHVVfaiygHXURVq+n+tpWpAEXGtMB7Al539wLPaD8qCS3rGhma38RfJkdCpKPEen1jw
+         SWSSMUmxplL8Ab6ibJf+qSLR/emPstmQ9bfBrSC8lY8hQ0+lzfuiLir7SA241boAN2kv
+         5tUUYxBZ/PScImmAGTS4qx6Y8Y0pus4X+GNQ5uPPWJFRbrNmpvafSyUgU6JAIAzLy7pm
+         NPH08+tzggGZGOHo1GWibXM5Uz8jkT46BrBoaRKv/5fbGuB//0f2iwHAXzUmtK9VV6A+
+         XzHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=5rZqc3WCJQf7WxGZUSSNL3A4BCZg148VOo6P+T8BloY=;
+        b=Ia5c27KFhKUN0u779JtXrDY1kAlxzbtIJE1IPJz1EbpB2ZGgd0Ngjw4H/jKpwBG+tS
+         wR3SMyRX851ws31x9N/cP74Bu8lJmfUzVOCMVeVOFNKmqgcxn1wjlUPJsmJ7WBveM3DS
+         YptQQfgIRhSdT5Pyny1iSqp8LnsrBQzV2dIqFyL/+qWNcg9YRkqH6n2mTx4Ji0Bs6NME
+         +n0XHiJYyINovY+ZDEyA6wvwokjYH7MEuuA62eHJez/z9oym1xhAvjmIKGk8ybieMmlf
+         RJNPk1aiyj7GJja66aODCvy1vIUGToEZuJlZTyZtE1rjL4lE0t+FqajgPqLXCedc1JpS
+         /djQ==
+X-Gm-Message-State: AOAM530RFXLb+IoPxQGx/eiE9uyeV8jcAX/LBxxCHZB2Df3cuR9ujIRo
+	W6UW244+YyBHaU0HmQshYpUhtqZ/WUwn1zw62j3y1/9CR6jZ1g==
+X-Google-Smtp-Source: ABdhPJxizzNgio14xhCYupm/pITDFyd+HTEAq9dZtiqYAgQqB2LICGks+smyF+Z5VcndhFsDPM1hFHfuj6Us6vzhA+s=
+X-Received: by 2002:a2e:9a55:: with SMTP id k21mr7148176ljj.340.1591965712371;
+ Fri, 12 Jun 2020 05:41:52 -0700 (PDT)
+MIME-Version: 1.0
+From: "Ross Burton" <ross@burtonini.com>
+Date: Fri, 12 Jun 2020 13:41:41 +0100
+Message-ID: <CAAnfSTtEgmjLHG68f+USz3gsxyda=VDdrt6a738jqGQJFbpE9w@mail.gmail.com>
+Subject: Bootstrapping Go
+To: OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 
-This includes the following changes:
+Hi,
 
-* New features:
+Background: Go is written in Go.  This obviously presents an
+interesting bootstrapping problem.
 
-  - Add output from strings(1) to ELF binaries. It is intended this will
-    expose expose build paths that are hidden somewhere within the objdump(1)
-    output. (Closes: reproducible-builds/diffoscope#148)
-  - Add basic zsh shell tab-completion support.
-    (Closes: reproducible-builds/diffoscope#158)
+The current build process is as follows:
 
-* Bug fixes:
+1) Build Go 1.4 (from 2014) for native builds (go-native.bb).  Go 1.4
+was the latest release to be written in C, so this just needs a C
+compiler.
+2) Using go-native, build a modern Go cross compiler (go-cross.bb).
+3) Using go-cross you can now build target Go code.  Success!
 
-  - Prevent a traceback when comparing a PDF document that does not contain
-    any metadata, ie. it is missing a PDF "/Info" stanza.
-    (Closes: reproducible-builds/diffoscope#150)
-  - Fix compatibility with jsondiff 1.2.0 which was causing a traceback and
-    log the version of jsondiff we are using to aid debugging in the future.
-    (Closes: reproducible-builds/diffoscope#159
-  - Fix an issue in GnuPG keybox handling that left filenames in the diff.
-  - Don't mask an existing test name; ie. ensure it is actually run.
+However this solution isn't ideal as Go 1.4 only supports a limited
+number of hosts: i386, x86-64, and 32-bit Arm.   We've 64-bit Arm
+machines in the autobuilder cluster, and we've seen people use PowerPC
+build hosts too.
 
-* Reporting:
+There are other ways to bootstrap Go:
+- Prebuilt toolchain.  Go make binary releases for Linux on 32- and
+64-bit x86 and Arm.  Pros: works on more platforms. Cons: As Go has
+the nice feature that any Go compiler can target any
+platform/architecture, we're now downloading a full working Go to
+rebuild a full working Go.  Why not just use this Go?
 
-  - Log all calls to subprocess.check_output by using our own wrapper utility.
-    (Closes: reproducible-builds/diffoscope#151)
+- GCCGO.  GCC has an optional Go frontend, which can be used to build
+Go. Pros: we already have a gcc recipe.  Cons: as we don't really want
+to require gccgo on the host we'll need to build gcc-native, so why
+not just build gcc-cross with Go enabled?
 
-* Code improvements:
+With the goal of minimal changes I wrote an alternative to go-native
+that uses the prebuilt binaries to build our own Go:
 
-  - Replace references to "WF" with "Wagner-Fischer" for clarity.
-  - Drop a large number of unused imports (list_libarchive,
-    ContainerExtractionError, etc.)
-  - Don't assign exception to a variable that we do not use.
-  - Compare string values with the equality operator, not via "is" identity.
-  - Don't alias an open file to a variable when we don't use it.
-  - Don't alias "filter" builtin.
-  - Refactor many small parts of the HTML generation, dropping explicit
-    u"unicode" strings, tidying the generation of the "Offset X, Y lines
-    modified" messages, moving to PEP 498 f-strings where appropriate, etc.
-  - Inline a number of single-used utility methods.
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/commit/?h=ross/go&id=4b2a5a12ab2d898ab4b1d8524b90f4e3938d01cf
 
-Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
----
- .../recipes-support/diffoscope/{diffoscope_146.bb => diffoscope_147.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_146.bb => diffoscope_147.bb} (83%)
+With preferred provider set this can be used to build our own Go
+toolchain.  Yes, we're relying on a prebuilt binary but we're still
+building the tools we actually use, so I don't see this as massively
+different to using a host compiler.  Does anyone have a strong
+objection to bootstrapping our own Go by downloading the prebuilt
+tools? I could either replace the existing go-native with this, or
+have both available so that users who don't want to rely on binaries
+and are happy with the limitation of Go 1.4 can stick with the source
+bootstrap.
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_146.bb b/meta/recipes-support/diffoscope/diffoscope_147.bb
-similarity index 83%
-rename from meta/recipes-support/diffoscope/diffoscope_146.bb
-rename to meta/recipes-support/diffoscope/diffoscope_147.bb
-index a3402d4..3db38fa 100644
---- a/meta/recipes-support/diffoscope/diffoscope_146.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_147.bb
-@@ -7,7 +7,7 @@ PYPI_PACKAGE = "diffoscope"
- 
- inherit pypi setuptools3
- 
--SRC_URI[sha256sum] = "a031605c043577c908052763e49b0bd9c1d4d8a169eaf41364900ff1d9566ee2"
-+SRC_URI[sha256sum] = "5b5fdaa4d900c891b319e4b9a006eb16824a0b61fdbe15e75acbbe35602e2da6"
- 
- RDEPENDS_${PN} += "binutils vim squashfs-tools python3-libarchive-c python3-magic"
- 
--- 
-2.7.4
+But looking forward, at this point we're downloading a perfectly good
+Go toolchain to build a Go toolchain.  This observation has already
+led to meta-go-binary (https://github.com/YoeDistro/meta-go-binary), a
+drop-in alternative for the Go recipes that simply use the pre-built
+releases.  Also modern GCC can also build a Go frontend, so we could
+just enable that in gcc-cross as we're always building a cross
+compiler anyway.  Does anyone have a strong opinion either way on
+this?
 
+Cheers,
+Ross
